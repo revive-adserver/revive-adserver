@@ -18,7 +18,7 @@ define ('LIBPRIORITY_INCLUDED', true);
 
 
 // Defaults
-define('phpAds_CurrentHour', date('H'));
+define('phpAds_CurrentHour', (int)date('H'));
 $debuglog = '';
 
 
@@ -837,6 +837,8 @@ function phpAds_PriorityCalculate()
 					{	
 						// Profile available, use expected impressions
 						$expected_hits_this_period = round ($profile_uptil_now / $total_profile * $campaigns[$c]['target']);
+						
+						if (!$expected_hits_this_period) $expected_hits_this_period = 1;
 					}
 				}
 				
