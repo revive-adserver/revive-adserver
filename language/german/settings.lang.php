@@ -1,4 +1,4 @@
-<?php // $Revision: 2.6.2.7.49.1 $
+<?php // $Revision: 1.19.2.1 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -34,7 +34,7 @@ $GLOBALS['strUpdateTableTestFailed']		= " Der von Ihnen angegebene Nutzer hat ni
 $GLOBALS['strTablePrefixInvalid']		= "Ungültiges Vorzeichen (Präfix) im Tabellennamen";
 $GLOBALS['strTableInUse']			= "Die genannte Datenbank wird bereits von ".$phpAds_productname.", genutzt. Verwenden Sie einen anderen Präfix oder lesen Sie im Handbuch die Hinweise für ein Upgrade.";
 $GLOBALS['strTableWrongType']		= "Der gewählte Tabellentype wird bei der Installation von ".$phpAds_dbmsname." nicht unterstützt";
-$GLOBALS['strMayNotFunction']			= "Bevor Sie fortfahren, müssen Sie folgende Probleme beheben:";
+$GLOBALS['strMayNotFunction']			= "Folgende Probleme sind zu beheben, um fortzufahren";
 $GLOBALS['strFixProblemsBefore']		= "Folgende Teile müssen korrigiert werden, bevor der Installationsprozeß von ".$phpAds_productname." fortgesetzt werden kann. Informationen über Fehlermeldungen finden sich im Handbuch.";
 $GLOBALS['strFixProblemsAfter']			= "Sollten Sie die oben aufgeführten Fehler nicht selbst heben können, nehmen Sie Kontakt mit der Systemadministration Ihres Servers auf. Diese wird Ihnen weiterhelfen können.";
 $GLOBALS['strIgnoreWarnings']			= "Ignoriere Warnungen";
@@ -98,9 +98,9 @@ $GLOBALS['strConfigNotWritable']		= "Für die Datei <i>config.inc.php</i>  besteh
 // Global
 $GLOBALS['strChooseSection']			= "Bereichsauswahl";
 $GLOBALS['strDayFullNames'] 			= array("Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag");
-$GLOBALS['strEditConfigNotPossible']   		= "Änderungen der Einstellung nicht möglich. Für die Konfigurationsdatei  <i>config.inc.php</i> besteht Schreibschutz. ".
+$GLOBALS['strEditConfigNotPossible']   		= "Änderungen der Systemeinstellung nicht möglich. Für die Konfigurationsdatei  <i>config.inc.php</i> besteht Schreibschutz. ".
 										  "Für Änderungen muß der Schreibschutz aufgehoben werden.";
-$GLOBALS['strEditConfigPossible']		= "Änderungen sind möglich. Die Zugriffsrechte der Konfigurationsdatei <i>config.inc.php</i> sind auf Schreibbrechtigung gesetzt. ".
+$GLOBALS['strEditConfigPossible']		= "Unbefugte Systemänderungen sind möglich. Die Zugriffsrechte der Konfigurationsdatei <i>config.inc.php</i> sind auf Schreibbrechtigung gesetzt. ".
 										  "Zur Sicherung des System sollte der Schreibschutz gesetzt werden. Nähere Informationen im Handbuch.";
 
 
@@ -234,8 +234,8 @@ $GLOBALS['strLogBeacon']				= " Ein Beacon (Minibild) wird verwendet, um sicherz
 
 $GLOBALS['strRemoteHosts']				= "Host des Besuchers";
 $GLOBALS['strIgnoreHosts']				= "AdViews und AdClicks für Besucher mit folgenden IP-Adressen oder Hostnamen bleiben in den Statistiken unberücksichtigt";
-$GLOBALS['strBlockAdviews']				= "Reloadsperre. Nichtprotokollieren von AdViews desselben Banners, wenn dieser dem Besucher bereits vor einer bestimmten Zeit präsentiert wurde (Zeitraum in Sek.)";
-$GLOBALS['strBlockAdclicks']			= " Reclicksperre. Nichtprotokollieren von AdClicks auf dasselbe Banner, wenn der Besucher bereits vor einer bestimmten Zeit hierauf klickte (Zeitraum in Sek.) ";
+$GLOBALS['strBlockAdviews']				= "Reloadsperre (Zeitraum in Sek.)";
+$GLOBALS['strBlockAdclicks']			= " Reclicksperre (Zeitraum in Sek.) ";
 
 $GLOBALS['strPreventLogging']			= "Protokollieren verhindern";
 $GLOBALS['strEmailWarnings']			= "Warnungen per eMail";

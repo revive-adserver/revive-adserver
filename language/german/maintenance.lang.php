@@ -1,4 +1,4 @@
-<?php // $Revision: 2.1.2.1.49.1 $
+<?php // $Revision: 1.1.2.1 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -33,7 +33,7 @@ $GLOBALS['strPriorityNotEnoughAdViews']		= "Es ist ungewiß, ob ausreichend AdVie
 
 
 // Banner cache
-$GLOBALS['strRebuildBannerCache']		= "Bannercache wird erneuert";
+$GLOBALS['strRebuildBannerCache']		= "Bannercache erneuern";
 $GLOBALS['strBannerCacheExplaination']		= "
 	Im Bannercache werden Kopien der HTML-Codes, die für die Bannerdarstellung notwendig sind, vorgehalten. Durch den Bannercache wird die Auslieferung beschleunigt,
 	denn der HTML-Code muß nicht bei jeder Auslieferung neu generiert werden. Weil im 

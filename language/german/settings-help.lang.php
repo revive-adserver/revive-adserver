@@ -1,4 +1,4 @@
-<?php // $Revision: 2.0.2.2.49.1 $
+<?php // $Revision: 1.10.2.1 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -384,7 +384,7 @@ $GLOBALS['phpAds_hlp_gui_show_banner_html'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_preview'] = "
-		Wenn diese Option aktiviert ist, erfolgt eine Vorschau auf den Seiten <i>Bannereigenschaften</i>, <i> Auslieferungsoptionen</i> und <i> Verknüpfte Zonen</i>.<br>
+		Wenn diese Option aktiviert ist, erfolgt eine Vorschau auf den Seiten <i>Bannermerkmale</i>, <i> Auslieferungsoptionen</i> und <i> Verknüpfte Zonen</i>.<br>
 Ist diese Option deaktiviert, ist die Bannerdarstellung möglich, wenn auf <i>Banner anzeigen</i> geklickt wird.
 		";
 		
