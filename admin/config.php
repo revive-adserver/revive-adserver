@@ -57,10 +57,14 @@ include ("../libraries/lib-userlog.inc.php");
 $link = phpAds_dbConnect();
 if (!$link)
 {
-	// Can't connect to database
-	phpAds_Die ("A fatal error occurred", $phpAds_productname." can't connect to the database, 
- 										  please make sure the database is running and 
-										  ".$phpAds_productname." is configured correctly.");
+	// This text isn't translated, because if it is shown the language files are not yet loaded
+	phpAds_Die ("A fatal error occurred", $phpAds_productname." can't connect to the database.
+				Because of this it isn't possible to use the administrator interface. The delivery
+				of banners might also be affected. Possible reasons for the problem are:
+				<ul><li>The database server isn't functioning at the moment</li>
+				<li>The location of the database server has changed</li>
+				<li>The username or password used to contact the database server are not correct</li>
+				</ul>");
 }
 
 

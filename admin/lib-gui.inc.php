@@ -452,13 +452,9 @@ function phpAds_PageFooter()
 	
 	if ($phpAds_showHelp) 
 	{
-		echo "<div id='helpLayer' name='helpLayer' style='position:absolute; left:".($phpAds_TextDirection != 'ltr' ? '0' : '181')."; top:-10; width:10px; height:10px; z-index:1; background-color: #F6F6F6; layer-background-color: #F6F6F6; border: 1px none #000000; overflow: hidden; visibility: hidden; background-image: url(images/help-background.gif); layer-background-image: url(images/help-background.gif);'>";
-		echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'>";
-		echo "<tr><td width='40' align='".$phpAds_TextAlignLeft."' valign='top'><img src='images/help-icon.gif' width='40' height='40' border='0' vspace='0' hspace='0'></td>";
-		echo "<td width='100%' align='".$phpAds_TextAlignLeft."' valign='top' style='font-family: Verdana; font-size: 11px;'>";
-		echo "<br><div id='helpContents' name='helpContents'>".$phpAds_helpDefault."</div></td>";
-		echo "<td width='16' align='".$phpAds_TextAlignRight."' valign='top'><img src='images/help-close.gif' width='16' height='16' border='0' vspace='4' hspace='4' onClick='hideHelp();'></td>";
-		echo "</tr></table></div>";
+		echo "<div id='helpLayer' name='helpLayer' style='position:absolute; left:".($phpAds_TextDirection != 'ltr' ? '0' : '181')."; top:-10; width:10px; height:10px; z-index:1; overflow: hidden; visibility: hidden;'>";
+		echo "<img id='helpIcon' src='images/help-book.gif' align='absmiddle'>";
+		echo "<span id='helpContents' name='helpContents'>".$phpAds_helpDefault."</span></div>";
 		echo "<br><br><br><br><br><br>";
 	}
 	
@@ -577,30 +573,63 @@ function phpAds_ShowBreak()
 
 function phpAds_sqlDie()
 {
-	global $strMySQLError;
-    global $phpAds_last_query;
-	global $phpAds_GUIDone;
+	global $phpAds_dbmsname, $phpAds_version_readable, $phpAds_version;
+    global $phpAds_last_query, $HTTP_SERVER_VARS;
 	
-	if ($phpAds_GUIDone == false) phpAds_PageHeader('');
 	
-	echo "<br><br>";
-	echo "<table border='0' cellpadding='1' cellspacing='1' width='100%'><tr><td bgcolor='#FF0000'>";
-		echo "<table border='0' cellpadding='5' cellspacing='0' width='100%'>";
-		echo "<tr bgcolor='#EEEEEE'>";
-		echo "<td width='20' valign='top'><img src='images/error.gif' hspace='3'></td>";
-		echo "<td valign='top'>";
-		echo "<b>$strMySQLError</b><br>";
-		echo phpAds_dbError()."<br><br>";
-		echo "<b>SQL Query:</b><br>";
-		echo "$phpAds_last_query<br>";
-		echo "</td>";
-		echo "</tr></table>";
-	echo "</td></tr></table>";
-	echo "<br><br>";
+	$error = phpAds_dbError();
+	$corrupt = false;
 	
-	// die
-	phpAds_PageFooter();
-	exit;
+	if ($phpAds_dbmsname == 'MySQL')
+	{
+		$errornumber = phpAds_dbErrorNo();
+		
+		if ($errornumber == 1027 || $errornumber == 1039)
+			$corrupt = true;
+		
+		if ($errornumber == 1016 || $errornumber == 1030)
+		{
+			// Probably corrupted table, do additional check
+			eregi ("[0-9]+", $error, $matches);
+			
+			if ($matches[0] == 126 || $matches[0] == 127 ||
+				$matches[0] == 132 || $matches[0] == 134 ||
+				$matches[0] == 135 || $matches[0] == 136 ||
+				$matches[0] == 141 || $matches[0] == 144 ||
+				$matches[0] == 145)
+			{
+				$corrupt = true;
+			}
+		}
+	}
+	
+	if ($corrupt)
+	{
+		$title    = $GLOBALS['strErrorDBSerious']
+		$message  = $GLOBALS['strErrorDBNoDataSerious'];
+		
+		if (phpAds_isLoggedIn() && phpAds_isUser(phpAds_Admin))
+			$message .= " (".$error.").<br><br>".$GLOBALS['strErrorDBCorrupt'];
+		else
+			$message .= ".<br>".$GLOBALS['strErrorDBContact'];
+	}
+	else
+	{
+		$title    = $GLOBALS['strErrorDBPlain'];
+		$message  = $GLOBALS['strErrorDBNoDataPlain'];
+		
+		if (phpAds_isLoggedIn() && phpAds_isUser(phpAds_Admin))
+		{
+			$message .= $GLOBALS['strErrorDBSubmitBug'];
+			
+			$message .= "<br><br><b>Version:</b> ".$phpAds_version_readable." (".$phpAds_version.")<br>";
+			$message .= "<b>Page: </b>".$HTTP_SERVER_VARS['PHP_SELF']."<br>";
+			$message .= "<b>Error:</b> ".$error."<br>";
+			$message .= "<b>Query:</b> ".$phpAds_last_query."<br>";
+		}
+	}
+	
+	phpAds_Die ($title, $message);
 }
 
 
@@ -611,7 +640,7 @@ function phpAds_sqlDie()
 
 function phpAds_Die($title="Error", $message="Unknown error")
 {
-	global $phpAds_GUIDone, $phpAds_TextDirection;
+	global $phpAds_GUIDone, $phpAds_TextDirection, $phpAds_config;
 	
 	// Header
 	if ($phpAds_GUIDone == false)
@@ -623,18 +652,9 @@ function phpAds_Die($title="Error", $message="Unknown error")
 	}
 	
 	// Message
-	echo "<br><br>";
-	echo "<table border='0' cellpadding='1' cellspacing='1' width='100%'><tr><td bgcolor='#FF0000'>";
-		echo "<table border='0' cellpadding='5' cellspacing='0' width='100%'>";
-		echo "<tr bgcolor='#EEEEEE'>";
-		echo "<td width='20' valign='top'><img src='images/error.gif' hspace='3'></td>";
-		echo "<td valign='top'>";
-		echo "<b>$title</b><br>";
-		echo "$message<br>";
-		echo "</td>";
-		echo "</tr></table>";
-	echo "</td></tr></table>";
-	echo "<br><br>";
+	echo "<br>";
+	echo "<div class='errormessage'><img class='errormessage' src='images/errormessage.gif' align='absmiddle'>";
+	echo "<span class='tab-r'>".$title."</span><br><br>".$message."</div><br><br>";
 	
 	// Die
 	phpAds_PageFooter();

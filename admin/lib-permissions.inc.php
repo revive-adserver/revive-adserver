@@ -348,7 +348,15 @@ function phpAds_LoginScreen($message='', $sessionID=0)
 		echo "<td width='100%' valign='bottom'>";
 		echo "<span class='tab-s'>".$strWelcomeTo." ".(isset($phpAds_config['name']) && $phpAds_config['name'] != '' ? $phpAds_config['name'] : $phpAds_productname)."</span><br>";
 		echo "<span class='install'>".$strEnterUsername."</span><br>";
-		echo "<img src='images/break-el.gif' width='400' height='1' vspace='8'>";	
+		
+		if ($message != "")
+		{
+			echo "<div class='errormessage' style='width: 400px;'><img class='errormessage' src='images/errormessage.gif' align='absmiddle'>";
+			echo "<span class='tab-r'>$message</span></div>";
+		}
+		else
+			echo "<img src='images/break-el.gif' width='400' height='1' vspace='8'>";	
+		
 		echo "</td></tr><tr><td>&nbsp;</td><td>";
 		echo "<table cellpadding='0' cellspacing='0' border='0'>";
 		
@@ -356,15 +364,11 @@ function phpAds_LoginScreen($message='', $sessionID=0)
 		echo "<tr height='24'><td>".$strPassword.":&nbsp;</td><td><input class='flat' type='password' name='phpAds_password'></td></tr>";
 		echo "<tr height='24'><td>&nbsp;</td><td><input type='submit' value='".$strLogin."'></td></tr>";
 		echo "</table>";
+		
 		echo "</td></tr></table>";
 		echo "</form>";
 		
 		phpAds_ShowBreak();
-		
-		if ($message != "")
-		{
-			echo "<img src='images/error.gif'>&nbsp;&nbsp;<span class='tab-r'>$message</span>";
-		}
 		
 		echo "<script language='JavaScript' src='md5.js'></script>";
 		echo "<script language='JavaScript'>";
