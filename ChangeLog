@@ -1,4 +1,6 @@
 phpAdsNew - ChangeLog
+ v 1.8.1 - 08/01/2001	+ Updated banner acl screen (Martin Braun)
+			+ Added language files with help for banner acl (Martin Braun)
  v 1.8.0 - 06/01/2001	+ Added expiration stats on credit stats and client stats (Martin Braun)
                         + Added weekly stats - needs serious optimizing (Martin Braun)
                         + Added anti-cache feature (Martin Braun)
