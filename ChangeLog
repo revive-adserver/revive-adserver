@@ -1,7 +1,6 @@
 phpAdsNew - ChangeLog
 
-CVS			+ Added support for zones  (Niels)
-			+ Added search capabilities  (Niels and Tobi Schulz)
+CVS			+ Added search capabilities  (Niels and Tobi Schulz)
 			+ Added expiration details to campaign index  (Niels)
 			+ Added the ablity to get the IP adress of users behind a proxy server  (Niels & Mesut Tunga)
 			+ Added ability to specify a browser-status text for each banner  (Niels)
@@ -14,6 +13,10 @@ CVS			+ Added support for zones  (Niels)
                           to include personal contact information for example  (Niels)
 			+ Add secondary tab bar to the navigation  (Niels)
 
+			+ Zones
+			  - Added support for zones  (Niels)
+			  - Zones can be linked from the banner  (Niels) 20011007
+			
 			+ ACLs
 			  The ACL routines have been rewritten. This is a very big change and possibly
 			  a change from previous behavoir. It is needed to check existing ACLs after
@@ -23,6 +26,8 @@ CVS			+ Added support for zones  (Niels)
 			  - Added new ACL for accept-language headers  (Niels)
 			  - Added boolean operators to ACLs  (Niels)
 			  - Changed IP check, it is now possible to use * instead of a mask  (Niels)
+			  - Removed mini-help on the bottom of the page  (Niels) 20011007
+			  - Renamed ACL to Display Limitations  (Niels) 20011007 
 
 			+ Added P3P Privacy Policies support
 			  - Sending Policy location using P3P header  (Niels)
@@ -64,7 +69,8 @@ CVS			+ Added support for zones  (Niels)
 			  - Added Chinese language files  (Yen-Shuo Su)
 			  - Added Turkish language files  (Mesut Tunga)
 			  - Added Danish language files  (Lars Petersen)
-			  - Dropped support for Czech and Romanian  (Niels)
+			  - Added Indonesian language files  (Rachim Tamsjadi)
+			  - Dropped support for Czech and Hungarian  (Niels)
 	
 			+ Misc changes
 			  - Changed all occurances of <? to <?php  (Niels)
