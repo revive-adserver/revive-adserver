@@ -12,6 +12,21 @@
 
   ====================================================
 
+  01-21-2003 - default
+    [u] strDuplicateClientName
+    [+] strInvalidPassword
+    [+] strNotSamePasswords
+    [+] strRepeatPassword
+    [+] strOldPassword
+    [+] strNewPassword
+
+  01-21-2003 - settings
+    [-] strInvalidPassword
+    [-] strNotSamePasswords
+    [-] strRepeatPassword
+    [-] strOldPassword
+    [-] strNewPassword
+
   01-15-2003 - settings
     [+] strUpdateError
     [+] strUpdateDatabaseError

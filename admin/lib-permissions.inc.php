@@ -49,9 +49,10 @@ function phpAds_Start()
 	global $Session;
 	global $phpAds_productname;
 	
-	phpAds_SessionDataFetch();
+	if (!defined('phpAds_installing'))
+		phpAds_SessionDataFetch();
 	
-	if ((!phpAds_isLoggedIn() || phpAds_SuppliedCredentials()) && !defined('phpAds_installing'))
+	if (!phpAds_isLoggedIn() || phpAds_SuppliedCredentials())
 	{
 		// Load preliminary language settings
 		@include (phpAds_path.'/language/english/default.lang.php');
@@ -179,9 +180,9 @@ function phpAds_Login()
 		
 		// Convert plain text password to md5 digest
 		if ($md5digest == '' && $password != '')
+		{
 			$md5digest = md5($password);
-		
-		
+		}
 		
 		// Exit if not both username and password are given
 		if ($md5digest == '' ||	$md5digest == md5('') || $username  == '')
@@ -191,7 +192,7 @@ function phpAds_Login()
 		}
 		
 		// Exit if cookies are disabled
-		if ($HTTP_COOKIE_VARS['SessionID'] != $HTTP_POST_VARS['phpAds_cookiecheck'])
+		if ($HTTP_COOKIE_VARS['sessionID'] != $HTTP_POST_VARS['phpAds_cookiecheck'])
 		{
 			$HTTP_COOKIE_VARS['sessionID'] = phpAds_SessionStart();
 			phpAds_LoginScreen($strEnableCookies, $HTTP_COOKIE_VARS['sessionID']);
@@ -220,7 +221,7 @@ function phpAds_Login()
 					".$phpAds_config['tbl_clients']."
 				WHERE
 					clientusername = '".$username."'
-					AND MD5(clientpassword) = '".$md5digest."'
+					AND clientpassword = '".$md5digest."'
 			") or phpAds_sqlDie();
 			
 			
@@ -248,7 +249,7 @@ function phpAds_Login()
 						".$phpAds_config['tbl_affiliates']."
 					WHERE
 						username = '".$username."'
-						AND MD5(password) = '".$md5digest."'
+						AND password = '".$md5digest."'
 					");
 				
 				if ($res && phpAds_dbNumRows($res) > 0)
@@ -279,6 +280,15 @@ function phpAds_Login()
 	{
 		// User has not supplied credentials yet
 		
+		if (defined('phpAds_installing'))
+		{
+			// We are trying to install, grant access...
+			return (array ("usertype" 		=> phpAds_Admin,
+						   "loggedin" 		=> "t",
+						   "username" 		=> 'admin')
+			       );
+		}
+		
 		// Set the session ID now, some server do not support setting a cookie during a redirect
 		$HTTP_COOKIE_VARS['sessionID'] = phpAds_SessionStart();
 		phpAds_LoginScreen('', $HTTP_COOKIE_VARS['sessionID']);
@@ -307,12 +317,12 @@ function phpAds_isAdmin($username, $md5)
 {
 	global $phpAds_config;
 	
-	return ($username == $phpAds_config['admin'] && $md5 == md5($phpAds_config['admin_pw']));
+	return ($username == $phpAds_config['admin'] && $md5 == $phpAds_config['admin_pw']);
 }
 
 
 
-function phpAds_LoginScreen($message='', $SessionID=0)
+function phpAds_LoginScreen($message='', $sessionID=0)
 {
 	global $HTTP_COOKIE_VARS, $HTTP_SERVER_VARS;
 	global $phpAds_config, $phpAds_productname;
@@ -328,7 +338,7 @@ function phpAds_LoginScreen($message='', $SessionID=0)
 		
 		echo "<form name='login' method='post' onSubmit='return login_md5(this);' action='".basename($HTTP_SERVER_VARS['PHP_SELF']);
 		echo (isset($HTTP_SERVER_VARS['QUERY_STRING']) && $HTTP_SERVER_VARS['QUERY_STRING'] != '' ? '?'.$HTTP_SERVER_VARS['QUERY_STRING'] : '')."'>";
-		echo "<input type='hidden' name='phpAds_cookiecheck' value='".$HTTP_COOKIE_VARS['SessionID']."'>";
+		echo "<input type='hidden' name='phpAds_cookiecheck' value='".$HTTP_COOKIE_VARS['sessionID']."'>";
 		echo "<input type='hidden' name='phpAds_md5' value=''>";
 		echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>";
 		echo "<td width='80' valign='bottom'><img src='images/login-welcome.gif'>&nbsp;&nbsp;</td>";

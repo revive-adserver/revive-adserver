@@ -10,6 +10,8 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-01-12:  Added PHP code and variable parsing to HTML banner preview  (Niels)
 			  - 2003-01-13:  Added variable parsing to external banner preview  (Niels)
 			  - 2003-01-14:  Added support for Safari to the browser delivery limitation and adlayer browser detection  (Niels)
+			  - 2003-01-21:  All user and admin passwords are now stored as md5 hashes  (Niels)
+			  - 2003-01-21:  If an advertiser or publisher wants to change his password he now has to supply his old password and enter the new password twice  (Niels)
 
 			+ Misc bugfixes
 			  - 2003-01-13:  If a zero was used in a random variable (ie. random:10) it wasn't replaced  (Niels)
@@ -22,6 +24,9 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-01-19:  If a setting in the config.inc.php file was updated which previously included a semi-colon the old value wasn't replaced correctly  (Niels)
 			  - 2003-01-19:  After updating from Beta 6.1 or earlier some default values were still considered valid, resulting in problems with webserver stored banners  (Niels)
 			  - 2003-01-19:  Setting the webserver banner settings to empty did not have any effect  (Niels)
+			  - 2003-01-20:  Wildcard in source delivery limitation matched only a-z and 0-9, not other characters
+			  - 2003-01-21:  Usernames were shown in the HTML source of the advertiser and publisher property pages when logged in as a regular user  (Niels)
+			  - 2003-01-21:  Fixed some typos in name of the session cookie in lib-session.inc.php and lib-permissions.inc.php  (Niels)
 			
 
 v 2.0rc2		+ Misc bugfixes

@@ -146,6 +146,9 @@ function phpAds_upgradeData ()
 	
 	// Create target stats form userlog
 	phpAds_upgradeTargetStats();
+	
+	// Update the password to MD5 hashes
+	phpAds_upgradePasswordMD5();
 }
 
 
@@ -949,7 +952,7 @@ function phpAds_upgradeDisplayLimitations()
 function phpAds_upgradeTargetStats ()
 {
 	global $phpAds_config;
-
+	
 	if (!isset($phpAds_config['config_version']) ||	$phpAds_config['config_version'] < 200.130)
 	{
 		$res = phpAds_dbQuery("
@@ -963,7 +966,7 @@ function phpAds_upgradeTargetStats ()
 			ORDER BY
 				timestamp
 			");
-
+		
 		while ($row = phpAds_dbFetchArray($res))
 		{
 			while (ereg('\[id([0-9]+)\]: ([0-9]+)', $row['details'], $match))
@@ -977,28 +980,28 @@ function phpAds_upgradeTargetStats ()
 				$row['details'] = str_replace($match[0], '', $row['details']);
 			}
 		}
-
+		
 		if (!isset($start))
 			// No autotargeting logs, exit
 			return;
 		
 		$t_stamp = mktime(0, 0, 0, date('m', $start), date('d', $start), date('Y', $start));
 		$t_stamp_now = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-
+		
 		while ($t_stamp < $t_stamp_now)
 		{
 			$day	= date('Ymd', $t_stamp);
 			$begin	= $day.'000000';
 			$end	= $day.'235959';
-
+			
 			$campaigns = array();
-
+			
 			if (isset($autotargets[$day]))
 			{
 				while (list($campaignid, ) = each($autotargets[$day]))
 				{
 					$campaigns[] = $campaignid;
-
+					
 					if ($phpAds_config['compact_stats'])
 					{
 						$res_views = phpAds_dbQuery("
@@ -1095,7 +1098,7 @@ function phpAds_upgradeTargetStats ()
 			
 			$views = phpAds_dbResult($res_views, 0, 0);
 			$autotargets[$day][0]['views'] = $views ? $views : 0;
-
+			
 			$t_stamp = phpAds_makeTimestamp($t_stamp, 60*60*24);
 		}
 		
@@ -1120,6 +1123,42 @@ function phpAds_upgradeTargetStats ()
 					");
 			}
 		}
+	}
+}
+
+function phpAds_upgradePasswordMD5 ()
+{
+	global $phpAds_config;
+	
+	if (!isset($phpAds_config['config_version']) ||	$phpAds_config['config_version'] < 200.152)
+	{
+		// Update the advertisers
+		$res = phpAds_dbQuery ("
+			UPDATE
+				".$phpAds_config['tbl_clients']."
+			SET
+				clientpassword = MD5(clientpassword)
+			WHERE
+				clientpassword != ''
+		");
+		
+		// Update the publisher
+		$res = phpAds_dbQuery ("
+			UPDATE
+				".$phpAds_config['tbl_affiliates']."
+			SET
+				password = MD5(password)
+			WHERE
+				password != ''
+		");
+		
+		// Update the administrator
+		$res = phpAds_dbQuery ("
+			UPDATE
+				".$phpAds_config['tbl_config']."
+			SET
+				admin_pw = MD5(admin_pw)
+		");
 	}
 }
 

@@ -138,7 +138,13 @@ $GLOBALS['strPassword']				= "Password";
 $GLOBALS['strAccessDenied']			= "Access denied";
 $GLOBALS['strPasswordWrong']			= "The password is not correct";
 $GLOBALS['strNotAdmin']				= "You may not have enough privileges";
-$GLOBALS['strDuplicateClientName']		= "The username you provided already exists, please enter a different username.";
+$GLOBALS['strDuplicateClientName']		= "The username you provided already exists, please use a different username.";
+$GLOBALS['strInvalidPassword']			= "The new password is invalid, please use a different password.";
+$GLOBALS['strNotSamePasswords']			= "The two passwords you supplied are not the same";
+$GLOBALS['strRepeatPassword']			= "Repeat Password";
+$GLOBALS['strOldPassword']			= "Old Password";
+$GLOBALS['strNewPassword']			= "New Password";
+
 
 
 // General advertising

@@ -49,7 +49,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		isset($pw) && strlen($pw) ||
 		isset($pw2) && strlen($pw2))
 	{
-		if ($pwold != $phpAds_config['admin_pw'])
+		if (md5($pwold) != $phpAds_config['admin_pw'])
 			$errormessage[0][] = $strPasswordWrong;
 		elseif (!strlen($pw)  || strstr("\\", $pw))
 			$errormessage[0][] = $strInvalidPassword;
@@ -58,7 +58,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		else
 		{
 			$admin_pw = $pw;
-			phpAds_SettingsWriteAdd('admin_pw', $admin_pw);
+			phpAds_SettingsWriteAdd('admin_pw', md5($admin_pw));
 		}
 	}
 	

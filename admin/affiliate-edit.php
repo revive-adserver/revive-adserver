@@ -24,7 +24,7 @@ require ("lib-languages.inc.php");
 // Register input variables
 phpAds_registerGlobal ('move', 'name', 'website', 'contact', 'email', 'language', 'publiczones', 
 					   'errormessage', 'username', 'password', 'affiliatepermissions', 'submit',
-					   'publiczones_old');
+					   'publiczones_old', 'pwold', 'pw', 'pw2');
 
 
 // Security check
@@ -57,14 +57,59 @@ if (phpAds_isUser(phpAds_Affiliate))
 
 if (isset($submit))
 {
+	$errormessage = array();
+	
+	
+	// Get previous values
+	if (isset($affiliateid))
+	{
+		$res = phpAds_dbQuery("
+			SELECT
+				*
+			FROM
+				".$phpAds_config['tbl_affiliates']."
+			WHERE
+				affiliateid = '".$affiliateid."'
+			") or phpAds_sqlDie();
+		
+		if (phpAds_dbNumRows($res))
+		{
+			$affiliate = phpAds_dbFetchArray($res);
+		}
+	}
+	
+	// Name
+	if (phpAds_isUser(phpAds_Admin))
+		$affiliate['name'] = trim($name);
+	
+	// Website
+	if (isset($website) && $website == 'http://')
+		$affiliate['website'] = '';
+	else
+		$affiliate['website'] = trim($website);
+	
+	// Default fields
+	$affiliate['contact']     = trim($contact);
+	$affiliate['email'] 	  = trim($email);
+	$affiliate['language']    = trim($language);
+	
+	// Public
+	$affiliate['publiczones'] = isset($publiczones) ? 't' : 'f';
+	
+	
 	if (phpAds_isUser(phpAds_Admin))
 	{
-		$error = false;
-		$errormessage ='';
+		// Password
+		if (isset($password))
+		{
+			if ($password == '')
+				$affiliate['password'] = '';
+			elseif ($password != '********')
+				$affiliate['password'] = md5($password);
+		}
 		
-		if (isset($website) && $website == 'http://')
-			$website = '';
 		
+		// Username
 		if (isset($username) && $username != '')
 		{
 			$res = phpAds_dbQuery("
@@ -91,13 +136,7 @@ if (isset($submit))
 				") or phpAds_sqlDie(); 
 				
 				if (phpAds_dbNumRows($res) > 0 || $duplicateclient || $duplicateadmin)
-				{
-					$error = true;
-					$errormessage = 'duplicateusername';
-					
-					$username = '';
-					$password = '';
-				}
+					$errormessage[] = $strDuplicateClientName;
 			}
 			else
 			{
@@ -112,28 +151,49 @@ if (isset($submit))
 					") or phpAds_sqlDie(); 
 				
 				if (phpAds_dbNumRows($res) > 0 || $duplicateclient || $duplicateadmin)
-				{
-					$error = true;
-					$errormessage = 'duplicateusername';
-					
-					$username = '';
-					$password = '';
-				}
+					$errormessage[] = $strDuplicateClientName;
+			}
+			
+			if (count($errormessage) == 0)
+			{
+				// Set username
+				$affiliate['username'] = $username;
 			}
 		}
 		
-		$permissions = 0;
+		
+		// Permissions
+		$affiliate['permissions'] = 0;
 		if (isset($affiliatepermissions) && is_array($affiliatepermissions))
 		{
 			for ($i=0;$i<sizeof($affiliatepermissions);$i++)
 			{
-				$permissions += $affiliatepermissions[$i];
+				$affiliate['permissions'] += $affiliatepermissions[$i];
 			}
 		}
-		
-		if (!isset($publiczones))
-			$publiczones = 'f';
-		
+	}
+	else
+	{
+		// Password
+		if (isset($pwold) && strlen($pwold) ||
+			isset($pw) && strlen($pw) ||
+			isset($pw2) && strlen($pw2))
+		{
+			if (md5($pwold) != $affiliate['password'])
+				$errormessage[] = $strPasswordWrong;
+			elseif (!strlen($pw) || strstr("\\", $pw))
+				$errormessage[] = $strInvalidPassword;
+			elseif (strcmp($pw, $pw2))
+				$errormessage[] = $strNotSamePasswords;
+			else
+				$affiliate['password'] = md5($pw);
+		}
+	}
+	
+	
+	
+	if (count($errormessage) == 0)
+	{
 		if ($affiliateid && $publiczones != 't' && $publiczones_old == 't')
 		{
 			// Reset append codes which called this affiliate's zones
@@ -147,8 +207,8 @@ if (isset($submit))
 				");
 			
 			$zones = array();
-			while ($row = phpAds_dbFetchArray($res))
-				$zones[] = $row['zoneid'];
+			while ($currentrow = phpAds_dbFetchArray($res))
+				$zones[] = $currentrow['zoneid'];
 			
 			if (count($zones))
 			{
@@ -163,9 +223,9 @@ if (isset($submit))
 							affiliateid <> '$affiliateid'
 					");
 				
-				while ($row = phpAds_dbFetchArray($res))
+				while ($currentrow = phpAds_dbFetchArray($res))
 				{
-					$append = phpAds_ZoneParseAppendCode($row['append']);
+					$append = phpAds_ZoneParseAppendCode($currentrow['append']);
 					
 					if (in_array($append[0]['zoneid'], $zones))
 					{
@@ -176,109 +236,94 @@ if (isset($submit))
 									appendtype = ".phpAds_ZoneAppendRaw.",
 									append = ''
 								WHERE
-									zoneid = '".$row['zoneid']."'
+									zoneid = '".$currentrow['zoneid']."'
 							");
 					}
 				}
 			}
 		}
 		
-		$res = phpAds_dbQuery("
-			REPLACE INTO
-				".$phpAds_config['tbl_affiliates']."
-				(
-				affiliateid,
-				name,
-				website,
-				contact,
-				email,
-				language,
-				username,
-				password,
-				permissions,
-				publiczones
-				)
-			 VALUES (
-			 	'".$affiliateid."',
-				'".$name."',
-				'".$website."',
-				'".$contact."',
-				'".$email."',
-				'".$language."',
-				'".$username."',
-				'".$password."',
-				'".$permissions."',
-				'".$publiczones."'
-				)
-			") or phpAds_sqlDie();
 		
-		if ($error == false)
+		if (!isset($affiliateid) || $affiliateid == '')
 		{
-			if (!$affiliateid)
+			$keys = array();
+			$values = array();
+			
+			while (list($key, $value) = each($affiliate))
 			{
-				$affiliateid = phpAds_dbInsertID();
+				$keys[] = $key;
+				$values[] = $value;
+			}
+			
+			$query  = "INSERT INTO ".$phpAds_config['tbl_affiliates']." (";
+			$query .= implode(", ", $keys);
+			$query .= ") VALUES ('";
+			$query .= implode("', '", $values);
+			$query .= "')";
+			
+			// Insert
+			phpAds_dbQuery($query) 
+				or phpAds_sqlDie();
+			
+			$affiliateid = phpAds_dbInsertID();
+			
+			// Go to next page
+			if (isset($move) && $move == 't')
+			{
+				// Move loose zones to this affiliate
 				
-				if (isset($move) && $move == 't')
-				{
-					// Move loose zones to this affiliate
-					
-					$res = phpAds_dbQuery("
-						UPDATE
-							".$phpAds_config['tbl_zones']."
-						SET
-							affiliateid = '".$affiliateid."'
-						WHERE
-							ISNULL(affiliateid) OR
-							affiliateid = 0
-					");
-					
-					header ("Location: affiliate-zones.php?affiliateid=".$affiliateid);
-					exit;
-				}
-				else
-				{
-					header ("Location: zone-edit.php?affiliateid=".$affiliateid);
-					exit;
-				}
+				$res = phpAds_dbQuery("
+					UPDATE
+						".$phpAds_config['tbl_zones']."
+					SET
+						affiliateid = '".$affiliateid."'
+					WHERE
+						ISNULL(affiliateid) OR
+						affiliateid = 0
+				");
+				
+				header ("Location: affiliate-zones.php?affiliateid=".$affiliateid);
 			}
 			else
 			{
-				header ("Location: affiliate-zones.php?affiliateid=".$affiliateid);
-				exit;
+				header ("Location: zone-edit.php?affiliateid=".$affiliateid);
 			}
 		}
 		else
 		{
-			if (!$affiliateid)
-				$affiliateid = phpAds_dbInsertID();
+			$pairs = array();
 			
-			header ("Location: affiliate-edit.php?affiliateid=".$affiliateid."&errormessage=".urlencode($errormessage));
-			exit;
+			while (list($key, $value) = each($affiliate))
+				$pairs[] = " ".$key."='".$value."'";
+			
+			$query  = "UPDATE ".$phpAds_config['tbl_affiliates']." SET ";
+			$query .= trim(implode(",", $pairs))." ";
+			$query .= "WHERE affiliateid = ".$affiliateid;
+			
+			// Update
+			phpAds_dbQuery($query) 
+				or phpAds_sqlDie();
+			
+			// Go to next page
+			if (phpAds_isUser(phpAds_Affiliate))
+			{
+				// Set current session to new language
+				$Session['language'] = $language;
+				phpAds_SessionDataStore();
+			}
+			
+			header ("Location: affiliate-zones.php?affiliateid=".$affiliateid);
 		}
+		
+		exit;
 	}
 	else
 	{
-		$res = phpAds_dbQuery("
-			UPDATE
-				".$phpAds_config['tbl_affiliates']."
-			SET
-				name='".$name."',
-				website='".$website."',
-				contact='".$contact."',
-				email='".$email."',
-				language='".$language."',
-				password='".$password."'
-			WHERE
-				affiliateid='".$affiliateid."'
-			") or phpAds_sqlDie();
-		
-		$Session['language'] = $language;
-		phpAds_SessionDataStore();
-		
-		header ("Location: affiliate-zones.php?affiliateid=".$affiliateid);
-		exit;
+		// If an error occured set the password back to its previous value
+		$affiliate['password'] = $password;
 	}
 }
+
 
 
 /*********************************************************/
@@ -331,18 +376,28 @@ if ($affiliateid != "")
 			phpAds_ShowSections(array("2.1", "2.2"));
 	}
 	
-	$res = phpAds_dbQuery("
-		SELECT
-			*
-		FROM
-			".$phpAds_config['tbl_affiliates']."
-		WHERE
-			affiliateid = '".$affiliateid."'
-		") or phpAds_sqlDie();
 	
-	if (phpAds_dbNumRows($res))
+	// Do not get this information if the page
+	// is the result of an error message
+	if (!isset($affiliate))
 	{
-		$affiliate = phpAds_dbFetchArray($res);
+		$res = phpAds_dbQuery("
+			SELECT
+				*
+			FROM
+				".$phpAds_config['tbl_affiliates']."
+			WHERE
+				affiliateid = '".$affiliateid."'
+			") or phpAds_sqlDie();
+		
+		if (phpAds_dbNumRows($res))
+		{
+			$affiliate = phpAds_dbFetchArray($res);
+		}
+		
+		// Set password to default value
+		if ($affiliate['password'] != '')
+			$affiliate['password'] = '********';
 	}
 }
 else
@@ -351,15 +406,20 @@ else
 		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br><br><br>";
 		phpAds_ShowSections(array("4.2.1"));
 	
-	$affiliate['name'] 			= $strUntitled;
-	$affiliate['website'] 		= 'http://';
-	$affiliate['contact'] 		= '';
-	$affiliate['email'] 		= '';
-	$affiliate['publiczones']	= 'f';
-	
-	$affiliate['username'] 		= '';
-	$affiliate['password'] 		= '';
-	$affiliate['permissions'] 	= 0;
+	// Do not set this information if the page
+	// is the result of an error message
+	if (!isset($affiliate))
+	{
+		$affiliate['name'] 			= $strUntitled;
+		$affiliate['website'] 		= 'http://';
+		$affiliate['contact'] 		= '';
+		$affiliate['email'] 		= '';
+		$affiliate['publiczones']	= 'f';
+		
+		$affiliate['username'] 		= '';
+		$affiliate['password'] 		= '';
+		$affiliate['permissions'] 	= 0;
+	}
 }
 
 $tabindex = 1;
@@ -375,31 +435,44 @@ echo "<form name='affiliateform' method='post' action='affiliate-edit.php' onSub
 echo "<input type='hidden' name='affiliateid' value='".(isset($affiliateid) && $affiliateid != '' ? $affiliateid : '')."'>";
 echo "<input type='hidden' name='move' value='".(isset($move) && $move != '' ? $move : '')."'>";
 
+
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25' colspan='3'><b>".$strBasicInformation."</b></td></tr>";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "<tr height='1'><td width='30'><img src='images/break.gif' height='1' width='30'></td>";
+echo "<td width='200'><img src='images/break.gif' height='1' width='200'></td>";
+echo "<td width='100%'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strName."</td><td>";
-echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='name' size='35' style='width:350px;' value='".phpAds_htmlQuotes($affiliate['name'])."' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+// Name
+echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strName."</td>";
 
+if (phpAds_isUser(phpAds_Admin))
+	echo "<td width='100%'><input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='name' size='35' style='width:350px;' value='".phpAds_htmlQuotes($affiliate['name'])."' tabindex='".($tabindex++)."'></td>";
+else
+	echo "<td width='100%'>".(isset($affiliate['name']) ? $affiliate['name'] : '');
+
+echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
+echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
+
+// Website
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strWebsite."</td><td>";
 echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='website' size='35' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($affiliate['website'])."' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
+echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
 
+// Contact
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strContact."</td><td>";
 echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='contact' size='35' style='width:350px;' value='".phpAds_htmlQuotes($affiliate['contact'])."' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
+echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
 
+// Email
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strEMail."</td><td>";
 echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='email' size='35' style='width:350px;' value='".phpAds_htmlQuotes($affiliate['email'])."' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
+echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
 
+// Language
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strLanguage."</td><td>";
 echo "<select name='language' tabindex='".($tabindex++)."'>";
 echo "<option value='' SELECTED>".$strDefault."</option>\n"; 
@@ -413,9 +486,10 @@ while (list($k, $v) = each($languages))
 		echo "<option value='$k'>$v</option>\n";
 }
 
-echo "</select></td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+echo "</select></td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
+echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
 
+// Public?
 echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
 echo "<input type='hidden' name='publiczones_old' value='".$affiliate['publiczones']."'>";
 echo "<input type='checkbox' name='publiczones' value='t'".($affiliate['publiczones'] == 't' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
@@ -434,20 +508,29 @@ echo "<br><br>";
 
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25' colspan='3'><b>".$strLoginInformation."</b></td></tr>";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-
+echo "<tr height='1'><td width='30'><img src='images/break.gif' height='1' width='30'></td>";
+echo "<td width='200'><img src='images/break.gif' height='1' width='200'></td>";
+echo "<td width='100%'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
-if (isset($errormessage) && $errormessage == 'duplicateusername')
+
+// Error message?
+if (isset($errormessage) && count($errormessage))
 {
-	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td height='10' colspan='2'><img src='images/error.gif' align='absmiddle'>&nbsp;";
-	echo "<font color='#AA0000'><b>".$strDuplicateClientName."</b></font></td></tr>";
-	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+	echo "<tr><td>&nbsp;</td><td height='10' colspan='2'>";
+	echo "<table cellpadding='0' cellspacing='0' border='0'><tr><td>";
+	echo "<img src='images/error.gif' align='absmiddle'>&nbsp;";
+	
+	while (list($k,$v) = each($errormessage))
+		echo "<font color='#AA0000'><b>".$v."</b></font><br>";
+	
+	echo "</td></tr></table></td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 }
 
+
+// Username
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strUsername."</td>";
 
 if (phpAds_isUser(phpAds_Admin))
@@ -455,13 +538,35 @@ if (phpAds_isUser(phpAds_Admin))
 else
 	echo "<td width='370'>".(isset($affiliate['username']) ? $affiliate['username'] : '');
 
-echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
+echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
 
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strPassword."</td>";
-echo "<td width='370'><input class='flat' type='password' name='password' size='25' value='".phpAds_htmlQuotes($affiliate['password'])."' tabindex='".($tabindex++)."'></td>";
-echo "</tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
+// Password
+if (phpAds_isUser(phpAds_Admin))
+{
+	echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strPassword."</td>";
+	echo "<td width='370'><input class='flat' type='password' name='password' size='25' value='".$affiliate['password']."' tabindex='".($tabindex++)."'></td>";
+	echo "</tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+}
+else
+{
+	echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strOldPassword."</td><td width='100%'>";
+	echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='password' name='pwold' size='25' value='' tabindex='".($tabindex++)."'>";
+	echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
+	echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
+	
+	echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strNewPassword."</td><td width='100%'>";
+	echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='password' name='pw' size='25' value='' tabindex='".($tabindex++)."'>";
+	echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
+	echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
+	
+	echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strRepeatPassword."</td><td width='100%'>";
+	echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='password' name='pw2' size='25' value='' tabindex='".($tabindex++)."'>";
+	echo "</td></tr>";
+}
+
+// Permissions
 if (phpAds_isUser(phpAds_Admin))
 {
 	echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -493,7 +598,7 @@ if (phpAds_isUser(phpAds_Admin))
 	echo "</td></tr>";
 }
 
-echo "<tr><td height='10' colspan='2'>&nbsp;</td></tr>";
+echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 echo "</table>";
 
 echo "<br><br>";
@@ -529,14 +634,16 @@ while ($row = phpAds_dbFetchArray($res))
 
 <script language='JavaScript'>
 <!--
-	phpAds_formSetRequirements('name', '<?php echo addslashes($strName); ?>', true, 'unique');
 	phpAds_formSetRequirements('contact', '<?php echo addslashes($strContact); ?>', true);
 	phpAds_formSetRequirements('website', '<?php echo addslashes($strWebsite); ?>', true, 'url');
 	phpAds_formSetRequirements('email', '<?php echo addslashes($strEMail); ?>', true, 'email');
+<?php if (phpAds_isUser(phpAds_Admin)) { ?>
+	phpAds_formSetRequirements('name', '<?php echo addslashes($strName); ?>', true, 'unique');
 	phpAds_formSetRequirements('username', '<?php echo addslashes($strUsername); ?>', false, 'unique');
-	
+
 	phpAds_formSetUnique('name', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
 	phpAds_formSetUnique('username', '|<?php echo addslashes(implode('|', $unique_users)); ?>|');
+<?php } ?>	
 //-->
 </script>
 

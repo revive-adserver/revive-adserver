@@ -110,21 +110,9 @@ if (phpAds_installed)
 
 // First thing to do is clear the $Session variable to
 // prevent users from pretending to be logged in.
-$Session = array('loggedin' => 't', 'usertype' => phpAds_Admin);
-$phpAds_cookiecheck = $SessionID = 'install';
+unset($Session);
 
-
-// Fake authorize the user and load user specific settings.
-if (!isset($phpAds_config['admin']))
-	$phpAds_username = $phpAds_config['admin'] = '';
-else
-	$phpAds_username = $phpAds_config['admin'];
-
-if (!isset($phpAds_config['admin_pw']))
-	$phpAds_password = $phpAds_config['admin_pw'] = '';
-else
-	$phpAds_password = $phpAds_config['admin_pw'];
-
+// Authorize the user
 phpAds_Start();
 
 
@@ -300,7 +288,7 @@ if (phpAds_isUser(phpAds_Admin))
 			if (!isset($errormessage) || !count($errormessage))
 			{
 				$installvars['admin'] 		 = $admin;
-				$installvars['admin_pw'] 	 = $admin_pw;
+				$installvars['admin_pw'] 	 = md5($admin_pw);
 				$installvars['url_prefix']   = $url_prefix;
 				
 				if (phpAds_isConfigWritable())
@@ -337,9 +325,9 @@ if (phpAds_isUser(phpAds_Admin))
 							phpAds_SettingsWriteAdd('tbl_cache', $installvars['tbl_cache']);
 							phpAds_SettingsWriteAdd('tbl_targetstats', $installvars['tbl_targetstats']);
 							
-							phpAds_SettingsWriteAdd('admin', $admin);
-							phpAds_SettingsWriteAdd('admin_pw', $admin_pw);
-							phpAds_SettingsWriteAdd('url_prefix', $url_prefix);
+							phpAds_SettingsWriteAdd('admin', $installvars['admin']);
+							phpAds_SettingsWriteAdd('admin_pw', $installvars['admin_pw']);
+							phpAds_SettingsWriteAdd('url_prefix', $installvars['url_prefix']);
 							
 							phpAds_ConfigFileClear();
 							
