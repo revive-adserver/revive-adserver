@@ -54,7 +54,7 @@ function phpAds_showBanners ()
 		FROM
 			".$phpAds_config['tbl_banners']."
 		ORDER BY
-			priority
+			priority DESC
 	");
 	
 	$rows = array();
