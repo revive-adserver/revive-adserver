@@ -197,7 +197,7 @@ $GLOBALS['strHostAndGeo']					= "Informazioni sull'host e targeting geografico";
 
 $GLOBALS['strRemoteHost']					= "Host remoto";
 $GLOBALS['strReverseLookup']				= "Cerca di determinare il nome di host del visitatore se nono &egrave; fornito dal server web";
-$GLOBALS['strProxyLookup']					= "Cerca di determinare l'indirizzo IP realse del visitatore se si connette tramite un proxy";
+$GLOBALS['strProxyLookup']					= "Cerca di determinare l'indirizzo IP reale del visitatore se si connette tramite un proxy";
 
 $GLOBALS['strGeotargeting']					= "Targeting geografico";
 $GLOBALS['strGeotrackingType']				= "Tipo di database per il targeting geografico";
