@@ -101,6 +101,28 @@ if (isset($bannerid) && $bannerid != '')
 			") or phpAds_sqlDie();
 		}
 		
+		// Get compiledlimitation from source
+		$res = phpAds_dbQuery("
+			SELECT 
+				compiledlimitation
+			FROM
+				".$phpAds_config['tbl_banners']."
+			WHERE
+				bannerid = '".$bannerid."'
+		") or phpAds_sqlDie();
+		
+	   	if ($row = phpAds_dbFetchArray($res))
+		{
+			$res = phpAds_dbQuery("
+				UPDATE 
+					".$phpAds_config['tbl_banners']."
+				SET
+					compiledlimitation = '".addslashes($row['compiledlimitation'])."'
+				WHERE
+					bannerid = '".$applyto."'
+			") or phpAds_sqlDie();
+		}
+		
 		Header ("Location: ".$returnurl."?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$applyto);
 	}
 	elseif (isset($duplicate) && $duplicate == 'true')
