@@ -55,10 +55,19 @@ function phpAds_cacheStore ($name, $cache)
 	$cache_literal .= "$"."cache_complete = true;\n\n";
 	$cache_literal .= "?".">";
 	
-	if ($fp = @fopen(phpAds_path.'/cache/'.$filename, 'wb'))
+	// Write cache to a temp file, then rename it, overwritng the old cache
+	// On *nix systems this should guarantee atomicity
+	if ($fp = @fopen(phpAds_path.'/cache/'.$filename.'.tmp', 'wb'))
 	{
 		@fwrite ($fp, $cache_literal, strlen($cache_literal));
 		@fclose ($fp);
+
+		if (!@rename(phpAds_path.'/cache/'.$filename.'.tmp', phpAds_path.'/cache/'.$filename))
+		{
+			// On some systems rename() doesn't overwrite destination
+			@unlink(phpAds_path.'/cache/'.$filename);
+			@rename(phpAds_path.'/cache/'.$filename.'.tmp', phpAds_path.'/cache/'.$filename);
+		}
 	}
 	else
 		return false;
