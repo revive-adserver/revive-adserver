@@ -304,7 +304,7 @@ if (count($tmp_order) > 0)
 			
 			
 			// Buttons
-			echo "<tr><td colspan='3' height='25'>";
+			echo "<tr><td colspan='4' height='25'>";
 			
 			if ($adclicks > 0 || $adviews > 0)
 			{
@@ -327,7 +327,7 @@ if (count($tmp_order) > 0)
 			}
 			echo "</td></tr>";
 			
-			echo "<tr><td height='35' colspan=4 bgcolor='#FFFFFF'>&nbsp;</td></tr>";
+			echo "<tr><td height='35' colspan='4' bgcolor='#FFFFFF'>&nbsp;</td></tr>";
 		}
 		else
 		{

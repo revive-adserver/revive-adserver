@@ -322,21 +322,39 @@ if (phpAds_isUser(phpAds_Admin))
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 	<tr><td height='25' colspan='3'><b><?echo $strBasicInformation;?></b></td></tr>
 	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-	<tr height='30'>
+
+	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
+	<tr>
+		<td width='30'>&nbsp;</td>
 		<td width='200'><?echo $strClientName;?></td>
-		<td colspan='2'><input type="text" name="clientname" size='50' value="<?if(isset($row["clientname"]))echo $row["clientname"];?>"></td>
+		<td><input type="text" name="clientname" size='35' style="width:350px;" value="<?if(isset($row["clientname"]))echo $row["clientname"];?>"></td>
 	</tr>
-	<tr height='30'>
+	<tr>
+		<td><img src='images/spacer.gif' height='1' width='100%'></td>
+		<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
+	</tr>
+	<tr>
+		<td width='30'>&nbsp;</td>
 		<td width='200'><?echo $strContact;?></td>
-		<td colspan='2'><input type="text" name="contact" size='50' value="<?if(isset($row["contact"]))echo $row["contact"];?>"></td>
+		<td><input type="text" name="contact" size='35' style="width:350px;" value="<?if(isset($row["contact"]))echo $row["contact"];?>"></td>
 	</tr>
-	<tr height='30'>
+	<tr>
+		<td><img src='images/spacer.gif' height='1' width='100%'></td>
+		<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
+	</tr>
+	<tr>
+		<td width='30'>&nbsp;</td>
 		<td width='200'><?echo $strEMail;?></td>
-		<td colspan='2'><input type="text" name="email" size='50' value="<?if(isset($row["email"]))echo $row["email"];?>"></td>
+		<td><input type="text" name="email" size='35' style="width:350px;" value="<?if(isset($row["email"]))echo $row["email"];?>"></td>
 	</tr>
-	<tr height='30'>
+	<tr>
+		<td><img src='images/spacer.gif' height='1' width='100%'></td>
+		<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
+	</tr>
+	<tr>
+		<td width='30'>&nbsp;</td>
 		<td width='200'><?echo $GLOBALS[strLanguage]; ?></td>	
-		<td colspan='2'>
+		<td>
 			<select name="clientlanguage">
 		<?
 		echo "<option value='' SELECTED>".$GLOBALS[strDefault]."</option>\n";
@@ -358,15 +376,21 @@ if (phpAds_isUser(phpAds_Admin))
 			</select>
 		</td>
 	</tr>
+	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
+
 	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 </table>
 
+<br><br>
 <br><br>
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 	<tr><td height='25' colspan='3'><b><?echo $strContractInformation;?></b></td></tr>
 	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-	<tr height='30'>
+
+	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
+	<tr>
+		<td width='30'>&nbsp;</td>
 		<td width='200'><?echo $strViewsPurchased;?></td>
 		<?
 		if (phpAds_isUser(phpAds_Admin))
@@ -386,7 +410,12 @@ if (phpAds_isUser(phpAds_Admin))
 		}
 		?>
 	</tr>
-	<tr height='30'>
+	<tr>
+		<td><img src='images/spacer.gif' height='1' width='100%'></td>
+		<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
+	</tr>
+	<tr>
+		<td width='30'>&nbsp;</td>
 		<td width='200'><?echo $strClicksPurchased;?></td>
 		<?
 		if (phpAds_isUser(phpAds_Admin))
@@ -406,7 +435,12 @@ if (phpAds_isUser(phpAds_Admin))
 		}
 		?>
 	</tr>
-	<tr height='30'>
+	<tr>
+		<td><img src='images/spacer.gif' height='1' width='100%'></td>
+		<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
+	</tr>
+	<tr>
+		<td width='30'>&nbsp;</td>
 		<td width='200'><?echo $strDaysPurchased;?></td>
 		<?
 		if (phpAds_isUser(phpAds_Admin))
@@ -427,15 +461,21 @@ if (phpAds_isUser(phpAds_Admin))
 		}
 		?>
 	</tr>
-	<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
+
+	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 </table>
 
 <br><br>
+<br><br>
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
-	<tr><td height='25' colspan='2'><b><?echo $strLoginInformation;?></b></td></tr>
-	<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-	<tr height='30'>
+	<tr><td height='25' colspan='3'><b><?echo $strLoginInformation;?></b></td></tr>
+	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+
+	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
+	<tr>
+		<td width='30'>&nbsp;</td>
 		<td width='200'><?echo $strUsername;?></td>
 		<?
 		if (phpAds_isUser(phpAds_Admin))
@@ -452,41 +492,47 @@ if (phpAds_isUser(phpAds_Admin))
 		}
 		?>
 	</tr>
-	<tr height='30'>
+	<tr>
+		<td><img src='images/spacer.gif' height='1' width='100%'></td>
+		<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
+	</tr>
+	<tr>
+		<td width='30'>&nbsp;</td>
 		<td width='200'><?echo $strPassword;?></td>
 		<td><input type="text" name="clientpassword" size='25' value="<?if(isset($row["clientpassword"]))echo $row["clientpassword"];?>">
 	</tr>
-	<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-</table>
-
-<br><br>
+	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
 		<?
 		if (phpAds_isUser(phpAds_Admin))
 		{
 			?>
-<table border='0' width='100%' cellpadding='0' cellspacing='0'>
-	<tr><td height='25' colspan='2'><b><?echo $strPermissions;?></b></td></tr>
-	<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
+
 	<tr>
-		<td colspan'2'>
+		<td width='30'>&nbsp;</td>
+		<td colspan='2'>
 			<input type="checkbox" name="clientpermissions[]" value="<?echo phpAds_ModifyInfo; ?>"<?echo (phpAds_ModifyInfo & $row["permissions"]) ? " CHECKED" : ""; ?>>
 			<?echo $GLOBALS[strAllowClientModifyInfo]; ?>
 		</td>
 	</tr>
 	<tr>
-		<td colspan'2'>
+		<td width='30'>&nbsp;</td>
+		<td colspan='2'>
 			<input type="checkbox" name="clientpermissions[]" value="<?echo phpAds_ModifyBanner; ?>"<?echo (phpAds_ModifyBanner & $row["permissions"]) ? " CHECKED" : ""; ?>>
 			<?echo $GLOBALS[strAllowClientModifyBanner]; ?>
 		</td>
 	</tr>	
 	<!-- Still working on this (Niels)
 	<tr>
-		<td colspan'2'>
+		<td width='30'>&nbsp;</td>
+		<td colspan='2'>
 			<input type="checkbox" name="clientpermissions[]" value="<?echo phpAds_AddBanner; ?>"<?echo (phpAds_AddBanner & $row["permissions"]) ? " CHECKED" : ""; ?>>
 			<?echo $GLOBALS[strAllowClientAddBanner]; ?>
 		</td>
 	</tr>	
 	-->
+	<tr><td height='10' colspan='2'>&nbsp;</td></tr>
 </table>
 			<?
 		}
