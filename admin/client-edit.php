@@ -325,7 +325,7 @@ echo "<br><br>";
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
 	<tr>
 		<td width='30'>&nbsp;</td>
-		<td width='200'><?php echo $strClientName;?></td>
+		<td width='200'><?php echo $strName;?></td>
 		<td><input class='flat' type="text" name="clientname" size='35' style="width:350px;" value="<?php if(isset($row["clientname"]))echo $row["clientname"];?>"></td>
 	</tr>
 	<tr>
