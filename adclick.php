@@ -115,7 +115,8 @@ if (phpAds_dbConnect())
 		// Log clicks
 		if ($phpAds_config['block_adclicks'] == 0 ||
 		   ($phpAds_config['block_adclicks'] > 0 && 
-		   !isset($HTTP_COOKIE_VARS['phpAds_blockClick'][$bannerid])))
+		   (!isset($HTTP_COOKIE_VARS['phpAds_blockClick'][$bannerid]) ||
+		   $HTTP_COOKIE_VARS['phpAds_blockClick'][$bannerid] <= time())))
 		{
 			if ($phpAds_config['log_adclicks'])
 				phpAds_logClick($bannerid, $clientid, $zoneid, $source);
@@ -123,7 +124,8 @@ if (phpAds_dbConnect())
 			// Send block cookies
 			if ($phpAds_config['block_adclicks'] > 0)
 			{
-				phpAds_setCookie ("phpAds_blockClick[".$bannerid."]", time(), time() + $phpAds_config['block_adclicks']);
+				phpAds_setCookie ("phpAds_blockClick[".$bannerid."]", time() + $phpAds_config['block_adclicks'], 
+								  time() + $phpAds_config['block_adclicks'] + 43200);
 				phpAds_flushCookie ();
 			}
 		}

@@ -32,6 +32,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-08-07:  {url_prefix} wasn't replaced by adview.php when using Netscape 4.7  (Niels)
 			  - 2002-08-08:  Delivery limitations can now contain quotes without generation errors during delivery  (Niels)
 			  - 2002-08-08:  Adview.php tried to display Flash banners during plain remote invocation  (Niels)
+			  - 2002-08-08:  Time capping and log protection can now handle a 6 hour time difference between user and server  (Niels)
 
 
 

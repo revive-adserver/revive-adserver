@@ -51,19 +51,21 @@ if (isset($bannerid) && isset($clientid) && isset($zoneid))
 	
 	if ($phpAds_config['block_adviews'] == 0 ||
 	   ($phpAds_config['block_adviews'] > 0 && 
-	   !isset($HTTP_COOKIE_VARS['phpAds_blockView'][$bannerid])))
+	   (!isset($HTTP_COOKIE_VARS['phpAds_blockView'][$bannerid]) ||
+	   	$HTTP_COOKIE_VARS['phpAds_blockView'][$bannerid] <= time())))
 	{
 		phpAds_dbConnect();
 		phpAds_logImpression ($bannerid, $clientid, $zoneid, $source);
 		
 		// Send block cookies
 		if ($phpAds_config['block_adviews'] > 0)
-			phpAds_setCookie ("phpAds_blockView[".$bannerid."]", time(), time() + $phpAds_config['block_adviews']);
+			phpAds_setCookie ("phpAds_blockView[".$bannerid."]", time() + $phpAds_config['block_adviews'],
+							  time() + $phpAds_config['block_adviews'] + 43200);
 	}
 	
 	
 	if (isset($block) && $block != '' && $block != '0')
-		phpAds_setCookie ("phpAds_blockAd[".$bannerid."]", time(), time() + $block);
+		phpAds_setCookie ("phpAds_blockAd[".$bannerid."]", time() + $block, time() + $block + 43200);
 	
 	
 	if (isset($capping) && $capping != '' && $capping != '0')
@@ -73,7 +75,7 @@ if (isset($bannerid) && isset($clientid) && isset($zoneid))
 		else
 			$newcap = 1;
 		
-		phpAds_setCookie ("phpAds_capAd[".$bannerid."]", $newcap, time()+31536000);
+		phpAds_setCookie ("phpAds_capAd[".$bannerid."]", $newcap, time() + 31536000);
 	}
 	
 	

@@ -101,7 +101,9 @@ function phpAds_fetchBannerDirect($remaining, $clientid, $context = 0, $source =
 					if ($high > $ranweight && $low <= $ranweight)
 					{
 						// Blocked
-						if (isset($HTTP_COOKIE_VARS['phpAds_blockAd'][$rows[$i]['bannerid']]))
+						if ($rows[$i]['block'] > 0 &&
+							isset($HTTP_COOKIE_VARS['phpAds_blockAd'][$rows[$i]['bannerid']]) &&
+							$HTTP_COOKIE_VARS['phpAds_blockAd'][$rows[$i]['bannerid']] > time())
 						{
 							// Delete this row and adjust $prioritysum
 							$prioritysum -= $rows[$i]['priority'];
