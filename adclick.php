@@ -105,7 +105,7 @@ if (phpAds_dbConnect())
 		// url from database
 		if (isset($dest) && $dest != '')
 		{
-			// Prevent HTTP header injection, suggested by < Tali AT sl0th DOT org >
+			// Prevent HTTP header injection, suggested by Tem
 			if (preg_match('#^https?://#', $dest) && strpos($dest, "\r\n") === false)
 				$url = stripslashes($dest);
 		}

@@ -46,7 +46,7 @@ phpAdsNew 2.0.1		+ Misc bugfixes
 			  - 2004-10-11:  Banner selection linking method wasn't working when displayed in compact version  (Matteo)
 			  - 2004-10-13:  History wasn't available with verbose stats when no adviews are logged  (Matteo)
 			  - 2004-10-13:  Clicks detail wasn't always shown in mail reports when the campaign had no adview  (Matteo)
-			  - 2004-12-21:  Prevented HTTP headers injection in adclick.php  (Matteo, thanks to Tali AT sl0th DOT org)
+			  - 2004-12-21:  Prevented HTTP headers injection in adclick.php  (Matteo, thanks to Tem)
 
 phpAdsNew 2.0
 			+ Misc changes
