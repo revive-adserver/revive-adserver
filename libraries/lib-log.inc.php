@@ -160,7 +160,7 @@ function phpads_logCheckHost()
 
 function phpAds_logImpression ($bannerid, $clientid, $zoneid, $source)
 {
-	global $HTTP_SERVER_VARS, $phpAds_config, $phpAds_CountryLookup, $phpAds_geo;
+	global $HTTP_SERVER_VARS, $phpAds_config, $phpAds_geo;
 	
 	
 	// Check if host is on list of hosts to ignore
@@ -210,7 +210,7 @@ function phpAds_logImpression ($bannerid, $clientid, $zoneid, $source)
 
 function phpAds_logClick($bannerid, $clientid, $zoneid, $source)
 {
-	global $HTTP_SERVER_VARS, $phpAds_config, $phpAds_CountryLookup;
+	global $HTTP_SERVER_VARS, $phpAds_config, $phpAds_geo;
 	
 	
 	if ($host = phpads_logCheckHost())
