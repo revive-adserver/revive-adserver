@@ -38,6 +38,9 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-08-11:  Rare double login problem fixed  (Niels)
 			  - 2002-08-11:  Delivery capping and log protection should now work better when using local mode from a different domain  (Niels)
 			  - 2002-08-11:  Total for adviews on mailed reports should now work again  (Niels)
+			  - 2002-08-13:  Missing link to lib-io.inc.php in graph-daily.php fixed  (Niels)
+			  - 2002-08-15:  On some systems the uniqid() function was too slow  (Niels, thanks to Christer Lindh)
+			  - 2002-08-15:  Removed mysterious newline at the end of many files  (Niels)
 
 
 
