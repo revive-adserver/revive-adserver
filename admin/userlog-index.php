@@ -40,12 +40,30 @@ require ("../language/".strtolower($phpAds_config['language'])."/userlog.lang.ph
 /*********************************************************/
 
 $res = phpAds_dbQuery("
+	SELECT 
+		COUNT(*) as count
+	FROM
+		".$phpAds_config['tbl_userlog']."
+");
+
+if ($row = phpAds_dbFetchArray($res))
+	$count = $row['count'];
+else
+	$count = 0;
+
+
+$limit = 15;
+$start = isset($start) ? (int) $start : 0;
+
+$res = phpAds_dbQuery("
 	SELECT
 		*
 	FROM 
 		".$phpAds_config['tbl_userlog']."
 	ORDER BY
 		timestamp DESC
+	LIMIT
+		".($start * $limit).", ".$limit."
 ");
 
 
@@ -112,8 +130,21 @@ while ($row = phpAds_dbFetchArray($res))
 if (phpAds_dbNumRows($res) > 0)
 {
 	echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-	echo "<tr><td height='25' colspan='4'>";
-	echo "<a href='userlog-delete.php'><img src='images/icon-recycle.gif' border='0' align='absmiddle'>&nbsp;".$strDeleteLog."</a>";
+	echo "<tr><td height='25' colspan='2'>";
+		echo "<a href='userlog-delete.php'><img src='images/icon-recycle.gif' border='0' align='absmiddle'>&nbsp;".$strDeleteLog."</a>";
+	echo "</td><td height='25' colspan='2' align='".$phpAds_TextAlignRight."'>";
+		if ($start > 0)
+		{
+			echo "<a href='userlog-index.php?start=".($start - 1)."'>";
+			echo "<img src='images/arrow-l.gif' border='0' align='absmiddle'>".$strPrevious."</a>";
+		}
+		if ($count > ($start + 1) * $limit)
+		{
+			if ($start > 0) echo "&nbsp;|&nbsp;";
+			
+			echo "<a href='userlog-index.php?start=".($start + 1)."'>";
+			echo $strNext."<img src='images/arrow-r.gif' border='0' align='absmiddle'></a>";
+		}
 	echo "</td></tr>";
 }
 
