@@ -98,7 +98,10 @@ if (isset($convert))
 			{
 				// Prepare the parameters
 				for ($i=0;$i<count($parameters);$i++)
-					$parameters[$i] = 'alink'.($i+1).'={targeturl:'.$parameters[$i].'}';
+				{
+					list($parameter_url, $parameter_target) = $parameters[$i];
+					$parameters[$i] = 'alink'.($i+1).'={targeturl:'.$parameter_url.'}&atar'.($i+1).'='.$parameter_target;
+				}
 				
 				$parameter = implode ('&', $parameters);
 				$row['htmltemplate'] = str_replace ('{swf_param}', $parameter, $row['htmltemplate']);

@@ -31,6 +31,7 @@ CVS			+ Added configuration manager  (Matteo, 2001-11-04)
 			+ Added the ability to check for newer versions of phpAdsNew  (Matteo, 2002-04-11)
 			+ Added the ability to change the target frame for each banner  (Niels, 2002-04-14)
 			+ Added new style JavaScript invocation, with the ability to prevent one banner from being displayed twice on one page  (Niels, 2002-04-30)
+			+ Added the ability to change the target frame for converted Flash banners (Niels, 2002-07-04)
 
 			+ Misc changes to library and function names
 			  - 2001-10-20:  Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 
@@ -298,6 +299,7 @@ CVS			+ Added configuration manager  (Matteo, 2001-11-04)
 			  - 2002-07-01:  URLs inside of <link> tags for external .css files were mistakenly converted by the automatic adclick tracker  (Niels)
 			  - 2002-07-01:  URLs inside of <base> tags were mistakenly converted by the automatic adclick tracker  (Niels)
 			  - 2002-07-03:  Fixed invalid regular expression in banner-edit.php on certain configurations  (Niels)
+			  - 2002-07-04:  Fixed another two invalid regular expression in banner-edit.php on certain configurations  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015

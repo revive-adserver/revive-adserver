@@ -25,8 +25,8 @@ define ('swf_tag_actiongeturl2', 	 chr(0x9A).chr(0x01));
 
 
 // Define preferences
-$swf_variable		= 'alink';		// The name of the ActionScript variable
-$swf_default_target	= '_blank';		// If set it will replace the targets, otherwise leave empty
+$swf_variable		= 'alink';		// The name of the ActionScript variable used for urls
+$swf_target_var		= 'atar';		// The name of the ActionScript variable used for targets
 
 
 
@@ -144,8 +144,7 @@ function phpAds_SWFDimensions($buffer)
 
 function phpAds_SWFInfo($buffer)
 {
-	global $swf_default_target;
-	global $swf_variable;
+	global $swf_variable, $swf_target_var;
 	
 	
 	// Decompress if file is a Flash MX compressed file
@@ -154,6 +153,7 @@ function phpAds_SWFInfo($buffer)
 	
 	$parameters = array();
 	$pos = 0;
+	$linkcount = 1;
 	
 	while ($result = strpos($buffer, swf_tag_geturl, $pos))
 	{
@@ -168,12 +168,26 @@ function phpAds_SWFInfo($buffer)
 			$parameter_url    = substr($parameter_total, 0, $parameter_split);
 			$parameter_target = substr($parameter_total, $parameter_split + 1, strlen($parameter_total) - $parameter_split - 2);
 			
-			if ($swf_default_target)
-				$parameter_target = $swf_default_target;
-			
-			$replacement = swf_tag_actionpush.chr(strlen($swf_variable)+2).swf_tag_null.swf_tag_null.$swf_variable.swf_tag_null.
+			$replacement = swf_tag_actionpush.
+						     chr(strlen($swf_variable.$linkcount)+2).
+						     swf_tag_null.
+						   swf_tag_null.
+						     $swf_variable.
+						     $linkcount.
+						   swf_tag_null.
+						   
 						   swf_tag_actiongetvariable.
-						   swf_tag_actionpush.chr(strlen($parameter_target)+2).swf_tag_null.swf_tag_null.$parameter_target.swf_tag_null.
+						   
+						   swf_tag_actionpush.
+						     chr(strlen($swf_target_var.$linkcount)+2).
+						     swf_tag_null.
+						   swf_tag_null.
+						     $swf_target_var.
+						     $linkcount.
+						   swf_tag_null.
+						   
+						   swf_tag_actiongetvariable.
+						   
 						   swf_tag_actiongeturl2;
 			
 			if (strlen($replacement) > $parameter_length + 3)
@@ -186,6 +200,8 @@ function phpAds_SWFInfo($buffer)
 					$result, $parameter_url, $parameter_target
 				);
 			}
+			
+			$linkcount++;
 		}
 		
 		$pos = $result;
@@ -205,8 +221,7 @@ function phpAds_SWFInfo($buffer)
 
 function phpAds_SWFConvert($buffer)
 {
-	global $swf_default_target;
-	global $swf_variable;
+	global $swf_variable, $swf_target_var;
 	
 	
 	// Decompress if file is a Flash MX compressed file
@@ -236,12 +251,26 @@ function phpAds_SWFConvert($buffer)
 			$parameter_url    = substr($parameter_total, 0, $parameter_split);
 			$parameter_target = substr($parameter_total, $parameter_split + 1, strlen($parameter_total) - $parameter_split - 2);
 			
-			if ($swf_default_target)
-				$parameter_target = $swf_default_target;
-			
-			$replacement = swf_tag_actionpush.chr(strlen($swf_variable.$linkcount)+2).swf_tag_null.swf_tag_null.$swf_variable.$linkcount.swf_tag_null.
+			$replacement = swf_tag_actionpush.
+						     chr(strlen($swf_variable.$linkcount)+2).
+						     swf_tag_null.
+						   swf_tag_null.
+						     $swf_variable.
+						     $linkcount.
+						   swf_tag_null.
+						   
 						   swf_tag_actiongetvariable.
-						   swf_tag_actionpush.chr(strlen($parameter_target)+2).swf_tag_null.swf_tag_null.$parameter_target.swf_tag_null.
+						   
+						   swf_tag_actionpush.
+						     chr(strlen($swf_target_var.$linkcount)+2).
+						     swf_tag_null.
+						   swf_tag_null.
+						     $swf_target_var.
+						     $linkcount.
+						   swf_tag_null.
+						   
+						   swf_tag_actiongetvariable.
+						   
 						   swf_tag_actiongeturl2;
 			
 			if (strlen($replacement) > $parameter_length + 3)
@@ -264,7 +293,7 @@ function phpAds_SWFConvert($buffer)
 		   	
 			$buffer = $replacement;
 			
-			$parameters[] = $parameter_url;
+			$parameters[] = array ($parameter_url, $parameter_target);
 			$linkcount++;
 		}
 		

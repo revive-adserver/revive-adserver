@@ -256,11 +256,22 @@ if (isset($submit))
 			if (isset($alink) && is_array($alink) && count($alink))
 			{
 				while (list ($key, $val) = each ($alink))
+				{
 					if (substr($val, 0, 7) == 'http://' && strlen($val) > 7)
 					{
 						$final['htmltemplate'] = eregi_replace ("alink".$key."=\{targeturl:[^\}]+\}", "alink".$key."={targeturl:".$val."}", $final['htmltemplate']);
 						if (isset($alink_chosen) && $alink_chosen == $key) $final['url'] = $val;
 					}
+				}
+				
+				if (isset($atar) && is_array($atar) && count ($atar))
+				{
+					while (list ($key, $val) = each ($atar))
+					{
+						$final['htmltemplate'] = eregi_replace ("atar".$key."=[^'&]+", "atar".$key."=".$val, $final['htmltemplate']);
+						if (isset($alink_chosen) && $alink_chosen == $key) $final['target'] = $val;
+					}
+				}
 			}
 			
 			
@@ -371,11 +382,22 @@ if (isset($submit))
 			if (isset($alink) && is_array($alink) && count($alink))
 			{
 				while (list ($key, $val) = each ($alink))
+				{
 					if (substr($val, 0, 7) == 'http://' && strlen($val) > 7)
 					{
 						$final['htmltemplate'] = eregi_replace ("alink".$key."=\{targeturl:[^\}]+\}", "alink".$key."={targeturl:".$val."}", $final['htmltemplate']);
 						if (isset($alink_chosen) && $alink_chosen == $key) $final['url'] = $val;
 					}
+				}
+				
+				if (isset($atar) && is_array($atar) && count ($atar))
+				{
+					while (list ($key, $val) = each ($atar))
+					{
+						$final['htmltemplate'] = eregi_replace ("atar".$key."=[^'&]+", "atar".$key."=".$val, $final['htmltemplate']);
+						if (isset($alink_chosen) && $alink_chosen == $key) $final['target'] = $val;
+					}
+				}
 			}
 			
 			
@@ -730,6 +752,12 @@ if ($bannerid != '')
 				$hardcoded_links[$regs[1]] = $regs[2];
 				$buffer = str_replace ($regs[0], '', $buffer);
 			}
+			
+			while (eregi("atar([0-9]+)=([^'&]+)", $buffer, $regs))
+			{
+				$hardcoded_targets[$regs[1]] = $regs[2];
+				$buffer = str_replace ($regs[0], '', $buffer);
+			}
 		}
 	}
 }
@@ -757,6 +785,7 @@ else
 	$row['description']  = '';
 	
 	$hardcoded_links = array();
+	$hardcoded_targets = array();
 }
 
 
@@ -977,13 +1006,24 @@ if ($storagetype == 'sql')
 			if ($i > 0)
 			{
 				echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-				echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+				echo "<td colspan='2'><img src='images/spacer.gif' height='1' width='200' vspace='6'></td></tr>";
 			}
 			
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$strURL."</td>";
-			echo "<td><input class='flat' size='35' type='text' name='alink[".$key."]' style='width:350px;' value='".phpAds_htmlQuotes($val)."'>";
+			echo "<td><input class='flat' size='35' type='text' name='alink[".$key."]' style='width:330px;' value='".phpAds_htmlQuotes($val)."'>";
 			echo "<input type='radio' name='alink_chosen' value='".$key."'".($val == $row['url'] ? ' checked' : '')."></td></tr>";
+			
+			if (isset($hardcoded_targets[$key]))
+			{
+				echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+				echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+				
+				echo "<tr><td width='30'>&nbsp;</td>";
+				echo "<td width='200'>".$strTarget."</td>";
+				echo "<td><input class='flat' size='35' type='text' name='atar[".$key."]' style='width:330px;' value='".phpAds_htmlQuotes($hardcoded_targets[$key])."'>";
+				echo "</td></tr>";
+			}
 			
 			$i++;
 		}
@@ -1103,14 +1143,24 @@ if ($storagetype == 'web')
 			if ($i > 0)
 			{
 				echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-				echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+				echo "<td colspan='2'><img src='images/spacer.gif' height='1' width='200' vspace='6'></td></tr>";
 			}
 			
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$strURL."</td>";
-			echo "<td><input class='flat' size='35' type='text' name='alink[".$key."]' style='width:350px;' value='".phpAds_htmlQuotes($val)."'>";
+			echo "<td><input class='flat' size='35' type='text' name='alink[".$key."]' style='width:330px;' value='".phpAds_htmlQuotes($val)."'>";
 			echo "<input type='radio' name='alink_chosen' value='".$key."'".($val == $row['url'] ? ' checked' : '')."></td></tr>";
 			
+			if (isset($hardcoded_targets[$key]))
+			{
+				echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+				echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+				
+				echo "<tr><td width='30'>&nbsp;</td>";
+				echo "<td width='200'>".$strTarget."</td>";
+				echo "<td><input class='flat' size='35' type='text' name='atar[".$key."]' style='width:330px;' value='".phpAds_htmlQuotes($hardcoded_targets[$key])."'>";
+				echo "</td></tr>";
+			}
 			$i++;
 		}
 		
