@@ -172,6 +172,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2003-01-02:  When saving settings to the database booleans are now typecast  (Niels)
 			  - 2003-01-02:  Resetting the statistics for campaigns and banners are now back  (Niels)
 			  - 2003-01-03:  No stats were shown when all banners were deactivated  (Niels)
+			  - 2003-01-03:  Fixed JS error when phpAds_formSetRequirements only had a requirement but no check  (Niels)
 
 
 
