@@ -597,8 +597,6 @@ if (!isset($type))
 //-->
 </script>
 
-<br><br>
-
 <form action="<?php echo basename($PHP_SELF);?>" method="POST" enctype="multipart/form-data">
 <input type="hidden" name="campaignid" value="<?php echo ($campaignid) ?>">
 <input type="hidden" name="bannerid" value="<?php echo ($bannerid) ?>">
@@ -606,7 +604,6 @@ if (!isset($type))
 <?php if ($dhtml) { ?>
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 	<tr><td height='25' colspan='3'><b><?php echo $strChooseBanner;?></b></td></tr>
-	<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 	<tr>
 		<td height='35'>
 			<select name='bannertype' onChange='show(this.options[this.selectedIndex].value);'>
@@ -618,6 +615,7 @@ if (!isset($type))
 		</td>
 	</tr>	
 </table>
+<?php phpAds_ShowBreak(); ?>
 <br><br>
 <?php }?>
 
