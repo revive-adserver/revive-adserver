@@ -882,9 +882,16 @@ function phpAds_PriorityCalculate()
 					for ($p = $period; $p < $period + $fix_in_no_hours; $p++)
 						$total_next_hours = isset($profile[$p]) ? $profile[$p] : 0;
 					
-					$avg_impressions_per_hour = $total_next_hours / $fix_in_no_hours;
-				    $compensation_factor = $profile[$period] / $avg_impressions_per_hour;
-					$extra_to_assign = round($compensation_factor * $extra_to_assign);
+					if ($avg_impressions_per_hour = $total_next_hours / $fix_in_no_hours)
+					{
+						$compensation_factor = $profile[$period] / $avg_impressions_per_hour;
+						$extra_to_assign = round($compensation_factor * $extra_to_assign);
+					}
+					else
+					{
+						$compensation_factor = 'n.a.';
+						$extra_to_assign = 0;
+					}
 					
 					
 					// BEGIN REPORTING
