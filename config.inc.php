@@ -98,9 +98,11 @@ $phpAds_main_back_color = "#FFFFFF";
 $phpAds_persistent_connections = "0";
 
 
-$phpAds_path=substr(__FILE__, 0, strlen(__FILE__) - strlen(basename(__FILE__)));
-// If this path doesn't work for you, customize it here like this
-// $phpAds_path="/home/myname/www/phpAdsNew";
+if (!isset($phpAds_path)) {
+    $phpAds_path=substr(__FILE__, 0, strlen(__FILE__) - strlen(basename(__FILE__)));
+    // If this path doesn't work for you, customize it here like this
+    // $phpAds_path="/home/myname/www/phpAdsNew";       // Note: no trailing backslash
+}
 
 // I recommend you leave config.inc.php alone and override all variables
 // in config2.inc.php.  This should make future upgrades easier.
