@@ -31,6 +31,10 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-01-20:  Wildcard in source delivery limitation matched only a-z and 0-9, not other characters
 			  - 2003-01-21:  Usernames were shown in the HTML source of the advertiser and publisher property pages when logged in as a regular user  (Niels)
 			  - 2003-01-21:  Fixed some typos in the name of the session cookie in lib-session.inc.php and lib-permissions.inc.php  (Niels)
+			  - 2003-01-23:  Fixed the ability to upgrade from pre-md5 hash versions of phpAdsNew  (Niels)
+			  - 2003-01-23:  Rewrote index handling in database upgrade script, so unwanted indexes are removed and the primary key is only rebuild when needed  (Niels)
+			  - 2003-01-23:  Fixed some errors in the all.sql file which caused unneeded update queries during the update  (Niels)
+			  - 2003-01-24:  Precompiled limitations are now rebuild during an upgrade  (Niels)
 			
 
 v 2.0rc2		+ Misc bugfixes
