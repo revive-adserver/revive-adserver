@@ -142,6 +142,7 @@ $GLOBALS['strMonths']						= "Months";
 $GLOBALS['strThisMonth'] 					= "This month";
 $GLOBALS['strMonth'] 						= array("January","February","March","April","May","June","July", "August", "September", "October", "November", "December");
 $GLOBALS['strDayShortCuts'] 				= array("Su","Mo","Tu","We","Th","Fr","Sa");
+$GLOBALS['strHour']							= "Hour";
 $GLOBALS['strSeconds']						= "seconds";
 
 
