@@ -157,7 +157,7 @@ if ($found)
 			
 			
 			// Replace random
-			if (preg_match ('#\{random(:([1-9]+)){0,1}\}#i', $row['imageurl'], $matches))
+			if (preg_match ('#\{random(:([0-9]+)){0,1}\}#i', $row['imageurl'], $matches))
 			{
 				if ($matches[2])
 					$lastdigits = $matches[2];
@@ -173,7 +173,7 @@ if ($found)
 				$row['imageurl'] = str_replace ($matches[0], $lastrandom, $row['imageurl']);
 			}
 			
-			if (preg_match ('#\{random(:([1-9]+)){0,1}\}#i', $row['url'], $matches))
+			if (preg_match ('#\{random(:([0-9]+)){0,1}\}#i', $row['url'], $matches))
 			{
 				if ($matches[2])
 					$randomdigits = $matches[2];
