@@ -226,9 +226,9 @@ function phpAds_Login()
 					WHERE
 						username = '$phpAds_username'
 						AND password = '$phpAds_password'
-					") or phpAds_sqlDie();
+					");
 				
-				if (phpAds_dbNumRows($res) > 0 && $phpAds_username != "" && $phpAds_password != "")
+				if ($res && phpAds_dbNumRows($res) > 0 && $phpAds_username != "" && $phpAds_password != "")
 				{
 					// User found with correct password
 					$row = phpAds_dbFetchArray($res);

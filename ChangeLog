@@ -109,6 +109,8 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: Clients couldn't activate banners using the client interface  (Toni Garcia) 20011222
 			  - Bugfix: Calculating priority without campaigns or banners led to php errors  (Matteo) 20011222 
 			  - Bugfix: Misc fixes to priority calculation without high priority banners  (Niels) 20011231
+			  - Bugfix: An sql error was showing instead of the normal "wrong password" warning when upgrading 
+			    from a pre-affiliates install  (Matteo) 20020108 
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
