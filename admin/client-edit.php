@@ -314,7 +314,7 @@ if ($row["clicks"] == "")
 if ($days_left == "")
 	$days_left = -1;
 
-function phpAds_showDateEdit($name, $day=0, $month=0, $year=0)
+function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 {
 	global $strMonth, $strDontExpire, $strActivateNow;
 	
@@ -335,37 +335,51 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0)
 	elseif ($name == 'activate')
 		$caption = $strActivateNow;
 	
-	echo "<table><tr><td>";
-	echo "<input type='radio' name='".$name."Set' value='false' onclick=\"disableradio('".$name."', false);\"".($set==false?' checked':'').">";
-	echo "&nbsp;$caption";
-	echo "</td></tr><tr><td>";
-	echo "<input type='radio' name='".$name."Set' value='true' onclick=\"disableradio('".$name."', true);\"".($set==true?' checked':'').">";
-	echo "&nbsp;";
-	
-	echo "<select name='".$name."Day' onchange=\"checkdate('".$name."');\">\n";
-	echo "<option value='-'".($day=='-' ? ' selected' : '').">-</option>\n";
-	for ($i=1;$i<=31;$i++)
-		echo "<option value='$i'".($day==$i ? ' selected' : '').">$i</option>\n";
-	echo "</select>&nbsp;\n";
-	
-	echo "<select name='".$name."Month' onchange=\"checkdate('".$name."');\">\n";
-	echo "<option value='-'".($month=='-' ? ' selected' : '').">-</option>\n";
-	for ($i=1;$i<=12;$i++)
-		echo "<option value='$i'".($month==$i ? ' selected' : '').">".$strMonth[$i-1]."</option>\n";
-	echo "</select>&nbsp;\n";
-	
-	if ($year != '-')
-		$start = $year < date('Y') ? $year : date('Y');
+	if ($edit)
+	{
+		echo "<table><tr><td>";
+		echo "<input type='radio' name='".$name."Set' value='false' onclick=\"disableradio('".$name."', false);\"".($set==false?' checked':'').">";
+		echo "&nbsp;$caption";
+		echo "</td></tr><tr><td>";
+		echo "<input type='radio' name='".$name."Set' value='true' onclick=\"disableradio('".$name."', true);\"".($set==true?' checked':'').">";
+		echo "&nbsp;";
+		
+		echo "<select name='".$name."Day' onchange=\"checkdate('".$name."');\">\n";
+		echo "<option value='-'".($day=='-' ? ' selected' : '').">-</option>\n";
+		for ($i=1;$i<=31;$i++)
+			echo "<option value='$i'".($day==$i ? ' selected' : '').">$i</option>\n";
+		echo "</select>&nbsp;\n";
+		
+		echo "<select name='".$name."Month' onchange=\"checkdate('".$name."');\">\n";
+		echo "<option value='-'".($month=='-' ? ' selected' : '').">-</option>\n";
+		for ($i=1;$i<=12;$i++)
+			echo "<option value='$i'".($month==$i ? ' selected' : '').">".$strMonth[$i-1]."</option>\n";
+		echo "</select>&nbsp;\n";
+		
+		if ($year != '-')
+			$start = $year < date('Y') ? $year : date('Y');
+		else
+			$start = date('Y');
+		
+		echo "<select name='".$name."Year' onchange=\"checkdate('".$name."');\">\n";
+		echo "<option value='-'".($year=='-' ? ' selected' : '').">-</option>\n";
+		for ($i=$start;$i<=($start+4);$i++)
+			echo "<option value='$i'".($year==$i ? ' selected' : '').">$i</option>\n";
+		echo "</select>\n";
+		
+		echo "</td></tr></table>";
+	}
 	else
-		$start = date('Y');
-	
-	echo "<select name='".$name."Year' onchange=\"checkdate('".$name."');\">\n";
-	echo "<option value='-'".($year=='-' ? ' selected' : '').">-</option>\n";
-	for ($i=$start;$i<=($start+4);$i++)
-		echo "<option value='$i'".($year==$i ? ' selected' : '').">$i</option>\n";
-	echo "</select>\n";
-	
-	echo "</td></tr></table>";
+	{
+		if ($set == true)
+		{
+			echo $day." ".$strMonth[$month-1]." ".$year;
+		}
+		else
+		{
+			echo $caption;
+		}
+	}
 }
 ?>
 
@@ -613,7 +627,11 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0)
 		else 
 		{
 			?>
-			<td><? echo $row["activate_f"]; ?></td>
+			<td>
+				<? phpAds_showDateEdit('activate', isset($row["activate_dayofmonth"]) ? $row["activate_dayofmonth"] : 0, 
+												   isset($row["activate_month"]) ? $row["activate_month"] : 0, 
+												   isset($row["activate_year"]) ? $row["activate_year"] : 0, false); ?>
+			</td>
 			<?
 		}
 		?>
@@ -639,7 +657,12 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0)
 		else 
 		{
 			?>
-			<td><? echo $row["expire_f"]; ?></td>
+			<td>
+				<? phpAds_showDateEdit('expire', isset($row["expire_dayofmonth"]) ? $row["expire_dayofmonth"] : 0, 
+												 isset($row["expire_month"]) ? $row["expire_month"] : 0, 
+												 isset($row["expire_year"]) ? $row["expire_year"] : 0, false); ?>
+			</td>
+
 			<?
 		}
 		?>
