@@ -8,6 +8,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			+ Added logging of hourly statistics for compact stats  (Niels) 20011121
 			+ Added affiliate statistics  (Niels) 20011125
 			+ Added target based priority  (Niels) 20011125
+			+ Added moving of banners, campaigns and zones  (Niels) 20011201
 
 			+ Misc changes to library and function names
 			  - Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 20011020
@@ -39,6 +40,9 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Added names in from and to headers when sending e-mails  (Matteo) 20011122
 			  - Added error message for possible exploit  (Niels) 20011125
 			  - Added support for compact stats to hourly stats page  (Niels) 20011128
+			  - Added application title to page title  (Niels) 20011201
+			  - Renamed some pages to make it more logical  (Niels) 20011201
+			  - Changed the icons of acls and activate/deactivate  (Niels) 20011201
 
 			+ Misc bugfixes
 			  - Removed extra comma from config.inc  (Matteo) 20011017
