@@ -16,7 +16,7 @@
 
 // Include required files
 require ("config.php");
-require ("../lib-priority.inc.php");
+require ("lib-banner.inc.php");
 
 
 // Security check
@@ -28,11 +28,39 @@ phpAds_checkAccess(phpAds_Admin);
 /* Main code                                             */
 /*********************************************************/
 
-$report = phpAds_PriorityCalculate();
+$res = phpAds_dbQuery("
+	SELECT
+		*
+	FROM
+		".$phpAds_config['tbl_banners']."
+");
 
-if ($report != '' && $phpAds_config['userlog_priority'])
-	phpAds_userlogAdd (phpAds_actionPriorityCalculation, 0, $report);
+while ($current = phpAds_dbFetchArray($res))
+{
+	// Rebuild filename
+	if ($current['storagetype'] == 'sql')
+		$current['imageurl'] = $phpAds_config['url_prefix']."/adimage.php?filename=".$current['filename']."&contenttype=".$current['contenttype'];
+	
+	if ($current['storagetype'] == 'web')
+		$current['imageurl'] = $phpAds_config['type_web_url'].'/'.$current['filename'];
+	
+	
+	
+	// Rebuild cache
+	$current['htmltemplate'] = stripslashes($current['htmltemplate']);
+	$current['htmlcache']    = addslashes(phpAds_getBannerCache($current));
+	
+	phpAds_dbQuery("
+		UPDATE
+			".$phpAds_config['tbl_banners']."
+		SET
+			htmlcache = '".$current['htmlcache']."',
+			imageurl  = '".$current['imageurl']."'
+		WHERE
+			bannerid = ".$current['bannerid']."
+	");
+}
 
-Header("Location: admin-priority.php");
+Header("Location: maintenance-banners.php");
 
 ?>

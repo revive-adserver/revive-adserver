@@ -90,6 +90,7 @@ $GLOBALS['strTo']							= "to";
 $GLOBALS['strLinkedTo'] 					= "linked to";
 $GLOBALS['strDaysLeft'] 					= "Days left";
 $GLOBALS['strCheckAllNone']					= "Check all / none";
+$GLOBALS['strKiloByte']						= "KB";
 
 
 // Properties
@@ -141,6 +142,7 @@ $GLOBALS['strMonths']						= "Months";
 $GLOBALS['strThisMonth'] 					= "This month";
 $GLOBALS['strMonth'] 						= array("January","February","March","April","May","June","July", "August", "September", "October", "November", "December");
 $GLOBALS['strDayShortCuts'] 				= array("Su","Mo","Tu","We","Th","Fr","Sa");
+$GLOBALS['strSeconds']						= "seconds";
 
 
 // Advertiser
@@ -207,17 +209,6 @@ $GLOBALS['strLowPriority']					= "Show banner in this campaign with low priority
 											   aren't used by high priority campaigns.";
 $GLOBALS['strTargetLimitAdviews']			= "Limit the number of AdViews to";
 $GLOBALS['strTargetPerDay']					= "per day.";
-$GLOBALS['strHighPriorityCampaigns']		= "High priority campaigns";
-$GLOBALS['strAdViewsAssigned']				= "AdViews assigned";
-$GLOBALS['strLowPriorityCampaigns']			= "Low priority campaigns";
-$GLOBALS['strPredictedAdViews']				= "Predicted AdViews";
-$GLOBALS['strPriorityDaysRunning']			= "There are currently {days} days worth of statistics available from where phpAdsNew can base its daily prediction on. ";
-$GLOBALS['strPriorityBasedLastWeek']		= "The prediction is based on data from this week and last week. ";
-$GLOBALS['strPriorityBasedLastDays']		= "The prediction is based on data from the last couple of days. ";
-$GLOBALS['strPriorityBasedYesterday']		= "The prediction is based on data from yesterday. ";
-$GLOBALS['strPriorityNoData']				= "There isn't enough data available to make a reliable prediction about the number of impressions this adserver will generate today. Priority assignments will be based on real time statistics only. ";
-$GLOBALS['strPriorityEnoughAdViews']		= "There should be enough AdViews to fully satisfy the target all high priority campaigns. ";
-$GLOBALS['strPriorityNotEnoughAdViews']		= "It isn't clear wether there will be enough AdViews served today to satisfy the target all high priority campaigns. Because of this all low priority campaigns are temporarily disabled. ";
 $GLOBALS['strPriorityAutoTargeting']		= "Distribute the remaining AdViews evenly over the remaining number of days. The target number of AdViews will be set accordingly every day.";
 
 
@@ -288,10 +279,6 @@ $GLOBALS['strRichMedia']					= "Richmedia";
 $GLOBALS['strTrackAdClicks']				= "Track AdClicks";
 
 
-// Banner (cache)
-$GLOBALS['strRebuildBannerCache']			= "Rebuild banner cache";
-
-
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] 				= "Display limitations";
 $GLOBALS['strACL'] 							= "Limitations";
@@ -346,17 +333,6 @@ $GLOBALS['strZoneProperties']				= "Zone properties";
 $GLOBALS['strZoneHistory']					= "Zone history";
 $GLOBALS['strNoZones']						= "There are currently no zones defined";
 $GLOBALS['strConfirmDeleteZone']			= "Do you really want to delete this zone?";
-
-
-// Zone (cache)
-$GLOBALS['strZoneCacheOn']					= "Zone caching is turned on";
-$GLOBALS['strZoneCacheOff']					= "Zone caching is turned off";
-$GLOBALS['strCachedZones']					= "Cached zones";
-$GLOBALS['strSizeOfCache']					= "Size of cache";
-$GLOBALS['strAverageAge']					= "Average age";
-$GLOBALS['strRebuildZoneCache']				= "Rebuild zone cache";
-$GLOBALS['strKiloByte']						= "KB";
-$GLOBALS['strSeconds']						= "seconds";
 
 
 // Linked banners/campaigns
@@ -470,7 +446,6 @@ $GLOBALS['strNoStatsForCampaign'] 			= "There are no statistics available for th
 
 // Priority
 $GLOBALS['strPriority']						= "Priority";
-$GLOBALS['strRecalculatePriority']			= "Recalculate priority";
 
 
 // Settings

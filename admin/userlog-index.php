@@ -28,7 +28,7 @@ phpAds_checkAccess(phpAds_Admin);
 /*********************************************************/
 
 phpAds_PageHeader("5.2");
-phpAds_ShowSections(array("5.1", "5.2"));
+phpAds_ShowSections(array("5.1", "5.3", "5.2"));
 
 // Load translations
 require ("../language/".strtolower($phpAds_config['language'])."/userlog.lang.php");

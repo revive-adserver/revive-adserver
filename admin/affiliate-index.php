@@ -30,7 +30,7 @@ phpAds_checkAccess(phpAds_Admin);
 /*********************************************************/
 
 phpAds_PageHeader("4.2");
-phpAds_ShowSections(array("4.1", "4.2", "4.3", "4.4"));
+phpAds_ShowSections(array("4.1", "4.2", "4.3"));
 
 
 
@@ -65,12 +65,7 @@ else
 /* Main code                                             */
 /*********************************************************/
 
-$stats['cachesize'] = 0;
-$stats['cachedzones'] = 0;
-$stats['cachetimestamp'] = 0;
-
 $loosezones = false;
-
 
 // Get affiliates and build the tree
 $res_affiliates = phpAds_dbQuery("
@@ -107,11 +102,6 @@ while ($row_zones = phpAds_dbFetchArray($res_zones))
 	}
 	else
 		$loosezones = true;
-	
-	$stats['cachetimestamp'] += $row_zones['cachetimestamp'];
-	$stats['cachesize'] += strlen($row_zones['cachecontents']);
-	if ($row_zones['cachecontents'] != '')
-		$stats['cachedzones']++;
 }
 
 
@@ -319,51 +309,6 @@ if ($loosezones)
 	echo "</tr>";
 	
 	echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-}
-
-echo "</table>";
-
-
-
-$stats['cachesize'] = round ($stats['cachesize'] / 1024);
-
-if ($stats['cachedzones'] == 0)
-	$stats['cachetimestamp'] = $strExpired;
-else
-{
-	$stats['cachetimestamp'] = time() - round ($stats['cachetimestamp'] / $stats['cachedzones']);
-	
-	if ($stats['cachetimestamp'] > $phpAds_config['zone_cache_limit'])
-		$stats['cachetimestamp'] = $strExpired;
-	else
-		$stats['cachetimestamp'] .= ' '.$strSeconds;
-}
-
-echo "<br><br><br><br>";
-echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
-echo "<tr><td height='25' colspan='3'><b>".$strOverall."</b></td></tr>";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-
-if (!$phpAds_config['zone_cache'])
-	echo "<tr><td height='25'>".$strZoneCacheOff."</b></td></tr>";
-else
-{
-	echo "<tr><td height='25'>".$strZoneCacheOn."</b></td></tr>";
-	
-	echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
-	
-	echo "<tr><td height='25'>".$strCachedZones.": <b>".$stats['cachedzones']."</b></td>";
-	echo "<td height='25'>".$strAverageAge.": <b>".$stats['cachetimestamp']."</b></td>";
-	echo "<td height='25'>".$strSizeOfCache.": <b>".$stats['cachesize']." ".$strKiloByte."</b></td></tr>";
-}
-
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-
-if ($phpAds_config['zone_cache'])
-{
-	echo "<tr height='25'><td colspan='3' height='25'>";
-	echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='zone-rebuildcache.php'>$strRebuildZoneCache</a>&nbsp;&nbsp;";
-	echo "</td></tr>";
 }
 
 echo "</table>";

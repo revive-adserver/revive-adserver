@@ -16,6 +16,7 @@
 
 // Include required files
 require ("config.php");
+require ("lib-maintenance.inc.php");
 require ("lib-statistics.inc.php");
 require ("lib-zones.inc.php");
 require ("../lib-priority.inc.php");
@@ -30,9 +31,9 @@ phpAds_checkAccess(phpAds_Admin);
 /* HTML framework                                        */
 /*********************************************************/
 
-phpAds_PageHeader("4.4");
-phpAds_ShowSections(array("4.1", "4.2", "4.3", "4.4"));
-
+phpAds_PageHeader("5.3");
+phpAds_ShowSections(array("5.1", "5.3", "5.2"));
+phpAds_MaintenanceSelection("priority");
 
 
 /*********************************************************/
@@ -206,7 +207,7 @@ else
 // Show recalculate button
 echo "<br><br>";
 phpAds_ShowBreak();
-echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='admin-priority-calculate.php'>$strRecalculatePriority</a>&nbsp;&nbsp;";
+echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-priority-calculate.php'>$strRecalculatePriority</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
 
 

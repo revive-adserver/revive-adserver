@@ -16,7 +16,9 @@
 
 // Include required files
 require ("config.php");
-require ("lib-banner.inc.php");
+require ("lib-maintenance.inc.php");
+require ("lib-statistics.inc.php");
+require ("lib-zones.inc.php");
 
 
 // Security check
@@ -25,42 +27,32 @@ phpAds_checkAccess(phpAds_Admin);
 
 
 /*********************************************************/
+/* HTML framework                                        */
+/*********************************************************/
+
+phpAds_PageHeader("5.3");
+phpAds_ShowSections(array("5.1", "5.3", "5.2"));
+phpAds_MaintenanceSelection("banners");
+
+
+/*********************************************************/
 /* Main code                                             */
 /*********************************************************/
 
-$res = phpAds_dbQuery("
-	SELECT
-		*
-	FROM
-		".$phpAds_config['tbl_banners']."
-");
+echo "<br>";
+echo $strBannerCacheExplaination;
+echo "<br><br>";
 
-while ($current = phpAds_dbFetchArray($res))
-{
-	// Rebuild filename
-	if ($current['storagetype'] == 'sql')
-		$current['imageurl'] = $phpAds_config['url_prefix']."/adimage.php?filename=".$current['filename']."&contenttype=".$current['contenttype'];
-	
-	if ($current['storagetype'] == 'web')
-		$current['imageurl'] = $phpAds_config['type_web_url'].'/'.$current['filename'];
-	
-	
-	
-	// Rebuild cache
-	$current['htmltemplate'] = stripslashes($current['htmltemplate']);
-	$current['htmlcache']    = addslashes(phpAds_getBannerCache($current));
-	
-	phpAds_dbQuery("
-		UPDATE
-			".$phpAds_config['tbl_banners']."
-		SET
-			htmlcache = '".$current['htmlcache']."',
-			imageurl  = '".$current['imageurl']."'
-		WHERE
-			bannerid = ".$current['bannerid']."
-	");
-}
+phpAds_ShowBreak();
+echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-banners-rebuild.php'>$strRebuildBannerCache</a>&nbsp;&nbsp;";
+phpAds_ShowBreak();
 
-Header("Location: client-index.php");
+
+
+/*********************************************************/
+/* HTML framework                                        */
+/*********************************************************/
+
+phpAds_PageFooter();
 
 ?>
