@@ -160,7 +160,7 @@ function phpAds_getClientInformation()
 			if (isset($GLOBALS['HTTP_FORWARDED']) && 		$GLOBALS['HTTP_FORWARDED'] != '') 		$client = $GLOBALS['HTTP_FORWARDED'];
 			if (isset($GLOBALS['HTTP_FORWARDED_FOR']) &&	$GLOBALS['HTTP_FORWARDED_FOR'] != '') 	$client = $GLOBALS['HTTP_FORWARDED_FOR'];
 			if (isset($GLOBALS['HTTP_X_FORWARDED']) &&		$GLOBALS['HTTP_X_FORWARDED'] != '') 	$client = $GLOBALS['HTTP_X_FORWARDED'];
-			if (isset($GLOBALS['HTTP_X_FORWARDED_FOR']) &&	$GLOBALS['HTTP_X_FORWARDED_FOR'] != '' 	$client = $GLOBALS['HTTP_X_FORWARDED_FOR'];
+			if (isset($GLOBALS['HTTP_X_FORWARDED_FOR']) &&	$GLOBALS['HTTP_X_FORWARDED_FOR'] != '') 	$client = $GLOBALS['HTTP_X_FORWARDED_FOR'];
 			if (isset($GLOBALS['HTTP_CLIENT_IP']) &&		$GLOBALS['HTTP_CLIENT_IP'] != '') 		$client = $GLOBALS['HTTP_CLIENT_IP'];
 			
 			// Get last item from list
