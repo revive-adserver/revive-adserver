@@ -829,11 +829,32 @@ function phpAds_PriorityCalculate()
 				}
 				
 				// BEGIN REPORTING
+				$debuglog .= "Target for campaign: ".$campaigns[$c]['target']." \n";
 				$debuglog .= "Remaining for campaign: $remaining_for_campaign \n";
 				$debuglog .= "Real impressions up till now: ".$campaigns[$c]['hits']." \n";
 				$debuglog .= "Expected impressions up till now: $expected_hits_this_period \n";
 				// END REPORTING
 				
+				
+				$current_deviance_from_prediction  = $campaigns[$c]['hits'] / $expected_hits_this_period; // > 1 = overdelivery, < 1 = underdelivery
+				$expected_today_without_correction = $campaigns[$c]['target'] * $current_deviance_from_prediction;
+				$expected_deviance_todays_in_hits  = $expected_today_without_correction - $campaigns[$c]['target'];
+				
+
+				// BEGIN REPORTING
+				$debuglog .= "Deviance from prediction: ".$current_deviance_from_prediction."x \n";
+				$debuglog .= "Total impressions expected without correction: $expected_today_without_correction \n";
+				$debuglog .= "Total deviance expected without correction: $expected_deviance_todays_in_hits \n";
+				// END REPORTING
+
+
+				$aggression = 2; // The deviance needs to be fixed in the remaining hours / agression
+				
+				$fix_in_no_hours = round(($maxperiod - $period) / $aggression);
+				$extra_to_assign = 0 - round($expected_deviance_todays_in_hits / $fix_in_no_hours);
+				$remaining_for_campaign += $extra_to_assign;
+				
+				/*
 				if ($period > 0)
 					$extra_to_assign = $expected_hits_this_period - $campaigns[$c]['hits'];
 				else
@@ -841,11 +862,14 @@ function phpAds_PriorityCalculate()
 				
 				$extra_to_assign  		 = $extra_to_assign * ($maxperiod - $period);
 				$remaining_for_campaign += $extra_to_assign;
+				*/
+				
 				
 				if ($remaining_for_campaign < 0)
 					$remaining_for_campaign = 0;
 				
 				// BEGIN REPORTING
+				$debuglog .= "Deviance needs to fixed in: $fix_in_no_hours hours (aggression ".$aggression.")\n";
 				$debuglog .= "Compensate by: $extra_to_assign \n";
 				$debuglog .= "Priority for whole campaign: $remaining_for_campaign \n";
 				// END REPORTING
