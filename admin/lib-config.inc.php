@@ -240,9 +240,9 @@ function phpAds_ConfigFileUpdatePrepare ()
 						$regs[2] = ' = ""';
 					
 					// Remove default values
-					if ($regs[1] == 'type_web_dir' && $regs[2] == '/home/myname/www/ads')	$regs[2] = ' = ""';
-					if ($regs[1] == 'type_web_ftp' && $regs[2] == 'ftp://user:password@ftp.myname.com/ads')	$regs[2] = ' = ""';
-					if ($regs[1] == 'type_web_url' && $regs[2] == 'http://www.myname.com/ads')	$regs[2] = ' = ""';
+					if ($regs[1] == 'type_web_dir' && strpos($regs[2], '/home/myname/www/ads') !== false)	$regs[2] = ' = ""';
+					if ($regs[1] == 'type_web_ftp' && strpos($regs[2], 'ftp://user:password@ftp.myname.com/ads') !== false)	$regs[2] = ' = ""';
+					if ($regs[1] == 'type_web_url' && strpos($regs[2], 'http://www.myname.com/ads') !== false)	$regs[2] = ' = ""';
 					
 					
 					// Don't trust url prefix, because the update might
@@ -267,6 +267,12 @@ function phpAds_ConfigFileUpdatePrepare ()
 					
 					if ($phpAds_settings_information[$regs[1]]['type'] == 'string')
 					{
+						// Update administrator password to its md5 value,
+						// because the updater function works only if the password
+						// is already saved on the db
+						if ($regs[1] == 'admin_pw')
+							$value = md5($value);
+						
 						// Add slashes because SettingsWriteFlush is designed to
 						// work with variables passed through magic_quotes_gpc
 						$value = addslashes($value);
