@@ -3,9 +3,12 @@
 require("config.php");
 require("kcsm.php");
 
+if (!isset($bannerID))
+    $bannerID = $Session["bannerID"];
+
 if($pageid == "client")
 {
-	$result = mysql_db_query($phpAds_db, "
+    $result = mysql_db_query($phpAds_db, "
 		SELECT
 			clientID
 		FROM
@@ -24,8 +27,6 @@ if($pageid == "client")
 	page_header();
 	show_nav("2.1");
 
-	if(!isset($bannerID))
-		$bannerID = $Session["bannerID"];
 	include("./detailstats.inc.php");
 	$Session["bannerID"] = $bannerID;
 	page_footer();
@@ -36,8 +37,6 @@ if($pageid == "admin")
 	kc_auth_admin();
 	page_header();
 	show_nav("1.4.1");
-	if (!isset($bannerID))
-		$bannerID = $Session["bannerID"];
 	include("./detailstats.inc.php");
 	$Session["bannerID"] = $bannerID;
 	page_footer();
