@@ -356,13 +356,13 @@ if (phpAds_isUser(phpAds_Admin))
 		{
 			if  (($orderdirection == "") || ($orderdirection == "down"))
 			{
-				echo '<a href="'.$PHP_SELF.'?listorder=name&orderdirection=up">';
-				echo '<img src="images/triangle-d.gif" border="0" alt="" title="">';
+				echo ' <a href="'.$PHP_SELF.'?listorder=name&orderdirection=up">';
+				echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 			}
 			else
 			{
-				echo '<a href="'.$PHP_SELF.'?listorder=name&orderdirection=down">';
-				echo '<img src="images/triangle-u.gif" border="0" alt="" title="">';
+				echo ' <a href="'.$PHP_SELF.'?listorder=name&orderdirection=down">';
+				echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 			}
 			echo '</a>';
 		}
@@ -372,13 +372,13 @@ if (phpAds_isUser(phpAds_Admin))
 		{
 			if  (($orderdirection == "") || ($orderdirection == "down"))
 			{
-				echo '<a href="'.$PHP_SELF.'?listorder=id&orderdirection=up">';
-				echo '<img src="images/triangle-d.gif" border="0" alt="" title="">';
+				echo ' <a href="'.$PHP_SELF.'?listorder=id&orderdirection=up">';
+				echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 			}
 			else
 			{
-				echo '<a href="'.$PHP_SELF.'?listorder=id&orderdirection=down">';
-				echo '<img src="images/triangle-u.gif" border="0" alt="" title="">';
+				echo ' <a href="'.$PHP_SELF.'?listorder=id&orderdirection=down">';
+				echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 			}
 			echo '</a>';
 		}
@@ -402,9 +402,9 @@ if (phpAds_isUser(phpAds_Admin))
 			if (isset($client['campaigns']))
 			{
 				if ($client['expand'] == '1')
-					echo "&nbsp;<a href='stats-index.php?collapse=".$client['clientID']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
+					echo "&nbsp;<a href='stats-index.php?listorder=".$listorder."&orderdirection=".$orderdirection."&collapse=".$client['clientID']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
 				else
-					echo "&nbsp;<a href='stats-index.php?expand=".$client['clientID']."'><img src='images/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
+					echo "&nbsp;<a href='stats-index.php?listorder=".$listorder."&orderdirection=".$orderdirection."&expand=".$client['clientID']."'><img src='images/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
 			}
 			else
 				echo "&nbsp;<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
@@ -446,9 +446,9 @@ if (phpAds_isUser(phpAds_Admin))
 					if (isset($campaigns[$ckey]['banners']))
 					{
 						if ($campaigns[$ckey]['expand'] == '1')
-							echo "<a href='stats-index.php?collapse=".$campaigns[$ckey]['clientID']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
+							echo "<a href='stats-index.php?listorder=".$listorder."&orderdirection=".$orderdirection."&collapse=".$campaigns[$ckey]['clientID']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
 						else
-							echo "<a href='stats-index.php?expand=".$campaigns[$ckey]['clientID']."'><img src='images/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
+							echo "<a href='stats-index.php?listorder=".$listorder."&orderdirection=".$orderdirection."&expand=".$campaigns[$ckey]['clientID']."'><img src='images/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
 					}
 					else
 						echo "<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
