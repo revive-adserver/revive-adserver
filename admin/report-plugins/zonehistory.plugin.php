@@ -66,7 +66,8 @@ function Plugin_ZonehistoryExecute($zoneid, $delimiter=",", $quotes="")
 	{
 		$res_query = "
 			SELECT
-				DATE_FORMAT(day, '".$date_format."') as day,
+				DATE_FORMAT(day, '%Y%m%d') as date,
+				DATE_FORMAT(day, '$date_format') as date_formatted
 				SUM(views) AS adviews,
 				SUM(clicks) AS adclicks
 			FROM
@@ -75,55 +76,63 @@ function Plugin_ZonehistoryExecute($zoneid, $delimiter=",", $quotes="")
 				zoneid = '".$zoneid."'
 			GROUP BY
 				day
+			ORDER BY
+				date
 		";
 		
 		$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
 		
 		while ($row_banners = phpAds_dbFetchArray($res_banners))
 		{
-			$stats [$row_banners['day']]['views'] = $row_banners['adviews'];
-			$stats [$row_banners['day']]['clicks'] = $row_banners['adclicks'];
+			$stats [$row_banners['date_formatted']]['views'] = $row_banners['adviews'];
+			$stats [$row_banners['date_formatted']]['clicks'] = $row_banners['adclicks'];
 		}
 	}
 	else
 	{
 		$res_query = "
 			SELECT
-				DATE_FORMAT(t_stamp, '".$date_format."') as day,
+				DATE_FORMAT(t_stamp, '%Y%m%d') as date,
+				DATE_FORMAT(t_stamp, '".$date_format."') as date_formatted,
 				count(bannerid) as adviews
 			FROM
 				".$phpAds_config['tbl_adviews']."
 			WHERE
 				zoneid = '".$zoneid."'
 			GROUP BY
-				day
+				date, date_formatted
+			ORDER BY
+				date
 		";
 		
 		$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
 		
 		while ($row_banners = phpAds_dbFetchArray($res_banners))
 		{
-			$stats [$row_banners['day']]['views'] = $row_banners['adviews'];
-			$stats [$row_banners['day']]['clicks'] = 0;
+			$stats [$row_banners['date_formatted']]['views'] = $row_banners['adviews'];
+			$stats [$row_banners['date_formatted']]['clicks'] = 0;
 		}
 		
 		$res_query = "
 			SELECT
-				DATE_FORMAT(t_stamp, '".$date_format."') as day,
+				DATE_FORMAT(t_stamp, '%Y%m%d') as date,
+				DATE_FORMAT(t_stamp, '".$date_format."') as date_formatted,
 				count(bannerid) as adclicks
 			FROM
 				".$phpAds_config['tbl_adclicks']."
 			WHERE
 				zoneid = '".$zoneid."'
 			GROUP BY
-				day
+				date, date_formatted
+			ORDER BY
+				date
 		";
 		
 		$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
 		
 		while ($row_banners = phpAds_dbFetchArray($res_banners))
 		{
-			$stats [$row_banners['day']]['clicks'] = $row_banners['adclicks'];
+			$stats [$row_banners['date_formatted']]['clicks'] = $row_banners['adclicks'];
 		}
 	}
 	
