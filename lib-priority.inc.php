@@ -860,7 +860,15 @@ function phpAds_PriorityCalculate()
 		$debuglog .= "No targeding needed, skipping profile prediction.\n";
 		// END REPORTING
 		
-		$available_for_others = $total_weight;
+		$total_campaign_weight = 0;
+		for (reset($campaigns);$c=key($campaigns);next($campaigns))
+			$total_campaign_weight += $campaigns[$c]['weight'];
+		
+		$total_banner_weight = 0;
+		for (reset($banners);$b=key($banners);next($banners))
+			$total_banner_weight += $banners[$b]['weight'];
+		
+		$available_for_others = $total_banner_weight * $total_campaign_weight;
 	}
 		
 		// BEGIN REPORTING

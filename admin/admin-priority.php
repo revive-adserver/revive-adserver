@@ -199,6 +199,8 @@ if ($campaigns_target)
 	else
 		echo $strPriorityNotEnoughAdViews;
 }
+else
+	$campaigns_target = 0;
 
 
 // Show recalculate button
@@ -232,12 +234,15 @@ echo "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break-l.
 	echo "<td height='25'>&nbsp;&nbsp;".$strLowPriorityCampaigns.": <b>".$campaigns_weight."</b></td>";
 	echo "<td height='25'>&nbsp;</td>";
 	echo "</tr>";
-	
-echo "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
-	echo "<tr height='25'>";
-	echo "<td height='25'>&nbsp;&nbsp;".$strPredictedAdViews.": <b>".$estimated_hits."</b></td>";
-	echo "<td height='25'>&nbsp;</td>";
-	echo "</tr>";
+
+if ($campaigns_target > 0)
+{
+	echo "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
+		echo "<tr height='25'>";
+		echo "<td height='25'>&nbsp;&nbsp;".$strPredictedAdViews.": <b>".$estimated_hits."</b></td>";
+		echo "<td height='25'>&nbsp;</td>";
+		echo "</tr>";
+}
 	
 echo "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 echo "</table>";
