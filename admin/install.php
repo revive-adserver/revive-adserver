@@ -444,8 +444,13 @@ if (phpAds_isUser(phpAds_Admin))
 				  keep in mind that setting up an ad server is not trivial. If you haven't read the manual at
 				  this point, we <strong>strongly recommend</strong> that you do so before you proceed with the installation. The
 				  manual will help you avoid potential problems in the future and will guide you through the following steps.";
+					
+			echo "<p><b>If you are trying to upgrade an existing installation of ".$phpAds_productname." you probably did not follow the
+				  instructions given in the manual. If you continue, ".$phpAds_productname." will try to do a clean install and all your
+					existing settings, inventory and statistics will be lost. If you want to upgrade an existing installation, please close this
+					window, read the manual and follow the instructions carefully.</b></p>";  
 			
-			echo "<p>The manual is included in every download of phpAdsNew and can be found in the <em>misc/documentation</em>
+			echo "<p>The manual is included in every download of ".$phpAds_productname." and can be found in the <em>misc/documentation</em>
 				  directory. For information about installing, updating and configuring ".$phpAds_productname.", please read the
 				  <a href='../misc/documentation/administrator-guide.pdf' target='_blank'>Administrator guide</a>. For information
 				  about managing your inventory and placing banners on your website, please read the <a href='../misc/documentation/user-guide.pdf' 
