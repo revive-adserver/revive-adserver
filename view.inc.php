@@ -79,34 +79,34 @@ function get_banner($what, $clientID, $context=0, $source="")
 	{
 		$select = "
 			SELECT
-				b.bannerID as bannerID,
-				b.banner as banner,
-				b.clientID as clientID,
-				b.format as format,
-				b.width as width,
-				b.height as height,
-				b.alt as alt,
-				b.bannertext as bannertext,
-				b.url as url,
-				b.weight as weight,
-				b.seq as seq,
-				b.target as target,
-				c.weight as clientweight
+				$phpAds_tbl_banners.bannerID as bannerID,
+				$phpAds_tbl_banners.banner as banner,
+				$phpAds_tbl_banners.clientID as clientID,
+				$phpAds_tbl_banners.format as format,
+				$phpAds_tbl_banners.width as width,
+				$phpAds_tbl_banners.height as height,
+				$phpAds_tbl_banners.alt as alt,
+				$phpAds_tbl_banners.bannertext as bannertext,
+				$phpAds_tbl_banners.url as url,
+				$phpAds_tbl_banners.weight as weight,
+				$phpAds_tbl_banners.seq as seq,
+				$phpAds_tbl_banners.target as target,
+				$phpAds_tbl_clients.weight as clientweight
 			FROM
-				$phpAds_tbl_banners as b,
-				$phpAds_tbl_clients as c
+				$phpAds_tbl_banners,
+				$phpAds_tbl_clients
 			WHERE
-				b.active = 'true' AND 
-				c.active = 'true' AND 
+				$phpAds_tbl_banners.active = 'true' AND 
+				$phpAds_tbl_clients.active = 'true' AND 
 				$where
-				b.clientID = c.clientID";
+				$phpAds_tbl_banners.clientID = $phpAds_tbl_clients.clientID";
 		
 		if($clientID != 0)
-			$select .= " AND b.clientID = $clientID ";
+			$select .= " AND $phpAds_tbl_banners.clientID = $clientID ";
 		
 		
 		// Rule
-		if(substr($what_parts[$wpc],0,5)=="rule:")
+		if(substr($what_parts[$wpc],0,5)=="zone:")
 		{
 			// Not yet implemented
 			// working on it --Niels
@@ -151,11 +151,11 @@ function get_banner($what, $clientID, $context=0, $source="")
 						list($width, $height) = explode("x", $what_array[$k]);
 							
 						if ($operator == "OR")
-							$conditions .= "OR (b.width = $width AND b.height = $height) ";
+							$conditions .= "OR ($phpAds_tbl_banners.width = $width AND $phpAds_tbl_banners.height = $height) ";
 						elseif ($operator == "AND")
-							$conditions .= "AND (b.width = $width AND b.height = $height) ";
+							$conditions .= "AND ($phpAds_tbl_banners.width = $width AND $phpAds_tbl_banners.height = $height) ";
 						else
-							$conditions .= "AND (b.width != $width OR b.height != $height) ";
+							$conditions .= "AND ($phpAds_tbl_banners.width != $width OR $phpAds_tbl_banners.height != $height) ";
 						
 						$onlykeywords = false;
 					}
@@ -169,11 +169,11 @@ function get_banner($what, $clientID, $context=0, $source="")
 						if ($what_array[$k] != "" && $what_array[$k] != " ")
 						{
 							if ($operator == "OR")
-								$conditions .= "OR b.bannerID='".trim($what_array[$k])."' ";
+								$conditions .= "OR $phpAds_tbl_banners.bannerID='".trim($what_array[$k])."' ";
 							elseif ($operator == "AND")
-								$conditions .= "AND b.bannerID='".trim($what_array[$k])."' ";
+								$conditions .= "AND $phpAds_tbl_banners.bannerID='".trim($what_array[$k])."' ";
 							else
-								$conditions .= "AND b.bannerID!='".trim($what_array[$k])."' ";
+								$conditions .= "AND $phpAds_tbl_banners.bannerID!='".trim($what_array[$k])."' ";
 						}
 						
 						$onlykeywords = false;
@@ -186,11 +186,11 @@ function get_banner($what, $clientID, $context=0, $source="")
 						if($what_array[$k]!="" && $what_array[$k]!=" ")
 						{
 							if ($operator == "OR")
-								$conditions .= "OR b.clientID='".trim($what_array[$k])."' ";
+								$conditions .= "OR $phpAds_tbl_banners.clientID='".trim($what_array[$k])."' ";
 							elseif ($operator == "AND")
-								$conditions .= "AND b.clientID='".trim($what_array[$k])."' ";
+								$conditions .= "AND $phpAds_tbl_banners.clientID='".trim($what_array[$k])."' ";
 							else
-								$conditions .= "AND b.clientID!='".trim($what_array[$k])."' ";
+								$conditions .= "AND $phpAds_tbl_banners.clientID!='".trim($what_array[$k])."' ";
 						}
 						
 						$onlykeywords = false;
@@ -203,11 +203,11 @@ function get_banner($what, $clientID, $context=0, $source="")
 						if($what_array[$k]!="" && $what_array[$k]!=" ")
 						{
 							if ($operator == "OR")
-								$conditions .= "OR b.format='".trim($what_array[$k])."' ";
+								$conditions .= "OR $phpAds_tbl_banners.format='".trim($what_array[$k])."' ";
 							elseif ($operator == "AND")
-								$conditions .= "AND b.format='".trim($what_array[$k])."' ";
+								$conditions .= "AND $phpAds_tbl_banners.format='".trim($what_array[$k])."' ";
 							else
-								$conditions .= "AND b.format!='".trim($what_array[$k])."' ";
+								$conditions .= "AND $phpAds_tbl_banners.format!='".trim($what_array[$k])."' ";
 						}
 						
 						$onlykeywords = false;
@@ -217,11 +217,11 @@ function get_banner($what, $clientID, $context=0, $source="")
 					elseif($what_array[$k] == "html")
 					{
 						if ($operator == "OR")
-							$conditions .= "OR b.format='html' ";
+							$conditions .= "OR $phpAds_tbl_banners.format='html' ";
 						elseif ($operator == "AND")
-							$conditions .= "AND b.format='html' ";
+							$conditions .= "AND $phpAds_tbl_banners.format='html' ";
 						else
-							$conditions .= "AND b.format!='html' ";
+							$conditions .= "AND $phpAds_tbl_banners.format!='html' ";
 						
 						$onlykeywords = false;
 					}
@@ -231,18 +231,18 @@ function get_banner($what, $clientID, $context=0, $source="")
 					{
 						if($phpAds_mult_key != "1")
 							if ($operator == "OR")
-								$conditions .= "OR b.keyword = '".trim($what_array[$k])."' ";
+								$conditions .= "OR $phpAds_tbl_banners.keyword = '".trim($what_array[$k])."' ";
 							elseif ($operator == "AND")
-								$conditions .= "AND b.keyword = '".trim($what_array[$k])."' ";
+								$conditions .= "AND $phpAds_tbl_banners.keyword = '".trim($what_array[$k])."' ";
 							else
-								$conditions .= "AND b.keyword != '".trim($what_array[$k])."' ";
+								$conditions .= "AND $phpAds_tbl_banners.keyword != '".trim($what_array[$k])."' ";
 						else
 							if ($operator == "OR")
-								$conditions .= "OR b.keyword LIKE '%".trim($what_array[$k])."%' ";
+								$conditions .= "OR $phpAds_tbl_banners.keyword LIKE '%".trim($what_array[$k])."%' ";
 							elseif ($operator == "AND")
-								$conditions .= "AND b.keyword LIKE '%".trim($what_array[$k])."%' ";
+								$conditions .= "AND $phpAds_tbl_banners.keyword LIKE '%".trim($what_array[$k])."%' ";
 							else
-								$conditions .= "AND b.keyword NOT LIKE '%".trim($what_array[$k])."%' ";
+								$conditions .= "AND $phpAds_tbl_banners.keyword NOT LIKE '%".trim($what_array[$k])."%' ";
 					}
 				}
 			}
@@ -253,7 +253,7 @@ function get_banner($what, $clientID, $context=0, $source="")
 			// Add global keyword
 			if (sizeof($what_parts) == 1 && $onlykeywords == true)
 	        {
-	        	$conditions .= "OR b.keyword = 'global' ";
+	        	$conditions .= "OR $phpAds_tbl_banners.keyword = 'global' ";
     	  	}
 			
 			// Add conditions to select
@@ -264,11 +264,11 @@ function get_banner($what, $clientID, $context=0, $source="")
 		
 		if($phpAds_random_retrieve != 0)
 		{
-			$seq_select = $select . " AND b.seq>0";
+			$seq_select = $select . " AND $phpAds_tbl_banners.seq>0";
 			
 			// Full sequential retrieval
 			if ($phpAds_random_retrieve == 3)
-				$seq_select .= " ORDER BY b.bannerID LIMIT 1";
+				$seq_select .= " ORDER BY $phpAds_tbl_banners.bannerID LIMIT 1";
 			
 			// First attempt to fetch a banner
 			$res = @db_query($seq_select);
@@ -276,14 +276,17 @@ function get_banner($what, $clientID, $context=0, $source="")
 			if (@mysql_num_rows($res) == 0)
 			{
 				// No banner left, reset all banners in this category to 'unused', try again below
-    			$del_select=strstr($select,'WHERE');
+				if (isset($conditions) && $conditions != "")
+					$del_select = "WHERE $conditions";
+				else
+					$del_select = "";
 				
 				if ($phpAds_random_retrieve == 2)
 					// Weight based sequential retrieval
-					$delete_select="UPDATE $phpAds_tbl_banners SET seq=weight ".$del_select;
+					$delete_select="UPDATE $phpAds_tbl_banners SET $phpAds_tbl_banners.seq=$phpAds_tbl_banners.weight ".$del_select;
 				else
 					// Normal sequential retrieval
-					$delete_select="UPDATE $phpAds_tbl_banners SET seq=1 ".$del_select;
+					$delete_select="UPDATE $phpAds_tbl_banners SET $phpAds_tbl_banners.seq=1 ".$del_select;
 				
 				@db_query($delete_select);
 				
