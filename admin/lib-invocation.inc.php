@@ -14,6 +14,18 @@
 
 
 
+// Load translations
+if (file_exists("../language/".strtolower($phpAds_config['language'])."/invocation.lang.php"))
+{
+	require ("../language/".strtolower($phpAds_config['language'])."/invocation.lang.php");
+}
+else
+{
+	require ("../language/english/invocation.lang.php");
+}
+
+
+
 /*********************************************************/
 /* Generate bannercode                                   */
 /*********************************************************/
@@ -217,7 +229,7 @@ function phpAds_GenerateInvocationCode()
 		switch($hostlanguage)
 		{
 			case 'php':
-				$buffer .= "<"."?php\n";
+				$buffer = "<"."?php\n";
 				$buffer .= "    // Remember to copy files in samples/xmlrpc/php to the same directory as your script\n\n";
 				$buffer .= "    require('lib-xmlrpc-class.inc.php');\n";
 				$buffer .= "    \$xmlrpcbanner = new phpAds_XmlRpc('$params[host]', '$params[path]'".
@@ -279,14 +291,14 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	echo "<tr><td height='25' colspan='3'><b>".$GLOBALS['strChooseInvocationType']."</b></td></tr>";
 	echo "<tr><td height='35'>";
 		echo "<select name='codetype' onChange=\"this.form.submit()\">";
-		echo "<option value='adview'".($codetype == 'adview' ? ' selected' : '').">Remote Invocation</option>";
-		echo "<option value='adjs'".($codetype == 'adjs' ? ' selected' : '').">Remote Invocation with JavaScript</option>";
-		echo "<option value='adframe'".($codetype == 'adframe' ? ' selected' : '').">Remote Invocation for iframes</option>";
-		echo "<option value='ad'".($codetype == 'ad' ? ' selected' : '').">Combined Remote Invocation</option>";
-		echo "<option value='popup'".($codetype == 'popup' ? ' selected' : '').">Pop-up</option>";
-		echo "<option value='adlayer'".($codetype == 'adlayer' ? ' selected' : '').">AdLayer</option>";
-		echo "<option value='xmlrpc'".($codetype == 'xmlrpc' ? ' selected' : '').">Remote invocation using XML-RPC</option>";
-		if (phpAds_isUser(phpAds_Admin)) echo "<option value='local'".($codetype == 'local' ? ' selected' : '').">Local mode</option>";
+		echo "<option value='adview'".($codetype == 'adview' ? ' selected' : '').">".$GLOBALS['strInvocationRemote']."</option>";
+		echo "<option value='adjs'".($codetype == 'adjs' ? ' selected' : '').">".$GLOBALS['strInvocationJS']."</option>";
+		echo "<option value='adframe'".($codetype == 'adframe' ? ' selected' : '').">".$GLOBALS['strInvocationIframes']."</option>";
+		echo "<option value='ad'".($codetype == 'ad' ? ' selected' : '').">".$GLOBALS['strInvocationCombined']."</option>";
+		echo "<option value='popup'".($codetype == 'popup' ? ' selected' : '').">".$GLOBALS['strInvocationPopUp']."</option>";
+		echo "<option value='adlayer'".($codetype == 'adlayer' ? ' selected' : '').">".$GLOBALS['strInvocationAdLayer']."</option>";
+		echo "<option value='xmlrpc'".($codetype == 'xmlrpc' ? ' selected' : '').">".$GLOBALS['strInvocationXmlRpc']."</option>";
+		if (phpAds_isUser(phpAds_Admin)) echo "<option value='local'".($codetype == 'local' ? ' selected' : '').">".$GLOBALS['strInvocationLocal']."</option>";
 		echo "</select>";
 		echo "&nbsp;<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0'>";
 	echo "</td></tr></table>";
@@ -339,7 +351,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	if (!$zone_invocation && isset($show['what']) && $show['what'] == true)
 	{
 		echo "<tr bgcolor='#F6F6F6'><td width='30'>&nbsp;</td>";
-		echo "<td width='200' valign='top'>What</td><td width='370'>";
+		echo "<td width='200' valign='top'>".$GLOBALS['strInvocationWhat']."</td><td width='370'>";
 			echo "<textarea class='flat' name='what' rows='3' cols='50' style='width:350px;'>".(isset($what) ? stripslashes($what) : '')."</textarea></td></tr>";
 		echo "<tr bgcolor='#F6F6F6'><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 		echo "<td bgcolor='#F6F6F6' colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
@@ -350,7 +362,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	if (!$zone_invocation && isset($show['clientid']) && $show['clientid'] == true)
 	{
 		echo "<tr bgcolor='#F6F6F6'><td width='30'>&nbsp;</td>";
-		echo "<td width='200'>ClientID</td><td width='370'>";
+		echo "<td width='200'>".$GLOBALS['strInvocationClientID']."</td><td width='370'>";
 		echo "<select name='clientid' style='width:175px;'>";
 			echo "<option value='0'>-</option>";
 		
@@ -381,7 +393,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	{
 	//	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 		echo "<tr><td width='30'>&nbsp;</td>";
-		echo "<td width='200'>Target</td><td width='370'>";
+		echo "<td width='200'>".$GLOBALS['strInvocationTarget']."</td><td width='370'>";
 			echo "<input class='flat' type='text' name='target' size='' value='".(isset($target) ? $target : '')."' style='width:175px;'></td></tr>";
 		echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	}
@@ -392,7 +404,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	{
 		echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 		echo "<tr><td width='30'>&nbsp;</td>";
-		echo "<td width='200'>Source</td><td width='370'>";
+		echo "<td width='200'>".$GLOBALS['strInvocationSource']."</td><td width='370'>";
 			echo "<input class='flat' type='text' name='source' size='' value='".(isset($source) ? $source : '')."' style='width:175px;'></td></tr>";
 		echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	}
@@ -403,7 +415,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	{
 		echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 		echo "<tr><td width='30'>&nbsp;</td>";
-		echo "<td width='200'>WithText</td>";
+		echo "<td width='200'>".$GLOBALS['strInvocationWithText']."</td>";
 		echo "<td width='370'><input type='radio' name='withText' value='1'".(isset($withText) && $withText != 0 ? ' checked' : '').">&nbsp;Yes<br>";
 		echo "<input type='radio' name='withText' value='0'".(!isset($withText) || $withText == 0 ? ' checked' : '').">&nbsp;No</td>";
 		echo "</tr>";
@@ -416,7 +428,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	{
 		echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 		echo "<tr><td width='30'>&nbsp;</td>";
-		echo "<td width='200'>Refresh after</td><td width='370'>";
+		echo "<td width='200'>".$GLOBALS['strIFrameRefreshAfter']."</td><td width='370'>";
 			echo "<input class='flat' type='text' name='refresh' size='' value='".(isset($refresh) ? $refresh : '')."' style='width:175px;'> sec</td></tr>";
 		echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	}
@@ -440,7 +452,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	{
 		echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 		echo "<tr><td width='30'>&nbsp;</td>";
-		echo "<td width='200'>Resize iframe to banner dimensions</td>";
+		echo "<td width='200'>".$GLOBALS['strIframeResizeToBanner']."</td>";
 		echo "<td width='370'><input type='radio' name='resize' value='1'".(isset($resize) && $resize == 1 ? ' checked' : '').">&nbsp;Yes<br>";
 		echo "<input type='radio' name='resize' value='0'".(!isset($resize) || $resize == 0 ? ' checked' : '').">&nbsp;No</td>";
 		echo "</tr>";
@@ -453,7 +465,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	{
 		echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 		echo "<tr><td width='30'>&nbsp;</td>";
-		echo "<td width='200'>Make the iframe transparent</td>";
+		echo "<td width='200'>".$GLOBALS['strIframeMakeTransparent']."</td>";
 		echo "<td width='370'><input type='radio' name='transparent' value='1'".(isset($transparent) && $transparent == 1 ? ' checked' : '').">&nbsp;Yes<br>";
 		echo "<input type='radio' name='transparent' value='0'".(!isset($transparent) || $transparent == 0 ? ' checked' : '').">&nbsp;No</td>";
 		echo "</tr>";
@@ -473,8 +485,10 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 				file_exists('../misc/layerstyles/'.$stylefile.'/layerstyle.inc.php'))
 			{
 				if (ereg('^[^.]', $stylefile))
-					$layerstyles[$stylefile] = str_replace("- ", "-", 
-						ucwords(str_replace("-", "- ", $stylefile)));
+					$layerstyles[$stylefile] = isset($GLOBALS['strAdLayerStyleName'][$stylefile]) ?
+						$GLOBALS['strAdLayerStyleName'][$stylefile] :
+						str_replace("- ", "-", 
+							ucwords(str_replace("-", "- ", $stylefile)));
 			}
 		}
 		closedir($stylesdir);
@@ -483,7 +497,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		
 		echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 		echo "<tr><td width='30'>&nbsp;</td>";
-		echo "<td width='200'>Layer Style</td><td width='370'>";
+		echo "<td width='200'>".$GLOBALS['strAdLayerStyle']."</td><td width='370'>";
 		echo "<select name='layerstyle' onChange='this.form.submit()' style='width:175px;'>";
 	
 		while (list($k, $v) = each($layerstyles))
@@ -500,9 +514,13 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	{
 		echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 		echo "<tr><td width='30'>&nbsp;</td>";
-		echo "<td width='200'>Pop-up type</td>";
-		echo "<td width='370'><input type='radio' name='popunder' value='0'".(!isset($popunder) || $popunder != '1' ? ' checked' : '').">&nbsp;Pop-up<br>";
-		echo "<input type='radio' name='popunder' value='1'".(isset($popunder) && $popunder == '1' ? ' checked' : '').">&nbsp;Pop-under</td>";
+		echo "<td width='200'>".$GLOBALS['strPopUpStyle']."</td>";
+		echo "<td width='370'><input type='radio' name='popunder' value='0'".
+			(!isset($popunder) || $popunder != '1' ? ' checked' : '').">&nbsp;".
+			$GLOBALS['strPopUpStylePopUp']."<br>";
+		echo "<input type='radio' name='popunder' value='1'".
+			(isset($popunder) && $popunder == '1' ? ' checked' : '').">&nbsp;".
+			$GLOBALS['strPopUpStylePopUnder']."</td>";
 		echo "</tr>";
 		echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	}
@@ -513,11 +531,11 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	{
 		echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 		echo "<tr><td width='30'>&nbsp;</td>";
-		echo "<td width='200'>Initial position (top)</td><td width='370'>";
-			echo "<input class='flat' type='text' name='top' size='' value='".(isset($top) ? $top : '-')."' style='width:175px;'> px</td></tr>";
+		echo "<td width='200'>".$GLOBALS['strPopUpTop']."</td><td width='370'>";
+			echo "<input class='flat' type='text' name='top' size='' value='".(isset($top) ? $top : '-')."' style='width:175px;'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
 		echo "<tr><td width='30'>&nbsp;</td>";
-		echo "<td width='200'>Initial position (left)</td><td width='370'>";
-			echo "<input class='flat' type='text' name='left' size='' value='".(isset($left) ? $left : '-')."' style='width:175px;'> px</td></tr>";
+		echo "<td width='200'>".$GLOBALS['strPopUpLeft']."</td><td width='370'>";
+			echo "<input class='flat' type='text' name='left' size='' value='".(isset($left) ? $left : '-')."' style='width:175px;'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
 		echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	}
 	
@@ -527,8 +545,8 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	{
 		echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 		echo "<tr><td width='30'>&nbsp;</td>";
-		echo "<td width='200'>Automatically close after</td><td width='370'>";
-			echo "<input class='flat' type='text' name='timeout' size='' value='".(isset($timeout) ? $timeout : '-')."' style='width:175px;'> sec</td></tr>";
+		echo "<td width='200'>".$GLOBALS['strAutoCloseAfter']."</td><td width='370'>";
+			echo "<input class='flat' type='text' name='timeout' size='' value='".(isset($timeout) ? $timeout : '-')."' style='width:175px;'> ".$GLOBALS['strAbbrSeconds']."</td></tr>";
 		echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	}
 	
@@ -543,12 +561,12 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	{
 		echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 		echo "<tr><td width='30'>&nbsp;</td>";
-		echo "<td width='200'>Host Language</td><td width='370'>";
+		echo "<td width='200'>".$GLOBALS['strXmlRpcLanguage']."</td><td width='370'>";
 		echo "<select name='hostlanguage'>";
 			echo "<option value='php'".($hostlanguage == 'php' ? ' selected' : '').">PHP</option>";
 	//		echo "<option value='php-xmlrpc'".($hostlanguage == 'php-xmlrpc' ? ' selected' : '').">PHP with built in XML-RPC extension</option>";
-			echo "<option value='asp'".($hostlanguage == 'asp' ? ' selected' : '').">ASP</option>";
-			echo "<option value='jsp'".($hostlanguage == 'jsp' ? ' selected' : '').">JSP</option>";
+	//		echo "<option value='asp'".($hostlanguage == 'asp' ? ' selected' : '').">ASP</option>";
+	//		echo "<option value='jsp'".($hostlanguage == 'jsp' ? ' selected' : '').">JSP</option>";
 		echo "</select>";
 		echo "</td></tr>";
 		echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";

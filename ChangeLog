@@ -26,6 +26,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			+ Added linking of zones to campaigns  (Niels) 20020220
 			+ Added a new method of linking banners for sites with many banners  (Niels) 20020220
 		  	+ Added campaign overview page for advertisers  (Niels) 20020224
+			+ Added campaign auto-targeting when expiration set and adviews purchased  (Matteo) 20020309
 
 			+ Misc changes to library and function names
 			  - Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 20011020
@@ -106,6 +107,9 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Added 'url' and 'clientid' to view_raw result array  (Matteo) 20020304
 			  - Added XML-RPC invocation  (Matteo) 20020307
 			  - Added AdLayers invocation with plug-in styles  (Matteo) 20020307
+			  - Changed lib-priority to skip profiling when no high-pri present
+			    and added some more information to debuglog for better tracing  (Matteo) 20020309
+			  - Added new language file for invocations  (Matteo) 20020309
 
 
 			+ Misc bugfixes

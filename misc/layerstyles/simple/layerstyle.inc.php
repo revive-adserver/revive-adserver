@@ -199,48 +199,48 @@ function phpAds_placeLayerSettings ()
 
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>Alignment</td><td width='370'>";
+	echo "<td width='200'>".$GLOBALS['strHAlignment']."</td><td width='370'>";
 	echo "<select name='align' style='width:175px;'>";
-		echo "<option value='left'".($align == 'left' ? ' selected' : '').">Left</option>";
-		echo "<option value='center'".($align == 'center' ? ' selected' : '').">Center</option>";
-		echo "<option value='right'".($align == 'right' ? ' selected' : '').">Right</option>";
+		echo "<option value='left'".($align == 'left' ? ' selected' : '').">".$GLOBALS['strLeft']."</option>";
+		echo "<option value='center'".($align == 'center' ? ' selected' : '').">".$GLOBALS['strCenter']."</option>";
+		echo "<option value='right'".($align == 'right' ? ' selected' : '').">".$GLOBALS['strRight']."</option>";
 	echo "</select>";
 	echo "</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>Vertical alignment</td><td width='370'>";
+	echo "<td width='200'>".$GLOBALS['strVAlignment']."</td><td width='370'>";
 	echo "<select name='valign' style='width:175px;'>";
-		echo "<option value='top'".($align == 'top' ? ' selected' : '').">Top</option>";
-		echo "<option value='middle'".($align == 'middle' ? ' selected' : '').">Middle</option>";
-		echo "<option value='bottom'".($align == 'bottom' ? ' selected' : '').">Bottom</option>";
+		echo "<option value='top'".($align == 'top' ? ' selected' : '').">".$GLOBALS['strTop']."</option>";
+		echo "<option value='middle'".($align == 'middle' ? ' selected' : '').">".$GLOBALS['strMiddle']."</option>";
+		echo "<option value='bottom'".($align == 'bottom' ? ' selected' : '').">".$GLOBALS['strBottom']."</option>";
 	echo "</select>";
 	echo "</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>Automatically close after</td><td width='370'>";
-		echo "<input class='flat' type='text' name='closetime' size='' value='".(isset($closetime) ? $closetime : '-')."' style='width:175px;'> sec</td></tr>";
+	echo "<td width='200'>".$GLOBALS['strAutoCloseAfter']."</td><td width='370'>";
+		echo "<input class='flat' type='text' name='closetime' size='' value='".(isset($closetime) ? $closetime : '-')."' style='width:175px;'> ".$GLOBALS['strAbbrSeconds']."</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>Banner padding</td><td width='370'>";
-		echo "<input class='flat' type='text' name='padding' size='' value='".$padding."' style='width:60px;'> pixels</td></tr>";
+	echo "<td width='200'>".$GLOBALS['strBannerPadding']."</td><td width='370'>";
+		echo "<input class='flat' type='text' name='padding' size='' value='".$padding."' style='width:60px;'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>Horiziontal shift</td><td width='370'>";
-		echo "<input class='flat' type='text' name='shifth' size='' value='".$shifth."' style='width:60px;'> pixels</td></tr>";
+	echo "<td width='200'>".$GLOBALS['strHShift']."</td><td width='370'>";
+		echo "<input class='flat' type='text' name='shifth' size='' value='".$shifth."' style='width:60px;'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>Vertival shift</td><td width='370'>";
-		echo "<input class='flat' type='text' name='shiftv' size='' value='".$shiftv."' style='width:60px;'> pixels</td></tr>";
+	echo "<td width='200'>".$GLOBALS['strVShift']."</td><td width='370'>";
+		echo "<input class='flat' type='text' name='shiftv' size='' value='".$shiftv."' style='width:60px;'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 }
 

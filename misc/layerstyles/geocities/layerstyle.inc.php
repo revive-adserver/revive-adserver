@@ -221,32 +221,32 @@ function phpAds_placeLayerSettings ()
 	if (!isset($align)) $align = 'right';
 	if (!isset($collapsetime)) $collapsetime = '-';
 	if (!isset($padding)) $padding = '2';
-	if (!isset($closetext)) $closetext = '[Close]';
+	if (!isset($closetext)) $closetext = $GLOBALS['strClose'];
 	
 
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>Alignment</td><td width='370'>";
+	echo "<td width='200'>".$GLOBALS['strAlignment']."</td><td width='370'>";
 	echo "<select name='align'>";
-		echo "<option value='left'".($align == 'left' ? ' selected' : '').">Left</option>";
-		echo "<option value='center'".($align == 'center' ? ' selected' : '').">Center</option>";
-		echo "<option value='right'".($align == 'right' ? ' selected' : '').">Right</option>";
+		echo "<option value='left'".($align == 'left' ? ' selected' : '').">".$GLOBALS['strLeft']."</option>";
+		echo "<option value='center'".($align == 'center' ? ' selected' : '').">".$GLOBALS['strCenter']."</option>";
+		echo "<option value='right'".($align == 'right' ? ' selected' : '').">".$GLOBALS['strRight']."</option>";
 	echo "</select>";
 	echo "</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>Automatically collapse after</td><td width='370'>";
-		echo "<input class='flat' type='text' name='collapsetime' size='' value='".(isset($collapsetime) ? $collapsetime : '-')."' style='width:175px;'> sec</td></tr>";
+	echo "<td width='200'>".$GLOBALS['strAutoCollapseAfter']."</td><td width='370'>";
+		echo "<input class='flat' type='text' name='collapsetime' size='' value='".(isset($collapsetime) ? $collapsetime : '-')."' style='width:175px;'> ".$GLOBALS['strAbbrSeconds']."</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>Close Text</td><td width='370'>";
-		echo "<input class='flat' type='text' name='closetext' size='' value='".(isset($closetext) ? $closetext : '[Close]')."' style='width:175px;'></td></tr>";
+	echo "<td width='200'>".$GLOBALS['strCloseText']."</td><td width='370'>";
+		echo "<input class='flat' type='text' name='closetext' size='' value='".$closetext."' style='width:175px;'></td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>Banner padding</td><td width='370'>";
+	echo "<td width='200'>".$GLOBALS['strBannerPadding']."</td><td width='370'>";
 		echo "<input class='flat' type='text' name='padding' size='' value='".(isset($padding) ? $padding : '0')."' style='width:60px;'> pixels</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 }
