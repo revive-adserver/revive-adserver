@@ -112,6 +112,17 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 		if ($HTTP_SERVER_VARS['SERVER_PORT'] == 443) $phpAds_config['url_prefix'] = str_replace ('http://', 'https://', $phpAds_config['url_prefix']);
 		
 		// Replace url_prefix with the domain name that is actually used
+		
+		/**************************************************************************/
+		/* WARNING: DO NOT MODIFY THESE LINES!                                    */
+		/**************************************************************************/
+		/* On the forums you might encounter posts suggesting that removing these */
+		/* lines will solve problems regarding running local mode on a different  */
+		/* virtual server. While it may seem that this is indeed true, it will    */
+		/* cause problems with MANY other features. You simply can't run local    */
+		/* mode on a different (virtual) server, so do not even try.              */
+		/**************************************************************************/
+		
 		if (isset($HTTP_SERVER_VARS['HTTP_HOST']))
 		{
 			if (preg_match('#//[^/]+:[0-9]+/#', $phpAds_config['url_prefix']))
