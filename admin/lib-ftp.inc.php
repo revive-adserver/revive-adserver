@@ -96,7 +96,7 @@ function ftp_mdtm($sock, $pathname)
 	}
 	if (ereg("^[123]", $response)) {
 		$mdtm = ereg_replace("^[0-9]{3} ([0-9]+)\r\n", "\\1", $response);
-		sscanf($mdtm, "%4d%2d%2d%2d%2d%2d", &$year, &$mon, &$day, &$hour, &$min, &$sec);
+		list ($year, $mon, $day, $hour, $min, $sec) = sscanf($mdtm, "%4d%2d%2d%2d%2d%2d");
 		$timestamp = mktime($hour, $min, $sec, $mon, $day, $year);
 		return $timestamp;
 	} else {
