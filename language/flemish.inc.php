@@ -139,6 +139,7 @@ $strNoMoveUp = "Kan de eerste rij niet omhoog plaatsen";
 $strACLAdd = "Voeg nieuwe $strACL toe";
 $strACLExist = "Bestaande $strACL:";
 $strLogin = "Inloggen";
+$strPreferences = "Preferences";
 
 $strTrackerImage = "Tracker image:";
 ?>

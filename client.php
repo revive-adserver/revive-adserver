@@ -3,7 +3,7 @@
 require ("config.php");
 require("kcsm.php");
 
-kc_auth_admin();
+if ($pageid=="admin") kc_auth_admin();
 if (!empty($clientID))
 	$Session["clientID"] = "$clientID";
 else
@@ -12,64 +12,90 @@ else
 // If submit is set, shove the data into the database (well, after some error checking)
 if (isset($submit))
 { // Do error checking
-
-	// If ID is not set, it should be a null-value for the auto_increment
-	$message = $strClientModified;
-	if (empty($Session["clientID"]))
+	if ($pageid=="admin")
 	{
-		$Session["clientID"] = "null";
-		$message = $strClientAdded;
+		// If ID is not set, it should be a null-value for the auto_increment
+		$message = $strClientModified;
+		if (empty($Session["clientID"]))
+		{
+			$Session["clientID"] = "null";
+			$message = $strClientAdded;
+		}
+
+		if (strtolower($unlimitedviews)=="on")
+			$views=-1;
+		if (strtolower($unlimitedclicks)=="on")
+			$clicks=-1;
+
+		if (strtolower($unlimiteddays_left)=="on")
+			$expire = '0000-00-00';
+		else
+			$expire = "DATE_ADD(CURDATE(), INTERVAL $days_left DAY)";
+
+		if($clicks>0 OR $views>0 OR $clicks==-1 OR $views==-1)
+		{
+			$active="true";
+			db_query("UPDATE $phpAds_tbl_banners SET active='$active' WHERE clientID='$clientID'");
+		}
+
+		$clientID=$Session["clientID"];
+		$res = db_query("
+			REPLACE INTO
+				$phpAds_tbl_clients(clientID,
+				clientname,
+				contact,
+				email,
+				views,
+				clicks,
+				clientusername,
+				clientpassword,
+				expire)
+			VALUES
+				('$clientID',
+				'$clientname',
+				'$contact',
+				'$email',
+				'$views',
+				'$clicks',
+				'$clientusername',
+				'$clientpassword',
+				$expire)")
+			or mysql_die();  
+		Header("Location: admin.php$fncpageid&message=".urlencode($message));
+		exit;
 	}
-
-	if (strtolower($unlimitedviews)=="on")
-		$views=-1;
-	if (strtolower($unlimitedclicks)=="on")
-		$clicks=-1;
-
-	if (strtolower($unlimiteddays_left)=="on")
-		$expire = '0000-00-00';
-	else
-		$expire = "DATE_ADD(CURDATE(), INTERVAL $days_left DAY)";
-
-	if($clicks>0 OR $views>0 OR $clicks==-1 OR $views==-1)
+	else 
 	{
-		$active="true";
-		db_query("UPDATE $phpAds_tbl_banners SET active='$active' WHERE clientID='$clientID'");
+		$message = $strClientModified;
+		$clientID=$Session["clientID"];
+		$res = db_query("
+			UPDATE 
+				$phpAds_tbl_clients
+			SET
+				clientname = '$clientname',
+				contact = '$contact',
+				email = '$email',
+				clientpassword = '$clientpassword'
+			WHERE
+				clientID = '$clientID'")
+			or mysql_die();  
+		Header("Location: index.php$fncpageid&message=".urlencode($message));
+		exit;
 	}
-
-	$clientID=$Session["clientID"];
-	$res = db_query("
-		REPLACE INTO
-			$phpAds_tbl_clients(clientID,
-			clientname,
-			contact,
-			email,
-			views,
-			clicks,
-			clientusername,
-			clientpassword,
-			expire)
-		VALUES
-			('$clientID',
-			'$clientname',
-			'$contact',
-			'$email',
-			'$views',
-			'$clicks',
-			'$clientusername',
-			'$clientpassword',
-			$expire)")
-		or mysql_die();  
-	Header("Location: admin.php$fncpageid&message=".urlencode($message));
-	exit;
 }
-
 page_header("$phpAds_name");
 
 // If we find an ID, means that we're in update mode  
 if (isset($clientID))
 {
-	show_nav("1.2");
+	if ($pageid=="admin")
+	{
+		show_nav("1.2");
+	}
+	else
+	{
+		show_nav("2.3");
+	}
 	$res = db_query("
 		SELECT
 			*,
@@ -98,93 +124,102 @@ if (empty($row["clicks"]))
 if (empty($days_left))
 	$days_left=-1;
 
+if ($pageid=="admin")
+{
+	?>
+
+	<script language="JavaScript">
+	<!--
+		function checkunlimitedviews()
+		{
+			if (eval(document.clientform.unlimitedviews.checked) == true)
+			{
+				document.clientform.views.value="<?print $GLOBALS['strUnlimited'];?>-->";
+			} else
+			{
+				document.clientform.views.value="";
+				document.clientform.views.focus();
+			}
+		}
+		function checkunlimitedclicks()
+		{
+			if (eval(document.clientform.unlimitedclicks.checked) == true)
+			{
+				document.clientform.clicks.value="<?print $GLOBALS['strUnlimited'];?>-->";
+			} else
+			{
+				document.clientform.clicks.value="";
+				document.clientform.clicks.focus();
+			}
+		}
+		function checkunlimiteddays_left()
+		{
+			if (eval(document.clientform.unlimiteddays_left.checked) == true)
+			{
+				document.clientform.days_left.value="<?print $GLOBALS['strUnlimited'];?>-->";
+			} else
+			{
+				document.clientform.days_left.value="";
+				document.clientform.days_left.focus();
+			}
+		}
+		function valid(form)
+		{
+			var views=parseInt(form.views.value);
+			if (!views)
+			{
+				if (eval(form.unlimitedviews.checked) == false)
+				{
+					alert("You must enter the number of views or select the unlimited box !");
+					return false;
+				}
+			} else if (views < 0)
+			{
+				alert("Negative views are not allowed");
+				return false;
+			}
+			var clicks=parseInt(form.clicks.value);
+			if (!clicks)
+			{
+				if (eval(form.unlimitedclicks.checked) == false)
+				{
+					alert("You must enter the number of clicks or select the unlimited box !");
+					return false;
+				}
+			} else if (clicks < 0)
+			{
+				alert("Negative clicks are not allowed");
+				return false;
+			}
+			var days_left=parseInt(form.days_left.value);
+			if (!days_left)
+			{
+				if (eval(form.unlimiteddays_left.checked) == false)
+				{
+					alert("You must enter the number of days or select the unlimited box !");
+					return false;
+				}
+			} else if (days_left < 0)
+			{
+				alert("Negative days are not allowed");
+				return false;
+			}
+		}
+	//-->
+	</script>
+	<?
+}
 ?>
-
-<script language="JavaScript">
-<!--
-	function checkunlimitedviews()
-	{
-		if (eval(document.clientform.unlimitedviews.checked) == true)
-		{
-			document.clientform.views.value="<?print $GLOBALS['strUnlimited'];?>-->";
-		} else
-		{
-			document.clientform.views.value="";
-			document.clientform.views.focus();
-		}
-	}
-	function checkunlimitedclicks()
-	{
-		if (eval(document.clientform.unlimitedclicks.checked) == true)
-		{
-			document.clientform.clicks.value="<?print $GLOBALS['strUnlimited'];?>-->";
-		} else
-		{
-			document.clientform.clicks.value="";
-			document.clientform.clicks.focus();
-		}
-	}
-	function checkunlimiteddays_left()
-	{
-		if (eval(document.clientform.unlimiteddays_left.checked) == true)
-		{
-			document.clientform.days_left.value="<?print $GLOBALS['strUnlimited'];?>-->";
-		} else
-		{
-			document.clientform.days_left.value="";
-			document.clientform.days_left.focus();
-		}
-	}
-	function valid(form)
-	{
-		var views=parseInt(form.views.value);
-		if (!views)
-		{
-			if (eval(form.unlimitedviews.checked) == false)
-			{
-				alert("You must enter the number of views or select the unlimited box !");
-				return false;
-			}
-		} else if (views < 0)
-		{
-			alert("Negative views are not allowed");
-			return false;
-		}
-		var clicks=parseInt(form.clicks.value);
-		if (!clicks)
-		{
-			if (eval(form.unlimitedclicks.checked) == false)
-			{
-				alert("You must enter the number of clicks or select the unlimited box !");
-				return false;
-			}
-		} else if (clicks < 0)
-		{
-			alert("Negative clicks are not allowed");
-			return false;
-		}
-		var days_left=parseInt(form.days_left.value);
-		if (!days_left)
-		{
-			if (eval(form.unlimiteddays_left.checked) == false)
-			{
-				alert("You must enter the number of days or select the unlimited box !");
-				return false;
-			}
-		} else if (days_left < 0)
-		{
-			alert("Negative days are not allowed");
-			return false;
-		}
-	}
-//-->
-</script>
-
 <form name="clientform" method="post" action="<?echo basename($PHP_SELF);?>" onSubmit="return valid(this)">
 <input type="hidden" name="clientID" value="<?if(IsSet($clientID)) echo $clientID;?>">
 <table>
 	<tr>
-		<td></td><td></td><td><?print $GLOBALS['strUnlimited'];?></td>
+		<td></td><td></td><td>
+		<?
+		if ($pageid=="admin") 
+		print $GLOBALS['strUnlimited'];
+		?>
+		</td>
 	</tr>
 	<tr>
 		<td><?echo $strClientName;?>:</td>
@@ -201,22 +236,73 @@ if (empty($days_left))
 	</tr>
 	<tr>
 		<td><?echo $strViewsPurchased;?>:</td>
-		<td><input type="text" name="views" value="<?if($row["views"]!=-1)echo $row["views"];else echo $GLOBALS['strUnlimited'].'-->';?>"></td>
-		<td align=center><input type="checkbox" name="unlimitedviews"<?if($row["views"]==-1)print " CHECKED";?> onClick="checkunlimitedviews();"></td>
+		<?
+		if ($pageid=="admin") 
+		{
+			?>
+			<td><input type="text" name="views" value="<?if($row["views"]!=-1)echo $row["views"];else echo $GLOBALS['strUnlimited'].'-->';?>"></td>
+			<td align=center><input type="checkbox" name="unlimitedviews"<?if($row["views"]==-1)print " CHECKED";?> onClick="checkunlimitedviews();"></td>
+			<?
+		}
+		else {
+			?>
+			<td bgcolor= "#ECECFF"><?if($row["views"]!=-1)echo $row["views"];else echo $GLOBALS['strUnlimited'].'-->';?></td>
+			<td align=center></td>
+			<?
+		}
+		?>
 	</tr>
 	<tr>
 		<td><?echo $strClicksPurchased;?>:</td>
-		<td><input type="text" name="clicks" value="<?if($row["clicks"]!=-1)echo $row["clicks"];else echo $GLOBALS['strUnlimited'].'-->';?>"></td>
-		<td align=center><input type="checkbox" name="unlimitedclicks"<?if($row["clicks"]==-1)print " CHECKED";?> onClick="checkunlimitedclicks();"></td>
+		<?
+		if ($pageid=="admin") 
+		{
+			?>
+			<td><input type="text" name="clicks" value="<?if($row["clicks"]!=-1)echo $row["clicks"];else echo $GLOBALS['strUnlimited'].'-->';?>"></td>
+			<td align=center><input type="checkbox" name="unlimitedclicks"<?if($row["clicks"]==-1)print " CHECKED";?> onClick="checkunlimitedclicks();"></td>
+			<?
+		}
+		else {
+			?>
+			<td bgcolor= "#ECECFF"><?if($row["clicks"]!=-1)echo $row["clicks"];else echo $GLOBALS['strUnlimited'].'-->';?></td>
+			<td align=center></td>
+			<?
+		}
+		?>
 	</tr>
 	<tr>
 		<td><?echo $strDaysPurchased;?>:</td>
-		<td><input type="text" name="days_left" value="<?if($days_left!=-1)echo $days_left;else echo $GLOBALS['strUnlimited'].'-->';?>"></td>
-		<td align=center><input type="checkbox" name="unlimiteddays_left"<?if($days_left==-1)print " CHECKED";?> onClick="checkunlimiteddays_left();"></td>
+		<?
+		if ($pageid=="admin") 
+		{
+			?>
+			<td><input type="text" name="days_left" value="<?if($days_left!=-1)echo $days_left;else echo $GLOBALS['strUnlimited'].'-->';?>"></td>
+			<td align=center><input type="checkbox" name="unlimiteddays_left"<?if($days_left==-1)print " CHECKED";?> onClick="checkunlimiteddays_left();"></td>
+			<?
+		}
+		else {
+			?>
+			<td bgcolor= "#ECECFF"><?if($days_left!=-1)echo $days_left;else echo $GLOBALS['strUnlimited'].'-->';?></td>
+			<td align=center></td>
+			<?
+		}
+		?>
 	</tr>
 	<tr>
 		<td><?echo $strUsername;?>:</td>
-		<td><input type="text" name="clientusername" value="<?if(isset($row["clientusername"]))echo $row["clientusername"];?>">
+		<?
+		if ($pageid=="admin") 
+		{
+			?>
+			<td><input type="text" name="clientusername" value="<?if(isset($row["clientusername"]))echo $row["clientusername"];?>">
+			<?
+		}
+		else {
+			?>
+			<td bgcolor= "#ECECFF"><?if(isset($row["clientusername"]))echo $row["clientusername"];?>
+			<?
+		}
+		?>
 	</tr>
 	<tr>
 		<td><?echo $strPassword;?>:</td>
@@ -228,7 +314,6 @@ if (empty($days_left))
 	</tr>
 </table>
 </form>
-
 <?
 page_footer();
 ?>

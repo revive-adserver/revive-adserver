@@ -80,11 +80,11 @@ $strMailBannerStats = 'ci-dessous vous trouverez les statistiques des bandeaux p
 $strMailFooter = 'Cordialement,\n   $phpAds_admin_fullname';
 $strMailNothingLeft = "vous n'avez plus d'affichages sur votre compte chez nous. En conséquence, vos bandeaux ont été désactivés.\n\nSi vous voulez achetez des affichages supplémentaires, prière de nous contacter. Nous serons heureux d'avoir de vos nouvelles.";
 $strLogMailSent = "[phpAds] Statistiques envoyées avec succès.";
-$strLogErrorClients = "[phpAds] Une erreur a eue lieue en tentant de récupérer les clients de la base de données.";
-$strLogErrorBanners = "[phpAds] Une erreur a eue lieue en tentant de récupérer les bandeaux de la base de données.";
-$strLogErrorViews = "[phpAds] Une erreur a eue lieue en tentant de récupérer les affichages de la base de données.";
-$strLogErrorClicks = "[phpAds] Une erreur a eue lieue en tentant de récupérer les affichages/clics de la base de données.";
-$strLogErrorDisactivate = "[phpAds] Une erreur a eue lieue en tentant de désactiver un bandeau.";
+$strLogErrorClients = "[phpAds] Une erreur a eu lieu en tentant de récupérer les clients de la base de données.";
+$strLogErrorBanners = "[phpAds] Une erreur a eu lieu en tentant de récupérer les bandeaux de la base de données.";
+$strLogErrorViews = "[phpAds] Une erreur a eu lieu en tentant de récupérer les affichages de la base de données.";
+$strLogErrorClicks = "[phpAds] Une erreur a eu lieu en tentant de récupérer les affichages/clics de la base de données.";
+$strLogErrorDisactivate = "[phpAds] Une erreur a eu lieu en tentant de désactiver un bandeau.";
 $strRatio = "Pourcentage de clics";
 $strChooseBanner = "Veuillez choisir le type de bandeau.";
 $strMySQLBanner = "Bandeau stocké dans MySQL";
@@ -141,6 +141,7 @@ $strNoMoveUp = "ne pas monter la premiere ligne";
 $strACLAdd = "Ajouter nouveau $strACL";
 $strACLExist = "$strACL existant:";
 $strLogin = "Login";
+$strPreferences = "Préférences";
 
 $strTrackerImage = "Tracker image:";
 ?>

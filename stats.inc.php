@@ -150,6 +150,15 @@ list($desc,$enddate,$daysleft)=days_left($clientID);
 	<tr>
 		<td bgcolor="#CCCCCC"><? echo $desc; ?></td>
 		<td bgcolor="#CCCCCC">
+		</td>
+	</tr>
+	<tr>
+		<td bgcolor="<?echo $bgcolor;?>">
+		<?
+		print "<a href=\"client.php$fncpageid&clientID=$clientID\">$strPreferences</a>";
+		?>
+		</td>
+		<td bgcolor="<?echo $bgcolor;?>">
 <?
 if ($totaladclicks > 0 || $totaladviews > 0)
 {

@@ -1,4 +1,6 @@
 phpAdsNew - ChangeLog
+			+ Bugfix : Home wasn't translated in the client view (Cedric)
+			+ Added the preferences for client(Cedric)
 			+ Added two extra banner retrieval methods (Niels)
 			+ Added the no stats for this banner message in the client stats (Cedric)
 			+ Translate No expiration date set also (Cedric)

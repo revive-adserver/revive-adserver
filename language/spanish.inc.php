@@ -139,6 +139,7 @@ $strNoMoveUp = "Can't move up first row";
 $strACLAdd = "Add new $strACL";
 $strACLExist = "Existing $strACL:";
 $strLogin = "Entrar";
+$strPreferences = "Preferences";
 
 $strTrackerImage = "Tracker image:";
 ?>

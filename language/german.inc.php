@@ -141,6 +141,7 @@ $strNoMoveUp = "Erste Zeile kann nicht vorgesetzt werden";
 $strACLAdd = "Neue Regel hinzuf&uuml;gen:";
 $strACLExist = "Bestehende Regeln:";
 $strLogin = "Login";
+$strPreferences = "Preferences";
 
 $strTrackerImage = "Tracker image:";
 ?>

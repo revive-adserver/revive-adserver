@@ -18,9 +18,10 @@ $pages = array(
 	"1.4.2" => array("weeklystats.php$fncpageid"=>"$strWeeklyStats"),
 	"1.5" => array("detailstats.php$fncpageid"=>"$strDetailStats"),
 	"1.6" => array("liststats.php$fncpageid"=>"$strCreditStats"),
-	"2" => array("index.php$fncpageid"=>"Home"),
+	"2" => array("index.php$fncpageid"=>"$strHome"),
 	"2.1" => array("detailstats.php$fncpageid"=>"$strDetailStats"),
 	"2.1.1" => array("dailystats.php$fncpageid"=>"$strDailyStats"),
-	"2.2" => array("weeklystats.php$fncpageid"=>"$strWeeklyStats")
+	"2.2" => array("weeklystats.php$fncpageid"=>"$strWeeklyStats"),
+	"2.3" => array("client.php$fncpageid"=>"$strModifyClient")
 );
 ?>
