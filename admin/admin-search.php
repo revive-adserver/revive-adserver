@@ -448,12 +448,12 @@ if ($client != true &&
 		   	
 			// Empty
 			echo "<td height='25'>";
-			echo "<a href='JavaScript:GoOpener(\"zone-include.php?zoneid=".$row_zones['bannerID']."\")'><img src='images/icon-zone-linked.gif' border='0' align='absmiddle' alt='$strIncludedBanners'>&nbsp;$strIncludedBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+			echo "<a href='JavaScript:GoOpener(\"zone-include.php?zoneid=".$row_zones['zoneid']."\")'><img src='images/icon-zone-linked.gif' border='0' align='absmiddle' alt='$strIncludedBanners'>&nbsp;$strIncludedBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 			echo "</td>";
 			
 			// Button 1
 			echo "<td height='25'>";
-			echo "<a href='JavaScript:GoOpener(\"zone-delete.php?zoneid=".$row_zones['bannerID']."\")'><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+			echo "<a href='JavaScript:GoOpener(\"zone-delete.php?zoneid=".$row_zones['zoneid']."\")'><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 			echo "</td></tr>";
 			
 			$i++;
