@@ -86,12 +86,14 @@ $phpAds_nav = array (
 
 	"client" => array (
 		"1"					=>  array("index.php" => $strHome),
-		  "1.1"				=> 	array("stats-campaign.php?campaignID=$campaignID" => $strCampaignStats),
-		  	"1.1.1"			=> 	array("stats-details.php?campaignID=$campaignID&bannerID=$bannerID" => $strDetailStats),
-		      "1.1.1.1"		=> 	array("stats-daily.php" => $strDailyStats),
-		  	"1.1.2"			=> 	array("stats-weekly.php" => $strWeeklyStats),
-		    "1.1.3"			=> 	array("banner-edit.php?campaignID=$campaignID&bannerID=$bannerID" => $strModifyBanner),
-		  "1.2"				=>  array("stats-client.php" => $strClientStats)
+		  "1.1"				=>  array("index.php" => $strOverview),
+		    "1.1.1"			=> 	array("stats-campaign.php?campaignID=$campaignID" => $strCampaignStats),
+		  	  "1.1.1.1"		=> 	array("stats-details.php?campaignID=$campaignID&bannerID=$bannerID" => $strDetailStats),
+		        "1.1.1.1.1"	=> 	array("stats-daily.php" => $strDailyStats),
+		      "1.1.1.2"		=> 	array("banner-edit.php?campaignID=$campaignID&bannerID=$bannerID" => $strModifyBanner),
+		    "1.1.2"			=> 	array("stats-campaign-history.php?campaignID=$campaignID" => $strHistory),
+	  	    "1.1.3"			=> 	array("stats-weekly.php?campaignID=$campaignID" => $strWeeklyStats),
+	      "1.2"				=>  array("stats-client.php" => $strHistory),
 	)
 );
 

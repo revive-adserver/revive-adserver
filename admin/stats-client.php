@@ -74,14 +74,15 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	phpAds_PageHeader("2.1.1", $extra);
 	phpAds_ShowSections(array("2.1.1"));
+	
+	echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientID)."</b>";
 }
 
 if (phpAds_isUser(phpAds_Client))
 {
 	phpAds_PageHeader("1.2", $extra);
+	phpAds_ShowSections(array("1.1", "1.2"));
 }
-
-echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientID)."</b>";
 
 echo "<br><br>";
 echo "<br><br>";

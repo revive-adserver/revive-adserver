@@ -84,7 +84,8 @@ if (phpAds_isUser(phpAds_Client))
 		}
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		
-		phpAds_PageHeader('1.1.2', $extra);
+		phpAds_PageHeader('1.1.3', $extra);
+		phpAds_ShowSections(array("1.1.1", "1.1.2", "1.1.3"));
 	}
 }
 

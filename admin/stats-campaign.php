@@ -57,7 +57,8 @@ if (phpAds_isUser(phpAds_Client))
 		}
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		
-		phpAds_PageHeader("1.1", $extra);
+		phpAds_PageHeader("1.1.1", $extra);
+		phpAds_ShowSections(array("1.1.1", "1.1.2", "1.1.3"));
 	}
 	else
 	{
@@ -243,8 +244,11 @@ else
 /* Main code                                             */
 /*********************************************************/
 
-echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignID);
-echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+if (phpAds_isUser(phpAds_Admin))
+{
+	echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignID);
+	echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+}
 echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignID)."</b>";
 
 echo "<br><br>";

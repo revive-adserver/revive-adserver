@@ -74,7 +74,8 @@ if (phpAds_isUser(phpAds_Admin))
 
 if (phpAds_isUser(phpAds_Client))
 {
-	phpAds_PageHeader("1");
+	phpAds_PageHeader("1.1");
+	phpAds_ShowSections(array("1.1", "1.2"));
 }
 
 if (isset($message))
@@ -91,6 +92,17 @@ echo "<br><br>";
 /*********************************************************/
 /* Main code                                             */
 /*********************************************************/
+
+if (phpAds_isUser(phpAds_Client) && $phpAds_client_welcome)
+{
+	// Show welcome message
+	include ('templates/welcome.html');
+	
+	echo "<br><br>";
+}
+
+
+
 
 // Get clients & campaign and build the tree
 if (phpAds_isUser(phpAds_Admin))

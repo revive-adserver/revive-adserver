@@ -110,7 +110,8 @@ if (phpAds_isUser(phpAds_Admin))
 
 if (phpAds_isUser(phpAds_Client))
 {
-	phpAds_PageHeader("1.1.1", $extra);
+	phpAds_PageHeader("1.1.1.1", $extra);
+	phpAds_ShowSections(array("1.1.1.1"));
 }
 
 
@@ -119,23 +120,29 @@ if (phpAds_isUser(phpAds_Client))
 /* Main code                                             */
 /*********************************************************/
 
-?>
 
-<table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
-	<tr><td height='25' colspan='4'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getParentName($campaignID);?>
-									&nbsp;<img src='images/caret-rs.gif'>&nbsp;
-									<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getClientName($campaignID);?>
-									&nbsp;<img src='images/caret-rs.gif'>&nbsp;
-									<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b><?php echo phpAds_getBannerName($bannerID);?></b></td></tr>
-  <tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-  <tr><td colspan='4' align='left'><br><?php echo phpAds_getBannerCode($bannerID);?></td></tr>
-</table>
+echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
+echo "<tr><td height='25' colspan='4'>";
 
-<br><br>
-<br><br>
-<br><br>
+if (phpAds_isUser(phpAds_Admin))
+{
+	echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignID);
+	echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+}
+echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignID);
+echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerID);
 
-<?php
+echo "</b></td></tr>";
+echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "<tr><td colspan='4' align='left'><br>".phpAds_getBannerCode($bannerID)."</td></tr>";
+echo "</table>";
+
+echo "<br><br>";
+echo "<br><br>";
+echo "<br><br>";
+
+
 
 if (!isset($limit) || $limit=='') $limit = '7';
 
