@@ -159,7 +159,7 @@ function phpAds_PageHeader($ID, $extra="")
 			$searchbar .= "<tr height='24'>";
 			$searchbar .= "<td height='24'><img src='images/".$phpAds_TextDirection."/tab-sb.gif' height='24' width='10'></td>";
 			$searchbar .= "<td class='tab-u'>$strSearch:</td>";
-			$searchbar .= "<td>&nbsp;&nbsp;<input type='text' name='keyword' size='15'>&nbsp;&nbsp;</td>";
+			$searchbar .= "<td>&nbsp;&nbsp;<input type='text' name='keyword' size='15' class='search'>&nbsp;&nbsp;</td>";
 			$searchbar .= "<td><a href=\"javascript:search_window(document.search.keyword.value,'".$phpAds_config['url_prefix']."/admin/admin-search.php');\"><img src='images/".$phpAds_TextDirection."/go.gif' border='0'></a></td>";
 			$searchbar .= "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
 			$searchbar .= "</tr>";
@@ -179,6 +179,10 @@ function phpAds_PageHeader($ID, $extra="")
 	}
 	
 	
+	
+	// Use gzip content compression
+	if ($phpAds_config['content_gzip_compression'])
+		ob_start("ob_gzhandler");
 	
 	// Send header with charset info
 	header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
