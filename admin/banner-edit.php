@@ -420,7 +420,7 @@ else
 	</tr>
 	<tr>
 		<td width='30'>&nbsp;</td>	
-		<td width='200'>Size</td>
+		<td width='200'><?echo $strSize;?></td>
 		<td>
 			<?echo $strWidth;?>: <input size="5" type="text" name="url_width" value="<?if (isset($type) && $type == "url") echo $row["width"];?>">
 			&nbsp;&nbsp;&nbsp;
@@ -466,7 +466,7 @@ else
 	</tr>
 	<tr>
 		<td width='30'>&nbsp;</td>	
-		<td width='200'>Size</td>
+		<td width='200'><?echo $strSize;?></td>
 		<td>
 			<?echo $strWidth;?>: <input size="5" type="text" name="html_width" value="<?if (isset($type) && $type == "html") echo $row["width"];?>">
 			&nbsp;&nbsp;&nbsp;
