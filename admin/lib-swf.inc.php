@@ -24,8 +24,8 @@ define ('swf_tag_actiongeturl2', 	 chr(0x9A).chr(0x01));
 
 
 // Define preferences
-$swf_variable		= 'targeturl';		// The name of the ActionScript variable
-$swf_default_target	= '_blank';			// If set it will replace the targets, otherwise leave empty
+$swf_variable		= 'alink';		// The name of the ActionScript variable
+$swf_default_target	= '_blank';		// If set it will replace the targets, otherwise leave empty
 
 
 
@@ -107,6 +107,7 @@ function phpAds_SWFConvert($buffer)
 	
 	$parameters = array();
 	$pos = 0;
+	$linkcount = 1;
 	
 	while ($result = strpos($buffer, swf_tag_geturl, $pos))
 	{
@@ -124,7 +125,7 @@ function phpAds_SWFConvert($buffer)
 			if ($swf_default_target)
 				$parameter_target = $swf_default_target;
 			
-			$replacement = swf_tag_actionpush.chr(strlen($swf_variable)+2).swf_tag_null.swf_tag_null.$swf_variable.swf_tag_null.
+			$replacement = swf_tag_actionpush.chr(strlen($swf_variable.$linkcount)+2).swf_tag_null.swf_tag_null.$swf_variable.$linkcount.swf_tag_null.
 						   swf_tag_actiongetvariable.
 						   swf_tag_actionpush.chr(strlen($parameter_target)+2).swf_tag_null.swf_tag_null.$parameter_target.swf_tag_null.
 						   swf_tag_actiongeturl2;
@@ -148,12 +149,15 @@ function phpAds_SWFConvert($buffer)
 						   substr($buffer, $result + strlen($replacement), strlen($buffer) - ($result + strlen($replacement)));
 		   	
 			$buffer = $replacement;
+			
+			$parameters[] = $parameter_url;
+			$linkcount++;
 		}
 		
 		$pos = $result;
 	}
 	
-	return ($buffer);
+	return (array($buffer, $parameters));
 }
 
 ?>
