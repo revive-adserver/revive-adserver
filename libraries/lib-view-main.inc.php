@@ -259,6 +259,8 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 				  );
 		}
 	}
+	
+	return false;
 }
 
 
@@ -270,8 +272,14 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 function view($what, $clientid = 0, $target = '', $source = '', $withtext = 0, $context = 0, $richmedia = true)
 {
 	$output = view_raw($what, $clientid, "$target", "$source", $withtext, $context, $richmedia);
-	print($output['html']);
-	return($output['bannerid']);
+
+	if (is_array($output))
+	{
+		echo $output['html'];
+		return $output['bannerid'];
+	}
+	
+	return false;
 }
 
 ?>
