@@ -20,6 +20,7 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-01-22:  If plain remote invocation is used and cookies are disabled, adclick will now redirect back to the originating webpage  (Niels)
 			  - 2003-02-03:  Added the ability to preview banners from the zone probability page  (Niels)
 			  - 2003-02-07:  Added automatic filtering of private IP addresses passed as a proxy header  (Matteo)
+			  - 2003-02-11:  Added HTTP referer delivery limitation; it's working with local, js and xmlrpc invocations only  (Matteo)
 
 			+ Misc bugfixes
 			  - 2003-01-13:  If a zero was used in a random variable (ie. random:10) it wasn't replaced  (Niels)
@@ -44,6 +45,7 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-01-25:  Hosts that were listed in most 'most recent' and 'top' hosts were not properly shown as hostname  (Niels)
 			  - 2003-02-03:  Fixed Javascript error when no hostsnames needed to be fetched  (Niels)
 			  - 2003-02-03:  Removed link to banner properties page from the probability page when logged in as a publisher  (Niels)
+			  - 2003-02-11:  Fixed incompatibilites with register_globals off into xmlrpc invocation class  (Matteo)
 			
 
 v 2.0rc2		+ Misc bugfixes

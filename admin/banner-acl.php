@@ -71,6 +71,11 @@ $comparison_date = array (
 	'<=' => $strEarlierThanOrEqual
 );
 
+$comparison_referer = array (
+	'==' => $strContains,
+	'!=' => $strNotContains,
+);
+
 $logical_default = array (
 	'or'  => $strOR,
 	'and' => $strAND
@@ -586,6 +591,8 @@ if ($phpAds_config['acl'])
 			
 			if ($acl[$key]['type'] == 'date')
 				$comparison_list = $comparison_date;
+			elseif ($acl[$key]['type'] == 'referer')
+				$comparison_list = $comparison_referer;
 			else
 				$comparison_list = $comparison_default;
 			

@@ -21,12 +21,13 @@ require ('lib-xmlrpc.inc.php');
 // Create array to pass needed HTTP headers via XML-RPC
 $phpAds_remoteInfo = array(
 	// Headers used for logging/ACLs
-	'remote_addr' =>			'REMOTE_ADDR',
-	'remote_host' =>			'REMOTE_HOST',
+	'remote_addr' =>		'REMOTE_ADDR',
+	'remote_host' =>		'REMOTE_HOST',
 	
 	// Headers used for ACLs
-	'accept_language' =>		'HTTP_ACCEPT_LANGUAGE',
-	'user_agent' =>				'HTTP_USER_AGENT',
+	'accept_language' =>	'HTTP_ACCEPT_LANGUAGE',
+	'referer' =>			'HTTP_REFERER',
+	'user_agent' =>			'HTTP_USER_AGENT',
 	
 	// Headers used for proxy lookup
 	'forwarded' =>			'HTTP_FORWARDED',
@@ -55,7 +56,7 @@ class phpAds_XmlRpc
 
 	function connect($host, $path, $port = 80)
 	{
-		global $phpAds_remoteInfo;
+		global $phpAds_remoteInfo, $HTTP_SERVER_VARS;
 		
 		// Correct trailing slashes
 		if (strlen($path))
@@ -68,8 +69,8 @@ class phpAds_XmlRpc
 		$this->remote_info = array();
 		while (list($k, $v) = each($phpAds_remoteInfo))
 		{
-			if (isset($GLOBALS[$v]))
-				$this->remote_info[$k] = $GLOBALS[$v];
+			if (isset($HTTP_SERVER_VARS[$v]))
+				$this->remote_info[$k] = $HTTP_SERVER_VARS[$v];
 		}	
 		
 		// Encode remote host information into a XML-RPC struct
@@ -79,7 +80,7 @@ class phpAds_XmlRpc
 		$this->output = '';
 	}
 	
-	function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $context=0)
+	function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $context=0, $richmedia = true)
 	{
 		// Create context XML-RPC array
 		if (is_array($context))
@@ -118,9 +119,9 @@ class phpAds_XmlRpc
 		return false;
 	}
 
-	function view($what, $clientid=0, $target='', $source='', $withtext=0, $context=0)
+	function view($what, $clientid=0, $target='', $source='', $withtext=0, $context=0, $richmedia = true)
 	{
-		$this->view_raw($what, $clientid, $target, $source, $withtext, $context);
+		$this->view_raw($what, $clientid, $target, $source, $withtext, $context, $richmedia);
 
 		echo $this->output['html'];
 

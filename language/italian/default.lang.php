@@ -244,6 +244,8 @@ $GLOBALS['strLowPriority']					= "Visualizza i banner in questa campagna con Pri
 $GLOBALS['strTargetLimitAdviews']			= "Limita il numero di visualizzazioni a";
 $GLOBALS['strTargetPerDay']					= "al giorno.";
 $GLOBALS['strPriorityAutoTargeting']		= "Distribisci le visualizzazioni durante il corso delle rimanenti giornate. Il limite giornaliero di visualizzazioni verr&agrave; calcolato automaticamente.";
+$GLOBALS['strCampaignWarningNoWeight']		= "Questa campagna &egrave; stata impostata come campagna a bassa priorit&agrave;, \nma il suo peso &egrave; impostato a zero o non &egrave; stato \nspecificato. Questo causer&agrave; la disattivazione della campagna \ne i suoi banner non verranno visualizzati \nfinch&eacute; il peso non sar&agrave; impostato correttamente \nad un numero valido. \n\nSei sicuro di voler procedere?";
+$GLOBALS['strCampaignWarningNoTarget']		= "Questa campagna &egrave; stata impostata come campagna ad alta priorit&agrave;, \nma il numero di Visualizzazioni giornaliere non &egrave; stato \nspecificato. Questo causer&agrave; la disattivazione della campagna \ne i suoi banner non verranno visualizzati \nfinch&eacute; il peso non sar&agrave; impostato un numero valido \ndi Visualizzazioni giornaliere. \n\nSei sicuro di voler procedere?";
 
 
 
@@ -329,6 +331,8 @@ $GLOBALS['strLaterThan']					= "&egrave; successiva a";
 $GLOBALS['strLaterThanOrEqual']				= "&egrave; successiva o uguale a";
 $GLOBALS['strEarlierThan']					= "&egrave; precedente a";
 $GLOBALS['strEarlierThanOrEqual']			= "&egrave; precedente o uguale a";
+$GLOBALS['strContains']						= "contiene";
+$GLOBALS['strNotContains']					= "non contiene";
 $GLOBALS['strAND']							= "AND";						// logical operator
 $GLOBALS['strOR']							= "OR";							// logical operator
 $GLOBALS['strOnlyDisplayWhen']				= "Mostra questo banner solo quando:";
@@ -342,6 +346,7 @@ $GLOBALS['strBrowser'] 						= "Browser";
 $GLOBALS['strOS'] 							= "Sistema operativo";
 $GLOBALS['strCountry'] 						= "Stato";
 $GLOBALS['strContinent'] 					= "Continente";
+$GLOBALS['strReferer'] 						= "Indirizzo pagina di provenienza";
 $GLOBALS['strDeliveryLimitations']			= "Limitazioni consegna";
 $GLOBALS['strDeliveryCapping']				= "Limitazioni numero consegne";
 $GLOBALS['strTimeCapping']					= "Una volta consegnato il banner, non mostrarlo allo stesso utente per:";
@@ -521,6 +526,13 @@ $GLOBALS['strErrorUploadBasedir']			= "Impossibile accedere al file uploadato, p
 $GLOBALS['strErrorUploadUnknown']			= "Impossibile accedere al file uploadato per un motivo sconosciuto. Controllare la propria configurazione del PHP";
 $GLOBALS['strErrorStoreLocal']				= "Impossibile salvare il banner nella directory locale. La causa probabile &egrave; una configurazione errata del percorso della directory locale";
 $GLOBALS['strErrorStoreFTP']				= "Impossibile effetuare l'upload del banner via FTP. Il server potrebbe non essere raggiungibile o i parametri di connessione sono errati";
+$GLOBALS['strErrorDBPlain']					= "Si &egrave; verificato un errore nell'accesso al database";
+$GLOBALS['strErrorDBSerious']				= "&Egrave; stato riscontrato un grave problema con il database";
+$GLOBALS['strErrorDBNoDataPlain']			= "A causa di un problema con il database ".$phpAds_productname." non pu&ograve; leggere o memorizzare i dati. ";
+$GLOBALS['strErrorDBNoDataSerious']			= "A causa di un grave problema con il database, ".$phpAds_productname." non pu&ograve; leggere i dati";
+$GLOBALS['strErrorDBCorrupt']				= "Probabilemente la tabella &egrave; corrotta ed &egrave; necessario ripararla. Per avere pi&ugrave; informazioni su come riparare le tabelle corrotte, leggere il capitolo <i>Troubleshooting</i> della <i>Administrator guide</i>.";
+$GLOBALS['strErrorDBContact']				= "Contatta l'amministratore di questo server ed informalo del problema.";
+$GLOBALS['strErrorDBSubmitBug']				= "Se questo problema &egrave; riproducibile, potrebbe essere causato da un bug di ".$phpAds_productname.". Per favore sottoponi le informazioni sottostanti ai creatori di ".$phpAds_productname.". Tenta inoltre di descrivere le azioni che hanno portato a questo errore il pi&ugrave; chiaramente possible.";
 
 
 // E-mail

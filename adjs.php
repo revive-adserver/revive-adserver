@@ -107,6 +107,10 @@ if (isset($exclude) && $exclude != '')
 			$context[] = array ("!=" => $exclude[$i]);
 }
 
+// Set real referer
+if (isset($referer) && $referer)
+	$HTTP_REFERER = $HTTP_SERVER_VARS['HTTP_REFERER'] = stripslashes($referer);
+
 
 // Get the banner
 $output = view_raw ($what, $clientid, $target, $source, $withtext, $context);

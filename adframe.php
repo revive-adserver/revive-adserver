@@ -67,6 +67,10 @@ if (!isset($source)) 	$source = '';
 if (!isset($withtext)) 	$withtext = '';
 if (!isset($context)) 	$context = '';
 
+// Remove referer, to be sure it doesn't cause problems with limitations
+if (isset($HTTP_SERVER_VARS['HTTP_REFERER'])) unset($HTTP_SERVER_VARS['HTTP_REFERER']);
+if (isset($HTTP_REFERER) unset($HTTP_REFERER);
+
 
 // Get the banner
 $banner = view_raw ($what, $clientid, $target, $source, $withtext, $context);

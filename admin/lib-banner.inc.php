@@ -505,6 +505,9 @@ function phpAds_compileLimitation ($bannerid = '')
 					case 'date':
 						$expression .= "phpAds_aclCheckDate(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
 						break;
+					case 'referer':
+						$expression .= "phpAds_aclCheckReferer(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+						break;
 					default:
 						return(0);
 				}

@@ -330,4 +330,24 @@ function phpAds_aclCheckContinent($data, $ad)
 	return ($expression == $operator);
 }
 
+
+
+/*********************************************************/
+/* Check if the Referer ACL is valid                     */
+/*********************************************************/
+
+function phpAds_aclCheckReferer($data, $ad)
+{
+	global $HTTP_SERVER_VARS;
+
+	if ($data == '')
+		return (true);
+
+	$referer = isset($HTTP_SERVER_VARS['HTTP_REFERER']) ? strtolower($HTTP_SERVER_VARS['HTTP_REFERER']) : '';
+	$expression = strpos($referer, strtolower($data));
+	$expression = is_int($expression);
+	$operator   = $ad == '==';
+	return ($expression == $operator);
+}
+
 ?>

@@ -12,6 +12,11 @@
 
   ====================================================
 
+  02-11-2003 - default
+    [+] strContains
+    [+] strNotContains
+    [+] strReferer
+
   02-09-2003 - default
     [+] strCampaignWarningNoWeight
     [+] strCampaignWarningNoTarget
