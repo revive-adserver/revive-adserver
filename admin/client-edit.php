@@ -469,7 +469,7 @@ echo "<br><br>";
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td width='200'><?php echo $strPassword;?></td>
-		<td width='370'><input class='flat' type="text" name="clientpassword" size='25' value="<?php if(isset($row["clientpassword"])) echo $row["clientpassword"];?>">
+		<td width='370'><input class='flat' type="password" name="clientpassword" size='25' value="<?php if(isset($row["clientpassword"])) echo $row["clientpassword"];?>">
 	</tr>
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
 		<?php

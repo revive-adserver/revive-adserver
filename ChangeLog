@@ -142,6 +142,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: Header and Footer settings should work again  (Niels) 20020126
 			  - Bugfix: Language selection always showed 'Default'  (Niels) 20020203
 			  - Bugfix: Language in the affiliate interface is now directy changed  (Niels) 20020203
+			  - Bugfix: Password fields are now not readable when creating a client or affiliate  (Niels) 20020203
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015

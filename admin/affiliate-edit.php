@@ -412,7 +412,7 @@ if (isset($affiliateid) && $affiliateid != '')
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td width='200'><?php echo $strPassword;?></td>
-		<td width='370'><input class='flat' type="text" name="password" size='25' value="<?php if(isset($affiliate["password"])) echo $affiliate["password"];?>">
+		<td width='370'><input class='flat' type="password" name="password" size='25' value="<?php if(isset($affiliate["password"])) echo $affiliate["password"];?>">
 	</tr>
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
 		<?php
