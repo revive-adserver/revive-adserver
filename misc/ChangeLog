@@ -22,7 +22,7 @@ CVS
 			  - 2003-05-06:  The dbQuery() function now automatically connects to the database if there isn't a connection available yet, in order to help prevent unused connections  (Niels, thanks to Doru Petrescu)
 			  - 2003-05-06:  Fixed E_ALL error during banner preview when no html was appended to the banner  (Matteo)
 			  - 2003-05-07:  Fixed E_ALL error in lib-priority when inactive campaigns were present  (Niels)
-			  - 2003-05-13:  When clicking on a banner from the administor interface, "log=no" parameter was propagated to the destination site  (Matteo)
+			  - 2003-05-13:  When clicking on a banner from the administrator interface, "log=no" parameter was propagated to the destination site  (Matteo)
 			  - 2003-05-13:  The english language file is now always included by lib-invocation, because it contains strings that might not yet have been translated  (Niels)
 			  - 2003-05-13:  Made some experimental changes to lib-priority, which should make it less agressive  (Niels)
 			  - 2003-05-13:  Added extra headers to prevent caching of admin pages by proxy servers	 (Niels)
