@@ -194,7 +194,7 @@ if (isset($submit))
 	
 	if (count($errormessage) == 0)
 	{
-		if ($affiliateid && $publiczones != 't' && $publiczones_old == 't')
+		if ($affiliateid && (!isset($publiczones) || $publiczones != 't') && $publiczones_old == 't')
 		{
 			// Reset append codes which called this affiliate's zones
 			$res = phpAds_dbQuery("
