@@ -11,7 +11,8 @@ require ("$phpAds_path/lib-expire.inc.php");
 // Get a banner
 function get_banner($what, $clientID, $context=0, $source="")
 {
-	global $phpAds_db, $REMOTE_HOST, $phpAds_tbl_banners, $REMOTE_ADDR, $HTTP_USER_AGENT, $phpAds_con_key, $phpAds_random_retrieve, $phpAds_mult_key;
+	global $phpAds_db, $REMOTE_HOST, $phpAds_tbl_banners, $REMOTE_ADDR, $HTTP_USER_AGENT, $phpAds_con_key;
+	global $phpAds_random_retrieve, $phpAds_mult_key, $phpAds_tbl_clients;
 	$where = "";
 	if($context == 0)
 		$context = array();
@@ -22,8 +23,8 @@ function get_banner($what, $clientID, $context=0, $source="")
 		{
 			switch($key)
 			{
-				case "!=": $exclusive[] = "bannerID <> $value"; break;
-				case "==": $inclusive[] = "bannerID = $value"; break;
+				case "!=": $exclusive[] = "b.bannerID <> $value"; break;
+				case "==": $inclusive[] = "b.bannerID = $value"; break;
 			}
 		}
 	}
@@ -47,26 +48,29 @@ function get_banner($what, $clientID, $context=0, $source="")
 	{
 		$select = "
 			SELECT
-				bannerID,
-				banner,
-				clientID,
-				format,
-				width,
-				height,
-				alt,
-				bannertext,
-				url,
-				weight,
-				seq,
-				target
+				b.bannerID as bannerID,
+				b.banner as banner,
+				b.clientID as clientID,
+				b.format as format,
+				b.width as width,
+				b.height as height,
+				b.alt as alt,
+				b.bannertext as bannertext,
+				b.url as url,
+				b.weight as weight,
+				b.seq as seq,
+				b.target as target
 			FROM
-				$phpAds_tbl_banners 
+				$phpAds_tbl_banners as b,
+				$phpAds_tbl_clients as c
 			WHERE
+				b.active = 'true' AND 
+				c.active = 'true' AND 
 				$where
-				active = 'true'";
+				b.clientID = c.clientID";
 		
 		if($clientID != 0)
-			$select .= " AND clientID = $clientID ";
+			$select .= " AND b.clientID = $clientID ";
 		
 		
 		// Rule
@@ -107,7 +111,7 @@ function get_banner($what, $clientID, $context=0, $source="")
 				
 				
 				//	Test statements
-				if($what_array[$k]!="" && $what_array[$k]!=" ")
+				if($what_array[$k] != "" && $what_array[$k] != " ")
 				{
 					// Banner dimensions
 					if(ereg("^[0-9]+x[0-9]+$", $what_array[$k]))
@@ -115,11 +119,11 @@ function get_banner($what, $clientID, $context=0, $source="")
 						list($width, $height) = explode("x", $what_array[$k]);
 							
 						if ($operator == "OR")
-							$conditions .= "OR (width = $width AND height = $height) ";
+							$conditions .= "OR (b.width = $width AND b.height = $height) ";
 						elseif ($operator == "AND")
-							$conditions .= "AND (width = $width AND height = $height) ";
+							$conditions .= "AND (b.width = $width AND b.height = $height) ";
 						else
-							$conditions .= "AND (width != $width OR height != $height) ";
+							$conditions .= "AND (b.width != $width OR b.height != $height) ";
 						
 						$onlykeywords = false;
 					}
@@ -133,11 +137,11 @@ function get_banner($what, $clientID, $context=0, $source="")
 						if ($what_array[$k] != "" && $what_array[$k] != " ")
 						{
 							if ($operator == "OR")
-								$conditions .= "OR bannerID='".trim($what_array[$k])."' ";
+								$conditions .= "OR b.bannerID='".trim($what_array[$k])."' ";
 							elseif ($operator == "AND")
-								$conditions .= "AND bannerID='".trim($what_array[$k])."' ";
+								$conditions .= "AND b.bannerID='".trim($what_array[$k])."' ";
 							else
-								$conditions .= "AND bannerID!='".trim($what_array[$k])."' ";
+								$conditions .= "AND b.bannerID!='".trim($what_array[$k])."' ";
 						}
 						
 						$onlykeywords = false;
@@ -150,11 +154,11 @@ function get_banner($what, $clientID, $context=0, $source="")
 						if($what_array[$k]!="" && $what_array[$k]!=" ")
 						{
 							if ($operator == "OR")
-								$conditions .= "OR clientID='".trim($what_array[$k])."' ";
+								$conditions .= "OR b.clientID='".trim($what_array[$k])."' ";
 							elseif ($operator == "AND")
-								$conditions .= "AND clientID='".trim($what_array[$k])."' ";
+								$conditions .= "AND b.clientID='".trim($what_array[$k])."' ";
 							else
-								$conditions .= "AND clientID!='".trim($what_array[$k])."' ";
+								$conditions .= "AND b.clientID!='".trim($what_array[$k])."' ";
 						}
 						
 						$onlykeywords = false;
@@ -167,11 +171,11 @@ function get_banner($what, $clientID, $context=0, $source="")
 						if($what_array[$k]!="" && $what_array[$k]!=" ")
 						{
 							if ($operator == "OR")
-								$conditions .= "OR format='".trim($what_array[$k])."' ";
+								$conditions .= "OR b.format='".trim($what_array[$k])."' ";
 							elseif ($operator == "AND")
-								$conditions .= "AND format='".trim($what_array[$k])."' ";
+								$conditions .= "AND b.format='".trim($what_array[$k])."' ";
 							else
-								$conditions .= "AND format!='".trim($what_array[$k])."' ";
+								$conditions .= "AND b.format!='".trim($what_array[$k])."' ";
 						}
 						
 						$onlykeywords = false;
@@ -181,11 +185,11 @@ function get_banner($what, $clientID, $context=0, $source="")
 					elseif($what_array[$k] == "html")
 					{
 						if ($operator == "OR")
-							$conditions .= "OR format='html' ";
+							$conditions .= "OR b.format='html' ";
 						elseif ($operator == "AND")
-							$conditions .= "AND format='html' ";
+							$conditions .= "AND b.format='html' ";
 						else
-							$conditions .= "AND format!='html' ";
+							$conditions .= "AND b.format!='html' ";
 						
 						$onlykeywords = false;
 					}
@@ -195,18 +199,18 @@ function get_banner($what, $clientID, $context=0, $source="")
 					{
 						if($phpAds_mult_key != "1")
 							if ($operator == "OR")
-								$conditions .= "OR keyword = '".trim($what_array[$k])."' ";
+								$conditions .= "OR b.keyword = '".trim($what_array[$k])."' ";
 							elseif ($operator == "AND")
-								$conditions .= "AND keyword = '".trim($what_array[$k])."' ";
+								$conditions .= "AND b.keyword = '".trim($what_array[$k])."' ";
 							else
-								$conditions .= "AND keyword != '".trim($what_array[$k])."' ";
+								$conditions .= "AND b.keyword != '".trim($what_array[$k])."' ";
 						else
 							if ($operator == "OR")
-								$conditions .= "OR keyword LIKE '%".trim($what_array[$k])."%' ";
+								$conditions .= "OR b.keyword LIKE '%".trim($what_array[$k])."%' ";
 							elseif ($operator == "AND")
-								$conditions .= "AND keyword LIKE '%".trim($what_array[$k])."%' ";
+								$conditions .= "AND b.keyword LIKE '%".trim($what_array[$k])."%' ";
 							else
-								$conditions .= "AND keyword NOT LIKE '%".trim($what_array[$k])."%' ";
+								$conditions .= "AND b.keyword NOT LIKE '%".trim($what_array[$k])."%' ";
 					}
 				}
 			}
@@ -217,21 +221,20 @@ function get_banner($what, $clientID, $context=0, $source="")
 			// Add global keyword
 			if (sizeof($what_parts) == 1 && $onlykeywords == true)
 	        {
-	        	$conditions .= "OR keyword = 'global' ";
+	        	$conditions .= "OR b.keyword = 'global' ";
     	  	}
 			
 			// Add conditions to select
 			if ($conditions != "") $select .= 	" AND (" . $conditions . ") ";
 		}
-
-
+		
 		if($phpAds_random_retrieve != 0)
 		{
-			$seq_select = $select . " AND seq>0";
+			$seq_select = $select . " AND b.seq>0";
 			
 			// Full sequential retrieval
 			if ($phpAds_random_retrieve == 3)
-				$seq_select .= " ORDER BY BannerID LIMIT 1";
+				$seq_select .= " ORDER BY b.bannerID LIMIT 1";
 			
 			// First attempt to fetch a banner
 			$res = @db_query($seq_select);
