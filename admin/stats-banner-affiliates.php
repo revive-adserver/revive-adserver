@@ -357,7 +357,7 @@ if ($totalviews > 0 || $totalclicks > 0)
 	
 	$i=0;
 	
-	if (isset($affiliates) && is_array($affiliates) && count($affliates))
+	if (isset($affiliates) && is_array($affiliates) && count($affiliates))
 	{
 		for (reset($affiliates);$key=key($affiliates);next($affiliates))
 		{
