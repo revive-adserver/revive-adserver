@@ -63,7 +63,7 @@ function Plugin_AffiliatehistoryExecute($affiliateid, $delimiter=",")
 		FROM
 			".$phpAds_config['tbl_zones']."
 		WHERE
-			affiliateid = ".$affiliateid."
+			affiliateid = '".$affiliateid."'
 	");
 	
 	while ($row = phpAds_dbFetchArray($idresult))

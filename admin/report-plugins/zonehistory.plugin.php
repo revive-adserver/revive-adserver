@@ -68,7 +68,7 @@ function Plugin_ZonehistoryExecute($zoneid, $delimiter=",")
 			FROM
 				".$phpAds_config['tbl_adstats']."
 			WHERE
-				zoneid = ".$zoneid."
+				zoneid = '".$zoneid."'
 			GROUP BY
 				day
 		";
@@ -90,7 +90,7 @@ function Plugin_ZonehistoryExecute($zoneid, $delimiter=",")
 			FROM
 				".$phpAds_config['tbl_adviews']."
 			WHERE
-				zoneid = ".$zoneid."
+				zoneid = '".$zoneid."'
 			GROUP BY
 				day
 		";
@@ -110,7 +110,7 @@ function Plugin_ZonehistoryExecute($zoneid, $delimiter=",")
 			FROM
 				".$phpAds_config['tbl_adclicks']."
 			WHERE
-				zoneid = ".$zoneid."
+				zoneid = '".$zoneid."'
 			GROUP BY
 				day
 		";
