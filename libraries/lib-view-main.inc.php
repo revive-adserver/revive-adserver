@@ -219,7 +219,7 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 		}
 		else
 		{
-			$outputbuffer .= '<div id="beacon_'.$row['bannerid'].'" style="width: 0px; height: 0px; overflow: hidden;">';
+			$outputbuffer .= '<div id="beacon_'.$row['bannerid'].'" style="position: absolute; left: 0px; top: 0px; visibility: hidden;">';
 			$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&amp;clientid='.$row['clientid'].'&amp;zoneid='.$row['zoneid'].'&amp;source='.$source.'&amp;block='.$row['block'].'&amp;capping='.$row['capping'].'&amp;cb='.md5(uniqid('', 1)).'\' width=\'0\' height=\'0\' alt=\'\' style=\'width: 0px; height: 0px;\'>';
 			$outputbuffer .= '</div>';
 		}
