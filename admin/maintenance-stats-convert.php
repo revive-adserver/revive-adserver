@@ -35,12 +35,15 @@ phpAds_checkAccess(phpAds_Admin);
 
 function phpAds_startResult ()
 {
-	echo "var result = findObj('result');\n";
+  echo "if (document.getElementsByTagName)\n";
+  echo "\tvar resobj = document.getElementsByTagName('textarea')[0];\n";
+  echo "else\n";
+	echo "\tvar resobj = findObj('result');\n";
 }
 
 function phpAds_printResult ($result)
 {
-	echo "result.value = result.value + \"".$result."\";\n";
+	echo "resobj.value = resobj.value + \"".$result."\";\n";
 }
 
 function phpAds_getSpan ()
@@ -176,6 +179,7 @@ function phpAds_deleteVerbose ($base, $count)
 	$begin_timestamp = date('YmdHis', phpAds_makeTimestamp($base, $count * 60 * 60 * 24));
 	$end_timestamp   = date('YmdHis', phpAds_makeTimestamp($base, ($count + 1) * 60 * 60 * 24 - 1));
 	
+  
 	
 	// Delete views
 	$result = phpAds_dbQuery("
@@ -205,6 +209,8 @@ function phpAds_deleteVerbose ($base, $count)
 
 header("Content-type: application/x-javascript");
 
+include ("../libraries/lib-cache.inc.php");
+
 if (isset($action) && $action == 'start')
 {
 	$span = phpAds_getSpan();
@@ -215,11 +221,21 @@ if (isset($action) && $action == 'start')
 	{
 		phpAds_printResult (" Starting conversion...\\n\\n");
 		
-		echo "document.write (\"";
+    echo "if (document.getElementById && !window.opera) {\n";
+    
+		echo "\tvar script = document.createElement('script');\n";
+    echo "\tscript.src = \"maintenance-stats-convert.php?min=".$span['min']."&count=0&days=".$span['days']."\";\n";
+    echo "\tdocument.getElementsByTagName('head')[0].appendChild(script);\n";
+    
+    echo "} else {\n";
+    
+    echo "\tdocument.write (\"";
 		echo "<script language='JavaScript' src='";
 		echo "maintenance-stats-convert.php?min=".$span['min']."&count=0&days=".$span['days'];
 		echo "'></script>";
-		echo "\");";
+		echo "\");\n";
+    
+    echo "}\n";
 	}
 	else
 	{
@@ -227,8 +243,12 @@ if (isset($action) && $action == 'start')
 		
 		echo "var busy = findObj('busy');\n";
 		echo "var done = findObj('done');\n";
-		echo "if (busy) busy.style.display = 'none';\n";
-		echo "if (done) done.style.display = '';\n";
+    
+    echo "if (busy.style) busy = busy.style;\n";
+    echo "if (done.style) done = done.style;\n";
+    
+		echo "if (busy) busy.display = 'none';\n";
+		echo "if (done) done.display = '';\n";
 	}
 }
 else
@@ -261,11 +281,21 @@ else
 	// Go to next day
 	if ($count + 1 < $days)
 	{
-		echo "document.write (\"";
+    echo "if (document.getElementById && !window.opera) {\n";
+    
+		echo "\tvar script = document.createElement('script');\n";
+    echo "\tscript.src = \"maintenance-stats-convert.php?min=".$min."&count=".($count + 1)."&days=".$days."\";\n";
+    echo "\tdocument.getElementsByTagName('head')[0].appendChild(script);\n";
+    
+    echo "} else {\n";
+    
+    echo "\tdocument.write (\"";
 		echo "<script language='JavaScript' src='";
 		echo "maintenance-stats-convert.php?min=".$min."&count=".($count + 1)."&days=".$days;
 		echo "'></script>";
-		echo "\");";
+		echo "\");\n";
+    
+    echo "}\n";
 	}
 	else
 	{
@@ -273,8 +303,12 @@ else
 		
 		echo "var busy = findObj('busy');\n";
 		echo "var done = findObj('done');\n";
-		echo "if (busy) busy.style.display = 'none';\n";
-		echo "if (done) done.style.display = '';\n";
+    
+    echo "if (busy.style) busy = busy.style;\n";
+    echo "if (done.style) done = done.style;\n";
+    
+		echo "if (busy) busy.display = 'none';\n";
+		echo "if (done) done.display = '';\n";
 	}
 }
 

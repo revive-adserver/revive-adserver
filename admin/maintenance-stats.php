@@ -82,13 +82,30 @@ else
 
 phpAds_PageFooter();
 
-
 if (isset($action) && $action == 'start')
 {
-	// Start conversion
-	echo "<script language='JavaScript' src='";
-	echo "maintenance-stats-convert.php?action=start";
-	echo "'></script>";
+	  // Start conversion
+    echo "<script language='Javascript'>\n";
+    echo "<!--\n";
+    
+    echo "if (document.getElementById && !window.opera) {\n";
+    
+		echo "\tvar script = document.createElement('script');\n";
+    echo "\tscript.src = \"maintenance-stats-convert.php?action=start\";\n";
+    echo "\tdocument.getElementsByTagName('head')[0].appendChild(script);\n";
+    
+    echo "} else {\n";
+    
+    echo "\tdocument.write (\"";
+		echo "<script language='JavaScript' src='";
+		echo "maintenance-stats-convert.php?action=start";
+		echo "'></script>";
+		echo "\");\n";
+    
+    echo "}\n";
+    
+    echo "//-->\n";
+    echo "</script>";
 }
 
 ?>
