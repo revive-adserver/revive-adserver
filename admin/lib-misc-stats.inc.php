@@ -188,10 +188,15 @@ if ($type == 's')
 		echo "<img src='images/icon-size.gif' align='absmiddle'>&nbsp;";
 		echo $key."</td>";
 		
-		$cpp = $value['square'] > 0 && $value['views'] > 0 ? $value['clicks'] / 
-			   ($value['views'] * ($value['square'] / (468 * 60))) * 100 : 0;
-		
-		$effect = number_format($cpp * 100 / $top['cpp'], $phpAds_config['percentage_decimals'], $phpAds_DecimalPoint, $phpAds_ThousandsSeperator)."%";
+		if ($top['cpp'] > 0)
+		{
+			$cpp = $value['square'] > 0 && $value['views'] > 0 ? $value['clicks'] / 
+				   ($value['views'] * ($value['square'] / (468 * 60))) * 100 : 0;
+			
+			$effect = number_format($cpp * 100 / $top['cpp'], $phpAds_config['percentage_decimals'], $phpAds_DecimalPoint, $phpAds_ThousandsSeperator)."%";
+		}
+		else
+			$effect = '-';
 		
 		echo "<td align='".$phpAds_TextAlignRight."' height='25' bgcolor='$bgcolor'>".phpAds_formatNumber($value['views'])."</td>";
 		echo "<td align='".$phpAds_TextAlignRight."' height='25' bgcolor='$bgcolor'>".phpAds_formatNumber($value['clicks'])."</td>";
@@ -251,14 +256,19 @@ if ($type == 'c')
 			$countries[$row_stats['country']]['clicks'] = 0;
 		}
 		
-		if (isset($continents[$phpAds_continent[$row_stats['country']]]))
+		if (isset($phpAds_continent[$row_stats['country']]))
+			$continent = $phpAds_continent[$row_stats['country']];
+		else
+			$continent = '';
+		
+		if (isset($continents[$continent]))
 		{
-			$continents[$phpAds_continent[$row_stats['country']]]['views'] += $row_stats['views'];
+			$continents[$continent]['views'] += $row_stats['views'];
 		}
 		else
 		{
-			$continents[$phpAds_continent[$row_stats['country']]]['views']  = $row_stats['views'];
-			$continents[$phpAds_continent[$row_stats['country']]]['clicks'] = 0;
+			$continents[$continent]['views']  = $row_stats['views'];
+			$continents[$continent]['clicks'] = 0;
 		}
 	}
 	
@@ -285,14 +295,19 @@ if ($type == 'c')
 			$countries[$row_stats['country']]['views'] = 0;
 		}
 		
-		if (isset($continents[$phpAds_continent[$row_stats['country']]]))
+		if (isset($phpAds_continent[$row_stats['country']]))
+			$continent = $phpAds_continent[$row_stats['country']];
+		else
+			$continent = '';
+		
+		if (isset($continents[$continent]))
 		{
-			$continents[$phpAds_continent[$row_stats['country']]]['clicks'] += $row_stats['clicks'];
+			$continents[$continent]['clicks'] += $row_stats['clicks'];
 		}
 		else
 		{
-			$continents[$phpAds_continent[$row_stats['country']]]['clicks']  = $row_stats['clicks'];
-			$continents[$phpAds_continent[$row_stats['country']]]['views'] = 0;
+			$continents[$continent]['clicks']  = $row_stats['clicks'];
+			$continents[$continent]['views'] = 0;
 		}
 	}
 	
