@@ -47,6 +47,15 @@ if (!count($HTTP_POST_VARS) && !count($HTTP_GET_VARS))
 			exit;
 		}
 	}
+
+	if (function_exists('version_compare') && version_compare(phpversion(), '5.0.0') >= 0 &&
+		!ini_get('register_long_arrays'))
+	{
+		// (no need for translation, because language file is not loaded yet)
+		echo "<strong>The installer detected some problems which need to be fixed before you can continue:</strong><br>";
+		echo '<ul><li>The PHP configuration variable register_long_arrays needs to be turned on.</ul>';
+		exit;
+	}
 }
 
 
