@@ -38,6 +38,7 @@ phpAdsNew 2.0.1		+ Misc bugfixes
 			  - 2004-02-19:  Raised max gui_link_compact_limit value by changing its type to integer  (Matteo)
 			  - 2004-03-02:  Converted URLs were persistant after re-uploading a new Flash banner - bug #887893  (Niels)
 			  - 2004-03-02:  Fixed a bug in the Javascript Row selection code, which prevented FireFox users from selecting a country, continent, language or region - bug #905052  (Niels)
+			  - 2004-03-02:  Activate and Expiration date of a campaign was not handled properly in some cases - bug #883697  (Niels)
 			  
 
 

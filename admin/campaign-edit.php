@@ -87,44 +87,63 @@ if (isset($submit))
 		$targetviews = 0;
 	}
 	
+	// Activate by default
+	$active = "t";
+	
+	// If no Clicks or Views left deactive
+	if ($clicks == 0 || $views==0)
+		$active = "f";
+
+	// Check expiration date
 	if ($expireSet == 't')
 	{
+		// If date is set
 		if ($expireDay != '-' && $expireMonth != '-' && $expireYear != '-')
 		{
+			// If expiration date is in the past, deactive
+			if (time() > mktime(0, 0, 0, $expireMonth, $expireDay, $expireYear))
+				$active = "f";
+
+			// Prepare date to be stored
 			$expire = $expireYear."-".$expireMonth."-".$expireDay;
 		}
 		else
+		{
+			// Date was not set correctly, do not expire, activate
 			$expire = "0000-00-00";
+		}
 	}
 	else
+	{
+		// No date was set, do not expire, activate
 		$expire = "0000-00-00";
+	}
 	
-	
+	// Check activation date
 	if ($activateSet == 't')
 	{
+		// If date is set
 		if ($activateDay != '-' && $activateMonth != '-' && $activateYear != '-')
 		{
+			// If activation date is in the future, deactive
+			if (time() < mktime(0, 0, 0, $activateMonth, $activateDay, $activateYear))
+				$active = "f";
+
+			// Prepare date to be stored
 			$activate = $activateYear."-".$activateMonth."-".$activateDay;
 		}
 		else
+		{
+			// Date was not set correctly, activate immediately
 			$activate = "0000-00-00";
+		}
 	}
 	else
+	{
+		// No date was set, activate immediately
 		$activate = "0000-00-00";
+	}
 	
-	
-	$active = "t";
-	
-	if ($clicks == 0 || $views==0)
-		$active = "f";
-	
-	if ($activateDay != '-' && $activateMonth != '-' && $activateYear != '-')
-		if (time() < mktime(0, 0, 0, $activateMonth, $activateDay, $activateYear))
-			$active = "f";
-	
-	if ($expireDay != '-' && $expireMonth != '-' && $expireYear != '-')
-		if (time() > mktime(0, 0, 0, $expireMonth, $expireDay, $expireYear))
-			$active = "f";
 	
 	// Set campaign inactive if weight and target are both null and autotargeting is disabled
 	if ($active == 't' && !($targetviews > 0 || $weight > 0 || ($expire != '0000-00-00' && $views > 0)))
