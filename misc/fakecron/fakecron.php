@@ -2,11 +2,11 @@
 
 @include ('fakecron.lastrun.php');
 
-if (isset($lastrun) && $lastrun != date('H'))
+if (isset($lastrun) && $lastrun != date('G'))
 {
 	if ($fp = @fopen ('fakecron.lastrun.php', 'wb'))
 	{
-		@fwrite ($fp, "<"."?php $"."lastrun = ".date('H')."; ?".">");
+		@fwrite ($fp, "<"."?php $"."lastrun = ".date('G')."; ?".">");
 		@fclose ($fp);
 		
 		// Call maintenance
