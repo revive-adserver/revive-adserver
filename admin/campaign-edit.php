@@ -368,6 +368,7 @@ else
 	$row["clientname"]	= $strDefault;
 	$row["views"] 		= '';
 	$row["clicks"] 		= '';
+	$row["active"] 		= '';
 	
 	$days_left = '';
 	$priority = 'f';
@@ -734,7 +735,7 @@ while ($row = phpAds_dbFetchArray($res))
 			f.unlimitedviews.checked == true)
 		{
 			// Autotarget == false
-			if (previous_priority == 1)
+			if (previous_priority == 1 || f.priority[1].checked)
 				f.priority[1].checked  = true;
 			else
 				f.priority[2].checked  = true;
@@ -770,7 +771,7 @@ while ($row = phpAds_dbFetchArray($res))
 	}
 	
 	// Set default values for priority
-	phpAds_formPriorityUpdate(document.clientform, false);
+	phpAds_formPriorityUpdate(document.clientform);
 	
 //-->
 </script>
