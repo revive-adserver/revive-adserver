@@ -86,11 +86,25 @@ if (!isset($source)) 	$source = '';
 if (!isset($withtext)) 	$withtext = '';
 if (!isset($context)) 	$context = '';
 
+if (isset($exclude) && $exclude != '')
+{
+	$exclude = explode (',', $exclude);
+	$context = array();
+	
+	for ($i = 0; $i < count($exclude); $i++)
+		$context[] = array ("!=" => $exclude[$i]);
+}
+
+
 // Get the banner
 $output = view_raw ($what, $clientid, $target, $source, $withtext, $context);
 
 // Show the banner
 header("Content-type: application/x-javascript");
 enjavanate($output['html']);
+
+// Block this banner for next invocation
+if (isset($block) && $block != '' && $block != '0')
+	print ("\nvar phpAds_used; if (phpAds_used != undefined) phpAds_used.push('".$output['bannerid']."');\n");
 
 ?>
