@@ -137,10 +137,16 @@ function phpAds_PageHeader($title = false)
     <td width="15" bgcolor="#EEEEEE">
 		<script language='JavaScript'>
 		<!--
-			// Workaround for GUI rendering in Netscape
+			// Workaround for GUI rendering in Netscape and IE for Mac
 			// This needs to be fixed before final release --Niels
+			if(document.all){
+				height=document.body.offsetHeight-6;
+			} else {
+				height=window.innerHeight;
+			}
+
 			document.write ("<img src='images/spacer.gif' width='15' height='");
-			document.write (window.innerHeight - 174);
+			document.write (height - 174);
 			document.write ("'>");
 		//-->
 		</script>

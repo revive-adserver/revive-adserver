@@ -177,16 +177,14 @@ function showHideLayers(obj) {
 
 	if (bannerobj.style)
 	{
-		if (bannerobj.style.visibility=='hidden')
+		if (bannerobj.style.display=='none')
 		{
-			bannerobj.style.visibility='visible';
-			bannerobj.style.overflow='visible';
+			bannerobj.style.display='';
 			if (caretobj) caretobj.src = 'images/caret-d.gif'
 		}
 		else
 		{
-			bannerobj.style.visibility='hidden';
-			bannerobj.style.overflow='hidden';
+			bannerobj.style.display='none';
 			if (caretobj) caretobj.src = 'images/caret-r.gif'
 		}	
 	}
@@ -340,9 +338,9 @@ if (count($tmp_order) > 0)
 			
 			echo "<tr bgcolor='$bgcolor'>";
 			
-			echo "<td height='25' align='left'>&nbsp;";
+			echo "<td height='25' width='30' align='left'>&nbsp;";
 			if (!ereg ("Mozilla/4", $HTTP_USER_AGENT) || ereg ("IE", $HTTP_USER_AGENT))
-				echo "<img name='caret$row_banners[bannerID]' src='images/caret-r.gif' onClick=\"showHideLayers('$row_banners[bannerID]');\">&nbsp;&nbsp;&nbsp;&nbsp;";
+				echo "<img name='caret$row_banners[bannerID]' src='images/caret-r.gif' onClick=\"showHideLayers('$row_banners[bannerID]');\">";
 			echo "</td>";
 			
 			echo "<td height='25' align='left' nowrap $grayedout>$row_banners[bannerID]</td>";
@@ -377,12 +375,12 @@ if (count($tmp_order) > 0)
 			echo "</tr>";
 			
 			echo "<tr bgcolor='$bgcolor'>";
-			echo "<td height='1'><img src='images/spacer.gif' width='1' height='1'></td>";
+			echo "<td height='1' width='30'><img src='images/spacer.gif' width='1' height='1'></td>";
 			echo "<td colspan='5'>";
 			
 			if (!ereg ("Mozilla/4", $HTTP_USER_AGENT) || ereg ("IE", $HTTP_USER_AGENT))
 			{
-				echo "<div id='banner$row_banners[bannerID]' style='position:relative; height: 1px; overflow: hidden; visibility: hidden;'>";
+				echo "<div id='banner$row_banners[bannerID]' style='display: none;'>";
 				
 				echo "<table width='100%' cellpadding=0 cellspacing=0 border=0><tr><td align='left'>";
 				echo "<tr><td height='1'><img src='images/break-l.gif' height='1' width='100%' vspace='0'></tr><td>";
