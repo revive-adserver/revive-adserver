@@ -119,8 +119,10 @@ function phpAds_GenerateInvocationCode()
 		$buffer .= "<script language='JavaScript' type='text/javascript'>\n";
 		$buffer .= "<!--\n";
 		$buffer .= "   if (!document.phpAds_used) document.phpAds_used = ',';\n";
+		$buffer .= "   phpAds_random = new String (Math.random()); phpAds_random = phpAds_random.substring(2,11);\n";
+		$buffer .= "   \n";
 		$buffer .= "   document.write (\"<\" + \"script language='JavaScript' type='text/javascript' src='\");\n";
-		$buffer .= "   document.write (\"".$phpAds_config['url_prefix']."/adjs.php?n=".$uniqueid."\");\n";
+		$buffer .= "   document.write (\"".$phpAds_config['url_prefix']."/adjs.php?n=\" + phpAds_random);\n";
 		if (sizeof($parameters) > 0)
 			$buffer .= "   document.write (\"&amp;".implode ("&amp;", $parameters)."\");\n";
 		$buffer .= "   document.write (\"&amp;exclude=\" + document.phpAds_used);\n";

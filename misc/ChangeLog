@@ -10,6 +10,7 @@ CVS
 			  - 2003-05-22:  The banner append code was largely rewritten to allow appending individual banners  (Niels)
 			  - 2003-06-09:  Added extra warning to settings page to make sure the location of the geo database isn't provided as an URL  (Niels)
 			  - 2003-06-09:  The views and clicks remaining fields on the Campaign properties page now allow bigger values  (Niels)
+			  - 2003-06-15:  Added cachebuster to the JavaScript invocation  (Niels)
 			
 
 			+ Misc bugfixes
