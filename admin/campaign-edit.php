@@ -560,7 +560,7 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 		
 			if (x && !document.clientform.unlimitedviews.checked && !document.clientform.expireSet[0].checked)
 			{
-				alert("<?php echo $GLOBALS['strPriorityAutoTargeting'; ?>");
+				alert("<?php echo $GLOBALS['strPriorityAutoTargeting']; ?>");
 				return true;
 			}
 			else
