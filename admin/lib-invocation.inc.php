@@ -374,8 +374,9 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	
 	
 	
-	
-	echo "<form name='generate' action='".$HTTP_SERVER_VARS['PHP_SELF']."' method='POST'>\n";
+	// Hide when integrated in zone-advanced.php
+	if (!is_array($extra) || !$extra['zoneadvanced'])
+		echo "<form name='generate' action='".$HTTP_SERVER_VARS['PHP_SELF']."' method='POST'>\n";
 	
 	// Invocation type selection
 	if (!is_array($extra) || $extra['delivery'] != phpAds_ZoneInterstitial && $extra['delivery'] != phpAds_ZonePopup)
@@ -487,12 +488,15 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			$generated = false;
 		
 		
-		
-		// Header
-		echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-		echo "<tr><td height='25' colspan='3'><img src='images/icon-overview.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strParameters']."</b></td></tr>";
-		echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-		echo "<tr".($zone_invocation ? '' : " bgcolor='#F6F6F6'")."><td height='10' colspan='3'>&nbsp;</td></tr>";
+		// Hide when integrated in zone-advanced.php
+		if (!(is_array($extra) && $extra['zoneadvanced']))
+		{
+			// Header
+			echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+			echo "<tr><td height='25' colspan='3'><img src='images/icon-overview.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strParameters']."</b></td></tr>";
+			echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+			echo "<tr".($zone_invocation ? '' : " bgcolor='#F6F6F6'")."><td height='10' colspan='3'>&nbsp;</td></tr>";
+		}
 		
 		
 		
@@ -810,17 +814,23 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 		}
 		
-		echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-		echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-		
-		echo "</table>";
-		echo "<br><br>";
-		echo "<input type='hidden' value='".($generated ? 1 : 0)."' name='generate'>";
-		
-		if ($generated)
-			echo "<input type='submit' value='".$GLOBALS['strRefresh']."' name='submitbutton'>";
-		else
-			echo "<input type='submit' value='".$GLOBALS['strGenerate']."' name='submitbutton'>";
+
+		// Hide when integrated in zone-advanced.php
+		if (!(is_array($extra) && $extra['zoneadvanced']))
+		{
+			// Footer
+			echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+			echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+			
+			echo "</table>";
+			echo "<br><br>";
+			echo "<input type='hidden' value='".($generated ? 1 : 0)."' name='generate'>";
+			
+			if ($generated)
+				echo "<input type='submit' value='".$GLOBALS['strRefresh']."' name='submitbutton'>";
+			else
+				echo "<input type='submit' value='".$GLOBALS['strGenerate']."' name='submitbutton'>";
+		}
 	}
 	
 	
@@ -829,7 +839,10 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		while (list($k, $v) = each($extra))
 			echo "<input type='hidden' value='$v' name='$k'>";
 	
-	echo "</form>";
+	// Hide when integrated in zone-advanced.php
+	if (!is_array($extra) || !$extra['zoneadvanced'])
+		echo "</form>";
+
 	echo "<br><br>";
 }
 

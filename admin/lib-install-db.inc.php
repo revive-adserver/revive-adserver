@@ -92,6 +92,9 @@ function phpAds_upgradeDatabase ($tabletype = '')
 	// Detect version of needed plugins
 	phpAds_upgradeDetectPluginVersion();
 	
+	// Upgrade append type to zones when possible
+	phpAds_upgradeAppendZones();
+
 	return true;
 }
 
@@ -755,6 +758,42 @@ function phpAds_upgradeHTMLCache ()
 			WHERE
 				bannerid = ".$current['bannerid']."
 		");
+	}
+}
+
+function phpAds_upgradeAppendZones ()
+{
+	global $phpAds_config;
+	
+	// Check if md5 adding is needed
+	if (!isset($phpAds_config['config_version']) ||	$phpAds_config['config_version'] < 200.112)
+	{
+		$res = phpAds_dbQuery("
+				SELECT
+					zoneid,
+					append
+				FROM
+					".$phpAds_config['tbl_zones']."
+				WHERE
+					appendtype = ".phpAds_ZoneAppendRaw."
+			");
+
+		while ($row = phpAds_dbFetchArray($res))
+		{
+			$append = phpAds_ZoneParseAppendCode($row['append']);
+
+			if ($append[0]['zoneid'])
+			{
+				phpAds_dbQuery("
+						UPDATE
+							".$phpAds_config['tbl_zones']."
+						SET
+							appendtype = ".phpAds_ZoneAppendZone."
+						WHERE
+							zoneid = '".$row['zoneid']."'
+					");
+			}
+		}
 	}
 }
 

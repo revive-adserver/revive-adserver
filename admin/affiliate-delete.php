@@ -16,6 +16,7 @@
 
 // Include required files
 require ("config.php");
+require ("lib-zones.inc.php");
 
 
 // Register input variables
@@ -33,14 +34,72 @@ phpAds_checkAccess(phpAds_Admin);
 
 if (isset($affiliateid) && $affiliateid != '')
 {
-	// Delete banner
+	// Reset append codes which called this affiliate's zones
 	$res = phpAds_dbQuery("
-		DELETE FROM
-			".$phpAds_config['tbl_zones']."
-		WHERE
-			affiliateid = '$affiliateid'
-		") or phpAds_sqlDie();
+			SELECT
+				zoneid
+			FROM
+				".$phpAds_config['tbl_zones']."
+			WHERE
+				affiliateid = '$affiliateid'
+		");
+
+	$zones = array();
+	while ($row = phpAds_dbFetchArray($res))
+		$zones[] = $row['zoneid'];
 	
+			SELECT
+				zoneid
+			FROM
+				".$phpAds_config['tbl_zones']."
+			WHERE
+				affiliateid = '$affiliateid'
+		");
+
+	$zones = array();
+	while ($row = phpAds_dbFetchArray($res))
+		$zones[] = $row['zoneid'];
+43a51,90
+	if (count($zones))
+	{
+		$res = phpAds_dbQuery("
+				SELECT
+					zoneid,
+					append
+				FROM
+					".$phpAds_config['tbl_zones']."
+				WHERE
+					appendtype = ".phpAds_ZoneAppendZone."
+			");
+		
+		while ($row = phpAds_dbFetchArray($res))
+		{
+			$append = phpAds_ZoneParseAppendCode($row['append']);
+
+			if (in_array($append[0]['zoneid'], $zones))
+			{
+				phpAds_dbQuery("
+						UPDATE
+							".$phpAds_config['tbl_zones']."
+						SET
+							appendtype = ".phpAds_ZoneAppendRaw.",
+							append = ''
+						WHERE
+							zoneid = '".$row['zoneid']."'
+					");
+			}
+		}
+
+		
+		// Delete zones
+		$res = phpAds_dbQuery("
+			DELETE FROM
+				".$phpAds_config['tbl_zones']."
+			WHERE
+				affiliateid = '$affiliateid'
+			") or phpAds_sqlDie();
+	}
+
 	// Delete affiliate
 	$res = phpAds_dbQuery("
 		DELETE FROM

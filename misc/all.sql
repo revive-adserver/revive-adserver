@@ -52,6 +52,7 @@ CREATE TABLE phpads_zones (
    chain blob NOT NULL,
    prepend blob NOT NULL,
    append blob NOT NULL,
+   appendtype tinyint(4) DEFAULT '0' NOT NULL,
    PRIMARY KEY (zoneid),
    KEY zonenameid (zonename,zoneid)
 );

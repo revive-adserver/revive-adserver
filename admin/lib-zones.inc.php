@@ -33,6 +33,11 @@ define ("phpAds_ZonePopup", 2);
 define ("phpAds_ZoneText", 3);
 
 
+// Define appendtypes
+define ("phpAds_ZoneAppendRaw", 0);
+define ("phpAds_ZoneAppendZone", 1);
+
+
 
 /*********************************************************/
 /* Rebuild zonecache                                     */
@@ -348,6 +353,47 @@ function phpAds_ToggleCampaignInZone ($clientid, $zoneid)
 	}
 	
 	return (false);
+}
+
+
+
+/*********************************************************/
+/* Fetch parameters from append code                     */
+/*********************************************************/
+
+function phpAds_ZoneParseAppendCode ($append)
+{
+	global $phpAds_config;
+	
+	$ret = array(
+		array('zoneid' => '', 'delivery' => phpAds_ZonePopup),
+		array()
+	);
+	
+	if (ereg("ad(popup|layer)\.php\?([^'\"]+)['\"]", $append, $match))
+	{
+		if (!empty($match[2]))
+		{
+			$ret[0]['delivery'] = ($match[1] == 'popup') ? phpAds_ZonePopup : phpAds_ZoneInterstitial;
+			
+			$append = str_replace('&amp;', '&', $match[2]);
+			
+			if (ereg('[?&]what=zone:([0-9]+)(&|$)', $append, $match))
+			{
+				$ret[0]['zoneid'] = $match[1];
+				
+				$append = explode('&', $append);
+				while (list(, $v) = each($append))
+				{
+					$v = explode('=', $v);
+					if (count($v) == 2)
+						$ret[1][urldecode($v[0])] = urldecode($v[1]);
+				}
+			}
+		}
+	}
+	
+	return $ret;
 }
 
 ?>

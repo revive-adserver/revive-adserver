@@ -16,6 +16,7 @@
 
 // Include required files
 require ("config.php");
+require ("lib-zones.inc.php");
 
 
 // Register input variables
@@ -57,8 +58,37 @@ if (isset($zoneid) && $zoneid != '')
 	}
 	
 	
-	// Delete banner
+	// Reset append codes which called this zone
 	$res = phpAds_dbQuery("
+			SELECT
+				zoneid,
+				append
+			FROM
+				".$phpAds_config['tbl_zones']."
+			WHERE
+				appendtype = ".phpAds_ZoneAppendZone."
+		");
+	
+	while ($row = phpAds_dbFetchArray($res))
+	{
+		$append = phpAds_ZoneParseAppendCode($row['append']);
+
+		if ($append[0]['zoneid'] == $zoneid)
+		{
+			phpAds_dbQuery("
+					UPDATE
+						".$phpAds_config['tbl_zones']."
+					SET
+						appendtype = ".phpAds_ZoneAppendRaw.",
+						append = ''
+					WHERE
+						zoneid = '".$row['zoneid']."'
+				");
+		}
+	}
+	
+	
+	// Delete zone	$res = phpAds_dbQuery("
 		DELETE FROM
 			".$phpAds_config['tbl_zones']."
 		WHERE
