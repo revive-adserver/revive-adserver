@@ -263,7 +263,7 @@ if (phpAds_isUser(phpAds_Admin))
 			
 		case 3:
 			// Setup username / password check
-			$admin = trim(strtolower($admin));
+			$admin = trim($admin);
 			
 			if (!strlen($admin) || !strlen($admin_pw))
 				$errormessage[1][] = $strInvalidUserPwd;

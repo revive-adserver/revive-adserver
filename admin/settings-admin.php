@@ -30,11 +30,11 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 {
 	if (isset($admin))
 	{
-		$admin = strtolower($admin);
-		
 		if (!strlen($admin))
 			$errormessage[1][] = $strInvalidUsername;
-		elseif (phpAds_dbNumRows(phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE clientusername = '$admin'")))
+		elseif (phpAds_dbNumRows(phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE LOWER(clientusername) = '".strtolower($admin)."'")))
+			$errormessage[1][] = $strDuplicateClientName;
+		elseif (phpAds_dbNumRows(phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_affiliates']." WHERE LOWER(username) = '".strtolower($admin)."'")))
 			$errormessage[1][] = $strDuplicateClientName;
 		else
 			phpAds_SettingsWriteAdd('admin', $admin);
