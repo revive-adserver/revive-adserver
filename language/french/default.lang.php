@@ -99,6 +99,7 @@ $GLOBALS['strExpandAll']			= "Tout développer";
 $GLOBALS['strCollapseAll']			= "Tout réduire";
 $GLOBALS['strShowAll']				= "Tout montrer";
 $GLOBALS['strNoAdminInteface']		= "Service indisponible...";
+$GLOBALS['strFilterBySource']				= "filter by source";
 
 
 // Properties
@@ -252,6 +253,10 @@ $GLOBALS['strNoBanners']			= "Il n'y a actuellement aucune bannière enregistrée.
 $GLOBALS['strConfirmDeleteBanner']		= "Voulez vous vraiment effacer cette bannière ?";
 $GLOBALS['strConfirmDeleteAllBanners']	= "Voulez vous vraiment effacer toutes les bannières de cette campagne ?";
 $GLOBALS['strConfirmResetBannerStats']	= "Voulez vous vraiment effacer toutes les statistiques de cette bannière ?";
+$GLOBALS['strShowParentCampaigns']			= "Show parent campaigns";
+$GLOBALS['strHideParentCampaigns']			= "Hide parent campaigns";
+$GLOBALS['strHideInactiveBanners']			= "Hide inactive banners";
+$GLOBALS['strInactiveBannersHidden']		= "inactive banner(s) hidden";
 
 
 // Banner (Properties)
@@ -260,6 +265,7 @@ $GLOBALS['strMySQLBanner'] 			= "Bannière locale (SQL)";
 $GLOBALS['strWebBanner'] 			= "Bannière locale (Serveur Web)";
 $GLOBALS['strURLBanner'] 			= "Bannière externe";
 $GLOBALS['strHTMLBanner'] 			= "Bannière HTML";
+$GLOBALS['strTextBanner'] 					= "Text ad";
 $GLOBALS['strAutoChangeHTML']			= "Changer le HTML pour pouvoir compter les clics";
 $GLOBALS['strUploadOrKeep']			= "Voulez vous garder l'image <br> existante, ou bien souhaitez <br> vous en uploader une autre ?";
 $GLOBALS['strNewBannerFile'] 			= "Veuillez sélectionner l'image que <br> vous souhaitez utiliser<br><br>";
@@ -361,9 +367,13 @@ $GLOBALS['strZoneType']				= "Type de zone";
 $GLOBALS['strBannerButtonRectangle']	= "Bannière, Bouton ou Rectangle";
 $GLOBALS['strInterstitial']			= "Interstitiel, ou DHTML flottant";
 $GLOBALS['strPopup']				= "Popup";
+$GLOBALS['strTextAdZone']					= "Text ad";
+$GLOBALS['strShowMatchingBanners']			= "Show matching banners";
+$GLOBALS['strHideMatchingBanners']			= "Hide matching banners";
 
 
 // Advanced zone settings
+$GLOBALS['strAdvanced']						= "Advanced";
 $GLOBALS['strChains']				= "Chaînes";
 $GLOBALS['strChainSettings']			= "Paramètres de la chaîne";
 $GLOBALS['strZoneNoDelivery']			= "Si aucune bannière de cette zone ne peut être délivrée, essayer de...";
@@ -371,6 +381,9 @@ $GLOBALS['strZoneStopDelivery']		= "Arrêter la distribution, et ne montrer aucun
 $GLOBALS['strZoneOtherZone']			= "Montrer la zone sélectionnée à la place";
 $GLOBALS['strZoneUseKeywords']		= "Sélectionnez une bannière en utilisant les mots clés spécifiés ci-dessous";
 $GLOBALS['strZoneAppend']			= "Toujours faire suivre le code d'invocation des bannières de cette zone par le popup ou l'interstitiel ci-contre";
+$GLOBALS['strAppendSettings']				= "Append and prepend settings";
+$GLOBALS['strZonePrependHTML']				= "Always prepend the HTML code to text ads displayed by this zone";
+$GLOBALS['strZoneAppendHTML']				= "Always append the HTML code to text ads displayed by this zone";
 
 
 // Linked banners/campaigns

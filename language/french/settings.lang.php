@@ -33,10 +33,11 @@ $GLOBALS['strTablePrefixInvalid']		= "Le préfixe des tables contient des caractè
 $GLOBALS['strTableInUse']			= "La base de données que vous avez spécifiée est déjà utilisée pour ".$phpAds_productname.". Veuillez utiliser un préfixe de table différent, ou lire le manuel pour les instructions de mise à jour.";
 $GLOBALS['strMayNotFunction']			= "Avant de continuer, merci de corriger ce problème potentiel::";
 $GLOBALS['strIgnoreWarnings']			= "Ignorer les avertissement";
-$GLOBALS['strWarningPHPversion']		= $phpAds_productname." requiert  PHP 3.0.8 (ou plus) pour fonctionner correctement. Vous utilisez actuellement {php_version}.";
+$GLOBALS['strWarningPHPversion']		= $phpAds_productname." requiert  PHP 4.0 (ou plus) pour fonctionner correctement. Vous utilisez actuellement {php_version}.";
 $GLOBALS['strWarningRegisterGlobals']	= "La variable de configuration globale PHP <i>register_globals</i> doit être à 'on'.";
 $GLOBALS['strWarningMagicQuotesGPC']	= "La variable de configuration globale PHP <i>magic_quotes_gpc</i> doit être à 'on'.";
 $GLOBALS['strWarningMagicQuotesRuntime']  = "La variable de configuration globale PHP <i>magic_quotes_runtime</i> doit être à 'off'.";
+$GLOBALS['strWarningFileUploads']		= "La variable de configuration globale PHP <i>file_uploads</i> doit être à 'on'.";
 $GLOBALS['strConfigLockedDetected']		= $phpAds_productname." a détecté que votre fichier <b>config.inc.php</b> n'est pas inscriptible par le serveur.<br> Vous ne pouvez pas continuez tant que vous ne changerez pas les permissions d'écriture sur ce fichier. <br>Veuillez lire la documentation fournie si vous ne savez pas comment le faire.";
 $GLOBALS['strCantUpdateDB']  			= "Il n'est actuellement pas possible de mettre à jour la base de données. Si vous décidez de continuer, toutes les bannières existantes, les statistiques, et les annonceures seront supprimés.";
 $GLOBALS['strTableNames']			= "Nom de la base";
@@ -49,6 +50,7 @@ $GLOBALS['strInstallSuccess']			= "<b>L'installation de ".$phpAds_productname." 
 										   maintenance est exécuté chaque heure. Vous trouverez plus d'informations à ce sujet dans la documentation.
 										   <br><br>Cliquez sur <b>Continuer</b> pour aller à la page de configuration, où vous pourrez
 										   paramétrer un peu plus ".$phpAds_productname.". Veuillez à ne pas oublier de protéger en écriture config.inc.php lorsque vous aurez fini, afin de refermer des failles potentielles de sécurité.";
+
 $GLOBALS['strUpdateSuccess']			= "<b>La mise à niveau de ".$phpAds_productname." est réussie.</b><br><br>Afin que ".$phpAds_productname." fonctionne correctement, vous devez aussi faire en sorte que le fichier de
 										   maintenance est exécuté chaque heure (précédemment c'était chaque jour). Vous trouverez plus d'informations à ce sujet dans la documentation.
 										   <br><br>Cliquez sur <b>Continuer</b> pour aller à la page de configuration, où vous pourrez
@@ -154,6 +156,7 @@ $GLOBALS['strTypeSqlAllow']			= "Autoriser les bannières locales (SQL)";
 $GLOBALS['strTypeWebAllow']			= "Autoriser les bannières locales (Serveur Web)";
 $GLOBALS['strTypeUrlAllow']			= "Autoriser les bannières externes";
 $GLOBALS['strTypeHtmlAllow']			= "Autoriser les bannières HTML";
+$GLOBALS['strTypeTxtAllow']				= "Allow Text ads";
 
 $GLOBALS['strTypeWebSettings']		= "Configuration des bannières locales (Serveur Web)";
 $GLOBALS['strTypeWebMode']			= "Méthode de stockage";
@@ -201,6 +204,11 @@ $GLOBALS['strIgnoreHosts']			= "Machines à ignorer";
 $GLOBALS['strReverseLookup']			= "Requête DNS inversée";
 $GLOBALS['strProxyLookup']			= "Résoudre les adresses des proxys";
 
+$GLOBALS['strAutoCleanTables']			= "Auto clean database";
+$GLOBALS['strAutoCleanEnable']			= "Enable auto clean";
+$GLOBALS['strAutoCleanWeeks']			= "Statistics and user log max age (weeks)";
+$GLOBALS['strAutoCleanErr']				= "Max age must be at least 2 weeks";
+$GLOBALS['strAutoCleanVacuum']			= "VACUUM ANALYZE tables every night"; // only Pg
 
 
 // Administrator settings
@@ -256,6 +264,9 @@ $GLOBALS['strShowCampaignPreview']		= "Montrer un aperçu de toutes les bannières
 $GLOBALS['strShowBannerHTML']			= "Montrer la bannière actuelle, plutôt que du code HTML brut pour l'aperçu des bannières HTML";
 $GLOBALS['strShowBannerPreview']		= "Montrer l'aperçu de la bannière au sommet des pages qui concernent les bannières";
 $GLOBALS['strHideInactive']			= "Cacher les éléments inactifs dans toutes les pages d'aperçus";
+$GLOBALS['strGUIShowMatchingBanners']	= "Show matching banners on the <i>Linked banner</i> pages";
+$GLOBALS['strGUIShowParentCampaigns']	= "Show parent campaigns on the <i>Linked banner</i> pages";
+$GLOBALS['strGUILinkCompactLimit']		= "Hide non-linked campaigns or banners on the <i>Linked banner</i> pages when there are more than";
 
 $GLOBALS['strStatisticsDefaults'] 		= "Statistiques";
 $GLOBALS['strBeginOfWeek']			= "Premier jour de la semaine";
