@@ -43,12 +43,12 @@ if (!isset($n)) $n = 'default';
 
 
 // Fetch BannerID
-if (!isset($bannerid) && isset($phpAds_banner[$n]))
+if (!isset($bannerid))
 {
-	// Bannerid and destination not known, try to get
+ 	// Bannerid and destination not known, try to get
 	// values from the phpAds_banner cookie.
 	
-	if ($phpAds_banner[$n] != 'DEFAULT')
+	if (isset($phpAds_banner[$n]) && $phpAds_banner[$n] != 'DEFAULT')
 	{
 		$cookie = unserialize (stripslashes($phpAds_banner[$n]));
 		
@@ -72,123 +72,123 @@ if (!isset($bannerid) && isset($phpAds_banner[$n]))
 
 
 // Open a connection to the database
-phpAds_dbConnect();
-
-if ($bannerid != "DEFAULT")
+if (phpAds_dbConnect())
 {
-	// Get target URL and ClientID
-	$res = phpAds_dbQuery("
-		SELECT
-			url,clientid
-		FROM
-			".$phpAds_config['tbl_banners']."
-		WHERE
-			bannerid = $bannerid
+	if ($bannerid != "DEFAULT")
+	{
+		// Get target URL and ClientID
+		$res = phpAds_dbQuery("
+			SELECT
+				url,clientid
+			FROM
+				".$phpAds_config['tbl_banners']."
+			WHERE
+				bannerid = $bannerid
 		") or die();
 		
-	$url 	  = phpAds_dbResult($res, 0, 0);
-	$clientid = phpAds_dbResult($res, 0, 1);
-	
-	
-	// If destination is a parameter don't use
-	// url from database
-	if (isset($dest) && $dest != '')
-		$url = stripslashes($dest);
-	
-	
-	
-	// If zoneid is not set, log it as a regular banner
-	if (!isset($zoneid)) $zoneid = 0;
-	if (!isset($source)) $source = '';
-	
-	
-	// Log clicks
-	if ($phpAds_config['block_adclicks'] == 0 ||
-	   ($phpAds_config['block_adclicks'] > 0 && !isset($phpAds_blockClick[$bannerid])))
-	{
-		if ($phpAds_config['log_adclicks'])
-			phpAds_logClick($bannerid, $clientid, $zoneid, $source);
+		$url 	  = phpAds_dbResult($res, 0, 0);
+		$clientid = phpAds_dbResult($res, 0, 1);
 		
-		// Send block cookies
-		if ($phpAds_config['block_adclicks'] > 0)
+		
+		// If destination is a parameter don't use
+		// url from database
+		if (isset($dest) && $dest != '')
+			$url = stripslashes($dest);
+		
+		
+		// If zoneid is not set, log it as a regular banner
+		if (!isset($zoneid)) $zoneid = 0;
+		if (!isset($source)) $source = '';
+		
+		
+		// Log clicks
+		if ($phpAds_config['block_adclicks'] == 0 ||
+		   ($phpAds_config['block_adclicks'] > 0 && !isset($phpAds_blockClick[$bannerid])))
 		{
-			if ($phpAds_config['p3p_policies'])
-			{
-				$p3p_header = '';
-				
-				if ($phpAds_config['p3p_policy_location'] != '')
-					$p3p_header .= " policyref=\"".$phpAds_config['p3p_policy_location']."\"";
-				
-				if ($phpAds_config['p3p_compact_policy'] != '')
-					$p3p_header .= " CP=\"".$phpAds_config['p3p_compact_policy']."\"";
-				
-				if ($p3p_header != '')
-					header ("P3P: $p3p_header");
-			}
+			if ($phpAds_config['log_adclicks'])
+				phpAds_logClick($bannerid, $clientid, $zoneid, $source);
 			
-			$url_prefix = parse_url($phpAds_config['url_prefix']);
-			setcookie ("phpAds_blockClick[".$bannerid."]", time(), time() + $phpAds_config['block_adclicks'], $url_prefix["path"]);
+			// Send block cookies
+			if ($phpAds_config['block_adclicks'] > 0)
+			{
+				if ($phpAds_config['p3p_policies'])
+				{
+					$p3p_header = '';
+					
+					if ($phpAds_config['p3p_policy_location'] != '')
+						$p3p_header .= " policyref=\"".$phpAds_config['p3p_policy_location']."\"";
+					
+					if ($phpAds_config['p3p_compact_policy'] != '')
+						$p3p_header .= " CP=\"".$phpAds_config['p3p_compact_policy']."\"";
+					
+					if ($p3p_header != '')
+						header ("P3P: $p3p_header");
+				}
+				
+				$url_prefix = parse_url($phpAds_config['url_prefix']);
+				setcookie ("phpAds_blockClick[".$bannerid."]", time(), time() + $phpAds_config['block_adclicks'], $url_prefix["path"]);
+			}
 		}
-	}
-	
-	
-	
-	// Get vars
-	if (isset($HTTP_GET_VARS))
-		for (reset ($HTTP_GET_VARS); $key = key($HTTP_GET_VARS); next($HTTP_GET_VARS))
+		
+		
+		// Get vars
+		if (isset($HTTP_GET_VARS))
+			for (reset ($HTTP_GET_VARS); $key = key($HTTP_GET_VARS); next($HTTP_GET_VARS))
+			{
+				if ($key != 'bannerid' &&
+					$key != 'zoneid' &&
+					$key != 'source' &&
+					$key != 'dest' &&
+					$key != 'ismap' &&
+					$key != 'n' &&
+					$key != 'cb')
+					$vars[] = $key.'='.$HTTP_GET_VARS[$key];
+			}
+		
+		if (isset($HTTP_POST_VARS))
+			for (reset ($HTTP_POST_VARS); $key = key($HTTP_POST_VARS); next($HTTP_POST_VARS))
+			{
+				if ($key != 'bannerid' &&
+					$key != 'zoneid' &&
+					$key != 'source' &&
+					$key != 'dest' &&
+					$key != 'ismap' &&
+					$key != 'n' &&
+					$key != 'cb')
+					$vars[] = $key.'='.$HTTP_POST_VARS[$key];
+			}
+		
+		if (isset($vars) && is_array($vars) && sizeof($vars) > 0)
 		{
-			if ($key != 'bannerid' &&
-				$key != 'zoneid' &&
-				$key != 'source' &&
-				$key != 'dest' &&
-				$key != 'ismap' &&
-				$key != 'n' &&
-				$key != 'cb')
-				$vars[] = $key.'='.$HTTP_GET_VARS[$key];
+			if (strpos ($url, '?') > 0)
+				$url = $url.'&'.implode ('&', $vars);
+			else
+				$url = $url.'?'.implode ('&', $vars);
 		}
-	
-	if (isset($HTTP_POST_VARS))
-		for (reset ($HTTP_POST_VARS); $key = key($HTTP_POST_VARS); next($HTTP_POST_VARS))
-		{
-			if ($key != 'bannerid' &&
-				$key != 'zoneid' &&
-				$key != 'source' &&
-				$key != 'dest' &&
-				$key != 'ismap' &&
-				$key != 'n' &&
-				$key != 'cb')
-				$vars[] = $key.'='.$HTTP_POST_VARS[$key];
-		}
-	
-	if (isset($vars) && is_array($vars) && sizeof($vars) > 0)
-	{
-		if (strpos ($url, '?') > 0)
-			$url = $url.'&'.implode ('&', $vars);
+		
+		
+		// Referer
+		if (isset($HTTP_REFERER))
+			$url = str_replace ("{referer}", urlencode($HTTP_REFERER), $url);
 		else
-			$url = $url.'?'.implode ('&', $vars);
+			$url = str_replace ("{referer}", '', $url);
+		
+		// ISMAP click location
+		if (isset($ismap) && $ismap != '')
+		{
+			$url .= $ismap;
+		}
+		
+		
+		// Redirect
+		header ("Location: $url");
+		exit;
 	}
-	
-	
-	// Referer
-	if (isset($HTTP_REFERER))
-		$url = str_replace ("{referer}", urlencode($HTTP_REFERER), $url);
-	else
-		$url = str_replace ("{referer}", '', $url);
-	
-	// ISMAP click location
-	if (isset($ismap) && $ismap != '')
-	{
-		$url .= $ismap;
-	}
-}
-else
-{
-	// Banner displayed was the default banner, now 
-	// redirect to the default location
-	$url = $phpAds_config['default_banner_target'];
 }
 
+
 // Redirect
-header ("Location: $url");
+if ($phpAds_config['default_banner_target'] != '')
+	header ("Location: ".$phpAds_config['default_banner_target']);
 
 ?>
