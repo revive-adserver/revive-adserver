@@ -60,6 +60,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-12-01:  Rewritten the settings library to allow more complex dependancies and Javascript input checking  (Niels)
 			  - 2002-12-03:  Added optional localization for ISO3166, ISO639 and continent resource files  (Matteo)
 			  - 2002-12-10:  Added a warning mesage into zone-probability.php when using circular zone chains and all zones are empty  (Matteo)
+			  - 2002-12-15:  The install script now also uses the rewritten settings library  (Niels)
 
 			+ Misc bugfixes
 			  - 2002-07-25:  On some systems history pages showed '-0' instead of simply '-' (Matteo)
@@ -148,6 +149,9 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-12-10:  Fixed infinite loop during invocation when using circular zone chains and all zones are empty  (Matteo)
 			  - 2002-12-11:  Now priority is recalculaed only if necessary when editing campaigns  (Matteo)
 			  - 2002-12-14:  Fixed crash when saving the default settings on IIS when using PHP as CGI  (Niels)
+			  - 2002-12-15:  Fixed multiple E_ALL errors in admin-search.php  (Niels)
+			  - 2002-12-15:  Javascript form checking didn't work if a required field didn't have particular type  (Niels)
+
 
 
 
