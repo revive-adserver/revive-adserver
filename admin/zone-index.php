@@ -68,13 +68,13 @@ if (@mysql_num_rows($res_zones) > 0)
 	{
 		if  (($orderdirection == "") || ($orderdirection == "down"))
 		{
-			echo '<a href="'.$PHP_SELF.'?listorder=name&orderdirection=up">';
-			echo '<img src="images/triangle-d.gif" border="0" alt="" title="">';
+			echo ' <a href="'.$PHP_SELF.'?listorder=name&orderdirection=up">';
+			echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 		}
 		else
 		{
-			echo '<a href="'.$PHP_SELF.'?listorder=name&orderdirection=down">';
-			echo '<img src="images/triangle-u.gif" border="0" alt="" title="">';
+			echo ' <a href="'.$PHP_SELF.'?listorder=name&orderdirection=down">';
+			echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 		}
 		echo '</a>';
 	}
@@ -84,13 +84,13 @@ if (@mysql_num_rows($res_zones) > 0)
 	{
 		if  (($orderdirection == "") || ($orderdirection == "down"))
 		{
-			echo '<a href="'.$PHP_SELF.'?listorder=id&orderdirection=up">';
-			echo '<img src="images/triangle-d.gif" border="0" alt="" title="">';
+			echo ' <a href="'.$PHP_SELF.'?listorder=id&orderdirection=up">';
+			echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 		}
 		else
 		{
-			echo '<a href="'.$PHP_SELF.'?listorder=id&orderdirection=down">';
-			echo '<img src="images/triangle-u.gif" border="0" alt="" title="">';
+			echo ' <a href="'.$PHP_SELF.'?listorder=id&orderdirection=down">';
+			echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 		}
 		echo '</a>';
 	}
