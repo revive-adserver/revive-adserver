@@ -4,6 +4,7 @@
 /* placed to GNU by martin@braun.cc */
 
 require('weeklystats.inc.php');
+require("gd.php");
 
 function DayInd($ind)   // adjust day index to specific installation
 {              
@@ -192,6 +193,7 @@ function stats() // generate weekly statistics
 	global $clientID, $which;
 	global $max_weeks, $php_week_sign, $mysql_week_sign;
 	global $strDayShortCuts;
+	global $gdimageformat;	
 
 	// get all significant banner-ids to build where-clause
 	$banner_query='
@@ -516,9 +518,16 @@ function stats() // generate weekly statistics
 		<TD class="normal" COLSPAN="10" BGCOLOR="#DDDDDD"><? echo $GLOBALS["strCTR"]; ?></TD>
 		<TD class="normal" align="RIGHT" BGCOLOR="#DDDDDD"><B><? tabecho($total_views>0?sprintf(" %.".$GLOBALS['phpAds_percentage_decimals']."f%%",$total_clicks/$total_views*100):0); ?></B></TD>
 	</TR>  
+	<?
+		if ($gdimageformat != "none")
+		{
+	?>
 	<TR>
 		<TD COLSPAN="11" ALIGN="CENTER" BGCOLOR="#DDDDDD"><IMG SRC="weeklystats.graph.php?<?php echo "$fncpageid&clientID=$clientID&max_weeks=$max_weeks&where=".urlencode("$where"); ?>"></TD>
-	</TR>          
+	</TR>
+	<?
+		}
+	?>          
 	</TABLE>   
 	</TD>
 	</TR>
