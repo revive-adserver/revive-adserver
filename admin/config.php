@@ -125,7 +125,6 @@ $phpAds_nav = array (
 		  "2.2"						=>  array("stats-global-history.php" => $strGlobalHistory),
 		    "2.2.1"					=> 	array("stats-global-daily.php?day=$day" => $strDailyStats),
 		    "2.2.2"					=> 	array("stats-global-daily-hosts.php?day=$day" => $strHosts),
-		  "2.3"						=>  array("stats-global-source.php" => $strSourceStats),
 	      "2.4"		 				=> 	array("stats-global-affiliates.php" => $strAffiliatesAndZones),
 		    "2.4.1"					=>  array("stats-affiliate-history.php?affiliateid=$affiliateid" => $strAffiliateHistory),
 			  "2.4.1.1"				=>  array("stats-affiliate-daily.php?affiliateid=$affiliateid&day=$day" => $strDailyStats),

@@ -17,6 +17,11 @@
 require ('lib-gd.inc.php');
 
 
+if (!isset($source))
+	$source = '-';
+
+if ($source != '-')
+	$lib_history_source = "source = '".$source."'";
 
 if (!isset($period) || $period == '')
 	$period = 'd';
@@ -80,31 +85,6 @@ else
 
 if (isset($row['span']) && $row['span'] > 0)
 {
-	/*********************************************************/
-	/* Main code                                             */
-	/*********************************************************/
-	
-	echo "<form action='".$PHP_SELF."'>";
-	
-	if (isset($lib_history_params))
-		for (reset($lib_history_params); $key = key($lib_history_params); next($lib_history_params))
-			echo "<input type='hidden' name='".$key."' value='".$lib_history_params[$key]."'>";
-	
-	echo "<select name='period' onChange='this.form.submit();'>";
-		echo "<option value='d'".($period == 'd' ? ' selected' : '').">".$strDailyHistory."</option>";
-		echo "<option value='w'".($period == 'w' ? ' selected' : '').">".$strWeeklyHistory."</option>";
-		echo "<option value='m'".($period == 'm' ? ' selected' : '').">".$strMonthlyHistory."</option>";
-	echo "</select>";
-	
-	echo "&nbsp;&nbsp;";
-	echo "<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0' name='submit'>&nbsp;";
-	
-	phpAds_ShowBreak();
-	echo "</form>";
-	
-	echo "<br><br>";
-	
-	
 	/*********************************************************/
 	/* Prepare for different periods                         */
 	/*********************************************************/
@@ -176,6 +156,7 @@ if (isset($row['span']) && $row['span'] > 0)
 			FROM
 				".$phpAds_config['tbl_adstats']."
 				".(isset($lib_history_where) ? 'WHERE '.$lib_history_where : '')."
+				".(isset($lib_history_source) ? 'AND '.$lib_history_source : '')."
 		");
 		
 		if ($row = phpAds_dbFetchArray($result))
@@ -192,6 +173,7 @@ if (isset($row['span']) && $row['span'] > 0)
 			FROM
 				".$phpAds_config['tbl_adviews']."
 				".(isset($lib_history_where) ? 'WHERE '.$lib_history_where : '')."
+				".(isset($lib_history_source) ? 'AND '.$lib_history_source : '')."
 		");
 		
 		if ($row = phpAds_dbFetchArray($result))
@@ -206,11 +188,51 @@ if (isset($row['span']) && $row['span'] > 0)
 			FROM
 				".$phpAds_config['tbl_adclicks']."
 				".(isset($lib_history_where) ? 'WHERE '.$lib_history_where : '')."
+				".(isset($lib_history_source) ? 'AND '.$lib_history_source : '')."
 		");
 		
 		if ($row = phpAds_dbFetchArray($result))
 		{
 			$totals['clicks'] = $row['sum_clicks'];
+		}
+	}
+	
+	
+	
+	/*********************************************************/
+	/* Get different sources                                 */
+	/*********************************************************/
+	
+	$sources = array();
+	
+	if ($phpAds_config['compact_stats']) 
+	{
+		$result = phpAds_dbQuery("
+			SELECT
+				DISTINCT source as source
+			FROM
+				".$phpAds_config['tbl_adstats']."
+				".(isset($lib_history_where) ? 'WHERE '.$lib_history_where : '')."
+		");
+		
+		while ($row = phpAds_dbFetchArray($result))
+		{
+			$sources[] = $row['source'];
+		}
+	}
+	else
+	{
+		$result = phpAds_dbQuery("
+			SELECT
+				DISTINCT source as source
+			FROM
+				".$phpAds_config['tbl_adviews']."
+				".(isset($lib_history_where) ? 'WHERE '.$lib_history_where : '')."
+		");
+		
+		while ($row = phpAds_dbFetchArray($result))
+		{
+			$sources[] = $row['source'];
 		}
 	}
 	
@@ -237,6 +259,7 @@ if (isset($row['span']) && $row['span'] > 0)
 			WHERE
 				day >= $begin AND day < $end
 				".(isset($lib_history_where) ? 'AND '.$lib_history_where : '')."
+				".(isset($lib_history_source) ? 'AND '.$lib_history_source : '')."
 			GROUP BY
 				date_u
 			ORDER BY
@@ -267,6 +290,7 @@ if (isset($row['span']) && $row['span'] > 0)
 			WHERE
 				t_stamp >= $begin AND t_stamp < $end
 				".(isset($lib_history_where) ? 'AND '.$lib_history_where : '')."
+				".(isset($lib_history_source) ? 'AND '.$lib_history_source : '')."
 			GROUP BY
 				date_u
 			ORDER BY
@@ -292,6 +316,7 @@ if (isset($row['span']) && $row['span'] > 0)
 			WHERE
 				t_stamp >= $begin AND t_stamp < $end
 				".(isset($lib_history_where) ? 'AND '.$lib_history_where : '')."
+				".(isset($lib_history_source) ? 'AND '.$lib_history_source : '')."
 			GROUP BY
 				date_u
 			ORDER BY
@@ -305,6 +330,57 @@ if (isset($row['span']) && $row['span'] > 0)
 			$stats[$row['date']]['sum_clicks'] = $row['sum_clicks'];
 		}
 	}
+	
+	
+	
+	/*********************************************************/
+	/* Main code                                             */
+	/*********************************************************/
+	
+	echo "<form action='".$PHP_SELF."'>";
+	
+	if (isset($lib_history_params))
+		for (reset($lib_history_params); $key = key($lib_history_params); next($lib_history_params))
+			echo "<input type='hidden' name='".$key."' value='".$lib_history_params[$key]."'>";
+	
+	echo "<select name='period' onChange='this.form.submit();'>";
+		echo "<option value='d'".($period == 'd' ? ' selected' : '').">".$strDailyHistory."</option>";
+		echo "<option value='w'".($period == 'w' ? ' selected' : '').">".$strWeeklyHistory."</option>";
+		echo "<option value='m'".($period == 'm' ? ' selected' : '').">".$strMonthlyHistory."</option>";
+	echo "</select>";
+	
+	if ((count($sources) == 1 && $sources[0] != '') || count($sources) > 1)
+	{
+		echo "&nbsp;&nbsp;";
+		echo $strFilterBySource;
+		echo "&nbsp;&nbsp;";
+		
+		echo "<select name='source' onChange='this.form.submit();'>";
+		echo "<option value='-'".($source == '-' ? ' selected' : '').">".$strNone."</option>";
+		echo "<option value='-'>-----------------</option>";
+		
+		asort ($sources);
+		reset ($sources);
+		
+		while (list($key, $value) = each ($sources))
+		{
+			if ($value == '') 
+				$readable = $strDefault;
+			else
+				$readable = ucfirst($value);
+			
+			echo "<option value='".$value."'".($source == $value ? ' selected' : '').">".$readable."</option>";
+		}
+		echo "</select>";
+	}
+	
+	echo "&nbsp;&nbsp;";
+	echo "<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0' name='submit'>&nbsp;";
+	
+	phpAds_ShowBreak();
+	echo "</form>";
+	
+	echo "<br><br>";
 	
 	
 	if ($period == 'm' || $period == 'd')
@@ -401,9 +477,9 @@ if (isset($row['span']) && $row['span'] > 0)
 			for ($i = 0; $i < count($limits); $i++)
 			{
 				if ($limit == $limits[$i])
-					echo "<a href='".$PHP_SELF.$params."period=".$period."&start=".$start."&limit=".$limits[$i]."'><u>".$limits[$i]."</u></a>";
+					echo "<a href='".$PHP_SELF.$params."period=".$period."&start=".$start."&limit=".$limits[$i]."&source=".$source."'><u>".$limits[$i]."</u></a>";
 				else
-					echo "<a href='".$PHP_SELF.$params."period=".$period."&start=".$start."&limit=".$limits[$i]."'>".$limits[$i]."</a>";
+					echo "<a href='".$PHP_SELF.$params."period=".$period."&start=".$start."&limit=".$limits[$i]."&source=".$source."'>".$limits[$i]."</a>";
 				
 				if ($i < count($limits) - 1) echo "&nbsp;|&nbsp;";
 			}
@@ -411,14 +487,14 @@ if (isset($row['span']) && $row['span'] > 0)
 		echo "<td height='35' colspan='3' align='".$phpAds_TextAlignRight."'>";
 			if ($start > 0)
 			{
-				echo "<a href='".$PHP_SELF.$params."period=".$period."&limit=$limit&start=$previous'>";
+				echo "<a href='".$PHP_SELF.$params."period=".$period."&limit=".$limit."&start=".$previous."&source=".$source."'>";
 				echo "<img src='images/arrow-l.gif' border='0' align='absmiddle'>".$strPrevious."</a>";
 			}
 			if ($timestamp > $span)
 			{
 				if ($start > 0) echo "&nbsp;|&nbsp;";
 				
-				echo "<a href='".$PHP_SELF.$params."period=".$period."&limit=$limit&start=$next'>";
+				echo "<a href='".$PHP_SELF.$params."period=".$period."&limit=".$limit."&start=".$next."&source=".$source."'>";
 				echo $strNext."<img src='images/arrow-r.gif' border='0' align='absmiddle'></a>";
 			}
 		echo "</td>";
@@ -649,9 +725,9 @@ if (isset($row['span']) && $row['span'] > 0)
 			for ($i = 0; $i < count($limits); $i++)
 			{
 				if ($limit == $limits[$i])
-					echo "<a href='".$PHP_SELF.$params."period=".$period."&start=".$start."&limit=".$limits[$i]."'><u>".$limits[$i]."</u></a>";
+					echo "<a href='".$PHP_SELF.$params."period=".$period."&start=".$start."&limit=".$limits[$i]."&source=".$source."'><u>".$limits[$i]."</u></a>";
 				else
-					echo "<a href='".$PHP_SELF.$params."period=".$period."&start=".$start."&limit=".$limits[$i]."'>".$limits[$i]."</a>";
+					echo "<a href='".$PHP_SELF.$params."period=".$period."&start=".$start."&limit=".$limits[$i]."&source=".$source."'>".$limits[$i]."</a>";
 				
 				if ($i < count($limits) - 1) echo "&nbsp;|&nbsp;";
 			}
@@ -659,14 +735,14 @@ if (isset($row['span']) && $row['span'] > 0)
 		echo "<td height='35' colspan='9' align='".$phpAds_TextAlignRight."'>";
 			if ($start > 0)
 			{
-				echo "<a href='".$PHP_SELF.$params."period=".$period."&limit=$limit&start=$previous'>";
+				echo "<a href='".$PHP_SELF.$params."period=".$period."&limit=".$limit."&start=".$previous."&source=".$source."'>";
 				echo "<img src='images/arrow-l.gif' border='0' align='absmiddle'>".$strPrevious."</a>";
 			}
 			if ($day_timestamp > $span)
 			{
 				if ($start > 0) echo "&nbsp;|&nbsp;";
 				
-				echo "<a href='".$PHP_SELF.$params."period=".$period."&limit=$limit&start=$next'>";
+				echo "<a href='".$PHP_SELF.$params."period=".$period."&limit=".$limit."&start=".$next."&source=".$source."'>";
 				echo $strNext."<img src='images/arrow-r.gif' border='0' align='absmiddle'></a>";
 			}
 		echo "</td>";
@@ -732,7 +808,7 @@ if (isset($row['span']) && $row['span'] > 0)
 		echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 		echo "<tr><td height='20' colspan='1'>&nbsp;</td></tr>";
 		echo "<tr><td bgcolor='#FFFFFF' colspan='1'>";
-		echo "<img src='graph-history.php".$params."period=".$period."&start=".$start."&limit=".$limit."' border='0'>";
+		echo "<img src='graph-history.php".$params."period=".$period."&start=".$start."&limit=".$limit."&source=".$source."' border='0'>";
 		echo "</td></tr><tr><td height='10' colspan='1'>&nbsp;</td></tr>";
 		echo "<tr><td height='1' colspan='1' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 		echo "</table>";

@@ -99,6 +99,7 @@ $GLOBALS['strExpandAll']					= "Expand all";
 $GLOBALS['strCollapseAll']					= "Collapse all";
 $GLOBALS['strShowAll']						= "Show All";
 $GLOBALS['strNoAdminInteface']				= "Service unavailable...";
+$GLOBALS['strFilterBySource']				= "filter by source";
 
 
 // Properties

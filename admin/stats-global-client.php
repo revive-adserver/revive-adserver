@@ -29,7 +29,7 @@ phpAds_checkAccess(phpAds_Admin);
 /*********************************************************/
 
 phpAds_PageHeader("2.1");
-phpAds_ShowSections(array("2.1", "2.4", "2.3", "2.2"));
+phpAds_ShowSections(array("2.1", "2.4", "2.2"));
 
 
 

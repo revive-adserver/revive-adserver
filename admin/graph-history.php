@@ -98,6 +98,12 @@ elseif ($affiliateid != '')
 	$where[] = "(".implode(' OR ', $zoneids).")";
 }
 
+// Source
+if ($source != '-')
+{
+	$where[] = "source = '".$source."'";
+}
+
 
 // Convert to SQL query
 if (isset($where))
