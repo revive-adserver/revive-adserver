@@ -6,6 +6,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			+ Added the ability to show the parent campaigns when using banners to link zones to banners  (Niels, 2002-08-01)
 			+ Added the ability to auto clean old statistics and userlog entries  (Matteo, 2002-08-02)
 			+ Made phpAdsNew compatible with register_globals = off and/or gpc_magic_quotes = off  (Niels, 2002-08-05)
+			+ The language and browser delivery limitations now have presets, which can be easily selected  (Niels, 2002-08-08)
 
 			+ Misc changes
 			  - 2002-07-26:  Added daily and hosts pages for affiliates and zones (Matteo)
@@ -29,6 +30,8 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-08-05:  Added new cookie routines which should fix some very rare login problems with IE6  (Niels)
 			  - 2002-08-05:  When no banner can be delivered adview.php now returns a 1 x 1 pixel transparent gif file, so no broken image icon is shown  (Niels)
 			  - 2002-08-07:  {url_prefix} wasn't replaced by adview.php when using Netscape 4.7  (Niels)
+			  - 2002-08-08:  Delivery limitations can now contain quotes without generation errors during delivery  (Niels)
+			  - 2002-08-08:  Adview.php tried to display Flash banners during plain remote invocation  (Niels)
 
 
 
