@@ -18,7 +18,7 @@ information in the 'Translation' forum on Sourceforge.
 
 Chinese (big5)
 	---------------------------------------------------------
-	Maintained by:	   Home Chen (service@mychat.to)
+	Maintained by:	   Home Chen (service at mychat dot to)
 	Is up-to-date?	   No
 	Last update:	   9 June 2003
 	Translated files:  7
@@ -28,7 +28,7 @@ Chinese (big5)
 
 Chinese (gb2312)
 	---------------------------------------------------------
-	Maintained by:	   Vincen Guo (guo9310@yahoo.com.cn)
+	Maintained by:	   Vincen Guo (guo9310 at yahoo.com dot cn)
 	Is up-to-date?	   No
 	Last update:	   29 July 2003
 	Translated files:  7
@@ -38,7 +38,7 @@ Chinese (gb2312)
 
 Dutch
 	---------------------------------------------------------
-	Maintained by:	   Niels Leenheer (niels@creatype.nl)
+	Maintained by:	   Niels Leenheer (niels at phpadsnew dot com)
 	Is up-to-date?	   No
 	Last update:	   29 June 2003
 	Translated files:  7
@@ -48,7 +48,7 @@ Dutch
 
 English
 	---------------------------------------------------------
-	Maintained by:	   Niels Leenheer (niels@creatype.nl)
+	Maintained by:	   Niels Leenheer (niels at phpadsnew dot com)
 	Is up-to-date?	   Always
 	Last update:	   19 August 2003
 	Translated files:  7
@@ -58,7 +58,7 @@ English
 
 French
 	---------------------------------------------------------
-	Maintained by:	   Vincent Zanotti (amidebx@users.sourceforge.net)
+	Maintained by:	   Vincent Zanotti (amidebx at users.sourceforge dot net)
 	Is up-to-date?	   No
 	Last update:	   4 June 2002
 	Translated files:  7 + 3 resource files
@@ -68,7 +68,7 @@ French
 
 German
 	---------------------------------------------------------
-	Maintained by:	   Rayner Jankowski (info@Werbeplatzvermarktung.de)
+	Maintained by:	   Rayner Jankowski (info at Werbeplatzvermarktung dot de)
 	Is up-to-date?	   No
 	Last update:	   29 July 2003
 	Translated files:  7
@@ -78,7 +78,7 @@ German
 
 Hebrew
 	---------------------------------------------------------
-	Maintained by:	   Reuven Mansharoff (reuven@act.co.il)
+	Maintained by:	   Reuven Mansharoff (reuven at act.co dot il)
 	Is up-to-date?	   No
 	Last update:	   23 June 2003
 	Translated files:  7
@@ -98,7 +98,7 @@ Hungarian
 
 Indonesian
 	---------------------------------------------------------
-	Maintained by:	   Rachim Tamsjadi (tamsjadi@icqmail.com)
+	Maintained by:	   Rachim Tamsjadi (tamsjadi at icqmail dot com)
 	Is up-to-date?	   No
 	Last update:	   11 April 2003
 	Translated files:  7
@@ -108,7 +108,7 @@ Indonesian
 
 Italian
 	---------------------------------------------------------
-	Maintained by:	   Matteo Beccati (matteo@beccati.com)
+	Maintained by:	   Matteo Beccati (matteo at phpadsnew dot com)
 	Is up-to-date?	   Yes
 	Last update:	   19 August 2003
 	Translated files:  7 + 3 resource files
@@ -118,7 +118,7 @@ Italian
 
 Korean
 	---------------------------------------------------------
-	Maintained by:	   Dong Hoon Han (Trax Han) (traxacun@unitel.co.kr)
+	Maintained by:	   Dong Hoon Han (Trax Han) (traxacun at unitel.co dot kr)
 	Is up-to-date?	   No
 	Last update:	   11 November 2002
 	Translated files:  7
@@ -157,7 +157,7 @@ Russian
 
 Spanish
 	---------------------------------------------------------
-	Maintained by:	   SeBoRaiD (me2@seboraid.com.ar)
+	Maintained by:	   SeBoRaiD (me2 at seboraid.com dot ar)
 	Is up-to-date?	   No
 	Last update:	   02 October 2002
 	Translated files:  7
@@ -167,8 +167,8 @@ Spanish
 
 Turkish
 	---------------------------------------------------------
-	Maintained by:	   Bunyamin VICIL (bunyamin@yapayzeka.net) 
-			   Metin AKTAS (metin@yapayzeka.net)
+	Maintained by:	   Bunyamin VICIL (bunyamin at yapayzeka dot net) 
+			   Metin AKTAS (metin at yapayzeka dot net)
 	Is up-to-date?	   No
 	Last update:	   03 March 2003
 	Translated files:  7
