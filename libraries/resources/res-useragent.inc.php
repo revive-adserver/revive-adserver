@@ -32,12 +32,13 @@ $phpAds_Browser['IE 6'] 		= 'MSIE 6.*\)$';
 $phpAds_Browser['Netscape 3'] 	= '^Mozilla/3.*\([^c][^o][^m].*\)$';
 $phpAds_Browser['Netscape 4'] 	= '^Mozilla/4.*\([^c][^o][^m].*\)$';
 $phpAds_Browser['Netscape 6+']	= '^Mozilla/5.*Gecko';
+$phpAds_Browser['Safari']		= 'Safari';
+$phpAds_Browser['OmniWeb'] 		= 'Omni';
+$phpAds_Browser['iCab'] 		= 'iCab';
 $phpAds_Browser['Opera'] 		= 'Opera';
+$phpAds_Browser['Konqueror'] 	= 'Konqueror';
 $phpAds_Browser['AOL'] 			= 'AOL';
 $phpAds_Browser['MSN'] 			= 'MSN';
 $phpAds_Browser['WebTV'] 		= 'WebTV';
-$phpAds_Browser['Konqueror'] 	= 'Konqueror';
-$phpAds_Browser['OmniWeb'] 		= 'Omni';
-$phpAds_Browser['iCab'] 		= 'iCab';
 
 ?>
