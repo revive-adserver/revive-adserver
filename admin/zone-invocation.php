@@ -144,6 +144,7 @@ function phpAds_GenerateInvocationCode($zoneid)
 	global $phpAds_config;
 	global $codetype, $clientid, $source, $target;
 	global $withText, $template, $refresh, $uniqueid;
+	global $popunder, $left, $top, $timeout;
 	
 	
 	// Get zone info
@@ -230,8 +231,22 @@ function phpAds_GenerateInvocationCode($zoneid)
 	// Combined remote invocation
 	if ($codetype=='ad')
 	{
+		// Parameters for remote invocation for javascript
+		if (isset($withText) && $withText == '0')
+			$parameters['tmp'] = "withText=0";
+		
+		$buffer .= "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adjs.php";
+		if (sizeof($parameters) > 0)
+			$buffer .= "?".implode ("&", $parameters);
+		$buffer .= "'></script>";
+		
+		$buffer .= "<noscript>";
+		
+		// Parameters for remote invocation for iframes
 		if (isset($refresh) && $refresh != '')
 			$parameters['tmp'] = "refresh=".$refresh;
+		else
+			unset ($parameters['tmp']);
 		
 		$buffer .= "<iframe src='".$phpAds_config['url_prefix']."/adframe.php";
 		if (sizeof($parameters) > 0)
@@ -243,24 +258,10 @@ function phpAds_GenerateInvocationCode($zoneid)
 			$buffer .= " height='".$height."'";
 		$buffer .= ">";
 		
-		
-		// Parameters for remote invocation for Javascript
-		if (isset($withText) && $withText == '0')
-			$parameters['tmp'] = "withText=0";
-		else
-			unset ($parameters['tmp']);
-		
-		$buffer .= "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adjs.php";
-		if (sizeof($parameters) > 0)
-			$buffer .= "?".implode ("&", $parameters);
-		$buffer .= "'></script>";
-		
-		
 		// Parameters for remote invocation
 		if (isset($uniqueid) && $uniqueid != '')
 			$parameters['tmp'] = "n=".$uniqueid;	
 		
-		$buffer .= "<noscript>";
 		$buffer .= "<a href='".$phpAds_config['url_prefix']."/adclick.php";
 		if (isset($uniqueid) & $uniqueid != '')
 			$buffer .= "?n=".$uniqueid;
@@ -271,9 +272,31 @@ function phpAds_GenerateInvocationCode($zoneid)
 		if (sizeof($parameters) > 0)
 			$buffer .= "?".implode ("&", $parameters);
 		$buffer .= "' border='0'></a>";		
-		$buffer .= "</noscript>";
 		
 		$buffer .= "</iframe>";
+		
+		$buffer .= "</noscript>";
+	}
+	
+	// Popup
+	if ($codetype=='popup')
+	{
+		if (isset($popunder) && $popunder == 'true')
+			$parameters[] = "popunder=true";
+		
+		if (isset($left) && $left != '' && $left != '-')
+			$parameters[] = "left=".$left;
+		
+		if (isset($top) && $top != '' && $top != '-')
+			$parameters[] = "top=".$top;
+		
+		if (isset($timeout) && $timeout != '' && $timeout != '-')
+			$parameters[] = "timeout=".$timeout;
+		
+		$buffer .= "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adpopup.php";
+		if (sizeof($parameters) > 0)
+			$buffer .= "?".implode ("&", $parameters);
+		$buffer .= "'></script>";
 	}
 	
 	if ($codetype=='local')
@@ -322,6 +345,7 @@ echo "<tr><td height='35'>";
 	echo "<option value='adjs'".($codetype == 'adjs' ? ' selected' : '').">Remote Invocation with JavaScript</option>";
 	echo "<option value='adframe'".($codetype == 'adframe' ? ' selected' : '').">Remote Invocation for iframes</option>";
 	echo "<option value='ad'".($codetype == 'ad' ? ' selected' : '').">Combined Remote Invocation</option>";
+	echo "<option value='popup'".($codetype == 'popup' ? ' selected' : '').">Pop-up</option>";
 	if (phpAds_isUser(phpAds_Admin)) echo "<option value='local'".($codetype == 'local' ? ' selected' : '').">Local mode</option>";
 	echo "</select>&nbsp;";
 echo "</td></tr></table>";
@@ -350,6 +374,9 @@ if ($codetype == 'adframe')
 
 if ($codetype == 'ad')
 	$show = array ('target' => true, 'source' => true, 'withText' => true, 'uniqueid' => true, 'refresh' => true);
+
+if ($codetype == 'popup')
+	$show = array ('target' => true, 'source' => true, 'absolute' => true, 'popunder' => true, 'timeout' => true);
 
 if ($codetype == 'local')
 	$show = array ('target' => true, 'source' => true, 'withText' => true, 'template' => true);
@@ -410,6 +437,45 @@ if (isset($show['uniqueid']) && $show['uniqueid'] == true)
 		echo "<input type='text' name='uniqueid' size='' value='".(isset($uniqueid) ? $uniqueid : '')."' style='width:175px;'></td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 }
+
+
+// popunder
+if (isset($show['popunder']) && $show['popunder'] == true)
+{
+	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+	echo "<tr><td width='30'>&nbsp;</td>";
+	echo "<td width='200'>Pop-up type</td>";
+	echo "<td width='370'><input type='radio' name='popunder' value='false'".(!isset($popunder) || $popunder != 'true' ? ' checked' : '').">&nbsp;Pop-up<br>";
+	echo "<input type='radio' name='popunder' value='true'".(isset($popunder) && $popunder == 'true' ? ' checked' : '').">&nbsp;Pop-under</td>";
+	echo "</tr>";
+	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+}
+
+
+// absolute
+if (isset($show['absolute']) && $show['absolute'] == true)
+{
+	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+	echo "<tr><td width='30'>&nbsp;</td>";
+	echo "<td width='200'>Initial position (top)</td><td width='370'>";
+		echo "<input type='text' name='top' size='' value='".(isset($top) ? $top : '-')."' style='width:175px;'> px</td></tr>";
+	echo "<tr><td width='30'>&nbsp;</td>";
+	echo "<td width='200'>Initial position (left)</td><td width='370'>";
+		echo "<input type='text' name='left' size='' value='".(isset($left) ? $left : '-')."' style='width:175px;'> px</td></tr>";
+	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+}
+
+
+// timeout
+if (isset($show['timeout']) && $show['timeout'] == true)
+{
+	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+	echo "<tr><td width='30'>&nbsp;</td>";
+	echo "<td width='200'>Automatically close after</td><td width='370'>";
+		echo "<input type='text' name='timeout' size='' value='".(isset($timeout) ? $timeout : '-')."' style='width:175px;'> sec</td></tr>";
+	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+}
+
 
 
 if (isset($submit))
