@@ -1,8 +1,12 @@
 phpAdsNew - ChangeLog
 
 CVS			+ Minor speed improvements in view.inc.php  (Niels) 20011015
+			+ Added support for URL banner variables during regular remote invocation  (Niels) 20011016
+
 			+ Misc bugfixes
 			  - Fixed pass by reference warnings in lib-ftp.inc.php  (Niels) 20011015
+			  - HTML and URL banner variables should work correctly again  (Niels) 20011016
+			  - Fixed exploit where users could excute arbitrary code on the server  (Niels) 20011016
 
 
 v 2.0beta6		+ Added search capabilities  (Niels and Tobi Schulz)
