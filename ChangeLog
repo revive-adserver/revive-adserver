@@ -50,6 +50,7 @@ CVS			+ Added configuration manager  (Matteo, 2001-11-04)
 			  - 2002-03-07:  Moved invocation code into lib-invocation.inc.php  (Matteo) 
 			  - 2002-04-01:	 Renamed campaign-index and zone-index  (Niels)
 			  - 2002-04-11:  Added a product string to lib-dbconfig, for easier porting  (Niels)
+			  - 2002-07-15:  Updated copyright headers of all files to include the year 2002  (Niels)
 
 			+ Misc changes
 			  - 2001-10-20:  Moved some functions around to make sure no unneeded functions were included during invocation.  (Niels) 
@@ -166,6 +167,7 @@ CVS			+ Added configuration manager  (Matteo, 2001-11-04)
 			  - 2002-07-07:  Increased maximum length of target parameter on banner properties page to 16 chars  (Niels)
 			  - 2002-07-14:  Added ability to hide inactive items from overviews  (Niels)
 			  - 2002-07-14:  Added hidden configuration setting to disable the user interface  (Niels)
+			  - 2002-07-15:  Updated some of the icons to make them better looking  (Niels)
 
 
 			+ Misc bugfixes
@@ -318,6 +320,7 @@ CVS			+ Added configuration manager  (Matteo, 2001-11-04)
 			  - 2002-07-09:  Fixed error message on Advertisers & Campaigns and Publishers & Zones when expanding all items when no items were present  (Niels)
 			  - 2002-07-13:  If status text contained quotes during cache rebuild they caused javascript errors during delivery  (Niels)
 			  - 2002-07-14:  Fixed problem which allow users to log in as an advertiser  (Niels)
+			  - 2002-07-15:  Fixed bug in the adpopup.php file which cause javascript errors in some cases  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
