@@ -144,8 +144,8 @@ $GLOBALS['phpAds_hlp_compact_stats'] = "
         be a big problem on sites with a lot of visitors. To overcome this problem
 		".$phpAds_productname." also supports a new kind of statistics, the compact statistics, 
 		which is less demanding on the database server, but also less detailed. 
-		The compact statistics only logs daily statistics, if you need hourly statistics 
-		you can turn the compact statistics off.
+		The compact statistics collects AdViews and AdClicks for each hour, if you need
+		more detail you can turn the compact statistics off.
 		";
 		
 $GLOBALS['phpAds_hlp_log_adviews'] = "
@@ -193,7 +193,7 @@ $GLOBALS['phpAds_hlp_proxy_lookup'] = "
 		
 $GLOBALS['phpAds_hlp_ignore_hosts'] = "
         If you don't want to count clicks and views from certain computer you 
-        can add these to this array. If you have enabled reverse lookup you can 
+        can add these to this list. If you have enabled reverse lookup you can 
         add both domain names and IP addresses, otherwise you can only use IP 
         addresses. You can also use wildcards (i.e. '*.altavista.com' or '192.168.*').
 		";
@@ -294,7 +294,7 @@ $GLOBALS['phpAds_hlp_type_txt_allow'] = "
         ways. The first two options are used for local storage of banners. You 
         can use the admin interface to upload a banner and ".$phpAds_productname." will store 
         the banner in the SQL database or on a web server. You can also use a banner 
-		stored on an external web server or use HTML to generate a banner.
+		stored on an external web server, or use HTML or a simple text to generate a banner.
 		";
 		
 $GLOBALS['phpAds_hlp_type_web_mode'] = "
@@ -385,18 +385,21 @@ $GLOBALS['phpAds_hlp_admin_email_headers'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_admin_novice'] = "
-        If you want to recieve a warning before deleting advertisers, campaigns or 
-        banners; set this option to true.
+        If you want to recieve a warning before deleting advertisers, campaigns, banners,
+		publishers and zones; set this option to true.
 		";
 		
-$GLOBALS['phpAds_hlp_client_welcome'] = 
+$GLOBALS['phpAds_hlp_client_welcome'] = "
+		If you turn this feature on a welcome message will be displayed on the first page an
+		advertiser will see after loggin in. You can personalize this message by editing the
+		welcome.html file location in the admin/templates directory. Things you might want to
+		include are for example: Your company name, contact information, your company logo, a
+		link a page with advertising rates, etc..
+		";
+
 $GLOBALS['phpAds_hlp_client_welcome_msg'] = "
-       If you turn this feature on a welcome message will be displayed on the 
-        first page an advertiser will see after logging in. You can personalize this 
-        message by editing the 'welcome.html' file location in the 'admin/templates' 
-        directory. Things you might want to include are for example: Your company 
-        name, contact information, your company logo, a link a page with advertising 
-        rates, etc..
+		Instead of editing the welcome.html file you can also specify a small text here. If you enter
+		a text here, the welcome.html file will be ignored. It is allowed to use html tags.
 		";
 		
 $GLOBALS['phpAds_hlp_updates_frequency'] = "
