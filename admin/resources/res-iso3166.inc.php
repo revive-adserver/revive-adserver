@@ -86,6 +86,7 @@ $phpAds_ISO3166['GQ'] = "Equatorial Guinea";
 $phpAds_ISO3166['ER'] = "Eritrea";
 $phpAds_ISO3166['EE'] = "Estonia";
 $phpAds_ISO3166['ET'] = "Ethiopia";
+$phpAds_ISO3166['EU'] = "Europe";
 $phpAds_ISO3166['FK'] = "Falkland Islands";
 $phpAds_ISO3166['FO'] = "Faroe Islands"; 
 $phpAds_ISO3166['FJ'] = "Fiji";

@@ -48,7 +48,8 @@ $phpAds_continent['PL'] = $phpAds_continent['PT'] = $phpAds_continent['RO'] =
 $phpAds_continent['RU'] = $phpAds_continent['SM'] = $phpAds_continent['SK'] = 
 $phpAds_continent['SI'] = $phpAds_continent['ES'] = $phpAds_continent['SJ'] = 
 $phpAds_continent['SE'] = $phpAds_continent['CH'] = $phpAds_continent['UA'] = 
-$phpAds_continent['UK'] = $phpAds_continent['GB'] = $phpAds_continent['YU'] = 'EU'; 
+$phpAds_continent['UK'] = $phpAds_continent['GB'] = $phpAds_continent['YU'] = 
+$phpAds_continent['EU'] = 'EU'; 
 
 $phpAds_cont_name['AF'] = 'Africa';
 $phpAds_continent['DZ'] = $phpAds_continent['AO'] = $phpAds_continent['BJ'] = 
