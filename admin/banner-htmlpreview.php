@@ -65,6 +65,9 @@ if ($res)
 		$htmlcode = str_replace ('[/bannertext]', '', $htmlcode);
 		$htmlcode = phpAds_replaceVariablesInBannerCode ($htmlcode);
 		
+		// Remove appended HTML for the preview
+		$htmlcode = str_replace ($row['append'], '', $htmlcode);
+		
 		// Output banner
 		echo $htmlcode;
 	}

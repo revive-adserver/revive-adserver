@@ -15,7 +15,7 @@
 
 
 // Register input variables
-phpAds_registerGlobal ('codetype', 'what', 'clientid', 'source', 'target', 'withText', 'template', 'refresh',
+phpAds_registerGlobal ('codetype', 'what', 'acid', 'source', 'target', 'withText', 'template', 'refresh',
 					   'uniqueid', 'width', 'height', 'website', 'ilayer', 'popunder', 'left', 'top', 'timeout',
 					   'transparent', 'resize', 'block', 'raw', 'hostlanguage', 'submitbutton', 'generate',
 					   'layerstyle', 'delay', 'delay_type', 'blockcampaign');
@@ -36,7 +36,7 @@ else
 function phpAds_GenerateInvocationCode()
 {
 	global $phpAds_config;
-	global $codetype, $what, $clientid, $source, $target;
+	global $codetype, $what, $acid, $source, $target;
 	global $withText, $template, $refresh, $uniqueid;
 	global $width, $height, $website, $ilayer;
 	global $popunder, $left, $top, $timeout, $delay, $delay_type;
@@ -72,8 +72,8 @@ function phpAds_GenerateInvocationCode()
 	if (isset($what) && $what != '')
 		$parameters['what'] = "what=".str_replace (",+", ",_", $what);
 	
-	if (isset($clientid) && strlen($clientid) && $clientid != '0')
-		$parameters['clientid'] = "clientid=".$clientid;
+	if (isset($acid) && strlen($acid) && $acid != '0')
+		$parameters['acid'] = "clientid=".$acid;
 	
 	if (isset($source) && $source != '')
 		$parameters['source'] = "source=".$source;
@@ -285,7 +285,7 @@ function phpAds_GenerateInvocationCode()
 	// Remote invocation using XML-RPC
 	if ($codetype=='xmlrpc')
 	{
-		if (!isset($clientid) || $clientid == '') $clientid = 0;
+		if (!isset($acid) || $acid == '') $acid = 0;
 		
 		$params = parse_url($phpAds_config['url_prefix']);
 		
@@ -297,7 +297,7 @@ function phpAds_GenerateInvocationCode()
 				$buffer .= "    require('lib-xmlrpc-class.inc.php');\n";
 				$buffer .= "    \$xmlrpcbanner = new phpAds_XmlRpc('$params[host]', '$params[path]'".
 					(isset($params['port']) ? ", '$params[port]'" : "").");\n";
-				$buffer .= "    \$xmlrpcbanner->view('$what', $clientid, '$target', '$source', '$withText');\n";
+				$buffer .= "    \$xmlrpcbanner->view('$what', $acid, '$target', '$source', '$withText');\n";
 				$buffer .= "?".">\n";
 				break;
 		}
@@ -310,7 +310,7 @@ function phpAds_GenerateInvocationCode()
 		$root = getenv('DOCUMENT_ROOT');
 		$pos  = strpos ($path, $root);
 		
-		if (!isset($clientid) || $clientid == '') $clientid = 0;
+		if (!isset($acid) || $acid == '') $acid = 0;
 		
 		
 		if (is_int($pos) && $pos == 0)
@@ -324,7 +324,7 @@ function phpAds_GenerateInvocationCode()
 		
 		if (isset($raw) && $raw == '1')
 		{
-			$buffer .= "        $"."phpAds_raw = view_raw ('$what', $clientid, '$target', '$source', '$withText', $"."phpAds_context);\n";
+			$buffer .= "        $"."phpAds_raw = view_raw ('$what', $acid, '$target', '$source', '$withText', $"."phpAds_context);\n";
 			
 			if (isset($block) && $block == '1')
 				$buffer .= "        $"."phpAds_context[] = array('!=' => 'bannerid:'.$"."phpAds_raw['bannerid']);\n";
@@ -338,7 +338,7 @@ function phpAds_GenerateInvocationCode()
 		}
 		else
 		{
-			$buffer .= "        $"."phpAds_raw = view_raw ('$what', $clientid, '$target', '$source', '$withText', $"."phpAds_context);\n";
+			$buffer .= "        $"."phpAds_raw = view_raw ('$what', $acid, '$target', '$source', '$withText', $"."phpAds_context);\n";
 			
 			if (isset($block) && $block == '1')
 				$buffer .= "        $"."phpAds_context[] = array('!=' => 'bannerid:'.$"."phpAds_raw['bannerid']);\n";
@@ -367,7 +367,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 {
 	global $phpAds_config, $phpAds_TextDirection, $HTTP_SERVER_VARS;
 	global $submitbutton, $generate;
-	global $codetype, $what, $clientid, $source, $target;
+	global $codetype, $what, $acid, $source, $target;
 	global $withText, $template, $refresh, $uniqueid;
 	global $width, $height, $ilayer;
 	global $popunder, $left, $top, $timeout, $delay, $delay_type;
@@ -518,28 +518,28 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		
 		
 		if ($codetype == 'adview')
-			$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true);
+			$show = array ('what' => true, 'acid' => true, 'target' => true, 'source' => true);
 		
 		if ($codetype == 'adjs')
-			$show = array ('what' => true, 'clientid' => true, 'block' => true, 'target' => true, 'source' => true, 'withText' => true, 'blockcampaign' => true);
+			$show = array ('what' => true, 'acid' => true, 'block' => true, 'target' => true, 'source' => true, 'withText' => true, 'blockcampaign' => true);
 		
 		if ($codetype == 'adframe')
-			$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'refresh' => true, 'size' => true, 'resize' => true, 'transparent' => true, 'ilayer' => true);
+			$show = array ('what' => true, 'acid' => true, 'target' => true, 'source' => true, 'refresh' => true, 'size' => true, 'resize' => true, 'transparent' => true, 'ilayer' => true);
 		
 		if ($codetype == 'ad')
-			$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withText' => true, 'size' => true, 'resize' => true, 'transparent' => true);
+			$show = array ('what' => true, 'acid' => true, 'target' => true, 'source' => true, 'withText' => true, 'size' => true, 'resize' => true, 'transparent' => true);
 		
 		if ($codetype == 'popup')
-			$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'absolute' => true, 'popunder' => true, 'timeout' => true, 'delay' => true);
+			$show = array ('what' => true, 'acid' => true, 'target' => true, 'source' => true, 'absolute' => true, 'popunder' => true, 'timeout' => true, 'delay' => true);
 		
 		if ($codetype == 'adlayer')
 			$show = phpAds_getLayerShowVar();
 		
 		if ($codetype == 'xmlrpc')
-			$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withText' => true, 'template' => true, 'hostlanguage' => true);
+			$show = array ('what' => true, 'acid' => true, 'target' => true, 'source' => true, 'withText' => true, 'template' => true, 'hostlanguage' => true);
 		
 		if ($codetype == 'local')
-			$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withText' => true, 'block' => true, 'blockcampaign' => true, 'raw' => true);
+			$show = array ('what' => true, 'acid' => true, 'target' => true, 'source' => true, 'withText' => true, 'block' => true, 'blockcampaign' => true, 'raw' => true);
 		
 		
 		
@@ -554,8 +554,8 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		}
 		
 		
-		// ClientID
-		if (!$zone_invocation && isset($show['clientid']) && $show['clientid'] == true)
+		// Acid
+		if (!$zone_invocation && isset($show['acid']) && $show['acid'] == true)
 		{
 			echo "<tr bgcolor='#F6F6F6'><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$GLOBALS['strInvocationClientID']."</td><td width='370'>";
@@ -571,7 +571,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 				
 				while ($row = phpAds_dbFetchArray($res))
 				{
-					echo "<option value='".$row['clientid']."'".($clientid == $row['clientid'] ? ' selected' : '').">";
+					echo "<option value='".$row['clientid']."'".($acid == $row['clientid'] ? ' selected' : '').">";
 					echo phpAds_buildClientName ($row['clientid'], $row['clientname']);
 					echo "</option>";
 				}

@@ -413,8 +413,53 @@ function phpAds_getBannerCache($banner)
 		$buffer = str_replace ($matches[0], $pluginversion, $buffer);
 	}
 	
+	
+	// Append
+	if (isset($banner['append']) && $banner['append'] != '')
+		$buffer .= $banner['append'];
+	
+	
 	return ($buffer);
 }
+
+
+function phpAds_rebuildBannerCache ($bannerid)
+{
+	global $phpAds_config;
+	
+	// Retrieve current values
+	$res = phpAds_dbQuery ("
+		SELECT
+			*
+		FROM
+			".$phpAds_config['tbl_banners']."
+		WHERE
+			bannerid = '".$bannerid."'
+	") or phpAds_sqlDie();
+	
+	$current = phpAds_dbFetchArray($res);
+	
+	
+	// Add slashes to status to prevent javascript errors
+	// NOTE: not needed in banner-edit because of magic_quotes_gpc
+	$current['status'] = addslashes($current['status']);
+	
+	
+	// Rebuild cache
+	$current['htmltemplate'] = stripslashes($current['htmltemplate']);
+	$current['htmlcache']    = addslashes(phpAds_getBannerCache($current));
+	
+	phpAds_dbQuery("
+		UPDATE
+			".$phpAds_config['tbl_banners']."
+		SET
+			htmlcache = '".$current['htmlcache']."'
+		WHERE
+			bannerid = '".$current['bannerid']."'
+	") or phpAds_sqlDie();
+}
+
+
 
 function phpAds_compileLimitation ($bannerid = '')
 {

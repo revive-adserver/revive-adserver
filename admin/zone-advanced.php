@@ -20,6 +20,7 @@ require ("lib-statistics.inc.php");
 require ("lib-zones.inc.php");
 require ("lib-invocation.inc.php");
 require ("lib-size.inc.php");
+require ("lib-append.inc.php");
 
 
 // Register input variables
@@ -86,6 +87,7 @@ if (isset($submitbutton))
 	{
 		$sqlupdate = array();
 		
+		
 		// Determine chain
 		if ($chaintype == '1' && $chainzone != '')
 			$chain = 'zone:'.$chainzone;
@@ -96,8 +98,10 @@ if (isset($submitbutton))
 		
 		$sqlupdate[] = "chain='".$chain."'";
 		
+		
 		if (!isset($prepend)) $prepend = '';
 		$sqlupdate[] = "prepend='".$prepend."'";
+		
 		
 		// Do not save append until not finished with zone appending, if present
 		if (isset($appendsave) && $appendsave)
@@ -126,6 +130,7 @@ if (isset($submitbutton))
 			$sqlupdate[] = "appendtype='".$appendtype."'";
 		}
 		
+		
 		$res = phpAds_dbQuery("
 			UPDATE
 				".$phpAds_config['tbl_zones']."
@@ -133,7 +138,8 @@ if (isset($submitbutton))
 				".join(', ', $sqlupdate)."
 			WHERE
 				zoneid='".$zoneid."'
-			") or phpAds_sqlDie();
+		") or phpAds_sqlDie();
+		
 		
 		
 		// Rebuild Cache
@@ -262,15 +268,13 @@ $res = phpAds_dbQuery("
 ") or phpAds_sqlDie();
 
 if (phpAds_dbNumRows($res))
-{
 	$zone = phpAds_dbFetchArray($res);
-}
 
 $tabindex = 1;
 
 
-echo "<br><br>";
 
+echo "<br><br>";
 echo "<form name='zoneform' method='post' action='zone-advanced.php' onSubmit='return phpAds_formZoneAdvSubmit() && phpAds_formCheck(this);'>";
 echo "<input type='hidden' name='zoneid' value='".(isset($zoneid) && $zoneid != '' ? $zoneid : '')."'>";
 echo "<input type='hidden' name='affiliateid' value='".(isset($affiliateid) && $affiliateid != '' ? $affiliateid : '')."'>";
@@ -279,7 +283,6 @@ echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25' colspan='3'><b>".$strChainSettings."</b></td></tr>";
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-
 
 if (ereg("^zone:([0-9]+)$", $zone['chain'], $regs))
 	$chainzone = $regs[1];
@@ -303,7 +306,7 @@ if ($zone['delivery'] == phpAds_ZonePopup) echo "<img src='images/icon-popup.gif
 if ($zone['delivery'] == phpAds_ZoneText) echo "<img src='images/icon-textzone.gif' align='top'>";
 
 echo "&nbsp;&nbsp;<select name='chainzone' style='width: 200;' onchange='phpAds_formSelectZone()' tabindex='".($tabindex++)."'>";
-	
+
 	$available = array();
 	
 	// Get list of public publishers
@@ -326,7 +329,7 @@ echo "&nbsp;&nbsp;<select name='chainzone' style='width: 200;' onchange='phpAds_
 			echo "<option value='".$row['zoneid']."' selected>".phpAds_buildZoneName($row['zoneid'], $row['zonename'])."</option>";
 		else
 			echo "<option value='".$row['zoneid']."'>".phpAds_buildZoneName($row['zoneid'], $row['zonename'])."</option>";
-	
+
 echo "</select></td></tr>";
 echo "<tr><td colspan='2'><img src='images/break-l.gif' height='1' width='100%' align='absmiddle' vspace='8'></td></tr>";
 
@@ -349,61 +352,73 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 	echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 	
-	//echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$strZoneAppend."</td><td>";
-	//echo "<textarea name='append' rows='6' cols='55' style='width: 100%;'>".htmlspecialchars($zone['append'])."</textarea>";
 	
-	// Get available zones
-	$available = array();
+		// Get available zones
+		$available = array();
+		
+		
+		// Get list of public publishers
+		$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_affiliates']." WHERE publiczones = 't' OR affiliateid = '".$affiliateid."'");
+		while ($row = phpAds_dbFetchArray($res))
+			$available[] = "affiliateid = '".$row['affiliateid']."'";
+		
+		$available = implode ($available, ' OR ');
+		
+		
+		// Get list of zones to link to
+		$res = phpAds_dbQuery("SELECT zoneid, zonename, delivery FROM ".$phpAds_config['tbl_zones']." WHERE ".
+							  "(delivery = ".phpAds_ZonePopup." OR delivery = ".phpAds_ZoneInterstitial.
+							  ") AND (".$available.") ORDER BY zoneid");
+		
+		$available = array(phpAds_ZonePopup => array(), phpAds_ZoneInterstitial => array());
+		while ($row = phpAds_dbFetchArray($res))
+			$available[$row['delivery']][$row['zoneid']] = phpAds_buildZoneName($row['zoneid'], $row['zonename']);
+		
+		
+		// Determine appendtype
+		if (isset($appendtype)) $zone['appendtype'] = $appendtype;
 	
-	// Get list of public publishers
-	$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_affiliates']." WHERE ".
-						  "publiczones = 't' OR affiliateid = '".$affiliateid."'");
 	
-	while ($row = phpAds_dbFetchArray($res))
-		$available[] = "affiliateid = '".$row['affiliateid']."'";
-	
-	$available = implode ($available, ' OR ');
-	
-	// Get list of zones to link to
-	$res = phpAds_dbQuery("SELECT zoneid, zonename, delivery FROM ".$phpAds_config['tbl_zones']." WHERE ".
-						  "(delivery = ".phpAds_ZonePopup." OR delivery = ".phpAds_ZoneInterstitial.
-						  ") AND (".$available.") ORDER BY zoneid");
-	
-	$available = array(phpAds_ZonePopup => array(), phpAds_ZoneInterstitial => array());
-	while ($row = phpAds_dbFetchArray($res))
-		$available[$row['delivery']][$row['zoneid']] = phpAds_buildZoneName($row['zoneid'], $row['zonename']);
-	
-	
-	if (isset($appendtype)) $zone['appendtype'] = $appendtype;
-	
-	// Select
+	// Appendtype choices
 	echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$GLOBALS['strZoneAppendType']."</td><td>";
 	echo "<select name='appendtype' style='width: 200;' onchange='phpAds_formSelectAppendType()' tabindex='".($tabindex++)."'>";
 	echo "<option value='".phpAds_ZoneAppendRaw."'".($zone['appendtype'] == phpAds_ZoneAppendRaw ? ' selected' : '').">".$GLOBALS['strZoneAppendHTMLCode']."</option>";
 	
-	if (count($available[phpAds_ZonePopup]) || count($available[phpAds_ZoneInterstitial]))
-		echo "<option value='".phpAds_ZoneAppendZone."'".($zone['appendtype'] == phpAds_ZoneAppendZone ? ' selected' : '').">".$GLOBALS['strZoneAppendZoneSelection']."</option>";
-	else
-		$zone['appendtype'] = phpAds_ZoneAppendRaw;
+		if (count($available[phpAds_ZonePopup]) || count($available[phpAds_ZoneInterstitial]))
+			echo "<option value='".phpAds_ZoneAppendZone."'".($zone['appendtype'] == phpAds_ZoneAppendZone ? ' selected' : '').">".$GLOBALS['strZoneAppendZoneSelection']."</option>";
+		else
+			$zone['appendtype'] = phpAds_ZoneAppendRaw;
 	
 	echo "</select></td></tr>";
 	
+	
+	// Line
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 	echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 	
 	if ($zone['appendtype'] == phpAds_ZoneAppendZone)
 	{
+		// Append zones
+		
+		// Read info from invocaton code
 		if (!isset($appendid) || empty($appendid))
 		{
-			$appendvars = phpAds_ZoneParseAppendCode($zone['append']);
+			$appendvars = phpAds_ParseAppendCode($zone['append']);
 			
-			$appendid = $appendvars[0]['zoneid'];
+			$appendid 		= $appendvars[0]['zoneid'];
 			$appenddelivery = $appendvars[0]['delivery'];
-			if ($appenddelivery == phpAds_ZonePopup && !count($available[phpAds_ZonePopup]))
+			
+			if ($appenddelivery == phpAds_ZonePopup && 
+				!count($available[phpAds_ZonePopup]))
+			{
 				$appenddelivery = phpAds_ZoneInterstitial;
-			elseif ($appenddelivery == phpAds_ZoneInterstitial && !count($available[phpAds_ZoneInterstitial]))
+			}
+			elseif ($appenddelivery == phpAds_ZoneInterstitial && 
+					!count($available[phpAds_ZoneInterstitial]))
+			{
 				$appenddelivery = phpAds_ZonePopup;
+			}
 			else
 			{
 				// Add globals for lib-invocation
@@ -416,15 +431,19 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 		}
 		
 		
+		
+		// Header
 		echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$GLOBALS['strZoneAppendSelectZone']."</td><td>";
 		echo "<input type='hidden' name='appendsave' value='1'>";
 		echo "<input type='hidden' name='appendid' value='".$appendid."'>";
 		echo "<table cellpadding='0' cellspacing='0' border='0' width='100%'>";
 		
+		
+		
 		// Popup
-		echo "<tr><td><input type='radio' name='appenddelivery' value='".phpAds_ZonePopup."'".
-			(count($available[phpAds_ZonePopup]) ? ' onClick="phpAds_formSelectAppendDelivery(0)"' : ' DISABLED').
-			($appenddelivery == phpAds_ZonePopup ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;</td><td>";
+		echo "<tr><td><input type='radio' name='appenddelivery' value='".phpAds_ZonePopup."'";
+		echo (count($available[phpAds_ZonePopup]) ? ' onClick="phpAds_formSelectAppendDelivery(0)"' : ' DISABLED');
+		echo ($appenddelivery == phpAds_ZonePopup ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;</td><td>";
 		echo $GLOBALS['strPopup'].":</td></tr>";
 		echo "<tr><td>&nbsp;</td><td width='100%'><img src='images/spacer.gif' height='1' width='100%' align='absmiddle' vspace='1'>";
 		
@@ -433,25 +452,26 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 		else
 			echo "<img src='images/icon-popup-d.gif' align='top'>";
 		
-		echo "&nbsp;&nbsp;<select name='appendpopup' style='width: 200;'".
-			" onchange='phpAds_formSelectAppendZone(0)'".
-			(count($available[phpAds_ZonePopup]) ? '' : ' DISABLED')." tabindex='".($tabindex++)."'>";
-			
+		echo "&nbsp;&nbsp;<select name='appendpopup' style='width: 200;' ";
+		echo "onchange='phpAds_formSelectAppendZone(0)'";
+		echo (count($available[phpAds_ZonePopup]) ? '' : ' DISABLED')." tabindex='".($tabindex++)."'>";
+		
 		while (list($k, $v) = each($available[phpAds_ZonePopup]))
 		{
 			if ($appendid == $row['zoneid'])
 				echo "<option value='".$k."' selected>".$v."</option>";
 			else
 				echo "<option value='".$k."'>".$v."</option>";
-		
 		}
-			
+		
 		echo "</select></td></tr>";
 		
+		
+		
 		// Interstitial
-		echo "<tr><td><input type='radio' name='appenddelivery' value='".phpAds_ZoneInterstitial."'".
-			(count($available[phpAds_ZoneInterstitial]) ? ' onClick="phpAds_formSelectAppendDelivery(1)"' : ' DISABLED').
-			($appenddelivery == phpAds_ZoneInterstitial ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;</td><td>";
+		echo "<tr><td><input type='radio' name='appenddelivery' value='".phpAds_ZoneInterstitial."'";
+		echo (count($available[phpAds_ZoneInterstitial]) ? ' onClick="phpAds_formSelectAppendDelivery(1)"' : ' DISABLED');
+		echo ($appenddelivery == phpAds_ZoneInterstitial ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;</td><td>";
 		echo $GLOBALS['strInterstitial'].":</td></tr>";
 		echo "<tr><td>&nbsp;</td><td width='100%'><img src='images/spacer.gif' height='1' width='100%' align='absmiddle' vspace='1'>";
 		
@@ -460,10 +480,10 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 		else
 			echo "<img src='images/icon-interstitial-d.gif' align='top'>";
 		
-		echo "&nbsp;&nbsp;<select name='appendinterstitial' style='width: 200;'".
-			" onchange='phpAds_formSelectAppendZone(1)'".
-			(count($available[phpAds_ZoneInterstitial]) ? '' : ' DISABLED')." tabindex='".($tabindex++)."'>";
-			
+		echo "&nbsp;&nbsp;<select name='appendinterstitial' style='width: 200;' ";
+		echo "onchange='phpAds_formSelectAppendZone(1)'";
+		echo (count($available[phpAds_ZoneInterstitial]) ? '' : ' DISABLED')." tabindex='".($tabindex++)."'>";
+		
 		while (list($k, $v) = each($available[phpAds_ZoneInterstitial]))
 		{
 			if ($appendid == $row['zoneid'])
@@ -471,12 +491,17 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 			else
 				echo "<option value='".$k."'>".$v."</option>";
 		}
-			
-		echo "</select></td></tr></table></td></tr>";
 		
-		echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+		echo "</select></td></tr>";
+		
+		
+		
+		// Line
+		echo "</table></td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 		echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
 		echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+		
+		
 		
 		// It shouldn't be necessary to load zone attributes from db
 		$extra = array('what' => '',
@@ -507,6 +532,10 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 	echo "</table>";
 }
 
+
+// It isn't possible to append other banners to text zones, but
+// it is possible to prepend and append regular HTML code for
+// determining the layout of the text ad zone
 
 elseif ($zone['delivery'] == phpAds_ZoneText )
 {
@@ -590,16 +619,7 @@ echo "</form>";
 			document.zoneform.appendsave.value = '0';
 			document.zoneform.submit();
 		}
-/*		else
-		{
-			if (type == 0)
-				x = document.zoneform.appendpopup;
-			else
-				x = document.zoneform.appendinterstitial;
-			
-			document.zoneform.appendid.value = x.options[x.selectedIndex];
-		}
-*/	}
+	}
 
 	function phpAds_formZoneAdvSubmit()
 	{

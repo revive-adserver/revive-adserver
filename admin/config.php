@@ -171,6 +171,7 @@ $phpAds_nav = array (
 		        "4.1.3.4.3"			=> 	array("banner-acl.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid" => $strModifyBannerAcl),
 		        "4.1.3.4.4"			=> 	array("banner-zone.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid" => $strLinkedZones),
 			    "4.1.3.4.5"			=>  array("banner-swf.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid" => $strConvertSWFLinks),
+			    "4.1.3.4.6"			=>  array("banner-append.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid" => $strAppendOthers),
 		  "4.2" 					=> 	array("affiliate-index.php" => $strAffiliatesAndZones),
 		    "4.2.1" 				=> 	array("affiliate-edit.php" => $strAddNewAffiliate),
 		    "4.2.2" 				=> 	array("affiliate-edit.php?affiliateid=$affiliateid" => $strAffiliateProperties),

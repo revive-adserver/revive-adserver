@@ -630,6 +630,9 @@ function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 				break;
 		}
 		
+		// Remove appended HTML for the preview
+		$buffer = str_replace ($row['append'], '', $buffer);
+		
 		
 		if ($row['active'] == "f")
 			echo "</div>";
