@@ -17,7 +17,20 @@
 // Define defaults
 $clientCache = array();
 $bannerCache = array();
+$zoneCache = array();
 
+
+
+/*********************************************************/
+/* Limit a string to a number of characters              */
+/*********************************************************/
+
+function phpAds_breakString ($str, $maxLen, $append = "...")
+{
+	return strlen($str) > $maxLen 
+		? rtrim(substr($str, 0, $maxLen-strlen($append))).$append 
+		: $str;
+}
 
 
 /*********************************************************/
@@ -139,11 +152,11 @@ function phpAds_getParentName ($clientID)
 /* Build the banner name from ID, Description and Alt    */
 /*********************************************************/
 
-function phpAds_buildBannerName ($bannerID, $description, $alt)
+function phpAds_buildBannerName ($bannerID, $description = '', $alt = '', $limit = 30)
 {
 	global $strUntitled;
 	
-	$name = "[id$bannerID] ";
+	$name = '';
 	
 	if ($description != "")
 		$name .= $description;
@@ -151,6 +164,13 @@ function phpAds_buildBannerName ($bannerID, $description, $alt)
 		$name .= $alt;
 	else
 		$name .= $strUntitled;
+	
+	
+	if (strlen($name) > $limit)
+		$name = phpAds_breakString ($name, $limit);
+	
+	if ($bannerID != '')
+		$name = "[id$bannerID] ".$name;
 	
 	return ($name);
 }
@@ -187,6 +207,55 @@ function phpAds_getBannerName ($bannerID)
 	
 	return (phpAds_buildBannerName ($bannerID, $row['description'], $row['alt']));
 }
+
+
+/*********************************************************/
+/* Build the zone name from ID and name                  */
+/*********************************************************/
+
+function phpAds_buildZoneName ($zoneid, $zonename)
+{
+	return ("[id$zoneid] $zonename");
+}
+
+
+/*********************************************************/
+/* Fetch the zone name from the database                 */
+/*********************************************************/
+
+function phpAds_getZoneName ($zoneid)
+{
+	global $zoneCache, $phpAds_tbl_zones;
+	global $strAddZone;
+	
+	if ($zoneid != '' && $zoneid != 0)
+	{
+		if (isset($zoneCache[$zoneid]) && is_array($zoneCache[$zoneid]))
+		{
+			$row = $zoneCache[$zoneid];
+		}
+		else
+		{
+			$res = db_query("
+			SELECT
+				*
+			FROM
+				$phpAds_tbl_zones
+			WHERE
+				zoneid = $zoneid
+			") or mysql_die();
+			
+			$row = @mysql_fetch_array($res);
+			
+			$zoneCache[$zoneID] = $row;
+		}
+		
+		return (phpAds_BuildZoneName ($zoneid, $row['zonename']));
+	}
+	else
+		return ($strAddZone);
+}
+
 
 
 /*********************************************************/
@@ -246,7 +315,36 @@ function phpAds_buildBannerCode ($bannerID, $banner, $active, $format, $width, $
 			$buffer	   .= "</tr></table>";
 		}
 		elseif($format == "url" || $format == "web")
-			$buffer = "<img src='$banner' width='$width' height='$height'>";
+		{
+			if (eregi("swf$", $banner))
+			{
+				$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
+				$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
+				$buffer .= "swflash.cab#version=5,0,0,0' width='$width' height='$height'>";
+				$buffer .= "<param name='movie' value='$banner'>";
+				$buffer .= "<param name='quality' value='high'>";
+				$buffer .= "<param name='bgcolor' value='#FFFFFF'>";
+				$buffer .= "<embed src='$banner' quality=high ";
+				$buffer .= "bgcolor='#FFFFFF' width='$width' height='$height' type='application/x-shockwave-flash' ";
+				$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
+				$buffer .= "</object>";
+			}
+			else
+				$buffer = "<img src='$banner' width='$width' height='$height'>";
+		}
+		elseif($format == "swf")
+		{
+			$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
+			$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
+			$buffer .= "swflash.cab#version=5,0,0,0' width='$width' height='$height'>";
+			$buffer .= "<param name='movie' value='../adview.php?bannerID=$bannerID'>";
+			$buffer .= "<param name='quality' value='high'>";
+			$buffer .= "<param name='bgcolor' value='#FFFFFF'>";
+			$buffer .= "<embed src='../adview.php?bannerID=$bannerID' quality=high ";
+			$buffer .= "bgcolor='#FFFFFF' width='$width' height='$height' type='application/x-shockwave-flash' ";
+			$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
+			$buffer .= "</object>";
+		}
 		else
 			$buffer = "<img src='../adview.php?bannerID=$bannerID' width='$width' height='$height'>";
 	}
@@ -269,7 +367,36 @@ function phpAds_buildBannerCode ($bannerID, $banner, $active, $format, $width, $
 			$buffer	   .= "</tr></table>";
 		}
 		elseif($format == "url" || $format == "web")
-			$buffer = "<img src='$banner' width='$width' height='$height' style='filter: Alpha(Opacity=50)'>";
+		{
+			if (eregi("swf$", $banner))
+			{
+				$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
+				$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
+				$buffer .= "swflash.cab#version=5,0,0,0' width='$width' height='$height'>";
+				$buffer .= "<param name='movie' value='$banner'>";
+				$buffer .= "<param name='quality' value='high'>";
+				$buffer .= "<param name='bgcolor' value='#FFFFFF'>";
+				$buffer .= "<embed src='$banner' quality=high ";
+				$buffer .= "bgcolor='#FFFFFF' width='$width' height='$height' type='application/x-shockwave-flash' ";
+				$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
+				$buffer .= "</object>";
+			}
+			else
+				$buffer = "<img src='$banner' width='$width' height='$height' style='filter: Alpha(Opacity=50)'>";
+		}
+		elseif($format == "swf")
+		{
+			$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
+			$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
+			$buffer .= "swflash.cab#version=5,0,0,0' width='$width' height='$height'>";
+			$buffer .= "<param name='movie' value='../adview.php?bannerID=$bannerID'>";
+			$buffer .= "<param name='quality' value='high'>";
+			$buffer .= "<param name='bgcolor' value='#FFFFFF'>";
+			$buffer .= "<embed src='../adview.php?bannerID=$bannerID' quality=high ";
+			$buffer .= "bgcolor='#FFFFFF' width='$width' height='$height' type='application/x-shockwave-flash' ";
+			$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
+			$buffer .= "</object>";
+		}
 		else
 			$buffer = "<img src='../adview.php?bannerID=$bannerID' width='$width' height='$height' style='filter: Alpha(Opacity=50)'>";
 	}

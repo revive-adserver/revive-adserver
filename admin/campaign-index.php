@@ -83,12 +83,12 @@ if (isset($message))
 ?>
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
-	<tr><td height='25' colspan='2'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?echo phpAds_getParentName($campaignID);?>
+	<tr><td height='25' colspan='2'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getParentName($campaignID);?>
 									&nbsp;<img src='images/caret-rs.gif'>&nbsp;
-									<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b><?echo phpAds_getClientName($campaignID);?></b></td></tr>
+									<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b><?php echo phpAds_getClientName($campaignID);?></b></td></tr>
 	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 	<tr><td height='25' colspan='2'>
-		<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<a href='banner-edit.php?campaignID=<? echo $campaignID; ?>'><?echo $strAddBanner;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<a href='banner-edit.php?campaignID=<?php echo $campaignID; ?>'><?php echo $strAddBanner;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
 	</td></tr>
 </table>
 
@@ -97,7 +97,7 @@ if (isset($message))
 
 
 
-<?
+<?php
 
 $res = db_query("
 	SELECT
@@ -200,7 +200,7 @@ else
 		
 		if ($phpAds_acl == '1')
 			echo "<img src='images/icon-acl.gif' align='absmiddle'>&nbsp;<a href='banner-acl.php?campaignID=$campaignID&bannerID=".$row["bannerID"]."'>$strModifyBannerAcl</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-		echo "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?campaignID=$campaignID&bannerID=".$row["bannerID"]."'>$strDelete</a>";
+		echo "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?campaignID=$campaignID&bannerID=".$row["bannerID"]."'".phpAds_DelConfirm($strConfirmDeleteBanner).">$strDelete</a>";
 		
 		echo "</td></tr>";
 		

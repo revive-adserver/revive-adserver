@@ -284,6 +284,54 @@ function db_delete_stats($bannerID)
 
 
 /*********************************************************/
+/* Get the host of the client                            */
+/*********************************************************/
+
+function phpAds_getClientInformation()
+{
+	// Get host address and host name
+	$addr = isset ($GLOBALS['REMOTE_ADDR']) ? $GLOBALS['REMOTE_ADDR'] : '';
+	$host = isset ($GLOBALS['REMOTE_HOST']) ? $GLOBALS['REMOTE_HOST'] : '';
+	
+	// Lookup host name if needed
+	if ($host == '' && $phpAds_reverse_lookup)
+		$host = @gethostbyaddr ($addr);
+	else
+		$host = $addr;
+	
+	// Check for proxyserver
+	$proxy = false;
+	if (isset ($GLOBALS['HTTP_VIA']) && $GLOBALS['HTTP_VIA'] != '') $proxy = true;
+	if (is_int (strpos ('proxy',   $host))) $proxy = true;
+	if (is_int (strpos ('cache',   $host))) $proxy = true;
+	if (is_int (strpos ('inktomi', $host))) $proxy = true;
+	
+	if ($proxy)
+	{
+		// Overwrite host address if a suitable header is found
+		if (isset($GLOBALS['HTTP_FORWARDED']) && 		$GLOBALS['HTTP_FORWARDED'] != '') 		$addr = $GLOBALS['HTTP_FORWARDED'];
+		if (isset($GLOBALS['HTTP_FORWARDED_FOR']) &&	$GLOBALS['HTTP_FORWARDED_FOR'] != '') 	$addr = $GLOBALS['HTTP_FORWARDED_FOR'];
+		if (isset($GLOBALS['HTTP_X_FORWARDED']) &&		$GLOBALS['HTTP_X_FORWARDED'] != '') 	$addr = $GLOBALS['HTTP_X_FORWARDED'];
+		if (isset($GLOBALS['HTTP_X_FORWARDED_FOR']) &&	$GLOBALS['HTTP_X_FORWARDED_FOR'] != '') $addr = $GLOBALS['HTTP_X_FORWARDED_FOR'];
+		if (isset($GLOBALS['HTTP_CLIENT_IP']) &&		$GLOBALS['HTTP_CLIENT_IP'] != '') 		$addr = $GLOBALS['HTTP_CLIENT_IP'];
+		
+		// Get last item from list
+		$addrArray = explode (',', $addr);
+		$addr = trim($addrArray[sizeof($addrArray) - 1]);
+		
+		// Perform reverse lookup if needed
+		if ($phpAds_reverse_lookup)
+			$host = @gethostbyaddr ($addr);
+		else
+			$host = $addr;
+	}
+	
+	
+	return (array ($addr, $host));
+}
+
+
+/*********************************************************/
 /* Check if host has to be ignored                       */
 /*********************************************************/
 
@@ -291,11 +339,7 @@ function phpads_ignore_host()
 {
 	global $phpAds_ignore_hosts, $phpAds_reverse_lookup, $REMOTE_HOST, $REMOTE_ADDR;
 	
-	if (isset($REMOTE_HOST))
-		$host = $REMOTE_HOST;
-	elseif ($phpAds_reverse_lookup)
-		$host = @gethostbyaddr($REMOTE_ADDR);
-	
+	list ($addr, $host) = phpAds_getClientInformation();
 	$found=0;
 	
 	while (($found == 0) && (list (, $h)=each($phpAds_ignore_hosts)))
@@ -305,7 +349,7 @@ function phpads_ignore_host()
 			// It's an IP address, evenually with a wildcard, so I create a regexp
 			$h = str_replace(".", '\.', str_replace("*$", "", "^".$h."$"));
 			
-			if (ereg($h, $REMOTE_ADDR))
+			if (ereg($h, $addr))
 				$found = 1;
 		}
 		elseif (eregi("^(\*\.)?([a-z0-9-]+\.)*[a-z0-9-]+$", $h))
@@ -316,12 +360,12 @@ function phpads_ignore_host()
 			if (eregi($h, $host))
 				$found = 1;
 		}
-		elseif (eregi("$host|$REMOTE_ADDR", $h)) // This check is backwards compatibile
+		elseif (eregi("$host|$addr", $h)) // This check is backwards compatibile
 				$found = 1;
 	}
 	
 	// Returns hostname or IP address if OK, false if host is ignored
-	return $found ? false : (empty($host) ? $REMOTE_ADDR : $host);
+	return $found ? false : (empty($host) ? $addr : $host);
 }
 
 ?>

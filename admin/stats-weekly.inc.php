@@ -50,3 +50,5 @@ function GetWeekSigns()
 	
 	return array($php_week_sign,$mysql_week_sign);
 }
+
+?>

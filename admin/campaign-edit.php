@@ -205,7 +205,7 @@ if ($campaignID != "" || (isset($move) && $move == 'true'))
 	// Parent setting for converting, campaign settings for editing
 	if ($campaignID != "") $ID = $campaignID;
 	if (isset($clientID) && $clientID != "") $ID = $clientID;
-
+	
 	$res = db_query("
 		SELECT
 			*,
@@ -254,7 +254,7 @@ if ($campaignID != "" || (isset($move) && $move == 'true'))
 		$row["expire_year"] = 0;
 	if (!isset($row["expire_f"]))
 		$row["expire_f"] = "-";
-
+	
 	// Check if timestamp is in the past or future
 	if ($row["timestamp"] < time())
 	{
@@ -269,7 +269,7 @@ if ($campaignID != "" || (isset($move) && $move == 'true'))
 else
 {
 	// New
-
+	
 	$row["views"] = "";
 	$row["clicks"] = "";
 	$days_left = "";
@@ -434,17 +434,17 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 
 
 <table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
-	<? if (isset($campaignID) && $campaignID > 0) { ?>
-	<tr><td height='25' colspan='4'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?echo phpAds_getParentName($campaignID);?>
+	<?php if (isset($campaignID) && $campaignID > 0) { ?>
+	<tr><td height='25' colspan='4'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getParentName($campaignID);?>
 									&nbsp;<img src='images/caret-rs.gif'>&nbsp;
-									<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b><?echo phpAds_getClientName($campaignID);?></b></td></tr>
+									<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b><?php echo phpAds_getClientName($campaignID);?></b></td></tr>
 	<tr><td height='1' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-	<? } else { ?>
-	<tr><td height='25' colspan='4'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?echo phpAds_getClientName($clientID);?>
+	<?php } else { ?>
+	<tr><td height='25' colspan='4'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getClientName($clientID);?>
 									&nbsp;<img src='images/caret-rs.gif'>&nbsp;
-									<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b><?echo $strCreateNewCampaign; ?></b></td></tr>
+									<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b><?php echo $strCreateNewCampaign; ?></b></td></tr>
 	<tr><td height='1' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-	<? } ?>
+	<?php } ?>
 </table
 
 
@@ -452,21 +452,21 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 <br><br>
   
 
-<form name="clientform" method="post" action="<?echo basename($PHP_SELF);?>" onSubmit="return valid(this)">
-<input type="hidden" name="campaignID" value="<?if(isset($campaignID)) echo $campaignID;?>">
-<input type="hidden" name="clientID" value="<?if(isset($clientID)) echo $clientID;?>">
-<input type="hidden" name="expire" value="<?if(isset($row["expire"])) echo $row["expire"];?>">
-<input type="hidden" name="move" value="<?if(isset($move)) echo $move;?>">
+<form name="clientform" method="post" action="<?php echo basename($PHP_SELF);?>" onSubmit="return valid(this)">
+<input type="hidden" name="campaignID" value="<?php if(isset($campaignID)) echo $campaignID;?>">
+<input type="hidden" name="clientID" value="<?php if(isset($clientID)) echo $clientID;?>">
+<input type="hidden" name="expire" value="<?php if(isset($row["expire"])) echo $row["expire"];?>">
+<input type="hidden" name="move" value="<?php if(isset($move)) echo $move;?>">
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
-	<tr><td height='25' colspan='3'><b><?echo $strBasicInformation;?></b></td></tr>
+	<tr><td height='25' colspan='3'><b><?php echo $strBasicInformation;?></b></td></tr>
 	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
 	<tr>
 		<td width='30'>&nbsp;</td>
-		<td width='200'><?echo $strName;?></td>
-		<td><input type="text" name="clientname" size='35' style="width:350px;" value="<?if(isset($row["clientname"])) echo $row["clientname"]; else echo $strDefault;?>"></td>
+		<td width='200'><?php echo $strName;?></td>
+		<td><input type="text" name="clientname" size='35' style="width:350px;" value="<?php if(isset($row["clientname"])) echo $row["clientname"]; else echo $strDefault;?>"></td>
 	</tr>
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
 
@@ -476,17 +476,17 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 <br><br>
 <br><br>
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
-	<tr><td height='25' colspan='3'><b><?echo $strContractInformation;?></b></td></tr>
+	<tr><td height='25' colspan='3'><b><?php echo $strContractInformation;?></b></td></tr>
 	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
-	<?
+	<?php
 		if (isset($row['active']) && $row['active'] == 'false') {
 	?>
 	<tr>
 		<td width='30' valign='top'><img src='images/info.gif'></td>
 		<td width='200' colspan='2'>
-		<?
+		<?php
 			echo $strClientDeactivated;
 			
 			$expire_ts = mktime(0, 0, 0, $row["expire_month"], $row["expire_dayofmonth"], $row["expire_year"]);
@@ -506,26 +506,26 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 		<td><img src='images/spacer.gif' height='1' width='100%'></td>
 		<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
 	</tr>
-	<?
+	<?php
 		}
 	?>
 	<tr>
 		<td width='30'>&nbsp;</td>
-		<td width='200'><?echo $strViewsPurchased;?></td>
-		<?
+		<td width='200'><?php echo $strViewsPurchased;?></td>
+		<?php
 		if (phpAds_isUser(phpAds_Admin))
 		{
 			?>
 			<td>
-				<input type="text" name="views" size='25' value="<?if($row["views"]>0)echo $row["views"];else echo '-';?>" onKeyUp="disable_checkbox('unlimitedviews');">
-				<input type="checkbox" name="unlimitedviews"<?if($row["views"]==-1)print " CHECKED";?> onClick="click_checkbox('unlimitedviews', 'views');">
-				<? echo $GLOBALS['strUnlimited']; ?>
+				<input type="text" name="views" size='25' value="<?php if($row["views"]>0) echo $row["views"]; else echo '-';?>" onKeyUp="disable_checkbox('unlimitedviews');">
+				<input type="checkbox" name="unlimitedviews"<?php if($row["views"]==-1) print " CHECKED";?> onClick="click_checkbox('unlimitedviews', 'views');">
+				<?php echo $GLOBALS['strUnlimited']; ?>
 			</td>
-			<?
+			<?php
 		}
 		else {
 			?>
-			<td><?if($row["views"]!=-1)echo $row["views"];else echo $GLOBALS['strUnlimited'];?></td>
+			<td><?php if($row["views"]!=-1) echo $row["views"]; else echo $GLOBALS['strUnlimited'];?></td>
 			<?
 		}
 		?>
@@ -536,22 +536,22 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 	</tr>
 	<tr>
 		<td width='30'>&nbsp;</td>
-		<td width='200'><?echo $strClicksPurchased;?></td>
-		<?
+		<td width='200'><?php echo $strClicksPurchased;?></td>
+		<?php
 		if (phpAds_isUser(phpAds_Admin))
 		{
 			?>
 			<td>
-				<input type="text" name="clicks" size='25' value="<?if($row["clicks"]>0)echo $row["clicks"];else echo '-';?>" onKeyUp="disable_checkbox('unlimitedclicks');">
-				<input type="checkbox" name="unlimitedclicks"<?if($row["clicks"]==-1)print " CHECKED";?> onClick="click_checkbox('unlimitedclicks', 'clicks');">
-				<? echo $GLOBALS['strUnlimited']; ?>
+				<input type="text" name="clicks" size='25' value="<?php if($row["clicks"]>0) echo $row["clicks"]; else echo '-';?>" onKeyUp="disable_checkbox('unlimitedclicks');">
+				<input type="checkbox" name="unlimitedclicks"<?php if($row["clicks"]==-1) print " CHECKED";?> onClick="click_checkbox('unlimitedclicks', 'clicks');">
+				<?php echo $GLOBALS['strUnlimited']; ?>
 			</td>
-			<?
+			<?php
 		}
 		else {
 			?>
-			<td><?if($row["clicks"]!=-1)echo $row["clicks"];else echo $GLOBALS['strUnlimited'];?></td>
-			<?
+			<td><?php if($row["clicks"]!=-1) echo $row["clicks"]; else echo $GLOBALS['strUnlimited'];?></td>
+			<?php
 		}
 		?>
 	</tr>
@@ -561,27 +561,27 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 	</tr>
 	<tr>
 		<td width='30'>&nbsp;</td>
-		<td width='200'><? echo $GLOBALS['strActivationDate']; ?></td>
-		<?
+		<td width='200'><?php echo $GLOBALS['strActivationDate']; ?></td>
+		<?php
 		if (phpAds_isUser(phpAds_Admin))
 		{
 			?>
 			<td>
-				<? phpAds_showDateEdit('activate', isset($row["activate_dayofmonth"]) ? $row["activate_dayofmonth"] : 0, 
-												   isset($row["activate_month"]) ? $row["activate_month"] : 0, 
-												   isset($row["activate_year"]) ? $row["activate_year"] : 0); ?>
+				<?php phpAds_showDateEdit('activate', isset($row["activate_dayofmonth"]) ? $row["activate_dayofmonth"] : 0, 
+												   	  isset($row["activate_month"]) ? $row["activate_month"] : 0, 
+												   	  isset($row["activate_year"]) ? $row["activate_year"] : 0); ?>
 			</td>
-			<?
+			<?php
 		}
 		else 
 		{
 			?>
 			<td>
-				<? phpAds_showDateEdit('activate', isset($row["activate_dayofmonth"]) ? $row["activate_dayofmonth"] : 0, 
-												   isset($row["activate_month"]) ? $row["activate_month"] : 0, 
-												   isset($row["activate_year"]) ? $row["activate_year"] : 0, false); ?>
+				<?php phpAds_showDateEdit('activate', isset($row["activate_dayofmonth"]) ? $row["activate_dayofmonth"] : 0, 
+												   	  isset($row["activate_month"]) ? $row["activate_month"] : 0, 
+												  	  isset($row["activate_year"]) ? $row["activate_year"] : 0, false); ?>
 			</td>
-			<?
+			<?php
 		}
 		?>
 	</tr>
@@ -591,28 +591,28 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 	</tr>
 	<tr>
 		<td width='30'>&nbsp;</td>
-		<td width='200'><? echo $strExpirationDate; ?></td>
-		<?
+		<td width='200'><?php echo $strExpirationDate; ?></td>
+		<?php
 		if (phpAds_isUser(phpAds_Admin))
 		{
 			?>
 			<td>
-				<? phpAds_showDateEdit('expire', isset($row["expire_dayofmonth"]) ? $row["expire_dayofmonth"] : 0, 
-												 isset($row["expire_month"]) ? $row["expire_month"] : 0, 
-												 isset($row["expire_year"]) ? $row["expire_year"] : 0); ?>
+				<?php phpAds_showDateEdit('expire', isset($row["expire_dayofmonth"]) ? $row["expire_dayofmonth"] : 0, 
+												 	isset($row["expire_month"]) ? $row["expire_month"] : 0, 
+												 	isset($row["expire_year"]) ? $row["expire_year"] : 0); ?>
 			</td>
-			<?
+			<?php
 		}
 		else 
 		{
 			?>
 			<td>
-				<? phpAds_showDateEdit('expire', isset($row["expire_dayofmonth"]) ? $row["expire_dayofmonth"] : 0, 
-												 isset($row["expire_month"]) ? $row["expire_month"] : 0, 
-												 isset($row["expire_year"]) ? $row["expire_year"] : 0, false); ?>
+				<?php phpAds_showDateEdit('expire', isset($row["expire_dayofmonth"]) ? $row["expire_dayofmonth"] : 0, 
+												 	isset($row["expire_month"]) ? $row["expire_month"] : 0, 
+												 	isset($row["expire_year"]) ? $row["expire_year"] : 0, false); ?>
 			</td>
 
-			<?
+			<?php
 		}
 		?>
 	</tr>
@@ -622,20 +622,20 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 	</tr>
 	<tr>
 		<td width='30'>&nbsp;</td>
-		<td width='200'><?echo $strWeight;?></td>
-		<?
+		<td width='200'><?php echo $strWeight;?></td>
+		<?php
 		if (phpAds_isUser(phpAds_Admin))
 		{
 			?>
 			<td>
-				<input type="text" name="weight" size='25' value="<?echo isset($row["weight"]) ? $row["weight"] : 1;?>">
+				<input type="text" name="weight" size='25' value="<?php echo isset($row["weight"]) ? $row["weight"] : 1;?>">
 			</td>
-			<?
+			<?php
 		}
 		else {
 			?>
-			<td><?echo $row["weight"];?></td>
-			<?
+			<td><?php echo $row["weight"];?></td>
+			<?php
 		}
 		?>
 	</tr>
@@ -647,12 +647,12 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 
 <br><br>
 		
-<input type="submit" name="submit" value="<?echo $strSaveChanges;?>">
+<input type="submit" name="submit" value="<?php echo $strSaveChanges;?>">
 </form>
 
 
 
-<?
+<?php
 
 /*********************************************************/
 /* HTML framework                                        */

@@ -114,7 +114,6 @@ $GLOBALS['strTotalClicks7Days'] = "Total de clicks nos últimos 7 dias";
 $GLOBALS['strAvgViews7Days'] = "Média de impressões nos últimos 7 dias";
 $GLOBALS['strAvgClicks7Days'] = "Média de clicks nos últimos 7 dias";
 $GLOBALS['strTopTenHosts'] = "10 servidores mais requisitantes";
-$GLOBALS['strConfirmDeleteClient'] = "Está certo que deseja deletar este cliente?";
 $GLOBALS['strClientIP'] = "IP do Cliente";
 $GLOBALS['strUserAgent'] = "Navegador do Usuário";
 $GLOBALS['strWeekDay'] = "Dia da Semana (Domingo:0 - Sábado:6)";
@@ -124,7 +123,6 @@ $GLOBALS['strTime'] = "Hora";
 $GLOBALS['strAllow'] = "Permitir";
 $GLOBALS['strDeny'] = "Bloquear";
 $GLOBALS['strResetStats'] = "Resetar Estatísticas";
-$GLOBALS['strConfirmResetStats'] = "Está certo que deseja resetar as estatísticas deste cliente?";
 $GLOBALS['strExpiration'] = "Expiração";
 $GLOBALS['strNoExpiration'] = "Sem data de expiração";
 $GLOBALS['strDaysLeft'] = "Dias restantes";
@@ -228,8 +226,6 @@ $GLOBALS['strTotalCampaigns'] 			= "Total campaigns";
 $GLOBALS['strActiveCampaigns'] 			= "Active campaigns";
 
 $GLOBALS['strLinkedTo']					= "linked to";
-$GLOBALS['strNoViewLoggedInInterval']   = "No views were logged in the last {interval} days";
-$GLOBALS['strNoClickLoggedInInterval']  = "No clicks were logged in the last {interval} days";
 $GLOBALS['strSendAdvertisingReport']	= "Send an advertising report via e-mail";
 $GLOBALS['strNoDaysBetweenReports']		= "Number of days between reports";
 
@@ -248,7 +244,44 @@ $GLOBALS['strUniqueidentifier']			= "Unique identifier";
 $GLOBALS['strFrameSize']				= "Frame size";
 $GLOBALS['strBannercode']				= "Bannercode";
 
-$GLOBALS['strSearch']					= "Search";
-$GLOBALS['strNoMatchesFound']			= "No matches were found";
+$GLOBALS['strSearch']					= "Pesquisar";
+$GLOBALS['strNoMatchesFound']			= "Não foram encontrados resultados";
+
+$GLOBALS['strNoViewLoggedInInterval']   = "Sem visualizações executadas durante o processamento do relatório";
+$GLOBALS['strNoClickLoggedInInterval']  = "Sem cliques executados durante o processamento do relatório";
+$GLOBALS['strMailReportPeriod']			= "Este relatório inclui estatísticas entre {startdate} e {enddate}.";
+$GLOBALS['strMailReportPeriodAll']		= "Este relatório inclui todas as estatísticas até {enddate}.";
+$GLOBALS['strNoStatsForCampaign'] 		= "Não existem estatísticas para esta campanha";
+$GLOBALS['strFrom']						= "Desde";
+$GLOBALS['strTo']						= "até";
+$GLOBALS['strMaintenance']				= "Manutenção";
+$GLOBALS['strCampaignStats']			= "Estatísticas da Campanha";
+$GLOBALS['strClientStats']				= "Estatísticas do Cliente";
+$GLOBALS['strErrorOccurred']			= "Ocorreu um erro";
+$GLOBALS['strAdReportSent']				= "Relatório de Publicidade enviado";
+
+$GLOBALS['strAutoChangeHTML']			= "Change HTML in order to log AdClicks";
+
+$GLOBALS['strZones']					= "Zones";
+$GLOBALS['strAddZone']					= "Create zone";
+$GLOBALS['strModifyZone']				= "Modify zone";
+$GLOBALS['strAddNewZone']				= "Add new zone";
+
+$GLOBALS['strOverview']					= "Overview";
+$GLOBALS['strEqualTo']					= "is equal to";
+$GLOBALS['strDifferentFrom']			= "is different from";
+$GLOBALS['strAND']						= "AND";  // logical operator
+$GLOBALS['strOR']						= "OR"; // logical operator
+$GLOBALS['strOnlyDisplayWhen']			= "Only display this banner when:";
+
+$GLOBALS['strStatusText']				= "Status Text";
+
+$GLOBALS['strConfirmDeleteClient'] 		= "Está certo que deseja deletar este cliente?";
+$GLOBALS['strConfirmDeleteCampaign']	= "Do you really want to delete this campaign?";
+$GLOBALS['strConfirmDeleteBanner']		= "Do you really want to delete this banner?";
+$GLOBALS['strConfirmResetStats']		= "Do you really want to reset all stats?";
+$GLOBALS['strConfirmResetCampaignStats']= "Do you really want to reset stats for this campaign?";
+$GLOBALS['strConfirmResetClientStats']	= "Está certo que deseja resetar as estatísticas deste cliente?";
+$GLOBALS['strConfirmResetBannerStats']	= "Do you really want to reset stats for this banner?";
 
 ?>

@@ -146,46 +146,17 @@ else
 /* Main code                                             */
 /*********************************************************/
 
+echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignID);
+echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignID)."</b>";
+
+echo "<br><br>";
+echo "<br><br>";
+echo "<br><br>";
+
 ?>
 
-<table border='0' width='100%' cellpadding='0' cellspacing='0'>
-	<tr><td height='25' colspan='2'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?echo phpAds_getParentName($campaignID);?>
-									&nbsp;<img src='images/caret-rs.gif'>&nbsp;
-									<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b><?echo phpAds_getClientName($campaignID);?></b></td></tr>
 
-	<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-	<tr>
-		<form action='<? echo $GLOBALS['PHP_SELF']; ?>'>
-		<td height='35' align='left'>
-			<input type='hidden' name='campaignID' value='<? echo $campaignID; ?>'>
-			<select name='view' onChange='this.form.submit();'>
-				<option value='all'<? echo $view=='all' ? " selected" : ""?>><? echo $strShowAllBanners ?></option>
-				<option value='adclicks'<? echo $view=='adclicks' ? " selected" : ""?>><? echo $strShowBannersNoAdClicks ?></option>
-				<option value='adviews'<? echo $view=='adviews' ? " selected" : ""?>><? echo $strShowBannersNoAdViews ?></option>
-			</select>
-			&nbsp;<? echo $strOrderBy ?>&nbsp;
-			<select name='order' onChange='this.form.submit();'>
-				<option value='bannerid'<? echo $order=='bannerid' ? " selected" : ""?>><? echo $strID ?></option>
-				<option value='alt'<? echo $order=='alt' ? " selected" : ""?>><? echo $strDescription ?></option>
-				<option value='adviews'<? echo $order=='adviews' ? " selected" : ""?>><? echo $strViews ?></option>
-				<option value='adclicks'<? echo $order=='adclicks' ? " selected" : ""?>><? echo $strClicks ?></option>
-				<option value='ctr'<? echo $order=='ctr' ? " selected" : ""?>><? echo $strCTRShort ?></option>
-			</select>
-			<input type="image" border="0" name='submit' src="images/go_blue.gif">
-		</td>
-		<td height='35' align='right'>
-			<select name='compact' onChange='this.form.submit();'>
-				<option value='false'<? echo $compact!='true' ? " selected" : ""?>><? echo $strVerbose ?></option>
-				<option value='true'<? echo $compact=='true' ? " selected" : ""?>><? echo $strCompact ?></option>
-			</select>
-		</td>
-		</form>
-	</tr>
-</table>
-
-
-<br><br>
-<br><br>
 
 
 <script language="JavaScript">
@@ -220,7 +191,7 @@ function showHideLayers(obj) {
 </script>
 
 
-<?
+<?php
 
 $totaladviews = 0;
 $totaladclicks = 0;
@@ -386,7 +357,7 @@ if (count($tmp_order) > 0)
 				{
 					echo "&nbsp;&nbsp;&nbsp;&nbsp;";
 					echo "<img src='images/icon-undo.gif' align='absmiddle'>&nbsp;";
-					echo "<a href='stats-reset.php?campaignID=$campaignID&bannerID=".$row_banners['bannerID']."'>$strResetStats</a>";
+					echo "<a href='stats-reset.php?campaignID=$campaignID&bannerID=".$row_banners['bannerID']."'".phpAds_DelConfirm($strConfirmResetBannerStats).">$strResetStats</a>";
 				}
 			}
 			if (phpAds_isUser(phpAds_Admin) || (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_ModifyBanner))) // only for the admin
@@ -453,9 +424,11 @@ if (count($tmp_order) > 0)
 			echo "&nbsp;";
 			echo "<a height='25' href='stats-details.php?campaignID=$campaignID&bannerID=".$row_banners['bannerID']."'>";
 			
-			if ($row_banners['description'] != '')	echo $row_banners['description'];
-			elseif ($row_banners['alt'] != '')		echo $row_banners['alt'];
-			else									echo $strUntitled;
+			if ($row_banners['description'] != '')	$name = $row_banners['description'];
+			elseif ($row_banners['alt'] != '')		$name = $row_banners['alt'];
+			else									$name = $strUntitled;
+			
+			echo phpAds_breakString ($name, '30');
 			
 			echo "</a>";
 			echo "</td>";
@@ -471,7 +444,9 @@ if (count($tmp_order) > 0)
 			}
 			else
 			{
-				echo "<td height='25' bgcolor='$bgcolor' colspan='3'>$strBannerNoStats</td>";
+				echo "<td height='25' align='right' nowrap>-</td>";
+				echo "<td height='25' align='right' nowrap>-</td>";
+				echo "<td height='25' align='right' nowrap>-&nbsp;&nbsp;</td>";
 			}
 			
 			echo "</tr>";
@@ -502,7 +477,7 @@ if (count($tmp_order) > 0)
 					
 					if (phpAds_isUser(phpAds_Admin)) // only for the admin
 					{
-						echo "<a href='stats-reset.php?campaignID=$campaignID&bannerID=".$row_banners['bannerID']."'>";
+						echo "<a href='stats-reset.php?campaignID=$campaignID&bannerID=".$row_banners['bannerID']."'".phpAds_DelConfirm($strConfirmResetBannerStats).">";
 						echo "<img src='images/icon-undo.gif' align='absmiddle' border='0'>&nbsp;$strResetStats</a>";
 						echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 					}
@@ -524,13 +499,34 @@ if (count($tmp_order) > 0)
 		}
 	}
 	
-	if ($compact == "true")
-	{
-		echo "<tr><td height='1' colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-		echo "<tr><td height='35' colspan='6' bgcolor='#FFFFFF'>&nbsp;</td></tr>";
-	}
+	
+	echo "<tr><td height='1' colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	
+	
+	echo "<tr>";
+	echo "<form action='".$GLOBALS['PHP_SELF']."'>";
+	echo "<td colspan='6' height='35' align='right'>";
+	echo "<input type='hidden' name='campaignID' value='$campaignID'>";
+	echo "<input type='hidden' name='order' value='$order'>";
+	echo "<select name='view' onChange='this.form.submit();'>";
+		echo "<option value='all'".($view=='all' ? " selected" : "").">$strShowAllBanners</option>";
+		echo "<option value='adclicks'".($view=='adclicks' ? " selected" : "").">$strShowBannersNoAdClicks</option>";
+		echo "<option value='adviews'".($view=='adviews' ? " selected" : "").">$strShowBannersNoAdViews</option>";
+	echo "</select>";
+	echo "&nbsp;";
+	echo "<select name='compact' onChange='this.form.submit();'>";
+		echo "<option value='false'".($compact!='true' ? " selected" : "").">$strVerbose</option>";
+		echo "<option value='true'".($compact=='true' ? " selected" : "").">$strCompact</option>";
+	echo "</select>";
+	echo "&nbsp;";
+	echo "<input type='image' border='0' name='submit' src='images/go_blue.gif'>";
+	echo "</td>";
+	echo "</form>";
+	echo "</tr>";
+	
 	
 	echo "</table>";
+	echo "<br><br>";
 	echo "<br><br>";
 }
 
@@ -540,48 +536,48 @@ if (count($tmp_order) > 0)
 ?>
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
-	<tr><td height='25' colspan='2'><b><?echo $strCreditStats;?></b></td></tr>
+	<tr><td height='25' colspan='2'><b><?php echo $strCreditStats;?></b></td></tr>
 	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 
-<?
+<?php
 if (phpAds_GDImageFormat() != "none" && $totaladviews > 0 && !$phpAds_compact_stats)
 {
 ?>
 	<tr><td height='20' colspan='2'>&nbsp;</td></tr>	
 	<tr>
-		<td bgcolor="#FFFFFF" colspan=2><img src="graph-hourly.php?where=<?$where = ereg_replace("OR$", "", $where); echo urlencode("$where");?>" border="0" width="385" height="150"></td>
+		<td bgcolor="#FFFFFF" colspan=2><img src="graph-hourly.php?where=<?php $where = ereg_replace("OR$", "", $where); echo urlencode("$where");?>" border="0" width="385" height="150"></td>
 	</tr>
 	<tr><td height='10' colspan='2'>&nbsp;</td></tr>	
 	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-<?
+<?php
 }
 ?>
 
-<?
+<?php
 list($desc,$enddate,$daysleft)=days_left($campaignID);
 $adclicksleft = adclicks_left($campaignID);
 $adviewsleft  = adviews_left($campaignID);
 ?>
 	<tr>
-		<td height='25'><?echo $strTotalViews;?>: <b><?echo $totaladviews;?></b></td>
-		<td height='25'><?echo $strViewCredits;?>: <b><?echo $adviewsleft;?></b></td>
+		<td height='25'><?php echo $strTotalViews;?>: <b><?php echo $totaladviews;?></b></td>
+		<td height='25'><?php echo $strViewCredits;?>: <b><?php echo $adviewsleft;?></b></td>
 	</tr>
 	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>
 	<tr>
-		<td height='25'><?echo $strTotalClicks;?>: <b><?echo $totaladclicks;?></b></td>
-		<td height='25'><?echo $strClickCredits;?>: <b><?echo $adclicksleft;?></b></td>
+		<td height='25'><?php echo $strTotalClicks;?>: <b><?php echo $totaladclicks;?></b></td>
+		<td height='25'><?php echo $strClickCredits;?>: <b><?php echo $adclicksleft;?></b></td>
 	</tr>
 	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>
 	<tr>
-		<td height='25' colspan='2'><? echo $desc; ?></td>
+		<td height='25' colspan='2'><?php echo $desc; ?></td>
 	</tr>
-	<?
+	<?php
 		if ($adviewsleft != $strUnlimited || $adclicksleft != $strUnlimited) {
 	?>
 	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 	<tr>
 		<td height='60' align='left'>
-		<?
+		<?php
 		if ($adviewsleft == $strUnlimited)
 			print "&nbsp;";
 		else
@@ -593,13 +589,13 @@ $adviewsleft  = adviews_left($campaignID);
 			print "<img src='graph-daily.php?width=200&data=Clicks^$totaladclicks^^Credits^$adclicksleft^^'></td>\n";
 		?>
 	</tr>
-	<?
+	<?php
 		}
 	?>
 	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 	<tr>
 		<td colspan='2' height='25'>
-		<?
+		<?php
 		if ($totaladclicks > 0 || $totaladviews > 0)
 		{
 			print "<img src='images/icon-weekly.gif' align='absmiddle'>&nbsp;<a href='stats-weekly.php?campaignID=$campaignID'>$strWeeklyStats</a>&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -608,6 +604,3 @@ $adviewsleft  = adviews_left($campaignID);
 		</td>
 	</tr>
 </table>
-
-
-

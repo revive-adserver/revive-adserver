@@ -112,7 +112,6 @@ $GLOBALS['strTotalClicks7Days'] = "Totaal AdClicks voorbije 7 dagen";
 $GLOBALS['strAvgViews7Days'] = "Gemiddelde AdViews voorbije 7 dagen";
 $GLOBALS['strAvgClicks7Days'] = "Gemiddelde AdClicks voorbije 7 dagen";
 $GLOBALS['strTopTenHosts'] = "Top tien hosts";
-$GLOBALS['strConfirmDeleteClient'] = "Bent u zeker dat u deze klant wil verwijdern ?";
 $GLOBALS['strClientIP'] = "IP adres bezoeker";
 $GLOBALS['strUserAgent'] = "User agent regexp";
 $GLOBALS['strWeekDay'] = "Weekdag (0 - 6)";
@@ -226,8 +225,6 @@ $GLOBALS['strTotalCampaigns'] 			= "Totaal campagnes";
 $GLOBALS['strActiveCampaigns'] 			= "Actieve campagnes";
 
 $GLOBALS['strLinkedTo']					= "gelinked naar";
-$GLOBALS['strNoViewLoggedInInterval']   = "Geen AdViews zijn gelogd in de laatste {interval} dagen";
-$GLOBALS['strNoClickLoggedInInterval']  = "Geen AdClicks zijn gelogd in de laatste {interval} dagen";
 $GLOBALS['strSendAdvertisingReport']	= "Stuur een advertentierapport per e-mail";
 $GLOBALS['strNoDaysBetweenReports']		= "Aantal dagen tussen rapporten";
 $GLOBALS['strSendDeactivationWarning']  = "Stuur een waarschuwing wanneer de campagne gedeactiveerd wordt";
@@ -252,5 +249,42 @@ $GLOBALS['strBannercode']				= "Bannercode";
 
 $GLOBALS['strSearch']					= "Zoeken";
 $GLOBALS['strNoMatchesFound']			= "Geen objecten gevonden";
+
+$GLOBALS['strNoViewLoggedInInterval']   = "Er zijn geen AdViews gelogd gedurende de dagen van dit rapport";
+$GLOBALS['strNoClickLoggedInInterval']  = "Er zijn geen AdClicks gelogd gedurende de dagen van dit rapport";
+$GLOBALS['strMailReportPeriod']			= "Dit rapport bevat de statistieken van {startdate} tot en met {enddate}.";
+$GLOBALS['strMailReportPeriodAll']		= "Dit rapport bevat alle statistieken tot en met {enddate}.";
+$GLOBALS['strNoStatsForCampaign'] 		= "Er zijn geen statistieken beschikbaar voor deze campagne";
+$GLOBALS['strFrom']						= "Van";
+$GLOBALS['strTo']						= "tot";
+$GLOBALS['strMaintenance']				= "Onderhoud";
+$GLOBALS['strCampaignStats']			= "Campagne statistieken";
+$GLOBALS['strClientStats']				= "Klant statistieken";
+$GLOBALS['strErrorOccurred']			= "Er is een fout opgetreden";
+$GLOBALS['strAdReportSent']				= "Advertentierapport verzonden";
+
+$GLOBALS['strAutoChangeHTML']			= "Verander HTML om AdClicks te loggen";
+
+$GLOBALS['strZones']					= "Zones";
+$GLOBALS['strAddZone']					= "Maak zone";
+$GLOBALS['strModifyZone']				= "Wijzig zone";
+$GLOBALS['strAddNewZone']				= "Voeg een zone toe";
+
+$GLOBALS['strOverview']					= "Overzicht";
+$GLOBALS['strEqualTo']					= "is gelijk aan";
+$GLOBALS['strDifferentFrom']			= "is verschillend van";
+$GLOBALS['strAND']						= "EN";  // logical operator
+$GLOBALS['strOR']						= "OF"; // logical operator
+$GLOBALS['strOnlyDisplayWhen']			= "Toon deze banner alleen wanneer:";
+
+$GLOBALS['strStatusText']				= "Status Tekst";
+
+$GLOBALS['strConfirmDeleteClient'] 		= "Weet u zeker dat u deze klant wilt verwijderen?";
+$GLOBALS['strConfirmDeleteCampaign']	= "Weet u zeker dat u deze campagne wilt verwijderen?";
+$GLOBALS['strConfirmDeleteBanner']		= "Weet u zeker dat u deze banner wilt verwijderen?";
+$GLOBALS['strConfirmResetStats']		= "Weet u zeker dat u alle statistieken wilt wissen?";
+$GLOBALS['strConfirmResetCampaignStats']= "Weet u zeker dat u de statistieken wilt wissen voor deze campagne?";
+$GLOBALS['strConfirmResetClientStats']	= "Weet u zeker dat u de statistieken wilt wissen voor deze klant?";
+$GLOBALS['strConfirmResetBannerStats']	= "Weet u zeker dat u de statistieken wilt wizzen voor deze banner?";
 
 ?>

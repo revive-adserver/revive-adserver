@@ -105,8 +105,8 @@ $GLOBALS['strLogErrorClicks'] = "[phpAds] Ошибка доступа к БД кликов.";
 $GLOBALS['strLogErrorDisactivate'] = "[phpAds] Ошибка деактивации баннера.";
 $GLOBALS['strRatio'] = "Рейтинг кликабельности";
 $GLOBALS['strChooseBanner'] = "Выберите тип баннера.";
-$GLOBALS['strMySQLBanner'] = "Баннер с вашего компьютера помещается на сервер";
-$GLOBALS['strWebBanner'] = "Banner stored on the Webserver";
+$GLOBALS['strMySQLBanner'] = "Баннер с вашего компьютера помещается в базу данных на сервере";
+$GLOBALS['strWebBanner'] = "Баннер с вашего компьютера сохраняется в каталоге на веб-сервере";
 $GLOBALS['strURLBanner'] = "Баннер лежит где-то в Интернет";
 $GLOBALS['strHTMLBanner'] = "Текстовый баннер";
 $GLOBALS['strNewBannerFile'] = "Файл баннера на диске";
@@ -118,7 +118,6 @@ $GLOBALS['strTotalClicks7Days'] = "Всего кликов за неделю";
 $GLOBALS['strAvgViews7Days'] = "В среднем показов за неделю";
 $GLOBALS['strAvgClicks7Days'] = "В среднем кликов за неделю";
 $GLOBALS['strTopTenHosts'] = "Top ten адресов просматривавших баннеры";
-$GLOBALS['strConfirmDeleteClient'] = "Вы действительно хотите удалить этого клиента?";
 $GLOBALS['strClientIP'] = "IP Клиента";
 $GLOBALS['strUserAgent'] = "regexp строки User-agent";
 $GLOBALS['strWeekDay'] = "День недели (0 - 6) ((с воскресенья))";
@@ -127,7 +126,6 @@ $GLOBALS['strSource'] = "Источник";
 $GLOBALS['strTime'] = "Время";
 $GLOBALS['strAllow'] = "Доступ открыт для";
 $GLOBALS['strDeny'] = "Доступ закрыт для";
-$GLOBALS['strConfirmResetStats'] = "Вы действительно хотите обнулить статистику для этого клиента ?";
 $GLOBALS['strExpiration'] = "Expiration";
 $GLOBALS['strNoExpiration'] = "No expiration date set";
 $GLOBALS['strDaysLeft'] = "Осталось дней";
@@ -231,8 +229,6 @@ $GLOBALS['strTotalCampaigns'] 			= "Всего кампаний";
 $GLOBALS['strActiveCampaigns'] 			= "Активных кампаний";
 
 $GLOBALS['strLinkedTo']					= "связано с";
-$GLOBALS['strNoViewLoggedInInterval']   = "Не зарегистрировано просмотров за последние {interval} дней";
-$GLOBALS['strNoClickLoggedInInterval']  = "Не зарегистрировано кликов за последние {interval} дней";
 $GLOBALS['strSendAdvertisingReport']	= "Посылать рекламный отчет по e-mail";
 $GLOBALS['strNoDaysBetweenReports']		= "Количество дней между отчетами";
 $GLOBALS['strSendDeactivationWarning']  = "Посылать предупреждение, когда кампания деактивировануется";
@@ -240,7 +236,7 @@ $GLOBALS['strSendDeactivationWarning']  = "Посылать предупреждение, когда кампан
 $GLOBALS['strWarnClientTxt']			= "Количество нажатий или просмотров для ваших баннеров скоро станет меньше {limit}. ";
 $GLOBALS['strViewsClicksLow']			= "Рекламные просмотры/нажатия подходят к концу";
 
-$GLOBALS['strDays']						= "Дни";
+$GLOBALS['strDays']						= "Дней";
 $GLOBALS['strHistory']					= "История";
 $GLOBALS['strAverage']					= "В среднем";
 $GLOBALS['strDuplicateClientName']		= "Указанное имя пользователя уже существует, пожалуйста введите другое имя.";
@@ -255,7 +251,44 @@ $GLOBALS['strUniqueidentifier']			= "Уникальный идентификатор";
 $GLOBALS['strFrameSize']				= "Размер фрэйма";
 $GLOBALS['strBannercode']				= "Баннерный код";
 
-$GLOBALS['strSearch']					= "Search";
-$GLOBALS['strNoMatchesFound']			= "No matches were found";
+$GLOBALS['strSearch']					= "Поиск";
+$GLOBALS['strNoMatchesFound']			= "Ничего не найдено";
+
+$GLOBALS['strNoViewLoggedInInterval']   = "За период данного отчета не было зарегистрировано просмотров";
+$GLOBALS['strNoClickLoggedInInterval']  = "За период данного отчета не было зарегистрировано нажатий";
+$GLOBALS['strMailReportPeriod']			= "Этот отчет включает в себя статистику с {startdate} по {enddate}.";
+$GLOBALS['strMailReportPeriodAll']		= "Этот отчет включает в себя всю статистику вплоть до {enddate}.";
+$GLOBALS['strNoStatsForCampaign'] 		= "Нет статистики для этой кампании";
+$GLOBALS['strFrom']						= "С";
+$GLOBALS['strTo']						= "по";
+$GLOBALS['strMaintenance']				= "Обслуживание";
+$GLOBALS['strCampaignStats']			= "Статистика по кампаниям";
+$GLOBALS['strClientStats']				= "Статистика по клиентам";
+$GLOBALS['strErrorOccurred']			= "Произошла ошибка";
+$GLOBALS['strAdReportSent']				= "Отчет о рекламе выслан";
+
+$GLOBALS['strAutoChangeHTML']			= "Изменить HTML для подсчета кликов";
+
+$GLOBALS['strZones']					= "Зоны";
+$GLOBALS['strAddZone']					= "Создать зону";
+$GLOBALS['strModifyZone']				= "Редактировать зону";
+$GLOBALS['strAddNewZone']				= "Добавить новую зону";
+
+$GLOBALS['strOverview']					= "Обозрение";
+$GLOBALS['strEqualTo']					= "равно";
+$GLOBALS['strDifferentFrom']			= "отличается от";
+$GLOBALS['strAND']						= "AND";  // logical operator
+$GLOBALS['strOR']						= "OR"; // logical operator
+$GLOBALS['strOnlyDisplayWhen']			= "Показывать этот баннер только когда:";
+
+$GLOBALS['strStatusText']				= "Описание статуса";
+
+$GLOBALS['strConfirmDeleteClient'] 		= "Вы действительно хотите удалить этого клиента?";
+$GLOBALS['strConfirmDeleteCampaign']	= "Вы действительно хотите удалить эту кампанию?";
+$GLOBALS['strConfirmDeleteBanner']		= "Вы действительно хотите удалить этот баннер?";
+$GLOBALS['strConfirmResetStats']		= "Вы действительно хотите обнулить всю статистику?";
+$GLOBALS['strConfirmResetCampaignStats']= "Вы действительно хотите обнулить статистику для этой кампании?";
+$GLOBALS['strConfirmResetClientStats']	= "Вы действительно хотите обнулить статистику для этого клиента ?";
+$GLOBALS['strConfirmResetBannerStats']	= "Вы действительно хотите обнулить статистику для этого баннера?";
 
 ?>

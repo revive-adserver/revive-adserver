@@ -68,6 +68,36 @@ if ($bannerID != "DEFAULT")
 	}
 	
 	
+	// Get vars
+	if (isset($HTTP_GET_VARS))
+		for (reset ($HTTP_GET_VARS); $key = key($HTTP_GET_VARS); next($HTTP_GET_VARS))
+		{
+			if ($key != 'bannerID' &&
+				$key != 'dest' &&
+				$key != 'ismap' &&
+				$key != 'cb')
+				$vars[] = $key.'='.$HTTP_GET_VARS[$key];
+		}
+	
+	if (isset($HTTP_POST_VARS))
+		for (reset ($HTTP_POST_VARS); $key = key($HTTP_POST_VARS); next($HTTP_POST_VARS))
+		{
+			if ($key != 'bannerID' &&
+				$key != 'dest' &&
+				$key != 'ismap' &&
+				$key != 'cb')
+				$vars[] = $key.'='.$HTTP_POST_VARS[$key];
+		}
+	
+	if (is_array($vars) && sizeof($vars) > 0)
+	{
+		if (strpos ($url, '?') > 0)
+			$url = $url.'&'.implode ('&', $vars);
+		else
+			$url = $url.'?'.implode ('&', $vars);
+	}
+	
+	
 	// Referer
 	$url = str_replace ("{referer}", urlencode($HTTP_REFERER), $url);
 	

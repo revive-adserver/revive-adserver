@@ -81,12 +81,12 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	while ($row = mysql_fetch_array($res))
 	{
-		if ($clientID == $row['clientID'])
+		if ($campaignID == $row['clientID'])
 			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
 		else
 			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 		
-		$extra .= "<a href=stats-campaign.php?campaignID=".$row['clientID'].">".phpAds_buildClientName ($row['clientID'], $row['clientname'])."</a>";
+		$extra .= "<a href=stats-campaign.php?section=$section&campaignID=".$row['clientID'].">".phpAds_buildClientName ($row['clientID'], $row['clientname'])."</a>";
 		$extra .= "<br>"; 
 	}
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
@@ -107,46 +107,92 @@ if (phpAds_isUser(phpAds_Admin))
 
 
 /*********************************************************/
-/* Store sorting order and view                          */
+/* Define sections                                       */
 /*********************************************************/
 
-$UpdateSession = false;
+if (!isset($section) || $section == '') $section = 'overview';
 
-if (empty($Session["stats_compact"]))
-	$Session["stats_compact"] = "";
-if (!isset($compact))
-	$compact = $Session["stats_compact"];
-elseif ($compact != $Session["stats_compact"])
+$sections['overview'] = array ('stats-campaign.php?section=overview&campaignID='.$campaignID, $strOverview);
+$sections['history'] = array ('stats-campaign.php?section=history&campaignID='.$campaignID, $strHistory);
+
+for (reset($sections);$skey=key($sections);next($sections))
 {
-	$Session["stats_compact"] = $compact;
-	$UpdateSession = true;
+	list ($sectionUrl, $sectionStr) = $sections[$skey];
+	
+	echo "<img src='images/caret-rs.gif' width='11' height='7'>&nbsp;";
+	
+	if ($skey == $section)
+		echo "<a class='tab-s' href='".$sectionUrl."'>".$sectionStr."</a> &nbsp;&nbsp;&nbsp;";
+	else
+		echo "<a class='tab-g' href='".$sectionUrl."'>".$sectionStr."</a> &nbsp;&nbsp;&nbsp;";
 }
 
-if (empty($Session["stats_view"]))
-	$Session["stats_view"] = "";
-if (!isset($view))
-	$view = $Session["stats_view"];
-elseif ($view != $Session["stats_view"])
+echo "</td></tr>";
+echo "</table>";
+echo "<img src='images/break-el.gif' height='1' width='100%' vspace='5'>";
+echo "<table width='640' border='0' cellspacing='0' cellpadding='0'>";
+echo "<tr><td width='40'>&nbsp;</td><td>";
+
+//echo "<br><br>";
+
+
+
+
+/*********************************************************/
+/* Overview                                              */
+/*********************************************************/
+
+if ($section == 'overview')
 {
-	$Session["stats_view"] = $view;
-	$UpdateSession = true;
+	$UpdateSession = false;
+	
+	if (empty($Session["stats_compact"]))
+		$Session["stats_compact"] = "";
+	if (!isset($compact))
+		$compact = $Session["stats_compact"];
+	elseif ($compact != $Session["stats_compact"])
+	{
+		$Session["stats_compact"] = $compact;
+		$UpdateSession = true;
+	}
+	
+	if (empty($Session["stats_view"]))
+		$Session["stats_view"] = "";
+	if (!isset($view))
+		$view = $Session["stats_view"];
+	elseif ($view != $Session["stats_view"])
+	{
+		$Session["stats_view"] = $view;
+		$UpdateSession = true;
+	}
+	
+	if (empty($Session["stats_order"]))
+		$Session["stats_order"] = "";
+	if (!isset($order))
+		$order = $Session["stats_order"];
+	elseif ($order != $Session["stats_order"])
+	{
+		$Session["stats_order"] = $order;
+		$UpdateSession = true;
+	}
+	
+	if ($UpdateSession == true)
+		phpAds_SessionDataStore();
+	
+	
+	require("./stats-campaign-overview.inc.php");
 }
 
-if (empty($Session["stats_order"]))
-	$Session["stats_order"] = "";
-if (!isset($order))
-	$order = $Session["stats_order"];
-elseif ($order != $Session["stats_order"])
+
+
+/*********************************************************/
+/* History                                               */
+/*********************************************************/
+
+if ($section == 'history')
 {
-	$Session["stats_order"] = $order;
-	$UpdateSession = true;
+	require("./stats-campaign-history.inc.php");
 }
-
-if ($UpdateSession == true)
-	phpAds_SessionDataStore();
-
-
-require("./stats-campaign.inc.php");
 
 
 

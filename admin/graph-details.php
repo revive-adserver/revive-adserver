@@ -23,11 +23,15 @@ require ("config.php");
 /* Prepare data for graph                                */
 /*********************************************************/
 
-//mysql_select_db($GLOBALS["phpAds_db"]);
+if (isset ($GLOBALS['phpAds_CharSet']) && $GLOBALS['phpAds_CharSet'] != '')
+	$text=array(
+	    'value1' => 'AdViews',
+	    'value2' => 'AdClicks');
+else
+	$text=array(
+	    'value1' => $GLOBALS['strViews'],
+	    'value2' => $GLOBALS['strClicks']);
 
-$text=array(
-    'value1' => $GLOBALS['strViews'],
-    'value2' => $GLOBALS['strClicks']);
 
 
 if ($phpAds_compact_stats) 

@@ -36,11 +36,17 @@ if (!$phpAds_compact_stats)
     $result = db_query($query);
     $result2 = db_query($query2);
     
-    $text=array(
-    	"value1" => $GLOBALS['strViews'],
-    	"value2" => $GLOBALS['strClicks']
-    	);
+	
+	if (isset ($GLOBALS['phpAds_CharSet']) && $GLOBALS['phpAds_CharSet'] != '')
+		$text=array(
+		    'value1' => 'AdViews',
+		    'value2' => 'AdClicks');
+	else
+		$text=array(
+		    'value1' => $GLOBALS['strViews'],
+		    'value2' => $GLOBALS['strClicks']);
     
+	
     $items = array();
     // preset array (not every hour may be occupied)
     for ($i=0;$i<=23;$i++)

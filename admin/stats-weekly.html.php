@@ -179,63 +179,63 @@ function WeekPrint()
 		//echo sprintf("      <!-- %s: %s -->\n", $GLOBALS['strWeek'], $week['num'] );
 		?>
 		<tr>
-			<td height='80' valign="middle" align="left" rowspan="4" bgcolor="<? echo $bgcolor; ?>">&nbsp;<? echo $week['num']; ?></td>
-			<td height='20' align="left" bgcolor="<? echo $bgcolor; ?>"><? echo $GLOBALS["strDate"]; ?></td>
-		<? 
+			<td height='80' valign="middle" align="left" rowspan="4" bgcolor="<?php echo $bgcolor; ?>">&nbsp;<?php echo $week['num']; ?></td>
+			<td height='20' align="left" bgcolor="<?php echo $bgcolor; ?>"><?php echo $GLOBALS["strDate"]; ?></td>
+		<?php 
 		for ( $i=0; $i<7; $i++ ) 
 		{
 			?>
-        	<td height='20' align="right" bgcolor="<? echo $bgcolor; ?>"><? echo substr ($week['date'][DayInd($i)], 0, -5); ?></td>
-			<?
+        	<td height='20' align="right" bgcolor="<?php echo $bgcolor; ?>"><?php echo substr ($week['date'][DayInd($i)], 0, -5); ?></td>
+			<?php
 		}
 		?>
-			<td height='20' bgcolor="<? echo $bgcolor; ?>">&nbsp;</td>
-			<td height='20' bgcolor="<? echo $bgcolor; ?>">&nbsp;</td>
+			<td height='20' bgcolor="<?php echo $bgcolor; ?>">&nbsp;</td>
+			<td height='20' bgcolor="<?php echo $bgcolor; ?>">&nbsp;</td>
 		</tr>
 		<tr height='20'>
-			<td height='20' align="left" bgcolor="<? echo $bgcolor; ?>"><? echo $GLOBALS["strViews"]; ?></td>
-		<? 
+			<td height='20' align="left" bgcolor="<?php echo $bgcolor; ?>"><?php echo $GLOBALS["strViews"]; ?></td>
+		<?php
 		for ( $i=0; $i<7; $i++ ) 
 		{ 
 			?>
-			<td height='20' align="right" bgcolor="<? echo $bgcolor; ?>"><? tabecho($week['views'][DayInd($i)]); ?></td>
-			<?
+			<td height='20' align="right" bgcolor="<?php echo $bgcolor; ?>"><?php tabecho($week['views'][DayInd($i)]); ?></td>
+			<?php
 		}
 		$week_avg = $week['days_set']>0?$week['viewsum']/7:0; //$week['days_set']
 		?>
-			<td height='20' align="right" bgcolor="<? echo $bgcolor; ?>"><? tabecho(sprintf(' %.'.$GLOBALS['phpAds_percentage_decimals'].'f',$week_avg)); ?></td>
-			<td height='20' align="right" bgcolor="<? echo $bgcolor; ?>"><? tabecho($week['viewsum']); ?>&nbsp;</td>
+			<td height='20' align="right" bgcolor="<?php echo $bgcolor; ?>"><?php tabecho(sprintf(' %.'.$GLOBALS['phpAds_percentage_decimals'].'f',$week_avg)); ?></td>
+			<td height='20' align="right" bgcolor="<?php echo $bgcolor; ?>"><?php tabecho($week['viewsum']); ?>&nbsp;</td>
 		</tr>        
 		<tr>
-			<td height='20' class="normal" align="left" bgcolor="<? echo $bgcolor; ?>"><? echo $GLOBALS['strClicks']; ?></td>
-		<?
+			<td height='20' class="normal" align="left" bgcolor="<?php echo $bgcolor; ?>"><?php echo $GLOBALS['strClicks']; ?></td>
+		<?php
 		for ( $i=0; $i<7; $i++ ) 
 		{ 
 			?>
-			<td height='20' class="small" align="right" bgcolor="<? echo $bgcolor; ?>"><? tabecho($week['clicks'][DayInd($i)]); ?></td>
-			<?
+			<td height='20' class="small" align="right" bgcolor="<?php echo $bgcolor; ?>"><?php tabecho($week['clicks'][DayInd($i)]); ?></td>
+			<?php
 		}
 		$week_avg = $week['days_set']>0?$week['clicksum']/7:0; //$week['days_set']
 		?>
-			<td height='20' class="normal" align="right" bgcolor="<? echo $bgcolor; ?>"><? tabecho(sprintf(" %.".$GLOBALS['phpAds_percentage_decimals']."f",$week_avg)); ?></td>
-			<td height='20' class="normal" align="right" bgcolor="<? echo $bgcolor; ?>"><? tabecho($week['clicksum']); ?>&nbsp;</td>
+			<td height='20' class="normal" align="right" bgcolor="<?php echo $bgcolor; ?>"><?php tabecho(sprintf(" %.".$GLOBALS['phpAds_percentage_decimals']."f",$week_avg)); ?></td>
+			<td height='20' class="normal" align="right" bgcolor="<?php echo $bgcolor; ?>"><?php tabecho($week['clicksum']); ?>&nbsp;</td>
 		</tr>        
 		<tr>
-			<td height='20' class="normal" align="left" bgcolor="<? echo $bgcolor; ?>"><? echo $GLOBALS["strCTRShort"]; ?></td>
-		<?
+			<td height='20' class="normal" align="left" bgcolor="<?php echo $bgcolor; ?>"><?php echo $GLOBALS["strCTRShort"]; ?></td>
+		<?php
 		for ( $i=0; $i<7; $i++ )
 		{
 			?>
-			<td height='20' class="small" align="right" bgcolor="<? echo $bgcolor; ?>"><? tabecho(sprintf(" %.".$phpAds_percentage_decimals."f%%",$week["ctr"][DayInd($i)])); ?></td>
-			<?
+			<td height='20' class="small" align="right" bgcolor="<?php echo $bgcolor; ?>"><?php tabecho(sprintf(" %.".$phpAds_percentage_decimals."f%%",$week["ctr"][DayInd($i)])); ?></td>
+			<?php
 		}
 		$week_avg = $week['days_set']>0?$week['ctrsum']/7:0; //$week['days_set']
 		?>
-			<td height='20' class="normal" align="right" bgcolor="<? echo $bgcolor; ?>"><? tabecho(sprintf(" %.".$phpAds_percentage_decimals."f%%",$week['ctrsum'])); ?></td>
-			<td height='20' class="normal" align="right" bgcolor="<? echo $bgcolor; ?>"><? tabecho(sprintf(" %.".$phpAds_percentage_decimals."f%%",$week['ctrsum'])); ?>&nbsp;</td>
+			<td height='20' class="normal" align="right" bgcolor="<?php echo $bgcolor; ?>"><?php tabecho(sprintf(" %.".$phpAds_percentage_decimals."f%%",$week['ctrsum'])); ?></td>
+			<td height='20' class="normal" align="right" bgcolor="<?php echo $bgcolor; ?>"><?php tabecho(sprintf(" %.".$phpAds_percentage_decimals."f%%",$week['ctrsum'])); ?>&nbsp;</td>
 		</tr>
 		<tr><td height='1' colspan='11' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>        
-		<?
+		<?php
 	}
 }
 
@@ -506,7 +506,7 @@ function stats()
 	?> 
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
-	<?
+	<?php
 		if ($campaignID > 0)
 		{
 			echo "<tr><td height='25' colspan='2'>";
@@ -521,39 +521,39 @@ function stats()
 	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 
 	<tr>
-		<form action="<? echo $GLOBALS['PHP_SELF']; ?>">
-			<input type="hidden" name="campaignID" value="<? echo $campaignID;?>">
-			<input type="hidden" name="which" value="<? echo $which;?>">
+		<form action="<?php echo $GLOBALS['PHP_SELF']; ?>">
+			<input type="hidden" name="campaignID" value="<?php echo $campaignID;?>">
+			<input type="hidden" name="which" value="<?php echo $which;?>">
 			<td height='35'>
-				<? echo $GLOBALS['strShowWeeks']; ?>
+				<?php echo $GLOBALS['strShowWeeks']; ?>
 				<select name="max_weeks" onChange="this.form.submit();">
-					<option value="4" <? echo $max_weeks==4?'selected':''; ?>>4</option>
-					<option value="8" <? echo $max_weeks==8?'selected':''; ?>>8</option>
-					<option value="12" <? echo $max_weeks==12?'selected':''; ?>>12</option>
-					<option value="999" <? echo $max_weeks==999?'selected':''; ?>><? echo $GLOBALS['strAll']; ?></option>
+					<option value="4" <?php echo $max_weeks==4?'selected':''; ?>>4</option>
+					<option value="8" <?php echo $max_weeks==8?'selected':''; ?>>8</option>
+					<option value="12" <?php echo $max_weeks==12?'selected':''; ?>>12</option>
+					<option value="999" <?php echo $max_weeks==999?'selected':''; ?>><?php echo $GLOBALS['strAll']; ?></option>
 				</select>
 				<input type="image" src="images/go_blue.gif" border="0" name="submit">
 			</td>
 		</form>
-	<?
+	<?php
 	
 	// display choice of banners
 	if ( $countbanners > 1 )
 	{
 		?>
-		<form action="<? echo $GLOBALS['PHP_SELF']; ?>">
-			<input type="hidden" name="campaignID" value="<? echo $campaignID;?>">
-			<input type="hidden" name="max_weeks" value="<? echo $max_weeks;?>">
+		<form action="<?php echo $GLOBALS['PHP_SELF']; ?>">
+			<input type="hidden" name="campaignID" value="<?php echo $campaignID;?>">
+			<input type="hidden" name="max_weeks" value="<?php echo $max_weeks;?>">
 			<td height='35' align="right">
 				<img src='images/icon-banner-stored.gif' align='absmiddle'>
 				<select name="which" onChange="this.form.submit();">
-					<option value="0" <? echo $which==0?'SELECTED':''; ?>><? echo $GLOBALS['strAll']; ?></option>
-		<?
+					<option value="0" <?php echo $which==0?'SELECTED':''; ?>><?php echo $GLOBALS['strAll']; ?></option>
+		<?php
 		for ( $i=0; $i<$countbanners; $i++ )
 		{
 			?>   
-					<option value="<? echo $banner_select[$i]['id']; ?>" <? echo $which==$banner_select[$i]['id']?'SELECTED':''; ?>><? echo $banner_select[$i]['name']; ?></option>
-			<?
+					<option value="<?php echo $banner_select[$i]['id']; ?>" <?php echo $which==$banner_select[$i]['id']?'SELECTED':''; ?>><?php echo $banner_select[$i]['name']; ?></option>
+			<?php
 		}
 		?>
 				</select>
@@ -561,14 +561,14 @@ function stats()
 			</td>
 		</form>
 	</tr>
-		<?
+		<?php
 	}
 	?>
 </table>
 
 <br><br>
 
-	<?
+	<?php
 	if (sizeof($days) < 1)
 		printf("<table border=\"0\"><tr><td>%s</td></tr></table>",$which=0?$GLOBALS["strClientNoStats"]:$GLOBALS["strBannerNoStats"]);
 	else
@@ -577,14 +577,14 @@ function stats()
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
 	<tr><td height='1' colspan='11' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 	<tr>
-		<td height='40' rowspan="2" bgcolor="#F6F6F6">&nbsp;<? echo $GLOBALS["strWeek"]; ?></td>
+		<td height='40' rowspan="2" bgcolor="#F6F6F6">&nbsp;<?php echo $GLOBALS["strWeek"]; ?></td>
 		<td height='40' rowspan="2" bgcolor="#F6F6F6">&nbsp;</td>
-		<td height='20' colspan="7" align="center" bgcolor="#F6F6F6"><? echo $GLOBALS["strWeekDay"]; ?></td>
-		<td height='40' rowspan="2" align="right" bgcolor="#F6F6F6"><? echo $GLOBALS["strAvg"]; ?></td>
-		<td height='40' rowspan="2" align="right" bgcolor="#F6F6F6"><? echo $GLOBALS["strTotal"]; ?>&nbsp;</td>
+		<td height='20' colspan="7" align="center" bgcolor="#F6F6F6"><?php echo $GLOBALS["strWeekDay"]; ?></td>
+		<td height='40' rowspan="2" align="right" bgcolor="#F6F6F6"><?php echo $GLOBALS["strAvg"]; ?></td>
+		<td height='40' rowspan="2" align="right" bgcolor="#F6F6F6"><?php echo $GLOBALS["strTotal"]; ?>&nbsp;</td>
 	</tr>            
 	<tr>
-	<?
+	<?php
 	// display weekday-names from Sunday/Monday
 	for ($i=0;$i<7;$i++)
 	{
@@ -593,7 +593,7 @@ function stats()
 	?>
 	</tr>
 	<tr><td height='1' colspan='11' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-	<?
+	<?php
 
 	$weeks_done = 0;
 	$lastweek='';
@@ -632,18 +632,18 @@ function stats()
 <br><br>
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
-	<? if (phpAds_GDImageFormat() != "none") { ?>
+	<?php if (phpAds_GDImageFormat() != "none") { ?>
 	<tr><td colspan="3" align="left" bgcolor="#FFFFFF"><img src="graph-weekly.php?<?php echo "campaignID=$campaignID&max_weeks=$max_weeks&where=".urlencode("$where"); ?>"></td></tr>
-	<? } ?>          
+	<?php } ?>          
 	<tr>
-		<td height='25' bgcolor="#FFFFFF"><? echo $GLOBALS["strTotalViews"]; ?>: <b><? tabecho($total_views); ?></b></td>
-		<td height='25' bgcolor="#FFFFFF"><? echo $GLOBALS["strTotalClicks"]; ?>: <b><? tabecho($total_clicks); ?></b></td>
-		<td height='25' bgcolor="#FFFFFF"><? echo $GLOBALS["strCTR"]; ?>: <b><? tabecho($total_views>0?sprintf(" %.".$GLOBALS['phpAds_percentage_decimals']."f%%",$total_clicks/$total_views*100):0); ?></b></td>
+		<td height='25' bgcolor="#FFFFFF"><?php echo $GLOBALS["strTotalViews"]; ?>: <b><?php tabecho($total_views); ?></b></td>
+		<td height='25' bgcolor="#FFFFFF"><?php echo $GLOBALS["strTotalClicks"]; ?>: <b><?php tabecho($total_clicks); ?></b></td>
+		<td height='25' bgcolor="#FFFFFF"><?php echo $GLOBALS["strCTR"]; ?>: <b><?php tabecho($total_views>0?sprintf(" %.".$GLOBALS['phpAds_percentage_decimals']."f%%",$total_clicks/$total_views*100):0); ?></b></td>
 	</tr>
 	<tr><td height='10' colspan='2'></td></tr>	
 	<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 </table>   
-	<?
+	<?php
 	}
 } // end-of-function "stats()"
 
@@ -685,4 +685,3 @@ $total_clicks = 0;
 stats();
 
 ?>
- 

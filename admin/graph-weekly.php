@@ -29,11 +29,15 @@ $where=urldecode($where);
 // Get week signs for mySQL queries
 list($php_week_sign, $mysql_week_sign) = GetWeekSigns();
 
-mysql_select_db($GLOBALS["phpAds_db"]);
 
-$text=array(
-    'value1' => $GLOBALS['strViews'],
-    'value2' => $GLOBALS['strClicks']);
+if (isset ($GLOBALS['phpAds_CharSet']) && $GLOBALS['phpAds_CharSet'] != '')
+	$text=array(
+	    'value1' => 'AdViews',
+	    'value2' => 'AdClicks');
+else
+	$text=array(
+	    'value1' => $GLOBALS['strViews'],
+	    'value2' => $GLOBALS['strClicks']);
 
 
 if ($phpAds_compact_stats) {

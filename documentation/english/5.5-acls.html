@@ -1,0 +1,447 @@
+<html>
+<head>
+<title>phpAdsNew Documentation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../index.css" type="text/css">
+</head>
+<body bgcolor="#FFFFFF" text="#000000" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="30" bgcolor="#FFFFFF">
+  <tr bgcolor="#EFEFEF">
+    <td width="100" class="identification">&nbsp;&nbsp;phpAdsNew</td>
+    <td width="600" class="plain"><img src="../images/0-home.gif" width="16" height="15" align="ABSMIDDLE">&nbsp;&nbsp;<span class="subtitle"><a href="../index.html" class="subtitle">Home</a></span></td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;5.5</td>
+    <td width="600" class="chapter" height="50">ACLs</td>
+    <td class="section" height="50">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td colspan="3">
+      <p><img src="../images/0-line-gray.gif" width="100%" height="16"></p>
+    </td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td width="100">&nbsp;</td>
+    <td width="600" class="plain"> 
+      <p>ACLs are used by phpAdsNew to set additional requirements that must be 
+        met, before the banner will be displayed. These requirements differ very 
+        much from the requirements, such as keywords, which are specified at banner 
+        invocation. ACLs are configured from the Admin interface. It is possible 
+        to specify multiple conditions per banner and it is even possible to use 
+        logical operators to create very specific situation in which de banner 
+        must be displayed. In case you are wondering ACL stands for Access Condition 
+        List.</p>
+      <p>The following conditions can be used: Client IP, Domain, User agent, 
+        Language, Weekday, Time and Source.</p>
+    </td>
+    <td class="plain">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td width="100" height="50"><a name="1"></a></td>
+    <td width="600" height="50">&nbsp;</td>
+    <td height="50">&nbsp;</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;5.5.1</td>
+    <td width="600" class="section" height="50">Comparison expressions</td>
+    <td class="section" height="50">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td colspan="3">
+      <p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p>
+    </td>
+  </tr>
+  <tr bgcolor="#EFEFEF"> 
+    <td width="100" bgcolor="#EFEFEF">&nbsp;</td>
+    <td width="600" class="plain"> 
+      <p><br>
+        Each condition can be set to 'is equal to' the user specified value or 
+        'is different from' the user specified value. If the current value of 
+        the condition and the user specified value meets the comparison it will 
+        evaluate to true. The banner will only be shown in all conditions evaluate 
+        to true.<BR>
+      </p>
+      <p>&nbsp;</p>
+    </td>
+    <td class="plain">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td width="100" height="75"><a name="2"></a></td>
+    <td width="600" height="75">&nbsp;</td>
+    <td height="75">&nbsp;</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr valign="BOTTOM" bgcolor="#FFFFFF"> 
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;5.5.2</td>
+    <td width="600" class="section" height="50">Logical operators</td>
+    <td class="section" height="50">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF"> 
+    <td colspan="3"> 
+      <p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p>
+    </td>
+  </tr>
+  <tr bgcolor="#EFEFEF"> 
+    <td width="100" bgcolor="#EFEFEF">&nbsp;</td>
+    <td width="600" class="plain"> 
+      <p><br>
+        It is possible to use logical operator to create very complex ACLs. If 
+        you use multiple conditions you can set a logical operator between each 
+        condition. An logical operator can be either an OR operator or a AND operator. 
+      </p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
+              <tr> 
+                <td>true&nbsp; AND true &nbsp;= true &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;true 
+                  &nbsp;OR true &nbsp;= true<br>
+                  true &nbsp;AND false = false&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;true&nbsp; 
+                  OR false = true<br>
+                  false AND true &nbsp;= false&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;false 
+                  OR true &nbsp;= true<br>
+                  false AND false = false&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;false 
+                  OR false = false</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <p><br>
+        OR operators have precedence over AND operators. This means all OR operators 
+        will be evaluated first. The resulting expression will only consist of 
+        AND operators, which all must be true. The banner will only be shown if 
+        the complete ACL evaluates to true, however this doesn't have to mean 
+        every condition must be true.</p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
+        <tr>
+          <td>
+            <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
+              <tr>
+                <td>true AND false OR true AND true OR false<br>
+                  true AND (false OR true) AND (true OR false)<br>
+                  true AND (true) AND (true)<br>
+                  true</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <br>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
+        <tr>
+          <td>
+            <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
+              <tr>
+                <td>true OR false AND true OR true AND false<br>
+                  (true OR false) AND (true OR true) AND false<br>
+                  (true) AND (true) AND false<br>
+                  false</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <p><br>
+        <span class="subtitle">For example: </span><br>
+        If you want show a banner only during the business week during the evening, 
+        and during the weekend:</p>
+      <p>Weekday is equal to mo, th, we, tu, vr<br>
+        AND time is equal to 18:00, 19:00, 20:00, 21:00, 22:00, 23:00<br>
+        OR Weekday is equal to sa, su</p>
+      <p>&nbsp;</p>
+    </td>
+    <td class="plain">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF"> 
+    <td width="100" height="75"><a name="3"></a></td>
+    <td width="600" height="75">&nbsp;</td>
+    <td height="75">&nbsp;</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr valign="BOTTOM" bgcolor="#FFFFFF"> 
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;5.5.3</td>
+    <td width="600" class="section" height="50">Client IP</td>
+    <td class="section" height="50">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF"> 
+    <td colspan="3"> 
+      <p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p>
+    </td>
+  </tr>
+  <tr bgcolor="#EFEFEF"> 
+    <td width="100" bgcolor="#EFEFEF">&nbsp;</td>
+    <td width="600" class="plain"> 
+      <p><br>
+        If you want to target your banners for a specific IP range, you can use 
+        the Client IP condition. Each user connected to the internet has a unique 
+        IP address. IP addresses are not geographically distributed, but each 
+        ISP has been assigned a number of block. If you want to display a banner 
+        for users of a specific ISP, you could specify all blocks assigned to 
+        this ISP and allow or deny access to this banner.</p>
+      <p>There are two ways to specify a block of IP addresses: by providing the 
+        base IP and the net mask, or by using wildcard.</p>
+      <p><span class="subtitle">For example:</span><br>
+        212.187.0.0/255.255.0.0 will match all IPs from 212.187.0.0 to 212.187.255.255<br>
+        64.12.*.* will match all IPs from 64.12.0.0 to 64.12.255.255</p>
+      <p>&nbsp;</p>
+      </td>
+    <td class="plain">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF"> 
+    <td width="100" height="75"><a name="4"></a></td>
+    <td width="600" height="75">&nbsp;</td>
+    <td height="75">&nbsp;</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr valign="BOTTOM" bgcolor="#FFFFFF"> 
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;5.5.4</td>
+    <td width="600" class="section" height="50">Domain</td>
+    <td class="section" height="50">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF"> 
+    <td colspan="3"> 
+      <p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p>
+    </td>
+  </tr>
+  <tr bgcolor="#EFEFEF"> 
+    <td width="100" bgcolor="#EFEFEF">&nbsp;</td>
+    <td width="600" class="plain"> 
+      <p><br>
+        This condition type could be used for providing different types of banner 
+        for different nationalities. Most users do not only have an unique IP 
+        address assigned to them when they connect to the internet, but also a 
+        domain-name. The domain name usually is a human-readable version of the 
+        IP address, and usually includes the country suffix. For example: the 
+        user domain could look like: ipc3797d8d.dial.wxs.nl or ppp211-104-59-62.dialup.zonnet.nl 
+        or e156107.upc-e.chello.nl or&#133;&#133;&#133;.</p>
+      <p>The Domain conditon can match a specific portion of the users domain. 
+        If you specify .nl as the condition, you can deny or allow all users who 
+        are online in The Netherlands.</p>
+      <p>How can this be useful? If you own a website which targets different 
+        countries and a client want to show his banner in only one specific country, 
+        you could allow this banner to be displayed only from that specific country. 
+        The client could also provide you with the same banner translated in a 
+        whole lot of different languages. All you have to do is to specify the 
+        correct country suffix with each banner.</p>
+      <p>&nbsp;</p>
+      </td>
+    <td class="plain">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF"> 
+    <td width="100" height="75"><a name="5"></a></td>
+    <td width="600" height="75">&nbsp;</td>
+    <td height="75">&nbsp;</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr valign="BOTTOM" bgcolor="#FFFFFF"> 
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;5.5.5</td>
+    <td width="600" class="section" height="50">Language</td>
+    <td class="section" height="50">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF"> 
+    <td colspan="3"> 
+      <p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p>
+    </td>
+  </tr>
+  <tr bgcolor="#EFEFEF"> 
+    <td width="100" bgcolor="#EFEFEF">&nbsp;</td>
+    <td width="600" class="plain"> 
+      <p><br>
+        The Domain condition can be quite effective of targeting a specific banner 
+        in a specific geographical region. The Language condition is a refinement 
+        of the condition mentioned above. Every browser provides phpAdsNew with 
+        information about the default language of the browser. For example a browser 
+        in Germany will tell phpAdsNew that the default language of that specific 
+        browser is German. Of course you could use the Domain condition to get 
+        the same information, but that doesn't apply in all cases. The Language 
+        condition must be equal to or different from a specific code, identifying 
+        the desired language. A list of possible language codes is provided in 
+        <a href="6.2-language-codes.html" class="list">Chapter 6.2</a></p>
+      <p>For example: Belgium, a small country in Western-Europe is bi-lingual. 
+        In some parts of Belgium people speak Dutch, in other parts people speak 
+        French. If you operate a website in Belgium, or another country which 
+        is bi-lingual, it isn't possible to determine which language is spoken 
+        by your visitors by using Domain condition, since both languages are spoken 
+        in the same country. However if you use Language condition you could target 
+        a banner for a specific language.</p>
+      <p>The Dutch version of the banner could only displayed be when the condition 
+        is equal to nl-be, and the French version of the banner could only be 
+        displayed when the condition is equal to fr-be.</p>
+      <p>Language code usual consist of only 2 characters, in the example above, 
+        the language code is appended by a country code as well. This is because 
+        the language 'Dutch' isn't only spoken in Belgium, but also in the Netherlands. 
+        The same applies to French, which is spoken in Belgium, but also in France.</p>
+      <p>If you want to target all users, who are using the French language you 
+        could just specify the language code fr. If you want to target only French 
+        speaking users in Belgium, you will have to specify the language code 
+        and the country code, in this case fr-be.</p>
+      <p>It is possible to specify multiple language inside your browser, but 
+        phpAdsNew will only take the default language into account. If you configure 
+        a banner to show only when the language condition is equal to de (German), 
+        it won't show the banner if the default language is different from German, 
+        even if you specified German as a secondary language.</p>
+      <p>&nbsp;</p>
+      </td>
+    <td class="plain">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF"> 
+    <td width="100" height="75"><a name="6"></a></td>
+    <td width="600" height="75">&nbsp;</td>
+    <td height="75">&nbsp;</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr valign="BOTTOM" bgcolor="#FFFFFF"> 
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;5.5.6</td>
+    <td width="600" class="section" height="50">User agent</td>
+    <td class="section" height="50">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF"> 
+    <td colspan="3"> 
+      <p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p>
+    </td>
+  </tr>
+  <tr bgcolor="#EFEFEF"> 
+    <td width="100" bgcolor="#EFEFEF">&nbsp;</td>
+    <td width="600" class="plain"> 
+      <p><br>
+        Each browser will tell phpAdsNew it name and version. The string provided 
+        by the browser is called the User Agent. It is quite useful to use the 
+        User agent to prevent specific banner to be displayed on specific browsers. 
+        For example if you have an HTML banner which uses Internet Explorer specific 
+        DHMTL you don't want it to be shown on Netscape browsers.<br>
+        You could use the User agent condition to prevent it from being shown 
+        in browsers other than Internet Explorer.</p>
+      <p>You must specify a POSIX 1003.2 compliant regular expression, which must 
+        match the browser specified User agent. More information about POSIX regular 
+        expressions can be found in the regexp.7 man pages: <a href="http://linux.com.hk/man/showman.cgi?manpath=/man/man7/regex.7.inc" class="list">http://linux.com.hk/man/showman.cgi?manpath=/man/man7/regex.7.inc</a></p>
+      <p><span class="subtitle">For example:</span><br>
+        Mozilla/4. Will only match the Netscape 4 browser<br>
+        MSIE 4 will only match Microsoft Internet Explorer 4<br>
+        MSIE will match all version of Internet Explorer<br>
+        MSIE [456] will match Internet Explorer 4, 5 and 6</p>
+      <p>&nbsp;</p>
+      </td>
+    <td class="plain">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF"> 
+    <td width="100" height="75"><a name="7"></a></td>
+    <td width="600" height="75">&nbsp;</td>
+    <td height="75">&nbsp;</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr valign="BOTTOM" bgcolor="#FFFFFF"> 
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;5.5.7</td>
+    <td width="600" class="section" height="50">Weekday</td>
+    <td class="section" height="50">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF"> 
+    <td colspan="3"> 
+      <p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p>
+    </td>
+  </tr>
+  <tr bgcolor="#EFEFEF"> 
+    <td width="100" bgcolor="#EFEFEF">&nbsp;</td>
+    <td width="600" class="plain"> 
+      <p><br>
+        If you want to display a banner only on specific day you can use the Weekday 
+        condition to set on which day of the week you want to display the banner. 
+        You can select multiple days at the same time. For example if you want 
+        to display a banner only on Saturday and Sunday, you can simply select 
+        these two days.</p>
+      <p>&nbsp;</p>
+    </td>
+    <td class="plain">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF"> 
+    <td width="100" height="75"><a name="8"></a></td>
+    <td width="600" height="75">&nbsp;</td>
+    <td height="75">&nbsp;</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr valign="BOTTOM" bgcolor="#FFFFFF"> 
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;5.5.8</td>
+    <td width="600" class="section" height="50">Time</td>
+    <td class="section" height="50">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF"> 
+    <td colspan="3"> 
+      <p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p>
+    </td>
+  </tr>
+  <tr bgcolor="#EFEFEF"> 
+    <td width="100" bgcolor="#EFEFEF">&nbsp;</td>
+    <td width="600" class="plain"> 
+      <p><br>
+        You can use the time as a condition whether the banner should be displayed 
+        or not. You can select multiple hours at the same time. If you want the 
+        banner to be shown only during office hours, you can simply select all 
+        hours which fall within this period. It is only possible to make a distinction 
+        per hour. For example if you select 8:00 as the condition on which the 
+        banner will be shown it will be displayed from 8:00 till 8:59.<br>
+      </p>
+      <p>&nbsp;</p>
+    </td>
+    <td class="plain">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF"> 
+    <td width="100" height="75"><a name="9"></a></td>
+    <td width="600" height="75">&nbsp;</td>
+    <td height="75">&nbsp;</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr valign="BOTTOM" bgcolor="#FFFFFF"> 
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;5.5.9</td>
+    <td width="600" class="section" height="50">Source</td>
+    <td class="section" height="50">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF"> 
+    <td colspan="3"> 
+      <p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p>
+    </td>
+  </tr>
+  <tr bgcolor="#EFEFEF"> 
+    <td width="100" bgcolor="#EFEFEF">&nbsp;</td>
+    <td width="600" class="plain"> 
+      <p><br>
+        This condition is linked to the source parameter of the banner invocation. 
+        You can specify any keyword during invocation and check whether the banner 
+        should be shown. This feature can be useful to show a banner only on a 
+        specific page or section of your website. It is also possible to create 
+        this behaviour with regular keywords, but this could be an additional 
+        way to display banner only on a specific page. The advantage of using 
+        this condition is it is pretty easy to change the display location of 
+        a banner by using the admin interface.</p>
+      <p><span class="subtitle">For example:</span><br>
+        If you specify 'frontpage' as the source parameter during banner invocation 
+        and set the condition of a banner also to 'frontpage' the banner will 
+        only be shown on the frontpage. </p>
+      <p>&nbsp;</p>
+      </td>
+    <td class="plain">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF"> 
+    <td width="100" height="75"><a name="10"></a></td>
+    <td width="600" height="75">&nbsp;</td>
+    <td height="75">&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

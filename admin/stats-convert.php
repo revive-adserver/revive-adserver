@@ -110,6 +110,7 @@ if ($command == 'start')
 	}
 	
 	echo "</td><td><img src='images/spacer.gif' width='30'></td></tr>";
+	echo "</table>";
 	echo "</body></html>";
 }
 
@@ -185,7 +186,7 @@ if ($command == 'overview')
 			}
 		//-->
 		</script>
-	<?
+	<?php
 	echo "</head><body onLoad=\"StartCleanup();\">";
 	echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'>";
 	

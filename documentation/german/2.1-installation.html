@@ -1,0 +1,86 @@
+<html>
+<head>
+<title>phpAdsNew Documentation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../index.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="30" bgcolor="#FFFFFF"><tr bgcolor="#EFEFEF"><td width="100" class="identification">&nbsp;&nbsp;phpAdsNew</td><td width="600" class="plain"><img src="../images/0-home.gif" width="16" height="15" align="ABSMIDDLE">&nbsp;&nbsp;<span class="subtitle"><a href="../index.html" class="subtitle">Home</a></span></td><td>&nbsp;</td></tr></table><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;2.1</td><td width="600" class="chapter" height="50">Installation</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-line-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#FFFFFF"><td width="100">&nbsp;</td><td width="600" class="plain">
+      <p>Sie haben phpAdsNew downgeloaded und m&ouml;chten es ausprobieren. Dieses Kapitel wird Ihnen erkl&auml;ren wie Sie phpAdsNew installieren und Ihnen mit der Konfiguration von PHP un d MySQL helfen.</p>
+    </td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="50"><a name="1"></a></td><td width="600" height="50">&nbsp;</td><td height="50">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;2.1.1</td>
+    <td width="600" class="section" height="50">phpAdsNew auf den Web-Server kopieren</td>
+    <td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>
+        Im  ersten Schritt m&uuml;ssen Sie die komprimierte Datei, die Sie auf Ihrem Computer gespeichert haben entkomprimieren.<br>
+        Sollten Ihr Computer auf einem Windows System basieren, dann k&ouml;nnen Sie beispielsweise das Komprimierungsprogramm WinZip verwenden um das <b>tar.gz</b>- oder <b>.zip</b>-Archiv zu  dekomprimieren.<br>
+        Auf einem  *nix basierten Rechnersytem verwenden Sie hierzu das Kommando<b> tar</b>, um die Datei mit der Endung <b>tar.gz</b> zu dekomprimieren. Der Befehl k&ouml;nnte folgenderma&szlig;en aussehen:</p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>tar 
+xvfz phpAdsNew_x.tar.gz</td></tr></table></td></tr></table>
+      <p>Im n&auml;chsten Schritt verschieben Sie das Verzeichnis in das document Root-Verzeichnis Ihres Web-Servers.</p>
+      <p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="2"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" bgcolor="#FFFFFF" height="50">&nbsp;&nbsp;2.1.2</td>
+    <td width="600" class="section" height="50">PHP-Konfiguration</td>
+    <td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>
+        Bevor Sie die Konfiguration von  PHP &auml;ndern sollten Sie &uuml;berpr&uuml;fen, ob diese Ma&szlig;nahme &uuml;berhaupt notwendig ist. M&ouml;glicherweise entspricht Ihre Konfiguration den Anforderungen von phpAdsNew. Sie k&ouml;nnen die PHP-Konfiguration pr&uuml;fen, indem Sie eine kleine PHP-Datei mit folgendem Inhalt erstellen:</p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>&lt;?php<br>&nbsp;&nbsp;phpinfo();<br>?&gt;</td></tr></table></td></tr></table>
+      <p>PHP 
+ben&ouml;tigt bestimmte Einstellungen, damit phpAdsNew fehlerfrei arbeiten. Sie k&ouml;nnen notwendige &Auml;nderungen durchf&uuml;hren, indem Sie die Datei <b>php.ini/php3.ini</b> mit einem Texteditor bearbeiten. Wenn Sie PHP als ein Apache-Modul verwenden, m&uuml;ssen Sie den Web-Server neu starten, damit die &Auml;nderungen  in Kraft treten.</p>
+      <p>PHP muss folgende Einstellungen beinhalten:<br>
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;magic_quote_gpc=on<br>
+        
+        &nbsp;&nbsp;&nbsp;&nbsp;magic_quotes_runtime=off.</p>
+      <p>Sollten Sie weiterf&uuml;hrende Informationen &uuml;ber die Konfiguration von PHP ben&ouml;tigen, k&ouml;nnen Sie dies in der <a href="http://www.php.net/manual/en/configuration.php" class="list">Dokumentation</a>  von PHP nachlesen.</p>
+      <p><br>
+        <span class="subtitle">.htaccess f&uuml;r PHP 3</span><br>
+        Falls es Ihnen nicht m&ouml;glich ist die Konfigurationsdatei <b>php3.ini</b> zu &auml;ndern, beispielsweise wenn Sie den Web-Server mit anderen Benutzern teilen und Ihr Provider diesen Zugriff nicht zul&auml;&szlig;t, sollten Sie versuchen eine Datei namens <b>.htaccess</b> in Ihrem phpAdsNew-Verzeichnis anzulegen.<br>
+        Die Datei mu&szlig; unter PHP 3 folgenden Inhalt haben:<br>
+      </p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>php3_magic_quote_gpc=on<br>php3_magic_quotes_runtime=off</td></tr></table></td></tr></table>
+      <p><br>
+        <span class="subtitle">.htaccess 
+f&uuml;r PHP4</span><br>
+        Falls es Ihnen nicht m&ouml;glich ist die Konfigurationsdatei <b>php.ini</b> zu &auml;ndern, beispielsweise wenn Sie den Web-Server mit anderen Benutzern teilen und Ihr Provider diesen Zugriff nicht zul&auml;&szlig;t, sollten Sie versuchen eine Datei namens <b>.htaccess</b> in Ihrem phpAdsNew-Verzeichnis anzulegen. <br>
+        Die Datei mu&szlig; unter PHP 4 folgenden Inhalt haben:<br>
+      </p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>php_flag 
+magic_quote_gpc on<br>php_flag magic_quotes_runtime off</td></tr></table></td></tr></table><p><br>
+        <span class="subtitle">PHP-Erweiterungen</span><br>
+        phpAdsNew arbeitet hervorragend mit der Standard-Installation von PHP zusammen, jedoch basieren einige Funktionen auf dem Vorhandensein von verschiedenen PHP-Erweiterungen.<br>
+        <br>
+        Sollten Sie im Administrations-Interface mit grafischen Darstellungen arbeiten wollen, dann ben&ouml;tigen Sie  eine installierte GD-Extension. Es ist nicht erheblich, welche Version der GD-Extension Sie verwenden. phpAdsNew erkennt automatisch die installierte Version  und verwendet automatisch das richtige Format.<br>
+        <br>
+        Sollten Sie Banner im FTP-Modus auf Ihrem Web-Server speichern wollen, dann mu&szlig; in der PHP-Konfiguration f&uuml;r mindestens eines der folgenden Module eine Unterst&uuml;tzung implementiert sein:  FTP-Modul (empfohlen), CURL-Modul oder  URL fopen wrapper.</p>
+      <p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="3"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" bgcolor="#FFFFFF" height="50">&nbsp;&nbsp;2.1.3</td>
+    <td width="600" class="section" height="50">Vorbereitung der Datenbank</td>
+    <td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>
+        Bevor Sie phpAdsNew benutzen k&ouml;nnen m&uuml;ssen Sie die Datenbank, die von phpAdsNew verwendet werden soll, erstellen. Einige Internet-Service-Provider erlauben nur die Verwendung einer Datenbank pro Website. In diesem Fall sollten Sie einfacherweise diese verwenden.</p>
+      <p>Im folgenden Schritt erstellen Sie alle ben&ouml;tigten Tabellen. 
+Die Beschreibung der Tabellen finden Sie in der Datei <b>all.sql</b>. Der einfachste Weg zur Erstellung der Tabellen ist die Verwendung eines Tools wie phpMyAdmin. phpMyAdmin finden Sie auf der Website <a href="http://www.phpwizard.net" class="list">www.phpwizard.net</a>.</p>
+      <p>Alternativ k&ouml;nnen Sie auch das Kommandozeilen-Interface von MySQL verwenden. Die Kommandozeile sollte dann folgenderma&szlig;en aussehen:</p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>mysql 
+-h db-server -u db-user --password db-name &lt; all.sql</td></tr></table></td></tr></table>
+      <p><span class="subtitle"><br>
+        Privilegien</span><br>
+        Um die Sicherheit zu erh&ouml;hen arbeitet MySQL 
+mit einem Privilegien-Verwaltungsystem. Sie m&uuml;ssen sicherstellen, dass MySQL so konfiguriert ist, dass phpAdsNew die Rechte hat folgende Befehle auszuf&uuml;hren: SELECT, INSERT, REPLACE, DELETE, CREATE TABLE und DROP TABLE. Die beiden letzten werden jedoch nur ben&ouml;tigt, sofern Sie die Statistiken zum kompakten Statistik-Format konvertieren wollen.</p>
+      <p>Weiterf&uuml;hrende Informationen &uuml;ber die MySQL-Privilegen finden Sie in der  <a href="http://www.mysql.com/documentation/mysql/bychapter/manual_Privilege_system.html#Privilege_system" class="list">MySQL-Dokumentation</a>.</p>
+      <br> </td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="4"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" bgcolor="#FFFFFF" height="50">&nbsp;&nbsp;2.1.4</td>
+    <td width="600" class="section" height="50">Automatische 
+Instandhaltung</td>
+    <td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain">
+      <p><br>
+        Die Datei <b>maintenance.php</b> im Verzeichnis <b>maintenance</b> mu&szlig; einmal t&auml;glich ausgef&uuml;hrt werden. Diese Datei ist  daf&uuml;r verantwortlich Ihren Kunden  Berichte &uuml;ber die Kampagnen zuzumailen und Kampagnen zu aktivieren und/oder zu deaktivieren.</p>
+      <p><span class="subtitle"><br>
+        Verwendung des Taskplaners auf einem  *nix basierten System</span><br>
+        Wenn Sie einen  *nix basierenden Server, wie beispielsweise Linux oder BSD verwenden, k&ouml;nnen Sie den  <b>cron</b> D&auml;monen verwenden, um  die Datei <b>maintenance.php</b> 
+einmal t&auml;glich automatisch ausf&uuml;hren zu lassen.</p>
+      <p>Sie k&ouml;nnen crontab um die folgende Zeile erweitern (Das untenstehende Beispiel besteht aus mehreren Zeilen, mu&szlig; jedoch als eine Zeile &uuml;bertragen werden. Anstatt des fetch-Kommandos k&ouml;nnen Sie zum Aufruf der Datei <b>maintenance.php</b> auch die Kommandos <b>wget</b> oder <b>lynx -dump</b> verwenden.</p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>59 
+23 * * * fetch -o - http://www.server.com/phpAdsNew/maintenance/maintenance.php <br>&gt;&gt; /var/log/messages</td></tr></table></td></tr></table>
+      <p><span class="subtitle"><br>
+        Verwendung des Taskplaners auf einem Windows NT/2000 basierten System</span><br>
+        Wenn Sie einen Microsoft Windows 2000 basierten Server verwenden, k&ouml;nnen Sie den Taskplaner nutzen, um automatisch die Datei <b>maintenance.php</b> auszuf&uuml;hren. Auch auf einem  Windows NT basierter Server kann dieses Kommando benutzt werden.</p>
+      <p>F&uuml;r weiterf&uuml;hrende Informationen &uuml;ber den Taskplaner auf Windows-basierten Systemen, lesen Sie bitte die  entsprechenden von Microsoft zur Verf&uuml;gung gestellten Dokumentationen</p>
+      <p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75">&nbsp;</td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><p>&nbsp;</p>
+</body>
+</html>

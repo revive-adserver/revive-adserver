@@ -14,6 +14,13 @@
 
 
 
+// Include FTP emulation library 
+// if extension is not present
+if (!function_exists("ftp_connect"))
+	require ("lib-ftp.inc.php");
+
+
+
 /*********************************************************/
 /* Store a file on the webserver                         */
 /*********************************************************/
@@ -44,23 +51,7 @@ function phpAds_Store ($localfile, $name)
 		
 		if ($server['scheme'] == 'ftp')
 		{
-			// PHP FTP Module
-			if (function_exists("ftp_connect"))
-			{
-				$stored_url = phpAds_FTPStore ($server, $base, $extension, $localfile);
-			}
-			
-			// PHP CURL Module
-			elseif (function_exists("curl_init"))
-			{
-				$stored_url = phpAds_CURLStore ($server, $base, $extension, $localfile);
-			}
-			
-			// PHP Fopen wrappers
-			else
-			{
-				$stored_url = phpAds_FOPENStore ($server, $base, $extension, $localfile);
-			}
+			$stored_url = phpAds_FTPStore ($server, $base, $extension, $localfile);
 		}
 	}
 	
@@ -70,7 +61,7 @@ function phpAds_Store ($localfile, $name)
 	}
 	else
 	{
-		// Error
+		return false;
 	}
 }
 
@@ -99,17 +90,7 @@ function phpAds_Cleanup ($name)
 		
 		if ($server['scheme'] == 'ftp')
 		{
-			// PHP FTP Module
-			if (function_exists("ftp_connect"))
-			{
-				phpAds_FTPDelete ($server, $name);
-			}
-			
-			// PHP fsockopen
-			else
-			{
-				//phpAds_FSOCKDelete ($server, $name);
-			}
+			phpAds_FTPDelete ($server, $name);
 		}
 	}
 }
@@ -249,132 +230,6 @@ function phpAds_FTPUniqueName ($conn_id, $path, $base, $extension)
 		return ($base."_".$i.".".$extension);
 	}
 }
-
-
-
-
-/*********************************************************/
-/* CURL module storage function                          */
-/*********************************************************/
-
-function phpAds_CURLStore ($server, $base, $extension, $localfile)
-{
-	global $phpAds_admin_email, $phpAds_type_web_url;
-	
-	if ($ch = @curl_init("ftp://".$server['host']."/".$server['path']."/"))
-	{
-		if ($server['pass'] && $server['user'])
-			@curl_setopt($ch, CURLOPT_USERPWD, $server['user'].":".$server['pass']);
-		
-		@curl_setopt($ch, CURLOPT_FTPLISTONLY, 1);
-		@curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		
-		$list = @curl_exec($ch);
-		@curl_close($ch);
-		
-		if (gettype($list) == 'string')
-		{
-			$name = phpAds_ArrayUniqueName(explode("\n", $list), $base, $extension);
-			
-			if ($name != "")
-			{
-				if ($ch = @curl_init("ftp://".$server['host']."/".$server['path']."/$name"))
-				{
-					if ($server['pass'] && $server['user'])
-						@curl_setopt($ch, CURLOPT_USERPWD, $server['user'].":".$server['pass']);
-					
-					$fp = @fopen($localfile, "rb") or php_die();
-					
-					@curl_setopt($ch, CURLOPT_INFILESIZE, filesize($localname));
-					@curl_setopt($ch, CURLOPT_UPLOAD, 1);
-					@curl_setopt($ch, CURLOPT_INFILE, $fp);
-					
-					@curl_exec($ch);
-					@curl_close($ch);
-					fclose($fp);
-					
-					// Tesing if upload was successful
-					// Just a workaround because curl_exec doesn't return success
-					if ($ch = @curl_init("ftp://".$server['host']."/".$server['path']."/"))
-					{
-						if ($server['pass'] && $server['user'])
-							@curl_setopt($ch, CURLOPT_USERPWD, $server['user'].":".$server['pass']);
-						
-						@curl_setopt($ch, CURLOPT_FTPLISTONLY, 1);
-						@curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-						
-						$list = @curl_exec($ch);
-						@curl_close($ch);
-						$list = str_replace("\r", "", $list);
-						
-						if (phpAds_ArrayUniqueName(explode("\n", $list), $base, $extension) !=  $name)
-							return ($phpAds_type_web_url."/".$name);
-					}
-				}
-			}
-		}
-	}
-}
-
-
-
-
-/*********************************************************/
-/* Fopen wrapper storage function                        */
-/*********************************************************/
-
-function phpAds_FOPENStore ($server, $base, $extension, $localfile)
-{
-	global $phpAds_admin_email, $phpAds_type_web_url;
-	
-	$base = uniqid(str_replace(" ", "_", strtolower($base))."_", true);
-	$extension = strtolower($extension);
-	$name = $base.".".$extension;
-	
-	$url = "ftp://".$server['user'].":".$server['pass']."@".$server['host']."/".$server['path']."/".$base.".".$extension;
-	
-	if (($localfile_data = @fread(@fopen($localfile, "rb"), @filesize($localfile))) && $ftp_fp = @fopen($url, "w"))
-	{
-		if (fwrite($ftp_fp, $localfile_data))
-		{
-			fclose($ftp_fp);
-			return ($phpAds_type_web_url."/".$name);
-		}
-		fclose($ftp_fp);
-	}
-}
-
-
-
-
-
-/*********************************************************/
-/* Creates a unique filename                             */
-/* $files is an array of existing filenames              */
-/*********************************************************/
-
-function phpAds_ArrayUniqueName($files, $base, $extension, $c = 0)
-{
-	if ($c == 0)
-	{
-		$base = str_replace(" ", "_", strtolower($base));
-		$extension = strtolower($extension);
-	}
-	
-	$count = count($files);
-	$fname = $base.($c > 0 ? "_$c" : '').".".$extension;
-	
-	for ($x = 0; $x < $count && trim($fname) != trim($files[$x]); $x++);
-	
-	if ($x < $count)
-	{
-		// File exists
-		$fname = phpAds_ArrayUniqueName($files, $base, $extension, $c+1);
-	}
-	
-	return $fname;
-}
-
 
 
 ?>

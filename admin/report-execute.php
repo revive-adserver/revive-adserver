@@ -48,12 +48,4 @@ if (isset($plugin) && $plugin != '')
 	}
 }
 
-// Security check
-phpAds_checkAccess(phpAds_Admin);
-
-if (phpAds_isUser(phpAds_Admin))
-{
-
-}
-
 ?>

@@ -41,7 +41,7 @@ function phpAds_GenerateInvocationCode()
 	global $codetype, $what, $clientID, $source, $target;
 	global $withText, $template, $refresh, $uniqueid;
 	global $width, $height;
-	global $phpAds_url_prefix;
+	global $phpAds_url_prefix, $phpAds_path;
 	
 	$buffer = '';
 	$parameters = array();
@@ -158,10 +158,20 @@ function phpAds_GenerateInvocationCode()
 	
 	if ($codetype=='local')
 	{
-		$buffer .= "<?php\n";
-		$buffer .= "    require('phpadsnew.inc.php');\n";
+		$path = $phpAds_path;
+		$path = str_replace ('\\', '/', $path);
+		$root = getenv('DOCUMENT_ROOT');
+		$pos  = strpos ($path, $root);
+		
+		if (is_int($pos) && $pos == 0)
+			$path = "getenv('DOCUMENT_ROOT').'".substr ($path, $pos + strlen ($root))."/phpadsnew.inc.php'";
+		else
+			$path = "'".$path."/phpadsnew.inc.php'";
+		
+		$buffer .= "<"."?php\n";
+		$buffer .= "    require($path);\n";
 		$buffer .= "    view ('$what', $clientID, '$target', '$source', '$withText');\n";
-		$buffer .= "?>";
+		$buffer .= "?".">";
 	
 	}
 	

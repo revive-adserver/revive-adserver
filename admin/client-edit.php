@@ -106,9 +106,12 @@ if (isset($submit))
 		}
 		
 		$permissions = 0;
-		for ($i=0;$i<sizeof($clientpermissions);$i++)
+		if (isset($clientpermissions) && is_array($clientpermissions))
 		{
-			$permissions += $clientpermissions[$i];
+			for ($i=0;$i<sizeof($clientpermissions);$i++)
+			{
+				$permissions += $clientpermissions[$i];
+			}
 		}
 		
 		if (!isset($clientreport)) $clientreport = false;
@@ -285,7 +288,7 @@ else
 ?>
 
 <table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
-	<tr><td height='25' colspan='4'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b><?echo phpAds_getClientName($clientID);?></b></td></tr>
+	<tr><td height='25' colspan='4'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b><?php echo phpAds_getClientName($clientID);?></b></td></tr>
   	<tr><td height='1' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 </table
 
@@ -295,18 +298,18 @@ else
 
 
 
-<form name="clientform" method="post" action="<?echo basename($PHP_SELF);?>">
-<input type="hidden" name="clientID" value="<?if(isset($clientID)) echo $clientID;?>">
+<form name="clientform" method="post" action="<?php echo basename($PHP_SELF);?>">
+<input type="hidden" name="clientID" value="<?php if(isset($clientID)) echo $clientID;?>">
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
-	<tr><td height='25' colspan='3'><b><?echo $strBasicInformation;?></b></td></tr>
+	<tr><td height='25' colspan='3'><b><?php echo $strBasicInformation;?></b></td></tr>
 	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
 	<tr>
 		<td width='30'>&nbsp;</td>
-		<td width='200'><?echo $strClientName;?></td>
-		<td><input type="text" name="clientname" size='35' style="width:350px;" value="<?if(isset($row["clientname"]))echo $row["clientname"];?>"></td>
+		<td width='200'><?php echo $strClientName;?></td>
+		<td><input type="text" name="clientname" size='35' style="width:350px;" value="<?php if(isset($row["clientname"]))echo $row["clientname"];?>"></td>
 	</tr>
 	<tr>
 		<td><img src='images/spacer.gif' height='1' width='100%'></td>
@@ -314,8 +317,8 @@ else
 	</tr>
 	<tr>
 		<td width='30'>&nbsp;</td>
-		<td width='200'><?echo $strContact;?></td>
-		<td><input type="text" name="contact" size='35' style="width:350px;" value="<?if(isset($row["contact"]))echo $row["contact"];?>"></td>
+		<td width='200'><?php echo $strContact;?></td>
+		<td><input type="text" name="contact" size='35' style="width:350px;" value="<?php if(isset($row["contact"]))echo $row["contact"];?>"></td>
 	</tr>
 	<tr>
 		<td><img src='images/spacer.gif' height='1' width='100%'></td>
@@ -323,8 +326,8 @@ else
 	</tr>
 	<tr>
 		<td width='30'>&nbsp;</td>
-		<td width='200'><?echo $strEMail;?></td>
-		<td><input type="text" name="email" size='35' style="width:350px;" value="<?if(isset($row["email"]))echo $row["email"];?>"></td>
+		<td width='200'><?php echo $strEMail;?></td>
+		<td><input type="text" name="email" size='35' style="width:350px;" value="<?php if(isset($row["email"]))echo $row["email"];?>"></td>
 	</tr>
 	<tr>
 		<td><img src='images/spacer.gif' height='1' width='100%'></td>
@@ -332,10 +335,10 @@ else
 	</tr>
 	<tr>
 		<td width='30'>&nbsp;</td>
-		<td width='200'><?echo $GLOBALS['strLanguage']; ?></td>	
+		<td width='200'><?php echo $GLOBALS['strLanguage']; ?></td>	
 		<td>
 			<select name="clientlanguage">
-		<?
+		<?php
 		echo "<option value='' SELECTED>".$GLOBALS['strDefault']."</option>\n"; 
 		
 		$langdir = opendir ("../language/");
@@ -370,25 +373,25 @@ else
 <br><br>
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
-	<tr><td height='25' colspan='3'><b><?echo $strMailSubject;?></b></td></tr>
+	<tr><td height='25' colspan='3'><b><?php echo $strMailSubject;?></b></td></tr>
 	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
 
-	<input type='hidden' name='clientreportlastdate' value='<?if(isset($row["reportlastdate"]))echo $row["reportlastdate"];?>'>
-	<input type='hidden' name='clientreportprevious' value='<?if(isset($row["report"]))echo $row["report"];?>'>
+	<input type='hidden' name='clientreportlastdate' value='<?php if(isset($row["reportlastdate"]))echo $row["reportlastdate"];?>'>
+	<input type='hidden' name='clientreportprevious' value='<?php if(isset($row["report"]))echo $row["report"];?>'>
 	
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td colspan='2'>
-			<input type="checkbox" name="clientreportdeactivate" value="true"<?echo ($row["reportdeactivate"]) ? " CHECKED" : ""; ?>>
-			<?echo $strSendDeactivationWarning;?>
+			<input type="checkbox" name="clientreportdeactivate" value="true"<?php echo ($row["reportdeactivate"]) ? " CHECKED" : ""; ?>>
+			<?php echo $strSendDeactivationWarning;?>
 		</td>
 	</tr>
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td colspan='2'>
-			<input type="checkbox" name="clientreport" value="true"<?echo ($row["report"]) ? " CHECKED" : ""; ?>>
-			<?echo $strSendAdvertisingReport;?>
+			<input type="checkbox" name="clientreport" value="true"<?php echo ($row["report"]) ? " CHECKED" : ""; ?>>
+			<?php echo $strSendAdvertisingReport;?>
 		</td>
 	</tr>
 	<tr>
@@ -397,8 +400,8 @@ else
 	</tr>
 	<tr>
 		<td width='30'>&nbsp;</td>
-		<td width='200'><?echo $strNoDaysBetweenReports;?></td>
-		<td><input type="text" name="clientreportinterval" size='25' value="<?if(isset($row["reportinterval"]))echo $row["reportinterval"];?>"></td>
+		<td width='200'><?php echo $strNoDaysBetweenReports;?></td>
+		<td><input type="text" name="clientreportinterval" size='25' value="<?php if(isset($row["reportinterval"]))echo $row["reportinterval"];?>"></td>
 	</tr>
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
 	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
@@ -409,39 +412,39 @@ else
 <br><br>
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
-	<tr><td height='25' colspan='3'><b><?echo $strLoginInformation;?></b></td></tr>
+	<tr><td height='25' colspan='3'><b><?php echo $strLoginInformation;?></b></td></tr>
 	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
-			<?
+			<?php
 				if (isset($errormessage) && $errormessage == 'duplicateclientname')
 				{
 					?>
 	<tr><td width='30'>&nbsp;</td>
-	    <td height='10' colspan='2'><img src='images/error.gif' align='absmiddle'>&nbsp;<font color='#AA0000'><b><? echo $strDuplicateClientName; ?></b></font></td></tr>
+	    <td height='10' colspan='2'><img src='images/error.gif' align='absmiddle'>&nbsp;<font color='#AA0000'><b><?php echo $strDuplicateClientName; ?></b></font></td></tr>
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
 	<tr>
 		<td><img src='images/spacer.gif' height='1' width='100%'></td>
 		<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
 	</tr>	
-					<?
+					<?php
 				}
 			?>
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td width='200'><?echo $strUsername;?></td>
-		<?
+		<?php
 		if (phpAds_isUser(phpAds_Admin))
 		{
 			?>
-			<td width='370'><input type="text" name="clientusername" size='25' value="<?if(isset($row["clientusername"]))echo $row["clientusername"];?>">
-			<?
+			<td width='370'><input type="text" name="clientusername" size='25' value="<?php if(isset($row["clientusername"])) echo $row["clientusername"];?>">
+			<?php
 		}
 		else 
 		{
 			?>
-			<td width='370'><?if(isset($row["clientusername"]))echo $row["clientusername"];?>
-			<?
+			<td width='370'><?php if(isset($row["clientusername"]))echo $row["clientusername"];?>
+			<?php
 		}
 		?>
 	</tr>
@@ -451,11 +454,11 @@ else
 	</tr>
 	<tr>
 		<td width='30'>&nbsp;</td>
-		<td width='200'><?echo $strPassword;?></td>
-		<td width='370'><input type="text" name="clientpassword" size='25' value="<?if(isset($row["clientpassword"]))echo $row["clientpassword"];?>">
+		<td width='200'><?php echo $strPassword;?></td>
+		<td width='370'><input type="text" name="clientpassword" size='25' value="<?php if(isset($row["clientpassword"])) echo $row["clientpassword"];?>">
 	</tr>
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
-		<?
+		<?php
 		if (phpAds_isUser(phpAds_Admin))
 		{
 			?>
@@ -465,41 +468,41 @@ else
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td colspan='2'>
-			<input type="checkbox" name="clientpermissions[]" value="<?echo phpAds_ModifyInfo; ?>"<?echo (phpAds_ModifyInfo & $row["permissions"]) ? " CHECKED" : ""; ?>>
-			<?echo $GLOBALS['strAllowClientModifyInfo']; ?>
+			<input type="checkbox" name="clientpermissions[]" value="<?php echo phpAds_ModifyInfo; ?>"<?php echo (phpAds_ModifyInfo & $row["permissions"]) ? " CHECKED" : ""; ?>>
+			<?php echo $GLOBALS['strAllowClientModifyInfo']; ?>
 		</td>
 	</tr>
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td colspan='2'>
-			<input type="checkbox" name="clientpermissions[]" value="<?echo phpAds_ModifyBanner; ?>"<?echo (phpAds_ModifyBanner & $row["permissions"]) ? " CHECKED" : ""; ?>>
-			<?echo $GLOBALS['strAllowClientModifyBanner']; ?>
+			<input type="checkbox" name="clientpermissions[]" value="<?php echo phpAds_ModifyBanner; ?>"<?php echo (phpAds_ModifyBanner & $row["permissions"]) ? " CHECKED" : ""; ?>>
+			<?php echo $GLOBALS['strAllowClientModifyBanner']; ?>
 		</td>
 	</tr>	
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td colspan='2'>
-			<input type="checkbox" name="clientpermissions[]" value="<?echo phpAds_DisableBanner; ?>"<?echo (phpAds_DisableBanner & $row["permissions"]) ? " CHECKED" : ""; ?>>
-			<?echo $GLOBALS['strAllowClientDisableBanner']; ?>
+			<input type="checkbox" name="clientpermissions[]" value="<?php echo phpAds_DisableBanner; ?>"<?php echo (phpAds_DisableBanner & $row["permissions"]) ? " CHECKED" : ""; ?>>
+			<?php echo $GLOBALS['strAllowClientDisableBanner']; ?>
 		</td>
 	</tr>	
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td colspan='2'>
-			<input type="checkbox" name="clientpermissions[]" value="<?echo phpAds_ActivateBanner; ?>"<?echo (phpAds_ActivateBanner & $row["permissions"]) ? " CHECKED" : ""; ?>>
-			<?echo $GLOBALS['strAllowClientActivateBanner']; ?>
+			<input type="checkbox" name="clientpermissions[]" value="<?php echo phpAds_ActivateBanner; ?>"<?php echo (phpAds_ActivateBanner & $row["permissions"]) ? " CHECKED" : ""; ?>>
+			<?php echo $GLOBALS['strAllowClientActivateBanner']; ?>
 		</td>
 	</tr>	
 	<!-- Still working on this (Niels)
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td colspan='2'>
-			<input type="checkbox" name="clientpermissions[]" value="<?echo phpAds_AddBanner; ?>"<?echo (phpAds_AddBanner & $row["permissions"]) ? " CHECKED" : ""; ?>>
-			<?echo $GLOBALS['strAllowClientAddBanner']; ?>
+			<input type="checkbox" name="clientpermissions[]" value="<?php echo phpAds_AddBanner; ?>"<?php echo (phpAds_AddBanner & $row["permissions"]) ? " CHECKED" : ""; ?>>
+			<?php echo $GLOBALS['strAllowClientAddBanner']; ?>
 		</td>
 	</tr>	
 	-->
-			<?
+			<?php
 		}
 		?>
 	<tr><td height='10' colspan='2'>&nbsp;</td></tr>
@@ -507,12 +510,12 @@ else
 		
 <br><br>
 		
-<input type="submit" name="submit" value="<?echo $strSaveChanges;?>">
+<input type="submit" name="submit" value="<?php echo $strSaveChanges;?>">
 </form>
 
 
 
-<?
+<?php
 
 /*********************************************************/
 /* HTML framework                                        */

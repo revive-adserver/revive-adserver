@@ -17,14 +17,14 @@ $phpAds_mysqlpassword = "mysqlpassword";
 $phpAds_db = "phpads";
 
 // phpAdsNew' database tables
-$phpAds_tbl_adclicks = "adclicks";
-$phpAds_tbl_adviews = "adviews";
-$phpAds_tbl_adstats = "adstats";
-$phpAds_tbl_banners = "banners";
-$phpAds_tbl_clients = "clients";
-$phpAds_tbl_session = "session";
-$phpAds_tbl_acls = "acls";
-$phpAds_tbl_zones = "zones";
+$phpAds_tbl_adclicks = "phpads_adclicks";
+$phpAds_tbl_adviews = "phpads_adviews";
+$phpAds_tbl_adstats = "phpads_adstats";
+$phpAds_tbl_banners = "phpads_banners";
+$phpAds_tbl_clients = "phpads_clients";
+$phpAds_tbl_session = "phpads_session";
+$phpAds_tbl_acls = "phpads_acls";
+$phpAds_tbl_zones = "phpads_zones";
 
 // Use persistent connections to the database
 $phpAds_persistent_connections = "0";
@@ -148,6 +148,13 @@ $phpAds_acl = "0";
 $phpAds_default_banner_url = "";
 $phpAds_default_banner_target = "";
 
+// Cache zones, this should speed things up when using zones
+$phpAds_zone_cache = true;
+
+// Time between cache updates (in seconds)
+// Once this limit has been reached the cache will be rebuild
+$phpAds_zone_cache_limit = 300; // Reload every 5 minutes
+
 
 
 /*********************************************************/
@@ -175,6 +182,13 @@ $phpAds_type_web_ftp	= "ftp://user:password@ftp.myname.com/ads";
 // Public URL of local directory / ftp server
 $phpAds_type_web_url    = "http://www.myname.com/ads";
 
+// Automatically change HTML banners in order to force
+// click logging.
+$phpAds_type_html_auto	= true;
+
+// Allow php expressions to be executed from within a 
+// HTML banner
+$phpAds_type_html_php	= false;
 
 
 /*********************************************************/
@@ -195,6 +209,10 @@ $phpAds_admin_email = "your@email.com";
 
 //Mail Headers for the reflection of the sender of the daily ad reports
 $phpAds_admin_email_headers = "From: $phpAds_admin_fullname <$phpAds_admin_email> \n";
+
+// Admin´s delete actions need confirmation for safety
+$phpAds_admin_novice = true;
+
 
 
 

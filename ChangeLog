@@ -1,12 +1,78 @@
 phpAdsNew - ChangeLog
 
-CVS			+ Added P3P Privacy Policies support
+CVS			+ Added search capabilities  (Niels and Tobi Schulz)
+			+ Added expiration details to campaign index  (Niels)
+			+ Added the ablity to get the IP adress of users behind a proxy server  (Niels & Mesut Tunga)
+			+ Added ability to specify a browser-status text for each banner  (Niels)
+			+ Removed cURL and fopen-wrapper support for storing banners, added a 
+			  ftp emulation library provided by TOMO <groove@spencernetwork.org>  (Niels)
+			+ Added native support for flash banners, based on code of the 
+			  phpAdsPlus project by Dandra  (Niels)
+			+ Added a confirmation dialogbox, for deleting and resetting statistics (Helmut)
+
+			+ ACLs
+			  The ACL routines have been rewritten. This is a very big change and possibly
+			  a change from previous behavoir. It is needed to check existing ACLs after
+			  upgrading!!! The changes include:
+			  - Ability to select multiple weekdays per ACL  (Niels)
+			  - Ability to select multiple hours per ACL  (Niels)
+			  - Added new ACL for accept-language headers  (Niels)
+			  - Added boolean operators to ACLs  (Niels)
+			  - Changed IP check, it is now possible to use * instead of a mask  (Niels)
+
+			+ Added P3P Privacy Policies support
 			  - Sending Policy location using P3P header  (Niels)
 			  - Sending Compact Policy using P3P header for cookie evaluation  (Niels)
 
-			+ Added expiration details to campaign index  (Niels)
-			+ Added URL prefix and scrolling=no  (Niels)
-			+ Added search capabilities  (Niels and Tobi Schulz)
+			+ Mailed reports
+			  - Added starting and end date to the reports  (Niels)
+			  - Campaigns without stats now tell there are no stats available  (Niels)
+			  - Fixed bug which prevented reports for new clients from being sent  (Niels)
+			  - First report for new clients now includes all stats up to date  (Niels)
+			  - Fixed bug which prevented stats from the last day to be included
+			    and which caused problems with a one day interval  (Niels)
+			  - Changed mail headers as a workaround for Win32 SMTP extension bug  (Niels)
+			  - Added ability to force a report from being sent from the Admin interface  (Niels)
+
+			+ HTML banners
+			  - Automatic changing of HTML in order to log clicks can be disabled globally  (Niels)
+			  - Automatic changing of HTML in order to log clicks can be disabled on a per banner basis  (Niels)
+			  - The tag target='...' will be automatically replaced with the right target  (Niels)
+			  - Added support for changing form HTML automatically  (Niels)
+			  - Extra variables assigned to adclick.php are now passed through to target url  (Niels)
+			  - Added {random} support to HTML banners
+			  - Added ability to embed PHP scripts in HTML banners  (Niels)
+			
+			+ Invocationcode generator
+			  - Added URL prefix and scrolling=no  to bannercode generator  (Niels)
+			  - Added local path to phpadsnew.inc.php for local mode to bannercode generator  (Niels)
+
+			+ Statistics
+			  - Added client statistics  (Niels)
+			  - Added general history statistics (Niels)
+			  - Added history statistics for campaigns (Niels)
+			  - Added ability to reset stats for a complete client  (Niels)
+			  - Added ability to reset all stats  (Niels)
+			
+			+ Misc changes
+			  - Changed all occurances of <? to <?php  (Niels)
+			  - Changed most " to ' in view.inc.php for minor speed improvement  (Niels)
+			  - Changed default names of tables, added prefix to avoid conflicts with other products  (Niels)
+			  - Changed the way JavaScript is generated for remote invocation with JavaScript  (Niels)
+			  - Rearanged directory structure for the manual, to make room
+			    for the german translation provided by René Friedrich  (Niels)
+
+			+ Misc bugfixes
+			  - Fixed quote problem with banner-text, alt and description fields  (Niels)
+			  - Fixed HTML layout problem with large description and/or alt-text  (Niels)
+			  - Fixed error in client edit when client permissions were left empty (Thanks to Scott Delap)
+			  - Fixed bug: if changing from MySQL stored banner to an empty HTML banner, 
+			    raw image data would be present in HTML banner field.
+
+			+ Security fixes
+			  - Fixed login exploit where users could login without authentification  (Niels)
+			  - Fixed upload exploit where users could download files from the server  (Niels)
+
 
 
 v 2.0beta5		+ Added override setting for automatic GD detection  (Niels)

@@ -2,10 +2,10 @@ phpAdsNew - Readme
 
   PHP Banner Management System
 
-  Version 2 beta 5
+  Version 2 beta 6
   http://www.sourceforge.net/projects/phpadsnew/
 
-  THIS IS A BETA VERSION AND NOT DEEMED STABLE ENOUGH FOR USE 
+  THIS IS A BETA VERSION AND MAY NOT BE STABLE ENOUGH FOR USE 
   IN A PRODUCTION ENVIRONMENT.
   THE USE OF THIS SOFTWARE IS COMPLETELY AT YOUR OWN RISK!
 
@@ -88,13 +88,16 @@ phpAdsNew - Readme
     Niels Schoot <nschoot@users.sourceforge.net>, Martin Braun <martin@braun.cc>,
     Vivian Girel, René Friedrich <rene.friedrich@web.de> and many more.
 
+    FTP library:
+    TOMO <groove@spencernetwork.org> 
+
     Occasional bugfixes and support: 
     Manuel Lemos, Boaz Yahav, Roy Nasser, Mark Maggalet, Ben Schumacher.
     And all the rest who helped.
 
 
   Installation:
-    Please see the INSTALL file.
+    Please read chapter 2 of the manual, located inside the 'documentation' directory.
   
 
   Mailing List:

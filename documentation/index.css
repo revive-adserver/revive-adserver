@@ -9,3 +9,5 @@ a.subtitle {  font-family: Arial, Helvetica, sans-serif; font-weight: bold; colo
 a.list:hover { font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 20px ; color: #000066; text-decoration: underline}
 a.subtitle:hover {  font-family: Arial, Helvetica, sans-serif; font-weight: bold; color: #000066; text-decoration: underline}
 .chapter {  font-family: Arial, Helvetica, sans-serif; font-size: 24px; font-weight: normal; color: #00309C}
+.field { font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 20px ; font-style: italic; color: #00309C}
+.cell { font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 20px ; color: #333333; border: #003399; font-weight: normal}

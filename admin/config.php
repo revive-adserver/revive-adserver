@@ -31,6 +31,13 @@ if (!$link)
 										 and phpAdsNew is configured correctly");
 }
 
+
+
+
+// First thing to do is clear the $Session variable to
+// prevent users from pretending to be logged in.
+unset($Session);
+
 // Authorize the user and load user specific settings.
 phpAds_Start();
 
@@ -48,12 +55,13 @@ if (!isset($bannerID))   $bannerID = '';
 $phpAds_nav = array (
 	"admin"	=> array (
 		"2"					=>  array("stats-index.php" => "$strStats"),
-		  "2.1"				=> 	array("stats-campaign.php?campaignID=$campaignID" => "$strStats"),
+		  "2.1"				=> 	array("stats-campaign.php?campaignID=$campaignID" => "$strCampaignStats"),
     	    "2.1.1" 		=> 	array("stats-details.php?campaignID=$campaignID&bannerID=$bannerID" => "$strDetailStats"),
 		      "2.1.1.1" 	=> 	array("stats-daily.php" => "$strDailyStats"),
 		    "2.1.2" 		=> 	array("stats-weekly.php?campaignID=$campaignID" => "$strWeeklyStats"),
 		  "2.2"		 		=> 	array("stats-details.php?campaignID=$campaignID&bannerID=$bannerID" => "$strDetailStats"),
 		  "2.3"		 		=> 	array("stats-weekly.php?campaignID=0" => "$strWeeklyStats"),
+		  "2.4"				=>  array("stats-client.php?clientID=$clientID" => "$strClientStats"),
 		"3"					=>  array("report-index.php" => "Reports"),
 		"4"					=>	array("client-index.php" => "$strAdminstration"),
 		  "4.1" 			=> 	array("campaign-index.php?campaignID=$campaignID" => "$strBanners"),
@@ -69,11 +77,12 @@ $phpAds_nav = array (
 
 	"client" => array (
 		"1"					=>  array("index.php" => "$strHome"),
-		  "1.1"				=> 	array("stats-campaign.php?campaignID=$campaignID" => "$strStats"),
+		  "1.1"				=> 	array("stats-campaign.php?campaignID=$campaignID" => "$strCampaignStats"),
 		  	"1.1.1"			=> 	array("stats-details.php?campaignID=$campaignID&bannerID=$bannerID" => "$strDetailStats"),
 		      "1.1.1.1"		=> 	array("stats-daily.php" => "$strDailyStats"),
 		  	"1.1.2"			=> 	array("stats-weekly.php" => "$strWeeklyStats"),
-		    "1.1.3"			=> 	array("banner-edit.php?campaignID=$campaignID&bannerID=$bannerID" => "$strModifyBanner")
+		    "1.1.3"			=> 	array("banner-edit.php?campaignID=$campaignID&bannerID=$bannerID" => "$strModifyBanner"),
+		  "1.2"				=>  array("stats-client.php" => "$strClientStats")
 	)
 );
 

@@ -223,7 +223,7 @@ if (isset($clients) && is_array($clients) && count($clients) > 0)
 			
 			// Button 1
 			echo "<td height='25'>";
-			echo "<a href='client-delete.php?clientID=".$client['clientID']."'><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+			echo "<a href='client-delete.php?clientID=".$client['clientID']."'".phpAds_DelConfirm($strConfirmDeleteClient)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 			echo "</td></tr>";
 			
 			
@@ -281,7 +281,7 @@ if (isset($clients) && is_array($clients) && count($clients) > 0)
 					
 					// Button 3
 					echo "<td height='25'>";
-					echo "<a href='campaign-delete.php?campaignID=".$campaigns[$ckey]['clientID']."'><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+					echo "<a href='campaign-delete.php?campaignID=".$campaigns[$ckey]['clientID']."'".phpAds_DelConfirm($strConfirmDeleteCampaign)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 					echo "</td></tr>";
 					
 					
@@ -294,6 +294,8 @@ if (isset($clients) && is_array($clients) && count($clients) > 0)
 							$name = $strUntitled;
 							if (isset($banners[$bkey]['alt']) && $banners[$bkey]['alt'] != '') $name = $banners[$bkey]['alt'];
 							if (isset($banners[$bkey]['description']) && $banners[$bkey]['description'] != '') $name = $banners[$bkey]['description'];
+							
+							$name = phpAds_breakString ($name, '30');
 							
 							// Divider
 							echo "<tr height='1'>";
@@ -354,7 +356,7 @@ if (isset($clients) && is_array($clients) && count($clients) > 0)
 							
 							// Button 1
 							echo "<td height='25'>";
-							echo "<a href='banner-delete.php?bannerID=".$banners[$bkey]['bannerID']."&campaignID=".$campaigns[$ckey]['clientID']."'><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+							echo "<a href='banner-delete.php?bannerID=".$banners[$bkey]['bannerID']."&campaignID=".$campaigns[$ckey]['clientID']."'".phpAds_DelConfirm($strConfirmDeleteBanner)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 							echo "</td></tr>";
 						}
 					}
@@ -394,7 +396,7 @@ echo "</table>";
 
 <br><br><br><br>
 
-<?
+<?php
 	// total number of clients
 	$res_clients 		  = db_query("SELECT count(*) as count FROM $phpAds_tbl_clients WHERE parent = 0") or mysql_die();
 	$res_campaigns 		  = db_query("SELECT count(*) as count FROM $phpAds_tbl_clients WHERE parent > 0") or mysql_die();
@@ -404,18 +406,18 @@ echo "</table>";
 ?>
 
 <table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
-  <tr><td height='25' colspan='3'><b><?echo $strOverall;?></b></td></tr>
+  <tr><td height='25' colspan='3'><b><?php echo $strOverall;?></b></td></tr>
   <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-  <tr><td height='25'><?echo $strTotalBanners;?>: <b><?echo @mysql_result($res_total_banners, 0, "count");?></b></td>
-      <td height='25'><?echo $strTotalCampaigns;?>: <b><?echo @mysql_result($res_campaigns, 0, "count");?></b></td>
-      <td height='25'><?echo $strTotalClients;?>: <b><?echo @mysql_result($res_clients, 0, "count");?></b></td></tr>
+  <tr><td height='25'><?php echo $strTotalBanners;?>: <b><?php echo @mysql_result($res_total_banners, 0, "count");?></b></td>
+      <td height='25'><?php echo $strTotalCampaigns;?>: <b><?php echo @mysql_result($res_campaigns, 0, "count");?></b></td>
+      <td height='25'><?php echo $strTotalClients;?>: <b><?php echo @mysql_result($res_clients, 0, "count");?></b></td></tr>
   <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>
-  <tr><td height='25'><?echo $strActiveBanners;?>: <b><?echo @mysql_result($res_active_banners, 0, "count");?></b></td>
-      <td height='25'><?echo $strActiveCampaigns;?>: <b><?echo @mysql_result($res_active_campaigns, 0, "count");?></b></td>
+  <tr><td height='25'><?php echo $strActiveBanners;?>: <b><?php echo @mysql_result($res_active_banners, 0, "count");?></b></td>
+      <td height='25'><?php echo $strActiveCampaigns;?>: <b><?php echo @mysql_result($res_active_campaigns, 0, "count");?></b></td>
       <td height='25'>&nbsp;</td></tr>
   <tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
   <tr><td height='25' colspan='3'>
-	<img src='images/icon-generatecode.gif' border='0' align='absmiddle'>&nbsp;<a href='admin-generate.php'>Generate Bannercode</a>
+	<img src='images/icon-generatecode.gif' border='0' align='absmiddle'>&nbsp;<a href='admin-generate.php'><?php echo $strGenerateBannercode; ?></a>
 	<!-- Still working on this  --Niels
 		&nbsp;&nbsp;
 		<img src='images/icon-availability.gif' border='0' align='absmiddle'>&nbsp;<a href='admin-generate.php'>Show availability</a>
@@ -429,7 +431,7 @@ echo "</table>";
 
 
 
-<?
+<?php
 
 /*********************************************************/
 /* HTML framework                                        */

@@ -167,14 +167,14 @@ function phpAds_PageHeader($ID, $extra="")
 	
 	
 	// Send header with charset info
-	header ("Content-Type: text/html".($phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
+	header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
 	
 	// Begin HTML
 	?>
 <html>
 	<head>
-		<title><?echo $pagetitle;?></title>
-		<meta http-equiv='Content-Type' content='text/html<? echo $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : "" ?>'>
+		<title><?php echo $pagetitle;?></title>
+		<meta http-equiv='Content-Type' content='text/html<?php echo $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : "" ?>'>
 		<meta name='author" content='phpAdsNew - http://sourceforge.net/projects/phpadsnew'>
 		<link rel='stylesheet' href='interface.css'>
 		<script language='JavaScript' src='interface.js'></script>
@@ -185,7 +185,7 @@ function phpAds_PageHeader($ID, $extra="")
 <!-- Top -->
 <table width='100%' border='0' cellspacing='0' cellpadding='0'>
 <tr>
-<?
+<?php
  	if ($phpAds_name != "")
 	{
 		echo "<td height='48' bgcolor='#000063' valign='middle'>";
@@ -199,7 +199,7 @@ function phpAds_PageHeader($ID, $extra="")
 ?>
 	</td>
 	<td bgcolor='#000063' valign='top' align='right'>
-		<? echo $searchbar; ?>
+		<?php echo $searchbar; ?>
 	</td>
 </tr>
 
@@ -212,10 +212,10 @@ function phpAds_PageHeader($ID, $extra="")
 	<table border="0" cellspacing="0" cellpadding="0" width='100%'>
 	<tr><td>
 		<table border="0" cellspacing="0" cellpadding="0" width='1'>
-	    <tr><? echo $tabbar; ?></tr>
+	    <tr><?php echo $tabbar; ?></tr>
 		</table>
 	</td><td align='right' valign='middle' nowrap>
-		<?
+		<?php
 		if ($ID != "" && phpAds_isLoggedIn())
 		{
 			echo "<a class='tab-n' href='logout.php'>$strLogout</a> ";
@@ -233,7 +233,7 @@ function phpAds_PageHeader($ID, $extra="")
 
 	<!-- Blue square -->
     <tr valign="top"><td colspan='2' width="20" height="48" bgcolor='#000063' valign='bottom'>
-	<?
+	<?php
 		// Show a message if defined
 		if ($phpAds_Message != '')
 		{
@@ -256,7 +256,7 @@ function phpAds_PageHeader($ID, $extra="")
 	
 	<!-- Navigation -->	
 	<tr><td width="20">&nbsp;</td>
-    <td class='nav'><? echo $sidebar; ?></td></tr>
+    <td class='nav'><?php echo $sidebar; ?></td></tr>
     </table>
 </td>
 
@@ -265,7 +265,7 @@ function phpAds_PageHeader($ID, $extra="")
 	<table width="640" border="0" cellspacing="0" cellpadding="0">
     <tr><td width="40" height="20">&nbsp;</td><td height="20">&nbsp;</td></tr>
     <tr><td width="20">&nbsp;</td><td>
-<?
+<?php
 	// END HTML
 }
 
@@ -288,7 +288,7 @@ function phpAds_PageFooter()
 </td></tr>
 </table>
 
-<?
+<?php
 if (!empty($phpAds_my_footer))
 {
 	include ($phpAds_my_footer);
@@ -296,7 +296,7 @@ if (!empty($phpAds_my_footer))
 ?>
 </body>
 </html>
-<?
+<?php
 } 
 
 
@@ -375,5 +375,24 @@ function php_die($title="Error", $message="Unkown error")
 	phpAds_PageFooter();
 	exit;
 }
+
+
+
+/*********************************************************/
+/* Show a confirm message for delete / reset actions	 */
+/*********************************************************/
+
+function phpAds_DelConfirm($msg)
+{
+	global $phpAds_admin_novice;
+	
+	if ($phpAds_admin_novice == true)
+		$str = " onClick=\"return confirm('" . $msg . "')\"";
+	else
+		$str = "";
+	
+	return $str;
+}
+
 
 ?>

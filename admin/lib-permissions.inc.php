@@ -254,24 +254,24 @@ function phpAds_LoginScreen($message='', $SessionID=0)
 	phpAds_PageHeader(0);
 	if ($message != "") echo "<b>$message</b><br>";
 	?>
-	<form method="post" action="<?echo basename($GLOBALS["PHP_SELF"]); echo $GLOBALS["QUERY_STRING"] != "" ? "?".$GLOBALS["QUERY_STRING"] : "" ;?>" >
+	<form method="post" action="<?php echo basename($GLOBALS["PHP_SELF"]); echo $GLOBALS["QUERY_STRING"] != "" ? "?".$GLOBALS["QUERY_STRING"] : "" ;?>" >
 	<table>
-		<input type="hidden" name="phpAds_cookiecheck" value="<?echo $SessionID; ?>">
+		<input type="hidden" name="phpAds_cookiecheck" value="<?php echo $SessionID; ?>">
 		<tr>
-			<td><?echo $GLOBALS["strUsername"];?>:</td>
+			<td><?php echo $GLOBALS["strUsername"];?>:</td>
 			<td><input type="text" name="phpAds_username"></td>
 		</tr>
 		<tr>
-			<td><?echo $GLOBALS["strPassword"];?>:</td>
+			<td><?php echo $GLOBALS["strPassword"];?>:</td>
 			<td><input type="password" name="phpAds_password"></td>
 		</tr>
 		<tr>
 			<td></td>
-			<td><input type="submit" VALUE="<? echo $GLOBALS['strLogin']; ?>"></td>
+			<td><input type="submit" VALUE="<?php echo $GLOBALS['strLogin']; ?>"></td>
 		</tr>
 	</table>
 	</form>
-	<?	
+	<?php
 	
 	phpAds_PageFooter();
 	exit;

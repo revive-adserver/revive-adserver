@@ -1,0 +1,312 @@
+<html>
+<head>
+<title>phpAdsNew Documentation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../index.css" type="text/css">
+</head>
+<body bgcolor="#FFFFFF" text="#000000" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="30" bgcolor="#FFFFFF">
+  <tr bgcolor="#EFEFEF">
+    <td width="100" class="identification">&nbsp;&nbsp;phpAdsNew</td>
+    <td width="600" class="plain"><img src="../images/0-home.gif" width="16" height="15" align="ABSMIDDLE">&nbsp;&nbsp;<span class="subtitle"><a href="../index.html" class="subtitle">Home</a></span></td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;5.1</td>
+    <td width="600" class="chapter" height="50">Using HTML banners</td>
+    <td class="section" height="50">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td colspan="3">
+      <p><img src="../images/0-line-gray.gif" width="100%" height="16"></p>
+    </td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td width="100">&nbsp;</td>
+    <td width="600" class="plain">
+      <p>HTML banners can be very powerful, but also very complicated. If you 
+        have used HTML banners before, you probably have noticed it doesn't always 
+        do what you want. Logging AdClicks can be pain, but most problems can 
+        be solved automatically, but sometimes the HTML is just too complicated 
+        to let phpAdsNew handle this.</p>
+    </td>
+    <td class="plain">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td width="100" height="50"><a name="1"></a></td>
+    <td width="600" height="50">&nbsp;</td>
+    <td height="50">&nbsp;</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;5.1.1</td>
+    <td width="600" class="section" height="50">Automatic logging of AdClicks</td>
+    <td class="section" height="50">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td colspan="3">
+      <p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p>
+    </td>
+  </tr>
+  <tr bgcolor="#EFEFEF">
+    <td width="100">&nbsp;</td>
+    <td width="600" class="plain">
+      <p><br>
+        Logging of AdClicks can be very complicated. Most HTML banners included 
+        hard-coded links to the target destination. This will cause the browser 
+        to visit the target destination directly, without using phpAdsNew's AdClick 
+        logging mechanism.</p>
+      <p>However if you are using simple HTML banners phpAdsNew can automatically 
+        alter the HTML you entered in such a way it will replace the hardcoded 
+        target destination with the AdClick logging mechanism. This behavoir is 
+        turned on by default. If you want to turn it off, you should uncheck the 
+        <span class="field">Change HTML in order to log AdClicks</span> checkbox.</p>
+      <p><span class="subtitle"><br>
+        Text</span><br>
+        The most simple HTML banner you could use is just plain text, with or 
+        without HTML layout tags.<br>
+        If you enter the target destination in the field '<span class="field">Linked 
+        to URL</span>' phpAdsNew will automatically create a link to the target 
+        destination and will log the AdClicks. If you leave the '<span class="field">Linked 
+        to URL</span>' field empty phpAdsNew will not alter the HTML in any way.</p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
+        <tr>
+          <td>
+            <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
+              <tr>
+                <td>&lt;h2&gt;Simple text banner&lt;/h2&gt;</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <p><span class="subtitle"><br>
+        Links</span><br>
+        Links are probably the most used type of HTML banners. Hard-coded URLs 
+        normally will prevent phpAdsNew from logging AdClicks, but if '<span class="field">Change 
+        HTML in order to log AdClicks</span>' is enabled phpAdsNew will try to 
+        replaced these hard-coded URLs with the correct code to log AdClicks. 
+        If the HTML banners contains multiple links to multiple targets it will 
+        replace all links while keeping their target URLs intact.</p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
+        <tr>
+          <td>
+            <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
+              <tr>
+                <td>&lt;a href='http://www.foobar.com'&gt;Simple link&lt;/a&gt;</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <p><br>
+        <span class="subtitle">Forms</span><br>
+        If your HTML banner contains a form phpAdsNew can automatically alter 
+        the HTML in order to log AdClicks. The action parameter will be replaced 
+        with the AdClick loggin mechanism and the original parameter will be added 
+        as a hidden field. All fields which are not needed for the functioning 
+        of phpAdsNew will be passed on to the URL specified in the original action 
+        parameter. phpAdsNew can handle both GET and POST methods, but will always 
+        use the GET method to pass the contents fields to the original URL. The 
+        following fieldnames should not be used: bannerID, dest, ismap and cb.<br>
+      </p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
+        <tr>
+          <td>
+            <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
+              <tr>
+                <td>
+                  <p>&lt;form action='http://www.foobar.com/form.cgi'&gt;<br>
+                    &nbsp;&nbsp;&lt;input name='field1' type='text'&gt;<br>
+                    &nbsp;&nbsp;&lt;input name='field2' type='text'&gt;<br>
+                    &nbsp;&nbsp;&lt;input type='submit'&gt;<br>
+                    &lt;/form&gt;</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <p>&nbsp;</p>
+    </td>
+    <td class="plain">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td width="100" height="75"><a name="2"></a></td>
+    <td width="600" height="75">&nbsp;</td>
+    <td height="75">&nbsp;</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;5.1.2</td>
+    <td width="600" class="section" height="50">Inserting variables </td>
+    <td class="section" height="50">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td colspan="3">
+      <p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p>
+    </td>
+  </tr>
+  <tr bgcolor="#EFEFEF">
+    <td width="100">&nbsp;</td>
+    <td width="600" class="plain"> 
+      <p><br>
+        As you can read in the section above, phpAdsNew can automatically change 
+        HTML banner in a way clicks are automatically logged. In certain cases 
+        the HTML banner is just too complicated to let phpAdsNew do this automatically. 
+        In that case you need to do this manually. In order to make this as easy 
+        a possible a number of variables can be used to assist you. Each variable 
+        will be replaced with the appropriate code during the banner invocation.</p>
+      <p><span class="subtitle"><br>
+        {timestamp}</span><br>
+        You can use this variable to include a timestamp. This variable is replaced 
+        with the number of seconds since the UNIX-epoch.<br>
+      </p>
+      <p><span class="subtitle"><br>
+        {random}</span><br>
+        In certain cases, you may want to add a random string to your HTML banner. 
+        The string {random} will be replaced with a random number of eight digits. 
+        If you need a random number with a different length, you could optionally 
+        specify the length: {random:x} (x can be any number from 1 to 9).</p>
+      <p>If you use multiple random variables inside your HTML banner they will 
+        all be replaced with the same random string. There is an exception however: 
+        if you specify random variable of a different lenght than the previous 
+        random variable a new random number will be generated.</p>
+      <p><span class="subtitle"><br>
+        {bannerid}</span><br>
+        If you want to include the id of the banner, which is displayed in the 
+        HTML, you can use this variable. Every occurrence of the string '{bannerid}' 
+        will be replaced by the correct ID.</p>
+      <p><span class="subtitle"><br>
+        {targeturl}</span><br>
+        The {targeturl} variable is used for manually adding the AdClick log routines 
+        to your HTML banner. There are two different ways to use this variable: 
+        without an URL and with a URL.</p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
+              <tr> 
+                <td> 
+                  <p>&lt;a href='{targeturl}'&gt;Click me&lt;/a&gt;</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <p>The variable will be replaced with the correct code to log the click 
+        and redirect the browser to the URL you specified in the 'Linked to URL' 
+        field. If you specify this variable multiple times it will redirect to 
+        the url specified in the 'Linked to URL' field every time.</p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
+              <tr> 
+                <td> 
+                  <p>&lt;a href='{targeturl:http://www.foobar.com}'&gt;Click me&lt;/a&gt;</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <p>The variable will be replaced with the correct code to log the click 
+        and redirect the browser to the url you specified inside the variable, 
+        in this case www.foobar.com. You can specify this variable multiple times 
+        inside the same HTML code, even if your HTML code includes multiple links 
+        to different URLs. Every link will redirect to the URL specified and will 
+        log the click if the user decides to click on one of those links, for 
+        example:</p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
+              <tr> 
+                <td> 
+                  <p>&lt;a href='{targeturl:http://www.foobar.com/ }'&gt;Main 
+                    page&lt;/a&gt;<br>
+                    &lt;a href='{targeturl:http://www.foobar.com/producta/}'&gt;Product 
+                    A&lt;/a&gt;<br>
+                    &lt;a href='{targeturl:http://www.foobar.com/productb/}'&gt;Product 
+                    B&lt;/a&gt;</p>
+                  <p></p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <p>&nbsp;</p>
+    </td>
+    <td class="plain">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF"> 
+    <td width="100" height="75"><a name="3"></a></td>
+    <td width="600" height="75">&nbsp;</td>
+    <td height="75">&nbsp;</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr valign="BOTTOM" bgcolor="#FFFFFF"> 
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;5.1.3</td>
+    <td width="600" class="section" height="50">Embedding PHP code</td>
+    <td class="section" height="50">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF"> 
+    <td colspan="3"> 
+      <p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p>
+    </td>
+  </tr>
+  <tr bgcolor="#EFEFEF"> 
+    <td width="100">&nbsp;</td>
+    <td width="600" class="plain"> 
+      <p><br>
+        In certain cases you may want to embed PHP code inside an HTML banner. 
+        <br>
+        You can do this in the same way as you would normally embed PHP code inside 
+        an HTML document. PHP code starts with &lt;?php and ends with ?&gt;. All 
+        code between these two tags will be executed just as it would if it were 
+        embedded inside a normal HTML document.</p>
+      <p>There are some exceptions: It is not possible to define function or classes 
+        and include or require other files. The print(), echo and printf() functions 
+        will still work and can be used to print strings to the HTML banner.</p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
+              <tr> 
+                <td> 
+                  <p>&lt;a href='http://www.mybanner.com/click'&gt;<br>
+                    &lt;?php<br>
+                    &nbsp;&nbsp;echo &quot;The current time is: &quot;;<br>
+                    &nbsp;&nbsp;echo date (&quot;H:i:s&quot;);<br>
+                    ?&gt;<br>
+                    &lt;/a&gt;</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <p>&nbsp;</p>
+    </td>
+    <td class="plain">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF"> 
+    <td width="100" height="75">&nbsp;</td>
+    <td width="600" height="75">&nbsp;</td>
+    <td height="75">&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

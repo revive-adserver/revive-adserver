@@ -1,0 +1,154 @@
+<html>
+<head>
+<title>phpAdsNew Documentation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../index.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="30" bgcolor="#FFFFFF"><tr bgcolor="#EFEFEF"><td width="100" class="identification">&nbsp;&nbsp;phpAdsNew</td><td width="600" class="plain"><img src="../images/0-home.gif" width="16" height="15" align="ABSMIDDLE">&nbsp;&nbsp;<span class="subtitle"><a href="../index.html" class="subtitle">Home</a></span></td><td>&nbsp;</td></tr></table><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;3.2</td><td width="600" class="chapter" height="50">Invocation 
+Parameters</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-line-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#FFFFFF"><td width="100">&nbsp;</td><td width="600" class="plain"><p>The 
+following parameters are used to determine which banners will be displayed. They can be used in local mode and both types 
+of remote invocation. In local mode the parameters will have to be used with the view() function. In remote invocation the 
+parameters need to be added to the adview.php file. In remote invocation with JavaScript the parameters need to be added to 
+adjs.php.</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="50"><a name="1"></a></td><td width="600" height="50">&nbsp;</td><td height="50">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;3.2.1</td><td width="600" class="section" height="50">Quick 
+start guide to the 'what' parameter</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>The 
+&quot;what&quot; parameter is a very powerful method of selecting the right banner you want to display, but if you want to 
+keep it simple the 'what' parameter can also be very easy to use.</p><p>&nbsp;</p><p><span class="subtitle">Selecting a banner by 
+keyword<br></span>If you want to display a banner with a specific keyword you can simply specify that keyword as the 'what' 
+parameter.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td><p>view(&quot;main&quot;); 
+<br> &nbsp;&nbsp;Display a banner with the keyword 'main'<br><br>&lt;a href=&quot;adclick.php&quot;&gt;&lt;img src=&quot;adview.php?what=key1&quot;&gt;&lt;/a&gt;<br>&nbsp;&nbsp;Display 
+a banner with the keyword 'key1' </p></td></tr></table></td></tr></table><p>It is also possible to specify multiple keywords 
+as the 'what' parameter, separated by a comma (,). phpAdsNew will try to display a banner with one of these keywords.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td><p>view(&quot;main,top2&quot;); 
+<br> &nbsp;&nbsp;Display a banner with the keyword 'main' or 'top2'</p></td></tr></table></td></tr></table><p>&nbsp;</p><p><span class="subtitle">Selecting 
+a banner by size<br></span>If you need the banner to be a specific size you can specify the size as the 'what' parameter</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td><p>view(&quot;120x120&quot;); 
+<br> &nbsp;&nbsp;Display a banner with width 120 and height 120<br><br>&lt;a href=&quot;adclick.php&quot;&gt;&lt;img src=&quot;adview.php?what=468x60&quot;&gt;&lt;/a&gt;<br>&nbsp;&nbsp;Display 
+a banner with width 468 and height 60</p></td></tr></table></td></tr></table><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="2"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" bgcolor="#FFFFFF" height="50">&nbsp;&nbsp;3.2.2</td><td width="600" class="section" height="50">Advanced 
+configuration of the 'what' parameter</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>If 
+you want to tap in to power of the 'what' parameter and start using expressions, logical operators and different statements, 
+please read the following section very careful.</p><p>&nbsp;</p><p><span class="subtitle">Expressions<br></span>The &quot;what&quot; 
+parameter can consist of one or more expressions. Each expression will be executed when the previous expression has failed. 
+Multiple expression must be separated with the character | and may not be separated by spaces.<br> <br> If you don't provide 
+an expression and leave the &quot;what&quot; parameter empty phpAdsNew match any active banner and will display one randomly.</p><p>For 
+example if the first expression does not match any banner the second expression will be executed. If the second expression 
+does not match any banner the third expression will be executed. This also means that if the first expression does match a 
+banner, the second and third expression won't be executed.<br> You can specify as much expressions as you like, but each additional 
+expression may require some extra system resources, such a processing time and database queries.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>RIGHT: 
+expression1<br><br>RIGHT: expression1|expression2|expression3<br><br>WRONG: expression1 | expression2</td></tr></table></td></tr></table><p>&nbsp;</p><p><span class="subtitle">Logical 
+operators</span><br>Each expression can consist of one or more statements. Each statement tries to match one or more banners. 
+The simplest expression would only consist of one statement. phpAdsNew will try to find a banner that matches this statement. 
+However, it is possible to use multiple statements and use logical operators.<br> <br> The logical operators look a bit different 
+than the ones used in MySQL and PHP, but work the same way.<br> <br> Statements need to be separated by a comma (,) and a 
+statement can begin with a switch to set the behavior. Do not put a space between the operator and the statement.<br> <br> 
+If you separate statements without a switch, the separator will become an OR operator. </p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>statement,statement 
+<br> &nbsp;&nbsp;Meaning: statement OR statement </td></tr></table></td></tr></table><p>If you use the + or _ switch the separator 
+will become an AND operator. Please note: you can't use the + switch in remote invocation and must use the _ switch, which 
+means exactly the same.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>statement,+statement 
+<br>statement,_statement <br> &nbsp;&nbsp;Meaning: statement AND statement </td></tr></table></td></tr></table><p>If you use 
+the - switch the separator will become a NOT operator. You can use the - switch on the first statement.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>statement,-statement 
+<br>&nbsp;&nbsp;Meaning: statement NOT statement<br> <br>-statement,-statement<br> &nbsp;&nbsp;Meaning: NOT statement NOT 
+statement</td></tr></table></td></tr></table><p>For example</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>statement1,statement2,statement3 
+<br> &nbsp;&nbsp;Meaning: statement1 OR statement2 OR statement3 <br><br>statement1,+statement2,+statement3 <br> &nbsp;&nbsp;Meaning: 
+statement1 AND statement2 AND statement3 <br><br>statement1,+statement2,-statement3 <br> &nbsp;&nbsp;Meaning: statement1 AND 
+statement2 NOT statement3</td></tr></table></td></tr></table><p>OR takes precedence over AND and NOT. AND and NOT have equal 
+precedence. At this moment it is not possible to use parentheses to force precedence! </p><p>For example:</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>statement1,+statement2,statement3 
+<br>&nbsp;&nbsp;Meaning: (statement1 AND statement2) OR statement3 <br><br>statement1,+statement2,statement1,+statement3 <br>&nbsp;&nbsp;Meaning: 
+(statement1 AND statement2) OR (statement1 AND statement3)<br> &nbsp;&nbsp;Meaning: statement1 AND (statement2 OR statement3) 
+<br><br>statement1,statement2,-statement3 <br>&nbsp;&nbsp;Meaning statement1 OR (statement2 NOT statement3) <br><br>statement1,-statement3,statement2,-statement3 
+<br>&nbsp;&nbsp;Meaning (statement1 NOT statement3) OR (statement2 NOT statement3)<br> &nbsp;&nbsp;Meaning (statement1 OR 
+statement2) NOT statement3</td></tr></table></td></tr></table><p>&nbsp;</p><p><span class="subtitle">Statements</span><br>Each statement 
+tries to match a specific property of the available banners. </p><p><b><br>bannerid:[digits] or [digits]</b><br> You can match 
+a banner by looking at the banner ID property. phpAdsNew will try to find a banner with an ID equal to the digits you specified.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>1<br> 
+&nbsp;&nbsp;Match a banner with ID 1<br> <br>bannerid:23<br> &nbsp;&nbsp;Match a banner with ID 23</td></tr></table></td></tr></table><p><b><br>clientid:[digits]</b><br> 
+You can match a banner by looking at the ID of the owner of the banner. phpAdsNew will try to find a banner, which owner's 
+ID is equal to the digits you specified.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>clientid:32 
+<br>&nbsp;&nbsp;Match a banner which owner had ID 32</td></tr></table></td></tr></table><p><b><br>[width]x[height]</b><br> 
+You can match a banner by looking at the dimension of the banner. phpAdsNew will try to find a banner with the same width 
+and height you specified. </p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>468x60<br> 
+&nbsp;&nbsp;Match a banner with width 468 and height 60</td></tr></table></td></tr></table><p><b><br>width:[digits]</b><br> 
+It is also possible to match only by looking at the width of the banner, which could be very useful if you want to try and 
+build a vertical banner-bar.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>width:120<br> 
+&nbsp;&nbsp;Match a banner with width 120</td></tr></table></td></tr></table><p><b><br>format:[type] or html</b><br> You can 
+match a banner by looking at the banner format. phpAdsNew will try to find a banner with the same format as the type you specified. 
+If you want to match html banners you can use a shortcut and specify only 'html'.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>format:html<br> 
+&nbsp;&nbsp;Match a banner of type HTML<br> <br>html<br> &nbsp;&nbsp;Match a banner of type HTML</td></tr></table></td></tr></table><p><b><br>[keyword]</b><br> 
+You can match a banner by looking at the keywords of the banner. phpAdsNew will try to find a banner with the keyword you 
+specified. You can use digits in your keywords, but every keyword must contain at least one character other than a digit or 
+an 'x'. You can't use a colon (:) in your keywords.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>mybanners<br> 
+&nbsp;&nbsp;Match a banner with keyword &quot;mybanners&quot;<br><br>frontpage<br>&nbsp;&nbsp;Match a banner with keyword 
+&quot;frontpage&quot;</td></tr></table></td></tr></table><p>&nbsp;</p><p><span class="subtitle">The global keyword</span><br>In 
+phpAdsNew you can define global banners. You can add the &quot;global&quot; keyword to your banners through the admin interface. 
+Every banner with the &quot;global&quot; keyword will be considered a match.<br> <br> The behavior only works if you are using 
+one expression with only keywords. Otherwise you will have to add the &quot;global&quot; keyword to the expressions by hand.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>key1<br> 
+&nbsp;&nbsp;Meaning: Match a banner with keyword &quot;key1&quot; or &quot;global&quot;<br><br>key1|key2,global<br> &nbsp;&nbsp;Meaning: 
+Match a banner with the keyword &quot;key1&quot;. If there are no banners <br> &nbsp;&nbsp;with this keyword try to match 
+a banner with keyword &quot;key2&quot; or &quot;global&quot;<br> <br>key1|global<br> &nbsp;&nbsp;Meaning: Match a banner with 
+the keyword &quot;key1&quot;. If there are no matching <br> &nbsp;&nbsp;banners, match a banner with keyword &quot;global&quot;</td></tr></table></td></tr></table><p>&nbsp;</p><p><span class="subtitle">Creating 
+a fail-safe</span><br>In certain conditions you may want to automatically generate keywords and add these to your expression, 
+for example:</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>$weekday 
+= date(&quot;w&quot;); // 0=Sunday, 1=Monday, etc. <br>view (&quot;day$weekday&quot;);</td></tr></table></td></tr></table><p>The 
+above example will try to display a different banner for each day of the week. On Sunday it will try to display a banner with 
+the keyword &quot;day0&quot;, on Monday it will try to display a banner with the keyword &quot;day1&quot;, etc.<br> However 
+if you didn't define banners any banner with the keyword &quot;day3&quot;. phpAdsNew will not show any banners on Wednesday. 
+You may want to create a fail-safe. If there are no banners available for a certain day you want to display a general banner. 
+You could add some new banners and assign the keyword &quot;general&quot; to them. And use a construction like this:</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>$weekday 
+= date(&quot;w&quot;); // 0=Sunday, 1=Monday, etc. <br>view (&quot;day$weekday|general&quot;);</td></tr></table></td></tr></table><p>The 
+above example will try to display a banner for each day of the week, but if it can't find any banners on a specific day it 
+will try to display a banner with the keyword &quot;general&quot;.</p><p>&nbsp;</p><p class="subtitle">Examples</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>key1|main<br> 
+&nbsp;&nbsp;Match a banner with keyword &quot;key1&quot;. If there are no banners with <br> &nbsp;&nbsp;this keyword try to 
+match a banner with keyword &quot;main&quot;<br> <br>key1,key2|clientid:3<br> &nbsp;&nbsp;Match a banner with keyword &quot;key1&quot; 
+or &quot;key2&quot;. If there are no banners<br> &nbsp;&nbsp;with this keyword try to match a banner with client id 3<br> 
+<br>key1,-clientid:2<br> &nbsp;&nbsp;Match a banner with keyword &quot;key1&quot;, don't match banners with clientid 2.<br> 
+<br>4|clientid:2,clientid:4|key1|global<br> &nbsp;&nbsp;Match a banner with id 4. If there are no matching banners try to 
+match a<br> &nbsp;&nbsp;banner with client id 2 or 4. If there are no matching banners try to match<br> &nbsp;&nbsp;a banner 
+with keyword &quot;key1&quot;. If there are no matching banners try to match<br> &nbsp;&nbsp;a banner with keyword &quot;global&quot;.<br> 
+<br>html,+key1,+key2,-clientid:2<br> &nbsp;&nbsp;Match a html banner with keyword &quot;key1&quot; and &quot;key2&quot;, but 
+don't match banners<br> &nbsp;&nbsp;from client with ID 2.<br> <br>3,+468x60,4,+468x60,5,+468x60<br> &nbsp;&nbsp;Match a banner 
+with a width of 468 and a height of 60. <br> &nbsp;&nbsp;The banner ID must be 3, 4 or 5.<br> <br>key1,-468x60,key2,-468x60<br> 
+&nbsp;&nbsp;Match a banner with keyword &quot;key1&quot; or &quot;key2&quot;. <br> &nbsp;&nbsp;The banner must not have a 
+width of 468 and a height of 60</td></tr></table></td></tr></table><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="3"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;3.2.3</td><td width="600" class="section" height="50">The 
+clientID parameter</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>The 
+optional argument clientID allows you to retrieve only banners by a specific client. Specify &quot;&quot; to view banners 
+from all clients (in case you need the third or fourth argument, else don't specify it at all).</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>view(&quot;468x60&quot;, 
+1);</td></tr></table></td></tr></table><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="4"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;3.2.4</td><td width="600" class="section" height="50">The 
+target parameter</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>The 
+optional argument &quot;target&quot; allow you to specify a frame target to be used when the user clicks on the ad. For example, 
+use '_blank' to force a new browser window to open, '_top' to replace the current window (and break frames), etc. For more 
+information about this parameter you can take a look at the target attribute in the HTML specification.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>view(&quot;maingroup&quot;, 
+0, &quot;_blank&quot;);</td></tr></table></td></tr></table><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="5"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;3.2.5</td><td width="600" class="section" height="50">The 
+source parameter</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr><td width="100" bgcolor="#EFEFEF">&nbsp;</td><td width="600" class="plain" bgcolor="#EFEFEF"><p><br>The 
+optional argument &quot;source&quot; allows you to specify the name of the current page (for example: &quot;main page&quot; 
+or &quot;subpage1&quot;). Source ACL can then use this name to allow or deny banner displays on that page.</p><p>&nbsp;</p></td><td class="plain" bgcolor="#EFEFEF">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="6"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;3.2.6</td><td width="600" class="section" height="50">The 
+withText parameter</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>The 
+optional argument withText allows you to show a banner with its associated line of text below it (for example, &quot;Support 
+our sponsor&quot; is a common line of text). The &quot;WithText&quot; parameter is turned off by default. If want to turn 
+it on you should set this parameter to 1.</p><p>The withText parameter will not work with normal remote invocation, but can 
+be use with local mode, remote invocation with JavaScript and remote invocation for iframes.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>view(&quot;maingroup&quot;, 
+0, &quot;&quot;, 1);</td></tr></table></td></tr></table><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="7"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;3.2.7</td><td width="600" class="section" height="50">The 
+context parameter</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>The 
+optional argument &quot;context&quot; is an array specifying banners to limit the search to or/and banners to be excluded 
+from the search. It is an array containing as many associative arrays as you want. The key of the entries must either be &quot;==&quot; 
+to denote a banner to which the search is limited to or &quot;!=&quot; to denote a banner to be excluded from the search. 
+The value of an entry is a banner ID. </p><p>The context parameter will only work in local mode.<br><br>For example, to show 
+the same randomly selected banner on the top and bottom of a page, you could use the following:</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>// 
+Top of the page: <br>$id = view(&quot;main&quot;); <br><br>// Bottom of the page <br>$arr = array( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array(&quot;==&quot; 
+=&gt; $id) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;); <br><br>view(&quot;main&quot;, 0, 
+&quot;&quot;, &quot;&quot;, 1, $arr);</td></tr></table></td></tr></table><p>To make sure that the page does not show the same 
+banner two times, you could use this:</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>// 
+Top of the page: <br>$id = view(&quot;main&quot;); <br><br>// Bottom of the page <br>$arr = array( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array(&quot;!=&quot; 
+=&gt; $id) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;); <br><br>view(&quot;main&quot;, 0, 
+&quot;&quot;, &quot;&quot;, 1, $arr);</td></tr></table></td></tr></table><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="8"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;3.2.8</td><td width="600" class="section" height="50">The 
+refresh parameter</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>If 
+you want to automatically refresh the selected banner you can specify the amount of seconds between each reload. This parameter 
+will only work for Remote Invocation for iframes.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>&lt;iframe 
+src='adframe.php?what=468x60&amp;refresh=20' <br>framespacing='0' frameborder='no'&gt;&lt;/iframe&gt;</td></tr></table></td></tr></table><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="9"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;3.2.9</td><td width="600" class="section" height="50">Some 
+examples</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><br><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>view(1); 
+<br>&nbsp;&nbsp;Displays the banner with the bannerID of 1. <br> <br>view(&quot;html&quot;); <br>&nbsp;&nbsp;Displays a randomly 
+selected HTML banner <br> <br>view(&quot;468x60&quot;, 0, &quot;_blank&quot;); <br>&nbsp;&nbsp;Displays a randomly selected 
+banner with a width of 468 pixels <br>&nbsp;&nbsp;and a height of 60 pixels. If user clicks on it, the target <br>&nbsp;&nbsp;destination 
+will be opened in a new window. <br><br>view(&quot;mybanners&quot;); <br>&nbsp;&nbsp;Displays a randomly selected banner from 
+the group <br>&nbsp;&nbsp;&quot;mybanners&quot; (in other words: with that keyword). <br><br>view(&quot;&quot;, 0, &quot;_blank&quot;, 
+&quot;Main&quot;); <br>&nbsp;&nbsp;Displays a randomly selected banner which does not have <br>&nbsp;&nbsp;a Deny for Source 
+ACL on &quot;Main&quot; </td></tr></table></td></tr></table><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75">&nbsp;</td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><p>&nbsp;</p>
+</body>
+</html>

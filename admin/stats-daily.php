@@ -157,18 +157,18 @@ function showHourlyStats($what)
 		$i++;       
 		?>
 		<tr>
-			<td height='25' bgcolor="<?print $bgcolor;?>">
-				&nbsp;<? print $row["hour"];?>:00
+			<td height='25' bgcolor="<?php print $bgcolor;?>">
+				&nbsp;<?php print $row["hour"];?>:00
 			</td>
-			<td height='25' bgcolor="<?print $bgcolor;?>" align='right'>
-			    <b><?print $row["qnt"];?></b>&nbsp;&nbsp;&nbsp;
+			<td height='25' bgcolor="<?php print $bgcolor;?>" align='right'>
+			    <b><?php print $row["qnt"];?></b>&nbsp;&nbsp;&nbsp;
 			</td>
-			<td height='25' bgcolor="<?print $bgcolor;?>" align='left'>
-				<img src="images/bar.gif" width="<?print ($row["qnt"]*300)/$max;?>" height="11"><img src="images/bar_off.gif" width="<?print 300-(($row["qnt"]*300)/$max);?>" height="11">
+			<td height='25' bgcolor="<?php print $bgcolor;?>" align='left'>
+				<img src="images/bar.gif" width="<?php print ($row["qnt"]*300)/$max;?>" height="11"><img src="images/bar_off.gif" width="<?php print 300-(($row["qnt"]*300)/$max);?>" height="11">
 			</td>
 		</tr>
 		<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-		<?
+		<?php
 	}
 }
 
@@ -181,38 +181,38 @@ function showHourlyStats($what)
 ?>
 
 <table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
-	<tr><td height='25' colspan='4'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?echo phpAds_getParentName($campaignID);?>
+	<tr><td height='25' colspan='4'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getParentName($campaignID);?>
 									&nbsp;<img src='images/caret-rs.gif'>&nbsp;
-									<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<?echo phpAds_getClientName($campaignID);?>
+									<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getClientName($campaignID);?>
 									&nbsp;<img src='images/caret-rs.gif'>&nbsp;
-									<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b><?echo phpAds_getBannerName($bannerID);?></b></td></tr>
+									<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b><?php echo phpAds_getBannerName($bannerID);?></b></td></tr>
   <tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-  <tr><td colspan='4' align='left'><br><?echo phpAds_getBannerCode($bannerID);?><br><br></td></tr>
+  <tr><td colspan='4' align='left'><br><?php echo phpAds_getBannerCode($bannerID);?><br><br></td></tr>
 </table>
 
 <br><br>
 
 <table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
-  <tr><td height='25' colspan='3'><b><?print $strViews;?></b></td></tr>
+  <tr><td height='25' colspan='3'><b><?php print $strViews;?></b></td></tr>
   <tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-  <? showHourlyStats("$phpAds_tbl_adviews");; ?>
+  <?php showHourlyStats("$phpAds_tbl_adviews");; ?>
 </table>
 
 <br><br>
 
 <table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
-  <tr><td height='25' colspan='3'><b><?print $strClicks;?></b></td></tr>
+  <tr><td height='25' colspan='3'><b><?php print $strClicks;?></b></td></tr>
   <tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-  <? showHourlyStats("$phpAds_tbl_adclicks");; ?>
+  <?php showHourlyStats("$phpAds_tbl_adclicks"); ?>
 </table>
 
 <br><br>
 
-<? if (!$phpAds_compact_stats) { ?>
+<?php if (!$phpAds_compact_stats) { ?>
 <table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
-  <tr><td height='25' colspan='2'><b><?print $strTopTenHosts;?></b></td></tr>
+  <tr><td height='25' colspan='2'><b><?php print $strTopTenHosts;?></b></td></tr>
   <tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-  <?
+  <?php
     	$result = db_query("
         		SELECT
         			*,
@@ -237,15 +237,15 @@ function showHourlyStats($what)
         		$i++;
         		?>
         		<tr>
-        			<td height='25' bgcolor="<?print $bgcolor;?>">
-        			&nbsp;<?print $row["host"];?>
+        			<td height='25' bgcolor="<?php print $bgcolor;?>">
+        			&nbsp;<?php print $row["host"];?>
         			</td>
-        			<td height='25' bgcolor="<?print $bgcolor;?>">
-        			<b><?print $row["qnt"];?></b>
+        			<td height='25' bgcolor="<?php print $bgcolor;?>">
+        			<b><?php print $row["qnt"];?></b>
         			</td>
         		</tr>
 				<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-        		<?
+        		<?php
         	}
         }
     ?>
@@ -253,7 +253,7 @@ function showHourlyStats($what)
 
 
 
-<?
+<?php
 
 /*********************************************************/
 /* HTML framework                                        */

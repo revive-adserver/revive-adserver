@@ -50,10 +50,15 @@ if (isset($bannerID) && !isset($what))
 		{
 			Header("Location: $row[banner]");
 		} 
+		elseif ($row["format"] == "swf")
+		{
+			Header("Content-type: application/x-shockwave-flash; name=".microtime()."\n");
+			echo $row["banner"];
+		}
 		else 
 		{
-			Header("Content-type: image/$row[format]");
-			print $row["banner"];
+			Header("Content-type: image/".$row['format']."; name=".microtime());
+			echo $row["banner"];
 		}
 	}
 }
@@ -95,25 +100,27 @@ else
 			SetCookie("bannerNum", $row["bannerID"], 0, $url["path"]);
 			if(isset($n)) SetCookie("banID[$n]", $row["bannerID"], 0, $url["path"]);
 			
+			
 			if ($row["format"] == "html")
 			{
 				echo $row["banner"];
-				log_adview($row["bannerID"], $row["clientID"]);
+			}
+			elseif ($row["format"] == "url" || $row["format"] == "web")
+			{
+				Header("Location: $row[banner]");
+			}
+			elseif ($row["format"] == "swf")
+			{
+				Header("Content-type: application/x-shockwave-flash; name=".microtime()."\n");
+				echo $row["banner"];
 			}
 			else
 			{
-				if($row["format"] == "url" || $row["format"] == "web")
-				{
-					Header("Location: $row[banner]");
-					log_adview($row["bannerID"], $row["clientID"]);
-				}
-				else
-				{
-					Header("Content-type: image/$row[format]; name=".microtime());
-					echo $row["banner"];
-					log_adview($row["bannerID"], $row["clientID"]);
-				}
+				Header("Content-type: image/".$row['format']."; name=".microtime());
+				echo $row["banner"];
 			}
+			
+			log_adview($row["bannerID"], $row["clientID"]);
 		}
 		else
 		{

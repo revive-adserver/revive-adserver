@@ -29,6 +29,16 @@ phpAds_checkAccess(phpAds_Admin);
 /* Process submitted form                                */
 /*********************************************************/
 
+
+// Convert weekday and time to usable string
+if (isset($acl_data) && isset($acl_type) &&
+	($acl_type == 'time' || $acl_type == 'weekday'))
+{
+	if (is_array($acl_data))
+		$acl_data = implode (',', $acl_data);
+}
+
+
 if (isset($btndel_x))
 {
 	if (!isset($acl_order)) 
@@ -66,7 +76,8 @@ if (isset($btnsave_x))
 		$res = db_query("
 			UPDATE $phpAds_tbl_acls SET
 			acl_type = '$acl_type', acl_data = '$acl_data',
-			acl_ad = '$acl_ad' where bannerID = $bannerID 
+			acl_ad = '$acl_ad', acl_con = '$acl_con' 
+			where bannerID = $bannerID 
 			AND acl_order = $acl_order") or mysql_die();
 		
 		phpAds_ShowMessage("$strACL $strUpdated");
@@ -77,7 +88,7 @@ if (isset($btnsave_x))
 			INSERT into $phpAds_tbl_acls SET
 			acl_order = $acl_order, bannerID = $bannerID,
 			acl_type = '$acl_type', acl_data = '$acl_data',
-			acl_ad = '$acl_ad'") or mysql_die();
+			acl_ad = '$acl_ad', acl_con = '$acl_con'") or mysql_die();
 		phpAds_ShowMessage("$strACL $strSaved");
 	}
 }
@@ -107,7 +118,7 @@ if (isset($btnup_x))
 		INSERT into $phpAds_tbl_acls SET
 		acl_order = $new_acl_order, bannerID = $bannerID,
 		acl_type = '$acl_type', acl_data = '$acl_data',
-		acl_ad = '$acl_ad'") or mysql_die();
+		acl_ad = '$acl_ad', acl_con = '$acl_con'") or mysql_die();
 	
 	phpAds_ShowMessage("$strACL $strMovedUp");
 }
@@ -131,7 +142,7 @@ if (isset($btndown_x))
 		INSERT into $phpAds_tbl_acls SET
 		acl_order = $new_acl_order, bannerID = $bannerID,
 		acl_type = '$acl_type', acl_data = '$acl_data',
-		acl_ad = '$acl_ad'") or mysql_die();
+		acl_ad = '$acl_ad', acl_con = '$acl_con'") or mysql_die();
 	
 	phpAds_ShowMessage("$strACL $strMovedDown");
 }
@@ -191,32 +202,24 @@ phpAds_PageHeader("4.1.3", $extra);
 /* Main code                                             */
 /*********************************************************/
 
-?>
+echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
+echo "<tr><td height='25' colspan='4'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignID);
+echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignID);
+echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+if ($bannerID != '')
+	echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerID)."</b></td></tr>";
+else
+	echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;".$strUntitled."</td></tr>";
+echo "<tr><td height='1' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+if ($bannerID != '')
+	echo "<tr><td align='left'><br>".phpAds_getBannerCode($bannerID)."<br><br></td></tr>";
+
+echo "</table>";
+echo "<br><br>";
 
 
-<table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
-	<tr><td height='25' colspan='4'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?echo phpAds_getParentName($campaignID);?>
-									&nbsp;<img src='images/caret-rs.gif'>&nbsp;
-									<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<?echo phpAds_getClientName($campaignID);?>
-									&nbsp;<img src='images/caret-rs.gif'>&nbsp;
-									<? if ($bannerID != '') { ?>
-									<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b><?echo phpAds_getBannerName($bannerID);?></b></td></tr>
-									<? } else { ?>
-									<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<?echo $strUntitled; ?></td></tr>
-									<? } ?>
-  <tr><td height='1' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-  <?
-	if ($bannerID != '')
-		echo "<tr><td align='left'><br>".phpAds_getBannerCode($bannerID)."<br><br></td></tr>";
-  ?>
-</table>
-
-<br><br>
-
-<?
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-
-
+// Fetch all ACLs from the database
 $res = db_query("
 	SELECT
 		*
@@ -226,39 +229,62 @@ $res = db_query("
 		bannerID = $bannerID ORDER by acl_order
 	") or mysql_die();
 
-$count = mysql_num_rows($res);
+$count = mysql_num_rows ($res);
+
+
+// Display all ACLs
 if ($count > 0)
 {
-	echo "<tr><td height='25' colspan='7'><b>$strACLExist</b></td></tr>";
-	echo "<tr><td height='1' colspan='7' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	// Show header
+	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+	echo "<tr><td height='25' colspan='4'><b>".$strOnlyDisplayWhen."</b></td></tr>";
+	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	
 	$i = 0;
-	while ($row = mysql_fetch_array($res))	// acl array already sorted by select
+	$previous_type = '';
+	
+	// Get next ACL
+	while ($row = mysql_fetch_array ($res))
 	{
-		showaclrow($row, $count, 1, $i);
-		$i++;
+		if ($row['acl_con'] == 'or')
+		{
+			echo "<tr><td colspan='4'><img src='images/break.gif' width='100%' height='1'></td></tr>";
+			$i++;
+		}
+		else
+			if ($previous_type != '') echo "<tr><td colspan='4'><img src='images/break-el.gif' width='100%' height='1'></td></tr>";
+		
+		// Show Row
+		phpAds_ShowRow ($row, $count, 1, $i);
+		
+		$previous_type = $row['acl_type'];
 	}
 	
+	// Show Footer
+	if ($row['acl_type'] != $previous_type && $previous_type != '')
+	{
+		echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	}
+	
+	echo "</table>";
 }
 
-?>
 
-	<tr><td height='35' colspan='7'>&nbsp;</td></tr>
-	<tr><td height='25' colspan='7'><b><? echo $strACLAdd; ?></b></td></tr>
-	<tr><td height='1' colspan='7' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-	<?
-	$newdata['acl_order'] = $count;
-	$newdata['bannerID'] = $bannerID;
-	showaclrow($newdata, 0, 0, 0);
-?>
-</table>
+// Show new ACL form
+echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+echo "<tr><td height='35' colspan='7'>&nbsp;</td></tr>";
+echo "<tr><td height='25' colspan='7'><b>".$strACLAdd."</b></td></tr>";
+echo "<tr><td height='1' colspan='7' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 
-<br><br>
+$newdata['acl_order'] = $count;
+$newdata['bannerID'] = $bannerID;
+phpAds_ShowRow ($newdata, 0, 0, 0);
+
+echo "</table>";
+echo "<br><br>";
 
 
-<?	
-
-// Show acl help file
+// Show Acl help file
 include("../language/banneracl.".$phpAds_language.".inc.php");
 
 

@@ -16,19 +16,54 @@
 
 // Define variable types
 $acl_types = array(
-		'none'	   => '',
-		'clientip' => $strClientIP,
-		'useragent' => $strUserAgent,
-		'weekday'  => $strWeekDay,
-		'domain'  => $strDomain,
-		'source'  => $strSource,
-		'time'    => $strTime
+		'none'		=> '',
+		'clientip'	=> $strClientIP,
+		'useragent'	=> $strUserAgent,
+		'weekday'	=> $strWeekDay,
+		'domain'	=> $strDomain,
+		'source'	=> $strSource,
+		'time'		=> $strTime,
+		'language'	=> $strLanguage
 	);
 
 $aclad_types = array(
-		'allow' => $strAllow,
-		'deny'  => $strDeny
+		'allow' => $strEqualTo,
+		'deny'  => $strDifferentFrom
 	);
+
+$aclcon_types = array(
+		'or'  => $strOR,
+		'and' => $strAND
+	);
+
+
+/*********************************************************/
+/* Generate condition selection                          */
+/*********************************************************/
+
+function phpAds_ACLConditionSelect ($default, $acl_order)
+{
+	global $aclcon_types;
+	
+	if ($acl_order == 0)
+	{
+		echo "<input type='hidden' name='acl_con' value='and'>&nbsp;";
+	}
+	else
+	{
+		echo "<select name='acl_con'>";
+		
+		reset($aclcon_types);
+		while (list ($aclcon_type, $aclcon_name) = each ($aclcon_types))
+		{
+			echo "<option value=";
+			printf("\"%s\" %s>", $aclcon_type, $aclcon_type == $default ? 'selected':''); 
+			echo "$aclcon_name\n";
+		}
+		
+		echo "</select>";
+	}
+}
 
 
 
@@ -36,7 +71,7 @@ $aclad_types = array(
 /* Generate type selection                               */
 /*********************************************************/
 
-function acltypeselect($default)
+function phpAds_ACLTypeSelect ($default)
 {
 	global $acl_types;
 	
@@ -59,7 +94,7 @@ function acltypeselect($default)
 /* Generate allow/deny selection                         */
 /*********************************************************/
 
-function acladselect($default)
+function phpAds_ACLAdSelect ($default)
 {
 	global $aclad_types;
 	
@@ -82,55 +117,99 @@ function acladselect($default)
 /* Generate ACL form                                     */
 /*********************************************************/
 
-function showaclrow($row, $total, $update, $count=1) 
+function phpAds_ShowRow ($row, $total, $update, $count=1) 
 {
-	global $PHP_SELF, $strSave, $strDelete, $strUp, $strDown, $campaignID;
+	global $PHP_SELF, $strSave, $strDelete, $strUp, $strDown, $campaignID, $strDayShortCuts;
 	
 	$bgcolor = $count % 2 == 0 ? "#F6F6F6" : "#FFFFFF";
 	
-	?>
-	<tr bgcolor='<?echo $bgcolor?>'>
-		<form action="<?echo basename($PHP_SELF);?>" method="get">
-		<input type="hidden" name="campaignID" value="<? echo $campaignID; ?>">
-		<input type="hidden" name="bannerID" value="<? print $row['bannerID']; ?>">
-		<input type="hidden" name="acl_order" value="<? print $row['acl_order']; ?>">
-		<input type="hidden" name="update" value="<? print $update; ?>">
-
-		<td height='35'>
-			&nbsp;<? acltypeselect(isset($row['acl_type']) ? $row['acl_type'] : ""); ?>
-		</td>
-		<td height='35'>
-			<? acladselect(isset($row['acl_ad']) ? $row['acl_ad']: ""); ?>&nbsp;&nbsp;
-		</td>
-		<td height='35'>
-			<input type="text" size="40" name="acl_data" value="<? print isset($row['acl_data']) ? $row['acl_data'] : ""; ?>">
-		</td>
-		<td height='35' colspan='4' align='right'>
-			<? if ($row['acl_order'] && $row['acl_order'] < $total) { ?>
-				<input type="image" name="btnup" src='images/triangle-u.gif' border='0' alt='<?print $strUp?>'>
-			<? } else { ?>
-				<img src='images/triangle-u-d.gif' alt='<?print $strUp?>'>
-			<? } ?>
-
-			<? if ($row['acl_order'] < $total - 1) { ?>
-				<input type="image" name="btndown" src='images/triangle-d.gif' border='0' alt='<?print $strDown?>'>
-			<? } else { ?>
-				<img src='images/triangle-d-d.gif' alt='<?print $strDown?>'>
-			<? } ?>
-
-			<? if ($row['acl_order'] < $total) { ?>
-				<input type="image" name="btndel" src='images/icon-recycle.gif' border='0' alt='<?print $strDelete?>'>
-			<? } else { ?>
-				<img src='images/icon-recycle-d.gif' alt='<?print $strDelete?>'>
-			<? } ?>
-			
-			<input type="image" name="btnsave" src='images/save.gif' border='0' alt='<?print $strSave?>'>
-			&nbsp;
-		</td>
-		</form>
-	</tr>
-	<tr><td height='1' colspan='7' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-	<?
+	
+	// Begin form
+	echo "<tr height='35' bgcolor='$bgcolor'>";
+	echo "<form action='".basename($PHP_SELF)."' method='get'>";
+	echo "<input type='hidden' name='campaignID' value='".$campaignID."'>";
+	echo "<input type='hidden' name='bannerID' value='".$row['bannerID']."'>";
+	echo "<input type='hidden' name='acl_order' value='".$row['acl_order']."'>";
+	echo "<input type='hidden' name='update' value='".$update."'>";
+	
+	
+	echo "<td width='75'>&nbsp;";
+	phpAds_ACLConditionSelect (isset($row['acl_con']) ? $row['acl_con'] : "", isset($row['acl_order']) ? $row['acl_order'] : "");
+	echo "</td><td width='175'>";
+	phpAds_ACLTypeSelect (isset($row['acl_type']) ? $row['acl_type'] : "");
+	echo "</td><td width='350' colspan='2'>";
+	phpAds_ACLAdSelect (isset($row['acl_ad']) ? $row['acl_ad']: "");
+	echo "</td></tr>";
+	
+	
+	// Show ACL data
+	echo "<tr bgcolor='$bgcolor'><td>&nbsp;</td><td>&nbsp;</td><td colspan='2'>";
+	
+	if ($row['acl_type'] == 'weekday')
+	{
+		$data_array = explode (',', $row['acl_data']);
+		
+		echo "<table width='275' cellpadding='0' cellspacing='0' border='0'>";
+		for ($i = 0; $i < 7; $i++)
+		{
+			if ($i % 4 == 0) echo "<tr>";
+			echo "<td><input type='checkbox' name='acl_data[]' value='$i'".($row['acl_data'] == '*' || in_array ($i, $data_array) ? ' CHECKED' : '').">&nbsp;".$strDayShortCuts[$i]."&nbsp;&nbsp;</td>";
+			if (($i + 1) % 4 == 0) echo "</tr>";
+		}
+		if (($i + 1) % 4 != 0) echo "</tr>";
+		echo "</table>";
+	}
+	elseif ($row['acl_type'] == 'time')
+	{
+		$data_array = explode (',', $row['acl_data']);
+		
+		echo "<table width='275' cellpadding='0' cellspacing='0' border='0'>";
+		for ($i = 0; $i < 24; $i++)
+		{
+			if ($i % 4 == 0) echo "<tr>";
+			echo "<td><input type='checkbox' name='acl_data[]' value='$i'".($row['acl_data'] == '*' || in_array ($i, $data_array) ? ' CHECKED' : '').">&nbsp;".$i.":00&nbsp;&nbsp;</td>";
+			if (($i + 1) % 4 == 0) echo "</tr>";
+		}
+		if (($i + 1) % 4 != 0) echo "</tr>";
+		echo "</table>";
+	}
+	else
+	{
+		echo "<input type='text' size='40' name='acl_data' value='".(isset($row['acl_data']) ? $row['acl_data'] : "")."'>";
+	}
+	
+	echo "</td></tr>";
+	
+	
+	// Show buttons
+	echo "<tr height='35' bgcolor='$bgcolor'><td>&nbsp;</td><td>&nbsp;</td><td>";
+	echo "<input type='image' name='btnsave' src='images/save.gif' border='0' align='absmiddle' alt='$strSave'>";
+	echo "&nbsp;&nbsp;";
+	
+	if ($row['acl_order'] < $total)
+		echo "<input type='image' name='btndel' src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>";
+	else
+		echo "<img src='images/icon-recycle-d.gif' align='absmiddle' alt='$strDelete'>";
+	echo "&nbsp;&nbsp;";
+	
+	echo "</td><td align='right'>";
+	
+	if ($row['acl_order'] && $row['acl_order'] < $total)
+		echo "<input type='image' name='btnup' src='images/triangle-u.gif' border='0' alt='$strUp'>";
+	else
+		echo "<img src='images/triangle-u-d.gif' alt='$strUp'>";
+	
+	if ($row['acl_order'] < $total - 1)
+		echo "<input type='image' name='btndown' src='images/triangle-d.gif' border='0' alt='$strDown'>";
+	else
+		echo "<img src='images/triangle-d-d.gif' alt='$strDown'>";
+	
+	echo "&nbsp;</td>";
+	
+	
+	// End of form
+	echo "</form>";
+	echo "</tr>";
 }
 
 ?>

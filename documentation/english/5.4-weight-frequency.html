@@ -1,0 +1,448 @@
+<html>
+<head>
+<title>phpAdsNew Documentation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../index.css" type="text/css">
+</head>
+<body bgcolor="#FFFFFF" text="#000000" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="30" bgcolor="#FFFFFF">
+  <tr bgcolor="#EFEFEF">
+    <td width="100" class="identification">&nbsp;&nbsp;phpAdsNew</td>
+    <td width="600" class="plain"><img src="../images/0-home.gif" width="16" height="15" align="ABSMIDDLE">&nbsp;&nbsp;<span class="subtitle"><a href="../index.html" class="subtitle">Home</a></span></td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;5.4</td>
+    <td width="600" class="chapter" height="50">Weight and impression frequency</td>
+    <td class="section" height="50">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td colspan="3">
+      <p><img src="../images/0-line-gray.gif" width="100%" height="16"></p>
+    </td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td width="100">&nbsp;</td>
+    <td width="600" class="plain">
+      <p>Let's say you just added all kinds of banners to phpAdsNew. Everything 
+        works perfectly, but one client wants to have his banner displayed twice 
+        as much. It is quite easy to achieve this behaviour. The probability of 
+        how much a banner is displayed is affected by two things. The campaign 
+        weight and the banner weight.</p>
+    </td>
+    <td class="plain">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td width="100" height="50"><a name="1"></a></td>
+    <td width="600" height="50">&nbsp;</td>
+    <td height="50">&nbsp;</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;5.4.1</td>
+    <td width="600" class="section" height="50">Banner Weight</td>
+    <td class="section" height="50">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td colspan="3">
+      <p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p>
+    </td>
+  </tr>
+  <tr bgcolor="#EFEFEF"> 
+    <td width="100" bgcolor="#EFEFEF">&nbsp;</td>
+    <td width="600" class="plain">
+      <p><br>
+        First let me explain the banner weight. By default all banners have the 
+        same weight of 1. This means every banner has the same probability of 
+        being displayed. By using the admin interface you could change the banner 
+        weight of one or more banners to another value. For example if you change 
+        the banner weight of banner A to 2 and the weight of banner B is 2, banner 
+        A will be displayed twice as much as banner B. If you decide to set banner 
+        A to a weight of 10, banner A will be displayed 10 times as much as banner 
+        B.</p>
+      <P>By altering the weight it is possible to determine which banners will 
+        be displayed more frequently. This way you could decide to show important 
+        banners more frequently and provide a better service to a client and help 
+        him create a bigger impact of his banners:<BR>
+        The frequency of how much a banner is displayed is directly affected by 
+        the weight of the banner.<BR>
+      </P>
+      <table width="600" border="0" cellspacing="0" cellpadding="0" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" border="0" cellspacing="1" cellpadding="3" class="cell">
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="."><b>Banner A</b></td>
+                <td height=".">Weight 4 </td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="."><b>Banner B</b></td>
+                <td height=".">Weight 12 </td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="."><b>Banner C</b></td>
+                <td height=".">Weight 3</td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="."><b>Banner D</b></td>
+                <td height=".">Weight 1</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <P><br>
+        The total weight of all banners is 20. It is now quite easy to determine 
+        how many times each banner will be displayed. A banner with weight 1 will 
+        be displayed in 1/20th = 5% of all impressions.<br>
+      </P>
+      <table width="600" border="0" cellspacing="0" cellpadding="0" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" class="cell" border="0" cellpadding="3" cellspacing="1">
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%"><b>Banner A</b></td>
+                <td width="15%">Weight 4 </td>
+                <td width="70%">Will be displayed in 4/20th = 20% of all impressions</td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%"><b>Banner B</b></td>
+                <td width="15%">Weight 12 </td>
+                <td width="70%">Will be displayed in 12/20th = 60% of all impressions 
+                </td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%"><b>Banner C</b></td>
+                <td width="15%">Weight 3</td>
+                <td width="70%">Will be displayed in 3/20th = 15% of all impressions</td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%"><b>Banner D</b></td>
+                <td width="15%">Weight 1</td>
+                <td width="70%">Will be displayed in 1/20th = 5% of all impressions</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <P><br>
+        If we add the average number of impressions each day to the equation it 
+        is very simple to determine how many impressions each add will get on 
+        any given day.<BR>
+        For example: the average number of impressions each day is 20000, the 
+        results would be:</P>
+      <table width="600" border="0" cellspacing="0" cellpadding="0" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" class="cell" border="0" cellpadding="3" cellspacing="1">
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="0"><b>Banner A</b></td>
+                <td width="15%" height="0">Weight 4 </td>
+                <td width="15%" height="0">20%</td>
+                <td width="55%" height="0">4000 impressions each day</td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="0"><b>Banner B</b></td>
+                <td width="15%" height="0">Weight 12 </td>
+                <td width="15%" height="0">60%</td>
+                <td width="55%" height="0">12000 impressions each day</td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="0"><b>Banner C</b></td>
+                <td width="15%" height="0">Weight 3</td>
+                <td width="15%" height="0">15%</td>
+                <td width="55%" height="0">3000 impressions each day</td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="22"><b>Banner D</b></td>
+                <td width="15%" height="22">Weight 1</td>
+                <td width="15%" height="22">5%</td>
+                <td width="55%" height="22">1000 impressions each day</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <P><br>
+        Of course it is impossible to predict the exact number of impressions, 
+        due to variations in the actual number of impressions each day. Also if 
+        you use random retrieval the banners are selected randomly. The random 
+        number generator used is quite good, but it may not distribute impressions 
+        evenly over a short period. There is nothing to worry about, statistically 
+        it will be distributed evenly over a longer period.<BR>
+      </P>
+      <p>&nbsp;</p>
+    </td>
+    <td class="plain">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td width="100" height="75"><a name="2"></a></td>
+    <td width="600" height="75">&nbsp;</td>
+    <td height="75">&nbsp;</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" bgcolor="#FFFFFF" height="50">&nbsp;&nbsp;5.4.2</td>
+    <td width="600" class="section" height="50">Campaign Weight</td>
+    <td class="section" height="50">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td colspan="3">
+      <p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p>
+    </td>
+  </tr>
+  <tr bgcolor="#EFEFEF">
+    <td width="100">&nbsp;</td>
+    <td width="600" class="plain">
+      <p><br>
+        The next factor which affect the number of times a banner is displayed 
+        is campaign weight. If you have read the section about banner weight you 
+        will find this very easy. It is just an extension to the already described 
+        system.</p>
+      <P>For example: if you take the example from the previous section and divide 
+        the banners into two different campaigns:</P>
+      <table width="600" border="0" cellspacing="0" cellpadding="0" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" class="cell" border="0" cellpadding="3" cellspacing="1">
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="0"><b>Campaign N</b></td>
+                <td height="0">&nbsp;</td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="0">Banner A</td>
+                <td height="0">Weight 4 </td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="0">Banner B</td>
+                <td height="0">Weight 12 </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <br>
+      <table width="600" border="0" cellspacing="0" cellpadding="0" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" class="cell" border="0" cellpadding="3" cellspacing="1">
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="0"><b>Campaign M</b></td>
+                <td height="0">&nbsp;</td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="0">Banner C</td>
+                <td height="0">Weight 3</td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="22">Banner D</td>
+                <td height="22">Weight 1</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <p></p>
+      <P><br>
+        If we should set the weight of campaign M to 2 all banners which belong 
+        to this campaign will be displayed more often than before:</P>
+      <table width="600" border="0" cellspacing="0" cellpadding="0" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" class="cell" border="0" cellpadding="3" cellspacing="1">
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="0"><b>Campaign N</b></td>
+                <td width="15%" height="0">Weight 1</td>
+                <td height="0">&nbsp;</td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="0">Banner A</td>
+                <td width="15%" height="0">Weight 4 </td>
+                <td height="0">Campaign Weight (1) * Banner Weight (4) = 4</td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="0">Banner B</td>
+                <td width="15%" height="0">Weight 12 </td>
+                <td height="0">Campaign Weight (1) * Banner Weight (12) = 12</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <br>
+      <table width="600" border="0" cellspacing="0" cellpadding="0" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" class="cell" border="0" cellpadding="3" cellspacing="1">
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="0"><b>Campaign M</b></td>
+                <td width="15%" height="0">Weight 2</td>
+                <td height="0">&nbsp;</td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="0">Banner C</td>
+                <td width="15%" height="0">Weight 3</td>
+                <td height="0">Campaign Weight (2) * Banner Weight (3) = 6</td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="22">Banner D</td>
+                <td width="15%" height="22">Weight 1</td>
+                <td height="22">Campaign Weight (2) * Banner Weight (1) = 2</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <p></p>
+      <P><br>
+        The total weight of all banners is now 24, which will result in the following 
+        impressions:</P>
+      <table width="600" border="0" cellspacing="0" cellpadding="0" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" class="cell" border="0" cellpadding="3" cellspacing="1">
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="0"><b>Campaign N</b></td>
+                <td width="15%" height="0">Weight 1</td>
+                <td width="15%" height="0">&nbsp;</td>
+                <td width="15%" height="0">&nbsp;</td>
+                <td width="40%" height="0">&nbsp;</td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="0">Banner A</td>
+                <td width="15%" height="0">Weight 4 </td>
+                <td width="15%" height="0">1 * 4 = 4</td>
+                <td width="15%" height="0">16.66%</td>
+                <td width="40%" height="0">3333 impressions each day</td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="0">Banner B</td>
+                <td width="15%" height="0">Weight 12 </td>
+                <td width="15%" height="0">1 * 12 = 12</td>
+                <td width="15%" height="0">50%</td>
+                <td width="40%" height="0">10000 impressions each day</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <br>
+      <table width="600" border="0" cellspacing="0" cellpadding="0" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" class="cell" border="0" cellpadding="3" cellspacing="1">
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="0"><b>Campaign M</b></td>
+                <td width="15%" height="0">Weight 2</td>
+                <td width="15%" height="0">&nbsp;</td>
+                <td width="15%" height="0">&nbsp;</td>
+                <td width="40%" height="0">&nbsp;</td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="0">Banner C</td>
+                <td width="15%" height="0">Weight 3</td>
+                <td width="15%" height="0">2 * 3 = 6</td>
+                <td width="15%" height="0">25%</td>
+                <td width="40%" height="0">5000 impressions each day</td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="22">Banner D</td>
+                <td width="15%" height="22">Weight 1</td>
+                <td width="15%" height="22">2 * 1 = 2</td>
+                <td width="15%" height="22">8.33%</td>
+                <td width="40%" height="22">1666 impressions each day</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <P><br>
+        You may have noticed that while we have increased the weight by a factor 
+        of 2, the number of impressions are not two times as large. The reason 
+        for this behaviour is caused by the total weight of all banners. If the 
+        total weight increases, the probability of a banner being displayed is 
+        reduced. You could solve this problem by keeping the total weight of all 
+        banners the same.<BR>
+        In the example above we increased the total weight by 4. If we reduce 
+        the total weight of the banners in campaign N by 4, we will achieve the 
+        goal of doubling the impressions in campaign M:</P>
+      <table width="600" border="0" cellspacing="0" cellpadding="0" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" class="cell" border="0" cellpadding="3" cellspacing="1">
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="0"><b>Campaign N</b></td>
+                <td width="15%" height="0">Weight 1</td>
+                <td width="15%" height="0">&nbsp;</td>
+                <td width="15%" height="0">&nbsp;</td>
+                <td width="40%" height="0">&nbsp;</td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="0">Banner A</td>
+                <td width="15%" height="0">Weight 3</td>
+                <td width="15%" height="0">1 * 3 = 3</td>
+                <td width="15%" height="0">20%</td>
+                <td width="40%" height="0">4000 impressions each day</td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="0">Banner B</td>
+                <td width="15%" height="0">Weight 9</td>
+                <td width="15%" height="0">1 * 9 = 9</td>
+                <td width="15%" height="0">60%</td>
+                <td width="40%" height="0">12000 impressions each day</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <br>
+      <table width="600" border="0" cellspacing="0" cellpadding="0" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" class="cell" border="0" cellpadding="3" cellspacing="1">
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="0"><b>Campaign M</b></td>
+                <td width="15%" height="0">Weight 2</td>
+                <td width="15%" height="0">&nbsp;</td>
+                <td width="15%" height="0">&nbsp;</td>
+                <td width="40%" height="0">&nbsp;</td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="0">Banner C</td>
+                <td width="15%" height="0">Weight 3</td>
+                <td width="15%" height="0">2 * 3 = 6</td>
+                <td width="15%" height="0">30%</td>
+                <td width="40%" height="0">6000 impressions each day</td>
+              </tr>
+              <tr bgcolor="#FFFFFF"> 
+                <td width="15%" height="22">Banner D</td>
+                <td width="15%" height="22">Weight 1</td>
+                <td width="15%" height="22">2 * 1 = 2</td>
+                <td width="15%" height="22">10%</td>
+                <td width="40%" height="22">2000 impressions each day</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <P></P>
+      <P>&nbsp;</P>
+    </td>
+    <td class="plain">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td width="100" height="75"><a name="3"></a></td>
+    <td width="600" height="75">&nbsp;</td>
+    <td height="75">&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

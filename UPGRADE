@@ -1,3 +1,47 @@
+phpAdsNew 2 beta 4 or 5 -> phpAdsNew 2 beta 6
+
+A number of people requested a change in the database structure. From this 
+version and on, all table names will be prefixed with phpads_ by default. 
+This way the tables are less likely to interfere with tables created by 
+other products. If you are upgrading from a previous version, it is not 
+needed to change the names of existing tables, as long as you specify the 
+correct names in de config.inc.php file.
+
+Two columns were added to the clients table. The status column is used 
+for changing the browser statusbar. The autohtml column is used for preventing 
+phpAdsNew from changing HTML banners in order to automatically log clicks.
+
+   ALTER TABLE clients ADD COLUMN status varchar(255) NOT NULL;
+   ALTER TABLE clients ADD COLUMN autohtml enum('true','false') DEFAULT 'true' NOT NULL;
+
+
+One column was added to the acls table, another column was changed. The 
+acl_con column is used to store logical operators. The acl_type column was 
+change in order to allow a new kind of ACL, the accept-language header ACL.
+
+   ALTER TABLE acls ADD COLUMN acl_con set('and','or') NOT NULL;
+   ALTER TABLE acls MODIFY COLUMN acl_type enum('clientip','useragent','weekday',                                                                 'domain','source','time','language') NOT NULL;
+
+
+A new table was added for storing zone information:
+
+   CREATE TABLE phpads_zones (
+     zoneid mediumint(9) NOT NULL AUTO_INCREMENT,
+     zonename varchar(255) NOT NULL,
+     zonetype smallint(6) DEFAULT '0' NOT NULL,
+     what blob NOT NULL,
+     width smallint(6) DEFAULT '0' NOT NULL,
+     height smallint(6) DEFAULT '0' NOT NULL,
+     retrieval enum('random','cookie') DEFAULT 'random' NOT NULL,
+     cachecontents blob,
+     cachetimestamp int DEFAULT '0' NOT NULL,
+     PRIMARY KEY (zoneid)
+   );
+
+
+
+----------------------
+
 phpAdsNew 2 beta 3 -> phpAdsNew 2 beta 4
 
 There are a lot of changes since beta 3.
