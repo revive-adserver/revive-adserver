@@ -182,4 +182,15 @@ $GLOBALS['strShowClientsActive'] 		= "Toon klanten met actieve banners";
 $GLOBALS['strShowClientsInactive']	= "Toon klanten zonder actieve banners";
 $GLOBALS['strSize']					= "Afmetingen";
 
+$GLOBALS['strMonth'] 				= array("Januari","Februari","Maart","April","Mei","Juni","Juli", "Augustus", "September", "Oktober", "November", "December");
+$GLOBALS['strDontExpire']			= "Deze klant niet laten vervallen op een specifieke datum";
+$GLOBALS['strActivateNow'] 			= "Deze klant direct activeren";
+$GLOBALS['strExpirationDate']		= "Vervaldatum";
+$GLOBALS['strActivationDate']		= "Activeringsdatum";
+
+$GLOBALS['strClientDeactivated']	= "Deze klant is momenteel niet actief omdat";
+$GLOBALS['strBeforeActivate']		= "de activeringsdatum bereikt is";
+$GLOBALS['strAfterExpire']			= "de vervaldatum bereikt is";
+$GLOBALS['strNoMoreClicks']			= "de gekochte AdClicks gebruikt zijn";
+$GLOBALS['strNoMoreViews']			= "de gekochte AdViews gebruikt zijn";
 ?>

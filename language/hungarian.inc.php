@@ -189,5 +189,16 @@ $GLOBALS['strShowClientsActive'] 		= "Show clients with active banners";
 $GLOBALS['strShowClientsInactive']	= "Show clients with inactive banners";
 $GLOBALS['strSize']					= "Size";
 
+$GLOBALS['strMonth'] 				= array("January","February","March","April","May","June","July", "August", "September", "October", "November", "December");
+$GLOBALS['strDontExpire']			= "Don't expire this client on a specific date";
+$GLOBALS['strActivateNow'] 			= "Activate this client immediately";
+$GLOBALS['strExpirationDate']		= "Expiration date";
+$GLOBALS['strActivationDate']		= "Activation date";
+
+$GLOBALS['strClientDeactivated']	= "This client is currently not active because";
+$GLOBALS['strBeforeActivate']		= "the activation date has not yet been reached";
+$GLOBALS['strAfterExpire']			= "the expiration date has been reached";
+$GLOBALS['strNoMoreClicks']			= "the amount of AdClicks purchased are used";
+$GLOBALS['strNoMoreViews']			= "the amount of AdViews purchased are used";
 ?>
 
