@@ -71,12 +71,10 @@ function displayHelp()
 	if (document.all) { 
 		helpLayer.pixelWidth = document.body.clientWidth - helpLeft;
 		helpLayer.pixelHeight = helpStepHeight;
-		helpLayer.pixelLeft = helpLeft;
 		helpLayer.pixelTop = document.body.clientHeight + document.body.scrollTop - helpStepHeight;
 	} else 	{
 		helpLayer.width = document.width - helpLeft;
 		helpLayer.height = helpStepHeight;
-		helpLayer.left = helpLeft;
 		helpLayer.top = window.innerHeight + window.pageYOffset - helpStepHeight;
 	}
 	helpLayer.visibility = 'visible';
