@@ -126,6 +126,9 @@ if (isset($submit))
 		if (time() > mktime(0, 0, 0, $expireMonth, $expireDay, $expireYear))
 			$active = "f";
 	
+	if ($weight == 0)
+		$active = 'f';
+	
 	
 	$new_campaign = $campaignid == 'null';
 	

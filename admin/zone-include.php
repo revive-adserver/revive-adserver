@@ -319,12 +319,7 @@ function phpAds_showZoneCampaign ($width, $height, $what, $delivery)
 	") or phpAds_sqlDie();
 	
 	while ($row = phpAds_dbFetchArray($res))
-	{
 		$campaigns[$row['clientid']] = $row;
-		
-		if ($row['weight'] == 0 && $row['target'] == 0)
-			$campaigns[$row['clientid']]['active'] = 'f';
-	}
 	
 	$compact = (phpAds_dbNumRows($res) > $phpAds_config['gui_link_compact_limit']);
 	
@@ -757,12 +752,7 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype, $delivery)
 	") or phpAds_sqlDie();
 	
 	while ($row = phpAds_dbFetchArray($res))
-	{
 		$campaigns[$row['clientid']] = $row;
-		
-		if ($row['weight'] == 0 && $row['target'] == 0)
-			$campaigns[$row['clientid']]['active'] = 'f';
-	}
 	
 	
 	// Fetch all banners which can be linked
