@@ -155,6 +155,8 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-05-27:  Changed profile prediction to use data from more days, rather than the same weekday of the last week. This data is then weighted using gaussian distributions  (Matteo)
 			  - 2002-06-02:  Included switch to turn on Netscape 4 compatible ilayers during iframe invocation generation  (Niels)
 			  - 2002-06-02:  Added 'Expand all / Collapse all' buttons to advertiser overview and publisher overview  (Niels)
+			  - 2002-06-05:  Added language specific separator for thousands and decimals  (Niels)
+			  - 2002-06-05:  Changed the alignment of most columns in the statistics to the right, for better readability  (Niels)
 
 
 			+ Misc bugfixes

@@ -20,6 +20,9 @@ $GLOBALS['phpAds_TextDirection']  			= "ltr";
 $GLOBALS['phpAds_TextAlignRight'] 			= "right";
 $GLOBALS['phpAds_TextAlignLeft']  			= "left";
 
+$GLOBALS['phpAds_DecimalPoint']				= '.';
+$GLOBALS['phpAds_ThousandsSeperator']		= ',';
+
 
 // Date & time configuration
 $GLOBALS['date_format']						= "%m/%d/%Y";
