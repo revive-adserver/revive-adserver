@@ -504,7 +504,7 @@ function view_raw($what, $clientID=0, $target="", $source="", $withtext=0, $cont
 				{
 					if (strpos ($html, "{targeturl}") > 0)
 					{
-						$outputbuffer .= str_replace ("{targeturl}", urlencode("$phpAds_url_prefix/click.php?bannerID=".$row['bannerID']), $html);
+						$outputbuffer .= str_replace ("{targeturl}", "$phpAds_url_prefix/click.php?bannerID=".$row['bannerID'], $html);
 					}
 					else
 					{
