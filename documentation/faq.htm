@@ -1,0 +1,49 @@
+<html>
+<head>
+<title>phpAdsNew FAQ</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+<!--
+p {  font-family: Arial, Helvetica, sans-serif; font-size: 10pt; clip:      rect(   ); position: relative; left: 40px; width: 600px}
+h3 {  font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: #333366; position: relative; left: 40px; clip:      rect(   ); padding-top: 40px}
+pre {  font-family: "Courier New", Courier, mono; font-size: 9pt; position: relative; left: 40px; clip:    rect(   ); background-color: #EEEEEE; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 10px; width: 600px}
+h4 { font-family: Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: #333366; position: relative; left: 40px; clip:    rect(   ); top: 16px}
+li { font-family: Arial, Helvetica, sans-serif; font-size: 10pt; clip:   rect(   ); width: 600px ; padding-bottom: 10px}
+ul { list-style-type: circle}
+h1 { font-family: Arial, Helvetica, sans-serif; font-size: 24px; font-weight: bold; color: #333366; position: relative; left: 40px; clip: rect( ); padding-top: 40px }
+hr { color: #333366; ; position: relative; width: 600px; left: 40px; clip:  rect(   ); text-align: left}
+a { color: #333366; text-decoration: none; }
+a:hover { color: #333366; text-decoration: underline; }
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h1>phpAdsNew</h1>
+<p>phpAdsNew is a banner management and tracking system written in PHP.<br>
+  <br>
+  [<a href="faq.htm">faq</a>] [<a href="configuration.htm">configuration</a>] 
+  [<a href="api.htm">api</a>] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [<a href="http://www.sourceforge.net/projects/phpadsnew/">homepage</a>] 
+  [<a href="http://sourceforge.net/tracker/?atid=111386&group_id=11386&func=browse">report 
+  bugs</a>] [<a href="http://sourceforge.net/forum/?group_id=11386">forum</a>] 
+</p>
+<hr>
+<h3>Frequently Asked Questions</h3>
+<h4>The login doesn't work, it keeps prompting for username/password all over 
+  again.<br>
+  or I can't add banners.</h4>
+<p>Make sure you have enabled magic_quotes_gpc in your PHP configuration.</p>
+<p>Make sure $phpAds_url_prefix in config.inc.php is exactly the same as it is 
+  on the server (http://www.test.com/phpads is not the same as http://www.test.com/phpAds). 
+  Also make sure it doesn't end with a slash (/).</p>
+<h4>I get the following error: Fatal error: Call to unsupported or undefined function 
+  mysql_(p)connect().</h4>
+<p>Your PHP is not configured for MySQL support. If you're on Unix, you need to 
+  recompile PHP --with-mysql. If you're on Windows, you have to enable the MySQL 
+  DLL in your PHP configuration. See the manual, installation section, for more 
+  details.</p>
+<h4>Can you help me to install phpAdsNew? Can you please implement this feature 
+  I need?</h4>
+<p>Maybe. Let us know what you want...</p>
+</body>
+</html>
