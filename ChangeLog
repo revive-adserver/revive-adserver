@@ -89,6 +89,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: Added workaround for Netscape 4.x problem with adjs.php  (Niels) 20011202
 			  - Bugfix: HTML banners rendering in the interface was alse splitting HTML entities  (Matteo) 20011205
 			  - Bugfix: HTML entities in translations were not supported into settings SELECTS/OPTIONS  (Matteo) 20011205
+			  - Bugfix: Ignored hosts were logged when using two or more banners whitin local invocation  (Matteo) 20011209
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
