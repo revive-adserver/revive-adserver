@@ -80,7 +80,7 @@ function phpAds_showCache ()
 			
 			// Icon
 			if ($type == 'bannerid')
-				echo "<img src='images/banner-stored.gif' align='absmiddle'>&nbsp;";			
+				echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";			
 			elseif (substr($what,0,5) == 'zone:')
 				echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
 			else
