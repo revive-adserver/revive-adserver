@@ -4,7 +4,7 @@
     An ad server and banner management system written in PHP
 
 
-    Version 2 RC 2
+    Version 2 RC 3
     ------------------------------------------------------------------------
     THIS IS A RELEASE CANDIDATE AND MAY NOT BE 
     STABLE ENOUGH FOR USE IN A PRODUCTION ENVIRONMENT.
@@ -68,7 +68,7 @@
 
     Requirements: 
     ------------------------------------------------------------------------
-    PHP 4.0 or higher (4.3.0 recommended)
+    PHP 4.0.1 or higher (4.3.0 recommended)
     MySQL 3.23.3 or higher (InnoDB recommended)
 
     If you want to run phpAdsNew on a PostgreSQL server you should

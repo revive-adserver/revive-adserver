@@ -172,8 +172,8 @@ if (phpAds_isUser(phpAds_Admin))
 		$fatal = array();
 		
 		
-		// Check PHP version
-		if ($phpversion < 4000)
+		// Check PHP version < 4.0.1
+		if ($phpversion < 4001)
 			$fatal[] = str_replace ('{php_version}', phpversion(), $strWarningPHPversion);
 		
 		
