@@ -63,6 +63,9 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-09-02:  Moved untranslated string in interface.js (renamed to js-gui.php) to language files  (Niels)
 			  - 2002-09-02:  Upgrading on IIS caused the url_prefix to be set to the wrong directory  (Niels)
 			  - 2002-09-02:  Fixed JavaScript error during update, install and login  (Niels)
+			  - 2002-09-03:  When using Webserver stored images, the old image wasn't cleaned up if a new one was uploaded  (Niels)
+			  - 2002-09-03:  Errormessages during the configuration of the FTP server appeared in the wrong block  (Niels)
+			  - 2002-09-03:  An incorrect path name for the FTP server appeared during editing the FTP settings, if it had been previously left empty  (Niels)
 
 
 

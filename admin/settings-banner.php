@@ -76,19 +76,19 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 					phpAds_SettingsWriteAdd('type_web_ftp', $type_web_ftp);
 				}
 				else
-					$errormessage[2][] = "Wrong FTP path";
+					$errormessage[3][] = "The host directory does not exist";
 			}
 			else
-				$errormessage[2][] = "Wrong FTP login";
+				$errormessage[3][] = "Could not connect to the FTP server, the login or password are not correct";
 			
 			@ftp_quit($ftpsock);
 		}
 		else
-			$errormessage[2][] = "Wrong FTP host";
+			$errormessage[3][] = "The hostname of the FTP server is not correct";
 	}
 /*	
 	elseif (!isset($type_web_mode) && $phpAds_config['type_web_mode'] == 2 || $type_web_mode == 2)
-		$errormessage[2][] = "FTP configuration wrong";
+		$errormessage[3][] = "FTP configuration wrong";
 */	
 	
 	if (isset($type_html_auto))
@@ -128,10 +128,13 @@ if (!empty($phpAds_config['type_web_ftp']))
 {
 	if ($ftpserver = @parse_url($phpAds_config['type_web_ftp']))
 	{
+		$ftpserver['path'] = ereg_replace('^/', '', $ftpserver['path']);
+		$ftpserver['path'] = ereg_replace('/$', '', $ftpserver['path']);
+		
 		$phpAds_config['type_web_ftp_host'] = $ftpserver['host'].($ftpserver['port'] != '' ? ':'.$ftpserver['port'] : '');
 		$phpAds_config['type_web_ftp_user'] = $ftpserver['user'];
 		$phpAds_config['type_web_ftp_password'] = $ftpserver['pass'];
-		$phpAds_config['type_web_ftp_path'] = ereg_replace("^/?(.*)/?$", "\\1", $ftpserver['path']);
+		$phpAds_config['type_web_ftp_path'] = $ftpserver['path'];
 	}
 }
 
