@@ -57,11 +57,12 @@ require ("sessions.inc.php");
 
 	function phpAds_Logout()
 	{
+		global $phpAds_url_prefix;
+	
 		phpAds_SessionDataDestroy();
 		
 		// Return to the login screen
-		// Use ./ to force a 302 instead of a 300 redirect
-		header ("Location: ./index.php");
+		header ("Location: $phpAds_url_prefix/index.php");
 	}
 
 
@@ -199,7 +200,7 @@ require ("sessions.inc.php");
 		
 		if ($message != "") echo "<b>$message</b><br>";
 		?>
-		<form method="post" action="<?echo basename($PHP_SELF);?>">
+		<form method="post" action="<?echo basename($GLOBALS["PHP_SELF"]);?>" enctype="multipart/form-data">
 		<table>
 			<tr>
 				<td><?echo $GLOBALS["strUsername"];?>:</td>
