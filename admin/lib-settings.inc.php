@@ -18,21 +18,18 @@
 if (!defined('phpAds_installing'))
 {
 	include ("config.php");
-
+	
 	// Load settings language strings
-	include('../language/'.$phpAds_config['language'].'/settings.lang.php');
-
+	@include (phpAds_path.'/language/english/settings.lang.php');
+	if ($phpAds_config['language'] != 'english' && file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/settings.lang.php'))
+		@include (phpAds_path.'/language/'.$phpAds_config['language'].'/settings.lang.php');
 }
 
 // Load settings help language strings in desired language, if present
-if (file_exists('../language/'.$phpAds_config['language'].'/settings-help.lang.php'))
-{
-	include('../language/'.$phpAds_config['language'].'/settings-help.lang.php');
-}
-else
-{
-	include('../language/english/settings-help.lang.php');
-}
+@include (phpAds_path.'/language/english/settings-help.lang.php');
+if ($phpAds_config['language'] != 'english' && file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/settings-help.lang.php'))
+	@include (phpAds_path.'/language/'.$phpAds_config['language'].'/settings-help.lang.php');
+
 
 include('lib-config.inc.php');
 

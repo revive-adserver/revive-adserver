@@ -46,7 +46,9 @@ phpAds_dbConnect();
 phpAds_LoadDbConfig();
 
 // Load language strings
-require(phpAds_path."/language/".$phpAds_config['language']."/default.lang.php");
+@include (phpAds_path.'/language/english/default.lang.php');
+if ($phpAds_config['language'] != 'english' && file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/default.lang.php'))
+	@include (phpAds_path.'/language/'.$phpAds_config['language'].'/default.lang.php');
 
 // Set maintenance usertype
 phpAds_userlogSetUser (phpAds_userMaintenance);

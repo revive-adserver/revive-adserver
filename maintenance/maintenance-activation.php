@@ -40,10 +40,10 @@ $res_clients = phpAds_dbQuery("
 while($client = phpAds_dbFetchArray($res_clients))
 {
 	// Load client language strings
-	if (isset($client["language"]) && $client["language"] != "")
-		include ("../language/".$client["language"]."/default.lang.php");
-	else
-		include ("../language/".$phpAds_config['language']."/default.lang.php");
+	@include (phpAds_path.'/language/english/default.lang.php');
+	if ($client['language'] != '') $phpAds_config['language'] = $client['language'];
+	if ($phpAds_config['language'] != 'english' && file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/default.lang.php'))
+		@include (phpAds_path.'/language/'.$phpAds_config['language'].'/default.lang.php');
 	
 	
 	// Send Query

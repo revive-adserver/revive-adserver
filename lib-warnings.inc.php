@@ -43,10 +43,10 @@ function phpAds_warningMail ($campaign)
 			
 			
 			// Load client language strings
-			if (isset($client["language"]) && $client["language"] != "")
-				include (phpAds_path.'/language/'.$client['language'].'/default.lang.php');
-			else
-				include (phpAds_path.'/language/'.$phpAds_config['language'].'/default.lang.php');
+			@include (phpAds_path.'/language/english/default.lang.php');
+			if ($client['language'] != '') $phpAds_config['language'] = $client['language'];
+			if ($phpAds_config['language'] != 'english' && file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/default.lang.php'))
+				@include (phpAds_path.'/language/'.$phpAds_config['language'].'/default.lang.php');
 			
 			
 			// Build email
@@ -106,10 +106,10 @@ function phpAds_deactivateMail ($campaign)
 			
 			
 			// Load client language strings
-			if (isset($client["language"]) && $client["language"] != "")
-				include (phpAds_path."/language/".$client["language"]."/default.lang.php");
-			else
-				include (phpAds_path."/language/".$phpAds_config['language']."/default.lang.php");
+			@include (phpAds_path.'/language/english/default.lang.php');
+			if ($client['language'] != '') $phpAds_config['language'] = $client['language'];
+			if ($phpAds_config['language'] != 'english' && file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/default.lang.php'))
+				@include (phpAds_path.'/language/'.$phpAds_config['language'].'/default.lang.php');
 			
 			
 			// Build email

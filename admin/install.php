@@ -56,7 +56,11 @@ if (!isset($installvars['language']) && isset($language))
 if (!isset($phpAds_config['language']))
 	$phpAds_config['language'] = 'english';
 
-include('../language/'.$phpAds_config['language'].'/default.lang.php');
+@include (phpAds_path.'/language/english/default.lang.php');
+if ($phpAds_config['language'] != 'english' && file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/default.lang.php'))
+	@include (phpAds_path.'/language/'.$phpAds_config['language'].'/default.lang.php');
+else
+	$phpAds_config['language'] = 'english';
 
 
 // Include other required files
@@ -70,7 +74,9 @@ require ("lib-settings.inc.php");
 
 
 // Load settings/install language strings
-include('../language/'.$phpAds_config['language'].'/settings.lang.php');
+@include (phpAds_path.'/language/english/settings.lang.php');
+if ($phpAds_config['language'] != 'english' && file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/settings.lang.php'))
+	@include (phpAds_path.'/language/'.$phpAds_config['language'].'/settings.lang.php');
 
 
 // If an old config.inc.php is present, upgrade!

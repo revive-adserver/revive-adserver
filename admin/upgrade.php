@@ -93,18 +93,15 @@ phpAds_Start();
 
 
 // Load language strings
-if (file_exists("../language/".$phpAds_config['language']."/default.lang.php"))
-	include("../language/".$phpAds_config['language']."/default.lang.php");
+@include (phpAds_path.'/language/english/default.lang.php');
+if ($phpAds_config['language'] != 'english' && file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/default.lang.php'))
+	@include (phpAds_path.'/language/'.$phpAds_config['language'].'/default.lang.php');
 else
-{
 	$phpAds_config['language'] = 'english';
-	include("../language/english/default.lang.php");
-}
 
-if (file_exists("../language/".$phpAds_config['language']."/settings.lang.php"))
-	include("../language/".$phpAds_config['language']."/settings.lang.php");
-else
-	include("../language/english/settings.lang.php");
+@include (phpAds_path.'/language/english/settings.lang.php');
+if ($phpAds_config['language'] != 'english' && file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/settings.lang.php'))
+	@include (phpAds_path.'/language/'.$phpAds_config['language'].'/settings.lang.php');
 
 
 // Setup navigation

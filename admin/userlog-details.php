@@ -31,7 +31,9 @@ phpAds_PageHeader("5.2.1");
 phpAds_ShowSections(array("5.2.1"));
 
 // Load translations
-require ("../language/".strtolower($phpAds_config['language'])."/userlog.lang.php");
+@include (phpAds_path.'/language/english/userlog.lang.php');
+if ($phpAds_config['language'] != 'english' && file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/userlog.lang.php'))
+	@include (phpAds_path.'/language/'.$phpAds_config['language'].'/userlog.lang.php');
 
 
 

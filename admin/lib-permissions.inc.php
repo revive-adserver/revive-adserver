@@ -54,7 +54,9 @@ function phpAds_Start()
 	if ((!phpAds_isLoggedIn() || phpAds_SuppliedCredentials()) && !defined('phpAds_installing'))
 	{
 		// Load preliminary language settings
-		require("../language/".$phpAds_config['language']."/default.lang.php");
+		@include (phpAds_path.'/language/english/default.lang.php');
+		if ($phpAds_config['language'] != 'english' && file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/default.lang.php'))
+			@include (phpAds_path.'/language/'.$phpAds_config['language'].'/default.lang.php');
 		
 		phpAds_SessionDataRegister(phpAds_Login());
 	}

@@ -13,8 +13,10 @@
 /************************************************************************/
 
 
-// Load languages
-include('../language/'.$phpAds_config['language'].'/maintenance.lang.php');
+// Load translations
+@include (phpAds_path.'/language/english/maintenance.lang.php');
+if ($phpAds_config['language'] != 'english' && file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/maintenance.lang.php'))
+	@include (phpAds_path.'/language/'.$phpAds_config['language'].'/maintenance.lang.php');
 
 
 
