@@ -179,6 +179,8 @@ if ($zoneid != "")
 		$extra .= "<br><br>";
 		$extra .= "<b>$strModifyZone</b><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+		$extra .= "<img src='images/icon-duplicate-zone.gif' align='absmiddle'>&nbsp;<a href='zone-modify.php?affiliateid=".$affiliateid."&zoneid=".$zoneid."&duplicate=true&returnurl=zone-edit.php'>$strDuplicate</a><br>";
+		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		$extra .= "<img src='images/icon-move-zone.gif' align='absmiddle'>&nbsp;$strMoveTo<br>";
 		$extra .= "<img src='images/spacer.gif' height='1' width='160' vspace='2'><br>";
 		$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";

@@ -71,25 +71,26 @@ $res = phpAds_dbQuery("
 
 while ($row = phpAds_dbFetchArray($res))
 {
-	if ($zoneid == $row['zoneid'])
-		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
-	else
-		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
-	
-	$extra .= "<a href='zone-invocation.php?affiliateid=".$affiliateid."&zoneid=".$row['zoneid']."'>".phpAds_buildZoneName ($row['zoneid'], $row['zonename'])."</a>";
-	$extra .= "<br>"; 
+	phpAds_PageContext (
+		phpAds_buildZoneName ($row['zoneid'], $row['zonename']),
+		"zone-invocation.php?affiliateid=".$affiliateid."&zoneid=".$row['zoneid'],
+		$zoneid == $row['zoneid']
+	);
 }
-
-$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-
 
 if (phpAds_isUser(phpAds_Admin))
 {
-	$extra .= "<form action='zone-modify.php'>";
+	phpAds_PageShortcut($strAffiliateProperties, 'affiliate-edit.php?affiliateid='.$affiliateid, 'images/icon-affiliate.gif');
+	phpAds_PageShortcut($strZoneHistory, 'stats-zone-history.php?affiliateid='.$affiliateid.'&zoneid='.$zoneid, 'images/icon-statistics.gif');
+	
+	
+	$extra  = "<form action='zone-modify.php'>";
 	$extra .= "<input type='hidden' name='zoneid' value='$zoneid'>";
 	$extra .= "<input type='hidden' name='returnurl' value='zone-invocation.php'>";
 	$extra .= "<br><br>";
 	$extra .= "<b>$strModifyZone</b><br>";
+	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+	$extra .= "<img src='images/icon-duplicate-zone.gif' align='absmiddle'>&nbsp;<a href='zone-modify.php?affiliateid=".$affiliateid."&zoneid=".$zoneid."&duplicate=true&returnurl=zone-invocation.php'>$strDuplicate</a><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	$extra .= "<img src='images/icon-move-zone.gif' align='absmiddle'>&nbsp;$strMoveTo<br>";
 	$extra .= "<img src='images/spacer.gif' height='1' width='160' vspace='2'><br>";
@@ -105,14 +106,6 @@ if (phpAds_isUser(phpAds_Admin))
 	$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='zone-delete.php?affiliateid=$affiliateid&zoneid=$zoneid&returnurl=zone-index.php'".phpAds_DelConfirm($strConfirmDeleteZone).">$strDelete</a><br>";
 	$extra .= "</form>";
 	
-	
-	$extra .= "<br><br><br>";
-	$extra .= "<b>$strShortcuts</b><br>";
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<a href=affiliate-edit.php?affiliateid=$affiliateid>$strAffiliateProperties</a><br>";
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-affiliate-zones.php?affiliateid=$affiliateid>$strStats</a><br>";
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	
 	phpAds_PageHeader("4.2.3.5", $extra);
 		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
