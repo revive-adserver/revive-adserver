@@ -5,8 +5,9 @@ v 2.0beta3
 			+ Added support for timestamp variable (Niels)
 			+ Added support for single quotes in HTML banners (Niels)
 			+ ACL checking can be disabled in the configuration file (Niels)
-			+ Updated Italian language files (Luca Pescatore)
-			+ Added wildcart recognition for ignored hosts (Matteo)
+			+ Updated Italian language files (Luca Pescatore + Matteo)
+			+ Added wildcard recognition for ignored hosts (Matteo)
+			+ Added Romanian language files (Tudor Barbarosie)
 			+ Misc bugfixes for beta2 
 			  - sequential banner retrieval works again (Niels)
 			  - stripslashes added for HTML banners (Niels)
