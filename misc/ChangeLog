@@ -6,6 +6,8 @@ CVS
 			  - 2003-07-09:  Fixed division by zero error in lib-priority that could have been generated on line 886  (Matteo)
 			  - 2003-07-09:  Userlog index wasn't working: it caused an endless redirection loop  (Matteo)
 			  - 2003-07-10:  Userlog delete didn't work  (Matteo)
+			  - 2003-07-11:  Some configuration variables were not correctly set, causing E_ALL notices  (Matteo)
+			  - 2003-07-11:  Fixed E_ALL notices in admin-search.php  (Matteo)
 
 
 v 2.0rc4		+ Misc changes
