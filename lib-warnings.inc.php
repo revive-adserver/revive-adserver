@@ -25,19 +25,20 @@ function phpAds_warningMail ($campaign)
 {
 	global $phpAds_config;
 	global $strViewsClicksLow, $strMailHeader, $strWarnClientTxt;
-	global $phpAds_CharSet, $strMailNothingLeft, $strMailFooter;
+	global $strMailNothingLeft, $strMailFooter;
 	
 	
 	if ($phpAds_config['warn_admin'] || $phpAds_config['warn_client'])
 	{
-		// Load config from the db
-		include (phpAds_path.'/lib-dbconfig.inc.php');
-		phpAds_LoadDbConfig();
-		
 		// Get the client which belongs to this campaign
 		$clientresult = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE clientid=".$campaign['parent']);
 		if ($client = phpAds_dbFetchArray($clientresult))
 		{
+			// Load config from the database
+			include (phpAds_path.'/lib-dbconfig.inc.php');
+			phpAds_LoadDbConfig();
+			
+			
 			// Load client language strings
 			if (isset($client["language"]) && $client["language"] != "")
 				include (phpAds_path.'/language/'.$client['language'].'/default.lang.php');
@@ -45,16 +46,8 @@ function phpAds_warningMail ($campaign)
 				include (phpAds_path.'/language/'.$phpAds_config['language'].'/default.lang.php');
 			
 			
+			// Build email
 			$Subject = $strViewsClicksLow.": ".$campaign["clientname"];
-			
-			$Headers = "Content-Transfer-Encoding: 8bit\r\n";
-			
-			if (isset($phpAds_CharSet))
-				$Headers .= "Content-Type: text/plain; charset=".$phpAds_CharSet."\r\n"; 
-			
-			$Headers .= "From: ".$phpAds_config['admin_fullname']." <".$phpAds_config['admin_email'].">\r\n";
-			if (!empty($phpAds_config['admin_email_headers']))
-				$Headers .= "\r\n".$phpAds_config['admin_email_headers'];
 			
 			$Body    = "$strMailHeader\n";
 			$Body 	.= "$strWarnClientTxt\n";
@@ -67,19 +60,12 @@ function phpAds_warningMail ($campaign)
 			$Body    = str_replace ("{limit}", $phpAds_config['warn_limit'], $Body);
 			
 			
+			// Send email
 			if ($phpAds_config['warn_admin'])
-			{
-				$To = !get_cfg_var('SMTP') ? '"'.$phpAds_config['admin_fullname'].'" <'.$phpAds_config['admin_email'].'>' : $client["email"];
-				$Headers2 = !get_cfg_var('SMTP') ? "" : '\r\nTo: "'.$phpAds_config['admin_fullname'].'" <'.$phpAds_config['admin_email'].">"; 				
-				@mail($To, $Subject, $Body, $Headers2);
-			}
+				phpAds_sendMail ($phpAds_config['admin_email'], $phpAds_config['admin_fullname'], $Subject, $Body);
 			
 			if ($phpAds_config['warn_client'] && $client["email"] != '')
-			{
-				$To = !get_cfg_var('SMTP') ? '"'.$client["contact"].'" <'.$client["email"].'>' : $client["email"];
-				$Headers2 = !get_cfg_var('SMTP') ? "" : '\r\nTo: "'.$client["contact"].'" <'.$client["email"].">";
-				@mail($To, $Subject, $Body, $Headers2);
-			}
+				phpAds_sendMail ($client['email'], $client['contact'], $Subject, $Body);
 		}
 	}
 }
@@ -95,32 +81,28 @@ function phpAds_deactivateMail ($campaign)
 	global $phpAds_config;
 	global $strMailSubjectDeleted, $strMailHeader, $strMailClientDeactivated;
 	global $strNoMoreClicks, $strNoMoreViews, $strBeforeActivate, $strAfterExpire;
-	global $strBanner, $strMailNothingLeft, $strMailFooter;
-	global $strUntitled, $phpAds_CharSet;
+	global $strBanner, $strMailNothingLeft, $strMailFooter, $strUntitled;
+	
 	
 	$clientresult = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE clientid=".$campaign['parent']);
 	if ($client = phpAds_dbFetchArray($clientresult))
 	{
 		if ($client["email"] != '' && $client["reportdeactivate"] == 't')
 		{
+			// Load config from the database
+			include (phpAds_path.'/lib-dbconfig.inc.php');
+			phpAds_LoadDbConfig();
+			
+			
 			// Load client language strings
 			if (isset($client["language"]) && $client["language"] != "")
 				include (phpAds_path."/language/".$client["language"]."/default.lang.php");
 			else
 				include (phpAds_path."/language/".$phpAds_config['language']."/default.lang.php");
 			
+			
+			// Build email
 			$Subject = $strMailSubjectDeleted.": ".$campaign["clientname"];
-			$To = !get_cfg_var('SMTP') ? '"'.$client["contact"].'" <'.$client["email"].'>' : $client["email"];
-			
-			$Headers = "Content-Transfer-Encoding: 8bit\r\n";
-			
-			if (isset($phpAds_CharSet))
-				$Headers .= "Content-Type: text/plain; charset=".$phpAds_CharSet."\r\n"; 
-			
-			$Headers .= !get_cfg_var('SMTP') ? "" : 'To: "'.$client["contact"].'" <'.$client["email"].">\r\n"; 			
-			$Headers .= "From: ".$phpAds_config['admin_fullname']." <".$phpAds_config['admin_email'].">\r\n";
-			if (!empty($phpAds_config['admin_email_headers']))
-				$Headers .= "\r\n".$phpAds_config['admin_email_headers'];
 			
 			$Body  = $strMailHeader."\n";
 			$Body .= $strMailClientDeactivated;
@@ -173,8 +155,9 @@ function phpAds_deactivateMail ($campaign)
 			$Body  = str_replace ("{contact}", $client["contact"], $Body);
 			$Body  = str_replace ("{adminfullname}", $phpAds_config['admin_fullname'], $Body);
 			
-			@mail ($To, $Subject, $Body, $Headers);
-			unset ($Subject) ;
+			
+			// Send email
+			phpAds_sendMail ($client['email'], $client['contact'], $Subject, $Body);
 		}
 	}
 }
