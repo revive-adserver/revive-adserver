@@ -288,6 +288,8 @@ CVS			+ Added configuration manager  (Matteo, 2001-11-04)
 			  - 2002-06-05:  Advertiser stats graphs were shown on campaign history pages  (Niels)
 			  - 2002-06-07:  Fixed problems dealing with daylight saving time in stats converter and lib-priority  (Matteo)
 			  - 2002-06-08:  {random} replacement didn't work with plain remote invocation and external banners  (Niels)
+			  - 2002-06-08:  Auto increment columns are not temporary disabled to allow changing of primary keys during upgrade  (Niels)
+			  - 2002-06-08:  Reworded some queries inside the all.sql file to prevent unneeded alter queries during upgrade  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
