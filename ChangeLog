@@ -79,7 +79,9 @@ CVS			+ Added search capabilities  (Niels and Tobi Schulz)
 			  - Fixed missing </table> tag in stats-convert.php  (Helmut Wirth)
 			  - Fixed date format in lib-reports.inc.php  (Helmut Wirth)
 			  - Fixed background color in stats-convert.php  (Helmut Wirth)
-			  - Error message when temp table can't be created  (Helmut Wirth)		
+			  - Error message when temp table can't be created  (Helmut Wirth)
+			  - Fixed error message on client stats when no banners are available  (Niels)
+			  - Removed PHP_SELF variables, which caused problems with CGI PHP  (Niels)		
   
 			+ Security fixes
 			  - Fixed login exploit where users could login without authentification  (Niels)
