@@ -102,23 +102,13 @@ if (isset($message))
 /* Main code                                             */
 /*********************************************************/
 
-?>
+echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
+echo "<a href='banner-edit.php?campaignid=$campaignid'>".$strAddBanner."</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+phpAds_ShowBreak();
 
-<br><br>
-
-<table border='0' width='100%' cellpadding='0' cellspacing='0'>
-	<tr><td height='25'>
-		<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<a href='banner-edit.php?campaignid=<?php echo $campaignid; ?>'><?php echo $strAddBanner;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
-	</td></tr>
-	<tr><td height='1' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-</table>
+echo "<br><br>";
 
 
-<br><br>
-
-
-
-<?php
 
 $res = phpAds_dbQuery("
 	SELECT
@@ -129,11 +119,7 @@ $res = phpAds_dbQuery("
 		clientid = $campaignid
 	") or phpAds_sqlDie();
 
-if (phpAds_dbNumRows($res) == 0)
-{
-	echo "$strNoBanners<br>";
-}
-else
+if (phpAds_dbNumRows($res) != 0)
 {
 	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 	
@@ -230,10 +216,9 @@ else
 	}
 	
 	echo "</table>";
-	echo "<br>";
 }
 
-
+echo "<br><br>";
 
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25' colspan='2'><b>$strCreditStats</b></td></tr>";
