@@ -111,13 +111,16 @@ $phpAds_nav = array (
 	),
 	"client" => array(
 		"1"					=>  array("javascript:;" => $strUpgrade)
+	),
+	"affiliate" => array(
+		"1"					=>  array("javascript:;" => $strUpgrade)
 	)
 );
 
 // Security check
 // Let client in only to tell him that the system is temporary
 // unavailable if an upgrade is needed, otherwise redirect to the home page.
-phpAds_checkAccess(phpAds_Admin+phpAds_Client);
+phpAds_checkAccess(phpAds_Admin+phpAds_Client+phpAds_Affiliate);
 
 
 
@@ -131,7 +134,7 @@ $upgrade = !isset($phpAds_config['config_version']) ||
 /* Main code                                             */
 /*********************************************************/
 
-if (phpAds_isUser(phpAds_Client))
+if (phpAds_isUser(phpAds_Client) || phpAds_isUser(phpAds_Affiliate))
 {
 	if (!$upgrade)
 	{

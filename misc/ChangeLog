@@ -18,6 +18,7 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-01-14:  Konqueror browser detection in adlayer wasn based on a very outdated useragent, now fixed  (Niels)
 			  - 2003-01-14:  If register_globals was turned on and cookies were favored by variable_order, the value of a cookie overwrote a GET or POST variable with the same name  (Niels)
 			  - 2003-01-14:  Priority wasn't recalculated during an update due to a typo  (Niels)
+			  - 2003-01-16:  System unavailable message wasn't shown on publisher login during upgrade process  (Matteo)
 			
 
 v 2.0rc2		+ Misc bugfixes
