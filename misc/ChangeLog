@@ -1,6 +1,11 @@
 phpAdsNew - ChangeLog
 
 
+CVS
+			+ Misc bugfixes
+			  - 2005-02-10:  HTML banners containing script tags were generating JS errors on IE  (Matteo)
+
+
 phpAdsNew 2.0.3
 			+ Misc bugfixes
 			  - 2005-01-27:  Content-disposition header was wrong in generated reports, resulting in a mangled filename - bug #1067963  (Matteo)
