@@ -642,7 +642,7 @@ function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 			$activexbuffer .= "<script language='JavaScript' type='text/javascript'>\n";
 			$activexbuffer .= "<!--\n";
 			$activexbuffer .= "var phpads_activex = \"";
-			$activexbuffer .= addcslashes($buffer, "\0..\37\"");
+			$activexbuffer .= addcslashes($buffer, "\0..\37\"\\");
 			$activexbuffer .= "\";\n";
  			$activexbuffer .= "phpads_deliverActiveX(phpads_activex);\n";
  			$activexbuffer .= "//-->\n";
