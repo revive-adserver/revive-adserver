@@ -39,9 +39,9 @@ if (isset($campaignid) && $campaignid != '')
 		// Rebuild zone cache
 		if ($phpAds_config['zone_cache'])
 			phpAds_RebuildZoneCache ();
-		
-		Header ("Location: ".$returnurl."?campaignid=".$campaignid);
 	}
 }
+
+Header ("Location: ".$returnurl."?campaignid=".$campaignid);
 
 ?>
