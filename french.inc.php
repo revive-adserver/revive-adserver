@@ -110,6 +110,22 @@ $strAllow = "Permettre";
 $strDeny = "Refuser";
 $strResetStats = "Réinitialise les statistiques";
 $strConfirmResetStats = "Do you really want to reset stats for this client ?";
+$strExpiration = "Expiration";
+$strDaysLeft = "Days left";
+$strEstimated = "Estimated expiration";
 $strConfirm = "Are you sure ?";
+$strBannerNoStats = "No statistics available for this banner!";
+$strWeek = "Semaine";
+$strWeeklyStats = "Weekly statistics";
+$strWeekDay = "Weekday";
+$strDate = "Date";
+$strCTRShort = "CTR";
+$strDayShortCuts=array("Su","Mo","Tu","We","Th","Fr","Sa");
+$strShowWeeks="Max. weeks to display";
+$strAll="all";
+$strAvg="Avg.";
+$strHourly="Views/Clicks by hour";
+$strTotal = "Total";
+$strUnlimited = "Unlimited";
 
 ?>

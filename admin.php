@@ -1,12 +1,12 @@
 <?
 if (isset($pageid) && $pageid =="client")
 {
- Header("Location: ./index.php");
-exit;
+	Header("Location: ./index.php");
+	exit;
 }
 if (!isset($pageid))
 {
-$pageid = "admin";
+	$pageid = "admin";
 }
 
 require ("config.php");
@@ -20,20 +20,20 @@ show_nav("1");
 unset($Session["clientID"]);
 
 function make_options($description)
-  {
-  global $res_clients;
-  @mysql_data_seek($res_clients, 0);
-  echo "<tr>";
-  echo "<td>$description:</td>";
-  echo '<td><select name="clientID">';
-  while ($row_clients = mysql_fetch_array($res_clients))
-        {
-        echo "<option value=$row_clients[clientID]>$row_clients[clientname]";
-        }
-  echo "</select></td>";      
-  echo "<td><input type=submit value=\"$GLOBALS[strGo]\"></td>";
-  echo "</tr>";
-  }
+{
+	global $res_clients;
+	@mysql_data_seek($res_clients, 0);
+	echo "<tr>";
+	echo "<td>$description:</td>";
+	echo '<td><select name="clientID">';
+	while ($row_clients = mysql_fetch_array($res_clients))
+	{
+		echo "<option value=$row_clients[clientID]>$row_clients[clientname]";
+	}
+	echo "</select></td>";      
+	echo "<td><input type=submit value=\"$GLOBALS[strGo]\"></td>";
+	echo "</tr>";
+}
 
 // total number of clients
 $res_clients = mysql_db_query($phpAds_db, "SELECT * FROM $phpAds_tbl_clients ORDER BY clientname") or mysql_die();
@@ -53,9 +53,9 @@ else
 
 
 if (isset($message))
-   {
-   show_message($message);
-   }
+{
+	show_message($message);
+}
 
 echo "<a href=client.php?pageid=$pageid>$strAddClient</a>";
 ?>
@@ -63,15 +63,15 @@ echo "<a href=client.php?pageid=$pageid>$strAddClient</a>";
 <!--
 function confirm_delete()
 {
-    if(confirm('<? print($strConfirmDeleteClient);?>'))
-    {
-        document.client_delete.submit();
-    }
+	if(confirm('<? print($strConfirmDeleteClient);?>'))
+	{
+		document.client_delete.submit();
+	}
 }
 //-->
 </script>
 <form action="client.php" method="post">
- <input type="hidden" name="pageid" value="<? echo ($pageid) ?>">
+	<input type="hidden" name="pageid" value="<? echo ($pageid) ?>">
 <table width="100%">
 <?
 make_options($strModifyClient);
@@ -79,19 +79,19 @@ make_options($strModifyClient);
 </form>
 
 <form action="clientdelete.php" method="post" name="client_delete">
- <input type="hidden" name="pageid" value="<? echo ($pageid) ?>">
+	<input type="hidden" name="pageid" value="<? echo ($pageid) ?>">
 <?
-  @mysql_data_seek($res_clients, 0);
-  echo "<tr>";
-  echo "<td>$strDeleteClient:</td>";
-  echo '<td><select name="clientID">';
-  while ($row_clients = mysql_fetch_array($res_clients))
-        {
-        echo "<option value=$row_clients[clientID]>$row_clients[clientname]";
-        }
-  echo "</select></td>";
-  echo "<td><input type=submit value=\"$GLOBALS[strGo]\" onClick=\"confirm_delete(); return false;\"></td>";
-  echo "</tr>";
+	@mysql_data_seek($res_clients, 0);
+	echo "<tr>";
+	echo "<td>$strDeleteClient:</td>";
+	echo '<td><select name="clientID">';
+	while ($row_clients = mysql_fetch_array($res_clients))
+	{
+		echo "<option value=$row_clients[clientID]>$row_clients[clientname]";
+	}
+	echo "</select></td>";
+	echo "<td><input type=submit value=\"$GLOBALS[strGo]\" onClick=\"confirm_delete(); return false;\"></td>";
+	echo "</tr>";
 ?>
 </form>
 
@@ -115,26 +115,25 @@ make_options($strViewClientStats);
 </table></td></tr>
 <tr><td>
 <table border="0" align="center" bgcolor="#FFFFFF" cellspacing="0" cellpadding="5" width=100%>
-      <tr><td colspan="3" bgcolor="#CCCCCC"><?print $strStats;?></td></tr>
-      <tr>
-       <td><?print $strTotalViews;?>: <b><?print($adviews);?></b></td>
-       <td><?print $strTotalClicks;?>: <b><?print($adclicks);?></b></td>
-       <td><?print $strCTR;?>: <b><?print($ctr);?>%</b></td>
-      </tr>
-      <tr>
-       <td><?print $strTotalClients;?>: <b><?print(MYSQL_NUMROWS($res_clients));?></b></td>
-       <td><?print $strActiveClients;?>: <b><?print(MYSQL_RESULT($res_active_clients,0,"count(clientID)"));?></b></td>
-       <td><?print $strActiveBanners;?>: <b><?print(MYSQL_RESULT($res_active_banners,0,"count(bannerID)"));?></b></td>
-      </tr>
-      <tr><td colspan="3"><br></td></tr>
-      <tr>
-       <td colspan="3" align=center><form method="post" action="creditstats.php"><input type=hidden name=pageid value=<?print $pageid;?>><input type=Submit value="Go"><br><?print $strCreditStats;?></form></td>
-      </tr>
-      <tr><td colspan="3"><br><a href="logout.php"><?print $strLogout;?></a>
-      </td></tr>
+	<tr><td colspan="3" bgcolor="#CCCCCC"><?print $strStats;?></td></tr>
+	<tr>
+		<td><?print $strTotalViews;?>: <b><?print($adviews);?></b></td>
+		<td><?print $strTotalClicks;?>: <b><?print($adclicks);?></b></td>
+		<td><?print $strCTR;?>: <b><?print($ctr);?>%</b></td>
+	</tr>
+	<tr>
+		<td><?print $strTotalClients;?>: <b><?print(MYSQL_NUMROWS($res_clients));?></b></td>
+		<td><?print $strActiveClients;?>: <b><?print(MYSQL_RESULT($res_active_clients,0,"count(clientID)"));?></b></td>
+		<td><?print $strActiveBanners;?>: <b><?print(MYSQL_RESULT($res_active_banners,0,"count(bannerID)"));?></b></td>
+	</tr>
+	<tr><td colspan="3"><br></td></tr>
+	<tr>
+		<td colspan="3" align=center><form method="post" action="creditstats.php"><input type=hidden name=pageid value=<?print $pageid;?>><input type=Submit value="<?print $strGo;?>"><br><?print $strCreditStats;?></form></td>
+	</tr>
+	<tr><td colspan="3"><br><a href="logout.php"><?print $strLogout;?></a></td></tr>
 </table>
 
 
 <?
- page_footer();
+page_footer();
 ?>

@@ -1,6 +1,14 @@
 phpAdsNew - ChangeLog
- v 1.7.2 - 30/12/2000  + Bugfix: Authentication required for detailstats now.
-                       + Bugfix: forgot banner in creditstats.php. HTML-banners will show now.
+ v 1.8.0 - 06/01/2001	+ Added expiration stats on credit stats and client stats (Martin Braun)
+                        + Added weekly stats - needs serious optimizing (Martin Braun)
+                        + Added anti-cache feature (Martin Braun)
+			+ All files have new indents to make viewing and developing easier. Read DEVELOPERS for more info.
+			+ sphourly.php changed to reflect changes in weeklystats (Martin Braun)
+			+ Updated documentation.html with explanation about remotehtmlview (me)
+			+ Bugfix: mail.php doesn't deactive clients anymore (sypplie)
+			+ Bugfix: Authentication required for detailstats now. (me)
+			+ Bugfix: forgot banner in creditstats.php. HTML-banners will show now. (me)
+                        + Bugfix: several smaller bugs fixed.
  v 1.7.1 - 18/12/2000  + Bugfix: login box only appears once now
  v 1.7.0 - 17/12/2000  + Fixed a problem for Windows users with banneradd.php
                        + GIF/PNG support automatically detected (first contribution of Phil)

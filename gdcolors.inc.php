@@ -6,7 +6,7 @@ $textcolor = "#006666";
 
 // RGB array taken from Valuehunt's graph config
 $RGB = array(
-        "white"         => array(0xFF,0xFF,0xFF),
+	"white"         => array(0xFF,0xFF,0xFF),
         "black"         => array(0x00,0x00,0x00),
         "gray"          => array(0x7F,0x7F,0x7F),
         "lgray"         => array(0xBF,0xBF,0xBF),

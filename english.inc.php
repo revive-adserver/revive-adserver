@@ -16,7 +16,7 @@ $strViews = "AdViews";
 $strClicks = "AdClicks";
 $strTotalViews = "Total AdViews";
 $strTotalClicks = "Total AdClicks";
-$strCTR = "Click-Throuh Ratio";
+$strCTR = "Click-Through Ratio";
 $strTotalClients = "Total clients";
 $strActiveClients = "Active clients";
 $strActiveBanners = "Active banners";
@@ -114,5 +114,18 @@ $strExpiration = "Expiration";
 $strDaysLeft = "Days left";
 $strEstimated = "Estimated expiration";
 $strConfirm = "Are you sure ?";
+$strBannerNoStats = "No statistics available for this banner!";
+$strWeek = "Week";
+$strWeeklyStats = "Weekly statistics";
+$strWeekDay = "Weekday";
+$strDate = "Date";
+$strCTRShort = "CTR";
+$strDayShortCuts=array("Su","Mo","Tu","We","Th","Fr","Sa");
+$strShowWeeks="Max. weeks to display";
+$strAll="all";
+$strAvg="Avg.";
+$strHourly="Views/Clicks by hour";
+$strTotal = "Total";
+$strUnlimited = "Unlimited";
 
 ?>

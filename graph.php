@@ -26,6 +26,8 @@
 /* Steve Maranda steve_maranda@teluq.uquebec.ca                           */  
 /* Have fun !                                                             */  
 
+require("nocache.inc.php");
+
 //data  
 $data = urldecode($data);  
 
@@ -46,14 +48,14 @@ $items= explode("^^",$data);
 
 //calculate total  
 while (list($key,$item) = each($items))  
-      {  
-      if ($item)  
-         {  
-         $pos = strpos($item,"^");  
-         $value = substr($item,$pos+1,strlen($item));  
-         $total = $total + $value;  
-         }  
-      }  
+{  
+	if ($item)  
+	{  
+		$pos = strpos($item,"^");  
+		$value = substr($item,$pos+1,strlen($item));  
+		$total = $total + $value;  
+	}  
+}  
 
 reset($items);  
 
@@ -82,30 +84,29 @@ Imageline($im,$x,$y-5,$x,$height-15,$bar);
 
 //draw data  
 while (list($key,$item) = each($items))  
-      {  
-      if ($item)  
-         {  
-         $pos = strpos($item,"^");  
-         $item_title = substr($item,0,$pos);  
-         $value = substr($item,$pos+1,strlen($item));  
+{  
+	if ($item)  
+	{  
+		$pos = strpos($item,"^");  
+		$item_title = substr($item,0,$pos);  
+		$value = substr($item,$pos+1,strlen($item));  
 
-         //display percent  
-         ImageString($im,3,$x-28,$y-2,intval(round(($value/$total)*100))."%",$blue);  
+		//display percent  
+		ImageString($im,3,$x-28,$y-2,intval(round(($value/$total)*100))."%",$blue);  
 
-         //value right side rectangle  
-         $px = $x + ( intval(round(($value/$total)*100)) * $unit);  
+		//value right side rectangle  
+		$px = $x + ( intval(round(($value/$total)*100)) * $unit);  
 
-         //draw rectangle value  
-         ImageFilledRectangle($im,$x,$y-2,$px,$y+$bar_width,$bar);  
+		//draw rectangle value  
+		ImageFilledRectangle($im,$x,$y-2,$px,$y+$bar_width,$bar);  
 
-         //draw empty rectangle  
-         ImageRectangle($im,$px+1,$y-2,($x+(100*$unit)),$y+$bar_width,$bar);  
+		//draw empty rectangle  
+		ImageRectangle($im,$px+1,$y-2,($x+(100*$unit)),$y+$bar_width,$bar);  
 
-         //display numbers  
-         ImageString($im,2,($x+(92*$unit))-40,$y+12,$value."/".$total,$blue);
-
-         }  
-      $y=$y+($bar_width+20);
+		//display numbers  
+		ImageString($im,2,($x+(92*$unit))-40,$y+12,$value."/".$total,$blue);
+	}  
+	$y=$y+($bar_width+20);
 	// Display modified image  
 	require("gd.php");
 	showimage($im);
@@ -113,6 +114,5 @@ while (list($key,$item) = each($items))
 	// Release allocated ressources  
 	ImageDestroy($im);  
 	exit();
-      }  
-
+}  
 ?>

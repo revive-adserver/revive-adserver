@@ -4,7 +4,7 @@ function acl_check($request, $row) {
 	global $phpAds_db;
 	$bannerID = $row['bannerID'];
 	if (($res = mysql_db_query($phpAds_db, "SELECT * FROM $phpAds_tbl_acls
-         	 WHERE bannerID = $bannerID ORDER by acl_order ")) == 0){ 
+		WHERE bannerID = $bannerID ORDER by acl_order")) == 0){ 
 		return(0);
 	}
 	while ($aclrow = mysql_fetch_array($res)) {
@@ -43,16 +43,16 @@ function acl_check_weekday($request, $aclrow) {
 	$data = $aclrow['acl_data'];
 	$day = $request['weekday'];
 	if ($day == $data) {
-                switch ($aclrow['acl_ad']) {
-                        case 'allow':
-                                return(1);
-                        case 'deny';
-                                return(0);
-                        default:
-                                return(-1);
+		switch ($aclrow['acl_ad']) {
+			case 'allow':
+				return(1);
+			case 'deny';
+				return(0);
+			default:
+				return(-1);
 		}
 	}
-        return(-1);
+	return(-1);
 }
 
 
@@ -60,13 +60,13 @@ function acl_check_useragent($request, $aclrow) {
 	$data = $aclrow['acl_data'];
 	$agent = $request['user_agent'];
 	if (eregi($data, $agent)) {
-                switch ($aclrow['acl_ad']) {
-                        case 'allow':
-                                return(1);
-                        case 'deny';
-                                return(0);
-                        default:
-                                return(-1);
+		switch ($aclrow['acl_ad']) {
+			case 'allow':
+				return(1);
+			case 'deny';
+				return(0);
+			default:
+				return(-1);
 		}
 	}
 	return(-1);	
@@ -142,16 +142,16 @@ function acl_check_time($request, $aclrow) {
 	$data = $aclrow['acl_data'];
 	$time = $request['time'];
 	if ($time == $data) {
-                switch ($aclrow['acl_ad']) {
-                        case 'allow':
-                                return(1);
-                        case 'deny';
-                                return(0);
-                        default:
-                                return(-1);
+		switch ($aclrow['acl_ad']) {
+			case 'allow':
+				return(1);
+			case 'deny';
+				return(0);
+			default:
+				return(-1);
 		}
 	}
-        return(-1);
+	return(-1);
 }
 
 ?>
