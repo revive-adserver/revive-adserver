@@ -37,7 +37,7 @@ function phpAds_GenerateInvocationCode()
 	global $withText, $template, $refresh, $uniqueid;
 	global $width, $height;
 	global $popunder, $left, $top, $timeout;
-	global $transparent, $resize;
+	global $transparent, $resize, $block;
 	global $hostlanguage;
 	
 	$buffer = '';
@@ -50,16 +50,16 @@ function phpAds_GenerateInvocationCode()
 	
 	// Set parameters
 	if (isset($what) && $what != '')
-		$parameters[] = "what=".str_replace (",+", ",_", $what);
+		$parameters['what'] = "what=".str_replace (",+", ",_", $what);
 	
 	if (isset($clientid) && strlen($clientid) && $clientid != '0')
-		$parameters[] = "clientid=".$clientid;
+		$parameters['clientid'] = "clientid=".$clientid;
 	
 	if (isset($source) && $source != '')
-		$parameters[] = "source=".$source;
+		$parameters['source'] = "source=".$source;
 	
 	if (isset($target) && $target != '')
-		$parameters[] = "target=".$target;
+		$parameters['target'] = "target=".$target;
 	
 	
 	// Remote invocation
@@ -76,30 +76,67 @@ function phpAds_GenerateInvocationCode()
 		$buffer .= "><img src='".$phpAds_config['url_prefix']."/adview.php";
 		if (sizeof($parameters) > 0)
 			$buffer .= "?".implode ("&", $parameters);
-		$buffer .= "' border='0'></a>";
+		$buffer .= "' border='0'></a>\n";
 	}
 	
 	// Remote invocation with JavaScript
 	if ($codetype=='adjs')
 	{
 		if (isset($withText) && $withText == '0')
-			$parameters[] = "withText=0";
+			$parameters['withText'] = "withText=0";
 		
+		if (isset($block) && $block == '1')
+			$parameters['block'] = "block=1";
+		
+		
+		/*
 		$buffer .= "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adjs.php";
 		$buffer .= "?n=".$uniqueid;
 		if (sizeof($parameters) > 0)
 			$buffer .= "&".implode ("&", $parameters);
 		$buffer .= "'></script>";
+		*/
+		
+		$buffer .= "<script language='JavaScript1.2' type='text/javascript'>\n";
+		$buffer .= "<!--\n";
+		$buffer .= "   var phpAds_used; if (phpAds_used == undefined) phpAds_used = new Array();\n";
+		$buffer .= "   document.write (\"<\" + \"script language='JavaScript' src='\");\n";
+		$buffer .= "   document.write (\"".$phpAds_config['url_prefix']."/adjs.php?n=".$uniqueid."\");\n";
+		if (sizeof($parameters) > 0)
+			$buffer .= "   document.write (\"&".implode ("&", $parameters)."\");\n";
+		$buffer .= "   document.write (\"&exclude=\" + phpAds_used.join(','));\n";
+		$buffer .= "   document.write (\"'><\" + \"/script>\");\n";
+		$buffer .= "//-->\n";
+		$buffer .= "</script>\n";
+		
+		if (isset($parameters['withText']))
+			unset ($parameters['withText']);
+		
+		if (isset($parameters['block']))
+			unset ($parameters['block']);
+		
+		if (isset($uniqueid) && $uniqueid != '')
+			$parameters['n'] = "n=".$uniqueid;	
+		
+		$buffer .= "<noscript><a href='".$phpAds_config['url_prefix']."/adclick.php";
+		$buffer .= "?n=".$uniqueid;
+		$buffer .= "'";
+		if (isset($target) && $target != '')
+			$buffer .= " target='$target'";
+		$buffer .= "><img src='".$phpAds_config['url_prefix']."/adview.php";
+		if (sizeof($parameters) > 0)
+			$buffer .= "?".implode ("&", $parameters);
+		$buffer .= "' border='0'></a></noscript>\n";
 	}
 	
 	// Remote invocation for iframes
 	if ($codetype=='adframe')
 	{
 		if (isset($refresh) && $refresh != '')
-			$parameters[] = "refresh=".$refresh;
+			$parameters['refresh'] = "refresh=".$refresh;
 		
 		if (isset($resize) && $resize == '1')
-			$parameters[] = "resize=1";
+			$parameters['resize'] = "resize=1";
 		
 		$buffer .= "<iframe id='".$uniqueid."' name='".$uniqueid."' src='".$phpAds_config['url_prefix']."/adframe.php";
 		$buffer .= "?n=".$uniqueid;
@@ -121,7 +158,7 @@ function phpAds_GenerateInvocationCode()
 			unset ($parameters['resize']);
 		
 		if (isset($uniqueid) && $uniqueid != '')
-			$parameters[] = "n=".$uniqueid;	
+			$parameters['n'] = "n=".$uniqueid;	
 		
 		$buffer .= "<a href='".$phpAds_config['url_prefix']."/adclick.php";
 		$buffer .= "?n=".$uniqueid;
@@ -133,7 +170,7 @@ function phpAds_GenerateInvocationCode()
 			$buffer .= "?".implode ("&", $parameters);
 		$buffer .= "' border='0'></a>";
 		
-		$buffer .= "</iframe>";
+		$buffer .= "</iframe>\n";
 	}
 	
 	// Combined remote invocation
@@ -194,34 +231,34 @@ function phpAds_GenerateInvocationCode()
 		
 		$buffer .= "</iframe>";
 		
-		$buffer .= "</noscript>";
+		$buffer .= "</noscript>\n";
 	}
 	
 	// Popup
 	if ($codetype=='popup')
 	{
 		if (isset($popunder) && $popunder == '1')
-			$parameters[] = "popunder=1";
+			$parameters['popunder'] = "popunder=1";
 		
 		if (isset($left) && $left != '' && $left != '-')
-			$parameters[] = "left=".$left;
+			$parameters['left'] = "left=".$left;
 		
 		if (isset($top) && $top != '' && $top != '-')
-			$parameters[] = "top=".$top;
+			$parameters['top'] = "top=".$top;
 		
 		if (isset($timeout) && $timeout != '' && $timeout != '-')
-			$parameters[] = "timeout=".$timeout;
+			$parameters['timeout'] = "timeout=".$timeout;
 		
 		$buffer .= "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adpopup.php";
 		$buffer .= "?n=".$uniqueid;
 		if (sizeof($parameters) > 0)
 			$buffer .= "&".implode ("&", $parameters);
-		$buffer .= "'></script>";
+		$buffer .= "'></script>\n";
 	}
 	
 	// Remote invocation for layers
 	if ($codetype=='adlayer')
-		$buffer = phpAds_generateLayerCode($parameters);
+		$buffer = phpAds_generateLayerCode($parameters)."\n";
 	
 	// Remote invocation using XML-RPC
 	if ($codetype=='xmlrpc')
@@ -237,7 +274,7 @@ function phpAds_GenerateInvocationCode()
 				$buffer .= "    \$xmlrpcbanner = new phpAds_XmlRpc('$params[host]', '$params[path]'".
 					(isset($params['port']) ? ", '$params[port]'" : "").");\n";
 				$buffer .= "    \$xmlrpcbanner->view('$what', $clientid, '$target', '$source', '$withText');\n";
-				$buffer .= "?".">";
+				$buffer .= "?".">\n";
 				break;
 		}
 	}
@@ -257,7 +294,7 @@ function phpAds_GenerateInvocationCode()
 		$buffer .= "<"."?php\n";
 		$buffer .= "    require($path);\n";
 		$buffer .= "    view ('$what', $clientid, '$target', '$source', '$withText');\n";
-		$buffer .= "?".">";
+		$buffer .= "?".">\n";
 	}
 	
 	return $buffer;
@@ -278,7 +315,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	global $withText, $template, $refresh, $uniqueid;
 	global $width, $height;
 	global $popunder, $left, $top, $timeout;
-	global $transparent, $resize;
+	global $transparent, $resize, $block;
 	global $hostlanguage;
 	global $layerstyle;
 	
@@ -320,7 +357,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true);
 	
 	if ($codetype == 'adjs')
-		$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withText' => true);
+		$show = array ('what' => true, 'clientid' => true, 'block' => true, 'target' => true, 'source' => true, 'withText' => true);
 	
 	if ($codetype == 'adframe')
 		$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'refresh' => true, 'size' => true, 'resize' => true, 'transparent' => true);
@@ -474,6 +511,19 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	}
 	
 	
+	// Block
+	if (isset($show['block']) && $show['block'] == true)
+	{
+		echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+		echo "<tr><td width='30'>&nbsp;</td>";
+		echo "<td width='200'>"."Don't show the banner again on the same page"."</td>";
+		echo "<td width='370'><input type='radio' name='block' value='1'".(isset($block) && $block != 0 ? ' checked' : '').">&nbsp;Yes<br>";
+		echo "<input type='radio' name='block' value='0'".(!isset($block) || $block == 0 ? ' checked' : '').">&nbsp;No</td>";
+		echo "</tr>";
+		echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+	}
+	
+	
 	// AdLayer style
 	if (isset($show['layerstyle']) && $show['layerstyle'] == true)
 	{
@@ -581,7 +631,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		echo "<td width='560' colspan='2'>";
 		echo "<br><br><img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strBannercode'].":</b><br><br>";
 		
-		echo "<textarea class='flat' rows='8' cols='55' style='width:560px;'>".htmlspecialchars(phpAds_GenerateInvocationCode())."</textarea>";
+		echo "<textarea class='code' rows='16' cols='55' style='width:560px;'>".htmlspecialchars(phpAds_GenerateInvocationCode())."</textarea>";
 		echo "</td></tr>";
 	
 		$generated = true;
