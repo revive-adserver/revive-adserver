@@ -26,7 +26,7 @@ define ("phpAds_ZoneRaw", 2);
 
 function phpAds_RebuildZoneCache ($zoneid = '')
 {
-	global $phpAds_tbl_zones, $phpAds_zone_cache;
+	global $phpAds_tbl_zones, $phpAds_tbl_banners, $phpAds_zone_cache;
 	
 	if ($zoneid == '')
 	{
@@ -63,8 +63,18 @@ function phpAds_RebuildZoneCache ($zoneid = '')
 		
 		if ($phpAds_zone_cache)
 		{
+			$precondition = '';
+			
+			// Size preconditions
+			if ($zone['width'] > -1)
+				$precondition .= " AND $phpAds_tbl_banners.width = ".$zone['width']." ";
+			
+			if ($zone['height'] > -1)
+				$precondition .= " AND $phpAds_tbl_banners.height = ".$zone['height']." ";
+			
+			
 			// Get banners
-			$select = phpAds_buildQuery ($what, 1, '');
+			$select = phpAds_buildQuery ($what, 1, $precondition);
 			$res    = @db_query($select);
 			
 			// Build array for further processing...
