@@ -551,6 +551,7 @@ $GLOBALS['strBeforeActivate']			= "the activation date has not yet been reached"
 $GLOBALS['strAfterExpire']			= "the expiration date has been reached";
 $GLOBALS['strNoMoreClicks']			= "there are no AdClicks remaining";
 $GLOBALS['strNoMoreViews']			= "there are no AdViews remaining";
+$GLOBALS['strWeightIsNull']			= "its weight is set to zero";
 $GLOBALS['strWarnClientTxt']			= "The AdClicks or AdViews left for your banners are getting below {limit}. \nYour banners will be disabled when there are no AdClicks or AdViews left. ";
 $GLOBALS['strViewsClicksLow']			= "AdViews/AdClicks are low";
 $GLOBALS['strNoViewLoggedInInterval']   	= "No AdViews were logged during the span of this report";

@@ -244,8 +244,8 @@ $GLOBALS['strLowPriority']					= "Visualizza i banner in questa campagna con Pri
 $GLOBALS['strTargetLimitAdviews']			= "Limita il numero di visualizzazioni a";
 $GLOBALS['strTargetPerDay']					= "al giorno.";
 $GLOBALS['strPriorityAutoTargeting']		= "Distribisci le visualizzazioni durante il corso delle rimanenti giornate. Il limite giornaliero di visualizzazioni verr&agrave; calcolato automaticamente.";
-$GLOBALS['strCampaignWarningNoWeight']		= "Questa campagna &egrave; stata impostata come campagna a bassa priorit&agrave;, \nma il suo peso &egrave; impostato a zero o non &egrave; stato \nspecificato. Questo causer&agrave; la disattivazione della campagna \ne i suoi banner non verranno visualizzati \nfinch&eacute; il peso non sar&agrave; impostato correttamente \nad un numero valido. \n\nSei sicuro di voler procedere?";
-$GLOBALS['strCampaignWarningNoTarget']		= "Questa campagna &egrave; stata impostata come campagna ad alta priorit&agrave;, \nma il numero di Visualizzazioni giornaliere non &egrave; stato \nspecificato. Questo causer&agrave; la disattivazione della campagna \ne i suoi banner non verranno visualizzati \nfinch&eacute; il peso non sar&agrave; impostato un numero valido \ndi Visualizzazioni giornaliere. \n\nSei sicuro di voler procedere?";
+$GLOBALS['strCampaignWarningNoWeight']		= "Questa campagna è stata impostata come campagna a bassa priorità, \nma il suo peso è impostato a zero o non è stato specificato. \nQuesto comporterà la disattivazione della campagna: i suoi banner \nnon verranno visualizzati finché il peso non sarà impostato \nad un numero valido. \n\nSei sicuro di voler procedere?";
+$GLOBALS['strCampaignWarningNoTarget']		= "Questa campagna è stata impostata come campagna ad alta priorità, \nma il numero di Visualizzazioni giornaliere non è stato specificato. \nQuesto comporterà la disattivazione della campagna: i suoi banner \nnon verranno visualizzati finché non sarà impostato \nun numero valido di Visualizzazioni giornaliere. \n\nSei sicuro di voler procedere?";
 
 
 
@@ -551,6 +551,7 @@ $GLOBALS['strBeforeActivate']				= "non ha raggiunto la data di attivazione";
 $GLOBALS['strAfterExpire']					= "ha raggiunto la data di scadenza";
 $GLOBALS['strNoMoreClicks']					= "non ci sono più Click a disposizione";
 $GLOBALS['strNoMoreViews']					= "non ci sono più Visualizzazioni a disposizione";
+$GLOBALS['strWeightIsNull']					= "il suo peso è impostato a zero";
 $GLOBALS['strWarnClientTxt']				= "I click e le visualizzazioni rimaste per i tuoi banner sono inferiori a {limit}. \nI tuoi banner verranno disabilitati quando termineranno i click o visualizzazioni a tua dispoizione. ";
 $GLOBALS['strViewsClicksLow']				= "Le visualizzazioni/click stanno terminando";
 $GLOBALS['strNoViewLoggedInInterval']		= "Nessuna visualizzazione risulta essere stata loggata durante la creazione di questo rapporto";

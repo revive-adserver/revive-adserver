@@ -12,6 +12,9 @@
 
   ====================================================
 
+  02-13-2003 - default
+    [+] strWeightIsNull
+
   02-12-2003 - default
     [+] strAppendOthers
     [+] strAppendTextAdNotPossible

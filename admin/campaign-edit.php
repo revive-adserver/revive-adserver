@@ -126,7 +126,8 @@ if (isset($submit))
 		if (time() > mktime(0, 0, 0, $expireMonth, $expireDay, $expireYear))
 			$active = "f";
 	
-	if ($weight == 0)
+	// Set campaign inactive if weight and target are both null and autotargeting is disabled
+	if ($active == 't' && !($targetviews > 0 || $weight > 0 || ($expire != '0000-00-00' && $views > 0)))
 		$active = 'f';
 	
 	
@@ -579,7 +580,7 @@ echo "<br><br>";
 
 
 
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+echo "<table border='1' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25' colspan='3'><b>".$strContractInformation."</b></td></tr>";
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
@@ -587,16 +588,19 @@ echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 if (isset($row['active']) && $row['active'] == 'f') 
 {
 	echo "<tr><td width='30' valign='top'><img src='images/info.gif'></td>";
-	echo "<td width='200' colspan='2'>".$strClientDeactivated;
+	echo "<td colspan='2'>".$strClientDeactivated;
 	
 	$expire_ts = mktime(0, 0, 0, $row["expire_month"], $row["expire_dayofmonth"], $row["expire_year"]);
 	
-	if ($row['clicks'] == 0) echo ", $strNoMoreClicks";
-	if ($row['views'] == 0) echo ", $strNoMoreViews";
-	if (time() < mktime(0, 0, 0, $row["activate_month"], $row["activate_dayofmonth"], $row["activate_year"])) echo ", $strBeforeActivate";
-	if (time() > $expire_ts && $expire_ts > 0) echo ", $strAfterExpire";
+	$inactivebecause = array();
+
+	if ($row['clicks'] == 0) $inactivebecause[] =  $strNoMoreClicks;
+	if ($row['views'] == 0) $inactivebecause[] =  $strNoMoreViews;
+	if (time() < mktime(0, 0, 0, $row["activate_month"], $row["activate_dayofmonth"], $row["activate_year"])) $inactivebecause[] =  $strBeforeActivate;
+	if (time() > $expire_ts && $expire_ts > 0) $inactivebecause[] =  $strAfterExpire;
+	if ($row['target'] == 0  && $row['weight'] == 0) $inactivebecause[] =  $strWeightIsNull;
 	
-	echo ".<br><br>";
+	echo " ".join(', ', $inactivebecause).".<br><br>";
 	echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 }
