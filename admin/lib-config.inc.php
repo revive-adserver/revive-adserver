@@ -176,7 +176,7 @@ function phpAds_ConfigFileUpdatePrepare ()
 					{
 						// Add slashes because SettingsWriteFlush is designed to
 						// work with variables passed through magic_quotes_gpc
-						$value = addslashes($value)
+						$value = addslashes($value);
 					}
 					else
 					{
@@ -242,7 +242,7 @@ function phpAds_ConfigFileUpdatePrepare ()
 					{
 						// Add slashes because SettingsWriteFlush is designed to
 						// work with variables passed through magic_quotes_gpc
-						$value = addslashes($value)
+						$value = addslashes($value);
 					}
 					else
 					{
