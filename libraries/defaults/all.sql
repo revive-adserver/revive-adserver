@@ -300,6 +300,7 @@ CREATE TABLE phpads_config (
    auto_clean_userlog_interval tinyint(2) DEFAULT '5',
    auto_clean_tables_vacuum enum('t','f') DEFAULT 't',
    autotarget_factor float DEFAULT '-1',
+   maintenance_timestamp int(11) DEFAULT '0',
    PRIMARY KEY (configid)
 );
 

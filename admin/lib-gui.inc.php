@@ -428,7 +428,7 @@ function phpAds_PageHeader($ID, $extra="")
 function phpAds_PageFooter()
 {
 	global $phpAds_config, $HTTP_SERVER_VARS;
-	global $Session, $phpAds_showHelp, $phpAds_helpDefault;
+	global $Session, $phpAds_showHelp, $phpAds_helpDefault, $strMaintenanceNotActive;
 	global $phpAds_TextDirection, $phpAds_TextAlignLeft, $phpAds_TextAlignRight;
 	
 	echo "</td><td width='40'>&nbsp;</td></tr>";
@@ -460,13 +460,43 @@ function phpAds_PageFooter()
 	
 	echo "\n\n";
 	
-	// Add Product Update redirector
-	if (phpAds_isUser(phpAds_Admin) &&
-		function_exists('xml_parser_create') &&
-		!isset($Session['update_check']) &&
-		!ereg("/(index|maintenance-updates|install|upgrade)\.php$", $HTTP_SERVER_VARS['PHP_SELF']))
+	
+	if (!ereg("/(index|maintenance-updates|install|upgrade)\.php$", $HTTP_SERVER_VARS['PHP_SELF']))
 	{
-		echo "\t<script language='JavaScript' src='maintenance-updates-js.php'></script>\n";
+		// Add Product Update redirector
+		if (phpAds_isUser(phpAds_Admin) &&
+			function_exists('xml_parser_create') &&
+			!isset($Session['update_check']))
+		{
+			echo "\t<script language='JavaScript' src='maintenance-updates-js.php'></script>\n";
+		}
+		
+		// Check if the maintenance script is running
+		if (phpAds_isUser(phpAds_Admin))
+		{
+			if ($phpAds_config['maintenance_timestamp'] < time() - (60 * 60 * 24))
+			{
+				if ($phpAds_config['maintenance_timestamp'] > 0)
+				{
+					// The maintenance script hasn't run in the 
+					// last 24 hours, warn the user
+					echo "<script language='JavaScript'>\n";
+					echo "<!--//\n";
+					echo "\talert('".$strMaintenanceNotActive."');\n";
+					echo "//-->\n";
+					echo "</script>";
+				}
+				
+				// Update the timestamp to make sure the warning 
+				// is shown only once every 24 hours
+				$res = phpAds_dbQuery ("
+					UPDATE
+						".$phpAds_config['tbl_config']."
+					SET
+						maintenance_timestamp = '".time()."'
+				");
+			}
+		}
 	}
 	
 	echo "\n</body></html>";

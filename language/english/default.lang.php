@@ -504,12 +504,13 @@ $GLOBALS['strNoActionsLogged']			= "No actions are logged";
 
 
 // Code generation
-$GLOBALS['strGenerateBannercode']		= "Generate bannercode";
+$GLOBALS['strGenerateBannercode']		= "Direct selection";
 $GLOBALS['strChooseInvocationType']		= "Please choose the type of banner invocation";
 $GLOBALS['strGenerate']				= "Generate";
 $GLOBALS['strParameters']			= "Parameters";
 $GLOBALS['strFrameSize']			= "Frame size";
 $GLOBALS['strBannercode']			= "Bannercode";
+$GLOBALS['strOptional']				= "optional";
 
 
 // Errors
@@ -536,6 +537,7 @@ $GLOBALS['strErrorDBNoDataSerious']		= "Due to a serious problem with the databa
 $GLOBALS['strErrorDBCorrupt']			= "The database table is probably corrupt and needs to be repaired. For more information about repairing corrupted tables please read the chapter <i>Troubleshooting</i> of the <i>Administrator guide</i>.";
 $GLOBALS['strErrorDBContact']			= "Please contact the administrator of this server and notify him or her of the problem.";
 $GLOBALS['strErrorDBSubmitBug']			= "If this problem is reproducable it might be caused by a bug in ".$phpAds_productname.". Please report the following information to the creators of ".$phpAds_productname.". Also try to describe the actions that led to this error as clearly as possible.";
+$GLOBALS['strMaintenanceNotActive']		= "The maintenance script has not been run in the last 24 hours. \\nIn order for ".$phpAds_productname." to function correctly it needs to run \\nevery hour. \\n\\nPlease read the Administrator guide for more information \\nabout configuring the maintenance script.";
 
 // E-mail
 $GLOBALS['strMailSubject'] 			= "Advertiser report";

@@ -54,6 +54,14 @@ if ($phpAds_config['language'] != 'english' && file_exists(phpAds_path.'/languag
 phpAds_userlogSetUser (phpAds_userMaintenance);
 
 
+// Update the timestamp
+$res = phpAds_dbQuery ("
+	UPDATE
+		".$phpAds_config['tbl_config']."
+	SET
+		maintenance_timestamp = '".time()."'
+");
+
 
 // Run different maintenance tasks
 

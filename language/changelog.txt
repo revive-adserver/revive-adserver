@@ -12,6 +12,9 @@
 
   ====================================================
 
+  02-18-2003 - default
+    [+] strMaintenanceNotActive
+
   02-13-2003 - default
     [+] strWeightIsNull
     [u] strZoneAppendZoneSelection
