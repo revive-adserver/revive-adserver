@@ -430,7 +430,7 @@ function phpAds_ConfigFileSet ($key, $value, $type)
 	}
 	
 	
-	if (ereg(".phpAds_config\['".$key."'\][^=]*=[^\n]*;([\n|\r|\s|\t])", $phpAds_configBuffer, $regs))
+	if (ereg(".phpAds_config\['".$key."'\][^=]*=[^\n]*;([\n|\r| |\t])", $phpAds_configBuffer, $regs))
 	{
 		$phpAds_configBuffer = str_replace ($regs[0], "\$phpAds_config['".$key."'] = ".$value.";".$regs[1], $phpAds_configBuffer);
 	}

@@ -20,8 +20,8 @@ include ("lib-settings.inc.php");
 
 // Register input variables
 phpAds_registerGlobal ('ignore_hosts', 'warn_limit', 'admin_email_headers', 'log_beacon', 'compact_stats', 'log_adviews', 
-					   'log_adclicks', 'block_adviews', 'block_adclicks', 'warn_admin', 'warn_client', 'qmail_patch', 
-					   'auto_clean_tables', 'auto_clean_userlog', 'auto_clean_tables_interval', 
+					   'log_adclicks', 'block_adviews', 'block_adclicks', 'warn_admin', 'warn_client', 'warn_limit',
+					   'qmail_patch', 'auto_clean_tables', 'auto_clean_userlog', 'auto_clean_tables_interval', 
 					   'auto_clean_userlog_interval', 'geotracking_stats', 'log_hostname', 'log_source', 'log_iponly');
 
 

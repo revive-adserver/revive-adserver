@@ -1,7 +1,11 @@
 phpAdsNew - ChangeLog
 
 CVS
-			+ Misc changes
+			+ Misc bugfixes
+			  - 2003-08-08:  Adviews email warning limit wasn't correctly saved (Matteo)
+
+
+v 2.0rc4.2		+ Misc bugfixes
 			  - 2003-07-29:  Created new artwork for the installer  (Niels)
 			  - 2003-07-27:  Reordered the install pages  (Niels)
 			  - 2003-07-27:  Added integrity check of the files to the installer and updater  (Niels)
