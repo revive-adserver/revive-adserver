@@ -15,9 +15,9 @@
 
 // Set translation strings
 $GLOBALS['strHome'] = "Home";
-$GLOBALS['date_format'] = "DD/MM/YYYY";
-$GLOBALS['time_format'] = "HH:MI:SS";
-$GLOBALS['strPgSQLError'] = "Eroare PostgreSQL:";
+$GLOBALS['date_format'] = "%d/%m/%Y";
+$GLOBALS['time_format'] = "%H:%i:%S";
+$GLOBALS['strMySQLError'] = "Eroare MySQL:";
 $GLOBALS['strAdminstration'] = "Administratie";
 $GLOBALS['strAddClient'] = "Adaugare client nou";
 $GLOBALS['strModifyClient'] = "Modificare client";
@@ -101,7 +101,7 @@ $GLOBALS['strLogErrorClicks'] = "[phpAds] An error occurred while trying to fetc
 $GLOBALS['strLogErrorDisactivate'] = "[phpAds] An error occurred while trying to disactivate a banner.";
 $GLOBALS['strRatio'] = "Raport click-uri/afisari";
 $GLOBALS['strChooseBanner'] = "Alegeti tipul de banner.";
-$GLOBALS['strPgSQLBanner'] = "Banner PostgreSQL";
+$GLOBALS['strMySQLBanner'] = "Banner MySQL";
 $GLOBALS['strWebBanner'] = "Banner stocat pe server";
 $GLOBALS['strURLBanner'] = "Banner referit prin URL";
 $GLOBALS['strHTMLBanner'] = "Banner HTML";
