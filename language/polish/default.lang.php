@@ -100,9 +100,9 @@ $GLOBALS['strCollapseAll']					= "Zamknij wszystkie";
 $GLOBALS['strShowAll']						= "Poka¿ Wszystkie";
 $GLOBALS['strNoAdminInteface']				= "Us³uga niedostêpna...";
 $GLOBALS['strFilterBySource']				= "filtruj wed³ug ¼ród³a";
-$GLOBALS['strFieldContainsErrors']			= "The following fields contain errors:";
-$GLOBALS['strFieldFixBeforeContinue1']		= "Before you can continue you need";
-$GLOBALS['strFieldFixBeforeContinue2']		= "to correct these errors.";
+$GLOBALS['strFieldContainsErrors']			= "Nastêpuj±ce pola zawieraj± b³êdy:";
+$GLOBALS['strFieldFixBeforeContinue1']		= "Zanim przejdziesz dalej musisz";
+$GLOBALS['strFieldFixBeforeContinue2']		= "poprawiæ te b³edy.";
 
 
 
@@ -122,8 +122,8 @@ $GLOBALS['strID']				 			= "ID";
 $GLOBALS['strAuthentification'] 			= "Autoryzacja";
 $GLOBALS['strWelcomeTo']					= "Witamy w";
 $GLOBALS['strEnterUsername']				= "Wpisz nazwê u¿ytkownika i has³o aby siê zalogowaæ";
-$GLOBALS['strEnterBoth']					= "Please enter both your username and password";
-$GLOBALS['strEnableCookies']				= "You need to enable cookies before you can use ".$phpAds_productname;
+$GLOBALS['strEnterBoth']					= "Wpisz zarówno nazwê u¿ytkownika jak i has³o";
+$GLOBALS['strEnableCookies']				= "Musisz w³±czyæ cookies zanim bêdziesz móg³ u¿ywaæ ".$phpAds_productname;
 $GLOBALS['strLogin'] 						= "Logowanie";
 $GLOBALS['strLogout'] 						= "Wyloguj";
 $GLOBALS['strUsername'] 					= "Nazwa";
@@ -323,14 +323,14 @@ $GLOBALS['strOR']							= "LUB"; 						// logical operator
 $GLOBALS['strOnlyDisplayWhen']				= "Wy¶wietlaj ten banner tylko kiedy:";
 $GLOBALS['strWeekDay'] 						= "Dzieñ tygodnia";
 $GLOBALS['strTime'] 						= "Czas";
-$GLOBALS['strUserAgent'] 					= "Useragent";
+$GLOBALS['strUserAgent'] 					= "Program dostêpowy";
 $GLOBALS['strDomain'] 						= "Domena";
 $GLOBALS['strClientIP'] 					= "Adres IP";
 $GLOBALS['strSource'] 						= "¬ród³o";
 $GLOBALS['strBrowser'] 						= "Przegl±darka";
-$GLOBALS['strOS'] 							= "OS";
-$GLOBALS['strCountry'] 						= "Country";
-$GLOBALS['strContinent'] 					= "Continent";
+$GLOBALS['strOS'] 							= "System";
+$GLOBALS['strCountry'] 						= "Kraj";
+$GLOBALS['strContinent'] 					= "Kontynent";
 $GLOBALS['strDeliveryLimitations']			= "Ograniczenia dostarczania";
 $GLOBALS['strDeliveryCapping']				= "Odstêpy dostarczania";
 $GLOBALS['strTimeCapping']					= "Kiedy ten banner zostanie wy¶wietlony raz, nie pokazuj go ponownie temu samemu u¿ytkownikowi przez:";
@@ -354,7 +354,7 @@ $GLOBALS['strMakePublisherPublic']			= "Uczyñ strefy nale¿±ce do tego wydawcy pu
 
 
 // Publisher (properties)
-$GLOBALS['strWebsite']						= "Website";
+$GLOBALS['strWebsite']						= "Witryna";
 $GLOBALS['strAllowAffiliateModifyInfo'] 	= "Zezwól temu u¿ytkownikowi na modyfikacjê w³asnych ustawieñ";
 $GLOBALS['strAllowAffiliateModifyZones'] 	= "Zezwól temu u¿ytkownikowi na modyfikacjê w³asnych stref";
 $GLOBALS['strAllowAffiliateLinkBanners'] 	= "Zezwól temu u¿ytkownikowi na ³±czenie bannerów z w³asnymi strefami";

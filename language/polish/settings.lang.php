@@ -75,7 +75,7 @@ $GLOBALS['strUpgrade']					= "Aktualizacja";
 $GLOBALS['strSystemUpToDate']			= "Twój system ma ju¿ zainstalowan± najnowsz± wersjê programu, aktualizacja nie jest potrzebna. <br>Kliknij <b>Dalej</b> aby przej¶æ na stronê g³ówn±.";
 $GLOBALS['strSystemNeedsUpgrade']		= "Struktura bazy danych i plik konfiguracyjny musz± zostaæ zaktualizowane, aby zapewniæ prawid³owe funkcjonowanie systemu. Kliknij <b>Dalej</b> aby rozpocz±æ proces aktualizacji. <br>Przygotuj siê na to, ¿e aktualizacja mo¿e potrwaæ do kilkunastu minut.";
 $GLOBALS['strSystemUpgradeBusy']		= "System w trakcie aktualizacji, proszê zaczekaæ...";
-$GLOBALS['strSystemRebuildingCache']	= "Odbudowanie cache'u, proszê zaczekaæ...";
+$GLOBALS['strSystemRebuildingCache']	= "Odbudowywanie cache'u, proszê zaczekaæ...";
 $GLOBALS['strServiceUnavalable']		= "System jest obecnie niedostêpny. Trwa aktualizacja";
 
 $GLOBALS['strConfigNotWritable']		= "Plik config.inc.php nie mo¿e zostaæ zmodyfikowany";
@@ -127,7 +127,8 @@ $GLOBALS['strAllowInterstitial']		= "Zezwól na Interstitials";
 $GLOBALS['strAllowPopups']				= "Zezwól na Popups";
 
 $GLOBALS['strUseAcl']					= "U¿yj ograniczeñ wy¶wietlania";
-$GLOBALS['strGeotrackingLocation'] 		= "IP2Country geotracking<br> database location";
+$GLOBALS['strGeotrackingType']			= "Typ bazy danych ¶ledzenia geograficznego";
+$GLOBALS['strGeotrackingLocation'] 		= "Lokalizacja bazy danych ¶ledzenia geograficznego";
 
 $GLOBALS['strKeywordRetrieval']			= "S³owa Kluczowe";
 $GLOBALS['strBannerRetrieval']			= "Metoda Doboru Bannerów";
@@ -206,13 +207,14 @@ $GLOBALS['strIgnoreHosts']				= "Ignoruj Hosty";
 $GLOBALS['strReverseLookup']			= "Wsteczne Wyszukiwanie DNS";
 $GLOBALS['strProxyLookup']				= "Wyszukiwanie Proxy";
 
-$GLOBALS['strAutoCleanTables']			= "Database pruning";
-$GLOBALS['strAutoCleanStats']			= "Prune statistics";
-$GLOBALS['strAutoCleanUserlog']			= "Prune user log";
-$GLOBALS['strAutoCleanStatsWeeks']		= "Maximum age of statistics <br>(3 weeks minimum)";
-$GLOBALS['strAutoCleanUserlogWeeks']	= "Maximum age of user log <br>(3 weeks minimum)";
-$GLOBALS['strAutoCleanErr']				= "Maximum age must be at least 3 weeks";
+$GLOBALS['strAutoCleanTables']			= "Automatycznie Czyszczenie Bazy Danych";
+$GLOBALS['strAutoCleanStats']			= "Wyczy¶æ statystyki";
+$GLOBALS['strAutoCleanUserlog']			= "Wyczy¶æ log u¿ytkownika";
+$GLOBALS['strAutoCleanStatsWeeks']		= "Maksymalny wiek statystyk <br>(minimum 3 tygodnie)";
+$GLOBALS['strAutoCleanUserlogWeeks']	= "Maksymalny wiek logu u¿ytkownika <br>(minimum 3 tygodnie)";
+$GLOBALS['strAutoCleanErr']				= "Maksymalny wiek musi mieæ przynajmniej 3 tygodnie";
 $GLOBALS['strAutoCleanVacuum']			= "ANALIZA VACUUM tabel co noc"; // only Pg
+
 
 
 // Administrator settings
@@ -236,6 +238,7 @@ $GLOBALS['strAdminCheckDaily']			= "Codziennie";
 $GLOBALS['strAdminCheckWeekly']			= "Co tydzieñ";
 $GLOBALS['strAdminCheckMonthly']		= "Co miesi±c";
 $GLOBALS['strAdminCheckNever']			= "Nigdy";
+
 
 $GLOBALS['strAdminNovice']				= "Dzia³ania administratora usuwaj±ce dane wymagaj± potwierdzenia dla bezpieczeñstwa";
 $GLOBALS['strUserlogEmail']				= "Loguj wszystkie wychodz±ce wiadomo¶ci email";
@@ -271,6 +274,7 @@ $GLOBALS['strHideInactive']				= "Ukryj nieaktywne elementy ze wszystkich stron 
 $GLOBALS['strGUIShowMatchingBanners']	= "Poka¿ pasuj±ce bannery na stronach <i>Przy³±czony banner</i>";
 $GLOBALS['strGUIShowParentCampaigns']	= "Poka¿ nadrzêdne kampanie na stronach <i>Przy³±czony banner</i>";
 $GLOBALS['strGUILinkCompactLimit']		= "Hide non-linked campaigns or banners on the <i>Linked banner</i> pages when there are more than";
+
 
 $GLOBALS['strStatisticsDefaults'] 		= "Statystyki";
 $GLOBALS['strBeginOfWeek']				= "Pocz±tek tygodnia";
