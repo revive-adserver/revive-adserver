@@ -57,7 +57,7 @@ function Plugin_GlobalhistoryExecute($delimiter='t', $quotes='')
 	if ($quotes == '1')		$quotes = "'";
 	if ($quotes == '2')		$quotes = '"';
 	
-	header ("Content-type: application/csv\nContent-Disposition: \"inline; filename=globalhistory.csv\"");
+	header ("Content-type: application/csv\nContent-Disposition: inline; filename=\"globalhistory.csv\"");
 	
 	if ($phpAds_config['compact_stats'])
 	{

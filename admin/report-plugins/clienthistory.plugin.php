@@ -60,7 +60,7 @@ function Plugin_ClienthistoryExecute($clientid, $delimiter=",", $quotes="")
 	if ($quotes == '1')		$quotes = "'";
 	if ($quotes == '2')		$quotes = '"';
 	
-	header ("Content-type: application/csv\nContent-Disposition: \"inline; filename=advertiserhistory.csv\"");
+	header ("Content-type: application/csv\nContent-Disposition: inline; filename=\"advertiserhistory.csv\"");
 	
 	$idresult = phpAds_dbQuery ("
 		SELECT
