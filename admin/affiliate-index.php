@@ -113,7 +113,7 @@ if (isset($expand) && $expand != '')
 	switch ($expand)
 	{
 		case 'all' :	$node_array   = array();
-						for (reset($affiliates);$key=key($affiliates);next($affiliates))	$node_array[] = $key;
+						if (isset($affiliates)) for (reset($affiliates);$key=key($affiliates);next($affiliates))	$node_array[] = $key;
 						break;
 						
 		case 'none':	$node_array   = array();

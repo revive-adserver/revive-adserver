@@ -142,8 +142,8 @@ if (isset($expand) && $expand != '')
 	switch ($expand)
 	{
 		case 'all' :	$node_array   = array();
-						for (reset($clients);$key=key($clients);next($clients))	$node_array[] = $key;
-						for (reset($campaigns);$key=key($campaigns);next($campaigns)) $node_array[] = $key;
+						if (isset($clients)) for (reset($clients);$key=key($clients);next($clients))	$node_array[] = $key;
+						if (isset($campaigns)) for (reset($campaigns);$key=key($campaigns);next($campaigns)) $node_array[] = $key;
 						break;
 						
 		case 'none':	$node_array   = array();
