@@ -44,11 +44,9 @@ function phpAds_dbConnect()
 
 function phpAds_dbClose()
 {
-	global $phpAds_config;
-	global $phpAds_db_link;
-	
-	if (!$phpAds_config['persistent_connections'])
-		@mysql_close ($phpAds_db_link);
+	// Never close the database connection, because
+	// it may interfere with other scripts which
+	// share the same connection.
 }
 
 
