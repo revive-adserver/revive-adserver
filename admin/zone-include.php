@@ -381,8 +381,6 @@ function phpAds_showZoneCampaign ($width, $height, $what)
 			{
 				if (!$compact || (isset($clientids[$campaign['clientid']]) && $clientids[$campaign['clientid']] == true))
 				{
-					$name = phpAds_breakString ($name, '60');
-					
 					if ($i > 0) echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
 					echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 					
