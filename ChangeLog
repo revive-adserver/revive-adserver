@@ -12,6 +12,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			+ Added duplication of banners (Niels, thanks to Kelly Cochran) 20011201
 			+ Added ability to apply display limiations to other banners  (Niels) 20011201
 			+ Added new invocation type for popups/popunders  (Niels) 20011202
+			+ Added the ability to use beacon images for logging stats  (Niels) 20011202
 
 			+ Misc changes to library and function names
 			  - Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 20011020
@@ -48,6 +49,8 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Changed the icons of acls and activate/deactivate  (Niels) 20011201
 			  - Added return url to all delete actions  (Niels) 20011202
 			  - Added error message to 'Link banners' page  (Niels) 20011202
+			  - Iframes can now automatically resize to the banner dimensions  (Niels) 20011203
+			  - Iframes can now be transparent  (Niels) 20011203
 
 			+ Misc bugfixes
 			  - Removed extra comma from config.inc  (Matteo) 20011017
