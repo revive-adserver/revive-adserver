@@ -58,6 +58,9 @@ $GLOBALS['strDeliveryCacheSharedMem']		= "
 $GLOBALS['strDeliveryCacheDatabase']		= "
 	Momenteel wordt de cache opgeslagen in de database.
 ";
+$GLOBALS['strDeliveryCacheFiles']		= "
+	Momenteel wordt de cache opgeslagen in bestanden op de server.
+";
 
 
 // Storage

@@ -208,6 +208,7 @@ $GLOBALS['strProxyLookup']				= "Probeer het echte IP adres van de bezoeker te a
 $GLOBALS['strGeotargeting']				= "Geotargeting";
 $GLOBALS['strGeotrackingType']			= "Type Geotargeting database";
 $GLOBALS['strGeotrackingLocation'] 		= "Geotargeting database locatie";
+$GLOBALS['strGeotrackingLocationError'] = "De opgegeven locatie van de geotargeting database is niet correct";
 $GLOBALS['strGeoStoreCookie']			= "Sla het resultaat op in een cookie voor hergebruik";
 
 
@@ -281,8 +282,10 @@ $GLOBALS['strGuiSettings']			= "Gebruikersinterface instellingen";
 
 $GLOBALS['strGeneralSettings']			= "Algemene instellingen";
 $GLOBALS['strAppName']				= "Applicatienaam";
-$GLOBALS['strMyHeader']				= "Voetnoot";
-$GLOBALS['strMyFooter']				= "Eindnoot";
+$GLOBALS['strMyHeader']				= "Voetnoot bestand";
+$GLOBALS['strMyHeaderError']		= "De opgegeven locatie van het voetnoot bestand is niet correct";
+$GLOBALS['strMyFooter']				= "Eindnoot bestand";
+$GLOBALS['strMyFooterError']		= "De opgegeven locatie van het eindnoot bestand is niet correct";
 $GLOBALS['strGzipContentCompression']		= "Gebruik GZIP content compression";
 
 $GLOBALS['strClientInterface']			= "Adverteerder interface";
