@@ -109,7 +109,7 @@ Indonesian
 Italian
 	---------------------------------------------------------
 	Maintained by:	   Matteo Beccati (matteo@beccati.com)
-	Is up-to-date?	   No
+	Is up-to-date?	   Yes
 	Last update:	   29 July 2003
 	Translated files:  7 + 3 resource files
 	---------------------------------------------------------

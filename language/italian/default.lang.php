@@ -110,10 +110,6 @@ $GLOBALS['strFieldFixBeforeContinue1']		= "Prima di continuare è necessario";
 $GLOBALS['strFieldFixBeforeContinue2']		= "correggere questi errori.";
 $GLOBALS['strDelimiter']					= "Delimitatore";
 $GLOBALS['strMiscellaneous']				= "Varie";
-$GLOBALS['strCollectedAll']					= "Tutte le statistiche raccolte";
-$GLOBALS['strCollectedToday']				= "Statistiche di oggi";
-$GLOBALS['strCollected7Days']				= "Statistiche degli ultimi 7 giorni";
-$GLOBALS['strCollectedMonth']				= "Statistiche del mese corrente";
 $GLOBALS['strUseQuotes']					= "Usa le virgolette";
 
 
@@ -488,6 +484,12 @@ $GLOBALS['strTargetModifiedDay']			= "I target sono stati modificati durante il 
 $GLOBALS['strTargetModifiedWeek']			= "I target sono stati modificati durante la settimana, il targeting pu&ograve; essere impreciso";
 $GLOBALS['strTargetModifiedMonth']			= "I target sono stati modificati durante il mese, il targeting pu&ograve; essere impreciso";
 $GLOBALS['strNoTargetStats']				= "Non ci sono statistiche sul targeting disponibili";
+$GLOBALS['strCollectedAll']					= "Tutte le statistiche raccolte";
+$GLOBALS['strCollectedToday']				= "Statistiche di oggi";
+$GLOBALS['strCollected7Days']				= "Statistiche degli ultimi 7 giorni";
+$GLOBALS['strCollectedMonth']				= "Statistiche del mese corrente";
+$GLOBALS['strCollectedYesterday']			= "Statistiche di ieri";
+$GLOBALS['strCollectedRange']				= "Statistiche per intervallo di date";
 
 
 // Hosts
