@@ -137,11 +137,11 @@ function phpAds_showZoneBanners ($zoneid)
 	$res    = phpAds_dbQuery($select);
 	
 	$rows = array();
-	$weightsum = 0;
+	$prioritysum = 0;
 	while ($tmprow = phpAds_dbFetchArray($res))
 	{
 		// weight of 0 disables the banner
-		if ($tmprow['weight'])
+		if ($tmprow['priority'])
 		{
 			if ($tmprow['format'] == 'gif' ||
 				$tmprow['format'] == 'jpeg' ||
@@ -151,7 +151,7 @@ function phpAds_showZoneBanners ($zoneid)
 				$tmprow['banner'] = '';
 			}
 			
-			$weightsum += ($tmprow['weight'] * $tmprow['clientweight']);
+			$prioritysum += $tmprow['priority'];
 			$rows[$tmprow['bannerid']] = $tmprow; 
 		}
 	}
@@ -173,9 +173,7 @@ function phpAds_showZoneBanners ($zoneid)
 		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 		
 		// Banners
-		
 		for (reset($rows);$key=key($rows);next($rows))
-		//for ($key=0;$key<sizeof($rows);$key++)
 		{
 			$name = phpAds_getBannerName ($rows[$key]['bannerid'], 60, false);
 			
@@ -201,7 +199,7 @@ function phpAds_showZoneBanners ($zoneid)
 			echo "<td height='25'>".$rows[$key]['bannerid']."</td>";
 			echo "<td height='25'>".$rows[$key]['clientweight']."</td>";
 			echo "<td height='25'>".$rows[$key]['weight']."</td>";
-			echo "<td height='25'>".number_format($rows[$key]['weight'] * $rows[$key]['clientweight'] / $weightsum * 100, $phpAds_config['percentage_decimals'])."%</td>";
+			echo "<td height='25'>".number_format($rows[$key]['priority'] / $prioritysum * 100, $phpAds_config['percentage_decimals'])."%</td>";
 			
 			echo "</tr>";
 			$i++;
