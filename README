@@ -2,8 +2,13 @@ phpAdsNew - Readme
 
   PHP Banner Management System
 
-  Version 2 beta 3
+  Version 2 beta 4
   http://www.sourceforge.net/projects/phpadsnew/
+
+  THIS IS A BETA VERSION AND NOT DEEMED STABLE ENOUGH FOR USE 
+  IN A PRODUCTION ENVIRONMENT.
+  THE USE OF THIS SOFTWARE IS COMPLETELY AT YOUR OWN RISK!
+
 
     Copyright (C) 2000-2001 
 	Wim Godden 	<wim@godden.net>
@@ -11,6 +16,7 @@ phpAdsNew - Readme
 	Niels Leenheer 	<niels@creatype.nl>
 	Cedric Fontaine <cfontaine@spidmail.net>
 	Michael Harvey 	<mike@ve-studio.com>
+	Matteo Beccati  <ciaccia@writeme.com>
 
 
     Documentation:
@@ -19,7 +25,7 @@ phpAdsNew - Readme
 
 
     Based on phpAds created by Tobias Ratschiller <tobias@dnet.it>
-    Copyright (C) 2000 
+    Copyright (C) 1999-2000 
 
 
     This program is free software; you can redistribute it and/or modify
@@ -45,18 +51,23 @@ phpAdsNew - Readme
   Summary:
     phpAds is a banner management and tracking system written in PHP.
     Currently it can
-    - manage multiple banners (any size) per client
-    - view daily, overall and summary statistics
+    - manage multiple campaigns per client
+    - manage multiple banners (any size) per campaign
+    - view daily, weekly, overall and summary statistics
     - send statistics to clients via email
-    - use HTML, GIF, JPEG and PNG-banners
+    - use HTML (Rich media), GIF, JPEG and PNG-banners
+    - use banners stored on an external server (linked) or
+      store banner through the admin interface in the 
+      MySQL server or on a ftp server.
+    - integrate banner networks with your own banners
     - show random, pre-defined or HTML/image banners
     - supports multiple keywords for groups of banners
     - supports conditional keywords
     - activate and deactivate single banners
     - show banners based on filters: user-agent, day-of-week, IP masks, domain, source page, time
-    - Perform banner weighing
+    - Perform client/banner weighing
     - Target banner clicks to frames
-    - Use random or sequential banner retrieval
+    - Use different types of random or sequential banner retrieval
  
 
   Download:

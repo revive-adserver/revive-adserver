@@ -75,6 +75,11 @@ CREATE TABLE clients (
    language varchar(64),
    active enum('true','false') NOT NULL,
    weight tinyint(4) default '1' NOT NULL,   
+   parent mediumint(9) DEFAULT '0' NOT NULL,
+   report enum('true','false') NOT NULL,
+   reportinterval mediumint(9) DEFAULT '7' NOT NULL,
+   reportlastdate date DEFAULT '0000-00-00' NOT NULL,
+   reportdeactivate enum('true','false') NOT NULL,
    PRIMARY KEY (clientID)
 );
 

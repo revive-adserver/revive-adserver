@@ -1,18 +1,68 @@
 phpAdsNew - ChangeLog
 
-CVS			
-			+ Updated Italian language files (Matteo)
-			+ Added Romanian language files (Tudor Barbarosie)
-			+ Added wildcard recognition for ignored hosts (Matteo)
+v 2.0beta4		+ Updated GUI including a new logo  (Niels)
+			+ Added support for campaigns  (Niels)
+			+ Added banner selection by the width property  (Niels)
+			+ Added wildcard recognition for ignored hosts  (Matteo)
+
+			+ Webserver stored banners
+			  - Bugfixes for CURL and fopen wrappers storage  (Niels)
+			  - Added support for deleting webserver stored 
+			    banners with sockets, if the FTP module is not present  (Niels)
+			  - Added CURL support for webserver stored banners  (Matteo)
+			  - Added fopen wrapper support for webserver stored banners  (Matteo)
+			  - Webserver stored banners are now deleted when
+			    the banner, campaign or client is deleted  (Niels)
+
+			+ Reports
+			  - Added campaign overview report plugin  (Niels)
+			  - Added support for report plugins  (Niels)
+
+			+ Banner invocation
+			  - Added support for iframes  (Niels)
+		 	  - Added support for rotating banners in an iframe  (Niels)
+			  - Renamed phpads.php, remotehtmlview.php and click.php to
+			    adview.php, adjs.php and adclick.php. The old files are still
+			    available for backwards-compatibility  (Niels)
+			  - Merged click.php and htmlclick.php in one file  (Niels)
+			  - Merged viewbanner.php and phpads.php in one file  (Niels)
+
+			+ Automatic maintenance
+			  - Replaced mail.php with maintenance.php  (Niels)
+			  - Changed formatting of mailed reports  (Niels)
+			  - Mailed reports can be turned on/off through the admin interface  (Niels)
+			  - Interval of mailed reports can be configured through the admin interface  (Niels)
+			  - Mailed reports now remember the last date they were sent, so 
+			    duplicate reports won't be sent  (Niels)
+			  - Expiration warning reports can now be translated  (Niels)
+			  - Expiration reports can be turned on/off through the admin interface  (Niels)
+			  - Expiration report formatting changed  (Niels)
+			  - Expiration during banner invocation now also sents an report email  (Niels)
+			  - Expiration criteria during banner invocation changed  (Niels)
+			
+			+ HTML banners variables
+			  - Added support for {targeturl:...}  (Niels)
+			  - Added support for {referer}  (Niels)
+
+			+ Language files
+			  - Updated Italian language files  (Matteo)
+			  - Added Romanian language files  (Tudor Barbarosie)
+			
+			+ Misc bugfixes
+			  - Expiration calculation rewritten  (Niels)
+                          - Hostname logging works again when $phpAds_reverse_lookup 
+			    is not set and server provides hostname  (Matteo) 
+			
 			+ Misc bugfixes for beta3
 			  - Default banner type was always selected even if editing a banner (Matteo)
-			  - Client language settings are now checked if it is empty (Niels)
-			  - Source parameter works again with remote invocation (Alain Fontaine)
-			  - Context parameter works again (Martin Klerx)
-			  - Hostname logging works again when $phpAds_reverse_lookup is not set and server provides hostname (Matteo)
+			  - Client language settings are now checked if it is empty  (Niels)
+			  - Source parameter works again with remote invocation  (Alain Fontaine)
+			  - {targeturl} was urlencoded  (Niels)
+			  - Context parameter works again  (Martin Klerx) 
 
-v 2.0beta3
-			+ Added support for Flash variables (Niels)
+
+
+v 2.0beta3		+ Added support for Flash variables (Niels)
 			+ Added support for timestamp variable (Niels)
 			+ Added support for single quotes in HTML banners (Niels)
 			+ ACL checking can be disabled in the configuration file (Niels)
@@ -39,8 +89,8 @@ v 2.0beta2		+ Added support for banners stored on the webserver (Niels)
 			+ Bugfix: Deactivation bug fixed in mail.php (Niels)
 			+ Misc bugfixes for beta1
 
-v 2.0beta1		
-			+ Added a new User Interface (Niels)
+
+v 2.0beta1		+ Added a new User Interface (Niels)
 			+ Added new documentation (Niels)
 			+ Added cache buster support for banners refered through URL (Niels)
 			+ Added configurable default banner to display when an error occurs or when 
@@ -66,8 +116,9 @@ v 2.0beta1
 			+ Bugfix: Home wasn't translated in the client view (Cedric)
 			+ Bugfix: weekly stats didn't work correctly with multiple banners client (Cedric thanks to Niels)
 			+ Bugfix: removed "Reset Statistics" button from the client interface (Niels)
-v 1.9.2 - 08/03/2001
-			+ Removed config2.inc.php (Phil)
+
+
+v 1.9.2 - 08/03/2001	+ Removed config2.inc.php (Phil)
 			+ Bugfix: removed hourly graph for compact statistics (Niels)
 			+ Bugfix: client statistics is working again, no more SQL errors (Niels)
 			+ Bugfix: improved detection of GD availability for PHP4 (Niels)

@@ -1,3 +1,37 @@
+phpAdsNew 2 beta 3 -> phpAdsNew 2 beta 4
+
+There are a lot of changes since beta 3.
+
+One column was added to the clients table for support of campaigns. You can add
+this column to an existing installation of phpAdsNew by using this query:
+
+   ALTER TABLE clients ADD COLUMN parent mediumint(9) DEFAULT '0' NOT NULL;
+
+
+The mail.php script is replaced by maintenance.php which is located in the 
+maintenance directory. This script should be schedule to run EVERY day. If you are
+using a UNIX based system, you can do this by adding it to your cronfile.
+This script is needed to automatically sent reports to clients and to activate
+campaigns on a certain date. If this script does not run, campaigns will not be
+automatically activated!
+
+In order for the new maintenance.php script to work correctly 4 new columns were
+added to the client table.
+
+   ALTER TABLE clients ADD COLUMN report enum('true','false') NOT NULL;
+   ALTER TABLE clients ADD COLUMN reportinterval mediumint(9) DEFAULT '7' NOT NULL;
+   ALTER TABLE clients ADD COLUMN reportlastdate date DEFAULT '0000-00-00' NOT NULL;
+   ALTER TABLE clients ADD COLUMN reportdeactivate enum('true','false') NOT NULL;
+
+
+The files remotehtmlview.php, click.php and phpads.php were renamed to adjs.php,
+adclick.php and adview.php, which should describe their function much more clearly.
+The old files are still available for backwards compatibility, but could be depreciated
+in future versions of phpAdsNew.
+
+
+----------------------
+
 phpAdsNew 2 beta 2 -> phpadsNew 2 beta 3
 
 There are no big changes between beta 2 and beta 3 and no changes are needed to

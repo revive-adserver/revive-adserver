@@ -1,7 +1,6 @@
 phpAds - Todo
 
 Features I'd like to implement:
-  + Support for filters: IP, time, OS, browser, ...
-  + Better multi-language support:
-    make it possible to associate a language with each client.
+  + Zones
+  + Report plugins
   

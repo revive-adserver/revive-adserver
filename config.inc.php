@@ -24,6 +24,7 @@ $phpAds_tbl_banners = "banners";
 $phpAds_tbl_clients = "clients";
 $phpAds_tbl_session = "session";
 $phpAds_tbl_acls = "acls";
+$phpAds_tbl_zones = "zones";
 
 // Use persistent connections to the database
 $phpAds_persistent_connections = "0";
@@ -54,7 +55,7 @@ $phpAds_main_back_color = "#FFFFFF";
 $phpAds_language = "english";
 
 // The name of this application
-$phpAds_name = "phpAdsNew";
+$phpAds_name = "";
 
 // Company Name
 $phpAds_company_name = "mysite.com";
