@@ -29,8 +29,8 @@ Chinese (big5)
 Chinese (gb2312)
 	---------------------------------------------------------
 	Maintained by:	   Vincen Guo (guo9310@yahoo.com.cn)
-	Is up-to-date?	   No
-	Last update:	   8 May 2003
+	Is up-to-date?	   Yes
+	Last update:	   9 June 2003
 	Translated files:  7
 	---------------------------------------------------------
 
