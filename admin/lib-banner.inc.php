@@ -122,163 +122,178 @@ function phpAds_getBannerCache($banner)
 	{
 		if ($banner['autohtml'] == 't' && $phpAds_config['type_html_auto'])
 		{
-			// Automatic remove all target='...'
-			$buffer = eregi_replace (" target=['|\"]{0,1}[^'|\"|[:space:]]+['|\"]{0,1}", " ", $buffer);
-			
-			// Determine which types are present in the HTML
-			$formpresent = eregi('<form', $buffer);
-			$linkpresent = eregi('<a', $buffer);
-			
-			if ($formpresent)
+			if ($buffer != '')
 			{
-				// Add hidden field to forms
-				$buffer = eregi_replace ("(<form([^>]*)action=['|\"]{0,1})([^'|\"|[:space:]]+)(['|\"]{0,1}([^>]*)>)", 
-						  			     "\\1{url_prefix}/adclick.php\\4".
-									     "<input type='hidden' name='dest' value='\\3'>".
-									     "<input type='hidden' name='bannerid' value='{bannerid}'>".
-									     "<input type='hidden' name='source' value='{source}'>".
-									     "<input type='hidden' name='zoneid' value='{zoneid}'>", $buffer);
+				// Automatic remove all target='...'
+				$buffer = eregi_replace (" target=['|\"]{0,1}[^'|\"|[:space:]]+['|\"]{0,1}", " ", $buffer);
 				
-				// Add target to all URLs
-				$buffer = eregi_replace ("<form ", "<form target='{target}' ", $buffer);
-			}
-			
-			// Process link
-			if ($linkpresent)
-			{
-				// Replace all links with adclick.php
+				// Determine which types are present in the HTML
+				$formpresent = eregi('<form', $buffer);
+				$linkpresent = eregi('<a', $buffer);
 				
-				$newbanner	 = '';
-				$prevhrefpos = '';
-				
-				$lowerbanner = strtolower($buffer);
-				$hrefpos	 = strpos($lowerbanner, 'href=');
-				
-				while ($hrefpos > 0)
+				if ($formpresent)
 				{
-					$tagpos = $hrefpos;
-					$taglength = 0;
+					// Add hidden field to forms
+					$buffer = eregi_replace ("(<form([^>]*)action=['|\"]{0,1})([^'|\"|[:space:]]+)(['|\"]{0,1}([^>]*)>)", 
+							  			     "\\1{url_prefix}/adclick.php\\4".
+										     "<input type='hidden' name='dest' value='\\3'>".
+										     "<input type='hidden' name='bannerid' value='{bannerid}'>".
+										     "<input type='hidden' name='source' value='{source}'>".
+										     "<input type='hidden' name='zoneid' value='{zoneid}'>", $buffer);
 					
-					// travel back to first '<' found
-					while (substr($lowerbanner, $tagpos - 1, 1) != '<')
-						$tagpos--;
-					
-					// travel up to next space
-					while (substr($lowerbanner, $tagpos + $taglength, 1) != ' ')
-						$taglength++;
-					
-					$tag = substr($lowerbanner, $tagpos, $taglength);
-					
-					
-					// Do not convert href's inside of link tags
-					// because if external css files are used an
-					// adclick is logged for every impression.
-					if ($tag != 'link' &&
-						$tag != 'base')
-					{
-						$hrefpos = $hrefpos + 5;
-						$doublequotepos = strpos($lowerbanner, '"', $hrefpos);
-						$singlequotepos = strpos($lowerbanner, "'", $hrefpos);
-						
-						if ($doublequotepos > 0 && $singlequotepos > 0)
-						{
-							if ($doublequotepos < $singlequotepos)
-							{
-								$quotepos  = $doublequotepos;
-								$quotechar = '"';
-							}
-							else
-							{
-								$quotepos  = $singlequotepos;
-								$quotechar = "'";
-							}
-						}
-						else
-						{
-							if ($doublequotepos > 0)
-							{
-								$quotepos  = $doublequotepos;
-								$quotechar = '"';
-							}
-							elseif ($singlequotepos > 0)
-							{
-								$quotepos  = $singlequotepos;
-								$quotechar = "'";
-							}
-							else
-								$quotepos  = 0;
-						}
-						
-						if ($quotepos > 0)
-						{
-							$endquotepos = strpos($lowerbanner, $quotechar, $quotepos+1);
-							
-							if (substr ($buffer, $quotepos+1, 10) != '{targeturl' &&
-								strtolower(substr ($buffer, $quotepos+1, 11)) != 'javascript:' &&
-								strtolower(substr ($buffer, $quotepos+1, 7)) != 'mailto:')
-							{
-								$newbanner = $newbanner . 
-										substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . 
-										$quotechar . '{url_prefix}/adclick.php?bannerid=' . 
-										'{bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;dest=' . 
-										urlencode(substr($buffer, $quotepos+1, $endquotepos - $quotepos - 1)) .
-										'&amp;ismap=';
-							}
-							else
-							{
-								$newbanner = $newbanner . 
-										substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . $quotechar . 
-										substr($buffer, $quotepos+1, $endquotepos - $quotepos - 1);
-							}
-							
-							$prevhrefpos = $hrefpos + ($endquotepos - $quotepos);
-						}
-						else
-						{
-							$spacepos = strpos($lowerbanner, ' ', $hrefpos+1);
-							$endtagpos = strpos($lowerbanner, '>', $hrefpos+1);
-							
-							if ($spacepos < $endtagpos)
-								$endpos = $spacepos;
-							else
-								$endpos = $endtagpos;
-							
-							if (substr($buffer, $hrefpos, 10) != '{targeturl' &&
-								strtolower(substr($buffer, $hrefpos, 11)) != 'javascript:' &&
-								strtolower(substr($buffer, $hrefpos, 7)) != 'mailto:')
-							{
-								$newbanner = $newbanner . 
-										substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . 
-										'"' . '{url_prefix}/adclick.php?bannerid=' . 
-										'{bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;dest=' . 
-										urlencode(substr($buffer, $hrefpos, $endpos - $hrefpos)) .
-										'&amp;ismap="';
-							}
-							else
-							{
-								$newbanner = $newbanner . 
-										substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . '"' . 
-										substr($buffer, $hrefpos, $endpos - $hrefpos) . '"';
-							}
-							
-							$prevhrefpos = $hrefpos + ($endpos - $hrefpos);
-						}
-					}
-					
-					$hrefpos = strpos($lowerbanner, 'href=', $hrefpos + 1);
+					// Add target to all URLs
+					$buffer = eregi_replace ("<form ", "<form target='{target}' ", $buffer);
 				}
 				
-				$buffer = $newbanner.substr($buffer, $prevhrefpos);
+				// Process link
+				if ($linkpresent)
+				{
+					// Replace all links with adclick.php
+					
+					$newbanner	 = '';
+					$prevhrefpos = '';
+					
+					$lowerbanner = strtolower($buffer);
+					$hrefpos	 = strpos($lowerbanner, 'href=');
+					
+					while ($hrefpos > 0)
+					{
+						$tagpos = $hrefpos;
+						$taglength = 0;
+						
+						// travel back to first '<' found
+						while (substr($lowerbanner, $tagpos - 1, 1) != '<')
+							$tagpos--;
+						
+						// travel up to next space
+						while (substr($lowerbanner, $tagpos + $taglength, 1) != ' ')
+							$taglength++;
+						
+						$tag = substr($lowerbanner, $tagpos, $taglength);
+						
+						
+						// Do not convert href's inside of link tags
+						// because if external css files are used an
+						// adclick is logged for every impression.
+						if ($tag != 'link' &&
+							$tag != 'base')
+						{
+							$hrefpos = $hrefpos + 5;
+							$doublequotepos = strpos($lowerbanner, '"', $hrefpos);
+							$singlequotepos = strpos($lowerbanner, "'", $hrefpos);
+							
+							if ($doublequotepos > 0 && $singlequotepos > 0)
+							{
+								if ($doublequotepos < $singlequotepos)
+								{
+									$quotepos  = $doublequotepos;
+									$quotechar = '"';
+								}
+								else
+								{
+									$quotepos  = $singlequotepos;
+									$quotechar = "'";
+								}
+							}
+							else
+							{
+								if ($doublequotepos > 0)
+								{
+									$quotepos  = $doublequotepos;
+									$quotechar = '"';
+								}
+								elseif ($singlequotepos > 0)
+								{
+									$quotepos  = $singlequotepos;
+									$quotechar = "'";
+								}
+								else
+									$quotepos  = 0;
+							}
+							
+							if ($quotepos > 0)
+							{
+								$endquotepos = strpos($lowerbanner, $quotechar, $quotepos+1);
+								
+								if (substr ($buffer, $quotepos+1, 10) != '{targeturl' &&
+									strtolower(substr ($buffer, $quotepos+1, 11)) != 'javascript:' &&
+									strtolower(substr ($buffer, $quotepos+1, 7)) != 'mailto:')
+								{
+									$newbanner = $newbanner . 
+											substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . 
+											$quotechar . '{url_prefix}/adclick.php?bannerid=' . 
+											'{bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;dest=' . 
+											urlencode(substr($buffer, $quotepos+1, $endquotepos - $quotepos - 1)) .
+											'&amp;ismap=';
+								}
+								else
+								{
+									$newbanner = $newbanner . 
+											substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . $quotechar . 
+											substr($buffer, $quotepos+1, $endquotepos - $quotepos - 1);
+								}
+								
+								$prevhrefpos = $hrefpos + ($endquotepos - $quotepos);
+							}
+							else
+							{
+								$spacepos = strpos($lowerbanner, ' ', $hrefpos+1);
+								$endtagpos = strpos($lowerbanner, '>', $hrefpos+1);
+								
+								if ($spacepos < $endtagpos)
+									$endpos = $spacepos;
+								else
+									$endpos = $endtagpos;
+								
+								if (substr($buffer, $hrefpos, 10) != '{targeturl' &&
+									strtolower(substr($buffer, $hrefpos, 11)) != 'javascript:' &&
+									strtolower(substr($buffer, $hrefpos, 7)) != 'mailto:')
+								{
+									$newbanner = $newbanner . 
+											substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . 
+											'"' . '{url_prefix}/adclick.php?bannerid=' . 
+											'{bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;dest=' . 
+											urlencode(substr($buffer, $hrefpos, $endpos - $hrefpos)) .
+											'&amp;ismap="';
+								}
+								else
+								{
+									$newbanner = $newbanner . 
+											substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . '"' . 
+											substr($buffer, $hrefpos, $endpos - $hrefpos) . '"';
+								}
+								
+								$prevhrefpos = $hrefpos + ($endpos - $hrefpos);
+							}
+						}
+						
+						$hrefpos = strpos($lowerbanner, 'href=', $hrefpos + 1);
+					}
+					
+					$buffer = $newbanner.substr($buffer, $prevhrefpos);
+					
+					
+					// Add target to all URLs
+					$buffer = eregi_replace ("<a ", "<a target='{target}' ", $buffer);
+				}
 				
-				
-				// Add target to all URLs
-				$buffer = eregi_replace ("<a ", "<a target='{target}' ", $buffer);
+				if (!$formpresent && !$linkpresent && $banner['url'] != '')
+				{
+					// No link or form
+					$buffer = "<a href='{url_prefix}/adclick.php?bannerid={bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;ismap=' target='{target}'>".$buffer."</a>";
+				}
 			}
-			
-			if (!$formpresent && !$linkpresent && $banner['url'] != '')
+			else
 			{
-				// No link or form
-				$buffer = "<a href='{url_prefix}/adclick.php?bannerid={bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;ismap=' target='{target}'>".$buffer."</a>";
+				if ($banner['url'] != '')
+				{
+					// HTML banner is left empty, but destination url is specified,
+					// build an iframe with the right width and height to show the
+					// destination URL
+					
+					$buffer = "<iframe width='".$banner['width']."' height='".$banner['height']."' framespacing='0' frameborder='no' src='".$banner['url']."'>";
+					$buffer = "</iframe>";
+				}
 			}
 		}
 		
@@ -303,6 +318,8 @@ function phpAds_getBannerCache($banner)
 				$buffer = str_replace ($regs[0], '{url_prefix}/adclick.php?bannerid={bannerid}&amp;zoneid={zoneid}&amp;source='.$source.'&amp;dest='.urlencode($url).'&amp;ismap=', $buffer);
 			}
 		}
+		
+		$buffer = str_replace ('{targeturl=}', '{url_prefix}/adclick.php?bannerid={bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;dest=', $buffer);
 	}
 	
 	
