@@ -20,7 +20,7 @@ include ("lib-languages.inc.php");
 
 
 // Register input variables
-phpAds_registerGlobal ('admin', 'pwold', 'pw', 'pw2', 'admin_fullname', 'admin_email',
+phpAds_registerGlobal ('save_settings', 'admin', 'pwold', 'pw', 'pw2', 'admin_fullname', 'admin_email',
 					   'company_name', 'language', 'updates_frequency', 'updates_dev_builds',
 					   'admin_novice', 'userlog_email', 'userlog_priority', 'userlog_autoclean');
 
@@ -32,7 +32,7 @@ phpAds_checkAccess(phpAds_Admin);
 $errormessage = array();
 $sql = array();
 
-if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
+if (isset($save_settings) && $save_settings != '')
 {
 	if (isset($admin))
 	{

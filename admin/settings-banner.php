@@ -19,7 +19,7 @@ include ("lib-settings.inc.php");
 
 
 // Register input variables
-phpAds_registerGlobal ('default_banner_url', 'default_banner_target', 'type_sql_allow', 'type_web_allow', 'type_url_allow',
+phpAds_registerGlobal ('save_settings', 'default_banner_url', 'default_banner_target', 'type_sql_allow', 'type_web_allow', 'type_url_allow',
 					   'type_html_allow', 'type_txt_allow', 'type_web_mode', 'type_web_url', 'type_web_dir', 'type_web_ftp_user',
 					   'type_web_ftp_password', 'type_web_ftp_host', 'type_web_ftp_path', 'type_html_auto', 'type_html_php');
 
@@ -31,7 +31,7 @@ phpAds_checkAccess(phpAds_Admin);
 $errormessage = array();
 $sql = array();
 
-if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
+if (isset($save_settings) && $save_settings != '')
 {
 	if (isset($default_banner_url))
 		phpAds_SettingsWriteAdd('default_banner_url', $default_banner_url);

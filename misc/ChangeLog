@@ -29,6 +29,7 @@ phpAdsNew 2.0.1		+ Misc bugfixes
 			  - 2003-11-07:	 Short tags for PHP scripts (<? ?> and <?= ?>) in HTML banners are now allowed when the server allows this for normal PHP scripts  (Niels)
 			  - 2003-11-17:	 Fakecron script didn't correctly work on some setups at 08 and 09 AM because of a wrong implicit octal to decimal conversion  (Matteo)
 			  - 2003-11-19:	 Banner upload didn't always work with safe mode and open_basedir restrictions, even when using misc/tmp workaround  (Matteo)
+			  - 2003-12-17:  Fixed a problem where the settings were lost when logging in directly to settings page  (Niels)
 			  
 
 

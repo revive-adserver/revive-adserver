@@ -218,7 +218,7 @@ function phpAds_ShowSettings ($data, $errors = array())
 	}
 	
 	if (!defined('phpAds_installing'))
-		echo '<br><br><input type="submit" value="'.$GLOBALS['strSaveChanges'].'"></form>';
+		echo '<br><br><input name="save_settings" type="submit" value="'.$GLOBALS['strSaveChanges'].'"></form>';
 	
 	
 	echo "<script language='JavaScript'>\n<!--\n\n";

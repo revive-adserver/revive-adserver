@@ -19,7 +19,7 @@ include ("lib-settings.inc.php");
 
 
 // Register input variables
-phpAds_registerGlobal ('name', 'my_header', 'my_footer', 'client_welcome', 'client_welcome_msg', 'content_gzip_compression');
+phpAds_registerGlobal ('save_settings', 'name', 'my_header', 'my_footer', 'client_welcome', 'client_welcome_msg', 'content_gzip_compression');
 
 
 // Security check
@@ -29,7 +29,7 @@ phpAds_checkAccess(phpAds_Admin);
 $errormessage = array();
 $sql = array();
 
-if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
+if (isset($save_settings) && $save_settings != '')
 {
 	if (isset($name))
 		phpAds_SettingsWriteAdd('name', $name);

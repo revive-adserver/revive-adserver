@@ -19,7 +19,7 @@ include ("lib-settings.inc.php");
 
 
 // Register input variables
-phpAds_registerGlobal ('reverse_lookup', 'proxy_lookup', 'geotracking_location', 'geotracking_type', 
+phpAds_registerGlobal ('save_settings', 'reverse_lookup', 'proxy_lookup', 'geotracking_location', 'geotracking_type', 
 					   'geotracking_cookie');
 
 
@@ -30,7 +30,7 @@ phpAds_checkAccess(phpAds_Admin);
 $errormessage = array();
 $sql = array();
 
-if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
+if (isset($save_settings) && $save_settings != '')
 {
 	phpAds_SettingsWriteAdd('reverse_lookup', isset($reverse_lookup));
 	phpAds_SettingsWriteAdd('proxy_lookup', isset($proxy_lookup));

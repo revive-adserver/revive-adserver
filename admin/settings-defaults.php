@@ -19,7 +19,7 @@ include ("lib-settings.inc.php");
 
 
 // Register input variables
-phpAds_registerGlobal ('gui_show_campaign_info', 'gui_show_banner_info', 'gui_show_campaign_preview', 'gui_show_banner_html', 
+phpAds_registerGlobal ('save_settings', 'gui_show_campaign_info', 'gui_show_banner_info', 'gui_show_campaign_preview', 'gui_show_banner_html', 
 					   'gui_show_banner_preview', 'gui_hide_inactive', 'gui_show_matching', 'gui_show_parents', 
 					   'gui_link_compact_limit', 'begin_of_week', 'percentage_decimals', 'default_banner_weight', 'default_campaign_weight');
 
@@ -31,7 +31,7 @@ phpAds_checkAccess(phpAds_Admin);
 $errormessage = array();
 $sql = array();
 
-if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
+if (isset($save_settings) && $save_settings != '')
 {
 	phpAds_SettingsWriteAdd('gui_show_campaign_info', isset($gui_show_campaign_info));
 	phpAds_SettingsWriteAdd('gui_show_banner_info', isset($gui_show_banner_info));

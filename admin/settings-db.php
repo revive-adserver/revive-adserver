@@ -19,7 +19,7 @@ include ("lib-settings.inc.php");
 
 
 // Register input variables
-phpAds_registerGlobal ('dbhost', 'dbport', 'dbuser', 'dbpassword', 'dbname', 
+phpAds_registerGlobal ('save_settings', 'dbhost', 'dbport', 'dbuser', 'dbpassword', 'dbname', 
 					   'persistent_connections', 'insert_delayed', 
 					   'compatibility_mode', 'auto_clean_tables_vacuum');
 
@@ -31,7 +31,7 @@ phpAds_checkAccess(phpAds_Admin);
 $errormessage = array();
 $sql = array();
 
-if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
+if (isset($save_settings) && $save_settings != '')
 {
 	if (isset($dbpassword) && ereg('^\*+$', $dbpassword))
 		$dbpassword = $phpAds_config['dbpassword'];

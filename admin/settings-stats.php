@@ -19,7 +19,7 @@ include ("lib-settings.inc.php");
 
 
 // Register input variables
-phpAds_registerGlobal ('ignore_hosts', 'warn_limit', 'admin_email_headers', 'log_beacon', 'compact_stats', 'log_adviews', 
+phpAds_registerGlobal ('save_settings', 'ignore_hosts', 'warn_limit', 'admin_email_headers', 'log_beacon', 'compact_stats', 'log_adviews', 
 					   'log_adclicks', 'block_adviews', 'block_adclicks', 'warn_admin', 'warn_client', 'warn_limit',
 					   'qmail_patch', 'auto_clean_tables', 'auto_clean_userlog', 'auto_clean_tables_interval', 
 					   'auto_clean_userlog_interval', 'geotracking_stats', 'log_hostname', 'log_source', 'log_iponly');
@@ -32,7 +32,7 @@ phpAds_checkAccess(phpAds_Admin);
 $errormessage = array();
 $sql = array();
 
-if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
+if (isset($save_settings) && $save_settings != '')
 {
 	if (isset($compact_stats))
 		phpAds_SettingsWriteAdd('compact_stats', ($compact_stats == '1'));

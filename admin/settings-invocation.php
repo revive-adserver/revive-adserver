@@ -19,7 +19,7 @@ include ("lib-settings.inc.php");
 
 
 // Register input variables
-phpAds_registerGlobal ('allow_invocation_plain', 'allow_invocation_js', 'allow_invocation_frame', 
+phpAds_registerGlobal ('save_settings', 'allow_invocation_plain', 'allow_invocation_js', 'allow_invocation_frame', 
 					   'allow_invocation_xmlrpc', 'allow_invocation_local', 'allow_invocation_interstitial', 
 					   'allow_invocation_popup', 'con_key', 'mult_key', 'acl', 'delivery_caching', 
 					   'p3p_policies', 'p3p_compact_policy', 'p3p_policy_location');
@@ -32,7 +32,7 @@ phpAds_checkAccess(phpAds_Admin);
 $errormessage = array();
 $sql = array();
 
-if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
+if (isset($save_settings) && $save_settings != '')
 {
 	phpAds_SettingsWriteAdd('allow_invocation_plain', isset($allow_invocation_plain));
 	phpAds_SettingsWriteAdd('allow_invocation_js', isset($allow_invocation_js));
