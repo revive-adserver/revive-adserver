@@ -490,7 +490,7 @@ function phpAds_fetchBanner($what, $clientid, $context=0, $source='', $allowhtml
 		
 		for ($i=0; $i<$maxindex; $i++)
 		{
-			if ($rows[$i] != null)
+			if (! is_null($rows[$i]))
 			{
 				$low = $high;
 				$high += $rows[$i]['priority'];
