@@ -42,8 +42,11 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 		
 		if ($zone = phpAds_dbFetchArray($zoneres))
 		{
+			// No linked banners
+			if ($remaining == '')
+				$remaining = $zone['chain'];
+			
 			if ($zone['what'] == '')
-				// No linked banners
 				return ($remaining);
 			
 			if (!defined('LIBVIEWQUERY_INCLUDED'))  include (phpAds_path.'/lib-view-query.inc.php');
@@ -59,8 +62,8 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 				$precondition .= " AND ".$phpAds_config['tbl_banners'].".height = ".$zone['height']." ";
 			
 			// Text Ads preconditions
-			// Matching against the value instead of the constant phpAds_ZoneText (3). Didn't want to include
-			// the whole lib-zones just for a constant
+			// Matching against the value instead of the constant phpAds_ZoneText (3).
+			// Didn't want to include the whole lib-zones just for a constant
 			if ($zone['delivery'] == 3)
 				$precondition .= " AND ".$phpAds_config['tbl_banners'].".storagetype = 'txt' ";
 			else
@@ -94,19 +97,27 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 			);
 			
 			phpAds_cacheStore ('zone:'.$zone['zoneid'], $cache);
+			
+			// Unpack cache
+			list ($zoneid, $rows, $what, $prioritysum, $chain, $prepend, $append) = $cache;
 		}
 		else
 			// Zone not found
 			return ($remaining);
 	}
+	else
+	{
+		// Unpack cache
+		list ($zoneid, $rows, $what, $prioritysum, $chain, $prepend, $append) = $cache;
+		
+		if ($remaining == '')
+			$remaining = $chain;
+		
+		if (count($rows) == 0)
+			return ($remaining);
+	}
 	
 	
-	// Unpack cache
-	list ($zoneid, $rows, $what, $prioritysum, $chain, $prepend, $append) = $cache;
-	
-	// If remaining is empty, use default zone
-	if ($remaining == '')
-		$remaining = $chain;
 	
 	
 	
