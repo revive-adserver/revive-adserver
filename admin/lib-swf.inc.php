@@ -204,7 +204,7 @@ function phpAds_SWFInfo($buffer)
 			}
 			else
 			{
-				$parameters[] = array(
+				$parameters[$linkcount] = array(
 					$result, $parameter_url, $parameter_target
 				);
 			}
@@ -227,10 +227,9 @@ function phpAds_SWFInfo($buffer)
 /* Convert hard coded urls                               */
 /*********************************************************/
 
-function phpAds_SWFConvert($buffer, $compress)
+function phpAds_SWFConvert($buffer, $compress, $allowed)
 {
 	global $swf_variable, $swf_target_var;
-	
 	
 	// Decompress if file is a Flash MX compressed file
 	if (phpAds_SWFCompressed($buffer))
@@ -240,6 +239,7 @@ function phpAds_SWFConvert($buffer, $compress)
 	$parameters = array();
 	$pos = 0;
 	$linkcount = 1;
+	$allowedcount = 1;
 	
 	while ($result = strpos($buffer, swf_tag_geturl, $pos))
 	{
@@ -290,14 +290,21 @@ function phpAds_SWFConvert($buffer, $compress)
 				}
 			}
 			
-			$replacement = substr($buffer, 0, $result).
-						   $replacement.
-						   substr($buffer, $result + strlen($replacement), strlen($buffer) - ($result + strlen($replacement)));
-		   	
-			$buffer = $replacement;
+			// Is this link allowed to be converted?
+			if (in_array($allowedcount, $allowed))
+			{
+				// Convert
+				$replacement = substr($buffer, 0, $result).
+							   $replacement.
+							   substr($buffer, $result + strlen($replacement), strlen($buffer) - ($result + strlen($replacement)));
+			   	
+				$buffer = $replacement;
+				$parameters[$linkcount] = $allowedcount;
+				
+				$linkcount++;
+			}
 			
-			$parameters[] = array ($parameter_url, $parameter_target);
-			$linkcount++;
+			$allowedcount++;
 		}
 		
 		$pos = $result;

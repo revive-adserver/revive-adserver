@@ -24,7 +24,9 @@ require ("lib-zones.inc.php");
 
 
 // Register input variables
-phpAds_registerGlobal ('convert', 'cancel', 'compress');
+phpAds_registerGlobal ('convert', 'cancel', 'compress', 'convert_links',
+					   'chosen_link', 'overwrite_link', 'overwrite_target',
+					   'overwrite_source');
 
 
 // Security check
@@ -102,29 +104,44 @@ if (isset($convert))
 			else
 				$compress = false;
 			
+			if (!isset($convert_links))
+				$convert_links = array();
 			
-			list($result, $parameters) = phpAds_SWFConvert($swf_file, $compress);
+			list($result, $parameters) = phpAds_SWFConvert($swf_file, $compress, $convert_links);
 			
 			if ($result != $swf_file)
 			{
-				// Prepare the parameters
-				for ($i=0;$i<count($parameters);$i++)
+				if (count($parameters) > 0)
 				{
-					list($parameter_url, $parameter_target) = $parameters[$i];
-					$parameters[$i] = 'alink'.($i+1).'={targeturl:'.$parameter_url.'}&atar'.($i+1).'='.$parameter_target;
+					// Set default link
+					$row['url']    = $overwrite_link[$chosen_link];
+					$row['target'] = $overwrite_target[$chosen_link];
+					
+					
+					// Prepare the parameters
+					$parameters_complete = array();
+					
+					while (list($key, $val) = each($parameters))
+					{
+						if ($overwrite_source[$val] != '')
+							$overwrite_link[$val] .= '|source:'.$overwrite_source[$val];
+						
+						$parameters_complete[] = 'alink'.$key.'={targeturl:'.$overwrite_link[$val].'}&atar'.$key.'='.$overwrite_target[$val];
+					}
+					
+					$parameter = implode ('&', $parameters_complete);
+					$row['htmltemplate'] = str_replace ('{swf_param}', $parameter, $row['htmltemplate']);
 				}
 				
-				$parameter = implode ('&', $parameters);
 				$row['pluginversion'] = phpAds_SWFVersion($result);
-				
-				$row['htmltemplate'] = str_replace ('{swf_param}', $parameter, $row['htmltemplate']);
-				$row['htmlcache']    = addslashes (phpAds_getBannerCache($row));
-				$row['htmltemplate'] = addslashes ($row['htmltemplate']);
+				$row['htmlcache']     = addslashes (phpAds_getBannerCache($row));
+				$row['htmltemplate']  = addslashes ($row['htmltemplate']);
 				
 				// Store the HTML Template
 				$res = phpAds_dbQuery ("
 					UPDATE ".$phpAds_config['tbl_banners']." 
-					SET pluginversion='".$row['pluginversion']."', htmltemplate='".$row['htmltemplate']."', htmlcache='".$row['htmlcache']."'
+					SET url='".$row['url']."', target='".$row['target']."', pluginversion='".$row['pluginversion']."', 
+						htmltemplate='".$row['htmltemplate']."', htmlcache='".$row['htmlcache']."'
 					WHERE bannerid = '".$bannerid."'
 				");
 				
@@ -270,33 +287,58 @@ $compressed = phpAds_SWFCompressed($swf_file);
 
 if ($result)
 {
-	echo $strConvertSWF;
-	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+	echo $strConvertSWF.'<br>';
+	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#F6F6F6'>";
 	echo "<form action='banner-swf.php' method='post'>";
 	echo "<input type='hidden' name='clientid' value='$clientid'>";
 	echo "<input type='hidden' name='campaignid' value='$campaignid'>";
 	echo "<input type='hidden' name='bannerid' value='$bannerid'>";
 	
-	echo "<tr>";
-	echo "<td height='25'>&nbsp;<b>".$strURL2."</b></td>";
-	echo "<td height='25'><b>".$strTarget."</b></td>";
-	echo "</tr>";
+	echo "<tr><td height='25' colspan='4' bgcolor='#FFFFFF'><img src='images/".$phpAds_TextDirection."/icon-undo.gif' align='absmiddle'>&nbsp;<b>".$strHardcodedLinks."</b></td></tr>";
+	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	echo "<tr><td height='10' colspan='4'>&nbsp;</td></tr>";
 	
-	echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-	
-	for ($i=0;$i<count($result);$i++)
+	$i=0;
+	while (list($key, $val) = each($result))
 	{
-		list ($offset, $url, $target) = $result[$i];
+		list ($offset, $url, $target) = $val;
 		
-		echo "<tr>";
-		echo "<td height='25' bgcolor='".($i % 2 ? '#FFFFFF' : '#F6F6F6')."'>&nbsp;";
-		echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' align='absmiddle'>&nbsp;".$url."</td>";
-		echo "<td height='25' bgcolor='".($i % 2 ? '#FFFFFF' : '#F6F6F6')."'>".$target."</td>";
-		echo "</tr>";
+		if ($i > 0)
+		{
+			echo "<tr><td height='20' colspan='4'>&nbsp;</td></tr>";
+			echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+			echo "<tr><td height='10' colspan='4'>&nbsp;</td></tr>";
+		}
 		
-		echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+		echo "<tr><td width='30'>&nbsp;</td><td width='30'><input type='checkbox' name='convert_links[]' value='".$key."' checked></td>";
+		echo "<td width='200'>".$strURL."</td>";
+		echo "<td><input class='flat' size='35' type='text' name='overwrite_link[".$key."]' style='width:300px;' dir='ltr' value='".phpAds_htmlQuotes($url)."'>";
+		echo "<input type='radio' name='chosen_link' value='".$key."'".($i == 0 ? ' checked' : '')."></td></tr>";
+		
+		echo "<tr><td colspan='2'><img src='images/spacer.gif' height='1' width='100%'></td>";
+		echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+		
+		echo "<tr><td width='30'>&nbsp;</td><td width='30'>&nbsp;</td>";
+		echo "<td width='200'>".$strTarget."</td>";
+		echo "<td><input class='flat' size='16' type='text' name='overwrite_target[".$key."]' style='width:150px;' dir='ltr' value='".phpAds_htmlQuotes($target)."'>";
+		echo "</td></tr>";
+		
+		if (count($result) > 1)
+		{
+			echo "<tr><td colspan='2'><img src='images/spacer.gif' height='1' width='100%'></td>";
+			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+			
+			echo "<tr><td width='30'>&nbsp;</td><td width='30'>&nbsp;</td>";
+			echo "<td width='200'>".$strOverwriteSource."</td>";
+			echo "<td><input class='flat' size='50' type='text' name='overwrite_source[".$key."]' style='width:150px;' dir='ltr' value=''>";
+			echo "</td></tr>";
+		}
+		
+		$i++;
 	}
 	
+	echo "<tr><td height='20' colspan='4'>&nbsp;</td></tr>";
+	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	echo "</table>";
 	echo "<br><br>";
 	

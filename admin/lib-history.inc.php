@@ -234,6 +234,20 @@ if (isset($row['span']) && $row['span'] > 0)
 		{
 			$sources[] = $row['source'];
 		}
+		
+		$result = phpAds_dbQuery("
+			SELECT
+				DISTINCT source as source
+			FROM
+				".$phpAds_config['tbl_adclicks']."
+				".(isset($lib_history_where) ? 'WHERE '.$lib_history_where : '')."
+		");
+		
+		while ($row = phpAds_dbFetchArray($result))
+		{
+			if (!in_array($row['source'], $sources))
+				$sources[] = $row['source'];
+		}
 	}
 	
 	

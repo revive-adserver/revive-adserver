@@ -283,7 +283,20 @@ function phpAds_getBannerCache($banner)
 		{
 			while (eregi("\{targeturl:([^\}]*)\}", $buffer, $regs))
 			{
-				$buffer = str_replace ($regs[0], '{url_prefix}/adclick.php?bannerid={bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;dest='.urlencode($regs[1]).'&amp;ismap=', $buffer);
+				if (strpos($regs[1], '|source:') != false)
+				{
+					list ($url, $source) = explode ('|source:', $regs[1]);
+					
+					if (substr($source, 0, 1) == '+')
+						$source = '{source}-'.substr($source, 1, strlen($source) - 1);
+				}
+				else
+				{
+					$source = '{source}';
+					$url    = $regs[1];
+				}
+				
+				$buffer = str_replace ($regs[0], '{url_prefix}/adclick.php?bannerid={bannerid}&amp;zoneid={zoneid}&amp;source='.$source.'&amp;dest='.urlencode($url).'&amp;ismap=', $buffer);
 			}
 		}
 	}
@@ -342,8 +355,21 @@ function phpAds_getBannerCache($banner)
 		// Replace targeturl:
 		while (eregi("\{targeturl:([^\}]*)\}", $buffer, $matches))
 		{
+			if (strpos($matches[1], '|source:') != false)
+			{
+				list ($url, $source) = explode ('|source:', $matches[1]);
+				
+				if (substr($source, 0, 1) == '+')
+					$source = '{source}-'.substr($source, 1, strlen($source) - 1);
+			}
+			else
+			{
+				$source = '{source}';
+				$url    = $matches[1];
+			}
+			
 			$buffer = str_replace ($matches[0],
-								   '{url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest='.urlencode($matches[1]),
+								   '{url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source='.$source.'%26dest='.urlencode($url),
 								   $buffer);
 		}
 	}

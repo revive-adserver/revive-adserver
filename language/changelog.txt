@@ -12,6 +12,10 @@
 
   ====================================================
 
+  14-10-2002 - default
+    [+] strHardcodedLinks
+    [+] strOverwriteSource
+
   14-10-2002 - settings-help
     [u] phpAds_hlp_admin
     [+] phpAds_hlp_admin_pw

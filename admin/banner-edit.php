@@ -26,7 +26,7 @@ require ("lib-zones.inc.php");
 // Register input variables
 phpAds_registerGlobal ('storagetype', 'network', 'replaceimage', 'upload', 'checkswf', 'url', 'target', 'alink', 
 					   'atar', 'alink_chosen', 'alt', 'status', 'bannertext', 'width', 'height', 'imageurl', 'banner', 
-					   'autohtml', 'keyword', 'description', 'weight', 'submit');
+					   'autohtml', 'keyword', 'description', 'weight', 'submit', 'asource');
 
 
 // Security check
@@ -315,8 +315,12 @@ if (isset($submit))
 				{
 					if (substr($val, 0, 7) == 'http://' && strlen($val) > 7)
 					{
-						$final['htmltemplate'] = eregi_replace ("alink".$key."=\{targeturl:[^\}]+\}", "alink".$key."={targeturl:".$val."}", $final['htmltemplate']);
 						if (isset($alink_chosen) && $alink_chosen == $key) $final['url'] = $val;
+						
+						if (isset($asource[$key]) && $asource[$key] != '')
+							$val .= '|source:'.$asource[$key];
+						
+						$final['htmltemplate'] = eregi_replace ("alink".$key."=\{targeturl:[^\}]+\}", "alink".$key."={targeturl:".$val."}", $final['htmltemplate']);
 					}
 				}
 				
@@ -442,8 +446,12 @@ if (isset($submit))
 				{
 					if (substr($val, 0, 7) == 'http://' && strlen($val) > 7)
 					{
-						$final['htmltemplate'] = eregi_replace ("alink".$key."=\{targeturl:[^\}]+\}", "alink".$key."={targeturl:".$val."}", $final['htmltemplate']);
 						if (isset($alink_chosen) && $alink_chosen == $key) $final['url'] = $val;
+						
+						if (isset($asource[$key]) && $asource[$key] != '')
+							$val .= '|source:'.$asource[$key];
+						
+						$final['htmltemplate'] = eregi_replace ("alink".$key."=\{targeturl:[^\}]+\}", "alink".$key."={targeturl:".$val."}", $final['htmltemplate']);
 					}
 				}
 				
@@ -816,8 +824,10 @@ if ($bannerid != '')
 	$row = phpAds_dbFetchArray($res);
 	
 	
-	$storagetype 	 = $row['storagetype'];
-	$hardcoded_links = array();
+	$storagetype 	   = $row['storagetype'];
+	$hardcoded_links   = array();
+	$hardcoded_targets = array();
+	$hardcoded_sources = array();
 	
 	
 	// Check for hard-coded links
@@ -829,7 +839,11 @@ if ($bannerid != '')
 			
 			while (eregi("alink([0-9]+)=\{targeturl:([^\}]+)\}", $buffer, $regs))
 			{
-				$hardcoded_links[$regs[1]] = $regs[2];
+				if (strpos($regs[2], '|source:') != false)
+					list ($hardcoded_links[$regs[1]], $hardcoded_sources[$regs[1]]) = explode ('|source:', $regs[2]);
+				else
+					$hardcoded_links[$regs[1]] = $regs[2];
+				
 				$buffer = str_replace ($regs[0], '', $buffer);
 			}
 			
@@ -1095,8 +1109,9 @@ if ($storagetype == 'sql')
 		{
 			if ($i > 0)
 			{
-				echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-				echo "<td colspan='2'><img src='images/spacer.gif' height='1' width='200' vspace='6'></td></tr>";
+				echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
+				echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
+				echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 			}
 			
 			echo "<tr><td width='30'>&nbsp;</td>";
@@ -1111,7 +1126,18 @@ if ($storagetype == 'sql')
 				
 				echo "<tr><td width='30'>&nbsp;</td>";
 				echo "<td width='200'>".$strTarget."</td>";
-				echo "<td><input class='flat' size='35' type='text' name='atar[".$key."]' style='width:330px;' dir='ltr' value='".phpAds_htmlQuotes($hardcoded_targets[$key])."'>";
+				echo "<td><input class='flat' size='16' type='text' name='atar[".$key."]' style='width:150px;' dir='ltr' value='".phpAds_htmlQuotes($hardcoded_targets[$key])."'>";
+				echo "</td></tr>";
+			}
+			
+			if (count($hardcoded_links) > 1)
+			{
+				echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+				echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+				
+				echo "<tr><td width='30'>&nbsp;</td>";
+				echo "<td width='200'>".$strOverwriteSource."</td>";
+				echo "<td><input class='flat' size='50' type='text' name='asource[".$key."]' style='width:150px;' dir='ltr' value='".phpAds_htmlQuotes($hardcoded_sources[$key])."'>";
 				echo "</td></tr>";
 			}
 			
@@ -1238,8 +1264,9 @@ if ($storagetype == 'web')
 		{
 			if ($i > 0)
 			{
-				echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-				echo "<td colspan='2'><img src='images/spacer.gif' height='1' width='200' vspace='6'></td></tr>";
+				echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
+				echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
+				echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 			}
 			
 			echo "<tr><td width='30'>&nbsp;</td>";
@@ -1254,9 +1281,18 @@ if ($storagetype == 'web')
 				
 				echo "<tr><td width='30'>&nbsp;</td>";
 				echo "<td width='200'>".$strTarget."</td>";
-				echo "<td><input class='flat' size='35' type='text' name='atar[".$key."]' style='width:330px;' dir='ltr' value='".phpAds_htmlQuotes($hardcoded_targets[$key])."'>";
+				echo "<td><input class='flat' size='16' type='text' name='atar[".$key."]' style='width:150px;' dir='ltr' value='".phpAds_htmlQuotes($hardcoded_targets[$key])."'>";
 				echo "</td></tr>";
 			}
+			
+			echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+			
+			echo "<tr><td width='30'>&nbsp;</td>";
+			echo "<td width='200'>".$strOverwriteSource."</td>";
+			echo "<td><input class='flat' size='50' type='text' name='asource[".$key."]' style='width:150px;' dir='ltr' value='".phpAds_htmlQuotes($hardcoded_sources[$key])."'>";
+			echo "</td></tr>";
+			
 			$i++;
 		}
 		

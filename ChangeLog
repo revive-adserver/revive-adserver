@@ -9,6 +9,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			+ The language and browser delivery limitations now have presets, which can be easily selected  (Niels, 2002-08-08)
 			+ Added Geotracking, based on the IP2Country database. To enable this feature you need to buy the database
 			  from IP2Country. Also added two delivery limitations called 'Country' and 'Continent' to enable the Geotracking  (Niels, 2002-08-18)
+			+ The source parameter can now be overwritten in Flash banners with multiple links in order to be able to log each destination url as a seperate entity (Niels, 2002-10-14)
 
 			+ Misc changes
 			  - 2002-07-26:  Added daily and hosts pages for affiliates and zones (Matteo)
@@ -32,6 +33,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-10-04:  Changed local mode invocation to prevent unwanted errors from phpAdsNew  (Niels)
 			  - 2002-10-08:  Added handling of If-Modified-Since header in adimage.php  (Matteo)
 			  - 2002-10-08:  Changed zone-probability.php to show the zone chain if needed  (Matteo)
+			  - 2002-10-14:  During the conversion of hard-coded links, it is now possible to edit links directly from the same page  (Niels)
 
 			+ Misc bugfixes
 			  - 2002-07-25:  On some systems history pages showed '-0' instead of simply '-' (Matteo)
