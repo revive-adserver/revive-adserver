@@ -118,12 +118,12 @@ function phpAds_PageHeader($ID, $extra="")
 				
 				if ($key == $currentsection)
 				{
-					$tabbar .= "<td bgcolor='#FFFFFF' valign='middle'>&nbsp;&nbsp;<a class='tab-s' href='$filename'>$title</a></td>";
+					$tabbar .= "<td bgcolor='#FFFFFF' valign='middle' nowrap>&nbsp;&nbsp;<a class='tab-s' href='$filename'>$title</a></td>";
 					$lastselected = true;
 				}
 				else
 				{
-					$tabbar .= "<td bgcolor='#0066CC' valign='middle'>&nbsp;&nbsp;<a class='tab-u' href='$filename'>$title</a></td>";
+					$tabbar .= "<td bgcolor='#0066CC' valign='middle' nowrap>&nbsp;&nbsp;<a class='tab-u' href='$filename'>$title</a></td>";
 					$lastselected = false;
 				}
 			}
@@ -159,7 +159,7 @@ function phpAds_PageHeader($ID, $extra="")
 	{
 		$sidebar   = "&nbsp;";
 		$searchbar = "&nbsp;";
-		$tabbar    = "<td bgcolor='#FFFFFF' valign='middle'>&nbsp;&nbsp;<a class='tab-s' href='index.php'>$strAuthentification</a></td>";
+		$tabbar    = "<td bgcolor='#FFFFFF' valign='middle' nowrap>&nbsp;&nbsp;<a class='tab-s' href='index.php'>$strAuthentification</a></td>";
 		$tabbar   .= "<td><img src='images/tab-ew.gif' width='10' height='24'></td>";
 		$pagetitle = $phpAds_name != '' ? $phpAds_name : 'phpAdsNew';
 	}
