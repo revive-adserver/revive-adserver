@@ -94,7 +94,7 @@ else
 		echo "</td></tr></table><br>";
 		phpAds_ShowBreak();
 	}
-	else
+	elseif (is_array($maint_update[1]))
 	{
 		echo "<table border='0' cellspacing='0' cellpadding='0'><tr><td width='24' valign='top'>";
 		
@@ -158,6 +158,8 @@ else
 		echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 		echo "</table>";
 	}
+	else
+		phpAds_Die ($strErrorOccurred, $strUpdateServerDown);
 }
 
 
