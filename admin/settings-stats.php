@@ -29,11 +29,19 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 {
 	if (isset($ignore_hosts))
 	{
-		$ignore_hosts = explode("\n",
-			trim(ereg_replace("[[:blank:]\n\r]+", "\n",
-			stripslashes($ignore_hosts))));
-		phpAds_SettingsWriteAdd('ignore_hosts', $ignore_hosts);
+		if (trim($ignore_hosts) != '')
+		{
+			$ignore_hosts = explode("\n",
+				trim(ereg_replace("[[:blank:]\n\r]+", "\n",
+				stripslashes($ignore_hosts))));
+			
+			phpAds_SettingsWriteAdd('ignore_hosts', $ignore_hosts);
+		}
+		else
+			phpAds_settingsWriteAdd('ignore_hosts', array());
 	}
+	
+	
 	
 	if (isset($warn_limit))
 	{
@@ -45,7 +53,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 	
 	if (isset($admin_email_headers))
 	{
-		$admin_email_headers = ereg_replace("\r?\n", "\\r\\n", $admin_email_headers);
+		$admin_email_headers = trim(ereg_replace("\r?\n", "\\r\\n", $admin_email_headers));
 		phpAds_SettingsWriteAdd('admin_email_headers', $admin_email_headers);
 	}
 	
