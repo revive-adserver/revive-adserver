@@ -228,11 +228,8 @@ function phpAds_upgradeTable ($name, $structure)
 	// Check Primary
 	if (is_array($primary) && sizeof($primary) > 0)
 	{
-		if (!isset($availableprimary) || !is_array($availableprimary))
-		{
-			// Index does not exist, so create it
-			phpAds_dbQuery("ALTER TABLE ".$name." ADD PRIMARY KEY (".implode(",", $primary).")");
-		}
+		phpAds_dbQuery("ALTER TABLE ".$name." DROP PRIMARY KEY");
+		phpAds_dbQuery("ALTER TABLE ".$name." ADD PRIMARY KEY (".implode(",", $primary).")");
 	}
 	
 	
