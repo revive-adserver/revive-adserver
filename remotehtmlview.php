@@ -5,7 +5,5 @@ require("acl.inc.php");
 settype($clientID,"integer");
 header("Content-type: application/x-javascript");
 require("nocache.inc.php");
-print "document.writeln('";
-$viewresult=str_replace(chr(hexdec("0d")),"",str_replace("\n","",view("$what",$clientID,"$target","$source","$withText","$context")));
-print "');";
+view("$what",$clientID,"$target","$source","$withText","$context", 1);
 ?>

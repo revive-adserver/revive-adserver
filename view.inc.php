@@ -1,5 +1,9 @@
 <?
 
+// it's best if we do this only once per load, not every time we call rand.    
+mt_srand((double)microtime()*1000000);
+
+
 // Get a banner
 function get_banner($what, $clientID, $context=0, $source="")
 {
@@ -141,15 +145,16 @@ function get_banner($what, $clientID, $context=0, $source="")
 		return(false);
 
 	$rows = array();
-	$weighttable = array();
 	$weightsum = 0;
 	while ($tmprow = @mysql_fetch_array($res))
 	{
-		for ($i = $weightsum; $i < ($weightsum + $tmprow["weight"]); $i++)
-			$weighttable[$i] = sizeof($rows);
-		$weightsum = $weightsum + $tmprow["weight"];
-		$rows[] = $tmprow; 
-	}
+        // weight of 0 disables the banner
+        if ($tmprow["weight"])
+        {
+            $weightsum += $tmprow["weight"];
+		    $rows[] = $tmprow; 
+	    }
+    }
 
 	$date = getdate(time());
 	$request = array(
@@ -159,34 +164,32 @@ function get_banner($what, $clientID, $context=0, $source="")
 		'source'	=>	$source,
 		'time'		=>	$date['hours']);
 
-	srand((double)microtime()*1000000);
-	if ($weightsum > 0)
-	{
-		if ($weightsum == 1)
-		{
-			$ranweight=0;
-		} else
-		{
-			$weightsum--;
-    			$ranweight = rand(0,$weightsum);
-		}
-	} else
-	{
-		return($rows[0]);
-	}
-	for ($i=0;$i<$weightsum;$i++)
-	{
-		$tmprow=$rows[$weighttable[$ranweight]];
-		if (acl_check($request,$tmprow))
-		{
-			return ($tmprow);
-		} else
-		{
-			unset($weighttable[$ranweight]);
-			$weightsum--;
-			$ranweight = rand(0,$weightsum);
-		}
-	}
+
+    while ($weightsum && sizeof($rows))
+    {
+        $low = 0;
+        $high = 0;
+        $ranweight = ($weightsum>1)?mt_rand(0,$weightsum-1):0;
+        for ($i=0; $i<sizeof($rows); $i++)
+        {
+            $low = $high;
+            $high += $rows[$i]["weight"];
+            if ($high > $ranweight && $low <= $ranweight)
+            {
+                $tmprow=$rows[$i];
+                if (acl_check($request,$tmprow))
+                    return ($tmprow);
+                
+                // Matched, but acl_check failed.  delete this row and adjust $weightsum
+                if (sizeof($rows) == 1)
+                    return false;
+
+                $weightsum -= $tmprow["weight"];
+                $rows[$i] = array_pop($rows);
+                break;                              // break out of the for loop to try again
+            }
+        }
+    }
 }
 
 // Mail warnning - preset is reached
@@ -265,10 +268,31 @@ function log_adview($bannerID,$clientID)
 	}
 }
 
-// view a banner 
-function view($what, $clientID=0, $target = "", $source = "", $withtext=0, $context=0)
+// Java-encodes text for use with (remote) javascript tags
+function enjavanate($javascript, $str)
 {
-	global $phpAds_db, $REMOTE_HOST;
+    if (!$javascript) 
+    {
+        print $str;
+        return;
+    }
+    
+    foreach (explode("\n", $str) as $line)
+    {
+        $line = str_replace("\r", " ", $line);
+        $line = str_replace("'", "\\'", $line);
+        if (!empty($line))
+            print "document.writeln('$line');\n";
+    }
+}
+
+
+// Note: $javascript is for internal use only.  It should always be last, and it should always
+//       be zero when called by users.
+// view a banner 
+function view($what, $clientID=0, $target = "", $source = "", $withtext=0, $context=0, $javascript=0)
+{
+    global $phpAds_db, $REMOTE_HOST;
 
 	if(!is_int($clientID))
 	{
@@ -296,8 +320,8 @@ function view($what, $clientID=0, $target = "", $source = "", $withtext=0, $cont
 		{
 			if(!empty($row["url"])) 
 			{
-				print "<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target>";
-				print $row["banner"];
+				print enjavanate($javascript, "<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target>");
+                print enjavanate($javascript, $row["banner"]);
 			} else
 			{
 				$lowerbanner=strtolower($row["banner"]);
@@ -322,19 +346,19 @@ function view($what, $clientID=0, $target = "", $source = "", $withtext=0, $cont
 					$hrefpos=strpos($lowerbanner,"href=",$hrefpos+1);
 				}
 				$newbanner=$newbanner.substr($row["banner"],$prevhrefpos);
-				print $newbanner;
+				print enjavanate($javascript, $newbanner);
 			}
 			if(!empty($row["url"])) 
-				print "</a>";
+				print enjavanate($javascript, "</a>");
 		}
 		else
 		{
 			if (empty($row["url"]))
-				print "<img src=\"$GLOBALS[phpAds_url_prefix]/viewbanner.php?bannerID=$row[bannerID]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0>";
+				print enjavanate($javascript, "<img src=\"$GLOBALS[phpAds_url_prefix]/viewbanner.php?bannerID=$row[bannerID]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0>");
 			else
-				print "<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target><img src=\"$GLOBALS[phpAds_url_prefix]/viewbanner.php?bannerID=$row[bannerID]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0></a>";
+				print enjavanate($javascript, "<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target><img src=\"$GLOBALS[phpAds_url_prefix]/viewbanner.php?bannerID=$row[bannerID]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0></a>");
 			if($withtext && !empty($row["bannertext"]))
-				echo "<BR>\n<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target>".$row["bannertext"]."</a>";
+				print enjavanate($javascript, "<BR>\n<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target>".$row["bannertext"]."</a>");
 		}
 		if(!empty($row["bannerID"]))
 			log_adview($row["bannerID"],$row["clientID"]);
