@@ -15,7 +15,7 @@
 
 
 // Include required files
-require ("$phpAds_path/dblib.php"); 
+require ("$phpAds_path/dblib.php"); 26/09/2001
 require ("$phpAds_path/lib-expire.inc.php");
 
 // Seed the random number generator
@@ -207,7 +207,8 @@ function phpAds_buildQuery ($part, $numberofparts, $precondition)
 					{
 					$mult_key_match = "($phpAds_tbl_banners.keyword LIKE '% $part_array[$k] %'".
 						" OR $phpAds_tbl_banners.keyword LIKE '$part_array[$k] %'".
-						" OR $phpAds_tbl_banners.keyword LIKE '% $part_array[$k]')";
+						" OR $phpAds_tbl_banners.keyword LIKE '% $part_array[$k]')".
+						" OR $phpAds_tbl_banners.keyword LIKE '$part_array[$k]')";
 					
 						if ($operator == 'OR')
 							$conditions .= "OR $mult_key_match ";
