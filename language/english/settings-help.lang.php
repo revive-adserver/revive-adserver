@@ -347,8 +347,8 @@ $GLOBALS['phpAds_hlp_type_web_url'] = "
 		
 $GLOBALS['phpAds_hlp_type_html_auto'] = "
         If this option is turned on ".$phpAds_productname." will automatically alter HTML banners 
-        in order to allow the clicks to be logged. However even if this option 
-        is turned it will be possible to disable this feature on a per banner 
+        in order to allow the clicks to be logged. However even while this option 
+        is turned on, it will still be possible to disable this feature on a per banner 
         basis. 
 		";
 		

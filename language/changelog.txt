@@ -12,6 +12,13 @@
 
   ====================================================
 
+  09-10-2002 - settings-help
+    [u] phpAds_hlp_type_html_auto
+
+  09-10-2002 - settings
+    [u] strGeotrackingType
+    [u] strGeotrackingLocation
+
   08-10-2002 - default
     [+] strZoneProbListChain
     [+] strZoneProbNullPri

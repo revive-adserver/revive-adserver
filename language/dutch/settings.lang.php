@@ -127,8 +127,8 @@ $GLOBALS['strAllowInterstitial']		= "Gebruik Interstitials";
 $GLOBALS['strAllowPopups']			= "Gebruik Popups";
 
 $GLOBALS['strUseAcl']				= "Gebruik leveringsbeperkingen";
-$GLOBALS['strGeotrackingType']			= "Geotracking database type";
-$GLOBALS['strGeotrackingLocation'] 		= "Geotracking database locatie";
+$GLOBALS['strGeotrackingType']			= "Geotargeting database type";
+$GLOBALS['strGeotrackingLocation'] 		= "Geotargeting database locatie";
 
 $GLOBALS['strKeywordRetrieval']			= "Sleutelwoord selectie";
 $GLOBALS['strBannerRetrieval']			= "Banner selectie methode";
