@@ -417,7 +417,7 @@ function phpAds_showZoneCampaign ($width, $height, $what)
 						echo "<img src='images/icon-campaign-d.gif' align='absmiddle'>&nbsp;";
 					
 					// Name
-					echo "<a href='campaign-edit.php?campaignid=".$campaign['clientid']."'>";
+					echo "<a href='campaign-edit.php?clientid=".$campaign['parent']."&campaignid=".$campaign['clientid']."'>";
 					echo phpAds_breakString ($campaign['clientname'], '60')."</a>";
 					echo "</td>";
 					
@@ -762,7 +762,7 @@ function phpAds_showZoneBanners ($width, $height, $what)
 						}
 						
 						// Name
-						echo "<a href='banner-edit.php?campaignid=".$campaign['clientid']."&bannerid=".$banner['bannerid']."'>";
+						echo "<a href='banner-edit.php?clientid=".$campaign['parent']."&campaignid=".$campaign['clientid']."&bannerid=".$banner['bannerid']."'>";
 						echo $name;
 						echo "</a></td>";
 						
