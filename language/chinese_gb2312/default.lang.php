@@ -114,6 +114,7 @@ $GLOBALS['strCollectedAll']			= "所有收集的统计数据";
 $GLOBALS['strCollectedToday']			= "今天的统计数据";
 $GLOBALS['strCollected7Days']			= "七天内的统计数据";
 $GLOBALS['strCollectedMonth']			= "本月的统计数据";
+$GLOBALS['strUseQuotes']			= "使用引号";
 
 
 
