@@ -11,7 +11,8 @@
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
 /*                                                                      */
-/* This file contributed by Lars Petersen, lp@coder.dk                  */
+/* This file contributed by Lars Petersen, lp@coder.dk and              */
+/*                          Søren Eskildsen, benzon@fald.dk             */
 /*                                                                      */
 /************************************************************************/
 
@@ -252,37 +253,37 @@ $GLOBALS['strUniqueidentifier']			= "Unik ID";
 $GLOBALS['strFrameSize']				= "Rammestørrelse";
 $GLOBALS['strBannercode']				= "Bannerkode";
 
-$GLOBALS['strSearch']					= "Search";
-$GLOBALS['strNoMatchesFound']			= "No matches were found";
+$GLOBALS['strSearch']					= "Søg";
+$GLOBALS['strNoMatchesFound']			= "Der blev ikke fundet noget på denne søgning";
 
-$GLOBALS['strNoViewLoggedInInterval']   = "No views were logged during the span of this report";
-$GLOBALS['strNoClickLoggedInInterval']  = "No clicks were logged during the span of this report";
-$GLOBALS['strMailReportPeriod']			= "This report includes statistics from {startdate} up to {enddate}.";
-$GLOBALS['strMailReportPeriodAll']		= "This report includes all statistics up to {enddate}.";
-$GLOBALS['strNoStatsForCampaign'] 		= "There are no statistics available for this campaign";
-$GLOBALS['strFrom']						= "From";
-$GLOBALS['strTo']						= "to";
+$GLOBALS['strNoViewLoggedInInterval']   = "Der er ingen visninger i denne periode for denne rapport";
+$GLOBALS['strNoClickLoggedInInterval']  = "Der er ingen klik i denne periode for denne rapport";
+$GLOBALS['strMailReportPeriod']			= "Denne rapport indeholder statestikker for {startdate} ind til {enddate}.";
+$GLOBALS['strMailReportPeriodAll']		= "Denne rapport indeholder alle statestikker ind til {enddate}.";
+$GLOBALS['strNoStatsForCampaign'] 		= "Der er ingen statestik for denne Kampange";
+$GLOBALS['strFrom']						= "Fra";
+$GLOBALS['strTo']						= "til";
 $GLOBALS['strMaintenance']				= "Maintenance";
-$GLOBALS['strCampaignStats']			= "Campaign statistics";
-$GLOBALS['strClientStats']				= "Client statistics";
-$GLOBALS['strErrorOccurred']			= "An error occurred";
-$GLOBALS['strAdReportSent']				= "Advertising report sent";
+$GLOBALS['strCampaignStats']			= "Kampange statestik";
+$GLOBALS['strClientStats']				= "Klient statestik";
+$GLOBALS['strErrorOccurred']			= "Der skete en fejl";
+$GLOBALS['strAdReportSent']				= "Advertising rapport sent";
 
-$GLOBALS['strAutoChangeHTML']			= "Change HTML in order to log AdClicks";
+$GLOBALS['strAutoChangeHTML']			= "Skift HTML for at logge klik";
 
-$GLOBALS['strZones']					= "Zones";
-$GLOBALS['strAddZone']					= "Create zone";
-$GLOBALS['strModifyZone']				= "Modify zone";
-$GLOBALS['strAddNewZone']				= "Add new zone";
+$GLOBALS['strZones']					= "Zoner";
+$GLOBALS['strAddZone']					= "Opret zone";
+$GLOBALS['strModifyZone']				= "Ændre zone";
+$GLOBALS['strAddNewZone']				= "Opret ny Zone";
 
-$GLOBALS['strOverview']					= "Overview";
-$GLOBALS['strEqualTo']					= "is equal to";
-$GLOBALS['strDifferentFrom']			= "is different from";
-$GLOBALS['strAND']						= "AND";  // logical operator
-$GLOBALS['strOR']						= "OR"; // logical operator
-$GLOBALS['strOnlyDisplayWhen']			= "Only display this banner when:";
+$GLOBALS['strOverview']					= "Overskue";
+$GLOBALS['strEqualTo']					= "er ligmed";
+$GLOBALS['strDifferentFrom']			= "er forskælig fra";
+$GLOBALS['strAND']						= "OG";  // logical operator
+$GLOBALS['strOR']						= "ELLER"; // logical operator
+$GLOBALS['strOnlyDisplayWhen']			= "Vis kun banner når:";
 
-$GLOBALS['strStatusText']				= "Status Text";
+$GLOBALS['strStatusText']				= "Status Tekst";
 
 $GLOBALS['strConfirmDeleteClient'] 		= "Vil du virkelig slette denne klient?";
 $GLOBALS['strConfirmDeleteCampaign']	= "Do you really want to delete this campaign?";
@@ -292,30 +293,30 @@ $GLOBALS['strConfirmResetCampaignStats']= "Do you really want to reset stats for
 $GLOBALS['strConfirmResetClientStats']	= "Er du sikker på at du vil nulstille statistikken for denne klient?";
 $GLOBALS['strConfirmResetBannerStats']	= "Do you really want to reset stats for this banner?";
 
-$GLOBALS['strClientsAndCampaigns']		= "Clients & Campaigns";
-$GLOBALS['strCampaignOverview']			= "Campaign overview";
-$GLOBALS['strReports']					= "Reports";
-$GLOBALS['strShowBanner']				= "Show banner";
+$GLOBALS['strClientsAndCampaigns']		= "Klienter & Kampanger";
+$GLOBALS['strCampaignOverview']			= "Kampange overview";
+$GLOBALS['strReports']					= "Rapporter";
+$GLOBALS['strShowBanner']				= "Vis banner";
 
-$GLOBALS['strIncludedBanners']			= "Linked banners";
+$GLOBALS['strIncludedBanners']			= "Linkede bannere";
 $GLOBALS['strProbability']				= "Probability";
 $GLOBALS['strInvocationcode']			= "Invocationcode";
-$GLOBALS['strSelectZoneType']			= "Please choose the type of linking banners";
-$GLOBALS['strBannerSelection']			= "Banner selection";
-$GLOBALS['strInteractive']				= "Interactive";
+$GLOBALS['strSelectZoneType']			= "Vær venlig af vælge vilke type linkning af bannere";
+$GLOBALS['strBannerSelection']			= "Banner valg";
+$GLOBALS['strInteractive']				= "Interaktiv";
 $GLOBALS['strRawQueryString']			= "Raw querystring";
 
-$GLOBALS['strBannerWeight']				= "Banner weight";
-$GLOBALS['strCampaignWeight']			= "Campaign weight";
+$GLOBALS['strBannerWeight']				= "Banner vægt";
+$GLOBALS['strCampaignWeight']			= "Kampange vægt";
 
-$GLOBALS['strZoneCacheOn']				= "Zone caching is turned on";
-$GLOBALS['strZoneCacheOff']				= "Zone caching is turned off";
-$GLOBALS['strCachedZones']				= "Cached zones";
-$GLOBALS['strSizeOfCache']				= "Size of cache";
-$GLOBALS['strAverageAge']				= "Average age";
-$GLOBALS['strRebuildZoneCache']			= "Rebuild zone cache";
+$GLOBALS['strZoneCacheOn']				= "Zone caching er tændt on";
+$GLOBALS['strZoneCacheOff']				= "Zone caching er slukket";
+$GLOBALS['strCachedZones']				= "Cached zoner";
+$GLOBALS['strSizeOfCache']				= "Størekse på cache";
+$GLOBALS['strAverageAge']				= "Genemsnits alder";
+$GLOBALS['strRebuildZoneCache']			= "Genopbyg zone cache";
 $GLOBALS['strKiloByte']					= "KB";
-$GLOBALS['strSeconds']					= "seconds";
-$GLOBALS['strExpired']					= "Expired";
+$GLOBALS['strSeconds']					= "Sekunder";
+$GLOBALS['strExpired']					= "Udløbet";
 
 ?>

@@ -292,30 +292,30 @@ $GLOBALS['strConfirmResetCampaignStats']= "Vuoi veramente azzerare le statistich
 $GLOBALS['strConfirmResetClientStats']	= "Vuoi veramente azzerare le statistiche di questo cliente?";
 $GLOBALS['strConfirmResetBannerStats']	= "Vuoi veramente azzerare le statistiche di questo banner?";
 
-$GLOBALS['strClientsAndCampaigns']		= "Clients & Campaigns";
-$GLOBALS['strCampaignOverview']			= "Campaign overview";
-$GLOBALS['strReports']					= "Reports";
-$GLOBALS['strShowBanner']				= "Show banner";
+$GLOBALS['strClientsAndCampaigns']		= "Clienti e Campagne";
+$GLOBALS['strCampaignOverview']			= "Visualizza Campagna";
+$GLOBALS['strReports']					= "Report";
+$GLOBALS['strShowBanner']				= "Visualizza Banner";
 
-$GLOBALS['strIncludedBanners']			= "Linked banners";
-$GLOBALS['strProbability']				= "Probability";
-$GLOBALS['strInvocationcode']			= "Invocationcode";
-$GLOBALS['strSelectZoneType']			= "Please choose the type of linking banners";
-$GLOBALS['strBannerSelection']			= "Banner selection";
-$GLOBALS['strInteractive']				= "Interactive";
-$GLOBALS['strRawQueryString']			= "Raw querystring";
+$GLOBALS['strIncludedBanners']			= "Banner Collegati";
+$GLOBALS['strProbability']				= "Probabilita'";
+$GLOBALS['strInvocationcode']			= "Codice di Chiamata";
+$GLOBALS['strSelectZoneType']			= "Seleziona il tipo di banner linkato";
+$GLOBALS['strBannerSelection']			= "Selezione Banner";
+$GLOBALS['strInteractive']				= "Interattivo";
+$GLOBALS['strRawQueryString']			= "Stringa di chiamata";
 
-$GLOBALS['strBannerWeight']				= "Banner weight";
-$GLOBALS['strCampaignWeight']			= "Campaign weight";
+$GLOBALS['strBannerWeight']				= "Pesantezza banner";
+$GLOBALS['strCampaignWeight']			= "Pesantezza campagna";
 
-$GLOBALS['strZoneCacheOn']				= "Zone caching is turned on";
-$GLOBALS['strZoneCacheOff']				= "Zone caching is turned off";
-$GLOBALS['strCachedZones']				= "Cached zones";
-$GLOBALS['strSizeOfCache']				= "Size of cache";
-$GLOBALS['strAverageAge']				= "Average age";
-$GLOBALS['strRebuildZoneCache']			= "Rebuild zone cache";
+$GLOBALS['strZoneCacheOn']				= "La cache della zona e' attiva";
+$GLOBALS['strZoneCacheOff']				= "La cache della zona e' disattiva";
+$GLOBALS['strCachedZones']				= "Zone in Cache";
+$GLOBALS['strSizeOfCache']				= "Dimensione della cache";
+$GLOBALS['strAverageAge']				= "Eta' Media";
+$GLOBALS['strRebuildZoneCache']			= "Ricrea la cache";
 $GLOBALS['strKiloByte']					= "KB";
-$GLOBALS['strSeconds']					= "seconds";
-$GLOBALS['strExpired']					= "Expired";
+$GLOBALS['strSeconds']					= "secondi";
+$GLOBALS['strExpired']					= "Scaduto";
 
 ?>
