@@ -145,11 +145,9 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-12-09:  Aligned text to the right in the daily graph to prevent numbers from being cut off  (Niels)
 			  - 2002-12-09:  Removed <span> from reports  (Niels)
 			  - 2002-12-09:  Added second scale to history graphs to make AdClicks visible  (Niels)
-			  - 2002-12-09:  Aligned text to the right in the daily graph to prevent numbers from being cut off  (Niels)
-			  - 2002-12-09:  Removed <span> from reports  (Niels)
-			  - 2002-12-09:  Added second scale to history graphs to make AdClicks visible  (Niels)
 			  - 2002-12-10:  Fixed infinite loop during invocation when using circular zone chains and all zones are empty  (Matteo)
 			  - 2002-12-11:  Now priority is recalculaed only if necessary when editing campaigns  (Matteo)
+			  - 2002-12-14:  Fixed crash when saving the default settings on IIS when using PHP as CGI  (Niels)
 
 
 

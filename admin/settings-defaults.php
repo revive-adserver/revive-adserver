@@ -62,7 +62,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 	{
 		if (phpAds_SettingsWriteFlush())
 		{
-			header("Location: ".$HTTP_SERVER_VARS['PHP_SELF']);
+			header("Location: settings-defaults.php");
 			exit;
 		}
 	}
