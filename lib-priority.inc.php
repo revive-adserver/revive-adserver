@@ -901,7 +901,7 @@ function phpAds_PriorityCalculate()
 	$debuglog .= "-----------------------------------------------------\n";
 	// END REPORTING
 
-	for (reset($campaigns);$c=key($campaigns);next($campaigns))
+	for (reset($campaigns);$c=key($campaigns);)
 	{
 		if ($campaigns[$c]['target'] == 0)
 		{
@@ -933,20 +933,19 @@ function phpAds_PriorityCalculate()
 					if (!$banners[$b]['priority'])
 					{
 						// BEGIN REPORTING
-						$debuglog .= "- Banner $b had a null priority.\n".$banners[$b]['priority']." \n\n\n";
+						$debuglog .= "- Banner $b had a null priority.\n";
 						// END REPORTING
 
 						$zero_pri = true;
 						break;
 					}
-
+				
 					$banner_priorities[] = $banners[$b]['priority'];
-
+					
 					// BEGIN REPORTING
 					$debuglog .= "- Assigned priority to banner $b: ".$banners[$b]['priority']." \n";
 					// END REPORTING
 				}
-			
 		}
 
 		if ($zero_pri)
@@ -958,19 +957,25 @@ function phpAds_PriorityCalculate()
 			}
 
 			// Restart low-pri assignment, increasing available impressions
-			$banner_priorities = array();
 			$zero_pri = false;
-			reset($campaigns);
-
+			$banner_priorities = array();
+			
 			$available_for_others *= 2;
 			$high_pri_boost *= 2;
 
 			// BEGIN REPORTING
+			$debuglog .= "\n\n\n-----------------------------------------------------\n";
 			$debuglog .= "Restarting...\n";
+			$debuglog .= "-----------------------------------------------------\n";
 			$debuglog .= "\n\n\nImpressions left over: $available_for_others \n";
 			$debuglog .= "-----------------------------------------------------\n";
 			// END REPORTING
+
+			reset($campaigns);
+			continue;
 		}
+
+		next($campaigns);
 	}
 			
 	if ($high_pri_boost > 1 && !$no_high_pri && $total_weight)
@@ -1185,7 +1190,6 @@ function phpAds_PriorityGetGCD2($a, $b)
 	else
 		return (phpAds_PriorityGetGCD2($b % $a, $a));
 }
-
 
 function phpAds_PriorityNormalDistribution($x, $variation = 1, $mean = 0)
 {
