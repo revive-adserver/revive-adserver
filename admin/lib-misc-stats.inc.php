@@ -392,7 +392,7 @@ if ($type == 'c')
 		$i % 2 ? 0 : $bgcolor = "#F6F6F6";
 		
 		echo "<tr><td height='25' bgcolor='$bgcolor'>&nbsp;";
-		echo $key != '' ? "<img src='images/flags/".strtolower($key).".gif' width='19' height'11'>&nbsp;".$phpAds_ISO3166[$key] : $strUnknown;
+		echo "<img src='images/flags/".($key != '' ? strtolower($key) : 'unknown').".gif' width='19' height'11'>&nbsp;".($key != '' ? $phpAds_ISO3166[$key] : $strUnknown);
 		echo "</td>";
 		echo "<td align='".$phpAds_TextAlignRight."' height='25' bgcolor='$bgcolor'>".phpAds_formatNumber($value['views'])."</td>";
 		echo "<td align='".$phpAds_TextAlignRight."' height='25' bgcolor='$bgcolor'>".phpAds_formatNumber($value['clicks'])."</td>";

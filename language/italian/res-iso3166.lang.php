@@ -186,6 +186,7 @@ $phpAds_ISO3166['PE'] = "Per&ugrave;";
 $phpAds_ISO3166['PH'] = "Filippine";
 $phpAds_ISO3166['PN'] = "Isole Pitcairn"; 
 $phpAds_ISO3166['PL'] = "Polonia";
+$phpAds_ISO3166['PT'] = "Territori Palestinesi Occupati";
 $phpAds_ISO3166['PT'] = "Portogallo";
 $phpAds_ISO3166['PR'] = "Portirico"; 
 $phpAds_ISO3166['QA'] = "Qatar";
@@ -253,6 +254,11 @@ $phpAds_ISO3166['YE'] = "Yemen";
 $phpAds_ISO3166['YU'] = "Yugoslavia";
 $phpAds_ISO3166['ZM'] = "Zambia";
 $phpAds_ISO3166['ZW'] = "Zimbabwe";
+
+
+// MaxMind Geo-IP special codes
+$phpAds_ISO3166['A1'] = "Proxy Anonimo";
+$phpAds_ISO3166['A2'] = "Provider Satellitare";
 
 
 ?>
