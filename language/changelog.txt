@@ -12,6 +12,12 @@
 
   ====================================================
 
+  01-15-2003 - settings
+    [+] strUpdateError
+    [+] strUpdateDatabaseError
+    [+] strIgnoreErrors
+    [+] strRetryUpdate
+
   01-12-2003 - maintenance
     [u] strForUpdatesLookOnWebsite
     [+] strCurrentlyUsing

@@ -17,16 +17,17 @@
 // Define
 define ('phpAds_databaseUpgradeSupported', true);
 define ('phpAds_databaseCreateSupported', true);
+define ('phpAds_databaseCheckSupported', true);
 define ('phpAds_tableTypesSupported', true);
 
 
 
 
 /*********************************************************/
-/* Create the database                                   */
+/* Check if the database already exists                  */
 /*********************************************************/
 
-function phpAds_checkDatabase ()
+function phpAds_checkDatabaseExists ()
 {
 	// Get the database structure
 	$dbstructure 	 = phpAds_prepareDatabaseStructure();
@@ -51,6 +52,40 @@ function phpAds_checkDatabase ()
 	}
 	
 	return $result;
+}
+
+
+
+/*********************************************************/
+/* Check if the database is valid                        */
+/*********************************************************/
+
+function phpAds_checkDatabaseValid ()
+{
+	// Get the database structure
+	$dbstructure = phpAds_prepareDatabaseStructure();
+	$result      = true;
+	
+	// Get table names
+	$res = phpAds_dbQuery("SHOW TABLES");
+	while ($row = phpAds_dbFetchRow($res))
+		$availabletables[] = $row[0];
+	
+	for (reset($dbstructure);
+		$key = key($dbstructure);
+		next($dbstructure))
+	{
+		if (is_array($availabletables) && in_array ($key, $availabletables))
+		{
+			// Table exists, check if it is valid
+			if (!phpAds_checkTable ($key, $dbstructure[$key]))
+				$result = false;
+		}
+		else
+			$result = false;
+	}
+	
+	return ($result);
 }
 
 
@@ -85,6 +120,17 @@ function phpAds_upgradeDatabase ($tabletype = '')
 		}
 	}
 	
+	return true;
+}
+
+
+
+/*********************************************************/
+/* Upgrade the data to the latest structure              */
+/*********************************************************/
+
+function phpAds_upgradeData ()
+{
 	// Split banners into two tables and
 	// generate banner html cache
 	phpAds_upgradeSplitBanners();
@@ -100,11 +146,7 @@ function phpAds_upgradeDatabase ($tabletype = '')
 	
 	// Create target stats form userlog
 	phpAds_upgradeTargetStats();
-	
-	
-	return true;
 }
-
 
 
 /*********************************************************/
@@ -139,6 +181,37 @@ function phpAds_createDatabase ($tabletype = '')
 	return true;
 }
 
+
+
+
+/*********************************************************/
+/* Check if a table has the correct structure            */
+/*********************************************************/
+
+function phpAds_checkTable ($name, $structure)
+{
+	$result  = true;
+	
+	$columns = $structure['columns'];
+	if (isset($structure['primary'])) $primary = $structure['primary'];
+	if (isset($structure['index']))   $index   = $structure['index'];
+	if (isset($structure['unique']))  $unique  = $structure['unique'];
+	
+	
+	// Get existing columns
+	$res = phpAds_dbQuery("DESCRIBE ".$name);
+	while ($row = phpAds_dbFetchArray($res))
+		$availablecolumns[$row['Field']] = $row;
+	
+	
+	// Check columns
+	for (reset($columns); $key = key($columns);	next($columns))
+		if (!(isset($availablecolumns[$key]) && is_array($availablecolumns[$key])))
+			$result = false;
+	
+	
+	return ($result);
+}
 
 
 

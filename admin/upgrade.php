@@ -32,7 +32,7 @@ require (phpAds_path.'/libraries/defaults/config.template.php');
 
 // Register input variables
 require ("../libraries/lib-io.inc.php");
-phpAds_registerGlobal ('step');
+phpAds_registerGlobal ('step', 'ignore', 'retry');
 
 
 // Include config edit library
@@ -152,6 +152,11 @@ if (phpAds_isUser(phpAds_Admin))
 		$step = 1;
 	
 	
+	// Adjust step based on feedback after error
+	if ($step == 3 && isset($retry))  $step = 2;
+	if ($step == 3 && isset($ignore)) $step = 4;
+	
+	
 	// Check privileges and writability of config file
 	if ($upgrade && ($step == 1 || $step == 2))
 	{
@@ -269,6 +274,7 @@ if (phpAds_isUser(phpAds_Admin))
 		// Send the output to the browser
 		flush();
 		
+		
 		// Determine table type
 		$table_type = isset($phpAds_config['table_type']) ? $phpAds_config['table_type'] : '';
 		
@@ -278,16 +284,69 @@ if (phpAds_isUser(phpAds_Admin))
 		else
 			$result = phpAds_createDatabase($table_type);
 		
-		// Update config_version and write settings
-		phpAds_SettingsWriteAdd('config_version', $phpAds_version);
-		phpAds_SettingsWriteAdd('language', $phpAds_config['language']);
-		phpAds_ConfigFileUpdateFlush();
+		// Check if database is valid
+		if (phpAds_databaseCheckSupported)
+			$continue = phpAds_checkDatabaseValid();
+		else
+			$continue = true;
 		
-		// Go to the next step
-		echo "<meta http-equiv='refresh' content='0;URL=upgrade.php?step=3'>";
-		exit;
+		
+		if ($continue)
+		{
+			phpAds_upgradeData();
+			
+			// Go to the next step
+			echo "<meta http-equiv='refresh' content='0;URL=upgrade.php?step=5'>";
+			exit;
+		}
+		else
+		{
+			// Raise error
+			echo "<meta http-equiv='refresh' content='0;URL=upgrade.php?step=3'>";
+			exit;
+		}
 	}
 	elseif ($step == 3)
+	{
+		// Show error message
+		phpAds_PageHeader("1");
+		echo "<br><br>";
+		phpAds_ShowBreak();
+		
+		echo "<form name='upgrade' method='post' action='upgrade.php'>";
+		echo "<input type='hidden' name='step' value='3'>";
+		echo "<br>";
+		echo "<span class='tab-r'><img src='images/error.gif'>&nbsp;&nbsp;".$strUpdateError."</span><br><br>";
+		echo "<span class='install'>".$strUpdateDatabaseError."</span>";
+		
+		echo "<br><br>";
+		phpAds_ShowBreak();
+		echo "<br>";
+		
+		echo "<table width='100%' border='0' cellpadding='0' cellspacing='0'><tr><td align='right'>";
+		echo "<input type='submit' name='ignore' value='".$strIgnoreErrors."'>&nbsp;&nbsp;";
+		echo "<input type='submit' name='retry' value='".$strRetryUpdate."'>";
+		echo "</td></tr></table>\n\n";
+		echo "</form>";
+	}
+	elseif ($step == 4)
+	{
+		// Setup busy indicator
+		phpAds_PageHeader("1");
+		echo "<br><br><img src='images/install-busy.gif' align='absmiddle'>&nbsp;";
+		echo "<span class='install'>".$strSystemUpgradeBusy."</span>";
+		phpAds_PageFooter();
+		
+		// Send the output to the browser
+		flush();
+		
+		phpAds_upgradeData();
+		
+		// Go to the next step
+		echo "<meta http-equiv='refresh' content='0;URL=upgrade.php?step=5'>";
+		exit;
+	}
+	elseif ($step == 5)
 	{
 		// Setup busy indicator
 		phpAds_PageHeader("1");
@@ -327,11 +386,16 @@ if (phpAds_isUser(phpAds_Admin))
 		flush();
 		
 		// Go to the next step
-		echo "<meta http-equiv='refresh' content='0;URL=upgrade.php?step=4'>";
+		echo "<meta http-equiv='refresh' content='0;URL=upgrade.php?step=6'>";
 		exit;
 	}
-	elseif ($step == 4)
+	elseif ($step == 6)
 	{
+		// Update config_version and write settings
+		phpAds_SettingsWriteAdd('config_version', $phpAds_version);
+		phpAds_SettingsWriteAdd('language', $phpAds_config['language']);
+		phpAds_ConfigFileUpdateFlush();
+		
 		phpAds_PageHeader("1");
 		echo "<br><br>";
 		phpAds_ShowBreak();
