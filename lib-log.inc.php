@@ -88,9 +88,19 @@ function phpAds_logExpire ($clientid, $type=0)
 			phpAds_userlogSetUser (phpAds_userDeliveryEngine);
 			phpAds_userlogAdd (phpAds_actionDeactiveCampaign, $campaign['clientid']);
 			
+			// Deactivate campaign
+			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET active='".$active."' WHERE clientid='".$clientid."'");
+			
 			// Send deactivation warning
 			if ($active == 'f')
 			{
+				// Recalculate zonecache
+				if (!defined('LIBZONES_INCLUDED'))  
+					require (phpAds_path.'/admin/lib-zones.inc.php');
+				
+				phpAds_RebuildZoneCache();
+				
+				
 				// Include warning library
 				if (!defined('LIBWARNING_INCLUDED'))
 					require (phpAds_path.'/lib-warnings.inc.php');
@@ -100,8 +110,6 @@ function phpAds_logExpire ($clientid, $type=0)
 				
 				phpAds_deactivateMail ($campaign);
 			}
-			
-			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET active='".$active."' WHERE clientid='".$clientid."'");
 		}
 	}
 }

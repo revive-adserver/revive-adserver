@@ -13,9 +13,12 @@
 /************************************************************************/
 
 
+// Set define to prevent duplicate include
+define ('LIBZONES_INCLUDED', true);
+
 
 // Include required files
-include (phpAds_path."/lib-view-query.inc.php");
+if (!defined('LIBVIEWQUERY_INCLUDED'))  require (phpAds_path.'/lib-view-query.inc.php');
 
 
 // Define zonetypes
