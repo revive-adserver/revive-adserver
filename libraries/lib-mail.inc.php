@@ -36,11 +36,12 @@ function phpAds_sendMail ($email, $readable, $subject, $contents)
 	else
 		$param_to = $email;
 	
-	// Build additional headers
-	$param_headers = "Content-Transfer-Encoding: 8bit\r\n";
+	$charset = isset($phpAds_CharSet) ? $phpAds_CharSet : 'iso-8859-1';
 	
-	if (isset($phpAds_CharSet) && $phpAds_CharSet)
-		$param_headers .= "Content-Type: text/plain; charset=".$phpAds_CharSet."\r\n"; 
+	// Build additional headers
+	$param_headers = "MIME-Version: 1.0\r\n";
+	$param_headers .= "Content-Type: text/plain; charset=".$charset."\r\n"; 
+	$param_headers .= "Content-Transfer-Encoding: 8bit\r\n";
 	
 	if (get_cfg_var('SMTP'))
 		$param_headers .= 'To: '.$readable.' <'.$email.">\r\n";
