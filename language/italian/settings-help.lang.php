@@ -402,84 +402,86 @@ $GLOBALS['phpAds_hlp_admin_novice'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_client_welcome'] = "
-		If you turn this feature on a welcome message will be displayed on the first page an
-		advertiser will see after loggin in. You can personalize this message by editing the
-		welcome.html file location in the admin/templates directory. Things you might want to
-		include are for example: Your company name, contact information, your company logo, a
-		link a page with advertising rates, etc..
+		Se questa opzione &egrave; attiva, verr&agrave; visualizzato un messaggio di benvenuto
+		dopo il login dell'inserzionista. E' possibile personalizzare il messaggio modificando
+		il file welcome.html nella directory admin/templates. Nella maggior parte dei casi
+		pu&ograve; essere utile includere il nome della propria societ&agrave;, il logo,
+		informazioni sui contatti, un link alla pagina del listino, ecc...
 		";
 
 $GLOBALS['phpAds_hlp_client_welcome_msg'] = "
-		Instead of editing the welcome.html file you can also specify a small text here. If you enter
-		a text here, the welcome.html file will be ignored. It is allowed to use html tags.
+		Invece di modificare il file welcome.html, &egrave; possibile inserire un breve testo qui;
+		il file welcome.html sar&agrave; cos&igrave; ignorato. E' possibile usare codice HTML.
 		";
 		
 $GLOBALS['phpAds_hlp_updates_frequency'] = "
-		If you want to check for new versions of ".$phpAds_productname." you can enable this feature. 
-		It is possible the specify the interval in which ".$phpAds_productname." makes a connection to 
-		the update server. If a new version is found a dialog box will pop up with additional 
-		information about the update.
+		Attivare questa funzione per ricercare automaticamente versioni aggiornate di ".$phpAds_productname.".
+		E' possibile specificare l'intervallo con cui ".$phpAds_productname." effettuer&agrave; la
+		connessione al server degli aggiornamenti. Se viene trovata una versione aggiornata apparir&agrave;
+		una finestra con le informazioni necessarie.
 		";
 		
 $GLOBALS['phpAds_hlp_userlog_email'] = "
-		If you want to keep a copy of all outgoing e-mail messages send by ".$phpAds_productname." you 
-		can enable this feature. The e-mail messages are stored in the userlog.
+		Attivando questa opzione sar&agrave; possibile salvare una copia di tutte le e-mail inviate da
+		".$phpAds_productname.". I messaggi saranno memorizzati nel ".$GLOBALS['strUserLog'].".
 		";
 		
 $GLOBALS['phpAds_hlp_userlog_priority'] = "
-		To ensure the priority calculation ran correct, you can save a report about 
-		the hourly calculation. This report includes the predicted profile and how much 
-		priority is assigned to all banners. This information might be useful if you 
-		want to submit a bugreport about the priority calculations. The reports are 
-		stored inside the userlog.
+		Per assicurarsi che il calcolo delle priorit&agrave; sia andato a buon fine, &egrave;
+		possibile salvare un resoconto dei calcoli effettuati ogni ora. Il rapporto contiene
+		il profilo previsto e la prorit&egrave; assegnata a tutti i banner. Questa informazione
+		&egrave; utile nel caso si voglia segnalare un bug nel calcolo delle priorit&agrave;.
+		I rapporti sono memorizzati nel ".$GLOBALS['strUserLog'].".
 		";
 		
 $GLOBALS['phpAds_hlp_default_banner_weight'] = "
-		If you want to use a higher default banner weight you can specify the desired weight here. 
-		This settings is 1 by default.
+		Inserire il peso proposto durante la creazione dei banner.
+		Il valore di default &egrave; 1. 
 		";
 		
 $GLOBALS['phpAds_hlp_default_campaign_weight'] = "
-		If you want to use a higher default campaign weight you can specify the desired weight here. 
-		This settings is 1 by default.
+		Inserire il peso proposto durante la creazione delle campagne.
+		Il valore di default &egrave; 1. 
 		";
 		
 $GLOBALS['phpAds_hlp_gui_show_campaign_info'] = "
-		If this option is enabled extra information about each campain will be shown on the 
-		<i>Campaign overview</i> page. The extra information includes the number of AdViews remaining, 
-		the number of AdClicks remaining, activation date, expiration date and the priority settings.
+		Se questa opzione &egrave; attiva verranno visualizzate informazioni aggiuntive nella pagina
+		<i>".$GLOBALS['strCampaignOverview']."</i>. Queste informazioni comprendono il numero di Visualizzazioni
+		e di Click rimanenti, le date di attivazione e scadenza, e le impostazioni di priorit&agrave;.
 		";
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_info'] = "
-		If this option is enabled extra information about each banner will be shown on the 
-		<i>Banner overview</i> page. The extra information includes the destination URL, keywords, 
-		size and the banner weight.
+		Se questa opzione &egrave; attiva verranno visualizzate informazioni aggiuntive nella pagina
+		<i>".$GLOBALS['strBannerOverview']."</i>. Queste informazioni comprendono l'URL di destinazione,
+		le parole chiave, la dimensione e il peso dei banner.
 		";
 		
 $GLOBALS['phpAds_hlp_gui_show_campaign_preview'] = "
-		If this option is enabled a preview of all banners will be shown on the <i>Banner overview</i> 
-		page. If this option is disabled it is still possible to show a preview of each banner by click 
-		on the triangle next to each banner on the <i>Banner overview</i> page.
+		Se questa opzione &egrave; attiva verr&agrave; mostrata un'anteprima nella pagina
+		<i>".$GLOBALS['strBannerOverview']."</i>. Se l'opzione &egrave; disabilitata sar&agrave; comunque
+		possibile visualizzare l'anteprima cliccando sul triangolo posto a fianco di ogni banner.
 		";
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_html'] = "
-		If this option is enabled the actual HTML banner will be shown instead of the HTML code. This 
-		option is disabled by default, because the HTML banners might conflict with the user interface. 
-		If this option is disabled it is still possible to view the actual HTML banner, by clicking on 
-		the <i>Show banner</i> button next to the HTML code.
+		Se questa opzione &egrave; attiva verr&agrave; mostrato il banner HTML invece del codice. Questa
+		opzione &egrave; disbailitata di default, poiché il codice di un banner HTML pu&ograve;
+		creare conflitti con l'interfaccia utente. Se l'opzione &egrave; disabilitata sar&agrave; comunque
+		possibile visualizzare il banner cliccando sul pulsante <i>".$GLOBALS['strShowBanner']."</i>
+		a fianco del codice HTML del banner.
 		";
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_preview'] = "
-		If this option is enabled a preview will be shown at the top of the <i>Banner properties</i>, 
-		<i>Delivery option</i> and <i>Linked zones</i> pages. If this option is disabled it is still 
-		possible to view the banner, by clicking on the <i>Show banner</i> button at the top of the pages.
+		Se questa opzione &egrave; attiva verr&agrave; mostrata un'anteprima nella parte superiore delle pagine
+		<i>".$GLOBALS['strBannerProperties']."</i>, <i>".$GLOBALS['strModifyBannerAcl']."</i> and 
+		<i>".$GLOBALS['strLinkedZones']."</i>. Se l'opzione &egrave; disabilitata sar&agrave; comunque
+		possibile visualizzare il banner cliccando sul pulsante <i>".$GLOBALS['strShowBanner']."</i> in alto.
 		";
 		
 $GLOBALS['phpAds_hlp_gui_hide_inactive'] = "
-		If this option is enabled all inactive banners, campaigns and advertisers will be hidden from the
-		<i>Advertisers & Campaigns</i> and <i>Campaign overview</i> pages. If this option is enabled it is
-		still possible to view the hidden items, by clicking on the <i>Show all</i> button on the bottom
-		of the page.
+		Se questa opzione &egrave; attiva tutti i banner, le campagne e gli inserzionisti non attivi
+		saranno nascosti nelle pagine <i>".$GLOBALS['strClientsAndCampaigns']."</i> e <i>".
+		$GLOBALS['strCampaignOverview']."</i>. Sar&agrave; comunque possibile visualizzare gli oggetti
+		nascosti cliccando sul pulsante <i>".$GLOBALS['strShowAll']."</i> in fondo alla pagina.
 		";
 		
 ?>
