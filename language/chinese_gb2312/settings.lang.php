@@ -77,6 +77,8 @@ $GLOBALS['strSystemRebuildingCache']		= "重建缓存区中，请稍候...";
 $GLOBALS['strServiceUnavalable']		= "服务暂时不可用,系统升级中...";
 
 $GLOBALS['strConfigNotWritable']		= "您的配置文件config.inc.php不可写";
+$GLOBALS['strPhpBug20144']				= "您的PHP版本受到一个<a href='http://bugs.php.net/bug.php?id=20114' target='_blank'>bug</a>的影响,".$phpAds_productname."不能正常工作.
+						所以安装".$phpAds_productname."之前必须把PHP升级到4.3.0+.";
 
 
 
@@ -200,6 +202,7 @@ $GLOBALS['strGeotargeting']			= "地域";
 $GLOBALS['strGeotrackingType']			= "地域数据库类型";
 $GLOBALS['strGeotrackingLocation'] 		= "地域数据库位置";
 $GLOBALS['strGeotrackingLocationError'] 	= "在您指定的位置没有找到地域数据库位置";
+$GLOBALS['strGeotrackingLocationNoHTTP'] 	= "您指定的位置并不是此服务器硬盘上的本地目录,而是一个指向网页服务器上的某个文件的URL.这个位置应该象这样: <i>{example}</i>.实际的位置要看存放此数据库的位置.";
 $GLOBALS['strGeoStoreCookie']			= "保存结果到cookie中供以后参考";
 
 

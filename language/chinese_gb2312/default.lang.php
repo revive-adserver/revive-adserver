@@ -422,9 +422,6 @@ $GLOBALS['strZoneAppend']			= "此版面所显示的广告上总是添加下面的HTML代码";
 $GLOBALS['strAppendSettings']			= "添加和预先设置";
 $GLOBALS['strZonePrependHTML']			= "此版面所显示的文字广告上预先加上HTML代码";
 $GLOBALS['strZoneAppendHTML']			= "此版面所显示的文字广告上附加上HTML代码";
-$GLOBALS['strZoneAppendType']			= "附加方式";
-$GLOBALS['strZoneAppendHTMLCode']		= "HTML代码";
-$GLOBALS['strZoneAppendZoneSelection']		= "弹出式或者空隙调用";
 $GLOBALS['strZoneAppendSelectZone']		= "总是在此版位的广告上附加下面的弹出式或者空隙调用代码";
 
 
@@ -451,6 +448,18 @@ $GLOBALS['strNoCampaignsToLink']		= "目前没有项目可以和此版位连接";
 $GLOBALS['strNoZonesToLinkToCampaign']  	= "目前没有版位可以和此项目连结";
 $GLOBALS['strSelectBannerToLink']		= "请您选择要连接到此版位的广告:";
 $GLOBALS['strSelectCampaignToLink']		= "请您选择要连接到此版位的项目:";
+
+
+// Append
+$GLOBALS['strAppendType']				= "附加方式";
+$GLOBALS['strAppendHTMLCode']			= "HTML代码";
+$GLOBALS['strAppendWhat']				= "您想附加什么?";
+$GLOBALS['strAppendZone']				= "附加一个指定的版位";
+$GLOBALS['strAppendErrorZone']			= "您需要选择一个版位才能继续\\n.否则不能附加广告.";
+$GLOBALS['strAppendBanner']				= "附加一个或多个单独的广告";
+$GLOBALS['strAppendErrorBanner']		= "您需要选择一个或多个广告才能继续\\n,否则不能附加广告.";
+$GLOBALS['strAppendKeyword']			= "使用关键字来附加广告";
+$GLOBALS['strAppendErrorKeyword']		= "您需要指定一个或多个关键字才能继续\\n,否则不能附加广告.";
 
 
 // Statistics
