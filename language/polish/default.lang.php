@@ -106,6 +106,7 @@ $GLOBALS['strFilterBySource']				= "filtruj wed³ug ¼ród³a";
 $GLOBALS['strFieldContainsErrors']			= "Nastêpuj±ce pola zawieraj± b³êdy:";
 $GLOBALS['strFieldFixBeforeContinue1']		= "Zanim przejdziesz dalej musisz";
 $GLOBALS['strFieldFixBeforeContinue2']		= "poprawiæ te b³edy.";
+$GLOBALS['strDelimiter']			= "Ogranicznik";
 
 
 
@@ -226,7 +227,7 @@ $GLOBALS['strExpirationDate']				= "Data zakoñczenia";
 $GLOBALS['strActivationDate']				= "Data aktywacji";
 $GLOBALS['strViewsPurchased'] 				= "Pozosta³o Ods³on";
 $GLOBALS['strClicksPurchased'] 				= "Pozosta³o Klikniêæ";
-$GLOBALS['strCampaignWeight']				= "Campaign weight";
+$GLOBALS['strCampaignWeight']				= "Waga kampanii";
 $GLOBALS['strHighPriority']					= "Wy¶wietlaj bannery z tej kampanii z wysokim priorytetem.<br>Je¶li skorzystasz z tej opcji phpAdsNew spróbuje rozdzieliæ liczbê Ods³on równomiernie w ci±gu dnia.";
 $GLOBALS['strLowPriority']					= "Wy¶wietlaj bannery z tej kampanii z niskim priorytetem.<br>Ta kampania wykorzysta liczbê Ods³on pozosta³± po wy¶wietleniu kampanii o wysokich priorytetach.";
 $GLOBALS['strTargetLimitAdviews']			= "Organicz liczbê Ods³on do";
@@ -472,6 +473,11 @@ $GLOBALS['strErrorClicks'] 					= "Musisz wpisaæ liczbê Klikniêæ lub zaznaczyæ p
 $GLOBALS['strErrorNegClicks'] 				= "Ujemne liczby klikniêæ nie s± dozwolone";
 $GLOBALS['strNoMatchesFound']				= "Nie znaleziono pasuj±cych";
 $GLOBALS['strErrorOccurred']				= "Wyst±pi³ b³±d";
+$GLOBALS['strErrorUploadSecurity']		= "Wykryto mo¿liwy b³¹d zabezpieczeñ, wysy³anie wstrzymane!";
+$GLOBALS['strErrorUploadBasedir']		= "Brak dostêpu do wys³anego pliku, prawdopodobnie przez restrykcje safemode lub open_basedir";
+$GLOBALS['strErrorUploadUnknown']		= "Brak dostêpu do wys³anego pliku, z niewiadomego powodu. SprawdŸ konfiguracjê PHP";
+$GLOBALS['strErrorStoreLocal']			= "Wyst¹pi³ b³¹d podczas zapisywania bannera w lokalnym katalogu. Powodem tego jest prawdopodobnie b³êdna œcie¿ka lokalnego katalogu podana w ustawieniach";
+$GLOBALS['strErrorStoreFTP']			= "Wyst¹pi³ b³¹d podczas zapisywania bannera na serwerze FTP. Powodem tego mo¿e byæ niedostêpnoœæ serwera lub jego b³êdna konfiguracja w ustawieniach";
 
 
 // E-mail
