@@ -1,0 +1,69 @@
+phpAdsNew - Developer information
+
+If you want to help us develop phpAdsNew, here are some important guidelines :
+1. Use the following control structure :
+if (expression)
+{
+	code
+}
+else
+{
+	code
+}
+
+2. When you're using <? and ?> :
+if (expression)
+{
+	?>
+	html
+	<?
+}
+
+3. Tables :
+<table>
+	<tr>
+		<td>html</td>
+	</tr>
+	<tr>
+		<td>
+			lots of html
+		</td>
+	</tr>
+</table>
+
+4. In case of 1 line of code :
+if (expression)
+	1 line of code;
+else
+	1 line of code;
+
+5. SQL statements :
+$select = "
+	SELECT
+		column names
+	FROM
+		table names
+	WHERE
+		where clause
+	") or die(error message here);
+
+6. Arrays :
+$variable = array(
+	"value1" => "content1",
+	"value2" => "content2"
+	);
+
+7. Switch/case structures :
+switch($variable)
+{
+	case 1:
+		code;
+		break;
+	case 2:
+		code;
+		break;
+	default:
+		code;
+		break;
+}
+In case of no default, still use the break at the last case statement. You never know if a default will be added later.
