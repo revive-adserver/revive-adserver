@@ -34,6 +34,14 @@ function get_banner($what, $clientID, $context=0, $source="")
 	if(!empty($where))
 		$where .= " AND ";
 
+
+
+	// separate parts
+	$what_parts = explode ("|",$what);	
+	
+	
+	for ($wpc=0;$wpc<sizeof($what_parts);$wpc++)	// build a query and execute for each part
+	{
 	$select = "
 		SELECT
 			bannerID,
@@ -57,20 +65,20 @@ function get_banner($what, $clientID, $context=0, $source="")
 	if($clientID != 0)
 		$select .= " AND clientID = $clientID ";
     
-	if(is_string($what) && !ereg("[0-9]x[0-9]", $what))
-	{
-		switch($what) 
+		if(is_string($what_parts[$wpc]) && !ereg("[0-9]x[0-9]", $what_parts[$wpc]))
 		{
+			switch($what_parts[$wpc]) 
+        	{
 			// Get all HTML banners     
 			case "html":  
 				$select .= " AND format = 'html' ";
 				break;
 
-			//Not any of the special words (i.e. 'html'), So, must be a keyword
+				// Not any of the special words (i.e. 'html'), So, must be a keyword
 			default: 
 				$select .= " AND (";
 
-				$what_array = explode(",",$what);
+					$what_array = explode(",",$what_parts[$wpc]);
 				for($k=0; $k<count($what_array); $k++)
 				{
 					if($phpAds_random_retrieve == "1")
@@ -108,40 +116,64 @@ function get_banner($what, $clientID, $context=0, $source="")
 					}
 				}
 
-				/*
-				The special 'global' keyword allows you to define a banner as global and
-				show up under all keywords. I put this in so that if I didn't have any banners 
-				for a particular keyword, instead of being blank, it would show one of the global
-				banners - Weston Bustraan <weston@infinityteldata.net> 
-				*/                
-				$select .= "keyword = 'global') ";
+                /*
+                The special 'global' keyword allows you to define a banner as global and
+                show up under all keywords. I put this in so that if I didn't have any banners 
+                for a particular keyword, instead of being blank, it would show one of the global
+                banners - Weston Bustraan <weston@infinityteldata.net> 
+                */                
+                if (sizeof($what_parts) == 1)
+                {
+                    $select .= "keyword = 'global') ";
+                }
+                else
+                {
+                    $select .= "0) ";	// Not very nice, but works perfectly :-)
+                }					
 				break;
-		} //switch($what)
-	}
-	elseif(is_int($what))
-	{
-		$select .= " AND bannerID = $what ";
-	}
-	else
-	{
-		list($width, $height) = explode("x", $what);
-		// Get all banners with the specified width/height
-		$select .= " AND width = $width AND height = $height ";
-	}
-	if($phpAds_random_retrieve == "1") // Test to see if there are any banners left in that category
-	{
-		$testselect ="$select AND seq!='1'";
-		$testres = @db_query($testselect);
-		if(!$testrow = @mysql_fetch_array($testres)) // If no banners left then reset all banners in that category to "unused"
-		{
-			$del_select=strstr($select,'WHERE');
-			$delete_select="UPDATE $phpAds_tbl_banners SET seq='' ".$del_select;
-			db_query($delete_select);
+			} //switch($what_parts[$wpc])
 		}
-		$select .=" AND seq!='1'";
+		elseif(is_int($what_parts[$wpc]))
+		{
+			$select .= " AND bannerID = $what_parts[$wpc] ";
+		}
+    	else
+    	{
+            list($width, $height) = explode("x", $what_parts[$wpc]);
+    		// Get all banners with the specified width/height
+    		$select .= " AND width = $width AND height = $height ";
+    	}
+
+		if($phpAds_random_retrieve == "1") 			
+		{
+			$select .= " AND seq!='1'";
+
+			// First attempt to fetch a banner
+			$res = @db_query($select);
+			if (@mysql_num_rows($res) == 0) 		
+			{
+				// No banner left, reset all banners in this category to 'unused', try again below
+    			$del_select=strstr($select,'WHERE');
+    			$delete_select="UPDATE $phpAds_tbl_banners SET seq='' ".$del_select;
+				db_query($delete_select);
+			}
+			else
+			{
+				// Found banners, continue
+				break;
+			}
+		}
+
+		// Attempt to fetch a banner
+	$res = @db_query($select);
+		if ($res) 
+		{
+			if (@mysql_num_rows($res) > 0)	break;	// Found banners, continue
+		}
+
+		// No banners found in this part, try again with next part
 	}
 
-	$res = @db_query($select);
 	if(!$res)
 		return(false);
 
@@ -193,7 +225,7 @@ function get_banner($what, $clientID, $context=0, $source="")
     }
 }
 
-// Mail warnning - preset is reached
+// Mail warning - preset is reached
 function warn_mail($warn)
 {
 	global $phpAds_url_prefix, $phpAds_warn_limit, $phpAds_company_name, $phpAds_warn_admin, $phpAds_warn_client;

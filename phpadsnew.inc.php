@@ -7,7 +7,7 @@
 // Your .php files should include this if you need to use the local ad view functions
 //
 // Like this:
-//   require("phpAdsNew/phpAdsNew.inc.php");
+//   require("phpAdsNew/phpadsnew.inc.php");
 //
 // Then you can call the view function later in your php code like so:
 //   view("486x60");
