@@ -57,6 +57,8 @@ if (!isset($what))
 if (!isset($source))
 	$source = '';
 
+if (!isset($n))
+	$n = 'default';
 
 
 // Include the need sub-libraries
@@ -100,7 +102,9 @@ if (is_array($row) && isset($row['bannerid']))
 			header ("P3P: $p3p_header");
 	}
 	
-	$url = parse_url($phpAds_config['url_prefix']);
+	
+	$cookie = array();
+	$url 	= parse_url($phpAds_config['url_prefix']);
 	
 	
 	// Log this impression
@@ -117,23 +121,15 @@ if (is_array($row) && isset($row['bannerid']))
 	
 	
 	// Send bannerid headers
-	SetCookie("bannerNum", $row["bannerid"], 0, $url["path"]);
-	if(isset($n)) SetCookie("banID[$n]", $row["bannerid"], 0, $url["path"]);
-	
+	$cookie['bannerid'] = $row["bannerid"];
 	
 	// Send zoneid headers
 	if ($row['zoneid'] != 0)
-	{
-		SetCookie("zoneNum", $row["zoneid"], 0, $url["path"]);
-		if(isset($n)) SetCookie("zoneID[$n]", $row["zoneid"], 0, $url["path"]);
-	}
+		$cookie['zoneid'] = $row['zoneid'];
 	
 	// Send source headers
 	if (isset($source) && $source != '')
-	{
-		SetCookie("sourceNum", $source, 0, $url["path"]);
-		if(isset($n)) SetCookie("sourceID[$n]", $source, 0, $url["path"]);
-	}
+		$cookie['source'] = $source;
 	
 	
 	switch ($row['storagetype'])
@@ -170,26 +166,25 @@ if (is_array($row) && isset($row['bannerid']))
 			}
 			
 			// Store destination URL
-			SetCookie("destNum", $row['url'], 0, $url["path"]);
-			if(isset($n)) SetCookie("destID[$n]", $row['url'], 0, $url["path"]);
+			$cookie['dest'] = $row['url'];
 			
 			// Redirect to the banner
-			header ("Location: ".$row['imageurl']);
+			setcookie ("phpAds_banner[".$n."]", serialize($cookie), 0, $url["path"]);
+			header 	  ("Location: ".$row['imageurl']);
 			break;
 		
 		
 		case 'web':
-			SetCookie("destNum", $row['url'], 0, $url["path"]);
-			if(isset($n)) SetCookie("destID[$n]", $row['url'], 0, $url["path"]);
+			$cookie['dest'] = $row['url'];
 			
 			// Redirect to the banner
-			header ("Location: ".$row['imageurl']);
+			setcookie ("phpAds_banner[".$n."]", serialize($cookie), 0, $url["path"]);
+			header 	  ("Location: ".$row['imageurl']);
 			break;
 		
 		
 		case 'sql':
-			SetCookie("destNum", $row['url'], 0, $url["path"]);
-			if(isset($n)) SetCookie("destID[$n]", $row['url'], 0, $url["path"]);
+			$cookie['dest'] = $row['url'];
 			
 			// Load the banner from the database
 			$res = phpAds_dbQuery("
@@ -203,7 +198,8 @@ if (is_array($row) && isset($row['bannerid']))
 			
 			if ($image = phpAds_dbFetchArray($res))
 			{
-				header ('Content-type: image/'.$row['contenttype'].'; name='.md5(microtime()).'.'.$row['contenttype']);
+				setcookie ("phpAds_banner[".$n."]", serialize($cookie), 0, $url["path"]);
+				header 	  ('Content-type: image/'.$row['contenttype'].'; name='.md5(microtime()).'.'.$row['contenttype']);
 				echo $image['contents'];
 			}
 			
@@ -226,10 +222,8 @@ else
 			header ("P3P: $p3p_header");
 	}
 	
-	SetCookie("bannerNum", "DEFAULT", 0, $url["path"]);
-	if(isset($n)) SetCookie("banID[$n]", "DEFAULT", 0, $url["path"]);
-	
-	Header ("Location: ".$phpAds_config['default_banner_url']);
+	setcookie ("phpAds_banner[".$n."]", 'DEFAULT', 0, $url["path"]);
+	header 	  ("Location: ".$phpAds_config['default_banner_url']);
 }
 
 phpAds_dbClose();

@@ -39,25 +39,35 @@ if ($phpAds_config['log_adclicks'])
 /*********************************************************/
 
 if (isset($bannerID) && !isset($bannerid))	$bannerid = $bannerID;
+if (!isset($n)) $n = 'default';
+
 
 // Fetch BannerID
-if (!isset($bannerid))
+if (!isset($bannerid) && isset($phpAds_banner[$n]))
 {
-	// Get bannerid
-	if(isset($bannerNum) && !empty($bannerNum)) $bannerid = $bannerNum;
-	if(isset($n) && is_array($banID)) $bannerid = $banID[$n];
+	// Bannerid and destination not known, try to get
+	// values from the phpAds_banner cookie.
 	
-	// Get destination
-	if(isset($destNum) && !empty($destNum)) $dest = $destNum;
-	if(isset($n) && is_array($destID)) $dest = $destID[$n];
-	
-	// Get zone
-	if(isset($zoneNum) && !empty($zoneNum)) $zoneid = $zoneNum;
-	if(isset($n) && is_array($zoneID)) $zoneid = $zoneID[$n];
-	
-	// Get source
-	if(isset($sourceNum) && !empty($sourceNum)) $source = $sourceNum;
-	if(isset($n) && is_array($sourceID)) $source = $sourceID[$n];
+	if ($phpAds_banner[$n] != 'DEFAULT')
+	{
+		$cookie = unserialize (stripslashes($phpAds_banner[$n]));
+		
+		if (isset($cookie['bannerid'])) 
+			$bannerid = $cookie['bannerid'];
+		else
+			$bannerid = 'DEFAULT';
+		
+		if (isset($cookie['zoneid']))
+			$zoneid = $cookie['zoneid'];
+		
+		if (isset($cookie['source']))
+			$source = $cookie['source'];
+		
+		if (isset($cookie['dest']))
+			$dest = $cookie['dest'];
+	}
+	else
+		$bannerid = 'DEFAULT';
 }
 
 
@@ -86,10 +96,10 @@ if ($bannerid != "DEFAULT")
 	if (isset($dest) && $dest != '')
 		$url = $dest;
 	
+	
 	// If zoneid is not set, log it as a regular banner
 	if (!isset($zoneid)) $zoneid = 0;
 	if (!isset($source)) $source = '';
-	
 	
 	
 	// Log clicks
@@ -119,7 +129,7 @@ if ($bannerid != "DEFAULT")
 			}
 			
 			$url_prefix = parse_url($phpAds_config['url_prefix']);
-			SetCookie("phpAds_blockClick[".$bannerid."]", time(), time() + $phpAds_config['block_adclicks'], $url_prefix["path"]);
+			setcookie ("phpAds_blockClick[".$bannerid."]", time(), time() + $phpAds_config['block_adclicks'], $url_prefix["path"]);
 		}
 	}
 	
@@ -162,7 +172,10 @@ if ($bannerid != "DEFAULT")
 	
 	
 	// Referer
-	$url = str_replace ("{referer}", urlencode($HTTP_REFERER), $url);
+	if (isset($HTTP_REFERER))
+		$url = str_replace ("{referer}", urlencode($HTTP_REFERER), $url);
+	else
+		$url = str_replace ("{referer}", '', $url);
 	
 	// ISMAP click location
 	if (isset($ismap) && $ismap != '')
