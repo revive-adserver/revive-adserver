@@ -51,31 +51,8 @@ if ($res)
 	echo "<td background='images/ruler-top.gif'>&nbsp;</td><td width='32'><img src='images/cropmark-tr.gif' width='32' height='32'></td></tr>";
 	echo "<tr height='".$row['height']."'><td width='32' background='images/ruler-left.gif'>&nbsp;</td><td bgcolor='#FFFFFF' width='".$row['width']."'>";
 	
-	if ($row['contenttype'] == 'html')
-	{
-		$htmlcode = $row['htmlcache'];
-		
-		// Basic modifications
-		$htmlcode = str_replace ('{url_prefix}', $phpAds_config['url_prefix'], $htmlcode);
-		$htmlcode = str_replace ('{bannerid}', $bannerid, $htmlcode);
-		$htmlcode = str_replace ('{zoneid}', '', $htmlcode);
-		$htmlcode = str_replace ('{source}', '', $htmlcode);
-		$htmlcode = str_replace ('{target}', '_blank', $htmlcode);
-		$htmlcode = str_replace ('[bannertext]', '', $htmlcode);
-		$htmlcode = str_replace ('[/bannertext]', '', $htmlcode);
-		$htmlcode = phpAds_replaceVariablesInBannerCode ($htmlcode);
-		
-		// Remove appended HTML for the preview
-		$htmlcode = str_replace ($row['append'], '', $htmlcode);
-		
-		// Disable logging of adclicks
-		$htmlcode = str_replace ('adclick.php?', 'adclick.php?log=no&', $htmlcode);
-	}
-	else
-		$htmlcode = phpAds_buildBannerCode ($row['bannerid'], true);
-	
 	// Output banner
-	echo $htmlcode;
+	echo phpAds_buildBannerCode ($row['bannerid'], true);
 	
 	echo "</td><td width='32'>&nbsp;</td></tr>";
 	echo "<tr height='32'><td width='32'><img src='images/cropmark-bl.gif' width='32' height='32'></td><td>";

@@ -522,7 +522,7 @@ function phpAds_replaceVariablesInBannerCode ($htmlcode)
 function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 {
 	global $strShowBanner, $strLogin;
-	global $phpAds_config;
+	global $phpAds_config, $HTTP_SERVER_VARS;
 	global $phpAds_TextAlignLeft, $phpAds_TextAlignRight;
 	
 	
@@ -540,10 +540,6 @@ function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 	
 	if ($fullpreview || $phpAds_config['gui_show_banner_preview'])
 	{
-		if ($row['active'] == "f")
-			echo "<div style='filter: Alpha(Opacity=50)'>";
-		
-		
 		// Determine target
 		if ($row['target'] == '')
 		{
@@ -560,7 +556,7 @@ function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 		switch ($row['storagetype'])
 		{
 			case 'html':
-				if ($phpAds_config['gui_show_banner_html'])
+				if ($fullpreview || $phpAds_config['gui_show_banner_html'])
 				{
 					$htmlcode = $row['htmlcache'];
 					$htmlcode = str_replace ('{bannerid}', $bannerid, $htmlcode);
@@ -575,9 +571,9 @@ function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 				}
 				else
 				{
-					$htmlcode 	= str_replace ("\n", '', stripslashes ($row['htmltemplate']));
+					$htmlcode   = str_replace ("\n", '', stripslashes ($row['htmltemplate']));
 					$htmlcode   = strlen($htmlcode) > 500 ? substr ($htmlcode, 0, 500)."..." : $htmlcode;
-					$htmlcode	= chunk_split ($htmlcode, 65, "\n");
+					$htmlcode   = chunk_split ($htmlcode, 65, "\n");
 					$htmlcode   = str_replace("\n", "<br>\n", htmlspecialchars ($htmlcode));
 					
 					$buffer     = "<img src='images/break-el.gif' height='1' width='100%' vspace='5'><br>";
@@ -635,11 +631,27 @@ function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 			$buffer = str_replace ($row['append'], '', $buffer);
 		
 		
-		if ($row['active'] == "f")
-			echo "</div>";
+		// If the HTML contains ActiveX code we need
+		// to use a JavaScript workaround because the outcome of the Eolas lawsuit
+		// agains Microsoft. Without these changes the user would get a warning dialogbox.
+		if (!(strpos (strtolower($row['htmlcache']), "<object") === false) &&
+	   		(strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'MSIE') && !strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Opera')))
+		{
+			$activexbuffer  = "<script language='JavaScript' type='text/javascript' src='{url_prefix}/adx.js'></script>";
+			$activexbuffer .= "<script language='JavaScript' type='text/javascript'>\n";
+			$activexbuffer .= "<!--\n";
+			$activexbuffer .= "var phpads_activex = \"";
+			$activexbuffer .= addslashes($buffer);
+			$activexbuffer .= "\";\n";
+ 			$activexbuffer .= "phpads_deliverActiveX(phpads_activex);\n";
+ 			$activexbuffer .= "//-->\n";
+ 			$activexbuffer .= "</script>";
+ 			
+ 			$buffer = $activexbuffer;
+		}
+
 		
-		//if (!$bannertext == "")
-		//	$buffer .= "<br>".$bannertext;
+		
 	}
 	else
 	{
@@ -660,9 +672,12 @@ function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 		$buffer    .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strShowBanner."</a>&nbsp;&nbsp;";
 	}
 	
+	
 	// Disable logging of adclicks
 	$buffer = str_replace ('adclick.php?', 'adclick.php?log=no&', $buffer);
 	$buffer = str_replace ('adclick.php%3F', 'adclick.php%3Flog=no%26', $buffer);
+	
+	$buffer = str_replace ('{url_prefix}', $phpAds_config['url_prefix'], $buffer);
 	
 	return ($buffer);
 }
