@@ -348,7 +348,7 @@ function phpAds_aclCheckContinent($data, $ad)
 		if ($phpAds_CountryLookup == false)	return (true);
 		
 		// Get continent code
-		@include_once (phpAds_path.'/admin/resources/res-continent.inc.php');
+		@include_once (phpAds_path.'/libraries/resources/res-continent.inc.php');
 		$phpAds_ContinentLookup = $phpAds_continent[$phpAds_CountryLookup];
 	}
 	

@@ -15,7 +15,7 @@
 
 
 // Include required files
-require ("resources/res-iab.inc.php");
+require (phpAds_path."/libraries/resources/res-iab.inc.php");
 
 
 

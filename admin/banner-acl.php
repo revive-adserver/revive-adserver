@@ -21,10 +21,10 @@ require ("lib-zones.inc.php");
 
 
 // Include needed resources
-require ("resources/res-iso639.inc.php");
-require ("resources/res-iso3166.inc.php");
-require ("resources/res-useragent.inc.php");
-require ("resources/res-continent.inc.php");
+require (phpAds_path."/libraries/resources/res-iso639.inc.php");
+require (phpAds_path."/libraries/resources/res-iso3166.inc.php");
+require (phpAds_path."/libraries/resources/res-useragent.inc.php");
+require (phpAds_path."/libraries/resources/res-continent.inc.php");
 
 
 // Register input variables
