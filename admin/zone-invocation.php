@@ -63,7 +63,7 @@ function phpAds_GenerateInvocationCode($zoneid)
 	
 	
 	// Set default values
-	$what   = "zoneid:".$zoneid;
+	$what   = "zone:".$zoneid;
 	$width  = $zone['width'];
 	$height = $zone['height'];
 	
@@ -71,7 +71,7 @@ function phpAds_GenerateInvocationCode($zoneid)
 	$parameters = array();
 	
 	// Set parameters
-	$parameters[] = "what=zoneid:".$zoneid;
+	$parameters[] = "what=zone:".$zoneid;
 	
 	if (isset($source) && $source != '')
 		$parameters[] = "source=".$source;
