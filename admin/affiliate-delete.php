@@ -48,18 +48,6 @@ if (isset($affiliateid) && $affiliateid != '')
 	while ($row = phpAds_dbFetchArray($res))
 		$zones[] = $row['zoneid'];
 	
-			SELECT
-				zoneid
-			FROM
-				".$phpAds_config['tbl_zones']."
-			WHERE
-				affiliateid = '$affiliateid'
-		");
-
-	$zones = array();
-	while ($row = phpAds_dbFetchArray($res))
-		$zones[] = $row['zoneid'];
-43a51,90
 	if (count($zones))
 	{
 		$res = phpAds_dbQuery("
@@ -69,7 +57,8 @@ if (isset($affiliateid) && $affiliateid != '')
 				FROM
 					".$phpAds_config['tbl_zones']."
 				WHERE
-					appendtype = ".phpAds_ZoneAppendZone."
+					appendtype = ".phpAds_ZoneAppendZone." AND
+					affiliateid <> '$affiliateid'
 			");
 		
 		while ($row = phpAds_dbFetchArray($res))

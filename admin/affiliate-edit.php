@@ -23,7 +23,8 @@ require ("lib-languages.inc.php");
 
 // Register input variables
 phpAds_registerGlobal ('move', 'name', 'website', 'contact', 'email', 'language', 'publiczones', 
-					   'errormessage', 'username', 'password', 'affiliatepermissions', 'submit');
+					   'errormessage', 'username', 'password', 'affiliatepermissions', 'submit',
+					   'publiczones_t');
 
 
 // Security check
@@ -130,6 +131,55 @@ if (isset($submit))
 			}
 		}
 		
+		if ($affiliateid && $publiczones == 'f' && $publiczones_old == 't')
+		{
+			// Reset append codes which called this affiliate's zones
+			$res = phpAds_dbQuery("
+					SELECT
+						zoneid
+					FROM
+						".$phpAds_config['tbl_zones']."
+					WHERE
+						affiliateid = '$affiliateid'
+				");
+
+			$zones = array();
+			while ($row = phpAds_dbFetchArray($res))
+				$zones[] = $row['zoneid'];
+			
+			if (count($zones))
+			{
+				$res = phpAds_dbQuery("
+						SELECT
+							zoneid,
+							append
+						FROM
+							".$phpAds_config['tbl_zones']."
+						WHERE
+							appendtype = ".phpAds_ZoneAppendZone." AND
+							affiliateid <> '$affiliateid'
+					");
+				
+				while ($row = phpAds_dbFetchArray($res))
+				{
+					$append = phpAds_ZoneParseAppendCode($row['append']);
+
+					if (in_array($append[0]['zoneid'], $zones))
+					{
+						phpAds_dbQuery("
+								UPDATE
+									".$phpAds_config['tbl_zones']."
+								SET
+									appendtype = ".phpAds_ZoneAppendRaw.",
+									append = ''
+								WHERE
+									zoneid = '".$row['zoneid']."'
+							");
+					}
+				}
+			}
+		}
+
 		$res = phpAds_dbQuery("
 			REPLACE INTO
 				".$phpAds_config['tbl_affiliates']."
