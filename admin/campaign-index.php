@@ -204,6 +204,12 @@ else
 		echo "<tr>";
 		echo "<td height='25' colspan='5' align='right'>";
 		
+		
+		echo "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href='banner-edit.php?campaignid=$campaignid&bannerid=".$row["bannerid"]."'>$strBannerProperties</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+		
+		if ($phpAds_config['acl'])
+			echo "<img src='images/icon-acl.gif' align='absmiddle'>&nbsp;<a href='banner-acl.php?campaignid=$campaignid&bannerid=".$row["bannerid"]."'>$strModifyBannerAcl</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+		
 		if ($row["active"] == "t")
 		{
 			echo "<img src='images/icon-deactivate.gif' align='absmiddle'>&nbsp;<a href='banner-activate.php?campaignid=$campaignid&bannerid=".$row["bannerid"]."&value=".$row["active"]."'>";
@@ -215,12 +221,7 @@ else
 			echo $strActivate;
 		}
 		
-		echo "</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-		
-		echo "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href='banner-edit.php?campaignid=$campaignid&bannerid=".$row["bannerid"]."'>$strModifyBanner</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-		
-		if ($phpAds_config['acl'])
-			echo "<img src='images/icon-acl.gif' align='absmiddle'>&nbsp;<a href='banner-acl.php?campaignid=$campaignid&bannerid=".$row["bannerid"]."'>$strModifyBannerAcl</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+		echo "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 		echo "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?campaignid=$campaignid&bannerid=".$row["bannerid"]."'".phpAds_DelConfirm($strConfirmDeleteBanner).">$strDelete</a>";
 		
 		echo "</td></tr>";
