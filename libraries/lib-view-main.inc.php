@@ -184,16 +184,16 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 		{
 			if ($phpAds_config['type_html_php'])
 			{
-				if (preg_match ("#(\<\?php(.*)\?\>)#si", $outputbuffer, $parser_regs))
+				while (preg_match ("#(\<\?php(.*)\?\>)#si", $outputbuffer, $parser_regs))
 				{
 					// Extract PHP script
-					$parser_php 	= $parser_regs[2];
+					$parser_php 	= $parser_regs[2].';';
 					$parser_result 	= '';
 					
 					// Replace output function
 					$parser_php = preg_replace ("#echo([^;]*);#i", '$parser_result .=\\1;', $parser_php);
-					$parser_php = preg_replace ("#print([^;]*);#i", '$parser_result .=\\1;', $parser_php);
 					$parser_php = preg_replace ("#printf([^;]*);#i", '$parser_result .= sprintf\\1;', $parser_php);
+					$parser_php = preg_replace ("#print([^;]*);#i", '$parser_result .=\\1;', $parser_php);
 					
 					// Split the PHP script into lines
 					$parser_lines = explode (";", $parser_php);

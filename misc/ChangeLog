@@ -3,6 +3,7 @@ phpAdsNew - ChangeLog
 CVS
 			+ Misc bugfixes
 			  - 2003-08-08:  Adviews email warning limit wasn't correctly saved (Matteo)
+			  - 2003-08-18:  PHP code parsing in HMTL banners wasn't working as expected - bug #788280   (Matteo)
 
 
 v 2.0rc4.2		+ Misc bugfixes
