@@ -381,7 +381,7 @@ if ($bannerID != '')
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		
 		phpAds_PageHeader("4.1.5.2", $extra);
-		phpAds_ShowSections(array("4.1.5.2", "4.1.5.3"));
+		phpAds_ShowSections(array("4.1.5.2", "4.1.5.3", "4.1.5.4"));
 	}
 	else
 	{
