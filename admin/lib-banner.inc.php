@@ -310,7 +310,7 @@ function phpAds_getBannerCache($banner)
 		while (eregi("\{targeturl:([^\}]*)\}", $buffer, $matches))
 		{
 			$buffer = str_replace ($matches[0],
-								   $phpAds_config['url_prefix'].'/adclick.php%3Fbannerid={bannerid}%26amp;zoneid={zoneid}%26amp;source={source}%26amp;dest='.urlencode($matches[1]),
+								   $phpAds_config['url_prefix'].'/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest='.urlencode($matches[1]),
 								   $buffer);
 		}
 	}
