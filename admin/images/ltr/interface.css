@@ -155,6 +155,13 @@ textarea.box {
 	width:275px;
 }
 
+div.boxtitle {
+	font-weight: bold;
+	border-bottom: 1px #DDDDDD solid;
+	padding-top: 6px;
+	padding-bottom: 5px;
+}
+
 div.boxrow {
 	cursor: pointer; 
 	cursor: hand; 

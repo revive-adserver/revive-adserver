@@ -147,7 +147,7 @@ function phpAds_geoipregion_seek_country($fp, $ipnum)
 				$type == $geoip_org_edition)
 			{
 		        	$seg = 0;
-		        	$buf = @fread($fp, $record_length_segment));
+		        	$buf = @fread($fp, $record_length_segment);
 		        
 				for ($j = 0; $j < $record_length_segment; $j++)
 		        		$seg += (ord($buf[$j]) << ($j * 8));

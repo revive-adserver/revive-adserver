@@ -758,9 +758,9 @@ if ($phpAds_config['acl'])
 				
 				echo "<div class='box'>";
 				
-				while (list($country, $regions) = each ($phpAds_ISO3166-2))
+				while (list($country, $regions) = each ($phpAds_ISO3166_2))
 				{
-					echo "<div class='boxrow'><b>".$phpAds_ISO3166[$country]."</b></div>";
+					echo "<div class='boxtitle'>&nbsp;".$phpAds_ISO3166[$country]."</div>";
 					
 					while (list($code,$fullname) = each ($regions))
 					{
