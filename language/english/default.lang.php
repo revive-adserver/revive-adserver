@@ -342,7 +342,7 @@ $GLOBALS['strPopup']						= "Popup";
 
 
 // Advanced zone settings
-$GLOBALS['strAdvancedSettings']				= "Advanced settings";
+$GLOBALS['strChains']						= "Chains";
 $GLOBALS['strChainSettings']				= "Chain settings";
 $GLOBALS['strZoneNoDelivery']				= "If no banners from this zone <br>can be delivered, try to...";
 $GLOBALS['strZoneStopDelivery']				= "Stop delivery and don't show a banner";
