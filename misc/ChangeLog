@@ -44,6 +44,8 @@ CVS
 			  - 2003-06-12:  Fixed bug when disabling client reports on client properties page  (Matteo)
 			  - 2003-06-19:  Fixed problems when session expired on pages using POST to submit changes, see bug #753517  (Matteo)
 			  - 2003-06-28:  Fixed wrong hour detection with one digit hours and a division by zero in lib-priority  (Matteo)
+			  - 2003-06-29:  After adding a HTML banner, the target of an <area> tag will now also honour the destination frame set on the banner properties page  (Niels)
+			  - 2003-06-29:  If a HTML banner is added without a <a> tag, but with an <iframe>, <object> or <script> tag, phpAdsNew won't add a link around the HTML banner  (Niels)
 
 
 v 2.0rc3		+ Added a cron replacement for users who don't have access to the cron utility for scheduling the maintenance script  (Niels, 2003-01-14)

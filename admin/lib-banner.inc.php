@@ -130,6 +130,7 @@ function phpAds_getBannerCache($banner)
 				// Determine which types are present in the HTML
 				$formpresent = eregi('<form', $buffer);
 				$linkpresent = eregi('<a', $buffer);
+				$areapresent = eregi('<area', $buffer);
 				
 				if ($formpresent)
 				{
@@ -145,8 +146,8 @@ function phpAds_getBannerCache($banner)
 					$buffer = eregi_replace ("<form ", "<form target='{target}' ", $buffer);
 				}
 				
-				// Process link
-				if ($linkpresent)
+				// Process link and areas
+				if ($linkpresent || $areapresent)
 				{
 					// Replace all links with adclick.php
 					
@@ -275,12 +276,18 @@ function phpAds_getBannerCache($banner)
 					
 					// Add target to all URLs
 					$buffer = eregi_replace ("<a ", "<a target='{target}' ", $buffer);
+					$buffer = eregi_replace ("<area ", "<area target='{target}' ", $buffer);
 				}
 				
-				if (!$formpresent && !$linkpresent && $banner['url'] != '')
+				if (!$formpresent && !$linkpresent && !$areapresent && $banner['url'] != '')
 				{
-					// No link or form
-					$buffer = "<a href='{url_prefix}/adclick.php?bannerid={bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;ismap=' target='{target}'>".$buffer."</a>";
+					// No link, area or form
+					// Check if we really want to place the HTML code inside a link...
+					// Do not do this if the HTML code contains an iframe, object or script tag,
+					// Because we can then safely assume the link is handled by the HTML code itself
+					
+					if (!eregi('<script', $buffer) && !eregi('<object', $buffer) && !eregi('<iframe', $buffer))
+						$buffer = "<a href='{url_prefix}/adclick.php?bannerid={bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;ismap=' target='{target}'>".$buffer."</a>";
 				}
 			}
 			else
