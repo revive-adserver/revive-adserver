@@ -49,11 +49,11 @@ function phpAds_getLayerLimitations ()
 function phpAds_putLayerJS ($output, $uniqid)
 {
 	global $align, $valign, $closetime, $padding;
-	global $shifth, $shiftv, $closebutton;
+	global $shifth, $shiftv, $closebutton, $style;
 	
 	// Register input variables
 	phpAds_registerGlobal ('align', 'valign', 'closetime', 'padding',
-						   'shifth', 'shiftv', 'closebutton');
+						   'shifth', 'shiftv', 'closebutton', 'style');
 	
 	
 	if (!isset($padding)) $padding = 0;
@@ -62,8 +62,21 @@ function phpAds_putLayerJS ($output, $uniqid)
 	if (!isset($closebutton)) $closebutton = 'f';
 	
 	// Calculate layer size (inc. borders)
-	$layer_width = $output['width'] + 2 + $padding*2;
-	$layer_height = $output['height'] + 2 + ($closebutton == 't' ? 11 : 0) + $padding*2;
+	if ($style == 'xp')
+	{
+		$layer_width = $output['width'] + 8;
+		$layer_height = $output['height'] + 4 + 30;
+	}
+	elseif ($style == 'win')
+	{
+		$layer_width = $output['width'] + 10;
+		$layer_height = $output['height'] + 29;
+	}
+	else
+	{
+		$layer_width = $output['width'] + 2 + $padding*2;
+		$layer_height = $output['height'] + 2 + ($closebutton == 't' ? 11 : 0) + $padding*2;
+	}
 	
 ?>
 
@@ -207,30 +220,73 @@ function phpAds_getLayerHTML ($output, $uniqid)
 	global $phpAds_config, $target;
 	global $align, $padding, $closebutton;
 	global $backcolor, $bordercolor;
-	global $nobg, $noborder;
+	global $nobg, $noborder, $style;
 	
 	// Register input variables
 	phpAds_registerGlobal ('align', 'padding', 'closebutton',
 						   'backcolor', 'bordercolor',
-						   'nobg', 'noborder');
-	
-	
-	if (!isset($padding)) $padding = '2';
-	if (!isset($closebutton)) $closebutton = 'f';
-	if (!isset($backcolor)) $backcolor = 'FFFFFF';
-	if (!isset($bordercolor)) $bordercolor = '000000';
-	if (!isset($nobg)) $nobg = 'f';
-	if (!isset($noborder)) $noborder = 'f';
-	
-	// Calculate layer size (inc. borders)
-	$layer_width = $output['width'] + 2 + $padding*2;
-	$layer_height = $output['height'] + 2 + ($closebutton == 't' ? 11 : 0) + $padding*2;
+						   'nobg', 'noborder', 'style');
 	
 	// Create imagepath
 	$imagepath = $phpAds_config['url_prefix'].'/libraries/layerstyles/simple/images/';
+
+	if ($style == 'xp')
+	{
+		if (!isset($closebutton)) $closebutton = 'f';
+		if (!isset($backcolor)) $backcolor = 'FFFFFF';
+
+		// Calculate layer size (inc. borders)
+		$layer_width = $output['width'] + 10;
+		$layer_height = $output['height'] + 4 + 30;
+
+		// return HTML code
+		return '
+<div id="phpads_'.$uniqid.'" style="position:absolute; width:'.$layer_width.'px; height:'.$layer_height.'px; z-index:99; left: 0px; top: 0px; visibility: hidden"> 
+	<table style="width: '.($layer_width-2).'px;" cellspacing="0"><tr><td style="padding: 0px;width: 26px;"><img src="'.$imagepath.'xp-tb-l.gif"></td>
+	<td style="padding: 0px;background-image: url('.$imagepath.'xp-tb-bg.gif);background-repeat: repeat-x;color: white;font-family: Trebuchet MS, Arial, sans-serif;font-size:13px;font-weight: bold;padding-top:2px;"><div style="width:'.($layer_width - 58).'px; overflow: hidden;">'.($output['alt'] ? $output['alt'] : 'Advertisement').'</div></td>
+	'.($closebutton == 't' ? '<td style="padding: 0px;width: 30px;"><a href="javascript:;" onClick="phpAds_simplepop_'.$uniqid.'(\'close\'); return false;"><img src="'.$imagepath.'xp-tb-r.gif" style="border:0;"></a></td>' : '<td style="padding: 0px;width: 30px;"><img src="'.$imagepath.'xp-tb-rd.gif" style="border:0;"></td>').'</tr></table>
+	<div style="float: left; clear: left; border-left: 1px solid #0019CF; border-bottom: 1px solid #00138C; border-right: 1px solid #00138C;">
+	<div style="border-left: 1px solid #0019CF; border-bottom: 1px solid #001EA1; border-right: 1px solid #001DA0;">
+	<div style="border-left: 1px solid #166AEE; border-bottom: 1px solid #0441D8; border-right: 1px solid #003DDC;">
+	<div style="border-left: 1px solid #0855DD; border-bottom: 1px solid #0048F1; border-right: 1px solid #0048F1; width:'.$output['width'].'px; height:'.$output['height'].'px; background-color: #'.$backcolor.';">'.$output['html'].'</div></div></div></div>
+</div>
+';
+	}
+	elseif ($style == 'win')
+	{
+		if (!isset($closebutton)) $closebutton = 'f';
+		if (!isset($backcolor)) $backcolor = 'FFFFFF';
+
+		// Calculate layer size (inc. borders)
+		$layer_width = $output['width'] + 8;
+		$layer_height = $output['height'] + 29;
+
+		// return HTML code
+		return '
+<div id="phpads_'.$uniqid.'" style="position:absolute; width:'.$layer_width.'px; height:'.$layer_height.'px; z-index:99; left: 0px; top: 0px; visibility: hidden"> 
+	<div style="width: '.$layer_width.'px; border-top: 1px solid #D4D0C8; border-left: 1px solid #D4D0C8; border-bottom: 1px solid #404040; border-right: 1px solid #404040;"><div style="border-top: 1px solid #FFFFFF; border-left: 1px solid #FFFFFF; border-bottom: 1px solid #808080; border-right: 1px solid #808080;">
+	<div style="border: 1px solid #D4D0C8;"><table style="width: '.($output['width']+4).'px; background-color: #A6CAF0; background-image: url('.$imagepath.'win-tb-bg.gif); background-repeat: repeat-y;	border-bottom: 1px solid #D4D0C8;" cellspacing="0"><tr><td style="width: 20px;padding: 0px;"><img src="'.$imagepath.'win-tb-l.gif"></td>
+	<td style="padding: 0px;color: white; font-family: Tahoma, Arial, sans-serif;	font-size: 11px; font-weight: bold;"><div style="width:'.($layer_width - 44).'px; overflow: hidden;">'.($output['alt'] ? $output['alt'] : 'Advertisement').'</div></td>'.($closebutton == 't' ? '<td style="width: 20px;padding: 0px;"><a href="javascript:;" onClick="phpAds_simplepop_'.$uniqid.'(\'close\'); return false;"><img src="'.$imagepath.'win-tb-r.gif" style="border: 0px;"></a></td>' : '<td style="width: 20px;padding: 0px;"><img src="'.$imagepath.'win-tb-rd.gif" style="border: 0px;"></td>').'
+	</tr></table><div style="border-top: 1px solid #808080; border-left: 1px solid #808080; border-bottom: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF;"><div style="border-top: 1px solid #404040; border-left: 1px solid #404040; border-bottom: 1px solid #D4D0C8; border-right: 1px solid #D4D0C8;width:'.$output['width'].'px; height:'.$output['height'].'px; background-color: #'.$backcolor.';">'.$output['html'].'</div>
+	</div></div></div></div>
+</div>
+';
+	}
+	else
+	{
+		if (!isset($padding)) $padding = '2';
+		if (!isset($closebutton)) $closebutton = 'f';
+		if (!isset($backcolor)) $backcolor = 'FFFFFF';
+		if (!isset($bordercolor)) $bordercolor = '000000';
+		if (!isset($nobg)) $nobg = 'f';
+		if (!isset($noborder)) $noborder = 'f';
+		
+		// Calculate layer size (inc. borders)
+		$layer_width = $output['width'] + 2 + $padding*2;
+		$layer_height = $output['height'] + 2 + ($closebutton == 't' ? 11 : 0) + $padding*2;
 	
-	// return HTML code
-	return '
+		// return HTML code
+		return '
 <div id="phpads_'.$uniqid.'" style="position:absolute; width:'.$layer_width.'px; height:'.$layer_height.'px; z-index:99; left: 0px; top: 0px; visibility: hidden"> 
 	<table cellspacing="0" cellpadding="0"'.($noborder == 't' ? '' : ' style="border-style: solid; border-width: 1px; border-color: #'.$bordercolor.'"').'>
 '.($closebutton == 't' ?
@@ -250,6 +306,7 @@ function phpAds_getLayerHTML ($output, $uniqid)
 	</table>
 </div>
 ';
+	}
 }
 
 ?>
