@@ -95,7 +95,7 @@ Russian
 	Maintained by:	   Michael Bravo
 	Is up-to-date?	   Yes
 	Last update:	   20 October 2002
-	Translated files:  8
+	Translated files:  7
 	---------------------------------------------------------
 
 
