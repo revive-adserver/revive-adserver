@@ -3,6 +3,8 @@ phpAdsNew - ChangeLog
 CVS
 			+ Misc changes
 			  - 2003-08-19:  Added PHP5 check and warnings during install  (Matteo)
+			  - 2003-08-22:  Optimized in the main stats page and client, campaign, affiliate history  (Matteo)
+			  - 2003-08-22:  Added indexes on zoneid fields of stats tables  (Matteo)
 
 			+ Misc bugfixes
 			  - 2003-08-08:  Adviews email warning limit wasn't correctly saved (Matteo)

@@ -268,55 +268,68 @@ while ($row_banners = phpAds_dbFetchArray($res_banners))
 		$campaigns[$row_banners['clientid']]['count']++;
 	}
 	
-	
+	$bannerids[] = $row_banners['bannerid'];
+}
+
+if (count($bannerids))
+{
 	if (!$phpAds_config['compact_stats'])
 	{
 		$res_stats = phpAds_dbQuery("
 			SELECT
+				bannerid,
 				count(*) as views
 			FROM 
 				".$phpAds_config['tbl_adviews']."
 			WHERE
-				bannerid = ".$row_banners['bannerid'].$limit."
+				bannerid IN (".join(', ', $bannerids).")".$limit."
+			GROUP BY
+				bannerid
 			") or phpAds_sqlDie();
 		
-		if ($row_stats = phpAds_dbFetchArray($res_stats))
+		while ($row_stats = phpAds_dbFetchArray($res_stats))
 		{
-			$banners[$row_banners['bannerid']]['views'] = $row_stats['views'];
-			$banners[$row_banners['bannerid']]['clicks'] = 0;
+			$banners[$row_stats['bannerid']]['views'] = $row_stats['views'];
+			$banners[$row_stats['bannerid']]['clicks'] = 0;
 		}
 		
 		
 		$res_stats = phpAds_dbQuery("
 			SELECT
+				bannerid,
 				count(*) as clicks
 			FROM 
 				".$phpAds_config['tbl_adclicks']."
 			WHERE
-				bannerid = ".$row_banners['bannerid'].$limit."
+				bannerid IN (".join(', ', $bannerids).")".$limit."
+			GROUP BY
+				bannerid
 			") or phpAds_sqlDie();
 		
-		if ($row_stats = phpAds_dbFetchArray($res_stats))
+		while ($row_stats = phpAds_dbFetchArray($res_stats))
 		{
-			$banners[$row_banners['bannerid']]['clicks'] = $row_stats['clicks'];
+			$banners[$row_stats['bannerid']]['clicks'] = $row_stats['clicks'];
 		}
 	}
 	else
 	{
 		$res_stats = phpAds_dbQuery("
 			SELECT
+				bannerid,
 				sum(views) as views,
 				sum(clicks) as clicks
 			FROM 
 				".$phpAds_config['tbl_adstats']."
 			WHERE
-				bannerid = ".$row_banners['bannerid'].$limit."
+				bannerid IN (".join(', ', $bannerids).")".$limit."
+			GROUP BY
+				bannerid
 			") or phpAds_sqlDie();
 		
-		if ($row_stats = phpAds_dbFetchArray($res_stats))
+		while ($row_stats = phpAds_dbFetchArray($res_stats))
 		{
-			$banners[$row_banners['bannerid']]['clicks'] = $row_stats['clicks'];
-			$banners[$row_banners['bannerid']]['views'] = $row_stats['views'];
+			$banners[$row_stats['bannerid']]['clicks'] = $row_stats['clicks'];
+			$banners[$row_stats['bannerid']]['views'] = $row_stats['views'];
 		}
 	}
 }

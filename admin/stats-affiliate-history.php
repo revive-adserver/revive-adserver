@@ -104,12 +104,13 @@ $idresult = phpAds_dbQuery ("
 
 if (phpAds_dbNumRows($idresult) > 0)
 {
+	$zoneids = array();
 	while ($row = phpAds_dbFetchArray($idresult))
 	{
-		$zoneids[] = "zoneid = ".$row['zoneid'];
+		$zoneids[] = $row['zoneid'];
 	}
 	
-	$lib_history_where     = "(".implode(' OR ', $zoneids).")";
+	$lib_history_where     = count($zoneids) ? "zoneid IN (".implode(', ', $zoneids).")" : '';
 	$lib_history_params    = array ('affiliateid' => $affiliateid);
 	$lib_history_hourlyurl = "stats-affiliate-daily.php";
 	

@@ -78,7 +78,8 @@ CREATE TABLE phpads_adclicks (
    source varchar(50) NOT NULL,
    country char(2) NOT NULL,
    KEY bannerid_date (bannerid,t_stamp),
-   KEY date (t_stamp)
+   KEY date (t_stamp),
+   KEY zoneid (zoneid)
 );
 
 
@@ -94,7 +95,8 @@ CREATE TABLE phpads_adviews (
    source varchar(50) NOT NULL,
    country char(2) NOT NULL,
    KEY bannerid_date (bannerid,t_stamp),
-   KEY date (t_stamp)
+   KEY date (t_stamp),
+   KEY zoneid (zoneid)
 );
 
 
@@ -215,7 +217,8 @@ CREATE TABLE phpads_adstats (
   zoneid smallint(6) DEFAULT '0' NOT NULL,
   source varchar(50) NOT NULL,
   PRIMARY KEY (day,hour,bannerid,zoneid,source),
-  KEY bannerid_day (bannerid,day)
+  KEY bannerid_day (bannerid,day),
+  KEY zoneid (zoneid)
 );
 
 

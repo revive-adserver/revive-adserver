@@ -133,12 +133,13 @@ $idresult = phpAds_dbQuery ("
 
 if (phpAds_dbNumRows($idresult) > 0)
 {
+	$bannerids = array();
 	while ($row = phpAds_dbFetchArray($idresult))
 	{
-		$bannerids[] = "bannerid = ".$row['bannerid'];
+		$bannerids[] = $row['bannerid'];
 	}
 	
-	$lib_history_where     = "(".implode(' OR ', $bannerids).")";
+	$lib_history_where     = count($bannerids) ? "bannerid IN (".implode(', ', $bannerids).")" : '';
 	$lib_history_params    = array ('clientid' => $clientid, 'campaignid' => $campaignid);
 	$lib_history_hourlyurl = "stats-campaign-daily.php";
 	
