@@ -25,7 +25,7 @@ $GLOBALS['phpAds_TextAlignLeft']			= "left";
 
 
 // Date & time configuration
-$GLOBALS['date_format']						= "%m/%d/%Y";
+$GLOBALS['date_format']						= "%d/%m/%Y";
 $GLOBALS['time_format']						= "%H:%i:%S";
 $GLOBALS['minute_format']					= "%H:%M";
 $GLOBALS['month_format']					= "%m/%Y";
