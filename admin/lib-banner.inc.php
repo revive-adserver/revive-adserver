@@ -181,7 +181,8 @@ function phpAds_getBannerCache($banner)
 					{
 						$endquotepos = strpos($lowerbanner, $quotechar, $quotepos+1);
 						
-						if (substr ($buffer, $quotepos+1, 10) != '{targeturl')
+						if (substr ($buffer, $quotepos+1, 10) != '{targeturl' &&
+							strtolower(substr ($buffer, $quotepos+1, 11)) != 'javascript:')
 						{
 							$newbanner = $newbanner . 
 									substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . 
@@ -209,7 +210,8 @@ function phpAds_getBannerCache($banner)
 						else
 							$endpos = $endtagpos;
 						
-						if (substr($buffer, $hrefpos, 10) != '{targeturl')
+						if (substr($buffer, $hrefpos, 10) != '{targeturl' &&
+							strtolower(substr($buffer, $hrefpos, 11)) != 'javascript:')
 						{
 							$newbanner = $newbanner . 
 									substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . 
