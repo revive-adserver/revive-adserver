@@ -129,8 +129,8 @@ else
 		FROM 
 			".$phpAds_config['tbl_clients']."
 		WHERE
-			clientid = ".$Session["clientid"]." OR
-			parent = ".$Session["clientid"]."
+			clientid = ".phpAds_getUserID()." OR
+			parent = ".phpAds_getUserID()."
 		".phpAds_getListOrder ($listorder, $orderdirection)."
 		") or phpAds_sqlDie();
 }
@@ -633,7 +633,7 @@ else
 {
 	// Information for the client
 	
-	$client = $clients[$Session["clientid"]];
+	$client = $clients[phpAds_getUserID()];
 	
 	if (isset($client['campaigns']) && sizeof ($client['campaigns']) > 0)
 	{
