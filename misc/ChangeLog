@@ -42,7 +42,8 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-10-17:  Moved the geotargeting settings to the 'Statistics settings' section  (Niels)
 			  - 2002-10-17:  Added a page with information about how the statistics are distributed over the different countries  (Niels)
 			  - 2002-10-17:  Added a list of 'most requesting countries' to the 'Hosts' pages  (Niels)
-			  - 2002-10-28:  Moved a lot of library files around to now locations  (Niels)
+			  - 2002-10-28:  Moved a lot of library files around to new locations  (Niels)
+			  - 2002-10-29:  Moved even more library files to a new location  (Niels)
 
 			+ Misc bugfixes
 			  - 2002-07-25:  On some systems history pages showed '-0' instead of simply '-' (Matteo)
