@@ -329,6 +329,7 @@ CVS			+ Added configuration manager  (Matteo, 2001-11-04)
 			  - 2002-07-22:  Although the error string was present in translations, actually no checks were made on zone cache limit  (Matteo)
 			  - 2002-07-23:	 Added missing phpAds_makeTimestamp() function to stats conversion routines  (Niels)
 			  - 2002-07-23:  Fixed page identifier in stats-campaign-daily-hosts.php  (Matteo)
+			  - 2002-07-23:	 On banner distribution page 'Other' was counted twice when calculating the total  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015

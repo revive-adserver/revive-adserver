@@ -293,9 +293,6 @@ if (isset($affiliates) && is_array($affiliates) && count($affiliates) > 0)
 	}
 	
 	unset ($zones);
-	
-	$totalviews += $manual['views'];
-	$totalclicks += $manual['clicks'];
 }
 
 $totalviews += $manual['views'];
