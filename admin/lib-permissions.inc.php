@@ -213,7 +213,7 @@ function phpAds_checkIds()
 		elseif ($part[0] == 'zone')
 			$part[0] = 'affiliate';
 	}
-		
+	
 	switch ($part[0])
 	{
 		case 'banner':
@@ -221,6 +221,10 @@ function phpAds_checkIds()
 			{
 				if (is_numeric($clientid) && is_numeric($campaignid))
 				{
+					// Banner-activate and banner-delete are also allowed to use only the campaign id
+					if ($part[1] == 'activate' || $part[1] == 'delete')
+						break;
+					
 					header('Location: '.$redirects['banner'].'?clientid='.$clientid.'&campaignid='.$campaignid);
 					exit;
 				}

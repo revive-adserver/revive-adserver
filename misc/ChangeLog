@@ -3,6 +3,7 @@ phpAdsNew - ChangeLog
 CVS
 			+ Misc bugfixes
 			  - 2003-07-17:  Report were created without delimiters/quotes with register globals off  (Matteo)
+			  - 2003-07-20:  Added exceptions to bannerid requirement for banner-activate and banner-delete  (Niels)
 
 
 v 2.0rc4.1		+ Misc bugfixes
