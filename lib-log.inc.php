@@ -30,21 +30,23 @@ function phpAds_logClick($bannerid, $zoneid, $host)
             SET
                 clicks=clicks+1
             WHERE
-                bannerid = '$bannerid' &&
-				zoneid = '$zoneid' &&
-                day = now()
+                day = now() AND
+				hour = hour(now()) AND
+                bannerid = '$bannerid' AND
+				zoneid = '$zoneid'
             ", $phpAds_config['insert_delayed'] ? "LOW_PRIORITY": ""));
 		
         // If row didn't exist.  Create it.
-        if (phpAds_dbAffectedRows($result) == 0) 
+        if (phpAds_dbAffectedRows() == 0) 
         {
             $result = phpAds_dbQuery(sprintf("
                 INSERT %s INTO 
                     ".$phpAds_config['tbl_adstats']."
                 SET
-                    clicks=1,
-                    views=0,
+                    clicks = 1,
+                    views = 0,
                     day = now(),
+					hour = hour(now()),
                     bannerid = '$bannerid',
 					zoneid = '$zoneid'
                 ", $phpAds_config['insert_delayed'] ? "DELAYED": ""));
@@ -83,21 +85,23 @@ function phpAds_logView($bannerid, $zoneid, $host)
             SET
                 views=views+1
             WHERE
-                bannerid = '$bannerid' &&
-                zoneid = '$zoneid' &&
-				day = now()
+				day = now() AND
+				hour = hour(now()) AND
+                bannerid = '$bannerid' AND
+                zoneid = '$zoneid'
             ", $phpAds_config['insert_delayed'] ? "LOW_PRIORITY": ""));
 		
         // If row didn't exist.  Create it.
-        if (phpAds_dbAffectedRows($result) == 0) 
+        if (phpAds_dbAffectedRows() == 0) 
         {
             $result = phpAds_dbQuery(sprintf("
                 INSERT %s INTO 
                     ".$phpAds_config['tbl_adstats']."
                 SET
-                    clicks=0,
-                    views=1,
-                    day=now(),
+                    clicks = 0,
+                    views = 1,
+                    day = now(),
+					hour = hour(now()),
                     bannerid = '$bannerid',
 					zoneid = '$zoneid'
                 ", $phpAds_config['insert_delayed'] ? "DELAYED": ""));

@@ -1,11 +1,11 @@
-<?php // $Id$
+<?php // $Revision$
 
 /************************************************************************/
-/* phpPgAds                                                             */
-/* ========                                                             */
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2001 by the phpPgAds developers                        */
-/* http://sourceforge.net/projects/phppgads                             */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -15,8 +15,8 @@
 
 
 // Current phpAds version
-$phpAds_version = 200.062; // 2 dev CM1
-$phpAds_version_readable = "2 dev 11112001/CM";
+$phpAds_version = 200.064;
+$phpAds_version_readable = "2 dev 20112001/CM";
 
 $phpAds_settings_information = array(
 	'dbhost' => 					array ('type' => 'string', 	'sql' => false),
@@ -31,6 +31,7 @@ $phpAds_settings_information = array(
 	'tbl_session' => 				array ('type' => 'string', 	'sql' => false),
 	'tbl_acls' => 					array ('type' => 'string', 	'sql' => false),
 	'tbl_zones' => 					array ('type' => 'string', 	'sql' => false),
+	'tbl_affiliates' =>				array ('type' => 'string', 	'sql' => false),
 	'tbl_config' => 				array ('type' => 'string', 	'sql' => false),
 	'persistent_connections' =>		array ('type' => 'boolean', 'sql' => false),
 	'insert_delayed' => 			array ('type' => 'boolean', 'sql' => false),
