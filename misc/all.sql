@@ -7,9 +7,9 @@
 CREATE TABLE phpads_affiliates (
    affiliateid mediumint(9) NOT NULL AUTO_INCREMENT,
    name varchar(255) NOT NULL,
-   website varchar(255),
    contact varchar(255),
    email varchar(64) NOT NULL,
+   website varchar(255),   
    username varchar(64),
    password varchar(64),
    permissions mediumint(9),
@@ -72,6 +72,7 @@ CREATE TABLE phpads_banners (
    bannerid mediumint(9) NOT NULL AUTO_INCREMENT,
    clientid mediumint(9) DEFAULT '0' NOT NULL,
    active enum('t','f') DEFAULT 't' NOT NULL,
+   priority int(11) DEFAULT '0' NOT NULL,
    weight tinyint(4) DEFAULT '1' NOT NULL,
    seq tinyint(4) DEFAULT '0' NOT NULL,
    banner blob NOT NULL,
@@ -108,7 +109,8 @@ CREATE TABLE phpads_clients (
    permissions mediumint(9),
    language varchar(64),
    active enum('t','f') DEFAULT 't' NOT NULL,
-   weight tinyint(4) DEFAULT '1' NOT NULL,   
+   weight tinyint(4) DEFAULT '1' NOT NULL,
+   target int(11) DEFAULT '0' NOT NULL,   
    parent mediumint(9) DEFAULT '0' NOT NULL,
    report enum('t','f') DEFAULT 't' NOT NULL,
    reportinterval mediumint(9) DEFAULT '7' NOT NULL,
@@ -152,9 +154,10 @@ CREATE TABLE phpads_adstats (
   views int(11) DEFAULT '0' NOT NULL,
   clicks int(11) DEFAULT '0' NOT NULL,
   day date DEFAULT '0000-00-00' NOT NULL,
+  hour tinyint(4) DEFAULT '0' NOT NULL,
   bannerid smallint(6) DEFAULT '0' NOT NULL,
   zoneid smallint(6) DEFAULT '0' NOT NULL,
-  PRIMARY KEY (day,bannerid,zoneid)
+  PRIMARY KEY (day,hour,bannerid,zoneid)
 );
 
 
