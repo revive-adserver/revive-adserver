@@ -111,7 +111,7 @@ if (phpAds_isUser(phpAds_Admin))
 		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br><br>";
 		echo phpAds_getBannerCode($bannerid)."<br><br><br><br>";
-		phpAds_ShowSections(array("2.1.2.1"));
+		phpAds_ShowSections(array("2.1.2.1", "2.1.2.2"));
 }
 
 if (phpAds_isUser(phpAds_Client))
@@ -151,6 +151,24 @@ if ($phpAds_config['compact_stats'])
 	if ($row = phpAds_dbFetchArray($result))
 	{
 		$span = $row['span'];
+	}
+	
+	
+	// Get total statistics
+	$result = phpAds_dbQuery("
+		SELECT
+			SUM(views) AS sum_views,
+			SUM(clicks) AS sum_clicks
+		FROM
+			".$phpAds_config['tbl_adstats']."
+		WHERE
+			bannerid = ".$bannerid."
+	");
+	
+	if ($row = phpAds_dbFetchArray($result))
+	{
+		$totals['views'] = $row['sum_views'];
+		$totals['clicks'] = $row['sum_clicks'];
 	}
 	
 	
@@ -195,6 +213,37 @@ else
 	if ($row = phpAds_dbFetchArray($result))
 	{
 		$span = $row['span'];
+	}
+	
+	
+	// Get total statistics
+	$result = phpAds_dbQuery("
+		SELECT
+			COUNT(*) AS sum_views
+		FROM
+			".$phpAds_config['tbl_adviews']."
+		WHERE
+			bannerid = ".$bannerid."
+	");
+	
+	if ($row = phpAds_dbFetchArray($result))
+	{
+		$totals['views'] = $row['sum_views'];
+	}
+	
+	
+	$result = phpAds_dbQuery("
+		SELECT
+			COUNT(*) AS sum_clicks
+		FROM
+			".$phpAds_config['tbl_adclicks']."
+		WHERE
+			bannerid = ".$bannerid."
+	");
+	
+	if ($row = phpAds_dbFetchArray($result))
+	{
+		$totals['clicks'] = $row['sum_clicks'];
 	}
 	
 	
@@ -306,6 +355,7 @@ for ($d=0;$d<$limit;$d++)
 	echo "<tr>";
 	
 	echo "<td height='25' bgcolor='$bgcolor'>&nbsp;";
+	echo "<img src='images/icon-time.gif' align='absmiddle'>&nbsp;";
 	
 	if ($available)
 		echo "<a href='stats-daily.php?day=".$key."&campaignid=".$campaignid."&bannerid=".$bannerid."'>".$text."</a></td>";
@@ -349,33 +399,49 @@ echo "</td>";
 echo "</tr>";
 
 
-if ($totalviews > 0 || $totalclicks > 0)
-{
-	echo "<tr>";
-	echo "<td height='25'>&nbsp;</td>";
-	echo "<td height='25'>&nbsp;</td>";
-	echo "<td height='25'>&nbsp;</td>";
-	echo "<td height='25'>&nbsp;</td>";
-	echo "</tr>";
-	
-	echo "<tr>";
-	echo "<td height='25'>&nbsp;<b>$strTotal</b></td>";
-	echo "<td height='25'>".$totalviews."</td>";
-	echo "<td height='25'>".$totalclicks."</td>";
-	echo "<td height='25'>".phpAds_buildCTR($totalviews, $totalclicks)."</td>";
-	echo "</tr>";
-	
-	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-	
-	echo "<tr>";
-	echo "<td height='25'>&nbsp;<b>$strAverage</b></td>";
-	echo "<td height='25'>".number_format (($totalviews / $d), $phpAds_config['percentage_decimals'])."</td>";
-	echo "<td height='25'>".number_format (($totalclicks / $d), $phpAds_config['percentage_decimals'])."</td>";
-	echo "<td height='25'>&nbsp;</td>";
-	echo "</tr>";
-	
-	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-}
+echo "<tr>";
+echo "<td height='25'>&nbsp;</td>";
+echo "<td height='25'>&nbsp;</td>";
+echo "<td height='25'>&nbsp;</td>";
+echo "<td height='25'>&nbsp;</td>";
+echo "</tr>";
+
+echo "<tr>";
+echo "<td height='25'>&nbsp;<b>$strTotalThisPeriod</b></td>";
+echo "<td height='25'>".$totalviews."&nbsp(".number_format($totalviews / $totals['views'] * 100, $phpAds_config['percentage_decimals'])."%)</td>";
+echo "<td height='25'>".$totalclicks."&nbsp(".number_format($totalclicks / $totals['clicks'] * 100, $phpAds_config['percentage_decimals'])."%)</td>";
+echo "<td height='25'>".phpAds_buildCTR($totalviews, $totalclicks)."</td>";
+echo "</tr>";
+
+echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+
+echo "<tr>";
+echo "<td height='25'>&nbsp;$strAverageThisPeriod</td>";
+echo "<td height='25'>".number_format (($totalviews / $d), $phpAds_config['percentage_decimals'])."</td>";
+echo "<td height='25'>".number_format (($totalclicks / $d), $phpAds_config['percentage_decimals'])."</td>";
+echo "<td height='25'>&nbsp;</td>";
+echo "</tr>";
+
+echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+
+echo "<tr>";
+echo "<td height='25'>&nbsp;<b>$strTotal</b></td>";
+echo "<td height='25'>".$totals['views']."</td>";
+echo "<td height='25'>".$totals['clicks']."</td>";
+echo "<td height='25'>".phpAds_buildCTR($totals['views'], $totals['clicks'])."</td>";
+echo "</tr>";
+
+echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+
+echo "<tr>";
+echo "<td height='25'>&nbsp;$strAverage</td>";
+echo "<td height='25'>".number_format (($totals['views'] / $span), $phpAds_config['percentage_decimals'])."</td>";
+echo "<td height='25'>".number_format (($totals['clicks'] / $span), $phpAds_config['percentage_decimals'])."</td>";
+echo "<td height='25'>&nbsp;</td>";
+echo "</tr>";
+
+echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+
 
 
 if (($totalviews > 0 || $totalclicks > 0) && $start == 0)
@@ -383,7 +449,7 @@ if (($totalviews > 0 || $totalclicks > 0) && $start == 0)
 	if (phpAds_GDImageFormat() != "none") 
 	{
 		echo "<tr><td colspan='4' align='left' bgcolor='#FFFFFF'>";
-		echo "<br><br><img src='graph-details.php?bannerid=$bannerid&campaignid=$campaignid&limit=$limit'><br><br><br>";
+		echo "<br><br><br><br><img src='graph-details.php?bannerid=$bannerid&campaignid=$campaignid&limit=$limit'><br><br>";
 		echo "</td></tr>";
 		echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	}
