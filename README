@@ -18,6 +18,7 @@ phpAdsNew - Readme
 	Michael Harvey 	   <mike@ve-studio.com>
 	Matteo Beccati     <ciaccia@writeme.com>
 	Stefan Morgenroth  <dandra@users.sourceforge.net>
+	Noor Dawod         <noor@COMRAX.COM>
 
 
     Documentation:
@@ -94,6 +95,7 @@ phpAdsNew - Readme
     - Perform campaign/banner weighing
     - Target banner clicks to frames
     - Use different types of random or sequential banner retrieval
+    - Multi-lingual and support for right-to-left languages, like Arabic
  
 
   Download:
