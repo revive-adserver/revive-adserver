@@ -409,14 +409,14 @@ function phpAds_ConfigFileSet ($key, $value, $type)
 		while (list ($akey, $aval) = each ($value)) 
 		{
 		    if (is_string ($aval) && $aval != '')
-				$value[$akey] = "'$aval'";
+				$value[$akey] = "'".str_replace("'", "\\'", $aval)."'";
 		}
 		
 		$value = "array (".implode (',', $value).")";
 	}
 	elseif ($type == 'string')
 	{
-		$value = "'$value'";
+		$value = "'".str_replace("'", "\\'", $value)."'";
 	}
 	elseif ($type == 'boolean')
 	{
