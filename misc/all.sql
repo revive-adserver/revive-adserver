@@ -88,6 +88,7 @@ CREATE TABLE phpads_banners (
    contenttype enum('gif','jpeg','png','html','swf') DEFAULT 'gif' NOT NULL,
    storagetype enum('sql','web','url','html','network') DEFAULT 'sql' NOT NULL,
    filename varchar(255) NOT NULL,
+   imageurl varchar(255) NOT NULL,
    htmltemplate blob NOT NULL,
    htmlcache blob NOT NULL,
    width smallint(6) DEFAULT '0' NOT NULL,
