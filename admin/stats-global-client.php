@@ -28,45 +28,7 @@ phpAds_checkAccess(phpAds_Admin);
 /* HTML framework                                        */
 /*********************************************************/
 
-$extra = '';
-
-if ($phpAds_config['compact_stats'])
-{
-	// Determine left over verbose stats
-	$viewresult = phpAds_dbQuery("SELECT COUNT(*) AS cnt FROM ".$phpAds_config['tbl_adviews']);
-	$viewrow = phpAds_dbFetchArray($viewresult);
-	if (isset($viewrow["cnt"]) && $viewrow["cnt"] != '')
-		$verboseviews = $viewrow["cnt"];
-	else
-		$verboseviews = 0;
-	
-	$clickresult = phpAds_dbQuery("SELECT COUNT(*) AS cnt FROM ".$phpAds_config['tbl_adclicks']);
-	$clickrow = phpAds_dbFetchArray($viewresult);
-	if (isset($clickrow["cnt"]) && $clickrow["cnt"] != '')
-		$verboseclicks = $clickrow["cnt"];
-	else
-		$verboseclicks = 0;
-	
-	if ($verboseviews > 0 || $verboseclicks > 0)
-	{
-		// Show link to verbose stats convertor
-		$extra .= "<br><br>
-				  <table cellspacing='0' cellpadding='1' width='140' bgcolor='#000088'><tr><td>
-				  <table cellpadding='4' cellspacing='0' bgcolor='#FFFFFF'><tr>
-				  <td valign='top'><img src='images/info-w.gif' vspace='absmiddle'></td>
-				  <td valign='top'><b>Alert:</b><br>
-				  You have enabled the compact statistics, but your old statistics are still 
-				  in verbose format. Do you want to convert your verbose statistics to the 
-				  new compact format?<br><br>
-				  <a href='stats-convert.php?command=frame' target='_new' onClick=\"return openWindow('stats-convert.php?command=frame','','status=yes,scrollbars=yes,resizable=yes,width=400,height=500');\">
-				  <img src='images/".$phpAds_TextDirection."/icon-update.gif' border='0' align='absmiddle'>&nbsp;Convert</a>
-				  </td>
-				  </tr></table>
-				  </td></tr></table>";
-	}
-}
-
-phpAds_PageHeader("2.1", $extra);
+phpAds_PageHeader("2.1");
 phpAds_ShowSections(array("2.1", "2.4", "2.3", "2.2"));
 
 
