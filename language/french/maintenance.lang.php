@@ -59,7 +59,9 @@ $GLOBALS['strDeliveryCacheSharedMem']	= "
 $GLOBALS['strDeliveryCacheDatabase']	= "
 	Le cache de distribution est actuellement stocké dans la base de données.
 ";
-
+$GLOBALS['strDeliveryCacheFiles']               = "
+	Le cache de distribution est actuellement contenu dans plusieurs fichiers sur votre serveur
+";
 
 // Storage
 $GLOBALS['strStorage']				= "Stockage";

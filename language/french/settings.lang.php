@@ -36,10 +36,12 @@ $GLOBALS['strMayNotFunction']			= "Avant de continuer, merci de corriger ce prob
 $GLOBALS['strIgnoreWarnings']			= "Ignorer les avertissement";
 $GLOBALS['strWarningPHPversion']		= $phpAds_productname." requiert  PHP 4.0 (ou plus) pour fonctionner correctement. Vous utilisez actuellement {php_version}.";
 $GLOBALS['strWarningDBavailable']               = "La version de PHP que vous utilisez n'a pas le support nécessaire pour se connecter à une base de données ".$phpAds_dbmsname.". Vous devez activer l'extension ".$phpAds_dbmsname." dans PHP avant de pouvoir continuer.";
-$GLOBALS['strWarningRegisterGlobals']		= "La variable de configuration globale PHP <i>register_globals</i> doit être à 'on'.";
-$GLOBALS['strWarningMagicQuotesGPC']		= "La variable de configuration globale PHP <i>magic_quotes_gpc</i> doit être à 'on'.";
-$GLOBALS['strWarningMagicQuotesRuntime']  	= "La variable de configuration globale PHP <i>magic_quotes_runtime</i> doit être à 'off'.";
-$GLOBALS['strWarningFileUploads']		= "La variable de configuration globale PHP <i>file_uploads</i> doit être à 'on'.";
+$GLOBALS['strWarningRegisterGlobals']		= "La variable de configuration globale PHP <i>register_globals</i> doit être activée.";
+$GLOBALS['strWarningMagicQuotesGPC']		= "La variable de configuration globale PHP <i>magic_quotes_gpc</i> doit être activée.";
+$GLOBALS['strWarningMagicQuotesRuntime']  	= "La variable de configuration globale PHP <i>magic_quotes_runtime</i> doit être désactivée.";
+$GLOBALS['strWarningFileUploads']		= "La variable de configuration globale PHP <i>file_uploads</i> doit être activée.";
+$GLOBALS['strWarningTrackVars']			= "La variable de configuration globale PHP <i>track_vars</i> doit être activée.";
+$GLOBALS['strWarningPREG']			= "La version de PHP que vous utilisez n'a pas le support pour l'utilisation des PCRE (Expression régulières compatibles Perl). Vous devez activer l'extension PCRE avant de pouvoir continuer.";
 $GLOBALS['strConfigLockedDetected']		= $phpAds_productname." a détecté que votre fichier <b>config.inc.php</b> n'est pas inscriptible par le serveur.<br> Vous ne pouvez pas continuez tant que vous ne changerez pas les permissions d'écriture sur ce fichier. <br>Veuillez lire la documentation fournie si vous ne savez pas comment le faire.";
 $GLOBALS['strCantUpdateDB']  			= "Il n'est actuellement pas possible de mettre à jour la base de données. Si vous décidez de continuer, toutes les bannières existantes, les statistiques, et les annonceures seront supprimés.";
 $GLOBALS['strTableNames']			= "Nom de la base";
@@ -75,7 +77,7 @@ $GLOBALS['strInvalidUserPwd']			= "Nom d'utilisateur, ou mot de passe invalide";
 
 $GLOBALS['strUpgrade']				= "Mise à niveau";
 $GLOBALS['strSystemUpToDate']			= "Votre système est déjà à jour, et aucune mise à niveau n'est nécessaire pour le moment. <br>Cliquez sur <b>Continuer</b> pour aller à la page d'accueil.";
-$GLOBALS['strSystemNeedsUpgrade']		= "La structure de la base de donnée, et le fichier de configuration ont besoin d'être mis à jour afin de faire marcher ".$phpAds_productname.". Cliquez sur <b>Continuer</b> afin de commencer le processus de mise à niveau. <br>Merci d'être patient, la mise à jour pouvant prendre quelques minutes.";
+$GLOBALS['strSystemNeedsUpgrade']               = "La structure de la base de données et le fichier de configuration doivent être mis à jour pour fonctionner correctement. Cliquez sur <b>Continuer</b> pour commencer le processus de mise à jour. <br><br>Suivant la version à laquelle vous êtes, et la quantité de statistiques présentes dans la base, cette opération peut provoquer une grande charge sur le serveur SQL. Merci d'être patient. Cette mise à jour peut prendre jusqu'à plusieurs minutes.";
 $GLOBALS['strSystemUpgradeBusy']		= "Mise à jour du système en cours, merci de patienter...";
 $GLOBALS['strSystemRebuildingCache']		= "Reconstruction du cache, merci de patienter...";
 $GLOBALS['strServiceUnavalable']		= "Le service est temporairement indisponible. Mise à jour du système en cours";
@@ -195,23 +197,38 @@ $GLOBALS['strTypeHtmlAuto']			= "Automatiquement modifier les bannière HTML, afi
 $GLOBALS['strTypeHtmlPhp']			= "Autoriser l'exécution des expressions PHP dans les bannières HTML";
 
 
+// Host information and Geotargeting
+$GLOBALS['strHostAndGeo']			= "Informations sur la machine distante, et suivi géographique";
+
+$GLOBALS['strRemoteHost']			= "Machine distante";
+$GLOBALS['strReverseLookup']			= "Essaye de déterminer le nom de machine du visiteur si celui-ci n'est pas donné par le serveur";
+$GLOBALS['strProxyLookup']			= "Essaye de déterminer l'adresse IP réelle du visiteur si il utilise un serveur proxy";
+
+$GLOBALS['strGeotargeting']			= "Détermination de la position géographique";
+$GLOBALS['strGeotrackingType']			= "Type de base de données de suivi géographique";
+$GLOBALS['strGeotrackingLocation']		= "Emplacement de la base de données de suivi géographique";
+$GLOBALS['strGeoStoreCookie']			= "Stocker le résultat du positionnement géographique dans un cookie pour s'y référencer plus tard";
+
 
 // Statistics Settings
 $GLOBALS['strStatisticsSettings']		= "Paramètres des statistiques";
 
 $GLOBALS['strStatisticsFormat']			= "Format des statistiques";
-$GLOBALS['strLogBeacon']			= "Utiliser des balises invisibles pour compter les affichages (plus précis, recommandé)";
 $GLOBALS['strCompactStats']			= "Utiliser des statistiques compactes";
 $GLOBALS['strLogAdviews']			= "Journaliser les affichages ";
-$GLOBALS['strBlockAdviews']			= "Protection contre les entrées multiples dans le journal (sec.)";
 $GLOBALS['strLogAdclicks']			= "Journaliser les clics";
+$GLOBALS['strLogSource']			= "Journaliser le paramètre 'source' spécifié lors de l'invocation";
+$GLOBALS['strGeoLogStats']			= "Journaliser le pays d'origine du visiteur dans les statistiques";
+$GLOBALS['strLogHostnameOrIP']			= "Journaliser le nom de machine, ou l'adresse IP du visiteur";
+$GLOBALS['strLogIPOnly']			= "Journaliser uniquement l'adresse IP du visteur, même si le nom de sa machine est connu";
+$GLOBALS['strLogIP']				= "Journaliser l'adresse IP du visiteur";
+$GLOBALS['strLogBeacon']			= "Utiliser des balises invisibles pour compter les affichages (plus précis, recommandé)";
+
+$GLOBALS['strRemoteHosts']			= "Machines distantes";
+$GLOBALS['strIgnoreHosts']			= "Ne pas compter les statistiques des visiteurs utilisant l'une des adresse IP ou nom de machine suivante:";
+$GLOBALS['strBlockAdviews']			= "Protection contre les entrées multiples dans le journal (sec.)";
 $GLOBALS['strBlockAdclicks']			= "Protection contre les entrées multiples dans le journal (sec.)";
 
-$GLOBALS['strGeotargeting']			= "Détermination de la position géographique";
-$GLOBALS['strGeotrackingType']			= "Type de base de données de suivi géographique";
-$GLOBALS['strGeotrackingLocation']		= "Emplacement de la base de données de suivi géographique";
-$GLOBALS['strGeoLogStats']			= "Journaliser le pays d'origine du visiteur dans les statistiques";
-$GLOBALS['strGeoStoreCookie']			= "Stocker le résultat du positionnement géographique dans un cookie pour s'y référencer plus tard";
 
 $GLOBALS['strEmailWarnings']			= "Avertissements par Email";
 $GLOBALS['strAdminEmailHeaders']		= "En-têtes Mail utilisées lors de l'envoi d'un avertissement";
@@ -220,11 +237,6 @@ $GLOBALS['strWarnLimitErr']			= "La limite d'avertissement DOIT être un entier p
 $GLOBALS['strWarnAdmin']			= "Avertir l'administrateur";
 $GLOBALS['strWarnClient']			= "Avertir l'annonceur";
 $GLOBALS['strQmailPatch']			= "Utiliser le patch qmail";
-
-$GLOBALS['strRemoteHosts']			= "Machines distantes";
-$GLOBALS['strIgnoreHosts']			= "Machines à ignorer";
-$GLOBALS['strReverseLookup']			= "Requête DNS inversée";
-$GLOBALS['strProxyLookup']			= "Résoudre les adresses des proxys";
 
 $GLOBALS['strAutoCleanTables']			= "Purger automatiquement la base de données";
 $GLOBALS['strAutoCleanStats']			= "Purger automatiquement les statistiques";
