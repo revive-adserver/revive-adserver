@@ -4,6 +4,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			+ Added install and upgrade script  (Matteo and Niels) 20011104
 			+ Added support for different table types, such as InnoDB  (Niels) 20011104
 			+ Added logging for zone statistics  (Niels) 20011118
+			+ Added support for affiliates  (Niels) 20011119
 
 			+ Misc changes to library and function names
 			  - Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 20011020
