@@ -1,5 +1,10 @@
 <?php
 
+// IMPORTANT! DO NOT MANUALLY EDIT THIS FILE! 
+// IF YOU WANT TO INSTALL PHPADSNEW PLEASE FOLLOW 
+// THE INSTRUCTIONS IN THE ADMINISTRATOR GUIDE.
+
+
 /*********************************************************/
 /* Database configuration                                */
 /*********************************************************/
