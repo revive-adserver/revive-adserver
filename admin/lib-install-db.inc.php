@@ -531,12 +531,12 @@ function phpAds_upgradeSplitBanners ()
 					$banners[$i]['filename']	 = 'banner_'.$banners[$i]['bannerid'].'.'.$banners[$i]['contenttype'];
 					$banners[$i]['filename'] 	 = phpAds_ImageStore($banners[$i]['storagetype'], $banners[$i]['filename'], $banners[$i]['banner']);
 					$banners[$i]['imageurl']	 = $phpAds_config['url_prefix'].'/adimage.php?filename='.$banners[$i]['filename']."&contenttype=".$banners[$i]['contenttype'];
-					$banners[$i]['banner']		 = '';
 					
-					// Set the html template
 					$banners[$i]['htmltemplate'] = phpAds_getBannerTemplate($banners[$i]['contenttype']);
 					$banners[$i]['htmlcache']    = addslashes(phpAds_getBannerCache($banners[$i]));
 					$banners[$i]['htmltemplate'] = addslashes($banners[$i]['htmltemplate']);
+					
+					$banners[$i]['banner']		 = '';
 					break;
 				
 				case 'web':
@@ -555,12 +555,12 @@ function phpAds_upgradeSplitBanners ()
 					// Store the file
 					$banners[$i]['filename']	 = basename($banners[$i]['banner']);
 					$banners[$i]['imageurl']	 = $banners[$i]['banner'];
-					$banners[$i]['banner']		 = '';
 					
-					// Set the html template
 					$banners[$i]['htmltemplate'] = phpAds_getBannerTemplate($banners[$i]['contenttype']);
 					$banners[$i]['htmlcache']    = addslashes(phpAds_getBannerCache($banners[$i]));
 					$banners[$i]['htmltemplate'] = addslashes($banners[$i]['htmltemplate']);
+					
+					$banners[$i]['banner']		 = '';
 					break;
 				
 				case 'url':
@@ -579,25 +579,26 @@ function phpAds_upgradeSplitBanners ()
 					}
 					
 					$banners[$i]['imageurl']	 = $banners[$i]['banner'];
-					$banners[$i]['filename']	 = '';
-					$banners[$i]['banner']		 = '';
 					
-					// Set the html template
 					$banners[$i]['htmltemplate'] = phpAds_getBannerTemplate($banners[$i]['contenttype']);
 					$banners[$i]['htmlcache']    = addslashes(phpAds_getBannerCache($banners[$i]));
 					$banners[$i]['htmltemplate'] = addslashes($banners[$i]['htmltemplate']);
+					
+					$banners[$i]['filename']	 = '';
+					$banners[$i]['banner']		 = '';
 					break;
 				
 				case 'html':
 					// Get the contenttype
 					$banners[$i]['contenttype']  = 'html';
-					$banners[$i]['imageurl']	 = '';
-					$banners[$i]['filename']	 = '';
-					$banners[$i]['banner']		 = '';
 					
 					$banners[$i]['htmltemplate'] = $banners[$i]['banner'];
 					$banners[$i]['htmlcache']    = addslashes(phpAds_getBannerCache($banners[$i]));
 					$banners[$i]['htmltemplate'] = addslashes($banners[$i]['htmltemplate']);
+					
+					$banners[$i]['imageurl']	 = '';
+					$banners[$i]['filename']	 = '';
+					$banners[$i]['banner']		 = '';
 					break;
 			}
 			
