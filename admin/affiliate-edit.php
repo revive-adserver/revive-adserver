@@ -284,6 +284,11 @@ if (isset($affiliateid) && $affiliateid != '')
 		$affiliate = phpAds_dbFetchArray($res);
 	}
 }
+else
+{
+	$affiliate['name'] = $strDefault;
+	$affiliate['permissions'] = 0;
+}
 
 ?>
 

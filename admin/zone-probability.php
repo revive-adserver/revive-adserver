@@ -173,14 +173,6 @@ function phpAds_showZoneBanners ($zoneid)
 		// weight of 0 disables the banner
 		if ($tmprow['priority'])
 		{
-			if ($tmprow['format'] == 'gif' ||
-				$tmprow['format'] == 'jpeg' ||
-				$tmprow['format'] == 'png' ||
-				$tmprow['format'] == 'swf')
-			{
-				$tmprow['banner'] = '';
-			}
-			
 			$prioritysum += $tmprow['priority'];
 			$rows[$tmprow['bannerid']] = $tmprow; 
 		}
@@ -213,9 +205,9 @@ function phpAds_showZoneBanners ($zoneid)
 			echo "&nbsp;&nbsp;";
 			
 			// Banner icon
-			if ($rows[$key]['format'] == 'html')
+			if ($rows[$key]['storagetype'] == 'html')
 				echo "<img src='images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
-			elseif ($rows[$key]['format'] == 'url')
+			elseif ($rows[$key]['storagetype'] == 'url')
 				echo "<img src='images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
 			else
 				echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
