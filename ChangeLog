@@ -12,6 +12,7 @@ CVS			+ Misc changes to library and function names
 			  - Moved some functions around to make sure no unneeded 
 			    functions were included during invocation.  (Niels) 20011020
 			  - Removed space from UNIQUE INDEX definition in all.sql  (Niels) 20011024
+			  - Added $phpads_proxy_lookup option  (Niels) 20011024
 
 			+ Misc bugfixes
 			  - Removed extra comma from config.inc  (Matteo) 20011017

@@ -132,6 +132,9 @@ function phpAds_logView($bannerID, $host)
 
 function phpAds_getClientInformation()
 {
+	global $phpAds_proxy_lookup;
+	
+	
 	// Get host address and host name
 	$addr = isset ($GLOBALS['REMOTE_ADDR']) ? $GLOBALS['REMOTE_ADDR'] : '';
 	$host = isset ($GLOBALS['REMOTE_HOST']) ? $GLOBALS['REMOTE_HOST'] : '';
@@ -142,33 +145,40 @@ function phpAds_getClientInformation()
 	else
 		$host = $addr;
 	
-	// Check for proxyserver
-	$proxy = false;
-	if (isset ($GLOBALS['HTTP_VIA']) && $GLOBALS['HTTP_VIA'] != '') $proxy = true;
-	if (is_int (strpos ('proxy',   $host))) $proxy = true;
-	if (is_int (strpos ('cache',   $host))) $proxy = true;
-	if (is_int (strpos ('inktomi', $host))) $proxy = true;
-	
-	if ($proxy)
+	if ($phpAds_proxy_lookup)
 	{
-		// Overwrite host address if a suitable header is found
-		if (isset($GLOBALS['HTTP_FORWARDED']) && 		$GLOBALS['HTTP_FORWARDED'] != '') 		$addr = $GLOBALS['HTTP_FORWARDED'];
-		if (isset($GLOBALS['HTTP_FORWARDED_FOR']) &&	$GLOBALS['HTTP_FORWARDED_FOR'] != '') 	$addr = $GLOBALS['HTTP_FORWARDED_FOR'];
-		if (isset($GLOBALS['HTTP_X_FORWARDED']) &&		$GLOBALS['HTTP_X_FORWARDED'] != '') 	$addr = $GLOBALS['HTTP_X_FORWARDED'];
-		if (isset($GLOBALS['HTTP_X_FORWARDED_FOR']) &&	$GLOBALS['HTTP_X_FORWARDED_FOR'] != '' &&	$GLOBALS['HTTP_X_FORWARDED_FOR'] != 'unknown') $addr = $GLOBALS['HTTP_X_FORWARDED_FOR'];
-		if (isset($GLOBALS['HTTP_CLIENT_IP']) &&		$GLOBALS['HTTP_CLIENT_IP'] != '') 		$addr = $GLOBALS['HTTP_CLIENT_IP'];
+		// Check for proxyserver
+		$proxy = false;
+		if (isset ($GLOBALS['HTTP_VIA']) && $GLOBALS['HTTP_VIA'] != '') $proxy = true;
+		if (is_int (strpos ('proxy',   $host))) $proxy = true;
+		if (is_int (strpos ('cache',   $host))) $proxy = true;
+		if (is_int (strpos ('inktomi', $host))) $proxy = true;
 		
-		// Get last item from list
-		$addrArray = explode (',', $addr);
-		$addr = trim($addrArray[sizeof($addrArray) - 1]);
-		
-		// Perform reverse lookup if needed
-		if ($phpAds_reverse_lookup)
-			$host = @gethostbyaddr ($addr);
-		else
-			$host = $addr;
+		if ($proxy)
+		{
+			// Overwrite host address if a suitable header is found
+			if (isset($GLOBALS['HTTP_FORWARDED']) && 		$GLOBALS['HTTP_FORWARDED'] != '') 		$client = $GLOBALS['HTTP_FORWARDED'];
+			if (isset($GLOBALS['HTTP_FORWARDED_FOR']) &&	$GLOBALS['HTTP_FORWARDED_FOR'] != '') 	$client = $GLOBALS['HTTP_FORWARDED_FOR'];
+			if (isset($GLOBALS['HTTP_X_FORWARDED']) &&		$GLOBALS['HTTP_X_FORWARDED'] != '') 	$client = $GLOBALS['HTTP_X_FORWARDED'];
+			if (isset($GLOBALS['HTTP_X_FORWARDED_FOR']) &&	$GLOBALS['HTTP_X_FORWARDED_FOR'] != '' 	$client = $GLOBALS['HTTP_X_FORWARDED_FOR'];
+			if (isset($GLOBALS['HTTP_CLIENT_IP']) &&		$GLOBALS['HTTP_CLIENT_IP'] != '') 		$client = $GLOBALS['HTTP_CLIENT_IP'];
+			
+			// Get last item from list
+			$clientArray = explode (',', $client);
+			$client = trim($clientArray[sizeof($clientArray) - 1]);
+			
+			if ($client != 'unknown')
+			{
+				$addr = $client;
+				
+				// Perform reverse lookup if needed
+				if ($phpAds_reverse_lookup)
+					$host = @gethostbyaddr ($addr);
+				else
+					$host = $addr;
+			}
+		}
 	}
-	
 	
 	return (array ($addr, $host));
 }

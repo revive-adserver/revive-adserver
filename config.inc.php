@@ -101,6 +101,9 @@ $phpAds_log_adclicks = true;
 // Reverse DNS lookup remotes hosts?
 $phpAds_reverse_lookup = false;
 
+// Find the correct IP for users behind a proxy
+$phpAds_proxy_lookup = false;
+
 // Hosts to ignore (don't count adviews coming from them)
 $phpAds_ignore_hosts = array();   // Example: array("slashdot.org", "microsoft.com");
 
