@@ -431,7 +431,7 @@ $res_clients 		  = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_confi
 $res_campaigns 		  = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_clients']." WHERE parent > 0") or phpAds_sqlDie();
 $res_active_campaigns = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_clients']." WHERE parent > 0 AND active='true'");
 $res_total_banners 	  = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_banners']);
-$res_active_banners   = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_banners']." as b, $phpAds_config['tbl_clients'] as c WHERE b.clientID=c.clientID AND c.active='true' AND b.active='true'");
+$res_active_banners   = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_banners']." as b, ".$phpAds_config['tbl_clients']." as c WHERE b.clientID=c.clientID AND c.active='true' AND b.active='true'");
 
 
 echo "<br><br><br><br>";
