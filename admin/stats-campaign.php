@@ -476,7 +476,7 @@ if (count($tmp_order) > 0)
 			{
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;";
 				echo "<img src='images/icon-zoom.gif' align='absmiddle'>&nbsp;";
-				echo "<a href='stats-details.php?campaignid=$campaignid&bannerid=".$row_banners['bannerid']."'>$strDetailStats</a>";
+				echo "<a href='stats-details.php?campaignid=$campaignid&bannerid=".$row_banners['bannerid']."'>$strBannerHistory</a>";
 				
 				if (phpAds_isUser(phpAds_Admin)) // only for the admin
 				{
@@ -597,7 +597,7 @@ if (count($tmp_order) > 0)
 			    if ($adclicks > 0 || $adviews > 0)
 				{
 					echo "<a href='stats-details.php?campaignid=$campaignid&bannerid=".$row_banners['bannerid']."'>";
-					echo "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;$strDetailStats</a>";
+					echo "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;$strBannerHistory</a>";
 					echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 					
 					if (phpAds_isUser(phpAds_Admin)) // only for the admin
