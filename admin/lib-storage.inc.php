@@ -33,6 +33,7 @@ function phpAds_ImageStore ($storagetype, $name, $buffer, $overwrite = false)
 	$name = basename ($name);
 	$name = strtolower ($name);
 	$name = str_replace (" ", "_", $name);
+	$name = str_replace ("'", "", $name);
 	
 	if ($storagetype == 'web')
 	{

@@ -183,7 +183,7 @@ if (isset($submit))
 				}
 				
 				// Get the filename
-				$final['filename'] = basename($uploaded['name']);
+				$final['filename'] = basename(stripslashes($uploaded['name']));
 				
 				// Read the file
 				$buffer = @fread(@fopen($uploaded['tmp_name'], "rb"), @filesize($uploaded['tmp_name']));
@@ -269,7 +269,7 @@ if (isset($submit))
 				}
 				
 				// Get the filename
-				$final['filename'] = basename($uploaded['name']);
+				$final['filename'] = basename(stripslashes($uploaded['name']));
 				
 				// Read the file
 				$buffer = @fread(@fopen($uploaded['tmp_name'], "rb"), @filesize($uploaded['tmp_name']));
