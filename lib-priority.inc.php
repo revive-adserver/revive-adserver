@@ -4,7 +4,7 @@
 /* phpAdsNew 2                                                          */
 /* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2001 by Niels Leenheer			                        */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
@@ -18,31 +18,36 @@ $debuglog = '';
 
 define('phpAds_CurrentHour', date('H'));
 
+
+
 function phpAds_PriorityGetImpressions($days, $offset)
 {
 	global $phpAds_config;
 	
 	$offset = $offset * (60 * 60 * 24);
 	
-	$timestamp_end = mktime (0, 0, 0, date('m'), date('d'), date('Y')) - 1 - $offset;
-	$timestamp_begin = mktime (0, 0, 0, date('m'), date('d'), date('Y')) - (60 * 60 * 24 * $days) - $offset;
-	
 	if ($phpAds_config['compact_stats'])
 	{
+		$begin = date('Ymd', mktime (0, 0, 0, date('m'), date('d'), date('Y')) - 1 - $offset);
+		$end   = date('Ymd', mktime (0, 0, 0, date('m'), date('d'), date('Y')) - (60 * 60 * 24 * $days) - $offset);
+		
 		$query = "
 			SELECT SUM(views) as sum_views
 			FROM ".$phpAds_config['tbl_adstats']."
-			WHERE UNIX_TIMESTAMP(day) >= ".$timestamp_begin."
-			AND UNIX_TIMESTAMP(day) <= ".$timestamp_end."
+			WHERE day >= ".$begin."
+			AND day <= ".$end."
 		";
 	}
 	else
 	{
+		$begin = date('YmdHis', mktime (0, 0, 0, date('m'), date('d'), date('Y')) - 1 - $offset);
+		$end   = date('YmdHis', mktime (0, 0, 0, date('m'), date('d'), date('Y')) - (60 * 60 * 24 * $days) - $offset);
+		
 		$query = "
 			SELECT COUNT(*) as sum_views
 			FROM ".$phpAds_config['tbl_adviews']."
-			WHERE t_stamp >= FROM_UNIXTIME(".$timestamp_begin.")
-			AND t_stamp <= FROM_UNIXTIME(".$timestamp_end.")
+			WHERE t_stamp >= ".$begin."
+			AND t_stamp <= ".$end."
 		";
 	}
 	
@@ -62,26 +67,29 @@ function phpAds_PriorityGetHourlyProfile($days, $offset)
 	// Determine days
 	$offset = $offset * (60 * 60 * 24);
 	
-	$timestamp_end = mktime (0, 0, 0, date('m'), date('d'), date('Y')) - 1 - $offset;
-	$timestamp_begin = mktime (0, 0, 0, date('m'), date('d'), date('Y')) - (60 * 60 * 24 * $days) - $offset;
-	
 	if ($phpAds_config['compact_stats'])
 	{
+		$begin = date('Ymd', mktime (0, 0, 0, date('m'), date('d'), date('Y')) - 1 - $offset);
+		$end   = date('Ymd', mktime (0, 0, 0, date('m'), date('d'), date('Y')) - (60 * 60 * 24 * $days) - $offset);
+		
 		$query = "
 			SELECT hour, SUM(views) AS sum_views
 			FROM ".$phpAds_config['tbl_adstats']."
-			WHERE UNIX_TIMESTAMP(day) >= ".$timestamp_begin."
-			AND UNIX_TIMESTAMP(day) <= ".$timestamp_end."
+			WHERE day >= ".$begin."
+			AND day <= ".$end."
 			GROUP BY hour
 		";
 	}
 	else
 	{
+		$begin = date('YmdHis', mktime (0, 0, 0, date('m'), date('d'), date('Y')) - 1 - $offset);
+		$end   = date('YmdHis', mktime (0, 0, 0, date('m'), date('d'), date('Y')) - (60 * 60 * 24 * $days) - $offset);
+		
 		$query = "
 			SELECT HOUR(t_stamp) AS hour, COUNT(*) AS sum_views
 			FROM ".$phpAds_config['tbl_adviews']."
-			WHERE t_stamp >= FROM_UNIXTIME(".$timestamp_begin.")
-			AND t_stamp <= FROM_UNIXTIME(".$timestamp_end.")
+			WHERE t_stamp >= ".$begin."
+			AND t_stamp <= ".$end."
 			GROUP BY hour
 		";
 	}
@@ -109,7 +117,7 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, &$profile)
 	if (!$total_target)
 	{
 		// No targeting needed, create a profile to match campaign weights only
-
+		
 		$total_campaign_weight = 0;
 		for (reset($campaigns);$c=key($campaigns);next($campaigns))
 			$total_campaign_weight += $campaigns[$c]['weight'];
@@ -125,13 +133,13 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, &$profile)
 		
 		return false;
 	}
-
+	
 	$profile_correction_executed = false;
 	
 	// Get the number of days running
 	if ($phpAds_config['compact_stats'])
 	{
-		$res = phpAds_dbQuery("SELECT UNIX_TIMESTAMP(MIN(day)) AS days_running FROM ".$phpAds_config['tbl_adstats']." WHERE hour > 0");
+		$res = phpAds_dbQuery("SELECT UNIX_TIMESTAMP(MIN(day)) AS days_running FROM ".$phpAds_config['tbl_adstats']." WHERE day > 0 AND hour > 0");
 		$days_running = phpAds_dbResult($res, 0, 'days_running');
 	}
 	else
@@ -208,26 +216,28 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, &$profile)
 	
 	
 	
-	$timestamp_begin = mktime (0, 0, 0, date('m'), date('d'), date('Y'));
-	$timestamp_end   = mktime (phpAds_CurrentHour, 0, 0, date('m'), date('d'), date('Y')) - 1;
-	
 	if ($phpAds_config['compact_stats'])
 	{
+		$begin = date('Ymd', mktime (0, 0, 0, date('m'), date('d'), date('Y')));
+		
 		$query = "
 			SELECT hour, SUM(views) AS sum_views
 			FROM ".$phpAds_config['tbl_adstats']."
-			WHERE UNIX_TIMESTAMP(day) = ".$timestamp_begin."
-			AND hour <= ".date('H', $timestamp_end)."
+			WHERE day = ".$begin."
+			AND hour < ".phpAds_CurrentHour."
 			GROUP BY hour
 		";
 	}
 	else
 	{
+		$begin = date('YmdHis', mktime (0, 0, 0, date('m'), date('d'), date('Y')));
+		$end   = date('YmdHis', mktime (phpAds_CurrentHour, 0, 0, date('m'), date('d'), date('Y')) - 1);
+		
 		$query = "
 			SELECT HOUR(t_stamp) AS hour, COUNT(*) AS sum_views
 			FROM ".$phpAds_config['tbl_adviews']."
-			WHERE t_stamp >= FROM_UNIXTIME(".$timestamp_begin.")
-			AND t_stamp <=  FROM_UNIXTIME(".$timestamp_end.")
+			WHERE t_stamp >= ".$begin."
+			AND t_stamp <= ".$end."
 			GROUP BY hour
 		";
 	}
@@ -235,13 +245,13 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, &$profile)
 	$res = phpAds_dbQuery($query);
 	
 	$real_up_till_now = 0;
-
+	
 	while ($row = phpAds_dbFetchArray($res))
 	{
 		$real_profile [$row['hour']] = $row['sum_views'];
 		$real_up_till_now += $row['sum_views'];
 	}
-		
+	
 	
 	if ($debug == true)
 	{
@@ -290,45 +300,45 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, &$profile)
 			{
 				$importance_old = (sin(M_PI*(sin(M_PI*pow(phpAds_CurrentHour/24, 0.9)-M_PI/2)+1)/2-M_PI/2)+1)/2;				
 				$deviance_old   = ($real_up_till_now / $predicted_up_till_now - 1) * $importance_old + 1;
-
+				
 				// Matteo
 				$profile_correction_done = false;
-
+				
 				while (!$profile_correction_done)
 				{
 					for ($i=phpAds_CurrentHour;$i>0;$i--)
 					{
 						$deviance = phpAds_PriorityGetDeviance($i, $profile, $real_profile);
-
+						
 						if ($deviance > 2.25)
 						{
 							$k = $i > 1 ? $i - 1 : $i;
 							
 							while ($k && $deviance_profile[$k] > $deviance)
 								$k--;
-
+							
 							$deviance = (phpAds_PriorityGetDeviance($k, $profile, $real_profile) +
 								phpAds_PriorityGetDeviance($k == phpAds_CurrentHour ? $k : $k+1, $profile, $real_profile)) / 2;
-
+							
 							for ($j=0;$j<$k;$j++)
 							{
 								$profile[$j] = ($profile[$j] ? $profile[$j] : 1) * $deviance;
 								$profile_correction_executed = true;
 							}
-
+							
 							break;
 						}
-					
+						
 						if ($i == 1)
 							$profile_correction_done = true;
 					}
 				}
-
+				
 				if ($profile_correction_executed)
 				{
 					for ($i=0;$i<24;$i++)
 						$profile[$i] = round($profile[$i]);
-
+					
 					$predicted_today = 0;
 					for ($i=0;$i<24;$i++)
 						$predicted_today += $profile[$i];
@@ -339,21 +349,21 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, &$profile)
 					
 					$predicted_left_today = $predicted_today - $predicted_up_till_now;
 				}
-			
+				
 				$deviance   = phpAds_PriorityGetDeviance(phpAds_CurrentHour, $profile, $real_profile);
-
+				
 				if ($debug == true)
 				{
 					$debuglog .= "Importance factor: ".sprintf('%.4f (%.4f)', phpAds_PriorityGetImportance(phpAds_CurrentHour), $importance_old)." \n";
 					$debuglog .= "Deviance: ".sprintf('%.4f (%.4f)', $deviance, $deviance_old)." \n";
 					$debuglog .= "-----------------------------------------------------\n";
-
+					
 					if ($profile_correction_executed)
 					{
 						$debuglog .= "Predicted impressions today after correction: $predicted_today \n";
 						$debuglog .= "Predicted impression up till now after correction: $predicted_up_till_now \n";
 						$debuglog .= "Predicted impressions left today after correction: $predicted_left_today \n";
-
+						
 						$debuglog .= "\n\nNEW PREDICTED PROFILE\n";
 						$debuglog .= "-----------------------------------------------------\n";
 						
@@ -364,7 +374,7 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, &$profile)
 						
 						for ($i=12;$i<24;$i++)
 							$debuglog .= $profile[$i]."  ";
-
+						
 						$debuglog .= "\n\n\n";
 					}
 				}
@@ -507,26 +517,29 @@ function phpAds_PriorityPrepareBanners()
 	
 	
 	// Get statistics
-	$timestamp_begin = mktime (0, 0, 0, date('m'), date('d'), date('Y'));
-	$timestamp_end   = mktime (phpAds_CurrentHour, 0, 0, date('m'), date('d'), date('Y')) - 1;
-	
 	if ($phpAds_config['compact_stats'])
 	{
+		$begin = date ('Ymd', mktime (0, 0, 0, date('m'), date('d'), date('Y')));
+		$end   = date ('Ymd', mktime (phpAds_CurrentHour, 0, 0, date('m'), date('d'), date('Y')) - 1);
+		
 		$query = "
 			SELECT bannerid, SUM(views) as sum_views
 			FROM ".$phpAds_config['tbl_adstats']."
-			WHERE UNIX_TIMESTAMP(day) = ".$timestamp_begin."
-			AND hour <= ".date('H', $timestamp_end)."
+			WHERE day = ".$begin."
+			AND hour < ".phpAds_CurrentHour."
 			GROUP BY bannerid
 		";
 	}
 	else
 	{
+		$begin = date ('YmdHis', mktime (0, 0, 0, date('m'), date('d'), date('Y')));
+		$end   = date ('YmdHis', mktime (phpAds_CurrentHour, 0, 0, date('m'), date('d'), date('Y')) - 1);
+		
 		$query = "
 			SELECT bannerid, count(*) as sum_views
 			FROM ".$phpAds_config['tbl_adviews']."
-			WHERE t_stamp >= FROM_UNIXTIME(".$timestamp_begin.")
-			AND t_stamp <=  FROM_UNIXTIME(".$timestamp_end.")
+			WHERE t_stamp >= ".$begin."
+			AND t_stamp <= ".$end."
 			GROUP BY bannerid
 		";
 	}
@@ -579,7 +592,7 @@ function phpAds_PriorityCalculate()
 	$banners   = phpAds_PriorityPrepareBanners();
 	$campaigns = phpAds_PriorityPrepareCampaigns();
 	$profile   = array();
-
+	
 	$profile_correction_executed = phpAds_PriorityPredictProfile($campaigns, $banners, $profile);
 	
 	// Determine period
@@ -627,7 +640,7 @@ function phpAds_PriorityCalculate()
 		$campaigns[$c]['hits'] = $targeted_hits + $other_hits;
 	}
 	
-
+	
 	
 	// Determine estimated number of hits
 	$corrected_hits = 0;
@@ -638,17 +651,16 @@ function phpAds_PriorityCalculate()
 		$estimated_hits += $profile[$p];
 	}
 	
-
+	
 	// Apply correction to other hits
 	if ($profile_correction_executed)
 	{
 		if ($debug)
 			$debuglog .= "\n\nRemoved ".($total_targeted_hits+$total_other_hits-$corrected_hits)." hits for spurious values compensation\n\n";
-
+		
 		$total_other_hits = $corrected_hits - $total_targeted_hits;
-
 	}
-
+	
 	$total_hits 		  = $total_targeted_hits + $total_other_hits;
 	$estimated_remaining  = $estimated_hits - $total_hits;
 	$requested_remaining  = $total_requested - $total_targeted_hits;
@@ -824,13 +836,13 @@ function phpAds_PriorityGetDeviance($hour, $profile, $real_profile)
 {
 	$predicted = 0;
 	$real = 0;
-
+	
 	for ($i=0;$i<$hour;$i++)
 	{
 		$predicted += $profile[$i];
 		$real += $real_profile[$i];
 	}
-
+	
 	if (!$predicted)
 		$predicted = 0.1;
 	
