@@ -49,6 +49,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: Link to ACL page was shown even if they were disabled  (Niels) 20011110
 			  - Bugfix: Removed extra return at the end of the banner-edit.php file  (Niels) 20011110
 			  - Bugfix: Zonecache still included banners  (Niels) 20011116
+			  - Bugfix: Zones admin files needed view.inc.php include: added it to lib-zones  (Matteo) 20011116
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015

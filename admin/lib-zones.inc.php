@@ -14,6 +14,10 @@
 
 
 
+// Include required files
+include (phpAds_path."/view.inc.php");
+
+
 // Define zonetypes
 define ("phpAds_ZoneBanners", 0);
 define ("phpAds_ZoneInteractive", 1);
