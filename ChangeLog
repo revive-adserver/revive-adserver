@@ -1,4 +1,8 @@
 phpAdsNew - ChangeLog
+
+v 2.0beta1		
+			+ Added a new User Interface (Niels)
+			+ Added new documentation (Niels)
 			+ Added cache buster support for banners refered through URL (Niels)
 			+ Added configurable default banner to display when an error occurs or when 
 			  there are no banners to display at all (Niels)
