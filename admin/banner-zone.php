@@ -48,6 +48,28 @@ if (isset($submit))
 
 
 /*********************************************************/
+/* Get preferences                                       */
+/*********************************************************/
+
+if (!isset($listorder))
+{
+	if (isset($Session['prefs']['banner-zone.php']['listorder']))
+		$listorder = $Session['prefs']['banner-zone.php']['listorder'];
+	else
+		$listorder = '';
+}
+
+if (!isset($orderdirection))
+{
+	if (isset($Session['prefs']['banner-zone.php']['orderdirection']))
+		$orderdirection = $Session['prefs']['banner-zone.php']['orderdirection'];
+	else
+		$orderdirection = '';
+}
+
+
+
+/*********************************************************/
 /* HTML framework                                        */
 /*********************************************************/
 
@@ -210,8 +232,7 @@ $res = phpAds_dbQuery ("
 		name
 	FROM
 		".$phpAds_config['tbl_affiliates']."
-	ORDER BY
-		affiliateid
+	".phpAds_getAffiliateListOrder ($listorder, $orderdirection)."
 ") or phpAds_sqlDie();
 
 $affiliate_count = phpAds_dbNumRows($res);
@@ -238,8 +259,7 @@ $res = phpAds_dbQuery("
 		(z.width = b.width OR z.width = -1) AND
 		(z.height = b.height OR z.height = -1) AND
 		z.zonetype = ".phpAds_ZoneBanners."
-	ORDER BY
-		z.affiliateid, z.zoneid
+	".phpAds_getZoneListOrder ($listorder, $orderdirection)."
 ") or phpAds_sqlDie();
 
 $zone_count = phpAds_dbNumRows($res);
@@ -262,8 +282,42 @@ echo "<input type='hidden' name='campaignid' value='".$campaignid."'>";
 echo "<input type='hidden' name='bannerid' value='".$bannerid."'>";
 
 echo "<tr height='25'>";
-echo "<td height='25' width='40%'><b>&nbsp;&nbsp;".$GLOBALS['strName']."</b></td>";
-echo "<td height='25'><b>".$GLOBALS['strID']."</b>&nbsp;&nbsp;&nbsp;</td>";
+echo '<td height="25" width="40%"><b>&nbsp;&nbsp;<a href="banner-zone.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&listorder=name">'.$GLOBALS['strName'].'</a>';
+
+if (($listorder == "name") || ($listorder == ""))
+{
+	if  (($orderdirection == "") || ($orderdirection == "down"))
+	{
+		echo ' <a href="banner-zone.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=up">';
+		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
+	}
+	else
+	{
+		echo ' <a href="banner-zone.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=down">';
+		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
+	}
+	echo '</a>';
+}
+
+echo '</b></td>';
+echo '<td height="25"><b><a href="banner-zone.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&listorder=id">'.$GLOBALS['strID'].'</a>';
+
+if ($listorder == "id")
+{
+	if  (($orderdirection == "") || ($orderdirection == "down"))
+	{
+		echo ' <a href="banner-zone.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=up">';
+		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
+	}
+	else
+	{
+		echo ' <a href="banner-zone.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=down">';
+		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
+	}
+	echo '</a>';
+}
+
+echo '</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>';
 echo "<td height='25'><b>".$GLOBALS['strDescription']."</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
 echo "</tr>";
 
@@ -371,6 +425,17 @@ if (isset($affiliates) && count($affiliates) > 0)
 }
 
 echo "</form>";
+
+
+
+/*********************************************************/
+/* Store preferences                                     */
+/*********************************************************/
+
+$Session['prefs']['banner-zone.php']['listorder'] = $listorder;
+$Session['prefs']['banner-zone.php']['orderdirection'] = $orderdirection;
+
+phpAds_SessionDataStore();
 
 
 
