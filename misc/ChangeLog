@@ -1,6 +1,12 @@
 phpAdsNew - ChangeLog
 
-CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
+CVS			+ Misc bugfixes
+			  - 2003-01-07:  Wrong value was used to identify PHP < 4.0.3 during the install and upgrade process  (Niels)
+
+
+
+
+v 2.0rc1		+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			+ Added the ability to preview banners on the Linked Banners page  (Niels, 2002-08-01)
 			+ Added the ability to show which banners match when using campaigns to link zones to banners  (Niels, 2002-08-01)
 			+ Added the ability to show the parent campaigns when using banners to link zones to banners  (Niels, 2002-08-01)
