@@ -86,62 +86,69 @@ function phpAds_adlayers_place_<?php echo $uniqid; ?>()
 		c = c.style;
 	
 	if (window.innerHeight)
+	{
 		ih = window.innerHeight;
-	else
-		ih = document.body.clientHeight;
-	
-	if (window.innerWidth)
 		iw = window.innerWidth;
-	else
-		iw = document.body.clientWidth;
-	
-	
-	if (document.all) { 
+		sl = window.pageXOffset;
+		st = window.pageYOffset;
 		
-<?php
-	echo "\t\tc.pixelLeft = ";
-	
-	if ($align == 'left')
-		echo abs($shifth).' + document.body.scrollLeft';
-	elseif ($align == 'center')
-		echo '(iw - '.$layer_width.') / 2 + document.body.scrollLeft + '.$shifth;
-	else
-		echo 'iw + document.body.scrollLeft - '.($layer_width+abs($shifth));
-	
-	echo ";\n\t\tc.pixelTop = ";
-	
-	if ($valign == 'middle')
-		echo '(ih - '.$layer_height.') / 2 + document.body.scrollTop + '.$shiftv;
-	elseif ($valign == 'bottom')
-		echo 'ih + document.body.scrollTop - '.($layer_height+abs($shiftv));
-	else
-		echo abs($shiftv).' + document.body.scrollTop';
-	
-	echo ";\n";
-?>	
-	} else {
-<?php
-	echo "\t\tc.left = ";
-	
-	if ($align == 'left')
-		echo abs($shifth).' + window.pageXOffset';
-	elseif ($align == 'center')
-		echo '(iw - '.$layer_width.') / 2 + window.pageXOffset + '.$shifth;
-	else
-		echo 'iw + window.pageXOffset - '.($layer_width+abs($shifth)).' - 16';
-	
-	echo ";\n\t\tc.top = ";
-	
-	if ($valign == 'middle')
-		echo '(ih - '.$layer_height.') / 2 + window.pageYOffset + '.$shiftv;
-	elseif ($valign == 'bottom')
-		echo 'ih + window.pageYOffset -'.($layer_height+abs($shiftv)).' - 16';
-	else
-		echo abs($shiftv).' + window.pageYOffset';
-	
-	echo ";\n";
-?>	
+		if (window.opera)
+			of = 0;
+		else
+			of = 16;
 	}
+	else if (document.documentElement && document.documentElement.clientHeight)
+	{
+		ih = document.documentElement.clientHeight;
+		iw = document.documentElement.clientWidth;
+		sl = document.documentElement.scrollLeft;
+		st = document.documentElement.scrollTop;
+		of = 0;		
+	}
+	else if (document.body)
+	{
+		ih = document.body.clientHeight;
+		iw = document.body.clientWidth;
+		sl = document.body.scrollLeft;
+		st = document.body.scrollTop;
+		of = 0;
+	}
+
+<?php
+	echo "\t\tll = ";
+	
+	if ($align == 'left')
+		echo abs($shifth).' + sl';
+	elseif ($align == 'center')
+		echo '(iw - '.$layer_width.') / 2 + sl + '.$shifth;
+	else
+		echo 'iw + sl - '.($layer_width+abs($shifth)).' - of';
+	
+	echo ";\n\t\tlt = ";
+	
+	if ($valign == 'middle')
+		echo '(ih - '.$layer_height.') / 2 + st + '.$shiftv;
+	elseif ($valign == 'bottom')
+		echo 'ih + st -'.($layer_height+abs($shiftv)).' - of';
+	else
+		echo abs($shiftv).' + st';
+	
+	echo ";\n";
+?>
+
+	if (c.pixelLeft)
+		c.pixelLeft = ll;
+	else if (window.opera)
+		c.left = ll;
+	else
+		c.left = ll + 'px';
+		
+	if (c.pixelTop)
+		c.pixelTop = lt;
+	else if (window.opera)
+		c.top = lt;
+	else
+		c.top = lt + 'px';
 
 	c.visibility = phpAds_adlayers_visible_<?php echo $uniqid; ?>;
 }
@@ -180,7 +187,6 @@ if (isset($closetime) && $closetime > 0)
 			break;
 	}
 }
-
 
 var phpAds_adlayers_timerid_<?php echo $uniqid; ?>;
 var phpAds_adlayers_visible_<?php echo $uniqid; ?>;

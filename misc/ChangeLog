@@ -31,6 +31,7 @@ phpAdsNew 2.0.1		+ Misc bugfixes
 			  - 2003-11-19:	 Banner upload didn't always work with safe mode and open_basedir restrictions, even when using misc/tmp workaround  (Matteo)
 			  - 2003-12-17:  Fixed a problem where the settings were lost when logging in directly to settings page  (Niels)
 			  - 2003-12-17:  Added content-length to headers to adview.php and adimage.php when image is used from the database  (Niels, thanks to Osma Ahvenlampi)
+			  - 2003-12-17:	 Improved compatibility of the Simple layer style. Improved support for Opera, Mozilla and IE non-quirks mode.  (Niels)
 			  
 
 
