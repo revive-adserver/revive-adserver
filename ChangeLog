@@ -229,6 +229,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-04-19:  Changed phpAds_path detection  (Niels)
 			  - 2002-04-19:  Last modified header in lib-cache.inc.php caused problems in Opera  (Niels)
 			  - 2002-04-19:  Expire header in lib-cache.inc.php caused problems in Netscape  (Niels)
+			  - 2002-04-28:  Fixed some remaining E_ALL errors  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015

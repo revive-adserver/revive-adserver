@@ -539,6 +539,7 @@ function phpAds_PriorityPrepareCampaigns()
 			c.active='t' AND
 			b.active='t' AND
 			(c.weight + c.target) > 0
+			ORDER BY clientid
 	";
 	
 	$res = phpAds_dbQuery($query);
@@ -562,6 +563,7 @@ function phpAds_PriorityPrepareBanners()
 		SELECT bannerid, weight, clientid AS parent
 		FROM ".$phpAds_config['tbl_banners']."
 		WHERE active='t' AND weight > 0
+		ORDER BY bannerid
 	";
 	
 	$res = phpAds_dbQuery($query);
@@ -659,7 +661,6 @@ function phpAds_PriorityCalculate()
 	$total_targeted_hits = 0;
 	$total_other_hits 	 = 0;
 	
-	
 	for (reset($campaigns);$c=key($campaigns);next($campaigns))
 	{
 		$targeted_hits = 0;
@@ -671,7 +672,7 @@ function phpAds_PriorityCalculate()
 				if ($banners[$b]['parent'] == $c)
 					$targeted_hits += isset($banners[$b]['hits']) ? $banners[$b]['hits'] : 0;
 			
-			$total_targeted_hits += $targeted_hits;
+			$total_targeted_hits += $targeted_hits > $campaigns[$c]['target'] ? $campaigns[$c]['target'] : $targeted_hits;
 			$total_requested 	 += $campaigns[$c]['target'];
 		}
 		else
@@ -759,7 +760,7 @@ function phpAds_PriorityCalculate()
 			if ($campaigns[$c]['target'] > 0)
 			{
 				// BEGIN REPORTING
-				$debuglog .= "\n\n\nCAMPAIGN $c \n";
+				$debuglog .= "\n\n\nHIGH-PRI CAMPAIGN $c \n";
 				$debuglog .= "-----------------------------------------------------\n";
 				// END REPORTING
 				
@@ -829,8 +830,6 @@ function phpAds_PriorityCalculate()
 		// BEGIN REPORTING
 		$debuglog .= "\n\n\n";
 		$debuglog .= "Impressions assigned to meet the targets: $totalassigned \n";
-		$debuglog .= "Impressions left over: $available_for_others \n";
-		$debuglog .= "-----------------------------------------------------\n";
 		// END REPORTING
 
 		$no_high_pri = !$totalassigned;
@@ -848,7 +847,7 @@ function phpAds_PriorityCalculate()
 
 	$total_weight =  phpAds_PriorityTotalWeight($campaigns, $banners);
 
-	if ($no_high_pri || $available_for_others < $total_weight)
+	if ($no_high_pri || !$available_for_others)
 	{
 		// BEGIN REPORTING
 
@@ -863,23 +862,38 @@ function phpAds_PriorityCalculate()
 		}
 
 		$debuglog .= "Total weight: $total_weight\n";
-		$debuglog .= "-----------------------------------------------------\n";
 		// END REPORTING
 
+		// Use total weight as avaliable impressions for low-pri
 		$available_for_others = $total_weight;
-		$high_pri_boost = true;
+
+		// Boost high-pri banners by total_weight
+		$high_pri_boost = $total_weight;
 	}
 	else
-		$high_pri_boost = false;
+	{
+		// No boost
+		$high_pri_boost = 1;
+	}
 
+
+	// Init array for GCD calculation
 	$banner_priorities = array();
+
+	// Flag used when a campaign gets a null priority
+	$zero_pri = false;
+
+	// BEGIN REPORTING
+	$debuglog .= "Impressions left over: $available_for_others \n";
+	$debuglog .= "-----------------------------------------------------\n";
+	// END REPORTING
 
 	for (reset($campaigns);$c=key($campaigns);next($campaigns))
 	{
 		if ($campaigns[$c]['target'] == 0)
 		{
 			// BEGIN REPORTING
-			$debuglog .= "\n\n\nCAMPAIGN $c \n";
+			$debuglog .= "\n\n\nLOW-PRI CAMPAIGN $c \n";
 			$debuglog .= "-----------------------------------------------------\n";
 			// END REPORTING
 			
@@ -902,6 +916,16 @@ function phpAds_PriorityCalculate()
 				if ($banners[$b]['parent'] == $c)
 				{
 					$banners[$b]['priority'] = round ($remaining_for_campaign / $total_banner_weight * $banners[$b]['weight']);
+					
+					if (!$banners[$b]['priority'])
+					{
+						// BEGIN REPORTING
+						$debuglog .= "- Banner $b had a null priority.\n".$banners[$b]['priority']." \n\n\n";
+						// END REPORTING
+
+						$zero_pri = true;
+						break;
+					}
 
 					$banner_priorities[] = $banners[$b]['priority'];
 
@@ -909,14 +933,37 @@ function phpAds_PriorityCalculate()
 					$debuglog .= "- Assigned priority to banner $b: ".$banners[$b]['priority']." \n";
 					// END REPORTING
 				}
+			
+		}
+
+		if ($zero_pri)
+		{
+			if (!$available_for_others)
+			{
+				// It should never get here, but avoid an endless loop to be safe...
+				break;
+			}
+
+			// Restart low-pri assignment, increasing available impressions
+			$banner_priorities = array();
+			$zero_pri = false;
+			reset($campaigns);
+
+			$available_for_others *= 2;
+			$high_pri_boost *= 2;
+
+			// BEGIN REPORTING
+			$debuglog .= "Restarting...\n";
+			$debuglog .= "\n\n\nImpressions left over: $available_for_others \n";
+			$debuglog .= "-----------------------------------------------------\n";
+			// END REPORTING
 		}
 	}
-
-
-	if ($high_pri_boost && !$no_high_pri && $total_weight)
+			
+	if ($high_pri_boost > 1 && !$no_high_pri && $total_weight)
 	{
 		// We need to raise high-pri priorities to reduce the side-effect
-		// introduced as total weight was used instead of remaining impressions
+		// introduced increasing remaining impressions for low-pri campaigns
 
 		// BEGIN REPORTING
 		$debuglog .= "\n\n\n-----------------------------------------------------\n";
@@ -925,17 +972,17 @@ function phpAds_PriorityCalculate()
 		// END REPORTING
 
 		// Try to find a GCD to avoid to reduce priority values
-		$banner_priorities[] = $total_weight;
+		$banner_priorities[] = $high_pri_boost;
 		$gcd = phpAds_PriorityGetGCD($banner_priorities);
 
 		if ($gcd > 1)
 		{
 			// A GCD was found, we can lower boost rate and low-pri priorities
 
-			$total_weight /= $gcd;
+			$high_pri_boost /= $gcd;
 
 			// BEGIN REPORTING
-			$debuglog .= "PRIORITY SOFTENER ENABLED\n";
+			$debuglog .= "GCD PRIORITY SOFTENER ENABLED\n";
 			$debuglog .= "-----------------------------------------------------\n";
 			// END REPORTING
 		}
@@ -945,7 +992,7 @@ function phpAds_PriorityCalculate()
 			if ($campaigns[$c]['target'] > 0)
 			{
 				// BEGIN REPORTING
-				$debuglog .= "\n\n\nCAMPAIGN $c \n";
+				$debuglog .= "\n\n\nHIGH-PRI CAMPAIGN $c \n";
 				$debuglog .= "-----------------------------------------------------\n";
 				// END REPORTING
 
@@ -953,10 +1000,10 @@ function phpAds_PriorityCalculate()
 					if ($banners[$b]['parent'] == $c)
 					{
 						// BEGIN REPORTING
-						$debuglog .= "- Assigned priority to banner $b: ".$banners[$b]['priority']." * $total_weight = ";
+						$debuglog .= "- Assigned priority to banner $b: ".$banners[$b]['priority']." * $high_pri_boost = ";
 						// END REPORTING
 
-						$banners[$b]['priority'] *= $total_weight;
+						$banners[$b]['priority'] *= $high_pri_boost;
 					
 						// BEGIN REPORTING
 						$debuglog .= $banners[$b]['priority']."\n";
@@ -966,7 +1013,7 @@ function phpAds_PriorityCalculate()
 			elseif ($gcd > 1)
 			{
 				// BEGIN REPORTING
-				$debuglog .= "\n\n\nCAMPAIGN $c \n";
+				$debuglog .= "\n\n\nLOW-PRI CAMPAIGN $c \n";
 				$debuglog .= "-----------------------------------------------------\n";
 				// END REPORTING
 
@@ -986,7 +1033,45 @@ function phpAds_PriorityCalculate()
 			}
 		}
 	}
+
+
+
+	$priority_sum = 0;
+	for(reset($banners);$b=current($banners);next($banners))
+		$priority_sum += $b['priority'];
 	
+	if ($priority_sum)
+	{
+		$softener = 1;
+		
+		while (($priority_sum/$softener) > 0x7ffffffe)
+			$softener *= 2;
+		
+		if ($softener > 1)
+		{
+			$debuglog .= "\n\n\n-----------------------------------------------------\n";
+			$debuglog .= "OVERFLOW SOFTENER ENABLED\n";
+			$debuglog .= "-----------------------------------------------------\n\n\n\n";
+			
+			for(reset($banners);$b=key($banners);next($banners))
+			{
+				// BEGIN REPORTING
+				$debuglog .= "- Assigned priority to banner $b: ".$banners[$b]['priority']." / $softener = ";
+				// END REPORTING
+
+				$banners[$b]['priority'] = round($banners[$b]['priority'] / $softener);
+
+				if (!$banners[$b]['priority'])
+					$banners[$b]['priority'] = 1;
+
+				// BEGIN REPORTING
+				$debuglog .= $banners[$b]['priority']."\n";
+				// END REPORTING
+			}
+		}
+	}
+
+
 	// Store priority information
 	phpAds_PriorityStore($banners);
 	
