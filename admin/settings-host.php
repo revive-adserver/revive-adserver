@@ -45,10 +45,17 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 	
 	if (isset($geotracking_location))
 	{
-		if (file_exists($geotracking_location) || $geotracking_location == '')
-			phpAds_SettingsWriteAdd('geotracking_location', $geotracking_location);
+		if (substr($geotracking_location, 0, 7) == 'http://')
+		{
+			$errormessage[1][] = str_replace('{example}', $HTTP_SERVER_VARS['DOCUMENT_ROOT'].'/Geo.dat', $strGeotrackingLocationNoHTTP);
+		}
 		else
-			$errormessage[1][] = $strGeotrackingLocationError;
+		{
+			if (file_exists($geotracking_location) || $geotracking_location == '')
+				phpAds_SettingsWriteAdd('geotracking_location', $geotracking_location);
+			else
+				$errormessage[1][] = $strGeotrackingLocationError;
+		}
 	}
 	
 	
