@@ -1,16 +1,20 @@
 phpAdsNew - ChangeLog
 
 
-CVS			+ Misc changes
+CVS			+ Added a cron replacement for users who don't have access to the cron utility for scheduling the maintenance script  (Niels, 2003-01-14)
+
+			+ Misc changes
 			  - 2003-01-12:  Added info about the current version on the Available Updates page  (Niels)
 			  - 2003-01-12:  Added flag for Cape Verde  (Niels)
 			  - 2003-01-12:  Added PHP code and variable parsing to HTML banner preview  (Niels)
 			  - 2003-01-13:  Added variable parsing to external banner preview  (Niels)
+			  - 2003-01-14:  Added support for Safari to the browser delivery limitation and adlayer browser detection  (Niels)
 
 			+ Misc bugfixes
 			  - 2003-01-13:  If a zero was used in a random variable (ie. random:10) it wasn't replaced  (Niels)
 			  - 2003-01-13:  If a random or timestamp variable was used in the destination URL of a HTML banner it wasn't replaced  (Niels)
 			  - 2003-01-13:  Random variable replacement larger than 9 wasn't working at all for external banners when using plain remote invocation  (Niels)
+			  - 2003-01-14:  Konqueror browser detection in adlayer wasn't based on a very outdated useragent, now fixed  (Niels)
 			
 
 v 2.0rc2		+ Misc bugfixes
