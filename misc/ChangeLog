@@ -4,6 +4,7 @@ CVS
 			+ Misc bugfixes
 			  - 2003-07-17:  Report were created without delimiters/quotes with register globals off  (Matteo)
 			  - 2003-07-20:  Added exceptions to bannerid requirement for banner-activate and banner-delete  (Niels)
+			  - 2003-07-23:  Added missing style definitions for banner append to the css file  (Niels)
 
 
 v 2.0rc4.1		+ Misc bugfixes
