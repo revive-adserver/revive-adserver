@@ -16,6 +16,7 @@
 
 // Define SWF tags
 define ('swf_tag_identify', 		 chr(0x46).chr(0x57).chr(0x53));
+define ('swf_tag_compressed', 		 chr(0x43).chr(0x57).chr(0x53));
 define ('swf_tag_geturl',   		 chr(0x00).chr(0x83));
 define ('swf_tag_null',     		 chr(0x00));
 define ('swf_tag_actionpush', 		 chr(0x96));
@@ -35,10 +36,104 @@ $swf_default_target	= '_blank';		// If set it will replace the targets, otherwis
 
 function phpAds_SWFVersion($buffer)
 {
-	if (substr($buffer, 0, 3) == swf_tag_identify)
+	if (substr($buffer, 0, 3) == swf_tag_identify ||
+		substr($buffer, 0, 3) == swf_tag_compressed)
 		return ord(substr($buffer, 3, 1));
 	else
 		return false;
+}
+
+
+
+/*********************************************************/
+/* Is the Flash file compressed?                         */
+/*********************************************************/
+
+function phpAds_SWFCompressed($buffer)
+{
+	if (substr($buffer, 0, 3) == swf_tag_compressed)
+		return true;
+	else
+		return false;
+}
+
+
+
+/*********************************************************/
+/* Compress Flash file                                   */
+/*********************************************************/
+
+function phpAds_SWFCompress($buffer)
+{
+	if (function_exists('gzcompress') &&
+	    substr($buffer, 0, 3) == swf_tag_identify &&
+		ord(substr($buffer, 3, 1)) >= 6)
+	{
+		$output  = 'C';
+		$output .= substr ($buffer, 1, 7);
+		$output .= gzcompress (substr ($buffer, 8));
+		
+		return ($output);
+	}
+	else
+		return ($buffer);
+}
+
+
+
+/*********************************************************/
+/* Decompress Flash file                                 */
+/*********************************************************/
+
+function phpAds_SWFDecompress($buffer)
+{
+	if (function_exists('gzuncompress') &&
+		substr($buffer, 0, 3) == swf_tag_compressed &&
+		ord(substr($buffer, 3, 1)) >= 6)
+	{
+		$output  = 'F';
+		$output .= substr ($buffer, 1, 7);
+		$output .= gzuncompress (substr ($buffer, 8));
+		
+		return ($output);
+	}
+	else
+		return ($buffer);
+}
+
+
+
+/*********************************************************/
+/* Get the dimensions of the Flash banner                */
+/*********************************************************/
+
+function phpAds_SWFBits($buffer, $pos, $count)
+{
+	$result = 0;
+	
+	for ($loop = $pos; $loop < $pos + $count; $loop++)
+		$result = $result + ((((ord($buffer[(int)($loop / 8)])) >> (7 - ($loop % 8))) & 0x01) << ($count - ($loop - $pos) - 1));
+	
+	return $result;
+}
+
+function phpAds_SWFDimensions($buffer)
+{
+	// Decompress if file is a Flash MX compressed file
+	if (phpAds_SWFCompressed($buffer))
+		$buffer = phpAds_SWFDecompress($buffer);
+	
+	// Get size of rect structure
+	$bits   = phpAds_SWFBits ($buffer, 64, 5);
+	
+	// Get rect
+	$width  = (int)(phpAds_SWFBits ($buffer, 69 + $bits, $bits) - phpAds_SWFBits ($buffer, 69, $bits)) / 20;
+	$height = (int)(phpAds_SWFBits ($buffer, 69 + (3 * $bits), $bits) - phpAds_SWFBits ($buffer, 69 + (2 * $bits), $bits)) / 20;
+	
+	
+	return (
+		array($width, $height)
+	);
 }
 
 
@@ -49,6 +144,14 @@ function phpAds_SWFVersion($buffer)
 
 function phpAds_SWFInfo($buffer)
 {
+	global $swf_default_target;
+	global $swf_variable;
+	
+	
+	// Decompress if file is a Flash MX compressed file
+	if (phpAds_SWFCompressed($buffer))
+		$buffer = phpAds_SWFDecompress($buffer);
+	
 	$parameters = array();
 	$pos = 0;
 	
@@ -105,6 +208,17 @@ function phpAds_SWFConvert($buffer)
 	global $swf_default_target;
 	global $swf_variable;
 	
+	
+	// Decompress if file is a Flash MX compressed file
+	if (phpAds_SWFCompressed($buffer))
+	{
+		$compress = true;
+		$buffer = phpAds_SWFDecompress($buffer);
+	}
+	else
+		$compress = false;
+	
+	
 	$parameters = array();
 	$pos = 0;
 	$linkcount = 1;
@@ -156,6 +270,10 @@ function phpAds_SWFConvert($buffer)
 		
 		$pos = $result;
 	}
+	
+	
+	if ($compress == true)
+		$buffer = phpAds_SWFCompress($buffer);
 	
 	return (array($buffer, $parameters));
 }

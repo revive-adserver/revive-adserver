@@ -188,13 +188,18 @@ if (isset($submit))
 				// Read the file
 				$buffer = @fread(@fopen($uploaded['tmp_name'], "rb"), @filesize($uploaded['tmp_name']));
 				
-				// Check if the Flash banner includes hard coded urls
-				if ($final['contenttype'] == 'swf' && 
-					$checkswf == 't' &&
-					phpAds_SWFVersion($buffer) >= 3 &&
-					phpAds_SWFInfo($buffer))
+				if ($final['contenttype'] == 'swf')
 				{
-					$edit_swf = true;
+					// Get dimensions of Flash file
+					list ($final['width'], $final['height']) = phpAds_SWFDimensions($buffer);
+					
+					// Check if the Flash banner includes hard coded urls
+					if ($checkswf == 't' &&
+						phpAds_SWFVersion($buffer) >= 3 &&
+						phpAds_SWFInfo($buffer))
+					{
+						$edit_swf = true;
+					}
 				}
 				
 				// Store the file
@@ -286,13 +291,18 @@ if (isset($submit))
 				// Read the file
 				$buffer = @fread(@fopen($uploaded['tmp_name'], "rb"), @filesize($uploaded['tmp_name']));
 				
-				// Check if the Flash banner includes hard coded urls
-				if ($final['contenttype'] == 'swf' && 
-					$checkswf == 't' &&
-					phpAds_SWFVersion($buffer) >= 3 &&
-					phpAds_SWFInfo($buffer))
+				if ($final['contenttype'] == 'swf')
 				{
-					$edit_swf = true;
+					// Get dimensions of Flash file
+					list ($final['width'], $final['height']) = phpAds_SWFDimensions($buffer);
+					
+					// Check if the Flash banner includes hard coded urls
+					if ($checkswf == 't' &&
+						phpAds_SWFVersion($buffer) >= 3 &&
+						phpAds_SWFInfo($buffer))
+					{
+						$edit_swf = true;
+					}
 				}
 				
 				// Add slashes to the file for storage
@@ -925,6 +935,8 @@ if ($storagetype == 'sql')
 			
 			$i++;
 		}
+		
+		echo "<input type='hidden' name='url' value='".$row['url']."'>";
 	}
 	
 	echo "<tr><td height='30' colspan='3'>&nbsp;</td></tr>";
@@ -1038,6 +1050,8 @@ if ($storagetype == 'web')
 			
 			$i++;
 		}
+		
+		echo "<input type='hidden' name='url' value='".$row['url']."'>";
 	}
 	
 	echo "<tr><td height='30' colspan='3'>&nbsp;</td></tr>";

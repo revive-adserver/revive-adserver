@@ -93,8 +93,7 @@ if (isset($convert))
 		{
 			list($result, $parameters) = phpAds_SWFConvert($swf_file);
 			
-			if ($result != $swf_file &&
-				strlen($result) == strlen($swf_file))
+			if ($result != $swf_file)
 			{
 				// Prepare the parameters
 				for ($i=0;$i<count($parameters);$i++)
@@ -247,8 +246,8 @@ if ($result)
 	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 	
 	echo "<tr>";
-	echo "<td height='25' bgcolor='$bgcolor'>&nbsp;<b>".$strURL2."</b></td>";
-	echo "<td height='25' bgcolor='$bgcolor'><b>".$strTarget."</b></td>";
+	echo "<td height='25'>&nbsp;<b>".$strURL2."</b></td>";
+	echo "<td height='25'><b>".$strTarget."</b></td>";
 	echo "</tr>";
 	
 	echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
