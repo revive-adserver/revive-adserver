@@ -1,6 +1,7 @@
 phpAdsNew - ChangeLog
 
-CVS			+ Added search capabilities  (Niels and Tobi Schulz)
+CVS			+ Added support for zones  (Niels)
+			+ Added search capabilities  (Niels and Tobi Schulz)
 			+ Added expiration details to campaign index  (Niels)
 			+ Added the ablity to get the IP adress of users behind a proxy server  (Niels & Mesut Tunga)
 			+ Added ability to specify a browser-status text for each banner  (Niels)
