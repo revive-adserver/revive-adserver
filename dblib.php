@@ -276,8 +276,10 @@ function phpads_ignore_host()
 {
 	global $phpAds_ignore_hosts, $phpAds_reverse_lookup, $REMOTE_HOST, $REMOTE_ADDR;
 	
-	if($phpAds_reverse_lookup)
-		$host = isset($REMOTE_HOST) ? $REMOTE_HOST : gethostbyaddr($REMOTE_ADDR);
+	if (isset($REMOTE_HOST))
+		$host = $REMOTE_HOST;
+	elseif ($phpAds_reverse_lookup)
+		$host = @gethostbyaddr($REMOTE_ADDR);
 	
 	$found=0;
 	
