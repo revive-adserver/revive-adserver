@@ -158,9 +158,27 @@ function phpAds_aclCheckLanguage($data, $ad)
 	if ($data == '')
 		return (true);
 	
-	$source = $HTTP_SERVER_VARS['HTTP_ACCEPT_LANGUAGE'];
+	$source = isset($HTTP_SERVER_VARS['HTTP_ACCEPT_LANGUAGE']) ? $HTTP_SERVER_VARS['HTTP_ACCEPT_LANGUAGE'] : '';
 	
-	$expression = ($data == "*" || preg_match('#^('.$data.')#', $source));
+	// Split languages list, removing quality values
+	$source = preg_split('/, */', preg_replace('/;q=[0-9.]+/', '', $source));
+
+	if ($data != "*")
+	{
+		$expression = false;
+
+		foreach ($source as $s)
+		{
+			if (preg_match('/^'.$data.'/', $s))
+			{
+				$expression = true;
+				break;
+			}
+		}
+	}
+	else
+		$expression = true;
+
 	$operator   = $ad == '==';
 	return ($expression == $operator);
 }
