@@ -41,6 +41,7 @@ $GLOBALS['strWarningRegisterGlobals']		= "La variabile di configurazione del PHP
 $GLOBALS['strWarningMagicQuotesGPC']		= "La variabile di configurazione del PHP magic_quotes_gpc deve essere abilitata.";
 $GLOBALS['strWarningMagicQuotesRuntime']	= "La variabile di configurazione del PHP magic_quotes_runtime deve essere disabilitata.";
 $GLOBALS['strWarningFileUploads']			= "La variabile di configurazione del PHP file_uploads deve essere abilitata.";
+$GLOBALS['strWarningTrackVars']				= "La variabile di configurazione del PHP track_vars deve essere abilitata.";
 $GLOBALS['strConfigLockedDetected']			= "Il file <b>config.inc.php</b> non pu&ograve; essere sovrascritto dal server.<br> Non è possiblie procedere finch&eacute; non vengono modificati i permessi sul file. <br>Puoi leggere sul manuale di ".$phpAds_productname." come fare.";
 $GLOBALS['strCantUpdateDB']					= "Non &egrave; possibile aggiornare il database. Se decidi di procedere, tutti i banner, le statistiche e i clienti saranno cancellati.";
 $GLOBALS['strTableNames']					= "Nomi delle tabelle";
