@@ -1,13 +1,19 @@
 phpAdsNew - ChangeLog
 
+CVS			
+			+ Updated Italian language files (Matteo)
+			+ Added Romanian language files (Tudor Barbarosie)
+			+ Added wildcard recognition for ignored hosts (Matteo)
+			+ Misc bugfixes for beta3
+			  - Default banner type was always selected even if editing a banner (Matteo)
+			  - Client language settings are now checked if it is empty (Niels)
+
 v 2.0beta3
 			+ Added support for Flash variables (Niels)
 			+ Added support for timestamp variable (Niels)
 			+ Added support for single quotes in HTML banners (Niels)
 			+ ACL checking can be disabled in the configuration file (Niels)
-			+ Updated Italian language files (Luca Pescatore + Matteo)
-			+ Added wildcard recognition for ignored hosts (Matteo)
-			+ Added Romanian language files (Tudor Barbarosie)
+			+ Updated Italian language files (Luca Pescatore)
 			+ Misc bugfixes for beta2 
 			  - sequential banner retrieval works again (Niels)
 			  - stripslashes added for HTML banners (Niels)
@@ -17,7 +23,6 @@ v 2.0beta3
 			  - JavaScript error when certain banner types were disabled (Niels)
 			  - Check for empty username/password (Niels)
 			  - MySQL banner was always shown even if disabled (Niels)
-			  - Default banner type was always selected even if editing a banner (Matteo)
 			
 
 v 2.0beta2		+ Added support for banners stored on the webserver (Niels)

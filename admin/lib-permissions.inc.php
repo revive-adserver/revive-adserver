@@ -49,7 +49,7 @@ function phpAds_Start()
 	}
 	
 	// Overwrite certain preset preferences
-	if (isset($Session['language']) && $Session['language'] != $phpAds_language)
+	if (isset($Session['language']) && $Session['language'] != '' && $Session['language'] != $phpAds_language)
 	{
 		$phpAds_language = $Session['language'];
 	}
