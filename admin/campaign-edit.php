@@ -183,6 +183,33 @@ if ($campaignID != "")
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	
 	phpAds_PageHeader("4.3", $extra);
+	
+	
+	/*********************************************************/
+	/* Define sections                                       */
+	/*********************************************************/
+	
+	$section = 'modify';
+	$sections['overview'] = array ("campaign-index.php?campaignID=$campaignID", $strOverview);
+	$sections['modify'] = array ("campaign-edit.php?campaignID=$campaignID", $strModifyCampaign);
+	
+	for (reset($sections);$skey=key($sections);next($sections))
+	{
+		list ($sectionUrl, $sectionStr) = $sections[$skey];
+		
+		echo "<img src='images/caret-rs.gif' width='11' height='7'>&nbsp;";
+		
+		if ($skey == $section)
+			echo "<a class='tab-s' href='".$sectionUrl."'>".$sectionStr."</a> &nbsp;&nbsp;&nbsp;";
+		else
+			echo "<a class='tab-g' href='".$sectionUrl."'>".$sectionStr."</a> &nbsp;&nbsp;&nbsp;";
+	}
+	
+	echo "</td></tr>";
+	echo "</table>";
+	echo "<img src='images/break-el.gif' height='1' width='100%' vspace='5'>";
+	echo "<table width='640' border='0' cellspacing='0' cellpadding='0'>";
+	echo "<tr><td width='40'>&nbsp;</td><td>";	
 }
 else
 {
@@ -438,12 +465,10 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 	<tr><td height='25' colspan='4'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getParentName($campaignID);?>
 									&nbsp;<img src='images/caret-rs.gif'>&nbsp;
 									<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b><?php echo phpAds_getClientName($campaignID);?></b></td></tr>
-	<tr><td height='1' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 	<?php } else { ?>
 	<tr><td height='25' colspan='4'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getClientName($clientID);?>
 									&nbsp;<img src='images/caret-rs.gif'>&nbsp;
 									<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b><?php echo $strCreateNewCampaign; ?></b></td></tr>
-	<tr><td height='1' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 	<?php } ?>
 </table
 

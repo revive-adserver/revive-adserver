@@ -199,6 +199,35 @@ phpAds_PageHeader("4.1.3", $extra);
 
 
 /*********************************************************/
+/* Define sections                                       */
+/*********************************************************/
+
+$section = 'acl';
+$sections['edit'] = array ("banner-edit.php?campaignID=$campaignID&bannerID=$bannerID", $strModifyBanner);
+$sections['acl'] = array ("banner-acl.php?campaignID=$campaignID&bannerID=$bannerID", $strACL);
+
+for (reset($sections);$skey=key($sections);next($sections))
+{
+	list ($sectionUrl, $sectionStr) = $sections[$skey];
+	
+	echo "<img src='images/caret-rs.gif' width='11' height='7'>&nbsp;";
+	
+	if ($skey == $section)
+		echo "<a class='tab-s' href='".$sectionUrl."'>".$sectionStr."</a> &nbsp;&nbsp;&nbsp;";
+	else
+		echo "<a class='tab-g' href='".$sectionUrl."'>".$sectionStr."</a> &nbsp;&nbsp;&nbsp;";
+}
+
+echo "</td></tr>";
+echo "</table>";
+echo "<img src='images/break-el.gif' height='1' width='100%' vspace='5'>";
+echo "<table width='640' border='0' cellspacing='0' cellpadding='0'>";
+echo "<tr><td width='40'>&nbsp;</td><td>";
+
+
+
+
+/*********************************************************/
 /* Main code                                             */
 /*********************************************************/
 
@@ -211,12 +240,18 @@ if ($bannerID != '')
 	echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerID)."</b></td></tr>";
 else
 	echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;".$strUntitled."</td></tr>";
-echo "<tr><td height='1' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-if ($bannerID != '')
-	echo "<tr><td align='left'><br>".phpAds_getBannerCode($bannerID)."<br><br></td></tr>";
-
 echo "</table>";
-echo "<br><br>";
+
+echo "<br>";
+
+if ($bannerID != '')
+{
+	echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
+	echo "<tr><td align='left'><br>".phpAds_getBannerCode($bannerID)."<br><br></td></tr>";
+	echo "</table>";
+}
+
+echo "<br>";
 
 
 // Fetch all ACLs from the database

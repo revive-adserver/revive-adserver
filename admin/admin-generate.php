@@ -33,6 +33,37 @@ phpAds_PageHeader("4.6");
 
 
 /*********************************************************/
+/* Define sections                                       */
+/*********************************************************/
+
+$section = 'bannercode';
+$sections['clients'] = array ('client-index.php', $strClientsAndCampaigns);
+$sections['zones'] = array ('client-index.php', $strZones);
+$sections['bannercode'] = array ('admin-generate.php', $strGenerateBannercode);
+
+for (reset($sections);$skey=key($sections);next($sections))
+{
+	list ($sectionUrl, $sectionStr) = $sections[$skey];
+	
+	echo "<img src='images/caret-rs.gif' width='11' height='7'>&nbsp;";
+	
+	if ($skey == $section)
+		echo "<a class='tab-s' href='".$sectionUrl."'>".$sectionStr."</a> &nbsp;&nbsp;&nbsp;";
+	else
+		echo "<a class='tab-g' href='".$sectionUrl."'>".$sectionStr."</a> &nbsp;&nbsp;&nbsp;";
+}
+
+echo "</td></tr>";
+echo "</table>";
+echo "<img src='images/break-el.gif' height='1' width='100%' vspace='5'>";
+echo "<table width='640' border='0' cellspacing='0' cellpadding='0'>";
+echo "<tr><td width='40'>&nbsp;</td><td>";
+
+echo "<br><br>";
+
+
+
+/*********************************************************/
 /* Generate bannercode                                   */
 /*********************************************************/
 
@@ -184,11 +215,6 @@ function phpAds_GenerateInvocationCode()
 /* Main code                                             */
 /*********************************************************/
 
-echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
-echo "<tr><td height='25' colspan='4'><img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;$strGenerateBannercode";
-echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-echo "</table>";
-echo "<br><br>";
 
 
 echo "<form name='availability' action='admin-generate.php' method='POST'>\n";
@@ -198,7 +224,7 @@ if (!isset($codetype)) $codetype = 'local';
 
 // Invocation type selection
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-echo "<tr><td height='25' colspan='3'><b>$strChooseInvocationType</b></td></tr>";
+echo "<tr><td height='25' colspan='3'><img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>$strChooseInvocationType</b></td></tr>";
 echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 echo "<tr><td height='35'>";
 	echo "<select name='codetype'>";

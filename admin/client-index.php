@@ -38,6 +38,37 @@ if (isset($message))
 
 
 /*********************************************************/
+/* Define sections                                       */
+/*********************************************************/
+
+$section = 'clients';
+$sections['clients'] = array ('client-index.php', $strClientsAndCampaigns);
+$sections['zones'] = array ('client-index.php', $strZones);
+$sections['bannercode'] = array ('admin-generate.php', $strGenerateBannercode);
+
+for (reset($sections);$skey=key($sections);next($sections))
+{
+	list ($sectionUrl, $sectionStr) = $sections[$skey];
+	
+	echo "<img src='images/caret-rs.gif' width='11' height='7'>&nbsp;";
+	
+	if ($skey == $section)
+		echo "<a class='tab-s' href='".$sectionUrl."'>".$sectionStr."</a> &nbsp;&nbsp;&nbsp;";
+	else
+		echo "<a class='tab-g' href='".$sectionUrl."'>".$sectionStr."</a> &nbsp;&nbsp;&nbsp;";
+}
+
+echo "</td></tr>";
+echo "</table>";
+echo "<img src='images/break-el.gif' height='1' width='100%' vspace='5'>";
+echo "<table width='640' border='0' cellspacing='0' cellpadding='0'>";
+echo "<tr><td width='40'>&nbsp;</td><td>";
+
+echo "<br><br>";
+
+
+
+/*********************************************************/
 /* Main code                                             */
 /*********************************************************/
 
@@ -416,14 +447,6 @@ echo "</table>";
       <td height='25'><?php echo $strActiveCampaigns;?>: <b><?php echo @mysql_result($res_active_campaigns, 0, "count");?></b></td>
       <td height='25'>&nbsp;</td></tr>
   <tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-  <tr><td height='25' colspan='3'>
-	<img src='images/icon-generatecode.gif' border='0' align='absmiddle'>&nbsp;<a href='admin-generate.php'><?php echo $strGenerateBannercode; ?></a>
-	<!-- Still working on this  --Niels
-		&nbsp;&nbsp;
-		<img src='images/icon-availability.gif' border='0' align='absmiddle'>&nbsp;<a href='admin-generate.php'>Show availability</a>
-	-->
-  </td></tr>
-
 </table>   
 
 <br><br>
