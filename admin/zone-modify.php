@@ -37,7 +37,10 @@ if (isset($zoneid) && $zoneid != '')
 		$res = phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_zones']." SET affiliateid = '".$moveto."' WHERE zoneid = '".$zoneid."'") or phpAds_sqlDie();
 		
 		Header ("Location: ".$returnurl."?affiliateid=".$moveto."&zoneid=".$zoneid);
+		exit;
 	}
 }
+
+Header ("Location: ".$returnurl."?affiliateid=".$affiliateid."&zoneid=".$zoneid);
 
 ?>

@@ -84,6 +84,7 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	$extra  = "<form action='zone-modify.php'>";
 	$extra .= "<input type='hidden' name='zoneid' value='$zoneid'>";
+	$extra .= "<input type='hidden' name='affiliateid' value='$affiliateid'>";
 	$extra .= "<input type='hidden' name='returnurl' value='zone-probability.php'>";
 	$extra .= "<br><br>";
 	$extra .= "<b>$strModifyZone</b><br>";

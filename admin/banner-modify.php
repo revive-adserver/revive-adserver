@@ -191,6 +191,10 @@ if (isset($bannerid) && $bannerid != '')
 		
 		Header ("Location: ".$returnurl."?campaignid=".$campaignid."&bannerid=".$new_bannerid);
 	}
+	else
+	{
+		Header ("Location: ".$returnurl."?campaignid=".$campaignid."&bannerid=".$bannerid);
+	}
 }
 
 ?>
