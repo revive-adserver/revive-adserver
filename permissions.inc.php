@@ -60,7 +60,8 @@ require ("sessions.inc.php");
 		phpAds_SessionDataDestroy();
 		
 		// Return to the login screen
-		header ("Location: index.php");
+		// Use ./ to force a 302 instead of a 300 redirect
+		header ("Location: ./index.php");
 	}
 
 
@@ -149,6 +150,9 @@ require ("sessions.inc.php");
 				else
 				{
 					// Password is not correct or user is not known
+					
+					// Set the session ID now, some server do not support setting a cookie during a redirect
+					phpAds_SessionStart();
 					phpAds_LoginScreen($strPasswordWrong);
 				}
 			}
@@ -156,6 +160,9 @@ require ("sessions.inc.php");
 		else
 		{
 			// User has not supplied credentials yet
+			
+			// Set the session ID now, some server do not support setting a cookie during a redirect
+			phpAds_SessionStart();
 			phpAds_LoginScreen();
 		}
 	}

@@ -30,7 +30,7 @@
 	}
 
 
-	function phpAds_SessionDataRegister($key, $value='')
+	function phpAds_SessionStart()
 	{
 		global $SessionID, $Session;
 		
@@ -40,9 +40,16 @@
 			$Session = array();
 			$SessionID = uniqid("phpads");
 			
-			$url = parse_url($GLOBALS["phpAds_url_prefix"]);
-			SetCookie("SessionID", $GLOBALS["SessionID"], 0, $url["path"]);
+			SetCookie("SessionID", $GLOBALS["SessionID"]);
 		}
+	}
+
+
+	function phpAds_SessionDataRegister($key, $value='')
+	{
+		global $SessionID, $Session;
+		
+		phpAds_SessionStart();
 		
 		if (is_array($key) && $value=='')
 		{
@@ -77,11 +84,13 @@
 	{
 		global $SessionID, $Session, $phpAds_tbl_session;
 		
+		// Remove the session data from the database
 		db_query("DELETE FROM $phpAds_tbl_session WHERE SessionID='$SessionID'") or mysql_die();
 		
-		$url = parse_url($GLOBALS["phpAds_url_prefix"]);
-		SetCookie("SessionID", "", 0, $url["path"]);
+		// Kill the cookie containing the session ID
+		SetCookie("SessionID", "");
 		
+		// Clear all local session data and the session ID
 		$Session = "";
 		$SessionID = "";
 		unset($SessionID);
