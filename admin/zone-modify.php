@@ -55,9 +55,38 @@ if (isset($zoneid) && $zoneid != '')
 		
 		if ($row = phpAds_dbFetchArray($res))
 		{
+			// Get names
+			if (ereg("^(.*) \([0-9]+\)$", $row['zonename'], $regs))
+				$basename = $regs[1];
+			else
+				$basename = $row['zonename'];
+			
+			$names = array();
+			
+			$res = phpAds_dbQuery("
+				SELECT
+			   		*
+				FROM
+					".$phpAds_config['tbl_zones']."
+			") or phpAds_sqlDie();
+			
+			while ($name = phpAds_dbFetchArray($res))
+				$names[] = $name['zonename'];
+			
+			
+			// Get unique name
+			$i = 2;
+			
+			while (in_array($basename.' ('.$i.')', $names))
+				$i++;
+			
+			$row['zonename'] = $basename.' ('.$i.')';
+			
+			
 			// Remove bannerid
 			unset($row['zoneid']);
-	   		$values = array();
+	   		
+			$values = array();
 			
 			while (list($name, $value) = each($row))
 				$values[] = $name." = '".addslashes($value)."'";
