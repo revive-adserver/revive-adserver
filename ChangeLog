@@ -111,6 +111,10 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: Misc fixes to priority calculation without high priority banners  (Niels) 20011231
 			  - Bugfix: An sql error was showing instead of the normal "wrong password" warning when upgrading 
 			    from a pre-affiliates install  (Matteo) 20020108 
+			  - Bugfix: Removed old "banner" field from a query in stats-campaigns.php  (Matteo) 20020109
+			  - Bugfix: Displaying weekly stats of an empty campaing produced an SQL error  (Matteo) 20020109
+			  - Bugfix: NoStats message was wrong in global and campaign related weekly stats  (Matteo) 20020109
+			  - Bugfix: Removed useless weeks selector when no stats are present in weekly stats  (Matteo) 20020109
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
