@@ -402,7 +402,7 @@ function phpAds_PageHeader($ID, $extra="")
 
 function phpAds_PageFooter()
 {
-	global $phpAds_config;
+	global $phpAds_config, $HTTP_SERVER_VARS;
 	global $phpAds_showHelp, $phpAds_helpDefault;
 	global $Session;
 	
@@ -440,7 +440,7 @@ function phpAds_PageFooter()
 	// Add Product Update redirector
 	if (phpAds_isUser(phpAds_Admin) &&
 		!isset($Session['update_check']) &&
-		!ereg("/(index|maintenance-updates|install|upgrade)\.php$", $GLOBALS['SCRIPT_NAME']))
+		!ereg("/(index|maintenance-updates|install|upgrade)\.php$", $HTTP_SERVER_VARS['SCRIPT_NAME']))
 	{
 		echo "\t<script language='JavaScript' src='maintenance-updates-js.php'></script>\n";
 	}

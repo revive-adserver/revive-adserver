@@ -16,6 +16,7 @@
 
 // Include required files
 require ("../config.inc.php");
+require ("../lib-io.inc.php");
 require ("../lib-db.inc.php");
 require ("lib-permissions.inc.php");
 
