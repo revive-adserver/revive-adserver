@@ -773,14 +773,6 @@ function phpAds_ParseHTMLAutoLog ($html, $bannerid, $url, $target)
 	
 	if (!$formpresent && !$linkpresent && $url != '')
 	{
-		if (strstr($target, '+'))
-		{
-			if ($row['target'] != '')
-				$target = $row['target'];
-			else
-				$target = substr($target, 1);
-		}
-		
 		$targettag = ' target="'.$target.'"';
 		
 		// No link or form
