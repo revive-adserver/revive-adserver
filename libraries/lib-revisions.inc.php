@@ -76,7 +76,7 @@ function phpAds_revisionCheck ()
 	if ($revfile = fopen(phpAds_path.'/libraries/defaults/revisions.txt', 'r'))
 	{
 		// Determine the version of phpAdsNew
-		$version = fgets($revfile, 4096);
+		$version = trim(fgets($revfile, 4096));
 		
 		if ($version == $phpAds_version)
 		{
@@ -92,7 +92,13 @@ function phpAds_revisionCheck ()
 					if (@file_exists (phpAds_path.$filename))
 					{
 						list($current_rev, $current_md5) = phpAds_revisionGet (phpAds_path.$filename);
-		
+						
+						if ($filename == '/config.inc.php' && defined('phpAds_updating'))
+						{
+							// Upgrading, config.inc.php *must* be different from the one provided
+							continue;
+						}
+						
 						if (trim($current_md5) != trim($md5))
 						{
 							// File changed, check revision!
@@ -251,8 +257,8 @@ function phpAds_revisionGet ($filename)
 	// Read the file
 	$content = @implode ('', file ($filename));
 
-	// Determine revision
-	if (eregi('\$Revision$', $content, $matches))
+	// Determine revision, matching both Revision and Id CVS tags
+	if (preg_match('/\$(Revision:|Id: .*?,v) ([0-9]+(\.[0-9]+)+).*?\$/', $content, $matches))
 	{
 		// Remove newlines and linefeeds
 		$content = str_replace ("\n", '', $content);
