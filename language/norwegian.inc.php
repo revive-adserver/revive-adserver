@@ -7,8 +7,6 @@
 /* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
-/* Translations by Torbjørn Engedal                                     */
-/*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
@@ -32,7 +30,7 @@ $GLOBALS['strViews'] = "Bannervisninger";
 $GLOBALS['strClicks'] = "Bannerklikk";
 $GLOBALS['strTotalViews'] = "Bannervisninger totalt";
 $GLOBALS['strTotalClicks'] = "Bannerklikk totalt";
-$GLOBALS['strCTR'] = "Klikk i forhold til visninger";
+$GLOBALS['strCTR'] = "GjennomKlikksForhold";
 $GLOBALS['strTotalClients'] = "Klienter totalt";
 $GLOBALS['strActiveClients'] = "Aktive klienter";
 $GLOBALS['strActiveBanners'] = "Aktive bannere";
@@ -85,7 +83,7 @@ $GLOBALS['strCreditStats'] = "Credit statistics";
 $GLOBALS['strActive'] = "aktiv";
 $GLOBALS['strActivate'] = "Aktiver";
 $GLOBALS['strDeActivate'] = "Deaktiver";
-$GLOBALS['strAuthentification'] = "Authentication";
+$GLOBALS['strAuthentification'] = "Autentifikasjon";
 $GLOBALS['strGo'] = "Go";
 $GLOBALS['strLinkedTo'] = "linket til";
 $GLOBALS['strBannerID'] = "Banner-ID";
@@ -101,7 +99,7 @@ $GLOBALS['strLogErrorBanners'] = "[phpAds] En feil oppstod under henting av bann
 $GLOBALS['strLogErrorViews'] = "[phpAds] En feil oppstod under henting av bannervisninger fra databasen.";
 $GLOBALS['strLogErrorClicks'] = "[phpAds] En feil oppstod under henting av bannerklikk fra databasen.";
 $GLOBALS['strLogErrorDisactivate'] = "[phpAds] En feil oppstod under deaktivering av banner.";
-$GLOBALS['strRatio'] = "Klikk i forhold til visninger";
+$GLOBALS['strRatio'] = "GjennomKlikksForhold";
 $GLOBALS['strChooseBanner'] = "Vennligst velg type banner.";
 $GLOBALS['strMySQLBanner'] = "Banner lagret i databasen (MySQL)";
 $GLOBALS['strWebBanner'] = "Banner lagret på webserver";
@@ -128,14 +126,14 @@ $GLOBALS['strResetStats'] = "Tilbakestill statistikk";
 $GLOBALS['strExpiration'] = "Utløpsdato";
 $GLOBALS['strNoExpiration'] = "Ingen utløpsdato angitt";
 $GLOBALS['strDaysLeft'] = "Dager igjen";
-$GLOBALS['strEstimated'] = "Estimert utløpg";
+$GLOBALS['strEstimated'] = "Estimert utløp";
 $GLOBALS['strConfirm'] = "Er du sikker ?";
 $GLOBALS['strBannerNoStats'] = "Ingen statistikk tilgjengelig for dette banneret!";
 $GLOBALS['strWeek'] = "Uke";
 $GLOBALS['strWeeklyStats'] = "Ukentlig statistikk";
 $GLOBALS['strWeekDay'] = "Ukedag";
 $GLOBALS['strDate'] = "Dato";
-$GLOBALS['strCTRShort'] = "KFV";
+$GLOBALS['strCTRShort'] = "GKF";
 $GLOBALS['strDayShortCuts'] = array("Sø","Ma","Ti","On","To","Fr","Lø");
 $GLOBALS['strShowWeeks'] = "Maks uker å vise";
 $GLOBALS['strAll'] = "alle";
@@ -171,48 +169,48 @@ $GLOBALS['strErrorNegDays'] = "Negativt antall dager er ikke tillatt";
 $GLOBALS['strTrackerImage'] = "Tracker bilde:";
 
 // New strings for version 2
-$GLOBALS['strNavigation']				= "Navigasjon";
-$GLOBALS['strShortcuts']				= "Snarveier";
-$GLOBALS['strDescription']				= "Beskrivelse";
-$GLOBALS['strClients']					= "Klienter";
-$GLOBALS['strID']						= "ID";
-$GLOBALS['strOverall']					= "Totalt";
-$GLOBALS['strTotalBanners']				= "Bannere totalt";
-$GLOBALS['strToday']					= "I dag";
-$GLOBALS['strThisWeek']					= "Denne uka";
-$GLOBALS['strThisMonth']				= "Denne måndeden";
-$GLOBALS['strBasicInformation']			= "Hovedinformasjon";
-$GLOBALS['strContractInformation']		= "Kontraktsinformasjon";
-$GLOBALS['strLoginInformation']			= "Logginn informasjon";
-$GLOBALS['strPermissions']				= "Rettigheter";
+$GLOBALS['strNavigation'] 				= "Navigasjon";
+$GLOBALS['strShortcuts'] 				= "Snarveier";
+$GLOBALS['strDescription'] 				= "Beskrivelse";
+$GLOBALS['strClients'] 					= "Klienter";
+$GLOBALS['strID']				 		= "ID";
+$GLOBALS['strOverall'] 					= "Totalt";
+$GLOBALS['strTotalBanners'] 			= "Bannere totalt";
+$GLOBALS['strToday'] 					= "I dag";
+$GLOBALS['strThisWeek'] 				= "Denne uka";
+$GLOBALS['strThisMonth'] 				= "Denne måndeden";
+$GLOBALS['strBasicInformation'] 		= "Hovedinformasjon";
+$GLOBALS['strContractInformation'] 		= "Kontraktsinformasjon";
+$GLOBALS['strLoginInformation'] 		= "Logginn informasjon";
+$GLOBALS['strPermissions'] 				= "Rettigheter";
 $GLOBALS['strGeneralSettings']			= "Generelle innstillinger";
-$GLOBALS['strSaveChanges']				= "Lagre endringer";
+$GLOBALS['strSaveChanges']		 		= "Lagre endringer";
 $GLOBALS['strCompact']					= "Kompakt";
 $GLOBALS['strVerbose']					= "Verbose";
 $GLOBALS['strOrderBy']					= "sorter etter";
-$GLOBALS['strShowAllBanners']			= "Vis alle bannere";
+$GLOBALS['strShowAllBanners']	 		= "Vis alle bannere";
 $GLOBALS['strShowBannersNoAdClicks']	= "Vis bannere uten klikk";
 $GLOBALS['strShowBannersNoAdViews']		= "Vis bannere uten visninger";
-$GLOBALS['strShowAllClients']			= "Vis alle klienter";
-$GLOBALS['strShowClientsActive']		= "Vis klienter med aktive bannere";
+$GLOBALS['strShowAllClients'] 			= "Vis alle klienter";
+$GLOBALS['strShowClientsActive'] 		= "Vis klienter med aktive bannere";
 $GLOBALS['strShowClientsInactive']		= "Vis klienter med inaktive bannere";
 $GLOBALS['strSize']						= "Størrelse";
 
-$GLOBALS['strMonth']					= array("Januar","Februar","Mars","April","Mai","Juni","Juli", "August", "September", "Oktober", "November", "Desember");
+$GLOBALS['strMonth'] 					= array("Januar","Februar","Mars","April","Mai","Juni","Juli", "August", "September", "Oktober", "November", "Desember");
 $GLOBALS['strDontExpire']				= "Ikke sett utløp for denne kampanjen på en bestemt dato";
-$GLOBALS['strActivateNow']				= "Aktiver denne kampanjen øyeblikkelig";
+$GLOBALS['strActivateNow'] 				= "Aktiver denne kampanjen øyeblikkelig";
 $GLOBALS['strExpirationDate']			= "Utløpsdato";
 $GLOBALS['strActivationDate']			= "Aktiveringsdato";
 
-$GLOBALS['strMailClientDeactivated']	= "Følgende bannere har blitt gjort ugyldige fordi";
-$GLOBALS['strMailNothingLeft']			= "Hvis du ønsker å fortsette å reklamere på våre nettsider, ta gjerne kontakt.\nVi blir glade for å høre fra deg!";
+$GLOBALS['strMailClientDeactivated'] 	= "Følgende bannere har blitt gjort ugyldige fordi";
+$GLOBALS['strMailNothingLeft'] 			= "Hvis du ønsker å fortsette å reklamere på våre nettsider, ta gjerne kontakt.\nVi blir glade for å høre fra deg!";
 $GLOBALS['strClientDeactivated']		= "Denne kampanjen er for øyeblikket ikke aktiv fordi";
 $GLOBALS['strBeforeActivate']			= "aktiveringsdatoen er ennå ikke nådd";
 $GLOBALS['strAfterExpire']				= "utløpsdatoen har blitt nådd";
 $GLOBALS['strNoMoreClicks']				= "antall kjøpte bannerklikk er brukt";
 $GLOBALS['strNoMoreViews']				= "antall brukte bannervisninger er brukt";
 
-$GLOBALS['strBanners']					= "Bannere";
+$GLOBALS['strBanners'] 					= "Bannere";
 $GLOBALS['strCampaigns']				= "Kampanjer";
 $GLOBALS['strCampaign']					= "Kampanje";
 $GLOBALS['strModifyCampaign']			= "Endre kampanje";
@@ -225,13 +223,13 @@ $GLOBALS['strEdit']						= "Endre";
 $GLOBALS['strCreate']					= "Lag";
 $GLOBALS['strUntitled']					= "Ingen tittel";
 
-$GLOBALS['strTotalCampaigns']			= "Kampanjer totalt";
-$GLOBALS['strActiveCampaigns']			= "Aktive kampanjer";
+$GLOBALS['strTotalCampaigns'] 			= "Kampanjer totalt";
+$GLOBALS['strActiveCampaigns'] 			= "Aktive kampanjer";
 
 $GLOBALS['strLinkedTo']					= "linket til";
 $GLOBALS['strSendAdvertisingReport']	= "Send en banner rapport via epost";
 $GLOBALS['strNoDaysBetweenReports']		= "Antall dager mellom rapportene";
-$GLOBALS['strSendDeactivationWarning']	= "Send melding når en kampanje er blitt deaktivert";
+$GLOBALS['strSendDeactivationWarning']  = "Send melding når en kampanje er blitt deaktivert";
 
 $GLOBALS['strWarnClientTxt']			= "Antall klikk og visninger igjen for din(e) banner(e) er på vei under {limit}. \nDin(e) banner(e) vil bli gjort ugyldige når det ikke er noen klikk eller visninger igjen. ";
 $GLOBALS['strViewsClicksLow']			= "Antall banner visninger/klikk er lavt";
@@ -247,18 +245,18 @@ $GLOBALS['strGenerateBannercode']		= "Generer bannerkode";
 $GLOBALS['strChooseInvocationType']		= "Vennlig velg type for banner utvelgelse";
 $GLOBALS['strGenerate']					= "Generer";
 $GLOBALS['strParameters']				= "Parametre";
-$GLOBALS['strUniqueidentifier']			= "Unikt identifikasjon";
+$GLOBALS['strUniqueidentifier']			= "Unik identifikasjon";
 $GLOBALS['strFrameSize']				= "Rammestørrelse";
 $GLOBALS['strBannercode']				= "Bannerkode";
 
 $GLOBALS['strSearch']					= "Search";
 $GLOBALS['strNoMatchesFound']			= "No matches were found";
 
-$GLOBALS['strNoViewLoggedInInterval']	= "No views were logged during the span of this report";
-$GLOBALS['strNoClickLoggedInInterval']	= "No clicks were logged during the span of this report";
+$GLOBALS['strNoViewLoggedInInterval']   = "No views were logged during the span of this report";
+$GLOBALS['strNoClickLoggedInInterval']  = "No clicks were logged during the span of this report";
 $GLOBALS['strMailReportPeriod']			= "This report includes statistics from {startdate} up to {enddate}.";
 $GLOBALS['strMailReportPeriodAll']		= "This report includes all statistics up to {enddate}.";
-$GLOBALS['strNoStatsForCampaign' 		= "There are no statistics available for this campaign";
+$GLOBALS['strNoStatsForCampaign'] 		= "There are no statistics available for this campaign";
 $GLOBALS['strFrom']						= "From";
 $GLOBALS['strTo']						= "to";
 $GLOBALS['strMaintenance']				= "Maintenance";
