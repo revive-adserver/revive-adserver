@@ -5,6 +5,8 @@ mt_srand((double)microtime()*1000000);
 
 require("$phpAds_path/dblib.php"); 
 
+
+
 // Get a banner
 function get_banner($what, $clientID, $context=0, $source="")
 {
@@ -60,89 +62,167 @@ function get_banner($what, $clientID, $context=0, $source="")
 				$phpAds_tbl_banners 
 			WHERE
 				$where
-				active = 'true' ";
-
+				active = 'true'";
+		
 		if($clientID != 0)
 			$select .= " AND clientID = $clientID ";
-
-		if (ereg("^[0-9]+$", $what_parts[$wpc]))
+		
+		
+		// Rule
+		if(substr($what_parts[$wpc],0,5)=="rule:")
 		{
-			$select .= " AND bannerID = $what_parts[$wpc] ";
+			// Not yet implemented
+			// working on it --Niels
+			$select .= " AND (FETCH FROM DATABASE) ";
 		}
-    	elseif (ereg("^[0-9]+x[0-9]+$", $what_parts[$wpc]))
-    	{
-            list($width, $height) = explode("x", $what_parts[$wpc]);
-    		// Get all banners with the specified width/height
-    		$select .= " AND width = $width AND height = $height ";
-    	}
+		
+		// Other
 		elseif ($what_parts[$wpc] != "")
 		{
-			switch($what_parts[$wpc]) 
-        	{
-			// Get all HTML banners     
-			case "html":  
-				$select .= " AND format = 'html' ";
-				break;
-
-				// Not any of the special words (i.e. 'html'), So, must be a keyword
-			default: 
-				$select .= " AND (";
-
-					$what_array = explode(",",$what_parts[$wpc]);
-				for($k=0; $k<count($what_array); $k++)
+			$conditions = "";
+			$onlykeywords = true;
+			
+			$what_array = explode(",",$what_parts[$wpc]);
+			for ($k=0; $k < count($what_array); $k++)
+			{
+				// Process switches
+				if($phpAds_con_key == "1")
 				{
-					if($phpAds_con_key == "1")
+					if(substr($what_array[$k],0,1)=="+" OR substr($what_array[$k],0,1)=="_")
 					{
-						if(substr($what_array[$k],0,1)=="+" OR substr($what_array[$k],0,1)=="_")
-						{
-							$what_array[$k]=substr($what_array[$k],1);
-							$select=substr($select,0,(strlen($select)-3));
-							if($what_array[$k]!="" && $what_array[$k]!=" ")
-								$select .= "AND keyword LIKE '%".trim($what_array[$k])."%' OR ";
-						}
-						elseif(substr($what_array[$k],0,1)=="-")
-						{
-							$what_array[$k]=substr($what_array[$k],1);
-							$select=substr($select,0,(strlen($select)-3));
-							$select .= "AND keyword NOT LIKE '%".trim($what_array[$k])."%' OR ";
-						}
-						else
-						{
-							if($phpAds_mult_key == "1")
-							{
-								if($what_array[$k]!="" && $what_array[$k]!=" ")
-									$select .= "keyword LIKE '%".trim($what_array[$k])."%' OR ";
-							}
-							else
-								$select .= "keyword = '".trim($what_array[$k])."' OR ";
-						}
+						$operator = "AND";
+						$what_array[$k]=substr($what_array[$k],1);
+					}
+					elseif(substr($what_array[$k],0,1)=="-")
+					{
+						$operator = "NOT";
+						$what_array[$k]=substr($what_array[$k],1);
 					}
 					else
+						$operator = "OR";
+				}
+				else
+					$operator = "OR";
+				
+				
+				//	Test statements
+				if($what_array[$k]!="" && $what_array[$k]!=" ")
+				{
+					// Banner dimensions
+					if(ereg("^[0-9]+x[0-9]+$", $what_array[$k]))
 					{
-						if($phpAds_mult_key == "1")
-							$select .= "keyword LIKE '%".trim($what_array[$k])."%' OR ";
+						list($width, $height) = explode("x", $what_array[$k]);
+							
+						if ($operator == "OR")
+							$conditions .= "OR (width = $width AND height = $height) ";
+						elseif ($operator == "AND")
+							$conditions .= "AND (width = $width AND height = $height) ";
 						else
-							$select .= "keyword = '".trim($what_array[$k])."' OR ";
+							$conditions .= "AND (width != $width OR height != $height) ";
+						
+						$onlykeywords = false;
+					}
+					
+					// Banner ID
+					elseif((substr($what_array[$k],0,9)=="bannerid:") or (ereg("^[0-9]+$", $what_array[$k])))
+					{
+						if (substr($what_array[$k],0,9)=="bannerid:") 
+							$what_array[$k]=substr($what_array[$k],9);
+							
+						if ($what_array[$k] != "" && $what_array[$k] != " ")
+						{
+							if ($operator == "OR")
+								$conditions .= "OR bannerID='".trim($what_array[$k])."' ";
+							elseif ($operator == "AND")
+								$conditions .= "AND bannerID='".trim($what_array[$k])."' ";
+							else
+								$conditions .= "AND bannerID!='".trim($what_array[$k])."' ";
+						}
+						
+						$onlykeywords = false;
+					}
+					
+					// Client ID
+					elseif(substr($what_array[$k],0,9)=="clientid:")
+					{
+						$what_array[$k]=substr($what_array[$k],9);
+						if($what_array[$k]!="" && $what_array[$k]!=" ")
+						{
+							if ($operator == "OR")
+								$conditions .= "OR clientID='".trim($what_array[$k])."' ";
+							elseif ($operator == "AND")
+								$conditions .= "AND clientID='".trim($what_array[$k])."' ";
+							else
+								$conditions .= "AND clientID!='".trim($what_array[$k])."' ";
+						}
+						
+						$onlykeywords = false;
+					}
+					
+					// Format
+					elseif(substr($what_array[$k],0,7)=="format:")
+					{
+						$what_array[$k]=substr($what_array[$k],7);
+						if($what_array[$k]!="" && $what_array[$k]!=" ")
+						{
+							if ($operator == "OR")
+								$conditions .= "OR format='".trim($what_array[$k])."' ";
+							elseif ($operator == "AND")
+								$conditions .= "AND format='".trim($what_array[$k])."' ";
+							else
+								$conditions .= "AND format!='".trim($what_array[$k])."' ";
+						}
+						
+						$onlykeywords = false;
+					}
+					
+					// HTML
+					elseif($what_array[$k] == "html")
+					{
+						if ($operator == "OR")
+							$conditions .= "OR format='html' ";
+						elseif ($operator == "AND")
+							$conditions .= "AND format='html' ";
+						else
+							$conditions .= "AND format!='html' ";
+						
+						$onlykeywords = false;
+					}
+					
+					// Keywords
+					else
+					{
+						if($phpAds_mult_key != "1")
+							if ($operator == "OR")
+								$conditions .= "OR keyword = '".trim($what_array[$k])."' ";
+							elseif ($operator == "AND")
+								$conditions .= "AND keyword = '".trim($what_array[$k])."' ";
+							else
+								$conditions .= "AND keyword != '".trim($what_array[$k])."' ";
+						else
+							if ($operator == "OR")
+								$conditions .= "OR keyword LIKE '%".trim($what_array[$k])."%' ";
+							elseif ($operator == "AND")
+								$conditions .= "AND keyword LIKE '%".trim($what_array[$k])."%' ";
+							else
+								$conditions .= "AND keyword NOT LIKE '%".trim($what_array[$k])."%' ";
 					}
 				}
-
-                /*
-                The special 'global' keyword allows you to define a banner as global and
-                show up under all keywords. I put this in so that if I didn't have any banners 
-                for a particular keyword, instead of being blank, it would show one of the global
-                banners - Weston Bustraan <weston@infinityteldata.net> 
-                */
-                if (sizeof($what_parts) == 1)
-                {
-                    $select .= "keyword = 'global') ";
-                }
-                else
-                {
-                    $select .= "0) ";	// Not very nice, but works perfectly :-)
-                }
-				break;
-			} //switch($what_parts[$wpc])
+			}
+			
+			// Strip first AND or OR from $conditions
+			$conditions = strstr($conditions, " ");
+			
+			// Add global keyword
+			if (sizeof($what_parts) == 1 && $onlykeywords == true)
+	        {
+	        	$conditions .= "OR keyword = 'global' ";
+    	  	}
+			
+			// Add conditions to select
+			if ($conditions != "") $select .= 	" AND (" . $conditions . ") ";
 		}
+
 
 		if($phpAds_random_retrieve != 0)
 		{
