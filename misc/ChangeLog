@@ -41,6 +41,7 @@ phpAdsNew 2.0.1		+ Misc bugfixes
 			  - 2004-03-02:  Activate and Expiration date of a campaign was not handled properly in some cases - bug #883697  (Niels)
 			  - 2004-03-08:  Flash hardcoded links converter didn't recognize https:// links - bug #911919  (Matteo, thanks to M.Shumackov)
 			  - 2004-06-18:  Campaign blocking wasn't working in Javascript remote invocation with register_globals off  (Matteo)
+			  - 2004-08-17:  Fixed warnings that could show on Windows platforms in lib-expiration.inc.php - bug #1006617  (Matteo)
 
 phpAdsNew 2.0
 			+ Misc changes
