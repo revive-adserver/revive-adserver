@@ -1,69 +1,258 @@
 phpAdsNew - Developer information
 
-If you want to help us develop phpAdsNew, here are some important guidelines :
-1. Use the following control structure :
-if (expression)
-{
-	code
-}
-else
-{
-	code
-}
+If you want to help us develop phpAdsNew, here are some important guidelines:
 
-2. When you're using <?php and ?> :
-if (expression)
-{
-	?>
-	html
-	<?php
-}
 
-3. Tables :
-<table>
-	<tr>
-		<td>html</td>
-	</tr>
-	<tr>
-		<td>
-			lots of html
-		</td>
-	</tr>
-</table>
 
-4. In case of 1 line of code :
-if (expression)
-	1 line of code;
-else
-	1 line of code;
 
-5. SQL statements :
-$select = "
-	SELECT
-		column names
-	FROM
-		table names
-	WHERE
-		where clause
-	") or die(error message here);
 
-6. Arrays :
-$variable = array(
-	"value1" => "content1",
-	"value2" => "content2"
+
+CODING STYLE
+------------------------------------------------------------------------------
+
+
+Use the following control structure:
+
+	if (expression)
+	{
+		code
+	}
+	else
+	{
+		code
+	}
+
+
+
+In case of 1 line of code:
+
+	if (expression)
+		1 line of code;
+	else
+		1 line of code;
+
+
+
+Switch/case structures:
+
+	switch($variable)
+	{
+		case 1:
+			code;
+			break;
+		case 2:
+			code;
+			break;
+		default:
+			code;
+			break;
+	}
+
+In case of no default, still use the break at the last case statement. 
+You never know if a default will be added later.
+
+
+
+Arrays:
+	$variable = array(
+		"value1" => "content1",
+		"value2" => "content2"
 	);
 
-7. Switch/case structures :
-switch($variable)
-{
-	case 1:
-		code;
-		break;
-	case 2:
-		code;
-		break;
-	default:
-		code;
-		break;
-}
-In case of no default, still use the break at the last case statement. You never know if a default will be added later.
+
+
+
+
+PHP CODE
+------------------------------------------------------------------------------
+
+All PHP code should be placed between <?php and ?> tags. Do not use
+the short version <? ?>, because this isn't supported by every installation
+of PHP. If you want to print a variable inside of plain HTML, use 
+<?php echo $var; ?> instead of <?= $var ?>
+
+phpAdsNew should be PHP3 compatible, if you are not sure a function is
+available in PHP3, please check the manual: http://www.php.net/manual/en
+
+
+
+
+
+DATABASE
+------------------------------------------------------------------------------
+
+phpAdsNew will open the database connection automatically. It is not needed
+to use the phpAds_dbConnect() function or mysql_connect(). It is also not
+needed to close the database connection, phpAdsNew will take care of this
+as well.
+
+To make porting to other databases easier all mySQL specific functions are
+replaced by small functions with the same functionality:
+
+	mysql_query		=> phpAds_dbQuery
+	mysql_num_rows		=> phpAds_dbNumRows
+	mysql_fetch_array	=> phpAds_dbFetchArray
+	mysql_fetch_row		=> phpAds_dbFetchRow
+	mysql_result		=> phpAds_dbResult
+	mysql_free_result	=> phpAds_dbFreeResult
+	mysql_affected_rows	=> phpAds_dbAffectedRows
+	mysql_data_seek		=> phpAds_dbSeekRow
+	mysql_insert_id		=> phpAds_dbInsertID *
+	mysql_error		=> phpAds_dbError *
+
+* Functionality has changed. You don't need to specify the link identifier.
+  phpAdsNew will store the link identifier when it created the connection 
+  and will automatically use this link identifier when calling these functions.
+
+
+To improve readability of larger queries please use the notation below.
+If you want to add a small query, it is also possible to include in on
+one line. General rule: if the query is more than 40 chars long, the notation
+below should be used.
+
+	phpAds_dbQuery("
+		SELECT
+			column names
+		FROM
+			table names
+		WHERE
+			where clause
+	");
+
+
+
+
+FUNCTION AND VARIABLE NAMING
+------------------------------------------------------------------------------
+
+All functions, defines and global variables should use the phpAds_ prefix.
+This will prevent problems with duplicate names if phpAdsNew is used in combination
+with another product. Variables which are only used inside the scope of
+a function can use any name and should NOT use the phpAds_ prefix.
+
+
+	$i = 0;					// NOT CORRECT (used in global scope, so use prefix)
+	$phpAds_link = 0;			// CORRECT
+
+	function doSomething ()			// NOT CORRECT (used in global scope, so use prefix)
+	{
+	}
+
+	function phpAds_doSomething ()		// CORRECT
+	{
+	    global $phpAds_link;
+
+	    $i = 0;				// CORRECT
+	    $phpAds_i = 0;			// NOT CORRECT (only used in function, don't use prefix)
+	    $phpAds_link = 0;			// CORRECT     (used in global scope, so use prefix)
+	}
+
+
+
+
+
+
+
+FILE NAMING AND LOCATIONS
+------------------------------------------------------------------------------
+
+If you need to create a new file, you need to make sure it is stored in the
+right location with the correct name. Currently there are a couple of important locations:
+
+/			Only files needed during invocation should be placed in the main
+			directory. This includes main libraries and invocation files.
+
+/admin			All files which are needed only for the admin interface should
+			be placed in the admin directory (excluding images). If your
+			file is used by both the admin interface and during invocation
+			it should be placed in the main directory.
+
+/admin/images		All images should be placed inside the images directory.
+			Do not place any other files in this directory.
+
+/admin/report-plugins	All plugins used by the report engine should be stored in this
+			directory.
+
+/admin/templates	Small HTML files which can be edited by the user, for example
+			the welcome message for clients.
+
+/documentation		Storage for the documentation
+
+/language		This directory contains a directory for each different language
+			phpAdsNew supports. In each language specific directory the main
+			language file is called default.lang.php. Installation translations
+			are stored inside settings.lang.php.
+
+/maintenance		All files used by the maintenance task should be placed inside
+			the maintenance direcotory, excluding any libraries used by
+			the maintenance task.
+
+
+
+It is also important to make sure the files is named correctly. File naming
+will make it easier for other users to determine the function of the file.
+Instead of using myfile.php use a descriptive name using the following conventions:
+
+adxxx.php		Files directly called during invocation.
+			For example: adview.php, adjs.php and adframe.php
+
+lib-xxx.inc.php		Library files used by other scripts.
+			For example: lib-gui.inc.php, lib-ftp.inc.php, lib-sessions.inc.php
+
+xxx-xxx.php		Files directly called in the admin interface.
+			These files should be grouped, for example all files dealing
+			with zones use the zone- prefix, all files dealing with statistics
+			use the stats- prefix. If the file is a general file, can't be
+			easily placed in a group it should use the admin- prefix.
+			For example: banner-edit.php, banner-delete.php, banner-acl.php.
+
+xxx.plugin.php		Plugins used by the report engine.
+			For example: campaignoverview.plugin.php, campaignhistory.plugin.php
+
+xxx.lang.php		Files containing translated strings. These files are stored inside
+			a different directory for each supported language.
+			For example: default.lang.php, settings.lang.php
+
+
+All files which include PHP code, should have the .php extention.
+
+
+
+
+
+USING THE CVS AND OTHER STUFF
+------------------------------------------------------------------------------
+
+If you don't have write access to the CVS and still want to contribute code,
+you can create an new entry in the 'Patches' tracker.
+If you want to have write access to the CVS, please contact the project admin.
+
+
+All developers are encouraged to track and fix bugs. If you want to fix a specific
+bug listed in the 'Bug Tracker' or forum, please assign the bug to yourself or post 
+a comment similar to this: "I'll look into it". This prevents that multiple people
+are working on the same problem and doing the same thing twice.
+
+If you want to create a new feature, please contact the project admin first or post
+a message in one of the forums. Perhaps somebody is already working on the same 
+feature and it would be a shame if the same feature gets implemented twice.
+
+When creating new features, please take the following in mind: phpAdsNew can't
+please everybody and doesn't try to please everybody. If a certain feature is
+created for a specific situation it isn't likely to be included. If the feature
+only pleases a small group of users and causes a lot of problems for the majority
+it will be less likely this feature will be included in the main distribution.
+However if you feel the feature will benefit a lot of users we are more than
+happy to include it.
+
+
+If you made a change in the CVS, please also add an entry to the Changelog file.
+Don't forget to add your name and the date of the change.
+If you commit a new feature, and find a bug in it, you don't need to add
+the bugfix to the Changelog, unless the bug already existed in a previous release 
+or development build. The Changelog is used to document the changes between 
+releases and is not intended as a complete log of all CVS operations.
+
+
+
+
