@@ -22,6 +22,7 @@ include (phpAds_path."/lib-view-query.inc.php");
 define ("phpAds_ZoneBanners", 0);
 define ("phpAds_ZoneInteractive", 1);
 define ("phpAds_ZoneRaw", 2);
+define ("phpAds_ZoneCampaign", 3);
 
 
 /*********************************************************/
@@ -150,6 +151,46 @@ function phpAds_IsBannerInZone ($bannerid, $zoneid)
 
 
 /*********************************************************/
+/* Determine if a campaign included in a zone            */
+/*********************************************************/
+
+function phpAds_IsCampaignInZone ($clientid, $zoneid)
+{
+	global $phpAds_config;
+	
+	if (isset($zoneid) && $zoneid != '')
+	{
+		$res = phpAds_dbQuery("
+			SELECT
+				*
+			FROM
+				".$phpAds_config['tbl_zones']."
+			WHERE
+				zoneid = $zoneid
+			") or phpAds_sqlDie();
+		
+		if (phpAds_dbNumRows($res))
+		{
+			$zone = phpAds_dbFetchArray($res);
+			$what_array = explode(",", $zone['what']);
+			
+			for ($k=0; $k < count($what_array); $k++)
+			{
+				if (substr($what_array[$k],0,9) == "clientid:" && 
+				    substr($what_array[$k],9) == $clientid)
+				{
+					return (true);
+				}
+			}
+		}
+	}
+	
+	return (false);
+}
+
+
+
+/*********************************************************/
 /* Add a banner to a zone                                */
 /*********************************************************/
 
@@ -192,6 +233,78 @@ function phpAds_ToggleBannerInZone ($bannerid, $zoneid)
 			{
 				// Add to array
 				$what_array[] = 'bannerid:'.$bannerid;
+				$changed = true;
+			}
+			
+			if ($changed == true)
+			{
+				// Convert back to a string
+				$zone['what'] = implode (",", $what_array);
+				
+				// Store string back into database
+				$res = phpAds_dbQuery("
+					UPDATE
+						".$phpAds_config['tbl_zones']."
+					SET 
+						what = '".$zone['what']."'
+					WHERE
+						zoneid = $zoneid
+					") or phpAds_sqlDie();
+				
+				// Rebuild Cache
+				phpAds_RebuildZoneCache ($zoneid);
+			}
+		}
+	}
+	
+	return (false);
+}
+
+
+
+/*********************************************************/
+/* Add a campaign to a zone                              */
+/*********************************************************/
+
+function phpAds_ToggleCampaignInZone ($clientid, $zoneid)
+{
+	global $phpAds_config;
+	
+	
+	if (isset($zoneid) && $zoneid != '')
+	{
+		$res = phpAds_dbQuery("
+			SELECT
+				*
+			FROM
+				".$phpAds_config['tbl_zones']."
+			WHERE
+				zoneid = $zoneid
+			") or phpAds_sqlDie();
+		
+		if (phpAds_dbNumRows($res))
+		{
+			$zone = phpAds_dbFetchArray($res);
+			$what_array = explode(",", $zone['what']);
+			$available = false;
+			$changed = false;
+			
+			for ($k=0; $k < count($what_array); $k++)
+			{
+				if (substr($what_array[$k],0,9) == "clientid:" && 
+				    substr($what_array[$k],9) == $clientid)
+				{
+					// Remove from array
+					unset ($what_array[$k]);
+					$available = true;
+					$changed = true;
+				}
+			}
+			
+			if ($available == false)
+			{
+				// Add to array
+				$what_array[] = 'clientid:'.$clientid;
 				$changed = true;
 			}
 			

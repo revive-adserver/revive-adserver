@@ -245,7 +245,7 @@ if ($campaignid != "")
 		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
 		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignid)."</b><br><br><br>";
-		phpAds_ShowSections(array("4.1.4", "4.1.5"));
+		phpAds_ShowSections(array("4.1.4", "4.1.5", "4.1.6"));
 }
 else
 {

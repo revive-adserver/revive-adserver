@@ -455,4 +455,9 @@ $GLOBALS['strNoActionsLogged']			= "No actions are logged";
 $GLOBALS['strDeleteLog']				= "Delete Log";
 $GLOBALS['strUser']						= "User";
 
+$GLOBALS['strCampaignSelection']		= "Campaign selection";
+$GLOBALS['strMatchingBanners']			= "{count} matching banners";
+$GLOBALS['strNoCampaignsToLink']		= "There are currently no campaigns available which can be linked to this zone";
+$GLOBALS['strNoZonesToLinkToCampaign']  = "There are no zones available to which this campaign can be linked";
+
 ?>
