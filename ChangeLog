@@ -17,6 +17,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			+ Added support for MFAA clickTAG's in Flash files  (Niels) 20020109
 			+ Added support for QuickTime, Real and Shockwave files  (Niels) 20020109
 			+ Added source statistics  (Wim) 20020129
+			+ Added monthly statistics  (Niels) 20020203
 
 			+ Misc changes to library and function names
 			  - Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 20011020
@@ -74,6 +75,9 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Misc changes to the GUI of banner generators and banner linking  (Niels) 20020127
 			  - Added preliminary support for right-to-left languages  (Noor Dawod, Niels) 20020127
 			  - Added the language flag to config.inc.php (Stefan) 20020127
+			  - Moved weekly stats to the history pages and it is now 
+			    every object which has a history page, instead of campaigns only  (Niels) 20020203
+			  - Added graphs to every history page  (Niels) 20020203
 
 
 			+ Misc bugfixes
@@ -136,6 +140,8 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			    table sharing between installs using the same database  (Matteo) 20020117
 			  - Bugfix: Replaced "random_retrieve" with "retrieval_method" into help files  (Matteo) 20020117
 			  - Bugfix: Header and Footer settings should work again  (Niels) 20020126
+			  - Bugfix: Language selection always showed 'Default'  (Niels) 20020203
+			  - Bugfix: Language in the affiliate interface is now directy changed  (Niels) 20020203
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
