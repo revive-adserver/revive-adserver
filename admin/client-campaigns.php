@@ -169,7 +169,7 @@ echo "<br><br>";
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
 
 echo "<tr height='25'>";
-echo "<td height='25'><b>&nbsp;&nbsp;<a href='client-campaigns.php?clientid=".$clientid."&listorder=name'>".$GLOBALS['strName']."</a>";
+echo "<td height='25' width='40%'><b>&nbsp;&nbsp;<a href='client-campaigns.php?clientid=".$clientid."&listorder=name'>".$GLOBALS['strName']."</a>";
 
 if (($listorder == "name") || ($listorder == ""))
 {
@@ -378,9 +378,12 @@ else
 	}
 }
 
-echo "<tr height='25'><td colspan='3' height='25'>";
-echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle'>&nbsp;<a href='campaign-delete.php?clientid=".$clientid."&returnurl=client-campaigns.php'".phpAds_DelConfirm($strConfirmDeleteAllCampaigns).">$strDeleteAllCampaigns</a>&nbsp;&nbsp;";
-echo "</td></tr>";
+if (count($campaigns))
+{
+	echo "<tr height='25'><td colspan='3' height='25'>";
+	echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle'>&nbsp;<a href='campaign-delete.php?clientid=".$clientid."&returnurl=client-campaigns.php'".phpAds_DelConfirm($strConfirmDeleteAllCampaigns).">$strDeleteAllCampaigns</a>&nbsp;&nbsp;";
+	echo "</td></tr>";
+}
 
 echo "</table>";
 echo "<br><br>";
