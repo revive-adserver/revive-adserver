@@ -69,8 +69,7 @@ function phpAds_GenerateInvocationCode()
 			$parameters[] = "n=".$uniqueid;	
 		
 		$buffer .= "<a href='".$phpAds_config['url_prefix']."/adclick.php";
-		if (isset($uniqueid) & $uniqueid != '')
-			$buffer .= "?n=".$uniqueid;
+		$buffer .= "?n=".$uniqueid;
 		$buffer .= "'";
 		if (isset($target) && $target != '')
 			$buffer .= " target='$target'";
@@ -87,8 +86,9 @@ function phpAds_GenerateInvocationCode()
 			$parameters[] = "withText=0";
 		
 		$buffer .= "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adjs.php";
+		$buffer .= "?n=".$uniqueid;
 		if (sizeof($parameters) > 0)
-			$buffer .= "?".implode ("&", $parameters);
+			$buffer .= "&".implode ("&", $parameters);
 		$buffer .= "'></script>";
 	}
 	
@@ -102,8 +102,9 @@ function phpAds_GenerateInvocationCode()
 			$parameters[] = "resize=1";
 		
 		$buffer .= "<iframe id='".$uniqueid."' name='".$uniqueid."' src='".$phpAds_config['url_prefix']."/adframe.php";
+		$buffer .= "?n=".$uniqueid;
 		if (sizeof($parameters) > 0)
-			$buffer .= "?".implode ("&", $parameters);
+			$buffer .= "&".implode ("&", $parameters);
 		$buffer .= "' framespacing='0' frameborder='no' scrolling='no'";
 		if (isset($width) & $width != '')
 			$buffer .= " width='".$width."'";
@@ -123,8 +124,7 @@ function phpAds_GenerateInvocationCode()
 			$parameters[] = "n=".$uniqueid;	
 		
 		$buffer .= "<a href='".$phpAds_config['url_prefix']."/adclick.php";
-		if (isset($uniqueid) & $uniqueid != '')
-			$buffer .= "?n=".$uniqueid;
+		$buffer .= "?n=".$uniqueid;
 		$buffer .= "'";
 		if (isset($target) && $target != '')
 			$buffer .= " target='$target'";
@@ -135,7 +135,7 @@ function phpAds_GenerateInvocationCode()
 		
 		$buffer .= "</iframe>";
 	}
-
+	
 	// Combined remote invocation
 	if ($codetype=='ad')
 	{
@@ -144,8 +144,9 @@ function phpAds_GenerateInvocationCode()
 			$parameters['withtext'] = "withText=0";
 		
 		$buffer .= "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adjs.php";
+		$buffer .= "?n=".$uniqueid;
 		if (sizeof($parameters) > 0)
-			$buffer .= "?".implode ("&", $parameters);
+			$buffer .= "&".implode ("&", $parameters);
 		$buffer .= "'></script>";
 		
 		if (isset($parameters['withtext']))
@@ -160,8 +161,9 @@ function phpAds_GenerateInvocationCode()
 			$parameters['resize'] = "resize=".$resize;
 		
 		$buffer .= "<iframe id='".$uniqueid."' name='".$uniqueid."' src='".$phpAds_config['url_prefix']."/adframe.php";
+		$buffer .= "?n=".$uniqueid;
 		if (sizeof($parameters) > 0)
-			$buffer .= "?".implode ("&", $parameters);
+			$buffer .= "&".implode ("&", $parameters);
 		$buffer .= "' framespacing='0' frameborder='no' scrolling='no'";
 		if (isset($width) & $width != '')
 			$buffer .= " width='".$width."'";
@@ -181,8 +183,7 @@ function phpAds_GenerateInvocationCode()
 			$parameters[] = "n=".$uniqueid;	
 		
 		$buffer .= "<a href='".$phpAds_config['url_prefix']."/adclick.php";
-		if (isset($uniqueid) & $uniqueid != '')
-			$buffer .= "?n=".$uniqueid;
+		$buffer .= "?n=".$uniqueid;
 		$buffer .= "'";
 		if (isset($target) && $target != '')
 			$buffer .= " target='$target'";
@@ -212,20 +213,21 @@ function phpAds_GenerateInvocationCode()
 			$parameters[] = "timeout=".$timeout;
 		
 		$buffer .= "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adpopup.php";
+		$buffer .= "?n=".$uniqueid;
 		if (sizeof($parameters) > 0)
-			$buffer .= "?".implode ("&", $parameters);
+			$buffer .= "&".implode ("&", $parameters);
 		$buffer .= "'></script>";
 	}
 	
 	// Remote invocation for layers
 	if ($codetype=='adlayer')
 		$buffer = phpAds_generateLayerCode($parameters);
-
+	
 	// Remote invocation using XML-RPC
 	if ($codetype=='xmlrpc')
 	{
 		$params = parse_url($phpAds_config['url_prefix']);
-
+		
 		switch($hostlanguage)
 		{
 			case 'php':
@@ -256,9 +258,8 @@ function phpAds_GenerateInvocationCode()
 		$buffer .= "    require($path);\n";
 		$buffer .= "    view ('$what', $clientid, '$target', '$source', '$withText');\n";
 		$buffer .= "?".">";
-	
 	}
-
+	
 	return $buffer;
 }
 
@@ -294,10 +295,10 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		echo "<option value='adview'".($codetype == 'adview' ? ' selected' : '').">".$GLOBALS['strInvocationRemote']."</option>";
 		echo "<option value='adjs'".($codetype == 'adjs' ? ' selected' : '').">".$GLOBALS['strInvocationJS']."</option>";
 		echo "<option value='adframe'".($codetype == 'adframe' ? ' selected' : '').">".$GLOBALS['strInvocationIframes']."</option>";
+		echo "<option value='xmlrpc'".($codetype == 'xmlrpc' ? ' selected' : '').">".$GLOBALS['strInvocationXmlRpc']."</option>";
 		echo "<option value='ad'".($codetype == 'ad' ? ' selected' : '').">".$GLOBALS['strInvocationCombined']."</option>";
 		echo "<option value='popup'".($codetype == 'popup' ? ' selected' : '').">".$GLOBALS['strInvocationPopUp']."</option>";
 		echo "<option value='adlayer'".($codetype == 'adlayer' ? ' selected' : '').">".$GLOBALS['strInvocationAdLayer']."</option>";
-		echo "<option value='xmlrpc'".($codetype == 'xmlrpc' ? ' selected' : '').">".$GLOBALS['strInvocationXmlRpc']."</option>";
 		if (phpAds_isUser(phpAds_Admin)) echo "<option value='local'".($codetype == 'local' ? ' selected' : '').">".$GLOBALS['strInvocationLocal']."</option>";
 		echo "</select>";
 		echo "&nbsp;<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0'>";
