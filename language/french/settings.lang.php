@@ -92,9 +92,9 @@ $GLOBALS['strConfigNotWritable']		= "Votre fichier config.inc.php n'est pas insc
 // Global
 $GLOBALS['strChooseSection']			= "Choisissez une section";
 $GLOBALS['strDayFullNames'] 			= array("Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi");
-$GLOBALS['strEditConfigNotPossible']		= "Il n'est pas possible d'éditer ces réglages, car le fichier de configuration est bloqué pour des raisons de sécurité.<br> ".
+$GLOBALS['strEditConfigNotPossible']		= "Il n'est pas possible d'éditer ces réglages, car le fichier de configuration est bloqué pour des raisons de sécurité. ".
 						  "Si vous voulez faire des changements, vous devez d'abord débloquer le fichier config.inc.php.";
-$GLOBALS['strEditConfigPossible']		= "Il est possible d'éditer tous les paramètres, car le fichier de configuration n'est pas bloqué, mais cela peut entraîner des failles de sécurité.<br> ".
+$GLOBALS['strEditConfigPossible']		= "Il est possible d'éditer tous les paramètres, car le fichier de configuration n'est pas bloqué, mais cela peut entraîner des failles de sécurité. ".
 						  "Si vous voulez sécuriser votre système, vous devez bloquer le fichier config.inc.php.";
 
 
@@ -128,8 +128,6 @@ $GLOBALS['strAllowInterstitial']		= "Autoriser les interstitiels";
 $GLOBALS['strAllowPopups']			= "Autoriser les popups";
 
 $GLOBALS['strUseAcl']				= "Utiliser la limitation de distribution";
-$GLOBALS['strGeotrackingType']			= "Type de base de données de suivi géographique";
-$GLOBALS['strGeotrackingLocation'] 		= "Emplacement de la base de données de suivi géographique";
 
 $GLOBALS['strKeywordRetrieval']			= "Sélection des bannières par mots clés";
 $GLOBALS['strBannerRetrieval']			= "Méthode de sélection des bannières";
@@ -194,6 +192,12 @@ $GLOBALS['strLogAdviews']			= "Journaliser les affichages ";
 $GLOBALS['strBlockAdviews']			= "Protection contre les entrées multiples dans le journal (sec.)";
 $GLOBALS['strLogAdclicks']			= "Journaliser les clics";
 $GLOBALS['strBlockAdclicks']			= "Protection contre les entrées multiples dans le journal (sec.)";
+
+$GLOBALS['strGeotargeting']			= "Détermination de la position géographique";
+$GLOBALS['strGeotrackingType']			= "Type de base de données de suivi géographique";
+$GLOBALS['strGeotrackingLocation']		= "Emplacement de la base de données de suivi géographique";
+$GLOBALS['strGeoLogStats']			= "Journaliser le pays d'origine du visiteur dans les statistiques";
+$GLOBALS['strGeoStoreCookie']			= "Stocker le résultat du positionnement géographique dans un cookie pour s'y référencer plus tard";
 
 $GLOBALS['strEmailWarnings']			= "Avertissements par Email";
 $GLOBALS['strAdminEmailHeaders']		= "En-têtes Mail utilisées lors de l'envoi d'un avertissement";

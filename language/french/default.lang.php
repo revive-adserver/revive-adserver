@@ -104,6 +104,7 @@ $GLOBALS['strFieldContainsErrors']		= "Le champ suivant contient des erreurs:";
 $GLOBALS['strFieldFixBeforeContinue1']		= "Avant de pouvoir continuer, vous devez";
 $GLOBALS['strFieldFixBeforeContinue2']		= "corriger ces erreurs.";
 $GLOBALS['strDelimiter']			= "Delimiteur";
+$GLOBALS['strMiscellaneous']			= "Divers";
 
 
 // Properties
@@ -434,15 +435,20 @@ $GLOBALS['strCreditStats'] 			= "Statistiques des crédits";
 $GLOBALS['strDetailStats'] 			= "Statistiques détaillées";
 $GLOBALS['strTotalThisPeriod']			= "Total pour cette période";
 $GLOBALS['strAverageThisPeriod']		= "Moyenne pour cette période";
-$GLOBALS['strDistribution']			= "Distribution";
+$GLOBALS['strDistribution']			= "Répartition";
 $GLOBALS['strResetStats'] 			= "Réinitialiser les statistiques";
 $GLOBALS['strSourceStats']			= "Statistiques des sources";
 $GLOBALS['strSelectSource']			= "Sélectionnez la source que vous souhaitez voir:";
+$GLOBALS['strSizeDistribution']			= "Répartition par taille";
+$GLOBALS['strCountryDistribution']		= "Répartition par pays";
+$GLOBALS['strEffectivity']			= "Effectivité";
 
 
 // Hosts
 $GLOBALS['strHosts']				= "Machines clientes";
 $GLOBALS['strTopTenHosts'] 			= "Top 10 des machines clientes";
+$GLOBALS['strTopHosts']				= "Classement des machines clientes";
+$GLOBALS['strTopCountries']			= "Classement des pays";
 
 
 // Expiration
