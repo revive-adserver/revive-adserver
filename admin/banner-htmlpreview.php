@@ -53,7 +53,7 @@ if ($res)
 		$htmlcode = str_replace ('{bannerid}', $bannerid, $htmlcode);
 		$htmlcode = str_replace ('{zoneid}', '', $htmlcode);
 		$htmlcode = str_replace ('{source}', '', $htmlcode);
-		$htmlcode = str_replace ('{target}', $target, $htmlcode);
+		$htmlcode = str_replace ('{target}', '_blank', $htmlcode);
 		$htmlcode = str_replace ('[bannertext]', '', $htmlcode);
 		$htmlcode = str_replace ('[/bannertext]', '', $htmlcode);
 		

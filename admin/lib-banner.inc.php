@@ -257,7 +257,7 @@ function phpAds_getBannerCache($banner)
 	
 	
 	// Set status text
-	if ($banner['status'] != '')
+	if (isset($banner['status']) && $banner['status'] != '')
 	{
 		$buffer = str_replace ('{status}', $banner['status'], $buffer);
 		$buffer = str_replace ('[status]', '', $buffer);
@@ -268,7 +268,7 @@ function phpAds_getBannerCache($banner)
 	
 	
 	// Set bannertext
-	if ($banner['bannertext'] != '')
+	if (isset($banner['bannertext']) && $banner['bannertext'] != '')
 		$buffer = str_replace ('{bannertext}', $banner['bannertext'], $buffer);
 	else
 		$buffer = eregi_replace ("\[bannertext\](.*)\[\/bannertext\]", '', $buffer);
@@ -309,7 +309,7 @@ function phpAds_getBannerCache($banner)
 	
 	
 	// Replace targeturl
-	if ($banner['url'] != '')
+	if (isset($banner['url']) && $banner['url'] != '')
 		$buffer = str_replace ('{targeturl}', $phpAds_config['url_prefix'].'/adclick.php?bannerid={bannerid}&zoneid={zoneid}&source={source}&dest='.urlencode($banner['url']), $buffer);
 	else
 		$buffer = str_replace ('{targeturl}', '', $buffer);
