@@ -150,6 +150,7 @@ $phpAds_nav = array (
 		        "2.4.2.1.2"			=>  array("stats-zone-daily-hosts.php?affiliateid=$affiliateid&zoneid=$zoneid&day=$day" => $strHosts),
 		      "2.4.2.2"				=>  array("stats-zone-linkedbanners.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strLinkedBannersOverview),
 		        "2.4.2.2.1"			=>  array("stats-linkedbanner-history.php?affiliateid=$affiliateid&zoneid=$zoneid&bannerid=$bannerid" => $strLinkedBannerHistory),
+	      "2.5"		 				=> 	array("stats-global-misc.php" => $strMiscellaneous),
 		"3"							=>  array("report-index.php" => $strReports),
 		"4"							=>	array("client-index.php" => $strAdminstration),
 		  "4.1"						=>	array("client-index.php" => $strClientsAndCampaigns),
