@@ -58,7 +58,7 @@ if (isset($submit))
 		'$clicks',
 		'$clientusername',
 		'$clientpassword',
-		$expire)")
+		\"$expire\")")
 	or mysql_die();  
    Header("Location: admin.php$fncpageid&message=".urlencode($message));
    exit;
