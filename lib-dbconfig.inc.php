@@ -18,8 +18,8 @@ define ('LIBDBCONFIG_INCLUDED', true);
 
 
 // Current phpAds version
-$phpAds_version = 200.116;
-$phpAds_version_readable = "2 dev 16102002";
+$phpAds_version = 200.117;
+$phpAds_version_readable = "2 dev 27102002";
 $phpAds_productname = "phpAdsNew";
 $phpAds_producturl = "www.phpadsnew.com";
 $phpAds_dbmsname = "MySQL";
@@ -40,6 +40,7 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'tbl_affiliates' =>				array ('type' => 'string', 	'sql' => false),
 	'tbl_images' =>					array ('type' => 'string', 	'sql' => false),
 	'tbl_userlog' =>				array ('type' => 'string', 	'sql' => false),
+	'tbl_cache' =>					array ('type' => 'string', 	'sql' => false),
 	'tbl_config' => 				array ('type' => 'string', 	'sql' => false),
 	'table_prefix' =>				array ('type' => 'string', 	'sql' => false),
 	'persistent_connections' =>		array ('type' => 'boolean', 'sql' => false),
@@ -51,8 +52,7 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'p3p_policy_location' => 		array ('type' => 'string', 	'sql' => false),
 	'default_banner_url' => 		array ('type' => 'string', 	'sql' => false),
 	'default_banner_target' =>		array ('type' => 'string', 	'sql' => false),
-	'zone_cache' => 				array ('type' => 'boolean', 'sql' => false),
-	'zone_cache_limit' => 			array ('type' => 'integer', 'sql' => false),
+	'delivery_caching' =>			array ('type' => 'string', 	'sql' => false),
 	'type_html_auto' => 			array ('type' => 'boolean', 'sql' => false),
 	'type_html_php' => 				array ('type' => 'boolean', 'sql' => false),
 	'con_key' =>					array ('type' => 'boolean', 'sql' => false),

@@ -272,8 +272,13 @@ if (phpAds_isUser(phpAds_Admin))
 		// Update banner cache off all banners
 		phpAds_upgradeHTMLCache();
 		
-		// Rebuild cache of all zones
-		phpAds_RebuildZoneCache();
+		
+		// Rebuild cache
+		if (!defined('LIBVIEWCACHE_INCLUDED'))
+			include (phpAds_path.'/lib-view-cache-'.$phpAds_config['delivery_caching'].'.inc.php');
+		
+		phpAds_cacheDelete();
+		
 		
 		// Check if priority recalculation is needed
 		list($banners, $priority_sum) = phpAds_dbFetchRow(phpAds_dbQuery("

@@ -153,7 +153,9 @@ if (isset($zoneid) && $zoneid != '')
 		}
 		
 		// Rebuild Cache
-		phpAds_RebuildZoneCache ($zoneid);
+		if (!defined('LIBVIEWCACHE_INCLUDED'))  include (phpAds_path.'/lib-view-cache-'.$phpAds_config['delivery_caching'].'.inc.php');
+		
+		phpAds_cacheDelete('zone:'.$zoneid);
 		
 		header ("Location: zone-probability.php?affiliateid=".$affiliateid."&zoneid=".$zoneid);
 		exit;

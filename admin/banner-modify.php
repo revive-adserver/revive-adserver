@@ -45,9 +45,11 @@ if (isset($bannerid) && $bannerid != '')
 		// Rebuild priorities
 		phpAds_PriorityCalculate ();
 		
-		// Rebuild zone cache
-		if ($phpAds_config['zone_cache'])
-			phpAds_RebuildZoneCache ();
+		// Rebuild cache
+		if (!defined('LIBVIEWCACHE_INCLUDED')) 
+			include (phpAds_path.'/lib-view-cache-'.$phpAds_config['delivery_caching'].'.inc.php');
+		
+		phpAds_cacheDelete();
 		
 		// Get new clientid
 		$clientid = phpAds_getParentID ($moveto);
@@ -215,9 +217,13 @@ if (isset($bannerid) && $bannerid != '')
 		// Rebuild priorities
 		phpAds_PriorityCalculate ();
 		
-		// Rebuild zone cache
-		if ($phpAds_config['zone_cache'])
-			phpAds_RebuildZoneCache ();
+		
+		// Rebuild cache
+		if (!defined('LIBVIEWCACHE_INCLUDED')) 
+			include (phpAds_path.'/lib-view-cache-'.$phpAds_config['delivery_caching'].'.inc.php');
+		
+		phpAds_cacheDelete();
+		
 		
 		Header ("Location: ".$returnurl."?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$new_bannerid);
 	}

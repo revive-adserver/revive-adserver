@@ -34,6 +34,14 @@ $report = phpAds_PriorityCalculate();
 if ($report != '' && $phpAds_config['userlog_priority'])
 	phpAds_userlogAdd (phpAds_actionPriorityCalculation, 0, $report);
 
+
+// Rebuild cache
+if (!defined('LIBVIEWCACHE_INCLUDED')) 
+	include (phpAds_path.'/lib-view-cache-'.$phpAds_config['delivery_caching'].'.inc.php');
+
+phpAds_cacheDelete();
+
+
 Header("Location: maintenance-priority.php");
 
 ?>

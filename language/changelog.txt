@@ -12,6 +12,16 @@
 
   ====================================================
 
+  27-10-2002 - maintenance
+    [-] strZoneCache
+    [-] strRebuildZoneCache
+    [-] strZoneCacheExplaination
+    [+] strCache
+    [+] strRebuildDeliveryCache
+    [+] strDeliveryCacheExplaination
+    [+] strDeliveryCacheSharedMem
+    [+] strDeliveryCacheDatabase
+
   23-10-2002 - maintenance
     [+] strNotAbleToCheck
     [+] strForUpdatesLookOnWebsite

@@ -18,7 +18,11 @@
 require ("config.php");
 require ("lib-maintenance.inc.php");
 require ("lib-statistics.inc.php");
-require ("lib-zones.inc.php");
+
+
+// Rebuild cache
+if (!defined('LIBVIEWCACHE_INCLUDED')) 
+	include (phpAds_path.'/lib-view-cache-'.$phpAds_config['delivery_caching'].'.inc.php');
 
 
 // Security check
@@ -40,29 +44,14 @@ phpAds_MaintenanceSelection("zones");
 /* Main code                                             */
 /*********************************************************/
 
-function phpAds_showZones ()
+function phpAds_showCache ()
 {
 	global $phpAds_config;
-	global $strUntitled, $strName, $strID, $strAge, $strSize, $strKiloByte;
-	global $strSeconds, $strExpired;
+	global $strKeyword, $strSize, $strKiloByte;
 	global $phpAds_TextDirection;
 	
 	
-	$res = phpAds_dbQuery("
-		SELECT 
-			*
-		FROM 
-			".$phpAds_config['tbl_zones']."
-		ORDER BY
-			zoneid
-	");
-	
-	$rows = array();
-	
-	while ($tmprow = phpAds_dbFetchArray($res))
-	{
-		$rows[$tmprow['zoneid']] = $tmprow; 
-	}
+	$rows = phpAds_cacheInfo();
 	
 	if (is_array($rows))
 	{
@@ -71,15 +60,12 @@ function phpAds_showZones ()
 		// Header
 		echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
 		echo "<tr height='25'>";
-		echo "<td height='25'><b>&nbsp;&nbsp;".$strName."</b></td>";
-		echo "<td height='25'><b>".$strID."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>";
-		echo "<td height='25'><b>".$strAge."</b></td>";
+		echo "<td height='25'><b>&nbsp;&nbsp;".$strKeyword."</b></td>";
 		echo "<td height='25'><b>".$strSize."</b></td>";
 		echo "</tr>";
 		
 		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 		
-		// Banners
 		for (reset($rows);$key=key($rows);next($rows))
 		{
 			if ($i > 0) echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
@@ -89,20 +75,18 @@ function phpAds_showZones ()
 			echo "<td height='25'>";
 			echo "&nbsp;&nbsp;";
 			
-			// Zone icon
-			echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
+			// Icon
+			if (substr($key,0,5) == 'zone:')
+				echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
+			else
+				echo "<img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;";
+			
 			
 			// Name
-			echo $rows[$key]['zonename'];
+			echo $key;
 			echo "</td>";
 			
-			echo "<td height='25'>".$rows[$key]['zoneid']."</td>";
-			
-			echo "<td height='25'>";
-			echo (time() - $rows[$key]['cachetimestamp'] > $phpAds_config['zone_cache_limit']) ? $strExpired : (time() - $rows[$key]['cachetimestamp']).' '.$strSeconds;
-			echo "</td>";
-			
-			echo "<td height='25'>".round (strlen($rows[$key]['cachecontents']) / 1024)." ".$strKiloByte."</td>";
+			echo "<td height='25'>".round ($rows[$key] / 1024)." ".$strKiloByte."</td>";
 			
 			echo "</tr>";
 			$i++;
@@ -115,20 +99,22 @@ function phpAds_showZones ()
 }
 
 
-echo "<br>";
-echo str_replace ('{seconds}', $phpAds_config['zone_cache_limit'], $strZoneCacheExplaination);
+echo "<br>".$strDeliveryCacheExplaination;
+
+if ($phpAds_config['delivery_caching'] == 'shm')
+	echo $strDeliveryCacheSharedMem;
+else
+	echo $strDeliveryCacheDatabase;
+
 echo "<br><br>";
 
 phpAds_ShowBreak();
 
-if ($phpAds_config['zone_cache'])
-{
-	echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-zones-rebuild.php'>$strRebuildZoneCache</a>&nbsp;&nbsp;";
-	phpAds_ShowBreak();
-}
+echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-cache-rebuild.php'>$strRebuildDeliveryCache</a>&nbsp;&nbsp;";
+phpAds_ShowBreak();
 
 echo "<br><br>";
-phpAds_showZones();
+phpAds_showCache();
 echo "<br><br>";
 
 

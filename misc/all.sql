@@ -34,6 +34,16 @@ CREATE TABLE phpads_affiliates (
 );
 
 
+-- Table structure for table 'phpads_cache'
+
+
+CREATE TABLE phpads_cache (
+   cacheid varchar(255) NOT NULL,
+   content blob NOT NULL,
+   PRIMARY KEY (cacheid)
+);
+
+
 -- Table structure for table 'phpads_zones'
 
 
@@ -47,8 +57,6 @@ CREATE TABLE phpads_zones (
    what blob NOT NULL,
    width smallint(6) DEFAULT '0' NOT NULL,
    height smallint(6) DEFAULT '0' NOT NULL,
-   cachecontents mediumblob,
-   cachetimestamp int(11) DEFAULT '0' NOT NULL,
    chain blob NOT NULL,
    prepend blob NOT NULL,
    append blob NOT NULL,

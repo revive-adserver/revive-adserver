@@ -28,8 +28,13 @@ phpAds_checkAccess(phpAds_Admin);
 /* Main code                                             */
 /*********************************************************/
 
-phpAds_RebuildZoneCache ();
+// Rebuild cache
+if (!defined('LIBVIEWCACHE_INCLUDED')) 
+	include (phpAds_path.'/lib-view-cache-'.$phpAds_config['delivery_caching'].'.inc.php');
 
-Header("Location: maintenance-zones.php");
+phpAds_cacheDelete();
+
+
+Header("Location: maintenance-cache.php");
 
 ?>

@@ -72,12 +72,17 @@ if (phpAds_isUser(phpAds_Client))
 					bannerid = '$bannerid'
 				") or phpAds_sqlDie();
 			
-			// Rebuild zone cache
-			if ($phpAds_config['zone_cache'])
-				phpAds_RebuildZoneCache ();
 			
 			// Rebuild priorities
 			phpAds_PriorityCalculate ();
+			
+			
+			// Rebuild cache
+			if (!defined('LIBVIEWCACHE_INCLUDED')) 
+				include (phpAds_path.'/lib-view-cache-'.$phpAds_config['delivery_caching'].'.inc.php');
+			
+			phpAds_cacheDelete();
+			
 			
 			Header("Location: stats-campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid);
 		}
@@ -118,9 +123,13 @@ if (phpAds_isUser(phpAds_Admin))
 	// Rebuild priorities
 	phpAds_PriorityCalculate ();
 	
-	// Rebuild zone cache
-	if ($phpAds_config['zone_cache'])
-		phpAds_RebuildZoneCache ();
+	
+	// Rebuild cache
+	if (!defined('LIBVIEWCACHE_INCLUDED')) 
+		include (phpAds_path.'/lib-view-cache-'.$phpAds_config['delivery_caching'].'.inc.php');
+	
+	phpAds_cacheDelete();
+	
 	
 	Header("Location: campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid);
 }

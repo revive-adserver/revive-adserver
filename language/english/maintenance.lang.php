@@ -42,15 +42,21 @@ $GLOBALS['strBannerCacheExplaination']		= "
 ";
 
 
-// Zone cache
-$GLOBALS['strZoneCache']			= "Zone cache";
+// Cache
+$GLOBALS['strCache']			= "Delivery cache";
 $GLOBALS['strAge']				= "Age";
-$GLOBALS['strRebuildZoneCache']			= "Rebuild zone cache";
-$GLOBALS['strZoneCacheExplaination']		= "
-	The zone cache is used to speed up delivery of banners which are linked to zones. The zone cache contains a copy of all the banners
+$GLOBALS['strRebuildDeliveryCache']			= "Rebuild delivery cache";
+$GLOBALS['strDeliveryCacheExplaination']		= "
+	The delivery cache is used to speed up delivery of banners. The cache contains a copy of all the banners
 	which are linked to the zone which saves a number of database queries when the banners are actually delivered to the user. The cache
 	is usually rebuild everytime a change is made to the zone or one of it's banners, it is possible the cache will become outdated. Because
-	of this the cache will automatically rebuild every {seconds} seconds, but it is also possible to rebuild the cache manually.
+	of this the cache will automatically rebuild every hour, but it is also possible to rebuild the cache manually.
+";
+$GLOBALS['strDeliveryCacheSharedMem']		= "
+	Shared memory is currently being used for storing the delivery cache.
+";
+$GLOBALS['strDeliveryCacheDatabase']		= "
+	The database is currently being used for storing the delivery cache.
 ";
 
 

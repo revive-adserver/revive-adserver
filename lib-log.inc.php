@@ -101,11 +101,11 @@ function phpAds_logExpire ($clientid, $type=0)
 				phpAds_PriorityCalculate ();
 				
 				
-				// Recalculate zonecache
-				if (!defined('LIBZONES_INCLUDED'))  
-					require (phpAds_path.'/admin/lib-zones.inc.php');
+				// Recalculate cache
+				if (!defined('LIBVIEWCACHE_INCLUDED'))  
+					include (phpAds_path.'/lib-view-cache-'.$phpAds_config['delivery_caching'].'.inc.php');
 				
-				phpAds_RebuildZoneCache();
+				phpAds_cacheDelete();
 				
 				
 				// Include warning library

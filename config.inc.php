@@ -29,6 +29,7 @@ $phpAds_config['tbl_config'] = 'phpads_config';
 $phpAds_config['tbl_affiliates'] = 'phpads_affiliates';
 $phpAds_config['tbl_images'] = 'phpads_images';
 $phpAds_config['tbl_userlog'] = 'phpads_userlog';
+$phpAds_config['tbl_cache'] = 'phpads_cache';
 
 // Database table name prefix
 $phpAds_config['table_prefix'] = 'phpads_';
@@ -154,6 +155,10 @@ $phpAds_config['warn_limit'] = 100;
 /* Banner retrieval                                      */
 /*********************************************************/
 
+// Delivery caching type?
+// Possible options: db, shm
+$phpAds_config['delivery_caching'] = 'db';
+
 // Use conditional keywords?
 $phpAds_config['con_key'] = true;
 
@@ -169,13 +174,6 @@ $phpAds_config['acl'] = true;
 // or leave them empty if you don't want to show a banner when this happens.
 $phpAds_config['default_banner_url'] = '';
 $phpAds_config['default_banner_target'] = '';
-
-// Cache zones, this should speed things up when using zones
-$phpAds_config['zone_cache'] = true;
-
-// Time between cache updates (in seconds)
-// Once this limit has been reached the cache will be rebuild
-$phpAds_config['zone_cache_limit'] = 300; // Reload every 5 minutes
 
 
 

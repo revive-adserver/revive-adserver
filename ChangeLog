@@ -12,6 +12,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			+ The source parameter can now be overwritten in Flash banners with multiple links in order to be able to log each destination url as a seperate entity (Niels, 2002-10-14)
 			+ Added the ability to log the geotargeting data in the statistics if 'verbose stats' are used  (Niels, 2002-10-17)
 			+ Added keyboard shortcuts for some functions and navigation and changed the tab order for most pages  (Niels, 2002-10-23)
+			+ Added experimental support for storing delivery caches in shared memory instead of the database  (Niels, 2002-10-27)
 
 			+ Misc changes
 			  - 2002-07-26:  Added daily and hosts pages for affiliates and zones (Matteo)
@@ -103,6 +104,8 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-10-13:  </body></html> weren't added to the popup HTML code for IE  (Niels)
 			  - 2002-10-15:  Added a check to the installer to make sure the database extension is available  (Niels)
 			  - 2002-10-23:  Added a check for product updates to make sure the XML extension is available  (Niels)
+			  - 2002-10-27:  In some cases the delivery cache was not rebuild after priority calculations  (Niels)
+			  - 2002-10-27:  Fixed an E_ALL warning in the priority library  (Niels)
 
 
 v 2.0beta7		+ Added configuration manager  (Matteo, 2001-11-04)

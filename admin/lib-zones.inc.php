@@ -17,10 +17,6 @@
 define ('LIBZONES_INCLUDED', true);
 
 
-// Include required files
-if (!defined('LIBVIEWQUERY_INCLUDED'))  require (phpAds_path.'/lib-view-query.inc.php');
-
-
 // Define zonetypes
 define ("phpAds_ZoneBanners", 0);
 define ("phpAds_ZoneInteractive", 1);
@@ -36,97 +32,6 @@ define ("phpAds_ZoneText", 3);
 // Define appendtypes
 define ("phpAds_ZoneAppendRaw", 0);
 define ("phpAds_ZoneAppendZone", 1);
-
-
-
-/*********************************************************/
-/* Rebuild zonecache                                     */
-/*********************************************************/
-
-function phpAds_RebuildZoneCache ($zoneid = '')
-{
-	global $phpAds_config;
-	
-	if ($zoneid == '')
-	{
-		$res_zones = phpAds_dbQuery("
-			SELECT 
-				*
-			FROM 
-				".$phpAds_config['tbl_zones']."
-			") or phpAds_sqlDie();
-		
-		while ($row_zones = phpAds_dbFetchArray($res_zones))
-		{
-			phpAds_RebuildZoneCache ($row_zones['zoneid']);
-		}
-	}
-	else
-	{
-		// Get zone
-		$zoneres = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_zones']." WHERE zoneid='$zoneid' ");
-		
-		if (phpAds_dbNumRows($zoneres) > 0)
-		{
-			$zone = phpAds_dbFetchArray($zoneres);
-			
-			// Set what parameter to zone settings
-			if (isset($zone['what']) && $zone['what'] != '')
-				$what = $zone['what'];
-			else
-				// If what is empty, use banner with the default keyword
-				$what = 'default';
-			
-			
-			
-			if ($phpAds_config['zone_cache'])
-			{
-				$precondition = '';
-				
-				// Size preconditions
-				if ($zone['width'] > -1)
-					$precondition .= " AND ".$phpAds_config['tbl_banners'].".width = ".$zone['width']." ";
-				
-				if ($zone['height'] > -1)
-					$precondition .= " AND ".$phpAds_config['tbl_banners'].".height = ".$zone['height']." ";
-						
-				// Text Ads preconditions
-				if ($zone['delivery'] == phpAds_ZoneText)
-					$precondition .= " AND ".$phpAds_config['tbl_banners'].".storagetype = 'txt' ";
-				else
-					$precondition .= " AND ".$phpAds_config['tbl_banners'].".storagetype <> 'txt' ";
-				
-				
-				// Get banners
-				$select = phpAds_buildQuery ($what, false, $precondition);
-				$res    = phpAds_dbQuery($select);
-				
-				// Build array for further processing...
-				$rows = array();
-				$prioritysum = 0;
-				while ($tmprow = phpAds_dbFetchArray($res))
-				{
-					// weight of 0 disables the banner
-					if ($tmprow['priority'])
-					{
-						$prioritysum += $tmprow['priority'];
-						$rows[] = $tmprow; 
-					}
-				}
-				
-				$cachecontents = addslashes (serialize (array ($prioritysum, $rows)));
-				$cachetimestamp = time();
-			}
-			else
-			{
-				$cachecontents = '';
-				$cachetimestamp = 0;
-			}
-			
-			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_zones']." SET cachecontents='$cachecontents', cachetimestamp=$cachetimestamp WHERE zoneid='$zoneid' ");
-		}
-	}
-}
 
 
 
@@ -277,7 +182,10 @@ function phpAds_ToggleBannerInZone ($bannerid, $zoneid)
 					") or phpAds_sqlDie();
 				
 				// Rebuild Cache
-				phpAds_RebuildZoneCache ($zoneid);
+				if (!defined('LIBVIEWCACHE_INCLUDED')) 
+					include (phpAds_path.'/lib-view-cache-'.$phpAds_config['delivery_caching'].'.inc.php');
+				
+				phpAds_cacheDelete('zone:'.$zoneid);
 			}
 		}
 	}
@@ -352,8 +260,11 @@ function phpAds_ToggleCampaignInZone ($clientid, $zoneid)
 						zoneid = '$zoneid'
 					") or phpAds_sqlDie();
 				
-				// Rebuild Cache
-				phpAds_RebuildZoneCache ($zoneid);
+				// Rebuild cache
+				if (!defined('LIBVIEWCACHE_INCLUDED')) 
+					include (phpAds_path.'/lib-view-cache-'.$phpAds_config['delivery_caching'].'.inc.php');
+				
+				phpAds_cacheDelete('zone:'.$zoneid);
 			}
 		}
 	}

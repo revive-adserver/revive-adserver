@@ -29,98 +29,85 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 	// Get first part, store second part
 	$what = strtok($remaining, '|');
 	$remaining = strtok ('');
-	
-	// Get zone
 	$zoneid  = substr($what,5);
-	$zoneres = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_zones']." WHERE zoneid='$zoneid' OR zonename='$zoneid'");
-	
-	if (phpAds_dbNumRows($zoneres) > 0)
-	{
-		$zone = phpAds_dbFetchArray($zoneres);
-		
-		// If remaining is empty, use default zone
-		if ($remaining == '' && isset($zone['chain']))
-			$remaining = $zone['chain'];
-		
-		// Set what parameter to zone settings
-		if (isset($zone['what']) && $zone['what'] != '')
-			$what = $zone['what'];
-		else
-			// No linked banners
-			return ($remaining);
-		
-		$zoneid = $zone['zoneid'];
-		$prepend = $zone['prepend'];
-		$append = $zone['append'];
-	}
-	else
-		// Zone not found
-		return ($remaining);
 	
 	
-	if (isset($zone) &&
-		$phpAds_config['zone_cache'] && 
-		time() - $zone['cachetimestamp'] < $phpAds_config['zone_cache_limit'] && 
-		$zone['cachecontents'] != '')
+	// Get cache
+	if (!defined('LIBVIEWCACHE_INCLUDED'))  include (phpAds_path.'/lib-view-cache-'.$phpAds_config['delivery_caching'].'.inc.php');
+	$cache = phpAds_cacheFetch ('zone:'.$zoneid);
+	
+	if (!$cache)
 	{
-		// If zone is found and cache is not expired
-		// and cache exists use it.
-		list($prioritysum, $rows) = unserialize ($zone['cachecontents']);
-	}
-	else
-	{
-		// If zone does not exists or cache has expired
-		// or cache is empty build a query
-		// Include the query builder sub-library
-		if (!defined('LIBVIEWQUERY_INCLUDED'))  include (phpAds_path.'/lib-view-query.inc.php');
-
+		$zoneres = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_zones']." WHERE zoneid='".$zoneid."'");
 		
-		$precondition = '';
-		
-		// Size preconditions
-		if ($zone['width'] > -1)
-			$precondition .= " AND ".$phpAds_config['tbl_banners'].".width = ".$zone['width']." ";
-		
-		if ($zone['height'] > -1)
-			$precondition .= " AND ".$phpAds_config['tbl_banners'].".height = ".$zone['height']." ";
-		
-		// Text Ads preconditions
-		// Matching against the value instead of the constant phpAds_ZoneText (3). Didn't want to include
-		// the whole lib-zones just for a constant
-		if ($zone['delivery'] == 3)
-			$precondition .= " AND ".$phpAds_config['tbl_banners'].".storagetype = 'txt' ";
-		else
-			$precondition .= " AND ".$phpAds_config['tbl_banners'].".storagetype <> 'txt' ";
-		
-		
-		$select = phpAds_buildQuery ($what, false, $precondition);
-		$res    = phpAds_dbQuery($select);
-		
-		// Build array for further processing...
-		$rows = array();
-		$prioritysum = 0;
-		while ($tmprow = phpAds_dbFetchArray($res))
+		if ($zone = phpAds_dbFetchArray($zoneres))
 		{
-			// weight of 0 disables the banner
-			if ($tmprow['priority'])
-			{
-				$prioritysum += $tmprow['priority'];
-				$rows[] = $tmprow; 
-			}
-		}
-		
-		if ($phpAds_config['zone_cache'] && isset($zone) &&
-			($zone['cachecontents'] == '' ||
-			time() - $zone['cachetimestamp'] >= $phpAds_config['zone_cache_limit']))
-		{
-			// If exists and cache is empty or expired
-			// Store the rows which were just build in the cache
+			if ($zone['what'] == '')
+				// No linked banners
+				return ($remaining);
 			
-			$cachecontents = addslashes (serialize (array ($prioritysum, $rows)));
-			$cachetimestamp = time();
-			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_zones']." SET cachecontents='$cachecontents', cachetimestamp=$cachetimestamp WHERE zoneid='$zoneid' ");
+			if (!defined('LIBVIEWQUERY_INCLUDED'))  include (phpAds_path.'/lib-view-query.inc.php');
+			
+			
+			$precondition = '';
+			
+			// Size preconditions
+			if ($zone['width'] > -1)
+				$precondition .= " AND ".$phpAds_config['tbl_banners'].".width = ".$zone['width']." ";
+			
+			if ($zone['height'] > -1)
+				$precondition .= " AND ".$phpAds_config['tbl_banners'].".height = ".$zone['height']." ";
+			
+			// Text Ads preconditions
+			// Matching against the value instead of the constant phpAds_ZoneText (3). Didn't want to include
+			// the whole lib-zones just for a constant
+			if ($zone['delivery'] == 3)
+				$precondition .= " AND ".$phpAds_config['tbl_banners'].".storagetype = 'txt' ";
+			else
+				$precondition .= " AND ".$phpAds_config['tbl_banners'].".storagetype <> 'txt' ";
+			
+			
+			$select = phpAds_buildQuery ($zone['what'], false, $precondition);
+			$res    = phpAds_dbQuery($select);
+			
+			// Build array for further processing...
+			$rows = array();
+			$prioritysum = 0;
+			while ($tmprow = phpAds_dbFetchArray($res))
+			{
+				// weight of 0 disables the banner
+				if ($tmprow['priority'])
+				{
+					$prioritysum += $tmprow['priority'];
+					$rows[] = $tmprow; 
+				}
+			}
+			
+			$cache = array (
+				$zone['zoneid'],
+				$rows,
+				$zone['what'],
+				$prioritysum,
+				$zone['chain'],
+				$zone['prepend'],
+				$zone['append']
+			);
+			
+			phpAds_cacheStore ('zone:'.$zone['zoneid'], $cache);
 		}
+		else
+			// Zone not found
+			return ($remaining);
 	}
+	
+	
+	// Unpack cache
+	list ($zoneid, $rows, $what, $prioritysum, $chain, $prepend, $append) = $cache;
+	
+	// If remaining is empty, use default zone
+	if ($remaining == '')
+		$remaining = $chain;
+	
 	
 	
 	

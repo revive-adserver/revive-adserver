@@ -25,7 +25,7 @@ function phpAds_MaintenanceSelection($section)
 	global $phpAds_config;
 	global $phpAds_settings_sections;
 	global $phpAds_TextDirection;
-	global $strChooseSection, $strPriority, $strZones, $strBanners, $strStats, $strStorage;
+	global $strChooseSection, $strPriority, $strCache, $strBanners, $strStats, $strStorage;
 	
 	
 	if ($phpAds_config['compact_stats'])
@@ -74,8 +74,7 @@ function maintenance_goto_section()
 	    $phpAds_config['type_web_ftp'] != '')) && $phpAds_config['type_web_url'] != '')
 		echo "<option value='storage'".($section == 'storage' ? ' selected' : '').">".$strStorage."</option>";
 	
-	if ($phpAds_config['zone_cache'])
-		echo "<option value='zones'".($section == 'zones' ? ' selected' : '').">".$strZones."</option>";
+	echo "<option value='cache'".($section == 'zones' ? ' selected' : '').">".$strCache."</option>";
     
 	echo "</select>&nbsp;<a href='javascript:void(0)' onClick='maintenance_goto_section();'>";
 	echo "<img src='images/".$phpAds_TextDirection."/go_blue.gif' border='0'></a>";
