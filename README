@@ -2,7 +2,7 @@ phpAdsNew - Readme
 
   PHP Banner Management System
 
-  Version 2 dev 14042002
+  Version 2 dev 07072002
   http://www.phpadsnew.com
 
   THIS IS A EXPERIMENTAL DEVELOPMENT BUILD AND MAY NOT BE 
@@ -66,7 +66,7 @@ phpAdsNew - Readme
 
 
   Requirements: 
-    PHP 4.0 or higher 	 (4.1.2 recommended)
+    PHP 4.0 or higher 	 (4.2.0 recommended)
     MySQL 3.22 or higher (3.23 with InnoDB recommended)
 
     If you want to run phpAdsNew on a PostgreSQL server you should
