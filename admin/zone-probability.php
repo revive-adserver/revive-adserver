@@ -148,57 +148,131 @@ else
 
 function phpAds_showZoneBanners ($zoneid)
 {
-	global $phpAds_config;
+	global $phpAds_config, $phpAds_TextDirection;
 	global $strUntitled, $strName, $strID, $strWeight;
 	global $strCampaignWeight, $strBannerWeight, $strProbability;
+	global $strRawQueryString;
 	
-	// Get zone
-	$zoneres = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_zones']." WHERE zoneid='$zoneid' ");
-	
-	if (phpAds_dbNumRows($zoneres) > 0)
+	$zonechain = array();
+	$what = '';
+
+	while ($zoneid || $what)
 	{
-		$zone = phpAds_dbFetchArray($zoneres);
-		
-		// Set what parameter to zone settings
-		if (isset($zone['what']) && $zone['what'] != '')
-			$what = $zone['what'];
-		else
-			$what = 'default';
-	}
-	else
-		$what = '';
-	
-	
-	$precondition = '';
-	
-	// Size preconditions
-	if ($zone['width'] > -1)
-		$precondition .= " AND ".$phpAds_config['tbl_banners'].".width = ".$zone['width']." ";
-	
-	if ($zone['height'] > -1)
-		$precondition .= " AND ".$phpAds_config['tbl_banners'].".height = ".$zone['height']." ";
-	
-	
-	$select = phpAds_buildQuery ($what, false, $precondition);
-	$res    = phpAds_dbQuery($select);
-	
-	$rows = array();
-	$prioritysum = 0;
-	while ($tmprow = phpAds_dbFetchArray($res))
-	{
-		// weight of 0 disables the banner
-		if ($tmprow['priority'])
+		if ($zoneid)
 		{
-			$prioritysum += $tmprow['priority'];
-			$rows[$tmprow['bannerid']] = $tmprow; 
+			// Get zone
+			$zoneres = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_zones']." WHERE zoneid='$zoneid' ");
+			
+			if (phpAds_dbNumRows($zoneres) > 0)
+			{
+				$zone = phpAds_dbFetchArray($zoneres);
+				
+				// Set what parameter to zone settings
+				if (isset($zone['what']) && $zone['what'] != '')
+					$what = $zone['what'];
+				else
+					$what = 'default';
+			}
+			else
+				$what = '';
+			
+			
+			$precondition = '';
+			
+			// Size preconditions
+			if ($zone['width'] > -1)
+				$precondition .= " AND ".$phpAds_config['tbl_banners'].".width = ".$zone['width']." ";
+			
+			if ($zone['height'] > -1)
+				$precondition .= " AND ".$phpAds_config['tbl_banners'].".height = ".$zone['height']." ";
+							
+			// Text Ads preconditions
+			if ($zone['delivery'] == phpAds_ZoneText)
+				$precondition .= " AND ".$phpAds_config['tbl_banners'].".storagetype = 'txt' ";
+			else
+				$precondition .= " AND ".$phpAds_config['tbl_banners'].".storagetype <> 'txt' ";
+			
+			
+			$select = phpAds_buildQuery ($what, false, $precondition);
+		}
+		else
+		{
+			// Direct selection
+			$select = phpAds_buildQuery ($what, false, '');
+			$zone = array('what' => $what);
+		}
+		
+		
+		$res = phpAds_dbQuery($select);
+		
+		$rows = array();
+		$prioritysum = 0;
+		while ($tmprow = phpAds_dbFetchArray($res))
+		{
+			// weight of 0 disables the banner
+			if ($tmprow['priority'])
+			{
+				$prioritysum += $tmprow['priority'];
+				$rows[$tmprow['bannerid']] = $tmprow; 
+			}
+		}
+		
+		if (!count($rows) && isset($zone['chain']) && strlen($zone['chain']))
+		{
+			// Follow the chain if no banner was found
+
+			if (ereg('^zone:([0-9]+)$', $zone['chain'], $match))
+			{
+				// Zone chain
+				$zoneid = $match[1];
+				$what = '';
+			}
+			else
+			{
+				// Raw querystring chain
+				$zoneid = 0;
+				$what = $zone['chain'];
+			}
+			
+			$zonechain[] = $zone;
+		}
+		else
+		{
+			// No chain settings, exit loop
+			$zoneid = 0;
+			$what = '';
 		}
 	}
-	
-	if (is_array($rows))
+
+	if (isset($rows) && is_array($rows))
 	{
 		$i=0;
 		
+		if (count($zonechain))
+		{
+			// Zone Chain
+			echo "<br><table width='100% border='0' align='center' cellspacing='0' cellpadding='0'>";
+			echo "<tr><td valign='top'><img src='images/info.gif' align='absmiddle'>&nbsp;</td>";
+			echo "<td width='100%'><b>" . 'All the banners linked to the selected zone have null priority. This is the zone chain that will be followed:';
+			echo "</b></td></tr></table>";
+			echo "<br><br>";
+			while (list(, $z) = each($zonechain))
+			{
+				echo "<nobr><img src='images/icon-zone-d.gif' align='absmiddle'>&nbsp;".phpAds_buildZoneName($z['zoneid'], $z['zonename']);
+				echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'></nobr> ";
+			}
+
+			if ($zoneid)
+				echo "<nobr><img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_buildZoneName($zoneid, $zone['zonename'])."</b></nobr><br>";
+			else
+				echo "<nobr><img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strRawQueryString'].":</b> ".htmlentities($zone['what'])."</nobr><br>";
+				
+			phpAds_ShowBreak();
+		}
+		
+		
 		// Header
+		echo "<br><br>";
 		echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
 		echo "<tr height='25'>";
 		echo "<td height='25' width='40%'><b>&nbsp;&nbsp;".$strName."</b></td>";
@@ -215,7 +289,7 @@ function phpAds_showZoneBanners ($zoneid)
 			
 			if ($i > 0) echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
 			
-	    	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
+			echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 			
 			echo "<td height='25'>";
 			echo "&nbsp;&nbsp;";
@@ -223,6 +297,8 @@ function phpAds_showZoneBanners ($zoneid)
 			// Banner icon
 			if ($rows[$key]['storagetype'] == 'html')
 				echo "<img src='images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
+			elseif ($rows[$key]['storagetype'] == 'txt')
+				echo "<img src='images/icon-banner-text.gif' align='absmiddle'>&nbsp;";
 			elseif ($rows[$key]['storagetype'] == 'url')
 				echo "<img src='images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
 			else
@@ -237,6 +313,13 @@ function phpAds_showZoneBanners ($zoneid)
 			
 			echo "</tr>";
 			$i++;
+		}
+		
+		if (!$i)
+		{
+			echo "<tr height='25' bgcolor='#F6F6F6'>";
+			echo "<td colspan='3'>&nbsp;&nbsp;". 'All banners linked to this zone have null priority' . "</td>";
+			echo "</tr>";
 		}
 		
 		// Footer
@@ -255,7 +338,6 @@ function phpAds_showZoneBanners ($zoneid)
 
 if (isset($zoneid) && $zoneid != '')
 {
-	echo "<br><br>";
 	phpAds_showZoneBanners($zoneid);
 	echo "<br><br>";
 }

@@ -72,8 +72,8 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 		// If zone does not exists or cache has expired
 		// or cache is empty build a query
 		// Include the query builder sub-library
-		if (!defined('LIBVIEWQUERY_INCLUDED'))  require (phpAds_path.'/lib-view-query.inc.php');
-		
+		if (!defined('LIBVIEWQUERY_INCLUDED'))  include (phpAds_path.'/lib-view-query.inc.php');
+
 		
 		$precondition = '';
 		
@@ -83,6 +83,14 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 		
 		if ($zone['height'] > -1)
 			$precondition .= " AND ".$phpAds_config['tbl_banners'].".height = ".$zone['height']." ";
+		
+		// Text Ads preconditions
+		// Matching against the value instead of the constant phpAds_ZoneText (3). Didn't want to include
+		// the whole lib-zones just for a constant
+		if ($zone['delivery'] == 3)
+			$precondition .= " AND ".$phpAds_config['tbl_banners'].".storagetype = 'txt' ";
+		else
+			$precondition .= " AND ".$phpAds_config['tbl_banners'].".storagetype <> 'txt' ";
 		
 		
 		$select = phpAds_buildQuery ($what, false, $precondition);

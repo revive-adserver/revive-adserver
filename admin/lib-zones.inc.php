@@ -89,6 +89,12 @@ function phpAds_RebuildZoneCache ($zoneid = '')
 				
 				if ($zone['height'] > -1)
 					$precondition .= " AND ".$phpAds_config['tbl_banners'].".height = ".$zone['height']." ";
+						
+				// Text Ads preconditions
+				if ($zone['delivery'] == phpAds_ZoneText)
+					$precondition .= " AND ".$phpAds_config['tbl_banners'].".storagetype = 'txt' ";
+				else
+					$precondition .= " AND ".$phpAds_config['tbl_banners'].".storagetype <> 'txt' ";
 				
 				
 				// Get banners

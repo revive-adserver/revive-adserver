@@ -30,6 +30,8 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-09-10:  Added support for appending a popup or interstitial zone to a plain bannerzone  (Matteo)
 			  - 2002-09-15:  The english language file is now always loaded first, then the user specified file is loaded  (Niels)
 			  - 2002-10-04:  Changed local mode invocation to prevent unwanted errors from phpAdsNew  (Niels)
+			  - 2002-10-08:  Added handling of If-Modified-Since header in adimage.php  (Matteo)
+			  - 2002-10-08:  Changed zone-probability.php to show the zone chain if needed  (Matteo)
 
 			+ Misc bugfixes
 			  - 2002-07-25:  On some systems history pages showed '-0' instead of simply '-' (Matteo)
@@ -86,6 +88,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-10-04:  The string Help was hardcoded in install.php and couldn't be translated  (Niels)
 			  - 2002-10-04:  PNG graphs were not working when using IE and ob_gzhandler  (Niels)
 			  - 2002-10-08:  Iframe invocation code had the wrong height and width for the ilayer component  (Niels)
+			  - 2002-10-08:  Fixed delivery of text ads into banner zones and vice versa  (Matteo)
 
 
 
