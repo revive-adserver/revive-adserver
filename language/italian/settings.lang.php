@@ -27,6 +27,8 @@ $GLOBALS['strOtherSettings']				= "Altre impostazioni";
 
 $GLOBALS['strWarning']						= "Attenzione";
 $GLOBALS['strFatalError']					= "Si &egrave; verificato un errore fatale";
+$GLOBALS['strUpdateError']					= "Si &egrave; verificato un errore durante l'aggiornamento";
+$GLOBALS['strUpdateDatabaseError']			= "Per motivi sconosciuti l'aggiornamento del database non &egrave; andato a buon fine. &Egrave; consigliato cliccare su <b>Riprova</b> per tentare di correggere questi potenziali problemi. Se sei sicuro che questi errori non influiscano sul corretto funzionamento di ".$phpAds_productname." clicca su <b>Ignora errori</b> per continuare. Ignorare questi errori pu&ograve; causare seri problemi e non &egrave; consigliato!";
 $GLOBALS['strAlreadyInstalled']				= $phpAds_productname." &egrave; gi&agrave; installato su questo sistema. Per modificare le impostazioni clicca <a href='settings-index.php'>qui</a>";
 $GLOBALS['strCouldNotConnectToDB']			= "Impossibile connettersi al database, controlla i parametri specificati";
 $GLOBALS['strCreateTableTestFailed']		= "L'utente specificato non ha i permessi necessari a creare o aggiornare la struttura del database, contatta l'amministratore di sistema.";
@@ -46,6 +48,8 @@ $GLOBALS['strWarningTrackVars']				= "La variabile di configurazione del PHP tra
 $GLOBALS['strWarningPREG']					= "La versione di PHP utilizzata non ha il supporto alle espressioni regolari PERL-compatibili. &Egrave; necessario abilitare l'estensione PREG prima di procedere.";
 $GLOBALS['strConfigLockedDetected']			= "Il file <b>config.inc.php</b> non pu&ograve; essere sovrascritto dal server.<br> Non è possiblie procedere finch&eacute; non vengono modificati i permessi sul file. <br>Puoi leggere sul manuale di ".$phpAds_productname." come fare.";
 $GLOBALS['strCantUpdateDB']					= "Non &egrave; possibile aggiornare il database. Se decidi di procedere, tutti i banner, le statistiche e i clienti saranno cancellati.";
+$GLOBALS['strIgnoreErrors']					= "Ignora errori";
+$GLOBALS['strRetryUpdate']					= "Riprova";
 $GLOBALS['strTableNames']					= "Nomi delle tabelle";
 $GLOBALS['strTablesPrefix']					= "Prefisso delle tabelle";
 $GLOBALS['strTablesType']					= "Tipo di tabelle";
