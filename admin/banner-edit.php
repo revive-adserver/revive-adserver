@@ -80,10 +80,10 @@ if (isset($submit))
 			$final["url"] = $url_url;
 			break;
 		case "html";
+			$final["width"] = $html_width;
+			$final["height"] = $html_height;
 			$final["format"] = "html";
 			$final["banner"] = $html_banner;
-			$final["width"] = "";
-			$final["height"] = "";
 			$final["alt"] = "";
 			$final["bannertext"] = "";
 			$final["url"] = $html_url;
@@ -382,6 +382,14 @@ $isie = ( $isiepos>0 ? substr($HTTP_USER_AGENT,$isiepos+5,3) : 0 );
 	<tr height='35'>
 		<td width='200'><?echo $strURL;?></td>
     	<td colspan='2'><input size="50" type="text" name="html_url" value="<?if (isset($type) && $type == "html") echo $row["url"];?>"></td>
+	</tr>
+	<tr height='35'>
+		<td width='200'><?echo $strWidth;?></td>
+		<td colspan='2'><input size="50" type="text" name="html_width" value="<?if (isset($type) && $type == "html") echo $row["width"];?>"></td>
+	</tr>
+	<tr height='35'>
+		<td width='200'><?echo $strHeight;?></td>
+		<td colspan='2'><input size="50" type="text" name="html_height" value="<?if (isset($type) && $type == "html") echo $row["height"];?>"></td>
 	</tr>
 </table>
 <br><br>
