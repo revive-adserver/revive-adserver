@@ -799,12 +799,9 @@ else
 		phpAds_ShowBreak();
 		echo "</form><br>";
 	}
-
-	echo "<br><img src='images/info.gif' align='absmiddle'>&nbsp;";
-	echo "<b>".$strNoTargetStats."</b>";
 	
-	if (!isset($lib_targetstats_misc_stats) || !$lib_targetstats_misc_stats)
-		phpAds_ShowBreak();
+	echo "<br><div class='errormessage'><img class='errormessage' src='images/info.gif' width='16' height='16' border='0' align='absmiddle'>";
+	echo $strNoTargetStats.'</div>';
 }
 
 echo "<br><br>";

@@ -831,9 +831,8 @@ if (isset($row['span']) && $row['span'] > 0)
 }
 else
 {
-	echo "<br><img src='images/info.gif' align='absmiddle'>&nbsp;";
-	echo "<b>".$strNoStats."</b>";
-	phpAds_ShowBreak();
+	echo "<br><div class='errormessage'><img class='errormessage' src='images/info.gif' width='16' height='16' border='0' align='absmiddle'>";
+	echo $strNoStats.'</div>';
 }
 
 echo "<br><br>";
