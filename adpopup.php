@@ -138,6 +138,11 @@ if (!isset($context)) 	$context = '';
 // Get the banner
 $output = view_raw ($what, $clientid, $target, $source, $withtext, $context);
 
+// Exit if no banner was fetched
+if (!$output['bannerid'])
+	exit;
+
+
 header("Content-type: application/x-javascript");
 
 $windowid = 'phpads_'.$output['bannerid'];
