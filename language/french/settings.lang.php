@@ -127,16 +127,21 @@ $GLOBALS['strAllowLocalmode']			= "Autoriser le mode local";
 $GLOBALS['strAllowInterstitial']		= "Autoriser les interstitiels";
 $GLOBALS['strAllowPopups']			= "Autoriser les popups";
 
-$GLOBALS['strUseAcl']				= "Utiliser la limitation de distribution";
+$GLOBALS['strUseAcl']				= "Evaluer les limitations de distribution lors de la distribution";
 
+$GLOBALS['strDeliverySettings']                 = "Paramètres de distribution";
+$GLOBALS['strCacheType']			= "Type de cache de distribution";
+$GLOBALS['strCacheFiles']			= "Fichiers";
+$GLOBALS['strCacheDatabase']                    = "Base de données";
+$GLOBALS['strCacheShmop']			= "Mémoire partagée (shmop)";
 $GLOBALS['strKeywordRetrieval']			= "Sélection des bannières par mots clés";
 $GLOBALS['strBannerRetrieval']			= "Méthode de sélection des bannières";
 $GLOBALS['strRetrieveRandom']			= "Sélection aléatoire des bannières (par défaut)";
 $GLOBALS['strRetrieveNormalSeq']		= "Sélection séquentielle normale des bannières";
 $GLOBALS['strWeightSeq']			= "Sélection basée sur le poids des bannières";
 $GLOBALS['strFullSeq']				= "Sélection séquentielle totale des bannières";
-$GLOBALS['strUseConditionalKeys']		= "Utiliser les mots clés conditionnels";
-$GLOBALS['strUseMultipleKeys']			= "Utiliser des mots clés multiples";
+$GLOBALS['strUseConditionalKeys']		= "Autoriser l'utilisation d'opérateurs logiques lors de la sélection directe";
+$GLOBALS['strUseMultipleKeys']			= "Autoriser les mots clés multiples lors de la sélection directe";
 
 $GLOBALS['strZonesSettings']			= "Récupération des zones";
 $GLOBALS['strZoneCache']			= "Cacher les zones; cela peut accélérer ".$phpAds_productname." lorsque l'on utilise les zones";

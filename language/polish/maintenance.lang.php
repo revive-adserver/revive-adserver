@@ -42,15 +42,21 @@ $GLOBALS['strBannerCacheExplaination']		= "
 ";
 
 
-// Zone cache
-$GLOBALS['strZoneCache']			= "Cache stref";
+// Cache
+$GLOBALS['strCache']				= "Cache dostarczania";
 $GLOBALS['strAge']				= "Wiek";
-$GLOBALS['strRebuildZoneCache']			= "Odbuduj cache stref";
-$GLOBALS['strZoneCacheExplaination']		= "
-	Cache stref jest wykorzystywany do przyspieszenia dostarczania bannerów, które s± powi±zane ze strefami. Zawiera on kopiê wszystkich bannerów,
-	które s± po³±czone z dan± strefê, co oszczêdza wykonania kilku zapytañ do bazy danych podczas dostarczania bannerów u¿ytkownikowi. Cache
-	jest odbudowywany zazwyczaj za ka¿dym razem kiedy jaka¶ zmiana jest dokonywana na strefie lub jej bannerach, mo¿e siê jednak zda¿yæ, ¿e cache
-	stanie siê nieaktualny. Dlatego jest on odbudowywany automatycznie co {seconds} sekund, mo¿na tak¿e odbudowaæ go rêcznie.
+$GLOBALS['strRebuildDeliveryCache']		= "Odbuduj cache dostarczania";
+$GLOBALS['strDeliveryCacheExplaination']	= "
+	Cache dostarczania jest wykorzystywany do przyspieszenia wy¶wietlania bannerów. Cache zawiera kopiê wszystkich bannerów,
+	które s± pod³±czone do strefy, co pozwala zaoszczêdziæ kilka odwo³añ do bazy danych kiedy bannery s± dostarczane u¿ytkownikówi. Cache
+	jest zazwyczaj odbudowywany za ka¿dym razem kiedy zostanie dokonana zmiana w strefie lub jednym z jej bannerów. Mo¿e siê zdarzyæ, ¿e
+	cache przestanie byæ aktualny. Z tego powodu jest odbudowywany co godzinê oraz dodatkowo mo¿na go odbudowaæ rêcznie.
+";
+$GLOBALS['strDeliveryCacheSharedMem']		= "
+	Wspó³dzielona pamiêæ jest obecnie wykorzystywana do przechowywania cache'u dostarczania.
+";
+$GLOBALS['strDeliveryCacheDatabase']		= "
+	Baza danych jest obecnie wykorzystywana do przechowywania cache'u dostarczania.
 ";
 
 
@@ -99,6 +105,20 @@ $GLOBALS['strSecurityUpdate']			= "
 	istotne poprawki zwi±zane z bezpieczeñstwem.</b> Wersja ".$phpAds_productname.", z któej korzystasz obecnie
 	mo¿e byæ podatna na ataki i prawdopodobnie nie jest bezpieczna. Wiêcej informacji o aktualizowaniu
 	znajdziesz siê w do³±czonej dokumentacji, znajduj±cej siê w plikach poni¿ej.
+";
+
+$GLOBALS['strNotAbleToCheck']			= "
+	<b>Poniewa¿ rozszerzenie XML jest niedostêpne na twoim serwerze , ".$phpAds_productname." nie mo¿e
+	sprawdziæ, czy jest dostêpna nowsza wersja</b>
+";
+
+$GLOBALS['strForUpdatesLookOnWebsite']		= "
+	Pracujesz obecnie z wersj± ".$phpAds_productname." ".$phpAds_version_readable.". 
+	Je¶li chcesz dowiedzieæ siê, czy jest dostêpna nowsza wersja, zobacz nasz± stronê.
+";
+
+$GLOBALS['strClickToVisitWebsite']		= "
+	Kliknij aby odwiedziæ nasz± stronê
 ";
 
 

@@ -106,8 +106,13 @@ $GLOBALS['strLeftMargin']			= "Lewy margines";
 $GLOBALS['strRightMargin']			= "Prawy margines";
 $GLOBALS['strTransparentBackground']		= "Przezroczyste t³o";
 
+$GLOBALS['strSmoothMovement']			= "P³ynny ruch";
+$GLOBALS['strHideNotMoving']			= "Ukryj banner kiedy kursor siê nie porusza";
+$GLOBALS['strHideDelay']			= "Opó¼nienie przed ukryciem bannera";
+$GLOBALS['strHideTransparancy']			= "Przezroczysto¶æ ukrytego bannera";
 
-$GLOBALS['strAdLayerStyleName']	= array(
+
+$GLOBALS['strAdLayerStyleName']				= array(
 	'geocities'		=> "Geocities",
 	'simple'		=> "Prosty",
 	'cursor'		=> "Kursor",
