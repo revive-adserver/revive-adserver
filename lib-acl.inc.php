@@ -186,8 +186,8 @@ function phpAds_aclCheckDomain($data, $ad)
 	
 	$host = $GLOBALS['REMOTE_HOST'];
 	
-	$domain 	= substr($host,-(strlen($data)+1));
-	$expression = ($data == "*" || strtolower($domain) == strtolower(".$data")) ;
+	$domain 	= substr($host,-(strlen($data)));
+	$expression = ($data == "*" || strtolower($domain) == strtolower($data)) ;
 	$operator   = $ad == 'allow';
 	return ($expression == $operator);
 }
