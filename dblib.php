@@ -129,13 +129,18 @@ function db_total_stats($table, $column, $bannerID)
         $where = "WHERE bannerID = $bannerID";
     
     $res = db_query("SELECT count(*) as qnt FROM $table $where") or mysql_die();
-    $row = mysql_fetch_array($res);
-    $ret = $row["qnt"];
+    if (mysql_num_rows ($res))
+    { 
+        $row = mysql_fetch_array($res);
+        $ret = $row["qnt"];
+    }
 
     $res = db_query("SELECT sum($column) as qnt FROM $phpAds_tbl_adstats $where") or mysql_die();
-    $row = mysql_fetch_array($res);
-    $ret += $row["qnt"];
-
+    if (mysql_num_rows ($res))
+    { 
+        $row = mysql_fetch_array($res);
+        $ret += $row["qnt"];
+    }
     return $ret;
 }
 
