@@ -93,10 +93,12 @@ function WeekSetDates()
 		}
 	}
 	
+	/*
 	// check calendar week for zero value
 	if (strftime($php_week_sign,$stamp) == 0)
 		// replace by last calendar week of elapsed year
-		$week['num']=strftime($php_week_sign."/Y",mktime(0,0,0,12,31,strftime('Y',$stamp)-1));
+		$week['num']=strftime($php_week_sign."/%Y",mktime(0,0,0,12,31,strftime('%Y',$stamp)-1));
+	*/
 }
 
 
