@@ -57,7 +57,6 @@ require ("lib-install-db.inc.php");
 require ("lib-permissions.inc.php");
 require ("lib-gui.inc.php");
 require ("lib-languages.inc.php");
-require ("lib-install.inc.php");
 require ("lib-settings.inc.php");
 
 
