@@ -421,7 +421,7 @@ else
 				echo "<td height='25'>&nbsp;-&nbsp;</td>";
 				echo "<td height='25' colspan='3'>";
 				echo "<a href='campaign-edit.php?move=t&clientid=".$client['clientid']."'>";
-				echo "<img src='images/icon-update.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strMoveToNewCampaign</a>&nbsp;&nbsp;";
+				echo "<img src='images/icon-update.gif' border='0' align='absmiddle' alt='$strMoveToNewCampaign'>&nbsp;$strMoveToNewCampaign</a>&nbsp;&nbsp;";
 				echo "</td>";
 				echo "</tr>";
 			}
