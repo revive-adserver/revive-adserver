@@ -171,7 +171,17 @@ function phpAds_ConfigFileUpdatePrepare ()
 					}
 					
 					eval ("$"."value ".$regs[2].";");
-					settype ($value, $phpAds_settings_information[$regs[1]]['type']);
+					
+					if ($phpAds_settings_information[$regs[1]]['type'] == 'string')
+					{
+						// Add slashes because SettingsWriteFlush is designed to
+						// work with variables passed through magic_quotes_gpc
+						$value = addslashes($value)
+					}
+					else
+					{
+						settype ($value, $phpAds_settings_information[$regs[1]]['type']);
+					}
 					
 					$phpAds_settings_update_cache[$regs[1]] = $value;
 				}
@@ -227,7 +237,17 @@ function phpAds_ConfigFileUpdatePrepare ()
 					}
 					
 					eval ("$"."value ".$regs[2].";");
-					settype ($value, $phpAds_settings_information[$regs[1]]['type']);
+					
+					if ($phpAds_settings_information[$regs[1]]['type'] == 'string')
+					{
+						// Add slashes because SettingsWriteFlush is designed to
+						// work with variables passed through magic_quotes_gpc
+						$value = addslashes($value)
+					}
+					else
+					{
+						settype ($value, $phpAds_settings_information[$regs[1]]['type']);
+					}
 					
 					$phpAds_settings_update_cache[$regs[1]] = $value;
 				}
