@@ -503,12 +503,13 @@ $GLOBALS['strNoActionsLogged']				= "Nessuna azione registrata";
 
 
 // Code generation
-$GLOBALS['strGenerateBannercode']			= "Genera codice banner";
+$GLOBALS['strGenerateBannercode']			= "Selezione diretta";
 $GLOBALS['strChooseInvocationType']			= "Seleziona il tipo di invocazione banner";
 $GLOBALS['strGenerate']						= "Genera";
 $GLOBALS['strParameters']					= "Parametri";
 $GLOBALS['strFrameSize']					= "Grandezza frame";
 $GLOBALS['strBannercode']					= "Codice banner";
+$GLOBALS['strOptional']						= "opzionale";
 
 
 // Errors
