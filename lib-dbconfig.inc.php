@@ -16,7 +16,7 @@
 
 // Current phpAds version
 $phpAds_version = 200.076;
-$phpAds_version_readable = "2 dev 28012003";
+$phpAds_version_readable = "2 dev 29012002";
 
 $phpAds_settings_information = array(
 	'dbhost' => 					array ('type' => 'string', 	'sql' => false),
