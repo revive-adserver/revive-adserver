@@ -179,7 +179,7 @@ CREATE TABLE phpads_session (
 CREATE TABLE phpads_acls (
    bannerid mediumint(9) DEFAULT '0' NOT NULL,
    acl_con set('and','or') NOT NULL,
-   acl_type enum('clientip','useragent','weekday','domain','source','time','language') DEFAULT 'clientip' NOT NULL,
+   acl_type enum('clientip','useragent','weekday','domain','source','time','language','browser','os','country','continent') DEFAULT 'clientip' NOT NULL,
    acl_data varchar(255) NOT NULL,
    acl_ad set('allow','deny') NOT NULL,
    acl_order int(10) unsigned DEFAULT '0' NOT NULL,

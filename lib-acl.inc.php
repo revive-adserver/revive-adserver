@@ -59,8 +59,20 @@ function phpAds_aclCheck($row, $source)
 				case 'useragent':
 					$expression .= "phpAds_aclCheckUseragent('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."')";
 					break;
+				case 'browser':
+					$expression .= "phpAds_aclCheckUseragent('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."')";
+					break;
+				case 'os':
+					$expression .= "phpAds_aclCheckUseragent('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."')";
+					break;
 				case 'language':
 					$expression .= "phpAds_aclCheckLanguage('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."')";
+					break;
+				case 'country':
+					$expression .= "phpAds_aclCheckCountry('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."')";
+					break;
+				case 'continent':
+					$expression .= "phpAds_aclCheckContinent('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."')";
 					break;
 				case 'weekday':
 					$expression .= "phpAds_aclCheckWeekday('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."')";
@@ -249,6 +261,83 @@ function phpAds_aclCheckTime($data, $ad)
 	$time = date('G');
 	
 	$expression = ($data == "*" || $data == $time || in_array ($time, explode(',', $data)));
+	$operator   = $ad == 'allow';
+	return ($expression == $operator);
+}
+
+
+
+/*********************************************************/
+/* Check if the Country ACL is valid                     */
+/*********************************************************/
+
+function phpAds_aclCheckCountry($data, $ad)
+{
+	global $HTTP_SERVER_VARS, $phpAds_CountryLookup, $phpAds_config;
+	
+	if (!isset($phpAds_CountryLookup))
+	{
+		$zz 	= explode('.', $HTTP_SERVER_VARS['REMOTE_ADDR']);
+		$offset = (($zz[0]<<16)+($zz[1]<<8)+$zz[2])*2;
+		
+		// Lookup IP in database
+		if ($fp = fopen($phpAds_config['geotracking_location'], 'r'))
+		{
+			fseek($fp, $offset, SEEK_SET);
+			$phpAds_CountryLookup = fread($fp, 2);
+			fclose($fp);
+		}
+		else
+			return (true);
+	}
+	
+	// Allow if no info is available
+	if ($phpAds_CountryLookup == "\0\0") return (true);
+	
+	// Evaluate country code
+	$expression = ($data == $phpAds_CountryLookup || in_array ($phpAds_CountryLookup, explode(',', $data)));
+	$operator   = $ad == 'allow';
+	return ($expression == $operator);
+}
+
+
+
+/*********************************************************/
+/* Check if the Continent ACL is valid                   */
+/*********************************************************/
+
+function phpAds_aclCheckContinent($data, $ad)
+{
+	global $HTTP_SERVER_VARS, $phpAds_CountryLookup, $phpAds_ContinentLookup, $phpAds_config;
+	
+	if (!isset($phpAds_ContinentLookup))
+	{
+		if (!isset($phpAds_CountryLookup))
+		{
+			$zz 	= explode('.', $HTTP_SERVER_VARS['REMOTE_ADDR']);
+			$offset = (($zz[0]<<16)+($zz[1]<<8)+$zz[2])*2;
+			
+			// Lookup IP in database
+			if ($fp = fopen($phpAds_config['geotracking_location'], 'r'))
+			{
+				fseek($fp, $offset, SEEK_SET);
+				$phpAds_CountryLookup = fread($fp, 2);
+				fclose($fp);
+			}
+			else
+				return (true);
+		}
+		
+		// Allow if no info is available
+		if ($phpAds_CountryLookup == "\0\0") return (true);
+		
+		// Get continent code
+		@include_once (phpAds_path.'/admin/resources/res-continent.inc.php');
+		$phpAds_ContinentLookup = $phpAds_continent[$phpAds_CountryLookup];
+	}
+	
+	// Evaluate continent code
+	$expression = ($data == $phpAds_ContinentLookup || in_array ($phpAds_ContinentLookup, explode(',', $data)));
 	$operator   = $ad == 'allow';
 	return ($expression == $operator);
 }

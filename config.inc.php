@@ -138,6 +138,9 @@ $phpAds_config['mult_key'] = true;
 // Use display limitations?
 $phpAds_config['acl'] = true;
 
+// Location of the IP2Country geotracking database
+$phpAds_config['geotracking_location'] = '';
+
 // Default banner, it is show when phpAdsNew can't connect to the database or
 // there are absolutely no banner to display. The banner is not logged.
 // Enter the complete url (incl. http://) for the image and the target,

@@ -380,13 +380,13 @@ echo "<table><tr><td>";
 echo "<input type='radio' name='sizetype' value='default'".($exists ? ' CHECKED' : '').$sizedisabled.">&nbsp;";
 echo "<select name='size' onchange='phpAds_formSelectSize(this)'".$sizedisabled.">"; 
 
-for (reset($phpAds_BannerSize);$key=key($phpAds_BannerSize);next($phpAds_BannerSize))
+for (reset($phpAds_IAB);$key=key($phpAds_IAB);next($phpAds_IAB))
 {
-	if ($phpAds_BannerSize[$key]['width'] == $zone['width'] &&
-		$phpAds_BannerSize[$key]['height'] == $zone['height'])
-		echo "<option value='".$phpAds_BannerSize[$key]['width']."x".$phpAds_BannerSize[$key]['height']."' selected>".$key."</option>";
+	if ($phpAds_IAB[$key]['width'] == $zone['width'] &&
+		$phpAds_IAB[$key]['height'] == $zone['height'])
+		echo "<option value='".$phpAds_IAB[$key]['width']."x".$phpAds_IAB[$key]['height']."' selected>".$key."</option>";
 	else
-		echo "<option value='".$phpAds_BannerSize[$key]['width']."x".$phpAds_BannerSize[$key]['height']."'>".$key."</option>";
+		echo "<option value='".$phpAds_IAB[$key]['width']."x".$phpAds_IAB[$key]['height']."'>".$key."</option>";
 }
 
 echo "<option value='-'".(!$exists ? ' SELECTED' : '').">Custom</option>";

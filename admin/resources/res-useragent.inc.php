@@ -16,32 +16,28 @@
 // This is by no means a complete list of all useragents. If you have 
 // corrections or additions to this list, please send them to niels@creatype.nl
 
-$operatingsystems = array (
-		'Windows' => 'Win',
-		'Windows CE' => 'Windows CE',
-		'MacOS' => 'Mac',
-		'Linux' => 'Linux',
-		'BSD' => 'BSD',
-		'Sun' => 'SunOS',
-		'IRIX' => 'IRIX',
-		'AIX' => 'AIX',
-		'Unix' => 'Unix',
-	);
+$phpAds_OS['Windows']			= 'Win';
+$phpAds_OS['Windows CE']		= 'Windows CE';
+$phpAds_OS['MacOS']				= 'Mac';
+$phpAds_OS['Linux']				= 'Linux';
+$phpAds_OS['BSD']				= 'BSD';
+$phpAds_OS['Sun']				= 'SunOS';
+$phpAds_OS['IRIX']				= 'IRIX';
+$phpAds_OS['AIX']				= 'AIX';
+$phpAds_OS['Unix']				= 'Unix';
 
-$useragents = array (
-		'IE 4' => 'MSIE 4.*\)$',
-		'IE 5' => 'MSIE 5.*\)$',
-		'IE 6' => 'MSIE 6.*\)$',
-		'Netscape 3' => '^Mozilla/3.*\([^c][^o][^m].*\)$',
-		'Netscape 4' => '^Mozilla/4.*\([^c][^o][^m].*\)$',
-		'Netscape 6+' => '^Mozilla/5.*Gecko',
-		'Opera' => 'Opera',
-		'AOL' => 'AOL',
-		'MSN' => 'MSN',
-		'WebTV' => 'WebTV',
-		'Konqueror' => 'Konqueror',
-		'OmniWeb' => 'Omni',
-		'iCab' => 'iCab'
-	);
+$phpAds_Browser['IE 4'] 		= 'MSIE 4.*\)$';
+$phpAds_Browser['IE 5'] 		= 'MSIE 5.*\)$';
+$phpAds_Browser['IE 6'] 		= 'MSIE 6.*\)$';
+$phpAds_Browser['Netscape 3'] 	= '^Mozilla/3.*\([^c][^o][^m].*\)$';
+$phpAds_Browser['Netscape 4'] 	= '^Mozilla/4.*\([^c][^o][^m].*\)$';
+$phpAds_Browser['Netscape 6+']	= '^Mozilla/5.*Gecko';
+$phpAds_Browser['Opera'] 		= 'Opera';
+$phpAds_Browser['AOL'] 			= 'AOL';
+$phpAds_Browser['MSN'] 			= 'MSN';
+$phpAds_Browser['WebTV'] 		= 'WebTV';
+$phpAds_Browser['Konqueror'] 	= 'Konqueror';
+$phpAds_Browser['OmniWeb'] 		= 'Omni';
+$phpAds_Browser['iCab'] 		= 'iCab';
 
 ?>
