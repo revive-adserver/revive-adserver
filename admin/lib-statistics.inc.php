@@ -484,6 +484,7 @@ function phpAds_getBannerCode ($bannerid)
 function phpAds_buildBannerCode ($bannerid, $banner, $active, $format, $width, $height, $bannertext)
 {
 	global $strShowBanner;
+	global $phpAds_config;
 	
 	if ($active == "t")
 	{
@@ -500,7 +501,7 @@ function phpAds_buildBannerCode ($bannerid, $banner, $active, $format, $width, $
 			$buffer    .= "\n</td>";
 			$buffer    .= "<td width='20%' valign='top' align='right' nowrap>&nbsp;&nbsp;";
 			$buffer	   .= "<a href='banner-htmlpreview.php?bannerid=$bannerid' target='_new' ";
-			$buffer	   .= "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=$bannerid', '', 'status=no,scrollbars=no,resizable=no,width=$width,height=$height');\">";
+			$buffer	   .= "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=$bannerid', '', 'status=no,scrollbars=no,resizable=no,width=".($width+64).",height=".($bannertext ? $height+80 : $height+64)."');\">";
 			$buffer    .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strShowBanner."</a>&nbsp;&nbsp;</td>";
 			$buffer	   .= "</tr></table>";
 		}

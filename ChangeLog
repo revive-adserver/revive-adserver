@@ -55,6 +55,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Added a better priority calculation when no targeted campaign is present  (Matteo) 20011211
 			  - Added additional indices to the statistic tables  (Niels) 20011211
 			  - Optimized queries for generating the statistics  (Niels) 20011211
+			  - Changed preview of HTML banners  (Niels) 20011212
 
 
 			+ Misc bugfixes
