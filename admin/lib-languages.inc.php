@@ -22,21 +22,17 @@ function phpAds_AvailableLanguages()
 {
 	$languages = array();
 	
-	$langdir = opendir("../language/");
+	$langdir = opendir(phpAds_path.'/language/');
 	while ($langfile = readdir($langdir))
 	{
-		if (is_dir("../language/$langfile"))
+		if (is_dir(phpAds_path.'/language/'.$langfile) &&
+			file_exists(phpAds_path.'/language/'.$langfile.'/index.lang.php'))
 		{
-			if (ereg("^([a-z0-9-]+)(_[a-z0-9-]+)?$", $langfile, $matches))
-			{
-				$languages[$langfile] = str_replace("- ", "-", 
-					ucwords(str_replace("-", "- ", $matches[1]))).
-					(empty($matches[2]) ? '' : ' ('.ucwords(substr($matches[2], 1)).')');
-			}
+			@include(phpAds_path.'/language/'.$langfile.'/index.lang.php');
+			$languages[$langfile] = $translation_readable;
 		}
 	}
 	closedir($langdir);
-	
 	asort($languages, SORT_STRING);
 	
 	return $languages;
