@@ -30,6 +30,8 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Changed the name of the database settings in config.inc.php  (Niels) 20011027
 			  - Made default values for settings in config.inc.php more consistent  (Niels) 20011027
 			  - Moved all includes inside view.inc.php to all invocation files  (Niels) 20011027
+			  - view.inc.php is now split into multiple libraries, so only code actually
+			    needed is included to achieve a big improvement in performance  (Niels) 20020206
 
 			+ Misc changes
 			  - Moved some functions around to make sure no unneeded 
@@ -143,7 +145,8 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: Language selection always showed 'Default'  (Niels) 20020203
 			  - Bugfix: Language in the affiliate interface is now directy changed  (Niels) 20020203
 			  - Bugfix: Password fields are now not readable when creating a client or affiliate  (Niels) 20020203
-			  - Bugfix: Fixed bug #513270 [ Netscape 6.2.1 incompatibility? ] in campaing-edit  (Matteo) 200202005
+			  - Bugfix: Fixed bug #513270 [ Netscape 6.2.1 incompatibility? ] in campaing-edit  (Matteo) 20020205
+			  - Bugfix: Calling the view() function twice with database compatibility mode fixed  (Niels) 20020206
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
