@@ -139,6 +139,14 @@ if (phpAds_isUser(phpAds_Admin))
 	switch($phase)
 	{
 		case 0:
+			// Go to next step, nothing to do here
+			break;
+		
+		case 1:
+			// Go to next step, nothing to do here
+			break;
+		
+		case 2:
 			// Determine the PHP version
 			ereg ("^([0-9]{1})\.([0-9]{1})\.([0-9]{1,2})", phpversion(), $matches);
 			$phpversion = sprintf ("%01d%01d%02d", $matches[1], $matches[2], $matches[3]);
@@ -179,14 +187,14 @@ if (phpAds_isUser(phpAds_Admin))
 			
 			
 			if (count($fatal) > 0)
-				$phase = 0;
+				$phase = 2;
 			else
-				$phase = 1;
+				$phase = 3;
 			
 			break;
 			
 			
-		case 1:
+		case 3:
 			// Set language
 			$installvars['language'] = $language;
 			
@@ -194,16 +202,16 @@ if (phpAds_isUser(phpAds_Admin))
 			if (!(isset($arraybugcheck) && is_array($arraybugcheck) && strlen($arraybugcheck[0]) == 4))
 			{
 				$fatal[] = $strPhpBug20144;
-				$phase = 4;
+				$phase = 6;
 				break;
 			}
 
 			// Go to next phase
-			$phase = 2;
+			$phase = 4;
 			break;
 			
 			
-		case 2:
+		case 4:
 			// Setup database check
 			if (isset($dbpassword) && ereg('^\*+$', $dbpassword))
 				$dbpassword = $phpAds_config['dbpassword'];
@@ -275,14 +283,14 @@ if (phpAds_isUser(phpAds_Admin))
 				else
 				{
 					// Go to next phase
-					$phase = 3;
+					$phase = 5;
 				}
 			}
 			
 			break;
 			
 			
-		case 3:
+		case 5:
 			// Setup username / password check
 			$admin = trim($admin);
 			
@@ -351,7 +359,7 @@ if (phpAds_isUser(phpAds_Admin))
 				else
 					$fatal[] = $strConfigLockedDetected;
 				
-				$phase = 4;
+				$phase = 6;
 			}
 			
 			break;
@@ -367,7 +375,7 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	
 	// Prepare helpsystem
-	if ($phase > 0)
+	if ($phase > 2)
 		phpAds_PrepareHelp();
 	
 	// Create GUI
@@ -375,18 +383,75 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	// Prepare helpbutton
 	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'><tr><td height='20' align='right'>";
-	if ($phase > 0) echo "<b><a href='javascript:toggleHelp();'><img src='images/help-book.gif' width='15' height='15' border='0' align='absmiddle'>&nbsp;".$strHelp."</a></b>";
+	if ($phase > 2) echo "<b><a href='javascript:toggleHelp();'><img src='images/help-book.gif' width='15' height='15' border='0' align='absmiddle'>&nbsp;".$strHelp."</a></b>";
 	echo "</td></tr></table>";
 	
 	phpAds_ShowBreak();
 	
 	
 	
-	
-	
 	switch($phase)
 	{
 		case 0:
+			// Welcome text
+			echo "<form name='settingsform' method='post' action='install.php'>";
+			echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
+			echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
+			echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
+			echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
+			echo "<span class='install'>";
+
+			echo "We have tried to make the installation of ".$phpAds_productname." as easy as possible, but
+				  keep in mind that setting up an ad server is not trivial. If you haven't read the manual at
+				  this point, we <strong>strongly recommend</strong> that you do so before you proceed with the installation. The
+				  manual will help you avoid potential problems in the future and will guide you through the following steps.";
+			
+			echo "<p>The manual is included in every download of phpAdsNew and can be found in the <em>misc/documentation</em>
+				  directory. For information about installing, updating and configuring ".$phpAds_productname.", please read the
+				  <a href='../misc/documentation/administrator-guide.pdf' target='_blank'>Administrator guide</a>. For information
+				  about managing your inventory and placing banners on your website, please read the <a href='../misc/documentation/user-guide.pdf' 
+				  target='_blank'>User guide</a>. To view both guides you need Adobe Acrobat, which can be downloaded for free from 
+				  <a href='http://www.adobe.com/products/acrobat/readstep2.html' target='_blank'>Adobe</a>.</p>";
+			
+			echo "<p>If you still have questions <strong>after reading the manual</strong>, do not hesitate to use our forum. 
+				  But please keep in mind that we, the developers, provide this service for free and in our own free time. We might not
+				  be able to respond to you questions immediately.</p>";
+				  
+			echo "</span>";
+			echo "</td></tr></table>";
+			
+			$phase++;
+			break;
+			
+
+		case 1:
+			// Welcome text
+			echo "<form name='settingsform' method='post' action='install.php'>";
+			echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
+			echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
+			echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
+			echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
+			echo "<span class='install'>";
+			
+			echo $phpAds_productname." is a free an open source ad server, distributed under the GPL license. This means you will
+				  have some extra rights, that would not have with commericial software, including the right to modify and distribute
+				  copies of your modifications, or even distribute ".$phpAds_productname." verbatim. If you want to use these rights,
+				  you also have some obligations to the original creators of ".$phpAds_productname.". All your rights and obligations
+				  are described in the GPL license, printed below. If you want to read this text later on, you can find another copy
+				  in the ".$phpAds_productname." directory and at the end of the Administrator guide.";
+			
+			echo "<p><textarea class='code' style='width: 100%; height: 200px;' wrap='off' readonly>";
+			include ("../LICENSE");
+			echo "</textarea></p>";
+			
+			echo "</span>";
+			echo "</td></tr></table>";
+			
+			$phase++;
+			break;
+			
+
+		case 2:
 			// Preconditions failed
 			echo "<form name='settingsform' method='post' action='install.php'>";
 			echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
@@ -411,7 +476,7 @@ if (phpAds_isUser(phpAds_Admin))
 			break;
 			
 			
-		case 1:
+		case 3:
 			// Language selection
 			echo "<form name='settingsform' method='post' action='install.php' onSubmit='return phpAds_formCheck(this);'>";
 			echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
@@ -439,7 +504,7 @@ if (phpAds_isUser(phpAds_Admin))
 			break;
 			
 			
-		case 2:
+		case 4:
 			// Database settings
 			echo "<form name='settingsform' method='post' action='install.php' onSubmit='return phpAds_formCheck(this);'>";
 			echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
@@ -525,7 +590,7 @@ if (phpAds_isUser(phpAds_Admin))
 			break;
 			
 			
-		case 3:
+		case 5:
 			// Admin settings
 			echo "<form name='settingsform' method='post' action='install.php' onSubmit='return phpAds_formCheck(this);'>";
 			echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
@@ -590,7 +655,7 @@ if (phpAds_isUser(phpAds_Admin))
 			break;
 			
 			
-		case 4:
+		case 6:
 			// Admin settings
 			if (!isset($fatal) || !count($fatal))
 			{
