@@ -9,16 +9,34 @@ phpAds_checkAccess(phpAds_Admin+phpAds_Client);
 
 
 
-$result = db_query("
-	SELECT
-		*
-	FROM
-		$phpAds_tbl_clients
-	WHERE
-		clientID = $clientID
-	") or mysql_die();
-$row = mysql_fetch_array($result);
 
+
+if (phpAds_isUser(phpAds_Client))
+{
+	phpAds_PageHeader($GLOBALS['strWeeklyStats']);
+	
+	$clientID = phpAds_clientID();
+	
+	if ($which > 0)
+	{
+		$result = db_query("
+			SELECT
+				clientID
+			FROM
+				$phpAds_tbl_banners
+			WHERE
+				bannerID = $which
+			") or mysql_die();
+		$row = mysql_fetch_array($result);
+		
+		if ($row[clientID] != phpAds_clientID())
+		{
+			php_die ($strAccessDenied, $strNotAdmin);
+		}
+	}
+	
+	phpAds_ShowNav('2.2');
+}
 
 
 if (phpAds_isUser(phpAds_Admin))
@@ -55,18 +73,9 @@ if (phpAds_isUser(phpAds_Admin))
 	phpAds_ShowNav('1.4.2', $extra);
 }
 
-if (phpAds_isUser(phpAds_Client))
-{
-	phpAds_PageHeader($GLOBALS['strWeeklyStats']);
-	phpAds_ShowNav('2.2');
-	
-	if($Session["clientID"] != $clientID)
-	{
-		php_die ($strAccessDenied, $strNotAdmin);
-	}
-}
 
 
+// Check for banners
 $res = db_query("
 	SELECT
 		count(*) as count
@@ -75,8 +84,8 @@ $res = db_query("
 	WHERE
 		clientID='$clientID'
 ") or mysql_die();
-
 $row = mysql_fetch_array($res);
+
 
 if ($row[count] > 0)
 {
