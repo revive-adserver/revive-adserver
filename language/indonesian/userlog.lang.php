@@ -7,6 +7,9 @@
 /* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
+/* Translation by Rachim Tamsjadi. Please send corrections              */
+/* to tamsjadi@icqmail.com       010402                                 */
+/*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
@@ -15,20 +18,21 @@
 
 // Set translation strings
 
-$GLOBALS['strDeliveryEngine']				= "Delivery Engine";
-$GLOBALS['strMaintenance']					= "Maintenance";
+$GLOBALS['strDeliveryEngine']				= "Mesin Pelayan";
+$GLOBALS['strMaintenance']				= "Pemeliharaan";
 $GLOBALS['strAdministrator']				= "Administrator";
 
 
 $GLOBALS['strUserlog'] = array (
-	phpAds_actionAdvertiserReportMailed 	=> "Report for advertiser {id} send by e-mail",
-	phpAds_actionPublisherReportMailed 		=> "Report for publisher {id} send by e-mail",
-	phpAds_actionWarningMailed				=> "Deactivation warning for campaign {id} send by e-mail",
-	phpAds_actionDeactivationMailed			=> "Deactivation notification for campaign {id} send by e-mail",
-	phpAds_actionPriorityCalculation		=> "Priority recalculated",
-	phpAds_actionPriorityAutoTargeting		=> "Campaign targets recalculated",
-	phpAds_actionDeactiveCampaign			=> "Campaign {id} deactivated",
-	phpAds_actionActiveCampaign				=> "Campaign {id} activated"
+	phpAds_actionAdvertiserReportMailed 		=> "Laporan kepada pihak pemasang iklan {id} telah dikirim lewat e-mail",
+	phpAds_actionPublisherReportMailed 		=> "Laporan kepada pihak pengelola iklan {id} telah dikirim lewat e-mail",
+	phpAds_actionWarningMailed			=> "Laporan tentang pemberhentian kampanye {id} telah dikirim lewat e-mail",
+	phpAds_actionDeactivationMailed			=> "Notifikasi tentang pemberhentian kampanye {id} telah dikirim lewat e-mail",
+	phpAds_actionPriorityCalculation		=> "Prioritas telah direkalkulasi",
+	phpAds_actionPriorityAutoTargeting		=> "Target Kampanye telah direkalkulasi",
+	phpAds_actionDeactiveCampaign			=> "Kampanye {id} dihentikan",
+	phpAds_actionActiveCampaign			=> "Kampanye {id} diaktifkan"
 );
 
 ?>
+

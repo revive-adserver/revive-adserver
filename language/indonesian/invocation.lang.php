@@ -7,6 +7,9 @@
 /* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
+/* Translation by Rachim Tamsjadi. Please send corrections              */
+/* to tamsjadi@icqmail.com     010402                                   */
+/*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
@@ -15,74 +18,75 @@
 
 
 // Invocation Types
-$GLOBALS['strInvocationRemote']			= "Remote Invocation";
-$GLOBALS['strInvocationJS']				= "Remote Invocation for Javascript";
-$GLOBALS['strInvocationIframes']		= "Remote Invocation for iframes";
-$GLOBALS['strInvocationXmlRpc']			= "Remote Invocation using XML-RPC";
-$GLOBALS['strInvocationCombined']		= "Combined Remote Invocation";
+$GLOBALS['strInvocationRemote']			= "Invokasi Remote";
+$GLOBALS['strInvocationJS']			= "Invokasi Remote untuk Javascript";
+$GLOBALS['strInvocationIframes']		= "Invokasi Remote untuk iframes";
+$GLOBALS['strInvocationXmlRpc']			= "Invokasi Remote dengan XML-RPC";
+$GLOBALS['strInvocationCombined']		= "Kombinasi Invokasi Remote";
 $GLOBALS['strInvocationPopUp']			= "Pop-up";
 $GLOBALS['strInvocationAdLayer']		= "AdLayer";
 $GLOBALS['strInvocationLocal']			= "Local mode";
 
 
 // Measures
-$GLOBALS['strAbbrPixels']				= "px";
-$GLOBALS['strAbbrSeconds']				= "sec";
+$GLOBALS['strAbbrPixels']			= "px";
+$GLOBALS['strAbbrSeconds']			= "sec";
 
 
 // Common Invocation Parameters
-$GLOBALS['strInvocationWhat']			= "What";
+$GLOBALS['strInvocationWhat']			= "Apa";
 $GLOBALS['strInvocationClientID']		= "ClientID";
 $GLOBALS['strInvocationTarget']			= "Target";
-$GLOBALS['strInvocationSource']			= "Source";
+$GLOBALS['strInvocationSource']			= "Sumber";
 $GLOBALS['strInvocationWithText']		= "WithText";
 
 
 // Iframe
-$GLOBALS['strIFrameRefreshAfter']		= "Refresh after";
-$GLOBALS['strIframeResizeToBanner']		= "Resize iframe to banner dimensions";
-$GLOBALS['strIframeMakeTransparent']	= "Make the iframe transparent";
+$GLOBALS['strIFrameRefreshAfter']		= "Refresh setelah";
+$GLOBALS['strIframeResizeToBanner']		= "Resize iframe sesuai dimensi banner";
+$GLOBALS['strIframeMakeTransparent']		= "Tampilkan iframe secara transparan";
 
 
 // PopUp
-$GLOBALS['strPopUpStyle']				= "Pop-up type";
+$GLOBALS['strPopUpStyle']			= "Tipe Pop-up";
 $GLOBALS['strPopUpStylePopUp']			= "Pop-up";
 $GLOBALS['strPopUpStylePopUnder']		= "Pop-under";
-$GLOBALS['strAutoCloseAfter']			= "Automatically close after";
-$GLOBALS['strPopUpTop']					= "Initial position (top)";
-$GLOBALS['strPopUpLeft']				= "Initial position (left)";
+$GLOBALS['strAutoCloseAfter']			= "Tutup sendiri setelah";
+$GLOBALS['strPopUpTop']				= "Posisi awal (top)";
+$GLOBALS['strPopUpLeft']			= "Posisi awal (left)";
 
 
 // XML-RPC
-$GLOBALS['strXmlRpcLanguage']			= "Host Language";
+$GLOBALS['strXmlRpcLanguage']			= "Bahasa Host";
 
 
 // AdLayer
-$GLOBALS['strAdLayerStyle']				= "Layer Style";
+$GLOBALS['strAdLayerStyle']			= "Style Layer";
 
-$GLOBALS['strAlignment']				= "Alignment";
-$GLOBALS['strHAlignment']				= "Horizontal Alignment";
-$GLOBALS['strLeft']						= "Left";
-$GLOBALS['strCenter']					= "Center";
-$GLOBALS['strRight']					= "Right";
+$GLOBALS['strAlignment']			= "Alignment";
+$GLOBALS['strHAlignment']			= "Alignment Horisontal";
+$GLOBALS['strLeft']				= "Kiri";
+$GLOBALS['strCenter']				= "Tengah";
+$GLOBALS['strRight']				= "Kanan";
 
-$GLOBALS['strVAlignment']				= "Vertical Alignment";
-$GLOBALS['strTop']						= "Top";
-$GLOBALS['strMiddle']					= "Middle";
-$GLOBALS['strBottom']					= "Bottom";
+$GLOBALS['strVAlignment']			= "Alignment Vertikal";
+$GLOBALS['strTop']				= "Atas";
+$GLOBALS['strMiddle']				= "Tengah";
+$GLOBALS['strBottom']				= "Bawah";
 
-$GLOBALS['strAutoCollapseAfter']		= "Automatically collapse after";
-$GLOBALS['strCloseText']				= "Close Text";
-$GLOBALS['strClose']					= "[Close]";
+$GLOBALS['strAutoCollapseAfter']		= "Tampilan luas secara otomatis setelah";
+$GLOBALS['strCloseText']			= "Tutup Teks";
+$GLOBALS['strClose']				= "[Tutup]";
 $GLOBALS['strBannerPadding']			= "Banner Padding";
 
-$GLOBALS['strHShift']					= "Horizontal Shift";
-$GLOBALS['strVShift']					= "Vertical Shift";
+$GLOBALS['strHShift']				= "Shift Horisontal";
+$GLOBALS['strVShift']				= "Shift Vertikal";
 
 
-$GLOBALS['strAdLayerStyleName']				= array(
+$GLOBALS['strAdLayerStyleName']			= array(
 	'geocities'		=> "Geocities",
 	'simple'		=> "Simple"
 );
 
 ?>
+
