@@ -41,6 +41,8 @@ require	(phpAds_path."/libraries/resources/res-continent.inc.php");
 /* Show hourly statistics                                */
 /*********************************************************/
 
+$gethostbyaddr = array();
+
 if (!$phpAds_config['compact_stats']) 
 {
 	$begin = date('YmdHis', mktime(0, 0, 0, substr($day, 4, 2), substr($day, 6, 2), substr($day, 0, 4)));
@@ -203,7 +205,9 @@ if (!$phpAds_config['compact_stats'])
 	
 	phpAds_PageFooter();
 	
-	?>
+	if (count($gethostbyaddr))
+	{
+		?>
 	
 	<script language='JavaScript'>
 	<!--
@@ -215,7 +219,8 @@ if (!$phpAds_config['compact_stats'])
 	//-->
 	</script>
 	
-	<?php
+		<?php
+	}
 	
 	exit;
 }
