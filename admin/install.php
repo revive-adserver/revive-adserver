@@ -157,23 +157,15 @@ if (phpAds_isUser(phpAds_Admin))
 			$fatal = array();
 			
 			// Check PHP version
-			if ($phpversion < 3008)
+			if ($phpversion < 4000)
 				$fatal[] = str_replace ('{php_version}', phpversion(), $strWarningPHPversion);
 			
 			// Config variables can only be checked with php 4
 			if ($phpversion >= 4000)
 			{
-				// Check register_globals (Should now be compatible)
-				// if (ini_get ('register_globals') != true)
-				//	  $fatal[] = $strWarningRegisterGlobals;
-				
-				// Check magic_quote_gpc (Should now be compatible)
-				// if (ini_get ('magic_quotes_gpc') != true)
-				//	  $fatal[] = $strWarningMagicQuotesGPC;
-				
-				// Check magic_quotes_runtime
-				if (ini_get ('magic_quotes_runtime') != false)
-					$fatal[] = $strWarningMagicQuotesRuntime;
+				// Check file_uploads
+				if (ini_get ('file_uploads') != true)
+					  $fatal[] = $strWarningFileUploads;
 			}
 			
 			// Check if config file is writable
