@@ -79,7 +79,7 @@
     If you want to run phpAdsNew on a PostgreSQL server you should
     take a look at phpPgAds, which is a port of phpAdsNew to PostgreSQL,
     made by Matteo Beccati. The phpPgAds project can be found at: 
-    http://sourceforge.net/projects/phppgads/
+    http://www.phppgads.com
        
          
 
