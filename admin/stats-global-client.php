@@ -29,6 +29,7 @@ phpAds_checkAccess(phpAds_Admin);
 
 // Set default values
 if (!isset($period)) $period = '';
+$tabindex = 1;
 
 
 
