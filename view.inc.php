@@ -30,9 +30,9 @@ function phpAds_buildQuery ($part, $numberofparts, $precondition)
 	// Setup basic query
 	$select = "
 			SELECT
-				".$phpAds_config['tbl_banners'].".bannerID as bannerID,
+				".$phpAds_config['tbl_banners'].".bannerid as bannerid,
 				".$phpAds_config['tbl_banners'].".banner as banner,
-				".$phpAds_config['tbl_banners'].".clientID as clientID,
+				".$phpAds_config['tbl_banners'].".clientid as clientid,
 				".$phpAds_config['tbl_banners'].".format as format,
 				".$phpAds_config['tbl_banners'].".width as width,
 				".$phpAds_config['tbl_banners'].".height as height,
@@ -49,9 +49,9 @@ function phpAds_buildQuery ($part, $numberofparts, $precondition)
 				".$phpAds_config['tbl_banners'].",
 				".$phpAds_config['tbl_clients']."
 			WHERE
-				".$phpAds_config['tbl_banners'].".active = 'true' AND 
-				".$phpAds_config['tbl_clients'].".active = 'true' AND 
-				".$phpAds_config['tbl_banners'].".clientID = ".$phpAds_config['tbl_clients'].".clientID";
+				".$phpAds_config['tbl_banners'].".active = 't' AND 
+				".$phpAds_config['tbl_clients'].".active = 't' AND 
+				".$phpAds_config['tbl_banners'].".clientid = ".$phpAds_config['tbl_clients'].".clientid";
 	
 	// Add preconditions to query
 	if ($precondition != '')
@@ -130,11 +130,11 @@ function phpAds_buildQuery ($part, $numberofparts, $precondition)
 					if ($part_array[$k] != '' && $part_array[$k] != ' ')
 					{
 						if ($operator == 'OR')
-							$conditions .= "OR ".$phpAds_config['tbl_banners'].".bannerID='".trim($part_array[$k])."' ";
+							$conditions .= "OR ".$phpAds_config['tbl_banners'].".bannerid='".trim($part_array[$k])."' ";
 						elseif ($operator == 'AND')
-							$conditions .= "AND ".$phpAds_config['tbl_banners'].".bannerID='".trim($part_array[$k])."' ";
+							$conditions .= "AND ".$phpAds_config['tbl_banners'].".bannerid='".trim($part_array[$k])."' ";
 						else
-							$conditions .= "AND ".$phpAds_config['tbl_banners'].".bannerID!='".trim($part_array[$k])."' ";
+							$conditions .= "AND ".$phpAds_config['tbl_banners'].".bannerid!='".trim($part_array[$k])."' ";
 					}
 					
 					$onlykeywords = false;
@@ -147,11 +147,11 @@ function phpAds_buildQuery ($part, $numberofparts, $precondition)
 					if ($part_array[$k] != '' && $part_array[$k] != ' ')
 					{
 						if ($operator == 'OR')
-							$conditions .= "OR (".$phpAds_config['tbl_clients'].".clientID='".trim($part_array[$k])."' OR ".$phpAds_config['tbl_clients'].".parent='".trim($part_array[$k])."') ";
+							$conditions .= "OR (".$phpAds_config['tbl_clients'].".clientid='".trim($part_array[$k])."' OR ".$phpAds_config['tbl_clients'].".parent='".trim($part_array[$k])."') ";
 						elseif ($operator == 'AND')
-							$conditions .= "AND (".$phpAds_config['tbl_clients'].".clientID='".trim($part_array[$k])."' OR ".$phpAds_config['tbl_clients'].".parent='".trim($part_array[$k])."') ";
+							$conditions .= "AND (".$phpAds_config['tbl_clients'].".clientid='".trim($part_array[$k])."' OR ".$phpAds_config['tbl_clients'].".parent='".trim($part_array[$k])."') ";
 						else
-							$conditions .= "AND (".$phpAds_config['tbl_clients'].".clientID!='".trim($part_array[$k])."' AND ".$phpAds_config['tbl_clients'].".parent!='".trim($part_array[$k])."') ";
+							$conditions .= "AND (".$phpAds_config['tbl_clients'].".clientid!='".trim($part_array[$k])."' AND ".$phpAds_config['tbl_clients'].".parent!='".trim($part_array[$k])."') ";
 					}
 					
 					$onlykeywords = false;
@@ -239,7 +239,7 @@ function phpAds_buildQuery ($part, $numberofparts, $precondition)
 /* Get a banner                                          */
 /*********************************************************/
 
-function phpAds_fetchBanner($what, $clientID, $context=0, $source='', $allowhtml=true)
+function phpAds_fetchBanner($what, $clientid, $context=0, $source='', $allowhtml=true)
 {
 	global $phpAds_config;
 	global $REMOTE_HOST, $REMOTE_ADDR, $HTTP_USER_AGENT, $HTTP_ACCEPT_LANGUAGE;
@@ -365,8 +365,8 @@ function phpAds_fetchBanner($what, $clientID, $context=0, $source='', $allowhtml
 				{
 					switch ($key)
 					{
-						case '!=': $contextExclusive[] = $phpAds_config['tbl_banners'].'.bannerID <> '.$value; break;
-						case '==': $contextInclusive[] = $phpAds_config['tbl_banners'].'.bannerID = '.$value; break;
+						case '!=': $contextExclusive[] = $phpAds_config['tbl_banners'].'.bannerid <> '.$value; break;
+						case '==': $contextInclusive[] = $phpAds_config['tbl_banners'].'.bannerid = '.$value; break;
 					}
 				}
 			}
@@ -383,8 +383,8 @@ function phpAds_fetchBanner($what, $clientID, $context=0, $source='', $allowhtml
 		else
 			$precondition = '';
 		
-		if ($clientID != 0)
-			$precondition .= " AND (".$phpAds_config['tbl_clients'].".clientID = $clientID OR ".$phpAds_config['tbl_clients'].".parent = $clientID) ";
+		if ($clientid != 0)
+			$precondition .= " AND (".$phpAds_config['tbl_clients'].".clientid = $clientid OR ".$phpAds_config['tbl_clients'].".parent = $clientid) ";
 		
 		if ($allowhtml == false)
 		{
@@ -407,7 +407,7 @@ function phpAds_fetchBanner($what, $clientID, $context=0, $source='', $allowhtml
 				
 				// Full sequential retrieval
 				if ($phpAds_config['retrieval_method'] == 3)
-					$seq_select .= " ORDER BY ".$phpAds_config['tbl_banners'].".bannerID LIMIT 1";
+					$seq_select .= " ORDER BY ".$phpAds_config['tbl_banners'].".bannerid LIMIT 1";
 				
 				// First attempt to fetch a banner
 				$res = phpAds_dbQuery($seq_select);
@@ -424,13 +424,13 @@ function phpAds_fetchBanner($what, $clientID, $context=0, $source='', $allowhtml
 						{
 							// Set banner seq to weight
 							$updateweight  = $update_row['weight'] * $update_row['clientweight'];
-							$delete_select = "UPDATE ".$phpAds_config['tbl_banners']." SET seq='$updateweight' WHERE bannerID='".$update_row['bannerID']."'";
+							$delete_select = "UPDATE ".$phpAds_config['tbl_banners']." SET seq='$updateweight' WHERE bannerid='".$update_row['bannerid']."'";
 							phpAds_dbQuery($delete_select);
 						}
 						else
 						{
 							// Set banner seq to 1
-							$delete_select = "UPDATE ".$phpAds_config['tbl_banners']." SET seq=1 WHERE bannerID='".$update_row['bannerID']."'";
+							$delete_select = "UPDATE ".$phpAds_config['tbl_banners']." SET seq=1 WHERE bannerid='".$update_row['bannerid']."'";
 							phpAds_dbQuery($delete_select);
 						}
 					}
@@ -509,15 +509,15 @@ function phpAds_fetchBanner($what, $clientID, $context=0, $source='', $allowhtml
 						$postconditionSucces = true;
 						
 						// Excludelist
-						if (isset ($excludeBannerID[$rows[$i]['bannerID']]) &&
-							$excludeBannerID[$rows[$i]['bannerID']] == true)
+						if (isset ($excludeBannerID[$rows[$i]['bannerid']]) &&
+							$excludeBannerID[$rows[$i]['bannerid']] == true)
 							$postconditionSucces = false;
 						
 						// Includelist
 						if ($postconditionSucces == true &&
 						    sizeof($includeBannerID) > 0 &&
-						    (!isset ($includeBannerID[$rows[$i]['bannerID']]) ||
-							$includeBannerID[$rows[$i]['bannerID']] != true))
+						    (!isset ($includeBannerID[$rows[$i]['bannerid']]) ||
+							$includeBannerID[$rows[$i]['bannerid']] != true))
 							$postconditionSucces = false;
 						
 						// HTML or Flash banners
@@ -580,17 +580,17 @@ function phpAds_fetchBanner($what, $clientID, $context=0, $source='', $allowhtml
 
 
 /*********************************************************/
-/* Log an adview for the banner with $bannerID           */
+/* Log an adview for the banner with $bannerid           */
 /*********************************************************/
 
-function phpAds_prepareLog ($bannerID, $clientID)
+function phpAds_prepareLog ($bannerid, $clientid)
 {
 	global $phpAds_config;
 	global $phpAds_zone_used;
 	
 	// If sequential banner retrieval is used, set banner as "used"
 	if ($phpAds_config['retrieval_method'] > 0 && $phpAds_zone_used != true)
-		phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_banners']." SET seq=seq-1 WHERE bannerID='$bannerID'");
+		phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_banners']." SET seq=seq-1 WHERE bannerid='$bannerid'");
 	
 	if(!$phpAds_config['log_adviews'])
 		return(false);
@@ -598,8 +598,8 @@ function phpAds_prepareLog ($bannerID, $clientID)
 	// Check if host is on list of hosts to ignore
 	if($host = phpads_ignore_host())
 	{ 
-		$res = phpAds_logView($bannerID, $host);
-		phpAds_expire ($clientID, phpAds_Views);
+		$res = phpAds_logView($bannerid, $host);
+		phpAds_expire ($clientid, phpAds_Views);
 	}
 }
 
@@ -643,7 +643,7 @@ function phpAds_ParseHTMLExpressions ($parser_html)
 /* Parse the HTML entered in order to log clicks         */
 /*********************************************************/
 
-function phpAds_ParseHTMLAutoLog ($html, $bannerID, $url, $target)
+function phpAds_ParseHTMLAutoLog ($html, $bannerid, $url, $target)
 {
 	global $phpAds_config;
 	
@@ -663,7 +663,7 @@ function phpAds_ParseHTMLAutoLog ($html, $bannerID, $url, $target)
 		$html = eregi_replace ("(<form([^>]*)action=['|\"]{0,1})([^'|\"|[:space:]]+)(['|\"]{0,1}([^>]*)>)", 
 							   "\\1".$phpAds_config['url_prefix']."/adclick.php\\4".
 							   "<input type='hidden' name='dest' value='\\3'>".
-							   "<input type='hidden' name='bannerID' value='".$bannerID."'>", $html);
+							   "<input type='hidden' name='bannerid' value='".$bannerid."'>", $html);
 	}
 	
 	
@@ -721,8 +721,8 @@ function phpAds_ParseHTMLAutoLog ($html, $bannerID, $url, $target)
 				{
 					$newbanner = $newbanner . 
 							substr($html, $prevhrefpos, $hrefpos - $prevhrefpos) . 
-							$quotechar . $phpAds_config['url_prefix'] . '/adclick.php?bannerID=' . 
-							$bannerID . '&dest=' . 
+							$quotechar . $phpAds_config['url_prefix'] . '/adclick.php?bannerid=' . 
+							$bannerid . '&dest=' . 
 							urlencode(substr($html, $quotepos+1, $endquotepos - $quotepos - 1)) .
 							'&ismap=';
 				}
@@ -749,8 +749,8 @@ function phpAds_ParseHTMLAutoLog ($html, $bannerID, $url, $target)
 				{
 					$newbanner = $newbanner . 
 							substr($html, $prevhrefpos, $hrefpos - $prevhrefpos) . 
-							'"' . $phpAds_config['url_prefix'] . '/adclick.php?bannerID=' . 
-							$bannerID . '&dest=' . 
+							'"' . $phpAds_config['url_prefix'] . '/adclick.php?bannerid=' . 
+							$bannerid . '&dest=' . 
 							urlencode(substr($html, $hrefpos, $endpos - $hrefpos)) .
 							'&ismap="';
 				}
@@ -783,7 +783,7 @@ function phpAds_ParseHTMLAutoLog ($html, $bannerID, $url, $target)
 		$targettag = ' target="'.$target.'"';
 		
 		// No link or form
-		$html = "<a href='".$phpAds_config['url_prefix']."/adclick.php?bannerID=".$bannerID."&ismap='".$targettag.">".$html."</a>";
+		$html = "<a href='".$phpAds_config['url_prefix']."/adclick.php?bannerid=".$bannerid."&ismap='".$targettag.">".$html."</a>";
 	}
 	
 	return ($html);
@@ -795,31 +795,31 @@ function phpAds_ParseHTMLAutoLog ($html, $bannerID, $url, $target)
 /* Create the HTML needed to display the banner          */
 /*********************************************************/
 
-function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $context=0)
+function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $context=0)
 {
 	global $phpAds_config;
 	global $REMOTE_HOST;
 	
-	// If $clientID consists of alpha-numeric chars it is
-	// not the clientID, but the target parameter.
-	if(!ereg('^[0-9]+$', $clientID))
+	// If $clientid consists of alpha-numeric chars it is
+	// not the clientid, but the target parameter.
+	if(!ereg('^[0-9]+$', $clientid))
 	{
-		$target = $clientID;
-		$clientID = 0;
+		$target = $clientid;
+		$clientid = 0;
 	}
 	
 	// Open database connection
 	phpAds_dbConnect();
 	
 	// Get one valid banner
-	$row = phpAds_fetchBanner($what, $clientID, $context, $source);
+	$row = phpAds_fetchBanner($what, $clientid, $context, $source);
 	
 	
 	$outputbuffer = "";
 	
 	if (is_array($row))
 	{
-		if (!empty($row['bannerID'])) 
+		if (!empty($row['bannerid'])) 
 		{
 			if (!empty($target))
 			{
@@ -855,14 +855,14 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 				
 				// Replace standard variables
 				$html = str_replace ('{timestamp}',	time(), $html);
-				$html = str_replace ('{bannerid}', 	$row['bannerID'], $html);
-				$html = str_replace ('{targeturl}', $phpAds_config['url_prefix'].'/adclick.php?bannerID='.$row['bannerID'].'&ismap=', $html);
+				$html = str_replace ('{bannerid}', 	$row['bannerid'], $html);
+				$html = str_replace ('{targeturl}', $phpAds_config['url_prefix'].'/adclick.php?bannerid='.$row['bannerid'].'&ismap=', $html);
 				
 				if (strpos ($html, "{targeturl:") > 0)
 				{
 					while (eregi("{targeturl:([^}]*)}", $html, $regs))
 					{
-						$html = str_replace ($regs[0], $phpAds_config['url_prefix'].'/adclick.php?bannerID='.$row['bannerID'].'&dest='.urlencode($regs[1]).'&ismap=', $html);
+						$html = str_replace ($regs[0], $phpAds_config['url_prefix'].'/adclick.php?bannerid='.$row['bannerid'].'&dest='.urlencode($regs[1]).'&ismap=', $html);
 					}
 				}
 				
@@ -888,12 +888,12 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 					$lastrandom = $randomnumber;
 				}
 				
-				if ($phpAds_config['type_html_auto'] && $row['autohtml'] == 'true')
+				if ($phpAds_config['type_html_auto'] && $row['autohtml'] == 't')
 				{
 					if ($phpAds_config['type_html_php'])
 						$html = phpAds_ParseHTMLExpressions ($html);
 					
-					$html = phpAds_ParseHTMLAutoLog ($html, $row['bannerID'], $row['url'], $target);
+					$html = phpAds_ParseHTMLAutoLog ($html, $row['bannerid'], $row['url'], $target);
 				}
 				
 				$outputbuffer = $html;
@@ -938,10 +938,10 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 					$outputbuffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
 					$outputbuffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
 					$outputbuffer .= "swflash.cab#version=5,0,0,0' width='".$row['width']."' height='".$row['height']."'>";
-					$outputbuffer .= "<param name='movie' value='".$row['banner'].(empty($row['url']) ? '' : '?targeturl='.urlencode($phpAds_config['url_prefix'].'/adclick.php?bannerID='.$row['bannerID'].'&dest='.$row['url']))."'>";
+					$outputbuffer .= "<param name='movie' value='".$row['banner'].(empty($row['url']) ? '' : '?targeturl='.urlencode($phpAds_config['url_prefix'].'/adclick.php?bannerid='.$row['bannerid'].'&dest='.$row['url']))."'>";
 					$outputbuffer .= "<param name='quality' value='high'>";
 					// $outputbuffer .= "<param name='bgcolor' value='#FFFFFF'>";
-					$outputbuffer .= "<embed src='".$row['banner'].(empty($row['url']) ? '' : '?targeturl='.urlencode($phpAds_config['url_prefix'].'/adclick.php?bannerID='.$row['bannerID'].'&dest='.$row['url']))."' quality=high ";
+					$outputbuffer .= "<embed src='".$row['banner'].(empty($row['url']) ? '' : '?targeturl='.urlencode($phpAds_config['url_prefix'].'/adclick.php?bannerid='.$row['bannerid'].'&dest='.$row['url']))."' quality=high ";
 					// $outputbuffer .= "bgcolor='#FFFFFF' ";
 					$outputbuffer .= "width='".$row['width']."' height='".$row['height']."' type='application/x-shockwave-flash' ";
 					$outputbuffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
@@ -952,11 +952,11 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 					if (empty($row['url']))
 						$outputbuffer .= '<img src=\''.$row['banner'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' title=\''.$row['alt'].'\' border=\'0\''.$status.'>';
 					else
-						$outputbuffer .= '<a href=\''.$phpAds_config['url_prefix'].'/adclick.php?bannerID='.$row['bannerID'].'&dest='.urlencode($row['url']).'\''.$targettag.$status.'><img src=\''.$row['banner'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' title=\''.$row['alt'].'\' border=\'0\'></a>';
+						$outputbuffer .= '<a href=\''.$phpAds_config['url_prefix'].'/adclick.php?bannerid='.$row['bannerid'].'&dest='.urlencode($row['url']).'\''.$targettag.$status.'><img src=\''.$row['banner'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' title=\''.$row['alt'].'\' border=\'0\'></a>';
 				}
 				
 				if ($withtext && !empty($row['bannertext']))
-					$outputbuffer .= '<br><a href=\''.$phpAds_config['url_prefix'].'/adclick.php?bannerID='.$row['bannerID'].'\''.$targettag.$status.'>'.$row['bannertext'].'</a>';
+					$outputbuffer .= '<br><a href=\''.$phpAds_config['url_prefix'].'/adclick.php?bannerid='.$row['bannerid'].'\''.$targettag.$status.'>'.$row['bannertext'].'</a>';
 			}
 			elseif ($row['format'] == 'web')
 			{
@@ -967,10 +967,10 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 					$outputbuffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
 					$outputbuffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
 					$outputbuffer .= "swflash.cab#version=5,0,0,0' width='".$row['width']."' height='".$row['height']."'>";
-					$outputbuffer .= "<param name='movie' value='".$row['banner'].(empty($row['url']) ? '' : '?targeturl='.urlencode($phpAds_config['url_prefix'].'/adclick.php?bannerID='.$row['bannerID']))."'>";
+					$outputbuffer .= "<param name='movie' value='".$row['banner'].(empty($row['url']) ? '' : '?targeturl='.urlencode($phpAds_config['url_prefix'].'/adclick.php?bannerid='.$row['bannerid']))."'>";
 					$outputbuffer .= "<param name='quality' value='high'>";
 					// $outputbuffer .= "<param name='bgcolor' value='#FFFFFF'>";
-					$outputbuffer .= "<embed src='".$row['banner'].(empty($row['url']) ? '' : '?targeturl='.urlencode($phpAds_config['url_prefix'].'/adclick.php?bannerID='.$row['bannerID']))."' quality=high ";
+					$outputbuffer .= "<embed src='".$row['banner'].(empty($row['url']) ? '' : '?targeturl='.urlencode($phpAds_config['url_prefix'].'/adclick.php?bannerid='.$row['bannerid']))."' quality=high ";
 					// $outputbuffer .= "bgcolor='#FFFFFF' ";
 					$outputbuffer .= "width='".$row['width']."' height='".$row['height']."' type='application/x-shockwave-flash' ";
 					$outputbuffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
@@ -981,11 +981,11 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 					if (empty($row['url']))
 						$outputbuffer .= '<img src=\''.$row['banner'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' title=\''.$row['alt'].'\' border=\'0\''.$status.'>';
 					else
-						$outputbuffer .= '<a href=\''.$phpAds_config['url_prefix'].'/adclick.php?bannerID='.$row['bannerID'].'\''.$targettag.$status.'><img src=\''.$row['banner'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' title=\''.$row['alt'].'\' border=\'0\'></a>';
+						$outputbuffer .= '<a href=\''.$phpAds_config['url_prefix'].'/adclick.php?bannerid='.$row['bannerid'].'\''.$targettag.$status.'><img src=\''.$row['banner'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' title=\''.$row['alt'].'\' border=\'0\'></a>';
 				}
 				
 				if ($withtext && !empty($row['bannertext']))
-					$outputbuffer .= '<br><a href=\''.$phpAds_config['url_prefix'].'/adclick.php?bannerID='.$row['bannerID'].'\''.$targettag.$status.'>'.$row['bannertext'].'</a>';
+					$outputbuffer .= '<br><a href=\''.$phpAds_config['url_prefix'].'/adclick.php?bannerid='.$row['bannerid'].'\''.$targettag.$status.'>'.$row['bannertext'].'</a>';
 			}
 			else
 			{
@@ -996,10 +996,10 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 					$outputbuffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
 					$outputbuffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
 					$outputbuffer .= "swflash.cab#version=5,0,0,0' width='".$row['width']."' height='".$row['height']."'>";
-					$outputbuffer .= "<param name='movie' value='".$phpAds_config['url_prefix']."/adview.php?bannerID=".$row['bannerID'].(empty($row['url']) ? '' : '&targeturl='.urlencode($phpAds_config['url_prefix'].'/adclick.php?bannerID='.$row['bannerID']))."'>";
+					$outputbuffer .= "<param name='movie' value='".$phpAds_config['url_prefix']."/adview.php?bannerid=".$row['bannerid'].(empty($row['url']) ? '' : '&targeturl='.urlencode($phpAds_config['url_prefix'].'/adclick.php?bannerid='.$row['bannerid']))."'>";
 					$outputbuffer .= "<param name='quality' value='high'>";
 					// $outputbuffer .= "<param name='bgcolor' value='#FFFFFF'>";
-					$outputbuffer .= "<embed src='".$phpAds_config['url_prefix']."/adview.php?bannerID=".$row['bannerID'].(empty($row['url']) ? '' : '&targeturl='.urlencode($phpAds_config['url_prefix'].'/adclick.php?bannerID='.$row['bannerID']))."' quality=high ";
+					$outputbuffer .= "<embed src='".$phpAds_config['url_prefix']."/adview.php?bannerid=".$row['bannerid'].(empty($row['url']) ? '' : '&targeturl='.urlencode($phpAds_config['url_prefix'].'/adclick.php?bannerid='.$row['bannerid']))."' quality=high ";
 					// $outputbuffer .= "bgcolor='#FFFFFF' ";
 					$outputbuffer .= "width='".$row['width']."' height='".$row['height']."' type='application/x-shockwave-flash' ";
 					$outputbuffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
@@ -1008,19 +1008,19 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 				else
 				{
 					if (empty($row['url']))
-						$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adview.php?bannerID='.$row['bannerID'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' title=\''.$row['alt'].'\' border=\'0\''.$status.'>';
+						$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adview.php?bannerid='.$row['bannerid'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' title=\''.$row['alt'].'\' border=\'0\''.$status.'>';
 					else
-						$outputbuffer .= '<a href=\''.$phpAds_config['url_prefix'].'/adclick.php?bannerID='.$row['bannerID'].'\''.$targettag.$status.'><img src=\''.$phpAds_config['url_prefix'].'/adview.php?bannerID='.$row['bannerID'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' title=\''.$row['alt'].'\' border=\'0\'></a>';
+						$outputbuffer .= '<a href=\''.$phpAds_config['url_prefix'].'/adclick.php?bannerid='.$row['bannerid'].'\''.$targettag.$status.'><img src=\''.$phpAds_config['url_prefix'].'/adview.php?bannerid='.$row['bannerid'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' title=\''.$row['alt'].'\' border=\'0\'></a>';
 				}
 				
 				if ($withtext && !empty($row['bannertext']))
-					$outputbuffer .= '<br><a href=\''.$phpAds_config['url_prefix'].'/adclick.php?bannerID='.$row['bannerID'].'\''.$targettag.$status.'>'.$row['bannertext'].'</a>';
+					$outputbuffer .= '<br><a href=\''.$phpAds_config['url_prefix'].'/adclick.php?bannerid='.$row['bannerid'].'\''.$targettag.$status.'>'.$row['bannertext'].'</a>';
 			}
 			
 			
 			// Log this AdView
-			if (!empty($row['bannerID']))
-				phpAds_prepareLog($row['bannerID'], $row['clientID']);
+			if (!empty($row['bannerid']))
+				phpAds_prepareLog($row['bannerid'], $row['clientid']);
 		}
 	}
 	else
@@ -1045,7 +1045,7 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 			$outputbuffer .= '<a href=\''.$phpAds_config['default_banner_target'].'\'$target><img src=\''.$phpAds_config['default_banner_url'].'\' border=\'0\'></a>';
 			
 			return( array('html' => $outputbuffer, 
-						  'bannerID' => '')
+						  'bannerid' => '')
 				  );
 		}
 	}
@@ -1053,7 +1053,7 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 	phpAds_dbClose();
 	
 	return( array('html' => $outputbuffer, 
-				  'bannerID' => $row['bannerID'])
+				  'bannerid' => $row['bannerid'])
 		  );
 }
 
@@ -1063,11 +1063,11 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 /* Display a banner                                      */
 /*********************************************************/
 
-function view($what, $clientID=0, $target='', $source='', $withtext=0, $context=0)
+function view($what, $clientid=0, $target='', $source='', $withtext=0, $context=0)
 {
-	$output = view_raw($what, $clientID, "$target", "$source", $withtext, $context);
+	$output = view_raw($what, $clientid, "$target", "$source", $withtext, $context);
 	print($output['html']);
-	return($output['bannerID']);
+	return($output['bannerid']);
 }
 
 
