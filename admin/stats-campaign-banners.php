@@ -109,7 +109,7 @@ if (phpAds_isUser(phpAds_Admin))
 		FROM
 			".$phpAds_config['tbl_clients']."
 		WHERE
-			parent > 0
+			parent = ".$clientid."
 	") or phpAds_sqlDie();
 	
 	while ($row = phpAds_dbFetchArray($res))
