@@ -51,6 +51,9 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Added error message to 'Link banners' page  (Niels) 20011202
 			  - Iframes can now automatically resize to the banner dimensions  (Niels) 20011203
 			  - Iframes can now be transparent  (Niels) 20011203
+			  - Impression prediction tries to better compensate limited time peaks  (Matteo) 20011211
+			  - Added a better priority calculation when no targeted campaign is present  (Matteo) 20011211
+
 
 			+ Misc bugfixes
 			  - Removed extra comma from config.inc  (Matteo) 20011017
@@ -90,6 +93,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: HTML banners rendering in the interface was alse splitting HTML entities  (Matteo) 20011205
 			  - Bugfix: HTML entities in translations were not supported into settings SELECTS/OPTIONS  (Matteo) 20011205
 			  - Bugfix: Ignored hosts were logged when using two or more banners whitin local invocation  (Matteo) 20011209
+			  - Bugfix: Removed form validation problem when adding switching a campaign to targeted mode  (Matteo) 20011211
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015

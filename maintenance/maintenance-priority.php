@@ -19,4 +19,7 @@ require	("../lib-priority.inc.php");
 
 phpAds_PriorityCalculate();
 
+if ($debug)
+	mail ($phpAds_config['admin_email'], "PRIORITY DEBUG REPORT: ".date('d-m H:i'), $debuglog);
+
 ?>
