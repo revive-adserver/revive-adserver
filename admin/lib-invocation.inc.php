@@ -49,7 +49,8 @@ function phpAds_GenerateInvocationCode()
 	{
 		$server_phpads   = parse_url($phpAds_config['url_prefix']);
 		$server_affilate = parse_url($website);
-		$server_same 	 = ($server_phpads['host'] == $server_affilate['host']);
+		$server_same 	 = (@gethostbyname($server_phpads['host']) == 
+							@gethostbyname($server_affilate['host']));
 	}
 	else
 		$server_same = true;
@@ -365,7 +366,8 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	{
 		$server_phpads   = parse_url($phpAds_config['url_prefix']);
 		$server_affilate = parse_url($extra['website']);
-		$server_same 	 = ($server_phpads['host'] == $server_affilate['host']);
+		$server_same 	 = (@gethostbyname($server_phpads['host']) == 
+							@gethostbyname($server_affilate['host']));
 	}
 	else
 		$server_same = true;
