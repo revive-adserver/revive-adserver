@@ -103,7 +103,7 @@ CREATE TABLE acls (
 
 # --------------------------------------------------------
 #
-# Table structure for table 'stats'
+# Table structure for table 'adstats'
 #
 CREATE TABLE adstats (
   views int(11) DEFAULT '0' NOT NULL,
