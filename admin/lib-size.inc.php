@@ -37,9 +37,9 @@ $phpAds_BannerSize ['IAB Wide Skyscraper (160 x 600)'] 	  = array ('width' => 16
 
 function phpAds_getBannerSize ($width, $height)
 {
-	global $phpAds_BannerSize;
+	global $phpAds_BannerSize, $strCustom;
 	
-	$result = "Custom ($width x $height)";
+	$result = $strCustom." ($width x $height)";
 	
 	for (reset($phpAds_BannerSize);$key=key($phpAds_BannerSize);next($phpAds_BannerSize))
 	{
