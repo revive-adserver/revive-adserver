@@ -81,16 +81,21 @@ while ($row_source = phpAds_dbFetchArray($res_source))
 {
 	if (!isset($source))
     	$source=$row_source['source'];
-	echo "<OPTION value='".$row_source['source']."'";
+	echo "<option value='".$row_source['source']."'";
 	if ($source == $row_source['source'])
-		echo " SELECTED";
+		echo " selected";
     echo ">";
-	if ($row_source['source'] == '')
-		echo $strNone;
-	else
+	if ($row_source['source'] != '')
 		echo $row_source['source'];
 	echo "</option>";
 }
+
+if (!isset($source) || $source == '')
+{
+	$source = '';
+	echo "<option value=''>".$strNone."</option";
+}
+
 echo "</select>&nbsp;";
 echo "<a href='javascript:void(0)' onClick='goto_source();'><img src='images/$phpAds_TextDirection/go_blue.gif' border='0'></a><br><br>\n";
 
@@ -167,7 +172,7 @@ else
 	// Get stats for selected period
 	$begin = date('YmdHis', mktime(0, 0, 0, date('m'), date('d') - $limit + 1 - $start, date('Y')));
 	$end   = date('YmdHis', mktime(0, 0, 0, date('m'), date('d') + 1 - $start, date('Y')));
-
+	
 	$result = phpAds_dbQuery("
 		SELECT
 			COUNT(*) AS sum_views,

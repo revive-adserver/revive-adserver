@@ -139,8 +139,6 @@ function phpAds_upgradeTable ($name, $structure)
 	if (isset($structure['index']))   $index   = $structure['index'];
 	if (isset($structure['unique']))  $unique  = $structure['unique'];
 	
-	// Get existing columns
-		$availablecolumns[$row['Field']] = $row;
 	
 	// Change case of all columns to lower
 	$res = phpAds_dbQuery("DESCRIBE ".$name);
@@ -227,7 +225,7 @@ function phpAds_upgradeTable ($name, $structure)
 	
 	
 	// Check Primary
-	if (is_array($primary) && sizeof($primary) > 0)
+	if (isset($primary) && is_array($primary) && sizeof($primary) > 0)
 	{
 		phpAds_dbQuery("ALTER TABLE ".$name." DROP PRIMARY KEY");
 		phpAds_dbQuery("ALTER TABLE ".$name." ADD PRIMARY KEY (".implode(",", $primary).")");
@@ -235,7 +233,7 @@ function phpAds_upgradeTable ($name, $structure)
 	
 	
 	// Check Indexes
-	if (is_array($index) && sizeof($index) > 0)
+	if (isset($index) && is_array($index) && sizeof($index) > 0)
 	{
 		for (reset($index); $key = key($index);	next($index))
 		{
@@ -249,7 +247,7 @@ function phpAds_upgradeTable ($name, $structure)
 	
 	
 	// Check Unique Indexes
-	if (is_array($unique) && sizeof($unique) > 0)
+	if (isset($unique) && is_array($unique) && sizeof($unique) > 0)
 	{
 		for (reset($unique); $key = key($unique); next($unique))
 		{
