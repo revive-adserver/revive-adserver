@@ -242,7 +242,7 @@ $GLOBALS['strActivationDate']			= "Activation date";
 $GLOBALS['strViewsPurchased'] 			= "AdViews remaining";
 $GLOBALS['strClicksPurchased'] 			= "AdClicks remaining";
 $GLOBALS['strCampaignWeight']			= "Campaign weight";
-$GLOBALS['strHighPriority']			= "Show banners in this campaign with high priority.<br>If you use this option phpAdsNew will try to distribute the number of AdViews evenly over the course of the day.";
+$GLOBALS['strHighPriority']			= "Show banners in this campaign with high priority.<br>If you use this option ".$phpAds_productname." will try to distribute the number of AdViews evenly over the course of the day.";
 $GLOBALS['strLowPriority']			= "Show banner in this campaign with low priority.<br> This campaign is used to show the left over AdViews which aren't used by high priority campaigns.";
 $GLOBALS['strTargetLimitAdviews']		= "Limit the number of AdViews to";
 $GLOBALS['strTargetPerDay']			= "per day.";
@@ -309,7 +309,7 @@ $GLOBALS['strBannerWeight']			= "Banner weight";
 $GLOBALS['strCheckSWF']				= "Check for hard-coded links inside the Flash file";
 $GLOBALS['strConvertSWFLinks']			= "Convert Flash links";
 $GLOBALS['strHardcodedLinks']			= "Hard-coded links";
-$GLOBALS['strConvertSWF']			= "<br>The Flash file you just uploaded contains hard-coded urls. phpAdsNew won't be able to track the number of AdClicks for this banner unless you convert these hard-coded urls. Below you will find a list of all urls inside the Flash file. If you want to convert the urls, simply click <b>Convert</b>, otherwise click <b>Cancel</b>.<br><br>Please note: if you click <b>Convert</b> the Flash file you just uploaded will be physically altered. <br>Please keep a backup of the original file. Regardless of in which version this banner was created, the resulting file will need the Flash 4 player (or higher) to display correctly.<br><br>";
+$GLOBALS['strConvertSWF']			= "<br>The Flash file you just uploaded contains hard-coded urls. ".$phpAds_productname." won't be able to track the number of AdClicks for this banner unless you convert these hard-coded urls. Below you will find a list of all urls inside the Flash file. If you want to convert the urls, simply click <b>Convert</b>, otherwise click <b>Cancel</b>.<br><br>Please note: if you click <b>Convert</b> the Flash file you just uploaded will be physically altered. <br>Please keep a backup of the original file. Regardless of in which version this banner was created, the resulting file will need the Flash 4 player (or higher) to display correctly.<br><br>";
 $GLOBALS['strCompressSWF']			= "Compress SWF file for faster downloading (Flash 6 player required)";
 $GLOBALS['strOverwriteSource']		= "Overwrite source parameter";
 
