@@ -33,20 +33,34 @@ if (isset($submit))
 			$message = $strClientAdded;
 		}
 		
-		if (strtolower($unlimitedviews)=="on")
-			$views=-1;
-		if (strtolower($unlimitedclicks)=="on")
-			$clicks=-1;
+		// set expired
+		if ($views == '-')
+			$views = 0;
+		if ($clicks == '-')
+			$clicks = 0;
 		
-		if (strtolower($unlimiteddays_left)=="on")
-			$expire = '0000-00-00';
+		// set unlimited
+		if (strtolower ($unlimitedviews) == "on")
+			$views = -1;
+		if (strtolower ($unlimitedclicks) == "on")
+			$clicks = -1;
+		
+		if (strtolower ($unlimiteddays_left) == "on")
+			$expire = "'0000-00-00'";
 		else
-			$expire = "DATE_ADD(CURDATE(), INTERVAL $days_left DAY)";
+			if ($days_left != '-')
+				$expire = "DATE_ADD(CURDATE(), INTERVAL $days_left DAY)";
+			else
+				$expire = "'$expire'";
 		
-		if($clicks>0 OR $views>0 OR $clicks==-1 OR $views==-1)
+		
+		if (strtolower ($unlimiteddays_left) == "on" || $days_left != '-')
 		{
-			$active="true";
-			db_query("UPDATE $phpAds_tbl_banners SET active='$active' WHERE clientID='$clientID'");
+			if($clicks>0 OR $views>0 OR $clicks==-1 OR $views==-1)
+			{
+				$active="true";
+				db_query("UPDATE $phpAds_tbl_banners SET active='$active' WHERE clientID='$clientID'");
+			}
 		}
 		
 		$permissions = 0;
@@ -55,8 +69,7 @@ if (isset($submit))
 			$permissions += $clientpermissions[$i];
 		}
 		
-		
-		$res = db_query("
+		$query = "
 			REPLACE INTO
 				$phpAds_tbl_clients(clientID,
 				clientname,
@@ -80,8 +93,10 @@ if (isset($submit))
 				'$clientpassword',
 				$expire,
 				$permissions,
-				'$clientlanguage')")
-			or mysql_die();  
+				'$clientlanguage')";
+		
+		
+		$res = db_query($query) or mysql_die();  
 		
 		Header("Location: admin.php?message=".urlencode($message));
 		exit;
@@ -165,7 +180,8 @@ if ($clientID != "")
 		SELECT
 			*,
 			to_days(expire) as expire_day,
-			to_days(curdate()) as cur_date
+			to_days(curdate()) as cur_date,
+			UNIX_TIMESTAMP(expire) as timestamp
 		FROM
 			$phpAds_tbl_clients
 		WHERE
@@ -173,10 +189,22 @@ if ($clientID != "")
 		") or mysql_die();
 	$row = mysql_fetch_array($res);
 	
-	if ($row["expire"]=="0000-00-00")
-		$days_left=-1;
+	
+	if ($row["timestamp"] < time())
+	{
+		if ($row["timestamp"] > 0)
+		{
+			$days_left = "0";
+		}
+		else
+		{
+			$days_left = -1;
+		}
+	}
 	else
+	{
 		$days_left=$row["expire_day"] - $row["cur_date"];
+	}
 }
 else
 {
@@ -184,12 +212,16 @@ else
 	phpAds_ShowNav("1.1");   
 }
 
+
 if ($row["views"] == "")
 	$row["views"] = -1;
 if ($row["clicks"] == "")
 	$row["clicks"] = -1;
+
 if ($days_left == "")
 	$days_left = -1;
+
+
 
 if (phpAds_isUser(phpAds_Admin))
 {
@@ -199,10 +231,7 @@ if (phpAds_isUser(phpAds_Admin))
 	<!--
 		function typeviews()
 		{
-			checkbox = document.clientform.unlimitedviews.checked;
-			inputfield = document.clientform.views.value;
-			
-			if (checkbox == true)
+			if (eval(document.clientform.unlimitedviews.checked) == true)
 			{
 				document.clientform.unlimitedviews.checked = false;
 			}
@@ -210,10 +239,7 @@ if (phpAds_isUser(phpAds_Admin))
 
 		function typeclicks()
 		{
-			checkbox = document.clientform.unlimitedclicks.checked;
-			inputfield = document.clientform.clicks.value;
-			
-			if (checkbox == true)
+			if (eval(document.clientform.unlimitedclicks.checked) == true)
 			{
 				document.clientform.unlimitedclicks.checked = false;
 			}
@@ -221,10 +247,7 @@ if (phpAds_isUser(phpAds_Admin))
 
 		function typedays_left()
 		{
-			checkbox = document.clientform.unlimiteddays_left.checked;
-			inputfield = document.clientform.days_left.value;
-			
-			if (checkbox == true)
+			if (eval(document.clientform.unlimiteddays_left.checked) == true)
 			{
 				document.clientform.unlimiteddays_left.checked = false;
 			}
@@ -266,41 +289,47 @@ if (phpAds_isUser(phpAds_Admin))
 		}
 		function valid(form)
 		{
-			var views=parseInt(form.views.value);
-			if (!views)
+			var views=form.views.value;
+			var clicks=form.clicks.value;
+			var days_left=form.days_left.value;
+
+			if (!parseInt(views))
 			{
-				if (eval(form.unlimitedviews.checked) == false)
+				if (eval(form.unlimitedviews.checked) == false && views != '-')
 				{
 					alert("<?print $GLOBALS['strErrorViews'];?>");
 					return false;
 				}
-			} else if (views < 0)
+			} 
+			else if (parseInt(views) < 0)
 			{
 				alert("<?print $GLOBALS['strErrorNegViews'];?>");
 				return false;
 			}
-			var clicks=parseInt(form.clicks.value);
-			if (!clicks)
+			
+			if (!parseInt(clicks))
 			{
-				if (eval(form.unlimitedclicks.checked) == false)
+				if (eval(form.unlimitedclicks.checked) == false && clicks != '-')
 				{
 					alert("<?print $GLOBALS['strErrorClicks'];?>");
 					return false;
 				}
-			} else if (clicks < 0)
+			} 
+			else if (parseInt(clicks) < 0)
 			{
 				alert("<?print $GLOBALS['strErrorNegClicks'];?>");
 				return false;
 			}
-			var days_left=parseInt(form.days_left.value);
-			if (!days_left)
+			
+			if (!parseInt(days_left))
 			{
-				if (eval(form.unlimiteddays_left.checked) == false)
+				if (eval(form.unlimiteddays_left.checked) == false && days_left != '-')
 				{
 					alert("<?print $GLOBALS['strErrorDays'];?>");
 					return false;
 				}
-			} else if (days_left < 0)
+			}
+			else if (parseInt(days_left) < 0)
 			{
 				alert("<?print $GLOBALS['strErrorNegDays'];?>");
 				return false;
@@ -317,7 +346,8 @@ if (phpAds_isUser(phpAds_Admin))
 
 
 <form name="clientform" method="post" action="<?echo basename($PHP_SELF);?>" onSubmit="return valid(this)">
-<input type="hidden" name="clientID" value="<?if(IsSet($clientID)) echo $clientID;?>">
+<input type="hidden" name="clientID" value="<?if(isset($clientID)) echo $clientID;?>">
+<input type="hidden" name="expire" value="<?if(isset($row["expire"])) echo $row["expire"];?>">
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 	<tr><td height='25' colspan='3'><b><?echo $strBasicInformation;?></b></td></tr>
@@ -397,7 +427,7 @@ if (phpAds_isUser(phpAds_Admin))
 		{
 			?>
 			<td>
-				<input type="text" name="views" size='25' value="<?if($row["views"]!=-1)echo $row["views"];else echo '-';?>" onKeyUp="typeviews();">
+				<input type="text" name="views" size='25' value="<?if($row["views"]>0)echo $row["views"];else echo '-';?>" onKeyUp="typeviews();">
 				<input type="checkbox" name="unlimitedviews"<?if($row["views"]==-1)print " CHECKED";?> onClick="checkunlimitedviews();">
 				<? echo $GLOBALS['strUnlimited']; ?>
 			</td>
@@ -422,7 +452,7 @@ if (phpAds_isUser(phpAds_Admin))
 		{
 			?>
 			<td>
-				<input type="text" name="clicks" size='25' value="<?if($row["clicks"]!=-1)echo $row["clicks"];else echo '-';?>" onKeyUp="typeclicks();">
+				<input type="text" name="clicks" size='25' value="<?if($row["clicks"]>0)echo $row["clicks"];else echo '-';?>" onKeyUp="typeclicks();">
 				<input type="checkbox" name="unlimitedclicks"<?if($row["clicks"]==-1)print " CHECKED";?> onClick="checkunlimitedclicks();">
 				<? echo $GLOBALS['strUnlimited']; ?>
 			</td>
@@ -447,7 +477,7 @@ if (phpAds_isUser(phpAds_Admin))
 		{
 			?>
 			<td>
-				<input type="text" name="days_left" size='25' value="<?if($days_left!=-1)echo $days_left;else echo '-';?>" onKeyUp="typedays_left();">
+				<input type="text" name="days_left" size='25' value="<?if($days_left>0)echo $days_left;else echo '-';?>" onKeyUp="typedays_left();">
 				<input type="checkbox" name="unlimiteddays_left"<?if($days_left==-1)print " CHECKED";?> onClick="checkunlimiteddays_left();">
 				<? echo $GLOBALS['strUnlimited']; ?>
 			</td>
