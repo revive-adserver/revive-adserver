@@ -19,6 +19,7 @@ CVS
 			  - 2003-09-13:  Disabled logging of clicks for Flash banners in the admin interface - bug #794495  (Niels)
 			  - 2003-09-13:  Direct selection could not retrieve the stored delivery cache, resulting in a full query everytime  (Niels)
 			  - 2003-09-14:  Fixed E_ALL warnings in lib-history.inc.php  (Niels)
+			  - 2003-09-24:  Fixed bug in revision check that caused modified file warnings  (Niels)
 
 
 v 2.0rc4.2		+ Misc changes

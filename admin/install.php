@@ -31,6 +31,9 @@ include (phpAds_path."/libraries/lib-revisions.inc.php");
 
 if (!count($HTTP_POST_VARS) && !count($HTTP_GET_VARS))
 {
+	// Disable magic_quotes_runtime, otherwise we might get false 'changed files' warnings
+	set_magic_quotes_runtime(0);
+
 	// Before we do anything else we need to check the integerity of the uploaded files
 	if ($result = phpAds_revisionCheck())
 	{
