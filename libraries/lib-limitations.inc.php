@@ -177,7 +177,7 @@ function phpAds_aclCheckSource($data, $ad, $source)
 		return (true);
 	
 	$expression = ($data == "*" || strtolower($source) == strtolower($data) || 
-				   preg_match('#^'.str_replace('*', '[a-z0-9]*', $data).'$#i', $source));
+				   preg_match('#^'.str_replace('*', '.*', $data).'$#i', $source));
 	$operator   = $ad == '==';
 	return ($expression == $operator);
 }
