@@ -452,7 +452,7 @@ $GLOBALS['strSelectCampaignToLink']			= "Seleziona la campagna che vorresti coll
 // Append
 $GLOBALS['strAppendType']					= "Tipo di accodamento";
 $GLOBALS['strAppendHTMLCode']				= "Codice HTML";
-$GLOBALS['strAppendWhat']					= "Che tipo di accodamento vuoi usare?";
+$GLOBALS['strAppendWhat']					= "Modalit&agrave; di selezione dei banner";
 $GLOBALS['strAppendZone']					= "Accoda una specifica zona";
 $GLOBALS['strAppendErrorZone']				= "Devi selezionare una zona prima \\ndi procedere. Altrimenti non verrà accodato \\nnessun banner.";
 $GLOBALS['strAppendBanner']					= "Accoda uno o pi&ugrave; banner individualmente";
