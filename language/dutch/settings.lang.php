@@ -31,6 +31,7 @@ $GLOBALS['strCreateTableTestFailed']		= "De gebruiker die u heeft opgegeven heef
 $GLOBALS['strUpdateTableTestFailed']		= "De gebruiker die u heeft opgegeven heeft geen toestemming om de database structuur te wijzigen, neem a.u.b. contact op met de beheerder van de database.";
 $GLOBALS['strTablePrefixInvalid']		= "De tabelnaam voorvoegsel bevat illegale tekens";
 $GLOBALS['strTableInUse']			= "De database welke u opgegeven heeft is al ingebruik door ".$phpAds_productname.". Gebruik een ander tabelnaam voorvoegsel of lees de documentatie voor instructies om te upgraden.";
+$GLOBALS['strTableWrongType']		= "Het tabel type dat u geselecteerd heeft wordt niet ondersteund door uw ".$phpAds_dbmsname." installatie";
 $GLOBALS['strMayNotFunction']			= "Voor dat uw verder gaat, corrigeer a.u.b. de volgende problemen:";
 $GLOBALS['strIgnoreWarnings']			= "Negeer waarschuwingen";
 $GLOBALS['strWarningPHPversion']		= $phpAds_productname." heeft minimaal PHP 4.0 nodig om te functioneren. U gebruik momenteel versie {php_version}.";
@@ -39,6 +40,8 @@ $GLOBALS['strWarningRegisterGlobals']		= "De PHP instelling register_globals moe
 $GLOBALS['strWarningMagicQuotesGPC']		= "De PHP instelling magic_quotes_gpc moet aan staan.";
 $GLOBALS['strWarningMagicQuotesRuntime']	= "De PHP instelling magic_quotes_runtime moet uit staan.";
 $GLOBALS['strWarningFileUploads']		= "De PHP instelling file_uploads moet aan staan.";
+$GLOBALS['strWarningTrackVars']			= "De PHP instelling track_vars moet aan staan.";
+$GLOBALS['strWarningPREG']				= "De versie van PHP die u gebruikt heeft geen ondersteuning voor PERL compatible reguliere expressies. U dient de PREG extentie te installeren voordat u verder kunt gaan.";
 $GLOBALS['strConfigLockedDetected']		= $phpAds_productname." heeft gedetecteerd dat uw <b>config.inc.php</b> bestand niet beschrijfbaar is door de server.<br> U kunt niet verder gaan tot u de bestands permissies gewijzigd heeft. <br>Raadpleeg de begevoegde documentatie indien u niet weet hoe u dit kunt doen.";
 $GLOBALS['strCantUpdateDB']  			= "Het is momenteel nog niet mogelijk om de database bij te werken. Indien u beslist om door te gaan worden alle bestaande banners, statistieken and klanten verwijderd.";
 $GLOBALS['strTableNames']			= "Tabelnamen";
@@ -74,7 +77,7 @@ $GLOBALS['strInvalidUserPwd']			= "Ongeldige gebruikersnaam of wachtwoord";
 
 $GLOBALS['strUpgrade']				= "Upgrade";
 $GLOBALS['strSystemUpToDate']			= "Uw systeem is al bijgewerkt, het is momenteel niet nodig om verder bij te werken. <br>Klik op <b>Verder</b> om door te gaan.";
-$GLOBALS['strSystemNeedsUpgrade']		= "Om goed te functioneren moeten de database structuur en het configuratie bestand worden bijgewerkt. Klik op <b>Verder</b> om te beginnen met bijwerken. <br>Het bijwerken kan enige minuten duren.";
+$GLOBALS['strSystemNeedsUpgrade']		= "Om goed te functioneren moeten de database structuur en het configuratie bestand worden bijgewerkt. Klik op <b>Verder</b> om te beginnen met bijwerken. <br><br>Afhankelijk van welke versie u wilt bijwerken en de hoeveelheid bestaande statistieken kan deze functie een hoge belasting veroorzaken op de database server. Het bijwerken kan enige minuten duren.";
 $GLOBALS['strSystemUpgradeBusy']		= "Uw systeem wordt momenteel bijgewerkt, een moment geduld a.u.b...";
 $GLOBALS['strSystemRebuildingCache']		= "Uw bestaande gegevens worden bijgewerkt, een moment geduld a.u.b...";
 $GLOBALS['strServiceUnavalable']		= "Deze service is momenteel niet beschikbaar. Het systeem wordt bijgewerkt.";
@@ -102,6 +105,7 @@ $GLOBALS['strEditConfigPossible']		= "Het is mogelijk om alle instellingen te wi
 // Database
 $GLOBALS['strDatabaseSettings']			= "Database instellingen";
 $GLOBALS['strDatabaseServer']			= "Database server";
+$GLOBALS['strDbPort']				= "Database poort nummer";
 $GLOBALS['strDbHost']				= "Database adres";
 $GLOBALS['strDbUser']				= "Database gebruikersnaam";
 $GLOBALS['strDbPassword']			= "Database wachtwoord";
@@ -127,16 +131,23 @@ $GLOBALS['strAllowLocalmode']			= "Gebruik Lokale mode";
 $GLOBALS['strAllowInterstitial']		= "Gebruik Interstitials";
 $GLOBALS['strAllowPopups']			= "Gebruik Popups";
 
-$GLOBALS['strUseAcl']				= "Gebruik leveringsbeperkingen";
+$GLOBALS['strUseAcl']				= "Evalueer de leveringsbeperkingen tijdens de aflevering";
 
+$GLOBALS['strDeliverySettings']			= "Leveringsinstellingen";
+$GLOBALS['strCacheType']				= "Type leveringscache";
+$GLOBALS['strCacheFiles']				= "Bestanden";
+$GLOBALS['strCacheDatabase']			= "Database";
+$GLOBALS['strCacheShmop']				= "Gedeeld geheugen/Shmop";
+$GLOBALS['strCacheSysvshm']				= "Gedeeld geheugen/Sysvshm";
+$GLOBALS['strExperimental']				= "Experimenteel";
 $GLOBALS['strKeywordRetrieval']			= "Sleutelwoord selectie";
 $GLOBALS['strBannerRetrieval']			= "Banner selectie methode";
 $GLOBALS['strRetrieveRandom']			= "Willekeurige banner selectie (standaard)";
 $GLOBALS['strRetrieveNormalSeq']		= "Normale sequentieele banner selectie";
 $GLOBALS['strWeightSeq']			= "Op gewicht gebaseerde sequentieele banner selectie";
 $GLOBALS['strFullSeq']				= "Volledige sequentieele banner selectie";
-$GLOBALS['strUseConditionalKeys']		= "Gebruik conditionele sleutelwoorden";
-$GLOBALS['strUseMultipleKeys']			= "Gebruik meerdere sleutelwoorden";
+$GLOBALS['strUseConditionalKeys']		= "Sta het gebruik van logische operatoren toe tijdens directe selectie";
+$GLOBALS['strUseMultipleKeys']			= "Sta het gebruik van meerdere sleutelwoorden toe tijdens directe selectie";
 
 $GLOBALS['strZonesSettings']			= "Zone selectie";
 $GLOBALS['strZoneCache']			= "Cache zones, dit zou het gebruik moeten versnellen wanneer gebruik gemaakt word van zones";
@@ -171,6 +182,10 @@ $GLOBALS['strTypeFTPHost']			= "FTP server";
 $GLOBALS['strTypeFTPDirectory']			= "Server map";
 $GLOBALS['strTypeFTPUsername']			= "Gebruikersnaam";
 $GLOBALS['strTypeFTPPassword']			= "Wachtwoord";
+$GLOBALS['strTypeFTPErrorDir']			= "De server map bestaat niet";
+$GLOBALS['strTypeFTPErrorConnect']		= "De verbinding met de FTP server kon niet worden opgebouwd, de gebruikersnaam of het wachtwoord zijn niet correct";
+$GLOBALS['strTypeFTPErrorHost']			= "De hostname van de FTP server is niet correct";
+$GLOBALS['strTypeDirError']				= "De lokale map bestaat niet";
 
 $GLOBALS['strDefaultBanners']			= "Standaard banner";
 $GLOBALS['strDefaultBannerUrl']			= "Standaard banner afbeelding";
@@ -182,22 +197,37 @@ $GLOBALS['strTypeHtmlPhp']			= "Sta het gebruik van PHP code toe binnen in HTML 
 
 
 
+// Host information and Geotargeting
+$GLOBALS['strHostAndGeo']				= "Bezoekers en Geotargeting";
+
+$GLOBALS['strRemoteHost']				= "Bezoekers";
+$GLOBALS['strReverseLookup']			= "Probeer de hostname van de bezoeker te achterhalen als deze niet door de server wordt verstrekt";
+$GLOBALS['strProxyLookup']				= "Probeer het echte IP adres van de bezoeker te achterhalen als er gebruik gemaakt wordt van een proxy server";
+
+$GLOBALS['strGeotargeting']				= "Geotargeting";
+$GLOBALS['strGeotrackingType']			= "Type Geotargeting database";
+$GLOBALS['strGeotrackingLocation'] 		= "Geotargeting database locatie";
+$GLOBALS['strGeoStoreCookie']			= "Sla het resultaat op in een cookie voor hergebruik";
+
+
 // Statistics Settings
 $GLOBALS['strStatisticsSettings']		= "Statistieken Instellingen";
 
 $GLOBALS['strStatisticsFormat']			= "Statistieken formaat";
-$GLOBALS['strLogBeacon']			= "Gebruik beacons om Adviews te loggen";
-$GLOBALS['strCompactStats']			= "Gebruik compacte statistieken";
-$GLOBALS['strLogAdviews']			= "Log AdViews";
-$GLOBALS['strBlockAdviews']			= "Log protectie (sec.)";
-$GLOBALS['strLogAdclicks']			= "Log AdClicks";
-$GLOBALS['strBlockAdclicks']			= "Log protectie (sec.)";
+$GLOBALS['strCompactStats']				= "Statistieken formaat";
+$GLOBALS['strLogAdviews']				= "Sla een AdView op iedere keer als een banner is afgeleverd";
+$GLOBALS['strLogAdclicks']				= "Sla een AdClick op ieder keer als een bezoeker op een banner klikt";
+$GLOBALS['strLogSource']				= "Sla de doel parameter op welke tijdens de aanroep is gespecificeerd";
+$GLOBALS['strGeoLogStats']				= "Sla het land van herkomst van de bezoeker op";
+$GLOBALS['strLogHostnameOrIP']			= "Sla de hostname of het IP adres van de bezoeker op";
+$GLOBALS['strLogIPOnly']				= "Sla alleen het IP adres van de bezoeker op, zelfs als de hostname bekend is";
+$GLOBALS['strLogIP']					= "Sla het IP adres van de bezoeker op";
+$GLOBALS['strLogBeacon']				= "Gebruik een klein beacon afbeelding op de AdViews op slaan";
 
-$GLOBALS['strGeotargeting']			= "Geotargeting";
-$GLOBALS['strGeotrackingType']			= "Geotargeting database type";
-$GLOBALS['strGeotrackingLocation'] 		= "Geotargeting database locatie";
-$GLOBALS['strGeoLogStats']			= "Log het land van herkomst van de bezoeker";
-$GLOBALS['strGeoStoreCookie']		= "Sla het resultaat op in een cookie voor hergebruik";
+$GLOBALS['strRemoteHost']				= "Bezoekers";
+$GLOBALS['strIgnoreHosts']				= "Sla geen statistieken op van gebruikers met een van de volgende IP adressen";
+$GLOBALS['strBlockAdviews']				= "Sla geen AdViews op als de gebruiker dezelfde banner al eens gezien heeft binnen het gespecifieerde aantal seconden";
+$GLOBALS['strBlockAdclicks']			= "Sla geen AdClicks op als de gebruiker al eerder op dezelfde banner geklikt heeft binnen het gespecificeerde aantal seconden";
 
 $GLOBALS['strEmailWarnings']			= "Waarschuwingen per email";
 $GLOBALS['strAdminEmailHeaders']		= "Headers voor gebruik in te verzenden email";
@@ -207,10 +237,6 @@ $GLOBALS['strWarnAdmin']			= "Waarschuw de beheerder";
 $GLOBALS['strWarnClient']			= "Waarschuw de klant";
 $GLOBALS['strQmailPatch']			= "Pas headers aan voor qmail";
 
-$GLOBALS['strRemoteHosts']			= "Remote hosts";
-$GLOBALS['strIgnoreHosts']			= "Negeer hosts";
-$GLOBALS['strReverseLookup']			= "Reverse DNS Lookup";
-$GLOBALS['strProxyLookup']			= "Proxy Lookup";
 
 $GLOBALS['strAutoCleanTables']			= "Database opschoning";
 $GLOBALS['strAutoCleanStats']			= "Schoon statistieken op";

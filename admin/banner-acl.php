@@ -886,33 +886,30 @@ if ($phpAds_config['acl'])
 }
 
 
-if ($phpAds_config['log_beacon'])
-{
-	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#FFFFFF'>";
-	echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><b>".$strDeliveryCapping."</b></td></tr>";
-	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-	
-	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>".$strTimeCapping."</td>";
-	echo "<td valign='top'>";
-	echo "<input id='timehour' class='flat' type='text' size='3' name='time[hour]' value='".$time['hour']."' onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> ".$strHours." &nbsp;&nbsp;";
-	echo "<input id='timeminute' class='flat' type='text' size='3' name='time[minute]' value='".$time['minute']."' onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> ".$strMinutes." &nbsp;&nbsp;";
-	echo "<input id='timesecond' class='flat' type='text' size='3' name='time[second]' value='".$time['second']."' onBlur=\"phpAds_formLimitBlur(this);\" onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> ".$strSeconds." &nbsp;&nbsp;";
-	echo "</td></tr>";
-	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-	
-	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>".$strImpressionCapping."</td>";
-	echo "<td valign='top'>";
-	echo "<input class='flat' type='text' size='3' name='cap' value='".$cap."' onBlur=\"phpAds_formCapBlur(this);\" tabindex='".($tabindex++)."'> ".$strTimes;
-	echo "</td></tr>";
-	
-	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-	echo "</table>";
-}
+echo "<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#FFFFFF'>";
+echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><b>".$strDeliveryCapping."</b></td></tr>";
+echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+
+echo "<tr><td width='30'>&nbsp;</td>";
+echo "<td width='200'>".$strTimeCapping."</td>";
+echo "<td valign='top'>";
+echo "<input id='timehour' class='flat' type='text' size='3' name='time[hour]' value='".$time['hour']."' onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> ".$strHours." &nbsp;&nbsp;";
+echo "<input id='timeminute' class='flat' type='text' size='3' name='time[minute]' value='".$time['minute']."' onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> ".$strMinutes." &nbsp;&nbsp;";
+echo "<input id='timesecond' class='flat' type='text' size='3' name='time[second]' value='".$time['second']."' onBlur=\"phpAds_formLimitBlur(this);\" onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> ".$strSeconds." &nbsp;&nbsp;";
+echo "</td></tr>";
+echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+
+echo "<tr><td width='30'>&nbsp;</td>";
+echo "<td width='200'>".$strImpressionCapping."</td>";
+echo "<td valign='top'>";
+echo "<input class='flat' type='text' size='3' name='cap' value='".$cap."' onBlur=\"phpAds_formCapBlur(this);\" tabindex='".($tabindex++)."'> ".$strTimes;
+echo "</td></tr>";
+
+echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "</table>";
 
 
 echo "<br><br><br>";

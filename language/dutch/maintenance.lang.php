@@ -42,15 +42,21 @@ $GLOBALS['strBannerCacheExplaination']			= "
 ";
 
 
-// Zone cache
-$GLOBALS['strZoneCache']				= "Zone cache";
-$GLOBALS['strAge']					= "Leeftijd";
-$GLOBALS['strRebuildZoneCache']				= "Zone cache opnieuw aanmaken";
-$GLOBALS['strZoneCacheExplaination']			= "
-	De zone cache wordt gebruikt om de aflevering van banners die gekoppeld zijn met een zone te versnellen. De zone cache bevat een kopie
-	van alle banners welke gekoppeld zijn, wat de aflevering versneld omdat de banners niet iedere keer opgehaald hoeven te worden. De cache
-	wordt iedere keer bijgewerkt als de zone of een van de gekoppelde banners gewijzigd wordt. Het is echter mogelijk dat de cache soms oude
-	gegevens bevat. Hierom wordt de cache automatisch elke {seconds} seconden bijgewerkt, maar het is mogelijk om de cache handmatig bij te werken.
+// Cache
+$GLOBALS['strCache']			= "Leveringscache";
+$GLOBALS['strAge']				= "Leeftijd";
+$GLOBALS['strRebuildDeliveryCache']			= "Leveringscache opnieuw aanmaken";
+$GLOBALS['strDeliveryCacheExplaination']		= "
+	De leveringscache wordt gebruikt om de aflevering van banners te versnellen. De cache bevat een kopie van alle banners welke
+	gekoppeld zijn aan een zone, wat de aflevering versneld omdat de banners niet iedere keer opgehaald hoeven te worden. De cache
+	wordt iedere keer bijgewerkt als de zone of een van de gekoppelde banners gewijzigd wordt. het is echter mogelijk dat de cache
+	soms oude gegevens bevat. Hierom wordt de cache automatisch elk uur bijgewerkt, maar het is ook mogelijk om de cache handmatig bij te werken.
+";
+$GLOBALS['strDeliveryCacheSharedMem']		= "
+	Momenteel wordt de cache opgeslagen in gedeeld geheugen.
+";
+$GLOBALS['strDeliveryCacheDatabase']		= "
+	Momenteel wordt de cache opgeslagen in de database.
 ";
 
 

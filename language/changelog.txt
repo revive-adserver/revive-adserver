@@ -12,6 +12,9 @@
 
   ====================================================
 
+  12-18-2002 - settings
+    [+] strDbLocal (Postgres only)
+
   12-17-2002 - settings
     [+] strDbPort
 

@@ -233,7 +233,7 @@ if (phpAds_isUser(phpAds_Admin))
 				
 				// Check table type
 				if (phpAds_tableTypesSupported && !phpAds_checkTableType($table_type))
-					$errormessage[1][] = $strTableWrongType
+					$errormessage[1][] = $strTableWrongType;
 			}
 			
 			// Check table prefix
@@ -387,7 +387,7 @@ if (phpAds_isUser(phpAds_Admin))
 	{
 		case 0:
 			// Preconditions failed
-			echo "<form name='installform' method='post' action='install.php'>";
+			echo "<form name='settingsform' method='post' action='install.php'>";
 			echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
 			echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
 			echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
@@ -410,7 +410,7 @@ if (phpAds_isUser(phpAds_Admin))
 			
 		case 1:
 			// Language selection
-			echo "<form name='installform' method='post' action='install.php' onSubmit='return phpAds_formCheck(this);'>";
+			echo "<form name='settingsform' method='post' action='install.php' onSubmit='return phpAds_formCheck(this);'>";
 			echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
 			echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
 			echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
@@ -438,7 +438,7 @@ if (phpAds_isUser(phpAds_Admin))
 			
 		case 2:
 			// Database settings
-			echo "<form name='installform' method='post' action='install.php' onSubmit='return phpAds_formCheck(this);'>";
+			echo "<form name='settingsform' method='post' action='install.php' onSubmit='return phpAds_formCheck(this);'>";
 			echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
 			echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
 			echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
@@ -524,7 +524,7 @@ if (phpAds_isUser(phpAds_Admin))
 			
 		case 3:
 			// Admin settings
-			echo "<form name='installform' method='post' action='install.php' onSubmit='return phpAds_formCheck(this);'>";
+			echo "<form name='settingsform' method='post' action='install.php' onSubmit='return phpAds_formCheck(this);'>";
 			echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
 			echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
 			echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
@@ -591,7 +591,7 @@ if (phpAds_isUser(phpAds_Admin))
 			// Admin settings
 			if (!isset($fatal) || !count($fatal))
 			{
-				echo "<form name='installform' method='post' action='settings-index.php'>";
+				echo "<form name='settingsform' method='post' action='settings-index.php'>";
 				echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
 				echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
 				echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
@@ -600,7 +600,7 @@ if (phpAds_isUser(phpAds_Admin))
 			}
 			else
 			{
-				echo "<form name='installform' method='post' action='settings-index.php'>";
+				echo "<form name='settingsform' method='post' action='settings-index.php'>";
 				echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
 				echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
 				echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";

@@ -40,6 +40,7 @@ $GLOBALS['strInvocationClientID']		= "Adverteerder of campagne";
 $GLOBALS['strInvocationTarget']			= "Doel frame";
 $GLOBALS['strInvocationSource']			= "Bron";
 $GLOBALS['strInvocationWithText']		= "Toon text";
+$GLOBALS['strInvocationDontShowAgainCampaign']		= "Toon niet nog eens een banner van dezelfde campagne op dezelfde pagina";
 $GLOBALS['strInvocationDontShowAgain']		= "Toon deze banner niet nog eens op dezelfde pagina";
 $GLOBALS['strInvocationTemplate'] 		= "Sla de banner op in een variable welke gebruikt van worden in een sjabloon";
 

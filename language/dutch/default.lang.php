@@ -315,6 +315,10 @@ $GLOBALS['strApplyLimitationsTo']			= "Pas beperking toe op";
 $GLOBALS['strRemoveAllLimitations']			= "Verwijder alle beperkingen";
 $GLOBALS['strEqualTo']					= "is gelijk aan";
 $GLOBALS['strDifferentFrom']				= "is verschillend van";
+$GLOBALS['strLaterThan']				= "is later dan";
+$GLOBALS['strLaterThanOrEqual']			= "is later dan of gelijk aan";
+$GLOBALS['strEarlierThan']				= "is vroeger dan";
+$GLOBALS['strEarlierThanOrEqual']		= "is vroeger dan of gelijk aan";
 $GLOBALS['strAND']					= "EN";  // logical operator
 $GLOBALS['strOR']					= "OF"; // logical operator
 $GLOBALS['strOnlyDisplayWhen']				= "Toon deze banner alleen wanneer:";
@@ -390,15 +394,20 @@ $GLOBALS['strZoneNoDelivery']				= "Indien er geen banners van deze<br>zone gele
 $GLOBALS['strZoneStopDelivery']				= "Stop levering en toon geen banner";
 $GLOBALS['strZoneOtherZone']				= "Toon de geselecteerde zone";
 $GLOBALS['strZoneUseKeywords']				= "Selecteer een banner met de volgende sleutelwoorden";
-$GLOBALS['strZoneAppend']				= "Voeg de volgende popup<br> of interstitial code altijd toe<br> aan deze zone";
+$GLOBALS['strZoneAppend']				= "Voeg altijd de volgende<br> HTML code altijd toe<br> aan deze zone";
 $GLOBALS['strAppendSettings']				= "Invoeg instellingen";
 $GLOBALS['strZonePrependHTML']				= "Voeg de volgende HTML code altijd toe voor de HTML code die getoond wordt door deze zone";
 $GLOBALS['strZoneAppendHTML']				= "Voeg de volgende HTML code altijd toe na de HTML code die getoond wordt door deze zone";
+$GLOBALS['strZoneAppendType']			= "Toevoeg type";
+$GLOBALS['strZoneAppendHTMLCode']		= "HTML code";
+$GLOBALS['strZoneAppendZoneSelection']	= "Popup of intersitial";
+$GLOBALS['strZoneAppendSelectZone']		= "Voeg altijd de volgende popup of intersitial toe aan banners die getoond worden door deze zone";
 
 
 // Zone probability
 $GLOBALS['strZoneProbListChain']		= "De banners welke gekoppeld zijn aan deze zone zijn niet actief. De volgende ketting wordt daarom gebruikt:";
 $GLOBALS['strZoneProbNullPri']			= "De banners welke gekoppeld zijn aan deze zone zijn niet actief.";
+$GLOBALS['strZoneProbListChainLoop']	= "De kettings welke gevolgd wordt is aan zichzelf gekoppeld. Het is niet mogelijk om deze zone te tonen";
 
 
 // Linked banners/campaigns
@@ -440,6 +449,13 @@ $GLOBALS['strSelectSource']				= "Selecteer de bron die u wilt bekijken:";
 $GLOBALS['strSizeDistribution']		= "Distributie op grootte";
 $GLOBALS['strCountryDistribution']	= "Distributie op land";
 $GLOBALS['strEffectivity']			= "Effectiviteit";
+$GLOBALS['strTargetStats']			= "Doelberekeningen";
+$GLOBALS['strCampaignTarget']		= "Doel";
+$GLOBALS['strTargetRatio']			= "Doel ratio";
+$GLOBALS['strTargetModifiedDay']	= "Er zijn doelen gewijzigd gedurende de dag, hierdoor waren de berekeningen niet accuraat";
+$GLOBALS['strTargetModifiedWeek']	= "Er zijn doelen gewijzigd gedurende de week, hierdoor waren de berekeningen niet accuraat";
+$GLOBALS['strTargetModifiedMonth']	= "Er zijn doelen gewijzigd gedurende de maand, hierdoor waren de berekeningen neit accuraat";
+$GLOBALS['strNoTargetStats']		= "Er zijn momenteen geen gegevens bekend over doelberekeningen";
 
 
 // Hosts

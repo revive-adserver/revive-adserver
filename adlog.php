@@ -54,8 +54,11 @@ if (isset($bannerid) && isset($clientid) && isset($zoneid))
 	   (!isset($HTTP_COOKIE_VARS['phpAds_blockView'][$bannerid]) ||
 	   	$HTTP_COOKIE_VARS['phpAds_blockView'][$bannerid] <= time())))
 	{
-		phpAds_dbConnect();
-		phpAds_logImpression ($bannerid, $clientid, $zoneid, $source);
+		if ($phpAds_config['log_beacon'] && $phpAds_config['log_adviews'])
+		{
+			phpAds_dbConnect();
+			phpAds_logImpression ($bannerid, $clientid, $zoneid, $source);
+		}
 		
 		// Send block cookies
 		if ($phpAds_config['block_adviews'] > 0)
