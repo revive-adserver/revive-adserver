@@ -32,7 +32,7 @@ if (phpAds_isUser(phpAds_Client))
 {
 	if (!phpAds_isAllowed(phpAds_ModifyInfo))
 	{
-		phpAds_PageHeader("1");
+		phpAds_PageHeader("2");
 		php_die ($strAccessDenied, $strNotAdmin);
 	}
 
