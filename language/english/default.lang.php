@@ -4,8 +4,8 @@
 /* phpAdsNew 2                                                          */
 /* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2001 by the phpAdsNew developers                       */
-/* http://sourceforge.net/projects/phpadsnew                            */
+/* Copyright (c) 2000-2002 by the phpAdsNew developers                  */
+/* For more information visit: http://www.phpadsnew.com                 */
 /*                                                                      */
 /*                                                                      */
 /*                                                                      */
@@ -356,7 +356,7 @@ $GLOBALS['strNoZones']						= "There are currently no zones defined";
 $GLOBALS['strConfirmDeleteZone']			= "Do you really want to delete this zone?";
 $GLOBALS['strZoneType']						= "Zone type";
 $GLOBALS['strBannerButtonRectangle']		= "Banner, Button or Rectangle";
-$GLOBALS['strInterstitial']					= "Interstitial";
+$GLOBALS['strInterstitial']					= "Interstitial or Floating DHTML";
 $GLOBALS['strPopup']						= "Popup";
 
 
