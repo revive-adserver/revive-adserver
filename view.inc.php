@@ -299,13 +299,16 @@ function log_adview($bannerID,$clientID)
 // Java-encodes text for use with (remote) javascript tags
 function enjavanate($str)
 {
-    foreach (explode("\n", $str) as $line)
-    {
+	$lines = explode("\n", $str);
+	
+	reset ($lines);
+	while (list(,$line) = each($lines))
+	{
         $line = str_replace("\r", "", $line);
         $line = str_replace("'", "\\'", $line);
         if (!empty($line))
             print "document.writeln('$line');\n";
-    }
+	}
 }
 
 
