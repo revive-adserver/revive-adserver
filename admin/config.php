@@ -13,6 +13,9 @@
 /************************************************************************/
 
 
+// Disable E_ALL warnings...
+ini_set("error_reporting", E_ALL & ~E_NOTICE);
+
 
 // Include config file and check need to upgrade
 require ("../config.inc.php");
