@@ -169,10 +169,22 @@ function phpAds_ShowSettings ($data, $errors = array())
 						$dependbuffer .= phpAds_ShowSettings_CheckDependancies ($data, $item);
 					
 					
-					if (isset($item['name']) && isset($phpAds_config[$item['name']]))
-						$value = $phpAds_config[$item['name']];
+					if (count($errors))
+					{
+						// Page is the result of an error message, get values from the input
+						if (isset($item['name']) && isset($GLOBALS[$item['name']]))
+							$value = $GLOBALS[$item['name']];
+						else
+							$value = '';
+					}
 					else
-						$value = '';
+					{
+						// Get the values from the config file
+						if (isset($item['name']) && isset($phpAds_config[$item['name']]))
+							$value = $phpAds_config[$item['name']];
+						else
+							$value = '';
+					}
 					
 					
 					switch ($item['type'])
