@@ -1221,7 +1221,7 @@ if ($storagetype == 'html')
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td colspan='2'><textarea class='code' cols='45' rows='10' name='banner' wrap='off' style='width:550px; ";
-	echo "'>".stripslashes($row['htmltemplate'])."</textarea></td></tr>";
+	echo "'>".$row['htmltemplate']."</textarea></td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td colspan='2'><input type='checkbox' name='autohtml' value='t'".(!isset($row["autohtml"]) || $row["autohtml"] == 't' ? ' checked' : '')."> ".$strAutoChangeHTML."</td></tr>";
 	
