@@ -8,7 +8,7 @@ require("$phpAds_path/dblib.php");
 // Get a banner
 function get_banner($what, $clientID, $context=0, $source="")
 {
-	global $phpAds_db, $REMOTE_HOST, $phpAds_tbl_banners, $REMOTE_ADDR, $HTTP_USER_AGENT,$phpAds_con_key, $phpAds_random_retrieve,$phpAds_mult_key;
+	global $phpAds_db, $REMOTE_HOST, $phpAds_tbl_banners, $REMOTE_ADDR, $HTTP_USER_AGENT, $phpAds_con_key, $phpAds_random_retrieve, $phpAds_mult_key;
 	$where = "";
 	if($context == 0)
 		$context = array();
@@ -91,7 +91,7 @@ function get_banner($what, $clientID, $context=0, $source="")
 					$what_array = explode(",",$what_parts[$wpc]);
 				for($k=0; $k<count($what_array); $k++)
 				{
-					if($phpAds_random_retrieve == "1")
+					if($phpAds_con_key == "1")
 					{
 						if(substr($what_array[$k],0,1)=="+" OR substr($what_array[$k],0,1)=="_")
 						{
