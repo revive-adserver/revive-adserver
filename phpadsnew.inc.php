@@ -26,6 +26,10 @@ if (!defined('PHPADSNEW_INCLUDED'))
 	// define ('phpAds_path', "/home/myname/www/phpAdsNew");
 	
 	
+	// Set invocation type
+	define ('phpAds_invocationType', 'local');
+
+
 	// Globalize settings and IO
 	// (just in case phpadsnew.inc.php is called from a function)
 	global $phpAds_config, $HTTP_SERVER_VARS;

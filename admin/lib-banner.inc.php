@@ -17,11 +17,7 @@ function phpAds_getBannerTemplate($type)
 {
 	if ($type == 'swf')
 	{
-		$buffer  = "<script language='JavaScript' type='text/javascript' src='{url_prefix}/adx.js'></script>";
-		$buffer .= "<script language='JavaScript' type='text/javascript'>\n";
-		$buffer .= "<!--\n";
-		$buffer .= "var phpads_activex = \"";
-		$buffer .= "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
+		$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
 		$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
 		$buffer .= "swflash.cab#version={pluginversion:4,0,0,0}' width='{width}' height='{height}'>";
 		$buffer .= "<param name='movie' value='{imageurl}{swf_con}{swf_param}'>";
@@ -30,17 +26,9 @@ function phpAds_getBannerTemplate($type)
 		$buffer .= "width='{width}' height='{height}' type='application/x-shockwave-flash' ";
 		$buffer .= "pluginspace='http://www.macromedia.com/go/getflashplayer'></embed>";
 		$buffer .= "</object>";
-		$buffer .= "\"\n";
-		$buffer .= "phpads_deliverActiveX(phpads_activex);\n";
-		$buffer .= "//-->\n";
-		$buffer .= "</script>";
 	}
 	elseif ($type == 'dcr')
 	{
-		$buffer  = "<script language='JavaScript' type='text/javascript' src='{url_prefix}/adx.js'></script>";
-		$buffer .= "<script language='JavaScript' type='text/javascript'>\n";
-		$buffer .= "<!--\n";
-		$buffer .= "var phpads_activex = \"";
 		$buffer  = "<object classid='clsid:166B1BCA-3F9C-11CF-8075-444553540000' ";
 		$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/director/";
 		$buffer .= "swdir85r321.cab#version={pluginversion:8,5,0,321}' width='{width}' height='{height}'>";
@@ -56,17 +44,9 @@ function phpAds_getBannerTemplate($type)
 		$buffer .= "bgColor='#FFFFFF' progress='false' logo=false' swRemote=\"swSaveEnabled='false' swVolume='false' swRestart='true' swPausePlay='true' swFastForward='true' swContextMenu='true'\" swStretchStyle=fill ";
 		$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/'></embed>";
 		$buffer .= "</object>";
-		$buffer .= "\"\n";
-		$buffer .= "phpads_deliverActiveX(phpads_activex);\n";
-		$buffer .= "//-->\n";
-		$buffer .= "</script>";
 	}
 	elseif ($type == 'rpm')
 	{
-		$buffer  = "<script language='JavaScript' type='text/javascript' src='{url_prefix}/adx.js'></script>";
-		$buffer .= "<script language='JavaScript' type='text/javascript'>\n";
-		$buffer .= "<!--\n";
-		$buffer .= "var phpads_activex = \"";
 		$buffer  = "<object classid='clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA' ";
 		$buffer .= "width='{width}' height='{height}'>";
 		$buffer .= "<param name='src' value='{imageurl}'>";
@@ -75,17 +55,9 @@ function phpAds_getBannerTemplate($type)
 		$buffer .= "<embed src='{imageurl}' controls='ImageWindow' autostart='true' ";
 		$buffer .= "width='{width}' height='{height}' type='audio/x-pn-realaudio-plugin'></embed>";
 		$buffer .= "</object>";
-		$buffer .= "\"\n";
-		$buffer .= "phpads_deliverActiveX(phpads_activex);\n";
-		$buffer .= "//-->\n";
-		$buffer .= "</script>";
 	}
 	elseif ($type == 'mov')
 	{
-		$buffer  = "<script language='JavaScript' type='text/javascript' src='{url_prefix}/adx.js'></script>";
-		$buffer .= "<script language='JavaScript' type='text/javascript'>\n";
-		$buffer .= "<!--\n";
-		$buffer .= "var phpads_activex = \"";
 		$buffer  = "<object classid='clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B' ";
 		$buffer .= "codebase='http://www.apple.com/qtactivex/qtplugin.cab' ";
 		$buffer .= "width='{width}' height='{height}'>";
@@ -95,10 +67,6 @@ function phpAds_getBannerTemplate($type)
 		$buffer .= "<embed src='{imageurl}' controller='false' autoplay='true' ";
 		$buffer .= "width='{width}' height='{height}' pluginspace='http://www.apple.com/quicktime/download/'></embed>";
 		$buffer .= "</object>";
-		$buffer .= "\"\n";
-		$buffer .= "phpads_deliverActiveX(phpads_activex);\n";
-		$buffer .= "//-->\n";
-		$buffer .= "</script>";
 	}
 	elseif ($type == 'txt')
 	{

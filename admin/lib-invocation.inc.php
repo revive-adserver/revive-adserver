@@ -116,6 +116,7 @@ function phpAds_GenerateInvocationCode()
 		if (isset($blockcampaign) && $blockcampaign == '1')
 			$parameters['blockcampaign'] = "blockcampaign=1";
 		
+		$buffer .= "<script language='JavaScript' type='text/javascript' src='".$phpAds_config['url_prefix']."/adx.js'></script>\n";
 		$buffer .= "<script language='JavaScript' type='text/javascript'>\n";
 		$buffer .= "<!--\n";
 		$buffer .= "   if (!document.phpAds_used) document.phpAds_used = ',';\n";

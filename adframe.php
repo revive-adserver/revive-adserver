@@ -18,6 +18,10 @@
 define ('phpAds_path', '.');
 
 
+// Set invocation type
+define ('phpAds_invocationType', 'adframe');
+
+
 
 /*********************************************************/
 /* Include required files                                */
