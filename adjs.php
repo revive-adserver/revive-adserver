@@ -35,6 +35,8 @@ function enjavanate ($str, $limit = 60)
 {
 	$str   = str_replace("\r", '', $str);
 	
+	print "var phpadsbanner = '';\n\n";
+	
 	while (strlen($str) > 0)
 	{
 		$line = substr ($str, 0, $limit);
@@ -42,9 +44,12 @@ function enjavanate ($str, $limit = 60)
 		
 		$line = str_replace('\'', "\\'", $line);
 		$line = str_replace("\n", "\\n", $line);
+		$line = str_replace('<', "<'+'", $line);
 		
-		print "document.write('$line');\n";
+		print "phpadsbanner += '$line';\n";
 	}
+	
+	print "\ndocument.write(phpadsbanner);\n";
 }
 
 
