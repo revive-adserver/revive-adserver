@@ -126,6 +126,9 @@ $GLOBALS['strAllowLocalmode']			= "Gebruik Lokale mode";
 $GLOBALS['strAllowInterstitial']		= "Gebruik Interstitials";
 $GLOBALS['strAllowPopups']			= "Gebruik Popups";
 
+$GLOBALS['strUseAcl']					= "Gebruik leveringsbeperkingen";
+$GLOBALS['strGeotrackingLocation'] 		= "IP2Country geotracking<br> database locatie";
+
 $GLOBALS['strKeywordRetrieval']			= "Sleutelwoord selectie";
 $GLOBALS['strBannerRetrieval']			= "Banner selectie methode";
 $GLOBALS['strRetrieveRandom']			= "Willekeurige banner selectie (standaard)";
@@ -134,7 +137,6 @@ $GLOBALS['strWeightSeq']			= "Op gewicht gebaseerde sequentieele banner selectie
 $GLOBALS['strFullSeq']				= "Volledige sequentieele banner selectie";
 $GLOBALS['strUseConditionalKeys']		= "Gebruik conditionele sleutelwoorden";
 $GLOBALS['strUseMultipleKeys']			= "Gebruik meerdere sleutelwoorden";
-$GLOBALS['strUseAcl']				= "Gebruik beperkingen";
 
 $GLOBALS['strZonesSettings']			= "Zone selectie";
 $GLOBALS['strZoneCache']			= "Cache zones, dit zou het gebruik moeten versnellen wanneer gebruik gemaakt word van zones";

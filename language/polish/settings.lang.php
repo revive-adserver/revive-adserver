@@ -126,6 +126,9 @@ $GLOBALS['strAllowLocalmode']			= "Zezwól na tryb lokalny";
 $GLOBALS['strAllowInterstitial']		= "Zezwól na Interstitials";
 $GLOBALS['strAllowPopups']				= "Zezwól na Popups";
 
+$GLOBALS['strUseAcl']					= "U¿yj ograniczeñ wy¶wietlania";
+$GLOBALS['strGeotrackingLocation'] 		= "IP2Country geotracking<br> database location";
+
 $GLOBALS['strKeywordRetrieval']			= "S³owa Kluczowe";
 $GLOBALS['strBannerRetrieval']			= "Metoda Doboru Bannerów";
 $GLOBALS['strRetrieveRandom']			= "Losowy wybór (domy¶lnie)";
@@ -134,7 +137,6 @@ $GLOBALS['strWeightSeq']				= "Sekwencyjny wybór w oparciu o wagê";
 $GLOBALS['strFullSeq']					= "Pe³ny wybór sekwencyjny";
 $GLOBALS['strUseConditionalKeys']		= "U¿yj warunkowych s³ów kluczowych";
 $GLOBALS['strUseMultipleKeys']			= "U¿yj kilku s³ów kluczowych";
-$GLOBALS['strUseAcl']					= "U¿yj ograniczeñ wy¶wietlania";
 
 $GLOBALS['strZonesSettings']			= "Wy¶wietlanie Stref";
 $GLOBALS['strZoneCache']				= "Przechowuj strefy w cache'u, to powinno przy¶pieszyæ ich dzia³anie";

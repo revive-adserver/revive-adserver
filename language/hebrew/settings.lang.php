@@ -126,6 +126,9 @@ $GLOBALS['strAllowLocalmode']			= "Allow Local mode";
 $GLOBALS['strAllowInterstitial']		= "Allow Interstitials";
 $GLOBALS['strAllowPopups']				= "Allow Popups";
 
+$GLOBALS['strUseAcl']					= "Use delivery limitations";
+$GLOBALS['strGeotrackingLocation'] 		= "IP2Country geotracking<br> database location";
+
 $GLOBALS['strKeywordRetrieval']			= "Keyword retrieval";
 $GLOBALS['strBannerRetrieval']			= "Banner retrieval method";
 $GLOBALS['strRetrieveRandom']			= "Random banner retrieval (default)";
@@ -134,7 +137,6 @@ $GLOBALS['strWeightSeq']				= "Weight based sequential banner retrieval";
 $GLOBALS['strFullSeq']					= "Full sequential banner retrieval";
 $GLOBALS['strUseConditionalKeys']		= "Use conditional keywords";
 $GLOBALS['strUseMultipleKeys']			= "Use multiple keywords";
-$GLOBALS['strUseAcl']					= "Use display limitations";
 
 $GLOBALS['strZonesSettings']			= "Zone retrieval";
 $GLOBALS['strZoneCache']				= "Cache zones, this should speed things up when using zones";

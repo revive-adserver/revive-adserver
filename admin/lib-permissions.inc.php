@@ -155,7 +155,7 @@ function phpAds_getUserID ()
 function phpAds_Login()
 {
 	global $phpAds_config;
-	global $strPasswordWrong;
+	global $strPasswordWrong, $strEnableCookies, $strEnterBoth;
 	
 	global $HTTP_COOKIE_VARS;
 	global $HTTP_POST_VARS;
@@ -185,14 +185,14 @@ function phpAds_Login()
 		if ($md5digest == '' ||	$md5digest == md5('') || $username  == '')
 		{
 			$HTTP_COOKIE_VARS['sessionID'] = phpAds_SessionStart();
-			phpAds_LoginScreen("Please enter both your username and password", $HTTP_COOKIE_VARS['sessionID']);
+			phpAds_LoginScreen($strEnterBoth, $HTTP_COOKIE_VARS['sessionID']);
 		}
 		
 		// Exit if cookies are disabled
 		if ($HTTP_COOKIE_VARS['SessionID'] != $HTTP_POST_VARS['phpAds_cookiecheck'])
 		{
 			$HTTP_COOKIE_VARS['sessionID'] = phpAds_SessionStart();
-			phpAds_LoginScreen("You need to enable cookies before you can use phpAdsNew", $HTTP_COOKIE_VARS['sessionID']);
+			phpAds_LoginScreen($strEnableCookies, $HTTP_COOKIE_VARS['sessionID']);
 		}
 		
 		
