@@ -20,6 +20,7 @@ CVS			+ Misc changes to library and function names
 			  - Fixed bug which prevented IP/hostname detection for ACLs, ignored hosts and logging
 			    when 'x-http-forwarded-for' header was set to 'unknown' by the proxy  (Matteo) 20011022
 			  - Fixed warning 'No DB connection'  (Niels) 20011024
+			  - Destination cookie sometimes had wrong value  (Niels) 20011024
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015

@@ -144,7 +144,7 @@ else
 				}
 				
 				// Store destination URL
-				SetCookie("dest", $row['url'], 0, $url["path"]);
+				SetCookie("destNum", $row['url'], 0, $url["path"]);
 				if(isset($n)) SetCookie("destID[$n]", $row['url'], 0, $url["path"]);
 				
 				// Redirect to the banner
@@ -152,7 +152,13 @@ else
 			}
 			elseif ($row["format"] == "web")
 			{
-				// WEB -> redirect to the banner
+				// WEB
+				
+				// Store destination URL
+				SetCookie("destNum", $row['url'], 0, $url["path"]);
+				if(isset($n)) SetCookie("destID[$n]", $row['url'], 0, $url["path"]);
+				
+				// Redirect to the banner
 				Header("Location: ".$row['banner']);
 			}
 			else
@@ -176,6 +182,10 @@ else
 					
 					$row = phpAds_dbFetchArray($res);
 				}
+				
+				// Store destination URL
+				SetCookie("destNum", $row['url'], 0, $url["path"]);
+				if(isset($n)) SetCookie("destID[$n]", $row['url'], 0, $url["path"]);
 				
 				if ($row["format"] == "swf")
 				{
