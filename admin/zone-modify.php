@@ -31,7 +31,7 @@ phpAds_checkAccess(phpAds_Admin);
 
 if (isset($zoneid) && $zoneid != '')
 {
-	if (isset($moveto_x) && $moveto != '')
+	if (isset($moveto) && $moveto != '')
 	{
 		// Move the zone
 		$res = phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_zones']." SET affiliateid = '".$moveto."' WHERE zoneid = '".$zoneid."'") or phpAds_sqlDie();
