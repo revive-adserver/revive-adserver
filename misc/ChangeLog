@@ -1,7 +1,7 @@
 phpAdsNew - ChangeLog
 
 
-CVS
+phpAdsNew 2.0.3
 			+ Misc bugfixes
 			  - 2005-01-27:  Content-disposition header was wrong in generated reports, resulting in a mangled filename - bug #1067963  (Matteo)
 			  - 2005-01-29:  There was an error in the queries used when generating reports with compact stats enabled  (Matteo)
