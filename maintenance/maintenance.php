@@ -32,11 +32,11 @@ if (!get_cfg_var ('safe_mode'))
 
 // Include required files
 require (phpAds_path."/config.inc.php");
-require (phpAds_path."/lib-db.inc.php");
-require (phpAds_path."/lib-dbconfig.inc.php");
-require (phpAds_path."/lib-mail.inc.php");
-require (phpAds_path."/lib-userlog.inc.php");
-require (phpAds_path."/lib-cache.inc.php");
+require (phpAds_path."/libraries/lib-db.inc.php");
+require (phpAds_path."/libraries/lib-dbconfig.inc.php");
+require (phpAds_path."/libraries/lib-mail.inc.php");
+require (phpAds_path."/libraries/lib-userlog.inc.php");
+require (phpAds_path."/libraries/lib-cache.inc.php");
 require (phpAds_path."/admin/lib-statistics.inc.php");
 
 

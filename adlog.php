@@ -24,11 +24,11 @@ define ('phpAds_path', '.');
 /*********************************************************/
 
 require	(phpAds_path."/config.inc.php"); 
-require (phpAds_path."/lib-io.inc.php");
-require (phpAds_path."/lib-db.inc.php");
-require (phpAds_path."/lib-remotehost.inc.php");
-require (phpAds_path."/lib-log.inc.php");
-require (phpAds_path."/lib-cache.inc.php");
+require (phpAds_path."/libraries/lib-io.inc.php");
+require (phpAds_path."/libraries/lib-db.inc.php");
+require (phpAds_path."/libraries/lib-remotehost.inc.php");
+require (phpAds_path."/libraries/lib-log.inc.php");
+require (phpAds_path."/libraries/lib-cache.inc.php");
 
 
 

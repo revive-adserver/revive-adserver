@@ -37,8 +37,8 @@
 
 
 // Include required files
-require ("../lib-io.inc.php");
-require ("../lib-cache.inc.php");
+require ("../libraries/lib-io.inc.php");
+require ("../libraries/lib-cache.inc.php");
 require ("lib-gd.inc.php");
 
 

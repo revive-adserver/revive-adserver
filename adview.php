@@ -24,21 +24,21 @@ define ('phpAds_path', '.');
 /*********************************************************/
 
 require	(phpAds_path."/config.inc.php"); 
-require (phpAds_path."/lib-io.inc.php");
-require (phpAds_path."/lib-db.inc.php");
+require (phpAds_path."/libraries/lib-io.inc.php");
+require (phpAds_path."/libraries/lib-db.inc.php");
 
 if ($phpAds_config['log_adviews'] || $phpAds_config['acl'])
 {
-	require (phpAds_path."/lib-remotehost.inc.php");
+	require (phpAds_path."/libraries/lib-remotehost.inc.php");
 	
 	if ($phpAds_config['log_adviews'])
-		require (phpAds_path."/lib-log.inc.php");
+		require (phpAds_path."/libraries/lib-log.inc.php");
 	
 	if ($phpAds_config['acl'])
-		require (phpAds_path."/lib-acl.inc.php");
+		require (phpAds_path."/libraries/lib-limitations.inc.php");
 }
 
-require (phpAds_path."/lib-cache.inc.php");
+require (phpAds_path."/libraries/lib-cache.inc.php");
 
 
 
@@ -79,17 +79,17 @@ if (phpAds_dbConnect())
 		if (substr($what,0,5) == 'zone:')
 		{
 			if (!defined('LIBVIEWZONE_INCLUDED'))
-				require (phpAds_path.'/lib-view-zone.inc.php');
+				require (phpAds_path.'/libraries/lib-view-zone.inc.php');
 			
 			$row = phpAds_fetchBannerZone($what, $clientid, '', $source, false);
 		}
 		else
 		{
 			if (!defined('LIBVIEWQUERY_INCLUDED'))
-				require (phpAds_path.'/lib-view-query.inc.php');
+				require (phpAds_path.'/libraries/lib-view-query.inc.php');
 			
 			if (!defined('LIBVIEWDIRECT_INCLUDED'))
-				require (phpAds_path.'/lib-view-direct.inc.php');
+				require (phpAds_path.'/libraries/lib-view-direct.inc.php');
 			
 			$row = phpAds_fetchBannerDirect($what, $clientid, '', $source, false);
 		}

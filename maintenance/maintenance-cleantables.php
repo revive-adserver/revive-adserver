@@ -15,7 +15,7 @@
 
 
 // Include required files
-require	(phpAds_path."/lib-cleantables.inc.php"); 
+require	(phpAds_path."/libraries/lib-cleantables.inc.php"); 
 
 
 $report = '';

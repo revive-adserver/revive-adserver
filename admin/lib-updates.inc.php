@@ -19,7 +19,7 @@ define ('LIBUPDATES_INCLUDED', true);
 
 
 // Include required files
-require (phpAds_path.'/lib-xmlrpc.inc.php');
+require (phpAds_path.'/libraries/lib-xmlrpc.inc.php');
 
 
 

@@ -15,7 +15,7 @@
 
 
 // Include required files
-require	(phpAds_path."/lib-reports.inc.php"); 
+require	(phpAds_path."/libraries/lib-reports.inc.php"); 
 
 
 

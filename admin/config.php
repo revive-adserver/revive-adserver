@@ -44,12 +44,12 @@ elseif (!phpAds_installed)
 
 
 // Include required files
-include ("../lib-io.inc.php");
-include ("../lib-db.inc.php");
-include ("../lib-dbconfig.inc.php");
+include ("../libraries/lib-io.inc.php");
+include ("../libraries/lib-db.inc.php");
+include ("../libraries/lib-dbconfig.inc.php");
 include ("lib-gui.inc.php");
 include ("lib-permissions.inc.php");
-include ("../lib-userlog.inc.php");
+include ("../libraries/lib-userlog.inc.php");
 
 
 

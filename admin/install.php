@@ -30,7 +30,7 @@ require ("../config.inc.php");
 
 
 // Register input variables
-require ("../lib-io.inc.php");
+require ("../libraries/lib-io.inc.php");
 phpAds_registerGlobal ('installvars', 'language', 'phase', 'dbhost', 'dbuser', 'dbpassword', 'dbname', 'table_prefix', 
 					   'tabletype', 'admin', 'admin_pw', 'admin_pw2', 'url_prefix');
 
@@ -64,8 +64,8 @@ else
 
 
 // Include other required files
-require ("../lib-db.inc.php");
-require ("../lib-dbconfig.inc.php");
+require ("../libraries/lib-db.inc.php");
+require ("../libraries/lib-dbconfig.inc.php");
 require ("lib-install-db.inc.php");
 require ("lib-permissions.inc.php");
 require ("lib-gui.inc.php");

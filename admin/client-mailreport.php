@@ -17,7 +17,7 @@
 // Include required files
 require ("config.php");
 require ("lib-statistics.inc.php");
-require ("../lib-reports.inc.php");
+require ("../libraries/lib-reports.inc.php");
 
 
 // Register input variables

@@ -24,21 +24,21 @@ define ('phpAds_path', '.');
 /*********************************************************/
 
 require	(phpAds_path."/config.inc.php"); 
-require (phpAds_path."/lib-db.inc.php");
-require (phpAds_path."/lib-xmlrpcs.inc.php");
+require (phpAds_path."/libraries/lib-db.inc.php");
+require (phpAds_path."/libraries/lib-xmlrpcs.inc.php");
 
 if (($phpAds_config['log_adviews'] && !$phpAds_config['log_beacon']) || $phpAds_config['acl'])
 {
-	require (phpAds_path."/lib-remotehost.inc.php");
+	require (phpAds_path."/libraries/lib-remotehost.inc.php");
 	
 	if ($phpAds_config['log_adviews'] && !$phpAds_config['log_beacon'])
-		require (phpAds_path."/lib-log.inc.php");
+		require (phpAds_path."/libraries/lib-log.inc.php");
 	
 	if ($phpAds_config['acl'])
-		require (phpAds_path."/lib-acl.inc.php");
+		require (phpAds_path."/libraries/lib-limitations.inc.php");
 }
 
-require	(phpAds_path."/lib-view-main.inc.php");
+require	(phpAds_path."/libraries/lib-view-main.inc.php");
 
 
 

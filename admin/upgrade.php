@@ -31,14 +31,14 @@ require (phpAds_path.'/libraries/defaults/config.template.php');
 
 
 // Register input variables
-require ("../lib-io.inc.php");
+require ("../libraries/lib-io.inc.php");
 phpAds_registerGlobal ('step');
 
 
 // Include config edit library
 require ("lib-config.inc.php");
-include ("../lib-db.inc.php");
-include ("../lib-dbconfig.inc.php");
+include ("../libraries/lib-db.inc.php");
+include ("../libraries/lib-dbconfig.inc.php");
 
 
 // Read the config file and overwrite default values
@@ -292,7 +292,7 @@ if (phpAds_isUser(phpAds_Admin))
 		if ($banners && !$priority_sum)
 		{
 			// Recalculate priority
-			include ("../lib-priority.inc.php");
+			include ("../libraries/lib-priority.inc.php");
 			
 			phpAds_PriorityCalculate();
 		}

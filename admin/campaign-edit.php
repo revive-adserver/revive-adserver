@@ -189,7 +189,7 @@ if (isset($submit))
 	}
 	
 	
-	require ("../lib-priority.inc.php");
+	require ("../libraries/lib-priority.inc.php");
 	phpAds_PriorityCalculate ();
 	
 	

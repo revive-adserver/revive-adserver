@@ -17,7 +17,7 @@
 // Include required files
 require ("config.php");
 require ("lib-statistics.inc.php");
-require ("../lib-priority.inc.php");
+require ("../libraries/lib-priority.inc.php");
 
 
 // Security check

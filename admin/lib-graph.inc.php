@@ -121,7 +121,7 @@ if (strpos ($GLOBALS['HTTP_USER_AGENT'], 'MSIE') > 0 &&
 phpAds_GDContentType();
 
 // No caching
-require("../lib-cache.inc.php");
+require("../libraries/lib-cache.inc.php");
 
 // Display modified image
 phpAds_GDShowImage($im);

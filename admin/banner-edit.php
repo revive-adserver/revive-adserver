@@ -688,7 +688,7 @@ if (isset($submit))
 	// Recalculate priorities
 	if (!isset($current) || $current['weight'] != $weight)
 	{
-		require ("../lib-priority.inc.php");
+		require ("../libraries/lib-priority.inc.php");
 		phpAds_PriorityCalculate ();
 	}
 	

@@ -14,7 +14,7 @@
 
 
 // Include required files
-require	(phpAds_path."/lib-warnings.inc.php"); 
+require	(phpAds_path."/libraries/lib-warnings.inc.php"); 
 
 
 /*********************************************************/
