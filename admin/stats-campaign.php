@@ -32,7 +32,7 @@ phpAds_checkAccess(phpAds_Admin+phpAds_Client);
 
 if (phpAds_isUser(phpAds_Client))
 {
-	if (phpAds_clientID() == phpAds_getParentID ($clientID))
+	if (phpAds_clientID() == phpAds_getParentID ($campaignID))
 	{
 		$extra = '';
 		
