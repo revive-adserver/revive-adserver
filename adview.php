@@ -79,7 +79,7 @@ if (phpAds_dbConnect())
 			if (!defined('LIBVIEWZONE_INCLUDED'))
 				require (phpAds_path.'/lib-view-zone.inc.php');
 			
-			$row = phpAds_fetchBannerZone($what, $clientid, '', $source);
+			$row = phpAds_fetchBannerZone($what, $clientid, '', $source, false);
 		}
 		else
 		{
@@ -89,7 +89,7 @@ if (phpAds_dbConnect())
 			if (!defined('LIBVIEWDIRECT_INCLUDED'))
 				require (phpAds_path.'/lib-view-direct.inc.php');
 			
-			$row = phpAds_fetchBannerDirect($what, $clientid, '', $source);
+			$row = phpAds_fetchBannerDirect($what, $clientid, '', $source, false);
 		}
 		
 		if (is_array ($row))
