@@ -69,7 +69,7 @@ if (phpAds_isUser(phpAds_Admin))
 	}
 	
 	phpAds_PageHeader("2.1", $extra);
-	phpAds_ShowSections(array("2.1", "2.2", "2.3", "2.4"));
+	phpAds_ShowSections(array("2.1", "2.4", "2.2", "2.3"));
 }
 
 if (phpAds_isUser(phpAds_Client))
@@ -580,8 +580,8 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	
 	// stats today
-	$adviews = phpAds_totalViews("", "day");
-	$adclicks = phpAds_totalClicks("", "day");
+	$adviews  = (int)phpAds_totalViews("", "day");
+	$adclicks = (int)phpAds_totalClicks("", "day");
 	$ctr = phpAds_buildCTR($adviews, $adclicks);
   	echo "<tr><td height='25'>$strToday</td>";
   	echo "<td height='25'>$strViews: <b>$adviews</b></td>";
@@ -591,8 +591,8 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	
 	// stats this week
-	$adviews = phpAds_totalViews("", "week");
-	$adclicks = phpAds_totalClicks("", "week");
+	$adviews  = (int)phpAds_totalViews("", "week");
+	$adclicks = (int)phpAds_totalClicks("", "week");
 	$ctr = phpAds_buildCTR($adviews, $adclicks);
 	
   	echo "<tr><td height='25'>$strThisWeek</td>";
@@ -603,8 +603,8 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	
 	// stats this month
-	$adviews = phpAds_totalViews("", "month");
-	$adclicks = phpAds_totalClicks("", "month");
+	$adviews  = (int)phpAds_totalViews("", "month");
+	$adclicks = (int)phpAds_totalClicks("", "month");
 	$ctr = phpAds_buildCTR($adviews, $adclicks);
 	
   	echo "<tr><td height='25'>$strThisMonth</td>";
@@ -615,8 +615,8 @@ if (phpAds_isUser(phpAds_Admin))
   	
   	
 	// overall stats
-	$adviews = phpAds_totalViews();
-	$adclicks = phpAds_totalClicks();
+	$adviews  = (int)phpAds_totalViews();
+	$adclicks = (int)phpAds_totalClicks();
 	$ctr = phpAds_buildCTR($adviews, $adclicks);
 	
   	echo "<tr><td height='25'>$strOverall</td>";

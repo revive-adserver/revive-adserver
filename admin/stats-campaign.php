@@ -63,7 +63,8 @@ if (phpAds_isUser(phpAds_Client))
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		
 		phpAds_PageHeader("1.1.1", $extra);
-		phpAds_ShowSections(array("1.1.1", "1.1.2", "1.1.3"));
+			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignid)."</b><br><br><br>";
+			phpAds_ShowSections(array("1.1.1", "1.1.2", "1.1.3"));
 	}
 	else
 	{
@@ -108,7 +109,10 @@ if (phpAds_isUser(phpAds_Admin))
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	
 	phpAds_PageHeader("2.1.2", $extra);
-	phpAds_ShowSections(array("2.1.2", "2.1.3", "2.1.4"));
+		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
+		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+		echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignid)."</b><br><br><br>";
+		phpAds_ShowSections(array("2.1.2", "2.1.3", "2.1.4"));
 }
 
 
@@ -244,26 +248,16 @@ else
 	$order = "id";
 }
 
+if (!isset($order))
+	$order = '';
+
 
 
 /*********************************************************/
 /* Main code                                             */
-if (!isset($order))
-	$order = '';
-	
 /*********************************************************/
 
-if (phpAds_isUser(phpAds_Admin))
-{
-	echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
-	echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
-}
-echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignid)."</b>";
-
 echo "<br><br>";
-echo "<br><br>";
-echo "<br><br>";
-
 ?>
 
 
