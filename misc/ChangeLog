@@ -16,6 +16,7 @@ CVS
 			  - 2003-05-06:  Removed duplicate include of lib-view-query.php from adview.php and lib-view-main.php, it is now only included when really needed  (Niels)
 			  - 2003-05-06:  The MySQL port is now always appended to the hostname during connection as a speed optimalisation  (Niels)
 			  - 2003-05-06:  The dbQuery() function now automatically connects to the database if there isn't a connection available yet, in order to help prevent unused connections  (Niels, thanks to Doru Petrescu)
+			  - 2003-05-07:  Fixed E_ALL error in lib-priority when inactive campaigns were present  (Niels)
 			
 
 v 2.0rc3		+ Added a cron replacement for users who don't have access to the cron utility for scheduling the maintenance script  (Niels, 2003-01-14)

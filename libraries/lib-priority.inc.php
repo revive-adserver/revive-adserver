@@ -1201,13 +1201,12 @@ function phpAds_PriorityTotalWeight($campaigns, $banners)
 	
 	// Get total banner weight for each campaign
 	for (reset($banners);$b=key($banners);next($banners))
-		if ($campaigns[$banners[$b]['parent']]['active'] == 't')
+		if (isset($campaigns[$banners[$b]['parent']]) && $campaigns[$banners[$b]['parent']]['active'] == 't')
 			$tbw[$banners[$b]['parent']] += $banners[$b]['weight'];
-	
 	
 	// Determine probability or low priority campaigns
 	for (reset($banners);$b=key($banners);next($banners))
-		if ($campaigns[$banners[$b]['parent']]['active'] == 't' && $campaigns[$banners[$b]['parent']]['weight'] > 0)
+		if (isset($campaigns[$banners[$b]['parent']]) && $campaigns[$banners[$b]['parent']]['active'] == 't' && $campaigns[$banners[$b]['parent']]['weight'] > 0)
 			$pr[] = ($campaigns[$banners[$b]['parent']]['weight'] / $tcw / $tbw[$banners[$b]['parent']]) * $banners[$b]['weight'];
 	
 	// Return if probability array is empty
