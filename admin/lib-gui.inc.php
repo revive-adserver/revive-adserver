@@ -370,11 +370,11 @@ function phpAds_PageHeader($ID, $extra="")
 	{
 		if (phpAds_isUser(phpAds_Admin))
 		{
-			echo "<a class='tab-n' href='../documentation/user-guide.pdf' target='_blank'";
-			echo "onClick=\"openWindow('../documentation/user-guide.pdf','',";
+			echo "<a class='tab-n' href='../misc/documentation/user-guide.pdf' target='_blank'";
+			echo "onClick=\"openWindow('../misc/documentation/user-guide.pdf','',";
 			echo "'status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;\">$strHelp</a> ";
-			echo "<a href='../documentation/user-guide.pdf' target='_blank'";
-			echo "onClick=\"openWindow('../documentation/user-guide.pdf','',";
+			echo "<a href='../misc/documentation/user-guide.pdf' target='_blank'";
+			echo "onClick=\"openWindow('../misc/documentation/user-guide.pdf','',";
 			echo "'status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;\">";
 			echo "<img src='images/help.gif' width='16' height='16' align='absmiddle' border='0'></a>";
 			echo "&nbsp;&nbsp;&nbsp;";

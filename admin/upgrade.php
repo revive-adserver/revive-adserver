@@ -27,7 +27,7 @@ else
 
 
 // Include default settings
-require (phpAds_path.'/misc/config.template.php');
+require (phpAds_path.'/libraries/defaults/config.template.php');
 
 
 // Register input variables
@@ -275,7 +275,7 @@ if (phpAds_isUser(phpAds_Admin))
 		
 		// Rebuild cache
 		if (!defined('LIBVIEWCACHE_INCLUDED'))
-			include (phpAds_path.'/lib-view-cache-'.$phpAds_config['delivery_caching'].'.inc.php');
+			include (phpAds_path.'/libraries/deliverycache/cache-'.$phpAds_config['delivery_caching'].'.inc.php');
 		
 		phpAds_cacheDelete();
 		

@@ -419,7 +419,7 @@ function phpAds_readDatabaseStructure ()
 {
 	global $phpAds_config;
 	
-	$sql = join("", file(phpAds_path."/misc/all.sql"));
+	$sql = join("", file(phpAds_path."/libraries/defaults/all.sql"));
 	
 	// Stripping comments
 	$sql = ereg_replace("$-- [^\n]*\n", "\n", $sql);

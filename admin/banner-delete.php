@@ -103,7 +103,7 @@ phpAds_PriorityCalculate ();
 
 // Rebuild cache
 if (!defined('LIBVIEWCACHE_INCLUDED')) 
-	include (phpAds_path.'/lib-view-cache-'.$phpAds_config['delivery_caching'].'.inc.php');
+	include (phpAds_path.'/libraries/deliverycache/cache-'.$phpAds_config['delivery_caching'].'.inc.php');
 
 phpAds_cacheDelete();
 

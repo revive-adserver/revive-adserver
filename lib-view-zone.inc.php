@@ -33,7 +33,7 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 	
 	
 	// Get cache
-	if (!defined('LIBVIEWCACHE_INCLUDED'))  include (phpAds_path.'/lib-view-cache-'.$phpAds_config['delivery_caching'].'.inc.php');
+	if (!defined('LIBVIEWCACHE_INCLUDED'))  include (phpAds_path.'/libraries/deliverycache/cache-'.$phpAds_config['delivery_caching'].'.inc.php');
 	$cache = phpAds_cacheFetch ('zone:'.$zoneid);
 	
 	if (!$cache)

@@ -286,7 +286,7 @@ function phpAds_GenerateInvocationCode()
 		{
 			case 'php':
 				$buffer = "<"."?php\n";
-				$buffer .= "    // Remember to copy files in samples/xmlrpc/php to the same directory as your script\n\n";
+				$buffer .= "    // Remember to copy files in misc/samples/xmlrpc/php to the same directory as your script\n\n";
 				$buffer .= "    require('lib-xmlrpc-class.inc.php');\n";
 				$buffer .= "    \$xmlrpcbanner = new phpAds_XmlRpc('$params[host]', '$params[path]'".
 					(isset($params['port']) ? ", '$params[port]'" : "").");\n";
@@ -456,7 +456,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	if ($codetype == 'adlayer')
 	{
 		if (!isset($layerstyle)) $layerstyle = 'geocities';
-		include ('../misc/layerstyles/'.$layerstyle.'/invocation.inc.php');
+		include ('../libraries/layerstyles/'.$layerstyle.'/invocation.inc.php');
 	}
 	
 	
@@ -705,11 +705,11 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		{
 			$layerstyles = array();
 			
-			$stylesdir = opendir('../misc/layerstyles');
+			$stylesdir = opendir('../libraries/layerstyles');
 			while ($stylefile = readdir($stylesdir))
 			{
-				if (is_dir('../misc/layerstyles/'.$stylefile) &&
-					file_exists('../misc/layerstyles/'.$stylefile.'/invocation.inc.php'))
+				if (is_dir('../libraries/layerstyles/'.$stylefile) &&
+					file_exists('../libraries/layerstyles/'.$stylefile.'/invocation.inc.php'))
 				{
 					if (ereg('^[^.]', $stylefile))
 						$layerstyles[$stylefile] = isset($GLOBALS['strAdLayerStyleName'][$stylefile]) ?

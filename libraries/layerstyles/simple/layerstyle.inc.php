@@ -217,7 +217,7 @@ function phpAds_getLayerHTML ($output, $uniqid)
 	$layer_height = $output['height'] + 2 + ($closebutton == 't' ? 11 : 0) + $padding*2;
 	
 	// Create imagepath
-	$imagepath = $phpAds_config['url_prefix'].'/misc/layerstyles/simple/images/';
+	$imagepath = $phpAds_config['url_prefix'].'/libraries/layerstyles/simple/images/';
 	
 	// return HTML code
 	return '

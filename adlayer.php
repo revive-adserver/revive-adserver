@@ -166,7 +166,7 @@ if (!isset($layerstyle) || empty($layerstyle)) $layerstyle = 'geocities';
 
 
 // Include layerstyle
-require(phpAds_path.'/misc/layerstyles/'.$layerstyle.'/layerstyle.inc.php');
+require(phpAds_path.'/libraries/layerstyles/'.$layerstyle.'/layerstyle.inc.php');
 
 $limitations = phpAds_getLayerLimitations();
 

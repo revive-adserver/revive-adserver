@@ -116,7 +116,7 @@ if (isset($submitbutton))
 				{
 					$codetype = 'adlayer';
 					if (!isset($layerstyle)) $layerstyle = 'geocities';
-					include ('../misc/layerstyles/'.$layerstyle.'/invocation.inc.php');
+					include ('../libraries/layerstyles/'.$layerstyle.'/invocation.inc.php');
 				}
 				
 				$append = addslashes(phpAds_GenerateInvocationCode());
@@ -137,7 +137,7 @@ if (isset($submitbutton))
 		
 		
 		// Rebuild Cache
-		if (!defined('LIBVIEWCACHE_INCLUDED'))  include (phpAds_path.'/lib-view-cache-'.$phpAds_config['delivery_caching'].'.inc.php');
+		if (!defined('LIBVIEWCACHE_INCLUDED'))  include (phpAds_path.'/libraries/deliverycache/cache-'.$phpAds_config['delivery_caching'].'.inc.php');
 		
 		phpAds_cacheDelete('zone:'.$zoneid);
 		
