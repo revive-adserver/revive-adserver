@@ -144,7 +144,7 @@ function confirm_delete()
   	  <td height='25'><?echo $strViews;?>: <b><?echo $adviews;?></b></td>
       <td height='25'><?echo $strClicks;?>: <b><?echo $adclicks;?></b></td>
       <td height='25'><?echo $strCTRShort;?>: <b><?echo $ctr;?>%</b></td></tr>
-  <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+  <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>
 
 <?
 	// total number of clients
@@ -160,7 +160,7 @@ function confirm_delete()
    	  <td height='25'><?echo $strViews;?>: <b><?echo $adviews;?></b></td>
       <td height='25'><?echo $strClicks;?>: <b><?echo $adclicks;?></b></td>
       <td height='25'><?echo $strCTRShort;?>: <b><?echo $ctr;?>%</b></td></tr>
-  <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+  <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>
 
 <?
 	// total number of clients
@@ -176,7 +176,7 @@ function confirm_delete()
   	  <td height='25'><?echo $strViews;?>: <b><?echo $adviews;?></b></td>
       <td height='25'><?echo $strClicks;?>: <b><?echo $adclicks;?></b></td>
       <td height='25'><?echo $strCTRShort;?>: <b><?echo $ctr;?>%</b></td></tr>
-  <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+  <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>
   
   
 <?

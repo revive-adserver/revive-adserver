@@ -451,12 +451,12 @@ $adviewsleft  = adviews_left($clientID);
 		<td><?echo $strTotalViews;?>: <b><?echo $totaladviews;?></b></td>
 		<td><?echo $strViewCredits;?>: <b><?echo $adviewsleft;?></b></td>
 	</tr>
-	<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>
+	<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>
 	<tr height='25'>
 		<td><?echo $strTotalClicks;?>: <b><?echo $totaladclicks;?></b></td>
 		<td><?echo $strClickCredits;?>: <b><?echo $adclicksleft;?></b></td>
 	</tr>
-	<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>
+	<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>
 	<tr height='25'>
 		<td colspan='2'><? echo $desc; ?></td>
 	</tr>
