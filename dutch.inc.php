@@ -107,4 +107,6 @@ $strTime = "Tijd";
 $strAllow = "Toestaan";
 $strDeny = "Weigeren";
 $strResetStats = "Wis Statistieken";
+$strConfirmResetStats = "Wil u echt de statistieken wissen voor deze klant ?";
+
 ?>

@@ -109,5 +109,9 @@ $strTime = "Time";
 $strAllow = "Allow";
 $strDeny = "Deny";
 $strResetStats = "Reset Statistics";
+$strConfirmResetStats = "Do you really want to reset stats for this client ?";
+$strExpiration = "Expiration";
+$strDaysLeft = "Days left";
+$strEstimated = "Estimated expiration";
 
 ?>

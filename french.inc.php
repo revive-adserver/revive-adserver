@@ -109,5 +109,6 @@ $strTime = "Horaire";
 $strAllow = "Permettre";
 $strDeny = "Refuser";
 $strResetStats = "Réinitialise les statistiques";
+$strConfirmResetStats = "Do you really want to reset stats for this client ?";
 
 ?>

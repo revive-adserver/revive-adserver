@@ -26,7 +26,7 @@ while($row_clients = mysql_fetch_array($res_clients))
     $clients[$i]["contact"] = $row_clients["contact"];
     $clients[$i]["clientname"] = $row_clients["clientname"];      
     $clients[$i]["views"] = $row_clients["views"];
-    $clients[$i]["days"] = $row_clients["expire_day"] ? $row_clients["expire_day"] - $row_clients["cur_date"] : '';
+    $clients[$i]["days"] = $row_clients["expire_day"]!=-1 ? $row_clients["expire_day"] - $row_clients["cur_date"] : 1;
     $clients[$i]["active"] = true;
     
     // Fetch all banners belonging to client   

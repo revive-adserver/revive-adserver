@@ -1,12 +1,12 @@
 <?
 
 // Decide which image format to use
-  if (function_exists("imagegif"))
-    $gdimageformat = "gif";    
+  if (function_exists("imagepng"))
+    $gdimageformat = "png";    
   elseif (function_exists("imagejpeg"))
     $gdimageformat = "jpeg";    
-  elseif (function_exists("imagepng"))
-    $gdimageformat = "png";    
+  elseif (function_exists("imagegif"))
+    $gdimageformat = "gif";    
   else
     $gdimageformat = "none";
 

@@ -157,6 +157,7 @@ function get_banner($what, $clientID, $context=0, $source="")
     $res = @mysql_db_query($phpAds_db, $select);
     if(!$res)
         return(false);
+
     $rows = array();
     $weighttable = array();
     $weightsum = 0;
@@ -244,27 +245,6 @@ function log_adview($bannerID,$clientID)
         return(false);
     }
 
-// Decrement views
-
-    $currentview=mysql_db_query($GLOBALS["phpAds_db"], "SELECT * FROM $phpAds_tbl_clients WHERE clientID=$clientID and views > 0");
-    if($viewcount=mysql_fetch_array($currentview))
-    {
-        $viewcount["views"]=$viewcount["views"]-1;
-
-// Mail warning - preset is reached
-        if($viewcount["views"]==$phpAds_warn_limit)
-        {
-            warn_mail($viewcount);
-        }
-        mysql_db_query($GLOBALS["phpAds_db"], "UPDATE $phpAds_tbl_clients SET views=$viewcount[views] WHERE clientID=$clientID");
-// Check view count and de-activate banner if needed
-        if($viewcount["views"]==0 && $viewcount["clicks"]==0)
-        {
-            mysql_db_query($GLOBALS["phpAds_db"], "UPDATE $phpAds_tbl_banners SET active='false' WHERE clientID=$clientID");
-        }
-    }
-
-
     if($phpAds_reverse_lookup)
     {
         $host = isset($REMOTE_HOST) ? $REMOTE_HOST : @gethostbyaddr($REMOTE_ADDR);
@@ -298,6 +278,25 @@ function log_adview($bannerID,$clientID)
             '$host'
             )
             ", $phpAds_insert_delayed ? "DELAYED": "")); 
+	// Decrement views
+
+    	$currentview=mysql_db_query($GLOBALS["phpAds_db"], "SELECT * FROM $phpAds_tbl_clients WHERE clientID=$clientID and views > 0");
+    	if($viewcount=mysql_fetch_array($currentview))
+    	{
+        	$viewcount["views"]=$viewcount["views"]-1;
+
+	// Mail warning - preset is reached
+        	if($viewcount["views"]==$phpAds_warn_limit)
+        	{
+            		warn_mail($viewcount);
+        	}
+        	mysql_db_query($GLOBALS["phpAds_db"], "UPDATE $phpAds_tbl_clients SET views=$viewcount[views] WHERE clientID=$clientID");
+	// Check view count and de-activate banner if needed
+        	if($viewcount["views"]==0 && $viewcount["clicks"]==0)
+        	{
+            		mysql_db_query($GLOBALS["phpAds_db"], "UPDATE $phpAds_tbl_banners SET active='false' WHERE clientID=$clientID");
+        	}
+    	}
     }
 }
 
