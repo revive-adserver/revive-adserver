@@ -143,6 +143,7 @@ if (phpAds_dbConnect())
 					$key != 'source' &&
 					$key != 'dest' &&
 					$key != 'ismap' &&
+					$key != 'log' &&
 					$key != 'n' &&
 					$key != 'cb')
 					$vars[] = $key.'='.$HTTP_GET_VARS[$key];
@@ -156,6 +157,7 @@ if (phpAds_dbConnect())
 					$key != 'source' &&
 					$key != 'dest' &&
 					$key != 'ismap' &&
+					$key != 'log' &&
 					$key != 'n' &&
 					$key != 'cb')
 					$vars[] = $key.'='.$HTTP_POST_VARS[$key];
