@@ -73,7 +73,7 @@ $GLOBALS['strDown'] 					= "Omlaag";
 $GLOBALS['strSave'] 					= "Bewaren";
 $GLOBALS['strCancel']					= "Annuleer";
 $GLOBALS['strPrevious'] 				= "Vorige";
-$GLOBALS['strPrevious_Key'] 			= "Vo<u>r</u>ige";
+$GLOBALS['strPrevious_Key'] 				= "Vo<u>r</u>ige";
 $GLOBALS['strNext'] 					= "Volgende";
 $GLOBALS['strNext_Key'] 				= "Vol<u>g</u>ende";
 $GLOBALS['strYes']					= "Ja";
@@ -106,7 +106,7 @@ $GLOBALS['strFieldContainsErrors']			= "De volgende velden bevatten fouten:";
 $GLOBALS['strFieldFixBeforeContinue1']			= "Voordat u verder kunt gaan dient u";
 $GLOBALS['strFieldFixBeforeContinue2']			= "deze fouten te corrigeren.";
 $GLOBALS['strDelimiter']				= "Scheidingsteken";
-$GLOBALS['strMiscellaneous']		= "Overig";
+$GLOBALS['strMiscellaneous']				= "Overig";
 
 
 // Properties
@@ -135,6 +135,11 @@ $GLOBALS['strAccessDenied'] 				= "Toegang geweigerd";
 $GLOBALS['strPasswordWrong'] 				= "Het wachtwoord is niet correct";
 $GLOBALS['strNotAdmin'] 				= "U heeft waarschijnlijk niet genoeg privileges";
 $GLOBALS['strDuplicateClientName']			= "De gebruikersnaam die u gekozen heeft bestaat al, kies een andere gebruikersnaam.";
+$GLOBALS['strInvalidPassword']				= "Het nieuwe wachtwoord is niet geldig, voer een ander wachtwoord in.";
+$GLOBALS['strNotSamePasswords']				= "De twee wachtwoorden die u ingevoerd heeft zijn niet hetzelfde";
+$GLOBALS['strRepeatPassword']				= "Herhaal het wachtwoord";
+$GLOBALS['strOldPassword']				= "Oud wachtwoord";
+$GLOBALS['strNewPassword']				= "Nieuw wachtwoord";
 
 
 // General advertising
@@ -172,7 +177,7 @@ $GLOBALS['strClient'] 					= "Adverteerder";
 $GLOBALS['strClients'] 					= "Adverteerders";
 $GLOBALS['strClientsAndCampaigns']			= "Adverteerders & Campagnes";
 $GLOBALS['strAddClient'] 				= "Voeg een adverteerder toe";
-$GLOBALS['strAddClient_Key'] 		= "<u>V</u>oeg een adverteerder toe";
+$GLOBALS['strAddClient_Key'] 				= "<u>V</u>oeg een adverteerder toe";
 $GLOBALS['strTotalClients'] 				= "Totaal aantal adverteerders";
 $GLOBALS['strClientProperties']				= "Adverteerder eigenschappen";
 $GLOBALS['strClientHistory']				= "Adverteerder geschiedenis";
@@ -202,7 +207,7 @@ $GLOBALS['strCampaigns']				= "Campagnes";
 $GLOBALS['strTotalCampaigns'] 				= "Totaal aantal campagnes";
 $GLOBALS['strActiveCampaigns'] 				= "Actieve campagnes";
 $GLOBALS['strAddCampaign'] 				= "Voeg een campagne toe";
-$GLOBALS['strAddCampaign_Key'] 		= "<u>V</u>oeg een campagne toe";
+$GLOBALS['strAddCampaign_Key'] 				= "<u>V</u>oeg een campagne toe";
 $GLOBALS['strCreateNewCampaign']			= "Maak nieuwe campagne";
 $GLOBALS['strModifyCampaign']				= "Wijzig campagne";
 $GLOBALS['strMoveToNewCampaign']			= "Verplaats naar een nieuwe campagne";
@@ -234,6 +239,8 @@ $GLOBALS['strLowPriority']				= "Toon de banners in deze campagne met lage prior
 $GLOBALS['strTargetLimitAdviews']			= "Limiteer het aantal AdViews tot";
 $GLOBALS['strTargetPerDay']				= "per dag.";
 $GLOBALS['strPriorityAutoTargeting']			= "Gekochte AdViews en vervaldatum zijn ingesteld.\n De limiet wordt elke dag bijgesteld.";
+$GLOBALS['strCampaignWarningNoWeight'] 			= "De prioriteit van deze campagne is laag, \nterwijl het gewicht op nul is gezet of niet \ngespecificeerd is. Dit zal er voor zorgen dat de campagne \ngedeactiveerd wordt en de banners zullen niet getoond \nworden totdat het gewicht aangepast is. \n\nWeet u zeker dat u door wilt gaan?";
+$GLOBALS['strCampaignWarningNoTarget'] 			= "De prioriteit van deze campagne is hoog, \nmaar u heeft het aantal AdViews niet gelimiteerd tot een. \nbepaald aantal. Dit zal er voor zorgen dat de campagne \n gedeactiveerd wordt en de banner zullen niet getoond \nworden totdat u het aantal AdViews gelimiteerd heeft \n\nWeet u zeker dat u door wilt gaan?";
 
 
 
@@ -241,7 +248,7 @@ $GLOBALS['strPriorityAutoTargeting']			= "Gekochte AdViews en vervaldatum zijn i
 $GLOBALS['strBanner'] 					= "Banner";
 $GLOBALS['strBanners'] 					= "Banners";
 $GLOBALS['strAddBanner'] 				= "Voeg een banner toe";
-$GLOBALS['strAddBanner_Key'] 			= "<u>V</u>oeg een banner toe";
+$GLOBALS['strAddBanner_Key'] 				= "<u>V</u>oeg een banner toe";
 $GLOBALS['strModifyBanner'] 				= "Wijzig banner";
 $GLOBALS['strActiveBanners'] 				= "Actieve banners";
 $GLOBALS['strTotalBanners'] 				= "Totaal banners";
@@ -264,6 +271,8 @@ $GLOBALS['strShowParentCampaigns']			= "Toon bovenliggende campagnes";
 $GLOBALS['strHideParentCampaigns']			= "Verberg bovenliggende campagnes";
 $GLOBALS['strHideInactiveBanners']			= "Verberg niet-actieve banners";
 $GLOBALS['strInactiveBannersHidden']			= "niet-actieve banner(s) verborgen";
+$GLOBALS['strAppendOthers']				= "Voeg andere toe";
+$GLOBALS['strAppendTextAdNotPossible']			= "Het is niet mogelijk om andere banners toe te voegen aan tekst advertenties.";
 
 
 
@@ -290,11 +299,11 @@ $GLOBALS['strBannerWeight']				= "Banner gewicht";
 
 // Banner (swf)
 $GLOBALS['strCheckSWF']					= "Controleer op vaste links in het Flash bestand";
-$GLOBALS['strHardcodedLinks']			= "Vaste links";
+$GLOBALS['strHardcodedLinks']				= "Vaste links";
 $GLOBALS['strConvertSWFLinks']				= "Converteer Flash links";
 $GLOBALS['strConvertSWF']				= "<br>Het Flash bestand dat u zojuist upgeload heeft bevat vaste links. Pas als deze vaste links geconverteerd zijn zal ".$phpAds_productname." AdClicks kunnen volgen voor deze banner. Hieronder vindt u een lijst met alle links welke in het Flash bestand aanwezig zijn. Indien u de links wilt converteren, klik dan op <b>Converteer</b>, klik anders op <b>Annuleer</b>.<br><br>Notitie: Als u klikt op <b>Converteer</b> zal het Flash bestand welke u zojuist geupload heeft veranderd worden. <br>Bewaar het orginele bestand goed. Ongeacht in welke versie de banner gemaakt is, het geconverteerde bestand zal alleen goed te zien zijn met de Flash 4 player (of hoger).<br><br>";
 $GLOBALS['strCompressSWF']				= "Comprimeer SWF bestand voor versneld downloaden (Flash 6 speler verplicht)";
-$GLOBALS['strOverwriteSource']		= "Overschrijft de bron parameter";
+$GLOBALS['strOverwriteSource']				= "Overschrijft de bron parameter";
 
 
 // Banner (network)
@@ -316,9 +325,11 @@ $GLOBALS['strRemoveAllLimitations']			= "Verwijder alle beperkingen";
 $GLOBALS['strEqualTo']					= "is gelijk aan";
 $GLOBALS['strDifferentFrom']				= "is verschillend van";
 $GLOBALS['strLaterThan']				= "is later dan";
-$GLOBALS['strLaterThanOrEqual']			= "is later dan of gelijk aan";
+$GLOBALS['strLaterThanOrEqual']				= "is later dan of gelijk aan";
 $GLOBALS['strEarlierThan']				= "is vroeger dan";
-$GLOBALS['strEarlierThanOrEqual']		= "is vroeger dan of gelijk aan";
+$GLOBALS['strEarlierThanOrEqual']			= "is vroeger dan of gelijk aan";
+$GLOBALS['strContains']					= "bevat";
+$GLOBALS['strNotContains']				= "bevat niet";
 $GLOBALS['strAND']					= "EN";  // logical operator
 $GLOBALS['strOR']					= "OF"; // logical operator
 $GLOBALS['strOnlyDisplayWhen']				= "Toon deze banner alleen wanneer:";
@@ -332,6 +343,7 @@ $GLOBALS['strBrowser'] 					= "Browser";
 $GLOBALS['strOS'] 					= "OS";
 $GLOBALS['strCountry'] 					= "Land";
 $GLOBALS['strContinent'] 				= "Continent";
+$GLOBALS['strReferer'] 					= "Verwijzende pagina";
 $GLOBALS['strDeliveryLimitations']			= "Leveringsbeperkingen";
 $GLOBALS['strDeliveryCapping']				= "Leveringsplafond";
 $GLOBALS['strTimeCapping']				= "Zodra deze banner eenmaal<br> getoond is, toon deze niet nog<br> een keer gedurende:";
@@ -368,7 +380,7 @@ $GLOBALS['strAllowAffiliateDeleteZone'] 		= "Deze gebruiker kan bestaande zones 
 $GLOBALS['strZone']					= "Zone";
 $GLOBALS['strZones']					= "Zones";
 $GLOBALS['strAddNewZone']				= "Voeg een zone toe";
-$GLOBALS['strAddNewZone_Key']			= "<u>V</u>oeg een zone toe";
+$GLOBALS['strAddNewZone_Key']				= "<u>V</u>oeg een zone toe";
 $GLOBALS['strAddZone']					= "Maak zone";
 $GLOBALS['strModifyZone']				= "Wijzig zone";
 $GLOBALS['strLinkedZones']				= "Gekoppelde zones";
@@ -398,16 +410,16 @@ $GLOBALS['strZoneAppend']				= "Voeg altijd de volgende<br> HTML code altijd toe
 $GLOBALS['strAppendSettings']				= "Invoeg instellingen";
 $GLOBALS['strZonePrependHTML']				= "Voeg de volgende HTML code altijd toe voor de HTML code die getoond wordt door deze zone";
 $GLOBALS['strZoneAppendHTML']				= "Voeg de volgende HTML code altijd toe na de HTML code die getoond wordt door deze zone";
-$GLOBALS['strZoneAppendType']			= "Toevoeg type";
-$GLOBALS['strZoneAppendHTMLCode']		= "HTML code";
-$GLOBALS['strZoneAppendZoneSelection']	= "Popup of intersitial";
-$GLOBALS['strZoneAppendSelectZone']		= "Voeg altijd de volgende popup of intersitial toe aan banners die getoond worden door deze zone";
+$GLOBALS['strZoneAppendType']				= "Toevoeg type";
+$GLOBALS['strZoneAppendHTMLCode']			= "HTML code";
+$GLOBALS['strZoneAppendZoneSelection']			= "Popup of interstitial";
+$GLOBALS['strZoneAppendSelectZone']			= "Voeg altijd de volgende popup of intersitial toe aan banners die getoond worden door deze zone";
 
 
 // Zone probability
-$GLOBALS['strZoneProbListChain']		= "De banners welke gekoppeld zijn aan deze zone zijn niet actief. De volgende ketting wordt daarom gebruikt:";
-$GLOBALS['strZoneProbNullPri']			= "De banners welke gekoppeld zijn aan deze zone zijn niet actief.";
-$GLOBALS['strZoneProbListChainLoop']	= "De kettings welke gevolgd wordt is aan zichzelf gekoppeld. Het is niet mogelijk om deze zone te tonen";
+$GLOBALS['strZoneProbListChain']			= "De banners welke gekoppeld zijn aan deze zone zijn niet actief. <br>De volgende ketting wordt daarom gebruikt:";
+$GLOBALS['strZoneProbNullPri']				= "De banners welke gekoppeld zijn aan deze zone zijn niet actief.";
+$GLOBALS['strZoneProbListChainLoop']			= "De ketting welke gevolgd wordt is aan zichzelf gekoppeld. Het is niet mogelijk om deze zone te tonen";
 
 
 // Linked banners/campaigns
@@ -446,23 +458,23 @@ $GLOBALS['strDistribution']				= "Verdeling";
 $GLOBALS['strResetStats'] 				= "Wis Statistieken";
 $GLOBALS['strSourceStats']				= "Bron statistieken";
 $GLOBALS['strSelectSource']				= "Selecteer de bron die u wilt bekijken:";
-$GLOBALS['strSizeDistribution']		= "Distributie op grootte";
-$GLOBALS['strCountryDistribution']	= "Distributie op land";
-$GLOBALS['strEffectivity']			= "Effectiviteit";
-$GLOBALS['strTargetStats']			= "Doelberekeningen";
-$GLOBALS['strCampaignTarget']		= "Doel";
-$GLOBALS['strTargetRatio']			= "Doel ratio";
-$GLOBALS['strTargetModifiedDay']	= "Er zijn doelen gewijzigd gedurende de dag, hierdoor waren de berekeningen niet accuraat";
-$GLOBALS['strTargetModifiedWeek']	= "Er zijn doelen gewijzigd gedurende de week, hierdoor waren de berekeningen niet accuraat";
-$GLOBALS['strTargetModifiedMonth']	= "Er zijn doelen gewijzigd gedurende de maand, hierdoor waren de berekeningen neit accuraat";
-$GLOBALS['strNoTargetStats']		= "Er zijn momenteen geen gegevens bekend over doelberekeningen";
+$GLOBALS['strSizeDistribution']				= "Distributie op grootte";
+$GLOBALS['strCountryDistribution']			= "Distributie op land";
+$GLOBALS['strEffectivity']				= "Effectiviteit";
+$GLOBALS['strTargetStats']				= "Doelberekeningen";
+$GLOBALS['strCampaignTarget']				= "Doel";
+$GLOBALS['strTargetRatio']				= "Doel ratio";
+$GLOBALS['strTargetModifiedDay']			= "Er zijn doelen gewijzigd gedurende de dag, hierdoor waren de berekeningen niet accuraat";
+$GLOBALS['strTargetModifiedWeek']			= "Er zijn doelen gewijzigd gedurende de week, hierdoor waren de berekeningen niet accuraat";
+$GLOBALS['strTargetModifiedMonth']			= "Er zijn doelen gewijzigd gedurende de maand, hierdoor waren de berekeningen neit accuraat";
+$GLOBALS['strNoTargetStats']				= "Er zijn momenteen geen gegevens bekend over doelberekeningen";
 
 
 // Hosts
 $GLOBALS['strHosts']					= "Bezoekers";
-$GLOBALS['strTopHosts'] 			= "Meest actieve bezoekers";
-$GLOBALS['strTopCountries'] 		= "Meest active landen";
-$GLOBALS['strRecentHosts'] 			= "Meest recente bezoekers";
+$GLOBALS['strTopHosts'] 				= "Meest actieve bezoekers";
+$GLOBALS['strTopCountries'] 				= "Meest active landen";
+$GLOBALS['strRecentHosts'] 				= "Meest recente bezoekers";
 
 // Expiration
 $GLOBALS['strExpired']					= "Vervallen";
@@ -485,12 +497,13 @@ $GLOBALS['strNoActionsLogged']				= "Er zijn geen acties vastgelegd";
 
 
 // Code generation
-$GLOBALS['strGenerateBannercode']			= "Genereer Bannercode";
+$GLOBALS['strGenerateBannercode']			= "Directe selectie";
 $GLOBALS['strChooseInvocationType']			= "Kies het type banner invocatie";
 $GLOBALS['strGenerate']					= "Genereer";
 $GLOBALS['strParameters']				= "Parameters";
 $GLOBALS['strFrameSize']				= "Frame grootte";
 $GLOBALS['strBannercode']				= "Bannercode";
+$GLOBALS['strOptional']					= "optioneel";
 
 
 // Errors
@@ -510,6 +523,14 @@ $GLOBALS['strErrorUploadBasedir']			= "Het verzonden bestand kon niet worden gel
 $GLOBALS['strErrorUploadUnknown']			= "Door een onbekende oorzaak kon het verzonden bestand kon niet worden gelezen. Controleer uw PHP configuratie";
 $GLOBALS['strErrorStoreLocal']				= "Er is een fout opgetreden tijdens het bewaren van de banner in een lokale map. Door oorzaak van dit probleem is waarschijnlijk een misconfiguratie van de locatie van de lokale map";
 $GLOBALS['strErrorStoreFTP']				= "Er is een fout opgetreden tijdens het overzenden van de banner naar de FTP server. De server is niet bereikbaar, of er is een fout gemaakt tijdens het invullen van de gegevens van de FTP server";
+$GLOBALS['strErrorDBPlain']				= "Er is een probleem opgetreden tijdens het benaderen van de database";
+$GLOBALS['strErrorDBSerious']				= "Er is een ernstig probleem met de database opgetreden";
+$GLOBALS['strErrorDBNoDataPlain']			= "Wegens het probleem kon ".$phpAds_productname." geen gegevens ophalen of versturen. ";
+$GLOBALS['strErrorDBNoDataSerious']			= "Wegens het ernstige problem kon ".$phpAds_productname." geen gegevens ophalen";
+$GLOBALS['strErrorDBCorrupt']				= "De database tabel is waarschijnlijk beschadigd en moet gerepareerd worden. Voor meer informatie over het repareren van beschadigde tabellen lees het hoofdstuk <i>Troubleshooting</i> van de <i>Administrator guide</i>.";
+$GLOBALS['strErrorDBContact']				= "Neem a.u.b. contact op met de beheerder van deze server en breng hem op de hoogte van uw probleem.";
+$GLOBALS['strErrorDBSubmitBug']				= "Indien dit probleem te reproduceren is, dan is het mogelijk dat het veroorzaakt wordt door een fout in ".$phpAds_productname.". Reporteer de volgende gegevens aan de makers van ".$phpAds_productname.". Probeer tevens de actie die deze fout tot gevolg hebben zo duidelijk mogelijk te omschrijven.";
+$GLOBALS['strMaintenanceNotActive']			= "Het onderhoudsscript heeft niet gedraaid in de laatste 24 uur. \\nHet script moet elk uur gedraaid worden ander zal ".$phpAds_productname." niet \\ncorrect functioneren.\\n\\nLees a.u.b. de Administrator guide voor meer informatie \\n over het instellen van het onderhoudsscript.";
 
 
 // E-mail
@@ -526,6 +547,7 @@ $GLOBALS['strBeforeActivate']				= "de activeringsdatum bereikt is";
 $GLOBALS['strAfterExpire']				= "de vervaldatum bereikt is";
 $GLOBALS['strNoMoreClicks']				= "de gekochte AdClicks gebruikt zijn";
 $GLOBALS['strNoMoreViews']				= "de gekochte AdViews gebruikt zijn";
+$GLOBALS['strWeightIsNull']				= "het gewicht op nul gezet is";
 $GLOBALS['strWarnClientTxt']				= "Er zijn minder dan {limit} AdClicks of AdViews over voor uw banners. ";
 $GLOBALS['strViewsClicksLow']				= "Uw AdViews/AdClicks zijn bijna volledig gebruikt";
 $GLOBALS['strNoViewLoggedInInterval']   		= "Er zijn geen AdViews gelogd gedurende de dagen van dit rapport";
@@ -559,11 +581,11 @@ $GLOBALS['strProductUpdates']				= "Nieuwe versies";
 
 // Reserved keys
 // Do not change these unless absolutely needed
-$GLOBALS['keyHome']			= 'h';
-$GLOBALS['keyUp']			= 'o';
+$GLOBALS['keyHome']		= 'h';
+$GLOBALS['keyUp']		= 'o';
 $GLOBALS['keyNextItem']		= '.';
 $GLOBALS['keyPreviousItem']	= ',';
-$GLOBALS['keyList']			= 'l';
+$GLOBALS['keyList']		= 'l';
 
 
 // Other keys
@@ -573,7 +595,7 @@ $GLOBALS['keySearch']		= 'z';
 $GLOBALS['keyCollapseAll']	= 'u';
 $GLOBALS['keyExpandAll']	= 'i';
 $GLOBALS['keyAddNew']		= 'v';
-$GLOBALS['keyNext']			= 'g';
+$GLOBALS['keyNext']		= 'g';
 $GLOBALS['keyPrevious']		= 'r';
 
 ?>
