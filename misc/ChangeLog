@@ -54,6 +54,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
                           - 2002-11-10:  Moved Geotargeting and Remote host settings to a seperate page  (Niels)
 			  - 2002-11-22:  Added support for direct selection delivery cache, which was previously only available for zones  (Niels)
                           - 2002-11-22:  Added support for using a campaingid in the context parameter to prevent the same campaign being shown multiple times on the same page  (Niels)
+                          - 2002-11-26:  Changed sorting order of maintenance-priority. Now it's sorted by decreasing priority  (Matteo)
 
 			+ Misc bugfixes
 			  - 2002-07-25:  On some systems history pages showed '-0' instead of simply '-' (Matteo)
