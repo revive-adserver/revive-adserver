@@ -1,4 +1,4 @@
-<?php // $Revision: 1.6 $
+<?php // $Revision: 1.9 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -312,15 +312,15 @@ $GLOBALS['strKiloByte']					= "KB";
 $GLOBALS['strSeconds']					= "秒";
 $GLOBALS['strExpired']					= "已失效";
 
-$GLOBALS['strModifyBannerAcl'] 			= "Display limitations";
-$GLOBALS['strACL'] 						= "Limit";
+$GLOBALS['strModifyBannerAcl'] 			= "推播限制";
+$GLOBALS['strACL'] 						= "限制";
 $GLOBALS['strNoMoveUp'] 				= "無法將第一筆資料往上移";
-$GLOBALS['strACLAdd'] 					= "Add new limitation";
-$GLOBALS['strNoLimitations']			= "No limitations";
+$GLOBALS['strACLAdd'] 					= "新增推播限制";
+$GLOBALS['strNoLimitations']			= "無限制";
 
-$GLOBALS['strLinkedZones']				= "Linked Zones";
-$GLOBALS['strNoZonesToLink']			= "There are no zones available to which this banner can be linked";
+$GLOBALS['strLinkedZones']				= "連結版位";
+$GLOBALS['strNoZonesToLink']			= "目前沒有任何版位可以和此廣告連結";
 
-$GLOBALS['strCustom']					= "Custom";
+$GLOBALS['strCustom']					= "自訂";
 
 ?>

@@ -47,7 +47,7 @@ $GLOBALS['strViewsPurchased'] = "Annonsvisningar köpta";
 $GLOBALS['strClicksPurchased'] = "Annonsklick köpta";
 $GLOBALS['strDaysPurchased'] = "Annonsdagar köpta";
 $GLOBALS['strHTML'] = "HTML";
-$GLOBALS['strAddSep'] = "Fyll i ANTINGEN fältet ovan eller fältet nedan!";
+$GLOBALS['strAddSep'] = "Fyll ANTINGEN i fältet ovan eller fältet nedan!";
 $GLOBALS['strTextBelow'] = "Bildtext";
 $GLOBALS['strSubmit'] = "Skicka in annons";
 $GLOBALS['strUsername'] = "Användarnamn";
@@ -285,41 +285,41 @@ $GLOBALS['strConfirmResetCampaignStats']= "Vill du verkligen nollställa statisti
 $GLOBALS['strConfirmResetClientStats']	= "Vill du verkligen nollställa statistiken för den här klienten?";
 $GLOBALS['strConfirmResetBannerStats']	= "Vill du verkligen nollställa statistiken för den här bannern?";
 
-$GLOBALS['strClientsAndCampaigns']		= "Clients & Campaigns";
-$GLOBALS['strCampaignOverview']			= "Campaign overview";
-$GLOBALS['strReports']					= "Reports";
-$GLOBALS['strShowBanner']				= "Show banner";
+$GLOBALS['strClientsAndCampaigns']		= "Klienter och kampanjer";
+$GLOBALS['strCampaignOverview']			= "Kampanjöverblick";
+$GLOBALS['strReports']					= "Rapporter";
+$GLOBALS['strShowBanner']				= "Visa banner";
 
-$GLOBALS['strIncludedBanners']			= "Linked banners";
+$GLOBALS['strIncludedBanners']			= "Länkade banners";
 $GLOBALS['strProbability']				= "Probability";
-$GLOBALS['strInvocationcode']			= "Invocationcode";
-$GLOBALS['strSelectZoneType']			= "Please choose the type of linking banners";
-$GLOBALS['strBannerSelection']			= "Banner selection";
-$GLOBALS['strInteractive']				= "Interactive";
-$GLOBALS['strRawQueryString']			= "Raw querystring";
+$GLOBALS['strInvocationcode']			= "Igångsättningskod";
+$GLOBALS['strSelectZoneType']			= "Välj typ av bannerlänk";
+$GLOBALS['strBannerSelection']			= "Bannerval";
+$GLOBALS['strInteractive']				= "Interaktiv";
+$GLOBALS['strRawQueryString']			= "Rå query-sträng";
 
-$GLOBALS['strBannerWeight']				= "Banner weight";
-$GLOBALS['strCampaignWeight']			= "Campaign weight";
+$GLOBALS['strBannerWeight']				= "Bannervikt";
+$GLOBALS['strCampaignWeight']			= "Kampanjvikt";
 
-$GLOBALS['strZoneCacheOn']				= "Zone caching is turned on";
-$GLOBALS['strZoneCacheOff']				= "Zone caching is turned off";
-$GLOBALS['strCachedZones']				= "Cached zones";
-$GLOBALS['strSizeOfCache']				= "Size of cache";
-$GLOBALS['strAverageAge']				= "Average age";
-$GLOBALS['strRebuildZoneCache']			= "Rebuild zone cache";
+$GLOBALS['strZoneCacheOn']				= "Zonecachning är påslaget";
+$GLOBALS['strZoneCacheOff']				= "Zonecachning är avslaget";
+$GLOBALS['strCachedZones']				= "Cachede zoner";
+$GLOBALS['strSizeOfCache']				= "Cachestorlek";
+$GLOBALS['strAverageAge']				= "Medelålder";
+$GLOBALS['strRebuildZoneCache']			= "Skapa om zonecache";
 $GLOBALS['strKiloByte']					= "KB";
-$GLOBALS['strSeconds']					= "seconds";
-$GLOBALS['strExpired']					= "Expired";
+$GLOBALS['strSeconds']					= "sekunder";
+$GLOBALS['strExpired']					= "har utgått";
 
-$GLOBALS['strModifyBannerAcl'] 			= "Display limitations";
-$GLOBALS['strACL'] 						= "Limit";
+$GLOBALS['strModifyBannerAcl'] 			= "Visningsrestriktioner";
+$GLOBALS['strACL'] 						= "Restriktion";
 $GLOBALS['strNoMoveUp'] 				= "Första raden kan inte flyttas upp";
-$GLOBALS['strACLAdd'] 					= "Add new limitation";
-$GLOBALS['strNoLimitations']			= "No limitations";
+$GLOBALS['strACLAdd'] 					= "Ny restriktion";
+$GLOBALS['strNoLimitations']			= "Inga restriktioner";
 
-$GLOBALS['strLinkedZones']				= "Linked Zones";
-$GLOBALS['strNoZonesToLink']			= "There are no zones available to which this banner can be linked";
+$GLOBALS['strLinkedZones']				= "Länkade zoner";
+$GLOBALS['strNoZonesToLink']			= "Det finns inga zoner till vilken denna banner kan länkas";
 
-$GLOBALS['strCustom']					= "Custom";
+$GLOBALS['strCustom']					= "Egendefinerad";
 
 ?>

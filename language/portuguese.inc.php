@@ -312,15 +312,15 @@ $GLOBALS['strKiloByte']                  = "KB";
 $GLOBALS['strSeconds']                   = "segundos";
 $GLOBALS['strExpired']                   = "Expirou";
 
-$GLOBALS['strModifyBannerAcl'] 			= "Display limitations";
-$GLOBALS['strACL'] 						= "Limit";
+$GLOBALS['strModifyBannerAcl'] 			= "Mostrar limita&ccedil;&otilde;es";
+$GLOBALS['strACL'] 						= "Limite";
 $GLOBALS['strNoMoveUp'] 				= "Imposs&iacute;vel mover acima da primeira linha";
-$GLOBALS['strACLAdd'] 					= "Add new limitation";
-$GLOBALS['strNoLimitations']			= "No limitations";
+$GLOBALS['strACLAdd'] 					= "Adicionar nova limita&ccedil;&atilde;o";
+$GLOBALS['strNoLimitations']			= "Sem limita&ccedil;&otilde;es";
 
-$GLOBALS['strLinkedZones']				= "Linked Zones";
-$GLOBALS['strNoZonesToLink']			= "There are no zones available to which this banner can be linked";
+$GLOBALS['strLinkedZones']				= "Zonas de Liga&ccedil;&atilde;o";
+$GLOBALS['strNoZonesToLink']			= "N&atilde;o existem zonas dispon&iacute;veis para ligar a este an&uacute;ncio";
 
-$GLOBALS['strCustom']					= "Custom";
+$GLOBALS['strCustom']					= "Definir";
 
 ?>
