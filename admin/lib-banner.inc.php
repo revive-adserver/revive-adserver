@@ -119,6 +119,7 @@ function phpAds_getBannerCache($banner)
 						  			     "\\1".$phpAds_config['url_prefix']."/adclick.php\\4".
 									     "<input type='hidden' name='dest' value='\\3'>".
 									     "<input type='hidden' name='bannerid' value='{bannerid}'>".
+									     "<input type='hidden' name='source' value='{source}'>".
 									     "<input type='hidden' name='zoneid' value='{zoneid}'>", $buffer);
 			}
 			
