@@ -48,7 +48,7 @@ if ($compact == '')
 
 ?>
 
-<html>
+<html<?php echo $phpAds_TextDirection != 'ltr' ? " dir='".$phpAds_TextDirection."'" : '' ?>>
 	<head>
 		<title><?php echo $strSearch; ?></title>
 		<meta http-equiv='Content-Type' content='text/html<?php echo $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : "" ?>'>
