@@ -462,7 +462,7 @@ function phpAds_showZoneCampaign ($width, $height, $what)
 				
 				// Edit
 				echo "<td height='25'>";
-				echo str_replace ('{count}', count($campaign['banners']), $strMatchingBanners);
+				echo str_replace ('{count}', isset($campaign['banners']) ? count($campaign['banners']) : 0, $strMatchingBanners);
 				echo "</td>";
 				
 				// End row
