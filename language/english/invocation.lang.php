@@ -25,6 +25,10 @@ $GLOBALS['strInvocationAdLayer']		= "Interstitial";
 $GLOBALS['strInvocationLocal']			= "Local mode";
 
 
+// Other
+$GLOBALS['strCopyToClipboard']			= "Copy to clipboard";
+
+
 // Measures
 $GLOBALS['strAbbrPixels']				= "px";
 $GLOBALS['strAbbrSeconds']				= "sec";

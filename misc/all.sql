@@ -246,6 +246,13 @@ CREATE TABLE phpads_config (
    updates_frequency tinyint(2) DEFAULT '7',
    updates_timestamp int(11) DEFAULT '0',
    updates_last_seen decimal(7,3) DEFAULT '0',
+   allow_invocation_plain enum('t','f') DEFAULT 't',
+   allow_invocation_js enum('t','f') DEFAULT 't',
+   allow_invocation_frame enum('t','f') DEFAULT 't',
+   allow_invocation_xmlrpc enum('t','f') DEFAULT 't',
+   allow_invocation_local enum('t','f') DEFAULT 't',
+   allow_invocation_interstitial enum('t','f') DEFAULT 't',
+   allow_invocation_popup enum('t','f') DEFAULT 't',
    PRIMARY KEY (configid)
 );
 

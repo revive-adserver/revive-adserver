@@ -105,6 +105,13 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'updates_frequency' =>			array ('type' => 'integer', 'sql' => true),
 	'updates_last_seen' =>			array ('type' => 'string', 'sql' => true),
 	'updates_timestamp' =>			array ('type' => 'int', 'sql' => true),
+	'allow_invocation_plain' =>		array ('type' => 'boolean', 'sql' => true),
+	'allow_invocation_js' =>		array ('type' => 'boolean', 'sql' => true),
+	'allow_invocation_frame' =>		array ('type' => 'boolean', 'sql' => true),
+	'allow_invocation_xmlrpc' =>	array ('type' => 'boolean', 'sql' => true),
+	'allow_invocation_local' =>		array ('type' => 'boolean', 'sql' => true),
+	'allow_invocation_interstitial' =>	array ('type' => 'boolean', 'sql' => true),
+	'allow_invocation_popup' =>		array ('type' => 'boolean', 'sql' => true),
 	'config_version' =>				array ('type' => 'string', 'sql' => true)
 );
 

@@ -27,22 +27,40 @@ $sql = array();
 
 if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 {
+	if (isset($allow_invocation_plain))
+		phpAds_SettingsWriteAdd('allow_invocation_plain', $allow_invocation_plain);
+	if (isset($allow_invocation_js))
+		phpAds_SettingsWriteAdd('allow_invocation_js', $allow_invocation_js);
+	if (isset($allow_invocation_frame))
+		phpAds_SettingsWriteAdd('allow_invocation_frame', $allow_invocation_frame);
+	if (isset($allow_invocation_xmlrpc))
+		phpAds_SettingsWriteAdd('allow_invocation_xmlrpc', $allow_invocation_xmlrpc);
+	if (isset($allow_invocation_local))
+		phpAds_SettingsWriteAdd('allow_invocation_local', $allow_invocation_local);
+	if (isset($allow_invocation_interstitial))
+		phpAds_SettingsWriteAdd('allow_invocation_interstitial', $allow_invocation_interstitial);
+	if (isset($allow_invocation_popup))
+		phpAds_SettingsWriteAdd('allow_invocation_popup', $allow_invocation_popup);
+	
 	if (isset($con_key))
 		phpAds_SettingsWriteAdd('con_key', $con_key);
 	if (isset($mult_key))
 		phpAds_SettingsWriteAdd('mult_key', $mult_key);
 	if (isset($acl))
 		phpAds_SettingsWriteAdd('acl', $acl);
+	
 	if (isset($zone_cache))
 		phpAds_SettingsWriteAdd('zone_cache', $zone_cache);
 	if (isset($zone_cache_limit))
 		phpAds_SettingsWriteAdd('zone_cache_limit', $zone_cache_limit);
+	
 	if (isset($p3p_policies))
 		phpAds_SettingsWriteAdd('p3p_policies', $p3p_policies);
 	if (isset($p3p_compact_policy))
 		phpAds_SettingsWriteAdd('p3p_compact_policy', $p3p_compact_policy);
 	if (isset($p3p_policy_location))
 		phpAds_SettingsWriteAdd('p3p_policy_location', $p3p_policy_location);
+	
 	
 	if (!count($errormessage))
 	{
@@ -73,12 +91,24 @@ phpAds_SettingsSelection("invocation");
 
 phpAds_StartSettings();
 phpAds_AddSettings('start_section', "1.2.1");
+phpAds_AddSettings('checkbox', 'allow_invocation_plain', $strAllowRemoteInvocation);
+phpAds_AddSettings('checkbox', 'allow_invocation_js', $strAllowRemoteJavascript);
+phpAds_AddSettings('checkbox', 'allow_invocation_frame', $strAllowRemoteFrames);
+phpAds_AddSettings('checkbox', 'allow_invocation_xmlrpc', $strAllowRemoteXMLRPC);
+phpAds_AddSettings('checkbox', 'allow_invocation_local', $strAllowLocalmode);
+phpAds_AddSettings('break', '');
+phpAds_AddSettings('checkbox', 'allow_invocation_interstitial', $strAllowInterstitial);
+phpAds_AddSettings('break', '');
+phpAds_AddSettings('checkbox', 'allow_invocation_popup', $strAllowPopups);
+phpAds_AddSettings('end_section', '');
+
+phpAds_AddSettings('start_section', "1.2.2");
 phpAds_AddSettings('checkbox', 'con_key', $strUseConditionalKeys);
 phpAds_AddSettings('checkbox', 'mult_key', $strUseMultipleKeys);
 phpAds_AddSettings('checkbox', 'acl', $strUseAcl);
 phpAds_AddSettings('end_section', '');
 
-phpAds_AddSettings('start_section', "1.2.2");
+phpAds_AddSettings('start_section', "1.2.3");
 phpAds_AddSettings('checkbox', 'zone_cache',
 	array($strZoneCache, array('zone_cache_limit')));
 phpAds_AddSettings('break', '');
@@ -86,7 +116,7 @@ phpAds_AddSettings('text', 'zone_cache_limit',
 	array($strZoneCacheLimit, 25, 'text', 0, 'zone_cache'));
 phpAds_AddSettings('end_section', '');
 
-phpAds_AddSettings('start_section', "1.2.3");
+phpAds_AddSettings('start_section', "1.2.4");
 phpAds_AddSettings('checkbox', 'p3p_policies',
 	array($strUseP3P, array('p3p_compact_policy', 'p3p_policy_location')));
 phpAds_AddSettings('break', '');
