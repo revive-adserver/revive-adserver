@@ -22,7 +22,7 @@ require ("lib-statistics.inc.php");
 // Register input variables
 phpAds_registerGlobal ('move', 'submit', 'clientname', 'views', 'clicks', 'unlimitedviews', 'unlimitedclicks', 'priority', 
 					   'targetviews', 'weight', 'expire', 'expireSet', 'expireDay', 'expireMonth', 'expireYear', 'activateSet', 
-					   'activateDay', 'activateMonth', 'activateYear', 'target_old', 'wheight_old', 'active_old');
+					   'activateDay', 'activateMonth', 'activateYear', 'target_old', 'weight_old', 'active_old');
 
 
 // Security check
