@@ -57,13 +57,13 @@ header("Content-type: application/x-javascript");
 require("lib-cache.inc.php");
 
 if (isset($clientID) && !isset($clientid))	$clientid = $clientID;
-if (isset($withtext) && !isset($withText))  $withtext = $withText;
+if (isset($withText) && !isset($withtext))  $withtext = $withText;
 
 if (!isset($what)) 		$what = '';
 if (!isset($clientid)) 	$clientid = 0;
 if (!isset($target)) 	$target = '';
 if (!isset($source)) 	$source = '';
-if (!isset($withText)) 	$withText = '';
+if (!isset($withtext)) 	$withtext = '';
 if (!isset($context)) 	$context = '';
 
 // Get the banner
