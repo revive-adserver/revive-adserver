@@ -137,7 +137,9 @@ while (list($key,$item) = each($items))
 		Imageline($im,$px,$y-2,$px,$y+$bar_width,$line);
 		
 		// display numbers
-		ImageString($im,2,($x+(92*$unit))-40,$y+12,$value."/".$total,$black);
+		$fwidth = ImageFontWidth(2);
+		$string = $value."/".$total;
+		ImageString($im, 2, $x + (100 * $unit) - (strlen($string) * $fwidth) + 2, $y+12, $string, $black);
 	}
 	$y=$y+($bar_width+20);
 	
