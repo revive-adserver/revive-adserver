@@ -276,6 +276,8 @@ $GLOBALS['strStatusText']				= "Status Text";
 $GLOBALS['strConfirmDeleteClient'] 		= "Do you really want to delete this client?";
 $GLOBALS['strConfirmDeleteCampaign']	= "Do you really want to delete this campaign?";
 $GLOBALS['strConfirmDeleteBanner']		= "Do you really want to delete this banner?";
+$GLOBALS['strConfirmDeleteZone']		= "Do you really want to delete this zone?";
+$GLOBALS['strConfirmDeleteAffiliate']	= "Do you really want to delete this affiliate?";
 $GLOBALS['strConfirmResetStats']		= "Do you really want to reset all stats?";
 $GLOBALS['strConfirmResetCampaignStats']= "Do you really want to reset stats for this campaign?";
 $GLOBALS['strConfirmResetClientStats']	= "Do you really want to reset stats for this client?";
@@ -318,9 +320,18 @@ $GLOBALS['strNoZonesToLink']			= "There are no zones available to which this ban
 $GLOBALS['strNoZones']					= "There are currently no zones defined";
 $GLOBALS['strNoClients']				= "There are currently no clients defined";
 $GLOBALS['strNoStats']					= "There are currently no statistics available";
+$GLOBALS['strNoAffiliates']				= "There are currently no affiliates defined";
 
 $GLOBALS['strCustom']					= "Custom";
 
 $GLOBALS['strSettings'] 				= "Settings";
+
+$GLOBALS['strAffiliates']				= "Affiliates";
+$GLOBALS['strAffiliatesAndZones']		= "Affiliates & Zones";
+$GLOBALS['strAddAffiliate']				= "Create affiliate";
+$GLOBALS['strModifyAffiliate']			= "Modify affiliate";
+$GLOBALS['strAddNewAffiliate']			= "Add new affiliate";
+
+$GLOBALS['strCheckAllNone']				= "Check all / none";
 
 ?>

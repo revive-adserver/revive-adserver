@@ -26,6 +26,7 @@ $phpAds_config['tbl_session'] = 'phpads_session';
 $phpAds_config['tbl_acls'] = 'phpads_acls';
 $phpAds_config['tbl_zones'] = 'phpads_zones';
 $phpAds_config['tbl_config'] = 'phpads_config';
+$phpAds_config['tbl_affiliates'] = 'phpads_affiliates';
 
 // Use persistent connections to the database
 $phpAds_config['persistent_connections'] = false;

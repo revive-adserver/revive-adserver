@@ -37,7 +37,7 @@ if (phpAds_isUser(phpAds_Client))
 		phpAds_Die ($strAccessDenied, $strNotAdmin);
 	}
 
-	$clientid = phpAds_clientid();
+	$clientid = phpAds_getUserID();
 }
 
 
@@ -58,6 +58,18 @@ if (isset($submit))
 		
 		if (isset($clientusername) && $clientusername != '')
 		{
+			$res = phpAds_dbQuery("
+				SELECT
+					*
+				FROM
+					".$phpAds_config['tbl_affiliates']."
+				WHERE
+					username = '$clientusername'
+			") or phpAds_sqlDie();
+			
+			$duplicateaffiliate = (phpAds_dbNumRows($res) > 0);
+			$duplicateadmin  = ($phpAds_config['admin'] == $clientusername);
+			
 			if ($clientid == '')
 			{
 				$res = phpAds_dbQuery("
@@ -69,7 +81,7 @@ if (isset($submit))
 						clientusername = '$clientusername'
 				") or phpAds_sqlDie(); 
 				
-				if (phpAds_dbNumRows($res) > 0)
+				if (phpAds_dbNumRows($res) > 0 || $duplicateaffiliate || $duplicateadmin)
 				{
 					$error = true;
 					$errormessage = 'duplicateclientname';
@@ -90,7 +102,7 @@ if (isset($submit))
 						clientid != '$clientid'
 					") or phpAds_sqlDie(); 
 				
-				if (phpAds_dbNumRows($res) > 0 || $phpAds_config['admin'] == $clientusername)
+				if (phpAds_dbNumRows($res) > 0 || $duplicateaffiliate || $duplicateadmin)
 				{
 					$error = true;
 					$errormessage = 'duplicateclientname';
@@ -255,7 +267,8 @@ if ($clientid != "")
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		
 		phpAds_PageHeader("4.1.2", $extra);
-		phpAds_ShowSections(array("4.1.2"));
+			echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br><br><br>";
+			phpAds_ShowSections(array("4.1.2"));
 	}
 	else
 	{
@@ -277,7 +290,8 @@ if ($clientid != "")
 else
 {
 	phpAds_PageHeader("4.1.1");   
-	phpAds_ShowSections(array("4.1.1"));
+		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br><br><br>";
+		phpAds_ShowSections(array("4.1.1"));
 	
 	$row["permissions"] 		= "";
 	$row["reportdeactivate"] 	= 't';
@@ -291,11 +305,6 @@ else
 /* Main code                                             */
 /*********************************************************/
 
-if (phpAds_isUser(phpAds_Admin))
-	echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br>";
-
-echo "<br><br>";
-echo "<br><br>";
 echo "<br><br>";
 
 ?>

@@ -45,8 +45,10 @@ function phpAds_PageHeader($ID, $extra="")
 		// Prepare Navigation
 		if (phpAds_isUser(phpAds_Admin))
 			$pages	= $phpAds_nav['admin'];
-		else
+		elseif (phpAds_isUser(phpAds_Client))
 			$pages  = $phpAds_nav['client'];
+		else
+			$pages  = $phpAds_nav['affiliate'];
 		
 		// Build sidebar
 		$sections = explode(".", $ID);
@@ -96,11 +98,14 @@ function phpAds_PageHeader($ID, $extra="")
 		$currentsection = $sections[0];
 		$tabbar = '';
 		
+		
 		// Prepare Navigation
 		if (phpAds_isUser(phpAds_Admin))
 			$pages	= $phpAds_nav['admin'];
-		else
+		elseif (phpAds_isUser(phpAds_Client))
 			$pages  = $phpAds_nav['client'];
+		else
+			$pages  = $phpAds_nav['affiliate'];
 		
 		
 		$i = 0;
@@ -421,10 +426,15 @@ function phpAds_DelConfirm($msg)
 {
 	global $phpAds_config;
 	
-	if ($phpAds_config['admin_novice'])
-		$str = " onClick=\"return confirm('" . $msg . "')\"";
+	if (phpAds_isUser(phpAds_Admin))
+	{
+		if ($phpAds_config['admin_novice'])
+			$str = " onClick=\"return confirm('".$msg."')\"";
+		else
+			$str = "";
+	}
 	else
-		$str = "";
+		$str = " onClick=\"return confirm('".$msg."')\"";
 	
 	return $str;
 }
@@ -444,15 +454,17 @@ function phpAds_ShowSections($sections)
 	
 	
 	echo "<table border='0' cellpadding='0' cellspacing='0' width='100%' background='images/stab-bg.gif'><tr height='24'>";
-	echo "<td width='40'><img src='images/stab-bg.gif' width='40' height='24'></td><td width='600' align='right'>";
+	echo "<td width='40'><img src='images/stab-bg.gif' width='40' height='24'></td><td width='600' align='left'>";
 	
 	echo "<table border='0' cellpadding='0' cellspacing='0'><tr height='24'>";
 	
 	// Prepare Navigation
 	if (phpAds_isUser(phpAds_Admin))
 		$pages	= $phpAds_nav['admin'];
-	else
+	elseif (phpAds_isUser(phpAds_Client))
 		$pages  = $phpAds_nav['client'];
+	else
+		$pages  = $phpAds_nav['affiliate'];
 	
 	echo "<td></td>";
 	

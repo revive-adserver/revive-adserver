@@ -21,6 +21,7 @@ require ("lib-sessions.inc.php");
 // Define usertypes bitwise, so 1, 2, 4, 8, 16, etc.
 define ("phpAds_Admin", 1);
 define ("phpAds_Client", 2);
+define ("phpAds_Affiliate", 4);
 
 
 // Define permissions bitwise, so 1, 2, 4, 8, 16, etc.
@@ -127,10 +128,10 @@ function phpAds_isAllowed ($allowed)
 /* Get the ID of the current user                        */
 /*********************************************************/
 
-function phpAds_clientid ()
+function phpAds_getUserID ()
 {
 	global $Session;
-	return ($Session['clientid']);
+	return ($Session['userid']);
 }
 
 
@@ -174,6 +175,8 @@ function phpAds_Login()
 		}
 		else
 		{
+			// Check client table
+			
 			$res = phpAds_dbQuery("
 				SELECT
 					clientid,
@@ -185,7 +188,7 @@ function phpAds_Login()
 					clientusername = '$phpAds_username'
 					AND clientpassword = '$phpAds_password'
 				") or phpAds_sqlDie();
-				
+			
 			
 			if (phpAds_dbNumRows($res) > 0 && $phpAds_username != "" && $phpAds_password != "")
 			{
@@ -196,7 +199,7 @@ function phpAds_Login()
 							   "loggedin" 		=> "t",
 							   "username" 		=> $phpAds_username,
 							   "password" 		=> $phpAds_password,
-							   "clientid" 		=> $row['clientid'],
+							   "userid" 		=> $row['clientid'],
 							   "permissions" 	=> $row['permissions'],
 							   "language" 		=> $row['language'],
 							   "stats_compact" 	=> "f",
@@ -206,11 +209,40 @@ function phpAds_Login()
 			}
 			else
 			{
-				// Password is not correct or user is not known
+				$res = phpAds_dbQuery("
+					SELECT
+						affiliateid,
+						permissions,
+						language
+					FROM
+						".$phpAds_config['tbl_affiliates']."
+					WHERE
+						username = '$phpAds_username'
+						AND password = '$phpAds_password'
+					") or phpAds_sqlDie();
 				
-				// Set the session ID now, some server do not support setting a cookie during a redirect
-				$sessionID = phpAds_SessionStart();
-				phpAds_LoginScreen($strPasswordWrong, $sessionID);
+				if (phpAds_dbNumRows($res) > 0 && $phpAds_username != "" && $phpAds_password != "")
+				{
+					// User found with correct password
+					$row = phpAds_dbFetchArray($res);
+					
+					return (array ("usertype" 		=> phpAds_Affiliate,
+								   "loggedin" 		=> "t",
+								   "username" 		=> $phpAds_username,
+								   "password" 		=> $phpAds_password,
+								   "userid" 		=> $row['affiliateid'],
+								   "permissions" 	=> $row['permissions'],
+								   "language" 		=> $row['language'])
+					       );
+				}
+				else
+				{
+					// Password is not correct or user is not known
+					
+					// Set the session ID now, some server do not support setting a cookie during a redirect
+					$sessionID = phpAds_SessionStart();
+					phpAds_LoginScreen($strPasswordWrong, $sessionID);
+				}
 			}
 		}
 	}

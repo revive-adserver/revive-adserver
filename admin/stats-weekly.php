@@ -55,7 +55,7 @@ if (phpAds_isUser(phpAds_Client))
 		}
 	}
 	
-	if (phpAds_clientid() != phpAds_getParentID ($campaignid))
+	if (phpAds_getUserID() != phpAds_getParentID ($campaignid))
 	{
 		phpAds_PageHeader('1');
 		phpAds_Die ($strAccessDenied, $strNotAdmin);
@@ -144,7 +144,7 @@ if (phpAds_isUser(phpAds_Admin))
 	else
 	{
 		phpAds_PageHeader('2.3');
-		phpAds_ShowSections(array("2.1", "2.2", "2.3"));
+		phpAds_ShowSections(array("2.1", "2.2", "2.3", "2.4"));
 	}
 }
 

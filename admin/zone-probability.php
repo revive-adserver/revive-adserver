@@ -21,7 +21,36 @@ require ("lib-zones.inc.php");
 
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+phpAds_checkAccess(phpAds_Admin+phpAds_Affiliate);
+
+
+
+/*********************************************************/
+/* Affiliate interface security                          */
+/*********************************************************/
+
+if (phpAds_isUser(phpAds_Affiliate))
+{
+	$result = phpAds_dbQuery("
+		SELECT
+			affiliateid
+		FROM
+			".$phpAds_config['tbl_zones']."
+		WHERE
+			zoneid = $zoneid
+		") or phpAds_sqlDie();
+	$row = phpAds_dbFetchArray($result);
+	
+	if ($row["affiliateid"] == '' || phpAds_getUserID() != $row["affiliateid"])
+	{
+		phpAds_PageHeader("1");
+		phpAds_Die ($strAccessDenied, $strNotAdmin);
+	}
+	else
+	{
+		$affiliateid = $row["affiliateid"];
+	}
+}
 
 
 
@@ -29,34 +58,47 @@ phpAds_checkAccess(phpAds_Admin);
 /* HTML framework                                        */
 /*********************************************************/
 
-if (phpAds_isUser(phpAds_Admin))
+$extra = '';
+
+$res = phpAds_dbQuery("
+	SELECT
+		*
+	FROM
+		".$phpAds_config['tbl_zones']."
+	WHERE
+		affiliateid = ".$affiliateid."
+	") or phpAds_sqlDie();
+
+while ($row = phpAds_dbFetchArray($res))
 {
-	$extra = '';
+	if ($zoneid == $row['zoneid'])
+		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
+	else
+		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 	
-	$res = phpAds_dbQuery("
-		SELECT
-			*
-		FROM
-			".$phpAds_config['tbl_zones']."
-		") or phpAds_sqlDie();
-	
-	$extra = "";
-	while ($row = phpAds_dbFetchArray($res))
-	{
-		if ($zoneid == $row['zoneid'])
-			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
-		else
-			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
-		
-		$extra .= "<a href='zone-probability.php?zoneid=". $row['zoneid']."'>".phpAds_buildZoneName ($row['zoneid'], $row['zonename'])."</a>";
-		$extra .= "<br>"; 
-	}
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	
-	phpAds_PageHeader("4.2.4", $extra);
-	phpAds_ShowSections(array("4.2.2", "4.2.3", "4.2.4", "4.2.5"));
+	$extra .= "<a href='zone-probability.php?affiliateid=".$affiliateid."&zoneid=".$row['zoneid']."'>".phpAds_buildZoneName ($row['zoneid'], $row['zonename'])."</a>";
+	$extra .= "<br>"; 
 }
 
+$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+
+
+if (phpAds_isUser(phpAds_Admin))
+{
+	phpAds_PageHeader("4.2.3.4", $extra);
+		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
+		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+		echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br><br><br>";
+		phpAds_ShowSections(array("4.2.3.2", "4.2.3.3", "4.2.3.4", "4.2.3.5"));
+}
+else
+{
+	phpAds_PageHeader("2.1.4", $extra);
+		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
+		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+		echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br><br><br>";
+		phpAds_ShowSections(array("2.1.2", "2.1.3", "2.1.4", "2.1.5"));
+}
 
 
 
@@ -193,10 +235,6 @@ if (isset($zoneid) && $zoneid != '')
 
 
 
-echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br>";
-
-echo "<br><br>";
-echo "<br><br>";
 echo "<br><br>";
 
 phpAds_showZoneBanners($zoneid);

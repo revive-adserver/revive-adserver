@@ -19,7 +19,7 @@ require ("config.php");
 
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+phpAds_checkAccess(phpAds_Admin+phpAds_Affiliate);
 
 
 
@@ -29,6 +29,30 @@ phpAds_checkAccess(phpAds_Admin);
 
 if (isset($zoneid) && $zoneid != '')
 {
+	if (phpAds_isUser(phpAds_Affiliate))
+	{
+		$result = phpAds_dbQuery("
+			SELECT
+				affiliateid
+			FROM
+				".$phpAds_config['tbl_zones']."
+			WHERE
+				zoneid = $zoneid
+			") or phpAds_sqlDie();
+		$row = phpAds_dbFetchArray($result);
+		
+		if ($row["affiliateid"] == '' || phpAds_getUserID() != $row["affiliateid"])
+		{
+			phpAds_PageHeader("1");
+			phpAds_Die ($strAccessDenied, $strNotAdmin);
+		}
+		else
+		{
+			$affiliateid = $row["affiliateid"];
+		}
+	}
+	
+	
 	// Delete banner
 	$res = phpAds_dbQuery("
 		DELETE FROM
@@ -38,6 +62,6 @@ if (isset($zoneid) && $zoneid != '')
 		") or phpAds_sqlDie();
 }
 
-Header("Location: zone-index.php");
+Header("Location: zone-index.php?affiliateid=$affiliateid");
 
 ?>

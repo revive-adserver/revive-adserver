@@ -1,11 +1,28 @@
 
 
 
+-- Table structure for table 'phpads_affiliates'
+
+
+CREATE TABLE phpads_affiliates (
+   affiliateid mediumint(9) NOT NULL AUTO_INCREMENT,
+   name varchar(255) NOT NULL,
+   contact varchar(255),
+   email varchar(64) NOT NULL,
+   username varchar(64),
+   password varchar(64),
+   permissions mediumint(9),
+   language varchar(64),
+   PRIMARY KEY (affiliateid)
+);
+
+
 -- Table structure for table 'phpads_zones'
 
 
 CREATE TABLE phpads_zones (
    zoneid mediumint(9) NOT NULL AUTO_INCREMENT,
+   affiliateid mediumint(9),
    zonename varchar(255) NOT NULL,
    description varchar(255) NOT NULL,
    zonetype smallint(6) DEFAULT '0' NOT NULL,

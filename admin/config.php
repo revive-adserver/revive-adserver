@@ -89,10 +89,11 @@ phpAds_Start();
 require ("../language/".strtolower($phpAds_config['language'])."/default.lang.php");
 
 
-if (!isset($clientid))   $clientid = '';
-if (!isset($campaignid)) $campaignid = '';
-if (!isset($bannerid))   $bannerid = '';
-if (!isset($zoneid))   	 $zoneid = '';
+if (!isset($clientid))    $clientid = '';
+if (!isset($campaignid))  $campaignid = '';
+if (!isset($bannerid))    $bannerid = '';
+if (!isset($zoneid))   	  $zoneid = '';
+if (!isset($affiliateid)) $affiliateid = '';
 
 
 // Setup navigation
@@ -108,6 +109,7 @@ $phpAds_nav = array (
 	        "2.1.4" 		=> 	array("stats-weekly.php?campaignid=$campaignid" => $strWeeklyStats),
 		  "2.2"				=>  array("stats-history.php" => $strHistory),
 	      "2.3"		 		=> 	array("stats-weekly.php?campaignid=0" => $strWeeklyStats),
+	      "2.4"		 		=> 	array("stats-zone-index.php" => $strZones),
 		"3"					=>  array("report-index.php" => $strReports),
 		"4"					=>	array("client-index.php" => $strAdminstration),
 		  "4.1"				=>	array("client-index.php" => $strClientsAndCampaigns),
@@ -120,12 +122,15 @@ $phpAds_nav = array (
 		      "4.1.5.2"		=> 	array("banner-edit.php?campaignid=$campaignid&bannerid=$bannerid" => $strModifyBanner),
 		      "4.1.5.3"		=> 	array("banner-acl.php?campaignid=$campaignid&bannerid=$bannerid" => $strModifyBannerAcl),
 		      "4.1.5.4"		=> 	array("banner-zone.php?campaignid=$campaignid&bannerid=$bannerid" => $strLinkedZones),
-		  "4.2" 			=> 	array("zone-index.php" => $strZones),
-		    "4.2.1"			=> 	array("zone-edit.php?zoneid=0" => $strAddZone),
-		    "4.2.2"			=> 	array("zone-edit.php?zoneid=$zoneid" => $strModifyZone),
-		    "4.2.3"			=> 	array("zone-include.php?zoneid=$zoneid" => $strIncludedBanners),
-		    "4.2.4"			=> 	array("zone-probability.php?zoneid=$zoneid" => $strProbability),
-		    "4.2.5"			=> 	array("zone-invocation.php?zoneid=$zoneid" => $strInvocationcode),
+		  "4.2" 			=> 	array("affiliate-index.php" => $strAffiliatesAndZones),
+		    "4.2.1" 		=> 	array("affiliate-edit.php?affiliateid=0" => $strAddAffiliate),
+		    "4.2.2" 		=> 	array("affiliate-edit.php?affiliateid=$affiliateid" => $strModifyAffiliate),
+		    "4.2.3" 		=> 	array("zone-index.php?affiliateid=$affiliateid" => $strZones),
+		      "4.2.3.1"		=> 	array("zone-edit.php?affiliateid=$affiliateid&zoneid=0" => $strAddZone),
+  		      "4.2.3.2"		=> 	array("zone-edit.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strModifyZone),
+		      "4.2.3.3"		=> 	array("zone-include.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strIncludedBanners),
+		      "4.2.3.4"		=> 	array("zone-probability.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strProbability),
+		      "4.2.3.5"		=> 	array("zone-invocation.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strInvocationcode),
 		  "4.3" 			=> 	array("admin-generate.php" => $strGenerateBannercode),
 		"5"					=> 	array("settings-index.php" => $strSettings),
 		  "5.1" 			=> 	array("settings-db.php" => "Main settings"),
@@ -142,6 +147,17 @@ $phpAds_nav = array (
 		    "1.1.2"			=> 	array("stats-campaign-history.php?campaignid=$campaignid" => $strHistory),
 	  	    "1.1.3"			=> 	array("stats-weekly.php?campaignid=$campaignid" => $strWeeklyStats),
 	      "1.2"				=>  array("stats-client.php" => $strHistory)
+	),
+
+	"affiliate" => array (
+	    "2" 				=> 	array("zone-index.php?affiliateid=$affiliateid" => $strAdminstration),
+	      "2.1" 			=> 	array("zone-index.php?affiliateid=$affiliateid" => $strZones),
+		    "2.1.1"			=> 	array("zone-edit.php?affiliateid=$affiliateid&zoneid=0" => $strAddZone),
+  		    "2.1.2"			=> 	array("zone-edit.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strModifyZone),
+		    "2.1.3"			=> 	array("zone-include.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strIncludedBanners),
+		    "2.1.4"			=> 	array("zone-probability.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strProbability),
+		    "2.1.5"			=> 	array("zone-invocation.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strInvocationcode),
+	      "2.2" 			=> 	array("affiliate-edit.php?affiliateid=$affiliateid" => $strPreferences)
 	)
 );
 

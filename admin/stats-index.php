@@ -69,7 +69,7 @@ if (phpAds_isUser(phpAds_Admin))
 	}
 	
 	phpAds_PageHeader("2.1", $extra);
-	phpAds_ShowSections(array("2.1", "2.2", "2.3"));
+	phpAds_ShowSections(array("2.1", "2.2", "2.3", "2.4"));
 }
 
 if (phpAds_isUser(phpAds_Client))

@@ -18,6 +18,7 @@
 $clientCache = array();
 $bannerCache = array();
 $zoneCache = array();
+$affiliateCache = array();
 
 
 
@@ -180,6 +181,27 @@ function phpAds_getZoneListOrder ($ListOrder, $OrderDirection)
 			break;
 		default:
 			$sqlTableOrder = 'ORDER BY zonename';
+	}
+	if 	($sqlTableOrder != '')
+	{
+		$sqlTableOrder .= phpAds_getOrderDirection($OrderDirection);
+	}
+	return ($sqlTableOrder);
+}
+
+// Order for $phpAds_config['tbl_affiliates']
+function phpAds_getAffiliateListOrder ($ListOrder, $OrderDirection)
+{
+	switch ($ListOrder)
+	{
+		case 'name':
+			$sqlTableOrder = 'ORDER BY name';
+			break;
+		case 'id':
+			$sqlTableOrder = 'ORDER BY affiliateid';
+			break;
+		default:
+			$sqlTableOrder = 'ORDER BY name';
 	}
 	if 	($sqlTableOrder != '')
 	{
@@ -364,6 +386,57 @@ function phpAds_getZoneName ($zoneid)
 		}
 		
 		return (phpAds_BuildZoneName ($zoneid, $row['zonename']));
+	}
+	else
+		return ($strUntitled);
+}
+
+
+
+/*********************************************************/
+/* Build the affiliate name from ID and name             */
+/*********************************************************/
+
+function phpAds_buildAffiliateName ($affiliateid, $name)
+{
+	return ("[id$affiliateid] $name");
+}
+
+
+
+/*********************************************************/
+/* Fetch the affiliate name from the database            */
+/*********************************************************/
+
+function phpAds_getAffiliateName ($affiliateid)
+{
+	global $phpAds_config;
+	global $affiliateCache;
+	global $strUntitled;
+	
+	if ($affiliateid != '' && $affiliateid != 0)
+	{
+		if (isset($affiliateCache[$affiliateid]) && is_array($affiliateCache[$affiliateid]))
+		{
+			$row = $affiliateCache[$affiliateid];
+		}
+		else
+		{
+			$res = phpAds_dbQuery("
+			SELECT
+				*
+			FROM
+				".$phpAds_config['tbl_affiliates']."
+			WHERE
+				affiliateid = $affiliateid
+			") or phpAds_sqlDie();
+			
+			$row = phpAds_dbFetchArray($res);
+			
+			$affiliateCache[$affiliateid] = $row;
+		}
+		
+		return (phpAds_BuildAffiliateName ($affiliateid, $row['name']));
 	}
 	else
 		return ($strUntitled);

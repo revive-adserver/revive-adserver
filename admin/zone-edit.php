@@ -22,7 +22,43 @@ require ("lib-size.inc.php");
 
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+phpAds_checkAccess(phpAds_Admin+phpAds_Affiliate);
+
+
+
+/*********************************************************/
+/* Affiliate interface security                          */
+/*********************************************************/
+
+if (phpAds_isUser(phpAds_Affiliate))
+{
+	if (isset($zoneid) && $zoneid > 0)
+	{
+		$result = phpAds_dbQuery("
+			SELECT
+				affiliateid
+			FROM
+				".$phpAds_config['tbl_zones']."
+			WHERE
+				zoneid = '$zoneid'
+			") or phpAds_sqlDie();
+		$row = phpAds_dbFetchArray($result);
+		
+		if ($row["affiliateid"] == '' || phpAds_getUserID() != $row["affiliateid"])
+		{
+			phpAds_PageHeader("1");
+			phpAds_Die ($strAccessDenied, $strNotAdmin);
+		}
+		else
+		{
+			$affiliateid = phpAds_getUserID();
+		}
+	}
+	else
+	{
+		$affiliateid = phpAds_getUserID();
+	}
+}
 
 
 
@@ -60,7 +96,7 @@ if (isset($submit))
 				zoneid=".$zoneid."
 			") or phpAds_sqlDie();
 		
-		header ("Location: zone-index.php");
+		header ("Location: zone-index.php?affiliateid=$affiliateid");
 		exit;
 	}
 	
@@ -72,12 +108,14 @@ if (isset($submit))
 			INSERT INTO
 				".$phpAds_config['tbl_zones']."
 				(
+				affiliateid,
 				zonename,
 				description,
 				width,
 				height
 				)
 			 VALUES (
+			 	'".$affiliateid."',
 				'".$zonename."',
 				'".$description."',
 				'".$width."',
@@ -87,7 +125,7 @@ if (isset($submit))
 		
 		$zoneid = phpAds_dbInsertID();
 		
-		header ("Location: zone-include.php?zoneid=$zoneid");
+		header ("Location: zone-include.php?affiliateid=$affiliateid&zoneid=$zoneid");
 		exit;
 	}
 }
@@ -99,38 +137,66 @@ if (isset($submit))
 
 if ($zoneid != "")
 {
+	$extra = '';
+	
+	$res = phpAds_dbQuery("
+		SELECT
+			*
+		FROM
+			".$phpAds_config['tbl_zones']."
+		WHERE
+			affiliateid = ".$affiliateid."
+		") or phpAds_sqlDie();
+	
+	while ($row = phpAds_dbFetchArray($res))
+	{
+		if ($zoneid == $row['zoneid'])
+			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
+		else
+			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
+		
+		$extra .= "<a href='zone-edit.php?affiliateid=".$affiliateid."&zoneid=".$row['zoneid']."'>".phpAds_buildZoneName ($row['zoneid'], $row['zonename'])."</a>";
+		$extra .= "<br>"; 
+	}
+	
+	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+	
+	
 	if (phpAds_isUser(phpAds_Admin))
 	{
-		$extra = '';
-		
-		$res = phpAds_dbQuery("
-			SELECT
-				*
-			FROM
-				".$phpAds_config['tbl_zones']."
-			") or phpAds_sqlDie();
-		
-		$extra = "";
-		while ($row = phpAds_dbFetchArray($res))
-		{
-			if ($zoneid == $row['zoneid'])
-				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
-			else
-				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
-			
-			$extra .= "<a href='zone-edit.php?zoneid=". $row['zoneid']."'>".phpAds_buildZoneName ($row['zoneid'], $row['zonename'])."</a>";
-			$extra .= "<br>"; 
-		}
-		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-		
-		phpAds_PageHeader("4.2.2", $extra);
-		phpAds_ShowSections(array("4.2.2", "4.2.3", "4.2.4", "4.2.5"));
+		phpAds_PageHeader("4.2.3.2", $extra);
+			echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
+			echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+			echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br><br><br>";
+			phpAds_ShowSections(array("4.2.3.2", "4.2.3.3", "4.2.3.4", "4.2.3.5"));
+	}
+	else
+	{
+		phpAds_PageHeader("2.1.2", $extra);
+			echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
+			echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+			echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br><br><br>";
+			phpAds_ShowSections(array("2.1.2", "2.1.3", "2.1.4", "2.1.5"));
 	}
 }
 else
 {
-	phpAds_PageHeader("4.2.1");
-	phpAds_ShowSections(array("4.2.1"));
+	if (phpAds_isUser(phpAds_Admin))
+	{
+		phpAds_PageHeader("4.2.3.1");
+			echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
+			echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+			echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br><br><br>";
+			phpAds_ShowSections(array("4.2.3.1"));
+	}
+	else
+	{
+		phpAds_PageHeader("2.1.1");
+			echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
+			echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+			echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br><br><br>";
+			phpAds_ShowSections(array("2.1.1"));
+	}
 }
 
 
@@ -157,6 +223,11 @@ if (isset($zoneid) && $zoneid != '')
 	
 	if ($zone['width'] == -1) $zone['width'] = '*';
 	if ($zone['height'] == -1) $zone['height'] = '*';
+}
+else
+{
+	$zone['width'] = '468';
+	$zone['height'] = '60';
 }
 
 ?>
@@ -201,14 +272,11 @@ if (isset($zoneid) && $zoneid != '')
 //-->
 </script>
 
-<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b><?php echo phpAds_getZoneName($zoneid);?></b><br>
-
-<br><br>
-<br><br>
 <br><br>
 
 <form name="zoneform" method="post" action="zone-edit.php">
 <input type="hidden" name="zoneid" value="<?php if(isset($zoneid) && $zoneid != '') echo $zoneid;?>">
+<input type="hidden" name="affiliateid" value="<?php if(isset($affiliateid) && $affiliateid != '') echo $affiliateid;?>">
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 	<tr><td height='25' colspan='3'><b><?php echo $strBasicInformation;?></b></td></tr>

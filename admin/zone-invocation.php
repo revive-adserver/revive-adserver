@@ -20,7 +20,36 @@ require ("lib-statistics.inc.php");
 
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+phpAds_checkAccess(phpAds_Admin+phpAds_Affiliate);
+
+
+
+/*********************************************************/
+/* Affiliate interface security                          */
+/*********************************************************/
+
+if (phpAds_isUser(phpAds_Affiliate))
+{
+	$result = phpAds_dbQuery("
+		SELECT
+			affiliateid
+		FROM
+			".$phpAds_config['tbl_zones']."
+		WHERE
+			zoneid = $zoneid
+		") or phpAds_sqlDie();
+	$row = phpAds_dbFetchArray($result);
+	
+	if ($row["affiliateid"] == '' || phpAds_getUserID() != $row["affiliateid"])
+	{
+		phpAds_PageHeader("1");
+		phpAds_Die ($strAccessDenied, $strNotAdmin);
+	}
+	else
+	{
+		$affiliateid = $row["affiliateid"];
+	}
+}
 
 
 
@@ -28,9 +57,47 @@ phpAds_checkAccess(phpAds_Admin);
 /* HTML framework                                        */
 /*********************************************************/
 
-phpAds_PageHeader("4.2.5");
-phpAds_ShowSections(array("4.2.2", "4.2.3", "4.2.4", "4.2.5"));
+$extra = '';
 
+$res = phpAds_dbQuery("
+	SELECT
+		*
+	FROM
+		".$phpAds_config['tbl_zones']."
+	WHERE
+		affiliateid = ".$affiliateid."
+	") or phpAds_sqlDie();
+
+while ($row = phpAds_dbFetchArray($res))
+{
+	if ($zoneid == $row['zoneid'])
+		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
+	else
+		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
+	
+	$extra .= "<a href='zone-invocation.php?affiliateid=".$affiliateid."&zoneid=".$row['zoneid']."'>".phpAds_buildZoneName ($row['zoneid'], $row['zonename'])."</a>";
+	$extra .= "<br>"; 
+}
+
+$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+
+
+if (phpAds_isUser(phpAds_Admin))
+{
+	phpAds_PageHeader("4.2.3.5", $extra);
+		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
+		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+		echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br><br><br>";
+		phpAds_ShowSections(array("4.2.3.2", "4.2.3.3", "4.2.3.4", "4.2.3.5"));
+}
+else
+{
+	phpAds_PageHeader("2.1.5", $extra);
+		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
+		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+		echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br><br><br>";
+		phpAds_ShowSections(array("2.1.2", "2.1.3", "2.1.4", "2.1.5"));
+}
 
 
 
@@ -203,13 +270,10 @@ function phpAds_GenerateInvocationCode($zoneid)
 /* Main code                                             */
 /*********************************************************/
 
-echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br>";
-
-echo "<br><br>";
-echo "<br><br>";
 echo "<br><br>";
 echo "<form name='availability' action='zone-invocation.php' method='POST'>\n";
 echo "<input type='hidden' name='zoneid' value='".$zoneid."'>";
+echo "<input type='hidden' name='affiliateid' value='".$affiliateid."'>";
 
 
 if (!isset($codetype)) $codetype = 'local';
@@ -224,7 +288,7 @@ echo "<tr><td height='35'>";
 	echo "<option value='adjs'".($codetype == 'adjs' ? ' selected' : '').">Remote Invocation with JavaScript</option>";
 	echo "<option value='adframe'".($codetype == 'adframe' ? ' selected' : '').">Remote Invocation for iframes</option>";
 	echo "<option value='ad'".($codetype == 'ad' ? ' selected' : '').">Combined Remote Invocation</option>";
-	echo "<option value='local'".($codetype == 'local' ? ' selected' : '').">Local mode</option>";
+	if (phpAds_isUser(phpAds_Admin)) echo "<option value='local'".($codetype == 'local' ? ' selected' : '').">Local mode</option>";
 	echo "</select>&nbsp;";
 echo "</td></tr></table>";
 echo "<br><br>";

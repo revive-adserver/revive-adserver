@@ -19,7 +19,7 @@ require ("config.php");
 
 
 // Security check
-phpAds_checkAccess(phpAds_Admin+phpAds_Client+phpAds_Affiliate);
+phpAds_checkAccess(phpAds_Admin);
 
 
 
@@ -27,22 +27,25 @@ phpAds_checkAccess(phpAds_Admin+phpAds_Client+phpAds_Affiliate);
 /* Main code                                             */
 /*********************************************************/
 
-if (phpAds_isUser(phpAds_Admin))
+if (isset($affiliateid) && $affiliateid != '')
 {
-	Header("Location: ".$phpAds_config['url_prefix']."/admin/stats-index.php");
-	exit;
+	// Delete banner
+	$res = phpAds_dbQuery("
+		DELETE FROM
+			".$phpAds_config['tbl_zones']."
+		WHERE
+			affiliateid = $affiliateid
+		") or phpAds_sqlDie();
+	
+	// Delete affiliate
+	$res = phpAds_dbQuery("
+		DELETE FROM
+			".$phpAds_config['tbl_affiliates']."
+		WHERE
+			affiliateid = $affiliateid
+		") or phpAds_sqlDie();
 }
 
-if (phpAds_isUser(phpAds_Client))
-{
-	Header("Location: ".$phpAds_config['url_prefix']."/admin/stats-index.php");
-	exit;
-}
-
-if (phpAds_isUser(phpAds_Affiliate))
-{
-	Header("Location: ".$phpAds_config['url_prefix']."/admin/zone-index.php");
-	exit;
-}
+Header("Location: affiliate-index.php");
 
 ?>
