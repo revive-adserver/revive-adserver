@@ -436,7 +436,8 @@ $GLOBALS['strSelectSource']			= "Select the source you want to view:";
 
 // Hosts
 $GLOBALS['strHosts']				= "Hosts";
-$GLOBALS['strTopTenHosts'] 			= "Top ten requesting hosts";
+$GLOBALS['strTopHosts'] 			= "Top requesting hosts";
+$GLOBALS['strTopCountries'] 		= "Top requesting countries";
 
 
 // Expiration

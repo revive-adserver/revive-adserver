@@ -12,6 +12,11 @@
 
   ====================================================
 
+  16-10-2002 - default
+    [-] strTopTenHosts
+    [+] strTopHosts
+    [+] strTopCountries
+
   15-10-2002 - settings
     [+] strWarningDBavailable
 

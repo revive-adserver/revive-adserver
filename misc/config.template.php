@@ -61,6 +61,28 @@ $phpAds_config['ui_forcessl'] = false;
 
 
 /*********************************************************/
+/* Geotracking configuration                             */
+/*********************************************************/
+
+// Type of geotracking database
+// 0 = None
+// 1 = IP2Country
+// 2 = GeoIP
+// 3 = mod_geoip
+$phpAds_config['geotracking_type'] = 0;
+
+// Location of the geotracking database
+$phpAds_config['geotracking_location'] = '';
+
+// Store the location of the user in the statistics
+$phpAds_config['geotracking_stats'] = false;
+
+// Store the result in a cookie for future reference (only in combination with beacon logging)
+$phpAds_config['geotracking_cookie'] = false;
+
+
+
+/*********************************************************/
 /* P3P Privacy Policies                                  */
 /*********************************************************/
 
@@ -135,16 +157,6 @@ $phpAds_config['mult_key'] = true;
 
 // Use delivery limitations?
 $phpAds_config['acl'] = true;
-
-// Type of geotracking database
-// 0 = None
-// 1 = IP2Country
-// 2 = GeoIP
-// 3 = mod_geoip
-$phpAds_config['geotracking_type'] = 0;
-
-// Location of the geotracking database
-$phpAds_config['geotracking_location'] = '';
 
 // Default banner, it is show when phpAdsNew can't connect to the database or
 // there are absolutely no banner to display. The banner is not logged.

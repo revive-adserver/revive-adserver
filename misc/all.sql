@@ -68,6 +68,7 @@ CREATE TABLE phpads_adclicks (
    t_stamp timestamp(14),
    host varchar(255) NOT NULL,
    source varchar(50) NOT NULL,
+   country varchar(2) NOT NULL,
    KEY bannerid_date (bannerid,t_stamp),
    KEY date (t_stamp)
 );
@@ -83,6 +84,7 @@ CREATE TABLE phpads_adviews (
    t_stamp timestamp(14),
    host varchar(255) NOT NULL,
    source varchar(50) NOT NULL,
+   country varchar(2) NOT NULL,
    KEY bannerid_date (bannerid,t_stamp),
    KEY date (t_stamp)
 );

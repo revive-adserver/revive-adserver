@@ -160,7 +160,7 @@ function phpads_logCheckHost()
 
 function phpAds_logImpression ($bannerid, $clientid, $zoneid, $source)
 {
-	global $phpAds_config;
+	global $phpAds_config, $phpAds_CountryLookup;
 	
 	// Check if host is on list of hosts to ignore
 	if ($host = phpads_logCheckHost())
@@ -184,10 +184,15 @@ function phpAds_logImpression ($bannerid, $clientid, $zoneid, $source)
    		}
 		else
    		{
+			if ($phpAds_config['geotracking_stats'] && isset ($phpAds_CountryLookup) && $phpAds_CountryLookup)
+				$country = $phpAds_CountryLookup;
+			else
+				$country = '';
+			
    			$result = phpAds_dbQuery(
 				"INSERT ".($phpAds_config['insert_delayed'] ? 'DELAYED' : '')." INTO ".
 				$phpAds_config['tbl_adviews']." SET bannerid = '$bannerid', 
-				zoneid = '$zoneid', host = '$host', source = '$source' ");
+				zoneid = '$zoneid', host = '$host', source = '$source', country = '$country' ");
 		}
 		
 		phpAds_logExpire ($clientid, phpAds_Views);
@@ -202,7 +207,7 @@ function phpAds_logImpression ($bannerid, $clientid, $zoneid, $source)
 
 function phpAds_logClick($bannerid, $clientid, $zoneid, $source)
 {
-	global $phpAds_config;
+	global $phpAds_config, $phpAds_CountryLookup;
 	
 	
 	if ($host = phpads_logCheckHost())
@@ -226,10 +231,15 @@ function phpAds_logClick($bannerid, $clientid, $zoneid, $source)
     	}
 		else
 		{
+			if ($phpAds_config['geotracking_stats'] && isset ($phpAds_CountryLookup) && $phpAds_CountryLookup)
+				$country = $phpAds_CountryLookup;
+			else
+				$country = '';
+			
     		$result = phpAds_dbQuery(
 				"INSERT ".($phpAds_config['insert_delayed'] ? 'DELAYED' : '')." INTO ".
 				$phpAds_config['tbl_adclicks']." SET bannerid = '$bannerid', zoneid = '$zoneid',
-				host = '$host', source = '$source' ");
+				host = '$host', source = '$source', country = '$country' ");
 		}
 		
 		phpAds_logExpire ($clientid, phpAds_Clicks);

@@ -48,12 +48,42 @@ if ($phpAds_config['proxy_lookup'])
 	}
 }
 
+// Reverse lookup
 if (!isset($HTTP_SERVER_VARS['REMOTE_HOST']) || $HTTP_SERVER_VARS['REMOTE_HOST'] == '')
 {
 	if ($phpAds_config['reverse_lookup'])
 		$HTTP_SERVER_VARS['REMOTE_HOST'] = @gethostbyaddr ($HTTP_SERVER_VARS['REMOTE_ADDR']);
 	else
 		$HTTP_SERVER_VARS['REMOTE_HOST'] = $HTTP_SERVER_VARS['REMOTE_ADDR'];
+}
+
+// Geotracking
+if ($phpAds_config['geotracking_stats'])
+{
+	// Check cookie first
+	if (isset($HTTP_COOKIE_VARS['phpAds_country']))
+		$phpAds_CountryLookup = $HTTP_COOKIE_VARS['phpAds_country'];
+	
+	// Determine country
+	if (!isset($phpAds_CountryLookup))
+	{
+		switch ($phpAds_config['geotracking_type'])
+		{
+			case 1:	@include_once (phpAds_path."/misc/geotracking/geo-ip2country.inc.php");
+					$phpAds_CountryLookup = phpAds_countryCodeByAddr($HTTP_SERVER_VARS['REMOTE_ADDR']);
+					break;
+				
+			case 2:	@include_once (phpAds_path."/misc/geotracking/geo-geoip.inc.php");
+					$phpAds_CountryLookup = phpAds_countryCodeByAddr($HTTP_SERVER_VARS['REMOTE_ADDR']);
+					break;
+				
+			case 3:	@include_once (phpAds_path."/misc/geotracking/geo-mod_geoip.inc.php");
+					$phpAds_CountryLookup = phpAds_countryCodeByAddr($HTTP_SERVER_VARS['REMOTE_ADDR']);
+					break;
+				
+			default: $phpAds_CountryLookup = false;
+		}
+	}
 }
 
 ?>
