@@ -36,7 +36,9 @@ if (isset($submit))
 			$res1 = mysql_db_query($phpAds_db, "
 				UPDATE $phpAds_tbl_acls SET
 				acl_order = acl_order - 1 WHERE
-				acl_order = $old_order") or mysql_die();
+				acl_order = $old_order
+				AND bannerID = $bannerID
+				") or mysql_die();
 		}
 		show_message("ACL was deleted");
 	}
@@ -75,7 +77,9 @@ if (isset($submit))
 		$res = mysql_db_query($phpAds_db, "
 			UPDATE $phpAds_tbl_acls SET
 			acl_order = acl_order + 1 WHERE 
-			acl_order = $new_acl_order") or mysql_die();
+			acl_order = $new_acl_order
+			AND bannerID = $bannerID
+			") or mysql_die();
                 $res = mysql_db_query($phpAds_db, "
                         INSERT into $phpAds_tbl_acls SET
                         acl_order = $new_acl_order, bannerID = $bannerID,
@@ -93,7 +97,9 @@ if (isset($submit))
 		$res = mysql_db_query($phpAds_db, "
 			UPDATE $phpAds_tbl_acls SET
 			acl_order = acl_order - 1 WHERE 
-			acl_order = $new_acl_order") or mysql_die();
+			acl_order = $new_acl_order
+			AND bannerID = $bannerID
+			") or mysql_die();
                 $res = mysql_db_query($phpAds_db, "
                         INSERT into $phpAds_tbl_acls SET
                         acl_order = $new_acl_order, bannerID = $bannerID,
