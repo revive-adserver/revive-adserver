@@ -328,7 +328,7 @@ else
 				// Icon & name
 				echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td height='25'>";
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-				echo "<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
+				echo "<img src='images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;";
 				echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
 				echo "<a href='stats-zone-history.php?affiliateid=".$affiliate['affiliateid']."&zoneid=".$zones[$zkey]['zoneid']."'>".$zones[$zkey]['zonename']."</td>";
 				echo "</td>";

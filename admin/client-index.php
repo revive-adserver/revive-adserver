@@ -295,7 +295,7 @@ else
 							echo "<a href='client-index.php?listorder=".$listorder."&orderdirection=".$orderdirection."&expand=".$campaigns[$ckey]['clientid']."'><img src='images/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
 					}
 					else
-						echo "<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
+						echo "<img src='images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;";
 					
 					
 					if ($campaigns[$ckey]['active'] == 't')
