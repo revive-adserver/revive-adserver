@@ -66,8 +66,8 @@ if (isset($submit))
 				}
 				$final["banner"] = addslashes(fread(fopen($mysql_banner, "rb"), filesize($mysql_banner)));
 			}
-			$final["alt"] = $mysql_alt;
-			$final["bannertext"] = $mysql_bannertext;
+			$final["alt"] = addslashes($mysql_alt);
+			$final["bannertext"] = addslashes($mysql_bannertext);
 			$final["url"] = $mysql_url;
 			break;
 		case "url":
@@ -75,15 +75,15 @@ if (isset($submit))
 			$final["height"] = $url_height;
 			$final["format"] = "url";
 			$final["banner"] = $url_banner;
-			$final["alt"] = $url_alt;
-			$final["bannertext"] = $url_bannertext;
+			$final["alt"] = addslashes($url_alt);
+			$final["bannertext"] = addslashes($url_bannertext);
 			$final["url"] = $url_url;
 			break;
 		case "html";
 			$final["width"] = $html_width;
 			$final["height"] = $html_height;
 			$final["format"] = "html";
-			$final["banner"] = $html_banner;
+			$final["banner"] = addslashes($html_banner);
 			$final["alt"] = "";
 			$final["bannertext"] = "";
 			$final["url"] = $html_url;
@@ -96,7 +96,7 @@ if (isset($submit))
 	{
 		$final["active"] = "true";
 		$final["keyword"] = $keyword;
-		$final["description"] = $description;
+		$final["description"] = addslashes($description);
 		$final["weight"] = $weight;
 	}
 
