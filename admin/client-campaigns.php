@@ -407,8 +407,8 @@ else
 			echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td colspan='1'>&nbsp;</td><td colspan='4'>";
 			echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'>";
 			
-			echo "<tr height='25'><td width='50%'>".$strViewsPurchased.": ".($campaigns[$ckey]['views'] > 0 ? $campaigns[$ckey]['views'] : $strUnlimited)."</td>";
-			echo "<td width='50%'>".$strClicksPurchased.": ".($campaigns[$ckey]['clicks'] > 0 ? $campaigns[$ckey]['clicks'] : $strUnlimited)."</td></tr>";
+			echo "<tr height='25'><td width='50%'>".$strViewsPurchased.": ".($campaigns[$ckey]['views'] >= 0 ? $campaigns[$ckey]['views'] : $strUnlimited)."</td>";
+			echo "<td width='50%'>".$strClicksPurchased.": ".($campaigns[$ckey]['clicks'] >= 0 ? $campaigns[$ckey]['clicks'] : $strUnlimited)."</td></tr>";
 			
 			echo "<tr height='15'><td width='50%'>".$strActivationDate.": ".($campaigns[$ckey]['activate'] != '0000-00-00' ? $campaigns[$ckey]['activate_f'] : '-')."</td>";
 			echo "<td width='50%'>".$strExpirationDate.": ".($campaigns[$ckey]['expire'] != '0000-00-00' ? $campaigns[$ckey]['expire_f'] : '-')."</td></tr>";
