@@ -104,10 +104,6 @@ if (isset($zoneid) && $zoneid != '')
 			}
 		}
 		
-		
-		// Rebuild Cache
-		phpAds_RebuildZoneCache ($zoneid);
-		
 		header ("Location: zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid."&clientid=".$clientid."&campaignid=".$campaignid);
 		exit;
 	}
