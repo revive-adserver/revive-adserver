@@ -49,10 +49,11 @@ if (isset($submit))
 	if (strtolower ($unlimitedclicks) == "on")
 		$clicks = -1;
 	
+	
 	if ($priority == 't')
 	{
 		// set target
-		if (isset($target))
+		if (isset($targetviews))
 		{
 			if ($targetviews == '-')
 				$targetviews = 0;
@@ -79,6 +80,7 @@ if (isset($submit))
 		
 		$targetviews = 0;
 	}
+	
 	
 	if ($expireSet == 't')
 	{
@@ -149,7 +151,8 @@ if (isset($submit))
 	$res = phpAds_dbQuery($query) or phpAds_sqlDie();  
 	
 	// Get ID of campaign
-	$campaignid = phpAds_dbInsertID();
+	if ($campaignid == "null")
+		$campaignid = phpAds_dbInsertID();
 	
 	if (isset($move) && $move == 't')
 	{
@@ -269,7 +272,8 @@ if ($campaignid != "" || (isset($move) && $move == 't'))
 	// Fetch exisiting settings
 	// Parent setting for converting, campaign settings for editing
 	if ($campaignid != "") $ID = $campaignid;
-	if (isset($clientid) && $clientid != "") $ID = $clientid;
+	if (isset($move) && $move == 't')
+		if (isset($clientid) && $clientid != "") $ID = $clientid;
 	
 	$res = phpAds_dbQuery("
 		SELECT
@@ -306,8 +310,8 @@ if ($campaignid != "" || (isset($move) && $move == 't'))
 	
 	// Set parent when editing an campaign, don't set it
 	// when moving an campaign.
-	if ($campaignid != "" && isset($row["parent"]))
-		$clientid = $row["parent"];
+	//if ($campaignid != "" && isset($row["parent"]))
+	//	$clientid = $row["parent"];
 	
 	// Set default activation settings
 	if (!isset($row["activate_dayofmonth"]))
