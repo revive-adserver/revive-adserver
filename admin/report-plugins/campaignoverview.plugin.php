@@ -73,9 +73,9 @@ function Plugin_CampaignoverviewExecute($campaignID, $delimiter=",")
 				$phpAds_tbl_banners.bannerID
 			";
 		
-		$res_banners = db_query($res_query) or mysql_die();
+		$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
 		
-		while ($row_banners = mysql_fetch_array($res_banners))
+		while ($row_banners = phpAds_dbFetchArray($res_banners))
 		{
 			$stats [$row_banners['bannerID']]['views'] = $row_banners['adviews'];
 			$stats [$row_banners['bannerID']]['clicks'] = $row_banners['adclicks'];
@@ -100,9 +100,9 @@ function Plugin_CampaignoverviewExecute($campaignID, $delimiter=",")
 				$phpAds_tbl_banners.bannerID
 			";
 		
-		$res_banners = db_query($res_query) or mysql_die();
+		$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
 		
-		while ($row_banners = mysql_fetch_array($res_banners))
+		while ($row_banners = phpAds_dbFetchArray($res_banners))
 		{
 			$stats [$row_banners['bannerID']]['views'] = $row_banners['adviews'];
 			$stats [$row_banners['bannerID']]['description'] = $row_banners['description'];
@@ -124,9 +124,9 @@ function Plugin_CampaignoverviewExecute($campaignID, $delimiter=",")
 				$phpAds_tbl_banners.bannerID
 			";
 		
-		$res_banners = db_query($res_query) or mysql_die();
+		$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
 		
-		while ($row_banners = mysql_fetch_array($res_banners))
+		while ($row_banners = phpAds_dbFetchArray($res_banners))
 		{
 			$stats [$row_banners['bannerID']]['clicks'] = $row_banners['adclicks'];
 			$stats [$row_banners['bannerID']]['description'] = $row_banners['description'];
