@@ -352,10 +352,10 @@ else
 echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 echo "<tr height='25'><td colspan='5' height='25'>";
 
-if (count($banners))
+if (isset($banners) && count($banners))
 	echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle'>&nbsp;<a href='banner-delete.php?clientid=".$clientid."&campaignid=".$campaignid."&returnurl=campaign-index.php'".phpAds_DelConfirm($strConfirmDeleteAllBanners).">$strDeleteAllBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 
-if ($count_active < count($banners))
+if (isset($banners) && $count_active < count($banners))
 	echo "<img src='images/icon-activate.gif' border='0' align='absmiddle'>&nbsp;<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&value=f'>$strActivateAllBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 
 if ($count_active > 0)

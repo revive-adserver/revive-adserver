@@ -215,7 +215,7 @@ if (isset($submit))
 			}
 			
 			
-			if (!isset($bannerid) || $bannerid == '0')
+			if (!isset($bannerid) || $bannerid == '0' || $bannerid == '')
 			{
 				// New banner set html template
 				$final['htmltemplate'] = phpAds_getBannerTemplate($final['contenttype']);
@@ -307,7 +307,7 @@ if (isset($submit))
 			}
 			
 			
-			if (!isset($bannerid) || $bannerid == '0')
+			if (!isset($bannerid) || $bannerid == '0' || $bannerid == '')
 			{
 				// New banner set html template
 				$final['htmltemplate'] = phpAds_getBannerTemplate($final['contenttype']);
@@ -339,7 +339,12 @@ if (isset($submit))
 			break;
 		
 		case 'url':
-			$ext = parse_url($imageurl);
+			if ($imageurl == 'http://')
+				$final['imageurl'] = '';
+			else
+				$final['imageurl'] = $imageurl;
+			
+			$ext = parse_url($final['imageurl']);
 			$ext = $ext['path'];
 			$ext = substr($ext, strrpos($ext, ".") + 1);
 			switch (strtolower($ext)) 
@@ -357,13 +362,11 @@ if (isset($submit))
 			}
 			
 			$final['filename']	  = '';
-			$final['imageurl'] 	  = $imageurl;
 			
 			$final['width'] 	  = $width;
 			$final['height'] 	  = $height;
 			
-			
-			if (!isset($bannerid) || $bannerid == '0')
+			if (!isset($bannerid) || $bannerid == '0' || $bannerid == '')
 			{
 				// New banner set html template
 				$final['htmltemplate'] = phpAds_getBannerTemplate($final['contenttype']);
@@ -521,7 +524,7 @@ if (isset($submit))
 	
 	
 	// Recalculate priorities
-	if ($current['weight'] != $weight)
+	if (!isset($current) || $current['weight'] != $weight)
 	{
 		require ("../lib-priority.inc.php");
 		phpAds_PriorityCalculate ();
@@ -661,10 +664,17 @@ else
 		echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".$strUntitled."</b><br><br><br>";
 		phpAds_ShowSections(array("4.1.3.4.1"));
 	
-	$row['alt'] = "";
-	$row['status'] = "";
-	$row['bannertext'] = "";
-	$row['url'] = "http://";
+	// Set default values for new banner
+	$row['alt'] 		 = '';
+	$row['status'] 		 = '';
+	$row['bannertext'] 	 = '';
+	$row['url'] 		 = "http://";
+	$row['imageurl'] 	 = "http://";
+	$row['width'] 		 = '';
+	$row['height'] 		 = '';
+	$row['htmltemplate'] = '';
+	$row['keyword'] 	 = '';
+	$row['description']  = '';
 }
 
 
