@@ -48,8 +48,9 @@ function phpAds_getLayerLimitations ()
 
 function phpAds_putLayerJS ($output, $uniqid)
 {
-	global $stickyness, $offsetx, $offsety, $hide, $transparancy, $delay;
+	global $stickyness, $offsetx, $offsety, $hide, $transparancy, $delay, $trail;
 	
+	if (!isset($trail) || $trail == '') $trail = 0;
 	if (!isset($stickyness) || $stickyness == '') $stickyness = 5;
 	
 	if (!isset($offsetx) || $offsetx == '') $offsetx = 10;
@@ -134,6 +135,7 @@ function phpAds_setVisibility_<?php echo $uniqid; ?>(transparancy)
 	phpAds_<?php echo $uniqid; ?>_transparancy = transparancy;
 }
 
+
 function phpAds_setPos_<?php echo $uniqid; ?>(x, y)
 {
 	if (phpAds_ie4)
@@ -196,12 +198,24 @@ else
 ?>	
 	if (phpAds_<?php echo $uniqid; ?>_NoMove < <?php echo $delay; ?>)
 	{
-		// Calculate new position
+	<?php
+if ($trail == 1) 
+{
+	?>		// Calculate new position
 		phpAds_<?php echo $uniqid; ?>_speedX = phpAds_<?php echo $uniqid; ?>_speedX * (<?php echo $stickyness; ?> / 10) + (phpAds_<?php echo $uniqid; ?>_posX_new - phpAds_<?php echo $uniqid; ?>_posX_old) / 30;
 		phpAds_<?php echo $uniqid; ?>_speedY = phpAds_<?php echo $uniqid; ?>_speedY * (<?php echo $stickyness; ?> / 10) + (phpAds_<?php echo $uniqid; ?>_posY_new - phpAds_<?php echo $uniqid; ?>_posY_old) / 30;
 		phpAds_<?php echo $uniqid; ?>_posX_old = phpAds_<?php echo $uniqid; ?>_posX_old + phpAds_<?php echo $uniqid; ?>_speedX;
 		phpAds_<?php echo $uniqid; ?>_posY_old = phpAds_<?php echo $uniqid; ?>_posY_old + phpAds_<?php echo $uniqid; ?>_speedY;
-	
+	<?php
+}
+else
+{
+	?>
+		phpAds_<?php echo $uniqid; ?>_posX_old = phpAds_<?php echo $uniqid; ?>_posX_new;
+		phpAds_<?php echo $uniqid; ?>_posY_old = phpAds_<?php echo $uniqid; ?>_posY_new;
+	<?php
+}
+?>
 		// Set position of banner
 		phpAds_setPos_<?php echo $uniqid; ?> (
 			phpAds_<?php echo $uniqid; ?>_posX_old + <?php echo $offsetx; ?>,
