@@ -52,7 +52,12 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 	if (isset($zone_cache))
 		phpAds_SettingsWriteAdd('zone_cache', $zone_cache);
 	if (isset($zone_cache_limit))
-		phpAds_SettingsWriteAdd('zone_cache_limit', $zone_cache_limit);
+	{
+		if (!is_numeric($zone_cache_limit) || $zone_cache_limit <= 0)
+			$errormessage[3][] = $strZoneCacheLimitErr;
+		else
+			phpAds_SettingsWriteAdd('zone_cache_limit', $zone_cache_limit);
+	}
 	
 	if (isset($p3p_policies))
 		phpAds_SettingsWriteAdd('p3p_policies', $p3p_policies);
