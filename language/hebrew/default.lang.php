@@ -7,21 +7,20 @@
 /* Copyright (c) 2000-2002 by the phpAdsNew developers                  */
 /* For more information visit: http://www.phpadsnew.com                 */
 /*                                                                      */
-/*                                                                      */
+/* Hebrew Translation by Reuven Mansharoff                              */
+/* problems and inquiries concerning translation: reuven@act.co.il      */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
 /************************************************************************/
-/*Hebrew Translation by Reuven Mansharoff 
-problems and inquiries concerning translation: reuven@act.co.il*/
+
 
 // Set text direction and characterset
-$GLOBALS['phpAds_CharSet'] = "windows-1255";
-//$GLOBALS['phpAds_TextDirection']  			= "ltr";
+$GLOBALS['phpAds_CharSet'] 					= "windows-1255";
 $GLOBALS['phpAds_TextDirection']  			= "rtl";
-$GLOBALS['phpAds_TextAlignRight'] 			= "right";
-$GLOBALS['phpAds_TextAlignLeft']  			= "left";
+$GLOBALS['phpAds_TextAlignRight'] 			= "left";
+$GLOBALS['phpAds_TextAlignLeft']  			= "right";
 
 $GLOBALS['phpAds_DecimalPoint']				= '.';
 $GLOBALS['phpAds_ThousandsSeperator']		= ',';
