@@ -14,7 +14,7 @@
 
 
 // Set character-set
-$GLOBALS['phpAds_CharSet'] = "koi8-r";
+$GLOBALS['phpAds_CharSet'] = "x-cp1251";
 
 
 // Set translation strings
