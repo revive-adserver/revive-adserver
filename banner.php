@@ -52,6 +52,10 @@ else
 		{
 			echo $row["banner"];
 		}       
+		elseif ($row["format"] == "url")
+		{
+			echo "<img src=\"$row[banner]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0>";		
+		}
 		else
 		{
 			echo "<img src=\"./viewbanner.php?bannerID=$row[bannerID]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0>";
