@@ -5,6 +5,28 @@ require("kcsm.php");
 
 page_header($strStats);
 show_nav("1.6");
+
+print "<CENTER>Client name begins with : ";
+for ($x=0;$x<26;$x=$x+1)
+{
+	$num_other_clients_query=$num_other_clients_query."clientname NOT LIKE \"".chr($x+65)."%\" AND clientname NOT like \"".chr($x+97)."%\" AND ";
+	$res_num_clients = mysql_db_query($phpAds_db, "SELECT count(clientID) FROM $phpAds_tbl_clients where clientname like \"".chr($x+65)."%\" or clientname like \"".chr($x+97)."%\"") or mysql_die();
+	if ($res_num_clients && MYSQL_RESULT($res_num_clients,0,"count(clientID)") > 0)
+		print "<A HREF=$PHP_SELF?startletter=".chr($x+97).">".chr($x+97)."</A> ";
+	else
+		print chr($x+97)." ";
+}
+$num_other_clients_query=substr($num_other_clients_query,0,strlen($num_other_clients_query)-4);
+$num_other_clients_query_complete="SELECT count(clientID) FROM $phpAds_tbl_clients WHERE ".$num_other_clients_query;
+$res_num_other_clients = mysql_db_query($phpAds_db, $num_other_clients_query_complete);
+if ($res_num_other_clients && MYSQL_RESULT($res_num_other_clients,0,"count(clientID)") > 0)
+	print "<A HREF=$PHP_SELF?startletter=other>Other</A>";
+else
+	print "Other";
+
+
+print "</CENTER><BR>\n";
+
 $client_query="
        SELECT
          clientID,
@@ -16,15 +38,20 @@ $client_query="
          expire
        FROM
          $phpAds_tbl_clients";
-if (isset($lowID) && strlen($lowID)>0)
+if (isset($startletter) && strlen($startletter)>0)
+{
+        if ($startletter=="other")
+		$client_query=$client_query." WHERE ".$num_other_clients_query;
+	else
+		$client_query=$client_query." WHERE clientname like \"".strtolower($startletter)."%\" or clientname like \"".strtoupper($startletter)."%\"";
+} else
 {
 	$client_query=$client_query."
-       WHERE clientID > $lowID";
+       WHERE clientname like \"a%\" or clientname like \"A%\"";
 }
 $client_query=$client_query."
        ORDER BY
-         clientID
-       LIMIT 10";
+         clientID";
 $res_clients = mysql_db_query($phpAds_db, $client_query) or mysql_die() ;
 
 ?>
@@ -140,14 +167,6 @@ while ($row_clients = mysql_fetch_array($res_clients))
       </table>
       </td></tr>
       </table>
-      <table border=0 width=100% bgcolor="#ffffff" cellspacing=0 cellpadding=0>
-      <tr>
-           <?
-           if (isset($lowID) && strlen($lowID) > 0)
-             print "<td><a href=creditstats.php?lowID=$prevlowID>$strPrevious 10</a></td>";
-           ?>
-       <td align=right><a href=creditstats.php?prevlowID=<?print $lowID."&lowID=".$highID;?>><?print $strNext;?> 10</a></td></tr>
-	<tr><td colspan=2><br></td></tr>
 <?    
 page_footer();
 ?>

@@ -1,5 +1,6 @@
 phpAdsNew - ChangeLog
- v 1.6.4 - 12/06/2000  + Bugfix: Previous is now shown in the creditstats screen
+ v 1.6.4 - 12/12/2000  + Credit Statistics now sorted by letter. 1 screen per letter.
+                       + Bugfix: Previous is now shown in the creditstats screen
                        + Bugfix: images without links patch applied (thanks wesku)
                        + Bugfix: fixed a problem with creditstats showing wrong number of clicks
                        + Bugfix: clients can get expire date again
