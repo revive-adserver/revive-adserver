@@ -421,9 +421,6 @@ $GLOBALS['strZoneAppend']					= "Aggiungi sempre il seguente codice HTML ai bann
 $GLOBALS['strAppendSettings']				= "Impostazioni prefisso e suffisso";
 $GLOBALS['strZonePrependHTML']				= "Codice HTML da utilizzare come prefisso per i banner testuali visualizzati in questa zona";
 $GLOBALS['strZoneAppendHTML']				= "Codice HTML da utilizzare come suffisso per i banner testuali visualizzati in questa zona";
-$GLOBALS['strZoneAppendType']				= "Tipo di suffisso";
-$GLOBALS['strZoneAppendHTMLCode']			= "Codice HTML";
-$GLOBALS['strZoneAppendZoneSelection']		= "Popup o interstiziale";
 $GLOBALS['strZoneAppendSelectZone']			= "Aggiungi sempre il seguente popup o interstiziale ai banner di questa zona";
 
 
@@ -450,6 +447,18 @@ $GLOBALS['strNoCampaignsToLink']			= "Non ci sono attualmente campagne disponibi
 $GLOBALS['strNoZonesToLinkToCampaign']		= "Non ci sono zone disponibili a cui questa campagna possa essere collegata";
 $GLOBALS['strSelectBannerToLink']			= "Seleziona il banner che vorresti collegare a questa zona:";
 $GLOBALS['strSelectCampaignToLink']			= "Seleziona la campagna che vorresti collegare a questa zona:";
+
+
+// Append
+$GLOBALS['strAppendType']					= "Tipo di accodamento";
+$GLOBALS['strAppendHTMLCode']				= "Codice HTML";
+$GLOBALS['strAppendWhat']					= "Che tipo di accodamento vuoi usare?";
+$GLOBALS['strAppendZone']					= "Accoda una specifica zona";
+$GLOBALS['strAppendErrorZone']				= "Devi selezionare una zona prima \\ndi procedere. Altrimenti non verrà accodato \\nnessun banner.";
+$GLOBALS['strAppendBanner']					= "Accoda uno o pi&ugrave; banner individualmente";
+$GLOBALS['strAppendErrorBanner']			= "Devi selezionare uno o più banner \\nprima di procedere. Altrimenti non verrà \\naccodato nessun banner.";
+$GLOBALS['strAppendKeyword']				= "Accoda banner utilizzando le parole chiave";
+$GLOBALS['strAppendErrorKeyword']			= "Devi specificare una o più parole chiave \\nprima di procedere. Altrimenti non verrà \\naccodato nessun banner.";
 
 
 // Statistics
