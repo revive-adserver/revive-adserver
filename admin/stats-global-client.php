@@ -175,7 +175,7 @@ if ($period_range['end_month'] == 0 || $period_range['end_day'] == 0 || $period_
 	$period_range['end_day'] = $period_range['end_month'] = $period_range['end_year'] = 0;
 }
 else
-	$period_end = mktime(0, 0, 0, $period_range['end_month'], $period_range['end_day'], $period_range['end_year']);
+	$period_end = @mktime(0, 0, 0, $period_range['end_month'], $period_range['end_day'] + 1, $period_range['end_year']);
 
 
 
