@@ -212,6 +212,8 @@ function phpAds_checkIds()
 			$part[0] = '';
 		elseif ($part[0] == 'zone')
 			$part[0] = 'affiliate';
+		elseif ($part[0] == 'userlog')
+			$part[0] = '';
 	}
 		
 	switch ($part[0])
