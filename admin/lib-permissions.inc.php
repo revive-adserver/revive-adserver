@@ -291,27 +291,19 @@ function phpAds_isAdmin($username, $password)
 
 function phpAds_LoginScreen($message='', $SessionID=0)
 {
+	global $PHP_SELF, $QUERY_STRING;
+	global $strUsername, $strPassword, $strLogin;
+	
 	phpAds_PageHeader(0);
 	if ($message != "") echo "<b>$message</b><br>";
-	?>
-	<form method="post" action="<?php echo basename($GLOBALS['PHP_SELF']); echo isset($GLOBALS['QUERY_STRING']) && $GLOBALS['QUERY_STRING'] != '' ? '?'.$GLOBALS['QUERY_STRING'] : '' ;?>">
-	<table>
-		<input type="hidden" name="phpAds_cookiecheck" value="<?php echo $SessionID; ?>">
-		<tr>
-			<td><?php echo $GLOBALS['strUsername'];?>:</td>
-			<td><input type="text" name="phpAds_username"></td>
-		</tr>
-		<tr>
-			<td><?php echo $GLOBALS['strPassword'];?>:</td>
-			<td><input type="password" name="phpAds_password"></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td><input type="submit" VALUE="<?php echo $GLOBALS['strLogin']; ?>"></td>
-		</tr>
-	</table>
-	</form>
-	<?php
+	
+	echo "<form name='login' method='post' action='".basename($PHP_SELF).(isset($QUERY_STRING) && $QUERY_STRING != '' ? '?'.$QUERY_STRING : '')."'>";
+	echo "<table><input type='hidden' name='phpAds_cookiecheck' value='".$SessionID."'>";
+	echo "<tr><td>".$strUsername.":</td><td><input type='text' name='phpAds_username'></td></tr>";
+	echo "<tr><td>".$strPassword.":</td><td><input type='password' name='phpAds_password'></td></tr>";
+	echo "<tr><td>&nbsp;</td><td><input type='submit' value='".$strLogin."'></td></tr>";
+	echo "</table></form>";
+	echo "<script language='JavaScript'>\n<!--\n\tlogin_focus();\n// -->\n</script>";
 	
 	phpAds_PageFooter();
 	exit;

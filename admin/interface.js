@@ -104,6 +104,20 @@ function search_window(keyword, where)
 
 
 /*********************************************************/
+/* Focus the first field of the login screen             */
+/*********************************************************/
+
+function login_focus()
+{
+	if (document.login.phpAds_username.value == '')
+		document.login.phpAds_username.focus();
+	else
+		document.login.phpAds_password.focus();
+}
+
+
+
+/*********************************************************/
 /* Check form                                            */
 /*********************************************************/
 
