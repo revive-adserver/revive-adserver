@@ -104,6 +104,10 @@ $phpAds_table_back_color = "#CCCCCC";
 $phpAds_table_back_color_alternative = "#F7F7F7";
 $phpAds_main_back_color = "#FFFFFF";
 
+// html header and footer relative path
+$phpAds_my_header="";
+$phpAds_my_footer="";
+
 $phpAds_persistent_connections = "0";
 
 

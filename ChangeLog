@@ -1,4 +1,5 @@
 phpAdsNew - ChangeLog
+			+ Added an html header and footer 
 			+ Bugfix : Home wasn't translated in the client view (Cedric)
 			+ Added the preferences for client(Cedric)
 			+ Added two extra banner retrieval methods (Niels)

@@ -38,7 +38,7 @@ function show_nav($ID)
 // some layout functions
 function page_header($title = false)
 {
-	global $pages, $phpAds_name, $phpAds_main_back_color, $phpAds_table_border_color;
+	global $pages, $phpAds_name, $phpAds_main_back_color, $phpAds_table_border_color, $phpAds_my_header;
 
 ?>
 <html>
@@ -54,7 +54,12 @@ td { font-family: Arial, Helvetica, sans-serif; font-size: 10pt }
 -->
 </style>
 </head>
-
+<?
+if (!empty($phpAds_my_header)) 
+{
+	include ($phpAds_my_header);
+}
+?>
 <body bgcolor="<?print $phpAds_main_back_color;?>">
 <table border="0" cellspacing="0" cellpadding="1" align="center" bgcolor="<?print $phpAds_table_border_color;?>">
 	<tr>
@@ -70,6 +75,7 @@ td { font-family: Arial, Helvetica, sans-serif; font-size: 10pt }
  
 function page_footer()
 {
+	global $phpAds_my_footer;
 			?>
 			</td>
 			</tr>
@@ -77,6 +83,12 @@ function page_footer()
 		</td>
 	</tr>
 </table>
+<?
+if (!empty($phpAds_my_footer))
+{
+	include ($phpAds_my_footer);
+}
+?>
 </body>
 </html>
 <?
