@@ -75,7 +75,7 @@ function get_banner($what, $clientID, $context=0, $source="")
     		// Get all banners with the specified width/height
     		$select .= " AND width = $width AND height = $height ";
     	}
-		else
+		elseif ($what_parts[$wpc] != "")
 		{
 			switch($what_parts[$wpc]) 
         	{
