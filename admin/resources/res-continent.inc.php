@@ -13,7 +13,7 @@
 /************************************************************************/
 
 
-$phpAds_cont_name['AS'] = 'Australia';
+$phpAds_cont_name['AS'] = 'Asia';
 $phpAds_continent['AF'] = $phpAds_continent['AZ'] = $phpAds_continent['BH'] = 
 $phpAds_continent['BD'] = $phpAds_continent['BT'] = $phpAds_continent['IO'] = 
 $phpAds_continent['BN'] = $phpAds_continent['KH'] = $phpAds_continent['CN'] = 
@@ -72,18 +72,19 @@ $phpAds_continent['TZ'] = $phpAds_continent['TG'] = $phpAds_continent['TN'] =
 $phpAds_continent['UG'] = $phpAds_continent['EH'] = $phpAds_continent['ZM'] = 
 $phpAds_continent['ZW'] = 'AF'; 
 
-$phpAds_cont_name['OC'] = 'Oceania';
-$phpAds_continent['AS'] = $phpAds_continent['CC'] = $phpAds_continent['CK'] = 
-$phpAds_continent['TP'] = $phpAds_continent['FJ'] = $phpAds_continent['PF'] = 
-$phpAds_continent['GU'] = $phpAds_continent['KI'] = $phpAds_continent['MH'] = 
-$phpAds_continent['FM'] = $phpAds_continent['NR'] = $phpAds_continent['NC'] = 
-$phpAds_continent['NZ'] = $phpAds_continent['NU'] = $phpAds_continent['NF'] = 
-$phpAds_continent['MP'] = $phpAds_continent['PW'] = $phpAds_continent['PG'] = 
-$phpAds_continent['PH'] = $phpAds_continent['PN'] = $phpAds_continent['WS'] = 
-$phpAds_continent['SB'] = $phpAds_continent['TK'] = $phpAds_continent['TO'] = 
-$phpAds_continent['VU'] = $phpAds_continent['TV'] = $phpAds_continent['WF'] = 'OC'; 
+$phpAds_cont_name['OC'] = 'Australia/Oceania';
+$phpAds_continent['AS'] = $phpAds_continent['AU'] = $phpAds_continent['CC'] = 
+$phpAds_continent['CK'] = $phpAds_continent['TP'] = $phpAds_continent['FJ'] = 
+$phpAds_continent['PF'] = $phpAds_continent['GU'] = $phpAds_continent['KI'] = 
+$phpAds_continent['MH'] = $phpAds_continent['FM'] = $phpAds_continent['NR'] = 
+$phpAds_continent['NC'] = $phpAds_continent['NZ'] = $phpAds_continent['NU'] = 
+$phpAds_continent['NF'] = $phpAds_continent['MP'] = $phpAds_continent['PW'] = 
+$phpAds_continent['PG'] = $phpAds_continent['PH'] = $phpAds_continent['PN'] = 
+$phpAds_continent['WS'] = $phpAds_continent['SB'] = $phpAds_continent['TK'] = 
+$phpAds_continent['TO'] = $phpAds_continent['VU'] = $phpAds_continent['TV'] = 
+$phpAds_continent['WF'] = 'OC'; 
 
-$phpAds_cont_name['CA'] = 'Caribean';
+$phpAds_cont_name['CA'] = 'Caribbean';
 $phpAds_continent['AI'] = $phpAds_continent['AG'] = $phpAds_continent['AW'] = 
 $phpAds_continent['BS'] = $phpAds_continent['BB'] = $phpAds_continent['BM'] = 
 $phpAds_continent['KY'] = $phpAds_continent['CU'] = $phpAds_continent['DM'] = 
@@ -111,8 +112,5 @@ $phpAds_continent['UM'] = 'NA';
 
 $phpAds_cont_name['AQ'] = 'Antartica';
 $phpAds_continent['AQ'] = 'AQ'; 
-
-$phpAds_cont_name['AU'] = 'Australia';
-$phpAds_continent['AU'] = 'AU'; 
 
 ?>
