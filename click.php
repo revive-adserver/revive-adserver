@@ -35,7 +35,7 @@ if($phpAds_log_adclicks)
 
 	if ($found == 0)
 	{
-		$db_log_click($bannerID, $host);
+		db_log_click($bannerID, $host);
 
 		$currentclick=db_query("SELECT * FROM $phpAds_tbl_clients WHERE clientID=$clientID and clicks > 0");
 		if($clickcount=mysql_fetch_array($currentclick))
