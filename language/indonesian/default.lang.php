@@ -53,7 +53,6 @@ $GLOBALS['strSubmit'] = "Menyelesaikan";
 $GLOBALS['strUsername'] = "Nama User";
 $GLOBALS['strPassword'] = "Kata Sandi";
 $GLOBALS['strBannerAdmin'] = "Administrasi Banner untuk";
-$GLOBALS['strBannerAdminAcl'] = "Administrasi Banner ACL untuk";
 $GLOBALS['strNoBanners'] = "Banner tidak ditemukan";
 $GLOBALS['strBanner'] = "Banner";
 $GLOBALS['strCurrentBanner'] = "Banner yang sedang ditampil";
@@ -208,6 +207,7 @@ $GLOBALS['strNoMoreViews'] = "jumlah AdViews yang dibeli telah tercapai";
 $GLOBALS['strBanners'] = "Banner";
 $GLOBALS['strCampaigns'] = "Kampanye";
 $GLOBALS['strCampaign']	= "Kampanye";
+$GLOBALS['strModifyCampaign']			= "Modify campaign";
 $GLOBALS['strName'] = "Nama";
 $GLOBALS['strBannersWithoutCampaign'] = "Banner tanpa Kampanye";
 $GLOBALS['strMoveToNewCampaign'] = "Pindah ke Kampanye baru";
@@ -221,8 +221,6 @@ $GLOBALS['strTotalCampaigns'] = "Jumlah Kampanye";
 $GLOBALS['strActiveCampaigns'] = "Kampanye yang aktif";
 
 $GLOBALS['strLinkedTo']	= "di-link ke";
-$GLOBALS['strNoViewLoggedInInterval'] = "Tidak ada AdViews tercatat dalam waktu {interval} hari terakhir";
-$GLOBALS['strNoClickLoggedInInterval'] = "Tidak ada AdKlik tercatat dalam waktu {interval} hari terakhir";
 $GLOBALS['strSendAdvertisingReport'] = "Kirim laporan perkembangan lewat e-mail";
 $GLOBALS['strNoDaysBetweenReports'] = "Jumlah hari antara laporan";
 $GLOBALS['strSendDeactivationWarning'] = "Kirim peringatan bila Kampanye di deaktifkan";
@@ -280,6 +278,9 @@ $GLOBALS['strStatusText'] = "Status Text";
 $GLOBALS['strConfirmDeleteClient'] = "Hapus Client ini?";
 $GLOBALS['strConfirmDeleteCampaign'] = "Apakah benar hapus kampanye ini?";
 $GLOBALS['strConfirmDeleteBanner'] = "Apakah benar hapus banner ini??";
+$GLOBALS['strConfirmDeleteZone']		= "Do you really want to delete this zone?";
+$GLOBALS['strConfirmDeleteAffiliate']	= "Do you really want to delete this affiliate?";
+
 $GLOBALS['strConfirmResetStats'] = "Statistik untuk Client ini benar di-reset kembali?";
 $GLOBALS['strConfirmResetCampaignStats'] = "Statistik untuk kampanye ini benar di-reset kembali?";
 $GLOBALS['strConfirmResetClientStats'] = "Statistik untuk Client ini benar di-reset kembali?";
@@ -322,6 +323,7 @@ $GLOBALS['strNoZonesToLink'] = "Zona untuk me-link banner ini tidak tersedia";
 $GLOBALS['strNoZones']					= "There are currently no zones defined";
 $GLOBALS['strNoClients']				= "There are currently no clients defined";
 $GLOBALS['strNoStats']					= "There are currently no statistics available";
+$GLOBALS['strNoAffiliates']				= "There are currently no affiliates defined";
 
 $GLOBALS['strCustom'] = "Selera";
 
@@ -353,15 +355,23 @@ $GLOBALS['strTargetPerDay']				= "per day.";
 $GLOBALS['strRecalculatePriority']		= "Recalculate priority";
 
 $GLOBALS['strProperties']				= "Properties";
-$GLOBALS['strAffiliateProperties']		= "Affiliate Properties";
-$GLOBALS['strBannerOverview']			= "Banner Overview";
-$GLOBALS['strBannerProperties']			= "Banner Properties";
-$GLOBALS['strCampaignProperties']		= "Campaign Properties";
-$GLOBALS['strClientProperties']			= "Client Properties";
-$GLOBALS['strZoneOverview']				= "Zone Overview";
-$GLOBALS['strZoneProperties']			= "Zone Properties";
+$GLOBALS['strAffiliateProperties']		= "Affiliate properties";
+$GLOBALS['strBannerOverview']			= "Banner overview";
+$GLOBALS['strBannerProperties']			= "Banner properties";
+$GLOBALS['strCampaignProperties']		= "Campaign properties";
+$GLOBALS['strClientProperties']			= "Client properties";
+$GLOBALS['strZoneOverview']				= "Zone overview";
+$GLOBALS['strZoneProperties']			= "Zone properties";
+$GLOBALS['strAffiliateOverview']		= "Affiliate overview";
+$GLOBALS['strLinkedBannersOverview']	= "Linked banners overview";
 
-$GLOBALS['strGlobalHistory']			= "Global History";
+$GLOBALS['strGlobalHistory']			= "Global history";
+$GLOBALS['strBannerHistory']			= "Banner history";
+$GLOBALS['strCampaignHistory']			= "Campaign history";
+$GLOBALS['strClientHistory']			= "Client history";
+$GLOBALS['strAffiliateHistory']			= "Affiliate history";
+$GLOBALS['strZoneHistory']				= "Zone history";
+$GLOBALS['strLinkedBannerHistory']		= "Linked banner history";
 
 $GLOBALS['strMoveTo']					= "Move to";
 $GLOBALS['strDuplicate']				= "Duplicate";
@@ -375,7 +385,15 @@ $GLOBALS['strZonesWithoutAffiliate']	= "Zones without affiliate";
 $GLOBALS['strMoveToNewAffiliate']		= "Move to new affiliate";
 
 $GLOBALS['strNoBannersToLink']			= "There are currently no banners available which can be linked to this zone";
+$GLOBALS['strNoLinkedBanners']			= "There are no banners available which are linked to this zone";
 
 $GLOBALS['strAdviewsLimit']				= "AdViews limit";
+
+$GLOBALS['strTotalThisPeriod']			= "Total this period";
+$GLOBALS['strAverageThisPeriod']		= "Average this period";
+$GLOBALS['strLast7Days']				= "Last 7 days";
+$GLOBALS['strDistribution']				= "Distribution";
+$GLOBALS['strOther']					= "Other";
+$GLOBALS['strUnknown']					= "Unknown";
 
 ?>

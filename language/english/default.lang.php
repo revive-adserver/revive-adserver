@@ -7,6 +7,8 @@
 /* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
+/*                                                                      */
+/*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
@@ -278,6 +280,7 @@ $GLOBALS['strConfirmDeleteCampaign']	= "Do you really want to delete this campai
 $GLOBALS['strConfirmDeleteBanner']		= "Do you really want to delete this banner?";
 $GLOBALS['strConfirmDeleteZone']		= "Do you really want to delete this zone?";
 $GLOBALS['strConfirmDeleteAffiliate']	= "Do you really want to delete this affiliate?";
+
 $GLOBALS['strConfirmResetStats']		= "Do you really want to reset all stats?";
 $GLOBALS['strConfirmResetCampaignStats']= "Do you really want to reset stats for this campaign?";
 $GLOBALS['strConfirmResetClientStats']	= "Do you really want to reset stats for this client?";

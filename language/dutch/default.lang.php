@@ -205,6 +205,7 @@ $GLOBALS['strNoMoreViews']				= "de gekochte AdViews gebruikt zijn";
 $GLOBALS['strBanners'] 					= "Banners";
 $GLOBALS['strCampaigns']				= "Campagnes";
 $GLOBALS['strCampaign']					= "Campagne";
+$GLOBALS['strModifyCampaign']			= "Wijzig campagne";
 $GLOBALS['strName']						= "Naam";
 $GLOBALS['strBannersWithoutCampaign']	= "Banners zonder campagne";
 $GLOBALS['strMoveToNewCampaign']		= "Verplaats naar een nieuwe campagne";
@@ -276,6 +277,9 @@ $GLOBALS['strConfirmDeleteClient'] 		= "Weet u zeker dat u deze klant wilt verwi
 $GLOBALS['strConfirmDeleteCampaign']	= "Weet u zeker dat u deze campagne wilt verwijderen?";
 $GLOBALS['strConfirmDeleteBanner']		= "Weet u zeker dat u deze banner wilt verwijderen?";
 $GLOBALS['strConfirmResetStats']		= "Weet u zeker dat u alle statistieken wilt wissen?";
+$GLOBALS['strConfirmDeleteZone']		= "Weet u zeker dat u deze zone wilt wissen?";
+$GLOBALS['strConfirmDeleteAffiliate']	= "Weet u zeker dat u deze affiliate wilt wissen?";
+
 $GLOBALS['strConfirmResetCampaignStats']= "Weet u zeker dat u de statistieken wilt wissen voor deze campagne?";
 $GLOBALS['strConfirmResetClientStats']	= "Weet u zeker dat u de statistieken wilt wissen voor deze klant?";
 $GLOBALS['strConfirmResetBannerStats']	= "Weet u zeker dat u de statistieken wilt wissen voor deze banner?";
@@ -317,6 +321,7 @@ $GLOBALS['strNoZonesToLink']			= "Er zijn geen zones aanwezig waar deze banner a
 $GLOBALS['strNoZones']					= "Er zijn momenteel geen zones gedefinieerd";
 $GLOBALS['strNoClients']				= "Er zijn momenteel geen klanten gedefinieerd";
 $GLOBALS['strNoStats']					= "Er zijn momenteel geen statistieken beschikbaar";
+$GLOBALS['strNoAffiliates']				= "Er zijn momenteel geen affiliates gedefinieerd";
 
 $GLOBALS['strCustom']					= "Anders";
 
@@ -324,53 +329,69 @@ $GLOBALS['strSettings'] 				= "Instellingen";
 
 $GLOBALS['strAffiliates']				= "Affiliates";
 $GLOBALS['strAffiliatesAndZones']		= "Affiliates & Zones";
-$GLOBALS['strAddAffiliate']				= "Create affiliate";
-$GLOBALS['strModifyAffiliate']			= "Modify affiliate";
-$GLOBALS['strAddNewAffiliate']			= "Add new affiliate";
+$GLOBALS['strAddAffiliate']				= "Maak affiliate";
+$GLOBALS['strModifyAffiliate']			= "Wijzig affiliate";
+$GLOBALS['strAddNewAffiliate']			= "Voeg een affiliate toe";
 
-$GLOBALS['strCheckAllNone']				= "Check all / none";
+$GLOBALS['strCheckAllNone']				= "Selecteer alle / geen";
 
-$GLOBALS['strAllowAffiliateModifyInfo'] = "Allow this user to modify his own affiliate information";
-$GLOBALS['strAllowAffiliateModifyZones'] = "Allow this user to modify his own zones";
-$GLOBALS['strAllowAffiliateLinkBanners'] = "Allow this user to link banners to his own zones";
-$GLOBALS['strAllowAffiliateAddZone'] = "Allow this user to define new zones";
-$GLOBALS['strAllowAffiliateDeleteZone'] = "Allow this user to delete existing zones";
+$GLOBALS['strAllowAffiliateModifyInfo'] = "Deze gebruiker kan zijn eigen affiliate informatie wijzigen";
+$GLOBALS['strAllowAffiliateModifyZones'] = "Deze gebruiker kan zijn eigen zones wijzigen";
+$GLOBALS['strAllowAffiliateLinkBanners'] = "Deze gebruiker kan banners koppelen aan zijn eigen zones";
+$GLOBALS['strAllowAffiliateAddZone'] = "Deze gebruiker kan nieuwe zones definieeren";
+$GLOBALS['strAllowAffiliateDeleteZone'] = "Deze gebruiker kan bestaande zones verwijderen";
 
-$GLOBALS['strPriority']					= "Priority";
-$GLOBALS['strHighPriority']				= "Show banners in this campaign with high priority.<br>
-										   If you use this option phpAdsNew will try to distribute the 
-										   number of AdViews evenly over the course of the day.";
-$GLOBALS['strLowPriority']				= "Show banner in this campaign with low priority.<br>
-										   This campaign is used to show the left over AdViews which 
-										   aren't used by high priority campaigns.";
-$GLOBALS['strTargetLimitAdviews']		= "Limit the number of AdViews to";
-$GLOBALS['strTargetPerDay']				= "per day.";
-$GLOBALS['strRecalculatePriority']		= "Recalculate priority";
+$GLOBALS['strPriority']					= "Prioriteit";
+$GLOBALS['strHighPriority']				= "Toon de banners in deze campagne met hoge prioriteit.<br>
+										   Indien u deze optie gebruikt zal phpAdsNew proberen om het 
+										   aantal AdViews gelijkmatig over de dag de verspreiden.";
+$GLOBALS['strLowPriority']				= "Toon de banners in deze campagne met lage prioriteit.<br>
+										   Deze campagne wordt gebruikt om de overgebleven AdViews te tonen, 
+										   welke niet gebruikt worden door hoge prioriteit campagnes.";
+$GLOBALS['strTargetLimitAdviews']		= "Limiteer het aantal AdViews tot";
+$GLOBALS['strTargetPerDay']				= "per dag.";
+$GLOBALS['strRecalculatePriority']		= "Prioriteit opnieuw berekenen";
 
-$GLOBALS['strProperties']				= "Properties";
-$GLOBALS['strAffiliateProperties']		= "Affiliate Properties";
-$GLOBALS['strBannerOverview']			= "Banner Overview";
-$GLOBALS['strBannerProperties']			= "Banner Properties";
-$GLOBALS['strCampaignProperties']		= "Campaign Properties";
-$GLOBALS['strClientProperties']			= "Client Properties";
-$GLOBALS['strZoneOverview']				= "Zone Overview";
-$GLOBALS['strZoneProperties']			= "Zone Properties";
+$GLOBALS['strProperties']				= "Eigenschappen";
+$GLOBALS['strAffiliateProperties']		= "Affiliate eigenschappen";
+$GLOBALS['strBannerOverview']			= "Banner overzicht";
+$GLOBALS['strBannerProperties']			= "Banner eigenschappen";
+$GLOBALS['strCampaignProperties']		= "Campagne eigenschappen";
+$GLOBALS['strClientProperties']			= "Klant eigenschappen";
+$GLOBALS['strZoneOverview']				= "Zone overzicht";
+$GLOBALS['strZoneProperties']			= "Zone eigenschappen";
+$GLOBALS['strAffiliateOverview']		= "Affiliate overzicht";
+$GLOBALS['strLinkedBannersOverview']	= "Gekoppelde banners overzicht";
 
-$GLOBALS['strGlobalHistory']			= "Global History";
+$GLOBALS['strGlobalHistory']			= "Globale geschiedenis";
+$GLOBALS['strBannerHistory']			= "Banner geschiedenis";
+$GLOBALS['strCampaignHistory']			= "Campagne geschiedenis";
+$GLOBALS['strClientHistory']			= "Klant geschiedenis";
+$GLOBALS['strAffiliateHistory']			= "Affiliate geschiendenis";
+$GLOBALS['strZoneHistory']				= "Zone geschiendenis";
+$GLOBALS['strLinkedBannerHistory']		= "Gekoppelde banner geschiedenis";
 
-$GLOBALS['strMoveTo']					= "Move to";
-$GLOBALS['strDuplicate']				= "Duplicate";
+$GLOBALS['strMoveTo']					= "Verplaats naar";
+$GLOBALS['strDuplicate']				= "Dupliceer";
 
-$GLOBALS['strMainSettings']				= "Main settings";
-$GLOBALS['strAdminSettings']			= "Administration settings";
+$GLOBALS['strMainSettings']				= "Hoofd instellingen";
+$GLOBALS['strAdminSettings']			= "Administratie instellingen";
 
-$GLOBALS['strApplyLimitationsTo']		= "Apply limitations to";
-$GLOBALS['strWholeCampaign']			= "Whole campaign";
-$GLOBALS['strZonesWithoutAffiliate']	= "Zones without affiliate";
-$GLOBALS['strMoveToNewAffiliate']		= "Move to new affiliate";
+$GLOBALS['strApplyLimitationsTo']		= "Pas limitaties toe op";
+$GLOBALS['strWholeCampaign']			= "Hele campagne";
+$GLOBALS['strZonesWithoutAffiliate']	= "Zones zonder affiliate";
+$GLOBALS['strMoveToNewAffiliate']		= "Verplaats naar een nieuwe affiliate";
 
-$GLOBALS['strNoBannersToLink']			= "There are currently no banners available which can be linked to this zone";
+$GLOBALS['strNoBannersToLink']			= "Er zijn momenteel geen banners beschikbaar welke gekoppeld kunnen worden aan deze zone";
+$GLOBALS['strNoLinkedBanners']			= "Er zijn banners beschikbaar welke gekoppeld zijn aan deze zone";
 
-$GLOBALS['strAdviewsLimit']				= "AdViews limit";
+$GLOBALS['strAdviewsLimit']				= "AdViews limiet";
+
+$GLOBALS['strTotalThisPeriod']			= "Totaal deze periode";
+$GLOBALS['strAverageThisPeriod']		= "Gemiddelde deze periode";
+$GLOBALS['strLast7Days']				= "Laatste 7 dagen";
+$GLOBALS['strDistribution']				= "Verdeling";
+$GLOBALS['strOther']					= "Andere";
+$GLOBALS['strUnknown']					= "Onbekend";
 
 ?>

@@ -59,13 +59,10 @@ $GLOBALS['strCurrentBanner'] = "An&uacute;ncio actual";
 $GLOBALS['strDelete'] = "Apagar";
 $GLOBALS['strAddBanner'] = "Adicionar novo an&uacute;ncio";
 $GLOBALS['strModifyBanner'] = "Modificar an&uacute;ncio";
-$GLOBALS['strModifyBannerAcl'] = "Modificar Controle de Acesso do an&uacute;ncio";
 $GLOBALS['strURL'] = "Ligado &agrave; URL (incluir http://)";
 $GLOBALS['strKeyword'] = "Palavras-chave";
 $GLOBALS['strWeight'] = "Peso";
 $GLOBALS['strAlt'] = "Texto Alternativo";
-$GLOBALS['strUsername'] = "Utilizador";
-$GLOBALS['strPassword'] = "Senha";
 $GLOBALS['strAccessDenied'] = "Acesso negado";
 $GLOBALS['strPasswordWrong'] = "A senha n&atilde;o est&aacute; correcta";
 $GLOBALS['strNotAdmin'] = "Voc&ecirc; n&atilde;o tem privil&eacute;gios administrativos";
@@ -281,6 +278,9 @@ $GLOBALS['strStatusText']               = "Texto na <i>Barra de Estados</i>";
 $GLOBALS['strConfirmDeleteClient']       = "Est&aacute; certo que deseja apagar este cliente?";
 $GLOBALS['strConfirmDeleteCampaign']     = "Est&aacute; certo que deseja apagar esta campanha?";
 $GLOBALS['strConfirmDeleteBanner']       = "Est&aacute; certo que deseja apagar este an&uacte;ncio?";
+$GLOBALS['strConfirmDeleteZone']		= "Do you really want to delete this zone?";
+$GLOBALS['strConfirmDeleteAffiliate']	= "Do you really want to delete this affiliate?";
+
 $GLOBALS['strConfirmResetStats']         = "Est&aacute; certo que deseja reiniciar todas as estat&iacute;sticas?";
 $GLOBALS['strConfirmResetCampaignStats'] = "Est&aacute; certo que deseja reiniciar todas as estat&iacute;sticas desta campanha?";
 $GLOBALS['strConfirmResetClientStats']   = "Est&aacute; certo que deseja reiniciar as estat&iacute;sticas deste cliente?";
@@ -323,6 +323,7 @@ $GLOBALS['strNoZonesToLink']			= "N&atilde;o existem zonas dispon&iacute;veis pa
 $GLOBALS['strNoZones']					= "There are currently no zones defined";
 $GLOBALS['strNoClients']				= "There are currently no clients defined";
 $GLOBALS['strNoStats']					= "There are currently no statistics available";
+$GLOBALS['strNoAffiliates']				= "There are currently no affiliates defined";
 
 $GLOBALS['strCustom']					= "Definir";
 
@@ -354,15 +355,23 @@ $GLOBALS['strTargetPerDay']				= "per day.";
 $GLOBALS['strRecalculatePriority']		= "Recalculate priority";
 
 $GLOBALS['strProperties']				= "Properties";
-$GLOBALS['strAffiliateProperties']		= "Affiliate Properties";
-$GLOBALS['strBannerOverview']			= "Banner Overview";
-$GLOBALS['strBannerProperties']			= "Banner Properties";
-$GLOBALS['strCampaignProperties']		= "Campaign Properties";
-$GLOBALS['strClientProperties']			= "Client Properties";
-$GLOBALS['strZoneOverview']				= "Zone Overview";
-$GLOBALS['strZoneProperties']			= "Zone Properties";
+$GLOBALS['strAffiliateProperties']		= "Affiliate properties";
+$GLOBALS['strBannerOverview']			= "Banner overview";
+$GLOBALS['strBannerProperties']			= "Banner properties";
+$GLOBALS['strCampaignProperties']		= "Campaign properties";
+$GLOBALS['strClientProperties']			= "Client properties";
+$GLOBALS['strZoneOverview']				= "Zone overview";
+$GLOBALS['strZoneProperties']			= "Zone properties";
+$GLOBALS['strAffiliateOverview']		= "Affiliate overview";
+$GLOBALS['strLinkedBannersOverview']	= "Linked banners overview";
 
-$GLOBALS['strGlobalHistory']			= "Global History";
+$GLOBALS['strGlobalHistory']			= "Global history";
+$GLOBALS['strBannerHistory']			= "Banner history";
+$GLOBALS['strCampaignHistory']			= "Campaign history";
+$GLOBALS['strClientHistory']			= "Client history";
+$GLOBALS['strAffiliateHistory']			= "Affiliate history";
+$GLOBALS['strZoneHistory']				= "Zone history";
+$GLOBALS['strLinkedBannerHistory']		= "Linked banner history";
 
 $GLOBALS['strMoveTo']					= "Move to";
 $GLOBALS['strDuplicate']				= "Duplicate";
@@ -376,7 +385,15 @@ $GLOBALS['strZonesWithoutAffiliate']	= "Zones without affiliate";
 $GLOBALS['strMoveToNewAffiliate']		= "Move to new affiliate";
 
 $GLOBALS['strNoBannersToLink']			= "There are currently no banners available which can be linked to this zone";
+$GLOBALS['strNoLinkedBanners']			= "There are no banners available which are linked to this zone";
 
 $GLOBALS['strAdviewsLimit']				= "AdViews limit";
+
+$GLOBALS['strTotalThisPeriod']			= "Total this period";
+$GLOBALS['strAverageThisPeriod']		= "Average this period";
+$GLOBALS['strLast7Days']				= "Last 7 days";
+$GLOBALS['strDistribution']				= "Distribution";
+$GLOBALS['strOther']					= "Other";
+$GLOBALS['strUnknown']					= "Unknown";
 
 ?>
