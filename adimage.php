@@ -52,10 +52,14 @@ if (isset($filename) && $filename != '')
 		
 		if (isset($contenttype) && $contenttype != '')
 		{
-			if ($contenttype == 'swf')
-				Header('Content-type: application/x-shockwave-flash; name='.md5(microtime()).'.'.$contenttype);
-			else
-				Header('Content-type: image/'.$contenttype.'; name='.md5(microtime()).'.'.$contenttype);
+			switch ($contenttype)
+			{
+				case 'swf': Header('Content-type: application/x-shockwave-flash; name='.md5(microtime()).'.'.$contenttype); break;
+				case 'dcr': Header('Content-type: application/x-director; name='.md5(microtime()).'.'.$contenttype); break;
+				case 'rpm': Header('Content-type: audio/x-pn-realaudio-plugin; name='.md5(microtime()).'.'.$contenttype); break;
+				case 'mov': Header('Content-type: video/quicktime; name='.md5(microtime()).'.'.$contenttype); break;
+				default:	Header('Content-type: image/'.$contenttype.'; name='.md5(microtime()).'.'.$contenttype); break;
+			}
 		}
 		
 		echo $row['contents'];
