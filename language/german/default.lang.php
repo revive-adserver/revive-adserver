@@ -1,4 +1,4 @@
-<?php // $Revision: 1.10 $
+<?php // $Revision: 1.11 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -334,7 +334,7 @@ $GLOBALS['strCustom'] = "Benutzerdefiniert";
 $GLOBALS['strSettings'] = "Einstellungen";
 
 $GLOBALS['strAffiliates']				= "Affiliates";
-$GLOBALS['strAffiliatesAndZones']		= "Affiliates & Zonen";
+$GLOBALS['strAffiliatesAndZones']		= "Affiliates + Zonen";
 $GLOBALS['strAddAffiliate']				= "Affiliate erstellen";
 $GLOBALS['strModifyAffiliate']			= "Affiliate bearbeiten";
 $GLOBALS['strAddNewAffiliate']			= "Neues Affiliate hinzufügen";
@@ -396,7 +396,7 @@ $GLOBALS['strDistribution']				= "Distribution";
 $GLOBALS['strOther']					= "Andere";
 $GLOBALS['strUnknown']					= "Unbekannt";
 
-$GLOBALS['strWelcomeTo']				= "Welcome to";
-$GLOBALS['strEnterUsername']			= "Enter your username and password to log in";
+$GLOBALS['strWelcomeTo']				= "Willkommen zu";
+$GLOBALS['strEnterUsername']			= "Zum Einloggen Benutzername und Paßwort eingeben";
 
 ?>
