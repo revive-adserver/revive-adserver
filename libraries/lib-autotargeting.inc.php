@@ -124,6 +124,37 @@ function phpAds_AutoTargetingPrepareProfile($weeks = 2)
 {
 	global $phpAds_config, $phpAds_dbmsname;
 	
+	$profile = array(0, 0, 0, 0, 0, 0, 0);
+	
+	// Get the number of days running
+	if ($phpAds_config['compact_stats'])
+	{
+		$res = phpAds_dbQuery("SELECT UNIX_TIMESTAMP(MIN(day)) AS days_running FROM ".$phpAds_config['tbl_adstats']." WHERE day > 0 AND hour > 0");
+		$days_running = phpAds_dbResult($res, 0, 'days_running');
+	}
+	else
+	{
+		$res = phpAds_dbQuery("SELECT UNIX_TIMESTAMP(MIN(t_stamp)) AS days_running FROM ".$phpAds_config['tbl_adviews']);
+		$days_running = phpAds_dbResult($res, 0, 'days_running');
+	}
+
+	if ($days_running > 0)
+	{
+		$now = mktime (0, 0, 0, date('m'), date('d'), date('Y'));
+		$days_running = $now - $days_running + (date('I', $days_running) - date('I', $now)) * 60;
+		$days_running = round ($days_running / (60 * 60 * 24)) - 1;
+	}
+
+	if ($days_running < $weeks * 7)
+	{
+		if ($days_running < 7)
+			// Not enough stats
+			return $profile;
+		else
+			// Use only the available weeks
+			$weeks = floor($days_running / 7);
+	}
+
 	if ($phpAds_config['compact_stats'])
 	{
 		$begin   = date('Y-m-d', phpAds_makeTimestamp(phpAds_LastMidnight, - (60 * 60 * 24 * 7 * $weeks)));
@@ -164,8 +195,6 @@ function phpAds_AutoTargetingPrepareProfile($weeks = 2)
 				dow
 			");
 	}
-	
-	$profile = array(0, 0, 0, 0, 0, 0, 0);
 	
 	// Fill profile
 	while ($row = phpAds_dbFetchArray($res_views))
