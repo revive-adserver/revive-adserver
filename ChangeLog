@@ -17,6 +17,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-07-29:  Added expand all / collapse all buttons to banner overview page (Niels)
 			  - 2002-07-30:  Added phpAds_dbmsname variable to store the db backend name for easier porting  (Matteo)
 			  - 2002-08-01:  The limit when using the more compact way to link banners to zones in now configurable  (Niels)
+			  - 2002-08-15:  During the login, passwords are transmitted as md5 digests, instead of plain text  (Niels)
 
 			+ Misc bugfixes
 			  - 2002-07-25:  On some systems history pages showed '-0' instead of simply '-' (Matteo)
