@@ -27,6 +27,11 @@ phpAds_registerGlobal ('selection');
 phpAds_checkAccess(phpAds_Admin+phpAds_Client+phpAds_Affiliate);
 
 
+// Load translations
+@include (phpAds_path.'/language/english/report.lang.php');
+if ($phpAds_config['language'] != 'english' && file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/report.lang.php'))
+	@include (phpAds_path.'/language/'.$phpAds_config['language'].'/report.lang.php');
+
 
 /*********************************************************/
 /* HTML framework                                        */

@@ -24,8 +24,7 @@ function Plugin_ZonehistoryInfo()
 	
 	$plugininfo = array (
 		"plugin-name"			=> $strZoneHistory,
-		"plugin-description"	=> "Generate an overview of the history of the selected zone.
-									The report is exported as CSV for use in a spreadsheet.",
+		"plugin-description"	=> $strPluginZone,
 		"plugin-author"			=> "Niels Leenheer",
 		"plugin-export"			=> "csv",
 		"plugin-authorize"		=> phpAds_Admin+phpAds_Affiliate,
@@ -35,7 +34,7 @@ function Plugin_ZonehistoryInfo()
 				"title"					=> $strZone,
 				"type"					=> "zoneid-dropdown" ),
 			"delimiter"		=> array (
-				"title"					=> "Delimiter",
+				"title"					=> $strDelimiter,
 				"type"					=> "edit",
 				"size"					=> 1,
 				"default"				=> "," ) )

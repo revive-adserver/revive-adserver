@@ -24,8 +24,7 @@ function Plugin_CampaignhistoryInfo()
 	
 	$plugininfo = array (
 		"plugin-name"			=> $strCampaignHistory,
-		"plugin-description"	=> "Generate an overview of the history of the selected campaign.
-									The report is exported as CSV for use in a spreadsheet.",
+		"plugin-description"	=> $strPluginCampaign,
 		"plugin-author"			=> "Niels Leenheer",
 		"plugin-export"			=> "csv",
 		"plugin-authorize"		=> phpAds_Admin+phpAds_Client,
@@ -35,7 +34,7 @@ function Plugin_CampaignhistoryInfo()
 				"title"					=> $strCampaign,
 				"type"					=> "campaignid-dropdown" ),
 			"delimiter"		=> array (
-				"title"					=> "Delimiter",
+				"title"					=> $strDelimiter,
 				"type"					=> "edit",
 				"size"					=> 1,
 				"default"				=> "," ) )

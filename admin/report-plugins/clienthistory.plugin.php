@@ -24,8 +24,7 @@ function Plugin_ClienthistoryInfo()
 	
 	$plugininfo = array (
 		"plugin-name"			=> $strClientHistory,
-		"plugin-description"	=> "Generate an overview of the history of the selected advertiser.
-									The report is exported as CSV for use in a spreadsheet.",
+		"plugin-description"	=> $strPluginClient,
 		"plugin-author"			=> "Niels Leenheer",
 		"plugin-export"			=> "csv",
 		"plugin-authorize"		=> phpAds_Admin+phpAds_Client,
@@ -35,7 +34,7 @@ function Plugin_ClienthistoryInfo()
 				"title"					=> $strClient,
 				"type"					=> "clientid-dropdown" ),
 			"delimiter"		=> array (
-				"title"					=> "Delimiter",
+				"title"					=> $strDelimiter,
 				"type"					=> "edit",
 				"size"					=> 1,
 				"default"				=> "," ) )

@@ -24,15 +24,14 @@ function Plugin_GlobalhistoryInfo()
 	
 	$plugininfo = array (
 		"plugin-name"			=> $strGlobalHistory,
-		"plugin-description"	=> "Generate an overview of the global history.
-									The report is exported as CSV for use in a spreadsheet.",
+		"plugin-description"	=> $strPluginGlobal,
 		"plugin-author"			=> "Niels Leenheer",
 		"plugin-export"			=> "csv",
 		"plugin-authorize"		=> phpAds_Admin,
 		"plugin-execute"		=> "Plugin_GlobalhistoryExecute",
 		"plugin-import"			=> array (
 			"delimiter"		=> array (
-				"title"					=> "Delimiter",
+				"title"					=> $strDelimiter,
 				"type"					=> "edit",
 				"size"					=> 1,
 				"default"				=> "," ) )
