@@ -14,26 +14,26 @@
 
 
 // Public name of the plugin info function
-$plugin_info_function		= "Plugin_CampaignhistoryInfo";
+$plugin_info_function		= "Plugin_ClienthistoryInfo";
 
 
 // Public info function
-function Plugin_CampaignhistoryInfo()
+function Plugin_ClienthistoryInfo()
 {
-	global $strCampaignHistory, $strCampaign;
+	global $strClientHistory, $strClient;
 	
 	$plugininfo = array (
-		"plugin-name"			=> $strCampaignHistory,
-		"plugin-description"	=> "Generate an overview of the history of the selected campaign.
+		"plugin-name"			=> $strClientHistory,
+		"plugin-description"	=> "Generate an overview of the history of the selected advertiser.
 									The report is exported as CSV for use in a spreadsheet.",
 		"plugin-author"			=> "Niels Leenheer",
 		"plugin-export"			=> "csv",
 		"plugin-authorize"		=> phpAds_Admin+phpAds_Client,
-		"plugin-execute"		=> "Plugin_CampaignhistoryExecute",
+		"plugin-execute"		=> "Plugin_ClienthistoryExecute",
 		"plugin-import"			=> array (
 			"campaignid"			=> array (
-				"title"					=> $strCampaign,
-				"type"					=> "campaignid-dropdown" ),
+				"title"					=> $strClient,
+				"type"					=> "clientid-dropdown" ),
 			"delimiter"		=> array (
 				"title"					=> "Delimiter",
 				"type"					=> "edit",
@@ -50,20 +50,22 @@ function Plugin_CampaignhistoryInfo()
 /* Private plugin function                               */
 /*********************************************************/
 
-function Plugin_CampaignhistoryExecute($campaignid, $delimiter=",")
+function Plugin_ClienthistoryExecute($clientid, $delimiter=",")
 {
 	global $phpAds_config, $date_format;
-	global $strCampaign, $strTotal, $strDay, $strViews, $strClicks, $strCTRShort;
+	global $strClient, $strTotal, $strDay, $strViews, $strClicks, $strCTRShort;
 	
-	header ("Content-type: application/csv\nContent-Disposition: \"inline; filename=campaignhistory.csv\"");
+	header ("Content-type: application/csv\nContent-Disposition: \"inline; filename=clienthistory.csv\"");
 	
 	$idresult = phpAds_dbQuery ("
 		SELECT
-			bannerid
+			b.bannerid
 		FROM
-			".$phpAds_config['tbl_banners']."
+			".$phpAds_config['tbl_banners']." AS b,
+			".$phpAds_config['tbl_clients']." AS c
 		WHERE
-			clientid = ".$campaignid."
+			c.parent = ".$clientid." AND
+			c.clientid = b.clientid
 	");
 	
 	while ($row = phpAds_dbFetchArray($idresult))
@@ -137,7 +139,7 @@ function Plugin_CampaignhistoryExecute($campaignid, $delimiter=",")
 		}
 	}
 	
-	echo $strCampaign.": ".phpAds_getClientName ($campaignid)."\n\n";
+	echo $strClient.": ".phpAds_getClientName ($campaignid)."\n\n";
 	echo $strDay.$delimiter.$strViews.$delimiter.$strClicks.$delimiter.$strCTRShort."\n";
 	
 	$totalclicks = 0;

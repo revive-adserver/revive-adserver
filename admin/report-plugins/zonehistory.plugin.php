@@ -14,26 +14,26 @@
 
 
 // Public name of the plugin info function
-$plugin_info_function		= "Plugin_CampaignhistoryInfo";
+$plugin_info_function		= "Plugin_ZonehistoryInfo";
 
 
 // Public info function
-function Plugin_CampaignhistoryInfo()
+function Plugin_ZonehistoryInfo()
 {
-	global $strCampaignHistory, $strCampaign;
+	global $strZoneHistory, $strZone;
 	
 	$plugininfo = array (
-		"plugin-name"			=> $strCampaignHistory,
-		"plugin-description"	=> "Generate an overview of the history of the selected campaign.
+		"plugin-name"			=> $strZoneHistory,
+		"plugin-description"	=> "Generate an overview of the history of the selected zone.
 									The report is exported as CSV for use in a spreadsheet.",
 		"plugin-author"			=> "Niels Leenheer",
 		"plugin-export"			=> "csv",
-		"plugin-authorize"		=> phpAds_Admin+phpAds_Client,
-		"plugin-execute"		=> "Plugin_CampaignhistoryExecute",
+		"plugin-authorize"		=> phpAds_Admin+phpAds_Affiliate,
+		"plugin-execute"		=> "Plugin_ZonehistoryExecute",
 		"plugin-import"			=> array (
 			"campaignid"			=> array (
-				"title"					=> $strCampaign,
-				"type"					=> "campaignid-dropdown" ),
+				"title"					=> $strZone,
+				"type"					=> "zoneid-dropdown" ),
 			"delimiter"		=> array (
 				"title"					=> "Delimiter",
 				"type"					=> "edit",
@@ -50,26 +50,12 @@ function Plugin_CampaignhistoryInfo()
 /* Private plugin function                               */
 /*********************************************************/
 
-function Plugin_CampaignhistoryExecute($campaignid, $delimiter=",")
+function Plugin_ZonehistoryExecute($zoneid, $delimiter=",")
 {
 	global $phpAds_config, $date_format;
-	global $strCampaign, $strTotal, $strDay, $strViews, $strClicks, $strCTRShort;
+	global $strZone, $strTotal, $strDay, $strViews, $strClicks, $strCTRShort;
 	
-	header ("Content-type: application/csv\nContent-Disposition: \"inline; filename=campaignhistory.csv\"");
-	
-	$idresult = phpAds_dbQuery ("
-		SELECT
-			bannerid
-		FROM
-			".$phpAds_config['tbl_banners']."
-		WHERE
-			clientid = ".$campaignid."
-	");
-	
-	while ($row = phpAds_dbFetchArray($idresult))
-	{
-		$bannerids[] = "bannerid = ".$row['bannerid'];
-	}
+	header ("Content-type: application/csv\nContent-Disposition: \"inline; filename=zonehistory.csv\"");
 	
 	
 	if ($phpAds_config['compact_stats'])
@@ -82,7 +68,7 @@ function Plugin_CampaignhistoryExecute($campaignid, $delimiter=",")
 			FROM
 				".$phpAds_config['tbl_adstats']."
 			WHERE
-				(".implode(' OR ', $bannerids).")
+				zoneid = ".$zoneid."
 			GROUP BY
 				day
 		";
@@ -104,7 +90,7 @@ function Plugin_CampaignhistoryExecute($campaignid, $delimiter=",")
 			FROM
 				".$phpAds_config['tbl_adviews']."
 			WHERE
-				(".implode(' OR ', $bannerids).")
+				zoneid = ".$zoneid."
 			GROUP BY
 				day
 		";
@@ -124,7 +110,7 @@ function Plugin_CampaignhistoryExecute($campaignid, $delimiter=",")
 			FROM
 				".$phpAds_config['tbl_adclicks']."
 			WHERE
-				(".implode(' OR ', $bannerids).")
+				zoneid = ".$zoneid."
 			GROUP BY
 				day
 		";
@@ -137,7 +123,7 @@ function Plugin_CampaignhistoryExecute($campaignid, $delimiter=",")
 		}
 	}
 	
-	echo $strCampaign.": ".phpAds_getClientName ($campaignid)."\n\n";
+	echo $strZone.": ".phpAds_getZoneName ($zoneid)."\n\n";
 	echo $strDay.$delimiter.$strViews.$delimiter.$strClicks.$delimiter.$strCTRShort."\n";
 	
 	$totalclicks = 0;
