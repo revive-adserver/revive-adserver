@@ -501,6 +501,7 @@ function phpAds_upgradeSplitBanners ()
 					// Store the file
 					$banners[$i]['filename']	 = 'banner_'.$banners[$i]['bannerid'].'.'.$banners[$i]['contenttype'];
 					$banners[$i]['filename'] 	 = phpAds_ImageStore($banners[$i]['storagetype'], $banners[$i]['filename'], $banners[$i]['banner']);
+					$banners[$i]['imageurl']	 = $phpAds_config['url_prefix'].'/adimage.php?filename='.$banners[$i]['filename']."&contenttype=".$banners[$i]['contenttype'];
 					$banners[$i]['banner']		 = '';
 					
 					// Set the html template
@@ -524,6 +525,7 @@ function phpAds_upgradeSplitBanners ()
 					
 					// Store the file
 					$banners[$i]['filename']	 = basename($banners[$i]['banner']);
+					$banners[$i]['imageurl']	 = $banners[$i]['banner'];
 					$banners[$i]['banner']		 = '';
 					
 					// Set the html template
@@ -547,7 +549,8 @@ function phpAds_upgradeSplitBanners ()
 						case 'swf':  $banners[$i]['contenttype'] = 'swf';   break;
 					}
 					
-					$banners[$i]['filename']	 = $banners[$i]['banner'];
+					$banners[$i]['imageurl']	 = $banners[$i]['banner'];
+					$banners[$i]['filename']	 = '';
 					$banners[$i]['banner']		 = '';
 					
 					// Set the html template
@@ -559,6 +562,7 @@ function phpAds_upgradeSplitBanners ()
 				case 'html':
 					// Get the contenttype
 					$banners[$i]['contenttype']  = 'html';
+					$banners[$i]['imageurl']	 = '';
 					$banners[$i]['filename']	 = '';
 					$banners[$i]['banner']		 = '';
 					
@@ -576,6 +580,7 @@ function phpAds_upgradeSplitBanners ()
 					storagetype = '".$banners[$i]['storagetype']."',
 					contenttype = '".$banners[$i]['contenttype']."',
 					filename = '".$banners[$i]['filename']."',
+					imageurl = '".$banners[$i]['imageurl']."',
 					banner = '".$banners[$i]['banner']."',
 					htmltemplate = '".$banners[$i]['htmltemplate']."',
 					htmlcache = '".$banners[$i]['htmlcache']."',
