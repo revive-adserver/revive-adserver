@@ -24,6 +24,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-08-18:  Reinstated the old 'Browser' delivery limitation which is now called 'Useragent'  (Niels)
 			  - 2002-08-31:  Added option to force browsers to use SSL when using the admin interface  (Niels)
 			  - 2002-09-02:  Added seperate pruning of the database for the userlog  (Niels)
+			  - 2002-09-07:  Added delay and exit-console support to pop-ups  (Niels)
 
 			+ Misc bugfixes
 			  - 2002-07-25:  On some systems history pages showed '-0' instead of simply '-' (Matteo)
@@ -66,6 +67,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-09-03:  When using Webserver stored images, the old image wasn't cleaned up if a new one was uploaded  (Niels)
 			  - 2002-09-03:  Errormessages during the configuration of the FTP server appeared in the wrong block  (Niels)
 			  - 2002-09-03:  An incorrect path name for the FTP server appeared during editing the FTP settings, if it had been previously left empty  (Niels)
+			  - 2002-09-07:  Changed check for localmode during invocationcode generation from hostname to IP address  (Niels)
 
 
 
