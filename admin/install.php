@@ -40,6 +40,10 @@ if (isset($installvars) && is_array($installvars))
 		$phpAds_config[$key] = $installvars[$key];
 
 
+// Overwrite language if not set
+if (!isset($installvars['language']) && isset($language))
+	$phpAds_config['language'] = $language;
+
 
 // Load language strings
 if (!isset($phpAds_config['language']))
