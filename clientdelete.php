@@ -23,7 +23,7 @@ if (isset($clientID))
 			clientID = $clientID
 		") or mysql_die();
 	while ($row = mysql_fetch_array($res_banners))
-		db_delete_stats($bannerID);
+		db_delete_stats($row['bannerID']);
 
 	db_query("
 		DELETE FROM
