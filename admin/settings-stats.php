@@ -35,7 +35,7 @@ $sql = array();
 if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 {
 	if (isset($compact_stats))
-		phpAds_SettingsWriteAdd('compact_stats', $compact_stats);
+		phpAds_SettingsWriteAdd('compact_stats', ($compact_stats == '1'));
 	
 	phpAds_SettingsWriteAdd('log_adviews', isset($log_adviews));
 	phpAds_SettingsWriteAdd('log_adclicks', isset($log_adclicks));
