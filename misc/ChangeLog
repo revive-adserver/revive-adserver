@@ -20,6 +20,7 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-01-22:  If plain remote invocation is used and cookies are disabled, adclick will now redirect back to the originating webpage  (Niels)
 			  - 2003-02-03:  Added the ability to preview banners from the zone probability page  (Niels)
 			  - 2003-02-07:  Added automatic filtering of private IP addresses passed as a proxy header  (Matteo)
+			  - 2003-02-09:  Added warning when weight or target isn't set on campaign properties page  (Niels)
 			  - 2003-02-11:  Added HTTP referer delivery limitation; it's working with local, js and xmlrpc invocations only  (Matteo)
 
 			+ Misc bugfixes
@@ -46,6 +47,8 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-02-03:  Fixed Javascript error when no hostsnames needed to be fetched  (Niels)
 			  - 2003-02-03:  Removed link to banner properties page from the probability page when logged in as a publisher  (Niels)
 			  - 2003-02-11:  Fixed incompatibilites with register_globals off into xmlrpc invocation class  (Matteo)
+			  - 2003-02-12:  Campaigns are now visibly deactivated when it's weight is zero and the target is also zero  (Niels)
+			  - 2003-02-12:  On the Linked banners page the buttons to change the view now don't revert back to the original link type when the type was changed manually  (Niels)
 			
 
 v 2.0rc2		+ Misc bugfixes
