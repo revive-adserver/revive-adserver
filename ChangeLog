@@ -141,6 +141,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-05-04:  Added option to local mode invocation generator for generating view_raw() based template compatible code  (Niels)
 			  - 2002-05-06:  Changed generated HTML to make it more compatible with W3C standards  (Niels)
 			  - 2002-05-06:  Added wildcard support to source display limitation  (Niels)
+			  - 2002-05-07:  Speed optimalisations for display limitations  (Niels)
 
 
 			+ Misc bugfixes
