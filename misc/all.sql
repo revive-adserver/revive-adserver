@@ -94,6 +94,7 @@ CREATE TABLE phpads_adviews (
 CREATE TABLE phpads_images (
    filename varchar(128) NOT NULL,
    contents mediumblob NOT NULL,
+   t_stamp timestamp(14),
    PRIMARY KEY (filename)
 );
 

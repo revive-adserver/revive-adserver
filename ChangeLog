@@ -33,6 +33,8 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-08-08:  Delivery limitations can now contain quotes without generation errors during delivery  (Niels)
 			  - 2002-08-08:  Adview.php tried to display Flash banners during plain remote invocation  (Niels)
 			  - 2002-08-08:  Time capping and log protection can now handle a 6 hour time difference between user and server  (Niels)
+			  - 2002-08-10:  Made a couple of pages compatible with RTL language files  (Niels)
+			  - 2002-08-11:  Made the output of adimage better cachable by the browser  (Niels)
 
 
 

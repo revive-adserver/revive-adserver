@@ -32,7 +32,8 @@ if (isset($filename) && $filename != '')
 {
 	$res = phpAds_dbQuery("
 		SELECT
-			contents
+			contents,
+			UNIX_TIMESTAMP(t_stamp) AS t_stamp
 		FROM
 			".$phpAds_config['tbl_images']."
 		WHERE
@@ -52,15 +53,17 @@ if (isset($filename) && $filename != '')
 		// Filename found, dump contents to browser
 		$row = phpAds_dbFetchArray($res);
 		
+		Header ("Last-Modified: ".gmdate('D, d M Y H:i:s', $row['t_stamp']).' GMT');
+		
 		if (isset($contenttype) && $contenttype != '')
 		{
 			switch ($contenttype)
 			{
-				case 'swf': Header('Content-type: application/x-shockwave-flash; name='.md5(microtime()).'.'.$contenttype); break;
-				case 'dcr': Header('Content-type: application/x-director; name='.md5(microtime()).'.'.$contenttype); break;
-				case 'rpm': Header('Content-type: audio/x-pn-realaudio-plugin; name='.md5(microtime()).'.'.$contenttype); break;
-				case 'mov': Header('Content-type: video/quicktime; name='.md5(microtime()).'.'.$contenttype); break;
-				default:	Header('Content-type: image/'.$contenttype.'; name='.md5(microtime()).'.'.$contenttype); break;
+				case 'swf': Header('Content-type: application/x-shockwave-flash; name='.$filename); break;
+				case 'dcr': Header('Content-type: application/x-director; name='.$filename); break;
+				case 'rpm': Header('Content-type: audio/x-pn-realaudio-plugin; name='.$filename); break;
+				case 'mov': Header('Content-type: video/quicktime; name='.$filename); break;
+				default:	Header('Content-type: image/'.$contenttype.'; name='.$filename); break;
 			}
 		}
 		
