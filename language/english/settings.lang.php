@@ -287,9 +287,9 @@ $GLOBALS['strAdminUsername']			= "Admin's username";
 $GLOBALS['strInvalidUsername']			= "Invalid username";
 
 $GLOBALS['strBasicInformation']			= "Basic information";
-$GLOBALS['strAdminFullName']			= "Admin's full name";
-$GLOBALS['strAdminEmail']			= "Admin's email address";
-$GLOBALS['strCompanyName']			= "Company Name";
+$GLOBALS['strAdminFullName']			= "Full name";
+$GLOBALS['strAdminEmail']			= "Email address";
+$GLOBALS['strCompanyName']			= "Company name";
 
 $GLOBALS['strAdminCheckUpdates']		= "Check for updates";
 $GLOBALS['strAdminCheckEveryLogin']		= "Every login";

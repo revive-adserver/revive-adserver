@@ -17,6 +17,11 @@
 
   ====================================================
 
+  07-29-2003 - settings
+    [u] strAdminFullName
+    [u] strAdminEmail
+    [u] strCompanyName
+
   07-28-2003 - settings
     [u] strLanguageSelection
     [u] strDatabaseSettings

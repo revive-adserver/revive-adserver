@@ -56,7 +56,8 @@ require ("../config.inc.php");
 // Register input variables
 require ("../libraries/lib-io.inc.php");
 phpAds_registerGlobal ('installvars', 'language', 'phase', 'dbhost', 'dbport', 'dbuser', 'dbpassword', 'dbname', 'table_prefix', 
-					   'table_type', 'admin', 'admin_pw', 'admin_pw2', 'url_prefix', 'arraybugcheck', 'ignore');
+					   'table_type', 'admin', 'admin_pw', 'admin_pw2', 'url_prefix', 'arraybugcheck', 'ignore', 'admin_fullname',
+					   'company_name', 'admin_email');
 
 
 // Set URL prefix
@@ -229,10 +230,13 @@ if (phpAds_isUser(phpAds_Admin))
 
 			if (!isset($errormessage) || !count($errormessage))
 			{
-				$installvars['admin'] 		 = $admin;
-				$installvars['admin_pw'] 	 = md5($admin_pw);
-				$installvars['url_prefix']   = $url_prefix;
-				$installvars['language'] 	 = $language;
+				$installvars['admin_fullname'] 	= $admin_fullname;
+				$installvars['company_name'] 	= $company_name;
+				$installvars['admin_email'] 	= $admin_email;
+				$installvars['language'] 	 	= $language;
+				$installvars['admin'] 		 	= $admin;
+				$installvars['admin_pw'] 	 	= md5($admin_pw);
+				$installvars['url_prefix']   	= $url_prefix;
 			}
 			
 			
@@ -329,7 +333,6 @@ if (phpAds_isUser(phpAds_Admin))
 							{
 								// Insert basic settings into database and config file
 								phpAds_SettingsWriteAdd('config_version', $phpAds_version);
-								phpAds_SettingsWriteAdd('language', $installvars['language']);
 								
 								phpAds_SettingsWriteAdd('dbhost', $installvars['dbhost']);
 								phpAds_SettingsWriteAdd('dbport', $installvars['dbport']);
@@ -353,6 +356,11 @@ if (phpAds_isUser(phpAds_Admin))
 								phpAds_SettingsWriteAdd('tbl_userlog', $installvars['tbl_userlog']);
 								phpAds_SettingsWriteAdd('tbl_cache', $installvars['tbl_cache']);
 								phpAds_SettingsWriteAdd('tbl_targetstats', $installvars['tbl_targetstats']);
+								
+								phpAds_SettingsWriteAdd('admin_fullname', $installvars['admin_fullname']);
+								phpAds_SettingsWriteAdd('company_name', $installvars['company_name']);
+								phpAds_SettingsWriteAdd('admin_email', $installvars['admin_email']);
+								phpAds_SettingsWriteAdd('language', $installvars['language']);
 								
 								phpAds_SettingsWriteAdd('admin', $installvars['admin']);
 								phpAds_SettingsWriteAdd('admin_pw', $installvars['admin_pw']);
@@ -513,6 +521,46 @@ if (phpAds_isUser(phpAds_Admin))
 					'items'	  => array (
 						array (
 							'type' 	  => 'text', 
+							'name' 	  => 'admin_fullname',
+							'text' 	  => $strAdminFullName,
+							'size'	  => 35,
+							'req'	  => true
+						),
+						array (
+							'type'    => 'break'
+						),
+						array (
+							'type' 	  => 'text', 
+							'name' 	  => 'company_name',
+							'text' 	  => $strCompanyName,
+							'size'	  => 35
+						),
+						array (
+							'type'    => 'break'
+						),
+						array (
+							'type' 	  => 'text', 
+							'name' 	  => 'admin_email',
+							'text' 	  => $strAdminEmail,
+							'size'	  => 35,
+							'check'	  => 'email',
+							'req'	  => true
+						),
+						array (
+							'type'    => 'break'
+						),
+						array (
+							'type' 	  => 'select', 
+							'name' 	  => 'language',
+							'text' 	  => $strLanguage,
+							'items'   => phpAds_AvailableLanguages()
+						),
+						array (
+							'type'    => 'break',
+							'size'	  => 'full'
+						),
+						array (
+							'type' 	  => 'text', 
 							'name' 	  => 'admin',
 							'text' 	  => $strUsername,
 							'size'	  => 25,
@@ -538,17 +586,7 @@ if (phpAds_isUser(phpAds_Admin))
 							'size'	  => 25,
 							'check'	  => 'compare:admin_pw',
 							'req'	  => true
-						),
-						array (
-							'type'    => 'break'
-						),
-						array (
-							'type' 	  => 'select', 
-							'name' 	  => 'language',
-							'text' 	  => $strLanguage,
-							'items'   => phpAds_AvailableLanguages()
 						)
-						
 					)
 				),
 				array (
