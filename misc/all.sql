@@ -7,6 +7,7 @@
 CREATE TABLE phpads_affiliates (
    affiliateid mediumint(9) NOT NULL AUTO_INCREMENT,
    name varchar(255) NOT NULL,
+   website varchar(255),
    contact varchar(255),
    email varchar(64) NOT NULL,
    username varchar(64),
