@@ -76,6 +76,9 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'proxy_lookup' =>				array ('type' => 'boolean', 'sql' => false),
 	'ui_enabled' =>					array ('type' => 'boolean', 'sql' => false),
 	'ui_forcessl' =>				array ('type' => 'boolean', 'sql' => false),
+	'log_source' =>					array ('type' => 'boolean', 'sql' => false),
+	'log_hostname' =>				array ('type' => 'boolean', 'sql' => false),
+	'log_iponly' =>					array ('type' => 'boolean', 'sql' => false),
 	
 	'my_header' =>					array ('type' => 'string', 'sql' => true),
 	'my_footer' =>					array ('type' => 'string', 'sql' => true),

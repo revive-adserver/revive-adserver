@@ -100,7 +100,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 	{
 		if (phpAds_SettingsWriteFlush())
 		{
-			header("Location: settings-stats.php");
+			header("Location: settings-admin.php");
 			exit;
 		}
 	}

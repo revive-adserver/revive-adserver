@@ -44,17 +44,20 @@ $phpAds_settings_sections = array(
 	"1.2.1"		=> $strDeliverySettings,
 	"1.2.2"		=> $strAllowedInvocationTypes,
 	"1.2.3"		=> $strP3PSettings,
-	"1.3"		=> $strBannerSettings,
-	"1.3.1"		=> $strDefaultBanners,
-	"1.3.2"		=> $strAllowedBannerTypes,
-	"1.3.3"		=> $strTypeWebSettings,
-	"1.3.4"		=> $strTypeHtmlSettings,
+	"1.5"		=> $strHostAndGeo,
+	"1.5.1"		=> $strRemoteHost,
+	"1.5.2"		=> $strGeotargeting,
 	"1.4"		=> $strStatisticsSettings,
 	"1.4.1"		=> $strStatisticsFormat,
 	"1.4.2"		=> $strGeotargeting,
 	"1.4.3"		=> $strEmailWarnings,
 	"1.4.4"		=> $strRemoteHosts,
 	"1.4.5"		=> $strAutoCleanTables,
+	"1.3"		=> $strBannerSettings,
+	"1.3.1"		=> $strDefaultBanners,
+	"1.3.2"		=> $strAllowedBannerTypes,
+	"1.3.3"		=> $strTypeWebSettings,
+	"1.3.4"		=> $strTypeHtmlSettings,
 	"2"			=> $strAdminSettings,
 	"2.1"		=> $strAdministratorSettings,
 	"2.1.1"		=> $strLoginCredentials,
@@ -107,8 +110,9 @@ function settings_goto_section()
           <?php
 			echo "<option value='db'".($section == 'db' ? ' selected' : '').">".$phpAds_settings_sections["1.1"]."</option>";
 			echo "<option value='invocation'".($section == 'invocation' ? ' selected' : '').">".$phpAds_settings_sections["1.2"]."</option>";
-			echo "<option value='banner'".($section == 'banner' ? ' selected' : '').">".$phpAds_settings_sections["1.3"]."</option>";
+			echo "<option value='host'".($section == 'host' ? ' selected' : '').">".$phpAds_settings_sections["1.5"]."</option>";
 			echo "<option value='stats'".($section == 'stats' ? ' selected' : '').">".$phpAds_settings_sections["1.4"]."</option>";
+			echo "<option value='banner'".($section == 'banner' ? ' selected' : '').">".$phpAds_settings_sections["1.3"]."</option>";
 			echo "<option value='admin'".($section == 'admin' ? ' selected' : '').">".$phpAds_settings_sections["2.1"]."</option>";
 			echo "<option value='interface'".($section == 'interface' ? ' selected' : '').">".$phpAds_settings_sections["2.2"]."</option>";
 			echo "<option value='defaults'".($section == 'defaults' ? ' selected' : '').">".$phpAds_settings_sections["2.3"]."</option>";
@@ -245,10 +249,10 @@ function phpAds_settings_text($name, $text, $size = 25, $type = 'text', $rows = 
 ?>
   <tr onMouseOver="setHelp('<?php echo "$name";?>')"> 
     <td width='30'><?php echo $padlock;?></td>
-    <td width='200'> 
+    <td width='200' valign='top'> 
       <?php echo $text; ?>
     </td>
-    <td width="100%"> 
+    <td width="100%" valign='top'> 
       <?php
 	if ($type == 'textarea')
 		echo "<textarea class='flat' name='$name' size='$size' rows='$rows'$extra>".htmlspecialchars($value)."</textarea>";
@@ -346,7 +350,7 @@ function phpAds_settings_break($size = '')
 	?>
 	  <tr> 
 	    <td width="30"><img src='images/spacer.gif' height='1' width='100%'></td>
-	    <td width="200"><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
+	    <td width="200"><img src='images/break-l.gif' height='1' width='200' vspace='10'></td>
 	    <td width="100%">&nbsp;</td>
 	  </tr>
 	  <?php
@@ -373,7 +377,7 @@ function phpAds_settings_break($size = '')
 	?>
 	  <tr> 
 	    <td width="30"><img src='images/spacer.gif' height='1' width='100%'></td>
-	    <td width="200"><img src='images/spacer.gif' height='1' width='200' vspace='6'></td>
+	    <td width="200"><img src='images/spacer.gif' height='1' width='200' vspace='10'></td>
 	    <td width="100%">&nbsp;</td>
 	  </tr>
 	  <?php
@@ -386,7 +390,7 @@ function phpAds_settings_break($size = '')
 /* Add a settings checkbox                               */
 /*********************************************************/
 
-function phpAds_settings_checkbox($name, $text, $depends = '', $parent = '', $value = '')
+function phpAds_settings_checkbox($name, $indent, $text, $depends = '', $parent = '', $value = '')
 {
 	global $phpAds_config, $phpAds_settings_information;
 	
@@ -448,20 +452,20 @@ function phpAds_settings_checkbox($name, $text, $depends = '', $parent = '', $va
 		}
 	}
 	
+	echo "<tr onMouseOver=\"setHelp('".$name."')\">";
+    echo "<td width='30'>".$padlock."</td>";
+    echo "<td colspan='2' width='100%'>";
 	
-?>
-  <tr onMouseOver="setHelp('<?php echo "$name";?>')"> 
-    <td width='30'><?php echo $padlock;?></td>
-    <td colspan='2' width='100%'> 
-      <?php
+	if ($indent)
+		echo "<img src='images/indent.gif'>";
+	
 	echo "<input type='checkbox' name='${name}_chkbx'".($value == 't' ? ' checked' : '')." onClick=\"$onClick\"$extra>";
 	echo $text;
+	
 	if (!$locked)
 		echo "<input type='hidden' name='$name' value='$value'>";
-?>
-    </td>
-  </tr>
-  <?php
+    
+	echo "</td></tr>";
 }
 
 
@@ -553,15 +557,30 @@ function phpAds_AddSettings($type, $name, $args = '')
 		$args[$k] = str_replace("'", "\\'", $v);
 	}
 	
+	if (substr($type, strlen($type) - 1, 1) == '+')
+	{
+		$type = substr($type, 0, strlen($type) - 1);
+		$indent = true;
+	}
+	else
+		$indent = false;
+	
+	
 	switch ($type)
 	{
 		case 'text':
 		case 'select':
 		case 'colorpicker':
-		case 'checkbox':
 			$phpAds_settings_help_cache .= phpAds_SettingsHelp($name);
 			$phpAds_settings_cache[] =
 				"phpAds_settings_".$type."('$name', '".
+				join("', '", $args).
+				"')";
+			break;
+		case 'checkbox':
+			$phpAds_settings_help_cache .= phpAds_SettingsHelp($name);
+			$phpAds_settings_cache[] =
+				"phpAds_settings_".$type."('$name', ".($indent ? 'true' : 'false').", '".
 				join("', '", $args).
 				"')";
 			break;

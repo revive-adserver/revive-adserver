@@ -149,7 +149,7 @@ function phpads_logCheckHost()
 		}
 	}
 	
-	return $HTTP_SERVER_VARS['REMOTE_HOST'];
+	return true; //$HTTP_SERVER_VARS['REMOTE_HOST'];
 }
 
 
@@ -160,39 +160,42 @@ function phpads_logCheckHost()
 
 function phpAds_logImpression ($bannerid, $clientid, $zoneid, $source)
 {
-	global $phpAds_config, $phpAds_CountryLookup;
+	global $HTTP_SERVER_VARS, $phpAds_config, $phpAds_CountryLookup;
+	
 	
 	// Check if host is on list of hosts to ignore
 	if ($host = phpads_logCheckHost())
 	{
+		$log_source = $phpAds_config['log_source'] ? $source : '';
+		
 		if ($phpAds_config['compact_stats'])
 	    {
 	        $result = phpAds_dbQuery(
 				"UPDATE ".($phpAds_config['insert_delayed'] ? 'LOW_PRIORITY' : '')." ".
 				$phpAds_config['tbl_adstats']." SET views = views + 1 WHERE day = NOW() 
-				AND hour = HOUR(NOW()) AND bannerid = '$bannerid' AND zoneid = '$zoneid' 
-				AND source = '$source' ");
+				AND hour = HOUR(NOW()) AND bannerid = '".$bannerid."' AND zoneid = '".$zoneid."' 
+				AND source = '".$log_source."' ");
 			
        		if (phpAds_dbAffectedRows() == 0) 
        		{
            		$result = phpAds_dbQuery(
 					"INSERT ".($phpAds_config['insert_delayed'] ? 'DELAYED' : '')." INTO ".
                    	$phpAds_config['tbl_adstats']." SET clicks = 0, views = 1, day = NOW(),
-					hour = HOUR(NOW()), bannerid = '$bannerid', zoneid = '$zoneid', 
-					source = '$source' ");
+					hour = HOUR(NOW()), bannerid = '".$bannerid."', zoneid = '".$zoneid."', 
+					source = '".$log_source."' ");
        		}
    		}
 		else
    		{
-			if ($phpAds_config['geotracking_stats'] && isset ($phpAds_CountryLookup) && $phpAds_CountryLookup)
-				$country = $phpAds_CountryLookup;
-			else
-				$country = '';
+			$log_country = $phpAds_config['geotracking_stats'] && isset ($phpAds_CountryLookup) && $phpAds_CountryLookup ? $phpAds_CountryLookup : '';
+			$log_host    = $phpAds_config['log_hostname'] ? $HTTP_SERVER_VARS['REMOTE_HOST'] : '';
+			$log_host    = $phpAds_config['log_iponly'] ? $HTTP_SERVER_VARS['REMOTE_ADDR'] : $log_host;
 			
    			$result = phpAds_dbQuery(
 				"INSERT ".($phpAds_config['insert_delayed'] ? 'DELAYED' : '')." INTO ".
-				$phpAds_config['tbl_adviews']." SET bannerid = '$bannerid', 
-				zoneid = '$zoneid', host = '$host', source = '$source', country = '$country' ");
+				$phpAds_config['tbl_adviews']." SET bannerid = '".$bannerid."', 
+				zoneid = '".$zoneid."', host = '".$log_host."', source = '".$log_source."', 
+				country = '".$log_country."' ");
 		}
 		
 		phpAds_logExpire ($clientid, phpAds_Views);
@@ -207,39 +210,40 @@ function phpAds_logImpression ($bannerid, $clientid, $zoneid, $source)
 
 function phpAds_logClick($bannerid, $clientid, $zoneid, $source)
 {
-	global $phpAds_config, $phpAds_CountryLookup;
+	global $HTTP_SERVER_VARS, $phpAds_config, $phpAds_CountryLookup;
 	
 	
 	if ($host = phpads_logCheckHost())
 	{
+		$log_source = $phpAds_config['log_source'] ? $source : '';
+		
    		if ($phpAds_config['compact_stats'])
 	    {
     	    $result = phpAds_dbQuery(
 				"UPDATE ".($phpAds_config['insert_delayed'] ? 'LOW_PRIORITY' : '')." ".
 				$phpAds_config['tbl_adstats']." SET clicks = clicks + 1 WHERE day = NOW() AND
-				hour = HOUR(NOW()) AND bannerid = '$bannerid' AND zoneid = '$zoneid' AND
-				source = '$source' ");
+				hour = HOUR(NOW()) AND bannerid = '".$bannerid."' AND zoneid = '".$zoneid."' AND
+				source = '".$log_source."' ");
 			
 	        if (phpAds_dbAffectedRows() == 0) 
         	{
             	$result = phpAds_dbQuery(
 					"INSERT ".($phpAds_config['insert_delayed'] ? 'DELAYED' : '')." INTO ".
 					$phpAds_config['tbl_adstats']." SET clicks = 1, views = 0, day = NOW(),
-					hour = HOUR(NOW()), bannerid = '$bannerid', zoneid = '$zoneid',
-					source = '$source' ");
+					hour = HOUR(NOW()), bannerid = '".$bannerid."', zoneid = '".$zoneid."',
+					source = '".$log_source."' ");
 	        }
     	}
 		else
 		{
-			if ($phpAds_config['geotracking_stats'] && isset ($phpAds_CountryLookup) && $phpAds_CountryLookup)
-				$country = $phpAds_CountryLookup;
-			else
-				$country = '';
+			$log_country = $phpAds_config['geotracking_stats'] && isset ($phpAds_CountryLookup) && $phpAds_CountryLookup ? $phpAds_CountryLookup : '';
+			$log_host    = $phpAds_config['log_hostname'] ? $HTTP_SERVER_VARS['REMOTE_HOST'] : '';
+			$log_host    = $phpAds_config['log_iponly'] ? $HTTP_SERVER_VARS['REMOTE_ADDR'] : $log_host;
 			
     		$result = phpAds_dbQuery(
 				"INSERT ".($phpAds_config['insert_delayed'] ? 'DELAYED' : '')." INTO ".
-				$phpAds_config['tbl_adclicks']." SET bannerid = '$bannerid', zoneid = '$zoneid',
-				host = '$host', source = '$source', country = '$country' ");
+				$phpAds_config['tbl_adclicks']." SET bannerid = '".$bannerid."', zoneid = '".$zoneid."',
+				host = '".$log_host."', source = '".$log_source."', country = '".$log_country."' ");
 		}
 		
 		phpAds_logExpire ($clientid, phpAds_Clicks);

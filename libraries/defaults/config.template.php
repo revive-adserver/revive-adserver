@@ -62,8 +62,14 @@ $phpAds_config['ui_forcessl'] = false;
 
 
 /*********************************************************/
-/* Geotracking configuration                             */
+/* Remote host and Geotracking configuration             */
 /*********************************************************/
+
+// Reverse DNS lookup remotes hosts?
+$phpAds_config['reverse_lookup'] = false;
+
+// Find the correct IP for users behind a proxy
+$phpAds_config['proxy_lookup'] = false;
 
 // Type of geotracking database
 // 0 = None
@@ -80,6 +86,53 @@ $phpAds_config['geotracking_stats'] = false;
 
 // Store the result in a cookie for future reference (only in combination with beacon logging)
 $phpAds_config['geotracking_cookie'] = false;
+
+
+
+/*********************************************************/
+/* Statistics and logging                                */
+/*********************************************************/
+
+// Use compact or verbose statistics
+$phpAds_config['compact_stats'] = false;
+
+// Enabled logging of adviews?
+$phpAds_config['log_adviews'] = true;
+
+// Enabled logging of adclicks?
+$phpAds_config['log_adclicks'] = true;
+
+// Log the source parameter
+$phpAds_config['log_source'] = false;
+
+// Log the hostname or IP address
+$phpAds_config['log_hostname'] = false;
+
+// Log only the IP address even if a hostname is available
+$phpAds_config['log_iponly'] = false;
+
+// Use beacons to log adviews
+$phpAds_config['log_beacon'] = true;
+
+// Hosts to ignore (don't count adviews coming from them)
+$phpAds_config['ignore_hosts'] = array ();   // Example: array('slashdot.org', 'microsoft.com');
+
+// Block logging of views for xx seconds after the last entry
+// This is to prevent logging after each page reload
+$phpAds_config['block_adviews'] = 0;
+
+// Block logging of clicks for xx seconds after the last entry
+// This is to prevent users from boosting the stats by clicking multiple times
+$phpAds_config['block_adclicks'] = 0;
+
+// E-mail admin when clicks/views get low?
+$phpAds_config['warn_admin'] = true;
+
+// E-mail client when clicks/views get low?
+$phpAds_config['warn_client'] = true;
+
+// Minimum clicks/views before warning e-mail is sent
+$phpAds_config['warn_limit'] = 100; 
 
 
 
@@ -101,57 +154,11 @@ $phpAds_config['p3p_policy_location'] = '';
 
 
 /*********************************************************/
-/* Statistics and logging                                */
-/*********************************************************/
-
-// Use compact or verbose statistics
-$phpAds_config['compact_stats'] = false;
-
-// Use beacons to log adviews
-$phpAds_config['log_beacon'] = true;
-
-
-// Enabled logging of adviews?
-$phpAds_config['log_adviews'] = true;
-
-// Block logging of views for xx seconds after the last entry
-// This is to prevent logging after each page reload
-$phpAds_config['block_adviews'] = 0;
-
-// Enabled logging of adclicks?
-$phpAds_config['log_adclicks'] = true;
-
-// Block logging of clicks for xx seconds after the last entry
-// This is to prevent users from boosting the stats by clicking multiple times
-$phpAds_config['block_adclicks'] = 0;
-
-
-// Reverse DNS lookup remotes hosts?
-$phpAds_config['reverse_lookup'] = false;
-
-// Find the correct IP for users behind a proxy
-$phpAds_config['proxy_lookup'] = false;
-
-// Hosts to ignore (don't count adviews coming from them)
-$phpAds_config['ignore_hosts'] = array ();   // Example: array('slashdot.org', 'microsoft.com');
-
-// E-mail admin when clicks/views get low?
-$phpAds_config['warn_admin'] = true;
-
-// E-mail client when clicks/views get low?
-$phpAds_config['warn_client'] = true;
-
-// Minimum clicks/views before warning e-mail is sent
-$phpAds_config['warn_limit'] = 100; 
-
-
-
-/*********************************************************/
 /* Banner retrieval                                      */
 /*********************************************************/
 
 // Delivery caching type?
-// Possible options: db, shm
+// Possible options: none, db, file or shm
 $phpAds_config['delivery_caching'] = 'db';
 
 // Use conditional keywords?
