@@ -24,8 +24,8 @@ else
 // Set time limit and ignore user abort
 if (!get_cfg_var ('safe_mode')) 
 {
-	set_time_limit (300);
-	ignore_user_abort(1);
+	@set_time_limit (300);
+	@ignore_user_abort(1);
 }
 
 
