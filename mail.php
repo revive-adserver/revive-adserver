@@ -64,7 +64,7 @@ while($row_clients = mysql_fetch_array($res_clients))
 
 		$adviews = db_total_views($row_banners["bannerID"]);
         $clients[$i]["views_used"] = $adviews;
-		$logs[$i] .= " $strViews: $adviews total\n";
+		$logs[$i] .= " $strViews (total): $adviews\n";
 
 		// Fetch all adviews belonging to banner belonging to client, grouped by day
 		if ($phpAds_compact_stats)
@@ -108,7 +108,7 @@ while($row_clients = mysql_fetch_array($res_clients))
 		// Total adclicks
 		$adclicks = db_total_clicks($row_banners["bannerID"]);
 		$clients[$i]["clicks_used"] = $adclicks;
-        $logs[$i] .= " $strClicks: $adclicks total\n";                  
+        $logs[$i] .= " $strClicks (total) : $adclicks\n";                  
 
 		// Fetch all adclicks belonging to banner belonging to client, grouped by day
 		if ($phpAds_compact_stats)

@@ -10,7 +10,7 @@
 				<tr> 
 					<td bgcolor="#FFFFFF"><b>Title</b></td>
 					<td bgcolor="#FFFFFF"><b>Argument</b></td>
-					<td bgcolor="#FFFFFF"><b>Description</B.</td>
+					<td bgcolor="#FFFFFF"><b>Description</b></td>
 				</tr>
 				<tr> 
 					<td bgcolor="#FFFFFF">Client IP</td>

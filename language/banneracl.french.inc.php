@@ -8,59 +8,105 @@
 		<TD bgcolor="#CCCCCC">
 			<table width="100%" cellspacing="1" cellpadding="5">
 				<tr> 
-					<td bgcolor="#FFFFFF"><b>Title</b></td>
+					
+          <td bgcolor="#FFFFFF"><b>Titre</b></td>
 					<td bgcolor="#FFFFFF"><b>Argument</b></td>
-					<td bgcolor="#FFFFFF"><b>Description</B.</td>
+					<td bgcolor="#FFFFFF"><b>Description</b></td>
 				</tr>
 				<tr> 
 					<td bgcolor="#FFFFFF">Client IP</td>
-					<td bgcolor="#FFFFFF">IP net/mask: ip.ip.ip.ip/mask.mask.mask.mask, for example 127.0.0.1/255.255.255.0</td>
-					<td bgcolor="#FFFFFF">Display banner only for a specific IP region.</td>
+					
+          <td bgcolor="#FFFFFF">IP net/mask: ip.ip.ip.ip/mask.mask.mask.mask (exemple 
+            : 127.0.0.1/255.255.255.0)</td>
+					
+          <td bgcolor="#FFFFFF">Affiche la banni&egrave;re uniquement pour certaines 
+            IP </td>
 				</tr>
 				<tr> 
-					<td bgcolor="#FFFFFF">User agent regexp</td>
-					<td bgcolor="#FFFFFF">Regular expression matching a user agent, for example ^Mozilla/4.? </td>
-		 			<td bgcolor="#FFFFFF">Display banner only for certain browsers.</td>
+					
+          <td bgcolor="#FFFFFF">Navigateur regexp</td>
+					
+          <td bgcolor="#FFFFFF">Expression r&eacute;guli&egrave;re correspondant 
+            &agrave; un navigateur (exemple ^Mozilla/4.?)</td>
+		 			
+          <td bgcolor="#FFFFFF">Affiche la banni&egrave;re uniquement pour certains 
+            navigateurs </td>
 				</tr>
 				<tr> 
-					<td bgcolor="#FFFFFF">Weekday (0-6)</td>
-					<td bgcolor="#FFFFFF">Day of the week, from 0 = Sunday to 6 = Saturday</td>
-					<td bgcolor="#FFFFFF">Display banner only on a specific day of the week.</td>
+					
+          <td bgcolor="#FFFFFF">Jour de la semaine (0-6)</td>
+          <td bgcolor="#FFFFFF">Jour de la semaine, De 0 = Dimanche &agrave; 6 
+            = Samedi </td>
+          <td bgcolor="#FFFFFF">Affiche la banni&egrave;re uniquement un jour 
+            sp&eacute;cifique </td>
 				</tr>
 				<tr>
-					<td bgcolor="#FFFFFF">Domain</td>
-					<td bgcolor="#FFFFFF">Domain suffix (eg. .jp, .edu, or google.com)</td>
-					<td bgcolor="#FFFFFF">Displays banner only to certain domain.</td>
+					
+          <td bgcolor="#FFFFFF">Domaine</td>
+					
+          <td bgcolor="#FFFFFF">Suffixe de domaine (ex : .fr, .edu, ou google.com)</td>
+					
+          <td bgcolor="#FFFFFF">Affiche la banni&egrave;re uniquement pour certains 
+            domaines </td>
 				</tr>
 				<tr>
 					<td bgcolor="#FFFFFF">Source</td>
-					<td bgcolor="#FFFFFF">Name of source page</td>
-					<td bgcolor="#FFFFFF">Displays banner only on certain pages.</td>
+					
+          <td bgcolor="#FFFFFF">Nom de la page source</td>
+					
+          <td bgcolor="#FFFFFF">Affiche la banni&egrave;re uniquement pour certaines 
+            pages </td>
 				</tr>
                 <tr> 
-                    <td bgcolor="#FFFFFF">Time (0-23)</td>
-                    <td bgcolor="#FFFFFF">Hour of the day, from 0 = midnight to 23 = 11:00 pm</td>
-                    <td bgcolor="#FFFFFF">Display banner only on a specific hour of the day.</td>
+                    
+          <td bgcolor="#FFFFFF">Heure (0-23)</td>
+                    
+          <td bgcolor="#FFFFFF">Heure du jour, De 0 = minuit &agrave; 23 = 23:00</td>
+                    
+          <td bgcolor="#FFFFFF">Affiche la banni&egrave;re uniquement &agrave; 
+            certaines heures</td>
                 </tr>
 			</table>
 		</TD>
 	</TR>
 </table>
-<p>For example, if you want to display this banner only on weekends, you would add two ACL entries:</p>
+<p>Par exemple, si vous voulez afficher une banni&egrave;re uniquement le week-end, 
+  vous aurez 2 ACL :</p>
 <ul>
-	<li>Weekday (0-6), <? echo $strAllow; ?>, argument 6 (for Saturday)</li>
-	<li>Weekday (0-6), <? echo $strAllow; ?>, argument 0 (for Sunday)</li>
-    <li>Weekday (0-6), <? echo $strDeny; ?>, argument * (for any day)</li>
+  <li>Jour de la Semaine (0-6), 
+    <? echo $strAllow; ?>
+    , argument 6 (Samedi)</li>
+  <li>Jour de la Semaine (0-6), 
+    <? echo $strAllow; ?>
+    , argument 0 (Dimanche)</li>
+  <li>Jour de la Semaine (0-6), 
+    <? echo $strDeny; ?>
+    , argument * (Pour tous les jours)</li>
 </ul>
-Note that the last entry need not have been &quot;Weekday&quot;.  Any <? echo $strDeny; ?> *
-ACL would suffice to deny any ad if an associated <? echo $strAllow; ?> had not already been matched.
-
-<p>To show the banner between 5pm and 8pm:</p>
+Notez que le dernier champ n'a pas forc&eacute;ment besoin d'&ecirc;tre positionn&eacute; 
+sur &quot;Jour de la Semaine&quot;. N'importe quel ACL 
+<? echo $strDeny; ?>
+* suffira &agrave; interdire toute banni&egrave;re qui ne serait pas d&eacute;j&agrave; 
+associ&eacute; avec un champ 
+<? echo $strAllow; ?>
+. 
+<p>Pour afficher la banni&egrave;re entre 17 heures et 20 heures:</p>
 <ul>
-    <li>Time, <? echo $strAllow; ?>, argument 17</li>  (5:00pm - 5:59pm)
-    <li>Time, <? echo $strAllow; ?>, argument 18</li>  (6:00pm - 6:59pm)
-	<li>Time, <? echo $strAllow; ?>, argument 19</li>  (7:00pm - 7:59pm)
-    <li>Time, <? echo $strDeny; ?>, argument * (for any time)</li>
+  <li>Heure, 
+    <? echo $strAllow; ?>
+    , argument 17</li>
+  (17:00pm - 17:59pm) 
+  <li>Heure, 
+    <? echo $strAllow; ?>
+    , argument 18</li>
+  (18:00pm - 18:59pm) 
+  <li>Heure, 
+    <? echo $strAllow; ?>
+    , argument 19</li>
+  (19:00pm - 19:59pm) 
+  <li>Heure, 
+    <? echo $strDeny; ?>
+    , argument * (Pour toutes les heures)</li>
 </ul>
 <?
 // EOF english doc file for Banner ACL administration

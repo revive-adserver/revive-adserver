@@ -10,7 +10,7 @@
 				<tr> 
 					<td bgcolor="#FFFFFF"><b>Titel</b></td>
 					<td bgcolor="#FFFFFF"><b>Parameter</b></td>
-					<td bgcolor="#FFFFFF"><b>Beschrijving</B.</td>
+					<td bgcolor="#FFFFFF"><b>Beschrijving</b></td>
 				</tr>
 				<tr> 
 					<td bgcolor="#FFFFFF">IP adres bezoeker</td>

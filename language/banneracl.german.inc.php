@@ -12,7 +12,7 @@
                 <tr>
                     <td bgcolor="#FFFFFF"><b>Regel</b></td>
                     <td bgcolor="#FFFFFF"><b>Optionen</b></td>
-                    <td bgcolor="#FFFFFF"><b>Beschreibung</B.</td>
+                    <td bgcolor="#FFFFFF"><b>Beschreibung</b></td>
                 </tr>
                 <tr>
                     <td bgcolor="#FFFFFF">Client IP</td>
