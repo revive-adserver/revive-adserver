@@ -120,7 +120,7 @@ elseif (isset($submit))
 	");
 	
 	// Store limitations
-	if (count($acl))
+	if (isset($acl) && count($acl))
 	{
 		reset($acl);
 		while (list ($key,) = each ($acl))
