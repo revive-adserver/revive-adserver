@@ -209,7 +209,7 @@ elseif (isset($submit))
 	
 	
 	// Set time limit
-	if (isset($time) && isset($usetime))
+	if (isset($time))
 	{
 		$block = $time['second'];
 		$block = $block + ($time['minute'] * 60);
@@ -218,11 +218,18 @@ elseif (isset($submit))
 	else
 		$block = 0;
 	
+	// Set capping
+	if (isset($cap))
+		$cap = (int)$cap;
+	else
+		$cap = 0;
+	
+	
 	$res = phpAds_dbQuery("
 		UPDATE
 			".$phpAds_config['tbl_banners']."
 		SET
-			block='".$block."'
+			block='".$block."', capping='".$cap."'
 		WHERE
 			bannerid=".$bannerid."
 	") or phpAds_sqlDie();
@@ -359,7 +366,7 @@ if (!isset($acl) && $phpAds_config['acl'])
 	}
 }
 
-if (!isset($time))
+if (!isset($time) || !isset($cap))
 {
 	$res = phpAds_dbQuery("
 		SELECT
@@ -372,15 +379,23 @@ if (!isset($time))
 	
 	if ($row = phpAds_dbFetchArray ($res))
 	{
-		$seconds = $row['block'];
+		if (!isset($time))
+		{
+			$seconds = $row['block'];
+			
+			$time['hour'] = ($seconds - ($seconds % 3600)) / 3600;
+			$seconds = $seconds % 3600;
+			
+			$time['minute'] = ($seconds - ($seconds % 60)) / 60;
+			$seconds = $seconds % 60;
+			
+			$time['second'] = $seconds;
+		}
 		
-		$time['hour'] = ($seconds - ($seconds % 3600)) / 3600;
-		$seconds = $seconds % 3600;
-		
-		$time['minute'] = ($seconds - ($seconds % 60)) / 60;
-		$seconds = $seconds % 60;
-		
-		$time['second'] = $seconds;
+		if (!isset($cap))
+		{
+			$cap = $row['capping'];
+		}
 	}
 }
 
@@ -390,49 +405,35 @@ echo "<form action='banner-acl.php' method='get'>";
 echo "<input type='hidden' name='clientid' value='".$clientid."'>";
 echo "<input type='hidden' name='campaignid' value='".$campaignid."'>";
 echo "<input type='hidden' name='bannerid' value='".$bannerid."'>";
-echo "<br>";
+
+// Workaround: Include dummy submit image to
+// prevent first del button to be used when
+// pressing enter in a text field
+echo "<input type='image' name='dummy' src='images/spacer.gif' border='0' width='1' height='1'><br><br>";
 
 
 if ($phpAds_config['acl'])
 {
-	// Show header
 	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-	echo "<tr><td height='25'><input type='checkbox' name='' value=''".(isset($acl) && count($acl) ? ' checked' : '')." disabled>&nbsp;</td>";
-	echo "<td><b>".$strOnlyDisplayWhen."</b></td><td align='right'>";
-	
-	echo "<img src='images/icon-acl-add.gif' align='absmiddle'>&nbsp;";
-	echo "<select name='type'>";
-	
-	reset($acl_types);
-	while (list ($acl_type, $acl_name) = each ($acl_types))
-	{
-		echo "<option value=";
-		printf("\"%s\" %s>", $acl_type, $acl_type == 'clientip' ? 'selected':''); 
-		echo "$acl_name\n";
-	}
-	
-	echo "</select>";
-	echo "&nbsp;";
-	echo "<input type='image' name='action[new]' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0' align='absmiddle' alt='$strSave'>";
-	
-	echo "</td></tr>";
-	
-	echo "<tr><td>&nbsp;</td><td colspan='2' width='100%'>";
-	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+	echo "<tr><td height='25' colspan='4' bgcolor='#FFFFFF'><b>".$strDeliveryLimitations."</b></td></tr>";
 	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	
 	// Display all ACLs
 	if (isset($acl) && count($acl))
 	{
+		echo "<tr><td height='25' colspan='4' bgcolor='#F6F6F6'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$strOnlyDisplayWhen."</td></tr>";
+		echo "<tr><td colspan='4'><img src='images/break-el.gif' width='100%' height='1'></td></tr>";
+		
+		$current_i = 0;
 		$previous_i = 0;
 		$previous_type = '';
 		
 		reset($acl);
 		while (list ($key,) = each ($acl))
 		{
-			if ($acl[$key]['con'] == 'or')
+			if ($acl[$key]['con'] == 'or' && $current_i > 0)
 			{
-				echo "<tr><td colspan='4'><img src='images/break.gif' width='100%' height='1'></td></tr>";
+				echo "<tr><td colspan='4'><img src='images/break-el.gif' width='100%' height='1'></td></tr>";
 				$previous_i++;
 			}
 			else
@@ -443,9 +444,9 @@ if ($phpAds_config['acl'])
 			
 			
 			echo "<tr height='35' bgcolor='$bgcolor'>";
-			echo "<td width='75'>&nbsp;&nbsp;";
+			echo "<td width='100'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 			if ($key == 0)
-				echo "<input type='hidden' name='acl[".$key."][con]' value='and'>&nbsp;";
+				echo "<input type='hidden' name='acl[".$key."][con]' value='".$acl[$key]['con']."'>&nbsp;";
 			else
 			{
 				echo "<select name='acl[".$key."][con]'>";
@@ -461,10 +462,10 @@ if ($phpAds_config['acl'])
 				echo "</select>";
 			}
 			
-			echo "</td><td width='175'>";
+			echo "</td><td width='130'>";
 			echo "<img src='images/icon-acl.gif' align='absmiddle'>&nbsp;".$acl_types[$acl[$key]['type']];
 			echo "<input type='hidden' name='acl[".$key."][type]' value='".$acl[$key]['type']."'>";
-			echo "</td><td width='200'>";
+			echo "</td><td >";
 			echo "<select name='acl[".$key."][ad]'>";
 			
 			reset($aclad_types);
@@ -534,6 +535,7 @@ if ($phpAds_config['acl'])
 			
 			
 			$previous_type = $acl[$key]['type'];
+			$current_i++;
 		}
 		
 		// Show Footer
@@ -541,30 +543,60 @@ if ($phpAds_config['acl'])
 			echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	}
 	else
-		echo "<tr><td height='24' colspan='4'>".$strNoLimitations."</td></tr>";
+	{
+		echo "<tr><td height='24' colspan='4' bgcolor='#F6F6F6'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$strNoLimitations."</td></tr>";
+		echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	}
+	
+	
+	echo "<tr><td height='30' colspan='4' align='right'>";
+	echo "<img src='images/icon-acl-add.gif' align='absmiddle'>&nbsp;";
+	echo "<select name='type'>";
+	
+	reset($acl_types);
+	while (list ($acl_type, $acl_name) = each ($acl_types))
+	{
+		echo "<option value=";
+		printf("\"%s\" %s>", $acl_type, $acl_type == 'clientip' ? 'selected':''); 
+		echo "$acl_name\n";
+	}
+	
+	echo "</select>";
+	echo "&nbsp;";
+	echo "<input type='image' name='action[new]' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0' align='absmiddle' alt='$strSave'>";
+	echo "</td></tr>";
 	
 	echo "</table>";
-	echo "</td></tr></table>";
 	echo "<br><br><br>";
 }
 
 
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-echo "<tr><td height='25'><input type='checkbox' name='usetime' value='true' align='bottom'".($row['block'] > 0 ? ' checked' : '').">&nbsp;</td>";
-echo "<td><b>Only display this banner once every:</b></td></tr>";
-echo "<tr><td>&nbsp;</td><td width='100%'>";
+echo "<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#FFFFFF'>";
+echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><b>".$strDeliveryCapping."</b></td></tr>";
+echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
-	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-	echo "<tr><td height='6' valign='top'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-	
-	echo "<tr><td>";
-	echo "<input type='text' size='3' name='time[hour]' value='".$time['hour']."'> hours &nbsp;&nbsp;";
-	echo "<input type='text' size='3' name='time[minute]' value='".$time['minute']."'> minutes &nbsp;&nbsp;";
-	echo "<input type='text' size='3' name='time[second]' value='".$time['second']."'> seconds &nbsp;&nbsp;";
-	echo "</td></tr>";
-	echo "</table>";
+echo "<tr><td width='30'>&nbsp;</td>";
+echo "<td width='200'>".$strTimeCapping."</td>";
+echo "<td valign='top'>";
+echo "<input class='flat' type='text' size='3' name='time[hour]' value='".$time['hour']."'> ".$strHours." &nbsp;&nbsp;";
+echo "<input class='flat' type='text' size='3' name='time[minute]' value='".$time['minute']."'> ".$strMinutes." &nbsp;&nbsp;";
+echo "<input class='flat' type='text' size='3' name='time[second]' value='".$time['second']."'> ".$strSeconds." &nbsp;&nbsp;";
+echo "</td></tr>";
+echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
-echo "</td></tr></table>";
+echo "<tr><td width='30'>&nbsp;</td>";
+echo "<td width='200'>".$strImpressionCapping."</td>";
+echo "<td valign='top'>";
+echo "<input class='flat' type='text' size='3' name='cap' value='".$cap."'> ".$strTimes;
+echo "</td></tr>";
+
+echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "</table>";
+
+
 
 echo "<br><br><br>";
 echo "<input type='submit' name='submit' value='$strSaveChanges'>";
