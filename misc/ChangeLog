@@ -13,6 +13,9 @@ CVS
 			  - 2003-08-08:  Adviews email warning limit wasn't correctly saved (Matteo)
 			  - 2003-08-18:  PHP code parsing in HMTL banners wasn't working as expected - bug #788280   (Matteo)
 			  - 2003-09-01:  Fixed possible SQL errors on affiliate, campaign and client history reports   (Matteo)
+			  - 2003-09-13:  Fixed E_ALL problems with hardcoded sources in banner-edit.php  (Niels)
+			  - 2003-09-13:  Disabled logging of clicks for Flash banners in the admin interface - bug #794495  (Niels)
+			  - 2003-09-13:  Direct selection could not retrieve the stored delivery cache, resulting in a full query everytime  (Niels)
 
 
 v 2.0rc4.2		+ Misc changes
