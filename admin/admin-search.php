@@ -23,15 +23,20 @@ phpAds_checkAccess(phpAds_Admin);
 
 
 // Check Searchselection
-if ($client != true &&
-	$campaign != true &&
-	$banner != true &&
-	$zone != true)
+if ($client == false &&
+	$campaign == false &&
+	$banner == false &&
+	$zone == false)
 {
 	$client = true;
 	$campaign = true;
 	$banner = true;
 	$zone = true;
+}
+
+if ($compact == '')
+{
+	$compact = false;
 }
 
 ?>
@@ -79,6 +84,11 @@ if ($client != true &&
 	<td colspan='2' height='24' bgcolor="#000063"> 
 		<table cellpadding='0' cellspacing='0' border='0' bgcolor='#FFFFFF' height='24'>
 			<form name='search' action='admin-search.php' method='post'>
+			<input type='hidden' name='client' value='<?php echo $client; ?>'>
+			<input type='hidden' name='campaign' value='<?php echo $campaign; ?>'>
+			<input type='hidden' name='banner' value='<?php echo $banner; ?>'>
+			<input type='hidden' name='zone' value='<?php echo $zone; ?>'>
+			<input type='hidden' name='compact' value='<?php echo $compact; ?>'>
 			<tr height='24'>
 				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 				<td class='tab-s' valign='middle'><?php echo $strSearch; ?>:&nbsp;<input type='text' name='keyword' size='15' value='<?php print $keyword ?>'>&nbsp;
@@ -97,18 +107,21 @@ if ($client != true &&
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
 	<tr><td width='20'>&nbsp;</td><td>
 	
-	<table border='0' cellspacing='0' cellpadding='0'>
+	<table width='100%' border='0' cellspacing='0' cellpadding='0'>
 		<form name='searchselection' action='admin-search.php'>
 		<input type='hidden' name='keyword' value='<?php echo $keyword; ?>'>
 		<tr>
-			<td><input type='checkbox' name='client' value='true'<?php echo ($client ? ' checked': ''); ?> onClick='this.form.submit()'>
+			<td nowrap><input type='checkbox' name='client' value='true'<?php echo ($client ? ' checked': ''); ?> onClick='this.form.submit()'>
 				<?php echo $strClients; ?>&nbsp;&nbsp;&nbsp;</td>
-			<td><input type='checkbox' name='campaign' value='true'<?php echo ($campaign ? ' checked': ''); ?> onClick='this.form.submit()'>
+			<td nowrap><input type='checkbox' name='campaign' value='true'<?php echo ($campaign ? ' checked': ''); ?> onClick='this.form.submit()'>
 				<?php echo $strCampaign; ?>&nbsp;&nbsp;&nbsp;</td>
-			<td><input type='checkbox' name='banner' value='true'<?php echo ($banner ? ' checked': ''); ?> onClick='this.form.submit()'>
+			<td nowrap><input type='checkbox' name='banner' value='true'<?php echo ($banner ? ' checked': ''); ?> onClick='this.form.submit()'>
 				<?php echo $strBanners; ?>&nbsp;&nbsp;&nbsp;</td>
-			<td><input type='checkbox' name='zone' value='true'<?php echo ($zone ? ' checked': ''); ?> onClick='this.form.submit()'>
+			<td nowrap><input type='checkbox' name='zone' value='true'<?php echo ($zone ? ' checked': ''); ?> onClick='this.form.submit()'>
 				<?php echo $strZones; ?>&nbsp;&nbsp;&nbsp;</td>
+			<td width='100%'>&nbsp;</td>
+			<td nowrap align='right'><input type='checkbox' name='compact' value='true'<?php echo ($compact ? ' checked': ''); ?> onClick='this.form.submit()'>
+				<?php echo $strCompact; ?>&nbsp;&nbsp;&nbsp;</td>
 		</tr>
 		</form>
 	</table>
@@ -188,91 +201,93 @@ if ($client != true &&
 			
 			
 			
-			
-			$query_c_expand = "SELECT * from $phpAds_tbl_clients where parent=".$row_clients['clientID'];
-  			$res_c_expand = db_query($query_c_expand) or mysql_die();
-			
-			while ($row_c_expand = mysql_fetch_array($res_c_expand))
+			if (!$compact)
 			{
-				echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
+				$query_c_expand = "SELECT * from $phpAds_tbl_clients where parent=".$row_clients['clientID'];
+	  			$res_c_expand = db_query($query_c_expand) or mysql_die();
 				
-		    	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
-				
-				echo "<td height='25'>";
-				echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-				echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;";
-				echo "<a href='JavaScript:GoOpener(\"campaign-index.php?campaignID=".$row_c_expand['clientID']."\")'>".$row_c_expand['clientname']."</a>";
-				echo "</td>";
-				
-				echo "<td height='25'>".$row_c_expand['clientID']."</td>";
-				
-				// Empty
-				echo "<td>&nbsp;</td>";
-			   	
-				// Empty
-				echo "<td height='25'>";
-				echo "<a href='JavaScript:GoOpener(\"campaign-edit.php?campaignID=".$row_c_expand['clientID']."\")'><img src='images/icon-edit.gif' border='0' align='absmiddle' alt='$strEdit'>&nbsp;$strEdit</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-				echo "</td>";
-			 	
-				// Button 1
-				echo "<td height='25'>";
-				echo "<a href='JavaScript:GoOpener(\"campaign-delete.php?campaignID=".$row_c_expand['clientID']."\")'".phpAds_DelConfirm($strConfirmDeleteCampaign)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-				echo "</td></tr>";
-				
-				
-				
-				
-				$query_b_expand = "SELECT * from $phpAds_tbl_banners where clientID=".$row_c_expand['clientID'];
-	  			$res_b_expand = db_query($query_b_expand) or mysql_die();
-				
-				while ($row_b_expand = mysql_fetch_array($res_b_expand))
+				while ($row_c_expand = mysql_fetch_array($res_c_expand))
 				{
-					$name = $strUntitled;
-					if (isset($row_b_expand['alt']) && $row_b_expand['alt'] != '') $name = $row_b_expand['alt'];
-					if (isset($row_b_expand['description']) && $row_b_expand['description'] != '') $name = $row_b_expand['description'];
-					
-					$name = phpAds_breakString ($name, '30');
-					
 					echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
 					
 			    	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 					
 					echo "<td height='25'>";
-					echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-					
-					if ($row_b_expand['format'] == 'html')
-					{
-						echo "<img src='images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
-					}
-					elseif ($row_b_expand['format'] == 'url')
-					{
-						echo "<img src='images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
-					}
-					else
-					{
-						echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
-					}
-					
-					echo "<a href='JavaScript:GoOpener(\"banner-edit.php?bannerID=".$row_b_expand['bannerID']."&campaignID=".$row_b_expand['clientID']."\")'>".$name."</a>";
+					echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+					echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;";
+					echo "<a href='JavaScript:GoOpener(\"campaign-index.php?campaignID=".$row_c_expand['clientID']."\")'>".$row_c_expand['clientname']."</a>";
 					echo "</td>";
 					
-					echo "<td height='25'>".$row_b_expand['bannerID']."</td>";
+					echo "<td height='25'>".$row_c_expand['clientID']."</td>";
 					
 					// Empty
 					echo "<td>&nbsp;</td>";
 				   	
 					// Empty
 					echo "<td height='25'>";
-					if ($phpAds_acl == '1')
-						echo "<a href='JavaScript:GoOpener(\"banner-acl.php?bannerID=".$row_b_expand['bannerID']."&campaignID=".$row_b_expand['clientID']."\")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-					else
-						echo "&nbsp;";
+					echo "<a href='JavaScript:GoOpener(\"campaign-edit.php?campaignID=".$row_c_expand['clientID']."\")'><img src='images/icon-edit.gif' border='0' align='absmiddle' alt='$strEdit'>&nbsp;$strEdit</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 					echo "</td>";
-					
+				 	
 					// Button 1
 					echo "<td height='25'>";
-					echo "<a href='JavaScript:GoOpener(\"banner-delete.php?bannerID=".$row_b_expand['bannerID']."&campaignID=".$row_b_expand['clientID']."\")'".phpAds_DelConfirm($strConfirmDeleteBanner)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+					echo "<a href='JavaScript:GoOpener(\"campaign-delete.php?campaignID=".$row_c_expand['clientID']."\")'".phpAds_DelConfirm($strConfirmDeleteCampaign)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 					echo "</td></tr>";
+					
+					
+					
+					
+					$query_b_expand = "SELECT * from $phpAds_tbl_banners where clientID=".$row_c_expand['clientID'];
+		  			$res_b_expand = db_query($query_b_expand) or mysql_die();
+					
+					while ($row_b_expand = mysql_fetch_array($res_b_expand))
+					{
+						$name = $strUntitled;
+						if (isset($row_b_expand['alt']) && $row_b_expand['alt'] != '') $name = $row_b_expand['alt'];
+						if (isset($row_b_expand['description']) && $row_b_expand['description'] != '') $name = $row_b_expand['description'];
+						
+						$name = phpAds_breakString ($name, '30');
+						
+						echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
+						
+				    	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
+						
+						echo "<td height='25'>";
+						echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+						
+						if ($row_b_expand['format'] == 'html')
+						{
+							echo "<img src='images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
+						}
+						elseif ($row_b_expand['format'] == 'url')
+						{
+							echo "<img src='images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
+						}
+						else
+						{
+							echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
+						}
+						
+						echo "<a href='JavaScript:GoOpener(\"banner-edit.php?bannerID=".$row_b_expand['bannerID']."&campaignID=".$row_b_expand['clientID']."\")'>".$name."</a>";
+						echo "</td>";
+						
+						echo "<td height='25'>".$row_b_expand['bannerID']."</td>";
+						
+						// Empty
+						echo "<td>&nbsp;</td>";
+					   	
+						// Empty
+						echo "<td height='25'>";
+						if ($phpAds_acl == '1')
+							echo "<a href='JavaScript:GoOpener(\"banner-acl.php?bannerID=".$row_b_expand['bannerID']."&campaignID=".$row_b_expand['clientID']."\")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+						else
+							echo "&nbsp;";
+						echo "</td>";
+						
+						// Button 1
+						echo "<td height='25'>";
+						echo "<a href='JavaScript:GoOpener(\"banner-delete.php?bannerID=".$row_b_expand['bannerID']."&campaignID=".$row_b_expand['clientID']."\")'".phpAds_DelConfirm($strConfirmDeleteBanner)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+						echo "</td></tr>";
+					}
 				}
 			}
 			
@@ -310,58 +325,60 @@ if ($client != true &&
 			echo "</td></tr>";
 			
 			
-			
-			$query_b_expand = "SELECT * from $phpAds_tbl_banners where clientID=".$row_campaigns['clientID'];
-  			$res_b_expand = db_query($query_b_expand) or mysql_die();
-			
-			while ($row_b_expand = mysql_fetch_array($res_b_expand))
+			if (!$compact)
 			{
-				$name = $strUntitled;
-				if (isset($row_b_expand['alt']) && $row_b_expand['alt'] != '') $name = $row_b_expand['alt'];
-				if (isset($row_b_expand['description']) && $row_b_expand['description'] != '') $name = $row_b_expand['description'];
+				$query_b_expand = "SELECT * from $phpAds_tbl_banners where clientID=".$row_campaigns['clientID'];
+	  			$res_b_expand = db_query($query_b_expand) or mysql_die();
 				
-				$name = phpAds_breakString ($name, '30');
-				
-				echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
-				
-		    	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
-				
-				echo "<td height='25'>";
-				echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-				
-				if ($row_b_expand['format'] == 'html')
+				while ($row_b_expand = mysql_fetch_array($res_b_expand))
 				{
-					echo "<img src='images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
+					$name = $strUntitled;
+					if (isset($row_b_expand['alt']) && $row_b_expand['alt'] != '') $name = $row_b_expand['alt'];
+					if (isset($row_b_expand['description']) && $row_b_expand['description'] != '') $name = $row_b_expand['description'];
+					
+					$name = phpAds_breakString ($name, '30');
+					
+					echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
+					
+			    	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
+					
+					echo "<td height='25'>";
+					echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+					
+					if ($row_b_expand['format'] == 'html')
+					{
+						echo "<img src='images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
+					}
+					elseif ($row_b_expand['format'] == 'url')
+					{
+						echo "<img src='images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
+					}
+					else
+					{
+						echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
+					}
+					
+					echo "<a href='JavaScript:GoOpener(\"banner-edit.php?bannerID=".$row_b_expand['bannerID']."&campaignID=".$row_b_expand['clientID']."\")'>".$name."</a>";
+					echo "</td>";
+					
+					echo "<td height='25'>".$row_b_expand['bannerID']."</td>";
+					
+					// Empty
+					echo "<td>&nbsp;</td>";
+				   	
+					// Empty
+					echo "<td height='25'>";
+					if ($phpAds_acl == '1')
+						echo "<a href='JavaScript:GoOpener(\"banner-acl.php?bannerID=".$row_b_expand['bannerID']."&campaignID=".$row_b_expand['clientID']."\")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+					else
+						echo "&nbsp;";
+					echo "</td>";
+					
+					// Button 1
+					echo "<td height='25'>";
+					echo "<a href='JavaScript:GoOpener(\"banner-delete.php?bannerID=".$row_b_expand['bannerID']."&campaignID=".$row_b_expand['clientID']."\")'".phpAds_DelConfirm($strConfirmDeleteBanner)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+					echo "</td></tr>";
 				}
-				elseif ($row_b_expand['format'] == 'url')
-				{
-					echo "<img src='images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
-				}
-				else
-				{
-					echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
-				}
-				
-				echo "<a href='JavaScript:GoOpener(\"banner-edit.php?bannerID=".$row_b_expand['bannerID']."&campaignID=".$row_b_expand['clientID']."\")'>".$name."</a>";
-				echo "</td>";
-				
-				echo "<td height='25'>".$row_b_expand['bannerID']."</td>";
-				
-				// Empty
-				echo "<td>&nbsp;</td>";
-			   	
-				// Empty
-				echo "<td height='25'>";
-				if ($phpAds_acl == '1')
-					echo "<a href='JavaScript:GoOpener(\"banner-acl.php?bannerID=".$row_b_expand['bannerID']."&campaignID=".$row_b_expand['clientID']."\")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-				else
-					echo "&nbsp;";
-				echo "</td>";
-				
-				// Button 1
-				echo "<td height='25'>";
-				echo "<a href='JavaScript:GoOpener(\"banner-delete.php?bannerID=".$row_b_expand['bannerID']."&campaignID=".$row_b_expand['clientID']."\")'".phpAds_DelConfirm($strConfirmDeleteBanner)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-				echo "</td></tr>";
 			}
 			
 			$i++;
