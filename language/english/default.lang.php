@@ -323,7 +323,6 @@ $GLOBALS['strLaterThan']				= "is later than";
 $GLOBALS['strLaterThanOrEqual']			= "is later than or equal to";
 $GLOBALS['strEarlierThan']				= "is earlier than";
 $GLOBALS['strEarlierThanOrEqual']		= "is earlier than or equal to";
-$GLOBALS['strDifferentFrom']			= "is different from";
 $GLOBALS['strAND']						= "AND";  						// logical operator
 $GLOBALS['strOR']						= "OR"; 						// logical operator
 $GLOBALS['strOnlyDisplayWhen']			= "Only display this banner when:";
