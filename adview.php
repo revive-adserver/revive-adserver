@@ -94,7 +94,8 @@ else
 			{
 				$p3p_header = '';
 				
-				if ($phpAds_config['p3p_policy_location'] != '')
+				if (isset($phpAds_config['p3p_policy_location']) && 
+				    $phpAds_config['p3p_policy_location'] != '')
 					$p3p_header .= " policyref=\"".$phpAds_config['p3p_policy_location']."\"";
 				
 				if ($phpAds_config['p3p_compact_policy'] != '')
@@ -104,7 +105,7 @@ else
 					header ("P3P: $p3p_header");
 			}
 			
-			$url = parse_url($GLOBALS["phpAds_url_prefix"]);
+			$url = parse_url($phpAds_config['url_prefix']);
 			SetCookie("bannerNum", $row["bannerID"], 0, $url["path"]);
 			if(isset($n)) SetCookie("banID[$n]", $row["bannerID"], 0, $url["path"]);
 			
