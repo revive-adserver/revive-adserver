@@ -50,6 +50,7 @@ if ($res)
 	if ($row['contenttype'] == 'html')
 	{
 		$htmlcode = $row['htmlcache'];
+		$htmlcode = str_replace ('{url_prefix}', $phpAds_config['url_prefix'], $htmlcode);
 		$htmlcode = str_replace ('{bannerid}', $bannerid, $htmlcode);
 		$htmlcode = str_replace ('{zoneid}', '', $htmlcode);
 		$htmlcode = str_replace ('{source}', '', $htmlcode);

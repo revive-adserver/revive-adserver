@@ -482,6 +482,10 @@ function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 			$target = $row['target'];
 		
 		
+		// Replace url_prefix
+		$row['htmlcache'] = str_replace ('{url_prefix}', $phpAds_config['url_prefix'], $row['htmlcache']);
+		
+		
 		switch ($row['storagetype'])
 		{
 			case 'html':
