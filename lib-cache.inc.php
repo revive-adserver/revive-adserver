@@ -15,10 +15,9 @@
 
 
 $now = gmdate("D, d M Y H:i:s") . " GMT";
-header ("Date: $now");
-header ("Expires: $now");
-header ("Last-Modified: $now");
 header ("Pragma: no-cache");
-header ("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
+header ("Cache-Control: private, max-age=0, no-cache");
+header ("Date: $now");
+header ("Expires: 0");
 
 ?>
