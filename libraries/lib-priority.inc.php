@@ -545,12 +545,13 @@ function phpAds_PriorityPrepareCampaigns()
 	global $phpAds_config;
 	
 	$campaigns = array();
-
+	
 	$query = "
 		SELECT DISTINCT
 			c.clientid AS clientid,
 			c.weight AS weight,
-			c.target AS target
+			c.target AS target,
+			c.active AS active
 		FROM
 			".$phpAds_config['tbl_clients']." AS c,
 			".$phpAds_config['tbl_banners']." AS b
@@ -662,7 +663,7 @@ function phpAds_PriorityStore($banners, $campaigns = '')
 		
 		$res = phpAds_dbQuery($query);
 	}
-
+	
 	// Update targetstats at midnight
 	if (phpAds_CurrentHour == 0)
 	{
@@ -1179,15 +1180,37 @@ function phpAds_PriorityPrintProfile($profile)
 
 function phpAds_PriorityTotalWeight($campaigns, $banners)
 {
-	$total_campaign_weight = 0;
+	$tcw = 0;
+	$tbw = array();
+	$pr  = array();
+	
+	// Get total campaign weight
 	for (reset($campaigns);$c=key($campaigns);next($campaigns))
-		$total_campaign_weight += $campaigns[$c]['weight'];
+	{
+		$tcw += $campaigns[$c]['weight'];
+		$tbw[$c] = 0;
+	}
 	
-	$total_banner_weight = 0;
+	// Get total banner weight for each campaign
 	for (reset($banners);$b=key($banners);next($banners))
-		$total_banner_weight += $banners[$b]['weight'];
+		if ($campaigns[$banners[$b]['parent']]['active'] == 't')
+			$tbw[$banners[$b]['parent']] += $banners[$b]['weight'];
 	
-	return $total_banner_weight * $total_campaign_weight;
+	// Determine probability
+	for (reset($banners);$b=key($banners);next($banners))
+		if ($campaigns[$banners[$b]['parent']]['active'] == 't')
+			$pr[] = ($campaigns[$banners[$b]['parent']]['weight'] / $tcw / $tbw[$banners[$b]['parent']]) * $banners[$b]['weight'];
+	
+	
+	// Determine minimum probability
+	$min = min($pr);
+	
+	// Determine total weight
+	reset($pr); $total = 0;
+	while (list(,$v) = each($pr))
+		$total += round ($v / $min);
+	
+	return $total;
 }
 
 
