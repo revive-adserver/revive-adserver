@@ -81,9 +81,9 @@ function phpAds_setCookie ($name, $value, $expire = 0)
 {
 	global $phpAds_cookieCache;
 	
-	if (!isset($phpAds_cookieCache)) $phpAds_cookieCache = array(array(), array());
+	if (!isset($phpAds_cookieCache)) $phpAds_cookieCache = array('s' => array(), 'p' => array());
 	
-	$phpAds_cookieCache[$expire ? 1 : 0][] = array ($name, $value, $expire);
+	$phpAds_cookieCache[$expire ? 'p' : 's'][] = array ($name, $value, $expire);
 }
 
 
@@ -94,7 +94,7 @@ function phpAds_setCookie ($name, $value, $expire = 0)
 
 function phpAds_flushCookie ()
 {
-	global $HTTP_COOKIE_VARS, $phpAds_config, $phpAds_cookieCache;
+	global $HTTP_COOKIE_VARS, $phpAds_config, $phpAds_cookieCache, $phpAds_cookieOldCache;
 
 /*	I didn't enable this, as it's useless IMHO
 
@@ -118,7 +118,7 @@ function phpAds_flushCookie ()
 	}
 */
 
-	if (isset($phpAds_cookieCache))
+	if (isset($phpAds_cookieCache) || isset($phpAds_cookieOldCache))
 	{
 		// Send P3P headers
 		if ($phpAds_config['p3p_policies'])
@@ -139,16 +139,44 @@ function phpAds_flushCookie ()
 				header ("P3P: $p3p_header");
 		}
 		
-		// Send session cookies
-		if (isset($phpAds_cookieCache[0]))
-			phpAds_packCookies($phpAds_cookieCache[0], true);
+		// Send temporary session cookies
+		if (isset($phpAds_cookieCache['s']))
+			phpAds_packCookies($phpAds_cookieCache['s'], true, true);
 		
-		// Send long term cookies
-		if (isset($phpAds_cookieCache[1]))
-			phpAds_packCookies($phpAds_cookieCache[1], false);
+		// Send temporary permanent cookies
+		if (isset($phpAds_cookieCache['p']))
+			phpAds_packCookies($phpAds_cookieCache['p'], false, true);
+
+		// Send session cookies
+		if (isset($phpAds_cookieOldCache['s']))
+			phpAds_packCookies($phpAds_cookieOldCache['s'], true);
+		
+		// Send permanent cookies
+		if (isset($phpAds_cookieOldCache['p']))
+			phpAds_packCookies($phpAds_cookieOldCache['p'], false);
+
+		// Remove old temporary cookies
+		if (isset($HTTP_COOKIE_VARS['phpAds_cookies']) && is_array($HTTP_COOKIE_VARS['phpAds_cookies']))
+		{
+			foreach (array_keys($HTTP_COOKIE_VARS['phpAds_cookies']) as $k)
+			{
+				if (!strlen($k))
+					continue;
+				
+				$session = $k{0} == 's';
+				
+				if ($k != 's' && $k != 'p')
+				{
+					if ($session)
+						setcookie('phpAds_cookies['.$k.']', '');
+					else
+						setcookie('phpAds_cookies['.$k.']', '', time() + 86400 * 365 * 5, '/');
+				}
+			}
+		}
 				
 		// Clear cache
-		$phpAds_cookieCache = array(array(), array());
+		$phpAds_cookieOldCache = $phpAds_cookieCache = array('s' => array(), 'p' => array());
 	}
 }
 
@@ -158,12 +186,9 @@ function phpAds_flushCookie ()
 /* Pack/unpack cookies                                   */
 /*********************************************************/
 
-function phpAds_packCookies($cache, $session)
+function phpAds_packCookies($cache, $session, $tmp = false)
 {
 	global $phpAds_config;
-	
-	// Get path
-	$url = parse_url($phpAds_config['url_prefix']);
 	
 	// Merge all cookies into one, to prevent reaching cookie limit
 	$cookies = array();
@@ -195,27 +220,37 @@ function phpAds_packCookies($cache, $session)
 		$cookies = '';
 	}
 	
-	if ($session)
-		setcookie('phpAds_cookies[0]', $cookies); //, $url['host']);	
+	if ($tmp)
+		$tmp = str_pad(join('', array_reverse(explode(' ', substr(microtime(), 2)))), 23, '0', STR_PAD_LEFT).substr(md5(uniqid('', 1)), 0, 8);
 	else
-		setcookie('phpAds_cookies[1]', $cookies, time() + 86400 * 365 * 5, $url['path']); //, $url['host']);
+		$tmp = '';
+	
+	if ($session)
+		setcookie('phpAds_cookies[s'.$tmp.']', $cookies);
+	else
+		setcookie('phpAds_cookies[p'.$tmp.']', $cookies, time() + 86400 * 365 * 5, '/');
 }
 
 function phpAds_unpackCookies()
 {
-	global $HTTP_COOKIE_VARS, $phpAds_cookieCache;
+	global $HTTP_COOKIE_VARS, $phpAds_cookieOldCache;
 	
-	if (!isset($phpAds_cookieCache)) $phpAds_cookieCache = array(array(), array());
+	if (!isset($phpAds_cookieOldCache)) $phpAds_cookieOldCache = array('s' => array(), 'p' => array());
 	
 	if (isset($HTTP_COOKIE_VARS['phpAds_cookies']) && is_array($HTTP_COOKIE_VARS['phpAds_cookies']))
 	{
-		for ($i = 1; $i >= 0; $i--)
+		ksort($HTTP_COOKIE_VARS['phpAds_cookies']);
+		
+		$now = time();
+		$str = array();
+		
+		foreach ($HTTP_COOKIE_VARS['phpAds_cookies'] as $i => $c)
 		{
-			if (!isset($HTTP_COOKIE_VARS['phpAds_cookies'][$i]) || !$HTTP_COOKIE_VARS['phpAds_cookies'][$i])
+			if (!preg_match('/^[sp](?:[a-f0-9]{31})?$/', $i))
 				continue;
 			
-			$c = $HTTP_COOKIE_VARS['phpAds_cookies'][$i];
-				
+			$session = $i{0} == 's';
+
 			if (extension_loaded('zlib'))
 			{
 				// Decode and decompress if needed
@@ -231,40 +266,37 @@ function phpAds_unpackCookies()
 			if (($c = @unserialize($c)) && is_array($c))
 			{
 				// Cookies were stored in the correct way
-				$now = time();
-				$str = array();
-				
 				// Create a query-string with cookies
 				foreach ($c as $k => $v)
 				{
-					if (isset($v['v']) && (!$i || isset($v['e'])))
+					if (isset($v['v']) && ($session || isset($v['e'])))
 					{
 						// Check for session cookies or not expired ones
-						if (!$i || $v['e'] > $now)
+						if ($session || $v['e'] > $now)
 						{
 							// Cookie not expired, append it
-							$str[] = $k.'='.urlencode($v['v']);
+							$str[] = urlencode($k).'='.urlencode($v['v']);
 							
 							// Add cookie to the cach, so that it won't be lost
 							// in case we need to store other cookies
-							$phpAds_cookieCache[$i][] = array ($k, $v['v'], isset($v['e']) ? $v['e'] : 0);
+							array_push($phpAds_cookieOldCache[$session ? 's' : 'p'], array ($k, $v['v'], isset($v['e']) ? $v['e'] : 0));
 						}
 					}
 				}
-				
-				if (count($str))
-				{
-					// Extract cookies into $c following magic_quotes configuration
-					parse_str(join('&', $str), $c);
-					
-					// Merge them with the real cookie and make them available
-					$c += $HTTP_COOKIE_VARS;
-					$HTTP_COOKIE_VARS = $c;
-					
-					// Update the superglobal too, just in case it is used for debug
-					$_COOKIE = $c;
-				}
 			}
+		}
+		
+		if (count($str))
+		{
+			// Extract cookies into $c following magic_quotes configuration
+			parse_str(join('&', $str), $c);
+			
+			// Merge them with the real cookie and make them available
+			$c += $HTTP_COOKIE_VARS;
+			$HTTP_COOKIE_VARS = $c;
+			
+			// Update the superglobal too, just in case it is used for debug
+			$_COOKIE = $c;
 		}
 	}
 }
