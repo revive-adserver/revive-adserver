@@ -58,6 +58,18 @@ if (phpAds_isUser(phpAds_Affiliate))
 /* HTML framework                                        */
 /*********************************************************/
 
+if (isset($Session['prefs']['zone-index.php']['listorder']))
+	$navorder = $Session['prefs']['zone-index.php']['listorder'];
+else
+	$navorder = '';
+
+if (isset($Session['prefs']['zone-index.php']['orderdirection']))
+	$navdirection = $Session['prefs']['zone-index.php']['orderdirection'];
+else
+	$navdirection = '';
+
+
+// Get other zones
 $res = phpAds_dbQuery("
 	SELECT
 		*
@@ -65,6 +77,7 @@ $res = phpAds_dbQuery("
 		".$phpAds_config['tbl_zones']."
 	WHERE
 		affiliateid = ".$affiliateid."
+		".phpAds_getZoneListOrder ($navorder, $navdirection)."
 ");
 
 while ($row = phpAds_dbFetchArray($res))

@@ -229,12 +229,25 @@ if ($affiliateid != "")
 {
 	if (phpAds_isUser(phpAds_Admin))
 	{
+		if (isset($Session['prefs']['affiliate-index.php']['listorder']))
+			$navorder = $Session['prefs']['affiliate-index.php']['listorder'];
+		else
+			$navorder = '';
+		
+		if (isset($Session['prefs']['affiliate-index.php']['orderdirection']))
+			$navdirection = $Session['prefs']['affiliate-index.php']['orderdirection'];
+		else
+			$navdirection = '';
+		
+		
+		// Get other affiliates
 		$res = phpAds_dbQuery("
 			SELECT
 				*
 			FROM
 				".$phpAds_config['tbl_affiliates']."
-			") or phpAds_sqlDie();
+			".phpAds_getAffiliateListOrder ($navorder, $navdirection)."
+		") or phpAds_sqlDie();
 		
 		while ($row = phpAds_dbFetchArray($res))
 		{
