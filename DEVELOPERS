@@ -11,12 +11,12 @@ else
 	code
 }
 
-2. When you're using <? and ?> :
+2. When you're using <?php and ?> :
 if (expression)
 {
 	?>
 	html
-	<?
+	<?php
 }
 
 3. Tables :
