@@ -24,7 +24,7 @@ require ("lib-append.inc.php");
 
 
 // Register input variables
-phpAds_registerGlobal ('chaintype', 'chainzone', 'chainwhat', 'append', 'prepend', 'submitbutton');
+phpAds_registerGlobal ('chaintype', 'chainzone', 'chainwhat', 'append', 'prepend', 'submitbutton', 'textad');
 phpAds_registerGlobal ('appendtype', 'appendtype_previous', 'appendsave', 'appendselection', 'appendwhat');
 
 
@@ -99,44 +99,53 @@ if (isset($submitbutton))
 		$sqlupdate[] = "chain='".$chain."'";
 		
 		
-		if (!isset($prepend)) $prepend = '';
-		$sqlupdate[] = "prepend='".$prepend."'";
-		
-		
-		// Do not save append until not finished with appending, if present
-		if (isset($appendsave) && $appendsave)
+		if (isset($textad) && $textad)
 		{
-			if ($appendtype == phpAds_AppendNone)
-			{
-				$append = '';
-			}
-			
-			if ($appendtype == phpAds_AppendPopup ||
-				$appendtype == phpAds_AppendInterstitial)
-			{
-				if ($appendselection == phpAds_AppendBanner)
-					$what = isset($appendwhat[phpAds_AppendBanner]) ? implode (',', $appendwhat[phpAds_AppendBanner]) : '';
-				elseif ($appendselection == phpAds_AppendZone)
-					$what = isset($appendwhat[phpAds_AppendZone]) ? 'zone:'.$appendwhat[phpAds_AppendZone] : 'zone:0';
-				else
-					$what = $appendwhat[phpAds_AppendKeyword];
-				
-				if ($appendtype == phpAds_AppendPopup)
-				{
-					$codetype = 'popup';
-				}
-				else
-				{
-					$codetype = 'adlayer';
-					if (!isset($layerstyle)) $layerstyle = 'geocities';
-					include ('../libraries/layerstyles/'.$layerstyle.'/invocation.inc.php');
-				}
-				
-				$append = addslashes(phpAds_GenerateInvocationCode());
-			}
-			
+			if (!isset($prepend)) $prepend = '';
+			if (!isset($append)) $append = '';
+	
+			$sqlupdate[] = "prepend='".$prepend."'";
 			$sqlupdate[] = "append='".$append."'";
-			$sqlupdate[] = "appendtype='".$appendtype."'";
+		}
+		else
+		{
+			$sqlupdate[] = "prepend=''";
+		
+			// Do not save append until finished with appending, if present
+			if (isset($appendsave) && $appendsave)
+			{
+				if ($appendtype == phpAds_AppendNone)
+				{
+					$append = '';
+				}
+				
+				if ($appendtype == phpAds_AppendPopup ||
+					$appendtype == phpAds_AppendInterstitial)
+				{
+					if ($appendselection == phpAds_AppendBanner)
+						$what = isset($appendwhat[phpAds_AppendBanner]) ? implode (',', $appendwhat[phpAds_AppendBanner]) : '';
+					elseif ($appendselection == phpAds_AppendZone)
+						$what = isset($appendwhat[phpAds_AppendZone]) ? 'zone:'.$appendwhat[phpAds_AppendZone] : 'zone:0';
+					else
+						$what = $appendwhat[phpAds_AppendKeyword];
+					
+					if ($appendtype == phpAds_AppendPopup)
+					{
+						$codetype = 'popup';
+					}
+					else
+					{
+						$codetype = 'adlayer';
+						if (!isset($layerstyle)) $layerstyle = 'geocities';
+						include ('../libraries/layerstyles/'.$layerstyle.'/invocation.inc.php');
+					}
+					
+					$append = addslashes(phpAds_GenerateInvocationCode());
+				}
+				
+				$sqlupdate[] = "append='".$append."'";
+				$sqlupdate[] = "appendtype='".$appendtype."'";
+			}
 		}
 		
 		
@@ -442,6 +451,7 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 		
 	echo "<input type='hidden' name='appendtype_previous' value='".$appendtype."'>";
 	echo "<input type='hidden' name='appendsave' value='1'>";
+	echo "<input type='hidden' name='textad' value='0'>";
 	
 	
 	// Appendtype choices
@@ -467,10 +477,14 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 		echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 	}
 	
-	
+
 	if ($appendtype == phpAds_AppendPopup ||
 		$appendtype == phpAds_AppendInterstitial)
 	{
+		// Determine available zones
+		$available_zones = ($appendtype == phpAds_AppendPopup) ? $available[phpAds_ZonePopup] : $available[phpAds_ZoneInterstitial];
+	
+	
 		// Append zones
 		if ($appendtype != $appendtype_previous)
 		{
@@ -536,9 +550,6 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 					$appendwhat = '';
 			}
 		}
-		
-		
-		$available_zones = ($appendtype == phpAds_AppendPopup) ? $available[phpAds_ZonePopup] : $available[phpAds_ZoneInterstitial];
 		
 		
 		// Header
@@ -650,6 +661,8 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 
 elseif ($zone['delivery'] == phpAds_ZoneText )
 {
+	echo "<input type='hidden' name='textad' value='1'>";
+
 	echo "<br><br><br>";
 	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 	echo "<tr><td height='25' colspan='3'><b>".$strAppendSettings."</b></td></tr>";
@@ -735,61 +748,65 @@ echo "</form>";
 		
 		// Get the type of append
 		obj = findObj ('appendtype');
-		appendtype = obj.options[obj.selectedIndex].value;
-
-		if (appendtype == <?php echo phpAds_AppendPopup ?> ||
-			appendtype == <?php echo phpAds_AppendInterstitial ?>)
+		
+		if (obj.options)
 		{
-			// Get the way banners are appended
-			obj = findObj ('appendselection');
-			appendselection = obj.options[obj.selectedIndex].value;
-			
-			form = findObj(formname);
-
-			// Check if a zone is selected
-			if (appendselection == <?php echo phpAds_AppendZone ?>)
+			appendtype = obj.options[obj.selectedIndex].value;
+	
+			if (appendtype == <?php echo phpAds_AppendPopup ?> ||
+				appendtype == <?php echo phpAds_AppendInterstitial ?>)
 			{
-				checked = false;
+				// Get the way banners are appended
+				obj = findObj ('appendselection');
+				appendselection = obj.options[obj.selectedIndex].value;
 				
-				for (i=0; i<form.elements.length; i++) 
+				form = findObj(formname);
+	
+				// Check if a zone is selected
+				if (appendselection == <?php echo phpAds_AppendZone ?>)
 				{
-					if (form.elements.item(i).name == 'appendwhat[<?php echo phpAds_AppendZone ?>]' &&
-						form.elements.item(i).checked == true) 
+					checked = false;
+					
+					for (i=0; i<form.elements.length; i++) 
 					{
-						checked = true;
+						if (form.elements.item(i).name == 'appendwhat[<?php echo phpAds_AppendZone ?>]' &&
+							form.elements.item(i).checked == true) 
+						{
+							checked = true;
+						}
 					}
+					
+					if (!checked)
+						errors = '<?php echo $strAppendErrorZone ?>';
 				}
 				
-				if (!checked)
-					errors = '<?php echo $strAppendErrorZone ?>';
-			}
-			
-			// Check if one or more banners are selected
-			if (appendselection == <?php echo phpAds_AppendBanner ?>)
-			{
-				checked = false;
-				
-				for (i=0; i<form.elements.length; i++) 
+				// Check if one or more banners are selected
+				if (appendselection == <?php echo phpAds_AppendBanner ?>)
 				{
-					if (form.elements.item(i).name == 'appendwhat[<?php echo phpAds_AppendBanner ?>][]' &&
-						form.elements.item(i).checked == true) 
+					checked = false;
+					
+					for (i=0; i<form.elements.length; i++) 
 					{
-						checked = true;
+						if (form.elements.item(i).name == 'appendwhat[<?php echo phpAds_AppendBanner ?>][]' &&
+							form.elements.item(i).checked == true) 
+						{
+							checked = true;
+						}
 					}
+					
+					if (!checked)
+						errors = '<?php echo $strAppendErrorBanner ?>';
 				}
 				
-				if (!checked)
-					errors = '<?php echo $strAppendErrorBanner ?>';
-			}
-			
-			// Check if there are any keywords specified
-			if (appendselection == <?php echo phpAds_AppendKeyword ?>)
-			{
-				obj = findObj('appendwhat[<?php echo phpAds_AppendKeyword ?>]')
-				
-				if (obj.value == '')
+				// Check if there are any keywords specified
+				if (appendselection == <?php echo phpAds_AppendKeyword ?>)
 				{
-					errors = '<?php echo $strAppendErrorKeyword ?>';
+					obj = findObj('appendwhat[<?php echo phpAds_AppendKeyword ?>]')
+					
+					if (obj.value == '')
+					{
+						errors = '<?php echo $strAppendErrorKeyword ?>';
+					}
 				}
 			}
 		}

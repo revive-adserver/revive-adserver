@@ -12,6 +12,8 @@ CVS
 			  - 2003-07-17:  Report were created without delimiters/quotes with register globals off  (Matteo)
 			  - 2003-07-20:  Added exceptions to bannerid requirement for banner-activate and banner-delete  (Niels)
 			  - 2003-07-23:  Added missing style definitions for banner append to the css file  (Niels)
+			  - 2003-07-27:  Fixed Javascript error during form submit on zone-advanced page when using text ads  (Niels)
+			  - 2003-07-27:  Appended HTML to a text ad zone wasn't saved at all  (Niels)
 
 
 v 2.0rc4.1		+ Misc bugfixes
