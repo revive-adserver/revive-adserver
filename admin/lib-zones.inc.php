@@ -15,7 +15,7 @@
 
 
 // Include required files
-include (phpAds_path."/view.inc.php");
+include (phpAds_path."/lib-view-query.inc.php");
 
 
 // Define zonetypes
