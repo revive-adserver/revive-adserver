@@ -281,8 +281,8 @@ $GLOBALS['strStatusText']				= "Testo barra di stato";
 $GLOBALS['strConfirmDeleteClient'] 		= "Vuoi veramente cancellare questo cliente?";
 $GLOBALS['strConfirmDeleteCampaign']	= "Vuoi veramente cancellare questa campagna?";
 $GLOBALS['strConfirmDeleteBanner']		= "Vuoi veramente cancellare questo banner?";
-$GLOBALS['strConfirmDeleteZone']		= "Do you really want to delete this zone?";
-$GLOBALS['strConfirmDeleteAffiliate']	= "Do you really want to delete this affiliate?";
+$GLOBALS['strConfirmDeleteZone']		= "Vuoi veramente cancellare questa zona?";
+$GLOBALS['strConfirmDeleteAffiliate']	= "Vuoi veramente cancellare questo affiliato?";
 
 $GLOBALS['strConfirmResetStats']		= "Vuoi veramente azzerare tutte le statistiche?";
 $GLOBALS['strConfirmResetCampaignStats']= "Vuoi veramente azzerare le statistiche di questa campagna?";
@@ -346,60 +346,60 @@ $GLOBALS['strAllowAffiliateLinkBanners'] = "Allow this user to link banners to h
 $GLOBALS['strAllowAffiliateAddZone'] = "Allow this user to define new zones";
 $GLOBALS['strAllowAffiliateDeleteZone'] = "Allow this user to delete existing zones";
 
-$GLOBALS['strPriority']					= "Priority";
-$GLOBALS['strHighPriority']				= "Show banners in this campaign with high priority.<br>
-										   If you use this option phpAdsNew will try to distribute the 
-										   number of AdViews evenly over the course of the day.";
-$GLOBALS['strLowPriority']				= "Show banner in this campaign with low priority.<br>
-										   This campaign is used to show the left over AdViews which 
-										   aren't used by high priority campaigns.";
-$GLOBALS['strTargetLimitAdviews']		= "Limit the number of AdViews to";
-$GLOBALS['strTargetPerDay']				= "per day.";
-$GLOBALS['strRecalculatePriority']		= "Recalculate priority";
+$GLOBALS['strPriority']					= "Priorit&agrave;";
+$GLOBALS['strHighPriority']				= "Mostra i banner di questa campagna con alta priorit&agrave;.<br>
+										   Usando questa opzione phpAdsNew tenter&agrave; di distribuire 
+										   il numero di visualizzazioni equamente nel corso della giornata.";
+$GLOBALS['strLowPriority']				= "Mostra i banner di questa campagna con bassa priorit&agrave;.<br>
+										   Questa campagna utilizza le visualizzazioni rimaste
+										   non utilizzate dalle campagne ad alta priorit&agrave;.";
+$GLOBALS['strTargetLimitAdviews']		= "Limita il numero di visualizzazioni a";
+$GLOBALS['strTargetPerDay']				= "al giorno.";
+$GLOBALS['strRecalculatePriority']		= "Ricalcola priorit&agrave;";
 
-$GLOBALS['strProperties']				= "Properties";
-$GLOBALS['strAffiliateProperties']		= "Affiliate properties";
-$GLOBALS['strBannerOverview']			= "Banner overview";
-$GLOBALS['strBannerProperties']			= "Banner properties";
-$GLOBALS['strCampaignProperties']		= "Campaign properties";
-$GLOBALS['strClientProperties']			= "Client properties";
+$GLOBALS['strProperties']				= "Propriet&agrave;";
+$GLOBALS['strAffiliateProperties']		= "Propriet&agrave; dell'affiliato";
+$GLOBALS['strBannerOverview']			= "Banner Overview";
+$GLOBALS['strBannerProperties']			= "Propriet&agrave; del banner";
+$GLOBALS['strCampaignProperties']		= "Propriet&agrave; della campagna";
+$GLOBALS['strClientProperties']			= "Propriet&agrave; del cliente";
 $GLOBALS['strZoneOverview']				= "Zone overview";
-$GLOBALS['strZoneProperties']			= "Zone properties";
+$GLOBALS['strZoneProperties']			= "Propriet&agrave; della zona";
 $GLOBALS['strAffiliateOverview']		= "Affiliate overview";
 $GLOBALS['strLinkedBannersOverview']	= "Linked banners overview";
 
-$GLOBALS['strGlobalHistory']			= "Global history";
-$GLOBALS['strBannerHistory']			= "Banner history";
-$GLOBALS['strCampaignHistory']			= "Campaign history";
-$GLOBALS['strClientHistory']			= "Client history";
-$GLOBALS['strAffiliateHistory']			= "Affiliate history";
-$GLOBALS['strZoneHistory']				= "Zone history";
-$GLOBALS['strLinkedBannerHistory']		= "Linked banner history";
+$GLOBALS['strGlobalHistory']			= "Storico globale";
+$GLOBALS['strBannerHistory']			= "Storico banner";
+$GLOBALS['strCampaignHistory']			= "Storico campagna";
+$GLOBALS['strClientHistory']			= "Storico cliente";
+$GLOBALS['strAffiliateHistory']			= "Storico affiliato";
+$GLOBALS['strZoneHistory']				= "Storico zona";
+$GLOBALS['strLinkedBannerHistory']		= "Storico banner collegati";
 
-$GLOBALS['strMoveTo']					= "Move to";
-$GLOBALS['strDuplicate']				= "Duplicate";
+$GLOBALS['strMoveTo']					= "Sposta in";
+$GLOBALS['strDuplicate']				= "Duplica";
 
-$GLOBALS['strMainSettings']				= "Main settings";
-$GLOBALS['strAdminSettings']			= "Administration settings";
+$GLOBALS['strMainSettings']				= "Impostazioni principali";
+$GLOBALS['strAdminSettings']			= "Impostazioni amministrazione";
 
-$GLOBALS['strApplyLimitationsTo']		= "Apply limitations to";
-$GLOBALS['strWholeCampaign']			= "Whole campaign";
-$GLOBALS['strZonesWithoutAffiliate']	= "Zones without affiliate";
-$GLOBALS['strMoveToNewAffiliate']		= "Move to new affiliate";
+$GLOBALS['strApplyLimitationsTo']		= "Applica limitazioni a";
+$GLOBALS['strWholeCampaign']			= "Intera compagna";
+$GLOBALS['strZonesWithoutAffiliate']	= "Zone senza affiliati";
+$GLOBALS['strMoveToNewAffiliate']		= "Sposta ad un nuovo affiliato";
 
-$GLOBALS['strNoBannersToLink']			= "There are currently no banners available which can be linked to this zone";
-$GLOBALS['strNoLinkedBanners']			= "There are no banners available which are linked to this zone";
+$GLOBALS['strNoBannersToLink']			= "Non ci sono banner che possono essere collegati a questa zona";
+$GLOBALS['strNoLinkedBanners']			= "Non ci sono banner collegati a questa zona";
 
-$GLOBALS['strAdviewsLimit']				= "AdViews limit";
+$GLOBALS['strAdviewsLimit']				= "Limite visualizzazioni";
 
-$GLOBALS['strTotalThisPeriod']			= "Total this period";
-$GLOBALS['strAverageThisPeriod']		= "Average this period";
-$GLOBALS['strLast7Days']				= "Last 7 days";
-$GLOBALS['strDistribution']				= "Distribution";
-$GLOBALS['strOther']					= "Other";
-$GLOBALS['strUnknown']					= "Unknown";
+$GLOBALS['strTotalThisPeriod']			= "Totale periodo";
+$GLOBALS['strAverageThisPeriod']		= "Media periodo";
+$GLOBALS['strLast7Days']				= "Ultimi 7 giorni";
+$GLOBALS['strDistribution']				= "Distribuzione";
+$GLOBALS['strOther']					= "Altri";
+$GLOBALS['strUnknown']					= "Sconosciuto";
 
-$GLOBALS['strWelcomeTo']				= "Welcome to";
-$GLOBALS['strEnterUsername']			= "Enter your username and password to log in";
+$GLOBALS['strWelcomeTo']				= "Benvenuti a";
+$GLOBALS['strEnterUsername']			= "Inserisci username e password per entrare";
 
 ?>
