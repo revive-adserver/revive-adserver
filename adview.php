@@ -121,10 +121,13 @@ if ($found)
 							  time() + $phpAds_config['block_adviews'] + 43200);
 	}
 	
+	
+	// Block
 	if ($row['block'] != '' && $row['block'] != '0')
 		phpAds_setCookie ("phpAds_blockAd[".$row['bannerid']."]", time() + $row['block'], time() + $row['block'] + 43200);
 	
 	
+	// Set capping
 	if ($row['capping'] != '' && $row['capping'] != '0')
 	{
 		if (isset($phpAds_capAd) && isset($phpAds_capAd[$row['bannerid']]))
@@ -134,6 +137,12 @@ if ($found)
 		
 		phpAds_setCookie ("phpAds_capAd[".$row['bannerid']."]", $newcap, time() + 31536000);
 	}
+	
+	
+	// Set geo cookies
+	if ($phpAds_config['geotracking_type'] != 0 && $phpAds_config['geotracking_cookie'])
+		if (!isset($HTTP_COOKIE_VARS['phpAds_geoInfo']))
+			phpAds_setCookie ("phpAds_geoInfo", $phpAds_CountryLookup ? $phpAds_CountryLookup : '', 0);
 	
 	
 	// Send bannerid headers

@@ -60,8 +60,8 @@ if (!isset($HTTP_SERVER_VARS['REMOTE_HOST']) || $HTTP_SERVER_VARS['REMOTE_HOST']
 
 
 // Geotracking
-if (isset($HTTP_COOKIE_VARS['phpAds_country']))
-	$phpAds_CountryLookup = $HTTP_COOKIE_VARS['phpAds_country'];
+if (isset($HTTP_COOKIE_VARS['phpAds_geoInfo']))
+	$phpAds_CountryLookup = $HTTP_COOKIE_VARS['phpAds_geoInfo'];
 
 if ($phpAds_config['geotracking_stats'])
 {
