@@ -14,16 +14,31 @@
 
 
 
-// Include required files
-require	("config.inc.php"); 
-require ("lib-db.inc.php");
-require ("lib-expire.inc.php");
-require ("lib-log.inc.php");
+// Figure out our location
+define ('phpAds_path', '.');
 
-if ($phpAds_config['acl'])
-	require ("lib-acl.inc.php");
 
-require	("view.inc.php"); 
+
+/*********************************************************/
+/* Include required files                                */
+/*********************************************************/
+
+require	(phpAds_path."/config.inc.php"); 
+require (phpAds_path."/lib-db.inc.php");
+
+if (($phpAds_config['log_adviews'] && !$phpAds_config['log_beacon']) || $phpAds_config['acl'])
+{
+	require (phpAds_path."/lib-remotehost.inc.php");
+	
+	if ($phpAds_config['log_adviews'] && !$phpAds_config['log_beacon'])
+		require (phpAds_path."/lib-log.inc.php");
+	
+	if ($phpAds_config['acl'])
+		require (phpAds_path."/lib-acl.inc.php");
+}
+
+require	(phpAds_path."/lib-view-main.inc.php");
+require (phpAds_path."/lib-cache.inc.php");
 
 
 
@@ -58,9 +73,6 @@ function enjavanate ($str, $limit = 60)
 /* Main code                                             */
 /*********************************************************/
 
-header("Content-type: application/x-javascript");
-require("lib-cache.inc.php");
-
 if (isset($clientID) && !isset($clientid))	$clientid = $clientID;
 if (isset($withText) && !isset($withtext))  $withtext = $withText;
 
@@ -73,6 +85,9 @@ if (!isset($context)) 	$context = '';
 
 // Get the banner
 $output = view_raw ($what, $clientid, $target, $source, $withtext, $context);
+
+// Show the banner
+header("Content-type: application/x-javascript");
 enjavanate($output['html']);
 
 ?>

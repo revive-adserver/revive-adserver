@@ -14,25 +14,36 @@
 
 
 
-// Include required files
-require	("config.inc.php"); 
-require ("lib-db.inc.php");
-require ("lib-expire.inc.php");
-require ("lib-log.inc.php");
-
-if ($phpAds_config['acl'])
-	require ("lib-acl.inc.php");
-
-require	("view.inc.php");
+// Figure out our location
+define ('phpAds_path', '.');
 
 
-// Set header information
-include ("lib-cache.inc.php");
+
+/*********************************************************/
+/* Include required files                                */
+/*********************************************************/
+
+require	(phpAds_path."/config.inc.php"); 
+require (phpAds_path."/lib-db.inc.php");
+
+if ($phpAds_config['log_adviews'] || $phpAds_config['acl'])
+{
+	require (phpAds_path."/lib-remotehost.inc.php");
+	
+	if ($phpAds_config['log_adviews'])
+		require (phpAds_path."/lib-log.inc.php");
+	
+	if ($phpAds_config['acl'])
+		require (phpAds_path."/lib-acl.inc.php");
+}
+
+require (phpAds_path."/lib-cache.inc.php");
 
 
-// Open a connection to the database
-phpAds_dbConnect();
 
+/*********************************************************/
+/* Main code                                             */
+/*********************************************************/
 
 if (isset($clientID) && !isset($clientid))	
 	$clientid = $clientID;
@@ -48,13 +59,33 @@ if (!isset($source))
 
 
 
+// Include the need sub-libraries
+if (substr($what,0,5) == 'zone:')
+{
+	if (!defined('LIBVIEWZONE_INCLUDED'))
+		require (phpAds_path.'/lib-view-zone.inc.php');
+}
+else
+{
+	if (!defined('LIBVIEWQUERY_INCLUDED'))
+		require (phpAds_path.'/lib-view-query.inc.php');
+	
+	if (!defined('LIBVIEWDIRECT_INCLUDED'))
+		require (phpAds_path.'/lib-view-direct.inc.php');
+}
+
+
+
+phpAds_dbConnect();
+
 $row = phpAds_fetchBanner($what, $clientid, 0, $source, false);
+
+
 
 if (is_array($row) && isset($row['bannerid']))
 {
 	// Log this impression
-	phpAds_prepareLog ($row["bannerid"], $row["clientid"], $row["zoneid"], $source);
-	
+	phpAds_logImpression ($row['bannerid'], $row['clientid'], $row['zoneid'], $source);
 	
 	// Send P3P Headers
 	if ($phpAds_config['p3p_policies'])

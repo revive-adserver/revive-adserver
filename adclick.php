@@ -14,18 +14,31 @@
 
 
 
-// Include required files
-require ("config.inc.php");
-require ("lib-db.inc.php");
-require ("lib-log.inc.php");
-require ("lib-expire.inc.php");
+// Figure out our location
+define ('phpAds_path', '.');
 
-// Open a connection to the database
-phpAds_dbConnect();
 
+
+/*********************************************************/
+/* Include required files                                */
+/*********************************************************/
+
+require	(phpAds_path."/config.inc.php"); 
+require (phpAds_path."/lib-db.inc.php");
+
+if ($phpAds_config['log_adclicks'])
+{
+	require (phpAds_path."/lib-remotehost.inc.php");
+	require (phpAds_path."/lib-log.inc.php");
+}
+
+
+
+/*********************************************************/
+/* Main code                                             */
+/*********************************************************/
 
 if (isset($bannerID) && !isset($bannerid))	$bannerid = $bannerID;
-
 
 // Fetch BannerID
 if (!isset($bannerid))
@@ -46,6 +59,11 @@ if (!isset($bannerid))
 	if(isset($sourceNum) && !empty($sourceNum)) $source = $sourceNum;
 	if(isset($n) && is_array($sourceID)) $source = $sourceID[$n];
 }
+
+
+
+// Open a connection to the database
+phpAds_dbConnect();
 
 if ($bannerid != "DEFAULT")
 {
@@ -72,15 +90,9 @@ if ($bannerid != "DEFAULT")
 	if (!isset($zoneid)) $zoneid = 0;
 	if (!isset($source)) $source = '';
 	
+	
 	// Log clicks
-	if ($phpAds_config['log_adclicks'])
-	{
-		if ($host = phpads_ignore_host())
-		{
-			phpAds_logClick($bannerid, $zoneid, $host, $source);
-			phpAds_expire ($clientid, phpAds_Clicks);
-		}
-	}
+	phpAds_logClick($bannerid, $clientid, $zoneid, $source);
 	
 	
 	// Get vars
