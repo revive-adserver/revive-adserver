@@ -366,6 +366,7 @@ function phpAds_PageFooter()
 {
 	global $phpAds_config;
 	global $phpAds_showHelp, $phpAds_helpDefault;
+	global $Session;
 	
 	echo "</td><td width='40'>&nbsp;</td></tr>";
 	
@@ -396,6 +397,14 @@ function phpAds_PageFooter()
 		echo "<td width='16' align='right' valign='top'><img src='images/help-close.gif' width='16' height='16' border='0' vspace='4' hspace='4' onClick='hideHelp();'></td>";
 		echo "</tr></table></div>";
 		echo "<br><br><br><br><br><br>";
+	}
+
+	// Add Product Update redirector
+	if (phpAds_isUser(phpAds_Admin) &&
+		!isset($Session['update_check']) &&
+		!ereg("/(index|maintenance-updates)\.php$", $GLOBALS['SCRIPT_NAME']))
+	{
+		echo "\t<script language='JavaScript' src='maintenance-updates-js.php'></script>\n";
 	}
 	
 	echo "</body>";

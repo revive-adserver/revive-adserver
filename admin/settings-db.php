@@ -79,7 +79,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 
 phpAds_PrepareHelp();
 phpAds_PageHeader("5.1");
-phpAds_ShowSections(array("5.1", "5.3", "5.2"));
+phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2"));
 phpAds_SettingsSelection("db");
 
 

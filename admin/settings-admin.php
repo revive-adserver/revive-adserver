@@ -65,8 +65,8 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		phpAds_SettingsWriteAdd('company_name', $company_name);
 	if (isset($language))
 		phpAds_SettingsWriteAdd('language', $language);
-	if (isset($pg_timezone))
-		phpAds_SettingsWriteAdd('pg_timezone', $pg_timezone);
+	if (isset($updates_frequency))
+		phpAds_SettingsWriteAdd('updates_frequency', $updates_frequency);
 	if (isset($admin_novice))
 		phpAds_SettingsWriteAdd('admin_novice', $admin_novice);
 	
@@ -95,7 +95,7 @@ phpAds_PrepareHelp();
 if (isset($message))
 	phpAds_ShowMessage($message);
 phpAds_PageHeader("5.1");
-phpAds_ShowSections(array("5.1", "5.3", "5.2"));
+phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2"));
 phpAds_SettingsSelection("admin");
 
 
@@ -133,6 +133,15 @@ phpAds_AddSettings('end_section', '');
 phpAds_AddSettings('start_section', "2.1.3");
 phpAds_AddSettings('select', 'language',
 	array($strLanguage, phpAds_AvailableLanguages()));
+phpAds_AddSettings('break', '');
+phpAds_AddSettings('select', 'updates_frequency', array(
+	'Check for updates', array(
+		'0'  => 'Every Login',
+		'1'  => 'Daily',
+		'7'  => 'Weekly',
+		'30' => 'Monthly',
+		'-1' => 'Never'
+)));
 phpAds_AddSettings('break', '');
 phpAds_AddSettings('checkbox', 'admin_novice', $strAdminNovice);
 phpAds_AddSettings('break', '');

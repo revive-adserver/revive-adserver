@@ -150,6 +150,7 @@ $phpAds_nav = array (
 		  "5.3" 					=> 	array("maintenance-index.php" => $strMaintenance),
 		  "5.2" 					=> 	array("userlog-index.php" => $strUserLog),
 		  	"5.2.1" 				=> 	array("userlog-details.php?userlogid=$userlogid" => $strUserLogDetails),
+		  "5.4" 					=> 	array("maintenance-updates.php" => $strProductUpdates)
 	),
 
 	"client" => array (
