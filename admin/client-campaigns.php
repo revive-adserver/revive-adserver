@@ -206,12 +206,17 @@ if (isset($campaigns) && is_array($campaigns) && count($campaigns) > 0)
 {
 	reset ($campaigns);
 	while (list ($key, $campaign) = each ($campaigns))
+	{
+		if (!isset($campaign['banners']))
+			$campaign['banners'] = array();
+		
 		if ($hideinactive == true && ($campaign['active'] == 'f' || $campaign['active'] == 't' && 
 			count($campaign['banners']) == 0 && count($campaign['banners']) < $campaign['count']))
 		{
 			$campaignshidden++;
 			unset($campaigns[$key]);
 		}
+	}
 }
 
 
