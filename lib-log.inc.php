@@ -53,6 +53,10 @@ function phpAds_logExpire ($clientid, $type=0)
 				if (!defined('LIBMAIL_INCLUDED'))
 					require (phpAds_path.'/lib-mail.inc.php');
 				
+				if (!defined('LIBUSERLOG_INCLUDED'))
+					require (phpAds_path.'/lib-userlog.inc.php');
+				
+				phpAds_userlogSetUser (phpAds_userDeliveryEngine);
 				phpAds_warningMail ($campaign);
 			}
 		}
@@ -76,20 +80,28 @@ function phpAds_logExpire ($clientid, $type=0)
 			$active = "f";
 		
 		if ($campaign["active"] != $active)
-			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET active='".$active."' WHERE clientid='".$clientid."'");
-		
-		
-		// Send deactivation warning
-		if ($active == 'f')
 		{
-			// Include warning library
-			if (!defined('LIBWARNING_INCLUDED'))
-				require (phpAds_path.'/lib-warnings.inc.php');
+			if (!defined('LIBUSERLOG_INCLUDED'))
+				require (phpAds_path.'/lib-userlog.inc.php');
 			
-			if (!defined('LIBMAIL_INCLUDED'))
-				require (phpAds_path.'/lib-mail.inc.php');
+			// Log deactivation
+			phpAds_userlogSetUser (phpAds_userDeliveryEngine);
+			phpAds_userlogAdd (phpAds_actionDeactiveCampaign, $campaign['clientid']);
 			
-			phpAds_deactivateMail ($campaign);
+			// Send deactivation warning
+			if ($active == 'f')
+			{
+				// Include warning library
+				if (!defined('LIBWARNING_INCLUDED'))
+					require (phpAds_path.'/lib-warnings.inc.php');
+				
+				if (!defined('LIBMAIL_INCLUDED'))
+					require (phpAds_path.'/lib-mail.inc.php');
+				
+				phpAds_deactivateMail ($campaign);
+			}
+			
+			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET active='".$active."' WHERE clientid='".$clientid."'");
 		}
 	}
 }

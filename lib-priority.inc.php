@@ -13,11 +13,9 @@
 /************************************************************************/
 
 
-$debug = true;
-$debuglog = '';
-
 define('phpAds_CurrentHour', date('H'));
 
+$debuglog = '';
 
 
 function phpAds_PriorityGetImpressions($days, $offset)
@@ -186,21 +184,20 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, $profile)
 	
 	
 	
-	if ($debug == true)
-	{
-		$debuglog .= "PREDICTED PROFILE\n";
-		$debuglog .= "-----------------------------------------------------\n";
-		
-		for ($i=0;$i<12;$i++)
-			$debuglog .= $profile[$i]."  ";
-		
-		$debuglog .= "\n";
-		
-		for ($i=12;$i<24;$i++)
-			$debuglog .= $profile[$i]."  ";
-		
-		$debuglog .= "\n\n\n";
-	}
+	// BEGIN REPORTING
+	$debuglog .= "PREDICTED PROFILE\n";
+	$debuglog .= "-----------------------------------------------------\n";
+	
+	for ($i=0;$i<12;$i++)
+		$debuglog .= $profile[$i]."  ";
+	
+	$debuglog .= "\n";
+	
+	for ($i=12;$i<24;$i++)
+		$debuglog .= $profile[$i]."  ";
+	
+	$debuglog .= "\n\n\n";
+	// END REPORTING
 	
 	
 	
@@ -241,21 +238,20 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, $profile)
 	}
 	
 	
-	if ($debug == true)
-	{
-		$debuglog .= "REAL VALUES UP TILL ".phpAds_CurrentHour.":00 \n";
-		$debuglog .= "-----------------------------------------------------\n";
-		
-		for ($i=0;$i<12;$i++)
-			$debuglog .= (int)($real_profile[$i] + 0)."  ";
-		
-		$debuglog .= "\n";
-		
-		for ($i=12;$i<24;$i++)
-			$debuglog .= (int)($real_profile[$i] + 0)."  ";
-		
-		$debuglog .= "\n\n\n";
-	}	
+	// BEGIN REPORTING
+	$debuglog .= "REAL VALUES UP TILL ".phpAds_CurrentHour.":00 \n";
+	$debuglog .= "-----------------------------------------------------\n";
+	
+	for ($i=0;$i<12;$i++)
+		$debuglog .= (int)($real_profile[$i] + 0)."  ";
+	
+	$debuglog .= "\n";
+	
+	for ($i=12;$i<24;$i++)
+		$debuglog .= (int)($real_profile[$i] + 0)."  ";
+	
+	$debuglog .= "\n\n\n";
+	// END REPORTING
 	
 	
 	
@@ -279,13 +275,12 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, $profile)
 			
 			$predicted_left_today = $predicted_today - $predicted_up_till_now;
 			
-			if ($debug == true)
-			{
-				$debuglog .= "Predicted impressions today: $predicted_today \n";
-				$debuglog .= "Predicted impression up till now: $predicted_up_till_now \n";
-				$debuglog .= "Predicted impressions left today: $predicted_left_today \n";
-				$debuglog .= "-----------------------------------------------------\n";
-			}
+			// BEGIN REPORTING
+			$debuglog .= "Predicted impressions today: $predicted_today \n";
+			$debuglog .= "Predicted impression up till now: $predicted_up_till_now \n";
+			$debuglog .= "Predicted impressions left today: $predicted_left_today \n";
+			$debuglog .= "-----------------------------------------------------\n";
+			// END REPORTING
 			
 			// Adjust prediction for today
 			if ($predicted_up_till_now > 0)
@@ -344,32 +339,31 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, $profile)
 				
 				$deviance   = phpAds_PriorityGetDeviance(phpAds_CurrentHour, $profile, $real_profile);
 				
-				if ($debug == true)
+				// BEGIN REPORTING
+				$debuglog .= "Importance factor: ".sprintf('%.4f (%.4f)', phpAds_PriorityGetImportance(phpAds_CurrentHour), $importance_old)." \n";
+				$debuglog .= "Deviance: ".sprintf('%.4f (%.4f)', $deviance, $deviance_old)." \n";
+				$debuglog .= "-----------------------------------------------------\n";
+				
+				if ($profile_correction_executed)
 				{
-					$debuglog .= "Importance factor: ".sprintf('%.4f (%.4f)', phpAds_PriorityGetImportance(phpAds_CurrentHour), $importance_old)." \n";
-					$debuglog .= "Deviance: ".sprintf('%.4f (%.4f)', $deviance, $deviance_old)." \n";
+					$debuglog .= "Predicted impressions today after correction: $predicted_today \n";
+					$debuglog .= "Predicted impression up till now after correction: $predicted_up_till_now \n";
+					$debuglog .= "Predicted impressions left today after correction: $predicted_left_today \n";
+					
+					$debuglog .= "\n\nNEW PREDICTED PROFILE\n";
 					$debuglog .= "-----------------------------------------------------\n";
 					
-					if ($profile_correction_executed)
-					{
-						$debuglog .= "Predicted impressions today after correction: $predicted_today \n";
-						$debuglog .= "Predicted impression up till now after correction: $predicted_up_till_now \n";
-						$debuglog .= "Predicted impressions left today after correction: $predicted_left_today \n";
-						
-						$debuglog .= "\n\nNEW PREDICTED PROFILE\n";
-						$debuglog .= "-----------------------------------------------------\n";
-						
-						for ($i=0;$i<12;$i++)
-							$debuglog .= $profile[$i]."  ";
-						
-						$debuglog .= "\n";
-						
-						for ($i=12;$i<24;$i++)
-							$debuglog .= $profile[$i]."  ";
-						
-						$debuglog .= "\n\n\n";
-					}
+					for ($i=0;$i<12;$i++)
+						$debuglog .= $profile[$i]."  ";
+					
+					$debuglog .= "\n";
+					
+					for ($i=12;$i<24;$i++)
+						$debuglog .= $profile[$i]."  ";
+					
+					$debuglog .= "\n\n\n";
 				}
+				// END REPORTING
 				
 				$real_left_today = round($predicted_left_today * $deviance);
 			}
@@ -388,13 +382,13 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, $profile)
 				$adjustment = 1;
 			
 			
-			if ($debug == true)
-			{				
-				$debuglog .= "Real impressions up till now: $real_up_till_now \n";
-				$debuglog .= "Adjusted predicted impressions today: $real_today\n";
-				$debuglog .= "Adjusted predicted impressions left today: $real_left_today\n";
-				$debuglog .= "-----------------------------------------------------\n";
-			}
+			// BEGIN REPORTING
+			$debuglog .= "Real impressions up till now: $real_up_till_now \n";
+			$debuglog .= "Adjustment: $adjustment\n";
+			$debuglog .= "Adjusted predicted impressions today: $real_today\n";
+			$debuglog .= "Adjusted predicted impressions left today: $real_left_today\n";
+			$debuglog .= "-----------------------------------------------------\n";
+			// END REPORTING
 			
 			if ($adjustment > 0)
 			{
@@ -483,21 +477,20 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, $profile)
 	
 	
 	
-	if ($debug == true)
-	{
-		$debuglog .= "\n\n\nADJUSTED PROFILE\n";
-		$debuglog .= "-----------------------------------------------------\n";
-		
-		for ($i=0;$i<12;$i++)
-			$debuglog .= $profile[$i]."  ";
-		
-		$debuglog .= "\n";
-		
-		for ($i=12;$i<24;$i++)
-			$debuglog .= $profile[$i]."  ";
-		
-		$debuglog .= "\n\n\n";
-	}
+	// BEGIN REPORTING
+	$debuglog .= "\n\n\nADJUSTED PROFILE\n";
+	$debuglog .= "-----------------------------------------------------\n";
+	
+	for ($i=0;$i<12;$i++)
+		$debuglog .= $profile[$i]."  ";
+	
+	$debuglog .= "\n";
+	
+	for ($i=12;$i<24;$i++)
+		$debuglog .= $profile[$i]."  ";
+	
+	$debuglog .= "\n\n\n";
+	// END REPORTING
 	
 	return array ($profile, $profile_correction_executed);
 }
@@ -507,7 +500,7 @@ function phpAds_PriorityPrepareCampaigns()
 	global $phpAds_config;
 	
 	$campaigns = array();
-
+	
 	$query = "
 		SELECT DISTINCT
 			c.clientid AS clientid,
@@ -694,8 +687,9 @@ function phpAds_PriorityCalculate()
 	// Apply correction to other hits
 	if ($profile_correction_executed)
 	{
-		if ($debug)
-			$debuglog .= "\n\nRemoved ".($total_targeted_hits+$total_other_hits-$corrected_hits)." hits for spurious values compensation\n\n";
+		// BEGIN REPORTING
+		$debuglog .= "\n\nRemoved ".($total_targeted_hits+$total_other_hits-$corrected_hits)." hits for spurious values compensation\n\n";
+		// END REPORTING
 		
 		$total_other_hits = $corrected_hits - $total_targeted_hits;
 	}
@@ -703,6 +697,7 @@ function phpAds_PriorityCalculate()
 	$total_hits 		  = $total_targeted_hits + $total_other_hits;
 	$estimated_remaining  = $estimated_hits - $total_hits;
 	$requested_remaining  = $total_requested - $total_targeted_hits;
+	
 	
 	if ($estimated_remaining > $requested_remaining)
 	{
@@ -715,20 +710,19 @@ function phpAds_PriorityCalculate()
 		$available_for_others    = 0;
 	}
 	
-	if ($debug == true)
-	{
-		$debuglog .= "\n\n\n";
-		$debuglog .= "Estimated number of impressions today: $estimated_hits \n";
-		$debuglog .= "Estimated number of impressions remaining: $estimated_remaining \n";
-		$debuglog .= "-----------------------------------------------------\n";
-		$debuglog .= "Total number of requested impressions: $total_requested \n";
-		$debuglog .= "Number of requested impressions satisfied: $total_targeted_hits \n";
-		$debuglog .= "Number of requested impressions remaining: $requested_remaining \n";
-		$debuglog .= "-----------------------------------------------------\n\n\n";
-		$debuglog .= "Impressions available to meet the targets: $available_for_targeting \n";
-		$debuglog .= "Impressions left over: $available_for_others \n";
-		$debuglog .= "-----------------------------------------------------\n";
-	}
+	// BEGIN REPORTING
+	$debuglog .= "\n\n\n";
+	$debuglog .= "Estimated number of impressions today: $estimated_hits \n";
+	$debuglog .= "Estimated number of impressions remaining: $estimated_remaining \n";
+	$debuglog .= "-----------------------------------------------------\n";
+	$debuglog .= "Total number of requested impressions: $total_requested \n";
+	$debuglog .= "Number of requested impressions satisfied: $total_targeted_hits \n";
+	$debuglog .= "Number of requested impressions remaining: $requested_remaining \n";
+	$debuglog .= "-----------------------------------------------------\n\n\n";
+	$debuglog .= "Impressions available to meet the targets: $available_for_targeting \n";
+	$debuglog .= "Impressions left over: $available_for_others \n";
+	$debuglog .= "-----------------------------------------------------\n";
+	// END REPORTING
 	
 	$totalassigned = 0;
 	
@@ -736,11 +730,10 @@ function phpAds_PriorityCalculate()
 	{
 		if ($campaigns[$c]['target'] > 0)
 		{
-			if ($debug == true)
-			{
-				$debuglog .= "\n\n\nCAMPAIGN $c \n";
-				$debuglog .= "-----------------------------------------------------\n";
-			}
+			// BEGIN REPORTING
+			$debuglog .= "\n\n\nCAMPAIGN $c \n";
+			$debuglog .= "-----------------------------------------------------\n";
+			// END REPORTING
 			
 			
 			// Hits assigned  = 
@@ -764,12 +757,11 @@ function phpAds_PriorityCalculate()
 				$expected_hits_this_period = round ($profile_uptil_now / $total_profile * $campaigns[$c]['target']);
 			}
 			
-			if ($debug == true)
-			{
-				$debuglog .= "Remaining for campaign: $remaining_for_campaign \n";
-				$debuglog .= "Real impressions up till now: ".$campaigns[$c]['hits']." \n";
-				$debuglog .= "Expected impressions up till now: $expected_hits_this_period \n";
-			}
+			// BEGIN REPORTING
+			$debuglog .= "Remaining for campaign: $remaining_for_campaign \n";
+			$debuglog .= "Real impressions up till now: ".$campaigns[$c]['hits']." \n";
+			$debuglog .= "Expected impressions up till now: $expected_hits_this_period \n";
+			// END REPORTING
 			
 			if ($period > 0)
 				$extra_to_assign = $expected_hits_this_period - $campaigns[$c]['hits'];
@@ -782,11 +774,10 @@ function phpAds_PriorityCalculate()
 			if ($remaining_for_campaign < 0)
 				$remaining_for_campaign = 0;
 			
-			if ($debug == true)
-			{
-				$debuglog .= "Compensate by: $extra_to_assign \n";
-				$debuglog .= "Priority for whole campaign: $remaining_for_campaign \n";
-			}
+			// BEGIN REPORTING
+			$debuglog .= "Compensate by: $extra_to_assign \n";
+			$debuglog .= "Priority for whole campaign: $remaining_for_campaign \n";
+			// END REPORTING
 			
 			$totalassigned 			+= $remaining_for_campaign;
 			
@@ -800,8 +791,9 @@ function phpAds_PriorityCalculate()
 				{
 					$banners[$b]['priority'] = round ($remaining_for_campaign / $total_banner_weight * $banners[$b]['weight']);
 					
-					if ($debug == true)
-						$debuglog .= "- Priority of banner $b: ".$banners[$b]['priority']." \n";
+					// BEGIN REPORTING
+					$debuglog .= "- Priority of banner $b: ".$banners[$b]['priority']." \n";
+					// END REPORTING
 				}
 		}
 	}
@@ -809,24 +801,22 @@ function phpAds_PriorityCalculate()
 	//$available_for_others = $estimated_remaining - $totalassigned;
 	
 	
-	if ($debug == true)
-	{
-		$debuglog .= "\n\n\n";
-		$debuglog .= "Impressions assigned to meet the targets: $totalassigned \n";
-		$debuglog .= "Impressions left over: $available_for_others \n";
-		$debuglog .= "-----------------------------------------------------\n";
-	}
+	// BEGIN REPORTING
+	$debuglog .= "\n\n\n";
+	$debuglog .= "Impressions assigned to meet the targets: $totalassigned \n";
+	$debuglog .= "Impressions left over: $available_for_others \n";
+	$debuglog .= "-----------------------------------------------------\n";
+	// END REPORTING
 	
 	
 	for (reset($campaigns);$c=key($campaigns);next($campaigns))
 	{
 		if ($campaigns[$c]['target'] == 0)
 		{
-			if ($debug == true)
-			{
-				$debuglog .= "\n\n\nCAMPAIGN $c \n";
-				$debuglog .= "-----------------------------------------------------\n";
-			}
+			// BEGIN REPORTING
+			$debuglog .= "\n\n\nCAMPAIGN $c \n";
+			$debuglog .= "-----------------------------------------------------\n";
+			// END REPORTING
 			
 			
 			if ($available_for_others > 0)
@@ -834,10 +824,9 @@ function phpAds_PriorityCalculate()
 			else
 				$remaining_for_campaign = 0;
 			
-			if ($debug == true)
-			{
-				$debuglog .= "Remaining for campaign: $remaining_for_campaign \n";
-			}
+			// BEGIN REPORTING
+			$debuglog .= "Remaining for campaign: $remaining_for_campaign \n";
+			// END REPORTING
 			
 			$total_banner_weight = 0;
 			for (reset($banners);$b=key($banners);next($banners))
@@ -849,14 +838,17 @@ function phpAds_PriorityCalculate()
 				{
 					$banners[$b]['priority'] = round ($remaining_for_campaign / $total_banner_weight * $banners[$b]['weight']);
 					
-					if ($debug == true)
-						$debuglog .= "- Assigned priority to banner $b: ".$banners[$b]['priority']." \n";
+					// BEGIN REPORTING
+					$debuglog .= "- Assigned priority to banner $b: ".$banners[$b]['priority']." \n";
+					// END REPORTING
 				}
 		}
 	}
 	
 	// Store priority information
 	phpAds_PriorityStore($banners);
+	
+	return ($debuglog);
 }
 
 

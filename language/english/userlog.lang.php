@@ -13,14 +13,21 @@
 /************************************************************************/
 
 
+// Set translation strings
 
-// Include required files
-require	(phpAds_path."/lib-priority.inc.php"); 
+$GLOBALS['strDeliveryEngine']				= "Delivery Engine";
+$GLOBALS['strMaintenance']					= "Maintenance";
+$GLOBALS['strAdministrator']				= "Administrator";
 
 
-$report = phpAds_PriorityCalculate();
-
-if ($report != '' && $phpAds_config['userlog_priority'])
-	phpAds_userlogAdd (phpAds_actionPriorityCalculation, 0, $report);
+$GLOBALS['strUserlog'] = array (
+	phpAds_actionAdvertiserReportMailed 	=> "Advertiser report for client {id} send by e-mail",
+	phpAds_actionPublisherReportMailed 		=> "Publisher report for affiliate {id} send by e-mail",
+	phpAds_actionWarningMailed				=> "Deactivation warning for campaign {id} send by e-mail",
+	phpAds_actionDeactivationMailed			=> "Deactivation notification for campaign {id} send by e-mail",
+	phpAds_actionPriorityCalculation		=> "Priority recalculated",
+	phpAds_actionDeactiveCampaign			=> "Campaign {id} deactivated",
+	phpAds_actionActiveCampaign				=> "Campaign {id} activated"
+);
 
 ?>

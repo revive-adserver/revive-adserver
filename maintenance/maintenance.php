@@ -21,13 +21,6 @@ else
     define ('phpAds_path', '.');
 
 
-// Include required files
-require (phpAds_path."/config.inc.php");
-require (phpAds_path."/lib-db.inc.php");
-require (phpAds_path."/lib-dbconfig.inc.php");
-require (phpAds_path."/lib-cache.inc.php");
-require (phpAds_path."/admin/lib-statistics.inc.php");
-
 // Set time limit and ignore user abort
 if (!get_cfg_var ('safe_mode')) 
 {
@@ -36,16 +29,31 @@ if (!get_cfg_var ('safe_mode'))
 }
 
 
+
+// Include required files
+require (phpAds_path."/config.inc.php");
+require (phpAds_path."/lib-db.inc.php");
+require (phpAds_path."/lib-dbconfig.inc.php");
+require (phpAds_path."/lib-mail.inc.php");
+require (phpAds_path."/lib-userlog.inc.php");
+require (phpAds_path."/lib-cache.inc.php");
+require (phpAds_path."/admin/lib-statistics.inc.php");
+
+
+
 // Make database connection and load config
 phpAds_dbConnect();
 phpAds_LoadDbConfig();
 
-
 // Load language strings
-require("../language/".$phpAds_config['language']."/default.lang.php");
+require(phpAds_path."/language/".$phpAds_config['language']."/default.lang.php");
+
+// Set maintenance usertype
+phpAds_userlogSetUser (phpAds_userMaintenance);
 
 
-$adminreport = "";
+
+// Run different maintenance tasks
 
 if (date('H') == 0)
 {
@@ -55,9 +63,5 @@ if (date('H') == 0)
 
 include ("maintenance-priority.php");
 
-if ($adminreport != "")
-{
-	// mail admin report to admin
-}
 
 ?>

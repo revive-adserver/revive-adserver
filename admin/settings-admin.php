@@ -31,7 +31,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 	if (isset($admin))
 	{
 		$message = '';
-
+		
 		$admin = strtolower($admin);
 		
 		if (!strlen($admin))
@@ -41,7 +41,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		else
 			phpAds_SettingsWriteAdd('admin', $admin);
 	}
-
+	
 	if (isset($pwold) && strlen($pwold) ||
 		isset($pw) && strlen($pw) ||
 		isset($pw2) && strlen($pw2))
@@ -72,7 +72,12 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		phpAds_SettingsWriteAdd('pg_timezone', $pg_timezone);
 	if (isset($admin_novice))
 		phpAds_SettingsWriteAdd('admin_novice', $admin_novice);
-
+	
+	if (isset($userlog_email))
+		phpAds_SettingsWriteAdd('userlog_email', $userlog_email);
+	if (isset($userlog_priority))
+		phpAds_SettingsWriteAdd('userlog_priority', $userlog_priority);
+	
 	if (!count($errormessage))
 	{
 		if (phpAds_SettingsWriteFlush())
@@ -93,7 +98,7 @@ phpAds_PrepareHelp();
 if (isset($message))
 	phpAds_ShowMessage($message);
 phpAds_PageHeader("5.1");
-phpAds_ShowSections(array("5.1"));
+phpAds_ShowSections(array("5.1", "5.2"));
 phpAds_SettingsSelection("admin");
 
 
@@ -136,6 +141,9 @@ phpAds_AddSettings('break', '');
 //	array($strTimeZone, phpAds_AvailableTZ()));
 //phpAds_AddSettings('break', '');
 phpAds_AddSettings('checkbox', 'admin_novice', $strAdminNovice);
+phpAds_AddSettings('break', '');
+phpAds_AddSettings('checkbox', 'userlog_email', $strUserlogEmail);
+phpAds_AddSettings('checkbox', 'userlog_priority', $strUserlogPriority);
 phpAds_AddSettings('end_section', '');
 phpAds_EndSettings();
 

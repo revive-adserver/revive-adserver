@@ -24,6 +24,7 @@ $GLOBALS['phpAds_TextAlignLeft']  = "left";
 // Date & time configuration
 $GLOBALS['date_format']    = "%m/%d/%Y";
 $GLOBALS['time_format']    = "%H:%i:%S";
+$GLOBALS['minute_format']  = "%H:%M";
 $GLOBALS['month_format']   = "%m/%Y";
 $GLOBALS['day_format']     = "%m/%d";
 $GLOBALS['week_format']    = "%W/%Y";
@@ -445,5 +446,13 @@ $GLOBALS['strWeeks']					= "Weeks";
 $GLOBALS['strDailyHistory']				= "Daily history";
 $GLOBALS['strWeeklyHistory']			= "Weekly history";
 $GLOBALS['strMonthlyHistory']			= "Monthly history";
+
+$GLOBALS['strUserLog']					= "User log";
+$GLOBALS['strUserLogDetails']			= "User log details";
+$GLOBALS['strAction']					= "Action";
+$GLOBALS['strDetails']					= "Details";
+$GLOBALS['strNoActionsLogged']			= "No actions are logged";
+$GLOBALS['strDeleteLog']				= "Delete Log";
+$GLOBALS['strUser']						= "User";
 
 ?>

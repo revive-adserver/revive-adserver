@@ -1,6 +1,21 @@
 
 
 
+-- Table structure for table 'phpads_userlog'
+
+
+CREATE TABLE phpads_userlog (
+   userlogid mediumint(9) NOT NULL AUTO_INCREMENT,
+   timestamp int(11) NOT NULL,
+   usertype tinyint(4) NOT NULL,
+   userid mediumint(9) NOT NULL,
+   action mediumint(9) NOT NULL,
+   object mediumint(9),
+   details blob,
+   PRIMARY KEY (userlogid)
+);
+
+
 -- Table structure for table 'phpads_affiliates'
 
 
@@ -218,6 +233,9 @@ CREATE TABLE phpads_config (
    default_campaign_weight tinyint(4) DEFAULT '1',
    client_welcome enum('t','f') DEFAULT 't',
    client_welcome_msg text,
+   content_gzip_compression enum('t','f') DEFAULT 'f',
+   userlog_email enum('t','f') DEFAULT 't',
+   userlog_priority enum('t','f') DEFAULT 't',
    PRIMARY KEY (configid)
 );
 

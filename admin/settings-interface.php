@@ -38,6 +38,9 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 	if (isset($client_welcome_msg))
 		phpAds_SettingsWriteAdd('client_welcome_msg', $client_welcome_msg);
 	
+	if (isset($content_gzip_compression))
+		phpAds_SettingsWriteAdd('content_gzip_compression', $content_gzip_compression);
+	
 	if (!count($errormessage))
 	{
 		if (phpAds_SettingsWriteFlush())
@@ -47,7 +50,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		}
 	}
 }
-	
+
 
 
 
@@ -57,7 +60,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 
 phpAds_PrepareHelp();
 phpAds_PageHeader("5.1");
-phpAds_ShowSections(array("5.1"));
+phpAds_ShowSections(array("5.1", "5.2"));
 phpAds_SettingsSelection("interface");
 
 
@@ -76,6 +79,8 @@ phpAds_AddSettings('text', 'my_header',
 phpAds_AddSettings('break', '');
 phpAds_AddSettings('text', 'my_footer',
 	array($strMyFooter, 35));
+phpAds_AddSettings('break', '');
+phpAds_AddSettings('checkbox', 'content_gzip_compression', $strGzipContentCompression);
 phpAds_AddSettings('end_section', '');
 
 phpAds_AddSettings('start_section', "2.2.2");

@@ -193,7 +193,8 @@ $GLOBALS['strAdminEmail']				= "Admin's email address";
 $GLOBALS['strCompanyName']				= "Company Name";
 
 $GLOBALS['strAdminNovice']				= "Admin's delete actions need confirmation for safety";
-
+$GLOBALS['strUserlogEmail']				= "Log all outgoing email messages";
+$GLOBALS['strUserlogPriority']			= "Log hourly priority calculations";
 
 
 // User interface settings
@@ -203,6 +204,7 @@ $GLOBALS['strGeneralSettings']			= "General settings";
 $GLOBALS['strAppName']					= "Application Name";
 $GLOBALS['strMyHeader']					= "My Header";
 $GLOBALS['strMyFooter']					= "My Footer";
+$GLOBALS['strGzipContentCompression']	= "Use GZIP content compression";
 
 $GLOBALS['strClientInterface']			= "Client interface";
 $GLOBALS['strClientWelcomeEnabled']		= "Enable client welcome message";

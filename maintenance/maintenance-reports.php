@@ -15,7 +15,7 @@
 
 
 // Include required files
-require	("../lib-reports.inc.php"); 
+require	(phpAds_path."/lib-reports.inc.php"); 
 
 
 
@@ -48,6 +48,7 @@ $res_clients = phpAds_dbQuery("
 		parent = 0 AND report='t'
 	");
 
+
 while($client = phpAds_dbFetchArray($res_clients))
 {
 	// Determine date of interval days ago
@@ -63,11 +64,9 @@ while($client = phpAds_dbFetchArray($res_clients))
 		$first_unixtimestamp  = $client['reportlastdate_t'];
 		
 		// Sent report
-		$result = phpAds_SendMaintenanceReport ($client['clientid'], $first_unixtimestamp, $last_unixtimestamp, true);
-		
-		if ($result)
-			echo "[id".$client['clientid']."] Statistics report sent!<br>";
+		phpAds_SendMaintenanceReport ($client['clientid'], $first_unixtimestamp, $last_unixtimestamp, true);
 	}
 }
+
 
 ?>

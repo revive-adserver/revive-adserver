@@ -45,6 +45,7 @@ include ("../lib-db.inc.php");
 include ("../lib-dbconfig.inc.php");
 include ("lib-gui.inc.php");
 include ("lib-permissions.inc.php");
+include ("../lib-userlog.inc.php");
 
 
 
@@ -94,6 +95,7 @@ if (!isset($campaignid))  $campaignid = '';
 if (!isset($bannerid))    $bannerid = '';
 if (!isset($zoneid))   	  $zoneid = '';
 if (!isset($affiliateid)) $affiliateid = '';
+if (!isset($userlogid))   $userlogid = '';
 if (!isset($day))		  $day = '';
 
 
@@ -141,7 +143,9 @@ $phpAds_nav = array (
 		  "4.3" 			=> 	array("admin-generate.php" => $strGenerateBannercode),
 		  "4.4"				=>  array("admin-priority.php" => $strPriority),
 		"5"					=> 	array("settings-index.php" => $strSettings),
-		  "5.1" 			=> 	array("settings-db.php" => $strMainSettings)
+		  "5.1" 			=> 	array("settings-db.php" => $strMainSettings),
+		  "5.2" 			=> 	array("userlog-index.php" => $strUserLog),
+		  	"5.2.1" 		=> 	array("userlog-details.php?userlogid=$userlogid" => $strUserLogDetails),
 	),
 
 	"client" => array (

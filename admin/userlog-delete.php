@@ -13,14 +13,19 @@
 /************************************************************************/
 
 
-
 // Include required files
-require	(phpAds_path."/lib-priority.inc.php"); 
+require ("config.php");
+
+// Security check
+phpAds_checkAccess(phpAds_Admin);
 
 
-$report = phpAds_PriorityCalculate();
 
-if ($report != '' && $phpAds_config['userlog_priority'])
-	phpAds_userlogAdd (phpAds_actionPriorityCalculation, 0, $report);
+/*********************************************************/
+/* Main code                                             */
+/*********************************************************/
+
+phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_userlog']);
+header ("Location: userlog-index.php");
 
 ?>

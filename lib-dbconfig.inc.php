@@ -15,8 +15,8 @@
 
 
 // Current phpAds version
-$phpAds_version = 200.076;
-$phpAds_version_readable = "2 dev 29012002";
+$phpAds_version = 200.078;
+$phpAds_version_readable = "2 dev 11022002";
 
 $GLOBALS['phpAds_settings_information'] = array(
 	'dbhost' => 					array ('type' => 'string', 	'sql' => false),
@@ -33,6 +33,7 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'tbl_zones' => 					array ('type' => 'string', 	'sql' => false),
 	'tbl_affiliates' =>				array ('type' => 'string', 	'sql' => false),
 	'tbl_images' =>					array ('type' => 'string', 	'sql' => false),
+	'tbl_userlog' =>				array ('type' => 'string', 	'sql' => false),
 	'tbl_config' => 				array ('type' => 'string', 	'sql' => false),
 	'table_prefix' =>				array ('type' => 'string', 	'sql' => false),
 	'persistent_connections' =>		array ('type' => 'boolean', 'sql' => false),
@@ -90,6 +91,9 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'admin_novice' =>				array ('type' => 'boolean', 'sql' => true),
 	'client_welcome' =>				array ('type' => 'boolean', 'sql' => true),
 	'client_welcome_msg' =>			array ('type' => 'string', 'sql' => true),
+	'content_gzip_compression' =>	array ('type' => 'boolean', 'sql' => true),
+	'userlog_email' =>				array ('type' => 'boolean', 'sql' => true),
+	'userlog_priority' =>			array ('type' => 'boolean', 'sql' => true),
 	'config_version' =>				array ('type' => 'string', 'sql' => true)//,
 //	'pg_timezone' =>				array ('type' => 'string', 'sql' => true)
 );

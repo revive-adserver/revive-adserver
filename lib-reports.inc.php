@@ -13,6 +13,8 @@
 /************************************************************************/
 
 
+if (!defined('LIBMAIL_INCLUDED'))
+	require (phpAds_path.'/lib-mail.inc.php');
 
 
 function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_unixtimestamp, $update=true)
@@ -58,7 +60,6 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 			include (phpAds_path."/language/".$client['language']."/default.lang.php");
 		else
 			include (phpAds_path."/language/".$phpAds_config['language']."/default.lang.php");
-		
 		
 		$active_campaigns = false;
 		$log = "";
@@ -123,7 +124,7 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 					
 					if ($adviews > 0)
 					{
-						$log .= "$strViews (total):   $adviews\n";
+						$log .= "$strViews (total):    $adviews\n";
 						
 						// Fetch all adviews belonging to banner belonging to client, grouped by day
 						if ($phpAds_config['compact_stats'])
@@ -253,18 +254,6 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 		if ($client["email"] != '' && $active_campaigns == true)
 		{
 			$Subject  = $strMailSubject.": ".$client["clientname"];
-			$To = !get_cfg_var('SMTP') ? '"'.$client["contact"].'" <'.$client["email"].'>' : $client["email"];
-
-			$Headers = "Content-Transfer-Encoding: 8bit\r\n";
-			
-			if (isset($phpAds_CharSet))
-				$Headers .= "Content-Type: text/plain; charset=".$phpAds_CharSet."\r\n"; 
-			
-			$Headers .= !get_cfg_var('SMTP') ? "" : 'To: "'.$client["contact"].'" <'.$client["email"].">\r\n"; 			
-			$Headers .= "From: ".$phpAds_config['admin_fullname']." <".$phpAds_config['admin_email'].">\r\n";
-			if (!empty($phpAds_config['admin_email_headers']))
-				$Headers .= "\r\n".$phpAds_config['admin_email_headers'];
-			
 			
 			$Body    = "$strMailHeader\n";
 			$Body   .= "$strMailBannerStats\n";
@@ -283,7 +272,10 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 			$Body	 = str_replace ("{startdate}", 		date(str_replace('%', '', $date_format), $first_unixtimestamp), $Body);
 			$Body	 = str_replace ("{enddate}", 		date(str_replace('%', '', $date_format), $last_unixtimestamp), $Body);
 			
-			if (@mail ($To, $Subject, $Body, $Headers))
+			if ($phpAds_config['userlog_email']) 
+				phpAds_userlogAdd (phpAds_actionAdvertiserReportMailed, $client['clientid'], $Subject."\n\n".$Body);
+			
+			if (phpAds_sendMail ($client['email'], $client['contact'], $Subject, $Body))
 			{
 				// Update last run
 				if ($update == true)

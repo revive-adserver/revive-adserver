@@ -28,6 +28,7 @@ $phpAds_config['tbl_zones'] = 'phpads_zones';
 $phpAds_config['tbl_config'] = 'phpads_config';
 $phpAds_config['tbl_affiliates'] = 'phpads_affiliates';
 $phpAds_config['tbl_images'] = 'phpads_images';
+$phpAds_config['tbl_userlog'] = 'phpads_userlog';
 
 // Table names' prefix
 $phpAds_config['table_prefix'] = 'phpads_';

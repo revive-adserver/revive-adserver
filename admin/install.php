@@ -237,6 +237,7 @@ if (phpAds_isUser(phpAds_Admin))
 				$phpAds_config['tbl_config'] 	 = $installvars['tbl_config'] 	  = $table_prefix.'config';
 				$phpAds_config['tbl_affiliates'] = $installvars['tbl_affiliates'] = $table_prefix.'affiliates';
 				$phpAds_config['tbl_images'] 	 = $installvars['tbl_images'] 	  = $table_prefix.'images';
+				$phpAds_config['tbl_userlog'] 	 = $installvars['tbl_userlog'] 	  = $table_prefix.'userlog';
 				
 				if (phpAds_checkDatabase())
 				{
@@ -297,6 +298,7 @@ if (phpAds_isUser(phpAds_Admin))
 							phpAds_SettingsWriteAdd('tbl_config', $installvars['tbl_config']);
 							phpAds_SettingsWriteAdd('tbl_affiliates', $installvars['tbl_affiliates']);
 							phpAds_SettingsWriteAdd('tbl_images', $installvars['tbl_images']);
+							phpAds_SettingsWriteAdd('tbl_userlog', $installvars['tbl_userlog']);
 							
 							phpAds_SettingsWriteAdd('table_prefix', $installvars['table_prefix']);
 							

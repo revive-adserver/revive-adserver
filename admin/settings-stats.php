@@ -34,7 +34,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 			stripslashes($ignore_hosts))));
 		phpAds_SettingsWriteAdd('ignore_hosts', $ignore_hosts);
 	}
-
+	
 	if (isset($warn_limit))
 	{
 		if (!is_numeric($warn_limit) || $warn_limit <= 0)
@@ -42,7 +42,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		else
 			phpAds_SettingsWriteAdd('warn_limit', $warn_limit);
 	}
-
+	
 	if (isset($admin_email_headers))
 	{
 		$admin_email_headers = ereg_replace("\r?\n", "\\r\\n", $admin_email_headers);
@@ -65,7 +65,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		phpAds_SettingsWriteAdd('warn_admin', $warn_admin);
 	if (isset($warn_client))
 		phpAds_SettingsWriteAdd('warn_client', $warn_client);
-
+	
 	if (!count($errormessage))
 	{
 		if (phpAds_SettingsWriteFlush())
@@ -84,7 +84,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 
 phpAds_PrepareHelp();
 phpAds_PageHeader("5.1");
-phpAds_ShowSections(array("5.1"));
+phpAds_ShowSections(array("5.1", "5.2"));
 phpAds_SettingsSelection("stats");
 
 

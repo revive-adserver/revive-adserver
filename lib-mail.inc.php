@@ -45,7 +45,7 @@ function phpAds_sendMail ($email, $readable, $subject, $contents)
 	if ($phpAds_config['admin_email_headers'] != '')
 		$param_headers .= "\r\n".$phpAds_config['admin_email_headers'];
 	
-	mail ($param_to, $subject, $contents, $param_headers);
+	return (@mail ($param_to, $subject, $contents, $param_headers));
 }
 
 

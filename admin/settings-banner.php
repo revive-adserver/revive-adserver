@@ -27,7 +27,6 @@ $sql = array();
 
 if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 {
-
 	if (isset($type_html_auto))
 		phpAds_SettingsWriteAdd('type_html_auto', $type_html_auto);
 	if (isset($type_html_php))
@@ -39,7 +38,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 	if (isset($type_web_dir))
 		phpAds_SettingsWriteAdd('type_web_dir', $type_web_dir);
 	
-
+	
 	if (isset($type_web_ftp_host) && !empty($type_web_ftp_host))
 	{
 		if (isset($type_web_ftp_host) && $ftpsock = @ftp_connect($type_web_ftp_host))
@@ -50,7 +49,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 				{
 					$type_web_ftp = 'ftp://'.$type_web_ftp_user.
 						':'.$type_web_ftp_password.'@'.$type_web_ftp_host.'/'.$type_web_ftp_path;
-
+					
 					phpAds_SettingsWriteAdd('type_web_ftp', $type_web_ftp);
 				}
 				else
@@ -58,22 +57,22 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 			}
 			else
 				$errormessage[2][] = "Wrong FTP login";
-		
+			
 			@ftp_quit($ftpsock);
 		}
 		else
 			$errormessage[2][] = "Wrong FTP host";
 	}
-/*
+/*	
 	elseif (!isset($type_web_mode) && $phpAds_config['type_web_mode'] == 2 || $type_web_mode == 2)
 		$errormessage[2][] = "FTP configuration wrong";
-*/
-
+*/	
+	
 	if (isset($default_banner_url))
 		phpAds_SettingsWriteAdd('default_banner_url', $default_banner_url);
 	if (isset($default_banner_target))
 		phpAds_SettingsWriteAdd('default_banner_target', $default_banner_target);
-
+	
 	if (!count($errormessage))
 	{
 		if (phpAds_SettingsWriteFlush())
@@ -92,7 +91,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 
 phpAds_PrepareHelp();
 phpAds_PageHeader("5.1");
-phpAds_ShowSections(array("5.1"));
+phpAds_ShowSections(array("5.1", "5.2"));
 phpAds_SettingsSelection("banner");
 
 
@@ -105,12 +104,12 @@ phpAds_SettingsSelection("banner");
 if (!empty($phpAds_config['type_web_ftp']))
 {
 	if ($ftpserver = @parse_url($phpAds_config['type_web_ftp']))
-	{	
+	{
 		$phpAds_config['type_web_ftp_host'] = $ftpserver['host'].($ftpserver['port'] != '' ? ':'.$ftpserver['port'] : '');
 		$phpAds_config['type_web_ftp_user'] = $ftpserver['user'];
 		$phpAds_config['type_web_ftp_password'] = $ftpserver['pass'];
 		$phpAds_config['type_web_ftp_path'] = ereg_replace("^/?(.*)/?$", "\\1", $ftpserver['path']);
-	}	
+	}
 }
 
 phpAds_StartSettings();

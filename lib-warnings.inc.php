@@ -65,7 +65,12 @@ function phpAds_warningMail ($campaign)
 				phpAds_sendMail ($phpAds_config['admin_email'], $phpAds_config['admin_fullname'], $Subject, $Body);
 			
 			if ($phpAds_config['warn_client'] && $client["email"] != '')
+			{
 				phpAds_sendMail ($client['email'], $client['contact'], $Subject, $Body);
+				
+				if ($phpAds_config['userlog_email']) 
+					phpAds_userlogAdd (phpAds_actionWarningMailed, $campaign['clientid'], $Subject."\n\n".$Body);
+			}
 		}
 	}
 }
@@ -158,6 +163,9 @@ function phpAds_deactivateMail ($campaign)
 			
 			// Send email
 			phpAds_sendMail ($client['email'], $client['contact'], $Subject, $Body);
+			
+			if ($phpAds_config['userlog_email']) 
+				phpAds_userlogAdd (phpAds_actionDeactivationMailed, $campaign['clientid'], $Subject."\n\n".$Body);
 		}
 	}
 }
