@@ -486,7 +486,7 @@ function phpAds_replaceVariablesInBannerCode ($htmlcode)
 	// Parse PHP code
 	if ($phpAds_config['type_html_php'])
 	{
-		if (preg_match ("#(\<\?php(.*)\?\>)#i", $htmlcode, $parser_regs))
+		if (preg_match ("#(\<\?php(.*)\?\>)#si", $htmlcode, $parser_regs))
 		{
 			// Extract PHP script
 			$parser_php 	= $parser_regs[2];
