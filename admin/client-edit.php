@@ -515,11 +515,11 @@ while ($row = phpAds_dbFetchArray($res))
 
 <script language='JavaScript'>
 <!--
-	phpAds_formSetRequirements('clientname', '<?php echo $strName; ?>', true, 'unique');
-	phpAds_formSetRequirements('contact', '<?php echo $strContact; ?>', true);
-	phpAds_formSetRequirements('email', '<?php echo $strEMail; ?>', true, 'email');
-	phpAds_formSetRequirements('clientreportinterval', '<?php echo $strNoDaysBetweenReports; ?>', true, 'number+');
-	phpAds_formSetRequirements('clientusername', '<?php echo $strUsername; ?>', false, 'unique');
+	phpAds_formSetRequirements('clientname', '<?php echo addslashes($strName); ?>', true, 'unique');
+	phpAds_formSetRequirements('contact', '<?php echo addslashes($strContact); ?>', true);
+	phpAds_formSetRequirements('email', '<?php echo addslashes($strEMail); ?>', true, 'email');
+	phpAds_formSetRequirements('clientreportinterval', '<?php echo addslashes($strNoDaysBetweenReports); ?>', true, 'number+');
+	phpAds_formSetRequirements('clientusername', '<?php echo addslashes($strUsername); ?>', false, 'unique');
 	
 	phpAds_formSetUnique('clientname', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
 	phpAds_formSetUnique('clientusername', '|<?php echo addslashes(implode('|', $unique_users)); ?>|');

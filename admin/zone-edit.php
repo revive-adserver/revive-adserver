@@ -427,9 +427,9 @@ while ($row = phpAds_dbFetchArray($res))
 
 <script language='JavaScript'>
 <!--
-	phpAds_formSetRequirements('zonename', '<?php echo $strName; ?>', true, 'unique');
-	phpAds_formSetRequirements('width', '<?php echo $strWidth; ?>', true, 'number*');
-	phpAds_formSetRequirements('height', '<?php echo $strHeight; ?>', true, 'number*');
+	phpAds_formSetRequirements('zonename', '<?php echo addslashes($strName); ?>', true, 'unique');
+	phpAds_formSetRequirements('width', '<?php echo addslashes($strWidth); ?>', true, 'number*');
+	phpAds_formSetRequirements('height', '<?php echo addslashes($strHeight); ?>', true, 'number*');
 	
 	phpAds_formSetUnique('zonename', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
 

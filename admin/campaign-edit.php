@@ -623,11 +623,11 @@ while ($row = phpAds_dbFetchArray($res))
 
 <script language='JavaScript'>
 <!--
-	phpAds_formSetRequirements('clientname', '<?php echo $strName; ?>', true, 'unique');
-	phpAds_formSetRequirements('views', '<?php echo $strViewsPurchased; ?>', false, 'number+');
-	phpAds_formSetRequirements('clicks', '<?php echo $strClicksPurchased; ?>', false, 'number+');
-	phpAds_formSetRequirements('weight', '<?php echo $strCampaignWeight; ?>', false, 'number+');
-	phpAds_formSetRequirements('targetviews', '<?php echo $strTargetLimitAdviews.' x '.$strTargetPerDay; ?>', false, 'number+');
+	phpAds_formSetRequirements('clientname', '<?php echo addslashes($strName); ?>', true, 'unique');
+	phpAds_formSetRequirements('views', '<?php echo addslashes($strViewsPurchased); ?>', false, 'number+');
+	phpAds_formSetRequirements('clicks', '<?php echo addslashes($strClicksPurchased); ?>', false, 'number+');
+	phpAds_formSetRequirements('weight', '<?php echo addslashes($strCampaignWeight); ?>', false, 'number+');
+	phpAds_formSetRequirements('targetviews', '<?php echo addslashes($strTargetLimitAdviews.' x '.$strTargetPerDay); ?>', false, 'number+');
 	
 	phpAds_formSetUnique('clientname', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
 

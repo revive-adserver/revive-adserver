@@ -330,7 +330,7 @@ echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='na
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".'Website'."</td><td>";
+echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strWebsite."</td><td>";
 echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='website' size='35' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($affiliate['website'])."'>";
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
@@ -473,11 +473,11 @@ while ($row = phpAds_dbFetchArray($res))
 
 <script language='JavaScript'>
 <!--
-	phpAds_formSetRequirements('name', '<?php echo $strName; ?>', true, 'unique');
-	phpAds_formSetRequirements('contact', '<?php echo $strContact; ?>', true);
-	phpAds_formSetRequirements('website', '<?php echo 'Website'; ?>', true, 'url');
-	phpAds_formSetRequirements('email', '<?php echo $strEMail; ?>', true, 'email');
-	phpAds_formSetRequirements('username', '<?php echo $strUsername; ?>', false, 'unique');
+	phpAds_formSetRequirements('name', '<?php echo addslashes($strName); ?>', true, 'unique');
+	phpAds_formSetRequirements('contact', '<?php echo addslashes($strContact); ?>', true);
+	phpAds_formSetRequirements('website', '<?php echo addslashes($strWebsite); ?>', true, 'url');
+	phpAds_formSetRequirements('email', '<?php echo addslashes($strEMail); ?>', true, 'email');
+	phpAds_formSetRequirements('username', '<?php echo addslashes($strUsername); ?>', false, 'unique');
 	
 	phpAds_formSetUnique('name', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
 	phpAds_formSetUnique('username', '|<?php echo addslashes(implode('|', $unique_users)); ?>|');
