@@ -35,7 +35,7 @@ function phpAds_GenerateInvocationCode()
 	global $phpAds_config;
 	global $codetype, $what, $clientid, $source, $target;
 	global $withText, $template, $refresh, $uniqueid;
-	global $width, $height, $website;
+	global $width, $height, $website, $ilayer;
 	global $popunder, $left, $top, $timeout;
 	global $transparent, $resize, $block, $raw;
 	global $hostlanguage;
@@ -164,7 +164,8 @@ function phpAds_GenerateInvocationCode()
 			$parameters['n'] = "n=".$uniqueid;	
 		
 		
-		if (isset($width) && $width != '' && $width != '-1' &&
+		if (isset($ilayer) && $ilayer == 1 &&
+			isset($width) && $width != '' && $width != '-1' &&
 			isset($height) && $height != '' && $height != '-1')
 		{
 			$buffer .= "<ilayer width='".$width."' height='".$height."'";
@@ -184,7 +185,9 @@ function phpAds_GenerateInvocationCode()
 			$buffer .= "?".implode ("&amp;", $parameters);
 		$buffer .= "' border='0' alt=''></a>";
 		
-		if (isset($width) && $width != '' && isset($height) && $height != '')
+		if (isset($ilayer) && $ilayer == 1 &&
+			isset($width) && $width != '' && 
+			isset($height) && $height != '')
 			$buffer .= "</nolayer>";
 		
 		$buffer .= "</iframe>\n";
@@ -292,7 +295,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	global $submitbutton, $generate;
 	global $codetype, $what, $clientid, $source, $target;
 	global $withText, $template, $refresh, $uniqueid;
-	global $width, $height;
+	global $width, $height, $ilayer;
 	global $popunder, $left, $top, $timeout;
 	global $transparent, $resize, $block, $raw;
 	global $hostlanguage;
@@ -431,7 +434,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			$show = array ('what' => true, 'clientid' => true, 'block' => true, 'target' => true, 'source' => true, 'withText' => true);
 		
 		if ($codetype == 'adframe')
-			$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'refresh' => true, 'size' => true, 'resize' => true, 'transparent' => true);
+			$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'refresh' => true, 'size' => true, 'resize' => true, 'transparent' => true, 'ilayer' => true);
 		
 		if ($codetype == 'ad')
 			$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withText' => true, 'size' => true, 'resize' => true, 'transparent' => true);
@@ -577,6 +580,19 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<td width='200'>".$GLOBALS['strIframeMakeTransparent']."</td>";
 			echo "<td width='370'><input type='radio' name='transparent' value='1'".(isset($transparent) && $transparent == 1 ? ' checked' : '').">&nbsp;Yes<br>";
 			echo "<input type='radio' name='transparent' value='0'".(!isset($transparent) || $transparent == 0 ? ' checked' : '').">&nbsp;No</td>";
+			echo "</tr>";
+			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+		}
+		
+		
+		// Netscape 4 ilayer
+		if (isset($show['ilayer']) && $show['ilayer'] == true)
+		{
+			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+			echo "<tr><td width='30'>&nbsp;</td>";
+			echo "<td width='200'>".$GLOBALS['strIframeIncludeNetscape4']."</td>";
+			echo "<td width='370'><input type='radio' name='ilayer' value='1'".(isset($ilayer) && $ilayer == 1 ? ' checked' : '').">&nbsp;Yes<br>";
+			echo "<input type='radio' name='ilayer' value='0'".(!isset($ilayer) || $ilayer == 0 ? ' checked' : '').">&nbsp;No</td>";
 			echo "</tr>";
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 		}
