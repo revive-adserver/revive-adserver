@@ -38,10 +38,12 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 	}
 	
 	
+	$found = false;
+	
+	
 	// Open database connection and get a banner
 	if (phpAds_dbConnect())
 	{
-		$found = false;
 		$first = true;
 		
 		while (($first || $what != '') && $found == false)

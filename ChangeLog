@@ -18,6 +18,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-07-27:  When upgrading from a release without priority system, no banner was shown; added priority recalculation to the upgrade process if needed  (Matteo)
 			  - 2002-07-30:  When editing a banner, the Keyword field wasn't updated when it was left empty  (Niels)
 			  - 2002-07-30:  Campaigns with weight 0 were mistakenly shown as high priority campaigns on the campaign-edit page  (Niels)
+			  - 2002-07-30:  Fixed E_ALL error in lib-view-main.inc.php  (Pawel Marzec)
 
 
 
