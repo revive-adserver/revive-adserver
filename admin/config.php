@@ -14,16 +14,19 @@
 
 
 
-// Figure out our location
-if (strlen(__FILE__) > strlen(basename(__FILE__)))
-    define ('phpAds_path', ereg_replace("[/\\\\]admin[/\\\\][^/\\\\]+$", '', __FILE__));
-else
-    define ('phpAds_path', '..');
-
-
-
 // Include config file and check need to upgrade
 require ("../config.inc.php");
+
+
+// Figure out our location
+if (!defined("phpAds_path"))
+{
+	if (strlen(__FILE__) > strlen(basename(__FILE__)))
+	    define ('phpAds_path', ereg_replace("[/\\\\]admin[/\\\\][^/\\\\]+$", '', __FILE__));
+	else
+	    define ('phpAds_path', '..');
+}
+
 
 
 if (!defined('phpAds_installed'))
