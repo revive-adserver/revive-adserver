@@ -11,6 +11,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			+ Added moving of banners, campaigns and zones  (Niels) 20011201
 			+ Added duplication of banners (Niels, thanks to Kelly Cochran) 20011201
 			+ Added ability to apply display limiations to other banners  (Niels) 20011201
+			+ Added new invocation type for popups/popunders  (Niels) 20011202
 
 			+ Misc changes to library and function names
 			  - Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 20011020
@@ -46,6 +47,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Renamed some pages to make it more logical  (Niels) 20011201
 			  - Changed the icons of acls and activate/deactivate  (Niels) 20011201
 			  - Added return url to all delete actions  (Niels) 20011202
+			  - Added error message to 'Link banners' page  (Niels) 20011202
 
 			+ Misc bugfixes
 			  - Removed extra comma from config.inc  (Matteo) 20011017
