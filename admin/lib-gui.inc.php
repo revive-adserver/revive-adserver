@@ -1,4 +1,4 @@
-<?php // $Revision: 1.10 
+<?php // $Revision$
 /************************************************************************/
 /* phpAdsNew 2                                                          */
 /* ===========                                                          */
@@ -178,6 +178,7 @@ function phpAds_PageHeader($ID, $extra="")
 		<title><?php echo $pagetitle;?></title>
 		<meta http-equiv='Content-Type' content='text/html<?php echo $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : "" ?>'>
 		<meta name='author" content='phpAdsNew - http://sourceforge.net/projects/phpadsnew'>
+		<meta name='robots' content='noindex, nofollow'>
 		<link rel='stylesheet' href='interface.css'>
 		<script language='JavaScript' src='interface.js'></script>
 	</head>
