@@ -187,7 +187,7 @@ CREATE TABLE phpads_adstats (
 
 CREATE TABLE phpads_config (
    configid tinyint(2) DEFAULT '0' NOT NULL,
-   config_version decimal(6,3) DEFAULT '0' NOT NULL,
+   config_version decimal(7,3) DEFAULT '0' NOT NULL,
    table_border_color varchar(7) DEFAULT '#000099',
    table_back_color varchar(7) DEFAULT '#CCCCCC',
    table_back_color_alternative varchar(7) DEFAULT '#F7F7F7',
