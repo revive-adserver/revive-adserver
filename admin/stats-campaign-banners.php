@@ -524,7 +524,7 @@ if (count($order_array) > 0)
 				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>&nbsp;</td>";
 				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>$strViews: <b>$adviews</b></td>";
 				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>$strClicks: <b>$adclicks</b></td>";
-				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>$strRatio: <b>".phpAds_buildCTR($adviews, $adclicks)."<b></td>";
+				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>$strCTR: <b>".phpAds_buildCTR($adviews, $adclicks)."<b></td>";
 				echo "</tr>";
 			}
 			else
