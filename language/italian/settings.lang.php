@@ -35,10 +35,11 @@ $GLOBALS['strTablePrefixInvalid']		= "Il prefisso delle tabelle contiene caratte
 $GLOBALS['strTableInUse']				= "Il database specificato &egrave; gi&agrave; utilizzato da ".$phpAds_productname.", utilizza un diverso prefisso per le tabelle, o leggi il manuale le istruzioni sull'aggiornamento.";
 $GLOBALS['strMayNotFunction']			= "Prima di continuare, correggi questi potenziali problemi:";
 $GLOBALS['strIgnoreWarnings']			= "Ignora avvertimenti";
-$GLOBALS['strWarningPHPversion']		= $phpAds_productname." richiede PHP 3.0.8 o pi&ugrave; recente per funzionare correttamente. La versione attualmente utilizzata &egrave; {php_version}.";
+$GLOBALS['strWarningPHPversion']		= $phpAds_productname." richiede PHP 4.0 o pi&ugrave; recente per funzionare correttamente. La versione attualmente utilizzata &egrave; {php_version}.";
 $GLOBALS['strWarningRegisterGlobals']	= "La variabile di configurazione del PHP register_globals deve essere abilitata.";
 $GLOBALS['strWarningMagicQuotesGPC']	= "La variabile di configurazione del PHP magic_quotes_gpc deve essere abilitata.";
 $GLOBALS['strWarningMagicQuotesRuntime']	= "La variabile di configurazione del PHP magic_quotes_runtime deve essere disabilitata.";
+$GLOBALS['strWarningFileUploads']		= "La variabile di configurazione del PHP file_uploads deve essere abilitata.";
 $GLOBALS['strConfigLockedDetected']		= "Il file <b>config.inc.php</b> non pu&ograve; essere sovrascritto dal server.<br> Non è possiblie procedere finch&eacute; non vengono modificati i permessi sul file. <br>Puoi leggere sul manuale di ".$phpAds_productname." come fare.";
 $GLOBALS['strCantUpdateDB']				= "Non &egrave; possibile aggiornare il database. Se decidi di procedere, tutti i banner, le statistiche e i clienti saranno cancellati.";
 $GLOBALS['strTableNames']				= "Nomi delle tabelle";
@@ -48,12 +49,12 @@ $GLOBALS['strTablesType']				= "Tipo di tabelle";
 $GLOBALS['strInstallWelcome']			= "Benvenuto in ".$phpAds_productname;
 $GLOBALS['strInstallMessage']			= "Prima di utilizzare ".$phpAds_productname." &egrave; necessario configurarlo e <br> il database deve essere creato. Clicca su <b>Procedi</b> per continuare.";
 $GLOBALS['strInstallSuccess']			= "<b>L'istallazione di ".$phpAds_productname." &egrave stata completata.</b><br><br>Affinch&eacute; ".$phpAds_productname." funzioni correttamente devi assicurarti
-                                           che lo script di manutenzione sia lanciato ogni giorno. Puoi trovare informazioni maggiori sull'argomento nel manuale.
+                                           che lo script di manutenzione sia lanciato ogni ora. Puoi trovare informazioni maggiori sull'argomento nel manuale.
                                            <br><br>Clicca <b>Procedi</b> per andare alla pagina di configurazione e impostare
                                            altri parametri. Ricordati di togliere i permessi al file config.inc.php quando hai finito, per evitare problemi di
                                            sicurezza.";
 $GLOBALS['strUpdateSuccess']			= "<b>L'aggiornamento di ".$phpAds_productname." &egrave stato completato.</b><br><br>Affinch&eacute; ".$phpAds_productname." funzioni correttamente devi assicurarti
-                                           che lo script di manutenzione sia lanciato ogni giorno. Puoi trovare informazioni maggiori sull'argomento nel manuale.
+                                           che lo script di manutenzione sia lanciato ogni ora. Puoi trovare informazioni maggiori sull'argomento nel manuale.
                                            <br><br>Clicca <b>Procedi</b> per andare alla pagina di configurazione e impostare
                                            altri parametri. Ricordati di togliere i permessi al file config.inc.php quando hai finito, per evitare problemi di
                                            sicurezza.";
