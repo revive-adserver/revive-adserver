@@ -30,7 +30,7 @@ $GLOBALS['strFatalError']					= "Si &egrave; verificato un errore fatale";
 $GLOBALS['strUpdateError']					= "Si &egrave; verificato un errore durante l'aggiornamento";
 $GLOBALS['strUpdateDatabaseError']			= "Per motivi sconosciuti l'aggiornamento del database non &egrave; andato a buon fine. &Egrave; consigliato cliccare su <b>Riprova</b> per tentare di correggere questi potenziali problemi. Se sei sicuro che questi errori non influiscano sul corretto funzionamento di ".$phpAds_productname." clicca su <b>Ignora errori</b> per continuare. Ignorare questi errori pu&ograve; causare seri problemi e non &egrave; consigliato!";
 $GLOBALS['strAlreadyInstalled']				= $phpAds_productname." &egrave; gi&agrave; installato su questo sistema. Per modificare le impostazioni clicca <a href='settings-index.php'>qui</a>";
-$GLOBALS['strCouldNotConnectToDB']			= "Impossibile connettersi al database, controlla i parametri specificati";
+$GLOBALS['strCouldNotConnectToDB']			= "Impossibile connettersi al database, controlla i parametri specificati. Assicurati anche che il database dal nome specificato esista gi&agrave; sul server di database. ".$phpAds_productname." non creer&agrave; il database, deve essere creato manualmente prima di lanciare l'installazione.";
 $GLOBALS['strCreateTableTestFailed']		= "L'utente specificato non ha i permessi necessari a creare o aggiornare la struttura del database, contatta l'amministratore di sistema.";
 $GLOBALS['strUpdateTableTestFailed']		= "L'utente specificato non ha i permessi necessari ad aggiornare la struttura del database, contatta l'amministratore di sistema.";
 $GLOBALS['strTablePrefixInvalid']			= "Il prefisso delle tabelle contiene caratteri non validi";
@@ -218,6 +218,7 @@ $GLOBALS['strGeotargeting']					= "Targeting geografico";
 $GLOBALS['strGeotrackingType']				= "Tipo di database per il targeting geografico";
 $GLOBALS['strGeotrackingLocation'] 			= "Percorso del database targeting geografico";
 $GLOBALS['strGeotrackingLocationError']		= "Il database per il targeting geografico non &egrave; stato trovato nel percorso specificato";
+$GLOBALS['strGeotrackingLocationNoHTTP']	= "Il percorso specificato non rappresenta un file locale sull'hard disk del server, ma un URL di un file su un server web. Il percorso dovrebbe essere simile a questo: <i>{example}</i>. Il percorso reale dipende da dove &ergave; stato copiato il database.";
 $GLOBALS['strGeoStoreCookie']				= "Memorizza risultato in un cookie per riutilizzarlo in seguito";
 
 
