@@ -1,7 +1,17 @@
 phpAdsNew - ChangeLog
 
+CVS
+			+ Misc changes
+			  - 2003-04-13:  Added support for paths in direct selection query string  (Niels)
+ 			  - 2003-04-13:  Beacon image is not enclosed in a hidden layer to prevent unneeded linewraps after tables and other html tags  (Niels)
 
-CVS			+ Added a cron replacement for users who don't have access to the cron utility for scheduling the maintenance script  (Niels, 2003-01-14)
+			+ Misc bugfixes
+			  - 2003-04-13:  Logging of geodata for Adclicks didn't work properly  (Niels)
+			  - 2003-04-13:  Campaigns with zero clicks or zero views remaining were listed as 'unlimited' on the 'Campaign overview' page  (Niels)
+			  - 2003-04-13:  On the 'Statistics settings page', 'Log Country' was active even when 'Compact stats' were used. Option should become disabled  (Niels)
+			
+
+v 2.0rc3		+ Added a cron replacement for users who don't have access to the cron utility for scheduling the maintenance script  (Niels, 2003-01-14)
 			+ The database is now checked after an update to make sure the update was succesful. If not an error is shown and the can retry to update  (Niels, 2003-01-15)
 			+ phpAdsNew now uses many newly designed icons, also other icons have been updated to match the new icons  (Niels, 2003-02-03)
 			+ Updated some of the user-interface, in particular the error messages and help screens  (Niels, 2003-02-03)
