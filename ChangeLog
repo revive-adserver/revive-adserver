@@ -129,6 +129,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: Upgrade process was using default name for missing tables, this could lead to
 			    table sharing between installs using the same database  (Matteo) 20020117
 			  - Bugfix: Replaced "random_retrieve" with "retrieval_method" into help files  (Matteo) 20020117
+			  - Bugfix: Header and Footer settings should work again  (Niels) 20020126
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015

@@ -194,15 +194,21 @@ function phpAds_PageHeader($ID, $extra="")
 	if ($phpAds_showHelp) echo "\t\t<script language='JavaScript' src='help.js'></script>\n";
 	echo "\t</head>\n";
 	
-	
-	// Header
 	echo "<body bgcolor='#FFFFFF' background='images/background.gif' text='#000000' leftmargin='0' ";
 	echo "topmargin='0' marginwidth='0' marginheight='0'".($phpAds_showHelp ? " onResize='resizeHelp();' onScroll='resizeHelp();'" : '').">\n";
-	echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>";
-	echo "<tr>";
+	
+	// Header
+	if ($phpAds_config['my_header'] != '')
+	{
+		include ($phpAds_config['my_header']);
+	}
+	
 	
 	// Branding
- 	if ($phpAds_config['name'] != "")
+ 	echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>";
+	echo "<tr>";
+	
+	if ($phpAds_config['name'] != "")
 	{
 		echo "<td height='48' bgcolor='#000063' valign='middle'>";
 		echo "<span class='phpAdsNew'>&nbsp;&nbsp;&nbsp;".$phpAds_config['name']."&nbsp;&nbsp;&nbsp;</span>";
@@ -303,38 +309,30 @@ function phpAds_PageFooter()
 	// Spacer
 	echo "<tr><td width='40' height='20'>&nbsp;</td>";
 	echo "<td height='20'>&nbsp;</td></tr>";
+	
+	// Footer
+	if ($phpAds_config['my_footer'] != '')
+	{
+		echo "<tr><td width='40' height='20'>&nbsp;</td>";
+		echo "<td height='20'>";
+		include ($phpAds_config['my_footer']);
+		echo "</td></tr>";
+	}
+	
 	echo "</table>";
 	echo "</td></tr>";
 	echo "</table>";
 	
-	
 	if ($phpAds_showHelp) 
 	{
-?>
-
-<div id="helpLayer" name="helpLayer" style="position:absolute; left:-40; top:-40; width:10px; height:10px; z-index:1; background-color: #F6F6F6; layer-background-color: #F6F6F6; border: 1px none #000000; overflow: hidden; visibility: visible; background-image: url(images/help-background.gif); layer-background-image: url(images/help-background.gif);">
-<table width='100%' cellpadding='0' cellspacing='0' border='0'>
-	<tr>
-		<td width='40' align='left' valign='top'><img src="images/help-icon.gif" width="40" height="40" border="0" vspace="0" hspace="0"></td>
-		<td width='100%' align='left' valign='top' style="font-family: Verdana; font-size: 11px;">
-			<br>
-			<div id="helpContents" name="helpContents">
-				<?php echo $phpAds_helpDefault; ?>
-			</div>
-		</td>
-		<td width='16' align='right' valign='top'><img src="images/help-close.gif" width="16" height="16" border="0" vspace="4" hspace="4" onClick="hideHelp();"></td>
-	</tr>
-</table> 
-</div>
-<br><br>
-<br><br>
-<br><br>
-<?php 
-	}
-	
-	if (!empty($phpAds_config['my_footer']))
-	{
-		include ($phpAds_config['my_footer']);
+		echo "<div id='helpLayer' name='helpLayer' style='position:absolute; left:-40; top:-40; width:10px; height:10px; z-index:1; background-color: #F6F6F6; layer-background-color: #F6F6F6; border: 1px none #000000; overflow: hidden; visibility: visible; background-image: url(images/help-background.gif); layer-background-image: url(images/help-background.gif);'>";
+		echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'>";
+		echo "<tr><td width='40' align='left' valign='top'><img src='images/help-icon.gif' width='40' height='40' border='0' vspace='0' hspace='0'></td>";
+		echo "<td width='100%' align='left' valign='top' style='font-family: Verdana; font-size: 11px;'>";
+		echo "<br><div id='helpContents' name='helpContents'>".$phpAds_helpDefault."</div></td>";
+		echo "<td width='16' align='right' valign='top'><img src='images/help-close.gif' width='16' height='16' border='0' vspace='4' hspace='4' onClick='hideHelp();'></td>";
+		echo "</tr></table></div>";
+		echo "<br><br><br><br><br><br>";
 	}
 	
 	echo "</body>";
