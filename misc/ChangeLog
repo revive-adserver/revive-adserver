@@ -8,6 +8,7 @@ phpAdsNew 2.1		+ Misc bugfixes
 			  - 2003-10-20:  Added post-Eolas ActiveX handling for Flash, QuickTime, Real and Shockwave banners... JS REQUIRED NOW!  (Niels)
 			  - 2003-10-20:  The 'check hardcoded links' checkbox on the 'Add new banner' page is now always visible for Opera and Netscape  (Niels)
 			  - 2003-10-20:  Added phpAds_path to require inside lib-xmlpcs.inc.php  (Niels)
+			  - 2003-10-20:  Deactivated banners are no longer automatically reactivated when editing it's properties  (Niels)
 			  
 
 

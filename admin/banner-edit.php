@@ -215,6 +215,7 @@ if (isset($submit))
 		
 		$final['appendtype'] = $current['appendtype'];
 		$final['append']	 = $current['append'];
+		$final['active']	= $current['active'];
 	}
 	
 	
@@ -631,7 +632,6 @@ if (isset($submit))
 		else
 			$final['keyword'] = '';
 		
-		$final['active'] = "t";
 		$final['description'] = $description;
 		$final['weight'] = $weight;
 	}
