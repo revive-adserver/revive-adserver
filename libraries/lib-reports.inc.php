@@ -88,6 +88,8 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 		
 		while($campaign = phpAds_dbFetchArray($res_campaigns))
 		{
+			$current_log = '';
+			
 			// Fetch all banners belonging to campaign
 			$res_banners = phpAds_dbQuery("
 				SELECT
@@ -106,8 +108,8 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 			
 			$active_banners = false;
 		    
-			$log .= "\n".$strCampaign."  ".strip_tags(phpAds_buildClientName ($campaign['clientid'], $campaign['clientname']))."\n";
-			$log .= "=======================================================\n\n";
+			$current_log .= "\n".$strCampaign."  ".strip_tags(phpAds_buildClientName ($campaign['clientid'], $campaign['clientname']))."\n";
+			$current_log .= "=======================================================\n\n";
 			
 			while($row_banners = phpAds_dbFetchArray($res_banners))
 			{
@@ -116,150 +118,151 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 				$adclicks = phpAds_totalClicks($row_banners["bannerid"]);
 				$campaign["clicks_used"] = $adclicks;
 				
-				if ($adviews > 0 || $adclicks > 0)
+				
+				$current_log .= $strBanner."  ".strip_tags(phpAds_buildBannerName ($row_banners['bannerid'], $row_banners['description'], $row_banners['alt']))."\n";
+				$current_log .= $strLinkedTo.": ".$row_banners['URL']."\n";
+				$current_log .= "-------------------------------------------------------\n";
+				
+				$active_banner_stats = false;
+				
+				if ($adviews > 0)
 				{
-					$log .= $strBanner."  ".strip_tags(phpAds_buildBannerName ($row_banners['bannerid'], $row_banners['description'], $row_banners['alt']))."\n";
-					$log .= $strLinkedTo.": ".$row_banners['URL']."\n";
-					$log .= "-------------------------------------------------------\n";
+					$current_log .= $strViews." (".$strTotal."):    ".$adviews."\n";
 					
-					$active_banner_stats = false;
+					// Fetch all adviews belonging to banner belonging to client, grouped by day
+					if ($phpAds_config['compact_stats'])
+						$res_adviews = phpAds_dbQuery("
+							SELECT
+								SUM(views) as qnt,
+								DATE_FORMAT(day, '$date_format') as t_stamp_f,
+								TO_DAYS(day) AS the_day
+							FROM
+								".$phpAds_config['tbl_adstats']."
+							WHERE
+								bannerid = ".$row_banners['bannerid']." AND
+								views > 0 AND
+								UNIX_TIMESTAMP(day) >= $first_unixtimestamp AND
+								UNIX_TIMESTAMP(day) < $last_unixtimestamp
+							GROUP BY
+								day
+							ORDER BY
+								day DESC
+							") or die($strLogErrorViews);
+					else
+						$res_adviews = phpAds_dbQuery("
+							SELECT
+								*,
+								count(*) as qnt,
+								DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
+								TO_DAYS(t_stamp) AS the_day
+							FROM
+								".$phpAds_config['tbl_adviews']."
+							WHERE
+								bannerid = ".$row_banners['bannerid']." AND
+								t_stamp >= $first_sqltimestamp AND
+								t_stamp < $last_sqltimestamp
+							GROUP BY
+								the_day
+							ORDER BY
+								the_day DESC
+							") or die($strLogErrorViews);
 					
-					if ($adviews > 0)
+					if (phpAds_dbNumRows($res_adviews))
 					{
-						$log .= $strViews." (".$strTotal."):    ".$adviews."\n";
+						$total = 0;
 						
-						// Fetch all adviews belonging to banner belonging to client, grouped by day
-						if ($phpAds_config['compact_stats'])
-				            $res_adviews = phpAds_dbQuery("
-				    			SELECT
-				    				SUM(views) as qnt,
-				    				DATE_FORMAT(day, '$date_format') as t_stamp_f,
-				    				TO_DAYS(day) AS the_day
-				    			FROM
-				    				".$phpAds_config['tbl_adstats']."
-				    			WHERE
-				    				bannerid = ".$row_banners['bannerid']." AND
-				                    views > 0 AND
-									UNIX_TIMESTAMP(day) >= $first_unixtimestamp AND
-									UNIX_TIMESTAMP(day) < $last_unixtimestamp
-				    			GROUP BY
-				    				day
-				    			ORDER BY
-				    				day DESC
-				    			") or die($strLogErrorViews);
-				        else
-				    		$res_adviews = phpAds_dbQuery("
-				    			SELECT
-				    				*,
-				    				count(*) as qnt,
-				    				DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
-				    				TO_DAYS(t_stamp) AS the_day
-				    			FROM
-				    				".$phpAds_config['tbl_adviews']."
-				    			WHERE
-				    				bannerid = ".$row_banners['bannerid']." AND
-									t_stamp >= $first_sqltimestamp AND
-									t_stamp < $last_sqltimestamp
-				    			GROUP BY
-				    				the_day
-				    			ORDER BY
-				    				the_day DESC
-				    			") or die($strLogErrorViews);
-				        
-						if (phpAds_dbNumRows($res_adviews))
+						while($row_adviews = phpAds_dbFetchArray($res_adviews))
 						{
-							$total = 0;
-							
-							while($row_adviews = phpAds_dbFetchArray($res_adviews))
-							{
-								$log .= "      ".$row_adviews['t_stamp_f'].":   ".$row_adviews['qnt']."\n";
-								$total += $row_adviews['qnt'];
-							}
-							
-							$log .= $strTotalThisPeriod.": ".$total."\n";
-							$active_banner_stats = true;
+							$current_log .= "      ".$row_adviews['t_stamp_f'].":   ".$row_adviews['qnt']."\n";
+							$total += $row_adviews['qnt'];
 						}
-						else
-						{
-							$log .= "      ".$strNoViewLoggedInInterval."\n";
-						}
-			        }
-					
-					if ($adclicks > 0)
-					{
-						// Total adclicks
-				        $log .= "\n".$strClicks." (".$strTotal."):   ".$adclicks."\n";
 						
-						// Fetch all adclicks belonging to banner belonging to client, grouped by day
-						if ($phpAds_config['compact_stats'])
-				            $res_adclicks = phpAds_dbQuery("
-				    			SELECT
-				    				SUM(clicks) as qnt,
-				    				DATE_FORMAT(day, '$date_format') as t_stamp_f,
-				    				TO_DAYS(day) AS the_day
-				    			FROM
-				    				".$phpAds_config['tbl_adstats']."
-				    			WHERE
-				    				bannerid = ".$row_banners['bannerid']." AND
-				                    clicks > 0 AND
-									UNIX_TIMESTAMP(day) >= $first_unixtimestamp AND
-									UNIX_TIMESTAMP(day) < $last_unixtimestamp
-				    			GROUP BY
-				    				day
-				    			ORDER BY
-				    				day DESC
-				    			") or die("$strLogErrorClicks ".phpAds_dbError());
-				        else
-				            $res_adclicks = phpAds_dbQuery("
-				    			SELECT
-				    				count(*) as qnt,
-				    				DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
-				    				TO_DAYS(t_stamp) AS the_day
-				    			FROM
-				    				".$phpAds_config['tbl_adclicks']."
-				    			WHERE
-				    				bannerid = ".$row_banners['bannerid']." AND
-									t_stamp >= $first_sqltimestamp AND
-									t_stamp < $last_sqltimestamp
-				    			GROUP BY
-				    				the_day
-				    			ORDER BY
-				    				the_day DESC
-				    			") or die("$strLogErrorClicks ".phpAds_dbError());
-						
-						if (phpAds_dbNumRows($res_adviews))
-						{
-							$total = 0;
-							
-							while($row_adclicks = phpAds_dbFetchArray($res_adclicks))
-							{
-								$log .= "      ".$row_adclicks['t_stamp_f'].":   ".$row_adclicks['qnt']."\n";
-								$total += $row_adclicks['qnt'];
-							}
-							
-							$log .= $strTotalThisPeriod.": ".$total."\n";
-							$active_banner_stats = true;
-						}
-						else
-						{
-							$log .= "      ".$strNoClickLoggedInInterval."\n";
-						}
+						$current_log .= $strTotalThisPeriod.": ".$total."\n";
+						$active_banner_stats = true;
 					}
-					
-					$log .= "\n\n";
-					
-					if ($active_banner_stats == true || ($active_banner_stats == false && $campaign['active'] == 't'))
-						$active_banners = true;
+					else
+					{
+						$current_log .= "      ".$strNoViewLoggedInInterval."\n";
+					}
 				}
+				
+				if ($adclicks > 0)
+				{
+					// Total adclicks
+					$current_log .= "\n".$strClicks." (".$strTotal."):   ".$adclicks."\n";
+					
+					// Fetch all adclicks belonging to banner belonging to client, grouped by day
+					if ($phpAds_config['compact_stats'])
+						$res_adclicks = phpAds_dbQuery("
+							SELECT
+								SUM(clicks) as qnt,
+								DATE_FORMAT(day, '$date_format') as t_stamp_f,
+								TO_DAYS(day) AS the_day
+							FROM
+								".$phpAds_config['tbl_adstats']."
+							WHERE
+								bannerid = ".$row_banners['bannerid']." AND
+								clicks > 0 AND
+								UNIX_TIMESTAMP(day) >= $first_unixtimestamp AND
+								UNIX_TIMESTAMP(day) < $last_unixtimestamp
+							GROUP BY
+								day
+							ORDER BY
+								day DESC
+							") or die("$strLogErrorClicks ".phpAds_dbError());
+					else
+						$res_adclicks = phpAds_dbQuery("
+							SELECT
+								count(*) as qnt,
+								DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
+								TO_DAYS(t_stamp) AS the_day
+							FROM
+								".$phpAds_config['tbl_adclicks']."
+							WHERE
+								bannerid = ".$row_banners['bannerid']." AND
+								t_stamp >= $first_sqltimestamp AND
+								t_stamp < $last_sqltimestamp
+							GROUP BY
+								the_day
+							ORDER BY
+								the_day DESC
+							") or die("$strLogErrorClicks ".phpAds_dbError());
+					
+					if (phpAds_dbNumRows($res_adviews))
+					{
+						$total = 0;
+						
+						while($row_adclicks = phpAds_dbFetchArray($res_adclicks))
+						{
+							$current_log .= "      ".$row_adclicks['t_stamp_f'].":   ".$row_adclicks['qnt']."\n";
+							$total += $row_adclicks['qnt'];
+						}
+						
+						$current_log .= $strTotalThisPeriod.": ".$total."\n";
+						$active_banner_stats = true;
+					}
+					else
+					{
+						$current_log .= "      ".$strNoClickLoggedInInterval."\n";
+					}
+				}
+				
+				if ($adclicks == 0 && $adviews == 0)
+				{
+					$current_log .= "      ".$strNoStatsForCampaign."\n";
+				}
+				
+				
+				$current_log .= "\n\n";
+				
+				if ($campaign['active'] == 't' || $active_banner_stats == true)
+					$active_banners = true;
 			}
 			
 			if ($active_banners == true)
 			{
 				$active_campaigns = true;
-			}
-			else
-			{
-				$log .= $strNoStatsForCampaign."\n\n\n";
+				$log .= $current_log;
 			}
 		}
 		
