@@ -28,11 +28,10 @@ phpAds_checkAccess(phpAds_Admin);
 /* Main code                                             */
 /*********************************************************/
 
-phpAds_PriorityCalculate ();
+$report = phpAds_PriorityCalculate();
 
-if ($debug)
-	mail ($phpAds_config['admin_email'], "PRIORITY DEBUG REPORT: ".date('d-m H:i'), $debuglog);
-
+if ($report != '' && $phpAds_config['userlog_priority'])
+	phpAds_userlogAdd (phpAds_actionPriorityCalculation, 0, $report);
 
 Header("Location: admin-priority.php");
 

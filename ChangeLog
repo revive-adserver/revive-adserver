@@ -211,6 +211,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: Zonetype was not saved when adding banners or campaigns to a zone  (Niels) 20020324
 			  - Bugfix: Too many campaigns were shown in the navigation
 			  - Bugfix: Zone cache update now happens after priority is recalculated  (Niels) 20020324
+			  - Bugfix: Priority recalculation from admin interface didn't create an userlog entry  (Matteo) 20020327
 			  
 
 
