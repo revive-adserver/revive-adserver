@@ -120,6 +120,13 @@ if (isset($submit))
 			") or phpAds_sqlDie();
 		
 		
+		// Rebuild Cache
+			if (!defined('LIBVIEWCACHE_INCLUDED'))  include (phpAds_path.'/libraries/deliverycache/cache-'.$phpAds_config['delivery_caching'].'.inc.php');
+		
+		phpAds_cacheDelete('what=zone:'.$zoneid);
+
+		
+		
 		// Reset append codes which called this zone
 		$res = phpAds_dbQuery("
 				SELECT
@@ -147,6 +154,8 @@ if (isset($submit))
 							zoneid = '".$row['zoneid']."'
 					");
 			}
+			
+			phpAds_cacheDelete('what=zone:'.$row['zoneid']);
 		}
 		
 		header ("Location: zone-advanced.php?affiliateid=".$affiliateid."&zoneid=".$zoneid);
