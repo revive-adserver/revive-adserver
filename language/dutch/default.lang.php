@@ -99,6 +99,7 @@ $GLOBALS['strExpandAll']				= "Alles uitklappen";
 $GLOBALS['strCollapseAll']				= "Alles inklappen";
 $GLOBALS['strShowAll']					= "Toon alles";
 $GLOBALS['strNoAdminInteface']				= "Deze dienst is momenteel niet beschikbaar...";
+$GLOBALS['strFilterBySource']				= "filter op bron";
 
 
 // Properties
@@ -168,8 +169,8 @@ $GLOBALS['strClientHistory']				= "Adverteerder geschiedenis";
 $GLOBALS['strNoClients']				= "Er zijn momenteel geen adverteerders gedefinieerd";
 $GLOBALS['strConfirmDeleteClient'] 			= "Weet u zeker dat u deze adverteerder wilt verwijderen?";
 $GLOBALS['strConfirmResetClientStats']			= "Weet u zeker dat u de statistieken wilt wissen voor deze adverteerder?";
-$GLOBALS['strHideInactiveAdvertisers']			= "Verberg niet active adverteerders";
-$GLOBALS['strInactiveAdvertisersHidden']		= "niet actieve adverteerder(s) verborgen";
+$GLOBALS['strHideInactiveAdvertisers']			= "Verberg niet-actieve adverteerders";
+$GLOBALS['strInactiveAdvertisersHidden']		= "niet-actieve adverteerder(s) verborgen";
 
 
 // Advertisers properties
@@ -203,8 +204,8 @@ $GLOBALS['strCampaignHistory']				= "Campagne geschiedenis";
 $GLOBALS['strNoCampaigns']				= "Er zijn momenteel geen campagnes gedefinieerd";
 $GLOBALS['strConfirmDeleteCampaign']			= "Weet u zeker dat u deze campagne wilt verwijderen?";
 $GLOBALS['strConfirmResetCampaignStats']		= "Weet u zeker dat u de statistieken wilt wissen voor deze campagne?";
-$GLOBALS['strHideInactiveCampaigns']			= "Verberg niet active campagnes";
-$GLOBALS['strInactiveCampaignsHidden']			= "niet active campagne(s) verborgen";
+$GLOBALS['strHideInactiveCampaigns']			= "Verberg niet-actieve campagnes";
+$GLOBALS['strInactiveCampaignsHidden']			= "niet-actieve campagne(s) verborgen";
 
 
 // Campaign properties
@@ -251,6 +252,11 @@ $GLOBALS['strNoBanners'] 				= "Er zijn momenteel geen banner gedefinieerd";
 $GLOBALS['strConfirmDeleteBanner']			= "Weet u zeker dat u deze banner wilt verwijderen?";
 $GLOBALS['strConfirmDeleteAllBanners']			= "Weet u zeker dat u alle banners die bij deze campagne horen wilt vewijderen?";
 $GLOBALS['strConfirmResetBannerStats']			= "Weet u zeker dat u de statistieken wilt wissen voor deze banner?";
+$GLOBALS['strShowParentCampaigns']			= "Toon bovenliggende campagnes";
+$GLOBALS['strHideParentCampaigns']			= "Verberg bovenliggende campagnes";
+$GLOBALS['strHideInactiveBanners']			= "Verberg niet-actieve banners";
+$GLOBALS['strInactiveBannersHidden']		= "niet-actieve banner(s) verborgen";
+
 
 
 // Banner (Properties)
@@ -259,6 +265,7 @@ $GLOBALS['strMySQLBanner'] 				= "Lokale banner (SQL)";
 $GLOBALS['strWebBanner'] 				= "Lokale banner (Webserver)";
 $GLOBALS['strURLBanner'] 				= "Externe banner";
 $GLOBALS['strHTMLBanner'] 				= "HTML banner";
+$GLOBALS['strTextBanner'] 				= "Tekst advertentie";
 $GLOBALS['strAutoChangeHTML']				= "Verander HTML om AdClicks te volgen";
 $GLOBALS['strUploadOrKeep']				= "Wilt u uw bestaande afbeelding <br>houden, of wilt u een <br>nieuwe afbeelding uploaden?";
 $GLOBALS['strNewBannerFile'] 				= "Selecteer de afbeelding die u <br>wilt gebruiken voor deze banner<br><br>";
@@ -360,9 +367,13 @@ $GLOBALS['strZoneType']					= "Zone type";
 $GLOBALS['strBannerButtonRectangle']			= "Banner, Button of Rectangle";
 $GLOBALS['strInterstitial']				= "Interstitial of Floating DHTML";
 $GLOBALS['strPopup']					= "Popup";
+$GLOBALS['strTextAdZone']				= "Tekst advertentie";
+$GLOBALS['strShowMatchingBanners']			= "Toon geschikte banners";
+$GLOBALS['strHideMatchingBanners']			= "Verberg geschikte banners";
 
 
 // Advanced zone settings
+$GLOBALS['strAdvanced']					= "Geavanceerd";
 $GLOBALS['strChains']					= "Kettingen";
 $GLOBALS['strChainSettings']				= "Ketting instellingen";
 $GLOBALS['strZoneNoDelivery']				= "Indien er geen banners van deze<br>zone geleverd kunnen worden, probeer...";
@@ -370,6 +381,9 @@ $GLOBALS['strZoneStopDelivery']				= "Stop levering en toon geen banner";
 $GLOBALS['strZoneOtherZone']				= "Toon de geselecteerde zone";
 $GLOBALS['strZoneUseKeywords']				= "Selecteer een banner met de volgende sleutelwoorden";
 $GLOBALS['strZoneAppend']				= "Voeg de volgende popup<br> of interstitial code altijd toe<br> aan deze zone";
+$GLOBALS['strAppendSettings']				= "Invoeg instellingen";
+$GLOBALS['strZonePrependHTML']				= "Voeg de volgende HTML code altijd toe voor de HTML code die getoond wordt door deze zone";
+$GLOBALS['strZoneAppendHTML']				= "Voeg de volgende HTML code altijd toe na de HTML code die getoond wordt door deze zone";
 
 
 // Linked banners/campaigns

@@ -25,7 +25,7 @@ $GLOBALS['strOtherSettings']			= "Andere instellingen";
 
 $GLOBALS['strWarning']				= "Waarschuwing";
 $GLOBALS['strFatalError']			= "Er is een fout opgetreden";
-$GLOBALS['strAlreadyInstalled']			= "".$phpAds_productname." is reeds geinstalleerd op dit systeem. Indien u het systeem verder wilt configureren ga dan naar de <a href='settings-index.php'>instellingen</a>";
+$GLOBALS['strAlreadyInstalled']			= $phpAds_productname." is reeds geinstalleerd op dit systeem. Indien u het systeem verder wilt configureren ga dan naar de <a href='settings-index.php'>instellingen</a>";
 $GLOBALS['strCouldNotConnectToDB']		= "Er kon geen connectie opgebouwd worden met de database, controleer a.u.b. de door u opgegeven instellingen";
 $GLOBALS['strCreateTableTestFailed']		= "De gebruiker die u heeft opgegeven heeft geen toestemming om de database aan te maken of te wijzigen, neem a.u.b. contact op met de beheerder van de database.";
 $GLOBALS['strUpdateTableTestFailed']		= "De gebruiker die u heeft opgegeven heeft geen toestemming om de database structuur te wijzigen, neem a.u.b. contact op met de beheerder van de database.";
@@ -33,11 +33,12 @@ $GLOBALS['strTablePrefixInvalid']		= "De tabelnaam voorvoegsel bevat illegale te
 $GLOBALS['strTableInUse']			= "De database welke u opgegeven heeft is al ingebruik door ".$phpAds_productname.". Gebruik een ander tabelnaam voorvoegsel of lees de documentatie voor instructies om te upgraden.";
 $GLOBALS['strMayNotFunction']			= "Voor dat uw verder gaat, corrigeer a.u.b. de volgende problemen:";
 $GLOBALS['strIgnoreWarnings']			= "Negeer waarschuwingen";
-$GLOBALS['strWarningPHPversion']		= "".$phpAds_productname." heeft minimaal PHP 3.0.8 nodig om te functioneren. U gebruik momenteel versie {php_version}.";
+$GLOBALS['strWarningPHPversion']		= $phpAds_productname." heeft minimaal PHP 4.0 nodig om te functioneren. U gebruik momenteel versie {php_version}.";
 $GLOBALS['strWarningRegisterGlobals']		= "De PHP instelling register_globals moet aan staan.";
 $GLOBALS['strWarningMagicQuotesGPC']		= "De PHP instelling magic_quotes_gpc moet aan staan.";
 $GLOBALS['strWarningMagicQuotesRuntime']	= "De PHP instelling magic_quotes_runtime moet uit staan.";
-$GLOBALS['strConfigLockedDetected']		= "".$phpAds_productname." heeft gedetecteerd dat uw <b>config.inc.php</b> bestand niet beschrijfbaar is door de server.<br> U kunt niet verder gaan tot u de bestands permissies gewijzigd heeft. <br>Raadpleeg de begevoegde documentatie indien u niet weet hoe u dit kunt doen.";
+$GLOBALS['strWarningFileUploads']		= "De PHP instelling file_uploads moet aan staan.";
+$GLOBALS['strConfigLockedDetected']		= $phpAds_productname." heeft gedetecteerd dat uw <b>config.inc.php</b> bestand niet beschrijfbaar is door de server.<br> U kunt niet verder gaan tot u de bestands permissies gewijzigd heeft. <br>Raadpleeg de begevoegde documentatie indien u niet weet hoe u dit kunt doen.";
 $GLOBALS['strCantUpdateDB']  			= "Het is momenteel nog niet mogelijk om de database bij te werken. Indien u beslist om door te gaan worden alle bestaande banners, statistieken and klanten verwijderd.";
 $GLOBALS['strTableNames']			= "Tabelnamen";
 $GLOBALS['strTablesPrefix']			= "Tabelnaam voorvoegsel";
@@ -155,6 +156,7 @@ $GLOBALS['strTypeSqlAllow']			= "Sta lokale banners toe (SQL)";
 $GLOBALS['strTypeWebAllow']			= "Sta lokale banners toe (Webserver)";
 $GLOBALS['strTypeUrlAllow']			= "Sta externe banners toe";
 $GLOBALS['strTypeHtmlAllow']			= "Sta HTML banners toe";
+$GLOBALS['strTypeTxtAllow']			= "Sta Tekst advertenties toe";
 
 $GLOBALS['strTypeWebSettings']			= "Lokale banner (Webserver) instellingen";
 $GLOBALS['strTypeWebMode']			= "Opslag methode";
@@ -202,6 +204,11 @@ $GLOBALS['strIgnoreHosts']			= "Negeer hosts";
 $GLOBALS['strReverseLookup']			= "Reverse DNS Lookup";
 $GLOBALS['strProxyLookup']			= "Proxy Lookup";
 
+$GLOBALS['strAutoCleanTables']			= "Automatische database opschoning";
+$GLOBALS['strAutoCleanEnable']			= "Schoon de database automatisch op";
+$GLOBALS['strAutoCleanWeeks']			= "Maximale leeftijd statistieken en gebruikerlog (weken)";
+$GLOBALS['strAutoCleanErr']			= "De maximale leeftijd moet minstens twee weken zijn";
+$GLOBALS['strAutoCleanVacuum']			= "VACUUM ANALYZE tabellen elke nacht"; // only Pg
 
 
 // Administrator settings
@@ -229,6 +236,7 @@ $GLOBALS['strAdminCheckNever']			= "Nooit";
 $GLOBALS['strAdminNovice']			= "Toon een waarschuwing wanneer er items verwijderd worden";
 $GLOBALS['strUserlogEmail']			= "Sla alle uitgaande e-mails op";
 $GLOBALS['strUserlogPriority']			= "Sla alle uurlijkse prioriteit berekeningen op";
+$GLOBALS['strUserlogAutoClean']			= "Sla automatisch opschonen van de database op";
 
 
 // User interface settings
@@ -256,6 +264,9 @@ $GLOBALS['strShowCampaignPreview']		= "Toon voorvertooning van alle banners op d
 $GLOBALS['strShowBannerHTML']			= "Toon werkelijke banner in plaats van HTML code voor de voorvertoning van HTML banners";
 $GLOBALS['strShowBannerPreview']		= "Toon voorvertoning bovenaan alle pagina's welke betrekking hebben op banners";
 $GLOBALS['strHideInactive']			= "Verberg niet actieve items van de overzichtspagina's";
+$GLOBALS['strGUIShowMatchingBanners']		= "Toon geschikte banners op de <i>Gekoppelde banners</i> paginas";
+$GLOBALS['strGUIShowParentCampaigns']		= "Toon bovenliggende campagnes op de <i>Gekoppelde banners</i> pagina";
+$GLOBALS['strGUILinkCompactLimit']		= "Verberg niet-gekoppelde campagnes of banners op de<i>Gekoppelde banners</i> paginas wanneer er meer zijn dan";
 
 $GLOBALS['strStatisticsDefaults'] 		= "Statistieken";
 $GLOBALS['strBeginOfWeek']			= "Begin van de week";
