@@ -1,5 +1,7 @@
 phpAdsNew - ChangeLog
- v 1.6.4 - 12/12/2000  + Added remote HTML banners through JavaScript
+ v 1.6.4 - 12/12/2000  + Clients now have logout function
+                       + When logging in, user is first logged out
+                       + Added remote HTML banners through JavaScript
                        + Credit Statistics now sorted by letter. 1 screen per letter.
                        + Bugfix: Previous is now shown in the creditstats screen
                        + Bugfix: images without links patch applied (thanks wesku)

@@ -131,4 +131,4 @@ while ($row_banners = mysql_fetch_array($res_banners))
       </table>
       </td></tr>
       </table>
-    
+<a href=logout.php>Logout</A>
