@@ -221,7 +221,7 @@ else
 		
 		// Button 1
 		echo "<td height='25'>";
-		if ($affiliate['expand'] == '1')
+		if ($affiliate['expand'] == '1' || !isset($affiliate['zones']))
 			echo "<a href='zone-edit.php?affiliateid=".$affiliate['affiliateid']."'><img src='images/icon-zone.gif' border='0' align='absmiddle' alt='$strCreate'>&nbsp;$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 		else
 			echo "&nbsp;";
