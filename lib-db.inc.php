@@ -18,6 +18,21 @@
 $phpAds_db_link = '';
 
 
+// Add database name to table names if compatibility mode is used
+if ($phpAds_config['compatibility_mode'])
+{
+	$phpAds_config['tbl_adclicks'] 	= $phpAds_config['dbname'].".".$phpAds_config['tbl_adclicks'];
+	$phpAds_config['tbl_adviews'] 	= $phpAds_config['dbname'].".".$phpAds_config['tbl_adviews'];
+	$phpAds_config['tbl_adstats'] 	= $phpAds_config['dbname'].".".$phpAds_config['tbl_adstats'];
+	$phpAds_config['tbl_banners'] 	= $phpAds_config['dbname'].".".$phpAds_config['tbl_banners'];
+	$phpAds_config['tbl_clients'] 	= $phpAds_config['dbname'].".".$phpAds_config['tbl_clients'];
+	$phpAds_config['tbl_acls'] 		= $phpAds_config['dbname'].".".$phpAds_config['tbl_acls'];
+	$phpAds_config['tbl_zones'] 	= $phpAds_config['dbname'].".".$phpAds_config['tbl_zones'];
+	$phpAds_config['tbl_config'] 	= $phpAds_config['dbname'].".".$phpAds_config['tbl_config'];
+}
+
+
+
 /*********************************************************/
 /* Open a connection to the database			         */
 /*********************************************************/
@@ -33,23 +48,10 @@ function phpAds_dbConnect()
         $phpAds_db_link = @mysql_connect ($phpAds_config['dbhost'], $phpAds_config['dbuser'], $phpAds_config['dbpassword']);
 	
 	if ($phpAds_config['compatibility_mode'])
-	{
-		// Add database name to table names
-		$phpAds_config['tbl_adclicks'] 	= $phpAds_config['dbname'].".".$phpAds_config['tbl_adclicks'];
-		$phpAds_config['tbl_adviews'] 	= $phpAds_config['dbname'].".".$phpAds_config['tbl_adviews'];
-		$phpAds_config['tbl_adstats'] 	= $phpAds_config['dbname'].".".$phpAds_config['tbl_adstats'];
-		$phpAds_config['tbl_banners'] 	= $phpAds_config['dbname'].".".$phpAds_config['tbl_banners'];
-		$phpAds_config['tbl_clients'] 	= $phpAds_config['dbname'].".".$phpAds_config['tbl_clients'];
-		$phpAds_config['tbl_session'] 	= $phpAds_config['dbname'].".".$phpAds_config['tbl_session'];
-		$phpAds_config['tbl_acls'] 		= $phpAds_config['dbname'].".".$phpAds_config['tbl_acls'];
-		$phpAds_config['tbl_zones'] 	= $phpAds_config['dbname'].".".$phpAds_config['tbl_zones'];
-		$phpAds_config['tbl_config'] 	= $phpAds_config['dbname'].".".$phpAds_config['tbl_config'];
-		
 		return $phpAds_db_link;
-	}
-	else
-		if (@mysql_select_db ($phpAds_config['dbname'], $phpAds_db_link))
-			return $phpAds_db_link;
+	
+	if (@mysql_select_db ($phpAds_config['dbname'], $phpAds_db_link))
+		return $phpAds_db_link;
 }
 
 
