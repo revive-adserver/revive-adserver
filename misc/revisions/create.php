@@ -13,13 +13,6 @@ include (phpAds_path."/libraries/lib-revisions.inc.php");
 // Starting scan
 echo "Starting scan at ".phpAds_path."<br>";
 
-
-// Check if config.inc.php is suited for install
-if (strpos("define('phpAds_installed', false)", @implode ('', file (phpAds_path.'/config.inc.php'))))
-	echo "<br><b>Warning:</b> config.inc.php seems to be already configured by the installer. The resulting package could refuse to do a plain install<br>";
-
-echo "<br>";
-
 if (phpAds_revisionCreate())
 {
 	echo "Revision file succesfully created!<br>";

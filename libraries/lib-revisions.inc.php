@@ -93,12 +93,6 @@ function phpAds_revisionCheck ()
 					{
 						list($current_rev, $current_md5) = phpAds_revisionGet (phpAds_path.$filename);
 						
-						if ($filename == '/config.inc.php' && defined('phpAds_updating'))
-						{
-							// Upgrading, config.inc.php *must* be different from the one provided
-							continue;
-						}
-						
 						if (trim($current_md5) != trim($md5))
 						{
 							// File changed, check revision!
@@ -294,7 +288,7 @@ function phpAds_revisionScan ($revfile, $path)
 			}
 			else
 			{
-				if ($file[0] != '.')
+				if ($file != 'config.inc.php' && $file[0] != '.')
 				{
 					if ($result = phpAds_revisionGet ($path.$file))
 					{
