@@ -45,43 +45,6 @@ function confirm_submit(o, str)
 
 
 /*********************************************************/
-/* Disable checkbox                                      */
-/*********************************************************/
-
-function disable_checkbox(oc,oe)
-{
-	e = findObj(oe);
-	c = findObj(oc);
-
-	c.checked = e.value != '-' ? false : true;
-}
-
-
-
-/*********************************************************/
-/* Disable checkbox                                      */
-/*********************************************************/
-
-function click_checkbox(oc,oe)
-{
-	e = findObj(oe);
-	c = findObj(oc);
-	
-	if (c.checked == true) 
-	{
-		e.value = "-";
-	} 
-	else 
-	{
-		e.value = "";
-		e.focus();
-	}
-
-}
-
-
-
-/*********************************************************/
 /* Open Search window                                    */
 /*********************************************************/
 
@@ -166,7 +129,7 @@ function phpAds_formUpdate(obj)
 			err = true;
 
 		if (obj.validateCheck == 'number+' &&
-			(isNaN(val) || val < 0))
+			(isNaN(val) && val != '-'  || val < 0))
 			err = true;
 		
 		if (obj.validateCheck == 'unique')
@@ -222,75 +185,5 @@ function phpAds_formCheck(f)
 	}
 	
 	return (noerrors);
-}
-
-
-// Old
-
-function validate_form() 
-{
-	var i, p, q, nm, test, num, min, max, errors='',args=validate_form.arguments;
-
-	for (i=0; i<(args.length-2); i+=3) 
-	{ 
-	  	val=findObj(args[i]);
-		nm=args[i+1]; 
-		test=args[i+2]; 
-		
-	    if (val) 
-		{ 
-			
-			if ((val=val.value) != "") 
-			{
-	      		if (test.indexOf('isEmail')!=-1) 
-				{ 
-					p=val.indexOf('@');
-	        		if (p < 1 || p == (val.length - 1)) 
-						errors += nm+':email|';
-	      		}
-				else if (test.indexOf('is+NumOR-') != -1)
-				{
-	        		if (isNaN(val))	{
-						if (val != '-') 
-							errors += nm+':number|'; }
-					else {
-						if (val < 0) 
-							errors += nm+':positive|'; }
-				}
-				else if (test.indexOf('is+Num') != -1)
-				{
-	        		if (isNaN(val))
-						errors += nm+':number|';
-					else
-						if (val < 0) 
-							errors += nm+':positive|';
-				}
-				else if (test != 'R') 
-				{
-	        		if (isNaN(val)) 
-						errors += nm+':number|';
-	        		if (test.indexOf('inRange') != -1) 
-					{ 
-						p=test.indexOf(':');
-	          			min=test.substring(8,p); 
-						max=test.substring(p+1);
-	          			if (val < min || max < val) 
-							errors += nm+'range-'+min+'-'+max+'|';
-    				} 
-				} 
-			} 
-			else if (test.charAt(0) == 'R') 
-				errors += nm+':required|'; 
-		}
-	} 
-
-	if (errors)
-	{
-		window.open ('admin-formcheck.php?errors='+errors, 
-					 '',
-					 "toolbar=no,location=no,status=no,scrollbars=yes,width=350,height=250,innerheight=50,screenX=100,screenY=100,pageXoffset=100,pageYoffset=100,resizable=yes");
-	}
-
-	return (errors == '');
 }
 
