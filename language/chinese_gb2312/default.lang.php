@@ -23,8 +23,8 @@ $GLOBALS['phpAds_TextDirection']  		= "ltr";
 $GLOBALS['phpAds_TextAlignRight'] 		= "right";
 $GLOBALS['phpAds_TextAlignLeft']  		= "left";
 
-$GLOBALS['phpAds_DecimalPoint']			= ',';
-$GLOBALS['phpAds_ThousandsSeperator']		= '.';
+$GLOBALS['phpAds_DecimalPoint']			= '.';
+$GLOBALS['phpAds_ThousandsSeperator']		= ',';
 
 
 // Date & time configuration
@@ -110,10 +110,6 @@ $GLOBALS['strFieldFixBeforeContinue1']		= "在进行下一步之前必须";
 $GLOBALS['strFieldFixBeforeContinue2']		= "改正错误";
 $GLOBALS['strDelimiter']			= "分隔符";
 $GLOBALS['strMiscellaneous']			= "杂项";
-$GLOBALS['strCollectedAll']			= "所有收集的统计数据";
-$GLOBALS['strCollectedToday']			= "今天的统计数据";
-$GLOBALS['strCollected7Days']			= "七天内的统计数据";
-$GLOBALS['strCollectedMonth']			= "本月的统计数据";
 $GLOBALS['strUseQuotes']			= "使用引号";
 
 
@@ -166,8 +162,8 @@ $GLOBALS['strClickCredits'] 			= "点击数购买量";
 // Time and date related
 $GLOBALS['strDate'] 				= "日期";
 $GLOBALS['strToday'] 				= "本日";
-$GLOBALS['strDay']				= "日期";
-$GLOBALS['strDays']				= "日期";
+$GLOBALS['strDay']				= "天";
+$GLOBALS['strDays']				= "天";
 $GLOBALS['strLast7Days']			= "最后 7 天";
 $GLOBALS['strWeek'] 				= "周数";
 $GLOBALS['strWeeks']				= "周数";
@@ -485,10 +481,16 @@ $GLOBALS['strEffectivity']			= "有效";
 $GLOBALS['strTargetStats']			= "目标数据统计";
 $GLOBALS['strCampaignTarget']			= "目标";
 $GLOBALS['strTargetRatio']			= "目标比例";
-$GLOBALS['strTargetModifiedDay']		= "目标数据当天被修改，所以目标可能并不精确";
-$GLOBALS['strTargetModifiedWeek']		= "目标数据当周被修改，所以目标可能并不精确";
-$GLOBALS['strTargetModifiedMonth']		= "目标数据当月被修改，所以目标可能并不精确";
+$GLOBALS['strTargetModifiedDay']		= "目标数据当天被修改,所以目标可能并不精确";
+$GLOBALS['strTargetModifiedWeek']		= "目标数据当周被修改,所以目标可能并不精确";
+$GLOBALS['strTargetModifiedMonth']		= "目标数据当月被修改,所以目标可能并不精确";
 $GLOBALS['strNoTargetStats']			= "目前没有关于目标的统计数据";
+$GLOBALS['strCollectedAll']				= "所有收集的统计数据";
+$GLOBALS['strCollectedToday']			= "今天的统计数据";
+$GLOBALS['strCollected7Days']			= "七天内的统计数据";
+$GLOBALS['strCollectedMonth']			= "本月的统计数据";
+$GLOBALS['strCollectedYesterday']		= "昨天的统计数据";
+$GLOBALS['strCollectedRange']			= "请选择一个日期范围";
 
 
 // Hosts

@@ -295,8 +295,8 @@ $GLOBALS['phpAds_hlp_default_banner_target'] = "
 		";
 			
 $GLOBALS['phpAds_hlp_delivery_caching'] = "
-		为了帮助提高广告发送的速度,".$phpAds_productname."使用了缓存,uses a cache which includes all
-		缓存中包含了发送一个广告给你的网站访问者的所有需要的信息.he information needed to delivery the banner to the visitor of your website. The delivery
+		为了帮助提高广告发送的速度,".$phpAds_productname."使用了缓存,
+		缓存中包含了发送一个广告给你的网站访问者的所有需要的信息.
 		这个发送缓存区缺省是存放在数据库里,为了进一步提高速度,
 		它也可以存放在一个文件或者共享内存中.
 		共享内存是最快的,文件也是很快的. 建议不要关闭此缓存区, 

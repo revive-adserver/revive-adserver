@@ -17,11 +17,19 @@
 // Installer translation strings
 $GLOBALS['strInstall']				= "安装";
 $GLOBALS['strChooseInstallLanguage']		= "选择安装过程的语言";
-$GLOBALS['strLanguageSelection']		= "选择语言";
+$GLOBALS['strLanguageSelection']		= "语言选择";
 $GLOBALS['strDatabaseSettings']			= "数据库设置";
 $GLOBALS['strAdminSettings']			= "管理员设置";
 $GLOBALS['strAdvancedSettings']			= "高级设置";
 $GLOBALS['strOtherSettings']			= "其他设置";
+$GLOBALS['strLicenseInformation']		= "许可证信息";
+$GLOBALS['strAdministratorAccount']		= "管理员帐号";
+$GLOBALS['strDatabasePage']				= $phpAds_dbmsname."数据库";
+$GLOBALS['strInstallWarning']			= "服务器和完整性检测";
+$GLOBALS['strCongratulations']			= "祝贺!";
+$GLOBALS['strInstallFailed']			= "安装失败!";
+$GLOBALS['strSpecifyAdmin']				= "配置管理员帐号";
+$GLOBALS['strSpecifyLocaton']			= "请指定服务器上".$phpAds_productname."的位置";
 
 $GLOBALS['strWarning']				= "警告";
 $GLOBALS['strFatalError']			= "发生一个致命错误";
@@ -39,14 +47,16 @@ $GLOBALS['strFixProblemsBefore']		= "在您安装".$phpAds_productname."之前必须改正
 $GLOBALS['strFixProblemsAfter']			= "如果您无法改正上面列出的问题,请联系您要安装".$phpAds_productname."的服务器的管理员.此服务器的管理员可能能够帮助您解决这些问题"; 
 $GLOBALS['strIgnoreWarnings']			= "忽略警告";
 $GLOBALS['strWarningDBavailable']		= "您现在使用的PHP版本不支持".$phpAds_dbmsname."数据库.在进行下面的步骤之前,您需要启用PHP对".$phpAds_dbmsname."的支持";
-$GLOBALS['strWarningPHPversion']		= $phpAds_productname."需要PHP 4.0或者更高版本才能正常工作。您现在使用的版本是{php_version}.";
+$GLOBALS['strWarningPHPversion']		= $phpAds_productname."需要PHP 4.0.3或者更高版本才能正常工作。您现在使用的版本是{php_version}.";
 $GLOBALS['strWarningRegisterGlobals']		= "PHP设置变量register_globals需要打开.";
 $GLOBALS['strWarningMagicQuotesGPC']		= "PHP设置变量magic_quotes_gpc需要打开.";
 $GLOBALS['strWarningMagicQuotesRuntime']	= "PHP设置变量magic_quotes_runtime需要关闭.";
+$GLOBALS['strWarningMagicQuotesSybase']	= "PHP设置变量magic_quotes_sybase需要关闭.";
 $GLOBALS['strWarningFileUploads']		= "PHP设置变量file_uploads需要打开.";
 $GLOBALS['strWarningTrackVars']			= "PHP设置变量track_vars需要打开.";
 $GLOBALS['strWarningPREG']			= "您现在使用的PHP版本不支持PERL兼容模式的正则表达式. 在进行下面的步骤之前,您需要启用PREL正则表达式的支持.";
 $GLOBALS['strConfigLockedDetected']		= $phpAds_productname."检测到您的配置文件<b>config.inc.php</b>不可写<br>请必须修改权限之后才能进行下一步.<br>如果您不知道如何操作请参考文档.";
+$GLOBALS['strCacheLockedDetected']  	= "您正在使用文件发送缓存方式,".$phpAds_productname."检测到<b>cache</b>目录不可写,您修改此目录权限后才能继续.如果您不知道如何解决,请阅读相关手册.";
 $GLOBALS['strCantUpdateDB']  			= "现在不能更新数据库.如果您确认进行,所有已有的广告,报表和客户都会被删除.";
 $GLOBALS['strIgnoreErrors']			= "忽略错误";
 $GLOBALS['strRetryUpdate']			= "重试升级";
@@ -54,8 +64,16 @@ $GLOBALS['strTableNames']			= "数据表名字";
 $GLOBALS['strTablesPrefix']			= "数据表前缀";
 $GLOBALS['strTablesType']			= "数据表类型";
 
+$GLOBALS['strRevCorrupt']			= "文件<b>{filename}</b>已经损坏或者被修改过.如果您并没有修改过此文件,请把此文件重新上传一次.如果您修改过此文件,您可以安全的忽略此警告.";
+$GLOBALS['strRevTooOld']			= "文件<b>{filename}</b>比此版本的".$phpAds_productname."使用的文件要旧.请把此文件重新上传一次.";
+$GLOBALS['strRevMissing']			= "文件<b>{filename}</b>因为丢失所以检测不到.请把此文件重新上传一次.";
+$GLOBALS['strRevCVS']				= "您现在正在安装CVS版本的".$phpAds_productname.".这并不是一个正式发行的版本,可能不稳定甚至不工作.您确信想要继续?";
+
 $GLOBALS['strInstallWelcome']			= "欢迎使用".$phpAds_productname;
 $GLOBALS['strInstallMessage']			= "在您使用".$phpAds_productname."之前,需要配置系统和<br>创建数据库.按<b>下一步</b>继续.";
+$GLOBALS['strInstallMessageCheck']		= $phpAds_productname."已经检测了您上载到服务器上的文件的完整性,并且检测了服务器是否可以运行".$phpAds_productname.".在进行下一步操作之前您需要注意下列项目.";
+$GLOBALS['strInstallMessageAdmin']		="在进行下一步之前,您需要设置管理员帐号.您可以用此帐号登录到管理界面,管理广告和查看统计信息."; 
+$GLOBALS['strInstallMessageDatabase']	= $phpAds_productname."使用一个".$phpAds_dbmsname."来存放广告目录和统计数据.在进行下一步操作之前, 您需要告诉我们您想要使用的数据库服务器,用户名和密码,".$phpAds_productname."需要这些信息来连接数据库服务器.如果您不知道这些信息,请联系您的服务器管理员.";
 $GLOBALS['strInstallSuccess']			= "<b>".$phpAds_productname."安装完成.</b><br><br>为了".$phpAds_productname."的正常使用,您还需要确认维护文件每小时运行一次,有关的信息可以参考相关文档.<br><br>按<b>下一步</b>进入配置页面,您可以进行更多的设置.在配置完成候请不要忘记锁定config.inc.php以保证安全.";
 $GLOBALS['strUpdateSuccess']			= "<b>".$phpAds_productname."升级成功.</b><br><br>为了".$phpAds_productname."的正常使用,您还需要确认维护文件每小时运行一次,有关的信息可以参考相关文档.<br><br>按<b>下一步</b>进入配置页面,您可以进行更多的设置.在配置完成候请不要忘记锁定config.inc.php以保证安全.";
 $GLOBALS['strInstallNotSuccessful']		= "<b>".$phpAds_productname."安装不能完成</b><br><br>安装中的一些部分不能进行.这些问题可能只是暂时性的,这样您可以简单的按<b>下一步</b>并且返回到安装的第一步,如果您想知道更多关于错误的信息和如何解决,请参考相关文档.";
@@ -98,7 +116,7 @@ $GLOBALS['strEditConfigPossible']		= "现在可以修改所有配置,因为配置文件没有锁定,
 
 // Database
 $GLOBALS['strDatabaseSettings']			= "数据库设置";
-$GLOBALS['strDatabaseServer']			= "数据库设置";
+$GLOBALS['strDatabaseServer']			= "数据库服务器";
 $GLOBALS['strDbLocal']				= "使用套接字连接本地服务器"; //Pg专用
 $GLOBALS['strDbHost']				= "数据库主机";
 $GLOBALS['strDbPort']				= "数据库端口号";
@@ -253,9 +271,9 @@ $GLOBALS['strAdminUsername']			= "管理员名字";
 $GLOBALS['strInvalidUsername']			= "错误用户名";
 
 $GLOBALS['strBasicInformation']			= "基本信息";
-$GLOBALS['strAdminFullName']			= "管理员全名";
-$GLOBALS['strAdminEmail']			= "管理员的电子邮件地址";
-$GLOBALS['strCompanyName']			= "公司名字";
+$GLOBALS['strAdminFullName']			= "全名";
+$GLOBALS['strAdminEmail']			= "电子邮件地址";
+$GLOBALS['strCompanyName']			= "公司名称";
 
 $GLOBALS['strAdminCheckUpdates']		= "检查更新";
 $GLOBALS['strAdminCheckEveryLogin']		= "每次登录";
