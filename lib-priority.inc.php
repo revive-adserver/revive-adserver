@@ -839,6 +839,17 @@ function phpAds_PriorityCalculate()
 		$debuglog .= "\n\n\n";
 		$debuglog .= "Impressions assigned to meet the targets: $totalassigned \n";
 		// END REPORTING
+
+		if (!$totalassigned && !$available_for_others)
+		{
+			// BEGIN REPORTING
+			$debuglog .= "-----------------------------------------------------\n";
+			$debuglog .= "Using profile prediction would result in no banner shown.\n";
+			$debuglog .= "Reverting back to weights for low-pri campaings.\n";
+			// END REPORTING
+
+			$available_for_others = phpAds_PriorityTotalWeight($campaigns, $banners);
+		}
 	}	
 	else
 	{
@@ -934,6 +945,8 @@ function phpAds_PriorityGetDeviance($hour, $profile, $real_profile)
 	return (($real / $predicted)-1) * phpAds_priorityGetImportance($hour) + 1;
 }
 
+
+
 function phpAds_PriorityPrintProfile($profile)
 {
 	$debuglog = '';
@@ -947,6 +960,21 @@ function phpAds_PriorityPrintProfile($profile)
 	}
 
 	return $debuglog;
+}
+
+
+
+function phpAds_PriorityTotalWeight($campaigns, $banners)
+{
+	$total_campaign_weight = 0;
+	for (reset($campaigns);$c=key($campaigns);next($campaigns))
+		$total_campaign_weight += $campaigns[$c]['weight'];
+	
+	$total_banner_weight = 0;
+	for (reset($banners);$b=key($banners);next($banners))
+		$total_banner_weight += $banners[$b]['weight'];
+	
+	return $total_banner_weight * $total_campaign_weight;
 }
 
 ?>
