@@ -19,7 +19,7 @@ phpAdsNew 2.0.2
 			  - 2003-12-17:	 Improved compatibility of the Simple layer style. Improved support for Opera, Mozilla and IE non-quirks mode.  (Niels)
 
 			+ Misc bugfixes
-				- 2003-10-07:  Fixed referer delivery limitation when using JavaScript  (Niels)
+			  - 2003-10-07:  Fixed referer delivery limitation when using JavaScript  (Niels)
 			  - 2003-10-08:  Added missing comma to P3P header  (Niels)
 			  - 2003-10-09:  Added support for stats conversion using Mozilla  (Niels)
 			  - 2003-10-20:  The 'check hardcoded links' checkbox on the 'Add new banner' page is now always visible for Opera and Netscape  (Niels)
