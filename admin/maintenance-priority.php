@@ -185,7 +185,7 @@ $banners   = phpAds_PriorityPrepareBanners();
 $campaigns = phpAds_PriorityPrepareCampaigns();
 $profile   = array();
 
-list($profile, $profile_correction_executed) = phpAds_PriorityPredictProfile($campaigns, $banners, $profile);
+list($profile, $profile_correction_executed) = phpAds_PriorityPredictProfile($campaigns, $banners);
 
 $estimated_hits = 0;
 for ($p=0; $p<24; $p++)
