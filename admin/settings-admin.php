@@ -20,8 +20,9 @@ include ("lib-languages.inc.php");
 
 
 // Register input variables
-phpAds_registerGlobal ('admin', 'pwold', 'pw', 'pw2', 'admin_fullname', 'admin_email', 'company_name', 'language', 
-					   'updates_frequency', 'admin_novice', 'userlog_email', 'userlog_priority', 'userlog_autoclean');
+phpAds_registerGlobal ('admin', 'pwold', 'pw', 'pw2', 'admin_fullname', 'admin_email',
+					   'company_name', 'language', 'updates_frequency', 'updates_dev_builds',
+					   'admin_novice', 'userlog_email', 'userlog_priority', 'userlog_autoclean');
 
 
 // Security check
@@ -74,6 +75,8 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		phpAds_SettingsWriteAdd('language', $language);
 	if (isset($updates_frequency))
 		phpAds_SettingsWriteAdd('updates_frequency', $updates_frequency);
+
+	phpAds_SettingsWriteAdd('updates_dev_builds', isset($updates_dev_builds));
 	
 	phpAds_SettingsWriteAdd('admin_novice', isset($admin_novice));
 	
@@ -219,6 +222,14 @@ array (
 				'30' => $strAdminCheckMonthly,
 				'-1' => $strAdminCheckNever
 			)
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'updates_dev_builds',
+			'text'	  => 'Prompt for newly released development versions'
 		),
 		array (
 			'type'    => 'break'

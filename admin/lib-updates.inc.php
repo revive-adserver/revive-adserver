@@ -51,7 +51,8 @@ function phpAds_checkForUpdates($already_seen = 0)
 	// Create XML-RPC request message
 	$msg = new xmlrpcmsg("updateAdsNew.check", array(
 		new xmlrpcval($phpAds_config['config_version'], "string"),
-		new xmlrpcval($already_seen, "string")
+		new xmlrpcval($already_seen, "string"),
+		new xmlrpcval($phpAds_config['updates_dev_builds'] ? 'dev' : '', "string")
 	));
 
 	// Send XML-RPC request message

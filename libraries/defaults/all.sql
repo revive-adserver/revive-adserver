@@ -290,6 +290,7 @@ CREATE TABLE phpads_config (
    updates_frequency tinyint(2) DEFAULT '7' NOT NULL,
    updates_timestamp int(11) DEFAULT '0' NOT NULL,
    updates_last_seen decimal(7,3) DEFAULT '0.000' NOT NULL,
+   updates_dev_builds enum('t','f') DEFAULT 'f' NOT NULL,
    allow_invocation_plain enum('t','f') DEFAULT 'f' NOT NULL,
    allow_invocation_js enum('t','f') DEFAULT 't' NOT NULL,
    allow_invocation_frame enum('t','f') DEFAULT 'f' NOT NULL,
