@@ -517,7 +517,7 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 		{
 			?>
 			<td>
-				<input type="text" name="views" size='25' value="<?php if($row["views"]>0) echo $row["views"]; else echo '-';?>" onKeyUp="disable_checkbox('unlimitedviews');">
+				<input type="text" name="views" size='25' value="<?php if($row["views"]>0) echo $row["views"]; else echo '-';?>" onKeyUp="disable_checkbox('unlimitedviews', 'views');">
 				<input type="checkbox" name="unlimitedviews"<?php if($row["views"]==-1) print " CHECKED";?> onClick="click_checkbox('unlimitedviews', 'views');">
 				<?php echo $GLOBALS['strUnlimited']; ?>
 			</td>
@@ -542,7 +542,7 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 		{
 			?>
 			<td>
-				<input type="text" name="clicks" size='25' value="<?php if($row["clicks"]>0) echo $row["clicks"]; else echo '-';?>" onKeyUp="disable_checkbox('unlimitedclicks');">
+				<input type="text" name="clicks" size='25' value="<?php if($row["clicks"]>0) echo $row["clicks"]; else echo '-';?>" onKeyUp="disable_checkbox('unlimitedclicks', 'clicks');">
 				<input type="checkbox" name="unlimitedclicks"<?php if($row["clicks"]==-1) print " CHECKED";?> onClick="click_checkbox('unlimitedclicks', 'clicks');">
 				<?php echo $GLOBALS['strUnlimited']; ?>
 			</td>

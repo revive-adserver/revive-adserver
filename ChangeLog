@@ -68,6 +68,8 @@ CVS			+ Added search capabilities  (Niels and Tobi Schulz)
 			  - Fixed error in client edit when client permissions were left empty (Thanks to Scott Delap)
 			  - Fixed bug: if changing from MySQL stored banner to an empty HTML banner, 
 			    raw image data would be present in HTML banner field.
+			  - Fixed bug: unlimited clicks/views checkbox in campaign-edit were
+			    deselected when jumping to clicks/views fields using TAB key (Matteo)
 
 			+ Security fixes
 			  - Fixed login exploit where users could login without authentification  (Niels)
