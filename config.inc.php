@@ -64,8 +64,12 @@ $phpAds_ignore_hosts = array();   // Example: array("slashdot.org", "microsoft.c
 // Reverse DNS lookup remotes hosts?
 $phpAds_reverse_lookup = false;
 
-// Use random or sequential banner retrieval? (0=random, 1=sequential)
-$phpAds_random_retrieve = "0";
+// Use random or sequential banner retrieval? 
+// 0 = Random banner retrieval (default)
+// 1 = Normal sequental banner retrieval
+// 2 = Weight based sequential banner retrieval
+// 3 = Full sequential banner retrieval
+$phpAds_random_retrieve = 0;
 
 // Use conditional keywords? (0=no, 1=yes)
 $phpAds_con_key = "1";

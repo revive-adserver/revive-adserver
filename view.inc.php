@@ -131,7 +131,7 @@ function get_banner($what, $clientID, $context=0, $source="")
                 show up under all keywords. I put this in so that if I didn't have any banners 
                 for a particular keyword, instead of being blank, it would show one of the global
                 banners - Weston Bustraan <weston@infinityteldata.net> 
-                */                
+                */
                 if (sizeof($what_parts) == 1)
                 {
                     $select .= "keyword = 'global') ";
@@ -139,26 +139,37 @@ function get_banner($what, $clientID, $context=0, $source="")
                 else
                 {
                     $select .= "0) ";	// Not very nice, but works perfectly :-)
-                }					
+                }
 				break;
 			} //switch($what_parts[$wpc])
 		}
 
-		if($phpAds_random_retrieve == "1") 			
+		if($phpAds_random_retrieve != 0)
 		{
-			$seq_select = $select . " AND seq!='1'";
-
+			$seq_select = $select . " AND seq>0";
+			
+			// Full sequential retrieval
+			if ($phpAds_random_retrieve == 3)
+				$seq_select .= " ORDER BY BannerID LIMIT 1";
+			
 			// First attempt to fetch a banner
 			$res = @db_query($seq_select);
 			
-			if (@mysql_num_rows($res) == 0) 		
+			if (@mysql_num_rows($res) == 0)
 			{
 				// No banner left, reset all banners in this category to 'unused', try again below
     			$del_select=strstr($select,'WHERE');
-    			$delete_select="UPDATE $phpAds_tbl_banners SET seq='' ".$del_select;
+				
+				if ($phpAds_random_retrieve == 2)
+					// Weight based sequential retrieval
+					$delete_select="UPDATE $phpAds_tbl_banners SET seq=weight ".$del_select;
+				else
+					// Normal sequential retrieval
+					$delete_select="UPDATE $phpAds_tbl_banners SET seq=1 ".$del_select;
+				
 				@db_query($delete_select);
-
-				$select = $seq_select;				
+				
+				$select = $seq_select;
 			}
 			else
 			{
@@ -256,7 +267,7 @@ function log_adview($bannerID,$clientID)
 	global $phpAds_admin_email, $phpAds_admin_email_headers, $phpAds_url_prefix, $strWarnAdminTxt, $strWarnClientTxt;
 
 	// set banner as "used"
-	db_query("Update $phpAds_tbl_banners SET seq='1' WHERE bannerID='$bannerID'");
+	db_query("Update $phpAds_tbl_banners SET seq=seq-1 WHERE bannerID='$bannerID'");
 
 	if(!$phpAds_log_adviews)
 		return(false);
