@@ -41,7 +41,7 @@ $GLOBALS['strInvocationTarget']			= "Frame destinazione";
 $GLOBALS['strInvocationSource']			= "Sorgente";
 $GLOBALS['strInvocationWithText']		= "Link testuale sotto il Banner";
 $GLOBALS['strInvocationDontShowAgain']	= "Non mostrare banner duplicati nella stessa pagina";
-$GLOBALS['strInvocationDontShowAgainCampaign'] = "Non mostrare banner della stessa compagna nella pagina";
+$GLOBALS['strInvocationDontShowAgainCampaign'] = "Non mostrare banner della stessa campagna nella pagina";
 $GLOBALS['strInvocationTemplate'] 		= "Assegna il banner a una variabile per utilizzarla in un template";
 
 
