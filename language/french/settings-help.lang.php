@@ -47,11 +47,11 @@ $GLOBALS['phpAds_hlp_insert_delayed'] = "
 ";
 
 $GLOBALS['phpAds_hlp_compatibility_mode'] = "
-        If you are having problem integrating phpAdsNew with another thirth-party product it 
-	might help to turn on the database compatibility mode. If you are using local mode 
-	invocation and the database compatibility is turned on phpAdsNew should leave 
-	the state of the database connection exectly the same as it was before phpAdsNew ran. 
-	This option is a bit slower (only slightly) and therefore turned off by default.
+	Si vous avez des problèmes d'intégration de phpAdsNew avec d'autres produits, cela peut aider d'activer
+	le mode de compatibilité de la base de données. Si vous utilisez le mode d'invocation local, et que cette
+	option est activée, phpAdsNew devrait laisser l'état de connexion avec la base de données exactement comme
+	il l'avait trouvé. Cette option ralentit un peu phpAdsNew (seulement un peu), c'est pourquoi elle est désactivée
+	par défaut.
 ";
 
 $GLOBALS['phpAds_hlp_table_prefix'] = "
@@ -82,9 +82,9 @@ $GLOBALS['phpAds_hlp_my_footer'] = "
 ";
 
 $GLOBALS['phpAds_hlp_content_gzip_compression'] = "
-	By enabling GZIP content compression you will get a big decrease of the data which 
-	is sent to the browser each time a page of the administrator interface is opened. 
-	To enable this feature you need to have at least PHP 4.0.5 with the GZIP extention installed.
+	En activant la compression GZip du contenu, vous devriez avoir une baisse dans la quantité de données
+	échangées entre le serveur et le navigateur, chaque fois que l'on utilise l'interface d'administration.
+	Pour activer cette option, vous devez avoir au minimum PHP 4.0.5, avec l'extension GZip installée.
 ";
 		
 $GLOBALS['phpAds_hlp_language'] = "
@@ -129,11 +129,11 @@ $GLOBALS['phpAds_hlp_p3p_policy_location'] = "
 ";
 
 $GLOBALS['phpAds_hlp_log_beacon'] = "
-	Beacons are small invisible images which are placed on the page where the banner 
-	also is displayed. If you turn this feature on phpAdsNew will use this beacon image 
-	to count the number of impressions the banner has recieved. If you turn this feature 
-	off the impression will be counted during delivery, but this is not entirely accurate, 
-	because a delivered banner doesn’t always have to be displayed on the screen. 
+	Les balises sont de petites images invisibles qui sont placées sur la page où la bannière est affichée.
+	Si vous activez cette fonctionnalité, phpAdsNew utilisera cette image-balise pour compter le nombre
+	d'affichages que la bannière a fait. Si vous désactivez cette fonctionnalité, les affichages seront comptés
+	à la distribution, mais ce n'est pas entièrement fiable, puisque une bannière distribuée n'est pas toujours
+	affichée à l'écran du visiteur (manque de temps, page trop longue, ...).
 ";
 		
 $GLOBALS['phpAds_hlp_compact_stats'] = "
@@ -151,12 +151,12 @@ $GLOBALS['phpAds_hlp_log_adviews'] = "
 ";
 
 $GLOBALS['phpAds_hlp_block_adviews'] = "
-	If a visitor reloads a page an AdView will be logged by phpAdsNew every time. 
-	This feature is used to make sure that only one AdView is logged for each unique 
-	banner for the number of seconds you specify. For example: if you set this value 
-	to 300 seconds, phpAdsNew will only log AdViews if the same banner isn’t already 
-	shown to the same visitor in the last 5 minutes. This feature only works when <i>Use 
-	beacons to log AdViews</i> is enabled and if the browser accepts cookies.
+	Si un visiteur recharge une page, à chaque fois un affichage sera compté. Cette fonctionnalité est utilisée
+	pour s'assurer que un seul affichage est décompté pour la même bannière, et pour le temps spécifié (en
+	secondes). Par exemple, si vous mettez cette valeur à 300 secondes, phpAdsNew ne comptera l'affichage d'une
+	bannière que si elle n'a pas été montrée à ce visiteur dans les 5 dernières minutes. Cette option n'est
+	valable que lorsque <i>Utiliser des balises invisibles pour compter les affichages</i> est activé,
+	et si le navigateur du visiteur accepte les cookies.
 ";
 		
 $GLOBALS['phpAds_hlp_log_adclicks'] = "
@@ -165,11 +165,12 @@ $GLOBALS['phpAds_hlp_log_adclicks'] = "
 ";
 
 $GLOBALS['phpAds_hlp_block_adclicks'] = "
-	If a visitor clicks multiple times on a banner an AdClick will be logged by phpAdsNew 
-	every time. This feature is used to make sure that only one AdClick is logged for each 
-	unique banner for the number of seconds you specify. For example: if you set this value 
-	to 300 seconds, phpAdsNew will only log AdClicks if the visitor didn’t click on the same 
-	banner in the last 5 minutes. This feature only works when the browser accepts cookies.
+	Si un visiteur clique plusieurs fois sur une bannière, un clic sera compté par phpAdsNew chaque fois.
+	Cette fonctionnalité est utilisée pour s'assurer que seul un clic est compté pour une bannière unique,
+	pour un même visiteur, pendant le temps spécifié (en secondes). Par exemple, si vous mettez cette valeur à
+	300 secondes, phpAdsNew ne comptera le clic d'un visiteur que si celui ci n'a pas déjà cliqué sur cette
+	bannière dans les 5 dernières minutes. Cette option ne marche que si le navigateur du visiteur accepte les
+	cookies.
 ";
 		
 $GLOBALS['phpAds_hlp_reverse_lookup'] = "
@@ -179,13 +180,11 @@ $GLOBALS['phpAds_hlp_reverse_lookup'] = "
 ";
 
 $GLOBALS['phpAds_hlp_proxy_lookup'] = "
-	Some users are using a proxy server to access the internet. In that case 
-	phpAdsNew will log the IP address or the hostname of the proxy server 
-	instead of the user. If you enable this feature phpAdsNew will try to 
-	find the ip address or hostname of the user behind the proxy server. 
-	If it is not possible to find the exact address of the user it will use 
-	the address of the proxy server instead. This option is not enable by default, 
-	because it will slow logging down.
+	Certains utilisateurs utilisent des Proxy pour accéder à l'internet. Dans ce cas, phpAdsNew va journaliser
+	le nom d'hôte du Proxy, plutôt que celui de l'utilisateur. Si vous activez cette option, phpAdsNew essayera
+	de trouver l'adresse IP, ou le nom d'hôte de l'utilisateur derrière ce proxy. Si ce n'est pas possible
+	de récupérer l'adresse exacte de l'utilisateur, l'adresse du Proxy sera utilisée à la place. Cette option
+	est désactivée par défaut, car elle ralentit la journalisation.
 ";
 		
 $GLOBALS['phpAds_hlp_ignore_hosts'] = "
@@ -232,10 +231,10 @@ $GLOBALS['phpAds_hlp_allow_invocation_xmlrpc'] =
 $GLOBALS['phpAds_hlp_allow_invocation_local'] = 
 $GLOBALS['phpAds_hlp_allow_invocation_interstitial'] = 
 $GLOBALS['phpAds_hlp_allow_invocation_popup'] = "
-	These settings allows you to control which invocation types are allowed.
-	If one of these invocation types are disabled they will not be available
-	in the invocationcode / bannercode generator. Important: the invocation methods
-	will still work if disabled, but they are not available for generation.
+	Ces réglages permettent de contrôler quels sont les types d'invocations autorisés. Si un de ces types
+	est désactivé, il ne sera pas disponible sur la page de génération du code d'invocation. Important: une
+	méthode d'invocation marche même si elle est désactivée, par contre elle n'est plus disponible sur la
+	page de génération.
 ";
 
 $GLOBALS['phpAds_hlp_con_key'] = "
@@ -312,27 +311,25 @@ $GLOBALS['phpAds_hlp_type_web_dir'] = "
 ";
 
 $GLOBALS['phpAds_hlp_type_web_ftp_host'] = "
-	If you set the storing method to <i>External FTP server</i> you need to
-        specify the IP address or domain name of the FTP server where phpAdsNew needs 
-	to copy the uploaded banners to.
+	Si vous avez choisi comme méthode de stockage <i>Serveur FTP externe</i>, vous devez spécifier ici
+	l'adresse IP ou le nom d'hôte du serveur sur lequel phpAdsNew copiera les bannières.
 ";
       
 $GLOBALS['phpAds_hlp_type_web_ftp_path'] = "
-	If you set the storing method to <i>External FTP server</i> you need to
-        specify the directory on the external FTP server where phpAdsNew needs 
-	to copy the uploaded banners to.
+	Si vous avez choisi comme méthode de stockage <i>Serveur FTP externe</i>, vous devez spécifier ici
+	le chemin, sur le serveur FTP externe, du répertoire dans lequel phpAdsNew copiera les bannières.
 ";
       
 $GLOBALS['phpAds_hlp_type_web_ftp_user'] = "
-	If you set the storing method to <i>External FTP server</i> you need to
-        specify the username which phpAdsNew must use in order to connect to the
-	external FTP server.
+	Si vous avez choisi comme méthode de stockage <i>Serveur FTP externe</i>, vous devez spécifier ici
+	le nom d'utilisateur avec lequel phpAdsNew se connectera au serveur FTP externe sur lequel phpAdsNew
+	copiera les bannières.
 ";
       
 $GLOBALS['phpAds_hlp_type_web_ftp_password'] = "
-	If you set the storing method to <i>External FTP server</i> you need to
-        specify the password which phpAdsNew must use in order to connect to the
-	external FTP server.
+	Si vous avez choisi comme méthode de stockage <i>Serveur FTP externe</i>, vous devez spécifier ici
+	le mot de passe avec lequel phpAdsNew se connectera au serveur FTP externe sur lequel phpAdsNew
+	copiera les bannières.
 ";
       
 $GLOBALS['phpAds_hlp_type_web_url'] = "
@@ -359,9 +356,8 @@ $GLOBALS['phpAds_hlp_admin'] = "
 $GLOBALS['phpAds_hlp_pwold'] = 
 $GLOBALS['phpAds_hlp_pw'] = 
 $GLOBALS['phpAds_hlp_pw2'] = "
-        To change the administrator password, you can need to specify the old
-	password above. Also you need to specify the old password twice, to
-	prevent typing errors.
+	Pour changer le mot de passe de l'administrateur, vous devez spécifier l'ancien mot de passe,
+	ainsi que le nouveau mot de passe deux fois, afin de prévenir à toute faute de frappe.
 ";
 
 $GLOBALS['phpAds_hlp_admin_fullname'] = "
@@ -392,71 +388,70 @@ $GLOBALS['phpAds_hlp_client_welcome_msg'] = "
 ";
 
 $GLOBALS['phpAds_hlp_updates_frequency'] = "
-		If you want to check for new versions of phpAdsNew you can enable this feature. 
-		It is possible the specify the interval in which phpAdsNew makes a connection to 
-		the update server. If a new version is found a dialog box will pop up with additional 
-		information about the update.
+	Si vous souhaitez que phpAdsNew vérifie si il existe des mises à jour, vous pouvez activer cette fonction.
+	Il est possible de spécifier l'intervalle entre chaque vérification. Cette vérification s'effectue par
+	une connexion au serveur de mise à jour. Si une nouvelle version est trouvée, une boite de dialogue
+	apparaîtra, avec d'avantages d'informations concernant la mise à jour.
 ";
 		
 $GLOBALS['phpAds_hlp_userlog_email'] = "
-		If you want to keep a copy of all outgoing e-mail messages send by phpAdsNew you 
-		can enable this feature. The e-mail messages are stored in the userlog.
+	Si vous souhaitez garder une copie de tous les emails sortant envoyés par phpAdsNew, vous pouvez activer
+	cette fonctionnalité. Les emails sortants sont stockés dans le journal utilisateur.
 ";
 		
 $GLOBALS['phpAds_hlp_userlog_priority'] = "
-		To ensure the priority calculation ran correct, you can save a report about 
-		the hourly calculation. This report includes the predicted profile and how much 
-		priority is assigned to all banners. This information might be useful if you 
-		want to submit a bugreport about the priority calculations. The reports are 
-		stored inside the userlog.
+	Pour s'assurer que le calcul des priorités a été correctement effectué, vous pouvez activer l'enregistrement
+	des rapports des calculs de priorités (chaque heure) dans le journal utilisateur. Ces rapports incluent
+	les prévisions, ainsi que la priorité assignée à chaque bannière. Ces informations peuvent être utiles si
+	vous souhaitez soumettre un rapport de bug à propos de ces calculs de priorité.
 ";
 		
 $GLOBALS['phpAds_hlp_default_banner_weight'] = "
-		If you want to use a higher default banner weight you can specify the desired weight here. 
-		This settings is 1 by default.
+	Si vous souhaitez assigner un poids par défaut des bannières supérieur à 1 (valeur par défaut), vous pouvez
+	spécifier ici le poids désiré.
 ";
 		
 $GLOBALS['phpAds_hlp_default_campaign_weight'] = "
-		If you want to use a higher default campaign weight you can specify the desired weight here. 
-		This settings is 1 by default.
+	Si vous souhaitez assigner un poids par défaut des campagnes supérieur à 1 (valeur par défaut), vous pouvez
+	spécifier ici le poids désiré.
 ";
 		
 $GLOBALS['phpAds_hlp_gui_show_campaign_info'] = "
-		If this option is enabled extra information about each campain will be shown on the 
-		<i>Campaign overview</i> page. The extra information includes the number of AdViews remaining, 
-		the number of AdClicks remaining, activation date, expiration date and the priority settings.
+	Si cette option est activée, des informations supplémentaires à propos de chaque campagne seront
+	montrées sur la page <i>Aperçu de la campagne</i>. Les informations supplémentaires incluent le nombre
+	d'affichages restants, de nombre de clics restants, la date d'activation, la date d'expiration, et
+	les paramètres de priorité.
 ";
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_info'] = "
-		If this option is enabled extra information about each banner will be shown on the 
-		<i>Banner overview</i> page. The extra information includes the destination URL, keywords, 
-		size and the banner weight.
+	Si cette option est activée, des informations supplémentaires à propos de chaque bannière seront
+	montrées sur la page <i>Aperçu de la bannière</i>.Les informations supplémentaires incluent l'Url
+	de destination, les mots clés, la taille, et le poids de la bannière.
 ";
 		
 $GLOBALS['phpAds_hlp_gui_show_campaign_preview'] = "
-		If this option is enabled a preview of all banners will be shown on the <i>Banner overview</i> 
-		page. If this option is disabled it is still possible to show a preview of each banner by click 
-		on the triangle next to each banner on the <i>Banner overview</i> page.
+	Si cette option est activée, un aperçu de toutes les bannières sera montré sur la page <i>Aperçu des
+	bannières</i>. Si cette option est désactivée, il est toujours possible de voir un aperçu de chaque bannière
+	en cliquant sur le triangle proche de chaque bannière sur la page <i>Aperçu des bannières</i>.
 ";
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_html'] = "
-		If this option is enabled the actual HTML banner will be shown instead of the HTML code. This 
-		option is disabled by default, because the HTML banners might conflict with the user interface. 
-		If this option is still possible to view the actual HTML banner, by clicking on the <i>Show banner</i>
-		button next to the HTML code.
+	Si cette option est activée, la bannière HTML actuelle sera montrée, à la place du code HTML brut.
+	Cette option est désactivée par défaut, car les bannières HTML peuvent rentrer en conflit avec
+	l'interface utilisateur. Si cette option est désactivée, il est toujours possible de voir la bannière
+	HTML actuelle, en cliquant sur <i>Montrer la bannière</i>, a coté du code HTML brut.
 ";
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_preview'] = "
-		If this option is enabled a preview will be shown at the top of the <i>Banner properties</i>, 
-		<i>Delivery option</i> and <i>Linked zones</i> pages. If this option is disabled it is still 
-		possible to view the banner, by clicking on the <i>Show banner</i> button at the top of the pages.
+	Si cette option est activée, un aperçu sera montré en haut des pages <i>Propriétés de la bannière</i>,
+	<i>Options de limitation</i>, et <i>Zones liées</i>. Si cette option est désactivée, il sera toujours
+	possible de voir la bannière, en cliquant sur le <i>Montrer la bannière</i>, en haut de ces pages.
 ";
 		
 $GLOBALS['phpAds_hlp_gui_hide_inactive'] = "
-		If this option is enabled all inactive banners, campaigns and advertisers will be hidden from the
-		<i>Advertisers & Campaigns</i> and <i>Campaign overview</i> pages. If this option is enabled it is
-		still possible to view the hidden items, by clicking on the <i>Show all</i> button on the bottom
-		of the page.
+	Si cette option est activée, tous les annonceurs, bannières, et campagnes inactifs seront cachés des pages
+	<i>Annonceurs et Campagnes</i>, et <i>Aperçu de la campagne</i>. Si cette option est activée, il est toujours
+	possible de voir les éléments cachés, en cliquant sur <i>Montrer tout</i> en bas de ces pages.
 ";
 
 ?>
