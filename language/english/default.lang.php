@@ -110,10 +110,6 @@ $GLOBALS['strFieldFixBeforeContinue1']		= "Before you can continue you need";
 $GLOBALS['strFieldFixBeforeContinue2']		= "to correct these errors.";
 $GLOBALS['strDelimiter']			= "Delimiter";
 $GLOBALS['strMiscellaneous']		= "Miscellaneous";
-$GLOBALS['strCollectedAll']			= "All collected statistics";
-$GLOBALS['strCollectedToday']		= "Statistics for today only";
-$GLOBALS['strCollected7Days']		= "Statistics for the last 7 days only";
-$GLOBALS['strCollectedMonth']		= "Statistics for this month only";
 $GLOBALS['strUseQuotes']			= "Use quotes";
 
 
@@ -489,6 +485,12 @@ $GLOBALS['strTargetModifiedDay']	= "Targets were modified during the day, target
 $GLOBALS['strTargetModifiedWeek']	= "Targets were modified during the week, targeting could be not accurate";
 $GLOBALS['strTargetModifiedMonth']	= "Targets were modified during the month, targeting could be not accurate";
 $GLOBALS['strNoTargetStats']		= "There are currently no statistics about targeting available";
+$GLOBALS['strCollectedAll']			= "All collected statistics";
+$GLOBALS['strCollectedToday']		= "Statistics for today only";
+$GLOBALS['strCollected7Days']		= "Statistics for the last 7 days only";
+$GLOBALS['strCollectedMonth']		= "Statistics for this month only";
+$GLOBALS['strCollectedYesterday']	= "Statistics for yesterday only";
+$GLOBALS['strCollectedRange']		= "Select a date range";
 
 
 // Hosts

@@ -20,7 +20,7 @@ require ("lib-statistics.inc.php");
 
 
 // Register input variables
-phpAds_registerGlobal ('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection', 'period');
+phpAds_registerGlobal ('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection', 'period', 'period_range');
 
 
 // Security check
@@ -28,7 +28,6 @@ phpAds_checkAccess(phpAds_Admin);
 
 
 // Set default values
-if (!isset($period)) $period = '';
 $tabindex = 1;
 
 
@@ -84,6 +83,35 @@ else
 
 
 
+if (!isset($period))
+{
+	if (isset($Session['prefs']['stats-global-client.php']['period']))
+		$period = $Session['prefs']['stats-global-client.php']['period'];
+	else
+		$period = '';
+}
+
+
+if (!isset($period_range))
+{
+	if (isset($Session['prefs']['stats-global-client.php']['period_range']))
+		$period_range = $Session['prefs']['stats-global-client.php']['period_range'];
+	else
+		$period_range = array (
+			'start_day' => 0,
+			'start_month' => 0,
+			'start_year' => 0,
+			'end_day' => 0,
+			'end_month' => 0,
+			'end_year' => 0
+		);
+}
+
+
+
+
+
+
 /*********************************************************/
 /* Main code                                             */
 /*********************************************************/
@@ -131,21 +159,48 @@ while ($row_clients = phpAds_dbFetchArray($res_clients))
 }
 
 
+// Check period range
+if ($period_range['start_month'] == 0 || $period_range['start_day'] == 0 || $period_range['start_year'] == 0)
+{
+	$period_begin = 0;
+	$period_range['start_day'] = $period_range['start_month'] = $period_range['start_year'] = 0;
+}
+else
+	$period_begin = mktime(0, 0, 0, $period_range['start_month'], $period_range['start_day'], $period_range['start_year']);
+
+
+if ($period_range['end_month'] == 0 || $period_range['end_day'] == 0 || $period_range['end_year'] == 0)
+{
+	$period_end = mktime(0, 0, 0, date('m'), date('d') + 1, date('Y'));
+	$period_range['end_day'] = $period_range['end_month'] = $period_range['end_year'] = 0;
+}
+else
+	$period_end = mktime(0, 0, 0, $period_range['end_month'], $period_range['end_day'], $period_range['end_year']);
+
+
 
 if (!$phpAds_config['compact_stats'])
 {
 	switch ($period)
 	{
-		case 't':	$timestamp	= mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-					$limit 		= " AND t_stamp >= ".date('YmdHis', $timestamp);
+		case 'r':	$limit 		    	= " AND t_stamp >= ".date('YmdHis', $period_begin)." AND t_stamp < ".date('YmdHis', $period_end);
 					break;
 				
-		case 'w':	$timestamp	= mktime(0, 0, 0, date('m'), date('d') - 6, date('Y'));
-					$limit 		= " AND t_stamp >= ".date('YmdHis', $timestamp);
+		case 'y':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d') - 1, date('Y'));	
+					$timestamp_end		= mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+					$limit 		    	= " AND t_stamp >= ".date('YmdHis', $timestamp_begin)." AND t_stamp < ".date('YmdHis', $timestamp_end);
 					break;
 				
-		case 'm':	$timestamp	= mktime(0, 0, 0, date('m'), 1, date('Y'));
-					$limit 		= " AND t_stamp >= ".date('YmdHis', $timestamp);
+		case 't':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+					$limit 				= " AND t_stamp >= ".date('YmdHis', $timestamp_begin);
+					break;
+				
+		case 'w':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d') - 6, date('Y'));
+					$limit 				= " AND t_stamp >= ".date('YmdHis', $timestamp_begin);
+					break;
+				
+		case 'm':	$timestamp_begin	= mktime(0, 0, 0, date('m'), 1, date('Y'));
+					$limit 				= " AND t_stamp >= ".date('YmdHis', $timestamp_begin);
 					break;
 				
 		default:	$limit = '';
@@ -157,16 +212,24 @@ else
 {
 	switch ($period)
 	{
-		case 't':	$timestamp	= mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-					$limit 		= " AND day >= ".date('Ymd', $timestamp);
+		case 'r':	$limit 		    	= " AND day >= ".date('Ymd', $period_begin)." AND day < ".date('Ymd', $period_end);
 					break;
 				
-		case 'w':	$timestamp	= mktime(0, 0, 0, date('m'), date('d') - 6, date('Y'));
-					$limit 		= " AND day >= ".date('Ymd', $timestamp);
+		case 'y':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d') - 1, date('Y'));
+					$timestamp_end		= mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+					$limit 				= " AND day >= ".date('Ymd', $timestamp_begin)." AND day < ".date('Ymd', $timestamp_end);
 					break;
 				
-		case 'm':	$timestamp	= mktime(0, 0, 0, date('m'), 1, date('Y'));
-					$limit 		= " AND day >= ".date('Ymd', $timestamp);
+		case 't':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+					$limit 				= " AND day >= ".date('Ymd', $timestamp_begin);
+					break;
+				
+		case 'w':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d') - 6, date('Y'));
+					$limit 				= " AND day >= ".date('Ymd', $timestamp_begin);
+					break;
+				
+		case 'm':	$timestamp_begin	= mktime(0, 0, 0, date('m'), 1, date('Y'));
+					$limit 				= " AND day >= ".date('Ymd', $timestamp_begin);
 					break;
 				
 		default:	$limit = '';
@@ -402,10 +465,65 @@ echo "<form action='".$HTTP_SERVER_VARS['PHP_SELF']."'>";
 
 echo "<select name='period' onChange='this.form.submit();' accesskey='".$keyList."' tabindex='".($tabindex++)."'>";
 	echo "<option value=''".($period == '' ? ' selected' : '').">".$strCollectedAll."</option>";
+	echo "<option value='' disabled>-----------------------------------------</option>";
 	echo "<option value='t'".($period == 't' ? ' selected' : '').">".$strCollectedToday."</option>";
+	echo "<option value='y'".($period == 'y' ? ' selected' : '').">".$strCollectedYesterday."</option>";
 	echo "<option value='w'".($period == 'w' ? ' selected' : '').">".$strCollected7Days."</option>";
 	echo "<option value='m'".($period == 'm' ? ' selected' : '').">".$strCollectedMonth."</option>";
+	echo "<option value='' disabled>-----------------------------------------</option>";
+	echo "<option value='r'".($period == 'r' ? ' selected' : '').">".$strCollectedRange."</option>";
 echo "</select>";
+
+
+if ($period == 'r')
+{
+	phpAds_ShowBreak();
+	echo $strFrom."&nbsp;&nbsp;";
+	
+	// Starting date
+	echo "<select name='period_range[start_day]'>\n";
+	echo "<option value='0'".($period_range['start_day'] == 0 ? ' selected' : '').">-</option>\n";
+	for ($i=1;$i<=31;$i++)
+		echo "<option value='$i'".($i == $period_range['start_day'] ? ' selected' : '').">$i</option>\n";
+	echo "</select>&nbsp;\n";
+	
+	echo "<select name='period_range[start_month]'>\n";
+	echo "<option value='0'".($period_range['start_month'] == 0 ? ' selected' : '').">-</option>\n";
+	for ($i=1;$i<=12;$i++)
+		echo "<option value='$i'".($i == $period_range['start_month'] ? ' selected' : '').">".$strMonth[$i-1]."</option>\n";
+	echo "</select>&nbsp;\n";
+	
+	echo "<select name='period_range[start_year]'>\n";
+	echo "<option value='0'".($period_range['start_year'] == 0 ? ' selected' : '').">-</option>\n";
+	for ($i=date('Y')-4;$i<=date('Y');$i++)
+		echo "<option value='$i'".($i == $period_range['start_year'] ? ' selected' : '').">$i</option>\n";
+	echo "</select>\n";	
+	
+	// To
+	echo "&nbsp;$strTo&nbsp;&nbsp;";
+	
+	// End date
+	echo "<select name='period_range[end_day]'>\n";
+	echo "<option value='0'".($period_range['end_day'] == 0 ? ' selected' : '').">-</option>\n";
+	for ($i=1;$i<=31;$i++)
+		echo "<option value='$i'".($i == $period_range['end_day'] ? ' selected' : '').">$i</option>\n";
+	echo "</select>&nbsp;\n";
+	
+	echo "<select name='period_range[end_month]'>\n";
+	echo "<option value='0'".($period_range['end_month'] == 0 ? ' selected' : '').">-</option>\n";
+	for ($i=1;$i<=12;$i++)
+		echo "<option value='$i'".($i == $period_range['end_month'] ? ' selected' : '').">".$strMonth[$i-1]."</option>\n";
+	echo "</select>&nbsp;\n";
+	
+	echo "<select name='period_range[end_year]'>\n";
+	echo "<option value='0'".($period_range['end_year'] == 0 ? ' selected' : '').">-</option>\n";
+	for ($i=date('Y')-4;$i<=date('Y');$i++)
+		echo "<option value='$i'".($i == $period_range['end_year'] ? ' selected' : '').">$i</option>\n";
+	echo "</select>\n";	
+	
+	echo "&nbsp;";
+	echo "<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif'>";
+}
 
 phpAds_ShowBreak();
 echo "</form>";
@@ -473,9 +591,9 @@ if ($clientshidden > 0 || $totalviews > 0 || $totalclicks > 0)
 		if (isset($client['campaigns']))
 		{
 			if ($client['expand'] == '1')
-				echo "&nbsp;<a href='stats-global-client.php?period=".$period."&amp;collapse=".$client['clientid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
+				echo "&nbsp;<a href='stats-global-client.php?collapse=".$client['clientid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
 			else
-				echo "&nbsp;<a href='stats-global-client.php?period=".$period."&amp;expand=".$client['clientid']."'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
+				echo "&nbsp;<a href='stats-global-client.php?expand=".$client['clientid']."'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
 		}
 		else
 			echo "&nbsp;<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
@@ -517,9 +635,9 @@ if ($clientshidden > 0 || $totalviews > 0 || $totalclicks > 0)
 				if (isset($campaigns[$ckey]['banners']))
 				{
 					if ($campaigns[$ckey]['expand'] == '1')
-						echo "<a href='stats-global-client.php?period=".$period."&amp;collapse=".$campaigns[$ckey]['clientid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
+						echo "<a href='stats-global-client.php?collapse=".$campaigns[$ckey]['clientid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
 					else
-						echo "<a href='stats-global-client.php?period=".$period."&amp;expand=".$campaigns[$ckey]['clientid']."'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
+						echo "<a href='stats-global-client.php?expand=".$campaigns[$ckey]['clientid']."'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
 				}
 				else
 					echo "<img src='images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;";
@@ -643,21 +761,21 @@ if ($clientshidden > 0 || $totalviews > 0 || $totalclicks > 0)
 	if ($hideinactive == true)
 	{
 		echo "&nbsp;&nbsp;<img src='images/icon-activate.gif' align='absmiddle' border='0'>";
-		echo "&nbsp;<a href='stats-global-client.php?period=".$period."&amp;hideinactive=0'>".$strShowAll."</a>";
+		echo "&nbsp;<a href='stats-global-client.php?hideinactive=0'>".$strShowAll."</a>";
 		echo "&nbsp;&nbsp;|&nbsp;&nbsp;".$clientshidden." ".$strInactiveAdvertisersHidden;
 	}
 	else
 	{
 		echo "&nbsp;&nbsp;<img src='images/icon-hideinactivate.gif' align='absmiddle' border='0'>";
-		echo "&nbsp;<a href='stats-global-client.php?period=".$period."&amp;hideinactive=1'>".$strHideInactiveAdvertisers."</a>";
+		echo "&nbsp;<a href='stats-global-client.php?hideinactive=1'>".$strHideInactiveAdvertisers."</a>";
 	}
 	
 	echo "</td><td height='25' colspan='2' align='".$phpAds_TextAlignRight."' nowrap>";
 	echo "<img src='images/triangle-d.gif' align='absmiddle' border='0'>";
-	echo "&nbsp;<a href='stats-global-client.php?period=".$period."&amp;expand=all' accesskey='".$keyExpandAll."'>".$strExpandAll."</a>";
+	echo "&nbsp;<a href='stats-global-client.php?expand=all' accesskey='".$keyExpandAll."'>".$strExpandAll."</a>";
 	echo "&nbsp;&nbsp;|&nbsp;&nbsp;";
 	echo "<img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'>";
-	echo "&nbsp;<a href='stats-global-client.php?period=".$period."&amp;expand=none' accesskey='".$keyCollapseAll."'>".$strCollapseAll."</a>&nbsp;&nbsp;";
+	echo "&nbsp;<a href='stats-global-client.php?expand=none' accesskey='".$keyCollapseAll."'>".$strCollapseAll."</a>&nbsp;&nbsp;";
 	echo "</td></tr>";
 	
 	
@@ -721,6 +839,9 @@ $Session['prefs']['stats-global-client.php']['hideinactive'] = $hideinactive;
 $Session['prefs']['stats-global-client.php']['listorder'] = $listorder;
 $Session['prefs']['stats-global-client.php']['orderdirection'] = $orderdirection;
 $Session['prefs']['stats-global-client.php']['nodes'] = implode (",", $node_array);
+
+$Session['prefs']['stats-global-client.php']['period'] = $period;
+$Session['prefs']['stats-global-client.php']['period_range'] = $period_range;
 
 phpAds_SessionDataStore();
 

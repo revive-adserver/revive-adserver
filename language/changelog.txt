@@ -17,6 +17,10 @@
 
   ====================================================
 
+  07-29-2003 - default
+    [+] strCollectedYesterday
+    [+] strCollectedRange
+
   07-29-2003 - settings
     [u] strAdminFullName
     [u] strAdminEmail
