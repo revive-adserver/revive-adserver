@@ -1,6 +1,10 @@
 phpAdsNew - ChangeLog
 
-CVS			+ Misc changes to library and function names
+CVS			+ Added configuration manager  (Matteo) 20011104
+			+ Added install and upgrade script  (Matteo and Niels) 20011104
+			+ Added support for different table types, such as InnoDB  (Niels) 20011104
+
+			+ Misc changes to library and function names
 			  - Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 20011020
 			  - Renamed acl.inc.php to lib-acl.inc.php  (Niels) 20011020
 			  - Renamed dblib.php to lib-db.inc.php	 (Niels) 20011020
@@ -20,6 +24,7 @@ CVS			+ Misc changes to library and function names
 			  - Removed path detection from config.inc.php, 
 			    to prevent it from being executed twice  (Niels) 20011025
 			  - Added filter to make sure keywords are entered the right way  (Niels) 20011025
+			  - Added messages for empty lists of zones, stats and clients  (Niels) 20011104
 
 			+ Misc bugfixes
 			  - Removed extra comma from config.inc  (Matteo) 20011017
