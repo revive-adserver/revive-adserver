@@ -194,6 +194,7 @@ function phpads_ignore_host()
 	list ($addr, $host) = phpAds_getClientInformation();
 	$found=0;
 	
+	reset($phpAds_config['ignore_hosts']);
 	while (($found == 0) && (list (, $h) = each($phpAds_config['ignore_hosts'])))
 	{
 		if (ereg("^([0-9]{1,3}\.){1,3}([0-9]{1,3}|\*)$", $h))
