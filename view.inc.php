@@ -146,16 +146,19 @@ function get_banner($what, $clientID, $context=0, $source="")
 
 		if($phpAds_random_retrieve == "1") 			
 		{
-			$select .= " AND seq!='1'";
+			$seq_select = $select . " AND seq!='1'";
 
 			// First attempt to fetch a banner
-			$res = @db_query($select);
+			$res = @db_query($seq_select);
+			
 			if (@mysql_num_rows($res) == 0) 		
 			{
 				// No banner left, reset all banners in this category to 'unused', try again below
     			$del_select=strstr($select,'WHERE');
     			$delete_select="UPDATE $phpAds_tbl_banners SET seq='' ".$del_select;
-				db_query($delete_select);
+				@db_query($delete_select);
+
+				$select = $seq_select;				
 			}
 			else
 			{
@@ -165,7 +168,7 @@ function get_banner($what, $clientID, $context=0, $source="")
 		}
 
 		// Attempt to fetch a banner
-	$res = @db_query($select);
+		$res = @db_query($select);
 		if ($res) 
 		{
 			if (@mysql_num_rows($res) > 0)	break;	// Found banners, continue
