@@ -58,7 +58,8 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-08-31:  Improved Netscape 4 compatibility for Iframes invocation  (Niels, thanks to Oliver Weiss)
 			  - 2002-08-31:  Added RTL support for search results  (Niels)
 			  - 2002-08-31:  Added RTL support to on-screen help  (Niels)
-			  - 2002-08-31:  Fixed Javascript error on property pages when translated strings contained a single quote  (Niels)
+			  - 2002-09-02:  Fixed Javascript error on property pages when translated strings contained a single quote  (Niels)
+			  - 2002-09-02:  Moved untranslated string in interface.js (renamed to js-gui.php) to language files  (Niels)
 
 
 
