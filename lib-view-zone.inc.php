@@ -141,7 +141,7 @@ function phpAds_fetchBanner($what, $clientid, $context = 0, $source = '', $richm
 		
 		for ($i=0; $i<$maxindex; $i++)
 		{
-			if (!is_null($rows[$i]))
+			if ($rows[$i] != NULL)
 			{
 				$low = $high;
 				$high += $rows[$i]['priority'];
@@ -178,7 +178,7 @@ function phpAds_fetchBanner($what, $clientid, $context = 0, $source = '', $richm
 						
 						// Delete this row and adjust $prioritysum
 						$prioritysum -= $rows[$i]['priority'];
-						$rows[$i] = null;
+						$rows[$i] = NULL;
 						
 						// Break out of the for loop to try again
 						break;
@@ -203,7 +203,7 @@ function phpAds_fetchBanner($what, $clientid, $context = 0, $source = '', $richm
 						
 						// Delete this row and adjust $prioritysum
 						$prioritysum -= $rows[$i]['priority'];
-						$rows[$i] = null;
+						$rows[$i] = NULL;
 						
 						// Break out of the for loop to try again
 						break;
