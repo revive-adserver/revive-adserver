@@ -1,3 +1,29 @@
+
+phpAdsNew 1.8 -> phpAdsNew 1.9
+
+config.inc.php has a few new parameters you should set.
+For easier upgrades in the future, you can now use config2.inc.php to
+store your customizations to the config.
+
+There is a new statistics table in mysql.  The new config DEFAULTS to 
+using this new statistics model.  Some information is lost in the new
+stats model that was saved before (eg. the host IP or address of everyone
+who ever saw or clicked on any ad).  You probably won't notice, but if
+you do care, turn off compact stats in config2.inc.php.
+
+Also, the new stats table must be added to your mysql database.  See the
+definition of the adstats table in all.sql.
+
+One include file can now replace the three includes which were required before.
+See the documentation and the comments in phpadsnew.inc.php
+
+The new $phpAds_path is required for proper operation.  It should be set
+automatically and will not require customization.  If you have problems with
+missing include files, though, this may be the culprit.
+
+-----------------------
+
+
 phpAdsNew 1.6.x or 1.7.x -> phpAdsNew 1.8
 
 config.inc.php has a few new parameters you should set.
