@@ -4,19 +4,19 @@
 /* Database configuration                                */
 /*********************************************************/
 
-// MySQL hostname
+// Database hostname
 $phpAds_config['dbhost'] = 'localhost';
 
-// MySQL username
+// Database username
 $phpAds_config['dbuser'] = 'mysqlusername';
 
-// MySQL password
+// Database password
 $phpAds_config['dbpassword'] = 'mysqlpassword';
 
-// The database phpAdsNew lives in
+// Database name
 $phpAds_config['dbname'] = 'phpads';
 
-// phpAdsNew' database tables
+// Database table names
 $phpAds_config['tbl_adclicks'] = 'phpads_adclicks';
 $phpAds_config['tbl_adviews'] = 'phpads_adviews';
 $phpAds_config['tbl_adstats'] = 'phpads_adstats';
@@ -30,7 +30,7 @@ $phpAds_config['tbl_affiliates'] = 'phpads_affiliates';
 $phpAds_config['tbl_images'] = 'phpads_images';
 $phpAds_config['tbl_userlog'] = 'phpads_userlog';
 
-// Table names' prefix
+// Database table name prefix
 $phpAds_config['table_prefix'] = 'phpads_';
 
 // Use persistent connections to the database
@@ -46,15 +46,19 @@ $phpAds_config['compatibility_mode'] = false;
 
 
 /*********************************************************/
-/* phpAdsNew configuration                                */
+/* phpAdsNew configuration                               */
 /*********************************************************/
 
 // The URL to your phpAdsNew-installation
 $phpAds_config['url_prefix'] = 'http://www.your-url.com/phpAdsNew';
 
+// Is the admin interface enabled
+$phpAds_config['ui_enabled'] = true;
+
 // The Language of the Interface (eg. english, german, spanish) 
 // for the right string look for the directory name in the language subdirectory
 $phpAds_config['language'] = 'english';
+
 
 
 /*********************************************************/
