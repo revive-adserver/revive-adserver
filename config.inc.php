@@ -141,6 +141,12 @@ $phpAds_mult_key = "1";
 // Use ACL (0=no, 1=yes)
 $phpAds_acl = "0";
 
+// The default weight of newly created banners (default = 1)
+$phpAds_default_banner_weight = 1;
+
+// The default weight of newly created campaigns (default = 1)
+$phpAds_default_campaign_weight = 1;
+
 // default banner, it is show when phpAdsNew can't connect to the database or
 // there are absolutely no banner to display. The banner is not logged.
 // Enter the complete url (incl. http://) for the image and the target,
