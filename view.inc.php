@@ -489,7 +489,16 @@ function view_raw($what, $clientID=0, $target="", $source="", $withtext=0, $cont
 			{
 				// HTML banner
 				$html = stripslashes($row["banner"]);
-				$html = str_replace ("{timestamp}", time(), $html);
+				$html = str_replace ("{timestamp}",	time(), $html);
+				$html = str_replace ("{id}", $row['bannerID'], $html);
+				
+				if (strpos ($html, "{targeturl:") > 0)
+				{
+					while (eregi("{targeturl:([^}]*)}", $html, $regs))
+					{
+						$html = str_replace ($regs[0], "$phpAds_url_prefix/htmlclick.php?bannerID=".$row['bannerID']."&dest=".urlencode($regs[1]), $html);
+					}
+				}
 				
 				if(!empty($row["url"])) 
 				{
