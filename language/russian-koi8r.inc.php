@@ -158,32 +158,32 @@ $GLOBALS[strErrorNegDays] = "Отрицательное число дней не разрешено";
 $GLOBALS[strTrackerImage] = "Tracker image:";
 
 // New strings for version 2
-$GLOBALS[strNavigation] 			= "Navigation";
+$GLOBALS[strNavigation] 			= "Навигация";
 $GLOBALS[strShortcuts] 				= "Shortcuts";
-$GLOBALS[strDescription] 			= "Description";
-$GLOBALS[strClients] 				= "Clients";
+$GLOBALS[strDescription] 			= "Описание";
+$GLOBALS[strClients] 				= "Клиенты";
 $GLOBALS[strID]				 		= "ID";
-$GLOBALS[strOverall] 				= "Overall";
-$GLOBALS[strTotalBanners] 			= "Total banners";
-$GLOBALS[strToday] 					= "Today";
-$GLOBALS[strThisWeek] 				= "This week";
-$GLOBALS[strThisMonth] 				= "This month";
-$GLOBALS[strBasicInformation] 		= "Basic information";
-$GLOBALS[strContractInformation] 	= "Contract information";
-$GLOBALS[strLoginInformation] 		= "Login information";
+$GLOBALS[strOverall] 				= "Всего";
+$GLOBALS[strTotalBanners] 			= "Всего баннеров";
+$GLOBALS[strToday] 					= "Сегодня";
+$GLOBALS[strThisWeek] 				= "На этой неделе";
+$GLOBALS[strThisMonth] 				= "В этом месяце";
+$GLOBALS[strBasicInformation] 		= "Базовая информация";
+$GLOBALS[strContractInformation] 	= "Контрактная информация";
+$GLOBALS[strLoginInformation] 		= "Информация о логине";
 $GLOBALS[strPermissions] 			= "Permissions";
-$GLOBALS[strGeneralSettings]		= "General settings";
-$GLOBALS[strSaveChanges]		 	= "Save Changes";
-$GLOBALS[strCompact]				= "Compact";
-$GLOBALS[strVerbose]				= "Verbose";
+$GLOBALS[strGeneralSettings]		= "Общие настройки";
+$GLOBALS[strSaveChanges]		 	= "Сохрнанить изменения";
+$GLOBALS[strCompact]				= "Компактно";
+$GLOBALS[strVerbose]				= "Подробно";
 $GLOBALS[strOrderBy]				= "order by";
-$GLOBALS[strShowAllBanners]	 		= "Show all banners";
-$GLOBALS[strShowBannersNoAdClicks]	= "Show banners without AdClicks";
-$GLOBALS[strShowBannersNoAdViews]	= "Show banners without AdViews";
-$GLOBALS[strShowAllClients] 		= "Show all clients";
-$GLOBALS[strShowClientsActive] 		= "Show clients with active banners";
-$GLOBALS[strShowClientsInactive]	= "Show clients with inactive banners";
-$GLOBALS[strSize]					= "Size";
+$GLOBALS[strShowAllBanners]	 		= "Показать все баннеры";
+$GLOBALS[strShowBannersNoAdClicks]	= "Показать баннеры без кликов";
+$GLOBALS[strShowBannersNoAdViews]	= "Показать баннеры без просмотров";
+$GLOBALS[strShowAllClients] 		= "Показать всех клиентов";
+$GLOBALS[strShowClientsActive] 		= "Показать клиентов с активными баннерами";
+$GLOBALS[strShowClientsInactive]	= "Показать клиентов с неактивными баннерами";
+$GLOBALS[strSize]					= "Размер";
 
 
 ?>
