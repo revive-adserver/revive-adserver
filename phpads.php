@@ -42,7 +42,7 @@ if(!empty($row["bannerID"]))
 	}
 	else
 	{
-		if($row["format"] == "url")   // bkl
+		if($row["format"] == "url" || $row["format"] == "web")   // bkl
 		{
 			Header("Location: $row[banner]");
 			log_adview($row["bannerID"],$row["clientID"]);
