@@ -324,10 +324,10 @@ if (isset($type) && $type == "url")   $show_url  = true;
 if (isset($type) && $type == "html")  $show_html = true;
 
 // Determine which bannertype to show as default
-if ($show_html) $type = "html";
-if ($show_url)  $type = "url";
-if ($show_web)  $type = "web";
-if ($show_sql)  $type = "sql";
+if (!isset($type) && $show_html) $type = "html";
+if (!isset($type) && $show_url)  $type = "url";
+if (!isset($type) && $show_web)  $type = "web";
+if (!isset($type) && $show_sql)  $type = "mysql";
 
 ?>
 
