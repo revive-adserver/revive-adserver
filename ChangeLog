@@ -102,6 +102,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Added ability to activate/deactivate all banners of a campaign  (Niels) 20020224
 			  - Added <img> invocation to <iframe> invocation type for browser compatibility  (Niels) 20020224
 			  - Added ability to delete all banners of a campaign  (Niels) 20020225
+			  - Added 'url' and 'clientid' to view_raw result array  (Matteo) 20020304
 
 
 			+ Misc bugfixes

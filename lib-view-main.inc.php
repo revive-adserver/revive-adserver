@@ -204,7 +204,9 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 				  'bannerid' => $row['bannerid'],
 				  'alt' => $row['alt'],
 				  'width' => $row['width'],
-				  'height' => $row['height'])
+				  'height' => $row['height'],
+				  'url' => $row['url'],
+				  'clientid' => $row['clientid'])
 		  );
 }
 
