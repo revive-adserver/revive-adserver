@@ -4,8 +4,8 @@
 /* phpAdsNew 2                                                          */
 /* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2001 by the phpAdsNew developers                       */
-/* http://sourceforge.net/projects/phpadsnew                            */
+/* Copyright (c) 2000-2002 by the phpAdsNew developers                  */
+/* For more information visit: http://www.phpadsnew.com                 */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -68,5 +68,71 @@ $GLOBALS['strStatisticsExplaination']			= "
 	U heeft <i>compacte statistieken</i> ingeschakeld, maar er zijn nog enkele oude statistieken beschikbaar
 	in het uitgebreide formaat. Wilt u de oude statistieken converteren naar het compacte formaat?
 ";
+
+
+
+// Product Updates
+$GLOBALS['strSearchingUpdates']				= "Zoeken naar nieuwere versies, een moment geduld a.u.b...";
+$GLOBALS['strAvailableUpdates']				= "Beschikbare update";
+$GLOBALS['strDownloadZip']				= "Downloaden (.zip)";
+$GLOBALS['strDownloadGZip']				= "Downloaden (.tar.gz)";
+
+$GLOBALS['strUpdateAlert']				= "A nieuwe versie van ".$phpAds_productname." is beschikbaar.                 \\n\\nWilt u meer informatie over deze\\nupdate?";
+$GLOBALS['strUpdateAlertSecurity']			= "A nieuwe versie van ".$phpAds_productname." is beschikbaar.                 \\n\\nHet wordt aangeraden om uw versie\\n bij te werken naar de nieuwste versie omdat \\ndeze een of meerdere beveiligingsproblemen oplost.";
+
+$GLOBALS['strUpdateServerDown']				= "
+    Vanwege een onbekende reden is het momenteel niet mogelijk<br>
+    om informatie op te halen over mogelijke updates. Probeer<br>
+    het later nog eens.
+";
+
+$GLOBALS['strNoNewVersionAvailable']			= "
+	Uw versie van ".$phpAds_productname." is up-to-date. Er zijn momenteel geen nieuwere versies beschikbaar.
+";
+
+$GLOBALS['strNewVersionAvailable']			= "
+	<b>Een nieuwe versie van ".$phpAds_productname." is beschikbaar.</b><br> Het wordt aangeraden om de nieuwe
+	versie te installeren omdat deze update bestaande problemen mogelijk zal oplossen. Voor meer informatie
+	over het bijwerken van uw versie kunt het beste de documentatie lezen, welke bijgeleverd is bij de nieuwe versie.
+";
+
+$GLOBALS['strSecurityUpdate']				= "
+	<b>Het wordt ten zeerste aangeraden om deze nieuwe versie zo snel mogelijk te installeren, omdat deze
+	een aantal veiligheidsproblemen oplost.</b> De versie van ".$phpAds_productname." die u momenteel gebruikt
+	is mogelijk vatbaar voor aanvallen en is waarschijnlijk niet geheel veilig. Voor meer informatie over
+	het bijwerken van uw versie kunt het beste de documentatie lezen, welke bijgeleverd is bij de nieuwe versie.
+";
+
+
+// Stats conversion
+$GLOBALS['strConverting']				= "Bezig met converteren...";
+$GLOBALS['strConvertingStats']				= "Statistieken aan het converteren...";
+$GLOBALS['strConvertStats']				= "Converteer statitieken";
+$GLOBALS['strConvertAdViews']				= "AdViews geconverteerd,";
+$GLOBALS['strConvertAdClicks']				= "AdClicks geconverteerd...";
+$GLOBALS['strConvertNothing']				= "Er zijn geen statistieken aanwezig om te converteren...";
+$GLOBALS['strConvertFinished']				= "Klaar...";
+
+$GLOBALS['strConvertExplaination']			= "
+	U gebruikt momenteel het compacte formaat om uw statistieken te bewaren, maar er zijn<br>
+	nog steeds statistieken aanwezig in het uitgebreide formaat. Zolang deze uitgebreide<br>
+	statistieken niet geconverteerd zijn naar het compacte formaat zullen deze niet getoond<br>
+	worden binnen op de overzichtspagina's. Voordat u uw statistieken gaat converteren, maak<br>
+	eerst een backup van de database! Wilt u de uitgebreide statistieken converteren? <br>
+";
+
+$GLOBALS['strConvertingExplaination']			= "
+	Alle uitgebreide statistieken worden nu geconverteerd naar het compate formaat.<br>
+	Afhankelijk van de grootte van de statistieken kan dit enige minuten duren.<br>
+	Wacht tot de gehele conversie klaar is voordat u andere pagina's gaat bekijken.<br>
+	Hieronder ziet een een lijst met alle veranderingen welke gemaakt zijn in de database.<br>
+";
+
+$GLOBALS['strConvertFinishedExplaination']  		= "
+	De conversie van de uitgebreide statistieken is succesvol afgerond en de gegevens<br>
+	zouden nu beschikbaar moeten zijn in alle overzichten. Hieronder vindt u een lijst<br>
+	met alle veranderingen welke gemaakt zijn in de database.<br>
+";
+
 
 ?>
