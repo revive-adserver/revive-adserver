@@ -317,10 +317,12 @@ echo "&nbsp;&nbsp;<select name='chainzone' style='width: 200;' onchange='phpAds_
 	
 	$available = implode ($available, ' OR ');
 	
+	$allowothersizes = $zone['delivery'] == phpAds_ZoneInterstitial || $zone['delivery'] == phpAds_ZonePopup;
+	
 	// Get list of zones to link to
 	$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_zones']." WHERE ".
-						  ($zone['width'] == -1 ? "" : "width = ".$zone['width']." AND ").
-						  ($zone['height'] == -1 ? "" : "height = ".$zone['height']." AND ").
+						  ($zone['width'] == -1 || $allowothersizes ? "" : "width = ".$zone['width']." AND ").
+						  ($zone['height'] == -1 || $allowothersizes ? "" : "height = ".$zone['height']." AND ").
 						  "delivery = ".$zone['delivery']." AND (".$available.") AND zoneid != ".$zoneid);
 	
 	while ($row = phpAds_dbFetchArray($res))
