@@ -1,6 +1,11 @@
 <?php // $Id: $
 
 /************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
 /* phpPgAds                                                             */
 /* ========                                                             */
 /*                                                                      */
@@ -22,7 +27,7 @@ $GLOBALS['phpAds_CharSet'] = "big5";
 $GLOBALS['strHome'] = "首頁";
 $GLOBALS['date_format'] = "%m/%d/%Y";
 $GLOBALS['time_format'] = "%H:%i:%S";
-$GLOBALS['strPgSQLError'] = "PostgreSQL 錯誤訊息:";
+$GLOBALS['strMySQLError'] = "MySQL 錯誤訊息:";
 $GLOBALS['strAdminstration'] = "系統管理";
 $GLOBALS['strAddClient'] = "新增客戶";
 $GLOBALS['strModifyClient'] = "編輯客戶";
@@ -102,7 +107,7 @@ $GLOBALS['strLogErrorClicks'] = "[phpAds] 系統從資料庫下載廣告點選數時發生錯誤";
 $GLOBALS['strLogErrorDisactivate'] = "[phpAds] 系統在停用廣告時發生錯誤";
 $GLOBALS['strRatio'] = "廣告點選比 (CTR)";
 $GLOBALS['strChooseBanner'] = "請選擇廣告內容儲存方式";
-$GLOBALS['strPgSQLBanner'] = "廣告圖形儲存於 PostgreSQL 資料庫";
+$GLOBALS['strMySQLBanner'] = "廣告圖形儲存於 MySQL 資料庫";
 $GLOBALS['strWebBanner'] = "廣告圖形儲存於網頁主機上";
 $GLOBALS['strURLBanner'] = "廣告圖形連結到特定網址";
 $GLOBALS['strHTMLBanner'] = "HTML 文件型廣告";

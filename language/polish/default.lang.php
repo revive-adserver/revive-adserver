@@ -1,6 +1,11 @@
-<?php // $Id$
+<?php // $Revision$
 
 /************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
 /* phpPgAds                                                             */
 /* ========                                                             */
 /*                                                                      */
@@ -21,7 +26,7 @@ $GLOBALS['phpAds_CharSet'] = "iso-8859-2";
 $GLOBALS['strHome'] = "Strona G³ówna";
 $GLOBALS['date_format'] = "%d/%m/%Y";
 $GLOBALS['time_format'] = "%H:%i:%S";
-$GLOBALS['strPgSQLError'] = "PostgreSQL-B³±d:";
+$GLOBALS['strMySQLError'] = "MySQL-B³±d:";
 $GLOBALS['strAdminstration'] = "Administacja";
 $GLOBALS['strAddClient'] = "Dodaj nowego klienta";
 $GLOBALS['strModifyClient'] = "Modyfikuj klienta";
@@ -101,7 +106,7 @@ $GLOBALS['strLogErrorClicks'] = "[Wymiana Bannerów] Wyst±pi³ b³±d w czasie odczy
 $GLOBALS['strLogErrorDisactivate'] = "[Wymiana Bannerów] Wyst±pi³ b³±d w czasie próby wy³±czenia bannera.";
 $GLOBALS['strRatio'] = "Ratio Klikniêæ";
 $GLOBALS['strChooseBanner'] = "Proszê wybraæ typ bannera.";
-$GLOBALS['strPgSQLBanner'] = "Banner zosta³ dopisany do bazy";
+$GLOBALS['strMySQLBanner'] = "Banner zosta³ dopisany do bazy";
 $GLOBALS['strWebBanner'] = "Banner przechowywany na serwerze";
 $GLOBALS['strURLBanner'] = "Banner wczytany przy pomocy linka";
 $GLOBALS['strHTMLBanner'] = "Banner HTML";

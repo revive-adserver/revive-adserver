@@ -1,6 +1,11 @@
-<?php // $Id$
+<?php // $Revision$
 
 /************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
 /* phpPgAds                                                             */
 /* ========                                                             */
 /*                                                                      */
@@ -17,7 +22,7 @@
 $GLOBALS['strHome'] = "Hjem";
 $GLOBALS['date_format'] = "%d/%m/%Y";
 $GLOBALS['time_format'] = "%H:%i:%S";
-$GLOBALS['strPgSQLError'] = "PostgreSQL-Error:";
+$GLOBALS['strMySQLError'] = "MySQL-Error:";
 $GLOBALS['strAdminstration'] = "Administrasjon";
 $GLOBALS['strAddClient'] = "Legg til ny klient";
 $GLOBALS['strModifyClient'] = "Endre klient";
@@ -100,7 +105,7 @@ $GLOBALS['strLogErrorClicks'] = "[phpAds] En feil oppstod under henting av banne
 $GLOBALS['strLogErrorDisactivate'] = "[phpAds] En feil oppstod under deaktivering av banner.";
 $GLOBALS['strRatio'] = "GjennomKlikksForhold";
 $GLOBALS['strChooseBanner'] = "Vennligst velg type banner.";
-$GLOBALS['strPgSQLBanner'] = "Banner lagret i databasen (PostgreSQL)";
+$GLOBALS['strMySQLBanner'] = "Banner lagret i databasen (MySQL)";
 $GLOBALS['strWebBanner'] = "Banner lagret på webserver";
 $GLOBALS['strURLBanner'] = "Banner referert til via URL";
 $GLOBALS['strHTMLBanner'] = "HTML banner";

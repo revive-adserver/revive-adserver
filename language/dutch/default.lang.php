@@ -1,6 +1,11 @@
-<?php // $Id$
+<?php // $Revision$
 
 /************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
 /* phpPgAds                                                             */
 /* ========                                                             */
 /*                                                                      */
@@ -17,7 +22,7 @@
 $GLOBALS['strHome'] = "Hoofdpagina";
 $GLOBALS['date_format'] = "%d-%m-%Y";
 $GLOBALS['time_format'] = "%H:%i:%S";
-$GLOBALS['strPgSQLError'] = "PostgreSQL-Fout:";
+$GLOBALS['strMySQLError'] = "MySQL-Fout:";
 $GLOBALS['strAdminstration'] = "Administratie";
 $GLOBALS['strAddClient'] = "Voeg een klant toe";
 $GLOBALS['strModifyClient'] = "Wijzig klant";
@@ -97,7 +102,7 @@ $GLOBALS['strLogErrorClicks'] = "[phpPgAds] Er is een fout opgetreden. De AdClic
 $GLOBALS['strLogErrorDisactivate'] = "[phpPgAds] Er is een fout opgetreden. De banner kon niet gedeactiveerd worden.";
 $GLOBALS['strRatio'] = "Click-Through Ratio";
 $GLOBALS['strChooseBanner'] = "Gelieve het type banner te kiezen.";
-$GLOBALS['strPgSQLBanner'] = "Banner opgeslagen in SQL";
+$GLOBALS['strMySQLBanner'] = "Banner opgeslagen in SQL";
 $GLOBALS['strWebBanner'] = "Banner opgeslagen op de Webserver";
 $GLOBALS['strURLBanner'] = "Banner waarnaar verwezen wordt d.m.v. een URL";
 $GLOBALS['strHTMLBanner'] = "HTML-banner";

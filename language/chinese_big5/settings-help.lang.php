@@ -1,6 +1,11 @@
 <?php // $Id: $
 
 /************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
 /* phpPgAds                                                             */
 /* ========                                                             */
 /*                                                                      */
@@ -16,15 +21,15 @@
 
 // Settings help translation strings
 $GLOBALS['phpAds_hlp_dbhost'] = "
-        Specify the hostname of the PostgreSQL database server.
+        Specify the hostname of the MySQL database server.
 		";
 		
 $GLOBALS['phpAds_hlp_dbuser'] = "
-        Specify the username which phpPgAds must use to gain access to the PostgreSQL database server.
+        Specify the username which phpPgAds must use to gain access to the MySQL database server.
 		";
 		
 $GLOBALS['phpAds_hlp_dbpassword'] = "
-        Specify the password which phpPgAds must use to gain access to the PostgreSQL database server.
+        Specify the password which phpPgAds must use to gain access to the MySQL database server.
 		";
 		
 $GLOBALS['phpAds_hlp_dbname'] = "
@@ -41,7 +46,7 @@ $GLOBALS['phpAds_hlp_persistent_connections'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_insert_delayed'] = "
-        PostgreSQL locks the table when it is inserting data. If have many visitors to your site, 
+        MySQL locks the table when it is inserting data. If have many visitors to your site, 
 		it could be possible phpPgAds must wait before inserting a new row, because the database 
 		is still locked. When you use insert delayed, you don't have to wait and the row will 
 		be inserted at a later time when the table is not in use by any other thread. 
@@ -54,9 +59,9 @@ $GLOBALS['phpAds_hlp_tbl_prefix'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_tabletype'] = "
-        PostgreSQL supports multiple table types. Each type of table has unique properties and some
+        MySQL supports multiple table types. Each type of table has unique properties and some
 		can speed up phpPgAds considerable. MyISAM is the default table type and is available
-		in all installations of PostgreSQL. Other table types may not be available on your server
+		in all installations of MySQL. Other table types may not be available on your server
 		";
 		
 $GLOBALS['phpAds_hlp_url_prefix'] = "

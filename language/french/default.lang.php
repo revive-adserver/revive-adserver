@@ -1,6 +1,11 @@
-<?php // $Id$
+<?php // $Revision$
 
 /************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
 /* phpPgAds                                                             */
 /* ========                                                             */
 /*                                                                      */
@@ -17,7 +22,7 @@
 $GLOBALS['strHome'] = "Accueil";
 $GLOBALS['date_format'] = "%d/%m/%Y";
 $GLOBALS['time_format'] = "%H:%i:%S";
-$GLOBALS['strPgSQLError'] = "Erreur PostgreSQL:";
+$GLOBALS['strMySQLError'] = "Erreur MySQL:";
 $GLOBALS['strAdminstration'] = "Administration";
 $GLOBALS['strAddClient'] = "Ajouter un nouveau client";
 $GLOBALS['strModifyClient'] = "Modifier client";
@@ -100,7 +105,7 @@ $GLOBALS['strLogErrorClicks'] = "[phpAds] Une erreur a eu lieu en tentant de réc
 $GLOBALS['strLogErrorDisactivate'] = "[phpAds] Une erreur a eu lieu en tentant de désactiver un bandeau.";
 $GLOBALS['strRatio'] = "Pourcentage de clics";
 $GLOBALS['strChooseBanner'] = "Veuillez choisir le type de bandeau.";
-$GLOBALS['strPgSQLBanner'] = "Bandeau stocké dans PostgreSQL";
+$GLOBALS['strMySQLBanner'] = "Bandeau stocké dans MySQL";
 $GLOBALS['strWebBanner'] = "Bandeau stocké sur le Serveur Web";
 $GLOBALS['strURLBanner'] = "Bandeau récupéré par une URL";
 $GLOBALS['strHTMLBanner'] = "Bandeau HTML";

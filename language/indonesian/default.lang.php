@@ -1,6 +1,11 @@
-<?php // $Id$
+<?php // $Revision$
 
 /************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
 /* phpPgAds                                                             */
 /* ========                                                             */
 /*                                                                      */
@@ -19,7 +24,7 @@
 $GLOBALS['strHome'] = "Home";
 $GLOBALS['date_format'] = "%d.%m.%Y";
 $GLOBALS['time_format'] = "%H:%i:%S";
-$GLOBALS['strPgSQLError'] = "PostgreSQL-Error:";
+$GLOBALS['strMySQLError'] = "MySQL-Error:";
 $GLOBALS['strAdminstration'] = "Administrasi";
 $GLOBALS['strAddClient'] = "Tambah Client baru";
 $GLOBALS['strModifyClient'] = "Ubah data Client";
@@ -100,7 +105,7 @@ $GLOBALS['strLogErrorClicks'] = "[phpAds] Error pada saat mengambil data AdKlik 
 $GLOBALS['strLogErrorDisactivate'] = "[phpAds] Error pada saat deakivasi Banner.";
 $GLOBALS['strRatio'] = "Ratio Click-Through (CTR)";
 $GLOBALS['strChooseBanner'] = "Silakan pilih tipe Banner.";
-$GLOBALS['strPgSQLBanner'] = "Banner tersimpan di database PostgreSQL";
+$GLOBALS['strMySQLBanner'] = "Banner tersimpan di database MySQL";
 $GLOBALS['strWebBanner'] = "Banner tersimpan di webserver";
 $GLOBALS['strURLBanner'] = "Banner dihubungkan (di-link) lewat URL";
 $GLOBALS['strHTMLBanner'] = "Banner-HTML";

@@ -1,6 +1,11 @@
-<?php // $Id$
+<?php // $Revision$
 
 /************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
 /* phpPgAds                                                             */
 /* ========                                                             */
 /*                                                                      */
@@ -19,7 +24,7 @@
 $GLOBALS['strHome'] = "Hem";
 $GLOBALS['date_format'] = "%d/%m/%Y";
 $GLOBALS['time_format'] = "%H:%i:%S";
-$GLOBALS['strPgSQLError'] = "PostgreSQL-fel:";
+$GLOBALS['strMySQLError'] = "MySQL-fel:";
 $GLOBALS['strAdminstration'] = "Administration";
 $GLOBALS['strAddClient'] = "Lägg till ny klient";
 $GLOBALS['strModifyClient'] = "Ändra klient";
@@ -101,7 +106,7 @@ $GLOBALS['strLogErrorClicks'] = "[phpAds] Ett fel inträffade när annonsklick sku
 $GLOBALS['strLogErrorDisactivate'] = "[phpAds] Ett fel inträffade när en banner skulle avaktiveras.";
 $GLOBALS['strRatio'] = "Följda-länkar procent";
 $GLOBALS['strChooseBanner'] = "Välj bannertyp.";
-$GLOBALS['strPgSQLBanner'] = "Banner lagrad i PostgreSQL";
+$GLOBALS['strMySQLBanner'] = "Banner lagrad i MySQL";
 $GLOBALS['strWebBanner'] = "Banner lagrad på webbservern";
 $GLOBALS['strURLBanner'] = "Banner refererad genom en URL";
 $GLOBALS['strHTMLBanner'] = "HTML-banner";

@@ -1,6 +1,11 @@
-<?php // $Id$
+<?php // $Revision$
 
 /************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
 /* phpPgAds                                                             */
 /* ========                                                             */
 /*                                                                      */
@@ -22,7 +27,7 @@
 $GLOBALS['strHome'] = "Home";
 $GLOBALS['date_format'] = "%d/%m/%Y";
 $GLOBALS['time_format'] = "%H:%i:%S";
-$GLOBALS['strPgSQLError'] = "Errore PostgreSQL:";
+$GLOBALS['strMySQLError'] = "Errore MySQL:";
 $GLOBALS['strAdminstration'] = "Amministrazione";
 $GLOBALS['strAddClient'] = "Aggiungi nuovo utente";
 $GLOBALS['strModifyClient'] = "Modifica utente";
@@ -103,7 +108,7 @@ $GLOBALS['strLogErrorClicks'] = "[phpAds] Si e' verificato un errore nel tentati
 $GLOBALS['strLogErrorDisactivate'] = "[phpAds] Si e' verificato un errore nel tentativo di disattivare un banner.";
 $GLOBALS['strRatio'] = "Percentuale di Click per Visualizzazione";
 $GLOBALS['strChooseBanner'] = "Scegliere il tipo di banner.";
-$GLOBALS['strPgSQLBanner'] = "Banner memorizzato nel database PostgreSQL";
+$GLOBALS['strMySQLBanner'] = "Banner memorizzato nel database MySQL";
 $GLOBALS['strWebBanner'] = "Banner memorizzato sul server Web";
 $GLOBALS['strURLBanner'] = "Banner richiamato da un altro URL";
 $GLOBALS['strHTMLBanner'] = "Banner HTML";

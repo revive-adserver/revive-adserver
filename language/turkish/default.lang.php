@@ -1,6 +1,11 @@
-<?php // $Id$
+<?php // $Revision$
 
 /************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
 /* phpPgAds                                                             */
 /* ========                                                             */
 /*                                                                      */
@@ -19,7 +24,7 @@
 $GLOBALS['strHome'] = "Yönetim Alaný";
 $GLOBALS['date_format'] = "%d/%m/%Y";
 $GLOBALS['time_format'] = "%H:%i:%S";
-$GLOBALS['strPgSQLError'] = "PostgreSQL-Hata:";
+$GLOBALS['strMySQLError'] = "MySQL-Hata:";
 $GLOBALS['strAdminstration'] = "Yönetim";
 $GLOBALS['strAddClient'] = "Yeni Reklamveren Ekle";
 $GLOBALS['strModifyClient'] = "Reklamveren Düzenle";
@@ -101,7 +106,7 @@ $GLOBALS['strLogErrorClicks'] = "[Reklamci] Reklam Tiklari db den alinirken bir 
 $GLOBALS['strLogErrorDisactivate'] = "[Reklamci] Reklami pasif ederken bir hata olustu.";
 $GLOBALS['strRatio'] = "Týklanma Orany";
 $GLOBALS['strChooseBanner'] = "Reklamý tipini seçiniz.";
-$GLOBALS['strPgSQLBanner'] = "Reklamý Sql'e kaydet";
+$GLOBALS['strMySQLBanner'] = "Reklamý Sql'e kaydet";
 $GLOBALS['strWebBanner'] = "Reklamý ftp ile gönder";
 $GLOBALS['strURLBanner'] = "Reklamý URL'den al";
 $GLOBALS['strHTMLBanner'] = "HTML Reklamý";

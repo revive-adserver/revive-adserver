@@ -1,6 +1,11 @@
-<?php // $Id: $
+<?php // $Revision: $
 
 /************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
 /* phpPgAds                                                             */
 /* ========                                                             */
 /*                                                                      */
@@ -22,7 +27,7 @@
 $GLOBALS['strHome'] = "Home";
 $GLOBALS['date_format'] = "%d.%m.%Y";
 $GLOBALS['time_format'] = "%H:%i:%S";
-$GLOBALS['strPgSQLError'] = "PostgreSQL-Fehler:";
+$GLOBALS['strMySQLError'] = "MySQL-Fehler:";
 $GLOBALS['strAdminstration'] = "Adminstration";
 $GLOBALS['strAddClient'] = "Neuen Kunden hinzufügen";
 $GLOBALS['strModifyClient'] = "Kunden-Daten ändern";
@@ -102,7 +107,7 @@ $GLOBALS['strLogErrorClicks'] = "[phpAds] Beim Versuch, die AdClicks in der Date
 $GLOBALS['strLogErrorDisactivate'] = "[phpAds] Beim Versuch ein Banner zu deaktivieren, ist ein Fehler aufgetreten.";
 $GLOBALS['strRatio'] = "Klickrate";
 $GLOBALS['strChooseBanner'] = "Bitte einen Bannertyp auswählen.";
-$GLOBALS['strPgSQLBanner'] = "Banner in Datenbank speichern";
+$GLOBALS['strMySQLBanner'] = "Banner in Datenbank speichern";
 $GLOBALS['strWebBanner'] = "Banner auf Webserver speichern";
 $GLOBALS['strURLBanner'] = "Banner über URL verwalten";
 $GLOBALS['strHTMLBanner'] = "HTML-Banner";

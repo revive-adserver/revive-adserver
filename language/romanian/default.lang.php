@@ -1,6 +1,11 @@
-<?php // $Id$
+<?php // $Revision$
 
 /************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
 /* phpPgAds                                                             */
 /* ========                                                             */
 /*                                                                      */
@@ -17,7 +22,7 @@
 $GLOBALS['strHome'] = "Home";
 $GLOBALS['date_format'] = "%d/%m/%Y";
 $GLOBALS['time_format'] = "%H:%i:%S";
-$GLOBALS['strPgSQLError'] = "Eroare PostgreSQL:";
+$GLOBALS['strMySQLError'] = "Eroare MySQL:";
 $GLOBALS['strAdminstration'] = "Administratie";
 $GLOBALS['strAddClient'] = "Adaugare client nou";
 $GLOBALS['strModifyClient'] = "Modificare client";
@@ -99,7 +104,7 @@ $GLOBALS['strLogErrorClicks'] = "[phpAds] O eroare s-a produs in timpul obtineri
 $GLOBALS['strLogErrorDisactivate'] = "[phpAds] O eroare s-a produs in timpul dazactivarii unui banner.";
 $GLOBALS['strRatio'] = "Raport click-uri/afisari";
 $GLOBALS['strChooseBanner'] = "Alegeti tipul de banner.";
-$GLOBALS['strPgSQLBanner'] = "Banner PostgreSQL";
+$GLOBALS['strMySQLBanner'] = "Banner MySQL";
 $GLOBALS['strWebBanner'] = "Banner stocat pe server";
 $GLOBALS['strURLBanner'] = "Banner referit prin URL";
 $GLOBALS['strHTMLBanner'] = "Banner HTML";
