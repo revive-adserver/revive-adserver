@@ -77,15 +77,15 @@ if (isset($filename) && $filename != '')
 		else
 		{
 			// Send "Not Modified" status header
-			if (function_exists('getallheaders'))
+			if (php_sapi_name() == 'cgi')
 			{
-				// Apache + PHP as module, use HTTP/1.x [status-number]
-				Header ($HTTP_SERVER_VARS['SERVER_PROTOCOL'].' 304 Not Modified');
+				// PHP as CGI, use Status: [status-number]
+				Header ('Status: 304 Not Modified');
 			}
 			else
 			{
-				// Others
-				Header ('Status: 304 Not Modified');
+				// PHP as module, use HTTP/1.x [status-number]
+				Header ($HTTP_SERVER_VARS['SERVER_PROTOCOL'].' 304 Not Modified');
 			}
 		}
 	}
