@@ -48,6 +48,7 @@ if ($phpAds_config['proxy_lookup'])
 	}
 }
 
+
 // Reverse lookup
 if (!isset($HTTP_SERVER_VARS['REMOTE_HOST']) || $HTTP_SERVER_VARS['REMOTE_HOST'] == '')
 {
@@ -57,13 +58,13 @@ if (!isset($HTTP_SERVER_VARS['REMOTE_HOST']) || $HTTP_SERVER_VARS['REMOTE_HOST']
 		$HTTP_SERVER_VARS['REMOTE_HOST'] = $HTTP_SERVER_VARS['REMOTE_ADDR'];
 }
 
+
 // Geotracking
+if (isset($HTTP_COOKIE_VARS['phpAds_country']))
+	$phpAds_CountryLookup = $HTTP_COOKIE_VARS['phpAds_country'];
+
 if ($phpAds_config['geotracking_stats'])
 {
-	// Check cookie first
-	if (isset($HTTP_COOKIE_VARS['phpAds_country']))
-		$phpAds_CountryLookup = $HTTP_COOKIE_VARS['phpAds_country'];
-	
 	// Determine country
 	if (!isset($phpAds_CountryLookup))
 	{
