@@ -140,6 +140,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-11-30:  Fixed E_ALL error when adding a new publisher  (Niels)
 			  - 2002-11-30:  Fixed duplicate include in install.php  (Niels)
 			  - 2002-12-03:  Added missing double quotes in the from header of outgoing e-mails  (Matteo)
+			  - 2002-12-03:  Converting stats resulting in invalid SQL INSERT and/or UPDATE queries  (Niels)
 
 
 v 2.0beta7		+ Added configuration manager  (Matteo, 2001-11-04)
