@@ -54,8 +54,8 @@ function get_banner($what, $clientID, $context=0, $source="")
 		{
 			switch($key)
 			{
-				case "!=": $exclusive[] = "b.bannerID <> $value"; break;
-				case "==": $inclusive[] = "b.bannerID = $value"; break;
+				case "!=": $exclusive[] = "$phpAds_tbl_banners.bannerID <> $value"; break;
+				case "==": $inclusive[] = "$phpAds_tbl_banners.bannerID = $value"; break;
 			}
 		}
 	}
