@@ -98,7 +98,17 @@ if (isset($submit))
 				zoneid=".$zoneid."
 			") or phpAds_sqlDie();
 		
-		header ("Location: zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid);
+		
+		if (phpAds_isUser(phpAds_Affiliate))
+		{
+			if (phpAds_isAllowed(phpAds_LinkBanners))
+				header ("Location: zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid);
+			else
+				header ("Location: zone-probability.php?affiliateid=".$affiliateid."&zoneid=".$zoneid);
+		}
+		else
+			header ("Location: zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid);
+		
 		exit;
 	}
 }
