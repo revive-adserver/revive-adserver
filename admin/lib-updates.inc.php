@@ -28,8 +28,8 @@ require (phpAds_path.'/lib-xmlrpc.inc.php');
 /*********************************************************/
 
 $phpAds_updatesServer = array(
-	'host'	 => 'phppgads.sourceforge.net',
-	'script' => '/updateAdsNew/xmlrpc.php',
+	'host'	 => 'www.phpadsnew.com',
+	'script' => '/update/xmlrpc.php',
 	'port'	 => 80
 );
 
