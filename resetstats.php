@@ -9,13 +9,13 @@ if (isset($bannerID))
    {
    $res=MYSQL_DB_QUERY($phpAds_db, "
 	DELETE
-          FROM adviews
+          FROM $phpAds_tbl_adviews
         WHERE
           bannerID = $bannerID
         ") or mysql_die();
    $res=MYSQL_DB_QUERY($phpAds_db, "
 	DELETE
-          FROM adclicks
+          FROM $phpAds_tbl_adclicks
         WHERE
           bannerID = $bannerID
         ") or mysql_die();
