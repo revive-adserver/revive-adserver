@@ -110,6 +110,14 @@ $phpAds_my_footer="";
 
 $phpAds_persistent_connections = "0";
 
+// default banner, it is show when phpAdsNew can't connect to the database or
+// there are absolutely no banner to display. The banner is not logged.
+// Enter the complete url (incl. http://) for the image and the target,
+// or leave them empty if you don't want to show a banner when this happens.
+$phpAds_default_banner_url = "";
+$phpAds_default_banner_target = "";
+
+
 
 if (empty($phpAds_path)) {
     if (strlen(__FILE__) > strlen(basename(__FILE__)))
