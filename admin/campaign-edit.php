@@ -205,15 +205,26 @@ if (isset($submit))
 
 if ($campaignid != "")
 {
-	// Edit and existing campaign
+	if (isset($Session['prefs']['client-campaigns.php'][$clientid]['listorder']))
+		$navorder = $Session['prefs']['client-campaigns.php'][$clientid]['listorder'];
+	else
+		$navorder = '';
 	
+	if (isset($Session['prefs']['client-campaigns.php'][$clientid]['orderdirection']))
+		$navdirection = $Session['prefs']['client-campaigns.php'][$clientid]['orderdirection'];
+	else
+		$navdirection = '';
+	
+	
+	// Get other campaigns
 	$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
 			".$phpAds_config['tbl_clients']."
 		WHERE
-			parent = ".$clientid." 
+			parent = ".$clientid."
+		".phpAds_getListOrder ($navorder, $navdirection)."
 	");
 	
 	while ($row = phpAds_dbFetchArray($res))

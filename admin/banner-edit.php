@@ -600,6 +600,18 @@ if (isset($submit))
 
 if ($bannerid != '')
 {
+	if (isset($Session['prefs']['campaign-index.php'][$campaignid]['listorder']))
+		$navorder = $Session['prefs']['campaign-index.php'][$campaignid]['listorder'];
+	else
+		$navorder = '';
+	
+	if (isset($Session['prefs']['campaign-index.php'][$campaignid]['orderdirection']))
+		$navdirection = $Session['prefs']['campaign-index.php'][$campaignid]['orderdirection'];
+	else
+		$navdirection = '';
+	
+	
+	// Get other banners
 	$res = phpAds_dbQuery("
 		SELECT
 			*
@@ -607,6 +619,7 @@ if ($bannerid != '')
 			".$phpAds_config['tbl_banners']."
 		WHERE
 			clientid = $campaignid
+		".phpAds_getBannerListOrder($navorder, $navdirection)."
 	");
 	
 	while ($row = phpAds_dbFetchArray($res))

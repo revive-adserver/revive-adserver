@@ -236,14 +236,27 @@ if ($clientid != "")
 {
 	if (phpAds_isUser(phpAds_Admin))
 	{
+		if (isset($Session['prefs']['client-index.php']['listorder']))
+			$navorder = $Session['prefs']['client-index.php']['listorder'];
+		else
+			$navorder = '';
+		
+		if (isset($Session['prefs']['client-index.php']['orderdirection']))
+			$navdirection = $Session['prefs']['client-index.php']['orderdirection'];
+		else
+			$navdirection = '';
+		
+		
+		// Get other clients
 		$res = phpAds_dbQuery("
 			SELECT
 				*
 			FROM
 				".$phpAds_config['tbl_clients']."
 			WHERE
-				parent = 0  
-			") or phpAds_sqlDie();
+				parent = 0
+			".phpAds_getListOrder ($navorder, $navdirection)."
+		") or phpAds_sqlDie();
 		
 		while ($row = phpAds_dbFetchArray($res))
 		{
