@@ -649,7 +649,8 @@ function phpAds_ParseHTMLAutoLog ($html, $bannerid, $url, $target)
 	
 	
 	// Automatic replace all target='...' with the specified one
-	$html = eregi_replace ("target=['|\"]{0,1}[^'|\"|[:space:]]+['|\"]{0,1}", "target='".$target."'", $html);
+	if ($target != '')
+		$html = eregi_replace ("target=['|\"]{0,1}[^'|\"|[:space:]]+['|\"]{0,1}", "target='".$target."'", $html);
 	
 	// Determine which types are present in the HTML
 	$formpresent = eregi('<form', $html);
