@@ -16,7 +16,6 @@ in the nearby future (2.1/2.2)
 
 Long term features:
   + Use a template system for admin interface
-  + Support for right-left scripts such as arabic
   + Move to PHP4 only
   + Database abstraction layer
   + Database manufacturer independent
