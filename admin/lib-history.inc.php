@@ -148,6 +148,9 @@ if (isset($row['span']) && $row['span'] > 0)
 	/* Get total statistics                                  */
 	/*********************************************************/
 	
+	$totals['views'] = 0;
+	$totals['clicks'] = 0;
+	
 	if ($phpAds_config['compact_stats']) 
 	{
 		$result = phpAds_dbQuery("
