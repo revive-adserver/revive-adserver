@@ -30,7 +30,7 @@ function phpAds_SessionDataFetch()
 		
 		if($row = phpAds_dbFetchArray($result))
 		{
-			$Session = unserialize(stripslashes($row[0]));
+			$Session = unserialize(stripslashes($row['sessiondata']));
 			
 			// Reset LastUsed, prevent from timing out
 			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_session']." SET lastused = NOW() WHERE sessionid = '$SessionID'") or phpAds_sqlDie();
