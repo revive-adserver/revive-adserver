@@ -258,6 +258,7 @@ function phpAds_upgradeTable ($name, $structure)
 	// Get existing indexes
 	$res = phpAds_dbQuery("SHOW INDEX FROM ".$name);
 	while ($row = phpAds_dbFetchArray($res))
+	{
 		if ($row['Key_name'] != 'PRIMARY')
 		{
 			if ($row['Non_unique'] == 0)
@@ -267,6 +268,48 @@ function phpAds_upgradeTable ($name, $structure)
 		}
 		else
 			$availableprimary[] = $row['Column_name'];
+	}
+	
+	
+	// Delete not needed unique indexes
+	if (isset($availableunique) && is_array($availableunique))
+		for (reset($availableunique); $key = key($availableunique); next($availableunique))
+			if (!isset($unique[$key]) || !is_array($unique[$key]) || sizeof($unique[$key]) == 0)
+				phpAds_dbQuery("ALTER TABLE ".$name." DROP INDEX ".$key);
+	
+	// Delete not needed indexes
+	if (isset($availableindex) && is_array($availableindex))
+		for (reset($availableindex); $key = key($availableindex); next($availableindex))
+			if (!isset($index[$key]) || !is_array($index[$key]) || sizeof($index[$key]) == 0)
+				phpAds_dbQuery("ALTER TABLE ".$name." DROP INDEX ".$key);
+	
+	// Delete not needed primary key
+	if (isset($availableprimary) && is_array($availableprimary))
+		if (!isset($primary) || !is_array($primary) || sizeof($primary) == 0)
+			phpAds_dbQuery("ALTER TABLE ".$name." DROP PRIMARY KEY");
+	
+	
+	// Delete info about indexes
+	if (isset($availableunique))  unset($availableunique);
+	if (isset($availableindex))   unset($availableindex);
+	if (isset($availableprimary)) unset($availableprimary);
+	
+	
+	// Get existing indexes again
+	$res = phpAds_dbQuery("SHOW INDEX FROM ".$name);
+	while ($row = phpAds_dbFetchArray($res))
+	{
+		if ($row['Key_name'] != 'PRIMARY')
+		{
+			if ($row['Non_unique'] == 0)
+				$availableunique[$row['Key_name']][] = $row['Column_name'];
+			else
+				$availableindex[$row['Key_name']][] = $row['Column_name'];
+		}
+		else
+			$availableprimary[] = $row['Column_name'];
+	}
+	
 	
 	
 	// Check columns
@@ -320,22 +363,38 @@ function phpAds_upgradeTable ($name, $structure)
 	// Check Primary
 	if (isset($primary) && is_array($primary) && sizeof($primary) > 0)
 	{
-		// Check if this column is 'auto_increment'
-		if (sizeof($primary) == 1 && ereg('auto_increment', $availablecolumns[$primary[0]]['Extra']))
-		{
-			// Get name of column
-			$key = $primary[0];
-			
-			// Remove 'auto_increment' from column
-			$createdefinition = $key." ".str_replace('AUTO_INCREMENT', '', $columns[$key]);
-			phpAds_dbQuery("ALTER TABLE ".$name." MODIFY COLUMN ".$createdefinition);
-			
-			$incrementmodified = $key;
-		}
+		// Okay... there needs to be a primary key
 		
-		// Recreated primary keys
-		phpAds_dbQuery("ALTER TABLE ".$name." DROP PRIMARY KEY");
-		phpAds_dbQuery("ALTER TABLE ".$name." ADD PRIMARY KEY (".implode(",", $primary).")");
+		if (!isset($availableprimary) || !is_array($availableprimary))
+		{
+			// Primary key does not exist yet, so create it from scratch
+			phpAds_dbQuery("ALTER TABLE ".$name." ADD PRIMARY KEY (".implode(",", $primary).")");
+		}
+		else
+		{
+			// Primary key already exists, check if it is the same as we want it to be
+			if (implode(',', $availableprimary) != implode(',', $primary))
+			{
+				// An existing primary key needs to be modified
+				
+				// Check if this column is 'auto_increment'
+				if (sizeof($primary) == 1 && ereg('auto_increment', $availablecolumns[$primary[0]]['Extra']))
+				{
+					// Get name of column
+					$key = $primary[0];
+					
+					// Remove 'auto_increment' from column
+					$createdefinition = $key." ".str_replace('AUTO_INCREMENT', '', $columns[$key]);
+					phpAds_dbQuery("ALTER TABLE ".$name." MODIFY COLUMN ".$createdefinition);
+					
+					$incrementmodified = $key;
+				}
+				
+				// Recreated primary keys
+				phpAds_dbQuery("ALTER TABLE ".$name." DROP PRIMARY KEY");
+				phpAds_dbQuery("ALTER TABLE ".$name." ADD PRIMARY KEY (".implode(",", $primary).")");
+			}
+		}
 	}
 	
 	
@@ -924,21 +983,6 @@ function phpAds_upgradeDisplayLimitations()
 			");
 		}
 		
-		// Drop old unique key
-		phpAds_dbQuery("
-			ALTER TABLE 
-				".$phpAds_config['tbl_acls']."
-			DROP INDEX
-				bannerid_2
-		");
-		
-		// Create new unique key
-		phpAds_dbQuery("
-			ALTER TABLE 
-				".$phpAds_config['tbl_acls']."
-			ADD UNIQUE
-				bannerid_executionorder (bannerid,executionorder)
-		");
 		
 		// Delete old columns
 		phpAds_dbQuery("ALTER TABLE ".$phpAds_config['tbl_acls']." DROP COLUMN acl_con");
