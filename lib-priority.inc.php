@@ -218,7 +218,7 @@ function phpAds_PriorityPredictProfile($campaigns, $banners)
 		$debuglog .= "Using data from data from yesterday\n";
 		$debuglog .= "-----------------------------------------------------\n\n\n";
 		// END REPORTING
-
+		
 		// get yesterday
 		$profile = phpAds_PriorityGetHourlyProfile ($days_running, 0);
 	}
@@ -226,12 +226,15 @@ function phpAds_PriorityPredictProfile($campaigns, $banners)
 	
 	
 	// BEGIN REPORTING
-	$debuglog .= "PREDICTED PROFILE\n";
-	$debuglog .= "-----------------------------------------------------\n";
-	
-	$debuglog .= phpAds_PriorityPrintProfile($profile);	
-	
-	$debuglog .= "\n\n\n";
+	if (isset($profile))
+	{
+		$debuglog .= "PREDICTED PROFILE\n";
+		$debuglog .= "-----------------------------------------------------\n";
+		
+		$debuglog .= phpAds_PriorityPrintProfile($profile);	
+		
+		$debuglog .= "\n\n\n";
+	}
 	// END REPORTING
 	
 	
