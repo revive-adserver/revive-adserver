@@ -116,7 +116,7 @@ function phpAds_GenerateInvocationCode()
 		$buffer .= "<iframe src='$phpAds_url_prefix/adframe.php";
 		if (sizeof($parameters) > 0)
 			$buffer .= "?".implode ("&", $parameters);
-		$buffer .= "' framespacing='0' frameborder='no'";
+		$buffer .= "' framespacing='0' frameborder='no' scrolling='no'";
 		if (isset($width) & $width != '')
 			$buffer .= " width='".$width."'";
 		if (isset($height) & $height != '')
