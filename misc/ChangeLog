@@ -1,5 +1,10 @@
 phpAdsNew - ChangeLog
 
+
+phpAdsNew 2.1		+ Misc bugfixes
+			  - 2003-10-07:  Fixed referer delivery limitation when using JavaScript  (Niels)
+
+
 phpAdsNew 2.0
 			+ Misc changes
 			  - 2003-08-19:  Added PHP5 check and warnings during install  (Matteo)
