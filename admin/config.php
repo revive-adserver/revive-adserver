@@ -108,7 +108,7 @@ $phpAds_nav = array (
 		    "2.1.2"			=> 	array("stats-campaign-banners.php?campaignid=$campaignid" => $strBannerOverview),
     	      "2.1.2.1" 	=> 	array("stats-banner-history.php?campaignid=$campaignid&bannerid=$bannerid" => $strBannerHistory),
 		        "2.1.2.1.1" => 	array("stats-banner-daily.php?day=$day&campaignid=$campaignid&bannerid=$bannerid" => $strDailyStats),
-		        "2.1.2.1.2" => 	array("stats-banner-daily-hosts.php?day=$day&campaignid=$campaignid&bannerid=$bannerid" => 'Hosts'),
+		        "2.1.2.1.2" => 	array("stats-banner-daily-hosts.php?day=$day&campaignid=$campaignid&bannerid=$bannerid" => $strHosts),
     	      "2.1.2.2" 	=> 	array("stats-banner-affiliates.php?campaignid=$campaignid&bannerid=$bannerid" => $strDistribution),
 		    "2.1.3"		 	=> 	array("stats-campaign-history.php?campaignid=$campaignid" => $strCampaignHistory),
 		  "2.2"				=>  array("stats-global-history.php" => $strGlobalHistory),

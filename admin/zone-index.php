@@ -80,6 +80,8 @@ if (phpAds_isUser(phpAds_Admin))
 		);
 	}
 	
+	phpAds_PageShortcut($strAffiliateHistory, 'stats-affiliate-history.php?affiliateid='.$affiliateid, 'images/icon-statistics.gif');	
+	
 	phpAds_PageHeader("4.2.3");
 		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br><br><br>";
 		phpAds_ShowSections(array("4.2.2", "4.2.3"));

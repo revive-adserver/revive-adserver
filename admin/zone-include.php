@@ -151,7 +151,7 @@ while ($row = phpAds_dbFetchArray($res))
 if (phpAds_isUser(phpAds_Admin))
 {
 	phpAds_PageShortcut($strAffiliateProperties, 'affiliate-edit.php?affiliateid='.$affiliateid, 'images/icon-affiliate.gif');
-	phpAds_PageShortcut($strStats, 'stats-affiliate-zones.php?affiliateid='.$affiliateid, 'images/icon-statistics.gif');
+	phpAds_PageShortcut($strZoneHistory, 'stats-zone-history.php?affiliateid='.$affiliateid.'&zoneid='.$zoneid, 'images/icon-statistics.gif');
 	
 	
 	$extra  = "<form action='zone-modify.php'>";
