@@ -522,7 +522,13 @@ if (count($order_array) > 0)
 					echo "<a href='stats-reset.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row_banners['bannerid']."'".phpAds_DelConfirm($strConfirmResetBannerStats).">$strResetStats</a>";
 				}
 			}
-			if (phpAds_isUser(phpAds_Admin) || (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_ModifyBanner))) // only for the admin
+			
+			/*
+			  Deactivated for now because of security reasons -- Niels
+			  if (phpAds_isUser(phpAds_Admin) || (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_ModifyBanner))) // only for the admin
+			*/
+			
+			if (phpAds_isUser(phpAds_Admin))
 			{
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;";
 				echo "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;";
@@ -633,7 +639,12 @@ if (count($order_array) > 0)
 					}
 				}
 				
-				if (phpAds_isUser(phpAds_Admin) || (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_ModifyBanner))) // only for the admin
+				/*
+				  Deactivated for now because of security reasons -- Niels
+				  if (phpAds_isUser(phpAds_Admin) || (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_ModifyBanner))) // only for the admin
+				*/
+				
+				if (phpAds_isUser(phpAds_Admin))
 				{
 					echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row_banners['bannerid']."'>";
 					echo "<img src='images/icon-edit.gif' align='absmiddle' border='0'>&nbsp;$strBannerProperties</a>";

@@ -551,10 +551,14 @@ if (phpAds_isUser(phpAds_Admin))
 	echo $strAllowClientModifyInfo;
 	echo "</td></tr>";
 	
-	echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-	echo "<input type='checkbox' name='clientpermissions[]' value='".phpAds_ModifyBanner."'".(phpAds_ModifyBanner & $client['permissions'] ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
-	echo $strAllowClientModifyBanner;
-	echo "</td></tr>";
+	/*
+	  Deactivated for now because of security reasons -- Niels
+	  
+	  echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
+	  echo "<input type='checkbox' name='clientpermissions[]' value='".phpAds_ModifyBanner."'".(phpAds_ModifyBanner & $client['permissions'] ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
+	  echo $strAllowClientModifyBanner;
+	  echo "</td></tr>";
+	*/
 	
 	echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
 	echo "<input type='checkbox' name='clientpermissions[]' value='".phpAds_DisableBanner."'".(phpAds_DisableBanner & $client['permissions'] ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
