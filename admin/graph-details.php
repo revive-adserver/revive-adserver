@@ -32,82 +32,80 @@ else
 	    'value1' => $GLOBALS['strViews'],
 	    'value2' => $GLOBALS['strClicks']);
 
+$stats = array();
 
 
 if ($phpAds_config['compact_stats']) 
 {
-    // Get totals from compact stats
-	$result = phpAds_dbQuery(
-		"SELECT
-			*,
-			views,
-			clicks,
-			DATE_FORMAT(day, '$date_format') as t_stamp_f
-		 FROM
+	$result = phpAds_dbQuery("
+		SELECT
+			day,
+			SUM(views) AS sum_views,
+			SUM(clicks) AS sum_clicks,
+			DATE_FORMAT(day, '$date_format') AS t_stamp_f
+		FROM
 			".$phpAds_config['tbl_adstats']."
-		 WHERE
+		WHERE
 			bannerid = $bannerid
-		 ORDER BY
+		GROUP BY
+			day
+		ORDER BY
 			day DESC
-		 LIMIT $limit 
-		");
+		LIMIT $limit 
+	");
     
-    $stats = array();
     $num2 = phpAds_dbNumRows($result);
 	
-    $i=0;
     while ($row = phpAds_dbFetchArray($result))
     {
-    	$stats[$row['day']]=array();
-    	$stats[$row['day']]['views'] 	 = $row['views'];     	// views
-    	$stats[$row['day']]['clicks'] 	 = $row['clicks'];      // clicks
-    	$stats[$row['day']]['t_stamp_f'] = $row['t_stamp_f'];   // week sign
-    	$i++;
+		$stats[$row['day']] = $row;
     }
 }
 else
 {
-	$result = phpAds_dbQuery(" SELECT
-							count(*) as views,
-							DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
-							DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
-				 		 FROM
-							".$phpAds_config['tbl_adviews']."
-						 WHERE
-							bannerid = $bannerid
-						 GROUP BY
-						    day
-						 ORDER BY
-							day DESC
-						 LIMIT $limit 
-			  ");
+	$result = phpAds_dbQuery("
+		SELECT
+			COUNT(*) AS sum_views,
+			DATE_FORMAT(t_stamp, '$date_format') AS t_stamp_f,
+			DATE_FORMAT(t_stamp, '%Y-%m-%d') AS day
+		FROM
+			".$phpAds_config['tbl_adviews']."
+		WHERE
+			bannerid = $bannerid
+		GROUP BY
+		    day
+		ORDER BY
+			day DESC
+		LIMIT $limit 
+	");
 	
 	while ($row = phpAds_dbFetchArray($result))
 	{
-		$stats[$row['day']]['views'] = $row['views'];
-		$stats[$row['day']]['clicks'] = '0';
+		$stats[$row['day']]['sum_views'] = $row['sum_views'];
+		$stats[$row['day']]['sum_clicks'] = '0';
 		$stats[$row['day']]['t_stamp_f'] = $row['t_stamp_f'];
 	}
 	
 	
-	$result = phpAds_dbQuery(" SELECT
-							count(*) as clicks,
-							DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
-							DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
-				 		 FROM
-							".$phpAds_config['tbl_adclicks']."
-						 WHERE
-							bannerid = $bannerid
-						 GROUP BY
-						    day
-						 ORDER BY
-							day DESC
-						 LIMIT $limit 
-			  ");
+	$result = phpAds_dbQuery("
+		SELECT
+			COUNT(*) AS sum_clicks,
+			DATE_FORMAT(t_stamp, '$date_format') AS t_stamp_f,
+			DATE_FORMAT(t_stamp, '%Y-%m-%d') AS day
+		FROM
+			".$phpAds_config['tbl_adclicks']."
+		WHERE
+			bannerid = $bannerid
+		GROUP BY
+		    day
+		ORDER BY
+			day DESC
+		LIMIT $limit 
+	");
 	
 	while ($row = phpAds_dbFetchArray($result))
 	{
-		$stats[$row['day']]['clicks'] = $row['clicks'];
+		$stats[$row['day']]['sum_clicks'] = $row['sum_clicks'];
 		$stats[$row['day']]['t_stamp_f'] = $row['t_stamp_f'];
 	}
 }
@@ -121,8 +119,8 @@ for ($d=0;$d<$limit;$d++)
 	
 	if (isset($stats[$key]))
 	{
-		$items[$d]['value1'] = $stats[$key]['views'];
-		$items[$d]['value2'] = $stats[$key]['clicks'];
+		$items[$d]['value1'] = $stats[$key]['sum_views'];
+		$items[$d]['value2'] = $stats[$key]['sum_clicks'];
 		$items[$d]['text']   = $stats[$key]['t_stamp_f'];
 	}
 	else
