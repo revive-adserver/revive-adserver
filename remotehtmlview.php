@@ -24,6 +24,12 @@ require("acl.inc.php");
 header("Content-type: application/x-javascript");
 require("nocache.inc.php");
 
+if (!isset($what)) 		$what = '';
+if (!isset($clientID)) 	$clientID = 0;
+if (!isset($target)) 	$target = '';
+if (!isset($source)) 	$source = '';
+if (!isset($withText)) 	$withText = '';
+if (!isset($context)) 	$context = '';
 
 // Get the banner
 view_js("$what",$clientID,"$target","$source","$withText","$context");
