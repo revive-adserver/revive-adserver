@@ -100,19 +100,19 @@ function phpAds_placeLayerSettings ()
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 		
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>".$GLOBALS['strLeftmargin']."</td><td width='370'>";
+	echo "<td width='200'>".$GLOBALS['strLeftMargin']."</td><td width='370'>";
 		echo "<input class='flat' type='text' name='lmargin' size='' value='".$lmargin."' style='width:60px;'".($limited == 'f' ? ' disabled' : '')."> ".$GLOBALS['strAbbrPixels']."</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>".$GLOBALS['strRightmargin']."</td><td width='370'>";
+	echo "<td width='200'>".$GLOBALS['strRightMargin']."</td><td width='370'>";
 		echo "<input class='flat' type='text' name='rmargin' size='' value='".$rmargin."' style='width:60px;'".($limited == 'f' ? ' disabled' : '')."> ".$GLOBALS['strAbbrPixels']."</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>".$GLOBALS['strTransparentbackground']."</td><td width='370'>";
+	echo "<td width='200'>".$GLOBALS['strTransparentBackground']."</td><td width='370'>";
 	echo "<select name='transparent' style='width:60px;' onChange='this.form.backcolor.disabled = this.selectedIndex ? false : true'>";
 		echo "<option value='t'".($transparent == 't' ? ' selected' : '').">".$GLOBALS['strYes']."</option>";
 		echo "<option value='f'".($transparent == 'f' ? ' selected' : '').">".$GLOBALS['strNo']."</option>";

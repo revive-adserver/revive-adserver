@@ -23,7 +23,7 @@ $GLOBALS['strInvocationIframes']		= "Invocazione remota con iframes";
 $GLOBALS['strInvocationXmlRpc']			= "Invocazione remota con XML-RPC";
 $GLOBALS['strInvocationCombined']		= "Invocazione remota Combinata";
 $GLOBALS['strInvocationPopUp']			= "Popup";
-$GLOBALS['strInvocationAdLayer']		= "Interstiziale";
+$GLOBALS['strInvocationAdLayer']		= "Interstiziale o DHTML floating";
 $GLOBALS['strInvocationLocal']			= "Modo locale";
 
 
