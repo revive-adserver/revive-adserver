@@ -10,6 +10,9 @@ CVS			+ Added support for zones  (Niels)
 			+ Added native support for flash banners, based on code of the 
 			  phpAdsPlus project by Dandra  (Niels)
 			+ Added a confirmation dialogbox, for deleting and resetting statistics (Helmut Wirth)
+			+ Added welcome message to the client interface, which can be modified
+                          to include personal contact information for example  (Niels)
+			+ Add secondary tab bar to the navigation  (Niels)
 
 			+ ACLs
 			  The ACL routines have been rewritten. This is a very big change and possibly
@@ -68,6 +71,7 @@ CVS			+ Added support for zones  (Niels)
 			  - Changed the way JavaScript is generated for remote invocation with JavaScript  (Niels)
 			  - Rearanged directory structure for the manual, to make room
 			    for the german translation provided by René Friedrich  (Niels)
+			  - Moved JS code from view.inc.php to adjs.php file  (Niels)
 
 			+ Misc bugfixes
 			  - Fixed quote problem with banner-text, alt and description fields  (Niels)
@@ -87,6 +91,7 @@ CVS			+ Added support for zones  (Niels)
 			+ Security fixes
 			  - Fixed login exploit where users could login without authentification  (Niels)
 			  - Fixed upload exploit where users could download files from the server  (Niels)
+			  - Fixed exploit where users could excute arbitrary code on the server  (Niels)
 
 
 
