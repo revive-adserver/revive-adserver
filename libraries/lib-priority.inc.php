@@ -876,7 +876,11 @@ function phpAds_PriorityCalculate()
 					// Find out how many impressions the next hour will generate compared
 					// to the other hours (according to predictions).
 					
-					$avg_impressions_per_hour = $estimated_remaining / ($maxperiod - $period);
+					$total_next_hours = 0;
+					for ($p = $period; $p < $period + $fix_in_no_hours; $p++)
+						$total_next_hours = isset($profile[$p]) ? $profile[$p] : 0;
+					
+					$avg_impressions_per_hour = $total_next_hours / $fix_in_no_hours;
 				    $compensation_factor = $profile[$period] / $avg_impressions_per_hour;
 					$extra_to_assign = round($compensation_factor * $extra_to_assign);
 					
@@ -941,6 +945,7 @@ function phpAds_PriorityCalculate()
 	if ($no_high_pri || !$available_for_others)
 	{
 		// BEGIN REPORTING
+
 
 		if ($no_high_pri)
 		{
@@ -1089,7 +1094,6 @@ function phpAds_PriorityCalculate()
 			{
 				// BEGIN REPORTING
 				$debuglog .= "\n\n\nHIGH-PRI CAMPAIGN $c \n";
-
 				$debuglog .= "-----------------------------------------------------\n";
 				// END REPORTING
 
