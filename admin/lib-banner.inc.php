@@ -20,12 +20,12 @@ function phpAds_getBannerTemplate($type)
 	{
 		$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
 		$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
-		$buffer .= "swflash.cab#version=5,0,0,0' width='{width}' height='{height}'>";
+		$buffer .= "swflash.cab#version=6,0,0,0' width='{width}' height='{height}'>";
 		$buffer .= "<param name='movie' value='{imageurl}{swf_con}{swf_param}'>";
 		$buffer .= "<param name='quality' value='high'>";
 		$buffer .= "<embed src='{imageurl}{swf_con}{swf_param}' quality=high ";
 		$buffer .= "width='{width}' height='{height}' type='application/x-shockwave-flash' ";
-		$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
+		$buffer .= "pluginspace='http://www.macromedia.com/go/getflashplayer'></embed>";
 		$buffer .= "</object>";
 	}
 	elseif ($type == 'dcr')
