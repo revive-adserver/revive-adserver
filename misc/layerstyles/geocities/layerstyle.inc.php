@@ -79,7 +79,7 @@ function phpAds_adlayers_place_<?php echo $uniqid; ?>()
 	c = c.style;
 	o = o.style;
 
-	if (document.all) { 
+	if (document.all && !window.innerWidth) { 
 <?php if ($align == 'left') { ?>
 		c.pixelLeft = 0;
 		o.pixelLeft = 0;

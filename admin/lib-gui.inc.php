@@ -451,7 +451,7 @@ function phpAds_PageFooter()
 	
 	if ($phpAds_showHelp) 
 	{
-		echo "<div id='helpLayer' name='helpLayer' style='position:absolute; left:".($phpAds_TextDirection != 'ltr' ? '0' : '181')."; top:-10; width:10px; height:10px; z-index:1; background-color: #F6F6F6; layer-background-color: #F6F6F6; border: 1px none #000000; overflow: hidden; visibility: visible; background-image: url(images/help-background.gif); layer-background-image: url(images/help-background.gif);'>";
+		echo "<div id='helpLayer' name='helpLayer' style='position:absolute; left:".($phpAds_TextDirection != 'ltr' ? '0' : '181')."; top:-10; width:10px; height:10px; z-index:1; background-color: #F6F6F6; layer-background-color: #F6F6F6; border: 1px none #000000; overflow: hidden; visibility: hidden; background-image: url(images/help-background.gif); layer-background-image: url(images/help-background.gif);'>";
 		echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'>";
 		echo "<tr><td width='40' align='".$phpAds_TextAlignLeft."' valign='top'><img src='images/help-icon.gif' width='40' height='40' border='0' vspace='0' hspace='0'></td>";
 		echo "<td width='100%' align='".$phpAds_TextAlignLeft."' valign='top' style='font-family: Verdana; font-size: 11px;'>";

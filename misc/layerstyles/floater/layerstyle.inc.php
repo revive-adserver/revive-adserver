@@ -99,7 +99,7 @@ function phpAds_floater_setclip_<?php echo $uniqid; ?>(o, top, right, bottom, le
 
 function phpAds_floater_setpos_<?php echo $uniqid; ?>(c, left, width)
 {
-	if (document.all)	
+	if (document.all && !window.innerWidth)	
 	{
 		c.pixelLeft = left; c.pixelWidth = width;
 	}
@@ -198,7 +198,7 @@ function phpAds_floater_grow_<?php echo $uniqid; ?>()
 		var iw = mr - ml + w; var is = ml - w;
 		var cr = w; var cl = 0;
 		
-		if (document.all)
+		if (document.all && !window.innerWidth)
 			ll = c.pixelLeft;
 		else
 			ll = parseInt(c.left);

@@ -68,7 +68,7 @@ function displayHelp()
 	var helpLayer = findObj("helpLayer");
 	if (helpLayer.style) helpLayer = helpLayer.style;
 	
-	if (document.all) { 
+	if (document.all && !window.innerHeight) { 
 		helpLayer.pixelWidth = document.body.clientWidth - helpLeft;
 		helpLayer.pixelHeight = helpStepHeight;
 		helpLayer.pixelTop = document.body.clientHeight + document.body.scrollTop - helpStepHeight;
@@ -93,7 +93,7 @@ function growHelp()
 	var helpLayer = findObj("helpLayer");
 	if (helpLayer.style) helpLayer = helpLayer.style;
 
-	if (document.all) {
+	if (document.all && !window.innerHeight) {
 		helpLayer.pixelHeight = helpCounter * helpStepHeight;
 		helpLayer.pixelTop = document.body.clientHeight + document.body.scrollTop - (helpCounter * helpStepHeight);
 	} else {
@@ -130,7 +130,7 @@ function helpShrink()
 	
 	if (helpCounter >= 0) 
 	{
-		if (document.all) {
+		if (document.all && !window.innerHeight) {
 			helpLayer.pixelHeight = helpCounter * helpStepHeight;
 			helpLayer.pixelTop = document.body.clientHeight + document.body.scrollTop - (helpCounter * helpStepHeight);
 		} else {
@@ -141,7 +141,7 @@ function helpShrink()
 	} 
 	else 
 	{
-		if (document.all) {
+		if (document.all && !window.innerHeight) {
 			helpLayer.pixelHeight = 1;
 			helpLayer.pixelTop = document.body.clientHeight + document.body.scrollTop - 1;
 		} else {
@@ -168,7 +168,7 @@ function resizeHelp()
 		var helpLayer = findObj("helpLayer");
 		if (helpLayer.style) helpLayer = helpLayer.style;
 
-		if (document.all) {
+		if (document.all && !window.innerHeight) {
 			helpLayer.pixelHeight = helpSteps * helpStepHeight;
 			helpLayer.pixelWidth = document.body.clientWidth - helpLeft;
 			helpLayer.pixelTop = document.body.clientHeight + document.body.scrollTop - (helpSteps * helpStepHeight);

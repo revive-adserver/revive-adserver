@@ -96,7 +96,7 @@ function phpAds_adlayers_place_<?php echo $uniqid; ?>()
 		iw = document.body.clientWidth;
 	
 	
-	if (document.all) { 
+	if (document.all && !window.innerWidth) { 
 		
 <?php
 	echo "\t\tc.pixelLeft = ";
@@ -168,7 +168,7 @@ function phpAds_simplepop_<?php echo $uniqid; ?>(what)
 		case 'open':
 			phpAds_adlayers_visible_<?php echo $uniqid; ?> = 'visible';
 			phpAds_adlayers_place_<?php echo $uniqid; ?>();
-			phpAds_adlayers_timerid_<?php echo $uniqid; ?> = window.setInterval('phpAds_adlayers_place_<?php echo $uniqid; ?>()', 10);
+			phpAds_adlayers_timerid_<?php echo $uniqid; ?> = window.setInterval('phpAds_adlayers_place_<?php echo $uniqid; ?>()', 50);
 
 <?php
 

@@ -69,7 +69,7 @@ function phpAds_putLayerJS ($output, $uniqid)
 
 
 var phpAds_ns4 = (document.layers) ? true : false;
-var phpAds_ie4 = (document.all) ? true : false;
+var phpAds_ie4 = (document.all && !window.innerWidth) ? true : false;
 var phpAds_ns6 = ((document.getElementById) && (!phpAds_ie4)) ? true : false;
 
 var phpAds_<?php echo $uniqid; ?>_posX_old = 0;
@@ -89,7 +89,7 @@ if (phpAds_ns4) { window.captureEvents(Event.MOUSEMOVE); onmousemove = phpAds_st
 if (phpAds_ie4)
 	window.setInterval('phpAds_followMouse_<?php echo $uniqid; ?>()',1);
 else
-	window.setInterval('phpAds_followMouse_<?php echo $uniqid; ?>()',25);
+	window.setInterval('phpAds_followMouse_<?php echo $uniqid; ?>()',50);
 
 
 function phpAds_storePos_<?php echo $uniqid; ?>(e) {
