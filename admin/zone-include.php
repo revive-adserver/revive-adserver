@@ -78,6 +78,18 @@ if (isset($zoneid) && $zoneid != '')
 			}
 		}
 		
+		$res = phpAds_dbQuery("
+			UPDATE
+				".$phpAds_config['tbl_zones']."
+			SET
+				zonetype = $zonetype
+			WHERE
+				zoneid=$zoneid
+		") or phpAds_sqlDie();
+		
+		// Rebuild Cache
+		phpAds_RebuildZoneCache ($zoneid);
+		
 		header ("Location: zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid."&clientid=".$clientid."&campaignid=".$campaignid);
 		exit;
 	}
@@ -878,7 +890,6 @@ if (isset($zoneid) && $zoneid != '')
 // Set the default zonetype
 if (!isset($zonetype) || $zonetype == '')
 	$zonetype = $zone['zonetype'];
-
 
 
 
