@@ -28,10 +28,15 @@ phpAds_checkAccess(phpAds_Admin);
 
 
 // Check Searchselection
-if ($client == false &&
-	$campaign == false &&
-	$banner == false &&
-	$zone == false &&
+if (!isset($client)) $client = false;
+if (!isset($campaign)) $campaign = false;
+if (!isset($banner)) $banner= false;
+if (!isset($zone)) $zone = false;
+if (!isset($affiliate)) $affiliate = false;
+
+
+if ($client == false &&	$campaign == false &&
+	$banner == false &&	$zone == false &&
 	$affiliate == false)
 {
 	$client = true;
@@ -41,17 +46,18 @@ if ($client == false &&
 	$affiliate = true;
 }
 
-if ($compact == '')
-{
+if (!isset($compact))
 	$compact = false;
-}
+
+if (!isset($keyword))
+	$keyword = '';
 
 ?>
 
 <html<?php echo $phpAds_TextDirection != 'ltr' ? " dir='".$phpAds_TextDirection."'" : '' ?>>
 	<head>
-		<title><?php echo $strSearch; ?></title>
-		<meta http-equiv='Content-Type' content='text/html<?php echo $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : "" ?>'>
+		<title><?php echo strip_tags($strSearch); ?></title>
+		<meta http-equiv='Content-Type' content='text/html<?php echo isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : "" ?>'>
 		<meta name='author' content='phpAdsNew - http://sourceforge.net/projects/phpadsnew'>
 		<link rel='stylesheet' href='images/<?php echo $phpAds_TextDirection; ?>/interface.css'>
 		<script language='JavaScript' src='interface.js'></script>
