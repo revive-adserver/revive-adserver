@@ -351,8 +351,18 @@ if (phpAds_isUser(phpAds_Admin))
 		echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
 		
 		echo "<tr height='25'>";
-		echo '<td height="25"><b>&nbsp;&nbsp;<a href="'.$PHP_SELF.'?listorder=name">'.$GLOBALS['strName'].'</a></b></td>';
-		echo '<td height="25"><b><a href="'.$PHP_SELF.'?listorder=id">'.$GLOBALS['strID'].'</a></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>';
+		echo '<td height="25"><b>&nbsp;&nbsp;<a href="'.$PHP_SELF.'?listorder=name">'.$GLOBALS['strName'].'</a>';
+		if (($listorder == "name" || $listorder == ""))
+		{
+			echo '<img src="images/triangle-d.gif" alt="" title="">';
+		}
+		echo '</b></td>';
+		echo '<td height="25"><b><a href="'.$PHP_SELF.'?listorder=id">'.$GLOBALS['strID'].'</a>';
+		if ($listorder == "id")
+		{
+			echo '<img src="images/triangle-d.gif" alt="" title="">';
+		}
+		echo '</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>';
 		echo "<td height='25' align='right'><b>".$GLOBALS['strViews']."</b></td>";
 		echo "<td height='25' align='right'><b>".$GLOBALS['strClicks']."</b></td>";
 		echo "<td height='25' align='right'><b>".$GLOBALS['strCTRShort']."</b>&nbsp;&nbsp;</td>";
