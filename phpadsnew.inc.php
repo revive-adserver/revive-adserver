@@ -38,6 +38,5 @@ else
 // Include required files
 require	(phpAds_path."/config.inc.php"); 
 require	(phpAds_path."/view.inc.php"); 
-require	(phpAds_path."/lib-acl.inc.php"); 
 
 ?>

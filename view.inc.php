@@ -553,6 +553,9 @@ function phpAds_fetchBanner($what, $clientID, $context=0, $source='', $allowhtml
 				
 				if ($phpAds_acl == '1')
 				{
+					// Include ACL code
+					require (phpAds_path."/lib-acl.inc.php");
+					
 					if (phpAds_aclCheck($request, $rows[$i]))
 						// ACL check passed, found banner!
 						return ($rows[$i]);

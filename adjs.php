@@ -17,7 +17,6 @@
 // Include required files
 require("config.inc.php");
 require("view.inc.php");
-require("lib-acl.inc.php");
 
 
 
