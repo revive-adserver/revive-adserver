@@ -39,6 +39,7 @@ $GLOBALS['strWarningRegisterGlobals']		= "The PHP configuration variable registe
 $GLOBALS['strWarningMagicQuotesGPC']		= "The PHP configuration variable magic_quotes_gpc needs to be turned on.";
 $GLOBALS['strWarningMagicQuotesRuntime']	= "The PHP configuration variable magic_quotes_runtime needs to be turned off.";
 $GLOBALS['strWarningFileUploads']		= "The PHP configuration variable file_uploads needs to be turned on.";
+$GLOBALS['strWarningTrackVars']			= "The PHP configuration variable track_vars needs to be turned on.";
 $GLOBALS['strConfigLockedDetected']		= $phpAds_productname." has detected that your <b>config.inc.php</b> file is not writeable by the server.<br> You can't proceed until you change permissions on the file. <br>Read the supplied documentation if you don't know how to do that.";
 $GLOBALS['strCantUpdateDB']  			= "It is currently not possible to update the database. If you decide to proceed, all existing banners, statistics and advertisers will be deleted.";
 $GLOBALS['strTableNames']			= "Table Names";

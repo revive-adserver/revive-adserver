@@ -70,6 +70,7 @@ require ("lib-install-db.inc.php");
 require ("lib-permissions.inc.php");
 require ("lib-gui.inc.php");
 require ("lib-languages.inc.php");
+require ("lib-settings.inc.php");
 
 
 // Load settings/install language strings
@@ -179,6 +180,11 @@ if (phpAds_isUser(phpAds_Admin))
 				// Check file_uploads
 				if (ini_get ('file_uploads') != true)
 					  $fatal[] = $strWarningFileUploads;
+				
+				// Check track_vars
+				if ($phpversion < 4030 &&
+					ini_get ('track_vars') != true)
+					$fatal[] = $strWarningTrackVars;
 			}
 			
 			// Check if config file is writable
