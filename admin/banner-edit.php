@@ -323,12 +323,18 @@ if (isset($type) && $type == "web")   $show_web  = true;
 if (isset($type) && $type == "url")   $show_url  = true;
 if (isset($type) && $type == "html")  $show_html = true;
 
-// Determine which bannertype to show as default
-if (!isset($type) && $show_html) $type = "html";
-if (!isset($type) && $show_url)  $type = "url";
-if (!isset($type) && $show_web)  $type = "web";
-if (!isset($type) && $show_sql)  $type = "mysql";
+// If adding a new banner or used storing type is disabled
+// determine which bannertype to show as default
 
+$show_type = "show_$type";
+
+if (!isset($type) || !$$show_type)
+{
+	if ($show_html) $type = "html"; 
+	if ($show_url)  $type = "url"; 
+	if ($show_web)  $type = "web"; 
+	if ($show_sql)  $type = "pgsql"; 
+}
 ?>
 
 
