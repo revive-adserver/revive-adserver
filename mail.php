@@ -1,5 +1,10 @@
 <?
-require ("config.php");
+
+require("config.inc.php");
+require("dblib.php");
+
+db_connect();
+
 require("nocache.inc.php");
 
 $res_clients = db_query("
