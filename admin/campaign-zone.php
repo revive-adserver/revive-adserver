@@ -185,7 +185,8 @@ $res = phpAds_dbQuery("
 		description,
 		width,
 		height,
-		what
+		what,
+		delivery
 	FROM 
 		".$phpAds_config['tbl_zones']."
 	WHERE
@@ -309,8 +310,15 @@ if ($zone_count > 0 && $affiliate_count > 0)
 				else
 					echo "&nbsp;&nbsp;<input name='includezone[".$zone['zoneid']."]'id='a".$affiliate['affiliateid']."'  type='checkbox' value='t' ";
 				
-				echo "onClick='toggleAffiliate(".$affiliate['affiliateid'].");'>";
-				echo "&nbsp;&nbsp;<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
+				echo "onClick='toggleAffiliate(".$affiliate['affiliateid'].");'>&nbsp;&nbsp;";
+				
+				if ($zone['delivery'] == phpAds_ZoneBanner)
+					echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
+				elseif ($zone['delivery'] == phpAds_ZoneInterstitial)
+					echo "<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;";
+				elseif ($zone['delivery'] == phpAds_ZonePopup)
+					echo "<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;";
+				
 				echo "<a href='zone-edit.php?affiliateid=".$affiliate['affiliateid']."&zoneid=".$zone['zoneid']."'>".$zone['zonename']."</a>";
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 				echo "</td>";
