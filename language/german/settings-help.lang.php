@@ -1,4 +1,4 @@
-<?php // $Revision: 1.4 $
+<?php // $Revision: 1.7 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -112,8 +112,7 @@ $GLOBALS['phpAds_hlp_p3p_compact_policy'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_p3p_policy_location'] = "
-        If you want to use a full privacy policy, you can specify the location 
-        of the policy.
+        Wenn die volle privacy policy genutzt werden soll, dann muß der Ort der policy bestimmt werden.
 		";
 		
 $GLOBALS['phpAds_hlp_compact_stats'] = "
