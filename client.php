@@ -103,6 +103,9 @@ if (isset($submit))
 				clientID = '$clientID'")
 			or mysql_die();  
 		
+		$Session[language] = $clientlanguage;
+		phpAds_SessionDataStore();
+		
 		Header("Location: index.php?message=".urlencode($message));
 		exit;
 	}
