@@ -123,7 +123,7 @@ phpAds_PageHeader("4.1.5.4", $extra);
 	echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
 	echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
 	echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br><br>";
-	echo phpAds_getBannerCode($bannerid)."<br><br><br><br>";
+	echo phpAds_buildBannerCode($bannerid)."<br><br><br><br>";
 	phpAds_ShowSections($sections);
 
 

@@ -445,39 +445,6 @@ function phpAds_getAffiliateName ($affiliateid)
 
 
 /*********************************************************/
-/* Fetch the HTML needed to display a banner from the db */
-/*********************************************************/
-
-function phpAds_getBannerCode ($bannerid)
-{
-	global $phpAds_config;
-	global $bannerCache;
-	
-	if (is_array($bannerCache[$bannerid]))
-	{
-		$row = $bannerCache[$bannerid];
-	}
-	else
-	{
-		$res = phpAds_dbQuery("
-			SELECT
-				*
-			FROM
-				".$phpAds_config['tbl_banners']."
-			WHERE
-				bannerid = $bannerid
-		") or phpAds_sqlDie();
-		
-		$row = phpAds_dbFetchArray($res);
-		
-		$bannerCache[$bannerid] = $row;
-	}
-	
-	return (phpAds_buildBannerCode ($bannerid, $row['banner'], $row['active'], $row['format'], $row['width'], $row['height'], $row['bannertext']));
-}
-
-
-/*********************************************************/
 /* Build the HTML needed to display a banner             */
 /*********************************************************/
 
