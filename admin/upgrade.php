@@ -46,6 +46,9 @@ phpAds_ConfigFileUpdatePrepare();
 phpAds_ConfigFileUpdateExport();
 
 
+// Exclude loading of js-form.php
+define('phpAds_updating', 1);
+
 // Include needed libraries
 require ("lib-permissions.inc.php");
 require ("lib-gui.inc.php");
