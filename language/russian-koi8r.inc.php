@@ -291,30 +291,30 @@ $GLOBALS['strConfirmResetCampaignStats']= "Вы действительно хотите обнулить стат
 $GLOBALS['strConfirmResetClientStats']	= "Вы действительно хотите обнулить статистику для этого клиента ?";
 $GLOBALS['strConfirmResetBannerStats']	= "Вы действительно хотите обнулить статистику для этого баннера?";
 
-$GLOBALS['strClientsAndCampaigns']		= "Clients & Campaigns";
-$GLOBALS['strCampaignOverview']			= "Campaign overview";
-$GLOBALS['strReports']					= "Reports";
-$GLOBALS['strShowBanner']				= "Show banner";
+$GLOBALS['strClientsAndCampaigns']		= "Клиенты и кампании";
+$GLOBALS['strCampaignOverview']			= "Обзор кампании";
+$GLOBALS['strReports']					= "Отчеты";
+$GLOBALS['strShowBanner']				= "Показать баннер";
 
-$GLOBALS['strIncludedBanners']			= "Linked banners";
-$GLOBALS['strProbability']				= "Probability";
-$GLOBALS['strInvocationcode']			= "Invocationcode";
-$GLOBALS['strSelectZoneType']			= "Please choose the type of linking banners";
-$GLOBALS['strBannerSelection']			= "Banner selection";
-$GLOBALS['strInteractive']				= "Interactive";
-$GLOBALS['strRawQueryString']			= "Raw querystring";
+$GLOBALS['strIncludedBanners']			= "Связанные баннеры";
+$GLOBALS['strProbability']				= "Вероятность";
+$GLOBALS['strInvocationcode']			= "Код вызова";
+$GLOBALS['strSelectZoneType']			= "Пожалуйста, выберите тип связи баннеров";
+$GLOBALS['strBannerSelection']			= "Выбор баннеров";
+$GLOBALS['strInteractive']				= "Интерактивный";
+$GLOBALS['strRawQueryString']			= "Строка запроса 'как есть'";
 
-$GLOBALS['strBannerWeight']				= "Banner weight";
-$GLOBALS['strCampaignWeight']			= "Campaign weight";
+$GLOBALS['strBannerWeight']				= "Вес баннера";
+$GLOBALS['strCampaignWeight']			= "Вес кампании";
 
-$GLOBALS['strZoneCacheOn']				= "Zone caching is turned on";
-$GLOBALS['strZoneCacheOff']				= "Zone caching is turned off";
-$GLOBALS['strCachedZones']				= "Cached zones";
-$GLOBALS['strSizeOfCache']				= "Size of cache";
-$GLOBALS['strAverageAge']				= "Average age";
-$GLOBALS['strRebuildZoneCache']			= "Rebuild zone cache";
+$GLOBALS['strZoneCacheOn']				= "Кэширование зон включено";
+$GLOBALS['strZoneCacheOff']				= "Кэширование зон выключено";
+$GLOBALS['strCachedZones']				= "Закэшированные зоны";
+$GLOBALS['strSizeOfCache']				= "Размер кэша";
+$GLOBALS['strAverageAge']				= "Среднее время нахождения в кэше";
+$GLOBALS['strRebuildZoneCache']			= "Построить кэш зон заново";
 $GLOBALS['strKiloByte']					= "KB";
-$GLOBALS['strSeconds']					= "seconds";
-$GLOBALS['strExpired']					= "Expired";
+$GLOBALS['strSeconds']					= "секунд";
+$GLOBALS['strExpired']					= "Устарело";
 
 ?>
