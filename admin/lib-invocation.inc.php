@@ -58,7 +58,6 @@ function phpAds_GenerateInvocationCode()
 	$uniqueid = 'a'.substr(md5(uniqid('')), 0, 7);
 	if (!isset($withText)) $withText = 0;
 	
-	
 	// Set parameters
 	if (isset($what) && $what != '')
 		$parameters['what'] = "what=".str_replace (",+", ",_", $what);
@@ -93,8 +92,8 @@ function phpAds_GenerateInvocationCode()
 	// Remote invocation with JavaScript
 	if ($codetype=='adjs')
 	{
-		if (isset($withText) && $withText == '0')
-			$parameters['withText'] = "withText=0";
+		if (isset($withText) && $withText != '0')
+			$parameters['withText'] = "withText=1";
 		
 		if (isset($block) && $block == '1')
 			$parameters['block'] = "block=1";
