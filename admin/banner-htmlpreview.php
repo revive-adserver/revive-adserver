@@ -16,6 +16,7 @@
 
 // Include required files
 require ("config.php");
+require ("lib-statistics.inc.php");
 
 
 
@@ -33,15 +34,16 @@ $res = db_query("
 	") or mysql_die();
 
 
-echo "<html><body>";
 
 if ($res)
 {
 	$row = @mysql_fetch_array($res);
 	
-	echo stripslashes ($row[banner]);
+	echo "<html><head><title>".phpAds_buildBannerName ($bannerID, $row['description'], $row['alt'])."</title></head>";
+	echo "<body marginheight='0' marginwidth='0' leftmargin='0' topmargin='0'>";
+	echo stripslashes ($row['banner']);
+	echo "</body></html>";
 }
 
-echo "</body></html>";
 
 ?>

@@ -83,11 +83,13 @@ $height=38;
 $im = imagecreate($width,$height);  
 
 // Allocate colors  
-$white=ImageColorAllocate($im,204,204,204);  
-$black=ImageColorAllocate($im, 0, 0, 0);
-$yellow=ImageColorAllocate($im,240,240,70);  
-$bar=ImageColorAllocate($im,0,64,128);  
-$blue=ImageColorAllocate($im,64,100,168);  
+$white  = ImageColorAllocate ($im, 204, 204, 204);
+$black  = ImageColorAllocate ($im,   0,   0,   0);
+$yellow = ImageColorAllocate ($im, 240, 240,  70);
+$line   = ImageColorAllocate ($im,   0,   0, 102);
+$blue   = ImageColorAllocate ($im,  64, 100, 168);
+$barViews    = ImageColorAllocate ($im,   0, 102, 204);
+$barClicks   = ImageColorAllocate ($im, 153, 204, 255);
 
 // Background  
 imageColorTransparent($im,$white);
@@ -95,7 +97,7 @@ ImageFilledRectangle($im,0,0,$width,$height,$white);
 
 
 // line
-Imageline($im,$x,$y-5,$x,$height-15,$bar);
+Imageline($im,$x,$y-5,$x,$height-17,$line);
 
 //draw data
 while (list($key,$item) = each($items))  
@@ -114,11 +116,21 @@ while (list($key,$item) = each($items))
 		$percent = $total == 0 ? 0 : intval(round(($value/$total)*100));
 		$px = $x + ($percent * $unit);
 		
-		// draw rectangle value
-		ImageFilledRectangle($im,$x,$y-2,$px,$y+$bar_width,$bar);
+		if ($item_title == 'Views')
+		{
+			// draw rectangle value
+			ImageFilledRectangle($im,$x,$y-2,$px,$y+$bar_width,$barViews);
+		}
+		else
+		{
+			ImageFilledRectangle($im,$x,$y-2,$px,$y+$bar_width,$barClicks);
+		}
 		
 		// draw empty rectangle
-		ImageRectangle($im,$px+1,$y-2,($x+(100*$unit)),$y+$bar_width,$bar);
+		ImageRectangle($im,$x,$y-2,($x+(100*$unit)),$y+$bar_width,$line);
+		
+		// line
+		Imageline($im,$px,$y-2,$px,$y+$bar_width,$line);
 		
 		// display numbers
 		ImageString($im,2,($x+(92*$unit))-40,$y+12,$value."/".$total,$black);

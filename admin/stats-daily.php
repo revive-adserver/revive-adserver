@@ -28,33 +28,26 @@ phpAds_checkAccess(phpAds_Admin+phpAds_Client);
 /* Client interface security                             */
 /*********************************************************/
 
-if (phpAds_isUser(phpAds_Admin))
-{
-	phpAds_PageHeader($strDailyStats);
-}
-
 if (phpAds_isUser(phpAds_Client))
 {
-	phpAds_PageHeader($strDailyStats);
-	
 	$result = db_query("
 		SELECT
 			clientID
 		FROM
 			$phpAds_tbl_banners
 		WHERE
-			bannerID = $GLOBALS[bannerID]
+			bannerID = $bannerID
 		") or mysql_die();
 	$row = mysql_fetch_array($result);
 	
-	if($row["clientID"] != phpAds_clientID())
+	if ($row["clientID"] == '' || phpAds_clientID() != phpAds_getParentID ($row["clientID"]))
 	{
-		phpAds_ShowNav("2.1.1");
+		phpAds_PageHeader("1");
 		php_die ($strAccessDenied, $strNotAdmin);
 	}
 	else
 	{
-		$clientID = phpAds_clientID();
+		$campaignID = $row["clientID"];
 	}
 }
 
@@ -74,7 +67,7 @@ $res = db_query("
 	 FROM
 		$phpAds_tbl_adviews
 	 WHERE
-		bannerID = ".$GLOBALS['bannerID']."
+		bannerID = $bannerID
 	 GROUP BY
 		t_stamp_f
 	 ORDER BY
@@ -89,7 +82,7 @@ while ($row = mysql_fetch_array($res))
 	else
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 	
-	$extra .= "<a href='stats-daily.php?day=".urlencode($row["t_stamp_f"])."&clientID=$clientID&bannerID=$bannerID'>">$row['t_stamp_f']."</a>";
+	$extra .= "<a href='stats-daily.php?day=".urlencode($row["t_stamp_f"])."&campaignID=$campaignID&bannerID=$bannerID'>">$row['t_stamp_f']."</a>";
 	$extra .= "<br>"; 
 }
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
@@ -100,19 +93,27 @@ if (phpAds_isUser(phpAds_Admin))
 	$extra .= "<br><br><br><br><br>";
 	$extra .= "<b>$strShortcuts</b><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/caret-rs.gif'>&nbsp;<a href=banner-client.php?clientID=$clientID>$strBannerAdmin</a><br>";
-	$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/caret-rs.gif'>&nbsp;<a href=banner-edit.php?clientID=$clientID&bannerID=$bannerID>$strModifyBanner</a><br>";
-	$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/caret-rs.gif'>&nbsp;<a href=banner-acl.php?clientID=$clientID&bannerID=$bannerID>$strModifyBannerAcl</a><br>";
+	$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientID=".phpAds_getParentID ($campaignID).">$strModifyClient</a><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/caret-rs.gif'>&nbsp;<a href=client-edit.php?clientID=$clientID>$strModifyClient</a><br>";
+	$extra .= "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignID=$campaignID>$strModifyCampaign</a><br>";
+	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+	$extra .= "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<a href=campaign-index.php?campaignID=$campaignID>$strBanners</a><br>";
+	$extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
+	$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<a href=banner-edit.php?campaignID=$campaignID&bannerID=$bannerID>$strModifyBanner</a><br>";
+		
+	if ($phpAds_acl == '1')
+	{
+		$extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
+		$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-acl.gif' align='absmiddle'>&nbsp;<a href=banner-acl.php?campaignID=$campaignID&bannerID=$bannerID>$strModifyBannerAcl</a><br>";
+	}
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	
-	phpAds_ShowNav("1.4.1.1", $extra);
+	phpAds_PageHeader("2.1.1.1", $extra);
 }
 
 if (phpAds_isUser(phpAds_Client))
 {
-	phpAds_ShowNav("2.1.1", $extra);
+	phpAds_PageHeader("1.1.1.1", $extra);
 }
 
 
@@ -127,14 +128,14 @@ function showHourlyStats($what)
 	$result = db_query("
 		SELECT
 			*,
-			DATE_FORMAT(t_stamp, '$GLOBALS[time_format]') as t_stamp_f,
+			DATE_FORMAT(t_stamp, '".$GLOBALS['time_format']."') as t_stamp_f,
 			DATE_FORMAT(t_stamp, '%H') as hour,
 			count(*) as qnt
 		FROM
 			$what
 		WHERE
 			bannerID = $GLOBALS[bannerID]
-			AND DATE_FORMAT(t_stamp, '$GLOBALS[date_format]') = '$GLOBALS[day]'
+			AND DATE_FORMAT(t_stamp, '".$GLOBALS['date_format']."') = '".$GLOBALS['day']."'
 		GROUP BY 
 			hour
 		") or mysql_die();
@@ -180,11 +181,11 @@ function showHourlyStats($what)
 ?>
 
 <table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
-  <tr><td height='25' colspan='4'>
-  	<b><?echo $strBanner.': '.phpAds_getBannerName($bannerID);?></b>
-	<img src='images/caret-rs.gif'>
-	<?echo $strClientName.': '.phpAds_getClientName($clientID);?>
-  </td></tr>
+	<tr><td height='25' colspan='4'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?echo phpAds_getParentName($campaignID);?>
+									&nbsp;<img src='images/caret-rs.gif'>&nbsp;
+									<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<?echo phpAds_getClientName($campaignID);?>
+									&nbsp;<img src='images/caret-rs.gif'>&nbsp;
+									<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b><?echo phpAds_getBannerName($bannerID);?></b></td></tr>
   <tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
   <tr><td colspan='4' align='left'><br><?echo phpAds_getBannerCode($bannerID);?><br><br></td></tr>
 </table>
@@ -219,8 +220,8 @@ function showHourlyStats($what)
         		FROM
         			$phpAds_tbl_adviews
         		WHERE
-        			bannerID = $GLOBALS[bannerID]
-        			AND DATE_FORMAT(t_stamp, '$GLOBALS[date_format]') = '$GLOBALS[day]'
+        			bannerID = $bannerID
+        			AND DATE_FORMAT(t_stamp, '$date_format') = '$day'
         		GROUP BY
         			host
         		ORDER BY

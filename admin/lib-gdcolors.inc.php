@@ -68,15 +68,17 @@ $RGB = array(
         "tan"           => array(0xD2,0xB4,0x8C),
         "violet"        => array(0xEE,0x82,0xEE),
         "wheat"         => array(0xF5,0xDE,0xB3),
-        "phpAds"         => array(236,236,255)
+        "phpAdsClicks"  => array(153,204,255),
+        "phpAdsViews"   => array(0,102,204),
+		"phpAdsLines"   => array(0,0,102)
 );
 
 
 // Set the colors used for creating the graphs
 $bgcolors       = $RGB["white"];
-$adviewscolors  = $RGB["teal"];
-$adclickscolors = $RGB["phpAds"];
-$linecolors     = $RGB["navy"];
+$adviewscolors  = $RGB["phpAdsViews"];
+$adclickscolors = $RGB["phpAdsClicks"];
+$linecolors     = $RGB["phpAdsLines"];
 $textcolors     = $RGB["black"];
 
 ?>

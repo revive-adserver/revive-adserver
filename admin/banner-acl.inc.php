@@ -84,14 +84,14 @@ function acladselect($default)
 
 function showaclrow($row, $total, $update, $count=1) 
 {
-	global $PHP_SELF, $strSave, $strDelete, $strUp, $strDown, $clientID;
+	global $PHP_SELF, $strSave, $strDelete, $strUp, $strDown, $campaignID;
 	
 	$bgcolor = $count % 2 == 0 ? "#F6F6F6" : "#FFFFFF";
 	
 	?>
 	<tr bgcolor='<?echo $bgcolor?>'>
 		<form action="<?echo basename($PHP_SELF);?>" method="get">
-		<input type="hidden" name="clientID" value="<? echo $clientID; ?>">
+		<input type="hidden" name="campaignID" value="<? echo $campaignID; ?>">
 		<input type="hidden" name="bannerID" value="<? print $row['bannerID']; ?>">
 		<input type="hidden" name="acl_order" value="<? print $row['acl_order']; ?>">
 		<input type="hidden" name="update" value="<? print $update; ?>">
@@ -107,21 +107,21 @@ function showaclrow($row, $total, $update, $count=1)
 		</td>
 		<td height='35' colspan='4' align='right'>
 			<? if ($row['acl_order'] && $row['acl_order'] < $total) { ?>
-				<input type="image" name="btnup" src='images/up.gif' border='0' alt='<?print $strUp?>'>
+				<input type="image" name="btnup" src='images/triangle-u.gif' border='0' alt='<?print $strUp?>'>
 			<? } else { ?>
-				<img src='images/up-g.gif' alt='<?print $strUp?>'>
+				<img src='images/triangle-u-d.gif' alt='<?print $strUp?>'>
 			<? } ?>
 
 			<? if ($row['acl_order'] < $total - 1) { ?>
-				<input type="image" name="btndown" src='images/down.gif' border='0' alt='<?print $strDown?>'>
+				<input type="image" name="btndown" src='images/triangle-d.gif' border='0' alt='<?print $strDown?>'>
 			<? } else { ?>
-				<img src='images/down-g.gif' alt='<?print $strDown?>'>
+				<img src='images/triangle-d-d.gif' alt='<?print $strDown?>'>
 			<? } ?>
 
 			<? if ($row['acl_order'] < $total) { ?>
-				<input type="image" name="btndel" src='images/delete.gif' border='0' alt='<?print $strDelete?>'>
+				<input type="image" name="btndel" src='images/icon-recycle.gif' border='0' alt='<?print $strDelete?>'>
 			<? } else { ?>
-				<img src='images/delete-g.gif' alt='<?print $strDelete?>'>
+				<img src='images/icon-recycle-d.gif' alt='<?print $strDelete?>'>
 			<? } ?>
 			
 			<input type="image" name="btnsave" src='images/save.gif' border='0' alt='<?print $strSave?>'>

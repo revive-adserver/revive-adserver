@@ -85,8 +85,7 @@ function phpAds_checkAccess ($allowed)
 	if (!($allowed & $Session['usertype']))
 	{
 		// No permission to access this page!
-		phpAds_PageHeader($GLOBALS["strAuthentification"]);
-		phpAds_ShowNav("2");
+		phpAds_PageHeader(0);
 		php_die ($strAccessDenied, $strNotAdmin);
 	}
 }
@@ -242,7 +241,7 @@ function phpAds_isAdmin($username, $password)
 
 function phpAds_LoginScreen($message='')
 {
-	phpAds_PageHeader("");
+	phpAds_PageHeader(0);
 	if ($message != "") echo "<b>$message</b><br>";
 	?>
 	<form method="post" action="<?echo basename($GLOBALS["PHP_SELF"]); echo $GLOBALS["QUERY_STRING"] != "" ? "?".$GLOBALS["QUERY_STRING"] : "" ;?>" enctype="multipart/form-data">

@@ -27,16 +27,16 @@ function phpAds_GDImageFormat()
 {
 	global $phpAds_GDImageFormat;
 	
-	// Determine if GD is installed
-	if (extension_loaded("gd"))
-	{
-		// Determine php version
-		$phpversion = ereg_replace ("([^0-9])", "", phpversion());
-		$phpversion = $phpversion / pow (10, strlen($phpversion) - 1);
-		
-		if ($phpversion >= 4.02)
-		{ 
-		    // Use ImageTypes() to dermine image format
+	// Determine php version
+	$phpversion = ereg_replace ("([^0-9])", "", phpversion());
+	$phpversion = $phpversion / pow (10, strlen($phpversion) - 1);
+	
+	if ($phpversion >= 4.02)
+	{ 
+	    // Determine if GD is installed
+		if (extension_loaded("gd"))
+		{
+			// Use ImageTypes() to dermine image format
 		    if (ImageTypes() & IMG_PNG)
 		        $phpAds_GDImageFormat = "png";
 		    
@@ -49,30 +49,28 @@ function phpAds_GDImageFormat()
 		    else 
 		        $phpAds_GDImageFormat = "none";
 		}
-		elseif ($phpversion >= 4)
-		{
-			// No way to determine image format
-			$phpAds_GDImageFormat = "gif"; // assume gif?
-		}
 		else
-		{ 
-		    // Use Function_Exists to determine image format
-		    if (function_exists("imagepng"))
-		        $phpAds_GDImageFormat = "png"; 
-		    
-		    elseif (function_exists("imagejpeg"))
-		        $phpAds_GDImageFormat = "jpeg"; 
-		    
-		    elseif (function_exists("imagegif"))
-		        $phpAds_GDImageFormat = "gif";
-		    
-		    else
-		        $phpAds_GDImageFormat = "none";
-		}
+	        $phpAds_GDImageFormat = "none";
+	}
+	elseif ($phpversion >= 4)
+	{
+		// No way to determine image format
+		$phpAds_GDImageFormat = "gif"; // assume gif?
 	}
 	else
-	{
-		$phpAds_GDImageFormat = "none";
+	{ 
+	    // Use Function_Exists to determine image format
+	    if (function_exists("imagepng"))
+	        $phpAds_GDImageFormat = "png"; 
+	    
+		    elseif (function_exists("imagejpeg"))
+	        $phpAds_GDImageFormat = "jpeg"; 
+	    
+	    elseif (function_exists("imagegif"))
+	        $phpAds_GDImageFormat = "gif";
+	    
+	    else
+	        $phpAds_GDImageFormat = "none";
 	}
 	
 	return ($phpAds_GDImageFormat);

@@ -32,10 +32,6 @@ phpAds_checkAccess(phpAds_Admin+phpAds_Client);
 
 if (phpAds_isUser(phpAds_Client))
 {
-	phpAds_PageHeader($GLOBALS['strWeeklyStats']);
-	
-	$clientID = phpAds_clientID();
-	
 	if (isset($which) && $which > 0)
 	{
 		$result = db_query("
@@ -48,13 +44,48 @@ if (phpAds_isUser(phpAds_Client))
 			") or mysql_die();
 		$row = mysql_fetch_array($result);
 		
-		if ($row['clientID'] != phpAds_clientID())
+		if ($row['clientID'] == '')
 		{
+			phpAds_PageHeader('1');
 			php_die ($strAccessDenied, $strNotAdmin);
+		}
+		else
+		{
+			$campaignID = $row['clientID'];
 		}
 	}
 	
-	phpAds_ShowNav('2.2');
+	if (phpAds_clientID() != phpAds_getParentID ($clientID))
+	{
+		phpAds_PageHeader('1');
+		php_die ($strAccessDenied, $strNotAdmin);
+	}
+	else
+	{
+		$res = db_query("
+		SELECT
+			*
+		FROM
+			$phpAds_tbl_clients
+		WHERE
+			parent = ".phpAds_getParentID ($campaignID)."
+		") or mysql_die();
+		
+		$extra = "";
+		while ($row = mysql_fetch_array($res))
+		{
+			if ($campaignID == $row['clientID'])
+				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
+			else
+				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
+			
+			$extra .= "<a href=stats-weekly.php?campaignID=".$row['clientID'].">".phpAds_buildClientName ($row['clientID'], $row['clientname'])."</a>";
+			$extra .= "<br>"; 
+		}
+		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+		
+		phpAds_PageHeader('1.1.2', $extra);
+	}
 }
 
 
@@ -65,26 +96,26 @@ if (phpAds_isUser(phpAds_Client))
 
 if (phpAds_isUser(phpAds_Admin))
 {
-	phpAds_PageHeader($GLOBALS['strWeeklyStats']);
-	
-	if ($clientID > 0)
+	if ($campaignID > 0)
 	{
 		$res = db_query("
 		SELECT
 			*
 		FROM
-			$phpAds_tbl_clients  
+			$phpAds_tbl_clients
+		WHERE
+			parent > 0
 		") or mysql_die();
 		
-		$extra = "";		
+		$extra = "";
 		while ($row = mysql_fetch_array($res))
 		{
-			if ($clientID == $row['clientID'])
+			if ($campaignID == $row['clientID'])
 				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
 			else
 				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 			
-			$extra .= "<a href=stats-weekly.php?clientID=".$row['clientID'].">".phpAds_buildClientName ($row['clientID'], $row['clientname'])."</a>";
+			$extra .= "<a href=stats-weekly.php?campaignID=".$row['clientID'].">".phpAds_buildClientName ($row['clientID'], $row['clientname'])."</a>";
 			$extra .= "<br>"; 
 		}
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
@@ -92,16 +123,20 @@ if (phpAds_isUser(phpAds_Admin))
 		$extra .= "<br><br><br><br><br>";
 		$extra .= "<b>$strShortcuts</b><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "<img src='images/caret-rs.gif'>&nbsp;<a href=banner-client.php?clientID=$clientID>$strBannerAdmin</a><br>";
+		$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientID=".phpAds_getParentID ($campaignID).">$strModifyClient</a><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "<img src='images/caret-rs.gif'>&nbsp;<a href=client-edit.php?clientID=$clientID>$strModifyClient</a><br>";
-		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";	
+		$extra .= "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignID=$campaignID>$strModifyCampaign</a><br>";
+		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+		$extra .= "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<a href=campaign-index.php?campaignID=$campaignID>$strBanners</a><br>";
+		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+		$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-campaign.php?campaignID=$campaignID>$strStats</a><br>";
+		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		
-		phpAds_ShowNav('1.4.2', $extra);
+		phpAds_PageHeader('2.1.2', $extra);
 	}
 	else
 	{
-		phpAds_ShowNav('1.6');
+		phpAds_PageHeader('2.3');
 	}
 }
 
@@ -112,7 +147,7 @@ if (phpAds_isUser(phpAds_Admin))
 /*********************************************************/
 
 if ($clientID > 0)
-	$clientwhere = "WHERE clientID='$clientID'";
+	$clientwhere = "WHERE clientID=$campaignID";
 else
 	$clientwhere = '';
 
@@ -128,7 +163,7 @@ $row = mysql_fetch_array($res);
 
 if ($row['count'] > 0)
 {
-	require('./stats-weekly.html.php');
+	require('stats-weekly.html.php');
 }
 
 

@@ -252,7 +252,7 @@ function stats()
 	global $phpAds_begin_of_week;
 	global $phpAds_tbl_adviews, $phpAds_tbl_adclicks, $phpAds_tbl_adstats, $phpAds_tbl_banners;
     global $phpAds_compact_stats;
-	global $clientID, $which;
+	global $campaignID, $which;
 	global $max_weeks, $php_week_sign, $mysql_week_sign;
 	global $strDayShortCuts;
 	global $strClientName, $strOverall;
@@ -266,10 +266,10 @@ function stats()
 			$phpAds_tbl_banners
 		";
 	
-	if ($clientID > 0)
+	if ($campaignID > 0)
 	$banner_query .= "
 		WHERE 
-			clientID = $clientID
+			clientID = $campaignID
 		";
 	
 	$res = db_query($banner_query) or mysql_die();
@@ -286,7 +286,7 @@ function stats()
 	{
 		// multi banner client
 		
-		if ($clientID > 0) 
+		if ($campaignID > 0) 
 			$where = 'WHERE bannerID IN (';
 		else
 			$where = '';
@@ -308,7 +308,7 @@ function stats()
 			$i++;
 		}
 		
-		if ($clientID > 0) 
+		if ($campaignID > 0) 
 			$where .= $ids.')';
 		
 		if ($which != '0')  // there! forget set theory!
@@ -505,19 +505,24 @@ function stats()
 	// nice in older NS6- and actual IE versions)
 	?> 
 
-	
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 	<?
-		if ($clientID > 0)
-			echo "<tr><td height='25' colspan='2'><b>$strClientName: ".phpAds_getClientName($clientID)."</b></td></tr>";
+		if ($campaignID > 0)
+		{
+			echo "<tr><td height='25' colspan='2'>";
+			echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignID);
+			echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignID);
+			echo "</b></td></tr>";
+		}
 		else
-			echo "<tr><td height='25' colspan='2'><b>$strOverall</b></td></tr>";
+			echo "<tr><td height='25' colspan='2'><img src='images/icon-weekly.gif' align='absmiddle'>&nbsp;<b>$strOverall</b></td></tr>";
 	?>
 	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 
 	<tr>
 		<form action="<? echo $GLOBALS['PHP_SELF']; ?>">
-			<input type="hidden" name="clientID" value="<? echo $clientID;?>">
+			<input type="hidden" name="campaignID" value="<? echo $campaignID;?>">
 			<input type="hidden" name="which" value="<? echo $which;?>">
 			<td height='35'>
 				<? echo $GLOBALS['strShowWeeks']; ?>
@@ -537,10 +542,10 @@ function stats()
 	{
 		?>
 		<form action="<? echo $GLOBALS['PHP_SELF']; ?>">
-			<input type="hidden" name="clientID" value="<? echo $clientID;?>">
+			<input type="hidden" name="campaignID" value="<? echo $campaignID;?>">
 			<input type="hidden" name="max_weeks" value="<? echo $max_weeks;?>">
-			<td height='35' align="left">
-				<? echo $GLOBALS['strBannerID']; ?>
+			<td height='35' align="right">
+				<img src='images/icon-banner-stored.gif' align='absmiddle'>
 				<select name="which" onChange="this.form.submit();">
 					<option value="0" <? echo $which==0?'SELECTED':''; ?>><? echo $GLOBALS['strAll']; ?></option>
 		<?
@@ -628,7 +633,7 @@ function stats()
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
 	<? if (phpAds_GDImageFormat() != "none") { ?>
-	<tr><td colspan="3" align="left" bgcolor="#FFFFFF"><img src="graph-weekly.php?<?php echo "clientID=$clientID&max_weeks=$max_weeks&where=".urlencode("$where"); ?>"></td></tr>
+	<tr><td colspan="3" align="left" bgcolor="#FFFFFF"><img src="graph-weekly.php?<?php echo "campaignID=$campaignID&max_weeks=$max_weeks&where=".urlencode("$where"); ?>"></td></tr>
 	<? } ?>          
 	<tr>
 		<td height='25' bgcolor="#FFFFFF"><? echo $GLOBALS["strTotalViews"]; ?>: <b><? tabecho($total_views); ?></b></td>

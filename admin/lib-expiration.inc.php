@@ -183,7 +183,8 @@ function days_left($clientID)
 			{
 				$row_views = mysql_fetch_array($res_views);
 				
-				if ($row_views["days_since_start"] == '' ||
+				if (!isset($row_views["days_since_start"]) ||
+				    $row_views["days_since_start"] == '' ||
 				    $row_views["days_since_start"] == 0  ||
 					$row_views["days_since_start"] == null)
 				{

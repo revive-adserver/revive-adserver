@@ -142,8 +142,6 @@ if (isset($btndown_x))
 /* HTML framework                                        */
 /*********************************************************/
 
-phpAds_PageHeader("$strModifyBannerAcl");
-
 if (!isset($bannerID)) 
 	php_die("This page can't be displayed",	"There was no bannerID suppied");
 
@@ -155,7 +153,7 @@ $res = db_query("
 	FROM
 		$phpAds_tbl_banners
 	WHERE
-		clientID = ".$GLOBALS['clientID']."
+		clientID = $campaignID
 ") or mysql_die();
 
 while ($row = mysql_fetch_array($res))
@@ -164,7 +162,7 @@ while ($row = mysql_fetch_array($res))
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
 	else
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
-	$extra .= "<a href='banner-acl.php?clientID=$clientID&bannerID=".$row['bannerID']."'>";
+	$extra .= "<a href='banner-acl.php?campaignID=$campaignID&bannerID=".$row['bannerID']."'>";
 	$extra .= phpAds_buildBannerName ($row['bannerID'], $row['description'], $row['alt']);
 	$extra .= "</a>";
 	$extra .= "<br>"; 
@@ -174,14 +172,18 @@ $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 $extra .= "<br><br><br><br><br>";
 $extra .= "<b>$strShortcuts</b><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "<img src='images/caret-rs.gif'>&nbsp;<a href=client-edit.php?clientID=$clientID>$strModifyClient</a><br>";
+$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientID=".phpAds_getParentID ($campaignID).">$strModifyClient</a><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "<img src='images/caret-rs.gif'>&nbsp;<a href=stats-client.php?clientID=$clientID>$strStats</a><br>";
-$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/caret-rs.gif'>&nbsp;<a href=stats-details.php?clientID=$clientID&bannerID=$bannerID>$strDetailStats</a><br>";
-$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/caret-rs.gif'>&nbsp;<a href=stats-weekly.php?clientID=$clientID>$strWeeklyStats</a><br>";
+$extra .= "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignID=$campaignID>$strModifyCampaign</a><br>";
+$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-campaign.php?campaignID=$campaignID>$strStats</a><br>";
+$extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
+$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-weekly.gif' align='absmiddle'>&nbsp;<a href=stats-weekly.php?campaignID=$campaignID>$strWeeklyStats</a><br>";
+$extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
+$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-zoom.gif' align='absmiddle'>&nbsp;<a href=stats-details.php?campaignID=$campaignID&bannerID=$bannerID>$strDetailStats</a><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 
-phpAds_ShowNav("1.3.3", $extra);
+phpAds_PageHeader("4.1.3", $extra);
 
 
 
@@ -193,13 +195,15 @@ phpAds_ShowNav("1.3.3", $extra);
 
 
 <table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
-  <tr><td height='25'>
-  <? 
-	if ($bannerID != '')
-		echo "<b>$strBanner: ".phpAds_getBannerName($bannerID)."</b> <img src='images/caret-rs.gif'> ";
-		echo $strClientName.': '.phpAds_getClientName($clientID);
-  ?>
-  </td></tr>
+	<tr><td height='25' colspan='4'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?echo phpAds_getParentName($campaignID);?>
+									&nbsp;<img src='images/caret-rs.gif'>&nbsp;
+									<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<?echo phpAds_getClientName($campaignID);?>
+									&nbsp;<img src='images/caret-rs.gif'>&nbsp;
+									<? if ($bannerID != '') { ?>
+									<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b><?echo phpAds_getBannerName($bannerID);?></b></td></tr>
+									<? } else { ?>
+									<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<?echo $strUntitled; ?></td></tr>
+									<? } ?>
   <tr><td height='1' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
   <?
 	if ($bannerID != '')

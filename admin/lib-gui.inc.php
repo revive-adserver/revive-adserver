@@ -16,30 +16,38 @@
 
 // Define defaults
 $phpAds_Message = '';
-$phpAds_NavDone = False;
+$phpAds_GUIDone = false;
 
 
 
 /*********************************************************/
-/* Show navigation                                       */
+/* Show page header                                      */
 /*********************************************************/
 
-function phpAds_ShowNav($ID, $extra="")
+function phpAds_PageHeader($ID, $extra="")
 {
-	global $phpAds_table_back_color;
-	global $pages;
-	global $strNavigation;
-	global $phpAds_Message, $phpAds_NavDone;
+	global $phpAds_nav, $pages;
+	global $phpAds_name, $phpAds_my_header, $phpAds_CharSet;
+	global $strLogout, $strNavigation;
+	global $phpAds_Message, $phpAds_GUIDone;
 	
-	$phpAds_NavDone = True;
+	$phpAds_GUIDone = true;
 	
+	// Travel navigation
 	if ($ID != "")
-	{
+	{	
+		// Prepare Navigation
+		if (phpAds_isUser(phpAds_Admin))
+			$pages	= $phpAds_nav['admin'];
+		else
+			$pages  = $phpAds_nav['client'];
+		
+		// Build sidebar
 		$sections = explode(".", $ID);
 		$sectionID = "";
 		
-		echo "<b>$strNavigation</b><br>";
-		echo "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+		$sidebar  = "<b>$strNavigation</b><br>";
+		$sidebar .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		
 		for ($i=0; $i<count($sections)-1; $i++)
 		{
@@ -49,115 +57,175 @@ function phpAds_ShowNav($ID, $extra="")
 			
 			if ($i==0)
 			{
-				echo "<img src='images/caret-t.gif' width='11' height='7'>&nbsp;";
-				echo "<a href=$filename>$title</a>";
-				echo "<br>"; 
-				echo "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+				$sidebar .= "<img src='images/caret-t.gif' width='11' height='7'>&nbsp;";
+				$sidebar .= "<a href='$filename'>$title</a>";
+				$sidebar .= "<br>"; 
+				$sidebar .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 			}
 			else
 			{
-				echo "<img src='images/caret-u.gif' width='11' height='7'>&nbsp;";
-				echo "<a href=$filename>$title</a>";
-				echo "<br>"; 
+				$sidebar .= "<img src='images/caret-u.gif' width='11' height='7'>&nbsp;";
+				$sidebar .= "<a href='$filename'>$title</a>";
+				$sidebar .= "<br>"; 
 			}
 		}
 		
 		list($filename, $title) = each($pages["$ID"]);
-		echo "<img src='images/caret-u.gif' width='11' height='7'>&nbsp;";
-		echo "$title<br>";
-		echo "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+		$sidebar .= "<img src='images/caret-u.gif' width='11' height='7'>&nbsp;";
+		$sidebar .= "$title<br>";
+		$sidebar .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		
-		if ($extra!="") echo $extra;
+		if ($extra != '') $sidebar .= $extra;
+		
+		
+		// Set Pagetitle
+		$pagetitle = $title;
+		
+		
+		// Build Tabbar
+		$currentsection = $sections[0];
+		$tabbar = '';
+		
+		// Prepare Navigation
+		if (phpAds_isUser(phpAds_Admin))
+			$pages	= $phpAds_nav['admin'];
+		else
+			$pages  = $phpAds_nav['client'];
+		
+		
+		$i = 0;
+		$lastselected = false;
+		
+		for (reset($pages);$key=key($pages);next($pages))
+		{
+			if (strpos($key, ".") == 0)
+			{
+				list($filename, $title) = each($pages[$key]);
+				
+				
+				if ($i > 0)
+				{
+					if ($lastselected)
+						$tabbar .= "<td><img src='images/tab-d.gif' width='10' height='24'></td>";
+					else
+						$tabbar .= "<td><img src='images/tab-dd.gif' width='10' height='24'></td>";
+				}
+				
+				if ($key == $currentsection)
+				{
+					$tabbar .= "<td bgcolor='#FFFFFF' valign='middle'>&nbsp;&nbsp;<a class='tab-s' href='$filename'>$title</a></td>";
+					$lastselected = true;
+				}
+				else
+				{
+					$tabbar .= "<td bgcolor='#0066CC' valign='middle'>&nbsp;&nbsp;<a class='tab-u' href='$filename'>$title</a></td>";
+					$lastselected = false;
+				}
+			}
+			
+			$i++;
+		}
+		
+		if ($lastselected)
+			$tabbar .= "<td><img src='images/tab-ew.gif' width='10' height='24'></td>";
+		else
+			$tabbar .= "<td><img src='images/tab-eb.gif' width='10' height='24'></td>";
 	}
 	else
 	{
-		echo "&nbsp;";
+		$sidebar = "&nbsp;";
+		$tabbar = "&nbsp;";
+		$pagetitle = "";
 	}
 	
-	?>
-		</td>
-    <td width="1" bgcolor="#888888"><img src="images/spacer.gif" width="1" height="20"></td>
-    <td width="30">&nbsp;</td>
-    <td valign="top" width="100%">
-	<table width="600" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td>
-	<?
 	
-	if ($phpAds_Message != '')
-	{
-		echo "<table border='0' cellpadding='1' cellspacing='1' width='100%'><tr><td bgcolor='#000088'>";
-			echo "<table border='0' cellpadding='5' cellspacing='0' width='100%'>";
-			echo "<tr bgcolor='#EEEEEE'>";
-			echo "<td width='20' valign='top'><img src='images/info.gif' hspace='3'></td>";
-			echo "<td valign='top'><b>$phpAds_Message</b></td>";
-			echo "</tr></table>";
-		echo "</td></tr></table>";
-		echo "<br><br>";
-	}
-}
-
-
-
-/*********************************************************/
-/* Show page header                                      */
-/*********************************************************/
-
-function phpAds_PageHeader($title = false)
-{
-	global $pages, $phpAds_name, $phpAds_main_back_color, $phpAds_table_border_color, $phpAds_my_header, $strLogout, $phpAds_CharSet;
-
+	
+	// Send header with charset info
 	header ("Content-Type: text/html".($phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
-
-?>
+	
+	// Begin HTML
+	?>
 <html>
 	<head>
-		<title><?echo $title;?></title>
+		<title><?echo $pagetitle;?></title>
 		<meta http-equiv='Content-Type' content='text/html<? echo $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : "" ?>'>
 		<meta name='author" content='phpAdsNew - http://sourceforge.net/projects/phpadsnew'>
 		<link rel='stylesheet' href='interface.css'>
 		<script language='JavaScript' src='interface.js'></script>
 	</head>
 	
-<body bgcolor='#FFFFFF' text='#000000' leftmargin='0' topmargin='0' marginwidth='0' marginheight='0'>
-<table width='100%' height='100%' border='0' cellspacing='0' cellpadding='0'>
-  <tr><td colspan='6' class='location' height='32' bgcolor='#003399'>&nbsp;</td></tr>
-  <tr>
-  	<td colspan='6' class='location' height='32' bgcolor='#003399'>
-	  <span class='phpAdsNew'>&nbsp;&nbsp;&nbsp;<?echo $phpAds_name;?>&nbsp;&nbsp;&nbsp;</span>
-	  <?echo $title!=""?"[ ".$title." ]":"";?>
-    </td>
-  </tr>
-  <tr bgcolor='#000066'><td colspan='6' class='topnav' height='20' align='right'>&nbsp;</td></tr>
-  <tr> 
-    <td height='30' width='15' bgcolor='#EEEEEE'><img src='images/spacer.gif' width='15' height='30'></td>
-    <td height='30' width='160' bgcolor="#EEEEEE"><img src='images/spacer.gif' width='160' height='30'></td>
-    <td height='30' width='1' bgcolor="#888888"><img src='images/spacer.gif' width='1' height='30'></td>
-    <td height='30' width='30'><img src='images/spacer.gif' width='30' height='30'></td>
-    <td height='30' width='100%'>&nbsp;</td>
-    <td height='30' width='20'><img src='images/spacer.gif' width='20' height='30'></td>
-  </tr>
-  <tr> 
-    <td width='15' bgcolor='#EEEEEE'>
-		<script language='JavaScript'>
-		<!--
-			// Workaround for GUI rendering in Netscape and IE for Mac
-			// This needs to be fixed before final release --Niels
-			if(document.all){
-				height=document.body.offsetHeight-6;
-			} else {
-				height=window.innerHeight;
-			}
+<body bgcolor='#FFFFFF' background='images/background.gif' text='#000000' leftmargin='0' topmargin='0' marginwidth='0' marginheight='0'>
 
-			document.write ("<img src='images/spacer.gif' width='15' height='");
-			document.write (height - 174);
-			document.write ("'>");
-		//-->
-		</script>
-		<noscript>&nbsp;</noscript>
-	</td>
-	<td width='160' bgcolor='#EEEEEE' valign='top' class='nav'>
+<!-- Top -->
+<table width='100%' border='0' cellspacing='0' cellpadding='0'>
+<tr><td colspan='2' height='48' bgcolor='#000063' valign='bottom'>
 <?
+ 	if ($phpAds_name != "")
+		echo "<span class='phpAdsNew'>&nbsp;&nbsp;&nbsp;$phpAds_name &nbsp;&nbsp;&nbsp;</span>";
+	else
+		echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/logo.gif' width='163' height='34' alt='phpAdsNew 2 beta 4'>";
+?>
+</td></tr>
+
+<!-- Spacer -->
+<tr><td colspan='2' height='6' bgcolor='#000063'><img src='images/spacer.gif' height='1' width='1'></td></tr>
+
+<!-- Tabbar -->
+<tr><td height='24' width='181' bgcolor='#000063'>&nbsp;</td>
+<td height='24' bgcolor="#000063"> 
+	<table border="0" cellspacing="0" cellpadding="0" width='100%'>
+	<tr><td>
+		<table border="0" cellspacing="0" cellpadding="0" width='1'>
+	    <tr><? echo $tabbar; ?></tr>
+		</table>
+	</td><td align='right' valign='middle' nowrap>
+		<a class='tab-n' href='logout.php'><?print $strLogout;?></a>
+		<img src='images/logout.gif' width='16' height='16' align='absmiddle'>&nbsp;&nbsp;&nbsp;
+	</td></tr>
+	</table>
+</td></tr>
+
+<!-- Sidebar -->
+<tr><td valign="top">
+	<table width="181" border="0" cellspacing="0" cellpadding="0">
+
+	<!-- Blue square -->
+    <tr valign="top"><td colspan='2' width="20" height="48" bgcolor='#000063' valign='bottom'>
+	<?
+		// Show a message if defined
+		if ($phpAds_Message != '')
+		{
+			echo "<table border='0' cellpadding='0' cellspacing='0' width='160'>";
+			echo "<tr>";
+			echo "<td width='20'>&nbsp;</td>";
+			echo "<td width='20' valign='top'><img src='images/info.gif'>&nbsp;</td>";
+			echo "<td width='120' valign='top'><b><font color='#FFFFFF'>$phpAds_Message</font></b></td>";
+			echo "</tr><tr><td colspan='3'><img src='images/spacer.gif' width='160' height='5'></td>";
+			echo "</tr></table>";
+
+		}
+		else
+			echo "&nbsp;";
+	?>
+	</td></tr>
+	
+	<!-- Gradient -->
+    <tr valign="top"><td width="20" height="24"><img src="images/grad-1.gif" width="20" height="20"></td>
+	<td height="24"><img src="images/grad-1.gif" width="160" height="20"></td></tr>
+	
+	<!-- Navigation -->	
+	<tr><td width="20">&nbsp;</td>
+    <td class='nav'><? echo $sidebar; ?></td></tr>
+    </table>
+</td>
+
+<!-- Main contents -->
+<td valign="top">
+	<table width="640" border="0" cellspacing="0" cellpadding="0">
+    <tr><td width="40" height="20">&nbsp;</td><td height="20">&nbsp;</td></tr>
+    <tr><td width="20">&nbsp;</td><td>
+<?
+	// END HTML
 }
 
 
@@ -169,39 +237,16 @@ function phpAds_PageHeader($title = false)
 function phpAds_PageFooter()
 {
 	global $phpAds_my_footer, $strLogout, $strPreferences;
-			?>
-			</tr>
-      </table>
-    </td>
-    <td width='20'>&nbsp;</td>
-  </tr>
-  <tr> 
-    <td width='15' bgcolor='#EEEEEE' height='10'><img src='images/spacer.gif' width='15' height='20'></td>
-    <td width='160' bgcolor='#EEEEEE' height="10"><img src='images/spacer.gif' width='160' height='20'></td>
-    <td width='1' bgcolor='#888888' height="10"><img src='images/spacer.gif' width='1' height='20'></td>
-    <td width='30' height='10'><img src='images/spacer.gif' width='30' height='20'></td>
-    <td height='10' width='100%'>&nbsp;</td>
-    <td width='20' height='10'><img src='images/spacer.gif' width='20' height='20'></td>
-  </tr>
-  <tr bgcolor='#003399'> 
-    <td colspan='6' class='topnav' height='20' align='right'>
-	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	  <?
-	  	if (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_ModifyInfo))
-		{
-			print "<a href='client-edit.php'><img src='images/go.gif' border='0'></a>&nbsp;&nbsp;";
-			print "<a href='client-edit.php' class='topnav'>$strPreferences</a>";
-		}
-	  ?>
-	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	
-	  <a href='logout.php'><img src='images/go.gif' border='0'></a>&nbsp;&nbsp;<a href='logout.php' class='topnav'><?print $strLogout;?></a>
-	  &nbsp;&nbsp;&nbsp;
-	</td>
-  </tr>
-  <tr> 
-    <td colspan='6' class='topnav' height='20' bgcolor='#CCCCCC'>&nbsp;&nbsp;&nbsp;phpAdsNew 2.0beta3</td>
-  </tr>
+?>
+	</td></tr>
+
+	<!-- Spacer -->
+	<tr><td width="40" height="20">&nbsp;</td>
+	<td height="20">&nbsp;</td></tr>
+	</table>
+</td></tr>
 </table>
+
 <?
 if (!empty($phpAds_my_footer))
 {
@@ -236,9 +281,9 @@ function mysql_die()
 {
 	global $strMySQLError;
     global $phpAds_last_query;
-	global $phpAds_NavDone;
+	global $phpAds_GUIDone;
 	
-	if ($phpAds_NavDone == False) phpAds_ShowNav(0);
+	if ($phpAds_GUIDone == false) phpAds_PageHeader(0);
 	
 	echo "<table border='0' cellpadding='1' cellspacing='1' width='100%'><tr><td bgcolor='#FF0000'>";
 		echo "<table border='0' cellpadding='5' cellspacing='0' width='100%'>";
@@ -267,9 +312,9 @@ function mysql_die()
 
 function php_die($title="Error", $message="Unkown error")
 {
-	global $phpAds_NavDone;
+	global $phpAds_GUIDone;
 	
-	if ($phpAds_NavDone == False) phpAds_ShowNav(0);
+	if ($phpAds_GUIDone == false) phpAds_PageHeader(0);
 	
 	echo "<table border='0' cellpadding='1' cellspacing='1' width='100%'><tr><td bgcolor='#FF0000'>";
 		echo "<table border='0' cellpadding='5' cellspacing='0' width='100%'>";

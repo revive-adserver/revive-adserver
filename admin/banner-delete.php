@@ -16,6 +16,7 @@
 
 // Include required files
 require ("config.php");
+require ("lib-storage.inc.php");
 
 
 // Security check
@@ -27,28 +28,43 @@ phpAds_checkAccess(phpAds_Admin);
 /* Main code                                             */
 /*********************************************************/
 
-if (!isset($bannerID))
+if (isset($bannerID) && $bannerID != '')
 {
-	phpAds_PageHeader("$strBannerAdmin");
-	php_die("hu?", "Where is my ID? I've lost my ID! Moooommmeee... I want my ID back!");
+	// Cleanup webserver stored image
+	$res = db_query("
+		SELECT
+			banner, format
+		FROM
+			$phpAds_tbl_banners
+		WHERE
+			bannerID = $bannerID
+		") or mysql_die();
+	if ($row = mysql_fetch_array($res))
+	{
+		if ($row['format'] == 'web' && $row['banner'] != '')
+			phpAds_Cleanup (basename($row['banner']));
+	}
+	
+	// Delete banner
+	$res = db_query("
+		DELETE FROM
+			$phpAds_tbl_banners
+		WHERE
+			bannerID = $bannerID
+		") or mysql_die();
+	
+	// Delete banner ACLs
+	$res = db_query("
+		DELETE FROM
+			$phpAds_tbl_acls
+		WHERE
+			bannerID = $bannerID
+		") or mysql_die();
+	
+	// Delete statistics for this banner
+	db_delete_stats($bannerID);
 }
 
-db_query("
-	DELETE FROM
-		$phpAds_tbl_banners
-	WHERE
-		bannerID = $bannerID
-	") or mysql_die();
-
-db_query("
-	DELETE FROM
-		$phpAds_tbl_acls
-	WHERE
-		bannerID = $bannerID
-	") or mysql_die();
-
-db_delete_stats($bannerID);
-
-Header("Location: banner-client.php?clientID=$clientID&message=".urlencode($strBannerDeleted));
+Header("Location: campaign-index.php?campaignID=$campaignID&message=".urlencode($strBannerDeleted));
 
 ?>

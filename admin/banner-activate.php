@@ -41,6 +41,6 @@ $res = db_query("
 		bannerID = $bannerID
 	") or mysql_die();
 
-Header("Location: banner-client.php?clientID=$clientID&message=".urlencode($strBannerChanged));
+Header("Location: campaign-index.php?campaignID=$campaignID&message=".urlencode($strBannerChanged));
 
 ?>

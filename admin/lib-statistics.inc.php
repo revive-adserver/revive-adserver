@@ -37,6 +37,45 @@ function phpAds_buildClientName ($clientID, $clientName)
 function phpAds_getClientName ($clientID)
 {
 	global $clientCache, $phpAds_tbl_clients;
+	global $strAddClient;
+	
+	if ($clientID != '' && $clientID != 0)
+	{
+		if (isset($clientCache[$clientID]) && is_array($clientCache[$clientID]))
+		{
+			$row = $clientCache[$clientID];
+		}
+		else
+		{
+			$res = db_query("
+			SELECT
+				*
+			FROM
+				$phpAds_tbl_clients
+			WHERE
+				clientID = $clientID
+			") or mysql_die();
+			
+			$row = @mysql_fetch_array($res);
+			
+			$clientCache[$clientID] = $row;
+		}
+		
+		return (phpAds_BuildClientName ($clientID, $row['clientname']));
+	}
+	else
+		return ($strAddClient);
+}
+
+
+
+/*********************************************************/
+/* Fetch the ID of the parent of a campaign              */
+/*********************************************************/
+
+function phpAds_getParentID ($clientID)
+{
+	global $clientCache, $phpAds_tbl_clients;
 	
 	if (isset($clientCache[$clientID]) && is_array($clientCache[$clientID]))
 	{
@@ -58,7 +97,40 @@ function phpAds_getClientName ($clientID)
 		$clientCache[$clientID] = $row;
 	}
 	
-	return (phpAds_BuildClientName ($clientID, $row['clientname']));
+	return ($row['parent']);
+}
+
+
+
+/*********************************************************/
+/* Fetch the name of the parent of a campaign            */
+/*********************************************************/
+
+function phpAds_getParentName ($clientID)
+{
+	global $clientCache, $phpAds_tbl_clients;
+	
+	if (isset($clientCache[$clientID]) && is_array($clientCache[$clientID]))
+	{
+		$row = $clientCache[$clientID];
+	}
+	else
+	{
+		$res = db_query("
+		SELECT
+			*
+		FROM
+			$phpAds_tbl_clients
+		WHERE
+			clientID = $clientID
+		") or mysql_die();
+		
+		$row = @mysql_fetch_array($res);
+		
+		$clientCache[$clientID] = $row;
+	}
+	
+	return (phpAds_getClientName ($row['parent']));
 }
 
 
@@ -69,12 +141,16 @@ function phpAds_getClientName ($clientID)
 
 function phpAds_buildBannerName ($bannerID, $description, $alt)
 {
+	global $strUntitled;
+	
 	$name = "[id$bannerID] ";
 	
 	if ($description != "")
 		$name .= $description;
-	else
+	elseif ($alt != "")
 		$name .= $alt;
+	else
+		$name .= $strUntitled;
 	
 	return ($name);
 }
@@ -156,40 +232,66 @@ function phpAds_buildBannerCode ($bannerID, $banner, $active, $format, $width, $
 		if ($format == "html")
 		{
 			$htmlcode 	= htmlspecialchars (stripslashes ($banner));
-			$buffer		= "<table border='0' cellspacing='0' cellpadding='0'><tr>";
-			$buffer    .= "<td width='66%' valign='top' align='right'>";
-			$buffer	   .= strlen($htmlcode) > 500 ? substr ($htmlcode, 0, 500)."..." : $htmlcode;
-			$buffer    .= "</td>";
-			$buffer    .= "<td width='33%' valign='top' align='center' nowrap>&nbsp;&nbsp;<a href='banner-htmlpreview.php?bannerID=$bannerID' target='_new'>[ Show banner ]</a>&nbsp;&nbsp;</td>";
+			$htmlcode   = strlen($htmlcode) > 500 ? substr ($htmlcode, 0, 500)."..." : $htmlcode;
+			$htmlcode	= chunk_split ($htmlcode, 70, "<br>\n");
+			
+			$buffer		= "<table width='100%' border='0' cellspacing='0' cellpadding='0'><tr>";
+			$buffer    .= "<td width='80%' valign='top' align='left'>\n";
+			$buffer	   .= $htmlcode;
+			$buffer    .= "\n</td>";
+			$buffer    .= "<td width='20%' valign='top' align='right' nowrap>&nbsp;&nbsp;";
+			$buffer	   .= "<a href='banner-htmlpreview.php?bannerID=$bannerID' target='_new' ";
+			$buffer	   .= "onClick=\"return openWindow('banner-htmlpreview.php?bannerID=$bannerID', '', 'status=no,scrollbars=no,resizable=no,width=$width,height=$height');\">";
+			$buffer    .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;Show banner</a>&nbsp;&nbsp;</td>";
 			$buffer	   .= "</tr></table>";
 		}
 		elseif($format == "url" || $format == "web")
 			$buffer = "<img src='$banner' width='$width' height='$height'>";
 		else
-			$buffer = "<img src='../viewbanner.php?bannerID=$bannerID' width='$width' height='$height'>";
+			$buffer = "<img src='../adview.php?bannerID=$bannerID' width='$width' height='$height'>";
 	}
 	else
 	{
 		if ($format == "html")
 		{
 			$htmlcode 	= htmlspecialchars (stripslashes ($banner));
-			$buffer		= "<table border='0' cellspacing='0' cellpadding='0'><tr>";
-			$buffer    .= "<td width='66%' valign='top' align='right' style='filter: Alpha(Opacity=50)'>";
-			$buffer	   .= strlen($htmlcode) > 500 ? substr ($htmlcode, 0, 500)."..." : $htmlcode;
-			$buffer    .= "</td>";
-			$buffer    .= "<td width='33%' valign='top' align='center' nowrap>&nbsp;&nbsp;<a href='banner-htmlpreview.php?bannerID=$bannerID' target='_new'>[ Show banner ]</a>&nbsp;&nbsp;</td>";
+			$htmlcode   = strlen($htmlcode) > 500 ? substr ($htmlcode, 0, 500)."..." : $htmlcode;
+			$htmlcode	= chunk_split ($htmlcode, 70, "<br>\n");
+			
+			$buffer		= "<table width='100%' border='0' cellspacing='0' cellpadding='0'><tr>";
+			$buffer    .= "<td width='80%' valign='top' align='left' style='filter: Alpha(Opacity=50)'>\n";
+			$buffer	   .= $htmlcode;
+			$buffer    .= "\n</td>";
+			$buffer    .= "<td width='20%' valign='top' align='right' nowrap>&nbsp;&nbsp;<a href='banner-htmlpreview.php?bannerID=$bannerID' target='_new'>";
+			$buffer    .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;Show banner</a>&nbsp;&nbsp;</td>";
 			$buffer	   .= "</tr></table>";
 		}
 		elseif($format == "url" || $format == "web")
 			$buffer = "<img src='$banner' width='$width' height='$height' style='filter: Alpha(Opacity=50)'>";
 		else
-			$buffer = "<img src='../viewbanner.php?bannerID=$bannerID' width='$width' height='$height' style='filter: Alpha(Opacity=50)'>";
+			$buffer = "<img src='../adview.php?bannerID=$bannerID' width='$width' height='$height' style='filter: Alpha(Opacity=50)'>";
 	}
 	
 	if (!$bannertext == "")
 		$buffer .= "<br>".$bannertext;
 	
 	return ($buffer);
+}
+
+
+
+/*********************************************************/
+/* Build Click-Thru ratio                                */
+/*********************************************************/
+
+function phpAds_buildCTR ($views, $clicks)
+{
+	if ($views > 0)
+		$ctr = number_format($clicks/$views*100,2)."%";
+	else
+		$ctr="0.00%";
+		
+	return ($ctr);
 }
 
 ?>
