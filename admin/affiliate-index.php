@@ -149,7 +149,7 @@ if (isset($zones) && is_array($zones) && count($zones) > 0)
 
 
 echo "<img src='images/icon-affiliate.gif' border='0' align='absmiddle'>&nbsp;";
-echo "<a href='affiliate-edit.php'>$strAddAffiliate</a>&nbsp;&nbsp;";
+echo "<a href='affiliate-edit.php'>$strAddNewAffiliate</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
 
 
