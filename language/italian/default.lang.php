@@ -100,15 +100,17 @@ $GLOBALS['strCheckAllNone']					= "Seleziona tutti / nessuno";
 $GLOBALS['strKiloByte']						= "KB";
 $GLOBALS['strExpandAll']					= "Espandi tutti";
 $GLOBALS['strCollapseAll']					= "Chiudi tutti";
+$GLOBALS['strShowAll']						= "Mostra tutto";
+$GLOBALS['strNoAdminInteface']				= "Servizio non disponibile...";
 
 
 // Properties
 $GLOBALS['strName']							= "Nome";
-$GLOBALS['strSize']							= "Grandezza";
+$GLOBALS['strSize']							= "Dimensioni";
 $GLOBALS['strWidth']						= "Larghezza";
 $GLOBALS['strHeight']						= "Altezza";
 $GLOBALS['strURL2']							= "URL";
-$GLOBALS['strTarget']						= "Limite visualizzazioni";
+$GLOBALS['strTarget']						= "Frame destinazione";
 $GLOBALS['strLanguage']						= "Lingua";
 $GLOBALS['strDescription']					= "Descrizione";
 $GLOBALS['strID']							= "ID";
@@ -151,6 +153,7 @@ $GLOBALS['strMonths']						= "Mesi";
 $GLOBALS['strThisMonth']					= "Questo Mese";
 $GLOBALS['strMonth']						= array("Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre");
 $GLOBALS['strDayShortCuts']					= array("Do","Lu","Ma","Me","Gi","Ve","Sa");
+$GLOBALS['strHour']							= "Ora";
 $GLOBALS['strSeconds']						= "secondi";
 $GLOBALS['strMinutes']						= "minuti";
 $GLOBALS['strHours']						= "ore";
@@ -168,6 +171,8 @@ $GLOBALS['strClientHistory']				= "Storico inserzionista";
 $GLOBALS['strNoClients']					= "Attualmente non ci sono inserzionisti definiti";
 $GLOBALS['strConfirmDeleteClient']			= "Vuoi veramente elminare questo inserzionista?";
 $GLOBALS['strConfirmResetClientStats']		= "Vuoi veramente elminare tutte le statistiche esistenti per qusto inserzionista?";
+$GLOBALS['strHideInactiveAdvertisers']		= "Nascondi inserzionisti inattivi";
+$GLOBALS['strInactiveAdvertisersHidden']	= "inserzionisti inattivi nascosti";
 
 
 // Advertisers properties
@@ -201,6 +206,8 @@ $GLOBALS['strCampaignHistory']				= "Storico campagna";
 $GLOBALS['strNoCampaigns']					= "Non ci sono attualmente campagne definite";
 $GLOBALS['strConfirmDeleteAllCampaigns']	= "Desideri realmente cancellare tutte le campagne possedute da questo inserzionista?";
 $GLOBALS['strConfirmDeleteCampaign']		= "Desideri realmente cancellare questa campagna?";
+$GLOBALS['strHideInactiveCampaigns']		= "Nascondi campagne inattive";
+$GLOBALS['strInactiveCampaignsHidden']		= "campagne inattive nascoste";
 
 
 // Campaign properties
@@ -298,6 +305,7 @@ $GLOBALS['strACL']							= "Consegna";
 $GLOBALS['strACLAdd']						= "Aggiungi nuova limitazione";
 $GLOBALS['strNoLimitations']				= "Nessuna limitazione";
 $GLOBALS['strApplyLimitationsTo']			= "Applica limitazioni a";
+$GLOBALS['strRemoveAllLimitations']			= "Rimuovi tutte le limitzioni";
 $GLOBALS['strEqualTo']						= "risulta uguale a";
 $GLOBALS['strDifferentFrom']				= "risulta differente da";
 $GLOBALS['strAND']							= "AND";						// logical operator
@@ -352,7 +360,7 @@ $GLOBALS['strNoZones']						= "Non ci sono correntemente zone definite";
 $GLOBALS['strConfirmDeleteZone']			= "Desideri realmente cancellare questa zona?";
 $GLOBALS['strZoneType']						= "Tipo di zona";
 $GLOBALS['strBannerButtonRectangle']		= "Banner, Pulsante o Rettangolo";
-$GLOBALS['strInterstitial']					= "Interstiziale";
+$GLOBALS['strInterstitial']					= "Interstiziale o DHTML floating";
 $GLOBALS['strPopup']						= "Popup";
 
 

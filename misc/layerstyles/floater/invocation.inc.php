@@ -51,7 +51,7 @@ function phpAds_placeLayerSettings ()
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>". 'Direction' ."</td><td width='370'>";
+	echo "<td width='200'>".$GLOBALS['strDirection']."</td><td width='370'>";
 	echo "<select name='ltr' style='width:175px;'>";
 		echo "<option value='t'".($ltr == 't' ? ' selected' : '').">". 'Left to right' ."</option>";
 		echo "<option value='f'".($ltr == 'f' ? ' selected' : '').">". 'Right to left' ."</option>";
@@ -60,7 +60,7 @@ function phpAds_placeLayerSettings ()
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>". 'Looping' ."</td><td width='370'>";
+	echo "<td width='200'>".$GLOBALS['strLooping']."</td><td width='370'>";
 	echo "<select name='loop' style='width:175px;'>";
 		echo "<option value='n'".($loop == 'n' ? ' selected' : '').">". 'Always active' ."</option>";
 	for ($i=1;$i<=10;$i++)
@@ -70,7 +70,7 @@ function phpAds_placeLayerSettings ()
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>". 'Speed' ."</td><td width='370'>";
+	echo "<td width='200'>".$GLOBALS['strSpeed']."</td><td width='370'>";
 	echo "<select name='speed' style='width:60px;'>";
 	for ($i=1;$i<=5;$i++)
 		echo "<option value='".$i."'".($speed == $i ? ' selected' : '').">".$i."</option>";
@@ -79,7 +79,7 @@ function phpAds_placeLayerSettings ()
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>". 'Pause' ."</td><td width='370'>";
+	echo "<td width='200'>".$GLOBALS['strPause']."</td><td width='370'>";
 		echo "<input class='flat' type='text' name='pause' size='' value='".$pause."' style='width:60px;'> ".$GLOBALS['strSeconds']."</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
@@ -91,7 +91,7 @@ function phpAds_placeLayerSettings ()
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>". 'Limited' ."</td><td width='370'>";
+	echo "<td width='200'>".$GLOBALS['strLimited']."</td><td width='370'>";
 	echo "<select name='limited' style='width:60px;' onChange='this.form.lmargin.disabled = this.selectedIndex ? true : false; this.form.rmargin.disabled = this.selectedIndex ? true : false'>";
 		echo "<option value='t'".($limited == 't' ? ' selected' : '').">".$GLOBALS['strYes']."</option>";
 		echo "<option value='f'".($limited == 'f' ? ' selected' : '').">".$GLOBALS['strNo']."</option>";
@@ -100,19 +100,19 @@ function phpAds_placeLayerSettings ()
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 		
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>". 'Left margin' ."</td><td width='370'>";
+	echo "<td width='200'>".$GLOBALS['strLeftmargin']."</td><td width='370'>";
 		echo "<input class='flat' type='text' name='lmargin' size='' value='".$lmargin."' style='width:60px;'".($limited == 'f' ? ' disabled' : '')."> ".$GLOBALS['strAbbrPixels']."</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>". 'Right margin' ."</td><td width='370'>";
+	echo "<td width='200'>".$GLOBALS['strRightmargin']."</td><td width='370'>";
 		echo "<input class='flat' type='text' name='rmargin' size='' value='".$rmargin."' style='width:60px;'".($limited == 'f' ? ' disabled' : '')."> ".$GLOBALS['strAbbrPixels']."</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>". 'Transparent background' ."</td><td width='370'>";
+	echo "<td width='200'>".$GLOBALS['strTransparentbackground']."</td><td width='370'>";
 	echo "<select name='transparent' style='width:60px;' onChange='this.form.backcolor.disabled = this.selectedIndex ? false : true'>";
 		echo "<option value='t'".($transparent == 't' ? ' selected' : '').">".$GLOBALS['strYes']."</option>";
 		echo "<option value='f'".($transparent == 'f' ? ' selected' : '').">".$GLOBALS['strNo']."</option>";

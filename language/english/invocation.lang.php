@@ -90,10 +90,24 @@ $GLOBALS['strShowCloseButton']			= "Show close button";
 $GLOBALS['strBackgroundColor']			= "Background color";
 $GLOBALS['strBorderColor']				= "Border color";
 
+$GLOBALS['strDirection']				= "Direction";
+$GLOBALS['strLefttoright']				= "Left to right";
+$GLOBALS['strRighttoleft']				= "Right to left";
+$GLOBALS['strLooping']					= "Looping";
+$GLOBALS['strAlwaysactive']				= "Always active";
+$GLOBALS['strSpeed']					= "Speed";
+$GLOBALS['strPause']					= "Pause";
+$GLOBALS['strLimited']					= "Limited";
+$GLOBALS['strLeftmargin']				= "Left margin";
+$GLOBALS['strRightmargin']				= "Right margin";
+$GLOBALS['strTransparentbackground']	= "Transparent background";
+
 
 $GLOBALS['strAdLayerStyleName']				= array(
 	'geocities'		=> "Geocities",
-	'simple'		=> "Simple"
+	'simple'		=> "Simple",
+	'cursor'		=> "Cursor",
+	'floater'		=> "Floater"
 );
 
 ?>
