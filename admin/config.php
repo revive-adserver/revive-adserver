@@ -64,7 +64,7 @@ $phpAds_nav = array (
 	        "2.1.4" 		=> 	array("stats-weekly.php?campaignID=$campaignID" => $strWeeklyStats),
 		  "2.2"				=>  array("stats-history.php" => $strHistory),
 	      "2.3"		 		=> 	array("stats-weekly.php?campaignID=0" => $strWeeklyStats),
-		"3"					=>  array("report-index.php" => "Reports"),
+		"3"					=>  array("report-index.php" => $strReports),
 		"4"					=>	array("client-index.php" => $strAdminstration),
 		  "4.1"				=>	array("client-index.php" => $strClientsAndCampaigns),
 		    "4.1.1"			=> 	array("client-edit.php" => $strAddClient),

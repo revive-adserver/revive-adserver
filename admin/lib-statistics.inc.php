@@ -296,6 +296,8 @@ function phpAds_getBannerCode ($bannerID)
 
 function phpAds_buildBannerCode ($bannerID, $banner, $active, $format, $width, $height, $bannertext)
 {
+	global $strShowBanner;
+	
 	if ($active == "true")
 	{
 		if ($format == "html")
@@ -311,7 +313,7 @@ function phpAds_buildBannerCode ($bannerID, $banner, $active, $format, $width, $
 			$buffer    .= "<td width='20%' valign='top' align='right' nowrap>&nbsp;&nbsp;";
 			$buffer	   .= "<a href='banner-htmlpreview.php?bannerID=$bannerID' target='_new' ";
 			$buffer	   .= "onClick=\"return openWindow('banner-htmlpreview.php?bannerID=$bannerID', '', 'status=no,scrollbars=no,resizable=no,width=$width,height=$height');\">";
-			$buffer    .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;Show banner</a>&nbsp;&nbsp;</td>";
+			$buffer    .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strShowBanner."</a>&nbsp;&nbsp;</td>";
 			$buffer	   .= "</tr></table>";
 		}
 		elseif($format == "url" || $format == "web")
@@ -363,7 +365,7 @@ function phpAds_buildBannerCode ($bannerID, $banner, $active, $format, $width, $
 			$buffer    .= "<td width='20%' valign='top' align='right' nowrap>&nbsp;&nbsp;";
 			$buffer	   .= "<a href='banner-htmlpreview.php?bannerID=$bannerID' target='_new' ";
 			$buffer	   .= "onClick=\"return openWindow('banner-htmlpreview.php?bannerID=$bannerID', '', 'status=no,scrollbars=no,resizable=no,width=$width,height=$height');\">";
-			$buffer    .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;Show banner</a>&nbsp;&nbsp;</td>";
+			$buffer    .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strShowBanner."</a>&nbsp;&nbsp;</td>";
 			$buffer	   .= "</tr></table>";
 		}
 		elseif($format == "url" || $format == "web")
