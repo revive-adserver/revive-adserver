@@ -204,12 +204,18 @@ function phpAds_buildQuery ($part, $numberofparts, $precondition)
 						else
 							$conditions .= "AND $phpAds_tbl_banners.keyword != '".trim($part_array[$k])."' ";
 					else
+					{
+					$mult_key_match = "($phpAds_tbl_banners.keyword LIKE '% $part_array[$k] %'".
+						" OR $phpAds_tbl_banners.keyword LIKE '$part_array[$k] %'".
+						" OR $phpAds_tbl_banners.keyword LIKE '% $part_array[$k]')";
+					
 						if ($operator == 'OR')
-							$conditions .= "OR $phpAds_tbl_banners.keyword LIKE '%".trim($part_array[$k])."%' ";
+							$conditions .= "OR $mult_key_match ";
 						elseif ($operator == 'AND')
-							$conditions .= "AND $phpAds_tbl_banners.keyword LIKE '%".trim($part_array[$k])."%' ";
+							$conditions .= "AND $mult_key_match ";
 						else
-							$conditions .= "AND $phpAds_tbl_banners.keyword NOT LIKE '%".trim($part_array[$k])."%' ";
+							$conditions .= "AND NOT $mult_key_match ";
+					}
 				}
 			}
 		}
