@@ -76,6 +76,12 @@ if (isset($HTTP_REFERER)) unset($HTTP_REFERER);
 // Get the banner
 $banner = view_raw ($what, $clientid, $target, $source, $withtext, $context);
 
+if (!is_array($banner))
+{
+	// No banner returned, set some default values and prevent resizing
+	$banner = array('html' => '', 'alt' => '');
+	unset($resize);
+}
 
 // Rewrite targets in HTML code to make sure they are 
 // local to the parent and not local to the iframe
