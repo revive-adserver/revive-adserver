@@ -478,16 +478,21 @@ function phpAds_fetchBanner($what, $clientID, $context=0, $source='', $allowhtml
 		$phpAds_zone_used = false;
 	}
 	
-	
-	
-	$date = getdate(time());
-	$request = array(
-		'remote_host'		=>	$REMOTE_ADDR,
-		'user_agent'		=>	$HTTP_USER_AGENT,
-		'accept-language'	=>	$HTTP_ACCEPT_LANGUAGE,
-		'weekday'			=>	$date['wday'],
-		'source'			=>	$source,
-		'time'				=>	$date['hours']);
+	// Include ACL code when needed
+	if ($phpAds_acl == '1')
+	{
+		// Include ACL code
+		require (phpAds_path."/lib-acl.inc.php");
+		
+		$date = getdate(time());
+		$request = array(
+			'remote_host'		=>	$REMOTE_ADDR,
+			'user_agent'		=>	$HTTP_USER_AGENT,
+			'accept-language'	=>	$HTTP_ACCEPT_LANGUAGE,
+			'weekday'			=>	$date['wday'],
+			'source'			=>	$source,
+			'time'				=>	$date['hours']);
+	}
 	
 	$maxindex = sizeof($rows);
 	
@@ -553,9 +558,6 @@ function phpAds_fetchBanner($what, $clientID, $context=0, $source='', $allowhtml
 				
 				if ($phpAds_acl == '1')
 				{
-					// Include ACL code
-					require (phpAds_path."/lib-acl.inc.php");
-					
 					if (phpAds_aclCheck($request, $rows[$i]))
 						// ACL check passed, found banner!
 						return ($rows[$i]);
