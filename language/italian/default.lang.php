@@ -208,7 +208,7 @@ $GLOBALS['strViewsPurchased']				= "Visualizzazioni rimaste";
 $GLOBALS['strClicksPurchased']				= "Click rimaste";
 $GLOBALS['strCampaignWeight']				= "Peso della campagna";
 $GLOBALS['strHighPriority']					= "Visualizza i banner in questa campagna con Priorit&agrave; Alta.<br>
-											   Usando questa opzione phpPgAds prova a distribuire
+											   Usando questa opzione ".$phpAds_productname." prova a distribuire
 											   il numero di Visualizzazioni Scelto durante il corso della giornata.";
 $GLOBALS['strLowPriority']					= "Visualizza i banner in questa campagna con Priorit&agrave; Bassa.<br>
 											   Usando questa opzione i banner sfrutteranno le visualizzazioni
