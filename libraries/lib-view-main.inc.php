@@ -191,7 +191,7 @@ function phpAds_prepareOutput($row, $target, $source, $withtext)
 		$outputbuffer .= "<script language='JavaScript' type='text/javascript'>\n";
 		$outputbuffer .= "<!--\n";
 		$outputbuffer .= "var phpads_activex = \"";
-		$outputbuffer .= str_replace('</', '<"+"/', addcslashes($row['htmlcache'], "\0..\37\"\\@\177..\377"));
+		$outputbuffer .= str_replace('</', '<"+"/', addcslashes($row['htmlcache'], "\0..\37\"\\"));
 		$outputbuffer .= "\";\n";
  		$outputbuffer .= "phpads_deliverActiveX(phpads_activex);\n";
  		$outputbuffer .= "//-->\n";
