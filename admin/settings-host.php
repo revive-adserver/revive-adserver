@@ -36,8 +36,18 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 	phpAds_SettingsWriteAdd('proxy_lookup', isset($proxy_lookup));
 	
 	if (isset($geotracking_type)) phpAds_SettingsWriteAdd('geotracking_type', $geotracking_type);
-	if (isset($geotracking_location)) phpAds_SettingsWriteAdd('geotracking_location', $geotracking_location);	
 	phpAds_SettingsWriteAdd('geotracking_cookie', isset($geotracking_cookie));
+	
+	
+	if (isset($geotracking_location))
+	{
+		if (file_exists($geotracking_location) || $geotracking_location == '')
+			phpAds_SettingsWriteAdd('geotracking_location', $geotracking_location);
+		else
+			$errormessage[1][] = $strGeotrackingLocationError;
+	}
+	
+	
 	
 	if (!count($errormessage))
 	{

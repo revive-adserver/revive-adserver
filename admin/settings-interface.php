@@ -33,10 +33,22 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 {
 	if (isset($name))
 		phpAds_SettingsWriteAdd('name', $name);
+	
 	if (isset($my_header))
-		phpAds_SettingsWriteAdd('my_header', $my_header);
+	{
+		if (file_exists($my_header) || $my_header == '')
+			phpAds_SettingsWriteAdd('my_header', $my_header);
+		else
+			$errormessage[0][] = $strMyHeaderError;
+	}
+	
 	if (isset($my_footer))
-		phpAds_SettingsWriteAdd('my_footer', $my_footer);
+	{
+		if (file_exists($my_footer) || $my_footer == '')
+			phpAds_SettingsWriteAdd('my_footer', $my_footer);
+		else
+			$errormessage[0][] = $strMyFooterError;
+	}
 	
 	phpAds_SettingsWriteAdd('content_gzip_compression', isset($content_gzip_compression));
 	

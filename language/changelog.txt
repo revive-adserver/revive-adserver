@@ -12,6 +12,13 @@
 
   ====================================================
 
+  01-05-2003 - settings
+    [+] strGeotrackingLocationError
+    [+] strMyHeaderError
+    [+] strMyFooterError
+    [u] strMyHeader
+    [u] strMyFooter  
+
   01-03-2003 - default
     [+] strConfirmResetCampaignStats
 

@@ -67,6 +67,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-12-17:  Added database server port number to the configuration, install and settings  (Matteo)
 			  - 2002-12-17:  Added blocking and capping when beacon logging was not enabled  (Niels)
 			  - 2003-01-03:  Removed the default database username and password from the configuration files  (Niels)
+			  - 2003-01-05:  Added error message when file locations are not submitted properly  (Niels)
 
 			+ Misc bugfixes
 			  - 2002-07-25:  On some systems history pages showed '-0' instead of simply '-' (Matteo)
@@ -184,6 +185,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2003-01-04:  HTML banners containing entities were malformed when opening and resaving  (Niels)
 			  - 2003-01-04:  Booleans weren't handled correctly when saving the configuration to file  (Niels)
 			  - 2003-01-04:  Hiding of inactive banners wasn't working correctly causing errors  (Niels)
+			  - 2003-01-05:  Submitted settings were not preserved when an errormessage was shown on one of the configuration pages  (Niels)
 
 
 

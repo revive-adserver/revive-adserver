@@ -210,6 +210,7 @@ $GLOBALS['strProxyLookup']				= "Try to determine the real IP address of the vis
 $GLOBALS['strGeotargeting']				= "Geotargeting";
 $GLOBALS['strGeotrackingType']			= "Type of geotargeting database";
 $GLOBALS['strGeotrackingLocation'] 		= "Geotargeting database location";
+$GLOBALS['strGeotrackingLocationError'] = "The geotargeting database does not exist in the location you specified";
 $GLOBALS['strGeoStoreCookie']			= "Store the result in a cookie for future reference";
 
 
@@ -284,8 +285,10 @@ $GLOBALS['strGuiSettings']			= "User Interface Configuration";
 
 $GLOBALS['strGeneralSettings']			= "General settings";
 $GLOBALS['strAppName']				= "Application Name";
-$GLOBALS['strMyHeader']				= "My Header";
-$GLOBALS['strMyFooter']				= "My Footer";
+$GLOBALS['strMyHeader']				= "Header file location";
+$GLOBALS['strMyHeaderError']		= "The header file does not exist in the location you specified";
+$GLOBALS['strMyFooter']				= "Footer file location";
+$GLOBALS['strMyFooterError']		= "The footer file does not exist in the location you specified";
 $GLOBALS['strGzipContentCompression']		= "Use GZIP content compression";
 
 $GLOBALS['strClientInterface']			= "Advertiser interface";
