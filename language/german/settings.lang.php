@@ -1,4 +1,4 @@
-<?php // $Revision: 1.16 $
+<?php // $Revision: 1.17 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -31,7 +31,7 @@ $GLOBALS['strCouldNotConnectToDB']		= "Es kann keine Verbindung zu Datenbank her
 $GLOBALS['strCreateTableTestFailed']	= "Der gewählte User hat keine Rechte eine Datenbankstruktur zu erstellen bzw. zu verändern. Bitte kontaktiere den Datenbankadministrator.";
 $GLOBALS['strUpdateTableTestFailed']	= "Der gewählte User hat keine Rechte eine Datenbankstruktur zu erstellen bzw. zu verändern. Bitte kontaktiere den Datenbankadministrator.";
 $GLOBALS['strTablePrefixInvalid']		= "Die Tabellennamensvorgabe enthält ungültige Zeichen";
-$GLOBALS['strTableInUse']				= "The database which you specified is already used for phpAdsNew, please use a different table prefix, or read the manual for upgrading instructions.";
+$GLOBALS['strTableInUse']				= "Die ausgewählte Datenbank ist bereits in Benutzung. Bitte wähle einen anderen Tabellennamen oder lies die Dokumentation bezüglich eines Updates.";
 $GLOBALS['strMayNotFunction']			= "Bevor fortgefahren werden kann, müssen die folgenden Probleme beseitigt werden:";
 $GLOBALS['strIgnoreWarnings']			= "Ignoriere Warnungen";
 $GLOBALS['strWarningPHPversion']		= "phpAdsNew benötigt mindestens PHP 3.0.8 oder neuer, um korrekt zu funktionieren. Aktuell genutzte Version {php_version}.";

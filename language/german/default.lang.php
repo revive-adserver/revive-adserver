@@ -1,4 +1,4 @@
-<?php // $Revision: 1.12 $
+<?php // $Revision: 1.13 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -303,7 +303,7 @@ $GLOBALS['strShowBanner'] = "Banner zeigen";
 
 $GLOBALS['strIncludedBanners'] = "Verlinkte Banner";
 $GLOBALS['strProbability'] = "Wahrscheinlichlkeit";
-$GLOBALS['strInvocationcode'] = "Invocation-Code";
+$GLOBALS['strInvocationcode'] = "Einbindungs-Code";
 $GLOBALS['strSelectZoneType'] = "Bitte wählen sie die Art der Verlinkung des Banners";
 $GLOBALS['strBannerSelection'] = "Bannerauswahl";
 $GLOBALS['strInteractive'] = "Interaktiv";
