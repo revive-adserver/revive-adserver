@@ -19,6 +19,8 @@ $phpAds_NavID	    = '';
 $phpAds_GUIDone     = false;
 $phpAds_showHelp    = false;
 $phpAds_helpDefault = '';
+$phpAds_context		= array();
+$phpAds_shortcuts	= array();
 
 
 /*********************************************************/
@@ -31,12 +33,12 @@ function phpAds_PageHeader($ID, $extra="")
 	global $phpAds_Message, $phpAds_GUIDone, $phpAds_NavID;
 	global $phpAds_nav, $pages;
 	global $phpAds_CharSet;
-	global $strLogout, $strNavigation;
+	global $strLogout, $strNavigation, $strShortcuts;
 	global $strAuthentification, $strSearch;
 	global $phpAds_showHelp;
 	global $phpAds_version_readable;
 	global $phpAds_TextDirection, $phpAds_TextAlignRight, $phpAds_TextAlignLeft;
-	
+	global $phpAds_context, $phpAds_shortcuts;
 	
 	$phpAds_GUIDone = true;
 	$phpAds_NavID   = $ID;
@@ -56,8 +58,9 @@ function phpAds_PageHeader($ID, $extra="")
 		$sections = explode(".", $ID);
 		$sectionID = "";
 		
-		$sidebar  = "<b>$strNavigation</b><br>";
-		$sidebar .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+		$sidebar  = "<table width='160' cellpadding='0' cellspacing='0' border='0'>";
+		$sidebar .= "<tr><td colspan='2' class='nav'><b>$strNavigation</b></td></tr>";
+		$sidebar .= "<tr><td colspan='2'><img src='images/break.gif' height='1' width='160' vspace='4'></td></tr>";
 		
 		for ($i=0; $i<count($sections)-1; $i++)
 		{
@@ -67,25 +70,23 @@ function phpAds_PageHeader($ID, $extra="")
 			
 			if ($i==0)
 			{
-				$sidebar .= "<img src='images/caret-t.gif' width='11' height='7'>&nbsp;";
-				$sidebar .= "<a href='$filename'>$title</a>";
-				$sidebar .= "<br>"; 
-				$sidebar .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+				$sidebar .= "<tr><td width='20' valign='top'><img src='images/caret-t.gif' width='11' height='7'>&nbsp;</td>";
+				$sidebar .= "<td width='140'><a href='$filename'>$title</a></td></tr>";
+				$sidebar .= "<tr><td colspan='2'><img src='images/break.gif' height='1' width='160' vspace='4'></td></tr>";
 			}
 			else
 			{
-				$sidebar .= "<img src='images/caret-u.gif' width='11' height='7'>&nbsp;";
-				$sidebar .= "<a href='$filename'>$title</a>";
-				$sidebar .= "<br>"; 
+				$sidebar .= "<tr><td width='20' valign='top'><img src='images/caret-u.gif' width='11' height='7'>&nbsp;</td>";
+				$sidebar .= "<td width='140'><a href='$filename'>$title</a></td></tr>";
 			}
 		}
 		
 		if (isset($pages["$ID"]) && is_array($pages["$ID"]))
 		{
 			list($filename, $title) = each($pages["$ID"]);
-			$sidebar .= "<img src='images/caret-u.gif' width='11' height='7'>&nbsp;";
-			$sidebar .= "$title<br>";
-			$sidebar .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+			$sidebar .= "<tr><td width='20'valign='top'><img src='images/caret-u.gif' width='11' height='7'>&nbsp;</td>";
+			$sidebar .= "<td width='140' class='nav'>$title</td></tr>";
+			$sidebar .= "<tr><td colspan='2'><img src='images/break.gif' height='1' width='160' vspace='4'></td></tr>";
 			
 			$pagetitle  = $phpAds_config['name'] != '' ? $phpAds_config['name'] : 'phpAdsNew';
 			$pagetitle .= ' - '.$title;
@@ -95,7 +96,51 @@ function phpAds_PageHeader($ID, $extra="")
 			$pagetitle = $phpAds_config['name'] != '' ? $phpAds_config['name'] : 'phpAdsNew';
 		}
 		
+		
+		// Build Context
+		if (count($phpAds_context))
+		{
+			$sidebar .= "<tr><td width='20'>&nbsp;</td><td width='140'>";
+			$sidebar .= "<table width='140' cellpadding='0' cellspacing='0' border='0'>";
+			
+			for ($ci=0; $ci < count($phpAds_context); $ci++)
+			{
+				if ($phpAds_context[$ci]['selected'])
+					$sidebar .= "<tr><td width='20' valign='top'><img src='images/box-1.gif'>&nbsp;</td>";
+				else
+					$sidebar .= "<tr><td width='20' valign='top'><img src='images/box-0.gif'>&nbsp;</td>";
+				
+				$sidebar .= "<td width='120'><a href='".$phpAds_context[$ci]['link']."'>".$phpAds_context[$ci]['name']."</a></td></tr>";
+			}
+			
+			$sidebar .= "</table></td></tr>";
+			$sidebar .= "<tr><td colspan='2'><img src='images/break.gif' height='1' width='160' vspace='4'></td></tr>";
+		}
+		
+		$sidebar .= "</table>";
+		
+		
+		// Include custom HTML for the sidebar
 		if ($extra != '') $sidebar .= $extra;
+		
+		
+		// Include shortcuts
+		if (count($phpAds_shortcuts))
+		{
+			$sidebar .= "<br><br><br>";
+			$sidebar .= "<table width='160' cellpadding='0' cellspacing='0' border='0'>";
+			$sidebar .= "<tr><td colspan='2' class='nav'><b>$strShortcuts</b></td></tr>";
+			
+			for ($si=0; $si<count($phpAds_shortcuts); $si++)
+			{
+				$sidebar .= "<tr><td colspan='2'><img src='images/break.gif' height='1' width='160' vspace='4'></td></tr>";
+				$sidebar .= "<tr><td width='20' valign='top'><img src='".$phpAds_shortcuts[$si]['icon']."' align='absmiddle'>&nbsp;</td>";
+				$sidebar .= "<td width='140'><a href='".$phpAds_shortcuts[$si]['link']."'>".$phpAds_shortcuts[$si]['name']."</a></td></tr>";
+			}
+			
+			$sidebar .= "<tr><td colspan='2'><img src='images/break.gif' height='1' width='160' vspace='4'></td></tr>";
+			$sidebar .= "</table>";
+		}
 		
 		
 		// Build Tabbar
@@ -544,5 +589,29 @@ function phpAds_PrepareHelp($default='')
 	$phpAds_helpDefault = $default;
 	$phpAds_showHelp = true;
 }
+
+
+function phpAds_PageContext ($name, $link, $selected)
+{
+	global $phpAds_context;
+	
+	$phpAds_context[] = array (
+		'name' => $name,
+		'link' => $link,
+		'selected' => $selected
+	);
+}
+
+function phpAds_PageShortcut ($name, $link, $icon)
+{
+	global $phpAds_shortcuts;
+	
+	$phpAds_shortcuts[] = array (
+		'name' => $name,
+		'link' => $link,
+		'icon' => $icon
+	);
+}
+
 
 ?>

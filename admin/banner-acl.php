@@ -155,8 +155,6 @@ elseif (isset($submit))
 /* HTML framework                                        */
 /*********************************************************/
 
-$extra = '';
-
 $res = phpAds_dbQuery("
 	SELECT
 		*
@@ -164,22 +162,24 @@ $res = phpAds_dbQuery("
 		".$phpAds_config['tbl_banners']."
 	WHERE
 		clientid = $campaignid
-") or phpAds_sqlDie();
+");
 
 while ($row = phpAds_dbFetchArray($res))
 {
-	if ($bannerid == $row['bannerid'])
-		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
-	else
-		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
-	$extra .= "<a href='banner-acl.php?campaignid=$campaignid&bannerid=".$row['bannerid']."'>";
-	$extra .= phpAds_buildBannerName ($row['bannerid'], $row['description'], $row['alt']);
-	$extra .= "</a>";
-	$extra .= "<br>"; 
+	phpAds_PageContext (
+		phpAds_buildBannerName ($row['bannerid'], $row['description'], $row['alt']),
+		"banner-acl.php?campaignid=".$campaignid."&bannerid=".$row['bannerid'],
+		$bannerid == $row['bannerid']
+	);
 }
-$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 
-$extra .= "<form action='banner-modify.php'>";
+phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.phpAds_getParentID($campaignid), 'images/icon-client.gif');
+phpAds_PageShortcut($strCampaignProperties, 'campaign-edit.php?campaignid='.$campaignid, 'images/icon-campaign.gif');
+phpAds_PageShortcut($strBannerHistory, 'stats-banner-history.php?campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-statistics.gif');
+
+
+
+$extra  = "<form action='banner-modify.php'>";
 $extra .= "<input type='hidden' name='bannerid' value='$bannerid'>";
 $extra .= "<input type='hidden' name='campaignid' value='$campaignid'>";
 $extra .= "<input type='hidden' name='returnurl' value='banner-acl.php'>";
@@ -214,15 +214,6 @@ $extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='b
 $extra .= "</form>";
 
 
-$extra .= "<br><br><br>";
-$extra .= "<b>$strShortcuts</b><br>";
-$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientid=".phpAds_getParentID ($campaignid).">$strClientProperties</a><br>";
-$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignid=$campaignid>$strCampaignProperties</a><br>";
-$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-banner-history.php?campaignid=$campaignid&bannerid=$bannerid>$strBannerHistory</a><br>";
-$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 
 phpAds_PageHeader("4.1.5.3", $extra);
 	echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);

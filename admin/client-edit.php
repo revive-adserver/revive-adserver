@@ -236,8 +236,6 @@ if ($clientid != "")
 {
 	if (phpAds_isUser(phpAds_Admin))
 	{
-		$extra = '';
-		
 		$res = phpAds_dbQuery("
 			SELECT
 				*
@@ -247,20 +245,16 @@ if ($clientid != "")
 				parent = 0  
 			") or phpAds_sqlDie();
 		
-		$extra = "";
 		while ($row = phpAds_dbFetchArray($res))
 		{
-			if ($clientid == $row['clientid'])
-				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
-			else
-				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
-			
-			$extra .= "<a href=client-edit.php?clientid=". $row['clientid'].">".phpAds_buildClientName ($row['clientid'], $row['clientname'])."</a>";
-			$extra .= "<br>"; 
+			phpAds_PageContext (
+				phpAds_buildClientName ($row['clientid'], $row['clientname']),
+				"client-edit.php?clientid=".$row['clientid'],
+				$clientid == $row['clientid']
+			);
 		}
-		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		
-		phpAds_PageHeader("4.1.2", $extra);
+		phpAds_PageHeader("4.1.2");
 			echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br><br><br>";
 			phpAds_ShowSections(array("4.1.2"));
 	}
