@@ -588,7 +588,7 @@ echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 if (isset($row['active']) && $row['active'] == 'f') 
 {
 	echo "<tr><td width='30' valign='top'><img src='images/info.gif'></td>";
-	echo "<td colspan='2'>".$strClientDeactivated;
+	echo "<td colspan='2'><b>".$strClientDeactivated;
 	
 	$expire_ts = mktime(0, 0, 0, $row["expire_month"], $row["expire_dayofmonth"], $row["expire_year"]);
 	
@@ -600,7 +600,7 @@ if (isset($row['active']) && $row['active'] == 'f')
 	if (time() > $expire_ts && $expire_ts > 0) $inactivebecause[] =  $strAfterExpire;
 	if ($row['target'] == 0  && $row['weight'] == 0) $inactivebecause[] =  $strWeightIsNull;
 	
-	echo " ".join(', ', $inactivebecause).".<br><br>";
+	echo " ".join(', ', $inactivebecause).".</b><br><br>";
 	echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 }
