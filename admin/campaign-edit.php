@@ -163,8 +163,17 @@ if (isset($submit))
 	// Auto-target campaign if adviews purchased and expiration set
 	if ($active == 't' && $expire != '0000-00-00' && $views > 0)
 	{
-		$targetviews = ceil($views/(((mktime(0, 0, 0, $expireMonth, $expireDay, $expireYear) -
-					mktime(0, 0, 0, date('m'), date('d'), date('Y'))) / (double)(60*60*24))));
+		include (phpAds_path.'/libraries/lib-autotargeting.inc.php');
+		
+		$targetviews = phpAds_AutoTargetingGetTarget(
+			phpAds_AutoTargetingPrepareProfile(),
+			$views,
+			mktime(0, 0, 0, $expireMonth, $expireDay, $expireYear),
+			isset($phpAds_config['autotarget_factor']) ? $phpAds_config['autotarget_factor'] : -1
+		);
+		
+		if (is_array($targetviews))
+			list($targetviews, ) = $targetviews;
 		
 		phpAds_dbQuery("
 			UPDATE ".$phpAds_config['tbl_clients']."
