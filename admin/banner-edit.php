@@ -1410,7 +1410,7 @@ if ($storagetype == 'html')
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td colspan='2'><textarea class='code' cols='45' rows='10' name='banner' wrap='off' dir='ltr' style='width:550px;";
-	echo "' tabindex='".($tabindex++)."'>".$row['htmltemplate']."</textarea></td></tr>";
+	echo "' tabindex='".($tabindex++)."'>".htmlentities($row['htmltemplate'])."</textarea></td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td colspan='2'><input type='checkbox' name='autohtml' value='t'".(!isset($row["autohtml"]) || $row["autohtml"] == 't' ? ' checked' : '')." tabindex='".($tabindex++)."'> ".$strAutoChangeHTML."</td></tr>";
 	
