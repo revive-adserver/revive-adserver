@@ -65,8 +65,8 @@ Italian
 	---------------------------------------------------------
 	Maintained by:	   Matteo Beccati (matteo@beccati.com)
 	Is up-to-date?	   Yes
-	Last update:	   28 November 2002
-	Translated files:  7
+	Last update:	   03 December 2002
+	Translated files:  7 + 3 resource files
 	---------------------------------------------------------
 
 
