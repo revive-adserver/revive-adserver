@@ -581,7 +581,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		echo "<td width='560' colspan='2'>";
 		echo "<br><br><img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strBannercode'].":</b><br><br>";
 		
-		echo "<textarea class='flat' rows='8' cols='55' style='width:560px;'>".htmlspecialchars(phpAds_GenerateInvocationCode($zoneid))."</textarea>";
+		echo "<textarea class='flat' rows='8' cols='55' style='width:560px;'>".htmlspecialchars(phpAds_GenerateInvocationCode())."</textarea>";
 		echo "</td></tr>";
 	
 		$generated = true;
