@@ -67,7 +67,7 @@ function Plugin_ZonehistoryExecute($zoneid, $delimiter=",", $quotes="")
 		$res_query = "
 			SELECT
 				DATE_FORMAT(day, '%Y%m%d') as date,
-				DATE_FORMAT(day, '$date_format') as date_formatted
+				DATE_FORMAT(day, '$date_format') as date_formatted,
 				SUM(views) AS adviews,
 				SUM(clicks) AS adclicks
 			FROM

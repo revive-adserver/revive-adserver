@@ -1,6 +1,13 @@
 phpAdsNew - ChangeLog
 
 
+CVS
+			+ Misc bugfixes
+			  - 2005-01-27:  Content-disposition header was wrong in generated reports, resulting in a mangled filename - bug #1067963  (Matteo)
+			  - 2005-01-29:  There was an error in the queries used when generating reports with compact stats enabled  (Matteo)
+
+
+
 phpAdsNew 2.0.2
 			+ Misc changes
 			  - 2003-10-20:  Added post-Eolas ActiveX handling for Flash, QuickTime, Real and Shockwave banners... JS REQUIRED NOW!  (Niels)
