@@ -46,6 +46,9 @@ if (isset($affiliateid) && $affiliateid != '')
 		") or phpAds_sqlDie();
 }
 
+if (!isset($returnurl) && $returnurl == '')
+	$returnurl = 'affiliate-index.php';
+
 Header("Location: ".$returnurl);
 
 ?>

@@ -118,6 +118,10 @@ if ($phpAds_config['zone_cache'])
 // Rebuild priorities
 phpAds_PriorityCalculate ();
 
+
+if (!isset($returnurl) && $returnurl == '')
+	$returnurl = 'client-campaigns.php';
+
 header ("Location: ".$returnurl."?clientid=".$clientid);
 
 ?>

@@ -100,6 +100,10 @@ if ($phpAds_config['zone_cache'])
 // Rebuild priorities
 phpAds_PriorityCalculate ();
 
+
+if (!isset($returnurl) && $returnurl == '')
+	$returnurl = 'campaign-index.php';
+
 Header("Location: ".$returnurl."?clientid=".$clientid."&campaignid=".$campaignid);
 
 ?>

@@ -62,6 +62,9 @@ if (isset($zoneid) && $zoneid != '')
 		") or phpAds_sqlDie();
 }
 
+if (!isset($returnurl) && $returnurl == '')
+	$returnurl = 'zone-index.php';
+
 Header("Location: ".$returnurl."?affiliateid=$affiliateid");
 
 ?>
