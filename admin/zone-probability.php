@@ -152,7 +152,18 @@ function phpAds_showZoneBanners ($zoneid)
 	else
 		$what = '';
 	
-	$select = phpAds_buildQuery ($what, 1, '');
+	
+	$precondition = '';
+	
+	// Size preconditions
+	if ($zone['width'] > -1)
+		$precondition .= " AND ".$phpAds_config['tbl_banners'].".width = ".$zone['width']." ";
+	
+	if ($zone['height'] > -1)
+		$precondition .= " AND ".$phpAds_config['tbl_banners'].".height = ".$zone['height']." ";
+	
+	
+	$select = phpAds_buildQuery ($what, 1, $precondition);
 	$res    = phpAds_dbQuery($select);
 	
 	$rows = array();
@@ -182,21 +193,19 @@ function phpAds_showZoneBanners ($zoneid)
 		// Header
 		echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
 		echo "<tr height='25'>";
-		echo "<td height='25'><b>&nbsp;&nbsp;".$strName."</b></td>";
+		echo "<td height='25' width='40%'><b>&nbsp;&nbsp;".$strName."</b></td>";
 		echo "<td height='25'><b>".$strID."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>";
-		echo "<td height='25'><b>".$strCampaignWeight."</b></td>";
-		echo "<td height='25'><b>".$strBannerWeight."</b></td>";
 		echo "<td height='25'><b>".$strProbability."</b></td>";
 		echo "</tr>";
 		
-		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+		echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 		
 		// Banners
 		for (reset($rows);$key=key($rows);next($rows))
 		{
 			$name = phpAds_getBannerName ($rows[$key]['bannerid'], 60, false);
 			
-			if ($i > 0) echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
+			if ($i > 0) echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
 			
 	    	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 			
@@ -216,8 +225,6 @@ function phpAds_showZoneBanners ($zoneid)
 			echo "</td>";
 			
 			echo "<td height='25'>".$rows[$key]['bannerid']."</td>";
-			echo "<td height='25'>".$rows[$key]['clientweight']."</td>";
-			echo "<td height='25'>".$rows[$key]['weight']."</td>";
 			echo "<td height='25'>".number_format($rows[$key]['priority'] / $prioritysum * 100, $phpAds_config['percentage_decimals'])."%</td>";
 			
 			echo "</tr>";
@@ -225,7 +232,7 @@ function phpAds_showZoneBanners ($zoneid)
 		}
 		
 		// Footer
-		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+		echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 		echo "</table>";
 	}
 }
