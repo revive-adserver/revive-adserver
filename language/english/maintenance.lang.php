@@ -69,4 +69,9 @@ $GLOBALS['strStatisticsExplaination']		= "
 	Do you want to convert your verbose statistics to the new compact format?
 ";
 
+
+// Product Updates
+$GLOBALS['strSearchingUpdates']				= "Searching for newer versions of phpAdsNew.<br>Please wait...";
+
+
 ?>

@@ -15,7 +15,7 @@
 
 
 // Current phpAds version
-$phpAds_version = 200.086;
+$phpAds_version = 200.087;
 $phpAds_version_readable = "2 dev 28032002";
 
 $GLOBALS['phpAds_settings_information'] = array(
@@ -101,6 +101,8 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'gui_show_banner_preview' =>	array ('type' => 'boolean', 'sql' => true),
 	'gui_show_banner_html' =>		array ('type' => 'boolean', 'sql' => true),
 	'qmail_patch' =>				array ('type' => 'boolean', 'sql' => true),
+	'updates_frequency' =>			array ('type' => 'integer', 'sql' => true),
+	'updates_last_seen' =>			array ('type' => 'string', 'sql' => true),
 	'config_version' =>				array ('type' => 'string', 'sql' => true)
 );
 

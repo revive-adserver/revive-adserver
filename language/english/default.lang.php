@@ -454,4 +454,8 @@ $GLOBALS['strGeneralSettings']				= "General settings";
 $GLOBALS['strMainSettings']					= "Main settings";
 $GLOBALS['strAdminSettings']				= "Administration settings";
 
+
+// Product Updates
+$GLOBALS['strProductUpdates']				= "Product Updates";
+
 ?>
