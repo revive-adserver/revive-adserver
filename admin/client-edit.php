@@ -87,7 +87,7 @@ if (isset($submit))
 									clientID != '$clientID'
 								") or mysql_die(); 
 				
-				if (@mysql_num_rows($res) > 0)
+				if (@mysql_num_rows($res) > 0 || $phpAds_admin == $clientusername)
 				{
 					$error = true;
 					$errormessage = 'duplicateclientname';

@@ -110,6 +110,8 @@ CVS			+ Added search capabilities  (Niels and Tobi Schulz)
 			  - Fixed error message on client stats when no banners are available  (Niels)
 			  - Removed PHP_SELF variables, which caused problems with CGI PHP  (Niels)		
 			  - Fixed some errors in the documentation  (Niels) 20011009
+			  - Edit Client now also takes the admin into account when 
+                            checking for duplicate login name  (Niels) 20011012
   
 			+ Security fixes
 			  - Fixed login exploit where users could login without authentification  (Niels)
