@@ -156,7 +156,7 @@ if (isset($submit))
 	
 	
 	// Auto-target campaign if adviews purchased and expiration set
-	if ($active = 't' && $expire != '0000-00-00' && $views > 0)
+	if ($active == 't' && $expire != '0000-00-00' && $views > 0)
 	{
 		phpAds_dbQuery("
 			UPDATE ".$phpAds_config['tbl_clients']."
@@ -385,6 +385,10 @@ if (!isset($row['clicks']) || (isset($row['clicks']) && $row['clicks'] == ""))
 if ($days_left == "")
 	$days_left = -1;
 
+if ($row['active'] == 't' && $row['expire'] != '0000-00-00' && $row['views'] > 0)
+	$autotarget = true;
+else
+	$autotarget = false;
 
 
 function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
@@ -540,18 +544,18 @@ echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspac
 echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$strPriority."</td><td><table>";
 
 echo "<tr><td valign='top'>";
-echo "<input type='radio' name='priority' value='-'>";
+echo "<input type='radio' name='priority' value='-'".($autotarget ? ' checked' : '').">";
 echo "</td><td valign='top'>".$strPriorityAutoTargeting."<br><br></td></tr>";
 
 echo "<tr><td valign='top'>";
-echo "<input type='radio' name='priority' value='t'".($priority != 'f' ? ' checked' : '')." onClick='phpAds_formPriorityClick(this.form, true)'>";
+echo "<input type='radio' name='priority' value='t'".($priority != 'f' && !$autotarget ? ' checked' : '')." onClick='phpAds_formPriorityClick(this.form, true)'>";
 echo "</td><td valign='top'>".$strHighPriority."<br><img src='images/break-l.gif' height='1' width='100%' vspace='6'><br>";
 echo $strTargetLimitAdviews." ";
 echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='targetviews' size='7' value='".(isset($row["target"]) ? $row["target"] : '-')."'> ";
 echo $strTargetPerDay."<br><br></td></tr>";
 
 echo "<tr><td valign='top'>";
-echo "<input type='radio' name='priority' value='f'".($priority == 'f' ? ' checked' : '')." onClick='phpAds_formPriorityClick(this.form, true)'>";
+echo "<input type='radio' name='priority' value='f'".($priority == 'f' && !$autotarget ? ' checked' : '')." onClick='phpAds_formPriorityClick(this.form, true)'>";
 echo "</td><td valign='top'>".$strLowPriority."<br><img src='images/break-l.gif' height='1' width='100%' vspace='6'><br>";
 echo $strCampaignWeight.": ";
 echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='weight' size='7' value='".(isset($row["weight"]) ? $row["weight"] : $phpAds_config['default_campaign_weight'])."'>";
@@ -728,15 +732,14 @@ while ($row = phpAds_dbFetchArray($res))
 			f.unlimitedviews.checked == true)
 		{
 			// Autotarget == false
-			f.priority[0].disabled = true;
-			f.priority[1].disabled = false;
-			f.priority[2].disabled = false;
-			
-			// Set to previous priority
 			if (previous_priority == 1)
 				f.priority[1].checked  = true;
 			else
 				f.priority[2].checked  = true;
+			
+			f.priority[0].disabled = true;
+			f.priority[1].disabled = false;
+			f.priority[2].disabled = false;
 			
 			phpAds_formPriorityClick (f, false);
 		}
@@ -757,10 +760,10 @@ while ($row = phpAds_dbFetchArray($res))
 			f.weight.disabled 	   = true;
 			
 			f.priority[0].disabled = false;
+			f.priority[0].checked  = true;
+			
 			f.priority[1].disabled = true;
 			f.priority[2].disabled = true;
-			
-			f.priority[0].checked  = true;
 		}
 	}
 	
