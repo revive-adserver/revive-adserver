@@ -297,6 +297,8 @@ function phpAds_dropTable ($name)
 function phpAds_getTableTypes ()
 {
 	// Assume MySQL always supports MyISAM table types
+	
+	/* 
 	$types['MYISAM'] = 'MyISAM';
 	
 	$res = phpAds_dbQuery("SHOW VARIABLES");
@@ -311,6 +313,12 @@ function phpAds_getTableTypes ()
 		if ($row[0] == 'have_innodb' && $row[1] == 'YES')
 			$types['INNODB'] = 'InnoDB';
 	}
+	*/
+	
+	$types['MYISAM'] = 'MyISAM';
+	$types['BDB'] = 'Berkeley DB';
+	$types['GEMINI'] = 'NuSphere Gemini';
+	$types['INNODB'] = 'InnoDB';
 	
 	return $types;
 }
@@ -323,6 +331,7 @@ function phpAds_getTableTypes ()
 
 function phpAds_getTableTypeDefault ()
 {
+	/*
 	$res = phpAds_dbQuery("SHOW VARIABLES");
 	while ($row = phpAds_dbFetchRow($res))
 	{
@@ -331,6 +340,9 @@ function phpAds_getTableTypeDefault ()
 	}
 	
 	return false;
+	*/
+	
+	return 'MYISAM';
 }
 
 
