@@ -16,7 +16,7 @@
 
 // Figure out our location
 if (strlen(__FILE__) > strlen(basename(__FILE__)))
-    define ('phpAds_path', substr(__FILE__, 0, (strlen(__FILE__) - strpos(strrev(__FILE__), strrev('admin')) - strlen('admin') - 1)));
+    define ('phpAds_path', ereg_replace("[/\\\\]admin[/\\\\][^/\\\\]+$", '', __FILE__));
 else
     define ('phpAds_path', '..');
 
