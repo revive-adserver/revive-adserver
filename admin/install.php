@@ -407,38 +407,72 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	if ($phase)
 		phpAds_PrepareHelp();
+	
 	phpAds_PageHeader($header);
 	phpAds_ShowSections($sections);
 	
-?>
-<form name="installform" method="post" action="install.php">
-<?php
+	echo "<form name='installform' method='post' action='install.php'>";
+	
+	// Store fatal errors
+	$fatal = array();
+	
 	if ($phase)
 	{
-?>
-<table border='0' width='100%' cellpadding='0' cellspacing='0'><tr><td height='35' align="right"><b><a href="javascript:toggleHelp();"><img src="images/help-book.gif" width="15" height="15" border="0" align="absmiddle">&nbsp;Help</a></b></td></tr></table>
-<?php
+ 		echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'><tr><td height='35' align='right'>";
+		echo "<b><a href='javascript:toggleHelp();'><img src='images/help-book.gif' width='15' height='15' border='0' align='absmiddle'>&nbsp;Help</a></b>";
+		echo "</td></tr></table>";
 		phpAds_FlushSettings();
 	}
 	else
 	{
-		$text = $strInstallMessage;
+		// Determine the PHP version
+		$phpversion = ereg_replace ("([^0-9])", "", phpversion());
+		$phpversion = $phpversion / pow (10, strlen($phpversion) - 1);
+		
+		
+		// Check PHP version
+		if ($phpversion < 3.08)
+			$fatal[] = str_replace ('{php_version}', phpversion(), $strWarningPHPversion);
+		
+		// Config variables can only be check with php 4
+		if ($phpversion > 4.0)
+		{
+			// Check register_globals
+			if (ini_get ('register_globals') != true)
+				$fatal[] = $strWarningRegisterGlobals;
+			
+			// Check magic_quote_gpc
+			if (ini_get ('magic_quotes_gpc') != true)
+				$fatal[] = $strWarningMagicQuotesGPC;
+			
+			// Check magic_quotes_runtime
+			if (ini_get ('magic_quotes_runtime') != false)
+				$fatal[] = $strWarningMagicQuotesRuntime;
+		}
+		
+		// Check if config file is writable
 		if (!phpAds_isConfigWritable())
-		{	
+			$fatal[] ='<br><br>'.$strConfigLockedDetected;
+		
+		if (count($fatal))
+		{
 			$title = $strWarning;
-			$text .= '<br><br>'.$strConfigLockedDetected;
+			$text  = $strMayNotFunction.implode ("<br><br>", $fatal);
 		}
 		else
+		{
 			$title = $strInstall;
-			
+			$text  = $strInstallMessage;
+		}
+		
+		
 		phpAds_InstallMessage($title, $text);
 		echo '<br><br>';
 	}
-?>
-<input type="hidden" name="phase" value="<?php echo $phase;?>">
-<input type="submit" name="proceed" value="<?php echo $strProceed;?>">
-</form>
-<?php
+	
+	echo "<input type='hidden' name='phase' value='".$phase."'>";
+	echo "<input type='submit' name='proceed' value='".(count($fatal) ? $strIgnoreWarnings : $strProceed)."'>";
+	echo "</form>";
 }
 
 echo "<br><br>";

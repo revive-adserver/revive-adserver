@@ -31,6 +31,13 @@ $GLOBALS['strCreateTableTestFailed']	= "The user you specified doesn't have perm
 $GLOBALS['strUpdateTableTestFailed']	= "The user you specified doesn't have permission to update the database structure, please contact the database administrator.";
 $GLOBALS['strTablePrefixInvalid']		= "Table prefix contains invalid characters";
 
+$GLOBALS['strMayNotFunction']			= "<b>phpAdsNew may not function correctly on your system, <br>because some configuration problem were detected:</b><br><br>";
+$GLOBALS['strIgnoreWarnings']			= "Ignore warnings";
+$GLOBALS['strWarningPHPversion']		= "phpAdsNew requires PHP 3.0.8 or higher to function correctly. <br>You are currently using PHP {php_version}.";
+$GLOBALS['strWarningRegisterGlobals']	= "The PHP configuration variable register_globals needs to be turned on.";
+$GLOBALS['strWarningMagicQuotesGPC']	= "The PHP configuration variable magic_quote_gpc needs to be turned on.";
+$GLOBALS['strWarningMagicQuotesRuntime']= "The PHP configuration variable magic_quotes_runtime needs to be turned off.";
+
 $GLOBALS['strInstallMessage']			= "You are about to install phpAdsNew on your system. Click <b>Proceed</b> to start.";
 $GLOBALS['strConfigLockedDetected']		= "phpAdsNew has detected that your <b>config.inc.php</b> file is not writeable by the server.<br> You can't proceed until you change permissions on the file. <br>Read the supplied documentation if you don't know how to do that.";
 $GLOBALS['strCantUpdateDB']  			= "It is currently not possible to update the database. If you decide to proceed, all existing banners, statistics and clients will be deleted.";
