@@ -50,7 +50,8 @@ function phpAds_sendMail ($email, $readable, $subject, $contents)
 		$param_headers = str_replace("\r", '', $param_headers);
 	
 	// Add \r to linebreaks in the contents for MS Exchange compatibility
-	$contents = str_replace("\n", "\r\n", $contents);
+	if (!$phpAds_config['qmail_patch'])
+		$contents = str_replace("\n", "\r\n", $contents);
 	
 	return (@mail ($param_to, $subject, $contents, $param_headers));
 }

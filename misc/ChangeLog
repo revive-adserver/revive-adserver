@@ -31,6 +31,7 @@ CVS
 			  - 2003-05-14:  Reports are no longer send when all the advertisers campaigns are deactivated and no new statistics are available  (Niels)
 			  - 2003-05-20:  The global 'Alter HTML...' setting didn't have any effect on newly created HTML banners  (Niels)
 			  - 2003-05-23:  Javascript validation of zone witdth and height in zone-edit didn't work on Mozilla  (Matteo)
+			  - 2003-05-24:  When using qmail as MTA reports were displayed incorrectly (no newlines) on some mail clients  (Matteo)
 
 
 v 2.0rc3		+ Added a cron replacement for users who don't have access to the cron utility for scheduling the maintenance script  (Niels, 2003-01-14)
