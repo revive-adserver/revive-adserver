@@ -177,7 +177,7 @@ function phpAds_Login()
 				") or mysql_die();
 				
 			
-			if (mysql_num_rows($res) > 0)
+			if (mysql_num_rows($res) > 0 && $phpAds_username != "" && $phpAds_password != "")
 			{
 				// User found with correct password
 				$row = mysql_fetch_array($res);
@@ -242,8 +242,7 @@ function phpAds_isAdmin($username, $password)
 
 function phpAds_LoginScreen($message='')
 {
-	phpAds_PageHeader($GLOBALS["strAuthentification"]);
-	phpAds_ShowNav("");
+	phpAds_PageHeader("");
 	if ($message != "") echo "<b>$message</b><br>";
 	?>
 	<form method="post" action="<?echo basename($GLOBALS["PHP_SELF"]); echo $GLOBALS["QUERY_STRING"] != "" ? "?".$GLOBALS["QUERY_STRING"] : "" ;?>" enctype="multipart/form-data">
