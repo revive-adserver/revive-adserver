@@ -35,14 +35,6 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		phpAds_SettingsWriteAdd('default_banner_weight', $default_banner_weight);
 	if (isset($default_campaign_weight))
 		phpAds_SettingsWriteAdd('default_campaign_weight', $default_campaign_weight);
-	if (isset($type_sql_allow))
-		phpAds_SettingsWriteAdd('type_sql_allow', $type_sql_allow);
-	if (isset($type_web_allow))
-		phpAds_SettingsWriteAdd('type_web_allow', $type_web_allow);
-	if (isset($type_url_allow))
-		phpAds_SettingsWriteAdd('type_url_allow', $type_url_allow);
-	if (isset($type_html_allow))
-		phpAds_SettingsWriteAdd('type_html_allow', $type_html_allow);
 	
 	if (!count($errormessage))
 	{
@@ -89,12 +81,6 @@ phpAds_AddSettings('text', 'default_campaign_weight',
 	array($strDefaultCampaignWeight, 12));
 phpAds_AddSettings('end_section', '');
 
-phpAds_AddSettings('start_section', "2.3.3");
-phpAds_AddSettings('checkbox', 'type_sql_allow', $strTypeSqlAllow);
-phpAds_AddSettings('checkbox', 'type_web_allow', $strTypeWebAllow);
-phpAds_AddSettings('checkbox', 'type_url_allow', $strTypeUrlAllow);
-phpAds_AddSettings('checkbox', 'type_html_allow', $strTypeHtmlAllow);
-phpAds_AddSettings('end_section', '');
 phpAds_EndSettings();
 
 

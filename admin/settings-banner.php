@@ -27,10 +27,20 @@ $sql = array();
 
 if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 {
-	if (isset($type_html_auto))
-		phpAds_SettingsWriteAdd('type_html_auto', $type_html_auto);
-	if (isset($type_html_php))
-		phpAds_SettingsWriteAdd('type_html_php', $type_html_php);
+	if (isset($default_banner_url))
+		phpAds_SettingsWriteAdd('default_banner_url', $default_banner_url);
+	if (isset($default_banner_target))
+		phpAds_SettingsWriteAdd('default_banner_target', $default_banner_target);
+	
+	if (isset($type_sql_allow))
+		phpAds_SettingsWriteAdd('type_sql_allow', $type_sql_allow);
+	if (isset($type_web_allow))
+		phpAds_SettingsWriteAdd('type_web_allow', $type_web_allow);
+	if (isset($type_url_allow))
+		phpAds_SettingsWriteAdd('type_url_allow', $type_url_allow);
+	if (isset($type_html_allow))
+		phpAds_SettingsWriteAdd('type_html_allow', $type_html_allow);
+	
 	if (isset($type_web_mode))
 		phpAds_SettingsWriteAdd('type_web_mode', $type_web_mode);
 	if (isset($type_web_url))
@@ -73,10 +83,10 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		$errormessage[2][] = "FTP configuration wrong";
 */	
 	
-	if (isset($default_banner_url))
-		phpAds_SettingsWriteAdd('default_banner_url', $default_banner_url);
-	if (isset($default_banner_target))
-		phpAds_SettingsWriteAdd('default_banner_target', $default_banner_target);
+	if (isset($type_html_auto))
+		phpAds_SettingsWriteAdd('type_html_auto', $type_html_auto);
+	if (isset($type_html_php))
+		phpAds_SettingsWriteAdd('type_html_php', $type_html_php);
 	
 	if (!count($errormessage))
 	{
@@ -118,38 +128,48 @@ if (!empty($phpAds_config['type_web_ftp']))
 }
 
 phpAds_StartSettings();
+
 phpAds_AddSettings('start_section', "1.3.1");
-phpAds_AddSettings('checkbox', 'type_html_auto', $strTypeHtmlAuto);
-phpAds_AddSettings('checkbox', 'type_html_php', $strTypeHtmlPhp);
-phpAds_AddSettings('end_section', '');
-
-phpAds_AddSettings('start_section', "1.3.2");
-phpAds_AddSettings('select', 'type_web_mode',
-	array($strTypeWebMode, array($strTypeWebModeLocal, $strTypeWebModeFtp)));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'type_web_url',
-	array($strTypeWebUrl, 35, 'text'));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'type_web_dir',
-	array($strTypeWebDir, 35, 'text'));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'type_web_ftp_host', "FTP server");
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'type_web_ftp_path', "FTP directory");
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'type_web_ftp_user', "FTP username");
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'type_web_ftp_password',
-	array("FTP password", 25, 'password'));
-phpAds_AddSettings('end_section', '');
-
-phpAds_AddSettings('start_section', "1.3.3");
 phpAds_AddSettings('text', 'default_banner_url',
 	array($strDefaultBannerUrl, 35, 'text'));
 phpAds_AddSettings('break', '');
 phpAds_AddSettings('text', 'default_banner_target', $strDefaultBannerTarget);
 phpAds_AddSettings('end_section', '');
+
+phpAds_AddSettings('start_section', "1.3.2");
+phpAds_AddSettings('checkbox', 'type_sql_allow', $strTypeSqlAllow);
+phpAds_AddSettings('checkbox', 'type_web_allow', $strTypeWebAllow);
+phpAds_AddSettings('checkbox', 'type_url_allow', $strTypeUrlAllow);
+phpAds_AddSettings('checkbox', 'type_html_allow', $strTypeHtmlAllow);
+phpAds_AddSettings('end_section', '');
+
+phpAds_AddSettings('start_section', "1.3.3");
+phpAds_AddSettings('select', 'type_web_mode',
+	array($strTypeWebMode, array($strTypeWebModeLocal, $strTypeWebModeFtp)));
+phpAds_AddSettings('break', '');
+phpAds_AddSettings('text', 'type_web_url',
+	array($strTypeWebUrl, 35, 'text'));
+phpAds_AddSettings('break', 'full');
+phpAds_AddSettings('text', 'type_web_dir',
+	array($strTypeWebDir, 35, 'text'));
+phpAds_AddSettings('break', 'full');
+phpAds_AddSettings('text', 'type_web_ftp_host', $strTypeFTPHost);
+phpAds_AddSettings('break', '');
+phpAds_AddSettings('text', 'type_web_ftp_path', $strTypeFTPDirectory);
+phpAds_AddSettings('break', '');
+phpAds_AddSettings('text', 'type_web_ftp_user', $strTypeFTPUsername);
+phpAds_AddSettings('break', '');
+phpAds_AddSettings('text', 'type_web_ftp_password',
+	array($strTypeFTPPassword, 25, 'password'));
+phpAds_AddSettings('end_section', '');
+
+phpAds_AddSettings('start_section', "1.3.4");
+phpAds_AddSettings('checkbox', 'type_html_auto', $strTypeHtmlAuto);
+phpAds_AddSettings('checkbox', 'type_html_php', $strTypeHtmlPhp);
+phpAds_AddSettings('end_section', '');
+
 phpAds_EndSettings();
+
 
 
 

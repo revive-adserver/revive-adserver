@@ -134,9 +134,6 @@ phpAds_AddSettings('start_section', "2.1.3");
 phpAds_AddSettings('select', 'language',
 	array($strLanguage, phpAds_AvailableLanguages()));
 phpAds_AddSettings('break', '');
-//phpAds_AddSettings('select', 'pg_timezone',
-//	array($strTimeZone, phpAds_AvailableTZ()));
-//phpAds_AddSettings('break', '');
 phpAds_AddSettings('checkbox', 'admin_novice', $strAdminNovice);
 phpAds_AddSettings('break', '');
 phpAds_AddSettings('checkbox', 'userlog_email', $strUserlogEmail);

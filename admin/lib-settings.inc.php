@@ -48,9 +48,10 @@ $phpAds_settings_sections = array(
 	"1.2.2"		=> $strZonesSettings,
 	"1.2.3"		=> $strP3PSettings,
 	"1.3"		=> $strBannerSettings,
-	"1.3.1"		=> $strTypeHtmlSettings,
-	"1.3.2"		=> $strTypeWebSettings,
-	"1.3.3"		=> $strDefaultBanners,
+	"1.3.1"		=> $strDefaultBanners,
+	"1.3.2"		=> $strAllowedBannerTypes,
+	"1.3.3"		=> $strTypeWebSettings,
+	"1.3.4"		=> $strTypeHtmlSettings,
 	"1.4"		=> $strStatisticsSettings,
 	"1.4.1"		=> $strStatisticsFormat,
 	"1.4.2"		=> $strEmailWarnings,
@@ -65,8 +66,7 @@ $phpAds_settings_sections = array(
 	"2.2.2"		=> $strClientInterface,
 	"2.3"		=> $strInterfaceDefaults,
 	"2.3.1"		=> $strStatisticsDefaults,
-	"2.3.2"		=> $strWeightDefaults,
-	"2.3.3"		=> $strAllowedBannerTypes
+	"2.3.2"		=> $strWeightDefaults
 );
 
 $phpAds_settings_cache = array();
@@ -97,9 +97,9 @@ function settings_goto_section()
 // -->
 </script>
 
-<form name='settings_selection'>
   <table border='0' width='100%' cellpadding='0' cellspacing='0'>
     <tr> 
+  	  <form name='settings_selection'>
       <td height='35'><b>
         <?php echo $GLOBALS['strChooseSection'];?>
         :&nbsp;</b> 
@@ -116,11 +116,12 @@ function settings_goto_section()
         </select>
         &nbsp;<a href='javascript:void(0)' onClick='settings_goto_section();'><img src='images/<?php echo $phpAds_TextDirection; ?>/go_blue.gif' border='0'></a> 
       </td>
+	  </form>
       <td height='35' align="right"><b><a href="javascript:toggleHelp();"><img src="images/help-book.gif" width="15" height="15" border="0" align="absmiddle">&nbsp;Help</a></b></td>
     </tr>
   </table>
-</form>
 <?php
+	phpAds_ShowBreak();
 }
 
 
@@ -338,15 +339,45 @@ function phpAds_settings_select($name, $text, $options, $parent = '', $value = '
 /* Add a settings break                                  */
 /*********************************************************/
 
-function phpAds_settings_break()
+function phpAds_settings_break($size = '')
 {
-?>
-  <tr> 
-    <td width="30"><img src='images/spacer.gif' height='1' width='100%'></td>
-    <td width="200"><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
-    <td width="100%">&nbsp;</td>
-  </tr>
-  <?php
+	if ($size == '' || $size == 'small')
+	{
+	?>
+	  <tr> 
+	    <td width="30"><img src='images/spacer.gif' height='1' width='100%'></td>
+	    <td width="200"><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
+	    <td width="100%">&nbsp;</td>
+	  </tr>
+	  <?php
+	}
+	elseif ($size == 'large')
+	{
+	?>
+	  <tr> 
+	    <td width="30"><img src='images/spacer.gif' height='1' width='100%'></td>
+	    <td width="100%" colspan='2'><img src='images/break-l.gif' height='1' width='100%' vspace='10'></td>
+	  </tr>
+	  <?php
+	}
+	elseif ($size == 'full')
+	{
+	?>
+	  <tr> 
+	    <td width="100%" colspan='3'><img src='images/break.gif' height='1' width='100%' vspace='16'></td>
+	  </tr>
+	  <?php
+	}
+	elseif ($size == 'empty')
+	{
+	?>
+	  <tr> 
+	    <td width="30"><img src='images/spacer.gif' height='1' width='100%'></td>
+	    <td width="200"><img src='images/spacer.gif' height='1' width='200' vspace='6'></td>
+	    <td width="100%">&nbsp;</td>
+	  </tr>
+	  <?php
+	}
 }
 
 
@@ -534,12 +565,12 @@ function phpAds_AddSettings($type, $name, $args = '')
 				join("', '", $args).
 				"')";
 			break;
+		case 'break':
 		case 'start_section':
 			$phpAds_settings_cache[] =
 				"phpAds_settings_".$type."('$name')";
 			break;
 		case 'end_section':
-		case 'break':
 			$phpAds_settings_cache[] =
 				"phpAds_settings_".$type."()";
 			break;
@@ -571,8 +602,8 @@ function phpAds_FlushSettings()
 		echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 		echo "<tr><td valign='top'><img src='images/padlock-$image.gif' width='16' height='16' border='0' align='absmiddle'>&nbsp;&nbsp;</td><td>";
 		echo $phpAds_config_locked ? $strEditConfigNotPossible : $strEditConfigPossible;
-		echo "</td></tr><tr><td colspan='2'><img src='images/break.gif' height='1' width='100%' vspace='8'></td></tr></table>";
-		echo "\n";
+		echo "</td></tr></table><br>";
+		phpAds_ShowBreak();
 	}
 	
 	if (!empty($phpAds_settings_help_cache))

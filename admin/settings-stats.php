@@ -112,14 +112,18 @@ phpAds_StartSettings();
 phpAds_AddSettings('start_section', "1.4.1");
 phpAds_AddSettings('checkbox', 'log_beacon', $strLogBeacon);
 phpAds_AddSettings('checkbox', 'compact_stats', $strCompactStats);
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('checkbox', 'log_adviews', $strLogAdviews);
-phpAds_AddSettings('checkbox', 'log_adclicks', $strLogAdclicks);
+phpAds_AddSettings('break', 'full');
+phpAds_AddSettings('checkbox', 'log_adviews',
+	array($strLogAdviews, array('block_adviews')));
 phpAds_AddSettings('break', '');
 phpAds_AddSettings('text', 'block_adviews',
-	array("Time between AdViews (sec.)", 12));
+	array($strBlockAdviews, 12, 'text', 5, 'log_adviews'));
+phpAds_AddSettings('break', 'large');
+phpAds_AddSettings('checkbox', 'log_adclicks',
+	array($strLogAdclicks, array('block_adclicks')));
+phpAds_AddSettings('break', '');
 phpAds_AddSettings('text', 'block_adclicks',
-	array("Time between AdClicks (sec.)", 12));
+	array($strBlockAdclicks, 12, 'text', 5, 'log_adclicks'));
 phpAds_AddSettings('end_section', '');
 
 $extra = phpAds_AddSettings('start_section', "1.4.2");
