@@ -74,7 +74,7 @@ function phpAds_SettingsWriteFlush()
 		else
 		{
 			if ($k_type == 'boolean')
-				$v = $v == 't';
+				$v = $v ? true : false;
 			elseif ($k_type != 'array')
 				$v = stripslashes($v);
 			
