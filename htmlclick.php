@@ -36,7 +36,7 @@ if($phpAds_log_adclicks)
 
 	$found=0;
 	while (($found == 0) && (list ($key, $ignore_host)=each($phpAds_ignore_hosts)))
-		if (eregi($ignore_host, $host)) // host found in ignore list
+		if (eregi("$host|$REMOTE_ADDR", $ignore_host)) // host found in ignore list
 			$found=1;
 
 	if ($found == 0)
