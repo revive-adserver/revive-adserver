@@ -47,6 +47,7 @@ function phpAds_Start()
 {
 	global $phpAds_config;
 	global $Session;
+	global $phpAds_productname;
 	
 	phpAds_SessionDataFetch();
 	
