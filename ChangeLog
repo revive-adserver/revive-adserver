@@ -7,10 +7,10 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			+ Added support for affiliates  (Niels) 20011119
 			+ Added logging of hourly statistics for compact stats  (Niels) 20011121
 			+ Added affiliate statistics  (Niels) 20011125
-			+ Added target based priority  (Niels) 20011125
+			+ Added target based priority  (Niels and Matteo) 20011125
 			+ Added moving of banners, campaigns and zones  (Niels) 20011201
 			+ Added duplication of banners (Niels, thanks to Kelly Cochran) 20011201
-			+ Added ability to apply display limiations to other banners  (Niels) 20011201
+			+ Added ability to apply display limitations to other banners  (Niels) 20011201
 			+ Added new invocation type for popups/popunders  (Niels) 20011202
 			+ Added the ability to use beacon images for logging stats  (Niels) 20011202
 
@@ -57,6 +57,8 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Optimized queries for generating the statistics  (Niels) 20011211
 			  - Changed preview of HTML banners  (Niels) 20011212
 			  - The first field of the login interface is now automatically focused (Jules Sotheby) 20011214
+			  - Added prev/next buttons to the statistics  (Niels) 20011215
+			  - Priority is recalculated when a users changes a banner or campaign  (Niels) 20011216
 
 
 			+ Misc bugfixes
