@@ -70,7 +70,7 @@ $GLOBALS['phpAds_hlp_my_footer'] = "
         You should put here the path to the header files (e.g.: /home/login/www/header.htm) 
         to have a header and/or footer on each page in the admin interface. You 
         can put either text or html in these files (if you want to use html in 
-        one or both of these files do not use tags like <body> or <html>).
+        one or both of these files do not use tags like &lt;body> or &lt;html>).
 		";
 		
 $GLOBALS['phpAds_hlp_language'] = "
