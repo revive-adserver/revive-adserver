@@ -1,6 +1,6 @@
+<?
 // $Id$
 
-<?
 if (isset($pageid) && $pageid =="client")
 {
 	Header("Location: ./index.php");
