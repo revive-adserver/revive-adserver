@@ -50,6 +50,7 @@ require ("../language/".strtolower($phpAds_config['language']).".inc.php");
 if (!isset($clientID))   $clientID = '';
 if (!isset($campaignID)) $campaignID = '';
 if (!isset($bannerID))   $bannerID = '';
+if (!isset($zoneid))   	 $zoneid = '';
 
 
 // Setup navigation

@@ -19,8 +19,10 @@
 /*********************************************************/
 
 function DayInd($ind)
-{              
-	$ind += $GLOBALS['phpAds_begin_of_week'];
+{
+	global $phpAds_config;
+	
+	$ind += $phpAds_config['begin_of_week'];
 	return $ind > 6 ? 0 : $ind;
 }
 
@@ -63,8 +65,8 @@ function WeekInit()
 
 function WeekSetDates()
 {
-	global $week;
-	global $php_week_sign;
+	global $phpAds_config;
+	global $php_week_sign, $week;
 	
 	// find first col with valid date
 	$i=0;
@@ -74,7 +76,7 @@ function WeekSetDates()
 	$stamp = $week['unix_time'][$i]-$i*24*60*60;
 	
 	// adjust timestamp to country settings if needed
-	if ($i==0 && $GLOBALS['phpAds_begin_of_week']==1) 
+	if ($i==0 && $phpAds_config['begin_of_week']==1) 
 		$stamp -= 7*24*60*60;
 	
 	// check all day rows
@@ -85,7 +87,7 @@ function WeekSetDates()
 		{
 			$mult = $i;
 			// adjust multiplier to country settings if needed
-			if ($mult==0 && $GLOBALS['phpAds_begin_of_week']==1) 
+			if ($mult==0 && $phpAds_config['begin_of_week']==1) 
 				$mult=7; // sunday (col=0) is last day of the week
 			$week['date'][$i] = strftime($GLOBALS['date_format'],$stamp+$mult*24*60*60); 
 		}
@@ -203,7 +205,7 @@ function WeekPrint()
 		}
 		$week_avg = $week['days_set']>0?$week['viewsum']/7:0; //$week['days_set']
 		?>
-			<td height='20' align="right" bgcolor="<?php echo $bgcolor; ?>"><?php tabecho(sprintf(' %.'.$GLOBALS['phpAds_percentage_decimals'].'f',$week_avg)); ?></td>
+			<td height='20' align="right" bgcolor="<?php echo $bgcolor; ?>"><?php tabecho(sprintf(' %.'.$phpAds_config['percentage_decimals'].'f',$week_avg)); ?></td>
 			<td height='20' align="right" bgcolor="<?php echo $bgcolor; ?>"><?php tabecho($week['viewsum']); ?>&nbsp;</td>
 		</tr>        
 		<tr>
@@ -217,7 +219,7 @@ function WeekPrint()
 		}
 		$week_avg = $week['days_set']>0?$week['clicksum']/7:0; //$week['days_set']
 		?>
-			<td height='20' class="normal" align="right" bgcolor="<?php echo $bgcolor; ?>"><?php tabecho(sprintf(" %.".$GLOBALS['phpAds_percentage_decimals']."f",$week_avg)); ?></td>
+			<td height='20' class="normal" align="right" bgcolor="<?php echo $bgcolor; ?>"><?php tabecho(sprintf(" %.".$phpAds_config['percentage_decimals']."f",$week_avg)); ?></td>
 			<td height='20' class="normal" align="right" bgcolor="<?php echo $bgcolor; ?>"><?php tabecho($week['clicksum']); ?>&nbsp;</td>
 		</tr>        
 		<tr>
@@ -571,7 +573,7 @@ function stats()
 	<tr>
 		<td height='25' bgcolor="#FFFFFF"><?php echo $GLOBALS["strTotalViews"]; ?>: <b><?php tabecho($total_views); ?></b></td>
 		<td height='25' bgcolor="#FFFFFF"><?php echo $GLOBALS["strTotalClicks"]; ?>: <b><?php tabecho($total_clicks); ?></b></td>
-		<td height='25' bgcolor="#FFFFFF"><?php echo $GLOBALS["strCTR"]; ?>: <b><?php tabecho($total_views>0?sprintf(" %.".$GLOBALS['phpAds_percentage_decimals']."f%%",$total_clicks/$total_views*100):0); ?></b></td>
+		<td height='25' bgcolor="#FFFFFF"><?php echo $GLOBALS["strCTR"]; ?>: <b><?php tabecho($total_views>0?sprintf(" %.".$phpAds_config['percentage_decimals']."f%%",$total_clicks/$total_views*100):0); ?></b></td>
 	</tr>
 	<tr><td height='10' colspan='2'></td></tr>	
 	<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>

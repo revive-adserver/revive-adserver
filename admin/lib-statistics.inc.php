@@ -83,11 +83,14 @@ function phpAds_getClientName ($clientID)
 
 
 /*********************************************************/
-/* Get list order status                                      */
+/* Get list order status                                 */
 /*********************************************************/
+
 // Manage Orderdirection
 function phpAds_getOrderDirection ($ThisOrderDirection)
 {
+	$sqlOrderDirection = '';
+	
 	switch ($ThisOrderDirection)
 	{
 		case 'down':

@@ -41,6 +41,10 @@ if (isset($message))
 /* Main code                                             */
 /*********************************************************/
 
+if (!isset($listorder)) 	 $listorder = '';
+if (!isset($orderdirection)) $orderdirection = '';
+
+
 // Get clients & campaign and build the tree
 if (phpAds_isUser(phpAds_Admin))
 {
