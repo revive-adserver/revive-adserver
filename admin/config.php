@@ -24,8 +24,10 @@ require ("../view.inc.php");
 $link = db_connect();
 if (!$link)
 {
-	echo  "phpAdsNew can't connect to the database";
-	exit;
+	phpAds_PageHeader('');
+	php_die ("An fatal error occurred", "phpAdsNew can't connect to the database, 
+										 please make sure the database is working 
+										 and phpAdsNew is configured correctly");
 }
 
 // Authorize the user and load user specific settings.
@@ -45,7 +47,6 @@ if (!isset($bannerID))   $bannerID = '';
 // Setup navigation
 $phpAds_nav = array (
 	"admin"	=> array (
-		//"1"					=>	array("admin.php" => "$strHome"),
 		"2"					=>  array("stats-index.php" => "$strStats"),
 		  "2.1"				=> 	array("stats-campaign.php?campaignID=$campaignID" => "$strStats"),
     	    "2.1.1" 		=> 	array("stats-details.php?campaignID=$campaignID&bannerID=$bannerID" => "$strDetailStats"),
@@ -71,10 +72,12 @@ $phpAds_nav = array (
 		  	"1.1.1"			=> 	array("stats-details.php?campaignID=$campaignID&bannerID=$bannerID" => "$strDetailStats"),
 		      "1.1.1.1"		=> 	array("stats-daily.php" => "$strDailyStats"),
 		  	"1.1.2"			=> 	array("stats-weekly.php" => "$strWeeklyStats"),
-		    "1.1.3"			=> 	array("banner-edit.php?campaignID=$campaignID&bannerID=$bannerID" => "$strModifyBanner"),
-		"2"					=>  array("client-edit.php" => "$strPreferences")
+		    "1.1.3"			=> 	array("banner-edit.php?campaignID=$campaignID&bannerID=$bannerID" => "$strModifyBanner")
 	)
 );
+
+if (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_ModifyInfo))
+	$phpAds_nav["client"]["2"] =  array("client-edit.php" => "$strPreferences");
 
 
 ?>
