@@ -68,9 +68,9 @@ $link = phpAds_dbConnect();
 if (!$link)
 {
 	phpAds_PageHeader('');
-	phpAds_Die ("A fatal error occurred", "phpAdsNew can't connect to the database, 
+	phpAds_Die ("A fatal error occurred", $phpAds_productname." can't connect to the database, 
 										   please make sure the database is working 
-										   and phpAdsNew is configured correctly");
+										   and ".$phpAds_productname." is configured correctly");
 }
 else
 {
