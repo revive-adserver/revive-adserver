@@ -1,11 +1,11 @@
-<?php // $Revision: 1.3 $
+<?php // $Id: $
 
 /************************************************************************/
-/* phpAdsNew 2                                                          */
-/* ===========                                                          */
+/* phpPgAds                                                             */
+/* ========                                                             */
 /*                                                                      */
-/* Copyright (c) 2001 by the phpAdsNew developers                       */
-/* http://sourceforge.net/projects/phpadsnew                            */
+/* Copyright (c) 2001 by the phpPgAds developers                        */
+/* http://sourceforge.net/projects/phppgads                             */
 /* Translations by Stefan Morgenroth (dandra@users.sf.net)              */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
@@ -17,53 +17,53 @@
 
 // Settings help translation strings
 $GLOBALS['phpAds_hlp_dbhost'] = "
-        Spezifiziere den Hostnamen von dem MySQL Datenbank-Server.
+        Spezifiziere den Hostnamen von dem PostgreSQL Datenbank-Server.
 		";
 		
 $GLOBALS['phpAds_hlp_dbuser'] = "
-        Spezifiziere den Usernamen, der von phpAdsNew genutzt werden muß, um auf den MySQL Datenbank-Server zuzugreifen.
+        Spezifiziere den Usernamen, der von phpPgAds genutzt werden muß, um auf den PostgreSQL Datenbank-Server zuzugreifen.
 		";
 		
 $GLOBALS['phpAds_hlp_dbpassword'] = "
-        Spezifiziere das Passwort, das von phpAdsNew genutzt werden muß, um auf den MySQL Datenbank-Server zuzugreifen.
+        Spezifiziere das Passwort, das von phpPgAds genutzt werden muß, um auf den PostgreSQL Datenbank-Server zuzugreifen.
 		";
 		
 $GLOBALS['phpAds_hlp_dbname'] = "
-        Spezifiziere den Namen der Datenbank, in der phpAdsNew seine Daten speichern muß.
+        Spezifiziere den Namen der Datenbank, in der phpPgAds seine Daten speichern muß.
 		";
 		
 $GLOBALS['phpAds_hlp_persistent_connections'] = "
-        The use of persistent connection can speed up phpAdsNew considerably 
+        The use of persistent connection can speed up phpPgAds considerably 
 		and may even decrease the load on the server. There is a drawback however, on sites with 
 		a lot of visitors the load on the server can increase and become larger then when using normal 
 		connections. Whether you should use regular connections or persistant connections depends on the 
-		number of visitors and the hardware your are using. If phpAdsNew is using too many resources, 
+		number of visitors and the hardware your are using. If phpPgAds is using too many resources, 
 		you should take a look at this setting first.
 		";
 		
 $GLOBALS['phpAds_hlp_insert_delayed'] = "
-        MySQL locks the table when it is inserting data. If have many visitors to your site, 
-		it could be possible phpAdsNew must wait before inserting a new row, because the database 
+        PostgreSQL locks the table when it is inserting data. If have many visitors to your site, 
+		it could be possible phpPgAds must wait before inserting a new row, because the database 
 		is still locked. When you use insert delayed, you don't have to wait and the row will 
 		be inserted at a later time when the table is not in use by any other thread. 
 		";
 		
 $GLOBALS['phpAds_hlp_tbl_prefix'] = "
-        If the database phpAdsNew is using is shared by mutiple software products, it is wise
-		to add a prefix to names of the tables. If you are using multiple installations of phpAdsNew
+        If the database phpPgAds is using is shared by mutiple software products, it is wise
+		to add a prefix to names of the tables. If you are using multiple installations of phpPgAds
 		in the same database, you need to make sure this prefix is unique for all installations.
 		";
 		
 $GLOBALS['phpAds_hlp_tabletype'] = "
-        MySQL supports multiple table types. Each type of table has unique properties and some
-		can speed up phpAdsNew considerable. MyISAM is the default table type and is available
-		in all installations of MySQL. Other table types may not be available on your server
+        PostgreSQL supports multiple table types. Each type of table has unique properties and some
+		can speed up phpPgAds considerable. MyISAM is the default table type and is available
+		in all installations of PostgreSQL. Other table types may not be available on your server
 		";
 		
 $GLOBALS['phpAds_hlp_url_prefix'] = "
-        phpAdsNew needs to know where it is located on the web server in order 
-        to work correctly. You must specify the URL to the directory where phpAdsNew 
-        is installed, for example: http://www.your-url.com/phpAdsNew.
+        phpPgAds needs to know where it is located on the web server in order 
+        to work correctly. You must specify the URL to the directory where phpPgAds 
+        is installed, for example: http://www.your-url.com/phpPgAds.
 		";
 		
 $GLOBALS['phpAds_hlp_my_header'] =
@@ -75,7 +75,7 @@ $GLOBALS['phpAds_hlp_my_footer'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_language'] = "
-        Specify the default language phpAdsNew should use. This language will 
+        Specify the default language phpPgAds should use. This language will 
         be used as a default for the admin and client interface. Please note: 
         you can set a different language for each client from the admin interface 
         and allow clients to change their language themselves.
@@ -84,30 +84,30 @@ $GLOBALS['phpAds_hlp_language'] = "
 $GLOBALS['phpAds_hlp_name'] = "
         Specify the name you want to use for this application. This string will 
         be displayed on all pages in the admin and client interface. If you leave 
-        this setting empty (default) a logo of phpAdsNew will be displayed instead.
+        this setting empty (default) a logo of phpPgAds will be displayed instead.
 		";
 		
 $GLOBALS['phpAds_hlp_company_name'] = "
-        Dieser Namen wird benutzt, um E-Mails von phpAdsNew aus zu versenden.
+        Dieser Namen wird benutzt, um E-Mails von phpPgAds aus zu versenden.
 		";
 		
 $GLOBALS['phpAds_hlp_override_gd_imageformat'] = "
-        phpAdsNew usually detects if the GD library is installed and which image 
+        phpPgAds usually detects if the GD library is installed and which image 
         format is supported by the installed version of GD. However it is possible 
         the detection is not accurate or false, some versions of PHP do not allow 
-        the detection of the supported image formats. If phpAdsNew fails to auto-detect 
+        the detection of the supported image formats. If phpPgAds fails to auto-detect 
         the right image format you can specify the right image format. Possible 
         values are: none, png, jpeg, gif.
 		";
 		
 $GLOBALS['phpAds_hlp_p3p_policies'] = "
-        Wenn in phpAdsNew die P3P Privacy Policies aktiviert werden sollen, dann muß diese Option aktiviert werden. 
+        Wenn in phpPgAds die P3P Privacy Policies aktiviert werden sollen, dann muß diese Option aktiviert werden. 
 		";
 		
 $GLOBALS['phpAds_hlp_p3p_compact_policy'] = "
         The compact policy which is sent together with cookies. The default setting 
         is: 'CUR ADM OUR NOR STA NID', which will allow Internet Explorer 6 to 
-        accept the cookies used by phpAdsNew. If you want you can alter these 
+        accept the cookies used by phpPgAds. If you want you can alter these 
         settings to match your own privacy statement.
 		";
 		
@@ -117,10 +117,10 @@ $GLOBALS['phpAds_hlp_p3p_policy_location'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_compact_stats'] = "
-        Traditionally phpAdsNew used rather extensive logging, which was very 
+        Traditionally phpPgAds used rather extensive logging, which was very 
         detailed but was also very demanding on the database server. This could 
         be a big problem on sites with a lot of visitors. To overcome this problem
-		phpAdsNew also supports a new kind of statistics, the compact statistics, 
+		phpPgAds also supports a new kind of statistics, the compact statistics, 
 		which is less demanding on the database server, but also less detailed. 
 		The compact statistics only logs daily statistics, if you need hourly statistics 
 		you can turn the compact statistics off.
@@ -137,8 +137,8 @@ $GLOBALS['phpAds_hlp_log_adclicks'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_reverse_lookup'] = "
-        phpAdsNew logs the IP address of each visitor by default. If you want 
-        phpAdsNew to log domain names you should turn this on. Reverse lookup 
+        phpPgAds logs the IP address of each visitor by default. If you want 
+        phpPgAds to log domain names you should turn this on. Reverse lookup 
         does take some time; it will slow everything down.
 		";
 		
@@ -159,30 +159,30 @@ $GLOBALS['phpAds_hlp_percentage_decimals'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_warn_admin'] = "
-        phpAdsNew can sent you e-mail if a client has only a limited number of 
+        phpPgAds can sent you e-mail if a client has only a limited number of 
         clicks or views left. This is turned on by default.
 		";
 		
 $GLOBALS['phpAds_hlp_warn_client'] = "
-        phpAdsNew can sent the client e-mail if he has only a limited number of 
+        phpPgAds can sent the client e-mail if he has only a limited number of 
         clicks or views left. This is turned on by default.
 		";
 		
 $GLOBALS['phpAds_hlp_warn_limit'] = "
-        The limit on which phpAdsNew starts sending warning e-mails. This is 100 
+        The limit on which phpPgAds starts sending warning e-mails. This is 100 
         by default.
 		";
 		
 $GLOBALS['phpAds_hlp_random_retrieve'] = "
-        phpAdsNew can use four different types of banner retrieval: Random banner 
+        phpPgAds can use four different types of banner retrieval: Random banner 
         retrieval (default), Normal sequential banner retrieval, Weight 
         based sequential banner retrieval and Full sequential banner retrieval.
-      	If you are using Zones, phpAdsNew will always use random banner retrieval 
+      	If you are using Zones, phpPgAds will always use random banner retrieval 
         and this setting will be ignored.
 		";
 		
 $GLOBALS['phpAds_hlp_con_key'] = "
-        phpAdsNew includes a powerful banner retrieval system. For more information, 
+        phpPgAds includes a powerful banner retrieval system. For more information, 
         please read the API section. With this option, you can activate conditional 
         keywords. This is turned on by default.
 		";
@@ -195,12 +195,12 @@ $GLOBALS['phpAds_hlp_mult_key'] = "
 		
 $GLOBALS['phpAds_hlp_acl'] = "
         If you are not using display limitations you can disable ACL checking with this parameter, 
-        this will speed up phpAdsNew.
+        this will speed up phpPgAds.
 		";
 		
 $GLOBALS['phpAds_hlp_default_banner_url'] = 
 $GLOBALS['phpAds_hlp_default_banner_target'] = "
-        If phpAdsNew can't connect to the database server, or can't find any matching 
+        If phpPgAds can't connect to the database server, or can't find any matching 
         banners at all, for example when the database crashed or was deleted, 
         it won't display anything. Some users may want to specify a default banner, 
         which will be displayed in these situations. The default banner specified 
@@ -209,16 +209,16 @@ $GLOBALS['phpAds_hlp_default_banner_target'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_zone_cache'] = "
-        If you are using zones this setting allows phpAdsNew to store the banner 
+        If you are using zones this setting allows phpPgAds to store the banner 
         information inside a cache which will be used later on. The will speed 
-        up phpAdsNew a bit, because instead of retrieving the zone information 
+        up phpPgAds a bit, because instead of retrieving the zone information 
         and retrieving the banner information and selecting the right banner, 
-        phpAdsNew only needs to load the cache. This feature is turned on by default.
+        phpPgAds only needs to load the cache. This feature is turned on by default.
 		";
 		
 $GLOBALS['phpAds_hlp_zone_cache_limit'] = "
         If you are using cached zones, the information inside the cache can become 
-        outdated. Once in a while phpAdsNew needs to rebuild the cache, so new 
+        outdated. Once in a while phpPgAds needs to rebuild the cache, so new 
         banners will be included in the cache. This setting lets you decide when 
         a cached zone will be reloaded, by specifing the maximum lifetime of the 
         cached zone. For example: if you set this setting to 600, the cache will 
@@ -229,16 +229,16 @@ $GLOBALS['phpAds_hlp_type_sql_allow'] =
 $GLOBALS['phpAds_hlp_type_web_allow'] = 
 $GLOBALS['phpAds_hlp_type_url_allow'] = 
 $GLOBALS['phpAds_hlp_type_html_allow'] = "
-        phpAdsNew can use different types of banners and store them in different 
+        phpPgAds can use different types of banners and store them in different 
         ways. The first two options are used for local storage of banners. You 
-        can use the admin interface to upload a banner and phpAdsNew will store 
+        can use the admin interface to upload a banner and phpPgAds will store 
         the banner in the SQL database (option 1) or on a web server (option 2). 
         You can also use a banner stored on a different web server (option 3) 
         or use html to generate a banner (option 4). You can disable any one of 
         these types by altering these settings. By default all banner types are 
         turned on.
       	If you disable a certain banner type while there are still banners available 
-        of the this type, phpAdsNew will allow the use of these banners, but will 
+        of the this type, phpPgAds will allow the use of these banners, but will 
         not allow the creation of new banners of this type.
 		";
 		
@@ -251,7 +251,7 @@ $GLOBALS['phpAds_hlp_type_web_mode'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_type_web_dir'] = "
-        Specify the directory where phpAdsNew needs to copy the uploaded banners 
+        Specify the directory where phpPgAds needs to copy the uploaded banners 
         to. This directory needs to be writable by PHP, this could mean you need 
         to modify the UNIX permissions for this directory (chmod). The directory 
         you specify here needs to be in the web server' document root, the web 
@@ -261,7 +261,7 @@ $GLOBALS['phpAds_hlp_type_web_dir'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_type_web_ftp'] = "
-        Specify the FTP server where phpAdsNew needs to copy the uploaded banners 
+        Specify the FTP server where phpPgAds needs to copy the uploaded banners 
         to. The directory you specify here needs to be in the web server' document 
         root, the web server must be able to serve the files directly. The URL 
         you specify here can include a username, a password, the server name and 
@@ -269,20 +269,20 @@ $GLOBALS['phpAds_hlp_type_web_ftp'] = "
 		";
       
 $GLOBALS['phpAds_hlp_type_web_url'] = "
-        If you store banners on a web server, phpAdsNew needs to know which public 
+        If you store banners on a web server, phpPgAds needs to know which public 
         URL corresponds with the directory you specified above. Do not specify 
         a trailing slash (/).
 		";
 		
 $GLOBALS['phpAds_hlp_type_html_auto'] = "
-        If this option is turned on phpAdsNew will automatically alter HTML banners 
+        If this option is turned on phpPgAds will automatically alter HTML banners 
         in order to allow the clicks to be logged. However even if this option 
         is turned it will be possible to disable this feature on a per banner 
         basis. 
 		";
 		
 $GLOBALS['phpAds_hlp_type_html_php'] = "
-        It is possible to let phpAdsNew execute PHP code embedded inside HTML 
+        It is possible to let phpPgAds execute PHP code embedded inside HTML 
         banners. This feature is turned off by default.
 		";
 		
@@ -307,7 +307,7 @@ $GLOBALS['phpAds_hlp_admin_email'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_admin_email_headers'] = "
-        You can alter the e-mail headers used by the e-mails which phpAdsNew sends.
+        You can alter the e-mail headers used by the e-mails which phpPgAds sends.
 		";
 		
 $GLOBALS['phpAds_hlp_admin_novice'] = "
