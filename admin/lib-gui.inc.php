@@ -302,8 +302,9 @@ function phpAds_PageHeader($ID, $extra="")
 	
 	// Send header with charset info
 	header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
-	
-	
+	header ('Pragma: no-cache');
+	header ('Cache-Control: private, max-age=0, no-cache');
+		
 	// Head
 	echo "<html".($phpAds_TextDirection != 'ltr' ? " dir='".$phpAds_TextDirection."'" : '').">\n";
 	echo "\t<head>\n";
