@@ -258,9 +258,13 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, $profile)
 	
 	
 	
+	// Calculate total predicted profile
+	$total_profile = 0;
+	for ($i=0;$i<24;$i++)
+		$total_profile += $profile[$i];
 	
 	// Adjust profile with real data
-	if (isset($profile) && sizeof($profile))
+	if ($total_profile > 0)
 	{
 		if (phpAds_CurrentHour > 0)
 		{
