@@ -216,7 +216,12 @@ function phpAds_ToggleBannerInZone ($bannerid, $zoneid)
 		if (phpAds_dbNumRows($res))
 		{
 			$zone = phpAds_dbFetchArray($res);
-			$what_array = explode(",", $zone['what']);
+			
+			if ($zone['what'] != '')
+				$what_array = explode(",", $zone['what']);
+			else
+				$what_array = array();
+			
 			$available = false;
 			$changed = false;
 			
@@ -273,7 +278,6 @@ function phpAds_ToggleCampaignInZone ($clientid, $zoneid)
 {
 	global $phpAds_config;
 	
-	
 	if (isset($zoneid) && $zoneid != '')
 	{
 		$res = phpAds_dbQuery("
@@ -288,7 +292,12 @@ function phpAds_ToggleCampaignInZone ($clientid, $zoneid)
 		if (phpAds_dbNumRows($res))
 		{
 			$zone = phpAds_dbFetchArray($res);
-			$what_array = explode(",", $zone['what']);
+			
+			if ($zone['what'] != '')
+				$what_array = explode(",", $zone['what']);
+			else
+				$what_array = array();
+			
 			$available = false;
 			$changed = false;
 			
