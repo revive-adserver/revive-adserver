@@ -88,7 +88,8 @@ if (isset($zoneid) && $zoneid != '')
 	}
 	
 	
-	// Delete zone	$res = phpAds_dbQuery("
+	// Delete zone
+	$res = phpAds_dbQuery("
 		DELETE FROM
 			".$phpAds_config['tbl_zones']."
 		WHERE
