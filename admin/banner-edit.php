@@ -885,6 +885,7 @@ else
 	$row['htmltemplate'] = '';
 	$row['keyword'] 	 = '';
 	$row['description']  = '';
+	$row['autohtml']	 = $phpAds_config['type_html_auto'] ? 't' : 'f';
 	
 	$hardcoded_links = array();
 	$hardcoded_targets = array();
@@ -1413,7 +1414,7 @@ if ($storagetype == 'html')
 	echo "<td colspan='2'><textarea class='code' cols='45' rows='10' name='banner' wrap='off' dir='ltr' style='width:550px;";
 	echo "' tabindex='".($tabindex++)."'>".htmlentities($row['htmltemplate'])."</textarea></td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td colspan='2'><input type='checkbox' name='autohtml' value='t'".(!isset($row["autohtml"]) || $row["autohtml"] == 't' ? ' checked' : '')." tabindex='".($tabindex++)."'> ".$strAutoChangeHTML."</td></tr>";
+	echo "<td colspan='2'><input type='checkbox' name='autohtml' value='t'".(isset($row["autohtml"]) && $row["autohtml"] == 't' ? ' checked' : '')." tabindex='".($tabindex++)."'> ".$strAutoChangeHTML."</td></tr>";
 	
 	echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
