@@ -196,8 +196,8 @@ $GLOBALS['strLow']							= "Low";
 $GLOBALS['strHigh']							= "High";
 $GLOBALS['strExpirationDate']				= "Expiration date";
 $GLOBALS['strActivationDate']				= "Activation date";
-$GLOBALS['strViewsPurchased'] 				= "AdViews purchased";
-$GLOBALS['strClicksPurchased'] 				= "AdClicks purchased";
+$GLOBALS['strViewsPurchased'] 				= "AdViews remaining";
+$GLOBALS['strClicksPurchased'] 				= "AdClicks remaining";
 $GLOBALS['strCampaignWeight']				= "Campaign weight";
 $GLOBALS['strHighPriority']					= "Show banners in this campaign with high priority.<br>
 											   If you use this option phpAdsNew will try to distribute the 
@@ -218,7 +218,7 @@ $GLOBALS['strPriorityBasedYesterday']		= "The prediction is based on data from y
 $GLOBALS['strPriorityNoData']				= "There isn't enough data available to make a reliable prediction about the number of impressions this adserver will generate today. Priority assignments will be based on real time statistics only. ";
 $GLOBALS['strPriorityEnoughAdViews']		= "There should be enough AdViews to fully satisfy the target all high priority campaigns. ";
 $GLOBALS['strPriorityNotEnoughAdViews']		= "It isn't clear wether there will be enough AdViews served today to satisfy the target all high priority campaigns. Because of this all low priority campaigns are temporarily disabled. ";
-$GLOBALS['strPriorityAutoTargeting']		= "Distribute the remaining AdViews evenly over the remaining number of days. The target number of AdViews will be set accordingly every day, because <i>AdViews purchased</i> and <i>Expiration date</i> are set.";
+$GLOBALS['strPriorityAutoTargeting']		= "Distribute the remaining AdViews evenly over the remaining number of days. The target number of AdViews will be set accordingly every day.";
 
 
 
@@ -360,7 +360,7 @@ $GLOBALS['strSelectZoneType']				= "Please choose the type of linking banners";
 $GLOBALS['strBannerSelection']				= "Banner selection";
 $GLOBALS['strCampaignSelection']			= "Campaign selection";
 $GLOBALS['strInteractive']					= "Interactive";
-$GLOBALS['strRawQueryString']				= "Raw querystring";
+$GLOBALS['strRawQueryString']				= "Keyword";
 $GLOBALS['strIncludedBanners']				= "Linked banners";
 $GLOBALS['strLinkedBannersOverview']		= "Linked banners overview";
 $GLOBALS['strLinkedBannerHistory']			= "Linked banner history";
