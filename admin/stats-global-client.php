@@ -468,9 +468,9 @@ if ($clientshidden > 0 || $totalviews > 0 || $totalclicks > 0)
 		if (isset($client['campaigns']))
 		{
 			if ($client['expand'] == '1')
-				echo "&nbsp;<a href='stats-global-client.php?collapse=".$client['clientid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
+				echo "&nbsp;<a href='stats-global-client.php?period=".$period."&amp;collapse=".$client['clientid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
 			else
-				echo "&nbsp;<a href='stats-global-client.php?expand=".$client['clientid']."'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
+				echo "&nbsp;<a href='stats-global-client.php?period=".$period."&amp;expand=".$client['clientid']."'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
 		}
 		else
 			echo "&nbsp;<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
@@ -512,9 +512,9 @@ if ($clientshidden > 0 || $totalviews > 0 || $totalclicks > 0)
 				if (isset($campaigns[$ckey]['banners']))
 				{
 					if ($campaigns[$ckey]['expand'] == '1')
-						echo "<a href='stats-global-client.php?collapse=".$campaigns[$ckey]['clientid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
+						echo "<a href='stats-global-client.php?period=".$period."&amp;collapse=".$campaigns[$ckey]['clientid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
 					else
-						echo "<a href='stats-global-client.php?expand=".$campaigns[$ckey]['clientid']."'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
+						echo "<a href='stats-global-client.php?period=".$period."&amp;expand=".$campaigns[$ckey]['clientid']."'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
 				}
 				else
 					echo "<img src='images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;";
@@ -638,21 +638,21 @@ if ($clientshidden > 0 || $totalviews > 0 || $totalclicks > 0)
 	if ($hideinactive == true)
 	{
 		echo "&nbsp;&nbsp;<img src='images/icon-activate.gif' align='absmiddle' border='0'>";
-		echo "&nbsp;<a href='stats-global-client.php?hideinactive=0'>".$strShowAll."</a>";
+		echo "&nbsp;<a href='stats-global-client.php?period=".$period."&amp;hideinactive=0'>".$strShowAll."</a>";
 		echo "&nbsp;&nbsp;|&nbsp;&nbsp;".$clientshidden." ".$strInactiveAdvertisersHidden;
 	}
 	else
 	{
 		echo "&nbsp;&nbsp;<img src='images/icon-hideinactivate.gif' align='absmiddle' border='0'>";
-		echo "&nbsp;<a href='stats-global-client.php?hideinactive=1'>".$strHideInactiveAdvertisers."</a>";
+		echo "&nbsp;<a href='stats-global-client.php?period=".$period."&amp;hideinactive=1'>".$strHideInactiveAdvertisers."</a>";
 	}
 	
 	echo "</td><td height='25' colspan='2' align='".$phpAds_TextAlignRight."' nowrap>";
 	echo "<img src='images/triangle-d.gif' align='absmiddle' border='0'>";
-	echo "&nbsp;<a href='stats-global-client.php?expand=all' accesskey='".$keyExpandAll."'>".$strExpandAll."</a>";
+	echo "&nbsp;<a href='stats-global-client.php?period=".$period."&amp;expand=all' accesskey='".$keyExpandAll."'>".$strExpandAll."</a>";
 	echo "&nbsp;&nbsp;|&nbsp;&nbsp;";
 	echo "<img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'>";
-	echo "&nbsp;<a href='stats-global-client.php?expand=none' accesskey='".$keyCollapseAll."'>".$strCollapseAll."</a>&nbsp;&nbsp;";
+	echo "&nbsp;<a href='stats-global-client.php?period=".$period."&amp;expand=none' accesskey='".$keyCollapseAll."'>".$strCollapseAll."</a>&nbsp;&nbsp;";
 	echo "</td></tr>";
 	
 	
