@@ -203,6 +203,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-03-28:  Improved rendering of subtabs in Mozilla  (Niels) 
 			  - 2002-03-30:  Added source to Flash ClickTAG  (Niels)
 			  - 2002-03-30:  Path detection during install on IIS fixed  (Niels)
+			  - 2002-03-30:  Fixed MS Exchange problem when sending email  (Niels)
 			 
 
 
