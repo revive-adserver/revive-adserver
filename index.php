@@ -7,7 +7,7 @@ phpAds_checkAccess(phpAds_Admin+phpAds_Client);
 
 if (phpAds_isUser(phpAds_Admin))
 {
-	Header("Location: ./admin.php");
+	Header("Location: $phpAds_url_prefix/admin.php");
 	exit;
 }
 
