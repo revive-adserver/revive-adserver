@@ -37,7 +37,7 @@ function phpAds_GenerateInvocationCode()
 	global $withText, $template, $refresh, $uniqueid;
 	global $width, $height, $website;
 	global $popunder, $left, $top, $timeout;
-	global $transparent, $resize, $block;
+	global $transparent, $resize, $block, $raw;
 	global $hostlanguage;
 	
 	
@@ -250,7 +250,27 @@ function phpAds_GenerateInvocationCode()
 		
 		$buffer .= "<"."?php\n";
 		$buffer .= "    require($path);\n";
-		$buffer .= "    view ('$what', $clientid, '$target', '$source', '$withText');\n";
+		$buffer .= "    if (!isset($"."phpAds_context)) $"."phpAds_context = array();\n";
+		
+		if (isset($raw) && $raw == '1')
+		{
+			$buffer .= "    $"."phpAds_raw = view_raw ('$what', $clientid, '$target', '$source', '$withText', $"."phpAds_context);\n";
+			
+			if (isset($block) && $block == '1')
+				$buffer .= "    $"."phpAds_context[] = array('!=' => $"."phpAds_raw['bannerid']);\n";
+			
+			$buffer .= "    \n";
+			$buffer .= "    // Assign the $"."phpAds_raw['html'] variable to your template\n";
+			$buffer .= "    // echo $"."phpAds_raw['html'];\n";
+		}
+		else
+		{
+			$buffer .= "    $"."phpAds_id = view ('$what', $clientid, '$target', '$source', '$withText', $"."phpAds_context);\n";
+			
+			if (isset($block) && $block == '1')
+				$buffer .= "    $"."phpAds_context[] = array('!=' => $"."phpAds_id);\n";
+		}
+		
 		$buffer .= "?".">\n";
 	}
 	
@@ -272,7 +292,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	global $withText, $template, $refresh, $uniqueid;
 	global $width, $height;
 	global $popunder, $left, $top, $timeout;
-	global $transparent, $resize, $block;
+	global $transparent, $resize, $block, $raw;
 	global $hostlanguage;
 	global $layerstyle;
 	
@@ -424,7 +444,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withText' => true, 'template' => true, 'hostlanguage' => true);
 		
 		if ($codetype == 'local')
-			$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withText' => true, 'template' => true);
+			$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withText' => true, 'block' => true, 'raw' => true);
 		
 		
 		
@@ -565,9 +585,22 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		{
 			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 			echo "<tr><td width='30'>&nbsp;</td>";
-			echo "<td width='200'>"."Don't show the banner again on the same page"."</td>";
+			echo "<td width='200'>".$GLOBALS['strInvocationDontShowAgain']."</td>";
 			echo "<td width='370'><input type='radio' name='block' value='1'".(isset($block) && $block != 0 ? ' checked' : '').">&nbsp;Yes<br>";
 			echo "<input type='radio' name='block' value='0'".(!isset($block) || $block == 0 ? ' checked' : '').">&nbsp;No</td>";
+			echo "</tr>";
+			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+		}
+		
+		
+		// Raw
+		if (isset($show['raw']) && $show['raw'] == true)
+		{
+			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+			echo "<tr><td width='30'>&nbsp;</td>";
+			echo "<td width='200'>".$GLOBALS['strInvocationTemplate']."</td>";
+			echo "<td width='370'><input type='radio' name='raw' value='1'".(isset($raw) && $raw != 0 ? ' checked' : '').">&nbsp;Yes<br>";
+			echo "<input type='radio' name='raw' value='0'".(!isset($raw) || $raw == 0 ? ' checked' : '').">&nbsp;No</td>";
 			echo "</tr>";
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 		}
@@ -632,10 +665,10 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$GLOBALS['strPopUpTop']."</td><td width='370'>";
-				echo "<input class='flat' type='text' name='top' size='' value='".(isset($top) ? $top : '-')."' style='width:175px;'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
+				echo "<input class='flat' type='text' name='top' size='' value='".(isset($top) ? $top : '-')."' style='width:50px;'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$GLOBALS['strPopUpLeft']."</td><td width='370'>";
-				echo "<input class='flat' type='text' name='left' size='' value='".(isset($left) ? $left : '-')."' style='width:175px;'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
+				echo "<input class='flat' type='text' name='left' size='' value='".(isset($left) ? $left : '-')."' style='width:50px;'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 		}
 		
@@ -646,7 +679,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$GLOBALS['strAutoCloseAfter']."</td><td width='370'>";
-				echo "<input class='flat' type='text' name='timeout' size='' value='".(isset($timeout) ? $timeout : '-')."' style='width:175px;'> ".$GLOBALS['strAbbrSeconds']."</td></tr>";
+				echo "<input class='flat' type='text' name='timeout' size='' value='".(isset($timeout) ? $timeout : '-')."' style='width:50px;'> ".$GLOBALS['strAbbrSeconds']."</td></tr>";
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 		}
 		

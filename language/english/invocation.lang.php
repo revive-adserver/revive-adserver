@@ -40,6 +40,8 @@ $GLOBALS['strInvocationClientID']		= "Advertiser or campaign";
 $GLOBALS['strInvocationTarget']			= "Target frame";
 $GLOBALS['strInvocationSource']			= "Source";
 $GLOBALS['strInvocationWithText']		= "Show text below banner";
+$GLOBALS['strInvocationDontShowAgain']	= "Don't show the banner again on the same page";
+$GLOBALS['strInvocationTemplate'] 		= "Store the banner inside a variable so it can be used in a template";
 
 
 // Iframe
