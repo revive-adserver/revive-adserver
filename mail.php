@@ -24,6 +24,15 @@ $i = 0;
 $logs = array();
 $clients = array();
 
+
+// PHP3 replacement for substr_count()
+// quick hack found at www.php.net by webmaster@lynucs.com
+function substr_count2($string,$search) { 
+$temp = str_replace($search,$search."a",$string); 
+return strlen($temp)-strlen($string); 
+}
+
+
 while($row_clients = mysql_fetch_array($res_clients))
 {
 	$clients[$i] = array();
@@ -33,7 +42,7 @@ while($row_clients = mysql_fetch_array($res_clients))
 	$clients[$i]["clientname"] = $row_clients["clientname"];      
 	$clients[$i]["views"] = $row_clients["views"];
 	$clients[$i]["clicks"] = $row_clients["clicks"];
-	if (substr_count($row_clients["expire"],"0") == 8) {
+	if (substr_count2($row_clients["expire"],"0") == 8) {
 		$clients[$i]["days"] = 0 ;
 	} else {
 		$clients[$i]["days"] = $row_clients["days"];
