@@ -18,7 +18,7 @@ define ('LIBDBCONFIG_INCLUDED', true);
 
 
 // Current phpAds version
-$phpAds_version = 200.105;
+$phpAds_version = 200.106;
 $phpAds_version_readable = "2 beta 7.1";
 $phpAds_productname = "phpAdsNew";
 $phpAds_dbmsname = "MySQL";
@@ -44,6 +44,7 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'persistent_connections' =>		array ('type' => 'boolean', 'sql' => false),
 	'insert_delayed' => 			array ('type' => 'boolean', 'sql' => false),
 	'compatibility_mode' => 		array ('type' => 'boolean', 'sql' => false),
+	'db_sessions' => 				array ('type' => 'boolean', 'sql' => false),
 	'url_prefix' => 				array ('type' => 'string', 	'sql' => false),
 	'p3p_policies' => 				array ('type' => 'boolean', 'sql' => false),
 	'p3p_compact_policy' => 		array ('type' => 'string', 	'sql' => false),
