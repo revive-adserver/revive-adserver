@@ -7,6 +7,10 @@ of phpAdsNew 2 beta 1 by using the below queries:
 MODIFY TABLE clients ADD COLUMN active enum('true','false') NOT NULL;
 MODIFY TABLE clients ADD COLUMN weight tinyint(4) default '1' NOT NULL;
 
+One column was modified to allow webserver stored banners:
+
+ALTER TABLE banners MODIFY COLUMN format enum('gif','jpeg','png','html','url','web') DEFAULT 'gif' NOT NULL;
+
 ----------------------
 
 phpAdsNew 1.9.x -> phpAdsNew 2 beta 1

@@ -555,6 +555,18 @@ function view_raw($what, $clientID=0, $target="", $source="", $withtext=0, $cont
 				if($withtext && !empty($row["bannertext"]))
 					$outputbuffer .= "<BR>\n<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target>".$row["bannertext"]."</a>";
 			}
+			elseif ($row["format"] == "web")
+			{
+				// Banner stored on webserver
+				
+				if (empty($row["url"]))
+					$outputbuffer .= "<img src=\"$row[banner]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0>";
+				else
+					$outputbuffer .= "<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target><img src=\"$row[banner]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0></a>";
+				
+				if($withtext && !empty($row["bannertext"]))
+					$outputbuffer .= "<BR>\n<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target>".$row["bannertext"]."</a>";
+			}
 			else
 			{
 				// Banner stored in MySQL

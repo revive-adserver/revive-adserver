@@ -163,7 +163,7 @@ function phpAds_buildBannerCode ($bannerID, $banner, $active, $format, $width, $
 			$buffer    .= "<td width='33%' valign='top' align='center' nowrap>&nbsp;&nbsp;<a href='banner-htmlpreview.php?bannerID=$bannerID' target='_new'>[ Show banner ]</a>&nbsp;&nbsp;</td>";
 			$buffer	   .= "</tr></table>";
 		}
-		elseif($format == "url")
+		elseif($format == "url" || $format == "web")
 			$buffer = "<img src='$banner' width='$width' height='$height'>";
 		else
 			$buffer = "<img src='../viewbanner.php?bannerID=$bannerID' width='$width' height='$height'>";
@@ -180,7 +180,7 @@ function phpAds_buildBannerCode ($bannerID, $banner, $active, $format, $width, $
 			$buffer    .= "<td width='33%' valign='top' align='center' nowrap>&nbsp;&nbsp;<a href='banner-htmlpreview.php?bannerID=$bannerID' target='_new'>[ Show banner ]</a>&nbsp;&nbsp;</td>";
 			$buffer	   .= "</tr></table>";
 		}
-		elseif($format == "url")
+		elseif($format == "url" || $format == "web")
 			$buffer = "<img src='$banner' width='$width' height='$height' style='filter: Alpha(Opacity=50)'>";
 		else
 			$buffer = "<img src='../viewbanner.php?bannerID=$bannerID' width='$width' height='$height' style='filter: Alpha(Opacity=50)'>";

@@ -40,7 +40,7 @@ CREATE TABLE banners (
    banner blob NOT NULL,
    width smallint(6) DEFAULT '0' NOT NULL,
    height smallint(6) DEFAULT '0' NOT NULL,
-   format enum('gif','jpeg','png','html','url') DEFAULT 'gif' NOT NULL,
+   format enum('gif','jpeg','png','html','url','web') DEFAULT 'gif' NOT NULL,
    url varchar(255) NOT NULL,
    alt varchar(255) NOT NULL,
    keyword varchar(255) NOT NULL,
