@@ -117,6 +117,9 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: Displaying weekly stats of an empty campaing produced an SQL error  (Matteo) 20020109
 			  - Bugfix: NoStats message was wrong in global and campaign related weekly stats  (Matteo) 20020109
 			  - Bugfix: Removed useless weeks selector when no stats are present in weekly stats  (Matteo) 20020109
+			  - Bugfix: Lib-priority wrongly used prediction when all active high-pri campaigns
+			    are empty (i.e. after creating the first high-pri campaign). The same happened if
+			    all the banners in high-pri campaigns were not active  (Matteo) 20020110
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015

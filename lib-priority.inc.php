@@ -508,10 +508,19 @@ function phpAds_PriorityPrepareCampaigns()
 	$campaigns = array();
 
 	$query = "
-		SELECT clientid, weight, target
-		FROM ".$phpAds_config['tbl_clients']."
-		WHERE parent > 0 AND active='t'
-		AND (weight + target) > 0
+		SELECT DISTINCT
+			c.clientid AS clientid,
+			c.weight AS weight,
+			c.target AS target
+		FROM
+			".$phpAds_config['tbl_clients']." AS c,
+			".$phpAds_config['tbl_banners']." AS b
+		WHERE
+			c.clientid = b.clientid AND
+			c.parent > 0 AND
+			c.active='t' AND
+			b.active='t' AND
+			(c.weight + c.target) > 0
 	";
 	
 	$res = phpAds_dbQuery($query);
