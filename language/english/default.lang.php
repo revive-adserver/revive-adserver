@@ -334,4 +334,11 @@ $GLOBALS['strAddNewAffiliate']			= "Add new affiliate";
 
 $GLOBALS['strCheckAllNone']				= "Check all / none";
 
+$GLOBALS['strAllowAffiliateModifyInfo'] = "Allow this user to modify his own affiliate information";
+$GLOBALS['strAllowAffiliateModifyZones'] = "Allow this user to modify his own zones";
+$GLOBALS['strAllowAffiliateLinkBanners'] = "Allow this user to link banners to his own zones";
+$GLOBALS['strAllowAffiliateAddZone'] = "Allow this user to define new zones";
+$GLOBALS['strAllowAffiliateDeleteZone'] = "Allow this user to delete existing zones";
+
+
 ?>
