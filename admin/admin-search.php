@@ -284,11 +284,11 @@ if (!isset($keyword))
 						echo "<td height='25'>";
 						echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 						
-						if ($row_b_expand['format'] == 'html')
+						if ($row_b_expand['storagetype'] == 'html')
 						{
 							echo "<img src='images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
 						}
-						elseif ($row_b_expand['format'] == 'url')
+						elseif ($row_b_expand['storagetype'] == 'url')
 						{
 							echo "<img src='images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
 						}
@@ -372,11 +372,11 @@ if (!isset($keyword))
 					echo "<td height='25'>";
 					echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 					
-					if ($row_b_expand['format'] == 'html')
+					if ($row_b_expand['storagetype'] == 'html')
 					{
 						echo "<img src='images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
 					}
-					elseif ($row_b_expand['format'] == 'url')
+					elseif ($row_b_expand['storagetype'] == 'url')
 					{
 						echo "<img src='images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
 					}
@@ -426,11 +426,11 @@ if (!isset($keyword))
 			echo "<td height='25'>";
 			echo "&nbsp;&nbsp;";
 			
-			if ($row_banners['format'] == 'html')
+			if ($row_banners['storagetype'] == 'html')
 			{
 				echo "<img src='images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
 			}
-			elseif ($row_banners['format'] == 'url')
+			elseif ($row_banners['storagetype'] == 'url')
 			{
 				echo "<img src='images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
 			}
