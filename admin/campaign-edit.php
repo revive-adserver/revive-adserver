@@ -154,9 +154,10 @@ if (isset($submit))
 	if ($campaignid == "null")
 		$campaignid = phpAds_dbInsertID();
 	
-
+	
 	// Auto-target campaign if adviews purchased and expiration set
 	if ($active = 't' && $expire != 'NULL' && $views > 0)
+	{
 		phpAds_dbQuery("
 			UPDATE ".$phpAds_config['tbl_clients']."
 			SET
@@ -166,7 +167,8 @@ if (isset($submit))
 			WHERE
 				clientid = ".$campaignid
 		);
-
+	}
+	
 	
 	if (isset($move) && $move == 't')
 	{
@@ -383,6 +385,8 @@ if (!isset($row['clicks']) || (isset($row['clicks']) && $row['clicks'] == ""))
 if ($days_left == "")
 	$days_left = -1;
 
+
+
 function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 {
 	global $strMonth, $strDontExpire, $strActivateNow;
@@ -407,19 +411,19 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 	if ($edit)
 	{
 		echo "<table><tr><td>";
-		echo "<input type='radio' name='".$name."Set' value='f' onclick=\"disableradio('".$name."', false);\"".($set==false?' checked':'').">";
+		echo "<input type='radio' name='".$name."Set' value='f' onclick=\"phpAds_formDateClick('".$name."', false);\"".($set==false?' checked':'').">";
 		echo "&nbsp;$caption";
 		echo "</td></tr><tr><td>";
-		echo "<input type='radio' name='".$name."Set' value='t' onclick=\"disableradio('".$name."', true);\"".($set==true?' checked':'').">";
+		echo "<input type='radio' name='".$name."Set' value='t' onclick=\"phpAds_formDateClick('".$name."', true);\"".($set==true?' checked':'').">";
 		echo "&nbsp;";
 		
-		echo "<select name='".$name."Day' onchange=\"checkdate('".$name."');\">\n";
+		echo "<select name='".$name."Day' onchange=\"phpAds_formDateCheck('".$name."');\">\n";
 		echo "<option value='-'".($day=='-' ? ' selected' : '').">-</option>\n";
 		for ($i=1;$i<=31;$i++)
 			echo "<option value='$i'".($day==$i ? ' selected' : '').">$i</option>\n";
 		echo "</select>&nbsp;\n";
 		
-		echo "<select name='".$name."Month' onchange=\"checkdate('".$name."');\">\n";
+		echo "<select name='".$name."Month' onchange=\"phpAds_formDateCheck('".$name."');\">\n";
 		echo "<option value='-'".($month=='-' ? ' selected' : '').">-</option>\n";
 		for ($i=1;$i<=12;$i++)
 			echo "<option value='$i'".($month==$i ? ' selected' : '').">".$strMonth[$i-1]."</option>\n";
@@ -430,7 +434,7 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 		else
 			$start = date('Y');
 		
-		echo "<select name='".$name."Year' onchange=\"checkdate('".$name."');\">\n";
+		echo "<select name='".$name."Year' onchange=\"phpAds_formDateCheck('".$name."');\">\n";
 		echo "<option value='-'".($year=='-' ? ' selected' : '').">-</option>\n";
 		for ($i=$start;$i<=($start+4);$i++)
 			echo "<option value='$i'".($year==$i ? ' selected' : '').">$i</option>\n";
@@ -450,15 +454,154 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 		}
 	}
 }
+
+
+
+echo "<br><br>";
+
+echo "<form name='clientform' method='post' action='campaign-edit.php' onSubmit='return phpAds_formCheck(this);'>";
+echo "<input type='hidden' name='campaignid' value='".(isset($campaignid) ? $campaignid : '')."'>";
+echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clientid : '')."'>";
+echo "<input type='hidden' name='expire' value='".(isset($row["expire"]) ?$row["expire"] : '')."'>";
+echo "<input type='hidden' name='move' value='".(isset($move) ? $move : '')."'>";
+
+echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+echo "<tr><td height='25' colspan='3'><b>".$strBasicInformation."</b></td></tr>";
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+
+echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strName."</td><td>";
+echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='clientname' size='35' style='width:350px;' value='".(isset($row["clientname"]) ? $row["clientname"] : $strDefault)."'></td>";
+echo "</tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "</table>";
+
+
+
+echo "<br><br>";
+echo "<br><br>";
+
+
+
+echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+echo "<tr><td height='25' colspan='3'><b>".$strContractInformation."</b></td></tr>";
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+
+if (isset($row['active']) && $row['active'] == 'f') 
+{
+	echo "<tr><td width='30' valign='top'><img src='images/info.gif'></td>";
+	echo "<td width='200' colspan='2'>".$strClientDeactivated;
+	
+	$expire_ts = mktime(0, 0, 0, $row["expire_month"], $row["expire_dayofmonth"], $row["expire_year"]);
+	
+	if ($row['clicks'] == 0) echo ", $strNoMoreClicks";
+	if ($row['views'] == 0) echo ", $strNoMoreViews";
+	if (time() < mktime(0, 0, 0, $row["activate_month"], $row["activate_dayofmonth"], $row["activate_year"])) echo ", $strBeforeActivate";
+	if (time() > $expire_ts && $expire_ts > 0) echo ", $strAfterExpire";
+	
+	echo ".<br><br>";
+	echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+}
+
+
+echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strViewsPurchased."</td><td>";
+echo "<input class='flat' type='text' name='views' size='25' value='".($row["views"] > 0 ? $row["views"] : '-')."' onBlur='phpAds_formUpdate(this);' onKeyUp=\"phpAds_formUnlimitedCheck('unlimitedviews', 'views');\">&nbsp;";
+echo "<input type='checkbox' name='unlimitedviews'".($row["views"] == -1 ? " CHECKED" : '')." onClick=\"phpAds_formUnlimitedClick('unlimitedviews', 'views');\">&nbsp;";
+echo $strUnlimited;
+echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+
+echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strClicksPurchased."</td><td>";
+echo "<input class='flat' type='text' name='clicks' size='25' value='".($row["clicks"] > 0 ? $row["clicks"] : '-')."' onBlur='phpAds_formUpdate(this);' onKeyUp=\"phpAds_formUnlimitedCheck('unlimitedclicks', 'clicks');\">&nbsp;";
+echo "<input type='checkbox' name='unlimitedclicks'".($row["clicks"] == -1 ? " CHECKED" : '')." onClick=\"phpAds_formUnlimitedClick('unlimitedclicks', 'clicks');\">&nbsp;";
+echo $strUnlimited;
+echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+
+
+echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strActivationDate."</td><td>";
+phpAds_showDateEdit('activate', isset($row["activate_dayofmonth"]) ? $row["activate_dayofmonth"] : 0, 
+						   	    isset($row["activate_month"]) ? $row["activate_month"] : 0, 
+								isset($row["activate_year"]) ? $row["activate_year"] : 0);
+echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+
+echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strExpirationDate."</td><td>";
+phpAds_showDateEdit('expire', isset($row["expire_dayofmonth"]) ? $row["expire_dayofmonth"] : 0, 
+							  isset($row["expire_month"]) ? $row["expire_month"] : 0, 
+							  isset($row["expire_year"]) ? $row["expire_year"] : 0);
+echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+
+
+echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$strPriority."</td><td><table>";
+
+echo "<tr><td valign='top'>";
+echo "<input type='radio' name='priority' value='-'>";
+echo "</td><td valign='top'>".$strPriorityAutoTargeting."<br><br></td></tr>";
+
+echo "<tr><td valign='top'>";
+echo "<input type='radio' name='priority' value='t'".($priority != 'f' ? ' checked' : '')." onClick='phpAds_formPriorityClick(this.form, true)'>";
+echo "</td><td valign='top'>".$strHighPriority."<br><img src='images/break-l.gif' height='1' width='100%' vspace='6'><br>";
+echo $strTargetLimitAdviews." ";
+echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='targetviews' size='7' value='".(isset($row["target"]) ? $row["target"] : '-')."'> ";
+echo $strTargetPerDay."<br><br></td></tr>";
+
+echo "<tr><td valign='top'>";
+echo "<input type='radio' name='priority' value='f'".($priority == 'f' ? ' checked' : '')." onClick='phpAds_formPriorityClick(this.form, true)'>";
+echo "</td><td valign='top'>".$strLowPriority."<br><img src='images/break-l.gif' height='1' width='100%' vspace='6'><br>";
+echo $strCampaignWeight.": ";
+echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='weight' size='7' value='".(isset($row["weight"]) ? $row["weight"] : $phpAds_config['default_campaign_weight'])."'>";
+
+echo "<input type='hidden' name='previousweight' value='".(isset($row["weight"]) ? $row["weight"] : '')."'>";
+echo "<input type='hidden' name='previousactive' value='".(isset($row["active"]) ? $row["active"] : '')."'>";
+echo "</td></tr></table>";
+echo "</td></tr>";
+
+echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "</table>";
+
+
+echo "<br><br>";
+echo "<input type='submit' name='submit' value='".$strSaveChanges."'>";
+echo "</form>";
+
+
+
+/*********************************************************/
+/* Form requirements                                     */
+/*********************************************************/
+
+// Get unique affiliate
+$unique_names = array();
+
+$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE parent = ".$clientid." AND clientid != '".$campaignid."'");
+while ($row = phpAds_dbFetchArray($res))
+	$unique_names[] = $row['clientname'];
+
 ?>
 
-
-<script language="JavaScript">
+<script language='JavaScript'>
 <!--
-	var pri_target = '';
-	var pri_weight = '';
+	phpAds_formSetRequirements('clientname', '<?php echo $strName; ?>', true, 'unique');
+	phpAds_formSetRequirements('views', '<?php echo $strViewsPurchased; ?>', false, 'number+');
+	phpAds_formSetRequirements('clicks', '<?php echo $strClicksPurchased; ?>', false, 'number+');
+	phpAds_formSetRequirements('weight', '<?php echo $strCampaignWeight; ?>', false, 'number+');
+	phpAds_formSetRequirements('targetviews', '<?php echo $strTargetLimitAdviews.' x '.$strTargetPerDay; ?>', false, 'number+');
+	
+	phpAds_formSetUnique('clientname', '|<?php echo implode('|', $unique_names); ?>|');
 
-	function disableradio(o, value)
+
+	
+	var previous_target = '';
+	var previous_weight = '';
+	var previous_priority = '';
+
+	function phpAds_formDateClick (o, value)
 	{
 		day = eval ("document.clientform." + o + "Day.value");
 		month = eval ("document.clientform." + o + "Month.value");
@@ -475,9 +618,12 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 		{
 			eval ("document.clientform." + o + "Set[0].checked = true");
 		}
+		
+		if (o == 'expire')
+			phpAds_formPriorityUpdate(document.clientform);
 	}
 
-	function checkdate(o)
+	function phpAds_formDateCheck (o)
 	{
 		day = eval ("document.clientform." + o + "Day.value");
 		month = eval ("document.clientform." + o + "Month.value");
@@ -491,243 +637,142 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 		{
 			eval ("document.clientform." + o + "Set[1].checked = true");
 		}
+
+		if (o == 'expire')
+			phpAds_formPriorityUpdate(document.clientform);
 	}
 	
-	function valid(form)
+	function phpAds_formUnlimitedClick (oc,oe)
 	{
-		var views=form.views.value;
-		var clicks=form.clicks.value;
-
-		if (!parseInt(views))
+		e = findObj(oe);
+		c = findObj(oc);
+		
+		if (c.checked == true) 
 		{
-			if (eval(form.unlimitedviews.checked) == false && views != '-')
-			{
-				alert("<?print $GLOBALS['strErrorViews'];?>");
-				return false;
-			}
+			e.value = "-";
 		} 
-		else if (parseInt(views) < 0)
+		else 
 		{
-			alert("<?print $GLOBALS['strErrorNegViews'];?>");
-			return false;
+			e.value = "";
+			e.focus();
 		}
 		
-		if (!parseInt(clicks))
-		{
-			if (eval(form.unlimitedclicks.checked) == false && clicks != '-')
-			{
-				alert("<?print $GLOBALS['strErrorClicks'];?>");
-				return false;
-			}
-		} 
-		else if (parseInt(clicks) < 0)
-		{
-			alert("<?print $GLOBALS['strErrorNegClicks'];?>");
-			return false;
-		}
+		// Update check
+		phpAds_formUpdate(e);
+		phpAds_formPriorityUpdate(e.form);
+	}	
+	
+	function phpAds_formUnlimitedCheck (oc,oe)
+	{
+		e = findObj(oe);
+		c = findObj(oc);
+	
+		c.checked = e.value != '-' ? false : true;
+		phpAds_formPriorityUpdate(e.form);
 	}
 	
-	
-	function click_priority()
+	function phpAds_formPriorityClick (f, s)
 	{
-		if (document.clientform.priority[0].checked)
+		if (f.priority[1].checked)
 		{
-			pri_weight = document.clientform.weight.value;
-			document.clientform.weight.value = '-';
+			if (f.weight.value != '-')
+				previous_weight = f.weight.value;
 			
-			if (document.clientform.targetviews.value == '-')
-				document.clientform.targetviews.value = pri_target;
+			previous_priority = 1;
+			
+			f.weight.value = '-';
+			
+			f.weight.disabled 	   = true;
+			f.targetviews.disabled = false;			
+			
+			phpAds_formUpdate(f.weight);
+			
+			if (f.targetviews.value == '-')
+				f.targetviews.value = previous_target;
+			
+			if (s)
+			{
+				f.targetviews.select()	
+				f.targetviews.focus();
+			}
 		}
 		else
 		{
-			pri_target = document.clientform.targetviews.value;
-			document.clientform.targetviews.value = '-';
+			if (f.targetviews.value != '-')
+				previous_target = f.targetviews.value;
 			
-			if (document.clientform.weight.value == '-')
-				document.clientform.weight.value = pri_weight;
-		}
-	}
+			previous_priority = 2;
 
-	function validate_form_campaign()
-	{
-		var x;
+			f.targetviews.value = '-';
+			
+			f.targetviews.disabled = true;
+			f.weight.disabled 	   = false;
 
-		if (document.clientform.priority[0].checked)
-		{
-			x = validate_form('clientname','strName','R',
-								 'views','strViewsPurchased','Ris+NumOR-',
-								 'clicks','strClicksPurchased','Ris+NumOR-');
-		
-			if (x && !document.clientform.unlimitedviews.checked && !document.clientform.expireSet[0].checked)
+			phpAds_formUpdate(f.targetviews);
+			
+			if (f.weight.value == '-')
+				f.weight.value = previous_weight;
+			
+			if (s)
 			{
-				alert("<?php echo str_replace("\n", "\\n", str_replace("'", "\\'", $GLOBALS['strPriorityAutoTargeting'])); ?>");
-				return true;
+				f.weight.select()	
+				f.weight.focus();
 			}
-			else
-				return validate_form('targetviews', 'strTarget', 'Ris+Num');
 		}
-		else	
-			return validate_form('clientname','strName','R',
-								 'views','strViewsPurchased','Ris+NumOR-',
-								 'clicks','strClicksPurchased','Ris+NumOR-',
-								 'weight', 'strWeight', 'Ris+Num');
-	
 	}
 
+	function phpAds_formPriorityUpdate (f)
+	{
+		if (f.expireSet[0].checked == true ||
+			isNaN(f.views.value) || f.views.value == '' ||
+			f.unlimitedviews.checked == true)
+		{
+			// Autotarget == false
+			f.priority[0].disabled = true;
+			f.priority[1].disabled = false;
+			f.priority[2].disabled = false;
+			
+			// Set to previous priority
+			if (previous_priority == 1)
+				f.priority[1].checked  = true;
+			else
+				f.priority[2].checked  = true;
+			
+			phpAds_formPriorityClick (f, false);
+		}
+		else
+		{
+			// Autotarget == true
+			if (f.weight.value != '-')
+				previous_weight = f.weight.value;
+			
+			if (f.targetviews.value != '-')
+				previous_target = f.targetviews.value;
+			
+			// Disable weight and targetviews
+			f.targetviews.value    = '-';
+			f.weight.value 		   = '-';
+			
+			f.targetviews.disabled = true;
+			f.weight.disabled 	   = true;
+			
+			f.priority[0].disabled = false;
+			f.priority[1].disabled = true;
+			f.priority[2].disabled = true;
+			
+			f.priority[0].checked  = true;
+		}
+	}
+	
+	// Set default values for priority
+	phpAds_formPriorityUpdate(document.clientform, false);
 	
 //-->
 </script>
 
-
-<br><br>
-  
-
-<form name="clientform" method="post" action="<?php echo basename($PHP_SELF);?>" onSubmit="return validate_form_campaign();">
-<input type="hidden" name="campaignid" value="<?php if(isset($campaignid)) echo $campaignid;?>">
-<input type="hidden" name="clientid" value="<?php if(isset($clientid)) echo $clientid;?>">
-<input type="hidden" name="expire" value="<?php if(isset($row["expire"])) echo $row["expire"];?>">
-<input type="hidden" name="move" value="<?php if(isset($move)) echo $move;?>">
-
-<table border='0' width='100%' cellpadding='0' cellspacing='0'>
-	<tr><td height='25' colspan='3'><b><?php echo $strBasicInformation;?></b></td></tr>
-	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-
-	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
-	<tr>
-		<td width='30'>&nbsp;</td>
-		<td width='200'><?php echo $strName;?></td>
-		<td><input class='flat' type="text" name="clientname" size='35' style="width:350px;" value="<?php if(isset($row["clientname"])) echo $row["clientname"]; else echo $strDefault;?>"></td>
-	</tr>
-	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
-
-	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-</table>
-
-<br><br>
-<br><br>
-<table border='0' width='100%' cellpadding='0' cellspacing='0'>
-	<tr><td height='25' colspan='3'><b><?php echo $strContractInformation;?></b></td></tr>
-	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-
-	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
-	<?php
-		if (isset($row['active']) && $row['active'] == 'f') {
-	?>
-	<tr>
-		<td width='30' valign='top'><img src='images/info.gif'></td>
-		<td width='200' colspan='2'>
-		<?php
-			echo $strClientDeactivated;
-			
-			$expire_ts = mktime(0, 0, 0, $row["expire_month"], $row["expire_dayofmonth"], $row["expire_year"]);
-			
-			if ($row['clicks'] == 0) echo ", $strNoMoreClicks";
-			if ($row['views'] == 0) echo ", $strNoMoreViews";
-			if (time() < mktime(0, 0, 0, $row["activate_month"], $row["activate_dayofmonth"], $row["activate_year"]))
-				echo ", $strBeforeActivate";
-			if (time() > $expire_ts && $expire_ts > 0)
-				echo ", $strAfterExpire";
-			
-			echo ".<br><br>";
-		?>
-		</td>
-	</tr>
-	<tr>
-		<td><img src='images/spacer.gif' height='1' width='100%'></td>
-		<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
-	</tr>
-	<?php
-		}
-	?>
-	<tr>
-		<td width='30'>&nbsp;</td>
-		<td width='200'><?php echo $strViewsPurchased;?></td>
-		<td>
-			<input class='flat' type="text" name="views" size='25' value="<?php if($row["views"]>0) echo $row["views"]; else echo '-';?>" onKeyUp="disable_checkbox('unlimitedviews', 'views');">
-			<input type="checkbox" name="unlimitedviews"<?php if($row["views"]==-1) print " CHECKED";?> onClick="click_checkbox('unlimitedviews', 'views');">
-			<?php echo $GLOBALS['strUnlimited']; ?>
-		</td>
-	</tr>
-	<tr>
-		<td><img src='images/spacer.gif' height='1' width='100%'></td>
-		<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
-	</tr>
-	<tr>
-		<td width='30'>&nbsp;</td>
-		<td width='200'><?php echo $strClicksPurchased;?></td>
-		<td>
-			<input class='flat' type="text" name="clicks" size='25' value="<?php if($row["clicks"]>0) echo $row["clicks"]; else echo '-';?>" onKeyUp="disable_checkbox('unlimitedclicks', 'clicks');">
-			<input type="checkbox" name="unlimitedclicks"<?php if($row["clicks"]==-1) print " CHECKED";?> onClick="click_checkbox('unlimitedclicks', 'clicks');">
-			<?php echo $GLOBALS['strUnlimited']; ?>
-		</td>
-	</tr>
-	<tr>
-		<td><img src='images/spacer.gif' height='1' width='100%'></td>
-		<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
-	</tr>
-	<tr>
-		<td width='30'>&nbsp;</td>
-		<td width='200'><?php echo $GLOBALS['strActivationDate']; ?></td>
-		<td>
-			<?php phpAds_showDateEdit('activate', isset($row["activate_dayofmonth"]) ? $row["activate_dayofmonth"] : 0, 
-											   	  isset($row["activate_month"]) ? $row["activate_month"] : 0, 
-											   	  isset($row["activate_year"]) ? $row["activate_year"] : 0); ?>
-		</td>
-	</tr>
-	<tr>
-		<td><img src='images/spacer.gif' height='1' width='100%'></td>
-		<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
-	</tr>
-	<tr>
-		<td width='30'>&nbsp;</td>
-		<td width='200'><?php echo $strExpirationDate; ?></td>
-		<td>
-			<?php phpAds_showDateEdit('expire', isset($row["expire_dayofmonth"]) ? $row["expire_dayofmonth"] : 0, 
-											 	isset($row["expire_month"]) ? $row["expire_month"] : 0, 
-											 	isset($row["expire_year"]) ? $row["expire_year"] : 0); ?>
-		</td>
-	</tr>
-	<tr>
-		<td><img src='images/spacer.gif' height='1' width='100%'></td>
-		<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
-	</tr>
-	<tr>
-		<td width='30'>&nbsp;</td>
-		<td width='200' valign='top'><?php echo $strPriority; ?></td>
-		<td>
-			<table><tr><td valign='top'>
-			<input type="radio" name="priority" value="t" <?php echo $priority != 'f' ? 'checked' : ''; ?> onClick="click_priority()">
-			</td><td valign='top'>
-			<?php echo $strHighPriority; ?><br>
-			<img src='images/break-l.gif' height='1' width='100%' vspace='6'><br>
-			<?php echo $strTargetLimitAdviews; ?> 
-			<input class='flat' type="text" name="targetviews" size='7' value="<?php echo isset($row["target"]) ? $row["target"] : '-';?>"> <?php echo $strTargetPerDay; ?><br><br>
-			</td></tr><tr><td valign='top'>
-			<input type="radio" name="priority" value="f" <?php echo $priority == 'f' ? 'checked' : ''; ?> onClick="click_priority()">			
-			</td><td valign='top'>
-			<?php echo $strLowPriority; ?><br>
-			<img src='images/break-l.gif' height='1' width='100%' vspace='6'><br>
-			<?php echo $strCampaignWeight; ?>: 
-			<input class='flat' type="text" name="weight" size='7' value="<?php echo isset($row["weight"]) ? $row["weight"] : $phpAds_config['default_campaign_weight'];?>">
-			<input type="hidden" name="previousweight" value="<?php echo isset($row["weight"]) ? $row["weight"] : '';?>">
-			<input type="hidden" name="previousactive" value="<?php echo isset($row["active"]) ? $row["active"] : '';?>">
-			</td></tr></table>
-		</td>
-	</tr>
-
-	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
-
-	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-</table>
-
-<br><br>
-		
-<input type="submit" name="submit" value="<?php echo $strSaveChanges;?>">
-</form>
-
-
-
 <?php
+
+
 
 /*********************************************************/
 /* HTML framework                                        */
