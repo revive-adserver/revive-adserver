@@ -38,7 +38,7 @@ phpAds_registerGlobal ('installvars', 'language', 'phase', 'dbhost', 'dbuser', '
 // Set URL prefix
 $phpAds_config['url_prefix'] = strtolower(eregi_replace("^([a-z]+)/.*$", "\\1://",
 	$HTTP_SERVER_VARS['SERVER_PROTOCOL'])).$HTTP_SERVER_VARS['HTTP_HOST'].
-	ereg_replace("/admin/install.php(\?.*)?$", "", $HTTP_SERVER_VARS['SCRIPT_NAME']);
+	ereg_replace("/admin/install.php(\?.*)?$", "", $HTTP_SERVER_VARS['PHP_SELF']);
 
 
 // Overwrite settings with install vars

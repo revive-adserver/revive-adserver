@@ -441,7 +441,7 @@ function phpAds_PageFooter()
 	// Add Product Update redirector
 	if (phpAds_isUser(phpAds_Admin) &&
 		!isset($Session['update_check']) &&
-		!ereg("/(index|maintenance-updates|install|upgrade)\.php$", $HTTP_SERVER_VARS['SCRIPT_NAME']))
+		!ereg("/(index|maintenance-updates|install|upgrade)\.php$", $HTTP_SERVER_VARS['PHP_SELF']))
 	{
 		echo "\t<script language='JavaScript' src='maintenance-updates-js.php'></script>\n";
 	}
