@@ -321,6 +321,9 @@ CVS			+ Added configuration manager  (Matteo, 2001-11-04)
 			  - 2002-07-13:  If status text contained quotes during cache rebuild they caused javascript errors during delivery  (Niels)
 			  - 2002-07-14:  Fixed problem which allow users to log in as an advertiser  (Niels)
 			  - 2002-07-15:  Fixed bug in the adpopup.php file which cause javascript errors in some cases  (Niels)
+			  - 2002-07-17:  Admin username is now stored preserving upper and lower case  (Niels)
+			  - 2002-07-17:	 After changing the username on the settings page, it will now be checked for duplicates in both the advertiser and publisher table  (Niels)
+			  - 2002-07-17:	 The check for unique fields (like username) is now case-insensitive, so 'Name' and 'name' won't be allowed for two different users  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
