@@ -3,13 +3,19 @@ phpAdsNew - ChangeLog
 CVS
 			+ Misc changes
 			  - 2003-04-13:  Added support for paths in direct selection query string  (Niels)
- 			  - 2003-04-13:  Beacon image is not enclosed in a hidden layer to prevent unneeded linewraps after tables and other html tags  (Niels)
+ 			  - 2003-04-13:  Beacon image is now enclosed in a hidden layer to prevent unneeded linewraps after tables and other html tags  (Niels)
 			  - 2003-04-16:  Added transparent background and no-border support to simple interstitial layerstyle  (Matteo)
 
 			+ Misc bugfixes
 			  - 2003-04-13:  Logging of geodata for Adclicks didn't work properly  (Niels)
 			  - 2003-04-13:  Campaigns with zero clicks or zero views remaining were listed as 'unlimited' on the 'Campaign overview' page  (Niels)
 			  - 2003-04-13:  On the 'Statistics settings page', 'Log Country' was active even when 'Compact stats' were used. Option should become disabled  (Niels)
+			  - 2003-05-06:  Typo in globalisation of weight_old caused an warning when submitting the Campaign Properties page  (Niels)
+			  - 2003-05-06:  Bannertext was missing from preview calculation and causing a warning on the Zone Probability page  (Niels)
+			  - 2003-05-06:  Trying to generate a report with an empty inventory caused an error, it is now not possible to generate reports in this case, preventing the error  (Niels)
+			  - 2003-05-06:  Removed duplicate include of lib-view-query.php from adview.php and lib-view-main.php, it is now only included when really needed  (Niels)
+			  - 2003-05-06:  The MySQL port is now always appended to the hostname during connection as a speed optimalisation  (Niels)
+			  - 2003-05-06:  The dbQuery() function now automatically connects to the database if there isn't a connection available yet, in order to help prevent unused connections  (Niels, thanks to Doru Petrescu)
 			
 
 v 2.0rc3		+ Added a cron replacement for users who don't have access to the cron utility for scheduling the maintenance script  (Niels, 2003-01-14)
