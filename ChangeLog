@@ -1,5 +1,9 @@
 phpAdsNew - ChangeLog
 
+CVS
+			+ Misc bugfixes
+			  - 2002-07-26:  stats-affiliate-zones.php was displaying affiliateid instead of zoneid  (Matteo)
+
 v 2.0beta7		+ Added configuration manager  (Matteo, 2001-11-04)
 			+ Added install and upgrade script  (Matteo and Niels, 2001-11-04)
 			+ Added support for different table types, such as InnoDB  (Niels, 2001-11-04)
