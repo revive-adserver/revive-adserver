@@ -91,20 +91,6 @@ if (!defined('phpAds_installed'))
 
 
 
-
-// GUI Settings
-$phpAds_settings_sections = array(
-	"0.1.1"		=> $strChooseInstallLanguage,
-	"0.2.1"		=> $strDatabaseSettings,
-	"0.2.2"		=> $strAdvancedSettings,
-	"0.3.1"		=> $strAdminSettings,
-	"0.3.2"		=> $strOtherSettings
-);
-
-
-
-
-
 /*********************************************************/
 /* Begin of code                                         */
 /*********************************************************/
@@ -153,6 +139,8 @@ if (phpAds_isUser(phpAds_Admin))
 {
 	if (!isset($phase))
 		$phase = 0;
+	
+	$errormessage = array();
 	
 	// Process information
 	switch($phase)
@@ -216,14 +204,19 @@ if (phpAds_isUser(phpAds_Admin))
 			
 		case 2:
 			// Setup database check
+			if (isset($dbpassword) && ereg('^\*+$', $dbpassword))
+				$dbpassword = $phpAds_config['dbpassword'];
+			
+			
 			$phpAds_config['compatibility_mode'] = false;
 			$phpAds_config['dbhost'] 	 		 = $dbhost;
 			$phpAds_config['dbuser'] 	 		 = $dbuser;
 			$phpAds_config['dbpassword'] 		 = $dbpassword;
 			$phpAds_config['dbname'] 	 		 = $dbname;
 			
+			
 			if (!phpAds_dbConnect())
-				$errormessage[1][] = $strCouldNotConnectToDB;
+				$errormessage[0][] = $strCouldNotConnectToDB;
 			else
 			{
 				// Drop test table if one exists
@@ -235,12 +228,12 @@ if (phpAds_isUser(phpAds_Admin))
 				if (phpAds_dbAffectedRows() >= 0)
 					phpAds_dbQuery ("DROP TABLE phpads_tmp_dbpriviligecheck");
 				else
-					$errormessage[1][] = $strCreateTableTestFailed;
+					$errormessage[0][] = $strCreateTableTestFailed;
 			}
 			
 			// Check table prefix
 			if (strlen($table_prefix) && !eregi("^[a-z][a-z0-9_]*$", $table_prefix))
-				$errormessage[2][] = $strTablePrefixInvalid;
+				$errormessage[1][] = $strTablePrefixInvalid;
 			
 			
 			if (!isset($errormessage) || !count($errormessage))
@@ -270,7 +263,7 @@ if (phpAds_isUser(phpAds_Admin))
 				
 				if (phpAds_checkDatabase())
 				{
-					$errormessage[2][] = $strTableInUse;
+					$errormessage[1][] = $strTableInUse;
 				}
 				else
 				{
@@ -287,10 +280,10 @@ if (phpAds_isUser(phpAds_Admin))
 			$admin = trim($admin);
 			
 			if (!strlen($admin) || !strlen($admin_pw))
-				$errormessage[1][] = $strInvalidUserPwd;
+				$errormessage[0][] = $strInvalidUserPwd;
 			
 			if (strlen($admin_pw) && $admin_pw != $admin_pw2)
-				$errormessage[1][] = $strNotSamePasswords;
+				$errormessage[0][] = $strNotSamePasswords;
 			
 			
 			if (!isset($errormessage) || !count($errormessage))
@@ -411,7 +404,7 @@ if (phpAds_isUser(phpAds_Admin))
 			
 		case 1:
 			// Language selection
-			echo "<form name='installform' method='post' action='install.php'>";
+			echo "<form name='installform' method='post' action='install.php' onSubmit='return phpAds_formCheck(this);'>";
 			echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
 			echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
 			echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
@@ -420,18 +413,26 @@ if (phpAds_isUser(phpAds_Admin))
 			
 			phpAds_ShowBreak();
 			
-			phpAds_StartSettings();
-				phpAds_AddSettings('start_section', "0.1.1");
-				phpAds_AddSettings('select', 'language', array($strLanguage, phpAds_AvailableLanguages()));
-				phpAds_AddSettings('end_section', '');
-			phpAds_EndSettings();
-			phpAds_FlushSettings();
+			phpAds_ShowSettings(array (
+				array (
+					'text' 	  => $strChooseInstallLanguage,
+					'items'	  => array (
+						array (
+							'type' 	  => 'select', 
+							'name' 	  => 'language',
+							'text' 	  => $strLanguage,
+							'items'   => phpAds_AvailableLanguages()
+						)
+					)
+				)
+			), $errormessage);
+			
 			break;
 			
 			
 		case 2:
 			// Database settings
-			echo "<form name='installform' method='post' action='install.php'>";
+			echo "<form name='installform' method='post' action='install.php' onSubmit='return phpAds_formCheck(this);'>";
 			echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
 			echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
 			echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
@@ -440,61 +441,134 @@ if (phpAds_isUser(phpAds_Admin))
 			
 			phpAds_ShowBreak();
 			
-			$phpAds_config['dbpassword'] = '';
+			phpAds_ShowSettings(array (
+				array (
+					'text' 	  => $strDatabaseSettings,
+					'items'	  => array (
+						array (
+							'type' 	  => 'text', 
+							'name' 	  => 'dbhost',
+							'text' 	  => $strDbHost,
+							'req'	  => true
+						),
+						array (
+							'type'    => 'break'
+						),
+						array (
+							'type' 	  => 'text', 
+							'name' 	  => 'dbuser',
+							'text' 	  => $strDbUser,
+							'req'	  => true
+						),
+						array (
+							'type'    => 'break'
+						),
+						array (
+							'type' 	  => 'password', 
+							'name' 	  => 'dbpassword',
+							'text' 	  => $strDbPassword,
+							'req'	  => true
+						),
+						array (
+							'type'    => 'break'
+						),
+						array (
+							'type' 	  => 'text', 
+							'name' 	  => 'dbname',
+							'text' 	  => $strDbName,
+							'req'	  => true
+						)
+					)
+				),
+				array (
+					'text' 	  => $strAdvancedSettings,
+					'items'	  => array (
+						array (
+							'type' 	  => 'text', 
+							'name' 	  => 'table_prefix',
+							'text' 	  => $strTablesPrefix,
+							'req'	  => true
+						),
+						array (
+							'type'    => 'break',
+							'visible' => phpAds_tableTypesSupported
+						),
+						array (
+							'type' 	  => 'select', 
+							'name' 	  => 'tabletype',
+							'text' 	  => $strTablesType,
+							'items'   => phpAds_getTableTypes(),
+							'visible' => phpAds_tableTypesSupported
+						)
+					)
+				)
+			), $errormessage);
 			
-			phpAds_StartSettings();
-				phpAds_AddSettings('start_section', "0.2.1");
-				phpAds_AddSettings('text', 'dbhost', $strDbHost);
-				phpAds_AddSettings('break', '');
-				phpAds_AddSettings('text', 'dbuser', $strDbUser);
-				phpAds_AddSettings('break', '');
-				phpAds_AddSettings('text', 'dbpassword', array($strDbPassword, 25, 'password'));
-				phpAds_AddSettings('break', '');
-				phpAds_AddSettings('text', 'dbname', $strDbName);
-				phpAds_AddSettings('end_section', '');
-				
-				phpAds_AddSettings('start_section', "0.2.2");
-				phpAds_AddSettings('text', 'table_prefix', $strTablesPrefix);
-				
-				if (phpAds_tableTypesSupported)
-				{
-					phpAds_AddSettings('break', '');
-					phpAds_AddSettings('select', 'tabletype', array($strTablesType, phpAds_getTableTypes()));
-				}
-				
-				phpAds_AddSettings('end_section', '');
-			phpAds_EndSettings();
-			phpAds_FlushSettings();
 			break;
 			
 			
 		case 3:
 			// Admin settings
-			echo "<form name='installform' method='post' action='install.php'>";
+			echo "<form name='installform' method='post' action='install.php' onSubmit='return phpAds_formCheck(this);'>";
 			echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
 			echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
 			echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
 			echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
 			echo "<span class='install'>".$strInstallMessage."</td></tr></table><br><br>";
 			
-			phpAds_ShowBreak();
-			
 			$phpAds_config['admin_pw'] = '';
 			
-			phpAds_StartSettings();
-				phpAds_AddSettings('start_section', "0.3.1");
-				phpAds_AddSettings('text', 'admin', $strUsername);
-				phpAds_AddSettings('break', '');
-				phpAds_AddSettings('text', 'admin_pw', array($strPassword, 25, 'password'));
-				phpAds_AddSettings('break', '');
-				phpAds_AddSettings('text', 'admin_pw2',	array($strRepeatPassword, 25, 'password'));
-				phpAds_AddSettings('end_section', '');
-				
-				phpAds_AddSettings('start_section', "0.3.2");
-				phpAds_AddSettings('text', 'url_prefix', array($strUrlPrefix, 35));
-				phpAds_AddSettings('end_section', '');
-			phpAds_EndSettings();
-			phpAds_FlushSettings();
+			phpAds_ShowBreak();
+			
+			phpAds_ShowSettings(array (
+				array (
+					'text' 	  => $strAdminSettings,
+					'items'	  => array (
+						array (
+							'type' 	  => 'text', 
+							'name' 	  => 'admin',
+							'text' 	  => $strUsername,
+							'size'	  => 25,
+							'req'	  => true
+						),
+						array (
+							'type'    => 'break'
+						),
+						array (
+							'type' 	  => 'password', 
+							'name' 	  => 'admin_pw',
+							'text' 	  => $strNewPassword,
+							'size'	  => 25,
+							'req'	  => true
+						),
+						array (
+							'type'    => 'break'
+						),
+						array (
+							'type' 	  => 'password', 
+							'name' 	  => 'admin_pw2',
+							'text' 	  => $strRepeatPassword,
+							'size'	  => 25,
+							'check'	  => 'compare:admin_pw',
+							'req'	  => true
+						)
+					)
+				),
+				array (
+					'text' 	  => $strOtherSettings,
+					'items'	  => array (
+						array (
+							'type' 	  => 'text', 
+							'name' 	  => 'url_prefix',
+							'text' 	  => $strUrlPrefix,
+							'size'	  => 35,
+							'check'	  => 'url',
+							'req'	  => true
+						)
+					)
+				)
+			), $errormessage);
+			
 			break;
 			
 			

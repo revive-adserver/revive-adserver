@@ -23,7 +23,6 @@ if ($phpAds_config['language'] != 'english' && file_exists(phpAds_path.'/languag
 function phpAds_MaintenanceSelection($section)
 {
 	global $phpAds_config;
-	global $phpAds_settings_sections;
 	global $phpAds_TextDirection;
 	global $strChooseSection, $strPriority, $strCache, $strBanners, $strStats, $strStorage;
 	

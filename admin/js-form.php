@@ -13,8 +13,19 @@
 /************************************************************************/
 
 
-// Include required files
-require ("config.php");
+// Figure out our location
+if (!defined("phpAds_path"))
+{
+	if (strlen(__FILE__) > strlen(basename(__FILE__)))
+	    define ('phpAds_path', ereg_replace("[/\\\\]admin[/\\\\][^/\\\\]+$", '', __FILE__));
+	else
+	    define ('phpAds_path', '..');
+}
+
+// Load language strings
+@include (phpAds_path.'/language/english/default.lang.php');
+if ($HTTP_GET_VARS['language'] != 'english' && file_exists(phpAds_path.'/language/'.$HTTP_GET_VARS['language'].'/default.lang.php'))
+	@include (phpAds_path.'/language/'.$HTTP_GET_VARS['language'].'/default.lang.php');
 
 // Send content-type header
 header("Content-type: application/x-javascript");
@@ -51,7 +62,7 @@ function phpAds_formSetUnique(obj, unique)
 
 function phpAds_formUpdate(obj)
 {
-	if (obj.validateCheck)
+	if (obj.validateCheck || obj.validateReq)
 	{
 		err = false;
 		val = obj.value;
@@ -62,7 +73,8 @@ function phpAds_formUpdate(obj)
 		if (err == false && val != '')
 		{
 			if (obj.validateCheck == 'url' &&
-				val.indexOf('http://') != 0)
+				val.substr(0,7) != 'http://' && 
+				val.substr(0,8) != 'https://')
 				err = true;
 				
 			if (obj.validateCheck == 'email' && 

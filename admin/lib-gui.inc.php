@@ -312,7 +312,7 @@ function phpAds_PageHeader($ID, $extra="")
 	echo "\t\t<meta name='robots' content='noindex, nofollow'>\n\n";
 	echo "\t\t<link rel='stylesheet' href='images/".$phpAds_TextDirection."/interface.css'>\n";
 	echo "\t\t<script language='JavaScript' src='js-gui.js'></script>\n";
-	if (phpAds_isLoggedIn() && !defined('phpAds_installing') && !defined('phpAds_updating')) echo "\t\t<script language='JavaScript' src='js-form.php'></script>\n";
+	echo "\t\t<script language='JavaScript' src='js-form.php?language=".$phpAds_config['language']."'></script>\n";
 	if ($phpAds_showHelp) echo "\t\t<script language='JavaScript' src='js-help.js'></script>\n";
 	
 	// Show Moz site bar
