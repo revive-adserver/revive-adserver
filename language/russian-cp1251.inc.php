@@ -106,6 +106,7 @@ $GLOBALS['strLogErrorDisactivate'] = "[phpAds] Ошибка деактивации баннера.";
 $GLOBALS['strRatio'] = "Рейтинг кликабельности";
 $GLOBALS['strChooseBanner'] = "Выберите тип баннера.";
 $GLOBALS['strMySQLBanner'] = "Баннер с вашего компьютера помещается на сервер";
+$GLOBALS['strWebBanner'] = "Banner stored on the Webserver";
 $GLOBALS['strURLBanner'] = "Баннер лежит где-то в Интернет";
 $GLOBALS['strHTMLBanner'] = "Текстовый баннер";
 $GLOBALS['strNewBannerFile'] = "Файл баннера на диске";

@@ -101,6 +101,7 @@ $GLOBALS['strLogErrorDisactivate'] = "[phpAdsNew] An error occurred while trying
 $GLOBALS['strRatio'] = "Click-Through Ratio";
 $GLOBALS['strChooseBanner'] = "Gelieve het type banner te kiezen.";
 $GLOBALS['strMySQLBanner'] = "Banner opgeslagen in MySQL";
+$GLOBALS['strWebBanner'] = "Banner opgeslagen op de Webserver";
 $GLOBALS['strURLBanner'] = "Banner waarnaar verwezen wordt d.m.v. een URL";
 $GLOBALS['strHTMLBanner'] = "HTML-banner";
 $GLOBALS['strNewBannerFile'] = "Nieuw banner-bestand";

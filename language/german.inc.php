@@ -105,6 +105,7 @@ $GLOBALS['strLogErrorDisactivate'] = "[phpAds] Beim Versuch ein Banner zu deakti
 $GLOBALS['strRatio'] = "Klickrate";
 $GLOBALS['strChooseBanner'] = "Bitte einen Bannertyp ausw&auml;hlen.";
 $GLOBALS['strMySQLBanner'] = "Bild lokal verwalten";
+$GLOBALS['strWebBanner'] = "Banner stored on the Webserver";
 $GLOBALS['strURLBanner'] = "Bild &uuml;ber URL verwalten";
 $GLOBALS['strHTMLBanner'] = "HTML-Banner";
 $GLOBALS['strNewBannerFile'] = "Bild-Datei";

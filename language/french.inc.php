@@ -103,6 +103,7 @@ $GLOBALS['strLogErrorDisactivate'] = "[phpAds] Une erreur a eu lieu en tentant d
 $GLOBALS['strRatio'] = "Pourcentage de clics";
 $GLOBALS['strChooseBanner'] = "Veuillez choisir le type de bandeau.";
 $GLOBALS['strMySQLBanner'] = "Bandeau stocké dans MySQL";
+$GLOBALS['strWebBanner'] = "Banner stored on the Webserver";
 $GLOBALS['strURLBanner'] = "Bandeau récupéré par une URL";
 $GLOBALS['strHTMLBanner'] = "Bandeau HTML";
 $GLOBALS['strNewBannerFile'] = "Fichier du bandeau";

@@ -105,6 +105,7 @@ $GLOBALS['strLogErrorDisactivate'] = "[phpAds] Pøi pokusu o deaktivování banneru
 $GLOBALS['strRatio'] = "Pomìr kliknutí";
 $GLOBALS['strChooseBanner'] = "Vyberte prosím typ zdroje banneru.";
 $GLOBALS['strMySQLBanner'] = "Banner uložen v MySQL";
+$GLOBALS['strWebBanner'] = "Banner stored on the Webserver";
 $GLOBALS['strURLBanner'] = "Banner je uložen na URL";
 $GLOBALS['strHTMLBanner'] = "HTML banner";
 $GLOBALS['strNewBannerFile'] = "Soubor nového banneru";

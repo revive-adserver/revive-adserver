@@ -105,6 +105,7 @@ $GLOBALS['strLogErrorDisactivate'] = "[Wymiana Bannerów] Wyst±pi³ b³±d w czasie 
 $GLOBALS['strRatio'] = "[Kliknij przez RATIO]";
 $GLOBALS['strChooseBanner'] = "Proszê wybraæ typ bannera.";
 $GLOBALS['strMySQLBanner'] = "Banner zosta³ dopisany do bazy";
+$GLOBALS['strWebBanner'] = "Banner stored on the Webserver";
 $GLOBALS['strURLBanner'] = "Banner wczytany przy pomocy linka";
 $GLOBALS['strHTMLBanner'] = "Banner HTML";
 $GLOBALS['strNewBannerFile'] = "Nowy plik bannera";

@@ -101,6 +101,7 @@ $GLOBALS['strLogErrorDisactivate'] = "[phpAds] Um erro ocorreu ao desativar o ba
 $GLOBALS['strRatio'] = "Taxa de Click-Through";
 $GLOBALS['strChooseBanner'] = "Escolha o tipo de banner.";
 $GLOBALS['strMySQLBanner'] = "Banner armazenado no MySQL";
+$GLOBALS['strWebBanner'] = "Banner stored on the Webserver";
 $GLOBALS['strURLBanner'] = "Banner referido através de URL";
 $GLOBALS['strHTMLBanner'] = "Banner HTML";
 $GLOBALS['strNewBannerFile'] = "Novo arquivo de banner";

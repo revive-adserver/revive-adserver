@@ -109,6 +109,7 @@ $GLOBALS['strLogErrorDisactivate'] = "[phpAds] Hiba tortent a banner deaktivalas
 $GLOBALS['strRatio'] = "Kattintási arány";
 $GLOBALS['strChooseBanner'] = "Kérjük válassza ki a banner típusát.";
 $GLOBALS['strMySQLBanner'] = "Banner adatbázisban tárolva";
+$GLOBALS['strWebBanner'] = "Banner stored on the Webserver";
 $GLOBALS['strURLBanner'] = "Banner URL-en keresztül";
 $GLOBALS['strHTMLBanner'] = "HTML banner";
 $GLOBALS['strNewBannerFile'] = "Új banner file";
