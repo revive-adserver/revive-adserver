@@ -91,7 +91,7 @@ if (!$phpAds_config['compact_stats'])
         echo "<span id='host".str_replace('.', '_', $row['host'])."'>".$row['host']."</span>";
         echo "</td><td height='25' bgcolor='".$bgcolor."'>&nbsp;";
 
-		$flag = ($row["country"] == '' || $row["country"] == 'A1' || $row["country"] == 'A2') 'unknown' : strtolower($row["country"]);
+		$flag = ($row["country"] == '' || $row["country"] == 'A1' || $row["country"] == 'A2') ? 'unknown' : strtolower($row["country"]);
 		echo "<img src='images/flags/".$flag.".gif' width='19' height'11'>&nbsp;".($row["country"] != '' ? $phpAds_ISO3166[$row["country"]] : '-');
 		
 		echo "</td><td height='25' bgcolor='".$bgcolor."' align='".$phpAds_TextAlignRight."'>";
