@@ -189,7 +189,7 @@ function stats() // generate weekly statistics
 	global $phpAds_tbl_color;
 	global $phpAds_begin_of_week;
 	global $phpAds_tbl_adviews, $phpAds_tbl_adclicks, $phpAds_tbl_adstats, $phpAds_tbl_banners;
-    global $phpAds_compact_stats;
+    	global $phpAds_compact_stats;
 	global $clientID, $which;
 	global $max_weeks, $php_week_sign, $mysql_week_sign;
 	global $strDayShortCuts;
@@ -221,7 +221,12 @@ function stats() // generate weekly statistics
 			// collect banner names for select-box
 			$banner_select[$i]=array();
 			$banner_select[$i]['id']=$banner_row['bannerID'];
-			$banner_select[$i]['name']=$banner_row['bannertext']?$banner_row['bannertext']:$banner_row['alt'];
+			if ($banner_row['bannertext'])
+				$banner_select[$i]['name']=$banner_row['bannertext'];
+			elseif ($banner_row['alt'])
+				$banner_select[$i]['name']=$banner_row['alt'];
+			else
+    				$banner_select[$i]['name']=$banner_row['bannerID'];
 			$i++;
 		}
 		$where .= $ids.')';
@@ -239,7 +244,7 @@ function stats() // generate weekly statistics
     	$global_view_query='
     		SELECT
     			sum(clicks),
-                sum(views),
+                	sum(views),
     			MAX(TO_DAYS(day)),
     			MIN(TO_DAYS(day))
     		FROM
@@ -248,7 +253,7 @@ function stats() // generate weekly statistics
     			$where;
     	// echo $global_view_query;			   
     	$views_global = db_query($global_view_query) or mysql_die();
-    	list($total_views, $total_clicks, $views_last_day_index, $views_first_day_index) = mysql_fetch_row($views_global);
+    	list($total_clicks, $total_views, $views_last_day_index, $views_first_day_index) = mysql_fetch_row($views_global);
     	mysql_free_result($views_global);
     
     	$last_day_index = $views_last_day_index;
@@ -277,14 +282,17 @@ function stats() // generate weekly statistics
     	while ($row = mysql_fetch_array($daily))
     	{
     		$i = $row['day_index'];
-    		$days[$i] = array();
-    		$days[$i]['day_index'] = $i + $last_day_index;
-    		$days[$i]['week_num']  = $row['week_num'];
-    		$days[$i]['day_num']   = $row['day_num'];
-    		$days[$i]['unix_time'] = $row['unix_time'];
-    		$days[$i]['date']      = $row['date'];
-    		$days[$i]['views']     = $row['days_total_views'];
-    		$days[$i]['clicks']    = $row['days_total_clicks'];
+    		if ( !isset($days[$i]) )
+    		{
+    			$days[$i] = array();
+    			$days[$i]['day_index'] = $i + $last_day_index;
+    			$days[$i]['week_num']  = $row['week_num'];
+    			$days[$i]['day_num']   = $row['day_num'];
+    			$days[$i]['unix_time'] = $row['unix_time'];
+    			$days[$i]['date']      = $row['date'];
+    		}
+    		$days[$i]['views']     = $days[$i]['views'] + $row['days_total_views'];
+    		$days[$i]['clicks']    = $days[$i]['clicks'] + $row['days_total_clicks'];
     	}
     
     	mysql_free_result($daily);
@@ -372,13 +380,17 @@ function stats() // generate weekly statistics
     	while ($row = mysql_fetch_array($view_daily))
     	{
     		$i = $row['day_index'];
-    		$days[$i] = array();
-    		$days[$i]['day_index'] = $i + $last_day_index;
-    		$days[$i]['week_num']  = $row['week_num'];
-    		$days[$i]['day_num']   = $row['day_num'];
-    		$days[$i]['unix_time'] = $row['unix_time'];
-    		$days[$i]['date']      = $row['date'];
-    		$days[$i]['views']     = $row['days_total_views'];
+    		if ( !isset($days[$i]) )
+    		{
+    			$days[$i] = array();
+    			$days[$i]['day_index'] = $i + $last_day_index;
+    			$days[$i]['week_num']  = $row['week_num'];
+    			$days[$i]['day_num']   = $row['day_num'];
+    			$days[$i]['unix_time'] = $row['unix_time'];
+    			$days[$i]['date']      = $row['date'];
+    			$days[$i]['views']     = $row['days_total_views'];
+    		}
+    		$days[$i]['views']     = $days[$i]['views'] + $row['days_total_views'];
     	}
     
     	// now insert click data
@@ -394,7 +406,7 @@ function stats() // generate weekly statistics
     			$days[$i]['unix_time'] = $row['unix_time'];
     			$days[$i]['date']      = $row['date'];
     		}
-    		$days[$i]['clicks']       = $row['days_total_clicks'];
+    		$days[$i]['clicks']       = $days[$i]['clicks'] + $row['days_total_clicks'];
     	}
     
     	mysql_free_result($view_daily);
@@ -461,7 +473,7 @@ function stats() // generate weekly statistics
 	?>
 	</TABLE>
 	<?
-	if ($total_views == 0 && $total_clicks == 0)
+		if ($total_views == 0 && $total_clicks == 0)
 		printf("<table border=\"0\"><TR><TD>%s</TD></TR></TABLE>",$which=0?$GLOBALS["strClientNoStats"]:$GLOBALS["strBannerNoStats"]);
 	else
 	{
