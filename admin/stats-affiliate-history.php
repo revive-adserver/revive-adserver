@@ -98,6 +98,8 @@ $idresult = phpAds_dbQuery ("
 		affiliateid = ".$affiliateid."
 ");
 
+$zoneids = array();
+
 while ($row = phpAds_dbFetchArray($idresult))
 {
 	$zoneids[] = "zoneid = ".$row['zoneid'];
