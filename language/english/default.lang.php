@@ -40,7 +40,7 @@ $GLOBALS['strHome'] 						= "Home";
 $GLOBALS['strHelp']							= "Help";
 $GLOBALS['strNavigation'] 					= "Navigation";
 $GLOBALS['strShortcuts'] 					= "Shortcuts";
-$GLOBALS['strAdminstration'] 				= "Administration";
+$GLOBALS['strAdminstration'] 				= "Inventory";
 $GLOBALS['strMaintenance']					= "Maintenance";
 $GLOBALS['strProbability']					= "Probability";
 $GLOBALS['strInvocationcode']				= "Invocationcode";
@@ -92,6 +92,8 @@ $GLOBALS['strLinkedTo'] 					= "linked to";
 $GLOBALS['strDaysLeft'] 					= "Days left";
 $GLOBALS['strCheckAllNone']					= "Check all / none";
 $GLOBALS['strKiloByte']						= "KB";
+$GLOBALS['strExpandAll']					= "Expand all";
+$GLOBALS['strCollapseAll']					= "Collapse all";
 
 
 // Properties

@@ -109,7 +109,20 @@ while ($row_zones = phpAds_dbFetchArray($res_zones))
 
 // Add ID found in expand to expanded nodes
 if (isset($expand) && $expand != '')
-	$node_array[] = $expand;
+{
+	switch ($expand)
+	{
+		case 'all' :	$node_array   = array();
+						for (reset($affiliates);$key=key($affiliates);next($affiliates))	$node_array[] = $key;
+						break;
+						
+		case 'none':	$node_array   = array();
+						break;
+						
+		default:		$node_array[] = $expand;
+						break;
+	}
+}
 
 $node_array_size = sizeof($node_array);
 for ($i=0; $i < $node_array_size;$i++)
@@ -316,6 +329,14 @@ if ($loosezones)
 	
 	echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 }
+
+echo "<tr><td height='25' colspan='5' align='right'>";
+echo "<img src='images/triangle-d.gif' align='absmiddle' border='0'>";
+echo "&nbsp;<a href='affiliate-index.php?expand=all'>".$strExpandAll."</a>";
+echo "&nbsp;&nbsp;|&nbsp;&nbsp;";
+echo "<img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'>";
+echo "&nbsp;<a href='affiliate-index.php?expand=none'>".$strCollapseAll."</a>";
+echo "</td></tr>";
 
 echo "</table>";
 echo "<br><br>";

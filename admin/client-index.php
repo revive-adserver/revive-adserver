@@ -138,7 +138,21 @@ while ($row_banners = phpAds_dbFetchArray($res_banners))
 
 // Add ID found in expand to expanded nodes
 if (isset($expand) && $expand != '')
-	$node_array[] = $expand;
+{
+	switch ($expand)
+	{
+		case 'all' :	$node_array   = array();
+						for (reset($clients);$key=key($clients);next($clients))	$node_array[] = $key;
+						for (reset($campaigns);$key=key($campaigns);next($campaigns)) $node_array[] = $key;
+						break;
+						
+		case 'none':	$node_array   = array();
+						break;
+						
+		default:		$node_array[] = $expand;
+						break;
+	}
+}
 
 $node_array_size = sizeof($node_array);
 for ($i=0; $i < $node_array_size;$i++)
@@ -443,6 +457,14 @@ else
 		}
 	}
 }
+
+echo "<tr><td height='25' colspan='5' align='right'>";
+echo "<img src='images/triangle-d.gif' align='absmiddle' border='0'>";
+echo "&nbsp;<a href='client-index.php?expand=all'>".$strExpandAll."</a>";
+echo "&nbsp;&nbsp;|&nbsp;&nbsp;";
+echo "<img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'>";
+echo "&nbsp;<a href='client-index.php?expand=none'>".$strCollapseAll."</a>";
+echo "</td></tr>";
 
 echo "</table>";
 
