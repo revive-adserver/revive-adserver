@@ -45,12 +45,14 @@ $phpAds_config['compatibility_mode'] = false;
 
 
 /*********************************************************/
-/* phpPgAds configuration                                */
+/* phpAdsNew configuration                                */
 /*********************************************************/
 
-// The URL to your phpAds-installation
+// The URL to your phpAdsNew-installation
 $phpAds_config['url_prefix'] = 'http://www.your-url.com/phpAdsNew';
 
+// The Language of the Interface
+$phpAds_config['language'] = 'english';
 
 
 /*********************************************************/

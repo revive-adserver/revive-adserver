@@ -72,6 +72,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Campaign statistics table now uses the same interface for sorting  (Niels) 20020127
 			  - Misc changes to the GUI of banner generators and banner linking  (Niels) 20020127
 			  - Added preliminary support for right-to-left languages  (Noor Dawod, Niels) 20020127
+			  - Added the language flag to config.inc.php (Stefan) 20020127
 
 
 			+ Misc bugfixes
