@@ -29,9 +29,9 @@ function Plugin_CampaignhistoryInfo()
 		"plugin-authorize"		=> phpAds_Admin+phpAds_Client,
 		"plugin-execute"		=> "Plugin_CampaignhistoryExecute",
 		"plugin-import"			=> array (
-			"campaignID"			=> array (
+			"campaignid"			=> array (
 				"title"					=> "Campaign",
-				"type"					=> "campaignID-dropdown" ),
+				"type"					=> "campaignid-dropdown" ),
 			"delimiter"		=> array (
 				"title"					=> "Delimiter",
 				"type"					=> "edit",
@@ -48,7 +48,7 @@ function Plugin_CampaignhistoryInfo()
 /* Private plugin function                               */
 /*********************************************************/
 
-function Plugin_CampaignhistoryExecute($campaignID, $delimiter=",")
+function Plugin_CampaignhistoryExecute($campaignid, $delimiter=",")
 {
 	global $phpAds_config;
 	
@@ -63,9 +63,9 @@ function Plugin_CampaignhistoryExecute($campaignID, $delimiter=",")
 				SUM(".$phpAds_config['tbl_adstats'].".clicks) AS adclicks
 			FROM
 				".$phpAds_config['tbl_banners']."
-				LEFT JOIN ".$phpAds_config['tbl_adstats']." USING (bannerID)
+				LEFT JOIN ".$phpAds_config['tbl_adstats']." USING (bannerid)
 			WHERE
-				".$phpAds_config['tbl_banners'].".clientID = $campaignID
+				".$phpAds_config['tbl_banners'].".clientid = $campaignid
 			GROUP BY
 				".$phpAds_config['tbl_adstats'].".day
 			";
@@ -83,12 +83,12 @@ function Plugin_CampaignhistoryExecute($campaignID, $delimiter=",")
 		$res_query = "
 			SELECT
 				DATE_FORMAT(".$phpAds_config['tbl_adviews'].".t_stamp, '%Y-%m-%d') as day,
-				count(".$phpAds_config['tbl_adviews'].".bannerID) as adviews
+				count(".$phpAds_config['tbl_adviews'].".bannerid) as adviews
 			FROM
 				".$phpAds_config['tbl_banners']."
-				LEFT JOIN ".$phpAds_config['tbl_adviews']." USING (bannerID)
+				LEFT JOIN ".$phpAds_config['tbl_adviews']." USING (bannerid)
 			WHERE
-				".$phpAds_config['tbl_banners'].".clientID = $campaignID
+				".$phpAds_config['tbl_banners'].".clientid = $campaignid
 			GROUP BY
 				day
 			";
@@ -104,12 +104,12 @@ function Plugin_CampaignhistoryExecute($campaignID, $delimiter=",")
 		$res_query = "
 			SELECT
 				DATE_FORMAT(".$phpAds_config['tbl_adclicks'].".t_stamp, '%Y-%m-%d') as day,
-				count(".$phpAds_config['tbl_adclicks'].".bannerID) as adclicks
+				count(".$phpAds_config['tbl_adclicks'].".bannerid) as adclicks
 			FROM
 				".$phpAds_config['tbl_banners']."
-				LEFT JOIN ".$phpAds_config['tbl_adclicks']." USING (bannerID)
+				LEFT JOIN ".$phpAds_config['tbl_adclicks']." USING (bannerid)
 			WHERE
-				".$phpAds_config['tbl_banners'].".clientID = $campaignID
+				".$phpAds_config['tbl_banners'].".clientid = $campaignid
 			GROUP BY
 				day
 			";
@@ -122,7 +122,7 @@ function Plugin_CampaignhistoryExecute($campaignID, $delimiter=",")
 		}
 	}
 	
-	echo "Campaign: ".phpAds_getClientName ($campaignID)."\n\n";
+	echo "Campaign: ".phpAds_getClientName ($campaignid)."\n\n";
 	echo "Day".$delimiter."AdViews".$delimiter."AdClicks".$delimiter."CTR\n";
 	
 	$totalclicks = 0;
