@@ -120,6 +120,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: Lib-priority wrongly used prediction when all active high-pri campaigns
 			    are empty (i.e. after creating the first high-pri campaign). The same happened if
 			    all the banners in high-pri campaigns were not active  (Matteo) 20020110
+			  - Bigfix: Priority wasn't rescheduled when changing start/expiration date of campaings  (Matteo) 20020116
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
