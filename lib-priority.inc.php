@@ -171,8 +171,20 @@ function phpAds_PriorityPredictProfile($campaigns, $banners)
 			// determine trend
 			$trend = $impressions_this_week / $impressions_last_week;
 			
-			// get profile seven days ago
-			$profile = phpAds_PriorityGetHourlyProfile (1, 7);
+			if ($days_running > 9)
+			{
+				// get profile using a normal distribution
+				$profile = phpAds_PriorityGetGaussianProfile ($days_running);
+
+				// BEGIN REPORTING
+				$debuglog .= "Using gaussian profile prediction\n";
+				// END REPORTING
+			}
+			else
+			{
+				// get profile seven days ago
+				$profile = phpAds_PriorityGetHourlyProfile (1, 6);
+			}
 			
 			// apply trend
 			for ($i=0;$i<count($profile);$i++)
@@ -280,7 +292,7 @@ function phpAds_PriorityPredictProfile($campaigns, $banners)
 	$debuglog .= "REAL VALUES UP TILL ".phpAds_CurrentHour.":00 \n";
 	$debuglog .= "-----------------------------------------------------\n";
 	
-	$debuglog .= phpAds_PriorityPrintProfile($real_profile);	
+	$debuglog .= phpAds_PriorityPrintProfile($real_profile);
 	
 	$debuglog .= "\n\n\n";
 	// END REPORTING
@@ -317,10 +329,9 @@ function phpAds_PriorityPredictProfile($campaigns, $banners)
 			// Adjust prediction for today
 			if ($predicted_up_till_now > 0)
 			{
-				$importance_old = (sin(M_PI*(sin(M_PI*pow(phpAds_CurrentHour/24, 0.9)-M_PI/2)+1)/2-M_PI/2)+1)/2;				
-				$deviance_old   = ($real_up_till_now / $predicted_up_till_now - 1) * $importance_old + 1;
+				$importance = (sin(M_PI*(sin(M_PI*pow(phpAds_CurrentHour/24, 0.9)-M_PI/2)+1)/2-M_PI/2)+1)/2;				
+				$deviance_old   = ($real_up_till_now / $predicted_up_till_now - 1) * $importance + 1;
 				
-				// Matteo
 				$profile_correction_done = false;
 				
 				while (!$profile_correction_done)
@@ -380,8 +391,8 @@ function phpAds_PriorityPredictProfile($campaigns, $banners)
 				$deviance   = phpAds_PriorityGetDeviance(phpAds_CurrentHour, $profile, $real_profile);
 				
 				// BEGIN REPORTING
-				$debuglog .= "Importance factor: ".sprintf('%.4f (%.4f)', phpAds_PriorityGetImportance(phpAds_CurrentHour), $importance_old)." \n";
-				$debuglog .= "Deviance: ".sprintf('%.4f (%.4f)', $deviance, $deviance_old)." \n";
+				$debuglog .= "Importance factor: ".sprintf('%.4f', phpAds_PriorityGetImportance(phpAds_CurrentHour))." \n";
+				$debuglog .= "Deviance: ".sprintf('%.4f (%.4f before correction)', $deviance, $deviance_old)." \n";
 				$debuglog .= "-----------------------------------------------------\n";
 				
 				if ($profile_correction_executed)
@@ -422,7 +433,7 @@ function phpAds_PriorityPredictProfile($campaigns, $banners)
 			if ($predicted_up_till_now)
 			{
 				// BEGIN REPORTING
-				$debuglog .= "Adjustment: $adjustment\n";
+				$debuglog .= sprintf("Adjustment: %.4f\n", $adjustment);
 				$debuglog .= "Adjusted predicted impressions today: $real_today\n";
 				$debuglog .= "Adjusted predicted impressions left today: $real_left_today\n";
 				$debuglog .= "-----------------------------------------------------\n";
@@ -1174,5 +1185,72 @@ function phpAds_PriorityGetGCD2($a, $b)
 	else
 		return (phpAds_PriorityGetGCD2($b % $a, $a));
 }
+
+
+function phpAds_PriorityNormalDistribution($x, $variation = 1, $mean = 0)
+{
+	return $j = exp(-pow($x - $mean,2)/2/pow($variation,2))/(sqrt(2*pow($variation,2)*M_PI));
+}
+
+function phpAds_PriorityGetGaussianProfile($days_running)
+{
+	$result = array(
+		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0
+	);
+
+	// Go for the last 5 weeks (if any)
+	for ($i = 1; $i < 6 && $days_running > 7; $i++)
+	{
+		$j_tot = 0;
+
+		// Get an centered interval of 3 days
+		for ($x=-1; $x <= 1; $x++)
+		{
+			$j = phpAds_PriorityNormalDistribution($x, 2/3);
+			$j_tot += $j;
+
+			$tmp = phpAds_PriorityGetHourlyProfile(1, 7 * $i - $x - 1);
+
+			for ($h=0;$h<24;$h++)
+				$profile[$i][$h] += $j * $tmp[$h];
+		}
+
+		// Apply trend to get back lost impressions
+		for ($h=0;$h<24;$h++)
+			$profile[$i][$h] /= $j_tot;
+
+		$days_running -= 7;
+	}
+
+
+	// Apply normal distribution to last weeks profile
+	if (isset($profile) && count($profile) > 1)
+	{
+		$j_tot = 0;
+
+		while (list($k, $v) = each($profile))
+		{
+			$j = phpAds_PriorityNormalDistribution($k, 1.5, 1);
+			$j_tot += $j;
+
+			for ($h=0;$h<24;$h++)
+				$result[$h] += $v[$h] * $j;
+		}
+
+		// Apply trend to get back lost impressions
+		for ($h=0;$h<24;$h++)
+			$result[$h] /= $j_tot;
+	}
+
+	
+	for ($h=0;$h<24;$h++)
+		$result[$h] = round($result[$h]);
+	
+	return $result;
+}
+
 
 ?>
