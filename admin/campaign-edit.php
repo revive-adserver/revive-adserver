@@ -435,6 +435,9 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 
 <script language="JavaScript">
 <!--
+	var pri_target = '';
+	var pri_weight = '';
+
 	function disableradio(o, value)
 	{
 		day = eval ("document.clientform." + o + "Day.value");
@@ -505,12 +508,39 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 	}
 	
 	
+	function click_priority()
+	{
+		if (document.clientform.priority[0].checked)
+		{
+			pri_weight = document.clientform.weight.value;
+			document.clientform.weight.value = '-';
+			
+			if (document.clientform.target.value == '-')
+				document.clientform.target.value = pri_target;
+		}
+		else
+		{
+			pri_target = document.clientform.target.value;
+			document.clientform.target.value = '-';
+			
+			if (document.clientform.weight.value == '-')
+				document.clientform.weight.value = pri_weight;
+		}
+	}
+
 	function validate_form_campaign()
 	{
-		return validate_form('clientname','strName','R',
-							 'views','strViewsPurchased','Ris+NumOR-',
-							 'clicks','strClicksPurchased','Ris+NumOR-',
-							 'weight', 'strWeight', 'Ris+Num');
+		if (document.clientform.priority[0].checked)
+			return validate_form('clientname','strName','R',
+								 'views','strViewsPurchased','Ris+NumOR-',
+								 'clicks','strClicksPurchased','Ris+NumOR-',
+								 'target', 'strTarget', 'Ris+Num');
+		else	
+			return validate_form('clientname','strName','R',
+								 'views','strViewsPurchased','Ris+NumOR-',
+								 'clicks','strClicksPurchased','Ris+NumOR-',
+								 'weight', 'strWeight', 'Ris+Num');
+	
 	}
 
 	
@@ -635,14 +665,14 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 		<td width='200' valign='top'><?php echo $strPriority; ?></td>
 		<td>
 			<table><tr><td valign='top'>
-			<input type="radio" name="priority" value="t" <?php echo $priority != 'f' ? 'checked' : ''; ?>>
+			<input type="radio" name="priority" value="t" <?php echo $priority != 'f' ? 'checked' : ''; ?> onClick="click_priority()">
 			</td><td valign='top'>
 			<?php echo $strHighPriority; ?><br>
 			<img src='images/break-l.gif' height='1' width='100%' vspace='6'><br>
 			<?php echo $strTargetLimitAdviews; ?> 
 			<input type="text" name="target" size='7' value="<?php echo isset($row["target"]) ? $row["target"] : '-';?>"> <?php echo $strTargetPerDay; ?><br><br>
 			</td></tr><tr><td valign='top'>
-			<input type="radio" name="priority" value="f" <?php echo $priority == 'f' ? 'checked' : ''; ?>>			
+			<input type="radio" name="priority" value="f" <?php echo $priority == 'f' ? 'checked' : ''; ?> onClick="click_priority()">			
 			</td><td valign='top'>
 			<?php echo $strLowPriority; ?><br>
 			<img src='images/break-l.gif' height='1' width='100%' vspace='6'><br>
