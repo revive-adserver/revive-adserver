@@ -311,13 +311,7 @@ function phpAds_ConfigFileUpdateFlush()
 		 $key = key($phpAds_settings_update_cache);
 		 next($phpAds_settings_update_cache))
 	{
-		switch ($phpAds_settings_information[$key]['type'])
-		{
-			case 'boolean': $value = $phpAds_settings_update_cache[$key] ? 't' : 'f'; break;
-			default: $value = $phpAds_settings_update_cache[$key]; break;
-		}
-		
-		phpAds_SettingsWriteAdd ($key, $value);
+		phpAds_SettingsWriteAdd ($key, $phpAds_settings_update_cache[$key]);
 	}
 	
 	// Before we start writing all the settings

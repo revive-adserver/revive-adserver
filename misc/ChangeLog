@@ -2,6 +2,7 @@ phpAdsNew - ChangeLog
 
 CVS			+ Misc bugfixes
 			  - 2003-01-07:  Wrong value was used to identify PHP < 4.0.3 during the install and upgrade process  (Niels)
+			  - 2003-01-08:  After the upgrade all config.inc.php boolean variables were wrongly set to true  (Matteo)
 
 
 
