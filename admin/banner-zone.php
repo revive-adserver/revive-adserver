@@ -266,89 +266,87 @@ echo "</tr>";
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 
 
-
-$i=0;
-for (reset($affiliates); $akey = key($affiliates); next($affiliates))
+if (isset($affiliates) || is_array($affilates))
 {
-	$affiliate = $affiliates[$akey];
-	
-	if (isset($affiliate['zones']))
+	$i=0;
+	for (reset($affiliates); $akey = key($affiliates); next($affiliates))
 	{
-		$zones 	   = $affiliate['zones'];
+		$affiliate = $affiliates[$akey];
 		
-		if ($i > 0) echo "<td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
-		echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
-		
-		$zoneids = array();
-		$zoneslinked = 0;
-		for (reset($zones); $zkey = key($zones); next($zones))
+		if (isset($affiliate['zones']))
 		{
-			$zoneids[] = $zones[$zkey]['zoneid'];
+			$zones 	   = $affiliate['zones'];
 			
-			if ($zones[$zkey]['linked']) $zoneslinked++;
-		}
-		
-		
-		echo "<td height='25'>";
-		
-		if (count($zones) == $zoneslinked)
-			echo "&nbsp;&nbsp;<input name='affiliate[".$affiliate['affiliateid']."]' type='checkbox' value='t' checked ";
-		else
-			echo "&nbsp;&nbsp;<input name='affiliate[".$affiliate['affiliateid']."]' type='checkbox' value='t' ";
-		
-		echo "onClick='toggleZones(".$affiliate['affiliateid'].",".implode(',', $zoneids).");'>";
-		echo "&nbsp;&nbsp;<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;";
-		echo "<a href='affiliate-edit.php?affiliateid=".$affiliate['affiliateid']."'>".$affiliate['name']."</a>";
-		echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-		echo "</td>";
-		
-		// ID
-		echo "<td height='25'>".$affiliate['affiliateid']."</td>";
-		
-		// Description
-		echo "<td height='25'>&nbsp;</td>";
-		echo "</tr>";
-		
-		
-		for (reset($zones); $zkey = key($zones); next($zones))
-		{
-			$zone = $zones[$zkey];
-			
-			
-			echo "<td ".($i%2==0?"bgcolor='#F6F6F6'":"")."><img src='images/spacer.gif' height=1'></td>";
-			echo "<td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
+			if ($i > 0) echo "<td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
 			echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 			
+			$zoneids = array();
+			$zoneslinked = 0;
+			for (reset($zones); $zkey = key($zones); next($zones))
+			{
+				$zoneids[] = $zones[$zkey]['zoneid'];
+				
+				if ($zones[$zkey]['linked']) $zoneslinked++;
+			}
+			
+			
 			echo "<td height='25'>";
-			echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 			
-		    if ($zone['linked'])
-				echo "&nbsp;&nbsp;<input name='includezone[".$zone['zoneid']."]' type='checkbox' value='t' checked ";
+			if (count($zones) == $zoneslinked)
+				echo "&nbsp;&nbsp;<input name='affiliate[".$affiliate['affiliateid']."]' type='checkbox' value='t' checked ";
 			else
-				echo "&nbsp;&nbsp;<input name='includezone[".$zone['zoneid']."]' type='checkbox' value='t' ";
+				echo "&nbsp;&nbsp;<input name='affiliate[".$affiliate['affiliateid']."]' type='checkbox' value='t' ";
 			
-			echo "onClick='toggleAffiliate(".$affiliate['affiliateid'].",".implode(',', $zoneids).");'>";
-			echo "<input type='hidden' name='previouszone[".$zone['zoneid']."]' value='".($zone['linked'] ? 't' : 'f')."'>";
-			
-			echo "&nbsp;&nbsp;<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
-			echo "<a href='zone-edit.php?affiliateid=".$affiliate['affiliateid']."&zoneid=".$zone['zoneid']."'>".$zone['zonename']."</a>";
+			echo "onClick='toggleZones(".$affiliate['affiliateid'].",".implode(',', $zoneids).");'>";
+			echo "&nbsp;&nbsp;<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;";
+			echo "<a href='affiliate-edit.php?affiliateid=".$affiliate['affiliateid']."'>".$affiliate['name']."</a>";
 			echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 			echo "</td>";
 			
 			// ID
-			echo "<td height='25'>".$zone['zoneid']."</td>";
+			echo "<td height='25'>".$affiliate['affiliateid']."</td>";
 			
 			// Description
-			echo "<td height='25'>".stripslashes($zone['description'])."</td>";
+			echo "<td height='25'>&nbsp;</td>";
 			echo "</tr>";
+			
+			
+			for (reset($zones); $zkey = key($zones); next($zones))
+			{
+				$zone = $zones[$zkey];
+				
+				
+				echo "<td ".($i%2==0?"bgcolor='#F6F6F6'":"")."><img src='images/spacer.gif' height=1'></td>";
+				echo "<td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
+				echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
+				
+				echo "<td height='25'>";
+				echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+				
+			    if ($zone['linked'])
+					echo "&nbsp;&nbsp;<input name='includezone[".$zone['zoneid']."]' type='checkbox' value='t' checked ";
+				else
+					echo "&nbsp;&nbsp;<input name='includezone[".$zone['zoneid']."]' type='checkbox' value='t' ";
+				
+				echo "onClick='toggleAffiliate(".$affiliate['affiliateid'].",".implode(',', $zoneids).");'>";
+				echo "<input type='hidden' name='previouszone[".$zone['zoneid']."]' value='".($zone['linked'] ? 't' : 'f')."'>";
+				
+				echo "&nbsp;&nbsp;<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
+				echo "<a href='zone-edit.php?affiliateid=".$affiliate['affiliateid']."&zoneid=".$zone['zoneid']."'>".$zone['zonename']."</a>";
+				echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+				echo "</td>";
+				
+				// ID
+				echo "<td height='25'>".$zone['zoneid']."</td>";
+				
+				// Description
+				echo "<td height='25'>".stripslashes($zone['description'])."</td>";
+				echo "</tr>";
+			}
+			
+			$i++;
 		}
-		
-		$i++;
 	}
-}
-
-if (count($affiliates) > 0)
-{
 	echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 }
 else
