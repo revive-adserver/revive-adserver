@@ -367,92 +367,81 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0)
 	
 	echo "</td></tr></table>";
 }
-
-
-
-
-if (phpAds_isUser(phpAds_Admin))
-{
-	?>
-
-	<script language="JavaScript">
-	<!--
-		function disableradio(o, value)
-		{
-			day = eval ("document.clientform." + o + "Day.value");
-			month = eval ("document.clientform." + o + "Month.value");
-			year = eval ("document.clientform." + o + "Year.value");
-
-			if (value == false)
-			{
-				eval ("document.clientform." + o + "Day.selectedIndex = 0");
-				eval ("document.clientform." + o + "Month.selectedIndex = 0");
-				eval ("document.clientform." + o + "Year.selectedIndex = 0");
-			}
-			
-			if (value == true && (day=='-' || month=='-' || year=='-'))
-			{
-				eval ("document.clientform." + o + "Set[0].checked = true");
-			}
-		}
-	
-		function checkdate(o)
-		{
-			day = eval ("document.clientform." + o + "Day.value");
-			month = eval ("document.clientform." + o + "Month.value");
-			year = eval ("document.clientform." + o + "Year.value");
-			
-			if (day=='-' || month=='-' || year=='-')
-			{
-				eval ("document.clientform." + o + "Set[0].checked = true");
-			}
-			else
-			{
-				eval ("document.clientform." + o + "Set[1].checked = true");
-			}
-		}
-		
-		function valid(form)
-		{
-			var views=form.views.value;
-			var clicks=form.clicks.value;
-
-			if (!parseInt(views))
-			{
-				if (eval(form.unlimitedviews.checked) == false && views != '-')
-				{
-					alert("<?print $GLOBALS['strErrorViews'];?>");
-					return false;
-				}
-			} 
-			else if (parseInt(views) < 0)
-			{
-				alert("<?print $GLOBALS['strErrorNegViews'];?>");
-				return false;
-			}
-			
-			if (!parseInt(clicks))
-			{
-				if (eval(form.unlimitedclicks.checked) == false && clicks != '-')
-				{
-					alert("<?print $GLOBALS['strErrorClicks'];?>");
-					return false;
-				}
-			} 
-			else if (parseInt(clicks) < 0)
-			{
-				alert("<?print $GLOBALS['strErrorNegClicks'];?>");
-				return false;
-			}
-		}
-	//-->
-	</script>
-	<?
-}
 ?>
 
 
+<script language="JavaScript">
+<!--
+	function disableradio(o, value)
+	{
+		day = eval ("document.clientform." + o + "Day.value");
+		month = eval ("document.clientform." + o + "Month.value");
+		year = eval ("document.clientform." + o + "Year.value");
 
+		if (value == false)
+		{
+			eval ("document.clientform." + o + "Day.selectedIndex = 0");
+			eval ("document.clientform." + o + "Month.selectedIndex = 0");
+			eval ("document.clientform." + o + "Year.selectedIndex = 0");
+		}
+		
+		if (value == true && (day=='-' || month=='-' || year=='-'))
+		{
+			eval ("document.clientform." + o + "Set[0].checked = true");
+		}
+	}
+
+	function checkdate(o)
+	{
+		day = eval ("document.clientform." + o + "Day.value");
+		month = eval ("document.clientform." + o + "Month.value");
+		year = eval ("document.clientform." + o + "Year.value");
+		
+		if (day=='-' || month=='-' || year=='-')
+		{
+			eval ("document.clientform." + o + "Set[0].checked = true");
+		}
+		else
+		{
+			eval ("document.clientform." + o + "Set[1].checked = true");
+		}
+	}
+	
+	function valid(form)
+	{
+		var views=form.views.value;
+		var clicks=form.clicks.value;
+
+		if (!parseInt(views))
+		{
+			if (eval(form.unlimitedviews.checked) == false && views != '-')
+			{
+				alert("<?print $GLOBALS['strErrorViews'];?>");
+				return false;
+			}
+		} 
+		else if (parseInt(views) < 0)
+		{
+			alert("<?print $GLOBALS['strErrorNegViews'];?>");
+			return false;
+		}
+		
+		if (!parseInt(clicks))
+		{
+			if (eval(form.unlimitedclicks.checked) == false && clicks != '-')
+			{
+				alert("<?print $GLOBALS['strErrorClicks'];?>");
+				return false;
+			}
+		} 
+		else if (parseInt(clicks) < 0)
+		{
+			alert("<?print $GLOBALS['strErrorNegClicks'];?>");
+			return false;
+		}
+	}
+//-->
+</script>
 
 
 <form name="clientform" method="post" action="<?echo basename($PHP_SELF);?>" onSubmit="return valid(this)">
