@@ -118,7 +118,7 @@ function db_log_view($bannerID, $host)
         )", $phpAds_insert_delayed ? "DELAYED": "")) or mysql_die();
 }
 
-function db_total_stats($table, $column, $bannerID)
+function db_total_stats($table, $column, $bannerID, $timeconstraint="")
 {
     global $phpAds_tbl_adstats;
     
@@ -128,12 +128,46 @@ function db_total_stats($table, $column, $bannerID)
     if (!empty($bannerID)) 
         $where = "WHERE bannerID = $bannerID";
     
+	if (!empty($timeconstraint))
+	{
+		if (!empty($bannerID))
+			$where .= " AND ";
+		else
+			$where = "WHERE ";
+		
+		if ($timeconstraint == "month")
+			$where .= "MONTH(t_stamp) = MONTH(CURDATE())";
+		elseif ($timeconstraint == "week")
+			$where .= "WEEK(t_stamp) = WEEK(CURDATE()) AND YEAR(t_stamp) = YEAR(CURDATE())";
+		else
+		    $where .= "DATE_FORMAT(t_stamp, '%Y-%m-%d') = CURDATE()";
+	}
+	
     $res = db_query("SELECT count(*) as qnt FROM $table $where") or mysql_die();
     if (mysql_num_rows ($res))
     { 
         $row = mysql_fetch_array($res);
         $ret = $row["qnt"];
     }
+
+    $where = "";
+    if (!empty($bannerID)) 
+        $where = "WHERE bannerID = $bannerID";
+    
+	if (!empty($timeconstraint))
+	{
+		if (!empty($bannerID))
+			$where .= " AND ";
+		else
+			$where = "WHERE ";
+		
+		if ($timeconstraint == "month")
+			$where .= "MONTH(day) = MONTH(CURDATE())";
+		elseif ($timeconstraint == "week")
+			$where .= "WEEK(day) = WEEK(CURDATE()) AND YEAR(day) = YEAR(CURDATE())";
+		else
+		    $where .= "day = CURDATE()";
+	}
 
     $res = db_query("SELECT sum($column) as qnt FROM $phpAds_tbl_adstats $where") or mysql_die();
     if (mysql_num_rows ($res))
@@ -144,14 +178,14 @@ function db_total_stats($table, $column, $bannerID)
     return $ret;
 }
 
-function db_total_clicks($bannerID="")
+function db_total_clicks($bannerID="", $timeconstraint="")
 {
-    return db_total_stats($GLOBALS["phpAds_tbl_adclicks"], "clicks", $bannerID);
+    return db_total_stats($GLOBALS["phpAds_tbl_adclicks"], "clicks", $bannerID, $timeconstraint);
 }
 
-function db_total_views($bannerID="")
+function db_total_views($bannerID="", $timeconstraint="")
 {
-    return db_total_stats($GLOBALS["phpAds_tbl_adviews"], "views", $bannerID);
+    return db_total_stats($GLOBALS["phpAds_tbl_adviews"], "views", $bannerID, $timeconstraint);
 }
 
 function db_delete_stats($bannerID)
