@@ -29,7 +29,7 @@
 				</tr>
 				<tr>
 					<td bgcolor="#FFFFFF">Domain</td>
-					<td bgcolor="#FFFFFF">2-3 letter combination of domain suffix</td>
+					<td bgcolor="#FFFFFF">Domain suffix (eg. .jp, .edu, or google.com)</td>
 					<td bgcolor="#FFFFFF">Displays banner only to certain domain.</td>
 				</tr>
 				<tr>
@@ -37,6 +37,11 @@
 					<td bgcolor="#FFFFFF">Name of source page</td>
 					<td bgcolor="#FFFFFF">Displays banner only on certain pages.</td>
 				</tr>
+                <tr> 
+                    <td bgcolor="#FFFFFF">Time (0-23)</td>
+                    <td bgcolor="#FFFFFF">Hour of the day, from 0 = midnight to 23 = 11:00 pm</td>
+                    <td bgcolor="#FFFFFF">Display banner only on a specific hour of the day.</td>
+                </tr>
 			</table>
 		</TD>
 	</TR>
@@ -45,6 +50,17 @@
 <ul>
 	<li>Weekday (0-6), <? echo $strAllow; ?>, argument 6 (for Saturday)</li>
 	<li>Weekday (0-6), <? echo $strAllow; ?>, argument 0 (for Sunday)</li>
+    <li>Weekday (0-6), <? echo $strDeny; ?>, argument * (for any day)</li>
+</ul>
+Note that the last entry need not have been &quot;Weekday&quot;.  Any <? echo $strDeny; ?> *
+ACL would suffice to deny any ad if an associated <? echo $strAllow; ?> had not already been matched.
+
+<p>To show the banner between 5pm and 8pm:</p>
+<ul>
+    <li>Time, <? echo $strAllow; ?>, argument 17</li>  (5:00pm - 5:59pm)
+    <li>Time, <? echo $strAllow; ?>, argument 18</li>  (6:00pm - 6:59pm)
+	<li>Time, <? echo $strAllow; ?>, argument 19</li>  (7:00pm - 7:59pm)
+    <li>Time, <? echo $strDeny; ?>, argument * (for any time)</li>
 </ul>
 <?
 // EOF english doc file for Banner ACL administration

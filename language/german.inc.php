@@ -139,4 +139,5 @@ $strACLAdd = "Neue Regel hinzuf|gen:";
 $strACLExist = "Bestehende Regeln:";
 $strLogin = "Login";
 
+$strTrackerImage = "Tracker image:";
 ?>

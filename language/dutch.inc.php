@@ -139,4 +139,5 @@ $strACLAdd = "Voeg nieuwe $strACL toe";
 $strACLExist = "Bestaande $strACL:";
 $strLogin = "Inloggen";
 
+$strTrackerImage = "Tracker image:";
 ?>

@@ -140,4 +140,5 @@ $strACLAdd = "Add new $strACL";
 $strACLExist = "Existing $strACL:";
 $strLogin = "Login";
 
+$strTrackerImage = "Tracker image:";
 ?>
