@@ -43,7 +43,7 @@ $GLOBALS['strHome']							= "Home";
 $GLOBALS['strHelp']							= "Aiuto";
 $GLOBALS['strNavigation']					= "Navigazione";
 $GLOBALS['strShortcuts']					= "Scorciatoie";
-$GLOBALS['strAdminstration']				= "Amministrazione";
+$GLOBALS['strAdminstration']				= "Inventario";
 $GLOBALS['strMaintenance']					= "Manutenzione";
 $GLOBALS['strProbability']					= "Probabilità";
 $GLOBALS['strInvocationcode']				= "Codice Invocazione";
@@ -95,6 +95,8 @@ $GLOBALS['strLinkedTo']						= "collegato a";
 $GLOBALS['strDaysLeft']						= "Giorni mancanti";
 $GLOBALS['strCheckAllNone']					= "Seleziona tutti / nessuno";
 $GLOBALS['strKiloByte']						= "KB";
+$GLOBALS['strExpandAll']					= "Espandi tutti";
+$GLOBALS['strCollapseAll']					= "Chiudi tutti";
 
 
 // Properties
@@ -284,8 +286,8 @@ $GLOBALS['strTrackAdClicks']				= "Traccia i Click";
 
 
 // Display limitations
-$GLOBALS['strModifyBannerAcl']				= "Visualizza limitazioni";
-$GLOBALS['strACL']							= "Limitationi";
+$GLOBALS['strModifyBannerAcl']				= "Opzioni consegna";
+$GLOBALS['strACL']							= "Consegna";
 $GLOBALS['strACLAdd']						= "Aggiungi nuova limitazione";
 $GLOBALS['strNoLimitations']				= "Nessuna limitazione";
 $GLOBALS['strApplyLimitationsTo']			= "Applica limitazioni a";
@@ -344,7 +346,7 @@ $GLOBALS['strPopup']						= "Popup";
 
 
 // Advanced zone settings
-$GLOBALS['strAdvancedSettings']				= "Avanzate";
+$GLOBALS['strChains']						= "Catene";
 $GLOBALS['strChainSettings']				= "Impostazioni della catena";
 $GLOBALS['strZoneNoDelivery']				= "Se nessun banner di questa zona <br>pu&ograve; essere fornito, prova a...";
 $GLOBALS['strZoneStopDelivery']				= "Arrestare la fornitura e non visualizzare alcun banner";
@@ -451,8 +453,8 @@ $GLOBALS['strMailNothingLeft']				= "Se desideri continuare ad apparire sul nost
 $GLOBALS['strClientDeactivated']			= "Questa campagna non risulta attualmente attiva dato che";
 $GLOBALS['strBeforeActivate']				= "non ha raggiunto la data di attivazione";
 $GLOBALS['strAfterExpire']					= "ha raggiunto la data di scadenza";
-$GLOBALS['strNoMoreClicks']					= "ha esaurito il credito totale di Click a sua disposizione";
-$GLOBALS['strNoMoreViews']					= "ha esaurito il credito totale di Visualizzazioni a sua disposizione";
+$GLOBALS['strNoMoreClicks']					= "non ci sono più Click a disposizione";
+$GLOBALS['strNoMoreViews']					= "non ci sono più Visualizzazioni a disposizione";
 $GLOBALS['strWarnClientTxt']				= "I click e le visualizzazioni rimaste per i tuoi banner sono inferiori a {limit}. \nI tuoi banner verranno disabilitati quando termineranno i click o visualizzazioni a tua dispoizione. ";
 $GLOBALS['strViewsClicksLow']				= "Le visualizzazioni/click stanno terminando";
 $GLOBALS['strNoViewLoggedInInterval']		= "Nessuna visualizzazione risulta essere stata loggata durante la creazione di questo rapporto";

@@ -7,7 +7,7 @@
 /* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
-/* Translations byMatteo Beccati                                        */
+/* Translations by Matteo Beccati                                       */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -29,7 +29,7 @@ $GLOBALS['strPriorityDaysRunning']			= "Ci sono {days} giorni di statistiche dis
 $GLOBALS['strPriorityBasedLastWeek']		= "La previsione &egrave; basata sui dati della settimana scorsa e di quella attuale. ";
 $GLOBALS['strPriorityBasedLastDays']		= "La previsione &egrave; basata solo sui dati degli ultimi giorni. ";
 $GLOBALS['strPriorityBasedYesterday']		= "La previsione &egrave; basata solo sui dati si ieri. ";
-$GLOBALS['strPriorityNoData']				= "Non ci sono abbastaza dati per fornire una previsione affidabile sul numero di visualizzazioni che il server generer&agrave; oggi. L'assegnamento delle priorit&agrave; sar&agrave; basato solo sulle statistiche generate in tempo reale. ";
+$GLOBALS['strPriorityNoData']				= "Non ci sono abbastanza dati per fornire una previsione affidabile sul numero di visualizzazioni che il server generer&agrave; oggi. L'assegnamento delle priorit&agrave; sar&agrave; basato solo sulle statistiche generate in tempo reale. ";
 $GLOBALS['strPriorityEnoughAdViews']		= "Dovrebbero esserci abbastanza Visualizzazioni per soddisfare completamente gli obiettivi di tutte le campagne ad alta priorit&agrave;. ";
 $GLOBALS['strPriorityNotEnoughAdViews']		= "Non &egrave; chiaro se oggi ci saranno AdViews abbastanza Visualizzazioni per soddisfare completamente gli obiettivi delle campagne ad alta priorit&agrave;. Perciò tutte le campagne a bassa priorit&agrave; sono state temporaneamente disabilitate. ";
 

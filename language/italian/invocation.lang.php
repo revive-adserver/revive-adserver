@@ -50,6 +50,7 @@ $GLOBALS['strInvocationTemplate'] 		= "Assegna il banner a una variabile per uti
 $GLOBALS['strIFrameRefreshAfter']		= "Aggiorna dopo";
 $GLOBALS['strIframeResizeToBanner']		= "Adatta dimensioni IFrame al Banner";
 $GLOBALS['strIframeMakeTransparent']	= "Sfondo IFrame trasparente";
+$GLOBALS['strIframeIncludeNetscape4']	= "Includi ilayer compatibile con Netscape 4";
 
 
 // PopUp
