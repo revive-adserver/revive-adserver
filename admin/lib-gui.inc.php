@@ -236,7 +236,7 @@ function phpAds_PageHeader($ID, $extra="")
 	if ($ID != "" && phpAds_isLoggedIn() && !defined('phpAds_installing'))
 	{
 		echo "<a class='tab-n' href='logout.php'>$strLogout</a> ";
-		echo "<img src='images/logout.gif' width='16' height='16' align='absmiddle'>";
+		echo "<a href='logout.php'><img src='images/logout.gif' width='16' height='16' align='absmiddle' border='0'></a>";
 	}
 	
 	echo "&nbsp;&nbsp;&nbsp;";
