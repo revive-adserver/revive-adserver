@@ -75,7 +75,7 @@ while ($row = phpAds_dbFetchArray($res))
 }
 
 phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.$clientid, 'images/icon-client.gif');
-phpAds_PageShortcut($strCampaignHistory, 'stats-campaign-history.php?campaignid='.$campaignid, 'images/icon-statistics.gif');
+phpAds_PageShortcut($strCampaignHistory, 'stats-campaign-history.php?clientid='.$clientid.'&campaignid='.$campaignid, 'images/icon-statistics.gif');
 
 
 

@@ -2,7 +2,7 @@ phpAdsNew - Readme
 
   PHP Banner Management System
 
-  Version 2 dev 28012002
+  Version 2 dev 25022002
   http://www.sourceforge.net/projects/phpadsnew/
 
   THIS IS A EXPERIMENTAL DEVELOPMENT BUILD AND MAY NOT BE 
@@ -77,11 +77,12 @@ phpAdsNew - Readme
   Summary:
     phpAdsNew is a banner management and tracking system written in PHP.
     Currently it can
-    - manage multiple campaigns per client
+    - manage multiple campaigns per advertiser
     - manage multiple banners (any size) per campaign
-    - Order banners in different zones
-    - view daily, weekly, overall and summary statistics
-    - send statistics to clients via email
+    - manage multiple zones per publisher
+    - Link banners or campaigns to different zones
+    - view daily, weekly, monthly, overall and summary statistics
+    - send statistics to advertisers via email
     - use HTML (Rich media), GIF, JPEG, PNG and Flash banners
     - use banners stored on an external server (linked) or
       store banner through the admin interface in the 
@@ -92,9 +93,9 @@ phpAdsNew - Readme
     - supports conditional keywords
     - activate and deactivate single banners
     - show banners based on filters: user-agent, accept-language, day-of-week, IP masks, domain, source page, time
+    - Set a target number of impressions for a campaign
     - Perform campaign/banner weighing
     - Target banner clicks to frames
-    - Use different types of random or sequential banner retrieval
     - Multi-lingual and support for right-to-left languages, like Arabic
  
 
@@ -120,10 +121,6 @@ phpAdsNew - Readme
     Manuel Lemos, Boaz Yahav, Roy Nasser, Mark Maggalet, Ben Schumacher.
     And all the rest who helped.
 
-
-  Installation:
-    Please read chapter 2 of the manual, located inside the 'documentation' directory.
-  
 
   Mailing List:
     Questions about phpAdsNew should be directed to the forums. More

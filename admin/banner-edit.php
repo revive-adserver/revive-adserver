@@ -581,7 +581,7 @@ if ($bannerid != '')
 	{
 		phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.$clientid, 'images/icon-client.gif');
 		phpAds_PageShortcut($strCampaignProperties, 'campaign-edit.php?clientid='.$clientid.'&campaignid='.$campaignid, 'images/icon-campaign.gif');
-		phpAds_PageShortcut($strBannerHistory, 'stats-banner-history.php?campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-statistics.gif');
+		phpAds_PageShortcut($strBannerHistory, 'stats-banner-history.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-statistics.gif');
 		
 		
 		

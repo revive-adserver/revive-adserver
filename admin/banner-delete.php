@@ -31,8 +31,10 @@ phpAds_checkAccess(phpAds_Admin);
 /* Main code                                             */
 /*********************************************************/
 
-if (isset($bannerid) && $bannerid != '')
+function phpAds_DeleteBanner($bannerid)
 {
+	global $phpAds_config;
+	
 	// Cleanup webserver stored image
 	$res = phpAds_dbQuery("
 		SELECT
@@ -68,6 +70,28 @@ if (isset($bannerid) && $bannerid != '')
 	// Delete statistics for this banner
 	phpAds_deleteStats($bannerid);
 }
+
+if (isset($bannerid) && $bannerid != '')
+{
+	phpAds_DeleteBanner($bannerid);
+}
+elseif (isset($campaignid) && $campaignid != '')
+{
+	$res = phpAds_dbQuery("
+		SELECT
+			bannerid
+		FROM
+			".$phpAds_config['tbl_banners']."
+		WHERE
+			clientid = $campaignid
+	");
+	
+	while ($row = phpAds_dbFetchArray($res))
+	{
+		phpAds_DeleteBanner($row['bannerid']);
+	}
+}
+
 
 // Rebuild zone cache
 if ($phpAds_config['zone_cache'])

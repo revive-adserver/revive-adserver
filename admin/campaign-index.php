@@ -51,7 +51,7 @@ while ($row = phpAds_dbFetchArray($res))
 }
 
 phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.$clientid, 'images/icon-client.gif');
-phpAds_PageShortcut($strCampaignHistory, 'stats-campaign-history.php?campaignid='.$campaignid, 'images/icon-statistics.gif');
+phpAds_PageShortcut($strCampaignHistory, 'stats-campaign-history.php?clientid='.$clientid.'&campaignid='.$campaignid, 'images/icon-statistics.gif');
 
 
 
@@ -279,7 +279,7 @@ else
 		
 		
 		// Button 1
-		echo "<td height='25'>";
+		echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
 		if ($phpAds_config['acl'])
 			echo "<a href='banner-acl.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$banners[$bkey]['bannerid']."'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 		else
@@ -287,7 +287,7 @@ else
 		echo "</td>";
 		
 		// Button 2
-		echo "<td height='25'>";
+		echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
 		if ($banners[$bkey]["active"] == "t")
 		{
 			echo "<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$banners[$bkey]["bannerid"]."&value=".$banners[$bkey]["active"]."'><img src='images/icon-deactivate.gif' align='absmiddle' border='0'>&nbsp;";
@@ -301,7 +301,7 @@ else
 		echo "</a>&nbsp;&nbsp;&nbsp;&nbsp;</td>";
 		
 		// Button 3
-		echo "<td height='25'>";
+		echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
 		echo "<a href='banner-delete.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$banners[$bkey]['bannerid']."&returnurl=campaign-index.php'".phpAds_DelConfirm($strConfirmDeleteBanner)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 		echo "</td></tr>";
 		
@@ -336,6 +336,9 @@ else
 }
 
 echo "<tr height='25'><td colspan='5' height='25'>";
+
+if (count($banners))
+	echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle'>&nbsp;<a href='banner-delete.php?clientid=".$clientid."&campaignid=".$campaignid."&returnurl=campaign-index.php'".phpAds_DelConfirm($strConfirmDeleteAllBanners).">$strDeleteAllBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 
 if ($count_active < count($banners))
 	echo "<img src='images/icon-activate.gif' border='0' align='absmiddle'>&nbsp;<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&value=f'>$strActivateAllBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
