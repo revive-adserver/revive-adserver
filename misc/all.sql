@@ -46,7 +46,7 @@ CREATE TABLE phpads_zones (
    width smallint(6) DEFAULT '0' NOT NULL,
    height smallint(6) DEFAULT '0' NOT NULL,
    retrieval enum('random','cookie') DEFAULT 'random' NOT NULL,
-   cachecontents blob,
+   cachecontents mediumblob,
    cachetimestamp int(11) DEFAULT '0' NOT NULL,
    PRIMARY KEY (zoneid),
    KEY zonenameid (zonename,zoneid)
