@@ -226,6 +226,8 @@ if (isset($submit))
 
 if ($bannerID != '')
 {
+	phpAds_PageHeader("$strModifyBanner");
+	
 	$extra = '';
 	
 	$res = db_query("
@@ -264,11 +266,11 @@ if ($bannerID != '')
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/caret-rs.gif'>&nbsp;<a href=stats-weekly.php?clientID=$clientID>$strWeeklyStats</a><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		
-		phpAds_PageHeader("4.1.2", $extra);
+		phpAds_ShowNav("1.3.2", $extra);
 	}
 	else
 	{
-		phpAds_PageHeader("1.3", $extra);
+		phpAds_ShowNav("2.4", $extra);
 	}
 	
 	
@@ -289,9 +291,9 @@ if ($bannerID != '')
 }
 else
 {
-	phpAds_PageHeader("4.1.1");   
-
-	$type = "mysql";
+	phpAds_PageHeader("$strAddBanner");
+	phpAds_ShowNav("1.3.1");   
+	
 	$row['alt'] = "";
 	$row['bannertext'] = "";
 	$row['url'] = "";
@@ -315,10 +317,17 @@ $show_sql  = $phpAds_type_sql_allow;
 $show_web  = $phpAds_type_web_allow;
 $show_url  = $phpAds_type_url_allow;
 $show_html = $phpAds_type_html_allow;
-if ($type == "mysql") $show_sql  = true;
-if ($type == "web")   $show_web  = true;
-if ($type == "url")   $show_url  = true;
-if ($type == "html")  $show_html = true;
+
+if (isset($type) && $type == "mysql") $show_sql  = true;
+if (isset($type) && $type == "web")   $show_web  = true;
+if (isset($type) && $type == "url")   $show_url  = true;
+if (isset($type) && $type == "html")  $show_html = true;
+
+// Determine which bannertype to show as default
+if ($show_html) $type = "html";
+if ($show_url)  $type = "url";
+if ($show_web)  $type = "web";
+if ($show_sql)  $type = "sql";
 
 ?>
 
