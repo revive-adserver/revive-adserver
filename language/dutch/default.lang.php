@@ -377,7 +377,7 @@ $GLOBALS['strDuplicate']				= "Dupliceer";
 $GLOBALS['strMainSettings']				= "Hoofd instellingen";
 $GLOBALS['strAdminSettings']			= "Administratie instellingen";
 
-$GLOBALS['strApplyLimitationsTo']		= "Pas limitaties toe op";
+$GLOBALS['strApplyLimitationsTo']		= "Pas beperking toe op";
 $GLOBALS['strWholeCampaign']			= "Hele campagne";
 $GLOBALS['strZonesWithoutAffiliate']	= "Zones zonder affiliate";
 $GLOBALS['strMoveToNewAffiliate']		= "Verplaats naar een nieuwe affiliate";
