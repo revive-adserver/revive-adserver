@@ -95,6 +95,9 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 		$outputbuffer = str_replace ('{target}', $target, $outputbuffer);
 		$outputbuffer = str_replace ('{source}', $source, $outputbuffer);
 		
+		// Set path of phpAdsNew
+		$outputbuffer = str_replace ('{url_prefix}', $phpAds_config['url_prefix'], $outputbuffer);
+		
 		
 		// Add text below banner
 		if ($withtext)

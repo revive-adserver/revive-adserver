@@ -731,7 +731,7 @@ function phpAds_upgradeHTMLCache ()
 	{
 		// Rebuild filename
 		if ($current['storagetype'] == 'sql')
-			$current['imageurl'] = $phpAds_config['url_prefix']."/adimage.php?filename=".$current['filename']."&contenttype=".$current['contenttype'];
+			$current['imageurl'] = "{url_prefix}/adimage.php?filename=".$current['filename']."&contenttype=".$current['contenttype'];
 		
 		if ($current['storagetype'] == 'web')
 			$current['imageurl'] = $phpAds_config['type_web_url'].'/'.$current['filename'];
