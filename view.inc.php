@@ -504,9 +504,9 @@ function view_raw($what, $clientID=0, $target="", $source="", $withtext=0, $cont
 				
 				if(!empty($row["url"])) 
 				{
-					if (strpos ($row['banner'], "{TARGETURL}") > 0)
+					if (strpos ($row['banner'], "{targeturl}") > 0)
 					{
-						$outputbuffer .= str_replace ("{TARGETURL}", urlencode("$phpAds_url_prefix/click.php?bannerID=".$row['bannerID']), stripslashes($row['banner']));
+						$outputbuffer .= str_replace ("{targeturl}", urlencode("$phpAds_url_prefix/click.php?bannerID=".$row['bannerID']), stripslashes($row['banner']));
 					}
 					else
 					{
@@ -593,8 +593,10 @@ function view_raw($what, $clientID=0, $target="", $source="", $withtext=0, $cont
 					$outputbuffer .= $newbanner;
 					
 				}
-				if (!empty($row["url"]) && strpos ($row['banner'], "{TARGET_URL}") == 0) 
+				if (!empty($row["url"]) && strpos ($row['banner'], "{targeturl}") == 0) 
 					$outputbuffer .= "</a>";
+				
+				$outputbuffer = str_replace ("{timestamp}", time(), $outputbuffer);
 			}
 			elseif ($row["format"] == "url")
 			{
