@@ -269,6 +269,8 @@ CREATE TABLE phpads_config (
    allow_invocation_popup enum('t','f') DEFAULT 't',
    auto_clean_tables enum('t','f') DEFAULT 'f',
    auto_clean_tables_interval tinyint(2) DEFAULT 5,
+   auto_clean_userlog enum('t','f') DEFAULT 'f',
+   auto_clean_userlog_interval tinyint(2) DEFAULT 5,
    auto_clean_tables_vacuum enum('t','f') DEFAULT 't',
    PRIMARY KEY (configid)
 );

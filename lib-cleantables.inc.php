@@ -22,18 +22,25 @@ define ('LIBCLEANTABLES_INCLUDED', true);
 /* Clean stats and userlog entries                       */
 /*********************************************************/
 
-function phpAds_cleanTables($weeks)
+function phpAds_cleanTables($weeks, $stats)
 {
 	global $phpAds_config;
-
+	
 	$report = '';
 	
-	$tables = array(
-		$phpAds_config['tbl_adstats'] => array('day', 'Ymd'),
-		$phpAds_config['tbl_adviews'] => array('t_stamp', 'YmdHis'),
-		$phpAds_config['tbl_adclicks'] => array('t_stamp', 'YmdHis'),		
-		$phpAds_config['tbl_userlog'] => array('timestamp', '')
-	);
+	
+	// Determine tables
+	if ($stats)
+		$tables = array(
+			$phpAds_config['tbl_adstats'] => array('day', 'Ymd'),
+			$phpAds_config['tbl_adviews'] => array('t_stamp', 'YmdHis'),
+			$phpAds_config['tbl_adclicks'] => array('t_stamp', 'YmdHis')
+		);
+	else
+		$tables = array(
+			$phpAds_config['tbl_userlog'] => array('timestamp', '')
+		);
+	
 	
 	$t_stamp = phpAds_makeTimestamp(mktime (0, 0, 0, date('m'),
 		date('d'), date('Y')), (-7 * $weeks + 1) * 60*60*24);

@@ -21,7 +21,8 @@ include ("lib-settings.inc.php");
 // Register input variables
 phpAds_registerGlobal ('ignore_hosts', 'warn_limit', 'admin_email_headers', 'log_beacon', 'compact_stats', 'log_adviews', 
 					   'log_adclicks', 'block_adviews', 'block_adclicks', 'reverse_lookup', 'proxy_lookup', 'warn_admin', 
-					   'warn_client', 'qmail_patch', 'auto_clean_tables', 'auto_clean_tables_interval');
+					   'warn_client', 'qmail_patch', 'auto_clean_tables', 'auto_clean_userlog', 'auto_clean_tables_interval', 
+					   'auto_clean_userlog_interval');
 
 
 // Security check
@@ -87,7 +88,10 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 	
 	if (isset($auto_clean_tables))
 		phpAds_SettingsWriteAdd('auto_clean_tables', $auto_clean_tables);
-
+	
+	if (isset($auto_clean_userlog))
+		phpAds_SettingsWriteAdd('auto_clean_userlog', $auto_clean_userlog);
+	
 	if (isset($auto_clean_tables_interval))
 	{
 		if (!is_numeric($auto_clean_tables_interval) || $auto_clean_tables_interval <= 2)
@@ -95,7 +99,15 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		else
 			phpAds_SettingsWriteAdd('auto_clean_tables_interval', $auto_clean_tables_interval);
 	}
-
+	
+	if (isset($auto_clean_userlog_interval))
+	{
+		if (!is_numeric($auto_clean_userlog_interval) || $auto_clean_userlog_interval <= 2)
+			$errormessage[4][] = $strAutoCleanErr ;
+		else
+			phpAds_SettingsWriteAdd('auto_clean_userlog_interval', $auto_clean_userlog_interval);
+	}
+	
 	if (!count($errormessage))
 	{
 		if (phpAds_SettingsWriteFlush())
@@ -168,11 +180,19 @@ phpAds_AddSettings('end_section', '');
 
 phpAds_AddSettings('start_section', "1.4.4");
 //phpAds_AddSettings('checkbox', 'auto_clean_tables_vacuum', $strAutoCleanVacuum);
+
 phpAds_AddSettings('checkbox', 'auto_clean_tables',
-	array($strAutoCleanEnable, array('auto_clean_tables_interval')));
+	array($strAutoCleanStats, array('auto_clean_tables_interval')));
 phpAds_AddSettings('break', '');
 phpAds_AddSettings('text', 'auto_clean_tables_interval',
-	array($strAutoCleanWeeks, 25, 'text', 1, 'auto_clean_tables'));
+	array($strAutoCleanStatsWeeks, 25, 'text', 1, 'auto_clean_tables'));
+phpAds_AddSettings('break', 'large');
+
+phpAds_AddSettings('checkbox', 'auto_clean_userlog',
+	array($strAutoCleanUserlog, array('auto_clean_userlog_interval')));
+phpAds_AddSettings('break', '');
+phpAds_AddSettings('text', 'auto_clean_userlog_interval',
+	array($strAutoCleanUserlogWeeks, 25, 'text', 1, 'auto_clean_userlog'));
 phpAds_AddSettings('end_section', '');
 phpAds_EndSettings();
 

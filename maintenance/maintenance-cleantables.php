@@ -18,12 +18,16 @@
 require	(phpAds_path."/lib-cleantables.inc.php"); 
 
 
-if ($phpAds_config['auto_clean_tables'])
-{
-	$report = phpAds_cleanTables($phpAds_config['auto_clean_tables_interval']);
+$report = ''
 
-	if ($report != '' && $phpAds_config['userlog_autoclean'])
-		phpAds_userlogAdd (phpAds_actionAutoClean, 0, $report);
-}
+if ($phpAds_config['auto_clean_tables'])
+	$report .= phpAds_cleanTables($phpAds_config['auto_clean_tables_interval'], true);
+
+if ($phpAds_config['auto_clean_userlog'])
+	$report .= phpAds_cleanTables($phpAds_config['auto_clean_userlog_interval'], false);
+
+if ($report != '' && $phpAds_config['userlog_autoclean'])
+	phpAds_userlogAdd (phpAds_actionAutoClean, 0, $report);
+
 
 ?>

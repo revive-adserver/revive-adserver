@@ -18,8 +18,8 @@ define ('LIBDBCONFIG_INCLUDED', true);
 
 
 // Current phpAds version
-$phpAds_version = 200.109;
-$phpAds_version_readable = "2 dev 31082002";
+$phpAds_version = 200.110;
+$phpAds_version_readable = "2 dev 02092002";
 $phpAds_productname = "phpAdsNew";
 $phpAds_dbmsname = "MySQL";
 
@@ -127,6 +127,8 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'allow_invocation_popup' =>		array ('type' => 'boolean', 'sql' => true),
 	'auto_clean_tables' =>			array ('type' => 'boolean', 'sql' => true),
 	'auto_clean_tables_interval' =>	array ('type' => 'integer', 'sql' => true),
+	'auto_clean_userlog' =>			array ('type' => 'boolean', 'sql' => true),
+	'auto_clean_userlog_interval' =>  array ('type' => 'integer', 'sql' => true),
 //	'auto_clean_tables_vacuum' =>	array ('type' => 'boolean', 'sql' => true),
 	'config_version' =>				array ('type' => 'string', 'sql' => true)
 );
