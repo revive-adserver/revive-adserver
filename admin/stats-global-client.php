@@ -32,7 +32,14 @@ phpAds_checkAccess(phpAds_Admin);
 /* HTML framework                                        */
 /*********************************************************/
 
-phpAds_PageHeader("2.1");
+$extra  = "<br><br><br>";
+$extra .= "<b>$strMaintenance</b><br>";
+$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+$extra .= "<a href='stats-reset.php?all=true'".phpAds_DelConfirm($strConfirmResetStats).">";
+$extra .= "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' align='absmiddle' border='0'>&nbsp;$strResetStats</a>";
+$extra .= "<br><br>";
+
+phpAds_PageHeader("2.1", $extra);
 phpAds_ShowSections(array("2.1", "2.4", "2.2", "2.5"));
 
 
@@ -640,10 +647,6 @@ if ($totalviews > 0 || $totalclicks > 0)
 		echo "<td height='25' align='".$phpAds_TextAlignRight."'>".$ctr."&nbsp;&nbsp;</td></tr>";
 		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	
-	
-	echo "<tr height='25'><td colspan='5' height='25'>";
-	echo "&nbsp;&nbsp;<img src='images/".$phpAds_TextDirection."/icon-undo.gif' align='absmiddle'>&nbsp;<a href='stats-reset.php?all=true'".phpAds_DelConfirm($strConfirmResetStats).">$strResetStats</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-	echo "</td></tr>";
 	echo "</table>";
 	echo "<br><br>";
 }

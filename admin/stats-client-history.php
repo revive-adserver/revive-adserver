@@ -76,7 +76,15 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.$clientid, 'images/icon-client.gif');
 	
-	phpAds_PageHeader("2.1.1");
+	
+	$extra  = "<br><br><br>";
+	$extra .= "<b>$strMaintenance</b><br>";
+	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+	$extra .= "<a href='stats-reset.php?clientid=$clientid'".phpAds_DelConfirm($strConfirmResetClientStats).">";
+	$extra .= "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' align='absmiddle' border='0'>&nbsp;$strResetStats</a>";
+	$extra .= "<br><br>";
+	
+	phpAds_PageHeader("2.1.1", $extra);
 		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br><br><br>";
 		phpAds_ShowSections(array("2.1.1", "2.1.2"));
 }
@@ -202,14 +210,6 @@ if (phpAds_dbNumRows($idresult) > 0)
 		
 		echo "</td></tr>";
 	  	echo "<tr><td height='1' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-		
-		
-		// Reset statistics
-		echo "<tr><td height='25'>";
-		echo "<a href='stats-reset.php?clientid=$clientid'".phpAds_DelConfirm($strConfirmResetClientStats).">";
-		echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' align='absmiddle' border='0'>&nbsp;$strResetStats</a>";
-		echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-		echo "</td></tr>";
 		
 		echo "</table>";
 	}

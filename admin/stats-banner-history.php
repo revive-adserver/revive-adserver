@@ -98,8 +98,14 @@ if (phpAds_isUser(phpAds_Admin))
 	phpAds_PageShortcut($strBannerProperties, 'banner-edit.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-banner-stored.gif');
 	phpAds_PageShortcut($strModifyBannerAcl, 'banner-acl.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-acl.gif');
 	
+	$extra  = "<br><br><br>";
+	$extra .= "<b>$strMaintenance</b><br>";
+	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+	$extra .= "<a href='stats-reset.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid'".phpAds_DelConfirm($strConfirmResetBannerStats).">";
+	$extra .= "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' align='absmiddle' border='0'>&nbsp;$strResetStats</a>";
+	$extra .= "<br><br>";
 	
-	phpAds_PageHeader("2.1.2.2.1");
+	phpAds_PageHeader("2.1.2.2.1", $extra);
 		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
 		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
