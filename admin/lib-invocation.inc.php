@@ -561,7 +561,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		{
 			echo "<tr bgcolor='#F6F6F6'><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$GLOBALS['strInvocationClientID']."</td><td width='370'>";
-			echo "<select name='clientid' style='width:350px;' tabindex='".($tabindex++)."'>";
+			echo "<select name='acid' style='width:350px;' tabindex='".($tabindex++)."'>";
 				echo "<option value='0'>-</option>";
 			
 			$res = phpAds_dbQuery("
