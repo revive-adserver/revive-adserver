@@ -24,7 +24,12 @@ $GLOBALS['strDatabaseSettings']				= "Impostazioni database";
 $GLOBALS['strAdminSettings']				= "Impostazioni amministratore";
 $GLOBALS['strAdvancedSettings']				= "Impostazioni avanzate";
 $GLOBALS['strOtherSettings']				= "Altre impostazioni";
-
+$GLOBALS['strLicenseInformation']			= "Informazioni sulla licenza";
+$GLOBALS['strAdministratorAccount']			= "Account amministratore";
+$GLOBALS['strDatabasePage']					= "Il database ".$phpAds_dbmsname;
+$GLOBALS['strInstallWarning']				= "Controllo server e integrit&agrave;";
+$GLOBALS['strCongratulations']				= "Congratulazioni!";
+$GLOBALS['strInstallFailed']				= "Installazione non riuscita!";
 $GLOBALS['strSpecifyAdmin']					= "Configurazione account amministratore";
 $GLOBALS['strSpecifyLocaton']				= "Inserisci l'indirizzo di ".$phpAds_productname." sul server";
 
@@ -70,6 +75,8 @@ $GLOBALS['strRevCVS']						= "Stai installando una copia prelevata via CVS di ".
 $GLOBALS['strInstallWelcome']				= "Benvenuto in ".$phpAds_productname;
 $GLOBALS['strInstallMessage']				= "Prima di utilizzare ".$phpAds_productname." &egrave; necessario configurarlo e <br> il database deve essere creato. Clicca su <b>Procedi</b> per continuare.";
 $GLOBALS['strInstallMessageCheck']			= $phpAds_productname." ha controllato l'integrit&agrave; dei file caricati sul server ed ha controllato se il server &egrave; in grado di far funzionare ".$phpAds_productname." correttamente. Le seguenti cose richiedono la tua attenzione.";
+$GLOBALS['strInstallMessageAdmin']			= "Prima di continuare &egrave; necessario impostare l'account dell'amministratore. Potrai usare questo account per entrare nell'interfaccia di amministrazione, così da poter gestire il tuo inventario e controllare le statistiche.";
+$GLOBALS['strInstallMessageDatabase']		= $phpAds_productname." utilizza un database ".$phpAds_dbmsname." per salvare l'inventario e tutte le statistiche. Prima di continuare &egrave; necessario specificare quale server utilizzare e il nome utente e la password che ".$phpAds_productname." dovr&agrave; fornire per connettersi al database. Se non sai cosa inserire qui, contatta l'amministratore del server.";
 $GLOBALS['strInstallSuccess']				= "<b>L'istallazione di ".$phpAds_productname." &egrave stata completata.</b><br><br>Affinch&eacute; ".$phpAds_productname." funzioni correttamente devi assicurarti
                                         	   che lo script di manutenzione sia lanciato ogni ora. Puoi trovare informazioni maggiori sull'argomento nel manuale.
                                         	   <br><br>Clicca <b>Procedi</b> per andare alla pagina di configurazione e impostare
