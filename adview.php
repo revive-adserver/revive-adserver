@@ -62,14 +62,15 @@ if (!isset($source))
 if (!isset($n))
 	$n = 'default';
 
-
-
 if (phpAds_dbConnect())
 {
 	$found = false;
+	$first = true;
 	
-	while ($what != '' && $found == false)
+	while (($first || $what != '') && $found == false)
 	{
+		$first = false;
+		
 		if (substr($what,0,5) == 'zone:')
 		{
 			if (!defined('LIBVIEWZONE_INCLUDED'))
