@@ -180,7 +180,7 @@ function phpAds_packCookies($cache, $session)
 	}
 	
 	// Encode only if necessary
-	if (true || count($cookies))
+	if (count($cookies))
 	{
 		// Serialize cookie array
 		$cookies = serialize($cookies);
@@ -196,7 +196,7 @@ function phpAds_packCookies($cache, $session)
 	}
 	
 	if ($session)
-		setcookie('phpAds_cookies[0]', $cookies, 0, $url['path']); //, $url['host']);	
+		setcookie('phpAds_cookies[0]', $cookies); //, $url['host']);	
 	else
 		setcookie('phpAds_cookies[1]', $cookies, time() + 86400 * 365 * 5, $url['path']); //, $url['host']);
 }
