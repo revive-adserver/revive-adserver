@@ -652,10 +652,13 @@ function phpAds_sqlDie()
 		{
 			$message .= $GLOBALS['strErrorDBSubmitBug'];
 			
+			$last_query = $phpAds_last_query;
+			
 			$message .= "<br><br><b>Version:</b> ".$phpAds_version_readable." (".$phpAds_version.")<br>";
+			$message .= "<b>".$phpAds_dbmsname." version:</b> ".phpAds_dbResult(phpAds_dbQuery('SELECT VERSION()'), 0, 0)."<br>";
 			$message .= "<b>Page: </b>".$HTTP_SERVER_VARS['PHP_SELF']."<br>";
 			$message .= "<b>Error:</b> ".$error."<br>";
-			$message .= "<b>Query:</b> ".$phpAds_last_query."<br>";
+			$message .= "<b>Query:</b> ".$last_query."<br>";
 		}
 	}
 	
