@@ -53,6 +53,8 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Iframes can now be transparent  (Niels) 20011203
 			  - Impression prediction tries to better compensate limited time peaks  (Matteo) 20011211
 			  - Added a better priority calculation when no targeted campaign is present  (Matteo) 20011211
+			  - Added additional indices to the statistic tables  (Niels) 20011211
+			  - Optimized queries for generating the statistics  (Niels) 20011211
 
 
 			+ Misc bugfixes
