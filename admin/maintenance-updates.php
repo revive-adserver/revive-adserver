@@ -50,30 +50,41 @@ phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2"));
 
 if (!isset($Session['maint_update']))
 {
-	// Show wait please text with rotating logo
-	echo "<br>";
-	echo "<table border='0' cellspacing='1' cellpadding='2'><tr><td>";
-	echo "<img src='images/install-busy.gif' width='16' height='16'>";
-	echo "</td><td class='install'>".$strSearchingUpdates."</td></tr></table>";
-	
-	phpAds_PageFooter();
-	
-	// Send the output to the browser
-	flush();
-	
-	// Get updates info and store them into a session var
-	$res = phpAds_checkForUpdates();
-	
-	phpAds_SessionDataRegister('maint_update', $res);
-	phpAds_SessionDataStore();
-	
-	echo "<script language='JavaScript'>\n";
-	echo "<!--\n";
-	echo "document.location.replace('maintenance-updates.php');\n";
-	echo "//-->\n";
-	echo "</script>\n";
-	
-	exit;
+	if (function_exists('xml_parser_create'))
+	{
+		// Show wait please text with rotating logo
+		echo "<br>";
+		echo "<table border='0' cellspacing='1' cellpadding='2'><tr><td>";
+		echo "<img src='images/install-busy.gif' width='16' height='16'>";
+		echo "</td><td class='install'>".$strSearchingUpdates."</td></tr></table>";
+		
+		phpAds_PageFooter();
+		
+		// Send the output to the browser
+		flush();
+		
+		// Get updates info and store them into a session var
+		$res = phpAds_checkForUpdates();
+		
+		phpAds_SessionDataRegister('maint_update', $res);
+		phpAds_SessionDataStore();
+		
+		echo "<script language='JavaScript'>\n";
+		echo "<!--\n";
+		echo "document.location.replace('maintenance-updates.php');\n";
+		echo "//-->\n";
+		echo "</script>\n";
+		
+		exit;
+	}
+	else
+	{
+		echo "<br>".$strNotAbleToCheck."<br><br>";
+		phpAds_ShowBreak();
+		
+		echo "<br>".$strForUpdatesLookOnWebsite."<br><br>";
+		echo "<b><img src='images/caret-r.gif'>&nbsp;<a href='http://".$phpAds_producturl."' target='_blank'>".$strClickToVisitWebsite."</a></b>"; 
+	}
 }
 else
 {

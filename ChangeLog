@@ -102,6 +102,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-10-13:  The precompiled limitation wasn't updated when applying a limitation to another banner  (Niels)
 			  - 2002-10-13:  </body></html> weren't added to the popup HTML code for IE  (Niels)
 			  - 2002-10-15:  Added a check to the installer to make sure the database extension is available  (Niels)
+			  - 2002-10-23:  Added a check for product updates to make sure the XML extension is available  (Niels)
 
 
 v 2.0beta7		+ Added configuration manager  (Matteo, 2001-11-04)

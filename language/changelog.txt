@@ -12,6 +12,11 @@
 
   ====================================================
 
+  23-10-2002 - maintenance
+    [+] strNotAbleToCheck
+    [+] strForUpdatesLookOnWebsite
+    [+] strClickToVisitWebsite
+
   23-10-2002 - invocation
     [+] strSmoothMovement
     [+] strHideNotMoving
