@@ -41,6 +41,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2001-10-27:  Moved all includes inside view.inc.php to all invocation files  (Niels) 
 			  - 2002-02-06:  view.inc.php is now split into multiple libraries, so only code actually needed is included to achieve a big improvement in performance  (Niels) 
 			  - 2002-03-07:  Moved invocation code into lib-invocation.inc.php  (Matteo) 
+			  - 2002-04-01:	 Renamed campaign-index and zone-index  (Niels)
 
 			+ Misc changes
 			  - 2001-10-20:  Moved some functions around to make sure no unneeded functions were included during invocation.  (Niels) 
@@ -206,6 +207,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-03-30:  Fixed MS Exchange problem when sending email  (Niels)
 			  - 2002-03-31:  Duplicated zones now have an unique name  (Niels)
 			  - 2002-03-31:  Fixed errors when no banner networks were present  (Niels)
+			  - 2002-04-01:  Fixed report checkboxes on the advertiser properties page  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015

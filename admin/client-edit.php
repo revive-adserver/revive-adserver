@@ -124,7 +124,8 @@ if (isset($submit))
 			}
 		}
 		
-		if (!isset($clientreport)) $clientreport = false;
+		if (!isset($clientreport)) 			 $clientreport = 'f';
+		if (!isset($clientreportdeactivate)) $clientreportdeactivate = 'f';
 		
 		if ($clientreportlastdate == '' || $clientreportlastdate == '0000-00-00' || $clientreportprevious != $clientreport)
 		{
@@ -192,6 +193,9 @@ if (isset($submit))
 	
 	if (phpAds_isUser(phpAds_Client))
 	{
+		if (!isset($clientreport)) 			 $clientreport = 'f';
+		if (!isset($clientreportdeactivate)) $clientreportdeactivate = 'f';
+		
 		if ($clientreportlastdate == '' || $clientreportlastdate == '0000-00-00' || $clientreportprevious != $clientreport)
 		{
 			// Set last date to today when
@@ -385,13 +389,13 @@ echo "<input type='hidden' name='clientreportlastdate' value='".(isset($row['rep
 echo "<input type='hidden' name='clientreportprevious' value='".(isset($row['report']) ? $row['report'] : '')."'>";
 
 echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-echo "<input type='checkbox' name='clientreportdeactivate' value='t'".($row['reportdeactivate'] ? ' CHECKED' : '').">&nbsp;";
+echo "<input type='checkbox' name='clientreportdeactivate' value='t'".($row['reportdeactivate'] == 't' ? ' CHECKED' : '').">&nbsp;";
 echo $strSendDeactivationWarning;
 echo "</td></tr>";
 
 // Interval
 echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-echo "<input type='checkbox' name='clientreport' value='t'".($row['report'] ? ' CHECKED' : '').">&nbsp;";
+echo "<input type='checkbox' name='clientreport' value='t'".($row['report'] == 't' ? ' CHECKED' : '').">&nbsp;";
 echo $strSendAdvertisingReport;
 echo "</td></tr>";
 
