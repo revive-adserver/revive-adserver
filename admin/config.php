@@ -160,7 +160,8 @@ $phpAds_nav = array (
 		      "1.1.1.2"		=> 	array("banner-edit.php?campaignid=$campaignid&bannerid=$bannerid" => $strModifyBanner),
 			  "1.1.1.3"		=>  array("banner-swf.php?campaignid=$campaignid&bannerid=$bannerid" => 'Convert Flash links'),
 		    "1.1.2"			=> 	array("stats-campaign-history.php?campaignid=$campaignid" => $strCampaignHistory),
-	      "1.2"				=>  array("stats-client-history.php" => $strHistory)
+	      "1.2"				=>  array("stats-client-history.php" => $strHistory),
+		"3"					=>  array("report-index.php" => $strReports)
 	),
 
 	"affiliate" => array (
@@ -170,6 +171,7 @@ $phpAds_nav = array (
 		    "1.1.2"  		=>  array("stats-zone-linkedbanners.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strLinkedBannersOverview),
 		      "1.1.2.1"		=>  array("stats-linkedbanner-history.php?affiliateid=$affiliateid&zoneid=$zoneid&bannerid=$bannerid" => $strLinkedBannerHistory),
 		  "1.2"				=>  array("stats-affiliate-history.php?affiliateid=$affiliateid" => $strAffiliateHistory),
+		"3"					=>  array("report-index.php" => $strReports),
 	    "2" 				=> 	array("zone-index.php?affiliateid=$affiliateid" => $strAdminstration),
 	      "2.1" 			=> 	array("zone-index.php?affiliateid=$affiliateid" => $strZones),
 		    "2.1.1"			=> 	array("zone-edit.php?affiliateid=$affiliateid&zoneid=0" => $strAddZone),
