@@ -280,7 +280,7 @@ if ($found)
 					phpAds_setCookie ("phpAds_banner[".$n."]", serialize($cookie), 0);
 					phpAds_flushCookie ();
 					
-					header ('Content-type: image/'.$row['contenttype'].'; name='.md5(microtime()).'.'.$row['contenttype']);
+					header ('Content-Type: image/'.$row['contenttype'].'; name='.md5(microtime()).'.'.$row['contenttype']);
 					header ('Content-Length: '.strlen($image['contents']));
 					echo $image['contents'];
 				}
@@ -301,7 +301,7 @@ else
 		// Show 1x1 Gif, to ensure not broken image icon
 		// is shown.
 		
-		header 	 ("Content-type: image/gif");
+		header 	 ("Content-Type: image/gif");
 		
 		echo chr(0x47).chr(0x49).chr(0x46).chr(0x38).chr(0x39).chr(0x61).chr(0x01).chr(0x00).
 		     chr(0x01).chr(0x00).chr(0x80).chr(0x00).chr(0x00).chr(0x04).chr(0x02).chr(0x04).
