@@ -78,7 +78,7 @@ $GLOBALS['strPrevious'] 			= "קודם";
 $GLOBALS['strNext'] 				= "הבא";
 $GLOBALS['strYes']				= "כן";
 $GLOBALS['strNo']				= "לא";
-$GLOBALS['strNone'] 				= "None";
+$GLOBALS['strNone'] 				= "אף אחד";
 $GLOBALS['strCustom']				= "לפי מידה";
 $GLOBALS['strDefault'] 				= "ברירת מחדל";
 $GLOBALS['strOther']				= "אחר";
@@ -99,12 +99,12 @@ $GLOBALS['strCheckAllNone']			= "סמן הכל/ או כלום";
 $GLOBALS['strKiloByte']				= "KB";
 $GLOBALS['strExpandAll']			= "פרוס הכל";
 $GLOBALS['strCollapseAll']			= "קפל הכל";
-$GLOBALS['strShowAll']				= "Show All";
+$GLOBALS['strShowAll']				= "הצג הכל";
 $GLOBALS['strNoAdminInteface']			= "השירות אינו פיל...";
 $GLOBALS['strFilterBySource']			= "סנן לפי מקור";
-$GLOBALS['strFieldContainsErrors']		= "The following fields contain errors:";
-$GLOBALS['strFieldFixBeforeContinue1']		= "Before you can continue you need";
-$GLOBALS['strFieldFixBeforeContinue2']		= "to correct these errors.";
+$GLOBALS['strFieldContainsErrors']		= "השדות הבאים מכילים שגיאות:";
+$GLOBALS['strFieldFixBeforeContinue1']		= "לפני שתמשיך עליך";
+$GLOBALS['strFieldFixBeforeContinue2']		= "לתקן שגיאות אלו.";
 
 
 
@@ -124,8 +124,8 @@ $GLOBALS['strID']				= "ID";
 $GLOBALS['strAuthentification'] 		= "אימות";
 $GLOBALS['strWelcomeTo']			= "ברוכים הבאים ל";
 $GLOBALS['strEnterUsername']			= "נא להכניס שם וסיסמא כדי להיכנס";
-$GLOBALS['strEnterBoth']			= "Please enter both your username and password";
-$GLOBALS['strEnableCookies']			= "You need to enable cookies before you can use ".$phpAds_productname;
+$GLOBALS['strEnterBoth']			= "אנא הזן את שם המשתמש והסיסמא";
+$GLOBALS['strEnableCookies']			= "עליך לאפשר קוקיס (cookies) לפני השימוש ב-".$phpAds_productname;
 $GLOBALS['strLogin'] 				= "התחבר";
 $GLOBALS['strLogout'] 				= "התנתק";
 $GLOBALS['strUsername'] 			= "שם משתמש";
@@ -313,14 +313,14 @@ $GLOBALS['strOR']				= "או"; 						// logical operator
 $GLOBALS['strOnlyDisplayWhen']			= "הצג באנר זה רק כש:";
 $GLOBALS['strWeekDay'] 				= "יום בשבוע";
 $GLOBALS['strTime'] 				= "שעה";
-$GLOBALS['strUserAgent'] 			= "Useragent";
-$GLOBALS['strDomain'] 				= "Domain";
+$GLOBALS['strUserAgent'] 			= "מוביל השירות";
+$GLOBALS['strDomain'] 				= "שם מתחשם (Domain)";
 $GLOBALS['strClientIP'] 			= "תגית IP";
 $GLOBALS['strSource'] 				= "צמוד לתוכן מקור";
-$GLOBALS['strBrowser'] 				= "Browser";
-$GLOBALS['strOS'] 				= "OS";
-$GLOBALS['strCountry'] 				= "Country";
-$GLOBALS['strContinent'] 			= "Continent";
+$GLOBALS['strBrowser'] 				= "דפדפן";
+$GLOBALS['strOS'] 				= "מערכת הפעלה";
+$GLOBALS['strCountry'] 				= "מדינה";
+$GLOBALS['strContinent'] 			= "יבשת";
 $GLOBALS['strDeliveryLimitations']		= "הגבלות תפוצה";
 $GLOBALS['strDeliveryCapping']			= "היקף תפוצה";
 $GLOBALS['strTimeCapping']			= "ברגע שבאנר זה הוצג, אל תציג אותו שוב לאותו משתמש במשך:";
@@ -344,7 +344,7 @@ $GLOBALS['strMakePublisherPublic']		= "אפשר לאזורים השייכים למפיץ זה להיות זמיני
 
 
 // Publisher (properties)
-$GLOBALS['strWebsite']						= "Website";
+$GLOBALS['strWebsite']						= "אתר";
 $GLOBALS['strAllowAffiliateModifyInfo'] 	= "אפשר למשתמש זה לשנות את קביעותיו";
 $GLOBALS['strAllowAffiliateModifyZones'] 	= "אפשר למשתמש זה לשנות אזורים";
 $GLOBALS['strAllowAffiliateLinkBanners'] 	= "אפשר למשתמש זה לקשר באנרים לאזורים שלו";

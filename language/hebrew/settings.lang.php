@@ -19,7 +19,7 @@ $GLOBALS['strInstall']				= "התקן";
 $GLOBALS['strChooseInstallLanguage']		= "בחר את שפת ההתקנה";
 $GLOBALS['strLanguageSelection']		= "בחירת שפה";
 $GLOBALS['strDatabaseSettings']			= "קביעות בסיס נתונים";
-$GLOBALS['strAdminSettings']			= "קביעות Administrator";
+$GLOBALS['strAdminSettings']			= "קביעות מנהל";
 $GLOBALS['strAdvancedSettings']			= "קביעות מתקדמות";
 $GLOBALS['strOtherSettings']			= "קביעות אחרות";
 
@@ -115,8 +115,8 @@ $GLOBALS['strAllowInterstitial']		= " אפשר באנרים צפים";
 $GLOBALS['strAllowPopups']			= " אפשר באנרים קופצים";
 
 $GLOBALS['strUseAcl']				= " השתמש בהגבלות תצוגה";
-$GLOBALS['strGeotrackingType']			= "Type of geotracking database";
-$GLOBALS['strGeotrackingLocation'] 		= "Geotracking database location";
+$GLOBALS['strGeotrackingType']			= "סוג מאגר מעקב";
+$GLOBALS['strGeotrackingLocation'] 		= "מיקום מאגר מעקב";
 
 $GLOBALS['strKeywordRetrieval']			= "שליפה לפי מילות מפתח";
 $GLOBALS['strBannerRetrieval']			= " שיטת שליפת הבאנרים";
@@ -195,13 +195,13 @@ $GLOBALS['strIgnoreHosts']			= " התעלם משרתים";
 $GLOBALS['strReverseLookup']			= " כתובת גולש (Reverse DNS Lookup)";
 $GLOBALS['strProxyLookup']			= " כתובת שרת ביניים (Proxy)";
 
-$GLOBALS['strAutoCleanTables']			= "Database pruning";
-$GLOBALS['strAutoCleanStats']			= "Prune statistics";
-$GLOBALS['strAutoCleanUserlog']			= "Prune user log";
-$GLOBALS['strAutoCleanStatsWeeks']		= "Maximum age of statistics <br>(3 weeks minimum)";
-$GLOBALS['strAutoCleanUserlogWeeks']		= "Maximum age of user log <br>(3 weeks minimum)";
-$GLOBALS['strAutoCleanErr']			= "Maximum age must be at least 3 weeks";
-$GLOBALS['strAutoCleanVacuum']			= "VACUUM ANALYZE כל לילה"; // only Pg
+$GLOBALS['strAutoCleanTables']			= "דילול בסיס הנתונים";
+$GLOBALS['strAutoCleanStats']			= "דילול סטטיסטיקה";
+$GLOBALS['strAutoCleanUserlog']			= "דילול תיעוד מתמש";
+$GLOBALS['strAutoCleanStatsWeeks']		= "גיל מירבי של סטטיסטיקה <br>(3 שבועות מינימום)";
+$GLOBALS['strAutoCleanUserlogWeeks']		= "גיל מירבי של תיעוד משתמש <br>(3 שבועות מינימום)";
+$GLOBALS['strAutoCleanErr']			= "גיל מירבי חייב ליהות 3 שבועות לפחות";
+$GLOBALS['strAutoCleanVacuum']			= "בצע ניקיון כללי אוטומטית כל לילה"; // only Pg
 
 
 // Administrator settings
