@@ -504,7 +504,7 @@ if (phpAds_isUser(phpAds_Admin))
 			echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
 			echo "<span class='install'>".$strInstallMessageCheck;
 			
-			if (count($fatal) || isset($rev_direct))
+			if (count($fatal) || count($warn) || isset($rev_direct))
 			{
 				echo "<br><br><div class='errormessage'><img class='errormessage' src='images/errormessage.gif' align='absmiddle'>";
 				echo "<span class='tab-r'>".$strMayNotFunction."</span><br><br>".$strFixProblemsBefore."<ul>";
