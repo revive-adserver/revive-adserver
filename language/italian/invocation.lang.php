@@ -93,16 +93,16 @@ $GLOBALS['strBackgroundColor']			= "Colore di sfondo";
 $GLOBALS['strBorderColor']				= "Colore del bordo";
 
 $GLOBALS['strDirection']				= "Direzione";
-$GLOBALS['strLefttoright']				= "Da sinistra a destra";
-$GLOBALS['strRighttoleft']				= "Da destra a sinistra";
+$GLOBALS['strLeftToRight']				= "Da sinistra a destra";
+$GLOBALS['strRightToLeft']				= "Da destra a sinistra";
 $GLOBALS['strLooping']					= "Ripetizioni";
-$GLOBALS['strAlwaysactive']				= "Sempre attivo";
+$GLOBALS['strAlwaysActive']				= "Sempre attivo";
 $GLOBALS['strSpeed']					= "Velocit&agrave;";
 $GLOBALS['strPause']					= "Pausa";
 $GLOBALS['strLimited']					= "Limitato";
 $GLOBALS['strLeftmargin']				= "Margine sinistro";
 $GLOBALS['strRightmargin']				= "Margine destro";
-$GLOBALS['strTransparentbackground']	= "Sfondo trasparente";
+$GLOBALS['strTransparentBackground']	= "Sfondo trasparente";
 
 
 $GLOBALS['strAdLayerStyleName']				= array(

@@ -53,8 +53,8 @@ function phpAds_placeLayerSettings ()
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$GLOBALS['strDirection']."</td><td width='370'>";
 	echo "<select name='ltr' style='width:175px;'>";
-		echo "<option value='t'".($ltr == 't' ? ' selected' : '').">". 'Left to right' ."</option>";
-		echo "<option value='f'".($ltr == 'f' ? ' selected' : '').">". 'Right to left' ."</option>";
+		echo "<option value='t'".($ltr == 't' ? ' selected' : '').">".$GLOBALS['strLeftToRight']."</option>";
+		echo "<option value='f'".($ltr == 'f' ? ' selected' : '').">".$GLOBALS['strRightToLeft'] ."</option>";
 	echo "</select>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
@@ -62,7 +62,7 @@ function phpAds_placeLayerSettings ()
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$GLOBALS['strLooping']."</td><td width='370'>";
 	echo "<select name='loop' style='width:175px;'>";
-		echo "<option value='n'".($loop == 'n' ? ' selected' : '').">". 'Always active' ."</option>";
+		echo "<option value='n'".($loop == 'n' ? ' selected' : '').">".$GLOBALS['strAlwaysActive']."</option>";
 	for ($i=1;$i<=10;$i++)
 		echo "<option value='".$i."'".($loop == $i ? ' selected' : '').">".$i."</option>";
 	echo "</select>";

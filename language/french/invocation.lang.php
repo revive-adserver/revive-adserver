@@ -91,16 +91,16 @@ $GLOBALS['strBackgroundColor']		= "Couleur d'arrière-plan";
 $GLOBALS['strBorderColor']			= "Couleur de bordure";
 
 $GLOBALS['strDirection']			= "Direction";
-$GLOBALS['strLefttoright']			= "De gauche à droite";
-$GLOBALS['strRighttoleft']			= "De droite à gauche";
+$GLOBALS['strLeftToRight']			= "De gauche à droite";
+$GLOBALS['strRightToLeft']			= "De droite à gauche";
 $GLOBALS['strLooping']				= "Nombre de passages";
-$GLOBALS['strAlwaysactive']			= "Toujours actif";
+$GLOBALS['strAlwaysActive']			= "Toujours actif";
 $GLOBALS['strSpeed']				= "Vitesse";
 $GLOBALS['strPause']				= "Pause entre chaque passage";
 $GLOBALS['strLimited']				= "Limité";
-$GLOBALS['strLeftmargin']			= "Marge gauche";
-$GLOBALS['strRightmargin']			= "Marge droite";
-$GLOBALS['strTransparentbackground']	= "Arrière-plan transparent";
+$GLOBALS['strLeftMargin']			= "Marge gauche";
+$GLOBALS['strRightMargin']			= "Marge droite";
+$GLOBALS['strTransparentBackground']	= "Arrière-plan transparent";
 
 $GLOBALS['strAdLayerStyleName']		= array(
 								'geocities'		=> "Type Geocities",
