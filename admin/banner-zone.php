@@ -257,13 +257,14 @@ if ($banner['contenttype'] == 'txt')
 		".phpAds_getZoneListOrder ($listorder, $orderdirection)."
 	") or phpAds_sqlDie();
 	
-	$zone_count += phpAds_dbNumRows($res);
 	while ($row = phpAds_dbFetchArray($res))
 	{
 		if (isset($affiliates[$row['affiliateid']]))
 		{
 			if (phpAds_IsCampaignInZone ($campaignid, $row['zoneid'], $row['what']))
 			{
+				$zone_count++;
+				
 				$row['linked'] = true;
 				$affiliates[$row['affiliateid']]['zones'][$row['zoneid']] = $row;
 				$affiliates[$row['affiliateid']]['ZoneCampaigns']++;
@@ -328,13 +329,14 @@ else
 		".phpAds_getZoneListOrder ($listorder, $orderdirection)."
 	") or phpAds_sqlDie();
 	
-	$zone_count += phpAds_dbNumRows($res);
 	while ($row = phpAds_dbFetchArray($res))
 	{
 		if (isset($affiliates[$row['affiliateid']]))
 		{
 			if (phpAds_IsCampaignInZone ($campaignid, $row['zoneid'], $row['what']))
 			{
+				$zone_count++;
+				
 				$row['linked'] = true;
 				$affiliates[$row['affiliateid']]['zones'][$row['zoneid']] = $row;
 				$affiliates[$row['affiliateid']]['ZoneCampaigns']++;
