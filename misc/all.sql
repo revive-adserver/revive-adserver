@@ -103,6 +103,7 @@ CREATE TABLE phpads_banners (
    active enum('t','f') DEFAULT 't' NOT NULL,
    priority int(11) DEFAULT '0' NOT NULL,
    contenttype enum('gif','jpeg','png','html','swf','dcr','rpm','mov') DEFAULT 'gif' NOT NULL,
+   pluginversion mediumint(9) DEFAULT '0' NOT NULL,
    storagetype enum('sql','web','url','html','network') DEFAULT 'sql' NOT NULL,
    filename varchar(255) NOT NULL,
    imageurl varchar(255) NOT NULL,

@@ -13,14 +13,13 @@
 /************************************************************************/
 
 
-
 function phpAds_getBannerTemplate($type)
 {
 	if ($type == 'swf')
 	{
 		$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
 		$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
-		$buffer .= "swflash.cab#version=6,0,0,0' width='{width}' height='{height}'>";
+		$buffer .= "swflash.cab#version={pluginversion:4,0,0,0}' width='{width}' height='{height}'>";
 		$buffer .= "<param name='movie' value='{imageurl}{swf_con}{swf_param}'>";
 		$buffer .= "<param name='quality' value='high'>";
 		$buffer .= "<embed src='{imageurl}{swf_con}{swf_param}' quality=high ";
@@ -32,7 +31,7 @@ function phpAds_getBannerTemplate($type)
 	{
 		$buffer  = "<object classid='clsid:166B1BCA-3F9C-11CF-8075-444553540000' ";
 		$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/director/";
-		$buffer .= "swdir85r321.cab#version=8,5,0,321' width='{width}' height='{height}'>";
+		$buffer .= "swdir85r321.cab#version={pluginversion:8,5,0,321}' width='{width}' height='{height}'>";
 		$buffer .= "<param name='src' value='{imageurl}'>";
 		$buffer .= "<param name='swStretchStyle' value='fill'>";
 		$buffer .= "<param name='quality' value='high'>";
@@ -321,6 +320,19 @@ function phpAds_getBannerCache($banner)
 	else
 		$buffer = str_replace ('{targeturl}', '', $buffer);
 	
+	
+	// Set Player version
+	if (eregi("\{pluginversion:([^\}]*)\}", $buffer, $matches))
+	{
+		// Get default version
+		$pluginversion = $matches[1];
+		
+		// Flash player 3 or higher
+		if ($banner['contenttype'] == 'swf' && $banner['pluginversion'] > 4)
+			$pluginversion = $banner['pluginversion'].',0,0,0';
+		
+		$buffer = str_replace ($matches[0], $pluginversion, $buffer);
+	}
 	
 	return ($buffer);
 }

@@ -195,15 +195,18 @@ if (isset($submit))
 				{
 					// Get dimensions of Flash file
 					list ($final['width'], $final['height']) = phpAds_SWFDimensions($buffer);
+					$final['pluginversion'] = phpAds_SWFVersion($buffer);
 					
 					// Check if the Flash banner includes hard coded urls
 					if (isset($checkswf) && $checkswf == 't' &&
-						phpAds_SWFVersion($buffer) >= 3 &&
+						$final['pluginversion'] >= 3 &&
 						phpAds_SWFInfo($buffer))
 					{
 						$edit_swf = true;
 					}
 				}
+				else
+					$final['pluginversion'] = 0;
 				
 				// Store the file
 				$final['filename'] = phpAds_ImageStore($storagetype, $final['filename'], $buffer);
@@ -216,6 +219,7 @@ if (isset($submit))
 			else
 			{
 				$final['contenttype'] = $current['contenttype'];
+				$final['pluginversion'] = $current['pluginversion'];
 				$final['filename'] = $current['filename'];
 				$final['imageurl'] = $current['imageurl'];
 				$final['width']  = $width;
@@ -299,15 +303,18 @@ if (isset($submit))
 				{
 					// Get dimensions of Flash file
 					list ($final['width'], $final['height']) = phpAds_SWFDimensions($buffer);
+					$final['pluginversion'] = phpAds_SWFVersion($buffer);
 					
 					// Check if the Flash banner includes hard coded urls
 					if ($checkswf == 't' &&
-						phpAds_SWFVersion($buffer) >= 3 &&
+						$final['pluginversion'] >= 3 &&
 						phpAds_SWFInfo($buffer))
 					{
 						$edit_swf = true;
 					}
 				}
+				else
+					$final['pluginversion'] = 0;
 				
 				// Add slashes to the file for storage
 				$final['filename'] = phpAds_ImageStore($storagetype, $final['filename'], $buffer);
@@ -326,6 +333,7 @@ if (isset($submit))
 			else
 			{
 				$final['contenttype'] = $current['contenttype'];
+				$final['pluginversion'] = $current['pluginversion'];
 				$final['filename'] = $current['filename'];
 				$final['imageurl'] = $current['imageurl'];
 				$final['width']  = $width;
@@ -840,7 +848,11 @@ if (!isset($bannerid) || $bannerid == '')
 			}
 			
 			echo "</select>";
-			echo "</td></tr></table>";
+			echo "</td>";
+			
+			//echo "<td align='right'><img src='images/icon-edit.gif' align='absmiddle'> Edit Templates</td>";
+			
+			echo "</tr></table>";
 			phpAds_ShowBreak();
 			echo "</form>";
 		}
@@ -1208,13 +1220,14 @@ if ($storagetype == 'html')
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200' valign='top'>".$strHTML."</td>";
-	echo "<td><textarea class='flat' cols='35' rows='8' name='banner' style='width:350px;'>".stripslashes($row['htmltemplate'])."</textarea></td></tr>";
+	echo "<td colspan='2'><textarea class='code' cols='45' rows='10' name='banner' wrap='off' style='width:550px; ";
+	echo "'>".stripslashes($row['htmltemplate'])."</textarea></td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200' valign='top'>&nbsp;</td>";
-	echo "<td><input type='checkbox' name='autohtml' value='t'".(!isset($row["autohtml"]) || $row["autohtml"] == 't' ? ' checked' : '')."> ".$strAutoChangeHTML."</td></tr>";
-	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+	echo "<td colspan='2'><input type='checkbox' name='autohtml' value='t'".(!isset($row["autohtml"]) || $row["autohtml"] == 't' ? ' checked' : '')."> ".$strAutoChangeHTML."</td></tr>";
+	
+	echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
+	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strURL."</td>";

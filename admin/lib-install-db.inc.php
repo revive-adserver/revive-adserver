@@ -89,6 +89,12 @@ function phpAds_upgradeDatabase ($tabletype = '')
 	// generate banner html cache
 	phpAds_upgradeSplitBanners();
 	
+	// Detect version of needed plugins
+	phpAds_upgradeDetectPluginVersion();
+	
+	// Update banner cache off all banners
+	phpAds_upgradeHTMLCache();
+	
 	return true;
 }
 
@@ -493,9 +499,7 @@ function phpAds_upgradeSplitBanners ()
 		$res = phpAds_dbQuery ("SELECT * FROM ".$phpAds_config['tbl_banners']);
 		
 		while ($row = phpAds_dbFetchArray($res))
-		{
 			$banners[] = $row;
-		}
 		
 		for ($i=0; $i < count($banners); $i++)
 		{
@@ -628,6 +632,98 @@ function phpAds_upgradeSplitBanners ()
 	}
 }
 
+function phpAds_upgradeDetectPluginVersion ()
+{
+	global $phpAds_config;
+	
+	// Include swf library
+	include ("lib-swf.inc.php");
+	
+	// Check if plugin detection is needed
+	if (!isset($phpAds_config['config_version']) ||	$phpAds_config['config_version'] < 200.089)
+	{
+		// Fetch all banners
+		$res = phpAds_dbQuery ("SELECT * FROM ".$phpAds_config['tbl_banners']);
+		
+		while ($row = phpAds_dbFetchArray($res))
+			$banners[] = $row;
+		
+		for ($i=0; $i < count($banners); $i++)
+		{
+			if ($banners[$i]['storagetype'] == 'sql' ||
+				$banners[$i]['storagetype'] == 'web')
+			{
+				$pluginversion = 0;
+				$htmltemplate = $banners[$i]['htmltemplate'];
+				
+				
+				if ($banners[$i]['contenttype'] == 'swf')
+				{
+					// Determine version
+					$swf_file = phpAds_ImageRetrieve ($banners[$i]['storagetype'], $banners[$i]['filename']);
+					$pluginversion = phpAds_SWFVersion($swf_file);
+					
+					// Update template
+					$htmltemplate = ereg_replace ("#version=[^\']*'", "#version={pluginversion:4,0,0,0}'", $htmltemplate);
+				}
+				elseif ($banners[$i]['contenttype'] == 'dcr')
+				{
+					// Update template
+					$htmltemplate = ereg_replace ("#version=[^\']*'", "#version={pluginversion:8,5,0,321}'", $htmltemplate);
+				}
+				
+				
+				$htmltemplate = addslashes ($htmltemplate);
+				
+				// Update the banner
+				$res = phpAds_dbQuery ("
+					UPDATE
+						".$phpAds_config['tbl_banners']."
+					SET
+						pluginversion = '".$pluginversion."',
+						htmltemplate = '".$htmltemplate."'
+					WHERE
+						bannerid = ".$banners[$i]['bannerid']."
+				");
+			}
+		}
+	}
+}
 
+function phpAds_upgradeHTMLCache ()
+{
+	global $phpAds_config;
+	
+	$res = phpAds_dbQuery("
+		SELECT
+			*
+		FROM
+			".$phpAds_config['tbl_banners']."
+	");
+	
+	while ($current = phpAds_dbFetchArray($res))
+	{
+		// Rebuild filename
+		if ($current['storagetype'] == 'sql')
+			$current['imageurl'] = $phpAds_config['url_prefix']."/adimage.php?filename=".$current['filename']."&contenttype=".$current['contenttype'];
+		
+		if ($current['storagetype'] == 'web')
+			$current['imageurl'] = $phpAds_config['type_web_url'].'/'.$current['filename'];
+		
+		// Rebuild cache
+		$current['htmltemplate'] = stripslashes($current['htmltemplate']);
+		$current['htmlcache']    = addslashes(phpAds_getBannerCache($current));
+		
+		phpAds_dbQuery("
+			UPDATE
+				".$phpAds_config['tbl_banners']."
+			SET
+				htmlcache = '".$current['htmlcache']."',
+				imageurl  = '".$current['imageurl']."'
+			WHERE
+				bannerid = ".$current['bannerid']."
+		");
+	}
+}
 
 ?>
