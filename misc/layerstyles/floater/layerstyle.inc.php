@@ -27,23 +27,13 @@ function phpAds_getLayerLimitations ()
 {
 	$agent = phpAds_getUserAgent();
 	
-	// Still need to do a compatibility test
-	// so it returns true for now
-	$compatible = true;
-	$richmedia  = true;
-	
-	return array (
-		'richmedia'  => $richmedia,
-		'compatible' => $compatible
-	);
-	
-	exit;
 	$compatible = $agent['agent'] == 'IE' && $agent['version'] < 5.0 ||
-				  $agent['agent'] == 'Mozilla' && $agent['version'] < 4.0 ||
+				  $agent['agent'] == 'Mozilla' && $agent['version'] < 5.0 ||
 				  $agent['agent'] == 'Opera' && $agent['version'] < 5.0 
 				  ? false : true;
 				  
-	$richmedia  = $agent['agent'] == 'IE' && $agent['version'] > 5.0 
+	$richmedia  = $agent['agent'] == 'IE' && $agent['version'] > 5.0 &&
+				  $agent['platform'] == 'Win'
 				  ? true : false;
 	
 	return array (
