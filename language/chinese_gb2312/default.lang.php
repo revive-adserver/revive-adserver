@@ -22,6 +22,7 @@
 $GLOBALS['phpAds_TextDirection']  		= "ltr";
 $GLOBALS['phpAds_TextAlignRight'] 		= "right";
 $GLOBALS['phpAds_TextAlignLeft']  		= "left";
+$GLOBALS['phpAds_CharSet'] 				= "gb2312";
 
 $GLOBALS['phpAds_DecimalPoint']			= '.';
 $GLOBALS['phpAds_ThousandsSeperator']		= ',';
