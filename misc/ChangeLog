@@ -12,6 +12,7 @@ phpAdsNew 2.0.3
 			  - 2005-02-05:  Added proper header encoding for outgoing e-mails, according to RFC 2047 - bug #1037033  (Matteo)
 			  - 2005-02-05:  Language limitation was only checking against the first language accepted - bug #1098001  (Matteo)
 			  - 2005-02-08:  Client path wasn't stripped from uploaded banner filenames under some circumstances - bug #1118544  (Matteo)
+			  * 2005-02-09:  Added missing include in adview.php  (Matteo)
 
 
 
