@@ -3,7 +3,7 @@
 // it's best if we do this only once per load, not every time we call rand.    
 mt_srand((double)microtime()*1000000);
 
-require("dblib.php");
+require ($phpAds_path."dblib.php"); 
 
 // Get a banner
 function get_banner($what, $clientID, $context=0, $source="")
@@ -270,14 +270,8 @@ function log_adview($bannerID,$clientID)
 }
 
 // Java-encodes text for use with (remote) javascript tags
-function enjavanate($javascript, $str)
+function enjavanate($str)
 {
-    if (!$javascript) 
-    {
-        print $str;
-        return;
-    }
-    
     foreach (explode("\n", $str) as $line)
     {
         $line = str_replace("\r", "", $line);
@@ -288,10 +282,7 @@ function enjavanate($javascript, $str)
 }
 
 
-// Note: $javascript is for internal use only.  It should always be last, and it should always
-//       be zero when called by users.
-// view a banner 
-function view($what, $clientID=0, $target = "", $source = "", $withtext=0, $context=0, $javascript=0)
+function view_raw($what, $clientID=0, $target = "", $source = "", $withtext=0, $context=0)
 {
     global $phpAds_db, $REMOTE_HOST;
 
@@ -304,6 +295,8 @@ function view($what, $clientID=0, $target = "", $source = "", $withtext=0, $cont
 	db_connect();
     $row = get_banner($what, $clientID, $context, $source);
 
+	$outputbuffer = "";
+	
 	if(!empty($row["bannerID"])) 
 	{
 		if(!empty($target))
@@ -321,8 +314,8 @@ function view($what, $clientID=0, $target = "", $source = "", $withtext=0, $cont
 		{
 			if(!empty($row["url"])) 
 			{
-				print enjavanate($javascript, "<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target>");
-                print enjavanate($javascript, $row["banner"]);
+				$outputbuffer .= "<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target>";
+                $outputbuffer .= $row["banner"];
 			} else
 			{
 				$lowerbanner=strtolower($row["banner"]);
@@ -347,30 +340,60 @@ function view($what, $clientID=0, $target = "", $source = "", $withtext=0, $cont
 					$hrefpos=strpos($lowerbanner,"href=",$hrefpos+1);
 				}
 				$newbanner=$newbanner.substr($row["banner"],$prevhrefpos);
-				print enjavanate($javascript, $newbanner);
+				$outputbuffer .= $newbanner;
 			}
 			if(!empty($row["url"])) 
-				print enjavanate($javascript, "</a>");
+				$outputbuffer .= "</a>";
 		}
 		else
 		{
 			if (empty($row["url"]))
-				print enjavanate($javascript, "<img src=\"$GLOBALS[phpAds_url_prefix]/viewbanner.php?bannerID=$row[bannerID]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0>");
+			{
+				if ($row["format"] == "url")	// patch for ie bug
+					$outputbuffer .= "<img src=\"$row[banner]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0>";
+    			else
+					$outputbuffer .= "<img src=\"$GLOBALS[phpAds_url_prefix]/viewbanner.php?bannerID=$row[bannerID]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0>";
+			}
 			else
-				print enjavanate($javascript, "<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target><img src=\"$GLOBALS[phpAds_url_prefix]/viewbanner.php?bannerID=$row[bannerID]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0></a>");
+			{
+				if ($row["format"] == "url")	// patch for ie bug
+					$outputbuffer .= "<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target><img src=\"$row[banner]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0></a>";
+				else
+					$outputbuffer .= "<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target><img src=\"$GLOBALS[phpAds_url_prefix]/viewbanner.php?bannerID=$row[bannerID]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0></a>";
+			}
 			if($withtext && !empty($row["bannertext"]))
-				print enjavanate($javascript, "<BR>\n<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target>".$row["bannertext"]."</a>");
+				$outputbuffer .= "<BR>\n<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target>".$row["bannertext"]."</a>";
 		}
 		if(!empty($row["bannerID"]))
 			log_adview($row["bannerID"],$row["clientID"]);
 	}
     db_close();
-	return($row["bannerID"]);
+	
+	
+	return( array("html" => $outputbuffer, 
+				  "bannerID" => $row["bannerID"])
+		  );
 }
 
 function view_t($what, $target = "")
 {
 	view ($what, $target, 1);
+}
+
+function view($what, $clientID=0, $target = "", $source = "", $withtext=0, $context=0)
+{
+	$output = view_raw("$what", "$clientID", "$source", "$withtext", "$context");
+	
+	print($output["html"]);
+	return($output["bannerID"]);
+}
+
+function view_js($what, $clientID=0, $target = "", $source = "", $withtext=0, $context=0)
+{
+	$output = view_raw("$what", "$clientID", "$source", "$withtext", "$context");
+	
+	enjavanate($output["html"]);
+	return($output["bannerID"]);
 }
 
 ?>
