@@ -157,6 +157,9 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: Password fields are now not readable when creating a client or affiliate  (Niels) 20020203
 			  - Bugfix: Fixed bug #513270 [ Netscape 6.2.1 incompatibility? ] in campaing-edit  (Matteo) 20020205
 			  - Bugfix: Calling the view() function twice with database compatibility mode fixed  (Niels) 20020206
+			  - Bugfix: Fixed re-appeared bug when not collapsing the latest expanded item
+			    in stats-global-affiliates.php  (Matteo) 20020218
+			  - Bugfix: Fixed bug when resolving was made by http server and reverse_lookup off  (Matteo) 20020218
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
