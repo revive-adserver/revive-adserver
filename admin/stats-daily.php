@@ -59,21 +59,41 @@ if (phpAds_isUser(phpAds_Client))
 
 $extra = '';
 
-$res = phpAds_dbQuery("
-	 SELECT
-		*,
-		count(*) as qnt,
-		DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f
-	 FROM
-		".$phpAds_config['tbl_adviews']."
-	 WHERE
-		bannerid = $bannerid
-	 GROUP BY
-		t_stamp_f
-	 ORDER BY
-		t_stamp DESC
-	 LIMIT 7
-") or phpAds_sqlDie();
+if ($phpAds_config['compact_stats']) 
+{
+	$res = phpAds_dbQuery("
+		SELECT
+			DATE_FORMAT(day, '$date_format') as t_stamp_f
+		FROM
+			".$phpAds_config['tbl_adstats']."
+		WHERE
+			bannerid = $bannerid AND
+			hour > 0
+		GROUP BY
+			day
+		ORDER BY
+			day DESC
+		LIMIT 7
+	") or phpAds_sqlDie();
+}
+else
+{
+	$res = phpAds_dbQuery("
+		 SELECT
+			*,
+			count(*) as qnt,
+			DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f
+		 FROM
+			".$phpAds_config['tbl_adviews']."
+		 WHERE
+			bannerid = $bannerid
+		 GROUP BY
+			t_stamp_f
+		 ORDER BY
+			t_stamp DESC
+		 LIMIT 7
+	") or phpAds_sqlDie();
+}
 
 while ($row = phpAds_dbFetchArray($res))
 {
@@ -85,6 +105,7 @@ while ($row = phpAds_dbFetchArray($res))
 	$extra .= "<a href='stats-daily.php?day=".urlencode($row["t_stamp_f"])."&campaignid=$campaignid&bannerid=$bannerid'>".$row['t_stamp_f']."</a>";
 	$extra .= "<br>"; 
 }
+
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 
 
@@ -124,7 +145,30 @@ if (phpAds_isUser(phpAds_Client))
 /* Show hourly statistics                                */
 /*********************************************************/
 
-function showHourlyStats($what)
+if ($phpAds_config['compact_stats'])
+{
+	$result = phpAds_dbQuery("
+		SELECT
+			hour,
+			sum(views) as views,
+			sum(clicks) as clicks
+		FROM
+			".$phpAds_config['tbl_adstats']."
+		WHERE
+			bannerid = ".$bannerid."
+			AND DATE_FORMAT(day, '".$date_format."') = '".$day."'
+		GROUP BY 
+			hour
+	") or phpAds_sqlDie();
+	
+	
+	while ($row = phpAds_dbFetchArray($result))
+	{
+		$views[$row['hour']] = $row['views'];
+		$clicks[$row['hour']] = $row['clicks'];
+	}
+}
+else
 {
 	$result = phpAds_dbQuery("
 		SELECT
@@ -133,45 +177,43 @@ function showHourlyStats($what)
 			DATE_FORMAT(t_stamp, '%H') as hour,
 			count(*) as qnt
 		FROM
-			$what
+			".$phpAds_config['tbl_adviews']."
+		WHERE
+			bannerid = ".$bannerid." AND 
+			DATE_FORMAT(t_stamp, '".$GLOBALS['date_format']."') = '".$GLOBALS['day']."'
+		GROUP BY 
+			hour
+	") or phpAds_sqlDie();
+	
+	
+	while ($row = phpAds_dbFetchArray($result))
+	{
+		$views[$row['hour']] = $row['qnt'];
+	}
+	
+	
+	$result = phpAds_dbQuery("
+		SELECT
+			*,
+			DATE_FORMAT(t_stamp, '".$GLOBALS['time_format']."') as t_stamp_f,
+			DATE_FORMAT(t_stamp, '%H') as hour,
+			count(*) as qnt
+		FROM
+			".$phpAds_config['tbl_adclicks']."
 		WHERE
 			bannerid = $GLOBALS[bannerid]
 			AND DATE_FORMAT(t_stamp, '".$GLOBALS['date_format']."') = '".$GLOBALS['day']."'
 		GROUP BY 
 			hour
-		") or phpAds_sqlDie();
-	$max = 0;
-	$total = 0;
-	while ($row = phpAds_dbFetchArray($result))
-	{
-		if ($row["qnt"] > $max)
-			$max = $row["qnt"];
-		$total += $row["qnt"];
-	}
-	phpAds_dbSeekRow($result, 0);
+	") or phpAds_sqlDie();
 	
-	$i = 0;
+	
 	while ($row = phpAds_dbFetchArray($result))
 	{
-		$bgcolor="#FFFFFF";
-		$i % 2 ? 0: $bgcolor= "#F6F6F6";
-		$i++;       
-		?>
-		<tr>
-			<td height='25' bgcolor="<?php print $bgcolor;?>">
-				&nbsp;<?php print $row["hour"];?>:00
-			</td>
-			<td height='25' bgcolor="<?php print $bgcolor;?>" align='right'>
-			    <b><?php print $row["qnt"];?></b>&nbsp;&nbsp;&nbsp;
-			</td>
-			<td height='25' bgcolor="<?php print $bgcolor;?>" align='left'>
-				<img src="images/bar.gif" width="<?php print ($row["qnt"]*300)/$max;?>" height="11"><img src="images/bar_off.gif" width="<?php print 300-(($row["qnt"]*300)/$max);?>" height="11">
-			</td>
-		</tr>
-		<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-		<?php
+		$clicks[$row['hour']] = $row['qnt'];
 	}
 }
+
 
 
 
@@ -189,7 +231,9 @@ if (phpAds_isUser(phpAds_Admin))
 }
 echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
 echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
-echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid);
+echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;".phpAds_getBannerName($bannerid);
+echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+echo "<img src='images/icon-time.gif' align='absmiddle'>&nbsp;".$day;
 
 echo "</b></td></tr>";
 echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -200,22 +244,81 @@ echo "<br><br>";
 echo "<br><br>";
 echo "<br><br>";
 
+
+
+
+echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+echo "<tr bgcolor='#FFFFFF' height='25'>";
+echo "<td align='left' nowrap height='25'><b>$strHour</b></td>";
+echo "<td align='left' nowrap height='25'><b>$strViews</b></td>";
+echo "<td align='left' nowrap height='25'><b>$strClicks</b></td>";
+echo "<td align='left' nowrap height='25'><b>$strCTRShort</b>&nbsp;&nbsp;</td>";
+echo "</tr>";
+
+echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+
+for ($i=0; $i<24; $i++)
+{
+	$bgcolor = ($i % 2 ? "#FFFFFF": "#F6F6F6");
+	
+	if (isset($views[$i]))
+	{
+		$ctr = phpAds_buildCTR($views[$i], $clicks[$i]);
+		$totalviews += $views[$i];
+	}
+	else
+	{
+		$ctr = '-';
+		$views[$i] = '-';
+	}
+	
+	if (isset($clicks[$i]))
+		$totalclicks += $clicks[$i];
+	else
+		$clicks[$i] = '-';
+	
+	echo "<tr>";
+	echo "<td height='25' bgcolor='$bgcolor'>&nbsp;".$i.":00 - ".$i.":59</td>";
+	echo "<td height='25' bgcolor='$bgcolor'>".$views[$i]."</td>";
+	echo "<td height='25' bgcolor='$bgcolor'>".$clicks[$i]."</td>";
+	echo "<td height='25' bgcolor='$bgcolor'>".$ctr."</td>";
+	echo "</tr>";
+	
+	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+}
+
+if ($totalviews > 0 || $totalclicks > 0)
+{
+	echo "<tr>";
+	echo "<td height='25'>&nbsp;</td>";
+	echo "<td height='25'>&nbsp;</td>";
+	echo "<td height='25'>&nbsp;</td>";
+	echo "<td height='25'>&nbsp;</td>";
+	echo "</tr>";
+	
+	echo "<tr>";
+	echo "<td height='25'>&nbsp;<b>$strTotal</b></td>";
+	echo "<td height='25'>".$totalviews."</td>";
+	echo "<td height='25'>".$totalclicks."</td>";
+	echo "<td height='25'>".phpAds_buildCTR($totalviews, $totalclicks)."</td>";
+	echo "</tr>";
+	
+	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	
+	echo "<tr>";
+	echo "<td height='25'>&nbsp;<b>$strAverage</b></td>";
+	echo "<td height='25'>".number_format (($totalviews / 24), $phpAds_config['percentage_decimals'])."</td>";
+	echo "<td height='25'>".number_format (($totalclicks / 24), $phpAds_config['percentage_decimals'])."</td>";
+	echo "<td height='25'>&nbsp;</td>";
+	echo "</tr>";
+	
+	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+}
+
+echo "</table>";
 ?>
 
-<table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
-  <tr><td height='25' colspan='3'><b><?php print $strViews;?></b></td></tr>
-  <tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-  <?php showHourlyStats($phpAds_config['tbl_adviews']); ?>
-</table>
-
 <br><br>
-
-<table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
-  <tr><td height='25' colspan='3'><b><?php print $strClicks;?></b></td></tr>
-  <tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-  <?php showHourlyStats($phpAds_config['tbl_adclicks']); ?>
-</table>
-
 <br><br>
 
 <?php if (!$phpAds_config['compact_stats']) { ?>

@@ -94,6 +94,7 @@ if (!isset($campaignid))  $campaignid = '';
 if (!isset($bannerid))    $bannerid = '';
 if (!isset($zoneid))   	  $zoneid = '';
 if (!isset($affiliateid)) $affiliateid = '';
+if (!isset($day))		  $day = '';
 
 
 // Setup navigation
@@ -104,7 +105,7 @@ $phpAds_nav = array (
 		    "2.1.1"			=>  array("stats-client.php?clientid=$clientid" => $strClientStats),
 		    "2.1.2"			=> 	array("stats-campaign.php?campaignid=$campaignid" => $strCampaignStats),
     	      "2.1.2.1" 	=> 	array("stats-details.php?campaignid=$campaignid&bannerid=$bannerid" => $strDetailStats),
-		        "2.1.2.1.1" => 	array("stats-daily.php" => $strDailyStats),
+		        "2.1.2.1.1" => 	array("stats-daily.php?day=$day&campaignid=$campaignid&bannerid=$bannerid" => $strDailyStats),
 		    "2.1.3"		 	=> 	array("stats-campaign-history.php?campaignid=$campaignid" => $strHistory),
 	        "2.1.4" 		=> 	array("stats-weekly.php?campaignid=$campaignid" => $strWeeklyStats),
 		  "2.2"				=>  array("stats-history.php" => $strHistory),

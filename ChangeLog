@@ -38,6 +38,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Changed layout of section-tabs  (Niels) 20011118
 			  - Added names in from and to headers when sending e-mails  (Matteo) 20011122
 			  - Added error message for possible exploit  (Niels) 20011125
+			  - Added support for compact stats to hourly stats page  (Niels) 20011128
 
 			+ Misc bugfixes
 			  - Removed extra comma from config.inc  (Matteo) 20011017
