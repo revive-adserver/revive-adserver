@@ -13,6 +13,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			+ Added ability to apply display limitations to other banners  (Niels) 20011201
 			+ Added new invocation type for popups/popunders  (Niels) 20011202
 			+ Added the ability to use beacon images for logging stats  (Niels) 20011202
+			+ Added the ability to change hard-coded urls inside Flash banners  (Niels) 20011218
 
 			+ Misc changes to library and function names
 			  - Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 20011020
@@ -102,6 +103,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: Ignored hosts were logged when using two or more banners whitin local invocation  (Matteo) 20011209
 			  - Bugfix: Removed form validation problem when adding switching a campaign to targeted mode  (Matteo) 20011211
 			  - Bugfix: Fixed webserver stored banner cleanup problem  (Niels) 20011216
+			  - Bugfix: Removed the background color parameter for Flash banner previews  (Niels) 20011218
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015

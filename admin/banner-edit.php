@@ -18,6 +18,7 @@
 require ("config.php");
 require ("lib-statistics.inc.php");
 require ("lib-storage.inc.php");
+require ("lib-swf.inc.php");
 
 
 // Security check
@@ -151,7 +152,7 @@ if (isset($submit))
 	}
 	
 	
-	
+	$edit_swf = false;
 	
 	switch($bannertype) 
 	{
@@ -161,7 +162,9 @@ if (isset($submit))
 				$size = @getimagesize($uploaded['tmp_name']);
 				$final['width'] = $size[0];
 				$final['height'] = $size[1];
-				$ext = substr($uploaded['name'], strrpos($uploaded['name'], ".")+1);
+				
+				$ext = substr($uploaded['name'], strrpos($uploaded['name'], ".") + 1);
+				
 				switch (strtoupper($ext)) 
 				{
 					case 'JPEG':
@@ -183,7 +186,20 @@ if (isset($submit))
 						$final['format'] = 'swf';
 						break;
 				}
-				$final['banner'] = addslashes(fread(fopen($uploaded['tmp_name'], "rb"), filesize($uploaded['tmp_name'])));
+				
+				// Read the file
+				$final['banner'] = @fread(@fopen($uploaded['tmp_name'], "rb"), @filesize($uploaded['tmp_name']));
+				
+				// Check if the Flash banner includes hard coded urls
+				if (strtoupper($ext) == 'SWF' && 
+					phpAds_SWFVersion($final['banner']) >= 3 &&
+					phpAds_SWFInfo($final['banner']))
+				{
+					$edit_swf = true;
+				}
+				
+				// Add slashes to the file for storage
+				$final['banner'] = addslashes ($final['banner']);
 			}
 			else
 			{
@@ -195,6 +211,7 @@ if (isset($submit))
 			$final['bannertext'] = addslashes($sqlbannertext);
 			$final['url'] = $sqlurl;
 			break;
+		
 		case 'web':
 			if (isset($uploaded))
 			{
@@ -223,6 +240,7 @@ if (isset($submit))
 			$final['bannertext'] = addslashes($webbannertext);
 			$final['url'] = $weburl;
 			break;
+		
 		case 'url':
 			$final['width'] = $urlwidth;
 			$final['height'] = $urlheight;
@@ -233,6 +251,7 @@ if (isset($submit))
 			$final['bannertext'] = addslashes($urlbannertext);
 			$final['url'] = $urlurl;
 			break;
+		
 		case 'html';
 			$final['width'] = $htmlwidth;
 			$final['height'] = $htmlheight;
@@ -244,8 +263,11 @@ if (isset($submit))
 			$final['autohtml'] = $htmlauto;
 			break;
 	}
+	
 	$final['clientid'] = $campaignid;
 	$final['bannerid'] = $bannerid;
+	
+	
 	
 	if (phpAds_isUser(phpAds_Admin)) 
 	{
@@ -308,6 +330,8 @@ if (isset($submit))
 			VALUES
 			($values)";
 		$res = phpAds_dbQuery($sql_query) or phpAds_sqlDie();
+		
+		$bannerid = phpAds_dbInsertID();
 	}
 	
 	
@@ -330,13 +354,16 @@ if (isset($submit))
 	
 	
 	
-	if (phpAds_isUser(phpAds_Client))
+	if ($edit_swf)
 	{
-		Header("Location: stats-campaign.php?campaignid=$campaignid");
+		Header("Location: banner-swf.php?campaignid=$campaignid&bannerid=$bannerid");
 	}
 	else
 	{
-		Header("Location: campaign-index.php?campaignid=$campaignid");
+		if (phpAds_isUser(phpAds_Client))
+			Header("Location: stats-campaign.php?campaignid=$campaignid");
+		else
+			Header("Location: campaign-index.php?campaignid=$campaignid");
 	}
 	
 	exit;
