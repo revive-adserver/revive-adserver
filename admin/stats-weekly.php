@@ -85,7 +85,8 @@ if (phpAds_isUser(phpAds_Client))
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		
 		phpAds_PageHeader('1.1.3', $extra);
-		phpAds_ShowSections(array("1.1.1", "1.1.2", "1.1.3"));
+			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignid)."</b><br><br><br>";
+			phpAds_ShowSections(array("1.1.1", "1.1.2", "1.1.3"));
 	}
 }
 
@@ -124,13 +125,11 @@ if (phpAds_isUser(phpAds_Admin))
 		$extra .= "<br><br><br><br><br>";
 		$extra .= "<b>$strShortcuts</b><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientid=".phpAds_getParentID ($campaignid).">$strModifyClient</a><br>";
+		$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientid=".phpAds_getParentID ($campaignid).">$strClientProperties</a><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignid=$campaignid>$strModifyCampaign</a><br>";
+		$extra .= "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignid=$campaignid>$strCampaignProperties</a><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<a href=campaign-index.php?campaignid=$campaignid>$strBanners</a><br>";
-		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-campaign.php?campaignid=$campaignid>$strStats</a><br>";
+		$extra .= "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<a href=campaign-index.php?campaignid=$campaignid>$strBannerOverview</a><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		
 		phpAds_PageHeader('2.1.4', $extra);

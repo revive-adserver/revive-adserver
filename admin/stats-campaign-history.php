@@ -100,7 +100,7 @@ if (phpAds_isUser(phpAds_Admin))
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	$extra .= "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignid=$campaignid>$strCampaignProperties</a><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<a href=campaign-index.php?campaignid=$campaignid>$strBanners</a><br>";
+	$extra .= "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<a href=campaign-index.php?campaignid=$campaignid>$strBannerOverview</a><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	
 	phpAds_PageHeader("2.1.3", $extra);
