@@ -342,12 +342,12 @@ else
 		if (isset($zone['banners']))
 		{
 			if (isset($zone['expand']) && $zone['expand'] == '1')
-				echo "&nbsp;<a href='stats-affiliate-zones.php?affiliateid=".$affiliateid."&collapse=".$zone['zoneid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
+				echo "&nbsp;<a href='stats-affiliate-zones.php?affiliateid=".$affiliateid."&collapse=".$zone['zoneid']."'><img src='images/triangle-d.gif' align='absmiddle' align='absmiddle' border='0'></a>&nbsp;";
 			else
 				echo "&nbsp;<a href='stats-affiliate-zones.php?affiliateid=".$affiliateid."&expand=".$zone['zoneid']."'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
 		}
 		else
-			echo "&nbsp;<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
+			echo "&nbsp;<img src='images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;";
 		
 		if ($zone['delivery'] == phpAds_ZoneBanner)
 			echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
