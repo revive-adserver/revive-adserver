@@ -22,6 +22,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-08-15:  During the login, passwords are transmitted as md5 digests, instead of plain text  (Niels)
 			  - 2002-08-18:  Split the new 'Browser' delivery limitation into 'Browser' and 'OS'  (Niels)
 			  - 2002-08-18:  Reinstated the old 'Browser' delivery limitation which is now called 'Useragent'  (Niels)
+			  - 2002-08-31:  Added option to force browsers to use SSL when using the admin interface  (Niels)
 
 			+ Misc bugfixes
 			  - 2002-07-25:  On some systems history pages showed '-0' instead of simply '-' (Matteo)
@@ -52,6 +53,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-08-25:  Text zone icon wasn't displayed on the Advanced zone settings page  (Niels)
 			  - 2002-08-26:  Fixed problem when using adpopup to show HTML banners with embedded Javascript code  (Niels, thanks to Philip Hofstetter)
 			  - 2002-08-30:  Added single quotes when using ids in queries, to prevent exploits on non-mysql platforms  (Matteo)
+			  - 2002-08-31:  Fixed compatibility with delivering banners on a SSL enabled website  (Niels)
 
 
 
