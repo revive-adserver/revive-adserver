@@ -1,5 +1,6 @@
 <?
 require("expiration.inc.php");
+require("gd.php");
 $i = 0;
 
 ?>
@@ -31,22 +32,14 @@ while ($row_banners = mysql_fetch_array($res_banners))
 	<tr>
 		<td bgcolor="#eeeeee" width="90%">
 		<?
-		$res_adviews = db_query("
-			SELECT
-				count(*) as qnt
-			FROM
-				$phpAds_tbl_adviews
-			WHERE
-				bannerID = $row_banners[bannerID]
-			") or mysql_die();
-		$row_adviews = mysql_fetch_array($res_adviews);                 
-		print "$strViews:";
+		    $adviews = db_total_views($row_banners["bannerID"]);
+    		print "$strViews:";
 		?>
 		</td>
 		<td bgcolor="<?echo $bgcolor;?>" width="10%"><b>
 		<?
-		print $row_adviews["qnt"];
-		$totaladviews += $row_adviews["qnt"];
+		print $adviews;
+		$totaladviews += $adviews;
 		?>
 		</b>
 		</td>
@@ -54,22 +47,14 @@ while ($row_banners = mysql_fetch_array($res_banners))
 	<tr>
 		<td bgcolor="#eeeeee" width="90%">
 		<?
-		$res_adclicks = db_query("
-			SELECT
-				count(*) as qnt
-			FROM
-				$phpAds_tbl_adclicks
-			WHERE
-				bannerID = $row_banners[bannerID]
-			") or mysql_die();
-		$row_adclicks = mysql_fetch_array($res_adclicks);
-		print "$strClicks:";
+		    $adclicks = db_total_clicks($row_banners["bannerID"]);
+    		print "$strClicks:";
 		?>
 		</td>
 		<td bgcolor="<?echo $bgcolor;?>" width="10%"><b>
 		<?
-		print $row_adclicks["qnt"];
-		$totaladclicks += $row_adclicks["qnt"];
+    		print $adclicks;
+    		$totaladclicks += $adclicks;
 		?>
 		</b>
 		</td>
@@ -82,13 +67,13 @@ while ($row_banners = mysql_fetch_array($res_banners))
 		</td>
 		<td bgcolor="<?echo $bgcolor;?>" width="10%"><b>
 		<?
-		if ($row_adclicks["qnt"] != 0 && $row_adviews["qnt"] != 0)
+		if ($adclicks != 0 && $adviews != 0)
 		{
-			$percent = 100 / ($row_adviews["qnt"]/$row_adclicks["qnt"]);
+			$percent = 100 / ($adviews/$adclicks);
 			printf(" %.2f%%", $percent);
 		}
 		else
-			print "0%";
+			print "0.00%";
 		?>
 		</b>
 		</td>
@@ -96,12 +81,12 @@ while ($row_banners = mysql_fetch_array($res_banners))
 	<tr>
 		<td bgcolor="<?echo $bgcolor;?>">
 		<?
-		if ($row_adclicks["qnt"] > 0 || $row_adviews["qnt"] > 0)
+		if ($adclicks > 0 || $adviews > 0)
 			echo "<a href=\"detailstats.php$fncpageid&bannerID=$row_banners[bannerID]\">$strDetailStats</a>";
 		?>
 		</td>
 		<?
-		if ($row_adclicks["qnt"] > 0 || $row_adviews["qnt"] > 0)
+		if ($adclicks > 0 || $adviews > 0)
 		{
 			?>
 			<form action="resetstats.php" method="post" name="client_reset">
@@ -127,7 +112,7 @@ while ($row_banners = mysql_fetch_array($res_banners))
 		<td bgcolor="#CCCCCC" width="10%"><b><?echo $totaladclicks;?></b></td>
 	</tr>
 <?
-if(function_exists("imagegif") && $totaladviews > 0)
+if($gdimageformat != "none" && $totaladviews > 0)
 {
 ?>
 	<tr>

@@ -103,30 +103,16 @@ while ($row_clients = mysql_fetch_array($res_clients))
 		</td>
 		<td bgcolor="#eeeeee"><?print $strViews;?>: 
 		<?
-		$res_adviews = db_query("
-			SELECT
-				count(bannerID)
-			FROM
-				$phpAds_tbl_adviews
-			WHERE
-				bannerID = $row_banners[bannerID]
-			") or mysql_die();
-		print MYSQL_RESULT($res_adviews,0,"count(bannerID)");
-		$total_adviews=$total_adviews+MYSQL_RESULT($res_adviews,0,"count(bannerID)");
+            $adviews = db_total_views($row_banners["bannerID"]);
+    		print $adviews;
+    		$total_adviews += $adviews;
 		?>
 		</td>
 		<td bgcolor="#eeeeee"><?print $strClicks;?>:
 		<?
-		$res_adclicks = db_query("
-			SELECT
-				count(bannerID)
-			FROM
-				$phpAds_tbl_adclicks
-			WHERE
-				bannerID = $row_banners[bannerID]
-			") or mysql_die();
-		print MYSQL_RESULT($res_adclicks,0,"count(bannerID)");
-		$total_adclicks=$total_adclicks+MYSQL_RESULT($res_adclicks,0,"count(bannerID)");
+		    $adclicks = db_total_clicks($row_banners["bannerID"]);
+    		print $adclicks;
+		    $total_adclicks += $adclicks;
 		?>
 		</td>
 	</tr>

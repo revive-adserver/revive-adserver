@@ -37,15 +37,7 @@ if($phpAds_log_adclicks)
 
 	if ($found == 0)
 	{
-		$res = @db_query(sprintf("
-			INSERT %s
-			INTO
-				$phpAds_tbl_adclicks
-			VALUES (
-				'$bannerID',
-				null,
-				'$host'
-			)", $phpAds_insert_delayed ? "DELAYED": ""));
+		$res = db_log_click($bannerID, "null", $host);
 	}
 }
 Header("Location: ".urldecode($dest));

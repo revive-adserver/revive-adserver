@@ -187,7 +187,8 @@ function stats() // generate weekly statistics
 	global $phpAds_db, $phpAds_url_prefix;
 	global $phpAds_tbl_color;
 	global $phpAds_begin_of_week;
-	global $phpAds_tbl_adviews, $phpAds_tbl_adclicks, $phpAds_tbl_banners;
+	global $phpAds_tbl_adviews, $phpAds_tbl_adclicks, $phpAds_tbl_adstats, $phpAds_tbl_banners;
+    global $phpAds_compact_stats;
 	global $clientID, $which;
 	global $max_weeks, $php_week_sign, $mysql_week_sign;
 	global $strDayShortCuts;
@@ -226,116 +227,180 @@ function stats() // generate weekly statistics
 			$where = 'bannerID='.$which;
 	}
 
-	// get views global data
-	$global_view_query='
-		SELECT
-			count(*),
-			MAX(TO_DAYS(t_stamp)),
-			MIN(TO_DAYS(t_stamp))
-		FROM
-			'.$phpAds_tbl_adviews.'
-		WHERE '.
-			$where;
-	// echo $global_view_query;			   
-	$views_global = db_query($global_view_query) or mysql_die();
-	list($total_views, $views_last_day_index, $views_first_day_index) = mysql_fetch_row($views_global);
-	mysql_free_result($views_global);
-
-	// get clicks global data
-	$global_click_query='
-		SELECT
-			count(*),
-			MAX(TO_DAYS(t_stamp)),
-			MIN(TO_DAYS(t_stamp))
-		FROM
-			'.$phpAds_tbl_adclicks.'
-		WHERE '.
-			$where;
-		// echo $global_click_query;			   
-	$clicks_global = db_query($global_click_query) or mysql_die();
-	list($total_clicks, $clicks_last_day_index, $clicks_first_day_index) = mysql_fetch_row($clicks_global);
-	mysql_free_result($clicks_global);
-
-	$last_day_index = max($views_last_day_index,$clicks_last_day_index);
-
-	// get views daily data
-	$view_query="
-		SELECT
-			count(*) as days_total_views,
-			DATE_FORMAT(t_stamp, '".$GLOBALS['date_format']."') as date,
-			DATE_FORMAT(t_stamp, '".$mysql_week_sign."') as week_num,
-			DATE_FORMAT(t_stamp, '%w') as day_num,
-			UNIX_TIMESTAMP(t_stamp) as unix_time,
-			".$last_day_index."-TO_DAYS(t_stamp) AS day_index,
-			TO_DAYS(t_stamp) AS abs_day
-		FROM
-			".$phpAds_tbl_adviews.' 
-		WHERE 
-			'.$where.'
-		GROUP BY 
-			abs_day
-		ORDER BY
-			abs_day DESC
-		LIMIT '.$max_weeks*7;
-	$view_daily = db_query($view_query) or mysql_die();
-
-	// get clicks daily data
-	$click_query="
-		SELECT
-			count(*) as days_total_clicks,
-			DATE_FORMAT(t_stamp, '".$GLOBALS['date_format']."') as date,
-			DATE_FORMAT(t_stamp, '".$mysql_week_sign."') as week_num,
-			DATE_FORMAT(t_stamp, '%w') as day_num,
-			UNIX_TIMESTAMP(t_stamp) as unix_time,
-			".$last_day_index."-TO_DAYS(t_stamp) AS day_index,
-			TO_DAYS(t_stamp) AS abs_day
-		FROM
-			".$phpAds_tbl_adclicks."
-		WHERE 
-			$where
-		GROUP BY 
-			abs_day
-		ORDER BY
-			abs_day DESC
-		LIMIT ".$max_weeks*7;
-	$click_daily = db_query($click_query) or mysql_die();
-
-	// now let's join the daily data in a days array
-	$days = array();
-
-	// insert view data
-	while ($row = mysql_fetch_array($view_daily))
-	{
-		$i = $row['day_index'];
-		$days[$i] = array();
-		$days[$i]['day_index'] = $i + $last_day_index;
-		$days[$i]['week_num']  = $row['week_num'];
-		$days[$i]['day_num']   = $row['day_num'];
-		$days[$i]['unix_time'] = $row['unix_time'];
-		$days[$i]['date']      = $row['date'];
-		$days[$i]['views']     = $row['days_total_views'];
-	}
-
-	// now insert click data
-	while ($row = mysql_fetch_array($click_daily))
-	{
-		$i = $row['day_index'];
-		if ( !isset($days[$i]) )
-		{
-			$days[$i] = array();
-			$days[$i]['day_index'] = $i + $last_day_index;
-			$days[$i]['week_num']  = $row['week_num'];
-			$days[$i]['day_num']   = $row['day_num'];
-			$days[$i]['unix_time'] = $row['unix_time'];
-			$days[$i]['date']      = $row['date'];
-		}
-		$days[$i]['clicks']       = $row['days_total_clicks'];
-	}
-
-	mysql_free_result($view_daily);
-	mysql_free_result($click_daily);
-
-	// display interval form 
+	
+    
+    // I tried to do this with one section of code and a few internal checks
+    // for the stats mode, but the queries were just much too inefficient to share.
+    if ($phpAds_compact_stats) 
+    {
+        // get views global data
+    	$global_view_query='
+    		SELECT
+    			sum(clicks),
+                sum(views),
+    			MAX(TO_DAYS(when)),
+    			MIN(TO_DAYS(when))
+    		FROM
+    			'.$phpAds_tbl_adstats.'
+    		WHERE '.
+    			$where;
+    	// echo $global_view_query;			   
+    	$views_global = db_query($global_view_query) or mysql_die();
+    	list($total_views, $total_clicks, $views_last_day_index, $views_first_day_index) = mysql_fetch_row($views_global);
+    	mysql_free_result($views_global);
+    
+    	$last_day_index = $views_last_day_index;
+    
+    	// get views & clicks daily data
+    	$daily_query="
+    		SELECT
+    			views as days_total_views,
+    			clicks as days_total_clicks,
+    			DATE_FORMAT(when, '".$GLOBALS['date_format']."') as date,
+    			DATE_FORMAT(when, '".$mysql_week_sign."') as week_num,
+    			DATE_FORMAT(when, '%w') as day_num,
+    			UNIX_TIMESTAMP(when) as unix_time,
+    			".$last_day_index."-TO_DAYS(when) AS day_index,
+    			TO_DAYS(when) AS abs_day
+    		FROM
+    			".$phpAds_tbl_adstats.' 
+    		WHERE 
+    			'.$where.'
+    		ORDER BY
+    			abs_day DESC
+    		LIMIT '.$max_weeks*7;
+    	$daily = db_query($daily_query) or mysql_die();
+    
+    	$days = array();
+    	while ($row = mysql_fetch_array($daily))
+    	{
+    		$i = $row['day_index'];
+    		$days[$i] = array();
+    		$days[$i]['day_index'] = $i + $last_day_index;
+    		$days[$i]['week_num']  = $row['week_num'];
+    		$days[$i]['day_num']   = $row['day_num'];
+    		$days[$i]['unix_time'] = $row['unix_time'];
+    		$days[$i]['date']      = $row['date'];
+    		$days[$i]['views']     = $row['days_total_views'];
+    		$days[$i]['clicks']    = $row['days_total_clicks'];
+    	}
+    
+    	mysql_free_result($daily);
+    }
+    else        // ! $phpAds_compact_stats
+    {
+        // get views global data
+    	$global_view_query='
+    		SELECT
+    			count(*),
+    			MAX(TO_DAYS(t_stamp)),
+    			MIN(TO_DAYS(t_stamp))
+    		FROM
+    			'.$phpAds_tbl_adviews.'
+    		WHERE '.
+    			$where;
+    	// echo $global_view_query;			   
+    	$views_global = db_query($global_view_query) or mysql_die();
+    	list($total_views, $views_last_day_index, $views_first_day_index) = mysql_fetch_row($views_global);
+    	mysql_free_result($views_global);
+    
+    	// get clicks global data
+    	$global_click_query='
+    		SELECT
+    			count(*),
+    			MAX(TO_DAYS(t_stamp)),
+    			MIN(TO_DAYS(t_stamp))
+    		FROM
+    			'.$phpAds_tbl_adclicks.'
+    		WHERE '.
+    			$where;
+    		// echo $global_click_query;			   
+    	$clicks_global = db_query($global_click_query) or mysql_die();
+    	list($total_clicks, $clicks_last_day_index, $clicks_first_day_index) = mysql_fetch_row($clicks_global);
+    	mysql_free_result($clicks_global);
+    
+    	$last_day_index = max($views_last_day_index,$clicks_last_day_index);
+    
+    	// get views daily data
+    	$view_query="
+    		SELECT
+    			count(*) as days_total_views,
+    			DATE_FORMAT(t_stamp, '".$GLOBALS['date_format']."') as date,
+    			DATE_FORMAT(t_stamp, '".$mysql_week_sign."') as week_num,
+    			DATE_FORMAT(t_stamp, '%w') as day_num,
+    			UNIX_TIMESTAMP(t_stamp) as unix_time,
+    			".$last_day_index."-TO_DAYS(t_stamp) AS day_index,
+    			TO_DAYS(t_stamp) AS abs_day
+    		FROM
+    			".$phpAds_tbl_adviews.' 
+    		WHERE 
+    			'.$where.'
+    		GROUP BY 
+    			abs_day
+    		ORDER BY
+    			abs_day DESC
+    		LIMIT '.$max_weeks*7;
+    	$view_daily = db_query($view_query) or mysql_die();
+    
+    	// get clicks daily data
+    	$click_query="
+    		SELECT
+    			count(*) as days_total_clicks,
+    			DATE_FORMAT(t_stamp, '".$GLOBALS['date_format']."') as date,
+    			DATE_FORMAT(t_stamp, '".$mysql_week_sign."') as week_num,
+    			DATE_FORMAT(t_stamp, '%w') as day_num,
+    			UNIX_TIMESTAMP(t_stamp) as unix_time,
+    			".$last_day_index."-TO_DAYS(t_stamp) AS day_index,
+    			TO_DAYS(t_stamp) AS abs_day
+    		FROM
+    			".$phpAds_tbl_adclicks."
+    		WHERE 
+    			$where
+    		GROUP BY 
+    			abs_day
+    		ORDER BY
+    			abs_day DESC
+    		LIMIT ".$max_weeks*7;
+    	$click_daily = db_query($click_query) or mysql_die();
+    
+    	// now let's join the daily data in a days array
+    	$days = array();
+    
+    	// insert view data
+    	while ($row = mysql_fetch_array($view_daily))
+    	{
+    		$i = $row['day_index'];
+    		$days[$i] = array();
+    		$days[$i]['day_index'] = $i + $last_day_index;
+    		$days[$i]['week_num']  = $row['week_num'];
+    		$days[$i]['day_num']   = $row['day_num'];
+    		$days[$i]['unix_time'] = $row['unix_time'];
+    		$days[$i]['date']      = $row['date'];
+    		$days[$i]['views']     = $row['days_total_views'];
+    	}
+    
+    	// now insert click data
+    	while ($row = mysql_fetch_array($click_daily))
+    	{
+    		$i = $row['day_index'];
+    		if ( !isset($days[$i]) )
+    		{
+    			$days[$i] = array();
+    			$days[$i]['day_index'] = $i + $last_day_index;
+    			$days[$i]['week_num']  = $row['week_num'];
+    			$days[$i]['day_num']   = $row['day_num'];
+    			$days[$i]['unix_time'] = $row['unix_time'];
+    			$days[$i]['date']      = $row['date'];
+    		}
+    		$days[$i]['clicks']       = $row['days_total_clicks'];
+    	}
+    
+    	mysql_free_result($view_daily);
+    	mysql_free_result($click_daily);
+    }
+	
+    
+    // display interval form 
 	// (yes poor Opera and NS6 users we know that it is not conforming w3c
 	// how the two forms are embedded in the table but believe that it looks pretty
 	// nice in older NS6- and actual IE versions)

@@ -15,10 +15,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 // First, let's figure out our location
-if (strlen(__FILE__) > strlen(basename(__FILE__)))
-    $phpAds_path=substr(__FILE__, 0, strlen(__FILE__) - strlen(basename(__FILE__)) - 1);
-if (empty($phpAds_path))
-    $phpAds_path = ".";
+$phpAds_path=substr(__FILE__, 0, strlen(__FILE__) - strlen(basename(__FILE__)));
 // If this path doesn't work for you, customize it here like this
 // $phpAds_path="/home/myname/www/phpAdsNew";       // Note: no trailing backslash
 
@@ -28,5 +25,4 @@ require("$phpAds_path/view.inc.php");
 require("$phpAds_path/acl.inc.php"); 
 
 ?>    
-
 

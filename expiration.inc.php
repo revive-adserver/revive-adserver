@@ -23,6 +23,7 @@
 function days_left($clientID)
 {
 	global $phpAds_db, $phpAds_tbl_banners, $phpAds_tbl_clients, $phpAds_tbl_adviews, $phpAds_tbl_adclicks, $date_format;
+    global $phpAds_tbl_adstats, $phpAds_compact_stats;
 
 	// uses the following language settings:
 	global $strExpiration, $strDaysLeft, $strEstimated;
@@ -60,8 +61,11 @@ function days_left($clientID)
   		}
 		else // client has (had) credits in views/clicks
 		{
-			// get views
-			$view_query="
+            // Note: only one of these queries will run.  It will not get the
+            // true total if some are in verbose stats format and some are in compact
+
+            // get views
+            $view_query="
 				SELECT
 					count(*) as total_views,
 					MAX(TO_DAYS(v.t_stamp))-TO_DAYS(NOW()) as days_since_last_view,
@@ -74,6 +78,18 @@ function days_left($clientID)
 					AND
 					b.bannerID = v.bannerID";
 
+                if ($phpAds_compact_stats) {
+                    $view_query="
+                        SELECT
+                            SUM(views) as total_views,
+                            MAX(TO_DAYS(when))-TO_DAYS(NOW()) as days_since_last_view,
+                            TO_DAYS(NOW())-MIN(TO_DAYS(when)) as days_since_start
+                        FROM
+                            $phpAds_tbl_adstats AS v
+                                LEFT JOIN $phpAds_tbl_banners AS b USING (bannerID)
+                        WHERE
+                            b.clientID = $clientID";
+                }
 			$res_views = db_query($view_query) or mysql_die() ;
 			if ( mysql_num_rows($res_views)==1 )
 			{
@@ -100,6 +116,21 @@ function days_left($clientID)
 							b.clientID = $clientID
 							AND
 							b.bannerID = c.bannerID";
+
+                        if ($phpAds_compact_stats) 
+                        {
+                            $view_query="
+                                SELECT
+                                    SUM(clicks) as total_clicks,
+                                    MAX(TO_DAYS(when))-TO_DAYS(NOW()) as days_since_last_click,
+                                    TO_DAYS(NOW())-MIN(TO_DAYS(when)) as days_since_start
+                                FROM
+                                    $phpAds_tbl_adstats
+                                        LEFT JOIN $phpAds_tbl_banners USING (bannerID)
+                                WHERE
+                                    clientID = $clientID AND
+                                    clicks > 0";
+                        }
 					$res_clicks = db_query($click_query) or mysql_die() ;
 					if ( mysql_num_rows($res_clicks)==1)
 					{

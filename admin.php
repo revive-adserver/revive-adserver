@@ -42,12 +42,8 @@ $res_clients = db_query("SELECT * FROM $phpAds_tbl_clients ORDER BY clientname")
 $res_active_clients = db_query("SELECT count(clientID) from $phpAds_tbl_clients WHERE views <> 0 or clicks <> 0");
 $res_active_banners = db_query("SELECT count(bannerID) from $phpAds_tbl_banners where active='true'");
 
-$res_tot_adviews = db_query("SELECT count(*) as qnt FROM $phpAds_tbl_adviews") or mysql_die();
-$res_tot_adclicks = db_query("SELECT count(*) as qnt FROM $phpAds_tbl_adclicks") or mysql_die();
-$row_tot_adviews = mysql_fetch_array($res_tot_adviews);
-$row_tot_adclicks = mysql_fetch_array($res_tot_adclicks);
-$adviews = $row_tot_adviews["qnt"];
-$adclicks = $row_tot_adclicks["qnt"];
+$adviews = db_total_views();
+$adclicks = db_total_clicks();
 if ($adviews > 0)
 	$ctr = number_format($adclicks/$adviews*100,2);
 else

@@ -35,16 +35,7 @@ if($phpAds_log_adclicks)
 
 	if ($found == 0)
 	{
-		$res = @db_query(sprintf("
-			INSERT %s
-				INTO $phpAds_tbl_adclicks
-			VALUES
-			(
-				'$bannerID',
-				null,
-				'$host'
-			)
-			", $phpAds_insert_delayed ? "DELAYED": ""));
+		$db_log_click($bannerID, $host);
 
 		$currentclick=db_query("SELECT * FROM $phpAds_tbl_clients WHERE clientID=$clientID and clicks > 0");
 		if($clickcount=mysql_fetch_array($currentclick))
@@ -56,7 +47,7 @@ if($phpAds_log_adclicks)
 
 			db_query("UPDATE $phpAds_tbl_clients SET clicks='$clickcount[clicks]' WHERE clientID='$clientID'");
 			// Check click count and de-activate banner if needed
-			if($clickcount["views"]==0 && $clickcount["clicks"]==0)
+			if($clickcount["clicks"]==0)        // phord: && $clickcount["views"]==0
 				db_query("UPDATE $phpAds_tbl_banners SET active='false' WHERE clientID='$clientID'");
 		}
 	}

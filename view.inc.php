@@ -3,7 +3,7 @@
 // it's best if we do this only once per load, not every time we call rand.    
 mt_srand((double)microtime()*1000000);
 
-require ($phpAds_path."dblib.php"); 
+require("dblib.php"); 
 
 // Get a banner
 function get_banner($what, $clientID, $context=0, $source="")
@@ -216,7 +216,7 @@ function warn_mail($warn)
 function log_adview($bannerID,$clientID)
 {
 	global $phpAds_log_adviews, $phpAds_ignore_hosts, $phpAds_reverse_lookup, $phpAds_insert_delayed;
-	global $row, $phpAds_tbl_adviews, $phpAds_tbl_banners, $phpAds_tbl_clients, $phpAds_language;
+	global $row, $phpAds_tbl_banners, $phpAds_tbl_clients, $phpAds_language;
 	global $REMOTE_HOST, $REMOTE_ADDR, $phpAds_warn_limit, $phpAds_warn_client, $phpAds_warn_admin;
 	global $phpAds_admin_email, $phpAds_admin_email_headers, $phpAds_url_prefix, $strWarnAdminTxt, $strWarnClientTxt;
 
@@ -243,14 +243,7 @@ function log_adview($bannerID,$clientID)
 
 	if($found == 0)
 	{ 
-		$res = @db_query(sprintf("
-			INSERT %s INTO
-				$phpAds_tbl_adviews
-			VALUES (
-				'$bannerID',
-				null,
-				'$host'
-			)", $phpAds_insert_delayed ? "DELAYED": "")); 
+		$res = @db_log_view($bannerID, $host);
 
 		// Decrement views
 		$currentview=db_query("SELECT * FROM $phpAds_tbl_clients WHERE clientID=$clientID and views > 0");

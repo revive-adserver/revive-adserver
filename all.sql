@@ -101,3 +101,15 @@ CREATE TABLE acls (
    UNIQUE bannerID_2 (bannerID, acl_order)
 );
 
+# --------------------------------------------------------
+#
+# Table structure for table 'stats'
+#
+CREATE TABLE adstats (
+  views int(11) DEFAULT '0' NOT NULL,
+  clicks int(11) DEFAULT '0' NOT NULL,
+  when date DEFAULT '0000-00-00' NOT NULL,
+  BannerID smallint(6) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (when,BannerID)
+);
+

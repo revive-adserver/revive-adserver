@@ -15,10 +15,15 @@ $phpAds_db = "phpads";
 // phpAds' database tables
 $phpAds_tbl_adclicks = "adclicks";
 $phpAds_tbl_adviews = "adviews";
+$phpAds_tbl_adstats = "adstats";
 $phpAds_tbl_banners = "banners";
 $phpAds_tbl_clients = "clients";
 $phpAds_tbl_session = "session";
 $phpAds_tbl_acls = "acls";
+
+
+// Use compact hourly stats or verbose (with host, etc.)
+$phpAds_compact_stats = 1;
 
 // The URL to your phpAds-installation
 $phpAds_url_prefix = "http://www.your-url.com/phpAdsNew";
@@ -98,14 +103,18 @@ $phpAds_main_back_color = "#FFFFFF";
 $phpAds_persistent_connections = "0";
 
 
-if (!isset($phpAds_path)) {
-    $phpAds_path=substr(__FILE__, 0, strlen(__FILE__) - strlen(basename(__FILE__)));
+if (empty($phpAds_path)) {
+    if (strlen(__FILE__) > strlen(basename(__FILE__)))
+        $phpAds_path=substr(__FILE__, 0, strlen(__FILE__) - strlen(basename(__FILE__)) - 1);
     // If this path doesn't work for you, customize it here like this
     // $phpAds_path="/home/myname/www/phpAdsNew";       // Note: no trailing backslash
 }
 
+if (empty($phpAds_path))
+    $phpAds_path = ".";
+
 // I recommend you leave config.inc.php alone and override all variables
 // in config2.inc.php.  This should make future upgrades easier.
-include($phpAds_path."config2.inc.php");
+include("$phpAds_path/config2.inc.php");
 
 ?>

@@ -23,30 +23,9 @@ if (isset($clientID))
 			clientID = $clientID
 		") or mysql_die();
 	while ($row = mysql_fetch_array($res_banners))
-	{
-		$foo = db_query("
-			DELETE FROM
-				$phpAds_tbl_adviews 
-			WHERE
-				bannerID = " . $row["bannerID"]
-			) or mysql_die();
+		db_delete_stats($bannerID);
 
-		$foo = db_query("
-			DELETE FROM
-				$phpAds_tbl_adclicks
-			WHERE
-				bannerID = " . $row["bannerID"]
-			) or mysql_die();
-
-		$foo = db_query("
-			DELETE FROM
-				$phpAds_tbl_acls
-			WHERE
-				bannerID = " . $row["bannerID"]
-			) or mysql_die();
-	}
-
-	$foo = db_query("
+	db_query("
 		DELETE FROM
 			$phpAds_tbl_banners
 		WHERE

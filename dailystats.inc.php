@@ -61,41 +61,43 @@ function stats($what)
 		print "<tr><td colspan=3 bgcolor='#FFFFFF'><b>$strClicks:</b></td></tr>";
 		stats("$phpAds_tbl_adclicks");
 		?>
-	<tr><td colspan=3 bgcolor='#FFFFFF'><b><?print($strTopTenHosts);?>:</b></td></tr>
-	<?
-	$result = db_query("
-		SELECT
-			*,
-			count(*) as qnt
-		FROM
-			$phpAds_tbl_adviews
-		WHERE
-			bannerID = $GLOBALS[bannerID]
-			AND DATE_FORMAT(t_stamp, '$GLOBALS[date_format]') = '$GLOBALS[day]'
-		GROUP BY
-			host
-		ORDER BY
-			qnt DESC
-		LIMIT 10
-		") or mysql_die();
-
-	$i = 0;
-	while ($row = mysql_fetch_array($result))
-	{
-		$bgcolor="#F7F7F7";
-		$i % 2 ? 0: $bgcolor= "#ECECFF";
-		$i++;
-		?>
-		<tr>
-			<td bgcolor="#eeeeee" colspan="2">
-			<?print $row["host"];?>
-			</td>
-			<td bgcolor="<?print $bgcolor;?>">
-			<b><?print $row["qnt"];?></b>
-			</td>
-		</tr>
-		<?
-	}
-	?>
+        <? if (!$phpAds_compact_stats) {
+        	<tr><td colspan=3 bgcolor='#FFFFFF'><b><?print($strTopTenHosts);?>:</b></td></tr>
+        	<?
+        	$result = db_query("
+        		SELECT
+        			*,
+        			count(*) as qnt
+        		FROM
+        			$phpAds_tbl_adviews
+        		WHERE
+        			bannerID = $GLOBALS[bannerID]
+        			AND DATE_FORMAT(t_stamp, '$GLOBALS[date_format]') = '$GLOBALS[day]'
+        		GROUP BY
+        			host
+        		ORDER BY
+        			qnt DESC
+        		LIMIT 10
+        		") or mysql_die();
+        
+        	$i = 0;
+        	while ($row = mysql_fetch_array($result))
+        	{
+        		$bgcolor="#F7F7F7";
+        		$i % 2 ? 0: $bgcolor= "#ECECFF";
+        		$i++;
+        		?>
+        		<tr>
+        			<td bgcolor="#eeeeee" colspan="2">
+        			<?print $row["host"];?>
+        			</td>
+        			<td bgcolor="<?print $bgcolor;?>">
+        			<b><?print $row["qnt"];?></b>
+        			</td>
+        		</tr>
+        		<?
+        	}
+        }
+    ?>
 	</table></td></tr>
 </table>

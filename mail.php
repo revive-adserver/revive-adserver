@@ -58,71 +58,88 @@ while($row_clients = mysql_fetch_array($res_clients))
 		print "<LI>Processing banner $row_banners[bannerID] [linked to: $row_banners[URL]]...<BR>\n";
 		flush();
 
-		// Total adviews
-		$res_adviews = db_query("
-			SELECT
-				count(*) as qnt
-			FROM
-				$phpAds_tbl_adviews
-			WHERE
-				bannerID = $row_banners[bannerID]
-			") or die($strLogErrorViews);
-		$row_adviews = mysql_fetch_array($res_adviews);
-		$clients[$i]["views_used"] = $row_adviews["qnt"];    
-		$logs[$i] .= " $strViews: $row_adviews[qnt] total\n";
+		$adviews = db_total_views($row_banners["bannerID"]);
+        $clients[$i]["views_used"] = $adviews;
+		$logs[$i] .= " $strViews: $adviews total\n";
 
 		// Fetch all adviews belonging to banner belonging to client, grouped by day
-		$res_adviews = db_query("
-			SELECT
-				*,
-				count(*) as qnt,
-				DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
-				TO_DAYS(t_stamp) AS the_day
-			FROM
-				$phpAds_tbl_adviews
-			WHERE
-				bannerID = $row_banners[bannerID]
-			GROUP BY
-				the_day
-			ORDER BY
-				the_day DESC
-			LIMIT 7
-			") or die($strLogErrorViews);
+		if ($phpAds_compact_stats)
+            $res_adviews = db_query("
+    			SELECT
+    				SUM(views) as qnt,
+    				DATE_FORMAT(when, '$date_format') as t_stamp_f,
+    				TO_DAYS(when) AS the_day
+    			FROM
+    				$phpAds_tbl_adstats
+    			WHERE
+    				bannerID = $row_banners[bannerID] AND
+                    views > 0
+    			GROUP BY
+    				when
+    			ORDER BY
+    				when DESC
+    			LIMIT 7
+    			") or die($strLogErrorViews);
+        else
+    		$res_adviews = db_query("
+    			SELECT
+    				*,
+    				count(*) as qnt,
+    				DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
+    				TO_DAYS(t_stamp) AS the_day
+    			FROM
+    				$phpAds_tbl_adviews
+    			WHERE
+    				bannerID = $row_banners[bannerID]
+    			GROUP BY
+    				the_day
+    			ORDER BY
+    				the_day DESC
+    			LIMIT 7
+    			") or die($strLogErrorViews);
                            
 		while($row_adviews = mysql_fetch_array($res_adviews))
 			$logs[$i] .= "  $row_adviews[t_stamp_f]: $row_adviews[qnt]\n";
         
 		// Total adclicks
-		$res_adclicks = db_query("
-			SELECT
-				count(*) as qnt
-			FROM
-				$phpAds_tbl_adclicks
-			WHERE
-				bannerID = $row_banners[bannerID]
-			") or die("$strLogErrorViews ".mysql_error());
-		$row_adclicks = mysql_fetch_array($res_adclicks);                  
-		$clients[$i]["clicks_used"] = $row_adclicks["qnt"];
-
-		$logs[$i] .= " $strClicks: $row_adclicks[qnt] total\n";                  
+		$adclicks = db_total_clicks($row_banners["bannerID"]);
+		$clients[$i]["clicks_used"] = $adclicks;
+        $logs[$i] .= " $strClicks: $adclicks total\n";                  
 
 		// Fetch all adclicks belonging to banner belonging to client, grouped by day
-		$res_adclicks = db_query("
-			SELECT
-				*,
-				count(*) as qnt,
-				DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
-				TO_DAYS(t_stamp) AS the_day
-			FROM
-				$phpAds_tbl_adclicks
-			WHERE
-				bannerID = $row_banners[bannerID]
-			GROUP BY
-				the_day
-			ORDER BY
-				the_day DESC
-			LIMIT 7
-			") or die("$strLogErrorClicks ".mysql_error());
+		if ($phpAds_compact_stats)
+            $res_adclicks = db_query("
+    			SELECT
+    				SUM(clicks) as qnt,
+    				DATE_FORMAT(when, '$date_format') as t_stamp_f,
+    				TO_DAYS(when) AS the_day
+    			FROM
+    				$phpAds_tbl_adstats
+    			WHERE
+    				bannerID = $row_banners[bannerID] AND
+                    clicks > 0
+    			GROUP BY
+    				when
+    			ORDER BY
+    				when DESC
+    			LIMIT 7
+    			") or die("$strLogErrorClicks ".mysql_error());
+        else
+            $res_adclicks = db_query("
+    			SELECT
+    				count(*) as qnt,
+    				DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
+    				TO_DAYS(t_stamp) AS the_day
+    			FROM
+    				$phpAds_tbl_adclicks
+    			WHERE
+    				bannerID = $row_banners[bannerID]
+    			GROUP BY
+    				the_day
+    			ORDER BY
+    				the_day DESC
+    			LIMIT 7
+    			") or die("$strLogErrorClicks ".mysql_error());
 		while($row_adclicks = mysql_fetch_array($res_adclicks))
 			$logs[$i] .= "  $row_adclicks[t_stamp_f]: $row_adclicks[qnt]\n";
 
