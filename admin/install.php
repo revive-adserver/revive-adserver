@@ -207,16 +207,12 @@ if (phpAds_isUser(phpAds_Admin))
 				phpAds_dbQuery ("DROP TABLE phpads_tmp_dbpriviligecheck");
 				
 				// Check if phpAdsNew can create tables
-				if (!phpAds_dbQuery ("CREATE TABLE phpads_tmp_dbpriviligecheck (tmp int)"))
-				{
-					// Failed
-					$errormessage[1][] = $strCreateTableTestFailed;
-				}
-				else
-				{
-					// Passed all test, now drop the test table
+				phpAds_dbQuery ("CREATE TABLE phpads_tmp_dbpriviligecheck (tmp int)");
+				
+				if (phpAds_dbAffectedRows() >= 0)
 					phpAds_dbQuery ("DROP TABLE phpads_tmp_dbpriviligecheck");
-				}
+				else
+					$errormessage[1][] = $strCreateTableTestFailed;
 			}
 			
 			// Check table prefix
