@@ -459,7 +459,7 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 		
 		while (list($k, $v) = each($available[phpAds_ZonePopup]))
 		{
-			if ($appendid == $row['zoneid'])
+			if ($appendid == $k)
 				echo "<option value='".$k."' selected>".$v."</option>";
 			else
 				echo "<option value='".$k."'>".$v."</option>";
@@ -487,7 +487,7 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 		
 		while (list($k, $v) = each($available[phpAds_ZoneInterstitial]))
 		{
-			if ($appendid == $row['zoneid'])
+			if ($appendid == $k)
 				echo "<option value='".$k."' selected>".$v."</option>";
 			else
 				echo "<option value='".$k."'>".$v."</option>";
