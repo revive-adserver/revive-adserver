@@ -280,7 +280,21 @@ if (isset($zoneid) && $zoneid != '')
 }
 else
 {
-	$zone['zonename'] 		= $strDefault;
+	$res = phpAds_dbQuery("
+		SELECT
+			*
+		FROM
+			".$phpAds_config['tbl_affiliates']."
+		WHERE
+			affiliateid = '".$affiliateid."'
+	");
+	
+	if ($affiliate = phpAds_dbFetchArray($res))
+		$zone["zonename"] = $affiliate['name'].' - ';
+	else
+		$zone["zonename"] = '';
+	
+	$zone['zonename'] 	   .= $strDefault;
 	$zone['description'] 	= '';
 	$zone['width'] 			= '468';
 	$zone['height'] 		= '60';
