@@ -13,6 +13,8 @@ CVS			+ Misc changes to library and function names
 			    functions were included during invocation.  (Niels) 20011020
 			  - Removed space from UNIQUE INDEX definition in all.sql  (Niels) 20011024
 			  - Added $phpads_proxy_lookup option  (Niels) 20011024
+			  - Removed path detection from config.inc.php, 
+			    to prevent it from being executed twice  (Niels) 20011025
 
 			+ Misc bugfixes
 			  - Removed extra comma from config.inc  (Matteo) 20011017
@@ -21,6 +23,7 @@ CVS			+ Misc changes to library and function names
 			    when 'x-http-forwarded-for' header was set to 'unknown' by the proxy  (Matteo) 20011022
 			  - Fixed warning 'No DB connection'  (Niels) 20011024
 			  - Destination cookie sometimes had wrong value  (Niels) 20011024
+			  - Fixed duplicate SQL connection in adview.php  (Niels) 20011025
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
