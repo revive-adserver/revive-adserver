@@ -2,6 +2,7 @@ phpAdsNew - ChangeLog
 
 v 2.0beta
 			+ Added support for Flash variables (Niels)
+			+ Added support for timestamp variable (Niels)
 			+ Added support for single quotes in HTML banners (Niels)
 			+ ACL checking can be disabled in the configuration file (Niels)
 			+ Updated Italian language files (Luca Pescatore)
@@ -10,6 +11,10 @@ v 2.0beta
 			  - stripslashes added for HTML banners (Niels)
 			  - Misc. E_ALL warnings fixed (Niels)
 			  - Charset for russian-cp1251 language files fixed (Niels)
+			  - Default banner with remote invocation fixed
+			  - JavaScript error when certain banner types were disabled (Niels)
+			  - Check for empty username/password (Niels)
+			  - MySQL banner was always shown even if disabled (Niels)
 			
 
 v 2.0beta2		+ Added support for banners stored on the webserver (Niels)
