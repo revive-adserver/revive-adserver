@@ -764,8 +764,8 @@ function phpAds_totalStats($table, $column, $bannerid, $timeconstraint="")
 			}
 			elseif ($timeconstraint == "week")
 			{
-				$begin = date('Ymd', mktime(0, 0, 0, date('m'), date('d') + 1, date('Y')));
-				$end   = date('Ymd', mktime(0, 0, 0, date('m'), date('d') - 6, date('Y')));
+				$begin = date('Ymd', mktime(0, 0, 0, date('m'), date('d') - 6, date('Y')));
+				$end   = date('Ymd', mktime(0, 0, 0, date('m'), date('d') + 1, date('Y')));
 				$where .= "day >= $begin AND day < $end";
 			}
 			else
@@ -808,8 +808,8 @@ function phpAds_totalStats($table, $column, $bannerid, $timeconstraint="")
 			}
 			elseif ($timeconstraint == "week")
 			{
-				$begin = date('YmdHis', mktime(0, 0, 0, date('m'), date('d') + 1, date('Y')));
-				$end   = date('YmdHis', mktime(0, 0, 0, date('m'), date('d') - 6, date('Y')));
+				$begin = date('YmdHis', mktime(0, 0, 0, date('m'), date('d') - 6, date('Y')));
+				$end   = date('YmdHis', mktime(0, 0, 0, date('m'), date('d') + 1, date('Y')));
 				$where .= "t_stamp >= $begin AND t_stamp < $end";
 			}
 			else
