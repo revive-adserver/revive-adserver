@@ -127,3 +127,15 @@ Spanish
 	Last update:	   02 October 2002
 	Translated files:  7
 	---------------------------------------------------------
+
+
+
+Turkish
+	---------------------------------------------------------
+	Maintained by:	   Bunyamin VICIL (bunyamin@yapayzeka.net) 
+			   Metin AKTAS (metin@yapayzeka.net)
+	Is up-to-date?	   No
+	Last update:	   03 March 2003
+	Translated files:  7
+	---------------------------------------------------------
+
