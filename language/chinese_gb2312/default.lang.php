@@ -175,7 +175,7 @@ $GLOBALS['strHour']				= "小时";
 $GLOBALS['strSeconds']				= "秒";
 $GLOBALS['strMinutes']				= "分";
 $GLOBALS['strHours']				= "小时";
-$GLOBALS['strTimes']				= "时间";
+$GLOBALS['strTimes']				= "次";
 
 
 // Advertiser

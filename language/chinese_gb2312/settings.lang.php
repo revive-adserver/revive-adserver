@@ -48,6 +48,7 @@ $GLOBALS['strFixProblemsAfter']			= "Èç¹ûÄúÎŞ·¨¸ÄÕıÉÏÃæÁĞ³öµÄÎÊÌâ,ÇëÁªÏµÄúÒª°²×°
 $GLOBALS['strIgnoreWarnings']			= "ºöÂÔ¾¯¸æ";
 $GLOBALS['strWarningDBavailable']		= "ÄúÏÖÔÚÊ¹ÓÃµÄPHP°æ±¾²»Ö§³Ö".$phpAds_dbmsname."Êı¾İ¿â.ÔÚ½øĞĞÏÂÃæµÄ²½ÖèÖ®Ç°,ÄúĞèÒªÆôÓÃPHP¶Ô".$phpAds_dbmsname."µÄÖ§³Ö";
 $GLOBALS['strWarningPHPversion']		= $phpAds_productname."ĞèÒªPHP 4.0.3»òÕß¸ü¸ß°æ±¾²ÅÄÜÕı³£¹¤×÷¡£ÄúÏÖÔÚÊ¹ÓÃµÄ°æ±¾ÊÇ{php_version}.";
+$GLOBALS['strWarningPHP5beta']		= "ÄúÕıÔÚÊÔÍ¼ÔÚÒ»¸ö×°ÓĞPHP 5ÔçÆÚ²âÊÔ°æ±¾µÄ·şÎñÆ÷ÉÏ°²×°".$phpAds_productname.".ÕâĞ©°æ±¾ÒòÎª°üº¬Ò»Ğ©BugËùÒÔÍ¨³£²»×÷Îª²úÆ·Ê¹ÓÃ.³ı·Ç²âÊÔÓÃ,·ñÔò½¨Òé²»ÒªÔÚPHP 5ÉÏÔËĞĞ¸".$phpAds_productame;
 $GLOBALS['strWarningRegisterGlobals']		= "PHPÉèÖÃ±äÁ¿register_globalsĞèÒª´ò¿ª.";
 $GLOBALS['strWarningMagicQuotesGPC']		= "PHPÉèÖÃ±äÁ¿magic_quotes_gpcĞèÒª´ò¿ª.";
 $GLOBALS['strWarningMagicQuotesRuntime']	= "PHPÉèÖÃ±äÁ¿magic_quotes_runtimeĞèÒª¹Ø±Õ.";
@@ -97,6 +98,7 @@ $GLOBALS['strServiceUnavalable']		= "·şÎñÔİÊ±²»¿ÉÓÃ,ÏµÍ³Éı¼¶ÖĞ...";
 $GLOBALS['strConfigNotWritable']		= "ÄúµÄÅäÖÃÎÄ¼şconfig.inc.php²»¿ÉĞ´";
 $GLOBALS['strPhpBug20144']				= "ÄúµÄPHP°æ±¾ÊÜµ½Ò»¸ö<a href='http://bugs.php.net/bug.php?id=20114' target='_blank'>bug</a>µÄÓ°Ïì,".$phpAds_productname."²»ÄÜÕı³£¹¤×÷.
 						ËùÒÔ°²×°".$phpAds_productname."Ö®Ç°±ØĞë°ÑPHPÉı¼¶µ½4.3.0+.";
+$GLOBALS['strPhpBug24652']		= "ÄúÕıÔÚÊÔÍ¼ÔÚÒ»¸ö×°ÓĞPHP 5ÔçÆÚ²âÊÔ°æ±¾µÄ·şÎñÆ÷ÉÏ°²×°".$phpAds_productname.".ÕâĞ©°æ±¾ÒòÎª°üº¬Ò»Ğ©BugËùÒÔÍ¨³£²»×÷Îª²úÆ·Ê¹ÓÃ.ÆäÖĞÒ»¸öBugµ¼ÖÂ".$phpAds_productname."²»ÄÜÕı³£Ê¹ÓÃ.Õâ¸ö<a href='http://bugs.php.net/bug.php?id=24652' target='_blank'>bug</a>ÒÑ¾­ĞŞ¸´,ËùÒÔPHP 5µÄ×îÖÕ°æ²»ÊÜ´ËÓ°Ïì";
 
 
 
