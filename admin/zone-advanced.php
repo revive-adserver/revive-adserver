@@ -505,8 +505,18 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 			{
 				// Admin chose a different append type from the original
 				// In this case it is not possible to reuse anything, set to defaults
-				$appendselection = phpAds_AppendZone;
-				$appendwhat      = '';
+				if ($candidates[$appendtype] - count($available_banners) > 0)
+				{
+					// Zones available, use zones as default
+					$appendselection = phpAds_AppendZone;
+					$appendwhat  = '';
+				}
+				else
+				{
+					// Zones not available, use banners as default
+					$appendselection = phpAds_AppendBanner;
+					$appendwhat  = array();
+				}
 			}
 		}
 		else
