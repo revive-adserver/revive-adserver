@@ -81,6 +81,55 @@ function phpAds_getClientName ($clientID)
 }
 
 
+/*********************************************************/
+/* Get order status                                      */
+/*********************************************************/
+/*
+$phpAds_tbl_clients
+ 		ORDER BY
+			parent, clientID
+		ORDER BY
+			clientname
+$phpAds_tbl_banners
+	ORDER BY
+		bannerID
+	ORDER BY
+		description
+*/
+// Order for $phpAds_tbl_clients
+function phpAds_getListOrder ($ListOrder)
+{
+	switch ($ListOrder)
+	{
+		case 'name':
+			$sqlTableOrder = 'ORDER BY clientname';
+			break;
+		case 'id':
+			$sqlTableOrder = 'ORDER BY parent, clientID';
+			break;
+		default:
+			$sqlTableOrder = 'ORDER BY clientname';
+	}
+	return ($sqlTableOrder);
+}
+
+// Order for $phpAds_tbl_banners
+function phpAds_getBannerListOrder ($ListOrder)
+{
+	switch ($ListOrder)
+	{
+		case 'name':
+			$sqlTableOrder = 'ORDER BY description';
+			break;
+		case 'id':
+			$sqlTableOrder = 'ORDER BY bannerID';
+			break;
+		default:
+			$sqlTableOrder = 'ORDER BY description';
+	}
+	return ($sqlTableOrder);
+}
+
 
 /*********************************************************/
 /* Fetch the ID of the parent of a campaign              */

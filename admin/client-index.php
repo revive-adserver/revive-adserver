@@ -37,7 +37,6 @@ if (isset($message))
 }
 
 
-
 /*********************************************************/
 /* Main code                                             */
 /*********************************************************/
@@ -49,9 +48,8 @@ if (phpAds_isUser(phpAds_Admin))
 		SELECT 
 			*
 		FROM 
-			$phpAds_tbl_clients
-		ORDER BY
-			parent, clientID
+			".$phpAds_tbl_clients."
+		".phpAds_getListOrder ($listorder)."
 		") or mysql_die();
 }
 else
@@ -60,12 +58,11 @@ else
 		SELECT 
 			*
 		FROM 
-			$phpAds_tbl_clients
+			".$phpAds_tbl_clients."
 		WHERE
 			clientID = ".$Session["clientID"]." OR
 			parent = ".$Session["clientID"]."
-		ORDER BY
-			parent, clientID
+		".phpAds_getListOrder ($listorder)."
 		") or mysql_die();
 }
 
@@ -96,7 +93,8 @@ $res_banners = db_query("
 		format,
 		active
 	FROM 
-		$phpAds_tbl_banners
+		".$phpAds_tbl_banners."
+		".phpAds_getBannerListOrder ($listorder)."
 	") or mysql_die();
 
 while ($row_banners = mysql_fetch_array($res_banners))
@@ -177,8 +175,8 @@ echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 if (isset($clients) && is_array($clients) && count($clients) > 0)
 {
 	echo "<tr height='25'>";
-	echo "<td height='25'><b>&nbsp;&nbsp;".$GLOBALS['strName']."</b></td>";
-	echo "<td height='25'><b>".$GLOBALS['strID']."</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+	echo '<td height="25"><b>&nbsp;&nbsp;<a href="'.$PHP_SELF.'?listorder=name">'.$GLOBALS['strName'].'</a></b></td>';
+	echo '<td height="25"><b><a href="'.$PHP_SELF.'?listorder=id">'.$GLOBALS['strID'].'</a></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>';
 	echo "<td height='25'>&nbsp;</td>";
 	echo "<td height='25'>&nbsp;</td>";
 	echo "<td height='25'>&nbsp;</td>";
