@@ -41,7 +41,6 @@ $GLOBALS['strNavigation'] 					= "Navigation";
 $GLOBALS['strShortcuts'] 					= "Shortcuts";
 $GLOBALS['strAdminstration'] 				= "Administration";
 $GLOBALS['strMaintenance']					= "Maintenance";
-$GLOBALS['strReports']						= "Reports";
 $GLOBALS['strProbability']					= "Probability";
 $GLOBALS['strInvocationcode']				= "Invocationcode";
 $GLOBALS['strBasicInformation'] 			= "Basic information";
@@ -132,6 +131,7 @@ $GLOBALS['strClickCredits'] 				= "AdClick credits";
 // Time and date related
 $GLOBALS['strDate'] 						= "Date";
 $GLOBALS['strToday'] 						= "Today";
+$GLOBALS['strDay']							= "Day";
 $GLOBALS['strDays']							= "Days";
 $GLOBALS['strLast7Days']					= "Last 7 days";
 $GLOBALS['strWeek'] 						= "Week";
@@ -143,7 +143,7 @@ $GLOBALS['strDayShortCuts'] 				= array("Su","Mo","Tu","We","Th","Fr","Sa");
 
 
 // Advertiser
-$GLOBALS['strClientName']					= "Advertiser";
+$GLOBALS['strClient']						= "Advertiser";
 $GLOBALS['strClients'] 						= "Advertisers";
 $GLOBALS['strClientsAndCampaigns']			= "Advertisers & Campaigns";
 $GLOBALS['strAddClient'] 					= "Add new advertiser";
@@ -283,6 +283,7 @@ $GLOBALS['strSource'] 						= "Source";
 
 
 // Publisher
+$GLOBALS['strAffiliate']					= "Publisher";
 $GLOBALS['strAffiliates']					= "Publishers";
 $GLOBALS['strAffiliatesAndZones']			= "Publishers & Zones";
 $GLOBALS['strAddNewAffiliate']				= "Add new publisher";
@@ -305,6 +306,7 @@ $GLOBALS['strAllowAffiliateDeleteZone'] 	= "Allow this user to delete existing z
 
 
 // Zone
+$GLOBALS['strZone']							= "Zone";
 $GLOBALS['strZones']						= "Zones";
 $GLOBALS['strAddNewZone']					= "Add new zone";
 $GLOBALS['strAddZone']						= "Create zone";
@@ -376,6 +378,11 @@ $GLOBALS['strExpired']						= "Expired";
 $GLOBALS['strExpiration'] 					= "Expiration";
 $GLOBALS['strNoExpiration'] 				= "No expiration date set";
 $GLOBALS['strEstimated'] 					= "Estimated expiration";
+
+
+// Reports
+$GLOBALS['strReports']						= "Reports";
+$GLOBALS['strSelectReport']					= "Select the report you want to generate";
 
 
 // Userlog
