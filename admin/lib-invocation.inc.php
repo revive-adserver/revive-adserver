@@ -222,6 +222,8 @@ function phpAds_GenerateInvocationCode()
 	// Remote invocation using XML-RPC
 	if ($codetype=='xmlrpc')
 	{
+		if (!isset($clientid) || $clientid == '') $clientid = 0;
+		
 		$params = parse_url($phpAds_config['url_prefix']);
 		
 		switch($hostlanguage)
@@ -244,8 +246,6 @@ function phpAds_GenerateInvocationCode()
 		$path = str_replace ('\\', '/', $path);
 		$root = getenv('DOCUMENT_ROOT');
 		$pos  = strpos ($path, $root);
-		
-		if (!isset($clientid) || $clientid == '') $clientid = 0;
 		
 		
 		if (is_int($pos) && $pos == 0)
