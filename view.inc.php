@@ -263,7 +263,7 @@ function phpAds_fetchBanner($what, $clientid, $context=0, $source='', $allowhtml
 			if (isset($zone['what']) && $zone['what'] != '')
 				$what = $zone['what'];
 			else
-				$what = '';
+				$what = 'default';
 			
 			$zoneid = $zone['zoneid'];
 		}

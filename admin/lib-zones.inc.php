@@ -59,51 +59,51 @@ function phpAds_RebuildZoneCache ($zoneid = '')
 			if (isset($zone['what']) && $zone['what'] != '')
 				$what = $zone['what'];
 			else
-				$what = '';
-		}
-		else
-			$what = '';
-		
-		
-		if ($phpAds_config['zone_cache'])
-		{
-			$precondition = '';
-			
-			// Size preconditions
-			if ($zone['width'] > -1)
-				$precondition .= " AND ".$phpAds_config['tbl_banners'].".width = ".$zone['width']." ";
-			
-			if ($zone['height'] > -1)
-				$precondition .= " AND ".$phpAds_config['tbl_banners'].".height = ".$zone['height']." ";
+				// If what is empty, use banner with the default keyword
+				$what = 'default';
 			
 			
-			// Get banners
-			$select = phpAds_buildQuery ($what, 1, $precondition);
-			$res    = phpAds_dbQuery($select);
 			
-			// Build array for further processing...
-			$rows = array();
-			$prioritysum = 0;
-			while ($tmprow = phpAds_dbFetchArray($res))
+			if ($phpAds_config['zone_cache'])
 			{
-				// weight of 0 disables the banner
-				if ($tmprow['priority'])
+				$precondition = '';
+				
+				// Size preconditions
+				if ($zone['width'] > -1)
+					$precondition .= " AND ".$phpAds_config['tbl_banners'].".width = ".$zone['width']." ";
+				
+				if ($zone['height'] > -1)
+					$precondition .= " AND ".$phpAds_config['tbl_banners'].".height = ".$zone['height']." ";
+				
+				
+				// Get banners
+				$select = phpAds_buildQuery ($what, 1, $precondition);
+				$res    = phpAds_dbQuery($select);
+				
+				// Build array for further processing...
+				$rows = array();
+				$prioritysum = 0;
+				while ($tmprow = phpAds_dbFetchArray($res))
 				{
-					$prioritysum += $tmprow['priority'];
-					$rows[] = $tmprow; 
+					// weight of 0 disables the banner
+					if ($tmprow['priority'])
+					{
+						$prioritysum += $tmprow['priority'];
+						$rows[] = $tmprow; 
+					}
 				}
+				
+				$cachecontents = addslashes (serialize (array ($prioritysum, $rows)));
+				$cachetimestamp = time();
+			}
+			else
+			{
+				$cachecontents = '';
+				$cachetimestamp = 0;
 			}
 			
-			$cachecontents = addslashes (serialize (array ($prioritysum, $rows)));
-			$cachetimestamp = time();
+			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_zones']." SET cachecontents='$cachecontents', cachetimestamp=$cachetimestamp WHERE zoneid='$zoneid' ");
 		}
-		else
-		{
-			$cachecontents = '';
-			$cachetimestamp = 0;
-		}
-		
-		phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_zones']." SET cachecontents='$cachecontents', cachetimestamp=$cachetimestamp WHERE zoneid='$zoneid' ");
 	}
 }
 
