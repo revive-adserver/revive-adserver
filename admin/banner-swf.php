@@ -123,7 +123,7 @@ if (isset($convert))
 					
 					while (list($key, $val) = each($parameters))
 					{
-						if ($overwrite_source[$val] != '')
+						if (isset($overwrite_source) && $overwrite_source[$val] != '')
 							$overwrite_link[$val] .= '|source:'.$overwrite_source[$val];
 						
 						$parameters_complete[] = 'alink'.$key.'={targeturl:'.$overwrite_link[$val].'}&atar'.$key.'='.$overwrite_target[$val];
