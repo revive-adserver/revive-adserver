@@ -48,6 +48,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-08-15:  Removed mysterious newline at the end of many files  (Niels)
 			  - 2002-08-18:  Removed empty delivery limitation from the 'Create new limitation' field  (Niels)
 			  - 2002-08-23:	 The Geotracking location box on the settings page didn't work correctly  (Niels)
+			  - 2002-08-23:  Upgrading from a beta 6.1 or previous pointing the browser to the install directory didn't work  (Matteo)
 
 
 
