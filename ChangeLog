@@ -58,6 +58,7 @@ CVS			+ Added search capabilities  (Niels and Tobi Schulz)
 			  - Added Norwegian language files  (Torbjørn Engedal)
 			  - Added Swedish language files  (Patrik Grip-Jansson)
 			  - Added Chinese language files  (Yen-Shuo Su)
+			  - Added Turkish language files  (Mesut Tunga)
 	
 			+ Misc changes
 			  - Changed all occurances of <? to <?php  (Niels)
