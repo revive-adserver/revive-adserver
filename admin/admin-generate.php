@@ -42,11 +42,18 @@ function phpAds_GenerateInvocationCode()
 {
 	global $phpAds_config;
 	global $codetype, $what, $clientid, $source, $target;
-	global $withtext, $template, $refresh, $uniqueid;
+	global $withText, $template, $refresh, $uniqueid;
 	global $width, $height;
+	global $popunder, $left, $top, $timeout;
+	global $transparent, $resize;
 	
 	$buffer = '';
 	$parameters = array();
+	
+	
+	$uniqueid = substr(md5(uniqid('')), 0, 8);
+	if (!isset($withText)) $withText = 0;
+	
 	
 	// Set parameters
 	if (isset($what) && $what != '')
@@ -83,8 +90,8 @@ function phpAds_GenerateInvocationCode()
 	// Remote invocation with JavaScript
 	if ($codetype=='adjs')
 	{
-		if (isset($withtext) && $withtext == '0')
-			$parameters[] = "withtext=0";
+		if (isset($withText) && $withText == '0')
+			$parameters[] = "withText=0";
 		
 		$buffer .= "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adjs.php";
 		if (sizeof($parameters) > 0)
@@ -98,7 +105,10 @@ function phpAds_GenerateInvocationCode()
 		if (isset($refresh) && $refresh != '')
 			$parameters[] = "refresh=".$refresh;
 		
-		$buffer .= "<iframe src='".$phpAds_config['url_prefix']."/adframe.php";
+		if (isset($resize) && $resize == '1')
+			$parameters[] = "resize=1";
+		
+		$buffer .= "<iframe id='".$uniqueid."' name='".$uniqueid."' src='".$phpAds_config['url_prefix']."/adframe.php";
 		if (sizeof($parameters) > 0)
 			$buffer .= "?".implode ("&", $parameters);
 		$buffer .= "' framespacing='0' frameborder='no' scrolling='no'";
@@ -106,16 +116,35 @@ function phpAds_GenerateInvocationCode()
 			$buffer .= " width='".$width."'";
 		if (isset($height) & $height != '')
 			$buffer .= " height='".$height."'";
+		if (isset($transparent) & $transparent == '1')
+			$buffer .= " allowtransparency='true'";
 		$buffer .= "></iframe>";
 	}
 	
 	// Combined remote invocation
 	if ($codetype=='ad')
 	{
-		if (isset($refresh) && $refresh != '')
-			$parameters['tmp'] = "refresh=".$refresh;
+		// Parameters for remote invocation for javascript
+		if (isset($withText) && $withText == '0')
+			$parameters['withtext'] = "withText=0";
 		
-		$buffer .= "<iframe src='".$phpAds_config['url_prefix']."/adframe.php";
+		$buffer .= "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adjs.php";
+		if (sizeof($parameters) > 0)
+			$buffer .= "?".implode ("&", $parameters);
+		$buffer .= "'></script>";
+		
+		if (isset($parameters['withtext']))
+			unset ($parameters['withtext']);
+		
+		
+		
+		$buffer .= "<noscript>";
+		
+		// Parameters for remote invocation for iframes
+		if (isset($resize) && $resize != '')
+			$parameters['resize'] = "resize=".$resize;
+		
+		$buffer .= "<iframe id='".$uniqueid."' name='".$uniqueid."' src='".$phpAds_config['url_prefix']."/adframe.php";
 		if (sizeof($parameters) > 0)
 			$buffer .= "?".implode ("&", $parameters);
 		$buffer .= "' framespacing='0' frameborder='no' scrolling='no'";
@@ -123,26 +152,19 @@ function phpAds_GenerateInvocationCode()
 			$buffer .= " width='".$width."'";
 		if (isset($height) & $height != '')
 			$buffer .= " height='".$height."'";
+		if (isset($transparent) & $transparent == '1')
+			$buffer .= " allowtransparency='true'";
 		$buffer .= ">";
 		
+		if (isset($parameters['resize']))
+			unset ($parameters['resize']);
 		
-		// Parameters for remote invocation for Javascript
-		if (isset($withtext) && $withtext == '0')
-			$parameters['tmp'] = "withtext=0";
-		else
-			unset ($parameters['tmp']);
-		
-		$buffer .= "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adjs.php";
-		if (sizeof($parameters) > 0)
-			$buffer .= "?".implode ("&", $parameters);
-		$buffer .= "'></script>";
 		
 		
 		// Parameters for remote invocation
 		if (isset($uniqueid) && $uniqueid != '')
-			$parameters['tmp'] = "n=".$uniqueid;	
+			$parameters[] = "n=".$uniqueid;	
 		
-		$buffer .= "<noscript>";
 		$buffer .= "<a href='".$phpAds_config['url_prefix']."/adclick.php";
 		if (isset($uniqueid) & $uniqueid != '')
 			$buffer .= "?n=".$uniqueid;
@@ -153,9 +175,31 @@ function phpAds_GenerateInvocationCode()
 		if (sizeof($parameters) > 0)
 			$buffer .= "?".implode ("&", $parameters);
 		$buffer .= "' border='0'></a>";		
-		$buffer .= "</noscript>";
 		
 		$buffer .= "</iframe>";
+		
+		$buffer .= "</noscript>";
+	}
+	
+	// Popup
+	if ($codetype=='popup')
+	{
+		if (isset($popunder) && $popunder == '1')
+			$parameters[] = "popunder=1";
+		
+		if (isset($left) && $left != '' && $left != '-')
+			$parameters[] = "left=".$left;
+		
+		if (isset($top) && $top != '' && $top != '-')
+			$parameters[] = "top=".$top;
+		
+		if (isset($timeout) && $timeout != '' && $timeout != '-')
+			$parameters[] = "timeout=".$timeout;
+		
+		$buffer .= "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adpopup.php";
+		if (sizeof($parameters) > 0)
+			$buffer .= "?".implode ("&", $parameters);
+		$buffer .= "'></script>";
 	}
 	
 	if ($codetype=='local')
@@ -172,13 +216,14 @@ function phpAds_GenerateInvocationCode()
 		
 		$buffer .= "<"."?php\n";
 		$buffer .= "    require($path);\n";
-		$buffer .= "    view ('$what', $clientid, '$target', '$source', '$withtext');\n";
+		$buffer .= "    view ('$what', $clientid, '$target', '$source', '$withText');\n";
 		$buffer .= "?".">";
 	
 	}
 	
 	return $buffer;
 }
+
 
 
 
@@ -202,7 +247,8 @@ echo "<tr><td height='35'>";
 	echo "<option value='adjs'".($codetype == 'adjs' ? ' selected' : '').">Remote Invocation with JavaScript</option>";
 	echo "<option value='adframe'".($codetype == 'adframe' ? ' selected' : '').">Remote Invocation for iframes</option>";
 	echo "<option value='ad'".($codetype == 'ad' ? ' selected' : '').">Combined Remote Invocation</option>";
-	echo "<option value='local'".($codetype == 'local' ? ' selected' : '').">Local mode</option>";
+	echo "<option value='popup'".($codetype == 'popup' ? ' selected' : '').">Pop-up</option>";
+	if (phpAds_isUser(phpAds_Admin)) echo "<option value='local'".($codetype == 'local' ? ' selected' : '').">Local mode</option>";
 	echo "</select>&nbsp;";
 echo "</td></tr></table>";
 echo "<br><br>";
@@ -216,23 +262,23 @@ echo "<tr bgcolor='#F6F6F6'><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 
 
-
-
-
 if ($codetype == 'adview')
-	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'uniqueid' => true);
+	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true);
 
 if ($codetype == 'adjs')
-	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withtext' => true);
+	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withText' => true);
 
 if ($codetype == 'adframe')
-	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'refresh' => true, 'size' => true);
+	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'refresh' => true, 'size' => true, 'resize' => true, 'transparent' => true);
 
 if ($codetype == 'ad')
-	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withtext' => true, 'uniqueid' => true, 'refresh' => true, 'size' => true);
+	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withText' => true, 'size' => true, 'resize' => true, 'transparent' => true);
+
+if ($codetype == 'popup')
+	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'absolute' => true, 'popunder' => true, 'timeout' => true);
 
 if ($codetype == 'local')
-	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withtext' => true, 'template' => true);
+	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withText' => true, 'template' => true);
 
 
 
@@ -301,13 +347,13 @@ if (isset($show['source']) && $show['source'] == true)
 
 
 // WithText
-if (isset($show['withtext']) && $show['withtext'] == true)
+if (isset($show['withText']) && $show['withText'] == true)
 {
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>WithText</td>";
-	echo "<td width='370'><input type='radio' name='withtext' value='1'".(isset($withtext) && $withtext == 1 ? ' checked' : '').">&nbsp;True<br>";
-	echo "<input type='radio' name='withtext' value='0'".(!isset($withtext) || $withtext == 0 ? ' checked' : '').">&nbsp;False</td>";
+	echo "<td width='370'><input type='radio' name='withText' value='1'".(isset($withText) && $withText != 0 ? ' checked' : '').">&nbsp;Yes<br>";
+	echo "<input type='radio' name='withText' value='0'".(!isset($withText) || $withText == 0 ? ' checked' : '').">&nbsp;No</td>";
 	echo "</tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 }
@@ -318,19 +364,8 @@ if (isset($show['refresh']) && $show['refresh'] == true)
 {
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>Refresh</td><td width='370'>";
-		echo "<input type='text' name='refresh' size='' value='".(isset($refresh) ? $refresh : '')."' style='width:175px;'></td></tr>";
-	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
-}
-
-
-// uniqueid
-if (isset($show['uniqueid']) && $show['uniqueid'] == true)
-{
-	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>$strUniqueidentifier (n)</td><td width='370'>";
-		echo "<input type='text' name='uniqueid' size='' value='".(isset($uniqueid) ? $uniqueid : '')."' style='width:175px;'></td></tr>";
+	echo "<td width='200'>Refresh after</td><td width='370'>";
+		echo "<input type='text' name='refresh' size='' value='".(isset($refresh) ? $refresh : '')."' style='width:175px;'> sec</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 }
 
@@ -348,6 +383,71 @@ if (isset($show['size']) && $show['size'] == true)
 }
 
 
+// Resize
+if (isset($show['resize']) && $show['resize'] == true)
+{
+	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+	echo "<tr><td width='30'>&nbsp;</td>";
+	echo "<td width='200'>Resize iframe to banner dimensions</td>";
+	echo "<td width='370'><input type='radio' name='resize' value='1'".(isset($resize) && $resize == 1 ? ' checked' : '').">&nbsp;Yes<br>";
+	echo "<input type='radio' name='resize' value='0'".(!isset($resize) || $resize == 0 ? ' checked' : '').">&nbsp;No</td>";
+	echo "</tr>";
+	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+}
+
+
+// Transparent
+if (isset($show['transparent']) && $show['transparent'] == true)
+{
+	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+	echo "<tr><td width='30'>&nbsp;</td>";
+	echo "<td width='200'>Make the iframe transparent</td>";
+	echo "<td width='370'><input type='radio' name='transparent' value='1'".(isset($transparent) && $transparent == 1 ? ' checked' : '').">&nbsp;Yes<br>";
+	echo "<input type='radio' name='transparent' value='0'".(!isset($transparent) || $transparent == 0 ? ' checked' : '').">&nbsp;No</td>";
+	echo "</tr>";
+	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+}
+
+
+// popunder
+if (isset($show['popunder']) && $show['popunder'] == true)
+{
+	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+	echo "<tr><td width='30'>&nbsp;</td>";
+	echo "<td width='200'>Pop-up type</td>";
+	echo "<td width='370'><input type='radio' name='popunder' value='0'".(!isset($popunder) || $popunder != '1' ? ' checked' : '').">&nbsp;Pop-up<br>";
+	echo "<input type='radio' name='popunder' value='1'".(isset($popunder) && $popunder == '1' ? ' checked' : '').">&nbsp;Pop-under</td>";
+	echo "</tr>";
+	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+}
+
+
+// absolute
+if (isset($show['absolute']) && $show['absolute'] == true)
+{
+	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+	echo "<tr><td width='30'>&nbsp;</td>";
+	echo "<td width='200'>Initial position (top)</td><td width='370'>";
+		echo "<input type='text' name='top' size='' value='".(isset($top) ? $top : '-')."' style='width:175px;'> px</td></tr>";
+	echo "<tr><td width='30'>&nbsp;</td>";
+	echo "<td width='200'>Initial position (left)</td><td width='370'>";
+		echo "<input type='text' name='left' size='' value='".(isset($left) ? $left : '-')."' style='width:175px;'> px</td></tr>";
+	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+}
+
+
+// timeout
+if (isset($show['timeout']) && $show['timeout'] == true)
+{
+	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+	echo "<tr><td width='30'>&nbsp;</td>";
+	echo "<td width='200'>Automatically close after</td><td width='370'>";
+		echo "<input type='text' name='timeout' size='' value='".(isset($timeout) ? $timeout : '-')."' style='width:175px;'> sec</td></tr>";
+	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+}
+
+
+
 if (isset($submit))
 {
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
@@ -355,7 +455,7 @@ if (isset($submit))
 	echo "<td width='560' colspan='2'>";
 	echo "<br><br><img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>$strBannercode:</b><br><br>";
 	
-	echo "<textarea rows='8' cols='55' style='width:560px;'>".htmlentities(phpAds_GenerateInvocationCode())."</textarea>";
+	echo "<textarea rows='8' cols='55' style='width:560px;'>".htmlentities(phpAds_GenerateInvocationCode($zoneid))."</textarea>";
 	echo "</td></tr>";
 }
 
@@ -376,11 +476,6 @@ echo "<br><br>";
 /*********************************************************/
 
 phpAds_PageFooter();
-
-
-
-
-
 
 
 ?>
