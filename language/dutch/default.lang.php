@@ -103,6 +103,7 @@ $GLOBALS['strFilterBySource']				= "filter op bron";
 $GLOBALS['strFieldContainsErrors']			= "De volgende velden bevatten fouten:";
 $GLOBALS['strFieldFixBeforeContinue1']			= "Voordat u verder kunt gaan dient u";
 $GLOBALS['strFieldFixBeforeContinue2']			= "deze fouten te corrigeren.";
+$GLOBALS['strDelimiter']				= "Scheidingsteken";
 
 
 
@@ -469,6 +470,11 @@ $GLOBALS['strErrorClicks'] 				= "U moet het aantal AdClicks invullen of het vak
 $GLOBALS['strErrorNegClicks'] 				= "Negatieve AdClicks zijn niet toegestaan";
 $GLOBALS['strNoMatchesFound']				= "Geen objecten gevonden";
 $GLOBALS['strErrorOccurred']				= "Er is een fout opgetreden";
+$GLOBALS['strErrorUploadSecurity']			= "Er is een potentieel beveiligingsprobleem gedetecteerd. De operatie is afgebroken!";
+$GLOBALS['strErrorUploadBasedir']			= "Het verzonden bestand kon niet worden gelezen. De oorzaak is waarschijnlijk een safemode of open_basedir restrictie";
+$GLOBALS['strErrorUploadUnknown']			= "Door een onbekende oorzaak kon het verzonden bestand kon niet worden gelezen. Controleer uw PHP configuratie";
+$GLOBALS['strErrorStoreLocal']				= "Er is een fout opgetreden tijdens het bewaren van de banner in een lokale map. Door oorzaak van dit probleem is waarschijnlijk een misconfiguratie van de locatie van de lokale map";
+$GLOBALS['strErrorStoreFTP']				= "Er is een fout opgetreden tijdens het overzenden van de banner naar de FTP server. De server is niet bereikbaar, of er is een fout gemaakt tijdens het invullen van de gegevens van de FTP server";
 
 
 // E-mail
