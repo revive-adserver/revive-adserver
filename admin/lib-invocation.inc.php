@@ -385,7 +385,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	if ($codetype == 'adlayer')
 	{
 		if (!isset($layerstyle)) $layerstyle = 'geocities';
-		include ('../misc/layerstyles/'.$layerstyle.'/layerstyle.inc.php');
+		include ('../misc/layerstyles/'.$layerstyle.'/invocation.inc.php');
 	}
 	
 	
@@ -395,7 +395,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		// Code
 		if (isset($submitbutton) || isset($generate) && $generate)
 		{
-			echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+			echo "<table border='0' width='550' cellpadding='0' cellspacing='0'>";
 			echo "<tr><td height='25'><img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strBannercode']."</b></td>";
 			
 			// Show clipboard button only on IE
@@ -409,7 +409,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 				echo "<td>&nbsp;</td>";
 			
 			echo "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-			echo "<tr><td colspan='2'><textarea name='bannercode' class='code-gray' rows='6' cols='55' style='width:100%;' readonly>".htmlspecialchars(phpAds_GenerateInvocationCode())."</textarea></td></tr>";
+			echo "<tr><td colspan='2'><textarea name='bannercode' class='code-gray' rows='6' cols='55' style='width:550;' readonly>".htmlspecialchars(phpAds_GenerateInvocationCode())."</textarea></td></tr>";
 			echo "</table><br>";
 			phpAds_ShowBreak();
 			echo "<br>";
@@ -635,7 +635,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			while ($stylefile = readdir($stylesdir))
 			{
 				if (is_dir('../misc/layerstyles/'.$stylefile) &&
-					file_exists('../misc/layerstyles/'.$stylefile.'/layerstyle.inc.php'))
+					file_exists('../misc/layerstyles/'.$stylefile.'/invocation.inc.php'))
 				{
 					if (ereg('^[^.]', $stylefile))
 						$layerstyles[$stylefile] = isset($GLOBALS['strAdLayerStyleName'][$stylefile]) ?
