@@ -7,6 +7,8 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			+ Added the ability to auto clean old statistics and userlog entries  (Matteo, 2002-08-02)
 			+ Made phpAdsNew compatible with register_globals = off and/or gpc_magic_quotes = off  (Niels, 2002-08-05)
 			+ The language and browser delivery limitations now have presets, which can be easily selected  (Niels, 2002-08-08)
+			+ Added Geotracking, based on the IP2Country database. To enable this feature you need to buy the database
+			  from IP2Country. Also added two delivery limitations called 'Country' and 'Continent' to enable the Geotracking  (Niels, 2002-08-18)
 
 			+ Misc changes
 			  - 2002-07-26:  Added daily and hosts pages for affiliates and zones (Matteo)
@@ -18,6 +20,8 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-07-30:  Added phpAds_dbmsname variable to store the db backend name for easier porting  (Matteo)
 			  - 2002-08-01:  The limit when using the more compact way to link banners to zones in now configurable  (Niels)
 			  - 2002-08-15:  During the login, passwords are transmitted as md5 digests, instead of plain text  (Niels)
+			  - 2002-08-18:  Split the new 'Browser' delivery limitation into 'Browser' and 'OS'  (Niels)
+			  - 2002-08-18:  Reinstated the old 'Browser' delivery limitation which is now called 'Useragent'  (Niels)
 
 			+ Misc bugfixes
 			  - 2002-07-25:  On some systems history pages showed '-0' instead of simply '-' (Matteo)
@@ -42,6 +46,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-08-13:  Missing link to lib-io.inc.php in graph-daily.php fixed  (Niels)
 			  - 2002-08-15:  On some systems the uniqid() function was too slow  (Niels, thanks to Christer Lindh)
 			  - 2002-08-15:  Removed mysterious newline at the end of many files  (Niels)
+			  - 2002-08-18:  Removed empty delivery limitation from the 'Create new limitation' field  (Niels)
 
 
 
