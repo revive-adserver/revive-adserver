@@ -32,7 +32,7 @@ $GLOBALS['date_format']						= "%d/%m/%Y";
 $GLOBALS['time_format']						= "%H:%i:%S";
 $GLOBALS['minute_format']					= "%H:%M";
 $GLOBALS['month_format']					= "%m/%Y";
-$GLOBALS['day_format']						= "%m/%d";
+$GLOBALS['day_format']						= "%d/%m";
 $GLOBALS['week_format']						= "%W/%Y";
 $GLOBALS['weekiso_format']					= "%V/%G";
 
