@@ -80,9 +80,14 @@
         $phpAds_persistent_connections</span><br>
         If you want to use persistent connections to the database server you must 
         specify &quot;1&quot;, otherwise specify &quot;0&quot;. The use of persistent 
-        connection can speed up phpAdsNew considerably, but requires a lot of 
-        resources. If phpAdsNew is using too many resources, you should take a 
-        look at this setting first. Persistent connections are turned off by default.</p>
+        connection can speed up phpAdsNew considerably and may even decrease the 
+        load on the server. There is a drawback however, on sites with a lot of 
+        visitors the load on the server can increase and become larger then when 
+        using normal connections. Whether you should use regular connections or 
+        persistant connections depends on the number of visitors and the hardware 
+        your are using. If phpAdsNew is using too many resources, you should take 
+        a look at this setting first. Persistent connections are turned off by 
+        default.</p>
       <p><span class="subtitle"><br>
         $phpAds_insert_delayed</span><br>
         MySQL locks the table when it is inserting a row. If have many visitors 
@@ -512,7 +517,16 @@
       <p><span class="subtitle"><br>
         $phpAds_admin_novice</span><br>
         If you want to recieve a warning before deleting clients, campaigns or 
-        banners; set this option to true.</p>
+        banners; set this option to true.<br>
+      </p>
+      <p><span class="subtitle"><br>
+        $phpAds_client_welcome</span><br>
+        If you turn this feature on a welcome message will be displayed on the 
+        first page a client will see after loggin in. You can personalize this 
+        message by editing the 'welcome.html' file location in the 'admin/templates' 
+        directory. Things you might want to include are for example: Your company 
+        name, contact information, your company logo, a link a page with advertising 
+        rates, etc..</p>
       <p>&nbsp;</p>
     </td>
     <td class="plain" bgcolor="#EFEFEF">&nbsp;</td>
