@@ -41,6 +41,11 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 	
 	if (isset($type_web_ftp_host) && !empty($type_web_ftp_host))
 	{
+		// Include FTP compatibility library
+		if (!function_exists("ftp_connect"))
+			require ("lib-ftp.inc.php");
+		
+		
 		if (isset($type_web_ftp_host) && $ftpsock = @ftp_connect($type_web_ftp_host))
 		{
 			if (@ftp_login($ftpsock, $type_web_ftp_user, $type_web_ftp_password))
