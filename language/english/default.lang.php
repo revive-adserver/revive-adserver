@@ -21,10 +21,17 @@ $GLOBALS['phpAds_TextAlignRight'] = "right";
 $GLOBALS['phpAds_TextAlignLeft']  = "left";
 
 
+// Date & time configuration
+$GLOBALS['date_format']    = "%m/%d/%Y";
+$GLOBALS['time_format']    = "%H:%i:%S";
+$GLOBALS['month_format']   = "%m/%Y";
+$GLOBALS['day_format']     = "%m/%d";
+$GLOBALS['week_format']    = "%W/%Y";
+$GLOBALS['weekiso_format'] = "%V/%G";
+
+
 // Set translation strings
 $GLOBALS['strHome'] = "Home";
-$GLOBALS['date_format'] = "%m/%d/%Y";
-$GLOBALS['time_format'] = "%H:%i:%S";
 $GLOBALS['strMySQLError'] = "MySQL-Error:";
 $GLOBALS['strAdminstration'] = "Administration";
 $GLOBALS['strAddClient'] = "Add new client";
@@ -433,5 +440,10 @@ $GLOBALS['strConvertSWF']				= "<br>The Flash file you just uploaded contains ha
 $GLOBALS['strSourceStats']				= "Source Stats";
 $GLOBALS['strSelectSource']				= "Select the source you want to view:";
 
+$GLOBALS['strMonths']					= "Months";
+$GLOBALS['strWeeks']					= "Weeks";
+$GLOBALS['strDailyHistory']				= "Daily history";
+$GLOBALS['strWeeklyHistory']			= "Weekly history";
+$GLOBALS['strMonthlyHistory']			= "Monthly history";
 
 ?>
