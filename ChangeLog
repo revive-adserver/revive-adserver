@@ -14,8 +14,8 @@ CVS			+ Added search capabilities  (Niels and Tobi Schulz)
 			+ Add secondary tab bar to the navigation  (Niels)
 
 			+ GUI
-			  - Added list order variants (ID or alphabetic) for administration and statistics of 
-			    clients, campaigns and banners (Stefan) 20011008
+			  - Added list order variants (ID or alphabetic) for administration, statistics and zones of 
+			    clients, campaigns and banners (Stefan) 20011010
 
 			+ Zones
 			  - Added support for zones  (Niels)
