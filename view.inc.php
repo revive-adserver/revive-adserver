@@ -69,7 +69,7 @@ function get_banner($what, $clientID, $context=0, $source="")
             //Not any of the special words (i.e. 'html'), So, must be a keyword
             default: 
                 $select .= " AND (";
-                
+
                 $what_array = explode(",",$what);
                 for($k=0; $k<count($what_array); $k++)
                 {
@@ -140,8 +140,6 @@ function get_banner($what, $clientID, $context=0, $source="")
         $select .= " AND width = $width 
                     AND height = $height ";
     }
-
-
     if($phpAds_random_retrieve == "1") // Test to see if there are any banners left in that category
     {
        $testselect ="$select AND seq!='1'";
@@ -169,7 +167,6 @@ function get_banner($what, $clientID, $context=0, $source="")
 	$weightsum = $weightsum + $tmprow["weight"];
    	$rows[] = $tmprow; 
     }
-
 
     $date = getdate(time());
     $request = array('remote_host'	=> 	$REMOTE_ADDR,
