@@ -914,7 +914,7 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype, $delivery)
 				}
 				else
 				{
-					$query .= "WHERE contenttype = 'txt'";
+					$query .= "AND contenttype = 'txt'";
 				}
 				
 				$query .= "
