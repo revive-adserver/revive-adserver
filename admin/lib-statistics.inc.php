@@ -489,9 +489,10 @@ function phpAds_buildBannerCode ($bannerid, $banner, $active, $format, $width, $
 	{
 		if ($format == "html")
 		{
-			$htmlcode 	= htmlspecialchars (stripslashes ($banner));
+			$htmlcode 	= stripslashes ($banner);
 			$htmlcode   = strlen($htmlcode) > 500 ? substr ($htmlcode, 0, 500)."..." : $htmlcode;
-			$htmlcode	= chunk_split ($htmlcode, 70, "<br>\n");
+			$htmlcode	= chunk_split ($htmlcode, 65, "\n");
+			$htmlcode	= str_replace("\n", "<br>\n", htmlspecialchars ($htmlcode));
 			
 			$buffer		= "<table width='100%' border='0' cellspacing='0' cellpadding='0'><tr>";
 			$buffer    .= "<td width='80%' valign='top' align='left'>\n";
