@@ -81,11 +81,21 @@ $phpAds_config['compact_stats'] = false;
 // Use beacons to log adviews
 $phpAds_config['log_beacon'] = true;
 
+
 // Enabled logging of adviews?
 $phpAds_config['log_adviews'] = true;
 
+// Block logging of views for xx seconds after the last entry
+// This is to prevent logging after each page reload
+$phpAds_config['block_adviews'] = 0;
+
 // Enabled logging of adclicks?
 $phpAds_config['log_adclicks'] = true;
+
+// Block logging of clicks for xx seconds after the last entry
+// This is to prevent users from boosting the stats by clicking multiple times
+$phpAds_config['block_adclicks'] = 0;
+
 
 // Reverse DNS lookup remotes hosts?
 $phpAds_config['reverse_lookup'] = false;
@@ -95,6 +105,7 @@ $phpAds_config['proxy_lookup'] = false;
 
 // Hosts to ignore (don't count adviews coming from them)
 $phpAds_config['ignore_hosts'] = array ();   // Example: array('slashdot.org', 'microsoft.com');
+
 
 // E-mail admin when clicks/views get low?
 $phpAds_config['warn_admin'] = true;

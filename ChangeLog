@@ -21,6 +21,8 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			+ Added a log for actions taken during delivery and 
 			  maintenance, which is also used to log all outgoing email  (Niels) 20020211
 			+ Added support for linking zones to campaigns  (Niels) 20020214
+			+ Added support to block logging for a specific time after a banner 
+			  is displayed or was clicked on  (Niels) 20020217
 
 			+ Misc changes to library and function names
 			  - Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 20011020

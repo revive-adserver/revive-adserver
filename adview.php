@@ -84,9 +84,6 @@ $row = phpAds_fetchBanner($what, $clientid, 0, $source, false);
 
 if (is_array($row) && isset($row['bannerid']))
 {
-	// Log this impression
-	phpAds_logImpression ($row['bannerid'], $row['clientid'], $row['zoneid'], $source);
-	
 	// Send P3P Headers
 	if ($phpAds_config['p3p_policies'])
 	{
@@ -103,9 +100,23 @@ if (is_array($row) && isset($row['bannerid']))
 			header ("P3P: $p3p_header");
 	}
 	
+	$url = parse_url($phpAds_config['url_prefix']);
+	
+	
+	// Log this impression
+	if ($phpAds_config['block_adviews'] == 0 ||
+	   ($phpAds_config['block_adviews'] > 0 && !isset($phpAds_blockView[$row['bannerid']])))
+	{
+		if ($phpAds_config['log_adviews'])
+			phpAds_logImpression ($row['bannerid'], $row['clientid'], $row['zoneid'], $source);
+		
+		// Send block cookies
+		if ($phpAds_config['block_adviews'] > 0)
+			SetCookie("phpAds_blockView[".$row['bannerid']."]", time(), time() + $phpAds_config['block_adviews'], $url["path"]);
+	}
+	
 	
 	// Send bannerid headers
-	$url = parse_url($phpAds_config['url_prefix']);
 	SetCookie("bannerNum", $row["bannerid"], 0, $url["path"]);
 	if(isset($n)) SetCookie("banID[$n]", $row["bannerid"], 0, $url["path"]);
 	

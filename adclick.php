@@ -91,8 +91,38 @@ if ($bannerid != "DEFAULT")
 	if (!isset($source)) $source = '';
 	
 	
+	
 	// Log clicks
-	phpAds_logClick($bannerid, $clientid, $zoneid, $source);
+	if ($phpAds_config['block_adclicks'] == 0 ||
+	   ($phpAds_config['block_adclicks'] > 0 && !isset($phpAds_blockClick[$bannerid])))
+	{
+		if ($phpAds_config['log_adclicks'])
+			phpAds_logClick($bannerid, $clientid, $zoneid, $source);
+		
+		// Send block cookies
+		if ($phpAds_config['block_adclicks'] > 0)
+		{
+			header ("X-phpAdsNew: LOGGING!");
+			
+			if ($phpAds_config['p3p_policies'])
+			{
+				$p3p_header = '';
+				
+				if ($phpAds_config['p3p_policy_location'] != '')
+					$p3p_header .= " policyref=\"".$phpAds_config['p3p_policy_location']."\"";
+				
+				if ($phpAds_config['p3p_compact_policy'] != '')
+					$p3p_header .= " CP=\"".$phpAds_config['p3p_compact_policy']."\"";
+				
+				if ($p3p_header != '')
+					header ("P3P: $p3p_header");
+			}
+			
+			$url_prefix = parse_url($phpAds_config['url_prefix']);
+			SetCookie("phpAds_blockClick[".$bannerid."]", time(), time() + $phpAds_config['block_adclicks'], $url_prefix["path"]);
+		}
+	}
+	
 	
 	
 	// Get vars
