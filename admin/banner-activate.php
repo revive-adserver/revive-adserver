@@ -17,6 +17,7 @@
 // Include required files
 require ("config.php");
 require ("lib-statistics.inc.php");
+require ("lib-zones.inc.php");
 
 
 // Security check
@@ -66,6 +67,10 @@ if (phpAds_isUser(phpAds_Client))
 					bannerID = $bannerID
 				") or mysql_die();
 			
+			// Rebuild zone cache
+			if ($phpAds_zone_cache)
+				phpAds_RebuildZoneCache ();
+			
 			Header("Location: stats-campaign.php?campaignID=$campaignID&message=".urlencode($strBannerChanged));
 		}
 	}
@@ -87,6 +92,10 @@ if (phpAds_isUser(phpAds_Admin))
 		WHERE
 			bannerID = $bannerID
 		") or mysql_die();
+	
+	// Rebuild zone cache
+	if ($phpAds_zone_cache)
+		phpAds_RebuildZoneCache ();
 	
 	Header("Location: campaign-index.php?campaignID=$campaignID&message=".urlencode($strBannerChanged));
 }

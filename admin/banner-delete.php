@@ -17,6 +17,7 @@
 // Include required files
 require ("config.php");
 require ("lib-storage.inc.php");
+require ("lib-zones.inc.php");
 
 
 // Security check
@@ -64,6 +65,10 @@ if (isset($bannerID) && $bannerID != '')
 	// Delete statistics for this banner
 	db_delete_stats($bannerID);
 }
+
+// Rebuild zone cache
+if ($phpAds_zone_cache)
+	phpAds_RebuildZoneCache ();
 
 Header("Location: campaign-index.php?campaignID=$campaignID&message=".urlencode($strBannerDeleted));
 

@@ -17,6 +17,7 @@
 // Include required files
 require ("config.php");
 require ("lib-storage.inc.php");
+require ("lib-zones.inc.php");
 
 
 // Security check
@@ -102,6 +103,10 @@ if (isset($clientID) && $clientID != '')
 			") or mysql_die();
 	}
 }
+
+// Rebuild zone cache
+if ($phpAds_zone_cache)
+	phpAds_RebuildZoneCache ();
 
 header("Location: client-index.php");
 
