@@ -23,6 +23,9 @@ $phpAds_helpDefault = '';
 $phpAds_context		= array();
 $phpAds_shortcuts	= array();
 
+define ("phpAds_Login", 0);
+define ("phpAds_Error", -1);
+
 
 
 /*********************************************************/
@@ -84,8 +87,8 @@ function phpAds_PageHeader($ID, $extra="")
 	$mozbar = '';
 	
 	// Travel navigation
-	if ($ID != "")
-	{	
+	if ($ID != phpAds_Login && $ID != phpAds_Error)
+	{
 		// Prepare Navigation
 		if (phpAds_isUser(phpAds_Admin))
 			$pages	= $phpAds_nav['admin'];
@@ -200,8 +203,10 @@ function phpAds_PageHeader($ID, $extra="")
 			$pages	= $phpAds_nav['admin'];
 		elseif (phpAds_isUser(phpAds_Client))
 			$pages  = $phpAds_nav['client'];
-		else
+		elseif (phpAds_isUser(phpAds_Affiliate))
 			$pages  = $phpAds_nav['affiliate'];
+		else
+			$pages  = array();
 		
 		
 		$i = 0;
@@ -265,9 +270,15 @@ function phpAds_PageHeader($ID, $extra="")
 	{
 		$sidebar   = "&nbsp;";
 		$searchbar = "&nbsp;";
-		$tabbar    = "<td bgcolor='#FFFFFF' valign='middle' nowrap>&nbsp;&nbsp;<a class='tab-s' href='index.php'>$strAuthentification</a></td>";
-		$tabbar   .= "<td><img src='images/".$phpAds_TextDirection."/tab-ew.gif' width='10' height='24'></td>";
 		$pagetitle = isset($phpAds_config['name']) && $phpAds_config['name'] != '' ? $phpAds_config['name'] : $phpAds_productname;
+		
+		if ($ID == phpAds_Login)
+			$tabbar    = "<td bgcolor='#FFFFFF' valign='middle' nowrap>&nbsp;&nbsp;<a class='tab-s' href='index.php'>$strAuthentification</a></td>";
+		
+		if ($ID == phpAds_Error)
+			$tabbar    = "<td bgcolor='#FFFFFF' valign='middle' nowrap>&nbsp;&nbsp;<a class='tab-s' href='index.php'>Error</a></td>";
+		
+		$tabbar   .= "<td><img src='images/".$phpAds_TextDirection."/tab-ew.gif' width='10' height='24'></td>";
 	}
 	
 	
@@ -555,7 +566,7 @@ function phpAds_sqlDie()
     global $phpAds_last_query;
 	global $phpAds_GUIDone;
 	
-	if ($phpAds_GUIDone == false) phpAds_PageHeader(-1);
+	if ($phpAds_GUIDone == false) phpAds_PageHeader('');
 	
 	echo "<br><br>";
 	echo "<table border='0' cellpadding='1' cellspacing='1' width='100%'><tr><td bgcolor='#FF0000'>";
@@ -583,12 +594,20 @@ function phpAds_sqlDie()
 /* Display a custom error message and die                */
 /*********************************************************/
 
-function phpAds_Die($title="Error", $message="Unkown error")
+function phpAds_Die($title="Error", $message="Unknown error")
 {
-	global $phpAds_GUIDone;
+	global $phpAds_GUIDone, $phpAds_TextDirection;
 	
-	if ($phpAds_GUIDone == false) phpAds_PageHeader(-1);
+	// Header
+	if ($phpAds_GUIDone == false)
+	{
+		if (!isset($phpAds_TextDirection)) 
+			$phpAds_TextDirection = 'ltr';
+		
+		phpAds_PageHeader(phpAds_Error);
+	}
 	
+	// Message
 	echo "<br><br>";
 	echo "<table border='0' cellpadding='1' cellspacing='1' width='100%'><tr><td bgcolor='#FF0000'>";
 		echo "<table border='0' cellpadding='5' cellspacing='0' width='100%'>";
@@ -602,7 +621,7 @@ function phpAds_Die($title="Error", $message="Unkown error")
 	echo "</td></tr></table>";
 	echo "<br><br>";
 	
-	// die
+	// Die
 	phpAds_PageFooter();
 	exit;
 }

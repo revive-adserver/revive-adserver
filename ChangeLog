@@ -89,6 +89,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-10-04:  PNG graphs were not working when using IE and ob_gzhandler  (Niels)
 			  - 2002-10-08:  Iframe invocation code had the wrong height and width for the ilayer component  (Niels)
 			  - 2002-10-08:  Fixed delivery of text ads into banner zones and vice versa  (Matteo)
+			  - 2002-10-09:  Images and css file were not used when database connection failed  (Niels)
 
 
 
