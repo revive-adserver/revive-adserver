@@ -511,7 +511,9 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			// Header
 			echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 			echo "<tr><td height='25' colspan='3'><img src='images/icon-overview.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strParameters']."</b></td></tr>";
-			echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+			echo "<tr height='1'><td width='30'><img src='images/break.gif' height='1' width='30'></td>";
+			echo "<td width='200'><img src='images/break.gif' height='1' width='200'></td>";
+			echo "<td width='100%'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 			echo "<tr".($zone_invocation ? '' : " bgcolor='#F6F6F6'")."><td height='10' colspan='3'>&nbsp;</td></tr>";
 		}
 		
@@ -844,7 +846,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 		}
 		
-
+		
 		// Hide when integrated in zone-advanced.php
 		if (!(is_array($extra) && isset($extra['zoneadvanced']) && $extra['zoneadvanced']))
 		{
@@ -871,9 +873,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	
 	// Hide when integrated in zone-advanced.php
 	if (!is_array($extra) || !isset($extra['zoneadvanced']) || !$extra['zoneadvanced'])
-		echo "</form>";
-
-	echo "<br><br>";
+		echo "</form><br><br>";
 }
 
 ?>

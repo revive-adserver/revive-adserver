@@ -551,6 +551,7 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 
 $tabindex = 1;
 
+
 echo "<br><br>";
 echo "<form name='clientform' method='post' action='campaign-edit.php' onSubmit='return (phpAds_formCheck(this) && phpAds_priorityCheck(this));'>";
 echo "<input type='hidden' name='campaignid' value='".(isset($campaignid) ? $campaignid : '')."'>";
@@ -580,31 +581,27 @@ echo "<br><br>";
 
 
 
-echo "<table border='1' width='100%' cellpadding='0' cellspacing='0'>";
+echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25' colspan='3'><b>".$strContractInformation."</b></td></tr>";
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 if (isset($row['active']) && $row['active'] == 'f') 
 {
-	echo "<tr><td width='30' valign='top'><img src='images/info.gif'></td>";
-	echo "<td colspan='2'><b>".$strClientDeactivated;
-	
 	$expire_ts = mktime(0, 0, 0, $row["expire_month"], $row["expire_dayofmonth"], $row["expire_year"]);
-	
 	$inactivebecause = array();
-
+	
 	if ($row['clicks'] == 0) $inactivebecause[] =  $strNoMoreClicks;
 	if ($row['views'] == 0) $inactivebecause[] =  $strNoMoreViews;
 	if (time() < mktime(0, 0, 0, $row["activate_month"], $row["activate_dayofmonth"], $row["activate_year"])) $inactivebecause[] =  $strBeforeActivate;
 	if (time() > $expire_ts && $expire_ts > 0) $inactivebecause[] =  $strAfterExpire;
 	if ($row['target'] == 0  && $row['weight'] == 0) $inactivebecause[] =  $strWeightIsNull;
 	
-	echo " ".join(', ', $inactivebecause).".</b><br><br>";
+	echo "<tr><td width='30' valign='top'>&nbsp;</td><td colspan='2'>";
+	echo "<div class='errormessage'><img class='errormessage' src='images/info.gif' width='16' height='16' border='0' align='absmiddle'>";
+	echo $strClientDeactivated.' '.join(', ', $inactivebecause).'.</div><br>';
 	echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 }
-
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strViewsPurchased."</td><td>";
 echo "<input class='flat' type='text' name='views' size='25' value='".($row["views"] > 0 ? $row["views"] : '-')."' onBlur='phpAds_formUpdate(this);' onKeyUp=\"phpAds_formUnlimitedCheck('unlimitedviews', 'views');\" tabindex='".($tabindex++)."'>&nbsp;";

@@ -156,7 +156,7 @@ function phpAds_showZoneBanners ($zoneid)
 	$zonechain = array();
 	$what = '';
 	$infinite_loop = false;
-
+	
 	while ($zoneid || $what)
 	{
 		if ($zoneid)
@@ -262,11 +262,18 @@ function phpAds_showZoneBanners ($zoneid)
 		if (count($zonechain))
 		{
 			// Zone Chain
+			echo "<br><br><div class='errormessage'><img class='errormessage' src='images/info.gif' width='16' height='16' border='0' align='absmiddle'>";
+			echo $infinite_loop ? $strZoneProbListChainLoop : $strZoneProbListChain;
+			echo "<br><img src='images/break-el.gif' height='1' width='100%' vspace='6'><br>";
+			// echo "</div>";
+			
+			/*
 			echo "<br><br><table width='100% border='0' align='center' cellspacing='0' cellpadding='0'>";
 			echo "<tr><td valign='top'><img src='images/info.gif' align='absmiddle'>&nbsp;</td>";
 			echo "<td width='100%'><b>".($infinite_loop ? $strZoneProbListChainLoop : $strZoneProbListChain)."</b></td></tr>";
 			echo "</table>";
 			phpAds_ShowBreak();
+			*/
 			
 			while (list(, $z) = each($zonechain))
 			{
@@ -275,9 +282,11 @@ function phpAds_showZoneBanners ($zoneid)
 			}
 			
 			if (isset($zone['zoneid']))
-				echo "<nobr><img src='images/".($infinite_loop ? 'warning.gif' : 'icon-zone.gif')."' align='absmiddle'>&nbsp;<b>".phpAds_buildZoneName($zone['zoneid'], $zone['zonename'])."</b></nobr><br>";
+				echo "<nobr><img src='images/".($infinite_loop ? 'errormessage.gif' : 'icon-zone.gif')."' align='absmiddle'>&nbsp;<b>".phpAds_buildZoneName($zone['zoneid'], $zone['zonename'])."</b></nobr><br>";
 			else
 				echo "<nobr><img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strRawQueryString'].":</b> ".htmlentities($zone['what'])."</nobr><br>";
+			
+			echo "</div>";
 		}
 		
 		

@@ -348,13 +348,11 @@ else
 $tabindex = 1;
 
 
-echo "<br><br>";
-
 echo "<form name='zoneform' method='post' action='zone-edit.php' onSubmit='return phpAds_formCheck(this);'>";
 echo "<input type='hidden' name='zoneid' value='".(isset($zoneid) && $zoneid != '' ? $zoneid : '')."'>";
 echo "<input type='hidden' name='affiliateid' value='".(isset($affiliateid) && $affiliateid != '' ? $affiliateid : '')."'>";
 
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+echo "<br><table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25' colspan='3'><b>".$strBasicInformation."</b></td></tr>";
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";

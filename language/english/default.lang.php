@@ -418,14 +418,14 @@ $GLOBALS['strZonePrependHTML']			= "Always prepend the HTML code to text ads dis
 $GLOBALS['strZoneAppendHTML']			= "Always append the HTML code to text ads displayed by this zone";
 $GLOBALS['strZoneAppendType']			= "Append type";
 $GLOBALS['strZoneAppendHTMLCode']		= "HTML code";
-$GLOBALS['strZoneAppendZoneSelection']	= "Popup or intersitial";
+$GLOBALS['strZoneAppendZoneSelection']	= "Popup or interstitial";
 $GLOBALS['strZoneAppendSelectZone']		= "Always append the following popup or intersitial to banners displayed by this zone";
 
 
 // Zone probability
-$GLOBALS['strZoneProbListChain']		= "All the banners linked to the selected zone have null priority. This is the zone chain that will be followed:";
-$GLOBALS['strZoneProbNullPri']			= "All banners linked to this zone have null priority";
-$GLOBALS['strZoneProbListChainLoop']	= "Following the zone chain would cause a circular loop. Delivery for this zone is halted";
+$GLOBALS['strZoneProbListChain']		= "All the banners linked to the selected zone are currently not active. <br>This is the zone chain that will be followed:";
+$GLOBALS['strZoneProbNullPri']			= "All banners linked to this zone are currently not active.";
+$GLOBALS['strZoneProbListChainLoop']	= "Following the zone chain would cause a circular loop. Delivery for this zone is halted.";
 
 
 // Linked banners/campaigns

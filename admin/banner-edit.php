@@ -1039,8 +1039,7 @@ echo "<input type='hidden' name='storagetype' value='".$storagetype."'>";
 
 if ($storagetype == 'sql')
 {
-	echo "<br><br>";
-	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#F6F6F6'>";
+	echo "<br><table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#F6F6F6'>";
 	echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".$strMySQLBanner."</b></td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
@@ -1196,8 +1195,7 @@ if ($storagetype == 'sql')
 
 if ($storagetype == 'web')
 {
-	echo "<br><br>";
-	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#F6F6F6'>";
+	echo "<br><table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#F6F6F6'>";
 	echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".$strWebBanner."</b></td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
@@ -1349,8 +1347,7 @@ if ($storagetype == 'web')
 
 if ($storagetype == 'url')
 {
-	echo "<br><br>";
-	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#F6F6F6'>";
+	echo "<br><table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#F6F6F6'>";
 	echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><img src='images/icon-banner-url.gif' align='absmiddle'>&nbsp;<b>".$strURLBanner."</b></td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
@@ -1407,8 +1404,7 @@ if ($storagetype == 'url')
 
 if ($storagetype == 'html')
 {
-	echo "<br><br>";
-	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#F6F6F6'>";
+	echo "<br><table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#F6F6F6'>";
 	echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><img src='images/icon-banner-html.gif' align='absmiddle'>&nbsp;<b>".$strHTMLBanner."</b></td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
@@ -1447,8 +1443,7 @@ if ($storagetype == 'html')
 
 if ($storagetype == 'txt')
 {
-	echo "<br><br>";
-	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#F6F6F6'>";
+	echo "<br><table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#F6F6F6'>";
 	echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><img src='images/icon-banner-text.gif' align='absmiddle'>&nbsp;<b>".$strTextBanner."</b></td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";

@@ -217,9 +217,11 @@ if ($banner['storagetype'] != 'txt')
 	echo "<input type='hidden' name='campaignid' value='".(isset($campaignid) && $campaignid != '' ? $campaignid : '')."'>";
 	echo "<input type='hidden' name='bannerid' value='".(isset($bannerid) && $bannerid != '' ? $bannerid : '')."'>";
 	
-	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+	echo "<br><table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 	echo "<tr><td height='25' colspan='3'><b>".$strAppendSettings."</b></td></tr>";
-	echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	echo "<tr height='1'><td width='30'><img src='images/break.gif' height='1' width='30'></td>";
+	echo "<td width='200'><img src='images/break.gif' height='1' width='200'></td>";
+	echo "<td width='100%'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 	
 	

@@ -348,9 +348,7 @@ else
 $tabindex = 1;
 
 
-echo "<br><br>";
-
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+echo "<br><table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<form name='zones' action='banner-zone.php' method='post'>";
 echo "<input type='hidden' name='clientid' value='".$clientid."'>";
 echo "<input type='hidden' name='campaignid' value='".$campaignid."'>";
