@@ -92,7 +92,8 @@ if (isset($exclude) && $exclude != '')
 	$context = array();
 	
 	for ($i = 0; $i < count($exclude); $i++)
-		$context[] = array ("!=" => $exclude[$i]);
+		if ($exclude[$i] != '')
+			$context[] = array ("!=" => $exclude[$i]);
 }
 
 
@@ -104,7 +105,7 @@ header("Content-type: application/x-javascript");
 enjavanate($output['html']);
 
 // Block this banner for next invocation
-if (isset($block) && $block != '' && $block != '0')
-	print ("\nvar phpAds_used; if (phpAds_used != undefined) phpAds_used.push('".$output['bannerid']."');\n");
+if (isset($block) && $block != '' && $block != '0' && $output['bannerid'])
+	print ("\nif (document.phpAds_used) document.phpAds_used += '".$output['bannerid'].",';\n");
 
 ?>

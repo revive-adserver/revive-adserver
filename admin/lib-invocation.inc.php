@@ -99,14 +99,14 @@ function phpAds_GenerateInvocationCode()
 			$parameters['block'] = "block=1";
 		
 		
-		$buffer .= "<script language='JavaScript1.2' type='text/javascript'>\n";
+		$buffer .= "<script language='JavaScript' type='text/javascript'>\n";
 		$buffer .= "<!--\n";
-		$buffer .= "   var phpAds_used; if (phpAds_used == undefined) phpAds_used = new Array();\n";
+		$buffer .= "   if (!document.phpAds_used) document.phpAds_used = ',';\n";
 		$buffer .= "   document.write (\"<\" + \"script language='JavaScript' type='text/javascript' src='\");\n";
 		$buffer .= "   document.write (\"".$phpAds_config['url_prefix']."/adjs.php?n=".$uniqueid."\");\n";
 		if (sizeof($parameters) > 0)
 			$buffer .= "   document.write (\"&amp;".implode ("&amp;", $parameters)."\");\n";
-		$buffer .= "   document.write (\"&amp;exclude=\" + phpAds_used.join(','));\n";
+		$buffer .= "   document.write (\"&amp;exclude=\" + document.phpAds_used);\n";
 		$buffer .= "   document.write (\"'><\" + \"/script>\");\n";
 		$buffer .= "//-->\n";
 		$buffer .= "</script>\n";
