@@ -113,7 +113,7 @@ function days_left($clientID)
 						else
 						{
 							// calculate estimated end of clicks
-							if ( $row_clicks["total_clicks"] > 0 && $row_clicks["days_since_start"] != null )
+							if ( $row_clicks["total_clicks"] > 0 && $row_clicks["days_since_start"] > 0 )
 							{
 								$click_days_left = $row_client["clicks"]/($row_clicks["total_clicks"]/$row_clicks["days_since_start"]);
 								$days_left = sprintf("%d",max(strval($days_left),$click_days_left));
