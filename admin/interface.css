@@ -97,7 +97,19 @@ a.gray
 select,textarea,input 
 { 
 	font-family: Verdana, Arial, Helvetica, sans-serif; 
-	font-size: 11px; 
+	font-size: 11px;
+}
+
+select.flat,textarea.flat,input.flat 
+{ 
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 11px;
+	border-color : #888888;
+	border-style: solid;
+	border-top-width: 1px; 
+	border-right-width: 1px; 
+	border-bottom-width: 1px; 
+	border-left-width: 1px;
 }
 
 .tab-s { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: #0066CC; text-decoration: none;}
