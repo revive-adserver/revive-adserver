@@ -21,7 +21,7 @@ $res_campaigns = phpAds_dbQuery("
 	SELECT
 		clientid,
 		clientname,
-		DATE_FORMAT(expire, 'YYYY-MM-DD') AS expire,
+		DATE_FORMAT(expire, '%Y-%m-%s') AS expire,
 		target,
 		views
 	FROM
