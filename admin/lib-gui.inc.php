@@ -15,6 +15,7 @@
 
 // Define defaults
 $phpAds_Message = '';
+$phpAds_NavID	= '';
 $phpAds_GUIDone = false;
 
 
@@ -25,7 +26,7 @@ $phpAds_GUIDone = false;
 
 function phpAds_PageHeader($ID, $extra="")
 {
-	global $phpAds_Message, $phpAds_GUIDone;
+	global $phpAds_Message, $phpAds_GUIDone, $phpAds_NavID;
 	global $phpAds_nav, $pages;
 	global $phpAds_name, $phpAds_my_header, $phpAds_CharSet;
 	global $phpAds_url_prefix;
@@ -33,6 +34,7 @@ function phpAds_PageHeader($ID, $extra="")
 	global $strAuthentification, $strSearch;
 	
 	$phpAds_GUIDone = true;
+	$phpAds_NavID   = $ID;
 	
 	// Travel navigation
 	if ($ID != "")
@@ -394,5 +396,38 @@ function phpAds_DelConfirm($msg)
 	return $str;
 }
 
+
+
+/*********************************************************/
+/* Show section navigation                               */
+/*********************************************************/
+
+function phpAds_ShowSections($sections)
+{
+	global $phpAds_nav, $phpAds_NavID;
+	
+	// Prepare Navigation
+	if (phpAds_isUser(phpAds_Admin))
+		$pages	= $phpAds_nav['admin'];
+	else
+		$pages  = $phpAds_nav['client'];
+	
+	for ($i=0; $i<count($sections);$i++)
+	{
+		list($sectionUrl, $sectionStr) = each($pages["$sections[$i]"]);
+		echo "<img src='images/caret-rs.gif' width='11' height='7'>&nbsp;";
+		
+		if ($phpAds_NavID == $sections[$i])
+			echo "<a class='tab-s' href='".$sectionUrl."'>".$sectionStr."</a> &nbsp;&nbsp;&nbsp;";
+		else
+			echo "<a class='tab-g' href='".$sectionUrl."'>".$sectionStr."</a> &nbsp;&nbsp;&nbsp;";
+	}
+	
+	echo "</td></tr>";
+	echo "</table>";
+	echo "<img src='images/break-el.gif' height='1' width='100%' vspace='5'>";
+	echo "<table width='640' border='0' cellspacing='0' cellpadding='0'>";
+	echo "<tr><td width='40'>&nbsp;</td><td>";
+}
 
 ?>
