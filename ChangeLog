@@ -327,6 +327,7 @@ CVS			+ Added configuration manager  (Matteo, 2001-11-04)
 			  - 2002-07-17:	 After changing the username on the settings page, it will now be checked for duplicates in both the advertiser and publisher table  (Niels)
 			  - 2002-07-17:	 The check for unique fields (like username) is now case-insensitive, so 'Name' and 'name' won't be allowed for two different users  (Niels)
 			  - 2002-07-22:  Although the error string was present in translations, actually no checks were made on zone cache limit  (Matteo)
+			  - 2002-07-23:	 Added missing phpAds_makeTimestamp() function to stats conversion routines  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015

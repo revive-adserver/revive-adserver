@@ -28,6 +28,11 @@ phpAds_checkAccess(phpAds_Admin);
 /* Main code                                             */
 /*********************************************************/
 
+function phpAds_makeTimestamp ($start, $offset)
+{
+	return $start + $offset + ((date('I', $start + $offset) - date('I', $start)) * 60);
+}
+
 function phpAds_startResult ()
 {
 	echo "var result = findObj('result');\n";
