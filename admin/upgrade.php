@@ -71,9 +71,18 @@ unset($Session);
 // Authorize the user
 phpAds_Start();
 
+
 // Load language strings
-include("../language/".$phpAds_config['language']."/default.lang.php");
-include("../language/".$phpAds_config['language']."/settings.lang.php");
+if (file_exists("../language/".$phpAds_config['language']."/default.lang.php"))
+	include("../language/".$phpAds_config['language']."/default.lang.php");
+else
+	include("../language/english/default.lang.php");
+
+if (file_exists("../language/".$phpAds_config['language']."/settings.lang.php"))
+	include("../language/".$phpAds_config['language']."/settings.lang.php");
+else
+	include("../language/english/settings.lang.php");
+
 
 // Setup navigation
 $phpAds_nav = array (

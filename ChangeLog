@@ -252,6 +252,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-05-04:	 When using keyword selection for linking banners the update is now saved  (Niels)
 			  - 2002-05-04:	 Zone probability showed all banners when nothing was selected  (Niels)
 			  - 2002-05-05:  Added workaround for broken images in IE when zlib.output_compression was turned on  (Niels)
+			  - 2002-05-07:  Fixed errors when upgrading from a no longer support language  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015

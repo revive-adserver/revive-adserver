@@ -86,8 +86,12 @@ unset($Session);
 // Authorize the user
 phpAds_Start();
 
+
 // Load language strings
-require ("../language/".strtolower($phpAds_config['language'])."/default.lang.php");
+if (file_exists("../language/".strtolower($phpAds_config['language'])."/default.lang.php"))
+	require ("../language/".strtolower($phpAds_config['language'])."/default.lang.php");
+else
+	require ("../language/english/default.lang.php");
 
 
 if (!isset($clientid))    $clientid = '';
