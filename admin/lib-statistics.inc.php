@@ -662,6 +662,7 @@ function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 	
 	// Disable logging of adclicks
 	$buffer = str_replace ('adclick.php?', 'adclick.php?log=no&', $buffer);
+	$buffer = str_replace ('adclick.php%3F', 'adclick.php%3Flog=no%26', $buffer);
 	
 	return ($buffer);
 }
