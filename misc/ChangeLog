@@ -182,6 +182,8 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2003-01-03:  Close delay now works when the popup is opened after the current page is closed  (Niels)
 			  - 2003-01-04:  Added support for Opera 7 to the floater interstitial  (Niels)
 			  - 2003-01-04:  HTML banners containing entities were malformed when opening and resaving  (Niels)
+			  - 2003-01-04:  Booleans weren't handled correctly when saving the configuration to file  (Niels)
+			  - 2003-01-04:  Hiding of inactive banners wasn't working correctly causing errors  (Niels)
 
 
 
