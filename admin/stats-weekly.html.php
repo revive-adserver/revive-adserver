@@ -159,6 +159,7 @@ function WeekFill($day_array, $actweek)
 
 function WeekPrint()
 {
+	global $total_views, $total_clicks;
 	global $week;
 	global $phpAds_percentage_decimals;
 	static $j=1;
@@ -171,6 +172,10 @@ function WeekPrint()
 		$j++;       
 		
 		WeekStat(); // calculate daily ctr and summary  
+		
+		$total_views += $week['viewsum'];
+		$total_clicks += $week['clicksum'];
+
 		//echo sprintf("      <!-- %s: %s -->\n", $GLOBALS['strWeek'], $week['num'] );
 		?>
 		<tr>
@@ -251,6 +256,7 @@ function stats()
 	global $max_weeks, $php_week_sign, $mysql_week_sign;
 	global $strDayShortCuts;
 	global $strClientName, $strOverall;
+	global $total_views, $total_clicks;
 	
 	// get all significant banner-ids to build where-clause
 	$banner_query = "
@@ -317,9 +323,7 @@ function stats()
         // get views global data
     	$global_view_query="
     		SELECT
-    			sum(clicks),
-                	sum(views),
-    			MAX(TO_DAYS(day)),
+				MAX(TO_DAYS(day)),
     			MIN(TO_DAYS(day))
     		FROM
     			$phpAds_tbl_adstats
@@ -327,16 +331,17 @@ function stats()
 		";
 		
     	$views_global = db_query($global_view_query) or mysql_die();
-    	list($total_clicks, $total_views, $views_last_day_index, $views_first_day_index) = mysql_fetch_row($views_global);
+    	list($views_last_day_index, $views_first_day_index) = mysql_fetch_row($views_global);
     	mysql_free_result($views_global);
     	
     	$last_day_index = $views_last_day_index;
     	
     	// get views & clicks daily data
-    	$daily_query="
+    	
+		$daily_query="
     		SELECT
-    			views as days_total_views,
-    			clicks as days_total_clicks,
+    			sum(views) as days_total_views,
+    			sum(clicks) as days_total_clicks,
     			DATE_FORMAT(day, '".$GLOBALS['date_format']."') as date,
     			DATE_FORMAT(day, '$mysql_week_sign') as week_num,
     			DATE_FORMAT(day, '%w') as day_num,
@@ -346,6 +351,8 @@ function stats()
     		FROM
     			$phpAds_tbl_adstats
    			$where
+			GROUP BY
+				day
     		ORDER BY
     			abs_day DESC
     		LIMIT ".$max_weeks*7;
@@ -383,7 +390,6 @@ function stats()
         // get views global data
     	$global_view_query="
     		SELECT
-    			count(*),
     			MAX(TO_DAYS(t_stamp)),
     			MIN(TO_DAYS(t_stamp))
     		FROM
@@ -392,13 +398,12 @@ function stats()
 		";
 		
     	$views_global = db_query($global_view_query) or mysql_die();
-    	list($total_views, $views_last_day_index, $views_first_day_index) = mysql_fetch_row($views_global);
+    	list($views_last_day_index, $views_first_day_index) = mysql_fetch_row($views_global);
     	mysql_free_result($views_global);
     	
     	// get clicks global data
     	$global_click_query="
     		SELECT
-    			count(*),
     			MAX(TO_DAYS(t_stamp)),
     			MIN(TO_DAYS(t_stamp))
     		FROM
@@ -407,7 +412,7 @@ function stats()
 			";
     		// echo $global_click_query;			   
     	$clicks_global = db_query($global_click_query) or mysql_die();
-    	list($total_clicks, $clicks_last_day_index, $clicks_first_day_index) = mysql_fetch_row($clicks_global);
+    	list($clicks_last_day_index, $clicks_first_day_index) = mysql_fetch_row($clicks_global);
     	mysql_free_result($clicks_global);
     	
     	$last_day_index = max($views_last_day_index,$clicks_last_day_index);
@@ -459,18 +464,15 @@ function stats()
     	while ($row = mysql_fetch_array($view_daily))
     	{
     		$i = $row['day_index'];
-    		if ( !isset($days[$i]) )
-    		{
-    			$days[$i] = array();
-    			$days[$i]['day_index'] = $i + $last_day_index;
-    			$days[$i]['week_num']  = $row['week_num'];
-    			$days[$i]['day_num']   = $row['day_num'];
-    			$days[$i]['unix_time'] = $row['unix_time'];
-    			$days[$i]['date']      = $row['date'];
-    			$days[$i]['views']     = $row['days_total_views'];
-    		}
-    		else
-				$days[$i]['views']    += $row['days_total_views'];
+    		
+			$days[$i] = array();
+    		$days[$i]['day_index'] = $i + $last_day_index;
+    		$days[$i]['week_num']  = $row['week_num'];
+    		$days[$i]['day_num']   = $row['day_num'];
+    		$days[$i]['unix_time'] = $row['unix_time'];
+    		$days[$i]['date']      = $row['date'];
+    		$days[$i]['views']     = $row['days_total_views'];
+			$days[$i]['clicks']	   = 0;
     	}
     	
     	// now insert click data
@@ -485,10 +487,11 @@ function stats()
     			$days[$i]['day_num']   = $row['day_num'];
     			$days[$i]['unix_time'] = $row['unix_time'];
     			$days[$i]['date']      = $row['date'];
-				$days[$i]['clicks']    = $row['days_total_clicks'];				
+				$days[$i]['views']	   = 0;
+				$days[$i]['clicks']    = $row['days_total_clicks'];
     		}
     		else
-	    		$days[$i]['clicks']   += $row['days_total_clicks'];
+	    		$days[$i]['clicks']    = $row['days_total_clicks'];
     	}
 	    
     	mysql_free_result($view_daily);
@@ -561,7 +564,7 @@ function stats()
 <br><br>
 
 	<?
-		if ($total_views == 0 && $total_clicks == 0)
+	if (sizeof($days) < 1)
 		printf("<table border=\"0\"><tr><td>%s</td></tr></table>",$which=0?$GLOBALS["strClientNoStats"]:$GLOBALS["strBannerNoStats"]);
 	else
 	{
@@ -599,7 +602,6 @@ function stats()
 		if ($lastweek != $currentweek)	 
 		{
 			// change in actual week
-			
 			if ($weeks_done >= $max_weeks)
 				break;
 			
@@ -671,6 +673,9 @@ $week["ctr"] = array();
 $week['clicksum']=0;
 $week['viewsum']=0;
 $week['days_set']=0;
+
+$total_views = 0;
+$total_clicks = 0;
 
 stats();
 
