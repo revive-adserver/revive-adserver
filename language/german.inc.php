@@ -104,9 +104,9 @@ $GLOBALS['strLogErrorClicks'] = "[phpAds] Beim Versuch, die AdClicks in der Date
 $GLOBALS['strLogErrorDisactivate'] = "[phpAds] Beim Versuch ein Banner zu deaktivieren, ist ein Fehler aufgetreten.";
 $GLOBALS['strRatio'] = "Klickrate";
 $GLOBALS['strChooseBanner'] = "Bitte einen Bannertyp ausw&auml;hlen.";
-$GLOBALS['strMySQLBanner'] = "Bild lokal verwalten";
-$GLOBALS['strWebBanner'] = "Auf Webserver gespeichertes Banner";
-$GLOBALS['strURLBanner'] = "Bild &uuml;ber URL verwalten";
+$GLOBALS['strMySQLBanner'] = "Banner in Datenbank speichern";
+$GLOBALS['strWebBanner'] = "Banner auf Webserver speichern";
+$GLOBALS['strURLBanner'] = "Banner &uuml;ber URL verwalten";
 $GLOBALS['strHTMLBanner'] = "HTML-Banner";
 $GLOBALS['strNewBannerFile'] = "Bild-Datei";
 $GLOBALS['strNewBannerURL'] = "Bild-URL (inkl. http://)";
@@ -205,13 +205,13 @@ $GLOBALS['strActivateNow'] 				= "Kampagnen sofort aktivieren";
 $GLOBALS['strExpirationDate']			= "Ablaufdatum";
 $GLOBALS['strActivationDate']			= "Aktivierungsdatum";
 
-$GLOBALS['strMailClientDeactivated'] 	= "Ihr Banner wurden deaktiviert, weil";
+$GLOBALS['strMailClientDeactivated'] 	= "Ihr Banner wurde deaktiviert";
 $GLOBALS['strMailNothingLeft'] 			= "Sollten Sie weiterhin auf unserer Website Werbung schalten möchten, dann kontaktieren Sie uns. Wir freuen uns darauf wieder von Ihnen zu hören.";
-$GLOBALS['strClientDeactivated']		= "Dieser Kampagne ist zur Zeit nicht aktiviert, weil";
-$GLOBALS['strBeforeActivate']			= "das Aktivierungsdatum noch nicht erreicht wurde";
-$GLOBALS['strAfterExpire']				= "das Ablaufdatum erreicht wurde";
-$GLOBALS['strNoMoreClicks']				= "die Zahl der gekauften AdClicks erreicht wurde";
-$GLOBALS['strNoMoreViews']				= "die Zahl der gekauften AdViews erreicht wurde";
+$GLOBALS['strClientDeactivated']		= "Diese Kampagne ist zur Zeit nicht aktiviert";
+$GLOBALS['strBeforeActivate']			= "das Aktivierungsdatum ist noch nicht erreicht";
+$GLOBALS['strAfterExpire']				= "das Ablaufdatum ist erreicht";
+$GLOBALS['strNoMoreClicks']				= "die Zahl der gekauften AdClicks ist erreicht";
+$GLOBALS['strNoMoreViews']				= "die Zahl der gekauften AdViews ist erreicht";
 
 $GLOBALS['strBanners'] 					= "Banner";
 $GLOBALS['strCampaigns']				= "Kampagnen";
@@ -230,12 +230,12 @@ $GLOBALS['strTotalCampaigns'] 			= "Gesamtzahl Kampagnen";
 $GLOBALS['strActiveCampaigns'] 			= "Aktive Kampagnen";
 
 $GLOBALS['strLinkedTo']					= "verknüpft mit";
-$GLOBALS['strSendAdvertisingReport']	= "Berichte über die Werbeaktivitäten per E-Mail versenden";
+$GLOBALS['strSendAdvertisingReport']	= "Berichte &uuml;ber die Werbeaktivit&auml;ten per E-Mail versenden";
 $GLOBALS['strNoDaysBetweenReports']		= "Tage zwischen den Berichten";
 $GLOBALS['strSendDeactivationWarning']  = "Warnung senden, wenn eine Kampagne deaktiviert wird";
 
-$GLOBALS['strWarnClientTxt']			= "Die Zahl der verf&uuml;gbaren AdClicks oder AdView für Ihre Banner ist unter {limit} gesunken. ";
-$GLOBALS['strViewsClicksLow']			= "Verf&uuml;gbare AdViews oder AdClicks sehr niedrig";
+$GLOBALS['strWarnClientTxt']			= "Die Zahl der verfügbaren AdClicks oder AdView für Ihre Banner ist unter {limit} gesunken. ";
+$GLOBALS['strViewsClicksLow']			= "Verfügbare AdViews oder AdClicks sehr niedrig";
 
 $GLOBALS['strDays']						= "Tage";
 $GLOBALS['strHistory']					= "Verlauf";
@@ -245,7 +245,7 @@ $GLOBALS['strAllowClientDisableBanner'] = "Kunde darf eigene Banner deaktivieren
 $GLOBALS['strAllowClientActivateBanner'] = "Kunde darf eigene Banner aktivieren";
 
 $GLOBALS['strGenerateBannercode']		= "Bannercode generieren";
-$GLOBALS['strChooseInvocationType']		= "Bitte wählen Sie die Art der Bannereinbindung";
+$GLOBALS['strChooseInvocationType']		= "Bitte w&auml;hlen Sie die Art der Bannereinbindung";
 $GLOBALS['strGenerate']					= "Generieren";
 $GLOBALS['strParameters']				= "Parameter";
 $GLOBALS['strUniqueidentifier']			= "Eindeutige Identifizierer";
