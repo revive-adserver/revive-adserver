@@ -61,9 +61,8 @@ function stats($what)
 		print "<tr><td colspan=3 bgcolor='#FFFFFF'><b>$strClicks:</b></td></tr>";
 		stats("$phpAds_tbl_adclicks");
 		?>
-        <? if (!$phpAds_compact_stats) {
-        	<tr><td colspan=3 bgcolor='#FFFFFF'><b><?print($strTopTenHosts);?>:</b></td></tr>
-        	<?
+        <? if (!$phpAds_compact_stats) { 
+        	print "<tr><td colspan=3 bgcolor='#FFFFFF'><b>$strTopTenHosts:</b></td></tr>";
         	$result = db_query("
         		SELECT
         			*,
