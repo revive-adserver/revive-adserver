@@ -1,8 +1,23 @@
 phpAdsNew - ChangeLog
 
-CVS			+ Minor speed improvements in view.inc.php  (Niels) 20011015
+CVS			+ Misc changes to library and function names
+			  - Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 20011020
+			  - Renamed acl.inc.php to lib-acl.inc.php  (Niels) 20011020
+			  - Renamed dblib.php to lib-db.inc.php	 (Niels) 20011020
+			  - Renamed db_* functions to phpAds_db*  (Niels) 20011020
+			  - Renamed acl_* functions to phpAds_acl*  (Niels) 20011020
+			  - Replaced mysql_* functions with phpAds_db* stubs  (Niels) 20011020
+
+			+ Misc changes
+			  - Moved some functions around to make sure no unneeded 
+			    functions were included during invocation.  (Niels) 20011020
+
+			+ Misc bugfixes
+			  - Removed background color for flash banner; lets see if it's better... (Stefan) 20011019
+
+
+v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
 			+ Added support for URL banner variables during regular remote invocation  (Niels) 20011016
-			- Removed background color for flash banner; lets see if it's better... (Stefan) 20011019
 
 			+ Misc bugfixes
 			  - Fixed pass by reference warnings in lib-ftp.inc.php  (Niels) 20011015
