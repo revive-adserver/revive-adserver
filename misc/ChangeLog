@@ -25,6 +25,8 @@ phpAdsNew 2.0.1		+ Misc bugfixes
 			  - 2003-10-27:  The delivery cache is now split into two for a (hopefully) small speed-up  (Niels)
 			  - 2003-10-28:  Moving zones to another publisher didn't work on the Advanced and Invocationcode pages  (Niels)
 			  - 2003-11-07:  XML-RPC transfers from server to client are now base64 encoded to prevent XML errors with HTML entities  (Niels)
+			  - 2003-11-07:  Fixed a PHP parsing problem in HTML banners which used multiple <?php ?> sections  (Niels)
+			  - 2003-11-07:	 Short tags for PHP scripts (<? ?> and <?= ?>) in HTML banners are now allowed when the server allows this for normal PHP scripts  (Niels)
 			  
 
 

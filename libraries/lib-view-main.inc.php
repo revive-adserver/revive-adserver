@@ -172,7 +172,6 @@ function phpAds_prepareOutput($row, $target, $source, $withtext)
 {
 	global $phpAds_config, $HTTP_SERVER_VARS;
 	
-	
 	$outputbuffer = '';
 		
 	// Prepend
@@ -313,29 +312,39 @@ function phpAds_prepareOutput($row, $target, $source, $withtext)
 	// Parse PHP code inside HTML banners
 	if ($row['storagetype'] == 'html')
 	{
-		if ($phpAds_config['type_html_php'])
+		if ($phpAds_config['type_html_php'] && preg_match_all ("#(\<(\?php|\?=|\?)(.*)\?\>)#Usi", $outputbuffer, $parser_regs, PREG_SET_ORDER))
 		{
-			while (preg_match ("#(\<\?php(.*)\?\>)#si", $outputbuffer, $parser_regs))
+			while (list(,$parser_reg) = each($parser_regs))
 			{
 				// Extract PHP script
-				$parser_php 	= $parser_regs[2].';';
-				$parser_result 	= '';
-					
-				// Replace output function
-				$parser_php = preg_replace ("#echo([^;]*);#i", '$parser_result .=\\1;', $parser_php);
-				$parser_php = preg_replace ("#printf([^;]*);#i", '$parser_result .= sprintf\\1;', $parser_php);
-				$parser_php = preg_replace ("#print([^;]*);#i", '$parser_result .=\\1;', $parser_php);
-				
-				// Split the PHP script into lines
-				$parser_lines = explode (";", $parser_php);
-				for ($parser_i = 0; $parser_i < sizeof($parser_lines); $parser_i++)
+				if ($parser_reg[2] == '?php' || (ini_get ('short_open_tag') && ($parser_reg[2] == '?' || $parser_reg[2] == '?=')))
 				{
-					if (trim ($parser_lines[$parser_i]) != '')
-						eval (trim ($parser_lines[$parser_i]).';');
+					if ($parser_reg[2] == '?=')
+					{
+						@eval ('$parser_result = '.trim($parser_reg[3]).';');
+					}
+					else
+					{
+						$parser_php 	= $parser_reg[3].';';
+						$parser_result 	= '';
+							
+						// Replace output function
+						$parser_php = preg_replace ("#echo([^;]*);#i", '$parser_result .=\\1;', $parser_php);
+						$parser_php = preg_replace ("#printf([^;]*);#i", '$parser_result .= sprintf\\1;', $parser_php);
+						$parser_php = preg_replace ("#print([^;]*);#i", '$parser_result .=\\1;', $parser_php);
+						
+						// Split the PHP script into lines
+						$parser_lines = explode (";", $parser_php);
+						for ($parser_i = 0; $parser_i < sizeof($parser_lines); $parser_i++)
+						{
+							if (trim ($parser_lines[$parser_i]) != '')
+								@eval (trim ($parser_lines[$parser_i]).';');
+						}
+					}
+					
+					// Replace the script with the result
+					$outputbuffer = str_replace ($parser_reg[1], $parser_result, $outputbuffer);
 				}
-				
-				// Replace the script with the result
-				$outputbuffer = str_replace ($parser_regs[1], $parser_result, $outputbuffer);
 			}
 		}
 	}
