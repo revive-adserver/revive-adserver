@@ -118,6 +118,7 @@ if (isset($submit))
 				(
 				affiliateid,
 				zonename,
+				zonetype,
 				description,
 				width,
 				height
@@ -125,6 +126,7 @@ if (isset($submit))
 			 VALUES (
 			 	'".$affiliateid."',
 				'".$zonename."',
+				'".phpAds_ZoneCampaign."',
 				'".$description."',
 				'".$width."',
 				'".$height."'
