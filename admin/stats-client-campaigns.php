@@ -313,12 +313,17 @@ if (isset($campaigns) && is_array($campaigns) && count($campaigns) > 0)
 {
 	reset ($campaigns);
 	while (list ($key, $campaign) = each ($campaigns))
+	{
+		if (!isset($campaign['banners']))
+			$campaign['banners'] = array();
+		
 		if ($hideinactive == true && ($campaign['active'] == 'f' || $campaign['active'] == 't' && 
 			count($campaign['banners']) == 0 && count($campaign['banners']) < $campaign['count']))
 		{
 			$campaignshidden++;
 			unset($campaigns[$key]);
 		}
+	}
 }
 
 
@@ -354,7 +359,7 @@ if (isset($campaigns) && is_array($campaigns) && sizeof ($campaigns) > 0)
 }
 
 
-if ($totalviews > 0 || $totalclicks > 0)
+if ($campaignshidden > 0 || $totalviews > 0 || $totalclicks > 0)
 {
 	echo "<br><br>";
 	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
