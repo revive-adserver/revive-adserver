@@ -35,7 +35,7 @@ if (phpAds_isUser(phpAds_Client))
 		SELECT
 			clientID
 		FROM
-			$phpAds_tbl_banners
+			".$phpAds_config['tbl_banners']."
 		WHERE
 			bannerID = $bannerID
 		") or phpAds_sqlDie();
@@ -61,12 +61,12 @@ if (phpAds_isUser(phpAds_Client))
 $extra = '';
 
 $res = phpAds_dbQuery("
-SELECT
-	*
-FROM
-	$phpAds_tbl_banners
-WHERE
-	clientID = $campaignID
+	SELECT
+		*
+	FROM
+		".$phpAds_config['tbl_banners']."
+	WHERE
+		clientID = $campaignID
 ") or phpAds_sqlDie();
 
 while ($row = phpAds_dbFetchArray($res))
@@ -97,7 +97,7 @@ if (phpAds_isUser(phpAds_Admin))
 	$extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
 	$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<a href=banner-edit.php?campaignID=$campaignID&bannerID=$bannerID>$strModifyBanner</a><br>";
 		
-	if ($phpAds_acl == '1')
+	if ($phpAds_config['acl'])
 	{
 		$extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
 		$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-acl.gif' align='absmiddle'>&nbsp;<a href=banner-acl.php?campaignID=$campaignID&bannerID=$bannerID>$strModifyBannerAcl</a><br>";
@@ -146,7 +146,7 @@ echo "<br><br>";
 
 if (!isset($limit) || $limit=='') $limit = '7';
 
-if ($phpAds_compact_stats) 
+if ($phpAds_config['compact_stats']) 
 {
 	$result = phpAds_dbQuery(" SELECT
 							*,
@@ -154,7 +154,7 @@ if ($phpAds_compact_stats)
 							clicks,
 							DATE_FORMAT(day, '$date_format') as t_stamp_f
 				 		 FROM
-							$phpAds_tbl_adstats
+							".$phpAds_config['tbl_adstats']."
 						 WHERE
 							bannerID = $bannerID
 						 ORDER BY
@@ -174,7 +174,7 @@ else
 							DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
 							DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
 				 		 FROM
-							$phpAds_tbl_adviews
+							".$phpAds_config['tbl_adviews']."
 						 WHERE
 							bannerID = $bannerID
 						 GROUP BY
@@ -197,7 +197,7 @@ else
 							DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
 							DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
 				 		 FROM
-							$phpAds_tbl_adclicks
+							".$phpAds_config['tbl_adclicks']."
 						 WHERE
 							bannerID = $bannerID
 						 GROUP BY
@@ -264,7 +264,7 @@ for ($d=0;$d<$limit;$d++)
 	
 	echo "<tr>";
 	
-	if (!$phpAds_compact_stats && $available) 
+	if (!$phpAds_config['compact_stats'] && $available) 
 	{
 		echo "<td height='25' bgcolor='$bgcolor'>&nbsp;";
 		echo "<a href='stats-daily.php?day=".urlencode($text)."&campaignID=".$campaignID."&bannerID=".$bannerID."'>";
@@ -301,8 +301,8 @@ if ($totalviews > 0 || $totalclicks > 0)
 	
 	echo "<tr>";
 	echo "<td height='25'>&nbsp;<b>$strAverage</b></td>";
-	echo "<td height='25'>".number_format (($totalviews / $d), $phpAds_percentage_decimals)."</td>";
-	echo "<td height='25'>".number_format (($totalclicks / $d), $phpAds_percentage_decimals)."</td>";
+	echo "<td height='25'>".number_format (($totalviews / $d), $phpAds_config['percentage_decimals'])."</td>";
+	echo "<td height='25'>".number_format (($totalclicks / $d), $phpAds_config['percentage_decimals'])."</td>";
 	echo "<td height='25'>&nbsp;</td>";
 	echo "</tr>";
 	

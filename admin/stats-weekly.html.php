@@ -159,9 +159,9 @@ function WeekFill($day_array, $actweek)
 
 function WeekPrint()
 {
+	global $phpAds_config;
 	global $total_views, $total_clicks;
 	global $week;
-	global $phpAds_percentage_decimals;
 	static $j=1;
 	
 	if (isset($week['num']) && $week['num']) // only if already filled (not at first call)
@@ -226,13 +226,13 @@ function WeekPrint()
 		for ( $i=0; $i<7; $i++ )
 		{
 			?>
-			<td height='20' class="small" align="right" bgcolor="<?php echo $bgcolor; ?>"><?php tabecho(sprintf(" %.".$phpAds_percentage_decimals."f%%",$week["ctr"][DayInd($i)])); ?></td>
+			<td height='20' class="small" align="right" bgcolor="<?php echo $bgcolor; ?>"><?php tabecho(sprintf(" %.".$phpAds_config['percentage_decimals']."f%%",$week["ctr"][DayInd($i)])); ?></td>
 			<?php
 		}
 		$week_avg = $week['days_set']>0?$week['ctrsum']/7:0; //$week['days_set']
 		?>
-			<td height='20' class="normal" align="right" bgcolor="<?php echo $bgcolor; ?>"><?php tabecho(sprintf(" %.".$phpAds_percentage_decimals."f%%",$week['ctrsum'])); ?></td>
-			<td height='20' class="normal" align="right" bgcolor="<?php echo $bgcolor; ?>"><?php tabecho(sprintf(" %.".$phpAds_percentage_decimals."f%%",$week['ctrsum'])); ?>&nbsp;</td>
+			<td height='20' class="normal" align="right" bgcolor="<?php echo $bgcolor; ?>"><?php tabecho(sprintf(" %.".$phpAds_config['percentage_decimals']."f%%",$week['ctrsum'])); ?></td>
+			<td height='20' class="normal" align="right" bgcolor="<?php echo $bgcolor; ?>"><?php tabecho(sprintf(" %.".$phpAds_config['percentage_decimals']."f%%",$week['ctrsum'])); ?>&nbsp;</td>
 		</tr>
 		<tr><td height='1' colspan='11' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>        
 		<?php
@@ -247,11 +247,8 @@ function WeekPrint()
 
 function stats()
 {
-	global $phpAds_db, $phpAds_url_prefix;
+	global $phpAds_config;
 	global $phpAds_tbl_color;
-	global $phpAds_begin_of_week;
-	global $phpAds_tbl_adviews, $phpAds_tbl_adclicks, $phpAds_tbl_adstats, $phpAds_tbl_banners;
-    global $phpAds_compact_stats;
 	global $campaignID, $which;
 	global $max_weeks, $php_week_sign, $mysql_week_sign;
 	global $strDayShortCuts;
@@ -263,7 +260,7 @@ function stats()
 		SELECT
 			bannerID, bannertext, alt, description
 		FROM
-			$phpAds_tbl_banners
+			".$phpAds_config['tbl_banners']."
 		";
 	
 	if ($campaignID > 0)
@@ -318,7 +315,7 @@ function stats()
 	
     // I tried to do this with one section of code and a few internal checks
     // for the stats mode, but the queries were just much too inefficient to share.
-    if ($phpAds_compact_stats) 
+    if ($phpAds_config['compact_stats']) 
     {
         // get views global data
     	$global_view_query="
@@ -326,7 +323,7 @@ function stats()
 				MAX(TO_DAYS(day)),
     			MIN(TO_DAYS(day))
     		FROM
-    			$phpAds_tbl_adstats
+    			".$phpAds_config['tbl_adstats']."
     		$where
 		";
 		
@@ -349,7 +346,7 @@ function stats()
     			$last_day_index-TO_DAYS(day) AS day_index,
     			TO_DAYS(day) AS abs_day
     		FROM
-    			$phpAds_tbl_adstats
+    			".$phpAds_config['tbl_adstats']."
    			$where
 			GROUP BY
 				day
@@ -385,7 +382,7 @@ function stats()
     	
     	phpAds_dbFreeResult($daily);
     }
-    else        // ! $phpAds_compact_stats
+    else        // ! $phpAds_config['compact_stats']
     {
         // get views global data
     	$global_view_query="
@@ -393,7 +390,7 @@ function stats()
     			MAX(TO_DAYS(t_stamp)),
     			MIN(TO_DAYS(t_stamp))
     		FROM
-    			$phpAds_tbl_adviews
+    			".$phpAds_config['tbl_adviews']."
     		$where
 		";
 		
@@ -407,7 +404,7 @@ function stats()
     			MAX(TO_DAYS(t_stamp)),
     			MIN(TO_DAYS(t_stamp))
     		FROM
-    			$phpAds_tbl_adclicks
+    			".$phpAds_config['tbl_adclicks']."
     		$where
 			";
     		// echo $global_click_query;			   
@@ -428,7 +425,7 @@ function stats()
     			$last_day_index-TO_DAYS(t_stamp) AS day_index,
     			TO_DAYS(t_stamp) AS abs_day
     		FROM
-    			$phpAds_tbl_adviews
+    			".$phpAds_config['tbl_adviews']."
     		$where
     		GROUP BY 
     			abs_day
@@ -448,7 +445,7 @@ function stats()
     			$last_day_index-TO_DAYS(t_stamp) AS day_index,
     			TO_DAYS(t_stamp) AS abs_day
     		FROM
-    			$phpAds_tbl_adclicks
+    			".$phpAds_config['tbl_adclicks']."
     		$where
     		GROUP BY 
     			abs_day

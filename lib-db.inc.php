@@ -24,16 +24,15 @@ $phpAds_db_link = '';
 
 function phpAds_dbConnect()
 {
-	global $phpAds_persistent_connections;
-	global $phpAds_hostname, $phpAds_mysqluser, $phpAds_mysqlpassword, $phpAds_db;
+	global $phpAds_config;
 	global $phpAds_db_link;
 	
-    if ($phpAds_persistent_connections)
-        $phpAds_db_link = @mysql_pconnect ($phpAds_hostname, $phpAds_mysqluser, $phpAds_mysqlpassword);
+    if ($phpAds_config['persistent_connections'])
+        $phpAds_db_link = @mysql_pconnect ($phpAds_config['dbhost'], $phpAds_config['dbuser'], $phpAds_config['dbpassword']);
     else
-        $phpAds_db_link = @mysql_connect ($phpAds_hostname, $phpAds_mysqluser, $phpAds_mysqlpassword);
+        $phpAds_db_link = @mysql_connect ($phpAds_config['dbhost'], $phpAds_config['dbuser'], $phpAds_config['dbpassword']);
 	
-	if (@mysql_select_db ($phpAds_db, $phpAds_db_link))
+	if (@mysql_select_db ($phpAds_config['dbname'], $phpAds_db_link))
 		return $phpAds_db_link;
 }
 
@@ -45,10 +44,10 @@ function phpAds_dbConnect()
 
 function phpAds_dbClose()
 {
-	global $phpAds_persistent_connections;
+	global $phpAds_config;
 	global $phpAds_db_link;
 	
-	if (!$phpAds_persistent_connections)
+	if (!$phpAds_config['persistent_connections'])
 		@mysql_close ($phpAds_db_link);
 }
 

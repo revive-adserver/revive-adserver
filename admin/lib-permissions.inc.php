@@ -38,22 +38,23 @@ define ("phpAds_ActivateBanner", 16);
 
 function phpAds_Start()
 {
-	global $Session, $phpAds_language;
+	global $phpAds_config;
+	global $Session;
 	
 	phpAds_SessionDataFetch();
 	
 	if (!phpAds_isLoggedIn() || phpAds_SuppliedCredentials())
 	{
 		// Load preliminary language settings
-		require("../language/$phpAds_language.inc.php");
+		require("../language/".$phpAds_config['language'].".inc.php");
 		
 		phpAds_SessionDataRegister(phpAds_Login());
 	}
 	
 	// Overwrite certain preset preferences
-	if (isset($Session['language']) && $Session['language'] != '' && $Session['language'] != $phpAds_language)
+	if (isset($Session['language']) && $Session['language'] != '' && $Session['language'] != $phpAds_config['language'])
 	{
-		$phpAds_language = $Session['language'];
+		$phpAds_config['language'] = $Session['language'];
 	}
 }
 
@@ -65,12 +66,12 @@ function phpAds_Start()
 
 function phpAds_Logout()
 {
-	global $phpAds_url_prefix;
+	global $phpAds_config;
 
 	phpAds_SessionDataDestroy();
 	
 	// Return to the login screen
-	header ("Location: $phpAds_url_prefix/admin/index.php");
+	header ("Location: ".$phpAds_config['url_prefix']."/admin/index.php");
 }
 
 
@@ -145,7 +146,7 @@ function phpAds_clientID ()
 
 function phpAds_Login()
 {
-	global $phpAds_tbl_clients;
+	global $phpAds_config;
 	global $phpAds_username, $phpAds_password, $phpAds_cookiecheck;
 	global $strPasswordWrong;
 	global $SessionID;
@@ -179,7 +180,7 @@ function phpAds_Login()
 					permissions,
 					language
 				FROM
-					$phpAds_tbl_clients
+					".$phpAds_config['tbl_clients']."
 				WHERE
 					clientusername = '$phpAds_username'
 					AND clientpassword = '$phpAds_password'
@@ -242,9 +243,9 @@ function phpAds_SuppliedCredentials()
 
 function phpAds_isAdmin($username, $password)
 {
-	global $phpAds_admin, $phpAds_admin_pw;
+	global $phpAds_config;
 	
-	return ($username == $phpAds_admin && $password == $phpAds_admin_pw);
+	return ($username == $phpAds_config['admin'] && $password == $phpAds_config['admin_pw']);
 }
 
 

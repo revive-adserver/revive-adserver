@@ -40,7 +40,7 @@ if (phpAds_isUser(phpAds_Client))
 		SELECT
 			*
 		FROM
-			$phpAds_tbl_clients
+			".$phpAds_config['tbl_clients']."
 		WHERE
 			parent = ".$Session["clientID"]."
 		") or phpAds_sqlDie();
@@ -75,7 +75,7 @@ if (phpAds_isUser(phpAds_Admin))
 	SELECT
 		*
 	FROM
-		$phpAds_tbl_clients
+		".$phpAds_config['tbl_clients']."
 	WHERE
 		parent > 0
 	") or phpAds_sqlDie();
@@ -129,13 +129,14 @@ if (!isset($limit) || $limit=='') $limit = '7';
 
 
 // Get bannerID's for this client
-$idresult = phpAds_dbQuery (" SELECT
-						bannerID
-					  FROM
-					  	$phpAds_tbl_banners
-					  WHERE
-						clientID = $campaignID
-					");
+$idresult = phpAds_dbQuery (" 
+	SELECT
+		bannerID
+	FROM
+		".$phpAds_config['tbl_banners']."
+	WHERE
+		clientID = $campaignID
+");
 
 while ($row = phpAds_dbFetchArray($idresult))
 {
@@ -143,7 +144,7 @@ while ($row = phpAds_dbFetchArray($idresult))
 }
 
 
-if ($phpAds_compact_stats) 
+if ($phpAds_config['compact_stats']) 
 {
 	$result = phpAds_dbQuery(" SELECT
 							*,
@@ -151,7 +152,7 @@ if ($phpAds_compact_stats)
 							sum(clicks) as sum_clicks,
 							DATE_FORMAT(day, '$date_format') as t_stamp_f
 				 		 FROM
-							$phpAds_tbl_adstats
+							".$phpAds_config['tbl_adstats']."
 						 WHERE
 							(".implode(' OR ', $bannerIDs).")
 						 GROUP BY
@@ -174,7 +175,7 @@ else
 							DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
 							DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
 				 		 FROM
-							$phpAds_tbl_adviews
+							".$phpAds_config['tbl_adviews']."
 						 WHERE
 							(".implode(' OR ', $bannerIDs).")
 						 GROUP BY
@@ -197,7 +198,7 @@ else
 							DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
 							DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
 				 		 FROM
-							$phpAds_tbl_adclicks
+							".$phpAds_config['tbl_adclicks']."
 						 WHERE
 							(".implode(' OR ', $bannerIDs).")
 						 GROUP BY
@@ -292,8 +293,8 @@ if ($totalviews > 0 || $totalclicks > 0)
 	
 	echo "<tr>";
 	echo "<td height='25'>&nbsp;<b>$strAverage</b></td>";
-	echo "<td height='25'>".number_format (($totalviews / $d), $phpAds_percentage_decimals)."</td>";
-	echo "<td height='25'>".number_format (($totalclicks / $d), $phpAds_percentage_decimals)."</td>";
+	echo "<td height='25'>".number_format (($totalviews / $d), $phpAds_config['percentage_decimals'])."</td>";
+	echo "<td height='25'>".number_format (($totalclicks / $d), $phpAds_config['percentage_decimals'])."</td>";
 	echo "<td height='25'>&nbsp;</td>";
 	echo "</tr>";
 	

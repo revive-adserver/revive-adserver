@@ -50,25 +50,24 @@ function Plugin_CampaignhistoryInfo()
 
 function Plugin_CampaignhistoryExecute($campaignID, $delimiter=",")
 {
-	global $phpAds_tbl_banners, $phpAds_tbl_adstats, $phpAds_tbl_adviews, $phpAds_tbl_adclicks;
-	global $phpAds_compact_stats;
+	global $phpAds_config;
 	
 	header ("Content-type: application/csv\nContent-Disposition: \"inline; filename=campaignhistory.csv\"");
 	
-	if ($phpAds_compact_stats)
+	if ($phpAds_config['compact_stats'])
 	{
 		$res_query = "
 			SELECT
-				$phpAds_tbl_adstats.day as day,
-				sum($phpAds_tbl_adstats.views) as adviews,
-				sum($phpAds_tbl_adstats.clicks) as adclicks
+				".$phpAds_config['tbl_adstats'].".day AS day,
+				SUM(".$phpAds_config['tbl_adstats'].".views) AS adviews,
+				SUM(".$phpAds_config['tbl_adstats'].".clicks) AS adclicks
 			FROM
-				$phpAds_tbl_banners
-				LEFT JOIN $phpAds_tbl_adstats USING (bannerID)
+				".$phpAds_config['tbl_banners']."
+				LEFT JOIN ".$phpAds_config['tbl_adstats']." USING (bannerID)
 			WHERE
-				$phpAds_tbl_banners.clientID = $campaignID
+				".$phpAds_config['tbl_banners'].".clientID = $campaignID
 			GROUP BY
-				$phpAds_tbl_adstats.day
+				".$phpAds_config['tbl_adstats'].".day
 			";
 		
 		$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
@@ -83,13 +82,13 @@ function Plugin_CampaignhistoryExecute($campaignID, $delimiter=",")
 	{
 		$res_query = "
 			SELECT
-				DATE_FORMAT($phpAds_tbl_adviews.t_stamp, '%Y-%m-%d') as day,
-				count($phpAds_tbl_adviews.bannerID) as adviews
+				DATE_FORMAT(".$phpAds_config['tbl_adviews'].".t_stamp, '%Y-%m-%d') as day,
+				count(".$phpAds_config['tbl_adviews'].".bannerID) as adviews
 			FROM
-				$phpAds_tbl_banners
-				LEFT JOIN $phpAds_tbl_adviews USING (bannerID)
+				".$phpAds_config['tbl_banners']."
+				LEFT JOIN ".$phpAds_config['tbl_adviews']." USING (bannerID)
 			WHERE
-				$phpAds_tbl_banners.clientID = $campaignID
+				".$phpAds_config['tbl_banners'].".clientID = $campaignID
 			GROUP BY
 				day
 			";
@@ -104,13 +103,13 @@ function Plugin_CampaignhistoryExecute($campaignID, $delimiter=",")
 		
 		$res_query = "
 			SELECT
-				DATE_FORMAT($phpAds_tbl_adclicks.t_stamp, '%Y-%m-%d') as day,
-				count($phpAds_tbl_adclicks.bannerID) as adclicks
+				DATE_FORMAT(".$phpAds_config['tbl_adclicks'].".t_stamp, '%Y-%m-%d') as day,
+				count(".$phpAds_config['tbl_adclicks'].".bannerID) as adclicks
 			FROM
-				$phpAds_tbl_banners
-				LEFT JOIN $phpAds_tbl_adclicks USING (bannerID)
+				".$phpAds_config['tbl_banners']."
+				LEFT JOIN ".$phpAds_config['tbl_adclicks']." USING (bannerID)
 			WHERE
-				$phpAds_tbl_banners.clientID = $campaignID
+				".$phpAds_config['tbl_banners'].".clientID = $campaignID
 			GROUP BY
 				day
 			";

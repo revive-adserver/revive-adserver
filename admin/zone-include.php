@@ -49,7 +49,7 @@ if (isset($submit))
 		
 		$res = phpAds_dbQuery("
 			UPDATE
-				$phpAds_tbl_zones
+				".$phpAds_config['tbl_zones']."
 			SET
 				what = '$what',
 				zonetype = $zonetype
@@ -78,7 +78,7 @@ if (phpAds_isUser(phpAds_Admin))
 		SELECT
 			*
 		FROM
-			$phpAds_tbl_zones
+			".$phpAds_config['tbl_zones']."
 		") or phpAds_sqlDie();
 	
 	$extra = "";
@@ -108,8 +108,9 @@ if (phpAds_isUser(phpAds_Admin))
 
 function phpAds_showZoneBanners ($width, $height, $what)
 {
-	global $strName, $strID, $phpAds_percentage_decimals, $strUntitled;
-	global $phpAds_tbl_banners, $strEdit;
+	global $phpAds_config;
+	global $strName, $strID, $strUntitled;
+	global $strEdit;
 	
 	
 	$what_array = explode(",",$what);
@@ -126,7 +127,7 @@ function phpAds_showZoneBanners ($width, $height, $what)
 		SELECT
 			*
 		FROM
-			$phpAds_tbl_banners
+			".$phpAds_config['tbl_banners']."
 		";
 	
 	if ($width != -1 && $height != -1)
@@ -141,8 +142,6 @@ function phpAds_showZoneBanners ($width, $height, $what)
 			bannerID";
 		
 	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
-	
-	//echo "<span style='width:350; height:250; overflow: scroll; overflow-x:hidden;'>";
 	
 	
 	// Header
@@ -232,7 +231,6 @@ function phpAds_showZoneBanners ($width, $height, $what)
 	
 	echo "</table>";
 	
-	//echo "</span>";
 }
 
 
@@ -298,7 +296,7 @@ if (isset($zoneid) && $zoneid != '')
 		SELECT
 			*
 		FROM
-			$phpAds_tbl_zones
+			".$phpAds_config['tbl_zones']."
 		WHERE
 			zoneid = $zoneid
 		") or phpAds_sqlDie();

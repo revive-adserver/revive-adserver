@@ -38,7 +38,7 @@ if (phpAds_isUser(phpAds_Client))
 			SELECT
 				clientID
 			FROM
-				$phpAds_tbl_banners
+				".$phpAds_config['tbl_banners']."
 			WHERE
 				bannerID = $which
 			") or phpAds_sqlDie();
@@ -66,7 +66,7 @@ if (phpAds_isUser(phpAds_Client))
 		SELECT
 			*
 		FROM
-			$phpAds_tbl_clients
+			".$phpAds_config['tbl_clients']."
 		WHERE
 			parent = ".phpAds_getParentID ($campaignID)."
 		") or phpAds_sqlDie();
@@ -103,7 +103,7 @@ if (phpAds_isUser(phpAds_Admin))
 		SELECT
 			*
 		FROM
-			$phpAds_tbl_clients
+			".$phpAds_config['tbl_clients']."
 		WHERE
 			parent > 0
 		") or phpAds_sqlDie();
@@ -168,7 +168,7 @@ $res = phpAds_dbQuery("
 	SELECT
 		count(*) as count
 	FROM
-		$phpAds_tbl_banners  
+		".$phpAds_config['tbl_banners']."
 	$clientwhere
 ") or phpAds_sqlDie();
 $row = phpAds_dbFetchArray($res);

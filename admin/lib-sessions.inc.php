@@ -20,19 +20,20 @@
 
 function phpAds_SessionDataFetch()
 {
-	global $SessionID, $Session, $phpAds_tbl_session;
+	global $phpAds_config;
+	global $SessionID, $Session;
 	
 	if(isset($SessionID) && !empty($SessionID))
 	{
-		$result = phpAds_dbQuery("SELECT SessionData FROM $phpAds_tbl_session WHERE SessionID='$SessionID'" .
-					 	   " AND UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(LastUsed) < 3600") or phpAds_sqlDie();
+		$result = phpAds_dbQuery("SELECT SessionData FROM ".$phpAds_config['tbl_session']." WHERE SessionID='$SessionID'" .
+					 	         " AND UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(LastUsed) < 3600") or phpAds_sqlDie();
 		
 		if($row = phpAds_dbFetchArray($result))
 		{
 			$Session = unserialize(stripslashes($row[0]));
 			
 			// Reset LastUsed, prevent from timing out
-			phpAds_dbQuery("UPDATE $phpAds_tbl_session SET LastUsed = NOW() WHERE SessionID = '$SessionID'") or phpAds_sqlDie();
+			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_session']." SET LastUsed = NOW() WHERE SessionID = '$SessionID'") or phpAds_sqlDie();
 		}
 	}
 	else
@@ -102,16 +103,17 @@ function phpAds_SessionDataRegister($key, $value='')
 
 function phpAds_SessionDataStore()
 {
-	global $SessionID, $Session, $phpAds_tbl_session;
+	global $phpAds_config;
+	global $SessionID, $Session;
 	
 	if(isset($SessionID))
-		phpAds_dbQuery("REPLACE INTO $phpAds_tbl_session VALUES ('$SessionID', '" .
-		AddSlashes(serialize($Session)) . "', null )") or phpAds_sqlDie();
+		phpAds_dbQuery("REPLACE INTO ".$phpAds_config['tbl_session']." VALUES ('$SessionID', '" .
+					   AddSlashes(serialize($Session)) . "', null )") or phpAds_sqlDie();
 	
 	// Randomly purge old sessions
 	srand((double)microtime()*1000000);
 	if(rand(1, 100) == 42)	
-		phpAds_dbQuery("DELETE FROM $phpAds_tbl_session WHERE UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(LastUsed) > 43200") or phpAds_sqlDie();
+		phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_session']." WHERE UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(LastUsed) > 43200") or phpAds_sqlDie();
 }
 
 
@@ -122,10 +124,11 @@ function phpAds_SessionDataStore()
 
 function phpAds_SessionDataDestroy()
 {
-	global $SessionID, $Session, $phpAds_tbl_session;
+	global $phpAds_config;
+	global $SessionID, $Session;
 	
 	// Remove the session data from the database
-	phpAds_dbQuery("DELETE FROM $phpAds_tbl_session WHERE SessionID='$SessionID'") or phpAds_sqlDie();
+	phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_session']." WHERE SessionID='$SessionID'") or phpAds_sqlDie();
 	
 	// Kill the cookie containing the session ID
 	SetCookie("SessionID", "");

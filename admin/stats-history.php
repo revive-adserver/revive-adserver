@@ -57,23 +57,23 @@ echo "<br><br>";
 if (!isset($limit) || $limit=='') $limit = '7';
 
 
-if ($phpAds_compact_stats) 
+if ($phpAds_config['compact_stats']) 
 {
-	$result = phpAds_dbQuery(" SELECT
-							*,
-							sum(views) as sum_views,
-							sum(clicks) as sum_clicks,
-							DATE_FORMAT(day, '$date_format') as t_stamp_f
-				 		 FROM
-							$phpAds_tbl_adstats
-						 GROUP BY
-						 	day
-						 ORDER BY
-							day DESC
-						 LIMIT $limit 
-			  ") or phpAds_sqlDie();
+	$result = phpAds_dbQuery("
+		SELECT
+			*,
+			sum(views) as sum_views,
+			sum(clicks) as sum_clicks,
+			DATE_FORMAT(day, '$date_format') as t_stamp_f
+		FROM
+			".$phpAds_config['tbl_adstats']."
+		GROUP BY
+			day
+		ORDER BY
+			day DESC
+		LIMIT $limit 
+	") or phpAds_sqlDie();
 	
-	//phpAds_sqlDie();
 	while ($row = phpAds_dbFetchArray($result))
 	{
 		$stats[$row['day']] = $row;
@@ -86,7 +86,7 @@ else
 							DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
 							DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
 				 		 FROM
-							$phpAds_tbl_adviews
+							".$phpAds_config['tbl_adviews']."
 						 GROUP BY
 						    day
 						 ORDER BY
@@ -107,7 +107,7 @@ else
 							DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
 							DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
 				 		 FROM
-							$phpAds_tbl_adclicks
+							".$phpAds_config['tbl_adclicks']."
 						 GROUP BY
 						    day
 						 ORDER BY
@@ -200,8 +200,8 @@ if ($totalviews > 0 || $totalclicks > 0)
 	
 	echo "<tr>";
 	echo "<td height='25'>&nbsp;<b>$strAverage</b></td>";
-	echo "<td height='25'>".number_format (($totalviews / $d), $phpAds_percentage_decimals)."</td>";
-	echo "<td height='25'>".number_format (($totalclicks / $d), $phpAds_percentage_decimals)."</td>";
+	echo "<td height='25'>".number_format (($totalviews / $d), $phpAds_config['percentage_decimals'])."</td>";
+	echo "<td height='25'>".number_format (($totalclicks / $d), $phpAds_config['percentage_decimals'])."</td>";
 	echo "<td height='25'>&nbsp;</td>";
 	echo "</tr>";
 	

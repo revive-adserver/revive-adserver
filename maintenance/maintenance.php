@@ -29,7 +29,7 @@ if (!get_cfg_var ('safe_mode'))
 
 
 // Load language strings
-require("../language/$phpAds_language.inc.php");
+require("../language/".$phpAds_config['language'].".inc.php");
 
 
 // Make database connection

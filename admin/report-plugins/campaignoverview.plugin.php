@@ -50,27 +50,26 @@ function Plugin_CampaignoverviewInfo()
 
 function Plugin_CampaignoverviewExecute($campaignID, $delimiter=",")
 {
-	global $phpAds_tbl_banners, $phpAds_tbl_adstats, $phpAds_tbl_adviews, $phpAds_tbl_adclicks;
-	global $phpAds_compact_stats;
+	global $phpAds_config;
 	
 	header ("Content-type: application/csv\nContent-Disposition: \"inline; filename=campaignoverview.csv\"");
 	
-	if ($phpAds_compact_stats)
+	if ($phpAds_config['compact_stats'])
 	{
 		$res_query = "
 			SELECT
-				$phpAds_tbl_banners.bannerID as bannerID,
-				$phpAds_tbl_banners.description as description, 
-				$phpAds_tbl_banners.alt as alt,
-				sum($phpAds_tbl_adstats.views) as adviews,
-				sum($phpAds_tbl_adstats.clicks) as adclicks
+				".$phpAds_config['tbl_banners'].".bannerID as bannerID,
+				".$phpAds_config['tbl_banners'].".description as description, 
+				".$phpAds_config['tbl_banners'].".alt as alt,
+				sum(".$phpAds_config['tbl_adstats'].".views) as adviews,
+				sum(".$phpAds_config['tbl_adstats'].".clicks) as adclicks
 			FROM
-				$phpAds_tbl_banners
-				LEFT JOIN $phpAds_tbl_adstats USING (bannerID)
+				".$phpAds_config['tbl_banners']."
+				LEFT JOIN ".$phpAds_config['tbl_adstats']." USING (bannerID)
 			WHERE
-				$phpAds_tbl_banners.clientID = $campaignID
+				".$phpAds_config['tbl_banners'].".clientID = $campaignID
 			GROUP BY
-				$phpAds_tbl_banners.bannerID
+				".$phpAds_config['tbl_banners'].".bannerID
 			";
 		
 		$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
@@ -87,17 +86,17 @@ function Plugin_CampaignoverviewExecute($campaignID, $delimiter=",")
 	{
 		$res_query = "
 			SELECT
-				$phpAds_tbl_banners.bannerID as bannerID,
-				$phpAds_tbl_banners.description as description, 
-				$phpAds_tbl_banners.alt as alt,
-				count($phpAds_tbl_adviews.bannerID) as adviews
+				".$phpAds_config['tbl_banners'].".bannerID as bannerID,
+				".$phpAds_config['tbl_banners'].".description as description, 
+				".$phpAds_config['tbl_banners'].".alt as alt,
+				count(".$phpAds_config['tbl_adviews'].".bannerID) as adviews
 			FROM
-				$phpAds_tbl_banners
-				LEFT JOIN $phpAds_tbl_adviews USING (bannerID)
+				".$phpAds_config['tbl_banners']."
+				LEFT JOIN ".$phpAds_config['tbl_adviews']." USING (bannerID)
 			WHERE
-				$phpAds_tbl_banners.clientID = $campaignID
+				".$phpAds_config['tbl_banners'].".clientID = $campaignID
 			GROUP BY
-				$phpAds_tbl_banners.bannerID
+				".$phpAds_config['tbl_banners'].".bannerID
 			";
 		
 		$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
@@ -111,17 +110,17 @@ function Plugin_CampaignoverviewExecute($campaignID, $delimiter=",")
 		
 		$res_query = "
 			SELECT
-				$phpAds_tbl_banners.bannerID as bannerID,
-				$phpAds_tbl_banners.description as description, 
-				$phpAds_tbl_banners.alt as alt,
-				count($phpAds_tbl_adclicks.bannerID) as adclicks
+				".$phpAds_config['tbl_banners'].".bannerID as bannerID,
+				".$phpAds_config['tbl_banners'].".description as description, 
+				".$phpAds_config['tbl_banners'].".alt as alt,
+				count(".$phpAds_config['tbl_adclicks'].".bannerID) as adclicks
 			FROM
-				$phpAds_tbl_banners
-				LEFT JOIN $phpAds_tbl_adclicks USING (bannerID)
+				".$phpAds_config['tbl_banners']."
+				LEFT JOIN ".$phpAds_config['tbl_adclicks']." USING (bannerID)
 			WHERE
-				$phpAds_tbl_banners.clientID = $campaignID
+				".$phpAds_config['tbl_banners'].".clientID = $campaignID
 			GROUP BY
-				$phpAds_tbl_banners.bannerID
+				".$phpAds_config['tbl_banners'].".bannerID
 			";
 		
 		$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();

@@ -40,7 +40,7 @@ else
 	    'value2' => $GLOBALS['strClicks']);
 
 
-if ($phpAds_compact_stats) {
+if ($phpAds_config['compact_stats']) {
     // Get totals from compact stats
     $query="
     	SELECT 

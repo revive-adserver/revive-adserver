@@ -20,33 +20,32 @@
 
 function phpAds_logClick($bannerID, $host)
 {
-    global $phpAds_compact_stats, $phpAds_tbl_adstats, $phpAds_insert_delayed;
-    global $phpAds_tbl_adclicks;
+	global $phpAds_config;
 	
-    if ($phpAds_compact_stats)
+    if ($phpAds_config['compact_stats'])
     {
         $result = phpAds_dbQuery(sprintf("
             UPDATE %s
-                $phpAds_tbl_adstats
+                ".$phpAds_config['tbl_adstats']."
             SET
                 clicks=clicks+1
             WHERE
                 bannerID = '$bannerID' &&
                 day = now()
-            ", $phpAds_insert_delayed ? "LOW_PRIORITY": ""));
+            ", $phpAds_config['insert_delayed'] ? "LOW_PRIORITY": ""));
 		
         // If row didn't exist.  Create it.
         if (phpAds_dbAffectedRows($result) == 0) 
         {
             $result = phpAds_dbQuery(sprintf("
                 INSERT %s INTO 
-                    $phpAds_tbl_adstats
+                    ".$phpAds_config['tbl_adstats']."
                 SET
                     clicks=1,
                     views=0,
                     day = now(),
                     bannerID = '$bannerID'
-                ", $phpAds_insert_delayed ? "DELAYED": ""));
+                ", $phpAds_config['insert_delayed'] ? "DELAYED": ""));
         }
         return $result;
     }
@@ -56,12 +55,12 @@ function phpAds_logClick($bannerID, $host)
     return phpAds_dbQuery(sprintf("
         INSERT %s
         INTO
-            $phpAds_tbl_adclicks
+            ".$phpAds_config['tbl_adclicks']."
         VALUES (
             '$bannerID',
             null,
             '$host'
-        )", $phpAds_insert_delayed ? "DELAYED": ""));
+        )", $phpAds_config['insert_delayed'] ? "DELAYED": ""));
 }
 
 
@@ -72,33 +71,32 @@ function phpAds_logClick($bannerID, $host)
 
 function phpAds_logView($bannerID, $host)
 {
-    global $phpAds_compact_stats, $phpAds_tbl_adstats, $phpAds_insert_delayed;
-    global $phpAds_tbl_adviews;
+	global $phpAds_config;
     
-    if ($phpAds_compact_stats)
+    if ($phpAds_config['compact_stats'])
     {
         $result = phpAds_dbQuery(sprintf("
             UPDATE %s
-                $phpAds_tbl_adstats
+                ".$phpAds_config['tbl_adstats']."
             SET
                 views=views+1
             WHERE
                 bannerID = '$bannerID' &&
                 day = now()
-            ", $phpAds_insert_delayed ? "LOW_PRIORITY": ""));
+            ", $phpAds_config['insert_delayed'] ? "LOW_PRIORITY": ""));
 		
         // If row didn't exist.  Create it.
         if (phpAds_dbAffectedRows($result) == 0) 
         {
             $result = phpAds_dbQuery(sprintf("
                 INSERT %s INTO 
-                    $phpAds_tbl_adstats
+                    ".$phpAds_config['tbl_adstats']."
                 SET
                     clicks=0,
                     views=1,
                     day=now(),
                     bannerID = '$bannerID'
-                ", $phpAds_insert_delayed ? "DELAYED": ""));
+                ", $phpAds_config['insert_delayed'] ? "DELAYED": ""));
         }
         return $result;
     }
@@ -108,12 +106,12 @@ function phpAds_logView($bannerID, $host)
     return phpAds_dbQuery(sprintf("
         INSERT %s
         INTO
-            $phpAds_tbl_adviews
+            ".$phpAds_config['tbl_adviews']."
         VALUES (
             '$bannerID',
             null,
             '$host'
-        )", $phpAds_insert_delayed ? "DELAYED": ""));
+        )", $phpAds_config['insert_delayed'] ? "DELAYED": ""));
 }
 
 
@@ -132,7 +130,7 @@ function phpAds_logView($bannerID, $host)
 
 function phpAds_getClientInformation()
 {
-	global $phpAds_proxy_lookup;
+	global $phpAds_config;
 	
 	
 	// Get host address and host name
@@ -140,12 +138,12 @@ function phpAds_getClientInformation()
 	$host = isset ($GLOBALS['REMOTE_HOST']) ? $GLOBALS['REMOTE_HOST'] : '';
 	
 	// Lookup host name if needed
-	if ($host == '' && $phpAds_reverse_lookup)
+	if ($host == '' && $phpAds_config['reverse_lookup'])
 		$host = @gethostbyaddr ($addr);
 	else
 		$host = $addr;
 	
-	if ($phpAds_proxy_lookup)
+	if ($phpAds_config['proxy_lookup'])
 	{
 		// Check for proxyserver
 		$proxy = false;
@@ -160,7 +158,7 @@ function phpAds_getClientInformation()
 			if (isset($GLOBALS['HTTP_FORWARDED']) && 		$GLOBALS['HTTP_FORWARDED'] != '') 		$client = $GLOBALS['HTTP_FORWARDED'];
 			if (isset($GLOBALS['HTTP_FORWARDED_FOR']) &&	$GLOBALS['HTTP_FORWARDED_FOR'] != '') 	$client = $GLOBALS['HTTP_FORWARDED_FOR'];
 			if (isset($GLOBALS['HTTP_X_FORWARDED']) &&		$GLOBALS['HTTP_X_FORWARDED'] != '') 	$client = $GLOBALS['HTTP_X_FORWARDED'];
-			if (isset($GLOBALS['HTTP_X_FORWARDED_FOR']) &&	$GLOBALS['HTTP_X_FORWARDED_FOR'] != '') 	$client = $GLOBALS['HTTP_X_FORWARDED_FOR'];
+			if (isset($GLOBALS['HTTP_X_FORWARDED_FOR']) &&	$GLOBALS['HTTP_X_FORWARDED_FOR'] != '')	$client = $GLOBALS['HTTP_X_FORWARDED_FOR'];
 			if (isset($GLOBALS['HTTP_CLIENT_IP']) &&		$GLOBALS['HTTP_CLIENT_IP'] != '') 		$client = $GLOBALS['HTTP_CLIENT_IP'];
 			
 			// Get last item from list
@@ -172,7 +170,7 @@ function phpAds_getClientInformation()
 				$addr = $client;
 				
 				// Perform reverse lookup if needed
-				if ($phpAds_reverse_lookup)
+				if ($phpAds_config['reverse_lookup'])
 					$host = @gethostbyaddr ($addr);
 				else
 					$host = $addr;
@@ -190,12 +188,13 @@ function phpAds_getClientInformation()
 
 function phpads_ignore_host()
 {
-	global $phpAds_ignore_hosts, $phpAds_reverse_lookup, $REMOTE_HOST, $REMOTE_ADDR;
+	global $phpAds_config;
+	global $REMOTE_HOST, $REMOTE_ADDR;
 	
 	list ($addr, $host) = phpAds_getClientInformation();
 	$found=0;
 	
-	while (($found == 0) && (list (, $h)=each($phpAds_ignore_hosts)))
+	while (($found == 0) && (list (, $h) = each($phpAds_config['ignore_hosts'])))
 	{
 		if (ereg("^([0-9]{1,3}\.){1,3}([0-9]{1,3}|\*)$", $h))
 		{

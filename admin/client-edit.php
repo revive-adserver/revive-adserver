@@ -59,13 +59,14 @@ if (isset($submit))
 		{
 			if ($clientID == '')
 			{
-				$res = phpAds_dbQuery("SELECT
-								 	*
-							 	  FROM
-								 	$phpAds_tbl_clients
-								  WHERE
-								 	clientusername = '$clientusername'
-								") or phpAds_sqlDie(); 
+				$res = phpAds_dbQuery("
+					SELECT
+						*
+					FROM
+						".$phpAds_config['tbl_clients']."
+					WHERE
+						clientusername = '$clientusername'
+				") or phpAds_sqlDie(); 
 				
 				if (phpAds_dbNumRows($res) > 0)
 				{
@@ -78,16 +79,17 @@ if (isset($submit))
 			}
 			else
 			{
-				$res = phpAds_dbQuery("SELECT
-								 	*
-							 	  FROM
-								 	$phpAds_tbl_clients
-								  WHERE
-								 	clientusername = '$clientusername' AND
-									clientID != '$clientID'
-								") or phpAds_sqlDie(); 
+				$res = phpAds_dbQuery("
+					SELECT
+						*
+					FROM
+						".$phpAds_config['tbl_clients']."
+					WHERE
+						clientusername = '$clientusername' AND
+						clientID != '$clientID'
+					") or phpAds_sqlDie(); 
 				
-				if (phpAds_dbNumRows($res) > 0 || $phpAds_admin == $clientusername)
+				if (phpAds_dbNumRows($res) > 0 || $phpAds_config['admin'] == $clientusername)
 				{
 					$error = true;
 					$errormessage = 'duplicateclientname';
@@ -126,7 +128,8 @@ if (isset($submit))
 		
 		$query = "
 			REPLACE INTO
-				$phpAds_tbl_clients(clientID,
+				".$phpAds_config['tbl_clients']."
+			   (clientID,
 				clientname,
 				contact,
 				email,
@@ -192,7 +195,7 @@ if (isset($submit))
 		$message = $strClientModified;
 		$res = phpAds_dbQuery("
 			UPDATE 
-				$phpAds_tbl_clients
+				".$phpAds_config['tbl_clients']."
 			SET
 				clientname = '$clientname',
 				contact = '$contact',
@@ -232,7 +235,7 @@ if ($clientID != "")
 			SELECT
 				*
 			FROM
-				$phpAds_tbl_clients
+				".$phpAds_config['tbl_clients']."
 			WHERE
 				parent = 0  
 			") or phpAds_sqlDie();
@@ -262,7 +265,7 @@ if ($clientID != "")
 		SELECT
 			*
 		FROM
-			$phpAds_tbl_clients
+			".$phpAds_config['tbl_clients']."
 		WHERE
 			clientID = $clientID
 		") or phpAds_sqlDie();
@@ -296,7 +299,19 @@ echo "<br><br>";
 
 ?>
 
-<form name="clientform" method="post" action="<?php echo basename($PHP_SELF);?>">
+
+<script language="JavaScript">
+<!--
+	function validate_form_client()
+	{
+		return validate_form('clientname','strClientName','R',
+							 'email','strEMail','NisEmail',
+							 'clientreportinterval', 'strNoDaysBetweenReports', 'NisNum');
+	}
+//-->
+</script>
+
+<form name="clientform" method="post" action="<?php echo basename($PHP_SELF);?>" onSubmit="return validate_form_client();">
 <input type="hidden" name="clientID" value="<?php if(isset($clientID)) echo $clientID;?>">
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>

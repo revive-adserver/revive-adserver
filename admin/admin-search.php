@@ -63,10 +63,10 @@ if ($compact == '')
 <!-- Top -->
 <table width='100%' border='0' cellspacing='0' cellpadding='0'>
 <?php
- 	if ($phpAds_name != "")
+ 	if ($phpAds_config['name'] != "")
 	{
 		echo "<tr><td colspan='2' height='48' bgcolor='#000063' valign='middle'>";
-		echo "<span class='phpAdsNew'>&nbsp;&nbsp;&nbsp;$phpAds_name &nbsp;&nbsp;&nbsp;</span>";
+		echo "<span class='phpAdsNew'>&nbsp;&nbsp;&nbsp;".$phpAds_config['name']." &nbsp;&nbsp;&nbsp;</span>";
 	}
 	else
 	{
@@ -138,16 +138,16 @@ if ($compact == '')
 <tr><td width='20'>&nbsp;</td><td>
 	
 <?php
-	$query_clients = "SELECT * FROM $phpAds_tbl_clients WHERE clientname LIKE '%".$keyword."%' AND parent = 0";
+	$query_clients = "SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE clientname LIKE '%".$keyword."%' AND parent = 0";
   	$res_clients = phpAds_dbQuery($query_clients) or phpAds_sqlDie();
 	
-	$query_campaigns = "SELECT * FROM $phpAds_tbl_clients WHERE clientname LIKE '%".$keyword."%' AND parent > 0";
+	$query_campaigns = "SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE clientname LIKE '%".$keyword."%' AND parent > 0";
   	$res_campaigns = phpAds_dbQuery($query_campaigns) or phpAds_sqlDie();
 	
-	$query_banners = "SELECT * FROM $phpAds_tbl_banners WHERE keyword LIKE '%".$keyword."%' OR alt LIKE '%".$keyword."%' OR description LIKE '%".$keyword."%'";
+	$query_banners = "SELECT * FROM ".$phpAds_config['tbl_banners']." WHERE keyword LIKE '%".$keyword."%' OR alt LIKE '%".$keyword."%' OR description LIKE '%".$keyword."%'";
   	$res_banners = phpAds_dbQuery($query_banners) or phpAds_sqlDie();
 	
-	$query_zones = "SELECT * FROM $phpAds_tbl_zones WHERE zonename LIKE '%".$keyword."%' OR description LIKE '%".$keyword."%'";
+	$query_zones = "SELECT * FROM ".$phpAds_config['tbl_zones']." WHERE zonename LIKE '%".$keyword."%' OR description LIKE '%".$keyword."%'";
   	$res_zones = phpAds_dbQuery($query_zones) or phpAds_sqlDie();
 	
 	
@@ -203,7 +203,7 @@ if ($compact == '')
 			
 			if (!$compact)
 			{
-				$query_c_expand = "SELECT * from $phpAds_tbl_clients where parent=".$row_clients['clientID'];
+				$query_c_expand = "SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE parent=".$row_clients['clientID'];
 	  			$res_c_expand = phpAds_dbQuery($query_c_expand) or phpAds_sqlDie();
 				
 				while ($row_c_expand = phpAds_dbFetchArray($res_c_expand))
@@ -236,7 +236,7 @@ if ($compact == '')
 					
 					
 					
-					$query_b_expand = "SELECT * from $phpAds_tbl_banners where clientID=".$row_c_expand['clientID'];
+					$query_b_expand = "SELECT * FROM ".$phpAds_config['tbl_banners']." WHERE clientID=".$row_c_expand['clientID'];
 		  			$res_b_expand = phpAds_dbQuery($query_b_expand) or phpAds_sqlDie();
 					
 					while ($row_b_expand = phpAds_dbFetchArray($res_b_expand))
@@ -277,7 +277,7 @@ if ($compact == '')
 					   	
 						// Empty
 						echo "<td height='25'>";
-						if ($phpAds_acl == '1')
+						if ($phpAds_config['acl'])
 							echo "<a href='JavaScript:GoOpener(\"banner-acl.php?bannerID=".$row_b_expand['bannerID']."&campaignID=".$row_b_expand['clientID']."\")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 						else
 							echo "&nbsp;";
@@ -327,7 +327,7 @@ if ($compact == '')
 			
 			if (!$compact)
 			{
-				$query_b_expand = "SELECT * from $phpAds_tbl_banners where clientID=".$row_campaigns['clientID'];
+				$query_b_expand = "SELECT * FROM ".$phpAds_config['tbl_banners']." WHERE clientID=".$row_campaigns['clientID'];
 	  			$res_b_expand = phpAds_dbQuery($query_b_expand) or phpAds_sqlDie();
 				
 				while ($row_b_expand = phpAds_dbFetchArray($res_b_expand))
@@ -368,7 +368,7 @@ if ($compact == '')
 				   	
 					// Empty
 					echo "<td height='25'>";
-					if ($phpAds_acl == '1')
+					if ($phpAds_config['acl'])
 						echo "<a href='JavaScript:GoOpener(\"banner-acl.php?bannerID=".$row_b_expand['bannerID']."&campaignID=".$row_b_expand['clientID']."\")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 					else
 						echo "&nbsp;";
@@ -425,7 +425,7 @@ if ($compact == '')
 		   	
 			// Empty
 			echo "<td height='25'>";
-			if ($phpAds_acl == '1')
+			if ($phpAds_config['acl'])
 				echo "<a href='JavaScript:GoOpener(\"banner-acl.php?bannerID=".$row_banners['bannerID']."&campaignID=".$row_banners['clientID']."\")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 			else
 				echo "&nbsp;";

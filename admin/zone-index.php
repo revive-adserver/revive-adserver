@@ -49,7 +49,7 @@ $res_zones = phpAds_dbQuery("
 		SELECT 
 			*
 		FROM 
-			".$phpAds_tbl_zones."
+			".$phpAds_config['tbl_zones']."
 		".phpAds_getZoneListOrder ($listorder, $orderdirection)."
 		") or phpAds_sqlDie();
 
@@ -196,7 +196,7 @@ else
 {
 	$stats['cachetimestamp'] = time() - round ($stats['cachetimestamp'] / $stats['cachedzones']);
 	
-	if ($stats['cachetimestamp'] > $phpAds_zone_cache_limit)
+	if ($stats['cachetimestamp'] > $phpAds_config['zone_cache_limit'])
 		$stats['cachetimestamp'] = $strExpired;
 	else
 		$stats['cachetimestamp'] .= ' '.$strSeconds;
@@ -207,7 +207,7 @@ echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding=
 echo "<tr><td height='25' colspan='3'><b>".$strOverall."</b></td></tr>";
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 
-if (!$phpAds_zone_cache)
+if (!$phpAds_config['zone_cache'])
 	echo "<tr><td height='25'>".$strZoneCacheOff."</b></td></tr>";
 else
 {
@@ -222,7 +222,7 @@ else
 
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 
-if ($phpAds_zone_cache)
+if ($phpAds_config['zone_cache'])
 {
 	echo "<tr height='25'><td colspan='3' height='25'>";
 	echo "<img src='images/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='zone-rebuildcache.php'>$strRebuildZoneCache</a>&nbsp;&nbsp;";

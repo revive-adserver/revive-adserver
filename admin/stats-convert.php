@@ -52,8 +52,8 @@ if ($command == 'top')
 	echo "<body bgcolor='#000063'>";
 	echo "<table width='100%' height='100%' cellpadding='0' cellspacing='0' border='0'>";
 	
-	if ($phpAds_name != "")
-		echo "<tr><td valign='middle'><span class='phpAdsNew'>&nbsp;$phpAds_name</span></td></tr>";
+	if ($phpAds_config['name'] != "")
+		echo "<tr><td valign='middle'><span class='phpAdsNew'>&nbsp;".$phpAds_config['name']."</span></td></tr>";
 	else
 		echo "<tr><td valign='bottom'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/logo.gif' width='163' height='34' vspace='2'></td></tr>";
 	
@@ -77,13 +77,13 @@ if ($command == 'start')
 	
 	echo "<tr><td><img src='images/spacer.gif' width='30'></td><td>";
 	
-	if ($phpAds_compact_stats)
+	if ($phpAds_config['compact_stats'])
 	{
-		$viewresult = phpAds_dbQuery("SELECT COUNT(*) AS cnt FROM $phpAds_tbl_adviews");
+		$viewresult = phpAds_dbQuery("SELECT COUNT(*) AS cnt FROM ".$phpAds_config['tbl_adviews']);
 		$viewrow = phpAds_dbFetchArray($viewresult);
 		$verboseviews = $viewrow["cnt"];
 		
-		$clickresult = phpAds_dbQuery("SELECT COUNT(*) AS cnt FROM $phpAds_tbl_adclicks");
+		$clickresult = phpAds_dbQuery("SELECT COUNT(*) AS cnt FROM ".$phpAds_config['tbl_adclicks']);
 		$clickrow = phpAds_dbFetchArray($viewresult);
 		$verboseclicks = $clickrow["cnt"];
 		
@@ -130,7 +130,7 @@ if ($command == 'overview')
 		$day = array();
 		
 		// Get views
-		$overviewresult = phpAds_dbQuery("SELECT bannerid, count(*) as count, DATE_FORMAT(t_stamp, '$date_format') as date_f, DATE_FORMAT(t_stamp, '%Y-%m-%d') as date FROM $phpAds_tbl_adviews GROUP BY date, bannerid");
+		$overviewresult = phpAds_dbQuery("SELECT bannerid, count(*) as count, DATE_FORMAT(t_stamp, '$date_format') as date_f, DATE_FORMAT(t_stamp, '%Y-%m-%d') as date FROM ".$phpAds_config['tbl_adviews']." GROUP BY date, bannerid");
 		while ($overviewrow = phpAds_dbFetchArray($overviewresult))
 		{
 			$day[$overviewrow['date']][$overviewrow['bannerid']]['views'] = $overviewrow['count'];
@@ -138,7 +138,7 @@ if ($command == 'overview')
 		}
 		
 		// Get clicks
-		$overviewresult = phpAds_dbQuery("SELECT bannerid, count(*) as count, DATE_FORMAT(t_stamp, '$date_format') as date_f, DATE_FORMAT(t_stamp, '%Y-%m-%d') as date FROM $phpAds_tbl_adclicks GROUP BY date, bannerid");
+		$overviewresult = phpAds_dbQuery("SELECT bannerid, count(*) as count, DATE_FORMAT(t_stamp, '$date_format') as date_f, DATE_FORMAT(t_stamp, '%Y-%m-%d') as date FROM ".$phpAds_config['tbl_adclicks']." GROUP BY date, bannerid");
 		while ($overviewrow = phpAds_dbFetchArray($overviewresult))
 		{
 			$day[$overviewrow['date']][$overviewrow['bannerid']]['clicks'] = $overviewrow['count'];
@@ -256,14 +256,14 @@ if ($command == 'convert')
 				$day = substr($begintime, 0, 4)."-".substr($begintime, 4, 2)."-".substr($begintime, 6, 2);
 				
 				// Get views for this task
-				$countresult = phpAds_dbQuery("SELECT count(*) as count FROM $phpAds_tbl_adviews WHERE bannerID='$bannerID' AND t_stamp >= $begintime AND t_stamp < $endtime");
+				$countresult = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_adviews']." WHERE bannerID='$bannerID' AND t_stamp >= $begintime AND t_stamp < $endtime");
 				if ($countrow = phpAds_dbFetchArray($countresult))
 				{
 					$views = $countrow['count'];
 				}
 				
 				// Get clicks for this task
-				$countresult = phpAds_dbQuery("SELECT count(*) as count FROM $phpAds_tbl_adclicks WHERE bannerID='$bannerID' AND t_stamp >= $begintime AND t_stamp < $endtime"); 
+				$countresult = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_adclicks']." WHERE bannerID='$bannerID' AND t_stamp >= $begintime AND t_stamp < $endtime"); 
 				if ($countrow = phpAds_dbFetchArray($countresult))
 				{
 					$clicks = $countrow['count'];
@@ -273,13 +273,13 @@ if ($command == 'convert')
 				if ($clicks > 0 || $views > 0)
 				{
 					// Check for existing compact stats for this task
-					$checkresult = phpAds_dbQuery("SELECT count(*) as count FROM $phpAds_tbl_adstats WHERE day='$day' AND bannerID='$bannerID'");
+					$checkresult = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_adstats']." WHERE day='$day' AND bannerID='$bannerID'");
 					$checkrow = phpAds_dbFetchArray ($checkresult);
 					
 					if (isset($checkrow['count']) && $checkrow['count'] > 0)
 					{
 						// Add clicks / views to existing compact stats
-						$updateresult = phpAds_dbQuery("UPDATE $phpAds_tbl_adstats SET clicks=clicks+$clicks, views=views+$views WHERE day='$day' AND bannerID='$bannerID'");
+						$updateresult = phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_adstats']." SET clicks=clicks+$clicks, views=views+$views WHERE day='$day' AND bannerID='$bannerID'");
 						
 						if (phpAds_dbAffectedRows($updateresult) > 0)
 						{
@@ -293,7 +293,7 @@ if ($command == 'convert')
 					else
 					{
 						// Insert a new record to the compact stats
-						$updateresult = phpAds_dbQuery("INSERT INTO $phpAds_tbl_adstats SET bannerID='$bannerID', day='$day', clicks=$clicks, views=$views");
+						$updateresult = phpAds_dbQuery("INSERT INTO ".$phpAds_config['tbl_adstats']." SET bannerID='$bannerID', day='$day', clicks=$clicks, views=$views");
 						
 						if (phpAds_dbAffectedRows($updateresult) > 0)
 						{
@@ -347,7 +347,7 @@ if ($command == 'cleanup')
 	$error = true;
 	$status = array();
 	
-	$result = phpAds_dbQuery("select status, count(*) as count from phpadsconversiontemp group by status");
+	$result = phpAds_dbQuery("SELECT status, COUNT(*) AS count FROM phpadsconversiontemp GROUP BY status");
 	while ($row = phpAds_dbFetchArray($result))
 	{
 		$status[$row['status']] = $row['count'];
@@ -357,13 +357,13 @@ if ($command == 'cleanup')
 	{
 		// Only one type of status and status = finished
 		// Clean up whole table
-		phpAds_dbQuery("delete from $phpAds_tbl_adviews");
+		phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_adviews']);
 		phpAds_convertTableDrop();
 		$error = false;
 	}
 	elseif (sizeof($status) == 2 && isset ($status['finished']) && isset ($status['error']))
 	{
-		$result = phpAds_dbQuery("select * from phpadsconversiontemp where status='error'");
+		$result = phpAds_dbQuery("SELECT * FROM phpadsconversiontemp WHERE status='error'");
 		
 		$where = "";
 		

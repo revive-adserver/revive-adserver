@@ -50,7 +50,7 @@ if (isset($submit))
 	{
 		$res = phpAds_dbQuery("
 			UPDATE
-				".$phpAds_tbl_zones."
+				".$phpAds_config['tbl_zones']."
 			SET
 				zonename='".$zonename."',
 				description='".$description."',
@@ -70,7 +70,7 @@ if (isset($submit))
 	{
 		$res = phpAds_dbQuery("
 			INSERT INTO
-				".$phpAds_tbl_zones."
+				".$phpAds_config['tbl_zones']."
 				(
 				zonename,
 				description,
@@ -107,7 +107,7 @@ if ($zoneid != "")
 			SELECT
 				*
 			FROM
-				".$phpAds_tbl_zones."
+				".$phpAds_config['tbl_zones']."
 			") or phpAds_sqlDie();
 		
 		$extra = "";
@@ -145,7 +145,7 @@ if (isset($zoneid) && $zoneid != '')
 		SELECT
 			*
 		FROM
-			".$phpAds_tbl_zones."
+			".$phpAds_config['tbl_zones']."
 		WHERE
 			zoneid = ".$zoneid."
 		") or phpAds_sqlDie();

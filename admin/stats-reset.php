@@ -46,7 +46,7 @@ elseif (isset($campaignID) && $campaignID != '')
 	$idresult = phpAds_dbQuery(" SELECT
 								bannerID
 							  FROM
-							  	$phpAds_tbl_banners
+							  	".$phpAds_config['tbl_banners']."
 							  WHERE
 								clientID = $campaignID
 		  				 ");
@@ -67,14 +67,16 @@ elseif (isset($campaignID) && $campaignID != '')
 elseif (isset($clientID) && $clientID != '')
 {
 	// Get all banners for this client
-	$idresult = phpAds_dbQuery(" SELECT
-								$phpAds_tbl_banners.bannerID
-							  FROM
-							  	$phpAds_tbl_banners, $phpAds_tbl_clients
-							  WHERE
-							  	$phpAds_tbl_clients.parent = $clientID AND
-								$phpAds_tbl_clients.clientID = $phpAds_tbl_banners.clientID
-		  				 ");
+	$idresult = phpAds_dbQuery("
+		SELECT
+			b.bannerID
+		FROM
+			".$phpAds_config['tbl_banners']." AS b,
+			".$phpAds_config['tbl_clients']." AS c
+		WHERE
+			c.parent = $clientID AND
+			c.clientID = b.clientID
+	");
 	
 	// Loop to all banners for this client
 	while ($row = phpAds_dbFetchArray($idresult))
@@ -91,9 +93,9 @@ elseif (isset($clientID) && $clientID != '')
 // All
 elseif (isset($all) && $all == 'true')
 {
-    phpAds_dbQuery("DELETE FROM $phpAds_tbl_adviews") or phpAds_sqlDie();
-    phpAds_dbQuery("DELETE FROM $phpAds_tbl_adclicks") or phpAds_sqlDie();
-    phpAds_dbQuery("DELETE FROM $phpAds_tbl_adstats") or phpAds_sqlDie();
+    phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_adviews']) or phpAds_sqlDie();
+    phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_adclicks']) or phpAds_sqlDie();
+    phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_adstats']) or phpAds_sqlDie();
 	
 	// Return to campaign statistics
 	Header("Location: stats-index.php");

@@ -40,10 +40,10 @@ phpAds_ShowSections(array("4.1", "4.2", "4.3"));
 
 function phpAds_GenerateInvocationCode()
 {
+	global $phpAds_config;
 	global $codetype, $what, $clientID, $source, $target;
 	global $withText, $template, $refresh, $uniqueid;
 	global $width, $height;
-	global $phpAds_url_prefix;
 	
 	$buffer = '';
 	$parameters = array();
@@ -68,13 +68,13 @@ function phpAds_GenerateInvocationCode()
 		if (isset($uniqueid) && $uniqueid != '')
 			$parameters[] = "n=".$uniqueid;	
 		
-		$buffer .= "<a href='$phpAds_url_prefix/adclick.php";
+		$buffer .= "<a href='".$phpAds_config['url_prefix']."/adclick.php";
 		if (isset($uniqueid) & $uniqueid != '')
 			$buffer .= "?n=".$uniqueid;
 		$buffer .= "'";
 		if (isset($target) && $target != '')
 			$buffer .= " target='$target'";
-		$buffer .= "><img src='$phpAds_url_prefix/adview.php";
+		$buffer .= "><img src='".$phpAds_config['url_prefix']."/adview.php";
 		if (sizeof($parameters) > 0)
 			$buffer .= "?".implode ("&", $parameters);
 		$buffer .= "' border='0'></a>";
@@ -86,7 +86,7 @@ function phpAds_GenerateInvocationCode()
 		if (isset($withText) && $withText == '0')
 			$parameters[] = "withText=0";
 		
-		$buffer .= "<script language='JavaScript' src='$phpAds_url_prefix/adjs.php";
+		$buffer .= "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adjs.php";
 		if (sizeof($parameters) > 0)
 			$buffer .= "?".implode ("&", $parameters);
 		$buffer .= "'></script>";
@@ -98,7 +98,7 @@ function phpAds_GenerateInvocationCode()
 		if (isset($refresh) && $refresh != '')
 			$parameters[] = "refresh=".$refresh;
 		
-		$buffer .= "<iframe src='$phpAds_url_prefix/adframe.php";
+		$buffer .= "<iframe src='".$phpAds_config['url_prefix']."/adframe.php";
 		if (sizeof($parameters) > 0)
 			$buffer .= "?".implode ("&", $parameters);
 		$buffer .= "' framespacing='0' frameborder='no' scrolling='no'";
@@ -115,7 +115,7 @@ function phpAds_GenerateInvocationCode()
 		if (isset($refresh) && $refresh != '')
 			$parameters['tmp'] = "refresh=".$refresh;
 		
-		$buffer .= "<iframe src='$phpAds_url_prefix/adframe.php";
+		$buffer .= "<iframe src='".$phpAds_config['url_prefix']."/adframe.php";
 		if (sizeof($parameters) > 0)
 			$buffer .= "?".implode ("&", $parameters);
 		$buffer .= "' framespacing='0' frameborder='no' scrolling='no'";
@@ -132,7 +132,7 @@ function phpAds_GenerateInvocationCode()
 		else
 			unset ($parameters['tmp']);
 		
-		$buffer .= "<script language='JavaScript' src='$phpAds_url_prefix/adjs.php";
+		$buffer .= "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adjs.php";
 		if (sizeof($parameters) > 0)
 			$buffer .= "?".implode ("&", $parameters);
 		$buffer .= "'></script>";
@@ -143,13 +143,13 @@ function phpAds_GenerateInvocationCode()
 			$parameters['tmp'] = "n=".$uniqueid;	
 		
 		$buffer .= "<noscript>";
-		$buffer .= "<a href='$phpAds_url_prefix/adclick.php";
+		$buffer .= "<a href='".$phpAds_config['url_prefix']."/adclick.php";
 		if (isset($uniqueid) & $uniqueid != '')
 			$buffer .= "?n=".$uniqueid;
 		$buffer .= "'";
 		if (isset($target) && $target != '')
 			$buffer .= " target='$target'";
-		$buffer .= "><img src='$phpAds_url_prefix/adview.php";
+		$buffer .= "><img src='".$phpAds_config['url_prefix']."/adview.php";
 		if (sizeof($parameters) > 0)
 			$buffer .= "?".implode ("&", $parameters);
 		$buffer .= "' border='0'></a>";		
@@ -262,7 +262,7 @@ if (isset($show['clientID']) && $show['clientID'] == true)
 		SELECT
 			*
 		FROM
-			$phpAds_tbl_clients
+			".$phpAds_config['tbl_clients']."
 		");
 		
 		while ($row = phpAds_dbFetchArray($res))

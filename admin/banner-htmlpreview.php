@@ -28,7 +28,7 @@ $res = phpAds_dbQuery("
 	SELECT
 		*
 	FROM
-		$phpAds_tbl_banners
+		".$phpAds_config['tbl_banners']."
 	WHERE
 		bannerID = $bannerID
 	") or phpAds_sqlDie();

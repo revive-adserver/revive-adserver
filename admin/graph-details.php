@@ -34,7 +34,7 @@ else
 
 
 
-if ($phpAds_compact_stats) 
+if ($phpAds_config['compact_stats']) 
 {
     // Get totals from compact stats
 	$result = phpAds_dbQuery(
@@ -44,7 +44,7 @@ if ($phpAds_compact_stats)
 			clicks,
 			DATE_FORMAT(day, '$date_format') as t_stamp_f
 		 FROM
-			$phpAds_tbl_adstats
+			".$phpAds_config['tbl_adstats']."
 		 WHERE
 			bannerID = $bannerID
 		 ORDER BY
@@ -72,7 +72,7 @@ else
 							DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
 							DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
 				 		 FROM
-							$phpAds_tbl_adviews
+							".$phpAds_config['tbl_adviews']."
 						 WHERE
 							bannerID = $bannerID
 						 GROUP BY
@@ -95,7 +95,7 @@ else
 							DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
 							DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
 				 		 FROM
-							$phpAds_tbl_adclicks
+							".$phpAds_config['tbl_adclicks']."
 						 WHERE
 							bannerID = $bannerID
 						 GROUP BY

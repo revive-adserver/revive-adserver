@@ -27,26 +27,25 @@ if (!function_exists("ftp_connect"))
 
 function phpAds_Store ($localfile, $name)
 {
-	global $phpAds_type_web_mode, $phpAds_type_web_dir;
-	global $phpAds_type_web_ftp, $phpAds_type_web_url;
+	global $phpAds_config;
 	
 	$extension = substr($name, strrpos($name, ".") + 1);
 	$base	   = substr($name, 0, strrpos($name, "."));
 	
-	if ($phpAds_type_web_mode == "0")
+	if ($phpAds_config['type_web_mode'] == 0)
 	{
 		// Local mode
 		$name = phpAds_LocalUniqueName ($base, $extension);
 		
-		if (@copy ($localfile, $phpAds_type_web_dir."/".$name))
+		if (@copy ($localfile, $phpAds_config['type_web_dir']."/".$name))
 		{
-			$stored_url = $phpAds_type_web_url."/".$name;
+			$stored_url = $phpAds_config['type_web_url']."/".$name;
 		}
 	}
 	else
 	{
 		// FTP mode
-		$server = parse_url($phpAds_type_web_ftp);
+		$server = parse_url($phpAds_config['type_web_ftp']);
 		if ($server['path'] != "" && substr($server['path'], 0, 1) == "/") $server['path'] = substr ($server['path'], 1);
 		
 		if ($server['scheme'] == 'ftp')
@@ -72,20 +71,19 @@ function phpAds_Store ($localfile, $name)
 
 function phpAds_Cleanup ($name)
 {
-	global $phpAds_type_web_mode, $phpAds_type_web_dir;
-	global $phpAds_type_web_ftp, $phpAds_type_web_url;
+	global $phpAds_config;
 	
-	if ($phpAds_type_web_mode == "0")
+	if ($phpAds_config['type_web_mode'] == 0)
 	{
-		if (@file_exists($phpAds_type_web_dir."/".$name))
+		if (@file_exists($phpAds_config['type_web_dir']."/".$name))
 		{
-			@unlink ($phpAds_type_web_dir."/".$name);
+			@unlink ($phpAds_config['type_web_dir']."/".$name);
 		}
 	}
 	else
 	{
 		// FTP mode
-		$server = parse_url($phpAds_type_web_ftp);
+		$server = parse_url($phpAds_config['type_web_ftp']);
 		if ($server['path'] != "" && substr($server['path'], 0, 1) == "/") $server['path'] = substr ($server['path'], 1);
 		
 		if ($server['scheme'] == 'ftp')
@@ -106,7 +104,7 @@ function phpAds_Cleanup ($name)
 
 function phpAds_LocalUniqueName ($base, $extension)
 {
-	global $phpAds_type_web_dir;
+	global $phpAds_config;
 	
 	if ($path != "") @ftp_chdir ($conn_id, $path);
 	
@@ -114,7 +112,7 @@ function phpAds_LocalUniqueName ($base, $extension)
 	$base = str_replace (" ", "_", $base);
 	$extension = strtolower ($extension);
 	
-	if (@file_exists($phpAds_type_web_dir."/".$base.".".$extension) == false)
+	if (@file_exists($phpAds_config['type_web_dir']."/".$base.".".$extension) == false)
 	{
 		return ($base.".".$extension);
 	}
@@ -126,7 +124,7 @@ function phpAds_LocalUniqueName ($base, $extension)
 		while ($found == false)
 		{
 			$i++;
-			if (@file_exists($phpAds_type_web_dir."/".$base."_".$i.".".$extension) == false)
+			if (@file_exists($phpAds_config['type_web_dir']."/".$base."_".$i.".".$extension) == false)
 			{
 				$found = true;
 			}
@@ -147,14 +145,14 @@ function phpAds_LocalUniqueName ($base, $extension)
 
 function phpAds_FTPStore ($server, $base, $extension, $localfile)
 {
-	global $phpAds_admin_email, $phpAds_type_web_url;
+	global $phpAds_config;
 	
 	$conn_id = @ftp_connect($server['host']);
 	
 	if ($server['pass'] && $server['user'])
 		$login = @ftp_login ($conn_id, $server['user'], $server['pass']);
 	else
-		$login = @ftp_login ($conn_id, "anonymous", $phpAds_admin_email);
+		$login = @ftp_login ($conn_id, "anonymous", $phpAds_config['admin_email']);
 	
 	if (($conn_id) || ($login))
 	{
@@ -165,7 +163,7 @@ function phpAds_FTPStore ($server, $base, $extension, $localfile)
 			
 			if (@ftp_put ($conn_id, $name, $localfile, FTP_BINARY))
 			{
-				$stored_url = $phpAds_type_web_url."/".$name;
+				$stored_url = $phpAds_config['type_web_url']."/".$name;
 			}
 		}
 		
@@ -182,7 +180,7 @@ function phpAds_FTPDelete ($server, $name)
 	if ($server['pass'] && $server['user'])
 		$login = @ftp_login ($conn_id, $server['user'], $server['pass']);
 	else
-		$login = @ftp_login ($conn_id, "anonymous", $phpAds_admin_email);
+		$login = @ftp_login ($conn_id, "anonymous", $phpAds_config['admin_email']);
 	
 	if (($conn_id) || ($login))
 	{

@@ -27,10 +27,10 @@ $phpAds_helpDefault = '';
 
 function phpAds_PageHeader($ID, $extra="")
 {
+	global $phpAds_config;
 	global $phpAds_Message, $phpAds_GUIDone, $phpAds_NavID;
 	global $phpAds_nav, $pages;
-	global $phpAds_name, $phpAds_my_header, $phpAds_CharSet;
-	global $phpAds_url_prefix;
+	global $phpAds_CharSet;
 	global $strLogout, $strNavigation;
 	global $strAuthentification, $strSearch;
 	global $phpAds_showHelp;
@@ -85,7 +85,7 @@ function phpAds_PageHeader($ID, $extra="")
 		}
 		else
 		{
-			$pagetitle = $phpAds_name != '' ? $phpAds_name : 'phpAdsNew';
+			$pagetitle = $phpAds_config['name'] != '' ? $phpAds_config['name'] : 'phpAdsNew';
 		}
 		
 		if ($extra != '') $sidebar .= $extra;
@@ -145,12 +145,12 @@ function phpAds_PageHeader($ID, $extra="")
 		if (phpAds_isLoggedIn() && phpAds_isUser(phpAds_Admin))
 		{
 			$searchbar  = "<table cellpadding='0' cellspacing='0' border='0' bgcolor='#0066CC' height='24'>";
-			$searchbar .= "<form name='search' action='admin-search.php' target='SearchWindow' onSubmit=\"search_window(document.search.keyword.value,'$phpAds_url_prefix/admin/admin-search.php'); return false;\">";
+			$searchbar .= "<form name='search' action='admin-search.php' target='SearchWindow' onSubmit=\"search_window(document.search.keyword.value,'".$phpAds_config['url_prefix']."/admin/admin-search.php'); return false;\">";
 			$searchbar .= "<tr height='24'>";
 			$searchbar .= "<td height='24'><img src='images/tab-sb.gif' height='24' width='10'></td>";
 			$searchbar .= "<td class='tab-u'>$strSearch:</td>";
 			$searchbar .= "<td>&nbsp;&nbsp;<input type='text' name='keyword' size='15'>&nbsp;&nbsp;</td>";
-			$searchbar .= "<td><a href=\"javascript:search_window(document.search.keyword.value,'$phpAds_url_prefix/admin/admin-search.php');\"><img src='images/go.gif' border='0'></a></td>";
+			$searchbar .= "<td><a href=\"javascript:search_window(document.search.keyword.value,'".$phpAds_config['url_prefix']."/admin/admin-search.php');\"><img src='images/go.gif' border='0'></a></td>";
 			$searchbar .= "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
 			$searchbar .= "</tr>";
 			$searchbar .= "</form>";
@@ -165,7 +165,7 @@ function phpAds_PageHeader($ID, $extra="")
 		$searchbar = "&nbsp;";
 		$tabbar    = "<td bgcolor='#FFFFFF' valign='middle' nowrap>&nbsp;&nbsp;<a class='tab-s' href='index.php'>$strAuthentification</a></td>";
 		$tabbar   .= "<td><img src='images/tab-ew.gif' width='10' height='24'></td>";
-		$pagetitle = $phpAds_name != '' ? $phpAds_name : 'phpAdsNew';
+		$pagetitle = $phpAds_config['name'] != '' ? $phpAds_config['name'] : 'phpAdsNew';
 	}
 	
 	
@@ -193,10 +193,10 @@ function phpAds_PageHeader($ID, $extra="")
 	echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>";
 	echo "<tr>";
 	
- 	if ($phpAds_name != "")
+ 	if ($phpAds_config['name'] != "")
 	{
 		echo "<td height='48' bgcolor='#000063' valign='middle'>";
-		echo "<span class='phpAdsNew'>&nbsp;&nbsp;&nbsp;".$phpAds_name."&nbsp;&nbsp;&nbsp;</span>";
+		echo "<span class='phpAdsNew'>&nbsp;&nbsp;&nbsp;".$phpAds_config['name']."&nbsp;&nbsp;&nbsp;</span>";
 	}
 	else
 	{
@@ -286,7 +286,8 @@ function phpAds_PageHeader($ID, $extra="")
 
 function phpAds_PageFooter()
 {
-	global $phpAds_my_footer, $phpAds_showHelp, $phpAds_helpDefault;
+	global $phpAds_config;
+	global $phpAds_showHelp, $phpAds_helpDefault;
 	
 	echo "</td></tr>";
 	
@@ -320,9 +321,9 @@ function phpAds_PageFooter()
 <?php 
 	}
 	
-	if (!empty($phpAds_my_footer))
+	if (!empty($phpAds_config['my_footer']))
 	{
-		include ($phpAds_my_footer);
+		include ($phpAds_config['my_footer']);
 	}
 	
 	echo "</body>";
@@ -414,9 +415,9 @@ function phpAds_Die($title="Error", $message="Unkown error")
 
 function phpAds_DelConfirm($msg)
 {
-	global $phpAds_admin_novice;
+	global $phpAds_config;
 	
-	if ($phpAds_admin_novice == true)
+	if ($phpAds_config['admin_novice'])
 		$str = " onClick=\"return confirm('" . $msg . "')\"";
 	else
 		$str = "";

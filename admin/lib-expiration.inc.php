@@ -20,13 +20,14 @@
 
 function adviews_left ($clientID)
 {
-	global $phpAds_tbl_clients, $strUnlimited;
+	global $phpAds_config;
+	global $strUnlimited;
 	
 	$client_query="
 		SELECT
 			views
 		FROM
-			$phpAds_tbl_clients
+			".$phpAds_config['tbl_clients']."
 		WHERE 
 			clientID = ".$clientID;
 	
@@ -52,13 +53,14 @@ function adviews_left ($clientID)
 
 function adclicks_left ($clientID)
 {
-	global $phpAds_tbl_clients, $strUnlimited;
+	global $phpAds_config;
+	global $strUnlimited;
 	
 	$client_query="
 		SELECT
 			clicks
 		FROM
-			$phpAds_tbl_clients
+			".$phpAds_config['tbl_clients']."
 		WHERE 
 			clientID = ".$clientID;
 	
@@ -104,8 +106,8 @@ function adclicks_left ($clientID)
 
 function days_left($clientID)
 {
-	global $phpAds_db, $phpAds_tbl_banners, $phpAds_tbl_clients, $phpAds_tbl_adviews, $phpAds_tbl_adclicks, $date_format;
-    global $phpAds_tbl_adstats, $phpAds_compact_stats;
+	global $phpAds_config;
+	global $date_format;
 	
 	// uses the following language settings:
 	global $strExpiration, $strNoExpiration, $strDaysLeft, $strEstimated;
@@ -127,7 +129,7 @@ function days_left($clientID)
 			DATE_FORMAT(expire, '".$date_format."') as expire_f,
 			TO_DAYS(expire)-TO_DAYS(NOW()) as days_left
 		FROM
-			$phpAds_tbl_clients
+			".$phpAds_config['tbl_clients']."
 		WHERE 
 			clientID = ".$clientID;
 	$res_client = phpAds_dbQuery($client_query) or phpAds_sqlDie() ;
@@ -149,7 +151,7 @@ function days_left($clientID)
 		
 		if ($row_client["views"] != -1)
 		{
-			if ($phpAds_compact_stats) 
+			if ($phpAds_config['compact_stats']) 
 			{
 	           	$view_query="
 	               	SELECT
@@ -157,8 +159,8 @@ function days_left($clientID)
 	                    MAX(TO_DAYS(day))-TO_DAYS(NOW()) as days_since_last_view,
 	                    TO_DAYS(NOW())-MIN(TO_DAYS(day)) as days_since_start
 	                FROM
-	                   	$phpAds_tbl_adstats AS v
-	                    LEFT JOIN $phpAds_tbl_banners AS b USING (bannerID)
+	                   	".$phpAds_config['tbl_adstats']." AS v
+	                    LEFT JOIN ".$phpAds_config['tbl_banners']." AS b USING (bannerID)
 	                WHERE
 	                  	b.clientID = $clientID";
             }
@@ -170,8 +172,8 @@ function days_left($clientID)
 						MAX(TO_DAYS(v.t_stamp))-TO_DAYS(NOW()) as days_since_last_view,
 						TO_DAYS(NOW())-MIN(TO_DAYS(v.t_stamp)) as days_since_start
 					FROM
-						$phpAds_tbl_adviews AS v, 
-						$phpAds_tbl_banners AS b 
+						".$phpAds_config['tbl_adviews']." AS v, 
+						".$phpAds_config['tbl_banners']." AS b 
 					WHERE
 						b.clientID = $clientID 
 						AND
@@ -219,7 +221,7 @@ function days_left($clientID)
 		
 		if ($row_client["clicks"] != -1)
 		{
-			if ($phpAds_compact_stats) 
+			if ($phpAds_config['compact_stats']) 
             {
             	$click_query="
                 	SELECT
@@ -227,8 +229,8 @@ function days_left($clientID)
                         MAX(TO_DAYS(day))-TO_DAYS(NOW()) as days_since_last_click,
                         TO_DAYS(NOW())-MIN(TO_DAYS(day)) as days_since_start
 					FROM
-						$phpAds_tbl_adstats
-						LEFT JOIN $phpAds_tbl_banners USING (bannerID)
+						".$phpAds_config['tbl_adstats']."
+						LEFT JOIN ".$phpAds_config['tbl_banners']." USING (bannerID)
 					WHERE
 						clientID = $clientID AND
 						clicks > 0";
@@ -241,8 +243,8 @@ function days_left($clientID)
 						MAX(TO_DAYS(c.t_stamp))- TO_DAYS(NOW()) as days_since_last_click,
 						TO_DAYS(NOW())-MIN(TO_DAYS(c.t_stamp)) as days_since_start
 					FROM
-						$phpAds_tbl_adclicks AS c, 
-						$phpAds_tbl_banners AS b 
+						".$phpAds_config['tbl_adclicks']." AS c, 
+						".$phpAds_config['tbl_banners']." AS b 
 					WHERE 
 						b.clientID = $clientID AND
 						b.bannerID = c.bannerID";

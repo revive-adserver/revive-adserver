@@ -25,7 +25,8 @@ $phpAds_GDImageFormat = '';
 
 function phpAds_GDImageFormat()
 {
-	global $phpAds_GDImageFormat, $phpAds_override_GD_imageformat;
+	global $phpAds_config;
+	global $phpAds_GDImageFormat;
 	
 	// Determine php version
 	$phpversion = ereg_replace ("([^0-9])", "", phpversion());
@@ -76,8 +77,8 @@ function phpAds_GDImageFormat()
 	
 	
 	// Override detected GD foramt
-	if (isset($phpAds_override_GD_imageformat) && $phpAds_override_GD_imageformat != '')
-		$phpAds_GDImageFormat = $phpAds_override_GD_imageformat;
+	if (isset($phpAds_config['override_GD_imageformat']) && $phpAds_config['override_GD_imageformat'] != '')
+		$phpAds_GDImageFormat = $phpAds_config['override_GD_imageformat'];
 	
 	return ($phpAds_GDImageFormat);
 }

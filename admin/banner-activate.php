@@ -43,7 +43,7 @@ if (phpAds_isUser(phpAds_Client))
 			SELECT
 				clientID
 			FROM
-				$phpAds_tbl_banners
+				".$phpAds_config['tbl_banners']."
 			WHERE
 				bannerID = $bannerID
 			") or phpAds_sqlDie();
@@ -60,7 +60,7 @@ if (phpAds_isUser(phpAds_Client))
 			
 			$res = phpAds_dbQuery("
 				UPDATE
-					$phpAds_tbl_banners
+					".$phpAds_config['tbl_banners']."
 				SET
 					active = '$value'
 				WHERE
@@ -68,7 +68,7 @@ if (phpAds_isUser(phpAds_Client))
 				") or phpAds_sqlDie();
 			
 			// Rebuild zone cache
-			if ($phpAds_zone_cache)
+			if ($phpAds_config['zone_cache'])
 				phpAds_RebuildZoneCache ();
 			
 			Header("Location: stats-campaign.php?campaignID=$campaignID&message=".urlencode($strBannerChanged));
@@ -86,7 +86,7 @@ if (phpAds_isUser(phpAds_Admin))
 {
 	$res = phpAds_dbQuery("
 		UPDATE
-			$phpAds_tbl_banners
+			".$phpAds_config['tbl_banners']."
 		SET
 			active = '$value'
 		WHERE
@@ -94,7 +94,7 @@ if (phpAds_isUser(phpAds_Admin))
 		") or phpAds_sqlDie();
 	
 	// Rebuild zone cache
-	if ($phpAds_zone_cache)
+	if ($phpAds_config['zone_cache'])
 		phpAds_RebuildZoneCache ();
 	
 	Header("Location: campaign-index.php?campaignID=$campaignID&message=".urlencode($strBannerChanged));

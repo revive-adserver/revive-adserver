@@ -32,7 +32,7 @@ if (isset($zoneid) && $zoneid != '')
 	// Delete banner
 	$res = phpAds_dbQuery("
 		DELETE FROM
-			$phpAds_tbl_zones
+			".$phpAds_config['tbl_zones']."
 		WHERE
 			zoneid = $zoneid
 		") or phpAds_sqlDie();

@@ -43,27 +43,25 @@ if (isset($btndel_x))
 {
 	if (!isset($acl_order)) 
 		phpAds_Die("hu?", "Where is my acl_order? I've lost my acl_orde! Moooommmeee... I want my acl_order back!");
+	
 	$res = phpAds_dbQuery("
-      			DELETE FROM $phpAds_tbl_acls WHERE
-        		bannerID = $bannerID AND acl_order = $acl_order ") or
-		phpAds_sqlDie();
+      	DELETE FROM ".$phpAds_config['tbl_acls']." WHERE
+        bannerID = $bannerID AND acl_order = $acl_order ") or phpAds_sqlDie();
 	
 	// get banner-acl after the deleted one
 	$res = phpAds_dbQuery("
-		SELECT * FROM $phpAds_tbl_acls WHERE
-		bannerID = $bannerID AND acl_order > $acl_order") or
-		phpAds_sqlDie();
+		SELECT * FROM ".$phpAds_config['tbl_acls']." WHERE
+		bannerID = $bannerID AND acl_order > $acl_order") or phpAds_sqlDie();
     
 	// decrement every following acl
 	while ($row = phpAds_dbFetchArray($res)) 
 	{
 		$old_order = $row['acl_order'];
 		$res1 = phpAds_dbQuery("
-			UPDATE $phpAds_tbl_acls SET
+			UPDATE ".$phpAds_config['tbl_acls']." SET
 			acl_order = acl_order - 1 WHERE
 			acl_order = $old_order
-               AND bannerID = $bannerID
-               ") or phpAds_sqlDie();
+            AND bannerID = $bannerID") or phpAds_sqlDie();
 	}
 	
 	header ("Location: banner-acl.php?campaignID=$campaignID&bannerID=$bannerID");
@@ -75,7 +73,7 @@ if (isset($btnsave_x))
 	if ($update)
 	{
 		$res = phpAds_dbQuery("
-			UPDATE $phpAds_tbl_acls SET
+			UPDATE ".$phpAds_config['tbl_acls']." SET
 			acl_type = '$acl_type', acl_data = '$acl_data',
 			acl_ad = '$acl_ad', acl_con = '$acl_con' 
 			where bannerID = $bannerID 
@@ -87,10 +85,11 @@ if (isset($btnsave_x))
 	else
 	{
 		$res = phpAds_dbQuery("
-			INSERT into $phpAds_tbl_acls SET
+			INSERT INTO ".$phpAds_config['tbl_acls']." SET
 			acl_order = $acl_order, bannerID = $bannerID,
 			acl_type = '$acl_type', acl_data = '$acl_data',
 			acl_ad = '$acl_ad', acl_con = '$acl_con'") or phpAds_sqlDie();
+		
 		header ("Location: banner-acl.php?campaignID=$campaignID&bannerID=$bannerID");
 		exit;
 	}
@@ -101,24 +100,22 @@ if (isset($btnup_x))
 	if ($acl_order < 1)
 		 phpAds_Die("oops", $strNoMoveUp);
 	
-       // delete current acl
+    // delete current acl
 	$res = phpAds_dbQuery("
-		DELETE FROM $phpAds_tbl_acls WHERE
-		bannerID = $bannerID AND acl_order = $acl_order ") or
-		phpAds_sqlDie();		
+		DELETE FROM ".$phpAds_config['tbl_acls']." WHERE
+		bannerID = $bannerID AND acl_order = $acl_order ") or phpAds_sqlDie();
 	
 	// increment previous acl
 	$new_acl_order = $acl_order - 1;
 	$res = phpAds_dbQuery("
-		UPDATE $phpAds_tbl_acls SET
+		UPDATE ".$phpAds_config['tbl_acls']." SET
 		acl_order = acl_order + 1 WHERE 
 		acl_order = $new_acl_order 
-		AND bannerID = $bannerID
-		") or phpAds_sqlDie();	 
+		AND bannerID = $bannerID") or phpAds_sqlDie();
 	
 	// insert actual acl with decremented order
 	$res = phpAds_dbQuery("
-		INSERT into $phpAds_tbl_acls SET
+		INSERT INTO ".$phpAds_config['tbl_acls']." SET
 		acl_order = $new_acl_order, bannerID = $bannerID,
 		acl_type = '$acl_type', acl_data = '$acl_data',
 		acl_ad = '$acl_ad', acl_con = '$acl_con'") or phpAds_sqlDie();
@@ -130,20 +127,18 @@ if (isset($btnup_x))
 if (isset($btndown_x))
 {
 	$res = phpAds_dbQuery("
-		DELETE FROM $phpAds_tbl_acls WHERE
-		bannerID = $bannerID AND acl_order = $acl_order ") or
-	phpAds_sqlDie();
+		DELETE FROM ".$phpAds_config['tbl_acls']." WHERE
+		bannerID = $bannerID AND acl_order = $acl_order ") or phpAds_sqlDie();
 	
 	$new_acl_order = $acl_order + 1;
 	$res = phpAds_dbQuery("
-		UPDATE $phpAds_tbl_acls SET
+		UPDATE ".$phpAds_config['tbl_acls']." SET
 		acl_order = acl_order - 1 WHERE 
 		acl_order = $new_acl_order
-		AND bannerID = $bannerID
-		") or phpAds_sqlDie();
+		AND bannerID = $bannerID") or phpAds_sqlDie();
 	
 	$res = phpAds_dbQuery("
-		INSERT into $phpAds_tbl_acls SET
+		INSERT INTO ".$phpAds_config['tbl_acls']." SET
 		acl_order = $new_acl_order, bannerID = $bannerID,
 		acl_type = '$acl_type', acl_data = '$acl_data',
 		acl_ad = '$acl_ad', acl_con = '$acl_con'") or phpAds_sqlDie();
@@ -167,7 +162,7 @@ $res = phpAds_dbQuery("
 	SELECT
 		*
 	FROM
-		$phpAds_tbl_banners
+		".$phpAds_config['tbl_banners']."
 	WHERE
 		clientID = $campaignID
 ") or phpAds_sqlDie();
@@ -238,9 +233,9 @@ $res = phpAds_dbQuery("
 	SELECT
 		*
 	FROM
-		$phpAds_tbl_acls
+		".$phpAds_config['tbl_acls']."
 	WHERE
-		bannerID = $bannerID ORDER by acl_order
+		bannerID = $bannerID ORDER BY acl_order
 	") or phpAds_sqlDie();
 
 $count = phpAds_dbNumRows ($res);
@@ -309,7 +304,7 @@ echo "<br><br>";
 
 
 // Show Acl help file
-//include("../language/banneracl.".$phpAds_language.".inc.php");
+//include("../language/banneracl.".$phpAds_config['language'].".inc.php");
 
 
 

@@ -23,16 +23,15 @@ require ("config.php");
 /* Prepare data for graph                                */
 /*********************************************************/
 
-if (!$phpAds_compact_stats) 
+if (!$phpAds_config['compact_stats']) 
 {
 	// NOTE: None of this works for the compact database 
 	// format since hours are not tracked
 	
-    $where=urldecode($where); 
-    
-    $query="select count(*), DATE_FORMAT(t_stamp, '%k') as hour from $phpAds_tbl_adviews where ($where) GROUP BY hour";
-    $query2="select count(*), DATE_FORMAT(t_stamp, '%k') as hour from $phpAds_tbl_adclicks where ($where) GROUP BY hour";
-    $result = phpAds_dbQuery($query);
+    $where   = urldecode($where); 
+    $query	 = "SELECT COUNT(*), DATE_FORMAT(t_stamp, '%k') AS hour FROM ".$phpAds_config['tbl_adviews']." WHERE ($where) GROUP BY hour";
+    $query2  = "SELECT COUNT(*), DATE_FORMAT(t_stamp, '%k') AS hour FROM ".$phpAds_config['tbl_adclicks']." WHERE ($where) GROUP BY hour";
+    $result  = phpAds_dbQuery($query);
     $result2 = phpAds_dbQuery($query2);
     
 	

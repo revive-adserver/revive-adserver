@@ -37,7 +37,7 @@ if (phpAds_isUser(phpAds_Admin))
 		SELECT
 			*
 		FROM
-			$phpAds_tbl_zones
+			".$phpAds_config['tbl_zones']."
 		") or phpAds_sqlDie();
 	
 	$extra = "";
@@ -66,11 +66,12 @@ if (phpAds_isUser(phpAds_Admin))
 
 function phpAds_showZoneBanners ($zoneid)
 {
-	global $strUntitled, $phpAds_tbl_zones, $strName, $strID, $phpAds_percentage_decimals, $strWeight;
+	global $phpAds_config;
+	global $strUntitled, $strName, $strID, $strWeight;
 	global $strCampaignWeight, $strBannerWeight;
 	
 	// Get zone
-	$zoneres = phpAds_dbQuery("SELECT * FROM $phpAds_tbl_zones WHERE zoneid='$zoneid' ");
+	$zoneres = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_zones']." WHERE zoneid='$zoneid' ");
 	
 	if (phpAds_dbNumRows($zoneres) > 0)
 	{
@@ -153,7 +154,7 @@ function phpAds_showZoneBanners ($zoneid)
 			echo "<td height='25'>".$rows[$key]['bannerID']."</td>";
 			echo "<td height='25'>".$rows[$key]['clientweight']."</td>";
 			echo "<td height='25'>".$rows[$key]['weight']."</td>";
-			echo "<td height='25'>".number_format($rows[$key]['weight'] * $rows[$key]['clientweight'] / $weightsum * 100, $phpAds_percentage_decimals)."%</td>";
+			echo "<td height='25'>".number_format($rows[$key]['weight'] * $rows[$key]['clientweight'] / $weightsum * 100, $phpAds_config['percentage_decimals'])."%</td>";
 			
 			echo "</tr>";
 			$i++;
@@ -179,7 +180,7 @@ if (isset($zoneid) && $zoneid != '')
 		SELECT
 			*
 		FROM
-			$phpAds_tbl_zones
+			".$phpAds_config['tbl_zones']."
 		WHERE
 			zoneid = $zoneid
 		") or phpAds_sqlDie();

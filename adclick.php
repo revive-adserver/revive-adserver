@@ -45,7 +45,7 @@ if ($bannerID != "DEFAULT")
 		SELECT
 			url,clientID
 		FROM
-			$phpAds_tbl_banners
+			".$phpAds_config['tbl_banners']."
 		WHERE
 			bannerID = $bannerID
 		") or die();
@@ -61,7 +61,7 @@ if ($bannerID != "DEFAULT")
 	
 	
 	// Log clicks
-	if ($phpAds_log_adclicks)
+	if ($phpAds_config['log_adclicks'])
 	{
 		if ($host = phpads_ignore_host())
 		{
@@ -116,7 +116,7 @@ else
 {
 	// Banner displayed was the default banner, now 
 	// redirect to the default location
-	$url = $phpAds_default_banner_target;
+	$url = $phpAds_config['default_banner_target'];
 }
 
 // Redirect

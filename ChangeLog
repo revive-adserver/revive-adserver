@@ -7,6 +7,9 @@ CVS			+ Misc changes to library and function names
 			  - Renamed db_* functions to phpAds_db*  (Niels) 20011020
 			  - Renamed acl_* functions to phpAds_acl*  (Niels) 20011020
 			  - Replaced mysql_* functions with phpAds_db* stubs  (Niels) 20011020
+			  - All config variables are now stored in one array  (Niels) 20011027
+			  - Changed the name of the database settings in config.inc.php  (Niels) 20011027
+			  - Made default values for settings in config.inc.php more consistent  (Niels) 20011027
 
 			+ Misc changes
 			  - Moved some functions around to make sure no unneeded 

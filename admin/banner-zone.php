@@ -57,7 +57,7 @@ $res = phpAds_dbQuery("
 	SELECT
 		*
 	FROM
-		$phpAds_tbl_banners
+		".$phpAds_config['tbl_banners']."
 	WHERE
 		clientID = $campaignID
 ") or phpAds_sqlDie();
@@ -126,19 +126,20 @@ echo "<br><br>";
 
 $res_zones = phpAds_dbQuery("
 		SELECT 
-			$phpAds_tbl_zones.zoneid,
-			$phpAds_tbl_zones.zonename,
-			$phpAds_tbl_zones.description,
-			$phpAds_tbl_zones.width,
-			$phpAds_tbl_zones.height,
-			$phpAds_tbl_zones.what
+			z.zoneid,
+			z.zonename,
+			z.description,
+			z.width,
+			z.height,
+			z.what
 		FROM 
-			$phpAds_tbl_zones, $phpAds_tbl_banners
+			".$phpAds_config['tbl_zones']." AS z,
+			".$phpAds_config['tbl_banners']." AS b
 		WHERE
-			$phpAds_tbl_banners.bannerID = $bannerID AND
-			($phpAds_tbl_zones.width = $phpAds_tbl_banners.width OR	$phpAds_tbl_zones.width = -1) AND
-			($phpAds_tbl_zones.height = $phpAds_tbl_banners.height OR $phpAds_tbl_zones.height = -1) AND
-			$phpAds_tbl_zones.zonetype = ".phpAds_ZoneBanners."
+			b.bannerID = $bannerID AND
+			(z.width = b.width OR z.width = -1) AND
+			(z.height = b.height OR z.height = -1) AND
+			z.zonetype = ".phpAds_ZoneBanners."
 		ORDER BY
 			zoneid
 		") or phpAds_sqlDie();

@@ -48,7 +48,7 @@ if (phpAds_isUser(phpAds_Admin))
 		SELECT 
 			*
 		FROM 
-			".$phpAds_tbl_clients."
+			".$phpAds_config['tbl_clients']."
 		".phpAds_getListOrder ($listorder, $orderdirection)."
 		") or phpAds_sqlDie();
 }
@@ -58,7 +58,7 @@ else
 		SELECT 
 			*
 		FROM 
-			".$phpAds_tbl_clients."
+			".$phpAds_config['tbl_clients']."
 		WHERE
 			clientID = ".$Session["clientID"]." OR
 			parent = ".$Session["clientID"]."
@@ -93,7 +93,7 @@ $res_banners = phpAds_dbQuery("
 		format,
 		active
 	FROM 
-		".$phpAds_tbl_banners."
+		".$phpAds_config['tbl_banners']."
 		".phpAds_getBannerListOrder ($listorder, $orderdirection)."
 	") or phpAds_sqlDie();
 
@@ -380,7 +380,7 @@ if (isset($clients) && is_array($clients) && count($clients) > 0)
 							
 							// Button 2
 							echo "<td height='25'>";
-							if ($phpAds_acl == '1')
+							if ($phpAds_config['acl'])
 								echo "<a href='banner-acl.php?bannerID=".$banners[$bkey]['bannerID']."&campaignID=".$campaigns[$ckey]['clientID']."'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 							else
 								echo "&nbsp;";
@@ -427,11 +427,11 @@ echo "</table>";
 
 
 // total number of clients
-$res_clients 		  = phpAds_dbQuery("SELECT count(*) as count FROM $phpAds_tbl_clients WHERE parent = 0") or phpAds_sqlDie();
-$res_campaigns 		  = phpAds_dbQuery("SELECT count(*) as count FROM $phpAds_tbl_clients WHERE parent > 0") or phpAds_sqlDie();
-$res_active_campaigns = phpAds_dbQuery("SELECT count(*) as count FROM $phpAds_tbl_clients WHERE parent > 0 AND active='true'");
-$res_total_banners 	  = phpAds_dbQuery("SELECT count(*) as count FROM $phpAds_tbl_banners");
-$res_active_banners   = phpAds_dbQuery("SELECT count(*) as count FROM $phpAds_tbl_banners as b, $phpAds_tbl_clients as c WHERE b.clientID=c.clientID AND c.active='true' AND b.active='true'");
+$res_clients 		  = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_clients']." WHERE parent = 0") or phpAds_sqlDie();
+$res_campaigns 		  = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_clients']." WHERE parent > 0") or phpAds_sqlDie();
+$res_active_campaigns = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_clients']." WHERE parent > 0 AND active='true'");
+$res_total_banners 	  = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_banners']);
+$res_active_banners   = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_banners']." as b, $phpAds_config['tbl_clients'] as c WHERE b.clientID=c.clientID AND c.active='true' AND b.active='true'");
 
 
 echo "<br><br><br><br>";

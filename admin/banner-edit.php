@@ -37,7 +37,7 @@ if (phpAds_isUser(phpAds_Client))
 			SELECT
 				clientID
 			FROM
-				$phpAds_tbl_banners
+				".$phpAds_config['tbl_banners']."
 			WHERE
 				bannerID = $bannerID
 			") or phpAds_sqlDie();
@@ -279,7 +279,7 @@ if (isset($submit))
 		// Execute query
 		$sql_query = "
 			UPDATE
-				$phpAds_tbl_banners
+				".$phpAds_config['tbl_banners']."
 			SET
 				$set
 			WHERE
@@ -304,7 +304,7 @@ if (isset($submit))
 		// Execute query
 		$sql_query = "
 			INSERT INTO
-				$phpAds_tbl_banners
+				".$phpAds_config['tbl_banners']."
 				($values_fields)
 			VALUES
 			($values)";
@@ -349,7 +349,7 @@ if ($bannerID != '')
 	SELECT
 		*
 	FROM
-		$phpAds_tbl_banners
+		".$phpAds_config['tbl_banners']."
 	WHERE
 		clientID = $campaignID
 	") or phpAds_sqlDie();
@@ -398,7 +398,7 @@ if ($bannerID != '')
 		SELECT
 			*
 		FROM
-			$phpAds_tbl_banners
+			".$phpAds_config['tbl_banners']."
 		WHERE
 			bannerID = $bannerID
 		") or phpAds_sqlDie();
@@ -450,10 +450,10 @@ else
 
 
 // Determine which bannertypes to show
-$show_sql  = $phpAds_type_sql_allow;
-$show_web  = $phpAds_type_web_allow;
-$show_url  = $phpAds_type_url_allow;
-$show_html = $phpAds_type_html_allow;
+$show_sql  = $phpAds_config['type_sql_allow'];
+$show_web  = $phpAds_config['type_web_allow'];
+$show_url  = $phpAds_config['type_url_allow'];
+$show_html = $phpAds_config['type_html_allow'];
 
 if (isset($type) && $type == "mysql") $show_sql  = true;
 if (isset($type) && $type == "web")   $show_web  = true;
@@ -861,7 +861,7 @@ if (!isset($type))
 	<tr>
 		<td width='30'>&nbsp;</td>	
 		<td width='200'><?php echo $strWeight;?></td>
-    	<td><input size="6" type="text" name="weight" value="<?php if(isset($row["weight"])){echo $row["weight"];}else{print $phpAds_default_banner_weight;}?>"></td>
+    	<td><input size="6" type="text" name="weight" value="<?php if(isset($row["weight"])){echo $row["weight"];}else{print $phpAds_config['default_banner_weight'];}?>"></td>
 	</tr>
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
 	<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>

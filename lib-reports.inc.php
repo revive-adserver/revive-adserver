@@ -17,15 +17,13 @@
 
 function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_unixtimestamp, $update=true)
 {
-	global $phpAds_language, $date_format, $phpAds_compact_stats;
-	global $phpAds_tbl_clients, $phpAds_tbl_banners, $phpAds_tbl_adstats;
-	global $phpAds_tbl_adviews, $phpAds_tbl_adclicks;
-	
-	global $phpAds_admin_fullname, $phpAds_admin_email_headers, $strMailReportPeriodAll;
+	global $phpAds_config;
+	global $date_format;
 	global $strMailSubject, $strMailHeader, $strMailBannerStats, $strMailFooter, $strMailReportPeriod;
 	global $strLogErrorClients, $strLogErrorBanners, $strLogErrorViews, $strNoStatsForCampaign;
 	global $strLogErrorClicks, $strNoClickLoggedInInterval, $strNoViewLoggedInInterval;
-	global $strCampaign, $strBanner, $strLinkedTo, $strViews, $strClicks, $phpAds_CharSet;
+	global $strCampaign, $strBanner, $strLinkedTo, $strViews, $strClicks, $strMailReportPeriodAll;
+	global $phpAds_CharSet;
 	
 	
 	// Convert timestamps to SQL format
@@ -46,7 +44,7 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 			reportlastdate,
 			UNIX_TIMESTAMP(reportlastdate) AS reportlastdate_t
 		FROM
-			$phpAds_tbl_clients
+			".$phpAds_config['tbl_clients']."
 		WHERE
 			clientID=".$clientID."
 		");
@@ -56,10 +54,10 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 		$client = phpAds_dbFetchArray($res_client);
 		
 		// Load client language strings
-		if (isset($client["language"]) && $client["language"] != "")
-			include (phpAds_path."/language/".$client["language"].".inc.php");
+		if (isset($client['language']) && $client['language'] != "")
+			include (phpAds_path."/language/".$client['language'].".inc.php");
 		else
-			include (phpAds_path."/language/$phpAds_language.inc.php");
+			include (phpAds_path."/language/".$phpAds_config['language'].".inc.php");
 		
 		
 		$active_campaigns = false;
@@ -79,7 +77,7 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 				UNIX_TIMESTAMP(activate) as activate_st,
 				active
 			FROM
-				$phpAds_tbl_clients
+				".$phpAds_config['tbl_clients']."
 			WHERE
 				parent = ".$client['clientID']."
 		
@@ -97,7 +95,7 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 					description,
 					alt
 				FROM
-					$phpAds_tbl_banners
+					".$phpAds_config['tbl_banners']."
 				WHERE
 					clientID = ".$campaign['clientID']."
 				") or die($strLogErrorBanners);
@@ -128,14 +126,14 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 						$log .= "$strViews (total):   $adviews\n";
 						
 						// Fetch all adviews belonging to banner belonging to client, grouped by day
-						if ($phpAds_compact_stats)
+						if ($phpAds_config['compact_stats'])
 				            $res_adviews = phpAds_dbQuery("
 				    			SELECT
 				    				SUM(views) as qnt,
 				    				DATE_FORMAT(day, '$date_format') as t_stamp_f,
 				    				TO_DAYS(day) AS the_day
 				    			FROM
-				    				$phpAds_tbl_adstats
+				    				".$phpAds_config['tbl_adstats']."
 				    			WHERE
 				    				bannerID = ".$row_banners['bannerID']." AND
 				                    views > 0 AND
@@ -154,7 +152,7 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 				    				DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
 				    				TO_DAYS(t_stamp) AS the_day
 				    			FROM
-				    				$phpAds_tbl_adviews
+				    				".$phpAds_config['tbl_adviews']."
 				    			WHERE
 				    				bannerID = ".$row_banners['bannerID']." AND
 									t_stamp >= $first_sqltimestamp AND
@@ -184,14 +182,14 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 				        $log .= "\n$strClicks (total):   $adclicks\n";
 						
 						// Fetch all adclicks belonging to banner belonging to client, grouped by day
-						if ($phpAds_compact_stats)
+						if ($phpAds_config['compact_stats'])
 				            $res_adclicks = phpAds_dbQuery("
 				    			SELECT
 				    				SUM(clicks) as qnt,
 				    				DATE_FORMAT(day, '$date_format') as t_stamp_f,
 				    				TO_DAYS(day) AS the_day
 				    			FROM
-				    				$phpAds_tbl_adstats
+				    				".$phpAds_config['tbl_adstats']."
 				    			WHERE
 				    				bannerID = ".$row_banners['bannerID']." AND
 				                    clicks > 0 AND
@@ -209,7 +207,7 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 				    				DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
 				    				TO_DAYS(t_stamp) AS the_day
 				    			FROM
-				    				$phpAds_tbl_adclicks
+				    				".$phpAds_config['tbl_adclicks']."
 				    			WHERE
 				    				bannerID = ".$row_banners['bannerID']." AND
 									t_stamp >= $first_sqltimestamp AND
@@ -263,7 +261,7 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 				$Headers .= "Content-Type: text/plain; charset=".$phpAds_CharSet."\n"; 
 			
 			$Headers .= "To: ".$client['contact']." <".$client['email'].">\n";
-			$Headers .= $phpAds_admin_email_headers."\n";
+			$Headers .= $phpAds_config['admin_email_headers']."\n";
 			
 			
 			$Body    = "$strMailHeader\n";
@@ -279,7 +277,7 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 			
 			$Body    = str_replace ("{clientname}", 	$client['clientname'], $Body);
 			$Body	 = str_replace ("{contact}", 		$client['contact'], $Body);
-			$Body    = str_replace ("{adminfullname}", 	$phpAds_admin_fullname, $Body);
+			$Body    = str_replace ("{adminfullname}", 	$phpAds_config['admin_fullname'], $Body);
 			$Body	 = str_replace ("{startdate}", 		date(str_replace('%', '', $date_format), $first_unixtimestamp), $Body);
 			$Body	 = str_replace ("{enddate}", 		date(str_replace('%', '', $date_format), $last_unixtimestamp), $Body);
 			
@@ -287,7 +285,7 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 			{
 				// Update last run
 				if ($update == true)
-					$res_update = phpAds_dbQuery("UPDATE $phpAds_tbl_clients SET reportlastdate=NOW() WHERE clientID=".$client['clientID']);
+					$res_update = phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET reportlastdate=NOW() WHERE clientID=".$client['clientID']);
 				
 				return (true);
 			}

@@ -32,17 +32,17 @@ if (phpAds_isUser(phpAds_Admin))
 {
 	$extra = '';
 	
-	if ($phpAds_compact_stats)
+	if ($phpAds_config['compact_stats'])
 	{
 		// Determine left over verbose stats
-		$viewresult = phpAds_dbQuery("SELECT COUNT(*) AS cnt FROM $phpAds_tbl_adviews");
+		$viewresult = phpAds_dbQuery("SELECT COUNT(*) AS cnt FROM ".$phpAds_config['tbl_adviews']);
 		$viewrow = phpAds_dbFetchArray($viewresult);
 		if (isset($viewrow["cnt"]) && $viewrow["cnt"] != '')
 			$verboseviews = $viewrow["cnt"];
 		else
 			$verboseviews = 0;
 		
-		$clickresult = phpAds_dbQuery("SELECT COUNT(*) AS cnt FROM $phpAds_tbl_adclicks");
+		$clickresult = phpAds_dbQuery("SELECT COUNT(*) AS cnt FROM ".$phpAds_config['tbl_adclicks']);
 		$clickrow = phpAds_dbFetchArray($viewresult);
 		if (isset($clickrow["cnt"]) && $clickrow["cnt"] != '')
 			$verboseclicks = $clickrow["cnt"];
@@ -94,7 +94,7 @@ echo "<br><br>";
 /* Main code                                             */
 /*********************************************************/
 
-if (phpAds_isUser(phpAds_Client) && $phpAds_client_welcome)
+if (phpAds_isUser(phpAds_Client) && $phpAds_config['client_welcome'])
 {
 	// Show welcome message
 	include ('templates/welcome.html');
@@ -112,7 +112,7 @@ if (phpAds_isUser(phpAds_Admin))
 		SELECT 
 			*
 		FROM 
-			".$phpAds_tbl_clients."
+			".$phpAds_config['tbl_clients']."
 		".phpAds_getListOrder ($listorder, $orderdirection)."
 		") or phpAds_sqlDie();
 }
@@ -122,7 +122,7 @@ else
 		SELECT 
 			*
 		FROM 
-			".$phpAds_tbl_clients."
+			".$phpAds_config['tbl_clients']."
 		WHERE
 			clientID = ".$Session["clientID"]." OR
 			parent = ".$Session["clientID"]."
@@ -155,7 +155,7 @@ $res_banners = phpAds_dbQuery("
 		format,
 		active
 	FROM 
-		".$phpAds_tbl_banners."
+		".$phpAds_config['tbl_banners']."
 		".phpAds_getBannerListOrder ($listorder, $orderdirection)."
 	") or phpAds_sqlDie();
 
@@ -172,17 +172,17 @@ while ($row_banners = phpAds_dbFetchArray($res_banners))
 
 
 // Get the adviews/clicks for each banner
-if ($phpAds_compact_stats == 1)
+if ($phpAds_config['compact_stats'])
 {
 	$res_stats = phpAds_dbQuery("
 		SELECT
 			s.bannerID as bannerID,
-			b.clientID as clientID, 
+			b.clientID as clientID,
 			sum(s.views) as views,
-			sum(s.clicks) as clicks		
+			sum(s.clicks) as clicks
 		FROM 
-			$phpAds_tbl_adstats as s, 
-			$phpAds_tbl_banners as b
+			".$phpAds_config['tbl_adstats']." as s,
+			".$phpAds_config['tbl_banners']." as b
 		WHERE
 			b.bannerID = s.BannerID
 		GROUP BY
@@ -203,11 +203,11 @@ else
 	$res_stats = phpAds_dbQuery("
 		SELECT
 			v.bannerID as bannerID,
-			b.clientID as clientID, 
+			b.clientID as clientID,
 			count(v.bannerID) as views
 		FROM 
-			$phpAds_tbl_adviews as v,
-			$phpAds_tbl_banners as b
+			".$phpAds_config['tbl_adviews']." as v,
+			".$phpAds_config['tbl_banners']." as b
 		WHERE
 			b.bannerID = v.bannerID
 		GROUP BY
@@ -227,11 +227,11 @@ else
 	$res_stats = phpAds_dbQuery("
 		SELECT
 			c.bannerID as bannerID,
-			b.clientID as clientID, 
+			b.clientID as clientID,
 			count(c.bannerID) as clicks
 		FROM 
-			$phpAds_tbl_adclicks as c,
-			$phpAds_tbl_banners as b
+			".$phpAds_config['tbl_adclicks']." as c,
+			".$phpAds_config['tbl_banners']." as b
 		WHERE
 			b.bannerID = c.bannerID
 		GROUP BY

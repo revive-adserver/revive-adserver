@@ -40,7 +40,7 @@ if (phpAds_isUser(phpAds_Client))
 		SELECT
 			*
 		FROM
-			$phpAds_tbl_clients
+			".$phpAds_config['tbl_clients']."
 		WHERE
 			parent = ".$Session["clientID"]."
 		") or phpAds_sqlDie();
@@ -75,7 +75,7 @@ if (phpAds_isUser(phpAds_Admin))
 	SELECT
 		*
 	FROM
-		$phpAds_tbl_clients
+		".$phpAds_config['tbl_clients']."
 	WHERE
 		parent > 0
 	") or phpAds_sqlDie();
@@ -126,21 +126,21 @@ $tmp_clicks = array();
 $tmp_alt = array();
 $tmp_crt = array();
 
-if ($phpAds_compact_stats)
+if ($phpAds_config['compact_stats'])
 {
 	$res_query = "
 		SELECT
-			$phpAds_tbl_banners.bannerID as bannerID,
-			IF ($phpAds_tbl_banners.description='', $phpAds_tbl_banners.description, $phpAds_tbl_banners.alt) as alt,
-			sum($phpAds_tbl_adstats.views) as adviews,
-			sum($phpAds_tbl_adstats.clicks) as adclicks
+			".$phpAds_config['tbl_banners'].".bannerID as bannerID,
+			IF (".$phpAds_config['tbl_banners'].".description='', ".$phpAds_config['tbl_banners'].".description, ".$phpAds_config['tbl_banners'].".alt) as alt,
+			sum(".$phpAds_config['tbl_adstats'].".views) as adviews,
+			sum(".$phpAds_config['tbl_adstats'].".clicks) as adclicks
 		FROM
-			$phpAds_tbl_banners
-			LEFT JOIN $phpAds_tbl_adstats USING (bannerID)
+			".$phpAds_config['tbl_banners']."
+			LEFT JOIN ".$phpAds_config['tbl_adstats']." USING (bannerID)
 		WHERE
-			$phpAds_tbl_banners.clientID = $campaignID
+			".$phpAds_config['tbl_banners'].".clientID = $campaignID
 		GROUP BY
-			$phpAds_tbl_banners.bannerID
+			".$phpAds_config['tbl_banners'].".bannerID
 		";
 	
 	$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
@@ -157,16 +157,16 @@ else
 {
 	$res_query = "
 		SELECT
-			$phpAds_tbl_banners.bannerID as bannerID,
-			IF ($phpAds_tbl_banners.description='', $phpAds_tbl_banners.description, $phpAds_tbl_banners.alt) as alt,
-			count($phpAds_tbl_adviews.bannerID) as adviews
+			".$phpAds_config['tbl_banners'].".bannerID as bannerID,
+			IF (".$phpAds_config['tbl_banners'].".description='', ".$phpAds_config['tbl_banners'].".description, ".$phpAds_config['tbl_banners'].".alt) as alt,
+			count(".$phpAds_config['tbl_adviews'].".bannerID) as adviews
 		FROM
-			$phpAds_tbl_banners
-			LEFT JOIN $phpAds_tbl_adviews USING (bannerID)
+			".$phpAds_config['tbl_banners']."
+			LEFT JOIN ".$phpAds_config['tbl_adviews']." USING (bannerID)
 		WHERE
-			$phpAds_tbl_banners.clientID = $campaignID
+			".$phpAds_config['tbl_banners'].".clientID = $campaignID
 		GROUP BY
-			$phpAds_tbl_banners.bannerID
+			".$phpAds_config['tbl_banners'].".bannerID
 		";
 	
 	$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
@@ -181,15 +181,15 @@ else
 	
 	$res_query = "
 		SELECT
-			$phpAds_tbl_banners.bannerID as bannerID,
-			count($phpAds_tbl_adclicks.bannerID) as adclicks
+			".$phpAds_config['tbl_banners'].".bannerID as bannerID,
+			count(".$phpAds_config['tbl_adclicks'].".bannerID) as adclicks
 		FROM
-			$phpAds_tbl_banners
-			LEFT JOIN $phpAds_tbl_adclicks USING (bannerID)
+			".$phpAds_config['tbl_banners']."
+			LEFT JOIN ".$phpAds_config['tbl_adclicks']." USING (bannerID)
 		WHERE
-			$phpAds_tbl_banners.clientID = $campaignID
+			".$phpAds_config['tbl_banners'].".clientID = $campaignID
 		GROUP BY
-			$phpAds_tbl_banners.bannerID
+			".$phpAds_config['tbl_banners'].".bannerID
 		";
 	
 	$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
@@ -364,7 +364,7 @@ if (count($tmp_order) > 0)
 				description,
 				bannertext
 			FROM
-				$phpAds_tbl_banners
+				".$phpAds_config['tbl_banners']."
 			WHERE
 				bannerID = $bannerID
 			";
@@ -663,7 +663,7 @@ if (count($tmp_order) > 0)
 	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 
 <?php
-if (phpAds_GDImageFormat() != "none" && $totaladviews > 0 && !$phpAds_compact_stats)
+if (phpAds_GDImageFormat() != "none" && $totaladviews > 0 && !$phpAds_config['compact_stats'])
 {
 ?>
 	<tr><td height='20' colspan='2'>&nbsp;</td></tr>	

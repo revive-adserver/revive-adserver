@@ -35,7 +35,7 @@ if (isset($campaignID) && $campaignID != '')
 	// Delete Campaign
 	$res = phpAds_dbQuery("
 		DELETE FROM
-			$phpAds_tbl_clients
+			".$phpAds_config['tbl_clients']."
 		WHERE
 			clientID = $campaignID
 		") or phpAds_sqlDie();
@@ -48,7 +48,7 @@ if (isset($campaignID) && $campaignID != '')
 			format,
 			banner
 		FROM
-			$phpAds_tbl_banners
+			".$phpAds_config['tbl_banners']."
 		WHERE
 			clientID = $campaignID
 		") or phpAds_sqlDie();
@@ -63,7 +63,7 @@ if (isset($campaignID) && $campaignID != '')
 		// Delete Banner ACLs
 		phpAds_dbQuery("
 			DELETE FROM
-				$phpAds_tbl_acls
+				".$phpAds_config['tbl_acls']."
 			WHERE
 				bannerID = ".$row['bannerID']."
 			") or phpAds_sqlDie();
@@ -77,14 +77,14 @@ if (isset($campaignID) && $campaignID != '')
 	// Delete Banners
 	phpAds_dbQuery("
 		DELETE FROM
-			$phpAds_tbl_banners
+			".$phpAds_config['tbl_banners']."
 		WHERE
 			clientID = $campaignID
 		") or phpAds_sqlDie();
 }
 
 // Rebuild zone cache
-if ($phpAds_zone_cache)
+if ($phpAds_config['zone_cache'])
 	phpAds_RebuildZoneCache ();
 
 header("Location: client-index.php");

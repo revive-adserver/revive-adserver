@@ -31,7 +31,7 @@ $res_clients = phpAds_dbQuery("
 		language,
 		reportdeactivate
 	FROM
-		$phpAds_tbl_clients
+		".$phpAds_config['tbl_clients']."
 	WHERE
 		parent = 0
 	
@@ -47,7 +47,7 @@ while($client = phpAds_dbFetchArray($res_clients))
 	if (isset($client["language"]) && $client["language"] != "")
 		include ("../language/".$client["language"].".inc.php");
 	else
-		include ("../language/$phpAds_language.inc.php");
+		include ("../language/".$phpAds_config['language'].".inc.php");
 	
 	
 	// Send Query
@@ -63,7 +63,7 @@ while($client = phpAds_dbFetchArray($res_clients))
 			UNIX_TIMESTAMP(activate) as activate_st,
 			active
 		FROM
-			$phpAds_tbl_clients
+			".$phpAds_config['tbl_clients']."
 		WHERE
 			parent = ".$client['clientID']."
 		") or die($strLogErrorClients);
@@ -95,7 +95,7 @@ while($client = phpAds_dbFetchArray($res_clients))
 			$client_ID 	 = $campaign['clientID'];
 			
 			print "&nbsp;&nbsp;&nbsp;- Setting activation to $active<br>";
-			$activateresult = phpAds_dbQuery("UPDATE $phpAds_tbl_clients SET active='$active' WHERE clientID=$client_ID") or phpAds_sqlDie ("$strLogErrorDisactivate");
+			$activateresult = phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET active='$active' WHERE clientID=$client_ID") or phpAds_sqlDie ("$strLogErrorDisactivate");
 			
 			if ($active == "false")
 			{
@@ -111,7 +111,7 @@ while($client = phpAds_dbFetchArray($res_clients))
 						$Headers .= "Content-Type: text/plain; charset=".$phpAds_CharSet."\n"; 
 					
 					$Headers .= "To: ".$client['contact']." <".$client['email'].">\n";
-					$Headers .= $phpAds_admin_email_headers."\n";
+					$Headers .= $phpAds_config['admin_email_headers']."\n";
 					
 					$Body = "$strMailHeader\n";
 					$Body .= $strMailClientDeactivated;
@@ -130,7 +130,7 @@ while($client = phpAds_dbFetchArray($res_clients))
 							description,
 							alt
 						FROM
-							$phpAds_tbl_banners
+							".$phpAds_config['tbl_banners']."
 						WHERE
 							clientID = ".$campaign['clientID']."
 						") or die($strLogErrorBanners);
@@ -153,7 +153,7 @@ while($client = phpAds_dbFetchArray($res_clients))
 					
 					$Body  = str_replace ("{clientname}", $client["clientname"], $Body);
 					$Body  = str_replace ("{contact}", $client["contact"], $Body);
-					$Body  = str_replace ("{adminfullname}", $phpAds_admin_fullname, $Body);
+					$Body  = str_replace ("{adminfullname}", $phpAds_config['admin_fullname'], $Body);
 					
 					if (@mail ($To, $Subject, $Body, $Headers))
 					{

@@ -36,7 +36,7 @@ $res = phpAds_dbQuery("
 	SELECT
 		*
 	FROM
-		$phpAds_tbl_clients
+		".$phpAds_config['tbl_clients']."
 	WHERE
 		parent > 0
 	") or phpAds_sqlDie();
@@ -109,7 +109,7 @@ $res = phpAds_dbQuery("
 	SELECT
 		*
 	FROM
-		$phpAds_tbl_banners  
+		".$phpAds_config['tbl_banners']."
 	WHERE
 		clientID = $campaignID
 	") or phpAds_sqlDie();
@@ -204,7 +204,7 @@ else
 		
 		echo "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href='banner-edit.php?campaignID=$campaignID&bannerID=".$row["bannerID"]."'>$strModifyBanner</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 		
-		if ($phpAds_acl == '1')
+		if ($phpAds_config['acl'])
 			echo "<img src='images/icon-acl.gif' align='absmiddle'>&nbsp;<a href='banner-acl.php?campaignID=$campaignID&bannerID=".$row["bannerID"]."'>$strModifyBannerAcl</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 		echo "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?campaignID=$campaignID&bannerID=".$row["bannerID"]."'".phpAds_DelConfirm($strConfirmDeleteBanner).">$strDelete</a>";
 		

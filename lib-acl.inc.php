@@ -20,14 +20,13 @@
 
 function phpAds_aclCheck($request, $row) 
 {
-	global $phpAds_tbl_acls;
-	global $phpAds_db;
+	global $phpAds_config;
 	
 	$bannerID = $row['bannerID'];
 	
 	// Execute Query
-	$res = phpAds_dbQuery("SELECT * FROM $phpAds_tbl_acls
-					 		WHERE bannerID = $bannerID ORDER by acl_order");
+	$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_acls']."
+					 	   WHERE bannerID = $bannerID ORDER by acl_order");
 	
 	if (phpAds_dbNumRows($res) == 0)
 	{

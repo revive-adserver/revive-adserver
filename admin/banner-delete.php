@@ -37,7 +37,7 @@ if (isset($bannerID) && $bannerID != '')
 		SELECT
 			banner, format
 		FROM
-			$phpAds_tbl_banners
+			".$phpAds_config['tbl_banners']."
 		WHERE
 			bannerID = $bannerID
 		") or phpAds_sqlDie();
@@ -50,7 +50,7 @@ if (isset($bannerID) && $bannerID != '')
 	// Delete banner
 	$res = phpAds_dbQuery("
 		DELETE FROM
-			$phpAds_tbl_banners
+			".$phpAds_config['tbl_banners']."
 		WHERE
 			bannerID = $bannerID
 		") or phpAds_sqlDie();
@@ -58,7 +58,7 @@ if (isset($bannerID) && $bannerID != '')
 	// Delete banner ACLs
 	$res = phpAds_dbQuery("
 		DELETE FROM
-			$phpAds_tbl_acls
+			".$phpAds_config['tbl_acls']."
 		WHERE
 			bannerID = $bannerID
 		") or phpAds_sqlDie();
@@ -68,7 +68,7 @@ if (isset($bannerID) && $bannerID != '')
 }
 
 // Rebuild zone cache
-if ($phpAds_zone_cache)
+if ($phpAds_config['zone_cache'])
 	phpAds_RebuildZoneCache ();
 
 Header("Location: campaign-index.php?campaignID=$campaignID&message=".urlencode($strBannerDeleted));

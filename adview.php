@@ -20,7 +20,7 @@ require ("lib-db.inc.php");
 require ("lib-expire.inc.php");
 require ("lib-log.inc.php");
 
-if ($phpAds_acl == '1')
+if ($phpAds_config['acl'])
 	require ("lib-acl.inc.php");
 
 require	("view.inc.php");
@@ -39,16 +39,16 @@ if (isset($bannerID) && !isset($what))
 		SELECT
 			*
 		FROM
-			$phpAds_tbl_banners  
+			".$phpAds_config['tbl_banners']."
 		WHERE
 			bannerID = $bannerID
 		") or phpAds_sqlDie();
 	
 	if(phpAds_dbNumRows($res) == 0)
 	{
-		if ($phpAds_default_banner_url != "")
+		if ($phpAds_config['default_banner_url'] != "")
 		{
-			Header("Location: $phpAds_default_banner_url");
+			Header("Location: ".$phpAds_config['default_banner_url']);
 		}
 	}
 	else
@@ -92,15 +92,15 @@ else
 	{
 		if(!empty($row["bannerID"]))
 		{
-			if ($phpAds_p3p_policies)
+			if ($phpAds_config['p3p_policies'])
 			{
 				$p3p_header = '';
 				
-				if ($phpAds_p3p_policy_location != '')
-					$p3p_header .= " policyref=\"$phpAds_p3p_policy_location\"";
+				if ($phpAds_config['p3p_policy_location'] != '')
+					$p3p_header .= " policyref=\"".$phpAds_config['p3p_policy_location']."\"";
 				
-				if ($phpAds_p3p_compact_policy != '')
-					$p3p_header .= " CP=\"$phpAds_p3p_compact_policy\"";
+				if ($phpAds_config['p3p_compact_policy'] != '')
+					$p3p_header .= " CP=\"".$phpAds_config['p3p_compact_policy']."\"";
 				
 				if ($p3p_header != '')
 					header ("P3P: $p3p_header");
@@ -184,7 +184,7 @@ else
 						SELECT
 							*
 						FROM
-							$phpAds_tbl_banners  
+							".$phpAds_config['tbl_banners']."
 						WHERE
 							bannerID = ".$row['bannerID']."
 						") or phpAds_sqlDie();
@@ -218,15 +218,15 @@ else
 	}
 	else
 	{
-		if ($phpAds_p3p_policies)
+		if ($phpAds_config['p3p_policies'])
 		{
 			$p3p_header = '';
 			
-			if ($phpAds_p3p_policy_location != '')
-				$p3p_header .= " policyref=\"$phpAds_p3p_policy_location\"";
+			if ($phpAds_config['p3p_policy_location'] != '')
+				$p3p_header .= " policyref=\"".$phpAds_config['p3p_policy_location']."\"";
 			
-			if ($phpAds_p3p_compact_policy != '')
-				$p3p_header .= " CP=\"$phpAds_p3p_compact_policy\"";
+			if ($phpAds_config['p3p_compact_policy'] != '')
+				$p3p_header .= " CP=\"".$phpAds_config['p3p_compact_policy']."\"";
 			
 			if ($p3p_header != '')
 				header ("P3P: $p3p_header");
@@ -235,7 +235,7 @@ else
 		SetCookie("bannerNum", "DEFAULT", 0, $url["path"]);
 		if(isset($n)) SetCookie("banID[$n]", "DEFAULT", 0, $url["path"]);
 		
-		Header ("Location: $phpAds_default_banner_url");
+		Header ("Location: ".$phpAds_config['default_banner_url']);
 	}
 }
 

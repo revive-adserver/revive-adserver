@@ -49,7 +49,8 @@ function phpAds_buildClientName ($clientID, $clientName)
 
 function phpAds_getClientName ($clientID)
 {
-	global $clientCache, $phpAds_tbl_clients;
+	global $phpAds_config;
+	global $clientCache;
 	global $strUntitled;
 	
 	if ($clientID != '' && $clientID != 0)
@@ -64,7 +65,7 @@ function phpAds_getClientName ($clientID)
 			SELECT
 				*
 			FROM
-				$phpAds_tbl_clients
+				".$phpAds_config['tbl_clients']."
 			WHERE
 				clientID = $clientID
 			") or phpAds_sqlDie();
@@ -104,7 +105,7 @@ function phpAds_getOrderDirection ($ThisOrderDirection)
 	return $sqlOrderDirection;
 }
 
-// Order for $phpAds_tbl_clients
+// Order for $phpAds_config['tbl_clients']
 function phpAds_getListOrder ($ListOrder, $OrderDirection)
 {
 	$sqlTableOrder = '';
@@ -132,7 +133,7 @@ function phpAds_getListOrder ($ListOrder, $OrderDirection)
 	return ($sqlTableOrder);
 }
 
-// Order for $phpAds_tbl_banners
+// Order for $phpAds_config['tbl_banners']
 function phpAds_getBannerListOrder ($ListOrder, $OrderDirection)
 {
 	$sqlTableOrder = '';
@@ -160,7 +161,7 @@ function phpAds_getBannerListOrder ($ListOrder, $OrderDirection)
 	return ($sqlTableOrder);
 }
 
-// Order for $phpAds_tbl_banners
+// Order for $phpAds_config['tbl_banners']
 function phpAds_getZoneListOrder ($ListOrder, $OrderDirection)
 {
 	switch ($ListOrder)
@@ -191,7 +192,8 @@ function phpAds_getZoneListOrder ($ListOrder, $OrderDirection)
 
 function phpAds_getParentID ($clientID)
 {
-	global $clientCache, $phpAds_tbl_clients;
+	global $phpAds_config;
+	global $clientCache;
 	
 	if (isset($clientCache[$clientID]) && is_array($clientCache[$clientID]))
 	{
@@ -200,12 +202,12 @@ function phpAds_getParentID ($clientID)
 	else
 	{
 		$res = phpAds_dbQuery("
-		SELECT
-			*
-		FROM
-			$phpAds_tbl_clients
-		WHERE
-			clientID = $clientID
+			SELECT
+				*
+			FROM
+				".$phpAds_config['tbl_clients']."
+			WHERE
+				clientID = $clientID
 		") or phpAds_sqlDie();
 		
 		$row = phpAds_dbFetchArray($res);
@@ -224,7 +226,8 @@ function phpAds_getParentID ($clientID)
 
 function phpAds_getParentName ($clientID)
 {
-	global $clientCache, $phpAds_tbl_clients;
+	global $phpAds_config;
+	global $clientCache;
 	
 	if (isset($clientCache[$clientID]) && is_array($clientCache[$clientID]))
 	{
@@ -233,12 +236,12 @@ function phpAds_getParentName ($clientID)
 	else
 	{
 		$res = phpAds_dbQuery("
-		SELECT
-			*
-		FROM
-			$phpAds_tbl_clients
-		WHERE
-			clientID = $clientID
+			SELECT
+				*
+			FROM
+				".$phpAds_config['tbl_clients']."
+			WHERE
+				clientID = $clientID
 		") or phpAds_sqlDie();
 		
 		$row = phpAds_dbFetchArray($res);
@@ -286,7 +289,8 @@ function phpAds_buildBannerName ($bannerID, $description = '', $alt = '', $limit
 
 function phpAds_getBannerName ($bannerID, $limit = 30, $id = true)
 {
-	global $bannerCache, $phpAds_tbl_banners;
+	global $phpAds_config;
+	global $bannerCache;
 	
 	if (isset($bannerCache[$bannerID]) && is_array($bannerCache[$bannerID]))
 	{
@@ -295,12 +299,12 @@ function phpAds_getBannerName ($bannerID, $limit = 30, $id = true)
 	else
 	{
 		$res = phpAds_dbQuery("
-		SELECT
-			*
-		FROM
-			$phpAds_tbl_banners
-		WHERE
-			bannerID = $bannerID
+			SELECT
+				*
+			FROM
+				".$phpAds_config['tbl_banners']."
+			WHERE
+				bannerID = $bannerID
 		") or phpAds_sqlDie();
 		
 		$row = phpAds_dbFetchArray($res);
@@ -331,7 +335,8 @@ function phpAds_buildZoneName ($zoneid, $zonename)
 
 function phpAds_getZoneName ($zoneid)
 {
-	global $zoneCache, $phpAds_tbl_zones;
+	global $phpAds_config;
+	global $zoneCache;
 	global $strUntitled;
 	
 	if ($zoneid != '' && $zoneid != 0)
@@ -346,7 +351,7 @@ function phpAds_getZoneName ($zoneid)
 			SELECT
 				*
 			FROM
-				$phpAds_tbl_zones
+				".$phpAds_config['tbl_zones']."
 			WHERE
 				zoneid = $zoneid
 			") or phpAds_sqlDie();
@@ -370,7 +375,8 @@ function phpAds_getZoneName ($zoneid)
 
 function phpAds_getBannerCode ($bannerID)
 {
-	global $bannerCache, $phpAds_tbl_banners;
+	global $phpAds_config;
+	global $bannerCache;
 	
 	if (is_array($bannerCache[$bannerID]))
 	{
@@ -379,12 +385,12 @@ function phpAds_getBannerCode ($bannerID)
 	else
 	{
 		$res = phpAds_dbQuery("
-		SELECT
-			*
-		FROM
-			$phpAds_tbl_banners
-		WHERE
-			bannerID = $bannerID
+			SELECT
+				*
+			FROM
+				".$phpAds_config['tbl_banners']."
+			WHERE
+				bannerID = $bannerID
 		") or phpAds_sqlDie();
 		
 		$row = phpAds_dbFetchArray($res);
@@ -523,10 +529,10 @@ function phpAds_buildBannerCode ($bannerID, $banner, $active, $format, $width, $
 
 function phpAds_buildCTR ($views, $clicks)
 {
-	global $phpAds_percentage_decimals;
+	global $phpAds_config;
 	
 	if ($views > 0)
-		$ctr = number_format(($clicks*100)/$views, $phpAds_percentage_decimals)."%";
+		$ctr = number_format(($clicks*100)/$views, $phpAds_config['percentage_decimals'])."%";
 	else
 		$ctr="0.00%";
 		
@@ -541,11 +547,11 @@ function phpAds_buildCTR ($views, $clicks)
 
 function phpAds_deleteStats($bannerID)
 {
-    global $phpAds_tbl_adviews, $phpAds_tbl_adclicks, $phpAds_tbl_adstats;
+    global $phpAds_config;
 	
-    phpAds_dbQuery("DELETE FROM $phpAds_tbl_adviews WHERE bannerID = $bannerID") or phpAds_sqlDie();
-    phpAds_dbQuery("DELETE FROM $phpAds_tbl_adclicks WHERE bannerID = $bannerID") or phpAds_sqlDie();
-    phpAds_dbQuery("DELETE FROM $phpAds_tbl_adstats WHERE bannerID = $bannerID") or phpAds_sqlDie();
+    phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_adviews']." WHERE bannerID = $bannerID") or phpAds_sqlDie();
+    phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_adclicks']." WHERE bannerID = $bannerID") or phpAds_sqlDie();
+    phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_adstats']." WHERE bannerID = $bannerID") or phpAds_sqlDie();
 }
 
 
@@ -555,7 +561,7 @@ function phpAds_deleteStats($bannerID)
 
 function phpAds_totalStats($table, $column, $bannerID, $timeconstraint="")
 {
-    global $phpAds_tbl_adstats;
+    global $phpAds_config;
     
 	$ret = 0;
     $where = "";
@@ -622,7 +628,7 @@ function phpAds_totalStats($table, $column, $bannerID, $timeconstraint="")
 		}
 	}
 	
-    $res = phpAds_dbQuery("SELECT sum($column) as qnt FROM $phpAds_tbl_adstats $where") or phpAds_sqlDie();
+    $res = phpAds_dbQuery("SELECT SUM($column) as qnt FROM ".$phpAds_config['tbl_adstats']." $where") or phpAds_sqlDie();
     if (phpAds_dbNumRows ($res))
     { 
         $row = phpAds_dbFetchArray($res);

@@ -43,7 +43,7 @@ $res_clients = phpAds_dbQuery("
 		reportlastdate,
 		UNIX_TIMESTAMP(reportlastdate) AS reportlastdate_t
 	FROM
-		$phpAds_tbl_clients
+		".$phpAds_config['tbl_clients']."
 	WHERE
 		parent = 0 AND report='true'
 	");

@@ -67,13 +67,13 @@ function phpAds_ReportGetPluginInfo($filename)
 
 function phpAds_getCampaignArray()
 {
-	global $phpAds_tbl_clients;
+	global $phpAds_config;
 	
 	$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
-			$phpAds_tbl_clients
+			".$phpAds_config['tbl_clients']."
 		WHERE
 			parent > 0
 		");
@@ -86,13 +86,13 @@ function phpAds_getCampaignArray()
 
 function phpAds_getClientArray()
 {
-	global $phpAds_tbl_clients;
+	global $phpAds_config;
 	
 	$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
-			$phpAds_tbl_clients
+			".$phpAds_config['tbl_clients']."
 		WHERE
 			parent = 0
 		");

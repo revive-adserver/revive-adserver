@@ -34,7 +34,7 @@ if (phpAds_isUser(phpAds_Client))
 		SELECT
 			clientID
 		FROM
-			$phpAds_tbl_banners
+			".$phpAds_config['tbl_banners']."
 		WHERE
 			bannerID = $bannerID
 		") or phpAds_sqlDie();
@@ -65,7 +65,7 @@ $res = phpAds_dbQuery("
 		count(*) as qnt,
 		DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f
 	 FROM
-		$phpAds_tbl_adviews
+		".$phpAds_config['tbl_adviews']."
 	 WHERE
 		bannerID = $bannerID
 	 GROUP BY
@@ -101,7 +101,7 @@ if (phpAds_isUser(phpAds_Admin))
 	$extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
 	$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<a href=banner-edit.php?campaignID=$campaignID&bannerID=$bannerID>$strModifyBanner</a><br>";
 		
-	if ($phpAds_acl == '1')
+	if ($phpAds_config['acl'])
 	{
 		$extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
 		$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-acl.gif' align='absmiddle'>&nbsp;<a href=banner-acl.php?campaignID=$campaignID&bannerID=$bannerID>$strModifyBannerAcl</a><br>";
@@ -126,7 +126,6 @@ if (phpAds_isUser(phpAds_Client))
 
 function showHourlyStats($what)
 {
-	global $phpAds_db, $phpAds_url_prefix;
 	$result = phpAds_dbQuery("
 		SELECT
 			*,
@@ -150,7 +149,7 @@ function showHourlyStats($what)
 		$total += $row["qnt"];
 	}
 	phpAds_dbSeekRow($result, 0);
-
+	
 	$i = 0;
 	while ($row = phpAds_dbFetchArray($result))
 	{
@@ -206,7 +205,7 @@ echo "<br><br>";
 <table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
   <tr><td height='25' colspan='3'><b><?php print $strViews;?></b></td></tr>
   <tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-  <?php showHourlyStats("$phpAds_tbl_adviews");; ?>
+  <?php showHourlyStats($phpAds_config['tbl_adviews']); ?>
 </table>
 
 <br><br>
@@ -214,12 +213,12 @@ echo "<br><br>";
 <table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
   <tr><td height='25' colspan='3'><b><?php print $strClicks;?></b></td></tr>
   <tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-  <?php showHourlyStats("$phpAds_tbl_adclicks"); ?>
+  <?php showHourlyStats($phpAds_config['tbl_adclicks']); ?>
 </table>
 
 <br><br>
 
-<?php if (!$phpAds_compact_stats) { ?>
+<?php if (!$phpAds_config['compact_stats']) { ?>
 <table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
   <tr><td height='25' colspan='2'><b><?php print $strTopTenHosts;?></b></td></tr>
   <tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
@@ -229,7 +228,7 @@ echo "<br><br>";
         			*,
         			count(*) as qnt
         		FROM
-        			$phpAds_tbl_adviews
+        			".$phpAds_config['tbl_adviews']."
         		WHERE
         			bannerID = $bannerID
         			AND DATE_FORMAT(t_stamp, '$date_format') = '$day'
