@@ -6,6 +6,7 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			+ phpAdsNew now uses many newly designed icons, also other icons have been updated to match the new icons  (Niels, 2003-02-03)
 			+ Updated some of the user-interface, in particular the error messages and help screens  (Niels, 2003-02-03)
 			+ It is now possible to append popups and interstitials to individual banners  (Niels, 2003-02-12)
+			+ Added support for the MaxMind GeoIP Region Edition database  (Niels, 2003-02-24)
 			
 			+ Misc changes
 			  - 2003-01-12:  Added info about the current version on the Available Updates page  (Niels)
@@ -27,6 +28,7 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-02-13:  Added some info text if a campaign was deactivated because its weight is null  (Matteo)
 			  - 2003-02-18:  Added option to lib-graph to draw graphs with only one scale, useful e.g. for targetstats  (Matteo)
 			  - 2003-02-21:  Raised minimum requirements for phpAdsNew to PHP 4.0.1 or higher  (Niels)
+			  - 2003-02-24:  Changed handling of geotargeting limitations when the location couldn't be detected  (Niels)
 
 			+ Misc bugfixes
 			  - 2003-01-13:  If a zero was used in a random variable (ie. random:10) it wasn't replaced  (Niels)
