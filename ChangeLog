@@ -1,4 +1,6 @@
 phpAdsNew - ChangeLog
+			+ BugFix : global not set in weeklystats (Cedric)
+			+ BugFix : repeat the %CTR in weeklystats view (average/total) (Cedric)
 			+ Client preferences can be disabled by the admin (Niels)
 			+ Client can select their own language, if permitted by the admin (Niels)
 			+ Complete new authorisation library, including client permissions (Niels)

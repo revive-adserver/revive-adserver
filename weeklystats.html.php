@@ -177,7 +177,7 @@ function WeekPrint() // html generator for one week
 		$week_avg = $week['days_set']>0?$week['ctrsum']/$week['days_set']:0;
 		?>
 			<TD CLASS="normal" ALIGN="RIGHT" BGCOLOR="<? echo $bgcolor; ?>"><? tabecho(sprintf(" %.".$phpAds_percentage_decimals."f%%",$week['ctrsum'])); ?></TD>
-			<TD BGCOLOR="<? echo $bgcolor; ?>">&nbsp;</TD>
+			<TD CLASS="normal" ALIGN="RIGHT"  BGCOLOR="<? echo $bgcolor; ?>"><? tabecho(sprintf(" %.".$phpAds_percentage_decimals."f%%",$week['ctrsum'])); ?></TD>
 		</TR>        
 		<?
 	}

@@ -5,6 +5,7 @@
     
 function GetWeekSigns()
 {
+	global $phpAds_begin_of_week;
 	// check mysql if it's capable of %v/%x - some installations don't
 	$res = db_query("SELECT DATE_FORMAT('2001-01-01','%v/%x')") or mysql_die();
 	$mySQLok = ( mysql_result($res,0 ,0) != 'v/x' );
