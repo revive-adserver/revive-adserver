@@ -111,7 +111,7 @@ function phpAds_getBannerCache($banner)
 		if ($banner['autohtml'] == 't' && $phpAds_config['type_html_auto'])
 		{
 			// Automatic remove all target='...'
-			$buffer = eregi_replace ("target=['|\"]{0,1}[^'|\"|[:space:]]+['|\"]{0,1}", "", $buffer);
+			$buffer = eregi_replace (" target=['|\"]{0,1}[^'|\"|[:space:]]+['|\"]{0,1}", " ", $buffer);
 			
 			// Determine which types are present in the HTML
 			$formpresent = eregi('<form', $buffer);
