@@ -4,6 +4,7 @@ CVS
 			+ Misc changes
 			  - 2003-04-13:  Added support for paths in direct selection query string  (Niels)
  			  - 2003-04-13:  Beacon image is not enclosed in a hidden layer to prevent unneeded linewraps after tables and other html tags  (Niels)
+			  - 2003-04-16:  Added transparent background and no-border support to simple interstitial layerstyle  (Matteo)
 
 			+ Misc bugfixes
 			  - 2003-04-13:  Logging of geodata for Adclicks didn't work properly  (Niels)
