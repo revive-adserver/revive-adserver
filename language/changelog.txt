@@ -17,6 +17,10 @@
 
   ====================================================
 
+  08-19-2003 - settings
+    [+] strWarningPHP5beta
+    [+] strPhpBug24652
+
   07-29-2003 - default
     [+] strCollectedYesterday
     [+] strCollectedRange

@@ -51,6 +51,7 @@ $GLOBALS['strFixProblemsAfter']				= "Se non sei in grado di risolvere i problem
 $GLOBALS['strIgnoreWarnings']				= "Ignora avvertimenti";
 $GLOBALS['strWarningDBavailable']			= "La versione di PHP utilizzata non ha il supporto per connettersi a un database ".$phpAds_dbmsname.". &Egrave; necessario abilitare l'estensione PHP ".$phpAds_dbmsname." prima di procedere.";
 $GLOBALS['strWarningPHPversion']			= $phpAds_productname." richiede PHP 4.0.3 o pi&ugrave; recente per funzionare correttamente. La versione attualmente utilizzata &egrave; {php_version}.";
+$GLOBALS['strWarningPHP5beta']				= "Stai installando ".$phpAds_productname." su un server che utilizza una versione di test di PHP 5. Queste versioni non sono adatte ad un utilizzo su un server di produzione e spesso contengo bug. non &egrave; raccomandabile l'uso di ".$phpAds_productname." con PHP 5, se non per effettuare test.";
 $GLOBALS['strWarningRegisterGlobals']		= "La variabile di configurazione del PHP register_globals deve essere abilitata.";
 $GLOBALS['strWarningMagicQuotesGPC']		= "La variabile di configurazione del PHP magic_quotes_gpc deve essere abilitata.";
 $GLOBALS['strWarningMagicQuotesRuntime']	= "La variabile di configurazione del PHP magic_quotes_runtime deve essere disabilitata.";
@@ -111,6 +112,11 @@ $GLOBALS['strServiceUnavalable']			= "Il servizio non &egrave; disponibile al mo
 $GLOBALS['strConfigNotWritable']			= "Il file config.inc.php non può essere sovrascritto";
 $GLOBALS['strPhpBug20144']					= "La versione di PHP utilizzata &egrave; affetta da un <a href='http://bugs.php.net/bug.php?id=20114' target='_blank'>bug</a> che non permette a ".$phpAds_productname." di funzionare correttamente.
 											   &Egrave; necessario aggiornare PHP alla versione 4.3.0 o successive per poter procedere con l'installazione di ".$phpAds_productname.".";
+$GLOBALS['strPhpBug24652']					= "Stai installando ".$phpAds_productname." su un server che utilizza una versione di test
+											   di PHP 5. Queste versioni non sono adatte ad un utilizzo su un server di produzione e
+											   spesso contengo bug. Uno di questi bug che non permette a ".$phpAds_productname." di funzionare
+											   correttamente. Questo <a href='http://bugs.php.net/bug.php?id=24652' target='_blank'>bug</a> &egrave;
+											   e la versione finale di PHP 5 non ne &egrave; affetta.";
 
 
 

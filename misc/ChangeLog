@@ -1,12 +1,15 @@
 phpAdsNew - ChangeLog
 
 CVS
+			+ Misc changes
+			  - 2003-08-19:  Added PHP5 check and warnings during install  (Matteo)
+
 			+ Misc bugfixes
 			  - 2003-08-08:  Adviews email warning limit wasn't correctly saved (Matteo)
 			  - 2003-08-18:  PHP code parsing in HMTL banners wasn't working as expected - bug #788280   (Matteo)
 
 
-v 2.0rc4.2		+ Misc bugfixes
+v 2.0rc4.2		+ Misc changes
 			  - 2003-07-29:  Created new artwork for the installer  (Niels)
 			  - 2003-07-27:  Reordered the install pages  (Niels)
 			  - 2003-07-27:  Added integrity check of the files to the installer and updater  (Niels)
