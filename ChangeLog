@@ -1,4 +1,5 @@
 phpAdsNew - ChangeLog
+v 1.9.1 - 02/03/2001    
 			+ BugFix: typo in dailystats.inc.php (Phil)
 			+ Bugfix: "when" is a reserved word in mysql?  Who knew?  (Phil)
 			+ Fix for PHP3 compatibility in expiration.inc.php (Phil, others)
