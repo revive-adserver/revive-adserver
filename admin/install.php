@@ -25,6 +25,7 @@ else
 
 
 
+
 // Include config file
 require ("../config.inc.php");
 
@@ -33,16 +34,17 @@ $phpAds_config['url_prefix'] = strtolower(eregi_replace("^([a-z]+)/.*$", "\\1://
 	$SERVER_PROTOCOL)).$HTTP_HOST.
 	ereg_replace("/admin/install.php(\?.*)?$", "", $REQUEST_URI);
 
-// Unserialize cookie stored settings
-$installvars = isset($installvars) ?
-	unserialize(stripslashes($installvars)) :
-	array('install_phase' => 0, 'language' => 'english');
-while(list($k, $v) = each($installvars))
-	$phpAds_config[$k] = $v;
+// Overwrite settings with install vars
+if (isset($installvars) && is_array($installvars))
+	for (reset($installvars); $key=key($installvars); next($installvars))
+		$phpAds_config[$key] = $installvars[$key];
 
 
 
 // Load language strings
+if (!isset($phpAds_config['language']))
+	$phpAds_config['language'] = 'english';
+
 include('../language/'.$phpAds_config['language'].'/default.lang.php');
 include('../language/'.$phpAds_config['language'].'/settings.lang.php');
 
@@ -60,12 +62,14 @@ require ("lib-settings.inc.php");
 
 
 
+
 // If an old config.inc.php is present, upgrade!
 if (!defined('phpAds_installed'))
 {
 	header("Location: upgrade.php");
 	exit;
 }
+
 
 
 
@@ -80,6 +84,8 @@ $phpAds_settings_sections = array(
 
 
 
+
+
 /*********************************************************/
 /* Begin of code                                         */
 /*********************************************************/
@@ -91,24 +97,23 @@ if (phpAds_installed)
 	phpAds_Die ($strFatalError, $strAlreadyInstalled);
 }
 
+
 // First thing to do is clear the $Session variable to
 // prevent users from pretending to be logged in.
 $Session = array('loggedin' => 't', 'usertype' => phpAds_Admin);
 $phpAds_cookiecheck = $SessionID = 'install';
+
 
 // Fake authorize the user and load user specific settings.
 $phpAds_username = $phpAds_config['admin'];
 $phpAds_password = $phpAds_config['admin_pw'];
 phpAds_Start();
 
+
 // Setup navigation
 $phpAds_nav = array (
 	"admin"	=> array (
-		"1"					=>  array("install.php" => $strInstall),
-		  "1.1"				=>	array("install.php?phase=1" => $strLanguageSelection),
-		  "1.2"				=>  array("install.php?phase=2" => $strDatabaseSettings),
-		  "1.3"				=>  array("install.php?phase=3" => $strAdminSettings),
-		  "1.4"				=>  array("install.php?phase=4" => $strStartInstall)
+		"1"					=>  array("install.php" => $strInstall)
 	)
 );
 
@@ -119,359 +124,389 @@ phpAds_checkAccess(phpAds_Admin);
 
 if (phpAds_isUser(phpAds_Admin))
 {
-	if (!isset($phase))
-		$phase = 0;
-	elseif ($phase > $phpAds_config['install_phase'])
-		$phase = $phpAds_config['install_phase'];
-	
-	if ($phpAds_install_phase < 4)
-	{
-		$sections = array();
-		for ($x = 1; $x <= $phpAds_config['install_phase'] && $x < 4; $x++)
-			$sections[] = "1.$x";
-	}
+	if (isset($HTTP_POST_VARS['phase']))
+		$phase = $HTTP_POST_VARS['phase'];
 	else
-		$sections = array('1.'.$phpAds_config['install_phase']);
+		$phase = 0;
 	
-	$errormessage = array();
 	
-	if (!phpAds_isConfigWritable())
-		$errormessage[1][] = $strConfigNotWritable;	
+	
+	// Process information
+	switch($phase)
+	{
+		case 0:
+			// Determine the PHP version
+			$phpversion = ereg_replace ("([^0-9])", "", phpversion());
+			$phpversion = $phpversion / pow (10, strlen($phpversion) - 1);
+			
+			// Store fatal errors
+			$fatal = array();
+			
+			// Check PHP version
+			if ($phpversion < 3.08)
+				$fatal[] = str_replace ('{php_version}', phpversion(), $strWarningPHPversion);
+			
+			// Config variables can only be check with php 4
+			if ($phpversion > 4.0)
+			{
+				// Check register_globals
+				if (ini_get ('register_globals') != true)
+					$fatal[] = $strWarningRegisterGlobals;
+				
+				// Check magic_quote_gpc
+				if (ini_get ('magic_quotes_gpc') != true)
+					$fatal[] = $strWarningMagicQuotesGPC;
+				
+				// Check magic_quotes_runtime
+				if (ini_get ('magic_quotes_runtime') != false)
+					$fatal[] = $strWarningMagicQuotesRuntime;
+			}
+			
+			// Check if config file is writable
+			if (!phpAds_isConfigWritable())
+				$fatal[] = $strConfigLockedDetected;
+			
+			
+			if (count($fatal) > 0)
+				$phase = 0;
+			else
+				$phase = 1;
+			
+			break;
+			
+			
+		case 1:
+			// Set language
+			$installvars['language'] = $language;
+			
+			// Go to next phase
+			$phase = 2;
+			break;
+			
+			
+		case 2:
+			// Setup database check
+			$phpAds_config['dbhost'] 	 = $dbhost;
+			$phpAds_config['dbuser'] 	 = $dbuser;
+			$phpAds_config['dbpassword'] = $dbpassword;
+			$phpAds_config['dbname'] 	 = $dbname;
+			
+			if (!phpAds_dbConnect())
+				$errormessage[1][] = $strCouldNotConnectToDB;
+			else
+			{
+				// Drop test table if one exists
+				phpAds_dbQuery ("DROP TABLE phpads_tmp_dbpriviligecheck");
+				
+				// Check if phpAdsNew can create tables
+				if (!phpAds_dbQuery ("CREATE TABLE phpads_tmp_dbpriviligecheck (tmp int)"))
+				{
+					// Failed
+					$errormessage[1][] = $strCreateTableTestFailed;
+				}
+				else
+				{
+					// Passed all test, now drop the test table
+					phpAds_dbQuery ("DROP TABLE phpads_tmp_dbpriviligecheck");
+				}
+			}
+			
+			// Check table prefix
+			if (strlen($tbl_prefix) && !eregi("^[a-z][a-z0-9_]*$", $tbl_prefix))
+				$errormessage[2][] = $strTablePrefixInvalid;
+			
+			
+			if (!count($errormessage))
+			{
+				$installvars['dbhostname'] 	 = $dbhost;
+				$installvars['dbuser'] 		 = $dbuser;
+				$installvars['dbpassword'] 	 = $dbpassword;
+				$installvars['dbname'] 		 = $dbname;
+				$installvars['tbl_prefix'] 	 = $tbl_prefix;
+				$installvars['tabletype'] 	 = $tabletype;
+				
+				// Create table names
+				$installvars['tbl_clients']  = $tbl_prefix.'clients';
+				$installvars['tbl_banners']  = $tbl_prefix.'banners';
+				$installvars['tbl_adstats']  = $tbl_prefix.'adstats';
+				$installvars['tbl_adviews']  = $tbl_prefix.'adviews';
+				$installvars['tbl_adclicks'] = $tbl_prefix.'adclicks';
+				$installvars['tbl_acls'] 	 = $tbl_prefix.'acls';
+				$installvars['tbl_session']  = $tbl_prefix.'session';
+				$installvars['tbl_zones'] 	 = $tbl_prefix.'zones';
+				$installvars['tbl_config'] 	 = $tbl_prefix.'config';
+				
+				// Go to next phase
+				$phase = 3;
+			}
+			
+			break;
+			
+			
+		case 3:
+			// Setup username / password check
+			$admin = trim(strtolower($admin));
+			
+			if (!strlen($admin) || !strlen($admin_pw))
+				$errormessage[1][] = $strInvalidUserPwd;
+			
+			if (strlen($admin_pw) && $admin_pw != $admin_pw2)
+				$errormessage[1][] = $strNotSamePasswords;
+			
+			
+			if (!count($errormessage))
+			{
+				$installvars['admin'] 		 = $admin;
+				$installvars['admin_pw'] 	 = $admin_pw;
+				$installvars['url_prefix']   = $url_prefix;
+				
+				if (phpAds_isConfigWritable())
+				{
+					// Connect
+					if (phpAds_dbConnect())
+					{
+						if (phpAds_createDatabase($phpAds_config['tabletype']))
+						{
+							// Insert basic settings into database and config file
+							phpAds_SettingsWriteAdd('config_version', $phpAds_version);
+							phpAds_SettingsWriteAdd('language', $installvars['language']);
+							
+							phpAds_SettingsWriteAdd('dbhostname', $installvars['dbhostname']);
+							phpAds_SettingsWriteAdd('dbuser', $installvars['dbuser']);
+							phpAds_SettingsWriteAdd('dbpassword', $installvars['dbpassword']);
+							phpAds_SettingsWriteAdd('dbname', $installvars['dbname']);
+							phpAds_SettingsWriteAdd('tbl_prefix', $installvars['tbl_prefix']);
+							phpAds_SettingsWriteAdd('dbhostname', $installvars['dbhostname']);
+							
+							phpAds_SettingsWriteAdd('tbl_clients', $installvars['tbl_clients']);
+							phpAds_SettingsWriteAdd('tbl_banners', $installvars['tbl_banners']);
+							phpAds_SettingsWriteAdd('tbl_adstats', $installvars['tbl_adstats']);
+							phpAds_SettingsWriteAdd('tbl_adviews', $installvars['tbl_adviews']);
+							phpAds_SettingsWriteAdd('tbl_adclicks', $installvars['tbl_adclicks']);
+							phpAds_SettingsWriteAdd('tbl_acls', $installvars['tbl_acls']);
+							phpAds_SettingsWriteAdd('tbl_session', $installvars['tbl_session']);
+							phpAds_SettingsWriteAdd('tbl_zones', $installvars['tbl_zones']);
+							phpAds_SettingsWriteAdd('tbl_config', $installvars['tbl_config']);
+							
+							phpAds_SettingsWriteAdd('admin', $admin);
+							phpAds_SettingsWriteAdd('admin_pw', $admin_pw);
+							phpAds_SettingsWriteAdd('url_prefix', $url_prefix);
+							
+							phpAds_ConfigFileClear();
+							
+							if (!phpAds_SettingsWriteFlush())
+								$fatal[] = $strErrorInstallConfig;
+						}
+						else
+							$fatal[] = $strErrorInstallDatabase;
+					}
+					else
+						$fatal[] = $strErrorInstallDbConnect;
+				}
+				else
+					$fatal[] = $strConfigLockedDetected;
+				
+				$phase = 4;
+			}
+			
+			break;
+			
+			
+		default:
+			break;
+	}
+	
+	
+	
+	
+	
+	
+	// Prepare helpsystem
+	if ($phase > 0)
+		phpAds_PrepareHelp();
+	
+	// Create GUI
+	phpAds_PageHeader("1");
+	
+	// Prepare helpbutton
+	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'><tr><td height='20' align='right'>";
+	if ($phase > 0) echo "<b><a href='javascript:toggleHelp();'><img src='images/help-book.gif' width='15' height='15' border='0' align='absmiddle'>&nbsp;Help</a></b>";
+	echo "</td></tr></table>";
+	
+	phpAds_ShowBreak();
+	
+	
+	
+	
 	
 	switch($phase)
 	{
-		case 1:
+		case 0:
+			// Preconditions failed
+			echo "<form name='installform' method='post' action='install.php'>";
+			echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
+			echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
+			echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
+			echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
+			echo "<span class='install'>".$strInstallMessage."</td></tr></table>";
 			
-			if (isset($language))
+			if (count($fatal))
 			{
-				if (!count($errormessage))
-				{
-					$installvars['language'] = $language;
-					if ($phpAds_config['install_phase'] < 2)
-						$installvars['install_phase'] = 2;
-					setcookie('installvars', serialize($installvars));
-					header("Location: $PHP_SELF?phase=2");
-					exit;
-				}
+				echo "<br><br>";
+				echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>";
+				echo "<tr><td><img src='images/error.gif'>&nbsp;&nbsp;</td>";
+				echo "<td width='100%'><span class='tab-r'>".$strMayNotFunction."</span></td></tr>";
+				for ($r=0;$r<count($fatal);$r++)
+					echo "<tr><td>&nbsp;</td><td><span class='install'>".$fatal[$r]."</span></td></tr>";
+				echo "</table>";
 			}
 			
-			// Language selection and warnings
-			phpAds_StartSettings();		
-			phpAds_AddSettings('start_section', "0.1.1");
-			phpAds_AddSettings('select', 'language',
-				array($strLanguage, phpAds_AvailableLanguages()));
-			phpAds_AddSettings('end_section', '');
-			phpAds_EndSettings();		
-			
-			$header = "1.1";
-			$phase = 1;
-			
 			break;
+			
+			
+		case 1:
+			// Language selection
+			echo "<form name='installform' method='post' action='install.php'>";
+			echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
+			echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
+			echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
+			echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
+			echo "<span class='install'>".$strInstallMessage."</td></tr></table><br><br>";
+			
+			phpAds_ShowBreak();
+			
+			phpAds_StartSettings();
+				phpAds_AddSettings('start_section', "0.1.1");
+				phpAds_AddSettings('select', 'language', array($strLanguage, phpAds_AvailableLanguages()));
+				phpAds_AddSettings('end_section', '');
+			phpAds_EndSettings();
+			phpAds_FlushSettings();
+			break;
+			
 			
 		case 2:
+			// Database settings
+			echo "<form name='installform' method='post' action='install.php'>";
+			echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
+			echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
+			echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
+			echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
+			echo "<span class='install'>".$strInstallMessage."</td></tr></table><br><br>";
 			
-			if (isset($dbhost))
-			{
-				$phpAds_config['dbhost'] = $dbhost;
-				$phpAds_config['dbuser'] = $dbuser;
-				$phpAds_config['dbpassword'] = $dbpassword;
-				$phpAds_config['dbname'] = $dbname;
-				
-				if (!phpAds_dbConnect())
-					$errormessage[1][] = $strCouldNotConnectToDB;
-				else
-				{
-					// Drop test table if one exists
-					phpAds_dbQuery ("DROP TABLE phpads_tmp_dbpriviligecheck");
-					
-					// Check if phpAdsNew can create tables
-					if (!phpAds_dbQuery ("CREATE TABLE phpads_tmp_dbpriviligecheck (tmp int)"))
-					{
-						// Failed
-						$errormessage[1][] = $strCreateTableTestFailed;
-					}
-					else
-					{
-						// Check if phpAdsNew can alter tables
-						if (phpAds_dbQuery ("ALTER TALBE phpads_tmp_dbpriviligecheck CHANGE tmp tmp2 int"))
-						{
-							// Failed
-							$errormessage[1][] = $strUpdateTableTestFailed;
-						}
-						else
-						{
-							// Passed all test, now drop the test table
-							phpAds_dbQuery ("DROP TABLE phpads_tmp_dbpriviligecheck");
-						}
-					}
-				}
-				
-				if (strlen($tbl_prefix) && !eregi("^[a-z][a-z0-9_]*$", $tbl_prefix))
-					$errormessage[2][] = $strTablePrefixInvalid;
-					
-				if (!count($errormessage))
-				{
-					$installvars['dbhostname'] = $dbhost;
-					$installvars['dbuser'] = $dbuser;
-					$installvars['dbpassword'] = $dbpassword;
-					$installvars['dbname'] = $dbname;
-					$installvars['tbl_prefix'] = $tbl_prefix;
-					$installvars['tabletype'] = $tabletype;
-					
-					// Create table names
-					$installvars['tbl_clients'] = $tbl_prefix.'clients';
-					$installvars['tbl_banners'] = $tbl_prefix.'banners';
-					$installvars['tbl_adstats'] = $tbl_prefix.'adstats';
-					$installvars['tbl_adviews'] = $tbl_prefix.'adviews';
-					$installvars['tbl_adclicks'] = $tbl_prefix.'adclicks';
-					$installvars['tbl_acls'] = $tbl_prefix.'acls';
-					$installvars['tbl_session'] = $tbl_prefix.'session';
-					$installvars['tbl_zones'] = $tbl_prefix.'zones';
-					$installvars['tbl_config'] = $tbl_prefix.'config';
-					
-					if ($phpAds_config['install_phase'] < 3)
-						$installvars['install_phase'] = 3;
-					setcookie('installvars', serialize($installvars));
-					header("Location: $PHP_SELF?phase=3");
-					exit;
-				}
-			}
+			phpAds_ShowBreak();
 			
-			// Database settings			
 			if (!isset($phpAds_config['tbl_prefix']))
 				$phpAds_config['tbl_prefix'] = "phpads_";
-			
 			$phpAds_config['dbpassword'] = '';
 			
-			phpAds_StartSettings();		
-			phpAds_AddSettings('start_section', "0.2.1");
-			phpAds_AddSettings('text', 'dbhost', $strDbHost);
-			phpAds_AddSettings('break', '');
-			phpAds_AddSettings('text', 'dbuser', $strDbUser);
-			phpAds_AddSettings('break', '');
-			phpAds_AddSettings('text', 'dbpassword',
-				array($strDbPassword, 25, 'password'));
-			phpAds_AddSettings('break', '');
-			phpAds_AddSettings('text', 'dbname', $strDbName);
-			phpAds_AddSettings('end_section', '');
-			
-			phpAds_AddSettings('start_section', "0.2.2");
-			phpAds_AddSettings('text', 'tbl_prefix', $strTablesPrefix);
-			
-			if (phpAds_tableTypesSupported)
-			{
+			phpAds_StartSettings();
+				phpAds_AddSettings('start_section', "0.2.1");
+				phpAds_AddSettings('text', 'dbhost', $strDbHost);
 				phpAds_AddSettings('break', '');
-				phpAds_AddSettings('select', 'tabletype',
-					array($strTablesType, phpAds_getTableTypes()));
-			}
-			
-			phpAds_AddSettings('end_section', '');
+				phpAds_AddSettings('text', 'dbuser', $strDbUser);
+				phpAds_AddSettings('break', '');
+				phpAds_AddSettings('text', 'dbpassword', array($strDbPassword, 25, 'password'));
+				phpAds_AddSettings('break', '');
+				phpAds_AddSettings('text', 'dbname', $strDbName);
+				phpAds_AddSettings('end_section', '');
+				
+				phpAds_AddSettings('start_section', "0.2.2");
+				phpAds_AddSettings('text', 'tbl_prefix', $strTablesPrefix);
+				
+				if (phpAds_tableTypesSupported)
+				{
+					phpAds_AddSettings('break', '');
+					phpAds_AddSettings('select', 'tabletype', array($strTablesType, phpAds_getTableTypes()));
+				}
+				
+				phpAds_AddSettings('end_section', '');
 			phpAds_EndSettings();
-			
-			$header = "1.2";
-			$phase = 2;
-			
+			phpAds_FlushSettings();
 			break;
 			
-		case 3:
-						
-			if (isset($admin))
-			{
-				$admin = trim(strtolower($admin));
-				
-				if (!strlen($admin) || !strlen($admin_pw))
-					$errormessage[1][] = $strInvalidUserPwd;
-				
-				if (strlen($admin_pw) && $admin_pw != $admin_pw2)
-					$errormessage[1][] = $strNotSamePasswords;
-										
-				if (!count($errormessage))
-				{
-					$installvars['admin'] = $admin;
-					$installvars['admin_pw'] = $admin_pw;
-					$installvars['url_prefix'] = $url_prefix;
-					if ($phpAds_install_phase < 4)
-						$installvars['install_phase'] = 4;
-					setcookie('installvars', serialize($installvars));
-					header("Location: $PHP_SELF?phase=4");
-					exit;
-				}
-			}
 			
+		case 3:
 			// Admin settings
+			echo "<form name='installform' method='post' action='install.php'>";
+			echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
+			echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
+			echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
+			echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
+			echo "<span class='install'>".$strInstallMessage."</td></tr></table><br><br>";
+			
+			phpAds_ShowBreak();
 			
 			$phpAds_config['admin_pw'] = '';
 			
 			phpAds_StartSettings();
-			phpAds_AddSettings('start_section', "0.3.1");
-			phpAds_AddSettings('text', 'admin', $strUsername);
-			phpAds_AddSettings('break', '');
-			phpAds_AddSettings('text', 'admin_pw',
-				array($strPassword, 25, 'password'));
-			phpAds_AddSettings('break', '');
-			phpAds_AddSettings('text', 'admin_pw2',
-				array($strRepeatPassword, 25, 'password'));
-			phpAds_AddSettings('end_section', '');
-			
-			phpAds_AddSettings('start_section', "0.3.2");
-			phpAds_AddSettings('text', 'url_prefix',
-				array($strUrlPrefix, 35));
-			phpAds_AddSettings('end_section', '');
+				phpAds_AddSettings('start_section', "0.3.1");
+				phpAds_AddSettings('text', 'admin', $strUsername);
+				phpAds_AddSettings('break', '');
+				phpAds_AddSettings('text', 'admin_pw', array($strPassword, 25, 'password'));
+				phpAds_AddSettings('break', '');
+				phpAds_AddSettings('text', 'admin_pw2',	array($strRepeatPassword, 25, 'password'));
+				phpAds_AddSettings('end_section', '');
+				
+				phpAds_AddSettings('start_section', "0.3.2");
+				phpAds_AddSettings('text', 'url_prefix', array($strUrlPrefix, 35));
+				phpAds_AddSettings('end_section', '');
 			phpAds_EndSettings();
+			phpAds_FlushSettings();
+			break;
 			
-			$header = "1.3";
-			$phase = 3;
+			
+		case 4:
+			// Admin settings
+			if (count($fatal) == 0)
+			{
+				echo "<form name='installform' method='post' action='settings-index.php'>";
+				echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
+				echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
+				echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
+				echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
+				echo "<span class='install'>".$strInstallSuccess."</td></tr></table><br><br>";
+			}
+			else
+			{
+				echo "<form name='installform' method='post' action='settings-index.php'>";
+				echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
+				echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
+				echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
+				echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
+				echo "<span class='install'>".$strInstallNotSuccessful."</td></tr></table><br><br>";
+				
+				echo "<br><br>";
+				echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>";
+				echo "<tr><td><img src='images/error.gif'>&nbsp;&nbsp;</td>";
+				echo "<td width='100%'><span class='tab-r'>".$strErrorOccured."</span></td></tr>";
+				for ($r=0;$r<count($fatal);$r++)
+					echo "<tr><td>&nbsp;</td><td><span class='install'>".$fatal[$r]."</span></td></tr>";
+				echo "</table>";
+			}
 			
 			break;
-		
-		case 4:
 			
-			if (count($errormessage))
-			{
-				phpAds_PageHeader(1);
-				phpAds_Die($strFatalError, $strConfigNotWritable);
-			}
-			
-			if (phpAds_dbConnect())
-			{
-				$message = phpAds_createDatabase($phpAds_config['tabletype']);
-				
-				phpAds_dbQuery("INSERT INTO ".$phpAds_config['tbl_config']." (
-						config_version,
-						admin,
-						admin_pw,
-						language)
-					VALUES
-						($phpAds_version,
-						'".$phpAds_config['admin']."',
-						'".$phpAds_config['admin_pw']."',
-						'".$phpAds_config['language']."')") or phpAds_sqlDie();
-				
-				while (list($k, $v) = each($GLOBALS['phpAds_settings_information']))
-				{
-					if ($v['sql'])
-						continue;
-					
-					phpAds_SettingsWriteAdd($k, $phpAds_config[$k]);
-				}
-				
-				phpAds_ConfigFileClear();
-				
-				phpAds_SettingsWriteFlush();
-				
-				setcookie('installvars', '');
-				
-				phpAds_PageHeader("1.4");
-				phpAds_ShowSections(array());
-				
-				echo '<form name="installform" method="post" action="install.php">';
-				
-				phpAds_InstallMessage($strInstallCompleted, "$message<br><br>$strInstallCompleted2");
-				
-				echo '<br>';
-				echo '<input type="button" name="installredir" value="'.$strProceed.'" onClick="document.location = \'settings-index.php\'">';
-				echo '</form>';
-				echo '<br><br>';
-				
-				phpAds_PageFooter();
-				
-				exit;
-			}
-			
-			phpAds_PageHeader(1);
-			phpAds_Die($strFatalError, $strCantConnectToDb);
 			
 		default:
-			
-			if ($installvars['install_phase'] > 1)
-			{
-				header("Location: $PHP_SELF?phase=1");
-				exit;
-			}
-			
-			if (phpAds_isConfigWritable() && isset($proceed))
-			{
-				$installvars['install_phase'] = 1;
-				setcookie('installvars', serialize($installvars));
-				header("Location: $PHP_SELF?phase=1");
-				exit;
-			}
-			
-			$extra = '';
-			$header = "1";
-			$phase = 0;
-			
 			break;
 	}
 	
 	
-	if ($phase)
-		phpAds_PrepareHelp();
 	
-	phpAds_PageHeader($header);
-	phpAds_ShowSections($sections);
+	echo "<br><br>";
+	phpAds_ShowBreak();
+	echo "<br>";
 	
-	echo "<form name='installform' method='post' action='install.php'>";
 	
-	// Store fatal errors
-	$fatal = array();
+	echo "<table width='100%' border='0' cellpadding='0' cellspacing='0'><tr><td align='right'>";
+	echo "<input type='submit' name='proceed' value='".$strProceed."'>";
+	echo "</td></tr></table>\n\n";
 	
-	if ($phase)
-	{
- 		echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'><tr><td height='35' align='right'>";
-		echo "<b><a href='javascript:toggleHelp();'><img src='images/help-book.gif' width='15' height='15' border='0' align='absmiddle'>&nbsp;Help</a></b>";
-		echo "</td></tr></table>";
-		phpAds_FlushSettings();
-	}
-	else
-	{
-		// Determine the PHP version
-		$phpversion = ereg_replace ("([^0-9])", "", phpversion());
-		$phpversion = $phpversion / pow (10, strlen($phpversion) - 1);
-		
-		
-		// Check PHP version
-		if ($phpversion < 3.08)
-			$fatal[] = str_replace ('{php_version}', phpversion(), $strWarningPHPversion);
-		
-		// Config variables can only be check with php 4
-		if ($phpversion > 4.0)
-		{
-			// Check register_globals
-			if (ini_get ('register_globals') != true)
-				$fatal[] = $strWarningRegisterGlobals;
-			
-			// Check magic_quote_gpc
-			if (ini_get ('magic_quotes_gpc') != true)
-				$fatal[] = $strWarningMagicQuotesGPC;
-			
-			// Check magic_quotes_runtime
-			if (ini_get ('magic_quotes_runtime') != false)
-				$fatal[] = $strWarningMagicQuotesRuntime;
-		}
-		
-		// Check if config file is writable
-		if (!phpAds_isConfigWritable())
-			$fatal[] ='<br><br>'.$strConfigLockedDetected;
-		
-		if (count($fatal))
-		{
-			$title = $strWarning;
-			$text  = $strMayNotFunction.implode ("<br><br>", $fatal);
-		}
-		else
-		{
-			$title = $strInstall;
-			$text  = $strInstallMessage;
-		}
-		
-		
-		phpAds_InstallMessage($title, $text);
-		echo '<br><br>';
-	}
+	if (count($installvars))
+		for (reset($installvars); $key=key($installvars); next($installvars))
+			echo "<input type='hidden' name='installvars[".$key."]' value='".$installvars[$key]."'>\n";
 	
-	echo "<input type='hidden' name='phase' value='".$phase."'>";
-	echo "<input type='submit' name='proceed' value='".(count($fatal) ? $strIgnoreWarnings : $strProceed)."'>";
+	echo "<input type='hidden' name='phase' value='".$phase."'>\n";
 	echo "</form>";
 }
 

@@ -48,9 +48,9 @@ $link = phpAds_dbConnect();
 if (!$link)
 {
 	phpAds_PageHeader('');
-	phpAds_Die ("A fatal error occurred", "phpPgAds can't connect to the database, 
+	phpAds_Die ("A fatal error occurred", "phpAdsNew can't connect to the database, 
 										   please make sure the database is working 
-										   and phpPgAds is configured correctly");
+										   and phpAdsNew is configured correctly");
 }
 else
 {
@@ -127,25 +127,51 @@ if (phpAds_isUser(phpAds_Admin))
 	{
 		// Print a proceed request if an upgrade is needed
 		phpAds_PageHeader("1");
+		echo "<br><br>";
+		phpAds_ShowBreak();
 		
 		$message = $strSystemNeedsUpgrade;
+		if (!phpAds_databaseUpgradeSupported) $message .= '<br><br><b>'.$strCantUpdateDB.'</b>';
 		
-		if (!phpAds_databaseUpgradeSupported)
-			$message .= '<br><br>'.$strCantUpdateDB;
+		echo "<form name='upgrade' method='post' action='upgrade.php'>";
+		echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
+		echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
+		echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
+		echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
+		echo "<span class='install'>".$message."</td></tr></table>";
 		
 		if (!phpAds_isConfigWritable())
-			$message .= '<br><br>'.$strConfigLockedDetected;
-		
-		phpAds_InstallMessage($strUpgrade, $message);
+		{
+			echo "<br><br>";
+			echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>";
+			echo "<tr><td><img src='images/error.gif'>&nbsp;&nbsp;</td>";
+			echo "<td width='100%'><span class='tab-r'>".$strMayNotFunction."</span></td></tr>";
+			echo "<tr><td>&nbsp;</td><td><span class='install'>".$strConfigLockedDetected."</span></td></tr>";
+			echo "</table>";
+		}
 		
 		echo "<br><br>";
-		echo "<form name='upgrade' action='upgrade.php' method='post'>";
+		phpAds_ShowBreak();
+		echo "<br>";
+		
+		echo "<table width='100%' border='0' cellpadding='0' cellspacing='0'><tr><td align='right'>";
+		echo "<input type='submit' name='proceed' value='".$strProceed."'>";
+		echo "</td></tr></table>\n\n";
+		
 		echo "<input type='hidden' name='step' value='2'>";
-		echo "<input type='submit' name='proceed' value='$strProceed'>";
 		echo "</form>";
 	}
 	elseif ($upgrade && $step == 2)
 	{
+		// Setup busy indicator
+		phpAds_PageHeader("1");
+		echo "<br><br><img src='images/install-busy.gif' align='absmiddle'>&nbsp;";
+		echo "<span class='install'>".$strSystemUpgradeBusy."</span>";
+		phpAds_PageFooter();
+		
+		// Send the output to the browser
+		flush();
+		
 		// Upgrade database
 		if (phpAds_databaseUpgradeSupported)
 			$result = phpAds_upgradeDatabase();
@@ -157,13 +183,30 @@ if (phpAds_isUser(phpAds_Admin))
 		phpAds_ConfigFileUpdateFlush();
 		
 		// Go to the next step
-		header ("Location: upgrade.php?step=3");
+		echo "<meta http-equiv='refresh' content='0;URL=upgrade.php?step=3'>";
 		exit;
 	}
 	else
 	{
 		phpAds_PageHeader("1");
-		phpAds_InstallMessage($strUpgrade, $strSystemUpToDate);
+		echo "<br><br>";
+		phpAds_ShowBreak();
+		
+		echo "<form name='upgrade' method='post' action='index.php'>";
+		echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
+		echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
+		echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
+		echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
+		echo "<span class='install'>".$strSystemUpToDate."</td></tr></table>";
+		
+		echo "<br><br>";
+		phpAds_ShowBreak();
+		echo "<br>";
+		
+		echo "<table width='100%' border='0' cellpadding='0' cellspacing='0'><tr><td align='right'>";
+		echo "<input type='submit' name='proceed' value='".$strProceed."'>";
+		echo "</td></tr></table>\n\n";
+		echo "</form>";
 	}
 }
 
