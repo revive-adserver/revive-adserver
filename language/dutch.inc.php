@@ -125,5 +125,17 @@ $strAvg="Gem.";
 $strHourly="Views/Clicks per uur";
 $strTotal = "Totaal";
 $strUnlimited = "Onbegrensd";
+$strSave="Bewaren";
+$strUp = "Omhoog";
+$strDown = "Omloog";
+$strSaved="is bewaard !";
+$strDeleted = "is verwijderd !";  
+$strMovedUp = "is omhoog geplaatst";
+$strMovedDown = "is omlaag geplaatst";
+$strUpdated = "is gewijzigd";
+$strACL = "ACL";
+$strNoMoveUp = "Kan de eerste rij niet omhoog plaatsen";
+$strACLAdd = "Voeg nieuwe $strACL toe";
+$strACLExist = "Bestaande $strACL:";
 
 ?>

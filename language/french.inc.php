@@ -127,5 +127,17 @@ $strAvg="Avg.";
 $strHourly="Views/Clicks by hour";
 $strTotal = "Total";
 $strUnlimited = "Unlimited";
+$strSave="Save";
+$strUp = "Up";
+$strDown = "Down";
+$strSaved="was saved!";
+$strDeleted = "was deleted!";  
+$strMovedUp = "was moved up";
+$strMovedDown = "was moved down";
+$strUpdated = "was updated";
+$strACL = "ACL";
+$strNoMoveUp = "Can't move up first row";
+$strACLAdd = "Add new $strACL";
+$strACLExist = "Existing $strACL:";
 
 ?>

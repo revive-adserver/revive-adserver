@@ -125,5 +125,17 @@ $strAvg="&Oslash;";
 $strHourly="Tageszeitliche Verteilung der Zugriffe";
 $strTotal = "Gesamt";
 $strUnlimited = "Unbegrenzt";
+$strUp = "Vor";
+$strDown = "Zur|ck";
+$strSave="Speichern";
+$strSaved="wurde gespeichert!";
+$strDelete = "Lvschen";
+$strMovedUp = "wurde vorgesetzt";
+$strMovedDown = "wurde zur|ckgesetzt";
+$strUpdated = "wurde gedndert";
+$strACL = "Zugriffsregel";
+$strNoMoveUp = "Erste Zeile kann nicht vorgesetzt werden";
+$strACLAdd = "Neue Regel hinzuf|gen:";
+$strACLExist = "Bestehende Regeln:";
 
 ?>
