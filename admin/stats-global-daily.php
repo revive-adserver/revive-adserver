@@ -91,4 +91,3 @@ include ("lib-hourly.inc.php");
 phpAds_PageFooter();
 
 ?>
-
