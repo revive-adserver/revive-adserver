@@ -135,12 +135,12 @@ phpAds_AddSettings('select', 'language',
 	array($strLanguage, phpAds_AvailableLanguages()));
 phpAds_AddSettings('break', '');
 phpAds_AddSettings('select', 'updates_frequency', array(
-	'Check for updates', array(
-		'0'  => 'Every Login',
-		'1'  => 'Daily',
-		'7'  => 'Weekly',
-		'30' => 'Monthly',
-		'-1' => 'Never'
+	$strAdminCheckUpdates, array(
+		'0'  => $strAdminCheckEveryLogin,
+		'1'  => $strAdminCheckDaily,
+		'7'  => $strAdminCheckWeekly,
+		'30' => $strAdminCheckMonthly,
+		'-1' => $strAdminCheckNever
 )));
 phpAds_AddSettings('break', '');
 phpAds_AddSettings('checkbox', 'admin_novice', $strAdminNovice);
