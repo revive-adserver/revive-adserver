@@ -17,10 +17,13 @@
     </td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="50"><a name="1"></a></td><td width="600" height="50">&nbsp;</td><td height="50">&nbsp;</td></tr></table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF">
     <td width="100" class="identification" height="50">&nbsp;&nbsp;4.3.1</td>
-    <td width="600" class="section" height="50">The 
-clientID parameter</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>The 
-optional argument clientID allows you to retrieve only banners by a specific client. Specify &quot;&quot; to view banners 
-from all clients (in case you need the third or fourth argument, else don't specify it at all).</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>view(&quot;468x60&quot;, 
+    <td width="600" class="section" height="50">The clientid parameter</td>
+    <td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>
+        The optional argument clientid allows you to retrieve only banners by 
+        a specific client. Specify &quot;&quot; to view banners from all clients 
+        (in case you need the third or fourth argument, else don't specify it 
+        at all).</p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>view(&quot;468x60&quot;, 
 1);</td></tr></table></td></tr></table><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF">
     <td width="100" height="75"><a name="2"></a></td>
     <td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF">
@@ -49,12 +52,13 @@ source parameter</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor
     <td width="100" height="75"><a name="4"></a></td>
     <td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF">
     <td width="100" class="identification" height="50">&nbsp;&nbsp;4.3.4</td>
-    <td width="600" class="section" height="50">The 
-withText parameter</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>The 
-optional argument withText allows you to show a banner with its associated line of text below it (for example, &quot;Support 
-our sponsor&quot; is a common line of text). The &quot;WithText&quot; parameter is turned off by default. If want to turn 
-it on you should set this parameter to 1.</p>
-      <p>The withText parameter will not work with normal remote invocation, but 
+    <td width="600" class="section" height="50">The withtext parameter</td>
+    <td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>
+        The optional argument withtext allows you to show a banner with its associated 
+        line of text below it (for example, &quot;Support our sponsor&quot; is 
+        a common line of text). The &quot;withtext&quot; parameter is turned off 
+        by default. If want to turn it on you should set this parameter to 1.</p>
+      <p>The withtext parameter will not work with normal remote invocation, but 
         can be use with local mode, remote invocation with JavaScript and remote 
         invocation for iframes. If you want to use this feature with iframes, 
         you need to make sure the iframe is big enough to show the text below 

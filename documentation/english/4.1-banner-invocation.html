@@ -32,13 +32,22 @@
         page you only need to include this file the first time. This file is in 
         your phpAdsNew installation-directory. Banners are displayed using the 
         view() function. This function has the following syntax:</p>
-      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>int view (mixed what [, int clientID [, string target <br>          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[, string source[, bool withText = 0[, array context]]]]); </td></tr></table></td></tr></table><p>The view() function does not work well in template-based websites (for example 
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr>
+                <td>int view (mixed what [, int clientid [, string target <br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[, 
+                  string source[, bool withtext = 0[, array context]]]]); </td>
+              </tr></table></td></tr></table><p>The view() function does not work well in template-based websites (for example 
   phplib or fasttemplate), because the view() function prints the banner directly 
   to the screen. The banner would appear before the rest of the page is printed. 
   In order to make phpAdsNew work in template based websites there is a function 
   that returns both the html code ($array[&quot;html&quot;]) and the banner id 
   ($array[&quot;bannerID&quot;]) in an array. The function does not print anything 
-  to the screen.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>array view_raw (mixed what [, int clientID [, string target <br>                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[, string source[, bool withText = 0[, array context]]]]); </td></tr></table></td></tr></table><p class="subtitle"><br>An example:</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>&lt;?
+  to the screen.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr>
+                <td>array view_raw (mixed what [, int clientid [, string target 
+                  <br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[, 
+                  string source[, bool withtext = 0[, array context]]]]); </td>
+              </tr></table></td></tr></table><p class="subtitle"><br>An example:</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>&lt;?
    <br>&nbsp;&nbsp;require(&quot;/usr/local/etc/phpAds/phpadsnew.inc.php&quot;); 
 <br>?&gt; 
    
