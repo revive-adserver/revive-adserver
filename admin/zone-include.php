@@ -791,6 +791,7 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype, $delivery)
 		$campaigns[$row['clientid']]['banners'][$row['bannerid']] = $row;
 	}
 	
+	$inactivehidden = 0;
 	
 	
 	

@@ -365,7 +365,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	
 	
 	// Check if affiliate is on the same server
-	if ($extra != '' && $extra['website'])
+	if ($extra != '' && isset ($extra['website']) && $extra['website'])
 	{
 		$server_phpads   = parse_url($phpAds_config['url_prefix']);
 		$server_affilate = parse_url($extra['website']);
@@ -378,11 +378,11 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	
 	
 	// Hide when integrated in zone-advanced.php
-	if (!is_array($extra) || !$extra['zoneadvanced'])
+	if (!is_array($extra) || !isset($extra['zoneadvanced']) || !$extra['zoneadvanced'])
 		echo "<form name='generate' action='".$HTTP_SERVER_VARS['PHP_SELF']."' method='POST'>\n";
 	
 	// Invocation type selection
-	if (!is_array($extra) || $extra['delivery'] != phpAds_ZoneInterstitial && $extra['delivery'] != phpAds_ZonePopup)
+	if (!is_array($extra) || (isset($extra['delivery']) && $extra['delivery'] != phpAds_ZoneInterstitial && $extra['delivery'] != phpAds_ZonePopup))
 	{
 		$allowed['adlayer']  = $phpAds_config['allow_invocation_interstitial'];
 		$allowed['popup'] 	 = $phpAds_config['allow_invocation_popup'];
@@ -492,7 +492,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		
 		
 		// Hide when integrated in zone-advanced.php
-		if (!(is_array($extra) && $extra['zoneadvanced']))
+		if (!(is_array($extra) && isset($extra['zoneadvanced']) && $extra['zoneadvanced']))
 		{
 			// Header
 			echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
@@ -819,7 +819,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		
 
 		// Hide when integrated in zone-advanced.php
-		if (!(is_array($extra) && $extra['zoneadvanced']))
+		if (!(is_array($extra) && isset($extra['zoneadvanced']) && $extra['zoneadvanced']))
 		{
 			// Footer
 			echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
@@ -843,7 +843,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<input type='hidden' value='$v' name='$k'>";
 	
 	// Hide when integrated in zone-advanced.php
-	if (!is_array($extra) || !$extra['zoneadvanced'])
+	if (!is_array($extra) || !isset($extra['zoneadvanced']) || !$extra['zoneadvanced'])
 		echo "</form>";
 
 	echo "<br><br>";
