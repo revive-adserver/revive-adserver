@@ -593,7 +593,7 @@ if (phpAds_isUser(phpAds_Admin))
 	$adclicks = (int)phpAds_totalClicks("", "week");
 	$ctr = phpAds_buildCTR($adviews, $adclicks);
 	
-  	echo "<tr><td height='25'>$strThisWeek</td>";
+  	echo "<tr><td height='25'>$strLast7Days</td>";
 	echo "<td height='25'>$strViews: <b>$adviews</b></td>";
     echo "<td height='25'>$strClicks: <b>$adclicks</b></td>";
     echo "<td height='25'>$strCTRShort: <b>$ctr</b></td></tr>";
