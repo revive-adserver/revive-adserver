@@ -56,6 +56,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Added additional indices to the statistic tables  (Niels) 20011211
 			  - Optimized queries for generating the statistics  (Niels) 20011211
 			  - Changed preview of HTML banners  (Niels) 20011212
+			  - The first field of the login interface is now automatically focused (Jules Sotheby) 20011214
 
 
 			+ Misc bugfixes
