@@ -3,7 +3,7 @@
 // it's best if we do this only once per load, not every time we call rand.    
 mt_srand((double)microtime()*1000000);
 
-require("dblib.php"); 
+require("$phpAds_path/dblib.php"); 
 
 // Get a banner
 function get_banner($what, $clientID, $context=0, $source="")
@@ -255,7 +255,6 @@ function log_adview($bannerID,$clientID)
 	// set banner as "used"
 	db_query("Update $phpAds_tbl_banners SET seq='1' WHERE bannerID='$bannerID'");
 
-
 	if(!$phpAds_log_adviews)
 		return(false);
 
@@ -394,7 +393,6 @@ function view_raw($what, $clientID=0, $target = "", $source = "", $withtext=0, $
 	}
     db_close();
 	
-	
 	return( array("html" => $outputbuffer, 
 				  "bannerID" => $row["bannerID"])
 		  );
@@ -408,7 +406,6 @@ function view_t($what, $target = "")
 function view($what, $clientID=0, $target = "", $source = "", $withtext=0, $context=0)
 {
 	$output = view_raw("$what", "$clientID", "$target", "$source", "$withtext", "$context");
-	
 	print($output["html"]);
 	return($output["bannerID"]);
 }
