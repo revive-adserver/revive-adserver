@@ -12,6 +12,12 @@
 
   ====================================================
 
+  01-12-2003 - maintenance
+    [u] strForUpdatesLookOnWebsite
+    [+] strCurrentlyUsing
+    [+] strRunningOn
+    [+] strAndPlain
+
   01-07-2003 - settings
     [u] strAdminEmailHeaders
     [u] strWarnLimit

@@ -48,6 +48,18 @@ phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2"));
 /* Main code                                             */
 /*********************************************************/
 
+
+// Determine environment
+$current  = $strCurrentlyUsing.' '.$phpAds_productname.'&nbsp;'.$phpAds_version_readable.' ';
+$current .= $strRunningOn.' '.str_replace('/', '&nbsp;', ereg_replace(" .*$", '', $HTTP_SERVER_VARS["SERVER_SOFTWARE"])).', ';
+$current .= 'PHP&nbsp;'.phpversion().' '.$strAndPlain.' '.$phpAds_dbmsname;
+
+$res = phpAds_dbQuery("SELECT VERSION() AS version");
+if ($row = phpAds_dbFetchArray($res))
+	$current .= '&nbsp;'.$row['version'];
+
+$current .= '.';
+
 if (!isset($Session['maint_update']))
 {
 	if (function_exists('xml_parser_create'))
@@ -81,8 +93,8 @@ if (!isset($Session['maint_update']))
 	{
 		echo "<br>".$strNotAbleToCheck."<br><br>";
 		phpAds_ShowBreak();
-		
-		echo "<br>".$strForUpdatesLookOnWebsite."<br><br>";
+		echo $current;
+		echo "<br><br>".$strForUpdatesLookOnWebsite."<br><br>";
 		echo "<b><img src='images/caret-r.gif'>&nbsp;<a href='http://".$phpAds_producturl."' target='_blank'>".$strClickToVisitWebsite."</a></b>"; 
 	}
 }
@@ -102,6 +114,7 @@ else
 		echo "<table border='0' cellspacing='0' cellpadding='0'><tr><td width='24' valign='top'>";
 		echo "<img src='images/info.gif'>&nbsp;&nbsp;";
 		echo "</td><td valign='top'><b>".$strNoNewVersionAvailable."</b>";
+		echo '<br><br>'.$current;
 		echo "</td></tr></table><br>";
 		phpAds_ShowBreak();
 	}
@@ -119,6 +132,8 @@ else
 			echo "<img src='images/info.gif'>&nbsp;&nbsp;";
 			echo "</td><td valign='top'>".$strNewVersionAvailable;
 		}
+		
+		echo '<br><br>'.$current;
 		
 		echo "</td></tr></table>";
 		echo "<br>";

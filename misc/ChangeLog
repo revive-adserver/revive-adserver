@@ -1,11 +1,14 @@
 phpAdsNew - ChangeLog
 
-CVS			+ Misc bugfixes
+
+CVS			+ Misc changes
+			  - 2003-01-12:  Added info about the current version on the Available Updates page  (Niels)
+			
+
+v 2.0rc2		+ Misc bugfixes
 			  - 2003-01-07:  Wrong value was used to identify PHP < 4.0.3 during the install and upgrade process  (Niels)
 			  - 2003-01-08:  After the upgrade all config.inc.php boolean variables were wrongly set to true  (Matteo)
 			  - 2003-01-08:  Adding a client id during direct selection caused an invalid SQL query -> no banners were shown  (Niels)
-
-
 
 
 v 2.0rc1		+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
