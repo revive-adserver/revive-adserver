@@ -1,4 +1,4 @@
-phpAdsNew 1.9.x -> phpAdsNew 1.x.x
+phpAdsNew 1.9.x -> phpAdsNew 2 beta 1
 
 Two new columns were added to the client table in order to allow permissions
 and client specific language settings. When upgrading to this version you
