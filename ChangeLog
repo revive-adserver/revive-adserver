@@ -169,6 +169,7 @@ CVS			+ Added configuration manager  (Matteo, 2001-11-04)
 			  - 2002-07-14:  Added hidden configuration setting to disable the user interface  (Niels)
 			  - 2002-07-15:  Updated some of the icons to make them better looking  (Niels)
 			  - 2002-07-17:  Added ability to clear all the limitations of one banner all at once  (Niels)
+			  - 2002-07-19:  Added floater and cursor floating dhtml layerstyles  (Matteo)
 
 
 			+ Misc bugfixes
