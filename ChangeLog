@@ -10,6 +10,7 @@ CVS			+ Misc changes to library and function names
 			  - All config variables are now stored in one array  (Niels) 20011027
 			  - Changed the name of the database settings in config.inc.php  (Niels) 20011027
 			  - Made default values for settings in config.inc.php more consistent  (Niels) 20011027
+			  - Moved all includes inside view.inc.php to all invocation files  (Niels) 20011027
 
 			+ Misc changes
 			  - Moved some functions around to make sure no unneeded 
@@ -29,6 +30,7 @@ CVS			+ Misc changes to library and function names
 			  - Destination cookie sometimes had wrong value  (Niels) 20011024
 			  - Fixed duplicate SQL connection in adview.php  (Niels) 20011025
 			  - Bugfix: AdClick history for mailed reports was limited to 7 days  (Niels) 20011026
+			  - Bugfix: Fixed duplicate dblib include and phpAds_path problem  (Niels) 2001027
 			  - Bugfix: Database connection will always be kept open, because
 			    it might be shared with another script  (Niels) 20011102
 			  - Bugfix: phpAds_path problem fixed when using the maintenance script  (Niels) 20011102
