@@ -265,7 +265,7 @@ function phpAds_revisionGet ($filename)
 		$content = str_replace ("\r", '', $content);
 	
 		return array (
-			$matches[1],
+			$matches[2],
 			md5($content)
 		);
 	}
