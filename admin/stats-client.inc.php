@@ -25,8 +25,9 @@ if ($phpAds_compact_stats)
 	
 	while ($row_banners = mysql_fetch_array($res_banners))
 	{
-		$tmp_views["id$row_banners[bannerid]"] = $row_banners[adviews];
-		$tmp_clicks["id$row_banners[bannerid]"] = $row_banners[adclicks];
+		$tmp_views[$row_banners[bannerID]] = $row_banners[adviews];
+		$tmp_clicks[$row_banners[bannerID]] = $row_banners[adclicks];
+		$tmp_alt[$row_banners[bannerID]] = strtolower($row_banners[alt]);
 	}
 }
 else
