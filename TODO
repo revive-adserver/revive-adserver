@@ -3,26 +3,23 @@ phpAdsNew - Todo
 Feature which should be implemented 
 in the next release (2.0):
   + Additional Report plugins
-  + Availability
-  + Banner invocation script builder
-  + XML-RPC invocation
-  + Installation and update script
+  + Additions to statistics
+  + Misc changes to database structure
 
 Feature which should be implemented
 in the nearby future (2.1/2.2)
+  + New user/authorisation manager
   + Move to PHP4 only? Maybe checking PHP version for 
     concerning expansion or reduction of functions
   + Session based sequential banner retrieval
-  + Additions to statistics
+  + Rewrite of database structure
 
 Long term features:
   + Use a template system for admin interface
   + Support for right-left scripts such as arabic
   + Move to PHP4 only
-  + Rewrite of database structure
   + Database abstraction layer
   + Database manufacturer independent
-  + New user/authorisation manager
   + LDAP authorisation support
   + Unknown
   
