@@ -181,6 +181,7 @@ $GLOBALS['strWarnLimit']				= "Warn Limit";
 $GLOBALS['strWarnLimitErr']				= "Warn Limit should be a positive integer";
 $GLOBALS['strWarnAdmin']				= "Warn Admin";
 $GLOBALS['strWarnClient']				= "Warn Advertiser";
+$GLOBALS['strQmailPatch']				= "Enable qmail patch";
 
 $GLOBALS['strRemoteHosts']				= "Remote hosts";
 $GLOBALS['strIgnoreHosts']				= "Ignore Hosts";

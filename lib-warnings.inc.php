@@ -122,7 +122,7 @@ function phpAds_deactivateMail ($campaign)
 			$res_banners = phpAds_dbQuery("
 				SELECT
 					bannerid,
-					URL,
+					url,
 					description,
 					alt
 				FROM
@@ -147,7 +147,7 @@ function phpAds_deactivateMail ($campaign)
 						$name .= $strUntitled;
 					
 					$Body .= $strBanner."  ".$name."\n";
-					$Body .= "linked to: ".$row_banners['URL']."\n";
+					$Body .= "linked to: ".$row_banners['url']."\n";
 					$Body .= "-------------------------------------------------------\n";
 				}
 			}

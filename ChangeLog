@@ -121,6 +121,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Campaign selection is now default type of linking zones to banners  (Niels) 20020323
 			  - Added unique id (n) to every generated invocation code  (Niels) 20020324
 			  - Changed random seed to include a part of the n parameter  (Niels) 20020324
+			  - Added optional patch for systems with a local qmail as SMTP deamon  (Matteo) 20020328
 
 
 			+ Misc bugfixes

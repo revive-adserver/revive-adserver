@@ -45,6 +45,10 @@ function phpAds_sendMail ($email, $readable, $subject, $contents)
 	if ($phpAds_config['admin_email_headers'] != '')
 		$param_headers .= "\r\n".$phpAds_config['admin_email_headers'];
 	
+	// Use only \n as header separator when qmail is used
+	if ($phpAds_config['qmail_patch'])
+		$param_headers = str_replace("\r", '', $param_headers);
+	
 	return (@mail ($param_to, $subject, $contents, $param_headers));
 }
 

@@ -15,8 +15,8 @@
 
 
 // Current phpAds version
-$phpAds_version = 200.085;
-$phpAds_version_readable = "2 dev 17032002";
+$phpAds_version = 200.086;
+$phpAds_version_readable = "2 dev 28032002";
 
 $GLOBALS['phpAds_settings_information'] = array(
 	'dbhost' => 					array ('type' => 'string', 	'sql' => false),
@@ -100,8 +100,8 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'gui_show_banner_info' =>		array ('type' => 'boolean', 'sql' => true),
 	'gui_show_banner_preview' =>	array ('type' => 'boolean', 'sql' => true),
 	'gui_show_banner_html' =>		array ('type' => 'boolean', 'sql' => true),
-	'config_version' =>				array ('type' => 'string', 'sql' => true)//,
-//	'pg_timezone' =>				array ('type' => 'string', 'sql' => true)
+	'qmail_patch' =>				array ('type' => 'boolean', 'sql' => true),
+	'config_version' =>				array ('type' => 'string', 'sql' => true)
 );
 
 

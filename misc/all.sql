@@ -241,6 +241,7 @@ CREATE TABLE phpads_config (
    gui_show_banner_info enum('t','f') DEFAULT 't',
    gui_show_banner_preview enum('t','f') DEFAULT 't',
    gui_show_banner_html enum('t','f') DEFAULT 'f',
+   qmail_patch enum('t','f') DEFAULT 'f',
    PRIMARY KEY (configid)
 );
 

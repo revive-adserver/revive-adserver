@@ -77,6 +77,8 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		phpAds_SettingsWriteAdd('warn_admin', $warn_admin);
 	if (isset($warn_client))
 		phpAds_SettingsWriteAdd('warn_client', $warn_client);
+	if (isset($qmail_patch))
+		phpAds_SettingsWriteAdd('qmail_patch', $qmail_patch);
 	
 	if (!count($errormessage))
 	{
@@ -135,6 +137,8 @@ phpAds_AddSettings('text', 'warn_limit',
 phpAds_AddSettings('break', '');
 phpAds_AddSettings('checkbox', 'warn_admin', $strWarnAdmin);
 phpAds_AddSettings('checkbox', 'warn_client', $strWarnClient);
+phpAds_AddSettings('break', '');
+phpAds_AddSettings('checkbox', 'qmail_patch', $strQmailPatch);
 phpAds_AddSettings('end_section', '');
 
 phpAds_AddSettings('start_section', "1.4.3");
