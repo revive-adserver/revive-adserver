@@ -180,6 +180,8 @@ $affiliate_count = phpAds_dbNumRows($res);
 while ($row = phpAds_dbFetchArray($res))
 {
 	$affiliates[$row['affiliateid']] = $row;
+	$affiliates[$row['affiliateid']]['ZoneBanners'] = 0;
+	$affiliates[$row['affiliateid']]['ZoneCampaigns'] = 0;
 }
 
 
@@ -212,6 +214,7 @@ while ($row = phpAds_dbFetchArray($res))
 	{
 		$row['linked'] = (phpAds_IsBannerInZone ($bannerid, $row['zoneid'], $row['what']));
 		$affiliates[$row['affiliateid']]['zones'][$row['zoneid']] = $row;
+		$affiliates[$row['affiliateid']]['ZoneBanners']++;
 	}
 }
 
@@ -243,6 +246,7 @@ while ($row = phpAds_dbFetchArray($res))
 		{
 			$row['linked'] = true;
 			$affiliates[$row['affiliateid']]['zones'][$row['zoneid']] = $row;
+			$affiliates[$row['affiliateid']]['ZoneCampaigns']++;
 		}
 	}
 }
@@ -318,12 +322,23 @@ if ($zone_count > 0 && $affiliate_count > 0)
 			for (reset($zones); $zkey = key($zones); next($zones))
 				if ($zones[$zkey]['linked']) $zoneslinked++;
 			
-			if (count($zones) == $zoneslinked)
-				echo "&nbsp;&nbsp;<input name='affiliate[".$affiliate['affiliateid']."]' type='checkbox' value='t' checked ";
+			if ($affiliate['ZoneBanners'] > 0)
+			{
+				if (count($zones) == $zoneslinked)
+					echo "&nbsp;&nbsp;<input name='affiliate[".$affiliate['affiliateid']."]' type='checkbox' value='t' checked ";
+				else
+					echo "&nbsp;&nbsp;<input name='affiliate[".$affiliate['affiliateid']."]' type='checkbox' value='t' ";
+				
+				echo "onClick='toggleZones(".$affiliate['affiliateid'].");'>";
+			}
 			else
-				echo "&nbsp;&nbsp;<input name='affiliate[".$affiliate['affiliateid']."]' type='checkbox' value='t' ";
+			{
+				if (count($zones) == $zoneslinked)
+					echo "&nbsp;&nbsp;<input name='' type='checkbox' value='t' checked disabled>";
+				else
+					echo "&nbsp;&nbsp;<input name='' type='checkbox' value='t' disabled>";
+			}
 			
-			echo "onClick='toggleZones(".$affiliate['affiliateid'].");'>";
 			echo "&nbsp;&nbsp;<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;";
 			echo "<a href='affiliate-edit.php?affiliateid=".$affiliate['affiliateid']."'>".$affiliate['name']."</a>";
 			echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -425,7 +440,7 @@ echo "</form>";
 	if (isset($affiliates) && is_array($affiliates) && count($affiliates))
 		for (reset($affiliates); $akey = key($affiliates); next($affiliates))
 			if (isset($affiliates[$akey]['zones']))
-				echo "\taffiliates[".$akey."] = ".count($affiliates[$akey]['zones']).";\n";
+				echo "\taffiliates[".$akey."] = ".$affiliates[$akey]['ZoneBanners'].";\n";
 ?>
 	
 	function toggleAffiliate(affiliateid)
