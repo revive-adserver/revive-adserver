@@ -29,9 +29,9 @@ require	("view.inc.php");
 // Set header information
 include ("lib-cache.inc.php");
 
+
 // Open a connection to the database
 phpAds_dbConnect();
-
 
 if (isset($clientID) && !isset($clientid))	$clientid = $clientID;
 if (isset($bannerID) && !isset($bannerid))	$bannerid = $bannerID;
@@ -40,12 +40,15 @@ if (isset($bannerid) && !isset($what))
 {
 	$res = phpAds_dbQuery("
 		SELECT
-			*
+			b.contenttype, i.contents
 		FROM
-			".$phpAds_config['tbl_banners']."
+			".$phpAds_config['tbl_banners']." AS b,
+			".$phpAds_config['tbl_images']." AS i
 		WHERE
-			bannerid = $bannerid
-		") or phpAds_sqlDie();
+			b.bannerid = $bannerid AND
+			b.filename = i.filename AND
+			b.storagetype = 'sql'
+		");
 	
 	if(phpAds_dbNumRows($res) == 0)
 	{
@@ -57,19 +60,16 @@ if (isset($bannerid) && !isset($what))
 	else
 	{
 		$row = phpAds_dbFetchArray($res);
-		if($row["format"] == "url" || $row["format"] == "web")
-		{
-			Header("Location: $row[banner]");
-		} 
-		elseif ($row["format"] == "swf")
+		
+		if ($row['contenttype'] == 'swf')
 		{
 			Header("Content-type: application/x-shockwave-flash; name=".microtime()."\n");
-			echo $row["banner"];
+			echo $row['contents'];
 		}
-		else 
+		else
 		{
-			Header("Content-type: image/".$row['format']."; name=".microtime());
-			echo $row["banner"];
+			Header("Content-type: image/".$row['contenttype']."; name=".microtime());
+			echo $row['contents'];
 		}
 	}
 }
@@ -179,39 +179,29 @@ else
 			}
 			else
 			{
-				// SQL -> load the banner from the database
-				
-				if (!isset($row['banner']) || $row['banner'] == '')
-				{
-					// The image is not returned when using zones,
-					// so if the var $row['banner'] is empty load
-					// the image from the database.
-					
-					$res = phpAds_dbQuery("
-						SELECT
-							*
-						FROM
-							".$phpAds_config['tbl_banners']."
-						WHERE
-							bannerid = ".$row['bannerid']."
-						") or phpAds_sqlDie();
-					
-					$row = phpAds_dbFetchArray($res);
-				}
+				// SQL
 				
 				// Store destination URL
 				SetCookie("destNum", $row['url'], 0, $url["path"]);
 				if(isset($n)) SetCookie("destID[$n]", $row['url'], 0, $url["path"]);
 				
-				if ($row["format"] == "swf")
+				// Load the banner from the database
+				$res = phpAds_dbQuery("
+					SELECT
+						b.contenttype, i.contents
+					FROM
+						".$phpAds_config['tbl_banners']." AS b,
+						".$phpAds_config['tbl_images']." AS i
+					WHERE
+						b.bannerid = ".$row['bannerid']." AND
+						b.filename = i.filename AND
+						b.storagetype = 'sql'
+				");
+				
+				if ($row = phpAds_dbFetchArray($res))
 				{
-					Header("Content-type: application/x-shockwave-flash; name=".microtime()."\n");
-					echo $row["banner"];
-				}
-				else
-				{
-					Header("Content-type: image/".$row['format']."; name=".microtime());
-					echo $row["banner"];
+					Header("Content-type: image/".$row['contenttype']."; name=".microtime());
+					echo $row['contents'];
 				}
 			}
 		}

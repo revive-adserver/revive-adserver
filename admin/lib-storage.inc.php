@@ -25,7 +25,7 @@ if (!function_exists("ftp_connect"))
 /* Store a file on the webserver                         */
 /*********************************************************/
 
-function phpAds_ImageStore ($name, $buffer, $overwrite = false)
+function phpAds_ImageStore ($storagetype, $name, $buffer, $overwrite = false)
 {
 	global $phpAds_config;
 	
@@ -34,32 +34,50 @@ function phpAds_ImageStore ($name, $buffer, $overwrite = false)
 	$name = strtolower ($name);
 	$name = str_replace (" ", "_", $name);
 	
-	
-	if ($phpAds_config['type_web_mode'] == 0)
+	if ($storagetype == 'web')
 	{
-		// Local mode
-		if ($overwrite == false)
-			$name = phpAds_LocalUniqueName ($name);
-		
-		// Write the file
-		if ($fp = @fopen($phpAds_config['type_web_dir']."/".$name, 'wb'))
+		if ($phpAds_config['type_web_mode'] == 0)
 		{
-			@fwrite ($fp, $buffer);
-			@fclose ($fp);
+			// Local mode
+			if ($overwrite == false)
+				$name = phpAds_LocalUniqueName ($name);
 			
-			$stored_url = $phpAds_config['type_web_url']."/".$name;
+			// Write the file
+			if ($fp = @fopen($phpAds_config['type_web_dir']."/".$name, 'wb'))
+			{
+				@fwrite ($fp, $buffer);
+				@fclose ($fp);
+				
+				$stored_url = $name;
+			}
+		}
+		else
+		{
+			// FTP mode
+			$server = parse_url($phpAds_config['type_web_ftp']);
+			if ($server['path'] != "" && substr($server['path'], 0, 1) == "/") $server['path'] = substr ($server['path'], 1);
+			
+			if ($server['scheme'] == 'ftp')
+			{
+				$stored_url = phpAds_FTPStore ($server, $name, $buffer, $overwrite);
+			}
 		}
 	}
-	else
+	
+	if ($storagetype == 'sql')
 	{
-		// FTP mode
-		$server = parse_url($phpAds_config['type_web_ftp']);
-		if ($server['path'] != "" && substr($server['path'], 0, 1) == "/") $server['path'] = substr ($server['path'], 1);
+		if ($overwrite == false)
+			$name = phpAds_SqlUniqueName ($name);
 		
-		if ($server['scheme'] == 'ftp')
-		{
-			$stored_url = phpAds_FTPStore ($server, $name, $buffer, $overwrite);
-		}
+		$res = phpAds_dbQuery ("
+			REPLACE INTO 
+				".$phpAds_config['tbl_images']."
+			SET
+				filename = '".$name."',
+				contents = '".addslashes($buffer)."'
+		");
+		
+		$stored_url = $name;
 	}
 	
 	if (isset($stored_url) && $stored_url != '')
@@ -78,7 +96,7 @@ function phpAds_ImageStore ($name, $buffer, $overwrite = false)
 /* Duplicate a file on the webserver                     */
 /*********************************************************/
 
-function phpAds_ImageDuplicate ($name)
+function phpAds_ImageDuplicate ($storagetype, $name)
 {
 	global $phpAds_config;
 	
@@ -86,26 +104,35 @@ function phpAds_ImageDuplicate ($name)
 	$name = basename($name);
 	
 	
-	if ($phpAds_config['type_web_mode'] == 0)
+	if ($storagetype == 'web')
 	{
-		// Local mode
-		$duplicate = phpAds_LocalUniqueName ($name);
-		
-		if (@copy ($phpAds_config['type_web_dir']."/".$name, $phpAds_config['type_web_dir']."/".$duplicate))
+		if ($phpAds_config['type_web_mode'] == 0)
 		{
-			$stored_url = $phpAds_config['type_web_url']."/".$duplicate;
+			// Local mode
+			$duplicate = phpAds_LocalUniqueName ($name);
+			
+			if (@copy ($phpAds_config['type_web_dir']."/".$name, $phpAds_config['type_web_dir']."/".$duplicate))
+			{
+				$stored_url = $duplicate;
+			}
+		}
+		else
+		{
+			// FTP mode
+			$server = parse_url($phpAds_config['type_web_ftp']);
+			if ($server['path'] != "" && substr($server['path'], 0, 1) == "/") $server['path'] = substr ($server['path'], 1);
+			
+			if ($server['scheme'] == 'ftp')
+			{
+				$stored_url = phpAds_FTPDuplicate ($server, $name);
+			}
 		}
 	}
-	else
+	
+	if ($storagetype == 'sql')
 	{
-		// FTP mode
-		$server = parse_url($phpAds_config['type_web_ftp']);
-		if ($server['path'] != "" && substr($server['path'], 0, 1) == "/") $server['path'] = substr ($server['path'], 1);
-		
-		if ($server['scheme'] == 'ftp')
-		{
-			$stored_url = phpAds_FTPDuplicate ($server, $name);
-		}
+		if ($buffer = phpAds_ImageRetrieve ($storagetype, $name))
+			$stored_url = phpAds_ImageStore ($storagetype, $name, $buffer);
 	}
 	
 	if (isset($stored_url) && $stored_url != '')
@@ -123,29 +150,48 @@ function phpAds_ImageDuplicate ($name)
 /* Retrieve a file on the webserver                      */
 /*********************************************************/
 
-function phpAds_ImageRetrieve ($name)
+function phpAds_ImageRetrieve ($storagetype, $name)
 {
 	global $phpAds_config;
 	
 	// Strip existing path
 	$name = basename($name);
 	
-	
-	if ($phpAds_config['type_web_mode'] == 0)
+	if ($storagetype == 'web')
 	{
-		// Local mode
-		$result = @fread(@fopen($phpAds_config['type_web_dir']."/".$name, 'rb'),
-				  @filesize($phpAds_config['type_web_dir']."/".$name));
-	}
-	else
-	{
-		// FTP mode
-		$server = parse_url($phpAds_config['type_web_ftp']);
-		if ($server['path'] != "" && substr($server['path'], 0, 1) == "/") $server['path'] = substr ($server['path'], 1);
-		
-		if ($server['scheme'] == 'ftp')
+		if ($phpAds_config['type_web_mode'] == 0)
 		{
-			$result = phpAds_FTPRetrieve ($server, $name);
+			// Local mode
+			$result = @fread(@fopen($phpAds_config['type_web_dir']."/".$name, 'rb'),
+					  @filesize($phpAds_config['type_web_dir']."/".$name));
+		}
+		else
+		{
+			// FTP mode
+			$server = parse_url($phpAds_config['type_web_ftp']);
+			if ($server['path'] != "" && substr($server['path'], 0, 1) == "/") $server['path'] = substr ($server['path'], 1);
+			
+			if ($server['scheme'] == 'ftp')
+			{
+				$result = phpAds_FTPRetrieve ($server, $name);
+			}
+		}
+	}
+	
+	if ($storagetype == 'sql')
+	{
+		$res = phpAds_dbQuery ("
+			SELECT
+				contents
+			FROM
+				".$phpAds_config['tbl_images']."
+			WHERE
+				filename = '".$name."'
+		");
+		
+		if ($row = phpAds_dbFetchArray($res))
+		{
+			$result = $row['contents'];
 		}
 	}
 	
@@ -164,32 +210,81 @@ function phpAds_ImageRetrieve ($name)
 /* Remove a file from the webserver                      */
 /*********************************************************/
 
-function phpAds_ImageDelete ($name)
+function phpAds_ImageDelete ($storagetype, $name)
 {
 	global $phpAds_config;
 	
-	if ($phpAds_config['type_web_mode'] == 0)
+	if ($storagetype == 'web')
 	{
-		if (@file_exists($phpAds_config['type_web_dir']."/".$name))
+		if ($phpAds_config['type_web_mode'] == 0)
 		{
-			@unlink ($phpAds_config['type_web_dir']."/".$name);
+			if (@file_exists($phpAds_config['type_web_dir']."/".$name))
+			{
+				@unlink ($phpAds_config['type_web_dir']."/".$name);
+			}
+		}
+		else
+		{
+			// FTP mode
+			$server = parse_url($phpAds_config['type_web_ftp']);
+			if ($server['path'] != "" && substr($server['path'], 0, 1) == "/") $server['path'] = substr ($server['path'], 1);
+			
+			if ($server['scheme'] == 'ftp')
+			{
+				phpAds_FTPDelete ($server, $name);
+			}
 		}
 	}
-	else
+	
+	if ($storagetype == 'sql')
 	{
-		// FTP mode
-		$server = parse_url($phpAds_config['type_web_ftp']);
-		if ($server['path'] != "" && substr($server['path'], 0, 1) == "/") $server['path'] = substr ($server['path'], 1);
-		
-		if ($server['scheme'] == 'ftp')
-		{
-			phpAds_FTPDelete ($server, $name);
-		}
+		$res = phpAds_dbQuery ("
+			DELETE FROM 
+				".$phpAds_config['tbl_images']."
+			WHERE
+				filename = '".$name."'
+		");
 	}
 }
 
 
 
+
+/*********************************************************/
+/* SQL storage functions                                 */
+/*********************************************************/
+
+function phpAds_SqlUniqueName ($name)
+{
+	global $phpAds_config;
+	
+	$extension = substr($name, strrpos($name, ".") + 1);
+	$base	   = substr($name, 0, strrpos($name, "."));
+	
+	$res = phpAds_dbQuery ("SELECT filename FROM ".$phpAds_config['tbl_images']." WHERE filename='".$base.".".$extension."'");
+	if (phpAds_dbNumRows($res) == 0)
+	{
+		return ($base.".".$extension);
+	}
+	else
+	{
+		$found = false;
+		$i = 1;
+		
+		while ($found == false)
+		{
+			$i++;
+			
+			$res = phpAds_dbQuery ("SELECT filename FROM ".$phpAds_config['tbl_images']." WHERE filename='".$base."_".$i.".".$extension."'");
+			if (phpAds_dbNumRows($res) == 0)
+			{
+				$found = true;
+			}
+		}
+		
+		return ($base."_".$i.".".$extension);
+	}
+}
 
 
 
@@ -263,7 +358,7 @@ function phpAds_FTPStore ($server, $name, $buffer, $overwrite = false)
 		// Upload the temporary file
 		if (@ftp_fput ($conn_id, $name, $tempfile, FTP_BINARY))
 		{
-			$stored_url = $phpAds_config['type_web_url']."/".$name;
+			$stored_url = $name;
 		}
 		
 		@fclose ($tempfile);
@@ -304,7 +399,7 @@ function phpAds_FTPDuplicate ($server, $name)
 			
 			if (@ftp_fput ($conn_id, $name, $tempfile, FTP_BINARY))
 			{
-				$stored_url = $phpAds_config['type_web_url']."/".$name;
+				$stored_url = $name;
 			}
 		}
 		

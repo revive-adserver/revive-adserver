@@ -157,8 +157,8 @@ $res_banners = phpAds_dbQuery("
 		clientid,
 		alt,
 		description,
-		format,
-		active
+		active,
+		storagetype
 	FROM 
 		".$phpAds_config['tbl_banners']."
 		".phpAds_getBannerListOrder ($listorder, $orderdirection)."
@@ -514,18 +514,18 @@ if (phpAds_isUser(phpAds_Admin))
 							
 							if ($banners[$bkey]['active'] == 't' && $campaigns[$ckey]['active'] == 't')
 							{
-								if ($banners[$bkey]['format'] == 'html')
+								if ($banners[$bkey]['storagetype'] == 'html')
 									echo "<img src='images/icon-banner-html.gif' align='absmiddle'>";
-								elseif ($banners[$bkey]['format'] == 'url')
+								elseif ($banners[$bkey]['storagetype'] == 'url')
 									echo "<img src='images/icon-banner-url.gif' align='absmiddle'>";
 								else
 									echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>";
 							}
 							else
 							{
-								if ($banners[$bkey]['format'] == 'html')
+								if ($banners[$bkey]['storagetype'] == 'html')
 									echo "<img src='images/icon-banner-html-d.gif' align='absmiddle'>";
-								elseif ($banners[$bkey]['format'] == 'url')
+								elseif ($banners[$bkey]['storagetype'] == 'url')
 									echo "<img src='images/icon-banner-url-d.gif' align='absmiddle'>";
 								else
 									echo "<img src='images/icon-banner-stored-d.gif' align='absmiddle'>";

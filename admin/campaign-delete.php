@@ -46,8 +46,8 @@ if (isset($campaignid) && $campaignid != '')
 	$res_banners = phpAds_dbQuery("
 		SELECT
 			bannerid,
-			format,
-			banner
+			storagetype,
+			filename
 		FROM
 			".$phpAds_config['tbl_banners']."
 		WHERE
@@ -56,9 +56,9 @@ if (isset($campaignid) && $campaignid != '')
 	
 	while ($row = phpAds_dbFetchArray($res_banners))
 	{
-		// Cleanup webserver stored images for each banner
-		if ($row['format'] == 'web' && $row['banner'] != '')
-			phpAds_ImageDelete (basename($row['banner']));		
+		// Cleanup stored images for each banner
+		if (($row['storagetype'] == 'web' || $row['storagetype'] == 'sql') && $row['filename'] != '')
+			phpAds_ImageDelete ($row['storagetype'], $row['filename']);
 		
 		
 		// Delete Banner ACLs

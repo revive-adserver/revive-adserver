@@ -15,8 +15,8 @@
 
 
 // Current phpAds version
-$phpAds_version = 200.067;
-$phpAds_version_readable = "2 dev 23122002";
+$phpAds_version = 200.070;
+$phpAds_version_readable = "2 dev 26122001";
 
 $phpAds_settings_information = array(
 	'dbhost' => 					array ('type' => 'string', 	'sql' => false),
@@ -32,6 +32,7 @@ $phpAds_settings_information = array(
 	'tbl_acls' => 					array ('type' => 'string', 	'sql' => false),
 	'tbl_zones' => 					array ('type' => 'string', 	'sql' => false),
 	'tbl_affiliates' =>				array ('type' => 'string', 	'sql' => false),
+	'tbl_images' =>					array ('type' => 'string', 	'sql' => false),
 	'tbl_config' => 				array ('type' => 'string', 	'sql' => false),
 	'persistent_connections' =>		array ('type' => 'boolean', 'sql' => false),
 	'insert_delayed' => 			array ('type' => 'boolean', 'sql' => false),

@@ -271,18 +271,18 @@ function phpAds_showZoneBanners ($width, $height, $what)
 			// Banner icon
 			if ($row['active'] == 't')
 			{
-				if ($row['format'] == 'html')
+				if ($row['storagetype'] == 'html')
 					echo "<img src='images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
-				elseif ($row['format'] == 'url')
+				elseif ($row['storagetype'] == 'url')
 					echo "<img src='images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
 				else
 					echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
 			}
 			else
 			{
-				if ($row['format'] == 'html')
+				if ($row['storagetype'] == 'html')
 					echo "<img src='images/icon-banner-html-d.gif' align='absmiddle'>&nbsp;";
-				elseif ($row['format'] == 'url')
+				elseif ($row['storagetype'] == 'url')
 					echo "<img src='images/icon-banner-url-d.gif' align='absmiddle'>&nbsp;";
 				else
 					echo "<img src='images/icon-banner-stored-d.gif' align='absmiddle'>&nbsp;";

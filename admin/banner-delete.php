@@ -36,16 +36,17 @@ if (isset($bannerid) && $bannerid != '')
 	// Cleanup webserver stored image
 	$res = phpAds_dbQuery("
 		SELECT
-			banner, format
+			storagetype, filename
 		FROM
 			".$phpAds_config['tbl_banners']."
 		WHERE
 			bannerid = $bannerid
-		") or phpAds_sqlDie();
+	") or phpAds_sqlDie();
+	
 	if ($row = phpAds_dbFetchArray($res))
 	{
-		if ($row['format'] == 'web' && $row['banner'] != '')
-			phpAds_ImageDelete (basename($row['banner']));
+		if (($row['storagetype'] == 'web' || $row['storagetype'] == 'sql') && $row['filename'] != '')
+			phpAds_ImageDelete ($row['storagetype'], $row['filename']);
 	}
 	
 	// Delete banner

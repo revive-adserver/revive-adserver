@@ -131,11 +131,11 @@ if (phpAds_dbNumRows($res) != 0)
 		
 		if ($row['active'] == 't')
 		{
-			if ($row['format'] == 'html')
+			if ($row['storagetype'] == 'html')
 			{
 				echo "<img src='images/icon-banner-html.gif' align='absmiddle'>";
 			}
-			elseif ($row['format'] == 'url')
+			elseif ($row['storagetype'] == 'url')
 			{
 				echo "<img src='images/icon-banner-url.gif' align='absmiddle'>";
 			}
@@ -146,11 +146,11 @@ if (phpAds_dbNumRows($res) != 0)
 		}
 		else
 		{
-			if ($row['format'] == 'html')
+			if ($row['storagetype'] == 'html')
 			{
 				echo "<img src='images/icon-banner-html-d.gif' align='absmiddle'>";
 			}
-			elseif ($row['format'] == 'url')
+			elseif ($row['storagetype'] == 'url')
 			{
 				echo "<img src='images/icon-banner-url-d.gif' align='absmiddle'>";
 			}
@@ -170,7 +170,7 @@ if (phpAds_dbNumRows($res) != 0)
 		echo "<tr>";
 		echo "<td bgcolor='#F6F6F6'>&nbsp;&nbsp;&nbsp;&nbsp;</td>";
 	   	echo "<td bgcolor='#F6F6F6' colspan='4' align='left'>";
-	   	echo phpAds_buildBannerCode ($row['bannerid'], $row['banner'], $row['active'], $row['format'], $row['width'], $row['height'], $row['bannertext']);
+	   	echo phpAds_buildBannerCode ($row['bannerid']);
 	    echo "</td>";
 		echo "</tr>";
 		

@@ -67,6 +67,16 @@ CREATE TABLE phpads_adviews (
 
 
 
+-- Table structure for table 'phpads_images'
+
+
+CREATE TABLE phpads_images (
+   filename varchar(128) NOT NULL,
+   contents blob NOT NULL,
+   PRIMARY KEY (filename(16))
+);
+
+
 -- Table structure for table 'phpads_banners'
 
 
@@ -75,20 +85,23 @@ CREATE TABLE phpads_banners (
    clientid mediumint(9) DEFAULT '0' NOT NULL,
    active enum('t','f') DEFAULT 't' NOT NULL,
    priority int(11) DEFAULT '0' NOT NULL,
-   weight tinyint(4) DEFAULT '1' NOT NULL,
-   seq tinyint(4) DEFAULT '0' NOT NULL,
-   banner blob NOT NULL,
+   contenttype enum('gif','jpeg','png','html','swf') DEFAULT 'gif' NOT NULL,
+   storagetype enum('sql','web','url','html','network') DEFAULT 'sql' NOT NULL,
+   filename varchar(255) NOT NULL,
+   htmltemplate blob NOT NULL,
+   htmlcache blob NOT NULL,
    width smallint(6) DEFAULT '0' NOT NULL,
    height smallint(6) DEFAULT '0' NOT NULL,
-   format enum('gif','jpeg','png','html','url','web','swf') DEFAULT 'gif' NOT NULL,
+   weight tinyint(4) DEFAULT '1' NOT NULL,
+   seq tinyint(4) DEFAULT '0' NOT NULL,
+   target varchar(8) NOT NULL,
    url varchar(255) NOT NULL,
    alt varchar(255) NOT NULL,
    status varchar(255) NOT NULL,
    keyword varchar(255) NOT NULL,
    bannertext varchar(255) NOT NULL,
-   target varchar(8) NOT NULL,
    description varchar(255) NOT NULL,
-   autohtml enum('t','f') DEFAULT 't' NOT NULL,   
+   autohtml enum('t','f') DEFAULT 't' NOT NULL,
    PRIMARY KEY (bannerid)
 );
 

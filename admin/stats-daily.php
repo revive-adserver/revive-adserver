@@ -136,7 +136,7 @@ if (phpAds_isUser(phpAds_Admin))
 		echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;".phpAds_getBannerName($bannerid);
 		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-time.gif' align='absmiddle'>&nbsp;<b>".date(str_replace('%', '', $date_format), mktime(0, 0, 0, substr($day, 4, 2), substr($day, 6, 2), substr($day, 0, 4)))."</b><br><br>";
-		echo phpAds_getBannerCode($bannerid)."<br><br><br><br>";
+		echo phpAds_buildBannerCode($bannerid)."<br><br><br><br>";
 		phpAds_ShowSections(array("2.1.2.1.1"));
 }
 
@@ -148,7 +148,7 @@ if (phpAds_isUser(phpAds_Client))
 		echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;".phpAds_getBannerName($bannerid);
 		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-time.gif' align='absmiddle'>&nbsp;<b>".date(str_replace('%', '', $date_format), mktime(0, 0, 0, substr($day, 4, 2), substr($day, 6, 2), substr($day, 0, 4)))."</b><br><br>";
-		echo phpAds_getBannerCode($bannerid)."<br><br><br><br>";
+		echo phpAds_buildBannerCode($bannerid)."<br><br><br><br>";
 		phpAds_ShowSections(array("1.1.1.1.1"));
 }
 

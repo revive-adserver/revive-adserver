@@ -113,9 +113,10 @@ if (isset($bannerid) && $bannerid != '')
 			// Remove bannerid
 			unset($row['bannerid']);
 			
-			// Duplicate webserver stored banner
-			if ($row['format'] == 'web')
-				$row['banner'] = phpAds_ImageDuplicate ($row['banner']);
+			
+			// Duplicate stored banner
+			if ($row['storagetype'] == 'web' || $row['storagetype'] == 'sql')
+				$row['filename'] = phpAds_ImageDuplicate ($row['storagetype'], $row['filename']);
 			
 			
 			// Clone banner

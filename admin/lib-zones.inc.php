@@ -89,14 +89,6 @@ function phpAds_RebuildZoneCache ($zoneid = '')
 				// weight of 0 disables the banner
 				if ($tmprow['priority'])
 				{
-					if ($tmprow['format'] == 'gif' ||
-						$tmprow['format'] == 'jpeg' ||
-						$tmprow['format'] == 'png' ||
-						$tmprow['format'] == 'swf')
-					{
-						$tmprow['banner'] = '';
-					}
-					
 					$prioritysum += $tmprow['priority'];
 					$rows[] = $tmprow; 
 				}
