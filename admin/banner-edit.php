@@ -531,14 +531,21 @@ if (isset($submit))
 	
 	if ($edit_swf)
 	{
-		Header("Location: banner-swf.php?campaignid=$campaignid&bannerid=$bannerid");
+		Header('Location: banner-swf.php?campaignid='.$campaignid.'&bannerid='.$bannerid);
 	}
 	else
 	{
 		if (phpAds_isUser(phpAds_Client))
-			Header("Location: stats-campaign.php?campaignid=$campaignid");
+		{
+			Header('Location: stats-campaign.php?campaignid='.$campaignid);
+		}
 		else
-			Header("Location: campaign-index.php?campaignid=$campaignid");
+		{
+			if ($phpAds_config['acl'])
+				Header('Location: banner-acl.php?campaignid='.$campaignid.'&bannerid='.$bannerid);
+			else
+				Header('Location: banner-zone.php?campaignid='.$campaignid.'&bannerid='.$bannerid);
+		}
 	}
 	
 	exit;
@@ -612,11 +619,7 @@ if ($bannerid != '')
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		$extra .= "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignid=$campaignid>$strCampaignProperties</a><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-campaign.php?campaignid=$campaignid>$strStats</a><br>";
-		$extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-weekly.gif' align='absmiddle'>&nbsp;<a href=stats-weekly.php?campaignid=$campaignid>$strWeeklyStats</a><br>";
-		$extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-zoom.gif' align='absmiddle'>&nbsp;<a href=stats-details.php?campaignid=$campaignid&bannerid=$bannerid>$strDetailStats</a><br>";
+		$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-details.php?campaignid=$campaignid&bannerid=$bannerid>$strBannerHistory</a><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		
 		

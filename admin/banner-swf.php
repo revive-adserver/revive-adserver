@@ -120,9 +120,14 @@ if (isset($convert))
 	
 	
 	if (phpAds_isUser(phpAds_Client))
-		Header("Location: stats-campaign.php?campaignid=$campaignid");
+		Header('Location: stats-campaign.php?campaignid='.$campaignid);
 	else
-		Header("Location: campaign-index.php?campaignid=$campaignid");
+	{
+		if ($phpAds_config['acl'])
+			Header('Location: banner-acl.php?campaignid='.$campaignid.'&bannerid='.$bannerid);
+		else
+			Header('Location: banner-zone.php?campaignid='.$campaignid.'&bannerid='.$bannerid);
+	}
 	
 	exit;
 }
@@ -130,9 +135,14 @@ if (isset($convert))
 if (isset($cancel))
 {
 	if (phpAds_isUser(phpAds_Client))
-		Header("Location: stats-campaign.php?campaignid=$campaignid");
+		Header('Location: stats-campaign.php?campaignid='.$campaignid);
 	else
-		Header("Location: campaign-index.php?campaignid=$campaignid");
+	{
+		if ($phpAds_config['acl'])
+			Header('Location: banner-acl.php?campaignid='.$campaignid.'&bannerid='.$bannerid);
+		else
+			Header('Location: banner-zone.php?campaignid='.$campaignid.'&bannerid='.$bannerid);
+	}
 	
 	exit;
 }

@@ -145,6 +145,8 @@ elseif (isset($submit))
 			");
 		}
 	}
+	
+	Header ('Location: banner-zone.php?campaignid='.$campaignid.'&bannerid='.$bannerid);
 }
 
 
@@ -219,11 +221,7 @@ $extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=cli
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 $extra .= "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignid=$campaignid>$strCampaignProperties</a><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-campaign.php?campaignid=$campaignid>$strStats</a><br>";
-$extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-weekly.gif' align='absmiddle'>&nbsp;<a href=stats-weekly.php?campaignid=$campaignid>$strWeeklyStats</a><br>";
-$extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-zoom.gif' align='absmiddle'>&nbsp;<a href=stats-details.php?campaignid=$campaignid&bannerid=$bannerid>$strDetailStats</a><br>";
+$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-details.php?campaignid=$campaignid&bannerid=$bannerid>$strBannerHistory</a><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 
 phpAds_PageHeader("4.1.5.3", $extra);
@@ -289,7 +287,7 @@ echo "</select>";
 echo "&nbsp;&nbsp;";
 echo "<input type='image' name='action[new]' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0' align='absmiddle' alt='$strSave'>";
 phpAds_ShowBreak();
-echo "<br><br>";
+echo "<br><br><br>";
 
 
 // Show header
@@ -338,9 +336,9 @@ if (count($acl))
 			echo "</select>";
 		}
 		
-		echo "</td><td width='175'><b>";
-		echo $acl_types[$acl[$key]['type']];
-		echo "</b><input type='hidden' name='acl[".$key."][type]' value='".$acl[$key]['type']."'>";
+		echo "</td><td width='175'>";
+		echo "<img src='images/icon-acl.gif' align='absmiddle'>&nbsp;".$acl_types[$acl[$key]['type']];
+		echo "<input type='hidden' name='acl[".$key."][type]' value='".$acl[$key]['type']."'>";
 		echo "</td><td width='200'>";
 		echo "<select name='acl[".$key."][ad]'>";
 		
@@ -357,17 +355,19 @@ if (count($acl))
 		// Show buttons
 		echo "<td align='right'>";
 		echo "<input type='image' name='action[del][".$key."]' src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>";
-		echo "&nbsp;&nbsp;&nbsp;&nbsp;";
+		echo "&nbsp;&nbsp;";
+		echo "<img src='images/break-el.gif' width='1' height='35'>";
+		echo "&nbsp;&nbsp;";
 		
 		if ($key && $key < count($acl))
-			echo "<input type='image' name='action[up][".$key."]' src='images/triangle-u.gif' border='0' alt='$strUp'>";
+			echo "<input type='image' name='action[up][".$key."]' src='images/triangle-u.gif' border='0' alt='$strUp' align='absmiddle'>";
 		else
-			echo "<img src='images/triangle-u-d.gif' alt='$strUp'>";
+			echo "<img src='images/triangle-u-d.gif' alt='$strUp' align='absmiddle'>";
 		
 		if ($key < count($acl) - 1)
-			echo "<input type='image' name='action[down][".$key."]' src='images/triangle-d.gif' border='0' alt='$strDown'>";
+			echo "<input type='image' name='action[down][".$key."]' src='images/triangle-d.gif' border='0' alt='$strDown' align='absmiddle'>";
 		else
-			echo "<img src='images/triangle-d-d.gif' alt='$strDown'>";
+			echo "<img src='images/triangle-d-d.gif' alt='$strDown' align='absmiddle'>";
 		
 		echo "&nbsp;&nbsp;</td></tr>";
 		echo "<tr bgcolor='$bgcolor'><td>&nbsp;</td><td>&nbsp;</td><td colspan='2'>";
