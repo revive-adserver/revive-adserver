@@ -236,6 +236,7 @@ elseif ($order == "alt")
 else
 {
 	$tmp_order = $tmp_views;
+	$order = "id";
 }
 
 
@@ -306,11 +307,32 @@ if (count($tmp_order) > 0)
 		// Legend
 		echo "<tr bgcolor='#FFFFFF' height='25'>";
 		echo "<td>&nbsp;</td>";
-		echo "<td align='left' nowrap height='25'><b><a class='black' href='$PHP_SELF?campaignID=$campaignID&view=$view&order=alt&compact=$compact'>$strDescription</a></b></td>";
-		echo "<td align='left' nowrap height='25'><b><a class='black' href='$PHP_SELF?campaignID=$campaignID&view=$view&order=id&compact=$compact'>$strID</a></b></td>";
-		echo "<td align='right' nowrap height='25'><b><a class='black' href='$PHP_SELF?campaignID=$campaignID&view=$view&order=adviews&compact=$compact'>$strViews</a></b></td>";
-		echo "<td align='right' nowrap height='25'><b><a class='black' href='$PHP_SELF?campaignID=$campaignID&view=$view&order=adclicks&compact=$compact'>$strClicks</a></b></td>";
-		echo "<td align='right' nowrap height='25'><b><a class='black' href='$PHP_SELF?campaignID=$campaignID&view=$view&order=ctr&compact=$compact'>$strCTRShort</a></b>&nbsp;&nbsp;</td>";
+		
+		if ($order == "alt")
+			echo "<td align='left' nowrap height='25'><b><a href='$PHP_SELF?campaignID=$campaignID&view=$view&order=alt&compact=$compact'><u>$strDescription</u></a></b></td>";
+		else
+			echo "<td align='left' nowrap height='25'><b><a href='$PHP_SELF?campaignID=$campaignID&view=$view&order=alt&compact=$compact'>$strDescription</a></b></td>";
+		
+		if ($order == "id")
+			echo "<td align='left' nowrap height='25'><b><a href='$PHP_SELF?campaignID=$campaignID&view=$view&order=id&compact=$compact'><u>$strID</u></a></b></td>";
+		else
+			echo "<td align='left' nowrap height='25'><b><a href='$PHP_SELF?campaignID=$campaignID&view=$view&order=id&compact=$compact'>$strID</a></b></td>";
+		
+		if ($order == "adviews")
+			echo "<td align='right' nowrap height='25'><b><a href='$PHP_SELF?campaignID=$campaignID&view=$view&order=adviews&compact=$compact'><u>$strViews</u></a></b></td>";
+		else
+			echo "<td align='right' nowrap height='25'><b><a href='$PHP_SELF?campaignID=$campaignID&view=$view&order=adviews&compact=$compact'>$strViews</a></b></td>";
+		
+		if ($order == "adclicks")
+			echo "<td align='right' nowrap height='25'><b><a href='$PHP_SELF?campaignID=$campaignID&view=$view&order=adclicks&compact=$compact'><u>$strClicks</u></a></b></td>";
+		else
+			echo "<td align='right' nowrap height='25'><b><a href='$PHP_SELF?campaignID=$campaignID&view=$view&order=adclicks&compact=$compact'>$strClicks</a></b></td>";
+		
+		if ($order == "ctr")
+			echo "<td align='right' nowrap height='25'><b><a href='$PHP_SELF?campaignID=$campaignID&view=$view&order=ctr&compact=$compact'><u>$strCTRShort</u></a></b>&nbsp;&nbsp;</td>";
+		else
+			echo "<td align='right' nowrap height='25'><b><a href='$PHP_SELF?campaignID=$campaignID&view=$view&order=ctr&compact=$compact'>$strCTRShort</a></b>&nbsp;&nbsp;</td>";
+		
 		echo "</tr>";
 	}
 	
