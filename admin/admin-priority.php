@@ -43,6 +43,7 @@ function phpAds_showBanners ()
 	global $phpAds_config;
 	global $strUntitled, $strName, $strID, $strWeight;
 	global $strProbability, $strPriority, $strRecalculatePriority;
+	global $phpAds_TextDirection;
 	
 	
 	$res = phpAds_dbQuery("

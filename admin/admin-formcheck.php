@@ -28,7 +28,7 @@ phpAds_checkAccess(phpAds_Admin+phpAds_Client);
 		<title>Errors</title>
 		<meta http-equiv='Content-Type' content='text/html<?php echo $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : "" ?>'>
 		<meta name='author' content='phpAdsNew - http://sourceforge.net/projects/phpadsnew'>
-		<link rel='stylesheet' href='interface.css'>
+		<link rel='stylesheet' href='images/<?php echo $phpAds_TextDirection; ?>/interface.css'>
 		<script language='JavaScript' src='interface.js'></script>
 	</head>
 	
@@ -48,7 +48,7 @@ phpAds_checkAccess(phpAds_Admin+phpAds_Client);
 			<tr height='24'>
 				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 				<td valign='middle'><span class='tab-s'>Errors:</span></td>
-				<td height='24'><img src='images/tab-ew.gif' height='24' width='10'></td>
+				<td height='24'><img src='images/<?php echo $phpAds_TextDirection; ?>/tab-ew.gif' height='24' width='10'></td>
 			</tr>
 		</table>
 	</td>

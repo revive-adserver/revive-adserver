@@ -46,7 +46,7 @@ if ($compact == '')
 		<title><?php echo $strSearch; ?></title>
 		<meta http-equiv='Content-Type' content='text/html<?php echo $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : "" ?>'>
 		<meta name='author' content='phpAdsNew - http://sourceforge.net/projects/phpadsnew'>
-		<link rel='stylesheet' href='interface.css'>
+		<link rel='stylesheet' href='images/<?php echo $phpAds_TextDirection; ?>/interface.css'>
 		<script language='JavaScript' src='interface.js'></script>
 		<script language='JavaScript'>
 		<!--
@@ -92,8 +92,8 @@ if ($compact == '')
 			<tr height='24'>
 				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 				<td class='tab-s' valign='middle'><?php echo $strSearch; ?>:&nbsp;<input type='text' name='keyword' size='15' value='<?php print $keyword ?>'>&nbsp;
-				<input type='image' src='images/go_blue.gif' border='0'></td>
-				<td height='24'><img src='images/tab-ew.gif' height='24' width='10'></td>
+				<input type='image' src='images/<?php echo $phpAds_TextDirection; ?>/go_blue.gif' border='0'></td>
+				<td height='24'><img src='images/<?php echo $phpAds_TextDirection; ?>/tab-ew.gif' height='24' width='10'></td>
 			</tr>
 			</form>
 		</table>
