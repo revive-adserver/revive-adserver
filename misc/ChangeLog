@@ -19,6 +19,7 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-01-22:  If plain remote invocation is used and no destination URL is specified, adclick will now redirect back to the originating webpage  (Niels)
 			  - 2003-01-22:  If plain remote invocation is used and cookies are disabled, adclick will now redirect back to the originating webpage  (Niels)
 			  - 2003-02-03:  Added the ability to preview banners from the zone probability page  (Niels)
+			  - 2003-02-07:  Added automatic filtering of private IP addresses passed as a proxy header  (Matteo)
 
 			+ Misc bugfixes
 			  - 2003-01-13:  If a zero was used in a random variable (ie. random:10) it wasn't replaced  (Niels)

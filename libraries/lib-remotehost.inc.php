@@ -40,7 +40,7 @@ if ($phpAds_config['proxy_lookup'])
 		$IP = explode (',', $IP);
 		$IP = trim($IP[count($IP) - 1]);
 		
-		if ($IP != 'unknown')
+		if ($IP && $IP != 'unknown' && !phpAds_PrivateSubnet($IP))
 		{
 			$HTTP_SERVER_VARS['REMOTE_ADDR'] = $IP;
 			$HTTP_SERVER_VARS['REMOTE_HOST'] = '';
@@ -85,6 +85,54 @@ if ($phpAds_config['geotracking_stats'])
 			default: $phpAds_CountryLookup = false;
 		}
 	}
+}
+
+// Translate an IP address into a 32 bit integer
+function phpAds_ipAddrToInt($ip)
+{
+	if (!preg_match('/^([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$/', trim($ip), $match))
+		return 0;
+	
+	return (intval($match[1]) << 24) | (intval($match[2]) << 16) | (intval($match[3]) << 8) | intval($match[4]);
+}
+
+// Match an IP address against a subnet
+function phpAds_matchSubnet($ip, $net, $mask)
+{
+	if (!is_integer($ip)) $ip = phpAds_ipAddrToInt($ip);
+	$net = phpAds_ipAddrToInt($net);
+
+	if (!$ip || !$net)
+		return false;
+	
+	if (is_integer($mask))
+	{
+		// Netmask notation x.x.x.x/y used
+		
+		if ($mask > 32 || $mask <= 0)
+			return false;
+		elseif ($mask == 32)
+			$mask = ~0;
+		else
+			$mask = ~((1 << (32 - $mask)) - 1);
+	}
+	elseif (!($mask = phpAds_ipAddrToInt($mask)))
+		return false;
+	
+	return ($ip & $mask) == ($net & $mask) ? true : false;
+}
+
+function phpAds_PrivateSubnet($ip)
+{
+	$ip = phpAds_ipAddrToInt($ip);
+
+	if (!$ip) return false;
+	
+	return (phpAds_matchSubnet($ip, '10.0.0.0', 8) || 
+		phpAds_matchSubnet($ip, '172.16.0.0', 12) ||
+		phpAds_matchSubnet($ip, '192.168.0.0', 16) ||
+		phpAds_matchSubnet($ip, '127.0.0.0', 24)
+		);
 }
 
 ?>
