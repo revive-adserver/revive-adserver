@@ -84,9 +84,30 @@ function phpAds_getClientName ($clientID)
 /*********************************************************/
 /* Get list order status                                      */
 /*********************************************************/
+// Manage Orderdirection
+function phpAds_getOrderDirection ($ThisOrderDirection)
+{
+	switch ($ThisOrderDirection)
+	{
+		case 'down':
+			$sqlOrderDirection .= ' ';
+			$sqlOrderDirection .= 'ASC';
+			break;
+		case 'up':
+			$sqlOrderDirection .= ' ';
+			$sqlOrderDirection .= 'DESC';
+			break;
+		default:
+			$sqlOrderDirection .= ' ';
+			$sqlOrderDirection .= 'ASC';
+	}
+	return $sqlOrderDirection;
+}
+
 // Order for $phpAds_tbl_clients
 function phpAds_getListOrder ($ListOrder, $OrderDirection)
 {
+	$sqlTableOrder = '';
 	switch ($ListOrder)
 	{
 		case 'name':
@@ -95,22 +116,18 @@ function phpAds_getListOrder ($ListOrder, $OrderDirection)
 		case 'id':
 			$sqlTableOrder = 'ORDER BY parent, clientID';
 			break;
+		case 'adview':
+			break;
+		case 'adclick':
+			break;
+		case 'ctr':
+			break;
 		default:
 			$sqlTableOrder = 'ORDER BY clientname';
 	}
-	switch ($OrderDirection)
+	if 	($sqlTableOrder != '')
 	{
-		case 'down':
-			$sqlTableOrder .= ' ';
-			$sqlTableOrder .= 'ASC';
-			break;
-		case 'up':
-			$sqlTableOrder .= ' ';
-			$sqlTableOrder .= 'DESC';
-			break;
-		default:
-			$sqlTableOrder .= ' ';
-			$sqlTableOrder .= 'ASC';
+		$sqlTableOrder .= phpAds_getOrderDirection($OrderDirection);
 	}
 	return ($sqlTableOrder);
 }
@@ -118,6 +135,7 @@ function phpAds_getListOrder ($ListOrder, $OrderDirection)
 // Order for $phpAds_tbl_banners
 function phpAds_getBannerListOrder ($ListOrder, $OrderDirection)
 {
+	$sqlTableOrder = '';
 	switch ($ListOrder)
 	{
 		case 'name':
@@ -126,22 +144,18 @@ function phpAds_getBannerListOrder ($ListOrder, $OrderDirection)
 		case 'id':
 			$sqlTableOrder = 'ORDER BY bannerID';
 			break;
+		case 'adview':
+			break;
+		case 'adclick':
+			break;
+		case 'ctr':
+			break;
 		default:
 			$sqlTableOrder = 'ORDER BY description';
 	}
-	switch ($OrderDirection)
+	if 	($sqlTableOrder != '')
 	{
-		case 'down':
-			$sqlTableOrder .= ' ';
-			$sqlTableOrder .= 'ASC';
-			break;
-		case 'up':
-			$sqlTableOrder .= ' ';
-			$sqlTableOrder .= 'DESC';
-			break;
-		default:
-			$sqlTableOrder .= ' ';
-			$sqlTableOrder .= 'ASC';
+		$sqlTableOrder .= phpAds_getOrderDirection($OrderDirection);
 	}
 	return ($sqlTableOrder);
 }
@@ -157,22 +171,15 @@ function phpAds_getZoneListOrder ($ListOrder, $OrderDirection)
 		case 'id':
 			$sqlTableOrder = 'ORDER BY zoneid';
 			break;
+		case 'size':
+			$sqlTableOrder = 'ORDER BY width';
+			break;
 		default:
 			$sqlTableOrder = 'ORDER BY zonename';
 	}
-	switch ($OrderDirection)
+	if 	($sqlTableOrder != '')
 	{
-		case 'down':
-			$sqlTableOrder .= ' ';
-			$sqlTableOrder .= 'ASC';
-			break;
-		case 'up':
-			$sqlTableOrder .= ' ';
-			$sqlTableOrder .= 'DESC';
-			break;
-		default:
-			$sqlTableOrder .= ' ';
-			$sqlTableOrder .= 'ASC';
+		$sqlTableOrder .= phpAds_getOrderDirection($OrderDirection);
 	}
 	return ($sqlTableOrder);
 }

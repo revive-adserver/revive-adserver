@@ -95,7 +95,22 @@ if (@mysql_num_rows($res_zones) > 0)
 		echo '</a>';
 	}
 	echo '</b>&nbsp;&nbsp;&nbsp;</td>';
-	echo "<td height='25'><b>".$GLOBALS['strSize']."</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+	echo '<td height="25"><b><a href="'.$PHP_SELF.'?listorder=size">'.$GLOBALS['strSize'].'</a>';
+	if ($listorder == "size")
+	{
+		if  (($orderdirection == "") || ($orderdirection == "down"))
+		{
+			echo ' <a href="'.$PHP_SELF.'?listorder=size&orderdirection=up">';
+			echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
+		}
+		else
+		{
+			echo ' <a href="'.$PHP_SELF.'?listorder=size&orderdirection=down">';
+			echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
+		}
+		echo '</a>';
+	}
+	echo "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
 	echo "<td height='25'>&nbsp;</td>";
 	echo "</tr>";
 	
