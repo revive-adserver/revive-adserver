@@ -122,7 +122,7 @@ function Plugin_ZonehistoryExecute($zoneid, $delimiter=",")
 		}
 	}
 	
-	echo $strZone.": ".phpAds_getZoneName ($zoneid)."\n\n";
+	echo $strZone.": ".strip_tags(phpAds_getZoneName ($zoneid))."\n\n";
 	echo $strDay.$delimiter.$strViews.$delimiter.$strClicks.$delimiter.$strCTRShort."\n";
 	
 	$totalclicks = 0;
