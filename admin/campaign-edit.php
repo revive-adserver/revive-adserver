@@ -127,6 +127,8 @@ if (isset($submit))
 			$active = "f";
 	
 	
+	$new_campaign = $camapignid == 'null';
+	
 	$query = "
 		REPLACE INTO
 			".$phpAds_config['tbl_clients']."
@@ -196,6 +198,9 @@ if (isset($submit))
 			WHERE
 				clientid='".$clientid."'
 			") or phpAds_sqlDie();
+		
+		// Force priority recalculation
+		$new_campaing = false;
 	}
 	
 	
@@ -223,9 +228,15 @@ if (isset($submit))
 	}
 	
 	
-	// Recalculate priority only if needed
-	if (($active != $active_old) ||
-		($active == 't' && ($targetviews != $target_old || $weight != $weight_old)))
+	// Recalculate priority only when editing a campaign
+	// or moving banners into a newly created, and when:
+	//
+	// - campaing changes status (activated or deactivated) or
+	// - the campaign is active and target/weight are changed
+	//
+	if (!$new_campaign &&
+		($active != $active_old ||
+		($active == 't' && ($targetviews != $target_old || $weight != $weight_old))))
 	{
 		include ("../libraries/lib-priority.inc.php");
 		phpAds_PriorityCalculate ();
