@@ -114,7 +114,7 @@ while ($row_banners = mysql_fetch_array($res_banners))
 		<td bgcolor="#CCCCCC" width="10%"><b><?echo $totaladclicks;?></b></td>
 	</tr>
 <?
-if($gdimageformat != "none" && $totaladviews > 0)
+if($gdimageformat != "none" && $totaladviews > 0 && !$phpAds_compact_stats)
 {
 ?>
 	<tr>
