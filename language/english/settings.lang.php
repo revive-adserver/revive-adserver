@@ -236,8 +236,8 @@ $GLOBALS['strBlockAdclicks']			= "Don't log AdClicks if the visitor already clic
 
 
 $GLOBALS['strEmailWarnings']			= "E-mail warnings";
-$GLOBALS['strAdminEmailHeaders']		= "Add the following headers to each e-mail message send by ".$phpAds_productname;
-$GLOBALS['strWarnLimit']				= "Send a warning when de number of impressions left are less than specified here";
+$GLOBALS['strAdminEmailHeaders']		= "Add the following headers to each e-mail message sent by ".$phpAds_productname;
+$GLOBALS['strWarnLimit']				= "Send a warning when the number of impressions left are less than specified here";
 $GLOBALS['strWarnLimitErr']				= "Warn Limit should be a positive number";
 $GLOBALS['strWarnAdmin']				= "Send a warning to the administrator every time a campaign is almost expired";
 $GLOBALS['strWarnClient']				= "Send a warning to the advertiser every time a campaign is almost expired";

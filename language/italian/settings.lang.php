@@ -211,6 +211,7 @@ $GLOBALS['strProxyLookup']					= "Cerca di determinare l'indirizzo IP reale del 
 $GLOBALS['strGeotargeting']					= "Targeting geografico";
 $GLOBALS['strGeotrackingType']				= "Tipo di database per il targeting geografico";
 $GLOBALS['strGeotrackingLocation'] 			= "Percorso del database targeting geografico";
+$GLOBALS['strGeotrackingLocationError']		= "Il database per il targeting geografico non &egrave; stato trovato nel percorso specificato";
 $GLOBALS['strGeoStoreCookie']				= "Memorizza risultato in un cookie per riutilizzarlo in seguito";
 
 
@@ -236,11 +237,11 @@ $GLOBALS['strBlockAdclicks']				= "Non registrare una Visualizzazione se il visi
 
 
 $GLOBALS['strEmailWarnings']				= "Avvertimenti E-mail";
-$GLOBALS['strAdminEmailHeaders']			= "Header aggiuntivi delle email";
-$GLOBALS['strWarnLimit']					= "Limite di avvertimento";
-$GLOBALS['strWarnLimitErr']					= "Il lmite di avvertimento deve essere un intero positivo";
-$GLOBALS['strWarnAdmin']					= "Avvisa l'amministratore";
-$GLOBALS['strWarnClient']					= "Avvisa i clienti";
+$GLOBALS['strAdminEmailHeaders']			= "Aggiungi i seguenti header ad ogni e-mail inviata da ".$phpAds_productname;
+$GLOBALS['strWarnLimit']					= "Invia un avviso quando il numero di Visualizzazioni rimaste sono inferiori a";
+$GLOBALS['strWarnLimitErr']					= "Il lmite di avvertimento deve essere un numero positivo";
+$GLOBALS['strWarnAdmin']					= "Invia un avviso all'amministratore quando una campagna sta per scadere";
+$GLOBALS['strWarnClient']					= "Invia un avviso all'inserzionista quando una campagna sta per scadere";
 $GLOBALS['strQmailPatch']					= "Abilita patch per qmail";
 
 $GLOBALS['strAutoCleanTables']				= "Pulizia del database";
@@ -286,7 +287,9 @@ $GLOBALS['strGuiSettings']					= "Configurazione interfaccia utente";
 $GLOBALS['strGeneralSettings']				= "Impostazioni generali";
 $GLOBALS['strAppName']						= "Intestazione programma";
 $GLOBALS['strMyHeader']						= "File da includere come intestazione";
+$GLOBALS['strMyHeaderError']				= "Il file da includere come intestazione non &egrave; stato trovato nel percorso specificato";
 $GLOBALS['strMyFooter']						= "File da includere a pi&eacute; di pagina";
+$GLOBALS['strMyFooterError']				= "Il file da includere a pi&eacute; di pagina non &egrave; stato trovato nel percorso specificato";
 $GLOBALS['strGzipContentCompression']		= "Utilizza la compressione GZIP";
 
 $GLOBALS['strClientInterface']				= "Interfaccia inserzionista";
