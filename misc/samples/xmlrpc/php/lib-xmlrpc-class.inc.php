@@ -122,10 +122,14 @@ class phpAds_XmlRpc
 	function view($what, $clientid=0, $target='', $source='', $withtext=0, $context=0, $richmedia = true)
 	{
 		$this->view_raw($what, $clientid, $target, $source, $withtext, $context, $richmedia);
-
-		echo $this->output['html'];
-
-		return $this->output['bannerid'];
+		
+		if ($this->output)
+		{
+			echo $this->output['html'];
+			return $this->output['bannerid'];
+		}
+		else
+			return false;
 	}
 
 }
