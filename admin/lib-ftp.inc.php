@@ -291,6 +291,52 @@ function ftp_get($sock, $localfile, $remotefile, $mode = 1)
 	return ftp_ok($sock);
 }
 
+function ftp_fget($sock, $fp, $remotefile, $mode = 1)
+{
+	global $ftp_umask;
+	
+	if ($mode) {
+		$type = "I";
+	} else {
+		$type = "A";
+	}
+	
+	if (!ftp_file_exists($sock, $remotefile)) {
+		ftp_debug("Error : No such file or directory \"".$remotefile."\"\n");
+		ftp_debug("Error : GET failed\n");
+		return FALSE;
+	}
+	
+	ftp_putcmd($sock, "PASV");
+	$string = ftp_getresp($sock);
+	
+	ftp_putcmd($sock, "TYPE", $type);
+	ftp_getresp($sock);
+	
+	ftp_putcmd($sock, "RETR", $remotefile);
+	
+	$sock_data = ftp_open_data_connection($string);
+	if (!$sock_data) {
+		return FALSE;
+	}
+	if (ftp_ok($sock)) {
+		ftp_debug("Connected to remote host\n");
+	} else {
+		ftp_debug("Cannot connect to remote host\n");
+		ftp_debug("Error : GET failed\n");
+		return FALSE;
+	}
+	
+	ftp_debug("Retrieving remote file \"".$remotefile."\" to local file \"".$localfile."\"\n");
+	while (!feof($sock_data)) {
+		fputs($fp, fread($sock_data, 4096));
+	}
+	
+	ftp_close_data_connection($sock_data);
+	
+	return ftp_ok($sock);
+}
+
 function ftp_put($sock, $remotefile, $localfile, $mode = 1)
 {
 	if ($mode) {
@@ -341,6 +387,48 @@ function ftp_put($sock, $remotefile, $localfile, $mode = 1)
 		fputs($sock_data, fread($fp, 4096));
 	}
 	fclose($fp);
+	
+	ftp_close_data_connection($sock_data);
+	
+	return ftp_ok($sock);
+}
+
+function ftp_fput($sock, $remotefile, $fp, $mode = 1)
+{
+	if ($mode) {
+		$type = "I";
+	} else {
+		$type = "A";
+	}
+	
+	ftp_putcmd($sock, "PASV");
+	$string = ftp_getresp($sock);
+	
+	ftp_putcmd($sock, "TYPE", $type);
+	ftp_getresp($sock);
+	
+	if (ftp_file_exists($sock, $remotefile)) {
+		ftp_debug("Warning : Remote file will be overwritten\n");
+	}
+	
+	ftp_putcmd($sock, "STOR", $remotefile);
+	
+	$sock_data = ftp_open_data_connection($string);
+	if (!$sock_data) {
+		return FALSE;
+	}
+	if (ftp_ok($sock)) {
+		ftp_debug("Connected to remote host\n");
+	} else {
+		ftp_debug("Cannot connect to remote host\n");
+		ftp_debug("Error : PUT failed\n");
+		return FALSE;
+	}
+	
+	ftp_debug("Storing local file \"".$localfile."\" to remote file \"".$remotefile."\"\n");
+	while (!feof($fp)) {
+		fputs($sock_data, fread($fp, 4096));
+	}
 	
 	ftp_close_data_connection($sock_data);
 	

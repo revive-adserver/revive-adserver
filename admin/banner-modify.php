@@ -110,8 +110,15 @@ if (isset($bannerid) && $bannerid != '')
 		
 		if ($row = phpAds_dbFetchArray($res))
 		{
+			// Remove bannerid
 			unset($row['bannerid']);
 			
+			// Duplicate webserver stored banner
+			if ($row['format'] == 'web')
+				$row['banner'] = phpAds_StoreDuplicate ($row['banner']);
+			
+			
+			// Clone banner
 	   		$values_fields = '';
 	   		$values = '';
 			
@@ -124,7 +131,6 @@ if (isset($bannerid) && $bannerid != '')
 			$values_fields = ereg_replace(", $", "", $values_fields);
 			$values = ereg_replace(", $", "", $values);
 			
-			// Clone banner
 	   		$res = phpAds_dbQuery("
 		   		INSERT INTO
 		   			".$phpAds_config['tbl_banners']."
