@@ -1,0 +1,168 @@
+<html>
+<head>
+<title>phpAdsNew Documentation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../index.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="30" bgcolor="#FFFFFF"><tr bgcolor="#EFEFEF"><td width="100" class="identification">&nbsp;&nbsp;phpAdsNew</td><td width="600" class="plain"><img src="../images/0-home.gif" width="16" height="15" align="ABSMIDDLE">&nbsp;&nbsp;<span class="subtitle"><a href="../index.html" class="subtitle">Home</a></span></td><td>&nbsp;</td></tr></table><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;2.2</td>
+    <td width="600" class="chapter" height="50">Upgrading</td>
+    <td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-line-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#FFFFFF"><td width="100">&nbsp;</td><td width="600" class="plain">
+      <p>If you have a working version of phpAdsNew and you want to upgrade to 
+        the latest release, you can use the install script. We have tried to make 
+        it as easy as possible for you, just follow the instructions below.</p>
+    </td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="50"><a name="1"></a></td><td width="600" height="50">&nbsp;</td><td height="50">&nbsp;</td></tr></table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;2.2.1</td>
+    <td width="600" class="section" height="50">Step 1: Copying phpAdsNew to the 
+      web server</td>
+    <td class="section" height="50">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td colspan="3">
+      <p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p>
+    </td>
+  </tr>
+  <tr bgcolor="#EFEFEF">
+    <td width="100">&nbsp;</td>
+    <td width="600" class="plain"> 
+      <p><br>
+        The first step is to backup your old installation and keep it in a safe 
+        place. If anything goes wrong during the upgrade you can simply use this 
+        backup. Also make sure to keep the old <b>config.inc.php</b>, you will 
+        need this file later on.</p>
+      <p>Now you have to extract the files from the downloaded file and copy the 
+        files to a directory on the web server. If you are using a Windows system 
+        you can use a tool like WinZip to expand the tar.gz or .zip file. On a 
+        *nix based web server to can use the tar command to expand the tar.gz 
+        file.</p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
+        <tr>
+          <td>
+            <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
+              <tr>
+                <td>tar xvfz phpAdsNew_x.tar.gz</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <p>Copy the old <b>config.inc.php</b> file to the directory where the new 
+        version of phpAdsNew is installed. <br>
+        You need to overwrite the supplied <b>config.inc.php</b> with your old 
+        version.</p>
+      <p>Now that the files are placed on the webserver, you need to make sure 
+        the webserver can change file <b>config.inc.php</b> which holds the basic 
+        configuration settings. If you are using a Windows webserver check the 
+        properties of the file and make sure the read-only flag is not set. <br>
+        If you are using a Linux or Unix webserver you can alter the write permissions 
+        with the <b>chmod</b> command from the command prompt: </p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
+              <tr> 
+                <td>chmod a+w config.inc.php</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <p>If you do not have command line access to your web server then your FTP 
+        client should be able to change file permissions.</p>
+      <p>&nbsp; </p>
+    </td>
+    <td class="plain">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td width="100" height="75"><a name="2"></a></td>
+    <td width="600" height="75">&nbsp;</td>
+    <td height="75">&nbsp;</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;2.2.2</td>
+    <td width="600" class="section" height="50">Step 2: Running the installer</td>
+    <td class="section" height="50">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td colspan="3">
+      <p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p>
+    </td>
+  </tr>
+  <tr bgcolor="#EFEFEF">
+    <td width="100">&nbsp;</td>
+    <td width="600" class="plain"> 
+      <p><br>
+        In step one you have copied the necessary files to the webserver, now 
+        that the files are in place, you need to run the installer. To start the 
+        installer you need to open a webbrowser and point it to the<br>
+        directory in which phpAdsNew is copied.</p>
+      <p>First phpAdsNew will ask you for your old username and password, then 
+        after you click Proceed, the installer will read the old config.inc.php 
+        and will try to upgrade the existing database. Once the database is up 
+        to date, the installer will replace the old config.inc.php with a new 
+        one, containing the old settings.</p>
+      <p>&nbsp;</p>
+    </td>
+    <td class="plain">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td width="100" height="75"><a name="3"></a></td>
+    <td width="600" height="75">&nbsp;</td>
+    <td height="75">&nbsp;</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" bgcolor="#FFFFFF" height="50">&nbsp;&nbsp;2.2.3</td>
+    <td width="600" class="section" height="50">Step 3: Configuration</td>
+    <td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain">
+      <p><br>
+        After you have finished running the installer you can log into the administrator 
+        interface with the username and password you supplied during the installation. 
+        Once you are logged in you can change all the settings and configure phpAdsNew 
+        to suit your needs. If you want to know more about all the different options, 
+        please read chapter 2.3 of the documentation. </p>
+      <p>After you have properly configured phpAdsNew you must not forget to lock 
+        the <b>config.inc.php</b> file again, to prevent security problems. If 
+        you are using a Windows webserver check the properties of the file and 
+        make sure the read-only flag is set. If you are using a Linux or Unix 
+        webserver you can alter the write permissions with the <b>chmod</b> command 
+        from the command prompt: </p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
+              <tr> 
+                <td>chmod a-w config.inc.php</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <p>If you do not have command line access to your web server then your FTP 
+        client should be able to change file permissions.</p>
+      <p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF">
+    <td width="100" height="75"><a name="4"></a></td>
+    <td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" bgcolor="#FFFFFF" height="50">&nbsp;&nbsp;2.2.4</td>
+    <td width="600" class="section" height="50">Step 4: Congratulations</td>
+    <td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain">
+      <p><br>
+        Congratulations, you system is now up to date. All your existing clients, 
+        campaigns and banners should still be there. If you want to know more 
+        about how to add banners to your site please read chapter 3 of the documentation.</p>
+      <p>If you have any more question about the installation or how to use phpAdsNew, 
+        please use the forums located at <a href="http://www.sourceforge.net/projects/phpAdsNew" class="list">http://www.sourceforge.net/projects/phpAdsNew</a>.</p>
+      <p>&nbsp;</p>
+      </td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF">
+    <td width="100" height="75"><a name="5"></a></td>
+    <td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table>
+<p>&nbsp;</p>
+</body>
+</html>
