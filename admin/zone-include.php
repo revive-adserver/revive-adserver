@@ -36,19 +36,23 @@ if (isset($submit))
 	{
 		if (isset($description)) $description = addslashes ($description);
 		
-		if (isset($bannerid) && is_array($bannerid))
+		if ($zonetype == phpAds_ZoneBanners)
 		{
-			for ($i=0;$i<sizeof($bannerid);$i++)
-				$bannerid[$i] = 'bannerid:'.$bannerid[$i];
-			
-			$what = implode (',', $bannerid);
+			if (isset($bannerid) && is_array($bannerid))
+			{
+				for ($i=0;$i<sizeof($bannerid);$i++)
+					$bannerid[$i] = 'bannerid:'.$bannerid[$i];
+				
+				$what = implode (',', $bannerid);
+			}
 		}
 		
 		$res = db_query("
 			UPDATE
 				$phpAds_tbl_zones
 			SET
-				what='$what'
+				what = '$what',
+				zonetype = $zonetype
 			WHERE
 				zoneid=$zoneid
 			") or mysql_die();
@@ -239,8 +243,7 @@ if (isset($zoneid) && $zoneid != '')
 
 // Set the default zonetype
 if (!isset($zonetype) || $zonetype == '')
-	$zonetype == $zone['zonetype'];
-
+	$zonetype = $zone['zonetype'];
 
 
 echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br>";
@@ -249,7 +252,7 @@ echo "<br><br>";
 echo "<br><br>";
 echo "<br><br>";
 
-echo "<form name='zonetype_selection' method='post' action='zone-include.php'>";
+echo "<form name='zonetypes' method='post' action='zone-include.php'>";
 echo "<input type='hidden' name='zoneid' value='$zoneid'>";
 
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
@@ -262,7 +265,7 @@ echo "<select name='zonetype' onChange='this.form.submit();'>";
 	//echo "<option value='".phpAds_ZoneInteractive."'".(($zonetype == phpAds_ZoneInteractive) ? " selected" : "").">".$strInteractive."</option>";
 	echo "<option value='".phpAds_ZoneRaw."'".(($zonetype == phpAds_ZoneRaw) ? " selected" : "").">".$strRawQueryString."</option>";
 echo "</select>";
-echo "&nbsp;<a href='javascript:document.zonetype_selection.submit();'><img src='images/go_blue.gif' border='0'></a>";
+echo "&nbsp;<a href='javascript:document.zonetypes.submit();'><img src='images/go_blue.gif' border='0'></a>";
 
 echo "</td></tr>";
 echo "</table>";
@@ -274,6 +277,7 @@ echo "</form>";
 
 echo "<form name='zonetype_selection' method='post' action='zone-include.php'>";
 echo "<input type='hidden' name='zoneid' value='$zoneid'>";
+echo "<input type='hidden' name='zonetype' value='$zonetype'>";
 
 
 if ($zonetype == phpAds_ZoneBanners)
@@ -283,7 +287,7 @@ if ($zonetype == phpAds_ZoneBanners)
 
 if ($zonetype == phpAds_ZoneRaw)
 {
-	echo "<textarea cols='50' rows='16' name='what' style='width:100%;'>".(isset($zone['what']) ? $zone['what'] : '')."</textarea>";
+	echo "<textarea cols='50' rows='16' name='what' style='width:600px;'>".(isset($zone['what']) ? $zone['what'] : '')."</textarea>";
 }
 
 
