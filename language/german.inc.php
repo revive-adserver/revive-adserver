@@ -317,4 +317,10 @@ $GLOBALS['strACL'] 						= "Limit";
 $GLOBALS['strNoMoveUp'] 				= "Kann nicht zur ersten Zeile gehen";
 $GLOBALS['strACLAdd'] 					= "Neue Beschränkung hinzufügen";
 $GLOBALS['strNoLimitations']			= "Keine Beschränkungen";
+
+$GLOBALS['strLinkedZones']				= "Linked Zones";
+$GLOBALS['strNoZonesToLink']			= "There are no zones available to which this banner can be linked";
+
+$GLOBALS['strCustom']					= "Custom";
+
 ?>

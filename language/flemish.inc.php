@@ -287,10 +287,10 @@ $GLOBALS['strCampaignOverview']			= "Campagnes overzicht";
 $GLOBALS['strReports']					= "Reportage";
 $GLOBALS['strShowBanner']				= "Toon banner";
 
-$GLOBALS['strIncludedBanners']			= "Verbonden banners";
+$GLOBALS['strIncludedBanners']			= "Gekoppelde banners";
 $GLOBALS['strProbability']				= "Waarschijnlijkheid";
 $GLOBALS['strInvocationcode']			= "Invocatiecode";
-$GLOBALS['strSelectZoneType']			= "Kies de manier van banners verbinden";
+$GLOBALS['strSelectZoneType']			= "Kies de manier van banners koppelen";
 $GLOBALS['strBannerSelection']			= "Banner selectie";
 $GLOBALS['strInteractive']				= "Interactief";
 $GLOBALS['strRawQueryString']			= "Ruwe gegevens";
@@ -313,5 +313,10 @@ $GLOBALS['strACL'] 						= "Beperk";
 $GLOBALS['strNoMoveUp'] 				= "Kan de eerste rij niet omhoog plaatsen";
 $GLOBALS['strACLAdd'] 					= "Voeg nieuwe beperking toe";
 $GLOBALS['strNoLimitations']			= "Geen beperkingen";
+
+$GLOBALS['strLinkedZones']				= "Gekoppelde Zones";
+$GLOBALS['strNoZonesToLink']			= "Er zijn geen zones aanwezig waar deze banner aan gekoppeld kan worden";
+
+$GLOBALS['strCustom']					= "Anders";
 
 ?>

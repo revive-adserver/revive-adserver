@@ -316,4 +316,9 @@ $GLOBALS['strNoMoveUp'] 				= "Can't move up first row";
 $GLOBALS['strACLAdd'] 					= "Add new limitation";
 $GLOBALS['strNoLimitations']			= "No limitations";
 
+$GLOBALS['strLinkedZones']				= "Linked Zones";
+$GLOBALS['strNoZonesToLink']			= "There are no zones available to which this banner can be linked";
+
+$GLOBALS['strCustom']					= "Custom";
+
 ?>
