@@ -30,9 +30,11 @@ CVS
 			  - 2003-05-14:  Strings that are stored in config.inc.php can now include single quotes  (Niels)
 			  - 2003-05-14:  Reports are no longer send when all the advertisers campaigns are deactivated and no new statistics are available  (Niels)
 			  - 2003-05-20:  The global 'Alter HTML...' setting didn't have any effect on newly created HTML banners  (Niels)
-			  - 2003-05-23:  Javascript validation of zone witdth and height in zone-edit didn't work on Mozilla  (Matteo)
+			  - 2003-05-23:  Javascript validation of zone width and height in zone-edit didn't work on Mozilla  (Matteo)
 			  - 2003-05-24:  When using qmail as MTA reports were displayed incorrectly (no newlines) on some mail clients  (Matteo)
 			  - 2003-05-27:  Could not (de)activate banners from client interface, when correct permissions were set  (Niels)
+			  - 2003-05-27:  Fixed error when zones were set to private instead of public  (Niels)
+			  - 2003-05-27:  It is now not possible anymore to append a banner to itself  (Niels)
 
 
 v 2.0rc3		+ Added a cron replacement for users who don't have access to the cron utility for scheduling the maintenance script  (Niels, 2003-01-14)
