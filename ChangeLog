@@ -1,6 +1,7 @@
 phpAdsNew - ChangeLog
 
-v 2.0beta2		+ Added activation and expiration date (Niels)
+v 2.0beta2		+ Added client weight (Niels)
+			+ Added activation and expiration date (Niels)
 			+ Added conversion tool for verbose->compact statistics (Niels)
 			+ Misc bugfixes for beta1
 

@@ -70,8 +70,11 @@ CREATE TABLE clients (
    clientusername varchar(64) NOT NULL,
    clientpassword varchar(64) NOT NULL,
    expire date DEFAULT '0000-00-00',
+   activate date DEFAULT '0000-00-00',
    permissions mediumint(9),
    language varchar(64),
+   active enum('true','false') NOT NULL,
+   weight tinyint(4) default '1' NOT NULL,   
    PRIMARY KEY (clientID)
 );
 

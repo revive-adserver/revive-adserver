@@ -105,6 +105,7 @@ if (isset($submit))
 				expire,
 				activate,
 				active,
+				weight,
 				permissions,
 				language)
 			VALUES
@@ -119,6 +120,7 @@ if (isset($submit))
 				'$expire',
 				'$activate',
 				'$active',
+				'$weight',
 				$permissions,
 				'$clientlanguage')";
 		
@@ -629,6 +631,29 @@ if (phpAds_isUser(phpAds_Admin))
 		{
 			?>
 			<td><? echo $row["expire_f"]; ?></td>
+			<?
+		}
+		?>
+	</tr>
+	<tr>
+		<td><img src='images/spacer.gif' height='1' width='100%'></td>
+		<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
+	</tr>
+	<tr>
+		<td width='30'>&nbsp;</td>
+		<td width='200'><?echo $strWeight;?></td>
+		<?
+		if (phpAds_isUser(phpAds_Admin))
+		{
+			?>
+			<td>
+				<input type="text" name="weight" size='25' value="<?echo $row["weight"];?>">
+			</td>
+			<?
+		}
+		else {
+			?>
+			<td><?echo $row["weight"];?></td>
 			<?
 		}
 		?>

@@ -59,7 +59,8 @@ function get_banner($what, $clientID, $context=0, $source="")
 				b.url as url,
 				b.weight as weight,
 				b.seq as seq,
-				b.target as target
+				b.target as target,
+				c.weight as clientweight
 			FROM
 				$phpAds_tbl_banners as b,
 				$phpAds_tbl_clients as c
@@ -228,6 +229,8 @@ function get_banner($what, $clientID, $context=0, $source="")
 			if ($conditions != "") $select .= 	" AND (" . $conditions . ") ";
 		}
 		
+		//echo $select."<br>";
+		
 		if($phpAds_random_retrieve != 0)
 		{
 			$seq_select = $select . " AND b.seq>0";
@@ -261,20 +264,20 @@ function get_banner($what, $clientID, $context=0, $source="")
 				break;
 			}
 		}
-
+		
 		// Attempt to fetch a banner
 		$res = @db_query($select);
 		if ($res) 
 		{
 			if (@mysql_num_rows($res) > 0)	break;	// Found banners, continue
 		}
-
+		
 		// No banners found in this part, try again with next part
 	}
-
+	
 	if(!$res)
 		return(false);
-
+	
 	$rows = array();
 	$weightsum = 0;
 	while ($tmprow = @mysql_fetch_array($res))
@@ -282,11 +285,11 @@ function get_banner($what, $clientID, $context=0, $source="")
         // weight of 0 disables the banner
         if ($tmprow["weight"])
         {
-            $weightsum += $tmprow["weight"];
+            $weightsum += ($tmprow["weight"] * $tmprow["clientweight"]);
 		    $rows[] = $tmprow; 
 	    }
     }
-
+	
 	$date = getdate(time());
 	$request = array(
 		'remote_host'	=>	$REMOTE_ADDR,
@@ -294,27 +297,28 @@ function get_banner($what, $clientID, $context=0, $source="")
 		'weekday'	=>	$date['wday'],
 		'source'	=>	$source,
 		'time'		=>	$date['hours']);
-
-
+	
     while ($weightsum && sizeof($rows))
     {
         $low = 0;
         $high = 0;
         $ranweight = ($weightsum>1)?mt_rand(0,$weightsum-1):0;
+		
         for ($i=0; $i<sizeof($rows); $i++)
         {
             $low = $high;
-            $high += $rows[$i]["weight"];
-            if ($high > $ranweight && $low <= $ranweight)
+            $high += ($rows[$i]["weight"] * $rows[$i]["clientweight"]);
+            
+			if ($high > $ranweight && $low <= $ranweight)
             {
-                $tmprow=$rows[$i];
+				$tmprow=$rows[$i];
                 if (acl_check($request,$tmprow))
                     return ($tmprow);
                 
                 // Matched, but acl_check failed.  delete this row and adjust $weightsum
                 if (sizeof($rows) == 1)
                     return false;
-
+				
                 $weightsum -= $tmprow["weight"];
                 $rows[$i] = array_pop($rows);
                 break;                              // break out of the for loop to try again
