@@ -300,8 +300,8 @@ if ($period == 'w')
 			
 			if (isset($stats[$key]))
 			{
-				$totalweekviews  += $stats[$key]['sum_views'];
-				$totalweekclicks += $stats[$key]['sum_clicks'];
+				$totalweekviews  += isset($stats[$key]['sum_views']) ? $stats[$key]['sum_views'] : 0;
+				$totalweekclicks += isset($stats[$key]['sum_clicks']) ? $stats[$key]['sum_clicks'] : 0;
 				$days++;
 			}
 		}

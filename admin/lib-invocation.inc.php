@@ -235,7 +235,7 @@ function phpAds_GenerateInvocationCode()
 				$buffer .= "    // Remember to copy files in samples/xmlrpc/php to the same directory as your script\n\n";
 				$buffer .= "    require('lib-xmlrpc-class.inc.php');\n";
 				$buffer .= "    \$xmlrpcbanner = new phpAds_XmlRpc('$params[host]', '$params[path]'".
-					($params['port'] ? ", '$params[port]'" : "").");\n";
+					(isset($params['port']) ? ", '$params[port]'" : "").");\n";
 				$buffer .= "    \$xmlrpcbanner->view('$what', $clientid, '$target', '$source', '$withText');\n";
 				$buffer .= "?".">";
 				break;
