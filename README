@@ -45,7 +45,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-    In addition, as a special exception, TOMO <groove@spencernetwork.org> 
+    In addition, as a special exception, TOMO <groove at spencernetwork dot org> 
     gives permission to link the code of this program with the FTP library 
     (or with modified versions of LIB-FTP that use the same license as LIB-FTP), 
     and distribute linked combinations including the two.  You must obey 
@@ -54,7 +54,7 @@
     to your version of the file, but you are not obligated to do so.  If 
     you do not wish to do so, delete this exception statement from your version.
 
-    In addition, as a special exception, Edd Dumbill <edd@usefulinc.com>
+    In addition, as a special exception, Edd Dumbill <edd at usefulinc dot com>
     gives permission to link the code of this program with the XML-RPC library 
     (or with modified versions of XML-RPC that use the same license as XML-RPC), 
     and distribute linked combinations including the two.  You must obey 
@@ -85,18 +85,24 @@
 
     Credits:
     ------------------------------------------------------------------------
-    Kyle Cordes <Kyle@kylecordes.com>, Weston Bustraan <weston@infinityteldata.net>,
-    Jörg Legarth, Brian <brian@cooltext.com>, Robert Allen <zircote@excite.com>,
-    Ben Schumacher <bs@cyalchemy.com>, Leonid Igolnik - LiM <lim@israel.net>,
-    Philip Gabbert <pgabbert@exactis.com>, Ralf Eggert <ralf@in-greece.de>,
-    Niels Schoot <nschoot@users.sourceforge.net>, Martin Braun <martin@braun.cc>,
-    Vivian Girel, René Friedrich <rene.friedrich@web.de> and many more.
+    Kyle Cordes <Kyle at kylecordes dot com>,
+    Weston Bustraan <weston at infinityteldata dot net>,
+    Jörg Legarth, Brian <brian at cooltext dot com>,
+    Robert Allen <zircote at excite dot com>,
+    Ben Schumacher <bs at cyalchemy dot com>,
+    Leonid Igolnik - LiM <lim at israel dot net>,
+    Philip Gabbert <pgabbert at exactis dot com>,
+    Ralf Eggert <ralf at in-greece dot de>,
+    Niels Schoot <nschoot at users.sourceforge dot net>,
+    Martin Braun <martin at braun dot cc>,
+    Vivian Girel, René Friedrich <rene.friedrich at web dot de>
+    and many more.
 
     XML-RPC library:
-    Edd Dumbill <edd@usefulinc.com>
+    Edd Dumbill <edd at usefulinc dot com>
 
     FTP library:
-    TOMO <groove@spencernetwork.org> 
+    TOMO <groove at spencernetwork dot org> 
 
     Occasional bugfixes and support: 
     Manuel Lemos, Boaz Yahav, Roy Nasser, Mark Maggalet, Ben Schumacher.
