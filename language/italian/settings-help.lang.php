@@ -35,7 +35,7 @@ $GLOBALS['phpAds_hlp_dbpassword'] = "
 		
 $GLOBALS['phpAds_hlp_dbname'] = "
         Specifica il nome del database dove ".$phpAds_productname." deve salvare i dati.
-		E&grave; importante che il database sia già stato creato sul server. ".$phpAds_productname." <b>non</b> creer&agrave;
+		&Egrave; importante che il database sia già stato creato sul server. ".$phpAds_productname." <b>non</b> creer&agrave;
 		il database se non esiste.
 		";
 		
@@ -260,8 +260,8 @@ $GLOBALS['phpAds_hlp_geotracking_type'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_geotracking_location'] = "
-		A meno che non venga utilizzato il modulo GeoIP per Apache, e&grave; necessario fornire a
-		".$phpAds_productname." il percorso del database geografico. E&grave; consigliabile posizionarlo
+		A meno che non venga utilizzato il modulo GeoIP per Apache, &egrave; necessario fornire a
+		".$phpAds_productname." il percorso del database geografico. &Egrave; consigliabile posizionarlo
 		al di fuori della radice dei documenti del server (document root), altrimenti estranei potrebbero
 		essere in grado di scaricare il database.
 		";
