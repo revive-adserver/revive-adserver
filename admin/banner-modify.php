@@ -125,6 +125,12 @@ if (isset($bannerid) && $bannerid != '')
 			") or phpAds_sqlDie();
 		}
 		
+		// Rebuild cache
+		if (!defined('LIBVIEWCACHE_INCLUDED')) 
+			include (phpAds_path.'/libraries/deliverycache/cache-'.$phpAds_config['delivery_caching'].'.inc.php');
+		
+		phpAds_cacheDelete();
+		
 		Header ("Location: ".$returnurl."?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$applyto);
 	}
 	elseif (isset($duplicate) && $duplicate == 'true')
