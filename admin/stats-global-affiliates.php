@@ -29,7 +29,7 @@ phpAds_checkAccess(phpAds_Admin);
 /* HTML framework                                        */
 /*********************************************************/
 
-phpAds_PageHeader("2.4", $extra);
+phpAds_PageHeader("2.4");
 phpAds_ShowSections(array("2.1", "2.4", "2.3", "2.2"));
 
 
@@ -174,8 +174,8 @@ else
 if (isset($expand) && $expand != '')
 	$node_array[] = $expand;
 
-$node_array_size = sizeof($node_array);
-for ($i=0; $i < $node_array_size;$i++)
+$node_array_size = sizeof($node_array); 
+for ($i=0; $i < $node_array_size;$i++) 
 {
 	if (isset($collapse) && $collapse == $node_array[$i])
 		unset ($node_array[$i]);
