@@ -228,7 +228,7 @@ function phpAds_showZoneBanners ($zoneid)
 				echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
 			
 			// Name
-			echo $name;
+			echo "<a href='banner-edit.php?clientid=".phpAds_getParentID($rows[$key]['clientid'])."&campaignid=".$rows[$key]['clientid']."&bannerid=".$rows[$key]['bannerid']."'>".$name."</a>";
 			echo "</td>";
 			
 			echo "<td height='25'>".$rows[$key]['bannerid']."</td>";
