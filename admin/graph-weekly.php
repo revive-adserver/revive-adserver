@@ -49,7 +49,7 @@ if ($phpAds_config['compact_stats']) {
     		DATE_FORMAT(day,'".$mysql_week_sign."'),
     		DATE_FORMAT(day,'%Y".$mysql_week_sign."') AS week 
     	FROM
-    		".$GLOBALS['phpAds_tbl_adstats']."
+    		".$phpAds_config['tbl_adstats']."
     	$where
     	GROUP BY 
     		week
