@@ -23,6 +23,41 @@ $phpAds_context		= array();
 $phpAds_shortcuts	= array();
 
 
+
+/*********************************************************/
+/* Add breadcrumb context to left menubar                */
+/*********************************************************/
+
+function phpAds_PageContext ($name, $link, $selected)
+{
+	global $phpAds_context;
+	
+	$phpAds_context[] = array (
+		'name' => $name,
+		'link' => $link,
+		'selected' => $selected
+	);
+}
+
+
+
+/*********************************************************/
+/* Add shortcuts to left menubar                         */
+/*********************************************************/
+
+function phpAds_PageShortcut ($name, $link, $icon)
+{
+	global $phpAds_shortcuts;
+	
+	$phpAds_shortcuts[] = array (
+		'name' => $name,
+		'link' => $link,
+		'icon' => $icon
+	);
+}
+
+
+
 /*********************************************************/
 /* Show page header                                      */
 /*********************************************************/
@@ -30,15 +65,17 @@ $phpAds_shortcuts	= array();
 function phpAds_PageHeader($ID, $extra="")
 {
 	global $phpAds_config;
+	global $phpAds_version_readable, $phpAds_productname;
+	global $phpAds_TextDirection, $phpAds_TextAlignRight, $phpAds_TextAlignLeft;
+	
 	global $phpAds_Message, $phpAds_GUIDone, $phpAds_NavID;
-	global $phpAds_nav, $pages;
+	global $phpAds_context, $phpAds_shortcuts;
+	global $phpAds_nav, $pages, $phpAds_showHelp;
+	
 	global $phpAds_CharSet;
 	global $strLogout, $strNavigation, $strShortcuts;
 	global $strAuthentification, $strSearch, $strHelp;
-	global $phpAds_showHelp;
-	global $phpAds_version_readable;
-	global $phpAds_TextDirection, $phpAds_TextAlignRight, $phpAds_TextAlignLeft;
-	global $phpAds_context, $phpAds_shortcuts;
+	
 	
 	$phpAds_GUIDone = true;
 	$phpAds_NavID   = $ID;
@@ -95,12 +132,12 @@ function phpAds_PageHeader($ID, $extra="")
 			$sidebar .= "<td width='140' class='nav'>$title</td></tr>";
 			$sidebar .= "<tr><td colspan='2'><img src='images/break.gif' height='1' width='160' vspace='4'></td></tr>";
 			
-			$pagetitle  = isset($phpAds_config['name']) && $phpAds_config['name'] != '' ? $phpAds_config['name'] : 'phpAdsNew';
+			$pagetitle  = isset($phpAds_config['name']) && $phpAds_config['name'] != '' ? $phpAds_config['name'] : $phpAds_productname;
 			$pagetitle .= ' - '.$title;
 		}
 		else
 		{
-			$pagetitle = isset($phpAds_config['name']) && $phpAds_config['name'] != '' ? $phpAds_config['name'] : 'phpAdsNew';
+			$pagetitle = isset($phpAds_config['name']) && $phpAds_config['name'] != '' ? $phpAds_config['name'] : $phpAds_productname;
 		}
 		
 		
@@ -229,7 +266,7 @@ function phpAds_PageHeader($ID, $extra="")
 		$searchbar = "&nbsp;";
 		$tabbar    = "<td bgcolor='#FFFFFF' valign='middle' nowrap>&nbsp;&nbsp;<a class='tab-s' href='index.php'>$strAuthentification</a></td>";
 		$tabbar   .= "<td><img src='images/".$phpAds_TextDirection."/tab-ew.gif' width='10' height='24'></td>";
-		$pagetitle = isset($phpAds_config['name']) && $phpAds_config['name'] != '' ? $phpAds_config['name'] : 'phpAdsNew';
+		$pagetitle = isset($phpAds_config['name']) && $phpAds_config['name'] != '' ? $phpAds_config['name'] : $phpAds_productname;
 	}
 	
 	
@@ -246,7 +283,7 @@ function phpAds_PageHeader($ID, $extra="")
 	echo "<html".($phpAds_TextDirection != 'ltr' ? " dir='".$phpAds_TextDirection."'" : '').">\n";
 	echo "\t<head>\n";
 	echo "\t\t<title>".$pagetitle."</title>\n";
-	echo "\t\t<meta name='generator' content='phpAdsNew ".$phpAds_version_readable." - http://www.phpadsnew.com'>\n";
+	echo "\t\t<meta name='generator' content='".$phpAds_productname." ".$phpAds_version_readable." - http://www.phpadsnew.com'>\n";
 	echo "\t\t<meta name='robots' content='noindex, nofollow'>\n\n";
 	echo "\t\t<link rel='stylesheet' href='images/".$phpAds_TextDirection."/interface.css'>\n";
 	echo "\t\t<script language='JavaScript' src='interface.js'></script>\n";
@@ -398,7 +435,7 @@ function phpAds_PageFooter()
 		echo "</tr></table></div>";
 		echo "<br><br><br><br><br><br>";
 	}
-
+	
 	// Add Product Update redirector
 	if (phpAds_isUser(phpAds_Admin) &&
 		!isset($Session['update_check']) &&
@@ -409,6 +446,99 @@ function phpAds_PageFooter()
 	
 	echo "</body>";
 	echo "</html>";
+}
+
+
+
+/*********************************************************/
+/* Show section navigation                               */
+/*********************************************************/
+
+function phpAds_ShowSections($sections)
+{
+	global $phpAds_nav, $phpAds_NavID;
+	global $phpAds_TextDirection, $phpAds_TextAlignRight, $phpAds_TextAlignLeft;
+	
+	echo "</td></tr>";
+	echo "</table>";
+	
+	
+	echo "<table border='0' cellpadding='0' cellspacing='0' width='100%' background='images/".$phpAds_TextDirection."/stab-bg.gif'><tr height='24'>";
+	echo "<td width='40'><img src='images/".$phpAds_TextDirection."/stab-bg.gif' width='40' height='24'></td><td width='600' align='".$phpAds_TextAlignLeft."'>";
+	
+	echo "<table border='0' cellpadding='0' cellspacing='0'><tr height='24'>";
+	
+	// Prepare Navigation
+	if (phpAds_isUser(phpAds_Admin))
+		$pages	= $phpAds_nav['admin'];
+	elseif (phpAds_isUser(phpAds_Client))
+		$pages  = $phpAds_nav['client'];
+	else
+		$pages  = $phpAds_nav['affiliate'];
+	
+	echo "<td></td>";
+	
+	for ($i=0; $i<count($sections);$i++)
+	{
+		list($sectionUrl, $sectionStr) = each($pages["$sections[$i]"]);
+		$selected = ($phpAds_NavID == $sections[$i]);
+		
+		if ($selected)
+		{
+			echo "<td background='images/".$phpAds_TextDirection."/stab-sb.gif' valign='middle' nowrap>";
+			
+			if ($i > 0) 
+				echo "<img src='images/".$phpAds_TextDirection."/stab-mus.gif' align='absmiddle'></td>";
+			else
+				echo "<img src='images/".$phpAds_TextDirection."/stab-bs.gif' align='absmiddle'></td>";
+			
+			echo "<td background='images/".$phpAds_TextDirection."/stab-sb.gif' valign='middle' nowrap>";
+			echo "&nbsp;&nbsp;<a class='tab-s' href='".$sectionUrl."'>".$sectionStr."</a></td>";
+		}
+		else
+		{
+			echo "<td background='images/".$phpAds_TextDirection."/stab-ub.gif' valign='middle' nowrap>";
+			
+			if ($i > 0) 
+				if ($previousselected) 
+					echo "<img src='images/".$phpAds_TextDirection."/stab-msu.gif' align='absmiddle'></td>";
+				else
+					echo "<img src='images/".$phpAds_TextDirection."/stab-muu.gif' align='absmiddle'></td>";
+			else
+				echo "<img src='images/".$phpAds_TextDirection."/stab-bu.gif' align='absmiddle'></td>";
+			
+			echo "<td background='images/".$phpAds_TextDirection."/stab-ub.gif' valign='middle' nowrap>";
+			echo "&nbsp;&nbsp;<a class='tab-g' href='".$sectionUrl."'>".$sectionStr."</a></td>";
+		}
+		
+		$previousselected = $selected;
+	}
+	
+	if ($previousselected)
+		echo "<td><img src='images/".$phpAds_TextDirection."/stab-es.gif'></td>";
+	else
+		echo "<td><img src='images/".$phpAds_TextDirection."/stab-eu.gif'></td>";
+	
+	echo "</tr></table>";
+	
+	echo "</td><td>&nbsp;</td></tr></table>";
+	echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>";
+	echo "<tr><td width='40'>&nbsp;</td><td><br>";
+}
+
+
+
+/*********************************************************/
+/* Show a light gray line break                          */
+/*********************************************************/
+
+function phpAds_ShowBreak()
+{
+	echo "</td><td width='40'>&nbsp;</td></tr>";
+	echo "</table>";
+	echo "<img src='images/break-el.gif' height='1' width='100%' vspace='5'>";
+	echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>";
+	echo "<tr><td width='40'>&nbsp;</td><td>";
 }
 
 
@@ -501,92 +631,6 @@ function phpAds_DelConfirm($msg)
 
 
 /*********************************************************/
-/* Show section navigation                               */
-/*********************************************************/
-
-function phpAds_ShowSections($sections)
-{
-	global $phpAds_nav, $phpAds_NavID;
-	global $phpAds_TextDirection, $phpAds_TextAlignRight, $phpAds_TextAlignLeft;
-	
-	echo "</td></tr>";
-	echo "</table>";
-	
-	
-	echo "<table border='0' cellpadding='0' cellspacing='0' width='100%' background='images/".$phpAds_TextDirection."/stab-bg.gif'><tr height='24'>";
-	echo "<td width='40'><img src='images/".$phpAds_TextDirection."/stab-bg.gif' width='40' height='24'></td><td width='600' align='".$phpAds_TextAlignLeft."'>";
-	
-	echo "<table border='0' cellpadding='0' cellspacing='0'><tr height='24'>";
-	
-	// Prepare Navigation
-	if (phpAds_isUser(phpAds_Admin))
-		$pages	= $phpAds_nav['admin'];
-	elseif (phpAds_isUser(phpAds_Client))
-		$pages  = $phpAds_nav['client'];
-	else
-		$pages  = $phpAds_nav['affiliate'];
-	
-	echo "<td></td>";
-	
-	for ($i=0; $i<count($sections);$i++)
-	{
-		list($sectionUrl, $sectionStr) = each($pages["$sections[$i]"]);
-		$selected = ($phpAds_NavID == $sections[$i]);
-		
-		if ($selected)
-		{
-			echo "<td background='images/".$phpAds_TextDirection."/stab-sb.gif' valign='middle' nowrap>";
-			
-			if ($i > 0) 
-				echo "<img src='images/".$phpAds_TextDirection."/stab-mus.gif' align='absmiddle'></td>";
-			else
-				echo "<img src='images/".$phpAds_TextDirection."/stab-bs.gif' align='absmiddle'></td>";
-			
-			echo "<td background='images/".$phpAds_TextDirection."/stab-sb.gif' valign='middle' nowrap>";
-			echo "&nbsp;&nbsp;<a class='tab-s' href='".$sectionUrl."'>".$sectionStr."</a></td>";
-		}
-		else
-		{
-			echo "<td background='images/".$phpAds_TextDirection."/stab-ub.gif' valign='middle' nowrap>";
-			
-			if ($i > 0) 
-				if ($previousselected) 
-					echo "<img src='images/".$phpAds_TextDirection."/stab-msu.gif' align='absmiddle'></td>";
-				else
-					echo "<img src='images/".$phpAds_TextDirection."/stab-muu.gif' align='absmiddle'></td>";
-			else
-				echo "<img src='images/".$phpAds_TextDirection."/stab-bu.gif' align='absmiddle'></td>";
-			
-			echo "<td background='images/".$phpAds_TextDirection."/stab-ub.gif' valign='middle' nowrap>";
-			echo "&nbsp;&nbsp;<a class='tab-g' href='".$sectionUrl."'>".$sectionStr."</a></td>";
-		}
-		
-		$previousselected = $selected;
-	}
-	
-	if ($previousselected)
-		echo "<td><img src='images/".$phpAds_TextDirection."/stab-es.gif'></td>";
-	else
-		echo "<td><img src='images/".$phpAds_TextDirection."/stab-eu.gif'></td>";
-	
-	echo "</tr></table>";
-	
-	echo "</td><td>&nbsp;</td></tr></table>";
-	echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>";
-	echo "<tr><td width='40'>&nbsp;</td><td><br>";
-}
-
-function phpAds_ShowBreak()
-{
-	echo "</td><td width='40'>&nbsp;</td></tr>";
-	echo "</table>";
-	echo "<img src='images/break-el.gif' height='1' width='100%' vspace='5'>";
-	echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>";
-	echo "<tr><td width='40'>&nbsp;</td><td>";
-}
-
-
-/*********************************************************/
 /* Load the function need for the help system            */
 /*********************************************************/
 
@@ -597,29 +641,5 @@ function phpAds_PrepareHelp($default='')
 	$phpAds_helpDefault = $default;
 	$phpAds_showHelp = true;
 }
-
-
-function phpAds_PageContext ($name, $link, $selected)
-{
-	global $phpAds_context;
-	
-	$phpAds_context[] = array (
-		'name' => $name,
-		'link' => $link,
-		'selected' => $selected
-	);
-}
-
-function phpAds_PageShortcut ($name, $link, $icon)
-{
-	global $phpAds_shortcuts;
-	
-	$phpAds_shortcuts[] = array (
-		'name' => $name,
-		'link' => $link,
-		'icon' => $icon
-	);
-}
-
 
 ?>

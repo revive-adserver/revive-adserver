@@ -285,7 +285,7 @@ function phpAds_isAdmin($username, $password)
 function phpAds_LoginScreen($message='', $SessionID=0)
 {
 	global $PHP_SELF, $QUERY_STRING;
-	global $phpAds_config;
+	global $phpAds_config, $phpAds_productname;
 	global $strUsername, $strPassword, $strLogin, $strWelcomeTo, $strEnterUsername;
 	
 	phpAds_PageHeader(0);
@@ -299,7 +299,7 @@ function phpAds_LoginScreen($message='', $SessionID=0)
 	echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>";
 	echo "<td width='80' valign='bottom'><img src='images/login-welcome.gif'>&nbsp;&nbsp;</td>";
 	echo "<td width='100%' valign='bottom'>";
-	echo "<span class='tab-s'>".$strWelcomeTo." ".(isset($phpAds_config['name']) && $phpAds_config['name'] != '' ? $phpAds_config['name'] : 'phpAdsNew')."</span><br>";
+	echo "<span class='tab-s'>".$strWelcomeTo." ".(isset($phpAds_config['name']) && $phpAds_config['name'] != '' ? $phpAds_config['name'] : $phpAds_productname)."</span><br>";
 	echo "<span class='install'>".$strEnterUsername."</span><br>";
 	echo "<img src='images/break-el.gif' width='400' height='1' vspace='8'>";	
 	echo "</td></tr><tr><td>&nbsp;</td><td>";
