@@ -359,7 +359,7 @@ else
 		echo "<a href='stats-zone-history.php?affiliateid=".$zone['affiliateid']."&zoneid=".$zone['zoneid']."'>".$zone['zonename']."</a>";
 		echo "</td>";
 		
-		echo "<td height='25'>".$zone['affiliateid']."</td>";
+		echo "<td height='25'>".$zone['zoneid']."</td>";
 		echo "<td height='25' align='right'>".phpAds_formatNumber($zone['views'])."</td>";
 		echo "<td height='25' align='right'>".phpAds_formatNumber($zone['clicks'])."</td>";
 		echo "<td height='25' align='right'>".phpAds_buildCTR($zone['views'], $zone['clicks'])."&nbsp;&nbsp;</td>";
