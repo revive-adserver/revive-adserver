@@ -40,7 +40,7 @@ Dutch
 	---------------------------------------------------------
 	Maintained by:	   Niels Leenheer (niels at phpadsnew dot com)
 	Is up-to-date?	   No
-	Last update:	   29 June 2003
+	Last update:	   29 September 2003
 	Translated files:  7
 	---------------------------------------------------------
 
@@ -60,7 +60,7 @@ French
 	---------------------------------------------------------
 	Maintained by:	   Vincent Zanotti (amidebx at users.sourceforge dot net)
 	Is up-to-date?	   No
-	Last update:	   4 June 2002
+	Last update:	   26 September 2003
 	Translated files:  7 + 3 resource files
 	---------------------------------------------------------
 
@@ -80,7 +80,7 @@ Hebrew
 	---------------------------------------------------------
 	Maintained by:	   Reuven Mansharoff (reuven at act.co dot il)
 	Is up-to-date?	   No
-	Last update:	   23 June 2003
+	Last update:	   28 September 2003
 	Translated files:  7
 	---------------------------------------------------------
 
@@ -100,7 +100,7 @@ Indonesian
 	---------------------------------------------------------
 	Maintained by:	   Rachim Tamsjadi (tamsjadi at icqmail dot com)
 	Is up-to-date?	   No
-	Last update:	   11 April 2003
+	Last update:	   29 September 2003
 	Translated files:  7
 	---------------------------------------------------------
 
