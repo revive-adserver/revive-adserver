@@ -97,7 +97,7 @@ if ($command == 'start')
 				  new compact format?
 				 ";
 			echo "<br><br>";
-			echo "<a href='stats-convert.php?command=overview'><img src='images/icon-update.gif' border='0' align='absmiddle'>&nbsp;Start</a>";
+			echo "<a href='stats-convert.php?command=overview'><img src='images/".$phpAds_TextDirection."/icon-update.gif' border='0' align='absmiddle'>&nbsp;Start</a>";
 		}
 		else
 		{

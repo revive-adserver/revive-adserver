@@ -225,7 +225,7 @@ if ($campaignid != "")
 	while ($row = phpAds_dbFetchArray($res))
 		$extra .= "<option value='".$row['clientid']."'>".phpAds_buildClientName($row['clientid'], $row['clientname'])."</option>";
 	
-	$extra .= "</select>&nbsp;<input type='image' src='images/go_blue.gif'><br>";
+	$extra .= "</select>&nbsp;<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif'><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='campaign-delete.php?campaignid=$campaignid&returnurl=client-index.php'".phpAds_DelConfirm($strConfirmDeleteCampaign).">$strDelete</a><br>";
 	$extra .= "</form>";
@@ -243,7 +243,7 @@ if ($campaignid != "")
 	
 	phpAds_PageHeader("4.1.4", $extra);
 		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
-		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignid)."</b><br><br><br>";
 		phpAds_ShowSections(array("4.1.4", "4.1.5"));
 }
@@ -254,7 +254,7 @@ else
 		// Convert client to campaign
 		phpAds_PageHeader("4.1.4");
 			echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($clientid);
-			echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+			echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".$strUntitled."</b><br><br><br>";
 			phpAds_ShowSections(array("4.1.4"));
 	}
@@ -263,7 +263,7 @@ else
 		// New campaign
 		phpAds_PageHeader("4.1.3");   
 			echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($clientid);
-			echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+			echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".$strUntitled."</b><br><br><br>";
 			phpAds_ShowSections(array("4.1.3"));
 	}

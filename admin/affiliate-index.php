@@ -223,7 +223,7 @@ else
 			if ($affiliate['expand'] == '1')
 				echo "&nbsp;<a href='affiliate-index.php?collapse=".$affiliate['affiliateid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
 			else
-				echo "&nbsp;<a href='affiliate-index.php?expand=".$affiliate['affiliateid']."'><img src='images/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
+				echo "&nbsp;<a href='affiliate-index.php?expand=".$affiliate['affiliateid']."'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
 		}
 		else
 			echo "&nbsp;<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
@@ -311,7 +311,7 @@ if ($loosezones)
 	echo "<td height='25'>&nbsp;-&nbsp;</td>";
 	echo "<td height='25' colspan='3'>";
 	echo "<a href='affiliate-edit.php?move=t'>";
-	echo "<img src='images/icon-update.gif' border='0' align='absmiddle' alt='$strMoveToNewAffiliate'>&nbsp;$strMoveToNewAffiliate</a>&nbsp;&nbsp;";
+	echo "<img src='images/".$phpAds_TextDirection."/icon-update.gif' border='0' align='absmiddle' alt='$strMoveToNewAffiliate'>&nbsp;$strMoveToNewAffiliate</a>&nbsp;&nbsp;";
 	echo "</td>";
 	echo "</tr>";
 	
@@ -363,7 +363,7 @@ echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gi
 if ($phpAds_config['zone_cache'])
 {
 	echo "<tr height='25'><td colspan='3' height='25'>";
-	echo "<img src='images/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='zone-rebuildcache.php'>$strRebuildZoneCache</a>&nbsp;&nbsp;";
+	echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='zone-rebuildcache.php'>$strRebuildZoneCache</a>&nbsp;&nbsp;";
 	echo "</td></tr>";
 }
 

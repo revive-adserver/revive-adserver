@@ -35,6 +35,8 @@ function phpAds_PageHeader($ID, $extra="")
 	global $strAuthentification, $strSearch;
 	global $phpAds_showHelp;
 	global $phpAds_version_readable;
+	global $phpAds_TextDirection, $phpAds_TextAlignRight, $phpAds_TextAlignLeft;
+	
 	
 	$phpAds_GUIDone = true;
 	$phpAds_NavID   = $ID;
@@ -123,9 +125,9 @@ function phpAds_PageHeader($ID, $extra="")
 				if ($i > 0)
 				{
 					if ($lastselected)
-						$tabbar .= "<td><img src='images/tab-d.gif' width='10' height='24'></td>";
+						$tabbar .= "<td><img src='images/".$phpAds_TextDirection."/tab-d.gif' width='10' height='24'></td>";
 					else
-						$tabbar .= "<td><img src='images/tab-dd.gif' width='10' height='24'></td>";
+						$tabbar .= "<td><img src='images/".$phpAds_TextDirection."/tab-dd.gif' width='10' height='24'></td>";
 				}
 				
 				if ($key == $currentsection)
@@ -144,9 +146,9 @@ function phpAds_PageHeader($ID, $extra="")
 		}
 		
 		if ($lastselected)
-			$tabbar .= "<td><img src='images/tab-ew.gif' width='10' height='24'></td>";
+			$tabbar .= "<td><img src='images/".$phpAds_TextDirection."/tab-ew.gif' width='10' height='24'></td>";
 		else
-			$tabbar .= "<td><img src='images/tab-eb.gif' width='10' height='24'></td>";
+			$tabbar .= "<td><img src='images/".$phpAds_TextDirection."/tab-eb.gif' width='10' height='24'></td>";
 		
 		
 		
@@ -155,10 +157,10 @@ function phpAds_PageHeader($ID, $extra="")
 			$searchbar  = "<table cellpadding='0' cellspacing='0' border='0' bgcolor='#0066CC' height='24'>";
 			$searchbar .= "<form name='search' action='admin-search.php' target='SearchWindow' onSubmit=\"search_window(document.search.keyword.value,'".$phpAds_config['url_prefix']."/admin/admin-search.php'); return false;\">";
 			$searchbar .= "<tr height='24'>";
-			$searchbar .= "<td height='24'><img src='images/tab-sb.gif' height='24' width='10'></td>";
+			$searchbar .= "<td height='24'><img src='images/".$phpAds_TextDirection."/tab-sb.gif' height='24' width='10'></td>";
 			$searchbar .= "<td class='tab-u'>$strSearch:</td>";
 			$searchbar .= "<td>&nbsp;&nbsp;<input type='text' name='keyword' size='15'>&nbsp;&nbsp;</td>";
-			$searchbar .= "<td><a href=\"javascript:search_window(document.search.keyword.value,'".$phpAds_config['url_prefix']."/admin/admin-search.php');\"><img src='images/go.gif' border='0'></a></td>";
+			$searchbar .= "<td><a href=\"javascript:search_window(document.search.keyword.value,'".$phpAds_config['url_prefix']."/admin/admin-search.php');\"><img src='images/".$phpAds_TextDirection."/go.gif' border='0'></a></td>";
 			$searchbar .= "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
 			$searchbar .= "</tr>";
 			$searchbar .= "</form>";
@@ -172,7 +174,7 @@ function phpAds_PageHeader($ID, $extra="")
 		$sidebar   = "&nbsp;";
 		$searchbar = "&nbsp;";
 		$tabbar    = "<td bgcolor='#FFFFFF' valign='middle' nowrap>&nbsp;&nbsp;<a class='tab-s' href='index.php'>$strAuthentification</a></td>";
-		$tabbar   .= "<td><img src='images/tab-ew.gif' width='10' height='24'></td>";
+		$tabbar   .= "<td><img src='images/".$phpAds_TextDirection."/tab-ew.gif' width='10' height='24'></td>";
 		$pagetitle = $phpAds_config['name'] != '' ? $phpAds_config['name'] : 'phpAdsNew';
 	}
 	
@@ -183,18 +185,18 @@ function phpAds_PageHeader($ID, $extra="")
 	
 	
 	// Head
-	echo "<html>\n";
+	echo "<html".($phpAds_TextDirection != 'ltr' ? " dir='".$phpAds_TextDirection."'" : '').">\n";
 	echo "\t<head>\n";
 	echo "\t\t<title>".$pagetitle."</title>\n";
 	echo "\t\t<meta http-equiv='Content-Type' content='text/html".($phpAds_CharSet != '' ? '; charset='.$phpAds_CharSet : '')."'>\n";
 	echo "\t\t<meta name='author' content='phpAdsNew - http://sourceforge.net/projects/phpadsnew'>\n";
 	echo "\t\t<meta name='robots' content='noindex, nofollow'>\n";
-	echo "\t\t<link rel='stylesheet' href='interface.css'>\n";
+	echo "\t\t<link rel='stylesheet' href='images/".$phpAds_TextDirection."/interface.css'>\n";
 	echo "\t\t<script language='JavaScript' src='interface.js'></script>\n";
 	if ($phpAds_showHelp) echo "\t\t<script language='JavaScript' src='help.js'></script>\n";
 	echo "\t</head>\n";
 	
-	echo "<body bgcolor='#FFFFFF' background='images/background.gif' text='#000000' leftmargin='0' ";
+	echo "<body bgcolor='#FFFFFF' background='images/".$phpAds_TextDirection."/background.gif' text='#000000' leftmargin='0' ";
 	echo "topmargin='0' marginwidth='0' marginheight='0'".($phpAds_showHelp ? " onResize='resizeHelp();' onScroll='resizeHelp();'" : '').">\n";
 	
 	// Header
@@ -219,7 +221,7 @@ function phpAds_PageHeader($ID, $extra="")
 		echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/logo.gif' width='163' height='34' alt='phpAdsNew ".$phpAds_version_readable."'>";
 	}
 	
-	echo "</td><td bgcolor='#000063' valign='top' align='right'>";
+	echo "</td><td bgcolor='#000063' valign='top' align='".$phpAds_TextAlignRight."'>";
 	echo $searchbar;
 	echo "</td></tr></table>";
 	
@@ -239,7 +241,7 @@ function phpAds_PageHeader($ID, $extra="")
 	echo "<table border='0' cellspacing='0' cellpadding='0' width='1'>";
 	echo "<tr>".$tabbar."</tr>";
 	echo "</table>";
-	echo "</td><td align='right' valign='middle' nowrap>";
+	echo "</td><td align='".$phpAds_TextAlignRight."' valign='middle' nowrap>";
 	
 	if ($ID != "" && phpAds_isLoggedIn() && !defined('phpAds_installing'))
 	{
@@ -448,13 +450,14 @@ function phpAds_DelConfirm($msg)
 function phpAds_ShowSections($sections)
 {
 	global $phpAds_nav, $phpAds_NavID;
+	global $phpAds_TextDirection, $phpAds_TextAlignRight, $phpAds_TextAlignLeft;
 	
 	echo "</td></tr>";
 	echo "</table>";
 	
 	
-	echo "<table border='0' cellpadding='0' cellspacing='0' width='100%' background='images/stab-bg.gif'><tr height='24'>";
-	echo "<td width='40'><img src='images/stab-bg.gif' width='40' height='24'></td><td width='600' align='left'>";
+	echo "<table border='0' cellpadding='0' cellspacing='0' width='100%' background='images/".$phpAds_TextDirection."/stab-bg.gif'><tr height='24'>";
+	echo "<td width='40'><img src='images/".$phpAds_TextDirection."/stab-bg.gif' width='40' height='24'></td><td width='600' align='".$phpAds_TextAlignLeft."'>";
 	
 	echo "<table border='0' cellpadding='0' cellspacing='0'><tr height='24'>";
 	
@@ -475,26 +478,26 @@ function phpAds_ShowSections($sections)
 		
 		if ($selected)
 		{
-			echo "<td background='images/stab-sb.gif' valign='middle' nowrap>";
+			echo "<td background='images/".$phpAds_TextDirection."/stab-sb.gif' valign='middle' nowrap>";
 			
 			if ($i > 0) 
-				echo "<img src='images/stab-mus.gif' align='absmiddle'>";
+				echo "<img src='images/".$phpAds_TextDirection."/stab-mus.gif' align='absmiddle'>";
 			else
-				echo "<img src='images/stab-bs.gif' align='absmiddle'>";
+				echo "<img src='images/".$phpAds_TextDirection."/stab-bs.gif' align='absmiddle'>";
 			
 			echo "&nbsp;&nbsp;<a class='tab-s' href='".$sectionUrl."'>".$sectionStr."</a>";
 		}
 		else
 		{
-			echo "<td background='images/stab-ub.gif' valign='middle' nowrap>";
+			echo "<td background='images/".$phpAds_TextDirection."/stab-ub.gif' valign='middle' nowrap>";
 			
 			if ($i > 0) 
 				if ($previousselected) 
-					echo "<img src='images/stab-msu.gif' align='absmiddle'>";
+					echo "<img src='images/".$phpAds_TextDirection."/stab-msu.gif' align='absmiddle'>";
 				else
-					echo "<img src='images/stab-muu.gif' align='absmiddle'>";
+					echo "<img src='images/".$phpAds_TextDirection."/stab-muu.gif' align='absmiddle'>";
 			else
-				echo "<img src='images/stab-bu.gif' align='absmiddle'>";
+				echo "<img src='images/".$phpAds_TextDirection."/stab-bu.gif' align='absmiddle'>";
 			
 			echo "&nbsp;&nbsp;<a class='tab-g' href='".$sectionUrl."'>".$sectionStr."</a>";
 		}
@@ -505,9 +508,9 @@ function phpAds_ShowSections($sections)
 	}
 	
 	if ($previousselected)
-		echo "<td><img src='images/stab-es.gif'></td>";
+		echo "<td><img src='images/".$phpAds_TextDirection."/stab-es.gif'></td>";
 	else
-		echo "<td><img src='images/stab-eu.gif'></td>";
+		echo "<td><img src='images/".$phpAds_TextDirection."/stab-eu.gif'></td>";
 	
 	echo "</tr></table>";
 	

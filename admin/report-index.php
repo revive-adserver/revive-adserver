@@ -131,7 +131,7 @@ for (reset($plugins);$key=key($plugins);next($plugins))
 }
 
 echo "</select>";
-echo "&nbsp;<a href='javascript:document.report_selection.submit();'><img src='images/go_blue.gif' border='0'></a>";
+echo "&nbsp;<a href='javascript:document.report_selection.submit();'><img src='images/".$phpAds_TextDirection."/go_blue.gif' border='0'></a>";
 echo "</td></tr>";
 echo "</form>";
 echo "</table>";

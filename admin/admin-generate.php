@@ -248,7 +248,7 @@ echo "<tr><td height='35'>";
 	echo "<option value='popup'".($codetype == 'popup' ? ' selected' : '').">Pop-up</option>";
 	if (phpAds_isUser(phpAds_Admin)) echo "<option value='local'".($codetype == 'local' ? ' selected' : '').">Local mode</option>";
 	echo "</select>";
-	echo "&nbsp;<input type='image' src='images/go_blue.gif' border='0'>";
+	echo "&nbsp;<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0'>";
 echo "</td></tr></table>";
 
 phpAds_ShowBreak();

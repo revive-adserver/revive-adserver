@@ -71,7 +71,7 @@ $res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE par
 while ($row = phpAds_dbFetchArray($res))
 	$extra .= "<option value='".$row['clientid']."'>".phpAds_buildClientName($row['clientid'], $row['clientname'])."</option>";
 
-$extra .= "</select>&nbsp;<input type='image' src='images/go_blue.gif'><br>";
+$extra .= "</select>&nbsp;<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif'><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 $extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='campaign-delete.php?campaignid=$campaignid&returnurl=client-index.php'".phpAds_DelConfirm($strConfirmDeleteCampaign).">$strDelete</a><br>";
 $extra .= "</form>";
@@ -89,7 +89,7 @@ $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 
 phpAds_PageHeader("4.1.5", $extra);
 	echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
-	echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+	echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 	echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignid)."</b><br><br><br>";
 	phpAds_ShowSections(array("4.1.4", "4.1.5"));
 
@@ -169,46 +169,46 @@ if (phpAds_dbNumRows($res) != 0)
 		echo "<tr><td height='10' colspan='5' bgcolor='#F6F6F6'>&nbsp;</td></tr>";
 		echo "<tr>";
 		echo "<td bgcolor='#F6F6F6'>&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-	   	echo "<td bgcolor='#F6F6F6' colspan='4' align='left'>";
+	   	echo "<td bgcolor='#F6F6F6' colspan='4' align='".$phpAds_TextAlignLeft."'>";
 	   	echo phpAds_buildBannerCode ($row['bannerid']);
 	    echo "</td>";
 		echo "</tr>";
 		
 		echo "<tr><td height='10' colspan='5' bgcolor='#F6F6F6'>&nbsp;</td></tr>";
 		echo "<tr><td bgcolor='#F6F6F6'>&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-		echo "<td height='25' bgcolor='#F6F6F6' align='left'>";
+		echo "<td height='25' bgcolor='#F6F6F6' align='".$phpAds_TextAlignLeft."'>";
 		echo "&nbsp;$strSize: <b>".$row['width']."x".$row['height']."</b></td>";
-		echo "<td height='25' bgcolor='#F6F6F6' align='left'>";
+		echo "<td height='25' bgcolor='#F6F6F6' align='".$phpAds_TextAlignLeft."'>";
 		echo "$strWeight: <b>".$row['weight']."</b></td>";
-		echo "<td height='25' bgcolor='#F6F6F6' align='left'>";
+		echo "<td height='25' bgcolor='#F6F6F6' align='".$phpAds_TextAlignLeft."'>";
 		echo "$strKeyword: <b>".$row['keyword']."</b></td>";
-		echo "<td height='25' bgcolor='#F6F6F6' align='left'>";
+		echo "<td height='25' bgcolor='#F6F6F6' align='".$phpAds_TextAlignLeft."'>";
 		echo $row['url']."&nbsp;</td></tr>";
 		
 		echo "<tr><td height='1' colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 		
 		echo "<tr>";
-		echo "<td height='25' colspan='5' align='right'>";
+		echo "<td height='25' colspan='5' align='".$phpAds_TextAlignRight."'>";
 		
 		
-		echo "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href='banner-edit.php?campaignid=$campaignid&bannerid=".$row["bannerid"]."'>$strBannerProperties</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+		echo "<a href='banner-edit.php?campaignid=$campaignid&bannerid=".$row["bannerid"]."'><img src='images/icon-edit.gif' align='absmiddle' border='0'>&nbsp;$strBannerProperties</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 		
 		if ($phpAds_config['acl'])
-			echo "<img src='images/icon-acl.gif' align='absmiddle'>&nbsp;<a href='banner-acl.php?campaignid=$campaignid&bannerid=".$row["bannerid"]."'>$strModifyBannerAcl</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+			echo "<a href='banner-acl.php?campaignid=$campaignid&bannerid=".$row["bannerid"]."'><img src='images/icon-acl.gif' align='absmiddle' border='0'>&nbsp;$strModifyBannerAcl</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 		
 		if ($row["active"] == "t")
 		{
-			echo "<img src='images/icon-deactivate.gif' align='absmiddle'>&nbsp;<a href='banner-activate.php?campaignid=$campaignid&bannerid=".$row["bannerid"]."&value=".$row["active"]."'>";
+			echo "<a href='banner-activate.php?campaignid=$campaignid&bannerid=".$row["bannerid"]."&value=".$row["active"]."'><img src='images/icon-deactivate.gif' align='absmiddle' border='0'>&nbsp;";
 			echo $strDeActivate;
 		}
 		else
 		{
-			echo "<img src='images/icon-activate.gif' align='absmiddle'>&nbsp;<a href='banner-activate.php?campaignid=$campaignid&bannerid=".$row["bannerid"]."&value=".$row["active"]."'>";
+			echo "<a href='banner-activate.php?campaignid=$campaignid&bannerid=".$row["bannerid"]."&value=".$row["active"]."'><img src='images/icon-activate.gif' align='absmiddle' border='0'>&nbsp;";
 			echo $strActivate;
 		}
 		
 		echo "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-		echo "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?campaignid=$campaignid&bannerid=".$row["bannerid"]."&returnurl=campaign-index.php'".phpAds_DelConfirm($strConfirmDeleteBanner).">$strDelete</a>";
+		echo "<a href='banner-delete.php?campaignid=$campaignid&bannerid=".$row["bannerid"]."&returnurl=campaign-index.php'".phpAds_DelConfirm($strConfirmDeleteBanner)."><img src='images/icon-recycle.gif' align='absmiddle' border='0'>&nbsp;$strDelete</a>";
 		
 		echo "</td></tr>";
 		

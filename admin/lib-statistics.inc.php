@@ -452,6 +452,7 @@ function phpAds_buildBannerCode ($bannerid)
 {
 	global $strShowBanner, $strLogin;
 	global $phpAds_config;
+	global $phpAds_TextAlignLeft, $phpAds_TextAlignRight;
 	
 	$res = phpAds_dbQuery ("
 		SELECT
@@ -477,10 +478,10 @@ function phpAds_buildBannerCode ($bannerid)
 			$htmlcode   = str_replace("\n", "<br>\n", htmlspecialchars ($htmlcode));
 			
 			$buffer		= "<table width='100%' border='0' cellspacing='0' cellpadding='0'><tr>";
-			$buffer    .= "<td width='80%' valign='top' align='left'>\n";
+			$buffer    .= "<td width='80%' valign='top' align='".$phpAds_TextAlignLeft."'>\n";
 			$buffer	   .= $htmlcode;
 			$buffer    .= "\n</td>";
-			$buffer    .= "<td width='20%' valign='top' align='right' nowrap>&nbsp;&nbsp;";
+			$buffer    .= "<td width='20%' valign='top' align='".$phpAds_TextAlignRight."' nowrap>&nbsp;&nbsp;";
 			$buffer	   .= "<a href='banner-htmlpreview.php?bannerid=$bannerid' target='_new' ";
 			$buffer	   .= "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=".$bannerid."', '', 'status=no,scrollbars=no,resizable=no,width=".($row['width']+64).",height=".($row['bannertext'] ? $row['height']+80 : $row['height']+64)."');\">";
 			$buffer    .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strShowBanner."</a>&nbsp;&nbsp;</td>";
@@ -500,7 +501,7 @@ function phpAds_buildBannerCode ($bannerid)
 			$buffer  = "<img src='images/break-l.gif' height='1' width='468' vspace='6'>";
 			$buffer .= "<table width='468' cellpadding='0' cellspacing='0' border='0'><tr>";
 			$buffer .= "<td valign='bottom'><img src='networks/logos/".$logo."'>&nbsp;&nbsp;&nbsp;</td>";
-			$buffer .= "<td valign='bottom' align='right'><br><b>".$title."</b>&nbsp;&nbsp;&nbsp;<a href='".$login."' target='_blank'>";
+			$buffer .= "<td valign='bottom' align='".$phpAds_TextAlignRight."'><br><b>".$title."</b>&nbsp;&nbsp;&nbsp;<a href='".$login."' target='_blank'>";
 			$buffer .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0' vspace='2'> ".$strLogin."</a></td>";
 			$buffer .= "</tr></table>";
 			$buffer .= "<img src='images/break-l.gif' height='1' width='468' vspace='6'>";

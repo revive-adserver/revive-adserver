@@ -105,7 +105,7 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	phpAds_PageHeader("2.1.3", $extra);
 		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
-		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignid)."</b><br><br><br>";
 		phpAds_ShowSections(array("2.1.2", "2.1.3", "2.1.4"));
 }
@@ -257,10 +257,10 @@ if (phpAds_dbNumRows($idresult) > 0)
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 
 echo "<tr bgcolor='#FFFFFF' height='25'>";
-echo "<td align='left' nowrap height='25'><b>$strDays</b></td>";
-echo "<td align='left' nowrap height='25'><b>$strViews</b></td>";
-echo "<td align='left' nowrap height='25'><b>$strClicks</b></td>";
-echo "<td align='left' nowrap height='25'><b>$strCTRShort</b>&nbsp;&nbsp;</td>";
+echo "<td align='".$phpAds_TextAlignLeft."' nowrap height='25'><b>$strDays</b></td>";
+echo "<td align='".$phpAds_TextAlignLeft."' nowrap height='25'><b>$strViews</b></td>";
+echo "<td align='".$phpAds_TextAlignLeft."' nowrap height='25'><b>$strClicks</b></td>";
+echo "<td align='".$phpAds_TextAlignLeft."' nowrap height='25'><b>$strCTRShort</b>&nbsp;&nbsp;</td>";
 echo "</tr>";
 
 echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -325,14 +325,14 @@ $previous = $start < $limit ? 0 : $start - $limit;
 $next = $start + $limit;
 
 echo "<tr>";
-echo "<td height='35' colspan='1' align='left'>";
+echo "<td height='35' colspan='1' align='".$phpAds_TextAlignLeft."'>";
 	echo "&nbsp;".$strDays.":&nbsp;";
 	echo "<a href='stats-campaign-history.php?campaignid=".$campaignid."&start=".$start."&limit=7'>7</a>&nbsp;|&nbsp;";
 	echo "<a href='stats-campaign-history.php?campaignid=".$campaignid."&start=".$start."&limit=14'>14</a>&nbsp;|&nbsp;";
 	echo "<a href='stats-campaign-history.php?campaignid=".$campaignid."&start=".$start."&limit=21'>21</a>&nbsp;|&nbsp;";
 	echo "<a href='stats-campaign-history.php?campaignid=".$campaignid."&start=".$start."&limit=28'>28</a>";
 echo "</td>";
-echo "<td height='35' colspan='3' align='right'>";
+echo "<td height='35' colspan='3' align='".$phpAds_TextAlignRight."'>";
 	if ($start > 0)
 	{
 		echo "<a href='stats-campaign-history.php?campaignid=$campaignid&limit=$limit&start=$previous'>";
@@ -380,7 +380,7 @@ if ($totalviews > 0 || $totalclicks > 0)
 	{
 		echo "<tr><td height='25' colspan='4'>";
 		echo "<a href='stats-reset.php?campaignid=$campaignid'".phpAds_DelConfirm($strConfirmResetCampaignStats).">";
-		echo "<img src='images/icon-undo.gif' align='absmiddle' border='0'>&nbsp;$strResetStats</a>";
+		echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' align='absmiddle' border='0'>&nbsp;$strResetStats</a>";
 		echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 		echo "</td></tr>";
 	}

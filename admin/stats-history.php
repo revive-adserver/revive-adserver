@@ -162,10 +162,10 @@ else
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 
 echo "<tr bgcolor='#FFFFFF' height='25'>";
-echo "<td align='left' nowrap height='25'><b>$strDays</b></td>";
-echo "<td align='left' nowrap height='25'><b>$strViews</b></td>";
-echo "<td align='left' nowrap height='25'><b>$strClicks</b></td>";
-echo "<td align='left' nowrap height='25'><b>$strCTRShort</b>&nbsp;&nbsp;</td>";
+echo "<td align='".$phpAds_TextAlignLeft."' nowrap height='25'><b>$strDays</b></td>";
+echo "<td align='".$phpAds_TextAlignLeft."' nowrap height='25'><b>$strViews</b></td>";
+echo "<td align='".$phpAds_TextAlignLeft."' nowrap height='25'><b>$strClicks</b></td>";
+echo "<td align='".$phpAds_TextAlignLeft."' nowrap height='25'><b>$strCTRShort</b>&nbsp;&nbsp;</td>";
 echo "</tr>";
 
 echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -230,14 +230,14 @@ $previous = $start < $limit ? 0 : $start - $limit;
 $next = $start + $limit;
 
 echo "<tr>";
-echo "<td height='35' colspan='1' align='left'>";
+echo "<td height='35' colspan='1' align='".$phpAds_TextAlignLeft."'>";
 	echo "&nbsp;".$strDays.":&nbsp;";
 	echo "<a href='stats-history.php?start=".$start."&limit=7'>7</a>&nbsp;|&nbsp;";
 	echo "<a href='stats-history.php?start=".$start."&limit=14'>14</a>&nbsp;|&nbsp;";
 	echo "<a href='stats-history.php?start=".$start."&limit=21'>21</a>&nbsp;|&nbsp;";
 	echo "<a href='stats-history.php?start=".$start."&limit=28'>28</a>";
 echo "</td>";
-echo "<td height='35' colspan='3' align='right'>";
+echo "<td height='35' colspan='3' align='".$phpAds_TextAlignRight."'>";
 	if ($start > 0)
 	{
 		echo "<a href='stats-history.php?limit=$limit&start=$previous'>";

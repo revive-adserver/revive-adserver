@@ -61,7 +61,7 @@ if (phpAds_isUser(phpAds_Admin))
 					  in verbose format. Do you want to convert your verbose statistics to the 
 					  new compact format?<br><br>
 					  <a href='stats-convert.php?command=frame' target='_new' onClick=\"return openWindow('stats-convert.php?command=frame','','status=yes,scrollbars=yes,resizable=yes,width=400,height=500');\">
-					  <img src='images/icon-update.gif' border='0' align='absmiddle'>&nbsp;Convert</a>
+					  <img src='images/".$phpAds_TextDirection."/icon-update.gif' border='0' align='absmiddle'>&nbsp;Convert</a>
 					  </td>
 					  </tr></table>
 					  </td></tr></table>";
@@ -431,7 +431,7 @@ if (phpAds_isUser(phpAds_Admin))
 				if ($client['expand'] == '1')
 					echo "&nbsp;<a href='stats-index.php?collapse=".$client['clientid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
 				else
-					echo "&nbsp;<a href='stats-index.php?expand=".$client['clientid']."'><img src='images/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
+					echo "&nbsp;<a href='stats-index.php?expand=".$client['clientid']."'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
 			}
 			else
 				echo "&nbsp;<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
@@ -475,7 +475,7 @@ if (phpAds_isUser(phpAds_Admin))
 						if ($campaigns[$ckey]['expand'] == '1')
 							echo "<a href='stats-index.php?collapse=".$campaigns[$ckey]['clientid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
 						else
-							echo "<a href='stats-index.php?expand=".$campaigns[$ckey]['clientid']."'><img src='images/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
+							echo "<a href='stats-index.php?expand=".$campaigns[$ckey]['clientid']."'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
 					}
 					else
 						echo "<img src='images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;";
@@ -637,7 +637,7 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	
   	echo "<tr height='25'><td colspan='4' height='25'>";
-	echo "<img src='images/icon-undo.gif' align='absmiddle'>&nbsp;<a href='stats-reset.php?all=true'".phpAds_DelConfirm($strConfirmResetStats).">$strResetStats</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+	echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' align='absmiddle'>&nbsp;<a href='stats-reset.php?all=true'".phpAds_DelConfirm($strConfirmResetStats).">$strResetStats</a>&nbsp;&nbsp;&nbsp;&nbsp;";
   	echo "</td></tr>";
 	echo "</table>";
 }
@@ -675,7 +675,7 @@ else
 				if ($campaigns[$ckey]['expand'] == '1')
 					echo "<a href='stats-index.php?collapse=".$campaigns[$ckey]['clientid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
 				else
-					echo "<a href='stats-index.php?expand=".$campaigns[$ckey]['clientid']."'><img src='images/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
+					echo "<a href='stats-index.php?expand=".$campaigns[$ckey]['clientid']."'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
 			}
 			else
 				echo "<img src='images/spacer.gif' height='16' width='16'>&nbsp;";

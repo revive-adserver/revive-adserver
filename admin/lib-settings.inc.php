@@ -82,6 +82,7 @@ $phpAds_settings_show_submit = !$phpAds_config_locked;
 function phpAds_SettingsSelection($section)
 {
 	global $phpAds_settings_sections;
+	global $phpAds_TextDirection;
 
 ?>
 <script language="JavaScript">
@@ -113,7 +114,7 @@ function settings_goto_section()
 			echo "<option value='defaults'".($section == 'defaults' ? ' selected' : '').">".$phpAds_settings_sections["2.3"]."</option>";
 ?>
         </select>
-        &nbsp;<a href='javascript:void(0)' onClick='settings_goto_section();'><img src='images/go_blue.gif' border='0'></a> 
+        &nbsp;<a href='javascript:void(0)' onClick='settings_goto_section();'><img src='images/<?php echo $phpAds_TextDirection; ?>/go_blue.gif' border='0'></a> 
       </td>
       <td height='35' align="right"><b><a href="javascript:toggleHelp();"><img src="images/help-book.gif" width="15" height="15" border="0" align="absmiddle">&nbsp;Help</a></b></td>
     </tr>

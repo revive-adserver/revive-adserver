@@ -93,7 +93,7 @@ $res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE par
 while ($row = phpAds_dbFetchArray($res))
 	$extra .= "<option value='".$row['clientid']."'>".phpAds_buildClientName($row['clientid'], $row['clientname'])."</option>";
 
-$extra .= "</select>&nbsp;<input type='image' name='moveto' src='images/go_blue.gif'><br>";
+$extra .= "</select>&nbsp;<input type='image' name='moveto' src='images/".$phpAds_TextDirection."/go_blue.gif'><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 $extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?campaignid=$campaignid&bannerid=$bannerid&returnurl=campaign-index.php'".phpAds_DelConfirm($strConfirmDeleteBanner).">$strDelete</a><br>";
 $extra .= "</form>";
@@ -119,9 +119,9 @@ $sections[] = "4.1.5.4";
 
 phpAds_PageHeader("4.1.5.4", $extra);
 	echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
-	echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+	echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 	echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
-	echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+	echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 	echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br><br>";
 	echo phpAds_buildBannerCode($bannerid)."<br><br><br><br>";
 	phpAds_ShowSections($sections);

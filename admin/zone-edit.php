@@ -187,7 +187,7 @@ if ($zoneid != "")
 		while ($row = phpAds_dbFetchArray($res))
 			$extra .= "<option value='".$row['affiliateid']."'>".phpAds_buildAffiliateName($row['affiliateid'], $row['name'])."</option>";
 		
-		$extra .= "</select>&nbsp;<input type='image' src='images/go_blue.gif'><br>";
+		$extra .= "</select>&nbsp;<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif'><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='zone-delete.php?affiliateid=$affiliateid&zoneid=$zoneid'".phpAds_DelConfirm($strConfirmDeleteZone).">$strDelete</a><br>";
 		$extra .= "</form>";
@@ -204,7 +204,7 @@ if ($zoneid != "")
 		
 		phpAds_PageHeader("4.2.3.2", $extra);
 			echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
-			echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+			echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 			echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br><br><br>";
 			phpAds_ShowSections(array("4.2.3.2", "4.2.3.3", "4.2.3.4", "4.2.3.5"));
 	}
@@ -217,7 +217,7 @@ if ($zoneid != "")
 		
 		phpAds_PageHeader("2.1.2", $extra);
 			echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
-			echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+			echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 			echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br><br><br>";
 			phpAds_ShowSections($sections);
 	}
@@ -228,7 +228,7 @@ else
 	{
 		phpAds_PageHeader("4.2.3.1");
 			echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
-			echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+			echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 			echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br><br><br>";
 			phpAds_ShowSections(array("4.2.3.1"));
 	}
@@ -236,7 +236,7 @@ else
 	{
 		phpAds_PageHeader("2.1.1");
 			echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
-			echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+			echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 			echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br><br><br>";
 			phpAds_ShowSections(array("2.1.1"));
 	}

@@ -198,7 +198,7 @@ $res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE par
 while ($row = phpAds_dbFetchArray($res))
 	$extra .= "<option value='".$row['clientid']."'>".phpAds_buildClientName($row['clientid'], $row['clientname'])."</option>";
 
-$extra .= "</select>&nbsp;<input type='image' name='moveto' src='images/go_blue.gif'><br>";
+$extra .= "</select>&nbsp;<input type='image' name='moveto' src='images/".$phpAds_TextDirection."/go_blue.gif'><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 $extra .= "<img src='images/icon-duplicate-acl.gif' align='absmiddle'>&nbsp;$strApplyLimitationsTo<br>";
 $extra .= "<img src='images/spacer.gif' height='1' width='160' vspace='2'><br>";
@@ -209,7 +209,7 @@ $res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_banners']." WHERE ban
 while ($row = phpAds_dbFetchArray($res))
 	$extra .= "<option value='".$row['bannerid']."'>".phpAds_buildBannerName ($row['bannerid'], $row['description'], $row['alt'])."</option>";
 
-$extra .= "</select>&nbsp;<input type='image' name='applyto' src='images/go_blue.gif'><br>";
+$extra .= "</select>&nbsp;<input type='image' name='applyto' src='images/".$phpAds_TextDirection."/go_blue.gif'><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 $extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?campaignid=$campaignid&bannerid=$bannerid&returnurl=campaign-index.php'".phpAds_DelConfirm($strConfirmDeleteBanner).">$strDelete</a><br>";
 $extra .= "</form>";
@@ -231,9 +231,9 @@ $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 
 phpAds_PageHeader("4.1.5.3", $extra);
 	echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
-	echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+	echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 	echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
-	echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+	echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 	echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br><br>";
 	echo phpAds_buildBannerCode($bannerid)."<br><br><br><br>";
 	phpAds_ShowSections(array("4.1.5.2", "4.1.5.3", "4.1.5.4"));
@@ -317,7 +317,7 @@ echo "<tr height='30'><td colspan='4' align='right'>";
 	echo "&nbsp;&nbsp;";
 	phpAds_ACLTypeSelect ('clientip');
 	echo "&nbsp;&nbsp;";
-	echo "<input type='image' name='btnsave' src='images/go_blue.gif' border='0' align='absmiddle' alt='$strSave'>";
+	echo "<input type='image' name='btnsave' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0' align='absmiddle' alt='$strSave'>";
 echo "</td></tr>";
 
 echo "</form>";

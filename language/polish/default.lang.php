@@ -13,8 +13,11 @@
 /************************************************************************/
 
 
-// Set character-set
-$GLOBALS['phpAds_CharSet'] = "iso-8859-2";
+// Set text direction and characterset
+$GLOBALS['phpAds_TextDirection']  = "ltr";
+$GLOBALS['phpAds_TextAlignRight'] = "right";
+$GLOBALS['phpAds_TextAlignLeft']  = "left";
+$GLOBALS['phpAds_CharSet'] 		  = "iso-8859-2";
 
 
 // Set translation strings

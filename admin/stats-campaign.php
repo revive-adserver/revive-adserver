@@ -143,7 +143,7 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	phpAds_PageHeader("2.1.2", $extra);
 		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
-		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignid)."</b><br><br><br>";
 		phpAds_ShowSections(array("2.1.2", "2.1.3", "2.1.4"));
 }
@@ -301,7 +301,7 @@ function showHideLayers(obj) {
 		else
 		{
 			bannerobj.style.display='none';
-			if (caretobj) caretobj.src = 'images/triangle-l.gif'
+			if (caretobj) caretobj.src = 'images/<?php echo $phpAds_TextDirection; ?>/triangle-l.gif'
 		}	
 	}
 }
@@ -329,7 +329,7 @@ if (count($order_array) > 0)
 		echo "<tr bgcolor='#FFFFFF' height='25'>";
 		echo "<td>&nbsp;</td>";
 		
-		echo "<td align='left' nowrap height='25'><b><a href='stats-campaign.php?campaignid=".$campaignid."&listorder=name'>".$strName."</a>";
+		echo "<td align='".$phpAds_TextAlignLeft."' nowrap height='25'><b><a href='stats-campaign.php?campaignid=".$campaignid."&listorder=name'>".$strName."</a>";
 		
 		if (($listorder == "name") || ($listorder == ""))
 		{
@@ -347,7 +347,7 @@ if (count($order_array) > 0)
 		}
 		
 		echo "</b></td>";
-		echo "<td align='left' nowrap height='25'><b><a href='stats-campaign.php?campaignid=".$campaignid."&listorder=id'>".$strID."</a>";
+		echo "<td align='".$phpAds_TextAlignLeft."' nowrap height='25'><b><a href='stats-campaign.php?campaignid=".$campaignid."&listorder=id'>".$strID."</a>";
 		
 		if ($listorder == "id")
 		{
@@ -365,7 +365,7 @@ if (count($order_array) > 0)
 		}
 		
 		echo "</b></td>";
-		echo "<td align='right' nowrap height='25'><b><a href='stats-campaign.php?campaignid=".$campaignid."&listorder=adviews'>".$strViews."</a>";
+		echo "<td align='".$phpAds_TextAlignRight."' nowrap height='25'><b><a href='stats-campaign.php?campaignid=".$campaignid."&listorder=adviews'>".$strViews."</a>";
 		
 		if ($listorder == "adviews")
 		{
@@ -383,7 +383,7 @@ if (count($order_array) > 0)
 		}
 		
 		echo "</b></td>";
-		echo "<td align='right' nowrap height='25'><b><a href='stats-campaign.php?campaignid=".$campaignid."&listorder=adclicks'>".$strClicks."</a>";
+		echo "<td align='".$phpAds_TextAlignRight."' nowrap height='25'><b><a href='stats-campaign.php?campaignid=".$campaignid."&listorder=adclicks'>".$strClicks."</a>";
 		
 		if ($listorder == "adclicks")
 		{
@@ -401,7 +401,7 @@ if (count($order_array) > 0)
 		}
 		
 		echo "</b></td>";
-		echo "<td align='right' nowrap height='25'><b><a href='stats-campaign.php?campaignid=".$campaignid."&listorder=ctr'>".$strCTRShort."</a>";
+		echo "<td align='".$phpAds_TextAlignRight."' nowrap height='25'><b><a href='stats-campaign.php?campaignid=".$campaignid."&listorder=ctr'>".$strCTRShort."</a>";
 		
 		if ($listorder == "ctr")
 		{
@@ -467,7 +467,7 @@ if (count($order_array) > 0)
 			
 			// Divider
 			echo "<tr>";
-			echo "<td height='25' colspan='4'>";
+			echo "<td height='25' colspan='4' align='".$phpAds_TextAlignLeft."'>";
 			
 			if ($row_banners['active'] == 't')
 			{
@@ -510,8 +510,8 @@ if (count($order_array) > 0)
 			// Banner
 			echo "<tr><td height='10' colspan='4' bgcolor='$bgcolor'>&nbsp;</td></tr>";
 			echo "<tr bgcolor='$bgcolor'>";
-			echo "<td height='25' align='left' nowrap>&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-		   	echo "<td colspan='3' align='left'>";
+			echo "<td height='25' align='".$phpAds_TextAlignLeft."' nowrap>&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+		   	echo "<td colspan='3' align='".$phpAds_TextAlignLeft."'>";
 			echo phpAds_buildBannerCode ($row_banners['bannerid']);
 			echo "</td></tr>";
 			echo "<tr><td height='10' colspan='4' bgcolor='$bgcolor'>&nbsp;</td></tr>";
@@ -521,16 +521,16 @@ if (count($order_array) > 0)
 		    {
 				// Stats
 				echo "<tr bgcolor='$bgcolor'>";
-				echo "<td height='25' align='left' nowrap>&nbsp;</td>";
-				echo "<td height='25' align='left' nowrap>$strViews: <b>$adviews</b></td>";
-				echo "<td height='25' align='left' nowrap>$strClicks: <b>$adclicks</b></td>";
-				echo "<td height='25' align='left' nowrap>$strRatio: <b>".phpAds_buildCTR($adviews, $adclicks)."<b></td>";
+				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>&nbsp;</td>";
+				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>$strViews: <b>$adviews</b></td>";
+				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>$strClicks: <b>$adclicks</b></td>";
+				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>$strRatio: <b>".phpAds_buildCTR($adviews, $adclicks)."<b></td>";
 				echo "</tr>";
 			}
 			else
 			{
 				echo "<tr bgcolor='$bgcolor'>";
-				echo "<td height='25' align='left' nowrap>&nbsp;</td>";
+				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>&nbsp;</td>";
 				echo "<td height='25' bgcolor='$bgcolor' colspan='3'>$strBannerNoStats</td>";
 				echo "</tr>";
 			}
@@ -541,7 +541,7 @@ if (count($order_array) > 0)
 			
 			
 			// Buttons
-			echo "<tr><td colspan='4' height='25' align='right'>";
+			echo "<tr><td colspan='4' height='25' align='".$phpAds_TextAlignRight."'>";
 			
 			if (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_DisableBanner) && $row_banners['active'] == 't') // only for the client if allowed
 			{
@@ -564,7 +564,7 @@ if (count($order_array) > 0)
 				if (phpAds_isUser(phpAds_Admin)) // only for the admin
 				{
 					echo "&nbsp;&nbsp;&nbsp;&nbsp;";
-					echo "<img src='images/icon-undo.gif' align='absmiddle'>&nbsp;";
+					echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' align='absmiddle'>&nbsp;";
 					echo "<a href='stats-reset.php?campaignid=$campaignid&bannerid=".$row_banners['bannerid']."'".phpAds_DelConfirm($strConfirmResetBannerStats).">$strResetStats</a>";
 				}
 			}
@@ -589,13 +589,13 @@ if (count($order_array) > 0)
 			
 			echo "<tr bgcolor='$bgcolor'>";
 			
-			echo "<td height='25' width='30' align='left'>&nbsp;";
+			echo "<td height='25' width='30' align='".$phpAds_TextAlignLeft."'>&nbsp;";
 			if (ereg ("Mozilla/6", $HTTP_USER_AGENT) || ereg ("IE", $HTTP_USER_AGENT))
-				echo "<img name='caret".$row_banners['bannerid']."' src='images/triangle-l.gif' align='absmiddle' onClick=\"showHideLayers('".$row_banners['bannerid']."');\">";
+				echo "<img name='caret".$row_banners['bannerid']."' src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' onClick=\"showHideLayers('".$row_banners['bannerid']."');\">";
 			echo "</td>";
 			
 			
-			echo "<td height='25' align='left' nowrap>";
+			echo "<td height='25' align='".$phpAds_TextAlignLeft."' nowrap>";
 			
 			
 			if ($row_banners['active'] == 't')
@@ -641,20 +641,20 @@ if (count($order_array) > 0)
 			echo "</a>";
 			echo "</td>";
 			
-			echo "<td height='25' align='left' nowrap>".$row_banners['bannerid']."</td>";
+			echo "<td height='25' align='".$phpAds_TextAlignLeft."' nowrap>".$row_banners['bannerid']."</td>";
 			
 		    if ($adclicks > 0 || $adviews > 0)
 		    {
 				// Stats
-				echo "<td height='25' align='right' nowrap>".$adviews."</td>";
-				echo "<td height='25' align='right' nowrap>".$adclicks."</td>";
-				echo "<td height='25' align='right' nowrap>".phpAds_buildCTR($adviews, $adclicks)."&nbsp;&nbsp;</td>";
+				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>".$adviews."</td>";
+				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>".$adclicks."</td>";
+				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>".phpAds_buildCTR($adviews, $adclicks)."&nbsp;&nbsp;</td>";
 			}
 			else
 			{
-				echo "<td height='25' align='right' nowrap>-</td>";
-				echo "<td height='25' align='right' nowrap>-</td>";
-				echo "<td height='25' align='right' nowrap>-&nbsp;&nbsp;</td>";
+				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>-</td>";
+				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>-</td>";
+				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>-&nbsp;&nbsp;</td>";
 			}
 			
 			echo "</tr>";
@@ -667,7 +667,7 @@ if (count($order_array) > 0)
 			{
 				echo "<div id='banner".$row_banners['bannerid']."' style='display: none;'>";
 				
-				echo "<table width='100%' cellpadding=0 cellspacing=0 border=0><tr><td align='left'>";
+				echo "<table width='100%' cellpadding=0 cellspacing=0 border=0><tr><td align='".$phpAds_TextAlignLeft."'>";
 				echo "<tr><td height='1'><img src='images/break-l.gif' height='1' width='100%' vspace='0'></tr><td>";
 				echo "<tr><td height='10'>&nbsp;</tr><td>";
 				echo "<tr><td>";
@@ -686,7 +686,7 @@ if (count($order_array) > 0)
 					if (phpAds_isUser(phpAds_Admin)) // only for the admin
 					{
 						echo "<a href='stats-reset.php?campaignid=$campaignid&bannerid=".$row_banners['bannerid']."'".phpAds_DelConfirm($strConfirmResetBannerStats).">";
-						echo "<img src='images/icon-undo.gif' align='absmiddle' border='0'>&nbsp;$strResetStats</a>";
+						echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' align='absmiddle' border='0'>&nbsp;$strResetStats</a>";
 						echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 					}
 				}
@@ -726,7 +726,7 @@ if (count($order_array) > 0)
 		echo "<option value='t'".($compact=='t' ? " selected" : "").">$strCompact</option>";
 	echo "</select>";
 	echo "&nbsp;";
-	echo "<input type='image' border='0' name='submit' src='images/go_blue.gif'>";
+	echo "<input type='image' border='0' name='submit' src='images/".$phpAds_TextDirection."/go_blue.gif'>";
 	echo "</td>";
 	echo "</form>";
 	echo "</tr>";

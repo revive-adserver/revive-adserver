@@ -190,9 +190,9 @@ if ($bannerid != '')
 		
 		phpAds_PageHeader("4.1.5.5", $extra);
 			echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
-			echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+			echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
-			echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+			echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 			echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br><br>";
 			echo phpAds_buildBannerCode($bannerid)."<br><br><br><br>";
 			phpAds_ShowSections(array("4.1.5.5"));
@@ -201,9 +201,9 @@ if ($bannerid != '')
 	{
 		phpAds_PageHeader("1.1.1.3", $extra);
 			echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
-			echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+			echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
-			echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+			echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 			echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br><br>";
 			echo phpAds_buildBannerCode($bannerid)."<br><br><br><br>";
 			phpAds_ShowSections(array("1.1.1.3"));
@@ -266,7 +266,7 @@ if ($result)
 		
 		echo "<tr>";
 		echo "<td height='25' bgcolor='".($i % 2 ? '#FFFFFF' : '#F6F6F6')."'>&nbsp;";
-		echo "<img src='images/icon-undo.gif' align='absmiddle'>&nbsp;".$url."</td>";
+		echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' align='absmiddle'>&nbsp;".$url."</td>";
 		echo "<td height='25' bgcolor='".($i % 2 ? '#FFFFFF' : '#F6F6F6')."'>".$target."</td>";
 		echo "</tr>";
 		

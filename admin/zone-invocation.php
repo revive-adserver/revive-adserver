@@ -99,7 +99,7 @@ if (phpAds_isUser(phpAds_Admin))
 	while ($row = phpAds_dbFetchArray($res))
 		$extra .= "<option value='".$row['affiliateid']."'>".phpAds_buildAffiliateName($row['affiliateid'], $row['name'])."</option>";
 	
-	$extra .= "</select>&nbsp;<input type='image' src='images/go_blue.gif'><br>";
+	$extra .= "</select>&nbsp;<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif'><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='zone-delete.php?affiliateid=$affiliateid&zoneid=$zoneid&returnurl=zone-index.php'".phpAds_DelConfirm($strConfirmDeleteZone).">$strDelete</a><br>";
 	$extra .= "</form>";
@@ -115,7 +115,7 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	phpAds_PageHeader("4.2.3.5", $extra);
 		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
-		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br><br><br>";
 		phpAds_ShowSections(array("4.2.3.2", "4.2.3.3", "4.2.3.4", "4.2.3.5"));
 }
@@ -128,7 +128,7 @@ else
 		
 	phpAds_PageHeader("2.1.5", $extra);
 		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
-		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br><br><br>";
 		phpAds_ShowSections($sections);
 }
@@ -365,7 +365,7 @@ echo "<tr><td height='25'>";
 	echo "<option value='popup'".($codetype == 'popup' ? ' selected' : '').">Pop-up</option>";
 	if (phpAds_isUser(phpAds_Admin)) echo "<option value='local'".($codetype == 'local' ? ' selected' : '').">Local mode</option>";
 	echo "</select>";
-	echo "&nbsp;<input type='image' src='images/go_blue.gif' border='0'>";
+	echo "&nbsp;<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0'>";
 echo "</td></tr></table>";
 
 phpAds_ShowBreak();

@@ -258,6 +258,7 @@ function stats()
 	global $strDayShortCuts;
 	global $strClientName, $strOverall;
 	global $total_views, $total_clicks;
+	global $phpAds_TextDirection;
 	
 	// get all significant banner-ids to build where-clause
 	$banner_query = "
@@ -597,7 +598,7 @@ function stats()
 					<option value="12" <?php echo $max_weeks==12?'selected':''; ?>>12</option>
 					<option value="999" <?php echo $max_weeks==999?'selected':''; ?>><?php echo $GLOBALS['strAll']; ?></option>
 				</select>
-				<input type="image" src="images/go_blue.gif" border="0" name="submit">
+				<input type="image" src="images/<?php echo $phpAds_TextDirection; ?>/go_blue.gif" border="0" name="submit">
 			</td>
 		</form>
 	<?php
@@ -623,7 +624,7 @@ function stats()
 		}
 		?>
 				</select>
-				<input type="image" src="images/go_blue.gif" border="0" name="submit">&nbsp;
+				<input type="image" src="images/<?php echo $phpAds_TextDirection; ?>/go_blue.gif" border="0" name="submit">&nbsp;
 			</td>
 		</form>
 	</tr>

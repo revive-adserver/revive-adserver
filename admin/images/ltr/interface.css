@@ -1,0 +1,128 @@
+.phpAdsNew 	
+{ 
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 24px; 
+	font-style: italic; 
+	font-weight: bold; 
+	color: #FFFFFF; 
+}
+
+.location 	
+{ 
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 14px; 
+	font-style: italic; 
+	font-weight: bold; 
+	color: #FFFFFF; 
+}
+
+.topnav 	
+{ 
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 11px; 
+	font-style: italic; 
+	font-weight: bold; 
+	color: #FFFFFF; 
+	text-decoration:none; 
+}
+
+.nav 		
+{ 
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 11px; 
+	color: #003399; 
+}
+
+.heading 	
+{ 
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 14pt; 
+	font-weight: bold; 
+	color: white; 
+	margin-bottom: 0px; 
+}
+
+body 		
+{ 
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 11px; 
+	margin-left: 0px; 
+	margin-right: 0px; 
+	margin-top: 0px; 
+	margin-bottom: 0px;
+    background-position: top left;
+    background-repeat: repeat-y;
+}
+
+.install 		
+{ 
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 11px;
+	line-height: 18px;
+	color: #000066; 
+}
+
+table 		
+{ 
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 11px; 
+}
+
+td 			
+{ 
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 11px; 
+}
+
+td.gray 	
+{ 
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 11px; 
+	color: #888888; 
+}
+
+a { color: #003399; text-decoration: none; }
+a:hover { color: #003399; text-decoration: underline; }
+
+a.black 	
+{ 
+	color: #000000; 
+	text-decoration:none; 
+}
+
+a.gray 		
+{ 
+	color: #888888; 
+	text-decoration:none; 
+}
+
+select,textarea,input 
+{ 
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 11px;
+}
+
+select.flat,textarea.flat,input.flat 
+{ 
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 11px;
+	border-color : #888888;
+	border-style: solid;
+	border-top-width: 1px; 
+	border-right-width: 1px; 
+	border-bottom-width: 1px; 
+	border-left-width: 1px;
+}
+
+.tab-s { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: #0066CC; text-decoration: none;}
+.tab-s:hover { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: #0066CC; text-decoration: underline;}
+.tab-u { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: #FFFFFF; text-decoration: none;}
+.tab-u:hover { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: #FFFFFF; text-decoration: underline;}
+.tab-g { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: #666666; text-decoration: none;}
+.tab-g:hover { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: #666666; text-decoration: underline;}
+
+.tab-r { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: #CC0000; text-decoration: none;}
+.tab-r:hover { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: #CC0000; text-decoration: underline;}
+.tab-n { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; font-weight: bold; color: #FFFFFF; text-decoration: none;}
+.tab-n:hover { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; font-weight: bold; color: #FFFFFF; text-decoration: underline;}
+

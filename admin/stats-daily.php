@@ -130,11 +130,11 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	phpAds_PageHeader("2.1.2.1.1", $extra);
 		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
-		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
-		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;".phpAds_getBannerName($bannerid);
-		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-time.gif' align='absmiddle'>&nbsp;<b>".date(str_replace('%', '', $date_format), mktime(0, 0, 0, substr($day, 4, 2), substr($day, 6, 2), substr($day, 0, 4)))."</b><br><br>";
 		echo phpAds_buildBannerCode($bannerid)."<br><br><br><br>";
 		phpAds_ShowSections(array("2.1.2.1.1"));
@@ -144,9 +144,9 @@ if (phpAds_isUser(phpAds_Client))
 {
 	phpAds_PageHeader("1.1.1.1.1", $extra);
 		echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
-		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;".phpAds_getBannerName($bannerid);
-		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-time.gif' align='absmiddle'>&nbsp;<b>".date(str_replace('%', '', $date_format), mktime(0, 0, 0, substr($day, 4, 2), substr($day, 6, 2), substr($day, 0, 4)))."</b><br><br>";
 		echo phpAds_buildBannerCode($bannerid)."<br><br><br><br>";
 		phpAds_ShowSections(array("1.1.1.1.1"));
@@ -240,10 +240,10 @@ echo "<br><br>";
 
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr bgcolor='#FFFFFF' height='25'>";
-echo "<td align='left' nowrap height='25'><b>$strHour</b></td>";
-echo "<td align='left' nowrap height='25'><b>$strViews</b></td>";
-echo "<td align='left' nowrap height='25'><b>$strClicks</b></td>";
-echo "<td align='left' nowrap height='25'><b>$strCTRShort</b>&nbsp;&nbsp;</td>";
+echo "<td align='".$phpAds_TextAlignLeft."' nowrap height='25'><b>$strHour</b></td>";
+echo "<td align='".$phpAds_TextAlignLeft."' nowrap height='25'><b>$strViews</b></td>";
+echo "<td align='".$phpAds_TextAlignLeft."' nowrap height='25'><b>$strClicks</b></td>";
+echo "<td align='".$phpAds_TextAlignLeft."' nowrap height='25'><b>$strCTRShort</b>&nbsp;&nbsp;</td>";
 echo "</tr>";
 
 echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";

@@ -13,6 +13,12 @@
 /************************************************************************/
 
 
+// Set text direction and characterset
+$GLOBALS['phpAds_TextDirection']  = "ltr";
+$GLOBALS['phpAds_TextAlignRight'] = "right";
+$GLOBALS['phpAds_TextAlignLeft']  = "left";
+
+
 // Set translation strings
 $GLOBALS['strHome'] = "Hoofdpagina";
 $GLOBALS['date_format'] = "%d-%m-%Y";
