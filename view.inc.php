@@ -44,7 +44,8 @@ function phpAds_buildQuery ($part, $numberofparts, $precondition)
 				".$phpAds_config['tbl_banners'].".height as height,
 				".$phpAds_config['tbl_banners'].".weight as weight,
 				".$phpAds_config['tbl_banners'].".seq as seq,
-				".$phpAds_config['tbl_banners'].".target as target
+				".$phpAds_config['tbl_banners'].".target as target,
+				".$phpAds_config['tbl_banners'].".alt as alt
 			FROM
 				".$phpAds_config['tbl_banners'].",
 				".$phpAds_config['tbl_clients']."
@@ -384,7 +385,7 @@ function phpAds_fetchBanner($what, $clientid, $context=0, $source='', $allowhtml
 		
 		if ($allowhtml == false)
 		{
-			$precondition .= " AND ".$phpAds_config['tbl_banners'].".contenttype != 'html' AND ".$phpAds_config['tbl_banners'].".contenttype != 'swf' ";
+			$precondition .= " AND (".$phpAds_config['tbl_banners'].".contenttype = 'jpeg' OR ".$phpAds_config['tbl_banners'].".contenttype = 'gif' OR ".$phpAds_config['tbl_banners'].".contenttype = 'png') ";
 		}
 		
 		// Separate parts
@@ -518,7 +519,7 @@ function phpAds_fetchBanner($what, $clientid, $context=0, $source='', $allowhtml
 						// HTML or Flash banners
 						if ($postconditionSucces == true &&
 						    $allowhtml == false &&
-						    ($rows[$i]['contenttype'] == 'html' || $rows[$i]['contenttype'] == 'swf'))
+						    ($rows[$i]['contenttype'] != 'jpeg' && $rows[$i]['contenttype'] != 'gif' && $rows[$i]['contenttype'] != 'png'))
 							$postconditionSucces = false;
 						
 						
@@ -700,11 +701,6 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 			$outputbuffer = eregi_replace ("\[bannertext\](.*)\[\/bannertext\]", '', $outputbuffer);
 		
 		
-		// Add text below banner
-		if ($withtext && $row['bannertext'] != '')
-			$outputbuffer .= '<br><a href=\''.$phpAds_config['url_prefix'].'/adclick.php?bannerid='.$row['bannerid'].'&zoneid='.$row['zoneid'].'\''.$targettag.$status.'>'.$row['bannertext'].'</a>';
-		
-		
 		// HTML/URL banner options
 		if ($row['storagetype'] == 'html' || 
 			$row['storagetype'] == 'url' || 
@@ -794,6 +790,7 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 	
 	return( array('html' => $outputbuffer, 
 				  'bannerid' => $row['bannerid'],
+				  'alt' => $row['alt'],
 				  'width' => $row['width'],
 				  'height' => $row['height'])
 		  );
