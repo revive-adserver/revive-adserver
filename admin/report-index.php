@@ -258,6 +258,42 @@ if ($fields = $plugin['plugin-import'])
 			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 		}
 		
+		// Delimiter
+		elseif ($fields[$key]['type'] == 'delimiter')
+		{
+			echo "<tr><td width='30'>&nbsp;</td>";
+			echo "<td width='200'>".$fields[$key]['title']."</td>";
+			echo "<td width='370'>";
+			
+			echo "<select name='".$key."'>";
+				echo "<option value='t'>Tab</option>";
+				echo "<option value=','>,</option>";
+				echo "<option value=';'>;</option>";
+			echo "</select>";
+			
+			echo "</td></tr>";
+			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+		}
+		
+		// Quotes
+		elseif ($fields[$key]['type'] == 'quotes')
+		{
+			echo "<tr><td width='30'>&nbsp;</td>";
+			echo "<td width='200'>".$fields[$key]['title']."</td>";
+			echo "<td width='370'>";
+			
+			echo "<select name='".$key."'>";
+				echo "<option value=''>".$strNone."</option>";
+				echo "<option value='1'>'</option>";
+				echo "<option value='2'>\"</option>";
+			echo "</select>";
+			
+			echo "</td></tr>";
+			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+		}
+		
 		// CampaignID-dropdown
 		elseif ($fields[$key]['type'] == 'campaignid-dropdown')
 		{
@@ -296,7 +332,7 @@ if ($fields = $plugin['plugin-import'])
 				echo "<td width='370'><select name='".$key."' tabindex='".($tabindex++)."'>";
 				
 				$clientArray = phpAds_getClientArray();
-	
+				
 				if (count($clientArray))
 					for (reset($clientArray);$ckey=key($clientArray);next($clientArray))
 						echo "<option value='".$ckey."'>".$clientArray[$ckey]."</option>";

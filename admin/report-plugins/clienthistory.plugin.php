@@ -20,7 +20,7 @@ $plugin_info_function		= "Plugin_ClienthistoryInfo";
 // Public info function
 function Plugin_ClienthistoryInfo()
 {
-	global $strClientHistory, $strClient, $strPluginClient, $strDelimiter;
+	global $strClientHistory, $strClient, $strPluginClient, $strDelimiter, $strUseQuotes;
 	
 	$plugininfo = array (
 		"plugin-name"			=> $strClientHistory,
@@ -33,11 +33,12 @@ function Plugin_ClienthistoryInfo()
 			"campaignid"			=> array (
 				"title"					=> $strClient,
 				"type"					=> "clientid-dropdown" ),
-			"delimiter"		=> array (
+			"delimiter"				=> array (
 				"title"					=> $strDelimiter,
-				"type"					=> "edit",
-				"size"					=> 1,
-				"default"				=> "," ) )
+				"type"					=> "delimiter" ),
+			"quotes"				=> array (
+				"title"					=> $strUseQuotes,
+				"type"					=> "quotes" ) )
 	);
 	
 	return ($plugininfo);
@@ -49,12 +50,17 @@ function Plugin_ClienthistoryInfo()
 /* Private plugin function                               */
 /*********************************************************/
 
-function Plugin_ClienthistoryExecute($clientid, $delimiter=",")
+function Plugin_ClienthistoryExecute($clientid, $delimiter=",", $quotes="")
 {
 	global $phpAds_config, $date_format;
 	global $strClient, $strTotal, $strDay, $strViews, $strClicks, $strCTRShort;
 	
-	header ("Content-type: application/csv\nContent-Disposition: \"inline; filename=clienthistory.csv\"");
+	// Expand delimiter and quotes
+	if ($delimiter == 't')	$delimiter = "\t";
+	if ($quotes == '1')		$quotes = "'";
+	if ($quotes == '2')		$quotes = '"';
+	
+	header ("Content-type: application/csv\nContent-Disposition: \"inline; filename=advertiserhistory.csv\"");
 	
 	$idresult = phpAds_dbQuery ("
 		SELECT
@@ -138,8 +144,9 @@ function Plugin_ClienthistoryExecute($clientid, $delimiter=",")
 		}
 	}
 	
-	echo $strClient.": ".strip_tags(phpAds_getClientName ($clientid))."\n\n";
-	echo $strDay.$delimiter.$strViews.$delimiter.$strClicks.$delimiter.$strCTRShort."\n";
+	echo $quotes.$strClient.": ".strip_tags(phpAds_getClientName ($clientid)).$quotes."\n\n";
+	echo $quotes.$strDay.$quotes.$delimiter.$quotes.$strViews.$quotes;
+	echo $delimiter.$quotes.$strClicks.$quotes.$delimiter.$quotes.$strCTRShort.$quotes."\n";
 	
 	$totalclicks = 0;
 	$totalviews = 0;
@@ -150,10 +157,10 @@ function Plugin_ClienthistoryExecute($clientid, $delimiter=",")
 		{
 			$row = array();
 			
-			$row[] = $key;
-			$row[] = $stats[$key]['views'];
-			$row[] = $stats[$key]['clicks'];
-			$row[] = phpAds_buildCTR ($stats[$key]['views'], $stats[$key]['clicks']);
+			$row[] = $quotes.$key.$quotes;
+			$row[] = $quotes.$stats[$key]['views'].$quotes;
+			$row[] = $quotes.$stats[$key]['clicks'].$quotes;
+			$row[] = $quotes.phpAds_buildCTR ($stats[$key]['views'], $stats[$key]['clicks']).$quotes;
 			
 			echo implode ($delimiter, $row)."\n";
 			
@@ -163,7 +170,8 @@ function Plugin_ClienthistoryExecute($clientid, $delimiter=",")
 	}
 	
 	echo "\n";
-	echo $strTotal.$delimiter.$totalviews.$delimiter.$totalclicks.$delimiter.phpAds_buildCTR ($totalviews, $totalclicks)."\n";
+	echo $quotes.$strTotal.$quotes.$delimiter.$quotes.$totalviews.$quotes.$delimiter;
+	echo $quotes.$totalclicks.$quotes.$delimiter.$quotes.phpAds_buildCTR ($totalviews, $totalclicks).$quotes."\n";
 }
 
 ?>

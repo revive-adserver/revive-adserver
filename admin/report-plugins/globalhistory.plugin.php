@@ -20,7 +20,7 @@ $plugin_info_function		= "Plugin_GlobalhistoryInfo";
 // Public info function
 function Plugin_GlobalhistoryInfo()
 {
-	global $strGlobalHistory, $strPluginGlobal, $strDelimiter;
+	global $strGlobalHistory, $strPluginGlobal, $strDelimiter, $strUseQuotes;
 	
 	$plugininfo = array (
 		"plugin-name"			=> $strGlobalHistory,
@@ -32,9 +32,10 @@ function Plugin_GlobalhistoryInfo()
 		"plugin-import"			=> array (
 			"delimiter"		=> array (
 				"title"					=> $strDelimiter,
-				"type"					=> "edit",
-				"size"					=> 1,
-				"default"				=> "," ) )
+				"type"					=> "delimiter" ),
+			"quotes"		=> array (
+				"title"					=> $strUseQuotes,
+				"type"					=> "quotes" ) )
 	);
 	
 	return ($plugininfo);
@@ -46,13 +47,17 @@ function Plugin_GlobalhistoryInfo()
 /* Private plugin function                               */
 /*********************************************************/
 
-function Plugin_GlobalhistoryExecute($delimiter=",")
+function Plugin_GlobalhistoryExecute($delimiter='t', $quotes='')
 {
 	global $phpAds_config, $date_format;
 	global $strGlobalHistory, $strTotal, $strDay, $strViews, $strClicks, $strCTRShort;
 	
-	header ("Content-type: application/csv\nContent-Disposition: \"inline; filename=globalhistory.csv\"");
+	// Expand delimiter and quotes
+	if ($delimiter == 't')	$delimiter = "\t";
+	if ($quotes == '1')		$quotes = "'";
+	if ($quotes == '2')		$quotes = '"';
 	
+	header ("Content-type: application/csv\nContent-Disposition: \"inline; filename=globalhistory.csv\"");
 	
 	if ($phpAds_config['compact_stats'])
 	{
@@ -113,8 +118,9 @@ function Plugin_GlobalhistoryExecute($delimiter=",")
 		}
 	}
 	
-	echo $strGlobalHistory."\n\n";
-	echo $strDay.$delimiter.$strViews.$delimiter.$strClicks.$delimiter.$strCTRShort."\n";
+	echo $quotes.$strGlobalHistory.$quotes."\n\n";
+	echo $quotes.$strDay.$quotes.$delimiter.$quotes.$strViews.$quotes.$delimiter;
+	echo $quotes.$strClicks.$quotes.$delimiter.$quotes.$strCTRShort.$quotes."\n";
 	
 	$totalclicks = 0;
 	$totalviews = 0;
@@ -125,10 +131,10 @@ function Plugin_GlobalhistoryExecute($delimiter=",")
 		{
 			$row = array();
 			
-			$row[] = $key;
-			$row[] = $stats[$key]['views'];
-			$row[] = $stats[$key]['clicks'];
-			$row[] = phpAds_buildCTR ($stats[$key]['views'], $stats[$key]['clicks']);
+			$row[] = $quotes.$key.$quotes;
+			$row[] = $quotes.$stats[$key]['views'].$quotes;
+			$row[] = $quotes.$stats[$key]['clicks'].$quotes;
+			$row[] = $quotes.phpAds_buildCTR ($stats[$key]['views'], $stats[$key]['clicks']).$quotes;
 			
 			echo implode ($delimiter, $row)."\n";
 			
@@ -138,7 +144,8 @@ function Plugin_GlobalhistoryExecute($delimiter=",")
 	}
 	
 	echo "\n";
-	echo $strTotal.$delimiter.$totalviews.$delimiter.$totalclicks.$delimiter.phpAds_buildCTR ($totalviews, $totalclicks)."\n";
+	echo $quotes.$strTotal.$quotes.$delimiter.$quotes.$totalviews.$quotes.$delimiter;
+	echo $quotes.$totalclicks.$quotes.$delimiter.$quotes.phpAds_buildCTR ($totalviews, $totalclicks).$quotes."\n";
 }
 
 ?>

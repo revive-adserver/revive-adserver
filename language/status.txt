@@ -29,7 +29,7 @@ Chinese (big5)
 Chinese (gb2312)
 	---------------------------------------------------------
 	Maintained by:	   Vincen Guo (guo9310@yahoo.com.cn)
-	Is up-to-date?	   Yes
+	Is up-to-date?	   No
 	Last update:	   4 March 2003
 	Translated files:  7
 	---------------------------------------------------------
@@ -50,7 +50,7 @@ English
 	---------------------------------------------------------
 	Maintained by:	   Niels Leenheer (niels@creatype.nl)
 	Is up-to-date?	   Always
-	Last update:	   3 April 2003
+	Last update:	   8 May 2003
 	Translated files:  7
 	---------------------------------------------------------
 
@@ -69,7 +69,7 @@ French
 German
 	---------------------------------------------------------
 	Maintained by:	   Rayner Jankowski (info@Werbeplatzvermarktung.de)
-	Is up-to-date?	   Yes
+	Is up-to-date?	   No
 	Last update:	   3 April 2003
 	Translated files:  7
 	---------------------------------------------------------
@@ -99,7 +99,7 @@ Hungarian
 Indonesian
 	---------------------------------------------------------
 	Maintained by:	   Rachim Tamsjadi (tamsjadi@icqmail.com)
-	Is up-to-date?	   Yes
+	Is up-to-date?	   No
 	Last update:	   11 April 2003
 	Translated files:  7
 	---------------------------------------------------------
@@ -109,7 +109,7 @@ Indonesian
 Italian
 	---------------------------------------------------------
 	Maintained by:	   Matteo Beccati (matteo@beccati.com)
-	Is up-to-date?	   Yes
+	Is up-to-date?	   No
 	Last update:	   3 April 2003
 	Translated files:  7 + 3 resource files
 	---------------------------------------------------------

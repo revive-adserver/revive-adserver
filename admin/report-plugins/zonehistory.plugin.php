@@ -20,7 +20,7 @@ $plugin_info_function		= "Plugin_ZonehistoryInfo";
 // Public info function
 function Plugin_ZonehistoryInfo()
 {
-	global $strZoneHistory, $strZone, $strPluginZone, $strDelimiter;
+	global $strZoneHistory, $strZone, $strPluginZone, $strDelimiter, $strUseQuotes;
 	
 	$plugininfo = array (
 		"plugin-name"			=> $strZoneHistory,
@@ -33,11 +33,12 @@ function Plugin_ZonehistoryInfo()
 			"campaignid"			=> array (
 				"title"					=> $strZone,
 				"type"					=> "zoneid-dropdown" ),
-			"delimiter"		=> array (
+			"delimiter"				=> array (
 				"title"					=> $strDelimiter,
-				"type"					=> "edit",
-				"size"					=> 1,
-				"default"				=> "," ) )
+				"type"					=> "delimiter" ),
+			"quotes"				=> array (
+				"title"					=> $strUseQuotes,
+				"type"					=> "quotes" ) )
 	);
 	
 	return ($plugininfo);
@@ -49,13 +50,17 @@ function Plugin_ZonehistoryInfo()
 /* Private plugin function                               */
 /*********************************************************/
 
-function Plugin_ZonehistoryExecute($zoneid, $delimiter=",")
+function Plugin_ZonehistoryExecute($zoneid, $delimiter=",", $quotes="")
 {
 	global $phpAds_config, $date_format;
 	global $strZone, $strTotal, $strDay, $strViews, $strClicks, $strCTRShort;
 	
-	header ("Content-type: application/csv\nContent-Disposition: \"inline; filename=zonehistory.csv\"");
+	// Expand delimiter and quotes
+	if ($delimiter == 't')	$delimiter = "\t";
+	if ($quotes == '1')		$quotes = "'";
+	if ($quotes == '2')		$quotes = '"';
 	
+	header ("Content-type: application/csv\nContent-Disposition: \"inline; filename=zonehistory.csv\"");
 	
 	if ($phpAds_config['compact_stats'])
 	{
@@ -122,8 +127,9 @@ function Plugin_ZonehistoryExecute($zoneid, $delimiter=",")
 		}
 	}
 	
-	echo $strZone.": ".strip_tags(phpAds_getZoneName ($zoneid))."\n\n";
-	echo $strDay.$delimiter.$strViews.$delimiter.$strClicks.$delimiter.$strCTRShort."\n";
+	echo $quotes.$strZone.": ".strip_tags(phpAds_getZoneName ($zoneid)).$quotes."\n\n";
+	echo $quotes.$strDay.$quotes.$delimiter.$quotes.$strViews.$quotes;
+	echo $delimiter.$quotes.$strClicks.$quotes.$delimiter.$quotes.$strCTRShort.$quotes."\n";
 	
 	$totalclicks = 0;
 	$totalviews = 0;
@@ -134,10 +140,10 @@ function Plugin_ZonehistoryExecute($zoneid, $delimiter=",")
 		{
 			$row = array();
 			
-			$row[] = $key;
-			$row[] = $stats[$key]['views'];
-			$row[] = $stats[$key]['clicks'];
-			$row[] = phpAds_buildCTR ($stats[$key]['views'], $stats[$key]['clicks']);
+			$row[] = $quotes.$key.$quotes;
+			$row[] = $quotes.$stats[$key]['views'].$quotes;
+			$row[] = $quotes.$stats[$key]['clicks'].$quotes;
+			$row[] = $quotes.phpAds_buildCTR ($stats[$key]['views'], $stats[$key]['clicks']).$quotes;
 			
 			echo implode ($delimiter, $row)."\n";
 			
@@ -147,7 +153,8 @@ function Plugin_ZonehistoryExecute($zoneid, $delimiter=",")
 	}
 	
 	echo "\n";
-	echo $strTotal.$delimiter.$totalviews.$delimiter.$totalclicks.$delimiter.phpAds_buildCTR ($totalviews, $totalclicks)."\n";
+	echo $quotes.$strTotal.$quotes.$delimiter.$quotes.$totalviews.$quotes.$delimiter;
+	echo $quotes.$totalclicks.$quotes.$delimiter.$quotes.phpAds_buildCTR ($totalviews, $totalclicks).$quotes."\n";
 }
 
 ?>

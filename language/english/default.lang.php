@@ -114,6 +114,7 @@ $GLOBALS['strCollectedAll']			= "All collected statistics";
 $GLOBALS['strCollectedToday']		= "Statistics for today only";
 $GLOBALS['strCollected7Days']		= "Statistics for the last 7 days only";
 $GLOBALS['strCollectedMonth']		= "Statistics for this month only";
+$GLOBALS['strUseQuotes']			= "Use quotes";
 
 
 

@@ -17,6 +17,9 @@
 
   ====================================================
 
+  05-08-2003 - default
+    [+] strUseQuotes
+
   04-03-2003 - default
     [+] strCollectedAll
     [+] strCollectedToday
