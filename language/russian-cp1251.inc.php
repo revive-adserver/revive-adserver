@@ -14,7 +14,7 @@
 
 
 // Set character-set
-$GLOBALS['phpAds_CharSet'] = "x-cp1251";
+$GLOBALS['phpAds_CharSet'] = "koi8-r";
 
 
 // Set translation strings
@@ -173,44 +173,45 @@ $GLOBALS['strErrorNegDays'] = "Отрицательное число дней не разрешено";
 $GLOBALS['strTrackerImage'] = "Tracker image:";
 
 // New strings for version 2
-$GLOBALS['strNavigation'] 			= "Navigation";
+$GLOBALS['strNavigation'] 			= "Навигация";
 $GLOBALS['strShortcuts'] 				= "Shortcuts";
-$GLOBALS['strDescription'] 			= "Description";
-$GLOBALS['strClients'] 				= "Clients";
+$GLOBALS['strDescription'] 			= "Описание";
+$GLOBALS['strClients'] 				= "Клиенты";
 $GLOBALS['strID']				 		= "ID";
-$GLOBALS['strOverall'] 				= "Overall";
-$GLOBALS['strTotalBanners'] 			= "Total banners";
-$GLOBALS['strToday'] 					= "Today";
-$GLOBALS['strThisWeek'] 				= "This week";
-$GLOBALS['strThisMonth'] 				= "This month";
-$GLOBALS['strBasicInformation'] 		= "Basic information";
-$GLOBALS['strContractInformation'] 	= "Contract information";
-$GLOBALS['strLoginInformation'] 		= "Login information";
-$GLOBALS['strPermissions'] 			= "Permissions";
-$GLOBALS['strGeneralSettings']		= "General settings";
-$GLOBALS['strSaveChanges']		 	= "Save Changes";
-$GLOBALS['strCompact']				= "Compact";
-$GLOBALS['strVerbose']				= "Verbose";
+$GLOBALS['strOverall'] 				= "Всего";
+$GLOBALS['strTotalBanners'] 			= "Всего баннеров";
+$GLOBALS['strToday'] 					= "Сегодня";
+$GLOBALS['strThisWeek'] 				= "За эту неделю";
+$GLOBALS['strThisMonth'] 				= "За этот месяц";
+$GLOBALS['strBasicInformation'] 		= "Основная информация";
+$GLOBALS['strContractInformation'] 	= "Контрактная информация";
+$GLOBALS['strLoginInformation'] 		= "Информация о логине";
+$GLOBALS['strPermissions'] 			= "Допуски";
+$GLOBALS['strGeneralSettings']		= "Общие установки";
+$GLOBALS['strSaveChanges']		 	= "Сохранить изменения";
+$GLOBALS['strCompact']				= "Компактно";
+$GLOBALS['strVerbose']				= "Подробно";
 $GLOBALS['strOrderBy']				= "order by";
-$GLOBALS['strShowAllBanners']	 		= "Show all banners";
-$GLOBALS['strShowBannersNoAdClicks']	= "Show banners without AdClicks";
-$GLOBALS['strShowBannersNoAdViews']	= "Show banners without AdViews";
-$GLOBALS['strShowAllClients'] 		= "Show all clients";
-$GLOBALS['strShowClientsActive'] 		= "Show clients with active banners";
-$GLOBALS['strShowClientsInactive']	= "Show clients with inactive banners";
-$GLOBALS['strSize']					= "Size";
+$GLOBALS['strShowAllBanners']	 		= "Показать все баннеры";
+$GLOBALS['strShowBannersNoAdClicks']	= "Показать баннеры без кликов";
+$GLOBALS['strShowBannersNoAdViews']	= "Показать баннеры без просмотров";
+$GLOBALS['strShowAllClients'] 		= "Показать всех клиентов";
+$GLOBALS['strShowClientsActive'] 		= "Показать клиентов с активными баннерами";
+$GLOBALS['strShowClientsInactive']	= "Показать клиентов с неактивными баннерами";
+$GLOBALS['strSize']					= "Размер";
 
-$GLOBALS['strMonth'] 				= array("January","February","March","April","May","June","July", "August", "September", "October", "November", "December");
-$GLOBALS['strDontExpire']			= "Don't expire this client on a specific date";
-$GLOBALS['strActivateNow'] 			= "Activate this client immediately";
-$GLOBALS['strExpirationDate']		= "Expiration date";
-$GLOBALS['strActivationDate']		= "Activation date";
+$GLOBALS['strMonth'] 				= array("Январь","Февраль","Март","Апрель","Май","Июнь","Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь");
+$GLOBALS['strDontExpire']			= "Не деактивировать этого клиента по наступлению указанной даты";
+$GLOBALS['strActivateNow'] 			= "Немедленно активировать этого клиента";
+$GLOBALS['strExpirationDate']		= "Дата деактивации";
+$GLOBALS['strActivationDate']		= "Дата активации";
 
-$GLOBALS['strMailClientDeactivated'] 	= "Your banners have been disabled because";
-$GLOBALS['strMailNothingLeft'] 			= "If you would like to continue advertising on our website, please feel free to contact us. We'd be glad to hear from you.";
-$GLOBALS['strClientDeactivated']	= "This client is currently not active because";
-$GLOBALS['strBeforeActivate']		= "the activation date has not yet been reached";
-$GLOBALS['strAfterExpire']			= "the expiration date has been reached";
-$GLOBALS['strNoMoreClicks']			= "the amount of AdClicks purchased are used";
-$GLOBALS['strNoMoreViews']			= "the amount of AdViews purchased are used";
+$GLOBALS['strMailClientDeactivated'] 	= "Ваши баннеры бли выключены, так как";
+$GLOBALS['strMailNothingLeft'] 			= "Если бы вы хотели продолжать размещать рекламу на нашем сайте, пожалуйста, свяжитесь с нами. Мы будем рады вновь слышать вас.";
+$GLOBALS['strClientDeactivated']	= "Данный клиент в настоящее время деактивирован, так как";
+$GLOBALS['strBeforeActivate']		= "дата активации еще не достигнута";
+$GLOBALS['strAfterExpire']			= "была достигнута дата деактивации";
+$GLOBALS['strNoMoreClicks']			= "все приобретенные клики использованы";
+$GLOBALS['strNoMoreViews']			= "все приобретенные просмотры использованы";
+
 ?>
