@@ -161,10 +161,16 @@ if (!$output['bannerid'])
 	exit;
 
 
-header("Content-type: application/x-javascript");
-
 $windowid = 'phpads_'.$output['bannerid'];
 
+if (isset($timeout) && $timeout > 0) 
+{
+	$output['html'] .= "<script language='Javascript'  type='text/javascript'>\n";
+	$output['html'] .= "\twindow.setTimeout(\"window.close()\", ".($timeout * 1000).");\n";
+	$output['html'] .= "</script>";
+}
+
+header("Content-type: application/x-javascript");
 
 
 /*********************************************************/
@@ -172,7 +178,6 @@ $windowid = 'phpads_'.$output['bannerid'];
 /*********************************************************/
 
 ?>
-
 
 function <?php echo $windowid; ?>_pop(e)
 {
@@ -225,11 +230,6 @@ function <?php echo $windowid; ?>_pop(e)
 		<?php } else {?>
 	<?php echo $windowid; ?>.focus();
 		<?php } ?>
-	
-		<?php if (isset($timeout) && $timeout > 0) { ?>
-	window.setTimeout("<?php echo $windowid; ?>.close()", <?php echo $timeout * 1000; ?>);
-		<?php } ?>
-	
 	}
 	
 	return true;
