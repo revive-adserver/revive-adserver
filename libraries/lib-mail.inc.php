@@ -40,7 +40,7 @@ function phpAds_sendMail ($email, $readable, $subject, $contents)
 	if (get_cfg_var('SMTP'))
 		$param_headers .= 'To: "'.$readable.'" <'.$email.">\r\n";
 	
-	$param_headers .= "From: ".$phpAds_config['admin_fullname']." <".$phpAds_config['admin_email'].">\r\n";
+	$param_headers .= 'From: "'.$phpAds_config['admin_fullname'].'" <'.$phpAds_config['admin_email'].'>'."\r\n";
 	
 	if ($phpAds_config['admin_email_headers'] != '')
 		$param_headers .= "\r\n".$phpAds_config['admin_email_headers'];
