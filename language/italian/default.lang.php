@@ -203,7 +203,7 @@ $GLOBALS['strViewsPurchased']				= "Visualizzazioni Acquistate";
 $GLOBALS['strClicksPurchased']				= "Click Acquistati";
 $GLOBALS['strCampaignWeight']				= "Peso Campagna";
 $GLOBALS['strHighPriority']					= "Visualizza i banner in questa campagna con Priorit&agrave; Alta.<br>
-											   Usando questa opzione phpPgAds prova a distribuire
+											   Usando questa opzione phpAdsNew prova a distribuire
 											   il numero di Visualizzazioni Scelto durante il corso della giornata.";
 $GLOBALS['strLowPriority']					= "Visualizza i banner in questa campagna con Priorit&agrave; Bassa.<br>
 											   Usando questa opzione i banner sfrutteranno le visualizzazioni
@@ -214,7 +214,7 @@ $GLOBALS['strHighPriorityCampaigns']		= "Campagne con Priorit&agrave; Alta";
 $GLOBALS['strAdViewsAssigned']				= "Visualizzazioni assegnate";
 $GLOBALS['strLowPriorityCampaigns']			= "Campagne con Priorit&agrave; Bassa";
 $GLOBALS['strPredictedAdViews']				= "Visualizzazioni previste";
-$GLOBALS['strPriorityDaysRunning']			= "Ci sono {days} giorni di statistiche disponibili su cui phpPgAds pu&ograve; basare le proprie previsioni. ";
+$GLOBALS['strPriorityDaysRunning']			= "Ci sono {days} giorni di statistiche disponibili su cui phpAdsNew pu&ograve; basare le proprie previsioni. ";
 $GLOBALS['strPriorityBasedLastWeek']		= "La previsione &egrave; basata sui dati della settimana scorsa e di quella attuale. ";
 $GLOBALS['strPriorityBasedLastDays']		= "La previsione &egrave; basata solo sui dati degli ultimi giorni. ";
 $GLOBALS['strPriorityBasedYesterday']		= "La previsione &egrave; basata solo sui dati si ieri. ";
@@ -270,7 +270,7 @@ $GLOBALS['strBannerWeight']					= "Importanza Banner";
 // Banner (swf)
 $GLOBALS['strCheckSWF']						= "Controlla per links codificati dentro il file flash";
 $GLOBALS['strConvertSWFLinks']				= "Converti links Flash";
-$GLOBALS['strConvertSWF']					= "<br>Il file Flash appena caricato contiene urls codificati. phpPgAds non risulta ".
+$GLOBALS['strConvertSWF']					= "<br>Il file Flash appena caricato contiene urls codificati. phpAdsNew non risulta ".
 											  "in grado ditracciare il numero di click per questo banner fino a quando non convertirai questi ".
 											  "urls codificati. Di seguito troverai una lista di tutti gli urls presenti nel file flash. ".
 											  "Se vuoi convertire questi urls, semplicemente clicca <b>Converti</b>, altrimenti clicca ".
