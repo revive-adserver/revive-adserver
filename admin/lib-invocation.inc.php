@@ -55,7 +55,7 @@ function phpAds_GenerateInvocationCode()
 	$buffer = '';
 	
 	$parameters = array();
-	$uniqueid = substr(md5(uniqid('')), 0, 8);
+	$uniqueid = 'a'.substr(md5(uniqid('')), 0, 7);
 	if (!isset($withText)) $withText = 0;
 	
 	
@@ -86,8 +86,8 @@ function phpAds_GenerateInvocationCode()
 			$buffer .= " target='$target'";
 		$buffer .= "><img src='".$phpAds_config['url_prefix']."/adview.php";
 		if (sizeof($parameters) > 0)
-			$buffer .= "?".implode ("&", $parameters);
-		$buffer .= "' border='0'></a>\n";
+			$buffer .= "?".implode ("&amp;", $parameters);
+		$buffer .= "' border='0' alt=''></a>\n";
 	}
 	
 	// Remote invocation with JavaScript
@@ -106,8 +106,8 @@ function phpAds_GenerateInvocationCode()
 		$buffer .= "   document.write (\"<\" + \"script language='JavaScript' type='text/javascript' src='\");\n";
 		$buffer .= "   document.write (\"".$phpAds_config['url_prefix']."/adjs.php?n=".$uniqueid."\");\n";
 		if (sizeof($parameters) > 0)
-			$buffer .= "   document.write (\"&".implode ("&", $parameters)."\");\n";
-		$buffer .= "   document.write (\"&exclude=\" + phpAds_used.join(','));\n";
+			$buffer .= "   document.write (\"&amp;".implode ("&amp;", $parameters)."\");\n";
+		$buffer .= "   document.write (\"&amp;exclude=\" + phpAds_used.join(','));\n";
 		$buffer .= "   document.write (\"'><\" + \"/script>\");\n";
 		$buffer .= "//-->\n";
 		$buffer .= "</script>\n";
@@ -128,8 +128,8 @@ function phpAds_GenerateInvocationCode()
 			$buffer .= " target='$target'";
 		$buffer .= "><img src='".$phpAds_config['url_prefix']."/adview.php";
 		if (sizeof($parameters) > 0)
-			$buffer .= "?".implode ("&", $parameters);
-		$buffer .= "' border='0'></a></noscript>\n";
+			$buffer .= "?".implode ("&amp;", $parameters);
+		$buffer .= "' border='0' alt=''></a></noscript>\n";
 	}
 	
 	// Remote invocation for iframes
@@ -144,7 +144,7 @@ function phpAds_GenerateInvocationCode()
 		$buffer .= "<iframe id='".$uniqueid."' name='".$uniqueid."' src='".$phpAds_config['url_prefix']."/adframe.php";
 		$buffer .= "?n=".$uniqueid;
 		if (sizeof($parameters) > 0)
-			$buffer .= "&".implode ("&", $parameters);
+			$buffer .= "&amp;".implode ("&amp;", $parameters);
 		$buffer .= "' framespacing='0' frameborder='no' scrolling='no'";
 		if (isset($width) && $width != '' && $width != '-1')
 			$buffer .= " width='".$width."'";
@@ -171,7 +171,7 @@ function phpAds_GenerateInvocationCode()
 			$buffer .= "<ilayer width='".$width."' height='".$height."'";
 			$buffer .= " clip='0,0,".$width.",".$height."'><layer src='".$phpAds_config['url_prefix']."/adframe.php";
 			if (sizeof($parameters) > 0)
-				$buffer .= "?".implode ("&", $parameters);
+				$buffer .= "?".implode ("&amp;", $parameters);
 			$buffer .= "'></layer></ilayer><nolayer>";
 		}
 		
@@ -182,8 +182,8 @@ function phpAds_GenerateInvocationCode()
 			$buffer .= " target='$target'";
 		$buffer .= "><img src='".$phpAds_config['url_prefix']."/adview.php";
 		if (sizeof($parameters) > 0)
-			$buffer .= "?".implode ("&", $parameters);
-		$buffer .= "' border='0'></a>";
+			$buffer .= "?".implode ("&amp;", $parameters);
+		$buffer .= "' border='0' alt=''></a>";
 		
 		if (isset($width) && $width != '' && isset($height) && $height != '')
 			$buffer .= "</nolayer>";
@@ -209,7 +209,7 @@ function phpAds_GenerateInvocationCode()
 		$buffer .= "<script language='JavaScript' type='text/javascript' src='".$phpAds_config['url_prefix']."/adpopup.php";
 		$buffer .= "?n=".$uniqueid;
 		if (sizeof($parameters) > 0)
-			$buffer .= "&".implode ("&", $parameters);
+			$buffer .= "&amp;".implode ("&amp;", $parameters);
 		$buffer .= "'></script>\n";
 	}
 	
@@ -242,6 +242,9 @@ function phpAds_GenerateInvocationCode()
 		$path = str_replace ('\\', '/', $path);
 		$root = getenv('DOCUMENT_ROOT');
 		$pos  = strpos ($path, $root);
+		
+		if (!isset($clientid) || $clientid == '') $clientid = 0;
+		
 		
 		if (is_int($pos) && $pos == 0)
 			$path = "getenv('DOCUMENT_ROOT').'".substr ($path, $pos + strlen ($root))."/phpadsnew.inc.php'";

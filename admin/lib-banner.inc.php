@@ -186,9 +186,9 @@ function phpAds_getBannerCache($banner)
 							$newbanner = $newbanner . 
 									substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . 
 									$quotechar . $phpAds_config['url_prefix'] . '/adclick.php?bannerid=' . 
-									'{bannerid}&zoneid={zoneid}&source={source}&dest=' . 
+									'{bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;dest=' . 
 									urlencode(substr($buffer, $quotepos+1, $endquotepos - $quotepos - 1)) .
-									'&ismap=';
+									'&amp;ismap=';
 						}
 						else
 						{
@@ -214,9 +214,9 @@ function phpAds_getBannerCache($banner)
 							$newbanner = $newbanner . 
 									substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . 
 									'"' . $phpAds_config['url_prefix'] . '/adclick.php?bannerid=' . 
-									'{bannerid}&zoneid={zoneid}&source={source}&dest=' . 
+									'{bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;dest=' . 
 									urlencode(substr($buffer, $hrefpos, $endpos - $hrefpos)) .
-									'&ismap="';
+									'&amp;ismap="';
 						}
 						else
 						{
@@ -241,7 +241,7 @@ function phpAds_getBannerCache($banner)
 			if (!$formpresent && !$linkpresent && $banner['url'] != '')
 			{
 				// No link or form
-				$buffer = "<a href='".$phpAds_config['url_prefix']."/adclick.php?bannerid={bannerid}&zoneid={zoneid}&source={source}&ismap=' target='{target}'>".$buffer."</a>";
+				$buffer = "<a href='".$phpAds_config['url_prefix']."/adclick.php?bannerid={bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;ismap=' target='{target}'>".$buffer."</a>";
 			}
 		}
 		
@@ -250,7 +250,7 @@ function phpAds_getBannerCache($banner)
 		{
 			while (eregi("\{targeturl:([^\}]*)\}", $buffer, $regs))
 			{
-				$buffer = str_replace ($regs[0], $phpAds_config['url_prefix'].'/adclick.php?bannerid={bannerid}&zoneid={zoneid}&source={source}&dest='.urlencode($regs[1]).'&ismap=', $buffer);
+				$buffer = str_replace ($regs[0], $phpAds_config['url_prefix'].'/adclick.php?bannerid={bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;dest='.urlencode($regs[1]).'&amp;ismap=', $buffer);
 			}
 		}
 	}
@@ -290,7 +290,7 @@ function phpAds_getBannerCache($banner)
 	if ($banner['contenttype'] == 'swf')
 	{
 		if ($banner['url'] != '')
-			$buffer = str_replace ('{swf_param}', "clickTAG=".$phpAds_config['url_prefix'].'/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest='.urlencode($banner['url']), $buffer);
+			$buffer = str_replace ('{swf_param}', "clickTAG=".$phpAds_config['url_prefix'].'/adclick.php%3Fbannerid={bannerid}%26amp;zoneid={zoneid}%26amp;source={source}%26amp;dest='.urlencode($banner['url']), $buffer);
 		else
 		{
 			$buffer = str_replace ('{swf_con}{swf_param}', '', $buffer);
@@ -299,7 +299,7 @@ function phpAds_getBannerCache($banner)
 		
 		switch ($banner['storagetype'])
 		{
-			case 'sql' : $buffer = str_replace('{swf_con}', '&', $buffer); break;
+			case 'sql' : $buffer = str_replace('{swf_con}', '&amp;', $buffer); break;
 			case 'web' : $buffer = str_replace('{swf_con}', '?', $buffer); break;
 			case 'url' : $buffer = str_replace('{swf_con}', '?', $buffer); break;
 		}
@@ -308,7 +308,7 @@ function phpAds_getBannerCache($banner)
 		while (eregi("\{targeturl:([^\}]*)\}", $buffer, $matches))
 		{
 			$buffer = str_replace ($matches[0],
-								   $phpAds_config['url_prefix'].'/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest='.urlencode($matches[1]),
+								   $phpAds_config['url_prefix'].'/adclick.php%3Fbannerid={bannerid}%26amp;zoneid={zoneid}%26amp;source={source}%26amp;dest='.urlencode($matches[1]),
 								   $buffer);
 		}
 	}
@@ -316,7 +316,7 @@ function phpAds_getBannerCache($banner)
 	
 	// Replace targeturl
 	if (isset($banner['url']) && $banner['url'] != '')
-		$buffer = str_replace ('{targeturl}', $phpAds_config['url_prefix'].'/adclick.php?bannerid={bannerid}&zoneid={zoneid}&source={source}&dest='.urlencode($banner['url']), $buffer);
+		$buffer = str_replace ('{targeturl}', $phpAds_config['url_prefix'].'/adclick.php?bannerid={bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;dest='.urlencode($banner['url']), $buffer);
 	else
 		$buffer = str_replace ('{targeturl}', '', $buffer);
 	

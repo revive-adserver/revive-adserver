@@ -39,7 +39,7 @@ while ($current = phpAds_dbFetchArray($res))
 {
 	// Rebuild filename
 	if ($current['storagetype'] == 'sql')
-		$current['imageurl'] = $phpAds_config['url_prefix']."/adimage.php?filename=".$current['filename']."&contenttype=".$current['contenttype'];
+		$current['imageurl'] = $phpAds_config['url_prefix']."/adimage.php?filename=".$current['filename']."&amp;contenttype=".$current['contenttype'];
 	
 	if ($current['storagetype'] == 'web')
 		$current['imageurl'] = $phpAds_config['type_web_url'].'/'.$current['filename'];
