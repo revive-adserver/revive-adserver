@@ -81,6 +81,7 @@ if (isset($submit))
 	// Delete uploaded var for security
 	if (isset($uploaded)) unset ($uploaded);
 	
+	
 	// Get information about uploaded file
 	if (isset($HTTP_POST_FILES['upload']))
 	{
@@ -89,12 +90,13 @@ if (isset($submit))
 			$uploaded = $HTTP_POST_FILES['upload'];
 	}
 	
+	
 	// Check if uploaded file is really uploaded
 	if (isset($uploaded))
 	{
 		if (function_exists("is_uploaded_file"))
 		{
-			$upload_valid = is_uploaded_file($uploaded['tmp_name']);
+			$upload_valid = @is_uploaded_file($uploaded['tmp_name']);
 		}
 		else
 		{
@@ -115,12 +117,76 @@ if (isset($submit))
 			$upload_valid = ($tmp_file == $up_file);
 		}
 		
-		// Don't use file in case of exploit
+		
 		if (!$upload_valid)
 		{
+			// Don't use file in case of exploit
 			phpAds_PageHeader("1");
 			phpAds_Die ('Error', 'Detected a possible security problem, upload halted!');
 		}
+		else
+		{
+			if (@file_exists ($uploaded['tmp_name']))
+			{
+				$upload_error = false;
+				
+				// Read the contents of the file in a buffer
+				if ($fp = @fopen($uploaded['tmp_name'], "rb"))
+				{
+					$uploaded['buffer'] = @fread($fp, @filesize($uploaded['tmp_name']));
+					@fclose ($fp);
+				}
+				else
+				{
+					// Check if moving the file is possible
+					if (function_exists("move_uploaded_file"))
+					{
+						$tmp_dir = phpAds_path.'/misc/tmp/'.basename($uploaded['tmp_name']);
+						
+						// Try to move the file
+						if (@move_uploaded_file ($uploaded['tmp_name'], $tmp_dir))
+						{
+							$uploaded['tmp_name'] = $tmp_dir;
+							
+							// Try again if the file is readable
+							if ($fp = @fopen($uploaded['tmp_name'], "rb"))
+							{
+								$uploaded['buffer'] = @fread($fp, @filesize($uploaded['tmp_name']));
+								@fclose($fp);
+							}
+							else
+								$upload_error = true;
+						}
+						else
+							$upload_error = true;
+					}
+					else
+						$upload_error = true;
+				}
+				
+				if ($upload_error)
+				{
+					phpAds_PageHeader("1");
+					phpAds_Die ('Error', 'Could not access uploaded file, probably due to safemode or open_basedir restrictions');
+				}
+				
+				
+				// Determine width and height
+				$size = @getimagesize($uploaded['tmp_name']);
+				$uploaded['width'] = $size[0];
+				$uploaded['height'] = $size[1];
+			}
+			else
+			{
+				phpAds_PageHeader("1");
+				phpAds_Die ('Error', 'Could not access uploaded file, due to an unknown reason. Please check your PHP configuration');
+			}
+		}
+		
+		
+		// Remove temporary file
+		if (@file_exists($uploaded['tmp_name']))
+			@unlink ($uploaded['tmp_name']);
 	}
 	
 	
@@ -159,10 +225,12 @@ if (isset($submit))
 		case 'sql':
 			if (isset($uploaded) && $replaceimage == 't')
 			{
+				// Get the filename
+				$final['filename'] = basename(stripslashes($uploaded['name']));
+				
 				// Get the height and width
-				$size = @getimagesize($uploaded['tmp_name']);
-				$final['width'] = $size[0];
-				$final['height'] = $size[1];
+				$final['width'] = $uploaded['width'];
+				$final['height'] = $uploaded['height'];
 				
 				// Get the contenttype
 				$ext = substr($uploaded['name'], strrpos($uploaded['name'], ".") + 1);
@@ -179,22 +247,16 @@ if (isset($submit))
 					case 'mov':  $final['contenttype'] = 'mov';   break;
 				}
 				
-				// Get the filename
-				$final['filename'] = basename(stripslashes($uploaded['name']));
-				
-				// Read the file
-				$buffer = @fread(@fopen($uploaded['tmp_name'], "rb"), @filesize($uploaded['tmp_name']));
-				
 				if ($final['contenttype'] == 'swf')
 				{
 					// Get dimensions of Flash file
-					list ($final['width'], $final['height']) = phpAds_SWFDimensions($buffer);
-					$final['pluginversion'] = phpAds_SWFVersion($buffer);
+					list ($final['width'], $final['height']) = phpAds_SWFDimensions($uploaded['buffer']);
+					$final['pluginversion'] = phpAds_SWFVersion($uploaded['buffer']);
 					
 					// Check if the Flash banner includes hard coded urls
 					if (isset($checkswf) && $checkswf == 't' &&
 						$final['pluginversion'] >= 3 &&
-						phpAds_SWFInfo($buffer))
+						phpAds_SWFInfo($uploaded['buffer']))
 					{
 						$edit_swf = true;
 					}
@@ -203,7 +265,7 @@ if (isset($submit))
 					$final['pluginversion'] = 0;
 				
 				// Store the file
-				$final['filename'] = phpAds_ImageStore($storagetype, $final['filename'], $buffer);
+				$final['filename'] = phpAds_ImageStore($storagetype, $final['filename'], $uploaded['buffer']);
 				$final['imageurl'] = '{url_prefix}/adimage.php?filename='.$final['filename']."&amp;contenttype=".$final['contenttype'];
 				
 				// Cleanup existing image, if it exists
@@ -278,10 +340,12 @@ if (isset($submit))
 		case 'web':
 			if (isset($uploaded) && $replaceimage == 't')
 			{
+				// Get the filename
+				$final['filename'] = basename(stripslashes($uploaded['name']));
+				
 				// Get the height and width
-				$size = @getimagesize($uploaded['tmp_name']);
-				$final['width'] = $size[0];
-				$final['height'] = $size[1];
+				$final['width'] = $uploaded['width'];
+				$final['height'] = $uploaded['height'];
 				
 				// Get the contenttype
 				$ext = substr($uploaded['name'], strrpos($uploaded['name'], ".") + 1);
@@ -298,22 +362,16 @@ if (isset($submit))
 					case 'mov':  $final['contenttype'] = 'mov';   break;
 				}
 				
-				// Get the filename
-				$final['filename'] = basename(stripslashes($uploaded['name']));
-				
-				// Read the file
-				$buffer = @fread(@fopen($uploaded['tmp_name'], "rb"), @filesize($uploaded['tmp_name']));
-				
 				if ($final['contenttype'] == 'swf')
 				{
 					// Get dimensions of Flash file
-					list ($final['width'], $final['height']) = phpAds_SWFDimensions($buffer);
-					$final['pluginversion'] = phpAds_SWFVersion($buffer);
+					list ($final['width'], $final['height']) = phpAds_SWFDimensions($uploaded['buffer']);
+					$final['pluginversion'] = phpAds_SWFVersion($uploaded['buffer']);
 					
 					// Check if the Flash banner includes hard coded urls
 					if ($checkswf == 't' &&
 						$final['pluginversion'] >= 3 &&
-						phpAds_SWFInfo($buffer))
+						phpAds_SWFInfo($uploaded['buffer']))
 					{
 						$edit_swf = true;
 					}
@@ -322,7 +380,7 @@ if (isset($submit))
 					$final['pluginversion'] = 0;
 				
 				// Add slashes to the file for storage
-				$final['filename'] = phpAds_ImageStore($storagetype, $final['filename'], $buffer);
+				$final['filename'] = phpAds_ImageStore($storagetype, $final['filename'], $uploaded['buffer']);
 				$final['imageurl'] = $phpAds_config['type_web_url'].'/'.$final['filename'];
 				
 				if ($final['filename'] == false)
@@ -613,17 +671,6 @@ if (isset($submit))
 		
 		$bannerid = phpAds_dbInsertID();
 	}
-	
-	
-	
-	// Remove temporary file
-	if (isset($uploaded))
-	{
-		if (@file_exists($uploaded['tmp_name']))
-			@unlink ($uploaded['tmp_name']);
-	}
-	
-	
 	
 	// Recalculate priorities
 	if (!isset($current) || $current['weight'] != $weight)
