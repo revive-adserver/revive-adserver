@@ -231,9 +231,31 @@ function phpAds_upgradeTable ($name, $structure)
 	}
 	
 	
+	$incrementmodified = false;
+	
+	
 	// Check Primary
 	if (isset($primary) && is_array($primary) && sizeof($primary) > 0)
 	{
+		$autoincrement = '';
+		
+		// Check if one of the columns is 'auto_increment'
+		while (list($key,) = each($primary))
+		{
+			if (ereg('auto_increment', $availablecolumns[$primary[$key]]['Extra']))
+				$autoincrement = $primary[$key];
+		}
+		
+		if ($autoincrement != '')
+		{
+			// Remove 'auto_increment' from column
+			$createdefinition = $autoincrement." ".str_replace('AUTO_INCREMENT', '', $columns[$autoincrement]);
+			phpAds_dbQuery("ALTER TABLE ".$name." MODIFY COLUMN ".$createdefinition);
+			
+			$incrementmodified = $autoincrement;
+		}
+		
+		// Recreated primary keys
 		phpAds_dbQuery("ALTER TABLE ".$name." DROP PRIMARY KEY");
 		phpAds_dbQuery("ALTER TABLE ".$name." ADD PRIMARY KEY (".implode(",", $primary).")");
 	}
@@ -242,7 +264,7 @@ function phpAds_upgradeTable ($name, $structure)
 	// Check Indexes
 	if (isset($index) && is_array($index) && sizeof($index) > 0)
 	{
-		for (reset($index); $key = key($index);	next($index))
+		while (list($key,) = each($index))
 		{
 			if (!isset($availableindex[$key]) || !is_array($availableindex[$key]))
 			{
@@ -256,7 +278,7 @@ function phpAds_upgradeTable ($name, $structure)
 	// Check Unique Indexes
 	if (isset($unique) && is_array($unique) && sizeof($unique) > 0)
 	{
-		for (reset($unique); $key = key($unique); next($unique))
+		while (list($key,) = each($unique))
 		{
 			if (!isset($availableunique[$key]) || !is_array($availableunique[$key]))
 			{
@@ -264,6 +286,14 @@ function phpAds_upgradeTable ($name, $structure)
 				phpAds_dbQuery("ALTER TABLE ".$name." ADD UNIQUE ".$key." (".implode(",", $unique[$key]).")");
 			}
 		}
+	}
+	
+	
+	// Recreate 'auto_increment'
+	if ($incrementmodified != false)
+	{
+		$createdefinition = $incrementmodified." ".$columns[$incrementmodified];
+		phpAds_dbQuery("ALTER TABLE ".$name." MODIFY COLUMN ".$createdefinition);
 	}
 }
 
