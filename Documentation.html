@@ -106,15 +106,17 @@ h3 {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt}
               <li> The argument &quot;<b>what</b>&quot; is currently one of the 
                 following: 
                 <ul>
-                  <li>[int]: Display the banner with this <b>bannerID</b>. Example: 
-                    view(1); </li>
-                  <li>&quot;[width]x[height]: Display a randomly selected banner 
+                  <li>&quot;[digits]&quot;: Display the banner with this <b>bannerID</b>. Example: 
+                    view(1); or view("23");</li>
+                  <li>&quot;[width]x[height]&quot;: Display a randomly selected banner 
                     with this <b>width/height</b>. Example: view(&quot;468x60&quot;);</li>
                   <li>&quot;html&quot;: Display a randomly selected <b>HTML-banner</b> 
                   </li>
                   <li>&quot;[keyword]&quot;: Display a randomly selected banner 
                     with this <b>keyword</b> associated to it. Example: view(&quot;maingroup&quot;);<br>
-                    Note: Banners with the special keyword &quot;<b>global</b>&quot; 
+                    Note: You can use digits in your keywords, but every keyword must contain 
+					at least one character other than a digit.<br>
+					Note: Banners with the special keyword &quot;<b>global</b>&quot; 
                     associated to them, are also considered when using this syntax.<br>
                     Multiple keywords are possible using conditional statements. Some examples :<br>
                     key1,key2,key3 (Meaning key1 OR key2 OR key3)<br>
@@ -125,6 +127,7 @@ h3 {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt}
                     <li>The switches are "+" (meaning AND) and "-" (meaning NOT).
                     <li>The first keyword <b>must not</b> have a switch, the rest may.
                     <li>Do not put a space between the switch and the keyword.
+					<li>Do not put a space between the keywords.
                     <li>If the "+" or "_" switch is used then that keyword must be in the banner's list for the banner to show. For remote invocation you have to use "_".
                     <li>If the "-" switch is used then that keyword must not be in the banner's list for the banner to show.
                     <li>If no switch is used then that keyword is considered as OR.
@@ -160,7 +163,7 @@ h3 {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt}
                 Source ACL can then use this name to allow or deny banner displays on
                 that page.
               <li>The optional argument withText allows you to show a banner with 
-                its associated line of text below it (for example, &quot;Suport 
+                its associated line of text below it (for example, &quot;Support 
                 our sponsor&quot; is a common line of text). <br>
                 Example: view(&quot;maingroup&quot;, 0, &quot;&quot;, 1);</li>
               <li>The optional argument &quot;<b>context</b>&quot; is an array 
