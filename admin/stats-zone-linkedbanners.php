@@ -74,17 +74,18 @@ if (phpAds_isUser(phpAds_Admin))
 else
 {
 	phpAds_PageHeader("1.1.2");
-		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
-		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br><br><br>";
 		phpAds_ShowSections(array("1.1.1", "1.1.2"));
 }
+
 
 
 /*********************************************************/
 /* Main code                                             */
 /*********************************************************/
 
+$totalviews = 0;
+$totalclicks = 0;
 
 // Get the zone information
 $res_stats = phpAds_dbQuery("
@@ -99,7 +100,6 @@ $res_stats = phpAds_dbQuery("
 if ($row_zone = phpAds_dbFetchArray($res_stats))
 {
 	$zone = $row_zone;
-	
 	
 	// Get the adviews/clicks for each banner
 	if ($phpAds_config['compact_stats'])
@@ -122,6 +122,9 @@ if ($row_zone = phpAds_dbFetchArray($res_stats))
 			$linkedbanners[$row_stats['bannerid']]['bannerid'] = $row_stats['bannerid'];
 			$linkedbanners[$row_stats['bannerid']]['clicks'] = $row_stats['clicks'];
 			$linkedbanners[$row_stats['bannerid']]['views'] = $row_stats['views'];
+			
+			$totalclicks += $row_stats['clicks'];
+			$totalviews  += $row_stats['views'];
 		}
 	}
 	else
@@ -144,6 +147,8 @@ if ($row_zone = phpAds_dbFetchArray($res_stats))
 			$linkedbanners[$row_stats['bannerid']]['bannerid'] = $row_stats['bannerid'];
 			$linkedbanners[$row_stats['bannerid']]['clicks'] = 0;
 			$linkedbanners[$row_stats['bannerid']]['views'] = $row_stats['views'];
+			
+			$totalviews  += $row_stats['views'];
 		}
 		
 		
@@ -164,38 +169,29 @@ if ($row_zone = phpAds_dbFetchArray($res_stats))
 		{
 			$linkedbanners[$row_stats['bannerid']]['bannerid'] = $row_stats['bannerid'];
 			$linkedbanners[$row_stats['bannerid']]['clicks'] = $row_stats['clicks'];
+			
+			$totalclicks += $row_stats['clicks'];
 		}
 	}
 }
 
 
-echo "<br><br>";
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
-
-echo "<tr height='25'>";
-echo '<td height="25"><b>&nbsp;&nbsp;'.$GLOBALS['strName'].'</b></td>';
-echo '<td height="25"><b>'.$GLOBALS['strID'].'</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>';
-echo "<td height='25' align='right'><b>".$GLOBALS['strViews']."</b></td>";
-echo "<td height='25' align='right'><b>".$GLOBALS['strClicks']."</b></td>";
-echo "<td height='25' align='right'><b>".$GLOBALS['strCTRShort']."</b>&nbsp;&nbsp;</td>";
-echo "</tr>";
-
-echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-
-
-$totalviews = 0;
-$totalclicks = 0;
-
-if (!isset($linkedbanners) || !is_array($linkedbanners) || count($linkedbanners) == 0)
+if ($totalviews > 0 || $totalclicks > 0)
 {
-	echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='5'>";
-	echo "&nbsp;&nbsp;".$strNoLinkedBanners;
-	echo "</td></tr>";
+	echo "<br><br>";
+	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
 	
-	echo "<td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
-}
-else
-{
+	echo "<tr height='25'>";
+	echo '<td height="25"><b>&nbsp;&nbsp;'.$GLOBALS['strName'].'</b></td>';
+	echo '<td height="25"><b>'.$GLOBALS['strID'].'</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>';
+	echo "<td height='25' align='right'><b>".$GLOBALS['strViews']."</b></td>";
+	echo "<td height='25' align='right'><b>".$GLOBALS['strClicks']."</b></td>";
+	echo "<td height='25' align='right'><b>".$GLOBALS['strCTRShort']."</b>&nbsp;&nbsp;</td>";
+	echo "</tr>";
+	
+	echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	
+	
 	$i=0;
 	for (reset($linkedbanners);$key=key($linkedbanners);next($linkedbanners))
 	{
@@ -222,9 +218,6 @@ else
 		
 		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 		$i++;
-		
-		$totalclicks += $linkedbanner['clicks'];
-		$totalviews  += $linkedbanner['views'];
 	}
 	
 	// Total
@@ -235,12 +228,17 @@ else
 	echo "<td height='25' align='right'>".phpAds_buildCTR($totalviews, $totalclicks)."&nbsp;&nbsp;</td>";
 	echo "</tr>";
 	
-	//echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	echo "</table>";
+	echo "<br><br>";
+}
+else
+{
+	echo "<br><img src='images/info.gif' align='absmiddle'>&nbsp;";
+	echo "<b>".$strNoStats."</b>";
+	phpAds_ShowBreak();
 }
 
-echo "</table>";
 
-echo "<br><br>";
 
 /*********************************************************/
 /* HTML framework                                        */

@@ -95,8 +95,19 @@ if (phpAds_isUser(phpAds_Admin))
 else
 {
 	phpAds_PageHeader("1.1");
-		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br><br><br>";
-		phpAds_ShowSections(array("1.1", "1.2"));
+	
+	if ($phpAds_config['client_welcome'])
+	{
+		echo "<br><br>";
+		// Show welcome message
+		if (!empty($phpAds_client_welcome_msg))
+			echo $phpAds_client_welcome_msg;
+		else
+			include('templates/welcome-publisher.html');
+		echo "<br><br>";
+	}
+	
+	phpAds_ShowSections(array("1.1", "1.2"));
 }
 
 

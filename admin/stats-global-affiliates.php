@@ -198,11 +198,11 @@ if (isset($zones) && is_array($zones) && count($zones) > 0)
 	unset ($zones);
 }
 
+$totalviews = 0;
+$totalclicks = 0;
+
 if (isset($affiliates) && is_array($affiliates) && count($affiliates) > 0)
 {
-	$totalviews = 0;
-	$totalclicks = 0;
-	
 	// Calculate statistics for affiliates
 	for (reset($affiliates);$key=key($affiliates);next($affiliates))
 	{
@@ -235,65 +235,56 @@ if (isset($affiliates) && is_array($affiliates) && count($affiliates) > 0)
 
 
 
-
-echo "<br><br>";
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
-
-echo "<tr height='25'>";
-echo '<td height="25"><b>&nbsp;&nbsp;<a href="stats-global-affiliates.php?listorder=name">'.$GLOBALS['strName'].'</a>';
-
-if (($listorder == "name") || ($listorder == ""))
+if ($totalviews > 0 || $totalclicks > 0)
 {
-	if  (($orderdirection == "") || ($orderdirection == "down"))
-	{
-		echo ' <a href="stats-global-affiliates.php?orderdirection=up">';
-		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
-	}
-	else
-	{
-		echo ' <a href="stats-global-affiliates.php?orderdirection=down">';
-		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
-	}
-	echo '</a>';
-}
-
-echo '</b></td>';
-echo '<td height="25"><b><a href="stats-global-affiliates.php?listorder=id">'.$GLOBALS['strID'].'</a>';
-
-if ($listorder == "id")
-{
-	if  (($orderdirection == "") || ($orderdirection == "down"))
-	{
-		echo ' <a href="stats-global-affiliates.php?orderdirection=up">';
-		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
-	}
-	else
-	{
-		echo ' <a href="stats-global-affiliates.php?orderdirection=down">';
-		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
-	}
-	echo '</a>';
-}
-
-echo '</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>';
-echo "<td height='25' align='right'><b>".$GLOBALS['strViews']."</b></td>";
-echo "<td height='25' align='right'><b>".$GLOBALS['strClicks']."</b></td>";
-echo "<td height='25' align='right'><b>".$GLOBALS['strCTRShort']."</b>&nbsp;&nbsp;</td>";
-echo "</tr>";
-
-echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-
-
-if (!isset($affiliates) || !is_array($affiliates) || count($affiliates) == 0)
-{
-	echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='5'>";
-	echo "&nbsp;&nbsp;".$strNoAffiliates;
-	echo "</td></tr>";
+	echo "<br><br>";
+	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
 	
-	echo "<td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
-}
-else
-{
+	echo "<tr height='25'>";
+	echo '<td height="25"><b>&nbsp;&nbsp;<a href="stats-global-affiliates.php?listorder=name">'.$GLOBALS['strName'].'</a>';
+	
+	if (($listorder == "name") || ($listorder == ""))
+	{
+		if  (($orderdirection == "") || ($orderdirection == "down"))
+		{
+			echo ' <a href="stats-global-affiliates.php?orderdirection=up">';
+			echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
+		}
+		else
+		{
+			echo ' <a href="stats-global-affiliates.php?orderdirection=down">';
+			echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
+		}
+		echo '</a>';
+	}
+	
+	echo '</b></td>';
+	echo '<td height="25"><b><a href="stats-global-affiliates.php?listorder=id">'.$GLOBALS['strID'].'</a>';
+	
+	if ($listorder == "id")
+	{
+		if  (($orderdirection == "") || ($orderdirection == "down"))
+		{
+			echo ' <a href="stats-global-affiliates.php?orderdirection=up">';
+			echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
+		}
+		else
+		{
+			echo ' <a href="stats-global-affiliates.php?orderdirection=down">';
+			echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
+		}
+		echo '</a>';
+	}
+	
+	echo '</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>';
+	echo "<td height='25' align='right'><b>".$GLOBALS['strViews']."</b></td>";
+	echo "<td height='25' align='right'><b>".$GLOBALS['strClicks']."</b></td>";
+	echo "<td height='25' align='right'><b>".$GLOBALS['strCTRShort']."</b>&nbsp;&nbsp;</td>";
+	echo "</tr>";
+	
+	echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	
+	
 	$i=0;
 	for (reset($affiliates);$key=key($affiliates);next($affiliates))
 	{
@@ -364,10 +355,16 @@ else
 	echo "<td height='25' align='right'>".$totalclicks."</td>";
 	echo "<td height='25' align='right'>".phpAds_buildCTR($totalviews, $totalclicks)."&nbsp;&nbsp;</td>";
 	echo "</tr>";
+	
+	echo "</table>";
+	echo "<br><br>";
 }
-
-echo "</table>";
-echo "<br><br>";
+else
+{
+	echo "<br><img src='images/info.gif' align='absmiddle'>&nbsp;";
+	echo "<b>".$strNoStats."</b>";
+	phpAds_ShowBreak();
+}
 
 
 

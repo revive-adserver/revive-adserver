@@ -57,6 +57,17 @@ if (phpAds_isUser(phpAds_Client))
 /* HTML framework                                        */
 /*********************************************************/
 
+if (isset($Session['prefs']['stats-campaign-banners.php']['listorder']))
+	$navorder = $Session['prefs']['stats-campaign-banners.php']['listorder'];
+else
+	$navorder = '';
+
+if (isset($Session['prefs']['stats-campaign-banners.php']['orderdirection']))
+	$navdirection = $Session['prefs']['stats-campaign-banners.php']['orderdirection'];
+else
+	$navdirection = '';
+
+
 $res = phpAds_dbQuery("
 	SELECT
 		*
@@ -64,6 +75,7 @@ $res = phpAds_dbQuery("
 		".$phpAds_config['tbl_banners']."
 	WHERE
 		clientid = $campaignid
+	".phpAds_getBannerListOrder($navorder, $navdirection)."
 ") or phpAds_sqlDie();
 
 while ($row = phpAds_dbFetchArray($res))
@@ -85,24 +97,27 @@ if (phpAds_isUser(phpAds_Admin))
 		phpAds_PageShortcut($strModifyBannerAcl, 'banner-acl.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-acl.gif');
 	
 	
-	phpAds_PageHeader("2.1.2.1");
+	phpAds_PageHeader("2.1.2.2.1");
 		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
 		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
 		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br><br>";
 		echo phpAds_buildBannerCode($bannerid)."<br><br><br><br>";
-		phpAds_ShowSections(array("2.1.2.1", "2.1.2.2"));
+		phpAds_ShowSections(array("2.1.2.2.1", "2.1.2.2.2"));
 }
 
 if (phpAds_isUser(phpAds_Client))
 {
-	phpAds_PageHeader("1.1.1.1");
+	$sections[] = "1.2.2.1";
+	if (phpAds_isAllowed(phpAds_ModifyBanner)) $sections[] = "1.2.2.2";
+	
+	phpAds_PageHeader("1.2.2.1");
 		echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
 		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br><br>";
 		echo phpAds_buildBannerCode($bannerid)."<br><br><br><br>";
-		phpAds_ShowSections(array("1.1.1.1"));
+		phpAds_ShowSections($sections);
 }
 
 

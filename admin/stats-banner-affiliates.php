@@ -56,6 +56,17 @@ else
 /* HTML framework                                        */
 /*********************************************************/
 
+if (isset($Session['prefs']['stats-campaign-banners.php']['listorder']))
+	$navorder = $Session['prefs']['stats-campaign-banners.php']['listorder'];
+else
+	$navorder = '';
+
+if (isset($Session['prefs']['stats-campaign-banners.php']['orderdirection']))
+	$navdirection = $Session['prefs']['stats-campaign-banners.php']['orderdirection'];
+else
+	$navdirection = '';
+
+
 $res = phpAds_dbQuery("
 	SELECT
 		*
@@ -63,6 +74,7 @@ $res = phpAds_dbQuery("
 		".$phpAds_config['tbl_banners']."
 	WHERE
 		clientid = $campaignid
+	".phpAds_getBannerListOrder($navorder, $navdirection)."
 ") or phpAds_sqlDie();
 
 while ($row = phpAds_dbFetchArray($res))
@@ -82,14 +94,14 @@ if ($phpAds_config['acl'])
 	phpAds_PageShortcut($strModifyBannerAcl, 'banner-acl.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-acl.gif');
 
 
-phpAds_PageHeader("2.1.2.2");
+phpAds_PageHeader("2.1.2.2.2");
 	echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
 	echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 	echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
 	echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 	echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br><br>";
 	echo phpAds_buildBannerCode($bannerid)."<br><br><br><br>";
-	phpAds_ShowSections(array("2.1.2.1", "2.1.2.2"));
+	phpAds_ShowSections(array("2.1.2.2.1", "2.1.2.2.2"));
 
 
 
@@ -252,11 +264,11 @@ if (isset($zones) && is_array($zones) && count($zones) > 0)
 	unset ($zones);
 }
 
+$totalviews = 0;
+$totalclicks = 0;
+
 if (isset($affiliates) && is_array($affiliates) && count($affiliates) > 0)
 {
-	$totalviews = 0;
-	$totalclicks = 0;
-	
 	// Calculate statistics for affiliates
 	for (reset($affiliates);$key=key($affiliates);next($affiliates))
 	{
@@ -288,138 +300,133 @@ if (isset($affiliates) && is_array($affiliates) && count($affiliates) > 0)
 	$totalclicks += $manual['clicks'];
 }
 
+$totalviews += $manual['views'];
+$totalclicks += $manual['clicks'];
 
 
-
-
-
-echo "<br><br>";
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
-
-echo "<tr height='25'>";
-echo '<td height="25" width="40%"><b>&nbsp;&nbsp;<a href="stats-banner-affiliates.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&listorder=name">'.$GLOBALS['strName'].'</a>';
-
-if (($listorder == "name") || ($listorder == ""))
+if ($totalviews > 0 || $totalclicks > 0)
 {
-	if  (($orderdirection == "") || ($orderdirection == "down"))
-	{
-		echo ' <a href="stats-banner-affiliates.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=up">';
-		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
-	}
-	else
-	{
-		echo ' <a href="stats-banner-affiliates.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=down">';
-		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
-	}
-	echo '</a>';
-}
-
-echo '</b></td>';
-echo '<td height="25"><b><a href="stats-banner-affiliates.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&listorder=id">'.$GLOBALS['strID'].'</a>';
-
-if ($listorder == "id")
-{
-	if  (($orderdirection == "") || ($orderdirection == "down"))
-	{
-		echo ' <a href="stats-banner-affiliates.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=up">';
-		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
-	}
-	else
-	{
-		echo ' <a href="stats-banner-affiliates.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=down">';
-		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
-	}
-	echo '</a>';
-}
-
-echo '</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>';
-echo "<td height='25' align='right'><b>".$GLOBALS['strViews']."</b></td>";
-echo "<td height='25' align='right'><b>".$GLOBALS['strClicks']."</b></td>";
-echo "<td height='25' align='right'><b>".$GLOBALS['strCTRShort']."</b>&nbsp;&nbsp;</td>";
-echo "</tr>";
-
-echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-
-
-if (!isset($affiliates) || !is_array($affiliates) || count($affiliates) == 0)
-{
-	echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='5'>";
-	echo "&nbsp;&nbsp;".$strNoAffiliates;
-	echo "</td></tr>";
+	echo "<br><br>";
+	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
 	
-	echo "<td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
-}
-else
-{
-	$i=0;
-	for (reset($affiliates);$key=key($affiliates);next($affiliates))
+	echo "<tr height='25'>";
+	echo '<td height="25" width="40%"><b>&nbsp;&nbsp;<a href="stats-banner-affiliates.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&listorder=name">'.$GLOBALS['strName'].'</a>';
+	
+	if (($listorder == "name") || ($listorder == ""))
 	{
-		$affiliate = $affiliates[$key];
-		
-		if ($affiliate['views'] || $affiliate['clicks'])
+		if  (($orderdirection == "") || ($orderdirection == "down"))
 		{
-			echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
+			echo ' <a href="stats-banner-affiliates.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=up">';
+			echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
+		}
+		else
+		{
+			echo ' <a href="stats-banner-affiliates.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=down">';
+			echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
+		}
+		echo '</a>';
+	}
+	
+	echo '</b></td>';
+	echo '<td height="25"><b><a href="stats-banner-affiliates.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&listorder=id">'.$GLOBALS['strID'].'</a>';
+	
+	if ($listorder == "id")
+	{
+		if  (($orderdirection == "") || ($orderdirection == "down"))
+		{
+			echo ' <a href="stats-banner-affiliates.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=up">';
+			echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
+		}
+		else
+		{
+			echo ' <a href="stats-banner-affiliates.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=down">';
+			echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
+		}
+		echo '</a>';
+	}
+	
+	echo '</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>';
+	echo "<td height='25' align='right'><b>".$GLOBALS['strViews']."</b></td>";
+	echo "<td height='25' align='right'><b>".$GLOBALS['strClicks']."</b></td>";
+	echo "<td height='25' align='right'><b>".$GLOBALS['strCTRShort']."</b>&nbsp;&nbsp;</td>";
+	echo "</tr>";
+	
+	echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	
+	
+	
+	$i=0;
+	
+	if (isset($affiliates) && is_array($affiliates) && count($affliates))
+	{
+		for (reset($affiliates);$key=key($affiliates);next($affiliates))
+		{
+			$affiliate = $affiliates[$key];
 			
-			// Icon & name
-			echo "<td height='25'>";
-			if (isset($affiliate['zones']))
+			if ($affiliate['views'] || $affiliate['clicks'])
 			{
-				if ($affiliate['expand'] == '1')
-					echo "&nbsp;<a href='stats-banner-affiliates.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bannerid."&collapse=".$affiliate['affiliateid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
-				else
-					echo "&nbsp;<a href='stats-banner-affiliates.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bannerid."&expand=".$affiliate['affiliateid']."'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
-			}
-			else
-				echo "&nbsp;<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
+				echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 				
-			echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;";
-			echo "<a href='stats-affiliate-history.php?affiliateid=".$affiliate['affiliateid']."'>".$affiliate['name']."</a>";
-			echo "</td>";
-			
-			echo "<td height='25'>".$affiliate['affiliateid']."</td>";
-			echo "<td height='25' align='right'>".$affiliate['views']."</td>";
-			echo "<td height='25' align='right'>".$affiliate['clicks']."</td>";
-			echo "<td height='25' align='right'>".phpAds_buildCTR($affiliate['views'], $affiliate['clicks'])."&nbsp;&nbsp;</td>";
-			echo "</tr>";
-			
-			
-			
-			if (isset($affiliate['zones']) && sizeof ($affiliate['zones']) > 0 && $affiliate['expand'] == '1')
-			{
-				$zones = $affiliate['zones'];
-				
-				for (reset($zones);$zkey=key($zones);next($zones))
+				// Icon & name
+				echo "<td height='25'>";
+				if (isset($affiliate['zones']))
 				{
-					if ($zones[$zkey]['views'] || $zones[$zkey]['clicks'])
+					if ($affiliate['expand'] == '1')
+						echo "&nbsp;<a href='stats-banner-affiliates.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bannerid."&collapse=".$affiliate['affiliateid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
+					else
+						echo "&nbsp;<a href='stats-banner-affiliates.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bannerid."&expand=".$affiliate['affiliateid']."'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
+				}
+				else
+					echo "&nbsp;<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
+					
+				echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;";
+				echo "<a href='stats-affiliate-history.php?affiliateid=".$affiliate['affiliateid']."'>".$affiliate['name']."</a>";
+				echo "</td>";
+				
+				echo "<td height='25'>".$affiliate['affiliateid']."</td>";
+				echo "<td height='25' align='right'>".$affiliate['views']."</td>";
+				echo "<td height='25' align='right'>".$affiliate['clicks']."</td>";
+				echo "<td height='25' align='right'>".phpAds_buildCTR($affiliate['views'], $affiliate['clicks'])."&nbsp;&nbsp;</td>";
+				echo "</tr>";
+				
+				
+				
+				if (isset($affiliate['zones']) && sizeof ($affiliate['zones']) > 0 && $affiliate['expand'] == '1')
+				{
+					$zones = $affiliate['zones'];
+					
+					for (reset($zones);$zkey=key($zones);next($zones))
 					{
-						// Divider
-						echo "<tr height='1'>";
-						echo "<td ".($i%2==0?"bgcolor='#F6F6F6'":"")."><img src='images/spacer.gif' width='1' height='1'></td>";
-						echo "<td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
-						echo "</tr>";
-						
-						// Icon & name
-						echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td height='25'>";
-						echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-						echo "<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
-						echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
-						echo "<a href='stats-zone-history.php?affiliateid=".$affiliate['affiliateid']."&zoneid=".$zones[$zkey]['zoneid']."'>".$zones[$zkey]['zonename']."</td>";
-						echo "</td>";
-						
-						echo "<td height='25'>".$zones[$zkey]['zoneid']."</td>";
-						echo "<td height='25' align='right'>".$zones[$zkey]['views']."</td>";
-						echo "<td height='25' align='right'>".$zones[$zkey]['clicks']."</td>";
-						echo "<td height='25' align='right'>".phpAds_buildCTR($zones[$zkey]['views'], $zones[$zkey]['clicks'])."&nbsp;&nbsp;</td>";
-						echo "</tr>";
+						if ($zones[$zkey]['views'] || $zones[$zkey]['clicks'])
+						{
+							// Divider
+							echo "<tr height='1'>";
+							echo "<td ".($i%2==0?"bgcolor='#F6F6F6'":"")."><img src='images/spacer.gif' width='1' height='1'></td>";
+							echo "<td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
+							echo "</tr>";
+							
+							// Icon & name
+							echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td height='25'>";
+							echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+							echo "<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
+							echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
+							echo "<a href='stats-zone-history.php?affiliateid=".$affiliate['affiliateid']."&zoneid=".$zones[$zkey]['zoneid']."'>".$zones[$zkey]['zonename']."</td>";
+							echo "</td>";
+							
+							echo "<td height='25'>".$zones[$zkey]['zoneid']."</td>";
+							echo "<td height='25' align='right'>".$zones[$zkey]['views']."</td>";
+							echo "<td height='25' align='right'>".$zones[$zkey]['clicks']."</td>";
+							echo "<td height='25' align='right'>".phpAds_buildCTR($zones[$zkey]['views'], $zones[$zkey]['clicks'])."&nbsp;&nbsp;</td>";
+							echo "</tr>";
+						}
 					}
 				}
+				
+				echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+				$i++;
 			}
-			
-			echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-			$i++;
 		}
 	}
-	
 	
 	if ($manual['views'] || $manual['clicks'])
 	{
@@ -443,10 +450,16 @@ else
 	echo "<td height='25' align='right'>".$totalclicks."</td>";
 	echo "<td height='25' align='right'>".phpAds_buildCTR($totalviews, $totalclicks)."&nbsp;&nbsp;</td>";
 	echo "</tr>";
+	
+	echo "</table>";
+	echo "<br><br>";
 }
-
-echo "</table>";
-echo "<br><br>";
+else
+{
+	echo "<br><img src='images/info.gif' align='absmiddle'>&nbsp;";
+	echo "<b>".$strNoStats."</b>";
+	phpAds_ShowBreak();
+}
 
 
 

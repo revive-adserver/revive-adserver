@@ -281,6 +281,8 @@ if ($period == 'd' || $period == 'm')
 
 if ($period == 'w')
 {
+	$days = 0;
+	
 	for ($d=0;$d<$limit;$d++)
 	{
 		$totalweekviews = 0;

@@ -34,31 +34,6 @@ else
 	$params = '?';
 
 
-/*********************************************************/
-/* Main code                                             */
-/*********************************************************/
-
-echo "<form action='".$PHP_SELF."'>";
-
-if (isset($lib_history_params))
-	for (reset($lib_history_params); $key = key($lib_history_params); next($lib_history_params))
-		echo "<input type='hidden' name='".$key."' value='".$lib_history_params[$key]."'>";
-
-echo "<select name='period' onChange='this.form.submit();'>";
-	echo "<option value='d'".($period == 'd' ? ' selected' : '').">".$strDailyHistory."</option>";
-	echo "<option value='w'".($period == 'w' ? ' selected' : '').">".$strWeeklyHistory."</option>";
-	echo "<option value='m'".($period == 'm' ? ' selected' : '').">".$strMonthlyHistory."</option>";
-echo "</select>";
-
-echo "&nbsp;&nbsp;";
-echo "<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0' name='submit'>&nbsp;";
-
-phpAds_ShowBreak();
-echo "</form>";
-
-echo "<br><br>";
-
-
 
 /*********************************************************/
 /* Determine span of statistics                          */
@@ -103,9 +78,33 @@ else
 	}
 }
 
-
-if (isset($row['span']))
+if (isset($row['span']) && $row['span'] > 0)
 {
+	/*********************************************************/
+	/* Main code                                             */
+	/*********************************************************/
+	
+	echo "<form action='".$PHP_SELF."'>";
+	
+	if (isset($lib_history_params))
+		for (reset($lib_history_params); $key = key($lib_history_params); next($lib_history_params))
+			echo "<input type='hidden' name='".$key."' value='".$lib_history_params[$key]."'>";
+	
+	echo "<select name='period' onChange='this.form.submit();'>";
+		echo "<option value='d'".($period == 'd' ? ' selected' : '').">".$strDailyHistory."</option>";
+		echo "<option value='w'".($period == 'w' ? ' selected' : '').">".$strWeeklyHistory."</option>";
+		echo "<option value='m'".($period == 'm' ? ' selected' : '').">".$strMonthlyHistory."</option>";
+	echo "</select>";
+	
+	echo "&nbsp;&nbsp;";
+	echo "<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0' name='submit'>&nbsp;";
+	
+	phpAds_ShowBreak();
+	echo "</form>";
+	
+	echo "<br><br>";
+	
+	
 	/*********************************************************/
 	/* Prepare for different periods                         */
 	/*********************************************************/
@@ -729,7 +728,12 @@ if (isset($row['span']))
 		echo "</table>";
 	}
 }
-
+else
+{
+	echo "<br><img src='images/info.gif' align='absmiddle'>&nbsp;";
+	echo "<b>".$strNoStats."</b>";
+	phpAds_ShowBreak();
+}
 
 echo "<br><br>";
 

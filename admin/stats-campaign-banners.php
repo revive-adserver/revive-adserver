@@ -68,6 +68,17 @@ if (!isset($orderdirection))
 /* HTML framework                                        */
 /*********************************************************/
 
+if (isset($Session['prefs']['stats-client-campaigns.php']['listorder']))
+	$navorder = $Session['prefs']['stats-client-campaigns.php']['listorder'];
+else
+	$navorder = '';
+
+if (isset($Session['prefs']['stats-client-campaigns.php']['orderdirection']))
+	$navdirection = $Session['prefs']['stats-client-campaigns.php']['orderdirection'];
+else
+	$navdirection = '';
+
+
 if (phpAds_isUser(phpAds_Client))
 {
 	if (phpAds_getUserID() == phpAds_getParentID ($campaignid))
@@ -79,6 +90,7 @@ if (phpAds_isUser(phpAds_Client))
 				".$phpAds_config['tbl_clients']."
 			WHERE
 				parent = ".phpAds_getUserID()."
+			".phpAds_getListOrder ($navorder, $navdirection)."
 		") or phpAds_sqlDie();
 		
 		while ($row = phpAds_dbFetchArray($res))
@@ -90,14 +102,14 @@ if (phpAds_isUser(phpAds_Client))
 			);
 		}
 		
-		phpAds_PageHeader("1.1.1");
+		phpAds_PageHeader("1.2.2");
 			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignid)."</b><br><br><br>";
-			phpAds_ShowSections(array("1.1.2", "1.1.1"));
+			phpAds_ShowSections(array("1.2.1", "1.2.2"));
 	}
 	else
 	{
 		phpAds_PageHeader("1");
-		phpAds_Die ($strAccessDenied, $strNotAdmin);	
+		phpAds_Die ($strAccessDenied, $strNotAdmin);
 	}
 }
 
@@ -110,6 +122,7 @@ if (phpAds_isUser(phpAds_Admin))
 			".$phpAds_config['tbl_clients']."
 		WHERE
 			parent = ".$clientid."
+		".phpAds_getListOrder ($navorder, $navdirection)."
 	") or phpAds_sqlDie();
 	
 	while ($row = phpAds_dbFetchArray($res))
@@ -124,11 +137,11 @@ if (phpAds_isUser(phpAds_Admin))
 	phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.$clientid, 'images/icon-client.gif');
 	phpAds_PageShortcut($strCampaignProperties, 'campaign-edit.php?clientid='.$clientid.'&campaignid='.$campaignid, 'images/icon-campaign.gif');
 	
-	phpAds_PageHeader("2.1.2");
+	phpAds_PageHeader("2.1.2.2");
 		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
 		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignid)."</b><br><br><br>";
-		phpAds_ShowSections(array("2.1.3", "2.1.2"));
+		phpAds_ShowSections(array("2.1.2.1", "2.1.2.2"));
 }
 
 
@@ -257,53 +270,15 @@ if (count($banners))
 
 
 /*********************************************************/
-/* Custom JavaScript code                                */
-/*********************************************************/
-
-?><script language="JavaScript">
-<!--
-function findObj(n, d) { 
-  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
-    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
-  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
-  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
-  if(!x && document.getElementById) x=document.getElementById(n); return x;
-}
-
-function showHideLayers(obj) { 
-	bannerobj = findObj('banner'+obj);
-	caretobj = findObj('caret'+obj);
-
-	if (bannerobj.style)
-	{
-		if (bannerobj.style.display=='none')
-		{
-			bannerobj.style.display='';
-			if (caretobj) caretobj.src = 'images/triangle-d.gif'
-		}
-		else
-		{
-			bannerobj.style.display='none';
-			if (caretobj) caretobj.src = 'images/<?php echo $phpAds_TextDirection; ?>/triangle-l.gif'
-		}	
-	}
-}
-//-->
-</script><?php
-
-
-
-/*********************************************************/
 /* Main code                                             */
 /*********************************************************/
-
-echo "<br><br>";
 
 $totaladviews = 0;
 $totaladclicks = 0;
 
 if (count($order_array) > 0)
 {
+	echo "<br><br>";
 	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 	
 	if (isset($compact) && $compact == "t")
@@ -555,7 +530,7 @@ if (count($order_array) > 0)
 			{
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;";
 				echo "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;";
-				echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row_banners['bannerid']."'>$strModifyBanner</a>";
+				echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row_banners['bannerid']."'>$strBannerProperties</a>";
 			}
 			echo "</td></tr>";
 			
@@ -673,7 +648,7 @@ if (count($order_array) > 0)
 				if (phpAds_isUser(phpAds_Admin) || (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_ModifyBanner))) // only for the admin
 				{
 					echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row_banners['bannerid']."'>";
-					echo "<img src='images/icon-edit.gif' align='absmiddle' border='0'>&nbsp;$strModifyBanner</a>";
+					echo "<img src='images/icon-edit.gif' align='absmiddle' border='0'>&nbsp;$strBannerProperties</a>";
 					echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 				}
 				echo "</tr><td>";
@@ -715,73 +690,64 @@ if (count($order_array) > 0)
 	echo "</table>";
 	echo "<br><br>";
 	echo "<br><br>";
-}
-
-
-
-
-?>
-
-<table border='0' width='100%' cellpadding='0' cellspacing='0'>
-	<tr><td height='25' colspan='2'><b><?php echo $strCreditStats;?></b></td></tr>
-	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-
-<?php
-if (phpAds_GDImageFormat() != "none" && $totaladviews > 0 && !$phpAds_config['compact_stats'])
-{
-?>
-	<tr><td height='20' colspan='2'>&nbsp;</td></tr>	
-	<tr>
-		<td bgcolor="#FFFFFF" colspan=2><img src="graph-hourly.php?where=<?php $where = ereg_replace("OR$", "", $where); echo urlencode("$where");?>" border="0" width="385" height="150"></td>
-	</tr>
-	<tr><td height='10' colspan='2'>&nbsp;</td></tr>	
-	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-<?php
-}
-?>
-
-<?php
-list($desc,$enddate,$daysleft)=days_left($campaignid);
-$adclicksleft = adclicks_left($campaignid);
-$adviewsleft  = adviews_left($campaignid);
-?>
-	<tr>
-		<td height='25'><?php echo $strTotalViews;?>: <b><?php echo $totaladviews;?></b></td>
-		<td height='25'><?php echo $strViewCredits;?>: <b><?php echo $adviewsleft;?></b></td>
-	</tr>
-	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>
-	<tr>
-		<td height='25'><?php echo $strTotalClicks;?>: <b><?php echo $totaladclicks;?></b></td>
-		<td height='25'><?php echo $strClickCredits;?>: <b><?php echo $adclicksleft;?></b></td>
-	</tr>
-	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>
-	<tr>
-		<td height='25' colspan='2'><?php echo $desc; ?></td>
-	</tr>
-	<?php
-		if ($adviewsleft != $strUnlimited || $adclicksleft != $strUnlimited) {
-	?>
-	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-	<tr>
-		<td height='60' align='left'>
-		<?php
+	
+	
+	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+	echo "<tr><td height='25' colspan='2'><b>".$strCreditStats."</b></td></tr>";
+	echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	
+	if (phpAds_GDImageFormat() != "none" && $totaladviews > 0 && !$phpAds_config['compact_stats'])
+	{
+		$where = ereg_replace("OR$", "", $where);
+		echo "<tr><td height='20' colspan='2'>&nbsp;</td></tr>";
+		echo "<tr><td bgcolor='#FFFFFF' colspan='2'><img src='graph-hourly.php?where=".urlencode($where)."' border='0' width='385' height='150'></td></tr>";
+		echo "<tr><td height='10' colspan='2'>&nbsp;</td></tr>";
+		echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	}
+	
+	list($desc,$enddate,$daysleft)=days_left($campaignid);
+	$adclicksleft = adclicks_left($campaignid);
+	$adviewsleft  = adviews_left($campaignid);
+	
+	echo "<tr><td height='25'>".$strTotalViews.": <b>".$totaladviews."</b></td>";
+	echo "<td height='25'>".$strViewCredits.": <b>".$adviewsleft."</b></td></tr>";
+	echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
+	
+	echo "<tr><td height='25'>".$strTotalClicks.": <b>".$totaladclicks."</b></td>";
+	echo "<td height='25'>".$strClickCredits.": <b>".$adclicksleft."</b></td></tr>";
+	echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
+	
+	echo "<tr><td height='25' colspan='2'>".$desc."</td></tr>";
+	
+	if ($adviewsleft != $strUnlimited || $adclicksleft != $strUnlimited) 
+	{
+		echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+		echo "<tr><td height='60' align='left'>";
+		
 		if ($adviewsleft == $strUnlimited)
-			print "&nbsp;";
+			echo "&nbsp;";
 		else
-			print "<img src='graph-daily.php?width=200&data=Views^$totaladviews^^Credits^$adviewsleft^^'></td>\n";
-		print "<td height='60'>";
+			echo "<img src='graph-daily.php?width=200&data=Views^".$totaladviews."^^Credits^".$adviewsleft."^^'></td>";
+		
+		echo "<td height='60'>";
+		
 		if ($adclicksleft == $strUnlimited)
-			print "&nbsp;";
+			echo "&nbsp;";
 		else
-			print "<img src='graph-daily.php?width=200&data=Clicks^$totaladclicks^^Credits^$adclicksleft^^'></td>\n";
-		?>
-	</tr>
-	<?php
-		}
-	?>
-	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-</table>
-<?php
+			echo "<img src='graph-daily.php?width=200&data=Clicks^".$totaladclicks."^^Credits^".$adclicksleft."^^'></td>";
+		
+		echo "</tr>";
+	}
+	
+	echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	echo "</table>";
+}
+else
+{
+	echo "<br><img src='images/info.gif' align='absmiddle'>&nbsp;";
+	echo "<b>".$strNoStats."</b>";
+	phpAds_ShowBreak();
+}
 
 
 
@@ -795,6 +761,43 @@ $Session['prefs']['stats-campaign-banners.php']['listorder'] = $listorder;
 $Session['prefs']['stats-campaign-banners.php']['orderdirection'] = $orderdirection;
 
 phpAds_SessionDataStore();
+
+
+
+/*********************************************************/
+/* Custom JavaScript code                                */
+/*********************************************************/
+
+?><script language="JavaScript">
+<!--
+function findObj(n, d) { 
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && document.getElementById) x=document.getElementById(n); return x;
+}
+
+function showHideLayers(obj) { 
+	bannerobj = findObj('banner'+obj);
+	caretobj = findObj('caret'+obj);
+
+	if (bannerobj.style)
+	{
+		if (bannerobj.style.display=='none')
+		{
+			bannerobj.style.display='';
+			if (caretobj) caretobj.src = 'images/triangle-d.gif'
+		}
+		else
+		{
+			bannerobj.style.display='none';
+			if (caretobj) caretobj.src = 'images/<?php echo $phpAds_TextDirection; ?>/triangle-l.gif'
+		}	
+	}
+}
+//-->
+</script><?php
 
 
 

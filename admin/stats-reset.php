@@ -35,7 +35,7 @@ if (isset($bannerid) && $bannerid != '')
 	phpAds_deleteStats($bannerid);
 	
 	// Return to campaign statistics
-	Header("Location: stats-campaign-banners.php?campaignid=$campaignid");
+	Header("Location: stats-campaign-banners.php?clientid=$clientid&campaignid=$campaignid");
 }
 
 
@@ -59,7 +59,7 @@ elseif (isset($campaignid) && $campaignid != '')
 	}
 	
 	// Return to campaign statistics
-	Header("Location: stats-campaign-banners.php?campaignid=$campaignid");
+	Header("Location: stats-campaign-banners.php?clientid=$clientid&campaignid=$campaignid");
 }
 
 
