@@ -38,7 +38,7 @@ $res = phpAds_dbQuery("
 	FROM
 		".$phpAds_config['tbl_clients']."
 	WHERE
-		parent > 0
+		parent = ".$clientid." 
 ");
 
 while ($row = phpAds_dbFetchArray($res))
