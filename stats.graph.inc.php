@@ -65,7 +65,10 @@ for($x=0;$x<$items_count;$x++)
 	imagestringup($im, 1, ($x)*12+52, 130+imageFontwidth(1)*$maxlen , $items[$x]["text"], $textcolor);
 }
        
-$scale = (double)100/(double)$max;
+if ($max==0)
+	$scale=100;
+else
+	$scale = (double)100/(double)$max;
 
 ImageRectangle($im,0,0,$width-1,$height-1,$textcolor);
 

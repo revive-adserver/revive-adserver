@@ -3,32 +3,32 @@
 
 /* placed to GNU by martin@braun.cc */
                                  
-require ('config.php');
-require('kcsm.php');
+require ("config.php");
+require("kcsm.php");
                             
 $where=urldecode($where); 
 
 
 // get week signs for mySQL queries  
-require('weeklystats.inc.php');  
+require("weeklystats.inc.php");  
 
 list($php_week_sign, $mysql_week_sign) = GetWeekSigns();
 
-mysql_select_db($GLOBALS['phpAds_db']);                   
+mysql_select_db($GLOBALS["phpAds_db"]);                   
 $query="
 	SELECT 
 		count(*), 
 		DATE_FORMAT(t_stamp,'".$mysql_week_sign."'),
 		DATE_FORMAT(t_stamp,'%Y".$mysql_week_sign."') AS week 
 	FROM
-		".$GLOBALS['phpAds_tbl_adviews'].'
+		".$GLOBALS['phpAds_tbl_adviews']."
 	WHERE 
-		$where
+		".$where."
 	GROUP BY 
 		week
 	ORDER BY 
 		week DESC
-	LIMIT '.$max_weeks;
+	LIMIT ".$max_weeks;
 
 $query2="
 	SELECT 
@@ -36,14 +36,14 @@ $query2="
 		DATE_FORMAT(t_stamp,'".$mysql_week_sign."'),
 		DATE_FORMAT(t_stamp,'%Y".$mysql_week_sign."') AS week 
 	FROM
-		".$GLOBALS['phpAds_tbl_adclicks'].'
-	WHERE 
-		$where
+		".$GLOBALS['phpAds_tbl_adclicks']."
+	WHERE
+		".$where."
 	GROUP BY 
 		week
 	ORDER BY 
 		week DESC
-	LIMIT '.$max_weeks;
+	LIMIT ".$max_weeks;
             
 $result = mysql_query($query) or mysql_die();
 $result2 = mysql_query($query2) or mysql_die();
