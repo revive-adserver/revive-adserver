@@ -43,6 +43,8 @@ function phpAds_PageHeader($ID, $extra="")
 	$phpAds_GUIDone = true;
 	$phpAds_NavID   = $ID;
 	
+	$mozbar = '';
+	
 	// Travel navigation
 	if ($ID != "")
 	{	
@@ -73,12 +75,17 @@ function phpAds_PageHeader($ID, $extra="")
 				$sidebar .= "<tr><td width='20' valign='top'><img src='images/caret-t.gif' width='11' height='7'>&nbsp;</td>";
 				$sidebar .= "<td width='140'><a href='$filename'>$title</a></td></tr>";
 				$sidebar .= "<tr><td colspan='2'><img src='images/break.gif' height='1' width='160' vspace='4'></td></tr>";
+				
+				$mozbar  .= "\t\t<link REL='top' HREF='$filename' TITLE='$title'>\n";
 			}
 			else
 			{
 				$sidebar .= "<tr><td width='20' valign='top'><img src='images/caret-u.gif' width='11' height='7'>&nbsp;</td>";
 				$sidebar .= "<td width='140'><a href='$filename'>$title</a></td></tr>";
 			}
+			
+			if ($i == count($sections) - 2)
+				$mozbar  .= "\t\t<link REL='up' HREF='$filename' TITLE='$title'>\n";
 		}
 		
 		if (isset($pages["$ID"]) && is_array($pages["$ID"]))
@@ -136,6 +143,8 @@ function phpAds_PageHeader($ID, $extra="")
 				$sidebar .= "<tr><td colspan='2'><img src='images/break.gif' height='1' width='160' vspace='4'></td></tr>";
 				$sidebar .= "<tr><td width='20' valign='top'><img src='".$phpAds_shortcuts[$si]['icon']."' align='absmiddle'>&nbsp;</td>";
 				$sidebar .= "<td width='140'><a href='".$phpAds_shortcuts[$si]['link']."'>".$phpAds_shortcuts[$si]['name']."</a></td></tr>";
+				
+				$mozbar  .= "\t\t<link REL='bookmark' HREF='".$phpAds_shortcuts[$si]['link']."' TITLE='".$phpAds_shortcuts[$si]['name']."'>\n";
 			}
 			
 			$sidebar .= "<tr><td colspan='2'><img src='images/break.gif' height='1' width='160' vspace='4'></td></tr>";
@@ -243,6 +252,9 @@ function phpAds_PageHeader($ID, $extra="")
 	echo "\t\t<link rel='stylesheet' href='images/".$phpAds_TextDirection."/interface.css'>\n";
 	echo "\t\t<script language='JavaScript' src='interface.js'></script>\n";
 	if ($phpAds_showHelp) echo "\t\t<script language='JavaScript' src='help.js'></script>\n";
+	
+	// Show Moz site bar
+	echo $mozbar;
 	echo "\t</head>\n";
 	
 	echo "<body bgcolor='#FFFFFF' background='images/".$phpAds_TextDirection."/background.gif' text='#000000' leftmargin='0' ";
