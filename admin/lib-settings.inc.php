@@ -84,7 +84,7 @@ function settings_goto_section()
 	echo "<img src='images/".$phpAds_TextDirection."/go_blue.gif' border='0'></a>";
     echo "</td></form>";
     
-	echo "<td height='35' align='right'><b><a href=\"javascript:toggleHelp();\">";
+	echo "<td height='35' align='right'><b><a href=\"#\" onClick=\"javascript:toggleHelp(); return false;\">";
 	echo "<img src='images/help-book.gif' width='15' height='15' border='0' align='absmiddle'>";
 	echo "&nbsp;".$strHelp."</a></b></td></tr></table>";
 	
@@ -134,11 +134,9 @@ function phpAds_ShowSettings ($data, $errors = array())
 		$image = $phpAds_config_locked ? 'closed' : 'open';
 		
 		echo "<form name='settingsform' method='post' action='".$HTTP_SERVER_VARS['PHP_SELF']."' onSubmit='return phpAds_formCheck(this);'>";
-		echo "<br><table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-		echo "<tr><td valign='top'><img src='images/padlock-".$image.".gif' width='16' height='16' border='0' align='absmiddle'>&nbsp;&nbsp;</td><td>";
+		echo "<br><div class='errormessage'><img class='errormessage' src='images/padlock-".$image.".gif' width='16' height='16' border='0' align='absmiddle'>";
 		echo $phpAds_config_locked ? $GLOBALS['strEditConfigNotPossible'] : $GLOBALS['strEditConfigPossible'];
-		echo "</td></tr></table><br>";
-		phpAds_ShowBreak();
+		echo "</div>";
 	}
 	
 	$dependbuffer = "function phpAds_refreshEnabled () {\n";

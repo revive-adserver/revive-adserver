@@ -385,18 +385,20 @@ if (phpAds_isUser(phpAds_Admin))
 			echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
 			echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
 			echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
-			echo "<span class='install'>".$strInstallMessage."</td></tr></table>";
+			echo "<span class='install'>".$strInstallMessage;
 			
 			if (count($fatal))
 			{
-				echo "<br><br>";
-				echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>";
-				echo "<tr><td><img src='images/error.gif'>&nbsp;&nbsp;</td>";
-				echo "<td width='100%'><span class='tab-r'>".$strMayNotFunction."</span></td></tr>";
+				echo "<br><br><div class='errormessage'><img class='errormessage' src='images/errormessage.gif' align='absmiddle'>";
+				echo "<span class='tab-r'>".$strMayNotFunction."</span><br><br>".$strFixProblemsBefore."<ul>";
+				
 				for ($r=0;$r<count($fatal);$r++)
-					echo "<tr><td>&nbsp;</td><td><span class='install'>".$fatal[$r]."</span></td></tr>";
-				echo "</table>";
+					echo "<li>".$fatal[$r]."</li>";
+				
+				echo "</ul>".$strFixProblemsAfter."<br><br></div>";
 			}
+			
+			echo "</td></tr></table>";
 			
 			break;
 			
