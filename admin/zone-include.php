@@ -502,22 +502,61 @@ function phpAds_showZoneCampaign ($width, $height, $what)
 
 
 
-function phpAds_showZoneBanners ($width, $height, $what)
+function phpAds_showZoneBanners ($width, $height, $what, $zonetype)
 {
 	global $phpAds_config;
 	global $strName, $strID, $strUntitled, $strDescription;
 	global $strEdit, $strCheckAllNone;
 	global $strNoBannersToLink, $strSaveChanges, $strSelectBannerToLink;
 	
-	
-	$what_array = explode(",",$what);
-	for ($k=0; $k < count($what_array); $k++)
+	if ($zonetype == phpAds_ZoneBanners)
 	{
-		if (substr($what_array[$k],0,9)=="bannerid:")
+		// Determine selected banners
+		$what_array = explode(",",$what);
+		for ($k=0; $k < count($what_array); $k++)
 		{
-			$bannerid = substr($what_array[$k],9);
-			$bannerids[$bannerid] = true;
+			if (substr($what_array[$k],0,9)=="bannerid:")
+			{
+				$bannerid = substr($what_array[$k],9);
+				$bannerids[$bannerid] = true;
+			}
 		}
+	}
+	elseif ($zonetype == phpAds_ZoneCampaign)
+	{
+		// Determine selected campaigns
+		$clientids = array();
+		$what_array = explode(",",$what);
+		for ($k=0; $k < count($what_array); $k++)
+		{
+			if (substr($what_array[$k],0,9)=="clientid:")
+			{
+				$clientid = substr($what_array[$k],9);
+				$clientids[] = 'clientid = '.$clientid;
+			}
+		}
+		
+		// Determine banners owned by selected campaigns
+		if (count($clientids))
+		{
+			$res = phpAds_dbQuery("
+				SELECT
+					bannerid
+				FROM
+					".$phpAds_config['tbl_banners']."
+				WHERE
+					".implode (' OR ', $clientids)."
+			");
+			
+			while ($row = phpAds_dbFetchArray($res))
+				$bannerids[$row['bannerid']] = true;
+		}
+		else
+			$bannerids = array();
+	}
+	else
+	{
+		$bannerids = array();
 	}
 	
 	// Fetch all campaigns
@@ -958,7 +997,7 @@ if ($zonetype == phpAds_ZoneCampaign)
 
 if ($zonetype == phpAds_ZoneBanners)
 {
-	phpAds_showZoneBanners($zone["width"], $zone["height"], $zone["what"]);
+	phpAds_showZoneBanners($zone["width"], $zone["height"], $zone["what"], $zone["zonetype"]);
 }
 
 if ($zonetype == phpAds_ZoneRaw)
