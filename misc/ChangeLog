@@ -141,6 +141,10 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-11-30:  Fixed duplicate include in install.php  (Niels)
 			  - 2002-12-03:  Added missing double quotes in the from header of outgoing e-mails  (Matteo)
 			  - 2002-12-03:  Converting stats resulting in invalid SQL INSERT and/or UPDATE queries  (Niels)
+			  - 2002-12-09:  Aligned text to the right in the daily graph to prevent numbers from being cut off  (Niels)
+			  - 2002-12-09:  Removed <span> from reports  (Niels)
+			  - 2002-12-09:  Added second scale to history graphs to make AdClicks visible  (Niels)
+
 
 
 v 2.0beta7		+ Added configuration manager  (Matteo, 2001-11-04)
