@@ -31,7 +31,7 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 	
 	// If $clientid consists of alpha-numeric chars it is
 	// not the clientid, but the target parameter.
-	if(!ereg('^[0-9]+$', $clientid))
+	if(!preg_match('#^[0-9]+$#', $clientid))
 	{
 		$target = $clientid;
 		$clientid = 0;
@@ -109,7 +109,7 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 		
 		// Set path of phpAdsNew
 		if ($HTTP_SERVER_VARS['SERVER_PORT'] == 443) $phpAds_config['url_prefix'] = str_replace ('http://', 'https://', $phpAds_config['url_prefix']);
-		$phpAds_config['url_prefix'] = ereg_replace ('//[^/]+/', '//'.$HTTP_SERVER_VARS['HTTP_HOST'].'/', $phpAds_config['url_prefix']);
+		$phpAds_config['url_prefix'] = preg_replace ('#//[^/]+/#', '//'.$HTTP_SERVER_VARS['HTTP_HOST'].'/', $phpAds_config['url_prefix']);
 		$outputbuffer = str_replace ('{url_prefix}', $phpAds_config['url_prefix'], $outputbuffer);
 		
 		
@@ -120,7 +120,7 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 			$outputbuffer = str_replace ('[/bannertext]', '', $outputbuffer);
 		}
 		else
-			$outputbuffer = eregi_replace ("\[bannertext\](.*)\[\/bannertext\]", '', $outputbuffer);
+			$outputbuffer = preg_replace ("#\[bannertext\](.*)\[\/bannertext\]#", '', $outputbuffer);
 		
 		
 		// HTML/URL banner options
@@ -133,7 +133,7 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 			$outputbuffer = str_replace ('%7Btimestamp%7D',	time(), $outputbuffer);
 			
 			// Replace random
-			while (eregi ('(%7B|\{)random((%3A|:)([1-9]+)){0,1}(%7D|})', $outputbuffer, $matches))
+			while (preg_match ('#(%7B|\{)random((%3A|:)([1-9]+)){0,1}(%7D|})#i', $outputbuffer, $matches))
 			{
 				if ($matches[4])
 					$randomdigits = $matches[4];
@@ -165,16 +165,16 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 		{
 			if ($phpAds_config['type_html_php'])
 			{
-				if (eregi ("(\<\?php(.*)\?\>)", $outputbuffer, $parser_regs))
+				if (preg_match ("#(\<\?php(.*)\?\>)#i", $outputbuffer, $parser_regs))
 				{
 					// Extract PHP script
 					$parser_php 	= $parser_regs[2];
 					$parser_result 	= '';
 					
 					// Replace output function
-					$parser_php = eregi_replace ("echo([^;]*);", '$parser_result .=\\1;', $parser_php);
-					$parser_php = eregi_replace ("print([^;]*);", '$parser_result .=\\1;', $parser_php);
-					$parser_php = eregi_replace ("printf([^;]*);", '$parser_result .= sprintf\\1;', $parser_php);
+					$parser_php = preg_replace ("#echo([^;]*);#i", '$parser_result .=\\1;', $parser_php);
+					$parser_php = preg_replace ("#print([^;]*);#i", '$parser_result .=\\1;', $parser_php);
+					$parser_php = preg_replace ("#printf([^;]*);#i", '$parser_result .= sprintf\\1;', $parser_php);
 					
 					// Split the PHP script into lines
 					$parser_lines = explode (";", $parser_php);
@@ -202,7 +202,7 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 			else
 			{
 				// Add beacon image for logging
-				if (ereg ("Mozilla/(1|2|3|4)", $HTTP_SERVER_VARS['HTTP_USER_AGENT']) && !ereg("compatible", $HTTP_SERVER_VARS['HTTP_USER_AGENT']))
+				if (preg_match("#Mozilla/(1|2|3|4)#", $HTTP_SERVER_VARS['HTTP_USER_AGENT']) && !preg_match("#compatible#", $HTTP_SERVER_VARS['HTTP_USER_AGENT']))
 				{
 					$outputbuffer .= '<layer id="beacon_'.$row['bannerid'].'" width="0" height="0" border="0" visibility="hide">';
 					$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&amp;clientid='.$row['clientid'].'&amp;zoneid='.$row['zoneid'].'&amp;source='.$source.'&amp;block='.$row['block'].'&amp;capping='.$row['capping'].'&amp;cb='.md5(uniqid('', 1)).'\' width=\'0\' height=\'0\' alt=\'\'>';

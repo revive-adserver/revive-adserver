@@ -153,7 +153,7 @@ if ($found)
 			$row['url']      = str_replace ('{timestamp}', time(), $row['url']);
 			
 			// Determine cachebuster
-			if (eregi ('\{random(:([1-9])){0,1}\}', $row['imageurl'], $matches))
+			if (preg_match ('#\{random(:([1-9])){0,1}\}#i', $row['imageurl'], $matches))
 			{
 				if ($matches[1] == "")
 					$randomdigits = 8;
@@ -164,7 +164,7 @@ if ($found)
 				$row['imageurl'] = str_replace ($matches[0], $randomnumber, $row['imageurl']);
 			}
 			
-			if (eregi ('\{random(:([1-9])){0,1}\}', $row['url'], $matches))
+			if (preg_match ('#\{random(:([1-9])){0,1}\}#i', $row['url'], $matches))
 			{
 				if (!isset($randomnumber) || $randomnumber == '')
 				{
@@ -204,7 +204,7 @@ if ($found)
 		case 'sql':
 			$cookie['dest'] = $row['url'];
 			
-			if (ereg ("Mozilla/(1|2|3|4)", $HTTP_SERVER_VARS['HTTP_USER_AGENT']) && !ereg("compatible", $HTTP_SERVER_VARS['HTTP_USER_AGENT']))
+			if (preg_match ("#Mozilla/(1|2|3|4)#", $HTTP_SERVER_VARS['HTTP_USER_AGENT']) && !preg_match("#compatible#", $HTTP_SERVER_VARS['HTTP_USER_AGENT']))
 			{
 				// Workaround for Netscape 4 problem
 				// with animated GIFs. Redirect to

@@ -134,17 +134,17 @@ function phpads_logCheckHost()
 	
 	if (count($phpAds_config['ignore_hosts']))
 	{
-		$hosts = "(".implode ('|',$phpAds_config['ignore_hosts']).")$";
+		$hosts = "#(".implode ('|',$phpAds_config['ignore_hosts']).")$#i";
 		
 		if ($hosts != '')
 		{
 			$hosts = str_replace (".", '\.', $hosts);
 			$hosts = str_replace ("*", '[^.]+', $hosts);
 			
-			if (eregi($hosts, $HTTP_SERVER_VARS['REMOTE_ADDR']))
+			if (preg_match($hosts, $HTTP_SERVER_VARS['REMOTE_ADDR']))
 				return false;
 			
-			if (eregi($hosts, $HTTP_SERVER_VARS['REMOTE_HOST']))
+			if (preg_match($hosts, $HTTP_SERVER_VARS['REMOTE_HOST']))
 				return false;
 		}
 	}

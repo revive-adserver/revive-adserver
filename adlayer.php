@@ -81,9 +81,9 @@ function phpAds_getUserAgent()
 {
 	global $HTTP_SERVER_VARS;
 	
-	if (ereg('MSIE ([0-9].[0-9]{1,2})(.*Opera ([0-9].[0-9]{1,2}))?', $HTTP_SERVER_VARS['HTTP_USER_AGENT'], $log_version))
+	if (preg_match('#MSIE ([0-9].[0-9]{1,2})(.*Opera ([0-9].[0-9]{1,2}))?#', $HTTP_SERVER_VARS['HTTP_USER_AGENT'], $log_version))
 	{
-		if ($log_version[3])
+		if (isset($log_version[3]))
 		{
 			$ver = $log_version[3];
 			$agent = 'Opera';
@@ -94,17 +94,17 @@ function phpAds_getUserAgent()
 			$agent = 'IE';
 		}
 	}
-	elseif (ereg('Opera ([0-9].[0-9]{1,2})', $HTTP_SERVER_VARS['HTTP_USER_AGENT'], $log_version))
+	elseif (preg_match('#Opera ([0-9].[0-9]{1,2})#', $HTTP_SERVER_VARS['HTTP_USER_AGENT'], $log_version))
 	{
 		$ver = $log_version[1];
 		$agent = 'Opera';
 	}
-	elseif (ereg('Mozilla/([0-9].[0-9]{1,2})', $HTTP_SERVER_VARS['HTTP_USER_AGENT'], $log_version))
+	elseif (preg_match('#Mozilla/([0-9].[0-9]{1,2})#', $HTTP_SERVER_VARS['HTTP_USER_AGENT'], $log_version))
 	{
 		$ver = $log_version[1];
 		$agent = 'Mozilla';
 	}
-	elseif (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Konqueror') && ereg('([0-9].[0-9]{1,2})', $HTTP_SERVER_VARS['HTTP_USER_AGENT'], $log_version))
+	elseif (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Konqueror') && preg_match('#([0-9].[0-9]{1,2})#', $HTTP_SERVER_VARS['HTTP_USER_AGENT'], $log_version))
 	{
 		$ver = $log_version[1];
 		$agent = 'Konqueror';

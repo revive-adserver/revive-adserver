@@ -43,7 +43,7 @@ function phpAds_cacheStore ($name, $cache)
 	
 	$cache_literal  = "<"."?php\n\n";
 	
-	ereg ("^([0-9]{1})\.([0-9]{1})\.([0-9]{1,2})", phpversion(), $matches);
+	preg_match ("#^([0-9]{1})\.([0-9]{1})\.([0-9]{1,2})#", phpversion(), $matches);
 	$phpversion = sprintf ("%01d%01d%02d", $matches[1], $matches[2], $matches[3]);
 	
 	if ($phpversion >= 4200)
@@ -84,7 +84,7 @@ function phpAds_cacheDelete ($name='')
 		
 		while (false !== ($filename = @readdir($cachedir)))
 		{
-			if (eregi('cache-[0-9A-F]{32}.php', $filename))
+			if (preg_match('#^cache-[0-9A-F]{32}.php$#i', $filename))
 				@unlink (phpAds_path.'/cache/'.$filename);
 		}
 		
@@ -102,7 +102,7 @@ function phpAds_cacheInfo ()
 	
 	while (false !== ($filename = @readdir($cachedir)))
 	{
-		if (eregi('cache-[0-9A-F]{32}.php', $filename))
+		if (preg_match('#^cache-[0-9A-F]{32}.php$#i', $filename))
 		{
 			$cache_complete = false;
 			$cache_contents	= '';

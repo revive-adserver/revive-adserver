@@ -183,6 +183,11 @@ if (phpAds_isUser(phpAds_Admin))
 		}
 		
 		
+		// Check for PREG extention
+		if (!function_exists('preg_match'))
+			$fatal[] = $strWarningPREG;
+		
+		
 		// Check if config file is writable
 		if (!phpAds_isConfigWritable())
 			$fatal[] = $strConfigLockedDetected;

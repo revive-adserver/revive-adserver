@@ -93,7 +93,7 @@ function phpAds_buildQuery ($part, $lastpart, $precondition)
 			if($part_array[$k] != '' && $part_array[$k] != ' ')
 			{
 				// Banner dimensions
-				if(ereg('^[0-9]+x[0-9]+$', $part_array[$k]))
+				if(preg_match('#^[0-9]+x[0-9]+$#', $part_array[$k]))
 				{
 					list($width, $height) = explode('x', $part_array[$k]);
 						
@@ -124,7 +124,7 @@ function phpAds_buildQuery ($part, $lastpart, $precondition)
 				}
 				
 				// Banner ID
-				elseif ((substr($part_array[$k], 0, 9) == 'bannerid:') || (ereg('^[0-9]+$', $part_array[$k])))
+				elseif ((substr($part_array[$k], 0, 9) == 'bannerid:') || (preg_match('#^[0-9]+$#', $part_array[$k])))
 				{
 					if (substr($part_array[$k], 0, 9) == 'bannerid:')
 						$part_array[$k] = substr($part_array[$k], 9);
