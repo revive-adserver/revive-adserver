@@ -234,6 +234,8 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-04-19:  Last modified header in lib-cache.inc.php caused problems in Opera  (Niels)
 			  - 2002-04-19:  Expire header in lib-cache.inc.php caused problems in Netscape  (Niels)
 			  - 2002-04-28:  Fixed some remaining E_ALL errors  (Niels)
+			  - 2002-04-02:  Fixed problem which caused HTML to be mangled when target= was part of an URL  (Niels)
+			  - 2002-04-02:  Moving zones now works again  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
