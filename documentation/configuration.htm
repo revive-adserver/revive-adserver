@@ -165,6 +165,54 @@ a:hover { color: #333366; text-decoration: underline; }
   be logged and won't be used if there are still active banners left in the database. 
   Be aware this default banner should only be used as a failsafe, not as a regular 
   banner. This is turned off by default.</p>
+<h3>Banner storage and types</h3>
+<h4>$phpAds_type_sql_allow<br>
+  $phpAds_type_web_allow<br>
+  $phpAds_type_url_allow<br>
+  $phpAds_type_html_allow</h4>
+<p>phpAdsNew can use different types of banners and store them in different ways. 
+  The first two options are used for local storage of banners. You can use the 
+  admin interface to upload a banner and phpAdsNew will store the banner in the 
+  SQL database (option 1) or on a webserver (option 2). You can also use a banner 
+  stored on a different webserver (option 3) or use html to generate a banner 
+  (option 4). You can disable any one of these types by altering these settings. 
+  By default all bannertypes are turned on.</p>
+<p>If you disable a certain banner type while there are still banners available 
+  of the this type, phpAdsNew will allow the use of these banners, but will not 
+  allow the creation of new banners of this type.</p>
+<h4>$phpAds_type_web_mode</h4>
+<p>If you want to use banners stored on the webserver, you need to configure this 
+  setting. If you want to store the banners in a local directory set this option 
+  to 0. If you want to store the banner on an external FTP server set this option 
+  to 1. On certain webservers you may want to use the FTP option even on the local 
+  webserver. </p>
+<h4>$phpAds_type_web_dir</h4>
+<p>Specify the directory where phpAdsNew needs to copy the uploaded banners to. 
+  This directory needs to be writable for PHP, this could mean you need to modify 
+  the UNIX permissions for this directory (chmod). The directory you specify here 
+  needs to be in the webserver' document root, the webserver must be able to serve 
+  the files directly. Do not specify a trailing slash (/). You only need to configure 
+  this option if you have set $phpAds_type_web_mode to 0. </p>
+<h4>$phpAds_type_web_ftp</h4>
+<p>Specify the FTP server where phpAdsNew needs to copy the uploaded banners to. 
+  The directory you specify here needs to be in the webserver' document root, 
+  the webserver must be able to serve the files directly. The URL you specify 
+  here can include an username, a password, the server name and the path. </p>
+<pre>ftp://phpads:1234@ftp.phpads.com/www/ads</pre>
+<p>phpAdsNew will try to log in using username &quot;phpads&quot;, password &quot;1234&quot; 
+  on the ftp server called &quot;ftp.phpads.com&quot; and will try to upload the 
+  banners in the directory &quot;www/ads&quot;. If you don't specify a directory 
+  phpAdsNew will upload the banner to the root directory of the FTP server. If 
+  you don't specify a username and password phpAdsNew will try to login as an 
+  anonymous user with the administrators e-mail address. It is not recommended 
+  to store you banners on an FTP server which can be accessed by anonymous users!!! 
+  Do not specify a trailing slash (/). You only need to configure this option 
+  if you have set $phpAds_type_web_mode to 1. </p>
+<h4>$phpAds_type_web_url</h4>
+<p>If you store banners on a webserver, phpAdsNew needs to know which public URL 
+  corresponds with the directory you specifed above. Do not specify a trailing 
+  slash(/). You need to configure this option if you have set $phpAds_type_web_mode 
+  to 0 or 1.</p>
 <h3>Administrator configuration</h3>
 <h4>$phpAds_admin</h4>
 <p>The administrator username, you can specify the username that you can use to 
