@@ -73,6 +73,9 @@ $phpAds_config['p3p_policy_location'] = '';
 // Use compact or verbose statistics
 $phpAds_config['compact_stats'] = false;
 
+// Use beacons to log adviews
+$phpAds_config['log_beacon'] = true;
+
 // Enabled logging of adviews?
 $phpAds_config['log_adviews'] = true;
 

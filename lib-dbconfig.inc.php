@@ -15,8 +15,8 @@
 
 
 // Current phpAds version
-$phpAds_version = 200.064;
-$phpAds_version_readable = "2 dev 20112001/CM";
+$phpAds_version = 200.065;
+$phpAds_version_readable = "2 dev 02122002/CM";
 
 $phpAds_settings_information = array(
 	'dbhost' => 					array ('type' => 'string', 	'sql' => false),
@@ -52,6 +52,7 @@ $phpAds_settings_information = array(
 	'mult_key' =>	 				array ('type' => 'boolean', 'sql' => false),
 	'acl' =>  						array ('type' => 'boolean', 'sql' => false),
 	'compact_stats' =>				array ('type' => 'boolean', 'sql' => false),
+	'log_beacon' =>					array ('type' => 'boolean', 'sql' => false),
 	'log_adviews' =>				array ('type' => 'boolean', 'sql' => false),
 	'log_adclicks' => 				array ('type' => 'boolean', 'sql' => false),
 	'reverse_lookup' =>				array ('type' => 'boolean', 'sql' => false),

@@ -1023,10 +1023,19 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 					$outputbuffer .= '<br><a href=\''.$phpAds_config['url_prefix'].'/adclick.php?bannerid='.$row['bannerid'].'&zoneid='.$row['zoneid'].'\''.$targettag.$status.'>'.$row['bannertext'].'</a>';
 			}
 			
-			
 			// Log this AdView
 			if (!empty($row['bannerid']))
-				phpAds_prepareLog($row['bannerid'], $row['clientid'], $row['zoneid']);
+			{
+				if (!$phpAds_config['log_beacon'])
+					phpAds_prepareLog($row['bannerid'], $row['clientid'], $row['zoneid']);
+				else
+				{
+					// Add logging beacon
+					$outputbuffer .= '<layer width=0 height=0>';
+					$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&clientid='.$row['clientid'].'&zoneid='.$row['zoneid'].'&cb='.md5(uniqid('')).'\' width=\'0\' height=\'0\' style=\'width: 0px; height: 0px;\'>';
+					$outputbuffer .= '</ilayer>';
+				}
+			}
 		}
 	}
 	else
