@@ -617,8 +617,8 @@ if (isset($submit))
 	$final['clientid'] = $campaignid;
 	$final['bannerid'] = $bannerid;
 	
-	$final['appendtype'] = addslashes($final['appendtype']);
-	$final['append'] = addslashes($final['append']);
+	$final['appendtype'] = isset($final['appendtype']) ? addslashes($final['appendtype']) : '';
+	$final['append'] = isset($final['append']) ? addslashes($final['append']) : '';
 	
 	
 	if (phpAds_isUser(phpAds_Admin)) 
