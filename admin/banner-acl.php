@@ -198,7 +198,18 @@ $res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE par
 while ($row = phpAds_dbFetchArray($res))
 	$extra .= "<option value='".$row['clientid']."'>".phpAds_buildClientName($row['clientid'], $row['clientname'])."</option>";
 
-$extra .= "</select>&nbsp;<input type='image' src='images/go_blue.gif'><br>";
+$extra .= "</select>&nbsp;<input type='image' name='moveto' src='images/go_blue.gif'><br>";
+$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+$extra .= "<img src='images/icon-duplicate-acl.gif' align='absmiddle'>&nbsp;$strApplyLimitationsTo<br>";
+$extra .= "<img src='images/spacer.gif' height='1' width='160' vspace='2'><br>";
+$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+$extra .= "<select name='applyto' style='width: 110;'>";
+
+$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_banners']." WHERE bannerid != ".$bannerid." AND clientid = ".$campaignid."") or phpAds_sqlDie();
+while ($row = phpAds_dbFetchArray($res))
+	$extra .= "<option value='".$row['bannerid']."'>".phpAds_buildBannerName ($row['bannerid'], $row['description'], $row['alt'])."</option>";
+
+$extra .= "</select>&nbsp;<input type='image' name='applyto' src='images/go_blue.gif'><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 $extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?campaignid=$campaignid&bannerid=$bannerid'".phpAds_DelConfirm($strConfirmDeleteBanner).">$strDelete</a><br>";
 $extra .= "</form>";

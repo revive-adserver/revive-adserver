@@ -10,6 +10,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			+ Added target based priority  (Niels) 20011125
 			+ Added moving of banners, campaigns and zones  (Niels) 20011201
 			+ Added duplication of banners (Niels, thanks to Kelly Cochran) 20011201
+			+ Added ability to apply display limiations to other banners  (Niels) 20011201
 
 			+ Misc changes to library and function names
 			  - Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 20011020

@@ -31,7 +31,7 @@ phpAds_checkAccess(phpAds_Admin);
 
 if (isset($bannerid) && $bannerid != '')
 {
-	if (isset($moveto) && $moveto != '')
+	if (isset($moveto_x) && $moveto != '')
 	{
 		// Move the banner
 		$res = phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_banners']." SET clientid = '".$moveto."' WHERE bannerid = '".$bannerid."'") or phpAds_sqlDie();
@@ -41,6 +41,55 @@ if (isset($bannerid) && $bannerid != '')
 			phpAds_RebuildZoneCache ();
 		
 		Header ("Location: ".$returnurl."?campaignid=".$moveto."&bannerid=".$bannerid);
+	}
+	elseif (isset($applyto_x) && $applyto != '')
+	{
+		// Apply display limitation to
+		
+		// Delete old limitations
+	   	$res = phpAds_dbQuery("
+			DELETE FROM
+				".$phpAds_config['tbl_acls']."
+			WHERE
+				bannerid = ".$applyto."
+		") or phpAds_sqlDie();
+		
+		// Load source limitation
+		$res = phpAds_dbQuery("
+		   SELECT
+	   	      *
+	   	   FROM
+	   	      ".$phpAds_config['tbl_acls']."
+	   	   WHERE
+	   	      bannerid = ".$bannerid."
+   	    ") or phpAds_sqlDie();
+		
+	   	while ($row = phpAds_dbFetchArray($res))
+	   	{
+	   		$values_fields = '';
+	   		$values = '';
+	   		
+			$row['bannerid'] = $applyto;
+	   		
+			while (list($name, $value) = each($row))
+			{
+				$values_fields .= "$name, ";
+				$values .= "'".addslashes($value)."', ";
+			}
+			
+ 			$values_fields = ereg_replace(", $", "", $values_fields);
+			$values = ereg_replace(", $", "", $values);
+			
+			phpAds_dbQuery("
+				INSERT INTO
+					".$phpAds_config['tbl_acls']."
+					($values_fields)
+				VALUES
+					($values)
+			") or phpAds_sqlDie();
+		}
+		
+		Header ("Location: ".$returnurl."?campaignid=".$campaignid."&bannerid=".$applyto);
 	}
 	elseif (isset($duplicate) && $duplicate == 'true')
 	{
