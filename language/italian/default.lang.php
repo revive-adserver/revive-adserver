@@ -336,7 +336,7 @@ $GLOBALS['strZonesWithoutAffiliate']		= "Zone senza editore";
 $GLOBALS['strMoveToNewAffiliate']			= "Muovi verso un nuovo editore";
 $GLOBALS['strNoAffiliates']					= "Non &egrave; ancora stato creato nessun editore";
 $GLOBALS['strConfirmDeleteAffiliate']		= "Desideri realmente cancellare questo editore?";
-$GLOBALS['strMakePublisherPublic']			= "Make the zones owned by this publisher publicly available";
+$GLOBALS['strMakePublisherPublic']			= "Rendi pubblicamente disponibili le zone di questo editore";
 
 
 // Publisher (properties)
