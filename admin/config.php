@@ -142,8 +142,7 @@ $phpAds_nav = array (
 		  "4.3" 			=> 	array("admin-generate.php" => $strGenerateBannercode),
 		  "4.4"				=>  array("admin-priority.php" => $strPriority),
 		"5"					=> 	array("settings-index.php" => $strSettings),
-		  "5.1" 			=> 	array("settings-db.php" => $strMainSettings),
-		  "5.2" 			=> 	array("settings-admin.php" => $strAdminSettings)
+		  "5.1" 			=> 	array("settings-db.php" => $strMainSettings)
 	),
 
 	"client" => array (

@@ -79,7 +79,7 @@ $phpAds_settings_show_submit = !$phpAds_config_locked;
 /* Start a settings section                              */
 /*********************************************************/
 
-function phpAds_SettingsSelection($parent, $section)
+function phpAds_SettingsSelection($section)
 {
 	global $phpAds_settings_sections;
 
@@ -104,20 +104,13 @@ function settings_goto_section()
         :&nbsp;</b> 
         <select name='section' onChange='settings_goto_section();'>
           <?php
-
-	if ($parent == 'main')
-	{
-		echo "<option value='db'".($section == 'db' ? ' selected' : '').">".$phpAds_settings_sections["1.1"]."</option>";
-		echo "<option value='invocation'".($section == 'invocation' ? ' selected' : '').">".$phpAds_settings_sections["1.2"]."</option>";
-		echo "<option value='banner'".($section == 'banner' ? ' selected' : '').">".$phpAds_settings_sections["1.3"]."</option>";
-		echo "<option value='stats'".($section == 'stats' ? ' selected' : '').">".$phpAds_settings_sections["1.4"]."</option>";
-	}
-	elseif ($parent == 'admin')
-	{
-		echo "<option value='admin'".($section == 'admin' ? ' selected' : '').">".$phpAds_settings_sections["2.1"]."</option>";
-		echo "<option value='interface'".($section == 'interface' ? ' selected' : '').">".$phpAds_settings_sections["2.2"]."</option>";
-		echo "<option value='defaults'".($section == 'defaults' ? ' selected' : '').">".$phpAds_settings_sections["2.3"]."</option>";
-	}
+			echo "<option value='db'".($section == 'db' ? ' selected' : '').">".$phpAds_settings_sections["1.1"]."</option>";
+			echo "<option value='invocation'".($section == 'invocation' ? ' selected' : '').">".$phpAds_settings_sections["1.2"]."</option>";
+			echo "<option value='banner'".($section == 'banner' ? ' selected' : '').">".$phpAds_settings_sections["1.3"]."</option>";
+			echo "<option value='stats'".($section == 'stats' ? ' selected' : '').">".$phpAds_settings_sections["1.4"]."</option>";
+			echo "<option value='admin'".($section == 'admin' ? ' selected' : '').">".$phpAds_settings_sections["2.1"]."</option>";
+			echo "<option value='interface'".($section == 'interface' ? ' selected' : '').">".$phpAds_settings_sections["2.2"]."</option>";
+			echo "<option value='defaults'".($section == 'defaults' ? ' selected' : '').">".$phpAds_settings_sections["2.3"]."</option>";
 ?>
         </select>
         &nbsp;<a href='javascript:void(0)' onClick='settings_goto_section();'><img src='images/go_blue.gif' border='0'></a> 
@@ -151,7 +144,7 @@ function phpAds_settings_start_section($section)
 	
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
   <tr> 
-    <td height='25' colspan='3'><img src="<?php echo "images/icon-${icon}.gif"; ?>" width="16" height="16" align="absmiddle">&nbsp;<b> 
+    <td height='25' colspan='3'><img src="<?php echo "images/icon-".$icon.".gif"; ?>" width="16" height="16" align="absmiddle">&nbsp;<b> 
       <?php echo $title?>
       </b></td>
   </tr>

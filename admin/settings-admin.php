@@ -92,9 +92,9 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 phpAds_PrepareHelp();
 if (isset($message))
 	phpAds_ShowMessage($message);
-phpAds_PageHeader("5.2");
-phpAds_ShowSections(array("5.1", "5.2"));
-phpAds_SettingsSelection("admin", "admin");
+phpAds_PageHeader("5.1");
+phpAds_ShowSections(array("5.1"));
+phpAds_SettingsSelection("admin");
 
 
 

@@ -78,9 +78,9 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 /*********************************************************/
 
 phpAds_PrepareHelp();
-phpAds_PageHeader("5.1", $extra);
-phpAds_ShowSections(array("5.1", "5.2"));
-phpAds_SettingsSelection("main", "db");
+phpAds_PageHeader("5.1");
+phpAds_ShowSections(array("5.1"));
+phpAds_SettingsSelection("db");
 
 
 
