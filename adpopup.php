@@ -48,8 +48,6 @@ require (phpAds_path."/lib-cache.inc.php");
 
 function enjavanateOld ($str, $limit = 60)
 {
-	$str   = str_replace("\r", '', $str);
-	
 	print "\n\t\tvar phpadsbanner = '';\n";
 	
 	while (strlen($str) > 0)
@@ -57,8 +55,11 @@ function enjavanateOld ($str, $limit = 60)
 		$line = substr ($str, 0, $limit);
 		$str  = substr ($str, $limit);
 		
+		$line = str_replace('\\', "\\\\", $line);
 		$line = str_replace('\'', "\\'", $line);
+		$line = str_replace("\r", '', $line);
 		$line = str_replace("\n", "\\n", $line);
+		$line = str_replace("\t", "\\t", $line);
 		
 		print "\t\tphpadsbanner += '$line';\n";
 	}
@@ -69,8 +70,8 @@ function enjavanateOld ($str, $limit = 60)
 function enjavanateCode ($str, $limit = 60)
 {
 	global $windowid;
-
-	$str   = str_replace("\r", '', $str);
+	
+	$str = str_replace("\r", '', $str);
 	
 	while (strlen($str) > 0)
 	{
@@ -83,9 +84,11 @@ function enjavanateCode ($str, $limit = 60)
 			$str = substr($str, 1);
 		}
 		
+		$line = str_replace('\\', "\\\\", $line);
 		$line = str_replace('\'', "\\'", $line);
-		$line = str_replace("\t", "\\t", $line);
+		$line = str_replace("\r", '', $line);
 		$line = str_replace("\n", "\\n", $line);
+		$line = str_replace("\t", "\\t", $line);
 		
 		echo "\t\t".$windowid.".document.write('$line');\n";
 	}
@@ -93,28 +96,29 @@ function enjavanateCode ($str, $limit = 60)
 
 function enjavanateBanner ($output, $limit = 60)
 {
-	$str   = str_replace("\r", '', $output['html']);
-	
+	$str = $output['html'];
 	$ret =  "\tvar phpadsbanner = '';\n";
 	
 	while (strlen($str) > 0)
 	{
 		$line = substr ($str, 0, $limit);
 		$str  = substr ($str, $limit);
-
-		$line = str_replace('\'', "\\\\'", $line);
-		$line = str_replace("\t", "\\\\t", $line);
-		$line = str_replace("\n", "\\\\n", $line);
+		
+		$line = str_replace('\\', "\\\\", $line);
+		$line = str_replace('\'', "\\'", $line);
+		$line = str_replace("\r", '', $line);
+		$line = str_replace("\n", "\\n", $line);
+		$line = str_replace("\t", "\\t", $line);
 		
 		$ret .= "\tphpadsbanner += '$line';\n";
 	}
-
+	
 	$ret .= "\n\tdocument.write('<html><head><title>');\n";
 	$ret .= "\tdocument.write('".($output['alt'] ? $output['alt'] : 'Advertisement')."');\n";
 	$ret .= "\tdocument.write('</title></head>');\n";
 	$ret .= "\tdocument.write('<body leftmargin=\"0\" topmargin=\"0\" marginwidth=\"0\" marginheight=\"0\">');\n";
 	$ret .= "\tdocument.write(phpadsbanner);\n";
-
+	
 	return $ret;
 }
 
@@ -170,7 +174,7 @@ if (!window.<?php echo $windowid; ?>)
 		if (strstr($HTTP_USER_AGENT, 'MSIE') && !strstr($HTTP_USER_AGENT, 'Opera'))
 		{
 			echo enjavanateCode("<html><head>")."\n";
-
+			
 			echo enjavanateCode("<script language='JavaScript'>");
 			echo enjavanateCode("function showbanner() {");		
 			echo enjavanateCode(enjavanateBanner($output)); 
@@ -183,7 +187,7 @@ if (!window.<?php echo $windowid; ?>)
 		else
 		{
 			enjavanateOld($output['html']);
-
+			
 			echo enjavanateCode("<html><head><title>");
 			echo enjavanateCode($output['alt'] ? $output['alt'] : 'Advertisement');
 			echo enjavanateCode("</title></head>");
