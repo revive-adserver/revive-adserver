@@ -481,16 +481,27 @@ function phpAds_getBannerCode ($bannerid)
 /* Build the HTML needed to display a banner             */
 /*********************************************************/
 
-function phpAds_buildBannerCode ($bannerid, $banner, $active, $format, $width, $height, $bannertext)
+function phpAds_buildBannerCode ($bannerid)
 {
-	global $strShowBanner;
+	global $strShowBanner, $strLogin;
 	global $phpAds_config;
 	
-	if ($active == "t")
+	$res = phpAds_dbQuery ("
+		SELECT
+			*
+		FROM
+			".$phpAds_config['tbl_banners']."
+		WHERE
+			bannerid = ".$bannerid."
+	");
+	
+	$row = phpAds_dbFetchArray($res);
+	
+	if ($row['active'] == "t")
 	{
-		if ($format == "html")
+		if ($row['storagetype'] == "html")
 		{
-			$htmlcode 	= str_replace ("\n", '', stripslashes ($banner));
+			$htmlcode 	= str_replace ("\n", '', stripslashes ($row['htmltemplate']));
 			$htmlcode   = strlen($htmlcode) > 500 ? substr ($htmlcode, 0, 500)."..." : $htmlcode;
 			$htmlcode	= chunk_split ($htmlcode, 65, "\n");
 			$htmlcode   = str_replace("\n", "<br>\n", htmlspecialchars ($htmlcode));
@@ -501,47 +512,94 @@ function phpAds_buildBannerCode ($bannerid, $banner, $active, $format, $width, $
 			$buffer    .= "\n</td>";
 			$buffer    .= "<td width='20%' valign='top' align='right' nowrap>&nbsp;&nbsp;";
 			$buffer	   .= "<a href='banner-htmlpreview.php?bannerid=$bannerid' target='_new' ";
-			$buffer	   .= "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=$bannerid', '', 'status=no,scrollbars=no,resizable=no,width=".($width+64).",height=".($bannertext ? $height+80 : $height+64)."');\">";
+			$buffer	   .= "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=".$bannerid."', '', 'status=no,scrollbars=no,resizable=no,width=".($row['width']+64).",height=".($row['bannertext'] ? $row['height']+80 : $row['height']+64)."');\">";
 			$buffer    .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strShowBanner."</a>&nbsp;&nbsp;</td>";
 			$buffer	   .= "</tr></table>";
 		}
-		elseif($format == "url" || $format == "web")
+		
+		
+		elseif($row['storagetype'] == 'network')
 		{
-			if (eregi("swf$", $banner))
+			if (ereg("\[title\]([^\[]*)\[\/title\]", $row['htmltemplate'], $matches))
+				$title = $matches[1];
+			
+			if (ereg("\[logo\](.*)\[\/logo\]", $row['htmltemplate'], $matches))
+				$logo = $matches[1];
+			
+			if (ereg("\[login\](.*)\[\/login\]", $row['htmltemplate'], $matches))
+				$login = $matches[1];
+			
+			$buffer  = "<img src='images/break-l.gif' height='1' width='468' vspace='6'>";
+			$buffer .= "<table width='468' cellpadding='0' cellspacing='0' border='0'><tr>";
+			$buffer .= "<td valign='bottom'><img src='networks/logos/".$logo."'>&nbsp;&nbsp;&nbsp;</td>";
+			$buffer .= "<td valign='bottom' align='right'><br><b>".$title."</b>&nbsp;&nbsp;&nbsp;<a href='".$login."' target='_blank'>";
+			$buffer .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0' vspace='2'> ".$strLogin."</a></td>";
+			$buffer .= "</tr></table>";
+			$buffer .= "<img src='images/break-l.gif' height='1' width='468' vspace='6'>";
+		}
+		
+		
+		elseif($row['storagetype'] == 'web')
+		{
+			if ($row['contenttype'] == 'swf')
 			{
 				$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
 				$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
-				$buffer .= "swflash.cab#version=5,0,0,0' width='$width' height='$height'>";
-				$buffer .= "<param name='movie' value='$banner'>";
+				$buffer .= "swflash.cab#version=5,0,0,0' width='".$row['width']."' height='".$row['height']."'>";
+				$buffer .= "<param name='movie' value='".$phpAds_config['type_web_url']."/".$row['filename']."'>";
 				$buffer .= "<param name='quality' value='high'>";
-				$buffer .= "<embed src='$banner' quality=high ";
-				$buffer .= "bgcolor='#FFFFFF' width='$width' height='$height' type='application/x-shockwave-flash' ";
+				$buffer .= "<embed src='".$phpAds_config['type_web_url']."/".$row['filename']."' quality=high ";
+				$buffer .= "bgcolor='#FFFFFF' width='".$row['width']."' height='".$row['height']."' type='application/x-shockwave-flash' ";
 				$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
 				$buffer .= "</object>";
 			}
 			else
-				$buffer = "<img src='$banner' width='$width' height='$height'>";
+				$buffer = "<img src='".$phpAds_config['type_web_url']."/".$row['filename']."' width='".$row['width']."' height='".$row['height']."'>";
 		}
-		elseif($format == "swf")
+		
+		
+		elseif($row['storagetype'] == 'url')
 		{
-			$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
-			$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
-			$buffer .= "swflash.cab#version=5,0,0,0' width='$width' height='$height'>";
-			$buffer .= "<param name='movie' value='../adview.php?bannerid=$bannerid'>";
-			$buffer .= "<param name='quality' value='high'>";
-			$buffer .= "<embed src='../adview.php?bannerid=$bannerid' quality=high ";
-			$buffer .= "bgcolor='#FFFFFF' width='$width' height='$height' type='application/x-shockwave-flash' ";
-			$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
-			$buffer .= "</object>";
+			if ($row['contenttype'] == 'swf')
+			{
+				$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
+				$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
+				$buffer .= "swflash.cab#version=5,0,0,0' width='".$row['width']."' height='".$row['height']."'>";
+				$buffer .= "<param name='movie' value='".$row['filename']."'>";
+				$buffer .= "<param name='quality' value='high'>";
+				$buffer .= "<embed src='".$row['filename']."' quality=high ";
+				$buffer .= "bgcolor='#FFFFFF' width='".$row['width']."' height='".$row['height']."' type='application/x-shockwave-flash' ";
+				$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
+				$buffer .= "</object>";
+			}
+			else
+				$buffer = "<img src='".$row['filename']."' width='".$row['width']."' height='".$row['height']."'>";
 		}
+		
+		
 		else
-			$buffer = "<img src='../adview.php?bannerid=$bannerid' width='$width' height='$height'>";
+		{
+			if($row['contenttype'] == "swf")
+			{
+				$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
+				$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
+				$buffer .= "swflash.cab#version=5,0,0,0' width='".$row['width']."' height='".$row['height']."'>";
+				$buffer .= "<param name='movie' value='../adview.php?bannerid=".$row['bannerid']."'>";
+				$buffer .= "<param name='quality' value='high'>";
+				$buffer .= "<embed src='../adview.php?bannerid=".$row['bannerid']."' quality=high ";
+				$buffer .= "bgcolor='#FFFFFF' width='".$row['width']."' height='".$row['height']."' type='application/x-shockwave-flash' ";
+				$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
+				$buffer .= "</object>";
+			}
+			else
+				$buffer = "<img src='../adview.php?bannerid=".$row['bannerid']."' width='".$row['width']."' height='".$row['height']."'>";
+		}
 	}
 	else
 	{
-		if ($format == "html")
+		if ($row['storagetype'] == "html")
 		{
-			$htmlcode 	= str_replace ("\n", '', stripslashes ($banner));
+			$htmlcode 	= str_replace ("\n", '', stripslashes ($row['htmltemplate']));
 			$htmlcode   = strlen($htmlcode) > 500 ? substr ($htmlcode, 0, 500)."..." : $htmlcode;
 			$htmlcode	= chunk_split ($htmlcode, 65, "\n");
 			$htmlcode   = str_replace("\n", "<br>\n", htmlspecialchars ($htmlcode));
@@ -552,41 +610,88 @@ function phpAds_buildBannerCode ($bannerid, $banner, $active, $format, $width, $
 			$buffer    .= "\n</td>";
 			$buffer    .= "<td width='20%' valign='top' align='right' nowrap>&nbsp;&nbsp;";
 			$buffer	   .= "<a href='banner-htmlpreview.php?bannerid=$bannerid' target='_new' ";
-			$buffer	   .= "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=$bannerid', '', 'status=no,scrollbars=no,resizable=no,width=$width,height=$height');\">";
+			$buffer	   .= "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=".$bannerid."', '', 'status=no,scrollbars=no,resizable=no,width=".($row['width']+64).",height=".($row['bannertext'] ? $row['height']+80 : $row['height']+64)."');\">";
 			$buffer    .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strShowBanner."</a>&nbsp;&nbsp;</td>";
 			$buffer	   .= "</tr></table>";
 		}
-		elseif($format == "url" || $format == "web")
+		
+		
+		elseif($row['storagetype'] == 'network')
 		{
-			if (eregi("swf$", $banner))
+			if (ereg("\[title\]([^\[]*)\[\/title\]", $row['htmltemplate'], $matches))
+				$title = $matches[1];
+			
+			if (ereg("\[logo\](.*)\[\/logo\]", $row['htmltemplate'], $matches))
+				$logo = $matches[1];
+			
+			if (ereg("\[login\](.*)\[\/login\]", $row['htmltemplate'], $matches))
+				$login = $matches[1];
+			
+			$buffer  = "<img src='images/break-l.gif' height='1' width='468' vspace='6'>";
+			$buffer .= "<table width='468' cellpadding='0' cellspacing='0' border='0' style='filter: Alpha(Opacity=50)'><tr>";
+			$buffer .= "<td valign='bottom'><img src='networks/logos/".$logo."'>&nbsp;&nbsp;&nbsp;</td>";
+			$buffer .= "<td valign='bottom' align='right'><br><b>".$title."</b>&nbsp;&nbsp;&nbsp;<a href='".$login."' target='_blank'>";
+			$buffer .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0' vspace='2'> ".$strLogin."</a></td>";
+			$buffer .= "</tr></table>";
+			$buffer .= "<img src='images/break-l.gif' height='1' width='468' vspace='6'>";
+		}
+		
+		
+		elseif($row['storagetype'] == 'web')
+		{
+			if ($row['contenttype'] == 'swf')
 			{
 				$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
 				$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
-				$buffer .= "swflash.cab#version=5,0,0,0' width='$width' height='$height'>";
-				$buffer .= "<param name='movie' value='$banner'>";
+				$buffer .= "swflash.cab#version=5,0,0,0' width='".$row['width']."' height='".$row['height']."'>";
+				$buffer .= "<param name='movie' value='".$phpAds_config['type_web_url']."/".$row['filename']."'>";
 				$buffer .= "<param name='quality' value='high'>";
-				$buffer .= "<embed src='$banner' quality=high ";
-				$buffer .= "bgcolor='#FFFFFF' width='$width' height='$height' type='application/x-shockwave-flash' ";
+				$buffer .= "<embed src='".$phpAds_config['type_web_url']."/".$row['filename']."' quality=high ";
+				$buffer .= "bgcolor='#FFFFFF' width='".$row['width']."' height='".$row['height']."' type='application/x-shockwave-flash' ";
 				$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
 				$buffer .= "</object>";
 			}
 			else
-				$buffer = "<img src='$banner' width='$width' height='$height' style='filter: Alpha(Opacity=50)'>";
+				$buffer = "<img src='".$phpAds_config['type_web_url']."/".$row['filename']."' width='".$row['width']."' height='".$row['height']."' style='filter: Alpha(Opacity=50)'>";
 		}
-		elseif($format == "swf")
+		
+		
+		elseif($row['storagetype'] == 'url')
 		{
-			$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
-			$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
-			$buffer .= "swflash.cab#version=5,0,0,0' width='$width' height='$height'>";
-			$buffer .= "<param name='movie' value='../adview.php?bannerid=$bannerid'>";
-			$buffer .= "<param name='quality' value='high'>";
-			$buffer .= "<embed src='../adview.php?bannerid=$bannerid' quality=high ";
-			$buffer .= "bgcolor='#FFFFFF' width='$width' height='$height' type='application/x-shockwave-flash' ";
-			$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
-			$buffer .= "</object>";
+			if ($row['contenttype'] == 'swf')
+			{
+				$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
+				$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
+				$buffer .= "swflash.cab#version=5,0,0,0' width='".$row['width']."' height='".$row['height']."'>";
+				$buffer .= "<param name='movie' value='".$row['filename']."'>";
+				$buffer .= "<param name='quality' value='high'>";
+				$buffer .= "<embed src='".$row['filename']."' quality=high ";
+				$buffer .= "bgcolor='#FFFFFF' width='".$row['width']."' height='".$row['height']."' type='application/x-shockwave-flash' ";
+				$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
+				$buffer .= "</object>";
+			}
+			else
+				$buffer = "<img src='".$row['filename']."' width='".$row['width']."' height='".$row['height']."' style='filter: Alpha(Opacity=50)'>";
 		}
+		
+		
 		else
-			$buffer = "<img src='../adview.php?bannerid=$bannerid' width='$width' height='$height' style='filter: Alpha(Opacity=50)'>";
+		{
+			if($row['contenttype'] == "swf")
+			{
+				$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
+				$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
+				$buffer .= "swflash.cab#version=5,0,0,0' width='".$row['width']."' height='".$row['height']."'>";
+				$buffer .= "<param name='movie' value='../adview.php?bannerid=".$row['bannerid']."'>";
+				$buffer .= "<param name='quality' value='high'>";
+				$buffer .= "<embed src='../adview.php?bannerid=".$row['bannerid']."' quality=high ";
+				$buffer .= "bgcolor='#FFFFFF' width='".$row['width']."' height='".$row['height']."' type='application/x-shockwave-flash' ";
+				$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
+				$buffer .= "</object>";
+			}
+			else
+				$buffer = "<img src='../adview.php?bannerid=".$row['bannerid']."' width='".$row['width']."' height='".$row['height']."' style='filter: Alpha(Opacity=50)'>";
+		}
 	}
 	
 	if (!$bannertext == "")
@@ -739,6 +844,15 @@ function phpAds_totalViews($bannerid="", $timeconstraint="")
 	global $phpAds_config;
 	
     return phpAds_totalStats($phpAds_config['tbl_adviews'], "views", $bannerid, $timeconstraint);
+}
+
+function phpAds_htmlQuotes ($string)
+{
+	$string = stripslashes ($string);
+	$string = str_replace ('"', '&quot;', $string);
+	$string = str_replace ("'", '&#039;', $string);
+	
+	return $string;
 }
 
 ?>
