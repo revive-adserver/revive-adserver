@@ -28,7 +28,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 		  	+ Added campaign overview page for advertisers  (Niels) 20020224
 			+ Added campaign auto-targeting when expiration set and adviews purchased  (Matteo) 20020309
 			+ Added the ability to change converted hard coded links inside Flash files  (Niels) 20020314
-			+ Added support for change hard-coded urls in compressed Flash MX files  (Niels) 20020321
+			+ Added support for converting hard-coded urls in compressed Flash MX files  (Niels) 20020321
 
 			+ Misc changes to library and function names
 			  - Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 20011020
@@ -118,6 +118,9 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - phpadsnew.inc.php can now be included more than once without generating errors (Niels) 20020319
 			  - phpAds_config is not automatically globalized in case it is called from a function  (Niels) 20020319
 			  - Updated HTML code to support Flash MX  (Niels) 20020319
+			  - Campaign selection is now default type of linking zones to banners  (Niels) 20020323
+			  - Added unique id (n) to every generated invocation code  (Niels) 20020324
+			  - Changed random seed to include a part of the n parameter  (Niels) 20020324
 
 
 			+ Misc bugfixes
@@ -202,6 +205,12 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: Monthly history now also works with compact stats  (Niels) 20020321
 			  - Bugfix: Changed zonename field size to 245, increasing compatibility with MySQL 3.22.x  (Matteo) 20020322
 			  - Bugfix: Fixed primary key problem for adstats table  (Niels) 20020323
+			  - Bugfix: Width and height weren't added to invocation code during generation  (Niels) 20020323
+			  - Bugfix: First linked banner or campaign added an extra comma to zone contents  (Niels) 20020324
+			  - Bugfix: Campaigns with no matching banner were not shown as linked in zone  (Niels) 20020324
+			  - Bugfix: Zonetype was not saved when adding banners or campaigns to a zone  (Niels) 20020324
+			  - Bugfix: Too many campaigns were shown in the navigation
+			  - Bugfix: Zone cache update now happens after priority is recalculated  (Niels) 20020324
 			  
 
 
