@@ -1,11 +1,11 @@
-<?php // $Id$
+<?php // $Revision$
 
 /************************************************************************/
-/* phpPgAds                                                             */
-/* ========                                                             */
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2001 by the phpPgAds developers                        */
-/* http://sourceforge.net/projects/phppgads                             */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -21,7 +21,7 @@ $GLOBALS['phpAds_CharSet'] = "koi8-r";
 $GLOBALS['strHome'] = "Главная страница";
 $GLOBALS['date_format'] = "%d/%m/%Y";
 $GLOBALS['time_format'] = "%H:%i:%S";
-$GLOBALS['strPgSQLError'] = "PostgreSQL-Error:";
+$GLOBALS['strMySQLError'] = "MySQL-Error:";
 $GLOBALS['strAdminstration'] = "Администрирование";
 $GLOBALS['strAddClient'] = "Добавить клиента";
 $GLOBALS['strModifyClient'] = "Изменить клиента";
@@ -103,7 +103,7 @@ $GLOBALS['strLogErrorClicks'] = "[phpAds] Ошибка доступа к БД кликов.";
 $GLOBALS['strLogErrorDisactivate'] = "[phpAds] Ошибка деактивации баннера.";
 $GLOBALS['strRatio'] = "Рейтинг кликабельности";
 $GLOBALS['strChooseBanner'] = "Выберите тип баннера.";
-$GLOBALS['strPgSQLBanner'] = "Баннер с вашего компьютера помещается в базу данных на сервере";
+$GLOBALS['strMySQLBanner'] = "Баннер с вашего компьютера помещается в базу данных на сервере";
 $GLOBALS['strWebBanner'] = "Баннер с вашего компьютера сохраняется в каталоге на веб-сервере";
 $GLOBALS['strURLBanner'] = "Баннер лежит где-то в Интернет";
 $GLOBALS['strHTMLBanner'] = "Текстовый баннер";

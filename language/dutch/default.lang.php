@@ -1,11 +1,11 @@
-<?php // $Id$
+<?php // $Revision$
 
 /************************************************************************/
-/* phpPgAds                                                             */
-/* ========                                                             */
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2001 by the phpPgAds developers                        */
-/* http://sourceforge.net/projects/phppgads                             */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -17,7 +17,7 @@
 $GLOBALS['strHome'] = "Hoofdpagina";
 $GLOBALS['date_format'] = "%d-%m-%Y";
 $GLOBALS['time_format'] = "%H:%i:%S";
-$GLOBALS['strPgSQLError'] = "PostgreSQL-Fout:";
+$GLOBALS['strMySQLError'] = "MySQL-Fout:";
 $GLOBALS['strAdminstration'] = "Administratie";
 $GLOBALS['strAddClient'] = "Voeg een klant toe";
 $GLOBALS['strModifyClient'] = "Wijzig klant";
@@ -97,7 +97,7 @@ $GLOBALS['strLogErrorClicks'] = "[phpAdsNew] Er is een fout opgetreden. De AdCli
 $GLOBALS['strLogErrorDisactivate'] = "[phpAdsNew] Er is een fout opgetreden. De banner kon niet gedeactiveerd worden.";
 $GLOBALS['strRatio'] = "Click-Through Ratio";
 $GLOBALS['strChooseBanner'] = "Gelieve het type banner te kiezen.";
-$GLOBALS['strPgSQLBanner'] = "Banner opgeslagen in SQL";
+$GLOBALS['strMySQLBanner'] = "Banner opgeslagen in SQL";
 $GLOBALS['strWebBanner'] = "Banner opgeslagen op de Webserver";
 $GLOBALS['strURLBanner'] = "Banner waarnaar verwezen wordt d.m.v. een URL";
 $GLOBALS['strHTMLBanner'] = "HTML-banner";
