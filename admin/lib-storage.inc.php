@@ -560,7 +560,7 @@ function phpAds_FTPSize ($server, $name)
 	{
 		if ($server['path'] != "") @ftp_chdir ($conn_id, $server['path']);
 		
-		$result = @ftp_size ($name);
+		$result = @ftp_size ($conn_id, $name);
 		
 		@fclose($tempfile);
 		@ftp_quit($conn_id);
