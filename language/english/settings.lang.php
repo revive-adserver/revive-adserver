@@ -74,6 +74,7 @@ $GLOBALS['strUpgrade']					= "Upgrade";
 $GLOBALS['strSystemUpToDate']			= "Your system is already up to date, no upgrade is needed at the moment. <br>Click on <b>Proceed</b> to go to home page.";
 $GLOBALS['strSystemNeedsUpgrade']		= "The database structure and configuration file need to be upgraded in order to function correctly. Click <b>Proceed</b> to start the upgrade process. <br>Please be patient, the upgrade can take up to a couple of minutes.";
 $GLOBALS['strSystemUpgradeBusy']		= "System upgrade in progress, please wait...";
+$GLOBALS['strSystemRebuildingCache']	= "Rebuilding cache, please wait..."
 $GLOBALS['strServiceUnavalable']		= "The service is temporarily unavailable. System upgrade in progress";
 
 $GLOBALS['strConfigNotWritable']		= "Your config.inc.php file is not writable";
