@@ -170,37 +170,13 @@ xvfz phpAdsNew_x.tar.gz</td></tr></table></td></tr></table>
     <td width="100">&nbsp;</td>
     <td width="600" class="plain"> 
       <p><br>
-        The file maintenance.php located in the directory maintenance must be 
-        run every day. The file maintenance is responsible for emailing reports 
-        to clients and deactivating / activating campaigns.</p>
-      <p><span class="subtitle"><br>
-        Scheduling on *nix based servers</span><br>
-        If you are using a *nix based servers, such as Linux or BSD you can use 
-        the cron daemon to automatically run the maintenance.php file.</p>
-      <p>You can add the following line to your crontab. The example below is 
-        displayed as two lines, but must be added as one line! Instead of fetch, 
-        you can also use wget or lynx -dump to call the maintenance file.</p>
-      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
-        <tr> 
-          <td> 
-            <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
-              <tr> 
-                <td>59 23 * * * fetch -o - http://www.server.com/phpAdsNew/maintenance/maintenance.php 
-                  <br>
-                  &gt;&gt; /var/log/messages</td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </table>
-      <p><span class="subtitle"><br>
-        Scheduling on Windows NT/2000 based servers</span><br>
-        If you are using a Microsoft Windows 2000 based server you can use the 
-        'Scheduled Tasks' to automatically run the maintenance file. A Windows 
-        NT based server can be configured to run a certain task with the at command.</p>
-      <p>For more information about scheduled tasks on Windows based servers, 
-        please read the documentation provided by Microsoft.To run phpAdsNew certain 
-        settings are required. phpAdsNew requires PHP 3.0.12 or higher<span class="subtitle"><br>
+        The next step is to make sure the maintenance file is run every hour. 
+        <br>
+        Information on how to configure your system to achieve this is located 
+        in <a href="2.4-scheduling-tasks.html" class="subtitle">chapter 2.4</a>.</p>
+      <p><b>Important: </b><br>
+        Do not skip this step! phpAdsNew will not function correctly if the maintenance 
+        file is not run every hour.<span class="subtitle"><br>
         </span></p>
       <br>
     </td>

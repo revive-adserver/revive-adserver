@@ -1,0 +1,168 @@
+<html>
+<head>
+<title>phpAdsNew Documentation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../index.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="30" bgcolor="#FFFFFF"><tr bgcolor="#EFEFEF"><td width="100" class="identification">&nbsp;&nbsp;phpAdsNew</td><td width="600" class="plain"><img src="../images/0-home.gif" width="16" height="15" align="ABSMIDDLE">&nbsp;&nbsp;<span class="subtitle"><a href="../index.html" class="subtitle">Home</a></span></td><td>&nbsp;</td></tr></table><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;2.4</td>
+    <td width="600" class="chapter" height="50">Automatic maintenance</td>
+    <td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-line-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#FFFFFF"><td width="100">&nbsp;</td>
+    <td width="600" class="plain"> 
+      <p>It is very important to run the maintenance task every hour. Without 
+        automatic maintenance phpAdsNew won't be able to assign priority to each 
+        banner. The file maintenance.php located in the directory maintenance.. 
+        The file maintenance is also responsible for emailing reports to clients 
+        and deactivating / activating campaigns once a day..</p>
+    </td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="50"><a name="1"></a></td><td width="600" height="50">&nbsp;</td><td height="50">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;2.4.1</td>
+    <td width="600" class="section" height="50">Scheduling tasks on *nix based 
+      servers </td>
+    <td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain">
+      <p><br>
+        If you are using a *nix based servers, such as Linux or BSD you can use 
+        the cron daemon to automatically run the maintenance.php file. You can 
+        edit your scheduled tasks using the <b>crontab</b> utility. If you don't 
+        have permission to use crontab, please contact your service provider or 
+        server administrator. </p>
+      <p>Because every server or service provider is different it is not easy 
+        to provide a way to schedule tasks that will work on every server. Depending 
+        on the configuration of your server you can use one of the following tools 
+        to actually run the maintenance file: curl, fetch, lynx or wget.</p>
+      <p><br>
+        If your system supports <b>curl</b> you can add the following line to 
+        your crontab:</p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
+              <tr> 
+                <td>0 * * * * curl http://www.server.com/phpAdsNew/maintenance/maintenance.php</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <p><br>
+        If your system supports <b>fetch</b> you can add the following line to 
+        your crontab:</p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
+              <tr> 
+                <td>0 * * * * fetch -o - http://www.server.com/phpAdsNew/maintenance/maintenance.php</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <p><br>
+        If your system supports <b>lynx</b> you can add the following line to 
+        your crontab:</p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
+              <tr> 
+                <td>0 * * * * lynx -dump http://www.server.com/phpAdsNew/maintenance/maintenance.php</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <p><br>
+        If your system supports <b>wget</b> you can add the following line to 
+        your crontab:</p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
+              <tr> 
+                <td>0 * * * * wget -q -O - http://www.server.com/phpAdsNew/maintenance/maintenance.php</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <p>&nbsp;</p>
+      </td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="2"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" bgcolor="#FFFFFF" height="50">&nbsp;&nbsp;2.4.2</td>
+    <td width="600" class="section" height="50">Scheduling tasks on Windows 2000/XP 
+      servers </td>
+    <td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td>
+    <td width="600" class="plain"> 
+      <p><br>
+        If you are using a Microsoft Windows 2000 based server you can use the 
+        'Scheduled Tasks' to automatically run the maintenance file. However there 
+        is no standard tool available to actually run the maintenance file.<br>
+        <span class="subtitle"> <br>
+        <br>
+        Downloading wget</span><br>
+        The first thing to do is to download wget, which is a command line to 
+        get the contents of a file stored on a webserver. Wget is available for 
+        all kinds of operating systems, including Windows. The Windows version 
+        of wget can be found at: <a href="http://www.interlog.com/%7Etcharron/wgetwin.html" class="list">http://www.interlog.com/~tcharron/wgetwin.html</a><br>
+        <br>
+        After you have downloaded the zip file you need to copy the wget.exe file 
+        to the directory where Windows is installed.</p>
+      <p><span class="subtitle"><br>
+        Creating a batch file</span><br>
+        The next step is creating a small batch file which call the wget utility 
+        with the correct parameters. <br>
+        This file can be executed as a Scheduled Task later on. You can use Notepad 
+        to create a new file and add the information below, then save the file 
+        as <b>phpads.bat</b>. You can save the file anywhere you like, but it 
+        is wise to keep it in a location that isn't going to change, and isn't 
+        accessible by the webserver. <br>
+        Also make sure to use specify the correct url inside the batch file, the 
+        url below is just an example.<br>
+        <br>
+        <img src="../images/2.4.2-notepad.gif" width="598" height="215"> <br>
+        <br>
+      </p>
+      <p><span class="subtitle">Creating the scheduled task</span><br>
+        The next step would be to actually add a new Scheduled Task. You can find 
+        all Scheduled Tasks inside a directory inside the Control Panel.<br>
+        <br>
+        <img src="../images/2.4.2-step1.gif" width="457" height="263"><br>
+      </p>
+      <p><br>
+        Now click on <b>Add Scheduled Task</b>. The wizard will begin and after 
+        you click on <b>Next </b>it will ask you for the program to run. Just 
+        click on <b>Browse...</b> and select the batch file you just created. 
+        Now you need to give this Scheduled Task a name and select to perform 
+        this task daily.<br>
+        <br>
+        <img src="../images/2.4.2-step2.gif" width="441" height="318"> </p>
+      <p><br>
+        Click on <b>Next</b> and set the Start time to 0:00 and choose to perform 
+        this task every day. <br>
+        If you click <b>Next</b> the wizard will ask you for your username and 
+        password.<br>
+        <br>
+        <img src="../images/2.4.2-step3.gif" width="441" height="318"> </p>
+      <p><br>
+        Make sure to select <b>Open advanced properties...</b>, because you will 
+        need to <br>
+        make some modification to this task. Now click on <b>Finish</b>.<br>
+        <br>
+        <img src="../images/2.4.2-step4.gif" width="441" height="318"><br>
+        <br>
+        <br>
+        To make sure this task runs hourly you will need to go to the <b>Schedule</b> 
+        tab and select the <b>Advanced...</b> button. Now check <b>Repeat task</b> 
+        and make sure the task is repeated every hour. <br>
+        Also select the radio button <b>Time</b> and set the value to 23:59. <br>
+        Now click <b>OK </b>to close this dialogbox and click <b>Apply</b> to 
+        save all settings.<br>
+        <br>
+        <img src="../images/2.4.2-step5.gif" width="368" height="293"><br>
+      </p>
+      <p>&nbsp;</p>
+      </td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="3"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table>
+<p>&nbsp;</p>
+</body>
+</html>
