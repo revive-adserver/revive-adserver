@@ -20,54 +20,7 @@ define('phpAds_adLayerLoaded', true);
 
 // Register input variables
 phpAds_registerGlobal ('target', 'align', 'padding', 'closebutton', 'backcolor', 'bordercolor',
-					   'valign', 'closetime', 'shifth', 'shiftv');
-
-
-
-/*********************************************************/
-/* Return HTML code for the layer                        */
-/*********************************************************/
-
-function phpAds_getLayerHTML ($output, $uniqid)
-{
-	global $phpAds_config, $target;
-	global $align, $padding, $closebutton;
-	global $backcolor, $bordercolor;
-	
-	if (!isset($padding)) $padding = '2';
-	if (!isset($closebutton)) $closebutton = 'f';
-	if (!isset($backcolor)) $backcolor = 'FFFFFF';
-	if (!isset($bordercolor)) $bordercolor = '000000';
-	
-	// Calculate layer size (inc. borders)
-	$layer_width = $output['width'] + 2 + $padding*2;
-	$layer_height = $output['height'] + 2 + ($closebutton == 't' ? 11 : 0) + $padding*2;
-	
-	// Create imagepath
-	$imagepath = $phpAds_config['url_prefix'].'/libraries/layerstyles/simple/images/';
-	
-	// return HTML code
-	return '
-<div id="phpads_'.$uniqid.'" style="position:absolute; width:'.$layer_width.'px; height:'.$layer_height.'px; z-index:99; left: 0px; top: 0px; visibility: hidden"> 
-	<table cellspacing="0" cellpadding="0" style="border-style: solid; border-width: 1px; border-color: #'.$bordercolor.'">
-'.($closebutton == 't' ?
-'		<tr> 
-			<td bgcolor="#'.$backcolor.'" align="right" style="padding: 2px"><a href="javascript:;" onClick="phpAds_simplepop_'.$uniqid.'(\'close\')" style="color:#0000ff"><img src="'.$imagepath.'close.gif" width="7" height="7" alt="Close" border="0"></a></td>
-		</tr>
-' : '').
-'		<tr> 
-			<td bgcolor="#'.$backcolor.'" align="center">
-				<table border="0" cellspacing="0" cellpadding="0">
-					<tr>
-						<td width="'.$output['width'].'" height="'.$output['height'].'" align="center" valign="middle" style="padding: '.$padding.'px">'.$output['html'].'</td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-	</table>
-</div>
-';
-}
+					   'valign', 'closetime', 'shifth', 'shiftv', 'nobg', 'noborder');
 
 
 
@@ -80,6 +33,7 @@ function phpAds_placeLayerSettings ()
 	global $align, $valign, $closetime, $padding;
 	global $shifth, $shiftv, $closebutton;
 	global $backcolor, $bordercolor;
+	global $nobg, $noborder;
 	global $tabindex;
 	
 	if (!isset($align)) $align = 'right';
@@ -91,6 +45,8 @@ function phpAds_placeLayerSettings ()
 	if (!isset($closebutton)) $closebutton = 'f';
 	if (!isset($backcolor)) $backcolor = '#FFFFFF';
 	if (!isset($bordercolor)) $bordercolor = '#000000';
+	if (!isset($nobg)) $nobg = 'f';
+	if (!isset($noborder)) $noborder = 'f';
 	
 	echo "<tr><td height='30' colspan='3'>&nbsp;</td></tr>";
 	echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
@@ -163,10 +119,10 @@ function phpAds_placeLayerSettings ()
 		echo "<table border='0' cellspacing='1' cellpadding='0' bgcolor='#000000'><tr>";
 		echo "<td id='backcolor_box' bgcolor='".$backcolor."'><img src='images/spacer.gif' width='16' height='16'></td>";
 		echo "</tr></table></td><td>";
-		echo "<input type='text' class='flat' name='backcolor' size='10' maxlength='7' tabindex='".($tabindex++)."' value='".$backcolor."' onFocus='current_cp = this; current_cp_oldval = this.value; current_box = backcolor_box' onChange='c_update()'>";
+		echo "<input type='text' class='flat' name='backcolor' size='10' maxlength='7' tabindex='".($tabindex++)."' value='".$backcolor."' onFocus='current_cp = this; current_cp_oldval = this.value; current_box = backcolor_box' onChange='c_update()'".($nobg == 't' ? ' disabled' : '').">";
 		echo "</td><td align='right' width='218'>";
-		echo "<div onMouseOver='current_cp = backcolor; current_box = backcolor_box' onMouseOut='current_cp = null'><img src='images/colorpicker.png' width='193' height='18' align='absmiddle' usemap='#colorpicker' border='0'><img src='images/spacer.gif' width='22' height='1'></div>";
-        echo "</td></tr></table>";
+		echo "<div id='backDiv'".($nobg == 't' ? " style='display: none'" : '')." onMouseOver='current_cp = backcolor; current_box = backcolor_box' onMouseOut='current_cp = null'><img src='images/colorpicker.png' width='193' height='18' align='absmiddle' usemap='#colorpicker' border='0'><img src='images/spacer.gif' width='22' height='1'></div>";
+		echo "</td></tr></table>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
@@ -177,10 +133,23 @@ function phpAds_placeLayerSettings ()
 		echo "<table border='0' cellspacing='1' cellpadding='0' bgcolor='#000000'><tr>";
 		echo "<td id='bordercolor_box' bgcolor='".$bordercolor."'><img src='images/spacer.gif' width='16' height='16'></td>";
 		echo "</tr></table></td><td>";
-		echo "<input type='text' class='flat' name='bordercolor' size='10' maxlength='7' tabindex='".($tabindex++)."' value='".$bordercolor."' onFocus='current_cp = this; current_cp_oldval = this.value; current_box = bordercolor_box' onChange='c_update()'>";
+		echo "<input type='text' class='flat' name='bordercolor' size='10' maxlength='7' tabindex='".($tabindex++)."' value='".$bordercolor."' onFocus='current_cp = this; current_cp_oldval = this.value; current_box = bordercolor_box' onChange='c_update()'".($noborder == 't' ? ' disabled' : '').">";
 		echo "</td><td align='right' width='218'>";
-		echo "<div onMouseOver='current_cp = bordercolor; current_box = bordercolor_box' onMouseOut='current_cp = null'><img src='images/colorpicker.png' width='193' height='18' align='absmiddle' usemap='#colorpicker' border='0'><img src='images/spacer.gif' width='22' height='1'></div>";
+		echo "<div id='borderDiv'".($noborder == 't' ? " style='display: none'" : '')." onMouseOver='current_cp = bordercolor; current_box = bordercolor_box' onMouseOut='current_cp = null'><img src='images/colorpicker.png' width='193' height='18' align='absmiddle' usemap='#colorpicker' border='0'><img src='images/spacer.gif' width='22' height='1'></div>";
         echo "</td></tr></table>";
+	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+	
+	echo "<tr><td width='30'>&nbsp;</td>";
+	echo "<td colspan='2'>";
+	echo "<input type='checkbox' name='nobg' value='t' tabindex='".($tabindex++)."' onClick='this.form.backcolor.disabled=this.checked;backDiv.style.display=this.checked?\"none\":\"\"'".($nobg == 't' ? ' checked' : '').">&nbsp;";
+	echo 'Transparent background';
+	echo "</td></tr>";
+	echo "<tr><td width='30'>&nbsp;</td>";
+	echo "<td colspan='2'>";
+	echo "<input type='checkbox' name='noborder' value='t' tabindex='".($tabindex++)."' onClick='this.form.bordercolor.disabled=this.checked;borderDiv.style.display=this.checked?\"none\":\"\"'".($noborder == 't' ? ' checked' : '').">&nbsp;";
+	echo 'No border';
+	echo "</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 }
 
@@ -196,6 +165,7 @@ function phpAds_generateLayerCode ($parameters)
 	global $align, $valign, $closetime, $padding;
 	global $shifth, $shiftv, $closebutton;
 	global $backcolor, $bordercolor;
+	global $nobg, $noborder;
 	
 	$parameters[] = 'layerstyle=simple';
 	$parameters[] = 'align='.(isset($align) ? $align : 'right');
@@ -216,6 +186,10 @@ function phpAds_generateLayerCode ($parameters)
 		$parameters[] = 'backcolor='.substr($backcolor, 1);
 	if (isset($bordercolor))
 		$parameters[] = 'bordercolor='.substr($bordercolor, 1);
+	if (isset($nobg))
+		$parameters[] = 'nobg='.$nobg;
+	if (isset($noborder))
+		$parameters[] = 'noborder='.$noborder;
 	
 	$buffer = "<script language='JavaScript' type='text/javascript' src='".$phpAds_config['url_prefix']."/adlayer.php";
 	if (sizeof($parameters) > 0)
@@ -284,7 +258,7 @@ function c_pick(value)
 }
 
 function c_update()
-{
+{	
 	if (!current_cp.value.match(/^#[0-9a-f]{6}$/gi))
 	{
 		current_cp.value = current_cp_oldval;

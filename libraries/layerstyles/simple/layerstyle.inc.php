@@ -96,7 +96,7 @@ function phpAds_adlayers_place_<?php echo $uniqid; ?>()
 		iw = document.body.clientWidth;
 	
 	
-	if (document.all && !window.innerWidth) { 
+	if (document.all) { 
 		
 <?php
 	echo "\t\tc.pixelLeft = ";
@@ -168,7 +168,7 @@ function phpAds_simplepop_<?php echo $uniqid; ?>(what)
 		case 'open':
 			phpAds_adlayers_visible_<?php echo $uniqid; ?> = 'visible';
 			phpAds_adlayers_place_<?php echo $uniqid; ?>();
-			phpAds_adlayers_timerid_<?php echo $uniqid; ?> = window.setInterval('phpAds_adlayers_place_<?php echo $uniqid; ?>()', 50);
+			phpAds_adlayers_timerid_<?php echo $uniqid; ?> = window.setInterval('phpAds_adlayers_place_<?php echo $uniqid; ?>()', 10);
 
 <?php
 
@@ -201,16 +201,20 @@ function phpAds_getLayerHTML ($output, $uniqid)
 	global $phpAds_config, $target;
 	global $align, $padding, $closebutton;
 	global $backcolor, $bordercolor;
+	global $nobg, $noborder;
 	
 	// Register input variables
 	phpAds_registerGlobal ('align', 'padding', 'closebutton',
-						   'backcolor', 'bordercolor');
+						   'backcolor', 'bordercolor',
+						   'nobg', 'noborder');
 	
 	
 	if (!isset($padding)) $padding = '2';
 	if (!isset($closebutton)) $closebutton = 'f';
 	if (!isset($backcolor)) $backcolor = 'FFFFFF';
 	if (!isset($bordercolor)) $bordercolor = '000000';
+	if (!isset($nobg)) $nobg = 'f';
+	if (!isset($noborder)) $noborder = 'f';
 	
 	// Calculate layer size (inc. borders)
 	$layer_width = $output['width'] + 2 + $padding*2;
@@ -222,14 +226,14 @@ function phpAds_getLayerHTML ($output, $uniqid)
 	// return HTML code
 	return '
 <div id="phpads_'.$uniqid.'" style="position:absolute; width:'.$layer_width.'px; height:'.$layer_height.'px; z-index:99; left: 0px; top: 0px; visibility: hidden"> 
-	<table cellspacing="0" cellpadding="0" style="border-style: solid; border-width: 1px; border-color: #'.$bordercolor.'">
+	<table cellspacing="0" cellpadding="0"'.($noborder == 't' ? '' : ' style="border-style: solid; border-width: 1px; border-color: #'.$bordercolor.'"').'>
 '.($closebutton == 't' ?
 '		<tr> 
-			<td bgcolor="#'.$backcolor.'" align="right" style="padding: 2px"><a href="javascript:;" onClick="phpAds_simplepop_'.$uniqid.'(\'close\'); return false;" style="color:#0000ff"><img src="'.$imagepath.'close.gif" width="7" height="7" alt="Close" border="0"></a></td>
+			<td'.($nobg == 't' ? '' : ' bgcolor="#'.$backcolor.'"').' align="right" style="padding: 2px"><a href="javascript:;" onClick="phpAds_simplepop_'.$uniqid.'(\'close\'); return false;" style="color:#0000ff"><img src="'.$imagepath.'close.gif" width="7" height="7" alt="Close" border="0"></a></td>
 		</tr>
 ' : '').
 '		<tr> 
-			<td bgcolor="#'.$backcolor.'" align="center">
+			<td '.($nobg == 't' ? '' : ' bgcolor="#'.$backcolor.'"').' align="center">
 				<table border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<td width="'.$output['width'].'" height="'.$output['height'].'" align="center" valign="middle" style="padding: '.$padding.'px">'.$output['html'].'</td>
