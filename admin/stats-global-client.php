@@ -78,11 +78,6 @@ if (phpAds_isUser(phpAds_Client))
 	phpAds_ShowSections(array("1.1", "1.2"));
 }
 
-if (isset($message))
-{
-	phpAds_ShowMessage($message);
-}
-
 echo "<br><br>";
 
 
