@@ -65,7 +65,7 @@ else
 
 
 // Disable GZIP compression
-$phpAds_config['gzip_compression'] = false;
+$phpAds_config['content_gzip_compression'] = false;
 
 
 // First thing to do is clear the $Session variable to
