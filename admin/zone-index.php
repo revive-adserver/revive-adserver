@@ -17,6 +17,7 @@
 // Include required files
 require ("config.php");
 require ("lib-statistics.inc.php");
+require ("lib-size.inc.php");
 
 
 // Security check
@@ -94,8 +95,8 @@ while ($row_zones = mysql_fetch_array($res_zones))
 	// Size
 	if ($row_zones['width'] == -1) $row_zones['width'] = '*';
 	if ($row_zones['height'] == -1) $row_zones['height'] = '*';
-		
-	echo "<td height='25'>".$row_zones['width']." x ".$row_zones['height']."</td>";
+	
+	echo "<td height='25'>".phpAds_getBannerSize($row_zones['width'], $row_zones['height'])."</td>";
 	echo "<td>&nbsp;</td>";
 	echo "</tr>";
 	

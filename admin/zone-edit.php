@@ -18,6 +18,7 @@
 require ("config.php");
 require ("lib-statistics.inc.php");
 require ("lib-zones.inc.php");
+require ("lib-size.inc.php");
 
 
 // Security check
@@ -31,13 +32,22 @@ phpAds_checkAccess(phpAds_Admin);
 
 if (isset($submit))
 {
+	if (isset($description)) $description = addslashes ($description);
+	
+	if ($sizetype == 'custom')
+	{
+		if (isset($width) && $width == '*') $width = -1;
+		if (isset($height) && $height == '*') $height = -1;
+	}
+	else
+	{
+		list ($width, $height) = explode ('x', $size);
+	}
+	
+	
 	// Edit
 	if (isset($zoneid) && $zoneid != '')
 	{
-		if (isset($description)) $description = addslashes ($description);
-		if (isset($width) && $width == '*') $width = -1;
-		if (isset($height) && $height == '*') $height = -1;
-		
 		$res = db_query("
 			UPDATE
 				$phpAds_tbl_zones
@@ -58,10 +68,6 @@ if (isset($submit))
 	// Add
 	else
 	{
-		if (isset($description)) $description = addslashes ($description);
-		if (isset($width) && $width == '*') $width = -1;
-		if (isset($height) && $height == '*') $height = -1;
-		
 		$res = db_query("
 			INSERT INTO
 				$phpAds_tbl_zones
@@ -148,13 +154,53 @@ if (isset($zoneid) && $zoneid != '')
 
 ?>
 
+<script language="JavaScript">
+<!--
+
+	function selectsize(o)
+	{
+		// Get size from select
+		size   = o.options[o.selectedIndex].value;
+
+		if (size != '-')
+		{
+			// Get width and height
+			sarray = size.split('x');
+			height = sarray.pop();
+			width  = sarray.pop();
+		
+			// Set width and height
+			document.zoneform.width.value = width;
+			document.zoneform.height.value = height;
+		
+			// Set radio
+			document.zoneform.sizetype[0].checked = true;
+			document.zoneform.sizetype[1].checked = false;
+		}
+		else
+		{
+			document.zoneform.sizetype[0].checked = false;
+			document.zoneform.sizetype[1].checked = true;
+		}
+	}
+	
+	function editsize()
+	{
+		document.zoneform.sizetype[0].checked = false;
+		document.zoneform.sizetype[1].checked = true;
+		document.zoneform.size.selectedIndex = document.zoneform.size.options.length - 1;
+	}		
+
+//-->
+</script>
+
 <img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b><?php echo phpAds_getZoneName($zoneid);?></b><br>
 
 <br><br>
 <br><br>
 <br><br>
 
-<form name="clientform" method="post" action="zone-edit.php">
+<form name="zoneform" method="post" action="zone-edit.php">
 <input type="hidden" name="zoneid" value="<?php if(isset($zoneid) && $zoneid != '') echo $zoneid;?>">
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
@@ -184,9 +230,33 @@ if (isset($zoneid) && $zoneid != '')
 		<td width='30'>&nbsp;</td>	
 		<td width='200'><?php echo $strSize;?></td>
 		<td>
-			<?php echo $strWidth;?>: <input size="5" type="text" name="width" value="<?php if (isset($zone["width"])) echo $zone["width"];?>">
-			&nbsp;&nbsp;&nbsp;
-			<?php echo $strHeight;?>: <input size="5" type="text" name="height" value="<?php if (isset($zone["height"])) echo $zone["height"];?>">
+			<?
+				$exists = phpAds_sizeExists ($zone['width'], $zone['height']);
+				
+				echo "<table><tr><td>";
+				echo "<input type='radio' name='sizetype' value='default'".($exists ? ' CHECKED' : '').">&nbsp;";
+				echo "<select name='size' onchange='selectsize(this)'>"; 
+				
+				for (reset($phpAds_BannerSize);$key=key($phpAds_BannerSize);next($phpAds_BannerSize))
+				{	
+					if ($phpAds_BannerSize[$key]['width'] == $zone['width'] &&
+						$phpAds_BannerSize[$key]['height'] == $zone['height'])
+						echo "<option value='".$phpAds_BannerSize[$key]['width']."x".$phpAds_BannerSize[$key]['height']."' selected>".$key."</option>";
+					else
+						echo "<option value='".$phpAds_BannerSize[$key]['width']."x".$phpAds_BannerSize[$key]['height']."'>".$key."</option>";
+				}
+				
+				echo "<option value='-'".(!$exists ? ' SELECTED' : '').">Custom</option>";
+				echo "</select>";
+				
+				echo "</td></tr><tr><td>";
+				
+				echo "<input type='radio' name='sizetype' value='custom'".(!$exists ? ' CHECKED' : '')." onclick='editsize()'>&nbsp;";
+				echo $strWidth.": <input size='5' type='text' name='width' value='".(isset($zone["width"]) ? $zone["width"] : '')."' onkeydown='editsize()'>";
+				echo "&nbsp;&nbsp;&nbsp;";
+				echo $strHeight.": <input size='5' type='text' name='height' value='".(isset($zone["height"]) ? $zone["height"] : '')."' onkeydown='editsize()'>";
+				echo "</td></tr></table>";
+			?>
 		</td>
 	</tr>
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
