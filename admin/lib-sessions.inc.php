@@ -1,6 +1,6 @@
 <?
 /*
- * Session Management for PHP3
+ * Session Management for PHP
  *
  * (C) Copyright 2001 Niels Leenheer
  *     Partly based on KCSM by Kyle Cordes
@@ -17,12 +17,15 @@
 		
 		if(isset($SessionID) && !empty($SessionID))
 		{
-			$result = db_query("SELECT SessionData FROM $phpAds_tbl_session WHERE SessionID='$SessionID'" .
+			$result = @db_query("SELECT SessionData FROM $phpAds_tbl_session WHERE SessionID='$SessionID'" .
 						 	   " AND UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(LastUsed) < 3600") or mysql_die();
 			
 			if($row = mysql_fetch_array($result))
 			{
 				$Session = unserialize(stripslashes($row[0]));
+				
+				// Reset LastUsed, prevent from timing out
+				@db_query("UPDATE $phpAds_tbl_session SET LastUsed = NOW() WHERE SessionID = '$SessionID'") or mysql_die();
 			}
 		}
 		else
