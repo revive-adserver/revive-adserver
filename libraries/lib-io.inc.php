@@ -96,10 +96,14 @@ function phpAds_flushCookie ()
 			$p3p_header = '';
 			
 			if ($phpAds_config['p3p_policy_location'] != '')
-				$p3p_header .= " policyref=\"".$phpAds_config['p3p_policy_location']."\"";
+				$p3p_header .= "policyref=\"".$phpAds_config['p3p_policy_location']."\"";
+			
+			if ($phpAds_config['p3p_policy_location'] != '' &&
+			    $phpAds_config['p3p_compact_policy'] != '')
+				$p3p_header .= ", ";
 			
 			if ($phpAds_config['p3p_compact_policy'] != '')
-				$p3p_header .= " CP=\"".$phpAds_config['p3p_compact_policy']."\"";
+				$p3p_header .= "CP=\"".$phpAds_config['p3p_compact_policy']."\"";
 			
 			if ($p3p_header != '')
 				header ("P3P: $p3p_header");

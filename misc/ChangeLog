@@ -3,6 +3,7 @@ phpAdsNew - ChangeLog
 
 phpAdsNew 2.1		+ Misc bugfixes
 			  - 2003-10-07:  Fixed referer delivery limitation when using JavaScript  (Niels)
+			  - 2003-10-08:  Added missing comma to P3P header  (Niels)
 
 
 phpAdsNew 2.0
