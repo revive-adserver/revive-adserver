@@ -31,7 +31,7 @@ while($row_clients = mysql_fetch_array($res_clients))
 	$clients[$i]["days"] = substr_count($row_clients["expire"],"0")==8 ? -1 : $row_clients["days"];
 	$clients[$i]["active"] = false;
 
-	print "Processing $clients[$i]["clientname"]...<BR>\n";
+	print "Processing ".$clients[$i]["clientname"]."...<BR>\n";
 	flush();
     
 	// Fetch all banners belonging to client   
