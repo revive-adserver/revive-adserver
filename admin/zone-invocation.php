@@ -190,7 +190,7 @@ function phpAds_GenerateInvocationCode($zoneid)
 		
 		$buffer .= "<"."?php\n";
 		$buffer .= "    require($path);\n";
-		$buffer .= "    view ('$what', $clientID, '$target', '$source', '$withText');\n";
+		$buffer .= "    view ('$what', 0, '$target', '$source', '$withText');\n";
 		$buffer .= "?".">";
 	
 	}
