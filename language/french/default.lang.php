@@ -458,7 +458,7 @@ $GLOBALS['strAppendErrorKeyword']		= 'Vous devez spécifier au moins un mot clé \
 // Statistics
 $GLOBALS['strStats'] 				= 'Statistiques';
 $GLOBALS['strNoStats']				= 'Aucune statistique n\'est actuellement disponibles.';
-$GLOBALS['strConfirmResetStats']		= 'Souaitez-vous supprimer l\'intégralité des statistiques ?';
+$GLOBALS['strConfirmResetStats']		= 'Souaitez-vous supprimer l\\\'intégralité des statistiques ?';
 $GLOBALS['strGlobalHistory']			= 'Historique global';
 $GLOBALS['strDailyHistory']			= 'Historique quotidien';
 $GLOBALS['strDailyStats'] 			= 'Statistiques quotidiennes';
