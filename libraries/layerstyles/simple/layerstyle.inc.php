@@ -225,7 +225,7 @@ function phpAds_getLayerHTML ($output, $uniqid)
 	<table cellspacing="0" cellpadding="0" style="border-style: solid; border-width: 1px; border-color: #'.$bordercolor.'">
 '.($closebutton == 't' ?
 '		<tr> 
-			<td bgcolor="#'.$backcolor.'" align="right" style="padding: 2px"><a href="javascript:;" onClick="phpAds_simplepop_'.$uniqid.'(\'close\')" style="color:#0000ff"><img src="'.$imagepath.'close.gif" width="7" height="7" alt="Close" border="0"></a></td>
+			<td bgcolor="#'.$backcolor.'" align="right" style="padding: 2px"><a href="javascript:;" onClick="phpAds_simplepop_'.$uniqid.'(\'close\'); return false;" style="color:#0000ff"><img src="'.$imagepath.'close.gif" width="7" height="7" alt="Close" border="0"></a></td>
 		</tr>
 ' : '').
 '		<tr> 
