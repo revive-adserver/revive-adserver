@@ -78,6 +78,8 @@ CVS			+ Added support for zones  (Niels)
 			    shows a list of campaigns  (Niels)
 			  - Added title-tag for <img> in view.inc.php for support of HTML4/XHTML1
 			    gives on mouse over popup text in >IE5 and Mozilla 0.9/Netscape 6 (Stefan) 20011003
+			  - fixed HTML problem with long names in $phpAds_name from config also sets searchbox and 
+			    "Logout" in visible position on small browser windows (Stefan) 20011004
 
 			+ Misc bugfixes
 			  - Fixed quote problem with banner-text, alt and description fields  (Niels)

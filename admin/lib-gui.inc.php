@@ -191,7 +191,7 @@ function phpAds_PageHeader($ID, $extra="")
  	if ($phpAds_name != "")
 	{
 		echo "<td height='48' bgcolor='#000063' valign='middle'>";
-		echo "<span class='phpAdsNew'>&nbsp;&nbsp;&nbsp;$phpAds_name &nbsp;&nbsp;&nbsp;</span>";
+		echo "<span class='phpAdsNew'>&nbsp;&nbsp;&nbsp;".$phpAds_name."&nbsp;&nbsp;&nbsp;</span>";
 	}
 	else
 	{
@@ -204,11 +204,15 @@ function phpAds_PageHeader($ID, $extra="")
 		<?php echo $searchbar; ?>
 	</td>
 </tr>
+</table>
 
 <!-- Spacer -->
+<table width='100%' border='0' cellspacing='0' cellpadding='0'>
 <tr><td colspan='2' height='6' bgcolor='#000063'><img src='images/spacer.gif' height='1' width='1'></td></tr>
+</table>
 
 <!-- Tabbar -->
+<table width='100%' border='0' cellspacing='0' cellpadding='0'>
 <tr><td height='24' width='181' bgcolor='#000063'>&nbsp;</td>
 <td height='24' bgcolor="#000063"> 
 	<table border="0" cellspacing="0" cellpadding="0" width='100%'>
@@ -228,8 +232,10 @@ function phpAds_PageHeader($ID, $extra="")
 	</td></tr>
 	</table>
 </td></tr>
+</table>
 
 <!-- Sidebar -->
+<table width='100%' border='0' cellspacing='0' cellpadding='0'>
 <tr><td valign="top">
 	<table width="181" border="0" cellspacing="0" cellpadding="0">
 
