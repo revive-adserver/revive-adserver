@@ -160,23 +160,49 @@ function phpAds_Login()
 	global $HTTP_COOKIE_VARS;
 	global $HTTP_POST_VARS;
 	
-	
 	if (phpAds_SuppliedCredentials())
 	{
+		// Trim spaces from input
+		$username  = trim($HTTP_POST_VARS['phpAds_username']);
+		$password  = trim($HTTP_POST_VARS['phpAds_password']);
+		$md5digest = trim($HTTP_POST_VARS['phpAds_md5']);
+		
+		// Add slashes to input if needed
+		if (!ini_get ('magic_quotes_gpc'))
+		{
+			$username  = addslashes($username);
+			$password  = addslashes($password);
+			$md5digest = addslashes($md5digest);
+		}
+		
+		// Convert plain text password to md5 digest
+		if ($md5digest == '' && $password != '')
+			$md5digest = md5($password);
+		
+		
+		
+		// Exit if not both username and password are given
+		if ($md5digest == '' ||	$md5digest == md5('') || $username  == '')
+		{
+			$HTTP_COOKIE_VARS['sessionID'] = phpAds_SessionStart();
+			phpAds_LoginScreen("Please enter both your username and password", $HTTP_COOKIE_VARS['sessionID']);
+		}
+		
+		// Exit if cookies are disabled
 		if ($HTTP_COOKIE_VARS['SessionID'] != $HTTP_POST_VARS['phpAds_cookiecheck'])
 		{
-			// Cookiecheck failed
 			$HTTP_COOKIE_VARS['sessionID'] = phpAds_SessionStart();
 			phpAds_LoginScreen("You need to enable cookies before you can use phpAdsNew", $HTTP_COOKIE_VARS['sessionID']);
 		}
 		
-		if (phpAds_isAdmin($HTTP_POST_VARS['phpAds_username'], $HTTP_POST_VARS['phpAds_password']))
+		
+		
+		if (phpAds_isAdmin($username, $md5digest))
 		{
 			// User is Administrator
 			return (array ("usertype" 		=> phpAds_Admin,
 						   "loggedin" 		=> "t",
-						   "username" 		=> $HTTP_POST_VARS['phpAds_username'],
-						   "password" 		=> $HTTP_POST_VARS['phpAds_password'])
+						   "username" 		=> $username)
 			       );
 		}
 		else
@@ -191,22 +217,19 @@ function phpAds_Login()
 				FROM
 					".$phpAds_config['tbl_clients']."
 				WHERE
-					clientusername = '".$HTTP_POST_VARS['phpAds_username']."'
-					AND clientpassword = '".$HTTP_POST_VARS['phpAds_password']."'
-				") or phpAds_sqlDie();
+					clientusername = '".$username."'
+					AND MD5(clientpassword) = '".$md5digest."'
+			") or phpAds_sqlDie();
 			
 			
-			if (phpAds_dbNumRows($res) > 0 && 
-				trim($HTTP_POST_VARS['phpAds_username']) != "" && 
-				trim($HTTP_POST_VARS['phpAds_password']) != "")
+			if (phpAds_dbNumRows($res) > 0)
 			{
 				// User found with correct password
 				$row = phpAds_dbFetchArray($res);
 				
 				return (array ("usertype" 		=> phpAds_Client,
 							   "loggedin" 		=> "t",
-							   "username" 		=> $HTTP_POST_VARS['phpAds_username'],
-							   "password" 		=> $HTTP_POST_VARS['phpAds_password'],
+							   "username" 		=> $username,
 							   "userid" 		=> $row['clientid'],
 							   "permissions" 	=> $row['permissions'],
 							   "language" 		=> $row['language'])
@@ -222,21 +245,18 @@ function phpAds_Login()
 					FROM
 						".$phpAds_config['tbl_affiliates']."
 					WHERE
-						username = '".$HTTP_POST_VARS['phpAds_username']."'
-						AND password = '".$HTTP_POST_VARS['phpAds_password']."'
+						username = '".$username."'
+						AND MD5(password) = '".$md5digest."'
 					");
 				
-				if ($res && phpAds_dbNumRows($res) > 0 && 
-					trim($HTTP_POST_VARS['phpAds_username']) != "" && 
-					trim($HTTP_POST_VARS['phpAds_password']) != "")
+				if ($res && phpAds_dbNumRows($res) > 0)
 				{
 					// User found with correct password
 					$row = phpAds_dbFetchArray($res);
 					
 					return (array ("usertype" 		=> phpAds_Affiliate,
 								   "loggedin" 		=> "t",
-								   "username" 		=> $HTTP_POST_VARS['phpAds_username'],
-								   "password" 		=> $HTTP_POST_VARS['phpAds_password'],
+								   "username" 		=> $username,
 								   "userid" 		=> $row['affiliateid'],
 								   "permissions" 	=> $row['permissions'],
 								   "language" 		=> $row['language'])
@@ -270,21 +290,22 @@ function phpAds_IsLoggedIn()
 	return (isset($Session['loggedin']) ? ($Session['loggedin'] == "t") : false);
 }
 
-
 function phpAds_SuppliedCredentials()
 {
 	global $HTTP_POST_VARS;
 	
-	return (isset($HTTP_POST_VARS['phpAds_username']) && isset($HTTP_POST_VARS['phpAds_password']));
+	return (isset($HTTP_POST_VARS['phpAds_username']) &&
+		    isset($HTTP_POST_VARS['phpAds_password']) &&
+			isset($HTTP_POST_VARS['phpAds_md5']));
 }
 
 
 
-function phpAds_isAdmin($username, $password)
+function phpAds_isAdmin($username, $md5)
 {
 	global $phpAds_config;
 	
-	return ($username == $phpAds_config['admin'] && $password == $phpAds_config['admin_pw']);
+	return ($username == $phpAds_config['admin'] && $md5 == md5($phpAds_config['admin_pw']));
 }
 
 
@@ -303,9 +324,10 @@ function phpAds_LoginScreen($message='', $SessionID=0)
 		phpAds_ShowBreak();
 		echo "<br>";
 		
-		echo "<form name='login' method='post' action='".basename($HTTP_SERVER_VARS['PHP_SELF']);
+		echo "<form name='login' method='post' onSubmit='return login_md5(this);' action='".basename($HTTP_SERVER_VARS['PHP_SELF']);
 		echo (isset($HTTP_SERVER_VARS['QUERY_STRING']) && $HTTP_SERVER_VARS['QUERY_STRING'] != '' ? '?'.$HTTP_SERVER_VARS['QUERY_STRING'] : '')."'>";
 		echo "<input type='hidden' name='phpAds_cookiecheck' value='".$HTTP_COOKIE_VARS['SessionID']."'>";
+		echo "<input type='hidden' name='phpAds_md5' value=''>";
 		echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>";
 		echo "<td width='80' valign='bottom'><img src='images/login-welcome.gif'>&nbsp;&nbsp;</td>";
 		echo "<td width='100%' valign='bottom'>";
@@ -329,7 +351,24 @@ function phpAds_LoginScreen($message='', $SessionID=0)
 			echo "<img src='images/error.gif'>&nbsp;&nbsp;<span class='tab-r'>$message</span>";
 		}
 		
-		echo "<script language='JavaScript'>\n<!--\n\tlogin_focus();\n// -->\n</script>";
+		echo "<script language='JavaScript' src='md5.js'></script>";
+		echo "<script language='JavaScript'>";
+		?>
+<!--
+		function login_md5(o) {
+			if (o.phpAds_password.value != '')
+			{
+				o.phpAds_md5.value = MD5(o.phpAds_password.value);
+				o.phpAds_password.value = '';
+			}
+			
+			return true;
+		}
+				
+		login_focus();
+//-->
+		<?
+		echo "</script>";
 	}
 	else
 	{
