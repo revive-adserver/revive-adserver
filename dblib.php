@@ -10,7 +10,7 @@ function db_connect()
 
 function db_close()
 {
-    mysql_close();
+//    mysql_close();
 }
 
 
