@@ -16,217 +16,231 @@
 
 // Settings help translation strings
 $GLOBALS['phpAds_hlp_dbhost'] = "
-        Specify the hostname of the MySQL database server.
-		";
+	Vul hier het IP adres of de domeinnaam van de MySQL database server in.
+";
 		
 $GLOBALS['phpAds_hlp_dbuser'] = "
-        Specify the username which phpAdsNew must use to gain access to the MySQL database server.
-		";
+        Vul hier de gebruikersnaam in wat phpAdsNew moet gebruiken om toegang te krijgen tot de
+	MySQL database server.
+";
 		
 $GLOBALS['phpAds_hlp_dbpassword'] = "
-        Specify the password which phpAdsNew must use to gain access to the MySQL database server.
-		";
+	Vul hier het wachtwoord in wat phpAdsNew moet gebruiken om toegang te krijgen tot de
+	MySQL database server.
+";
 		
 $GLOBALS['phpAds_hlp_dbname'] = "
-        Specify the name of the database where phpAdsNew must store its data.
-		";
+	Vul hier de naam van de database in welke phpAdsNew moet gebruiken om gegevens
+	op te slaan.
+";
 		
 $GLOBALS['phpAds_hlp_persistent_connections'] = "
-        The use of persistent connection can speed up phpAdsNew considerably 
-		and may even decrease the load on the server. There is a drawback however, on sites with 
-		a lot of visitors the load on the server can increase and become larger then when using normal 
-		connections. Whether you should use regular connections or persistant connections depends on the 
-		number of visitors and the hardware your are using. If phpAdsNew is using too many resources, 
-		you should take a look at this setting first.
-		";
+	Door gebruik te maken van persistent connections met de database kan de snelheid
+	van phpAdsNew toenemen. Het is tevens van invloed op de belasting van de server. 
+	Echter wanneer uw website veel bezoekers heeft kan de belasting van de
+	database server groter worden dan wanneer deze optie uit staat. Of het verstandig
+	is om deze optie gebruiken hangt geheel af van het aantal bezoekers en de hardware
+	die u gebruikt. Indien phpAdsNew een te hoge belasting op de database server veroorzaakt
+	kunt u proberen om deze optie uit te schakelen.
+";
 		
 $GLOBALS['phpAds_hlp_insert_delayed'] = "
-        MySQL locks the table when it is inserting data. If have many visitors to your site, 
-		it could be possible phpAdsNew must wait before inserting a new row, because the database 
-		is still locked. When you use insert delayed, you don't have to wait and the row will 
-		be inserted at a later time when the table is not in use by any other thread. 
-		";
+	MySQL blokkeerd de tabel wanneer er data wordt toegevoegd. Indien u veel bezoekers
+	op uw website heeft is het mogelijk dat phpAdsNew moet wachten voordat er nieuwe
+	gegevens in de database toegevoegd kunnen worden, omdat de database nog steeds
+	geblokkeerd is. Wanneer u deze optie gebruikt hoeft phpAdsNew niet te wachten en
+	zullen de gegevens op een rustiger tijdstip toegevoegd worden.
+";
 		
 $GLOBALS['phpAds_hlp_compatibility_mode'] = "
-        If you are having problem integrating phpAdsNew with another thirth-party product it 
-		might help to turn on the database compatibility mode. If you are using local mode 
-		invocation and the database compatibility is turned on phpAdsNew should leave 
-		the state of the database connection exectly the same as it was before phpAdsNew ran. 
-		This option is a bit slower (only slightly) and therefore turned off by default.
-		";
+	Indien u problemen heeft met het integreren van phpAdsNew in een ander product dan
+	kan het helpen om de database compatibiliteits mode aan te zetten. Indien u banners toont
+	door middel van de Locale mode en de database compatibiliteit mode staat aan, dan zal
+	phpAdsNew de staat van de database connectie exact hetzelfde achterlaten. Deze optie
+	vertraagd phpAdsNew iets en staat daarom standaard uit.
+";
 		
 $GLOBALS['phpAds_hlp_table_prefix'] = "
-        If the database phpAdsNew is using is shared by mutiple software products, it is wise
-		to add a prefix to names of the tables. If you are using multiple installations of phpAdsNew
-		in the same database, you need to make sure this prefix is unique for all installations.
-		";
+	Als de database die phpAdsNew gebruik wordt gedeeld met andere software producten is
+	het verstandig om een voorvoegsel aan de namen van de tabellen te geven. Ook als u
+	meerdere installaties van phpAdsNew gebruikt, welke gebruik maken van dezelfde database
+	dient u bij elke installatie een uniek voorvoegsel te gebruiken.
+";
 		
 $GLOBALS['phpAds_hlp_tabletype'] = "
-        MySQL supports multiple table types. Each type of table has unique properties and some
-		can speed up phpAdsNew considerable. MyISAM is the default table type and is available
-		in all installations of MySQL. Other table types may not be available on your server
-		";
+	MySQL ondersteund meerdere types tabellen. Elk type heeft unieke eigenschappen en sommige
+	tabeltypen kunnen de snelheid van phpAdsNew ten goede beinvloeden. MyISAM is de standaard
+	tabel type en is beschikbaar in alle versies van MySQL. Andere tabeltypen zijn misschien
+	niet aanwezig op uw server.
+";
 		
 $GLOBALS['phpAds_hlp_url_prefix'] = "
-        phpAdsNew needs to know where it is located on the web server in order 
-        to work correctly. You must specify the URL to the directory where phpAdsNew 
-        is installed, for example: http://www.your-url.com/phpAdsNew.
-		";
+	Om correct te functioneren moet phpAdsNew zijn eigen locatie op de webserver
+	weten. U moet de volledige URL invoeren van de map waar phpAdsNew is geinstalleerd,
+	bijvoorbeeld: http://www.uwwebsite.nl/phpAdsNew.
+";
 		
 $GLOBALS['phpAds_hlp_my_header'] =
 $GLOBALS['phpAds_hlp_my_footer'] = "
-        You should put here the path to the header files (e.g.: /home/login/www/header.htm) 
-        to have a header and/or footer on each page in the admin interface. You 
-        can put either text or html in these files (if you want to use html in 
-        one or both of these files do not use tags like &lt;body> or &lt;html>).
-		";
+	U kunt hier het pad naar de voetnoot en eindnoot bestanden invoeren (bijv.
+	/home/login/www/header.htm) indien u een voetnoot en/of eindnoot wil hebben
+	op alle pagina's van de administratie interface. U kunt zowel gewone tekst
+	bestanden als html bestanden gebruiken (indien u html wilt gebruiken in
+	deze bestanden moet u niet de &lt;body> of &lt;html> tags gebruiken).
+";
 		
 $GLOBALS['phpAds_hlp_content_gzip_compression'] = "
-		By enabling GZIP content compression you will get a big decrease of the data which 
-		is sent to the browser each time a page of the administrator interface is opened. 
-		To enable this feature you need to have at least PHP 4.0.5 with the GZIP extention installed.
-		";
+	Door GZIP content compressie te gebruiken zal de data, die elke keer als een pagina
+	van de administratie interface wordt opgevraagd naar uw browser gestuurd wordt, afnemen
+	Om deze functie te kunnen gebruiken moet minimaal PHP 4.0.5 en de GZIP extentie op uw
+	server geinstalleerd zijn.
+";
 		
 $GLOBALS['phpAds_hlp_language'] = "
-        Specify the default language phpAdsNew should use. This language will 
-        be used as a default for the admin and advertiser interface. Please note: 
-        you can set a different language for each advertiser from the admin interface 
-        and allow advertisers to change their language themselves.
-		";
+	Specificeer de standaard taal die phpAdsNew moet gebruiken. Deze taal zal
+	worden gebruikt in de administratie en adverteerder interface. Opmerking:
+	u kunt voor elke adverteerder een eigen taal instellen en adverteerders
+	de mogelijkheid geven om deze taal zelf aan te passen.
+";
 		
 $GLOBALS['phpAds_hlp_name'] = "
-        Specify the name you want to use for this application. This string will 
-        be displayed on all pages in the admin and advertiser interface. If you leave 
-        this setting empty (default) a logo of phpAdsNew will be displayed instead.
-		";
+	Specificeer de naam die uw wilt gebruiken voor deze applicatie. De naam
+	die u opgeeft zal worden getoond op elke pagina van de administratie en
+	adverteerders interface. Indien u dit veld leeg laat zal het logo van 
+	phpAdsNew zelf getoond worden.
+";
 		
 $GLOBALS['phpAds_hlp_company_name'] = "
-        This name is used in the e-mail sent by phpAdsNew.
-		";
+	Specificeer de naam die gebruikt moet worden in alle e-mails die phpAdsNew verstuurd.
+";
 		
 $GLOBALS['phpAds_hlp_override_gd_imageformat'] = "
-        phpAdsNew usually detects if the GD library is installed and which image 
-        format is supported by the installed version of GD. However it is possible 
-        the detection is not accurate or false, some versions of PHP do not allow 
-        the detection of the supported image formats. If phpAdsNew fails to auto-detect 
-        the right image format you can specify the right image format. Possible 
-        values are: none, png, jpeg, gif.
-		";
+	Normaal gesproken zal phpAdsNew zelf detecteren of de GD extentie is 
+	geinstalleerd en welke formaten ondersteund worden door de geinstalleerde
+	versie. Echter sommige versies van PHP kunnen de ondersteunde formaten niet 
+	goed en/of accuraat detecteren. Indien de automatische detectie faalt, dan
+	kunt u hier het juiste formaat instellen. Mogelijke formaten zijn:
+	geen, png, jpeg of gif.	
+";
 		
 $GLOBALS['phpAds_hlp_p3p_policies'] = "
-        If you want to enable phpAdsNew' P3P Privacy Policies you must turn this 
-        option on. 
-		";
+	Indien u gebruik wil maken van P3P Privacy Policies kunt u deze optie aanzetten.
+	Hieronder kunt u exact de P3P instellingen exact configureren.
+";
 		
 $GLOBALS['phpAds_hlp_p3p_compact_policy'] = "
-        The compact policy which is sent together with cookies. The default setting 
-        is: 'CUR ADM OUR NOR STA NID', which will allow Internet Explorer 6 to 
-        accept the cookies used by phpAdsNew. If you want you can alter these 
-        settings to match your own privacy statement.
-		";
+	Een compacte policy wordt samen met cookies meegezonden. De standaard instelling
+	is: 'CUR ADM OUR NOR STA NID'. Met de standaard instelling zal Internet
+	Explorer 6 de cookies die door phpAdsNew gebruikt worden accepteren. Indien u
+	wilt kunt u deze instelling aanpassen naar uw eigen privacy verklaring.
+";
 		
 $GLOBALS['phpAds_hlp_p3p_policy_location'] = "
-        If you want to use a full privacy policy, you can specify the location 
-        of the policy.
-		";
+	Indien u een volledige privacy policy wilt gebruiken kunt u hier de locatie
+	invullen van het P3P policy bestand.
+";
 		
 $GLOBALS['phpAds_hlp_log_beacon'] = "
-		Beacons are small invisible images which are placed on the page where the banner 
-		also is displayed. If you turn this feature on phpAdsNew will use this beacon image 
-		to count the number of impressions the banner has recieved. If you turn this feature 
-		off the impression will be counted during delivery, but this is not entirely accurate, 
-		because a delivered banner doesn’t always have to be displayed on the screen. 
-		";
+	Beacons zijn kleine onzichtbare afbeeldingen welke op de pagina geplaatst worden
+	waarop uw banners worden getoond. Als u deze optie aanzet zal phpAdsNew deze
+	beacon afbeeldingen gebruiken om het aantal keer dat de banner gezien wordt te tellen.
+	Als u deze functie niet gebruikt wordt het aantal keer dat de banner getoond wordt
+	geteld op het moment dat de banner aangevraagd wordt, maar dit is niet geheel
+	accuraat omdat een aangevraagde banner niet altijd of het scherm getoond hoeft te worden.
+";
 		
 $GLOBALS['phpAds_hlp_compact_stats'] = "
-        Traditionally phpAdsNew used rather extensive logging, which was very 
-        detailed but was also very demanding on the database server. This could 
-        be a big problem on sites with a lot of visitors. To overcome this problem
-		phpAdsNew also supports a new kind of statistics, the compact statistics, 
-		which is less demanding on the database server, but also less detailed. 
-		The compact statistics only logs daily statistics, if you need hourly statistics 
-		you can turn the compact statistics off.
-		";
+	Traditioneel slaat phpAdsNew gedetailleerde data op bij elke impressie. Echter deze
+	uitgebreide manier van opslaan kan veel vergen van de database server, wat een probleem
+	kan zijn als uw website veel bezoekers heeft. Om dit probleem op te lossen is er nu
+	een compactere manier van gegevens opslaan. Deze manier van opslaan vergt minder van
+	de database server, maar is ook minder gedetailleerd.
+";
 		
 $GLOBALS['phpAds_hlp_log_adviews'] = "
-        Normally all AdViews are logged, if you don't want to gather statistics 
-        about AdViews you can turn this off.
-		";
+	Normaal gesproken worden alle AdViews bijgehouden, maar in het geval dat u geen
+	statistieken wil bijhouden over het aantal AdViews, dan kunt u deze functie uitzetten.
+";
 		
 $GLOBALS['phpAds_hlp_block_adviews'] = "
-		If a visitor reloads a page an AdView will be logged by phpAdsNew every time. 
-		This feature is used to make sure that only one AdView is logged for each unique 
-		banner for the number of seconds you specify. For example: if you set this value 
-		to 300 seconds, phpAdsNew will only log AdViews if the same banner isn’t already 
-		shown to the same visitor in the last 5 minutes. This feature only works when <i>Use 
-		beacons to log AdViews</i> is enabled and if the browser accepts cookies.
-		";
+	Als een bezoeker de pagina ververst zal er iedere keer als de banner getoond wordt
+	een nieuwe AdView worden opgeslagen door phpAdsNew. Deze optie zorgt er voor dat
+	als een banner eenmaal getoond is deze niet meer wordt bijgehouden voor het aantal
+	seconde dat hier ingesteld is. Bijvoorbeeld: als u dit veld insteld op 300 seconden,
+	zal phpAdsNew alleen AdViews opslaan als de banner de laatste 300 seconden niet al
+	eerder getoond is. Deze functie werkt alleen als <i>Gebruik beacons om AdViews te
+	loggen</i> aan staat en de browser cookies accepteerd.
+";
 		
 $GLOBALS['phpAds_hlp_log_adclicks'] = "
-        Normally all AdClicks are logged, if you don't want to gather statistics 
-        about AdClicks you can turn this off.
-		";
+	Normaal gesproken worden alle AdViews bijgehouden, maar in het geval dat u geen
+	statistieken wilt bijhouden over het aantal AdClicks, dan kunt u deze functie uitzetten.
+";
 		
 $GLOBALS['phpAds_hlp_block_adclicks'] = "
-		If a visitor clicks multiple times on a banner an AdClick will be logged by phpAdsNew 
-		every time. This feature is used to make sure that only one AdClick is logged for each 
-		unique banner for the number of seconds you specify. For example: if you set this value 
-		to 300 seconds, phpAdsNew will only log AdClicks if the visitor didn’t click on the same 
-		banner in the last 5 minutes. This feature only works when the browser accepts cookies.
-		";
+	Als een bezoeker meerdere keren om een banner klikt, zullen alle keren bijgehouden
+	worden door phpAdsNew. Deze optie zorgt er voor dat als er eenmaal op een banner
+	geklikt is, deze niet meer bijgehouden worden gedurende het aantal seconde dat u hier
+	opgeeft. Bijvoorbeeld: als u dit veld insteld op 300 seconden, zal phpAdsNew alleen
+	AdClicks bijhouden als er de laatste 300 seconde niet als op de banner geklikt is.
+	Deze functie werkt alleen als <i>Gebruik beacons om AdViews te loggen</i> aan staat
+	en de browser cookies accepteerd.
+";
 		
 $GLOBALS['phpAds_hlp_reverse_lookup'] = "
-        phpAdsNew logs the IP address of each visitor by default. If you want 
-        phpAdsNew to log domain names you should turn this on. Reverse lookup 
-        does take some time; it will slow everything down.
-		";
+	Standaard slaat phpAdsNew het IP adres van elke gebruiker op. Indien u wilt dat
+	phpAdsNew de domeinnaam van de gebruiker wilt bijhouden kunt u deze functie aanzetten.
+	Het achterhalen van de domeinnaam kost tijd en zal daarom phpAdsNew vertragen.
+";
 		
 $GLOBALS['phpAds_hlp_proxy_lookup'] = "
-		Some users are using a proxy server to access the internet. In that case 
-		phpAdsNew will log the IP address or the hostname of the proxy server 
-		instead of the user. If you enable this feature phpAdsNew will try to 
-		find the ip address or hostname of the user behind the proxy server. 
-		If it is not possible to find the exact address of the user it will use 
-		the address of the proxy server instead. This option is not enable by default, 
-		because it will slow logging down.
-		";
+	Sommige gebruikers gebruiken een proxy server voor de toegang tot internet. In dat
+	geval zal phpAdsNew het IP adres van de proxy server opslaan, inplaats het IP adres
+	van de gebruiker. Als u deze functie aanzet, zal phpAdsNew proberen om het IP adres
+	van de gebruiker achter de proxy server te achterhalen. Indien dit niet lukt zal 
+	phpAdsNew het IP adres van de proxy opslaan. Deze optie staat niet standaard aan
+	omdat het achterhalen van het IP adres tijd kost en phpAdsNew zal vertragen.
+";
 		
 $GLOBALS['phpAds_hlp_ignore_hosts'] = "
-        If you don't want to count clicks and views from certain computer you 
-        can add these to this array. If you have enabled reverse lookup you can 
-        add both domain names and IP addresses, otherwise you can only use IP 
-        addresses. You can also use wildcards (i.e. '*.altavista.com' or '192.168.*').
-		";
+	Indien u van sommige computers niet de AdViews en AdClicks wilt bijhouden
+	kunt u het IP adres van de computer aan deze lijst toevoegen. Indien u
+	Reverse lookup aan heeft staan kunt u ook domeinnamen in deze lijst gebruiken.
+	U kunt ook een zgn. wildcard gebruiken (bijv. *.altavista.nl of 192.168.*).
+";
 		
 $GLOBALS['phpAds_hlp_begin_of_week'] = "
-        For most people a week starts on a Monday, but if you want to start each 
-        week on a Sunday you can.
-		";
+	Voor de meeste mensen start een week op de Maandag, maar indien u in een land
+	woont waar het gewoonte is dat de week op een Zondag start kunt dit hier instellen.
+";
 		
 $GLOBALS['phpAds_hlp_percentage_decimals'] = "
-        Specifies how many decimal places to display on statistics pages.
-		";
+	Specificeer hoe nauwkeurig achter de comma phpAdsNew moet rekenen.
+";
 		
 $GLOBALS['phpAds_hlp_warn_admin'] = "
-        phpAdsNew can sent you e-mail if a campaign has only a limited number of 
-        clicks or views left. This is turned on by default.
-		";
+	phpAdsNew kan u automatisch een e-mail sturen als een campagne op het staat
+	punt om gedeactiveerd te worden. Deze staat standaard optie aan.
+";
 		
 $GLOBALS['phpAds_hlp_warn_client'] = "
-        phpAdsNew can sent the advertiser e-mail if one of his campaigns has only a 
-		limited number of clicks or views left. This is turned on by default.
-		";
+	phpAdsNew kan adverteerders automatisch per e-mail waarschuwen als hun campagnes
+	op het punt staan om gedeactiveerd te worden. Deze optie staat standaard aan.
+";
 		
 $GLOBALS['phpAds_hlp_qmail_patch'] = "
-		Some versions of qmail are affected by a bug, which causes e-mail sent by 
-		phpAdsNew to show the headers inside the body of the e-mail. If you enable 
-		this setting, phpAdsNew will send e-mail in a qmail compatible format.
-		";
+	Sommige versies van qmail bevatten een fout, waardoor e-mail welke door phpAdsNew
+	verstuurd wordt verminkt overkomt. Indien dit bij u het geval is, dan kunt u deze
+	optie aanzetten, phpAdsNew zal dan haar e-mail versturen in een formaat wat
+	wel goed door qmail begrepen wordt.
+";
 		
 $GLOBALS['phpAds_hlp_warn_limit'] = "
-        The limit on which phpAdsNew starts sending warning e-mails. This is 100 
-        by default.
-		";
+	Door middel van dit veld kunt u instellen wanneer waarschuwingen per e-mail
+	worden verstuurd. Als het aantal AdViews wat nog over is voor een campagne
+	kleiner is dan dit getal dan worden automatisch e-mails verstuurd. Standaard
+	is dit als er minder dan 100 AdViews over zijn.
+";
 		
 $GLOBALS['phpAds_hlp_allow_invocation_plain'] = 
 $GLOBALS['phpAds_hlp_allow_invocation_js'] = 
@@ -235,235 +249,238 @@ $GLOBALS['phpAds_hlp_allow_invocation_xmlrpc'] =
 $GLOBALS['phpAds_hlp_allow_invocation_local'] = 
 $GLOBALS['phpAds_hlp_allow_invocation_interstitial'] = 
 $GLOBALS['phpAds_hlp_allow_invocation_popup'] = "
-		These settings allows you to control which invocation types are allowed.
-		If one of these invocation types are disabled they will not be available
-		in the invocationcode / bannercode generator. Important: the invocation methods
-		will still work if disabled, but they are not available for generation.
-		";
+	Met deze instellingen kunt u beinvloeden welke invocatie types toegestaan zijn.
+	Als een invocatie types niet toegestaan is, zal deze niet meer beschikbaar zijn
+	in de bannercode generator. Belangrijk: de methode zelf zal nog steeds werken,
+	alleen het genereren van nieuwe bannercodes zal niet meer toegestaan zijn.
+";
 		
 $GLOBALS['phpAds_hlp_con_key'] = "
-        phpAdsNew includes a powerful retrieval system using direct selection. 
-		For more information, please read the user guide. With this option, you 
-		can activate conditional keywords. This is turned on by default.
-		";
+	phpAdsNew bevat een krachtig system waarmee banners direct geselecteerd kunnen
+	worden. Voor meer informatie lees de documentatie. Met deze optie kunt u
+	conditionele sleutelwoorden activeren. Deze optie staat standaard aan. 
+";
 		
 $GLOBALS['phpAds_hlp_mult_key'] = "
-        If you are using direct selection to display banners, you can specify one 
-		or more keywords for each banner. This option needs to be enabled if you want 
-		to specify more than one keyword. This is turned on by default.
-		";
+	Indien u banners toont door middel van een directe selectie, kunt u een of
+	meerdere sleutelwoorden specificeren voor elke banner. Deze optie moet aan
+	staan als u meerdere sleutelwoorden wilt gebruiken. Standaard staat deze 
+	optie aan.
+";
 		
 $GLOBALS['phpAds_hlp_acl'] = "
-        If you are not using delivery limitations you can disable this option with this parameter, 
-        this will speed up phpAdsNew a bit.
-		";
+	Indien u geen gebruik wilt maken van leverings beperkingen dan kunt u deze
+	optie uitzetten. Dit zal phpAdsNew iets versnellen.
+";
 		
 $GLOBALS['phpAds_hlp_default_banner_url'] = 
 $GLOBALS['phpAds_hlp_default_banner_target'] = "
-        If phpAdsNew can't connect to the database server, or can't find any matching 
-        banners at all, for example when the database crashed or was deleted, 
-        it won't display anything. Some users may want to specify a default banner, 
-        which will be displayed in these situations. The default banner specified 
-        here will not be logged and won't be used if there are still active banners 
-        left in the database. This is turned off by default.
-		";
+	Als phpAdsNew geen connectie op kan bouwen met de database server, of indien
+	er geen banner gevonden kan worden (bijv. omdat de database gecrashed of gewist
+	is), dan is het mogelijk om een standaard banner te tonen. Voor de banner die u
+	hier opgeeft zullen geen statistieken worden bijgehouden.
+";
 		
 $GLOBALS['phpAds_hlp_zone_cache'] = "
-        If you are using zones this setting allows phpAdsNew to store the banner 
-        information inside a cache which will be used later on. The will speed 
-        up phpAdsNew a bit, because instead of retrieving the zone information 
-        and retrieving the banner information and selecting the right banner, 
-        phpAdsNew only needs to load the cache. This feature is turned on by default.
-		";
+	Indien u gebruik maakt van de zonecache worden tussentijdse informatie
+	zoals de banner gegevens tijdelijk opgeslagen. Hierdoor kan als de zone
+	nog een keer aangeroepen wordt de tussentijdse informatie gebruikt worden
+	waardoor deze niet iedere opnieuw aangemaakt hoeft te worden. Deze optie
+	staat standaard aan.
+";
 		
 $GLOBALS['phpAds_hlp_zone_cache_limit'] = "
-        If you are using cached zones, the information inside the cache can become 
-        outdated. Once in a while phpAdsNew needs to rebuild the cache, so new 
-        banners will be included in the cache. This setting lets you decide when 
-        a cached zone will be reloaded, by specifing the maximum lifetime of the 
-        cached zone. For example: if you set this setting to 600, the cache will 
-        be rebuild if the cached zone is older than 10 minutes (600 seconds).
-		";
+	Indien u gebruik van de van de zonecache kan het voorkomen dat de tussentijdse
+	informatie verouderd wordt. Eens in de zoveel tijd zal de tussentijdse
+	informatie ververst moeten worden, zodat bijv. nieuwe banners ook opgeslagen
+	worden. Met deze optie kunt u bepalen hoelang de tussentijdse informatie
+	maximaal gebruikt kan worden, voordat deze ververst moet worden. Bijvoorbeeld:
+	als deze optie ingesteld wordt op 600 seconden, zal de tussentijdse informatie
+	na 10 minuten verouderd raken en opnieuw ververst worden.
+";
 		
 $GLOBALS['phpAds_hlp_type_sql_allow'] = 
 $GLOBALS['phpAds_hlp_type_web_allow'] = 
 $GLOBALS['phpAds_hlp_type_url_allow'] = 
 $GLOBALS['phpAds_hlp_type_html_allow'] = "
-        phpAdsNew can use different types of banners and store them in different 
-        ways. The first two options are used for local storage of banners. You 
-        can use the admin interface to upload a banner and phpAdsNew will store 
-        the banner in the SQL database or on a web server. You can also use a banner 
-		stored on an external web server or use HTML to generate a banner.
-		";
+	phpAdsNew kan verschillende banner typen gebruiken en deze opslaan in
+	verschillende manieren. De eerste twee opties worden gebruikt voor de
+	lokale opslag van banners. Het is ook mogelijk om banners die opgeslagen
+	zijn op een externe server, of HTML banners te gebruiken.
+";
 		
 $GLOBALS['phpAds_hlp_type_web_mode'] = "
-        If you want to use banners stored on the web server, you need to configure 
-        this setting. If you want to store the banners in a local directory set 
-        this option to <i>Local directory</i>. If you want to store the banner on an 
-		external FTP server set this option to <i>External FTP server</i>. On certain 
-		web servers you may want to use the FTP option even on the local web server.
-		";
+	Indien u uw banners wilt opslaan op een webserver, dan moet u deze optie
+	configureren. Indien u de banner wilt opslaan in een lokale map, zet dan
+	dit veld op <i>Lokale map</i>. Indien u de banner wilt opslaan op een externe
+	server, zet dan dit veld op <i>Externe FTP server</i>. Op sommige webservers
+	is het verstandig om de tweede optie te gebruiken, zelfs al is de map
+	waarin u de banner wilt opslaan lokaal bereikbaar is.
+";
 		
 $GLOBALS['phpAds_hlp_type_web_dir'] = "
-        Specify the directory where phpAdsNew needs to copy the uploaded banners 
-        to. This directory needs to be writable by PHP, this could mean you need 
-        to modify the UNIX permissions for this directory (chmod). The directory 
-        you specify here needs to be in the web server' document root, the web 
-        server must be able to serve the files directly. Do not specify a trailing 
-        slash (/). You only need to configure this option if you have set the storing
-		method to <i>Local directory</i>.
+	U kunt hier de map specificeren waar phpAdsNew de banners moet opslaan.
+	Deze map moet te beschrijven zijn door PHP, wat mogelijk betekend dat u
+	de UNIX permissies van de map moet aanpassen (chmod). De map moet bereikbaar
+	zijn voor de webserver, zodat deze de banners direct kan aanbieden aan 
+	de browser. U moet hier geen slash (/) aan het einde van locatie van de map 
+	plaatsen. U hoeft deze instelling alleen te configureren als u gebruik maakt
+	van de <i>Lokale map</i> methode.
 		";
 		
 $GLOBALS['phpAds_hlp_type_web_ftp_host'] = "
-		If you set the storing method to <i>External FTP server</i> you need to
-        specify the IP address or domain name of the FTP server where phpAdsNew needs 
-		to copy the uploaded banners to.
-		";
+	Indien u gebruik maakt van de <i>Externe FTP server</i> methode moet u het
+	IP adres of de domeinnaam van de FTP server, waar phpAdsNew de banners op moet
+	opslaan, opgeven.
+";
       
 $GLOBALS['phpAds_hlp_type_web_ftp_path'] = "
-		If you set the storing method to <i>External FTP server</i> you need to
-        specify the directory on the external FTP server where phpAdsNew needs 
-		to copy the uploaded banners to.
-		";
+	Indien u gebruik maakt van de <i>Externe FTP server</i> methode moet u de map
+	opgeven op de FTP server, waar phpAdsNew de banners op moet opslaan, opgeven.
+";
       
 $GLOBALS['phpAds_hlp_type_web_ftp_user'] = "
-		If you set the storing method to <i>External FTP server</i> you need to
-        specify the username which phpAdsNew must use in order to connect to the
-		external FTP server.
-		";
+	Indien u gebruik maakt van de <i>Externe FTP server</i> methode moet u de
+	gebruikersnaam van de FTP server, waar phpAdsNew de banners op moet
+	opslaan, opgeven.
+";
       
 $GLOBALS['phpAds_hlp_type_web_ftp_password'] = "
-		If you set the storing method to <i>External FTP server</i> you need to
-        specify the password which phpAdsNew must use in order to connect to the
-		external FTP server.
-		";
+	Indien u gebruik maakt van de <i>Externe FTP server</i> methode moet u het
+	wachtwoord van de FTP server, waar phpAdsNew de banners op moet
+	opslaan, opgeven.
+";
       
 $GLOBALS['phpAds_hlp_type_web_url'] = "
-        If you store banners on a web server, phpAdsNew needs to know which public 
-        URL corresponds with the directory you specified below. Do not specify 
-        a trailing slash (/).
-		";
+	Indien u banners opslaat op de webserver, moet u phpAdsNew laten weten waar
+	de banners via de webserver te vinden zijn. U moet hier de URL opgeven van
+	de map die u eerder opgegeven heeft (zonder slash aan het einde).
+";
 		
 $GLOBALS['phpAds_hlp_type_html_auto'] = "
-        If this option is turned on phpAdsNew will automatically alter HTML banners 
-        in order to allow the clicks to be logged. However even if this option 
-        is turned it will be possible to disable this feature on a per banner 
-        basis. 
-		";
+	Als deze optie aan staat zal phpAdsNew automatisch de HTML banners aanpassen,
+	zodat deze geschikt worden voor het bijhouden van AdClicks. Echter het is
+	nog steeds mogelijk om deze optie per banner uit te schakelen.
+";
 		
 $GLOBALS['phpAds_hlp_type_html_php'] = "
-        It is possible to let phpAdsNew execute PHP code embedded inside HTML 
-        banners. This feature is turned off by default.
-		";
+	Als deze optie aan staat is het mogelijk om PHP code te gebruiken in HTML
+	banners. Deze optie staat standaard uit.
+";
 		
 $GLOBALS['phpAds_hlp_admin'] = "
-        The administrator username, you can specify the username that you can 
-        use to log into the administrator interface.
-		";
+	U kunt hier de gebruikersnaam van de beheerder instellen. Met deze
+	gebruikersnaam krijgt u toegang tot de administratie interface.
+";
 		
 $GLOBALS['phpAds_hlp_pwold'] = 
 $GLOBALS['phpAds_hlp_pw'] = 
 $GLOBALS['phpAds_hlp_pw2'] = "
-        To change the administrator password, you can need to specify the old
-		password above. Also you need to specify the old password twice, to
-		prevent typing errors.
-		";
+	Om het wachtwoord van de beheerder te veranderen dient u eerst het
+	oude wachtwoord in te vullen, en daaronder tweemaal het nieuwe wachtwoord.
+	U moet dit dubbel invullen, om typefouten te voorkomen.
+";
 		
 $GLOBALS['phpAds_hlp_admin_fullname'] = "
-        Specify the administrator's full name. This used when sending statistics 
-        via email.
-		";
+        U kunt hier de volledige naam van de beheerder invullen. Deze naam wordt
+	gebruikt in de e-mails die phpAdsNew verstuurd.
+";
 		
 $GLOBALS['phpAds_hlp_admin_email'] = "
-        The administrator's e-mail address. This is used as from-address when 
-        sending statistics via email.
-		";
+	U kunt hier het e-mail adres van de beheerder invullen. Dit adres zal
+	gebruikt worden als afzenden van alle e-mail die phpAdsNew verstuurd.
+";
 		
 $GLOBALS['phpAds_hlp_admin_email_headers'] = "
-        You can alter the e-mail headers used by the e-mails which phpAdsNew sends.
-		";
+	U kunt in dit veld extra headers toevoegen aan de e-mail die phpAdsNew verstuurd.
+";
 		
 $GLOBALS['phpAds_hlp_admin_novice'] = "
-        If you want to recieve a warning before deleting advertisers, campaigns or 
-        banners; set this option to true.
-		";
+	Indien u een waarschuwing wilt krijgen voordat u adverteerders, campagnes of
+	banners verwijder, moet u deze optie aanzetten.
+";
 		
 $GLOBALS['phpAds_hlp_client_welcome'] = 
 $GLOBALS['phpAds_hlp_client_welcome_msg'] = "
-       If you turn this feature on a welcome message will be displayed on the 
-        first page an advertiser will see after logging in. You can personalize this 
-        message by editing the 'welcome.html' file location in the 'admin/templates' 
-        directory. Things you might want to include are for example: Your company 
-        name, contact information, your company logo, a link a page with advertising 
-        rates, etc..
-		";
+	Als u deze functie aanzet zal er een welkomstbericht getoond worden op de
+	eerste pagina die de adverteerder ziet als hij inlogd. U kunt dit bericht
+	personaliseren door het bestand 'welcome.html' te wijzigen welke te vinden
+	is in de 'admin/templates' map. U kunt bijvoorbeeld de naam van uw bedrijf, 
+	uw logo, contact informatie en een link naar een pagina met advertentie
+	tarieven toevoegen.
+";
 		
 $GLOBALS['phpAds_hlp_updates_frequency'] = "
-		If you want to check for new versions of phpAdsNew you can enable this feature. 
-		It is possible the specify the interval in which phpAdsNew makes a connection to 
-		the update server. If a new version is found a dialog box will pop up with additional 
-		information about the update.
-		";
+	Indien u wilt dat phpAdsNew automatisch controleerd of er nieuwere versies
+	beschikbaar zijn kunt u hier instellen hoevaak deze controle wordt uitgevoerd.
+	Indien een nieuwe versie beschikbaar is zal er een nieuw venster verschijnen met
+	daarin extra informatie over de nieuwere versie.
+";
 		
 $GLOBALS['phpAds_hlp_userlog_email'] = "
-		If you want to keep a copy of all outgoing e-mail messages send by phpAdsNew you 
-		can enable this feature. The e-mail messages are stored in the userlog.
-		";
+	Indien u een kopie wilt bewaren van alle e-mail berichten die phpAdsNew verzend
+	dan kunt u deze optie aanzetten. De e-mail berichten worden opgeslagen in de
+	gebruikers log.
+";
 		
 $GLOBALS['phpAds_hlp_userlog_priority'] = "
-		To ensure the priority calculation ran correct, you can save a report about 
-		the hourly calculation. This report includes the predicted profile and how much 
-		priority is assigned to all banners. This information might be useful if you 
-		want to submit a bugreport about the priority calculations. The reports are 
-		stored inside the userlog.
-		";
+	Als u zeker wilt weten dat de prioriteit berekeningen correct verlopen zijn kunt u
+	een rapport hierover opslaan. Het rapport bevat het voorspelde profiel en hoe
+	de prioriteiten verdeeld zijn over de banners. Deze informatie is handig wanneer
+	u een fout wilt melden bij de makers van phpAdsNew. De rapporten worden opgeslagen
+	in de gebruikers log.
+";
 		
 $GLOBALS['phpAds_hlp_default_banner_weight'] = "
-		If you want to use a higher default banner weight you can specify the desired weight here. 
-		This settings is 1 by default.
-		";
+	Indien u standaard een hoger gewicht wilt geven aan banners, dan kunt u hier het
+	gewenste gewicht instellen. Deze optie staat standaard op 1.
+";
 		
 $GLOBALS['phpAds_hlp_default_campaign_weight'] = "
-		If you want to use a higher default campaign weight you can specify the desired weight here. 
-		This settings is 1 by default.
-		";
+	Indien u standaard een hoger gewicht wilt geven aan campagnes, dan kunt u hier het
+	gewenste gewicht instellen. Deze optie staat standaard op 1.
+";
 		
 $GLOBALS['phpAds_hlp_gui_show_campaign_info'] = "
-		If this option is enabled extra information about each campain will be shown on the 
-		<i>Campaign overview</i> page. The extra information includes the number of AdViews remaining, 
-		the number of AdClicks remaining, activation date, expiration date and the priority settings.
-		";
+	Als deze optie aan staat, wordt er extra informatie over elke campagne getoond op de
+	<i>Campagne overzicht</i> pagina. De extra informatie bevat o.a. het overgebleven aantal
+	AdViews en AdClicks, de activeringsdatum, de vervaldatum en de prioriteit
+	instellingen.
+";
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_info'] = "
-		If this option is enabled extra information about each banner will be shown on the 
-		<i>Banner overview</i> page. The extra information includes the destination URL, keywords, 
-		size and the banner weight.
-		";
+	Als deze optie aan staat, wordt er extra informatie over elke banner getoond op de
+	<i>Banner overzicht</i> pagina. De extra informatie bevat o.a. de doel URL, sleutelwoorden,
+	grootte en gewicht.
+";
 		
 $GLOBALS['phpAds_hlp_gui_show_campaign_preview'] = "
-		If this option is enabled a preview of all banners will be shown on the <i>Banner overview</i> 
-		page. If this option is disabled it is still possible to show a preview of each banner by click 
-		on the triangle next to each banner on the <i>Banner overview</i> page.
-		";
+	Als deze optie aan staat, wordt er een voorbeeld van alle banners getoond op de <i>Banner 
+	overzicht</i> pagina. Als deze optie niet aan staat is het nog steeds mogelijk een een voorbeeld
+	van een banner te zien, door op de driehoek naast elke banner op de <i>Banner overzicht</i>
+	pagina te klikken.
+";
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_html'] = "
-		If this option is enabled the actual HTML banner will be shown instead of the HTML code. This 
-		option is disabled by default, because the HTML banners might conflict with the user interface. 
-		If this option is still possible to view the actual HTML banner, by clicking on the <i>Show banner</i>
-		button next to the HTML code.
-		";
+	Als deze optie aan staat wordt de HTML banner zelf getoond in plaats van de HTML code. Deze
+	optie staat standaard uit, omdat de HTML code in sommige gevallen storend kan werken op de
+	pagina van de administratie interface. Als deze optie uit staat dan is het nog steeds mogelijk
+	om de werkelijke banner te zien, door te klikken op <i>Toon banner</i> knop naast de HTML
+	code.
+";
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_preview'] = "
-		If this option is enabled a preview will be shown at the top of the <i>Banner properties</i>, 
-		<i>Delivery option</i> and <i>Linked zones</i> pages. If this option is disabled it is still 
-		possible to view the banner, by clicking on the <i>Show banner</i> button at the top of the pages.
-		";
+	Als deze optie aan staat wordt er een voorbeeld van de banner getoond aan de bovenkant van
+	de <i>Banner eigenschappen</i>, <i>Leveringsopties</i> en <i>Gekoppelde zones</i> pagina's.
+	Als deze optie uit staat is het nog steeds mogelijk om een voorbeeld te bekijken door te 
+	klikken op de <i>Toon banner</i> knop bovenaan de pagina.
+";
 		
 $GLOBALS['phpAds_hlp_gui_hide_inactive'] = "
-		If this option is enabled all inactive banners, campaigns and advertisers will be hidden from the
-		<i>Advertisers & Campaigns</i> and <i>Campaign overview</i> pages. If this option is enabled it is
-		still possible to view the hidden items, by clicking on the <i>Show all</i> button on the bottom
-		of the page.
-		";
+	Als deze optie aan staat worden alle niet-actieve banners, campagnes en adverteerders verborgen
+	op de <i>Adverteerders & campagnes</i> en <i>Campagne overzicht</i> pagina's. Als deze optie
+	aan staat is het mogelijk om de verborgen items te tonen door te klikken op de <i>Toon alles</i>
+	knop onderaan de pagina.
+";
 		
 ?>
