@@ -18,7 +18,7 @@
 /* Log a click to the database       					 */
 /*********************************************************/
 
-function phpAds_logClick($bannerID, $host)
+function phpAds_logClick($bannerid, $host)
 {
 	global $phpAds_config;
 	
@@ -30,7 +30,7 @@ function phpAds_logClick($bannerID, $host)
             SET
                 clicks=clicks+1
             WHERE
-                bannerID = '$bannerID' &&
+                bannerid = '$bannerid' &&
                 day = now()
             ", $phpAds_config['insert_delayed'] ? "LOW_PRIORITY": ""));
 		
@@ -44,7 +44,7 @@ function phpAds_logClick($bannerID, $host)
                     clicks=1,
                     views=0,
                     day = now(),
-                    bannerID = '$bannerID'
+                    bannerid = '$bannerid'
                 ", $phpAds_config['insert_delayed'] ? "DELAYED": ""));
         }
         return $result;
@@ -57,7 +57,7 @@ function phpAds_logClick($bannerID, $host)
         INTO
             ".$phpAds_config['tbl_adclicks']."
         VALUES (
-            '$bannerID',
+            '$bannerid',
             null,
             '$host'
         )", $phpAds_config['insert_delayed'] ? "DELAYED": ""));
@@ -69,7 +69,7 @@ function phpAds_logClick($bannerID, $host)
 /* Log a view to the database       					 */
 /*********************************************************/
 
-function phpAds_logView($bannerID, $host)
+function phpAds_logView($bannerid, $host)
 {
 	global $phpAds_config;
     
@@ -81,7 +81,7 @@ function phpAds_logView($bannerID, $host)
             SET
                 views=views+1
             WHERE
-                bannerID = '$bannerID' &&
+                bannerid = '$bannerid' &&
                 day = now()
             ", $phpAds_config['insert_delayed'] ? "LOW_PRIORITY": ""));
 		
@@ -95,7 +95,7 @@ function phpAds_logView($bannerID, $host)
                     clicks=0,
                     views=1,
                     day=now(),
-                    bannerID = '$bannerID'
+                    bannerid = '$bannerid'
                 ", $phpAds_config['insert_delayed'] ? "DELAYED": ""));
         }
         return $result;
@@ -108,7 +108,7 @@ function phpAds_logView($bannerID, $host)
         INTO
             ".$phpAds_config['tbl_adviews']."
         VALUES (
-            '$bannerID',
+            '$bannerid',
             null,
             '$host'
         )", $phpAds_config['insert_delayed'] ? "DELAYED": ""));

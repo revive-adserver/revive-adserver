@@ -37,9 +37,9 @@ function phpAds_breakString ($str, $maxLen, $append = "...")
 /* Build the client name from ID and name                */
 /*********************************************************/
 
-function phpAds_buildClientName ($clientID, $clientName)
+function phpAds_buildClientName ($clientid, $clientName)
 {
-	return ("[id$clientID] $clientName");
+	return ("[id$clientid] $clientName");
 }
 
 
@@ -47,17 +47,17 @@ function phpAds_buildClientName ($clientID, $clientName)
 /* Fetch the client name from the database               */
 /*********************************************************/
 
-function phpAds_getClientName ($clientID)
+function phpAds_getClientName ($clientid)
 {
 	global $phpAds_config;
 	global $clientCache;
 	global $strUntitled;
 	
-	if ($clientID != '' && $clientID != 0)
+	if ($clientid != '' && $clientid != 0)
 	{
-		if (isset($clientCache[$clientID]) && is_array($clientCache[$clientID]))
+		if (isset($clientCache[$clientid]) && is_array($clientCache[$clientid]))
 		{
-			$row = $clientCache[$clientID];
+			$row = $clientCache[$clientid];
 		}
 		else
 		{
@@ -67,15 +67,15 @@ function phpAds_getClientName ($clientID)
 			FROM
 				".$phpAds_config['tbl_clients']."
 			WHERE
-				clientID = $clientID
+				clientid = $clientid
 			") or phpAds_sqlDie();
 			
 			$row = phpAds_dbFetchArray($res);
 			
-			$clientCache[$clientID] = $row;
+			$clientCache[$clientid] = $row;
 		}
 		
-		return (phpAds_BuildClientName ($clientID, $row['clientname']));
+		return (phpAds_BuildClientName ($clientid, $row['clientname']));
 	}
 	else
 		return ($strUntitled);
@@ -118,7 +118,7 @@ function phpAds_getListOrder ($ListOrder, $OrderDirection)
 			$sqlTableOrder = 'ORDER BY clientname';
 			break;
 		case 'id':
-			$sqlTableOrder = 'ORDER BY parent, clientID';
+			$sqlTableOrder = 'ORDER BY parent, clientid';
 			break;
 		case 'adview':
 			break;
@@ -146,7 +146,7 @@ function phpAds_getBannerListOrder ($ListOrder, $OrderDirection)
 			$sqlTableOrder = 'ORDER BY description';
 			break;
 		case 'id':
-			$sqlTableOrder = 'ORDER BY bannerID';
+			$sqlTableOrder = 'ORDER BY bannerid';
 			break;
 		case 'adview':
 			break;
@@ -192,15 +192,14 @@ function phpAds_getZoneListOrder ($ListOrder, $OrderDirection)
 /*********************************************************/
 /* Fetch the ID of the parent of a campaign              */
 /*********************************************************/
-
-function phpAds_getParentID ($clientID)
+function phpAds_getParentID ($clientid)
 {
 	global $phpAds_config;
 	global $clientCache;
 	
-	if (isset($clientCache[$clientID]) && is_array($clientCache[$clientID]))
+	if (isset($clientCache[$clientid]) && is_array($clientCache[$clientid]))
 	{
-		$row = $clientCache[$clientID];
+		$row = $clientCache[$clientid];
 	}
 	else
 	{
@@ -210,12 +209,12 @@ function phpAds_getParentID ($clientID)
 			FROM
 				".$phpAds_config['tbl_clients']."
 			WHERE
-				clientID = $clientID
+				clientid = $clientid
 		") or phpAds_sqlDie();
 		
 		$row = phpAds_dbFetchArray($res);
 		
-		$clientCache[$clientID] = $row;
+		$clientCache[$clientid] = $row;
 	}
 	
 	return ($row['parent']);
@@ -227,14 +226,14 @@ function phpAds_getParentID ($clientID)
 /* Fetch the name of the parent of a campaign            */
 /*********************************************************/
 
-function phpAds_getParentName ($clientID)
+function phpAds_getParentName ($clientid)
 {
 	global $phpAds_config;
 	global $clientCache;
 	
-	if (isset($clientCache[$clientID]) && is_array($clientCache[$clientID]))
+	if (isset($clientCache[$clientid]) && is_array($clientCache[$clientid]))
 	{
-		$row = $clientCache[$clientID];
+		$row = $clientCache[$clientid];
 	}
 	else
 	{
@@ -244,12 +243,12 @@ function phpAds_getParentName ($clientID)
 			FROM
 				".$phpAds_config['tbl_clients']."
 			WHERE
-				clientID = $clientID
+				clientid = $clientid
 		") or phpAds_sqlDie();
 		
 		$row = phpAds_dbFetchArray($res);
 		
-		$clientCache[$clientID] = $row;
+		$clientCache[$clientid] = $row;
 	}
 	
 	return (phpAds_getClientName ($row['parent']));
@@ -261,7 +260,7 @@ function phpAds_getParentName ($clientID)
 /* Build the banner name from ID, Description and Alt    */
 /*********************************************************/
 
-function phpAds_buildBannerName ($bannerID, $description = '', $alt = '', $limit = 30)
+function phpAds_buildBannerName ($bannerid, $description = '', $alt = '', $limit = 30)
 {
 	global $strUntitled;
 	
@@ -278,8 +277,8 @@ function phpAds_buildBannerName ($bannerID, $description = '', $alt = '', $limit
 	if (strlen($name) > $limit)
 		$name = phpAds_breakString ($name, $limit);
 	
-	if ($bannerID != '')
-		$name = "[id$bannerID] ".$name;
+	if ($bannerid != '')
+		$name = "[id$bannerid] ".$name;
 	
 	return ($name);
 }
@@ -290,14 +289,14 @@ function phpAds_buildBannerName ($bannerID, $description = '', $alt = '', $limit
 /* Fetch the banner name from the database               */
 /*********************************************************/
 
-function phpAds_getBannerName ($bannerID, $limit = 30, $id = true)
+function phpAds_getBannerName ($bannerid, $limit = 30, $id = true)
 {
 	global $phpAds_config;
 	global $bannerCache;
 	
-	if (isset($bannerCache[$bannerID]) && is_array($bannerCache[$bannerID]))
+	if (isset($bannerCache[$bannerid]) && is_array($bannerCache[$bannerid]))
 	{
-		$row = $bannerCache[$bannerID];
+		$row = $bannerCache[$bannerid];
 	}
 	else
 	{
@@ -307,16 +306,16 @@ function phpAds_getBannerName ($bannerID, $limit = 30, $id = true)
 			FROM
 				".$phpAds_config['tbl_banners']."
 			WHERE
-				bannerID = $bannerID
+				bannerid = $bannerid
 		") or phpAds_sqlDie();
 		
 		$row = phpAds_dbFetchArray($res);
 		
-		$bannerCache[$bannerID] = $row;
+		$bannerCache[$bannerid] = $row;
 	}
 	
 	if ($id)
-		return (phpAds_buildBannerName ($bannerID, $row['description'], $row['alt'], $limit));
+		return (phpAds_buildBannerName ($bannerid, $row['description'], $row['alt'], $limit));
 	else
 		return (phpAds_buildBannerName ('', $row['description'], $row['alt'], $limit));
 }
@@ -376,14 +375,14 @@ function phpAds_getZoneName ($zoneid)
 /* Fetch the HTML needed to display a banner from the db */
 /*********************************************************/
 
-function phpAds_getBannerCode ($bannerID)
+function phpAds_getBannerCode ($bannerid)
 {
 	global $phpAds_config;
 	global $bannerCache;
 	
-	if (is_array($bannerCache[$bannerID]))
+	if (is_array($bannerCache[$bannerid]))
 	{
-		$row = $bannerCache[$bannerID];
+		$row = $bannerCache[$bannerid];
 	}
 	else
 	{
@@ -393,15 +392,15 @@ function phpAds_getBannerCode ($bannerID)
 			FROM
 				".$phpAds_config['tbl_banners']."
 			WHERE
-				bannerID = $bannerID
+				bannerid = $bannerid
 		") or phpAds_sqlDie();
 		
 		$row = phpAds_dbFetchArray($res);
 		
-		$bannerCache[$bannerID] = $row;
+		$bannerCache[$bannerid] = $row;
 	}
 	
-	return (phpAds_buildBannerCode ($bannerID, $row['banner'], $row['active'], $row['format'], $row['width'], $row['height'], $row['bannertext']));
+	return (phpAds_buildBannerCode ($bannerid, $row['banner'], $row['active'], $row['format'], $row['width'], $row['height'], $row['bannertext']));
 }
 
 
@@ -409,11 +408,11 @@ function phpAds_getBannerCode ($bannerID)
 /* Build the HTML needed to display a banner             */
 /*********************************************************/
 
-function phpAds_buildBannerCode ($bannerID, $banner, $active, $format, $width, $height, $bannertext)
+function phpAds_buildBannerCode ($bannerid, $banner, $active, $format, $width, $height, $bannertext)
 {
 	global $strShowBanner;
 	
-	if ($active == "true")
+	if ($active == "t")
 	{
 		if ($format == "html")
 		{
@@ -426,8 +425,8 @@ function phpAds_buildBannerCode ($bannerID, $banner, $active, $format, $width, $
 			$buffer	   .= $htmlcode;
 			$buffer    .= "\n</td>";
 			$buffer    .= "<td width='20%' valign='top' align='right' nowrap>&nbsp;&nbsp;";
-			$buffer	   .= "<a href='banner-htmlpreview.php?bannerID=$bannerID' target='_new' ";
-			$buffer	   .= "onClick=\"return openWindow('banner-htmlpreview.php?bannerID=$bannerID', '', 'status=no,scrollbars=no,resizable=no,width=$width,height=$height');\">";
+			$buffer	   .= "<a href='banner-htmlpreview.php?bannerid=$bannerid' target='_new' ";
+			$buffer	   .= "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=$bannerid', '', 'status=no,scrollbars=no,resizable=no,width=$width,height=$height');\">";
 			$buffer    .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strShowBanner."</a>&nbsp;&nbsp;</td>";
 			$buffer	   .= "</tr></table>";
 		}
@@ -454,16 +453,16 @@ function phpAds_buildBannerCode ($bannerID, $banner, $active, $format, $width, $
 			$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
 			$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
 			$buffer .= "swflash.cab#version=5,0,0,0' width='$width' height='$height'>";
-			$buffer .= "<param name='movie' value='../adview.php?bannerID=$bannerID'>";
+			$buffer .= "<param name='movie' value='../adview.php?bannerid=$bannerid'>";
 			$buffer .= "<param name='quality' value='high'>";
 			$buffer .= "<param name='bgcolor' value='#FFFFFF'>";
-			$buffer .= "<embed src='../adview.php?bannerID=$bannerID' quality=high ";
+			$buffer .= "<embed src='../adview.php?bannerid=$bannerid' quality=high ";
 			$buffer .= "bgcolor='#FFFFFF' width='$width' height='$height' type='application/x-shockwave-flash' ";
 			$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
 			$buffer .= "</object>";
 		}
 		else
-			$buffer = "<img src='../adview.php?bannerID=$bannerID' width='$width' height='$height'>";
+			$buffer = "<img src='../adview.php?bannerid=$bannerid' width='$width' height='$height'>";
 	}
 	else
 	{
@@ -478,8 +477,8 @@ function phpAds_buildBannerCode ($bannerID, $banner, $active, $format, $width, $
 			$buffer	   .= $htmlcode;
 			$buffer    .= "\n</td>";
 			$buffer    .= "<td width='20%' valign='top' align='right' nowrap>&nbsp;&nbsp;";
-			$buffer	   .= "<a href='banner-htmlpreview.php?bannerID=$bannerID' target='_new' ";
-			$buffer	   .= "onClick=\"return openWindow('banner-htmlpreview.php?bannerID=$bannerID', '', 'status=no,scrollbars=no,resizable=no,width=$width,height=$height');\">";
+			$buffer	   .= "<a href='banner-htmlpreview.php?bannerid=$bannerid' target='_new' ";
+			$buffer	   .= "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=$bannerid', '', 'status=no,scrollbars=no,resizable=no,width=$width,height=$height');\">";
 			$buffer    .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strShowBanner."</a>&nbsp;&nbsp;</td>";
 			$buffer	   .= "</tr></table>";
 		}
@@ -506,16 +505,16 @@ function phpAds_buildBannerCode ($bannerID, $banner, $active, $format, $width, $
 			$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
 			$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
 			$buffer .= "swflash.cab#version=5,0,0,0' width='$width' height='$height'>";
-			$buffer .= "<param name='movie' value='../adview.php?bannerID=$bannerID'>";
+			$buffer .= "<param name='movie' value='../adview.php?bannerid=$bannerid'>";
 			$buffer .= "<param name='quality' value='high'>";
 			$buffer .= "<param name='bgcolor' value='#FFFFFF'>";
-			$buffer .= "<embed src='../adview.php?bannerID=$bannerID' quality=high ";
+			$buffer .= "<embed src='../adview.php?bannerid=$bannerid' quality=high ";
 			$buffer .= "bgcolor='#FFFFFF' width='$width' height='$height' type='application/x-shockwave-flash' ";
 			$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
 			$buffer .= "</object>";
 		}
 		else
-			$buffer = "<img src='../adview.php?bannerID=$bannerID' width='$width' height='$height' style='filter: Alpha(Opacity=50)'>";
+			$buffer = "<img src='../adview.php?bannerid=$bannerid' width='$width' height='$height' style='filter: Alpha(Opacity=50)'>";
 	}
 	
 	if (!$bannertext == "")
@@ -548,13 +547,13 @@ function phpAds_buildCTR ($views, $clicks)
 /* Delete statistics							         */
 /*********************************************************/
 
-function phpAds_deleteStats($bannerID)
+function phpAds_deleteStats($bannerid)
 {
     global $phpAds_config;
 	
-    phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_adviews']." WHERE bannerID = $bannerID") or phpAds_sqlDie();
-    phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_adclicks']." WHERE bannerID = $bannerID") or phpAds_sqlDie();
-    phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_adstats']." WHERE bannerID = $bannerID") or phpAds_sqlDie();
+    phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_adviews']." WHERE bannerid = $bannerid") or phpAds_sqlDie();
+    phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_adclicks']." WHERE bannerid = $bannerid") or phpAds_sqlDie();
+    phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_adstats']." WHERE bannerid = $bannerid") or phpAds_sqlDie();
 }
 
 
@@ -562,19 +561,19 @@ function phpAds_deleteStats($bannerID)
 /* Get overview statistics						         */
 /*********************************************************/
 
-function phpAds_totalStats($table, $column, $bannerID, $timeconstraint="")
+function phpAds_totalStats($table, $column, $bannerid, $timeconstraint="")
 {
     global $phpAds_config;
     
 	$ret = 0;
     $where = "";
 	
-    if (!empty($bannerID)) 
-        $where = "WHERE bannerID = $bannerID";
+    if (!empty($bannerid)) 
+        $where = "WHERE bannerid = $bannerid";
     
 	if (!empty($timeconstraint))
 	{
-		if (!empty($bannerID))
+		if (!empty($bannerid))
 			$where .= " AND ";
 		else
 			$where = "WHERE ";
@@ -607,12 +606,12 @@ function phpAds_totalStats($table, $column, $bannerID, $timeconstraint="")
     }
 	
     $where = "";
-    if (!empty($bannerID)) 
-        $where = "WHERE bannerID = $bannerID";
+    if (!empty($bannerid)) 
+        $where = "WHERE bannerid = $bannerid";
     
 	if (!empty($timeconstraint))
 	{
-		if (!empty($bannerID))
+		if (!empty($bannerid))
 			$where .= " AND ";
 		else
 			$where = "WHERE ";
@@ -640,18 +639,18 @@ function phpAds_totalStats($table, $column, $bannerID, $timeconstraint="")
     return $ret;
 }
 
-function phpAds_totalClicks($bannerID="", $timeconstraint="")
+function phpAds_totalClicks($bannerid="", $timeconstraint="")
 {
 	global $phpAds_config;
 	
-    return phpAds_totalStats($phpAds_config['tbl_adclicks'], "clicks", $bannerID, $timeconstraint);
+    return phpAds_totalStats($phpAds_config['tbl_adclicks'], "clicks", $bannerid, $timeconstraint);
 }
 
-function phpAds_totalViews($bannerID="", $timeconstraint="")
+function phpAds_totalViews($bannerid="", $timeconstraint="")
 {
 	global $phpAds_config;
 	
-    return phpAds_totalStats($phpAds_config['tbl_adviews'], "views", $bannerID, $timeconstraint);
+    return phpAds_totalStats($phpAds_config['tbl_adviews'], "views", $bannerid, $timeconstraint);
 }
 
 ?>

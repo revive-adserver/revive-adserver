@@ -30,7 +30,7 @@ $res = phpAds_dbQuery("
 	FROM
 		".$phpAds_config['tbl_banners']."
 	WHERE
-		bannerID = $bannerID
+		bannerid = $bannerid
 	") or phpAds_sqlDie();
 
 
@@ -39,7 +39,7 @@ if ($res)
 {
 	$row = phpAds_dbFetchArray($res);
 	
-	echo "<html><head><title>".phpAds_buildBannerName ($bannerID, $row['description'], $row['alt'])."</title></head>";
+	echo "<html><head><title>".phpAds_buildBannerName ($bannerid, $row['description'], $row['alt'])."</title></head>";
 	echo "<body marginheight='0' marginwidth='0' leftmargin='0' topmargin='0'>";
 	echo stripslashes ($row['banner']);
 	echo "</body></html>";

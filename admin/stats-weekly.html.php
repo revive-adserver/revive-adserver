@@ -251,7 +251,7 @@ function stats()
 {
 	global $phpAds_config;
 	global $phpAds_tbl_color;
-	global $campaignID, $which;
+	global $campaignid, $which;
 	global $max_weeks, $php_week_sign, $mysql_week_sign;
 	global $strDayShortCuts;
 	global $strClientName, $strOverall;
@@ -260,15 +260,15 @@ function stats()
 	// get all significant banner-ids to build where-clause
 	$banner_query = "
 		SELECT
-			bannerID, bannertext, alt, description
+			bannerid, bannertext, alt, description
 		FROM
 			".$phpAds_config['tbl_banners']."
 		";
 	
-	if ($campaignID > 0)
+	if ($campaignid > 0)
 	$banner_query .= "
 		WHERE 
-			clientID = $campaignID
+			clientid = $campaignid
 		";
 	
 	$res = phpAds_dbQuery($banner_query) or phpAds_sqlDie();
@@ -279,14 +279,14 @@ function stats()
 	if ($countbanners == 1)
 	{
 		// single banner client
-		$where = 'WHERE bannerID='.phpAds_dbResult ($res, 0, 0);
+		$where = 'WHERE bannerid='.phpAds_dbResult ($res, 0, 0);
 	}
 	else
 	{
 		// multi banner client
 		
-		if ($campaignID > 0) 
-			$where = 'WHERE bannerID IN (';
+		if ($campaignid > 0) 
+			$where = 'WHERE bannerid IN (';
 		else
 			$where = '';
 		
@@ -297,21 +297,21 @@ function stats()
 		while ($banner_row = phpAds_dbFetchArray ($res))
 		{
 			if ($ids) $ids.= ',';
-				$ids .= $banner_row['bannerID'];
+				$ids .= $banner_row['bannerid'];
 				
 			// collect banner names for select-box
 			$banner_select[$i]			= array();
-			$banner_select[$i]['id']	= $banner_row['bannerID'];
-			$banner_select[$i]['name'] 	= phpAds_buildBannerName ($banner_row['bannerID'], $banner_row['description'], $banner_row['alt']);
+			$banner_select[$i]['id']	= $banner_row['bannerid'];
+			$banner_select[$i]['name'] 	= phpAds_buildBannerName ($banner_row['bannerid'], $banner_row['description'], $banner_row['alt']);
 			
 			$i++;
 		}
 		
-		if ($campaignID > 0) 
+		if ($campaignid > 0) 
 			$where .= $ids.')';
 		
 		if ($which != '0')  // there! forget set theory!
-			$where = 'WHERE bannerID='.$which;
+			$where = 'WHERE bannerid='.$which;
 	}
 	
 	
@@ -568,7 +568,7 @@ function stats()
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
 	<?php if (phpAds_GDImageFormat() != "none") { ?>
-	<tr><td colspan="3" align="left" bgcolor="#FFFFFF"><img src="graph-weekly.php?<?php echo "campaignID=$campaignID&max_weeks=$max_weeks&where=".urlencode("$where"); ?>"></td></tr>
+	<tr><td colspan="3" align="left" bgcolor="#FFFFFF"><img src="graph-weekly.php?<?php echo "campaignid=$campaignid&max_weeks=$max_weeks&where=".urlencode("$where"); ?>"></td></tr>
 	<?php } ?>          
 	<tr>
 		<td height='25' bgcolor="#FFFFFF"><?php echo $GLOBALS["strTotalViews"]; ?>: <b><?php tabecho($total_views); ?></b></td>
@@ -585,7 +585,7 @@ function stats()
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 	<tr>
 		<form action="stats-weekly.php">
-			<input type="hidden" name="campaignID" value="<?php echo $campaignID;?>">
+			<input type="hidden" name="campaignid" value="<?php echo $campaignid;?>">
 			<input type="hidden" name="which" value="<?php echo $which;?>">
 			<td height='35'>
 				<?php echo $GLOBALS['strShowWeeks']; ?>
@@ -605,7 +605,7 @@ function stats()
 	{
 		?>
 		<form action="stats-weekly.php">
-			<input type="hidden" name="campaignID" value="<?php echo $campaignID;?>">
+			<input type="hidden" name="campaignid" value="<?php echo $campaignid;?>">
 			<input type="hidden" name="max_weeks" value="<?php echo $max_weeks;?>">
 			<td height='35' align="right">
 				<img src='images/icon-banner-stored.gif' align='absmiddle'>

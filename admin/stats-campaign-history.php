@@ -32,7 +32,7 @@ phpAds_checkAccess(phpAds_Admin+phpAds_Client);
 
 if (phpAds_isUser(phpAds_Client))
 {
-	if (phpAds_clientID() == phpAds_getParentID ($campaignID))
+	if (phpAds_clientid() == phpAds_getParentID ($campaignid))
 	{
 		$extra = '';
 		
@@ -42,17 +42,17 @@ if (phpAds_isUser(phpAds_Client))
 		FROM
 			".$phpAds_config['tbl_clients']."
 		WHERE
-			parent = ".$Session["clientID"]."
+			parent = ".$Session["clientid"]."
 		") or phpAds_sqlDie();
 		
 		while ($row = phpAds_dbFetchArray($res))
 		{
-			if ($campaignID == $row['clientID'])
+			if ($campaignid == $row['clientid'])
 				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
 			else
 				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 			
-			$extra .= "<a href=stats-campaign.php?campaignID=".$row['clientID'].">".phpAds_buildClientName ($row['clientID'], $row['clientname'])."</a>";
+			$extra .= "<a href=stats-campaign.php?campaignid=".$row['clientid'].">".phpAds_buildClientName ($row['clientid'], $row['clientname'])."</a>";
 			$extra .= "<br>"; 
 		}
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
@@ -82,12 +82,12 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	while ($row = phpAds_dbFetchArray($res))
 	{
-		if ($campaignID == $row['clientID'])
+		if ($campaignid == $row['clientid'])
 			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
 		else
 			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 		
-		$extra .= "<a href=stats-campaign.php?campaignID=".$row['clientID'].">".phpAds_buildClientName ($row['clientID'], $row['clientname'])."</a>";
+		$extra .= "<a href=stats-campaign.php?campaignid=".$row['clientid'].">".phpAds_buildClientName ($row['clientid'], $row['clientname'])."</a>";
 		$extra .= "<br>"; 
 	}
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
@@ -95,11 +95,11 @@ if (phpAds_isUser(phpAds_Admin))
 	$extra .= "<br><br><br><br><br>";
 	$extra .= "<b>$strShortcuts</b><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientID=".phpAds_getParentID ($campaignID).">$strModifyClient</a><br>";
+	$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientid=".phpAds_getParentID ($campaignid).">$strModifyClient</a><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignID=$campaignID>$strModifyCampaign</a><br>";
+	$extra .= "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignid=$campaignid>$strModifyCampaign</a><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<a href=campaign-index.php?campaignID=$campaignID>$strBanners</a><br>";
+	$extra .= "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<a href=campaign-index.php?campaignid=$campaignid>$strBanners</a><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	
 	phpAds_PageHeader("2.1.3", $extra);
@@ -114,10 +114,10 @@ if (phpAds_isUser(phpAds_Admin))
 
 if (phpAds_isUser(phpAds_Admin))
 {
-	echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignID);
+	echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
 	echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
 }
-echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignID)."</b>";
+echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignid)."</b>";
 
 echo "<br><br>";
 echo "<br><br>";
@@ -128,19 +128,19 @@ echo "<br><br>";
 if (!isset($limit) || $limit=='') $limit = '7';
 
 
-// Get bannerID's for this client
+// Get bannerid's for this client
 $idresult = phpAds_dbQuery (" 
 	SELECT
-		bannerID
+		bannerid
 	FROM
 		".$phpAds_config['tbl_banners']."
 	WHERE
-		clientID = $campaignID
+		clientid = $campaignid
 ");
 
 while ($row = phpAds_dbFetchArray($idresult))
 {
-	$bannerIDs[] = "bannerID = ".$row['bannerID'];
+	$bannerids[] = "bannerid = ".$row['bannerid'];
 }
 
 
@@ -154,7 +154,7 @@ if ($phpAds_config['compact_stats'])
 				 		 FROM
 							".$phpAds_config['tbl_adstats']."
 						 WHERE
-							(".implode(' OR ', $bannerIDs).")
+							(".implode(' OR ', $bannerids).")
 						 GROUP BY
 						 	day
 						 ORDER BY
@@ -177,7 +177,7 @@ else
 				 		 FROM
 							".$phpAds_config['tbl_adviews']."
 						 WHERE
-							(".implode(' OR ', $bannerIDs).")
+							(".implode(' OR ', $bannerids).")
 						 GROUP BY
 						    day
 						 ORDER BY
@@ -200,7 +200,7 @@ else
 				 		 FROM
 							".$phpAds_config['tbl_adclicks']."
 						 WHERE
-							(".implode(' OR ', $bannerIDs).")
+							(".implode(' OR ', $bannerids).")
 						 GROUP BY
 						    day
 						 ORDER BY
@@ -305,7 +305,7 @@ echo "<tr>";
 echo "<form action='stats-campaign-history.php'>";
 echo "<td height='35' colspan='4' align='right'>";
 	echo $strHistory.":&nbsp;&nbsp;";
-	echo "<input type='hidden' name='campaignID' value='$campaignID'>";
+	echo "<input type='hidden' name='campaignid' value='$campaignid'>";
 	echo "<select name='limit' onChange=\"this.form.submit();\">";
 	echo "<option value='7' ".($limit==7?'selected':'').">7 ".$strDays."</option>";
 	echo "<option value='14' ".($limit==14?'selected':'').">14 ".$strDays."</option>";
@@ -328,7 +328,7 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	// Reset statistics
 	echo "<tr><td height='25'>";
-	echo "<a href='stats-reset.php?campaignID=$campaignID'".phpAds_DelConfirm($strConfirmResetCampaignStats).">";
+	echo "<a href='stats-reset.php?campaignid=$campaignid'".phpAds_DelConfirm($strConfirmResetCampaignStats).">";
 	echo "<img src='images/icon-undo.gif' align='absmiddle' border='0'>&nbsp;$strResetStats</a>";
 	echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "</td></tr>";

@@ -23,12 +23,12 @@ define ("phpAds_Views", 2);
 /* Check the expiration of a client				         */
 /*********************************************************/
 
-function phpAds_expire ($clientID, $type=0)
+function phpAds_expire ($clientid, $type=0)
 {
 	global $phpAds_config;
 	
 	// Get client information
-	$campaignresult = phpAds_dbQuery("SELECT *, UNIX_TIMESTAMP(expire) as expire_st, UNIX_TIMESTAMP(activate) as activate_st FROM ".$phpAds_config['tbl_clients']." WHERE clientID=$clientID");
+	$campaignresult = phpAds_dbQuery("SELECT *, UNIX_TIMESTAMP(expire) as expire_st, UNIX_TIMESTAMP(activate) as activate_st FROM ".$phpAds_config['tbl_clients']." WHERE clientid=$clientid");
 	
 	if ($campaign = phpAds_dbFetchArray ($campaignresult))
 	{
@@ -41,7 +41,7 @@ function phpAds_expire ($clientID, $type=0)
 			if ($campaign["views"] == $phpAds_config['warn_limit'])
 				phpAds_warningMail ($campaign);
 			
-			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET views=views-1 WHERE clientID=$clientID");
+			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET views=views-1 WHERE clientid=$clientid");
 		}
 		
 		// Decrement clicks
@@ -49,27 +49,27 @@ function phpAds_expire ($clientID, $type=0)
 		{
 			$campaign["clicks"] = $campaign["clicks"] - 1;
 			
-			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET clicks=clicks-1 WHERE clientID=$clientID");
+			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET clicks=clicks-1 WHERE clientid=$clientid");
 		}
 		
 		// Check activation status
-		$active = "true";
+		$active = "t";
 		
 		if ($campaign["clicks"] == 0 || $campaign["views"] == 0)
-			$active = "false";
+			$active = "f";
 		
 		if (time() < $campaign["activate_st"])
-			$active = "false";
+			$active = "f";
 		
 		if (time() > $campaign["expire_st"] && $campaign["expire_st"] != 0)
-			$active = "false";
+			$active = "f";
 		
 		if ($campaign["active"] != $active)
 		{
-			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET active='$active' WHERE clientID=$clientID");
+			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET active='$active' WHERE clientid=$clientid");
 		}
 		
-		if ($active == 'false')
+		if ($active == 'f')
 		{
 			// Send deactivation warning
 			phpAds_deactivateMail ($campaign);
@@ -91,15 +91,19 @@ function phpAds_warningMail ($campaign)
 	
 	if ($phpAds_config['warn_admin'] || $phpAds_config['warn_client'])
 	{
+		// Load config from the db
+		include(phpAds_path.'/lib-dbconfig.inc.php');
+		phpAds_LoadDbConfig();
+		
 		// Get the client which belongs to this campaign
-		$clientresult = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE clientID=".$campaign['parent']);
+		$clientresult = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE clientid=".$campaign['parent']);
 		if ($client = phpAds_dbFetchArray($clientresult))
 		{
 			// Load client language strings
 			if (isset($client["language"]) && $client["language"] != "")
-				include (phpAds_path."/language/".$client["language"].".inc.php");
+				include (phpAds_path.'/language/'.$client['language'].'/default.lang.php');
 			else
-				include (phpAds_path."/language/".$phpAds_config['language'].".inc.php");
+				include (phpAds_path.'/language/'.$phpAds_config['language'].'/default.lang.php');
 			
 			
 			$Subject = $strViewsClicksLow.": ".$campaign["clientname"];
@@ -111,7 +115,9 @@ function phpAds_warningMail ($campaign)
 				$Headers .= "Content-Type: text/plain; charset=".$phpAds_CharSet."\n"; 
 			
 			$Headers .= "To: ".$client['contact']." <".$client['email'].">\n";
-			$Headers .= $phpAds_config['admin_email_headers']."\n";
+			$Headers .= "From: <".$phpAds_admin_email.">\n";
+			if (!empty($phpAds_config['admin_email_headers']))
+				$Headers .= $phpAds_config['admin_email_headers']."\n";
 			
 			$Body    = "$strMailHeader\n";
 			$Body 	.= "$strWarnClientTxt\n";
@@ -150,16 +156,16 @@ function phpAds_deactivateMail ($campaign)
 	global $strBanner, $strMailNothingLeft, $strMailFooter;
 	global $strUntitled, $phpAds_CharSet;
 	
-	$clientresult = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE clientID=".$campaign['parent']);
+	$clientresult = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE clientid=".$campaign['parent']);
 	if ($client = phpAds_dbFetchArray($clientresult))
 	{
-		if ($client["email"] != '' && $client["reportdeactivate"] == 'true')
+		if ($client["email"] != '' && $client["reportdeactivate"] == 't')
 		{
 			// Load client language strings
 			if (isset($client["language"]) && $client["language"] != "")
-				include (phpAds_path."/language/".$client["language"].".inc.php");
+				include (phpAds_path."/language/".$client["language"]."/default.lang.php");
 			else
-				include (phpAds_path."/language/".$phpAds_config['language'].".inc.php");
+				include (phpAds_path."/language/".$phpAds_config['language']."/default.lang.php");
 			
 			$Subject = $strMailSubjectDeleted.": ".$campaign["clientname"];
 			$To		  = $client['email'];
@@ -170,7 +176,9 @@ function phpAds_deactivateMail ($campaign)
 				$Headers .= "Content-Type: text/plain; charset=".$phpAds_CharSet."\n"; 
 			
 			$Headers .= "To: ".$client['contact']." <".$client['email'].">\n";
-			$Headers .= $phpAds_config['admin_email_headers']."\n";
+			$Headers .= "From: <".$phpAds_admin_email.">\n";
+			if (!empty($phpAds_config['admin_email_headers']))
+				$Headers .= $phpAds_config['admin_email_headers']."\n";
 			
 			$Body  = $strMailHeader."\n";
 			$Body .= $strMailClientDeactivated;
@@ -184,14 +192,14 @@ function phpAds_deactivateMail ($campaign)
 			
 			$res_banners = phpAds_dbQuery("
 				SELECT
-					bannerID,
+					bannerid,
 					URL,
 					description,
 					alt
 				FROM
 					".$phpAds_config['tbl_banners']."
 				WHERE
-					clientID = ".$campaign['clientID']."
+					clientid = ".$campaign['clientid']."
 				");
 			
 			if (phpAds_dbNumRows($res_banners) > 0)
@@ -200,7 +208,7 @@ function phpAds_deactivateMail ($campaign)
 				
 				while($row_banners = phpAds_dbFetchArray($res_banners))
 				{
-					$name = "[id".$row_banners['bannerID']."] ";
+					$name = "[id".$row_banners['bannerid']."] ";
 					
 					if ($row_banners['description'] != "")
 						$name .= $row_banners['description'];

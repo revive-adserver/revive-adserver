@@ -46,12 +46,12 @@ if (isset($btndel_x))
 	
 	$res = phpAds_dbQuery("
       	DELETE FROM ".$phpAds_config['tbl_acls']." WHERE
-        bannerID = $bannerID AND acl_order = $acl_order ") or phpAds_sqlDie();
+        bannerid = $bannerid AND acl_order = $acl_order ") or phpAds_sqlDie();
 	
 	// get banner-acl after the deleted one
 	$res = phpAds_dbQuery("
 		SELECT * FROM ".$phpAds_config['tbl_acls']." WHERE
-		bannerID = $bannerID AND acl_order > $acl_order") or phpAds_sqlDie();
+		bannerid = $bannerid AND acl_order > $acl_order") or phpAds_sqlDie();
     
 	// decrement every following acl
 	while ($row = phpAds_dbFetchArray($res)) 
@@ -61,10 +61,10 @@ if (isset($btndel_x))
 			UPDATE ".$phpAds_config['tbl_acls']." SET
 			acl_order = acl_order - 1 WHERE
 			acl_order = $old_order
-            AND bannerID = $bannerID") or phpAds_sqlDie();
+            AND bannerid = $bannerid") or phpAds_sqlDie();
 	}
 	
-	header ("Location: banner-acl.php?campaignID=$campaignID&bannerID=$bannerID");
+	header ("Location: banner-acl.php?campaignid=$campaignid&bannerid=$bannerid");
 	exit;
 }
 
@@ -76,21 +76,21 @@ if (isset($btnsave_x))
 			UPDATE ".$phpAds_config['tbl_acls']." SET
 			acl_type = '$acl_type', acl_data = '$acl_data',
 			acl_ad = '$acl_ad', acl_con = '$acl_con' 
-			where bannerID = $bannerID 
+			where bannerid = $bannerid 
 			AND acl_order = $acl_order") or phpAds_sqlDie();
 		
-		header ("Location: banner-acl.php?campaignID=$campaignID&bannerID=$bannerID");
+		header ("Location: banner-acl.php?campaignid=$campaignid&bannerid=$bannerid");
 		exit;
 	} 
 	else
 	{
 		$res = phpAds_dbQuery("
 			INSERT INTO ".$phpAds_config['tbl_acls']." SET
-			acl_order = $acl_order, bannerID = $bannerID,
+			acl_order = $acl_order, bannerid = $bannerid,
 			acl_type = '$acl_type', acl_data = '$acl_data',
 			acl_ad = '$acl_ad', acl_con = '$acl_con'") or phpAds_sqlDie();
 		
-		header ("Location: banner-acl.php?campaignID=$campaignID&bannerID=$bannerID");
+		header ("Location: banner-acl.php?campaignid=$campaignid&bannerid=$bannerid");
 		exit;
 	}
 }
@@ -103,7 +103,7 @@ if (isset($btnup_x))
     // delete current acl
 	$res = phpAds_dbQuery("
 		DELETE FROM ".$phpAds_config['tbl_acls']." WHERE
-		bannerID = $bannerID AND acl_order = $acl_order ") or phpAds_sqlDie();
+		bannerid = $bannerid AND acl_order = $acl_order ") or phpAds_sqlDie();
 	
 	// increment previous acl
 	$new_acl_order = $acl_order - 1;
@@ -111,16 +111,16 @@ if (isset($btnup_x))
 		UPDATE ".$phpAds_config['tbl_acls']." SET
 		acl_order = acl_order + 1 WHERE 
 		acl_order = $new_acl_order 
-		AND bannerID = $bannerID") or phpAds_sqlDie();
+		AND bannerid = $bannerid") or phpAds_sqlDie();
 	
 	// insert actual acl with decremented order
 	$res = phpAds_dbQuery("
 		INSERT INTO ".$phpAds_config['tbl_acls']." SET
-		acl_order = $new_acl_order, bannerID = $bannerID,
+		acl_order = $new_acl_order, bannerid = $bannerid,
 		acl_type = '$acl_type', acl_data = '$acl_data',
 		acl_ad = '$acl_ad', acl_con = '$acl_con'") or phpAds_sqlDie();
 	
-	header ("Location: banner-acl.php?campaignID=$campaignID&bannerID=$bannerID");
+	header ("Location: banner-acl.php?campaignid=$campaignid&bannerid=$bannerid");
 	exit;
 }
 
@@ -128,22 +128,22 @@ if (isset($btndown_x))
 {
 	$res = phpAds_dbQuery("
 		DELETE FROM ".$phpAds_config['tbl_acls']." WHERE
-		bannerID = $bannerID AND acl_order = $acl_order ") or phpAds_sqlDie();
+		bannerid = $bannerid AND acl_order = $acl_order ") or phpAds_sqlDie();
 	
 	$new_acl_order = $acl_order + 1;
 	$res = phpAds_dbQuery("
 		UPDATE ".$phpAds_config['tbl_acls']." SET
 		acl_order = acl_order - 1 WHERE 
 		acl_order = $new_acl_order
-		AND bannerID = $bannerID") or phpAds_sqlDie();
+		AND bannerid = $bannerid") or phpAds_sqlDie();
 	
 	$res = phpAds_dbQuery("
 		INSERT INTO ".$phpAds_config['tbl_acls']." SET
-		acl_order = $new_acl_order, bannerID = $bannerID,
+		acl_order = $new_acl_order, bannerid = $bannerid,
 		acl_type = '$acl_type', acl_data = '$acl_data',
 		acl_ad = '$acl_ad', acl_con = '$acl_con'") or phpAds_sqlDie();
 	
-	header ("Location: banner-acl.php?campaignID=$campaignID&bannerID=$bannerID");
+	header ("Location: banner-acl.php?campaignid=$campaignid&bannerid=$bannerid");
 	exit;
 }
 
@@ -153,8 +153,8 @@ if (isset($btndown_x))
 /* HTML framework                                        */
 /*********************************************************/
 
-if (!isset($bannerID)) 
-	phpAds_Die("This page can't be displayed",	"There was no bannerID suppied");
+if (!isset($bannerid)) 
+	phpAds_Die("This page can't be displayed",	"There was no bannerid suppied");
 
 $extra = '';
 
@@ -164,17 +164,17 @@ $res = phpAds_dbQuery("
 	FROM
 		".$phpAds_config['tbl_banners']."
 	WHERE
-		clientID = $campaignID
+		clientid = $campaignid
 ") or phpAds_sqlDie();
 
 while ($row = phpAds_dbFetchArray($res))
 {
-	if ($bannerID == $row['bannerID'])
+	if ($bannerid == $row['bannerid'])
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
 	else
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
-	$extra .= "<a href='banner-acl.php?campaignID=$campaignID&bannerID=".$row['bannerID']."'>";
-	$extra .= phpAds_buildBannerName ($row['bannerID'], $row['description'], $row['alt']);
+	$extra .= "<a href='banner-acl.php?campaignid=$campaignid&bannerid=".$row['bannerid']."'>";
+	$extra .= phpAds_buildBannerName ($row['bannerid'], $row['description'], $row['alt']);
 	$extra .= "</a>";
 	$extra .= "<br>"; 
 }
@@ -183,15 +183,15 @@ $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 $extra .= "<br><br><br><br><br>";
 $extra .= "<b>$strShortcuts</b><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientID=".phpAds_getParentID ($campaignID).">$strModifyClient</a><br>";
+$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientid=".phpAds_getParentID ($campaignid).">$strModifyClient</a><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignID=$campaignID>$strModifyCampaign</a><br>";
+$extra .= "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignid=$campaignid>$strModifyCampaign</a><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-campaign.php?campaignID=$campaignID>$strStats</a><br>";
+$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-campaign.php?campaignid=$campaignid>$strStats</a><br>";
 $extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-weekly.gif' align='absmiddle'>&nbsp;<a href=stats-weekly.php?campaignID=$campaignID>$strWeeklyStats</a><br>";
+$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-weekly.gif' align='absmiddle'>&nbsp;<a href=stats-weekly.php?campaignid=$campaignid>$strWeeklyStats</a><br>";
 $extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-zoom.gif' align='absmiddle'>&nbsp;<a href=stats-details.php?campaignID=$campaignID&bannerID=$bannerID>$strDetailStats</a><br>";
+$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-zoom.gif' align='absmiddle'>&nbsp;<a href=stats-details.php?campaignid=$campaignid&bannerid=$bannerid>$strDetailStats</a><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 
 phpAds_PageHeader("4.1.5.3", $extra);
@@ -206,19 +206,19 @@ phpAds_ShowSections(array("4.1.5.2", "4.1.5.3", "4.1.5.4"));
 
 
 echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
-echo "<tr><td height='25'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignID);
+echo "<tr><td height='25'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
 echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
-echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignID);
+echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
 echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
-if ($bannerID != '')
-	echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerID)."</b></td></tr>";
+if ($bannerid != '')
+	echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b></td></tr>";
 else
 	echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;".$strUntitled."</td></tr>";
 
-if ($bannerID != '')
+if ($bannerid != '')
 {
 	echo "<tr><td height='1' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-	echo "<tr><td align='left'><br>".phpAds_getBannerCode($bannerID)."</td></tr>";
+	echo "<tr><td align='left'><br>".phpAds_getBannerCode($bannerid)."</td></tr>";
 }
 
 echo "</table>";
@@ -235,7 +235,7 @@ $res = phpAds_dbQuery("
 	FROM
 		".$phpAds_config['tbl_acls']."
 	WHERE
-		bannerID = $bannerID ORDER BY acl_order
+		bannerid = $bannerid ORDER BY acl_order
 	") or phpAds_sqlDie();
 
 $count = phpAds_dbNumRows ($res);
@@ -283,8 +283,8 @@ else
 }
 
 echo "<form action='".basename($PHP_SELF)."' method='get'>";
-echo "<input type='hidden' name='campaignID' value='".(isset($campaignID) ? $campaignID : '')."'>";
-echo "<input type='hidden' name='bannerID' value='".(isset($bannerID) ? $bannerID : '')."'>";
+echo "<input type='hidden' name='campaignid' value='".(isset($campaignid) ? $campaignid : '')."'>";
+echo "<input type='hidden' name='bannerid' value='".(isset($bannerid) ? $bannerid : '')."'>";
 echo "<input type='hidden' name='update' value='".(isset($update) ? $update : '')."'>";
 echo "<input type='hidden' name='acl_order' value='".(isset($count) ? $count : '')."'>";
 echo "<input type='hidden' name='acl_con' value='and'>";
@@ -306,7 +306,7 @@ echo "<br><br>";
 
 
 // Show Acl help file
-//include("../language/banneracl.".$phpAds_config['language'].".inc.php");
+//include("../language/banneracl.".$phpAds_config['language']."/banneracl.lang.php");
 
 
 

@@ -142,7 +142,7 @@ function phpAds_PageHeader($ID, $extra="")
 		
 		
 		
-		if (phpAds_isLoggedIn() && phpAds_isUser(phpAds_Admin))
+		if (phpAds_isLoggedIn() && phpAds_isUser(phpAds_Admin) && !defined('phpAds_installing'))
 		{
 			$searchbar  = "<table cellpadding='0' cellspacing='0' border='0' bgcolor='#0066CC' height='24'>";
 			$searchbar .= "<form name='search' action='admin-search.php' target='SearchWindow' onSubmit=\"search_window(document.search.keyword.value,'".$phpAds_config['url_prefix']."/admin/admin-search.php'); return false;\">";
@@ -226,7 +226,7 @@ function phpAds_PageHeader($ID, $extra="")
 	echo "</table>";
 	echo "</td><td align='right' valign='middle' nowrap>";
 	
-	if ($ID != "" && phpAds_isLoggedIn())
+	if ($ID != "" && phpAds_isLoggedIn() && !defined('phpAds_installing'))
 	{
 		echo "<a class='tab-n' href='logout.php'>$strLogout</a> ";
 		echo "<img src='images/logout.gif' width='16' height='16' align='absmiddle'>";
@@ -317,7 +317,9 @@ function phpAds_PageFooter()
 	</tr>
 </table> 
 </div>
-
+<br><br>
+<br><br>
+<br><br>
 <?php 
 	}
 	

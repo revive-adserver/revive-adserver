@@ -22,11 +22,11 @@ function phpAds_aclCheck($request, $row)
 {
 	global $phpAds_config;
 	
-	$bannerID = $row['bannerID'];
+	$bannerid = $row['bannerid'];
 	
 	// Execute Query
 	$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_acls']."
-					 	   WHERE bannerID = $bannerID ORDER by acl_order");
+					 	   WHERE bannerid = $bannerid ORDER by acl_order");
 	
 	if (phpAds_dbNumRows($res) == 0)
 	{
@@ -68,9 +68,9 @@ function phpAds_aclCheck($request, $row)
 		}
 		
 		if ($i == 0)
-			$expression .= ($result == true ? 'true' : 'false').' ';
+			$expression .= ($result == true ? 'tr'.'ue' : 'fa'.'lse').' ';
 		else
-			$expression .= $aclrow['acl_con'].' '.($result == true ? 'true' : 'false').' ';
+			$expression .= $aclrow['acl_con'].' '.($result == true ? 'tr'.'ue' : 'fa'.'lse').' ';
 		
 		$i++;
 	}

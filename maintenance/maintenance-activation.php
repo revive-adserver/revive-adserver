@@ -24,7 +24,7 @@
 
 $res_clients = phpAds_dbQuery("
 	SELECT
-		clientID,
+		clientid,
 		clientname,
 		contact,
 		email,
@@ -45,15 +45,15 @@ while($client = phpAds_dbFetchArray($res_clients))
     
 	// Load client language strings
 	if (isset($client["language"]) && $client["language"] != "")
-		include ("../language/".$client["language"].".inc.php");
+		include ("../language/".$client["language"]."/default.lang.php");
 	else
-		include ("../language/".$phpAds_config['language'].".inc.php");
+		include ("../language/".$phpAds_config['language']."/default.lang.php");
 	
 	
 	// Send Query
 	$res_campaigns = phpAds_dbQuery("
 		SELECT
-			clientID,
+			clientid,
 			clientname,
 			views,
 			clicks,
@@ -65,7 +65,7 @@ while($client = phpAds_dbFetchArray($res_clients))
 		FROM
 			".$phpAds_config['tbl_clients']."
 		WHERE
-			parent = ".$client['clientID']."
+			parent = ".$client['clientid']."
 		") or die($strLogErrorClients);
 	
 	
@@ -78,29 +78,29 @@ while($client = phpAds_dbFetchArray($res_clients))
 		
 		print "&nbsp;&nbsp;&nbsp;- Current status: ".$campaign["active"]."<BR>\n";
 		
-		$active = "true";
+		$active = "t";
 		
 		if ($campaign["clicks"] == 0 || $campaign["views"] == 0)
-			$active = "false";
+			$active = "f";
 		
 		if (time() < $campaign["activate_st"])
-			$active = "false";
+			$active = "f";
 		
 		if (time() > $campaign["expire_st"] && $campaign["expire_st"] != 0)
-			$active = "false";
+			$active = "f";
 		
 		if ($campaign["active"] != $active)
 		{
 			$client_name = $campaign["clientname"];
-			$client_ID 	 = $campaign['clientID'];
+			$client_ID 	 = $campaign['clientid'];
 			
 			print "&nbsp;&nbsp;&nbsp;- Setting activation to $active<br>";
-			$activateresult = phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET active='$active' WHERE clientID=$client_ID") or phpAds_sqlDie ("$strLogErrorDisactivate");
+			$activateresult = phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET active='$active' WHERE clientid=$client_ID") or phpAds_sqlDie ("$strLogErrorDisactivate");
 			
-			if ($active == "false")
+			if ($active == "f")
 			{
 				// Email deactivation warning
-				if ($client["email"] != '' && $client["reportdeactivate"] == 'true')
+				if ($client["email"] != '' && $client["reportdeactivate"] == 't')
 				{
 					$Subject = $strMailSubjectDeleted.": ".$campaign["clientname"];
 	        		$To		  = $client['email'];
@@ -111,7 +111,9 @@ while($client = phpAds_dbFetchArray($res_clients))
 						$Headers .= "Content-Type: text/plain; charset=".$phpAds_CharSet."\n"; 
 					
 					$Headers .= "To: ".$client['contact']." <".$client['email'].">\n";
-					$Headers .= $phpAds_config['admin_email_headers']."\n";
+					$Headers .= "From: <".$phpAds_admin_email.">\n";
+					if (!empty($phpAds_config['admin_email_headers']))
+						$Headers .= $phpAds_config['admin_email_headers']."\n";
 					
 					$Body = "$strMailHeader\n";
 					$Body .= $strMailClientDeactivated;
@@ -125,14 +127,14 @@ while($client = phpAds_dbFetchArray($res_clients))
 					
 					$res_banners = phpAds_dbQuery("
 						SELECT
-							bannerID,
+							bannerid,
 							URL,
 							description,
 							alt
 						FROM
 							".$phpAds_config['tbl_banners']."
 						WHERE
-							clientID = ".$campaign['clientID']."
+							clientid = ".$campaign['clientid']."
 						") or die($strLogErrorBanners);
 					
 					if (phpAds_dbNumRows($res_banners) > 0)
@@ -141,7 +143,7 @@ while($client = phpAds_dbFetchArray($res_clients))
 						
 						while($row_banners = phpAds_dbFetchArray($res_banners))
 						{
-							$Body .= $strBanner."  ".phpAds_buildBannerName ($row_banners['bannerID'], $row_banners['description'], $row_banners['alt'])."\n";
+							$Body .= $strBanner."  ".phpAds_buildBannerName ($row_banners['bannerid'], $row_banners['description'], $row_banners['alt'])."\n";
 							$Body .= "linked to: ".$row_banners['URL']."\n";
 							$Body .= "-------------------------------------------------------\n";
 						}

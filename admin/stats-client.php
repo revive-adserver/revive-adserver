@@ -30,7 +30,7 @@ phpAds_checkAccess(phpAds_Admin+phpAds_Client);
 
 if (phpAds_isUser(phpAds_Client))
 {
-	$clientID = phpAds_clientID();
+	$clientid = phpAds_clientid();
 }
 
 
@@ -54,13 +54,13 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	while ($row = phpAds_dbFetchArray($res))
 	{
-		if ($clientID == $row['clientID'])
+		if ($clientid == $row['clientid'])
 			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
 		else
 			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 		
-		$extra .= "<a href='stats-client.php?clientID=".$row['clientID']."'>";
-		$extra .= phpAds_buildClientName ($row['clientID'], $row['clientname']);
+		$extra .= "<a href='stats-client.php?clientid=".$row['clientid']."'>";
+		$extra .= phpAds_buildClientName ($row['clientid'], $row['clientname']);
 		$extra .= "</a>";
 		$extra .= "<br>"; 
 	}
@@ -69,13 +69,13 @@ if (phpAds_isUser(phpAds_Admin))
 	$extra .= "<br><br><br><br><br>";
 	$extra .= "<b>$strShortcuts</b><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientID=$clientID>$strModifyClient</a><br>";
+	$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientid=$clientid>$strModifyClient</a><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	
 	phpAds_PageHeader("2.1.1", $extra);
 	phpAds_ShowSections(array("2.1.1"));
 	
-	echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientID)."</b>";
+	echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b>";
 }
 
 if (phpAds_isUser(phpAds_Client))
@@ -96,16 +96,16 @@ echo "<br><br>";
 if (!isset($limit) || $limit=='') $limit = '7';
 
 
-// Get bannerID's for this client
+// Get bannerid's for this client
 $idresult = phpAds_dbQuery ("
 	SELECT
-		b.bannerID
+		b.bannerid
 	FROM
 		".$phpAds_config['tbl_banners']." AS b,
 		".$phpAds_config['tbl_clients']." AS c
 	WHERE
-		c.parent = $clientID AND
-		c.clientID = b.clientID
+		c.parent = $clientid AND
+		c.clientid = b.clientid
 ");
 
 
@@ -113,7 +113,7 @@ if (phpAds_dbNumRows($idresult) > 0)
 {
 	while ($row = phpAds_dbFetchArray($idresult))
 	{
-		$bannerIDs[] = "bannerID = ".$row['bannerID'];
+		$bannerids[] = "bannerid = ".$row['bannerid'];
 	}
 	
 	if ($phpAds_config['compact_stats']) 
@@ -126,7 +126,7 @@ if (phpAds_dbNumRows($idresult) > 0)
 					 		 FROM
 								".$phpAds_config['tbl_adstats']."
 							 WHERE
-								(".implode(' OR ', $bannerIDs).")
+								(".implode(' OR ', $bannerids).")
 							 GROUP BY
 							 	day
 							 ORDER BY
@@ -149,7 +149,7 @@ if (phpAds_dbNumRows($idresult) > 0)
 					 		 FROM
 								".$phpAds_config['tbl_adviews']."
 							 WHERE
-								(".implode(' OR ', $bannerIDs).")
+								(".implode(' OR ', $bannerids).")
 							 GROUP BY
 							    day
 							 ORDER BY
@@ -172,7 +172,7 @@ if (phpAds_dbNumRows($idresult) > 0)
 					 		 FROM
 								".$phpAds_config['tbl_adclicks']."
 							 WHERE
-								(".implode(' OR ', $bannerIDs).")
+								(".implode(' OR ', $bannerids).")
 							 GROUP BY
 							    day
 							 ORDER BY
@@ -279,7 +279,7 @@ echo "<tr>";
 echo "<form action='".$GLOBALS['PHP_SELF']."'>";
 echo "<td height='35' colspan='4' align='right'>";
 	echo $strHistory.":&nbsp;&nbsp;";
-	echo "<input type='hidden' name='clientID' value='$clientID'>";
+	echo "<input type='hidden' name='clientid' value='$clientid'>";
 	echo "<select name='limit' onChange=\"this.form.submit();\">";
 	echo "<option value='7' ".($limit==7?'selected':'').">7 ".$strDays."</option>";
 	echo "<option value='14' ".($limit==14?'selected':'').">14 ".$strDays."</option>";
@@ -296,7 +296,7 @@ if ($totalviews > 0 || $totalclicks > 0)
 	if (phpAds_GDImageFormat() != "none") 
 	{
 		//echo "<tr><td colspan='4' align='left' bgcolor='#FFFFFF'>";
-		//echo "<br><br><img src='graph-details.php?bannerID=$bannerID&campaignID=$campaignID&limit=$limit'><br><br><br>";
+		//echo "<br><br><img src='graph-details.php?bannerid=$bannerid&campaignid=$campaignid&limit=$limit'><br><br><br>";
 		//echo "</td></tr>";
 	}
 	
@@ -320,7 +320,7 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	echo "<tr><td height='25'>";
 	echo "<form method='get' action='client-mailreport.php'>";
-	echo "<input type='hidden' name='clientID' value='$clientID'>";
+	echo "<input type='hidden' name='clientid' value='$clientid'>";
 	echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$strFrom&nbsp;&nbsp;";
 	
 	// Starting date
@@ -376,7 +376,7 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	// Reset statistics
 	echo "<tr><td height='25'>";
-	echo "<a href='stats-reset.php?clientID=$clientID'".phpAds_DelConfirm($strConfirmResetClientStats).">";
+	echo "<a href='stats-reset.php?clientid=$clientid'".phpAds_DelConfirm($strConfirmResetClientStats).">";
 	echo "<img src='images/icon-undo.gif' align='absmiddle' border='0'>&nbsp;$strResetStats</a>";
 	echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "</td></tr>";

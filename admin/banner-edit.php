@@ -35,22 +35,22 @@ if (phpAds_isUser(phpAds_Client))
 	{
 		$result = phpAds_dbQuery("
 			SELECT
-				clientID
+				clientid
 			FROM
 				".$phpAds_config['tbl_banners']."
 			WHERE
-				bannerID = $bannerID
+				bannerid = $bannerid
 			") or phpAds_sqlDie();
 		$row = phpAds_dbFetchArray($result);
 		
-		if ($row["clientID"] == '' || phpAds_clientID() != phpAds_getParentID ($row["clientID"]))
+		if ($row["clientid"] == '' || phpAds_clientid() != phpAds_getParentID ($row["clientid"]))
 		{
 			phpAds_PageHeader("1");
 			phpAds_Die ($strAccessDenied, $strNotAdmin);
 		}
 		else
 		{
-			$campaignID = $row["clientID"];
+			$campaignid = $row["clientid"];
 		}
 	}
 	else
@@ -243,8 +243,8 @@ if (isset($submit))
 			$final['autohtml'] = $htmlauto;
 			break;
 	}
-	$final['clientID'] = $campaignID;
-	$final['bannerID'] = $bannerID;
+	$final['clientid'] = $campaignid;
+	$final['bannerid'] = $bannerid;
 	
 	if (phpAds_isUser(phpAds_Admin)) 
 	{
@@ -254,17 +254,17 @@ if (isset($submit))
 			$final['keyword'] = implode(' ', $keywordArray);
 		}
 		
-		$final['active'] = "true";
+		$final['active'] = "t";
 		$final['description'] = addslashes($description);
 		$final['weight'] = $weight;
 	}
 	
 	
-	$message = $bannerID=='' ? $strBannerAdded : $strBannerModified;
+	$message = $bannerid=='' ? $strBannerAdded : $strBannerModified;
 	
 	// Construct appropiate SQL query
-	// If bannerID==null, then this is an INSERT, else it's an UPDATE
-	if (isset($bannerID) && trim($bannerID) != '')
+	// If bannerid==null, then this is an INSERT, else it's an UPDATE
+	if (isset($bannerid) && trim($bannerid) != '')
 	{
 		// UPDATE
 		$set = "";
@@ -283,7 +283,7 @@ if (isset($submit))
 			SET
 				$set
 			WHERE
-				bannerID = ".$final['bannerID'];
+				bannerid = ".$final['bannerid'];
 		$res = phpAds_dbQuery($sql_query) or phpAds_sqlDie();
 	}
 	else
@@ -325,11 +325,11 @@ if (isset($submit))
 	
 	if (phpAds_isUser(phpAds_Client))
 	{
-		Header("Location: stats-campaign.php?campaignID=$campaignID&message=".urlencode($message));
+		Header("Location: stats-campaign.php?campaignid=$campaignid&message=".urlencode($message));
 	}
 	else
 	{
-		Header("Location: campaign-index.php?campaignID=$campaignID&message=".urlencode($message));
+		Header("Location: campaign-index.php?campaignid=$campaignid&message=".urlencode($message));
 	}
 	
 	exit;
@@ -341,7 +341,7 @@ if (isset($submit))
 /* HTML framework                                        */
 /*********************************************************/
 
-if ($bannerID != '')
+if ($bannerid != '')
 {
 	$extra = '';
 	
@@ -351,19 +351,19 @@ if ($bannerID != '')
 	FROM
 		".$phpAds_config['tbl_banners']."
 	WHERE
-		clientID = $campaignID
+		clientid = $campaignid
 	") or phpAds_sqlDie();
 	
 	$extra = "";	
 	while ($row = phpAds_dbFetchArray($res))
 	{
-		if ($bannerID == $row['bannerID'])
+		if ($bannerid == $row['bannerid'])
 			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
 		else
 			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 		
-		$extra .= "<a href='banner-edit.php?campaignID=$campaignID&bannerID=".$row['bannerID']."'>";
-		$extra .= phpAds_buildBannerName ($row['bannerID'], $row['description'], $row['alt']);		
+		$extra .= "<a href='banner-edit.php?campaignid=$campaignid&bannerid=".$row['bannerid']."'>";
+		$extra .= phpAds_buildBannerName ($row['bannerid'], $row['description'], $row['alt']);		
 		$extra .= "</a>";
 		$extra .= "<br>"; 
 	}
@@ -374,15 +374,15 @@ if ($bannerID != '')
 		$extra .= "<br><br><br><br><br>";
 		$extra .= "<b>$strShortcuts</b><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientID=".phpAds_getParentID ($campaignID).">$strModifyClient</a><br>";
+		$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientid=".phpAds_getParentID ($campaignid).">$strModifyClient</a><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignID=$campaignID>$strModifyCampaign</a><br>";
+		$extra .= "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignid=$campaignid>$strModifyCampaign</a><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-campaign.php?campaignID=$campaignID>$strStats</a><br>";
+		$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-campaign.php?campaignid=$campaignid>$strStats</a><br>";
 		$extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-weekly.gif' align='absmiddle'>&nbsp;<a href=stats-weekly.php?campaignID=$campaignID>$strWeeklyStats</a><br>";
+		$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-weekly.gif' align='absmiddle'>&nbsp;<a href=stats-weekly.php?campaignid=$campaignid>$strWeeklyStats</a><br>";
 		$extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-zoom.gif' align='absmiddle'>&nbsp;<a href=stats-details.php?campaignID=$campaignID&bannerID=$bannerID>$strDetailStats</a><br>";
+		$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-zoom.gif' align='absmiddle'>&nbsp;<a href=stats-details.php?campaignid=$campaignid&bannerid=$bannerid>$strDetailStats</a><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		
 		phpAds_PageHeader("4.1.5.2", $extra);
@@ -400,7 +400,7 @@ if ($bannerID != '')
 		FROM
 			".$phpAds_config['tbl_banners']."
 		WHERE
-			bannerID = $bannerID
+			bannerid = $bannerid
 		") or phpAds_sqlDie();
 	$row = phpAds_dbFetchArray($res);
 	
@@ -507,19 +507,19 @@ if (!isset($type))
 
 <?php
 	echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
-	echo "<tr><td height='25'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignID);
+	echo "<tr><td height='25'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
 	echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
-	echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignID);
+	echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
 	echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
-	if ($bannerID != '')
-		echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerID)."</b></td></tr>";
+	if ($bannerid != '')
+		echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b></td></tr>";
 	else
 		echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;".$strUntitled."</td></tr>";
 	
-	if ($bannerID != '')
+	if ($bannerid != '')
 	{
 		echo "<tr><td height='1' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-		echo "<tr><td align='left'><br>".phpAds_getBannerCode($bannerID)."</td></tr>";
+		echo "<tr><td align='left'><br>".phpAds_getBannerCode($bannerid)."</td></tr>";
 	}
 	
 	echo "</table>";
@@ -530,8 +530,8 @@ if (!isset($type))
 <br><br>
 
 <form action="<?php echo basename($PHP_SELF);?>" method="POST" enctype="multipart/form-data">
-<input type="hidden" name="campaignID" value="<?php echo ($campaignID) ?>">
-<input type="hidden" name="bannerID" value="<?php echo ($bannerID) ?>">
+<input type="hidden" name="campaignid" value="<?php echo ($campaignid) ?>">
+<input type="hidden" name="bannerid" value="<?php echo ($bannerid) ?>">
 
 <?php if ($dhtml) { ?>
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
@@ -606,7 +606,7 @@ if (!isset($type))
 		<td width='200'><?php echo $strTextBelow;?></td>
 		<td><input size="35" type="text" name="sqlbannertext" style="width:350px;" value="<?php if (isset($type) && $type == "mysql") echo $row["bannertext"];?>"></td>
 	</tr>
-	<?php if (isset($bannerID) && $bannerID != '') {?>
+	<?php if (isset($bannerid) && $bannerid != '') {?>
 	<tr>
 		<td><img src='images/spacer.gif' height='1' width='100%'></td>
 		<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
@@ -683,7 +683,7 @@ if (!isset($type))
 		<td width='200'><?php echo $strTextBelow;?></td>
 		<td><input size="35" type="text" name="webbannertext" style="width:350px;" value="<?php if (isset($type) && $type == "web") echo $row["bannertext"];?>"></td>
 	</tr>
-	<?php if (isset($bannerID) && $bannerID != '') {?>
+	<?php if (isset($bannerid) && $bannerid != '') {?>
 	<tr>
 		<td><img src='images/spacer.gif' height='1' width='100%'></td>
 		<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
@@ -801,7 +801,7 @@ if (!isset($type))
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td width='200' valign='top'>&nbsp;</td>
-		<td><input type='checkbox' name='htmlauto' value='true'<?php echo (!isset($row["autohtml"]) || $row["autohtml"] == 'true') ? ' checked' : ''; ?>> <?php echo $strAutoChangeHTML; ?></td>
+		<td><input type='checkbox' name='htmlauto' value='t'<?php echo (!isset($row["autohtml"]) || $row["autohtml"] == 't') ? ' checked' : ''; ?>> <?php echo $strAutoChangeHTML; ?></td>
 	</tr>
 	<tr>
 		<td><img src='images/spacer.gif' height='1' width='100%'></td>

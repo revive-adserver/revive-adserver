@@ -43,10 +43,10 @@ function phpAds_Start()
 	
 	phpAds_SessionDataFetch();
 	
-	if (!phpAds_isLoggedIn() || phpAds_SuppliedCredentials())
+	if ((!phpAds_isLoggedIn() || phpAds_SuppliedCredentials()) && !defined('phpAds_installing'))
 	{
 		// Load preliminary language settings
-		require("../language/".$phpAds_config['language'].".inc.php");
+		require("../language/".$phpAds_config['language']."/default.lang.php");
 		
 		phpAds_SessionDataRegister(phpAds_Login());
 	}
@@ -71,7 +71,7 @@ function phpAds_Logout()
 	phpAds_SessionDataDestroy();
 	
 	// Return to the login screen
-	header ("Location: ".$phpAds_config['url_prefix']."/admin/index.php");
+	header ("Location: index.php");
 }
 
 
@@ -127,10 +127,10 @@ function phpAds_isAllowed ($allowed)
 /* Get the ID of the current user                        */
 /*********************************************************/
 
-function phpAds_clientID ()
+function phpAds_clientid ()
 {
 	global $Session;
-	return ($Session['clientID']);
+	return ($Session['clientid']);
 }
 
 
@@ -164,10 +164,10 @@ function phpAds_Login()
 		{
 			// User is Administrator
 			return (array ("usertype" 		=> phpAds_Admin,
-						   "loggedin" 		=> "true",
+						   "loggedin" 		=> "t",
 						   "username" 		=> $phpAds_username,
 						   "password" 		=> $phpAds_password,
-						   "stats_compact" 	=> "false",
+						   "stats_compact" 	=> "f",
 						   "stats_view" 	=> "all",
 						   "stats_order" 	=> "bannerid")
 			       );
@@ -176,7 +176,7 @@ function phpAds_Login()
 		{
 			$res = phpAds_dbQuery("
 				SELECT
-					clientID,
+					clientid,
 					permissions,
 					language
 				FROM
@@ -193,13 +193,13 @@ function phpAds_Login()
 				$row = phpAds_dbFetchArray($res);
 				
 				return (array ("usertype" 		=> phpAds_Client,
-							   "loggedin" 		=> "true",
+							   "loggedin" 		=> "t",
 							   "username" 		=> $phpAds_username,
 							   "password" 		=> $phpAds_password,
-							   "clientID" 		=> $row['clientID'],
+							   "clientid" 		=> $row['clientid'],
 							   "permissions" 	=> $row['permissions'],
 							   "language" 		=> $row['language'],
-							   "stats_compact" 	=> "false",
+							   "stats_compact" 	=> "f",
 							   "stats_view" 	=> "all",
 							   "stats_order" 	=> "bannerid")
 				       );
@@ -228,7 +228,7 @@ function phpAds_Login()
 function phpAds_IsLoggedIn()
 {
 	global $Session;
-	return (isset($Session['loggedin']) ? ($Session['loggedin'] == "true") : false);
+	return (isset($Session['loggedin']) ? ($Session['loggedin'] == "t") : false);
 }
 
 

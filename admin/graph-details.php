@@ -46,7 +46,7 @@ if ($phpAds_config['compact_stats'])
 		 FROM
 			".$phpAds_config['tbl_adstats']."
 		 WHERE
-			bannerID = $bannerID
+			bannerid = $bannerid
 		 ORDER BY
 			day DESC
 		 LIMIT $limit 
@@ -74,7 +74,7 @@ else
 				 		 FROM
 							".$phpAds_config['tbl_adviews']."
 						 WHERE
-							bannerID = $bannerID
+							bannerid = $bannerid
 						 GROUP BY
 						    day
 						 ORDER BY
@@ -97,7 +97,7 @@ else
 				 		 FROM
 							".$phpAds_config['tbl_adclicks']."
 						 WHERE
-							bannerID = $bannerID
+							bannerid = $bannerid
 						 GROUP BY
 						    day
 						 ORDER BY

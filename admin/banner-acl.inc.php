@@ -119,7 +119,7 @@ function phpAds_ACLAdSelect ($default)
 
 function phpAds_ShowRow ($row, $total, $update, $count=1) 
 {
-	global $PHP_SELF, $strSave, $strDelete, $strUp, $strDown, $campaignID, $strDayShortCuts;
+	global $PHP_SELF, $strSave, $strDelete, $strUp, $strDown, $campaignid, $strDayShortCuts;
 	
 	$bgcolor = $count % 2 == 0 ? "#F6F6F6" : "#FFFFFF";
 	
@@ -127,8 +127,8 @@ function phpAds_ShowRow ($row, $total, $update, $count=1)
 	// Begin form
 	echo "<tr height='35' bgcolor='$bgcolor'>";
 	echo "<form action='".basename($PHP_SELF)."' method='get'>";
-	echo "<input type='hidden' name='campaignID' value='".$campaignID."'>";
-	echo "<input type='hidden' name='bannerID' value='".$row['bannerID']."'>";
+	echo "<input type='hidden' name='campaignid' value='".$campaignid."'>";
+	echo "<input type='hidden' name='bannerid' value='".$row['bannerid']."'>";
 	echo "<input type='hidden' name='acl_order' value='".$row['acl_order']."'>";
 	echo "<input type='hidden' name='update' value='".$update."'>";
 	

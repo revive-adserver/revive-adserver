@@ -18,7 +18,7 @@
 /* Determine the AdViews left before expiration          */
 /*********************************************************/
 
-function adviews_left ($clientID)
+function adviews_left ($clientid)
 {
 	global $phpAds_config;
 	global $strUnlimited;
@@ -29,7 +29,7 @@ function adviews_left ($clientID)
 		FROM
 			".$phpAds_config['tbl_clients']."
 		WHERE 
-			clientID = ".$clientID;
+			clientid = ".$clientid;
 	
 	$res_client = phpAds_dbQuery($client_query);
 	
@@ -51,7 +51,7 @@ function adviews_left ($clientID)
 /* Determine the AdClicks left before expiration         */
 /*********************************************************/
 
-function adclicks_left ($clientID)
+function adclicks_left ($clientid)
 {
 	global $phpAds_config;
 	global $strUnlimited;
@@ -62,7 +62,7 @@ function adclicks_left ($clientID)
 		FROM
 			".$phpAds_config['tbl_clients']."
 		WHERE 
-			clientID = ".$clientID;
+			clientid = ".$clientid;
 	
 	$res_client = phpAds_dbQuery($client_query);
 	
@@ -97,14 +97,14 @@ function adclicks_left ($clientID)
 /* left for alternate usage                              */
 /*                                                       */
 /* Usage:                                                */
-/* list($desc,$enddate,$daysleft)=days_left($clientID)   */
+/* list($desc,$enddate,$daysleft)=days_left($clientid)   */
 /*                                                       */
 /* This function will temporarily not work properly, if  */
 /* statistics are reset or the amount of the credit in   */
 /* views or clicks or left days is modified              */
 /*********************************************************/
 
-function days_left($clientID)
+function days_left($clientid)
 {
 	global $phpAds_config;
 	global $date_format;
@@ -131,7 +131,7 @@ function days_left($clientID)
 		FROM
 			".$phpAds_config['tbl_clients']."
 		WHERE 
-			clientID = ".$clientID;
+			clientid = ".$clientid;
 	$res_client = phpAds_dbQuery($client_query) or phpAds_sqlDie() ;
 	
 	
@@ -160,9 +160,9 @@ function days_left($clientID)
 	                    TO_DAYS(NOW())-MIN(TO_DAYS(day)) as days_since_start
 	                FROM
 	                   	".$phpAds_config['tbl_adstats']." AS v
-	                    LEFT JOIN ".$phpAds_config['tbl_banners']." AS b USING (bannerID)
+	                    LEFT JOIN ".$phpAds_config['tbl_banners']." AS b USING (bannerid)
 	                WHERE
-	                  	b.clientID = $clientID";
+	                  	b.clientid = $clientid";
             }
 			else
 			{
@@ -175,9 +175,9 @@ function days_left($clientID)
 						".$phpAds_config['tbl_adviews']." AS v, 
 						".$phpAds_config['tbl_banners']." AS b 
 					WHERE
-						b.clientID = $clientID 
+						b.clientid = $clientid 
 						AND
-						b.bannerID = v.bannerID";
+						b.bannerid = v.bannerid";
 			}
 			
 			$res_views = phpAds_dbQuery($view_query) or phpAds_sqlDie();
@@ -230,9 +230,9 @@ function days_left($clientID)
                         TO_DAYS(NOW())-MIN(TO_DAYS(day)) as days_since_start
 					FROM
 						".$phpAds_config['tbl_adstats']."
-						LEFT JOIN ".$phpAds_config['tbl_banners']." USING (bannerID)
+						LEFT JOIN ".$phpAds_config['tbl_banners']." USING (bannerid)
 					WHERE
-						clientID = $clientID AND
+						clientid = $clientid AND
 						clicks > 0";
 			}
 			else
@@ -246,8 +246,8 @@ function days_left($clientID)
 						".$phpAds_config['tbl_adclicks']." AS c, 
 						".$phpAds_config['tbl_banners']." AS b 
 					WHERE 
-						b.clientID = $clientID AND
-						b.bannerID = c.bannerID";
+						b.clientid = $clientid AND
+						b.bannerid = c.bannerid";
 			}
 			
 			$res_clicks = phpAds_dbQuery($click_query) or phpAds_sqlDie();

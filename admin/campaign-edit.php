@@ -33,10 +33,9 @@ if (isset($submit))
 	// If ID is not set, it should be a null-value for the auto_increment
 	$message = $strClientModified;
 		
-	if (empty($campaignID))
+	if (empty($campaignid))
 	{
-		$campaignID = "null";
-		$message = $strClientAdded;
+		$campaignid = "null";
 	}
 		
 	// set expired
@@ -51,7 +50,7 @@ if (isset($submit))
 	if (strtolower ($unlimitedclicks) == "on")
 		$clicks = -1;
 		
-	if ($expireSet == 'true')
+	if ($expireSet == 't')
 	{
 		if ($expireDay != '-' && $expireMonth != '-' && $expireYear != '-')
 		{
@@ -64,7 +63,7 @@ if (isset($submit))
 		$expire = "0000-00-00";
 	
 	
-	if ($activateSet == 'true')
+	if ($activateSet == 't')
 	{
 		if ($activateDay != '-' && $activateMonth != '-' && $activateYear != '-')
 		{
@@ -77,24 +76,24 @@ if (isset($submit))
 		$activate = "0000-00-00";
 	
 	
-	$active = "true";
+	$active = "t";
 	
 	if ($clicks == 0 || $views==0)
-		$active = "false";
+		$active = "f";
 	
 	if ($activateDay != '-' && $activateMonth != '-' && $activateYear != '-')
 		if (time() < mktime(0, 0, 0, $activateMonth, $activateDay, $activateYear))
-			$active = "false";
+			$active = "f";
 	
 	if ($expireDay != '-' && $expireMonth != '-' && $expireYear != '-')
 		if (time() > mktime(0, 0, 0, $expireMonth, $expireDay, $expireYear))
-			$active = "false";
+			$active = "f";
 	
 	
 	$query = "
 		REPLACE INTO
 			".$phpAds_config['tbl_clients']."
-		   (clientID,
+		   (clientid,
 			clientname,
 			parent,
 			views,
@@ -104,9 +103,9 @@ if (isset($submit))
 			active,
 			weight)
 		VALUES
-			('$campaignID',
+			('$campaignid',
 			'$clientname',
-			'$clientID',
+			'$clientid',
 			'$views',
 			'$clicks',
 			'$expire',
@@ -116,24 +115,24 @@ if (isset($submit))
 	
 	
 	$res = phpAds_dbQuery($query) or phpAds_sqlDie();  
-	if (isset($move) && $move == 'true')
+	if (isset($move) && $move == 't')
 	{
 		// We are moving a client to a campaign
 		// Get ID of new campaign
-		$campaignID = phpAds_dbInsertID();
+		$campaignid = phpAds_dbInsertID();
 		
 		// Update banners
 		$res = phpAds_dbQuery("
 			UPDATE
 				".$phpAds_config['tbl_banners']."
 			SET
-				clientID=$campaignID
+				clientid=$campaignid
 			WHERE
-				clientID=$clientID  
+				clientid=$clientid  
 			") or phpAds_sqlDie();
 	}
 	
-	Header("Location: client-index.php?expand=$clientID&message=".urlencode($message));
+	Header("Location: client-index.php?expand=$clientid&message=".urlencode($message));
 	exit;
 }
 
@@ -144,7 +143,7 @@ if (isset($submit))
 /* HTML framework                                        */
 /*********************************************************/
 
-if ($campaignID != "")
+if ($campaignid != "")
 {
 	// Edit and existing campaign
 	
@@ -161,12 +160,12 @@ if ($campaignID != "")
 		
 	while ($row = phpAds_dbFetchArray($res))
 	{
-		if ($campaignID == $row['clientID'])
+		if ($campaignid == $row['clientid'])
 			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
 		else
 			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 		
-		$extra .= "<a href=campaign-edit.php?campaignID=". $row['clientID'].">".phpAds_buildClientName ($row['clientID'], $row['clientname'])."</a>";
+		$extra .= "<a href=campaign-edit.php?campaignid=". $row['clientid'].">".phpAds_buildClientName ($row['clientid'], $row['clientname'])."</a>";
 		$extra .= "<br>"; 
 	}
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
@@ -174,13 +173,13 @@ if ($campaignID != "")
 	$extra .= "<br><br><br><br><br>";
 	$extra .= "<b>$strShortcuts</b><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientID=".phpAds_getParentID ($campaignID).">$strModifyClient</a><br>";
+	$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientid=".phpAds_getParentID ($campaignid).">$strModifyClient</a><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<a href=campaign-index.php?campaignID=$campaignID>$strBanners</a><br>";
+	$extra .= "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<a href=campaign-index.php?campaignid=$campaignid>$strBanners</a><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-campaign.php?campaignID=$campaignID>$strStats</a><br>";
+	$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-campaign.php?campaignid=$campaignid>$strStats</a><br>";
 	$extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-weekly.gif' align='absmiddle'>&nbsp;<a href=stats-weekly.php?campaignID=$campaignID>$strWeeklyStats</a><br>";
+	$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-weekly.gif' align='absmiddle'>&nbsp;<a href=stats-weekly.php?campaignid=$campaignid>$strWeeklyStats</a><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	
 	phpAds_PageHeader("4.1.4", $extra);
@@ -188,7 +187,7 @@ if ($campaignID != "")
 }
 else
 {
-	if (isset($move) && $move == 'true')
+	if (isset($move) && $move == 't')
 	{
 		// Convert client to campaign
 		phpAds_PageHeader("4.1.4");
@@ -202,13 +201,13 @@ else
 	}
 }
 
-if ($campaignID != "" || (isset($move) && $move == 'true'))
+if ($campaignid != "" || (isset($move) && $move == 't'))
 {
 	// Edit or Convert
 	// Fetch exisiting settings
 	// Parent setting for converting, campaign settings for editing
-	if ($campaignID != "") $ID = $campaignID;
-	if (isset($clientID) && $clientID != "") $ID = $clientID;
+	if ($campaignid != "") $ID = $campaignid;
+	if (isset($clientid) && $clientid != "") $ID = $clientid;
 	
 	$res = phpAds_dbQuery("
 		SELECT
@@ -227,7 +226,7 @@ if ($campaignID != "" || (isset($move) && $move == 'true'))
 		FROM
 			".$phpAds_config['tbl_clients']."
 		WHERE
-			clientID = $ID
+			clientid = $ID
 		") or phpAds_sqlDie();
 		
 	$row = phpAds_dbFetchArray($res);
@@ -236,8 +235,8 @@ if ($campaignID != "" || (isset($move) && $move == 'true'))
 	
 	// Set parent when editing an campaign, don't set it
 	// when moving an campaign.
-	if ($campaignID != "" && isset($row["parent"]))
-		$clientID = $row["parent"];
+	if ($campaignid != "" && isset($row["parent"]))
+		$clientid = $row["parent"];
 	
 	// Set default activation settings
 	if (!isset($row["activate_dayofmonth"]))
@@ -317,10 +316,10 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 	if ($edit)
 	{
 		echo "<table><tr><td>";
-		echo "<input type='radio' name='".$name."Set' value='false' onclick=\"disableradio('".$name."', false);\"".($set==false?' checked':'').">";
+		echo "<input type='radio' name='".$name."Set' value='f' onclick=\"disableradio('".$name."', false);\"".($set==false?' checked':'').">";
 		echo "&nbsp;$caption";
 		echo "</td></tr><tr><td>";
-		echo "<input type='radio' name='".$name."Set' value='true' onclick=\"disableradio('".$name."', true);\"".($set==true?' checked':'').">";
+		echo "<input type='radio' name='".$name."Set' value='t' onclick=\"disableradio('".$name."', true);\"".($set==true?' checked':'').">";
 		echo "&nbsp;";
 		
 		echo "<select name='".$name."Day' onchange=\"checkdate('".$name."');\">\n";
@@ -449,12 +448,12 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 
 
 
-	<?php if (isset($campaignID) && $campaignID > 0) { ?>
-<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getParentName($campaignID);?>
+	<?php if (isset($campaignid) && $campaignid > 0) { ?>
+<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getParentName($campaignid);?>
 &nbsp;<img src='images/caret-rs.gif'>&nbsp;
-<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b><?php echo phpAds_getClientName($campaignID);?></b><br>
+<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b><?php echo phpAds_getClientName($campaignid);?></b><br>
 	<?php } else { ?>
-<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getClientName($clientID);?>
+<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getClientName($clientid);?>
 &nbsp;<img src='images/caret-rs.gif'>&nbsp;
 <img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b><?php echo $strUntitled; ?></b><br>
 	<?php } ?>
@@ -466,8 +465,8 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
   
 
 <form name="clientform" method="post" action="<?php echo basename($PHP_SELF);?>" onSubmit="return validate_form_campaign();">
-<input type="hidden" name="campaignID" value="<?php if(isset($campaignID)) echo $campaignID;?>">
-<input type="hidden" name="clientID" value="<?php if(isset($clientID)) echo $clientID;?>">
+<input type="hidden" name="campaignid" value="<?php if(isset($campaignid)) echo $campaignid;?>">
+<input type="hidden" name="clientid" value="<?php if(isset($clientid)) echo $clientid;?>">
 <input type="hidden" name="expire" value="<?php if(isset($row["expire"])) echo $row["expire"];?>">
 <input type="hidden" name="move" value="<?php if(isset($move)) echo $move;?>">
 
@@ -494,7 +493,7 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
 	<?php
-		if (isset($row['active']) && $row['active'] == 'false') {
+		if (isset($row['active']) && $row['active'] == 'f') {
 	?>
 	<tr>
 		<td width='30' valign='top'><img src='images/info.gif'></td>

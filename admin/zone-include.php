@@ -118,8 +118,8 @@ function phpAds_showZoneBanners ($width, $height, $what)
 	{
 		if (substr($what_array[$k],0,9)=="bannerid:")
 		{
-			$bannerID = substr($what_array[$k],9);
-			$bannerIDs[$bannerID] = true;
+			$bannerid = substr($what_array[$k],9);
+			$bannerids[$bannerid] = true;
 		}
 	}
 	
@@ -139,7 +139,7 @@ function phpAds_showZoneBanners ($width, $height, $what)
 	
 	$query .= "
 		ORDER BY
-			bannerID";
+			bannerid";
 		
 	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
 	
@@ -174,11 +174,11 @@ function phpAds_showZoneBanners ($width, $height, $what)
 		echo "&nbsp;&nbsp;";
 		
 		// Show checkbox
-		if (isset($bannerIDs[$row['bannerID']]) && $bannerIDs[$row['bannerID']] == true)
-			echo "<input type='checkbox' name='bannerid[]' value='".$row['bannerID']."' checked onclick='reviewall();'>"; 
+		if (isset($bannerids[$row['bannerid']]) && $bannerids[$row['bannerid']] == true)
+			echo "<input type='checkbox' name='bannerid[]' value='".$row['bannerid']."' checked onclick='reviewall();'>"; 
 		else
 		{
-			echo "<input type='checkbox' name='bannerid[]' value='".$row['bannerID']."' onclick='reviewall();'>"; 
+			echo "<input type='checkbox' name='bannerid[]' value='".$row['bannerid']."' onclick='reviewall();'>"; 
 			$checkedall = false;
 		}
 		
@@ -186,7 +186,7 @@ function phpAds_showZoneBanners ($width, $height, $what)
 		echo "&nbsp;&nbsp;";
 		
 		// Banner icon
-		if ($row['active'] == 'true')
+		if ($row['active'] == 't')
 		{
 			if ($row['format'] == 'html')
 				echo "<img src='images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
@@ -210,11 +210,11 @@ function phpAds_showZoneBanners ($width, $height, $what)
 		echo "</td>";
 		
 		// ID
-		echo "<td height='25'>".$row['bannerID']."</td>";
+		echo "<td height='25'>".$row['bannerid']."</td>";
 		
 		// Edit
 		echo "<td height='25'>";
-		echo "<a href='banner-edit.php?bannerID=".$row['bannerID']."&campaignID=".$row['clientID']."'><img src='images/icon-edit.gif' border='0' align='absmiddle' alt='$strEdit'>&nbsp;$strEdit</a>&nbsp;&nbsp;";
+		echo "<a href='banner-edit.php?bannerid=".$row['bannerid']."&campaignid=".$row['clientid']."'><img src='images/icon-edit.gif' border='0' align='absmiddle' alt='$strEdit'>&nbsp;$strEdit</a>&nbsp;&nbsp;";
 		echo "</td>";
 		
 		// End row

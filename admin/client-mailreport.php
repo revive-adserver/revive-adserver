@@ -28,7 +28,7 @@ phpAds_checkAccess(phpAds_Admin);
 /* Main code                                             */
 /*********************************************************/
 
-if (isset($clientID) && $clientID != '')
+if (isset($clientid) && $clientid != '')
 {
 	if (isset($startyear) && isset($startmonth) && isset($startday) &&
 		$startyear != '' && $startmonth != '' && $startday != '')
@@ -41,7 +41,7 @@ if (isset($clientID) && $clientID != '')
 	else
 		$last_unixtimestamp = mktime(23, 59, 59, date('m'), date('d'), date('Y'));
 	
-	if (phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_unixtimestamp, false))
+	if (phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_unixtimestamp, false))
 	{
 		$message = $strAdReportSent;
 	}
@@ -55,6 +55,6 @@ else
 	$message = $strErrorOccurred;
 }
 
-header("Location: stats-client.php?clientID=$clientID&message=".urlencode($message));
+header("Location: stats-client.php?clientid=$clientid&message=".urlencode($message));
 
 ?>

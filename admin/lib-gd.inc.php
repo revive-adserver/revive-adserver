@@ -77,8 +77,8 @@ function phpAds_GDImageFormat()
 	
 	
 	// Override detected GD foramt
-	if (isset($phpAds_config['override_GD_imageformat']) && $phpAds_config['override_GD_imageformat'] != '')
-		$phpAds_GDImageFormat = $phpAds_config['override_GD_imageformat'];
+	if (isset($phpAds_config['override_gd_imageformat']) && $phpAds_config['override_gd_imageformat'] != '')
+		$phpAds_GDImageFormat = $phpAds_config['override_gd_imageformat'];
 	
 	return ($phpAds_GDImageFormat);
 }

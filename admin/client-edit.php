@@ -17,6 +17,7 @@
 // Include required files
 require ("config.php");
 require ("lib-statistics.inc.php");
+require ("lib-languages.inc.php");
 
 
 // Security check
@@ -36,7 +37,7 @@ if (phpAds_isUser(phpAds_Client))
 		phpAds_Die ($strAccessDenied, $strNotAdmin);
 	}
 
-	$clientID = phpAds_clientID();
+	$clientid = phpAds_clientid();
 }
 
 
@@ -57,7 +58,7 @@ if (isset($submit))
 		
 		if (isset($clientusername) && $clientusername != '')
 		{
-			if ($clientID == '')
+			if ($clientid == '')
 			{
 				$res = phpAds_dbQuery("
 					SELECT
@@ -86,7 +87,7 @@ if (isset($submit))
 						".$phpAds_config['tbl_clients']."
 					WHERE
 						clientusername = '$clientusername' AND
-						clientID != '$clientID'
+						clientid != '$clientid'
 					") or phpAds_sqlDie(); 
 				
 				if (phpAds_dbNumRows($res) > 0 || $phpAds_config['admin'] == $clientusername)
@@ -101,9 +102,9 @@ if (isset($submit))
 		}
 		
 		
-		if (empty($clientID))
+		if (empty($clientid))
 		{
-			$clientID = "null";
+			$clientid = "null";
 			$message = $strClientAdded;
 		}
 		
@@ -129,7 +130,7 @@ if (isset($submit))
 		$query = "
 			REPLACE INTO
 				".$phpAds_config['tbl_clients']."
-			   (clientID,
+			   (clientid,
 				clientname,
 				contact,
 				email,
@@ -142,7 +143,7 @@ if (isset($submit))
 				reportlastdate,
 				reportdeactivate)
 			VALUES
-				('$clientID',
+				('$clientid',
 				'$clientname',
 				'$contact',
 				'$email',
@@ -160,10 +161,10 @@ if (isset($submit))
 		
 		if ($error == false)
 		{
-			if ($clientID == "null")
+			if ($clientid == "null")
 			{
-				$clientID = phpAds_dbInsertID();
-				Header("Location: campaign-edit.php?clientID=$clientID");
+				$clientid = phpAds_dbInsertID();
+				Header("Location: campaign-edit.php?clientid=$clientid");
 				exit;
 			}
 			else
@@ -174,10 +175,10 @@ if (isset($submit))
 		}
 		else
 		{
-			if ($clientID == "null")
-				$clientID = phpAds_dbInsertID();
+			if ($clientid == "null")
+				$clientid = phpAds_dbInsertID();
 			
-			Header("Location: client-edit.php?clientID=$clientID&errormessage=".urlencode($errormessage));
+			Header("Location: client-edit.php?clientid=$clientid&errormessage=".urlencode($errormessage));
 			exit;
 		}
 	}
@@ -207,7 +208,7 @@ if (isset($submit))
 				reportlastdate = '$clientreportlastdate',
 				reportdeactivate = '$clientreportdeactivate'
 			WHERE
-				clientID = '$clientID'")
+				clientid = '$clientid'")
 			or phpAds_sqlDie();  
 		
 		$Session['language'] = $clientlanguage;
@@ -225,7 +226,7 @@ if (isset($submit))
 /* HTML framework                                        */
 /*********************************************************/
 
-if ($clientID != "")
+if ($clientid != "")
 {
 	if (phpAds_isUser(phpAds_Admin))
 	{
@@ -243,12 +244,12 @@ if ($clientID != "")
 		$extra = "";
 		while ($row = phpAds_dbFetchArray($res))
 		{
-			if ($clientID == $row['clientID'])
+			if ($clientid == $row['clientid'])
 				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
 			else
 				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 			
-			$extra .= "<a href=client-edit.php?clientID=". $row['clientID'].">".phpAds_buildClientName ($row['clientID'], $row['clientname'])."</a>";
+			$extra .= "<a href=client-edit.php?clientid=". $row['clientid'].">".phpAds_buildClientName ($row['clientid'], $row['clientname'])."</a>";
 			$extra .= "<br>"; 
 		}
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
@@ -267,7 +268,7 @@ if ($clientID != "")
 		FROM
 			".$phpAds_config['tbl_clients']."
 		WHERE
-			clientID = $clientID
+			clientid = $clientid
 		") or phpAds_sqlDie();
 	$row = phpAds_dbFetchArray($res);
 	
@@ -279,8 +280,8 @@ else
 	phpAds_ShowSections(array("4.1.1"));
 	
 	$row["permissions"] 		= "";
-	$row["reportdeactivate"] 	= 'true';
-	$row["report"] 				= 'true';
+	$row["reportdeactivate"] 	= 't';
+	$row["report"] 				= 't';
 	$row["reportinterval"] 		= 7;
 }
 
@@ -291,7 +292,7 @@ else
 /*********************************************************/
 
 if (phpAds_isUser(phpAds_Admin))
-	echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientID)."</b><br>";
+	echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br>";
 
 echo "<br><br>";
 echo "<br><br>";
@@ -312,7 +313,7 @@ echo "<br><br>";
 </script>
 
 <form name="clientform" method="post" action="<?php echo basename($PHP_SELF);?>" onSubmit="return validate_form_client();">
-<input type="hidden" name="clientID" value="<?php if(isset($clientID)) echo $clientID;?>">
+<input type="hidden" name="clientid" value="<?php if(isset($clientid)) echo $clientid;?>">
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 	<tr><td height='25' colspan='3'><b><?php echo $strBasicInformation;?></b></td></tr>
@@ -354,24 +355,11 @@ echo "<br><br>";
 		<?php
 		echo "<option value='' SELECTED>".$GLOBALS['strDefault']."</option>\n"; 
 		
-		$langdir = opendir ("../language/");
-		while ($langfile = readdir ($langdir))
-		{
-			if (ereg ("^([a-zA-Z0-9\-]*)\.inc\.php$", $langfile, $matches))
-			{
-				$languages[] = $matches[1];
-			}
-		}
-		closedir ($langdir);
+		$languages = phpAds_AvailableLanguages();
 		
-		sort ($languages);
-		for ($i=0;$i<sizeof($languages);$i++)
-		{
-			if ($row['language'] == $languages[$i])
-				echo "<option value='".$languages[$i]."' SELECTED>".ucfirst($languages[$i])."</option>\n";
-			else
-				echo "<option value='".$languages[$i]."'>".ucfirst($languages[$i])."</option>\n";
-		}
+		while (list($k, $v) = each($languages))
+			echo "<option value='$k'>$v</option>\n";
+
 		?>
 			</select>
 		</td>
@@ -396,14 +384,14 @@ echo "<br><br>";
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td colspan='2'>
-			<input type="checkbox" name="clientreportdeactivate" value="true"<?php echo ($row["reportdeactivate"]) ? " CHECKED" : ""; ?>>
+			<input type="checkbox" name="clientreportdeactivate" value="t"<?php echo ($row["reportdeactivate"]) ? " CHECKED" : ""; ?>>
 			<?php echo $strSendDeactivationWarning;?>
 		</td>
 	</tr>
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td colspan='2'>
-			<input type="checkbox" name="clientreport" value="true"<?php echo ($row["report"]) ? " CHECKED" : ""; ?>>
+			<input type="checkbox" name="clientreport" value="t"<?php echo ($row["report"]) ? " CHECKED" : ""; ?>>
 			<?php echo $strSendAdvertisingReport;?>
 		</td>
 	</tr>

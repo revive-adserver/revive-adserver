@@ -30,7 +30,7 @@ phpAds_checkAccess(phpAds_Admin);
 /* Main code                                             */
 /*********************************************************/
 
-if (isset($bannerID) && $bannerID != '')
+if (isset($bannerid) && $bannerid != '')
 {
 	// Cleanup webserver stored image
 	$res = phpAds_dbQuery("
@@ -39,7 +39,7 @@ if (isset($bannerID) && $bannerID != '')
 		FROM
 			".$phpAds_config['tbl_banners']."
 		WHERE
-			bannerID = $bannerID
+			bannerid = $bannerid
 		") or phpAds_sqlDie();
 	if ($row = phpAds_dbFetchArray($res))
 	{
@@ -52,7 +52,7 @@ if (isset($bannerID) && $bannerID != '')
 		DELETE FROM
 			".$phpAds_config['tbl_banners']."
 		WHERE
-			bannerID = $bannerID
+			bannerid = $bannerid
 		") or phpAds_sqlDie();
 	
 	// Delete banner ACLs
@@ -60,17 +60,17 @@ if (isset($bannerID) && $bannerID != '')
 		DELETE FROM
 			".$phpAds_config['tbl_acls']."
 		WHERE
-			bannerID = $bannerID
+			bannerid = $bannerid
 		") or phpAds_sqlDie();
 	
 	// Delete statistics for this banner
-	phpAds_deleteStats($bannerID);
+	phpAds_deleteStats($bannerid);
 }
 
 // Rebuild zone cache
 if ($phpAds_config['zone_cache'])
 	phpAds_RebuildZoneCache ();
 
-Header("Location: campaign-index.php?campaignID=$campaignID&message=".urlencode($strBannerDeleted));
+Header("Location: campaign-index.php?campaignid=$campaignid&message=".urlencode($strBannerDeleted));
 
 ?>

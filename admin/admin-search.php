@@ -111,16 +111,16 @@ if ($compact == '')
 		<form name='searchselection' action='admin-search.php'>
 		<input type='hidden' name='keyword' value='<?php echo $keyword; ?>'>
 		<tr>
-			<td nowrap><input type='checkbox' name='client' value='true'<?php echo ($client ? ' checked': ''); ?> onClick='this.form.submit()'>
+			<td nowrap><input type='checkbox' name='client' value='t'<?php echo ($client ? ' checked': ''); ?> onClick='this.form.submit()'>
 				<?php echo $strClients; ?>&nbsp;&nbsp;&nbsp;</td>
-			<td nowrap><input type='checkbox' name='campaign' value='true'<?php echo ($campaign ? ' checked': ''); ?> onClick='this.form.submit()'>
+			<td nowrap><input type='checkbox' name='campaign' value='t'<?php echo ($campaign ? ' checked': ''); ?> onClick='this.form.submit()'>
 				<?php echo $strCampaign; ?>&nbsp;&nbsp;&nbsp;</td>
-			<td nowrap><input type='checkbox' name='banner' value='true'<?php echo ($banner ? ' checked': ''); ?> onClick='this.form.submit()'>
+			<td nowrap><input type='checkbox' name='banner' value='t'<?php echo ($banner ? ' checked': ''); ?> onClick='this.form.submit()'>
 				<?php echo $strBanners; ?>&nbsp;&nbsp;&nbsp;</td>
-			<td nowrap><input type='checkbox' name='zone' value='true'<?php echo ($zone ? ' checked': ''); ?> onClick='this.form.submit()'>
+			<td nowrap><input type='checkbox' name='zone' value='t'<?php echo ($zone ? ' checked': ''); ?> onClick='this.form.submit()'>
 				<?php echo $strZones; ?>&nbsp;&nbsp;&nbsp;</td>
 			<td width='100%'>&nbsp;</td>
-			<td nowrap align='right'><input type='checkbox' name='compact' value='true'<?php echo ($compact ? ' checked': ''); ?> onClick='this.form.submit()'>
+			<td nowrap align='right'><input type='checkbox' name='compact' value='t'<?php echo ($compact ? ' checked': ''); ?> onClick='this.form.submit()'>
 				<?php echo $strCompact; ?>&nbsp;&nbsp;&nbsp;</td>
 		</tr>
 		</form>
@@ -183,10 +183,10 @@ if ($compact == '')
 			echo "<td height='25'>";
 			echo "&nbsp;&nbsp;";
 			echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;";
-			echo "<a href='JavaScript:GoOpener(\"client-edit.php?clientID=".$row_clients['clientID']."\")'>".$row_clients['clientname']."</a>";
+			echo "<a href='JavaScript:GoOpener(\"client-edit.php?clientid=".$row_clients['clientid']."\")'>".$row_clients['clientname']."</a>";
 			echo "</td>";
 			
-			echo "<td height='25'>".$row_clients['clientID']."</td>";
+			echo "<td height='25'>".$row_clients['clientid']."</td>";
 			
 			// Empty
 			echo "<td>&nbsp;</td>";
@@ -196,14 +196,14 @@ if ($compact == '')
 		 	
 			// Button 1
 			echo "<td height='25'>";
-			echo "<a href='JavaScript:GoOpener(\"client-delete.php?clientID=".$row_clients['clientID']."\")'".phpAds_DelConfirm($strConfirmDeleteClient)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+			echo "<a href='JavaScript:GoOpener(\"client-delete.php?clientid=".$row_clients['clientid']."\")'".phpAds_DelConfirm($strConfirmDeleteClient)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 			echo "</td></tr>";
 			
 			
 			
 			if (!$compact)
 			{
-				$query_c_expand = "SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE parent=".$row_clients['clientID'];
+				$query_c_expand = "SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE parent=".$row_clients['clientid'];
 	  			$res_c_expand = phpAds_dbQuery($query_c_expand) or phpAds_sqlDie();
 				
 				while ($row_c_expand = phpAds_dbFetchArray($res_c_expand))
@@ -215,28 +215,28 @@ if ($compact == '')
 					echo "<td height='25'>";
 					echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 					echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;";
-					echo "<a href='JavaScript:GoOpener(\"campaign-index.php?campaignID=".$row_c_expand['clientID']."\")'>".$row_c_expand['clientname']."</a>";
+					echo "<a href='JavaScript:GoOpener(\"campaign-index.php?campaignid=".$row_c_expand['clientid']."\")'>".$row_c_expand['clientname']."</a>";
 					echo "</td>";
 					
-					echo "<td height='25'>".$row_c_expand['clientID']."</td>";
+					echo "<td height='25'>".$row_c_expand['clientid']."</td>";
 					
 					// Empty
 					echo "<td>&nbsp;</td>";
 				   	
 					// Empty
 					echo "<td height='25'>";
-					echo "<a href='JavaScript:GoOpener(\"campaign-edit.php?campaignID=".$row_c_expand['clientID']."\")'><img src='images/icon-edit.gif' border='0' align='absmiddle' alt='$strEdit'>&nbsp;$strEdit</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+					echo "<a href='JavaScript:GoOpener(\"campaign-edit.php?campaignid=".$row_c_expand['clientid']."\")'><img src='images/icon-edit.gif' border='0' align='absmiddle' alt='$strEdit'>&nbsp;$strEdit</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 					echo "</td>";
 				 	
 					// Button 1
 					echo "<td height='25'>";
-					echo "<a href='JavaScript:GoOpener(\"campaign-delete.php?campaignID=".$row_c_expand['clientID']."\")'".phpAds_DelConfirm($strConfirmDeleteCampaign)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+					echo "<a href='JavaScript:GoOpener(\"campaign-delete.php?campaignid=".$row_c_expand['clientid']."\")'".phpAds_DelConfirm($strConfirmDeleteCampaign)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 					echo "</td></tr>";
 					
 					
 					
 					
-					$query_b_expand = "SELECT * FROM ".$phpAds_config['tbl_banners']." WHERE clientID=".$row_c_expand['clientID'];
+					$query_b_expand = "SELECT * FROM ".$phpAds_config['tbl_banners']." WHERE clientid=".$row_c_expand['clientid'];
 		  			$res_b_expand = phpAds_dbQuery($query_b_expand) or phpAds_sqlDie();
 					
 					while ($row_b_expand = phpAds_dbFetchArray($res_b_expand))
@@ -267,10 +267,10 @@ if ($compact == '')
 							echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
 						}
 						
-						echo "<a href='JavaScript:GoOpener(\"banner-edit.php?bannerID=".$row_b_expand['bannerID']."&campaignID=".$row_b_expand['clientID']."\")'>".$name."</a>";
+						echo "<a href='JavaScript:GoOpener(\"banner-edit.php?bannerid=".$row_b_expand['bannerid']."&campaignid=".$row_b_expand['clientid']."\")'>".$name."</a>";
 						echo "</td>";
 						
-						echo "<td height='25'>".$row_b_expand['bannerID']."</td>";
+						echo "<td height='25'>".$row_b_expand['bannerid']."</td>";
 						
 						// Empty
 						echo "<td>&nbsp;</td>";
@@ -278,14 +278,14 @@ if ($compact == '')
 						// Empty
 						echo "<td height='25'>";
 						if ($phpAds_config['acl'])
-							echo "<a href='JavaScript:GoOpener(\"banner-acl.php?bannerID=".$row_b_expand['bannerID']."&campaignID=".$row_b_expand['clientID']."\")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+							echo "<a href='JavaScript:GoOpener(\"banner-acl.php?bannerid=".$row_b_expand['bannerid']."&campaignid=".$row_b_expand['clientid']."\")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 						else
 							echo "&nbsp;";
 						echo "</td>";
 						
 						// Button 1
 						echo "<td height='25'>";
-						echo "<a href='JavaScript:GoOpener(\"banner-delete.php?bannerID=".$row_b_expand['bannerID']."&campaignID=".$row_b_expand['clientID']."\")'".phpAds_DelConfirm($strConfirmDeleteBanner)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+						echo "<a href='JavaScript:GoOpener(\"banner-delete.php?bannerid=".$row_b_expand['bannerid']."&campaignid=".$row_b_expand['clientid']."\")'".phpAds_DelConfirm($strConfirmDeleteBanner)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 						echo "</td></tr>";
 					}
 				}
@@ -306,28 +306,28 @@ if ($compact == '')
 			echo "<td height='25'>";
 			echo "&nbsp;&nbsp;";
 			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;";
-			echo "<a href='JavaScript:GoOpener(\"campaign-index.php?campaignID=".$row_campaigns['clientID']."\")'>".$row_campaigns['clientname']."</a>";
+			echo "<a href='JavaScript:GoOpener(\"campaign-index.php?campaignid=".$row_campaigns['clientid']."\")'>".$row_campaigns['clientname']."</a>";
 			echo "</td>";
 			
-			echo "<td height='25'>".$row_campaigns['clientID']."</td>";
+			echo "<td height='25'>".$row_campaigns['clientid']."</td>";
 			
 			// Empty
 			echo "<td>&nbsp;</td>";
 		   	
 			// Empty
 			echo "<td height='25'>";
-			echo "<a href='JavaScript:GoOpener(\"campaign-edit.php?campaignID=".$row_campaigns['clientID']."\")'><img src='images/icon-edit.gif' border='0' align='absmiddle' alt='$strEdit'>&nbsp;$strEdit</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+			echo "<a href='JavaScript:GoOpener(\"campaign-edit.php?campaignid=".$row_campaigns['clientid']."\")'><img src='images/icon-edit.gif' border='0' align='absmiddle' alt='$strEdit'>&nbsp;$strEdit</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 			echo "</td>";
 		 	
 			// Button 1
 			echo "<td height='25'>";
-			echo "<a href='JavaScript:GoOpener(\"campaign-delete.php?campaignID=".$row_campaigns['clientID']."\")'".phpAds_DelConfirm($strConfirmDeleteCampaign)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+			echo "<a href='JavaScript:GoOpener(\"campaign-delete.php?campaignid=".$row_campaigns['clientid']."\")'".phpAds_DelConfirm($strConfirmDeleteCampaign)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 			echo "</td></tr>";
 			
 			
 			if (!$compact)
 			{
-				$query_b_expand = "SELECT * FROM ".$phpAds_config['tbl_banners']." WHERE clientID=".$row_campaigns['clientID'];
+				$query_b_expand = "SELECT * FROM ".$phpAds_config['tbl_banners']." WHERE clientid=".$row_campaigns['clientid'];
 	  			$res_b_expand = phpAds_dbQuery($query_b_expand) or phpAds_sqlDie();
 				
 				while ($row_b_expand = phpAds_dbFetchArray($res_b_expand))
@@ -358,10 +358,10 @@ if ($compact == '')
 						echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
 					}
 					
-					echo "<a href='JavaScript:GoOpener(\"banner-edit.php?bannerID=".$row_b_expand['bannerID']."&campaignID=".$row_b_expand['clientID']."\")'>".$name."</a>";
+					echo "<a href='JavaScript:GoOpener(\"banner-edit.php?bannerid=".$row_b_expand['bannerid']."&campaignid=".$row_b_expand['clientid']."\")'>".$name."</a>";
 					echo "</td>";
 					
-					echo "<td height='25'>".$row_b_expand['bannerID']."</td>";
+					echo "<td height='25'>".$row_b_expand['bannerid']."</td>";
 					
 					// Empty
 					echo "<td>&nbsp;</td>";
@@ -369,14 +369,14 @@ if ($compact == '')
 					// Empty
 					echo "<td height='25'>";
 					if ($phpAds_config['acl'])
-						echo "<a href='JavaScript:GoOpener(\"banner-acl.php?bannerID=".$row_b_expand['bannerID']."&campaignID=".$row_b_expand['clientID']."\")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+						echo "<a href='JavaScript:GoOpener(\"banner-acl.php?bannerid=".$row_b_expand['bannerid']."&campaignid=".$row_b_expand['clientid']."\")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 					else
 						echo "&nbsp;";
 					echo "</td>";
 					
 					// Button 1
 					echo "<td height='25'>";
-					echo "<a href='JavaScript:GoOpener(\"banner-delete.php?bannerID=".$row_b_expand['bannerID']."&campaignID=".$row_b_expand['clientID']."\")'".phpAds_DelConfirm($strConfirmDeleteBanner)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+					echo "<a href='JavaScript:GoOpener(\"banner-delete.php?bannerid=".$row_b_expand['bannerid']."&campaignid=".$row_b_expand['clientid']."\")'".phpAds_DelConfirm($strConfirmDeleteBanner)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 					echo "</td></tr>";
 				}
 			}
@@ -415,10 +415,10 @@ if ($compact == '')
 				echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
 			}
 			
-			echo "<a href='JavaScript:GoOpener(\"banner-edit.php?bannerID=".$row_banners['bannerID']."&campaignID=".$row_banners['clientID']."\")'>".$name."</a>";
+			echo "<a href='JavaScript:GoOpener(\"banner-edit.php?bannerid=".$row_banners['bannerid']."&campaignid=".$row_banners['clientid']."\")'>".$name."</a>";
 			echo "</td>";
 			
-			echo "<td height='25'>".$row_banners['bannerID']."</td>";
+			echo "<td height='25'>".$row_banners['bannerid']."</td>";
 			
 			// Empty
 			echo "<td>&nbsp;</td>";
@@ -426,14 +426,14 @@ if ($compact == '')
 			// Empty
 			echo "<td height='25'>";
 			if ($phpAds_config['acl'])
-				echo "<a href='JavaScript:GoOpener(\"banner-acl.php?bannerID=".$row_banners['bannerID']."&campaignID=".$row_banners['clientID']."\")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+				echo "<a href='JavaScript:GoOpener(\"banner-acl.php?bannerid=".$row_banners['bannerid']."&campaignid=".$row_banners['clientid']."\")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 			else
 				echo "&nbsp;";
 			echo "</td>";
 			
 			// Button 1
 			echo "<td height='25'>";
-			echo "<a href='JavaScript:GoOpener(\"banner-delete.php?bannerID=".$row_banners['bannerID']."&campaignID=".$row_banners['clientID']."\")'".phpAds_DelConfirm($strConfirmDeleteBanner)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+			echo "<a href='JavaScript:GoOpener(\"banner-delete.php?bannerid=".$row_banners['bannerid']."&campaignid=".$row_banners['clientid']."\")'".phpAds_DelConfirm($strConfirmDeleteBanner)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 			echo "</td></tr>";
 			
 			$i++;

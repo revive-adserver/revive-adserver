@@ -36,10 +36,10 @@ if (isset($submit))
 	{
 		for (reset($previouszone);$key=key($previouszone);next($previouszone))
 		{
-			if (($previouszone[$key] == 'true' && $includezone[$key] != 'true') or
-			    ($previouszone[$key] != 'true' && $includezone[$key] == 'true'))
+			if (($previouszone[$key] == 't' && $includezone[$key] != 't') or
+			    ($previouszone[$key] != 't' && $includezone[$key] == 't'))
 			{
-				phpAds_ToggleBannerInZone ($bannerID, $key);
+				phpAds_ToggleBannerInZone ($bannerid, $key);
 			}
 		}
 	}
@@ -59,17 +59,17 @@ $res = phpAds_dbQuery("
 	FROM
 		".$phpAds_config['tbl_banners']."
 	WHERE
-		clientID = $campaignID
+		clientid = $campaignid
 ") or phpAds_sqlDie();
 
 while ($row = phpAds_dbFetchArray($res))
 {
-	if ($bannerID == $row['bannerID'])
+	if ($bannerid == $row['bannerid'])
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
 	else
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
-	$extra .= "<a href='banner-zone.php?campaignID=$campaignID&bannerID=".$row['bannerID']."'>";
-	$extra .= phpAds_buildBannerName ($row['bannerID'], $row['description'], $row['alt']);
+	$extra .= "<a href='banner-zone.php?campaignid=$campaignid&bannerid=".$row['bannerid']."'>";
+	$extra .= phpAds_buildBannerName ($row['bannerid'], $row['description'], $row['alt']);
 	$extra .= "</a>";
 	$extra .= "<br>"; 
 }
@@ -78,15 +78,15 @@ $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 $extra .= "<br><br><br><br><br>";
 $extra .= "<b>$strShortcuts</b><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientID=".phpAds_getParentID ($campaignID).">$strModifyClient</a><br>";
+$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientid=".phpAds_getParentID ($campaignid).">$strModifyClient</a><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignID=$campaignID>$strModifyCampaign</a><br>";
+$extra .= "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignid=$campaignid>$strModifyCampaign</a><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-campaign.php?campaignID=$campaignID>$strStats</a><br>";
+$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-campaign.php?campaignid=$campaignid>$strStats</a><br>";
 $extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-weekly.gif' align='absmiddle'>&nbsp;<a href=stats-weekly.php?campaignID=$campaignID>$strWeeklyStats</a><br>";
+$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-weekly.gif' align='absmiddle'>&nbsp;<a href=stats-weekly.php?campaignid=$campaignid>$strWeeklyStats</a><br>";
 $extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-zoom.gif' align='absmiddle'>&nbsp;<a href=stats-details.php?campaignID=$campaignID&bannerID=$bannerID>$strDetailStats</a><br>";
+$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-zoom.gif' align='absmiddle'>&nbsp;<a href=stats-details.php?campaignid=$campaignid&bannerid=$bannerid>$strDetailStats</a><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 
 phpAds_PageHeader("4.1.5.4", $extra);
@@ -101,19 +101,19 @@ phpAds_ShowSections(array("4.1.5.2", "4.1.5.3", "4.1.5.4"));
 
 
 echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
-echo "<tr><td height='25'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignID);
+echo "<tr><td height='25'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
 echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
-echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignID);
+echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
 echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
-if ($bannerID != '')
-	echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerID)."</b></td></tr>";
+if ($bannerid != '')
+	echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b></td></tr>";
 else
 	echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;".$strUntitled."</td></tr>";
 
-if ($bannerID != '')
+if ($bannerid != '')
 {
 	echo "<tr><td height='1' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-	echo "<tr><td align='left'><br>".phpAds_getBannerCode($bannerID)."</td></tr>";
+	echo "<tr><td align='left'><br>".phpAds_getBannerCode($bannerid)."</td></tr>";
 }
 
 echo "</table>";
@@ -136,7 +136,7 @@ $res_zones = phpAds_dbQuery("
 			".$phpAds_config['tbl_zones']." AS z,
 			".$phpAds_config['tbl_banners']." AS b
 		WHERE
-			b.bannerID = $bannerID AND
+			b.bannerid = $bannerid AND
 			(z.width = b.width OR z.width = -1) AND
 			(z.height = b.height OR z.height = -1) AND
 			z.zonetype = ".phpAds_ZoneBanners."
@@ -147,8 +147,8 @@ $res_zones = phpAds_dbQuery("
 
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<form action='banner-zone.php' method='post'>";
-echo "<input type='hidden' name='campaignID' value='".$campaignID."'>";
-echo "<input type='hidden' name='bannerID' value='".$bannerID."'>";
+echo "<input type='hidden' name='campaignid' value='".$campaignid."'>";
+echo "<input type='hidden' name='bannerid' value='".$bannerid."'>";
 
 echo "<tr height='25'>";
 echo "<td height='25'><b>&nbsp;&nbsp;".$GLOBALS['strName']."</b></td>";
@@ -169,14 +169,14 @@ while ($row_zones = phpAds_dbFetchArray($res_zones))
 	
 	echo "<td height='25'>";
 	
-	$status = phpAds_IsBannerInZone ($bannerID, $row_zones['zoneid']);
+	$status = phpAds_IsBannerInZone ($bannerid, $row_zones['zoneid']);
 	
     if ($status)
-		echo "&nbsp;&nbsp;<input name='includezone[".$row_zones['zoneid']."]' type='checkbox' value='true' checked>";
+		echo "&nbsp;&nbsp;<input name='includezone[".$row_zones['zoneid']."]' type='checkbox' value='t' checked>";
 	else
-		echo "&nbsp;&nbsp;<input name='includezone[".$row_zones['zoneid']."]' type='checkbox' value='true'>";
+		echo "&nbsp;&nbsp;<input name='includezone[".$row_zones['zoneid']."]' type='checkbox' value='t'>";
 	
-	echo "<input type='hidden' name='previouszone[".$row_zones['zoneid']."]' value='".($status ? 'true' : 'false')."'>";
+	echo "<input type='hidden' name='previouszone[".$row_zones['zoneid']."]' value='".($status ? 't' : 'f')."'>";
 	
 	echo "&nbsp;&nbsp;<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
 	echo "<a href='zone-edit.php?zoneid=".$row_zones['zoneid']."'>".$row_zones['zonename']."</a>";

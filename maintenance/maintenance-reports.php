@@ -37,7 +37,7 @@ require	("../lib-reports.inc.php");
 
 $res_clients = phpAds_dbQuery("
 	SELECT
-		clientID,
+		clientid,
 		report,
 		reportinterval,
 		reportlastdate,
@@ -45,7 +45,7 @@ $res_clients = phpAds_dbQuery("
 	FROM
 		".$phpAds_config['tbl_clients']."
 	WHERE
-		parent = 0 AND report='true'
+		parent = 0 AND report='t'
 	");
 
 while($client = phpAds_dbFetchArray($res_clients))
@@ -63,10 +63,10 @@ while($client = phpAds_dbFetchArray($res_clients))
 		$first_unixtimestamp  = $client['reportlastdate_t'];
 		
 		// Sent report
-		$result = phpAds_SendMaintenanceReport ($client['clientID'], $first_unixtimestamp, $last_unixtimestamp, true);
+		$result = phpAds_SendMaintenanceReport ($client['clientid'], $first_unixtimestamp, $last_unixtimestamp, true);
 		
 		if ($result)
-			echo "[id".$client['clientID']."] Statistics report sent!<br>";
+			echo "[id".$client['clientid']."] Statistics report sent!<br>";
 	}
 }
 

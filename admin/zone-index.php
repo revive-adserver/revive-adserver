@@ -64,61 +64,74 @@ echo "<br><br>";
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
 
 
-if (phpAds_dbNumRows($res_zones) > 0)
+echo "<tr height='25'>";
+echo '<td height="25"><b>&nbsp;&nbsp;<a href="'.$PHP_SELF.'?listorder=name">'.$GLOBALS['strName'].'</a>';
+
+if (($listorder == "name") || ($listorder == ""))
 {
-	echo "<tr height='25'>";
-	echo '<td height="25"><b>&nbsp;&nbsp;<a href="'.$PHP_SELF.'?listorder=name">'.$GLOBALS['strName'].'</a>';
-	if (($listorder == "name") || ($listorder == ""))
+	if  (($orderdirection == "") || ($orderdirection == "down"))
 	{
-		if  (($orderdirection == "") || ($orderdirection == "down"))
-		{
-			echo ' <a href="'.$PHP_SELF.'?listorder=name&orderdirection=up">';
-			echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
-		}
-		else
-		{
-			echo ' <a href="'.$PHP_SELF.'?listorder=name&orderdirection=down">';
-			echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
-		}
-		echo '</a>';
+		echo ' <a href="'.$PHP_SELF.'?listorder=name&orderdirection=up">';
+		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 	}
-	echo '</b></td>';
-	echo '<td height="25"><b><a href="'.$PHP_SELF.'?listorder=id">'.$GLOBALS['strID'].'</a>';
-	if ($listorder == "id")
+	else
 	{
-		if  (($orderdirection == "") || ($orderdirection == "down"))
-		{
-			echo ' <a href="'.$PHP_SELF.'?listorder=id&orderdirection=up">';
-			echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
-		}
-		else
-		{
-			echo ' <a href="'.$PHP_SELF.'?listorder=id&orderdirection=down">';
-			echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
-		}
-		echo '</a>';
+		echo ' <a href="'.$PHP_SELF.'?listorder=name&orderdirection=down">';
+		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 	}
-	echo '</b>&nbsp;&nbsp;&nbsp;</td>';
-	echo '<td height="25"><b><a href="'.$PHP_SELF.'?listorder=size">'.$GLOBALS['strSize'].'</a>';
-	if ($listorder == "size")
+	echo '</a>';
+}
+
+echo '</b></td>';
+echo '<td height="25"><b><a href="'.$PHP_SELF.'?listorder=id">'.$GLOBALS['strID'].'</a>';
+
+if ($listorder == "id")
+{
+	if  (($orderdirection == "") || ($orderdirection == "down"))
 	{
-		if  (($orderdirection == "") || ($orderdirection == "down"))
-		{
-			echo ' <a href="'.$PHP_SELF.'?listorder=size&orderdirection=up">';
-			echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
-		}
-		else
-		{
-			echo ' <a href="'.$PHP_SELF.'?listorder=size&orderdirection=down">';
-			echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
-		}
-		echo '</a>';
+		echo ' <a href="'.$PHP_SELF.'?listorder=id&orderdirection=up">';
+		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 	}
-	echo "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-	echo "<td height='25'>&nbsp;</td>";
-	echo "</tr>";
+	else
+	{
+		echo ' <a href="'.$PHP_SELF.'?listorder=id&orderdirection=down">';
+		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
+	}
+	echo '</a>';
+}
+
+echo '</b>&nbsp;&nbsp;&nbsp;</td>';
+echo '<td height="25"><b><a href="'.$PHP_SELF.'?listorder=size">'.$GLOBALS['strSize'].'</a>';
+
+if ($listorder == "size")
+{
+	if  (($orderdirection == "") || ($orderdirection == "down"))
+	{
+		echo ' <a href="'.$PHP_SELF.'?listorder=size&orderdirection=up">';
+		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
+	}
+	else
+	{
+		echo ' <a href="'.$PHP_SELF.'?listorder=size&orderdirection=down">';
+		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
+	}
+	echo '</a>';
+}
+
+echo "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+echo "<td height='25'>&nbsp;</td>";
+echo "</tr>";
+
+echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+
+
+if (phpAds_dbNumRows($res_zones) == 0)
+{
+	echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='4'>";
+	echo "&nbsp;&nbsp;".$strNoZones;
+	echo "</td></tr>";
 	
-	echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	echo "<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
 }
 
 $stats['cachesize'] = 0;

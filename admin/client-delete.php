@@ -30,25 +30,25 @@ phpAds_checkAccess(phpAds_Admin);
 /* Main code                                             */
 /*********************************************************/
 
-if (isset($clientID) && $clientID != '')
+if (isset($clientid) && $clientid != '')
 {
 	// Delete Client
 	$res = phpAds_dbQuery("
 		DELETE FROM
 			".$phpAds_config['tbl_clients']."
 		WHERE
-			clientID = $clientID
+			clientid = $clientid
 		") or phpAds_sqlDie();
 	
 	
 	// Loop thourgh each campaign
 	$res_campaign = phpAds_dbQuery("
 		SELECT
-			clientID
+			clientid
 		FROM
 			".$phpAds_config['tbl_clients']."
 		WHERE
-			parent = $clientID
+			parent = $clientid
 		") or phpAds_sqlDie();
 	
 	while ($row_campaign = phpAds_dbFetchArray($res_campaign))
@@ -58,20 +58,20 @@ if (isset($clientID) && $clientID != '')
 			DELETE FROM
 				".$phpAds_config['tbl_clients']."
 			WHERE
-				clientID = ".$row_campaign['clientID']."
+				clientid = ".$row_campaign['clientid']."
 			") or phpAds_sqlDie();
 		
 		
 		// Loop through each banner
 		$res_banners = phpAds_dbQuery("
 			SELECT
-				bannerID,
+				bannerid,
 				format,
 				banner
 			FROM
 				".$phpAds_config['tbl_banners']."
 			WHERE
-				clientID = ".$row_campaign['clientID']."
+				clientid = ".$row_campaign['clientid']."
 			") or phpAds_sqlDie();
 		
 		while ($row = phpAds_dbFetchArray($res_banners))
@@ -86,12 +86,12 @@ if (isset($clientID) && $clientID != '')
 				DELETE FROM
 					".$phpAds_config['tbl_acls']."
 				WHERE
-					bannerID = ".$row['bannerID']."
+					bannerid = ".$row['bannerid']."
 				") or phpAds_sqlDie();
 			
 			
 			// Delete stats for each banner
-			phpAds_deleteStats($row['bannerID']);
+			phpAds_deleteStats($row['bannerid']);
 		}
 		
 		
@@ -100,7 +100,7 @@ if (isset($clientID) && $clientID != '')
 			DELETE FROM
 				".$phpAds_config['tbl_banners']."
 			WHERE
-				clientID = ".$row_campaign['clientID']."
+				clientid = ".$row_campaign['clientid']."
 			") or phpAds_sqlDie();
 	}
 }

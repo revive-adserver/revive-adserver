@@ -29,34 +29,34 @@ phpAds_checkAccess(phpAds_Admin+phpAds_Client);
 /* Main code                                             */
 /*********************************************************/
 
-if ($value == "true")
-	$value = "false";
+if ($value == "t")
+	$value = "f";
 else
-	$value = "true";
+	$value = "t";
 
 if (phpAds_isUser(phpAds_Client))
 {
-	if (($value == 'false' && phpAds_isAllowed(phpAds_DisableBanner)) || 
-	    ($value == 'true' && phpAds_isAllowed(phpAds_ActivateBanner)))
+	if (($value == 'f' && phpAds_isAllowed(phpAds_DisableBanner)) || 
+	    ($value == 't' && phpAds_isAllowed(phpAds_ActivateBanner)))
 	{
 		$result = phpAds_dbQuery("
 			SELECT
-				clientID
+				clientid
 			FROM
 				".$phpAds_config['tbl_banners']."
 			WHERE
-				bannerID = $bannerID
+				bannerid = $bannerid
 			") or phpAds_sqlDie();
 		$row = phpAds_dbFetchArray($result);
 		
-		if ($row["clientID"] == '' || phpAds_clientID() != phpAds_getParentID ($row["clientID"]))
+		if ($row["clientid"] == '' || phpAds_clientid() != phpAds_getParentID ($row["clientid"]))
 		{
 			phpAds_PageHeader("1");
 			phpAds_Die ($strAccessDenied, $strNotAdmin);
 		}
 		else
 		{
-			$campaignID = $row["clientID"];
+			$campaignid = $row["clientid"];
 			
 			$res = phpAds_dbQuery("
 				UPDATE
@@ -64,14 +64,14 @@ if (phpAds_isUser(phpAds_Client))
 				SET
 					active = '$value'
 				WHERE
-					bannerID = $bannerID
+					bannerid = $bannerid
 				") or phpAds_sqlDie();
 			
 			// Rebuild zone cache
 			if ($phpAds_config['zone_cache'])
 				phpAds_RebuildZoneCache ();
 			
-			Header("Location: stats-campaign.php?campaignID=$campaignID&message=".urlencode($strBannerChanged));
+			Header("Location: stats-campaign.php?campaignid=$campaignid&message=".urlencode($strBannerChanged));
 		}
 	}
 	else
@@ -90,14 +90,14 @@ if (phpAds_isUser(phpAds_Admin))
 		SET
 			active = '$value'
 		WHERE
-			bannerID = $bannerID
+			bannerid = $bannerid
 		") or phpAds_sqlDie();
 	
 	// Rebuild zone cache
 	if ($phpAds_config['zone_cache'])
 		phpAds_RebuildZoneCache ();
 	
-	Header("Location: campaign-index.php?campaignID=$campaignID&message=".urlencode($strBannerChanged));
+	Header("Location: campaign-index.php?campaignid=$campaignid&message=".urlencode($strBannerChanged));
 }
 
 

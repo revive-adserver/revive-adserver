@@ -250,20 +250,20 @@ if ($command == 'convert')
 				
 				$begintime 	= $task['begin_stamp'];
 				$endtime 	= $task['end_stamp'];
-				$bannerID 	= $task['bannerID'];
+				$bannerid 	= $task['bannerid'];
 				$id		 	= $task['conversionID'];
 				
 				$day = substr($begintime, 0, 4)."-".substr($begintime, 4, 2)."-".substr($begintime, 6, 2);
 				
 				// Get views for this task
-				$countresult = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_adviews']." WHERE bannerID='$bannerID' AND t_stamp >= $begintime AND t_stamp < $endtime");
+				$countresult = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_adviews']." WHERE bannerid='$bannerid' AND t_stamp >= $begintime AND t_stamp < $endtime");
 				if ($countrow = phpAds_dbFetchArray($countresult))
 				{
 					$views = $countrow['count'];
 				}
 				
 				// Get clicks for this task
-				$countresult = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_adclicks']." WHERE bannerID='$bannerID' AND t_stamp >= $begintime AND t_stamp < $endtime"); 
+				$countresult = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_adclicks']." WHERE bannerid='$bannerid' AND t_stamp >= $begintime AND t_stamp < $endtime"); 
 				if ($countrow = phpAds_dbFetchArray($countresult))
 				{
 					$clicks = $countrow['count'];
@@ -273,13 +273,13 @@ if ($command == 'convert')
 				if ($clicks > 0 || $views > 0)
 				{
 					// Check for existing compact stats for this task
-					$checkresult = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_adstats']." WHERE day='$day' AND bannerID='$bannerID'");
+					$checkresult = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_adstats']." WHERE day='$day' AND bannerid='$bannerid'");
 					$checkrow = phpAds_dbFetchArray ($checkresult);
 					
 					if (isset($checkrow['count']) && $checkrow['count'] > 0)
 					{
 						// Add clicks / views to existing compact stats
-						$updateresult = phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_adstats']." SET clicks=clicks+$clicks, views=views+$views WHERE day='$day' AND bannerID='$bannerID'");
+						$updateresult = phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_adstats']." SET clicks=clicks+$clicks, views=views+$views WHERE day='$day' AND bannerid='$bannerid'");
 						
 						if (phpAds_dbAffectedRows($updateresult) > 0)
 						{
@@ -293,7 +293,7 @@ if ($command == 'convert')
 					else
 					{
 						// Insert a new record to the compact stats
-						$updateresult = phpAds_dbQuery("INSERT INTO ".$phpAds_config['tbl_adstats']." SET bannerID='$bannerID', day='$day', clicks=$clicks, views=$views");
+						$updateresult = phpAds_dbQuery("INSERT INTO ".$phpAds_config['tbl_adstats']." SET bannerid='$bannerid', day='$day', clicks=$clicks, views=$views");
 						
 						if (phpAds_dbAffectedRows($updateresult) > 0)
 						{
@@ -371,15 +371,15 @@ if ($command == 'cleanup')
 		{
 			$begintime 	= $error['begin_stamp'];
 			$endtime 	= $error['end_stamp'];
-			$bannerID 	= $error['bannerID'];
+			$bannerid 	= $error['bannerid'];
 			
 			if ($where == "")
 			{
-				$where .= "(bannerID='$bannerID' AND t_stamp >= $begintime AND t_stamp < $endtime)";
+				$where .= "(bannerid='$bannerid' AND t_stamp >= $begintime AND t_stamp < $endtime)";
 			}
 			else
 			{
-				$where .= " OR (bannerID='$bannerID' AND t_stamp >= $begintime AND t_stamp < $endtime)";
+				$where .= " OR (bannerid='$bannerid' AND t_stamp >= $begintime AND t_stamp < $endtime)";
 			}
 		}
 		
@@ -437,7 +437,7 @@ function phpAds_convertTableCreate()
 		   end_stamp timestamp(14),
 		   status enum('waiting','running','finished','error') DEFAULT 'waiting',
 		   records int(11),
-		   bannerID mediumint(9),
+		   bannerid mediumint(9),
 		   PRIMARY KEY (conversionID)
 		)
 	");
@@ -452,7 +452,7 @@ function phpAds_convertTableDrop()
 }
 
 
-function phpAds_convertAddTask($begin_stamp, $end_stamp, $records, $bannerID)
+function phpAds_convertAddTask($begin_stamp, $end_stamp, $records, $bannerid)
 {
 	$result = phpAds_dbQuery("
 		INSERT INTO 
@@ -460,7 +460,7 @@ function phpAds_convertAddTask($begin_stamp, $end_stamp, $records, $bannerID)
 		SET
 		   	begin_stamp = '$begin_stamp',
 		   	end_stamp = '$end_stamp',
-			bannerID = '$bannerID',
+			bannerid = '$bannerid',
 		   	records = $records
 	");
 }

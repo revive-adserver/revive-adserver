@@ -41,7 +41,7 @@ phpAds_ShowSections(array("4.1", "4.2", "4.3"));
 function phpAds_GenerateInvocationCode()
 {
 	global $phpAds_config;
-	global $codetype, $what, $clientID, $source, $target;
+	global $codetype, $what, $clientid, $source, $target;
 	global $withText, $template, $refresh, $uniqueid;
 	global $width, $height;
 	
@@ -52,8 +52,8 @@ function phpAds_GenerateInvocationCode()
 	if (isset($what) && $what != '')
 		$parameters[] = "what=".str_replace (",+", ",_", $what);
 	
-	if (isset($clientID) && $clientID != '0')
-		$parameters[] = "clientID=".$clientID;
+	if (isset($clientid) && $clientid != '0')
+		$parameters[] = "clientid=".$clientid;
 	
 	if (isset($source) && $source != '')
 		$parameters[] = "source=".$source;
@@ -172,7 +172,7 @@ function phpAds_GenerateInvocationCode()
 		
 		$buffer .= "<"."?php\n";
 		$buffer .= "    require($path);\n";
-		$buffer .= "    view ('$what', $clientID, '$target', '$source', '$withText');\n";
+		$buffer .= "    view ('$what', $clientid, '$target', '$source', '$withText');\n";
 		$buffer .= "?".">";
 	
 	}
@@ -222,19 +222,19 @@ echo "<tr bgcolor='#F6F6F6'><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 
 if ($codetype == 'adview')
-	$show = array ('what' => true, 'clientID' => true, 'target' => true, 'source' => true, 'uniqueid' => true);
+	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'uniqueid' => true);
 
 if ($codetype == 'adjs')
-	$show = array ('what' => true, 'clientID' => true, 'target' => true, 'source' => true, 'withText' => true);
+	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withText' => true);
 
 if ($codetype == 'adframe')
-	$show = array ('what' => true, 'clientID' => true, 'target' => true, 'source' => true, 'refresh' => true, 'size' => true);
+	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'refresh' => true, 'size' => true);
 
 if ($codetype == 'ad')
-	$show = array ('what' => true, 'clientID' => true, 'target' => true, 'source' => true, 'withText' => true, 'uniqueid' => true, 'refresh' => true, 'size' => true);
+	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withText' => true, 'uniqueid' => true, 'refresh' => true, 'size' => true);
 
 if ($codetype == 'local')
-	$show = array ('what' => true, 'clientID' => true, 'target' => true, 'source' => true, 'withText' => true, 'template' => true);
+	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withText' => true, 'template' => true);
 
 
 
@@ -251,11 +251,11 @@ if (isset($show['what']) && $show['what'] == true)
 
 
 // ClientID
-if (isset($show['clientID']) && $show['clientID'] == true)
+if (isset($show['clientid']) && $show['clientid'] == true)
 {
 	echo "<tr bgcolor='#F6F6F6'><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>ClientID</td><td width='370'>";
-	echo "<select name='clientID' style='width:175px;'>";
+	echo "<select name='clientid' style='width:175px;'>";
 		echo "<option value='0'>-</option>";
 	
 	$res = phpAds_dbQuery("
@@ -267,8 +267,8 @@ if (isset($show['clientID']) && $show['clientID'] == true)
 		
 		while ($row = phpAds_dbFetchArray($res))
 		{
-			echo "<option value='".$row['clientID']."'".($clientID == $row['clientID'] ? ' selected' : '').">";
-			echo phpAds_buildClientName ($row['clientID'], $row['clientname']);
+			echo "<option value='".$row['clientid']."'".($clientid == $row['clientid'] ? ' selected' : '').">";
+			echo phpAds_buildClientName ($row['clientid'], $row['clientname']);
 			echo "</option>";
 		}
 	

@@ -29,69 +29,69 @@ phpAds_checkAccess(phpAds_Admin);
 /*********************************************************/
 
 // Banner
-if (isset($bannerID) && $bannerID != '')
+if (isset($bannerid) && $bannerid != '')
 {
     // Delete stats for this banner
-	phpAds_deleteStats($bannerID);
+	phpAds_deleteStats($bannerid);
 	
 	// Return to campaign statistics
-	Header("Location: stats-campaign.php?campaignID=$campaignID");
+	Header("Location: stats-campaign.php?campaignid=$campaignid");
 }
 
 
 // Campaign
-elseif (isset($campaignID) && $campaignID != '')
+elseif (isset($campaignid) && $campaignid != '')
 {
 	// Get all banners for this client
 	$idresult = phpAds_dbQuery(" SELECT
-								bannerID
+								bannerid
 							  FROM
 							  	".$phpAds_config['tbl_banners']."
 							  WHERE
-								clientID = $campaignID
+								clientid = $campaignid
 		  				 ");
 	
 	// Loop to all banners for this client
 	while ($row = phpAds_dbFetchArray($idresult))
 	{
 		// Delete stats for the banner
-		phpAds_deleteStats($row['bannerID']);
+		phpAds_deleteStats($row['bannerid']);
 	}
 	
 	// Return to campaign statistics
-	Header("Location: stats-campaign.php?campaignID=$campaignID");
+	Header("Location: stats-campaign.php?campaignid=$campaignid");
 }
 
 
 // Client
-elseif (isset($clientID) && $clientID != '')
+elseif (isset($clientid) && $clientid != '')
 {
 	// Get all banners for this client
 	$idresult = phpAds_dbQuery("
 		SELECT
-			b.bannerID
+			b.bannerid
 		FROM
 			".$phpAds_config['tbl_banners']." AS b,
 			".$phpAds_config['tbl_clients']." AS c
 		WHERE
-			c.parent = $clientID AND
-			c.clientID = b.clientID
+			c.parent = $clientid AND
+			c.clientid = b.clientid
 	");
 	
 	// Loop to all banners for this client
 	while ($row = phpAds_dbFetchArray($idresult))
 	{
 		// Delete stats for the banner
-		phpAds_deleteStats($row['bannerID']);
+		phpAds_deleteStats($row['bannerid']);
 	}
 	
 	// Return to campaign statistics
-	Header("Location: stats-client.php?clientID=$clientID");
+	Header("Location: stats-client.php?clientid=$clientid");
 }
 
 
 // All
-elseif (isset($all) && $all == 'true')
+elseif (isset($all) && $all == 'tr'.'ue')
 {
     phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_adviews']) or phpAds_sqlDie();
     phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_adclicks']) or phpAds_sqlDie();

@@ -36,26 +36,26 @@ if (phpAds_isUser(phpAds_Client))
 	{
 		$result = phpAds_dbQuery("
 			SELECT
-				clientID
+				clientid
 			FROM
 				".$phpAds_config['tbl_banners']."
 			WHERE
-				bannerID = $which
+				bannerid = $which
 			") or phpAds_sqlDie();
 		$row = phpAds_dbFetchArray($result);
 		
-		if ($row['clientID'] == '')
+		if ($row['clientid'] == '')
 		{
 			phpAds_PageHeader('1');
 			phpAds_Die ($strAccessDenied, $strNotAdmin);
 		}
 		else
 		{
-			$campaignID = $row['clientID'];
+			$campaignid = $row['clientid'];
 		}
 	}
 	
-	if (phpAds_clientID() != phpAds_getParentID ($campaignID))
+	if (phpAds_clientid() != phpAds_getParentID ($campaignid))
 	{
 		phpAds_PageHeader('1');
 		phpAds_Die ($strAccessDenied, $strNotAdmin);
@@ -68,18 +68,18 @@ if (phpAds_isUser(phpAds_Client))
 		FROM
 			".$phpAds_config['tbl_clients']."
 		WHERE
-			parent = ".phpAds_getParentID ($campaignID)."
+			parent = ".phpAds_getParentID ($campaignid)."
 		") or phpAds_sqlDie();
 		
 		$extra = "";
 		while ($row = phpAds_dbFetchArray($res))
 		{
-			if ($campaignID == $row['clientID'])
+			if ($campaignid == $row['clientid'])
 				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
 			else
 				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 			
-			$extra .= "<a href=stats-weekly.php?campaignID=".$row['clientID'].">".phpAds_buildClientName ($row['clientID'], $row['clientname'])."</a>";
+			$extra .= "<a href=stats-weekly.php?campaignid=".$row['clientid'].">".phpAds_buildClientName ($row['clientid'], $row['clientname'])."</a>";
 			$extra .= "<br>"; 
 		}
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
@@ -97,7 +97,7 @@ if (phpAds_isUser(phpAds_Client))
 
 if (phpAds_isUser(phpAds_Admin))
 {
-	if ($campaignID > 0)
+	if ($campaignid > 0)
 	{
 		$res = phpAds_dbQuery("
 		SELECT
@@ -111,12 +111,12 @@ if (phpAds_isUser(phpAds_Admin))
 		$extra = "";
 		while ($row = phpAds_dbFetchArray($res))
 		{
-			if ($campaignID == $row['clientID'])
+			if ($campaignid == $row['clientid'])
 				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
 			else
 				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 			
-			$extra .= "<a href=stats-weekly.php?campaignID=".$row['clientID'].">".phpAds_buildClientName ($row['clientID'], $row['clientname'])."</a>";
+			$extra .= "<a href=stats-weekly.php?campaignid=".$row['clientid'].">".phpAds_buildClientName ($row['clientid'], $row['clientname'])."</a>";
 			$extra .= "<br>"; 
 		}
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
@@ -124,21 +124,21 @@ if (phpAds_isUser(phpAds_Admin))
 		$extra .= "<br><br><br><br><br>";
 		$extra .= "<b>$strShortcuts</b><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientID=".phpAds_getParentID ($campaignID).">$strModifyClient</a><br>";
+		$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientid=".phpAds_getParentID ($campaignid).">$strModifyClient</a><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignID=$campaignID>$strModifyCampaign</a><br>";
+		$extra .= "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignid=$campaignid>$strModifyCampaign</a><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<a href=campaign-index.php?campaignID=$campaignID>$strBanners</a><br>";
+		$extra .= "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<a href=campaign-index.php?campaignid=$campaignid>$strBanners</a><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-campaign.php?campaignID=$campaignID>$strStats</a><br>";
+		$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-campaign.php?campaignid=$campaignid>$strStats</a><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		
 		phpAds_PageHeader('2.1.4', $extra);
 		phpAds_ShowSections(array("2.1.2", "2.1.3", "2.1.4"));
 		
-		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignID);
+		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
 		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
-		echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignID);
+		echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignid);
 		echo "</b>";
 	}
 	else
@@ -158,8 +158,8 @@ echo "<br><br>";
 /* Main code                                             */
 /*********************************************************/
 
-if ($clientID > 0)
-	$clientwhere = "WHERE clientID=$campaignID";
+if ($clientid > 0)
+	$clientwhere = "WHERE clientid=$campaignid";
 else
 	$clientwhere = '';
 

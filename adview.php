@@ -33,7 +33,7 @@ include ("lib-cache.inc.php");
 phpAds_dbConnect();
 
 
-if (isset($bannerID) && !isset($what))
+if (isset($bannerid) && !isset($what))
 {
 	$res = phpAds_dbQuery("
 		SELECT
@@ -41,7 +41,7 @@ if (isset($bannerID) && !isset($what))
 		FROM
 			".$phpAds_config['tbl_banners']."
 		WHERE
-			bannerID = $bannerID
+			bannerid = $bannerid
 		") or phpAds_sqlDie();
 	
 	if(phpAds_dbNumRows($res) == 0)
@@ -77,18 +77,18 @@ else
 	if (!isset($what))
 		$what = '';
 	
-	if (!isset($clientID))
-		$clientID = 0;
+	if (!isset($clientid))
+		$clientid = 0;
 	
 	if (!isset($source))
 		$source = '';
 	
 	
-	$row = phpAds_fetchBanner($what, $clientID, 0, $source, false);
+	$row = phpAds_fetchBanner($what, $clientid, 0, $source, false);
 	
 	if (is_array($row))
 	{
-		if(!empty($row["bannerID"]))
+		if(!empty($row["bannerid"]))
 		{
 			if ($phpAds_config['p3p_policies'])
 			{
@@ -106,8 +106,8 @@ else
 			}
 			
 			$url = parse_url($phpAds_config['url_prefix']);
-			SetCookie("bannerNum", $row["bannerID"], 0, $url["path"]);
-			if(isset($n)) SetCookie("banID[$n]", $row["bannerID"], 0, $url["path"]);
+			SetCookie("bannerNum", $row["bannerid"], 0, $url["path"]);
+			if(isset($n)) SetCookie("banID[$n]", $row["bannerid"], 0, $url["path"]);
 			
 			
 			if ($row["format"] == "html")
@@ -185,7 +185,7 @@ else
 						FROM
 							".$phpAds_config['tbl_banners']."
 						WHERE
-							bannerID = ".$row['bannerID']."
+							bannerid = ".$row['bannerid']."
 						") or phpAds_sqlDie();
 					
 					$row = phpAds_dbFetchArray($res);
@@ -207,7 +207,7 @@ else
 				}
 			}
 			
-			phpAds_prepareLog($row["bannerID"], $row["clientID"]);
+			phpAds_prepareLog($row["bannerid"], $row["clientid"]);
 		}
 		else
 		{

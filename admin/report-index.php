@@ -79,7 +79,7 @@ function phpAds_getCampaignArray()
 		");
 	
 	while ($row = phpAds_dbFetchArray($res))
-		$campaignArray[$row['clientID']] = phpAds_buildClientName ($row['clientID'], $row['clientname']);
+		$campaignArray[$row['clientid']] = phpAds_buildClientName ($row['clientid'], $row['clientname']);
 	
 	return ($campaignArray);
 }
@@ -98,7 +98,7 @@ function phpAds_getClientArray()
 		");
 	
 	while ($row = phpAds_dbFetchArray($res))
-		$clientArray[$row['clientID']] = phpAds_buildClientName ($row['clientID'], $row['clientname']);
+		$clientArray[$row['clientid']] = phpAds_buildClientName ($row['clientid'], $row['clientname']);
 	
 	return ($clientArray);
 }
@@ -178,7 +178,7 @@ if ($fields = $plugin['plugin-import'])
 		}
 		
 		// CampaignID-dropdown
-		elseif ($fields[$key]['type'] == 'campaignID-dropdown')
+		elseif ($fields[$key]['type'] == 'campaignid-dropdown')
 		{
 			echo "<td width='370'><select name='".$key."'>";
 			
@@ -189,7 +189,7 @@ if ($fields = $plugin['plugin-import'])
 		}
 		
 		// ClientID-dropdown
-		elseif ($fields[$key]['type'] == 'clientID-dropdown')
+		elseif ($fields[$key]['type'] == 'clientid-dropdown')
 		{
 			echo "<td width='370'><select name='".$key."'>";
 			

@@ -30,7 +30,7 @@ phpAds_checkAccess(phpAds_Admin);
 /* HTML framework                                        */
 /*********************************************************/
 
-if($campaignID == "") $campaignID = 0;
+if($campaignid == "") $campaignid = 0;
 
 $res = phpAds_dbQuery("
 	SELECT
@@ -45,12 +45,12 @@ $extra = '';
 
 while ($row = phpAds_dbFetchArray($res))
 {
-	if ($campaignID == $row['clientID'])
+	if ($campaignid == $row['clientid'])
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
 	else
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 	
-	$extra .= "<a href=campaign-index.php?campaignID=".$row['clientID'].">".phpAds_buildClientName ($row['clientID'], $row['clientname'])."</a>";
+	$extra .= "<a href=campaign-index.php?campaignid=".$row['clientid'].">".phpAds_buildClientName ($row['clientid'], $row['clientname'])."</a>";
 	$extra .= "<br>"; 
 }
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
@@ -58,13 +58,13 @@ $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 $extra .= "<br><br><br><br><br>";
 $extra .= "<b>$strShortcuts</b><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientID=".phpAds_getParentID ($campaignID).">$strModifyClient</a><br>";
+$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientid=".phpAds_getParentID ($campaignid).">$strModifyClient</a><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignID=$campaignID>$strModifyCampaign</a><br>";
+$extra .= "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignid=$campaignid>$strModifyCampaign</a><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-campaign.php?campaignID=$campaignID>$strStats</a><br>";
+$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-campaign.php?campaignid=$campaignid>$strStats</a><br>";
 $extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-weekly.gif' align='absmiddle'>&nbsp;<a href=stats-weekly.php?campaignID=$campaignID>$strWeeklyStats</a><br>";
+$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-weekly.gif' align='absmiddle'>&nbsp;<a href=stats-weekly.php?campaignid=$campaignid>$strWeeklyStats</a><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 
 phpAds_PageHeader("4.1.5", $extra);
@@ -83,9 +83,9 @@ if (isset($message))
 
 ?>
 
-<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getParentName($campaignID);?>
+<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getParentName($campaignid);?>
 &nbsp;<img src='images/caret-rs.gif'>&nbsp;
-<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b><?php echo phpAds_getClientName($campaignID);?></b><br>
+<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b><?php echo phpAds_getClientName($campaignid);?></b><br>
 
 <br><br>
 <br><br>
@@ -93,7 +93,7 @@ if (isset($message))
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 	<tr><td height='25'>
-		<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<a href='banner-edit.php?campaignID=<?php echo $campaignID; ?>'><?php echo $strAddBanner;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<a href='banner-edit.php?campaignid=<?php echo $campaignid; ?>'><?php echo $strAddBanner;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
 	</td></tr>
 	<tr><td height='1' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 </table>
@@ -111,7 +111,7 @@ $res = phpAds_dbQuery("
 	FROM
 		".$phpAds_config['tbl_banners']."
 	WHERE
-		clientID = $campaignID
+		clientid = $campaignid
 	") or phpAds_sqlDie();
 
 if (phpAds_dbNumRows($res) == 0)
@@ -128,7 +128,7 @@ else
 		echo "<tr>";
 		echo "<td height='25' colspan='5'>";
 		
-		if ($row['active'] == 'true')
+		if ($row['active'] == 't')
 		{
 			if ($row['format'] == 'html')
 			{
@@ -159,7 +159,7 @@ else
 			}
 		}
 		
-		echo "&nbsp;<b>".phpAds_buildBannerName ($row['bannerID'], $row['description'], $row['alt'])."</b>";
+		echo "&nbsp;<b>".phpAds_buildBannerName ($row['bannerid'], $row['description'], $row['alt'])."</b>";
 		
 		echo "</td></tr>";
 		
@@ -169,7 +169,7 @@ else
 		echo "<tr>";
 		echo "<td bgcolor='#F6F6F6'>&nbsp;&nbsp;&nbsp;&nbsp;</td>";
 	   	echo "<td bgcolor='#F6F6F6' colspan='4' align='left'>";
-	   	echo phpAds_buildBannerCode ($row['bannerID'], $row['banner'], $row['active'], $row['format'], $row['width'], $row['height'], $row['bannertext']);
+	   	echo phpAds_buildBannerCode ($row['bannerid'], $row['banner'], $row['active'], $row['format'], $row['width'], $row['height'], $row['bannertext']);
 	    echo "</td>";
 		echo "</tr>";
 		
@@ -189,24 +189,24 @@ else
 		echo "<tr>";
 		echo "<td height='25' colspan='5' align='right'>";
 		
-		if ($row["active"] == "true")
+		if ($row["active"] == "t")
 		{
-			echo "<img src='images/icon-deactivate.gif' align='absmiddle'>&nbsp;<a href='banner-activate.php?campaignID=$campaignID&bannerID=".$row["bannerID"]."&value=".$row["active"]."'>";
+			echo "<img src='images/icon-deactivate.gif' align='absmiddle'>&nbsp;<a href='banner-activate.php?campaignid=$campaignid&bannerid=".$row["bannerid"]."&value=".$row["active"]."'>";
 			echo $strDeActivate;
 		}
 		else
 		{
-			echo "<img src='images/icon-activate.gif' align='absmiddle'>&nbsp;<a href='banner-activate.php?campaignID=$campaignID&bannerID=".$row["bannerID"]."&value=".$row["active"]."'>";
+			echo "<img src='images/icon-activate.gif' align='absmiddle'>&nbsp;<a href='banner-activate.php?campaignid=$campaignid&bannerid=".$row["bannerid"]."&value=".$row["active"]."'>";
 			echo $strActivate;
 		}
 		
 		echo "</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 		
-		echo "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href='banner-edit.php?campaignID=$campaignID&bannerID=".$row["bannerID"]."'>$strModifyBanner</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+		echo "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href='banner-edit.php?campaignid=$campaignid&bannerid=".$row["bannerid"]."'>$strModifyBanner</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 		
 		if ($phpAds_config['acl'])
-			echo "<img src='images/icon-acl.gif' align='absmiddle'>&nbsp;<a href='banner-acl.php?campaignID=$campaignID&bannerID=".$row["bannerID"]."'>$strModifyBannerAcl</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-		echo "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?campaignID=$campaignID&bannerID=".$row["bannerID"]."'".phpAds_DelConfirm($strConfirmDeleteBanner).">$strDelete</a>";
+			echo "<img src='images/icon-acl.gif' align='absmiddle'>&nbsp;<a href='banner-acl.php?campaignid=$campaignid&bannerid=".$row["bannerid"]."'>$strModifyBannerAcl</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+		echo "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?campaignid=$campaignid&bannerid=".$row["bannerid"]."'".phpAds_DelConfirm($strConfirmDeleteBanner).">$strDelete</a>";
 		
 		echo "</td></tr>";
 		
@@ -223,9 +223,9 @@ echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25' colspan='2'><b>$strCreditStats</b></td></tr>";
 echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 
-list($desc,$enddate,$daysleft)=days_left($campaignID);
-$adclicksleft = adclicks_left($campaignID);
-$adviewsleft  = adviews_left($campaignID);
+list($desc,$enddate,$daysleft)=days_left($campaignid);
+$adclicksleft = adclicks_left($campaignid);
+$adviewsleft  = adviews_left($campaignid);
 
 echo "<tr><td height='25'>$strViewCredits: <b>$adviewsleft</b></td>";
 echo "<td height='25'>$strClickCredits: <b>$adclicksleft</b></td></tr>";

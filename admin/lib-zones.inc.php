@@ -117,7 +117,7 @@ function phpAds_RebuildZoneCache ($zoneid = '')
 /* Determine if a banner included in a zone              */
 /*********************************************************/
 
-function phpAds_IsBannerInZone ($bannerID, $zoneid)
+function phpAds_IsBannerInZone ($bannerid, $zoneid)
 {
 	global $phpAds_config;
 	
@@ -140,7 +140,7 @@ function phpAds_IsBannerInZone ($bannerID, $zoneid)
 			for ($k=0; $k < count($what_array); $k++)
 			{
 				if (substr($what_array[$k],0,9) == "bannerid:" && 
-				    substr($what_array[$k],9) == $bannerID)
+				    substr($what_array[$k],9) == $bannerid)
 				{
 					return (true);
 				}
@@ -157,7 +157,7 @@ function phpAds_IsBannerInZone ($bannerID, $zoneid)
 /* Add a banner to a zone                                */
 /*********************************************************/
 
-function phpAds_ToggleBannerInZone ($bannerID, $zoneid)
+function phpAds_ToggleBannerInZone ($bannerid, $zoneid)
 {
 	global $phpAds_config;
 	
@@ -183,7 +183,7 @@ function phpAds_ToggleBannerInZone ($bannerID, $zoneid)
 			for ($k=0; $k < count($what_array); $k++)
 			{
 				if (substr($what_array[$k],0,9) == "bannerid:" && 
-				    substr($what_array[$k],9) == $bannerID)
+				    substr($what_array[$k],9) == $bannerid)
 				{
 					// Remove from array
 					unset ($what_array[$k]);
@@ -195,7 +195,7 @@ function phpAds_ToggleBannerInZone ($bannerID, $zoneid)
 			if ($available == false)
 			{
 				// Add to array
-				$what_array[] = 'bannerid:'.$bannerID;
+				$what_array[] = 'bannerid:'.$bannerid;
 				$changed = true;
 			}
 			

@@ -27,31 +27,31 @@ phpAds_dbConnect();
 
 
 // Fetch BannerID
-if (!isset($bannerID))
+if (!isset($bannerid))
 {
-	// Get bannerID
-	if(isset($bannerNum) && !empty($bannerNum)) $bannerID = $bannerNum;
-	if(isset($n) && is_array($banID)) $bannerID = $banID[$n];
+	// Get bannerid
+	if(isset($bannerNum) && !empty($bannerNum)) $bannerid = $bannerNum;
+	if(isset($n) && is_array($banID)) $bannerid = $banID[$n];
 	
 	// Get destination
 	if(isset($destNum) && !empty($destNum)) $dest = $destNum;
 	if(isset($n) && is_array($destID)) $dest = $destID[$n];
 }
 
-if ($bannerID != "DEFAULT")
+if ($bannerid != "DEFAULT")
 {
 	// Get target URL and ClientID
 	$res = phpAds_dbQuery("
 		SELECT
-			url,clientID
+			url,clientid
 		FROM
 			".$phpAds_config['tbl_banners']."
 		WHERE
-			bannerID = $bannerID
+			bannerid = $bannerid
 		") or die();
 		
 	$url 	  = phpAds_dbResult($res, 0, 0);
-	$clientID = phpAds_dbResult($res, 0, 1);
+	$clientid = phpAds_dbResult($res, 0, 1);
 	
 	
 	// If destination is a parameter don't use
@@ -65,8 +65,8 @@ if ($bannerID != "DEFAULT")
 	{
 		if ($host = phpads_ignore_host())
 		{
-			phpAds_logClick($bannerID, $host);
-			phpAds_expire ($clientID, phpAds_Clicks);
+			phpAds_logClick($bannerid, $host);
+			phpAds_expire ($clientid, phpAds_Clicks);
 		}
 	}
 	
@@ -75,7 +75,7 @@ if ($bannerID != "DEFAULT")
 	if (isset($HTTP_GET_VARS))
 		for (reset ($HTTP_GET_VARS); $key = key($HTTP_GET_VARS); next($HTTP_GET_VARS))
 		{
-			if ($key != 'bannerID' &&
+			if ($key != 'bannerid' &&
 				$key != 'dest' &&
 				$key != 'ismap' &&
 				$key != 'n' &&
@@ -86,7 +86,7 @@ if ($bannerID != "DEFAULT")
 	if (isset($HTTP_POST_VARS))
 		for (reset ($HTTP_POST_VARS); $key = key($HTTP_POST_VARS); next($HTTP_POST_VARS))
 		{
-			if ($key != 'bannerID' &&
+			if ($key != 'bannerid' &&
 				$key != 'dest' &&
 				$key != 'ismap' &&
 				$key != 'n' &&

@@ -41,7 +41,7 @@ phpAds_ShowSections(array("4.2.2", "4.2.3", "4.2.4", "4.2.5"));
 function phpAds_GenerateInvocationCode($zoneid)
 {
 	global $phpAds_config;
-	global $codetype, $clientID, $source, $target;
+	global $codetype, $clientid, $source, $target;
 	global $withText, $template, $refresh, $uniqueid;
 	
 	

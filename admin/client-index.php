@@ -64,8 +64,8 @@ else
 		FROM 
 			".$phpAds_config['tbl_clients']."
 		WHERE
-			clientID = ".$Session["clientID"]." OR
-			parent = ".$Session["clientID"]."
+			clientid = ".$Session["clientid"]." OR
+			parent = ".$Session["clientid"]."
 		".phpAds_getListOrder ($listorder, $orderdirection)."
 		") or phpAds_sqlDie();
 }
@@ -74,15 +74,15 @@ while ($row_clients = phpAds_dbFetchArray($res_clients))
 {
 	if ($row_clients['parent'] == 0)
 	{
-		$clients[$row_clients['clientID']] = $row_clients;
-		$clients[$row_clients['clientID']]['expand'] = 0;
-		$clients[$row_clients['clientID']]['count'] = 0;
+		$clients[$row_clients['clientid']] = $row_clients;
+		$clients[$row_clients['clientid']]['expand'] = 0;
+		$clients[$row_clients['clientid']]['count'] = 0;
 	}
 	else
 	{
-		$campaigns[$row_clients['clientID']] = $row_clients;
-		$campaigns[$row_clients['clientID']]['expand'] = 0;
-		$campaigns[$row_clients['clientID']]['count'] = 0;
+		$campaigns[$row_clients['clientid']] = $row_clients;
+		$campaigns[$row_clients['clientid']]['expand'] = 0;
+		$campaigns[$row_clients['clientid']]['count'] = 0;
 	}
 }
 
@@ -90,8 +90,8 @@ while ($row_clients = phpAds_dbFetchArray($res_clients))
 // Get the banners for each campaign
 $res_banners = phpAds_dbQuery("
 	SELECT 
-		bannerID,
-		clientID,
+		bannerid,
+		clientid,
 		alt,
 		description,
 		format,
@@ -103,15 +103,15 @@ $res_banners = phpAds_dbQuery("
 
 while ($row_banners = phpAds_dbFetchArray($res_banners))
 {
-	if (isset($campaigns[$row_banners['clientID']]))
+	if (isset($campaigns[$row_banners['clientid']]))
 	{
-		$banners[$row_banners['bannerID']] = $row_banners;
-		$campaigns[$row_banners['clientID']]['count']++;
+		$banners[$row_banners['bannerid']] = $row_banners;
+		$campaigns[$row_banners['clientid']]['count']++;
 	}
 	
-	if (isset($clients[$row_banners['clientID']]))
+	if (isset($clients[$row_banners['clientid']]))
 	{
-		$clients[$row_banners['clientID']]['count']++;
+		$clients[$row_banners['clientid']]['count']++;
 	}
 }
 
@@ -151,7 +151,7 @@ if (isset($banners) && is_array($banners) && count($banners) > 0)
 {
 	// Add banner to campaigns
 	for (reset($banners);$bkey=key($banners);next($banners))
-		$campaigns[$banners[$bkey]['clientID']]['banners'][$bkey] = $banners[$bkey];
+		$campaigns[$banners[$bkey]['clientid']]['banners'][$bkey] = $banners[$bkey];
 	
 	unset ($banners);
 }
@@ -176,48 +176,61 @@ echo "<br><br>";
 echo "<br><br>";
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
 
-if (isset($clients) && is_array($clients) && count($clients) > 0)
+echo "<tr height='25'>";
+echo '<td height="25"><b>&nbsp;&nbsp;<a href="'.$PHP_SELF.'?listorder=name">'.$GLOBALS['strName'].'</a>';
+
+if (($listorder == "name") || ($listorder == ""))
 {
-	echo "<tr height='25'>";
-	echo '<td height="25"><b>&nbsp;&nbsp;<a href="'.$PHP_SELF.'?listorder=name">'.$GLOBALS['strName'].'</a>';
-	if (($listorder == "name") || ($listorder == ""))
+	if  (($orderdirection == "") || ($orderdirection == "down"))
 	{
-		if  (($orderdirection == "") || ($orderdirection == "down"))
-		{
-			echo ' <a href="'.$PHP_SELF.'?listorder=name&orderdirection=up">';
-			echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
-		}
-		else
-		{
-			echo ' <a href="'.$PHP_SELF.'?listorder=name&orderdirection=down">';
-			echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
-		}
-		echo '</a>';
+		echo ' <a href="'.$PHP_SELF.'?listorder=name&orderdirection=up">';
+		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 	}
-	echo '</b></td>';
-	echo '<td height="25"><b><a href="'.$PHP_SELF.'?listorder=id">'.$GLOBALS['strID'].'</a>';
-	if ($listorder == "id")
+	else
 	{
-		if  (($orderdirection == "") || ($orderdirection == "down"))
-		{
-			echo ' <a href="'.$PHP_SELF.'?listorder=id&orderdirection=up">';
-			echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
-		}
-		else
-		{
-			echo ' <a href="'.$PHP_SELF.'?listorder=id&orderdirection=down">';
-			echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
-		}
-		echo '</a>';
+		echo ' <a href="'.$PHP_SELF.'?listorder=name&orderdirection=down">';
+		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 	}
-	echo '</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>';
-	echo "<td height='25'>&nbsp;</td>";
-	echo "<td height='25'>&nbsp;</td>";
-	echo "<td height='25'>&nbsp;</td>";
-	echo "</tr>";
+	echo '</a>';
+}
+
+echo '</b></td>';
+echo '<td height="25"><b><a href="'.$PHP_SELF.'?listorder=id">'.$GLOBALS['strID'].'</a>';
+
+if ($listorder == "id")
+{
+	if  (($orderdirection == "") || ($orderdirection == "down"))
+	{
+		echo ' <a href="'.$PHP_SELF.'?listorder=id&orderdirection=up">';
+		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
+	}
+	else
+	{
+		echo ' <a href="'.$PHP_SELF.'?listorder=id&orderdirection=down">';
+		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
+	}
+	echo '</a>';
+}
+
+echo '</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>';
+echo "<td height='25'>&nbsp;</td>";
+echo "<td height='25'>&nbsp;</td>";
+echo "<td height='25'>&nbsp;</td>";
+echo "</tr>";
+
+echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+
+
+if (!isset($clients) || !is_array($clients) || count($clients) == 0)
+{
+	echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='5'>";
+	echo "&nbsp;&nbsp;".$strNoClients;
+	echo "</td></tr>";
 	
-	echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-	
+	echo "<td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
+}
+else
+{
 	$i=0;
 	for (reset($clients);$key=key($clients);next($clients))
 	{
@@ -232,24 +245,24 @@ if (isset($clients) && is_array($clients) && count($clients) > 0)
 			if (isset($client['campaigns']))
 			{
 				if ($client['expand'] == '1')
-					echo "&nbsp;<a href='client-index.php?listorder=".$listorder."&orderdirection=".$orderdirection."&collapse=".$client['clientID']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
+					echo "&nbsp;<a href='client-index.php?listorder=".$listorder."&orderdirection=".$orderdirection."&collapse=".$client['clientid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
 				else
-					echo "&nbsp;<a href='client-index.php?listorder=".$listorder."&orderdirection=".$orderdirection."&expand=".$client['clientID']."'><img src='images/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
+					echo "&nbsp;<a href='client-index.php?listorder=".$listorder."&orderdirection=".$orderdirection."&expand=".$client['clientid']."'><img src='images/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
 			}
 			else
 				echo "&nbsp;<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
 				
 			echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;";
-			echo "<a href='client-edit.php?clientID=".$client['clientID']."'>".$client['clientname']."</a>";
+			echo "<a href='client-edit.php?clientid=".$client['clientid']."'>".$client['clientname']."</a>";
 			echo "</td>";
 			
 			// ID
-			echo "<td height='25'>".$client['clientID']."</td>";
+			echo "<td height='25'>".$client['clientid']."</td>";
 			
 			// Button 2
 			echo "<td height='25'>";
 			if (($client['count'] == 0 && $client['expand'] == '1') || !isset($client['campaigns']))
-				echo "<a href='campaign-edit.php?clientID=".$client['clientID']."'><img src='images/icon-campaign.gif' border='0' align='absmiddle' alt='$strCreate'>&nbsp;$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+				echo "<a href='campaign-edit.php?clientid=".$client['clientid']."'><img src='images/icon-campaign.gif' border='0' align='absmiddle' alt='$strCreate'>&nbsp;$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 			else
 				echo "&nbsp;";
 			echo "</td>";
@@ -259,7 +272,7 @@ if (isset($clients) && is_array($clients) && count($clients) > 0)
 			
 			// Button 1
 			echo "<td height='25'>";
-			echo "<a href='client-delete.php?clientID=".$client['clientID']."'".phpAds_DelConfirm($strConfirmDeleteClient)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+			echo "<a href='client-delete.php?clientid=".$client['clientid']."'".phpAds_DelConfirm($strConfirmDeleteClient)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 			echo "</td></tr>";
 			
 			
@@ -283,41 +296,41 @@ if (isset($clients) && is_array($clients) && count($clients) > 0)
 					if (isset($campaigns[$ckey]['banners']))
 					{
 						if ($campaigns[$ckey]['expand'] == '1')
-							echo "<a href='client-index.php?listorder=".$listorder."&orderdirection=".$orderdirection."&collapse=".$campaigns[$ckey]['clientID']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
+							echo "<a href='client-index.php?listorder=".$listorder."&orderdirection=".$orderdirection."&collapse=".$campaigns[$ckey]['clientid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
 						else
-							echo "<a href='client-index.php?listorder=".$listorder."&orderdirection=".$orderdirection."&expand=".$campaigns[$ckey]['clientID']."'><img src='images/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
+							echo "<a href='client-index.php?listorder=".$listorder."&orderdirection=".$orderdirection."&expand=".$campaigns[$ckey]['clientid']."'><img src='images/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
 					}
 					else
 						echo "<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
 					
 					
-					if ($campaigns[$ckey]['active'] == 'true')
+					if ($campaigns[$ckey]['active'] == 't')
 						echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;";
 					else
 						echo "<img src='images/icon-campaign-d.gif' align='absmiddle'>&nbsp;";
 					
-					echo "<a href='campaign-index.php?campaignID=".$campaigns[$ckey]['clientID']."'>".$campaigns[$ckey]['clientname']."</td>";
+					echo "<a href='campaign-index.php?campaignid=".$campaigns[$ckey]['clientid']."'>".$campaigns[$ckey]['clientname']."</td>";
 					echo "</td>";
 					
 					// ID
-					echo "<td height='25'>".$campaigns[$ckey]['clientID']."</td>";
+					echo "<td height='25'>".$campaigns[$ckey]['clientid']."</td>";
 					
 					// Button 1
 					echo "<td height='25'>";
 					if ($campaigns[$ckey]['expand'] == '1' || !isset($campaigns[$ckey]['banners']))
-						echo "<a href='banner-edit.php?campaignID=".$campaigns[$ckey]['clientID']."'><img src='images/icon-banner-stored.gif' border='0' align='absmiddle' alt='$strEdit'>&nbsp;$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+						echo "<a href='banner-edit.php?campaignid=".$campaigns[$ckey]['clientid']."'><img src='images/icon-banner-stored.gif' border='0' align='absmiddle' alt='$strEdit'>&nbsp;$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 					else
 						echo "&nbsp;";
 					echo "</td>";
 					
 					// Button 2
 					echo "<td height='25'>";
-					echo "<a href='campaign-edit.php?campaignID=".$campaigns[$ckey]['clientID']."'><img src='images/icon-edit.gif' border='0' align='absmiddle' alt='$strEdit'>&nbsp;$strEdit</a>&nbsp;&nbsp;";
+					echo "<a href='campaign-edit.php?campaignid=".$campaigns[$ckey]['clientid']."'><img src='images/icon-edit.gif' border='0' align='absmiddle' alt='$strEdit'>&nbsp;$strEdit</a>&nbsp;&nbsp;";
 					echo "</td>";
 					
 					// Button 3
 					echo "<td height='25'>";
-					echo "<a href='campaign-delete.php?campaignID=".$campaigns[$ckey]['clientID']."'".phpAds_DelConfirm($strConfirmDeleteCampaign)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+					echo "<a href='campaign-delete.php?campaignid=".$campaigns[$ckey]['clientid']."'".phpAds_DelConfirm($strConfirmDeleteCampaign)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 					echo "</td></tr>";
 					
 					
@@ -343,7 +356,7 @@ if (isset($clients) && is_array($clients) && count($clients) > 0)
 							echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 							echo "<td height='25'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 							
-							if ($banners[$bkey]['active'] == 'true' && $campaigns[$ckey]['active'] == 'true')
+							if ($banners[$bkey]['active'] == 't' && $campaigns[$ckey]['active'] == 't')
 							{
 								if ($banners[$bkey]['format'] == 'html')
 								{
@@ -374,10 +387,10 @@ if (isset($clients) && is_array($clients) && count($clients) > 0)
 								}
 							}
 							
-							echo "&nbsp;<a href='banner-edit.php?bannerID=".$banners[$bkey]['bannerID']."&campaignID=".$campaigns[$ckey]['clientID']."'>".$name."</a></td>";
+							echo "&nbsp;<a href='banner-edit.php?bannerid=".$banners[$bkey]['bannerid']."&campaignid=".$campaigns[$ckey]['clientid']."'>".$name."</a></td>";
 							
 							// ID
-							echo "<td height='25'>".$banners[$bkey]['bannerID']."</td>";
+							echo "<td height='25'>".$banners[$bkey]['bannerid']."</td>";
 							
 							// Empty
 							echo "<td>&nbsp;</td>";
@@ -385,14 +398,14 @@ if (isset($clients) && is_array($clients) && count($clients) > 0)
 							// Button 2
 							echo "<td height='25'>";
 							if ($phpAds_config['acl'])
-								echo "<a href='banner-acl.php?bannerID=".$banners[$bkey]['bannerID']."&campaignID=".$campaigns[$ckey]['clientID']."'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+								echo "<a href='banner-acl.php?bannerid=".$banners[$bkey]['bannerid']."&campaignid=".$campaigns[$ckey]['clientid']."'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 							else
 								echo "&nbsp;";
 							echo "</td>";
 							
 							// Button 1
 							echo "<td height='25'>";
-							echo "<a href='banner-delete.php?bannerID=".$banners[$bkey]['bannerID']."&campaignID=".$campaigns[$ckey]['clientID']."'".phpAds_DelConfirm($strConfirmDeleteBanner)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+							echo "<a href='banner-delete.php?bannerid=".$banners[$bkey]['bannerid']."&campaignid=".$campaigns[$ckey]['clientid']."'".phpAds_DelConfirm($strConfirmDeleteBanner)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 							echo "</td></tr>";
 						}
 					}
@@ -402,7 +415,10 @@ if (isset($clients) && is_array($clients) && count($clients) > 0)
 			if ($client['count'] > 0)
 			{
 				// Divider
-				echo "<tr height='1'><td colspan='1'></td><td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
+				echo "<tr height='1'>";
+				echo "<td ".($i%2==0?"bgcolor='#F6F6F6'":"")."><img src='images/spacer.gif' width='1' height='1'></td>";
+				echo "<td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
+				echo "</tr>";
 				
 				echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 				echo "<td height='25'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -410,7 +426,7 @@ if (isset($clients) && is_array($clients) && count($clients) > 0)
 				echo "$strBannersWithoutCampaign</td>";
 				echo "<td height='25'>&nbsp;-&nbsp;</td>";
 				echo "<td height='25' colspan='3'>";
-				echo "<a href='campaign-edit.php?move=true&clientID=".$client['clientID']."'>";
+				echo "<a href='campaign-edit.php?move=t&clientid=".$client['clientid']."'>";
 				echo "<img src='images/icon-update.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strMoveToNewCampaign</a>&nbsp;&nbsp;";
 				echo "</td>";
 				echo "</tr>";
@@ -433,9 +449,9 @@ echo "</table>";
 // total number of clients
 $res_clients 		  = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_clients']." WHERE parent = 0") or phpAds_sqlDie();
 $res_campaigns 		  = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_clients']." WHERE parent > 0") or phpAds_sqlDie();
-$res_active_campaigns = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_clients']." WHERE parent > 0 AND active='true'");
+$res_active_campaigns = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_clients']." WHERE parent > 0 AND active='t'");
 $res_total_banners 	  = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_banners']);
-$res_active_banners   = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_banners']." as b, ".$phpAds_config['tbl_clients']." as c WHERE b.clientID=c.clientID AND c.active='true' AND b.active='true'");
+$res_active_banners   = phpAds_dbQuery("SELECT count(*) AS count FROM ".$phpAds_config['tbl_banners']." as b, ".$phpAds_config['tbl_clients']." as c WHERE b.clientid=c.clientid AND c.active='t' AND b.active='t'");
 
 
 echo "<br><br><br><br>";

@@ -24,6 +24,7 @@ else
 // Include required files
 require (phpAds_path."/config.inc.php");
 require (phpAds_path."/lib-db.inc.php");
+require (phpAds_path."/lib-dbconfig.inc.php");
 require (phpAds_path."/lib-cache.inc.php");
 require (phpAds_path."/admin/lib-statistics.inc.php");
 
@@ -35,12 +36,13 @@ if (!get_cfg_var ('safe_mode'))
 }
 
 
-// Load language strings
-require("../language/".$phpAds_config['language'].".inc.php");
-
-
-// Make database connection
+// Make database connection and load config
 phpAds_dbConnect();
+phpAds_LoadDbConfig();
+
+
+// Load language strings
+require("../language/".$phpAds_config['language']."/default.lang.php");
 
 
 $adminreport = "";

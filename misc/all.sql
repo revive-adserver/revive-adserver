@@ -1,0 +1,179 @@
+
+
+
+-- Table structure for table 'phpads_zones'
+
+
+CREATE TABLE phpads_zones (
+   zoneid mediumint(9) NOT NULL AUTO_INCREMENT,
+   zonename varchar(255) NOT NULL,
+   description varchar(255) NOT NULL,
+   zonetype smallint(6) DEFAULT '0' NOT NULL,
+   what blob NOT NULL,
+   width smallint(6) DEFAULT '0' NOT NULL,
+   height smallint(6) DEFAULT '0' NOT NULL,
+   retrieval enum('random','cookie') DEFAULT 'random' NOT NULL,
+   cachecontents blob,
+   cachetimestamp int(11) DEFAULT '0' NOT NULL,
+   PRIMARY KEY (zoneid),
+   KEY zonenameid (zonename,zoneid)
+);
+
+
+
+-- Table structure for table 'phpads_adclicks'
+
+
+CREATE TABLE phpads_adclicks (
+   bannerid mediumint(9) DEFAULT '0' NOT NULL,
+   t_stamp timestamp(14),
+   host varchar(255) NOT NULL,
+   KEY clientid (bannerid)
+);
+
+
+
+-- Table structure for table 'phpads_adviews'
+
+
+CREATE TABLE phpads_adviews (
+   bannerid mediumint(9) DEFAULT '0' NOT NULL,
+   t_stamp timestamp(14),
+   host varchar(255) NOT NULL,
+   KEY clientid (bannerid)
+);
+
+
+
+-- Table structure for table 'phpads_banners'
+
+
+CREATE TABLE phpads_banners (
+   bannerid mediumint(9) NOT NULL AUTO_INCREMENT,
+   clientid mediumint(9) DEFAULT '0' NOT NULL,
+   active enum('t','f') DEFAULT 't' NOT NULL,
+   weight tinyint(4) DEFAULT '1' NOT NULL,
+   seq tinyint(4) DEFAULT '0' NOT NULL,
+   banner blob NOT NULL,
+   width smallint(6) DEFAULT '0' NOT NULL,
+   height smallint(6) DEFAULT '0' NOT NULL,
+   format enum('gif','jpeg','png','html','url','web','swf') DEFAULT 'gif' NOT NULL,
+   url varchar(255) NOT NULL,
+   alt varchar(255) NOT NULL,
+   status varchar(255) NOT NULL,
+   keyword varchar(255) NOT NULL,
+   bannertext varchar(255) NOT NULL,
+   target varchar(8) NOT NULL,
+   description varchar(255) NOT NULL,
+   autohtml enum('t','f') DEFAULT 't' NOT NULL,   
+   PRIMARY KEY (bannerid)
+);
+
+
+
+-- Table structure for table 'phpads_clients'
+
+
+CREATE TABLE phpads_clients (
+   clientid mediumint(9) NOT NULL AUTO_INCREMENT,
+   clientname varchar(255) NOT NULL,
+   contact varchar(255),
+   email varchar(64) NOT NULL,
+   views mediumint(9),
+   clicks mediumint(9),
+   clientusername varchar(64) NOT NULL,
+   clientpassword varchar(64) NOT NULL,
+   expire date DEFAULT '0000-00-00',
+   activate date DEFAULT '0000-00-00',
+   permissions mediumint(9),
+   language varchar(64),
+   active enum('t','f') DEFAULT 't' NOT NULL,
+   weight tinyint(4) DEFAULT '1' NOT NULL,   
+   parent mediumint(9) DEFAULT '0' NOT NULL,
+   report enum('t','f') DEFAULT 't' NOT NULL,
+   reportinterval mediumint(9) DEFAULT '7' NOT NULL,
+   reportlastdate date DEFAULT '0000-00-00' NOT NULL,
+   reportdeactivate enum('t','f') DEFAULT 't' NOT NULL,
+   PRIMARY KEY (clientid)
+);
+
+
+-- Table structure for table 'phpads_session'
+
+
+CREATE TABLE phpads_session (
+   sessionid varchar(32) NOT NULL,
+   sessiondata blob NOT NULL,
+   lastused timestamp(14),
+   PRIMARY KEY (sessionid)
+);
+
+
+
+-- Table structure for table 'phpads_acls'
+
+CREATE TABLE phpads_acls (
+   bannerid mediumint(9) DEFAULT '0' NOT NULL,
+   acl_con set('and','or') NOT NULL,
+   acl_type enum('clientip','useragent','weekday','domain','source','time','language') DEFAULT 'clientip' NOT NULL,
+   acl_data varchar(255) NOT NULL,
+   acl_ad set('allow','deny') NOT NULL,
+   acl_order int(10) unsigned DEFAULT '0' NOT NULL,
+   KEY bannerid (bannerid),
+   UNIQUE bannerid_2 (bannerid,acl_order)
+);
+
+
+
+-- Table structure for table 'phpads_adstats'
+
+
+CREATE TABLE phpads_adstats (
+  views int(11) DEFAULT '0' NOT NULL,
+  clicks int(11) DEFAULT '0' NOT NULL,
+  day date DEFAULT '0000-00-00' NOT NULL,
+  bannerid smallint(6) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (day,bannerid)
+);
+
+
+
+-- Table structure for table 'phpads_config'
+
+
+CREATE TABLE phpads_config (
+   configid tinyint(2) DEFAULT '0' NOT NULL,
+   config_version float DEFAULT '0' NOT NULL,
+   table_border_color varchar(7) DEFAULT '#000099',
+   table_back_color varchar(7) DEFAULT '#CCCCCC',
+   table_back_color_alternative varchar(7) DEFAULT '#F7F7F7',
+   main_back_color varchar(7) DEFAULT '#FFFFFF',
+   my_header varchar(255),
+   my_footer varchar(255),
+   language varchar(32) DEFAULT 'english',
+   name varchar(32),
+   company_name varchar(255) DEFAULT 'mysite.com',
+   override_gd_imageformat varchar(4),
+   begin_of_week tinyint(2) DEFAULT '1',
+   percentage_decimals tinyint(2) DEFAULT '2',
+   type_sql_allow enum('t','f') DEFAULT 't',
+   type_url_allow enum('t','f') DEFAULT 't',
+   type_web_allow enum('t','f') DEFAULT 'f',
+   type_html_allow enum('t','f') DEFAULT 't',
+   type_web_mode tinyint(2) DEFAULT '0',
+   type_web_dir varchar(255),
+   type_web_ftp varchar(255),
+   type_web_url varchar(255),
+   admin varchar(64) DEFAULT 'phpadsuser',
+   admin_pw varchar(64) DEFAULT 'phpadspass',
+   admin_fullname varchar(255) DEFAULT 'Your Name',
+   admin_email varchar(64) DEFAULT 'your@email.com',
+   admin_email_headers varchar(64),
+   admin_novice enum('t','f') DEFAULT 't',
+   default_banner_weight tinyint(4) DEFAULT '1',
+   default_campaign_weight tinyint(4) DEFAULT '1',
+   client_welcome enum('t','f') DEFAULT 't',
+   client_welcome_msg text,
+   PRIMARY KEY (configid)
+);
+
