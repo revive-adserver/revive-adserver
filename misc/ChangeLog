@@ -32,6 +32,7 @@ phpAdsNew 2.0.1		+ Misc bugfixes
 			  - 2003-12-17:  Fixed a problem where the settings were lost when logging in directly to settings page  (Niels)
 			  - 2003-12-17:  Added content-length to headers to adview.php and adimage.php when image is used from the database  (Niels, thanks to Osma Ahvenlampi)
 			  - 2003-12-17:	 Improved compatibility of the Simple layer style. Improved support for Opera, Mozilla and IE non-quirks mode.  (Niels)
+			  - 2003-12-17:	 Fixed GeoIP module to handle extended country codes (A1, A2, O1)  (Matteo)
 			  
 
 

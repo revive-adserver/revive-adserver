@@ -264,6 +264,7 @@ $phpAds_ISO3166['ZW'] = "Zimbabwe";
 // MaxMind Geo-IP special codes
 $phpAds_ISO3166['A1'] = "Anonymous Proxy";
 $phpAds_ISO3166['A2'] = "Satellite Provider";
+$phpAds_ISO3166['O1'] = "Other";
 
 
 
