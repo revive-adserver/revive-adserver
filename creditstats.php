@@ -144,7 +144,7 @@ while ($row_clients = mysql_fetch_array($res_clients))
       <tr>
            <?
            if (isset($lowID) && strlen($lowID) > 0)
-             print "<td><a href=creditstats.php?lowID=$prevlowID><?print $strPrevious;?> 10</a></td>";
+             print "<td><a href=creditstats.php?lowID=$prevlowID>$strPrevious 10</a></td>";
            ?>
        <td align=right><a href=creditstats.php?prevlowID=<?print $lowID."&lowID=".$highID;?>><?print $strNext;?> 10</a></td></tr>
        <tr><td><br></td></tr>
