@@ -6,10 +6,10 @@
 
 CREATE TABLE phpads_userlog (
    userlogid mediumint(9) NOT NULL AUTO_INCREMENT,
-   timestamp int(11) NOT NULL,
-   usertype tinyint(4) NOT NULL,
-   userid mediumint(9) NOT NULL,
-   action mediumint(9) NOT NULL,
+   timestamp int(11) DEFAULT '0' NOT NULL,
+   usertype tinyint(4) DEFAULT '0' NOT NULL,
+   userid mediumint(9) DEFAULT '0' NOT NULL,
+   action mediumint(9) DEFAULT '0' NOT NULL,
    object mediumint(9),
    details blob,
    PRIMARY KEY (userlogid)
@@ -64,7 +64,7 @@ CREATE TABLE phpads_adclicks (
    zoneid mediumint(9) DEFAULT '0' NOT NULL,
    t_stamp timestamp(14),
    host varchar(255) NOT NULL,
-   source varchar(50) DEFAULT '' NOT NULL,
+   source varchar(50) NOT NULL,
    KEY bannerid_date (bannerid,t_stamp),
    KEY date (t_stamp)
 );
@@ -79,7 +79,7 @@ CREATE TABLE phpads_adviews (
    zoneid mediumint(9) DEFAULT '0' NOT NULL,
    t_stamp timestamp(14),
    host varchar(255) NOT NULL,
-   source varchar(50) DEFAULT '' NOT NULL,
+   source varchar(50) NOT NULL,
    KEY bannerid_date (bannerid,t_stamp),
    KEY date (t_stamp)
 );
@@ -195,7 +195,7 @@ CREATE TABLE phpads_adstats (
   hour tinyint(4) DEFAULT '0' NOT NULL,
   bannerid smallint(6) DEFAULT '0' NOT NULL,
   zoneid smallint(6) DEFAULT '0' NOT NULL,
-  source varchar(50) DEFAULT '' NOT NULL,
+  source varchar(50) NOT NULL,
   PRIMARY KEY (day,hour,bannerid,zoneid,source),
   KEY bannerid_day (bannerid,day)
 );
@@ -207,7 +207,7 @@ CREATE TABLE phpads_adstats (
 
 CREATE TABLE phpads_config (
    configid tinyint(2) DEFAULT '0' NOT NULL,
-   config_version decimal(7,3) DEFAULT '0' NOT NULL,
+   config_version decimal(7,3) DEFAULT '0.000' NOT NULL,
    table_border_color varchar(7) DEFAULT '#000099',
    table_back_color varchar(7) DEFAULT '#CCCCCC',
    table_back_color_alternative varchar(7) DEFAULT '#F7F7F7',
@@ -249,7 +249,7 @@ CREATE TABLE phpads_config (
    qmail_patch enum('t','f') DEFAULT 'f',
    updates_frequency tinyint(2) DEFAULT '7',
    updates_timestamp int(11) DEFAULT '0',
-   updates_last_seen decimal(7,3) DEFAULT '0',
+   updates_last_seen decimal(7,3) DEFAULT '0.000',
    allow_invocation_plain enum('t','f') DEFAULT 't',
    allow_invocation_js enum('t','f') DEFAULT 't',
    allow_invocation_frame enum('t','f') DEFAULT 't',
