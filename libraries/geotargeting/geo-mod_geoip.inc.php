@@ -19,12 +19,14 @@ $phpAds_geoPluginID = 'mod_geoip';
 
 function phpAds_mod_geoip_getInfo()
 {
+	global $HTTP_SERVER_VARS;
+
 	return (array (
 		'name'	    => 'MaxMind GeoIP (mod)',
 		'db'	    => false,
 		'country'   => true,
 		'continent' => true,
-		'region'	=> false
+		'region'	=> isset($HTTP_SERVER_VARS['GEOIP_REGION'])
 	));
 }
 
@@ -40,6 +42,10 @@ function phpAds_mod_geoip_getGeo($addr, $db)
 	else
 		$country = '';
 	
+	if (isset($HTTP_SERVER_VARS['GEOIP_REGION']))
+		$region = $HTTP_SERVER_VARS['GEOIP_REGION'];	
+	else
+		$region = false;
 	
 	if ($country != '' && $country != '--')
 	{
@@ -50,7 +56,7 @@ function phpAds_mod_geoip_getGeo($addr, $db)
 		return (array (
 			'country' => $country,
 			'continent' => $continent,
-			'region' => false
+			'region' => $region
 		));
 	}
 	else
