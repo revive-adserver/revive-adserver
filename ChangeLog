@@ -13,7 +13,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			+ Added ability to apply display limitations to other banners  (Niels) 20011201
 			+ Added new invocation type for popups/popunders  (Niels) 20011202
 			+ Added the ability to use beacon images for logging stats  (Niels) 20011202
-			+ Added the ability to change hard-coded urls inside Flash banners  (Niels) 20011218
+			+ Added the ability to convert hard-coded urls inside Flash banners  (Niels) 20011218
 			+ Added support for MFAA clickTAG's in Flash files  (Niels) 20020109
 			+ Added support for QuickTime, Real and Shockwave files  (Niels) 20020109
 			+ Added source statistics  (Wim) 20020129
@@ -27,6 +27,8 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			+ Added a new method of linking banners for sites with many banners  (Niels) 20020220
 		  	+ Added campaign overview page for advertisers  (Niels) 20020224
 			+ Added campaign auto-targeting when expiration set and adviews purchased  (Matteo) 20020309
+			+ Added the ability to change converted hard coded links inside Flash files  (Niels) 20020314
+			+ Added support for change hard-coded urls in compressed Flash MX files  (Niels) 20020321
 
 			+ Misc changes to library and function names
 			  - Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 20011020
@@ -105,11 +107,17 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Added <img> invocation to <iframe> invocation type for browser compatibility  (Niels) 20020224
 			  - Added ability to delete all banners of a campaign  (Niels) 20020225
 			  - Added 'url' and 'clientid' to view_raw result array  (Matteo) 20020304
+			  - Added more information to Priority page  (Niels) 20020306
 			  - Added XML-RPC invocation  (Matteo) 20020307
 			  - Added AdLayers invocation with plug-in styles  (Matteo) 20020307
 			  - Changed lib-priority to skip profiling when no high-pri present
 			    and added some more information to debuglog for better tracing  (Matteo) 20020309
 			  - Added new language file for invocations  (Matteo) 20020309
+			  - Added new way to check if a form has the correct values  (Niels) 20020312
+			  - Added next / prev buttons to the userlog  (Niels) 20020317
+			  - phpadsnew.inc.php can now be included more than once without generating errors (Niels) 20020319
+			  - phpAds_config is not automatically globalized in case it is called from a function  (Niels) 20020319
+			  - Updated HTML code to support Flash MX  (Niels) 20020319
 
 
 			+ Misc bugfixes
@@ -182,8 +190,17 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: Fixed bug when resolving was made by http server and reverse_lookup off  (Matteo) 20020218
 			  - Bugfix: Increased the size of the zone cache  (Niels) 20020224
 			  - Bugfix: Moving a banner or campaign to an nonexisting parent no longer results in an empty page  (Niels) 20020224
+			  - Bugfix: Fixed quote problem in uploaded file names  (Niels) 20020228
+			  - Bugfix: Added default return url to delete actions  (Niels) 20020310
 			  - Bugfix: phpAds_path constant was wrong in admin insterface, install, upgrade and
 			    maintenence when no __FILE__ constant available  (Matteo) 20020319
+			  - Bugfix: Names and descriptions now can contain quotes and double quotes (Niels) 20020319
+			  - Bugfix: Fixed slash problem in urls with adclick.php  (Niels) 20020319
+			  - Bugfix: Resolved many E_ALL problems  (Niels) 20020319
+			  - Bugfix: Database compatibility mode problems fixed  (Niels) 20020319
+			  - Bugfix: phpads_images table is now correctly create with the InnoDB table type  (Niels) 20020319
+			  - Bugfix: Monthly history now also works with compact stats  (Niels) 20020321
+			  
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
