@@ -100,8 +100,8 @@ select,textarea,input
 	font-size: 11px; 
 }
 
-.tab-s { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: #0066CC; vertical-align: text-bottom; text-decoration: none;}
-.tab-s:hover { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: #0066CC; vertical-align: text-bottom; text-decoration: underline;}
+.tab-s { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: #0066CC; text-decoration: none;}
+.tab-s:hover { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: #0066CC; text-decoration: underline;}
 .tab-u { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: #FFFFFF; text-decoration: none;}
 .tab-u:hover { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: #FFFFFF; text-decoration: underline;}
 .tab-g { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: #666666; text-decoration: none;}

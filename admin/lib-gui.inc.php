@@ -439,28 +439,69 @@ function phpAds_ShowSections($sections)
 {
 	global $phpAds_nav, $phpAds_NavID;
 	
+	echo "</td></tr>";
+	echo "</table>";
+	
+	
+	echo "<table border='0' cellpadding='0' cellspacing='0' width='100%' background='images/stab-bg.gif'><tr height='24'>";
+	echo "<td width='40'><img src='images/stab-bg.gif' width='40' height='24'></td><td width='600' align='right'>";
+	
+	echo "<table border='0' cellpadding='0' cellspacing='0'><tr height='24'>";
+	
 	// Prepare Navigation
 	if (phpAds_isUser(phpAds_Admin))
 		$pages	= $phpAds_nav['admin'];
 	else
 		$pages  = $phpAds_nav['client'];
 	
+	echo "<td></td>";
+	
 	for ($i=0; $i<count($sections);$i++)
 	{
 		list($sectionUrl, $sectionStr) = each($pages["$sections[$i]"]);
-		echo "<img src='images/caret-rs.gif' width='11' height='7'>&nbsp;";
+		$selected = ($phpAds_NavID == $sections[$i]);
 		
-		if ($phpAds_NavID == $sections[$i])
-			echo "<a class='tab-s' href='".$sectionUrl."'>".$sectionStr."</a> &nbsp;&nbsp;&nbsp;";
+		if ($selected)
+		{
+			echo "<td background='images/stab-sb.gif' valign='middle' nowrap>";
+			
+			if ($i > 0) 
+				echo "<img src='images/stab-mus.gif' align='absmiddle'>";
+			else
+				echo "<img src='images/stab-bs.gif' align='absmiddle'>";
+			
+			echo "&nbsp;&nbsp;<a class='tab-s' href='".$sectionUrl."'>".$sectionStr."</a>";
+		}
 		else
-			echo "<a class='tab-g' href='".$sectionUrl."'>".$sectionStr."</a> &nbsp;&nbsp;&nbsp;";
+		{
+			echo "<td background='images/stab-ub.gif' valign='middle' nowrap>";
+			
+			if ($i > 0) 
+				if ($previousselected) 
+					echo "<img src='images/stab-msu.gif' align='absmiddle'>";
+				else
+					echo "<img src='images/stab-muu.gif' align='absmiddle'>";
+			else
+				echo "<img src='images/stab-bu.gif' align='absmiddle'>";
+			
+			echo "&nbsp;&nbsp;<a class='tab-g' href='".$sectionUrl."'>".$sectionStr."</a>";
+		}
+		
+		echo "</td>";
+		
+		$previousselected = $selected;
 	}
 	
-	echo "</td></tr>";
-	echo "</table>";
-	echo "<img src='images/break-el.gif' height='1' width='100%' vspace='5'>";
+	if ($previousselected)
+		echo "<td><img src='images/stab-es.gif'></td>";
+	else
+		echo "<td><img src='images/stab-eu.gif'></td>";
+	
+	echo "</tr></table>";
+	
+	echo "</td><td>&nbsp;</td></tr></table>";
 	echo "<table width='640' border='0' cellspacing='0' cellpadding='0'>";
-	echo "<tr><td width='40'>&nbsp;</td><td>";
+	echo "<tr><td width='40'>&nbsp;</td><td><br>";
 }
 
 function phpAds_ShowBreak()
