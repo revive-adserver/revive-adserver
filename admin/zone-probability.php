@@ -85,6 +85,35 @@ $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 
 if (phpAds_isUser(phpAds_Admin))
 {
+	$extra .= "<form action='zone-modify.php'>";
+	$extra .= "<input type='hidden' name='zoneid' value='$zoneid'>";
+	$extra .= "<input type='hidden' name='returnurl' value='zone-probability.php'>";
+	$extra .= "<br><br>";
+	$extra .= "<b>$strModifyZone</b><br>";
+	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+	$extra .= "<img src='images/icon-move-zone.gif' align='absmiddle'>&nbsp;$strMoveTo<br>";
+	$extra .= "<img src='images/spacer.gif' height='1' width='160' vspace='2'><br>";
+	$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+	$extra .= "<select name='moveto' style='width: 110;'>";
+	
+	$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_affiliates']." WHERE affiliateid != ".$affiliateid) or phpAds_sqlDie();
+	while ($row = phpAds_dbFetchArray($res))
+		$extra .= "<option value='".$row['affiliateid']."'>".phpAds_buildAffiliateName($row['affiliateid'], $row['name'])."</option>";
+	
+	$extra .= "</select>&nbsp;<input type='image' src='images/go_blue.gif'><br>";
+	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+	$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='zone-delete.php?affiliateid=$affiliateid&zoneid=$zoneid'".phpAds_DelConfirm($strConfirmDeleteZone).">$strDelete</a><br>";
+	$extra .= "</form>";
+	
+	
+	$extra .= "<br><br><br>";
+	$extra .= "<b>$strShortcuts</b><br>";
+	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+	$extra .= "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<a href=affiliate-edit.php?affiliateid=$affiliateid>$strAffiliateProperties</a><br>";
+	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+	$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-affiliate-zones.php?affiliateid=$affiliateid>$strStats</a><br>";
+	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+	
 	phpAds_PageHeader("4.2.3.4", $extra);
 		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
 		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";

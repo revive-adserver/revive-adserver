@@ -261,8 +261,6 @@ if (isset($submit))
 	}
 	
 	
-	$message = $bannerid=='' ? $strBannerAdded : $strBannerModified;
-	
 	// Construct appropiate SQL query
 	// If bannerid==null, then this is an INSERT, else it's an UPDATE
 	if (isset($bannerid) && trim($bannerid) != '')
@@ -326,11 +324,11 @@ if (isset($submit))
 	
 	if (phpAds_isUser(phpAds_Client))
 	{
-		Header("Location: stats-campaign.php?campaignid=$campaignid&message=".urlencode($message));
+		Header("Location: stats-campaign.php?campaignid=$campaignid");
 	}
 	else
 	{
-		Header("Location: campaign-index.php?campaignid=$campaignid&message=".urlencode($message));
+		Header("Location: campaign-index.php?campaignid=$campaignid");
 	}
 	
 	exit;
@@ -347,12 +345,12 @@ if ($bannerid != '')
 	$extra = '';
 	
 	$res = phpAds_dbQuery("
-	SELECT
-		*
-	FROM
-		".$phpAds_config['tbl_banners']."
-	WHERE
-		clientid = $campaignid
+		SELECT
+			*
+		FROM
+			".$phpAds_config['tbl_banners']."
+		WHERE
+			clientid = $campaignid
 	") or phpAds_sqlDie();
 	
 	$extra = "";	
@@ -372,12 +370,37 @@ if ($bannerid != '')
 	
 	if (phpAds_isUser(phpAds_Admin))
 	{
-		$extra .= "<br><br><br><br><br>";
+		$extra .= "<form action='banner-modify.php'>";
+		$extra .= "<input type='hidden' name='bannerid' value='$bannerid'>";
+		$extra .= "<input type='hidden' name='campaignid' value='$campaignid'>";
+		$extra .= "<input type='hidden' name='returnurl' value='banner-edit.php'>";
+		$extra .= "<br><br>";
+		$extra .= "<b>$strModifyBanner</b><br>";
+		//$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+		//$extra .= "<img src='images/icon-duplicate-banner.gif' align='absmiddle'>&nbsp;<a href='banner-modify.php?campaignid=$campaignid&bannerid=$bannerid&duplicate=true&returnurl=banner-edit.php'>$strDuplicate</a><br>";
+		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+		$extra .= "<img src='images/icon-move-banner.gif' align='absmiddle'>&nbsp;$strMoveTo<br>";
+		$extra .= "<img src='images/spacer.gif' height='1' width='160' vspace='2'><br>";
+		$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+		$extra .= "<select name='moveto' style='width: 110;'>";
+		
+		$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE parent != 0 AND clientid != ".$campaignid."") or phpAds_sqlDie();
+		while ($row = phpAds_dbFetchArray($res))
+			$extra .= "<option value='".$row['clientid']."'>".phpAds_buildClientName($row['clientid'], $row['clientname'])."</option>";
+		
+		$extra .= "</select>&nbsp;<input type='image' src='images/go_blue.gif'><br>";
+		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+		$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?campaignid=$campaignid&bannerid=$bannerid'".phpAds_DelConfirm($strConfirmDeleteBanner).">$strDelete</a><br>";
+		$extra .= "</form>";
+		
+		
+		
+		$extra .= "<br><br><br>";
 		$extra .= "<b>$strShortcuts</b><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientid=".phpAds_getParentID ($campaignid).">$strModifyClient</a><br>";
+		$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientid=".phpAds_getParentID ($campaignid).">$strClientProperties</a><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignid=$campaignid>$strModifyCampaign</a><br>";
+		$extra .= "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignid=$campaignid>$strCampaignProperties</a><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-campaign.php?campaignid=$campaignid>$strStats</a><br>";
 		$extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
@@ -385,6 +408,7 @@ if ($bannerid != '')
 		$extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
 		$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-zoom.gif' align='absmiddle'>&nbsp;<a href=stats-details.php?campaignid=$campaignid&bannerid=$bannerid>$strDetailStats</a><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+		
 		
 		$sections = array ("4.1.5.2");
 		if ($phpAds_config['acl']) $sections[] = "4.1.5.3";
@@ -870,7 +894,7 @@ if (!isset($type))
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 	<tr>
-		<td height='35' colspan='3'><input type="submit" name="submit" value="<?php echo $strSubmit;?>"></td>
+		<td height='35' colspan='3'><input type="submit" name="submit" value="<?php echo $strSaveChanges;?>"></td>
 	</tr>
 </table>
 </form>

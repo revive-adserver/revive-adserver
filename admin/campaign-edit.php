@@ -202,12 +202,32 @@ if ($campaignid != "")
 	}
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	
-	$extra .= "<br><br><br><br><br>";
+	
+	$extra .= "<form action='campaign-modify.php'>";
+	$extra .= "<input type='hidden' name='campaignid' value='$campaignid'>";
+	$extra .= "<input type='hidden' name='returnurl' value='campaign-edit.php'>";
+	$extra .= "<br><br>";
+	$extra .= "<b>$strModifyCampaign</b><br>";
+	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+	$extra .= "<img src='images/icon-move-campaign.gif' align='absmiddle'>&nbsp;$strMoveTo<br>";
+	$extra .= "<img src='images/spacer.gif' height='1' width='160' vspace='2'><br>";
+	$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+	$extra .= "<select name='moveto' style='width: 110;'>";
+	
+	$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE parent = 0 AND clientid != ".phpAds_getParentID ($campaignid)) or phpAds_sqlDie();
+	while ($row = phpAds_dbFetchArray($res))
+		$extra .= "<option value='".$row['clientid']."'>".phpAds_buildClientName($row['clientid'], $row['clientname'])."</option>";
+	
+	$extra .= "</select>&nbsp;<input type='image' src='images/go_blue.gif'><br>";
+	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+	$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='campaign-delete.php?campaignid=$campaignid'".phpAds_DelConfirm($strConfirmDeleteCampaign).">$strDelete</a><br>";
+	$extra .= "</form>";
+	
+	
+	$extra .= "<br><br><br>";
 	$extra .= "<b>$strShortcuts</b><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientid=".phpAds_getParentID ($campaignid).">$strModifyClient</a><br>";
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<a href=campaign-index.php?campaignid=$campaignid>$strBanners</a><br>";
+	$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientid=".phpAds_getParentID ($campaignid).">$strClientProperties</a><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-campaign.php?campaignid=$campaignid>$strStats</a><br>";
 	$extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
@@ -218,7 +238,7 @@ if ($campaignid != "")
 		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
 		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignid)."</b><br><br><br>";
-		phpAds_ShowSections(array("4.1.5", "4.1.4"));
+		phpAds_ShowSections(array("4.1.4", "4.1.5"));
 }
 else
 {
