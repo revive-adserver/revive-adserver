@@ -246,19 +246,18 @@ function phpAds_PageHeader($ID, $extra="")
 	echo "<html".($phpAds_TextDirection != 'ltr' ? " dir='".$phpAds_TextDirection."'" : '').">\n";
 	echo "\t<head>\n";
 	echo "\t\t<title>".$pagetitle."</title>\n";
-	echo "\t\t<meta http-equiv='Content-Type' content='text/html".($phpAds_CharSet != '' ? '; charset='.$phpAds_CharSet : '')."'>\n";
-	echo "\t\t<meta name='author' content='phpAdsNew - http://sourceforge.net/projects/phpadsnew'>\n";
-	echo "\t\t<meta name='robots' content='noindex, nofollow'>\n";
+	echo "\t\t<meta name='generator' content='phpAdsNew ".$phpAds_version_readable." - http://www.phpadsnew.com'>\n";
+	echo "\t\t<meta name='robots' content='noindex, nofollow'>\n\n";
 	echo "\t\t<link rel='stylesheet' href='images/".$phpAds_TextDirection."/interface.css'>\n";
 	echo "\t\t<script language='JavaScript' src='interface.js'></script>\n";
 	if ($phpAds_showHelp) echo "\t\t<script language='JavaScript' src='help.js'></script>\n";
 	
 	// Show Moz site bar
 	echo $mozbar;
-	echo "\t</head>\n";
+	echo "\t</head>\n\n\n";
 	
 	echo "<body bgcolor='#FFFFFF' background='images/".$phpAds_TextDirection."/background.gif' text='#000000' leftmargin='0' ";
-	echo "topmargin='0' marginwidth='0' marginheight='0'".($phpAds_showHelp ? " onResize='resizeHelp();' onScroll='resizeHelp();'" : '').">\n";
+	echo "topmargin='0' marginwidth='0' marginheight='0'".($phpAds_showHelp ? " onResize='resizeHelp();' onScroll='resizeHelp();'" : '').">";
 	
 	// Header
 	if (isset($phpAds_config['my_header']) && $phpAds_config['my_header'] != '')
@@ -274,13 +273,13 @@ function phpAds_PageHeader($ID, $extra="")
 	if (isset($phpAds_config['name']) && $phpAds_config['name'] != '')
 	{
 		echo "<td height='48' bgcolor='#000063' valign='middle'>";
-		echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/logo-s.gif' width='36' height='34' align='absmiddle' alt='phpAdsNew ".$phpAds_version_readable."'>";
+		echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/logo-s.gif' width='36' height='34' align='absmiddle'>";
 		echo "<span class='phpAdsNew'>".$phpAds_config['name']."</span>";
 	}
 	else
 	{
 		echo "<td height='48' bgcolor='#000063' valign='bottom'>";
-		echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/logo.gif' width='163' height='34' alt='phpAdsNew ".$phpAds_version_readable."'>";
+		echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/logo.gif' width='163' height='34'>";
 	}
 	
 	echo "</td><td bgcolor='#000063' valign='top' align='".$phpAds_TextAlignRight."'>";
@@ -530,11 +529,12 @@ function phpAds_ShowSections($sections)
 			echo "<td background='images/".$phpAds_TextDirection."/stab-sb.gif' valign='middle' nowrap>";
 			
 			if ($i > 0) 
-				echo "<img src='images/".$phpAds_TextDirection."/stab-mus.gif' align='absmiddle'>";
+				echo "<img src='images/".$phpAds_TextDirection."/stab-mus.gif' align='absmiddle'></td>";
 			else
-				echo "<img src='images/".$phpAds_TextDirection."/stab-bs.gif' align='absmiddle'>";
+				echo "<img src='images/".$phpAds_TextDirection."/stab-bs.gif' align='absmiddle'></td>";
 			
-			echo "&nbsp;&nbsp;<a class='tab-s' href='".$sectionUrl."'>".$sectionStr."</a>";
+			echo "<td background='images/".$phpAds_TextDirection."/stab-sb.gif' valign='middle' nowrap>";
+			echo "&nbsp;&nbsp;<a class='tab-s' href='".$sectionUrl."'>".$sectionStr."</a></td>";
 		}
 		else
 		{
@@ -542,16 +542,15 @@ function phpAds_ShowSections($sections)
 			
 			if ($i > 0) 
 				if ($previousselected) 
-					echo "<img src='images/".$phpAds_TextDirection."/stab-msu.gif' align='absmiddle'>";
+					echo "<img src='images/".$phpAds_TextDirection."/stab-msu.gif' align='absmiddle'></td>";
 				else
-					echo "<img src='images/".$phpAds_TextDirection."/stab-muu.gif' align='absmiddle'>";
+					echo "<img src='images/".$phpAds_TextDirection."/stab-muu.gif' align='absmiddle'></td>";
 			else
-				echo "<img src='images/".$phpAds_TextDirection."/stab-bu.gif' align='absmiddle'>";
+				echo "<img src='images/".$phpAds_TextDirection."/stab-bu.gif' align='absmiddle'></td>";
 			
-			echo "&nbsp;&nbsp;<a class='tab-g' href='".$sectionUrl."'>".$sectionStr."</a>";
+			echo "<td background='images/".$phpAds_TextDirection."/stab-ub.gif' valign='middle' nowrap>";
+			echo "&nbsp;&nbsp;<a class='tab-g' href='".$sectionUrl."'>".$sectionStr."</a></td>";
 		}
-		
-		echo "</td>";
 		
 		$previousselected = $selected;
 	}
