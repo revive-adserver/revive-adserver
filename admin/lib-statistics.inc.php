@@ -638,78 +638,88 @@ function phpAds_totalStats($table, $column, $bannerid, $timeconstraint="")
 {
     global $phpAds_config;
     
-	$ret = 0;
-    $where = "";
-	
-    if (!empty($bannerid)) 
-        $where = "WHERE bannerid = $bannerid";
-    
-	if (!empty($timeconstraint))
+	if ($phpAds_config['compact_stats'])
 	{
-		if (!empty($bannerid))
-			$where .= " AND ";
-		else
-			$where = "WHERE ";
+	    $where = "";
 		
-		if ($timeconstraint == "month")
+	    if (!empty($bannerid)) 
+        	$where = "WHERE bannerid = $bannerid";
+	    
+		if (!empty($timeconstraint))
 		{
-			$begintime = date ("Ym01000000");
-			$endtime = date ("YmdHis", mktime(0, 0, 0, date("m") + 1, 1, date("Y")));
-			$where .= "t_stamp >= $begintime AND t_stamp < $endtime";
+			if (!empty($bannerid))
+				$where .= " AND ";
+			else
+				$where = "WHERE ";
+			
+			if ($timeconstraint == "month")
+			{
+				$where .= "MONTH(day) = MONTH(CURDATE())";
+			}
+			elseif ($timeconstraint == "week")
+			{
+				$where .= "WEEK(day) = WEEK(CURDATE()) AND YEAR(day) = YEAR(CURDATE())";
+			}
+			else
+			{
+			    $where .= "day = CURDATE()";
+			}
 		}
-		elseif ($timeconstraint == "week")
-		{
-			$begintime = date ("Ymd000000", time() - 518400);
-			$endtime = date ("Ymd000000", time() + 86400);
-			$where .= "t_stamp >= $begintime AND t_stamp < $endtime";
+		
+	    $res = phpAds_dbQuery("SELECT SUM($column) as qnt FROM ".$phpAds_config['tbl_adstats']." $where") or phpAds_sqlDie();
+	    
+		if (phpAds_dbNumRows ($res))
+	    { 
+	        $row = phpAds_dbFetchArray($res);
+			return ($row['qnt']);
 		}
 		else
-		{
-		    $begintime = date ("Ymd000000");
-			$endtime = date ("Ymd000000", time() + 86400);
-			$where .= "t_stamp >= $begintime AND t_stamp < $endtime";
-		}
+			return (0);
 	}
-	
-    $res = phpAds_dbQuery("SELECT count(*) as qnt FROM $table $where") or phpAds_sqlDie();
-    if (phpAds_dbNumRows ($res))
-    { 
-        $row = phpAds_dbFetchArray($res);
-		if (isset($row['qnt'])) $ret += $row['qnt'];
-    }
-	
-    $where = "";
-    if (!empty($bannerid)) 
-        $where = "WHERE bannerid = $bannerid";
-    
-	if (!empty($timeconstraint))
+	else
 	{
-		if (!empty($bannerid))
-			$where .= " AND ";
-		else
-			$where = "WHERE ";
+	    $where = "";
 		
-		if ($timeconstraint == "month")
+	    if (!empty($bannerid)) 
+	        $where = "WHERE bannerid = $bannerid";
+	    
+		if (!empty($timeconstraint))
 		{
-			$where .= "MONTH(day) = MONTH(CURDATE())";
+			if (!empty($bannerid))
+				$where .= " AND ";
+			else
+				$where = "WHERE ";
+			
+			if ($timeconstraint == "month")
+			{
+				$begintime = date ("Ym01000000");
+				$endtime = date ("YmdHis", mktime(0, 0, 0, date("m") + 1, 1, date("Y")));
+				$where .= "t_stamp >= $begintime AND t_stamp < $endtime";
+			}
+			elseif ($timeconstraint == "week")
+			{
+				$begintime = date ("Ymd000000", time() - 518400);
+				$endtime = date ("Ymd000000", time() + 86400);
+				$where .= "t_stamp >= $begintime AND t_stamp < $endtime";
+			}
+			else
+			{
+			    $begintime = date ("Ymd000000");
+				$endtime = date ("Ymd000000", time() + 86400);
+				$where .= "t_stamp >= $begintime AND t_stamp < $endtime";
+			}
 		}
-		elseif ($timeconstraint == "week")
-		{
-			$where .= "WEEK(day) = WEEK(CURDATE()) AND YEAR(day) = YEAR(CURDATE())";
+		
+	    $res = phpAds_dbQuery("SELECT count(*) as qnt FROM $table $where") or phpAds_sqlDie();
+    	
+		if (phpAds_dbNumRows ($res))
+	    {
+    	    $row = phpAds_dbFetchArray($res);
+			return ($row['qnt']);
 		}
 		else
-		{
-		    $where .= "day = CURDATE()";
-		}
-	}
-	
-    $res = phpAds_dbQuery("SELECT SUM($column) as qnt FROM ".$phpAds_config['tbl_adstats']." $where") or phpAds_sqlDie();
-    if (phpAds_dbNumRows ($res))
-    { 
-        $row = phpAds_dbFetchArray($res);
-        if (isset($row['qnt'])) $ret += $row['qnt'];
+			return (0);
     }
-    return $ret;
 }
 
 function phpAds_totalClicks($bannerid="", $timeconstraint="")
