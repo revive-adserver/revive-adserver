@@ -325,15 +325,15 @@ if ($campaignid != "" || (isset($move) && $move == 't'))
 		
 	$row = phpAds_dbFetchArray($res);
 	
-	if ($row['weight'] > 0 && $row['target'] <= 0)
-	{
-		$priority = 'f';
-		$row['target'] = '-';
-	}
-	elseif ($row['target'] > 0 && $row['weight'] <= 0)
+	if ($row['target'] > 0)
 	{
 		$priority = 't';
 		$row['weight'] = '-';
+	}
+	else
+	{
+		$priority = 'f';
+		$row['target'] = '-';
 	}
 	
 	// Set parent when editing an campaign, don't set it
