@@ -292,6 +292,11 @@ CVS			+ Added configuration manager  (Matteo, 2001-11-04)
 			  - 2002-06-08:  Reworded some queries inside the all.sql file to prevent unneeded alter queries during upgrade  (Niels)
 			  - 2002-06-14:  XML-RPC zone invocation code had a PHP parse error  (Matteo)
 			  - 2002-06-19:  Fixed adclick problem with Flash banners  (Pawel Marzec)
+			  - 2002-07-01:  Javascript: links were mistakenly converted by the automatic adclick tracker  (Niels)
+			  - 2002-07-01:  Fixed another adclick problem with Flash banners  (Pawel Marzec)
+			  - 2002-07-01:  Mailto: links were mistakenly converted by the automatic adclick tracker  (Niels)
+			  - 2002-07-01:  URLs inside of <link> tags for external .css files were mistakenly converted by the automatic adclick tracker  (Niels)
+			  - 2002-07-01:  URLs inside of <base> tags were mistakenly converted by the automatic adclick tracker  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015

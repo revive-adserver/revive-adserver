@@ -144,90 +144,113 @@ function phpAds_getBannerCache($banner)
 				
 				while ($hrefpos > 0)
 				{
-					$hrefpos = $hrefpos + 5;
-					$doublequotepos = strpos($lowerbanner, '"', $hrefpos);
-					$singlequotepos = strpos($lowerbanner, "'", $hrefpos);
+					$tagpos = $hrefpos;
+					$taglength = 0;
 					
-					if ($doublequotepos > 0 && $singlequotepos > 0)
-					{
-						if ($doublequotepos < $singlequotepos)
-						{
-							$quotepos  = $doublequotepos;
-							$quotechar = '"';
-						}
-						else
-						{
-							$quotepos  = $singlequotepos;
-							$quotechar = "'";
-						}
-					}
-					else
-					{
-						if ($doublequotepos > 0)
-						{
-							$quotepos  = $doublequotepos;
-							$quotechar = '"';
-						}
-						elseif ($singlequotepos > 0)
-						{
-							$quotepos  = $singlequotepos;
-							$quotechar = "'";
-						}
-						else
-							$quotepos  = 0;
-					}
+					// travel back to first '<' found
+					while (substr($lowerbanner, $tagpos - 1, 1) != '<')
+						$tagpos--;
 					
-					if ($quotepos > 0)
+					// travel up to next space
+					while (substr($lowerbanner, $tagpos + $taglength, 1) != ' ')
+						$taglength++;
+					
+					$tag = substr($lowerbanner, $tagpos, $taglength);
+					
+					
+					// Do not convert href's inside of link tags
+					// because if external css files are used an
+					// adclick is logged for every impression.
+					if ($tag != 'link' &&
+						$tag != 'base')
 					{
-						$endquotepos = strpos($lowerbanner, $quotechar, $quotepos+1);
+						$hrefpos = $hrefpos + 5;
+						$doublequotepos = strpos($lowerbanner, '"', $hrefpos);
+						$singlequotepos = strpos($lowerbanner, "'", $hrefpos);
 						
-						if (substr ($buffer, $quotepos+1, 10) != '{targeturl' &&
-							strtolower(substr ($buffer, $quotepos+1, 11)) != 'javascript:')
+						if ($doublequotepos > 0 && $singlequotepos > 0)
 						{
-							$newbanner = $newbanner . 
-									substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . 
-									$quotechar . $phpAds_config['url_prefix'] . '/adclick.php?bannerid=' . 
-									'{bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;dest=' . 
-									urlencode(substr($buffer, $quotepos+1, $endquotepos - $quotepos - 1)) .
-									'&amp;ismap=';
+							if ($doublequotepos < $singlequotepos)
+							{
+								$quotepos  = $doublequotepos;
+								$quotechar = '"';
+							}
+							else
+							{
+								$quotepos  = $singlequotepos;
+								$quotechar = "'";
+							}
 						}
 						else
 						{
-							$newbanner = $newbanner . 
-									substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . $quotechar . 
-									substr($buffer, $quotepos+1, $endquotepos - $quotepos - 1);
+							if ($doublequotepos > 0)
+							{
+								$quotepos  = $doublequotepos;
+								$quotechar = '"';
+							}
+							elseif ($singlequotepos > 0)
+							{
+								$quotepos  = $singlequotepos;
+								$quotechar = "'";
+							}
+							else
+								$quotepos  = 0;
 						}
 						
-						$prevhrefpos = $hrefpos + ($endquotepos - $quotepos);
-					}
-					else
-					{
-						$spacepos = strpos($lowerbanner, ' ', $hrefpos+1);
-						$endtagpos = strpos($lowerbanner, '>', $hrefpos+1);
-						
-						if ($spacepos < $endtagpos)
-							$endpos = $spacepos;
-						else
-							$endpos = $endtagpos;
-						
-						if (substr($buffer, $hrefpos, 10) != '{targeturl' &&
-							strtolower(substr($buffer, $hrefpos, 11)) != 'javascript:')
+						if ($quotepos > 0)
 						{
-							$newbanner = $newbanner . 
-									substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . 
-									'"' . $phpAds_config['url_prefix'] . '/adclick.php?bannerid=' . 
-									'{bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;dest=' . 
-									urlencode(substr($buffer, $hrefpos, $endpos - $hrefpos)) .
-									'&amp;ismap="';
+							$endquotepos = strpos($lowerbanner, $quotechar, $quotepos+1);
+							
+							if (substr ($buffer, $quotepos+1, 10) != '{targeturl' &&
+								strtolower(substr ($buffer, $quotepos+1, 11)) != 'javascript:' &&
+								strtolower(substr ($buffer, $quotepos+1, 7)) != 'mailto:')
+							{
+								$newbanner = $newbanner . 
+										substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . 
+										$quotechar . $phpAds_config['url_prefix'] . '/adclick.php?bannerid=' . 
+										'{bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;dest=' . 
+										urlencode(substr($buffer, $quotepos+1, $endquotepos - $quotepos - 1)) .
+										'&amp;ismap=';
+							}
+							else
+							{
+								$newbanner = $newbanner . 
+										substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . $quotechar . 
+										substr($buffer, $quotepos+1, $endquotepos - $quotepos - 1);
+							}
+							
+							$prevhrefpos = $hrefpos + ($endquotepos - $quotepos);
 						}
 						else
 						{
-							$newbanner = $newbanner . 
-									substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . '"' . 
-									substr($buffer, $hrefpos, $endpos - $hrefpos) . '"';
+							$spacepos = strpos($lowerbanner, ' ', $hrefpos+1);
+							$endtagpos = strpos($lowerbanner, '>', $hrefpos+1);
+							
+							if ($spacepos < $endtagpos)
+								$endpos = $spacepos;
+							else
+								$endpos = $endtagpos;
+							
+							if (substr($buffer, $hrefpos, 10) != '{targeturl' &&
+								strtolower(substr($buffer, $hrefpos, 11)) != 'javascript:' &&
+								strtolower(substr($buffer, $hrefpos, 7)) != 'mailto:')
+							{
+								$newbanner = $newbanner . 
+										substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . 
+										'"' . $phpAds_config['url_prefix'] . '/adclick.php?bannerid=' . 
+										'{bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;dest=' . 
+										urlencode(substr($buffer, $hrefpos, $endpos - $hrefpos)) .
+										'&amp;ismap="';
+							}
+							else
+							{
+								$newbanner = $newbanner . 
+										substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . '"' . 
+										substr($buffer, $hrefpos, $endpos - $hrefpos) . '"';
+							}
+							
+							$prevhrefpos = $hrefpos + ($endpos - $hrefpos);
 						}
-						
-						$prevhrefpos = $hrefpos + ($endpos - $hrefpos);
 					}
 					
 					$hrefpos = strpos($lowerbanner, 'href=', $hrefpos + 1);
