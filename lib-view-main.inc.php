@@ -22,7 +22,7 @@ mt_srand(floor((isset($n) ? hexdec($n[0].$n[2].$n[3].$n[4].$n[5]): 1000000) * (d
 /* Create the HTML needed to display the banner          */
 /*********************************************************/
 
-function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $context=0)
+function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 0, $context = 0, $richmedia = true)
 {
 	global $phpAds_config;
 	
@@ -47,13 +47,13 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 		while (($first || $what != '') && $found == false)
 		{
 			$first = false;
-
+			
 			if (substr($what,0,5) == 'zone:')
 			{
 				if (!defined('LIBVIEWZONE_INCLUDED'))
 					require (phpAds_path.'/lib-view-zone.inc.php');
 				
-				$row = phpAds_fetchBannerZone($what, $clientid, $context, $source);
+				$row = phpAds_fetchBannerZone($what, $clientid, $context, $source, $richmedia);
 			}
 			else
 			{
@@ -63,7 +63,7 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 				if (!defined('LIBVIEWDIRECT_INCLUDED'))
 					require (phpAds_path.'/lib-view-direct.inc.php');
 				
-				$row = phpAds_fetchBannerDirect($what, $clientid, $context, $source);
+				$row = phpAds_fetchBannerDirect($what, $clientid, $context, $source, $richmedia);
 			}
 			
 			if (is_array ($row))
@@ -242,9 +242,9 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 /* Display a banner                                      */
 /*********************************************************/
 
-function view($what, $clientid=0, $target='', $source='', $withtext=0, $context=0)
+function view($what, $clientid = 0, $target = '', $source = '', $withtext = 0, $context = 0, $richmedia)
 {
-	$output = view_raw($what, $clientid, "$target", "$source", $withtext, $context);
+	$output = view_raw($what, $clientid, "$target", "$source", $withtext, $context, $richmedia);
 	print($output['html']);
 	return($output['bannerid']);
 }
