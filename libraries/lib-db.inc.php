@@ -210,5 +210,11 @@ function phpAds_dbError ()
 	return @mysql_error($phpAds_db_link);
 }
 
+function phpAds_dbErrorNo ()
+{
+	global $phpAds_db_link;
+	
+	return @mysql_errno($phpAds_db_link);
+}
 
 ?>
