@@ -287,7 +287,17 @@ function get_banner($what, $clientID, $context=0, $source='', $allowhtml=true)
 			// If zone does not exists or cache has expired
 			// or cache is empty build a query
 			
-			$select = phpAds_buildQuery ($what, 1, '');
+			$precondition = '';
+			
+			// Size preconditions
+			if ($zone['width'] > -1)
+				$precondition .= " AND $phpAds_tbl_banners.width = ".$zone['width']." ";
+			
+			if ($zone['height'] > -1)
+				$precondition .= " AND $phpAds_tbl_banners.height = ".$zone['height']." ";
+			
+			
+			$select = phpAds_buildQuery ($what, 1, $precondition);
 			$res    = @db_query($select);
 			
 			// Build array for further processing...
@@ -382,10 +392,10 @@ function get_banner($what, $clientID, $context=0, $source='', $allowhtml=true)
 			$precondition .= " AND ($phpAds_tbl_clients.clientID = $clientID OR $phpAds_tbl_clients.parent = $clientID) ";
 		
 		if ($allowhtml == false)
+		{
 			$precondition .= " AND $phpAds_tbl_banners.format != 'html' AND $phpAds_tbl_banners.format != 'swf' ";
-		
-		
-		
+			$precondition .= " AND $phpAds_tbl_banners.banner NOT LIKE '%swf' ";
+		}
 		
 		// Separate parts
 		$what_parts = explode ('|', $what);	
