@@ -605,7 +605,7 @@ function phpAds_sqlDie()
 	
 	if ($corrupt)
 	{
-		$title    = $GLOBALS['strErrorDBSerious']
+		$title    = $GLOBALS['strErrorDBSerious'];
 		$message  = $GLOBALS['strErrorDBNoDataSerious'];
 		
 		if (phpAds_isLoggedIn() && phpAds_isUser(phpAds_Admin))
