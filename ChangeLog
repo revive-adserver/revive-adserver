@@ -164,6 +164,8 @@ CVS			+ Added configuration manager  (Matteo, 2001-11-04)
 			  - 2002-06-12:	 Added check for MySQL user privileges before upgrading  (Niels)
 			  - 2002-07-06:  Added display of file size to banner properties  (Niels)
 			  - 2002-07-07:  Increased maximum length of target parameter on banner properties page to 16 chars  (Niels)
+			  - 2002-07-14:  Added ability to hide inactive items from overviews  (Niels)
+			  - 2002-07-14:  Added hidden configuration setting to disable the user interface  (Niels)
 
 
 			+ Misc bugfixes

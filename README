@@ -1,29 +1,30 @@
-phpAdsNew - Readme
 
-  PHP Banner Management System
-
-  Version 2 dev 07072002
-  http://www.phpadsnew.com
-
-  THIS IS A EXPERIMENTAL DEVELOPMENT BUILD AND MAY NOT BE 
-  STABLE ENOUGH FOR USE IN A PRODUCTION ENVIRONMENT.
-  THE USE OF THIS SOFTWARE IS COMPLETELY AT YOUR OWN RISK!
+    phpAdsNew 2
+    ------------------------------------------------------------------------
+    An ad server and banner management system written in PHP
 
 
+    Version 2 beta 7
+    ------------------------------------------------------------------------
+    THIS IS A EXPERIMENTAL BETA VERSION AND MAY NOT BE 
+    STABLE ENOUGH FOR USE IN A PRODUCTION ENVIRONMENT.
+    THE USE OF THIS SOFTWARE IS COMPLETELY AT YOUR OWN RISK!
+
+
+    
     Copyright (C) 2000-2002
 	Niels Leenheer 	   <niels@creatype.nl>
 	Matteo Beccati     <matteo@beccati.com>
+
 	Wim Godden 	   <wim@godden.net>
 	Phil Hord 	   <phil@phord.com>
-	Stefan Morgenroth  <dandra@users.sourceforge.net>
 	Noor Dawod         <noor@COMRAX.COM>
 	Cedric Fontaine    <cfontaine@spidmail.net>
 	Michael Harvey 	   <mike@ve-studio.com>
 	Stefan Morgenroth  <dandra@users.sourceforge.net>
-	Noor Dawod         <noor@COMRAX.COM>
 
 
-    Documentation:
+    Documentation written and maintained by:
 	Niels Leenheer 	   <niels@creatype.nl>
 
 
@@ -65,7 +66,8 @@ phpAdsNew - Readme
 
 
 
-  Requirements: 
+    Requirements: 
+    ------------------------------------------------------------------------
     PHP 4.0 or higher 	 (4.2.0 recommended)
     MySQL 3.22 or higher (3.23 with InnoDB recommended)
 
@@ -76,7 +78,8 @@ phpAdsNew - Readme
     http://sourceforge.net/projects/phppgads/
        
          
-  Summary:
+    Summary:
+    ------------------------------------------------------------------------
     phpAdsNew is a banner management and tracking system written in PHP.
     Currently it can
     - manage multiple campaigns per advertiser
@@ -101,11 +104,13 @@ phpAdsNew - Readme
     - Multi-lingual and support for right-to-left languages, like Arabic
  
 
-  Download:
-    You can get the newest version at http://www.phpadsnew.com
+    Download:
+    ------------------------------------------------------------------------
+    You can get the latest version at http://www.phpadsnew.com
 
 
-  Credits:
+    Credits:
+    ------------------------------------------------------------------------
     Kyle Cordes <Kyle@kylecordes.com>, Weston Bustraan <weston@infinityteldata.net>,
     Jörg Legarth, Brian <brian@cooltext.com>, Robert Allen <zircote@excite.com>,
     Ben Schumacher <bs@cyalchemy.com>, Leonid Igolnik - LiM <lim@israel.net>,
@@ -124,8 +129,13 @@ phpAdsNew - Readme
     And all the rest who helped.
 
 
-  Mailing List:
+    Support:
+    ------------------------------------------------------------------------
     Questions about phpAdsNew should be directed to the forums. More
     information about it can be found on phpAdsNew's homepage. Bug reports
     and questions related to the develpment of phpAdsNew are also welcome
     on the site. Please read the manual before you ask questions!
+
+    http://www.phpadsnew.com
+    
+
