@@ -152,6 +152,8 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-05-09:  Changed path of block cookies to make sure they also work with local mode invocation on the same server  (Niels)
 			  - 2002-05-15:  Zones linked to campaigns are now also shown on the banner's linked zones page, but can not be modified  (Niels)
 			  - 2002-05-16:  Banners are now selected when switching from linking zones to campaigns to linking zones to banners  (Niels)
+			  - 2002-06-02:  Included switch to turn on Netscape 4 compatible ilayers during iframe invocation generation  (Niels)
+			  - 2002-06-02:  Added 'Expand all / Collapse all' buttons to advertiser overview and publisher overview  (Niels)
 
 
 			+ Misc bugfixes
