@@ -101,8 +101,8 @@ $GLOBALS['strShowAll']					= "Toon alles";
 $GLOBALS['strNoAdminInteface']				= "Deze dienst is momenteel niet beschikbaar...";
 $GLOBALS['strFilterBySource']				= "filter op bron";
 $GLOBALS['strFieldContainsErrors']			= "De volgende velden bevatten fouten:";
-$GLOBALS['strFieldFixBeforeContinue1']		= "Voordat u verder kunt gaan dient u";
-$GLOBALS['strFieldFixBeforeContinue2']		= "deze fouten te corrigeren.";
+$GLOBALS['strFieldFixBeforeContinue1']			= "Voordat u verder kunt gaan dient u";
+$GLOBALS['strFieldFixBeforeContinue2']			= "deze fouten te corrigeren.";
 
 
 
@@ -122,7 +122,7 @@ $GLOBALS['strID']				 	= "ID";
 $GLOBALS['strAuthentification'] 			= "Authenticatie";
 $GLOBALS['strWelcomeTo']				= "Welkom bij";
 $GLOBALS['strEnterUsername']				= "Vul uw gebruikersnaam en wachtwoord in om in te loggen";
-$GLOBALS['strEnterBoth']					= "Vul zowel uw gebruikersnaam en uw wachtwoord in";
+$GLOBALS['strEnterBoth']				= "Vul zowel uw gebruikersnaam en uw wachtwoord in";
 $GLOBALS['strEnableCookies']				= "U dient cookies aan te zetten in uw browser voordat u ".$phpAds_productname." kunt gebruiken";
 $GLOBALS['strLogin'] 					= "Inloggen";
 $GLOBALS['strLogout'] 					= "Uitloggen";
@@ -224,12 +224,8 @@ $GLOBALS['strActivationDate']				= "Activeringsdatum";
 $GLOBALS['strViewsPurchased'] 				= "Gekochte AdViews";
 $GLOBALS['strClicksPurchased'] 				= "Gekochte AdClicks";
 $GLOBALS['strCampaignWeight']				= "Campagne gewicht";
-$GLOBALS['strHighPriority']				= "Toon de banners in deze campagne met hoge prioriteit.<br>
-							   Indien u deze optie gebruikt zal ".$phpAds_productname." proberen om het 
-							   aantal AdViews gelijkmatig over de dag de verspreiden.";
-$GLOBALS['strLowPriority']				= "Toon de banners in deze campagne met lage prioriteit.<br>
-							   Deze campagne wordt gebruikt om de overgebleven AdViews te tonen, 
-							   welke niet gebruikt worden door hoge prioriteit campagnes.";
+$GLOBALS['strHighPriority']				= "Toon de banners in deze campagne met hoge prioriteit.<br>Indien u deze optie gebruikt zal ".$phpAds_productname." proberen om het aantal AdViews gelijkmatig over de dag de verspreiden.";
+$GLOBALS['strLowPriority']				= "Toon de banners in deze campagne met lage prioriteit.<br>Deze campagne wordt gebruikt om de overgebleven AdViews te tonen, welke niet gebruikt worden door hoge prioriteit campagnes.";
 $GLOBALS['strTargetLimitAdviews']			= "Limiteer het aantal AdViews tot";
 $GLOBALS['strTargetPerDay']				= "per dag.";
 $GLOBALS['strPriorityAutoTargeting']			= "Gekochte AdViews en vervaldatum zijn ingesteld.\n De limiet wordt elke dag bijgesteld.";
@@ -261,7 +257,7 @@ $GLOBALS['strConfirmResetBannerStats']			= "Weet u zeker dat u de statistieken w
 $GLOBALS['strShowParentCampaigns']			= "Toon bovenliggende campagnes";
 $GLOBALS['strHideParentCampaigns']			= "Verberg bovenliggende campagnes";
 $GLOBALS['strHideInactiveBanners']			= "Verberg niet-actieve banners";
-$GLOBALS['strInactiveBannersHidden']		= "niet-actieve banner(s) verborgen";
+$GLOBALS['strInactiveBannersHidden']			= "niet-actieve banner(s) verborgen";
 
 
 
@@ -289,15 +285,7 @@ $GLOBALS['strBannerWeight']				= "Banner gewicht";
 // Banner (swf)
 $GLOBALS['strCheckSWF']					= "Controleer op vaste links in het Flash bestand";
 $GLOBALS['strConvertSWFLinks']				= "Converteer Flash links";
-$GLOBALS['strConvertSWF']				= "<br>Het Flash bestand dat u zojuist upgeload heeft bevat vaste links. Pas als deze vaste ".
-							  "links geconverteerd zijn zal ".$phpAds_productname." AdClicks kunnen volgen voor deze banner. ".
-							  "Hieronder vindt u een lijst met alle links welke in het Flash bestand aanwezig zijn. ".
-							  "Indien u de links wilt converteren, klik dan op <b>Converteer</b>, klik anders op ".
-							  "<b>Annuleer</b>.<br><br>".
-							  "Notitie: Als u klikt op <b>Converteer</b> zal het Flash bestand ".
-						  	  "welke u zojuist geupload heeft veranderd worden. <br>Bewaar het orginele bestand goed. ".
-							  "Ongeacht in welke versie de banner gemaakt is, het geconverteerde bestand ".
-							  "zal alleen goed te zien zijn met de Flash 4 player (of hoger).<br><br>";
+$GLOBALS['strConvertSWF']				= "<br>Het Flash bestand dat u zojuist upgeload heeft bevat vaste links. Pas als deze vaste links geconverteerd zijn zal ".$phpAds_productname." AdClicks kunnen volgen voor deze banner. Hieronder vindt u een lijst met alle links welke in het Flash bestand aanwezig zijn. Indien u de links wilt converteren, klik dan op <b>Converteer</b>, klik anders op <b>Annuleer</b>.<br><br>Notitie: Als u klikt op <b>Converteer</b> zal het Flash bestand welke u zojuist geupload heeft veranderd worden. <br>Bewaar het orginele bestand goed. Ongeacht in welke versie de banner gemaakt is, het geconverteerde bestand zal alleen goed te zien zijn met de Flash 4 player (of hoger).<br><br>";
 $GLOBALS['strCompressSWF']				= "Comprimeer SWF bestand voor versneld downloaden (Flash 6 speler verplicht)";
 
 
@@ -327,10 +315,10 @@ $GLOBALS['strUserAgent']				= "Useragent";
 $GLOBALS['strDomain'] 					= "Domein";
 $GLOBALS['strClientIP'] 				= "IP adres";
 $GLOBALS['strSource'] 					= "Bronpagina";
-$GLOBALS['strBrowser'] 						= "Browser";
-$GLOBALS['strOS'] 							= "OS";
-$GLOBALS['strCountry'] 						= "Land";
-$GLOBALS['strContinent'] 					= "Continent";
+$GLOBALS['strBrowser'] 					= "Browser";
+$GLOBALS['strOS'] 					= "OS";
+$GLOBALS['strCountry'] 					= "Land";
+$GLOBALS['strContinent'] 				= "Continent";
 $GLOBALS['strDeliveryLimitations']			= "Leveringsbeperkingen";
 $GLOBALS['strDeliveryCapping']				= "Leveringsplafond";
 $GLOBALS['strTimeCapping']				= "Zodra deze banner eenmaal<br> getoond is, toon deze niet nog<br> een keer gedurende:";
@@ -354,7 +342,7 @@ $GLOBALS['strMakePublisherPublic']			= "Maak de zones die eigendom zijn van de u
 
 
 // Publisher (properties)
-$GLOBALS['strWebsite']						= "Website";
+$GLOBALS['strWebsite']					= "Website";
 $GLOBALS['strAllowAffiliateModifyInfo'] 		= "Deze gebruiker kan zijn eigen affiliate informatie wijzigen";
 $GLOBALS['strAllowAffiliateModifyZones'] 		= "Deze gebruiker kan zijn eigen zones wijzigen";
 $GLOBALS['strAllowAffiliateLinkBanners'] 		= "Deze gebruiker kan banners koppelen aan zijn eigen zones";

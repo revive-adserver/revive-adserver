@@ -227,12 +227,8 @@ $GLOBALS['strActivationDate']				= "Data attivazione";
 $GLOBALS['strViewsPurchased']				= "Visualizzazioni rimaste";
 $GLOBALS['strClicksPurchased']				= "Click rimaste";
 $GLOBALS['strCampaignWeight']				= "Peso della campagna";
-$GLOBALS['strHighPriority']					= "Visualizza i banner in questa campagna con Priorit&agrave; Alta.<br>
-											   Usando questa opzione ".$phpAds_productname." prova a distribuire
-											   il numero di Visualizzazioni Scelto durante il corso della giornata.";
-$GLOBALS['strLowPriority']					= "Visualizza i banner in questa campagna con Priorit&agrave; Bassa.<br>
-											   Usando questa opzione i banner sfrutteranno le visualizzazioni
-											   lasciate a disposizione dalla campagna con Priorit&agrave; Alta.";
+$GLOBALS['strHighPriority']					= "Visualizza i banner in questa campagna con Priorit&agrave; Alta.<br> Usando questa opzione ".$phpAds_productname." prova a distribuire il numero di Visualizzazioni Scelto durante il corso della giornata.";
+$GLOBALS['strLowPriority']					= "Visualizza i banner in questa campagna con Priorit&agrave; Bassa.<br> Usando questa opzione i banner sfrutteranno le visualizzazioni lasciate a disposizione dalla campagna con Priorit&agrave; Alta.";
 $GLOBALS['strTargetLimitAdviews']			= "Limita il numero di visualizzazioni a";
 $GLOBALS['strTargetPerDay']					= "al giorno.";
 $GLOBALS['strPriorityAutoTargeting']		= "Distribisci le visualizzazioni durante il corso delle rimanenti giornate. Il limite giornaliero di visualizzazioni verr&agrave; calcolato automaticamente.";
@@ -292,15 +288,7 @@ $GLOBALS['strBannerWeight']					= "Peso del banner";
 // Banner (swf)
 $GLOBALS['strCheckSWF']						= "Controlla per links codificati dentro il file flash";
 $GLOBALS['strConvertSWFLinks']				= "Converti links Flash";
-$GLOBALS['strConvertSWF']					= "<br>Il file Flash appena caricato contiene urls codificati. ".$phpAds_productname." non risulta ".
-											  "in grado ditracciare il numero di click per questo banner fino a quando non convertirai questi ".
-											  "urls codificati. Di seguito troverai una lista di tutti gli urls presenti nel file flash. ".
-											  "Se vuoi convertire questi urls, semplicemente clicca <b>Converti</b>, altrimenti clicca ".
-											  "<b>Cancella</b>.<br><br>".
-											  "Nota Bene: cliccando <b>Converti</b> il file flash ".
-											  "che hai appena caricato viene modificato fisicamente. <br>Tieni da parte una copia ".
-											  "di backup del file originale. Indipendentemente alla versione di flash utilizzata, il file ".
-											  "risultante necessita del plug-in Flash 4 (o superiore).<br><br>";
+$GLOBALS['strConvertSWF']					= "<br>Il file Flash appena caricato contiene urls codificati. ".$phpAds_productname." non risulta in grado ditracciare il numero di click per questo banner fino a quando non convertirai questi urls codificati. Di seguito troverai una lista di tutti gli urls presenti nel file flash. Se vuoi convertire questi urls, semplicemente clicca <b>Converti</b>, altrimenti clicca <b>Cancella</b>.<br><br> Nota Bene: cliccando <b>Converti</b> il file flash che hai appena caricato viene modificato fisicamente. <br>Tieni da parte una copia di backup del file originale. Indipendentemente alla versione di flash utilizzata, il file risultante necessita del plug-in Flash 4 (o superiore).<br><br>";
 $GLOBALS['strCompressSWF']					= "Comprimi il file SWF per uno scaricamento pi&ugrave; veloce (plug-in Flash 6 necessario)";
 
 

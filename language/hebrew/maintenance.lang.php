@@ -14,40 +14,40 @@
 
 
 // Main strings
-$GLOBALS['strChooseSection']				= "בחר מחלקה";
+$GLOBALS['strChooseSection']			= "בחר מחלקה";
 
 
 // Priority
-$GLOBALS['strRecalculatePriority']			= "שקלל קדימויות";
+$GLOBALS['strRecalculatePriority']		= "שקלל קדימויות";
 $GLOBALS['strHighPriorityCampaigns']		= "מערכות פרסום בקדימות גבוהה";
-$GLOBALS['strAdViewsAssigned']				= "הוקצו חשיפות";
-$GLOBALS['strLowPriorityCampaigns']			= "מערכות פרסום בקדימות נמוכה";
-$GLOBALS['strPredictedAdViews']				= "חשיפות צפויות";
-$GLOBALS['strPriorityDaysRunning']			= "קיימים כעת {days} ימים קבילים לסטטיסטיקה, היכן ש-phpAdsNew יכולה לבסס הערכה יומית. ";
+$GLOBALS['strAdViewsAssigned']			= "הוקצו חשיפות";
+$GLOBALS['strLowPriorityCampaigns']		= "מערכות פרסום בקדימות נמוכה";
+$GLOBALS['strPredictedAdViews']			= "חשיפות צפויות";
+$GLOBALS['strPriorityDaysRunning']		= "קיימים כעת {days} ימים קבילים לסטטיסטיקה, היכן ש-phpAdsNew יכולה לבסס הערכה יומית. ";
 $GLOBALS['strPriorityBasedLastWeek']		= "הערכה מבוססת על נתונים מהשבוע שעבר והנוכחי.  ";
 $GLOBALS['strPriorityBasedLastDays']		= "הערכה מבוססת על נתונים מהימים האחרונים.  ";
 $GLOBALS['strPriorityBasedYesterday']		= "הערכה מבוססת על נתונים מאתמול.  ";
-$GLOBALS['strPriorityNoData']				= "אין מספיק נתונים כדי ליצור הערכה אמינה לגבי מספר החשיפות ששרת פרסומות זה יפיק היום. יישום קדימויות יתבסס על סטטיסטיקות בזמן אמת בלבד.  ";
+$GLOBALS['strPriorityNoData']			= "אין מספיק נתונים כדי ליצור הערכה אמינה לגבי מספר החשיפות ששרת פרסומות זה יפיק היום. יישום קדימויות יתבסס על סטטיסטיקות בזמן אמת בלבד.  ";
 $GLOBALS['strPriorityEnoughAdViews']		= "צריכה להיות חשיפה מספקת כדי לספק את מטרת מערכות הפרסום בקדימות גבוהה.  ";
 $GLOBALS['strPriorityNotEnoughAdViews']		= "לא ברור אם יהיו מספיק חשיפות היום כדי לספק את המטרה במערכות הפרסום בעלות הקדימות הגבוהה. עקב כך כל מערכות הפרסום בעלות קדימות נמוכה משותקות כעת זמנית. ";
 
 
 // Banner cache
-$GLOBALS['strRebuildBannerCache']			= "רענן זיכרון-מטמון באנרים";
+$GLOBALS['strRebuildBannerCache']		= "רענן זיכרון-מטמון באנרים";
 $GLOBALS['strBannerCacheExplaination']		= "זיכרון-מטמון של הבאנרים מכיל כעת העתק של קוד HTML  המשמש לתצוגה של הבאנר. על ידי שימוש בזיכרון זה ניתן להאיץ את ההפצה של הבאנרים כי קוד ה-HTML לא דורש הפקה מחודשת בכל פעם שבאנר צריך להיחשף.<br> מכיוון שזיכרון הבאנר כולל קוד מוטבע של ה-URLs למיקום ה-".$phpAds_productname." והבאנרים שלו, הזיכרון צריך להתעדכן בכל פעם שה-".$phpAds_productname." מועבר למיקום אחר על השרת. ";
 
 
 // Zone cache
-$GLOBALS['strZoneCache']					= "זכרון מטמון של אזור";
-$GLOBALS['strAge']							= "בן";
-$GLOBALS['strRebuildZoneCache']				= "בנה מחדש את זכרון המטמון של אזורים";
+$GLOBALS['strZoneCache']			= "זכרון מטמון של אזור";
+$GLOBALS['strAge']				= "בן";
+$GLOBALS['strRebuildZoneCache']			= "בנה מחדש את זכרון המטמון של אזורים";
 $GLOBALS['strZoneCacheExplaination']		= "זכרון מטמון האזור נחוץ להאצת ההפצה של באנרים המקושרים לאזורים. זכרון זה מכיל העתק של כל הבאנרים המקושרים לאזור, מה שחוסך קריאות חוזרות ונשנות לבסיס הנתונים כאשר הבנרים נדרשים לתצוגה ממשית. <br>זכרון המטמון למעשה נבנה בכל פעם שנעשה שינוי לאזור מסוים או לאחד מהבאנרים שבתחומו, כך שאפשר שהוא לא יהיה מעודכן. <br>בגלל סיבה זו זכרון המטמון מתחדש כל {seconds} שניות, אך ניתן לרענן אותו גם ידנית. ";
 
 
 // Storage
-$GLOBALS['strStorage']						= "איחסון";
-$GLOBALS['strMoveToDirectory']				= "העבר את התמונות השמורות בתוך בסיס הנתונים אל תוך התיקייה.";
-$GLOBALS['strStorageExplaination']			= "הבאנרים בשימוש מקומי מאוחסנים בתוך בסיס הנתונים או בתיקייה על השרת. אם אתה שומר את הבאנרים בתוך תיקייה יפחת העומס על בסיס הנתונים ואף המהירות תואץ. ";
+$GLOBALS['strStorage']				= "איחסון";
+$GLOBALS['strMoveToDirectory']			= "העבר את התמונות השמורות בתוך בסיס הנתונים אל תוך התיקייה.";
+$GLOBALS['strStorageExplaination']		= "הבאנרים בשימוש מקומי מאוחסנים בתוך בסיס הנתונים או בתיקייה על השרת. אם אתה שומר את הבאנרים בתוך תיקייה יפחת העומס על בסיס הנתונים ואף המהירות תואץ. ";
 
 
 // Storage
@@ -55,37 +55,37 @@ $GLOBALS['strStatisticsExplaination']		= " הפעלת תצורת <i>סטטיסטיקה קומפקטית</i>
 
 
 // Product Updates
-$GLOBALS['strSearchingUpdates']				= "מחפש עדכונים. אנא המתן...";
-$GLOBALS['strAvailableUpdates']				= "עדכונים קיימים";
-$GLOBALS['strDownloadZip']					= "הורד (.zip)";
-$GLOBALS['strDownloadGZip']					= "הורד (.tar.gz)";
+$GLOBALS['strSearchingUpdates']			= "מחפש עדכונים. אנא המתן...";
+$GLOBALS['strAvailableUpdates']			= "עדכונים קיימים";
+$GLOBALS['strDownloadZip']			= "הורד (.zip)";
+$GLOBALS['strDownloadGZip']			= "הורד (.tar.gz)";
 
-$GLOBALS['strUpdateAlert']					= "גירסה חדשה של ".$phpAds_productname." יצאה לאור.                 \\n\\nהאם אתה רוצה מידע נוסף \\nאודות העדכון?";
-$GLOBALS['strUpdateAlertSecurity']			= "גירסה חדשה של ".$phpAds_productname." יצאה לאור.                 \\n\\nמומלץ מאוד לעדכן \\nבהזדמנות הקרובה ביותר, כיוון שגירסה זו \\nמכילה תיקוניים בטיחוטיים.";
+$GLOBALS['strUpdateAlert']			= "גירסה חדשה של ".$phpAds_productname." יצאה לאור.                 \\n\\nהאם אתה רוצה מידע נוסף \\nאודות העדכון?";
+$GLOBALS['strUpdateAlertSecurity']		= "גירסה חדשה של ".$phpAds_productname." יצאה לאור.                 \\n\\nמומלץ מאוד לעדכן \\nבהזדמנות הקרובה ביותר, כיוון שגירסה זו \\nמכילה תיקוניים בטיחוטיים.";
 
-$GLOBALS['strUpdateServerDown']				= "מסיבה בלתי ידועה לא ניתן להשיג<br>מידע על עדכונים אפשריים. אנא נסה שוב מאוחר יותר.";
+$GLOBALS['strUpdateServerDown']			= "מסיבה בלתי ידועה לא ניתן להשיג<br>מידע על עדכונים אפשריים. אנא נסה שוב מאוחר יותר.";
 
 $GLOBALS['strNoNewVersionAvailable']		= "הגירסה שלך של ".$phpAds_productname." מעודכנת. אין כעת עידכונים חדשים";
 
-$GLOBALS['strNewVersionAvailable']			= "<b>גירסה חדשה של ".$phpAds_productname."יצאה לאור.</b><br> מומלץ להתקין גירסה זו, כיוון שהי  עשויה לתקן כמה בעיות קיימות ותוסיף תכונות חדשות. למידע נוסף אודות השדרוג אנא קרא את התיועד הכלול בקבצים מטה. ";
+$GLOBALS['strNewVersionAvailable']		= "<b>גירסה חדשה של ".$phpAds_productname."יצאה לאור.</b><br> מומלץ להתקין גירסה זו, כיוון שהי  עשויה לתקן כמה בעיות קיימות ותוסיף תכונות חדשות. למידע נוסף אודות השדרוג אנא קרא את התיועד הכלול בקבצים מטה. ";
 
-$GLOBALS['strSecurityUpdate']				= "<b>מומלץ ביותר להתקין את העשכון הזה בהקשם האפשרי, כיוון שהוא מכיל מספר תיקוני אבטחה.</b> הגירסה של ".$phpAds_productname." בה אתה משתמש עכשיו, אפשר שהיא פגיעה להתקפות מסוימות ואולי אינה מוגנת. למידע נוסף אודות העדכון אנא קרא את התיועד הכלולל בקבצים מטה. ";
+$GLOBALS['strSecurityUpdate']			= "<b>מומלץ ביותר להתקין את העשכון הזה בהקשם האפשרי, כיוון שהוא מכיל מספר תיקוני אבטחה.</b> הגירסה של ".$phpAds_productname." בה אתה משתמש עכשיו, אפשר שהיא פגיעה להתקפות מסוימות ואולי אינה מוגנת. למידע נוסף אודות העדכון אנא קרא את התיועד הכלולל בקבצים מטה. ";
 
 
 // Stats conversion
-$GLOBALS['strConverting']					= "ממיר";
-$GLOBALS['strConvertingStats']				= "ממיר סטטיסטיקה...";
-$GLOBALS['strConvertStats']					= "המר סטטיסטיקה";
-$GLOBALS['strConvertAdViews']				= "חשיפות הומרו,";
-$GLOBALS['strConvertAdClicks']				= "הקלקות הומרו...";
-$GLOBALS['strConvertNothing']				= "אין מה להמיר...";
-$GLOBALS['strConvertFinished']				= "תם ונשלם...";
+$GLOBALS['strConverting']			= "ממיר";
+$GLOBALS['strConvertingStats']			= "ממיר סטטיסטיקה...";
+$GLOBALS['strConvertStats']			= "המר סטטיסטיקה";
+$GLOBALS['strConvertAdViews']			= "חשיפות הומרו,";
+$GLOBALS['strConvertAdClicks']			= "הקלקות הומרו...";
+$GLOBALS['strConvertNothing']			= "אין מה להמיר...";
+$GLOBALS['strConvertFinished']			= "תם ונשלם...";
 
-$GLOBALS['strConvertExplaination']			= "אתה משתמש כעת בתצורה הקומפקטית לשמירת סטטיסטיקה, אך<br> נותרו סטטיסטיקות בתצורת מלל. כל עוד תצורות המלל אינן מומרות<br>לתצורה קומפקטית, לא ייעשה בהן שימוש בזמן צפיה בעמושים אלה.<br>לפני ההמרת הסטטיסטיקה, דאג לגיבוי של בסיס הנתונים!<br>האם אתה רוצה להמיר את הסטטיסטיקה הטקסטואלית לתצורה הקומפקטית החדשה?<br>";
+$GLOBALS['strConvertExplaination']		= "אתה משתמש כעת בתצורה הקומפקטית לשמירת סטטיסטיקה, אך<br> נותרו סטטיסטיקות בתצורת מלל. כל עוד תצורות המלל אינן מומרות<br>לתצורה קומפקטית, לא ייעשה בהן שימוש בזמן צפיה בעמושים אלה.<br>לפני ההמרת הסטטיסטיקה, דאג לגיבוי של בסיס הנתונים!<br>האם אתה רוצה להמיר את הסטטיסטיקה הטקסטואלית לתצורה הקומפקטית החדשה?<br>";
 
 $GLOBALS['strConvertingExplaination']		= "כל הסטטיסטיקה הטקסטואלית שנותרה מומרת כעת לתצורה קומפקטית.<br>תלוי בכמות החשיפות השמורה בתצורה הקושמת, זה יכול<br>לקחת כמה דקות. אנא המתן עד שתהליך ההמרה התסיים לפני שתעבור לעמודים אחרים.<br>למטה תוכל לראות יומן של כל השינויים שנעשו לבסיס הנתונים<br>. ";
 
-$GLOBALS['strConvertFinishedExplaination']  = "המרת הסטטיסטיקה הטקסטואלית שנותרה עברה בהצלחה<br> והנתנוים צריכים להיות שמישים שוב. למטה תוכל לראות יומן של כל השינויים שנעשו בבסיס הנתונים.<br> ";
+$GLOBALS['strConvertFinishedExplaination']  	= "המרת הסטטיסטיקה הטקסטואלית שנותרה עברה בהצלחה<br> והנתנוים צריכים להיות שמישים שוב. למטה תוכל לראות יומן של כל השינויים שנעשו בבסיס הנתונים.<br> ";
 
 
 ?>

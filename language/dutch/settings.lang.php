@@ -126,8 +126,9 @@ $GLOBALS['strAllowLocalmode']			= "Gebruik Lokale mode";
 $GLOBALS['strAllowInterstitial']		= "Gebruik Interstitials";
 $GLOBALS['strAllowPopups']			= "Gebruik Popups";
 
-$GLOBALS['strUseAcl']					= "Gebruik leveringsbeperkingen";
-$GLOBALS['strGeotrackingLocation'] 		= "IP2Country geotracking<br> database locatie";
+$GLOBALS['strUseAcl']				= "Gebruik leveringsbeperkingen";
+$GLOBALS['strGeotrackingType']			= "Geotracking database type";
+$GLOBALS['strGeotrackingLocation'] 		= "Geotracking database locatie";
 
 $GLOBALS['strKeywordRetrieval']			= "Sleutelwoord selectie";
 $GLOBALS['strBannerRetrieval']			= "Banner selectie methode";
@@ -210,8 +211,8 @@ $GLOBALS['strAutoCleanTables']			= "Database opschoning";
 $GLOBALS['strAutoCleanStats']			= "Schoon statistieken op";
 $GLOBALS['strAutoCleanUserlog']			= "Schoon gebruikerslog op";
 $GLOBALS['strAutoCleanStatsWeeks']		= "Maximale leeftijd statistieken <br>(minimaal 3 weken)";
-$GLOBALS['strAutoCleanUserlogWeeks']	= "Maximale leeftijd gebruikerslog <br>(minimaal 3 weken)";
-$GLOBALS['strAutoCleanErr']				= "De maximale leeftijd moet minstens drie weken zijn";
+$GLOBALS['strAutoCleanUserlogWeeks']		= "Maximale leeftijd gebruikerslog <br>(minimaal 3 weken)";
+$GLOBALS['strAutoCleanErr']			= "De maximale leeftijd moet minstens drie weken zijn";
 $GLOBALS['strAutoCleanVacuum']			= "VACUUM ANALYZE tabellen elke nacht"; // only Pg
 
 

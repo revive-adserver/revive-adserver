@@ -16,7 +16,7 @@
 
 // Invocation Types
 $GLOBALS['strInvocationRemote']			= "Remote Invocation";
-$GLOBALS['strInvocationJS']				= "Remote Invocation for Javascript";
+$GLOBALS['strInvocationJS']			= "Remote Invocation for Javascript";
 $GLOBALS['strInvocationIframes']		= "Remote Invocation for Frames";
 $GLOBALS['strInvocationXmlRpc']			= "Remote Invocation using XML-RPC";
 $GLOBALS['strInvocationCombined']		= "Combined Remote Invocation";
@@ -30,8 +30,8 @@ $GLOBALS['strCopyToClipboard']			= "Copy to clipboard";
 
 
 // Measures
-$GLOBALS['strAbbrPixels']				= "px";
-$GLOBALS['strAbbrSeconds']				= "sec";
+$GLOBALS['strAbbrPixels']			= "px";
+$GLOBALS['strAbbrSeconds']			= "sec";
 
 
 // Common Invocation Parameters
@@ -40,28 +40,28 @@ $GLOBALS['strInvocationClientID']		= "Advertiser or campaign";
 $GLOBALS['strInvocationTarget']			= "Target frame";
 $GLOBALS['strInvocationSource']			= "Source";
 $GLOBALS['strInvocationWithText']		= "Show text below banner";
-$GLOBALS['strInvocationDontShowAgain']	= "Don't show the banner again on the same page";
+$GLOBALS['strInvocationDontShowAgain']		= "Don't show the banner again on the same page";
 $GLOBALS['strInvocationTemplate'] 		= "Store the banner inside a variable so it can be used in a template";
 
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter']		= "Refresh after";
 $GLOBALS['strIframeResizeToBanner']		= "Resize iframe to banner dimensions";
-$GLOBALS['strIframeMakeTransparent']	= "Make the iframe transparent";
-$GLOBALS['strIframeIncludeNetscape4']	= "Include Netscape 4 compatible ilayer";
+$GLOBALS['strIframeMakeTransparent']		= "Make the iframe transparent";
+$GLOBALS['strIframeIncludeNetscape4']		= "Include Netscape 4 compatible ilayer";
 
 
 // PopUp
-$GLOBALS['strPopUpStyle']				= "Pop-up type";
+$GLOBALS['strPopUpStyle']			= "Pop-up type";
 $GLOBALS['strPopUpStylePopUp']			= "Pop-up";
 $GLOBALS['strPopUpStylePopUnder']		= "Pop-under";
 $GLOBALS['strPopUpCreateInstance']		= "Instance when the pop-up is created";
 $GLOBALS['strPopUpImmediately']			= "Immediately";
-$GLOBALS['strPopUpOnClose']				= "When the page is closed";
+$GLOBALS['strPopUpOnClose']			= "When the page is closed";
 $GLOBALS['strPopUpAfterSec']			= "After";
 $GLOBALS['strAutoCloseAfter']			= "Automatically close after";
-$GLOBALS['strPopUpTop']					= "Initial position (top)";
-$GLOBALS['strPopUpLeft']				= "Initial position (left)";
+$GLOBALS['strPopUpTop']				= "Initial position (top)";
+$GLOBALS['strPopUpLeft']			= "Initial position (left)";
 
 
 // XML-RPC
@@ -69,45 +69,45 @@ $GLOBALS['strXmlRpcLanguage']			= "Host language";
 
 
 // AdLayer
-$GLOBALS['strAdLayerStyle']				= "Style";
+$GLOBALS['strAdLayerStyle']			= "Style";
 
-$GLOBALS['strAlignment']				= "Alignment";
-$GLOBALS['strHAlignment']				= "Horizontal alignment";
-$GLOBALS['strLeft']						= "Left";
-$GLOBALS['strCenter']					= "Center";
-$GLOBALS['strRight']					= "Right";
+$GLOBALS['strAlignment']			= "Alignment";
+$GLOBALS['strHAlignment']			= "Horizontal alignment";
+$GLOBALS['strLeft']				= "Left";
+$GLOBALS['strCenter']				= "Center";
+$GLOBALS['strRight']				= "Right";
 
-$GLOBALS['strVAlignment']				= "Vertical alignment";
-$GLOBALS['strTop']						= "Top";
-$GLOBALS['strMiddle']					= "Middle";
-$GLOBALS['strBottom']					= "Bottom";
+$GLOBALS['strVAlignment']			= "Vertical alignment";
+$GLOBALS['strTop']				= "Top";
+$GLOBALS['strMiddle']				= "Middle";
+$GLOBALS['strBottom']				= "Bottom";
 
 $GLOBALS['strAutoCollapseAfter']		= "Automatically collapse after";
-$GLOBALS['strCloseText']				= "Close text";
-$GLOBALS['strClose']					= "[Close]";
+$GLOBALS['strCloseText']			= "Close text";
+$GLOBALS['strClose']				= "[Close]";
 $GLOBALS['strBannerPadding']			= "Banner padding";
 
-$GLOBALS['strHShift']					= "Horizontal shift";
-$GLOBALS['strVShift']					= "Vertical shift";
+$GLOBALS['strHShift']				= "Horizontal shift";
+$GLOBALS['strVShift']				= "Vertical shift";
 
 $GLOBALS['strShowCloseButton']			= "Show close button";
 $GLOBALS['strBackgroundColor']			= "Background color";
-$GLOBALS['strBorderColor']				= "Border color";
+$GLOBALS['strBorderColor']			= "Border color";
 
-$GLOBALS['strDirection']				= "Direction";
-$GLOBALS['strLeftToRight']				= "Left to right";
-$GLOBALS['strRightToLeft']				= "Right to left";
-$GLOBALS['strLooping']					= "Looping";
-$GLOBALS['strAlwaysActive']				= "Always active";
-$GLOBALS['strSpeed']					= "Speed";
-$GLOBALS['strPause']					= "Pause";
-$GLOBALS['strLimited']					= "Limited";
-$GLOBALS['strLeftMargin']				= "Left margin";
-$GLOBALS['strRightMargin']				= "Right margin";
-$GLOBALS['strTransparentBackground']	= "Transparent background";
+$GLOBALS['strDirection']			= "Direction";
+$GLOBALS['strLeftToRight']			= "Left to right";
+$GLOBALS['strRightToLeft']			= "Right to left";
+$GLOBALS['strLooping']				= "Looping";
+$GLOBALS['strAlwaysActive']			= "Always active";
+$GLOBALS['strSpeed']				= "Speed";
+$GLOBALS['strPause']				= "Pause";
+$GLOBALS['strLimited']				= "Limited";
+$GLOBALS['strLeftMargin']			= "Left margin";
+$GLOBALS['strRightMargin']			= "Right margin";
+$GLOBALS['strTransparentBackground']		= "Transparent background";
 
 
-$GLOBALS['strAdLayerStyleName']				= array(
+$GLOBALS['strAdLayerStyleName']	= array(
 	'geocities'		=> "Geocities",
 	'simple'		=> "Simple",
 	'cursor'		=> "Cursor",

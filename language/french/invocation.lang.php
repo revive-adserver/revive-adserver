@@ -15,18 +15,18 @@
 
 
 // Invocation Types
-$GLOBALS['strInvocationRemote']		= "Invocation distante";
+$GLOBALS['strInvocationRemote']			= "Invocation distante";
 $GLOBALS['strInvocationJS']			= "Invocation distante avec Javascript";
 $GLOBALS['strInvocationIframes']		= "Invocation distante avec Frames";
-$GLOBALS['strInvocationXmlRpc']		= "Invocation distante avec XML-RPC";
+$GLOBALS['strInvocationXmlRpc']			= "Invocation distante avec XML-RPC";
 $GLOBALS['strInvocationCombined']		= "Invocation distante combinée";
-$GLOBALS['strInvocationPopUp']		= "Popup";
+$GLOBALS['strInvocationPopUp']			= "Popup";
 $GLOBALS['strInvocationAdLayer']		= "Interstitiel ou DHTML flottant";
-$GLOBALS['strInvocationLocal']		= "Mode local";
+$GLOBALS['strInvocationLocal']			= "Mode local";
 
 
 // Other
-$GLOBALS['strCopyToClipboard']		= "Copier dans le presse-papiers";
+$GLOBALS['strCopyToClipboard']			= "Copier dans le presse-papiers";
 
 
 // Measures
@@ -37,24 +37,28 @@ $GLOBALS['strAbbrSeconds']			= "secondes";
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat']			= "Sélection de la bannière";
 $GLOBALS['strInvocationClientID']		= "Annonceur ou campagne";
-$GLOBALS['strInvocationTarget']		= "Frame de destination";
-$GLOBALS['strInvocationSource']		= "Origine";
+$GLOBALS['strInvocationTarget']			= "Frame de destination";
+$GLOBALS['strInvocationSource']			= "Origine";
 $GLOBALS['strInvocationWithText']		= "Montrer du texte sous la bannière";
-$GLOBALS['strInvocationDontShowAgain']	= "Ne pas remontrer la même bannière sur la même page";
+$GLOBALS['strInvocationDontShowAgain']		= "Ne pas remontrer la même bannière sur la même page";
 $GLOBALS['strInvocationTemplate'] 		= "Stocker la bannière dans une variable afin de l'utiliser dans un template";
 
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter']		= "Rafraîchir après";
 $GLOBALS['strIframeResizeToBanner']		= "Redimensionner l'iframe à la taille de la bannière";
-$GLOBALS['strIframeMakeTransparent']	= "Make the iframe transparent";
-$GLOBALS['strIframeIncludeNetscape4']	= "Inclure l'ilayer compatible Netscape 4";
+$GLOBALS['strIframeMakeTransparent']		= "Make the iframe transparent";
+$GLOBALS['strIframeIncludeNetscape4']		= "Inclure l'ilayer compatible Netscape 4";
 
 
 // PopUp
 $GLOBALS['strPopUpStyle']			= "Type de Popup";
-$GLOBALS['strPopUpStylePopUp']		= "Popup Avant-plan";
+$GLOBALS['strPopUpStylePopUp']			= "Popup Avant-plan";
 $GLOBALS['strPopUpStylePopUnder']		= "Popup Arrière-plan";
+$GLOBALS['strPopUpCreateInstance']		= "Instance when the pop-up is created";
+$GLOBALS['strPopUpImmediately']			= "Immediately";
+$GLOBALS['strPopUpOnClose']			= "When the page is closed";
+$GLOBALS['strPopUpAfterSec']			= "After";
 $GLOBALS['strAutoCloseAfter']			= "Fermer automatiquement après";
 $GLOBALS['strPopUpTop']				= "Position initiale (haut)";
 $GLOBALS['strPopUpLeft']			= "Position initiale (gauche)";
@@ -86,8 +90,8 @@ $GLOBALS['strBannerPadding']			= "Espace bordure/bannière";
 $GLOBALS['strHShift']				= "Décalage horizontal";
 $GLOBALS['strVShift']				= "Décalage vertical";
 
-$GLOBALS['strShowCloseButton']		= "Montrer le bouton de fermeture";
-$GLOBALS['strBackgroundColor']		= "Couleur d'arrière-plan";
+$GLOBALS['strShowCloseButton']			= "Montrer le bouton de fermeture";
+$GLOBALS['strBackgroundColor']			= "Couleur d'arrière-plan";
 $GLOBALS['strBorderColor']			= "Couleur de bordure";
 
 $GLOBALS['strDirection']			= "Direction";
@@ -100,13 +104,14 @@ $GLOBALS['strPause']				= "Pause entre chaque passage";
 $GLOBALS['strLimited']				= "Limité";
 $GLOBALS['strLeftMargin']			= "Marge gauche";
 $GLOBALS['strRightMargin']			= "Marge droite";
-$GLOBALS['strTransparentBackground']	= "Arrière-plan transparent";
+$GLOBALS['strTransparentBackground']		= "Arrière-plan transparent";
 
-$GLOBALS['strAdLayerStyleName']		= array(
-								'geocities'		=> "Type Geocities",
-								'simple'		=> "Simple",
-								'cursor'		=> "Curseur",
-								'floater'		=> "Flottant"
-							);
+
+$GLOBALS['strAdLayerStyleName']	= array(
+	'geocities'		=> "Type Geocities",
+	'simple'		=> "Simple",
+	'cursor'		=> "Curseur",
+	'floater'		=> "Flottant"
+);
 
 ?>

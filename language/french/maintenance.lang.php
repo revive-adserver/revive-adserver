@@ -14,26 +14,26 @@
 
 
 // Main strings
-$GLOBALS['strChooseSection']				= "Choisissez une section";
+$GLOBALS['strChooseSection']			= "Choisissez une section";
 
 
 // Priority
-$GLOBALS['strRecalculatePriority']			= "Recalculer les priorités";
+$GLOBALS['strRecalculatePriority']		= "Recalculer les priorités";
 $GLOBALS['strHighPriorityCampaigns']		= "Campagnes avec une priorité haute";
 $GLOBALS['strAdViewsAssigned']			= "Affichages assignés";
-$GLOBALS['strLowPriorityCampaigns']			= "Campagnes avec une priorité basse";
+$GLOBALS['strLowPriorityCampaigns']		= "Campagnes avec une priorité basse";
 $GLOBALS['strPredictedAdViews']			= "Affichages prévus";
-$GLOBALS['strPriorityDaysRunning']			= "Il y a actuellement {days} jours de statistiques disponibles à partir desquels ".$phpAds_productname." peut effectuer ses prévisions. ";
+$GLOBALS['strPriorityDaysRunning']		= "Il y a actuellement {days} jours de statistiques disponibles à partir desquels ".$phpAds_productname." peut effectuer ses prévisions. ";
 $GLOBALS['strPriorityBasedLastWeek']		= "Les prévisions sont basées sur les données de cette semaine et de la semaine passée. ";
 $GLOBALS['strPriorityBasedLastDays']		= "Les prévisions sont basées sur les données des derniers jours. ";
 $GLOBALS['strPriorityBasedYesterday']		= "Les prévisions sont basées sur les données d'hier. ";
-$GLOBALS['strPriorityNoData']				= "Il n'y a pas assez de données disponible pour effectuer des prévisions réalistes à propos du nombre d'affichages que ce serveur de publicités va enregistrer aujourd'hui. L'assignement des priorités ne sera basé que sur des statistiques en temps réel. ";
+$GLOBALS['strPriorityNoData']			= "Il n'y a pas assez de données disponible pour effectuer des prévisions réalistes à propos du nombre d'affichages que ce serveur de publicités va enregistrer aujourd'hui. L'assignement des priorités ne sera basé que sur des statistiques en temps réel. ";
 $GLOBALS['strPriorityEnoughAdViews']		= "Il devrait y avoir suffisament d'affichages pour satisfaire complètement les objectifs de toutes les campagnes haute priorité. ";
 $GLOBALS['strPriorityNotEnoughAdViews']		= "Il n'est pas certains qu'il y aura assez d'affichages aujourd'hui pour satisfaire les objectifs de toutes les campagnes haute priorité. C'est pourquoi toutes les campagnes basse priorité sont temporairement désactivées. ";
 
 
 // Banner cache
-$GLOBALS['strRebuildBannerCache']			= "Reconstuire le cache des bannières";
+$GLOBALS['strRebuildBannerCache']		= "Reconstuire le cache des bannières";
 $GLOBALS['strBannerCacheExplaination']		= "
 	Le cache des bannières contient une copie du code HTML qui est utilisé pour afficher la bannière. En utilisant
 	ce cache de bannière, il est possible d'accélérer la distribution des bannières, car le code HTML n'a plus
@@ -43,8 +43,8 @@ $GLOBALS['strBannerCacheExplaination']		= "
 
 
 // Zone cache
-$GLOBALS['strZoneCache']				= "Cache des zones";
-$GLOBALS['strAge']					= "Age";
+$GLOBALS['strZoneCache']			= "Cache des zones";
+$GLOBALS['strAge']				= "Age";
 $GLOBALS['strRebuildZoneCache']			= "Reconstruire le cache des zones";
 $GLOBALS['strZoneCacheExplaination']		= "
 	Le cache des zones est utilisé pour accélérer la distribution des bannières qui sont liées aux zones.
@@ -57,9 +57,9 @@ $GLOBALS['strZoneCacheExplaination']		= "
 
 
 // Storage
-$GLOBALS['strStorage']					= "Stockage";
+$GLOBALS['strStorage']				= "Stockage";
 $GLOBALS['strMoveToDirectory']			= "Déplacer les images stockées dans la base de données vers un répertoire";
-$GLOBALS['strStorageExplaination']			= "
+$GLOBALS['strStorageExplaination']		= "
 	Les images utilisées par les bannières locales sont stockées dans la base de données, ou dans un répertoire.
 	Si vous stockez les images dans un répertoire, la charge de la base de données diminuera, et la vitesse
 	augmentera.
@@ -76,11 +76,11 @@ $GLOBALS['strStatisticsExplaination']		= "
 // Product Updates
 $GLOBALS['strSearchingUpdates']			= "Recherche de mises à jour. Merci de patienter...";
 $GLOBALS['strAvailableUpdates']			= "Mises à jour disponibles";
-$GLOBALS['strDownloadZip']				= "Télécharger (.zip)";
-$GLOBALS['strDownloadGZip']				= "Télécharger (.tar.gz)";
+$GLOBALS['strDownloadZip']			= "Télécharger (.zip)";
+$GLOBALS['strDownloadGZip']			= "Télécharger (.tar.gz)";
 
-$GLOBALS['strUpdateAlert']				= "Une nouvelle version de ".$phpAds_productname." est disponible.                 \\n\\nVoulez vous des informations supplémentaires \\nà son propos ?";
-$GLOBALS['strUpdateAlertSecurity']			= "Une nouvelle version de ".$phpAds_productname." est disponible.                 \\n\\nIl est hautement recommandé de mettre à jour\\naussitôt que possible, car cette version \\ncontient un ou plusieurs correctifs de sécurité.";
+$GLOBALS['strUpdateAlert']			= "Une nouvelle version de ".$phpAds_productname." est disponible.                 \\n\\nVoulez vous des informations supplémentaires \\nà son propos ?";
+$GLOBALS['strUpdateAlertSecurity']		= "Une nouvelle version de ".$phpAds_productname." est disponible.                 \\n\\nIl est hautement recommandé de mettre à jour\\naussitôt que possible, car cette version \\ncontient un ou plusieurs correctifs de sécurité.";
 
 $GLOBALS['strUpdateServerDown']			= "
 	A cause d'une raison inconnue, il est impossible de récupérer <br>
@@ -91,14 +91,14 @@ $GLOBALS['strNoNewVersionAvailable']		= "
 	Votre version de ".$phpAds_productname." est à jour. Il n'y a actuellement aucune mise à jour disponible.
 ";
 
-$GLOBALS['strNewVersionAvailable']			= "
+$GLOBALS['strNewVersionAvailable']		= "
 	<b>Une nouvelle version de ".$phpAds_productname." est disponible.</b><br> Il est recommandé d'installer cette
 	mise à jour, car elle peut régler certains problèmes existants actuellement, et ajouter de nouvelles
 	fonctionnalités. Pour plus d'informations concernant la mise à jour, merci de lire la documentation
 	qui est inclus dans les fichiers ci-dessous.
 ";
 
-$GLOBALS['strSecurityUpdate']				= "
+$GLOBALS['strSecurityUpdate']			= "
 	<b>Il est hautement recommandé d'installer cette mise à jour le plus tôt possible, car elle contient des
 	correctifs de sécurité.</b> La version de ".$phpAds_productname." que vous utilisez actuellement pourrait
 	être vulnérable à certaines attaques, et n'est probablement pas sure. Pour plus d'informations concernant
@@ -107,15 +107,15 @@ $GLOBALS['strSecurityUpdate']				= "
 
 
 // Stats conversion
-$GLOBALS['strConverting']				= "Conversion";
+$GLOBALS['strConverting']			= "Conversion";
 $GLOBALS['strConvertingStats']			= "Conversion des statistiques...";
-$GLOBALS['strConvertStats']				= "Convertir les statistiques";
-$GLOBALS['strConvertAdViews']				= "affichages convertis,";
+$GLOBALS['strConvertStats']			= "Convertir les statistiques";
+$GLOBALS['strConvertAdViews']			= "affichages convertis,";
 $GLOBALS['strConvertAdClicks']			= "clics convertis...";
-$GLOBALS['strConvertNothing']				= "Rien à convertir...";
+$GLOBALS['strConvertNothing']			= "Rien à convertir...";
 $GLOBALS['strConvertFinished']			= "Fini...";
 
-$GLOBALS['strConvertExplaination']			= "
+$GLOBALS['strConvertExplaination']		= "
 	Vous utilisez actuellement le format compact pour stocker vos statistiques, mais il<br>
 	y a encore quelques statistiques au format détaillé. Aussi longtemps que les statistiques<br>
 	seront en format détaillé, le format compact ne sera pas utilisé pour voir ces pages.<br><br>
