@@ -23,7 +23,7 @@ $GLOBALS['strHighPriorityCampaigns']		= "High priority campaigns";
 $GLOBALS['strAdViewsAssigned']				= "AdViews assigned";
 $GLOBALS['strLowPriorityCampaigns']			= "Low priority campaigns";
 $GLOBALS['strPredictedAdViews']				= "Predicted AdViews";
-$GLOBALS['strPriorityDaysRunning']			= "There are currently {days} days worth of statistics available from where phpAdsNew can base its daily prediction on. ";
+$GLOBALS['strPriorityDaysRunning']			= "There are currently {days} days worth of statistics available from where ".$phpAds_productname." can base its daily prediction on. ";
 $GLOBALS['strPriorityBasedLastWeek']		= "The prediction is based on data from this week and last week. ";
 $GLOBALS['strPriorityBasedLastDays']		= "The prediction is based on data from the last couple of days. ";
 $GLOBALS['strPriorityBasedYesterday']		= "The prediction is based on data from yesterday. ";
@@ -37,8 +37,8 @@ $GLOBALS['strRebuildBannerCache']			= "Rebuild banner cache";
 $GLOBALS['strBannerCacheExplaination']		= "
 	The banner cache contains a copy of the HTML code which is used to display the banner. By using a banner cache it is possible to speed
 	up the delivery of banners because the HTML code doesn't need to be generated every time a banner is being delivered. Because the
-	banner cache contains hard coded URLs to the location of phpAdsNew and its banners, the cache needs to be updated
-	everytime phpAdsNew is moved to another location on the webserver.
+	banner cache contains hard coded URLs to the location of ".$phpAds_productname." and its banners, the cache needs to be updated
+	everytime ".$phpAds_productname." is moved to another location on the webserver.
 ";
 
 
