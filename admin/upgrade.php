@@ -141,7 +141,7 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	
 	// Check privileges and writability of config file
-	if ($step == 1 || $step == 2)
+	if ($upgrade && ($step == 1 || $step == 2))
 	{
 		$checkconfig = phpAds_isConfigWritable();
 		
@@ -254,7 +254,7 @@ if (phpAds_isUser(phpAds_Admin))
 		// Setup busy indicator
 		phpAds_PageHeader("1");
 		echo "<br><br><img src='images/install-busy.gif' align='absmiddle'>&nbsp;";
-		echo "<span class='install'>".'Rebuilding cache...'."</span>";
+		echo "<span class='install'>".$strSystemRebuildingCache."</span>";
 		phpAds_PageFooter();
 		
 		// Update banner cache off all banners
