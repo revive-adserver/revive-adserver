@@ -24,6 +24,8 @@ while ($row_banners = mysql_fetch_array($res_banners))
 		<?
 		if ($row_banners["format"] == "html")
 			print htmlspecialchars(stripslashes($row_banners["banner"]));
+		elseif($row_banners["format"] == "url")
+			print "<p><img src=\"$row_banners[banner]\" width=$row_banners[width] height=$row_banners[height]>";
 		else
 			print "<p><img src=\"./viewbanner.php$fncpageid&bannerID=$row_banners[bannerID]\" width=$row_banners[width] height=$row_banners[height]>";
 		?>
@@ -116,7 +118,7 @@ if($gdimageformat != "none" && $totaladviews > 0)
 {
 ?>
 	<tr>
-		<td bgcolor="#CCCCCC" colspan=2 width="90%" align="center"><img  src="sphourly.php?where=<?$where = ereg_replace("OR$", "", $where); echo urlencode("$where");?>" border="0" width="385" height="150"></td>
+		<td bgcolor="#CCCCCC" colspan=2 width="90%" align="center"><img src="sphourly.php?where=<?$where = ereg_replace("OR$", "", $where); echo urlencode("$where");?>" border="0" width="385" height="150"></td>
 	</tr>
 <?
 }
