@@ -1,0 +1,38 @@
+
+  This file contains a list of the all the changes
+  made to the reference (english) translation files.
+  If you want to update your own language file, this
+  information will be very useful because it will list
+  all the strings which were updated or added. If you
+  encounter a modified string, please look in the 
+  reference (english) file to see if you existing
+  translation is still valid and update if appropriate.
+
+  [U] = updated, [+] = added, [-] = removed
+
+  ====================================================
+
+  15-09-2002 - default
+    [+] strDelimiter
+    [+] strErrorUploadSecurity
+    [+] strErrorUploadBasedir
+    [+] strErrorUploadUnknown
+    [+] strErrorStoreLocal
+    [+] strErrorStoreFTP
+  
+  15-09-2002 - report (new file)
+    [+] strPluginAffiliate
+    [+] strPluginCampaign
+    [+] strPluginClient
+    [+] strPluginGlobal
+    [+] strPluginZone
+    
+  ====================================================
+
+  15-09-2002 - All official language files should be
+  up-to-date or untranslated strings should be available
+  in english in the language specific files. From now
+  on changes will only be made in the english file. You
+  can use this changelog file to see the strings you need
+  to add or modify to make your file up-to-date.
+ 
