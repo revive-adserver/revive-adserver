@@ -113,8 +113,4 @@ if (empty($phpAds_path)) {
 if (empty($phpAds_path))
     $phpAds_path = ".";
 
-// I recommend you leave config.inc.php alone and override all variables
-// in config2.inc.php.  This should make future upgrades easier.
-include("$phpAds_path/config2.inc.php");
-
 ?>

@@ -1,3 +1,12 @@
+phpAdsNew 1.9.x -> phpAdsNew 1.9.2
+
+I removed the config2.inc.php support.  It caused too much confusion.  
+A better database-config mechanism is in planning stages.
+
+Also, the stats database changed from 1.9.0 because "when" is not an
+allowed field name in mySQL 3.23.
+
+----------------------
 
 phpAdsNew 1.8 -> phpAdsNew 1.9
 
@@ -9,7 +18,7 @@ There is a new statistics table in mysql.  The new config DEFAULTS to
 using this new statistics model.  Some information is lost in the new
 stats model that was saved before (eg. the host IP or address of everyone
 who ever saw or clicked on any ad).  You probably won't notice, but if
-you do care, turn off compact stats in config2.inc.php.
+you do care, turn off compact stats in config.inc.php.
 
 Also, the new stats table must be added to your mysql database.  See the
 definition of the adstats table in all.sql.

@@ -1,5 +1,8 @@
 phpAdsNew - ChangeLog
-CVS			+ Bugfix: removed hourly graph for compact statistics (Niels)
+
+v 1.9.2 - 08/03/2001
+			+ Removed config2.inc.php (Phil)
+			+ Bugfix: removed hourly graph for compact statistics (Niels)
 			+ Bugfix: client statistics is working again, no more SQL errors (Niels)
 			+ Bugfix: improved detection of GD availability for PHP4 (Niels)
 			+ Bugfix: removed GD dependancy for weekly stats, no more broken image (Niels)
