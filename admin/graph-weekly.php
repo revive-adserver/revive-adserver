@@ -79,7 +79,7 @@ else
     		DATE_FORMAT(t_stamp,'".$mysql_week_sign."'),
     		DATE_FORMAT(t_stamp,'%Y".$mysql_week_sign."') AS week 
     	FROM
-    		".$GLOBALS['phpAds_tbl_adviews']."
+    		".$phpAds_config['tbl_adviews']."
     	$where
     	GROUP BY 
     		week
@@ -93,7 +93,7 @@ else
     		DATE_FORMAT(t_stamp,'".$mysql_week_sign."'),
     		DATE_FORMAT(t_stamp,'%Y".$mysql_week_sign."') AS week 
     	FROM
-    		".$GLOBALS['phpAds_tbl_adclicks']."
+    		".$phpAds_config['tbl_adclicks']."
     	$where
     	GROUP BY 
     		week
