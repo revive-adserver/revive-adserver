@@ -23,6 +23,7 @@ phpAdsNew 2.0.1		+ Misc bugfixes
 					 - Creating a popup with the toolbar visible now works
 					 - Creating a popup that appears 'when the page is closed' now also appears when the window is closed
 			  - 2003-10-27:  The delivery cache is now split into two for a (hopefully) small speed-up  (Niels)
+			  - 2003-10-28:  Moving zones to another publisher didn't work on the Advanced and Invocationcode pages  (Niels)
 			  
 
 
