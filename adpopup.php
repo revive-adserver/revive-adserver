@@ -243,10 +243,10 @@ window.onunload = <?php echo $windowid; ?>_pop;
 
 <?php } elseif (isset($delay) && $delay > 0) { ?>
 
-window.setTimeout("phpAds_pop<?php echo $windowid; ?>();", <?php echo $delay * 1000; ?>);
+window.setTimeout("<?php echo $windowid; ?>_pop();", <?php echo $delay * 1000; ?>);
 
 <?php } else {?>
 
-phpAds_pop<?php echo $windowid; ?>();
+<?php echo $windowid; ?>_pop();
 
 <?php } ?>
