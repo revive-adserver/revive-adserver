@@ -6,11 +6,6 @@
 /*                                                                      */
 /* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
-/* phpPgAds                                                             */
-/* ========                                                             */
-/*                                                                      */
-/* Copyright (c) 2001 by the phpPgAds developers                        */
-/* http://sourceforge.net/projects/phppgads                             */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -94,12 +89,12 @@ $GLOBALS['strMailSubjectDeleted'] = "Gedeactiveerde banners";
 $GLOBALS['strMailHeader'] = "Geachte {contact},\n";
 $GLOBALS['strMailBannerStats'] = "Bijgevoegd vind u de banner-statistieken van {clientname}:";
 $GLOBALS['strMailFooter'] = "Met vriendelijke groet,\n    {adminfullname}";
-$GLOBALS['strLogMailSent'] = "[phpPgAds] Statistieken successvol verzonden.";
-$GLOBALS['strLogErrorClients'] = "[phpPgAds] Er is een fout opgetreden. De klanten konden niet worden opgevraagd vanuit de database.";
-$GLOBALS['strLogErrorBanners'] = "[phpPgAds] Er is een fout opgetreden. De banners konden niet worden opgevraagd vanuit de database.";
-$GLOBALS['strLogErrorViews'] = "[phpPgAds] Er is een fout opgetreden. De AdViews konden niet worden opgevraagd vanuit de database.";
-$GLOBALS['strLogErrorClicks'] = "[phpPgAds] Er is een fout opgetreden. De AdClicks konden niet worden opgevraagd vanuit de database.";
-$GLOBALS['strLogErrorDisactivate'] = "[phpPgAds] Er is een fout opgetreden. De banner kon niet gedeactiveerd worden.";
+$GLOBALS['strLogMailSent'] = "[phpAdsNew] Statistieken successvol verzonden.";
+$GLOBALS['strLogErrorClients'] = "[phpAdsNew] Er is een fout opgetreden. De klanten konden niet worden opgevraagd vanuit de database.";
+$GLOBALS['strLogErrorBanners'] = "[phpAdsNew] Er is een fout opgetreden. De banners konden niet worden opgevraagd vanuit de database.";
+$GLOBALS['strLogErrorViews'] = "[phpAdsNew] Er is een fout opgetreden. De AdViews konden niet worden opgevraagd vanuit de database.";
+$GLOBALS['strLogErrorClicks'] = "[phpAdsNew] Er is een fout opgetreden. De AdClicks konden niet worden opgevraagd vanuit de database.";
+$GLOBALS['strLogErrorDisactivate'] = "[phpAdsNew] Er is een fout opgetreden. De banner kon niet gedeactiveerd worden.";
 $GLOBALS['strRatio'] = "Click-Through Ratio";
 $GLOBALS['strChooseBanner'] = "Gelieve het type banner te kiezen.";
 $GLOBALS['strMySQLBanner'] = "Banner opgeslagen in SQL";

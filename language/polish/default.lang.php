@@ -6,11 +6,6 @@
 /*                                                                      */
 /* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
-/* phpPgAds                                                             */
-/* ========                                                             */
-/*                                                                      */
-/* Copyright (c) 2001 by the phpPgAds developers                        */
-/* http://sourceforge.net/projects/phppgads                             */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -26,7 +21,7 @@ $GLOBALS['phpAds_CharSet'] = "iso-8859-2";
 $GLOBALS['strHome'] = "Strona G³ówna";
 $GLOBALS['date_format'] = "%d/%m/%Y";
 $GLOBALS['time_format'] = "%H:%i:%S";
-$GLOBALS['strMySQLError'] = "MySQL-B³±d:";
+$GLOBALS['strMySQLError'] = "MySQl-B³±d:";
 $GLOBALS['strAdminstration'] = "Administacja";
 $GLOBALS['strAddClient'] = "Dodaj nowego klienta";
 $GLOBALS['strModifyClient'] = "Modyfikuj klienta";

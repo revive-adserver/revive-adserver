@@ -1,4 +1,4 @@
-<?php // $Revision: $
+<?php // $Revision: 1.8 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -6,11 +6,6 @@
 /*                                                                      */
 /* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
-/* phpPgAds                                                             */
-/* ========                                                             */
-/*                                                                      */
-/* Copyright (c) 2001 by the phpPgAds developers                        */
-/* http://sourceforge.net/projects/phppgads                             */
 /* Translations by Stefan Morgenroth (dandra@users.sf.net)              */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
@@ -31,27 +26,27 @@ $GLOBALS['strOtherSettings']			= "Sonstige Einstellungen";
 
 $GLOBALS['strWarning']					= "Warnung";
 $GLOBALS['strFatalError']				= "Ein fataler Fehler ist aufgetreten";
-$GLOBALS['strAlreadyInstalled']			= "phpPgAds ist bereits auf diesem System installiert. Zur Konfiguration bitte das <a href='settings-index.php'>Einstellungsinterface</a> nutzen.";
+$GLOBALS['strAlreadyInstalled']			= "phpAdsNew ist bereits auf diesem System installiert. Zur Konfiguration bitte das <a href='settings-index.php'>Einstellungsinterface</a> nutzen.";
 $GLOBALS['strCouldNotConnectToDB']		= "Es kann keine Verbindung zu Datenbank hergestellt werden. Bitte überprüfe die vorgenommenen Einstellungen";
 $GLOBALS['strCreateTableTestFailed']	= "Der gewählte User hat keine Rechte eine Datenbankstruktur zu erstellen bzw. zu verändern. Bitte kontaktiere den Datenbankadministrator.";
 $GLOBALS['strUpdateTableTestFailed']	= "Der gewählte User hat keine Rechte eine Datenbankstruktur zu erstellen bzw. zu verändern. Bitte kontaktiere den Datenbankadministrator.";
 $GLOBALS['strTablePrefixInvalid']		= "Die Tabellennamensvorgabe enthält ungültige Zeichen";
 $GLOBALS['strMayNotFunction']			= "Bevor fortgefahren werden kann, müssen die folgenden Probleme beseitigt werden:";
 $GLOBALS['strIgnoreWarnings']			= "Ignoriere Warnungen";
-$GLOBALS['strWarningPHPversion']		= "phpPgAds benötigt mindestens PHP 3.0.8 oder neuer, um korrekt zu funktionieren. Aktuell genutzte Version {php_version}.";
+$GLOBALS['strWarningPHPversion']		= "phpAdsNew benötigt mindestens PHP 3.0.8 oder neuer, um korrekt zu funktionieren. Aktuell genutzte Version {php_version}.";
 $GLOBALS['strWarningRegisterGlobals']	= "Die PHP Konfigurations-Variable register_globals muß aktiviert werden.";
 $GLOBALS['strWarningMagicQuotesGPC']	= "Die PHP Konfigurations-Variable magic_quote_gpc muß aktiviert werden.";
 $GLOBALS['strWarningMagicQuotesRuntime']= "Die PHP Konfigurations-Variable magic_quotes_runtime muß aktiviert werden.";
-$GLOBALS['strConfigLockedDetected']		= "phpPgAds hat festgestellt, daß die Datei <b>config.inc.php</b> vom Server nicht verändert werden kann (keine Schreibrechte). <br>Der Vorgang kann nicht forgesetzt werden bis die Schreib-Lese-Rechte für diese Datei freigegeben wurden. <br>Bitte lies die beiliegende Dokumentation, um zu erfahren, wie dies funktioniert.";
+$GLOBALS['strConfigLockedDetected']		= "phpAdsNew hat festgestellt, daß die Datei <b>config.inc.php</b> vom Server nicht verändert werden kann (keine Schreibrechte). <br>Der Vorgang kann nicht forgesetzt werden bis die Schreib-Lese-Rechte für diese Datei freigegeben wurden. <br>Bitte lies die beiliegende Dokumentation, um zu erfahren, wie dies funktioniert.";
 $GLOBALS['strCantUpdateDB']  			= "Es ist z.Z. nicht möglich ein Update der Datenbank durchzuführen. Wenn dennoch fortgefahren wird, werden alle existierenden Banner, Statistiken und Clients unwiderruflich gelöscht!";
 $GLOBALS['strTableNames']				= "Tabellennamen";
 $GLOBALS['strTablesPrefix']				= "Tabellennamenvorgabe";
 $GLOBALS['strTablesType']				= "Tabellentyp";
 
-$GLOBALS['strInstallWelcome']			= "Willkommen zu phpPgAds";
-$GLOBALS['strInstallMessage']			= "Vor der Nutzung von phpPgAds ist es notwendig, es zu konfigurieren und <br>die Datenbank anzulegen. Klick <b>Fortsetzen</b>.";
-$GLOBALS['strInstallSuccess']			= "<b>Die Installation von phpPgAds ist nun abgeschlossen.</b><br><br>Damit die Funktionalität von phpPgAds sichergestellt ist, muß sichergestellt sein, daß die Wartungs- bzw. Servicedatei täglich aufgerufen wird. Informationen dazu finden Sie in der Dokumentation.<br><br>Klick <b>Fortsetzen</b>, um zur Konfigurationsseite zu gelangen, wo weitere Einstellungen gemacht werden können. Nach editieren der config.inc.php, muß sichergestellt sein, daß sie  anschließend zur Sicherheit ausreichend vor fremden Zugriff gesichert wird.";
-$GLOBALS['strInstallNotSuccessful']		= "<b>Die Installation von phpPgAds war nicht erfolreich</b><br><br>Einige Teile des Installationsprozesses konnten nicht abgeschlossen werden. Es ist möglich, daß es sich um ein temporäres Problem handelt. In dem Fall klicke <b>Fortsetzen</b> und beginne mit dem ersten Schritt des Installationprozesses. Für weitere Informationen zur Fehlernachricht und wie der Fehler beseitigt werden kann, kann die Dokumentation zu Rate gezogen werden.";
+$GLOBALS['strInstallWelcome']			= "Willkommen zu phpAdsNew";
+$GLOBALS['strInstallMessage']			= "Vor der Nutzung von phpAdsNew ist es notwendig, es zu konfigurieren und <br>die Datenbank anzulegen. Klick <b>Fortsetzen</b>.";
+$GLOBALS['strInstallSuccess']			= "<b>Die Installation von phpAdsNew ist nun abgeschlossen.</b><br><br>Damit die Funktionalität von phpAdsNew sichergestellt ist, muß sichergestellt sein, daß die Wartungs- bzw. Servicedatei täglich aufgerufen wird. Informationen dazu finden Sie in der Dokumentation.<br><br>Klick <b>Fortsetzen</b>, um zur Konfigurationsseite zu gelangen, wo weitere Einstellungen gemacht werden können. Nach editieren der config.inc.php, muß sichergestellt sein, daß sie  anschließend zur Sicherheit ausreichend vor fremden Zugriff gesichert wird.";
+$GLOBALS['strInstallNotSuccessful']		= "<b>Die Installation von phpAdsNew war nicht erfolreich</b><br><br>Einige Teile des Installationsprozesses konnten nicht abgeschlossen werden. Es ist möglich, daß es sich um ein temporäres Problem handelt. In dem Fall klicke <b>Fortsetzen</b> und beginne mit dem ersten Schritt des Installationprozesses. Für weitere Informationen zur Fehlernachricht und wie der Fehler beseitigt werden kann, kann die Dokumentation zu Rate gezogen werden.";
 $GLOBALS['strErrorOccured']				= "Der nachfolgende Fehler ist aufgetreten:";
 $GLOBALS['strErrorInstallDatabase']		= "Die Datenbankstruktur konnte nicht angelegt werden.";
 $GLOBALS['strErrorInstallConfig']		= "Die Konfigurationsdatei oder die Datenbank konnte nicht aktualisiert werden.";

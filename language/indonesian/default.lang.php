@@ -6,11 +6,6 @@
 /*                                                                      */
 /* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
-/* phpPgAds                                                             */
-/* ========                                                             */
-/*                                                                      */
-/* Copyright (c) 2001 by the phpPgAds developers                        */
-/* http://sourceforge.net/projects/phppgads                             */
 /*                                                                      */
 /* Translation by Rachim Tamsjadi (rtamsjadi@gmx.net), rev.1            */
 /*                                                                      */

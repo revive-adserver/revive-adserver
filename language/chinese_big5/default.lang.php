@@ -1,4 +1,4 @@
-<?php // $Id: $
+<?php // $Revision: 1.9 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -6,11 +6,6 @@
 /*                                                                      */
 /* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
-/* phpPgAds                                                             */
-/* ========                                                             */
-/*                                                                      */
-/* Copyright (c) 2001 by the phpPgAds developers                        */
-/* http://sourceforge.net/projects/phppgads                             */
 /*                                                                      */
 /* Translations by Yen-Shuo Su <yssu@dottech.com.tw>                    */
 /*                                                                      */

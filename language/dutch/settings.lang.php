@@ -6,11 +6,6 @@
 /*                                                                      */
 /* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
-/* phpPgAds                                                             */
-/* ========                                                             */
-/*                                                                      */
-/* Copyright (c) 2001 by the phpPgAds developers                        */
-/* http://sourceforge.net/projects/phppgads                             */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -30,31 +25,31 @@ $GLOBALS['strOtherSettings']			= "Andere instellingen";
 
 $GLOBALS['strWarning']					= "Waarschuwing";
 $GLOBALS['strFatalError']				= "Er is een fout opgetreden";
-$GLOBALS['strAlreadyInstalled']			= "phpPgAds is reeds geinstalleerd op dit systeem. Indien u het systeem verder wilt configureren ga dan naar de <a href='settings-index.php'>instellingen</a>";
+$GLOBALS['strAlreadyInstalled']			= "phpAdsNew is reeds geinstalleerd op dit systeem. Indien u het systeem verder wilt configureren ga dan naar de <a href='settings-index.php'>instellingen</a>";
 $GLOBALS['strCouldNotConnectToDB']		= "Er kon geen connectie opgebouwd worden met de database, controleer a.u.b. de door u opgegeven instellingen";
 $GLOBALS['strCreateTableTestFailed']	= "De gebruiker die u heeft opgegeven heeft geen toestemming om de database aan te maken of te wijzigen, neem a.u.b. contact op met de beheerder van de database.";
 $GLOBALS['strUpdateTableTestFailed']	= "De gebruiker die u heeft opgegeven heeft geen toestemming om de database structuur te wijzigen, neem a.u.b. contact op met de beheerder van de database.";
 $GLOBALS['strTablePrefixInvalid']		= "Table prefix contains invalid characters";
 $GLOBALS['strMayNotFunction']			= "Voor dat uw verder gaat, corrigeer a.u.b. de volgende problemen:";
 $GLOBALS['strIgnoreWarnings']			= "Ignore warnings";
-$GLOBALS['strWarningPHPversion']		= "phpPgAds heeft minimaal PHP 3.0.8 nodig om te functioneren. U gebruik momenteel versie {php_version}.";
+$GLOBALS['strWarningPHPversion']		= "phpAdsNew heeft minimaal PHP 3.0.8 nodig om te functioneren. U gebruik momenteel versie {php_version}.";
 $GLOBALS['strWarningRegisterGlobals']	= "De PHP instelling register_globals moet aan staan.";
 $GLOBALS['strWarningMagicQuotesGPC']	= "De PHP instelling magic_quote_gpc moet aan staan.";
 $GLOBALS['strWarningMagicQuotesRuntime']= "De PHP instelling magic_quotes_runtime moet uit staan.";
-$GLOBALS['strConfigLockedDetected']		= "phpPgAds heeft gedetecteerd dat uw <b>config.inc.php</b> bestand niet beschrijfbaar is door de server.<br> U kunt niet verder gaan tot u de bestands permissies gewijzigd heeft. <br>Raadpleeg de begevoegde documentatie indien u niet weet hoe u dit kunt doen.";
+$GLOBALS['strConfigLockedDetected']		= "phpAdsNew heeft gedetecteerd dat uw <b>config.inc.php</b> bestand niet beschrijfbaar is door de server.<br> U kunt niet verder gaan tot u de bestands permissies gewijzigd heeft. <br>Raadpleeg de begevoegde documentatie indien u niet weet hoe u dit kunt doen.";
 $GLOBALS['strCantUpdateDB']  			= "Het is momenteel nog niet mogelijk om de database up te daten. Indien u beslist om door te gaan worden alle bestaande banners, statistieken and klanten verwijderd.";
 $GLOBALS['strTableNames']				= "Tabelnamen";
 $GLOBALS['strTablesPrefix']				= "Tabelnaam voorvoegsel";
 $GLOBALS['strTablesType']				= "Tabeltype";
 
-$GLOBALS['strInstallWelcome']			= "Welkom bij phpPgAds";
-$GLOBALS['strInstallMessage']			= "Voordat u phpPgAds kunt gebruiken moet het eerst geconfigureerd <br> worden, tevens moet de database aangemaakt worden. Klik op <b>Verder</b> om door te gaan.";
-$GLOBALS['strInstallSuccess']			= "<b>De installatie van phpPgAds is nu compleet.</b><br><br>Om goed te functioneren moet de onderhouds bestand elke dag
+$GLOBALS['strInstallWelcome']			= "Welkom bij phpAdsNew";
+$GLOBALS['strInstallMessage']			= "Voordat u phpAdsNew kunt gebruiken moet het eerst geconfigureerd <br> worden, tevens moet de database aangemaakt worden. Klik op <b>Verder</b> om door te gaan.";
+$GLOBALS['strInstallSuccess']			= "<b>De installatie van phpAdsNew is nu compleet.</b><br><br>Om goed te functioneren moet de onderhouds bestand elke dag
 										   gedraaid worden. Meer informatie over dit onderwerp kunt u vinden in de documentatie.
 										   <br><br>Klik op <b>Verder</b> om door te gaan naar de configuratie pagina, waar u nog meer
 										   items kunt instellen. Vergeet a.u.b. niet de permissies van het config.inc.php bestand weer terug te zetten, omdat dit
 										   potentiele veiligheid problemen kan veroorzaken.";
-$GLOBALS['strInstallNotSuccessful']		= "<b>De installatie van phpPgAds was niet succesvol</b><br><br>Sommige onderdelen van het installatie proces konden niet succesvol.
+$GLOBALS['strInstallNotSuccessful']		= "<b>De installatie van phpAdsNew was niet succesvol</b><br><br>Sommige onderdelen van het installatie proces konden niet succesvol.
 										   afgesloten worden. Het is mogelijk dat deze problemen slechts tijdelijk zijn, in dat geval kunt u op <b>Verder</b> klikken en opnieuw
 										   beginnen met de installatie. Indien u meer wilt weten over de foutmeldingen die hieronder vermeld staan, raadpleeg dan de 
 										   bijgesloten documentatie.";
@@ -63,7 +58,7 @@ $GLOBALS['strErrorInstallDatabase']		= "De database kon niet worden aangemaakt."
 $GLOBALS['strErrorInstallConfig']		= "Het configuratie bestand kont niet worden bijgewerkt.";
 $GLOBALS['strErrorInstallDbConnect']	= "Het was niet mogelijk om een connectie te openen met de database.";
 
-$GLOBALS['strUrlPrefix']				= "Locatie van phpPgAds";
+$GLOBALS['strUrlPrefix']				= "Locatie van phpAdsNew";
 
 $GLOBALS['strProceed']					= "Verder &gt;";
 $GLOBALS['strInstallDatabase']			= "Database structuur installatie";

@@ -6,11 +6,6 @@
 /*                                                                      */
 /* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
-/* phpPgAds                                                             */
-/* ========                                                             */
-/*                                                                      */
-/* Copyright (c) 2001 by the phpPgAds developers                        */
-/* http://sourceforge.net/projects/phppgads                             */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -30,31 +25,31 @@ $GLOBALS['strOtherSettings']			= "Other settings";
 
 $GLOBALS['strWarning']					= "Warning";
 $GLOBALS['strFatalError']				= "A fatal error occurred";
-$GLOBALS['strAlreadyInstalled']			= "phpPgAds is already installed on this system. If you want to configure it go to <a href='settings-index.php'>settings interface</a>";
+$GLOBALS['strAlreadyInstalled']			= "phpAdsNew is already installed on this system. If you want to configure it go to <a href='settings-index.php'>settings interface</a>";
 $GLOBALS['strCouldNotConnectToDB']		= "Could not connect to database, please recheck the settings you specified";
 $GLOBALS['strCreateTableTestFailed']	= "The user you specified doesn't have permission to create or update the database structure, please contact the database administrator.";
 $GLOBALS['strUpdateTableTestFailed']	= "The user you specified doesn't have permission to update the database structure, please contact the database administrator.";
 $GLOBALS['strTablePrefixInvalid']		= "Table prefix contains invalid characters";
 $GLOBALS['strMayNotFunction']			= "Before you continue, please correct these potential problems:";
 $GLOBALS['strIgnoreWarnings']			= "Ignore warnings";
-$GLOBALS['strWarningPHPversion']		= "phpPgAds requires PHP 3.0.8 or higher to function correctly. You are currently using {php_version}.";
+$GLOBALS['strWarningPHPversion']		= "phpAdsNew requires PHP 3.0.8 or higher to function correctly. You are currently using {php_version}.";
 $GLOBALS['strWarningRegisterGlobals']	= "The PHP configuration variable register_globals needs to be turned on.";
 $GLOBALS['strWarningMagicQuotesGPC']	= "The PHP configuration variable magic_quote_gpc needs to be turned on.";
 $GLOBALS['strWarningMagicQuotesRuntime']= "The PHP configuration variable magic_quotes_runtime needs to be turned off.";
-$GLOBALS['strConfigLockedDetected']		= "phpPgAds has detected that your <b>config.inc.php</b> file is not writeable by the server.<br> You can't proceed until you change permissions on the file. <br>Read the supplied documentation if you don't know how to do that.";
+$GLOBALS['strConfigLockedDetected']		= "phpAdsNew has detected that your <b>config.inc.php</b> file is not writeable by the server.<br> You can't proceed until you change permissions on the file. <br>Read the supplied documentation if you don't know how to do that.";
 $GLOBALS['strCantUpdateDB']  			= "It is currently not possible to update the database. If you decide to proceed, all existing banners, statistics and clients will be deleted.";
 $GLOBALS['strTableNames']				= "Table Names";
 $GLOBALS['strTablesPrefix']				= "Table names prefix";
 $GLOBALS['strTablesType']				= "Table type";
 
-$GLOBALS['strInstallWelcome']			= "Welcome to phpPgAds";
-$GLOBALS['strInstallMessage']			= "Before you can use phpPgAds it needs to be configured and <br> the database needs to be created. Click <b>Proceed</b> to continue.";
-$GLOBALS['strInstallSuccess']			= "<b>The installation of phpPgAds is now complete.</b><br><br>In order for phpPgAds to function correctly you also need
+$GLOBALS['strInstallWelcome']			= "Welcome to phpAdsNew";
+$GLOBALS['strInstallMessage']			= "Before you can use phpAdsNew it needs to be configured and <br> the database needs to be created. Click <b>Proceed</b> to continue.";
+$GLOBALS['strInstallSuccess']			= "<b>The installation of phpAdsNew is now complete.</b><br><br>In order for phpAdsNew to function correctly you also need
 										   to make sure the maintenance file is run every day. More information about this subject can be found in the documentation.
 										   <br><br>Click <b>Proceed</b> to go the configuration page, where you can 
 										   set up more settings. Please do not forget to lock the config.inc.php file when you are finished to prevent security
 										   breaches.";
-$GLOBALS['strInstallNotSuccessful']		= "<b>The installation of phpPgAds was not succesful</b><br><br>Some portions of the install process could not be completed.
+$GLOBALS['strInstallNotSuccessful']		= "<b>The installation of phpAdsNew was not succesful</b><br><br>Some portions of the install process could not be completed.
 										   It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the
 										   first step of the install process. If you want to know more on what the error message below means, and how to solve it, 
 										   please consult the supplied documentation.";

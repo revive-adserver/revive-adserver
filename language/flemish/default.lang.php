@@ -6,11 +6,6 @@
 /*                                                                      */
 /* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
-/* phpPgAds                                                             */
-/* ========                                                             */
-/*                                                                      */
-/* Copyright (c) 2001 by the phpPgAds developers                        */
-/* http://sourceforge.net/projects/phppgads                             */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -95,12 +90,12 @@ $GLOBALS['strMailSubjectDeleted'] = "Gedeactiveerde banners";
 $GLOBALS['strMailHeader'] = "Geachte {contact},\n";
 $GLOBALS['strMailBannerStats'] = "Bijgevoegd vind u de banner-statistieken van {clientname}:";
 $GLOBALS['strMailFooter'] = "Met vriendelijke groet,\n    {adminfullname}";
-$GLOBALS['strLogMailSent'] = "[phpPgAds] Statistieken successvol verzonden.";
-$GLOBALS['strLogErrorClients'] = "[phpPgAds] An error occurred while trying to fetch the clients from the database.";
-$GLOBALS['strLogErrorBanners'] = "[phpPgAds] An error occurred while trying to fetch the banners from the database.";
-$GLOBALS['strLogErrorViews'] = "[phpPgAds] An error occurred while trying to fetch the adviews from the database.";
-$GLOBALS['strLogErrorClicks'] = "[phpPgAds] An error occurred while trying to fetch the adclicks from the database.";
-$GLOBALS['strLogErrorDisactivate'] = "[phpPgAds] An error occurred while trying to disactivate a banner.";
+$GLOBALS['strLogMailSent'] = "[phpAdsNew] Statistieken successvol verzonden.";
+$GLOBALS['strLogErrorClients'] = "[phpAdsNew] An error occurred while trying to fetch the clients from the database.";
+$GLOBALS['strLogErrorBanners'] = "[phpAdsNew] An error occurred while trying to fetch the banners from the database.";
+$GLOBALS['strLogErrorViews'] = "[phpAdsNew] An error occurred while trying to fetch the adviews from the database.";
+$GLOBALS['strLogErrorClicks'] = "[phpAdsNew] An error occurred while trying to fetch the adclicks from the database.";
+$GLOBALS['strLogErrorDisactivate'] = "[phpAdsNew] An error occurred while trying to disactivate a banner.";
 $GLOBALS['strRatio'] = "Click-Through Ratio";
 $GLOBALS['strChooseBanner'] = "Gelieve het type banner te kiezen.";
 $GLOBALS['strMySQLBanner'] = "Banner opgeslagen in SQL";
