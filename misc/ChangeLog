@@ -36,6 +36,7 @@ CVS
 			  - 2003-05-27:  Fixed error when zones were set to private instead of public  (Niels)
 			  - 2003-05-27:  It is now not possible anymore to append a banner to itself  (Niels)
 			  - 2003-05-31:  Added missing flags and country codes, see bug #746359 for details  (Matteo)
+			  - 2003-05-01:  Fixed errors when delivery caching was set to 'none'  (Matteo)
 
 
 v 2.0rc3		+ Added a cron replacement for users who don't have access to the cron utility for scheduling the maintenance script  (Niels, 2003-01-14)
