@@ -29,7 +29,7 @@ $pages = array(
         "1.5" => array("detailstats.php?clientID=$clientID&bannerID=$bannerID"=>"$strDetailStats"),
         "1.6" => array("liststats.php"=>"$strCreditStats"),
         "2" => array("index.php"=>"$strHome"),
-        "2.1" => array("detailstats.php"=>"$strDetailStats"),
+        "2.1" => array("detailstats.php?clientID=$clientID&bannerID=$bannerID"=>"$strDetailStats"),
         "2.1.1" => array("dailystats.php"=>"$strDailyStats"),
         "2.2" => array("weeklystats.php"=>"$strWeeklyStats"),
         "2.3" => array("client.php"=>"$strModifyClient")
