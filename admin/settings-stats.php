@@ -22,7 +22,8 @@ include ("lib-settings.inc.php");
 phpAds_registerGlobal ('ignore_hosts', 'warn_limit', 'admin_email_headers', 'log_beacon', 'compact_stats', 'log_adviews', 
 					   'log_adclicks', 'block_adviews', 'block_adclicks', 'reverse_lookup', 'proxy_lookup', 'warn_admin', 
 					   'warn_client', 'qmail_patch', 'auto_clean_tables', 'auto_clean_userlog', 'auto_clean_tables_interval', 
-					   'auto_clean_userlog_interval');
+					   'auto_clean_userlog_interval', 'geotracking_location', 'geotracking_type', 'geotracking_stats',
+					   'geotracking_cookie');
 
 
 // Security check
@@ -85,6 +86,15 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		phpAds_SettingsWriteAdd('warn_client', $warn_client);
 	if (isset($qmail_patch))
 		phpAds_SettingsWriteAdd('qmail_patch', $qmail_patch);
+	
+	if (isset($geotracking_type))
+		phpAds_SettingsWriteAdd('geotracking_type', $geotracking_type);
+	if (isset($geotracking_location))
+		phpAds_SettingsWriteAdd('geotracking_location', $geotracking_location);	
+	if (isset($geotracking_stats))
+		phpAds_SettingsWriteAdd('geotracking_stats', $geotracking_stats);
+	if (isset($geotracking_cookie))
+		phpAds_SettingsWriteAdd('geotracking_cookie', $geotracking_cookie);	
 	
 	if (isset($auto_clean_tables))
 		phpAds_SettingsWriteAdd('auto_clean_tables', $auto_clean_tables);
@@ -157,6 +167,27 @@ phpAds_AddSettings('text', 'block_adclicks',
 phpAds_AddSettings('end_section', '');
 
 phpAds_AddSettings('start_section', "1.4.2");
+phpAds_AddSettings('select', 'geotracking_type',
+	array($strGeotrackingType, array($strNone, 'IP2Country', 'MaxMind GeoIP', 'MaxMind GeoIP (mod_geoip)')));
+phpAds_AddSettings('break', '');
+phpAds_AddSettings('text', 'geotracking_location',
+	array($strGeotrackingLocation, 35, 'text', 0));
+phpAds_AddSettings('break', '');
+phpAds_AddSettings('checkbox', 'geotracking_stats', $strGeoLogStats);
+phpAds_AddSettings('checkbox', 'geotracking_cookie', $strGeoStoreCookie);
+phpAds_AddSettings('end_section', '');
+
+phpAds_AddSettings('start_section', "1.4.4");
+phpAds_AddSettings('text', 'ignore_hosts',
+	array($strIgnoreHosts, 35, 'textarea'));
+phpAds_AddSettings('break', '');
+phpAds_AddSettings('checkbox', 'reverse_lookup', $strReverseLookup);
+phpAds_AddSettings('break', '');
+phpAds_AddSettings('checkbox', 'proxy_lookup', $strProxyLookup);
+phpAds_AddSettings('end_section', '');
+
+
+phpAds_AddSettings('start_section', "1.4.3");
 phpAds_AddSettings('text', 'admin_email_headers',
 	array($strAdminEmailHeaders, 35, 'textarea', 5));
 phpAds_AddSettings('break', '');
@@ -169,16 +200,7 @@ phpAds_AddSettings('break', '');
 phpAds_AddSettings('checkbox', 'qmail_patch', $strQmailPatch);
 phpAds_AddSettings('end_section', '');
 
-phpAds_AddSettings('start_section', "1.4.3");
-phpAds_AddSettings('text', 'ignore_hosts',
-	array($strIgnoreHosts, 35, 'textarea'));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('checkbox', 'reverse_lookup', $strReverseLookup);
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('checkbox', 'proxy_lookup', $strProxyLookup);
-phpAds_AddSettings('end_section', '');
-
-phpAds_AddSettings('start_section', "1.4.4");
+phpAds_AddSettings('start_section', "1.4.5");
 //phpAds_AddSettings('checkbox', 'auto_clean_tables_vacuum', $strAutoCleanVacuum);
 
 phpAds_AddSettings('checkbox', 'auto_clean_tables',
