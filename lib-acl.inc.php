@@ -18,7 +18,7 @@
 /* Check if the ACL is valid                             */
 /*********************************************************/
 
-function phpAds_aclCheck($request, $row) 
+function phpAds_aclCheck($row, $source)
 {
 	global $phpAds_config;
 	
@@ -43,25 +43,25 @@ function phpAds_aclCheck($request, $row)
 		switch ($aclrow['acl_type']) 
 		{
 			case 'clientip':
-				$result = phpAds_aclCheckClientIP($request, $aclrow);
+				$result = phpAds_aclCheckClientIP($aclrow);
 				break;
 			case 'useragent':
-				$result = phpAds_aclCheckUseragent($request, $aclrow);
+				$result = phpAds_aclCheckUseragent($aclrow);
 				break;
 			case 'language':
-				$result = phpAds_aclCheckLanguage($request, $aclrow);
+				$result = phpAds_aclCheckLanguage($aclrow);
 				break;
 			case 'weekday':
-				$result = phpAds_aclCheckWeekday($request, $aclrow);
+				$result = phpAds_aclCheckWeekday($aclrow);
 				break;
 			case 'domain':
-				$result = phpAds_aclCheckDomain($request, $aclrow);
+				$result = phpAds_aclCheckDomain($aclrow);
 				break;
 			case 'source':
-				$result = phpAds_aclCheckSource($request, $aclrow);
+				$result = phpAds_aclCheckSource($aclrow, $source);
 				break;
 			case 'time':
-				$result = phpAds_aclCheckTime($request, $aclrow);
+				$result = phpAds_aclCheckTime($aclrow);
 				break;
 			default:
 				return(0);
@@ -86,10 +86,10 @@ function phpAds_aclCheck($request, $row)
 /* Check if the Weekday ACL is valid                     */
 /*********************************************************/
 
-function phpAds_aclCheckWeekday($request, $aclrow) 
+function phpAds_aclCheckWeekday($aclrow)
 {
 	$data = $aclrow['acl_data'];
-	$day = $request['weekday'];
+	$day = date('w');
 	
 	$expression = ($data == "*" || $data == $day || in_array ($day, explode(',', $data)));
 	$operator   = $aclrow['acl_ad'] == 'allow';
@@ -102,10 +102,10 @@ function phpAds_aclCheckWeekday($request, $aclrow)
 /* Check if the Useragent ACL is valid                   */
 /*********************************************************/
 
-function phpAds_aclCheckUseragent($request, $aclrow) 
+function phpAds_aclCheckUseragent($aclrow)
 {
 	$data = $aclrow['acl_data'];
-	$agent = $request['user_agent'];
+	$agent = $GLOBALS['HTTP_USER_AGENT'];
 	
 	$expression = ($data == "*" || eregi($data, $agent));
 	$operator   = $aclrow['acl_ad'] == 'allow';
@@ -118,10 +118,10 @@ function phpAds_aclCheckUseragent($request, $aclrow)
 /* Check if the Client IP ACL is valid                   */
 /*********************************************************/
 
-function phpAds_aclCheckClientip($request, $aclrow) 
+function phpAds_aclCheckClientip($aclrow)
 {
 	$data = $aclrow['acl_data'];
-	$host = $request['remote_host'];
+	$host = $GLOBALS['REMOTE_ADDR'];
 	
 	
 	if (!strpos($data, '/'))
@@ -166,14 +166,10 @@ function phpAds_aclCheckClientip($request, $aclrow)
 /* Check if the Domain ACL is valid                      */
 /*********************************************************/
 
-function phpAds_aclCheckDomain($request, $aclrow) 
+function phpAds_aclCheckDomain($aclrow)
 {
-	$data 		= $aclrow['acl_data'];
-	$ip 		= $request['remote_host'];
-	$host 		= @gethostbyaddr($ip);
-	
-	if ($host == $ip)
-		return (true);
+	$data = $aclrow['acl_data'];
+	$host = $GLOBALS['REMOTE_HOST'];
 	
 	$domain 	= substr($host,-(strlen($data)+1));
 	$expression = ($data == "*" || strtolower($domain) == strtolower(".$data")) ;
@@ -187,10 +183,10 @@ function phpAds_aclCheckDomain($request, $aclrow)
 /* Check if the Language ACL is valid                    */
 /*********************************************************/
 
-function phpAds_aclCheckLanguage($request, $aclrow) 
+function phpAds_aclCheckLanguage($aclrow)
 {
 	$data = $aclrow['acl_data'];
-	$source = $request['accept-language'];
+	$source = $GLOBALS['HTTP_ACCEPT_LANGUAGE'];
 	
 	$expression = ($data == "*" || eregi("^".$data, $source));
 	$operator   = $aclrow['acl_ad'] == 'allow';
@@ -203,7 +199,7 @@ function phpAds_aclCheckLanguage($request, $aclrow)
 /* Check if the Source ACL is valid                      */
 /*********************************************************/
 
-function phpAds_aclCheckSource($request, $aclrow) 
+function phpAds_aclCheckSource($aclrow, $source)
 {
 	$data = $aclrow['acl_data'];
 	$source = $request['source'];
@@ -219,10 +215,10 @@ function phpAds_aclCheckSource($request, $aclrow)
 /* Check if the Time ACL is valid                        */
 /*********************************************************/
 
-function phpAds_aclCheckTime($request, $aclrow) 
+function phpAds_aclCheckTime($aclrow)
 {
 	$data = $aclrow['acl_data'];
-	$time = $request['time'];
+	$time = date('G');
 	
 	$expression = ($data == "*" || $data == $time || in_array ($time, explode(',', $data)));
 	$operator   = $aclrow['acl_ad'] == 'allow';
