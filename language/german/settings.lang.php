@@ -1,4 +1,4 @@
-<?php // $Revision: 1.13 $
+<?php // $Revision: 1.14 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -35,7 +35,7 @@ $GLOBALS['strMayNotFunction']			= "Bevor fortgefahren werden kann, müssen die fo
 $GLOBALS['strIgnoreWarnings']			= "Ignoriere Warnungen";
 $GLOBALS['strWarningPHPversion']		= "phpAdsNew benötigt mindestens PHP 3.0.8 oder neuer, um korrekt zu funktionieren. Aktuell genutzte Version {php_version}.";
 $GLOBALS['strWarningRegisterGlobals']	= "Die PHP Konfigurations-Variable register_globals muß aktiviert werden.";
-$GLOBALS['strWarningMagicQuotesGPC']	= "Die PHP Konfigurations-Variable magic_quote_gpc muß aktiviert werden.";
+$GLOBALS['strWarningMagicQuotesGPC']	= "Die PHP Konfigurations-Variable magic_quotes_gpc muß aktiviert werden.";
 $GLOBALS['strWarningMagicQuotesRuntime']= "Die PHP Konfigurations-Variable magic_quotes_runtime muß aktiviert werden.";
 $GLOBALS['strConfigLockedDetected']		= "phpAdsNew hat festgestellt, daß die Datei <b>config.inc.php</b> vom Server nicht verändert werden kann (keine Schreibrechte). <br>Der Vorgang kann nicht forgesetzt werden bis die Schreib-Lese-Rechte für diese Datei freigegeben wurden. <br>Bitte lies die beiliegende Dokumentation, um zu erfahren, wie dies funktioniert.";
 $GLOBALS['strCantUpdateDB']  			= "Es ist z.Z. nicht möglich ein Update der Datenbank durchzuführen. Wenn dennoch fortgefahren wird, werden alle existierenden Banner, Statistiken und Clients unwiderruflich gelöscht!";
