@@ -158,13 +158,13 @@ elseif (isset($submit))
 /* HTML framework                                        */
 /*********************************************************/
 
-if (isset($Session['prefs']['campaign-index.php'][$campaignid]['listorder']))
-	$navorder = $Session['prefs']['campaign-index.php'][$campaignid]['listorder'];
+if (isset($Session['prefs']['campaign-banners.php'][$campaignid]['listorder']))
+	$navorder = $Session['prefs']['campaign-banners.php'][$campaignid]['listorder'];
 else
 	$navorder = '';
 
-if (isset($Session['prefs']['campaign-index.php'][$campaignid]['orderdirection']))
-	$navdirection = $Session['prefs']['campaign-index.php'][$campaignid]['orderdirection'];
+if (isset($Session['prefs']['campaign-banners.php'][$campaignid]['orderdirection']))
+	$navdirection = $Session['prefs']['campaign-banners.php'][$campaignid]['orderdirection'];
 else
 	$navdirection = '';
 
@@ -227,7 +227,7 @@ while ($row = phpAds_dbFetchArray($res))
 
 $extra .= "</select>&nbsp;<input type='image' name='applyto' src='images/".$phpAds_TextDirection."/go_blue.gif'><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bannerid."&returnurl=campaign-index.php'".phpAds_DelConfirm($strConfirmDeleteBanner).">$strDelete</a><br>";
+$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bannerid."&returnurl=campaign-banners.php'".phpAds_DelConfirm($strConfirmDeleteBanner).">$strDelete</a><br>";
 $extra .= "</form>";
 
 

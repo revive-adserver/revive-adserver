@@ -58,7 +58,7 @@ if (isset($submit))
 		}
 	}
 	
-	Header("Location: campaign-index.php?clientid=".$clientid."&campaignid=".$campaignid);
+	Header("Location: campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid);
 	exit;
 }
 
@@ -129,7 +129,7 @@ phpAds_PageShortcut($strCampaignHistory, 'stats-campaign-history.php?clientid='.
 $extra  = "<form action='campaign-modify.php'>";
 $extra .= "<input type='hidden' name='clientid' value='$clientid'>";
 $extra .= "<input type='hidden' name='campaignid' value='$campaignid'>";
-$extra .= "<input type='hidden' name='returnurl' value='campaign-index.php'>";
+$extra .= "<input type='hidden' name='returnurl' value='campaign-banners.php'>";
 $extra .= "<br><br>";
 $extra .= "<b>$strModifyCampaign</b><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";

@@ -334,7 +334,7 @@ else
 					
 					// Button 2
 					echo "<td height='25'>";
-					echo "<a href='campaign-index.php?clientid=".$client['clientid']."&campaignid=".$campaigns[$ckey]['clientid']."'><img src='images/icon-overview.gif' border='0' align='absmiddle' alt='$strOverview'>&nbsp;$strOverview</a>&nbsp;&nbsp;";
+					echo "<a href='campaign-banners.php?clientid=".$client['clientid']."&campaignid=".$campaigns[$ckey]['clientid']."'><img src='images/icon-overview.gif' border='0' align='absmiddle' alt='$strOverview'>&nbsp;$strOverview</a>&nbsp;&nbsp;";
 					echo "</td>";
 					
 					// Button 3

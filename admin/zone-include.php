@@ -156,13 +156,13 @@ if (isset($zoneid) && $zoneid != '')
 /* HTML framework                                        */
 /*********************************************************/
 
-if (isset($Session['prefs']['zone-index.php']['listorder']))
-	$navorder = $Session['prefs']['zone-index.php']['listorder'];
+if (isset($Session['prefs']['affiliate-zones.php']['listorder']))
+	$navorder = $Session['prefs']['affiliate-zones.php']['listorder'];
 else
 	$navorder = '';
 
-if (isset($Session['prefs']['zone-index.php']['orderdirection']))
-	$navdirection = $Session['prefs']['zone-index.php']['orderdirection'];
+if (isset($Session['prefs']['affiliate-zones.php']['orderdirection']))
+	$navdirection = $Session['prefs']['affiliate-zones.php']['orderdirection'];
 else
 	$navdirection = '';
 
@@ -213,7 +213,7 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	$extra .= "</select>&nbsp;<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif'><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='zone-delete.php?affiliateid=$affiliateid&zoneid=$zoneid&returnurl=zone-index.php'".phpAds_DelConfirm($strConfirmDeleteZone).">$strDelete</a><br>";
+	$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='zone-delete.php?affiliateid=$affiliateid&zoneid=$zoneid&returnurl=affiliate-zones.php'".phpAds_DelConfirm($strConfirmDeleteZone).">$strDelete</a><br>";
 	$extra .= "</form>";
 	
 	

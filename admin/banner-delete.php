@@ -102,7 +102,7 @@ if ($phpAds_config['zone_cache'])
 
 
 if (!isset($returnurl) && $returnurl == '')
-	$returnurl = 'campaign-index.php';
+	$returnurl = 'campaign-banners.php';
 
 Header("Location: ".$returnurl."?clientid=".$clientid."&campaignid=".$campaignid);
 

@@ -172,7 +172,7 @@ if (isset($submit))
 							affiliateid = 0
 					");
 					
-					header ("Location: zone-index.php?affiliateid=".$affiliateid);
+					header ("Location: affiliate-zones.php?affiliateid=".$affiliateid);
 					exit;
 				}
 				else
@@ -183,7 +183,7 @@ if (isset($submit))
 			}
 			else
 			{
-				header ("Location: zone-index.php?affiliateid=".$affiliateid);
+				header ("Location: affiliate-zones.php?affiliateid=".$affiliateid);
 				exit;
 			}
 		}
@@ -215,7 +215,7 @@ if (isset($submit))
 		$Session['language'] = $language;
 		phpAds_SessionDataStore();
 		
-		header ("Location: zone-index.php?affiliateid=".$affiliateid);
+		header ("Location: affiliate-zones.php?affiliateid=".$affiliateid);
 		exit;
 	}
 }

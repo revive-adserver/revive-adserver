@@ -118,7 +118,7 @@ if (phpAds_isUser(phpAds_Admin))
 	if ($phpAds_config['zone_cache'])
 		phpAds_RebuildZoneCache ();
 	
-	Header("Location: campaign-index.php?clientid=".$clientid."&campaignid=".$campaignid);
+	Header("Location: campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid);
 }
 
 

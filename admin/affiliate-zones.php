@@ -42,16 +42,16 @@ if (phpAds_isUser(phpAds_Affiliate))
 
 if (!isset($listorder))
 {
-	if (isset($Session['prefs']['zone-index.php']['listorder']))
-		$listorder = $Session['prefs']['zone-index.php']['listorder'];
+	if (isset($Session['prefs']['affiliate-zones.php']['listorder']))
+		$listorder = $Session['prefs']['affiliate-zones.php']['listorder'];
 	else
 		$listorder = '';
 }
 
 if (!isset($orderdirection))
 {
-	if (isset($Session['prefs']['zone-index.php']['orderdirection']))
-		$orderdirection = $Session['prefs']['zone-index.php']['orderdirection'];
+	if (isset($Session['prefs']['affiliate-zones.php']['orderdirection']))
+		$orderdirection = $Session['prefs']['affiliate-zones.php']['orderdirection'];
 	else
 		$orderdirection = '';
 }
@@ -88,7 +88,7 @@ if (phpAds_isUser(phpAds_Admin))
 	{
 		phpAds_PageContext (
 			phpAds_buildAffiliateName ($row['affiliateid'], $row['name']),
-			"zone-index.php?affiliateid=".$row['affiliateid'],
+			"affiliate-zones.php?affiliateid=".$row['affiliateid'],
 			$affiliateid == $row['affiliateid']
 		);
 	}
@@ -144,54 +144,54 @@ echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 
 
 echo "<tr height='25'>";
-echo '<td height="25"><b>&nbsp;&nbsp;<a href="zone-index.php?affiliateid='.$affiliateid.'&listorder=name">'.$GLOBALS['strName'].'</a>';
+echo '<td height="25"><b>&nbsp;&nbsp;<a href="affiliate-zones.php?affiliateid='.$affiliateid.'&listorder=name">'.$GLOBALS['strName'].'</a>';
 
 if (($listorder == "name") || ($listorder == ""))
 {
 	if  (($orderdirection == "") || ($orderdirection == "down"))
 	{
-		echo ' <a href="zone-index.php?affiliateid='.$affiliateid.'&orderdirection=up">';
+		echo ' <a href="affiliate-zones.php?affiliateid='.$affiliateid.'&orderdirection=up">';
 		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 	}
 	else
 	{
-		echo ' <a href="zone-index.php?affiliateid='.$affiliateid.'&orderdirection=down">';
+		echo ' <a href="affiliate-zones.php?affiliateid='.$affiliateid.'&orderdirection=down">';
 		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 	}
 	echo '</a>';
 }
 
 echo '</b></td>';
-echo '<td height="25"><b><a href="zone-index.php?affiliateid='.$affiliateid.'&listorder=id">'.$GLOBALS['strID'].'</a>';
+echo '<td height="25"><b><a href="affiliate-zones.php?affiliateid='.$affiliateid.'&listorder=id">'.$GLOBALS['strID'].'</a>';
 
 if ($listorder == "id")
 {
 	if  (($orderdirection == "") || ($orderdirection == "down"))
 	{
-		echo ' <a href="zone-index.php?affiliateid='.$affiliateid.'&orderdirection=up">';
+		echo ' <a href="affiliate-zones.php?affiliateid='.$affiliateid.'&orderdirection=up">';
 		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 	}
 	else
 	{
-		echo ' <a href="zone-index.php?affiliateid='.$affiliateid.'&orderdirection=down">';
+		echo ' <a href="affiliate-zones.php?affiliateid='.$affiliateid.'&orderdirection=down">';
 		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 	}
 	echo '</a>';
 }
 
 echo '</b>&nbsp;&nbsp;&nbsp;</td>';
-echo '<td height="25"><b><a href="zone-index.php?affiliateid='.$affiliateid.'&listorder=size">'.$GLOBALS['strSize'].'</a>';
+echo '<td height="25"><b><a href="affiliate-zones.php?affiliateid='.$affiliateid.'&listorder=size">'.$GLOBALS['strSize'].'</a>';
 
 if ($listorder == "size")
 {
 	if  (($orderdirection == "") || ($orderdirection == "down"))
 	{
-		echo ' <a href="zone-index.php?affiliateid='.$affiliateid.'&orderdirection=up">';
+		echo ' <a href="affiliate-zones.php?affiliateid='.$affiliateid.'&orderdirection=up">';
 		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 	}
 	else
 	{
-		echo ' <a href="zone-index.php?affiliateid='.$affiliateid.'&orderdirection=down">';
+		echo ' <a href="affiliate-zones.php?affiliateid='.$affiliateid.'&orderdirection=down">';
 		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 	}
 	echo '</a>';
@@ -261,7 +261,7 @@ while ($row_zones = phpAds_dbFetchArray($res_zones))
 	if (phpAds_isUser(phpAds_Admin) || phpAds_isAllowed(phpAds_LinkBanners)) echo "<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'><img src='images/icon-zone-linked.gif' border='0' align='absmiddle' alt='$strIncludedBanners'>&nbsp;$strIncludedBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "<a href='zone-probability.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'><img src='images/icon-zone-probability.gif' border='0' align='absmiddle' alt='$strProbability'>&nbsp;$strProbability</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "<a href='zone-invocation.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'><img src='images/icon-generatecode.gif' border='0' align='absmiddle' alt='$strInvocationcode'>&nbsp;$strInvocationcode</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-	if (phpAds_isUser(phpAds_Admin) || phpAds_isAllowed(phpAds_DeleteZone)) echo "<a href='zone-delete.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."&returnurl=zone-index.php'".phpAds_DelConfirm($strConfirmDeleteZone)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+	if (phpAds_isUser(phpAds_Admin) || phpAds_isAllowed(phpAds_DeleteZone)) echo "<a href='zone-delete.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."&returnurl=affiliate-zones.php'".phpAds_DelConfirm($strConfirmDeleteZone)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "</td></tr>";
 	
 	$i++;
@@ -281,8 +281,8 @@ echo "<br><br>";
 /* Store preferences                                     */
 /*********************************************************/
 
-$Session['prefs']['zone-index.php']['listorder'] = $listorder;
-$Session['prefs']['zone-index.php']['orderdirection'] = $orderdirection;
+$Session['prefs']['affiliate-zones.php']['listorder'] = $listorder;
+$Session['prefs']['affiliate-zones.php']['orderdirection'] = $orderdirection;
 
 phpAds_SessionDataStore();
 
