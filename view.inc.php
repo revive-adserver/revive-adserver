@@ -38,34 +38,44 @@ function get_banner($what, $clientID, $context=0, $source="")
 
 	// separate parts
 	$what_parts = explode ("|",$what);	
-	
-	
+
+
 	for ($wpc=0;$wpc<sizeof($what_parts);$wpc++)	// build a query and execute for each part
 	{
-	$select = "
-		SELECT
-			bannerID,
-			banner,
-			clientID,
-			format,
-			width,
-			height,
-			alt,
-			bannertext,
-			url,
-			weight,
-			seq,
-			target
-		FROM
-			$phpAds_tbl_banners 
-		WHERE
-			$where
-			active = 'true' ";
-                  
-	if($clientID != 0)
-		$select .= " AND clientID = $clientID ";
-    
-		if(is_string($what_parts[$wpc]) && !ereg("[0-9]x[0-9]", $what_parts[$wpc]))
+		$select = "
+			SELECT
+				bannerID,
+				banner,
+				clientID,
+				format,
+				width,
+				height,
+				alt,
+				bannertext,
+				url,
+				weight,
+				seq,
+				target
+			FROM
+				$phpAds_tbl_banners 
+			WHERE
+				$where
+				active = 'true' ";
+
+		if($clientID != 0)
+			$select .= " AND clientID = $clientID ";
+
+		if (ereg("^[0-9]+$", $what_parts[$wpc]))
+		{
+			$select .= " AND bannerID = $what_parts[$wpc] ";
+		}
+    	elseif (ereg("^[0-9]+x[0-9]+$", $what_parts[$wpc]))
+    	{
+            list($width, $height) = explode("x", $what_parts[$wpc]);
+    		// Get all banners with the specified width/height
+    		$select .= " AND width = $width AND height = $height ";
+    	}
+		else
 		{
 			switch($what_parts[$wpc]) 
         	{
@@ -133,16 +143,6 @@ function get_banner($what, $clientID, $context=0, $source="")
 				break;
 			} //switch($what_parts[$wpc])
 		}
-		elseif(is_int($what_parts[$wpc]))
-		{
-			$select .= " AND bannerID = $what_parts[$wpc] ";
-		}
-    	else
-    	{
-            list($width, $height) = explode("x", $what_parts[$wpc]);
-    		// Get all banners with the specified width/height
-    		$select .= " AND width = $width AND height = $height ";
-    	}
 
 		if($phpAds_random_retrieve == "1") 			
 		{
@@ -312,11 +312,11 @@ function enjavanate($str)
 }
 
 
-function view_raw($what, $clientID=0, $target = "", $source = "", $withtext=0, $context=0)
+function view_raw($what, $clientID=0, $target="", $source="", $withtext=0, $context=0)
 {
     global $phpAds_db, $REMOTE_HOST;
 
-	if(!is_int($clientID))
+	if(!ereg("^[0-9]+$", $clientID))
 	{
 		$target = $clientID;
 		$clientID = 0;
@@ -404,21 +404,21 @@ function view_raw($what, $clientID=0, $target = "", $source = "", $withtext=0, $
 		  );
 }
 
-function view_t($what, $target = "")
+function view_t($what, $target="")
 {
 	view ($what, $target, 1);
 }
 
-function view($what, $clientID=0, $target = "", $source = "", $withtext=0, $context=0)
+function view($what, $clientID=0, $target="", $source="", $withtext=0, $context=0)
 {
-	$output = view_raw("$what", $clientID, "$target", "$source", "$withtext", "$context");
+	$output = view_raw($what, $clientID, "$target", "$source", $withtext, $context);
 	print($output["html"]);
 	return($output["bannerID"]);
 }
 
-function view_js($what, $clientID=0, $target = "", $source = "", $withtext=0, $context=0)
+function view_js($what, $clientID=0, $target="", $source="", $withtext=0, $context=0)
 {
-	$output = view_raw("$what", $clientID, "$target", "$source", "$withtext", "$context");
+	$output = view_raw($what, $clientID, "$target", "$source", $withtext, $context);
 	
 	enjavanate($output["html"]);
 	return($output["bannerID"]);
