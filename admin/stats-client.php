@@ -72,7 +72,8 @@ if (phpAds_isUser(phpAds_Admin))
 	$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientID=$clientID>$strModifyClient</a><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	
-	phpAds_PageHeader("2.4", $extra);
+	phpAds_PageHeader("2.1.1", $extra);
+	phpAds_ShowSections(array("2.1.1"));
 }
 
 if (phpAds_isUser(phpAds_Client))
@@ -80,22 +81,16 @@ if (phpAds_isUser(phpAds_Client))
 	phpAds_PageHeader("1.2", $extra);
 }
 
+echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientID)."</b>";
+
+echo "<br><br>";
+echo "<br><br>";
+echo "<br><br>";
 
 
 /*********************************************************/
 /* Main code                                             */
 /*********************************************************/
-
-?>
-
-<table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
-	<tr><td height='25' colspan='4'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b><?php echo phpAds_getClientName($clientID);?></b></td></tr>
-  <tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-</table>
-
-<br><br>
-
-<?php
 
 if (!isset($limit) || $limit=='') $limit = '7';
 

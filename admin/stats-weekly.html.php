@@ -503,77 +503,13 @@ function stats()
 	// (yes poor Opera and NS6 users we know that it is not conforming w3c
 	// how the two forms are embedded in the table but believe that it looks pretty
 	// nice in older NS6- and actual IE versions)
-	?> 
-
-<table border='0' width='100%' cellpadding='0' cellspacing='0'>
-	<?php
-		if ($campaignID > 0)
-		{
-			echo "<tr><td height='25' colspan='2'>";
-			echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignID);
-			echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
-			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignID);
-			echo "</b></td></tr>";
-		}
-		else
-			echo "<tr><td height='25' colspan='2'><img src='images/icon-weekly.gif' align='absmiddle'>&nbsp;<b>$strOverall</b></td></tr>";
-	?>
-	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-
-	<tr>
-		<form action="stats-weekly.php">
-			<input type="hidden" name="campaignID" value="<?php echo $campaignID;?>">
-			<input type="hidden" name="which" value="<?php echo $which;?>">
-			<td height='35'>
-				<?php echo $GLOBALS['strShowWeeks']; ?>
-				<select name="max_weeks" onChange="this.form.submit();">
-					<option value="4" <?php echo $max_weeks==4?'selected':''; ?>>4</option>
-					<option value="8" <?php echo $max_weeks==8?'selected':''; ?>>8</option>
-					<option value="12" <?php echo $max_weeks==12?'selected':''; ?>>12</option>
-					<option value="999" <?php echo $max_weeks==999?'selected':''; ?>><?php echo $GLOBALS['strAll']; ?></option>
-				</select>
-				<input type="image" src="images/go_blue.gif" border="0" name="submit">
-			</td>
-		</form>
-	<?php
 	
-	// display choice of banners
-	if ( $countbanners > 1 )
-	{
-		?>
-		<form action="stats-weekly.php">
-			<input type="hidden" name="campaignID" value="<?php echo $campaignID;?>">
-			<input type="hidden" name="max_weeks" value="<?php echo $max_weeks;?>">
-			<td height='35' align="right">
-				<img src='images/icon-banner-stored.gif' align='absmiddle'>
-				<select name="which" onChange="this.form.submit();">
-					<option value="0" <?php echo $which==0?'SELECTED':''; ?>><?php echo $GLOBALS['strAll']; ?></option>
-		<?php
-		for ( $i=0; $i<$countbanners; $i++ )
-		{
-			?>   
-					<option value="<?php echo $banner_select[$i]['id']; ?>" <?php echo $which==$banner_select[$i]['id']?'SELECTED':''; ?>><?php echo $banner_select[$i]['name']; ?></option>
-			<?php
-		}
-		?>
-				</select>
-				<input type="image" src="images/go_blue.gif" border="0" name="submit">&nbsp;
-			</td>
-		</form>
-	</tr>
-		<?php
-	}
-	?>
-</table>
-
-<br><br>
-
-	<?php
+	
 	if (sizeof($days) < 1)
 		printf("<table border=\"0\"><tr><td>%s</td></tr></table>",$which=0?$GLOBALS["strClientNoStats"]:$GLOBALS["strBannerNoStats"]);
 	else
 	{
-	?>
+?>
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
 	<tr><td height='1' colspan='11' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 	<tr>
@@ -645,6 +581,56 @@ function stats()
 </table>   
 	<?php
 	}
+	?>
+	
+<table border='0' width='100%' cellpadding='0' cellspacing='0'>
+	<tr>
+		<form action="stats-weekly.php">
+			<input type="hidden" name="campaignID" value="<?php echo $campaignID;?>">
+			<input type="hidden" name="which" value="<?php echo $which;?>">
+			<td height='35'>
+				<?php echo $GLOBALS['strShowWeeks']; ?>
+				<select name="max_weeks" onChange="this.form.submit();">
+					<option value="4" <?php echo $max_weeks==4?'selected':''; ?>>4</option>
+					<option value="8" <?php echo $max_weeks==8?'selected':''; ?>>8</option>
+					<option value="12" <?php echo $max_weeks==12?'selected':''; ?>>12</option>
+					<option value="999" <?php echo $max_weeks==999?'selected':''; ?>><?php echo $GLOBALS['strAll']; ?></option>
+				</select>
+				<input type="image" src="images/go_blue.gif" border="0" name="submit">
+			</td>
+		</form>
+	<?php
+	
+	// display choice of banners
+	if ( $countbanners > 1 )
+	{
+		?>
+		<form action="stats-weekly.php">
+			<input type="hidden" name="campaignID" value="<?php echo $campaignID;?>">
+			<input type="hidden" name="max_weeks" value="<?php echo $max_weeks;?>">
+			<td height='35' align="right">
+				<img src='images/icon-banner-stored.gif' align='absmiddle'>
+				<select name="which" onChange="this.form.submit();">
+					<option value="0" <?php echo $which==0?'SELECTED':''; ?>><?php echo $GLOBALS['strAll']; ?></option>
+		<?php
+		for ( $i=0; $i<$countbanners; $i++ )
+		{
+			?>   
+					<option value="<?php echo $banner_select[$i]['id']; ?>" <?php echo $which==$banner_select[$i]['id']?'SELECTED':''; ?>><?php echo $banner_select[$i]['name']; ?></option>
+			<?php
+		}
+		?>
+				</select>
+				<input type="image" src="images/go_blue.gif" border="0" name="submit">&nbsp;
+			</td>
+		</form>
+	</tr>
+		<?php
+	}
+	?>
+</table>
+	<?php
+
 } // end-of-function "stats()"
 
 

@@ -28,43 +28,13 @@ phpAds_checkAccess(phpAds_Admin);
 /* HTML framework                                        */
 /*********************************************************/
 
-phpAds_PageHeader("4");
+phpAds_PageHeader("4.1");
+phpAds_ShowSections(array("4.1", "4.2", "4.3"));
 
 if (isset($message))
 {
 	phpAds_ShowMessage($message);
 }
-
-
-
-/*********************************************************/
-/* Define sections                                       */
-/*********************************************************/
-
-$section = 'clients';
-$sections['clients'] = array ('client-index.php', $strClientsAndCampaigns);
-$sections['zones'] = array ('client-index.php', $strZones);
-$sections['bannercode'] = array ('admin-generate.php', $strGenerateBannercode);
-
-for (reset($sections);$skey=key($sections);next($sections))
-{
-	list ($sectionUrl, $sectionStr) = $sections[$skey];
-	
-	echo "<img src='images/caret-rs.gif' width='11' height='7'>&nbsp;";
-	
-	if ($skey == $section)
-		echo "<a class='tab-s' href='".$sectionUrl."'>".$sectionStr."</a> &nbsp;&nbsp;&nbsp;";
-	else
-		echo "<a class='tab-g' href='".$sectionUrl."'>".$sectionStr."</a> &nbsp;&nbsp;&nbsp;";
-}
-
-echo "</td></tr>";
-echo "</table>";
-echo "<img src='images/break-el.gif' height='1' width='100%' vspace='5'>";
-echo "<table width='640' border='0' cellspacing='0' cellpadding='0'>";
-echo "<tr><td width='40'>&nbsp;</td><td>";
-
-echo "<br><br>";
 
 
 
@@ -199,6 +169,9 @@ if (isset($campaigns) && is_array($campaigns) && count($campaigns) > 0)
 
 
 
+echo "<br><br>";
+echo "<br><br>";
+echo "<br><br>";
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
 
 if (isset($clients) && is_array($clients) && count($clients) > 0)

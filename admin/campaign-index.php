@@ -67,38 +67,11 @@ $extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>
 $extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-weekly.gif' align='absmiddle'>&nbsp;<a href=stats-weekly.php?campaignID=$campaignID>$strWeeklyStats</a><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 
-phpAds_PageHeader("4.1", $extra);
+phpAds_PageHeader("4.1.5", $extra);
+phpAds_ShowSections(array("4.1.5", "4.1.4"));
 
 if (isset($message))
 	phpAds_ShowMessage($message);
-
-
-
-/*********************************************************/
-/* Define sections                                       */
-/*********************************************************/
-
-$section = 'overview';
-$sections['overview'] = array ("campaign-index.php?campaignID=$campaignID", $strOverview);
-$sections['modify'] = array ("campaign-edit.php?campaignID=$campaignID", $strModifyCampaign);
-
-for (reset($sections);$skey=key($sections);next($sections))
-{
-	list ($sectionUrl, $sectionStr) = $sections[$skey];
-	
-	echo "<img src='images/caret-rs.gif' width='11' height='7'>&nbsp;";
-	
-	if ($skey == $section)
-		echo "<a class='tab-s' href='".$sectionUrl."'>".$sectionStr."</a> &nbsp;&nbsp;&nbsp;";
-	else
-		echo "<a class='tab-g' href='".$sectionUrl."'>".$sectionStr."</a> &nbsp;&nbsp;&nbsp;";
-}
-
-echo "</td></tr>";
-echo "</table>";
-echo "<img src='images/break-el.gif' height='1' width='100%' vspace='5'>";
-echo "<table width='640' border='0' cellspacing='0' cellpadding='0'>";
-echo "<tr><td width='40'>&nbsp;</td><td>";	
 
 
 
@@ -110,13 +83,19 @@ echo "<tr><td width='40'>&nbsp;</td><td>";
 
 ?>
 
+<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getParentName($campaignID);?>
+&nbsp;<img src='images/caret-rs.gif'>&nbsp;
+<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b><?php echo phpAds_getClientName($campaignID);?></b><br>
+
+<br><br>
+<br><br>
+<br><br>
+
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
-	<tr><td height='25' colspan='2'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getParentName($campaignID);?>
-									&nbsp;<img src='images/caret-rs.gif'>&nbsp;
-									<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b><?php echo phpAds_getClientName($campaignID);?></b></td></tr>
-	<tr><td height='25' colspan='2'>
+	<tr><td height='25'>
 		<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<a href='banner-edit.php?campaignID=<?php echo $campaignID; ?>'><?php echo $strAddBanner;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
 	</td></tr>
+	<tr><td height='1' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 </table>
 
 

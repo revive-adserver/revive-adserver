@@ -108,7 +108,8 @@ if (phpAds_isUser(phpAds_Admin))
 	}
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	
-	phpAds_PageHeader("2.1.1.1", $extra);
+	phpAds_PageHeader("2.1.2.1.1", $extra);
+	phpAds_ShowSections(array("2.1.2.1.1"));
 }
 
 if (phpAds_isUser(phpAds_Client))
@@ -187,9 +188,10 @@ function showHourlyStats($what)
 									&nbsp;<img src='images/caret-rs.gif'>&nbsp;
 									<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b><?php echo phpAds_getBannerName($bannerID);?></b></td></tr>
   <tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-  <tr><td colspan='4' align='left'><br><?php echo phpAds_getBannerCode($bannerID);?><br><br></td></tr>
+  <tr><td colspan='4' align='left'><br><?php echo phpAds_getBannerCode($bannerID);?></td></tr>
 </table>
 
+<br><br>
 <br><br>
 
 <table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">

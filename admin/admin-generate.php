@@ -28,38 +28,9 @@ phpAds_checkAccess(phpAds_Admin);
 /* HTML framework                                        */
 /*********************************************************/
 
-phpAds_PageHeader("4.6");
+phpAds_PageHeader("4.3");
+phpAds_ShowSections(array("4.1", "4.2", "4.3"));
 
-
-
-/*********************************************************/
-/* Define sections                                       */
-/*********************************************************/
-
-$section = 'bannercode';
-$sections['clients'] = array ('client-index.php', $strClientsAndCampaigns);
-$sections['zones'] = array ('client-index.php', $strZones);
-$sections['bannercode'] = array ('admin-generate.php', $strGenerateBannercode);
-
-for (reset($sections);$skey=key($sections);next($sections))
-{
-	list ($sectionUrl, $sectionStr) = $sections[$skey];
-	
-	echo "<img src='images/caret-rs.gif' width='11' height='7'>&nbsp;";
-	
-	if ($skey == $section)
-		echo "<a class='tab-s' href='".$sectionUrl."'>".$sectionStr."</a> &nbsp;&nbsp;&nbsp;";
-	else
-		echo "<a class='tab-g' href='".$sectionUrl."'>".$sectionStr."</a> &nbsp;&nbsp;&nbsp;";
-}
-
-echo "</td></tr>";
-echo "</table>";
-echo "<img src='images/break-el.gif' height='1' width='100%' vspace='5'>";
-echo "<table width='640' border='0' cellspacing='0' cellpadding='0'>";
-echo "<tr><td width='40'>&nbsp;</td><td>";
-
-echo "<br><br>";
 
 
 
@@ -215,8 +186,9 @@ function phpAds_GenerateInvocationCode()
 /* Main code                                             */
 /*********************************************************/
 
-
-
+echo "<br><br>";
+echo "<br><br>";
+echo "<br><br>";
 echo "<form name='availability' action='admin-generate.php' method='POST'>\n";
 
 

@@ -132,13 +132,24 @@ if (phpAds_isUser(phpAds_Admin))
 		$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-campaign.php?campaignID=$campaignID>$strStats</a><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		
-		phpAds_PageHeader('2.1.2', $extra);
+		phpAds_PageHeader('2.1.4', $extra);
+		phpAds_ShowSections(array("2.1.2", "2.1.3", "2.1.4"));
+		
+		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignID);
+		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+		echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignID);
+		echo "</b>";
 	}
 	else
 	{
 		phpAds_PageHeader('2.3');
+		phpAds_ShowSections(array("2.1", "2.2", "2.3"));
 	}
 }
+
+echo "<br><br>";
+echo "<br><br>";
+echo "<br><br>";
 
 
 

@@ -182,46 +182,22 @@ if ($campaignID != "")
 	$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-weekly.gif' align='absmiddle'>&nbsp;<a href=stats-weekly.php?campaignID=$campaignID>$strWeeklyStats</a><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	
-	phpAds_PageHeader("4.3", $extra);
-	
-	
-	/*********************************************************/
-	/* Define sections                                       */
-	/*********************************************************/
-	
-	$section = 'modify';
-	$sections['overview'] = array ("campaign-index.php?campaignID=$campaignID", $strOverview);
-	$sections['modify'] = array ("campaign-edit.php?campaignID=$campaignID", $strModifyCampaign);
-	
-	for (reset($sections);$skey=key($sections);next($sections))
-	{
-		list ($sectionUrl, $sectionStr) = $sections[$skey];
-		
-		echo "<img src='images/caret-rs.gif' width='11' height='7'>&nbsp;";
-		
-		if ($skey == $section)
-			echo "<a class='tab-s' href='".$sectionUrl."'>".$sectionStr."</a> &nbsp;&nbsp;&nbsp;";
-		else
-			echo "<a class='tab-g' href='".$sectionUrl."'>".$sectionStr."</a> &nbsp;&nbsp;&nbsp;";
-	}
-	
-	echo "</td></tr>";
-	echo "</table>";
-	echo "<img src='images/break-el.gif' height='1' width='100%' vspace='5'>";
-	echo "<table width='640' border='0' cellspacing='0' cellpadding='0'>";
-	echo "<tr><td width='40'>&nbsp;</td><td>";	
+	phpAds_PageHeader("4.1.4", $extra);
+	phpAds_ShowSections(array("4.1.5", "4.1.4"));
 }
 else
 {
 	if (isset($move) && $move == 'true')
 	{
 		// Convert client to campaign
-		phpAds_PageHeader("4.3");
+		phpAds_PageHeader("4.1.4");
+		phpAds_ShowSections(array("4.1.4"));
 	}
 	else
 	{
 		// New campaign
-		phpAds_PageHeader("4.2");   
+		phpAds_PageHeader("4.1.3");   
+		phpAds_ShowSections(array("4.1.3"));
 	}
 }
 
@@ -460,19 +436,19 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 </script>
 
 
-<table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
+
 	<?php if (isset($campaignID) && $campaignID > 0) { ?>
-	<tr><td height='25' colspan='4'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getParentName($campaignID);?>
-									&nbsp;<img src='images/caret-rs.gif'>&nbsp;
-									<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b><?php echo phpAds_getClientName($campaignID);?></b></td></tr>
+<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getParentName($campaignID);?>
+&nbsp;<img src='images/caret-rs.gif'>&nbsp;
+<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b><?php echo phpAds_getClientName($campaignID);?></b><br>
 	<?php } else { ?>
-	<tr><td height='25' colspan='4'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getClientName($clientID);?>
-									&nbsp;<img src='images/caret-rs.gif'>&nbsp;
-									<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b><?php echo $strCreateNewCampaign; ?></b></td></tr>
+<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getClientName($clientID);?>
+&nbsp;<img src='images/caret-rs.gif'>&nbsp;
+<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b><?php echo $strUntitled; ?></b><br>
 	<?php } ?>
-</table
 
 
+<br><br>
 <br><br>
 <br><br>
   

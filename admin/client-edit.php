@@ -250,7 +250,8 @@ if ($clientID != "")
 		}
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		
-		phpAds_PageHeader("4.5", $extra);
+		phpAds_PageHeader("4.1.2", $extra);
+		phpAds_ShowSections(array("4.1.2"));
 	}
 	else
 	{
@@ -271,8 +272,9 @@ if ($clientID != "")
 }
 else
 {
-	phpAds_PageHeader("4.4");   
-
+	phpAds_PageHeader("4.1.1");   
+	phpAds_ShowSections(array("4.1.1"));
+	
 	$row["permissions"] 		= "";
 	$row["reportdeactivate"] 	= 'true';
 	$row["report"] 				= 'true';
@@ -287,15 +289,10 @@ else
 
 ?>
 
-<table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
-	<tr><td height='25' colspan='4'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b><?php echo phpAds_getClientName($clientID);?></b></td></tr>
-  	<tr><td height='1' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-</table
-
-
+<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b><?php echo phpAds_getClientName($clientID);?></b><br>
 <br><br>
 <br><br>
-
+<br><br>
 
 
 <form name="clientform" method="post" action="<?php echo basename($PHP_SELF);?>">
