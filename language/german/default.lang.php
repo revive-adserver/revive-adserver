@@ -1,4 +1,4 @@
-<?php // $Revision: 1.14 $
+<?php // $Revision: 1.15 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -429,5 +429,8 @@ $GLOBALS['strConvertSWF']				= "<br>The Flash file you just uploaded contains ha
 									  	  "you just uploaded will be physically altered. <br>Please keep a backup of the ".
 										  "original file. Regardless of in which version this banner was created, the resulting ".
 										  "file will need the Flash 4 player (or higher) to display correctly.<br><br>";
+
+$GLOBALS['strSourceStats']				= "Source Stats";
+$GLOBALS['strSelectSource']				= "Select the source you want to view:";
 
 ?>
