@@ -408,8 +408,8 @@ echo "</tr>";
 
 echo "<tr>";
 echo "<td height='25'>&nbsp;<b>$strTotalThisPeriod</b></td>";
-echo "<td height='25'>".$totalviews."&nbsp(".number_format($totalviews / $totals['views'] * 100, $phpAds_config['percentage_decimals'])."%)</td>";
-echo "<td height='25'>".$totalclicks."&nbsp(".number_format($totalclicks / $totals['clicks'] * 100, $phpAds_config['percentage_decimals'])."%)</td>";
+echo "<td height='25'>".$totalviews."&nbsp(".number_format(($totals['views'] ? $totalviews / $totals['views'] * 100 : 0), $phpAds_config['percentage_decimals'])."%)</td>";
+echo "<td height='25'>".$totalclicks."&nbsp(".number_format(($totals['clicks'] ? $totalclicks / $totals['clicks'] * 100 : 0), $phpAds_config['percentage_decimals'])."%)</td>";
 echo "<td height='25'>".phpAds_buildCTR($totalviews, $totalclicks)."</td>";
 echo "</tr>";
 
