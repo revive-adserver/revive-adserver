@@ -52,6 +52,10 @@ function phpAds_upgradeDatabase ($tabletype = '')
 		}
 	}
 	
+	// Split banners into two tables and
+	// generate banner html cache
+	phpAds_upgradeSplitBanners();
+	
 	return true;
 }
 
@@ -443,6 +447,153 @@ function phpAds_prepareDatabaseStructure()
 	
 	return $dbstructure;
 }
+
+
+/*********************************************************/
+/* Version specific updates                              */
+/*********************************************************/
+
+function phpAds_upgradeSplitBanners ()
+{
+	global $phpAds_config;
+	
+	// Check if splitting is needed
+	if (!isset($phpAds_config['config_version']) ||	$phpAds_config['config_version'] < 200.070)
+	{
+		// Fetch all banners
+		$res = phpAds_dbQuery ("SELECT * FROM ".$phpAds_config['tbl_banners']);
+		
+		while ($row = phpAds_dbFetchArray($res))
+		{
+			$banners[] = $row;
+		}
+		
+		for ($i=0; $i < count($banners); $i++)
+		{
+			// Requote fields
+			$banners[$i]['alt'] 		= phpAds_htmlQuotes(stripslashes($banners[$i]['alt']));
+			$banners[$i]['status'] 		= phpAds_htmlQuotes(stripslashes($banners[$i]['status']));
+			$banners[$i]['bannertext'] 	= phpAds_htmlQuotes(stripslashes($banners[$i]['bannertext']));
+			
+			// Resplit keywords
+			if (isset($banners[$i]['keyword']) && $banners[$i]['keyword'] != '')
+			{
+				$keywordArray = split('[ ,]+', trim($banners[$i]['keyword']));
+				$banners[$i]['keyword'] = implode(' ', $keywordArray);
+			}
+			
+			// Determine storagetype
+			switch ($banners[$i]['format'])
+			{
+				case 'url':		$banners[$i]['storagetype'] = 'url';	break;
+				case 'html':	$banners[$i]['storagetype'] = 'html';	break;
+				case 'web':		$banners[$i]['storagetype'] = 'web';	break;
+				default:		$banners[$i]['storagetype'] = 'sql';	break;
+			}
+			
+			switch ($banners[$i]['storagetype'])
+			{
+				case 'sql':
+					
+					// Determine contenttype
+					$banners[$i]['contenttype']  = $banners[$i]['format'];
+					
+					// Store the file
+					$banners[$i]['filename']	 = 'banner_'.$banners[$i]['bannerid'].'.'.$banners[$i]['contenttype'];
+					$banners[$i]['filename'] 	 = phpAds_ImageStore($banners[$i]['storagetype'], $banners[$i]['filename'], $banners[$i]['banner']);
+					$banners[$i]['banner']		 = '';
+					
+					// Set the html template
+					$banners[$i]['htmltemplate'] = phpAds_getBannerTemplate($banners[$i]['contenttype']);
+					$banners[$i]['htmlcache']    = addslashes(phpAds_getBannerCache($banners[$i]));
+					$banners[$i]['htmltemplate'] = addslashes($banners[$i]['htmltemplate']);
+					break;
+				
+				case 'web':
+					// Get the contenttype
+					$ext = substr($banners[$i]['banner'], strrpos($banners[$i]['banner'], ".") + 1);
+					switch (strtolower($ext)) 
+					{
+						case 'jpeg': $banners[$i]['contenttype'] = 'jpeg';  break;
+						case 'jpg':	 $banners[$i]['contenttype'] = 'jpeg';  break;
+						case 'html': $banners[$i]['contenttype'] = 'html';  break;
+						case 'png':  $banners[$i]['contenttype'] = 'png';   break;
+						case 'gif':  $banners[$i]['contenttype'] = 'gif';   break;
+						case 'swf':  $banners[$i]['contenttype'] = 'swf';   break;
+					}
+					
+					// Store the file
+					$banners[$i]['filename']	 = basename($banners[$i]['banner']);
+					$banners[$i]['banner']		 = '';
+					
+					// Set the html template
+					$banners[$i]['htmltemplate'] = phpAds_getBannerTemplate($banners[$i]['contenttype']);
+					$banners[$i]['htmlcache']    = addslashes(phpAds_getBannerCache($banners[$i]));
+					$banners[$i]['htmltemplate'] = addslashes($banners[$i]['htmltemplate']);
+					break;
+				
+				case 'url':
+					// Get the contenttype
+					$ext = parse_url($banners[$i]['banner']);
+					$ext = $ext['path'];
+					$ext = substr($ext, strrpos($ext, ".") + 1);
+					switch (strtolower($ext)) 
+					{
+						case 'jpeg': $banners[$i]['contenttype'] = 'jpeg';  break;
+						case 'jpg':	 $banners[$i]['contenttype'] = 'jpeg';  break;
+						case 'html': $banners[$i]['contenttype'] = 'html';  break;
+						case 'png':  $banners[$i]['contenttype'] = 'png';   break;
+						case 'gif':  $banners[$i]['contenttype'] = 'gif';   break;
+						case 'swf':  $banners[$i]['contenttype'] = 'swf';   break;
+					}
+					
+					$banners[$i]['filename']	 = $banners[$i]['banner'];
+					$banners[$i]['banner']		 = '';
+					
+					// Set the html template
+					$banners[$i]['htmltemplate'] = phpAds_getBannerTemplate($banners[$i]['contenttype']);
+					$banners[$i]['htmlcache']    = addslashes(phpAds_getBannerCache($banners[$i]));
+					$banners[$i]['htmltemplate'] = addslashes($banners[$i]['htmltemplate']);
+					break;
+				
+				case 'html':
+					// Get the contenttype
+					$banners[$i]['contenttype']  = 'html';
+					$banners[$i]['filename']	 = '';
+					$banners[$i]['banner']		 = '';
+					
+					$banners[$i]['htmltemplate'] = $banners[$i]['banner'];
+					$banners[$i]['htmlcache']    = addslashes(phpAds_getBannerCache($banners[$i]));
+					$banners[$i]['htmltemplate'] = addslashes($banners[$i]['htmltemplate']);
+					break;
+			}
+			
+			// Update the banner
+			$res = phpAds_dbQuery ("
+				UPDATE
+					".$phpAds_config['tbl_banners']."
+				SET
+					storagetype = '".$banners[$i]['storagetype']."',
+					contenttype = '".$banners[$i]['contenttype']."',
+					filename = '".$banners[$i]['filename']."',
+					banner = '".$banners[$i]['banner']."',
+					htmltemplate = '".$banners[$i]['htmltemplate']."',
+					htmlcache = '".$banners[$i]['htmlcache']."',
+					alt = '".$banners[$i]['alt']."',
+					status = '".$banners[$i]['status']."',
+					bannertext = '".$banners[$i]['bannertext']."',
+					keyword = '".$banners[$i]['keyword']."'
+				WHERE
+					bannerid = ".$banners[$i]['bannerid']."
+			");
+		}
+		
+		// Delete unneeded columns
+		$res = phpAds_dbQuery ("ALTER TABLE ".$phpAds_config['tbl_banners']." DROP COLUMN banner");
+		$res = phpAds_dbQuery ("ALTER TABLE ".$phpAds_config['tbl_banners']." DROP COLUMN format");
+	}
+}
+
 
 
 ?>
