@@ -6,6 +6,7 @@
 	var helpSpeed = 1;
 	var helpLeft = 181;
 	var helpOnScreen = false;
+	var helpTimerID = null;
 
 	function setHelp(item)
 	{
@@ -66,6 +67,7 @@
 		} else {
 			helpLayer.height = helpCounter * helpStepHeight;
 			helpLayer.top = window.innerHeight + window.pageYOffset - (helpCounter * helpStepHeight);
+			if (helpTimerID == null) helpTimerID = setInterval('resizeHelp()', 100);
 		}
 		
 		if (helpCounter < helpSteps)
@@ -76,17 +78,16 @@
 	
 	function resizeHelp()
 	{	
-		var helpLayer = findObj("helpLayer");
-		if (helpLayer.style) helpLayer = helpLayer.style;
-
-		if (document.all) {
-			if (helpOnScreen == true) {
+		if (helpOnScreen == true) 
+		{
+			var helpLayer = findObj("helpLayer");
+			if (helpLayer.style) helpLayer = helpLayer.style;
+	
+			if (document.all) {
 				helpLayer.pixelHeight = helpSteps * helpStepHeight;
 				helpLayer.pixelWidth = document.body.clientWidth - helpLeft;
 				helpLayer.pixelTop = document.body.clientHeight + document.body.scrollTop - (helpSteps * helpStepHeight);
-			}
-		} else {
-			if (helpOnScreen == true) {
+			} else {
 				helpLayer.height = helpSteps * helpStepHeight;
 				helpLayer.width = document.width - helpLeft;
 				helpLayer.top = window.innerHeight + window.pageYOffset - (helpSteps * helpStepHeight);
@@ -96,6 +97,7 @@
 	
 	function hideHelp()
 	{
+		helpOnScreen = false;
 		helpCounter = helpSteps;		
 		setTimeout('helpShrink()', helpSpeed);
 	}
@@ -107,33 +109,29 @@
 
 		helpCounter--;
 		
-		if (document.all) {
-			if (helpCounter >= 0) {
+		if (helpCounter >= 0) 
+		{
+			if (document.all) {
 				helpLayer.pixelHeight = helpCounter * helpStepHeight;
 				helpLayer.pixelTop = document.body.clientHeight + document.body.scrollTop - (helpCounter * helpStepHeight);
-				setTimeout('helpShrink()', helpSpeed);
 			} else {
-				helpLayer.pixelHeight = 1;
-				helpLayer.pixelTop = document.body.clientHeight + document.body.scrollTop - 1;
-				helpLayer.visibility = 'hidden';
-				helpOnScreen = false;
-
-				var helpContents = findObj("helpContents");
-				helpContents.innerHTML = helpDefault;
-			}
-		} else {
-			if (helpCounter >= 0) {
 				helpLayer.height = helpCounter * helpStepHeight;
 				helpLayer.top = window.innerHeight + window.pageYOffset - (helpCounter * helpStepHeight);
-				setTimeout('helpShrink()', helpSpeed);
+			}
+			setTimeout('helpShrink()', helpSpeed);
+		} 
+		else 
+		{
+			if (document.all) {
+				helpLayer.pixelHeight = 1;
+				helpLayer.pixelTop = document.body.clientHeight + document.body.scrollTop - 1;
 			} else {
 				helpLayer.height = 1;
 				helpLayer.top = window.innerHeight + window.pageYOffset - 1;
-				helpLayer.visibility = 'hidden';
-				helpOnScreen = false;
-				
-				var helpContents = findObj("helpContents");
-				helpContents.innerHTML = helpDefault;
 			}
+			helpLayer.visibility = 'hidden';
+			
+			var helpContents = findObj("helpContents");
+			helpContents.innerHTML = helpDefault;
 		}
 	}
