@@ -1,4 +1,4 @@
-<?php // $Revision: 1.19.2.1 $
+<?php // $Revision: 1.19.2.3 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -28,7 +28,7 @@ $GLOBALS['strFatalError']			= "Ein schwerer Fehler ist aufgetreten";
 $GLOBALS['strUpdateError']			= "Während des Updates ist ein Fehler aufgetreten";
 $GLOBALS['strUpdateDatabaseError']	= "Aus unbekannten Gründen war die Aktualisierung der Datenbankstruktur nicht erfolgreich. Es wird empfohlen, zu versuchen, mit <b>Wiederhole Update</b> das Problem zu beheben. Sollte der Fehler - Ihrer Meinung nach - die Funktionalität von ".$phpAds_productname." nicht berühren, können Sie durch <b>Fehler ignorieren</b>  fortfahren. Das Ignorieren des Fehlers wird nicht empfohlen!";
 $GLOBALS['strAlreadyInstalled']			= $phpAds_productname." ist bereits auf diesem System installiert. Zur Konfiguration nutzen Sie das <a href='settings-index.php'>Konfigurationsmenü</a>"; 
-$GLOBALS['strCouldNotConnectToDB']		= "Verbindung zur Datenbank war nicht möglich. Bitte vorgenommene Einstellung prüfen.";
+$GLOBALS['strCouldNotConnectToDB']		= "Verbindung zur Datenbank war nicht möglich. Bitte vorgenommene Einstellung prüfen. Prüfen Sie ggf., ob die von Ihnen angegebene Datenbank überhaupt auf dem Datenbank-Server vorhanden ist. ".$phpAds_productname." erstellt die Datenbank  <i>nicht</i> automatisch. ";
 $GLOBALS['strCreateTableTestFailed']		= "Der von Ihnen angegebene Nutzer hat nicht die notwendigen Zugriffsrechte, um die Datenbankstruktur anlegen zu können. Wenden Sie sich an den Systemverwalter.";
 $GLOBALS['strUpdateTableTestFailed']		= " Der von Ihnen angegebene Nutzer hat nicht die notwendigen Zugriffsrechte, um die Datenbank zu aktualisieren. Wenden Sie sich an den Systemverwalter.";
 $GLOBALS['strTablePrefixInvalid']		= "Ungültiges Vorzeichen (Präfix) im Tabellennamen";
@@ -88,6 +88,9 @@ $GLOBALS['strSystemRebuildingCache']		= "Cache wird neu erstellt. Bitte warten .
 $GLOBALS['strServiceUnavalable']		= "Dieser Service ist zur Zeit nicht erreichbar. System wird aktualisiert...";
 
 $GLOBALS['strConfigNotWritable']		= "Für die Datei <i>config.inc.php</i>  besteht Schreibschutz";
+$GLOBALS['strPhpBug20144']				= "Die von Ihnen eingesetzte Version von PHP hat einen <a href='http://bugs.php.net/bug.php?id=20114' target='_blank'>schwerwiegenden Fehler</a>. Dadurch arbeitet ".$phpAds_productname." nicht korrekt. Es wird PHP 4.3.0 oder höher benötigt. Andernfalls kann die Installation nicht fortgesetzt werden.";
+
+
 
 
 
@@ -98,7 +101,7 @@ $GLOBALS['strConfigNotWritable']		= "Für die Datei <i>config.inc.php</i>  besteh
 // Global
 $GLOBALS['strChooseSection']			= "Bereichsauswahl";
 $GLOBALS['strDayFullNames'] 			= array("Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag");
-$GLOBALS['strEditConfigNotPossible']   		= "Änderungen der Systemeinstellung nicht möglich. Für die Konfigurationsdatei  <i>config.inc.php</i> besteht Schreibschutz. ".
+$GLOBALS['strEditConfigNotPossible']   		= "Änderungen der Systemeinstellung sind nicht möglich. Es besteht für die Konfigurationsdatei  <i>config.inc.php</i> Schreibschutz. ".
 										  "Für Änderungen muß der Schreibschutz aufgehoben werden.";
 $GLOBALS['strEditConfigPossible']		= "Unbefugte Systemänderungen sind möglich. Die Zugriffsrechte der Konfigurationsdatei <i>config.inc.php</i> sind auf Schreibbrechtigung gesetzt. ".
 										  "Zur Sicherung des System sollte der Schreibschutz gesetzt werden. Nähere Informationen im Handbuch.";
@@ -138,19 +141,19 @@ $GLOBALS['strUseAcl']				= "Einschränkungen während der Bannerauslieferung werde
 
 $GLOBALS['strDeliverySettings']			= "Einstellungen für Bannerauslieferung";
 $GLOBALS['strCacheType']			= "Cache-Type für Bannerauslieferung";
-$GLOBALS['strCacheFiles']			= "Dateien";
+$GLOBALS['strCacheFiles']			= "Datei-Cache";
 $GLOBALS['strCacheDatabase']			= "Datenbank";
 $GLOBALS['strCacheShmop']			= "Shared memory/Shmop";
 $GLOBALS['strCacheSysvshm']			= "Shared memory/Sysvshm";
 $GLOBALS['strExperimental']			= "Experimental";
-$GLOBALS['strKeywordRetrieval']		= "Schlüsselwortselektion";
+$GLOBALS['strKeywordRetrieval']			= "Schlüsselwortselektion";
 $GLOBALS['strBannerRetrieval']			= "Modus für Bannerselektion";
 $GLOBALS['strRetrieveRandom']			= "Zufallsbasierte Bannerselektion (Voreinstellung)";
 $GLOBALS['strRetrieveNormalSeq']		= "Sequentielle Bannerselektion";
 $GLOBALS['strWeightSeq']			= "Gewichtungsabhängige Bannerselektion ";
 $GLOBALS['strFullSeq']				= " Streng sequentielle Bannerselektion ";
 $GLOBALS['strUseConditionalKeys']		= "Logische Operatoren sind bei Direktselektion zulässig ";
-$GLOBALS['strUseMultipleKeys']			= "Mehrere Schlüsselwörter sind für die Direktselektion zugelassen ";
+$GLOBALS['strUseMultipleKeys']			= "Mehrere Schlüsselwörter sind für die Direktselektionzugelassen ";
 
 $GLOBALS['strZonesSettings']			= "Selektion über Zonen";
 $GLOBALS['strZoneCache']			= "Einrichten von Zwischenspeichern (Cache) für Zonen. Beschleunigt die Bannerauslieferung";
@@ -214,6 +217,8 @@ $GLOBALS['strGeotargeting']			= "Geotargeting (Standortbestimmung) ";
 $GLOBALS['strGeotrackingType']			= "Datenbanktypen für Geotargeting ";
 $GLOBALS['strGeotrackingLocation'] 		= "Standort der Datenbank für Geotargeting";
 $GLOBALS['strGeotrackingLocationError'] = "Keine Datenbank für Geotargeting an der genannten Adresse gefunden";
+$GLOBALS['strGeotrackingLocationNoHTTP']	= "Die von Ihnen angegebene Adresse ist <b>kein</b> lokales Verzeichnis auf dem Rechner (der Festplatte) des Servers. Es ist die URL einer WEB-Datei. Die richtige Schreibweise für ein lokales Verzeichnis sollte ähnlich aussehen wie:<br><i>{example}</i>.<BR> 
+Um Geotargeting nutzen zu können, muß korrekt angegeben werden, wohin die Datenbank kopiert wurde. ";
 $GLOBALS['strGeoStoreCookie']			= "Speichern des Ergebnisses in einem Cookie zur späteren Nutzung";
 
 

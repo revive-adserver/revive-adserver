@@ -1,4 +1,4 @@
-<?php // $Revision: 1.17.2.1 $
+<?php // $Revision: 1.17.2.3 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -56,7 +56,7 @@ $GLOBALS['strLoginInformation'] 	= "Login-Information";
 $GLOBALS['strOverview']				= "Übersicht";
 $GLOBALS['strSearch']				= "<u>S</u>uchen";
 $GLOBALS['strHistory']				= "Entwicklung";
-$GLOBALS['strPreferences'] 			= "Vorzug/Vorrang";
+$GLOBALS['strPreferences'] 			= "(persönliche) Einstellungen";
 $GLOBALS['strDetails']				= "Details";
 $GLOBALS['strCompact']				= "Kompakt";
 $GLOBALS['strVerbose']				= "Detailliert";
@@ -109,12 +109,13 @@ $GLOBALS['strFieldContainsErrors']		= "Folgende Felder sind fehlerhaft:";
 $GLOBALS['strFieldFixBeforeContinue1']	= "Bevor Sie fortgefahren können, müssen Sie";
 $GLOBALS['strFieldFixBeforeContinue2']	= "diese Fehler beheben.";
 $GLOBALS['strDelimiter']			= "Trennzeichen";
-$GLOBALS['strMiscellaneous']		= "Vermischtes";
+$GLOBALS['strMiscellaneous']		= "Weitere Auswertungen";
 
 $GLOBALS['strCollectedAll']			= "Alle gesammelten Statistiken";
 $GLOBALS['strCollectedToday']		= "Statistiken nur für heute";
 $GLOBALS['strCollected7Days']		= " Statistiken nur für die letzten 7 Tage";
 $GLOBALS['strCollectedMonth']		= " Statistiken nur für den laufenden Monat";
+$GLOBALS['strUseQuotes']			= "Verwende Quoten";
 
 
 // Properties
@@ -132,22 +133,22 @@ $GLOBALS['strID']					= "ID";
 // Login & Permissions
 $GLOBALS['strAuthentification'] 	= "Authentifikation"; 
 $GLOBALS['strWelcomeTo']			= "Willkommen bei";
-$GLOBALS['strEnterUsername']		= "Geben Sie Benutzername und Passwort ein";
-$GLOBALS['strEnterBoth']			= "Bitte beides eingeben; Benutzername und Passwort";
+$GLOBALS['strEnterUsername']		= "Geben Sie Benutzername und Kennwort ein";
+$GLOBALS['strEnterBoth']			= "Bitte beides eingeben; Benutzername und Kennwort";
 $GLOBALS['strEnableCookies']		= "Es müssen Cookies aktiviert werden, damit ".$phpAds_productname." genutzt werden kann.";
 $GLOBALS['strLogin'] 				= "Login";
 $GLOBALS['strLogout'] 				= "Logout";
 $GLOBALS['strUsername'] 			= "Benutzername";
-$GLOBALS['strPassword']				= "Passwort";
+$GLOBALS['strPassword']				= "Kennwort";
 $GLOBALS['strAccessDenied']			= "Zugang verweigert";
-$GLOBALS['strPasswordWrong']		= "Das Passwort ist nicht korrekt";
+$GLOBALS['strPasswordWrong']		= "Das Kennwort ist nicht korrekt";
 $GLOBALS['strNotAdmin']				= "Sie haben nicht ausreichend Privilegien";
 $GLOBALS['strDuplicateClientName']	= "Der gewählte Benutzername existiert bereits. Bitte einen anderen wählen.";
-$GLOBALS['strInvalidPassword']		= "Das neue Passwort ist ungültig. Bitte wählen Sie ein anderes.";
-$GLOBALS['strNotSamePasswords']		= "Die beiden eingegebenen Passwörter stimmen nicht überein ";
-$GLOBALS['strRepeatPassword']		= "Wiederhole Passwort";
-$GLOBALS['strOldPassword']			= "Altes Passwort";
-$GLOBALS['strNewPassword']			= "Neues Passwort";
+$GLOBALS['strInvalidPassword']		= "Das neue Kennwort ist ungültig. Bitte wählen Sie ein anderes.";
+$GLOBALS['strNotSamePasswords']		= "Die beiden eingegebenen Kennwörter stimmen nicht überein ";
+$GLOBALS['strRepeatPassword']		= "Wiederhole Kennwort";
+$GLOBALS['strOldPassword']			= "Altes Kennwort";
+$GLOBALS['strNewPassword']			= "Neues Kennwort";
 
 
 
@@ -261,7 +262,7 @@ $GLOBALS['strBanners'] 				= "Banner";
 $GLOBALS['strAddBanner'] 			= "Neues Banner hinzufügen";
 $GLOBALS['strAddBanner_Key'] 		= " <u>N</u>eues Banner hinzufügen ";
 $GLOBALS['strModifyBanner'] 		= "Banner verändern";
-$GLOBALS['strActiveBanners'] 		= "Banner aktivieren";
+$GLOBALS['strActiveBanners'] 		= "Aktive Banner";
 $GLOBALS['strTotalBanners'] 		= "Summe Banner";
 $GLOBALS['strShowBanner']			= "Banner anzeigen";
 $GLOBALS['strShowAllBanners']	 	= "Alle Banner anzeigen";
@@ -282,7 +283,7 @@ $GLOBALS['strShowParentCampaigns']		= "Zugehörige Kampagnen anzeigen";
 $GLOBALS['strHideParentCampaigns']		= "Zugehörige Kampagnen verbergen";
 $GLOBALS['strHideInactiveBanners']		= "Inaktive Banner verbergen";
 $GLOBALS['strInactiveBannersHidden']	= "inaktive Banner sind verborgen";
-$GLOBALS['strAppendOthers']			= "Andere anhängen";
+$GLOBALS['strAppendOthers']			= "Anhänge/Ergänzungen";
 $GLOBALS['strAppendTextAdNotPossible']	= "Es ist nicht möglich, ein Banner an eine Textanzeige anzuhängen.";
 
 
@@ -342,23 +343,23 @@ $GLOBALS['strEarlierThan']			= "ist früher als";
 $GLOBALS['strEarlierThanOrEqual']	= "ist früher als oder gleichzeitig mit";
 $GLOBALS['strContains']				= "beinhaltet";
 $GLOBALS['strNotContains']			= "beinhaltet nicht";
-$GLOBALS['strAND']					= "'UND"; 	// logical operator
+$GLOBALS['strAND']					= "UND"; 	// logical operator
 $GLOBALS['strOR']					= "ODER"; 	// logical operator
 $GLOBALS['strOnlyDisplayWhen']		= "Diesen Banner nur anzeigen, wenn:";
 $GLOBALS['strWeekDay'] 				= "Wochentag";
 $GLOBALS['strTime'] 				= "Zeit";
-$GLOBALS['strUserAgent'] 			= "Browsertype"; 
+$GLOBALS['strUserAgent'] 			= "User Agent"; 
 $GLOBALS['strDomain'] 				= "Domain";
 $GLOBALS['strClientIP'] 			= "IP-Adresse";
 $GLOBALS['strSource'] 				= "Quelle";
 $GLOBALS['strBrowser'] 				= "Browser";
-$GLOBALS['strOS'] 					= "BS";
+$GLOBALS['strOS'] 					= "Betriebsystem";
 $GLOBALS['strCountry'] 				= "Land";
 $GLOBALS['strContinent'] 			= "Kontinent";
 $GLOBALS['strUSState']				= "US-Bundesländer";
 $GLOBALS['strReferer'] 				= "Referenzseite";
 $GLOBALS['strDeliveryLimitations']	= "Auslieferungsbeschränkungen";
-$GLOBALS['strDeliveryCapping']		= "Bannereinblendung kappen"; 
+$GLOBALS['strDeliveryCapping']		= "Bannereinblendung kappen <i>(nach Anzahl oder zeitlich)</i>"; 
 $GLOBALS['strTimeCapping']			= "Dieses Banner einem Besucher nicht länger zeigen als:";
 $GLOBALS['strImpressionCapping']	= "Dieses Banner einem Besucher nicht mehrmals zeigen als:";
 
@@ -420,7 +421,7 @@ $GLOBALS['strZoneStopDelivery']		= "Bannerauslieferung stoppen; keine Banner anz
 $GLOBALS['strZoneOtherZone']		= "Die gewählte Zone wird anstelle dessen angezeigt";
 $GLOBALS['strZoneUseKeywords']		= "Banner auswählen, welches nachfolgende Schlüsselwörter hat ";
 $GLOBALS['strZoneAppend']			= "Immer diesen HTML-Code den Bannern aus dieser Zone anhängen ";
-$GLOBALS['strAppendSettings']		= "HTML-Ergänzungen (Anhängen und Voranstellen)";
+$GLOBALS['strAppendSettings']		= "Einstellungen für Anhänge/Ergänzungen";
 $GLOBALS['strZonePrependHTML']		= "Immer diesen HTML-Code den Testanzeigen aus dieser Zone voranstellen ";
 $GLOBALS['strZoneAppendHTML']		= "Immer diesen HTML-Code den Testanzeigen aus dieser Zone anhängen ";
 
@@ -455,6 +456,21 @@ $GLOBALS['strNoZonesToLinkToCampaign']  = "Es sind keine Zonen vorhanden, die mi
 $GLOBALS['strSelectBannerToLink']		= "Wählen Sie einen Banner, der dieser Zone zugeordnet werden soll:";
 $GLOBALS['strSelectCampaignToLink']		= "Wählen Sie eine Kampagne, die dieser Zone zugeordnet werden soll:";
 
+// Append
+$GLOBALS['strAppendType']				= " Type (Anhang)";
+$GLOBALS['strAppendHTMLCode']			= "HTML-Code";
+$GLOBALS['strAppendWhat']				= "Was soll angehängt werden?";
+$GLOBALS['strAppendZone']				= "Eine spezielle Zone anhängen";
+$GLOBALS['strAppendErrorZone']			= "Es muß eine Zone ausgewählt werden, \\n um fortfahren zu können.. Andernfalls wird kein Banner \\n angehängt.";
+$GLOBALS['strAppendBanner']				= "Anhängen eines oder mehrere Banner";
+$GLOBALS['strAppendErrorBanner']		= "Es muß ein oder mehrere Banner bestimmt werden \\num fortfahren zu können. Andernfalls wird kein Banner \\n angehängt.";
+$GLOBALS['strAppendKeyword']			= "Banner anhängen aufgrund Schlüsselworte";
+$GLOBALS['strAppendErrorKeyword']		= "Es muß mindestens ein Schlüsselwort definiert werden\\num fortfahren zu können. Andernfalls wird kein Banner \\n angehängt.";
+
+
+
+
+
 
 // Statistics
 $GLOBALS['strStats'] 				= "Statistiken";
@@ -476,22 +492,22 @@ $GLOBALS['strSelectSource']			= "Auswahl der Quelle, die angezeigt werden soll:"
 $GLOBALS['strSizeDistribution']		= "Verteilung nach Größe";
 $GLOBALS['strCountryDistribution']	= "Verteilung nach Land";
 $GLOBALS['strEffectivity']			= "Effektivität";
-$GLOBALS['strTargetStats']			= "Zielstatistiken";
-$GLOBALS['strCampaignTarget']		= "Ziel";
-$GLOBALS['strTargetRatio']			= "Ziel im Verhältnis";
-$GLOBALS['strTargetModifiedDay']	= "Die Ziele wurden an diesem Tag verändert. Die Berechnungen können u.U. nicht korrekt sein";
-$GLOBALS['strTargetModifiedWeek']	= "Die Ziele wurden in dieser Woche verändert. Die Berechnungen können u.U. nicht korrekt sein";
+$GLOBALS['strTargetStats']			= "Soll-/Ist-Vergleich";
+$GLOBALS['strCampaignTarget']		= "Soll (AdViews)";
+$GLOBALS['strTargetRatio']			= "Sollerfüllung";
+$GLOBALS['strTargetModifiedDay']	= "Die Sollvorgaben wurden an diesem Tag verändert. Die Berechnungen können u.U. nicht korrekt sein";
+$GLOBALS['strTargetModifiedWeek']	= "Die Sollvorgaben wurden in dieser Woche verändert. Die Berechnungen können u.U. nicht korrekt sein";
 
-$GLOBALS['strTargetModifiedMonth']	= "Die Ziele wurden in diesem Monat verändert. Die Berechnungen können u.U. nicht korrekt sein";
+$GLOBALS['strTargetModifiedMonth']	= "Die Sollvorgaben wurden in diesem Monat verändert. Die Berechnungen können u.U. nicht korrekt sein";
 
-$GLOBALS['strNoTargetStats']		= "Es sind derzeit keine Statistiken für Ziele vorhanden ";
+$GLOBALS['strNoTargetStats']		= "Es ist kein Soll-/Ist-Vergleich vorhanden ";
 
 
 // Hosts
 $GLOBALS['strHosts']				= "Besucherhost";
-$GLOBALS['strTopHosts'] 			= "Aktivsten Besucherhosts";
+$GLOBALS['strTopHosts'] 			= "Besucherhosts <i>(nach Zugriffen)</i>";
 $GLOBALS['strTopCountries'] 		= "Aktivsten Länder";
-$GLOBALS['strRecentHosts'] 			= "Besucherhost mit den größten Anfragen";
+$GLOBALS['strRecentHosts'] 			= "Besucherhost <i>(zeitlich absteigend)</i>";
 
 
 // Expiration
@@ -557,23 +573,23 @@ $GLOBALS['strMailSubject'] 			= "Bericht für Inserenten";
 $GLOBALS['strAdReportSent']			= "Bericht für Inserenten versandt";
 $GLOBALS['strMailSubjectDeleted'] 	= "Deaktivierte Banner";
 $GLOBALS['strMailHeader'] 			= "Sehr geehrte(r) {contact},\n";
-$GLOBALS['strMailBannerStats'] 		= "Sie erhalten nachfolgend die Bannerstatistik für {clientname}:";
-$GLOBALS['strMailFooter'] 			= "Mit freundlichem Gruß \n   {adminfullname}";
+$GLOBALS['strMailBannerStats'] 		= "Sie erhalten nachfolgend eine statistische Auswertung für {clientname}:";
+$GLOBALS['strMailFooter'] 			= "Mit freundlichem Gruss \n   {adminfullname}";
 $GLOBALS['strMailClientDeactivated'] 	= "Die folgenden Banner wurden deaktiviert, weil";
-$GLOBALS['strMailNothingLeft'] 		= "Wir danken für Ihr Vertrauen, das wir Ihre Werbung auf unseren WEB-Seiten präsentieren durften. Gern werden wir Ihnen weiterhin zur Verfügung stehen.";
+$GLOBALS['strMailNothingLeft'] 		= "Wir danken für Ihr Vertrauen, dass wir Ihre Werbung auf unseren WEB-Seiten präsentieren durften. Gern werden wir Ihnen weiterhin zur Verfügung stehen.";
 $GLOBALS['strClientDeactivated']	= "Diese Kampagne ist zur Zeit nicht aktiv, weil";
 $GLOBALS['strBeforeActivate']		= "das Aktivierungsdatum noch nicht erreicht wurde ";
 $GLOBALS['strAfterExpire']			= "das Auslaufdatum erreicht wurde ";
 $GLOBALS['strNoMoreClicks']			= "kein Guthaben für AdClicks vorhanden ist.";
 $GLOBALS['strNoMoreViews']			= "kein Guthaben für AdViews vorhanden ist. ";
 $GLOBALS['strWeightIsNull']			= "die Gewichtung auf 0 (Null) gesetzt wurde.";
-$GLOBALS['strWarnClientTxt']		= "Die AdClicks oder die AdViews für Ihre Banner haben das Limit von {limit} erreicht. \n. ";
+$GLOBALS['strWarnClientTxt']		= "Das Guthaben für  AdClicks bzw. für AdViews Ihrer Kampagne ist unter {limit} und wird in Kürze auslaufen \n. ";
 $GLOBALS['strViewsClicksLow']		= "Guthaben für AdViews/AdClicks sind beinah vollständig aufgebraucht";
 $GLOBALS['strNoViewLoggedInInterval']   = "Für den Berichtszeitraum wurden keine AdViews protokolliert";
 $GLOBALS['strNoClickLoggedInInterval'] 	= "Für den Berichtszeitraum wurden keine AdClicks protokolliert";
-$GLOBALS['strMailReportPeriod']		= "Die Statistiken in diesem Bericht sind für den Zeitraum von {startdate} bis {enddate}.";
+$GLOBALS['strMailReportPeriod']		= "Die Statistiken in diesem Bericht sind für den Zeitraum: {startdate} bis {enddate}.";
 $GLOBALS['strMailReportPeriodAll']	= "Der Bericht enthält alle Statistiken bis {enddate}.";
-$GLOBALS['strNoStatsForCampaign'] 	= "Für die Kampagne liegen keine Statistiken vor ";
+$GLOBALS['strNoStatsForCampaign'] 	= "Für diese Kampagne liegen keine Statistiken vor ";
 
 
 // Priority
