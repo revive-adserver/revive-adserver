@@ -17,11 +17,14 @@ CVS
 			  - 2003-05-06:  Removed duplicate include of lib-view-query.php from adview.php and lib-view-main.php, it is now only included when really needed  (Niels)
 			  - 2003-05-06:  The MySQL port is now always appended to the hostname during connection as a speed optimalisation  (Niels)
 			  - 2003-05-06:  The dbQuery() function now automatically connects to the database if there isn't a connection available yet, in order to help prevent unused connections  (Niels, thanks to Doru Petrescu)
+			  - 2003-05-06:  Fixed E_ALL error during banner preview when no html was appended to the banner  (Matteo)
 			  - 2003-05-07:  Fixed E_ALL error in lib-priority when inactive campaigns were present  (Niels)
 			  - 2003-05-13:  When clicking on a banner from the administor interface, "log=no" parameter was propagated to the destination site  (Matteo)
 			  - 2003-05-13:  The english language file is now always included by lib-invocation, because it contains strings that might not yet have been translated  (Niels)
 			  - 2003-05-13:  Made some experimental changes to lib-priority, which should make it less agressive  (Niels)
 			  - 2003-05-13:  Added extra headers to prevent caching of admin pages by proxy servers	 (Niels)
+			  - 2003-05-14:  Added a 10 second timeout to the product updates check, to prevent unwanted error messages  (Niels)
+			  - 2003-05-14:  Strings that are stored in config.inc.php can now include single quotes  (Niels)
 
 
 v 2.0rc3		+ Added a cron replacement for users who don't have access to the cron utility for scheduling the maintenance script  (Niels, 2003-01-14)
