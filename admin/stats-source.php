@@ -38,8 +38,6 @@ else
 	phpAds_PageHeader("1");
 }
 
-echo "<br><br>";
-
 /*********************************************************/
 /* Main code                                             */
 /*********************************************************/
@@ -66,26 +64,35 @@ function goto_source()
 </script>
 
 <?
-print "<FORM NAME=source_selection>\n";
-print "<B>".$GLOBALS['strSource']." :</B> <SELECT NAME=source onChange='goto_source();'>\n";
-                
+echo "<form name='source_selection'>";
+
+echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+echo "<tr><td height='25' colspan='3'><b>".$strSelectSource."</b></td></tr>";
+echo "<tr><td height='25'>";
+
+echo "<select name='source' onChange='goto_source();'>\n";
 while ($row_source = phpAds_dbFetchArray($res_source))
 {
-        if (!isset($source))
-                $source=$row_source['source'];
-        print "<OPTION VALUE=".$row_source['source'];
+	if (!isset($source))
+    	$source=$row_source['source'];
+	echo "<OPTION value='".$row_source['source']."'";
 	if ($source == $row_source['source'])
-		print " SELECTED";
-        print ">";
-	if ($row_source['source']=="")
-		print "none";
+		echo " SELECTED";
+    echo ">";
+	if ($row_source['source'] == '')
+		echo $strNone;
 	else
-		print $row_source['source'];
-	print "</OPTION>\n";
-}   
-print "</SELECT>\n";  
-print "<a href='javascript:void(0)' onClick='goto_source();'><img src='images/$phpAds_TextDirection/go_blue.gif' border='0'></a>\n";
-print "</FORM>\n";
+		echo $row_source['source'];
+	echo "</option>";
+}
+echo "</select>&nbsp;";
+echo "<a href='javascript:void(0)' onClick='goto_source();'><img src='images/$phpAds_TextDirection/go_blue.gif' border='0'></a><br><br>\n";
+
+echo "</td></tr>";
+echo "</table>";
+phpAds_ShowBreak();
+echo "</form>";
+echo "<br>";
 
 
 if (!isset($limit) || $limit=='') $limit = '7';
