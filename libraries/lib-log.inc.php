@@ -170,8 +170,9 @@ function phpAds_logImpression ($bannerid, $clientid, $zoneid, $source)
 		
 		if ($phpAds_config['compact_stats'])
 	    {
+			// LOW PRIORITY UPDATEs are disabled until further notice - Matteo
 	        $result = phpAds_dbQuery(
-				"UPDATE ".($phpAds_config['insert_delayed'] ? 'LOW_PRIORITY' : '')." ".
+				"UPDATE ".(false && $phpAds_config['insert_delayed'] ? 'LOW_PRIORITY' : '')." ".
 				$phpAds_config['tbl_adstats']." SET views = views + 1 WHERE day = NOW() 
 				AND hour = HOUR(NOW()) AND bannerid = '".$bannerid."' AND zoneid = '".$zoneid."' 
 				AND source = '".$log_source."' ");
@@ -219,8 +220,9 @@ function phpAds_logClick($bannerid, $clientid, $zoneid, $source)
 		
    		if ($phpAds_config['compact_stats'])
 	    {
+			// LOW PRIORITY UPDATEs are disabled until further notice - Matteo
     	    $result = phpAds_dbQuery(
-				"UPDATE ".($phpAds_config['insert_delayed'] ? 'LOW_PRIORITY' : '')." ".
+				"UPDATE ".(false && $phpAds_config['insert_delayed'] ? 'LOW_PRIORITY' : '')." ".
 				$phpAds_config['tbl_adstats']." SET clicks = clicks + 1 WHERE day = NOW() AND
 				hour = HOUR(NOW()) AND bannerid = '".$bannerid."' AND zoneid = '".$zoneid."' AND
 				source = '".$log_source."' ");

@@ -8,6 +8,8 @@ CVS
 			  - 2005-02-04:  Fixed incompatibilites with IE and Flash banners caused by post-Eolas handling  (Matteo)
 			  - 2005-02-04:  Fixed problems with IE when using JS invocation with non-latin status/alt texts  (Matteo)
 			  - 2005-02-05:  Fixed problems with settings pages not displayed when using russian-cp1251 translation  (Matteo, thanks to Pawel Golovin)
+			  - 2005-02-05:  Added default charset (iso-8859-1) into english/default.lang.php that is always included (Matteo)
+			  - 2005-02-05:  Added proper header encoding for outgoing e-mails, according to RFC 2047 - bug #1037033  (Matteo)
 
 
 
