@@ -107,6 +107,12 @@ $GLOBALS['strFieldFixBeforeContinue1']			= "Voordat u verder kunt gaan dient u";
 $GLOBALS['strFieldFixBeforeContinue2']			= "deze fouten te corrigeren.";
 $GLOBALS['strDelimiter']				= "Scheidingsteken";
 $GLOBALS['strMiscellaneous']				= "Overig";
+$GLOBALS['strCollectedAll']			= "Alle verzamelde statistieken";
+$GLOBALS['strCollectedToday']		= "Statistieken van vandaag";
+$GLOBALS['strCollected7Days']		= "Statistieken van de laatste 7 dagen";
+$GLOBALS['strCollectedMonth']		= "Statistieken van de huidige maand";
+$GLOBALS['strUseQuotes']			= "Gebruik aanhalingstekens";
+
 
 
 // Properties
@@ -343,6 +349,7 @@ $GLOBALS['strBrowser'] 					= "Browser";
 $GLOBALS['strOS'] 					= "OS";
 $GLOBALS['strCountry'] 					= "Land";
 $GLOBALS['strContinent'] 				= "Continent";
+$GLOBALS['strUSState']					= "VS Staat";
 $GLOBALS['strReferer'] 					= "Verwijzende pagina";
 $GLOBALS['strDeliveryLimitations']			= "Leveringsbeperkingen";
 $GLOBALS['strDeliveryCapping']				= "Leveringsplafond";
@@ -410,9 +417,6 @@ $GLOBALS['strZoneAppend']				= "Voeg altijd de volgende<br> HTML code altijd toe
 $GLOBALS['strAppendSettings']				= "Invoeg instellingen";
 $GLOBALS['strZonePrependHTML']				= "Voeg de volgende HTML code altijd toe voor de HTML code die getoond wordt door deze zone";
 $GLOBALS['strZoneAppendHTML']				= "Voeg de volgende HTML code altijd toe na de HTML code die getoond wordt door deze zone";
-$GLOBALS['strZoneAppendType']				= "Toevoeg type";
-$GLOBALS['strZoneAppendHTMLCode']			= "HTML code";
-$GLOBALS['strZoneAppendZoneSelection']			= "Popup of interstitial";
 $GLOBALS['strZoneAppendSelectZone']			= "Voeg altijd de volgende popup of intersitial toe aan banners die getoond worden door deze zone";
 
 
@@ -439,6 +443,18 @@ $GLOBALS['strNoCampaignsToLink']			= "Er zijn momenteel geen campagnes beschikba
 $GLOBALS['strNoZonesToLinkToCampaign']  		= "Er zijn geen zones aanwezig waar deze campagne aan gekoppeld kan worden";
 $GLOBALS['strSelectBannerToLink']			= "Selecteer de banner welke u wilt koppelen aan deze zone:";
 $GLOBALS['strSelectCampaignToLink']			= "Selecteer de campagne welke u wilt koppelen aan deze zone:";
+
+
+// Append
+$GLOBALS['strAppendType']				= "Toevoeg type";
+$GLOBALS['strAppendHTMLCode']			= "HTML code";
+$GLOBALS['strAppendWhat']				= "Wat wilt u toevoegen?";
+$GLOBALS['strAppendZone']				= "Voeg een specifieke zone toe";
+$GLOBALS['strAppendErrorZone']			= "U dient een zone te selecteren voordat \\nu verder kunt gaan, anders zal er niets \\nworden toegevoegd.";
+$GLOBALS['strAppendBanner']				= "Voeg een of meer banners toe";
+$GLOBALS['strAppendErrorBanner']		= "U dient een of meerdere banners te \\nselecteren voor dat u verder kunt gaan. \\nAnders zal er niets worden toegevoegd.";
+$GLOBALS['strAppendKeyword']			= "Voeg banners toe dmv. sleutelwoorden";
+$GLOBALS['strAppendErrorKeyword']		= "U dient een meerdere sleutelworoden te \\nspecificeren voor dat u verder kunt gaan. \\nAnder zal er niet worden toegevoegd.";
 
 
 // Statistics

@@ -18,6 +18,12 @@
 $GLOBALS['phpAds_hlp_dbhost'] = "
 	Vul hier het IP adres of de domeinnaam van de ".$phpAds_dbmsname." database server in.
 ";
+
+$GLOBALS['phpAds_hlp_dbport'] = "
+        Vul hier het poortnummer in van de ".$phpAds_dbmsname." database server waarmee een connectie gemaakt moet
+		worden. Het standaard poortnummer voor een ".$phpAds_dbmsname." database is <i>".
+		($phpAds_productname == 'phpAdsNew' ? '3306' : '5432')."</i>.
+		";
 		
 $GLOBALS['phpAds_hlp_dbuser'] = "
         Vul hier de gebruikersnaam in wat ".$phpAds_productname." moet gebruiken om toegang te krijgen tot de
@@ -31,9 +37,10 @@ $GLOBALS['phpAds_hlp_dbpassword'] = "
 		
 $GLOBALS['phpAds_hlp_dbname'] = "
 	Vul hier de naam van de database in welke ".$phpAds_productname." moet gebruiken om gegevens
-	op te slaan.
+	op te slaan. Belangrijk: de database moet al bestaan op de database server. ".$phpAds_productname." kan deze
+	<b>niet</b> automatisch aanmaken indien de database nog niet bestaat.
 ";
-		
+
 $GLOBALS['phpAds_hlp_persistent_connections'] = "
 	Door gebruik te maken van persistent connections met de database kan de snelheid
 	van ".$phpAds_productname." toenemen. Het is tevens van invloed op de belasting van de server. 
@@ -67,19 +74,19 @@ $GLOBALS['phpAds_hlp_table_prefix'] = "
 	dient u bij elke installatie een uniek voorvoegsel te gebruiken.
 ";
 		
-$GLOBALS['phpAds_hlp_tabletype'] = "
+$GLOBALS['phpAds_hlp_table_type'] = "
 	".$phpAds_dbmsname." ondersteund meerdere types tabellen. Elk type heeft unieke eigenschappen en sommige
 	tabeltypen kunnen de snelheid van ".$phpAds_productname." ten goede beinvloeden. MyISAM is de standaard
 	tabel type en is beschikbaar in alle versies van ".$phpAds_dbmsname.". Andere tabeltypen zijn misschien
 	niet aanwezig op uw server.
 ";
-		
+
 $GLOBALS['phpAds_hlp_url_prefix'] = "
 	Om correct te functioneren moet ".$phpAds_productname." zijn eigen locatie op de webserver
 	weten. U moet de volledige URL invoeren van de map waar ".$phpAds_productname." is geinstalleerd,
 	bijvoorbeeld: http://www.uwwebsite.nl/".$phpAds_productname.".
 ";
-		
+
 $GLOBALS['phpAds_hlp_my_header'] =
 $GLOBALS['phpAds_hlp_my_footer'] = "
 	U kunt hier het pad naar de voetnoot en eindnoot bestanden invoeren (bijv.
@@ -167,9 +174,8 @@ $GLOBALS['phpAds_hlp_block_adviews'] = "
 	een nieuwe AdView worden opgeslagen door ".$phpAds_productname.". Deze optie zorgt er voor dat
 	als een banner eenmaal getoond is deze niet meer wordt bijgehouden voor het aantal
 	seconde dat hier ingesteld is. Bijvoorbeeld: als u dit veld insteld op 300 seconden,
-	zal ".$phpAds_productname." alleen AdViews opslaan als de banner de laatste 300 seconden niet al
-	eerder getoond is. Deze functie werkt alleen als <i>Gebruik beacons om AdViews te
-	loggen</i> aan staat en de browser cookies accepteerd.
+	zal ".$phpAds_productname." alleen AdViews opslaan als de banner de laatste 5 minuten niet al
+	eerder getoond is. Deze functie werkt alleen als de browser cookies accepteert.
 ";
 		
 $GLOBALS['phpAds_hlp_log_adclicks'] = "
@@ -187,19 +193,85 @@ $GLOBALS['phpAds_hlp_block_adclicks'] = "
 	en de browser cookies accepteerd.
 ";
 		
-$GLOBALS['phpAds_hlp_reverse_lookup'] = "
-	Standaard slaat ".$phpAds_productname." het IP adres van elke gebruiker op. Indien u wilt dat
-	".$phpAds_productname." de domeinnaam van de gebruiker wilt bijhouden kunt u deze functie aanzetten.
-	Het achterhalen van de domeinnaam kost tijd en zal daarom ".$phpAds_productname." vertragen.
+$GLOBALS['phpAds_hlp_log_source'] = "
+	Als u de bron parameter gebruikt in de invocatie code dan kan ".$phpAds_productname." deze informatie
+	opslaan in de database. U kunt dan statistieken bekijken over het gebruik van de bron parameter.
+	Indien u de bron parameter niet gebruikt, of indien u geen informatie wilt opslaan over de bron parameter
+	kunt u deze optie veilig uitschakelen.
+";
+
+$GLOBALS['phpAds_hlp_geotracking_stats'] = "
+	Als u een geotargeting database gebruikt kunt u de geografische informatie opslaan in de database.
+	U bent dan in staat om statistieken te bekijken over de locaties van uw bezoekers en hoe elke
+	banner presteert in de verschillende landen. Deze optie alleen toegankelijk als u de uitgebreide
+	statistieken ingeschakeld heeft.
+";
+
+$GLOBALS['phpAds_hlp_log_hostname'] = "
+	Indien u de domeinnaam of het IP adres van de bezoeker in uw statistieken wilt opnemen dan kunt
+	u deze optie aanzetten. Door het opslaan van deze informatie bent u in staat om te kijken welke
+	bezoekers de meeste banners bekijken. Deze optie is alleen toegankelijk als u de uitgebreide
+	statistieken ingeschakeld heeft.
 ";
 		
+$GLOBALS['phpAds_hlp_log_iponly'] = "
+	Het opslaan van de domeinnaam van de bezoeker neemt veel ruimte in binnen de database. Als u deze
+	optie aanzet dan zal ".phpAds_productname." alleen het IP adres opslaan, wat veel minder ruimte inneemt.
+	Deze optie is niet beschikbaar als de domeinnaam niet door de server doorgegeven wordt of bekend is
+	bij ".$phpAds_productname.", omdat in dat geval zowiezo alleen het IP adres wordt opgeslagen.
+";
+
+$GLOBALS['phpAds_hlp_reverse_lookup'] = "
+	De domeinnaam van de bezoeker wordt meestal door de web server uitgezocht, maar in sommige gevallen
+	kan dit uit staan. Als domeinnaam niet door de server wordt doorgegeven aan ".$phpAds_productname." en u 
+	de domeinnaam van de bezoeker wilt gebruiken in leveringsopties en/of statistieken hierover wilt bijhouden,
+	dan kunt u deze optie aanzetten. Het achterhalen van de domeinnaam kost tijd en zal daarom het
+	tonen van de banners vertragen.
+";
+
 $GLOBALS['phpAds_hlp_proxy_lookup'] = "
 	Sommige gebruikers gebruiken een proxy server voor de toegang tot internet. In dat
-	geval zal ".$phpAds_productname." het IP adres van de proxy server opslaan, inplaats het IP adres
-	van de gebruiker. Als u deze functie aanzet, zal ".$phpAds_productname." proberen om het IP adres
-	van de gebruiker achter de proxy server te achterhalen. Indien dit niet lukt zal 
-	".$phpAds_productname." het IP adres van de proxy opslaan. Deze optie staat niet standaard aan
-	omdat het achterhalen van het IP adres tijd kost en ".$phpAds_productname." zal vertragen.
+	geval zal ".$phpAds_productname." het IP adres of de domeinnaam van de proxy server opslaan, inplaats 
+	van de gebruiker. Als u deze functie aanzet, zal ".$phpAds_productname." proberen om het IP adres of
+	de domeinnaam van de gebruiker achter de proxy server te achterhalen. Indien dit niet lukt zal 
+	".$phpAds_productname." het adres van de proxy opslaan. Deze optie staat niet standaard aan
+	omdat het achterhalen tijd kost en ".$phpAds_productname." zal vertragen.
+";
+
+$GLOBALS['phpAds_hlp_auto_clean_tables'] = 
+$GLOBALS['phpAds_hlp_auto_clean_tables_interval'] = "
+	Als u deze functie aanzet worden de verzamelde statistieken automatisch verwijderd na de door u
+	gespecificeerde periode. Bijvoorbeeld, indien u de periode insteld op 5 weken, zullen alle statistieken
+	welke ouder zijn dan 5 weken automatisch verwijderd worden.
+";
+		
+$GLOBALS['phpAds_hlp_auto_clean_userlog'] = 
+$GLOBALS['phpAds_hlp_auto_clean_userlog_interval'] = "
+	Als u deze functie zal automatisch alle verzamelde gegevens welke ouder zijn dan de door u gespecificeerde 
+	period uit het gebruikers log verwijderen.
+";
+		
+$GLOBALS['phpAds_hlp_geotracking_type'] = "
+	Geotargeting stelt ".$phpAds_productname." in staat op het IP adres van de bezoeker om te zetten naar
+	geografische informatie. Op basis van deze informatie kun u leverings beperkingen instellen of de
+	informatie opslaan bij de statistieken, zodat u kunt zien welk land de meeste impressies genereerd.
+	Indien u deze optie wilt gebruiken heeft u een database nodig en dient u het juiste type database uit deze 
+	lijst te selecteren. ".$phpAds_productname." ondersteunt momenteel de <a href='http://hop.clickbank.net/?phpadsnew/ip2country' target='_blank'>IP2Country</a> 
+	en de <a href='http://www.maxmind.com/?rId=phpadsnew' target='_blank'>GeoIP</a> database.
+";
+		
+$GLOBALS['phpAds_hlp_geotracking_location'] = "
+	Behalve als u de GeoIP Apache module gebruikt, dient u de locatie van de geotargeting database op te geven.
+	Het wordt aangeraden om de database in een niet-publieke locatie op slaan, omdat het anders mogelijk is om
+	de database van uw server af te downloaden.
+";
+		
+$GLOBALS['phpAds_hlp_geotracking_cookie'] = "
+	Het converteren van een IP adres naar geografische informatie kost tijd. Om te voorkomen dat
+	".$phpAds_productname." ieder keer als er een banner getoond moet worden dezelfde informatie om
+	moet zetten, kan het resultaat in een cookie worden opgeslagen. Indien dit cookie door de browser
+	wordt doorgegeven, zal ".$phpAds_productname." deze gegevens niet nogmaals proberen te achterhalen
+	van het IP adres.
 ";
 		
 $GLOBALS['phpAds_hlp_ignore_hosts'] = "
@@ -280,23 +352,15 @@ $GLOBALS['phpAds_hlp_default_banner_target'] = "
 	is), dan is het mogelijk om een standaard banner te tonen. Voor de banner die u
 	hier opgeeft zullen geen statistieken worden bijgehouden.
 ";
-		
-$GLOBALS['phpAds_hlp_zone_cache'] = "
-	Indien u gebruik maakt van de zonecache worden tussentijdse informatie
-	zoals de banner gegevens tijdelijk opgeslagen. Hierdoor kan als de zone
-	nog een keer aangeroepen wordt de tussentijdse informatie gebruikt worden
-	waardoor deze niet iedere opnieuw aangemaakt hoeft te worden. Deze optie
-	staat standaard aan.
-";
-		
-$GLOBALS['phpAds_hlp_zone_cache_limit'] = "
-	Indien u gebruik van de van de zonecache kan het voorkomen dat de tussentijdse
-	informatie verouderd wordt. Eens in de zoveel tijd zal de tussentijdse
-	informatie ververst moeten worden, zodat bijv. nieuwe banners ook opgeslagen
-	worden. Met deze optie kunt u bepalen hoelang de tussentijdse informatie
-	maximaal gebruikt kan worden, voordat deze ververst moet worden. Bijvoorbeeld:
-	als deze optie ingesteld wordt op 600 seconden, zal de tussentijdse informatie
-	na 10 minuten verouderd raken en opnieuw ververst worden.
+
+$GLOBALS['phpAds_hlp_delivery_caching'] = "
+	Om het tonen van de banners te versnellen gebruikt ".$phpAds_productname." een <i>cache</i>
+	om de informatie die nodig is om de banners te tonen tijdelijk op te slaan. De leveringscache
+	wordt standaard opgeslagen in de database, maar om de het tonen van banners nog meer te versnellen
+	kan deze informatie op opgeslagen worden in een normaal bestand of in gedeeld geheugen. Gedeeld
+	geheugen is het snelste, opslaan in een bestand is bijna net zo snel. Het is niet aan te raden
+	om de leveringscache uit te zetten, omdat dit de snelheid van ".$phpAds_productname." ernstig
+	zal vertragen.
 ";
 		
 $GLOBALS['phpAds_hlp_type_sql_allow'] = 
@@ -437,6 +501,12 @@ $GLOBALS['phpAds_hlp_userlog_priority'] = "
 	u een fout wilt melden bij de makers van ".$phpAds_productname.". De rapporten worden opgeslagen
 	in de gebruikers log.
 ";
+
+$GLOBALS['phpAds_hlp_userlog_autoclean'] = "
+	Om er zeker van te zijn dat de database correct was opgeschoont kun een een rapport
+	op laten slaan met daarin informatie over wat werkelijk gebeurt is tijdens het opschonen.
+	Deze informatie zal worden opgeslagen in de gebruikers log.
+";
 		
 $GLOBALS['phpAds_hlp_default_banner_weight'] = "
 	Indien u standaard een hoger gewicht wilt geven aan banners, dan kunt u hier het
@@ -489,5 +559,28 @@ $GLOBALS['phpAds_hlp_gui_hide_inactive'] = "
 	aan staat is het mogelijk om de verborgen items te tonen door te klikken op de <i>Toon alles</i>
 	knop onderaan de pagina.
 ";
+
+$GLOBALS['phpAds_hlp_gui_show_matching'] = "
+	Als deze optie aanstaat zullen, indien <i>Campagne selectie</i> is gekozen, de bijpassende banners 
+	getoond worden op de <i>Gekoppelde banners</i> pagina. Dit stelt u in staat om exact te zien welke
+	banners mogelijk getoond worden als deze campagne daadwerkelijk gekoppeld wordt aan de zone. Het zal 
+	ook mogelijk worden een een voorbeeld op te roepen van alle banners welke (indirect) gekoppeld zijn
+	aan de campagne.
+";
 		
+$GLOBALS['phpAds_hlp_gui_show_parents'] = "
+	Als de optie aanstaat zullen, indien <i>Banner selectie</i> is gekozen, de bijbehorende campagnes waartoe
+	de banners behoren getoond worden op de <i>Gekoppelde banners</i> pagina. Dit stelt u ook in staat om 
+	te zien welke banners bij welke campagne horen, voordat de banner gekoppeld is aan de zone. Dit betekend
+	ook dat de banners gegroepeerd per campagne getoond worden. De lijst met banners wordt niet meer alfabetisch
+	gesorteerd.
+";
+		
+$GLOBALS['phpAds_hlp_gui_link_compact_limit'] = "
+	Standaard zullen alle beschikbare banner of campagnes getoond worden op de <i>Gekoppelde banners</i> pagina.
+	Hierdoor kan deze pagina erg lang kan worden indien er veel verschillende banners beschikbaar zijn. Deze
+	optie staat u in staat om de gekoppelde banners op een compactere manier te tonen, indien de lijst erg lang
+	wordt.
+";
+	
 ?>

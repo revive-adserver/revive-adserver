@@ -28,7 +28,7 @@ $GLOBALS['strFatalError']			= "Er is een fout opgetreden";
 $GLOBALS['strUpdateError']			= "Er is een fout opgetreden tijdens het bijwerken";
 $GLOBALS['strUpdateDatabaseError']		= "Wegens een onbekende reden is het aanpassen van de database structuur niet gelukt. Het is aan te raden om te klikken op <b>Probeer opnieuw</b> om te proberen om deze fouten te herstellen. Indien u er zeker van bent dat deze fouten het functioneren van ".$phpAds_productname." niet in gevaar brengen kunt op de knop <b>Negeer foutmeldingen</b> klikken. Het negeren van deze foutmelding kan ernstige problemen veroorzaken en is niet aan te raden!";
 $GLOBALS['strAlreadyInstalled']			= $phpAds_productname." is reeds geinstalleerd op dit systeem. Indien u het systeem verder wilt configureren ga dan naar de <a href='settings-index.php'>instellingen</a>";
-$GLOBALS['strCouldNotConnectToDB']		= "Er kon geen connectie opgebouwd worden met de database, controleer a.u.b. de door u opgegeven instellingen";
+$GLOBALS['strCouldNotConnectToDB']		= "Er kon geen connectie opgebouwd worden met de database, controleer a.u.b. de door u opgegeven instellingen. Ook dient u te controleren op de database die u opgegeven heeft ook daadwerkelijk bestaat op de database server. ".$phpAds_productname." zal deze database niet zelf aanmaken, deze moet al aangemaakt zijn voordat u de installatie begint.";
 $GLOBALS['strCreateTableTestFailed']		= "De gebruiker die u heeft opgegeven heeft geen toestemming om de database aan te maken of te wijzigen, neem a.u.b. contact op met de beheerder van de database.";
 $GLOBALS['strUpdateTableTestFailed']		= "De gebruiker die u heeft opgegeven heeft geen toestemming om de database structuur te wijzigen, neem a.u.b. contact op met de beheerder van de database.";
 $GLOBALS['strTablePrefixInvalid']		= "De tabelnaam voorvoegsel bevat illegale tekens";
@@ -87,6 +87,8 @@ $GLOBALS['strSystemRebuildingCache']		= "Uw bestaande gegevens worden bijgewerkt
 $GLOBALS['strServiceUnavalable']		= "Deze service is momenteel niet beschikbaar. Het systeem wordt bijgewerkt.";
 
 $GLOBALS['strConfigNotWritable']		= "Uw config.inc.php is niet te wijzigen";
+$GLOBALS['strPhpBug20144']				= "Uw versie van PHP bevat een <a href='http://bugs.php.net/bug.php?id=20114' target='_blank'>fout</a> waardoor ".$phpAds_productname." niet goed zal functioneren op uw server.
+										   Om ".$phpAds_productname." te kunnen installeren dient u eerst PHP te upgraden naar versie 4.3.0 of hoger.";
 
 
 
@@ -213,6 +215,7 @@ $GLOBALS['strGeotargeting']				= "Geotargeting";
 $GLOBALS['strGeotrackingType']			= "Type Geotargeting database";
 $GLOBALS['strGeotrackingLocation'] 		= "Geotargeting database locatie";
 $GLOBALS['strGeotrackingLocationError'] = "De opgegeven locatie van de geotargeting database is niet correct";
+$GLOBALS['strGeotrackingLocationNoHTTP']	= "De locatie welke u opgegeven heeft is een een lokale map op de harde schijf van de server, maar een URL naar een bestand op een webserver. De locatie zou moeten lijken op het volgende: <i>{example}</i>. De werkelijke locatie hangt af van de locatie waar u de database heeft opgeslagen.";
 $GLOBALS['strGeoStoreCookie']			= "Sla het resultaat op in een cookie voor hergebruik";
 
 
@@ -235,6 +238,7 @@ $GLOBALS['strIgnoreHosts']				= "Sla geen statistieken op van gebruikers met een
 $GLOBALS['strBlockAdviews']				= "Sla geen AdViews op als de gebruiker dezelfde banner al eens gezien heeft binnen het gespecifieerde aantal seconden";
 $GLOBALS['strBlockAdclicks']			= "Sla geen AdClicks op als de gebruiker al eerder op dezelfde banner geklikt heeft binnen het gespecificeerde aantal seconden";
 
+$GLOBALS['strPreventLogging']			= "Bescherm de statistieken";
 $GLOBALS['strEmailWarnings']			= "Waarschuwingen per email";
 $GLOBALS['strAdminEmailHeaders']		= "Voeg de volgende headers toe aan elk door ".$phpAds_productname." verzonden e-mail";
 $GLOBALS['strWarnLimit']			= "Stuur een waarschuwing als de resterende impressies minder zijn dan hier gespecificeerd";
