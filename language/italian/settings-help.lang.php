@@ -16,92 +16,95 @@
 
 // Settings help translation strings
 $GLOBALS['phpAds_hlp_dbhost'] = "
-        Specify the hostname of the ".$phpAds_dbmsname." database server.
+        Specifica l'hostname del server ".$phpAds_dbmsname.".
 		";
 		
 $GLOBALS['phpAds_hlp_dbuser'] = "
-        Specify the username which ".$phpAds_productname." must use to gain access to the ".$phpAds_dbmsname." database server.
+        Specifica il nome utente che ".$phpAds_productname." deve utilizzare per connettersi al server ".$phpAds_dbmsname.".
 		";
 		
 $GLOBALS['phpAds_hlp_dbpassword'] = "
-        Specify the password which ".$phpAds_productname." must use to gain access to the ".$phpAds_dbmsname." database server.
+        Specifica la password che ".$phpAds_productname." deve utilizzare per connettersi al server ".$phpAds_dbmsname.".
 		";
 		
 $GLOBALS['phpAds_hlp_dbname'] = "
-        Specify the name of the database where ".$phpAds_productname." must store its data.
+        Specifica il nome del database dove ".$phpAds_productname." deve salvare i dati.
 		";
 		
 $GLOBALS['phpAds_hlp_persistent_connections'] = "
-        The use of persistent connection can speed up ".$phpAds_productname." considerably 
-		and may even decrease the load on the server. There is a drawback however, on sites with 
-		a lot of visitors the load on the server can increase and become larger then when using normal 
-		connections. Whether you should use regular connections or persistant connections depends on the 
-		number of visitors and the hardware your are using. If ".$phpAds_productname." is using too many resources, 
-		you should take a look at this setting first.
+        L'utilizzo delle connessioni persistenti pu&ograve; velocizzare considerevolmente ".$phpAds_productname."
+		e pu&ograve; anche diminuire il carico di lavoro del server. C'&egrave; per&ograve; una controindicazione:
+		nei siti con molti visitatori il carico del server potrebbe aumentare anzich&eacute; diminuire.
+		La scelta sull'eventuale impiego delle connessioni persistenti deve perci&ograve; tenere conto del numero
+		di visitatori e dell'hardware utilizzato. Se ".$phpAds_productname." consume troppe risorse, potrebbe essere
+		necessario modificare questa impostazione.
 		";
 		
 $GLOBALS['phpAds_hlp_insert_delayed'] = "
-        ".$phpAds_dbmsname." locks the table when it is inserting data. If have many visitors to your site, 
-		it could be possible ".$phpAds_productname." must wait before inserting a new row, because the database 
-		is still locked. When you use insert delayed, you don't have to wait and the row will 
-		be inserted at a later time when the table is not in use by any other thread. 
+		".$phpAds_dbmsname." blocca le tabelle mentre inserisce i dati. Se il sito ha molti visitatori, &egrave;
+		possibile che ".$phpAds_productname." debba aspettare prima di inserire una nuova riga, poich&egrave; il
+		database &egrave; ancora bloccato. Se si utilizzano gli inserimenti in differita, non ci sar&agrave; bisogno
+		di attendere e la riga verr&agrave; inserita in seguito, quando la tabella non sar&agrave; pi&ugrave;
+		bloccata da un'altra sessione.
 		";
 		
 $GLOBALS['phpAds_hlp_compatibility_mode'] = "
-        If you are having problem integrating ".$phpAds_productname." with another thirth-party product it 
-		might help to turn on the database compatibility mode. If you are using local mode 
-		invocation and the database compatibility is turned on ".$phpAds_productname." should leave 
-		the state of the database connection exectly the same as it was before ".$phpAds_productname." ran. 
-		This option is a bit slower (only slightly) and therefore turned off by default.
+		Se si verificano problemi di integrazione di ".$phpAds_productname." con altri prodotti di terze parti
+		potrebbe essere utile attivare la compatibilit&agrave;. Utilizzando la modalit&agrave; di invocazione
+		locale e la compatibilit&agrave; &egrave; attiva, ".$phpAds_productname." non dovrebbe alterare lo stato
+		della connessione al database dopo l'uso di ".$phpAds_productname.". Questa opzione produce un (seppur minimo)
+		rallentamento ed è perci&ograve; disabilitata di default.
 		";
 		
 $GLOBALS['phpAds_hlp_table_prefix'] = "
-        If the database ".$phpAds_productname." is using is shared by mutiple software products, it is wise
-		to add a prefix to names of the tables. If you are using multiple installations of ".$phpAds_productname."
-		in the same database, you need to make sure this prefix is unique for all installations.
+		Se il database utilizzato da ".$phpAds_productname." &egrave; condiviso con altri prodotti software
+		&egrave; consigiabile utilizzare un prefisso per i nomi delle tabelle. Se pi&ugrave; installazioni
+		di ".$phpAds_productname." condividono lo stesso database, assicurati che i prefissi siano differenti.
 		";
 		
 $GLOBALS['phpAds_hlp_tabletype'] = "
-        ".$phpAds_dbmsname." supports multiple table types. Each type of table has unique properties and some
-		can speed up ".$phpAds_productname." considerable. MyISAM is the default table type and is available
-		in all installations of ".$phpAds_dbmsname.". Other table types may not be available on your server
+		".$phpAds_dbmsname." supporta differenti tipi di tabelle. Ognuno ha le proprie caratteristiche ed 
+		alcuni possono velocizzare considerevolmente ".$phpAds_productname.". MyISAM &egrave; il tipo
+		utilizzato di default ed &egrave; disponibile in tutte le installazioni di ".$phpAds_dbmsname.".
+		Gli altri potrebbero non essere sempre disponibili.
 		";
 		
 $GLOBALS['phpAds_hlp_url_prefix'] = "
-        ".$phpAds_productname." needs to know where it is located on the web server in order 
-        to work correctly. You must specify the URL to the directory where ".$phpAds_productname." 
-        is installed, for example: http://www.your-url.com/".$phpAds_productname.".
+		".$phpAds_productname." necessita di sapere il proprio indirizzo sul server web per poter
+		funzionare correttamente. Devi specificare l'URL della directory dove ".$phpAds_productname."
+		&egrave; stato installato, p.es. http://www.tuo-url.com/".$phpAds_productname." 
 		";
 		
 $GLOBALS['phpAds_hlp_my_header'] =
 $GLOBALS['phpAds_hlp_my_footer'] = "
-        You should put here the path to the header files (e.g.: /home/login/www/header.htm) 
-        to have a header and/or footer on each page in the admin interface. You 
-        can put either text or html in these files (if you want to use html in 
-        one or both of these files do not use tags like &lt;body> or &lt;html>).
+		Qui si possono inserire gli indirizzi dei file (p.es. /home/login/www/header.htm)
+		da utilizzare come intestazione e pi&eacute; di pagina nelle pagine di amministrazione.
+		Si possono utilizzare sia file di testo che html (questi ultimi non devono contenere tag
+		&lt;body> o &lt;html>).
 		";
 		
 $GLOBALS['phpAds_hlp_content_gzip_compression'] = "
-		By enabling GZIP content compression you will get a big decrease of the data which 
-		is sent to the browser each time a page of the administrator interface is opened. 
-		To enable this feature you need to have at least PHP 4.0.5 with the GZIP extention installed.
+		Abilitando la compressione GZIP dei contenuti si otterr&agrave; una grande diminuzione
+		dei dei inviati al browser ogni volta che si utilizza l'interfaccia di amministrazione.
+		Per abilitare questa caratteristica &egrave; necessario avere almeno PHP 4.0.5 con
+		l'estensione GZIP installata.
 		";
 		
 $GLOBALS['phpAds_hlp_language'] = "
-        Specify the default language ".$phpAds_productname." should use. This language will 
-        be used as a default for the admin and advertiser interface. Please note: 
-        you can set a different language for each advertiser from the admin interface 
-        and allow advertisers to change their language themselves.
+		Specifica la lingua utilizzata di default da ".$phpAds_productname.". Questa verr&agrave;
+		usata nelle interfaccia amministratore e inserzionista. Nota Bene: &egrave; comunque possibile
+		specificare una lingua diversa per ogni inserzionista ed anche permettere loro di
+		modificare la propria.
 		";
 		
 $GLOBALS['phpAds_hlp_name'] = "
-        Specify the name you want to use for this application. This string will 
-        be displayed on all pages in the admin and advertiser interface. If you leave 
-        this setting empty (default) a logo of ".$phpAds_productname." will be displayed instead.
+		Specifica il nome da utilizzare per questa applicazione. Questa stringa sar&agrave;
+		visuallizzata in tutte le pagine dell'interfaccia utente. Se non viene specificato (stringa
+		vuota) verr&agrave; mostrato il logo di ".$phpAds_productname.".
 		";
 		
 $GLOBALS['phpAds_hlp_company_name'] = "
-        This name is used in the e-mail sent by ".$phpAds_productname.".
+		Questo &egrave; il nome che ".$phpAds_productname." utilizza nella spedizione delle e-mail.
 		";
 		
 $GLOBALS['phpAds_hlp_override_gd_imageformat'] = "
@@ -114,65 +117,67 @@ $GLOBALS['phpAds_hlp_override_gd_imageformat'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_p3p_policies'] = "
-        If you want to enable ".$phpAds_productname."' P3P Privacy Policies you must turn this 
-        option on. 
+		Per utilizzare le funzioni P3P Privacy Policies di ".$phpAds_productname." questa opzione deve
+		essere attivata.
 		";
 		
 $GLOBALS['phpAds_hlp_p3p_compact_policy'] = "
-        The compact policy which is sent together with cookies. The default setting 
-        is: 'CUR ADM OUR NOR STA NID', which will allow Internet Explorer 6 to 
-        accept the cookies used by ".$phpAds_productname.". If you want you can alter these 
-        settings to match your own privacy statement.
+		La policy compatta inviata assieme ai cookie. L'impostazione di default &egrave;:
+        'CUR ADM OUR NOR STA NID', che permette ad Internet Explorer 6 di accettare i cookie inviati
+		da ".$phpAds_productname.". Volendo queste impostazioni si possono modificare in base alla
+		propria informativa sulla privacy.
 		";
 		
 $GLOBALS['phpAds_hlp_p3p_policy_location'] = "
-        If you want to use a full privacy policy, you can specify the location 
-        of the policy.
+		Per utilizzare una policy completa sulla privacy, specificare qui l'indirizzo.
 		";
 		
 $GLOBALS['phpAds_hlp_log_beacon'] = "
-		Beacons are small invisible images which are placed on the page where the banner 
-		also is displayed. If you turn this feature on ".$phpAds_productname." will use this beacon image 
-		to count the number of impressions the banner has recieved. If you turn this feature 
-		off the impression will be counted during delivery, but this is not entirely accurate, 
-		because a delivered banner doesn’t always have to be displayed on the screen. 
+		I beacon sono piccole immagini invisibili posizionate nella pagina dove viene visualizzato
+		il banner. Quando questa impostazione &egrave; attiva ".$phpAds_productname." utilizzer&agrave;
+		questo beacon per contare il numero di visualizzazioni del banner. Se viceversa non è attiva, le
+		visualizzazioni saranno contate durante la consegna; questo metodo non &egrave; completamente accurato,
+		poich&eacute; non sempre ad una consegna corrisponde una visualizzazione sullo schermo.
 		";
 		
 $GLOBALS['phpAds_hlp_compact_stats'] = "
-        Traditionally ".$phpAds_productname." used rather extensive logging, which was very 
-        detailed but was also very demanding on the database server. This could 
-        be a big problem on sites with a lot of visitors. To overcome this problem
-		".$phpAds_productname." also supports a new kind of statistics, the compact statistics, 
-		which is less demanding on the database server, but also less detailed. 
-		The compact statistics only logs daily statistics, if you need hourly statistics 
-		you can turn the compact statistics off.
+		Tradizionalmente ".$phpAds_productname." utilizzava un metodo di registrazione delle visualizzazioni
+		e dei click molto dettagliato, ma anche molto esigente in termini di risorse per il database. Questo
+		poteva essere un problema per siti con molti visitatori. Per superare questo problema
+		".$phpAds_productname." supporta anche un nuovo tipo di statistiche, detto compatto, che &egrave;
+		s&igrave; meno pesante per il database, ma anche meno dettagliato, in quanto non registra
+		gli host. Se quest'ultima caratteristica &egrave; necessaria disabilitare questa optzione.
 		";
 		
 $GLOBALS['phpAds_hlp_log_adviews'] = "
-        Normally all AdViews are logged, if you don't want to gather statistics 
-        about AdViews you can turn this off.
+		Normalmente tutte le Visualizzazioni sono registrate; se non vuoi raccogliere statistiche
+		sulle Visualizzazioni disattiva questa opzione.
 		";
 		
 $GLOBALS['phpAds_hlp_block_adviews'] = "
-		If a visitor reloads a page an AdView will be logged by ".$phpAds_productname." every time. 
-		This feature is used to make sure that only one AdView is logged for each unique 
-		banner for the number of seconds you specify. For example: if you set this value 
-		to 300 seconds, ".$phpAds_productname." will only log AdViews if the same banner isn’t already 
-		shown to the same visitor in the last 5 minutes. This feature only works when <i>Use 
-		beacons to log AdViews</i> is enabled and if the browser accepts cookies.
+		Se un visitatore ricarica una pagina, ".$phpAds_productname." registrer&agrave; ogni volta 
+		una Visualizzazione. Questa funzione &egrave; utile per assicurarsi che sia registrata solo
+		una Visualizzazione per ogni banner differente nell'intervallo di secondi specificato. Ad
+		esempio, se questo valore &egrave; impostato a 300 secondi, ".$phpAds_productname." registrer&agrave;
+		una Visualizzazione solo se un banner non &egrave; gi&agrave; stato mostrato allo stesso
+		visitatore negli ultimi 5 minuti. Questa funzione funziona solo se &egrave; abilitata
+		l'opzione <i>".$GLOBALS['strLogBeacons']."</i> e il browser accetta i cookie.
 		";
 		
 $GLOBALS['phpAds_hlp_log_adclicks'] = "
+		Normalmente tutti i Click sono registrate; se non vuoi raccogliere statistiche
+		sui Click disattiva questa opzione.
         Normally all AdClicks are logged, if you don't want to gather statistics 
         about AdClicks you can turn this off.
 		";
 		
 $GLOBALS['phpAds_hlp_block_adclicks'] = "
-		If a visitor clicks multiple times on a banner an AdClick will be logged by ".$phpAds_productname." 
-		every time. This feature is used to make sure that only one AdClick is logged for each 
-		unique banner for the number of seconds you specify. For example: if you set this value 
-		to 300 seconds, ".$phpAds_productname." will only log AdClicks if the visitor didn’t click on the same 
-		banner in the last 5 minutes. This feature only works when the browser accepts cookies.
+		Se un visitatore clicca pi&ugrave; volte su un banner ".$phpAds_productname." registrer&agrave;
+		ogni volta un Click. Questa funzione &egrave; utile per assicurarsi che sia registrata solo
+		un Click per ogni banner differente nell'intervallo di secondi specificato. Ad
+		esempio, se questo valore &egrave; impostato a 300 secondi, ".$phpAds_productname." registrer&agrave;
+		un Click solo se un banner non &egrave; gi&agrave; stato cliccato dallo stesso
+		visitatore negli ultimi 5 minuti. Questa funzione funziona solo se il browser accetta i cookie.
 		";
 		
 $GLOBALS['phpAds_hlp_reverse_lookup'] = "
@@ -182,50 +187,53 @@ $GLOBALS['phpAds_hlp_reverse_lookup'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_proxy_lookup'] = "
-		Some users are using a proxy server to access the internet. In that case 
-		".$phpAds_productname." will log the IP address or the hostname of the proxy server 
-		instead of the user. If you enable this feature ".$phpAds_productname." will try to 
-		find the ip address or hostname of the user behind the proxy server. 
-		If it is not possible to find the exact address of the user it will use 
-		the address of the proxy server instead. This option is not enable by default, 
-		because it will slow logging down.
+		Alcuni utenti utilizzano un server proxy per accedere a Internet. In questo caso
+		".$phpAds_productname." registrer&agrave; l'indirizzo IP o il nome dell'host del
+		server proxy invece di quelli dell'utente. Se questa opzione &egrave; abilitata
+		".$phpAds_productname." cercher&agrave; di risalire all'indirizzo reale
+		dell'utente dietro al proxy. Se questo non sar&agrave; possibile, verr&agrave;
+		comunque utilizzato l'indirizzo del server proxy. Questa opzione non &egrave;
+		abilitata di default poich&eacute; rallenta la registrazione delle Visualizzazioni
+		e dei Click.
 		";
 		
 $GLOBALS['phpAds_hlp_ignore_hosts'] = "
-        If you don't want to count clicks and views from certain computer you 
-        can add these to this array. If you have enabled reverse lookup you can 
-        add both domain names and IP addresses, otherwise you can only use IP 
-        addresses. You can also use wildcards (i.e. '*.altavista.com' or '192.168.*').
+		Se non vuoi che siano registrati Visualizzazioni e Click per determinati computer,
+		puoi aggiungerli a questa lista. Se è abilitata l'opzione <i>".$GLOBALS['strReverseLookup']."
+		</i> puoi aggiungere nomi di dominio e indirizzi IP, altrimenti puoi utilizzare
+		solo indirizzi IP. &Egrave; inoltre possibile inserire caratteri jolly (p.es. '*.altavista.com' 
+		o '192.168.*').
 		";
 		
 $GLOBALS['phpAds_hlp_begin_of_week'] = "
-        For most people a week starts on a Monday, but if you want to start each 
-        week on a Sunday you can.
+		Per la maggior parte delle persone una settimana di Luned&igrave;, ma se desideri
+		puoi utilizzare anche la Domenica come primo giorno della settimana.
 		";
 		
 $GLOBALS['phpAds_hlp_percentage_decimals'] = "
-        Specifies how many decimal places to display on statistics pages.
+		Specifica quante cifre decimali utilizzare nelle pagine delle statistiche.
 		";
 		
 $GLOBALS['phpAds_hlp_warn_admin'] = "
-        ".$phpAds_productname." can sent you e-mail if a campaign has only a limited number of 
-        clicks or views left. This is turned on by default.
+        ".$phpAds_productname." pu&ograve; spedirti una e-mail quando una campagna sta
+		per esaurire i crediti di Visualizzazioni o Click. L'opzione &egrave; abilitata di default.
 		";
 		
 $GLOBALS['phpAds_hlp_warn_client'] = "
-        ".$phpAds_productname." can sent the advertiser e-mail if one of his campaigns has only a 
-		limited number of clicks or views left. This is turned on by default.
+        ".$phpAds_productname." pu&ograve; spedire una e-mail all'inserzionista quando una campagna sta
+		per esaurire i crediti di Visualizzazioni o Click. L'opzione &egrave; abilitata di default.
 		";
 		
 $GLOBALS['phpAds_hlp_qmail_patch'] = "
-		Some versions of qmail are affected by a bug, which causes e-mail sent by 
-		".$phpAds_productname." to show the headers inside the body of the e-mail. If you enable 
-		this setting, ".$phpAds_productname." will send e-mail in a qmail compatible format.
+		Alcune versioni di qmail hanno un bug, che fa s&igrave; che le instestazioni delle e-mail
+		inviate da ".$phpAds_productname." compaiano invece nel corpo della e-mail. Se questa opzione
+		&egrave; abilitata ".$phpAds_productname." invier&agrave; le e-mail in un formato compatibile
+		con qmail.
 		";
 		
 $GLOBALS['phpAds_hlp_warn_limit'] = "
-        The limit on which ".$phpAds_productname." starts sending warning e-mails. This is 100 
-        by default.
+		Il limite di Visualizzazioni o Click rimasti raggiunto il quale ".$phpAds_productname." deve
+		inviare le e-mail di avvertimento. Il valore di default &egrave; 100.
 		";
 		
 $GLOBALS['phpAds_hlp_allow_invocation_plain'] = 
@@ -235,125 +243,130 @@ $GLOBALS['phpAds_hlp_allow_invocation_xmlrpc'] =
 $GLOBALS['phpAds_hlp_allow_invocation_local'] = 
 $GLOBALS['phpAds_hlp_allow_invocation_interstitial'] = 
 $GLOBALS['phpAds_hlp_allow_invocation_popup'] = "
-		These settings allows you to control which invocation types are allowed.
-		If one of these invocation types are disabled they will not be available
-		in the invocationcode / bannercode generator. Important: the invocation methods
-		will still work if disabled, but they are not available for generation.
+		Queste impostazioni controllano i tipi di invocazione consentiti.
+		Se un tipo di invocazione non &egrave; abilitata, essa non sar&agrave;
+		disponibile nel generatore di codici di invocazione.<br><b>N.B.</b> i tipi di
+		invocazione disabilitati continueranno a funzionare, bench&eacute; non sia
+		possibile generarne il codice.
 		";
 		
 $GLOBALS['phpAds_hlp_con_key'] = "
-        ".$phpAds_productname." includes a powerful retrieval system using direct selection. 
-		For more information, please read the user guide. With this option, you 
-		can activate conditional keywords. This is turned on by default.
+		".$phpAds_productname." include un potente sistema di fornitura dei banner
+		tramite selezione diretta. Per maggiori informazioni leggere il manuale utente.
+		Con questa opzione sar&agrave; possibile utilizzare parole chiave condizionali.
+		L'opzione &egrave; abilitata di default.
 		";
 		
 $GLOBALS['phpAds_hlp_mult_key'] = "
-        If you are using direct selection to display banners, you can specify one 
-		or more keywords for each banner. This option needs to be enabled if you want 
-		to specify more than one keyword. This is turned on by default.
+		Utilizzando la selezione diretta per invocare i banner, &egrave; possibile 
+		specificare una o pi&ugrave; parole chiave per ogni banner. Quaesta opzione
+		deve essere attivata per utilizzare pi&ugrave; di una parola chiave per banner.
+		L'opzione &egrave; abilitata di default.
 		";
 		
 $GLOBALS['phpAds_hlp_acl'] = "
-        If you are not using delivery limitations you can disable this option with this parameter, 
-        this will speed up ".$phpAds_productname." a bit.
+		Se non utilizzi le limitazioni di consegna puoi disabilitare questa opzione per
+		ottenere un lieve incremento di velocit&agrave.
 		";
 		
 $GLOBALS['phpAds_hlp_default_banner_url'] = 
 $GLOBALS['phpAds_hlp_default_banner_target'] = "
-        If ".$phpAds_productname." can't connect to the database server, or can't find any matching 
-        banners at all, for example when the database crashed or was deleted, 
-        it won't display anything. Some users may want to specify a default banner, 
-        which will be displayed in these situations. The default banner specified 
-        here will not be logged and won't be used if there are still active banners 
-        left in the database. This is turned off by default.
+		Se ".$phpAds_productname." non riesce a connettersi al database, o non riesce a trovare
+		banner corrispondenti alla richiesta, per esempio se il database si &egrave; rovinato
+		o &egrave; stato cancellato, non mostra nulla. Alcune utenti preferiscono che
+		in questi casi venga mostrato un banner di default. Il banner specificato qui non
+		verr&agrave; ignorato ai fini della registrazione di Visualizzazioni e Click e non
+		sar&agrave; usato se ci saranno ancora banner attivi nel database. L'opzione &egrave;
+		disabilitata di default.
 		";
 		
 $GLOBALS['phpAds_hlp_zone_cache'] = "
-        If you are using zones this setting allows ".$phpAds_productname." to store the banner 
-        information inside a cache which will be used later on. The will speed 
-        up ".$phpAds_productname." a bit, because instead of retrieving the zone information 
-        and retrieving the banner information and selecting the right banner, 
-        ".$phpAds_productname." only needs to load the cache. This feature is turned on by default.
+		Se vengono utilizzate le zone per richiamare i banner e questa opzione &egrave; attiva,
+		".$phpAds_productname." memorizzer&agrave; le informazioni sui banner appartenenti alle
+		zone all'interno di una cache, che potr&agrave; essere utilizzata in seguito. Questo
+		aumenter&agrave; la velocit&agrave; di risposta di ".$phpAds_productname.", dal momento che
+		sar&agrave; solo necessario caricare la cache piuttosto che effettuare nuovamente 
+		tutte le operazioni richieste. Questa opzione &egrave; abilitata di default.
 		";
 		
 $GLOBALS['phpAds_hlp_zone_cache_limit'] = "
-        If you are using cached zones, the information inside the cache can become 
-        outdated. Once in a while ".$phpAds_productname." needs to rebuild the cache, so new 
-        banners will be included in the cache. This setting lets you decide when 
-        a cached zone will be reloaded, by specifing the maximum lifetime of the 
-        cached zone. For example: if you set this setting to 600, the cache will 
-        be rebuild if the cached zone is older than 10 minutes (600 seconds).
+		Se viene utilizzata la cache delle zone, può accadere che le informazioni contenute all'interno
+		di essa siano obsolete. Ogni tanto ".$phpAds_productname." necessita di ricostruire la
+		cache, in modo tale da includere i nuovi banner nella cache. Questa opzione permette di
+		decidere quando deve avvenire questa operazione, specificando un tempo massimo di permananza
+		delle informazioni nella cache. Per esempio: se questa opzione &egrave; impostata a 600, la cache
+		sar&agrave; ricostruita se le informazioni sono pi&ugrave; vecchie di 10 minuti (600 secondi).
 		";
 		
 $GLOBALS['phpAds_hlp_type_sql_allow'] = 
 $GLOBALS['phpAds_hlp_type_web_allow'] = 
 $GLOBALS['phpAds_hlp_type_url_allow'] = 
-$GLOBALS['phpAds_hlp_type_html_allow'] = "
-        ".$phpAds_productname." can use different types of banners and store them in different 
-        ways. The first two options are used for local storage of banners. You 
-        can use the admin interface to upload a banner and ".$phpAds_productname." will store 
-        the banner in the SQL database or on a web server. You can also use a banner 
-		stored on an external web server or use HTML to generate a banner.
+$GLOBALS['phpAds_hlp_type_html_allow'] = 
+$GLOBALS['phpAds_hlp_type_txt_allow'] = "
+        ".$phpAds_productname." pu&ograve; utilizzare diversi tipi di banner e memorizzarli in maniera
+		differente. Le prime due opzioni regolano la memorizzazione locale dei banner; &egrave;
+		infatti possibile usare l'interfaccia di amministrazione per eseguire l'upload dei banner
+		e ".$phpAds_productname."  li salver&agrave; nel database o su un server web. Si possono inoltre
+		utilizzare banner memorizzati su server esterni, oppure usare HTML o un testo semplice
+		per generare un banner.
 		";
 		
 $GLOBALS['phpAds_hlp_type_web_mode'] = "
-        If you want to use banners stored on the web server, you need to configure 
-        this setting. If you want to store the banners in a local directory set 
-        this option to <i>Local directory</i>. If you want to store the banner on an 
-		external FTP server set this option to <i>External FTP server</i>. On certain 
-		web servers you may want to use the FTP option even on the local web server.
+		Per utilizzare i banner memorizzati sul server web, &egrave; necessario configurare
+		questa opzione. Per memorizzare i banner in una directory locale selezionare
+		<i>".$GLOBALS['strTypeWebModeLocal']."</i>; per utilizzare un server FTP esterno
+		<i>".$GLOBALS['strTypeWebModeFtp']."</i>. Su alcuni server web si pu&ograve; anche
+		utilizzare FTP anche per il server locale.
 		";
 		
 $GLOBALS['phpAds_hlp_type_web_dir'] = "
-        Specify the directory where ".$phpAds_productname." needs to copy the uploaded banners 
-        to. This directory needs to be writable by PHP, this could mean you need 
-        to modify the UNIX permissions for this directory (chmod). The directory 
-        you specify here needs to be in the web server' document root, the web 
-        server must be able to serve the files directly. Do not specify a trailing 
-        slash (/). You only need to configure this option if you have set the storing
-		method to <i>Local directory</i>.
+		Inserire la directory dove ".$phpAds_productname."  deve copiare i banner di cui si &egrave;
+		eseguito l'upload. L'interprete PHP deve essere in grado di potervi scrivere, e questo
+		significa che potrebbe essere necessario modificarne i permessi UNIX (chmod). La directory
+		qui specificata deve essere nella document root del server web, poich&eacute; il server
+		deve essere in grado di inviarla autonomamente. Non inserire la barra finale (/). &Egrave;
+		necessario configurare questa opzione solo se il metodo di memorizzazione selezionato &egrave;
+		<i>".$GLOBALS['strTypeWebModeLocal']."</i>.
 		";
 		
 $GLOBALS['phpAds_hlp_type_web_ftp_host'] = "
-		If you set the storing method to <i>External FTP server</i> you need to
-        specify the IP address or domain name of the FTP server where ".$phpAds_productname." needs 
-		to copy the uploaded banners to.
+		Se il metodo di memorizzazione selezionato &egrave; <i>".$GLOBALS['strTypeWebModeLocal']."</i>
+		&egrave; necessario specificare l'indirizzio IP o il nome di dominio del server FTP dove
+		".$phpAds_productname." deve copiare i banner.
 		";
       
 $GLOBALS['phpAds_hlp_type_web_ftp_path'] = "
-		If you set the storing method to <i>External FTP server</i> you need to
-        specify the directory on the external FTP server where ".$phpAds_productname." needs 
-		to copy the uploaded banners to.
+		Se il metodo di memorizzazione selezionato &egrave; <i>".$GLOBALS['strTypeWebModeLocal']."</i>
+		&egrave; necessario specificare la directory sul server FTP dove
+		".$phpAds_productname." deve copiare i banner.
 		";
       
 $GLOBALS['phpAds_hlp_type_web_ftp_user'] = "
-		If you set the storing method to <i>External FTP server</i> you need to
-        specify the username which ".$phpAds_productname." must use in order to connect to the
-		external FTP server.
+		Se il metodo di memorizzazione selezionato &egrave; <i>".$GLOBALS['strTypeWebModeLocal']."</i>
+		&egrave; necessario specificare il nome utente per connettersi al server FTP dove
+		".$phpAds_productname." deve copiare i banner.
 		";
       
 $GLOBALS['phpAds_hlp_type_web_ftp_password'] = "
-		If you set the storing method to <i>External FTP server</i> you need to
-        specify the password which ".$phpAds_productname." must use in order to connect to the
-		external FTP server.
+		Se il metodo di memorizzazione selezionato &egrave; <i>".$GLOBALS['strTypeWebModeLocal']."</i>
+		&egrave; necessario specificare la password per connettersi al server FTP dove
 		";
       
 $GLOBALS['phpAds_hlp_type_web_url'] = "
-        If you store banners on a web server, ".$phpAds_productname." needs to know which public 
-        URL corresponds with the directory you specified below. Do not specify 
-        a trailing slash (/).
+		Se si memorizzano banner su un server web, ".$phpAds_productname." deve conoscere
+		l'URL pubblico a cui corrisponde la directory specificata qui sotto. Non inserire
+		la barra alla fine (/).
 		";
 		
 $GLOBALS['phpAds_hlp_type_html_auto'] = "
-        If this option is turned on ".$phpAds_productname." will automatically alter HTML banners 
-        in order to allow the clicks to be logged. However even if this option 
-        is turned it will be possible to disable this feature on a per banner 
-        basis. 
+		Se questa opzione &egrave; attiva ".$phpAds_productname." modificher&agrave; automaticamente
+		i banner HTML per rendere possibile la registrazione dei click. Se attiva, sar&agrave;
+		comunque possibile disabilitarla per i banner per i quali lo si desidera.
 		";
 		
 $GLOBALS['phpAds_hlp_type_html_php'] = "
-        It is possible to let ".$phpAds_productname." execute PHP code embedded inside HTML 
-        banners. This feature is turned off by default.
+		&Egrave; possibile far eseguire a ".$phpAds_productname." codice PHP contenuto all'interno
+		dei banner HTML. L'opzione &egrave; disabilitata di default.
 		";
 		
 $GLOBALS['phpAds_hlp_admin'] = "
@@ -364,38 +377,41 @@ $GLOBALS['phpAds_hlp_admin'] = "
 $GLOBALS['phpAds_hlp_pwold'] = 
 $GLOBALS['phpAds_hlp_pw'] = 
 $GLOBALS['phpAds_hlp_pw2'] = "
-        To change the administrator password, you can need to specify the old
-		password above. Also you need to specify the new password twice, to
-		prevent typing errors.
+		Per modificare la password dell'amministratore &egrave; necessario inserire la
+		vecchia password in alto. &Egrave; inoltre necessario scrivere la nuova password
+		due volte, per evitare errori di battitura.
 		";
 		
 $GLOBALS['phpAds_hlp_admin_fullname'] = "
-        Specify the administrator's full name. This used when sending statistics 
-        via email.
+		Inserire il nome completo dell'amministratore. Questo campo viene utilizzato nella
+		spedizione delle statistiche via email.
 		";
 		
 $GLOBALS['phpAds_hlp_admin_email'] = "
-        The administrator's e-mail address. This is used as from-address when 
-        sending statistics via email.
+		Inserire  l'indirizzo email dell'amministratore. Questo campo viene utilizzato come
+		mittente nella spedizione delle statistiche via email.
 		";
 		
 $GLOBALS['phpAds_hlp_admin_email_headers'] = "
-        You can alter the e-mail headers used by the e-mails which ".$phpAds_productname." sends.
+		Qui si possono inserire header supplementari per le email inviate da ".$phpAds_productname.".
 		";
 		
 $GLOBALS['phpAds_hlp_admin_novice'] = "
-        If you want to recieve a warning before deleting advertisers, campaigns or 
-        banners; set this option to true.
+		Attivare questa opzione per ricevere una richiesta di conferma prima di cancellare
+		inserzionisti, campagne o banner.
 		";
 		
-$GLOBALS['phpAds_hlp_client_welcome'] = 
+$GLOBALS['phpAds_hlp_client_welcome'] = "
+		If you turn this feature on a welcome message will be displayed on the first page an
+		advertiser will see after loggin in. You can personalize this message by editing the
+		welcome.html file location in the admin/templates directory. Things you might want to
+		include are for example: Your company name, contact information, your company logo, a
+		link a page with advertising rates, etc..
+		";
+
 $GLOBALS['phpAds_hlp_client_welcome_msg'] = "
-       If you turn this feature on a welcome message will be displayed on the 
-        first page an advertiser will see after logging in. You can personalize this 
-        message by editing the 'welcome.html' file location in the 'admin/templates' 
-        directory. Things you might want to include are for example: Your company 
-        name, contact information, your company logo, a link a page with advertising 
-        rates, etc..
+		Instead of editing the welcome.html file you can also specify a small text here. If you enter
+		a text here, the welcome.html file will be ignored. It is allowed to use html tags.
 		";
 		
 $GLOBALS['phpAds_hlp_updates_frequency'] = "

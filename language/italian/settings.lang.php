@@ -129,7 +129,7 @@ $GLOBALS['strAllowLocalmode']			= "Consenti modo locale";
 $GLOBALS['strAllowInterstitial']		= "Consenti Interstiziali";
 $GLOBALS['strAllowPopups']				= "Consenti Popup";
 
-$GLOBALS['strKeywordRetrieval']			= "Abilita l'uso di keyword";
+$GLOBALS['strKeywordRetrieval']			= "Abilita l'uso di parole chiave";
 $GLOBALS['strUseAcl']					= "Utilizza le limitazioni di consegna";
 $GLOBALS['strGeotrackingLocation'] 		= "Percorso database<br>IP2Country geotracking";
 
@@ -138,8 +138,8 @@ $GLOBALS['strRetrieveRandom']			= "Casuale (default)";
 $GLOBALS['strRetrieveNormalSeq']		= "Sequenziale normale";
 $GLOBALS['strWeightSeq']				= "Sequenziale pesata";
 $GLOBALS['strFullSeq']					= "Sequenziale completa";
-$GLOBALS['strUseConditionalKeys']		= "Utilizza keyword condizionali";
-$GLOBALS['strUseMultipleKeys']			= "Utilizza keyword multiple";
+$GLOBALS['strUseConditionalKeys']		= "Utilizza parole chiave condizionali";
+$GLOBALS['strUseMultipleKeys']			= "Utilizza parole chiave multiple";
 
 $GLOBALS['strZonesSettings']			= "Impostazione zone";
 $GLOBALS['strZoneCache']				= "Memorizza zone nella cache (dovrebbe velocizzare il tutto se si usano le zone)";

@@ -31,7 +31,7 @@ $GLOBALS['strPriorityBasedLastDays']		= "La previsione &egrave; basata solo sui 
 $GLOBALS['strPriorityBasedYesterday']		= "La previsione &egrave; basata solo sui dati si ieri. ";
 $GLOBALS['strPriorityNoData']				= "Non ci sono abbastanza dati per fornire una previsione affidabile sul numero di visualizzazioni che il server generer&agrave; oggi. L'assegnamento delle priorit&agrave; sar&agrave; basato solo sulle statistiche generate in tempo reale. ";
 $GLOBALS['strPriorityEnoughAdViews']		= "Dovrebbero esserci abbastanza Visualizzazioni per soddisfare completamente gli obiettivi di tutte le campagne ad alta priorit&agrave;. ";
-$GLOBALS['strPriorityNotEnoughAdViews']		= "Non &egrave; chiaro se oggi ci saranno AdViews abbastanza Visualizzazioni per soddisfare completamente gli obiettivi delle campagne ad alta priorit&agrave;. Perciò tutte le campagne a bassa priorit&agrave; sono state temporaneamente disabilitate. ";
+$GLOBALS['strPriorityNotEnoughAdViews']		= "Non &egrave; chiaro se oggi ci saranno AdViews abbastanza Visualizzazioni per soddisfare completamente gli obiettivi delle campagne ad alta priorit&agrave;. ";
 
 
 // Banner cache
