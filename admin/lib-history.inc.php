@@ -82,6 +82,27 @@ else
 		$span_months = ((date('Y') - date('Y', $span)) * 12) + (date('m') - date('m', $span)) + 1;
 		$span_weeks  = (int)($span_days / 7) + ($span_days % 7 ? 1 : 0);
 	}
+	else
+	{
+		// Try to get starting date from adclicks rather then adviews
+
+		$result = phpAds_dbQuery("
+			SELECT
+				UNIX_TIMESTAMP(MIN(t_stamp)) AS span,
+				TO_DAYS(NOW()) - TO_DAYS(MIN(t_stamp)) + 1 AS span_days
+			FROM
+				".$phpAds_config['tbl_adviews']."
+				".(isset($lib_history_where) ? 'WHERE '.$lib_history_where : '')."
+		");
+		
+		if ($row = phpAds_dbFetchArray($result))
+		{
+			$span 	     = $row['span'];
+			$span_days   = $row['span_days'];
+			$span_months = ((date('Y') - date('Y', $span)) * 12) + (date('m') - date('m', $span)) + 1;
+			$span_weeks  = (int)($span_days / 7) + ($span_days % 7 ? 1 : 0);
+		}
+	}
 }
 
 if (isset($row['span']) && $row['span'] > 0)
