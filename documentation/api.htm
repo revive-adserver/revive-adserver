@@ -94,15 +94,15 @@ h5 { font-family: Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bo
 <h5>Expressions</h5>
 <p>The &quot;what&quot; parameter can consist of one or more expressions. Each 
   expression will be executed when the previous expression has failed. Multiple 
-  expression must be seperated with the character | and may not be seperated by 
+  expression must be separated with the character | and may not be separated by 
   spaces.<br>
   <br>
   If you don't provide an expression and leave the &quot;what&quot; parameter 
   empty phpAdsNew match any active banner and will display one randomly.</p>
 <p>For example if the first expression does not match any banner the second expression 
-  will be executed. If the second expression does not match any banner the thirth 
+  will be executed. If the second expression does not match any banner the third 
   expression will be executed. This also means that if the first expression does 
-  match a banner, the second and thirth expression won't be exectured.<br>
+  match a banner, the second and third expression won't be executed.<br>
   You can specify as much expressions as you like, but each additional expression 
   may require some extra system resources, such a processing time and database 
   queries. <br>
@@ -111,26 +111,26 @@ h5 { font-family: Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bo
 <pre>RIGHT: expression1<br><br>RIGHT: expression1|expression2|expression3<br><br>WRONG: expression1 | expression2</pre>
 <h5>Logical operators</h5>
 <p>Each expression can consist of one or more statements. Each statement tries 
-  to match one or more banners. The most simple expression would only consist 
-  of one statement. phpAdsNew will try to find a banner that matches this statement. 
+  to match one or more banners. The simplest expression would only consist of 
+  one statement. phpAdsNew will try to find a banner that matches this statement. 
   However, it is possible to use multiple statements and use logical operators.<br>
   <br>
   The logical operators look a bit different than the ones used in MySQL and PHP, 
   but work the same way.<br>
   <br>
-  Statements are seperated by a comma (,) and statement can begin with a switch 
-  to set the behavoir. Do not put a space between the operator and the statement.<br>
+  Statements are separated by a comma (,) and statement can begin with a switch 
+  to set the behavior. Do not put a space between the operator and the statement.<br>
   <br>
-  If you seperate statements without a switch, the seperator will become an OR 
+  If you separate statements without a switch, the separator will become an OR 
   operator. </p>
 <pre>statement,statement <br>   Meaning: statement OR statement </pre>
-<p>If you use the + or _ switch the seperator will become an AND operator. Please 
+<p>If you use the + or _ switch the separator will become an AND operator. Please 
   note: you can't use the + switch in remote invocation and must use the _ switch, 
   which means exactly the same.<br>
 </p>
 <pre>statement,+statement
 statement,_statement <br>   Meaning: statement AND statement </pre>
-<p>If you use the - switch the seperator will become a NOT operator. You can use 
+<p>If you use the - switch the separator will become a NOT operator. You can use 
   the - switch on the first statement.</p>
 <pre>statement,-statement
    Meaning: statement NOT statement<br> <br>-statement,-statement<br>   Meaning: NOT statement NOT statement</pre>
@@ -140,8 +140,8 @@ statement,_statement <br>   Meaning: statement AND statement </pre>
 statement1,+statement2,+statement3 <br>   Meaning: statement1 AND statement2 AND statement3
    
 statement1,+statement2,-statement3 <br>   Meaning: statement1 AND statement2 NOT statement3</pre>
-<p>OR takes precedence over AND and NOT. AND and NOT have equal precendence. At 
-  this moment it it not possible to use parentheses to force precendence! </p>
+<p>OR takes precedence over AND and NOT. AND and NOT have equal precedence. At 
+  this moment it is not possible to use parentheses to force precedence! </p>
 <p>For example:</p>
 <pre>statement1,+statement2,statement3
    Meaning: (statement1 AND statement2) OR statement3
@@ -163,7 +163,7 @@ statement1,-statement3,statement2,-statement3
 <pre>1<br>   Match a banner with ID 1<br> <br>bannerid:23<br>   Match a banner with ID 23</pre>
 <p><i>clientid:[digits]</i><br>
   You can match a banner by looking at the ID of the owner of the banner. phpAdsNew 
-  will try to find a banner which owner's ID is equal to the digits you specified.</p>
+  will try to find a banner, which owner's ID is equal to the digits you specified.</p>
 <pre>clientid:32
    Match a banner which owner had ID 32</pre>
 <p><i>[width]x[height]</i><br>
@@ -184,38 +184,38 @@ statement1,-statement3,statement2,-statement3
   You can match a banner by looking at the keywords of the banner. phpAdsNew will 
   try to find a banner with the keyword you specified. You can use digits in your 
   keywords, but every keyword must contain at least one character other than a 
-  digit or a 'x'. You can't use a colon (:) in your keywords.<br>
+  digit or an 'x'. You can't use a colon (:) in your keywords.<br>
 </p>
 <pre>mybanners<br>   Match a banner with keyword &quot;mybanners&quot;</pre>
 <h5>The global keyword</h5>
 <p>In phpAdsNew you can define global banners. You can add the &quot;global&quot; 
-  keyword to your banners through the admin interface. Every banners with the 
-  &quot;global&quot; keyword will be considered a match.<br>
+  keyword to your banners through the admin interface. Every banner with the &quot;global&quot; 
+  keyword will be considered a match.<br>
   <br>
-  The behavoir only works if you are using one expression with only keywords. 
+  The behavior only works if you are using one expression with only keywords. 
   Otherwise you will have to add the &quot;global&quot; keyword to the expressions 
   by hand.</p>
 <pre>key1<br>   Meaning: Match a banner with keyword &quot;key1&quot; or &quot;global&quot;<br><br>key1|key2,global<br>   Meaning: Match a banner with the keyword &quot;key1&quot;. If there are no banners <br>   with this keyword try to match a banner with keyword &quot;key2&quot; or &quot;global&quot;<br>  <br>key1|global<br>   Meaning: Match a banner with the keyword &quot;key1&quot;. If there are no matching <br>   banners, match a banner with keyword &quot;global&quot;</pre>
 <h5>Creating a failsafe</h5>
-<p>In certain conditions you may want to automaticly generate keywords and add 
+<p>In certain conditions you may want to automatically generate keywords and add 
   these to your expression, for example:</p>
 <pre>$weekday = date(&quot;w&quot;); // 0=sunday, 1=monday, etc.
 view (&quot;day$weekday&quot;);</pre>
 <p>The above example will try to display a different banner for each day of the 
-  week. On sunday it will try to display a banner with the keyword &quot;day0&quot;, 
-  on monday it will try to display a banner with the keyword &quot;day1&quot;, 
+  week. On Sunday it will try to display a banner with the keyword &quot;day0&quot;, 
+  on Monday it will try to display a banner with the keyword &quot;day1&quot;, 
   etc.<br>
   However if you didn't define banners any banner with the keyword &quot;day3&quot;. 
   phpAdsNew will not show any banners on Wednesday. You may want to create a failsafe. 
   If there are no banners available for a certain day you want to display a general 
   banner. You could add some new banners and assign the keyword &quot;general&quot; 
-  to them. And use a construction like this:</p>
+  to them. And use a construction like this :</p>
 <pre>$weekday = date(&quot;w&quot;); // 0=sunday, 1=monday, etc. <br>view (&quot;day$weekday|general&quot;);</pre>
 <p>The above example will try to display a banner for each day of the week, but 
   if it can't find any banners on a specific day it will try to display a banner 
-  with the keyword &quot;general&quot;</p>
+  with the keyword &quot;general&quot;.</p>
 <h5>Examples</h5>
-<pre>key1|main<br>   Match a banner with keyword &quot;key1&quot;. If there are no banners with <br>   this keyword try to match a banner with keyword &quot;main&quot;<br>  <br>key1,key2|clientid:3<br>   Match a banner with keyword &quot;key1&quot; or &quot;key2&quot;. If there are no banners<br>   with this keyword try to match a banner with client id 3<br> <br>key1,-clientid:2<br>   Match a banner with keyword &quot;key1&quot;, don't match banners with clientid 2.<br> <br>4|clientid:2,clientid:4|key1|global<br>   Match a banner with id 4. If there are no matching banners try to match a<br>   banner with client id 2 or 4. If there are no matching banners try to match<br>   a banner with keyword &quot;key1&quot;. If there are no matching banners try to match<br>   a banner with keyword &quot;global&quot;.<br> <br>html,+key1,+key2,-clientid:2<br>   Match a html banner with keyword &quot;key1&quot; and &quot;key2&quot;, but don't match banners<br>   from client with ID 2.<br> <br>3,+468x60,4,+468x60,5,+468x60<br>   Match a banner with a width of 468 and a height of 60. <br>   The banner ID must be either 3, 4 or 5.<br> <br>key1,-468x60,key2,-468x60<br>   Match a banner with keyword &quot;key1&quot; or &quot;key2&quot;. <br>   The banner must not have a width of 468 and a height of 60</pre>
+<pre>key1|main<br>   Match a banner with keyword &quot;key1&quot;. If there are no banners with <br>   this keyword try to match a banner with keyword &quot;main&quot;<br>  <br>key1,key2|clientid:3<br>   Match a banner with keyword &quot;key1&quot; or &quot;key2&quot;. If there are no banners<br>   with this keyword try to match a banner with client id 3<br> <br>key1,-clientid:2<br>   Match a banner with keyword &quot;key1&quot;, don't match banners with clientid 2.<br> <br>4|clientid:2,clientid:4|key1|global<br>   Match a banner with id 4. If there are no matching banners try to match a<br>   banner with client id 2 or 4. If there are no matching banners try to match<br>   a banner with keyword &quot;key1&quot;. If there are no matching banners try to match<br>   a banner with keyword &quot;global&quot;.<br> <br>html,+key1,+key2,-clientid:2<br>   Match a html banner with keyword &quot;key1&quot; and &quot;key2&quot;, but don't match banners<br>   from client with ID 2.<br> <br>3,+468x60,4,+468x60,5,+468x60<br>   Match a banner with a width of 468 and a height of 60. <br>   The banner ID must be 3, 4 or 5.<br> <br>key1,-468x60,key2,-468x60<br>   Match a banner with keyword &quot;key1&quot; or &quot;key2&quot;. <br>   The banner must not have a width of 468 and a height of 60</pre>
 <h4>The &quot;clientID&quot; parameter</h4>
 <p>The optional argument clientID allows you to retrieve only banners by a specific 
   client. Specify &quot;&quot; to view banners from all clients (in case you need 
