@@ -89,7 +89,7 @@ CREATE TABLE phpads_adviews (
 
 CREATE TABLE phpads_images (
    filename varchar(128) NOT NULL,
-   contents blob NOT NULL,
+   contents mediumblob NOT NULL,
    PRIMARY KEY (filename(16))
 );
 
