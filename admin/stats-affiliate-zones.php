@@ -69,29 +69,26 @@ else
 
 if (phpAds_isUser(phpAds_Admin))
 {
-	$extra = '';
-	
 	$res = phpAds_dbQuery("
-	SELECT
-		*
-	FROM
-		".$phpAds_config['tbl_affiliates']."
+		SELECT
+			*
+		FROM
+			".$phpAds_config['tbl_affiliates']."
 	") or phpAds_sqlDie();
 	
 	while ($row = phpAds_dbFetchArray($res))
 	{
-		if ($affiliateid == $row['affiliateid'])
-			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
-		else
-			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
-		
-		$extra .= "<a href=stats-affiliate-zones.php?affiliateid=".$row['affiliateid'].">".phpAds_buildAffiliateName ($row['affiliateid'], $row['name'])."</a>";
-		$extra .= "<br>"; 
+		phpAds_PageContext (
+			phpAds_buildAffiliateName ($row['affiliateid'], $row['name']),
+			"stats-affiliate-zones.php?affiliateid=".$row['affiliateid'],
+			$affiliateid == $row['affiliateid']
+		);
 	}
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+	
+	phpAds_PageShortcut($strAffiliateProperties, 'affiliate-edit.php?affiliateid='.$affiliateid, 'images/icon-affiliate.gif');
 	
 	
-	phpAds_PageHeader("2.4.2", $extra);
+	phpAds_PageHeader("2.4.2");
 		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br><br><br>";
 		phpAds_ShowSections(array("2.4.1", "2.4.2"));
 }

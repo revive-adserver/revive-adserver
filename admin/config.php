@@ -115,7 +115,7 @@ $phpAds_nav = array (
 		  "2.3"				=>  array("stats-global-source.php" => $strSourceStats),
 	      "2.4"		 		=> 	array("stats-global-affiliates.php" => $strAffiliatesAndZones),
 		    "2.4.1"			=>  array("stats-affiliate-history.php?affiliateid=$affiliateid" => $strAffiliateHistory),
-		    "2.4.2"			=>  array("stats-affiliate-zones.php?affiliateid=$affiliateid" => $strAffiliateOverview),
+		    "2.4.2"			=>  array("stats-affiliate-zones.php?affiliateid=$affiliateid" => $strZoneOverview),
 		      "2.4.2.1"		=>  array("stats-zone-history.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strZoneHistory),
 		      "2.4.2.2"		=>  array("stats-zone-linkedbanners.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strLinkedBannersOverview),
 		        "2.4.2.2.1"	=>  array("stats-linkedbanner-history.php?affiliateid=$affiliateid&zoneid=$zoneid&bannerid=$bannerid" => $strLinkedBannerHistory),

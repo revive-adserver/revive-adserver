@@ -68,8 +68,6 @@ if (phpAds_isUser(phpAds_Affiliate))
 
 if (phpAds_isUser(phpAds_Admin))
 {
-	$extra = '';
-	
 	if ($phpAds_config['compact_stats'])
 	{
 		$res = phpAds_dbQuery("
@@ -95,18 +93,19 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	while ($row = phpAds_dbFetchArray($res))
 	{
-		if ($bannerid == $row['bannerid'])
-			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
-		else
-			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
-		
-		$extra .= "<a href=stats-linkedbanner-history.php?affiliateid=".$affiliateid."&zoneid=".$zoneid."&bannerid=".$row['bannerid'].">".phpAds_getBannerName ($row['bannerid'])."</a>";
-		$extra .= "<br>"; 
+		phpAds_PageContext (
+			phpAds_getBannerName ($row['bannerid']),
+			"stats-linkedbanner-history.php?affiliateid=".$affiliateid."&zoneid=".$zoneid."&bannerid=".$row['bannerid'],
+			$bannerid == $row['bannerid']
+		);
 	}
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+	
+	phpAds_PageShortcut($strAffiliateProperties, 'affiliate-edit.php?affiliateid='.$affiliateid, 'images/icon-affiliate.gif');	
+	phpAds_PageShortcut($strZoneProperties, 'zone-edit.php?affiliateid='.$affiliateid.'&zoneid='.$zoneid, 'images/icon-zone.gif');	
+	phpAds_PageShortcut($strIncludedBanners, 'zone-include.php?affiliateid='.$affiliateid.'&zoneid='.$zoneid, 'images/icon-zone-linked.gif');	
 	
 	
-	phpAds_PageHeader("2.4.2.2.1", $extra);
+	phpAds_PageHeader("2.4.2.2.1");
 		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
 		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;".phpAds_getZoneName($zoneid);
