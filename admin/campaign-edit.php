@@ -550,11 +550,22 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 
 	function validate_form_campaign()
 	{
+		var x;
+
 		if (document.clientform.priority[0].checked)
-			return validate_form('clientname','strName','R',
+		{
+			x = validate_form('clientname','strName','R',
 								 'views','strViewsPurchased','Ris+NumOR-',
-								 'clicks','strClicksPurchased','Ris+NumOR-',
-								 'targetviews', 'strTarget', 'Ris+Num');
+								 'clicks','strClicksPurchased','Ris+NumOR-');
+		
+			if (x && !document.clientform.unlimitedviews.checked && !document.clientform.expireSet[0].checked)
+			{
+				alert("<?php echo $GLOBALS['strPriorityAutoTargeting'; ?>");
+				return true;
+			}
+			else
+				return validate_form('targetviews', 'strTarget', 'Ris+Num');
+		}
 		else	
 			return validate_form('clientname','strName','R',
 								 'views','strViewsPurchased','Ris+NumOR-',
