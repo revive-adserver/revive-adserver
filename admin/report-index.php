@@ -239,6 +239,8 @@ if ($fields = $plugin['plugin-import'])
 	
 	echo "<form action='report-execute.php' method='get'>";
 	
+	$enabled = true;
+	
 	for (reset($fields);$key=key($fields);next($fields))
 	{
 		// Text field
@@ -264,8 +266,16 @@ if ($fields = $plugin['plugin-import'])
 			echo "<td width='370'><select name='".$key."' tabindex='".($tabindex++)."'>";
 			
 			$campaignArray = phpAds_getCampaignArray();
-			for (reset($campaignArray);$ckey=key($campaignArray);next($campaignArray))
-				echo "<option value='".$ckey."'>".$campaignArray[$ckey]."</option>";
+			
+			if (count($campaignArray))
+				for (reset($campaignArray);$ckey=key($campaignArray);next($campaignArray))
+					echo "<option value='".$ckey."'>".$campaignArray[$ckey]."</option>";
+			else
+			{
+				echo "<option value=''>".$strNone."</option>";
+				$enabled = false;
+			}
+			
 			echo "</select></td>";
 			echo "</tr>";
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
@@ -286,8 +296,16 @@ if ($fields = $plugin['plugin-import'])
 				echo "<td width='370'><select name='".$key."' tabindex='".($tabindex++)."'>";
 				
 				$clientArray = phpAds_getClientArray();
-				for (reset($clientArray);$ckey=key($clientArray);next($clientArray))
-					echo "<option value='".$ckey."'>".$clientArray[$ckey]."</option>";
+	
+				if (count($clientArray))
+					for (reset($clientArray);$ckey=key($clientArray);next($clientArray))
+						echo "<option value='".$ckey."'>".$clientArray[$ckey]."</option>";
+				else
+				{
+					echo "<option value=''>".$strNone."</option>";
+					$enabled = false;
+				}
+					
 				echo "</select></td>";
 				echo "</tr>";
 				echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
@@ -309,8 +327,16 @@ if ($fields = $plugin['plugin-import'])
 				echo "<td width='370'><select name='".$key."' tabindex='".($tabindex++)."'>";
 				
 				$affiliateArray = phpAds_getAffiliateArray();
-				for (reset($affiliateArray);$ckey=key($affiliateArray);next($affiliateArray))
-					echo "<option value='".$ckey."'>".$affiliateArray[$ckey]."</option>";
+				
+				if (count($affiliateArray))
+					for (reset($affiliateArray);$ckey=key($affiliateArray);next($affiliateArray))
+						echo "<option value='".$ckey."'>".$affiliateArray[$ckey]."</option>";
+				else
+				{
+					echo "<option value=''>".$strNone."</option>";
+					$enabled = false;
+				}
+				
 				echo "</select></td>";
 				echo "</tr>";
 				echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
@@ -326,8 +352,16 @@ if ($fields = $plugin['plugin-import'])
 			echo "<td width='370'><select name='".$key."' tabindex='".($tabindex++)."'>";
 			
 			$zoneArray = phpAds_getZoneArray();
-			for (reset($zoneArray);$ckey=key($zoneArray);next($zoneArray))
-				echo "<option value='".$ckey."'>".$zoneArray[$ckey]."</option>";
+			
+			if (count($zoneArray))
+				for (reset($zoneArray);$ckey=key($zoneArray);next($zoneArray))
+					echo "<option value='".$ckey."'>".$zoneArray[$ckey]."</option>";
+			else
+			{
+				echo "<option value=''>".$strNone."</option>";
+				$enabled = false;
+			}
+			
 			echo "</select></td>";
 			echo "</tr>";
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
@@ -338,7 +372,7 @@ if ($fields = $plugin['plugin-import'])
 	echo "<tr><td height='25' colspan='3'>";
 	echo "<br><br>";
 	echo "<input type='hidden' name='plugin' value='".$selection."'>";
-	echo "<input type='submit' value='".$strGenerate."' tabindex='".($tabindex++)."'>";
+	echo "<input type='submit' value='".$strGenerate."' tabindex='".($tabindex++)."'".($enabled ? '' : ' disabled').">";
 	echo "</td></tr>";
 	
 	echo "</form>";
