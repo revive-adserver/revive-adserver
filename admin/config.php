@@ -94,7 +94,7 @@ $phpAds_nav = array (
 		      "1.1.1.2"		=> 	array("banner-edit.php?campaignID=$campaignID&bannerID=$bannerID" => $strModifyBanner),
 		    "1.1.2"			=> 	array("stats-campaign-history.php?campaignID=$campaignID" => $strHistory),
 	  	    "1.1.3"			=> 	array("stats-weekly.php?campaignID=$campaignID" => $strWeeklyStats),
-	      "1.2"				=>  array("stats-client.php" => $strHistory),
+	      "1.2"				=>  array("stats-client.php" => $strHistory)
 	)
 );
 
