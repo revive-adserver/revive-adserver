@@ -349,6 +349,7 @@ $GLOBALS['strBrowser'] 					= "Browser";
 $GLOBALS['strOS'] 						= "OS";
 $GLOBALS['strCountry'] 					= "Country";
 $GLOBALS['strContinent'] 				= "Continent";
+$GLOBALS['strUSState']					= "US State";
 $GLOBALS['strReferer'] 					= "Referring page";
 $GLOBALS['strDeliveryLimitations']		= "Delivery limitations";
 $GLOBALS['strDeliveryCapping']			= "Delivery capping";

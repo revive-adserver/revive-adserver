@@ -12,6 +12,9 @@
 
   ====================================================
 
+  04-02-2003 - default
+    [+] strUSState
+
   04-01-2003 - setting-help
     [u] phpAds_hlp_dbhost
     [+] phpAds_hlp_dbport
