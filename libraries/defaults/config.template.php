@@ -148,7 +148,7 @@ $phpAds_config['warn_limit'] = 100;
 $phpAds_config['p3p_policies'] = true;
 
 // Compact policy
-$phpAds_config['p3p_compact_policy'] = 'CUR ADM OUR NOR STA NID';
+$phpAds_config['p3p_compact_policy'] = 'NOI CUR ADM OUR NOR STA NID';
 
 // Policy file location
 // For example:
