@@ -23,7 +23,7 @@ $phpAds_geoPluginID = 'geoip';
 function phpAds_geoip_getInfo()
 {
 	return (array (
-		'name'	    => 'MaxMind GeoIP',
+		'name'	    => 'MaxMind GeoIP Country Edition',
 		'db'	    => true,
 		'country'   => true,
 		'continent' => true,
@@ -61,9 +61,11 @@ function phpAds_geoip_getGeo($addr, $db)
 	
 	$ipnum = ip2long($addr);
 	
-	if ($gi = fopen($db, 'rb'))
+	if ($fp = @fopen($db, 'rb'))
 	{
-		$country = $countrycodes[phpAds_geoip_seekCountry($gi, 0, $ipnum, 31, $countrybegin)];
+		$country = $countrycodes[phpAds_geoip_seekCountry($fp, 0, $ipnum, 31, $countrybegin)];
+		@fclose ($fp);
+		
 		
 		// Get continent code
 		@include_once (phpAds_path.'/libraries/resources/res-continent.inc.php');
@@ -88,8 +90,8 @@ function phpAds_geoip_seekCountry($gi, $offset, $ipnum, $depth, $countrybegin)
 	if ($depth < 0)
 		return (false);
 	
-	if (fseek($gi, 6 * $offset, SEEK_SET) != 0) return (false);
-	$buf = fread($gi,6);
+	if (@fseek($gi, 6 * $offset, SEEK_SET) != 0) return (false);
+	$buf = @fread($gi,6);
 	
 	$x = array(0,0);
 	for ($i = 0; $i < 2; ++$i)
