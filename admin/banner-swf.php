@@ -92,7 +92,14 @@ if (isset($convert))
 		if (phpAds_SWFVersion($swf_file) >= 3 &&
 			phpAds_SWFInfo($swf_file))
 		{
-			list($result, $parameters) = phpAds_SWFConvert($swf_file);
+			// Compress the converted file
+			if (isset($compress)) 
+				$compress = true;
+			else
+				$compress = false;
+			
+			
+			list($result, $parameters) = phpAds_SWFConvert($swf_file, $compress);
 			
 			if ($result != $swf_file)
 			{
@@ -104,6 +111,8 @@ if (isset($convert))
 				}
 				
 				$parameter = implode ('&', $parameters);
+				$row['pluginversion'] = phpAds_SWFVersion($result);
+				
 				$row['htmltemplate'] = str_replace ('{swf_param}', $parameter, $row['htmltemplate']);
 				$row['htmlcache']    = addslashes (phpAds_getBannerCache($row));
 				$row['htmltemplate'] = addslashes ($row['htmltemplate']);
@@ -111,7 +120,7 @@ if (isset($convert))
 				// Store the HTML Template
 				$res = phpAds_dbQuery ("
 					UPDATE ".$phpAds_config['tbl_banners']." 
-					SET htmltemplate='".$row['htmltemplate']."', htmlcache='".$row['htmlcache']."'
+					SET pluginversion='".$row['pluginversion']."', htmltemplate='".$row['htmltemplate']."', htmlcache='".$row['htmlcache']."'
 					WHERE bannerid = ".$bannerid."
 				");
 				
@@ -252,11 +261,17 @@ else
 /*********************************************************/
 
 $result = phpAds_SWFInfo($swf_file);
+$version = phpAds_SWFVersion($swf_file);
+$compressed = phpAds_SWFCompressed($swf_file);
 
 if ($result)
 {
 	echo $strConvertSWF;
 	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+	echo "<form action='banner-swf.php' method='post'>";
+	echo "<input type='hidden' name='clientid' value='$clientid'>";
+	echo "<input type='hidden' name='campaignid' value='$campaignid'>";
+	echo "<input type='hidden' name='bannerid' value='$bannerid'>";
 	
 	echo "<tr>";
 	echo "<td height='25'>&nbsp;<b>".$strURL2."</b></td>";
@@ -277,17 +292,20 @@ if ($result)
 		
 		echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	}
+	
 	echo "</table>";
 	echo "<br><br>";
 	
-	echo "<form action='banner-swf.php' method='post'>";
-	echo "<input type='hidden' name='clientid' value='$clientid'>";
-	echo "<input type='hidden' name='campaignid' value='$campaignid'>";
-	echo "<input type='hidden' name='bannerid' value='$bannerid'>";
-	echo "<input type='submit' name='convert' value='".$strConvert."'>&nbsp;&nbsp;";
-	echo "<input type='submit' name='cancel' value='".$strCancel."'>";
-	echo "</form>";
+	echo "<input type='submit' name='cancel' value='".$strCancel."'>&nbsp;&nbsp;";
+	echo "<input type='submit' name='convert' value='".$strConvert."'>";
 	
+	if (function_exists('gzcompress'))
+	{
+		echo "&nbsp;&nbsp;<input type='checkbox' name='compress' value='true'".($compressed ? ' checked' : '').($version >= 6 && $compressed ? ' disabled' : '').">";
+		echo "&nbsp;Compress SWF file for faster downloading (Flash 6 player required)";
+	}
+	
+	echo "</form>";
 	echo "<br><br>";
 }
 

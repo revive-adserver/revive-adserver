@@ -65,12 +65,20 @@ function phpAds_SWFCompressed($buffer)
 
 function phpAds_SWFCompress($buffer)
 {
+	$version = ord(substr($buffer, 3, 1));
+	
 	if (function_exists('gzcompress') &&
 	    substr($buffer, 0, 3) == swf_tag_identify &&
-		ord(substr($buffer, 3, 1)) >= 6)
+		$version >= 3)
 	{
+		// When compressing an old file, update
+		// version, otherwise keep existing version
+		if ($version < 6) $version = 6;
+		
 		$output  = 'C';
-		$output .= substr ($buffer, 1, 7);
+		$output .= substr ($buffer, 1, 2);
+		$output .= chr($version);
+		$output .= substr ($buffer, 4, 4);
 		$output .= gzcompress (substr ($buffer, 8));
 		
 		return ($output);
@@ -219,19 +227,14 @@ function phpAds_SWFInfo($buffer)
 /* Convert hard coded urls                               */
 /*********************************************************/
 
-function phpAds_SWFConvert($buffer)
+function phpAds_SWFConvert($buffer, $compress)
 {
 	global $swf_variable, $swf_target_var;
 	
 	
 	// Decompress if file is a Flash MX compressed file
 	if (phpAds_SWFCompressed($buffer))
-	{
-		$compress = true;
 		$buffer = phpAds_SWFDecompress($buffer);
-	}
-	else
-		$compress = false;
 	
 	
 	$parameters = array();
