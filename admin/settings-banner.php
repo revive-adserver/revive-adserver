@@ -59,6 +59,15 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		if (!function_exists("ftp_connect"))
 			require ("lib-ftp.inc.php");
 		
+		// Set current password if a new one is not supplied
+		if (isset($type_web_ftp_password) && ereg('^\*+$', $type_web_ftp_password))
+		{
+			if ($ftpserver = @parse_url($phpAds_config['type_web_ftp']))
+			{
+				$type_web_ftp_password = $ftpserver['pass'];
+			}
+		}
+		
 		if (isset($type_web_ftp_host) && $ftpsock = @ftp_connect($type_web_ftp_host))
 		{
 			if (@ftp_login($ftpsock, $type_web_ftp_user, $type_web_ftp_password))
