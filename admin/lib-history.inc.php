@@ -467,7 +467,7 @@ if (isset($row['span']) && $row['span'] > 0)
 			echo "<tr>";
 			
 			echo "<td height='25' bgcolor='$bgcolor'>&nbsp;";
-			echo "<img src='images/icon-time.gif' align='absmiddle'>&nbsp;";
+			echo "<img src='images/icon-date.gif' align='absmiddle'>&nbsp;";
 			
 			if (isset($lib_history_hourlyurl) && $period == 'd' && $available)
 				echo "<a href='".$lib_history_hourlyurl.$params."day=".strftime('%Y%m%d', $timestamp)."'>".$key."</a></td>";

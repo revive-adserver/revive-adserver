@@ -126,8 +126,13 @@ for ($i=0; $i<24; $i++)
 		$clicks[$i] = '-';
 	}
 	
+	$basestamp = mktime ($i, 0, 0, date('m'), date('d'), date('Y'));
+	
 	echo "<tr>";
-	echo "<td height='25' bgcolor='$bgcolor'>&nbsp;".$i.":00 - ".$i.":59</td>";
+	echo "<td height='25' bgcolor='$bgcolor'>&nbsp;";
+	echo "<img src='images/icon-time.gif' align='absmiddle'>&nbsp;"; 
+	echo strftime ($minute_format, $basestamp)." - ". strftime ($minute_format, $basestamp + (59 * 60));
+	echo "</td>";
 	echo "<td align='".$phpAds_TextAlignRight."' height='25' bgcolor='$bgcolor'>".$views[$i]."</td>";
 	echo "<td align='".$phpAds_TextAlignRight."' height='25' bgcolor='$bgcolor'>".$clicks[$i]."</td>";
 	echo "<td align='".$phpAds_TextAlignRight."' height='25' bgcolor='$bgcolor'>".$ctr."&nbsp;&nbsp;</td>";
