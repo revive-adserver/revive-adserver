@@ -127,8 +127,8 @@ $GLOBALS['strAllowInterstitial']		= "Allow Interstitials";
 $GLOBALS['strAllowPopups']			= "Allow Popups";
 
 $GLOBALS['strUseAcl']				= "Use delivery limitations";
-$GLOBALS['strGeotrackingType']			= "Type of geotracking database";
-$GLOBALS['strGeotrackingLocation'] 		= "Geotracking database location";
+$GLOBALS['strGeotrackingType']			= "Type of geotargeting database";
+$GLOBALS['strGeotrackingLocation'] 		= "Geotargeting database location";
 
 $GLOBALS['strKeywordRetrieval']			= "Keyword retrieval";
 $GLOBALS['strBannerRetrieval']			= "Banner retrieval method";
