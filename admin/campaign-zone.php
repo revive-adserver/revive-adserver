@@ -32,15 +32,29 @@ phpAds_checkAccess(phpAds_Admin);
 
 if (isset($submit))
 {
-	if (isset($previouszone) && is_array($previouszone))
+	$previouszone = array();
+	
+	// Get all zones
+	$res = phpAds_dbQuery("
+		SELECT 
+			zoneid,
+			what
+		FROM 
+			".$phpAds_config['tbl_zones']."
+		WHERE
+			zonetype = ".phpAds_ZoneCampaign."
+	") or phpAds_sqlDie();
+	
+	while ($row = phpAds_dbFetchArray($res))
+		$previouszone[$row['zoneid']] = (phpAds_IsCampaignInZone ($campaignid, $row['zoneid'], $row['what']));
+	
+	
+	for (reset($previouszone);$key=key($previouszone);next($previouszone))
 	{
-		for (reset($previouszone);$key=key($previouszone);next($previouszone))
+		if (($previouszone[$key] == true && (!isset($includezone[$key]) || $includezone[$key] != 't')) ||
+		    ($previouszone[$key] != true && (isset($includezone[$key]) && $includezone[$key] == 't')))
 		{
-			if (($previouszone[$key] == 't' && (!isset($includezone[$key]) || $includezone[$key] != 't')) ||
-			    ($previouszone[$key] != 't' && (isset($includezone[$key]) && $includezone[$key] == 't')))
-			{
-				phpAds_ToggleCampaignInZone ($campaignid, $key);
-			}
+			phpAds_ToggleCampaignInZone ($campaignid, $key);
 		}
 	}
 	
@@ -147,75 +161,6 @@ phpAds_PageHeader("4.1.3.3", $extra);
 /* Main code                                             */
 /*********************************************************/
 
-?>
-
-<script language='Javascript'>
-<!--
-	function toggleZones()
-	{
-		var args=toggleZones.arguments;
-		affiliateid = args[0];
-		
-		allchecked = true;
-		for (var i=0; i<document.zones.elements.length; i++)
-		{
-			if (document.zones.elements[i].name == 'affiliate[' + affiliateid + ']')
-			{
-				if (document.zones.elements[i].checked == false)
-				{
-					allchecked = false;
-				}
-			}
-		}
-		
-		for (i=1; i<(args.length); i++) 
-		{
-			zoneid = args[i];
-			
-			for (var j=0; j<document.zones.elements.length; j++)
-			{
-				if (document.zones.elements[j].name == 'includezone[' + zoneid + ']')
-				{
-					document.zones.elements[j].checked = allchecked;
-				}
-			}
-		}
-	}
-	
-	function toggleAffiliate()
-	{
-		var args=toggleAffiliate.arguments;
-		
-		allchecked = true;
-		for (i=1; i<(args.length); i++) 
-		{
-			zoneid = args[i];
-			for (var j=0; j<document.zones.elements.length; j++)
-			{
-				if (document.zones.elements[j].name == 'includezone[' + zoneid + ']')
-				{
-					if (document.zones.elements[j].checked == false)
-					{
-						allchecked = false;
-					}
-				}
-			}
-		}
-		
-		affiliateid = args[0];
-		for (var i=0; i<document.zones.elements.length; i++)
-		{
-			if (document.zones.elements[i].name == 'affiliate[' + affiliateid + ']')
-			{
-				document.zones.elements[i].checked = allchecked;
-			}
-		}
-	}
-//-->
-</script>
-
-<?php
-
 $res = phpAds_dbQuery ("
 	SELECT
 		affiliateid,
@@ -253,7 +198,7 @@ while ($row = phpAds_dbFetchArray($res))
 {
 	if (isset($affiliates[$row['affiliateid']]))
 	{
-		$row['linked'] = (phpAds_IsCampaignInZone ($campaignid, $row['zoneid']));
+		$row['linked'] = (phpAds_IsCampaignInZone ($campaignid, $row['zoneid'], $row['what']));
 		$affiliates[$row['affiliateid']]['zones'][$row['zoneid']] = $row;
 	}
 }
@@ -322,25 +267,18 @@ if ($zone_count > 0 && $affiliate_count > 0)
 			
 			if ($i > 0) echo "<td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
 			echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
+			echo "<td height='25'>";
 			
-			$zoneids = array();
 			$zoneslinked = 0;
 			for (reset($zones); $zkey = key($zones); next($zones))
-			{
-				$zoneids[] = $zones[$zkey]['zoneid'];
-				
 				if ($zones[$zkey]['linked']) $zoneslinked++;
-			}
-			
-			
-			echo "<td height='25'>";
 			
 			if (count($zones) == $zoneslinked)
 				echo "&nbsp;&nbsp;<input name='affiliate[".$affiliate['affiliateid']."]' type='checkbox' value='t' checked ";
 			else
 				echo "&nbsp;&nbsp;<input name='affiliate[".$affiliate['affiliateid']."]' type='checkbox' value='t' ";
 			
-			echo "onClick='toggleZones(".$affiliate['affiliateid'].",".implode(',', $zoneids).");'>";
+			echo "onClick='toggleZones(".$affiliate['affiliateid'].");'>";
 			echo "&nbsp;&nbsp;<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;";
 			echo "<a href='affiliate-edit.php?affiliateid=".$affiliate['affiliateid']."'>".$affiliate['name']."</a>";
 			echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -367,13 +305,11 @@ if ($zone_count > 0 && $affiliate_count > 0)
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 				
 			    if ($zone['linked'])
-					echo "&nbsp;&nbsp;<input name='includezone[".$zone['zoneid']."]' type='checkbox' value='t' checked ";
+					echo "&nbsp;&nbsp;<input name='includezone[".$zone['zoneid']."]' id='a".$affiliate['affiliateid']."' type='checkbox' value='t' checked ";
 				else
-					echo "&nbsp;&nbsp;<input name='includezone[".$zone['zoneid']."]' type='checkbox' value='t' ";
+					echo "&nbsp;&nbsp;<input name='includezone[".$zone['zoneid']."]'id='a".$affiliate['affiliateid']."'  type='checkbox' value='t' ";
 				
-				echo "onClick='toggleAffiliate(".$affiliate['affiliateid'].",".implode(',', $zoneids).");'>";
-				echo "<input type='hidden' name='previouszone[".$zone['zoneid']."]' value='".($zone['linked'] ? 't' : 'f')."'>";
-				
+				echo "onClick='toggleAffiliate(".$affiliate['affiliateid'].");'>";
 				echo "&nbsp;&nbsp;<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
 				echo "<a href='zone-edit.php?affiliateid=".$affiliate['affiliateid']."&zoneid=".$zone['zoneid']."'>".$zone['zonename']."</a>";
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -410,6 +346,61 @@ if (isset($affiliates) && count($affiliates) > 0)
 }
 
 echo "</form>";
+
+
+
+/*********************************************************/
+/* Form requirements                                     */
+/*********************************************************/
+
+?>
+
+<script language='Javascript'>
+<!--
+	affiliates = new Array();
+<?php
+	for (reset($affiliates); $akey = key($affiliates); next($affiliates))
+		if (isset($affiliates[$akey]['zones']))
+			echo "\taffiliates[".$akey."] = ".count($affiliates[$akey]['zones']).";\n";
+?>
+	
+	function toggleAffiliate(affiliateid)
+	{
+		var count = 0;
+		var affiliate;
+		
+		for (var i=0; i<document.zones.elements.length; i++)
+		{
+			if (document.zones.elements[i].name == 'affiliate[' + affiliateid + ']')
+				affiliate = i;
+			
+			if (document.zones.elements[i].id == 'a' + affiliateid + '' &&
+				document.zones.elements[i].checked)
+				count++;
+		}
+		
+		document.zones.elements[affiliate].checked = (count == affiliates[affiliateid]);
+	}
+	
+	function toggleZones(affiliateid)
+	{
+		var checked
+		
+		for (var i=0; i<document.zones.elements.length; i++)
+		{
+			if (document.zones.elements[i].name == 'affiliate[' + affiliateid + ']')
+				checked = document.zones.elements[i].checked;
+			
+			if (document.zones.elements[i].id == 'a' + affiliateid + '')
+				document.zones.elements[i].checked = checked;
+		}
+	}
+
+//-->
+</script>
+
+
+<?php
 
 
 
