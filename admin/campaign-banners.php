@@ -151,7 +151,20 @@ while ($row = phpAds_dbFetchArray($res))
 
 // Add ID found in expand to expanded nodes
 if (isset($expand) && $expand != '')
-	$node_array[] = $expand;
+{
+	switch ($expand)
+	{
+		case 'all' :	$node_array   = array();
+						if (isset($banners)) for (reset($banners);$key=key($banners);next($banners))	$node_array[] = $key;
+						break;
+						
+		case 'none':	$node_array   = array();
+						break;
+						
+		default:		$node_array[] = $expand;
+						break;
+	}
+}
 
 $node_array_size = sizeof($node_array);
 for ($i=0; $i < $node_array_size;$i++)
@@ -358,7 +371,7 @@ else
 }
 
 echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-echo "<tr height='25'><td colspan='5' height='25'>";
+echo "<tr height='25'><td colspan='3' height='25' nowrap>";
 
 if (isset($banners) && count($banners))
 	echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle'>&nbsp;<a href='banner-delete.php?clientid=".$clientid."&campaignid=".$campaignid."&returnurl=campaign-banners.php'".phpAds_DelConfirm($strConfirmDeleteAllBanners).">$strDeleteAllBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -369,7 +382,23 @@ if (isset($banners) && $count_active < count($banners))
 if ($count_active > 0)
 	echo "<img src='images/icon-deactivate.gif' border='0' align='absmiddle'>&nbsp;<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&value=t'>$strDeactivateAllBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 
-echo "</td></tr>";
+echo "</td>";
+
+if (!$phpAds_config['gui_show_campaign_preview'])
+{
+	echo "<td colspan='2' align='right' nowrap>";
+	echo "<img src='images/triangle-d.gif' align='absmiddle' border='0'>";
+	echo "&nbsp;<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&expand=all'>".$strExpandAll."</a>";
+	echo "&nbsp;&nbsp;|&nbsp;&nbsp;";
+	echo "<img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'>";
+	echo "&nbsp;<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&expand=none'>".$strCollapseAll."</a>";
+	echo "</td>";
+}
+else
+	echo "<td colspan='2'>&nbsp;</td>";
+
+
+echo "</tr>";
 echo "</table>";
 echo "<br><br>";
 echo "<br><br>";

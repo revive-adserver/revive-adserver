@@ -7,6 +7,7 @@ CVS
 			  - 2002-07-28:  Added advertiser name to the default name of new campaigns  (Niels)
 			  - 2002-07-28:  Added indicator for zones without any linked banners  (Niels)
 			  - 2002-07-29:  Added source filtering to all history pages  (Niels)
+			  - 2002-07-29:  Added expand all / collapse all buttons to banner overview page (Niels)
 
 			+ Misc bugfixes
 			  - 2002-07-25:  On some systems history pages showed '-0' instead of simply '-' (Matteo)
