@@ -18,7 +18,7 @@ define ('LIBDBCONFIG_INCLUDED', true);
 
 
 // Current phpAds version
-$phpAds_version = 200.140;
+$phpAds_version = 200.141;
 $phpAds_version_readable = "2.0 RC 1";
 $phpAds_productname = "phpAdsNew";
 $phpAds_producturl = "www.phpadsnew.com";
@@ -26,6 +26,7 @@ $phpAds_dbmsname = "MySQL";
 
 $GLOBALS['phpAds_settings_information'] = array(
 	'dbhost' => 					array ('type' => 'string', 	'sql' => false),
+	'dbport' => 					array ('type' => 'integer', 'sql' => false),
 	'dbuser' => 					array ('type' => 'string', 	'sql' => false),
 	'dbpassword' => 				array ('type' => 'string', 	'sql' => false),
 	'dbname' => 					array ('type' => 'string', 	'sql' => false),

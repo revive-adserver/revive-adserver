@@ -64,6 +64,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-12-15:  Added experimental support for sysvshm shared memory to the delivery cache plugins  (Thomas Seifert)
 			  - 2002-12-16:  The table type selected during the installation is now stored in the configuration file  (Niels)
 			  - 2002-12-16:  Added an extra check to see if the local directory exist when setting up local banners stored on the webserver  (Niels)
+			  - 2002-12-17:  Added database server port number to the configuration, install and settings  (Matteo)
 
 			+ Misc bugfixes
 			  - 2002-07-25:  On some systems history pages showed '-0' instead of simply '-' (Matteo)

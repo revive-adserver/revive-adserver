@@ -12,6 +12,9 @@
 
   ====================================================
 
+  12-17-2002 - settings
+    [+] strDbPort
+
   12-16-2002 - settings
     [+] strTableWrongType
     [+] strTypeFTPErrorDir

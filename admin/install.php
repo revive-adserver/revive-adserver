@@ -210,6 +210,7 @@ if (phpAds_isUser(phpAds_Admin))
 			
 			$phpAds_config['compatibility_mode'] = false;
 			$phpAds_config['dbhost'] 	 		 = $dbhost;
+			$phpAds_config['dbport'] 	 		 = $dbport;
 			$phpAds_config['dbuser'] 	 		 = $dbuser;
 			$phpAds_config['dbpassword'] 		 = $dbpassword;
 			$phpAds_config['dbname'] 	 		 = $dbname;
@@ -243,6 +244,7 @@ if (phpAds_isUser(phpAds_Admin))
 			if (!isset($errormessage) || !count($errormessage))
 			{
 				$installvars['dbhost'] 	 	 = $dbhost;
+				$installvars['dbport'] 	 	 = $dbport;
 				$installvars['dbuser'] 		 = $dbuser;
 				$installvars['dbpassword'] 	 = $dbpassword;
 				$installvars['dbname'] 		 = $dbname;
@@ -308,6 +310,7 @@ if (phpAds_isUser(phpAds_Admin))
 							phpAds_SettingsWriteAdd('language', $installvars['language']);
 							
 							phpAds_SettingsWriteAdd('dbhost', $installvars['dbhost']);
+							phpAds_SettingsWriteAdd('dbport', $installvars['dbport']);
 							phpAds_SettingsWriteAdd('dbuser', $installvars['dbuser']);
 							phpAds_SettingsWriteAdd('dbpassword', $installvars['dbpassword']);
 							phpAds_SettingsWriteAdd('dbname', $installvars['dbname']);
@@ -452,6 +455,15 @@ if (phpAds_isUser(phpAds_Admin))
 							'type' 	  => 'text', 
 							'name' 	  => 'dbhost',
 							'text' 	  => $strDbHost,
+							'req'	  => true
+						),
+						array (
+							'type'    => 'break'
+						),
+						array (
+							'type' 	  => 'text', 
+							'name' 	  => 'dbport',
+							'text' 	  => $strDbPort,
 							'req'	  => true
 						),
 						array (

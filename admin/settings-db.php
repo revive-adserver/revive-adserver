@@ -43,6 +43,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		unset($phpAds_db_link);
 		
 		$phpAds_config['dbhost'] = $dbhost;
+		$phpAds_config['dbport'] = $dbport;
 		$phpAds_config['dbuser'] = $dbuser;
 		$phpAds_config['dbpassword'] = $dbpassword;
 		$phpAds_config['dbname'] = $dbname;
@@ -53,6 +54,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		else
 		{
 			phpAds_SettingsWriteAdd('dbname', $dbhost);
+			phpAds_SettingsWriteAdd('dbport', $dbport);
 			phpAds_SettingsWriteAdd('dbuser', $dbuser);
 			phpAds_SettingsWriteAdd('dbpassword', $dbpassword);
 			phpAds_SettingsWriteAdd('dbname', $dbname);
@@ -101,6 +103,15 @@ array (
 			'type' 	  => 'text', 
 			'name' 	  => 'dbhost',
 			'text' 	  => $strDbHost,
+			'req'	  => true
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type' 	  => 'text', 
+			'name' 	  => 'dbport',
+			'text' 	  => $strDbPort,
 			'req'	  => true
 		),
 		array (

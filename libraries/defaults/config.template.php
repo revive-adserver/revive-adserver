@@ -7,6 +7,9 @@
 // Database hostname
 $phpAds_config['dbhost'] = 'localhost';
 
+// Database port
+$phpAds_config['dbport'] = '3306';
+
 // Database username
 $phpAds_config['dbuser'] = 'mysqlusername';
 
