@@ -54,25 +54,25 @@ function phpAds_aclCheck($row, $source)
 			switch ($aclrow['acl_type'])
 			{
 				case 'clientip':
-					$expression .= "phpAds_aclCheckClientIP('".$aclrow['acl_data']."', '".$aclrow['acl_ad']."')";
+					$expression .= "phpAds_aclCheckClientIP('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."')";
 					break;
 				case 'useragent':
-					$expression .= "phpAds_aclCheckUseragent('".$aclrow['acl_data']."', '".$aclrow['acl_ad']."')";
+					$expression .= "phpAds_aclCheckUseragent('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."')";
 					break;
 				case 'language':
-					$expression .= "phpAds_aclCheckLanguage('".$aclrow['acl_data']."', '".$aclrow['acl_ad']."')";
+					$expression .= "phpAds_aclCheckLanguage('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."')";
 					break;
 				case 'weekday':
-					$expression .= "phpAds_aclCheckWeekday('".$aclrow['acl_data']."', '".$aclrow['acl_ad']."')";
+					$expression .= "phpAds_aclCheckWeekday('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."')";
 					break;
 				case 'domain':
-					$expression .= "phpAds_aclCheckDomain('".$aclrow['acl_data']."', '".$aclrow['acl_ad']."')";
+					$expression .= "phpAds_aclCheckDomain('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."')";
 					break;
 				case 'source':
-					$expression .= "phpAds_aclCheckSource('".$aclrow['acl_data']."', '".$aclrow['acl_ad']."', '".$source."')";
+					$expression .= "phpAds_aclCheckSource('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."', '".$source."')";
 					break;
 				case 'time':
-					$expression .= "phpAds_aclCheckTime('".$aclrow['acl_data']."', '".$aclrow['acl_ad']."')";
+					$expression .= "phpAds_aclCheckTime('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."')";
 					break;
 				default:
 					return(0);
@@ -82,7 +82,7 @@ function phpAds_aclCheck($row, $source)
 		}
 		
 		// Evaluate expression and return
-		eval('$result = ('.$expression.');');
+		@eval('$result = ('.$expression.');');
 		
 		return($result);
 	}
@@ -213,7 +213,7 @@ function phpAds_aclCheckLanguage($data, $ad)
 	
 	$source = $HTTP_SERVER_VARS['HTTP_ACCEPT_LANGUAGE'];
 	
-	$expression = ($data == "*" || eregi("^".$data, $source));
+	$expression = ($data == "*" || eregi('^('.$data.')', $source));
 	$operator   = $ad == 'allow';
 	return ($expression == $operator);
 }
