@@ -126,7 +126,7 @@ if (isset($submit))
 		}
 		else
 		{
-			if (@file_exists ($uploaded['tmp_name']))
+			if (!isset($uploaded['error']) || !$uploaded['error'])
 			{
 				$upload_error = false;
 				
