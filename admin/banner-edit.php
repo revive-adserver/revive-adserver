@@ -333,7 +333,7 @@ if (!isset($type) || !$$show_type)
 	if ($show_html) $type = "html"; 
 	if ($show_url)  $type = "url"; 
 	if ($show_web)  $type = "web"; 
-	if ($show_sql)  $type = "pgsql"; 
+	if ($show_sql)  $type = "mysql"; 
 }
 ?>
 
