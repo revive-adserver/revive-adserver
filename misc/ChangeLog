@@ -12,6 +12,10 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-01-14:  Added support for Safari to the browser delivery limitation and adlayer browser detection  (Niels)
 			  - 2003-01-21:  All user and admin passwords are now stored as md5 hashes  (Niels)
 			  - 2003-01-21:  If an advertiser or publisher wants to change his password he now has to supply his old password and enter the new password twice  (Niels)
+			  - 2003-01-22:  <a></a> tags are now hidden from the visitor if no destination URL is specified  (Niels)
+			  - 2003-01-22:  Status text is now also shown when the visitor moves his mouse over the text below the banner  (Niels)
+			  - 2003-01-22:  If plain remote invocation is used and no destination URL is specified, adclick will now redirect back to the originating webpage  (Niels)
+			  - 2003-01-22:  If plain remote invocation is used and cookies are disabled, adclick will now redirect back to the originating webpage  (Niels)
 
 			+ Misc bugfixes
 			  - 2003-01-13:  If a zero was used in a random variable (ie. random:10) it wasn't replaced  (Niels)
@@ -26,7 +30,7 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-01-19:  Setting the webserver banner settings to empty did not have any effect  (Niels)
 			  - 2003-01-20:  Wildcard in source delivery limitation matched only a-z and 0-9, not other characters
 			  - 2003-01-21:  Usernames were shown in the HTML source of the advertiser and publisher property pages when logged in as a regular user  (Niels)
-			  - 2003-01-21:  Fixed some typos in name of the session cookie in lib-session.inc.php and lib-permissions.inc.php  (Niels)
+			  - 2003-01-21:  Fixed some typos in the name of the session cookie in lib-session.inc.php and lib-permissions.inc.php  (Niels)
 			
 
 v 2.0rc2		+ Misc bugfixes
