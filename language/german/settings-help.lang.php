@@ -1,4 +1,4 @@
-<?php // $Revision: 1.1 $
+<?php // $Revision: 1.3 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -6,6 +6,7 @@
 /*                                                                      */
 /* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
+/* Translations by Stefan Morgenroth (dandra@users.sf.net)              */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -16,19 +17,19 @@
 
 // Settings help translation strings
 $GLOBALS['phpAds_hlp_dbhost'] = "
-        Specify the hostname of the MySQL database server.
+        Spezifiziere den Hostnamen von dem MySQL Datenbank-Server.
 		";
 		
 $GLOBALS['phpAds_hlp_dbuser'] = "
-        Specify the username which phpAdsNew must use to gain access to the MySQL database server.
+        Spezifiziere den Usernamen, der von phpAdsNew genutzt werden muß, um auf den MySQL Datenbank-Server zuzugreifen.
 		";
 		
 $GLOBALS['phpAds_hlp_dbpassword'] = "
-        Specify the password which phpAdsNew must use to gain access to the MySQL database server.
+        Spezifiziere das Passwort, das von phpAdsNew genutzt werden muß, um auf den MySQL Datenbank-Server zuzugreifen.
 		";
 		
 $GLOBALS['phpAds_hlp_dbname'] = "
-        Specify the name of the database where phpAdsNew must store its data.
+        Spezifiziere den Namen der Datenbank, in der phpAdsNew seine Daten speichern muß.
 		";
 		
 $GLOBALS['phpAds_hlp_persistent_connections'] = "
@@ -87,7 +88,7 @@ $GLOBALS['phpAds_hlp_name'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_company_name'] = "
-        This name is used in the e-mail sent by phpAdsNew.
+        Dieser Namen wird benutzt, um E-Mails von phpAdsNew aus zu versenden.
 		";
 		
 $GLOBALS['phpAds_hlp_override_gd_imageformat'] = "
@@ -100,8 +101,7 @@ $GLOBALS['phpAds_hlp_override_gd_imageformat'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_p3p_policies'] = "
-        If you want to enable phpAdsNew' P3P Privacy Policies you must turn this 
-        option on. 
+        Wenn in phpAdsNew die P3P Privacy Policies aktiviert werden sollen, dann muß diese Option aktiviert werden. 
 		";
 		
 $GLOBALS['phpAds_hlp_p3p_compact_policy'] = "
