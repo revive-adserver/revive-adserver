@@ -149,7 +149,7 @@ function phpAds_getlayerShowVar ()
 {
 	return array (
 		'what' => true,
-		'clientid' => true,
+		'acid' => true,
 		'target' => true,
 		'source' => true,
 		'layerstyle' => true,

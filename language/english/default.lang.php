@@ -277,6 +277,8 @@ $GLOBALS['strShowParentCampaigns']		= "Show parent campaigns";
 $GLOBALS['strHideParentCampaigns']		= "Hide parent campaigns";
 $GLOBALS['strHideInactiveBanners']		= "Hide inactive banners";
 $GLOBALS['strInactiveBannersHidden']		= "inactive banner(s) hidden";
+$GLOBALS['strAppendOthers']				= "Append others";
+$GLOBALS['strAppendTextAdNotPossible']	= "It is not possible to append other banners to text ads.";
 
 
 

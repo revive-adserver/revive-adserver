@@ -140,6 +140,9 @@ CREATE TABLE phpads_banners (
    block int(11) DEFAULT '0' NOT NULL,
    capping int(11) DEFAULT '0' NOT NULL,
    compiledlimitation blob NOT NULL,
+   append blob NOT NULL,
+   appendtype tinyint(4) DEFAULT '0' NOT NULL,
+   bannertype tinyint(4) DEFAULT '0' NOT NULL,
    PRIMARY KEY (bannerid)
 );
 

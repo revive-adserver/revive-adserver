@@ -12,6 +12,10 @@
 
   ====================================================
 
+  02-12-2003 - default
+    [+] strAppendOthers
+    [+] strAppendTextAdNotPossible
+
   02-11-2003 - default
     [+] strContains
     [+] strNotContains
