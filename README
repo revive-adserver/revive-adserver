@@ -10,7 +10,7 @@ phpAdsNew - Readme
   THE USE OF THIS SOFTWARE IS COMPLETELY AT YOUR OWN RISK!
 
 
-    Copyright (C) 2000-2001 
+    Copyright (C) 2000-2002
 	Wim Godden 	   <wim@godden.net>
 	Phil Hord 	   <phil@phord.com>
 	Niels Leenheer 	   <niels@creatype.nl>
@@ -22,7 +22,6 @@ phpAdsNew - Readme
 
     Documentation:
 	Niels Leenheer 	   <niels@creatype.nl>
-	Niels Schoot 	   <nschoot@users.sourceforge.net>
 
 
     Based on phpAds created by Tobias Ratschiller <tobias@dnet.it>
@@ -42,6 +41,25 @@ phpAdsNew - Readme
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+    In addition, as a special exception, TOMO <groove@spencernetwork.org> 
+    gives permission to link the code of this program with the FTP library 
+    (or with modified versions of LIB-FTP that use the same license as LIB-FTP), 
+    and distribute linked combinations including the two.  You must obey 
+    the GNU General Public License in all respects for all of the code used 
+    other than LIB-FTP.  If you modify this file, you may extend this exception 
+    to your version of the file, but you are not obligated to do so.  If 
+    you do not wish to do so, delete this exception statement from your version.
+
+    In addition, as a special exception, Edd Dumbill <edd@usefulinc.com>
+    gives permission to link the code of this program with the XML-RPC library 
+    (or with modified versions of XML-RPC that use the same license as XML-RPC), 
+    and distribute linked combinations including the two.  You must obey 
+    the GNU General Public License in all respects for all of the code used 
+    other than XML-RPC.  If you modify this file, you may extend this exception 
+    to your version of the file, but you are not obligated to do so.  If 
+    you do not wish to do so, delete this exception statement from your version.
+
 
 
   Requirements: 
@@ -89,6 +107,9 @@ phpAdsNew - Readme
     Philip Gabbert <pgabbert@exactis.com>, Ralf Eggert <ralf@in-greece.de>,
     Niels Schoot <nschoot@users.sourceforge.net>, Martin Braun <martin@braun.cc>,
     Vivian Girel, René Friedrich <rene.friedrich@web.de> and many more.
+
+    XML-RPC library:
+    Edd Dumbill <edd@usefulinc.com>
 
     FTP library:
     TOMO <groove@spencernetwork.org> 
