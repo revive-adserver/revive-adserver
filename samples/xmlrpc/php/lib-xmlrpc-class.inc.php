@@ -79,7 +79,7 @@ class phpAds_XmlRpc
 		$this->output = '';
 	}
 	
-	function view($what, $clientid=0, $target='', $source='', $withtext=0, $context=0)
+	function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $context=0)
 	{
 		// Create context XML-RPC array
 		if (is_array($context))
@@ -110,14 +110,23 @@ class phpAds_XmlRpc
 			if ($response->faultCode() == 0)
 			{
 				$this->output = phpAds_xmlrpcDecode($response->value());
-				echo $this->output['html'];
-	
-				return $this->output['bannerid'];
+
+				return $this->output;
 			}
 		}
 		
 		return false;
 	}
+
+	function view($what, $clientid=0, $target='', $source='', $withtext=0, $context=0)
+	{
+		$this->view_raw($what, $clientid, $target, $source, $withtext, $context);
+
+		echo $this->output['html'];
+
+		return $this->output['bannerid'];
+	}
+
 }
 
 ?>
