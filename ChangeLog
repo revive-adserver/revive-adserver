@@ -28,6 +28,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-08-01:  Link to banner-edit and campaign-edit were shown when logged in as publisher on the zone-include page  (Niels)
 			  - 2002-08-05:  Added new cookie routines which should fix some very rare login problems with IE6  (Niels)
 			  - 2002-08-05:  When no banner can be delivered adview.php now returns a 1 x 1 pixel transparent gif file, so no broken image icon is shown  (Niels)
+			  - 2002-08-07:  {url_prefix} wasn't replaced by adview.php when using Netscape 4.7  (Niels)
 
 
 
