@@ -41,6 +41,10 @@ if (!isset($bannerid))
 	// Get zone
 	if(isset($zoneNum) && !empty($zoneNum)) $zoneid = $zoneNum;
 	if(isset($n) && is_array($zoneID)) $zoneid = $zoneID[$n];
+	
+	// Get source
+	if(isset($sourceNum) && !empty($sourceNum)) $source = $sourceNum;
+	if(isset($n) && is_array($sourceID)) $source = $sourceID[$n];
 }
 
 if ($bannerid != "DEFAULT")
@@ -66,6 +70,7 @@ if ($bannerid != "DEFAULT")
 	
 	// If zoneid is not set, log it as a regular banner
 	if (!isset($zoneid)) $zoneid = 0;
+	if (!isset($source)) $source = '';
 	
 	// Log clicks
 	if ($phpAds_config['log_adclicks'])
@@ -84,6 +89,7 @@ if ($bannerid != "DEFAULT")
 		{
 			if ($key != 'bannerid' &&
 				$key != 'zoneid' &&
+				$key != 'source' &&
 				$key != 'dest' &&
 				$key != 'ismap' &&
 				$key != 'n' &&
@@ -96,6 +102,7 @@ if ($bannerid != "DEFAULT")
 		{
 			if ($key != 'bannerid' &&
 				$key != 'zoneid' &&
+				$key != 'source' &&
 				$key != 'dest' &&
 				$key != 'ismap' &&
 				$key != 'n' &&

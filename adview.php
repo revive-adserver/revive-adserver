@@ -86,6 +86,13 @@ if (is_array($row) && isset($row['bannerid']))
 		if(isset($n)) SetCookie("zoneID[$n]", $row["zoneid"], 0, $url["path"]);
 	}
 	
+	// Send source headers
+	if (isset($source) && $source != '')
+	{
+		SetCookie("sourceNum", $source, 0, $url["path"]);
+		if(isset($n)) SetCookie("sourceID[$n]", $source, 0, $url["path"]);
+	}
+	
 	
 	switch ($row['storagetype'])
 	{
