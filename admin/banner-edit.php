@@ -3,7 +3,35 @@
 require ("config.php");
 require ("lib-statistics.inc.php");
 
-phpAds_checkAccess(phpAds_Admin);
+phpAds_checkAccess(phpAds_Admin+phpAds_Client);
+
+
+if (phpAds_isUser(phpAds_Client))
+{
+	$result = db_query("
+		SELECT
+			clientID
+		FROM
+			$phpAds_tbl_banners
+		WHERE
+			bannerID = $bannerID
+		") or mysql_die();
+	$row = mysql_fetch_array($result);
+	
+	if($row["clientID"] != phpAds_clientID())
+	{
+		phpAds_PageHeader($strModifyBanner);
+		phpAds_ShowNav("2.4");
+		php_die ($strAccessDenied, $strNotAdmin);
+	}
+	else
+	{
+		$clientID = phpAds_clientID();
+	}
+}
+
+
+
 
 
 // If the form is being submitted, add a new record to banners
@@ -64,10 +92,13 @@ if (isset($submit))
 	$final["clientID"] = $clientID;
 	$final["bannerID"] = $bannerID;
 	
-	$final["active"] = "true";
-	$final["keyword"] = $keyword;
-	$final["description"] = $description;
-	$final["weight"] = $weight;
+	if (phpAds_isUser(phpAds_Admin)) 
+	{
+		$final["active"] = "true";
+		$final["keyword"] = $keyword;
+		$final["description"] = $description;
+		$final["weight"] = $weight;
+	}
 
 	// Don't add an empty banner
 	if (empty($final["banner"]) || $final["banner"] == "none")
@@ -124,13 +155,13 @@ if (isset($submit))
 		$res = db_query($sql_query) or mysql_die();     
 	}
 	
-	if ($return == "stats") {
+	
+	if (phpAds_isUser(phpAds_Client))
+	{
 		Header("Location: stats-client.php?clientID=$clientID&message=".urlencode($message));
 	}
-	elseif ($return == "close") {
-		echo "<html><head></head><body onload=\"window.close()\"></body></html>";
-	}
-	else {
+	else
+	{
 		Header("Location: banner-client.php?clientID=$clientID&message=".urlencode($message));
 	}
 	
@@ -168,18 +199,25 @@ if ($bannerID != '')
 	}
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 
-	$extra .= "<br><br><br><br><br>";
-	$extra .= "<b>$strShortcuts</b><br>";
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/caret-rs.gif'>&nbsp;<a href=client-edit.php?clientID=$clientID>$strModifyClient</a><br>";
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/caret-rs.gif'>&nbsp;<a href=stats-client.php?clientID=$clientID>$strStats</a><br>";
-	$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/caret-rs.gif'>&nbsp;<a href=stats-details.php?clientID=$clientID&bannerID=$bannerID>$strDetailStats</a><br>";
-	$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/caret-rs.gif'>&nbsp;<a href=stats-weekly.php?clientID=$clientID>$strWeeklyStats</a><br>";
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+	if (phpAds_isUser(phpAds_Admin))
+	{
+		$extra .= "<br><br><br><br><br>";
+		$extra .= "<b>$strShortcuts</b><br>";
+		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+		$extra .= "<img src='images/caret-rs.gif'>&nbsp;<a href=client-edit.php?clientID=$clientID>$strModifyClient</a><br>";
+		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+		$extra .= "<img src='images/caret-rs.gif'>&nbsp;<a href=stats-client.php?clientID=$clientID>$strStats</a><br>";
+		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/caret-rs.gif'>&nbsp;<a href=stats-details.php?clientID=$clientID&bannerID=$bannerID>$strDetailStats</a><br>";
+		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/caret-rs.gif'>&nbsp;<a href=stats-weekly.php?clientID=$clientID>$strWeeklyStats</a><br>";
+		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+		
+		phpAds_ShowNav("1.3.2", $extra);
+	}
+	else
+	{
+		phpAds_ShowNav("2.4", $extra);
+	}
 	
-	
-	phpAds_ShowNav("1.3.2", $extra);
 	
 	$res = db_query("
 		SELECT
@@ -350,6 +388,7 @@ $isie = ( $isiepos>0 ? substr($HTTP_USER_AGENT,$isiepos+5,3) : 0 );
 </div>	
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
+<? if (phpAds_isUser(phpAds_Admin)) { ?>
 	<tr><td height='25' colspan='3'><b><?echo $strGeneralSettings;?></b></td></tr>
 	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 	<tr height='35'>
@@ -365,6 +404,7 @@ $isie = ( $isiepos>0 ? substr($HTTP_USER_AGENT,$isiepos+5,3) : 0 );
     	<td colspan='2'><input size="6" type="text" name="weight" value="<?if(isset($row["weight"])){echo $row["weight"];}else{print "1";}?>"></td>
 	</tr>
 	<tr height='35'><td colspan='3'>&nbsp;</td></tr>
+<? } ?>
 	<tr height='35'>
 		<td colspan='3'><input type="submit" name="submit" value="<?echo $strSubmit;?>"></td>
 	</tr>

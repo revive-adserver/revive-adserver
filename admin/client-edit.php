@@ -473,13 +473,13 @@ if (phpAds_isUser(phpAds_Admin))
 			<?echo $GLOBALS[strAllowClientModifyInfo]; ?>
 		</td>
 	</tr>
-	<!-- Still working on this (Niels)
 	<tr>
 		<td colspan'2'>
 			<input type="checkbox" name="clientpermissions[]" value="<?echo phpAds_ModifyBanner; ?>"<?echo (phpAds_ModifyBanner & $row["permissions"]) ? " CHECKED" : ""; ?>>
 			<?echo $GLOBALS[strAllowClientModifyBanner]; ?>
 		</td>
 	</tr>	
+	<!-- Still working on this (Niels)
 	<tr>
 		<td colspan'2'>
 			<input type="checkbox" name="clientpermissions[]" value="<?echo phpAds_AddBanner; ?>"<?echo (phpAds_AddBanner & $row["permissions"]) ? " CHECKED" : ""; ?>>

@@ -36,7 +36,8 @@ $pages = array(
 	"2.1" 		=> 	array("stats-details.php?clientID=$clientID&bannerID=$bannerID" => "$strDetailStats"),
 	"2.1.1" 	=> 	array("stats-daily.php" => "$strDailyStats"),
 	"2.2" 		=> 	array("stats-weekly.php" => "$strWeeklyStats"),
-	"2.3" 		=> 	array("client-edit.php" => "$strPreferences")
+	"2.3" 		=> 	array("client-edit.php" => "$strPreferences"),
+	"2.4" 		=> 	array("banner-edit.php?clientID=$clientID&bannerID=$bannerID" => "$strModifyBanner")
 );
 
 ?>
