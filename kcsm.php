@@ -15,7 +15,6 @@
 function kc_login()
  {
  global $phpAds_hostname, $phpAds_mysqluser, $phpAds_mysqlpassword, $phpAds_db, $username, $password, $phpAds_admin, $phpAds_admin_pw, $strUsername, $strPassword, $PHP_SELF, $clientID, $phpAds_tbl_session, $phpAds_tbl_clients;
- kc_abandon();
  if (isset($username) && $username == $phpAds_admin && $password == $phpAds_admin_pw)
     return(true);
  if (isset($username) && isset($password) && !strstr($PHP_SELF, "admin"))

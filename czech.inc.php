@@ -1,8 +1,8 @@
 <?
 
 $strHome = "Home";
-$date_format = "m/d/Y";
-$time_format = "H:i:S";
+$date_format = "%m/%d/%Y";
+$time_format = "%H:%i:%S";
 $strMySQLError = "MySQL-Error:";
 $strAdminstration = "Administrace";
 $strAddClient = "Pøidat klienta";
