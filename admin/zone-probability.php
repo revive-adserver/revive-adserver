@@ -149,8 +149,8 @@ else
 function phpAds_showZoneBanners ($zoneid)
 {
 	global $phpAds_config, $phpAds_TextDirection;
-	global $strUntitled, $strName, $strID, $strWeight;
-	global $strCampaignWeight, $strBannerWeight, $strProbability;
+	global $strUntitled, $strName, $strID, $strWeight, $strShowBanner;
+	global $strCampaignWeight, $strBannerWeight, $strProbability, $phpAds_TextAlignRight;
 	global $strRawQueryString, $strZoneProbListChain, $strZoneProbNullPri, $strZoneProbListChainLoop;
 	
 	$zonechain = array();
@@ -288,16 +288,17 @@ function phpAds_showZoneBanners ($zoneid)
 		echo "<td height='25' width='40%'><b>&nbsp;&nbsp;".$strName."</b></td>";
 		echo "<td height='25'><b>".$strID."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>";
 		echo "<td height='25'><b>".$strProbability."</b></td>";
+		echo "<td height='25' align='".$phpAds_TextAlignRight."'>&nbsp;</td>";
 		echo "</tr>";
 		
-		echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+		echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 		
 		// Banners
 		for (reset($rows);$key=key($rows);next($rows))
 		{
 			$name = phpAds_getBannerName ($rows[$key]['bannerid'], 60, false);
 			
-			if ($i > 0) echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
+			if ($i > 0) echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
 			
 			echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 			
@@ -315,11 +316,34 @@ function phpAds_showZoneBanners ($zoneid)
 				echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
 			
 			// Name
-			echo "<a href='banner-edit.php?clientid=".phpAds_getParentID($rows[$key]['clientid'])."&campaignid=".$rows[$key]['clientid']."&bannerid=".$rows[$key]['bannerid']."'>".$name."</a>";
+			if (phpAds_isUser(phpAds_Admin))
+				echo "<a href='banner-edit.php?clientid=".phpAds_getParentID($rows[$key]['clientid'])."&campaignid=".$rows[$key]['clientid']."&bannerid=".$rows[$key]['bannerid']."'>".$name."</a>";
+			else
+				echo $name;
+			
 			echo "</td>";
 			
 			echo "<td height='25'>".$rows[$key]['bannerid']."</td>";
 			echo "<td height='25'>".number_format($rows[$key]['priority'] / $prioritysum * 100, $phpAds_config['percentage_decimals'])."%</td>";
+			
+			
+			// Show banner
+			if ($rows[$key]['contenttype'] == 'txt')
+			{
+				$width	= 300;
+				$height = 200;
+			}
+			else
+			{
+				$width  = $rows[$key]['width'] + 64;
+				$height = $rows[$key]['bannertext'] ? $rows[$key]['height'] + 90 : $rows[$key]['height'] + 64;
+			}
+			
+			echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
+			echo "<a href='banner-htmlpreview.php?bannerid=".$rows[$key]['bannerid']."' target='_new' ";
+			echo "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=".$rows[$key]['bannerid']."', '', 'status=no,scrollbars=no,resizable=no,width=".$width.",height=".$height."');\">";
+			echo "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strShowBanner."</a>&nbsp;&nbsp;";
+			echo "</td>";
 			
 			echo "</tr>";
 			$i++;
@@ -328,12 +352,12 @@ function phpAds_showZoneBanners ($zoneid)
 		if (!$i)
 		{
 			echo "<tr height='25' bgcolor='#F6F6F6'>";
-			echo "<td colspan='3'>&nbsp;&nbsp;".$strZoneProbNullPri."</td>";
+			echo "<td colspan='4'>&nbsp;&nbsp;".$strZoneProbNullPri."</td>";
 			echo "</tr>";
 		}
 		
 		// Footer
-		echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+		echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 		echo "</table>";
 	}
 }

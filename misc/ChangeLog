@@ -18,6 +18,7 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-01-22:  Status text is now also shown when the visitor moves his mouse over the text below the banner  (Niels)
 			  - 2003-01-22:  If plain remote invocation is used and no destination URL is specified, adclick will now redirect back to the originating webpage  (Niels)
 			  - 2003-01-22:  If plain remote invocation is used and cookies are disabled, adclick will now redirect back to the originating webpage  (Niels)
+			  - 2003-02-03:  Added the ability to preview banners from the zone probability page  (Niels)
 
 			+ Misc bugfixes
 			  - 2003-01-13:  If a zero was used in a random variable (ie. random:10) it wasn't replaced  (Niels)
@@ -41,6 +42,7 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-01-24:  When using plain remote invocation the geotargeting cookie wasn't set, now it is  (Niels)
 			  - 2003-01-25:  Hosts that were listed in most 'most recent' and 'top' hosts were not properly shown as hostname  (Niels)
 			  - 2003-02-03:  Fixed Javascript error when no hostsnames needed to be fetched  (Niels)
+			  - 2003-02-03:  Removed link to banner properties page from the probability page when logged in as a publisher  (Niels)
 			
 
 v 2.0rc2		+ Misc bugfixes
