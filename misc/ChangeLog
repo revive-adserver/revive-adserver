@@ -1,7 +1,7 @@
 phpAdsNew - ChangeLog
 
 
-phpAdsNew 2.1		+ Misc bugfixes
+phpAdsNew 2.0.1		+ Misc bugfixes
 			  - 2003-10-07:  Fixed referer delivery limitation when using JavaScript  (Niels)
 			  - 2003-10-08:  Added missing comma to P3P header  (Niels)
 			  - 2003-10-09:  Added support for stats conversion using Mozilla  (Niels)
@@ -9,6 +9,7 @@ phpAdsNew 2.1		+ Misc bugfixes
 			  - 2003-10-20:  The 'check hardcoded links' checkbox on the 'Add new banner' page is now always visible for Opera and Netscape  (Niels)
 			  - 2003-10-20:  Added phpAds_path to require inside lib-xmlpcs.inc.php  (Niels)
 			  - 2003-10-20:  Deactivated banners are no longer automatically reactivated when editing it's properties  (Niels)
+			  - 2003-10-21:  Increased the length of the target field from 16 to 24 to get better compatibility with RealPlayer  (Niels)
 			  
 
 

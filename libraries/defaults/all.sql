@@ -131,7 +131,7 @@ CREATE TABLE phpads_banners (
    height smallint(6) DEFAULT '0' NOT NULL,
    weight tinyint(4) DEFAULT '1' NOT NULL,
    seq tinyint(4) DEFAULT '0' NOT NULL,
-   target varchar(16) NOT NULL,
+   target varchar(24) NOT NULL,
    url varchar(255) NOT NULL,
    alt varchar(255) NOT NULL,
    status varchar(255) NOT NULL,
