@@ -56,14 +56,12 @@ $GLOBALS['strSubmit'] = "Fertigstellen";
 $GLOBALS['strUsername'] = "Benutzername";
 $GLOBALS['strPassword'] = "Passwort";
 $GLOBALS['strBannerAdmin'] = "Banner Adminstration f&uuml;r";
-$GLOBALS['strBannerAdminAcl'] = "Banner ACL Adminstration f&uuml;r";
 $GLOBALS['strNoBanners'] = "Keine Banner gefunden";
 $GLOBALS['strBanner'] = "Banner";
 $GLOBALS['strCurrentBanner'] = "Aktuelles Banner";
 $GLOBALS['strDelete'] = "L&ouml;schen";
 $GLOBALS['strAddBanner'] = "Neues Banner hinzuf&uuml;gen";
 $GLOBALS['strModifyBanner'] = "Banner bearbeiten";
-$GLOBALS['strModifyBannerAcl'] = "Banner ACL bearbeiten";
 $GLOBALS['strURL'] = "Klick-URL (inkl. http://)";
 $GLOBALS['strKeyword'] = "Schl&uuml;sselwort";
 $GLOBALS['strWeight'] = "Gewicht";
@@ -152,10 +150,6 @@ $GLOBALS['strDeleted'] = "wurde gel&ouml;scht";
 $GLOBALS['strMovedUp'] = "wurde vorgesetzt";
 $GLOBALS['strMovedDown'] = "wurde zur&uuml;ckgesetzt";
 $GLOBALS['strUpdated'] = "wurde ge&auml;ndert";
-$GLOBALS['strACL'] = "Zugriffsregeln (ACL)";
-$GLOBALS['strNoMoveUp'] = "Erste Zeile kann nicht vorgesetzt werden.";
-$GLOBALS['strACLAdd'] = "Neue Regel hinzuf&uuml;gen:";
-$GLOBALS['strACLExist'] = "Bestehende Regeln:";
 $GLOBALS['strLogin'] = "Login";
 $GLOBALS['strPreferences'] = "Einstellungen";
 $GLOBALS['strAllowClientModifyInfo'] = "Kunde darf eigene Daten &auml;ndern";
@@ -271,7 +265,7 @@ $GLOBALS['strAdReportSent'] = "Werbe-Report gesendet";
 $GLOBALS['strAutoChangeHTML'] = "Modifiziere HTML zum Aufzeichnen der AdClicks";
 
 $GLOBALS['strZones'] = "Zonen";
-$GLOBALS['strAddZone' = "Zone hinzuf&uuml;gen";
+$GLOBALS['strAddZone'] = "Zone hinzuf&uuml;gen";
 $GLOBALS['strModifyZone'] = "Zone bearbeiten";
 $GLOBALS['strAddNewZone'] = "Neue Zone anlegen";
 
@@ -292,7 +286,7 @@ $GLOBALS['strConfirmResetCampaignStats'] = "Wollen Sie wirklich die Statistik di
 $GLOBALS['strConfirmResetClientStats'] = "Wollen Sie wirklich die Statistik dieses Kunden zur&uuml;cksetzen ?";
 $GLOBALS['strConfirmResetBannerStats'] = "Wollen Sie wirklich die Statistik dieses Banners zur&uuml;cksetzen ?";
 
-$GLOBALS['strClientsAndCampaigns'] = "Kunden & Kampagnen";
+$GLOBALS['strClientsAndCampaigns'] = "Kunden &amp; Kampagnen";
 $GLOBALS['strCampaignOverview'] = "Kampagnen-&Uuml;bersicht";
 $GLOBALS['strReports'] = "Reports";
 $GLOBALS['strShowBanner'] = "Banner zeigen";
@@ -310,12 +304,17 @@ $GLOBALS['strCampaignWeight'] = "Kampagnengewichtung";
 
 $GLOBALS['strZoneCacheOn'] = "Zone caching ist eingeschaltet";
 $GLOBALS['strZoneCacheOff'] = "Zone caching ist ausgeschaltet";
-$GLOBALS['strCachedZones'] = "Gecachete Zonen";
+$GLOBALS['strCachedZones'] = "Gecachte Zonen";
 $GLOBALS['strSizeOfCache'] = "Gr&ouml;ße des Cache";
 $GLOBALS['strAverageAge'] = "Duchschnittsalter";
-$GLOBALS['strRebuildZoneCache'] = "Rebuild zone cache";
+$GLOBALS['strRebuildZoneCache'] = "Wiederherstellen des Zonen Cache";
 $GLOBALS['strKiloByte'] = "kB";
 $GLOBALS['strSeconds'] = "Sekunden";
 $GLOBALS['strExpired'] = "Abgelaufen";
 
+$GLOBALS['strModifyBannerAcl'] 			= "Darstellungsbeschränkungen";
+$GLOBALS['strACL'] 						= "Limit";
+$GLOBALS['strNoMoveUp'] 				= "Kann nicht zur ersten Zeile gehen";
+$GLOBALS['strACLAdd'] 					= "Neue Beschränkung hinzufügen";
+$GLOBALS['strNoLimitations']			= "Keine Beschränkungen";
 ?>
