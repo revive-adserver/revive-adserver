@@ -52,9 +52,7 @@ if ($bannerID != "DEFAULT")
 	// If destination is a parameter don't use
 	// url from database
 	if (isset($dest) && $dest != '')
-	{
-		$url = urldecode($dest);
-	}
+		$url = $dest;
 	
 	
 	// Log clicks
@@ -134,6 +132,6 @@ else
 }
 
 // Redirect
-Header("Location: $url");
+header ("Location: $url");
 
 ?>
