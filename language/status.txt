@@ -70,7 +70,7 @@ German
 	---------------------------------------------------------
 	Maintained by:	   Rayner Jankowski (info at Werbeplatzvermarktung dot de)
 	Is up-to-date?	   No
-	Last update:	   29 July 2003
+	Last update:	   19 Agoust 2003
 	Translated files:  7
 	---------------------------------------------------------
 
@@ -109,8 +109,8 @@ Indonesian
 Italian
 	---------------------------------------------------------
 	Maintained by:	   Matteo Beccati (matteo at phpadsnew dot com)
-	Is up-to-date?	   No
-	Last update:	   13 October 2003
+	Is up-to-date?	   Yes
+	Last update:	   28 October 2003
 	Translated files:  7 + 3 resource files
 	---------------------------------------------------------
 
