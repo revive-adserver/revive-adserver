@@ -1,12 +1,17 @@
 phpAdsNew - ChangeLog
 
+v 2.0beta2		+ Added activation and expiration date (Niels)
+			+ Added conversion tool for verbose->compact statistics (Niels)
+			+ Misc bugfixes for beta1
+
 v 2.0beta1		
 			+ Added a new User Interface (Niels)
 			+ Added new documentation (Niels)
 			+ Added cache buster support for banners refered through URL (Niels)
 			+ Added configurable default banner to display when an error occurs or when 
 			  there are no banners to display at all (Niels)
-			+ Additional translations (Niels, thanks to Hugo Gomez, Michael Bravo, Alain Fontaine)
+			+ Added global weekly stats (Niels)
+			+ Additional translations (Niels, thanks to Hugo Gomez, Michael Bravo, Alain Fontaine and others)
 			+ Moved client settings error messages to language files (Niels thanks to regiepub)
 			+ Client preferences can be disabled by the admin (Niels)
 			+ Clients can select their own language, if permitted by the admin (Niels)
