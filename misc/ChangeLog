@@ -26,6 +26,7 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-02-12:  Iframes, XML-RPC and plain remote invocation are no longer used by default  (Niels)
 			  - 2003-02-13:  Added some info text if a campaign was deactivated because its weight is null  (Matteo)
 			  - 2003-02-18:  Added option to lib-graph to draw graphs with only one scale, useful e.g. for targetstats  (Matteo)
+			  - 2003-02-21:  Raised minimum requirements for phpAdsNew to PHP 4.0.1 or higher  (Niels)
 
 			+ Misc bugfixes
 			  - 2003-01-13:  If a zero was used in a random variable (ie. random:10) it wasn't replaced  (Niels)
@@ -55,7 +56,12 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-02-12:  On the Linked banners page the buttons to change the view now don't revert back to the original link type when the type was changed manually  (Niels)
 			  - 2003-02-12:  The total weight of all banners and campaigns wasn't correctly calculated during priority calculation  (Niels)
 			  - 2003-02-12:  If a banners campaign wasn't linked to a zone and no zones which can be linked to a banner were available, the banners linked zone page didn't show an error message  (Niels)
+			  - 2003-02-21:  The way the 304 status was send by adimage.php was wrong on servers using the PHP module, except for Apache  (Niels)
+			  - 2003-02-21:  The currently appended zone wasn't selected in the dropdown menu by default on the zones 'Advanced' page and the banners 'Append' page  (Niels)
+			  - 2003-02-21:  Priority calculations resulted in division by zero error if high priority campaigns were present  (Niels)
+			  - 2003-02-21:  Closing a simple interstitial now doesn't stop other events anymore  (Niels, thanks to Herbert L. Riede)
 			
+
 
 v 2.0rc2		+ Misc bugfixes
 			  - 2003-01-07:  Wrong value was used to identify PHP < 4.0.3 during the install and upgrade process  (Niels)
