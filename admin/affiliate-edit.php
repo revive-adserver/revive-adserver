@@ -131,7 +131,10 @@ if (isset($submit))
 			}
 		}
 		
-		if ($affiliateid && $publiczones == 'f' && $publiczones_old == 't')
+		if (!isset($publiczones))
+			$publiczones = 'f';
+		
+		if ($affiliateid && $publiczones != 't' && $publiczones_old == 't')
 		{
 			// Reset append codes which called this affiliate's zones
 			$res = phpAds_dbQuery("
@@ -142,7 +145,7 @@ if (isset($submit))
 					WHERE
 						affiliateid = '$affiliateid'
 				");
-
+			
 			$zones = array();
 			while ($row = phpAds_dbFetchArray($res))
 				$zones[] = $row['zoneid'];
@@ -163,7 +166,7 @@ if (isset($submit))
 				while ($row = phpAds_dbFetchArray($res))
 				{
 					$append = phpAds_ZoneParseAppendCode($row['append']);
-
+					
 					if (in_array($append[0]['zoneid'], $zones))
 					{
 						phpAds_dbQuery("
@@ -179,7 +182,7 @@ if (isset($submit))
 				}
 			}
 		}
-
+		
 		$res = phpAds_dbQuery("
 			REPLACE INTO
 				".$phpAds_config['tbl_affiliates']."
