@@ -282,8 +282,8 @@ $GLOBALS['strTrackAdClicks']				= "Track AdClicks";
 
 
 // Display limitations
-$GLOBALS['strModifyBannerAcl'] 				= "Display limitations";
-$GLOBALS['strACL'] 							= "Limitations";
+$GLOBALS['strModifyBannerAcl'] 				= "Delivery options";
+$GLOBALS['strACL'] 							= "Delivery";
 $GLOBALS['strACLAdd'] 						= "Add new limitation";
 $GLOBALS['strNoLimitations']				= "No limitations";
 $GLOBALS['strApplyLimitationsTo']			= "Apply limitations to";
@@ -449,8 +449,8 @@ $GLOBALS['strMailNothingLeft'] 				= "If you would like to continue advertising 
 $GLOBALS['strClientDeactivated']			= "This campaign is currently not active because";
 $GLOBALS['strBeforeActivate']				= "the activation date has not yet been reached";
 $GLOBALS['strAfterExpire']					= "the expiration date has been reached";
-$GLOBALS['strNoMoreClicks']					= "the amount of AdClicks purchased are used";
-$GLOBALS['strNoMoreViews']					= "the amount of AdViews purchased are used";
+$GLOBALS['strNoMoreClicks']					= "there are no AdClicks remaining";
+$GLOBALS['strNoMoreViews']					= "there are no AdViews remaining";
 $GLOBALS['strWarnClientTxt']				= "The AdClicks or AdViews left for your banners are getting below {limit}. \nYour banners will be disabled when there are no AdClicks or AdViews left. ";
 $GLOBALS['strViewsClicksLow']				= "AdViews/AdClicks are low";
 $GLOBALS['strNoViewLoggedInInterval']   	= "No AdViews were logged during the span of this report";
