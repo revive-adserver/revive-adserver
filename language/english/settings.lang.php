@@ -128,7 +128,7 @@ $GLOBALS['strZoneCacheLimitErr']		= "Time between cache updates should be a posi
 
 $GLOBALS['strP3PSettings']				= "P3P Privacy Policies";
 $GLOBALS['strUseP3P']					= "Use P3P Policies";
-$GLOBALS['strP3PCompactPolicy']			= "P3P Compact Policie";
+$GLOBALS['strP3PCompactPolicy']			= "P3P Compact Policy";
 $GLOBALS['strP3PPolicyLocation']		= "P3P Policy Location";
 
 
@@ -140,13 +140,19 @@ $GLOBALS['strTypeHtmlSettings']			= "HTML banner options";
 $GLOBALS['strTypeHtmlAuto']				= "Automatically change HTML banners in order to force click logging";
 $GLOBALS['strTypeHtmlPhp']				= "Allow PHP expressions to be executed from within a HTML banner";
 
-$GLOBALS['strTypeWebSettings']			= "Web banners configuration";
+$GLOBALS['strTypeWebSettings']			= "Local banner (Webserver) configuration";
 $GLOBALS['strTypeWebMode']				= "Storing method";
-$GLOBALS['strTypeWebModeLocal']			= "Local mode (stored in a local directory)";
-$GLOBALS['strTypeWebModeFtp']			= "FTP mode (stored on a external FTP server)";
-$GLOBALS['strTypeWebDir']				= "Local mode Web banner directory";
+$GLOBALS['strTypeWebModeLocal']			= "Local directory";
+$GLOBALS['strTypeWebModeFtp']			= "External FTP server";
+$GLOBALS['strTypeWebDir']				= "Local directory";
 $GLOBALS['strTypeWebFtp']				= "FTP mode Web banner server";
-$GLOBALS['strTypeWebUrl']				= "Public URL of local directory / FTP server";
+$GLOBALS['strTypeWebUrl']				= "Public URL";
+$GLOBALS['strTypeFTPHost']				= "FTP Host";
+$GLOBALS['strTypeFTPDirectory']			= "Host directory";
+$GLOBALS['strTypeFTPUsername']			= "Login";
+$GLOBALS['strTypeFTPPassword']			= "Password";
+
+
 
 $GLOBALS['strDefaultBanners']			= "Default banners";
 $GLOBALS['strDefaultBannerUrl']			= "Default Banner URL";
@@ -158,10 +164,12 @@ $GLOBALS['strDefaultBannerTarget']		= "Default Banner Target";
 $GLOBALS['strStatisticsSettings']		= "Statistics Settings";
 
 $GLOBALS['strStatisticsFormat']			= "Statistics format";
-$GLOBALS['strLogBeacon']				= "Use beacons to log Adviews";
+$GLOBALS['strLogBeacon']				= "Use beacons to log AdViews";
 $GLOBALS['strCompactStats']				= "Use Compact Stats";
-$GLOBALS['strLogAdviews']				= "Log Adviews";
-$GLOBALS['strLogAdclicks']				= "Log Adclicks";
+$GLOBALS['strLogAdviews']				= "Log AdViews";
+$GLOBALS['strBlockAdviews']				= "Multiple log protection (sec.)";
+$GLOBALS['strLogAdclicks']				= "Log AdClicks";
+$GLOBALS['strBlockAdclicks']			= "Multiple log protection (sec.)";
 
 $GLOBALS['strEmailWarnings']			= "E-mail warnings";
 $GLOBALS['strAdminEmailHeaders']		= "Mail Headers for the reflection of the sender of the daily ad reports";
