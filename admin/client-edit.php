@@ -254,6 +254,8 @@ if ($clientid != "")
 			);
 		}
 		
+		phpAds_PageShortcut($strClientHistory, 'stats-client-history.php?clientid='.$clientid, 'images/icon-statistics.gif');
+		
 		phpAds_PageHeader("4.1.2");
 			echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br><br><br>";
 			phpAds_ShowSections(array("4.1.2"));
