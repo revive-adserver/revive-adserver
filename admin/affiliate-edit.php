@@ -24,7 +24,7 @@ require ("lib-languages.inc.php");
 // Register input variables
 phpAds_registerGlobal ('move', 'name', 'website', 'contact', 'email', 'language', 'publiczones', 
 					   'errormessage', 'username', 'password', 'affiliatepermissions', 'submit',
-					   'publiczones_t');
+					   'publiczones_old');
 
 
 // Security check
@@ -414,6 +414,7 @@ echo "</select></td></tr><tr><td><img src='images/spacer.gif' height='1' width='
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
+echo "<input type='hidden' name='publiczones_old' value='".$affiliate['publiczones']."'>";
 echo "<input type='checkbox' name='publiczones' value='t'".($affiliate['publiczones'] == 't' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
 echo $strMakePublisherPublic;
 echo "</td></tr>";
