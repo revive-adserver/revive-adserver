@@ -36,8 +36,8 @@ function phpAds_PriorityGetImpressions($days, $offset)
 		$query = "
 			SELECT SUM(views) as sum_views
 			FROM ".$phpAds_config['tbl_adstats']."
-			WHERE day >= ".$begin."
-			AND day <= ".$end."
+			WHERE day <= ".$begin."
+			AND day >= ".$end."
 		";
 	}
 	else
@@ -48,8 +48,8 @@ function phpAds_PriorityGetImpressions($days, $offset)
 		$query = "
 			SELECT COUNT(*) as sum_views
 			FROM ".$phpAds_config['tbl_adviews']."
-			WHERE t_stamp >= ".$begin."
-			AND t_stamp <= ".$end."
+			WHERE t_stamp <= ".$begin."
+			AND t_stamp >= ".$end."
 		";
 	}
 
