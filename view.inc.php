@@ -443,13 +443,17 @@ function view_raw($what, $clientID=0, $target="", $source="", $withtext=0, $cont
 				}
 				$target = " target=\"$target\"";
 			}
+			
 			if($row["format"] == "html")
 			{
+				// HTML banner
+				
 				if(!empty($row["url"])) 
 				{
 					$outputbuffer .= "<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target>";
 	                $outputbuffer .= $row["banner"];
-				} else
+				} 
+				else
 				{
 					$lowerbanner=strtolower($row["banner"]);
 					$hrefpos=strpos($lowerbanner,"href=");
@@ -462,7 +466,8 @@ function view_raw($what, $clientID=0, $target="", $source="", $withtext=0, $cont
 							$endquotepos=strpos($lowerbanner,"\"",$quotepos+1);
 							$newbanner=$newbanner.substr($row["banner"],$prevhrefpos,$hrefpos-$prevhrefpos)."\"$GLOBALS[phpAds_url_prefix]/htmlclick.php?bannerID=$row[bannerID]&dest=".urlencode(substr($row["banner"],$quotepos+1,$endquotepos-$quotepos-1));
 							$prevhrefpos=$hrefpos+($endquotepos-$quotepos);
-						} else
+						} 
+						else
 						{
 							$spacepos=strpos($lowerbanner," ",$hrefpos+1);
 							$endtagpos=strpos($lowerbanner,">",$hrefpos+1);
@@ -478,25 +483,50 @@ function view_raw($what, $clientID=0, $target="", $source="", $withtext=0, $cont
 				if(!empty($row["url"])) 
 					$outputbuffer .= "</a>";
 			}
-			else
+			elseif ($row["format"] == "url")
 			{
-				if (empty($row["url"]))
+				// Banner refered through URL
+				
+				// Determine cachebuster
+				if (eregi ("\{random(:([1-9])){0,1}\}", $row[banner], $matches))
 				{
-					if ($row["format"] == "url")	// patch for ie bug
-						$outputbuffer .= "<img src=\"$row[banner]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0>";
-	    			else
-						$outputbuffer .= "<img src=\"$GLOBALS[phpAds_url_prefix]/viewbanner.php?bannerID=$row[bannerID]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0>";
+					if ($matches[1] == "")
+						$randomdigits = 8;
+					else
+						$randomdigits = $matches[2];
+					
+					$randomnumber = sprintf ("%0".$randomdigits."d", mt_rand (0, pow (10, $randomdigits) - 1));
+					$row[banner] = str_replace ($matches[0], $randomnumber, $row[banner]);
+					
+					$randomstring = "&cb=$randomnumber";
 				}
 				else
 				{
-					if ($row["format"] == "url")	// patch for ie bug
-						$outputbuffer .= "<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target><img src=\"$row[banner]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0></a>";
-					else
-						$outputbuffer .= "<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target><img src=\"$GLOBALS[phpAds_url_prefix]/viewbanner.php?bannerID=$row[bannerID]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0></a>";
+					$randomstring = "";
 				}
+				
+				if (empty($row["url"]))
+					$outputbuffer .= "<img src=\"$row[banner]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0>";
+				else
+					$outputbuffer .= "<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]$randomstring\"$target><img src=\"$row[banner]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0></a>";
+				
 				if($withtext && !empty($row["bannertext"]))
 					$outputbuffer .= "<BR>\n<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target>".$row["bannertext"]."</a>";
 			}
+			else
+			{
+				// Banner stored in MySQL
+				
+				if (empty($row["url"]))
+					$outputbuffer .= "<img src=\"$GLOBALS[phpAds_url_prefix]/viewbanner.php?bannerID=$row[bannerID]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0>";
+				else
+					$outputbuffer .= "<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target><img src=\"$GLOBALS[phpAds_url_prefix]/viewbanner.php?bannerID=$row[bannerID]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0></a>";
+				
+				if($withtext && !empty($row["bannertext"]))
+					$outputbuffer .= "<BR>\n<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target>".$row["bannertext"]."</a>";
+			}
+			
+			// Log this AdView
 			if(!empty($row["bannerID"]))
 				log_adview($row["bannerID"],$row["clientID"]);
 		}

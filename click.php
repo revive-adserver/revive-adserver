@@ -55,5 +55,26 @@ if($phpAds_log_adclicks)
 		}
 	}
 }
+
+
+// Cache buster
+if (eregi ("\{random(:([1-9])){0,1}\}", $url, $matches))
+{
+	if ($cb == "")
+	{
+		// calculate random number
+		
+		if ($matches[1] == "")
+			$randomdigits = 8;
+		else
+			$randomdigits = $matches[2];
+		
+		$cb = sprintf ("%0".$randomdigits."d", mt_rand (0, pow (10, $randomdigits) - 1));
+	}
+	
+	$url = str_replace ($matches[0], $cb, $url);
+}
+
+
 Header("Location: $url");
 ?>
