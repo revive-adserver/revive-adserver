@@ -1,12 +1,29 @@
-<?php
-// html colors
+<?php // $Revision$
+
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
+
+
+
+// Set HTML colors
 $headercolor = "#66CCFF";
 $bodycolor = "#000000";
 $textcolor = "#006666";
 
-// RGB array taken from Valuehunt's graph config
+
+
+// Populate RGB array with colors
 $RGB = array(
-	"white"         => array(0xFF,0xFF,0xFF),
+		"white"         => array(0xFF,0xFF,0xFF),
         "black"         => array(0x00,0x00,0x00),
         "gray"          => array(0x7F,0x7F,0x7F),
         "lgray"         => array(0xBF,0xBF,0xBF),
@@ -54,10 +71,12 @@ $RGB = array(
         "phpAds"         => array(236,236,255)
 );
 
-//gif colors -> change these!
-$bgcolors=$RGB["white"];
-$adviewscolors=$RGB["teal"];
-$adclickscolors=$RGB["phpAds"];
-$linecolors=$RGB["navy"];
-$textcolors=$RGB["black"];
+
+// Set the colors used for creating the graphs
+$bgcolors       = $RGB["white"];
+$adviewscolors  = $RGB["teal"];
+$adclickscolors = $RGB["phpAds"];
+$linecolors     = $RGB["navy"];
+$textcolors     = $RGB["black"];
+
 ?>

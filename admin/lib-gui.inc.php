@@ -1,14 +1,29 @@
-<? 
+<?php // $Revision$
+
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
 
 
-// Globals
+
+// Define defaults
 $phpAds_Message = '';
 $phpAds_NavDone = False;
 
 
 
+/*********************************************************/
+/* Show navigation                                       */
+/*********************************************************/
 
-// Show navigation
 function phpAds_ShowNav($ID, $extra="")
 {
 	global $phpAds_table_back_color;
@@ -82,7 +97,12 @@ function phpAds_ShowNav($ID, $extra="")
 	}
 }
 
-// some layout functions
+
+
+/*********************************************************/
+/* Show page header                                      */
+/*********************************************************/
+
 function phpAds_PageHeader($title = false)
 {
 	global $pages, $phpAds_name, $phpAds_main_back_color, $phpAds_table_border_color, $phpAds_my_header, $strLogout, $phpAds_CharSet;
@@ -155,7 +175,13 @@ function phpAds_PageHeader($title = false)
 	<td width="160" bgcolor="#EEEEEE" valign="top" class='nav'>
 <?
 }
- 
+
+
+
+/*********************************************************/
+/* Show page footer                                      */
+/*********************************************************/
+
 function phpAds_PageFooter()
 {
 	global $phpAds_my_footer, $strLogout, $strPreferences;
@@ -204,6 +230,11 @@ if (!empty($phpAds_my_footer))
 } 
 
 
+
+/*********************************************************/
+/* Show a messagebox                                     */
+/*********************************************************/
+
 function phpAds_ShowMessage($message)
 {
 	global $phpAds_Message;
@@ -211,8 +242,12 @@ function phpAds_ShowMessage($message)
 	$phpAds_Message = $message;
 }
 
- 
-// Display MySQL's last error message an die
+
+
+/*********************************************************/
+/* Show a the last SQL error and die                      */
+/*********************************************************/
+
 function mysql_die()
 {
 	global $strMySQLError;
@@ -240,7 +275,12 @@ function mysql_die()
 	exit;
 }
 
-// Display a custom error message and die 
+
+
+/*********************************************************/
+/* Display a custom error message and die                */
+/*********************************************************/
+
 function php_die($title="Error", $message="Unkown error")
 {
 	global $phpAds_NavDone;
@@ -263,6 +303,5 @@ function php_die($title="Error", $message="Unkown error")
 	phpAds_PageFooter();
 	exit;
 }
-
 
 ?>

@@ -1,12 +1,28 @@
-<? 
+<?php // $Revision$
 
-// Load the required libs
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
+
+
+
+// Include required files
 require("lib-gdcolors.inc.php");
 require("lib-gd.inc.php");
 
 
 
-// Internal functions
+/*********************************************************/
+/* Create the legends                                    */
+/*********************************************************/
 
 function legend($im, $x, $y, $text, $fillcolor, $outlinecolor, $textcolor)
 {
@@ -16,7 +32,10 @@ function legend($im, $x, $y, $text, $fillcolor, $outlinecolor, $textcolor)
 }
 
 
-// Main code
+
+/*********************************************************/
+/* Main code                                             */
+/*********************************************************/
 
 $i=0;
 $total=0;

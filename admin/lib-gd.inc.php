@@ -1,7 +1,27 @@
-<?
+<?php // $Revision$
 
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
+
+
+
+// Define defaults
 $phpAds_GDImageFormat = '';
 
+
+
+/*********************************************************/
+/* Determine the image format supported by GD            */
+/*********************************************************/
 
 function phpAds_GDImageFormat()
 {
@@ -59,6 +79,11 @@ function phpAds_GDImageFormat()
 }
 
 
+
+/*********************************************************/
+/* Send the correct Content-type header                  */
+/*********************************************************/
+
 function phpAds_GDContentType()
 {
 	global $phpAds_GDImageFormat;
@@ -68,6 +93,11 @@ function phpAds_GDContentType()
 	Header("Content-type: $phpAds_GDImageFormat");
 }
 
+
+
+/*********************************************************/
+/* Send the image to the browser in the correct format   */
+/*********************************************************/
 
 function phpAds_GDShowImage(&$im)
 {
