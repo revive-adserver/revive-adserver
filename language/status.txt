@@ -1,0 +1,83 @@
+
+STATUS OF TRANSLATIONS
+=================================================================
+
+This file contains a list of the translation maintainers.
+If you have suggestions or spotted some typos in one of
+the translations, you can contact the maintainer for your
+language directly. If the maintainer for your language 
+doesn't have a e-mail address listed, you can post the
+information in the 'Translation' forum on Sourceforge.
+
+
+
+Dutch
+	---------------------------------------------------------
+	Maintained by:	   Niels Leenheer (niels@creatype.nl)
+	Is up-to-date?	   Yes
+	Last update:	   7 August 2002
+	Translated files:  6
+	---------------------------------------------------------
+
+
+
+English
+	---------------------------------------------------------
+	Maintained by:	   Niels Leenheer (niels@creatype.nl)
+	Is up-to-date?	   Always
+	Last update:	   -
+	Translated files:  6
+	---------------------------------------------------------
+
+
+
+French
+	---------------------------------------------------------
+	Maintained by:	   Vincent
+	Is up-to-date?	   No
+	Last update:	   24 Juli 2002
+	Translated files:  6
+	---------------------------------------------------------
+
+
+
+Hungarian
+	---------------------------------------------------------
+	Maintained by:	   Medgyesi Zoltán
+	Is up-to-date?	   Working on it
+	Last update:	   -
+	Translated files:  -
+	---------------------------------------------------------
+
+
+
+Italian
+	---------------------------------------------------------
+	Maintained by:	   Matteo Becatti (matteo@beccati.com)
+	Is up-to-date?	   Yes
+	Last update:	   7 August 2002
+	Translated files:  5
+	---------------------------------------------------------
+
+
+
+Polish
+	---------------------------------------------------------
+	Maintained by:	   Michael Paluchowski
+	Is up-to-date?	   Yes
+	Last update:	   7 August 2002
+	Translated files:  5
+	---------------------------------------------------------
+
+
+
+Russian
+	---------------------------------------------------------
+	Maintained by:	   Michael Bravo
+	Is up-to-date?	   Working on it
+	Last update:	   -
+	Translated files:  -
+	---------------------------------------------------------
+
+
+
