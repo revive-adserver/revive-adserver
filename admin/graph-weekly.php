@@ -31,8 +31,7 @@ if ($phpAds_compact_stats) {
     		DATE_FORMAT(day,'%Y".$mysql_week_sign."') AS week 
     	FROM
     		".$GLOBALS['phpAds_tbl_adstats']."
-    	WHERE 
-    		".$where."
+    	$where
     	GROUP BY 
     		week
     	ORDER BY 
@@ -62,8 +61,7 @@ else
     		DATE_FORMAT(t_stamp,'%Y".$mysql_week_sign."') AS week 
     	FROM
     		".$GLOBALS['phpAds_tbl_adviews']."
-    	WHERE 
-    		".$where."
+    	$where
     	GROUP BY 
     		week
     	ORDER BY 
@@ -77,8 +75,7 @@ else
     		DATE_FORMAT(t_stamp,'%Y".$mysql_week_sign."') AS week 
     	FROM
     		".$GLOBALS['phpAds_tbl_adclicks']."
-    	WHERE
-    		".$where."
+    	$where
     	GROUP BY 
     		week
     	ORDER BY 

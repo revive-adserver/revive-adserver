@@ -192,28 +192,44 @@ function stats() // generate weekly statistics
 	global $clientID, $which;
 	global $max_weeks, $php_week_sign, $mysql_week_sign;
 	global $strDayShortCuts;
-	global $strClientName;
+	global $strClientName, $strOverall;
 
 	// get all significant banner-ids to build where-clause
-	$banner_query='
+	$banner_query = "
 		SELECT
 			bannerID, bannertext, alt, description
 		FROM
-			'.$phpAds_tbl_banners.'
+			$phpAds_tbl_banners
+		";
+	
+	if ($clientID > 0)
+	$banner_query .= "
 		WHERE 
-			clientID = '.$clientID;
+			clientID = $clientID
+		";
+	
 	$res = db_query($banner_query) or mysql_die();
-
+	
+	// Get the number of banners
 	$countbanners = mysql_num_rows($res);
-	if ( $countbanners == 1 )   // single banner client
-		$where = 'bannerID='.mysql_result($res,0,0);
-	else                        // multi banner client
-	{  
-		$where = 'bannerID IN (';
+	
+	if ($countbanners == 1)
+	{
+		// single banner client
+		$where = 'WHERE bannerID='.mysql_result ($res, 0, 0);
+	}
+	else
+	{
+		// multi banner client
+		
+		if ($clientID > 0) 
+			$where = 'WHERE bannerID IN (';
+		
 		$ids = '';
 		$banner_select = array();
 		$i=0;
-		while ( $banner_row = mysql_fetch_array($res) )
+		
+		while ($banner_row = mysql_fetch_array ($res))
 		{
 			if ($ids) $ids.= ',';
 				$ids .= $banner_row['bannerID'];
@@ -225,9 +241,12 @@ function stats() // generate weekly statistics
 			
 			$i++;
 		}
-		$where .= $ids.')';
-		if ( $which != '0')  // there! forget set theory!
-			$where = 'bannerID='.$which;
+		
+		if ($clientID > 0) 
+			$where .= $ids.')';
+		
+		if ($which != '0')  // there! forget set theory!
+			$where = 'WHERE bannerID='.$which;
 	}
 
 
@@ -236,17 +255,17 @@ function stats() // generate weekly statistics
     if ($phpAds_compact_stats) 
     {
         // get views global data
-    	$global_view_query='
+    	$global_view_query="
     		SELECT
     			sum(clicks),
                 	sum(views),
     			MAX(TO_DAYS(day)),
     			MIN(TO_DAYS(day))
     		FROM
-    			'.$phpAds_tbl_adstats.'
-    		WHERE '.
-    			$where;
-    	// echo $global_view_query;			   
+    			$phpAds_tbl_adstats
+    		$where;
+		";
+		
     	$views_global = db_query($global_view_query) or mysql_die();
     	list($total_clicks, $total_views, $views_last_day_index, $views_first_day_index) = mysql_fetch_row($views_global);
     	mysql_free_result($views_global);
@@ -259,18 +278,17 @@ function stats() // generate weekly statistics
     			views as days_total_views,
     			clicks as days_total_clicks,
     			DATE_FORMAT(day, '".$GLOBALS['date_format']."') as date,
-    			DATE_FORMAT(day, '".$mysql_week_sign."') as week_num,
+    			DATE_FORMAT(day, '$mysql_week_sign') as week_num,
     			DATE_FORMAT(day, '%w') as day_num,
     			UNIX_TIMESTAMP(day) as unix_time,
-    			".$last_day_index."-TO_DAYS(day) AS day_index,
+    			$last_day_index-TO_DAYS(day) AS day_index,
     			TO_DAYS(day) AS abs_day
     		FROM
-    			".$phpAds_tbl_adstats.' 
-    		WHERE 
-    			'.$where.'
+    			$phpAds_tbl_adstats
+   			$where
     		ORDER BY
     			abs_day DESC
-    		LIMIT '.$max_weeks*7;
+    		LIMIT ".$max_weeks*7;
     	$daily = db_query($daily_query) or mysql_die();
     
     	$days = array();
@@ -295,30 +313,30 @@ function stats() // generate weekly statistics
     else        // ! $phpAds_compact_stats
     {
         // get views global data
-    	$global_view_query='
+    	$global_view_query="
     		SELECT
     			count(*),
     			MAX(TO_DAYS(t_stamp)),
     			MIN(TO_DAYS(t_stamp))
     		FROM
-    			'.$phpAds_tbl_adviews.'
-    		WHERE '.
-    			$where;
-    	// echo $global_view_query;			   
+    			$phpAds_tbl_adviews
+    		$where
+		";
+
     	$views_global = db_query($global_view_query) or mysql_die();
     	list($total_views, $views_last_day_index, $views_first_day_index) = mysql_fetch_row($views_global);
     	mysql_free_result($views_global);
     
     	// get clicks global data
-    	$global_click_query='
+    	$global_click_query="
     		SELECT
     			count(*),
     			MAX(TO_DAYS(t_stamp)),
     			MIN(TO_DAYS(t_stamp))
     		FROM
-    			'.$phpAds_tbl_adclicks.'
-    		WHERE '.
-    			$where;
+    			$phpAds_tbl_adclicks
+    		$where
+			";
     		// echo $global_click_query;			   
     	$clicks_global = db_query($global_click_query) or mysql_die();
     	list($total_clicks, $clicks_last_day_index, $clicks_first_day_index) = mysql_fetch_row($clicks_global);
@@ -331,20 +349,19 @@ function stats() // generate weekly statistics
     		SELECT
     			count(*) as days_total_views,
     			DATE_FORMAT(t_stamp, '".$GLOBALS['date_format']."') as date,
-    			DATE_FORMAT(t_stamp, '".$mysql_week_sign."') as week_num,
+    			DATE_FORMAT(t_stamp, '$mysql_week_sign') as week_num,
     			DATE_FORMAT(t_stamp, '%w') as day_num,
     			UNIX_TIMESTAMP(t_stamp) as unix_time,
-    			".$last_day_index."-TO_DAYS(t_stamp) AS day_index,
+    			$last_day_index-TO_DAYS(t_stamp) AS day_index,
     			TO_DAYS(t_stamp) AS abs_day
     		FROM
-    			".$phpAds_tbl_adviews.' 
-    		WHERE 
-    			'.$where.'
+    			$phpAds_tbl_adviews
+    		$where
     		GROUP BY 
     			abs_day
     		ORDER BY
     			abs_day DESC
-    		LIMIT '.$max_weeks*7;
+    		LIMIT ".$max_weeks*7;
     	$view_daily = db_query($view_query) or mysql_die();
     
     	// get clicks daily data
@@ -352,15 +369,14 @@ function stats() // generate weekly statistics
     		SELECT
     			count(*) as days_total_clicks,
     			DATE_FORMAT(t_stamp, '".$GLOBALS['date_format']."') as date,
-    			DATE_FORMAT(t_stamp, '".$mysql_week_sign."') as week_num,
+    			DATE_FORMAT(t_stamp, '$mysql_week_sign') as week_num,
     			DATE_FORMAT(t_stamp, '%w') as day_num,
     			UNIX_TIMESTAMP(t_stamp) as unix_time,
-    			".$last_day_index."-TO_DAYS(t_stamp) AS day_index,
+    			$last_day_index-TO_DAYS(t_stamp) AS day_index,
     			TO_DAYS(t_stamp) AS abs_day
     		FROM
-    			".$phpAds_tbl_adclicks."
-    		WHERE 
-    			$where
+    			$phpAds_tbl_adclicks
+    		$where
     		GROUP BY 
     			abs_day
     		ORDER BY
@@ -419,7 +435,12 @@ function stats() // generate weekly statistics
 
 	
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
-	<tr><td height='25' colspan='2'><b><?echo $strClientName.': '.phpAds_getClientName($clientID);?></b></td></tr>
+	<?
+		if ($clientID > 0)
+			echo "<tr><td height='25' colspan='2'><b>$strClientName: ".phpAds_getClientName($clientID)."</b></td></tr>";
+		else
+			echo "<tr><td height='25' colspan='2'><b>$strOverall</b></td></tr>";
+	?>
 	<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 
 	<tr height='35'>
@@ -541,7 +562,7 @@ function stats() // generate weekly statistics
 		{
 	?>
 	<tr>
-		<td colspan="3" align="left" bgcolor="#FFFFFF"><img src="graph-weekly.php?<?php echo "$fncpageid&clientID=$clientID&max_weeks=$max_weeks&where=".urlencode("$where"); ?>"></td>
+		<td colspan="3" align="left" bgcolor="#FFFFFF"><img src="graph-weekly.php?<?php echo "clientID=$clientID&max_weeks=$max_weeks&where=".urlencode("$where"); ?>"></td>
 	</tr>
 	<?
 		}
