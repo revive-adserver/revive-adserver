@@ -1,3 +1,16 @@
+phpAdsNew 1.9.x -> phpAdsNew 1.x.x
+
+Two new columns were added to the client table in order to allow permissions
+and client specific language settings. When upgrading to this version you
+need to manually add these to columns, for example:
+
+MODIFY TABLE clients ADD COLUMN permissions mediumint(9);
+MODIFY TABLE clients ADD COLUMN language varchar(64);
+
+In addition to this config.inc.php has a few new parameters you should set.
+
+----------------------
+
 phpAdsNew 1.9.x -> phpAdsNew 1.9.2
 
 I removed the config2.inc.php support.  It caused too much confusion.  
