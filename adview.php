@@ -109,15 +109,36 @@ else
 			{
 				Header("Location: $row[banner]");
 			}
-			elseif ($row["format"] == "swf")
-			{
-				Header("Content-type: application/x-shockwave-flash; name=".microtime()."\n");
-				echo $row["banner"];
-			}
 			else
 			{
-				Header("Content-type: image/".$row['format']."; name=".microtime());
-				echo $row["banner"];
+				if (!isset($row['banner']) || $row['banner'] == '')
+				{
+					// The image is not returned when using zones,
+					// so if the var $row['banner'] is empty load
+					// the image from the database.
+					
+					$res = db_query("
+						SELECT
+							*
+						FROM
+							$phpAds_tbl_banners  
+						WHERE
+							bannerID = ".$row['bannerID']."
+						") or mysql_die();
+					
+					$row = mysql_fetch_array($res);
+				}
+				
+				if ($row["format"] == "swf")
+				{
+					Header("Content-type: application/x-shockwave-flash; name=".microtime()."\n");
+					echo $row["banner"];
+				}
+				else
+				{
+					Header("Content-type: image/".$row['format']."; name=".microtime());
+					echo $row["banner"];
+				}
 			}
 			
 			log_adview($row["bannerID"], $row["clientID"]);
