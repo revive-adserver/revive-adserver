@@ -494,80 +494,83 @@ function phpAds_fetchBanner($what, $clientID, $context=0, $source='', $allowhtml
 		
 		for ($i=0; $i<$maxindex; $i++)
 		{
-			$low = $high;
-			$high += ($rows[$i]['weight'] * $rows[$i]['clientweight']);
-			
-			if ($high > $ranweight && $low <= $ranweight)
+			if ($rows[$i] != null)
 			{
-				if ($phpAds_zone_used)
+				$low = $high;
+				$high += ($rows[$i]['weight'] * $rows[$i]['clientweight']);
+				
+				if ($high > $ranweight && $low <= $ranweight)
 				{
-					// Preconditions can't be used with zones,
-					// so use postconditions instead
-					
-					$postconditionSucces = true;
-					
-					// Excludelist
-					if (isset ($excludeBannerID[$rows[$i]['bannerID']]) &&
-						$excludeBannerID[$rows[$i]['bannerID']] == true)
-						$postconditionSucces = false;
-					
-					// Includelist
-					if ($postconditionSucces == true &&
-					    sizeof($includeBannerID) > 0 &&
-					    (!isset ($includeBannerID[$rows[$i]['bannerID']]) ||
-						$includeBannerID[$rows[$i]['bannerID']] != true))
-						$postconditionSucces = false;
-					
-					// HTML or Flash banners
-					if ($postconditionSucces == true &&
-					    $allowhtml == false &&
-					    ($rows[$i]['format'] == 'html' || $rows[$i]['format'] == 'swf' ||
-						(($rows[$i]['format'] == 'url' || $rows[$i]['format'] == 'web') && eregi("swf$", $rows[$i]['banner']))))
-						$postconditionSucces = false;
-					
-					
-					if ($postconditionSucces == false)
+					if ($phpAds_zone_used)
 					{
-						// Failed one of the postconditions
+						// Preconditions can't be used with zones,
+						// so use postconditions instead
+						
+						$postconditionSucces = true;
+						
+						// Excludelist
+						if (isset ($excludeBannerID[$rows[$i]['bannerID']]) &&
+							$excludeBannerID[$rows[$i]['bannerID']] == true)
+							$postconditionSucces = false;
+						
+						// Includelist
+						if ($postconditionSucces == true &&
+						    sizeof($includeBannerID) > 0 &&
+						    (!isset ($includeBannerID[$rows[$i]['bannerID']]) ||
+							$includeBannerID[$rows[$i]['bannerID']] != true))
+							$postconditionSucces = false;
+						
+						// HTML or Flash banners
+						if ($postconditionSucces == true &&
+						    $allowhtml == false &&
+						    ($rows[$i]['format'] == 'html' || $rows[$i]['format'] == 'swf' ||
+							(($rows[$i]['format'] == 'url' || $rows[$i]['format'] == 'web') && eregi("swf$", $rows[$i]['banner']))))
+							$postconditionSucces = false;
+						
+						
+						if ($postconditionSucces == false)
+						{
+							// Failed one of the postconditions
+							// No more posibilities left, exit!
+							if (sizeof($rows) == 1)
+								return false;
+							
+							// Delete this row and adjust $weightsum
+							$weightsum -= ($rows[$i]['weight'] * $rows[$i]['clientweight']);
+							$rows[$i] = null;
+							
+							// Break out of the for loop to try again
+							break;
+						}
+					}
+					
+					// Banner was not on exclude list
+					// and was on include list (if one existed)
+					// Now continue with ACL check
+					
+					if ($phpAds_config['acl'])
+					{
+						if (phpAds_aclCheck($request, $rows[$i]))
+							// ACL check passed, found banner!
+							return ($rows[$i]);
+						
+						// Matched, but phpAds_aclCheck failed.
 						// No more posibilities left, exit!
 						if (sizeof($rows) == 1)
 							return false;
 						
 						// Delete this row and adjust $weightsum
 						$weightsum -= ($rows[$i]['weight'] * $rows[$i]['clientweight']);
-						unset($rows[$i]);
+						$rows[$i] = null;
 						
 						// Break out of the for loop to try again
 						break;
 					}
-				}
-				
-				// Banner was not on exclude list
-				// and was on include list (if one existed)
-				// Now continue with ACL check
-				
-				if ($phpAds_config['acl'])
-				{
-					if (phpAds_aclCheck($request, $rows[$i]))
-						// ACL check passed, found banner!
+					else
+					{
+						// Don't check ACLs, found banner!
 						return ($rows[$i]);
-					
-					// Matched, but phpAds_aclCheck failed.
-					// No more posibilities left, exit!
-					if (sizeof($rows) == 1)
-						return false;
-					
-					// Delete this row and adjust $weightsum
-					$weightsum -= ($rows[$i]['weight'] * $rows[$i]['clientweight']);
-					unset($rows[$i]);
-					
-					// Break out of the for loop to try again
-					break;
-				}
-				else
-				{
-					// Don't check ACLs, found banner!
-					return ($rows[$i]);
+					}
 				}
 			}
 		}

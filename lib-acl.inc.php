@@ -123,11 +123,10 @@ function phpAds_aclCheckClientip($request, $aclrow)
 	$data = $aclrow['acl_data'];
 	$host = $request['remote_host'];
 	
-	list ($net, $mask) = explode('/', $data);
 	
-	if ($mask == '')
+	if (!strpos($data, '/'))
 	{
-		$net 	= explode('.', $net);
+		$net = explode('.', $data);
 		
 		for ($i=0;$i<sizeof($net);$i++)
 		{
@@ -145,6 +144,8 @@ function phpAds_aclCheckClientip($request, $aclrow)
 	}
 	else
 	{
+		list ($net, $mask) = explode('/', $data);
+		
 		$net 	= explode('.', $net);
 		$pnet 	= pack('C4', $net[0], $net[1], $net[2], $net[3]);
 		$mask 	= explode('.', $mask);
