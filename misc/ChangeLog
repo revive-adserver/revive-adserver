@@ -19,6 +19,9 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-01-14:  If register_globals was turned on and cookies were favored by variable_order, the value of a cookie overwrote a GET or POST variable with the same name  (Niels)
 			  - 2003-01-14:  Priority wasn't recalculated during an update due to a typo  (Niels)
 			  - 2003-01-16:  System unavailable message wasn't shown on publisher login during upgrade process  (Matteo)
+			  - 2003-01-19:  If a setting in the config.inc.php file was updated which previously included a semi-colon the old value wasn't replaced correctly  (Niels)
+			  - 2003-01-19:  After updating from Beta 6.1 or earlier some default values were still considered valid, resulting in problems with webserver stored banners  (Niels)
+			  - 2003-01-19:  Setting the webserver banner settings to empty did not have any effect  (Niels)
 			
 
 v 2.0rc2		+ Misc bugfixes

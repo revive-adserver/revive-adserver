@@ -52,50 +52,57 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		phpAds_SettingsWriteAdd('type_web_url', $type_web_url);
 	
 	
-	if (isset($type_web_dir) && !empty($type_web_dir))
+	if (isset($type_web_dir))
 	{
-		if (@file_exists($type_web_dir))
+		if (@file_exists($type_web_dir) || empty($type_web_dir))
 			phpAds_SettingsWriteAdd('type_web_dir', $type_web_dir);
 		else
 			$errormessage[2][] = $strTypeDirError;
 	}
 	
-	if (isset($type_web_ftp_host) && !empty($type_web_ftp_host))
+	if (isset($type_web_ftp_host))
 	{
-		// Include FTP compatibility library
-		if (!function_exists("ftp_connect"))
-			require ("lib-ftp.inc.php");
-		
-		// Set current password if a new one is not supplied
-		if (isset($type_web_ftp_password) && ereg('^\*+$', $type_web_ftp_password))
+		if (empty($type_web_ftp_host))
 		{
-			if ($ftpserver = @parse_url($phpAds_config['type_web_ftp']))
-			{
-				$type_web_ftp_password = $ftpserver['pass'];
-			}
-		}
-		
-		if (isset($type_web_ftp_host) && $ftpsock = @ftp_connect($type_web_ftp_host))
-		{
-			if (@ftp_login($ftpsock, $type_web_ftp_user, $type_web_ftp_password))
-			{
-				if (empty($type_web_ftp_path) || @ftp_chdir($ftpsock, $type_web_ftp_path))
-				{
-					$type_web_ftp = 'ftp://'.$type_web_ftp_user.
-						':'.$type_web_ftp_password.'@'.$type_web_ftp_host.'/'.$type_web_ftp_path;
-					
-					phpAds_SettingsWriteAdd('type_web_ftp', $type_web_ftp);
-				}
-				else
-					$errormessage[2][] = $strTypeFTPErrorDir;
-			}
-			else
-				$errormessage[2][] = $strTypeFTPErrorConnect;
-			
-			@ftp_quit($ftpsock);
+			phpAds_SettingsWriteAdd('type_web_ftp', '');
 		}
 		else
-			$errormessage[2][] = $strTypeFTPErrorHost;
+		{
+			// Include FTP compatibility library
+			if (!function_exists("ftp_connect"))
+				require ("lib-ftp.inc.php");
+			
+			// Set current password if a new one is not supplied
+			if (isset($type_web_ftp_password) && ereg('^\*+$', $type_web_ftp_password))
+			{
+				if ($ftpserver = @parse_url($phpAds_config['type_web_ftp']))
+				{
+					$type_web_ftp_password = $ftpserver['pass'];
+				}
+			}
+			
+			if (isset($type_web_ftp_host) && $ftpsock = @ftp_connect($type_web_ftp_host))
+			{
+				if (@ftp_login($ftpsock, $type_web_ftp_user, $type_web_ftp_password))
+				{
+					if (empty($type_web_ftp_path) || @ftp_chdir($ftpsock, $type_web_ftp_path))
+					{
+						$type_web_ftp = 'ftp://'.$type_web_ftp_user.
+							':'.$type_web_ftp_password.'@'.$type_web_ftp_host.'/'.$type_web_ftp_path;
+						
+						phpAds_SettingsWriteAdd('type_web_ftp', $type_web_ftp);
+					}
+					else
+						$errormessage[2][] = $strTypeFTPErrorDir;
+				}
+				else
+					$errormessage[2][] = $strTypeFTPErrorConnect;
+				
+				@ftp_quit($ftpsock);
+			}
+			else
+				$errormessage[2][] = $strTypeFTPErrorHost;
+		}
 	}
 	
 	phpAds_SettingsWriteAdd('type_html_auto', isset($type_html_auto));

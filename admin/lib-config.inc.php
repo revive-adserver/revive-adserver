@@ -223,6 +223,12 @@ function phpAds_ConfigFileUpdatePrepare ()
 					if ($regs[1] == 'name' && ereg("[\"'](phpPgAds|phpAdsNew)[\"']", $regs[2]))
 						$regs[2] = ' = ""';
 					
+					// Remove default values
+					if ($regs[1] == 'type_web_dir' && $regs[2] == '/home/myname/www/ads')	$regs[2] = ' = ""';
+					if ($regs[1] == 'type_web_ftp' && $regs[2] == 'ftp://user:password@ftp.myname.com/ads')	$regs[2] = ' = ""';
+					if ($regs[1] == 'type_web_url' && $regs[2] == 'http://www.myname.com/ads')	$regs[2] = ' = ""';
+					
+					
 					// Don't trust url prefix, because the update might
 					// occur in a different directory as the original installation
 					if ($regs[1] == 'url_prefix' && isset($HTTP_SERVER_VARS['HTTP_HOST']))
@@ -402,9 +408,9 @@ function phpAds_ConfigFileSet ($key, $value, $type)
 	}
 	
 	
-	if (ereg(".phpAds_config\['".$key."'\][^=]*=[^;]*;", $phpAds_configBuffer, $regs))
+	if (ereg(".phpAds_config\['".$key."'\][^=]*=[^\n]*;([\n|\r|\s|\t])", $phpAds_configBuffer, $regs))
 	{
-		$phpAds_configBuffer = str_replace ($regs[0], "\$phpAds_config['".$key."'] = ".$value.";", $phpAds_configBuffer);
+		$phpAds_configBuffer = str_replace ($regs[0], "\$phpAds_config['".$key."'] = ".$value.";".$regs[1], $phpAds_configBuffer);
 	}
 }
 
