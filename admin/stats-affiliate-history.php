@@ -65,7 +65,7 @@ if (phpAds_isUser(phpAds_Admin))
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	
 	
-	phpAds_PageHeader("2.4.2", $extra);
+	phpAds_PageHeader("2.4.1", $extra);
 		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br><br><br>";
 		phpAds_ShowSections(array("2.4.1", "2.4.2"));
 }
@@ -76,6 +76,8 @@ else
 		phpAds_ShowSections(array("1.1", "1.2"));
 }
 
+echo "<br><br>";
+
 
 
 /*********************************************************/
@@ -83,9 +85,10 @@ else
 /*********************************************************/
 
 if (!isset($limit) || $limit=='') $limit = '7';
+if (!isset($start) || $start=='') $start = '0';
 
 
-// Get bannerid's for this client
+// Get zoneid's for this affiliate
 $idresult = phpAds_dbQuery (" 
 	SELECT
 		zoneid
@@ -103,80 +106,119 @@ while ($row = phpAds_dbFetchArray($idresult))
 
 if ($phpAds_config['compact_stats']) 
 {
+	// Determine first and last day of stats
 	$result = phpAds_dbQuery("
 		SELECT
-			*,
-			sum(views) as sum_views,
-			sum(clicks) as sum_clicks,
-			DATE_FORMAT(day, '$date_format') as t_stamp_f
+			TO_DAYS(NOW()) - TO_DAYS(MIN(day)) + 1 AS span
 		FROM
 			".$phpAds_config['tbl_adstats']."
 		WHERE
 			(".implode(' OR ', $zoneids).")
+	");
+	
+	if ($row = phpAds_dbFetchArray($result))
+	{
+		$span = $row['span'];
+	}
+	
+	
+	// Get stats for selected period
+	$begin = date('Ymd', mktime(0, 0, 0, date('m'), date('d') - $limit + 1 - $start, date('Y')));
+	$end   = date('Ymd', mktime(0, 0, 0, date('m'), date('d') + 1 - $start, date('Y')));
+	
+	$result = phpAds_dbQuery("
+		SELECT
+			SUM(views) AS sum_views,
+			SUM(clicks) AS sum_clicks,
+			DATE_FORMAT(day, '$date_format') AS date_formatted,
+			DATE_FORMAT(day, '%Y%m%d') AS date
+		FROM
+			".$phpAds_config['tbl_adstats']."
+		WHERE
+			(".implode(' OR ', $zoneids).") AND
+			day >= $begin AND day < $end
 		GROUP BY
 			day
-		ORDER BY
-			day DESC
-		LIMIT $limit 
-	") or phpAds_sqlDie();
+		LIMIT
+			$limit 
+	");
 	
 	while ($row = phpAds_dbFetchArray($result))
 	{
-		$stats[$row['day']] = $row;
+		$stats[$row['date']] = $row;
 	}
 }
 else
 {
+	// Determine first and last day of stats
 	$result = phpAds_dbQuery("
 		SELECT
-			count(*) as views,
-			DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
-			DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
+			TO_DAYS(NOW()) - TO_DAYS(MIN(t_stamp)) + 1 AS span
 		FROM
 			".$phpAds_config['tbl_adviews']."
 		WHERE
 			(".implode(' OR ', $zoneids).")
+	");
+	
+	if ($row = phpAds_dbFetchArray($result))
+	{
+		$span = $row['span'];
+	}
+	
+	
+	// Get stats for selected period
+	$begin = date('YmdHis', mktime(0, 0, 0, date('m'), date('d') - $limit + 1 - $start, date('Y')));
+	$end   = date('YmdHis', mktime(0, 0, 0, date('m'), date('d') + 1 - $start, date('Y')));
+	
+	$result = phpAds_dbQuery("
+		SELECT
+			COUNT(*) AS sum_views,
+			DATE_FORMAT(t_stamp, '$date_format') AS date_formatted,
+			DATE_FORMAT(t_stamp, '%Y%m%d') AS date
+		FROM
+			".$phpAds_config['tbl_adviews']."
+		WHERE
+			(".implode(' OR ', $zoneids).") AND
+			t_stamp >= $begin AND t_stamp < $end
 		GROUP BY
 			day
-		ORDER BY
-			day DESC
-		LIMIT $limit 
+		LIMIT
+			$limit
 	");
 	
 	while ($row = phpAds_dbFetchArray($result))
 	{
-		$stats[$row['day']]['sum_views'] = $row['views'];
-		$stats[$row['day']]['sum_clicks'] = '0';
-		$stats[$row['day']]['t_stamp_f'] = $row['t_stamp_f'];
+		$stats[$row['date']]['sum_views'] = $row['sum_views'];
+		$stats[$row['date']]['sum_clicks'] = '0';
+		$stats[$row['date']]['date_formatted'] = $row['date_formatted'];
 	}
 	
 	
 	$result = phpAds_dbQuery("
 		SELECT
-			count(*) as clicks,
-			DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
-			DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
+			COUNT(*) AS sum_clicks,
+			DATE_FORMAT(t_stamp, '$date_format') AS date_formatted,
+			DATE_FORMAT(t_stamp, '%Y%m%d') AS date
 		FROM
 			".$phpAds_config['tbl_adclicks']."
 		WHERE
-			(".implode(' OR ', $zoneids).")
+			(".implode(' OR ', $zoneids).") AND
+			t_stamp >= $begin AND t_stamp < $end
 		GROUP BY
 			day
-		ORDER BY
-			day DESC
-		LIMIT $limit 
+		LIMIT
+			$limit
 	");
 	
 	while ($row = phpAds_dbFetchArray($result))
 	{
-		$stats[$row['day']]['sum_clicks'] = $row['clicks'];
-		$stats[$row['day']]['t_stamp_f'] = $row['t_stamp_f'];
+		$stats[$row['date']]['sum_clicks'] = $row['sum_clicks'];
+		$stats[$row['date']]['date_formatted'] = $row['date_formatted'];
 	}
 }
 
 
 
-echo "<br><br>";
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 
 echo "<tr bgcolor='#FFFFFF' height='25'>";
@@ -191,19 +233,18 @@ echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gi
 
 $totalviews  = 0;
 $totalclicks = 0;
-
 $today = time();
 
 for ($d=0;$d<$limit;$d++)
 {
-	$key = date ("Y-m-d", $today - ((60 * 60 * 24) * $d));
-	$text = date (str_replace ("%", "", $date_format), $today - ((60 * 60 * 24) * $d));
+	$key = date ("Ymd", $today - ((60 * 60 * 24) * ($d + $start)));
+	$text = date (str_replace ("%", "", $date_format), $today - ((60 * 60 * 24) * ($d + $start)));
 	
 	if (isset($stats[$key]))
 	{
 		$views  = $stats[$key]['sum_views'];
 		$clicks = $stats[$key]['sum_clicks'];
-		$text   = $stats[$key]['t_stamp_f'];
+		$text   = $stats[$key]['date_formatted'];
 		$ctr	= phpAds_buildCTR($views, $clicks);
 		
 		$totalviews  += $views;
@@ -213,10 +254,20 @@ for ($d=0;$d<$limit;$d++)
 	}
 	else
 	{
-		$views  = '-';
-		$clicks = '-';
-		$ctr	= '-';
-		$available = false;
+		if ($d + $start < $span)
+		{
+			$views  = 0;
+			$clicks = 0;
+			$ctr	= phpAds_buildCTR($views, $clicks);
+			$available = true;
+		}
+		else
+		{
+			$views  = '-';
+			$clicks = '-';
+			$ctr	= '-';
+			$available = false;
+		}
 	}
 	
 	$bgcolor="#FFFFFF";
@@ -233,6 +284,35 @@ for ($d=0;$d<$limit;$d++)
 	
 	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 }
+
+
+$previous = $start < $limit ? 0 : $start - $limit;
+$next = $start + $limit;
+
+echo "<tr>";
+echo "<td height='35' colspan='1' align='left'>";
+	echo "&nbsp;".$strDays.":&nbsp;";
+	echo "<a href='stats-affiliate-history.php?affiliateid=".$affiliateid."&start=".$start."&limit=7'>7</a>&nbsp;|&nbsp;";
+	echo "<a href='stats-affiliate-history.php?affiliateid=".$affiliateid."&start=".$start."&limit=14'>14</a>&nbsp;|&nbsp;";
+	echo "<a href='stats-affiliate-history.php?affiliateid=".$affiliateid."&start=".$start."&limit=21'>21</a>&nbsp;|&nbsp;";
+	echo "<a href='stats-affiliate-history.php?affiliateid=".$affiliateid."&start=".$start."&limit=28'>28</a>";
+echo "</td>";
+echo "<td height='35' colspan='3' align='right'>";
+	if ($start > 0)
+	{
+		echo "<a href='stats-affiliate-history.php?affiliateid=".$affiliateid."&limit=".$limit."&start=".$previous."'>";
+		echo "<img src='images/arrow-l.gif' border='0' align='absmiddle'>".$strPrevious."</a>";
+	}
+	if ($span > ($start + $limit))
+	{
+		if ($start > 0) echo "&nbsp;|&nbsp;";
+		
+		echo "<a href='stats-affiliate-history.php?affiliateid=".$affiliateid."&limit=".$limit."&start=".$next."'>";
+		echo $strNext."<img src='images/arrow-r.gif' border='0' align='absmiddle'></a>";
+	}
+echo "</td>";
+echo "</tr>";
+
 
 if ($totalviews > 0 || $totalclicks > 0)
 {
@@ -262,22 +342,8 @@ if ($totalviews > 0 || $totalclicks > 0)
 	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 }
 
-echo "<tr>";
-echo "<form action='stats-affiliate-history.php'>";
-echo "<td height='35' colspan='4' align='right'>";
-	echo $strHistory.":&nbsp;&nbsp;";
-	echo "<input type='hidden' name='affiliateid' value='$affiliateid'>";
-	echo "<select name='limit' onChange=\"this.form.submit();\">";
-	echo "<option value='7' ".($limit==7?'selected':'').">7 ".$strDays."</option>";
-	echo "<option value='14' ".($limit==14?'selected':'').">14 ".$strDays."</option>";
-	echo "<option value='21' ".($limit==21?'selected':'').">21 ".$strDays."</option>";
-	echo "<option value='28' ".($limit==28?'selected':'').">28 ".$strDays."</option>";
-	echo "</select>&nbsp;";
-	echo "<input type='image' src='images/go_blue.gif' border='0' name='submit'>";
-echo "</td>";
-echo "</form>";
-echo "</tr>";
 echo "</table>";
+
 
 
 /*********************************************************/

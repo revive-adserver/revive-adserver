@@ -302,7 +302,7 @@ else
 			echo "&nbsp;<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
 			
 		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;";
-		echo "<a href='stats-affiliate-zones.php?affiliateid=".$affiliate['affiliateid']."'>".$affiliate['name']."</a>";
+		echo "<a href='stats-affiliate-history.php?affiliateid=".$affiliate['affiliateid']."'>".$affiliate['name']."</a>";
 		echo "</td>";
 		
 		echo "<td height='25'>".$affiliate['affiliateid']."</td>";

@@ -64,7 +64,7 @@ if (phpAds_isUser(phpAds_Admin))
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	
 	
-	phpAds_PageHeader("2.4.1", $extra);
+	phpAds_PageHeader("2.4.2", $extra);
 		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br><br><br>";
 		phpAds_ShowSections(array("2.4.1", "2.4.2"));
 }
@@ -255,36 +255,36 @@ echo "<br><br>";
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
 
 echo "<tr height='25'>";
-echo '<td height="25"><b>&nbsp;&nbsp;<a href="'.$PHP_SELF.'?listorder=name">'.$GLOBALS['strName'].'</a>';
+echo '<td height="25"><b>&nbsp;&nbsp;<a href="'.$PHP_SELF.'?affiliateid='.$affiliateid.'&listorder=name">'.$GLOBALS['strName'].'</a>';
 
 if (($listorder == "name") || ($listorder == ""))
 {
 	if  (($orderdirection == "") || ($orderdirection == "down"))
 	{
-		echo ' <a href="'.$PHP_SELF.'?listorder=name&orderdirection=up">';
+		echo ' <a href="'.$PHP_SELF.'?affiliateid='.$affiliateid.'&listorder=name&orderdirection=up">';
 		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 	}
 	else
 	{
-		echo ' <a href="'.$PHP_SELF.'?listorder=name&orderdirection=down">';
+		echo ' <a href="'.$PHP_SELF.'?affiliateid='.$affiliateid.'&listorder=name&orderdirection=down">';
 		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 	}
 	echo '</a>';
 }
 
 echo '</b></td>';
-echo '<td height="25"><b><a href="'.$PHP_SELF.'?listorder=id">'.$GLOBALS['strID'].'</a>';
+echo '<td height="25"><b><a href="'.$PHP_SELF.'?affiliateid='.$affiliateid.'&listorder=id">'.$GLOBALS['strID'].'</a>';
 
 if ($listorder == "id")
 {
 	if  (($orderdirection == "") || ($orderdirection == "down"))
 	{
-		echo ' <a href="'.$PHP_SELF.'?listorder=id&orderdirection=up">';
+		echo ' <a href="'.$PHP_SELF.'?affiliateid='.$affiliateid.'&listorder=id&orderdirection=up">';
 		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 	}
 	else
 	{
-		echo ' <a href="'.$PHP_SELF.'?listorder=id&orderdirection=down">';
+		echo ' <a href="'.$PHP_SELF.'?affiliateid='.$affiliateid.'&listorder=id&orderdirection=down">';
 		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 	}
 	echo '</a>';
@@ -363,7 +363,7 @@ else
 					echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
 				
 				
-				echo "<a href='stats-zone-banner.php?affiliateid=".$zone['affiliateid']."&zoneid=".$zone['zoneid']."&bannerid=".$banners[$bkey]['bannerid']."'>".phpAds_getBannerName($banners[$bkey]['bannerid'], 30, false)."</td>";
+				echo "<a href='stats-linkedbanner-history.php?affiliateid=".$zone['affiliateid']."&zoneid=".$zone['zoneid']."&bannerid=".$banners[$bkey]['bannerid']."'>".phpAds_getBannerName($banners[$bkey]['bannerid'], 30, false)."</td>";
 				echo "</td>";
 				
 				echo "<td height='25'>".$banners[$bkey]['bannerid']."</td>";
