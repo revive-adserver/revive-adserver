@@ -178,14 +178,23 @@ function phpAds_packCookies($cache, $session)
 		if (!$session)
 			$cookies[$name]['e'] = $expire;
 	}
-			
-	// Serialize cookie array
-	$cookies = serialize($cookies);
 	
-	// Compress and base64 encode it to save space/bandwidth and to allow more cookies
-	if (extension_loaded('zlib'))
-		$cookies = base64_encode(gzdeflate($cookies));
-
+	// Encode only if necessary
+	if (count($cookies))
+	{
+		// Serialize cookie array
+		$cookies = serialize($cookies);
+		
+		// Compress and base64 encode it to save space/bandwidth and to allow more cookies
+		if (extension_loaded('zlib'))
+			$cookies = base64_encode(gzdeflate($cookies));
+	}
+	else
+	{
+		// Unset cookie
+		$cookies = '';
+	}
+	
 	if ($session)
 		setcookie('phpAds_cookies[0]', $cookies, 0, $url['path']); //, $url['host']);	
 	else
@@ -202,7 +211,7 @@ function phpAds_unpackCookies()
 	{
 		for ($i = 1; $i; $i--)
 		{
-			if (!isset($HTTP_COOKIE_VARS['phpAds_cookies'][$i]))
+			if (!isset($HTTP_COOKIE_VARS['phpAds_cookies'][$i]) || !$HTTP_COOKIE_VARS['phpAds_cookies'][$i])
 				continue;
 			
 			$c = $HTTP_COOKIE_VARS['phpAds_cookies'][$i];
