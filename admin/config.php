@@ -115,13 +115,8 @@ if ($phpAds_config['language'] != 'english' && file_exists(phpAds_path.'/languag
 phpAds_registerGlobal ('bannerid', 'campaignid', 'clientid',
 					   'zoneid', 'affiliateid', 'userlogid', 'day');
 
-if (!isset($clientid))    $clientid = '';
-if (!isset($campaignid))  $campaignid = '';
-if (!isset($bannerid))    $bannerid = '';
-if (!isset($zoneid))   	  $zoneid = '';
-if (!isset($affiliateid)) $affiliateid = '';
-if (!isset($userlogid))   $userlogid = '';
-if (!isset($day))		  $day = '';
+// Check for missing required parameters
+phpAds_checkIds();
 
 
 // Setup navigation

@@ -155,6 +155,129 @@ function phpAds_getUserID ()
 /* Private functions                                     */
 /*********************************************************/
 
+function phpAds_checkIds()
+{
+	global $clientid, $campaignid, $bannerid, $affiliateid, $zoneid, $userlogid, $day;
+	global $HTTP_SERVER_VARS;
+	
+	
+	// I also put it there to avoid problems during the check on client/affiliate interface
+	if (phpAds_isUser(phpAds_Client))
+		$clientid = phpAds_getUserID();
+	elseif (phpAds_isUser(phpAds_Affiliate))
+		$affiliateid = phpAds_getUserID();
+	
+	// Reset missing variables
+	if (!isset($clientid))    $clientid = '';
+	if (!isset($campaignid))  $campaignid = '';
+	if (!isset($bannerid))    $bannerid = '';
+	if (!isset($affiliateid)) $affiliateid = '';
+	if (!isset($zoneid))   	  $zoneid = '';
+	if (!isset($userlogid))   $userlogid = '';
+	if (!isset($day))		  $day = '';
+	
+	$part = explode('-', str_replace('.php', '-', basename($HTTP_SERVER_VARS['SCRIPT_NAME'])));
+
+	if ($stats = ($part[0] == 'stats' ? 1 : 0))
+	{
+		array_shift($part);
+
+		$redirects = array(
+			'client'		=> 'stats-global-client.php',
+			'campaign'		=> 'stats-client-campaigns.php',
+			'banner'		=> 'stats-campaign-banners.php',
+			'affiliate'		=> 'stats-global-affiliates.php',
+			'zone'			=> 'stats-affiliate-zones.php');
+	}
+	else
+	{
+		$redirects = array(
+			'client'		=> 'client-index.php',
+			'campaign'		=> 'client-campaigns.php',
+			'banner'		=> 'campaign-banners.php',
+			'affiliate'		=> 'affiliate-index.php',
+			'zone'			=> 'affiliate-zones.php');
+	}
+	
+	// *-edit and *-index pages doesn't need ids when adding new item, lowering requirements
+	if ($part[1] == 'edit' || $part[1] == 'index')
+	{
+		if ($part[0] == 'client')
+			$part[0] = '';
+		elseif ($part[0] == 'campaign')
+			$part[0] = 'client';
+		elseif ($part[0] == 'banner')
+			$part[0] = 'campaign';
+		elseif ($part[0] == 'affiliate')
+			$part[0] = '';
+		elseif ($part[0] == 'zone')
+			$part[0] = 'affiliate';
+	}
+		
+	switch ($part[0])
+	{
+		case 'banner':
+			if (!is_numeric($bannerid))
+			{
+				if (is_numeric($clientid) && is_numeric($campaignid))
+				{
+					header('Location: '.$redirects['banner'].'?clientid='.$clientid.'&campaignid='.$campaignid);
+					exit;
+				}
+			}
+		
+		case 'campaign':
+			if (!is_numeric($campaignid))
+			{
+				if (is_numeric($clientid))
+				{
+					header('Location: '.$redirects['campaign'].'?clientid='.$clientid);
+					exit;
+				}
+			}
+		
+		case 'client':
+			if (!is_numeric($clientid))
+			{
+				header('Location: '.$redirects['client']);
+				exit;
+			}
+			
+			break;
+		
+		case 'zone':
+		case 'linkedbanners':
+			if (!is_numeric($zoneid))
+			{
+				if (is_numeric($affiliateid))
+				{
+					header('Location: '.$redirects['zone'].'?affiliateid='.$affiliateid);
+					exit;
+				}
+			}
+			
+		case 'affiliate':
+			if (!is_numeric($affiliateid))
+			{
+				header('Location: '.$redirects['affiliate']);
+				exit;
+			}
+			
+			break;
+		
+		case 'userlog':
+			if (!is_numeric($userlogid))
+			{
+				header('Location: userlog-index.php');
+				exit;
+			}
+			
+			break;
+	}
+}
+
+
+
 function phpAds_Login()
 {
 	global $phpAds_config;
