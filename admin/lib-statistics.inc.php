@@ -446,6 +446,76 @@ function phpAds_getAffiliateName ($affiliateid)
 
 
 /*********************************************************/
+/* Replace variables in HTML or external banner          */
+/*********************************************************/
+
+function phpAds_replaceVariablesInBannerCode ($htmlcode)
+{
+	global $phpAds_config;
+	
+	// Parse for variables
+	$htmlcode = str_replace ('{timestamp}',	time(), $htmlcode);
+	$htmlcode = str_replace ('%7Btimestamp%7D',	time(), $htmlcode);
+	
+	while (preg_match ('#(%7B|\{)random((%3A|:)([0-9]+)){0,1}(%7D|})#i', $htmlcode, $matches))
+	{
+		if ($matches[4])
+			$randomdigits = $matches[4];
+		else
+			$randomdigits = 8;
+		
+		if (isset($lastdigits) && $lastdigits == $randomdigits)
+			$randomnumber = $lastrandom;
+		else
+		{
+			$randomnumber = '';
+			
+			for ($r=0; $r<$randomdigits; $r=$r+9)
+				$randomnumber .= (string)mt_rand (111111111, 999999999);
+			
+			$randomnumber  = substr($randomnumber, 0 - $randomdigits);
+		}
+		
+		$htmlcode = str_replace ($matches[0], $randomnumber, $htmlcode);
+		
+		$lastdigits = $randomdigits;
+		$lastrandom = $randomnumber;
+	}
+	
+	
+	// Parse PHP code
+	if ($phpAds_config['type_html_php'])
+	{
+		if (preg_match ("#(\<\?php(.*)\?\>)#i", $htmlcode, $parser_regs))
+		{
+			// Extract PHP script
+			$parser_php 	= $parser_regs[2];
+			$parser_result 	= '';
+			
+			// Replace output function
+			$parser_php = preg_replace ("#echo([^;]*);#i", '$parser_result .=\\1;', $parser_php);
+			$parser_php = preg_replace ("#print([^;]*);#i", '$parser_result .=\\1;', $parser_php);
+			$parser_php = preg_replace ("#printf([^;]*);#i", '$parser_result .= sprintf\\1;', $parser_php);
+			
+			// Split the PHP script into lines
+			$parser_lines = explode (";", $parser_php);
+			for ($parser_i = 0; $parser_i < sizeof($parser_lines); $parser_i++)
+			{
+				if (trim ($parser_lines[$parser_i]) != '')
+					eval (trim ($parser_lines[$parser_i]).';');
+			}
+			
+			// Replace the script with the result
+			$htmlcode = str_replace ($parser_regs[1], $parser_result, $htmlcode);
+		}
+	}
+	
+	return ($htmlcode);
+}
+
+
+
+/*********************************************************/
 /* Build the HTML needed to display a banner             */
 /*********************************************************/
 
@@ -499,6 +569,7 @@ function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 					$htmlcode = str_replace ('{target}', $target, $htmlcode);
 					$htmlcode = str_replace ('[bannertext]', '', $htmlcode);
 					$htmlcode = str_replace ('[/bannertext]', '', $htmlcode);
+					$htmlcode = phpAds_replaceVariablesInBannerCode ($htmlcode);
 					
 					$buffer =  $htmlcode;
 				}
@@ -551,6 +622,9 @@ function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 				$htmlcode = str_replace ('{target}', $target, $htmlcode);
 				$htmlcode = str_replace ('[bannertext]', '', $htmlcode);
 				$htmlcode = str_replace ('[/bannertext]', '', $htmlcode);
+				
+				if ($row['storagetype'] == 'url')
+					$htmlcode = phpAds_replaceVariablesInBannerCode ($htmlcode);
 				
 				$buffer  = $htmlcode;
 				break;
