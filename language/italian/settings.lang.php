@@ -87,9 +87,9 @@ $GLOBALS['strConfigNotWritable']		= "Il file config.inc.php non può essere sovra
 // Global
 $GLOBALS['strChooseSection']			= "Scegli la sezione";
 $GLOBALS['strDayFullNames']				= array("Domenica","Luned&igrave;","Martedi&igrave;","Mercoled&igrave;","Gioved&igrave;","Venerd&igrave;","Sabato");
-$GLOBALS['strEditConfigNotPossible']	= "Non risulta possibile modificare queste ipostazioni a causa del file config.inc.php protetto da scrittura (locked) per aumentare la sicurezza. ".
+$GLOBALS['strEditConfigNotPossible']	= "Non risulta possibile modificare queste ipostazioni a causa del file config.inc.php protetto da scrittura per aumentare la sicurezza. ".
                                           "Se vuoi effettuare cambiamenti devi prima sbloccare il file config.inc.php.";
-$GLOBALS['strEditConfigPossible']		= "Puoi modificare tutte le impostazioni dato che il file config.inc.php risulta (unlocked) non protetto da scrittura, tuttavia consigliamo di proteggerlo per evitare rischi di sicurezza. ".
+$GLOBALS['strEditConfigPossible']		= "Puoi modificare tutte le impostazioni dato che il file config.inc.php risulta non protetto da scrittura, tuttavia consigliamo di proteggerlo per evitare rischi di sicurezza. ".
                                           "Se vuoi rendere maggiormente sicuro il tuo sistema, dovresti proteggere il file.";
 
 
