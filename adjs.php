@@ -62,7 +62,7 @@ function enjavanate ($str, $limit = 60)
 		$line = substr ($str, 0, $limit);
 		$str  = substr ($str, $limit);
 		
-		$line = addcslashes($line, "\0..\37'\\@\177..\377");
+		$line = addcslashes($line, "\0..\37'\\");
 		$line = str_replace('<', "<'+'", $line);
 		
 		print "phpadsbanner += '$line';\n";
