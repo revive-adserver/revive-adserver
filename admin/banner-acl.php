@@ -36,33 +36,45 @@ phpAds_checkAccess(phpAds_Admin);
 
 
 // Define variable types
-$acl_types['weekday']   = $strWeekDay;
-$acl_types['time']		= $strTime;
-$acl_types['clientip']	= $strClientIP;
-$acl_types['domain']	= $strDomain;
-$acl_types['language']	= $strLanguage;
+$type_list['weekday']   = $strWeekDay;
+$type_list['time']		= $strTime;
+$type_list['date']		= $strDate;
+$type_list['clientip']	= $strClientIP;
+$type_list['domain']	= $strDomain;
+$type_list['language']	= $strLanguage;
 
 if ($phpAds_config['geotracking_type'] != 0)
 {
-	$acl_types['country']	= $strCountry;
-	$acl_types['continent']	= $strContinent;
+	$type_list['country']	= $strCountry;
+	$type_list['continent']	= $strContinent;
 }
 
-$acl_types['browser']   = $strBrowser;
-$acl_types['os']		= $strOS;
-$acl_types['useragent']	= $strUserAgent;
-$acl_types['source']	= $strSource;
+$type_list['browser']   = $strBrowser;
+$type_list['os']		= $strOS;
+$type_list['useragent']	= $strUserAgent;
+$type_list['source']	= $strSource;
 
 
-$aclad_types = array(
-		'allow' => $strEqualTo,
-		'deny'  => $strDifferentFrom
-	);
 
-$aclcon_types = array(
-		'or'  => $strOR,
-		'and' => $strAND
-	);
+$comparison_default = array (
+	'==' => $strEqualTo,
+	'!=' => $strDifferentFrom,
+);
+
+$comparison_date = array (
+	'==' => $strEqualTo,
+	'!=' => $strDifferentFrom,
+	'>'  => $strLaterThan,
+	'>=' => $strLaterThanOrEqual,
+	'<'	 => $strEarlierThan,
+	'<=' => $strEarlierThanOrEqual
+);
+
+$logical_default = array (
+	'or'  => $strOR,
+	'and' => $strAND
+);
+
 
 
 
@@ -116,25 +128,33 @@ if (isset($action))
 	if (isset($action['new']))
 	{
 		// Create new limitation
-		$last  = count($acl);
+		$last = count($acl);
 		
-		$acl[$last]['con']  = 'and';
-		$acl[$last]['type'] = $type;
-		$acl[$last]['ad']   = 'allow';
+		$acl[$last]['logical']    = 'and';
+		$acl[$last]['type'] 	  = $type;
+		$acl[$last]['comparison'] = '==';
 		
-		if ($type == 'time' || $type == 'weekday' || 
-			$type == 'browser' || $type == 'os' ||
-			$type == 'country' || $type == 'continent' ||
-			$type == 'language')
+		
+		if ($type == 'time' || $type == 'weekday' || $type == 'browser' || $type == 'os' ||
+			$type == 'country' || $type == 'continent' || $type == 'language')
+		{
 			$acl[$last]['data'] = array();
+		}
+		elseif ($type == 'date')
+		{
+			$acl[$last]['data'] = array('day' => '-', 'month' => '-', 'year' => '-');
+		}
 		else
+		{
 			$acl[$last]['data'] = '';
+		}
 	}
 }
 elseif (isset($submit))
 {
 	if ($phpAds_config['acl'])
 	{
+		
 		// First delete existing limitations
 		phpAds_dbQuery ("
 			DELETE FROM 
@@ -142,6 +162,7 @@ elseif (isset($submit))
 			WHERE 
 				bannerid='".$bannerid."'
 		");
+		
 		
 		// Store limitations
 		if (isset($acl) && count($acl))
@@ -192,24 +213,30 @@ elseif (isset($submit))
 						// Use addslashes because these values are not yet slashes by registerGlobal
 						$acl[$key]['data'] = addslashes('('.implode (')|(', $regs).')');
 					}
+					elseif ($acl[$key]['type'] == 'date')
+					{
+						$acl[$key]['data'] = sprintf('%04d%02d%02d', 
+							$acl[$key]['data']['year'], $acl[$key]['data']['month'], $acl[$key]['data']['day']
+						);
+					}
 				}
 				else
 					$acl[$key]['data'] = '';
+				
 				
 				phpAds_dbQuery ("
 					INSERT INTO
 						".$phpAds_config['tbl_acls']."
 					SET
-						bannerid  = '".$bannerid."',
-						acl_con   = '".$acl[$key]['con']."',
-						acl_type  = '".$acl[$key]['type']."',
-						acl_data  = '".$acl[$key]['data']."',
-						acl_ad    = '".$acl[$key]['ad']."',
-						acl_order = '".$key."'
+						bannerid  	   = '".$bannerid."',
+						logical   	   = '".$acl[$key]['logical']."',
+						type  	  	   = '".$acl[$key]['type']."',
+						data  	  	   = '".$acl[$key]['data']."',
+						comparison     = '".$acl[$key]['comparison']."',
+						executionorder = '".$key."'
 				");
 			}
 		}
-		
 		
 		// Precompile limitation
 		$expression = '';
@@ -221,42 +248,45 @@ elseif (isset($submit))
 			while (list ($key,) = each ($acl))
 			{
 				if ($i > 0)
-					$expression .= ' '.$acl[$key]['con'].' ';
+					$expression .= ' '.$acl[$key]['logical'].' ';
 				
 				switch ($acl[$key]['type'])
 				{
 					case 'clientip':
-						$expression .= "phpAds_aclCheckClientIP(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['ad']."\')";
+						$expression .= "phpAds_aclCheckClientIP(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
 						break;
 					case 'browser':
-						$expression .= "phpAds_aclCheckUseragent(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['ad']."\')";
+						$expression .= "phpAds_aclCheckUseragent(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
 						break;
 					case 'os':
-						$expression .= "phpAds_aclCheckUseragent(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['ad']."\')";
+						$expression .= "phpAds_aclCheckUseragent(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
 						break;
 					case 'useragent':
-						$expression .= "phpAds_aclCheckUseragent(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['ad']."\')";
+						$expression .= "phpAds_aclCheckUseragent(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
 						break;
 					case 'language':
-						$expression .= "phpAds_aclCheckLanguage(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['ad']."\')";
+						$expression .= "phpAds_aclCheckLanguage(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
 						break;
 					case 'country':
-						$expression .= "phpAds_aclCheckCountry(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['ad']."\')";
+						$expression .= "phpAds_aclCheckCountry(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
 						break;
 					case 'continent':
-						$expression .= "phpAds_aclCheckContinent(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['ad']."\')";
+						$expression .= "phpAds_aclCheckContinent(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
 						break;
 					case 'weekday':
-						$expression .= "phpAds_aclCheckWeekday(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['ad']."\')";
+						$expression .= "phpAds_aclCheckWeekday(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
 						break;
 					case 'domain':
-						$expression .= "phpAds_aclCheckDomain(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['ad']."\')";
+						$expression .= "phpAds_aclCheckDomain(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
 						break;
 					case 'source':
-						$expression .= "phpAds_aclCheckSource(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['ad']."\', $"."source)";
+						$expression .= "phpAds_aclCheckSource(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\', $"."source)";
 						break;
 					case 'time':
-						$expression .= "phpAds_aclCheckTime(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['ad']."\')";
+						$expression .= "phpAds_aclCheckTime(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+						break;
+					case 'date':
+						$expression .= "phpAds_aclCheckDate(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
 						break;
 					default:
 						return(0);
@@ -280,33 +310,35 @@ elseif (isset($submit))
 	}
 	
 	
-	// Set time limit
-	if (isset($time))
+	if ($phpAds_config['log_beacon'])
 	{
-		$block = 0;
-		if ($time['second'] != '-') $block += (int)$time['second'];
-		if ($time['minute'] != '-') $block += (int)$time['minute'] * 60;
-		if ($time['hour'] != '-') 	$block += (int)$time['hour'] * 3600;
+		// Set time limit
+		if (isset($time))
+		{
+			$block = 0;
+			if ($time['second'] != '-') $block += (int)$time['second'];
+			if ($time['minute'] != '-') $block += (int)$time['minute'] * 60;
+			if ($time['hour'] != '-') 	$block += (int)$time['hour'] * 3600;
+		}
+		else
+			$block = 0;
+		
+		// Set capping
+		if (isset($cap) && $cap != '-')
+			$cap = (int)$cap;
+		else
+			$cap = 0;
+		
+		
+		$res = phpAds_dbQuery("
+			UPDATE
+				".$phpAds_config['tbl_banners']."
+			SET
+				block='".$block."', capping='".$cap."'
+			WHERE
+				bannerid='".$bannerid."'
+		") or phpAds_sqlDie();
 	}
-	else
-		$block = 0;
-	
-	// Set capping
-	if (isset($cap) && $cap != '-')
-		$cap = (int)$cap;
-	else
-		$cap = 0;
-	
-	
-	$res = phpAds_dbQuery("
-		UPDATE
-			".$phpAds_config['tbl_banners']."
-		SET
-			block='".$block."', capping='".$cap."'
-		WHERE
-			bannerid='".$bannerid."'
-	") or phpAds_sqlDie();
-	
 	
 	
 	// Rebuild cache
@@ -314,7 +346,6 @@ elseif (isset($submit))
 		include (phpAds_path.'/libraries/deliverycache/cache-'.$phpAds_config['delivery_caching'].'.inc.php');
 	
 	phpAds_cacheDelete();
-	
 	
 	Header ('Location: banner-zone.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid);
 }
@@ -425,57 +456,87 @@ if (!isset($acl) && $phpAds_config['acl'])
 			".$phpAds_config['tbl_acls']."
 		WHERE
 			bannerid = '".$bannerid."'
-		ORDER BY acl_order
+		ORDER BY
+			executionorder
 	") or phpAds_sqlDie();
 	
 	while ($row = phpAds_dbFetchArray ($res))
 	{
-		$acl[$row['acl_order']]['con'] 	= $row['acl_con'];
-		$acl[$row['acl_order']]['type'] = $row['acl_type'];
-		$acl[$row['acl_order']]['ad'] 	= $row['acl_ad'];
+		$acl[$row['executionorder']]['logical'] 	= $row['logical'];
+		$acl[$row['executionorder']]['type'] 		= $row['type'];
+		$acl[$row['executionorder']]['comparison'] 	= $row['comparison'];
 		
-		if ($row['acl_type'] == 'time' || $row['acl_type'] == 'weekday' || 
-			$row['acl_type'] == 'country' || $row['acl_type'] == 'continent')
+		// Misc lists
+		if ($row['type'] == 'time' || $row['type'] == 'weekday' || 
+			$row['type'] == 'country' || $row['type'] == 'continent')
 		{
-			$acl[$row['acl_order']]['data'] = explode (',', $row['acl_data']);
+			$acl[$row['executionorder']]['data'] = explode (',', $row['data']);
 		}
-		elseif ($row['acl_type'] == 'language')
+		
+		// Languages
+		elseif ($row['type'] == 'language')
 		{
-			if (ereg("^\(.*\)$", $row['acl_data']))
-				$row['acl_data'] = substr($row['acl_data'], 1, strlen($row['acl_data']) - 2);
+			if (ereg("^\(.*\)$", $row['data']))
+				$row['data'] = substr($row['data'], 1, strlen($row['data']) - 2);
 			
-			$acl[$row['acl_order']]['data'] = explode (')|(', $row['acl_data']);
+			$acl[$row['executionorder']]['data'] = explode (')|(', $row['data']);
 		}
-		elseif ($row['acl_type'] == 'browser')
+		
+		// Browsers
+		elseif ($row['type'] == 'browser')
 		{
-			if (ereg("^\(.*\)$", $row['acl_data']))
-				$row['acl_data'] = substr($row['acl_data'], 1, strlen($row['acl_data']) - 2);
+			if (ereg("^\(.*\)$", $row['data']))
+				$row['data'] = substr($row['data'], 1, strlen($row['data']) - 2);
 			
-			$keys = explode (')|(', $row['acl_data']);
+			$keys = explode (')|(', $row['data']);
 			
 			while (list($k,$v) = each($keys))
 			{
 				reset ($phpAds_Browser);
 				while (list($tk,$tv) = each ($phpAds_Browser))
-					if ($tv == $v) $acl[$row['acl_order']]['data'][] = $tk;
+					if ($tv == $v) $acl[$row['executionorder']]['data'][] = $tk;
 			}
 		}
-		elseif ($row['acl_type'] == 'os')
+		
+		// Operating systems
+		elseif ($row['type'] == 'os')
 		{
-			if (ereg("^\(.*\)$", $row['acl_data']))
-				$row['acl_data'] = substr($row['acl_data'], 1, strlen($row['acl_data']) - 2);
+			if (ereg("^\(.*\)$", $row['data']))
+				$row['data'] = substr($row['data'], 1, strlen($row['data']) - 2);
 			
-			$keys = explode (')|(', $row['acl_data']);
+			$keys = explode (')|(', $row['data']);
 			
 			while (list($k,$v) = each($keys))
 			{
 				reset ($phpAds_OS);
 				while (list($tk,$tv) = each ($phpAds_OS))
-					if ($tv == $v) $acl[$row['acl_order']]['data'][] = $tk;
+					if ($tv == $v) $acl[$row['executionorder']]['data'][] = $tk;
 			}
 		}
+		
+		elseif ($row['type'] == 'date')
+		{
+			if ($row['data'] == '00000000')
+			{
+				$acl[$row['executionorder']]['data'] = array(
+					'day' => '-',
+					'month' => '-',
+					'year' => '-'
+				);
+			}
+			else
+			{
+				$acl[$row['executionorder']]['data'] = array(
+					'day'   => substr($row['data'], 6, 2),
+					'month' => substr($row['data'], 4, 2),
+					'year'  => substr($row['data'], 0, 4)
+				);
+			}
+		}
+		
+		// Others
 		else
-			$acl[$row['acl_order']]['data'] = addslashes($row['acl_data']);
+			$acl[$row['executionorder']]['data'] = addslashes($row['data']);
 	}
 }
 
@@ -552,7 +613,7 @@ if ($phpAds_config['acl'])
 		reset($acl);
 		while (list ($key,) = each ($acl))
 		{
-			if ($acl[$key]['con'] == 'or' && $current_i > 0)
+			if ($acl[$key]['logical'] == 'or' && $current_i > 0)
 			{
 				echo "<tr><td colspan='4'><img src='images/break-el.gif' width='100%' height='1'></td></tr>";
 				$previous_i++;
@@ -567,34 +628,39 @@ if ($phpAds_config['acl'])
 			echo "<tr height='35' bgcolor='$bgcolor'>";
 			echo "<td width='100'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 			if ($key == 0)
-				echo "<input type='hidden' name='acl[".$key."][con]' value='".$acl[$key]['con']."'>&nbsp;";
+				echo "<input type='hidden' name='acl[".$key."][logical]' value='".$acl[$key]['logical']."'>&nbsp;";
 			else
 			{
-				echo "<select name='acl[".$key."][con]' tabindex='".($tabindex++)."'>";
+				echo "<select name='acl[".$key."][logical]' tabindex='".($tabindex++)."'>";
 				
-				reset($aclcon_types);
-				while (list ($aclcon_type, $aclcon_name) = each ($aclcon_types))
+				reset($logical_default);
+				while (list ($logical_type, $logical_name) = each ($logical_default))
 				{
 					echo "<option value=";
-					printf("\"%s\" %s>", $aclcon_type, $aclcon_type == $acl[$key]['con'] ? 'selected' : '');
-					echo "$aclcon_name\n";
+					printf("'%s'%s>", $logical_type, $logical_type == $acl[$key]['logical'] ? ' selected' : '');
+					echo $logical_name."\n";
 				}
 				
 				echo "</select>";
 			}
 			
 			echo "</td><td width='130'>";
-			echo "<img src='images/icon-acl.gif' align='absmiddle'>&nbsp;".$acl_types[$acl[$key]['type']];
+			echo "<img src='images/icon-acl.gif' align='absmiddle'>&nbsp;".$type_list[$acl[$key]['type']];
 			echo "<input type='hidden' name='acl[".$key."][type]' value='".$acl[$key]['type']."'>";
 			echo "</td><td >";
-			echo "<select name='acl[".$key."][ad]' tabindex='".($tabindex++)."'>";
+			echo "<select name='acl[".$key."][comparison]' tabindex='".($tabindex++)."'>";
 			
-			reset($aclad_types);
-			while (list ($acl_ad, $acl_name) = each ($aclad_types))
+			if ($acl[$key]['type'] == 'date')
+				$comparison_list = $comparison_date;
+			else
+				$comparison_list = $comparison_default;
+			
+			reset($comparison_list);
+			while (list ($comparison_type, $comparison_name) = each ($comparison_list))
 			{
 				echo "<option value=";
-				printf("\"%s\" %s>", $acl_ad, $acl_ad == $acl[$key]['ad'] ? 'selected' : '');
-				echo "$acl_name\n";
+				printf("'%s'%s>", $comparison_type, $comparison_type == $acl[$key]['comparison'] ? ' selected' : '');
+				echo $comparison_name."\n";
 			}
 			echo "</select></td>";
 			
@@ -649,41 +715,86 @@ if ($phpAds_config['acl'])
 				if (($i + 1) % 4 != 0) echo "</tr>";
 				echo "</table>";
 			}
+			elseif ($acl[$key]['type'] == 'date')
+			{
+				if (!isset($acl[$key]['data']))
+					$acl[$key]['data'] = array('day' => '-', 'month' => '-', 'year' => '-');
+				
+				
+				echo "<select name='acl[".$key."][data][day]' tabindex='".($tabindex++)."'>";
+				echo "<option value='-'".($acl[$key]['data']['day']=='-' ? ' selected' : '').">-</option>";
+				for ($i=1;$i<=31;$i++)
+					echo "<option value='$i'".($acl[$key]['data']['day']==$i ? ' selected' : '').">$i</option>";
+				echo "</select>&nbsp;";
+				
+				echo "<select name='acl[".$key."][data][month]' tabindex='".($tabindex++)."'>";
+				echo "<option value='-'".($acl[$key]['data']['month']=='-' ? ' selected' : '').">-</option>";
+				for ($i=1;$i<=12;$i++)
+					echo "<option value='$i'".($acl[$key]['data']['month']==$i ? ' selected' : '').">".$strMonth[$i-1]."</option>";
+				echo "</select>&nbsp;";
+				
+				if ($acl[$key]['data']['year'] != '-')
+					$s = $acl[$key]['data']['year'] < date('Y') ? $acl[$key]['data']['year'] : date('Y');
+				else
+					$s = date('Y');
+				
+				echo "<select name='acl[".$key."][data][year]' tabindex='".($tabindex++)."'>";
+				echo "<option value='-'".($acl[$key]['data']['year']=='-' ? ' selected' : '').">-</option>";
+				for ($i=$s;$i<=($s+4);$i++)
+					echo "<option value='$i'".($acl[$key]['data']['year']==$i ? ' selected' : '').">$i</option>";
+				echo "</select>\n";
+			}
 			elseif ($acl[$key]['type'] == 'language')
 			{
 				if (!isset($acl[$key]['data']))
 					$acl[$key]['data'] = array();
 				
-				echo "<select name='acl[".$key."][data][]' multiple size='6' style='width: 275;' tabindex='".($tabindex++)."'>";
+				echo "<div class='box'>";
 				
 				while (list($iso,$fullname) = each ($phpAds_ISO639))
-					echo "<option value='$iso'".(in_array ($iso, $acl[$key]['data']) ? ' selected' : '').">".$fullname."</option>";
+				{
+					echo "<div class='boxrow' onMouseOver='boxrow_over(this);' onMouseOut='boxrow_leave(this);' onClick='o=findObj(\"check_".$key."_".$iso."\"); o.checked = !o.checked;'>";
+					echo "<input onClick='boxrow_nonbubble();' tabindex='".($tabindex++)."' ";
+					echo "type='checkbox' id='check_".$key."_".$iso."' name='acl[".$key."][data][]' value='$iso'".(in_array ($iso, $acl[$key]['data']) ? ' checked' : '')." align='middle'>".$fullname;
+					echo "</div>";
+				}
 				
-				echo "</select>";
+				echo "</div>";
 			}
 			elseif ($acl[$key]['type'] == 'country')
 			{
 				if (!isset($acl[$key]['data']))
 					$acl[$key]['data'] = array();
 				
-				echo "<select name='acl[".$key."][data][]' multiple size='6' style='width: 275;' tabindex='".($tabindex++)."'>";
+				
+				echo "<div class='box'>";
 				
 				while (list($iso,$fullname) = each ($phpAds_ISO3166))
-					echo "<option value='$iso'".(in_array ($iso, $acl[$key]['data']) ? ' selected' : '').">".$fullname."</option>";
+				{
+					echo "<div class='boxrow' onMouseOver='boxrow_over(this);' onMouseOut='boxrow_leave(this);' onClick='o=findObj(\"c_".$key."_".$iso."\"); o.checked = !o.checked;'>";
+					echo "<input onClick='boxrow_nonbubble();' tabindex='".($tabindex++)."' ";
+					echo "type='checkbox' id='c_".$key."_".$iso."' name='acl[".$key."][data][]' value='$iso'".(in_array ($iso, $acl[$key]['data']) ? ' checked' : '').">".$fullname;
+					echo "</div>";
+				}
 				
-				echo "</select>";
+				echo "</div>";
 			}
 			elseif ($acl[$key]['type'] == 'continent')
 			{
 				if (!isset($acl[$key]['data']))
 					$acl[$key]['data'] = array();
 				
-				echo "<select name='acl[".$key."][data][]' multiple size='6' style='width: 275;' tabindex='".($tabindex++)."'>";
+				echo "<div class='box'>";
 				
 				while (list($iso,$fullname) = each ($phpAds_cont_name))
-					echo "<option value='$iso'".(in_array ($iso, $acl[$key]['data']) ? ' selected' : '').">".$fullname."</option>";
+				{
+					echo "<div class='boxrow' onMouseOver='boxrow_over(this);' onMouseOut='boxrow_leave(this);' onClick='o=findObj(\"check_".$key."_".$iso."\"); o.checked = !o.checked;'>";
+					echo "<input onClick='boxrow_nonbubble();' tabindex='".($tabindex++)."' ";
+					echo "type='checkbox' id='check_".$key."_".$iso."' name='acl[".$key."][data][]' value='$iso'".(in_array ($iso, $acl[$key]['data']) ? ' checked' : '')." align='middle'>".$fullname;
+					echo "</div>";
+				}
 				
-				echo "</select>";
+				echo "</div>";
 			}
 			elseif ($acl[$key]['type'] == 'browser')
 			{
@@ -757,12 +868,12 @@ if ($phpAds_config['acl'])
 	echo "<img src='images/icon-acl-add.gif' align='absmiddle'>&nbsp;";
 	echo "<select name='type' accesskey='".$keyAddNew."' tabindex='".($tabindex++)."'>";
 	
-	reset($acl_types);
-	while (list ($acl_type, $acl_name) = each ($acl_types))
+	reset($type_list);
+	while (list ($type_id, $type_name) = each ($type_list))
 	{
 		echo "<option value=";
-		printf("\"%s\" %s>", $acl_type, $acl_type == 'weekday' ? 'selected':''); 
-		echo "$acl_name\n";
+		printf("'%s'%s>", $type_id, $type_id == 'weekday' ? ' selected' : '');
+		echo $type_name."\n";
 	}
 	
 	echo "</select>";
@@ -775,31 +886,33 @@ if ($phpAds_config['acl'])
 }
 
 
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#FFFFFF'>";
-echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><b>".$strDeliveryCapping."</b></td></tr>";
-echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-
-echo "<tr><td width='30'>&nbsp;</td>";
-echo "<td width='200'>".$strTimeCapping."</td>";
-echo "<td valign='top'>";
-echo "<input id='timehour' class='flat' type='text' size='3' name='time[hour]' value='".$time['hour']."' onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> ".$strHours." &nbsp;&nbsp;";
-echo "<input id='timeminute' class='flat' type='text' size='3' name='time[minute]' value='".$time['minute']."' onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> ".$strMinutes." &nbsp;&nbsp;";
-echo "<input id='timesecond' class='flat' type='text' size='3' name='time[second]' value='".$time['second']."' onBlur=\"phpAds_formLimitBlur(this);\" onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> ".$strSeconds." &nbsp;&nbsp;";
-echo "</td></tr>";
-echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-
-echo "<tr><td width='30'>&nbsp;</td>";
-echo "<td width='200'>".$strImpressionCapping."</td>";
-echo "<td valign='top'>";
-echo "<input class='flat' type='text' size='3' name='cap' value='".$cap."' onBlur=\"phpAds_formCapBlur(this);\" tabindex='".($tabindex++)."'> ".$strTimes;
-echo "</td></tr>";
-
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-echo "</table>";
-
+if ($phpAds_config['log_beacon'])
+{
+	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#FFFFFF'>";
+	echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><b>".$strDeliveryCapping."</b></td></tr>";
+	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+	
+	echo "<tr><td width='30'>&nbsp;</td>";
+	echo "<td width='200'>".$strTimeCapping."</td>";
+	echo "<td valign='top'>";
+	echo "<input id='timehour' class='flat' type='text' size='3' name='time[hour]' value='".$time['hour']."' onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> ".$strHours." &nbsp;&nbsp;";
+	echo "<input id='timeminute' class='flat' type='text' size='3' name='time[minute]' value='".$time['minute']."' onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> ".$strMinutes." &nbsp;&nbsp;";
+	echo "<input id='timesecond' class='flat' type='text' size='3' name='time[second]' value='".$time['second']."' onBlur=\"phpAds_formLimitBlur(this);\" onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> ".$strSeconds." &nbsp;&nbsp;";
+	echo "</td></tr>";
+	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+	
+	echo "<tr><td width='30'>&nbsp;</td>";
+	echo "<td width='200'>".$strImpressionCapping."</td>";
+	echo "<td valign='top'>";
+	echo "<input class='flat' type='text' size='3' name='cap' value='".$cap."' onBlur=\"phpAds_formCapBlur(this);\" tabindex='".($tabindex++)."'> ".$strTimes;
+	echo "</td></tr>";
+	
+	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	echo "</table>";
+}
 
 
 echo "<br><br><br>";

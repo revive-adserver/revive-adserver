@@ -189,13 +189,13 @@ CREATE TABLE phpads_session (
 
 CREATE TABLE phpads_acls (
    bannerid mediumint(9) DEFAULT '0' NOT NULL,
-   acl_con set('and','or') NOT NULL,
-   acl_type enum('clientip','useragent','weekday','domain','source','time','language','browser','os','country','continent') DEFAULT 'clientip' NOT NULL,
-   acl_data varchar(255) NOT NULL,
-   acl_ad set('allow','deny') NOT NULL,
-   acl_order int(10) unsigned DEFAULT '0' NOT NULL,
+   logical set('and','or') NOT NULL,
+   type char(16) DEFAULT '' NOT NULL,
+   comparison char(2) DEFAULT '==' NOT NULL,
+   data text NOT NULL,
+   executionorder int(10) unsigned DEFAULT '0' NOT NULL,
    KEY bannerid (bannerid),
-   UNIQUE bannerid_2 (bannerid,acl_order)
+   UNIQUE bannerid_executionorder (bannerid,executionorder)
 );
 
 

@@ -94,7 +94,11 @@ function phpAds_upgradeDatabase ($tabletype = '')
 	
 	// Upgrade append type to zones when possible
 	phpAds_upgradeAppendZones();
-
+	
+	// Upgrade append type to zones when possible
+	phpAds_upgradeDisplayLimitations();
+	
+	
 	return true;
 }
 
@@ -777,11 +781,11 @@ function phpAds_upgradeAppendZones ()
 				WHERE
 					appendtype = ".phpAds_ZoneAppendRaw."
 			");
-
+		
 		while ($row = phpAds_dbFetchArray($res))
 		{
 			$append = phpAds_ZoneParseAppendCode($row['append']);
-
+			
 			if ($append[0]['zoneid'])
 			{
 				phpAds_dbQuery("
@@ -794,6 +798,68 @@ function phpAds_upgradeAppendZones ()
 					");
 			}
 		}
+	}
+}
+
+function phpAds_upgradeDisplayLimitations()
+{
+	global $phpAds_config;
+	
+	if (!isset($phpAds_config['config_version']) ||	$phpAds_config['config_version'] < 200.125)
+	{
+		$res = phpAds_dbQuery("
+				SELECT
+					*
+				FROM
+					".$phpAds_config['tbl_acls']."
+		");
+		
+		
+		while ($row = phpAds_dbFetchArray($res))
+		{
+			$data['logical'] 		= $row['acl_con'];
+			$data['type']	 		= $row['acl_type'];
+			$data['executionorder'] = $row['acl_order'];
+			$data['data']			= addslashes($row['acl_data']);
+			$data['comparison']		= $row['acl_ad'] == 'allow' ? '==' : '!=';
+			
+			phpAds_dbQuery("
+				UPDATE
+					".$phpAds_config['tbl_acls']."
+				SET
+					logical 		= '".$row['acl_con']."',
+					type	 		= '".$row['acl_type']."',
+					executionorder  = '".$row['acl_order']."',
+					data			= '".addslashes($row['acl_data'])."',
+					comparison		= '".($row['acl_ad'] == 'allow' ? '==' : '!=')."'
+				WHERE
+					bannerid = '".$row['bannerid']."' AND
+					acl_order = '".$row['acl_order']."'
+			");
+		}
+		
+		// Drop old unique key
+		phpAds_dbQuery("
+			ALTER TABLE 
+				".$phpAds_config['tbl_acls']."
+			DROP INDEX
+				bannerid_2
+		");
+		
+		// Create new unique key
+		phpAds_dbQuery("
+			ALTER TABLE 
+				".$phpAds_config['tbl_acls']."
+			ADD UNIQUE
+				bannerid_executionorder (bannerid,executionorder)
+		");
+		
+		// Delete old columns
+		phpAds_dbQuery("ALTER TABLE ".$phpAds_config['tbl_acls']." DROP COLUMN acl_con");
+		phpAds_dbQuery("ALTER TABLE ".$phpAds_config['tbl_acls']." DROP COLUMN acl_type");
+		phpAds_dbQuery("ALTER TABLE ".$phpAds_config['tbl_acls']." DROP COLUMN acl_data");
+		phpAds_dbQuery("ALTER TABLE ".$phpAds_config['tbl_acls']." DROP COLUMN acl_ad");
+		phpAds_dbQuery("ALTER TABLE ".$phpAds_config['tbl_acls']." DROP COLUMN acl_order");
 	}
 }
 

@@ -25,79 +25,14 @@ function phpAds_aclCheck($row, $source)
 	if (isset($row['compiledlimitation']) &&
 		$row['compiledlimitation'] != '')
 	{
-		eval('$result = ('.$row['compiledlimitation'].');');
-		return($result);
+		// Set to true in case of error in eval
+		$result = true;
+		
+		@eval('$result = ('.$row['compiledlimitation'].');');
+		return ($result);
 	}
 	else
-	{
-		$bannerid = $row['bannerid'];
-		
-		// Execute Query
-		$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_acls']."
-						 	   WHERE bannerid = '$bannerid' ORDER by acl_order");
-		
-		if (phpAds_dbNumRows($res) == 0)
-		{
-			// No ACLs, show banner
-			return(true);
-		}
-		
-		// Check all ACLs
-		$expression = '';
-		$i = 0;
-		
-		while ($aclrow = phpAds_dbFetchArray($res)) 
-		{
-			if ($i > 0)
-				$expression .= ' '.$aclrow['acl_con'].' ';
-			
-			switch ($aclrow['acl_type'])
-			{
-				case 'clientip':
-					$expression .= "phpAds_aclCheckClientIP('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."')";
-					break;
-				case 'useragent':
-					$expression .= "phpAds_aclCheckUseragent('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."')";
-					break;
-				case 'browser':
-					$expression .= "phpAds_aclCheckUseragent('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."')";
-					break;
-				case 'os':
-					$expression .= "phpAds_aclCheckUseragent('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."')";
-					break;
-				case 'language':
-					$expression .= "phpAds_aclCheckLanguage('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."')";
-					break;
-				case 'country':
-					$expression .= "phpAds_aclCheckCountry('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."')";
-					break;
-				case 'continent':
-					$expression .= "phpAds_aclCheckContinent('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."')";
-					break;
-				case 'weekday':
-					$expression .= "phpAds_aclCheckWeekday('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."')";
-					break;
-				case 'domain':
-					$expression .= "phpAds_aclCheckDomain('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."')";
-					break;
-				case 'source':
-					$expression .= "phpAds_aclCheckSource('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."', '".$source."')";
-					break;
-				case 'time':
-					$expression .= "phpAds_aclCheckTime('".addslashes($aclrow['acl_data'])."', '".$aclrow['acl_ad']."')";
-					break;
-				default:
-					return(0);
-			}
-			
-			$i++;
-		}
-		
-		// Evaluate expression and return
-		@eval('$result = ('.$expression.');');
-		
-		return($result);
-	}
+		return (true);
 }
 
 
@@ -114,7 +49,7 @@ function phpAds_aclCheckWeekday($data, $ad)
 	$day = date('w');
 	
 	$expression = ($data == "*" || $data == $day || in_array ($day, explode(',', $data)));
-	$operator   = $ad == 'allow';
+	$operator   = $ad == '==';
 	return ($expression == $operator);
 }
 
@@ -133,8 +68,8 @@ function phpAds_aclCheckUseragent($data, $ad)
 	
 	$agent = $HTTP_SERVER_VARS['HTTP_USER_AGENT'];
 	
-	$expression = ($data == "*" || eregi($data, $agent));
-	$operator   = $ad == 'allow';
+	$expression = ($data == "*" || preg_match('#'.$data.'#', $agent));
+	$operator   = $ad == '==';
 	return ($expression == $operator);
 }
 
@@ -185,7 +120,7 @@ function phpAds_aclCheckClientip($data, $ad)
 	$phost 	= pack('C4', $host[0], $host[1], $host[2], $host[3]);
 	
 	$expression = ($data == "*" || ($phost & $pmask) == $pnet);
-	$operator   = $ad == 'allow';
+	$operator   = $ad == '==';
 	return ($expression == $operator);
 }
 
@@ -206,7 +141,7 @@ function phpAds_aclCheckDomain($data, $ad)
 	
 	$domain 	= substr($host,-(strlen($data)));
 	$expression = ($data == "*" || strtolower($domain) == strtolower($data)) ;
-	$operator   = $ad == 'allow';
+	$operator   = $ad == '==';
 	return ($expression == $operator);
 }
 
@@ -225,8 +160,8 @@ function phpAds_aclCheckLanguage($data, $ad)
 	
 	$source = $HTTP_SERVER_VARS['HTTP_ACCEPT_LANGUAGE'];
 	
-	$expression = ($data == "*" || eregi('^('.$data.')', $source));
-	$operator   = $ad == 'allow';
+	$expression = ($data == "*" || preg_match('#^('.$data.')#', $source));
+	$operator   = $ad == '==';
 	return ($expression == $operator);
 }
 
@@ -242,8 +177,8 @@ function phpAds_aclCheckSource($data, $ad, $source)
 		return (true);
 	
 	$expression = ($data == "*" || strtolower($source) == strtolower($data) || 
-				   eregi('^'.str_replace('*', '[a-z0-9]*', $data).'$', $source));
-	$operator   = $ad == 'allow';
+				   preg_match('#^'.str_replace('*', '[a-z0-9]*', $data).'$#i', $source));
+	$operator   = $ad == '==';
 	return ($expression == $operator);
 }
 
@@ -261,8 +196,45 @@ function phpAds_aclCheckTime($data, $ad)
 	$time = date('G');
 	
 	$expression = ($data == "*" || $data == $time || in_array ($time, explode(',', $data)));
-	$operator   = $ad == 'allow';
+	$operator   = $ad == '==';
 	return ($expression == $operator);
+}
+
+
+
+/*********************************************************/
+/* Check if the Date ACL is valid                        */
+/*********************************************************/
+
+function phpAds_aclCheckDate($data, $ad)
+{
+	if ($data == '' && $data == '00000000')
+		return (true);
+	
+	$date = date('Ymd');
+	
+	switch ($ad)
+	{
+		case '==':
+			return ($date == $data); break;
+		
+		case '!=':
+			return ($date != $data); break;
+		
+		case '<=':
+			return ($date <= $data); break;
+		
+		case '>=':
+			return ($date >= $data); break;
+		
+		case '<':
+			return ($date < $data);  break;
+		
+		case '>':
+			return ($date > $data);  break;
+	}
+	
+	return (true);
 }
 
 
@@ -304,7 +276,7 @@ function phpAds_aclCheckCountry($data, $ad)
 	
 	// Evaluate country code
 	$expression = ($data == $phpAds_CountryLookup || in_array ($phpAds_CountryLookup, explode(',', $data)));
-	$operator   = $ad == 'allow';
+	$operator   = $ad == '==';
 	return ($expression == $operator);
 }
 
@@ -354,7 +326,7 @@ function phpAds_aclCheckContinent($data, $ad)
 	
 	// Evaluate continent code
 	$expression = ($data == $phpAds_ContinentLookup || in_array ($phpAds_ContinentLookup, explode(',', $data)));
-	$operator   = $ad == 'allow';
+	$operator   = $ad == '==';
 	return ($expression == $operator);
 }
 

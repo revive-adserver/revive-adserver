@@ -138,3 +138,31 @@ function phpAds_CopyClipboard(obj)
 		window.clipboardData.setData('Text', obj.value);
 	}
 }
+
+
+/*********************************************************/
+/* Copy the contents of a field to the clipboard         */
+/*********************************************************/
+
+function boxrow_over(obj)
+{
+	obj.style.backgroundColor='#F6F6F6';
+}
+
+function boxrow_leave(obj)
+{
+	obj.style.backgroundColor='#FFFFFF';
+}
+
+function boxrow_nonbubble()
+{
+	if (event.stopPropagation) 
+	{ 
+		event.stopPropagation(); 
+	} 
+	else 
+	{ 
+		event.cancelBubble = true; 
+	}
+}
+
