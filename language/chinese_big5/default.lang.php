@@ -400,4 +400,7 @@ $GLOBALS['strDistribution']				= "Distribution";
 $GLOBALS['strOther']					= "Other";
 $GLOBALS['strUnknown']					= "Unknown";
 
+$GLOBALS['strWelcomeTo']				= "Welcome to";
+$GLOBALS['strEnterUsername']			= "Enter your username and password to log in";
+
 ?>

@@ -394,4 +394,7 @@ $GLOBALS['strDistribution']				= "Verdeling";
 $GLOBALS['strOther']					= "Andere";
 $GLOBALS['strUnknown']					= "Onbekend";
 
+$GLOBALS['strWelcomeTo']				= "Welkom bij";
+$GLOBALS['strEnterUsername']			= "Vul uw gebruikersnaam en wachtwoord in om in te loggen";
+
 ?>
