@@ -66,6 +66,16 @@ French
 
 
 
+German
+	---------------------------------------------------------
+	Maintained by:	   Rayner Jankowski (infoi@Werbeplatzvermarktung.de)
+	Is up-to-date?	   Yes
+	Last update:	   3 April 2003
+	Translated files:  7
+	---------------------------------------------------------
+
+
+
 Hebrew
 	---------------------------------------------------------
 	Maintained by:	   Reuven Mansharoff (reuven@act.co.il)
