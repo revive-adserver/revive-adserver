@@ -40,7 +40,7 @@
                 </tr>
         <tr>
             <td bgcolor="#FFFFFF">Time (0-23)</td>
-            <td bgcolor="#FFFFFF">Stunde, von 0 (= mitternacht) bis 23 (= 23:00)</td>
+            <td bgcolor="#FFFFFF">Stunde, von 0 (= Mitternacht) bis 23 (= 23:00)</td>
             <td bgcolor="#FFFFFF">Banner nur zu bestimmten Stunden zeigen.</td>
         </tr>
             </table>

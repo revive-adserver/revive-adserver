@@ -318,9 +318,9 @@ $GLOBALS['strNoMoveUp'] 				= "Kann nicht zur ersten Zeile gehen";
 $GLOBALS['strACLAdd'] 					= "Neue Beschränkung hinzufügen";
 $GLOBALS['strNoLimitations']			= "Keine Beschränkungen";
 
-$GLOBALS['strLinkedZones']				= "Linked Zones";
-$GLOBALS['strNoZonesToLink']			= "There are no zones available to which this banner can be linked";
+$GLOBALS['strLinkedZones']				= "Verknüpfte Zonen";
+$GLOBALS['strNoZonesToLink']			= "Es gibt keine Zonen, mit denen dieser Banner verknüpft werden kann";
 
-$GLOBALS['strCustom']					= "Custom";
+$GLOBALS['strCustom']					= "Benutzerdefiniert";
 
 ?>
