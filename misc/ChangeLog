@@ -7,6 +7,8 @@ CVS
 			  - 2003-04-16:  Added transparent background and no-border support to simple interstitial layerstyle  (Matteo)
 			  - 2003-05-08:  Added ability to use tabs and place quotes around fields in csv report files  (Niels)
 			  - 2003-05-20:  Added error message when trying to install phpAdsNew using a PHP version affected by bug #20144, which makes the installer fail  (Matteo)
+			  - 2003-05-22:  The banner append code was largely rewritten to allow appending individual banners  (Niels)
+			
 
 			+ Misc bugfixes
 			  - 2003-04-13:  Logging of geodata for Adclicks didn't work properly  (Niels)
