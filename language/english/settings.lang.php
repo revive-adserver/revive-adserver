@@ -28,7 +28,7 @@ $GLOBALS['strFatalError']			= "A fatal error occurred";
 $GLOBALS['strUpdateError']			= "An error occured while updating";
 $GLOBALS['strUpdateDatabaseError']	= "Due to unknown reasons the update of the database structure wasn't succesful. The recommended way to proceed is to click <b>Retry updating</b> to try to correct these potential problems. If you are sure these errors won't affect the functionality of ".$phpAds_productname." you can click <b>Ignore errors</b> to continue. Ignoring these errors may cause serious problems and is not recommended!";
 $GLOBALS['strAlreadyInstalled']			= $phpAds_productname." is already installed on this system. If you want to configure it go to <a href='settings-index.php'>settings interface</a>";
-$GLOBALS['strCouldNotConnectToDB']		= "Could not connect to database, please recheck the settings you specified";
+$GLOBALS['strCouldNotConnectToDB']		= "Could not connect to the database, please recheck the settings you specified. Also make sure that a database with the name you specified already exists on the database server. ".$phpAds_productname." will not create the database for you, you must create it manually before running the installer.";
 $GLOBALS['strCreateTableTestFailed']		= "The user you specified doesn't have permission to create or update the database structure, please contact the database administrator.";
 $GLOBALS['strUpdateTableTestFailed']		= "The user you specified doesn't have permission to update the database structure, please contact the database administrator.";
 $GLOBALS['strTablePrefixInvalid']		= "Table prefix contains invalid characters";
@@ -217,6 +217,7 @@ $GLOBALS['strGeotargeting']				= "Geotargeting";
 $GLOBALS['strGeotrackingType']			= "Type of geotargeting database";
 $GLOBALS['strGeotrackingLocation'] 		= "Geotargeting database location";
 $GLOBALS['strGeotrackingLocationError'] = "The geotargeting database does not exist in the location you specified";
+$GLOBALS['strGeotrackingLocationNoHTTP']	= "The location you supplied is not a local directory on the hard drive of the server, but an URL to a file on a webserver. The location should look similar to this: <i>{example}</i>. The actual location depends on where you copied the database.";
 $GLOBALS['strGeoStoreCookie']			= "Store the result in a cookie for future reference";
 
 

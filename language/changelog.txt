@@ -17,6 +17,10 @@
 
   ====================================================
 
+  06-09-2003 - settings
+    [+] strGeotrackingLocationNoHTTP
+    [u] strCouldNotConnectToDB
+
   05-22-2003 - default
     [+] strAppendType
     [+] strAppendHTMLCode
