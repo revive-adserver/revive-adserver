@@ -49,9 +49,9 @@ function phpAds_Start()
 	}
 	
 	// Overwrite certain preset preferences
-	if ($Session[language] != '' && $Session[language] != $phpAds_language)
+	if (isset($Session['language']) && $Session['language'] != $phpAds_language)
 	{
-		$phpAds_language = $Session[language];
+		$phpAds_language = $Session['language'];
 	}
 }
 
@@ -82,7 +82,7 @@ function phpAds_checkAccess ($allowed)
 	global $Session;
 	global $strNotAdmin, $strAccessDenied;
 	
-	if (!($allowed & $Session[usertype]))
+	if (!($allowed & $Session['usertype']))
 	{
 		// No permission to access this page!
 		phpAds_PageHeader($GLOBALS["strAuthentification"]);
@@ -100,7 +100,11 @@ function phpAds_checkAccess ($allowed)
 function phpAds_isUser ($allowed)
 {
 	global $Session;
-	return ($allowed & (int)$Session[usertype]);
+	
+	if (isset($Session['usertype']))
+		return ($allowed & (int)$Session['usertype']);
+	else
+		return false;
 }
 
 
@@ -112,7 +116,7 @@ function phpAds_isUser ($allowed)
 function phpAds_isAllowed ($allowed)
 {
 	global $Session;
-	return ($allowed & (int)$Session[permissions]);
+	return ($allowed & (int)$Session['permissions']);
 }
 
 
@@ -124,7 +128,7 @@ function phpAds_isAllowed ($allowed)
 function phpAds_clientID ()
 {
 	global $Session;
-	return ($Session[clientID]);
+	return ($Session['clientID']);
 }
 
 
@@ -149,10 +153,13 @@ function phpAds_Login()
 		if (phpAds_isAdmin($phpAds_username, $phpAds_password))
 		{
 			// User is Administrator
-			return (array ("usertype" => phpAds_Admin,
-						   "loggedin" => "true",
-						   "username" => $phpAds_username,
-						   "password" => $phpAds_password)
+			return (array ("usertype" 		=> phpAds_Admin,
+						   "loggedin" 		=> "true",
+						   "username" 		=> $phpAds_username,
+						   "password" 		=> $phpAds_password,
+						   "stats_compact" 	=> "false",
+						   "stats_view" 	=> "all",
+						   "stats_order" 	=> "bannerid")
 			       );
 		}
 		else
@@ -175,13 +182,16 @@ function phpAds_Login()
 				// User found with correct password
 				$row = mysql_fetch_array($res);
 				
-				return (array ("usertype" => phpAds_Client,
-							   "loggedin" => "true",
-							   "username" => $phpAds_username,
-							   "password" => $phpAds_password,
-							   "clientID" => $row[clientID],
-							   "permissions" => $row[permissions],
-							   "language" => $row[language])
+				return (array ("usertype" 		=> phpAds_Client,
+							   "loggedin" 		=> "true",
+							   "username" 		=> $phpAds_username,
+							   "password" 		=> $phpAds_password,
+							   "clientID" 		=> $row['clientID'],
+							   "permissions" 	=> $row['permissions'],
+							   "language" 		=> $row['language'],
+							   "stats_compact" 	=> "false",
+							   "stats_view" 	=> "all",
+							   "stats_order" 	=> "bannerid")
 				       );
 			}
 			else
@@ -208,7 +218,7 @@ function phpAds_Login()
 function phpAds_IsLoggedIn()
 {
 	global $Session;
-	return ($Session[loggedin] == "true");
+	return ($Session['loggedin'] == "true");
 }
 
 

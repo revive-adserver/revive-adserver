@@ -4,7 +4,7 @@
 /* phpAdsNew 2                                                          */
 /* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2001 by Niels Leenheer                                 */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
@@ -147,6 +147,8 @@ phpAds_PageHeader("$strModifyBannerAcl");
 if (!isset($bannerID)) 
 	php_die("This page can't be displayed",	"There was no bannerID suppied");
 
+$extra = '';
+
 $res = db_query("
 	SELECT
 		*
@@ -158,13 +160,13 @@ $res = db_query("
 
 while ($row = mysql_fetch_array($res))
 {
-	if ($bannerID == $row[bannerID])
+	if ($bannerID == $row['bannerID'])
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
 	else
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 	
-	$extra .= "<a href='banner-acl.php?clientID=$clientID&bannerID=$row[bannerID]'>";
-	$extra .= phpAds_buildBannerName ($row[bannerID], $row[description], $row[alt]);
+	$extra .= "<a href='banner-acl.php?clientID=$clientID&bannerID=".$row['bannerID']."'>";
+	$extra .= phpAds_buildBannerName ($row['bannerID'], $row['description'], $row['alt']);
 	$extra .= "</a>";
 	$extra .= "<br>"; 
 }

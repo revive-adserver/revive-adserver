@@ -4,7 +4,7 @@
 /* phpAdsNew 2                                                          */
 /* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2001 by Niels Leenheer                                 */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
@@ -201,6 +201,8 @@ if ($bannerID != '')
 {
 	phpAds_PageHeader("$strModifyBanner");
 	
+	$extra = '';
+	
 	$res = db_query("
 	SELECT
 		*
@@ -212,13 +214,13 @@ if ($bannerID != '')
 	
 	while ($row = mysql_fetch_array($res))
 	{
-		if ($bannerID == $row[bannerID])
+		if ($bannerID == $row['bannerID'])
 			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
 		else
 			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 		
-		$extra .= "<a href='banner-edit.php?clientID=$clientID&bannerID=$row[bannerID]'>";
-		$extra .= phpAds_buildBannerName ($row[bannerID], $row[description], $row[alt]);		
+		$extra .= "<a href='banner-edit.php?clientID=$clientID&bannerID=".$row['bannerID']."'>";
+		$extra .= phpAds_buildBannerName ($row['bannerID'], $row['description'], $row['alt']);		
 		$extra .= "</a>";
 		$extra .= "<br>"; 
 	}
@@ -282,14 +284,6 @@ else
 
 <script language='Javascript'>
 <!--
-	function findObj(n, d) { 
-	  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
-	  d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
-	  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
-	  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
-	  if(!x && document.getElementById) x=document.getElementById(n); return x;
-	}
-
     function show(n)
     {
 		mysqlObject = findObj ('mysqlForm');

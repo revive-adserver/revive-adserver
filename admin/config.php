@@ -33,6 +33,10 @@ phpAds_Start();
 require ("../language/$phpAds_language.inc.php");
 
 
+if (!isset($clientID)) $clientID='';
+if (!isset($bannerID)) $bannerID='';
+
+
 // Setup navigation
 $pages = array(
 	"1" 		=>	array("admin.php" => "$strHome"),

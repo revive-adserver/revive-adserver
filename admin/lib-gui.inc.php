@@ -113,48 +113,32 @@ function phpAds_PageHeader($title = false)
 <html>
 	<head>
 		<title><?echo $title;?></title>
-		<meta name="http-equiv="Content-Type" content="text/html<? echo $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : "" ?>">
-		<meta name="author" content="phpAdsNew <http://sourceforge.net/projects/phpadsnew>">
-		<style type="text/css">
-		<!--
-			.phpAdsNew 	{ font-family: Arial, Helvetica, sans-serif; font-size: 24px; font-style: italic; font-weight: bold; color: #FFFFFF; }
-			.location 	{ font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-style: italic; font-weight: bold; color: #FFFFFF; }
-			.topnav 	{ font-family: Arial, Helvetica, sans-serif; font-size: 11px; font-style: italic; font-weight: bold; color: #FFFFFF; text-decoration:none; }
-			.nav 		{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #003399; }
-			.heading 	{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14pt; font-weight: bold; color: white; margin-bottom: 0px; }
-			body 		{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; margin-left: 0px; margin-right: 0px; margin-top: 0px; margin-bottom: 0px; }
-			table 		{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; }
-			td 			{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; }
-			td.gray 	{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #888888; }
-			a 			{ color: #003399; text-decoration:none; }
-			a.black 	{ color: #000000; text-decoration:none; }
-			a.gray 		{ color: #888888; text-decoration:none; }
-			select,textarea,input 
-						{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; }
-		-->
-		</style>
+		<meta http-equiv='Content-Type' content='text/html<? echo $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : "" ?>'>
+		<meta name='author" content='phpAdsNew - http://sourceforge.net/projects/phpadsnew'>
+		<link rel='stylesheet' href='interface.css'>
+		<script language='JavaScript' src='interface.js'></script>
 	</head>
 	
-<body bgcolor="#FFFFFF" text="#000000" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
-<table width="100%" height='100%' border="0" cellspacing="0" cellpadding="0">
-  <tr><td colspan="6" class="location" height="32" bgcolor="#003399">&nbsp;</td></tr>
+<body bgcolor='#FFFFFF' text='#000000' leftmargin='0' topmargin='0' marginwidth='0' marginheight='0'>
+<table width='100%' height='100%' border='0' cellspacing='0' cellpadding='0'>
+  <tr><td colspan='6' class='location' height='32' bgcolor='#003399'>&nbsp;</td></tr>
   <tr>
-  	<td colspan="6" class="location" height="32" bgcolor="#003399">
-	  <span class="phpAdsNew">&nbsp;&nbsp;&nbsp;<?echo $phpAds_name;?>&nbsp;&nbsp;&nbsp;</span>
+  	<td colspan='6' class='location' height='32' bgcolor='#003399'>
+	  <span class='phpAdsNew'>&nbsp;&nbsp;&nbsp;<?echo $phpAds_name;?>&nbsp;&nbsp;&nbsp;</span>
 	  <?echo $title!=""?"[ ".$title." ]":"";?>
     </td>
   </tr>
-  <tr bgcolor="#000066"><td colspan="6" class="topnav" height="20" align='right'>&nbsp;</td></tr>
+  <tr bgcolor='#000066'><td colspan='6' class='topnav' height='20' align='right'>&nbsp;</td></tr>
   <tr> 
-    <td height="30" width="15" bgcolor="#EEEEEE"><img src="images/spacer.gif" width="15" height="30"></td>
-    <td height="30" width="160" bgcolor="#EEEEEE"><img src="images/spacer.gif" width="160" height="30"></td>
-    <td height="30" width="1" bgcolor="#888888"><img src="images/spacer.gif" width="1" height="30"></td>
-    <td height="30" width="30"><img src="images/spacer.gif" width="30" height="30"></td>
-    <td height="30" width="100%">&nbsp;</td>
-    <td height="30" width="20"><img src="images/spacer.gif" width="20" height="30"></td>
+    <td height='30' width='15' bgcolor='#EEEEEE'><img src='images/spacer.gif' width='15' height='30'></td>
+    <td height='30' width='160' bgcolor="#EEEEEE"><img src='images/spacer.gif' width='160' height='30'></td>
+    <td height='30' width='1' bgcolor="#888888"><img src='images/spacer.gif' width='1' height='30'></td>
+    <td height='30' width='30'><img src='images/spacer.gif' width='30' height='30'></td>
+    <td height='30' width='100%'>&nbsp;</td>
+    <td height='30' width='20'><img src='images/spacer.gif' width='20' height='30'></td>
   </tr>
   <tr> 
-    <td width="15" bgcolor="#EEEEEE">
+    <td width='15' bgcolor='#EEEEEE'>
 		<script language='JavaScript'>
 		<!--
 			// Workaround for GUI rendering in Netscape and IE for Mac
@@ -172,7 +156,7 @@ function phpAds_PageHeader($title = false)
 		</script>
 		<noscript>&nbsp;</noscript>
 	</td>
-	<td width="160" bgcolor="#EEEEEE" valign="top" class='nav'>
+	<td width='160' bgcolor='#EEEEEE' valign='top' class='nav'>
 <?
 }
 
@@ -189,18 +173,18 @@ function phpAds_PageFooter()
 			</tr>
       </table>
     </td>
-    <td width="20">&nbsp;</td>
+    <td width='20'>&nbsp;</td>
   </tr>
   <tr> 
-    <td width="15" bgcolor="#EEEEEE" height="10"><img src="images/spacer.gif" width="15" height="20"></td>
-    <td width="160" bgcolor="#EEEEEE" height="10"><img src="images/spacer.gif" width="160" height="20"></td>
-    <td width="1" bgcolor="#888888" height="10"><img src="images/spacer.gif" width="1" height="20"></td>
-    <td width="30" height="10"><img src="images/spacer.gif" width="30" height="20"></td>
-    <td height="10" width="100%">&nbsp;</td>
-    <td width="20" height="10"><img src="images/spacer.gif" width="20" height="20"></td>
+    <td width='15' bgcolor='#EEEEEE' height='10'><img src='images/spacer.gif' width='15' height='20'></td>
+    <td width='160' bgcolor='#EEEEEE' height="10"><img src='images/spacer.gif' width='160' height='20'></td>
+    <td width='1' bgcolor='#888888' height="10"><img src='images/spacer.gif' width='1' height='20'></td>
+    <td width='30' height='10'><img src='images/spacer.gif' width='30' height='20'></td>
+    <td height='10' width='100%'>&nbsp;</td>
+    <td width='20' height='10'><img src='images/spacer.gif' width='20' height='20'></td>
   </tr>
-  <tr bgcolor="#003399"> 
-    <td colspan="6" class="topnav" height="20" align='right'>
+  <tr bgcolor='#003399'> 
+    <td colspan='6' class='topnav' height='20' align='right'>
 	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	  <?
 	  	if (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_ModifyInfo))
@@ -210,12 +194,12 @@ function phpAds_PageFooter()
 		}
 	  ?>
 	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	
-	  <a href='logout.php'><img src="images/go.gif" border='0'></a>&nbsp;&nbsp;<a href='logout.php' class='topnav'><?print $strLogout;?></a>
+	  <a href='logout.php'><img src='images/go.gif' border='0'></a>&nbsp;&nbsp;<a href='logout.php' class='topnav'><?print $strLogout;?></a>
 	  &nbsp;&nbsp;&nbsp;
 	</td>
   </tr>
   <tr> 
-    <td colspan="6" class='topnav' height="20" bgcolor="#CCCCCC">&nbsp;&nbsp;&nbsp;phpAdsNew 2.0beta1</td>
+    <td colspan='6' class='topnav' height='20' bgcolor='#CCCCCC'>&nbsp;&nbsp;&nbsp;phpAdsNew 2.0beta2</td>
   </tr>
 </table>
 <?

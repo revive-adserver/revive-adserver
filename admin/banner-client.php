@@ -4,7 +4,7 @@
 /* phpAdsNew 2                                                          */
 /* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2001 by Niels Leenheer                                 */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
@@ -38,15 +38,17 @@ $res = db_query("
 	FROM
 		$phpAds_tbl_clients  
 	") or mysql_die();
-	
+
+$extra = '';
+
 while ($row = mysql_fetch_array($res))
 {
-	if ($clientID == $row[clientID])
+	if ($clientID == $row['clientID'])
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
 	else
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 	
-	$extra .= "<a href=banner-client.php?clientID=$row[clientID]>".phpAds_buildClientName ($row[clientID], $row[clientname])."</a>";
+	$extra .= "<a href=banner-client.php?clientID=".$row['clientID'].">".phpAds_buildClientName ($row['clientID'], $row['clientname'])."</a>";
 	$extra .= "<br>"; 
 }
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
@@ -117,7 +119,7 @@ else
 	<tr><td height='10' colspan='4' bgcolor='<?echo $bgcolor;?>'>&nbsp;</td></tr>
 	<tr>
 	   <td bgcolor='<?echo $bgcolor;?>' colspan='4' align='center'>
-	   	  <?echo phpAds_buildBannerCode ($row[bannerID], $row[banner], $row[active], $row[format], $row[width], $row[height], $row[bannertext]);?>
+	   	  <?echo phpAds_buildBannerCode ($row['bannerID'], $row['banner'], $row['active'], $row['format'], $row['width'], $row['height'], $row['bannertext']);?>
 	   </td>
 	</tr>
 	<tr><td height='10' colspan='4' bgcolor='<?echo $bgcolor;?>'>&nbsp;</td></tr>

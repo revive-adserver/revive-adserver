@@ -46,7 +46,7 @@ if ($command == 'frame')
 if ($command == 'top')
 {
 	echo "<html><head>";
-	phpAds_CSS();
+	echo "<link rel='stylesheet' href='interface.css'>";
 	echo "</head>";
 	
 	echo "<body bgcolor='#000088'>";
@@ -65,7 +65,7 @@ if ($command == 'top')
 if ($command == 'start')
 {
 	echo "<html><head>";
-	phpAds_CSS();
+	echo "<link rel='stylesheet' href='interface.css'>";
 	echo "</head><body>";
 	echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'>";
 	echo "<tr><td height='25' colspan='3'>&nbsp;</td></tr>";
@@ -133,7 +133,7 @@ if ($command == 'overview')
 	}
 	
 	echo "<html><head>";
-	phpAds_CSS();
+	echo "<link rel='stylesheet' href='interface.css'>";
 	echo "</head><body>";
 	echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'>";
 	
@@ -238,33 +238,4 @@ if ($command == 'convert')
 	}
 }
 
-
-
-/*********************************************************/
-/* CSS definitions for use in above functions            */
-/*********************************************************/
-
-function phpAds_CSS()
-{
-	?>
-	<style type="text/css">
-		<!--
-			.phpAdsNew 	{ font-family: Arial, Helvetica, sans-serif; font-size: 24px; font-style: italic; font-weight: bold; color: #FFFFFF; }
-			.location 	{ font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-style: italic; font-weight: bold; color: #FFFFFF; }
-			.topnav 	{ font-family: Arial, Helvetica, sans-serif; font-size: 11px; font-style: italic; font-weight: bold; color: #FFFFFF; text-decoration:none; }
-			.nav 		{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #003399; }
-			.heading 	{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14pt; font-weight: bold; color: white; margin-bottom: 0px; }
-			body 		{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; margin-left: 0px; margin-right: 0px; margin-top: 0px; margin-bottom: 0px; }
-			table 		{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; }
-			td 			{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; }
-			td.gray 	{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #888888; }
-			a 			{ color: #003399; text-decoration:none; }
-			a.black 	{ color: #000000; text-decoration:none; }
-			a.gray 		{ color: #888888; text-decoration:none; }
-			select,textarea,input 
-						{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; }
-		-->
-	</style>
-	<?
-}
-
+?>

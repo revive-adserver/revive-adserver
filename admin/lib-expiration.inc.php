@@ -35,7 +35,7 @@ function adviews_left ($clientID)
 	if (mysql_num_rows($res_client) == 1)
 	{
 		$row = mysql_fetch_array($res_client);
-		$views = $row[views];
+		$views = $row['views'];
 		
 		if ($views == -1)
 			$views = $strUnlimited;
@@ -67,7 +67,7 @@ function adclicks_left ($clientID)
 	if (mysql_num_rows($res_client) == 1)
 	{
 		$row = mysql_fetch_array($res_client);
-		$clicks = $row[clicks];
+		$clicks = $row['clicks'];
 		
 		if ($clicks == -1)
 			$clicks = $strUnlimited;
@@ -249,6 +249,8 @@ function days_left($clientID)
 	if (my_substr_count($rawexpire,"0")==8)
 	{
 		$ret_val[] = $strExpiration.": ".$strNoExpiration;
+		$ret_val[] = '';
+		$ret_val[] = '';
 	} else
 	{
 		if ( $absolute )

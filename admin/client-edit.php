@@ -4,7 +4,7 @@
 /* phpAdsNew 2                                                          */
 /* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2001 by Niels Leenheer                                 */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
@@ -192,7 +192,9 @@ if ($clientID != "")
 	if (phpAds_isUser(phpAds_Admin))
 	{
 		phpAds_PageHeader("$strModifyClient");
-	
+		
+		$extra = '';
+		
 		$res = db_query("
 			SELECT
 				*
@@ -202,12 +204,12 @@ if ($clientID != "")
 		
 		while ($row = mysql_fetch_array($res))
 		{
-			if ($clientID == $row[clientID])
+			if ($clientID == $row['clientID'])
 				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
 			else
 				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 			
-			$extra .= "<a href=client-edit.php?clientID=$row[clientID]>".phpAds_buildClientName ($row[clientID], $row[clientname])."</a>";
+			$extra .= "<a href=client-edit.php?clientID=". $row['clientID'].">".phpAds_buildClientName ($row['clientID'], $row['clientname'])."</a>";
 			$extra .= "<br>"; 
 		}
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
@@ -220,7 +222,6 @@ if ($clientID != "")
 		$extra .= "<img src='images/caret-rs.gif'>&nbsp;<a href=stats-client.php?clientID=$clientID>$strStats</a><br>";
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/caret-rs.gif'>&nbsp;<a href=stats-weekly.php?clientID=$clientID>$strWeeklyStats</a><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-
 		
 		phpAds_ShowNav("1.2", $extra);
 	}
@@ -301,7 +302,7 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0)
 	}
 	else
 	{
-		$set = set;
+		$set = true;
 	}
 	
 	if ($name == 'expire')
@@ -386,45 +387,6 @@ if (phpAds_isUser(phpAds_Admin))
 			}
 		}
 		
-		function typeviews()
-		{
-			if (eval(document.clientform.unlimitedviews.checked) == true)
-			{
-				document.clientform.unlimitedviews.checked = false;
-			}
-		}
-
-		function typeclicks()
-		{
-			if (eval(document.clientform.unlimitedclicks.checked) == true)
-			{
-				document.clientform.unlimitedclicks.checked = false;
-			}
-		}
-		
-		function checkunlimitedviews()
-		{
-			if (eval(document.clientform.unlimitedviews.checked) == true)
-			{
-				document.clientform.views.value="-";
-			} else
-			{
-				document.clientform.views.value="";
-				document.clientform.views.focus();
-			}
-		}
-		function checkunlimitedclicks()
-		{
-			if (eval(document.clientform.unlimitedclicks.checked) == true)
-			{
-				document.clientform.clicks.value="-";
-			} else
-			{
-				document.clientform.clicks.value="";
-				document.clientform.clicks.focus();
-			}
-		}
-
 		function valid(form)
 		{
 			var views=form.views.value;
@@ -506,11 +468,11 @@ if (phpAds_isUser(phpAds_Admin))
 	</tr>
 	<tr>
 		<td width='30'>&nbsp;</td>
-		<td width='200'><?echo $GLOBALS[strLanguage]; ?></td>	
+		<td width='200'><?echo $GLOBALS['strLanguage']; ?></td>	
 		<td>
 			<select name="clientlanguage">
 		<?
-		echo "<option value='' SELECTED>".$GLOBALS[strDefault]."</option>\n"; 
+		echo "<option value='' SELECTED>".$GLOBALS['strDefault']."</option>\n"; 
 
 		$langdir = opendir ("../language/");
 		while ($langfile = readdir ($langdir))
@@ -518,7 +480,7 @@ if (phpAds_isUser(phpAds_Admin))
 			if (ereg ("^([a-zA-Z0-9\-]*)\.inc\.php$", $langfile, $matches))
 			{
 				$option = $matches[1];
-				if ($row["language"] == $option)
+				if ($row['language'] == $option)
 					echo "<option value='$option' SELECTED>".ucfirst($option)."</option>\n";
 				else
 					echo "<option value='$option'>".ucfirst($option)."</option>\n";
@@ -578,8 +540,8 @@ if (phpAds_isUser(phpAds_Admin))
 		{
 			?>
 			<td>
-				<input type="text" name="views" size='25' value="<?if($row["views"]>0)echo $row["views"];else echo '-';?>" onKeyUp="typeviews();">
-				<input type="checkbox" name="unlimitedviews"<?if($row["views"]==-1)print " CHECKED";?> onClick="checkunlimitedviews();">
+				<input type="text" name="views" size='25' value="<?if($row["views"]>0)echo $row["views"];else echo '-';?>" onKeyUp="disable_checkbox('unlimitedviews');">
+				<input type="checkbox" name="unlimitedviews"<?if($row["views"]==-1)print " CHECKED";?> onClick="click_checkbox('unlimitedviews', 'views');">
 				<? echo $GLOBALS['strUnlimited']; ?>
 			</td>
 			<?
@@ -603,8 +565,8 @@ if (phpAds_isUser(phpAds_Admin))
 		{
 			?>
 			<td>
-				<input type="text" name="clicks" size='25' value="<?if($row["clicks"]>0)echo $row["clicks"];else echo '-';?>" onKeyUp="typeclicks();">
-				<input type="checkbox" name="unlimitedclicks"<?if($row["clicks"]==-1)print " CHECKED";?> onClick="checkunlimitedclicks();">
+				<input type="text" name="clicks" size='25' value="<?if($row["clicks"]>0)echo $row["clicks"];else echo '-';?>" onKeyUp="disable_checkbox('unlimitedclicks');">
+				<input type="checkbox" name="unlimitedclicks"<?if($row["clicks"]==-1)print " CHECKED";?> onClick="click_checkbox('unlimitedclicks', 'clicks');">
 				<? echo $GLOBALS['strUnlimited']; ?>
 			</td>
 			<?
@@ -740,14 +702,14 @@ if (phpAds_isUser(phpAds_Admin))
 		<td width='30'>&nbsp;</td>
 		<td colspan='2'>
 			<input type="checkbox" name="clientpermissions[]" value="<?echo phpAds_ModifyInfo; ?>"<?echo (phpAds_ModifyInfo & $row["permissions"]) ? " CHECKED" : ""; ?>>
-			<?echo $GLOBALS[strAllowClientModifyInfo]; ?>
+			<?echo $GLOBALS['strAllowClientModifyInfo']; ?>
 		</td>
 	</tr>
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td colspan='2'>
 			<input type="checkbox" name="clientpermissions[]" value="<?echo phpAds_ModifyBanner; ?>"<?echo (phpAds_ModifyBanner & $row["permissions"]) ? " CHECKED" : ""; ?>>
-			<?echo $GLOBALS[strAllowClientModifyBanner]; ?>
+			<?echo $GLOBALS['strAllowClientModifyBanner']; ?>
 		</td>
 	</tr>	
 	<!-- Still working on this (Niels)
@@ -755,7 +717,7 @@ if (phpAds_isUser(phpAds_Admin))
 		<td width='30'>&nbsp;</td>
 		<td colspan='2'>
 			<input type="checkbox" name="clientpermissions[]" value="<?echo phpAds_AddBanner; ?>"<?echo (phpAds_AddBanner & $row["permissions"]) ? " CHECKED" : ""; ?>>
-			<?echo $GLOBALS[strAllowClientAddBanner]; ?>
+			<?echo $GLOBALS['strAllowClientAddBanner']; ?>
 		</td>
 	</tr>	
 	-->

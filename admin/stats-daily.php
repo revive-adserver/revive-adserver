@@ -64,6 +64,8 @@ if (phpAds_isUser(phpAds_Client))
 /* HTML framework                                        */
 /*********************************************************/
 
+$extra = '';
+
 $res = db_query("
 	 SELECT
 		*,
@@ -72,7 +74,7 @@ $res = db_query("
 	 FROM
 		$phpAds_tbl_adviews
 	 WHERE
-		bannerID = $GLOBALS[bannerID]
+		bannerID = ".$GLOBALS['bannerID']."
 	 GROUP BY
 		t_stamp_f
 	 ORDER BY
@@ -82,12 +84,12 @@ $res = db_query("
 
 while ($row = mysql_fetch_array($res))
 {
-	if ($day == $row[t_stamp_f])
+	if ($day == $row['t_stamp_f'])
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
 	else
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 	
-	$extra .= "<a href='stats-daily.php?day=".urlencode($row["t_stamp_f"])."&clientID=$clientID&bannerID=$bannerID'>$row[t_stamp_f]</a>";
+	$extra .= "<a href='stats-daily.php?day=".urlencode($row["t_stamp_f"])."&clientID=$clientID&bannerID=$bannerID'>">$row['t_stamp_f']."</a>";
 	$extra .= "<br>"; 
 }
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";

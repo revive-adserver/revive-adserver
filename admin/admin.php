@@ -72,94 +72,74 @@ if (isset($message))
 /* Main code                                             */
 /*********************************************************/
 
-?>
+if (!isset($selection)) $selection = "all";
+
+echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
+echo "<tr><td height='25' colspan='2'><b><?echo $strClients;?></b></td></tr>";
+echo "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+
+echo "<form name='client_selection' action='admin.php'>";
+echo "<tr><td height='35' colspan='2'>";
+echo "<select name='selection' onChange='this.form.submit();'>";
+
+echo "<option value='all' ".($selection=="all"?"selected":"").">$strShowAllClients</option>";
+echo "<option value='active' ".($selection=="active"?"selected":"").">$strShowClientsActive</option>";
+echo "<option value='nonactive' ".($selection=="nonactive"?"selected":"").">$strShowClientsInactive</option>";
+
+echo "</select>";
+echo "&nbsp;<a href='javascript:document.client_selection.submit();'><img src='images/go_blue.gif' border='0'></a>";
+echo "</td></tr>";
+echo "</form>";
+echo "</table>";
+
+echo "<br><br>";
 
 
-<script language="JavaScript">
-<!--
-function confirm_delete()
+
+if ($selection == "all")
+	$res_clients = db_query("SELECT clientname, clientID FROM $phpAds_tbl_clients ORDER BY clientname") or mysql_die();
+
+if ($selection == "active")
+	$res_clients = db_query("SELECT $phpAds_tbl_clients.clientname, $phpAds_tbl_clients.clientID FROM $phpAds_tbl_clients, $phpAds_tbl_banners WHERE $phpAds_tbl_clients.clientID=$phpAds_tbl_banners.clientID AND $phpAds_tbl_banners.active='true' GROUP BY clientID ORDER BY clientname") or mysql_die();
+
+if ($selection == "nonactive")
+	$res_clients = db_query("SELECT $phpAds_tbl_clients.clientname, $phpAds_tbl_clients.clientID FROM $phpAds_tbl_clients, $phpAds_tbl_banners WHERE $phpAds_tbl_clients.clientID=$phpAds_tbl_banners.clientID AND $phpAds_tbl_banners.active='false' GROUP BY clientID ORDER BY clientname") or mysql_die();
+
+@mysql_data_seek($res_clients, 0);
+
+
+
+echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
+echo "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+
+echo "<form name='client_delete' action='client-delete.php'>";
+
+$i=0;
+while ($row_clients = mysql_fetch_array($res_clients))
 {
-	if(confirm('<? print($strConfirmDeleteClient);?>'))
-	{
-		document.client_delete.submit();
-	}
+	echo "<tr height='30' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
+	echo "<td height='30'>&nbsp;<input type='checkbox' name='clientID[]' value='$row_clients[clientID]'>";
+	echo "&nbsp;$row_clients[clientname]</td>";	
+	echo "<td height='30' align='right'><a href='client-edit.php?clientID=$row_clients[clientID]'>[ $strModifyClient ]</a>&nbsp;&nbsp;";
+	echo "<a href='banner-client.php?clientID=$row_clients[clientID]'>[ $strBannerAdmin ]</a>&nbsp;&nbsp;";
+	echo "<a href='stats-client.php?clientID=$row_clients[clientID]'>[ $strStats ]</a>&nbsp;&nbsp;";
+	echo "</td></tr>";
+			
+	echo "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	$i++;
 }
-//-->
-</script>
 
+echo "</form>";
 
+echo "<tr height='25'><td height='25' colspan='2'>";
+echo "<img src='images/go_blue.gif'>&nbsp;<a href=client-edit.php>$strAddClient</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+echo "<img src='images/go_blue.gif'>&nbsp;<a href=\"javascript:confirm_submit('client_delete', '$strConfirmDeleteClient');\">$strDeleteClient</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+echo "</td></tr>";
+echo "</table>";
 
-<?
-	if ($selection == "") $selection = "all";
-
-	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
-	echo "<tr><td height='25' colspan='2'><b><?echo $strClients;?></b></td></tr>";
-	echo "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-	
-	
-	echo "<form name='client_selection' action='admin.php'>";
-	echo "<tr><td height='35' colspan='2'>";
-	echo "<select name='selection' onChange='this.form.submit();'>";
-	
-	echo "<option value='all' ".($selection=="all"?"selected":"").">$strShowAllClients</option>";
-	echo "<option value='active' ".($selection=="active"?"selected":"").">$strShowClientsActive</option>";
-	echo "<option value='nonactive' ".($selection=="nonactive"?"selected":"").">$strShowClientsInactive</option>";
-	
-	echo "</select>";
-	echo "&nbsp;<a href='javascript:document.client_selection.submit();'><img src='images/go_blue.gif' border='0'></a>";
-	echo "</td></tr>";
-	echo "</form>";
-	echo "</table>";
-
-
-	echo "<br><br>";
-
-
-	if ($selection == "all")
-		$res_clients = db_query("SELECT clientname, clientID FROM $phpAds_tbl_clients ORDER BY clientname") or mysql_die();
-	
-	if ($selection == "active")
-		$res_clients = db_query("SELECT $phpAds_tbl_clients.clientname, $phpAds_tbl_clients.clientID FROM $phpAds_tbl_clients, $phpAds_tbl_banners WHERE $phpAds_tbl_clients.clientID=$phpAds_tbl_banners.clientID AND $phpAds_tbl_banners.active='true' GROUP BY clientID ORDER BY clientname") or mysql_die();
-	
-	if ($selection == "nonactive")
-		$res_clients = db_query("SELECT $phpAds_tbl_clients.clientname, $phpAds_tbl_clients.clientID FROM $phpAds_tbl_clients, $phpAds_tbl_banners WHERE $phpAds_tbl_clients.clientID=$phpAds_tbl_banners.clientID AND $phpAds_tbl_banners.active='false' GROUP BY clientID ORDER BY clientname") or mysql_die();
-	
-	@mysql_data_seek($res_clients, 0);
-
-
-	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
-	echo "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-	
-	echo "<form name='client_delete' action='client-delete.php'>";
-	
-	$i==0;
-	while ($row_clients = mysql_fetch_array($res_clients))
-	{
-		echo "<tr height='30' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
-		echo "<td height='30'>&nbsp;<input type='checkbox' name='clientID[]' value='$row_clients[clientID]'>";
-		echo "&nbsp;$row_clients[clientname]</td>";	
-		echo "<td height='30' align='right'><a href='client-edit.php?clientID=$row_clients[clientID]'>[ $strModifyClient ]</a>&nbsp;&nbsp;";
-		echo "<a href='banner-client.php?clientID=$row_clients[clientID]'>[ $strBannerAdmin ]</a>&nbsp;&nbsp;";
-		echo "<a href='stats-client.php?clientID=$row_clients[clientID]'>[ $strStats ]</a>&nbsp;&nbsp;";
-		echo "</td></tr>";
-				
-		echo "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-		$i++;
-	}
-	
-	echo "</form>";
-	
-	echo "<tr height='25'><td height='25' colspan='2'>";
-	echo "<img src='images/go_blue.gif'>&nbsp;<a href=client-edit.php>$strAddClient</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-	echo "<img src='images/go_blue.gif'>&nbsp;<a href='javascript:confirm_delete()'>$strDeleteClient</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-	echo "</td></tr>";
 ?>
-</table>
 
 <br><br><br><br>
-
-
-
 
 <?
 	// total number of clients

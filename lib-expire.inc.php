@@ -15,8 +15,8 @@
 
 
 // Define constants
-define (phpAds_Clicks, 1);
-define (phpAds_Views, 2);
+define ("phpAds_Clicks", 1);
+define ("phpAds_Views", 2);
 
 
 

@@ -530,7 +530,7 @@ function view_raw($what, $clientID=0, $target="", $source="", $withtext=0, $cont
 				// Banner refered through URL
 				
 				// Determine cachebuster
-				if (eregi ("\{random(:([1-9])){0,1}\}", $row[banner], $matches))
+				if (eregi ("\{random(:([1-9])){0,1}\}", $row['banner'], $matches))
 				{
 					if ($matches[1] == "")
 						$randomdigits = 8;
@@ -538,7 +538,7 @@ function view_raw($what, $clientID=0, $target="", $source="", $withtext=0, $cont
 						$randomdigits = $matches[2];
 					
 					$randomnumber = sprintf ("%0".$randomdigits."d", mt_rand (0, pow (10, $randomdigits) - 1));
-					$row[banner] = str_replace ($matches[0], $randomnumber, $row[banner]);
+					$row['banner'] = str_replace ($matches[0], $randomnumber, $row['banner']);
 					
 					$randomstring = "&cb=$randomnumber";
 				}

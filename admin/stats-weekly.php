@@ -36,7 +36,7 @@ if (phpAds_isUser(phpAds_Client))
 	
 	$clientID = phpAds_clientID();
 	
-	if ($which > 0)
+	if (isset($which) && $which > 0)
 	{
 		$result = db_query("
 			SELECT
@@ -48,7 +48,7 @@ if (phpAds_isUser(phpAds_Client))
 			") or mysql_die();
 		$row = mysql_fetch_array($result);
 		
-		if ($row[clientID] != phpAds_clientID())
+		if ($row['clientID'] != phpAds_clientID())
 		{
 			php_die ($strAccessDenied, $strNotAdmin);
 		}
@@ -78,12 +78,12 @@ if (phpAds_isUser(phpAds_Admin))
 		
 		while ($row = mysql_fetch_array($res))
 		{
-			if ($clientID == $row[clientID])
+			if ($clientID == $row['clientID'])
 				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
 			else
 				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 			
-			$extra .= "<a href=stats-weekly.php?clientID=$row[clientID]>".phpAds_buildClientName ($row[clientID], $row[clientname])."</a>";
+			$extra .= "<a href=stats-weekly.php?clientID=".$row['clientID'].">".phpAds_buildClientName ($row['clientID'], $row['clientname'])."</a>";
 			$extra .= "<br>"; 
 		}
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
@@ -125,7 +125,7 @@ $res = db_query("
 ") or mysql_die();
 $row = mysql_fetch_array($res);
 
-if ($row[count] > 0)
+if ($row['count'] > 0)
 {
 	require('./stats-weekly.html.php');
 }

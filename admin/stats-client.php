@@ -56,6 +56,8 @@ if (phpAds_isUser(phpAds_Admin))
 {
 	phpAds_PageHeader($strStats);
 	
+	$extra = '';
+	
 	$res = db_query("
 	SELECT
 		*
@@ -65,12 +67,12 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	while ($row = mysql_fetch_array($res))
 	{
-		if ($clientID == $row[clientID])
+		if ($clientID == $row['clientID'])
 			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
 		else
 			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 		
-		$extra .= "<a href=stats-client.php?clientID=$row[clientID]>".phpAds_buildClientName ($row[clientID], $row[clientname])."</a>";
+		$extra .= "<a href=stats-client.php?clientID=".$row['clientID'].">".phpAds_buildClientName ($row['clientID'], $row['clientname'])."</a>";
 		$extra .= "<br>"; 
 	}
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
@@ -94,7 +96,7 @@ if (phpAds_isUser(phpAds_Admin))
 
 $UpdateSession = false;
 
-if ($compact == "")
+if (!isset($compact))
 	$compact = $Session["stats_compact"];
 elseif ($compact != $Session["stats_compact"])
 {
@@ -102,7 +104,7 @@ elseif ($compact != $Session["stats_compact"])
 	$UpdateSession = true;
 }
 
-if ($view == "")
+if (!isset($view))
 	$view = $Session["stats_view"];
 elseif ($view != $Session["stats_view"])
 {
@@ -110,7 +112,7 @@ elseif ($view != $Session["stats_view"])
 	$UpdateSession = true;
 }
 
-if ($order == "")
+if (!isset($order))
 	$order = $Session["stats_order"];
 elseif ($order != $Session["stats_order"])
 {

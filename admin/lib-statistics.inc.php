@@ -38,7 +38,7 @@ function phpAds_getClientName ($clientID)
 {
 	global $clientCache, $phpAds_tbl_clients;
 	
-	if (is_array($clientCache[$clientID]))
+	if (isset($clientCache[$clientID]) && is_array($clientCache[$clientID]))
 	{
 		$row = $clientCache[$clientID];
 	}
@@ -58,7 +58,7 @@ function phpAds_getClientName ($clientID)
 		$clientCache[$clientID] = $row;
 	}
 	
-	return (phpAds_BuildClientName ($clientID, $row[clientname]));
+	return (phpAds_BuildClientName ($clientID, $row['clientname']));
 }
 
 
@@ -89,7 +89,7 @@ function phpAds_getBannerName ($bannerID)
 {
 	global $bannerCache, $phpAds_tbl_banners;
 	
-	if (is_array($bannerCache[$bannerID]))
+	if (isset($bannerCache[$bannerID]) && is_array($bannerCache[$bannerID]))
 	{
 		$row = $bannerCache[$bannerID];
 	}
@@ -109,7 +109,7 @@ function phpAds_getBannerName ($bannerID)
 		$bannerCache[$bannerID] = $row;
 	}
 	
-	return (phpAds_buildBannerName ($bannerID, $row[description], $row[alt]));
+	return (phpAds_buildBannerName ($bannerID, $row['description'], $row['alt']));
 }
 
 
@@ -141,7 +141,7 @@ function phpAds_getBannerCode ($bannerID)
 		$bannerCache[$bannerID] = $row;
 	}
 	
-	return (phpAds_buildBannerCode ($bannerID, $row[banner], $row[active], $row[format], $row[width], $row[height], $row[bannertext]));
+	return (phpAds_buildBannerCode ($bannerID, $row['banner'], $row['active'], $row['format'], $row['width'], $row['height'], $row['bannertext']));
 }
 
 

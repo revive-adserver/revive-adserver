@@ -167,7 +167,9 @@ function db_total_stats($table, $column, $bannerID, $timeconstraint="")
 {
     global $phpAds_tbl_adstats;
     
+	$ret = 0;
     $where = "";
+	
     if (!empty($bannerID)) 
         $where = "WHERE bannerID = $bannerID";
     
@@ -190,7 +192,7 @@ function db_total_stats($table, $column, $bannerID, $timeconstraint="")
     if (mysql_num_rows ($res))
     { 
         $row = mysql_fetch_array($res);
-        $ret = $row["qnt"];
+		if (isset($row['qnt'])) $ret += $row['qnt'];
     }
 	
     $where = "";
@@ -216,7 +218,7 @@ function db_total_stats($table, $column, $bannerID, $timeconstraint="")
     if (mysql_num_rows ($res))
     { 
         $row = mysql_fetch_array($res);
-        $ret += $row["qnt"];
+        if (isset($row['qnt'])) $ret += $row['qnt'];
     }
     return $ret;
 }

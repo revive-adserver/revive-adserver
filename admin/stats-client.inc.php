@@ -49,10 +49,10 @@ if ($phpAds_compact_stats)
 	
 	while ($row_banners = mysql_fetch_array($res_banners))
 	{
-		$tmp_views[$row_banners[bannerID]] = $row_banners[adviews];
-		$tmp_clicks[$row_banners[bannerID]] = $row_banners[adclicks];
-		$tmp_alt[$row_banners[bannerID]] = strtolower($row_banners[alt]);
-		$tmp_ctr[$row_banners[bannerID]] = 0;
+		$tmp_views[$row_banners['bannerID']] = $row_banners['adviews'];
+		$tmp_clicks[$row_banners['bannerID']] = $row_banners['adclicks'];
+		$tmp_alt[$row_banners['bannerID']] = strtolower($row_banners['alt']);
+		$tmp_ctr[$row_banners['bannerID']] = 0;
 	}
 }
 else
@@ -295,7 +295,7 @@ if (count($tmp_order) > 0)
 			echo "<tr><td height='10' colspan='4' bgcolor='$bgcolor'>&nbsp;</td></tr>";
 			echo "<tr bgcolor='$bgcolor'>";
 		   	echo "<td colspan='4' align='center'>";
-			echo phpAds_buildBannerCode ($row_banners[bannerID], $row_banners[banner], $row_banners[active], $row_banners[format], $row_banners[width], $row_banners[height], $row_banners[bannertext]);
+			echo phpAds_buildBannerCode ($row_banners['bannerID'], $row_banners['banner'], $row_banners['active'], $row_banners['format'], $row_banners['width'], $row_banners['height'], $row_banners['bannertext']);
 			echo "</td></tr>";
 			echo "<tr><td height='10' colspan='4' bgcolor='$bgcolor'>&nbsp;</td></tr>";
 		  	
@@ -364,29 +364,29 @@ if (count($tmp_order) > 0)
 			
 			echo "<td height='25' width='30' align='left'>&nbsp;";
 			if (!ereg ("Mozilla/4", $HTTP_USER_AGENT) || ereg ("IE", $HTTP_USER_AGENT))
-				echo "<img name='caret$row_banners[bannerID]' src='images/caret-r.gif' onClick=\"showHideLayers('$row_banners[bannerID]');\">";
+				echo "<img name='caret".$row_banners['bannerID']."' src='images/caret-r.gif' onClick=\"showHideLayers('".$row_banners['bannerID']."');\">";
 			echo "</td>";
 			
-			echo "<td height='25' align='left' nowrap $grayedout>$row_banners[bannerID]</td>";
+			echo "<td height='25' align='left' nowrap $grayedout>".$row_banners['bannerID']."</td>";
 			
-			if ($row_banners[description] != '')
-				echo "<td height='25' align='left' nowrap $grayedout>$row_banners[description]</td>";
+			if ($row_banners['description'] != '')
+				echo "<td height='25' align='left' nowrap $grayedout>".$row_banners['description']."</td>";
 			else
-				echo "<td height='25' align='left' nowrap $grayedout>$row_banners[alt]</td>";
+				echo "<td height='25' align='left' nowrap $grayedout>".$row_banners['alt']."</td>";
 			
 		    if ($adclicks > 0 || $adviews > 0)
 		    {
 				// Stats
 				echo "<td height='25' align='left' nowrap $grayedout>";
-				echo "<a class='$grayedtext' height='25' href='stats-details.php?clientID=$clientID&bannerID=$row_banners[bannerID]'>$adviews</a>";
+				echo "<a class='$grayedtext' height='25' href='stats-details.php?clientID=$clientID&bannerID=".$row_banners['bannerID']."'>$adviews</a>";
 				echo "</td>";
 	
 				echo "<td height='25' align='left' nowrap $grayedout>";
-				echo "<a class='$grayedtext' height='25' href='stats-details.php?clientID=$clientID&bannerID=$row_banners[bannerID]'>$adclicks</a>";
+				echo "<a class='$grayedtext' height='25' href='stats-details.php?clientID=$clientID&bannerID=".$row_banners['bannerID']."'>$adclicks</a>";
 				echo "</td>";
 	
 				echo "<td height='25' align='left' nowrap $grayedout>";
-				echo "<a class='$grayedtext' height='25' href='stats-details.php?clientID=$clientID&bannerID=$row_banners[bannerID]'>";
+				echo "<a class='$grayedtext' height='25' href='stats-details.php?clientID=$clientID&bannerID=".$row_banners['bannerID']."'>";
 				printf(" %.2f%%", $adctr);
 				echo "</a>";
 				echo "</td>";
@@ -404,13 +404,13 @@ if (count($tmp_order) > 0)
 			
 			if (!ereg ("Mozilla/4", $HTTP_USER_AGENT) || ereg ("IE", $HTTP_USER_AGENT))
 			{
-				echo "<div id='banner$row_banners[bannerID]' style='display: none;'>";
+				echo "<div id='banner".$row_banners['bannerID']."' style='display: none;'>";
 				
 				echo "<table width='100%' cellpadding=0 cellspacing=0 border=0><tr><td align='left'>";
 				echo "<tr><td height='1'><img src='images/break-l.gif' height='1' width='100%' vspace='0'></tr><td>";
 				echo "<tr><td height='10'>&nbsp;</tr><td>";
 				echo "<tr><td>";
-					echo phpAds_buildBannerCode ($row_banners[bannerID], $row_banners[banner], $row_banners[active], $row_banners[format], $row_banners[width], $row_banners[height], $row_banners[bannertext]);
+					echo phpAds_buildBannerCode ($row_banners['bannerID'], $row_banners['banner'], $row_banners['active'], $row_banners['format'], $row_banners['width'], $row_banners['height'], $row_banners['bannertext']);
 				echo "</tr><td>";
 				echo "<tr><td height='10'>&nbsp;</tr><td>";
 				echo "<tr><td height='1'><img src='images/break-l.gif' height='1' width='100%' vspace='0'></tr><td>";

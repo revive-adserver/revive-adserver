@@ -163,7 +163,7 @@ function WeekPrint()
 	global $phpAds_percentage_decimals;
 	static $j=1;
 	
-	if ( $week['num'] ) // only if already filled (not at first call)
+	if (isset($week['num']) && $week['num']) // only if already filled (not at first call)
 	{
 		// set background color
 		$bgcolor="#FFFFFF";
@@ -282,6 +282,8 @@ function stats()
 		
 		if ($clientID > 0) 
 			$where = 'WHERE bannerID IN (';
+		else
+			$where = '';
 		
 		$ids = '';
 		$banner_select = array();
@@ -295,7 +297,7 @@ function stats()
 			// collect banner names for select-box
 			$banner_select[$i]			= array();
 			$banner_select[$i]['id']	= $banner_row['bannerID'];
-			$banner_select[$i]['name'] 	= phpAds_buildBannerName ($banner_row[bannerID], $banner_row[description], $banner_row[alt]);
+			$banner_select[$i]['name'] 	= phpAds_buildBannerName ($banner_row['bannerID'], $banner_row['description'], $banner_row['alt']);
 			
 			$i++;
 		}
@@ -362,8 +364,16 @@ function stats()
     			$days[$i]['unix_time'] = $row['unix_time'];
     			$days[$i]['date']      = $row['date'];
     		}
-    		$days[$i]['views']     = $days[$i]['views'] + $row['days_total_views'];
-    		$days[$i]['clicks']    = $days[$i]['clicks'] + $row['days_total_clicks'];
+			
+			if (isset($days[$i]['views']))
+	    		$days[$i]['views']    += $row['days_total_views'];
+			else
+	    		$days[$i]['views']     = $row['days_total_views'];
+			
+			if (isset($days[$i]['clicks']))
+				$days[$i]['clicks']   += $row['days_total_clicks'];
+			else
+				$days[$i]['clicks']    = $row['days_total_clicks'];
     	}
     	
     	mysql_free_result($daily);
@@ -460,7 +470,7 @@ function stats()
     			$days[$i]['views']     = $row['days_total_views'];
     		}
     		else
-				$days[$i]['views']     = $days[$i]['views'] + $row['days_total_views'];
+				$days[$i]['views']    += $row['days_total_views'];
     	}
     	
     	// now insert click data
@@ -475,9 +485,10 @@ function stats()
     			$days[$i]['day_num']   = $row['day_num'];
     			$days[$i]['unix_time'] = $row['unix_time'];
     			$days[$i]['date']      = $row['date'];
+				$days[$i]['clicks']    = $row['days_total_clicks'];				
     		}
     		else
-	    		$days[$i]['clicks']       = $days[$i]['clicks'] + $row['days_total_clicks'];
+	    		$days[$i]['clicks']   += $row['days_total_clicks'];
     	}
 	    
     	mysql_free_result($view_daily);
