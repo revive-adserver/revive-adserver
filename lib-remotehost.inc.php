@@ -20,9 +20,12 @@ if ($phpAds_config['proxy_lookup'])
 	$proxy = false;
 	if (isset ($GLOBALS['HTTP_VIA']) && $GLOBALS['HTTP_VIA'] != '') $proxy = true;
 	
-	if (is_int (strpos ('proxy',   $REMOTE_HOST))) $proxy = true;
-	if (is_int (strpos ('cache',   $REMOTE_HOST))) $proxy = true;
-	if (is_int (strpos ('inktomi', $REMOTE_HOST))) $proxy = true;
+	if (isset ($GLOBALS['REMOTE_HOST']))
+	{
+		if (is_int (strpos ('proxy',   $GLOBALS['REMOTE_HOST']))) $proxy = true;
+		if (is_int (strpos ('cache',   $GLOBALS['REMOTE_HOST']))) $proxy = true;
+		if (is_int (strpos ('inktomi', $GLOBALS['REMOTE_HOST']))) $proxy = true;
+	}
 	
 	if ($proxy)
 	{
@@ -39,18 +42,18 @@ if ($phpAds_config['proxy_lookup'])
 		
 		if ($IP != 'unknown')
 		{
-			$REMOTE_ADDR = $IP;
-			$REMOTE_HOST = '';
+			$GLOBALS['REMOTE_ADDR'] = $IP;
+			$GLOBALS['REMOTE_HOST'] = '';
 		}
 	}
 }
 
-if (!isset($REMOTE_HOST) || $REMOTE_HOST == '')
+if (!isset($GLOBALS['REMOTE_HOST']) || $GLOBALS['REMOTE_HOST'] == '')
 {
 	if ($phpAds_config['reverse_lookup'])
-		$REMOTE_HOST = @gethostbyaddr ($REMOTE_ADDR);
+		$GLOBALS['REMOTE_HOST'] = @gethostbyaddr ($GLOBALS['REMOTE_ADDR']);
 	else
-		$REMOTE_HOST = $REMOTE_ADDR;
+		$GLOBALS['REMOTE_HOST'] = $GLOBALS['REMOTE_ADDR'];
 }
 
 
