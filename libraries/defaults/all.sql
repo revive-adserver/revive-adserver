@@ -285,7 +285,7 @@ CREATE TABLE phpads_config (
    gui_show_matching enum('t','f') DEFAULT 't' NOT NULL,
    gui_show_parents enum('t','f') DEFAULT 'f' NOT NULL,
    gui_hide_inactive enum('t','f') DEFAULT 'f' NOT NULL,
-   gui_link_compact_limit tinyint(2) DEFAULT '50' NOT NULL,
+   gui_link_compact_limit int(11) DEFAULT '50' NOT NULL,
    qmail_patch enum('t','f') DEFAULT 'f' NOT NULL,
    updates_frequency tinyint(2) DEFAULT '7' NOT NULL,
    updates_timestamp int(11) DEFAULT '0' NOT NULL,
