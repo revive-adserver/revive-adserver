@@ -608,7 +608,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		if (!$zone_invocation && isset($show['acid']) && $show['acid'] == true)
 		{
 			echo "<tr bgcolor='#F6F6F6'><td width='30'>&nbsp;</td>";
-			echo "<td width='200'>".$GLOBALS['strInvocationClientID']."</td><td width='370'>";
+			echo "<td width='200'>".$GLOBALS['strCampaign']."</td><td width='370'>";
 			echo "<select name='acid' style='width:350px;' tabindex='".($tabindex++)."'>";
 				echo "<option value='0'>-</option>";
 			
@@ -617,6 +617,8 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 					*
 				FROM
 					".$phpAds_config['tbl_clients']."
+				WHERE
+					parent > 0
 				");
 				
 				while ($row = phpAds_dbFetchArray($res))
