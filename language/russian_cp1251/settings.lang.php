@@ -116,9 +116,15 @@ $GLOBALS['strRetrieveRandom']			= "Случайное извлечение (по умолчанию)";
 $GLOBALS['strRetrieveNormalSeq']		= "Обычное последовательное извлечение";
 $GLOBALS['strWeightSeq']				= "Последовательное извлечение с учётом весов";
 $GLOBALS['strFullSeq']					= "Полное последовательное извлечение";
-$GLOBALS['strUseConditionalKeys']		= "Использовать условные ключевые слова";
-$GLOBALS['strUseMultipleKeys']			= "Использовать множественные ключевые слова";
-$GLOBALS['strUseAcl']					= "Использовать ограничения показов";
+$GLOBALS['strUseConditionalKeys']		= "Разрешить логические операторы при прямой выборке";
+$GLOBALS['strUseMultipleKeys']			= "Разрешить множественные ключевые слова при прямой выборке";
+$GLOBALS['strUseAcl']					= "Оценивать ограничения по доставке в процессе показов";
+
+$GLOBALS['strDeliverySettings']                 = "Настройки доставки";
+$GLOBALS['strCacheType']                                = "Тип кэша доставки";
+$GLOBALS['strCacheFiles']                               = "Файлы";
+$GLOBALS['strCacheDatabase']                    = "База данных";
+$GLOBALS['strCacheShmop']                               = "Разделяемая память (shmop)";
 
 $GLOBALS['strZonesSettings']			= "Извлечение зон";
 $GLOBALS['strZoneCache']				= "Кэшировать зоны (это должно ускорять работу при использовании зон)";

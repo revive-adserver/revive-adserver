@@ -42,93 +42,113 @@ $GLOBALS['strBannerCacheExplaination']		= "
 
 
 // Zone cache
-$GLOBALS['strZoneCache']			= "Zone cache";
-$GLOBALS['strAge']				= "Age";
-$GLOBALS['strRebuildZoneCache']			= "Rebuild zone cache";
-$GLOBALS['strZoneCacheExplaination']		= "
-	The zone cache is used to speed up delivery of banners which are linked to zones. The zone cache contains a copy of all the banners
-	which are linked to the zone which saves a number of database queries when the banners are actually delivered to the user. The cache
-	is usually rebuild everytime a change is made to the zone or one of it's banners, it is possible the cache will become outdated. Because
-	of this the cache will automatically rebuild every {seconds} seconds, but it is also possible to rebuild the cache manually.
+$GLOBALS['strAge']				= "Срок";
+$GLOBALS['strCache']                    = "Кэш доставки";
+$GLOBALS['strRebuildDeliveryCache']                     = "Обновить кэш доставки";
+$GLOBALS['strDeliveryCacheExplaination']                = "
+        Кэш доставки используется для ускорения доставки баннеров. Кэш содержит копию всех баннеров,
+        привязанных к зоне/ Это экономит несколько запросов к базе данных в момент фактического показа баннера пользователю. Кэш
+        обычно обновляется после каждого изменения в зоне или одном из привязанных к ней баннеров, но, возможно, он может устаревать. Поэтому
+        кэш также обновляется автоматически каждый час, или может быть обновлён вручную.
+";
+$GLOBALS['strDeliveryCacheSharedMem']           = "
+        Для хранения кэша доставки используется разделяемая память.
+";
+$GLOBALS['strDeliveryCacheDatabase']            = "
+        Для хранения кэша доставки используется база данных.
 ";
 
 
 // Storage
-$GLOBALS['strStorage']				= "Storage";
-$GLOBALS['strMoveToDirectory']			= "Move images stored inside the database to a directory";
+$GLOBALS['strStorage']				= "Хранение";
+$GLOBALS['strMoveToDirectory']			= "Переместить картинки из базы данных в каталог";
 $GLOBALS['strStorageExplaination']		= "
-	The images used by local banners are stored inside the database or stored in a directory. If you store the images inside 
-	a directory the load on the database will be reduced and this will lead to a increase in speed.
+	Картинки, используемые локальными баннерами, хранятся в базе данных или в каталоге. Если вы будете хранить картинки 
+	в каталоге на диске, нагрузка на базу данных уменьшится, и это приведёт к ускорению.
 ";
 
 
 // Storage
 $GLOBALS['strStatisticsExplaination']		= "
-	You have enabled the <i>compact statistics</i>, but your old statistics are still in verbose format. 
-	Do you want to convert your verbose statistics to the new compact format?
+	Вы включили <i>компактную статистику</i>, но ваша старая статистика всё ещё в расширенном формате. 
+	Хотите преобразовать вашу расширенную статистику в новый компактный формат?
 ";
 
 
 // Product Updates
-$GLOBALS['strSearchingUpdates']			= "Looking for updates. Please wait...";
-$GLOBALS['strAvailableUpdates']			= "Available updates";
-$GLOBALS['strDownloadZip']			= "Download (.zip)";
-$GLOBALS['strDownloadGZip']			= "Download (.tar.gz)";
+$GLOBALS['strSearchingUpdates']			= "Ищутся обновления. Пожалуйста, подождите...";
+$GLOBALS['strAvailableUpdates']			= "Доступные обновления";
+$GLOBALS['strDownloadZip']			= "Скачать (.zip)";
+$GLOBALS['strDownloadGZip']			= "Скачать (.tar.gz)";
 
-$GLOBALS['strUpdateAlert']			= "A new version of ".$phpAds_productname." is available.                 \\n\\nDo you want to get more information \\nabout this update?";
-$GLOBALS['strUpdateAlertSecurity']		= "A new version of ".$phpAds_productname." is available.                 \\n\\nIt is highly recommended to upgrade \\nas soon as possible, because this \\nversion contains one or more security fixes.";
+$GLOBALS['strUpdateAlert']			= "Доступна новая версия ".$phpAds_productname."                               \\n\\nХотите узнать больше \\nоб этом обновлении?";
+$GLOBALS['strUpdateAlertSecurity']		= "Доступна новая версия ".$phpAds_productname."                               \\n\\nРекомендуется произвести обновление \\nкак можно скорее, так как эта \\nверсия содержит одно или несколько исправлений, относящихся к безопасности.";
 
 $GLOBALS['strUpdateServerDown']			= "
-    Due to an unknown reason it isn't possible to retrieve <br>
-	information about possible updates. Please try again later.
+    По неизвестной причине невозможно получить информацию <br>
+	о возможных обновлениях. Пожалуйста, попытайтесь позднее.
 ";
 
 $GLOBALS['strNoNewVersionAvailable']		= "
-	Your version of ".$phpAds_productname." is up-to-date. There are currently no updates available.
+	Ваша версия ".$phpAds_productname." не требует обновления. Никаких обновлений в настоящее время нет.
 ";
 
 $GLOBALS['strNewVersionAvailable']		= "
-	<b>A new version of ".$phpAds_productname." is available.</b><br> It is recommended to install this update,
-	because it may fix some currently existing problems and will add new features. For more information
-	about upgrading please read the documentation which is included in the files below.
+	<b>Доступна новая версия ".$phpAds_productname."</b><br> Рекомендуется устанвоить это обновление,
+	поскольку оно может исправить некоторые существующие проблемы и добавить новую функциональность. За дополнительной
+	информацией об обнолвении обратитесь к документации, включённо в нижеперечисленные файлы.
 ";
 
 $GLOBALS['strSecurityUpdate']			= "
-	<b>It is highly recommended to install this update as soon as possible, because it contains a number
-	of security fixes.</b> The version of ".$phpAds_productname." which you are currently using might 
-	be vulnerable to certain attacks and is probably not secure. For more information
-	about upgrading please read the documentation which is included in the files below.
+	<b>Настоятельно рекомендуется установить это обновление как можно скорее, поскольку оно содержит несколько
+	исправлений, связанных с безопасностью.</b> Версия ".$phpAds_productname.", которую вы сейчас используете, может быть 
+	подвержена определённым атакам, и, вероятно, не безопасна. За дополнительной
+	информацией об обновлении обратитесь к документации, включённо в нежеперечисленные файлы.
+";
+
+$GLOBALS['strNotAbleToCheck']                   = "
+        <b>Поскольку модуль поддержки XML не установлен на вашем сервере, ".$phpAds_productname." не может
+    проверить наличие более свежей версии.</b>
+";
+
+$GLOBALS['strForUpdatesLookOnWebsite']  = "
+        Вы сейчас пользуетесь ".$phpAds_productname." ".$phpAds_version_readable.". 
+        Если вы хотите узнать, нет ли более новой версии, посетите наш вебсайт.
+";
+
+$GLOBALS['strClickToVisitWebsite']              = "
+        Щёлкните здесь, чтобы посетить наш вебсайт
 ";
 
 
 // Stats conversion
-$GLOBALS['strConverting']			= "Converting";
-$GLOBALS['strConvertingStats']			= "Converting statistics...";
-$GLOBALS['strConvertStats']			= "Convert statistics";
-$GLOBALS['strConvertAdViews']			= "AdViews converted,";
-$GLOBALS['strConvertAdClicks']			= "AdClicks converted...";
-$GLOBALS['strConvertNothing']			= "Nothing to convert...";
-$GLOBALS['strConvertFinished']			= "Finished...";
+$GLOBALS['strConverting']			= "Преобразование";
+$GLOBALS['strConvertingStats']			= "Преобразовываем статистики...";
+$GLOBALS['strConvertStats']			= "Преобразовать статистику";
+$GLOBALS['strConvertAdViews']			= "Показы преобразованы,";
+$GLOBALS['strConvertAdClicks']			= "Клики преобразованы...";
+$GLOBALS['strConvertNothing']			= "Нечего преобразовывать...";
+$GLOBALS['strConvertFinished']			= "Закончено...";
 
 $GLOBALS['strConvertExplaination']		= "
-	You are currently using the compact format to store your statistics, but there are <br>
-	still some statistics in verbose format. As long as the verbose statistics aren't  <br>
-	converted to compact format they will not be used while viewing these pages.  <br>
-	Before converting your statistics, make a backup of the database!  <br>
-	Do you want to convert your verbose statistics to the new compact format? <br>
+	Вы сейчас используете компактный формат хранения вашей статистики, но у вас всё еще есть <br>
+	некоторые данные в расширенном формате. До тех пор пока расширенная статистика не будет  <br>
+	преобразована в компактный формат, она не будет использоваться при просмотре этих страниц.  <br>
+	Перед преобразованием статистики, сделайте резервную копию базы данных!  <br>
+	Вы хотите преобразовать вашу расширенную статистику в новый компактный формат? <br>
 ";
 
 $GLOBALS['strConvertingExplaination']		= "
-	All remaining verbose statistics are now being converted to the compact format. <br>
-	Depending on how many impressions are stored in verbose format this may take a  <br>
-	couple of minutes. Please wait until the conversion is finished before you visit other <br>
-	pages. Below you will see a log of all modification made to the database. <br>
+	Вся оставшаяся расширенная статистика сейчас преобразуется в компактный формат. <br>
+	В зависимости от того, сколько показов сохранено в расширенном формате, это может занять  <br>
+	несколько минут. Пожалуйста, подождите окончания преобразования, прежде чем вы перейдёте на другие <br>
+	страницыpages. Ниже вы увидите журнал всех изменений, произвёденных в базе данных. <br>
 ";
 
 $GLOBALS['strConvertFinishedExplaination']  	= "
-	The conversion of the remaining verbose statistics was succesful and the data <br>
-	should now be usable again. Below you will see a log of all modification made <br>
-	to the database.<br>
+	Преобразование остававшейся расширенной статистики было успешным и все данные <br>
+	должны быть теперь доступны. Ниже вы можете увидеть журнал всех изменений, <br>
+	произведённых в базе данных.<br>
 ";
 
 

@@ -106,6 +106,11 @@ $GLOBALS['strLeftMargin']			= "Левое поле";
 $GLOBALS['strRightMargin']			= "Правое поле";
 $GLOBALS['strTransparentBackground']		= "Прозрачный фон";
 
+$GLOBALS['strSmoothMovement']           = "Плавное движение";
+$GLOBALS['strHideNotMoving']            = "Спрятать баннер когда курсор не движется";
+$GLOBALS['strHideDelay']                        = "Задержка перед сокрытием баннера";
+$GLOBALS['strHideTransparancy']         = "Прозрачность спрятанного баннера";
+
 
 $GLOBALS['strAdLayerStyleName']	= array(
 	'geocities'		=> "Geocities",

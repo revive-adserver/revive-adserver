@@ -27,6 +27,7 @@ $GLOBALS['time_format'] = "%H:%M:%S";
 $GLOBALS['strMySQLError'] = "Ошибка MySQL:";
 $GLOBALS['strAdminstration'] = "Администрирование";
 $GLOBALS['strAddClient'] = "Добавить клиента";
+$GLOBALS['strAddClient_Key']            = "Добавить <u>н</u>ового клиента";
 $GLOBALS['strModifyClient'] = "Изменить клиента";
 $GLOBALS['strDeleteClient'] = "Удалить клиента";
 $GLOBALS['strViewClientStats'] = "Посмотреть статистику клиента";
@@ -46,7 +47,9 @@ $GLOBALS['strCreditStats'] = "Статистика кредитов";
 $GLOBALS['strViewCredits'] = "Кредиты по показам";   
 $GLOBALS['strClickCredits'] = "Кредиты по кликам";
 $GLOBALS['strPrevious'] = "Предыдущий";
+$GLOBALS['strPrevious_Key']                     = "<u>П</u>редыдущий";
 $GLOBALS['strNext'] = "Следующий";
+$GLOBALS['strNext_Key']                                 = "<u>C</u>ледующий";
 $GLOBALS['strNone'] = "Нет";
 $GLOBALS['strViewsPurchased'] = "Куплено показов";
 $GLOBALS['strClicksPurchased'] = "Куплено кликов";
@@ -63,6 +66,7 @@ $GLOBALS['strBanner'] = "Баннер";
 $GLOBALS['strCurrentBanner'] = "Текущий баннер";
 $GLOBALS['strDelete'] = "Удалить";
 $GLOBALS['strAddBanner'] = "Добавить новый баннер";
+$GLOBALS['strAddBanner_Key']                    = "Добавить <u>н</u>овый баннер";
 $GLOBALS['strModifyBanner'] = "Изменить баннер";
 $GLOBALS['strURL'] = "URL (с http://)";
 $GLOBALS['strKeyword'] = "ключевое слово (латиницей и цифрами)";
@@ -217,6 +221,9 @@ $GLOBALS['strBannersWithoutCampaign']	= "Баннеры без кампании";
 $GLOBALS['strMoveToNewCampaign']		= "Перейти к новой кампании";
 $GLOBALS['strCreateNewCampaign']		= "Создать новую кампанию";
 $GLOBALS['strEditCampaign']				= "Редактировать кампанию";
+$GLOBALS['strAddCampaign']                      = "Добавить новую кампанию";
+$GLOBALS['strAddCampaign_Key']          = "Добавить <u>н</u>овую кампанию";
+
 $GLOBALS['strEdit']						= "Редактировать";
 $GLOBALS['strCreate']					= "Создать";
 $GLOBALS['strUntitled']					= "Без названия";
@@ -247,7 +254,7 @@ $GLOBALS['strUniqueidentifier']			= "Уникальный идентификатор";
 $GLOBALS['strFrameSize']				= "Размер фрэйма";
 $GLOBALS['strBannercode']				= "Баннерный код";
 
-$GLOBALS['strSearch']					= "Поиск";
+$GLOBALS['strSearch']					= "<u>П</u>оиск";
 $GLOBALS['strNoMatchesFound']			= "Ничего не найдено";
 
 $GLOBALS['strNoViewLoggedInInterval']   = "За период данного отчета не было зарегистрировано просмотров";
@@ -269,6 +276,7 @@ $GLOBALS['strZones']					= "Зоны";
 $GLOBALS['strAddZone']					= "Создать зону";
 $GLOBALS['strModifyZone']				= "Редактировать зону";
 $GLOBALS['strAddNewZone']				= "Добавить новую зону";
+$GLOBALS['strAddNewZone_Key']                   = "Добавить <u>н</u>овую зону";
 
 $GLOBALS['strOverview']					= "Обозрение";
 $GLOBALS['strEqualTo']					= "равно";
@@ -320,6 +328,7 @@ $GLOBALS['strModifyBannerAcl'] 			= "Ограниченя показа";
 $GLOBALS['strACL'] 						= "Лимит";
 $GLOBALS['strNoMoveUp'] 				= "Не могу переместить первый ряд выше";
 $GLOBALS['strACLAdd'] 					= "Добавить новое ограничение";
+$GLOBALS['strACLAdd_Key']                               = "Добавить <u>н</u>овое ограничение";
 $GLOBALS['strNoLimitations']			= "Ограничений нет";
 
 $GLOBALS['strLinkedZones']				= "Связанные зоны";
@@ -338,8 +347,13 @@ $GLOBALS['strAffiliatesAndZones']		= "Издатели и зоны";
 $GLOBALS['strAddAffiliate']				= "Создать издателя";
 $GLOBALS['strModifyAffiliate']			= "Редактировать издателя";
 $GLOBALS['strAddNewAffiliate']			= "Добавить нового издателя";
+$GLOBALS['strAddNewAffiliate_Key']                      = "Добавить <u>н</u>ового издателя";
 
 $GLOBALS['strCheckAllNone']				= "Пометить всё / ничего";
+
+$GLOBALS['strExpandAll']                        = "<u>Р</u>аскрыть всё";
+$GLOBALS['strCollapseAll']                      = "<u>З</u>акрыть всё";
+
 
 $GLOBALS['strAllowAffiliateModifyInfo'] = "Разрешить этому пользователю редактировать свою издательскую информацию";
 $GLOBALS['strAllowAffiliateModifyZones'] = "Разрешить этому пользователю редактировать его собственные зоны";
@@ -458,6 +472,24 @@ $GLOBALS['strHosts']                            = "Хосты";
 $GLOBALS['strTopHosts']                         = "Лучшие хосты";
 $GLOBALS['strTopCountries']             = "Лучшие страны";
 $GLOBALS['strRecentHosts']                      = "Недавно просматривавшие хосты";
+
+// Reserved keys
+// Do not change these unless absolutely needed
+$GLOBALS['keyHome']                     = 'h';
+$GLOBALS['keyUp']                       = 'u';
+$GLOBALS['keyNextItem']         = '.';
+$GLOBALS['keyPreviousItem']     = ',';
+$GLOBALS['keyList']                     = 'l';
+
+// Other keys
+// Please make sure you underline the key you
+// used in the string in default.lang.php
+$GLOBALS['keySearch']           = 'П';
+$GLOBALS['keyCollapseAll']      = 'З';
+$GLOBALS['keyExpandAll']        = 'Р';
+$GLOBALS['keyAddNew']           = 'н';
+$GLOBALS['keyNext']                     = 'С';
+$GLOBALS['keyPrevious']         = 'П';
 
 
 ?>
