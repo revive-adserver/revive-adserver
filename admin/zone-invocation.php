@@ -140,11 +140,28 @@ else
 /* Main code                                             */
 /*********************************************************/
 
-$what = "zone:$zoneid";
-$extra = array('affiliateid' => $affiliateid, 'zoneid' => $zoneid);
+$res = phpAds_dbQuery("
+	SELECT
+		*
+	FROM
+		".$phpAds_config['tbl_zones']."
+	WHERE
+		zoneid = $zoneid
+	") or phpAds_sqlDie();
 
-phpAds_placeInvocationForm($extra, true);
-
+if (phpAds_dbNumRows($res))
+{
+	$zone = phpAds_dbFetchArray($res);
+	
+	$extra = array('affiliateid' => $affiliateid, 
+				   'zoneid' => $zoneid,
+				   'what' => 'zone:'.$zoneid,
+				   'width' => $zone['width'],
+				   'height' => $zone['height']
+	);
+	
+	phpAds_placeInvocationForm($extra, true);
+}
 
 
 /*********************************************************/
