@@ -64,7 +64,7 @@ function phpAds_revisionCompare ($first, $second)
 
 function phpAds_revisionCheck ()
 {
-	global $phpAds_version;
+	global $phpAds_version, $phpAds_productname;
 	
 	$fatal   = false;
 	$error   = false;
@@ -146,12 +146,12 @@ function phpAds_revisionCheck ()
 				if (isset($GLOBALS['strRevCVS']))
 					$message[] = $GLOBALS['strRevCVS'];
 				else	
-					$message[] = 'You are trying to install a CVS checkout of phpAdsNew. This is not an official release and may be unstable or even non-functional. Are you sure you want to continue?';			
+					$message[] = 'You are trying to install a CVS checkout of '.$phpAds_productname.'. This is not an official release and may be unstable or even non-functional. Are you sure you want to continue?';			
 			}
 			else
 			{
 				// Revfile does not match version (no need for translation, because language file is not loaded yet)
-				$errors[] = 'The integrity of your phpAdsNew installation could not be checked because the file that contains the information does not match the version you are trying to install.';
+				$errors[] = 'The integrity of your '.$phpAds_productname.' installation could not be checked because the file that contains the information does not match the version you are trying to install.';
 				$error = true;
 			}
 		}
@@ -161,7 +161,7 @@ function phpAds_revisionCheck ()
 	else
 	{
 		// Revfile does not match version (no need for translation, because language file is not loaded yet)
-		$errors[] = 'The integrity of your phpAdsNew installation could not be checked because the file that contains the information could not be opened.';
+		$errors[] = 'The integrity of your '.$phpAds_productname.' installation could not be checked because the file that contains the information could not be opened.';
 		$error = true;
 	}
 	
