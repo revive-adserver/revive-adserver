@@ -15,6 +15,7 @@ CVS			+ Misc changes to library and function names
 			  - Added $phpads_proxy_lookup option  (Niels) 20011024
 			  - Removed path detection from config.inc.php, 
 			    to prevent it from being executed twice  (Niels) 20011025
+			  - Added filter to make sure keywords are entered the right way  (Niels) 20011025
 
 			+ Misc bugfixes
 			  - Removed extra comma from config.inc  (Matteo) 20011017
