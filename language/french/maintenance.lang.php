@@ -23,7 +23,7 @@ $GLOBALS['strHighPriorityCampaigns']		= "Campagnes avec une priorité haute";
 $GLOBALS['strAdViewsAssigned']			= "Affichages assignés";
 $GLOBALS['strLowPriorityCampaigns']			= "Campagnes avec une priorité basse";
 $GLOBALS['strPredictedAdViews']			= "Affichages prévus";
-$GLOBALS['strPriorityDaysRunning']			= "Il y a actuellement {days} jours de statistiques disponibles à partir desquels phpAdsNew peut effectuer ses prévisions. ";
+$GLOBALS['strPriorityDaysRunning']			= "Il y a actuellement {days} jours de statistiques disponibles à partir desquels ".$phpAds_productname." peut effectuer ses prévisions. ";
 $GLOBALS['strPriorityBasedLastWeek']		= "Les prévisions sont basées sur les données de cette semaine et de la semaine passée. ";
 $GLOBALS['strPriorityBasedLastDays']		= "Les prévisions sont basées sur les données des derniers jours. ";
 $GLOBALS['strPriorityBasedYesterday']		= "Les prévisions sont basées sur les données d'hier. ";
@@ -38,7 +38,7 @@ $GLOBALS['strBannerCacheExplaination']		= "
 	Le cache des bannières contient une copie du code HTML qui est utilisé pour afficher la bannière. En utilisant
 	ce cache de bannière, il est possible d'accélérer la distribution des bannières, car le code HTML n'a plus
 	besoin d'être généré chaque fois qu'une bannière est demandée. Parce que le cache des bannière contient des
-	liens codés en dur, il a besoin d'être reconstruit à chaque fois que phpAdsNew est déplacé sur le serveur Web.
+	liens codés en dur, il a besoin d'être reconstruit à chaque fois que ".$phpAds_productname." est déplacé sur le serveur Web.
 ";
 
 

@@ -218,7 +218,7 @@ $GLOBALS['strViewsPurchased'] 		= "Nb d'affichages restant";
 $GLOBALS['strClicksPurchased'] 		= "Nb de clics restant";
 $GLOBALS['strCampaignWeight']			= "Poids de la Campagne";
 $GLOBALS['strHighPriority']			= "Montrer les bannières de cette campagne avec une priorité haute.<br>
-								Si vous utilisez cette option, phpAdsNew essayera
+								Si vous utilisez cette option, ".$phpAds_productname." essayera
 								de distribuer le nombre d'affichages restants de
 								façon égale dans le temps.";
 $GLOBALS['strLowPriority']			= "Montrer les bannières de cette campagne avec une priorité basse.<br>
@@ -277,7 +277,7 @@ $GLOBALS['strBannerWeight']			= "Poids de la bannière";
 // Banner (swf)
 $GLOBALS['strCheckSWF']				= "Contrôler les liens codés en dur dans le fichier Flash";
 $GLOBALS['strConvertSWFLinks']		= "Convertir les liens Flash";
-$GLOBALS['strConvertSWF']			= "<br>Le fichier Flash que vous venez d'envoyer contient des liens codés en dur. phpAdsNew ne pourra ".
+$GLOBALS['strConvertSWF']			= "<br>Le fichier Flash que vous venez d'envoyer contient des liens codés en dur. ".$phpAds_productname." ne pourra ".
 							  	"pas compter les clicks pour ces bannières à moins que vous ne convertissiez ces liens codés en dur. ".
 								"Vous trouverez ci-dessous une liste de tous les liens présents dans le fichier flash. ".
 								"Si vous souhaitez convertir ces liens, cliquez simplement sur <b>Convertir</b>, autrement cliquez sur ".
@@ -446,7 +446,7 @@ $GLOBALS['strBannercode']			= "Code d'invocation de la bannière";
 
 
 // Errors
-$GLOBALS['strMySQLError'] 			= "Erreur MySQL:";
+$GLOBALS['strMySQLError'] 			= "Erreur SQL:";
 $GLOBALS['strLogErrorClients'] 		= "[phpAds] Une erreur a eu lieu en tentant de récupérer les annonceurs dans la base de données.";
 $GLOBALS['strLogErrorBanners'] 		= "[phpAds] Une erreur a eu lieu en tentant de récupérer les bannières dans la base de données.";
 $GLOBALS['strLogErrorViews'] 			= "[phpAds] Une erreur a eu lieu en tentant de récupérer les nombres d'affichages dans la base de données.";

@@ -25,35 +25,35 @@ $GLOBALS['strOtherSettings']			= "Autres paramètres";
 
 $GLOBALS['strWarning']				= "Alerte";
 $GLOBALS['strFatalError']			= "Une erreur fatale est survenue";
-$GLOBALS['strAlreadyInstalled']		= "phpAdsNew est déjà installé sur ce système. Si vous souhaitez le configurer, allez à <a href='settings-index.php'>l'interface de paramétrage</a>";
+$GLOBALS['strAlreadyInstalled']		= $phpAds_productname." est déjà installé sur ce système. Si vous souhaitez le configurer, allez à <a href='settings-index.php'>l'interface de paramétrage</a>";
 $GLOBALS['strCouldNotConnectToDB']		= "Impossible de se connecter à la base de données, veuillez vérifier les paramètres que vous avez entrés";
 $GLOBALS['strCreateTableTestFailed']	= "L'utilisateur que vous avez spécifié n'a pas la permission de créer ou de mettre à jour la structure de la base de données. Veuillez contacter l'administrateur de la base.";
 $GLOBALS['strUpdateTableTestFailed']	= "L'utilisateur que vous avez spécifié n'a pas la permission de mettre à jour la structure de la base de données. Veuillez contacter l'administrateur de la base.";
 $GLOBALS['strTablePrefixInvalid']		= "Le préfixe des tables contient des caractères invalides";
-$GLOBALS['strTableInUse']			= "La base de données que vous avez spécifiée est déjà utilisée pour phpAdsNew. Veuillez utiliser un préfixe de table différent, ou lire le manuel pour les instructions de mise à jour.";
+$GLOBALS['strTableInUse']			= "La base de données que vous avez spécifiée est déjà utilisée pour ".$phpAds_productname.". Veuillez utiliser un préfixe de table différent, ou lire le manuel pour les instructions de mise à jour.";
 $GLOBALS['strMayNotFunction']			= "Avant de continuer, merci de corriger ce problème potentiel::";
 $GLOBALS['strIgnoreWarnings']			= "Ignorer les avertissement";
-$GLOBALS['strWarningPHPversion']		= "phpAdsNew requiert  PHP 3.0.8 (ou plus) pour fonctionner correctement. Vous utilisez actuellement {php_version}.";
+$GLOBALS['strWarningPHPversion']		= $phpAds_productname." requiert  PHP 3.0.8 (ou plus) pour fonctionner correctement. Vous utilisez actuellement {php_version}.";
 $GLOBALS['strWarningRegisterGlobals']	= "La variable de configuration globale PHP <i>register_globals</i> doit être à 'on'.";
 $GLOBALS['strWarningMagicQuotesGPC']	= "La variable de configuration globale PHP <i>magic_quotes_gpc</i> doit être à 'on'.";
 $GLOBALS['strWarningMagicQuotesRuntime']  = "La variable de configuration globale PHP <i>magic_quotes_runtime</i> doit être à 'off'.";
-$GLOBALS['strConfigLockedDetected']		= "phpAdsNew a détecté que votre fichier <b>config.inc.php</b> n'est pas inscriptible par le serveur.<br> Vous ne pouvez pas continuez tant que vous ne changerez pas les permissions d'écriture sur ce fichier. <br>Veuillez lire la documentation fournie si vous ne savez pas comment le faire.";
+$GLOBALS['strConfigLockedDetected']		= $phpAds_productname." a détecté que votre fichier <b>config.inc.php</b> n'est pas inscriptible par le serveur.<br> Vous ne pouvez pas continuez tant que vous ne changerez pas les permissions d'écriture sur ce fichier. <br>Veuillez lire la documentation fournie si vous ne savez pas comment le faire.";
 $GLOBALS['strCantUpdateDB']  			= "Il n'est actuellement pas possible de mettre à jour la base de données. Si vous décidez de continuer, toutes les bannières existantes, les statistiques, et les annonceures seront supprimés.";
 $GLOBALS['strTableNames']			= "Nom de la base";
 $GLOBALS['strTablesPrefix']			= "Préfixe des noms des tables";
 $GLOBALS['strTablesType']			= "Type de table";
 
-$GLOBALS['strInstallWelcome']			= "Bienvenue sur phpAdsNew";
-$GLOBALS['strInstallMessage']			= "Avant de pouvoir utiliser phpAdsNew, il est nécessaire de le configurer et la base de données doit être crée. Cliquez sur <b>Continuer</b> pour poursuivre.";
-$GLOBALS['strInstallSuccess']			= "<b>L'installation de phpAdsNew est maintenant complète.</b><br><br>Afin que phpAdsNew fonctionne correctement, vous devez aussi faire en sorte que le fichier de
+$GLOBALS['strInstallWelcome']			= "Bienvenue sur ".$phpAds_productname;
+$GLOBALS['strInstallMessage']			= "Avant de pouvoir utiliser ".$phpAds_productname.", il est nécessaire de le configurer et la base de données doit être crée. Cliquez sur <b>Continuer</b> pour poursuivre.";
+$GLOBALS['strInstallSuccess']			= "<b>L'installation de ".$phpAds_productname." est maintenant complète.</b><br><br>Afin que ".$phpAds_productname." fonctionne correctement, vous devez aussi faire en sorte que le fichier de
 										   maintenance est exécuté chaque heure. Vous trouverez plus d'informations à ce sujet dans la documentation.
 										   <br><br>Cliquez sur <b>Continuer</b> pour aller à la page de configuration, où vous pourrez
-										   paramétrer un peu plus phpAdsNew. Veuillez à ne pas oublier de protéger en écriture config.inc.php lorsque vous aurez fini, afin de refermer des failles potentielles de sécurité.";
-$GLOBALS['strUpdateSuccess']			= "<b>La mise à niveau de phpAdsNew est réussie.</b><br><br>Afin que phpAdsNew fonctionne correctement, vous devez aussi faire en sorte que le fichier de
+										   paramétrer un peu plus ".$phpAds_productname.". Veuillez à ne pas oublier de protéger en écriture config.inc.php lorsque vous aurez fini, afin de refermer des failles potentielles de sécurité.";
+$GLOBALS['strUpdateSuccess']			= "<b>La mise à niveau de ".$phpAds_productname." est réussie.</b><br><br>Afin que ".$phpAds_productname." fonctionne correctement, vous devez aussi faire en sorte que le fichier de
 										   maintenance est exécuté chaque heure (précédemment c'était chaque jour). Vous trouverez plus d'informations à ce sujet dans la documentation.
 										   <br><br>Cliquez sur <b>Continuer</b> pour aller à la page de configuration, où vous pourrez
-										   paramétrer un peu plus phpAdsNew. Veuillez à ne pas oublier de protéger en écriture config.inc.php lorsque vous aurez fini, afin de refermer des failles potentielles de sécurité.";
-$GLOBALS['strInstallNotSuccessful']		= "<b>L'installation de phpAdsNew a échouée</b><br><br>Certaines partie du processus d'installation n'ont pas pu être réalisées.
+										   paramétrer un peu plus ".$phpAds_productname.". Veuillez à ne pas oublier de protéger en écriture config.inc.php lorsque vous aurez fini, afin de refermer des failles potentielles de sécurité.";
+$GLOBALS['strInstallNotSuccessful']		= "<b>L'installation de ".$phpAds_productname." a échouée</b><br><br>Certaines partie du processus d'installation n'ont pas pu être réalisées.
 										   Il est possible que ces problèmes ne soient que temporaires; dans ce cas vous pouvez simplement cliquer sur <b>Continuer</b> et retourner
 										   à la première étape du processus d'installation. Si vous voulez en savoir plus sur la signification du message d'erreur ci-dessous, et comment résoudre le problème,
 										   veuillez consulter la documentation fournie.";
@@ -71,7 +71,7 @@ $GLOBALS['strInvalidUserPwd']			= "Nom d'utilisateur, ou mot de passe invalide";
 
 $GLOBALS['strUpgrade']				= "Mise à niveau";
 $GLOBALS['strSystemUpToDate']			= "Votre système est déjà à jour, et aucune mise à niveau n'est nécessaire pour le moment. <br>Cliquez sur <b>Continuer</b> pour aller à la page d'accueil.";
-$GLOBALS['strSystemNeedsUpgrade']		= "La structure de la base de donnée, et le fichier de configuration ont besoin d'être mis à jour afin de faire marcher phpAdsNew. Cliquez sur <b>Continuer</b> afin de commencer le processus de mise à niveau. <br>Merci d'être patient, la mise à jour pouvant prendre quelques minutes.";
+$GLOBALS['strSystemNeedsUpgrade']		= "La structure de la base de donnée, et le fichier de configuration ont besoin d'être mis à jour afin de faire marcher ".$phpAds_productname.". Cliquez sur <b>Continuer</b> afin de commencer le processus de mise à niveau. <br>Merci d'être patient, la mise à jour pouvant prendre quelques minutes.";
 $GLOBALS['strSystemUpgradeBusy']		= "Mise à jour du système en cours, merci de patienter...";
 $GLOBALS['strSystemRebuildingCache']	= "Reconstruction du cache, merci de patienter...";
 $GLOBALS['strServiceUnavalable']		= "Le service est temporairement indisponible. Mise à jour du système en cours";
@@ -135,7 +135,7 @@ $GLOBALS['strUseMultipleKeys']		= "Utiliser des mots clés multiples";
 $GLOBALS['strUseAcl']				= "Utiliser la limitation d'affichage";
 
 $GLOBALS['strZonesSettings']			= "Récupération des zones";
-$GLOBALS['strZoneCache']			= "Cacher les zones; cela peut accélérer phpAdsNew lorsque l'on utilise les zones";
+$GLOBALS['strZoneCache']			= "Cacher les zones; cela peut accélérer ".$phpAds_productname." lorsque l'on utilise les zones";
 $GLOBALS['strZoneCacheLimit']			= "Délai entre les mises à jour du cache (en secondes)";
 $GLOBALS['strZoneCacheLimitErr']		= "Le délai entre les mises à jour du cache DOIT être un entier positif";
 
