@@ -21,6 +21,7 @@ define ('LIBDBCONFIG_INCLUDED', true);
 $phpAds_version = 200.116;
 $phpAds_version_readable = "2 dev 16102002";
 $phpAds_productname = "phpAdsNew";
+$phpAds_producturl = "www.phpadsnew.com";
 $phpAds_dbmsname = "MySQL";
 
 $GLOBALS['phpAds_settings_information'] = array(
