@@ -22,11 +22,15 @@ require ("lib-zones.inc.php");
 
 
 // Register input variables
-phpAds_registerGlobal ('expand', 'collapse', 'listorder', 'orderdirection');
+phpAds_registerGlobal ('expand', 'collapse', 'listorder', 'orderdirection', 'period', 'period_range');
 
 
 // Security check
 phpAds_checkAccess(phpAds_Admin);
+
+
+// Set default values
+$tabindex = 1;
 
 
 
@@ -63,6 +67,31 @@ if (isset($Session['prefs']['stats-global-affiliates.php']['nodes']))
 	$node_array = explode (",", $Session['prefs']['stats-global-affiliates.php']['nodes']);
 else
 	$node_array = array();
+
+
+if (!isset($period))
+{
+	if (isset($Session['prefs']['stats-global-affiliates.php']['period']))
+		$period = $Session['prefs']['stats-global-affiliates.php']['period'];
+	else
+		$period = '';
+}
+
+
+if (!isset($period_range))
+{
+	if (isset($Session['prefs']['stats-global-affiliates.php']['period_range']))
+		$period_range = $Session['prefs']['stats-global-affiliates.php']['period_range'];
+	else
+		$period_range = array (
+			'start_day' => 0,
+			'start_month' => 0,
+			'start_year' => 0,
+			'end_day' => 0,
+			'end_month' => 0,
+			'end_year' => 0
+		);
+}
 
 
 
@@ -106,73 +135,157 @@ while ($row_zones = phpAds_dbFetchArray($res_zones))
 		$zones[$row_zones['zoneid']]['views'] = 0;
 		$zones[$row_zones['zoneid']]['clicks'] = 0;
 	}
+	
+	$zoneids[] = $row_zones['zoneid'];
 }
 
 
-// Get the adviews/clicks for each banner
-if ($phpAds_config['compact_stats'])
+
+
+
+// Check period range
+if ($period_range['start_month'] == 0 || $period_range['start_day'] == 0 || $period_range['start_year'] == 0)
 {
-	$res_stats = phpAds_dbQuery("
-		SELECT
-			zoneid,
-			sum(views) as views,
-			sum(clicks) as clicks
-		FROM 
-			".$phpAds_config['tbl_adstats']."
-		GROUP BY
-			zoneid
-		") or phpAds_sqlDie();
-	
-	while ($row_stats = phpAds_dbFetchArray($res_stats))
+	$period_begin = 0;
+	$period_range['start_day'] = $period_range['start_month'] = $period_range['start_year'] = 0;
+}
+else
+	$period_begin = mktime(0, 0, 0, $period_range['start_month'], $period_range['start_day'], $period_range['start_year']);
+
+
+if ($period_range['end_month'] == 0 || $period_range['end_day'] == 0 || $period_range['end_year'] == 0)
+{
+	$period_end = mktime(0, 0, 0, date('m'), date('d') + 1, date('Y'));
+	$period_range['end_day'] = $period_range['end_month'] = $period_range['end_year'] = 0;
+}
+else
+	$period_end = mktime(0, 0, 0, $period_range['end_month'], $period_range['end_day'], $period_range['end_year']);
+
+
+
+if (!$phpAds_config['compact_stats'])
+{
+	switch ($period)
 	{
-		if (isset($zones[$row_stats['zoneid']]))
-		{
-			$zones[$row_stats['zoneid']]['clicks'] = $row_stats['clicks'];
-			$zones[$row_stats['zoneid']]['views'] = $row_stats['views'];
-		}
+		case 'r':	$limit 		    	= " AND t_stamp >= ".date('YmdHis', $period_begin)." AND t_stamp < ".date('YmdHis', $period_end);
+					break;
+				
+		case 'y':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d') - 1, date('Y'));	
+					$timestamp_end		= mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+					$limit 		    	= " AND t_stamp >= ".date('YmdHis', $timestamp_begin)." AND t_stamp < ".date('YmdHis', $timestamp_end);
+					break;
+				
+		case 't':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+					$limit 				= " AND t_stamp >= ".date('YmdHis', $timestamp_begin);
+					break;
+				
+		case 'w':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d') - 6, date('Y'));
+					$limit 				= " AND t_stamp >= ".date('YmdHis', $timestamp_begin);
+					break;
+				
+		case 'm':	$timestamp_begin	= mktime(0, 0, 0, date('m'), 1, date('Y'));
+					$limit 				= " AND t_stamp >= ".date('YmdHis', $timestamp_begin);
+					break;
+				
+		default:	$limit = '';
+					$period = '';
+					break;
 	}
 }
 else
 {
-	$res_stats = phpAds_dbQuery("
-		SELECT
-			zoneid,
-			count(*) as views
-		FROM 
-			".$phpAds_config['tbl_adviews']."
-		GROUP BY
-			zoneid
-		") or phpAds_sqlDie();
-	
-	while ($row_stats = phpAds_dbFetchArray($res_stats))
+	switch ($period)
 	{
-		if (isset($zones[$row_stats['zoneid']]))
+		case 'r':	$limit 		    	= " AND day >= ".date('Ymd', $period_begin)." AND day < ".date('Ymd', $period_end);
+					break;
+				
+		case 'y':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d') - 1, date('Y'));
+					$timestamp_end		= mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+					$limit 				= " AND day >= ".date('Ymd', $timestamp_begin)." AND day < ".date('Ymd', $timestamp_end);
+					break;
+				
+		case 't':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+					$limit 				= " AND day >= ".date('Ymd', $timestamp_begin);
+					break;
+				
+		case 'w':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d') - 6, date('Y'));
+					$limit 				= " AND day >= ".date('Ymd', $timestamp_begin);
+					break;
+				
+		case 'm':	$timestamp_begin	= mktime(0, 0, 0, date('m'), 1, date('Y'));
+					$limit 				= " AND day >= ".date('Ymd', $timestamp_begin);
+					break;
+				
+		default:	$limit = '';
+					$period = '';
+					break;
+	}
+}
+
+
+// Get the adviews/clicks for each banner
+if (count($zoneids))
+{
+	if ($phpAds_config['compact_stats'])
+	{
+		$res_stats = phpAds_dbQuery("
+			SELECT
+				zoneid,
+				sum(views) as views,
+				sum(clicks) as clicks
+			FROM 
+				".$phpAds_config['tbl_adstats']."
+			WHERE
+				zoneid IN (".join(', ', $zoneids).")".$limit."
+			GROUP BY
+				zoneid
+			") or phpAds_sqlDie();
+		
+		while ($row_stats = phpAds_dbFetchArray($res_stats))
+		{
+			$zones[$row_stats['zoneid']]['clicks'] = $row_stats['clicks'];
+			$zones[$row_stats['zoneid']]['views'] = $row_stats['views'];
+		}
+	}
+	else
+	{
+		$res_stats = phpAds_dbQuery("
+			SELECT
+				zoneid,
+				count(*) as views
+			FROM 
+				".$phpAds_config['tbl_adviews']."
+			WHERE
+				zoneid IN (".join(', ', $zoneids).")".$limit."
+			GROUP BY
+				zoneid
+			") or phpAds_sqlDie();
+		
+		while ($row_stats = phpAds_dbFetchArray($res_stats))
 		{
 			$zones[$row_stats['zoneid']]['views'] = $row_stats['views'];
 			$zones[$row_stats['zoneid']]['clicks'] = 0;
 		}
-	}
-	
-	
-	$res_stats = phpAds_dbQuery("
-		SELECT
-			zoneid,
-			count(*) as clicks
-		FROM 
-			".$phpAds_config['tbl_adclicks']."
-		GROUP BY
-			zoneid
-		") or phpAds_sqlDie();
-	
-	while ($row_stats = phpAds_dbFetchArray($res_stats))
-	{
-		if (isset($zones[$row_stats['zoneid']]))
+		
+		
+		$res_stats = phpAds_dbQuery("
+			SELECT
+				zoneid,
+				count(*) as clicks
+			FROM 
+				".$phpAds_config['tbl_adclicks']."
+			WHERE
+				zoneid IN (".join(', ', $zoneids).")".$limit."
+			GROUP BY
+				zoneid
+			") or phpAds_sqlDie();
+		
+		while ($row_stats = phpAds_dbFetchArray($res_stats))
 		{
 			$zones[$row_stats['zoneid']]['clicks'] = $row_stats['clicks'];
 		}
 	}
 }
-
 
 
 // Add ID found in expand to expanded nodes
@@ -250,6 +363,73 @@ if (isset($affiliates) && is_array($affiliates) && count($affiliates) > 0)
 }
 
 
+
+echo "<form action='".$HTTP_SERVER_VARS['PHP_SELF']."'>";
+
+echo "<select name='period' onChange='this.form.submit();' accesskey='".$keyList."' tabindex='".($tabindex++)."'>";
+	echo "<option value=''".($period == '' ? ' selected' : '').">".$strCollectedAll."</option>";
+	echo "<option value='' disabled>-----------------------------------------</option>";
+	echo "<option value='t'".($period == 't' ? ' selected' : '').">".$strCollectedToday."</option>";
+	echo "<option value='y'".($period == 'y' ? ' selected' : '').">".$strCollectedYesterday."</option>";
+	echo "<option value='w'".($period == 'w' ? ' selected' : '').">".$strCollected7Days."</option>";
+	echo "<option value='m'".($period == 'm' ? ' selected' : '').">".$strCollectedMonth."</option>";
+	echo "<option value='' disabled>-----------------------------------------</option>";
+	echo "<option value='r'".($period == 'r' ? ' selected' : '').">".$strCollectedRange."</option>";
+echo "</select>";
+
+
+if ($period == 'r')
+{
+	phpAds_ShowBreak();
+	echo $strFrom."&nbsp;&nbsp;";
+	
+	// Starting date
+	echo "<select name='period_range[start_day]'>\n";
+	echo "<option value='0'".($period_range['start_day'] == 0 ? ' selected' : '').">-</option>\n";
+	for ($i=1;$i<=31;$i++)
+		echo "<option value='$i'".($i == $period_range['start_day'] ? ' selected' : '').">$i</option>\n";
+	echo "</select>&nbsp;\n";
+	
+	echo "<select name='period_range[start_month]'>\n";
+	echo "<option value='0'".($period_range['start_month'] == 0 ? ' selected' : '').">-</option>\n";
+	for ($i=1;$i<=12;$i++)
+		echo "<option value='$i'".($i == $period_range['start_month'] ? ' selected' : '').">".$strMonth[$i-1]."</option>\n";
+	echo "</select>&nbsp;\n";
+	
+	echo "<select name='period_range[start_year]'>\n";
+	echo "<option value='0'".($period_range['start_year'] == 0 ? ' selected' : '').">-</option>\n";
+	for ($i=date('Y')-4;$i<=date('Y');$i++)
+		echo "<option value='$i'".($i == $period_range['start_year'] ? ' selected' : '').">$i</option>\n";
+	echo "</select>\n";	
+	
+	// To
+	echo "&nbsp;$strTo&nbsp;&nbsp;";
+	
+	// End date
+	echo "<select name='period_range[end_day]'>\n";
+	echo "<option value='0'".($period_range['end_day'] == 0 ? ' selected' : '').">-</option>\n";
+	for ($i=1;$i<=31;$i++)
+		echo "<option value='$i'".($i == $period_range['end_day'] ? ' selected' : '').">$i</option>\n";
+	echo "</select>&nbsp;\n";
+	
+	echo "<select name='period_range[end_month]'>\n";
+	echo "<option value='0'".($period_range['end_month'] == 0 ? ' selected' : '').">-</option>\n";
+	for ($i=1;$i<=12;$i++)
+		echo "<option value='$i'".($i == $period_range['end_month'] ? ' selected' : '').">".$strMonth[$i-1]."</option>\n";
+	echo "</select>&nbsp;\n";
+	
+	echo "<select name='period_range[end_year]'>\n";
+	echo "<option value='0'".($period_range['end_year'] == 0 ? ' selected' : '').">-</option>\n";
+	for ($i=date('Y')-4;$i<=date('Y');$i++)
+		echo "<option value='$i'".($i == $period_range['end_year'] ? ' selected' : '').">$i</option>\n";
+	echo "</select>\n";	
+	
+	echo "&nbsp;";
+	echo "<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif'>";
+}
+
+phpAds_ShowBreak();
+echo "</form>";
 
 
 
@@ -410,6 +590,9 @@ else
 $Session['prefs']['stats-global-affiliates.php']['listorder'] = $listorder;
 $Session['prefs']['stats-global-affiliates.php']['orderdirection'] = $orderdirection;
 $Session['prefs']['stats-global-affiliates.php']['nodes'] = implode (",", $node_array);
+
+$Session['prefs']['stats-global-affiliates.php']['period'] = $period;
+$Session['prefs']['stats-global-affiliates.php']['period_range'] = $period_range;
 
 phpAds_SessionDataStore();
 
