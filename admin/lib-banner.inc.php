@@ -177,7 +177,7 @@ function phpAds_getBannerCache($banner)
 							$newbanner = $newbanner . 
 									substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . 
 									$quotechar . $phpAds_config['url_prefix'] . '/adclick.php?bannerid=' . 
-									'{bannerid}&zoneid={zoneid}&dest=' . 
+									'{bannerid}&zoneid={zoneid}&source={source}&dest=' . 
 									urlencode(substr($buffer, $quotepos+1, $endquotepos - $quotepos - 1)) .
 									'&ismap=';
 						}
@@ -205,7 +205,7 @@ function phpAds_getBannerCache($banner)
 							$newbanner = $newbanner . 
 									substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . 
 									'"' . $phpAds_config['url_prefix'] . '/adclick.php?bannerid=' . 
-									'{bannerid}&zoneid={zoneid}&dest=' . 
+									'{bannerid}&zoneid={zoneid}&source={source}&dest=' . 
 									urlencode(substr($buffer, $hrefpos, $endpos - $hrefpos)) .
 									'&ismap="';
 						}
@@ -228,7 +228,7 @@ function phpAds_getBannerCache($banner)
 			if (!$formpresent && !$linkpresent && $banner['url'] != '')
 			{
 				// No link or form
-				$buffer = "<a href='".$phpAds_config['url_prefix']."/adclick.php?bannerid={bannerid}&zoneid={zoneid}&ismap=' target='{target}'>".$buffer."</a>";
+				$buffer = "<a href='".$phpAds_config['url_prefix']."/adclick.php?bannerid={bannerid}&zoneid={zoneid}&source={source}&ismap=' target='{target}'>".$buffer."</a>";
 			}
 		}
 		
@@ -237,7 +237,7 @@ function phpAds_getBannerCache($banner)
 		{
 			while (eregi("{targeturl:([^}]*)}", $buffer, $regs))
 			{
-				$buffer = str_replace ($regs[0], $phpAds_config['url_prefix'].'/adclick.php?bannerid={bannerid}&zoneid={zoneid}&dest='.urlencode($regs[1]).'&ismap=', $buffer);
+				$buffer = str_replace ($regs[0], $phpAds_config['url_prefix'].'/adclick.php?bannerid={bannerid}&zoneid={zoneid}&source={source}&dest='.urlencode($regs[1]).'&ismap=', $buffer);
 			}
 		}
 	}
@@ -295,7 +295,7 @@ function phpAds_getBannerCache($banner)
 		while (eregi("{targeturl:([^}]*)}", $buffer, $matches))
 		{
 			$buffer = str_replace ($matches[0],
-								   $phpAds_config['url_prefix'].'/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26dest='.urlencode($matches[1]),
+								   $phpAds_config['url_prefix'].'/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest='.urlencode($matches[1]),
 								   $buffer);
 		}
 	}
@@ -303,7 +303,7 @@ function phpAds_getBannerCache($banner)
 	
 	// Replace targeturl
 	if ($banner['url'] != '')
-		$buffer = str_replace ('{targeturl}', $phpAds_config['url_prefix'].'/adclick.php?bannerid={bannerid}&zoneid={zoneid}&dest='.urlencode($banner['url']), $buffer);
+		$buffer = str_replace ('{targeturl}', $phpAds_config['url_prefix'].'/adclick.php?bannerid={bannerid}&zoneid={zoneid}&source={source}&dest='.urlencode($banner['url']), $buffer);
 	else
 		$buffer = str_replace ('{targeturl}', '', $buffer);
 	

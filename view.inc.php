@@ -689,6 +689,7 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 		$outputbuffer = str_replace ('{bannerid}', $row['bannerid'], $outputbuffer);
 		$outputbuffer = str_replace ('{zoneid}', $row['zoneid'], $outputbuffer);
 		$outputbuffer = str_replace ('{target}', $target, $outputbuffer);
+		$outputbuffer = str_replace ('{source}', $source, $outputbuffer);
 		
 		
 		// Add text below banner
@@ -760,11 +761,11 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 			if (ereg ("Mozilla/(1|2|3|4)", $HTTP_USER_AGENT) && !ereg("compatible", $HTTP_USER_AGENT))
 			{
 				$outputbuffer .= '<layer id="beacon_'.$row['bannerid'].'" width="0" height="0" border="0" visibility="hide">';
-				$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&clientid='.$row['clientid'].'&zoneid='.$row['zoneid'].'&cb='.md5(uniqid('')).'\' width=\'0\' height=\'0\'>';
+				$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&clientid='.$row['clientid'].'&zoneid='.$row['zoneid'].'&source='.$source.'&cb='.md5(uniqid('')).'\' width=\'0\' height=\'0\'>';
 				$outputbuffer .= '</layer>';
 			}
 			else
-				$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&clientid='.$row['clientid'].'&zoneid='.$row['zoneid'].'&cb='.md5(uniqid('')).'\' width=\'0\' height=\'0\' style=\'width: 0px; height: 0px;\'>';
+				$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&clientid='.$row['clientid'].'&zoneid='.$row['zoneid'].'&source='.$source.'&cb='.md5(uniqid('')).'\' width=\'0\' height=\'0\' style=\'width: 0px; height: 0px;\'>';
 		}
 	}
 	else

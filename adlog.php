@@ -30,7 +30,9 @@ phpAds_dbConnect();
 
 if (isset($bannerid) && isset($clientid) && isset($zoneid))
 {
-	phpAds_prepareLog ($bannerid, $clientid, $zoneid);
+	if (!isset($source)) $source = '';
+	
+	phpAds_prepareLog ($bannerid, $clientid, $zoneid, $source);
 }
 
 header ("Content-type: image/gif");
