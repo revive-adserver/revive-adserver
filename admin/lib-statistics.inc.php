@@ -361,7 +361,7 @@ function phpAds_getZoneName ($zoneid)
 			
 			$row = phpAds_dbFetchArray($res);
 			
-			$zoneCache[$zoneID] = $row;
+			$zoneCache[$zoneid] = $row;
 		}
 		
 		return (phpAds_BuildZoneName ($zoneid, $row['zonename']));

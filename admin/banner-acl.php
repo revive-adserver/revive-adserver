@@ -283,12 +283,14 @@ else
 }
 
 echo "<form action='".basename($PHP_SELF)."' method='get'>";
-echo "<input type='hidden' name='campaignID' value='".$campaignID."'>";
-echo "<input type='hidden' name='bannerID' value='".$bannerID."'>";
-echo "<input type='hidden' name='update' value='".$update."'>";
-echo "<input type='hidden' name='acl_order' value='".$count."'>";
-echo "<input type='hidden' name='acl_con' value='and'>&nbsp;";
-echo "<input type='hidden' name='acl_type' value='allow'>&nbsp;";
+echo "<input type='hidden' name='campaignID' value='".(isset($campaignID) ? $campaignID : '')."'>";
+echo "<input type='hidden' name='bannerID' value='".(isset($bannerID) ? $bannerID : '')."'>";
+echo "<input type='hidden' name='update' value='".(isset($update) ? $update : '')."'>";
+echo "<input type='hidden' name='acl_order' value='".(isset($count) ? $count : '')."'>";
+echo "<input type='hidden' name='acl_con' value='and'>";
+echo "<input type='hidden' name='acl_type' value='allow'>";
+echo "<input type='hidden' name='acl_data' value=''>";
+echo "<input type='hidden' name='acl_ad' value=''>&nbsp;";
 
 echo "<tr height='30'><td colspan='4' align='right'>";
 	echo $strACLAdd;

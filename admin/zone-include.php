@@ -174,7 +174,7 @@ function phpAds_showZoneBanners ($width, $height, $what)
 		echo "&nbsp;&nbsp;";
 		
 		// Show checkbox
-		if ($bannerIDs[$row['bannerID']] == true)
+		if (isset($bannerIDs[$row['bannerID']]) && $bannerIDs[$row['bannerID']] == true)
 			echo "<input type='checkbox' name='bannerid[]' value='".$row['bannerID']."' checked onclick='reviewall();'>"; 
 		else
 		{
