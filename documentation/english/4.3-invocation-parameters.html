@@ -1,0 +1,102 @@
+<html>
+<head>
+<title>phpAdsNew Documentation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../index.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="30" bgcolor="#FFFFFF"><tr bgcolor="#EFEFEF"><td width="100" class="identification">&nbsp;&nbsp;phpAdsNew</td><td width="600" class="plain"><img src="../images/0-home.gif" width="16" height="15" align="ABSMIDDLE">&nbsp;&nbsp;<span class="subtitle"><a href="../index.html" class="subtitle">Home</a></span></td><td>&nbsp;</td></tr></table><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;4.3</td>
+    <td width="600" class="chapter" height="50">Other Parameters</td>
+    <td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-line-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#FFFFFF"><td width="100">&nbsp;</td><td width="600" class="plain">
+      <p>Besides the what parameter which you can use to determine which banner 
+        are displayed, there are more parameters which can influence which banners 
+        are displayed and how they are displayed. Below you will find a list of 
+        all other possible parameters.</p>
+    </td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="50"><a name="1"></a></td><td width="600" height="50">&nbsp;</td><td height="50">&nbsp;</td></tr></table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;4.3.1</td>
+    <td width="600" class="section" height="50">The 
+clientID parameter</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>The 
+optional argument clientID allows you to retrieve only banners by a specific client. Specify &quot;&quot; to view banners 
+from all clients (in case you need the third or fourth argument, else don't specify it at all).</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>view(&quot;468x60&quot;, 
+1);</td></tr></table></td></tr></table><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF">
+    <td width="100" height="75"><a name="2"></a></td>
+    <td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;4.3.2</td>
+    <td width="600" class="section" height="50">The 
+target parameter</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>The 
+optional argument &quot;target&quot; allow you to specify a frame target to be used when the user clicks on the ad. For example, 
+use '_blank' to force a new browser window to open, '_top' to replace the current window (and break frames), etc. For more 
+information about this parameter you can take a look at the target attribute in the HTML specification.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>view(&quot;maingroup&quot;, 
+0, &quot;_blank&quot;);</td></tr></table></td></tr></table><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF">
+    <td width="100" height="75"><a name="3"></a></td>
+    <td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;4.3.3</td>
+    <td width="600" class="section" height="50">The 
+source parameter</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr><td width="100" bgcolor="#EFEFEF">&nbsp;</td>
+    <td width="600" class="plain" bgcolor="#EFEFEF"> 
+      <p><br>
+        The optional argument &quot;source&quot; allows you to specify the name 
+        of the current page (for example: &quot;main page&quot; or &quot;subpage1&quot;). 
+        You can later add a display limitation use the admin interface to make 
+        sure the banner is only shown when the source parameter is equal to or 
+        is different from a specific value. <br>
+        If you want to know more about Display limitations, please read Chapter 
+        <a href="5.5-acls.html" class="list">5.5 Display Limitations</a>.</p>
+      <p>&nbsp;</p></td><td class="plain" bgcolor="#EFEFEF">&nbsp;</td></tr><tr bgcolor="#FFFFFF">
+    <td width="100" height="75"><a name="4"></a></td>
+    <td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;4.3.4</td>
+    <td width="600" class="section" height="50">The 
+withText parameter</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>The 
+optional argument withText allows you to show a banner with its associated line of text below it (for example, &quot;Support 
+our sponsor&quot; is a common line of text). The &quot;WithText&quot; parameter is turned off by default. If want to turn 
+it on you should set this parameter to 1.</p>
+      <p>The withText parameter will not work with normal remote invocation, but 
+        can be use with local mode, remote invocation with JavaScript and remote 
+        invocation for iframes. If you want to use this feature with iframes, 
+        you need to make sure the iframe is big enough to show the text below 
+        the banner.</p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>view(&quot;maingroup&quot;, 
+0, &quot;&quot;, 1);</td></tr></table></td></tr></table><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF">
+    <td width="100" height="75"><a name="5"></a></td>
+    <td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;4.3.5</td>
+    <td width="600" class="section" height="50">The 
+context parameter</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>The 
+optional argument &quot;context&quot; is an array specifying banners to limit the search to or/and banners to be excluded 
+from the search. It is an array containing as many associative arrays as you want. The key of the entries must either be &quot;==&quot; 
+to denote a banner to which the search is limited to or &quot;!=&quot; to denote a banner to be excluded from the search. 
+The value of an entry is a banner ID. </p><p>The context parameter will only work in local mode.<br><br>For example, to show 
+the same randomly selected banner on the top and bottom of a page, you could use the following:</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>// 
+Top of the page: <br>$id = view(&quot;main&quot;); <br><br>// Bottom of the page <br>$arr = array( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array(&quot;==&quot; 
+=&gt; $id) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;); <br><br>view(&quot;main&quot;, 0, 
+&quot;&quot;, &quot;&quot;, 1, $arr);</td></tr></table></td></tr></table><p>To make sure that the page does not show the same 
+banner two times, you could use this:</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>// 
+Top of the page: <br>$id = view(&quot;main&quot;); <br><br>// Bottom of the page <br>$arr = array( <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array(&quot;!=&quot; 
+=&gt; $id) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;); <br><br>view(&quot;main&quot;, 0, 
+&quot;&quot;, &quot;&quot;, 1, $arr);</td></tr></table></td></tr></table><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF">
+    <td width="100" height="75"><a name="6"></a></td>
+    <td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;4.3.6</td>
+    <td width="600" class="section" height="50">The 
+refresh parameter</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>If 
+you want to automatically refresh the selected banner you can specify the amount of seconds between each reload. This parameter 
+will only work for Remote Invocation for iframes.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>&lt;iframe 
+src='adframe.php?what=468x60&amp;refresh=20' <br>framespacing='0' frameborder='no'&gt;&lt;/iframe&gt;</td></tr></table></td></tr></table><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF">
+    <td width="100" height="75"><a name="7"></a></td>
+    <td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF">
+    <td width="100" class="identification" height="50">&nbsp;&nbsp;4.3.7</td>
+    <td width="600" class="section" height="50">Some 
+examples</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="../images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><br><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>view(1); 
+<br>&nbsp;&nbsp;Displays the banner with the bannerID of 1. <br> <br>view(&quot;html&quot;); <br>&nbsp;&nbsp;Displays a randomly 
+selected HTML banner <br> <br>view(&quot;468x60&quot;, 0, &quot;_blank&quot;); <br>&nbsp;&nbsp;Displays a randomly selected 
+banner with a width of 468 pixels <br>&nbsp;&nbsp;and a height of 60 pixels. If user clicks on it, the target <br>&nbsp;&nbsp;destination 
+will be opened in a new window. <br><br>view(&quot;mybanners&quot;); <br>&nbsp;&nbsp;Displays a randomly selected banner from 
+the group <br>&nbsp;&nbsp;&quot;mybanners&quot; (in other words: with that keyword). <br><br>view(&quot;&quot;, 0, &quot;_blank&quot;, 
+&quot;Main&quot;); <br>&nbsp;&nbsp;Displays a randomly selected banner which does not have <br>&nbsp;&nbsp;a Deny for Source 
+ACL on &quot;Main&quot; </td></tr></table></td></tr></table><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75">&nbsp;</td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><p>&nbsp;</p>
+</body>
+</html>
