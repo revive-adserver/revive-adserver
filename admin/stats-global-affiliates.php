@@ -18,6 +18,7 @@
 require ("config.php");
 require ("lib-statistics.inc.php");
 require ("lib-size.inc.php");
+require ("lib-zones.inc.php");
 
 
 // Security check
@@ -85,7 +86,7 @@ while ($row_affiliates = phpAds_dbFetchArray($res_affiliates))
 // Get the zones for each affiliate
 $res_zones = phpAds_dbQuery("
 	SELECT 
-		zoneid, affiliateid, zonename
+		zoneid, affiliateid, zonename, delivery
 	FROM 
 		".$phpAds_config['tbl_zones']."
 		".phpAds_getZoneListOrder ($listorder, $orderdirection)."
@@ -332,7 +333,14 @@ if ($totalviews > 0 || $totalclicks > 0)
 				echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td height='25'>";
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 				echo "<img src='images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;";
-				echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
+				
+				if ($zones[$zkey]['delivery'] == phpAds_ZoneBanner)
+					echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
+				elseif ($zones[$zkey]['delivery'] == phpAds_ZoneInterstitial)
+					echo "<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;";
+				elseif ($zones[$zkey]['delivery'] == phpAds_ZonePopup)
+					echo "<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;";
+				
 				echo "<a href='stats-zone-history.php?affiliateid=".$affiliate['affiliateid']."&zoneid=".$zones[$zkey]['zoneid']."'>".$zones[$zkey]['zonename']."</td>";
 				echo "</td>";
 				
