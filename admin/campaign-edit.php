@@ -31,25 +31,55 @@ phpAds_checkAccess(phpAds_Admin);
 if (isset($submit))
 { 
 	// If ID is not set, it should be a null-value for the auto_increment
-	$message = $strClientModified;
-		
+	
 	if (empty($campaignid))
 	{
 		$campaignid = "null";
 	}
-		
+	
 	// set expired
 	if ($views == '-')
 		$views = 0;
 	if ($clicks == '-')
 		$clicks = 0;
-		
+	
 	// set unlimited
 	if (strtolower ($unlimitedviews) == "on")
 		$views = -1;
 	if (strtolower ($unlimitedclicks) == "on")
 		$clicks = -1;
+	
+	if ($priority == 't')
+	{
+		// set target
+		if (isset($target))
+		{
+			if ($target == '-')
+				$target = 0;
+			elseif ($target == '')
+				$target = 0;
+		}
+		else
+			$target = 0;
 		
+		$weight = 0;
+	}
+	else
+	{
+		// set weight
+		if (isset($weight))
+		{
+			if ($weight == '-')
+				$weight = 0;
+			elseif ($weight == '')
+				$weight = 0;
+		}
+		else
+			$weight = 0;
+		
+		$target = 0;
+	}
+	
 	if ($expireSet == 't')
 	{
 		if ($expireDay != '-' && $expireMonth != '-' && $expireYear != '-')
@@ -101,7 +131,8 @@ if (isset($submit))
 			expire,
 			activate,
 			active,
-			weight)
+			weight,
+			target)
 		VALUES
 			('$campaignid',
 			'$clientname',
@@ -111,7 +142,8 @@ if (isset($submit))
 			'$expire',
 			'$activate',
 			'$active',
-			'$weight')";
+			'$weight',
+			'$target')";
 	
 	
 	$res = phpAds_dbQuery($query) or phpAds_sqlDie();  
@@ -240,7 +272,16 @@ if ($campaignid != "" || (isset($move) && $move == 't'))
 		
 	$row = phpAds_dbFetchArray($res);
 	
-	
+	if ($row['weight'] > 0 && $row['target'] <= 0)
+	{
+		$priority = 'f';
+		$row['target'] = '-';
+	}
+	elseif ($row['target'] > 0 && $row['weight'] <= 0)
+	{
+		$priority = 't';
+		$row['weight'] = '-';
+	}
 	
 	// Set parent when editing an campaign, don't set it
 	// when moving an campaign.
@@ -282,9 +323,10 @@ else
 {
 	// New
 	
-	$row["views"] = "";
-	$row["clicks"] = "";
-	$days_left = "";
+	$row["views"] = '';
+	$row["clicks"] = '';
+	$days_left = '';
+	$priority = 'f';
 }
 
 
@@ -570,9 +612,23 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 	</tr>
 	<tr>
 		<td width='30'>&nbsp;</td>
-		<td width='200'><?php echo $strWeight;?></td>
+		<td width='200' valign='top'><?php echo $strPriority; ?></td>
 		<td>
-			<input type="text" name="weight" size='25' value="<?php echo isset($row["weight"]) ? $row["weight"] : $phpAds_config['default_campaign_weight'];?>">
+			<table><tr><td valign='top'>
+			<input type="radio" name="priority" value="t" <?php echo $priority != 'f' ? 'checked' : ''; ?>>
+			</td><td valign='top'>
+			<?php echo $strHighPriority; ?><br>
+			<img src='images/break-l.gif' height='1' width='100%' vspace='6'><br>
+			<?php echo $strTargetLimitAdviews; ?> 
+			<input type="text" name="target" size='7' value="<?php echo isset($row["target"]) ? $row["target"] : '-';?>"> <?php echo $strTargetPerDay; ?><br><br>
+			</td></tr><tr><td valign='top'>
+			<input type="radio" name="priority" value="f" <?php echo $priority == 'f' ? 'checked' : ''; ?>>			
+			</td><td valign='top'>
+			<?php echo $strLowPriority; ?><br>
+			<img src='images/break-l.gif' height='1' width='100%' vspace='6'><br>
+			<?php echo $strCampaignWeight; ?>: 
+			<input type="text" name="weight" size='7' value="<?php echo isset($row["weight"]) ? $row["weight"] : $phpAds_config['default_campaign_weight'];?>">
+			</td></tr></table>
 		</td>
 	</tr>
 

@@ -44,7 +44,8 @@ function phpAds_buildQuery ($part, $numberofparts, $precondition)
 				".$phpAds_config['tbl_banners'].".seq as seq,
 				".$phpAds_config['tbl_banners'].".target as target,
 				".$phpAds_config['tbl_banners'].".autohtml as autohtml,
-				".$phpAds_config['tbl_clients'].".weight as clientweight
+				".$phpAds_config['tbl_clients'].".weight as clientweight,
+				".$phpAds_config['tbl_banners'].".priority as priority
 			FROM
 				".$phpAds_config['tbl_banners'].",
 				".$phpAds_config['tbl_clients']."
@@ -279,7 +280,7 @@ function phpAds_fetchBanner($what, $clientid, $context=0, $source='', $allowhtml
 		{
 			// If zone is found and cache is not expired
 			// and cache exists use it.
-			list($weightsum, $rows) = unserialize ($zone['cachecontents']);
+			list($prioritysum, $rows) = unserialize ($zone['cachecontents']);
 		}
 		else
 		{
@@ -301,11 +302,11 @@ function phpAds_fetchBanner($what, $clientid, $context=0, $source='', $allowhtml
 			
 			// Build array for further processing...
 			$rows = array();
-			$weightsum = 0;
+			$prioritysum = 0;
 			while ($tmprow = phpAds_dbFetchArray($res))
 			{
 				// weight of 0 disables the banner
-				if ($tmprow['weight'])
+				if ($tmprow['priority'])
 				{
 					if ($tmprow['format'] == 'gif' ||
 						$tmprow['format'] == 'jpeg' ||
@@ -315,7 +316,7 @@ function phpAds_fetchBanner($what, $clientid, $context=0, $source='', $allowhtml
 						$tmprow['banner'] = '';
 					}
 					
-					$weightsum += ($tmprow['weight'] * $tmprow['clientweight']);
+					$prioritysum += $tmprow['priority'];
 					$rows[] = $tmprow; 
 				}
 			}
@@ -327,7 +328,7 @@ function phpAds_fetchBanner($what, $clientid, $context=0, $source='', $allowhtml
 				// If exists and cache is empty or expired
 				// Store the rows which were just build in the cache
 				
-				$cachecontents = addslashes (serialize (array ($weightsum, $rows)));
+				$cachecontents = addslashes (serialize (array ($prioritysum, $rows)));
 				$cachetimestamp = time();
 				phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_zones']." SET cachecontents='$cachecontents', cachetimestamp=$cachetimestamp WHERE zoneid='$zoneid' ");
 			}
@@ -462,13 +463,13 @@ function phpAds_fetchBanner($what, $clientid, $context=0, $source='', $allowhtml
 		
 		// Build array for further processing...
 		$rows = array();
-		$weightsum = 0;
+		$prioritysum = 0;
 		while ($tmprow = phpAds_dbFetchArray($res))
 		{
 			// weight of 0 disables the banner
-			if ($tmprow['weight'])
+			if ($tmprow['priority'])
 			{
-				$weightsum += ($tmprow['weight'] * $tmprow['clientweight']);
+				$prioritysum += $tmprow['priority'];
 				$rows[] = $tmprow; 
 			}
 		}
@@ -490,18 +491,18 @@ function phpAds_fetchBanner($what, $clientid, $context=0, $source='', $allowhtml
 	
 	$maxindex = sizeof($rows);
 	
-	while ($weightsum && sizeof($rows))
+	while ($prioritysum && sizeof($rows))
 	{
 		$low = 0;
 		$high = 0;
-		$ranweight = ($weightsum > 1) ? mt_rand(0, $weightsum - 1) : 0;
+		$ranweight = ($prioritysum > 1) ? mt_rand(0, $prioritysum - 1) : 0;
 		
 		for ($i=0; $i<$maxindex; $i++)
 		{
 			if ($rows[$i] != null)
 			{
 				$low = $high;
-				$high += ($rows[$i]['weight'] * $rows[$i]['clientweight']);
+				$high += $rows[$i]['priority'];
 				
 				if ($high > $ranweight && $low <= $ranweight)
 				{
@@ -539,8 +540,8 @@ function phpAds_fetchBanner($what, $clientid, $context=0, $source='', $allowhtml
 							if (sizeof($rows) == 1)
 								return false;
 							
-							// Delete this row and adjust $weightsum
-							$weightsum -= ($rows[$i]['weight'] * $rows[$i]['clientweight']);
+							// Delete this row and adjust $prioritysum
+							$prioritysum -= $rows[$i]['priority'];
 							$rows[$i] = null;
 							
 							// Break out of the for loop to try again
@@ -570,8 +571,8 @@ function phpAds_fetchBanner($what, $clientid, $context=0, $source='', $allowhtml
 						if (sizeof($rows) == 1)
 							return false;
 						
-						// Delete this row and adjust $weightsum
-						$weightsum -= ($rows[$i]['weight'] * $rows[$i]['clientweight']);
+						// Delete this row and adjust $prioritysum
+						$prioritysum -= $rows[$i]['priority'];
 						$rows[$i] = null;
 						
 						// Break out of the for loop to try again
@@ -1060,7 +1061,8 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 	return( array('html' => $outputbuffer, 
 				  'bannerid' => $row['bannerid'],
 				  'width' => $row['width'],
-				  'height' => $row['height'])
+				  'height' => $row['height'],
+				  'alt' => $row['alt'])
 		  );
 }
 

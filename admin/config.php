@@ -109,7 +109,9 @@ $phpAds_nav = array (
 	        "2.1.4" 		=> 	array("stats-weekly.php?campaignid=$campaignid" => $strWeeklyStats),
 		  "2.2"				=>  array("stats-history.php" => $strHistory),
 	      "2.3"		 		=> 	array("stats-weekly.php?campaignid=0" => $strWeeklyStats),
-	      "2.4"		 		=> 	array("stats-zone-index.php" => $strZones),
+	      "2.4"		 		=> 	array("stats-affiliates.php" => $strAffiliatesAndZones),
+		    "2.4.1"			=>  array("stats-affiliate-zones.php?affiliateid=$affiliateid" => $strZones),
+		    "2.4.2"			=>  array("stats-affiliate-history.php?affiliateid=$affiliateid" => $strHistory),
 		"3"					=>  array("report-index.php" => $strReports),
 		"4"					=>	array("client-index.php" => $strAdminstration),
 		  "4.1"				=>	array("client-index.php" => $strClientsAndCampaigns),
@@ -132,6 +134,7 @@ $phpAds_nav = array (
 		      "4.2.3.4"		=> 	array("zone-probability.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strProbability),
 		      "4.2.3.5"		=> 	array("zone-invocation.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strInvocationcode),
 		  "4.3" 			=> 	array("admin-generate.php" => $strGenerateBannercode),
+		  "4.4"				=>  array("admin-priority.php" => 'Priority'),
 		"5"					=> 	array("settings-index.php" => $strSettings),
 		  "5.1" 			=> 	array("settings-db.php" => "Main settings"),
 		  "5.2" 			=> 	array("settings-admin.php" => "Administration settings")
@@ -150,6 +153,9 @@ $phpAds_nav = array (
 	),
 
 	"affiliate" => array (
+		"1"					=>  array("stats-affiliate-zones.php?affiliateid=$affiliateid" => $strHome),
+		  "1.1"				=>  array("stats-affiliate-zones.php?affiliateid=$affiliateid" => $strZones),
+		  "1.2"				=>  array("stats-affiliate-history.php?affiliateid=$affiliateid" => $strHistory),
 	    "2" 				=> 	array("zone-index.php?affiliateid=$affiliateid" => $strAdminstration),
 	      "2.1" 			=> 	array("zone-index.php?affiliateid=$affiliateid" => $strZones),
 		    "2.1.1"			=> 	array("zone-edit.php?affiliateid=$affiliateid&zoneid=0" => $strAddZone),

@@ -6,6 +6,8 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			+ Added logging for zone statistics  (Niels) 20011118
 			+ Added support for affiliates  (Niels) 20011119
 			+ Added logging of hourly statistics for compact stats  (Niels) 20011121
+			+ Added affiliate statistics  (Niels) 2001125
+			+ Added target based priority  (Niels) 2001125
 
 			+ Misc changes to library and function names
 			  - Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 20011020

@@ -47,8 +47,13 @@ require("../language/".$phpAds_config['language']."/default.lang.php");
 
 $adminreport = "";
 
-include ("maintenance-reports.php");
-include ("maintenance-activation.php");
+if (date('H') == 0)
+{
+	include ("maintenance-reports.php");
+	include ("maintenance-activation.php");
+}
+
+include ("maintenance-priority.php");
 
 if ($adminreport != "")
 {

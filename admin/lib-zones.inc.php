@@ -83,11 +83,11 @@ function phpAds_RebuildZoneCache ($zoneid = '')
 			
 			// Build array for further processing...
 			$rows = array();
-			$weightsum = 0;
+			$prioritysum = 0;
 			while ($tmprow = phpAds_dbFetchArray($res))
 			{
 				// weight of 0 disables the banner
-				if ($tmprow['weight'])
+				if ($tmprow['priority'])
 				{
 					if ($tmprow['format'] == 'gif' ||
 						$tmprow['format'] == 'jpeg' ||
@@ -97,12 +97,12 @@ function phpAds_RebuildZoneCache ($zoneid = '')
 						$tmprow['banner'] = '';
 					}
 					
-					$weightsum += ($tmprow['weight'] * $tmprow['clientweight']);
+					$prioritysum += $tmprow['priority'];
 					$rows[] = $tmprow; 
 				}
 			}
 			
-			$cachecontents = addslashes (serialize (array ($weightsum, $rows)));
+			$cachecontents = addslashes (serialize (array ($prioritysum, $rows)));
 			$cachetimestamp = time();
 		}
 		else

@@ -340,5 +340,15 @@ $GLOBALS['strAllowAffiliateLinkBanners'] = "Allow this user to link banners to h
 $GLOBALS['strAllowAffiliateAddZone'] = "Allow this user to define new zones";
 $GLOBALS['strAllowAffiliateDeleteZone'] = "Allow this user to delete existing zones";
 
+$GLOBALS['strPriority']					= "Priority";
+$GLOBALS['strHighPriority']				= "Show banners in this campaign with high priority.<br>
+										   If you use this option phpAdsNew will try to distribute the 
+										   number of AdViews evenly over the course of the day.";
+$GLOBALS['strLowPriority']				= "Show banner in this campaign with low priority.<br>
+										   This campaign is used to show the left over AdViews which 
+										   aren't used by high priority campaigns.";
+$GLOBALS['strTargetLimitAdviews']		= "Limit the number of AdViews to";
+$GLOBALS['strTargetPerDay']				= "per day.";
+
 
 ?>
