@@ -25,6 +25,7 @@ phpAdsNew 2.0
 			  - 2003-09-24:  Fixed bug in revision check that caused modified file warnings  (Niels)
 			  - 2003-09-29:  Added missing CSS definitions to RTL-text stylesheet  (Niels)
 			  - 2003-09-29:  &amp;'s are now properly removed from URLs before converting them  (Niels)
+			  - 2003-09-29:  Prevented a SQL error on old versions of MySQL when using the Distribution by Size stats  (Niels)
 
 
 v 2.0rc4.2		+ Misc changes

@@ -69,11 +69,12 @@ if ($type == 's')
 		SELECT 
 			bannerid,
 			width,
-			height
+			height,
+			width * height AS square
 		FROM 
 			".$phpAds_config['tbl_banners']."
 		ORDER BY
-			(width * height)
+			square
 		") or phpAds_sqlDie();
 	
 	while ($row_banners = phpAds_dbFetchArray($res_banners))
