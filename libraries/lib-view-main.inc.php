@@ -87,8 +87,10 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 		if (isset($row['prepend']))
 			$outputbuffer .= $row['prepend'];
 		
+		
 		// Get HTML cache
 		$outputbuffer .= $row['htmlcache'];
+		
 		
 		// Append
 		if (isset($row['append']))
@@ -102,6 +104,10 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 		}
 		else
 			$target = $row['target'];
+		
+		
+		// Determine source
+		$source = urlencode($source);
 		
 		
 		// Set basic variables

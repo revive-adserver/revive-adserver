@@ -159,8 +159,8 @@ function days_left($clientid)
 	                    MAX(TO_DAYS(day))-TO_DAYS(NOW()) as days_since_last_view,
 	                    TO_DAYS(NOW())-MIN(TO_DAYS(day)) as days_since_start
 	                FROM
-	                   	".$phpAds_config['tbl_adstats']." AS v
-	                    LEFT JOIN ".$phpAds_config['tbl_banners']." AS b USING (bannerid)
+	                   	".$phpAds_config['tbl_banners']." AS b
+	                    LEFT JOIN ".$phpAds_config['tbl_adstats']." AS v USING (bannerid)
 	                WHERE
 	                  	b.clientid = $clientid";
             }

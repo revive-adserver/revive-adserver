@@ -76,10 +76,7 @@ function phpAds_GenerateInvocationCode()
 		$parameters['acid'] = "clientid=".$acid;
 	
 	if (isset($source) && $source != '')
-		$parameters['source'] = "source=".$source;
-	
-	if (isset($target) && $target != '')
-		$parameters['target'] = "target=".$target;
+		$parameters['source'] = "source=".urlencode($source);
 	
 	
 	// Remote invocation
@@ -92,12 +89,20 @@ function phpAds_GenerateInvocationCode()
 		$buffer .= "?n=".$uniqueid;
 		$buffer .= "'";
 		if (isset($target) && $target != '')
-			$buffer .= " target='$target'";
+			$buffer .= " target='".$target."'";
+		else
+			$buffer .= " target='_blank'";
 		$buffer .= "><img src='".$phpAds_config['url_prefix']."/adview.php";
 		if (sizeof($parameters) > 0)
 			$buffer .= "?".implode ("&amp;", $parameters);
 		$buffer .= "' border='0' alt=''></a>\n";
 	}
+	
+	
+	// Set parameters
+	if (isset($target) && $target != '')
+		$parameters['target'] = "target=".urlencode($target);
+	
 	
 	// Remote invocation with JavaScript
 	if ($codetype=='adjs')
@@ -134,6 +139,9 @@ function phpAds_GenerateInvocationCode()
 		if (isset($parameters['blockcampaign']))
 			unset ($parameters['blockcampaign']);
 		
+		if (isset($parameters['target']))
+			unset ($parameters['target']);
+		
 		if (isset($uniqueid) && $uniqueid != '')
 			$parameters['n'] = "n=".$uniqueid;	
 		
@@ -141,7 +149,9 @@ function phpAds_GenerateInvocationCode()
 		$buffer .= "?n=".$uniqueid;
 		$buffer .= "'";
 		if (isset($target) && $target != '')
-			$buffer .= " target='$target'";
+			$buffer .= " target='".$target."'";
+		else
+			$buffer .= " target='_blank'";
 		$buffer .= "><img src='".$phpAds_config['url_prefix']."/adview.php";
 		if (sizeof($parameters) > 0)
 			$buffer .= "?".implode ("&amp;", $parameters);
@@ -180,6 +190,9 @@ function phpAds_GenerateInvocationCode()
 		if (isset($uniqueid) && $uniqueid != '')
 			$parameters['n'] = "n=".$uniqueid;	
 		
+		if (isset($parameters['target']))
+			unset ($parameters['target']);
+		
 		
 		if (isset($ilayer) && $ilayer == 1 &&
 			isset($width) && $width != '' && $width != '-1' &&
@@ -193,7 +206,9 @@ function phpAds_GenerateInvocationCode()
 			$buffer .= "?n=".$uniqueid;
 			$buffer .= "'";
 			if (isset($target) && $target != '')
-				$buffer .= " target='$target'";
+				$buffer .= " target='".$target."'";
+			else
+				$buffer .= " target='_blank'";
 			$buffer .= "><img src='".$phpAds_config['url_prefix']."/adview.php";
 			if (sizeof($parameters) > 0)
 				$buffer .= "?".implode ("&amp;", $parameters);
@@ -220,7 +235,9 @@ function phpAds_GenerateInvocationCode()
 			$buffer .= "?n=".$uniqueid;
 			$buffer .= "'";
 			if (isset($target) && $target != '')
-				$buffer .= " target='$target'";
+				$buffer .= " target='".$target."'";
+			else
+				$buffer .= " target='_blank'";
 			$buffer .= "><img src='".$phpAds_config['url_prefix']."/adview.php";
 			if (sizeof($parameters) > 0)
 				$buffer .= "?".implode ("&amp;", $parameters);
@@ -232,10 +249,16 @@ function phpAds_GenerateInvocationCode()
 		if (isset($parameters['n']))
 			unset ($parameters['n']);
 		
+		if (isset($target) && $target != '')
+			$parameters['target'] = "target=".urlencode($target);
+		
 		if (isset($ilayer) && $ilayer == 1 &&
 			isset($width) && $width != '' && $width != '-1' &&
 			isset($height) && $height != '' && $height != '-1')
 		{
+			// Do no rewrite target frames
+			$parameters['rewrite'] = 'rewrite=0';
+			
 			$buffer .= "\n\n";
 			$buffer .= "<!-- Place this part of the code just above the </body> tag -->\n";
 			

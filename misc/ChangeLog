@@ -66,6 +66,13 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-02-21:  Closing a simple interstitial now doesn't stop other events anymore  (Niels, thanks to Herbert L. Riede)
 			  - 2003-02-25:  If the target frame of a converted Flash banner was empty it could not be changed  (Niels)
 			  - 2003-02-27:  Monthly target stats were showing 'today' views instead of current month adviews  (Matteo)
+			  - 2003-03-13:  During invocation code generation the advertiser or campaign wasn't processed  (Niels)
+			  - 2003-03-13:  During invocation code generation the source and target parameters are now url encoded like they should be  (Niels)
+			  - 2003-03-13:  The source parameter of adclick.php and adlog.php is now urlencoded by the delivery engine  (Niels)
+			  - 2003-03-13:  During invocation code generation the target frame parameter isn't added anymore to the adview.php file of plain remote invocation  (Niels)
+			  - 2003-03-13:  Misc. query optimalisations to lib-expiration.inc.php, maintenance-priority.php, lib-autotargeting.inc.php and lib-priority (Niels, thanks to Arno Schäfer)
+			  - 2003-03-13:  The default target frame for plain remote invocation and iframes is now '_blank', just like local mode and javascript  (Niels)
+			  - 2003-03-13:  If remote invocation for iframes is used, then the target frames in the HTML are rewritten to make sure they are local to the parent frame instead of the iframe  (Niels)
 			
 
 

@@ -49,7 +49,7 @@ require (phpAds_path."/libraries/lib-cache.inc.php");
 
 phpAds_registerGlobal ('what', 'clientid', 'clientID', 'context',
 					   'target', 'source', 'withtext', 'withText',
-					   'refresh', 'resize');
+					   'refresh', 'resize', 'rewrite');
 
 
 
@@ -62,10 +62,11 @@ if (isset($withText) && !isset($withtext))  $withtext = $withText;
 
 if (!isset($what)) 		$what = '';
 if (!isset($clientid)) 	$clientid = 0;
-if (!isset($target)) 	$target = '_top';
+if (!isset($target)) 	$target = '_blank';
 if (!isset($source)) 	$source = '';
 if (!isset($withtext)) 	$withtext = '';
 if (!isset($context)) 	$context = '';
+if (!isset($rewrite))	$rewrite = 1;
 
 // Remove referer, to be sure it doesn't cause problems with limitations
 if (isset($HTTP_SERVER_VARS['HTTP_REFERER'])) unset($HTTP_SERVER_VARS['HTTP_REFERER']);
@@ -74,6 +75,15 @@ if (isset($HTTP_REFERER)) unset($HTTP_REFERER);
 
 // Get the banner
 $banner = view_raw ($what, $clientid, $target, $source, $withtext, $context);
+
+
+// Rewrite targets in HTML code to make sure they are 
+// local to the parent and not local to the iframe
+if (isset($rewrite) && $rewrite == 1)
+{
+	$banner['html'] = preg_replace('#target\s*=\s*([\'"])_parent\1#i', "target='_top'", $banner['html']);
+	$banner['html'] = preg_replace('#target\s*=\s*([\'"])_self\1#i', "target='_parent'", $banner['html']);
+}
 
 
 // Build HTML
