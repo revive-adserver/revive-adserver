@@ -102,4 +102,115 @@ function phpAds_RebuildZoneCache ($zoneid = '')
 }
 
 
+
+/*********************************************************/
+/* Determine if a banner included in a zone              */
+/*********************************************************/
+
+function phpAds_IsBannerInZone ($bannerID, $zoneid)
+{
+	global $phpAds_tbl_zones;
+	
+	if (isset($zoneid) && $zoneid != '')
+	{
+		$res = @db_query("
+			SELECT
+				*
+			FROM
+				$phpAds_tbl_zones
+			WHERE
+				zoneid = $zoneid
+			") or mysql_die();
+		
+		if (@mysql_num_rows($res))
+		{
+			$zone = @mysql_fetch_array($res);
+			$what_array = explode(",", $zone['what']);
+			
+			for ($k=0; $k < count($what_array); $k++)
+			{
+				if (substr($what_array[$k],0,9) == "bannerid:" && 
+				    substr($what_array[$k],9) == $bannerID)
+				{
+					return (true);
+				}
+			}
+		}
+	}
+	
+	return (false);
+}
+
+
+
+/*********************************************************/
+/* Add a banner to a zone                                */
+/*********************************************************/
+
+function phpAds_ToggleBannerInZone ($bannerID, $zoneid)
+{
+	global $phpAds_tbl_zones;
+	
+	
+	if (isset($zoneid) && $zoneid != '')
+	{
+		$res = @db_query("
+			SELECT
+				*
+			FROM
+				$phpAds_tbl_zones
+			WHERE
+				zoneid = $zoneid
+			") or mysql_die();
+		
+		if (@mysql_num_rows($res))
+		{
+			$zone = @mysql_fetch_array($res);
+			$what_array = explode(",", $zone['what']);
+			$available = false;
+			$changed = false;
+			
+			for ($k=0; $k < count($what_array); $k++)
+			{
+				if (substr($what_array[$k],0,9) == "bannerid:" && 
+				    substr($what_array[$k],9) == $bannerID)
+				{
+					// Remove from array
+					unset ($what_array[$k]);
+					$available = true;
+					$changed = true;
+				}
+			}
+			
+			if ($available == false)
+			{
+				// Add to array
+				$what_array[] = 'bannerid:'.$bannerID;
+				$changed = true;
+			}
+			
+			if ($changed == true)
+			{
+				// Convert back to a string
+				$zone['what'] = implode (",", $what_array);
+				
+				// Store string back into database
+				$res = @db_query("
+					UPDATE
+						$phpAds_tbl_zones
+					SET 
+						what = '".$zone['what']."'
+					WHERE
+						zoneid = $zoneid
+					") or mysql_die();
+				
+				// Rebuild Cache
+				phpAds_RebuildZoneCache ($zoneid);
+			}
+		}
+	}
+	
+	return (false);
+}
+
 ?>
