@@ -1,7 +1,7 @@
 phpAdsNew - ChangeLog
 
 
-CVS
+phpAdsNew 2.0.4
 			+ Misc bugfixes
 			  - 2005-02-10:  HTML banners containing script tags were generating JS errors on IE  (Matteo)
 			  - 2005-02-22:  Added missing Retry button when getting fatal errors during install  (Matteo)
