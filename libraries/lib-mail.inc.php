@@ -36,6 +36,7 @@ function phpAds_sendMail ($email, $readable, $subject, $contents)
 	else
 		$param_to = $email;
 	
+	// Set default charset to iso-8859-1
 	$charset = isset($phpAds_CharSet) ? $phpAds_CharSet : 'iso-8859-1';
 	
 	// Build additional headers
