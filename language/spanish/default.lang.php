@@ -26,7 +26,7 @@ $GLOBALS['phpAds_ThousandsSeperator']		= ',';
 
 // Date & time configuration
 $GLOBALS['date_format']						= "%m/%d/%Y";
-$GLOBALS['time_format']						= "%H:%i:%S";
+$GLOBALS['time_format']						= "%H:%M:%S";
 $GLOBALS['minute_format']					= "%H:%M";
 $GLOBALS['month_format']					= "%m/%Y";
 $GLOBALS['day_format']						= "%m/%d";
