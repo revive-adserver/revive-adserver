@@ -169,7 +169,7 @@ CVS			+ Added configuration manager  (Matteo, 2001-11-04)
 			  - 2002-07-14:  Added hidden configuration setting to disable the user interface  (Niels)
 			  - 2002-07-15:  Updated some of the icons to make them better looking  (Niels)
 			  - 2002-07-17:  Added ability to clear all the limitations of one banner all at once  (Niels)
-			  - 2002-07-19:  Added floater and cursor floating dhtml layerstyles  (Matteo)
+			  - 2002-07-19:  Added floater and cursor floating dhtml layerstyles  (Matteo, Niels)
 
 
 			+ Misc bugfixes
@@ -328,6 +328,7 @@ CVS			+ Added configuration manager  (Matteo, 2001-11-04)
 			  - 2002-07-17:	 The check for unique fields (like username) is now case-insensitive, so 'Name' and 'name' won't be allowed for two different users  (Niels)
 			  - 2002-07-22:  Although the error string was present in translations, actually no checks were made on zone cache limit  (Matteo)
 			  - 2002-07-23:	 Added missing phpAds_makeTimestamp() function to stats conversion routines  (Niels)
+			  - 2002-07-23:  Fixed page identifier in stats-campaign-daily-hosts.php  (Matteo)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
