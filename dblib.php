@@ -38,7 +38,7 @@ function db_log_click($bannerID, $host)
                 clicks=clicks+1
             WHERE
                 bannerID = '$bannerID' &&
-                when = now()
+                day = now()
             ", $phpAds_insert_delayed ? "LOW_PRIORITY": "")) or mysql_die();
 
         // If row didn't exist.  Create it.
@@ -50,7 +50,7 @@ function db_log_click($bannerID, $host)
                 SET
                     clicks=1,
                     views=0,
-                    when=now(),
+                    day = now(),
                     bannerID = '$bannerID'
                 ", $phpAds_insert_delayed ? "DELAYED": "")) or mysql_die();
         }
@@ -85,7 +85,7 @@ function db_log_view($bannerID, $host)
                 views=views+1
             WHERE
                 bannerID = '$bannerID' &&
-                when = now()
+                day = now()
             ", $phpAds_insert_delayed ? "LOW_PRIORITY": "")) or mysql_die();
 
         // If row didn't exist.  Create it.
@@ -97,7 +97,7 @@ function db_log_view($bannerID, $host)
                 SET
                     clicks=0,
                     views=1,
-                    when=now(),
+                    day=now(),
                     bannerID = '$bannerID'
                 ", $phpAds_insert_delayed ? "DELAYED": "")) or mysql_die();
         }

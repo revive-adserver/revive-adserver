@@ -238,8 +238,8 @@ function stats() // generate weekly statistics
     		SELECT
     			sum(clicks),
                 sum(views),
-    			MAX(TO_DAYS(when)),
-    			MIN(TO_DAYS(when))
+    			MAX(TO_DAYS(day)),
+    			MIN(TO_DAYS(day))
     		FROM
     			'.$phpAds_tbl_adstats.'
     		WHERE '.
@@ -256,12 +256,12 @@ function stats() // generate weekly statistics
     		SELECT
     			views as days_total_views,
     			clicks as days_total_clicks,
-    			DATE_FORMAT(when, '".$GLOBALS['date_format']."') as date,
-    			DATE_FORMAT(when, '".$mysql_week_sign."') as week_num,
-    			DATE_FORMAT(when, '%w') as day_num,
-    			UNIX_TIMESTAMP(when) as unix_time,
-    			".$last_day_index."-TO_DAYS(when) AS day_index,
-    			TO_DAYS(when) AS abs_day
+    			DATE_FORMAT(day, '".$GLOBALS['date_format']."') as date,
+    			DATE_FORMAT(day, '".$mysql_week_sign."') as week_num,
+    			DATE_FORMAT(day, '%w') as day_num,
+    			UNIX_TIMESTAMP(day) as unix_time,
+    			".$last_day_index."-TO_DAYS(day) AS day_index,
+    			TO_DAYS(day) AS abs_day
     		FROM
     			".$phpAds_tbl_adstats.' 
     		WHERE 

@@ -1,5 +1,7 @@
 phpAdsNew - ChangeLog
-
+			+ BugFix: typo in dailystats.inc.php (Phil)
+			+ Bugfix: "when" is a reserved word in mysql?  Who knew?  (Phil)
+			+ Fix for PHP3 compatibility in expiration.inc.php (Phil, others)
 v 1.9.0 - 01/03/2001    + Several bugfixes (Phil)
                         + Changed banneradd.php layout for IE ONLY (with javascript and <DIV>s) (Phil)
                         + Added db_query() function to assist debugging mysql errors

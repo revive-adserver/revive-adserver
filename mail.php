@@ -67,17 +67,17 @@ while($row_clients = mysql_fetch_array($res_clients))
             $res_adviews = db_query("
     			SELECT
     				SUM(views) as qnt,
-    				DATE_FORMAT(when, '$date_format') as t_stamp_f,
-    				TO_DAYS(when) AS the_day
+    				DATE_FORMAT(day, '$date_format') as t_stamp_f,
+    				TO_DAYS(day) AS the_day
     			FROM
     				$phpAds_tbl_adstats
     			WHERE
     				bannerID = $row_banners[bannerID] AND
                     views > 0
     			GROUP BY
-    				when
+    				day
     			ORDER BY
-    				when DESC
+    				day DESC
     			LIMIT 7
     			") or die($strLogErrorViews);
         else
@@ -111,17 +111,17 @@ while($row_clients = mysql_fetch_array($res_clients))
             $res_adclicks = db_query("
     			SELECT
     				SUM(clicks) as qnt,
-    				DATE_FORMAT(when, '$date_format') as t_stamp_f,
-    				TO_DAYS(when) AS the_day
+    				DATE_FORMAT(day, '$date_format') as t_stamp_f,
+    				TO_DAYS(day) AS the_day
     			FROM
     				$phpAds_tbl_adstats
     			WHERE
     				bannerID = $row_banners[bannerID] AND
                     clicks > 0
     			GROUP BY
-    				when
+    				day
     			ORDER BY
-    				when DESC
+    				day DESC
     			LIMIT 7
     			") or die("$strLogErrorClicks ".mysql_error());
         else

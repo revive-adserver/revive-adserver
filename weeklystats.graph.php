@@ -28,8 +28,8 @@ if ($phpAds_compact_stats) {
     	SELECT 
     		sum(views), 
     		sum(clicks), 
-    		DATE_FORMAT(when,'".$mysql_week_sign."'),
-    		DATE_FORMAT(when,'%Y".$mysql_week_sign."') AS week 
+    		DATE_FORMAT(day,'".$mysql_week_sign."'),
+    		DATE_FORMAT(day,'%Y".$mysql_week_sign."') AS week 
     	FROM
     		".$GLOBALS['phpAds_tbl_adstats']."
     	WHERE 
