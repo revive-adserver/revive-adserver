@@ -84,7 +84,7 @@ $phpAds_settings_show_submit = !$phpAds_config_locked;
 function phpAds_SettingsSelection($section)
 {
 	global $phpAds_settings_sections;
-	global $phpAds_TextDirection;
+	global $phpAds_TextDirection, $strHelp;
 
 ?>
 <script language="JavaScript">
@@ -119,7 +119,7 @@ function settings_goto_section()
         &nbsp;<a href='javascript:void(0)' onClick='settings_goto_section();'><img src='images/<?php echo $phpAds_TextDirection; ?>/go_blue.gif' border='0'></a> 
       </td>
 	  </form>
-      <td height='35' align="right"><b><a href="javascript:toggleHelp();"><img src="images/help-book.gif" width="15" height="15" border="0" align="absmiddle">&nbsp;Help</a></b></td>
+      <td height='35' align="right"><b><a href="javascript:toggleHelp();"><img src="images/help-book.gif" width="15" height="15" border="0" align="absmiddle">&nbsp;<?php echo $strHelp; ?></a></b></td>
     </tr>
   </table>
 <?php
