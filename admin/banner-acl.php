@@ -583,7 +583,7 @@ $tabindex = 1;
 
 
 // Begin form
-echo "<form action='banner-acl.php' method='get'>";
+echo "<form action='banner-acl.php' method='post'>";
 echo "<input type='hidden' name='clientid' value='".$clientid."'>";
 echo "<input type='hidden' name='campaignid' value='".$campaignid."'>";
 echo "<input type='hidden' name='bannerid' value='".$bannerid."'>";
