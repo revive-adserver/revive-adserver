@@ -290,7 +290,7 @@ function phpAds_PageHeader($ID, $extra="")
 	
 	// Main contents
 	echo "<td valign='top' width='100%'>";
-	echo "<table width='640' border='0' cellspacing='0' cellpadding='0'>";
+	echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>";
     echo "<tr><td width='40' height='20'>&nbsp;</td><td height='20'>&nbsp;</td></tr>";
     echo "<tr><td width='20'>&nbsp;</td><td>";
 }
@@ -306,7 +306,7 @@ function phpAds_PageFooter()
 	global $phpAds_config;
 	global $phpAds_showHelp, $phpAds_helpDefault;
 	
-	echo "</td></tr>";
+	echo "</td><td width='40'>&nbsp;</td></tr>";
 	
 	// Spacer
 	echo "<tr><td width='40' height='20'>&nbsp;</td>";
@@ -515,7 +515,7 @@ function phpAds_ShowSections($sections)
 	echo "</tr></table>";
 	
 	echo "</td><td>&nbsp;</td></tr></table>";
-	echo "<table width='640' border='0' cellspacing='0' cellpadding='0'>";
+	echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>";
 	echo "<tr><td width='40'>&nbsp;</td><td><br>";
 }
 
@@ -524,7 +524,7 @@ function phpAds_ShowBreak()
 	echo "</td></tr>";
 	echo "</table>";
 	echo "<img src='images/break-el.gif' height='1' width='100%' vspace='5'>";
-	echo "<table width='640' border='0' cellspacing='0' cellpadding='0'>";
+	echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>";
 	echo "<tr><td width='40'>&nbsp;</td><td>";
 }
 
