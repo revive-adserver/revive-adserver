@@ -578,7 +578,14 @@ if (isset($row['span']) && $row['span'] > 0)
 			for ($i = 0; $i < 7; $i++)
 			{
 				$day_timestamp = $week_timestamp + ($i * (60 * 60 * 24));
-				echo "<td align='".$phpAds_TextAlignRight."' nowrap  height='25' bgcolor='$bgcolor'>".strftime($day_format, $day_timestamp)."&nbsp;</td>";
+				echo "<td align='".$phpAds_TextAlignRight."' nowrap  height='25' bgcolor='$bgcolor'>";
+				
+				$available = ($views[$i] && $views[$i] != '-') || ($clicks[$i] && $clicks[$i] != '-');
+				
+				if (isset($lib_history_hourlyurl) && $available)
+					echo "<a href='".$lib_history_hourlyurl.$params."day=".strftime('%Y%m%d', $day_timestamp)."'>".strftime($day_format, $day_timestamp)."</a>&nbsp;</td>";
+				else
+					echo strftime($day_format, $day_timestamp)."&nbsp;</td>";
 			}
 			
 			echo "<td align='".$phpAds_TextAlignRight."' nowrap  height='25' bgcolor='$bgcolor'>&nbsp;</td>";

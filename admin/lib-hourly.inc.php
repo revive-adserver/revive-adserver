@@ -106,21 +106,21 @@ for ($i=0; $i<24; $i++)
 {
 	$bgcolor = ($i % 2 ? "#FFFFFF": "#F6F6F6");
 	
-	if (isset($views[$i]) && isset($clicks[$i]))
-	{
+	if (!isset($views[$i])) $views[$i] = 0;
+	if (!isset($clicks[$i])) $clicks[$i] = 0;
+	
+	$totalviews += $views[$i];
+	$totalclicks += $clicks[$i];
+	
+	
+	if ($views[$i] || $clicks[$i])
 		$ctr = phpAds_buildCTR($views[$i], $clicks[$i]);
-		$totalviews += $views[$i];
-	}
 	else
 	{
 		$ctr = '-';
 		$views[$i] = '-';
-	}
-	
-	if (isset($clicks[$i]))
-		$totalclicks += $clicks[$i];
-	else
 		$clicks[$i] = '-';
+	}
 	
 	echo "<tr>";
 	echo "<td height='25' bgcolor='$bgcolor'>&nbsp;".$i.":00 - ".$i.":59</td>";
