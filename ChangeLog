@@ -91,6 +91,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-10-08:  Fixed delivery of text ads into banner zones and vice versa  (Matteo)
 			  - 2002-10-09:  Images and css file were not used when database connection failed  (Niels)
 			  - 2002-10-13:  The precompiled limitation wasn't updated when applying a limitation to another banner  (Niels)
+			  - 2002-10-13:  </body></html> weren't added to the popup HTML code for IE  (Niels)
 
 
 

@@ -121,6 +121,7 @@ function enjavanateBanner ($output, $limit = 60)
 	$ret .= "\tdocument.write('</title></head>');\n";
 	$ret .= "\tdocument.write('<body leftmargin=\"0\" topmargin=\"0\" marginwidth=\"0\" marginheight=\"0\">');\n";
 	$ret .= "\tdocument.write(phpadsbanner);\n";
+	$ret .= "\tdocument.write('</body></html>');\n";
 	
 	return $ret;
 }
@@ -167,7 +168,7 @@ $windowid = 'phpads_'.$output['bannerid'];
 
 
 /*********************************************************/
-/* Creat the Javascript for opening the popup            */
+/* Create the Javascript for opening the popup           */
 /*********************************************************/
 
 ?>
