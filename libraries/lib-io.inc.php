@@ -22,28 +22,24 @@ function phpAds_registerGlobal ()
 {
 	global $HTTP_GET_VARS, $HTTP_POST_VARS;
 	
-	if (!ini_get ('magic_quotes_gpc') ||
-		!ini_get ('register_globals'))
+	$args = func_get_args();
+	while (list(,$key) = each ($args))
 	{
-		$args = func_get_args();
-		while (list(,$key) = each ($args))
+		if (isset($HTTP_GET_VARS[$key])) $value = $HTTP_GET_VARS[$key];
+		if (isset($HTTP_POST_VARS[$key])) $value = $HTTP_POST_VARS[$key];
+		
+		if (isset($value))
 		{
-			if (isset($HTTP_GET_VARS[$key])) $value = $HTTP_GET_VARS[$key];
-			if (isset($HTTP_POST_VARS[$key])) $value = $HTTP_POST_VARS[$key];
-			
-			if (isset($value))
+			if (!ini_get ('magic_quotes_gpc'))
 			{
-				if (!ini_get ('magic_quotes_gpc'))
-				{
-					if (!is_array($value))
-						$value = addslashes($value);
-					else
-						$value = phpAds_slashArray($value);
-				}
-				
-				$GLOBALS[$key] = $value;
-				unset($value);
+				if (!is_array($value))
+					$value = addslashes($value);
+				else
+					$value = phpAds_slashArray($value);
 			}
+			
+			$GLOBALS[$key] = $value;
+			unset($value);
 		}
 	}
 }
