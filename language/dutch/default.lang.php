@@ -484,6 +484,12 @@ $GLOBALS['strTargetModifiedDay']			= "Er zijn doelen gewijzigd gedurende de dag,
 $GLOBALS['strTargetModifiedWeek']			= "Er zijn doelen gewijzigd gedurende de week, hierdoor waren de berekeningen niet accuraat";
 $GLOBALS['strTargetModifiedMonth']			= "Er zijn doelen gewijzigd gedurende de maand, hierdoor waren de berekeningen neit accuraat";
 $GLOBALS['strNoTargetStats']				= "Er zijn momenteen geen gegevens bekend over doelberekeningen";
+$GLOBALS['strCollectedAll']			= "Alle verzamelde statistieken";
+$GLOBALS['strCollectedToday']		= "Statistieken van vandaag";
+$GLOBALS['strCollected7Days']		= "Statistieken van de laatste 7 dagen";
+$GLOBALS['strCollectedMonth']		= "Statistieken van deze maand";
+$GLOBALS['strCollectedYesterday']	= "Statistieken van gisteren";
+$GLOBALS['strCollectedRange']		= "Selecteer een tijdvak";
 
 
 // Hosts

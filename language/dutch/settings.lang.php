@@ -20,8 +20,16 @@ $GLOBALS['strChooseInstallLanguage']		= "Kies een taal voor de installatie proce
 $GLOBALS['strLanguageSelection']		= "Taal selectie";
 $GLOBALS['strDatabaseSettings']			= "Database instellingen";
 $GLOBALS['strAdminSettings']			= "Beheer instellingen";
-$GLOBALS['strAdvancedSettings']			= "Geavanceerde instellingen";
+$GLOBALS['strAdvancedSettings']			= "Geavanceerde database instellingen";
 $GLOBALS['strOtherSettings']			= "Andere instellingen";
+$GLOBALS['strLicenseInformation']		= "Licentie informatie";
+$GLOBALS['strAdministratorAccount']		= "Het beheer account";
+$GLOBALS['strDatabasePage']				= "De ".$phpAds_dbmsname." database";
+$GLOBALS['strInstallWarning']			= "Server en integriteit controle";
+$GLOBALS['strCongratulations']			= "Gefeliciteerd!";
+$GLOBALS['strInstallFailed']			= "De installatie is mislukt!";
+$GLOBALS['strSpecifyAdmin']				= "Configureer het beheer account";
+$GLOBALS['strSpecifyLocaton']			= "Specificeer de locatie van ".$phpAds_productname." op de server";
 
 $GLOBALS['strWarning']				= "Waarschuwing";
 $GLOBALS['strFatalError']			= "Er is een fout opgetreden";
@@ -38,15 +46,18 @@ $GLOBALS['strMayNotFunction']			= "Voor dat uw verder gaat, corrigeer a.u.b. de 
 $GLOBALS['strFixProblemsBefore']		= "De volgende item(s) dienen gecorrigeerd te worden voordat u ".$phpAds_productname." kan installeren. Indien u vragen heeft over deze foutmelding, lees dan eerst de <i>Administrator guide</i>, welke u kunt vinden in het bestand dat u gedownload heeft.";
 $GLOBALS['strFixProblemsAfter']			= "Indien u de volgende items niet zelf kan corrigeren neem dan contact op met de beheerder van deze server. De beheerder van de server kan u wellicht verder helpen.";
 $GLOBALS['strIgnoreWarnings']			= "Negeer waarschuwingen";
-$GLOBALS['strWarningPHPversion']		= $phpAds_productname." heeft minimaal PHP 4.0 nodig om te functioneren. U gebruik momenteel versie {php_version}.";
+$GLOBALS['strWarningPHPversion']		= $phpAds_productname." heeft minimaal PHP 4.0.3 nodig om te functioneren. U gebruik momenteel versie {php_version}.";
+$GLOBALS['strWarningPHP5beta']			= "U probeert ".$phpAds_productname." te installeren op een server welke een vroege test versie van PHP5 bevat. Deze test versies zijn niet bedoeld om te gebruiken op een productie server en bevatten hoogstwaarschijnlijk fouten. Het wordt afgeraden om ".$phpAds_productname." in combinatie met PHP 5 te gebruiken, behalve voor test doeleinden.";
 $GLOBALS['strWarningDBavailable']		= "De versie van PHP welke u gebruikt heeft geen ondersteuning voor connecties met een ".$phpAds_dbmsname." database server. U dient de PHP ".$phpAds_dbmsname." extentie te installeren voordat u verder kunt gaan.";
 $GLOBALS['strWarningRegisterGlobals']		= "De PHP instelling register_globals moet aan staan.";
 $GLOBALS['strWarningMagicQuotesGPC']		= "De PHP instelling magic_quotes_gpc moet aan staan.";
 $GLOBALS['strWarningMagicQuotesRuntime']	= "De PHP instelling magic_quotes_runtime moet uit staan.";
+$GLOBALS['strWarningMagicQuotesSybase']	= "De PHP instelling magic_quotes_sybase moet uit staan.";
 $GLOBALS['strWarningFileUploads']		= "De PHP instelling file_uploads moet aan staan.";
 $GLOBALS['strWarningTrackVars']			= "De PHP instelling track_vars moet aan staan.";
 $GLOBALS['strWarningPREG']			= "De versie van PHP die u gebruikt heeft geen ondersteuning voor PERL compatible reguliere expressies. U dient de PREG extentie te installeren voordat u verder kunt gaan.";
 $GLOBALS['strConfigLockedDetected']		= $phpAds_productname." heeft gedetecteerd dat uw <b>config.inc.php</b> bestand niet beschrijfbaar is door de server. U kunt niet verder gaan tot u de bestands permissies gewijzigd heeft. Raadpleeg de bijgevoegde documentatie indien u niet weet hoe u dit kunt doen.";
+$GLOBALS['strCacheLockedDetected']		= "U gebruikt een leveringscache van het type Bestanden, terwijl de <b>cache</b> map niet kan worden beschreven door de server. U kunt niet verder gaan tot dat de toegangspermissies van deze map gewijzigd worden. Lees de meegeleverde documentatie indien u niet weet hoe u dit moet doen.";
 $GLOBALS['strCantUpdateDB']  			= "Het is momenteel nog niet mogelijk om de database bij te werken. Indien u beslist om door te gaan worden alle bestaande banners, statistieken and klanten verwijderd.";
 $GLOBALS['strIgnoreErrors']			= "Negeer foutmeldingen";
 $GLOBALS['strRetryUpdate']			= "Probeer opnieuw";
@@ -54,13 +65,21 @@ $GLOBALS['strTableNames']			= "Tabelnamen";
 $GLOBALS['strTablesPrefix']			= "Tabelnaam voorvoegsel";
 $GLOBALS['strTablesType']			= "Tabeltype";
 
+$GLOBALS['strRevCorrupt']			= "Het bestand <b>{filename}</b> is corrupt of is gewijzigd. Heeft u dit bestand zelf niet gewijzigd, vervang het bestand dan met een schone kopie. Heeft u dit bestand wel zelf gewijzigd, dan kunt u deze waarschuwing negeren.";
+$GLOBALS['strRevTooOld']			= "Het bestand <b>{filename}</b> is ouder dan welke bij deze versie van ".$phpAds_productname." meegeleverd wordt. Probeer een schone kopie van dit bestand op de server te plaatsen.";
+$GLOBALS['strRevMissing']			= "Het bestand <b>{filename}</b> kon niet gecontroleerd worden omdat het niet gevonden kon worden. Probeer een schone kopie van dit bestand op de server te plaatsen.";
+$GLOBALS['strRevCVS']				= "U probeert een CVS versie van ".$phpAds_productname." te installeren. Dit is niet een officiele versie en kan mogelijk onstabiel zijn, of zelfs helemaal niet functioneren. Weet u zeker dat u verder wilt gaan?";
+
 $GLOBALS['strInstallWelcome']			= "Welkom bij ".$phpAds_productname."";
 $GLOBALS['strInstallMessage']			= "Voordat u ".$phpAds_productname." kunt gebruiken moet het eerst geconfigureerd <br> worden, tevens moet de database aangemaakt worden. Klik op <b>Verder</b> om door te gaan.";
+$GLOBALS['strInstallMessageCheck']		= $phpAds_productname." heeft de integriteit van de bestanden die op de server staan gecontroleerden heeft gekeken of uw server technisch gezien instaat is om ".$phpAds_productname." te draaien. De volgende item(s) moeten bekeken worden voordat u verder kunt gaan.";
 $GLOBALS['strInstallSuccess']			= "<b>De installatie van ".$phpAds_productname." is nu compleet.</b><br><br>Om goed te functioneren moet de onderhouds bestand elk uur
 						   gedraaid worden. Meer informatie over dit onderwerp kunt u vinden in de documentatie.
 						   <br><br>Klik op <b>Verder</b> om door te gaan naar de configuratie pagina, waar u nog meer
 						   items kunt instellen. Vergeet a.u.b. niet de permissies van het config.inc.php bestand weer terug te zetten, omdat dit
 						   potentiele veiligheid problemen kan veroorzaken.";
+$GLOBALS['strInstallMessageAdmin']		= "Voor dat u verder kunt gaan met de installatie dient u eerst het beheer account te configureren. U kunt dit account gebruiken om in te loggen in de beheer interface om uw voorraad te beheren en statistieken te bekijken.";
+$GLOBALS['strInstallMessageDatabase']	= $phpAds_productname." gebruikt een ".$phpAds_dbmsname." database om de voorraad en alle statistieken in op te slaan. Voor dat u verder kunt gaan met de installatie dient u eerst de naam van de server die ".$phpAds_productname." moet gebruiken op te geven. Indien u niet weet welke informatie u hier dient op te geven, neem dan contact op met de beheerder van de server.";
 $GLOBALS['strUpdateSuccess']			= "<b>Het bijwerken van ".$phpAds_productname." is succesvol afgerond.</b><br><br>Om goed te functioneren moet de maintenance functie elk uur gedraaid
 						   worden (voorheen was dit elke dag). Meer informatie over dit onderwerp kunt u vinden in de documentatie.
 						   <br><br>Klik op <b>Verder &gt;</b> om naar de administratie interface te gaan. Vergeet a.u.b. niet de permissies van het config.inc.php bestand weer terug te zetten, omdat dit
@@ -89,6 +108,11 @@ $GLOBALS['strServiceUnavalable']		= "Deze service is momenteel niet beschikbaar.
 $GLOBALS['strConfigNotWritable']		= "Uw config.inc.php is niet te wijzigen";
 $GLOBALS['strPhpBug20144']				= "Uw versie van PHP bevat een <a href='http://bugs.php.net/bug.php?id=20114' target='_blank'>fout</a> waardoor ".$phpAds_productname." niet goed zal functioneren op uw server.
 										   Om ".$phpAds_productname." te kunnen installeren dient u eerst PHP te upgraden naar versie 4.3.0 of hoger.";
+$GLOBALS['strPhpBug24652']				= "U probeert ".$phpAds_productname." te installeren op een server welke een vroege test versie van PHP 5 draait.
+										   Deze test versies zijn niet bedoeld voor gebruik op productie servers en bevatten meestal fouten.
+											 Een van deze fouten verhinderd het correct functioneren van ".$phpAds_productname.".
+											 Deze <a href='http://bugs.php.net/bug.php?id=24652' target='_blank'>fout</a> is al opgelost en
+										   de uiteindelijke versie van PHP 5 zal hier geen last van hebben.";
 
 
 
@@ -265,8 +289,8 @@ $GLOBALS['strAdminUsername']			= "Gebruikersnaam van de beheerder";
 $GLOBALS['strInvalidUsername']			= "Ongeldige gebruikersnaam";
 
 $GLOBALS['strBasicInformation']			= "Basis informatie";
-$GLOBALS['strAdminFullName']			= "Volledige naam van de beheerder";
-$GLOBALS['strAdminEmail']			= "E-mail adres van de beheerder";
+$GLOBALS['strAdminFullName']			= "Volledige naam";
+$GLOBALS['strAdminEmail']			= "E-mail adres";
 $GLOBALS['strCompanyName']			= "Bedrijfsnaam";
 
 $GLOBALS['strAdminCheckUpdates']		= "Controleer op nieuwe versie";
