@@ -115,7 +115,7 @@ CREATE TABLE phpads_banners (
    height smallint(6) DEFAULT '0' NOT NULL,
    weight tinyint(4) DEFAULT '1' NOT NULL,
    seq tinyint(4) DEFAULT '0' NOT NULL,
-   target varchar(8) NOT NULL,
+   target varchar(16) NOT NULL,
    url varchar(255) NOT NULL,
    alt varchar(255) NOT NULL,
    status varchar(255) NOT NULL,
@@ -124,6 +124,7 @@ CREATE TABLE phpads_banners (
    description varchar(255) NOT NULL,
    autohtml enum('t','f') DEFAULT 't' NOT NULL,
    block int(11) DEFAULT '0' NOT NULL,
+   capping int(11) DEFAULT '0' NOT NULL,
    compiledlimitation blob NOT NULL,
    PRIMARY KEY (bannerid)
 );
