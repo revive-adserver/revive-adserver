@@ -12,6 +12,9 @@
 
   ====================================================
 
+  06-11-2002 - settings
+    [+] strWarningTrackVars
+
   06-11-2002 - default
     [u] strZoneAppend
     [+] strZoneAppendType
