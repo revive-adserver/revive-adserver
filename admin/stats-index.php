@@ -191,7 +191,7 @@ if ($phpAds_config['compact_stats'])
 			".$phpAds_config['tbl_adstats']." as s,
 			".$phpAds_config['tbl_banners']." as b
 		WHERE
-			b.bannerid = s.BannerID
+			b.bannerid = s.bannerid
 		GROUP BY
 			s.bannerid
 		") or phpAds_sqlDie();

@@ -84,7 +84,7 @@ if ($command == 'start')
 		$verboseviews = $viewrow["cnt"];
 		
 		$clickresult = phpAds_dbQuery("SELECT COUNT(*) AS cnt FROM ".$phpAds_config['tbl_adclicks']);
-		$clickrow = phpAds_dbFetchArray($viewresult);
+		$clickrow = phpAds_dbFetchArray($clickresult);
 		$verboseclicks = $clickrow["cnt"];
 		
 		if ($verboseviews > 0 || $verboseclicks > 0)
