@@ -138,6 +138,7 @@ function phpAds_ConfigFileUpdatePrepare ()
 {
 	global $phpAds_configFilepath;
 	global $phpAds_settings_information, $phpAds_settings_update_cache;
+	global $phpAds_config;
 	
 	if ($confighandle = @fopen($phpAds_configFilepath,'r'))
 	{
@@ -252,7 +253,7 @@ function phpAds_ConfigFileUpdatePrepare ()
 				$phpAds_settings_update_cache['table_prefix'] = sprintf('p%05d_', rand(0, 99999));
 			}
 		}
-
+		
 		// Change names according to prefix for newly added tables
 		reset($phpAds_config);
 		while (list($k,)  = each($phpAds_config))
@@ -267,7 +268,7 @@ function phpAds_ConfigFileUpdatePrepare ()
 			}
 		}
 		reset($phpAds_config);
-
+		
 		return (true);
 	}
 	else
