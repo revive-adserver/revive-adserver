@@ -148,6 +148,12 @@ $GLOBALS[strAllowClientModifyBanner] = "Allow this user to modify his own banner
 $GLOBALS[strAllowClientAddBanner] = "Allow this user to add his own banners";
 $GLOBALS[strLanguage] = "Language";
 $GLOBALS[strDefault] = "Default";
+$GLOBALS[strErrorViews] = "Vous devez indiquer le nombre d'affichages ou cocher la case illimité !";
+$GLOBALS[strErrorNegViews] = "Nombre d'affichage négatif non autorisé";
+$GLOBALS[strErrorClicks] =  "Vous devez indiquer le nombre de cliques ou cochez la case illimité !";
+$GLOBALS[strErrorNegClicks] = "Nombre de cliques négatif non autorisé";
+$GLOBALS[strErrorDays] = "Vous devez indiquer le nombre de jours de la campagne ou cochez la case illimité !";
+$GLOBALS[strErrorNegDays] = "Nombre de jours négatif non autorisé";
 
 $GLOBALS[strTrackerImage] = "Tracker image:";
 ?>

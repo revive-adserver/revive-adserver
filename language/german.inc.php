@@ -148,6 +148,12 @@ $GLOBALS[strAllowClientModifyBanner] = "Kunde darf eigene Banner &auml;ndern";
 $GLOBALS[strAllowClientAddBanner] = "Kunde darf eigene Banner hinzuf&uuml;gen";
 $GLOBALS[strLanguage] = "Sprache";
 $GLOBALS[strDefault] = "Voreinstellung";
+$GLOBALS[strErrorViews] = "You must enter the number of views or select the unlimited box !";
+$GLOBALS[strErrorNegViews] = "Negative views are not allowed";
+$GLOBALS[strErrorClicks] =  "You must enter the number of clicks or select the unlimited box !";
+$GLOBALS[strErrorNegClicks] = "Negative clicks are not allowed";
+$GLOBALS[strErrorDays] = "You must enter the number of days or select the unlimited box !";
+$GLOBALS[strErrorNegDays] = "Negative days are not allowed";
 
 $GLOBALS[strTrackerImage] = "Tracker image:";
 ?>

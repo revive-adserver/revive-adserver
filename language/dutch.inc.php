@@ -146,6 +146,12 @@ $GLOBALS[strAllowClientModifyBanner] = "Deze gebruiker kan zijn eigen banner wij
 $GLOBALS[strAllowClientAddBanner] = "Deze gebruiker kan zijn eigen banners toevoegen";
 $GLOBALS[strLanguage] = "Taal";
 $GLOBALS[strDefault] = "Standaard";
+$GLOBALS[strErrorViews] = "U moet het aantal AdViews invullen of het vakje 'Onbegrensd' aankruisen!";
+$GLOBALS[strErrorNegViews] = "Negatieve AdViews zijn niet toegestaan";
+$GLOBALS[strErrorClicks] =  "U moet het aantal AdClicks invullen of het vakje 'Onbegrensd' aankruisen!";
+$GLOBALS[strErrorNegClicks] = "Negatieve AdClicks zijn niet toegestaan";
+$GLOBALS[strErrorDays] = "U moet het aantal advertentiedagen invullen of het vakje 'Onbegrensd' aankruisen!";
+$GLOBALS[strErrorNegDays] = "Negatieve dagen zijn niet toegestaan";
 
 $GLOBALS[strTrackerImage] = "Tracker image:";
 
