@@ -139,7 +139,7 @@ function Plugin_ClienthistoryExecute($clientid, $delimiter=",")
 		}
 	}
 	
-	echo $strClient.": ".phpAds_getClientName ($campaignid)."\n\n";
+	echo $strClient.": ".phpAds_getClientName ($clientid)."\n\n";
 	echo $strDay.$delimiter.$strViews.$delimiter.$strClicks.$delimiter.$strCTRShort."\n";
 	
 	$totalclicks = 0;
