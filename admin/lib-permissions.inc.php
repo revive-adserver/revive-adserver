@@ -225,6 +225,8 @@ function phpAds_checkIds()
 					exit;
 				}
 			}
+			elseif ($part[1] == 'htmlpreview')
+				break;
 		
 		case 'campaign':
 			if (!is_numeric($campaignid))
