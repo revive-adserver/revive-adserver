@@ -411,7 +411,7 @@ function phpAds_showZoneCampaign ($width, $height, $what)
 	$i = 0;
 	$checkedall = true;
 	
-	if (phpAds_dbNumRows($res) == 0)
+	if (!$compact && phpAds_dbNumRows($res) == 0)
 	{
 		echo "<tr bgcolor='#F6F6F6'><td colspan='3' height='25'>&nbsp;&nbsp;".$strNoCampaignsToLink."</td></tr>";
 	}
@@ -726,7 +726,7 @@ function phpAds_showZoneBanners ($width, $height, $what)
 	$i = 0;
 	$checkedall = true;
 	
-	if (phpAds_dbNumRows($res) == 0)
+	if (!$compact && phpAds_dbNumRows($res) == 0)
 	{
 		echo "<tr bgcolor='#F6F6F6'><td colspan='3' height='25'>&nbsp;&nbsp;".$strNoBannersToLink."</td></tr>";
 	}
