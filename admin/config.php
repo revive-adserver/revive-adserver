@@ -14,6 +14,14 @@
 
 
 
+// Figure out our location
+if (strlen(__FILE__) > strlen(basename(__FILE__)))
+    define ('phpAds_path', substr(__FILE__, 0, strpos(__FILE__, 'admin') - 1));
+else
+    define ('phpAds_path', '.');
+
+
+
 // Include required files
 require ("../config.inc.php");
 require ("../lib-db.inc.php");
