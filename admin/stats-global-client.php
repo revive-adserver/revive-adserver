@@ -27,6 +27,10 @@ phpAds_registerGlobal ('expand', 'collapse', 'hideinactive', 'listorder', 'order
 phpAds_checkAccess(phpAds_Admin);
 
 
+// Set default values
+if (!isset($period)) $period = '';
+
+
 
 /*********************************************************/
 /* HTML framework                                        */
