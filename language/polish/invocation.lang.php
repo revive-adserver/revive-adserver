@@ -41,6 +41,7 @@ $GLOBALS['strInvocationTarget']			= "Docelowa ramka";
 $GLOBALS['strInvocationSource']			= "¬ród³o";
 $GLOBALS['strInvocationWithText']		= "Poka¿ tekst pod bannerem";
 $GLOBALS['strInvocationDontShowAgain']		= "Nie pokazuj bannera drugi raz na tej samej stronie";
+$GLOBALS['strInvocationDontShowAgainCampaign']	= "Nie pokazuj bannera z tej samej kampanii po raz drugi na tej samej stronie";
 $GLOBALS['strInvocationTemplate'] 		= "Zapisz ten banner w zmiennej, aby móg³ byæ wkorzystany w szablonie";
 
 

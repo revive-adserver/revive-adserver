@@ -74,6 +74,7 @@ $GLOBALS['strConfigNotWritable']		= "קובץ ה-<B>config.inc.php</B> אינו ניתן לכתי
 
 
 
+
 /*********************************************************/
 /* Configuration translations                            */
 /*********************************************************/
@@ -83,6 +84,7 @@ $GLOBALS['strChooseSection']			= "בחר מחלקה";
 $GLOBALS['strDayFullNames'] 			= array("ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת");
 $GLOBALS['strEditConfigNotPossible']    	= "לא ניתן לשנות קביעות אלו כיוון שקובץ הקונפיגורציה נעול מסיבות בטיחותיות.<br> "."אם ברצונך לערוך שינויים, עליך לשחרר קובץ זה מנעילה";
 $GLOBALS['strEditConfigPossible']		= "ניתן לערוך את כל הקביעות כיוון שקובץ הקונפיגורציה אינו נעול.<br>למניעת מחדל בטיחותי אנא נעל את הקובץ <B> config.inc.php</B>.";
+;
 
 
 
@@ -115,8 +117,14 @@ $GLOBALS['strAllowInterstitial']		= " אפשר באנרים צפים";
 $GLOBALS['strAllowPopups']			= " אפשר באנרים קופצים";
 
 $GLOBALS['strUseAcl']				= " השתמש בהגבלות תצוגה";
-$GLOBALS['strGeotrackingType']			= "סוג מאגר מעקב";
-$GLOBALS['strGeotrackingLocation'] 		= "מיקום מאגר מעקב";
+
+$GLOBALS['strDeliverySettings']			= "קביעות תפוצה";
+$GLOBALS['strCacheType']				= "סוג מטמון התפוצה";
+$GLOBALS['strCacheFiles']				= "קבצים";
+$GLOBALS['strCacheDatabase']			= "בסיס נתונים";
+$GLOBALS['strCacheShmop']				= "זכרון משותף/Shmop";
+$GLOBALS['strCacheSysvshm']				= "זכרון משותף/Sysvshm";
+$GLOBALS['strExperimental']				= "נסיוני";
 
 $GLOBALS['strKeywordRetrieval']			= "שליפה לפי מילות מפתח";
 $GLOBALS['strBannerRetrieval']			= " שיטת שליפת הבאנרים";
@@ -161,6 +169,13 @@ $GLOBALS['strTypeFTPDirectory']			= "תיקיית FTP";
 $GLOBALS['strTypeFTPUsername']			= "שם משתמש";
 $GLOBALS['strTypeFTPPassword']			= "סיסמא";
 
+$GLOBALS['strTypeFTPErrorDir']			= "תקיית המארח אינה קיימת";
+$GLOBALS['strTypeFTPErrorConnect']		= "לא ניתן להתחבר לשרת ה-FTP, שם המשתמש או הסיסמא שגויים";
+$GLOBALS['strTypeFTPErrorHost']			= "שם השרת המארח את ה-FTP שגוי";
+$GLOBALS['strTypeDirError']				= "Tהתיקייה המקומית אינה קיימת";
+
+
+
 $GLOBALS['strDefaultBanners']			= "באנרים כברירת מחדל חלופית";
 $GLOBALS['strDefaultBannerUrl']			= "כתובת URL של באנר חלופי";
 $GLOBALS['strDefaultBannerTarget']		= "כתובת URL כמטרה חלופית";
@@ -171,29 +186,48 @@ $GLOBALS['strTypeHtmlPhp']			= " אפשר יישום ביטויי PHP מתוך באנרים מסוג HTML ";
 
 
 
+// Host information and Geotargeting
+$GLOBALS['strHostAndGeo']				= "Host information and Geotargeting";
+$GLOBALS['strRemoteHosts']			= "שרתים מרוחקים";
+
+$GLOBALS['strReverseLookup']			= "נסה לקבוע את ספקית השירות של המבקר אם הנתון לא מגיע מהשרת";
+$GLOBALS['strProxyLookup']				= "נסה לקבוע את כתובת ה--IP aהאמיתית של המבקר אם הוא משתמש במאגר ביניים (proxy).";
+
+$GLOBALS['strGeotargeting']				= "Geotargeting - מיקוד גיאוגרפי";
+$GLOBALS['strGeotrackingType']			= "סוג מאגר מעקב";
+$GLOBALS['strGeotrackingLocation'] 		= "מיקום מאגר מעקב";
+$GLOBALS['strGeoStoreCookie']			= "שמור את התוצאה בקוקי (cookie) להתיחסות עתידית";
+
+
+
 // Statistics Settings
 $GLOBALS['strStatisticsSettings']		= "קביעות סטטיסטיקה";
 
 $GLOBALS['strStatisticsFormat']			= "תצורת סטטיסטיקה";
-$GLOBALS['strLogBeacon']			= " השתמש באתתים לתיעוד חשיפות";
 $GLOBALS['strCompactStats']			= " השתמש בסטטיסטיקה קומפקטית";
 $GLOBALS['strLogAdviews']			= " תעד חשיפות";
-$GLOBALS['strBlockAdviews']			= " הגנה מפני כפל-רישום חשיפה (בשניות)";
-$GLOBALS['strLogAdclicks']			= " תעד הקלקות";
-$GLOBALS['strBlockAdclicks']			= " הגנה מפני כפל-רישום הקלקה (בשניות)";
+$GLOBALS['strLogAdclicks']				= "תעד הקלקה בכל פעם שהמבקר לוחץ על באנר";
+$GLOBALS['strLogSource']				= "Log the source parameter specified during invocation";
+$GLOBALS['strGeoLogStats']				= "Log the country of the visitor in the statistics";
+$GLOBALS['strLogHostnameOrIP']			= "Log the hostname or IP address of the visitor";
+$GLOBALS['strLogIPOnly']				= "Only log the IP address of the visitor even if the hostname is known";
+$GLOBALS['strLogIP']					= "Log the IP address of the visitor";
+$GLOBALS['strLogBeacon']			= " השתמש באתתים לתיעוד חשיפות";
+
+
+$GLOBALS['strIgnoreHosts']				= "אל תתעד סטטיסטיקה ממבקרים המשתמשים באחד ממספרי ה-IP או שמות המארחים הבאים";
+$GLOBALS['strBlockAdviews']				= "אל תתעד חשיפות אם המבקר כבר נחשף לבאנר הזה במהלך מספר השניות הנקוב.";
+$GLOBALS['strBlockAdclicks']			= "אל תתעד הקלקות אם המבקר כבר לחץ על אותו הבאנר במהלך מספר השניות הנקוב";
+
 
 $GLOBALS['strEmailWarnings']			= "אתראה באימייל";
 $GLOBALS['strAdminEmailHeaders']		= "כותרת המכתב שישקף את השולח של הדוח היומי.";
-$GLOBALS['strWarnLimit']			= "סף התראה (מינימום נותר)";
 $GLOBALS['strWarnLimitErr']			= "סף אתראה חייב להיות מספר חיובי";
+$GLOBALS['strWarnLimit']			= "סף התראה (מינימום נותר)";
+
 $GLOBALS['strWarnAdmin']			= " שלח התראת מנהל";
 $GLOBALS['strWarnClient']			= " שלח התראת מפרסם";
 $GLOBALS['strQmailPatch']			= " אפשר טלאי qmail ";
-
-$GLOBALS['strRemoteHosts']			= "שרתים מרוחקים";
-$GLOBALS['strIgnoreHosts']			= " התעלם משרתים";
-$GLOBALS['strReverseLookup']			= " כתובת גולש (Reverse DNS Lookup)";
-$GLOBALS['strProxyLookup']			= " כתובת שרת ביניים (Proxy)";
 
 $GLOBALS['strAutoCleanTables']			= "דילול בסיס הנתונים";
 $GLOBALS['strAutoCleanStats']			= "דילול סטטיסטיקה";
@@ -272,7 +306,6 @@ $GLOBALS['strDefaultBannerWErr']		= "משקל התחלתי של באנר צריך להיות מספר חיובי";
 $GLOBALS['strDefaultCampaignWErr']		= "משקל קמפיין התחלתי חייב להיות מספר חיובי";
 
 
-
 // Not used at the moment
 $GLOBALS['strTableBorderColor']			= "צבע המסגרת של הטבלה";
 $GLOBALS['strTableBackColor']			= "צבע הרקע של הטבלה";
@@ -280,5 +313,6 @@ $GLOBALS['strTableBackColorAlt']		= "צבע הרקע  של הטבלה(חלופי)";
 $GLOBALS['strMainBackColor']			= "צבע רקע ראשי";
 $GLOBALS['strOverrideGD']			= "אכוף תמונה בתצורת GD";
 $GLOBALS['strTimeZone']				= "איזור זמן";
+
 
 ?>

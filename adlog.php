@@ -97,7 +97,8 @@ if (isset($bannerid) && isset($clientid) && isset($zoneid))
 }
 
 
-header 	 ("Content-type: image/gif");
+header ("Content-Type: image/gif");
+header ("Content-Length: 43");
 
 // 1 x 1 gif
 echo chr(0x47).chr(0x49).chr(0x46).chr(0x38).chr(0x39).chr(0x61).chr(0x01).chr(0x00).

@@ -41,6 +41,7 @@ $GLOBALS['strInvocationTarget']			= "Frame de destination";
 $GLOBALS['strInvocationSource']			= "Origine";
 $GLOBALS['strInvocationWithText']		= "Montrer du texte sous la bannière";
 $GLOBALS['strInvocationDontShowAgain']		= "Ne pas remontrer la même bannière sur la même page";
+$GLOBALS['strInvocationDontShowAgainCampaign']	= "Ne pas montrer deux bannières d'une même campagne sur une même page";
 $GLOBALS['strInvocationTemplate'] 		= "Stocker la bannière dans une variable afin de l'utiliser dans un template";
 
 

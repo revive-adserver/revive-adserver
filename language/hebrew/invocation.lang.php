@@ -41,6 +41,7 @@ $GLOBALS['strInvocationTarget']			= "חלון מטרה";
 $GLOBALS['strInvocationSource']			= "מקור";
 $GLOBALS['strInvocationWithText']		= "הצג כיתוב מתחת לבנר";
 $GLOBALS['strInvocationDontShowAgain']		= "אל תציג באנר זה פעם נוספת באותו העמוד";
+$GLOBALS['strInvocationDontShowAgainCampaign']		= "אל תציד באנר מאותו הקמפיין שוב באותו העמוד";
 $GLOBALS['strInvocationTemplate'] 		= "שמור את הבאנר בתוך משתנה כדי שאפשר יהיה לשלבו בתבנית עמוד (Template)";
 
 
@@ -105,6 +106,11 @@ $GLOBALS['strLimited']				= "מוגבל";
 $GLOBALS['strLeftMargin']			= "שוליים שמאליים";
 $GLOBALS['strRightMargin']			= "שוליים ימניים";
 $GLOBALS['strTransparentBackground']		= "רקע שקוף";
+
+$GLOBALS['strSmoothMovement']		= "תנועה חלקה";
+$GLOBALS['strHideNotMoving']		= "הסתר את הבאנר כאשר הסמן אינו בתנועה";
+$GLOBALS['strHideDelay']			= "השהייה לפני שהבאנר נעלם";
+$GLOBALS['strHideTransparancy']		= "שקיפות הבאנר הנעלם";
 
 
 $GLOBALS['strAdLayerStyleName']	= array(

@@ -27,6 +27,7 @@ $phpAds_ISO3166['AI'] = "Anguilla";
 $phpAds_ISO3166['AQ'] = "Antarctica"; 
 $phpAds_ISO3166['AG'] = "Antigua and Barbuda"; 
 $phpAds_ISO3166['AR'] = "Argentina";
+$phpAds_ISO3166['AP'] = "ARIPO (African Regional...)";
 $phpAds_ISO3166['AM'] = "Armenia";
 $phpAds_ISO3166['AW'] = "Aruba";
 $phpAds_ISO3166['AU'] = "Australia";
@@ -241,8 +242,7 @@ $phpAds_ISO3166['TV'] = "Tuvalu";
 $phpAds_ISO3166['UG'] = "Uganda";
 $phpAds_ISO3166['UA'] = "Ukraine";
 $phpAds_ISO3166['AE'] = "United Arab Emirates"; 
-$phpAds_ISO3166['UK'] = "United Kingdom"; 
-$phpAds_ISO3166['GB'] = "United Kingdom";
+$phpAds_ISO3166['GB'] = "United Kingdom"; 
 $phpAds_ISO3166['US'] = "United States";
 $phpAds_ISO3166['UM'] = "United States Minor Outlying Islands"; 
 $phpAds_ISO3166['UY'] = "Uruguay";
@@ -258,6 +258,7 @@ $phpAds_ISO3166['YE'] = "Yemen";
 $phpAds_ISO3166['YU'] = "Yugoslavia";
 $phpAds_ISO3166['ZM'] = "Zambia";
 $phpAds_ISO3166['ZW'] = "Zimbabwe";
+
 
 
 

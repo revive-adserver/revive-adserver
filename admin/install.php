@@ -36,8 +36,13 @@ phpAds_registerGlobal ('installvars', 'language', 'phase', 'dbhost', 'dbport', '
 
 
 // Set URL prefix
+if (isset($HTTP_SERVER_VARS['HTTP_HOST']))
+	$host = $HTTP_SERVER_VARS['HTTP_HOST'];
+else
+	$host = $HTTP_SERVER_VARS['SERVER_NAME'];
+
 $phpAds_config['url_prefix'] = strtolower(eregi_replace("^([a-z]+)/.*$", "\\1://",
-	$HTTP_SERVER_VARS['SERVER_PROTOCOL'])).$HTTP_SERVER_VARS['HTTP_HOST'].
+	$HTTP_SERVER_VARS['SERVER_PROTOCOL'])).$host.
 	ereg_replace("/admin/install.php(\?.*)?$", "", $HTTP_SERVER_VARS['PHP_SELF']);
 
 

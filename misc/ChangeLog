@@ -161,6 +161,14 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-12-16:  Delayed inserts are now disabled if a table type other than MyISAM is used  (Niels)
 			  - 2002-12-17:  Fixed E_ALL error in lib-gui.inc.php when the database wasn't configured or running  (Niels)
 			  - 2002-12-17:  Fixed typo in error message when the database wasn't configured or running  (Niels)
+			  - 2002-12-27:  The wrong text was displayed on the maintenance page when using files for the delivery cache  (Niels)
+			  - 2002-12-27:  The delivery cache maintenance page is now correctly hidden when the delivery cache is disabled  (Niels)
+			  - 2002-12-28:  Added workaround for missing HTTP_HOST server variable when using OmniHTTPd  (Niels)
+			  - 2002-12-29:  Removed reference to non-existing manual in the advertiser and publisher welcome text  (Niels)
+			  - 2002-12-30:  Added missing flags for Gibraltar and the ARIPO  (Niels)
+			  - 2002-12-30:  Removed duplicate ISO-3166 code entires for the United Kingdom, only GB is now used  (Niels)
+			  - 2002-12-31:  Added experimental content-length header to adlog.php to try to prevent logging problems in Opera  (Niels)
+			  - 2002-12-31:  -keyword didn't work when using direct selection  (Niels)
 
 
 

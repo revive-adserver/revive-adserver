@@ -105,6 +105,7 @@ $GLOBALS['strEditConfigPossible']		= "Het is mogelijk om alle instellingen te wi
 // Database
 $GLOBALS['strDatabaseSettings']			= "Database instellingen";
 $GLOBALS['strDatabaseServer']			= "Database server";
+$GLOBALS['strDbLocal']				= "Gebruik een lokale server door middel van sockets"; // Pg only
 $GLOBALS['strDbPort']				= "Database poort nummer";
 $GLOBALS['strDbHost']				= "Database adres";
 $GLOBALS['strDbUser']				= "Database gebruikersnaam";

@@ -13,9 +13,11 @@
 /************************************************************************/
 
 
+
 // Settings help translation strings
 $GLOBALS['phpAds_hlp_dbhost'] = "
         ציין את השרת המארח את בסיס הנתונים של ".$phpAds_dbmsname." ";
+		
 		
 $GLOBALS['phpAds_hlp_dbuser'] = "
         ציין את שם המשתמש של שרת הנתונים בו ".$phpAds_productname." צריכה להשתמש כדי להתחבר ל".$phpAds_dbmsname." .
@@ -98,7 +100,7 @@ $GLOBALS['phpAds_hlp_p3p_policy_location'] = "
 $GLOBALS['phpAds_hlp_log_beacon'] = "
 	אתתים (Beacons) הינן תמונות קטנות ובלתי נראות הממוקמות בעמוד שבו הבאנר נצפה. אם אתה מפעיל תכונה זו, ".$phpAds_productname." תשתמש בתמוניות  אלה לספירת החשיפות שהבאנר זכה להן. אם תכבה תכונה זו, החשיפות יחשבו על פי השליפה של הבאנר. זה פחות מדויק, שכן זה אינו מבטיח שהגולש אכן זכה לצפות בבאנר על המסך.
 		";
-		
+
 $GLOBALS['phpAds_hlp_compact_stats'] = "
        בהתחלה ".$phpAds_productname." עשתה שימוש מסיבי בתיעוד, אשר מטבעו מכיל כמות עצומה של פרטים, אך גם מכביד ביותר על בסיס הנתונים. זה עלול ליצור בעיה רצינית באתרים עמוסי מבקרים, וכדי להתגבר על בעיה זו ".$phpAds_productname." תומכת גם במתקונת חדשה של סטטיסטיקה - סטטיסטיקה קומפקטית, אשר מפחיתה משמעותית את העומס על השרת, אך גם פחות מפורטת כמובן. סטטיסטיקה קומפקטית זו מתעדת רק סטטיסטיקה יומית. אם אתה זקוק לתיעוד בכל שעה, כבה תכונה זו.		";
 		
@@ -148,7 +150,7 @@ $GLOBALS['phpAds_hlp_qmail_patch'] = "
 		
 $GLOBALS['phpAds_hlp_warn_limit'] = "
        הסף שממנו".$phpAds_productname." תתחיל לשלוח איתותי אזהרה באימייל. נתון זה נקבע על 100 כברירת מחדל.	";
-		
+
 $GLOBALS['phpAds_hlp_allow_invocation_plain'] = 
 $GLOBALS['phpAds_hlp_allow_invocation_js'] = 
 $GLOBALS['phpAds_hlp_allow_invocation_frame'] = 

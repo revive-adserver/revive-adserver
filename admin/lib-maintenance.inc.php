@@ -73,7 +73,8 @@ function maintenance_goto_section()
 	    $phpAds_config['type_web_ftp'] != '')) && $phpAds_config['type_web_url'] != '')
 		echo "<option value='storage'".($section == 'storage' ? ' selected' : '').">".$strStorage."</option>";
 	
-	echo "<option value='cache'".($section == 'zones' ? ' selected' : '').">".$strCache."</option>";
+	if ($phpAds_config['delivery_caching'] != 'none')
+		echo "<option value='cache'".($section == 'zones' ? ' selected' : '').">".$strCache."</option>";
     
 	echo "</select>&nbsp;<a href='javascript:void(0)' onClick='maintenance_goto_section();'>";
 	echo "<img src='images/".$phpAds_TextDirection."/go_blue.gif' border='0'></a>";

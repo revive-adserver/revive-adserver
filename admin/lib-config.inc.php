@@ -163,7 +163,7 @@ function phpAds_ConfigFileUpdatePrepare ()
 					
 					// Don't trust url prefix, because the update might
 					// occur in a different directory as the original installation
-					if ($regs[1] == 'url_prefix')
+					if ($regs[1] == 'url_prefix' && isset($HTTP_SERVER_VARS['HTTP_HOST']))
 					{
 						$regs[2] = ' = \''.strtolower(eregi_replace("^([a-z]+)/.*$", "\\1://",
 							       $HTTP_SERVER_VARS['SERVER_PROTOCOL'])).$HTTP_SERVER_VARS['HTTP_HOST'].
@@ -220,7 +220,7 @@ function phpAds_ConfigFileUpdatePrepare ()
 					
 					// Don't trust url prefix, because the update might
 					// occur in a different directory as the original installation
-					if ($regs[1] == 'url_prefix')
+					if ($regs[1] == 'url_prefix' && isset($HTTP_SERVER_VARS['HTTP_HOST']))
 					{
 						$regs[2] = ' = \''.strtolower(eregi_replace("^([a-z]+)/.*$", "\\1://",
 							       $HTTP_SERVER_VARS['SERVER_PROTOCOL'])).$HTTP_SERVER_VARS['HTTP_HOST'].

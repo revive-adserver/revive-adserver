@@ -31,6 +31,7 @@ $GLOBALS['strCreateTableTestFailed']		= "U¿ytkownik, którego poda³e¶ nie ma upra
 $GLOBALS['strUpdateTableTestFailed']		= "U¿ytkownik, którego poda³e¶ nie ma uprawnieñ do zmiany struktury bazy danych, skontaktuj siê z administratorem bazy danych.";
 $GLOBALS['strTablePrefixInvalid']		= "Prefiks tabeli zawiera nieprawid³owe znaki";
 $GLOBALS['strTableInUse']			= "Baza danych, któr± poda³e¶ jest ju¿ u¿ywana przez ".$phpAds_productname.", podaj inny prefiks tabeli lub przeczytaj w dokumentacji instrukcje dotycz±ce aktualizacji.";
+$GLOBALS['strTableWrongType']			= "Wybrany przez ciebie typ tabeli nie jest obs³ugiwany przez twoj± instalacjê ".$phpAds_dbmsname;
 $GLOBALS['strMayNotFunction']			= "Przed kontynuacj± popraw te potencjalne problemy:";
 $GLOBALS['strIgnoreWarnings']			= "Ignoruj ostrze¿enia";
 $GLOBALS['strWarningDBavailable']		= "Wersja PHP, której u¿ywasz nie ma mo¿liwo¶ci korzystania z serwera baz danych ".$phpAds_dbmsname.". Musisz w³±czyæ rozszerzenie PHP ".$phpAds_dbmsname." zanim bêdziesz móg³ kontynuowaæ.";
@@ -39,6 +40,8 @@ $GLOBALS['strWarningRegisterGlobals']		= "Opcja konfiguracyjna PHP register_glob
 $GLOBALS['strWarningMagicQuotesGPC']		= "Opcja konfiguracyjna PHP magic_quotes_gpc musi byæ w³±czona.";
 $GLOBALS['strWarningMagicQuotesRuntime']	= "Opcja konfiguracyjna PHP magic_quotes_runtime musi byæ wy³±czona.";
 $GLOBALS['strWarningFileUploads']		= "Opcja konfiguracyjna PHP file_uploads musi byæ w³±czona.";
+$GLOBALS['strWarningTrackVars']			= "Opcja konfiguracyjna PHP variable track_vars musi byæ w³±czona.";
+$GLOBALS['strWarningPREG']			= "Wersja PHP, której u¿ywasz nie posiada obs³ugi wyra¿eñ regularnych w formacie PERL'a. Musisz w³±czyæ rozszerzenie PREG zanim bêdziesz móg³ przej¶æ dalej.";
 $GLOBALS['strConfigLockedDetected']		= $phpAds_productname." wykry³o, ¿e twój plik <b>config.inc.php</b> nie mo¿e byæ modyfikowany przez server.<br> Kontynuacja nie bêdzie mo¿liwa zanim nie zmienisz uprawnieñ dla tego pliku. <br>Przeczytaj do³±czon± dokumentacjê, je¶li nie wiesz jak to zrobiæ.";
 $GLOBALS['strCantUpdateDB']  			= "Aktualizacja bazy danych nie jest w tej chwili mo¿liwa. Je¶li zdecydujesz siê kontynuowaæ, wszystkie istniej±ce bannery, statystyki i reklamodawcy zostan± usuniêci.";
 $GLOBALS['strTableNames']			= "Nazwy Tabeli";
@@ -48,18 +51,18 @@ $GLOBALS['strTablesType']			= "Typ tabeli";
 $GLOBALS['strInstallWelcome']			= "Witamy w ".$phpAds_productname;
 $GLOBALS['strInstallMessage']			= "Zanim mo¿esz zacz±æ u¿ywaæ ".$phpAds_productname." musi on zostaæ skonfigurowany i <br> utworzona zostaæ baza danych. Kliknij <b>Dalej</b> aby kontynuowaæ.";
 $GLOBALS['strInstallSuccess']			= "<bProcedura instalacji ".$phpAds_productname." zosta³a zakoñczona.</b><br><br>Aby zapewniæ prawid³owe funkcjonowanie ".$phpAds_productname." musisz tak¿e
-										   zapewniæ codzienne uruchamianie pliku utrzymania. Wiêcej informacji na ten temat znajdziesz w dokumentacji.
-										   <br><br>Kliknij <b>Dalej</b> aby przej¶æ do czê¶ci konfiguracyjnej, gdzie mo¿esz 
-										   zmieniæ inne ustawienia. Nie zapomnij tak¿e zablokowaæ pliku config.inc.php po zakoñczeniu konfiguracji aby zapobiec
-										   naruszeniu bezpieczeñstwa.";
+						   zapewniæ codzienne uruchamianie pliku utrzymania. Wiêcej informacji na ten temat znajdziesz w dokumentacji.
+						   <br><br>Kliknij <b>Dalej</b> aby przej¶æ do czê¶ci konfiguracyjnej, gdzie mo¿esz 
+						   zmieniæ inne ustawienia. Nie zapomnij tak¿e zablokowaæ pliku config.inc.php po zakoñczeniu konfiguracji aby zapobiec
+						   naruszeniu bezpieczeñstwa.";
 $GLOBALS['strUpdateSuccess']			= "<b>Aktualizacja ".$phpAds_productname." zakoñczy³a siê pomy¶lnie.</b><br><br>Aby zapewniæ prawid³owe funkcjonowanie ".$phpAds_productname." musisz tak¿e
-										   zapewniæ uruchamianie pliku utrzymania co godzinê (przedtem wystarczy³o raz dziennie). Wiêcej informacji na ten temat znajdziesz w dokumentacji.
-										   <br><br>Kliknij <b>Dalej</b> aby przej¶æ do interfejsu administracyjnego. Nie zapomnij tak¿e zablokowaæ pliku config.inc.php 
-										   aby zapobiec naruszeniu bezpieczeñstwa.";
+						   zapewniæ uruchamianie pliku utrzymania co godzinê (przedtem wystarczy³o raz dziennie). Wiêcej informacji na ten temat znajdziesz w dokumentacji.
+						   <br><br>Kliknij <b>Dalej</b> aby przej¶æ do interfejsu administracyjnego. Nie zapomnij tak¿e zablokowaæ pliku config.inc.php 
+						   aby zapobiec naruszeniu bezpieczeñstwa.";
 $GLOBALS['strInstallNotSuccessful']		= "<b>Instalacja ".$phpAds_productname." nie powiod³a siê</b><br><br>Niektóre czê¶ci procesu instalacyjnego nie zosta³y zakoñczone.
-										   Mo¿liwe, ¿e te problemy s± jedynie przej¶ciowe, w takim wypadku mo¿esz po prostu klikn±æ <b>Dalej</b> i powróciæ do 
-										   pierwszego kroku instalacji. Je¶li chcesz dowiedzieæ siê wiêcej o znaczeniu tego b³êdu i sposobach jego rozwi±zania, 
-										   zajrzyj do do³±czonej dokumentacji.";
+						   Mo¿liwe, ¿e te problemy s± jedynie przej¶ciowe, w takim wypadku mo¿esz po prostu klikn±æ <b>Dalej</b> i powróciæ do 
+						   pierwszego kroku instalacji. Je¶li chcesz dowiedzieæ siê wiêcej o znaczeniu tego b³êdu i sposobach jego rozwi±zania, 
+						   zajrzyj do do³±czonej dokumentacji.";
 $GLOBALS['strErrorOccured']			= "Wyst±pi³y nastêpuj±ce b³êdy:";
 $GLOBALS['strErrorInstallDatabase']		= "Nie uda³o siê strowzyæ struktury bazy danych.";
 $GLOBALS['strErrorInstallConfig']		= "Plik konfiguracyjny lub naza danych nie mog³y zostaæ zaktualizowane.";
@@ -74,7 +77,7 @@ $GLOBALS['strInvalidUserPwd']			= "B³êdna nazwa u¿ytkownika lub has³o";
 
 $GLOBALS['strUpgrade']				= "Aktualizacja";
 $GLOBALS['strSystemUpToDate']			= "Twój system ma ju¿ zainstalowan± najnowsz± wersjê programu, aktualizacja nie jest potrzebna. <br>Kliknij <b>Dalej</b> aby przej¶æ na stronê g³ówn±.";
-$GLOBALS['strSystemNeedsUpgrade']		= "Struktura bazy danych i plik konfiguracyjny musz± zostaæ zaktualizowane, aby zapewniæ prawid³owe funkcjonowanie systemu. Kliknij <b>Dalej</b> aby rozpocz±æ proces aktualizacji. <br>Przygotuj siê na to, ¿e aktualizacja mo¿e potrwaæ do kilkunastu minut.";
+$GLOBALS['strSystemNeedsUpgrade']		= "Struktura bazy danych i plik konfiguracyjny musz± zostaæ zaktualizowane, aby zapewniæ prawid³owe funkcjonowanie systemu. Kliknij <b>Dalej</b> aby rozpocz±æ proces aktualizacji. <br><br>Zale¿nie od tego, z której wersji dokonywana jest aktualizacja i ile statystyk znajduje siê ju¿ w bazie danych, mo¿e to spowodowaæ znaczne obci±¿enie dla serwera. Przygotuj siê na to, ¿e aktualizacja mo¿e potrwaæ do kilkunastu minut.";
 $GLOBALS['strSystemUpgradeBusy']		= "System w trakcie aktualizacji, proszê zaczekaæ...";
 $GLOBALS['strSystemRebuildingCache']		= "Odbudowywanie cache'u, proszê zaczekaæ...";
 $GLOBALS['strServiceUnavalable']		= "System jest obecnie niedostêpny. Trwa aktualizacja";
@@ -102,7 +105,9 @@ $GLOBALS['strEditConfigPossible']		= "Edycja wszystkich ustawieñ jest mo¿liwa, p
 // Database
 $GLOBALS['strDatabaseSettings']			= "Ustawienia Bazy Danych";
 $GLOBALS['strDatabaseServer']			= "Serwer Bazy Danych";
+$GLOBALS['strDbLocal']				= "Po³±cz z lokalnym serwerem u¿ywaj±c sockets"; // Pg only
 $GLOBALS['strDbHost']				= "Adres serwera";
+$GLOBALS['strDbPort']				= "Numer portu bazy danych";
 $GLOBALS['strDbUser']				= "Nazwa u¿ytkownika";
 $GLOBALS['strDbPassword']			= "Has³o";
 $GLOBALS['strDbName']				= "Nazwa bazy danych";
@@ -133,7 +138,9 @@ $GLOBALS['strDeliverySettings']			= "Ustawienia dostarczania";
 $GLOBALS['strCacheType']			= "Typ cache'u dostarczania";
 $GLOBALS['strCacheFiles']			= "Pliki";
 $GLOBALS['strCacheDatabase']			= "Baza danych";
-$GLOBALS['strCacheShmop']			= "Wspó³dzielona pamiêæ";
+$GLOBALS['strCacheShmop']			= "Wspó³dzielona pamiêæ/Shmop";
+$GLOBALS['strCacheSysvshm']			= "Wspó³dzielona pamiêæ/Sysvshm";
+$GLOBALS['strExperimental']			= "Eksperymentalne";
 $GLOBALS['strKeywordRetrieval']			= "S³owa Kluczowe";
 $GLOBALS['strBannerRetrieval']			= "Metoda Doboru Bannerów";
 $GLOBALS['strRetrieveRandom']			= "Losowy wybór (domy¶lnie)";
@@ -176,6 +183,12 @@ $GLOBALS['strTypeFTPHost']			= "Adres servera FTP";
 $GLOBALS['strTypeFTPDirectory']			= "Katalog servera";
 $GLOBALS['strTypeFTPUsername']			= "Login";
 $GLOBALS['strTypeFTPPassword']			= "Has³o";
+$GLOBALS['strTypeFTPErrorDir']			= "Podany katalog na serwerze nie istnieje";
+$GLOBALS['strTypeFTPErrorConnect']		= "B³±d po³±czenia z serwerem FTP, login i has³o s± niepoprawne";
+$GLOBALS['strTypeFTPErrorHost']			= "Nazwa hosta serwera FTP nie jest poprawna";
+$GLOBALS['strTypeDirError']			= "Lokalny katalog nie istnieje";
+
+
 
 $GLOBALS['strDefaultBanners']			= "Domy¶lne Bannery";
 $GLOBALS['strDefaultBannerUrl']			= "Adres URL domy¶lnego bannera";
@@ -187,22 +200,39 @@ $GLOBALS['strTypeHtmlPhp']			= "Zezwól na wykonywanie poleceñ PHP w bannerach HT
 
 
 
-// Statistics Settings
-$GLOBALS['strStatisticsSettings']		= "Ustawienia Statystyk";
+// Host information and Geotargeting
+$GLOBALS['strHostAndGeo']			= "Informacje o serwerze i ¶ledzeniu geograficznym";
 
-$GLOBALS['strStatisticsFormat']			= "Format Statystyk";
-$GLOBALS['strLogBeacon']			= "Use beacons to log AdViews";
-$GLOBALS['strCompactStats']			= "U¿yj skróconych statystyk";
-$GLOBALS['strLogAdviews']			= "Loguj Ods³ony";
-$GLOBALS['strBlockAdviews']			= "Ochrona przed wielokrotnym logowaniem (sec.)";
-$GLOBALS['strLogAdclicks']			= "Loguj Klikniêcia";
-$GLOBALS['strBlockAdclicks']			= "Ochrona przed wielokrotnym logowaniem (sec.)";
+$GLOBALS['strRemoteHost']			= "Zdalny serwer";
+$GLOBALS['strReverseLookup']			= "Spróbuj ustaliæ nazwê hosta odwiedzaj±cego, je¶li nie zosta³a podana przez serwer";
+$GLOBALS['strProxyLookup']			= "Spróbuj ustaliæ prawdziwy adres IP odwiedzaj±cego, je¶li korzysta on z Proxy";
 
 $GLOBALS['strGeotargeting']			= "Geotargeting";
 $GLOBALS['strGeotrackingType']			= "Typ bazy danych ¶ledzenia geograficznego";
 $GLOBALS['strGeotrackingLocation'] 		= "Lokalizacja bazy danych ¶ledzenia geograficznego";
-$GLOBALS['strGeoLogStats']			= "Loguj kraj odwiedzaj±cego w statystykach";
 $GLOBALS['strGeoStoreCookie']			= "Zapisz wyniki w cookie dla pó¼niejszego wykorzystania";
+
+
+
+// Statistics Settings
+$GLOBALS['strStatisticsSettings']		= "Ustawienia Statystyk";
+
+$GLOBALS['strStatisticsFormat']			= "Format Statystyk";
+$GLOBALS['strCompactStats']			= "Format statystyk";
+$GLOBALS['strLogAdviews']			= "Loguj Ods³onê przy ka¿dym dostarczeniu bannera";
+$GLOBALS['strLogAdclicks']			= "Loguj Klikniêcie za ka¿dym razem gdy odwiedzaj±cy kliknie w banner";
+$GLOBALS['strLogSource']			= "Loguj parametr ¼ród³a podany w inwokacji";
+$GLOBALS['strGeoLogStats']			= "Loguj kraj odwiedzaj±cego w statystykach";
+$GLOBALS['strLogHostnameOrIP']			= "Loguj nazwê hosta lub adres IP odwiedzaj±cego";
+$GLOBALS['strLogIPOnly']			= "Loguj tylko adres IP dwiedzaj±cego, nawet je¶li nazwa hosta jest znana";
+$GLOBALS['strLogIP']				= "Loguj adres IP odwiedzaj±cego";
+$GLOBALS['strLogBeacon']			= "U¿ywaj ma³ego obrazka przy logowaniu Ods³on aby zapewniæ, ¿e tylko dostarczone bannery s± logowane";
+
+$GLOBALS['strRemoteHosts']			= "Zdalne Hosty";
+$GLOBALS['strIgnoreHosts']			= "Nie przechowuj statystyk dla odwiedzaj±cych u¿ywaj±cych jednego z poni¿szych adresów IP lub hostów";
+$GLOBALS['strBlockAdviews']			= "Nie loguj Ods³on je¶li odwiedzaj±cy widzia³ ten sam banner w ci±gu podanego w sekundach czasu";
+$GLOBALS['strBlockAdclicks']			= "Nie loguj Klikniêæ je¶li odwiedzaj±cy klikn±³ w banner w ci±gu podanego w sekundach czasu";
+
 
 $GLOBALS['strEmailWarnings']			= "Ostrze¿enia Przez E-mail";
 $GLOBALS['strAdminEmailHeaders']		= "Nag³ówek z informacj± o nadawcy dziennych raportów";
@@ -212,11 +242,6 @@ $GLOBALS['strWarnAdmin']			= "Ostrze¿enie Administratora";
 $GLOBALS['strWarnClient']			= "Ostrze¿enie Reklamodawcy";
 $GLOBALS['strQmailPatch']			= "W³±cz ³atkê qmail'a";
 
-$GLOBALS['strRemoteHosts']			= "Zdalne Hosty";
-$GLOBALS['strIgnoreHosts']			= "Ignoruj Hosty";
-$GLOBALS['strReverseLookup']			= "Wsteczne Wyszukiwanie DNS";
-$GLOBALS['strProxyLookup']			= "Wyszukiwanie Proxy";
-
 $GLOBALS['strAutoCleanTables']			= "Automatycznie Czyszczenie Bazy Danych";
 $GLOBALS['strAutoCleanStats']			= "Wyczy¶æ statystyki";
 $GLOBALS['strAutoCleanUserlog']			= "Wyczy¶æ log u¿ytkownika";
@@ -224,6 +249,7 @@ $GLOBALS['strAutoCleanStatsWeeks']		= "Maksymalny wiek statystyk <br>(minimum 3 
 $GLOBALS['strAutoCleanUserlogWeeks']		= "Maksymalny wiek logu u¿ytkownika <br>(minimum 3 tygodnie)";
 $GLOBALS['strAutoCleanErr']			= "Maksymalny wiek musi mieæ przynajmniej 3 tygodnie";
 $GLOBALS['strAutoCleanVacuum']			= "ANALIZA VACUUM tabel co noc"; // only Pg
+
 
 
 // Administrator settings

@@ -320,6 +320,10 @@ $GLOBALS['strApplyLimitationsTo']		= "Zastosuj ograniczenia do";
 $GLOBALS['strRemoveAllLimitations']		= "Usuñ wszystkie ograniczenia";
 $GLOBALS['strEqualTo']				= "jest równy";
 $GLOBALS['strDifferentFrom']			= "jest inny ni¿";
+$GLOBALS['strLaterThan']			= "jest pó¼niej ni¿";
+$GLOBALS['strLaterThanOrEqual']			= "jest pó¿niej lub równocze¶nie z";
+$GLOBALS['strEarlierThan']			= "jest wcze¶niej ni¿";
+$GLOBALS['strEarlierThanOrEqual']		= "jest wcze¶niej lub równocze¶nie z";
 $GLOBALS['strAND']				= "I";  						// logical operator
 $GLOBALS['strOR']				= "LUB"; 						// logical operator
 $GLOBALS['strOnlyDisplayWhen']			= "Wy¶wietlaj ten banner tylko kiedy:";
@@ -395,15 +399,20 @@ $GLOBALS['strZoneNoDelivery']			= "Je¶li ¿aden banner z tej strefy <br>nie mo¿e 
 $GLOBALS['strZoneStopDelivery']			= "Zaprzestañ dostarczania i nie pokazuj bannera";
 $GLOBALS['strZoneOtherZone']			= "Wy¶wietl zamiast tego wybran± strefê";
 $GLOBALS['strZoneUseKeywords']			= "Wybierz banner u¿ywaj±c poni¿szych s³ów kluczowych";
-$GLOBALS['strZoneAppend']			= "Zawsza dodawaj poni¿szy kod inwokacji dla popup lub interstitial Always do bannerów wy¶wietlanych przez t± strefê";
+$GLOBALS['strZoneAppend']			= "Zawsze dodawaj poni¿szy kod HTML do bannerów wy¶wietlanych przez t± strefê";
 $GLOBALS['strAppendSettings']			= "Ustawienia dodawania";
 $GLOBALS['strZonePrependHTML']			= "Zawsze dodawaj ten kod HTML przed odno¶nikami tekstowymi wy¶wietlanymi przez t± strefê";
 $GLOBALS['strZoneAppendHTML']			= "Zawsze dodawaj ten kod HTML po odno¶nikach tekstowych wy¶wietlanych przez t± strefê";
+$GLOBALS['strZoneAppendType']			= "Dodaj typ";
+$GLOBALS['strZoneAppendHTMLCode']		= "Kod HTML";
+$GLOBALS['strZoneAppendZoneSelection']		= "Popup lub intersitial";
+$GLOBALS['strZoneAppendSelectZone']		= "Zawsze dodawaj ten popup lub intersitial do bannerów wy¶wietlanych przez t± strefê";
 
 
 // Zone probability
 $GLOBALS['strZoneProbListChain']		= "Wszystkie bannery pod³±czone do tej strefy maj± zerowy priorytet. Tak wygl±da ³añcuch strefy, wed³ug którego bêd± ustawione:";
 $GLOBALS['strZoneProbNullPri']			= "Wszystkie bannery pod³±czone do tej strefy maj± zerowy priorytet";
+$GLOBALS['strZoneProbListChainLoop']		= "Postêpowanie zgodnie z ³añcuchem stref spowodowa³oby ko³ow± pêtlê. Dostarczanie z tej strefy zosta³o wstrzymane.";
 
 
 // Linked banners/campaigns
@@ -445,6 +454,13 @@ $GLOBALS['strSelectSource']			= "Wybierz ¼ród³o, które chcesz zobaczyæ:";
 $GLOBALS['strSizeDistribution']			= "Dystrybucja wed³ug rozmiaru";
 $GLOBALS['strCountryDistribution']		= "Dystrybucja wed³ug kraju";
 $GLOBALS['strEffectivity']			= "Efektywno¶æ";
+$GLOBALS['strTargetStats']			= "Statystyki targetowania";
+$GLOBALS['strCampaignTarget']			= "Cel";
+$GLOBALS['strTargetRatio']			= "Ratio Celu";
+$GLOBALS['strTargetModifiedDay']		= "Cele zosta³y zmodyfikowane w ci±gu dnia, targeting mo¿e nie byæ precyzyjny";
+$GLOBALS['strTargetModifiedWeek']		= "Cele zosta³y zmodyfikowane w ci±gu tygodnia, targeting mo¿e nie byæ precyzyjny";
+$GLOBALS['strTargetModifiedMonth']		= "Cele zosta³y zmodyfikowane w ci±gu miesi±ca, targeting mo¿e nie byæ precyzyjny";
+$GLOBALS['strNoTargetStats']			= "Nie ma obecnie ¿adnych statystyk targetingu";
 
 
 // Hosts

@@ -58,6 +58,9 @@ $GLOBALS['strDeliveryCacheSharedMem']		= "
 $GLOBALS['strDeliveryCacheDatabase']		= "
 	The database is currently being used for storing the delivery cache.
 ";
+$GLOBALS['strDeliveryCacheFiles']		= "
+	The delivery cache is currently being stored into multiple files on your server.
+";
 
 
 // Storage

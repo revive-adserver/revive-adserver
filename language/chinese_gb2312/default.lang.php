@@ -412,6 +412,7 @@ $GLOBALS['strZoneAppendSelectZone']		= "总是在此版位的广告上附加下面的弹出式或者
 // Zone probability
 $GLOBALS['strZoneProbListChain']		= "所有连接到此版位的广告优先级为空，下面是版位的附加项设置:";
 $GLOBALS['strZoneProbNullPri']			= "所有连接到此版位的广告优先级为空";
+$GLOBALS['strZoneProbListChainLoop']		= "此版位的附加项形成一个死循环,所以版位的发送停止";
 
 
 // Linked banners/campaigns

@@ -410,6 +410,7 @@ $GLOBALS['strZoneAppendHTML']			= "Toujours afficher le code HTML suivant après 
 // Zone probability
 $GLOBALS['strZoneProbListChain']		= "Toutes les bannières liées à la zone sélectionnée ont une priorité nulle. Le chaînage de zone sera utilisé:";
 $GLOBALS['strZoneProbNullPri']		= "Toutes les bannières liées à cette zone ont une priorité nulle.";
+$GLOBALS['strZoneProbListChainLoop']	= "Suivre cette chaîne de zones entrainerait une boucle infinie. La distribution des bannières de cette zones est suspendue";
 
 // Linked banners/campaigns
 $GLOBALS['strSelectZoneType']			= "Merci de choisir le type de bannières liées";
@@ -450,7 +451,13 @@ $GLOBALS['strSelectSource']			= "Sélectionnez la source que vous souhaitez voir:
 $GLOBALS['strSizeDistribution']		= "Répartition par taille";
 $GLOBALS['strCountryDistribution']		= "Répartition par pays";
 $GLOBALS['strEffectivity']			= "Effectivité";
-
+$GLOBALS['strTargetStats']			= "Statistiques d'objectifs";
+$GLOBALS['strCampaignTarget']		= "Objectif";
+$GLOBALS['strTargetRatio']			= "Ratio d'objectif";
+$GLOBALS['strTargetModifiedDay']	= "Les objectifs ont été modifiés durant la journée, les prévisions pourraient ne pas être fiables";
+$GLOBALS['strTargetModifiedWeek']	= "Les objectifs ont été modifiés durant la semaine, les prévisions pourraient ne pas être fiables";
+$GLOBALS['strTargetModifiedMonth']	= "Les objectifs ont été modifiés durant le mois, les prévisions pourraient ne pas être fiables";
+$GLOBALS['strNoTargetStats']		= "Il n'y a actuellement pas de statistiques concernant les prévisions, et les objectifs";
 
 // Hosts
 $GLOBALS['strHosts']				= "Machines clientes";

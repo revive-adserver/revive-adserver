@@ -104,10 +104,13 @@ function phpAds_showCache ()
 
 echo "<br>".$strDeliveryCacheExplaination;
 
-if ($phpAds_config['delivery_caching'] == 'shm')
-	echo $strDeliveryCacheSharedMem;
-else
-	echo $strDeliveryCacheDatabase;
+switch ($phpAds_config['delivery_caching'])
+{
+	case 'shm': 		echo $strDeliveryCacheSharedMem; break;
+	case 'sysvshm': 	echo $strDeliveryCacheSharedMem; break;
+	case 'file': 		echo $strDeliveryCacheFiles; break;
+	default:    		echo $strDeliveryCacheDatabase; break;
+}
 
 echo "<br><br>";
 

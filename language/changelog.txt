@@ -12,6 +12,9 @@
 
   ====================================================
 
+  12-27-2002 - maintenance
+    [+] strDeliveryCacheFiles
+
   12-18-2002 - settings
     [+] strDbLocal (Postgres only)
 

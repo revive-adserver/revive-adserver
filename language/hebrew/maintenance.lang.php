@@ -37,11 +37,27 @@ $GLOBALS['strRebuildBannerCache']		= "רענן זיכרון-מטמון באנרים";
 $GLOBALS['strBannerCacheExplaination']		= "זיכרון-מטמון של הבאנרים מכיל כעת העתק של קוד HTML  המשמש לתצוגה של הבאנר. על ידי שימוש בזיכרון זה ניתן להאיץ את ההפצה של הבאנרים כי קוד ה-HTML לא דורש הפקה מחודשת בכל פעם שבאנר צריך להיחשף.<br> מכיוון שזיכרון הבאנר כולל קוד מוטבע של ה-URLs למיקום ה-".$phpAds_productname." והבאנרים שלו, הזיכרון צריך להתעדכן בכל פעם שה-".$phpAds_productname." מועבר למיקום אחר על השרת. ";
 
 
-// Zone cache
-$GLOBALS['strZoneCache']			= "זכרון מטמון של אזור";
-$GLOBALS['strAge']				= "בן";
-$GLOBALS['strRebuildZoneCache']			= "בנה מחדש את זכרון המטמון של אזורים";
-$GLOBALS['strZoneCacheExplaination']		= "זכרון מטמון האזור נחוץ להאצת ההפצה של באנרים המקושרים לאזורים. זכרון זה מכיל העתק של כל הבאנרים המקושרים לאזור, מה שחוסך קריאות חוזרות ונשנות לבסיס הנתונים כאשר הבנרים נדרשים לתצוגה ממשית. <br>זכרון המטמון למעשה נבנה בכל פעם שנעשה שינוי לאזור מסוים או לאחד מהבאנרים שבתחומו, כך שאפשר שהוא לא יהיה מעודכן. <br>בגלל סיבה זו זכרון המטמון מתחדש כל {seconds} שניות, אך ניתן לרענן אותו גם ידנית. ";
+
+
+
+
+
+// Cache
+$GLOBALS['strCache']			= "זיכרון-מטמון תפוצה";
+$GLOBALS['strAge']				= "גיל";
+$GLOBALS['strRebuildDeliveryCache']			= "רענן זיכרון-מטמון תפוצה";
+$GLOBALS['strDeliveryCacheExplaination']		= "
+	זיכרון-מטמון תפוצה משמש להמהרת התפוצה של הבאנרים. המטמון כולל העתק של כל הבאנרים המקושרים לאיזור, מה שחוסך קריאות נוספות לבסיס הנתונים כאשר הבאנרים נקראים לתצוגה ממשית. המטמון מתחדש בכל פעם שחל שינוי לאיזור או לאחד מהבאנרים שבתוכו, ויש אפשרות שהוא ייהפך למיושן. מכאן שהוא נבנה מחדש כל שעה, אך ניתן להפעיל זאת גם ידנית.
+";
+$GLOBALS['strDeliveryCacheSharedMem']		= "
+	Shared memory is currently being used for storing the delivery cache.
+";
+$GLOBALS['strDeliveryCacheDatabase']		= "
+	The database is currently being used for storing the delivery cache.
+";
+
+
+
 
 
 // Storage
@@ -50,8 +66,13 @@ $GLOBALS['strMoveToDirectory']			= "העבר את התמונות השמורות בתוך בסיס הנתונים אל
 $GLOBALS['strStorageExplaination']		= "הבאנרים בשימוש מקומי מאוחסנים בתוך בסיס הנתונים או בתיקייה על השרת. אם אתה שומר את הבאנרים בתוך תיקייה יפחת העומס על בסיס הנתונים ואף המהירות תואץ. ";
 
 
+
+
+
 // Storage
 $GLOBALS['strStatisticsExplaination']		= " הפעלת תצורת <i>סטטיסטיקה קומפקטית</i>, אך הסטטיסטיקה הישנה שלך היא עדיין בתצורה טקסטואלית. האם אתה רוצה להמיר את הסטטיסטיקה המילולית לתצורה הקומפקטית? ";
+
+
 
 
 // Product Updates
@@ -72,6 +93,19 @@ $GLOBALS['strNewVersionAvailable']		= "<b>גירסה חדשה של ".$phpAds_productname."י
 $GLOBALS['strSecurityUpdate']			= "<b>מומלץ ביותר להתקין את העשכון הזה בהקשם האפשרי, כיוון שהוא מכיל מספר תיקוני אבטחה.</b> הגירסה של ".$phpAds_productname." בה אתה משתמש עכשיו, אפשר שהיא פגיעה להתקפות מסוימות ואולי אינה מוגנת. למידע נוסף אודות העדכון אנא קרא את התיועד הכלולל בקבצים מטה. ";
 
 
+
+$GLOBALS['strNotAbleToCheck']			= "
+	<b>כיוון שהרחבת ה-XML אינה קיימת על השרת שלך, ".$phpAds_productname." אינה יכולה לבדוק את יצאה גירסה חדשה.</b>
+";
+
+$GLOBALS['strForUpdatesLookOnWebsite']	= "
+	אתה מריץ כעת ".$phpAds_productname." ".$phpAds_version_readable.". 
+	אם אתה רוצה לדעת האם קיימת גירסה חדשה, אנא בקר באתר שלנו.
+";
+
+$GLOBALS['strClickToVisitWebsite']		= "
+	לחץ כאן כדי לבקר באתר שלנו";
+	
 // Stats conversion
 $GLOBALS['strConverting']			= "ממיר";
 $GLOBALS['strConvertingStats']			= "ממיר סטטיסטיקה...";
