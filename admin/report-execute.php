@@ -20,7 +20,7 @@ require ("lib-statistics.inc.php");
 
 
 // Register input variables
-phpAds_registerGlobal ('plugin');
+phpAds_registerGlobal ('plugin', 'delimiter', 'quotes');
 
 
 if (isset($plugin) && $plugin != '')
