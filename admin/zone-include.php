@@ -110,6 +110,8 @@ if (isset($zoneid) && $zoneid != '')
 	
 	if (isset($action) && $action == 'set')
 	{
+		if (!isset($what)) $what = '';
+		
 		if ($zonetype == phpAds_ZoneBanners)
 		{
 			if (isset($bannerid) && is_array($bannerid))
@@ -117,7 +119,7 @@ if (isset($zoneid) && $zoneid != '')
 				for ($i=0;$i<sizeof($bannerid);$i++)
 					$bannerid[$i] = 'bannerid:'.$bannerid[$i];
 				
-				$what = implode (',', $bannerid);
+				$what .= implode (',', $bannerid);
 			}
 		}
 		
@@ -128,11 +130,11 @@ if (isset($zoneid) && $zoneid != '')
 				for ($i=0;$i<sizeof($clientid);$i++)
 					$clientid[$i] = 'clientid:'.$clientid[$i];
 				
-				$what = implode (',', $clientid);
+				$what .= implode (',', $clientid);
 			}
 		}
 		
-		if (isset($what) && isset($zonetype))
+		if (isset($zonetype))
 		{
 			$res = phpAds_dbQuery("
 				UPDATE
@@ -964,6 +966,7 @@ if ($zonetype == phpAds_ZoneRaw)
 	echo "<input type='hidden' name='zoneid' value='".$zoneid."'>";
 	echo "<input type='hidden' name='affiliateid' value='".$affiliateid."'>";
 	echo "<input type='hidden' name='zonetype' value='$zonetype'>";
+	echo "<input type='hidden' name='action' value='set'>";
 	
 	echo "<textarea cols='50' rows='16' name='what' style='width:600px;'>".(isset($zone['what']) ? $zone['what'] : '')."</textarea>";
 	
