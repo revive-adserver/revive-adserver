@@ -329,6 +329,7 @@ function phpAds_GenerateInvocationCode()
 	if ($codetype=='xmlrpc')
 	{
 		if (!isset($acid) || $acid == '') $acid = 0;
+		if (!isset($hostlanguage)) $hostlanguage = 'php';
 		
 		$params = parse_url($phpAds_config['url_prefix']);
 		
