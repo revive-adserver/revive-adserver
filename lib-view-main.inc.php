@@ -191,11 +191,11 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 				if (ereg ("Mozilla/(1|2|3|4)", $GLOBALS['HTTP_USER_AGENT']) && !ereg("compatible", $GLOBALS['HTTP_USER_AGENT']))
 				{
 					$outputbuffer .= '<layer id="beacon_'.$row['bannerid'].'" width="0" height="0" border="0" visibility="hide">';
-					$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&amp;clientid='.$row['clientid'].'&amp;zoneid='.$row['zoneid'].'&amp;source='.$source.'&amp;block='.$row['block'].'&amp;cb='.md5(uniqid('')).'\' width=\'0\' height=\'0\' alt=\'\'>';
+					$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&amp;clientid='.$row['clientid'].'&amp;zoneid='.$row['zoneid'].'&amp;source='.$source.'&amp;block='.$row['block'].'&amp;capping='.$row['capping'].'&amp;cb='.md5(uniqid('')).'\' width=\'0\' height=\'0\' alt=\'\'>';
 					$outputbuffer .= '</layer>';
 				}
 				else
-					$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&amp;clientid='.$row['clientid'].'&amp;zoneid='.$row['zoneid'].'&amp;source='.$source.'&amp;block='.$row['block'].'&amp;cb='.md5(uniqid('')).'\' width=\'0\' height=\'0\' alt=\'\' style=\'width: 0px; height: 0px;\'>';
+					$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&amp;clientid='.$row['clientid'].'&amp;zoneid='.$row['zoneid'].'&amp;source='.$source.'&amp;block='.$row['block'].'&amp;capping='.$row['capping'].'&amp;cb='.md5(uniqid('')).'\' width=\'0\' height=\'0\' alt=\'\' style=\'width: 0px; height: 0px;\'>';
 			}
 		}
 		

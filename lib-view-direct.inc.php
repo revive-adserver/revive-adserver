@@ -111,6 +111,19 @@ function phpAds_fetchBannerDirect($remaining, $clientid, $context = 0, $source =
 							break;
 						}
 						
+						// Capped
+						if ($rows[$i]['capping'] > 0 &&
+							isset($GLOBALS['phpAds_capAd'][$rows[$i]['bannerid']]) &&
+							$GLOBALS['phpAds_capAd'][$rows[$i]['bannerid']] >= $rows[$i]['capping'])
+						{
+							// Delete this row and adjust $prioritysum
+							$prioritysum -= $rows[$i]['priority'];
+							$rows[$i] = '';
+							
+							// Break out of the for loop to try again
+							break;
+						}
+						
 						if ($phpAds_config['acl'])
 						{
 							if (phpAds_aclCheck($rows[$i], $source))

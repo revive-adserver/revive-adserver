@@ -33,6 +33,7 @@ CVS			+ Added configuration manager  (Matteo, 2001-11-04)
 			+ Added new style JavaScript invocation, with the ability to prevent one banner from being displayed twice on one page  (Niels, 2002-04-30)
 			+ Added the ability to change the target frame for converted Flash banners (Niels, 2002-07-04)
 			+ During link conversion of Flash files, it is now possible to compress uncompressed files, even created by older versions of Flash  (Niels, 2002-07-04)
+			+ Added the ability to set a limit to the number of impressions for a specific user, aka. capping  (Niels, 2002-07-07)
 
 			+ Misc changes to library and function names
 			  - 2001-10-20:  Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 
@@ -162,6 +163,7 @@ CVS			+ Added configuration manager  (Matteo, 2001-11-04)
 			  - 2002-06-07:  Added total of the period in email reports  (Matteo)
 			  - 2002-06-12:	 Added check for MySQL user privileges before upgrading  (Niels)
 			  - 2002-07-06:  Added display of file size to banner properties  (Niels)
+			  - 2002-07-07:  Increased maximum length of target parameter on banner properties page to 16 chars  (Niels)
 
 
 			+ Misc bugfixes

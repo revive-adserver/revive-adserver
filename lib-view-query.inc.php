@@ -45,6 +45,7 @@ function phpAds_buildQuery ($part, $lastpart, $precondition)
 				".$phpAds_config['tbl_banners'].".target as target,
 				".$phpAds_config['tbl_banners'].".alt as alt,
 				".$phpAds_config['tbl_banners'].".block as block,
+				".$phpAds_config['tbl_banners'].".capping as capping,
 				".$phpAds_config['tbl_banners'].".compiledlimitation as compiledlimitation
 			FROM
 				".$phpAds_config['tbl_banners'].",

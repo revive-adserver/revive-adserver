@@ -69,7 +69,7 @@ if (isset($bannerid) && isset($clientid) && isset($zoneid))
 	
 	if (isset($block) && $block != '' && $block != '0')
 	{
-		if ($phpAds_config['p3p_policies'] && !isset($php_header))
+		if ($phpAds_config['p3p_policies'] && !isset($p3p_header))
 		{
 			$p3p_header = '';
 			
@@ -84,6 +84,30 @@ if (isset($bannerid) && isset($clientid) && isset($zoneid))
 		}
 		
 		SetCookie("phpAds_blockAd[".$bannerid."]", time(), time() + $block, '/');
+	}
+	
+	if (isset($capping) && $capping != '' && $capping != '0')
+	{
+		if ($phpAds_config['p3p_policies'] && !isset($p3p_header))
+		{
+			$p3p_header = '';
+			
+			if ($phpAds_config['p3p_policy_location'] != '')
+				$p3p_header .= " policyref=\"".$phpAds_config['p3p_policy_location']."\"";
+			
+			if ($phpAds_config['p3p_compact_policy'] != '')
+				$p3p_header .= " CP=\"".$phpAds_config['p3p_compact_policy']."\"";
+			
+			if ($p3p_header != '')
+				header ("P3P: $p3p_header");
+		}
+		
+		if (isset($phpAds_capAd) && isset($phpAds_capAd[$bannerid]))
+			$newcap = $phpAds_capAd[$bannerid] + 1;
+		else
+			$newcap = 1;
+		
+		SetCookie("phpAds_capAd[".$bannerid."]", $newcap, time()+31536000, '/');
 	}
 }
 

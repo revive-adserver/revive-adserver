@@ -178,6 +178,13 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 						isset($GLOBALS['phpAds_blockAd'][$rows[$i]['bannerid']]))
 						$postconditionSucces = false;
 					
+					// Capped
+					if ($postconditionSucces == true &&
+						$rows[$i]['capping'] > 0 &&
+						isset($GLOBALS['phpAds_capAd'][$rows[$i]['bannerid']]) &&
+						$GLOBALS['phpAds_capAd'][$rows[$i]['bannerid']] >= $rows[$i]['capping'])
+						$postconditionSucces = false;
+					
 					
 					if ($postconditionSucces == false)
 					{
