@@ -105,6 +105,23 @@ if (isset($convert))
 			}
 		}
 	}
+	elseif ($row['format'] == 'web' && eregi('swf$', $row['banner']))
+	{
+		$swf_file = phpAds_ImageRetrieve ($row['banner']);
+		
+		if (phpAds_SWFVersion($swf_file) >= 3 &&
+			phpAds_SWFInfo($swf_file))
+		{
+			$result = phpAds_SWFConvert($swf_file);
+			
+			if ($result != $swf_file &&
+				strlen($result) == strlen($swf_file))
+			{
+				// Store the banner
+				phpAds_ImageStore ($row['banner'], $result, true);
+			}
+		}
+	}
 	
 	if (phpAds_isUser(phpAds_Client))
 		Header("Location: stats-campaign.php?campaignid=$campaignid");
@@ -114,7 +131,7 @@ if (isset($convert))
 	exit;
 }
 
-if (isset($return))
+if (isset($cancel))
 {
 	if (phpAds_isUser(phpAds_Client))
 		Header("Location: stats-campaign.php?campaignid=$campaignid");
@@ -207,7 +224,16 @@ if ($bannerid != '')
 		") or phpAds_sqlDie();
 	$row = phpAds_dbFetchArray($res);
 	
-	if ($row['format'] != 'swf')
+	
+	if ($row['format'] == 'swf')
+	{
+		$swf_file = $row['banner'];
+	}
+	elseif ($row['format'] == 'web' && eregi('swf$', $row['banner']))
+	{
+		$swf_file = phpAds_ImageRetrieve ($row['banner']);
+	}
+	else
 	{
 		// Banner is not a flash banner, return to banner-edit.php
 		header ("Location: banner-edit.php?campaignid=$campaignid&bannerid=$bannerid");
@@ -216,7 +242,7 @@ if ($bannerid != '')
 }
 else
 {
-	// Banner does not exists, return to banner-edit.php
+	// Banner does not exist, return to banner-edit.php
 	header ("Location: banner-edit.php?campaignid=$campaignid");
 	exit;
 }
@@ -227,7 +253,7 @@ else
 /* Main code                                             */
 /*********************************************************/
 
-$result = phpAds_SWFInfo($row['banner']);
+$result = phpAds_SWFInfo($swf_file);
 
 if ($result)
 {
@@ -235,7 +261,7 @@ if ($result)
 	echo "able to track the number of AdClicks for this banner unless you convert these ";
 	echo "hard-coded urls. Below you will find a list of all urls inside the Flash file. ";
 	echo "If you want to convert the urls, simply click <b>Convert</b>, otherwise click ";
-	echo "<b>Return</b>.<br><br>If you decide to convert the hard-coded urls in this Flash file ";
+	echo "<b>Cancel</b>.<br><br>If you decide to convert the hard-coded urls in this Flash file ";
 	echo "every click on this banner will refer the browser to the url you specified as the url you ";
 	echo "specified when you created this banner (".$row['url'].").<br><br>";
 	echo "Please note: if you click <b>Convert</b> the Flash file ";
@@ -271,7 +297,7 @@ if ($result)
 	echo "<input type='hidden' name='bannerid' value='$bannerid'>";
 	echo "<input type='hidden' name='campaignid' value='$campaignid'>";
 	echo "<input type='submit' name='convert' value='Convert'>&nbsp;&nbsp;";
-	echo "<input type='submit' name='return' value='Return'>";
+	echo "<input type='submit' name='cancel' value='Cancel'>";
 	echo "</form>";
 	
 	echo "<br><br>";

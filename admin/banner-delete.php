@@ -45,7 +45,7 @@ if (isset($bannerid) && $bannerid != '')
 	if ($row = phpAds_dbFetchArray($res))
 	{
 		if ($row['format'] == 'web' && $row['banner'] != '')
-			phpAds_Cleanup (basename($row['banner']));
+			phpAds_ImageDelete (basename($row['banner']));
 	}
 	
 	// Delete banner
