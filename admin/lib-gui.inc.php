@@ -262,7 +262,8 @@ function phpAds_PageHeader($ID, $extra="")
 	if ($phpAds_config['name'] != "")
 	{
 		echo "<td height='48' bgcolor='#000063' valign='middle'>";
-		echo "<span class='phpAdsNew'>&nbsp;&nbsp;&nbsp;".$phpAds_config['name']."&nbsp;&nbsp;&nbsp;</span>";
+		echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/logo-s.gif' width='36' height='34' align='absmiddle' alt='phpAdsNew ".$phpAds_version_readable."'>";
+		echo "<span class='phpAdsNew'>".$phpAds_config['name']."</span>";
 	}
 	else
 	{
@@ -298,7 +299,7 @@ function phpAds_PageHeader($ID, $extra="")
 		echo "<a href='logout.php'><img src='images/logout.gif' width='16' height='16' align='absmiddle' border='0'></a>";
 	}
 	
-	echo "&nbsp;&nbsp;&nbsp;";
+	echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "</td></tr></table>";
 	echo "</td></tr></table>";
 	
