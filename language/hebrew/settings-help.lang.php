@@ -13,220 +13,141 @@
 /************************************************************************/
 
 
-
 // Settings help translation strings
 $GLOBALS['phpAds_hlp_dbhost'] = "
-        Specify the hostname of the ".$phpAds_dbmsname." database server.
-		";
+        ציין את השרת המארח את בסיס הנתונים של ".$phpAds_dbmsname." ";
 		
 $GLOBALS['phpAds_hlp_dbuser'] = "
-        Specify the username which ".$phpAds_productname." must use to gain access to the ".$phpAds_dbmsname." database server.
+        ציין את שם המשתמש של שרת הנתונים בו ".$phpAds_productname." צריכה להשתמש כדי להתחבר ל".$phpAds_dbmsname." .
 		";
 		
 $GLOBALS['phpAds_hlp_dbpassword'] = "
-        Specify the password which ".$phpAds_productname." must use to gain access to the ".$phpAds_dbmsname." database server.
+        ציין את הסיסמא שבה ".$phpAds_productname." צריכה להשתמש כדי להתחבר ל".$phpAds_dbmsname." .
 		";
 		
 $GLOBALS['phpAds_hlp_dbname'] = "
-        Specify the name of the database where ".$phpAds_productname." must store its data.
+        ציין את שם בסיס הנתונים שבו ".$phpAds_productname." תאחסן את הנתונים שלה.
 		";
 		
 $GLOBALS['phpAds_hlp_persistent_connections'] = "
-        The use of persistent connection can speed up ".$phpAds_productname." considerably 
-		and may even decrease the load on the server. There is a drawback however, on sites with 
-		a lot of visitors the load on the server can increase and become larger then when using normal 
-		connections. Whether you should use regular connections or persistant connections depends on the 
-		number of visitors and the hardware your are using. If ".$phpAds_productname." is using too many resources, 
-		you should take a look at this setting first.
+        השימוש בחיבור מתמשך יכול להאיץ את ".$phpAds_productname." בצורה משמעותית ואפילו להפחית מהעומס על השרת. אבל יש בזה חסרון מסוים, שכן באתרים עמוסים במבקרים העומס על השרת עשוי לגדול ולהפוך אפילו לכבד יותר מזה הנוצר בחיבור רגיל. אם תשתמש בחיבור רגיל או מתמשך יהיה תלוי במספר המבקרים והחומרה שבשימוש. אם ".$phpAds_productname." משתמשת ביותר מדי משאבים, 
+מומלץ לבחון קביעה זו בעדיפות ראשונה.
 		";
 		
 $GLOBALS['phpAds_hlp_insert_delayed'] = "
-        ".$phpAds_dbmsname." locks the table when it is inserting data. If have many visitors to your site, 
-		it could be possible ".$phpAds_productname." must wait before inserting a new row, because the database 
-		is still locked. When you use insert delayed, you don't have to wait and the row will 
-		be inserted at a later time when the table is not in use by any other thread. 
+        ".$phpAds_dbmsname." נועלת את הטבלה בזמן שהיא משחילה נתונים. אם יש לך מבקרים רבים באתר, אפשר ש".$phpAds_productname." תצטרך לחכות לפני השחלת הנתון הבא כיוון שבסיס הנתונים נעול. אם משתמשים בהשהיית השחלה, לא תצטרך לחכות והנתונים יושחלו במועד הראשון שיתפנה בבסיס הנתונים כאשר הוא אינו עסוק.
 		";
 		
 $GLOBALS['phpAds_hlp_compatibility_mode'] = "
-        If you are having problem integrating ".$phpAds_productname." with another thirth-party product it 
-		might help to turn on the database compatibility mode. If you are using local mode 
-		invocation and the database compatibility is turned on ".$phpAds_productname." should leave 
-		the state of the database connection exectly the same as it was before ".$phpAds_productname." ran. 
-		This option is a bit slower (only slightly) and therefore turned off by default.
+      אם יש לך בעיה בשילוב ".$phpAds_productname." עם מוצר תוכנה אחר, זה עשוי לעזור אם תסמן את מצב תאימות בסיס הנתונים. אם אתה משתמש בשליפת באנר מקומית (local mode) וסעיף זה מסומן לתאימות, ".$phpAds_productname." תשאיר את מצב החיבור לבסיס הנתונים בדיוק כפי שהוא היה לפני ש".$phpAds_productname." הופעלה. 
+		זו אופציה איטית יותר (רק במעט) ולכן היא מבוטלת כברירת מחדל.
 		";
 		
 $GLOBALS['phpAds_hlp_table_prefix'] = "
-        If the database ".$phpAds_productname." is using is shared by mutiple software products, it is wise
-		to add a prefix to names of the tables. If you are using multiple installations of ".$phpAds_productname."
-		in the same database, you need to make sure this prefix is unique for all installations.
+     אם בסיס הנתונים שבו ".$phpAds_productname." משתמשת משותף עם עוד יישומים, מומלץ להוסיף קידומת לשמות הטבלאות.  כמו כן, אם נעשה שימוש בכמה התקנות של ".$phpAds_productname."
+ באותו בסיס נתונים, לעיך להבטיח שהקידומות ייחודיות לכל התקנה.
 		";
 		
 $GLOBALS['phpAds_hlp_tabletype'] = "
-        ".$phpAds_dbmsname." supports multiple table types. Each type of table has unique properties and some
-		can speed up ".$phpAds_productname." considerable. MyISAM is the default table type and is available
-		in all installations of ".$phpAds_dbmsname.". Other table types may not be available on your server
+        ".$phpAds_dbmsname." תומכת בריבוי סוגי טבלה. כל סוג מציג תכונות ייחודיות וכמה עשויים להאיץ את ".$phpAds_productname." בצורה משמעותית. MyISAM היא הצורה ההתחלתית וזו הקיימת בכל ההתקנות של ".$phpAds_dbmsname.". סוגים אחרים אפשר שלא קיימים בשרת שלך.
 		";
 		
 $GLOBALS['phpAds_hlp_url_prefix'] = "
-        ".$phpAds_productname." needs to know where it is located on the web server in order 
-        to work correctly. You must specify the URL to the directory where ".$phpAds_productname." 
-        is installed, for example: http://www.your-url.com/".$phpAds_productname.".
+        ".$phpAds_productname." צריכה לדעת היכן היא ממוקמת בשרת כדי לתפקד כראוי. עליך לציין את כתובת ה-URL של התיקייה בה ".$phpAds_productname." מותקנת, לדוגמא: http://www.your-url.com/".$phpAds_productname.".
 		";
 		
 $GLOBALS['phpAds_hlp_my_header'] =
 $GLOBALS['phpAds_hlp_my_footer'] = "
-        You should put here the path to the header files (e.g.: /home/login/www/header.htm) 
-        to have a header and/or footer on each page in the admin interface. You 
-        can put either text or html in these files (if you want to use html in 
-        one or both of these files do not use tags like &lt;body> or &lt;html>).
+        כאן אתה צריך לרשום את מסלול הקובץ המצביע אל הכותרת (לדוגמא: /home/login/www/header.htm) 
+       כדי שתוכל להציג כותרת ו/או תחתית בכל עמוד של ממשק הניהול.
+        ניתן להכיל טקסט או קוד HTML בקבצים אלה (כאשר אתה משתמש ב-HTML הימנע משימוש בתגים כמו &lt;body> או &lt;html>).
 		";
 		
 $GLOBALS['phpAds_hlp_content_gzip_compression'] = "
-		By enabling GZIP content compression you will get a big decrease of the data which 
-		is sent to the browser each time a page of the administrator interface is opened. 
-		To enable this feature you need to have at least PHP 4.0.5 with the GZIP extention installed.
+	בהפעלת דחיסת תוכן מסוג	GZIP תופחת כמות הנתונים הנשלחת מהשרת אל הדפדפן בכל פעם שעמוד המנהלה עולה.
+כדי לאפשר זאת, על השרת צריכה להיות מותקנת גירסת PHP 4.0.5 ומעלה, עם הרחבת GZIP מותקנת.
 		";
 		
 $GLOBALS['phpAds_hlp_language'] = "
-        Specify the default language ".$phpAds_productname." should use. This language will 
-        be used as a default for the admin and advertiser interface. Please note: 
-        you can set a different language for each advertiser from the admin interface 
-        and allow advertisers to change their language themselves.
-		";
+       ציין את השפה שתשמש כברירת מחדל עבור ".$phpAds_productname.". שפה זו תשמש כשפה הראשונית במערכת הניהול של האחראי והמפרסמים. אנא שים לב: אתה יכול לקבוע שפה שונה לכל מפרסם בנפרד מתוך ממשק הניהול, ולאפשר לכל מפרסם לקבוע את השפה בעצמו.		";
 		
 $GLOBALS['phpAds_hlp_name'] = "
-        Specify the name you want to use for this application. This string will 
-        be displayed on all pages in the admin and advertiser interface. If you leave 
-        this setting empty (default) a logo of ".$phpAds_productname." will be displayed instead.
+    ציין את השם שאתה רוצה להעניק ליישום זה. משפט זה יופיע בכל עמודי ממשק המשתמש (מנהל ומפרסם). אם תשאיר את השדה ריק (ברירת מחדל), יופיע הלוגו של ".$phpAds_productname." במקום זאת.
 		";
 		
 $GLOBALS['phpAds_hlp_company_name'] = "
-        This name is used in the e-mail sent by ".$phpAds_productname.".
+       בשם זה ייעשה שימוש באימיילים ש-".$phpAds_productname." שולחת.
 		";
 		
 $GLOBALS['phpAds_hlp_override_gd_imageformat'] = "
-        ".$phpAds_productname." usually detects if the GD library is installed and which image 
-        format is supported by the installed version of GD. However it is possible 
-        the detection is not accurate or false, some versions of PHP do not allow 
-        the detection of the supported image formats. If ".$phpAds_productname." fails to auto-detect 
-        the right image format you can specify the right image format. Possible 
-        values are: none, png, jpeg, gif.
+        ".$phpAds_productname." בדרך כלל בודקת אם ספריית GD מותקנת על השרת, ובאיזה מתקונת קובץ תמונה קיימת תמיכה באותה גירסה. אולם, אפשר שזיהוי זה לא יהיה מדויק או שגוי, כיוון שכמה גירסאות של PHP אינן מאפשרות זיהוי של פורמט תמונה נתמך.
+אם ".$phpAds_productname." נכשלת בזיהוי האוטומטי של פורמט התמונה הנכון, אתה יכול לציין פורמט זה. האפשרויות הן: none, png, jpeg, gif.
 		";
 		
 $GLOBALS['phpAds_hlp_p3p_policies'] = "
-        If you want to enable ".$phpAds_productname."' P3P Privacy Policies you must turn this 
-        option on. 
-		";
+    כדי ש-".$phpAds_productname." תפעיל פוליסת אבטחת פרטיות מסוג P3P עליך לסמן אופציה זו.		";
 		
 $GLOBALS['phpAds_hlp_p3p_compact_policy'] = "
-        The compact policy which is sent together with cookies. The default setting 
-        is: 'CUR ADM OUR NOR STA NID', which will allow Internet Explorer 6 to 
-        accept the cookies used by ".$phpAds_productname.". If you want you can alter these 
-        settings to match your own privacy statement.
+       הפוליסה הקומפקטית שתשלח בצירוף העוגיה (קוקיס). הקביעה הראשונית היא: 'CUR ADM OUR NOR STA NID', המאפשרת ל-Internet Explorer גירסה 6 לקבל את הקוקיס ש-".$phpAds_productname." עושה בהן שימוש. אם אתה רוצה, אתה יכול לשנות קביעות אלה כדי להתאים אותן למדיניות הפרטיות באתר שלך.
 		";
 		
 $GLOBALS['phpAds_hlp_p3p_policy_location'] = "
-        If you want to use a full privacy policy, you can specify the location 
-        of the policy.
+      אם אתה רוצה להשתמש בפוליסת פרטיות מלאה, אתה יכול לציין את מיקומה.
 		";
 		
 $GLOBALS['phpAds_hlp_log_beacon'] = "
-		Beacons are small invisible images which are placed on the page where the banner 
-		also is displayed. If you turn this feature on ".$phpAds_productname." will use this beacon image 
-		to count the number of impressions the banner has recieved. If you turn this feature 
-		off the impression will be counted during delivery, but this is not entirely accurate, 
-		because a delivered banner doesn’t always have to be displayed on the screen. 
+	אתתים (Beacons) הינן תמונות קטנות ובלתי נראות הממוקמות בעמוד שבו הבאנר נצפה. אם אתה מפעיל תכונה זו, ".$phpAds_productname." תשתמש בתמוניות  אלה לספירת החשיפות שהבאנר זכה להן. אם תכבה תכונה זו, החשיפות יחשבו על פי השליפה של הבאנר. זה פחות מדויק, שכן זה אינו מבטיח שהגולש אכן זכה לצפות בבאנר על המסך.
 		";
 		
 $GLOBALS['phpAds_hlp_compact_stats'] = "
-        Traditionally ".$phpAds_productname." used rather extensive logging, which was very 
-        detailed but was also very demanding on the database server. This could 
-        be a big problem on sites with a lot of visitors. To overcome this problem
-		".$phpAds_productname." also supports a new kind of statistics, the compact statistics, 
-		which is less demanding on the database server, but also less detailed. 
-		The compact statistics only logs daily statistics, if you need hourly statistics 
-		you can turn the compact statistics off.
-		";
+       בהתחלה ".$phpAds_productname." עשתה שימוש מסיבי בתיעוד, אשר מטבעו מכיל כמות עצומה של פרטים, אך גם מכביד ביותר על בסיס הנתונים. זה עלול ליצור בעיה רצינית באתרים עמוסי מבקרים, וכדי להתגבר על בעיה זו ".$phpAds_productname." תומכת גם במתקונת חדשה של סטטיסטיקה - סטטיסטיקה קומפקטית, אשר מפחיתה משמעותית את העומס על השרת, אך גם פחות מפורטת כמובן. סטטיסטיקה קומפקטית זו מתעדת רק סטטיסטיקה יומית. אם אתה זקוק לתיעוד בכל שעה, כבה תכונה זו.		";
 		
 $GLOBALS['phpAds_hlp_log_adviews'] = "
-        Normally all AdViews are logged, if you don't want to gather statistics 
-        about AdViews you can turn this off.
-		";
+       בדרך כלל כל החשיפות מתועדות. אם אינך רוצה באיסוף נתונים אודות החשיפות, כבה אופציה זו.	";
 		
 $GLOBALS['phpAds_hlp_block_adviews'] = "
-		If a visitor reloads a page an AdView will be logged by ".$phpAds_productname." every time. 
-		This feature is used to make sure that only one AdView is logged for each unique 
-		banner for the number of seconds you specify. For example: if you set this value 
-		to 300 seconds, ".$phpAds_productname." will only log AdViews if the same banner isn’t already 
-		shown to the same visitor in the last 5 minutes. This feature only works when <i>Use 
-		beacons to log AdViews</i> is enabled and if the browser accepts cookies.
+	אם המבקר יטעין מחדש את העמוד,  תירשם חשיפה על ידי ".$phpAds_productname." בכל פעם. תכונה זו משמשת לוידוי שרק חשיפה אחת נרשמת לכל באנר ייחודי במהלך הזמן שתציין בשניות.לדוגמא: אם תקבע נתון זה ל-300 שניות, ".$phpAds_productname." תתעד חשיפות של אותו הבאנר רק אם הוא לא יוצג שנית בפני אותו מבקר במהלך 5 דקות. תכונה זו פועלת רק אם התכונה <i>השתמש באתתים לתיעוד חשיפות</i> מופעלת והדפדפן מותאם לקבלת קוקיס.
 		";
 		
 $GLOBALS['phpAds_hlp_log_adclicks'] = "
-        Normally all AdClicks are logged, if you don't want to gather statistics 
-        about AdClicks you can turn this off.
-		";
+    בדרך כלל כל ההקלקות מתועדות, אם אינך רוצה לצבור סטטיסטיקה אודות כמות ההקלקה על באנרים, אתה יכול לכבות אופציה זו.		";
 		
 $GLOBALS['phpAds_hlp_block_adclicks'] = "
-		If a visitor clicks multiple times on a banner an AdClick will be logged by ".$phpAds_productname." 
-		every time. This feature is used to make sure that only one AdClick is logged for each 
-		unique banner for the number of seconds you specify. For example: if you set this value 
-		to 300 seconds, ".$phpAds_productname." will only log AdClicks if the visitor didn’t click on the same 
-		banner in the last 5 minutes. This feature only works when the browser accepts cookies.
+	אם מבקר הקליק כפולות על באנר תירשם הקלקה אחת על ידי ".$phpAds_productname." 
+		בכל פעם. תכונה זו באה להבטיח שרק קליק אחד נרשם בכל פעם עבור אותו באנר ייחודי ולמספר השניות שתציין. לדוגמא: אם תקבע נתון זה ל-300 שניות, ".$phpAds_productname." תתעד הקלקות אם המבקר לא הקליק על אותו הבאנר במהלך ה-5 דקות  האחרונות. תכונה זו פעילה רק אם הדפדפן מקבל קוקיס.
 		";
 		
 $GLOBALS['phpAds_hlp_reverse_lookup'] = "
-        ".$phpAds_productname." logs the IP address of each visitor by default. If you want 
-        ".$phpAds_productname." to log domain names you should turn this on. Reverse lookup 
-        does take some time; it will slow everything down.
-		";
+        ".$phpAds_productname." מתעדת את כתובת ה-IP של כל מבקר כברירת מחדל. אם אתה רוצה ש-".$phpAds_productname." תתעד את שם המתחם (domain name) עליך להפעיל את התכונה הזו. Reverse lookup היא פעולה שגוזלת זמן; היא תאט את כל הפעילות	";
 		
 $GLOBALS['phpAds_hlp_proxy_lookup'] = "
-		Some users are using a proxy server to access the internet. In that case 
-		".$phpAds_productname." will log the IP address or the hostname of the proxy server 
-		instead of the user. If you enable this feature ".$phpAds_productname." will try to 
-		find the ip address or hostname of the user behind the proxy server. 
-		If it is not possible to find the exact address of the user it will use 
-		the address of the proxy server instead. This option is not enable by default, 
-		because it will slow logging down.
+	ישנם גולשים המשתמשים בשרת פרוקסי (proxy) לגישת האינטרנט שלהם. במקרה זה ".$phpAds_productname." תרשום את כתובת ה-IP או השם של שרת הפרוקסי במקום זה של הגולש. אם תאפשר תכונה זו, ".$phpAds_productname." תנסה למצוא את כתובת ה-IP או ספקית השירות שמאחורי שרת הפרוקסי. אם אין אפשרות למצוא את הכתובת המדויקת של הגולש, היא תשתמש בכתובת של הפרוקסי במקום זאת. אופציה זו אינה מסומנת כברירת מחדל, כיוון שהיא מאטה את תהליך התיעוד.
 		";
 		
 $GLOBALS['phpAds_hlp_ignore_hosts'] = "
-        If you don't want to count clicks and views from certain computer you 
-        can add these to this array. If you have enabled reverse lookup you can 
-        add both domain names and IP addresses, otherwise you can only use IP 
-        addresses. You can also use wildcards (i.e. '*.altavista.com' or '192.168.*').
+      אם אינך רוצה למנות הקלקות וחשיפות מתוך מחשב מסוים, אתה יכול להוסיף אותו למערך הזה. אם איפשרת תיעוד כתובת גולש (Reverse lookup) תוכל להוסיף שם מתחם וכתובת IP,  אחרת תוכל להשתמש רק בכתובת IP. ניתן להשתמש גם בתווים משלימים (wildcards כמו למשל '*.altavista.com' או '192.168.*').
 		";
 		
 $GLOBALS['phpAds_hlp_begin_of_week'] = "
-        For most people a week starts on a Monday, but if you want to start each 
-        week on a Sunday you can.
-		";
+      עבור רוב הגולשים השבוע מתחיל ביום שני, אנחנו הישראלים/יהודים מתחילים ביום ראשון, וכאן המקום לקבוע זאת.	";
 		
 $GLOBALS['phpAds_hlp_percentage_decimals'] = "
-        Specifies how many decimal places to display on statistics pages.
+        ציין כמה ספרות לאחר הנקודה להציג נתונים בעמודי הסטטיסטיקה.
 		";
 		
 $GLOBALS['phpAds_hlp_warn_admin'] = "
-        ".$phpAds_productname." can sent you e-mail if a campaign has only a limited number of 
-        clicks or views left. This is turned on by default.
+        ".$phpAds_productname." יכולה לשלוח אימייל אם לקמפיין נותר מספר מועט של חשיפות או הקלקות מוקצבות. זה מופעל כברירת מחדל.
 		";
 		
 $GLOBALS['phpAds_hlp_warn_client'] = "
-        ".$phpAds_productname." can sent the advertiser e-mail if one of his campaigns has only a 
-		limited number of clicks or views left. This is turned on by default.
-		";
+        ".$phpAds_productname." יכולה לשלוח למפרסם אימייל אם אחד הקמפיינים שלו מגיע לסיום המוקצב של חשיפות או הקלקות. נתון זה מופעל כברירת מחדל.		";
 		
 $GLOBALS['phpAds_hlp_qmail_patch'] = "
-		Some versions of qmail are affected by a bug, which causes e-mail sent by 
-		".$phpAds_productname." to show the headers inside the body of the e-mail. If you enable 
-		this setting, ".$phpAds_productname." will send e-mail in a qmail compatible format.
+		כמה גירסאות של qmail מכילות באג, אשר גורם לאימייל שנשלח בידי	".$phpAds_productname." להציג את הכותרות בתוך גוף המכתב. אם תאפשר קביעה זו, ".$phpAds_productname." תשלח אימייל בתצורה תואמת למתקונת qmail.
 		";
 		
 $GLOBALS['phpAds_hlp_warn_limit'] = "
-        The limit on which ".$phpAds_productname." starts sending warning e-mails. This is 100 
-        by default.
-		";
+       הסף שממנו".$phpAds_productname." תתחיל לשלוח איתותי אזהרה באימייל. נתון זה נקבע על 100 כברירת מחדל.	";
 		
 $GLOBALS['phpAds_hlp_allow_invocation_plain'] = 
 $GLOBALS['phpAds_hlp_allow_invocation_js'] = 
@@ -235,236 +156,122 @@ $GLOBALS['phpAds_hlp_allow_invocation_xmlrpc'] =
 $GLOBALS['phpAds_hlp_allow_invocation_local'] = 
 $GLOBALS['phpAds_hlp_allow_invocation_interstitial'] = 
 $GLOBALS['phpAds_hlp_allow_invocation_popup'] = "
-		These settings allows you to control which invocation types are allowed.
-		If one of these invocation types are disabled they will not be available
-		in the invocationcode / bannercode generator. Important: the invocation methods
-		will still work if disabled, but they are not available for generation.
-		";
+		קביעות אלה מאפשרות שליטה על סוג השליפה של באנרים. אם אחד מסוגי השליפה האלה מבוטל, הוא לא יהיה מוצג כאפשרות בעמוד מחולל הקוד. חשוב: שיטות השליפה יעבדו אפילו אם הן מבוטלות - הן רק לא תוצגנה בעמודי הכנת הקוד השתול.	";
 		
 $GLOBALS['phpAds_hlp_con_key'] = "
-        ".$phpAds_productname." includes a powerful retrieval system using direct selection. 
-		For more information, please read the user guide. With this option, you 
-		can activate conditional keywords. This is turned on by default.
-		";
+        ".$phpAds_productname." מכילה מערכת שחזור חזקה, העושה שימוש בבחירה ישירה. לפרטים נוספים עיין במדריך המשתמש. באמצעות אופציה זו תוכל להפעיל מילות מפתח כתנאי. מופעל כברירת מחדל.		";
 		
 $GLOBALS['phpAds_hlp_mult_key'] = "
-        If you are using direct selection to display banners, you can specify one 
-		or more keywords for each banner. This option needs to be enabled if you want 
-		to specify more than one keyword. This is turned on by default.
-		";
+     אם אתה משתמש בבחירה ישירה לתצוגת באנרים, תוכל לציין מילת מפתח אחת או יותר עבור כל באנר. אופציה זו דורשת הפעלה אם אתה רוצה לציין יותר ממילה אחת. מופעלת כברירת מחדל.	";
 		
 $GLOBALS['phpAds_hlp_acl'] = "
-        If you are not using delivery limitations you can disable this option with this parameter, 
-        this will speed up ".$phpAds_productname." a bit.
+      אם אתה לא משתמש בהגבלות הפצה, תוכל להשבית אופציה זו. זה יאיץ את ".$phpAds_productname." במעט.
 		";
 		
 $GLOBALS['phpAds_hlp_default_banner_url'] = 
 $GLOBALS['phpAds_hlp_default_banner_target'] = "
-        If ".$phpAds_productname." can't connect to the database server, or can't find any matching 
-        banners at all, for example when the database crashed or was deleted, 
-        it won't display anything. Some users may want to specify a default banner, 
-        which will be displayed in these situations. The default banner specified 
-        here will not be logged and won't be used if there are still active banners 
-        left in the database. This is turned off by default.
-		";
+       אם ".$phpAds_productname." לא יכולה להתחבר לבסיס הנתונים, או שאינה מוצאת באנר תואם כלל, לדוגמא - אם בסיס הנתונים קרס או נמחק, היא לא תציג מאומה. יש משתמשים המעדיפים לציין באנר חלופי, אשר יוצג כברירת מחדל במקרים אלו. הבאנר שיצויין כאן לא יתועד מבחינת חשיפה או הקלקה, ולא יעשה בו שימוש אם יש עדיין באנרים פעילים בבסיס הנתונים. אופציה זו כבויה כברירת מחדל.";
 		
 $GLOBALS['phpAds_hlp_zone_cache'] = "
-        If you are using zones this setting allows ".$phpAds_productname." to store the banner 
-        information inside a cache which will be used later on. The will speed 
-        up ".$phpAds_productname." a bit, because instead of retrieving the zone information 
-        and retrieving the banner information and selecting the right banner, 
-        ".$phpAds_productname." only needs to load the cache. This feature is turned on by default.
-		";
+      אם אתה משתמש באזורים, קביעה זו תאפשר ל-".$phpAds_productname." לשמור את המידע של הבאנר בתוך זכרון מטמון (cache) בו ייעשה שימוש מאוחר יותר. זה יאיץ את ".$phpAds_productname." במעט, כיוון שבמקום לשחזר את מידע האזור ושחזור מידע הבאנר ובחירת הבאנר המתאים,    ".$phpAds_productname." תצטרך רק להטעין את הזכרון השמור הזה. תכונה זו מופעלת כברירת מחדל.		";
 		
 $GLOBALS['phpAds_hlp_zone_cache_limit'] = "
-        If you are using cached zones, the information inside the cache can become 
-        outdated. Once in a while ".$phpAds_productname." needs to rebuild the cache, so new 
-        banners will be included in the cache. This setting lets you decide when 
-        a cached zone will be reloaded, by specifing the maximum lifetime of the 
-        cached zone. For example: if you set this setting to 600, the cache will 
-        be rebuild if the cached zone is older than 10 minutes (600 seconds).
-		";
+      אם אתה משתמש באזורים מגובי זכרון מטמון, המידע שבתוך הזכרון הזה מתיישן לאחר פרק זמן. פעם בכמה זמן ".$phpAds_productname." צריכה לבנות את זכרון המטמון מחדש, כך שבאנרים חדשים יוכלו להכנס למאגר האצה זה. קביעה זו מאפשרת לך להחליט מתי יבנה זכרון המטמון מחדש, על ידי ציון אורך החיים של מטמון האזור. לדוגמא: אם תקבע נתון זה ל-600, זכרון המטמון ייבנה מחדש אם הוא קיים כבר יותר מ-10 דקות (600 שניות). ";
 		
 $GLOBALS['phpAds_hlp_type_sql_allow'] = 
 $GLOBALS['phpAds_hlp_type_web_allow'] = 
 $GLOBALS['phpAds_hlp_type_url_allow'] = 
 $GLOBALS['phpAds_hlp_type_html_allow'] = 
 $GLOBALS['phpAds_hlp_type_txt_allow'] = "
-        ".$phpAds_productname." can use different types of banners and store them in different 
-        ways. The first two options are used for local storage of banners. You 
-        can use the admin interface to upload a banner and ".$phpAds_productname." will store 
-        the banner in the SQL database or on a web server. You can also use a banner 
-		stored on an external web server or use HTML to generate a banner.
-		";
+        ".$phpAds_productname." יכולה להשתמש בסוגים שונים של באנרים ולאחסן אותם בדרכים שונות. שתי האופציות הראשונות משמשות לאיחסון מקומי על השרת. אתה יכול להשתמש בממשק המנהל להעלאת באנר ו-".$phpAds_productname." תשמור אותו בבסיס הנתונים מסוג SQL או בתוך תיקייה בשרת. תוכל להשתמש גם בבאנר המאוחסן בשרת חיצוני או בקוד HTML שיוצר באנר.		";
 		
 $GLOBALS['phpAds_hlp_type_web_mode'] = "
-        If you want to use banners stored on the web server, you need to configure 
-        this setting. If you want to store the banners in a local directory set 
-        this option to <i>Local directory</i>. If you want to store the banner on an 
-		external FTP server set this option to <i>External FTP server</i>. On certain 
-		web servers you may want to use the FTP option even on the local web server.
+  אם אתה רוצה להשתמש בבאנרים המאוחסנים על השרת, עליך לעצב את הקביעה הזו. אם אתה רוצה לאחסן את הבאנרים בתיקיה מקומית, קבע אופציה זו ל<i>תקייה מקומית</i>. אם אתה רוצה לאחסן את הבאנר על שרת קבצים (FTP) חיצוני, קבע אופציה זו ל<i>שרת FTP חצוני</i>. בשרתים מסוימים אפשר שתרצה להשתמש באופציית FTP אפילו על השרת המקומי.
 		";
 		
 $GLOBALS['phpAds_hlp_type_web_dir'] = "
-        Specify the directory where ".$phpAds_productname." needs to copy the uploaded banners 
-        to. This directory needs to be writable by PHP, this could mean you need 
-        to modify the UNIX permissions for this directory (chmod). The directory 
-        you specify here needs to be in the web server' document root, the web 
-        server must be able to serve the files directly. Do not specify a trailing 
-        slash (/). You only need to configure this option if you have set the storing
-		method to <i>Local directory</i>.
+       ציין את התיקייה שלתוכה ".$phpAds_productname." צריכה להעתיק את הבאנר שתעלה. תיקייה זו צריכה להיות במצב אפשרי לכתיבה על ידי PHP, שזה אומר שאתה צריך לשנות את היתרי הגישה ביוניקס (chmod) למצב כתיבה לכל. התיקייה שתציין צריכה להיות במסלול הראשוני של האתר (תקיית שורש), וצריכה להיות נגישה לטיפול ישיר בקבצים בידי השרת. אנא אל תרשום קן נטוי בסיומת (סלאש נטוי [/]). אתה חייב לציין אופציה זו רק אם קבעת את שיטת האיחסון ל<i>תקייה מקומית</i>.
 		";
 		
 $GLOBALS['phpAds_hlp_type_web_ftp_host'] = "
-		If you set the storing method to <i>External FTP server</i> you need to
-        specify the IP address or domain name of the FTP server where ".$phpAds_productname." needs 
-		to copy the uploaded banners to.
-		";
+	אם קבעת את שיטת האיחסון ל<i>שרת FTP חיצוני</i> עליך לציין את כתובת ה-IP או שם המתחם (דומיין) של שרת ה-FTP להיכן ש-".$phpAds_productname." תצטרך להעתיק את הבאנרים שיועלו.	";
       
 $GLOBALS['phpAds_hlp_type_web_ftp_path'] = "
-		If you set the storing method to <i>External FTP server</i> you need to
-        specify the directory on the external FTP server where ".$phpAds_productname." needs 
-		to copy the uploaded banners to.
-		";
+	אם קבעת את שיטת האיחסון ל<i>שרת FTP חיצוני</i> עליך לציין את התיקייה על השרת הזה, היכן ש".$phpAds_productname." תצטרך להעתיק את הבאנרים שיועלו.	";
       
 $GLOBALS['phpAds_hlp_type_web_ftp_user'] = "
-		If you set the storing method to <i>External FTP server</i> you need to
-        specify the username which ".$phpAds_productname." must use in order to connect to the
-		external FTP server.
+		אם קבעת את שיטת האיחסון ל<i>שרת FTP חיצוני</i> עליך לציין את שם המשתמש שבו ".$phpAds_productname." צריכה להשתמש כדי להתחבר לשרת ה-FTP החיצוני.
 		";
       
 $GLOBALS['phpAds_hlp_type_web_ftp_password'] = "
-		If you set the storing method to <i>External FTP server</i> you need to
-        specify the password which ".$phpAds_productname." must use in order to connect to the
-		external FTP server.
-		";
+		אם קבעת את שיטת האיחסון ל<i>שרת FTP חיצוני</i> עליך לציין את הסיסמא שבה ".$phpAds_productname." צריכה להשתמש כדי להתחבר לשרת ה-FTP החיצוני.";
       
 $GLOBALS['phpAds_hlp_type_web_url'] = "
-        If you store banners on a web server, ".$phpAds_productname." needs to know which public 
-        URL corresponds with the directory you specified below. Do not specify 
-        a trailing slash (/).
-		";
+       אם אתה מאחסן את הבאנרים על שרת אינטרנט, ".$phpAds_productname." צריכה לדעת איזו כתובת  URL ציבורית קשורה לתיקייה שציינת למטה. נא לא לרשום סלאש סופי  (/).";
 		
 $GLOBALS['phpAds_hlp_type_html_auto'] = "
-        If this option is turned on ".$phpAds_productname." will automatically alter HTML banners 
-        in order to allow the clicks to be logged. However even if this option 
-        is turned it will be possible to disable this feature on a per banner 
-        basis. 
-		";
+       אם אופציה זו דלוקה ".$phpAds_productname." תשנה אוטומטית את קוד הבאנרים מסוג  HTML כדי לאפשר תיעוד הקלקות. למרות זאת, תמיד תוכל לשנות אופציה זו על בסיס פרטי של כל באנר.";
 		
 $GLOBALS['phpAds_hlp_type_html_php'] = "
-        It is possible to let ".$phpAds_productname." execute PHP code embedded inside HTML 
-        banners. This feature is turned off by default.
-		";
+      ניתן לאפשר ל".$phpAds_productname." להפעיל קוד PHP המוטבע בתוך באנר מסוג HTML. אופציה זו כבויה כברירת מחדל.";
 		
 $GLOBALS['phpAds_hlp_admin'] = "
-        The administrator username, you can specify the username that you can 
-        use to log into the administrator interface.
-		";
+       שם המשתמש של האחראי (אדמיניסטרטור). באמצעות שם זה ניתן להתחבר לממשק המנהלה.";
 		
 $GLOBALS['phpAds_hlp_pwold'] = 
 $GLOBALS['phpAds_hlp_pw'] = 
 $GLOBALS['phpAds_hlp_pw2'] = "
-        To change the administrator password, you can need to specify the old
-		password above. Also you need to specify the new password twice, to
-		prevent typing errors.
-		";
+       כדי לשנות את הסיסמא של המנהל, עליך לספק את הסיסמא הקיימת למעלה. בנוסף, תצטרך לרשום את הסיסמא החדשה פעמיים, וזאת למניעת טעויות.";
 		
 $GLOBALS['phpAds_hlp_admin_fullname'] = "
-        Specify the administrator's full name. This used when sending statistics 
-        via email.
-		";
+        ציין את השם המלא של האחראי/מנהל. בשם זה ייעשה שימוש בשליחת סטטיסטיקה באימייל.	";
 		
 $GLOBALS['phpAds_hlp_admin_email'] = "
-        The administrator's e-mail address. This is used as from-address when 
-        sending statistics via email.
-		";
+      כתובת האימייל של האחראי/מנהל. זו הכתובת שתופיע בשדה (מ-)  בשליחת האסטטיסטיקה באימייל.";
 		
 $GLOBALS['phpAds_hlp_admin_email_headers'] = "
-        You can alter the e-mail headers used by the e-mails which ".$phpAds_productname." sends.
-		";
+      אתה יכול לשנות את כותרת האימייל שבה ".$phpAds_productname." משתמשת למשלוח אימייל.";
 		
 $GLOBALS['phpAds_hlp_admin_novice'] = "
-        If you want to recieve a warning before deleting advertisers, campaigns or 
-        banners; set this option to true.
-		";
+      אם אתה רוצה לקבל אתראה לפני מחיקת מפרסם/ים, קמפיין או באנרים, סמן אופציה זו.	";
 		
 $GLOBALS['phpAds_hlp_client_welcome'] = 
 $GLOBALS['phpAds_hlp_client_welcome_msg'] = "
-       If you turn this feature on a welcome message will be displayed on the 
-        first page an advertiser will see after logging in. You can personalize this 
-        message by editing the 'welcome.html' file location in the 'admin/templates' 
-        directory. Things you might want to include are for example: Your company 
-        name, contact information, your company logo, a link a page with advertising 
-        rates, etc..
-		";
+     אם תפעיל תכונה זו, תוצג הודעה הקדמה בעמוד הראשון שכל מפרסם יראה בעת החיבור למערכת. אתה יכול להתאים אותו אישית לצרכיך על ידי עריכת הקובץ 'welcome.html' המצוי בתיקיית 'admin/templates'. אפשר שתרצה להכיל שם את שם החברה, קשר, הלוגו שלך, קישור לעמודי מחירים וכדומה.";
 		
 $GLOBALS['phpAds_hlp_updates_frequency'] = "
-		If you want to check for new versions of ".$phpAds_productname." you can enable this feature. 
-		It is possible the specify the interval in which ".$phpAds_productname." makes a connection to 
-		the update server. If a new version is found a dialog box will pop up with additional 
-		information about the update.
-		";
+		אם אתה רוצה לבדוק האם יצאה גירסה חדשה של ".$phpAds_productname." אתה יכול לאפשר פונקציה זו. ניתן לקבוע את המרווחים שבין בדיקה אחת לשניה, בהם  ".$phpAds_productname." תבצע התחברות לשרת העדכונים. אם תימצא גירסה חדשה, יקפוץ לפניך חלון עם המידע הדרוש.";
 		
 $GLOBALS['phpAds_hlp_userlog_email'] = "
-		If you want to keep a copy of all outgoing e-mail messages send by ".$phpAds_productname." you 
-		can enable this feature. The e-mail messages are stored in the userlog.
-		";
+	אם אתה רוצה לשמור עותק של האימייל הנשלח באמצעות ".$phpAds_productname." אתה יכול לאפשר פונצקיה זו. הודעות האימייל נשמרות בתיעוד המשתמש.	";
 		
 $GLOBALS['phpAds_hlp_userlog_priority'] = "
-		To ensure the priority calculation ran correct, you can save a report about 
-		the hourly calculation. This report includes the predicted profile and how much 
-		priority is assigned to all banners. This information might be useful if you 
-		want to submit a bugreport about the priority calculations. The reports are 
-		stored inside the userlog.
-		";
+		כדי לוודא שחישובי הקדימויות רצים נכונה, אתה יכול לשמור דוח אודות החישוב שנעשה בכל שעה. הדוח כולל את הפרופיל הנצפה וכמה קדימות מנותבת לכל באנר. המידע עשוי להיות שימושי אם אתה רוצה להגיש אותו בצירוף קבילת באג אודות פעילות הקצאת הקדימויות. הדוחות נשמרים בתוך תיעוד המשתמש.	";
 		
 $GLOBALS['phpAds_hlp_default_banner_weight'] = "
-		If you want to use a higher default banner weight you can specify the desired weight here. 
-		This settings is 1 by default.
-		";
+		אם אתה רוצה להשתמש במשקל באנר התחלתי גבוה יותר, אתה יכול לקבוע את זה כאן. ברירת המחדל היא 1.";
 		
 $GLOBALS['phpAds_hlp_default_campaign_weight'] = "
-		If you want to use a higher default campaign weight you can specify the desired weight here. 
-		This settings is 1 by default.
-		";
+		אם אתה רוצה להשתמש במשקל קמפיין התחלתי גבוה יותר, אתה יכול לקבוע את המשקל המבוקש כאן. ברירת המחדל היא 1.	";
 		
 $GLOBALS['phpAds_hlp_gui_show_campaign_info'] = "
-		If this option is enabled extra information about each campain will be shown on the 
-		<i>Campaign overview</i> page. The extra information includes the number of AdViews remaining, 
-		the number of AdClicks remaining, activation date, expiration date and the priority settings.
-		";
+		אם אופציה זו מסומנת, מידע נוסף עבור כל קמפיין יוצג בעמוד <i>סקירת קמפיין</i> . מידע נוסף זה כולל את מספר החשיפות הנותרות, תאריך ההפעלה וקביעות הקדימויות.";
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_info'] = "
-		If this option is enabled extra information about each banner will be shown on the 
-		<i>Banner overview</i> page. The extra information includes the destination URL, keywords, 
-		size and the banner weight.
-		";
+		אם אופציה זו פעילה, מידע נוסף אודות כל באנר יוצג בעמוד <i>סקירת באנרים</i> . מידע נוסף זה כולל את עמוד המטרה (אליו יילקח הגולש לאחר הקלה), מילות מפתח, גודל הבאנר ומשקלו.";
 		
 $GLOBALS['phpAds_hlp_gui_show_campaign_preview'] = "
-		If this option is enabled a preview of all banners will be shown on the <i>Banner overview</i> 
-		page. If this option is disabled it is still possible to show a preview of each banner by click 
-		on the triangle next to each banner on the <i>Banner overview</i> page.
+	אם אופציה זו מופעלת יוצגו כל הבאנרים בצורה ממשית בעמוד <i>סקירת באנרים</i> . אם האופציה כבויה, עדיין יהיה אפשר לצפות בכל באנר על ידי לחיצה על המשולש הסמוך אליו בעמוד <i>סקירת באנרים</i>.
 		";
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_html'] = "
-		If this option is enabled the actual HTML banner will be shown instead of the HTML code. This 
-		option is disabled by default, because the HTML banners might conflict with the user interface. 
-		If this option is disabled it is still possible to view the actual HTML banner, by clicking on 
-		the <i>Show banner</i> button next to the HTML code.
-		";
+		אם אופציה זו פעילה יוצג באנר HTML בצורה מציאותית, וזאת במקום קוד HTML פשוט. אופציה זו כבויה כברירת מחדל כיוון שבאנרים מסוג HTML עשויים להתנגש עם ממשק המשתמש. אם אופציה זו כבויה עדיין אפשרי לצפות בבאנר HTML ממשי באמצעות לחיצה על כפתור <i>הצג באנר</i> הסמוך לקוד ה-HTML.";
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_preview'] = "
-		If this option is enabled a preview will be shown at the top of the <i>Banner properties</i>, 
-		<i>Delivery option</i> and <i>Linked zones</i> pages. If this option is disabled it is still 
-		possible to view the banner, by clicking on the <i>Show banner</i> button at the top of the pages.
-		";
+		אם אופציה זו פעילה יוצג הבאר בכותרת של  העמודים <i>תכונות הבאנר</i>, 
+		<i>אופציות תפוצה</i> ו-<i>אזורים מקושרים</i>. אם אופציה זו מבוטלת, עדיין ניתן לצפות בבאנר באמצעות לחיצה על כפתור <i>הצג באנר</i> בכותרת העמודים.";
 		
 $GLOBALS['phpAds_hlp_gui_hide_inactive'] = "
-		If this option is enabled all inactive banners, campaigns and advertisers will be hidden from the
-		<i>Advertisers & Campaigns</i> and <i>Campaign overview</i> pages. If this option is enabled it is
-		still possible to view the hidden items, by clicking on the <i>Show all</i> button on the bottom
-		of the page.
-		";
+	אם אופציה זו פעילה כל הבאנרים שאינם פעילים, הקמפיינים והמפרסמים, יוסתרו מהתצוגה בעמודים <i>מפרסמים ומערכות</i> ו-<i>סקירת קמפיין</i>. אם פונקציה זו פעילה, עדיין אפשרי לצפות בפריטים המוסתרים באמצעות הקלקה על כפתור <i>הצג הכל</i> שבתחתית העמודים	";
 		
 ?>

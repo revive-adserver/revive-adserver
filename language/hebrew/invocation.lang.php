@@ -7,15 +7,12 @@
 /* Copyright (c) 2000-2002 by the phpAdsNew developers                  */
 /* For more information visit: http://www.phpadsnew.com                 */
 /*                                                                      */
-/* Hebrew Translation by Reuven Mansharoff                              */
-/* problems and inquiries concerning translation: reuven@act.co.il      */
-/*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
 /************************************************************************/
-
-
+/*Hebrew Translation by Reuven Mansharoff 
+problems and inquiries concerning translation: reuven@act.co.il*/
 
 // Invocation Types
 $GLOBALS['strInvocationRemote']			= "קריאה מרחוק";
@@ -39,8 +36,8 @@ $GLOBALS['strAbbrSeconds']				= "שניות";
 
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat']			= "בחירת באנר";
-$GLOBALS['strInvocationClientID']		= "מפרסם או מערכת פרסום";
-$GLOBALS['strInvocationTarget']			= "מסגרת נטרה";
+$GLOBALS['strInvocationClientID']		= "מפרסם או קמפיין";
+$GLOBALS['strInvocationTarget']			= "חלון מטרה";
 $GLOBALS['strInvocationSource']			= "מקור";
 $GLOBALS['strInvocationWithText']		= "הצג כיתוב מתחת לבנר";
 $GLOBALS['strInvocationDontShowAgain']	= "אל תציג באנר זה פעם נוספת באותו העמוד";
@@ -89,9 +86,9 @@ $GLOBALS['strBannerPadding']			= "דיפון באנר";
 $GLOBALS['strHShift']					= "הסטה אופקית";
 $GLOBALS['strVShift']					= "הסטה אנכית";
 
-$GLOBALS['strShowCloseButton']			= "Sהצג לחצן סיגרה";
+$GLOBALS['strShowCloseButton']			= "הצג לחצן סגירה";
 $GLOBALS['strBackgroundColor']			= "צבע רקע";
-$GLOBALS['strBorderColor']				= "מבע מסגרת";
+$GLOBALS['strBorderColor']				= "צבע מסגרת";
 
 $GLOBALS['strDirection']				= "כיוון";
 $GLOBALS['strLeftToRight']				= "משמאל לימין";

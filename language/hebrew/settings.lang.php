@@ -15,70 +15,60 @@
 
 
 // Installer translation strings
-$GLOBALS['strInstall']					= "Install";
-$GLOBALS['strChooseInstallLanguage']	= "Choose language for the installation procedure";
-$GLOBALS['strLanguageSelection']		= "Language Selection";
-$GLOBALS['strDatabaseSettings']			= "Database Settings";
-$GLOBALS['strAdminSettings']			= "Administrator Settings";
-$GLOBALS['strAdvancedSettings']			= "Advanced Settings";
-$GLOBALS['strOtherSettings']			= "Other settings";
+$GLOBALS['strInstall']					= "התקן";
+$GLOBALS['strChooseInstallLanguage']	= "בחר את שפת ההתקנה";
+$GLOBALS['strLanguageSelection']		= "בחירת שפה";
+$GLOBALS['strDatabaseSettings']			= "קביעות בסיס נתונים";
+$GLOBALS['strAdminSettings']			= "קביעות Administrator";
+$GLOBALS['strAdvancedSettings']			= "קביעות מתקדמות";
+$GLOBALS['strOtherSettings']			= "קביעות אחרות";
 
-$GLOBALS['strWarning']					= "Warning";
-$GLOBALS['strFatalError']				= "A fatal error occurred";
-$GLOBALS['strAlreadyInstalled']			= $phpAds_productname." is already installed on this system. If you want to configure it go to <a href='settings-index.php'>settings interface</a>";
-$GLOBALS['strCouldNotConnectToDB']		= "Could not connect to database, please recheck the settings you specified";
-$GLOBALS['strCreateTableTestFailed']	= "The user you specified doesn't have permission to create or update the database structure, please contact the database administrator.";
-$GLOBALS['strUpdateTableTestFailed']	= "The user you specified doesn't have permission to update the database structure, please contact the database administrator.";
-$GLOBALS['strTablePrefixInvalid']		= "Table prefix contains invalid characters";
-$GLOBALS['strTableInUse']				= "The database which you specified is already used for ".$phpAds_productname.", please use a different table prefix, or read the manual for upgrading instructions.";
-$GLOBALS['strMayNotFunction']			= "Before you continue, please correct these potential problems:";
-$GLOBALS['strIgnoreWarnings']			= "Ignore warnings";
-$GLOBALS['strWarningPHPversion']		= $phpAds_productname." requires PHP 4.0 or higher to function correctly. You are currently using {php_version}.";
-$GLOBALS['strWarningRegisterGlobals']	= "The PHP configuration variable register_globals needs to be turned on.";
-$GLOBALS['strWarningMagicQuotesGPC']	= "The PHP configuration variable magic_quotes_gpc needs to be turned on.";
-$GLOBALS['strWarningMagicQuotesRuntime']= "The PHP configuration variable magic_quotes_runtime needs to be turned off.";
-$GLOBALS['strWarningFileUploads']		= "The PHP configuration variable file_uploads needs to be turned on.";
-$GLOBALS['strConfigLockedDetected']		= $phpAds_productname." has detected that your <b>config.inc.php</b> file is not writeable by the server.<br> You can't proceed until you change permissions on the file. <br>Read the supplied documentation if you don't know how to do that.";
-$GLOBALS['strCantUpdateDB']  			= "It is currently not possible to update the database. If you decide to proceed, all existing banners, statistics and advertisers will be deleted.";
-$GLOBALS['strTableNames']				= "Table Names";
-$GLOBALS['strTablesPrefix']				= "Table names prefix";
-$GLOBALS['strTablesType']				= "Table type";
+$GLOBALS['strWarning']					= "אזהרה";
+$GLOBALS['strFatalError']				= "קרתה שגיאה גורלית";
+$GLOBALS['strAlreadyInstalled']			= $phpAds_productname." כבר מותקנת במערכת זו. אם אתה רוצה לעצב אותה לך ל<a href='settings-index.php'>קיבעות ממשק</a>";
+$GLOBALS['strCouldNotConnectToDB']		= "לא יכול להתחבר לבסיס הנתונים, אנא בדוק מחדש את הקביעות שרשמת.";
+$GLOBALS['strCreateTableTestFailed']	= "לשם המשתמש שרשמת אין מספיק הרשאה ליצירת או עדכון מבנה בסיס הנתונים, אנא צור קשר עם האחראי בשרת.";
+$GLOBALS['strUpdateTableTestFailed']	= "לשם המשתמש שרשמת אין די הרשאה לעדכון בסיס הנתונים. אנא צור קשר עם האחראים.";
+$GLOBALS['strTablePrefixInvalid']		= "קידומת הטבלאות מכילה אותיות פסולות.";
+$GLOBALS['strTableInUse']				= "בסיס הנתונים שרשמת נמצא כבר בשימוש של ".$phpAds_productname.", אנא בחר בקידומת טבלאות אחרת, או קרא את המדריך לגבי הוראות שדרוג.";
+$GLOBALS['strMayNotFunction']			= "לפני שאתה ממשיך, אנא תקן את הבעיה האפשריות האלו:";
+$GLOBALS['strIgnoreWarnings']			= "התעלם מאזארות";
+$GLOBALS['strWarningPHPversion']		= $phpAds_productname." נדרש PHP 4.0 או גירסה גבוהה יותר לשם תפקוד נכון. אתה משתמש כעת בגירסה {php_version}.";
+$GLOBALS['strWarningRegisterGlobals']	= "קונפיגורצית  PHP של המשתנה <B>register_globals</B> צריכה להיות מופעלת.";
+$GLOBALS['strWarningMagicQuotesGPC']	= "קונפיגורצית  PHP של המשתנה  <B>magic_quotes_gpc</B>  צריכה להיות מופעלת.";
+$GLOBALS['strWarningMagicQuotesRuntime']= "קונפיגורצית  PHP של המשתנה  <B>magic_quotes_runtime</B>  צריכה להיות מופעלת.";
+$GLOBALS['strWarningFileUploads']		= "קונפיגורצית  PHP של המשתנה  <B>file_uploads</B>  צריכה להיות מופעלת.";
+$GLOBALS['strConfigLockedDetected']		= $phpAds_productname." זיהה שהקובץ <b>config.inc.php</b> מוגן מכתיבה.<br> לא תוכל להמשיך עד שתשנה את אישור הגישה לקובץ זה. <br>קרא את התיעוד המצורף אם אינך יודע כיצד לעשות זאת.";
+$GLOBALS['strCantUpdateDB']  			= "לא ניתן לעדכן את בסיס הנתונים כעתץ אם החלטת להמשיך, כל הבאנרים הקיימים, סטטיסטיקה ומפרסמים ימחקו.";
+$GLOBALS['strTableNames']				= "שמות הטבלאות";
+$GLOBALS['strTablesPrefix']				= "קידומת של טבלאות";
+$GLOBALS['strTablesType']				= "סוגי הטבלאות";
 
-$GLOBALS['strInstallWelcome']			= "Welcome to ".$phpAds_productname;
-$GLOBALS['strInstallMessage']			= "Before you can use ".$phpAds_productname." it needs to be configured and <br> the database needs to be created. Click <b>Proceed</b> to continue.";
-$GLOBALS['strInstallSuccess']			= "<b>The installation of ".$phpAds_productname." is now complete.</b><br><br>In order for ".$phpAds_productname." to function correctly you also need
-										   to make sure the maintenance file is run every hour. More information about this subject can be found in the documentation.
-										   <br><br>Click <b>Proceed</b> to go the configuration page, where you can 
-										   set up more settings. Please do not forget to lock the config.inc.php file when you are finished to prevent security
-										   breaches.";
-$GLOBALS['strUpdateSuccess']			= "<b>The upgrade of ".$phpAds_productname." was succesfull.</b><br><br>In order for ".$phpAds_productname." to function correctly you also need
-										   to make sure the maintenance file is run every hour (previously this was every day). More information about this subject can be found in the documentation.
-										   <br><br>Click <b>Proceed</b> to go to the administration interface. Please do not forget to lock the config.inc.php file 
-										   to prevent security breaches.";
-$GLOBALS['strInstallNotSuccessful']		= "<b>The installation of ".$phpAds_productname." was not succesful</b><br><br>Some portions of the install process could not be completed.
-										   It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the
-										   first step of the install process. If you want to know more on what the error message below means, and how to solve it, 
-										   please consult the supplied documentation.";
-$GLOBALS['strErrorOccured']				= "The following error occured:";
-$GLOBALS['strErrorInstallDatabase']		= "The database structure could not be created.";
-$GLOBALS['strErrorInstallConfig']		= "The configuration file or database could not be updated.";
-$GLOBALS['strErrorInstallDbConnect']	= "It was not possible to open a connection to the database.";
+$GLOBALS['strInstallWelcome']			= "ברוכים הבאים ל".$phpAds_productname;
+$GLOBALS['strInstallMessage']			= "לפני השימוש ב-".$phpAds_productname." יש לעצב את תפקודי התוכנה ויצור בסיס נתונים.<br>לחץ <b>המשך</b> להתקדמות.";
+$GLOBALS['strInstallSuccess']			= "<b>ההתקנה של ".$phpAds_productname." הסתיימה ברגע זה.</b><br><br>כדי ש- ".$phpAds_productname." תתפקד נכון עליך גם לוודא שקובץ התחזוקה ירוץ כל שעה. מידע נוסף אודות נושא זה ניתן למצוא בתיעוד המצורף. <br><br>לחץ <b>המשך</b> כדי להגיע לעמוד העיצוב/קינפוג, היכן שתוכל לקבוע נתונים נוספים. אנא אל תשכח לנעול את הקובץ <B> config.inc.php</B> ברגע שסיימת, כדי למנוע פגיעות והטרדות בשרת.";
+$GLOBALS['strUpdateSuccess']			= "<b>העשכון של ".$phpAds_productname." הסתיים בהצלחה.</b><br><br>כדי ש-".$phpAds_productname." תתפקד נכון עליך גם tלהבטיח שקובץ התחזוקה ירוץ כל שעה (עד עתה הוא נדרש לרוץ פעם ביום) מידע נוסף בנושא זה ניתן למצוא בתיעוד המצורף. <br><br>לחץ <b>המשך</b> כדי להגיע לעמוד ממשק ההנהלה. אנא אל תשכח לנעול את הקובץ  <B>config.inc.php</B> למניעת בעיות אבטחה.";
+$GLOBALS['strInstallNotSuccessful']		= "<b>ההתקנה של ".$phpAds_productname."לא הצליחה</b><br><br>חלקים מסוימים מתהליך ההתקנה לא הושלמו. אפשר שבעיות אלו הן זמניות בלבד, במקרה זה פשוט לחץ <b>המשך</b> ותחזור לשלב הראשון של תהליך ההתקנה. אם אתה רוצה לדעת יותר מה אומרות הודעות השגיאה מטה, וכיתד לפתור אותן, אנא היוועץ בתיעוד המצורף.";
+$GLOBALS['strErrorOccured']				= "השגיאה הבאה קרתה:";
+$GLOBALS['strErrorInstallDatabase']		= "מבנה בסיס הנתונים לא יכל להיווצר.";
+$GLOBALS['strErrorInstallConfig']		= "קובץ הקונפיגורציה או בסיס הנתונים לא יכלו להתעדכן.";
+$GLOBALS['strErrorInstallDbConnect']	= "לא ניתן היה להתחבר לבסיס הנתונים.";
 
-$GLOBALS['strUrlPrefix']				= "URL Prefix";
+$GLOBALS['strUrlPrefix']				= "קידומת URL";
 
-$GLOBALS['strProceed']					= "Proceed &gt;";
-$GLOBALS['strRepeatPassword']			= "Repeat Password";
-$GLOBALS['strNotSamePasswords']			= "Passwords did not match";
-$GLOBALS['strInvalidUserPwd']			= "Invalid username or password";
+$GLOBALS['strProceed']					= "המשך &gt;";
+$GLOBALS['strRepeatPassword']			= "חזור על הסיסמא";
+$GLOBALS['strNotSamePasswords']			= "סיסמאות אינן תואמות";
+$GLOBALS['strInvalidUserPwd']			= "שם משתמש או סיסמא פסולים";
 
-$GLOBALS['strUpgrade']					= "Upgrade";
-$GLOBALS['strSystemUpToDate']			= "Your system is already up to date, no upgrade is needed at the moment. <br>Click on <b>Proceed</b> to go to home page.";
-$GLOBALS['strSystemNeedsUpgrade']		= "The database structure and configuration file need to be upgraded in order to function correctly. Click <b>Proceed</b> to start the upgrade process. <br>Please be patient, the upgrade can take up to a couple of minutes.";
-$GLOBALS['strSystemUpgradeBusy']		= "System upgrade in progress, please wait...";
-$GLOBALS['strSystemRebuildingCache']	= "Rebuilding cache, please wait...";
-$GLOBALS['strServiceUnavalable']		= "The service is temporarily unavailable. System upgrade in progress";
+$GLOBALS['strUpgrade']					= "עדכון";
+$GLOBALS['strSystemUpToDate']			= "המערכת שלך מוכנה ומעודנת, לא נדרש עדכון ברגע זה. <br>לחץ על <b>המשך</b> כדי להגיע לעמוד הבית.";
+$GLOBALS['strSystemNeedsUpgrade']		= "מבנה בסיס הנתונים וקובץ הקוניגורציה זקוקים לעדכון כדי שהמערכת תתפקד נכונה.<br>אנא התאזר בסבלנות כיוון שתהליך העשכון יכול לקחת כמה דקות.";
+$GLOBALS['strSystemUpgradeBusy']		= "תהליך עדכון המערכת בעיצומו, אנא המתן...";
+$GLOBALS['strSystemRebuildingCache']	= "בונה את זכרון המטמון מחדש, אנא המתן...";
+$GLOBALS['strServiceUnavalable']		= "השירות אינו אפשרי זמנית. תהליך עדכון המערכת בעיצומו";
 
-$GLOBALS['strConfigNotWritable']		= "Your config.inc.php file is not writable";
+$GLOBALS['strConfigNotWritable']		= "קובץ ה-<B>config.inc.php</B> אינו ניתן לכתיבה.";
 
 
 
@@ -89,207 +79,203 @@ $GLOBALS['strConfigNotWritable']		= "Your config.inc.php file is not writable";
 /*********************************************************/
 
 // Global
-$GLOBALS['strChooseSection']			= "Choose Section";
-$GLOBALS['strDayFullNames'] 			= array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
-$GLOBALS['strEditConfigNotPossible']    = "It is not possible to edit these settings because the configuration file is locked for security reasons.<br> ".
-										  "If you want to make changes, you need to unlock the config.inc.php file first.";
-$GLOBALS['strEditConfigPossible']		= "It is possible to edit all settings because the configuration file is not locked, but this could lead to security leaks.<br> ".
-										  "If you want to secure your system, you need to lock the config.inc.php file.";
+$GLOBALS['strChooseSection']			= "בחר מחלקה";
+$GLOBALS['strDayFullNames'] 			= array("ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת");
+$GLOBALS['strEditConfigNotPossible']    = "לא ניתן לשנות קביעות אלו כיוון שקובץ הקונפיגורציה נעול מסיבות בטיחותיות.<br> "."אם ברצונך לערוך שינויים, עליך לשחרר קובץ זה מנעילה";
+$GLOBALS['strEditConfigPossible']		= "ניתן לערוך את כל הקביעות כיוון שקובץ הקונפיגורציה אינו נעול.<br>למניעת מחדל בטיחותי אנא נעל את הקובץ <B> config.inc.php</B>.";
 
 
 
 // Database
-$GLOBALS['strDatabaseSettings']			= "Database Settings";
-$GLOBALS['strDatabaseServer']			= "Database server";
-$GLOBALS['strDbHost']					= "Database hostname";
-$GLOBALS['strDbUser']					= "Database username";
-$GLOBALS['strDbPassword']				= "Database password";
-$GLOBALS['strDbName']					= "Database name";
+$GLOBALS['strDatabaseSettings']			= "קביעות בסיס נתונים";
+$GLOBALS['strDatabaseServer']			= "שרת בסיס הנתונים";
+$GLOBALS['strDbHost']					= "השרת המארח";
+$GLOBALS['strDbUser']					= "שם המשתמש בבסיס הנתונים";
+$GLOBALS['strDbPassword']				= "הסיסמא של בסיס הנתונים";
+$GLOBALS['strDbName']					= "השם של בסיס הנתונים";
 
-$GLOBALS['strDatabaseOptimalisations']	= "Database optimalisations";
-$GLOBALS['strPersistentConnections']	= "Use persistent connections";
-$GLOBALS['strInsertDelayed']			= "Use delayed inserts";
-$GLOBALS['strCompatibilityMode']		= "Use database compatibility mode";
-$GLOBALS['strCantConnectToDb']			= "Can't connect to database";
+$GLOBALS['strDatabaseOptimalisations']	= "ייטוב בסיס הנתונים";
+$GLOBALS['strPersistentConnections']	= " השתמש בחיבור רציף (בסיס הנתונים תפוס יותר)";
+$GLOBALS['strInsertDelayed']			= " השתמש בהשחלת נתון מושהת (בסיס הנתונים פחות רגיש לנפילה ושגיאות)";
+$GLOBALS['strCompatibilityMode']		= " השתמש בתאימות בסיס נתונים";
+$GLOBALS['strCantConnectToDb']			= " לא מסוגל להתחבר לבסיס הנתונים";
 
 
 
 // Invocation and Delivery
-$GLOBALS['strInvocationAndDelivery']	= "Invocation and delivery settings";
+$GLOBALS['strInvocationAndDelivery']	= "קביעות שליפה והפצה של באנרים";
 
-$GLOBALS['strAllowedInvocationTypes']	= "Allowed invocation types";
-$GLOBALS['strAllowRemoteInvocation']	= "Allow Remote Invocation";
-$GLOBALS['strAllowRemoteJavascript']	= "Allow Remote Invocation for Javascript";
-$GLOBALS['strAllowRemoteFrames']		= "Allow Remote Invocation for Frames";
-$GLOBALS['strAllowRemoteXMLRPC']		= "Allow Remote Invocation using XML-RPC";
-$GLOBALS['strAllowLocalmode']			= "Allow Local mode";
-$GLOBALS['strAllowInterstitial']		= "Allow Interstitials";
-$GLOBALS['strAllowPopups']				= "Allow Popups";
+$GLOBALS['strAllowedInvocationTypes']	= "סוגי קריאה מותרים";
+$GLOBALS['strAllowRemoteInvocation']	= " אפשר קריאה מרוחקת";
+$GLOBALS['strAllowRemoteJavascript']	= " אפשר קריאה מרוחקת עם קוד Javascript";
+$GLOBALS['strAllowRemoteFrames']		= " אפשר קריאה מרוחקת לקוד מסגרות";
+$GLOBALS['strAllowRemoteXMLRPC']		= " אפשר קריאה מרוחקת עם קוד XML-RPC";
+$GLOBALS['strAllowLocalmode']			= " אפשר הפעלה מקומית";
+$GLOBALS['strAllowInterstitial']		= " אפשר באנרים צפים";
+$GLOBALS['strAllowPopups']				= " אפשר באנרים קופצים";
 
-$GLOBALS['strUseAcl']					= "Use delivery limitations";
+$GLOBALS['strUseAcl']					= " השתמש בהגבלות תצוגה";
 $GLOBALS['strGeotrackingLocation'] 		= "IP2Country geotracking<br> database location";
 
-$GLOBALS['strKeywordRetrieval']			= "Keyword retrieval";
-$GLOBALS['strBannerRetrieval']			= "Banner retrieval method";
-$GLOBALS['strRetrieveRandom']			= "Random banner retrieval (default)";
-$GLOBALS['strRetrieveNormalSeq']		= "Normal sequental banner retrieval";
-$GLOBALS['strWeightSeq']				= "Weight based sequential banner retrieval";
-$GLOBALS['strFullSeq']					= "Full sequential banner retrieval";
-$GLOBALS['strUseConditionalKeys']		= "Use conditional keywords";
-$GLOBALS['strUseMultipleKeys']			= "Use multiple keywords";
+$GLOBALS['strKeywordRetrieval']			= "שליפה לפי מילות מפתח";
+$GLOBALS['strBannerRetrieval']			= " שיטת שליפת הבאנרים";
+$GLOBALS['strRetrieveRandom']			= " שליפה אקראית (ברירת מחדל)";
+$GLOBALS['strRetrieveNormalSeq']		= " שליפה סדרתית רגילה";
+$GLOBALS['strWeightSeq']				= " שליפה סדרתית מבוסס משקל";
+$GLOBALS['strFullSeq']					= " שליפה סדרתית מלאה";
+$GLOBALS['strUseConditionalKeys']		= " השתמש במילות תנאי";
+$GLOBALS['strUseMultipleKeys']			= " השתמש בריבוי מילות מפתח";
 
-$GLOBALS['strZonesSettings']			= "Zone retrieval";
-$GLOBALS['strZoneCache']				= "Cache zones, this should speed things up when using zones";
-$GLOBALS['strZoneCacheLimit']			= "Time between cache updates (in seconds)";
-$GLOBALS['strZoneCacheLimitErr']		= "Time between cache updates should be a positive integer";
+$GLOBALS['strZonesSettings']			= "שליפה אזורית";
+$GLOBALS['strZoneCache']				= " זכרון מטמון אזורי. (יאיץ תצוגה של באנרים מבוססי אזור.)";
+$GLOBALS['strZoneCacheLimit']			= " הזמן שבין עדכוני זכרון מטמון (בשניות)";
+$GLOBALS['strZoneCacheLimitErr']		= " הזמן שבין עדכוני זכרון מטמון חייב להיות מספר חיובי";
 
-$GLOBALS['strP3PSettings']				= "P3P Privacy Policies";
-$GLOBALS['strUseP3P']					= "Use P3P Policies";
-$GLOBALS['strP3PCompactPolicy']			= "P3P Compact Policy";
-$GLOBALS['strP3PPolicyLocation']		= "P3P Policy Location";
+$GLOBALS['strP3PSettings']				= "פוליסות פרטיות מסוג P3P";
+$GLOBALS['strUseP3P']					= " השתמש בפוליסות P3P";
+$GLOBALS['strP3PCompactPolicy']			= "פוליסת P3P קומפקטית";
+$GLOBALS['strP3PPolicyLocation']		= "מיקום פוליסת ה-P3P";
 
 
 
 // Banner Settings
-$GLOBALS['strBannerSettings']			= "Banner settings";
+$GLOBALS['strBannerSettings']			= "קביעות באנרים";
 
-$GLOBALS['strAllowedBannerTypes']		= "Allowed banner types";
-$GLOBALS['strTypeSqlAllow']				= "Allow local banners (SQL)";
-$GLOBALS['strTypeWebAllow']				= "Allow local banners (Webserver)";
-$GLOBALS['strTypeUrlAllow']				= "Allow external banners";
-$GLOBALS['strTypeHtmlAllow']			= "Allow HTML banners";
-$GLOBALS['strTypeTxtAllow']				= "Allow Text ads";
+$GLOBALS['strAllowedBannerTypes']		= "סוגי באנרים מותרים";
+$GLOBALS['strTypeSqlAllow']				= " אפשר באנרים מקומיים (SQL)";
+$GLOBALS['strTypeWebAllow']				= " אפשר באנרים מקומיים (Webserver)";
+$GLOBALS['strTypeUrlAllow']				= " אפשר באנרים חיצוניים";
+$GLOBALS['strTypeHtmlAllow']			= " אפשר באנרים מקוד HTML";
+$GLOBALS['strTypeTxtAllow']				= " אפשר באנרים טקסטואליים";
 
-$GLOBALS['strTypeWebSettings']			= "Local banner (Webserver) configuration";
-$GLOBALS['strTypeWebMode']				= "Storing method";
-$GLOBALS['strTypeWebModeLocal']			= "Local directory";
-$GLOBALS['strTypeWebModeFtp']			= "External FTP server";
-$GLOBALS['strTypeWebDir']				= "Local directory";
-$GLOBALS['strTypeWebFtp']				= "FTP mode Web banner server";
-$GLOBALS['strTypeWebUrl']				= "Public URL";
-$GLOBALS['strTypeFTPHost']				= "FTP Host";
-$GLOBALS['strTypeFTPDirectory']			= "Host directory";
-$GLOBALS['strTypeFTPUsername']			= "Login";
-$GLOBALS['strTypeFTPPassword']			= "Password";
+$GLOBALS['strTypeWebSettings']			= "קונפיגורציית באנר מקומי (השרת)";
+$GLOBALS['strTypeWebMode']				= "שיטת איחסון";
+$GLOBALS['strTypeWebModeLocal']			= "תיקייה מקומית";
+$GLOBALS['strTypeWebModeFtp']			= "שרת FTP חיצוני";
+$GLOBALS['strTypeWebDir']				= "תיקייה מקומית";
+$GLOBALS['strTypeWebFtp']				= "שרת באנרים בתצורת FTP";
+$GLOBALS['strTypeWebUrl']				= "כתובת URL ציבורית";
+$GLOBALS['strTypeFTPHost']				= "מארח FTP";
+$GLOBALS['strTypeFTPDirectory']			= "תיקיית FTP";
+$GLOBALS['strTypeFTPUsername']			= "שם משתמש";
+$GLOBALS['strTypeFTPPassword']			= "סיסמא";
 
-$GLOBALS['strDefaultBanners']			= "Default banners";
-$GLOBALS['strDefaultBannerUrl']			= "Default image URL";
-$GLOBALS['strDefaultBannerTarget']		= "Default destination URL";
+$GLOBALS['strDefaultBanners']			= "באנרים כברירת מחדל חלופית";
+$GLOBALS['strDefaultBannerUrl']			= "כתובת URL של באנר חלופי";
+$GLOBALS['strDefaultBannerTarget']		= "כתובת URL כמטרה חלופית";
 
-$GLOBALS['strTypeHtmlSettings']			= "HTML banner options";
-$GLOBALS['strTypeHtmlAuto']				= "Automatically alter HTML banners in order to force click tracking";
-$GLOBALS['strTypeHtmlPhp']				= "Allow PHP expressions to be executed from within a HTML banner";
+$GLOBALS['strTypeHtmlSettings']			= "אופציות באנר HTML";
+$GLOBALS['strTypeHtmlAuto']				= " שנה את הקוד אוטומטית כדי לאפשר מעקב אחר הקלקות.";
+$GLOBALS['strTypeHtmlPhp']				= " אפשר יישום ביטויי PHP מתוך באנרים מסוג HTML ";
 
 
 
 // Statistics Settings
-$GLOBALS['strStatisticsSettings']		= "Statistics Settings";
+$GLOBALS['strStatisticsSettings']		= "קביעות סטטיסטיקה";
 
-$GLOBALS['strStatisticsFormat']			= "Statistics format";
-$GLOBALS['strLogBeacon']				= "Use beacons to log AdViews";
-$GLOBALS['strCompactStats']				= "Use Compact Stats";
-$GLOBALS['strLogAdviews']				= "Log AdViews";
-$GLOBALS['strBlockAdviews']				= "Multiple log protection (sec.)";
-$GLOBALS['strLogAdclicks']				= "Log AdClicks";
-$GLOBALS['strBlockAdclicks']			= "Multiple log protection (sec.)";
+$GLOBALS['strStatisticsFormat']			= "תצורת סטטיסטיקה";
+$GLOBALS['strLogBeacon']				= " השתמש באתתים לתיעוד חשיפות";
+$GLOBALS['strCompactStats']				= " השתמש בסטטיסטיקה קומפקטית";
+$GLOBALS['strLogAdviews']				= " תעד חשיפות";
+$GLOBALS['strBlockAdviews']				= " הגנה מפני כפל-רישום חשיפה (בשניות)";
+$GLOBALS['strLogAdclicks']				= " תעד הקלקות";
+$GLOBALS['strBlockAdclicks']			= " הגנה מפני כפל-רישום הקלקה (בשניות)";
 
-$GLOBALS['strEmailWarnings']			= "E-mail warnings";
-$GLOBALS['strAdminEmailHeaders']		= "Mail Headers for the reflection of the sender of the daily ad reports";
-$GLOBALS['strWarnLimit']				= "Warn Limit";
-$GLOBALS['strWarnLimitErr']				= "Warn Limit should be a positive integer";
-$GLOBALS['strWarnAdmin']				= "Warn Admin";
-$GLOBALS['strWarnClient']				= "Warn Advertiser";
-$GLOBALS['strQmailPatch']				= "Enable qmail patch";
+$GLOBALS['strEmailWarnings']			= "אתראה באימייל";
+$GLOBALS['strAdminEmailHeaders']		= "כותרת המכתב שישקף את השולח של הדוח היומי.";
+$GLOBALS['strWarnLimit']				= "סף התראה (מינימום נותר)";
+$GLOBALS['strWarnLimitErr']				= "סף אתראה חייב להיות מספר חיובי";
+$GLOBALS['strWarnAdmin']				= " שלח התראת מנהל";
+$GLOBALS['strWarnClient']				= " שלח התראת מפרסם";
+$GLOBALS['strQmailPatch']				= " אפשר טלאי qmail ";
 
-$GLOBALS['strRemoteHosts']				= "Remote hosts";
-$GLOBALS['strIgnoreHosts']				= "Ignore Hosts";
-$GLOBALS['strReverseLookup']			= "Reverse DNS Lookup";
-$GLOBALS['strProxyLookup']				= "Proxy Lookup";
+$GLOBALS['strRemoteHosts']				= "שרתים מרוחקים";
+$GLOBALS['strIgnoreHosts']				= " התעלם משרתים";
+$GLOBALS['strReverseLookup']			= " כתובת גולש (Reverse DNS Lookup)";
+$GLOBALS['strProxyLookup']				= " כתובת שרת ביניים (Proxy)";
 
-$GLOBALS['strAutoCleanTables']			= "Auto clean database";
-$GLOBALS['strAutoCleanEnable']			= "Enable auto clean";
-$GLOBALS['strAutoCleanWeeks']			= "Statistics and user log max age (weeks)";
-$GLOBALS['strAutoCleanErr']				= "Max age must be at least 2 weeks";
-$GLOBALS['strAutoCleanVacuum']			= "VACUUM ANALYZE tables every night"; // only Pg
+$GLOBALS['strAutoCleanTables']			= "ניקוי אוטומטי של בסיס הנתונים";
+$GLOBALS['strAutoCleanEnable']			= " אפשר ניקוי אוטומטי";
+$GLOBALS['strAutoCleanWeeks']			= " הגיל המקסימלי של תיעוד מנהלי וסטטיסטיקה (שבועות)";
+$GLOBALS['strAutoCleanErr']				= "גיל מקסימלי חייב להיות לפחות שבועיים";
+$GLOBALS['strAutoCleanVacuum']			= "VACUUM ANALYZE כל לילה"; // only Pg
 
 
 // Administrator settings
-$GLOBALS['strAdministratorSettings']	= "Administrator settings";
+$GLOBALS['strAdministratorSettings']	= "קביעות מינהלה";
 
-$GLOBALS['strLoginCredentials']			= "Login credentials";
-$GLOBALS['strAdminUsername']			= "Admin's username";
-$GLOBALS['strOldPassword']				= "Old Password";
-$GLOBALS['strNewPassword']				= "New Password";
-$GLOBALS['strInvalidUsername']			= "Invalid username";
-$GLOBALS['strInvalidPassword']			= "Invalid password";
+$GLOBALS['strLoginCredentials']			= "הרשאות התחברות";
+$GLOBALS['strAdminUsername']			= "שם המשתמש - מנהל";
+$GLOBALS['strOldPassword']				= "סיסמא קודמת";
+$GLOBALS['strNewPassword']				= "סיסמא חדשה";
+$GLOBALS['strInvalidUsername']			= "שם משתמש פסול";
+$GLOBALS['strInvalidPassword']			= "סיסמא פסולה";
 
-$GLOBALS['strBasicInformation']			= "Basic information";
-$GLOBALS['strAdminFullName']			= "Admin's full name";
-$GLOBALS['strAdminEmail']				= "Admin's email address";
-$GLOBALS['strCompanyName']				= "Company Name";
+$GLOBALS['strBasicInformation']			= "מידע בסיסי";
+$GLOBALS['strAdminFullName']			= "השם המלא של המנהל";
+$GLOBALS['strAdminEmail']				= "כתובת האימייל של המנהל";
+$GLOBALS['strCompanyName']				= "שם החברה/איגוד";
 
-$GLOBALS['strAdminCheckUpdates']		= "Check for updates";
-$GLOBALS['strAdminCheckEveryLogin']		= "Every login";
-$GLOBALS['strAdminCheckDaily']			= "Daily";
-$GLOBALS['strAdminCheckWeekly']			= "Weekly";
-$GLOBALS['strAdminCheckMonthly']		= "Monthly";
-$GLOBALS['strAdminCheckNever']			= "Never";
+$GLOBALS['strAdminCheckUpdates']		= "בדוק עדכונים";
+$GLOBALS['strAdminCheckEveryLogin']		= "בכל התחברות";
+$GLOBALS['strAdminCheckDaily']			= "יומית";
+$GLOBALS['strAdminCheckWeekly']			= "שבועית";
+$GLOBALS['strAdminCheckMonthly']		= "חודשית";
+$GLOBALS['strAdminCheckNever']			= "אף פעם";
 
-
-$GLOBALS['strAdminNovice']				= "Admin's delete actions need confirmation for safety";
-$GLOBALS['strUserlogEmail']				= "Log all outgoing email messages";
-$GLOBALS['strUserlogPriority']			= "Log hourly priority calculations";
-$GLOBALS['strUserlogAutoClean']			= "Log automatic cleaning of database";
+$GLOBALS['strAdminNovice']				= " פעולות המחיקה של המנהל דורשות אישור כמשנה זהירות";
+$GLOBALS['strUserlogEmail']				= " תעד את כל האימייל היוצא";
+$GLOBALS['strUserlogPriority']			= " תעד את שקלולי הקדימויות כל שעה";
+$GLOBALS['strUserlogAutoClean']			= " תעד ניקוי אוטומטי של בסיס הנתונים";
 
 
 // User interface settings
-$GLOBALS['strGuiSettings']				= "User Interface Configuration";
+$GLOBALS['strGuiSettings']				= "קביעות ממשק משתמש";
 
-$GLOBALS['strGeneralSettings']			= "General settings";
-$GLOBALS['strAppName']					= "Application Name";
-$GLOBALS['strMyHeader']					= "My Header";
-$GLOBALS['strMyFooter']					= "My Footer";
-$GLOBALS['strGzipContentCompression']	= "Use GZIP content compression";
+$GLOBALS['strGeneralSettings']			= "קביעות כלליות";
+$GLOBALS['strAppName']					= "שם היישום שיוצג";
+$GLOBALS['strMyHeader']					= "כותרת העמוד שלי נמצאת בכתובת:";
+$GLOBALS['strMyFooter']					= "תחתית העמוד שלי נמצאת בכתובת:";
+$GLOBALS['strGzipContentCompression']	= "השתמש בדחיסת-תכולה GZIP";
 
-$GLOBALS['strClientInterface']			= "Advertiser interface";
-$GLOBALS['strClientWelcomeEnabled']		= "Enable advertiser welcome message";
-$GLOBALS['strClientWelcomeText']		= "Welcome text<br>(HTML tags allowed)";
+$GLOBALS['strClientInterface']			= "ממשק מפרסם";
+$GLOBALS['strClientWelcomeEnabled']		= "אפשר הודעת מילות הקדמה בהתחברות המפרסם";
+$GLOBALS['strClientWelcomeText']		= "הודעת הקדמה/ברכת ברוכים הבאים...<br>(אפשרי שימוש בתגי HTML)";
 
 
 
 // Interface defaults
-$GLOBALS['strInterfaceDefaults']		= "Interface defaults";
+$GLOBALS['strInterfaceDefaults']		= "ברירת מחדל ממשקית";
 
-$GLOBALS['strInventory']				= "Inventory";
-$GLOBALS['strShowCampaignInfo']			= "Show extra campaign info on <i>Campaign overview</i> page";
-$GLOBALS['strShowBannerInfo']			= "Show extra banner info on <i>Banner overview</i> page";
-$GLOBALS['strShowCampaignPreview']		= "Show preview of all banners on <i>Banner overview</i> page";
-$GLOBALS['strShowBannerHTML']			= "Show actual banner instead of plain HTML code for HTML banner preview";
-$GLOBALS['strShowBannerPreview']		= "Show banner preview at the top of pages which deals with banners";
-$GLOBALS['strHideInactive']				= "Hide inactive items from all overview pages";
-$GLOBALS['strGUIShowMatchingBanners']	= "Show matching banners on the <i>Linked banner</i> pages";
-$GLOBALS['strGUIShowParentCampaigns']	= "Show parent campaigns on the <i>Linked banner</i> pages";
-$GLOBALS['strGUILinkCompactLimit']		= "Hide non-linked campaigns or banners on the <i>Linked banner</i> pages when there are more than";
+$GLOBALS['strInventory']				= "מצאי";
+$GLOBALS['strShowCampaignInfo']			= " הצג מידע נוסף עבור קמפיין בעמוד <i>סקירת קמפיין</i>";
+$GLOBALS['strShowBannerInfo']			= " הצג מידע נוסף עבור באנר בעמוד <i>סקירת באנרים</i>";
+$GLOBALS['strShowCampaignPreview']		= " תצוגה מקדמת של כל הבאנרים בעמוד <i>סקירת באנרים</i>";
+$GLOBALS['strShowBannerHTML']			= " הצג באנר ממשי במקום קוד רגיל של  HTML, במצב תצוגת באנרים מסוג HTML";
+$GLOBALS['strShowBannerPreview']		= " תצוגה מקדימה של באנרים בכותרת העמוד העוסק בבאנרים";
+$GLOBALS['strHideInactive']				= " הסתר פרטים לא פעילים בכל עמודי תצוגה מקדימה";
+$GLOBALS['strGUIShowMatchingBanners']	= " הצג באנרים תואמים בעמודי <i>באנרים מקושרים</i>";
+$GLOBALS['strGUIShowParentCampaigns']	= " הראה קמפיין-אב בעמודי <i>באנרים מקושרים</i>";
+$GLOBALS['strGUILinkCompactLimit']		= " הסתר קמפיינים לא קשורים או באנרים, בעמודי <i>באנר מקושר</i>, כאשר יש יותר מ-";
 
+$GLOBALS['strStatisticsDefaults'] 		= "סטטיסטיקה";
+$GLOBALS['strBeginOfWeek']				= "השבוע מתחיל ביום";
+$GLOBALS['strPercentageDecimals']		= "נקודה עשרונית";
 
-$GLOBALS['strStatisticsDefaults'] 		= "Statistics";
-$GLOBALS['strBeginOfWeek']				= "Begin of Week";
-$GLOBALS['strPercentageDecimals']		= "Percentage Decimals";
-
-$GLOBALS['strWeightDefaults']			= "Default weight";
-$GLOBALS['strDefaultBannerWeight']		= "Default banner weight";
-$GLOBALS['strDefaultCampaignWeight']	= "Default campaign weight";
-$GLOBALS['strDefaultBannerWErr']		= "Default banner weight should be a positive integer";
-$GLOBALS['strDefaultCampaignWErr']		= "Default campaign weight should be a positive integer";
+$GLOBALS['strWeightDefaults']			= "משקל התחלתי (ברירת מחדל)";
+$GLOBALS['strDefaultBannerWeight']		= "משקל באנר התחלתי (ברירת מחדל)";
+$GLOBALS['strDefaultCampaignWeight']	= "משקל קמפיין התחלתי (ברירת מחדל)";
+$GLOBALS['strDefaultBannerWErr']		= "משקל התחלתי של באנר צריך להיות מספר חיובי";
+$GLOBALS['strDefaultCampaignWErr']		= "משקל קמפיין התחלתי חייב להיות מספר חיובי";
 
 
 
 // Not used at the moment
-$GLOBALS['strTableBorderColor']			= "Table Border Color";
-$GLOBALS['strTableBackColor']			= "Table Back Color";
-$GLOBALS['strTableBackColorAlt']		= "Table Back Color (Alternative)";
-$GLOBALS['strMainBackColor']			= "Main Back Color";
-$GLOBALS['strOverrideGD']				= "Override GD Imageformat";
-$GLOBALS['strTimeZone']					= "Time Zone";
+$GLOBALS['strTableBorderColor']			= "צבע המסגרת של הטבלה";
+$GLOBALS['strTableBackColor']			= "צבע הרקע של הטבלה";
+$GLOBALS['strTableBackColorAlt']		= "צבע הרקע  של הטבלה(חלופי)";
+$GLOBALS['strMainBackColor']			= "צבע רקע ראשי";
+$GLOBALS['strOverrideGD']				= "אכוף תמונה בתצורת GD";
+$GLOBALS['strTimeZone']					= "איזור זמן";
 
 ?>
