@@ -329,7 +329,7 @@ else
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td width='200'><?php echo $strName;?></td>
-		<td><input type="text" name="zonename" size='35' style="width:350px;" value="<?php if(isset($zone["zonename"]))echo $zone["zonename"];?>"></td>
+		<td><input class='flat' type="text" name="zonename" size='35' style="width:350px;" value="<?php if(isset($zone["zonename"]))echo $zone["zonename"];?>"></td>
 	</tr>
 	<tr>
 		<td><img src='images/spacer.gif' height='1' width='100%'></td>
@@ -338,7 +338,7 @@ else
 	<tr>
 		<td width='30'>&nbsp;</td>	
 		<td width='200'><?php echo $strDescription;?></td>
-    	<td><input size="35" type="text" name="description" style="width:350px;" value="<?php if(isset($zone["description"])) echo htmlentities(stripslashes ($zone["description"]));?>"></td>
+    	<td><input class='flat' size="35" type="text" name="description" style="width:350px;" value="<?php if(isset($zone["description"])) echo htmlentities(stripslashes ($zone["description"]));?>"></td>
 	</tr>
 	<tr>
 		<td><img src='images/spacer.gif' height='1' width='100%'></td>
@@ -370,9 +370,9 @@ else
 				echo "</td></tr><tr><td>";
 				
 				echo "<input type='radio' name='sizetype' value='custom'".(!$exists ? ' CHECKED' : '')." onclick='editsize()'>&nbsp;";
-				echo $strWidth.": <input size='5' type='text' name='width' value='".(isset($zone["width"]) ? $zone["width"] : '')."' onkeydown='editsize()'>";
+				echo $strWidth.": <input class='flat' size='5' type='text' name='width' value='".(isset($zone["width"]) ? $zone["width"] : '')."' onkeydown='editsize()'>";
 				echo "&nbsp;&nbsp;&nbsp;";
-				echo $strHeight.": <input size='5' type='text' name='height' value='".(isset($zone["height"]) ? $zone["height"] : '')."' onkeydown='editsize()'>";
+				echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".(isset($zone["height"]) ? $zone["height"] : '')."' onkeydown='editsize()'>";
 				echo "</td></tr></table>";
 			?>
 		</td>

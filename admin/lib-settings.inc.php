@@ -256,11 +256,11 @@ function phpAds_settings_text($name, $text, $size = 25, $type = 'text', $rows = 
     <td width="100%"> 
       <?php
 	if ($type == 'textarea')
-		echo "<textarea name='$name' size='$size' rows='$rows'$extra>".htmlentities($value)."</textarea>";
+		echo "<textarea class='flat' name='$name' size='$size' rows='$rows'$extra>".htmlentities($value)."</textarea>";
 	elseif ($type == 'password')
-		echo "<input type='password' name='$name' value='$value' size='$size'$extra>";
+		echo "<input class='flat' type='password' name='$name' value='$value' size='$size'$extra>";
 	else
-		echo "<input type='text' name='$name' size='$size'$extra value='".htmlentities($value)."'>";
+		echo "<input class='flat' type='text' name='$name' size='$size'$extra value='".htmlentities($value)."'>";
 ?>
     </td>
   </tr>

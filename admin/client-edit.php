@@ -332,7 +332,7 @@ echo "<br><br>";
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td width='200'><?php echo $strClientName;?></td>
-		<td><input type="text" name="clientname" size='35' style="width:350px;" value="<?php if(isset($row["clientname"]))echo $row["clientname"];?>"></td>
+		<td><input class='flat' type="text" name="clientname" size='35' style="width:350px;" value="<?php if(isset($row["clientname"]))echo $row["clientname"];?>"></td>
 	</tr>
 	<tr>
 		<td><img src='images/spacer.gif' height='1' width='100%'></td>
@@ -341,7 +341,7 @@ echo "<br><br>";
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td width='200'><?php echo $strContact;?></td>
-		<td><input type="text" name="contact" size='35' style="width:350px;" value="<?php if(isset($row["contact"]))echo $row["contact"];?>"></td>
+		<td><input class='flat' type="text" name="contact" size='35' style="width:350px;" value="<?php if(isset($row["contact"]))echo $row["contact"];?>"></td>
 	</tr>
 	<tr>
 		<td><img src='images/spacer.gif' height='1' width='100%'></td>
@@ -350,7 +350,7 @@ echo "<br><br>";
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td width='200'><?php echo $strEMail;?></td>
-		<td><input type="text" name="email" size='35' style="width:350px;" value="<?php if(isset($row["email"]))echo $row["email"];?>"></td>
+		<td><input class='flat' type="text" name="email" size='35' style="width:350px;" value="<?php if(isset($row["email"]))echo $row["email"];?>"></td>
 	</tr>
 	<tr>
 		<td><img src='images/spacer.gif' height='1' width='100%'></td>
@@ -411,7 +411,7 @@ echo "<br><br>";
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td width='200'><?php echo $strNoDaysBetweenReports;?></td>
-		<td><input type="text" name="clientreportinterval" size='25' value="<?php if(isset($row["reportinterval"]))echo $row["reportinterval"];?>"></td>
+		<td><input class='flat' type="text" name="clientreportinterval" size='25' value="<?php if(isset($row["reportinterval"]))echo $row["reportinterval"];?>"></td>
 	</tr>
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
 	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
@@ -447,7 +447,7 @@ echo "<br><br>";
 		if (phpAds_isUser(phpAds_Admin))
 		{
 			?>
-			<td width='370'><input type="text" name="clientusername" size='25' value="<?php if(isset($row["clientusername"])) echo $row["clientusername"];?>">
+			<td width='370'><input class='flat' type="text" name="clientusername" size='25' value="<?php if(isset($row["clientusername"])) echo $row["clientusername"];?>">
 			<?php
 		}
 		else 
@@ -465,7 +465,7 @@ echo "<br><br>";
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td width='200'><?php echo $strPassword;?></td>
-		<td width='370'><input type="text" name="clientpassword" size='25' value="<?php if(isset($row["clientpassword"])) echo $row["clientpassword"];?>">
+		<td width='370'><input class='flat' type="text" name="clientpassword" size='25' value="<?php if(isset($row["clientpassword"])) echo $row["clientpassword"];?>">
 	</tr>
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
 		<?php

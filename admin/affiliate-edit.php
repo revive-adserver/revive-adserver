@@ -303,7 +303,7 @@ if (isset($affiliateid) && $affiliateid != '')
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td width='200'><?php echo $strName;?></td>
-		<td><input type="text" name="name" size='35' style="width:350px;" value="<?php if(isset($affiliate["name"]))echo $affiliate["name"];?>"></td>
+		<td><input class='flat' type="text" name="name" size='35' style="width:350px;" value="<?php if(isset($affiliate["name"]))echo $affiliate["name"];?>"></td>
 	</tr>
 	<tr>
 		<td><img src='images/spacer.gif' height='1' width='100%'></td>
@@ -312,7 +312,7 @@ if (isset($affiliateid) && $affiliateid != '')
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td width='200'>Website</td>
-		<td><input type="text" name="website" size='35' style="width:350px;" value="<?php if(isset($affiliate["website"]))echo $affiliate["website"];?>"></td>
+		<td><input class='flat' type="text" name="website" size='35' style="width:350px;" value="<?php if(isset($affiliate["website"]))echo $affiliate["website"];?>"></td>
 	</tr>
 	<tr>
 		<td><img src='images/spacer.gif' height='1' width='100%'></td>
@@ -321,7 +321,7 @@ if (isset($affiliateid) && $affiliateid != '')
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td width='200'><?php echo $strContact;?></td>
-		<td><input type="text" name="contact" size='35' style="width:350px;" value="<?php if(isset($affiliate["contact"]))echo $affiliate["contact"];?>"></td>
+		<td><input class='flat' type="text" name="contact" size='35' style="width:350px;" value="<?php if(isset($affiliate["contact"]))echo $affiliate["contact"];?>"></td>
 	</tr>
 	<tr>
 		<td><img src='images/spacer.gif' height='1' width='100%'></td>
@@ -330,7 +330,7 @@ if (isset($affiliateid) && $affiliateid != '')
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td width='200'><?php echo $strEMail;?></td>
-		<td><input type="text" name="email" size='35' style="width:350px;" value="<?php if(isset($affiliate["email"]))echo $affiliate["email"];?>"></td>
+		<td><input class='flat' type="text" name="email" size='35' style="width:350px;" value="<?php if(isset($affiliate["email"]))echo $affiliate["email"];?>"></td>
 	</tr>
 	<tr>
 		<td><img src='images/spacer.gif' height='1' width='100%'></td>
@@ -386,7 +386,7 @@ if (isset($affiliateid) && $affiliateid != '')
 		if (phpAds_isUser(phpAds_Admin))
 		{
 			?>
-			<td width='370'><input type="text" name="username" size='25' value="<?php if(isset($affiliate["username"])) echo $affiliate["username"];?>">
+			<td width='370'><input class='flat' type="text" name="username" size='25' value="<?php if(isset($affiliate["username"])) echo $affiliate["username"];?>">
 			<?php
 		}
 		else 
@@ -404,7 +404,7 @@ if (isset($affiliateid) && $affiliateid != '')
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td width='200'><?php echo $strPassword;?></td>
-		<td width='370'><input type="text" name="password" size='25' value="<?php if(isset($affiliate["password"])) echo $affiliate["password"];?>">
+		<td width='370'><input class='flat' type="text" name="password" size='25' value="<?php if(isset($affiliate["password"])) echo $affiliate["password"];?>">
 	</tr>
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
 		<?php

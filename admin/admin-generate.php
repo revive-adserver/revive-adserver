@@ -288,7 +288,7 @@ if (isset($show['what']) && $show['what'] == true)
 {
 	echo "<tr bgcolor='#F6F6F6'><td width='30'>&nbsp;</td>";
 	echo "<td width='200' valign='top'>What</td><td width='370'>";
-		echo "<textarea name='what' rows='3' cols='50' style='width:350px;'>".(isset($what) ? stripslashes($what) : '')."</textarea></td></tr>";
+		echo "<textarea class='flat' name='what' rows='3' cols='50' style='width:350px;'>".(isset($what) ? stripslashes($what) : '')."</textarea></td></tr>";
 	echo "<tr bgcolor='#F6F6F6'><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td bgcolor='#F6F6F6' colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 }
@@ -330,7 +330,7 @@ if (isset($show['target']) && $show['target'] == true)
 //	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>Target</td><td width='370'>";
-		echo "<input type='text' name='target' size='' value='".(isset($target) ? $target : '')."' style='width:175px;'></td></tr>";
+		echo "<input class='flat' type='text' name='target' size='' value='".(isset($target) ? $target : '')."' style='width:175px;'></td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 }
 
@@ -341,7 +341,7 @@ if (isset($show['source']) && $show['source'] == true)
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>Source</td><td width='370'>";
-		echo "<input type='text' name='source' size='' value='".(isset($source) ? $source : '')."' style='width:175px;'></td></tr>";
+		echo "<input class='flat' type='text' name='source' size='' value='".(isset($source) ? $source : '')."' style='width:175px;'></td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 }
 
@@ -365,7 +365,7 @@ if (isset($show['refresh']) && $show['refresh'] == true)
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>Refresh after</td><td width='370'>";
-		echo "<input type='text' name='refresh' size='' value='".(isset($refresh) ? $refresh : '')."' style='width:175px;'> sec</td></tr>";
+		echo "<input class='flat' type='text' name='refresh' size='' value='".(isset($refresh) ? $refresh : '')."' style='width:175px;'> sec</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 }
 
@@ -376,8 +376,8 @@ if (isset($show['size']) && $show['size'] == true)
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>$strFrameSize</td><td width='370'>";
-		echo "$strWidth: <input type='text' name='width' size='3' value='".(isset($width) ? $width : '')."'>&nbsp;&nbsp;&nbsp;";
-		echo "$strHeight: <input type='text' name='height' size='3' value='".(isset($height) ? $height : '')."'>";
+		echo "$strWidth: <input class='flat' type='text' name='width' size='3' value='".(isset($width) ? $width : '')."'>&nbsp;&nbsp;&nbsp;";
+		echo "$strHeight: <input class='flat' type='text' name='height' size='3' value='".(isset($height) ? $height : '')."'>";
 	echo "</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 }
@@ -428,10 +428,10 @@ if (isset($show['absolute']) && $show['absolute'] == true)
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>Initial position (top)</td><td width='370'>";
-		echo "<input type='text' name='top' size='' value='".(isset($top) ? $top : '-')."' style='width:175px;'> px</td></tr>";
+		echo "<input class='flat' type='text' name='top' size='' value='".(isset($top) ? $top : '-')."' style='width:175px;'> px</td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>Initial position (left)</td><td width='370'>";
-		echo "<input type='text' name='left' size='' value='".(isset($left) ? $left : '-')."' style='width:175px;'> px</td></tr>";
+		echo "<input class='flat' type='text' name='left' size='' value='".(isset($left) ? $left : '-')."' style='width:175px;'> px</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 }
 
@@ -442,7 +442,7 @@ if (isset($show['timeout']) && $show['timeout'] == true)
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>Automatically close after</td><td width='370'>";
-		echo "<input type='text' name='timeout' size='' value='".(isset($timeout) ? $timeout : '-')."' style='width:175px;'> sec</td></tr>";
+		echo "<input class='flat' type='text' name='timeout' size='' value='".(isset($timeout) ? $timeout : '-')."' style='width:175px;'> sec</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 }
 
@@ -455,7 +455,7 @@ if (isset($submit))
 	echo "<td width='560' colspan='2'>";
 	echo "<br><br><img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>$strBannercode:</b><br><br>";
 	
-	echo "<textarea rows='8' cols='55' style='width:560px;'>".htmlentities(phpAds_GenerateInvocationCode($zoneid))."</textarea>";
+	echo "<textarea class='flat' rows='8' cols='55' style='width:560px;'>".htmlentities(phpAds_GenerateInvocationCode($zoneid))."</textarea>";
 	echo "</td></tr>";
 }
 

@@ -572,7 +572,7 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td width='200'><?php echo $strName;?></td>
-		<td><input type="text" name="clientname" size='35' style="width:350px;" value="<?php if(isset($row["clientname"])) echo $row["clientname"]; else echo $strDefault;?>"></td>
+		<td><input class='flat' type="text" name="clientname" size='35' style="width:350px;" value="<?php if(isset($row["clientname"])) echo $row["clientname"]; else echo $strDefault;?>"></td>
 	</tr>
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
 
@@ -619,7 +619,7 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 		<td width='30'>&nbsp;</td>
 		<td width='200'><?php echo $strViewsPurchased;?></td>
 		<td>
-			<input type="text" name="views" size='25' value="<?php if($row["views"]>0) echo $row["views"]; else echo '-';?>" onKeyUp="disable_checkbox('unlimitedviews', 'views');">
+			<input class='flat' type="text" name="views" size='25' value="<?php if($row["views"]>0) echo $row["views"]; else echo '-';?>" onKeyUp="disable_checkbox('unlimitedviews', 'views');">
 			<input type="checkbox" name="unlimitedviews"<?php if($row["views"]==-1) print " CHECKED";?> onClick="click_checkbox('unlimitedviews', 'views');">
 			<?php echo $GLOBALS['strUnlimited']; ?>
 		</td>
@@ -632,7 +632,7 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 		<td width='30'>&nbsp;</td>
 		<td width='200'><?php echo $strClicksPurchased;?></td>
 		<td>
-			<input type="text" name="clicks" size='25' value="<?php if($row["clicks"]>0) echo $row["clicks"]; else echo '-';?>" onKeyUp="disable_checkbox('unlimitedclicks', 'clicks');">
+			<input class='flat' type="text" name="clicks" size='25' value="<?php if($row["clicks"]>0) echo $row["clicks"]; else echo '-';?>" onKeyUp="disable_checkbox('unlimitedclicks', 'clicks');">
 			<input type="checkbox" name="unlimitedclicks"<?php if($row["clicks"]==-1) print " CHECKED";?> onClick="click_checkbox('unlimitedclicks', 'clicks');">
 			<?php echo $GLOBALS['strUnlimited']; ?>
 		</td>
@@ -677,14 +677,14 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 			<?php echo $strHighPriority; ?><br>
 			<img src='images/break-l.gif' height='1' width='100%' vspace='6'><br>
 			<?php echo $strTargetLimitAdviews; ?> 
-			<input type="text" name="target" size='7' value="<?php echo isset($row["target"]) ? $row["target"] : '-';?>"> <?php echo $strTargetPerDay; ?><br><br>
+			<input class='flat' type="text" name="target" size='7' value="<?php echo isset($row["target"]) ? $row["target"] : '-';?>"> <?php echo $strTargetPerDay; ?><br><br>
 			</td></tr><tr><td valign='top'>
 			<input type="radio" name="priority" value="f" <?php echo $priority == 'f' ? 'checked' : ''; ?> onClick="click_priority()">			
 			</td><td valign='top'>
 			<?php echo $strLowPriority; ?><br>
 			<img src='images/break-l.gif' height='1' width='100%' vspace='6'><br>
 			<?php echo $strCampaignWeight; ?>: 
-			<input type="text" name="weight" size='7' value="<?php echo isset($row["weight"]) ? $row["weight"] : $phpAds_config['default_campaign_weight'];?>">
+			<input class='flat' type="text" name="weight" size='7' value="<?php echo isset($row["weight"]) ? $row["weight"] : $phpAds_config['default_campaign_weight'];?>">
 			<input type="hidden" name="previousweight" value="<?php echo isset($row["weight"]) ? $row["weight"] : '';?>">
 			</td></tr></table>
 		</td>
