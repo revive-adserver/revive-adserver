@@ -155,7 +155,37 @@ if (phpAds_isUser(phpAds_Admin))
 	// Check privileges and writability of config file
 	if ($upgrade && ($step == 1 || $step == 2))
 	{
-		$checkconfig = phpAds_isConfigWritable();
+		// Determine the PHP version
+		ereg ("^([0-9]{1})\.([0-9]{1})\.([0-9]{1,2})", phpversion(), $matches);
+		$phpversion = sprintf ("%01d%01d%02d", $matches[1], $matches[2], $matches[3]);
+		
+		
+		// Store fatal errors
+		$fatal = array();
+		
+		
+		// Check PHP version
+		if ($phpversion < 4000)
+			$fatal[] = str_replace ('{php_version}', phpversion(), $strWarningPHPversion);
+		
+		
+		// Config variables can only be checked with php 4
+		if ($phpversion >= 4000)
+		{
+			// Check file_uploads
+			if (ini_get ('file_uploads') != true)
+				  $fatal[] = $strWarningFileUploads;
+			
+			// Check track_vars
+			if ($phpversion < 4030 &&
+				ini_get ('track_vars') != true)
+				$fatal[] = $strWarningTrackVars;
+		}
+		
+		
+		// Check if config file is writable
+		if (!phpAds_isConfigWritable())
+			$fatal[] = $strConfigLockedDetected;
 		
 		
 		// Drop test table if one exists
@@ -169,20 +199,18 @@ if (phpAds_isUser(phpAds_Admin))
 		{
 			phpAds_dbQuery ("ALTER TABLE phpads_tmp_dbpriviligecheck MODIFY COLUMN tmp int");
 			
-			if (phpAds_dbAffectedRows() >= 0)
-				$checkprivileges = true;
-			else
-				$checkprivileges = false;
+			if (phpAds_dbAffectedRows() < 0)
+				$fatal[] = $strUpdateTableTestFailed;
 			
 			// Passed all test, now drop the test table
 			phpAds_dbQuery ("DROP TABLE phpads_tmp_dbpriviligecheck");
 		}
 		else
-			$checkprivileges = false;
+			$fatal[] = $strUpdateTableTestFailed;
 		
 		
 		// Repeat proceed request if config still not writeable
-		if ($checkconfig != true || $checkprivileges != true)
+		if (count($fatal))
 			$step = 1;
 	}
 	
@@ -203,24 +231,14 @@ if (phpAds_isUser(phpAds_Admin))
 		echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
 		echo "<span class='install'>".$message."</td></tr></table>";
 		
-		if ($checkconfig != true || $checkprivileges != true)
+		if (count($fatal))
 		{
 			echo "<br><br>";
 			echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>";
 			echo "<tr><td><img src='images/error.gif'>&nbsp;&nbsp;</td>";
 			echo "<td width='100%'><span class='tab-r'>".$strMayNotFunction."</span></td></tr>";
-			echo "<tr><td>&nbsp;</td><td><span class='install'>";
-			
-			if ($checkconfig != true)
-				echo $strConfigLockedDetected;
-			
-			if ($checkconfig != true && $checkprivileges != true)
-				echo "<br><br>";
-			
-			if ($checkprivileges != true)
-				echo $strUpdateTableTestFailed;
-			
-			echo "</span></td></tr>";
+			for ($r=0;$r<count($fatal);$r++)
+				echo "<tr><td>&nbsp;</td><td><span class='install'>".$fatal[$r]."</span></td></tr>";
 			echo "</table>";
 		}
 		
