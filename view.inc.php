@@ -3,7 +3,8 @@
 // it's best if we do this only once per load, not every time we call rand.    
 mt_srand((double)microtime()*1000000);
 
-require("$phpAds_path/dblib.php"); 
+require ("$phpAds_path/dblib.php"); 
+require ("$phpAds_path/lib-expire.inc.php");
 
 
 
@@ -345,47 +346,30 @@ function log_adview($bannerID,$clientID)
 	global $row, $phpAds_tbl_banners, $phpAds_tbl_clients, $phpAds_language;
 	global $REMOTE_HOST, $REMOTE_ADDR, $phpAds_warn_limit, $phpAds_warn_client, $phpAds_warn_admin;
 	global $phpAds_admin_email, $phpAds_admin_email_headers, $phpAds_url_prefix, $strWarnAdminTxt, $strWarnClientTxt;
-
+	
 	// set banner as "used"
 	db_query("Update $phpAds_tbl_banners SET seq=seq-1 WHERE bannerID='$bannerID'");
-
+	
 	if(!$phpAds_log_adviews)
 		return(false);
-
+	
 	if($phpAds_reverse_lookup)
 		$host = isset($REMOTE_HOST) ? $REMOTE_HOST : @gethostbyaddr($REMOTE_ADDR);
 	else
 		$host = $REMOTE_ADDR;
 	
 	// Check if host is on list of hosts to ignore
-	
 	$found = 0;
 	while(($found == 0) && (list($key, $ignore_host)=each($phpAds_ignore_hosts))) 
 	{
 		if(eregi("$host|$REMOTE_ADDR", $ignore_host)) // host found in ignore list
 			$found = 1;
 	}
-
+	
 	if($found == 0)
 	{ 
 		$res = @db_log_view($bannerID, $host);
-		
-		// Decrement views
-		$currentview=db_query("SELECT * FROM $phpAds_tbl_clients WHERE clientID=$clientID and views > 0");
-		if($viewcount=mysql_fetch_array($currentview))
-		{
-			$viewcount["views"]=$viewcount["views"]-1;
-			
-			// Mail warning - preset is reached
-			if($viewcount["views"]==$phpAds_warn_limit)
-				warn_mail($viewcount);
-			
-			db_query("UPDATE $phpAds_tbl_clients SET views=views-1 WHERE clientID=$clientID");
-			
-			// Check view count and de-activate banner if needed
-			if($viewcount["views"]==0)
-				db_query("UPDATE $phpAds_tbl_banners SET active='false' WHERE clientID=$clientID");
-		}
+		phpAds_expire ($clientID, phpAds_Views);
 	}
 }
 
