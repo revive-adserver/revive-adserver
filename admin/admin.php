@@ -7,8 +7,38 @@ require ("config.php");
 phpAds_checkAccess(phpAds_Admin);
 
 
+$extra = '';
+
+if ($phpAds_compact_stats)
+{
+	$viewresult = db_query("SELECT COUNT(*) AS cnt FROM $phpAds_tbl_adviews");
+	$viewrow = @mysql_fetch_array($viewresult);
+	$verboseviews = $viewrow["cnt"];
+	
+	$clickresult = db_query("SELECT COUNT(*) AS cnt FROM $phpAds_tbl_adclicks");
+	$clickrow = @mysql_fetch_array($viewresult);
+	$verboseclicks = $clickrow["cnt"];
+	
+	if ($verboseviews > 0 || $verboseclicks > 0)
+	{
+		$extra = "<br><br>
+				  <table cellspacing='1' cellpadding='0' width='140' bgcolor='#000088'><tr><td>
+				  <table cellspacing='4' bgcolor='#FFFFFF'><tr>
+				  <td valign='top'><img src='images/info.gif' vspace='absmiddle'></td>
+				  <td valign='top'><b>Alert:</b><br>
+				  You have enabled the compact statistics, but your old statistics are still 
+				  in verbose format. Do you want to convert your verbose statistics to the 
+				  new compact format?<br><br>
+				  <a href='stats-convert.php?command=frame' target='_new'><img src='images/go_blue.gif' border='0'>&nbsp;Convert</a>
+				  </td>
+				  </tr></table>
+				  </td></tr></table>";
+	}
+}
+
+
 phpAds_PageHeader("$strAdminstration");
-phpAds_ShowNav("1");
+phpAds_ShowNav("1", $extra);
 
 
 if (isset($message))
