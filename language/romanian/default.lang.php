@@ -403,4 +403,29 @@ $GLOBALS['strUnknown']					= "Unknown";
 $GLOBALS['strWelcomeTo']				= "Welcome to";
 $GLOBALS['strEnterUsername']			= "Enter your username and password to log in";
 
+$GLOBALS['strBannerNetwork']			= "Banner network";
+$GLOBALS['strMoreInformation']			= "More information...";
+$GLOBALS['strChooseNetwork']			= "Choose the banner network you want to use";
+$GLOBALS['strRichMedia']				= "Richmedia";
+$GLOBALS['strTrackAdClicks']			= "Track AdClicks";
+$GLOBALS['strYes']						= "Yes";
+$GLOBALS['strNo']						= "No";
+$GLOBALS['strUploadOrKeep']				= "Do you wish to keep your <br>existing image, or do you <br>want to upload another?";
+$GLOBALS['strCheckSWF']					= "Check for hard-coded links inside the Flash file";
+$GLOBALS['strURL2']						= "URL";
+$GLOBALS['strTarget']					= "Target";
+$GLOBALS['strConvert']					= "Convert";
+$GLOBALS['strCancel']					= "Cancel";
+
+$GLOBALS['strConvertSWFLinks']			= "Convert Flash links";
+$GLOBALS['strConvertSWF']				= "<br>The Flash file you just uploaded contains hard-coded urls. phpAdsNew won't be ".
+										  "able to track the number of AdClicks for this banner unless you convert these ".
+										  "hard-coded urls. Below you will find a list of all urls inside the Flash file. ".
+										  "If you want to convert the urls, simply click <b>Convert</b>, otherwise click ".
+										  "<b>Cancel</b>.<br><br>".
+										  "Please note: if you click <b>Convert</b> the Flash file ".
+									  	  "you just uploaded will be physically altered. <br>Please keep a backup of the ".
+										  "original file. Regardless of in which version this banner was created, the resulting ".
+										  "file will need the Flash 4 player (or higher) to display correctly.<br><br>";
+
 ?>
