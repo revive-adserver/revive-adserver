@@ -250,41 +250,6 @@ function get_banner($what, $clientID, $context=0, $source='', $allowhtml=true)
 	global $phpAds_random_retrieve, $phpAds_zone_cache_limit, $phpAds_zone_cache;
 	global $phpAds_zone_used;
 	
-	// Build preconditions
-	if (is_array ($context))
-	{
-		for ($i=0; $i < count($context); $i++)
-		{
-			list ($key, $value) = each($context[$i]);
-			{
-				switch ($key)
-				{
-					case '!=': $contextExclusive[] = $phpAds_tbl_banners.'.bannerID <> '.$value; break;
-					case '==': $contextInclusive[] = $phpAds_tbl_banners.'.bannerID = '.$value; break;
-				}
-			}
-		}
-		
-		$where_exclusive = !empty($contextExclusive) ? implode(' AND ', $contextExclusive) : '';
-		$where_inclusive = !empty($contextInclusive) ? implode(' OR ', $contextInclusive) : '';
-		
-		$precondition = sprintf("$where_inclusive %s $where_exclusive", (!empty($where_inclusive) && !empty($where_exclusive)) ? 'AND' : '');
-		$precondition = trim($precondition);
-		
-		if (!empty($precondition))
-			$precondition = ' AND '.$precondition;
-	}
-	else
-		$precondition = '';
-	
-	if ($clientID != 0)
-		$precondition .= " AND ($phpAds_tbl_clients.clientID = $clientID OR $phpAds_tbl_clients.parent = $clientID) ";
-	
-	if ($allowhtml == false)
-		$precondition .= " AND $phpAds_tbl_banners.format != 'html' AND $phpAds_tbl_banners.format != 'swf' ";
-	
-	
-	
 	
 	
 	// Zones
@@ -360,9 +325,68 @@ function get_banner($what, $clientID, $context=0, $source='', $allowhtml=true)
 		}
 		
 		$phpAds_zone_used = true;
+		
+		
+		// Build preconditions
+		$excludeBannerID = array();
+		$includeBannerID = array();
+		
+		if (is_array ($context))
+		{
+			for ($i=0; $i < count($context); $i++)
+			{
+				list ($key, $value) = each($context[$i]);
+				{
+					switch ($key)
+					{
+						case '!=': $excludeBannerID[$value] = true; break;
+						case '==': $includeBannerID[$value] = true; break;
+					}
+				}
+			}
+		}
 	}
+	
+	
+	// What parameter
 	else
 	{
+		// Build preconditions
+		if (is_array ($context))
+		{
+			for ($i=0; $i < count($context); $i++)
+			{
+				list ($key, $value) = each($context[$i]);
+				{
+					switch ($key)
+					{
+						case '!=': $contextExclusive[] = $phpAds_tbl_banners.'.bannerID <> '.$value; break;
+						case '==': $contextInclusive[] = $phpAds_tbl_banners.'.bannerID = '.$value; break;
+					}
+				}
+			}
+			
+			$where_exclusive = !empty($contextExclusive) ? implode(' AND ', $contextExclusive) : '';
+			$where_inclusive = !empty($contextInclusive) ? implode(' OR ', $contextInclusive) : '';
+			
+			$precondition = sprintf("$where_inclusive %s $where_exclusive", (!empty($where_inclusive) && !empty($where_exclusive)) ? 'AND' : '');
+			$precondition = trim($precondition);
+			
+			if (!empty($precondition))
+				$precondition = ' AND '.$precondition;
+		}
+		else
+			$precondition = '';
+		
+		if ($clientID != 0)
+			$precondition .= " AND ($phpAds_tbl_clients.clientID = $clientID OR $phpAds_tbl_clients.parent = $clientID) ";
+		
+		if ($allowhtml == false)
+			$precondition .= " AND $phpAds_tbl_banners.format != 'html' AND $phpAds_tbl_banners.format != 'swf' ";
+		
+		
+		
+		
 		// Separate parts
 		$what_parts = explode ('|', $what);	
 		
@@ -370,8 +394,6 @@ function get_banner($what, $clientID, $context=0, $source='', $allowhtml=true)
 		{
 			// Build the query needed to fetch the banners
 			$select = phpAds_buildQuery ($what_parts[$wpc], sizeof($what_parts), $precondition);
-			
-			
 			
 			// Handle sequential banner retrieval
 			if($phpAds_random_retrieve != 0)
@@ -471,9 +493,57 @@ function get_banner($what, $clientID, $context=0, $source='', $allowhtml=true)
 			
 			if ($high > $ranweight && $low <= $ranweight)
 			{
+				if ($phpAds_zone_used)
+				{
+					// Preconditions can't be used with zones,
+					// so use postconditions instead
+					
+					$postconditionSucces = true;
+					
+					// Excludelist
+					if (isset ($excludeBannerID[$rows[$i]['bannerID']]) &&
+						$excludeBannerID[$rows[$i]['bannerID']] == true)
+						$postconditionSucces = false;
+					
+					// Includelist
+					if ($postconditionSucces == true &&
+					    sizeof($includeBannerID) > 0 &&
+					    (!isset ($includeBannerID[$rows[$i]['bannerID']]) ||
+						$includeBannerID[$rows[$i]['bannerID']] != true))
+						$postconditionSucces = false;
+					
+					// HTML or Flash banners
+					if ($postconditionSucces == true &&
+					    $allowhtml == false &&
+					    ($rows[$i]['format'] == 'html' || $rows[$i]['format'] == 'swf' ||
+						(($rows[$i]['format'] == 'url' || $rows[$i]['format'] == 'web') && eregi("swf$", $rows[$i]['banner']))))
+						$postconditionSucces = false;
+					
+					
+					if ($postconditionSucces == false)
+					{
+						// Failed one of the postconditions
+						// No more posibilities left, exit!
+						if (sizeof($rows) == 1)
+							return false;
+						
+						// Delete this row and adjust $weightsum
+						$weightsum -= ($rows[$i]['weight'] * $rows[$i]['clientweight']);
+						unset($rows[$i]);
+						
+						// Break out of the for loop to try again
+						break;
+					}
+				}
+				
+				// Banner was not on exclude list
+				// and was on include list (if one existed)
+				// Now continue with ACL check
+				
 				if ($phpAds_acl == '1')
 				{
 					if (acl_check($request, $rows[$i]))
+						// ACL check passed, found banner!
 						return ($rows[$i]);
 					
 					// Matched, but acl_check failed.
@@ -490,6 +560,7 @@ function get_banner($what, $clientID, $context=0, $source='', $allowhtml=true)
 				}
 				else
 				{
+					// Don't check ACLs, found banner!
 					return ($rows[$i]);
 				}
 			}
