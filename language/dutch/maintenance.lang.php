@@ -23,7 +23,7 @@ $GLOBALS['strHighPriorityCampaigns']			= "Hoge prioriteit campagnes";
 $GLOBALS['strAdViewsAssigned']				= "AdViews toegewezen";
 $GLOBALS['strLowPriorityCampaigns']			= "Lage prioriteit campagnes";
 $GLOBALS['strPredictedAdViews']				= "Voorspelde AdViews";
-$GLOBALS['strPriorityDaysRunning']			= "Er zijn momenteel {days} dagen aan statistieken beschikbaar waar phpAdsNew zijn dagelijkse voorspellingen op kan baseren. ";
+$GLOBALS['strPriorityDaysRunning']			= "Er zijn momenteel {days} dagen aan statistieken beschikbaar waar ".$phpAds_productname." zijn dagelijkse voorspellingen op kan baseren. ";
 $GLOBALS['strPriorityBasedLastWeek']			= "De voorspelling is gebaseerd op data van deze week en afgelopen week. ";
 $GLOBALS['strPriorityBasedLastDays']			= "De voorspelling is gebaseerd op data van de laatste paar dagen. ";
 $GLOBALS['strPriorityBasedYesterday']			= "De voorspelling is gebaseerd op data van gisteren. ";
@@ -37,7 +37,7 @@ $GLOBALS['strRebuildBannerCache']			= "Banner cache opnieuw aanmaken";
 $GLOBALS['strBannerCacheExplaination']			= "
 	De banner cache bevat een kopie van de HTML code welke gebruikt wordt om de banner tonen. Door het gebruik van de banner cache wordt
 	de banner sneller afgeleverd omdat de HTML code niet elke keer opnieuw gegenereerd te worden. Omdat de banner cache vast URLs bevat
-	naar de locatie van phpAdsNew en de banners, moet de banner cache opnieuwe aangemaakt worden wanneer de locatie van phpAdsNew op de
+	naar de locatie van ".$phpAds_productname." en de banners, moet de banner cache opnieuwe aangemaakt worden wanneer de locatie van ".$phpAds_productname." op de
 	server veranderd.
 ";
 

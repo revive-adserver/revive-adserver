@@ -218,7 +218,7 @@ $GLOBALS['strViewsPurchased'] 				= "Gekochte AdViews";
 $GLOBALS['strClicksPurchased'] 				= "Gekochte AdClicks";
 $GLOBALS['strCampaignWeight']				= "Campagne gewicht";
 $GLOBALS['strHighPriority']				= "Toon de banners in deze campagne met hoge prioriteit.<br>
-							   Indien u deze optie gebruikt zal phpAdsNew proberen om het 
+							   Indien u deze optie gebruikt zal ".$phpAds_productname." proberen om het 
 							   aantal AdViews gelijkmatig over de dag de verspreiden.";
 $GLOBALS['strLowPriority']				= "Toon de banners in deze campagne met lage prioriteit.<br>
 							   Deze campagne wordt gebruikt om de overgebleven AdViews te tonen, 
@@ -277,7 +277,7 @@ $GLOBALS['strBannerWeight']				= "Banner gewicht";
 $GLOBALS['strCheckSWF']					= "Controleer op vaste links in het Flash bestand";
 $GLOBALS['strConvertSWFLinks']				= "Converteer Flash links";
 $GLOBALS['strConvertSWF']				= "<br>Het Flash bestand dat u zojuist upgeload heeft bevat vaste links. Pas als deze vaste ".
-							  "links geconverteerd zijn zal phpAdsNew AdClicks kunnen volgen voor deze banner. ".
+							  "links geconverteerd zijn zal ".$phpAds_productname." AdClicks kunnen volgen voor deze banner. ".
 							  "Hieronder vindt u een lijst met alle links welke in het Flash bestand aanwezig zijn. ".
 							  "Indien u de links wilt converteren, klik dan op <b>Converteer</b>, klik anders op ".
 							  "<b>Annuleer</b>.<br><br>".

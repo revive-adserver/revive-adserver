@@ -16,68 +16,68 @@
 
 // Settings help translation strings
 $GLOBALS['phpAds_hlp_dbhost'] = "
-	Vul hier het IP adres of de domeinnaam van de MySQL database server in.
+	Vul hier het IP adres of de domeinnaam van de ".$phpAds_dbmsname." database server in.
 ";
 		
 $GLOBALS['phpAds_hlp_dbuser'] = "
-        Vul hier de gebruikersnaam in wat phpAdsNew moet gebruiken om toegang te krijgen tot de
-	MySQL database server.
+        Vul hier de gebruikersnaam in wat ".$phpAds_productname." moet gebruiken om toegang te krijgen tot de
+	".$phpAds_dbmsname." database server.
 ";
 		
 $GLOBALS['phpAds_hlp_dbpassword'] = "
-	Vul hier het wachtwoord in wat phpAdsNew moet gebruiken om toegang te krijgen tot de
-	MySQL database server.
+	Vul hier het wachtwoord in wat ".$phpAds_productname." moet gebruiken om toegang te krijgen tot de
+	".$phpAds_dbmsname." database server.
 ";
 		
 $GLOBALS['phpAds_hlp_dbname'] = "
-	Vul hier de naam van de database in welke phpAdsNew moet gebruiken om gegevens
+	Vul hier de naam van de database in welke ".$phpAds_productname." moet gebruiken om gegevens
 	op te slaan.
 ";
 		
 $GLOBALS['phpAds_hlp_persistent_connections'] = "
 	Door gebruik te maken van persistent connections met de database kan de snelheid
-	van phpAdsNew toenemen. Het is tevens van invloed op de belasting van de server. 
+	van ".$phpAds_productname." toenemen. Het is tevens van invloed op de belasting van de server. 
 	Echter wanneer uw website veel bezoekers heeft kan de belasting van de
 	database server groter worden dan wanneer deze optie uit staat. Of het verstandig
 	is om deze optie gebruiken hangt geheel af van het aantal bezoekers en de hardware
-	die u gebruikt. Indien phpAdsNew een te hoge belasting op de database server veroorzaakt
+	die u gebruikt. Indien ".$phpAds_productname." een te hoge belasting op de database server veroorzaakt
 	kunt u proberen om deze optie uit te schakelen.
 ";
 		
 $GLOBALS['phpAds_hlp_insert_delayed'] = "
-	MySQL blokkeerd de tabel wanneer er data wordt toegevoegd. Indien u veel bezoekers
-	op uw website heeft is het mogelijk dat phpAdsNew moet wachten voordat er nieuwe
+	".$phpAds_dbmsname." blokkeerd de tabel wanneer er data wordt toegevoegd. Indien u veel bezoekers
+	op uw website heeft is het mogelijk dat ".$phpAds_productname." moet wachten voordat er nieuwe
 	gegevens in de database toegevoegd kunnen worden, omdat de database nog steeds
-	geblokkeerd is. Wanneer u deze optie gebruikt hoeft phpAdsNew niet te wachten en
+	geblokkeerd is. Wanneer u deze optie gebruikt hoeft ".$phpAds_productname." niet te wachten en
 	zullen de gegevens op een rustiger tijdstip toegevoegd worden.
 ";
 		
 $GLOBALS['phpAds_hlp_compatibility_mode'] = "
-	Indien u problemen heeft met het integreren van phpAdsNew in een ander product dan
+	Indien u problemen heeft met het integreren van ".$phpAds_productname." in een ander product dan
 	kan het helpen om de database compatibiliteits mode aan te zetten. Indien u banners toont
 	door middel van de Locale mode en de database compatibiliteit mode staat aan, dan zal
-	phpAdsNew de staat van de database connectie exact hetzelfde achterlaten. Deze optie
-	vertraagd phpAdsNew iets en staat daarom standaard uit.
+	".$phpAds_productname." de staat van de database connectie exact hetzelfde achterlaten. Deze optie
+	vertraagd ".$phpAds_productname." iets en staat daarom standaard uit.
 ";
 		
 $GLOBALS['phpAds_hlp_table_prefix'] = "
-	Als de database die phpAdsNew gebruik wordt gedeeld met andere software producten is
+	Als de database die ".$phpAds_productname." gebruik wordt gedeeld met andere software producten is
 	het verstandig om een voorvoegsel aan de namen van de tabellen te geven. Ook als u
-	meerdere installaties van phpAdsNew gebruikt, welke gebruik maken van dezelfde database
+	meerdere installaties van ".$phpAds_productname." gebruikt, welke gebruik maken van dezelfde database
 	dient u bij elke installatie een uniek voorvoegsel te gebruiken.
 ";
 		
 $GLOBALS['phpAds_hlp_tabletype'] = "
-	MySQL ondersteund meerdere types tabellen. Elk type heeft unieke eigenschappen en sommige
-	tabeltypen kunnen de snelheid van phpAdsNew ten goede beinvloeden. MyISAM is de standaard
-	tabel type en is beschikbaar in alle versies van MySQL. Andere tabeltypen zijn misschien
+	".$phpAds_dbmsname." ondersteund meerdere types tabellen. Elk type heeft unieke eigenschappen en sommige
+	tabeltypen kunnen de snelheid van ".$phpAds_productname." ten goede beinvloeden. MyISAM is de standaard
+	tabel type en is beschikbaar in alle versies van ".$phpAds_dbmsname.". Andere tabeltypen zijn misschien
 	niet aanwezig op uw server.
 ";
 		
 $GLOBALS['phpAds_hlp_url_prefix'] = "
-	Om correct te functioneren moet phpAdsNew zijn eigen locatie op de webserver
-	weten. U moet de volledige URL invoeren van de map waar phpAdsNew is geinstalleerd,
-	bijvoorbeeld: http://www.uwwebsite.nl/phpAdsNew.
+	Om correct te functioneren moet ".$phpAds_productname." zijn eigen locatie op de webserver
+	weten. U moet de volledige URL invoeren van de map waar ".$phpAds_productname." is geinstalleerd,
+	bijvoorbeeld: http://www.uwwebsite.nl/".$phpAds_productname.".
 ";
 		
 $GLOBALS['phpAds_hlp_my_header'] =
@@ -97,7 +97,7 @@ $GLOBALS['phpAds_hlp_content_gzip_compression'] = "
 ";
 		
 $GLOBALS['phpAds_hlp_language'] = "
-	Specificeer de standaard taal die phpAdsNew moet gebruiken. Deze taal zal
+	Specificeer de standaard taal die ".$phpAds_productname." moet gebruiken. Deze taal zal
 	worden gebruikt in de administratie en adverteerder interface. Opmerking:
 	u kunt voor elke adverteerder een eigen taal instellen en adverteerders
 	de mogelijkheid geven om deze taal zelf aan te passen.
@@ -107,15 +107,15 @@ $GLOBALS['phpAds_hlp_name'] = "
 	Specificeer de naam die uw wilt gebruiken voor deze applicatie. De naam
 	die u opgeeft zal worden getoond op elke pagina van de administratie en
 	adverteerders interface. Indien u dit veld leeg laat zal het logo van 
-	phpAdsNew zelf getoond worden.
+	".$phpAds_productname." zelf getoond worden.
 ";
 		
 $GLOBALS['phpAds_hlp_company_name'] = "
-	Specificeer de naam die gebruikt moet worden in alle e-mails die phpAdsNew verstuurd.
+	Specificeer de naam die gebruikt moet worden in alle e-mails die ".$phpAds_productname." verstuurd.
 ";
 		
 $GLOBALS['phpAds_hlp_override_gd_imageformat'] = "
-	Normaal gesproken zal phpAdsNew zelf detecteren of de GD extentie is 
+	Normaal gesproken zal ".$phpAds_productname." zelf detecteren of de GD extentie is 
 	geinstalleerd en welke formaten ondersteund worden door de geinstalleerde
 	versie. Echter sommige versies van PHP kunnen de ondersteunde formaten niet 
 	goed en/of accuraat detecteren. Indien de automatische detectie faalt, dan
@@ -131,7 +131,7 @@ $GLOBALS['phpAds_hlp_p3p_policies'] = "
 $GLOBALS['phpAds_hlp_p3p_compact_policy'] = "
 	Een compacte policy wordt samen met cookies meegezonden. De standaard instelling
 	is: 'CUR ADM OUR NOR STA NID'. Met de standaard instelling zal Internet
-	Explorer 6 de cookies die door phpAdsNew gebruikt worden accepteren. Indien u
+	Explorer 6 de cookies die door ".$phpAds_productname." gebruikt worden accepteren. Indien u
 	wilt kunt u deze instelling aanpassen naar uw eigen privacy verklaring.
 ";
 		
@@ -142,7 +142,7 @@ $GLOBALS['phpAds_hlp_p3p_policy_location'] = "
 		
 $GLOBALS['phpAds_hlp_log_beacon'] = "
 	Beacons zijn kleine onzichtbare afbeeldingen welke op de pagina geplaatst worden
-	waarop uw banners worden getoond. Als u deze optie aanzet zal phpAdsNew deze
+	waarop uw banners worden getoond. Als u deze optie aanzet zal ".$phpAds_productname." deze
 	beacon afbeeldingen gebruiken om het aantal keer dat de banner gezien wordt te tellen.
 	Als u deze functie niet gebruikt wordt het aantal keer dat de banner getoond wordt
 	geteld op het moment dat de banner aangevraagd wordt, maar dit is niet geheel
@@ -150,7 +150,7 @@ $GLOBALS['phpAds_hlp_log_beacon'] = "
 ";
 		
 $GLOBALS['phpAds_hlp_compact_stats'] = "
-	Traditioneel slaat phpAdsNew gedetailleerde data op bij elke impressie. Echter deze
+	Traditioneel slaat ".$phpAds_productname." gedetailleerde data op bij elke impressie. Echter deze
 	uitgebreide manier van opslaan kan veel vergen van de database server, wat een probleem
 	kan zijn als uw website veel bezoekers heeft. Om dit probleem op te lossen is er nu
 	een compactere manier van gegevens opslaan. Deze manier van opslaan vergt minder van
@@ -164,10 +164,10 @@ $GLOBALS['phpAds_hlp_log_adviews'] = "
 		
 $GLOBALS['phpAds_hlp_block_adviews'] = "
 	Als een bezoeker de pagina ververst zal er iedere keer als de banner getoond wordt
-	een nieuwe AdView worden opgeslagen door phpAdsNew. Deze optie zorgt er voor dat
+	een nieuwe AdView worden opgeslagen door ".$phpAds_productname.". Deze optie zorgt er voor dat
 	als een banner eenmaal getoond is deze niet meer wordt bijgehouden voor het aantal
 	seconde dat hier ingesteld is. Bijvoorbeeld: als u dit veld insteld op 300 seconden,
-	zal phpAdsNew alleen AdViews opslaan als de banner de laatste 300 seconden niet al
+	zal ".$phpAds_productname." alleen AdViews opslaan als de banner de laatste 300 seconden niet al
 	eerder getoond is. Deze functie werkt alleen als <i>Gebruik beacons om AdViews te
 	loggen</i> aan staat en de browser cookies accepteerd.
 ";
@@ -179,27 +179,27 @@ $GLOBALS['phpAds_hlp_log_adclicks'] = "
 		
 $GLOBALS['phpAds_hlp_block_adclicks'] = "
 	Als een bezoeker meerdere keren om een banner klikt, zullen alle keren bijgehouden
-	worden door phpAdsNew. Deze optie zorgt er voor dat als er eenmaal op een banner
+	worden door ".$phpAds_productname.". Deze optie zorgt er voor dat als er eenmaal op een banner
 	geklikt is, deze niet meer bijgehouden worden gedurende het aantal seconde dat u hier
-	opgeeft. Bijvoorbeeld: als u dit veld insteld op 300 seconden, zal phpAdsNew alleen
+	opgeeft. Bijvoorbeeld: als u dit veld insteld op 300 seconden, zal ".$phpAds_productname." alleen
 	AdClicks bijhouden als er de laatste 300 seconde niet als op de banner geklikt is.
 	Deze functie werkt alleen als <i>Gebruik beacons om AdViews te loggen</i> aan staat
 	en de browser cookies accepteerd.
 ";
 		
 $GLOBALS['phpAds_hlp_reverse_lookup'] = "
-	Standaard slaat phpAdsNew het IP adres van elke gebruiker op. Indien u wilt dat
-	phpAdsNew de domeinnaam van de gebruiker wilt bijhouden kunt u deze functie aanzetten.
-	Het achterhalen van de domeinnaam kost tijd en zal daarom phpAdsNew vertragen.
+	Standaard slaat ".$phpAds_productname." het IP adres van elke gebruiker op. Indien u wilt dat
+	".$phpAds_productname." de domeinnaam van de gebruiker wilt bijhouden kunt u deze functie aanzetten.
+	Het achterhalen van de domeinnaam kost tijd en zal daarom ".$phpAds_productname." vertragen.
 ";
 		
 $GLOBALS['phpAds_hlp_proxy_lookup'] = "
 	Sommige gebruikers gebruiken een proxy server voor de toegang tot internet. In dat
-	geval zal phpAdsNew het IP adres van de proxy server opslaan, inplaats het IP adres
-	van de gebruiker. Als u deze functie aanzet, zal phpAdsNew proberen om het IP adres
+	geval zal ".$phpAds_productname." het IP adres van de proxy server opslaan, inplaats het IP adres
+	van de gebruiker. Als u deze functie aanzet, zal ".$phpAds_productname." proberen om het IP adres
 	van de gebruiker achter de proxy server te achterhalen. Indien dit niet lukt zal 
-	phpAdsNew het IP adres van de proxy opslaan. Deze optie staat niet standaard aan
-	omdat het achterhalen van het IP adres tijd kost en phpAdsNew zal vertragen.
+	".$phpAds_productname." het IP adres van de proxy opslaan. Deze optie staat niet standaard aan
+	omdat het achterhalen van het IP adres tijd kost en ".$phpAds_productname." zal vertragen.
 ";
 		
 $GLOBALS['phpAds_hlp_ignore_hosts'] = "
@@ -215,23 +215,23 @@ $GLOBALS['phpAds_hlp_begin_of_week'] = "
 ";
 		
 $GLOBALS['phpAds_hlp_percentage_decimals'] = "
-	Specificeer hoe nauwkeurig achter de comma phpAdsNew moet rekenen.
+	Specificeer hoe nauwkeurig achter de comma ".$phpAds_productname." moet rekenen.
 ";
 		
 $GLOBALS['phpAds_hlp_warn_admin'] = "
-	phpAdsNew kan u automatisch een e-mail sturen als een campagne op het staat
+	".$phpAds_productname." kan u automatisch een e-mail sturen als een campagne op het staat
 	punt om gedeactiveerd te worden. Deze staat standaard optie aan.
 ";
 		
 $GLOBALS['phpAds_hlp_warn_client'] = "
-	phpAdsNew kan adverteerders automatisch per e-mail waarschuwen als hun campagnes
+	".$phpAds_productname." kan adverteerders automatisch per e-mail waarschuwen als hun campagnes
 	op het punt staan om gedeactiveerd te worden. Deze optie staat standaard aan.
 ";
 		
 $GLOBALS['phpAds_hlp_qmail_patch'] = "
-	Sommige versies van qmail bevatten een fout, waardoor e-mail welke door phpAdsNew
+	Sommige versies van qmail bevatten een fout, waardoor e-mail welke door ".$phpAds_productname."
 	verstuurd wordt verminkt overkomt. Indien dit bij u het geval is, dan kunt u deze
-	optie aanzetten, phpAdsNew zal dan haar e-mail versturen in een formaat wat
+	optie aanzetten, ".$phpAds_productname." zal dan haar e-mail versturen in een formaat wat
 	wel goed door qmail begrepen wordt.
 ";
 		
@@ -256,7 +256,7 @@ $GLOBALS['phpAds_hlp_allow_invocation_popup'] = "
 ";
 		
 $GLOBALS['phpAds_hlp_con_key'] = "
-	phpAdsNew bevat een krachtig system waarmee banners direct geselecteerd kunnen
+	".$phpAds_productname." bevat een krachtig system waarmee banners direct geselecteerd kunnen
 	worden. Voor meer informatie lees de documentatie. Met deze optie kunt u
 	conditionele sleutelwoorden activeren. Deze optie staat standaard aan. 
 ";
@@ -270,12 +270,12 @@ $GLOBALS['phpAds_hlp_mult_key'] = "
 		
 $GLOBALS['phpAds_hlp_acl'] = "
 	Indien u geen gebruik wilt maken van leverings beperkingen dan kunt u deze
-	optie uitzetten. Dit zal phpAdsNew iets versnellen.
+	optie uitzetten. Dit zal ".$phpAds_productname." iets versnellen.
 ";
 		
 $GLOBALS['phpAds_hlp_default_banner_url'] = 
 $GLOBALS['phpAds_hlp_default_banner_target'] = "
-	Als phpAdsNew geen connectie op kan bouwen met de database server, of indien
+	Als ".$phpAds_productname." geen connectie op kan bouwen met de database server, of indien
 	er geen banner gevonden kan worden (bijv. omdat de database gecrashed of gewist
 	is), dan is het mogelijk om een standaard banner te tonen. Voor de banner die u
 	hier opgeeft zullen geen statistieken worden bijgehouden.
@@ -303,7 +303,7 @@ $GLOBALS['phpAds_hlp_type_sql_allow'] =
 $GLOBALS['phpAds_hlp_type_web_allow'] = 
 $GLOBALS['phpAds_hlp_type_url_allow'] = 
 $GLOBALS['phpAds_hlp_type_html_allow'] = "
-	phpAdsNew kan verschillende banner typen gebruiken en deze opslaan in
+	".$phpAds_productname." kan verschillende banner typen gebruiken en deze opslaan in
 	verschillende manieren. De eerste twee opties worden gebruikt voor de
 	lokale opslag van banners. Het is ook mogelijk om banners die opgeslagen
 	zijn op een externe server, of HTML banners te gebruiken.
@@ -319,7 +319,7 @@ $GLOBALS['phpAds_hlp_type_web_mode'] = "
 ";
 		
 $GLOBALS['phpAds_hlp_type_web_dir'] = "
-	U kunt hier de map specificeren waar phpAdsNew de banners moet opslaan.
+	U kunt hier de map specificeren waar ".$phpAds_productname." de banners moet opslaan.
 	Deze map moet te beschrijven zijn door PHP, wat mogelijk betekend dat u
 	de UNIX permissies van de map moet aanpassen (chmod). De map moet bereikbaar
 	zijn voor de webserver, zodat deze de banners direct kan aanbieden aan 
@@ -330,35 +330,35 @@ $GLOBALS['phpAds_hlp_type_web_dir'] = "
 		
 $GLOBALS['phpAds_hlp_type_web_ftp_host'] = "
 	Indien u gebruik maakt van de <i>Externe FTP server</i> methode moet u het
-	IP adres of de domeinnaam van de FTP server, waar phpAdsNew de banners op moet
+	IP adres of de domeinnaam van de FTP server, waar ".$phpAds_productname." de banners op moet
 	opslaan, opgeven.
 ";
       
 $GLOBALS['phpAds_hlp_type_web_ftp_path'] = "
 	Indien u gebruik maakt van de <i>Externe FTP server</i> methode moet u de map
-	opgeven op de FTP server, waar phpAdsNew de banners op moet opslaan, opgeven.
+	opgeven op de FTP server, waar ".$phpAds_productname." de banners op moet opslaan, opgeven.
 ";
       
 $GLOBALS['phpAds_hlp_type_web_ftp_user'] = "
 	Indien u gebruik maakt van de <i>Externe FTP server</i> methode moet u de
-	gebruikersnaam van de FTP server, waar phpAdsNew de banners op moet
+	gebruikersnaam van de FTP server, waar ".$phpAds_productname." de banners op moet
 	opslaan, opgeven.
 ";
       
 $GLOBALS['phpAds_hlp_type_web_ftp_password'] = "
 	Indien u gebruik maakt van de <i>Externe FTP server</i> methode moet u het
-	wachtwoord van de FTP server, waar phpAdsNew de banners op moet
+	wachtwoord van de FTP server, waar ".$phpAds_productname." de banners op moet
 	opslaan, opgeven.
 ";
       
 $GLOBALS['phpAds_hlp_type_web_url'] = "
-	Indien u banners opslaat op de webserver, moet u phpAdsNew laten weten waar
+	Indien u banners opslaat op de webserver, moet u ".$phpAds_productname." laten weten waar
 	de banners via de webserver te vinden zijn. U moet hier de URL opgeven van
 	de map die u eerder opgegeven heeft (zonder slash aan het einde).
 ";
 		
 $GLOBALS['phpAds_hlp_type_html_auto'] = "
-	Als deze optie aan staat zal phpAdsNew automatisch de HTML banners aanpassen,
+	Als deze optie aan staat zal ".$phpAds_productname." automatisch de HTML banners aanpassen,
 	zodat deze geschikt worden voor het bijhouden van AdClicks. Echter het is
 	nog steeds mogelijk om deze optie per banner uit te schakelen.
 ";
@@ -383,16 +383,16 @@ $GLOBALS['phpAds_hlp_pw2'] = "
 		
 $GLOBALS['phpAds_hlp_admin_fullname'] = "
         U kunt hier de volledige naam van de beheerder invullen. Deze naam wordt
-	gebruikt in de e-mails die phpAdsNew verstuurd.
+	gebruikt in de e-mails die ".$phpAds_productname." verstuurd.
 ";
 		
 $GLOBALS['phpAds_hlp_admin_email'] = "
 	U kunt hier het e-mail adres van de beheerder invullen. Dit adres zal
-	gebruikt worden als afzenden van alle e-mail die phpAdsNew verstuurd.
+	gebruikt worden als afzenden van alle e-mail die ".$phpAds_productname." verstuurd.
 ";
 		
 $GLOBALS['phpAds_hlp_admin_email_headers'] = "
-	U kunt in dit veld extra headers toevoegen aan de e-mail die phpAdsNew verstuurd.
+	U kunt in dit veld extra headers toevoegen aan de e-mail die ".$phpAds_productname." verstuurd.
 ";
 		
 $GLOBALS['phpAds_hlp_admin_novice'] = "
@@ -411,14 +411,14 @@ $GLOBALS['phpAds_hlp_client_welcome_msg'] = "
 ";
 		
 $GLOBALS['phpAds_hlp_updates_frequency'] = "
-	Indien u wilt dat phpAdsNew automatisch controleerd of er nieuwere versies
+	Indien u wilt dat ".$phpAds_productname." automatisch controleerd of er nieuwere versies
 	beschikbaar zijn kunt u hier instellen hoevaak deze controle wordt uitgevoerd.
 	Indien een nieuwe versie beschikbaar is zal er een nieuw venster verschijnen met
 	daarin extra informatie over de nieuwere versie.
 ";
 		
 $GLOBALS['phpAds_hlp_userlog_email'] = "
-	Indien u een kopie wilt bewaren van alle e-mail berichten die phpAdsNew verzend
+	Indien u een kopie wilt bewaren van alle e-mail berichten die ".$phpAds_productname." verzend
 	dan kunt u deze optie aanzetten. De e-mail berichten worden opgeslagen in de
 	gebruikers log.
 ";
@@ -427,7 +427,7 @@ $GLOBALS['phpAds_hlp_userlog_priority'] = "
 	Als u zeker wilt weten dat de prioriteit berekeningen correct verlopen zijn kunt u
 	een rapport hierover opslaan. Het rapport bevat het voorspelde profiel en hoe
 	de prioriteiten verdeeld zijn over de banners. Deze informatie is handig wanneer
-	u een fout wilt melden bij de makers van phpAdsNew. De rapporten worden opgeslagen
+	u een fout wilt melden bij de makers van ".$phpAds_productname.". De rapporten worden opgeslagen
 	in de gebruikers log.
 ";
 		
