@@ -22,9 +22,9 @@ if ($phpAds_config['proxy_lookup'])
 	
 	if (isset ($HTTP_SERVER_VARS['REMOTE_HOST']))
 	{
-		if (is_int (strpos ('proxy',   $HTTP_SERVER_VARS['REMOTE_HOST']))) $proxy = true;
-		if (is_int (strpos ('cache',   $HTTP_SERVER_VARS['REMOTE_HOST']))) $proxy = true;
-		if (is_int (strpos ('inktomi', $HTTP_SERVER_VARS['REMOTE_HOST']))) $proxy = true;
+		if (is_int (strpos ($HTTP_SERVER_VARS['REMOTE_HOST'], 'proxy')))	$proxy = true;
+		if (is_int (strpos ($HTTP_SERVER_VARS['REMOTE_HOST'], 'cache')))	$proxy = true;
+		if (is_int (strpos ($HTTP_SERVER_VARS['REMOTE_HOST'], 'inktomi')))	$proxy = true;
 	}
 	
 	if ($proxy)
