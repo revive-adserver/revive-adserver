@@ -80,6 +80,8 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Moved weekly stats to the history pages and it is now 
 			    every object which has a history page, instead of campaigns only  (Niels) 20020203
 			  - Added graphs to every history page  (Niels) 20020203
+			  - Optimised ignore_hosts function so only two regular expressions 
+			    are used in total, instead of 3 for each listed host.  (Niels) 20020206
 
 
 			+ Misc bugfixes

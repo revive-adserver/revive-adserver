@@ -98,37 +98,20 @@ function phpads_logCheckHost()
 	global $phpAds_config;
 	global $REMOTE_HOST, $REMOTE_ADDR;
 	
-	$found = 0;
-	
-	reset($phpAds_config['ignore_hosts']);
-	
-	while (($found == 0) && (list (, $h) = each($phpAds_config['ignore_hosts'])))
+	if (count($phpAds_config['ignore_hosts']))
 	{
-		if (ereg("^([0-9]{1,3}\.){1,3}([0-9]{1,3}|\*)$", $h))
-		{
-			// It's an IP address, evenually with a wildcard, so I create a regexp
-			$h = str_replace(".", '\.', str_replace("*$", "", "^".$h."$"));
-			
-			if (ereg($h, $REMOTE_ADDR))
-				$found = 1;
-		}
-		elseif (eregi("^(\*\.)?([a-z0-9-]+\.)*[a-z0-9-]+$", $h))
-		{
-			// It's an host name, evenually with a wildcard, so I create a regexp
-			$h = str_replace(".", '\.', str_replace("^*", "", "^".$h."$"));
-						
-			if (eregi($h, $REMOTE_HOST))
-				$found = 1;
-		}
-		elseif (eregi($REMOTE_HOST."|".$REMOTE_ADDR, $h)) // This check is backwards compatibile
-				$found = 1;
+		$hosts = "(".implode ('|',$phpAds_config['ignore_hosts']).")$";
+		$hosts = str_replace (".", '\.', $hosts);
+		$hosts = str_replace ("*", '[^.]+', $hosts);
+		
+		if (eregi($hosts, $REMOTE_ADDR))
+			return false;
+		
+		if (eregi($hosts, $REMOTE_HOST))
+			return false;
 	}
 	
-	// Returns hostname or IP address if OK, false if host is ignored
-	if ($found)
-		return false;
-	else
-		return $phpAds_config['reverse_lookup'] ? $REMOTE_HOST : $REMOTE_ADDR;
+	return $phpAds_config['reverse_lookup'] ? $REMOTE_HOST : $REMOTE_ADDR;
 }
 
 
