@@ -20,10 +20,29 @@ include('../language/'.$phpAds_config['language'].'/maintenance.lang.php');
 
 function phpAds_MaintenanceSelection($section)
 {
+	global $phpAds_config;
 	global $phpAds_settings_sections;
 	global $phpAds_TextDirection;
-	global $strChooseSection, $strPriority, $strZones, $strBanners, $strStats;
+	global $strChooseSection, $strPriority, $strZones, $strBanners, $strStats, $strStorage;
 	
+	
+	if ($phpAds_config['compact_stats'])
+	{
+		// Determine left over verbose stats
+		$viewresult = phpAds_dbQuery("SELECT COUNT(*) AS cnt FROM ".$phpAds_config['tbl_adviews']);
+		$viewrow = phpAds_dbFetchArray($viewresult);
+		if (isset($viewrow["cnt"]) && $viewrow["cnt"] != '')
+			$verboseviews = $viewrow["cnt"];
+		else
+			$verboseviews = 0;
+		
+		$clickresult = phpAds_dbQuery("SELECT COUNT(*) AS cnt FROM ".$phpAds_config['tbl_adclicks']);
+		$clickrow = phpAds_dbFetchArray($viewresult);
+		if (isset($clickrow["cnt"]) && $clickrow["cnt"] != '')
+			$verboseclicks = $clickrow["cnt"];
+		else
+			$verboseclicks = 0;
+	}
 ?>
 <script language="JavaScript">
 <!--
@@ -44,8 +63,17 @@ function maintenance_goto_section()
 	
 	echo "<option value='banners'".($section == 'banners' ? ' selected' : '').">".$strBanners."</option>";
 	echo "<option value='priority'".($section == 'priority' ? ' selected' : '').">".$strPriority."</option>";
-	echo "<option value='stats'".($section == 'stats' ? ' selected' : '').">".$strStats."</option>";
-	echo "<option value='zones'".($section == 'zones' ? ' selected' : '').">".$strZones."</option>";
+	
+	if ($verboseviews > 0 || $verboseclicks > 0)
+		echo "<option value='stats'".($section == 'stats' ? ' selected' : '').">".$strStats."</option>";
+	
+	if ($phpAds_config['type_web_allow'] == true && (($phpAds_config['type_web_mode'] == 0 && 
+	    $phpAds_config['type_web_dir'] != '') || ($phpAds_config['type_web_mode'] == 1 && 
+	    $phpAds_config['type_web_ftp'] != '')) && $phpAds_config['type_web_url'] != '')
+		echo "<option value='storage'".($section == 'storage' ? ' selected' : '').">".$strStorage."</option>";
+	
+	if ($phpAds_config['zone_cache'])
+		echo "<option value='zones'".($section == 'zones' ? ' selected' : '').">".$strZones."</option>";
     
 	echo "</select>&nbsp;<a href='javascript:void(0)' onClick='maintenance_goto_section();'>";
 	echo "<img src='images/".$phpAds_TextDirection."/go_blue.gif' border='0'></a>";
