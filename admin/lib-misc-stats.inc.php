@@ -345,7 +345,8 @@ if ($type == 'c')
 	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";	
 	
 	echo "</table>";
-	echo "<br><br><br>";
+	echo "<br><br>";
+	echo "<br><br>";
 	
 	
 	// Header
