@@ -194,8 +194,9 @@ if (isset($submit))
 					$edit_swf = true;
 				}
 				
-				// Add slashes to the file for storage
+				// Store the file
 				$final['filename'] = phpAds_ImageStore($storagetype, $final['filename'], $buffer);
+				$final['imageurl'] = $phpAds_config['url_prefix'].'/adimage.php?filename='.$final['filename']."&contenttype=".$final['contenttype'];
 				
 				// Cleanup existing image, if it exists
 				if (isset($current['filename']) && $current['filename'] != '' && $current['filename'] != $final['filename'])
@@ -205,6 +206,7 @@ if (isset($submit))
 			{
 				$final['contenttype'] = $current['contenttype'];
 				$final['filename'] = $current['filename'];
+				$final['imageurl'] = $current['imageurl'];
 				$final['width']  = $width;
 				$final['height'] = $height;
 			}
@@ -277,6 +279,8 @@ if (isset($submit))
 				
 				// Add slashes to the file for storage
 				$final['filename'] = phpAds_ImageStore($storagetype, $final['filename'], $buffer);
+				$final['imageurl'] = $phpAds_config['type_web_url'].'/'.$final['filename'];
+				
 				if ($final['filename'] == false)
 				{
 					phpAds_PageHeader("1");
@@ -328,7 +332,7 @@ if (isset($submit))
 			break;
 		
 		case 'url':
-			$ext = parse_url($banner);
+			$ext = parse_url($imageurl);
 			$ext = $ext['path'];
 			$ext = substr($ext, strrpos($ext, ".") + 1);
 			switch (strtolower($ext)) 
@@ -339,9 +343,12 @@ if (isset($submit))
 				case 'png':  $final['contenttype'] = 'png';   break;
 				case 'gif':  $final['contenttype'] = 'gif';   break;
 				case 'swf':  $final['contenttype'] = 'swf';   break;
+				default:  	 $final['contenttype'] = 'gif';   break;
 			}
 			
-			$final['filename'] 	  = $banner;
+			$final['filename']	  = '';
+			$final['imageurl'] 	  = $imageurl;
+			
 			$final['width'] 	  = $width;
 			$final['height'] 	  = $height;
 			
@@ -377,10 +384,13 @@ if (isset($submit))
 			break;
 		
 		case 'html';
-			$final['width'] 	  = $width;
-			$final['height'] 	  = $height;
+			$final['filename']	  = '';
+			$final['imageurl'] 	  = '';
 			$final['alt'] 		  = '';
 			$final['bannertext']  = '';
+			
+			$final['width'] 	  = $width;
+			$final['height'] 	  = $height;
 			$final['autohtml'] 	  = $autohtml;
 			$final['url'] 		  = $url;
 			$final['contenttype'] = 'html';
@@ -394,11 +404,14 @@ if (isset($submit))
 			break;
 		
 		case 'network';
-			$final['width'] 	  = $width;
-			$final['height'] 	  = $height;
+			$final['filename']	  = '';
+			$final['imageurl'] 	  = '';
 			$final['alt'] 		  = '';
 			$final['bannertext']  = '';
 			$final['url'] 		  = '';
+			
+			$final['width'] 	  = $width;
+			$final['height'] 	  = $height;
 			$final['contenttype'] = 'html';
 			$final['storagetype'] = $storagetype;
 			
@@ -974,7 +987,7 @@ if ($storagetype == 'url')
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strNewBannerURL."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='banner' style='width:350px;' value='".$row["filename"]."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='imageurl' style='width:350px;' value='".$row["imageurl"]."'></td></tr>";
 	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
