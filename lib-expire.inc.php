@@ -130,16 +130,16 @@ function phpAds_warningMail ($campaign)
 			
 			if ($phpAds_config['warn_admin'])
 			{
-				$To = '"'.$phpAds_config['admin_fullname'].'" <'.$phpAds_config['admin_email'].'>';
-				$Headers2 = $Headers.(!get_cfg_var('SMTP') ? "" : "To: $To");
+				$To = !get_cfg_var('SMTP') ? '"'.$phpAds_config['admin_fullname'].'" <'.$phpAds_config['admin_email'].'>' : $client["email"];
+				$Headers2 = !get_cfg_var('SMTP') ? "" : '\r\nTo: "'.$phpAds_config['admin_fullname'].'" <'.$phpAds_config['admin_email'].">"; 				
 				@mail($To, $Subject, $Body, $Headers2);
 			}
 			
 			if ($client["email"] != '')
 			{
-				$To = '"'.$client["contact"].'" <'.$client["email"].'>';
-				$Headers2 = $Headers.(!get_cfg_var('SMTP') ? "" : "To: $To");
-				
+				$To = !get_cfg_var('SMTP') ? '"'.$client["contact"].'" <'.$client["email"].'>' : $client["email"];
+				$Headers2 = !get_cfg_var('SMTP') ? "" : '\r\nTo: "'.$client["contact"].'" <'.$client["email"].">"; 				
+
 				if ($phpAds_config['warn_client'])
 					@mail($To, $Subject, $Body, $Headers2);
 			}
@@ -173,14 +173,14 @@ function phpAds_deactivateMail ($campaign)
 				include (phpAds_path."/language/".$phpAds_config['language']."/default.lang.php");
 			
 			$Subject = $strMailSubjectDeleted.": ".$campaign["clientname"];
-			$To = '"'.$client["contact"].'" <'.$client["email"].'>';
+			$To = !get_cfg_var('SMTP') ? '"'.$client["contact"].'" <'.$client["email"].'>' : $client["email"];
 			
 			$Headers = "Content-Transfer-Encoding: 8bit\r\n";
 			
 			if (isset($phpAds_CharSet))
 				$Headers .= "Content-Type: text/plain; charset=".$phpAds_CharSet."\r\n"; 
 			
-			$Headers .= !get_cfg_var('SMTP') ? "" : "To: $To\r\n";
+			$Headers .= !get_cfg_var('SMTP') ? "" : 'To: "'.$client["contact"].'" <'.$client["email"].">\r\n"; 			
 			$Headers .= "From: ".$phpAds_config['admin_fullname']." <".$phpAds_config['admin_email'].">\r\n";
 			if (!empty($phpAds_config['admin_email_headers']))
 				$Headers .= "\r\n".$phpAds_config['admin_email_headers'];

@@ -103,14 +103,14 @@ while($client = phpAds_dbFetchArray($res_clients))
 				if ($client["email"] != '' && $client["reportdeactivate"] == 't')
 				{
 					$Subject = $strMailSubjectDeleted.": ".$campaign["clientname"];
-					$To = '"'.$client["contact"].'" <'.$client["email"].'>';
+					$To = !get_cfg_var('SMTP') ? '"'.$client["contact"].'" <'.$client["email"].'>' : $client["email"];
 					
 					$Headers = "Content-Transfer-Encoding: 8bit\r\n";
 					
 					if (isset($phpAds_CharSet))
 						$Headers .= "Content-Type: text/plain; charset=".$phpAds_CharSet."\r\n"; 
 					
-					$Headers .= !get_cfg_var('SMTP') ? "" : "To: $To\r\n";
+					$Headers .= !get_cfg_var('SMTP') ? "" : 'To: "'.$client["contact"].'" <'.$client["email"].">\r\n"; 			
 					$Headers .= "From: ".$phpAds_config['admin_fullname']." <".$phpAds_config['admin_email'].">\r\n";
 					if (!empty($phpAds_config['admin_email_headers']))
 						$Headers .= "\r\n".$phpAds_config['admin_email_headers'];
