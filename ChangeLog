@@ -63,6 +63,8 @@ CVS			+ Added support for zones  (Niels)
 			  - Added Swedish language files  (Patrik Grip-Jansson)
 			  - Added Chinese language files  (Yen-Shuo Su)
 			  - Added Turkish language files  (Mesut Tunga)
+			  - Added Danish language files  (Lars Petersen)
+			  - Dropped support for Czech and Romanian  (Niels)
 	
 			+ Misc changes
 			  - Changed all occurances of <? to <?php  (Niels)
@@ -72,6 +74,8 @@ CVS			+ Added support for zones  (Niels)
 			  - Rearanged directory structure for the manual, to make room
 			    for the german translation provided by René Friedrich  (Niels)
 			  - Moved JS code from view.inc.php to adjs.php file  (Niels)
+			  - Removed clients from stats-index.php for client interface, now only
+			    shows a list of campaigns  (Niels)
 
 			+ Misc bugfixes
 			  - Fixed quote problem with banner-text, alt and description fields  (Niels)
