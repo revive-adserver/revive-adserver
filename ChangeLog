@@ -5,8 +5,8 @@ phpAdsNew - ChangeLog
 			+ All files have new indents to make viewing and developing easier. Read DEVELOPERS for more info.
 			+ sphourly.php changed to reflect changes in weeklystats (Martin Braun)
 			+ Updated documentation.html with explanation about remotehtmlview (me)
-			+ Bugfix: kcsm.php had 2 quotes missing and 1 too many
-			+ Bugfix: client.php now has client-side JavaScript to detect bad entries in views/clicks/daysleft
+			+ Bugfix: kcsm.php had 2 quotes missing and 1 too many (me)
+			+ Bugfix: client.php now has client-side JavaScript to detect bad entries in views/clicks/daysleft (me)
 			+ Bugfix: mail.php doesn't deactive clients anymore (sypplie)
 			+ Bugfix: Authentication required for detailstats now. (me)
 			+ Bugfix: forgot banner in creditstats.php. HTML-banners will show now. (me)

@@ -1,3 +1,11 @@
+phpAdsNew 1.6.x or 1.7.x -> phpAdsNew 1.8
+
+config.inc.php has a few new parameters you should set.
+
+
+-----------------------
+
+
 phpAdsNew 1.4.x or 1.5.x -> phpAdsNew 1.6
 
 phpAdsNew 1.6 has a slightly modified acl table. You are advised to either reinstall your tables or make these changes
