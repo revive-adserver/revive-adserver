@@ -313,9 +313,9 @@ else
 <? if ($dhtml) { ?>
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 	<tr><td height='25' colspan='3'><b><?echo $strChooseBanner;?></b></td></tr>
-	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-	<tr height='35'>
-		<td>
+	<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+	<tr>
+		<td height='35'>
 			<select name='bannertype' onChange='show(this.selectedIndex+1);'>
 				<option value='mysql'<?if ($type == "mysql") echo " selected";?>><?echo $strMySQLBanner;?></option>
 				<option value='url'<?if ($type == "url") echo " selected";?>><?echo $strURLBanner;?></option>
@@ -337,8 +337,8 @@ else
 		<input type='radio' name='bannertype' value='mysql'<?if ($type == "mysql") echo " checked";?>>
 		<b><?echo $strMySQLBanner;?></b></td></tr>
 	<? } ?>
-	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-	<tr height='10'><td colspan='3'>&nbsp;</td></tr>
+	<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
 
 	<tr>
 		<td width='30'>&nbsp;</td>
@@ -373,8 +373,8 @@ else
 		<td><input size="35" type="text" name="mysql_bannertext" style="width:350px;" value="<?if (isset($type) && $type == "mysql") echo $row["bannertext"];?>"></td>
 	</tr>
 
-	<tr height='20'><td colspan='3'>&nbsp;</td></tr>
-	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+	<tr><td height='20' colspan='3'>&nbsp;</td></tr>
+	<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 </table>
 <? if ($dhtml) { ?></div><? } else { ?><br><br><? } ?>
 
@@ -388,8 +388,8 @@ else
 		<input type='radio' name='bannertype' value='url'<?if ($type == "url") echo " checked";?>>
 		<b><?echo $strURLBanner;?></b></td></tr>
 	<? } ?>
-	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-	<tr height='10'><td colspan='3'>&nbsp;</td></tr>
+	<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
 
 	<tr>
 		<td width='30'>&nbsp;</td>
@@ -428,8 +428,8 @@ else
 		</td>
 	</tr>
 
-	<tr height='20'><td colspan='3'>&nbsp;</td></tr>
-	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+	<tr><td height='20' colspan='3'>&nbsp;</td></tr>
+	<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 </table>
 <? if ($dhtml) { ?></div><? } else { ?><br><br><? } ?>
 
@@ -443,8 +443,8 @@ else
 		<input type='radio' name='bannertype' value='html'<?if ($type == "html") echo " checked";?>>
 		<b><?echo $strURLBanner;?></b></td></tr>
 	<? } ?>
-	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-	<tr height='10'><td colspan='3'>&nbsp;</td></tr>
+	<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
 	
 	<tr>
 		<td width='30'>&nbsp;</td>
@@ -474,8 +474,8 @@ else
 		</td>
 	</tr>
 
-	<tr height='20'><td colspan='3'>&nbsp;</td></tr>
-	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+	<tr><td height='20' colspan='3'>&nbsp;</td></tr>
+	<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 </table>
 <? if ($dhtml) { ?></div><? } else { ?><br><br><? } ?>
 
@@ -483,9 +483,9 @@ else
 <? if (phpAds_isUser(phpAds_Admin)) { ?>
 <? if (!$dhtml) { ?>
 	<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><b><?echo $strGeneralSettings;?></b></td></tr>
-	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+	<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 <? } ?>
-	<tr height='10'><td colspan='3'>&nbsp;</td></tr>
+	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
 	<tr>
 		<td width='30'>&nbsp;</td>	
 		<td width='200'><?echo $strKeyword;?></td>
@@ -509,16 +509,16 @@ else
 		<td width='200'><?echo $strWeight;?></td>
     	<td><input size="6" type="text" name="weight" value="<?if(isset($row["weight"])){echo $row["weight"];}else{print "1";}?>"></td>
 	</tr>
-	<tr height='10'><td colspan='3'>&nbsp;</td></tr>
-	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
+	<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 	
 </table>
 <br><br>
 <? } ?>
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
-	<tr height='35'>
-		<td colspan='3'><input type="submit" name="submit" value="<?echo $strSubmit;?>"></td>
+	<tr>
+		<td height='35' colspan='3'><input type="submit" name="submit" value="<?echo $strSubmit;?>"></td>
 	</tr>
 </table>
 </form>

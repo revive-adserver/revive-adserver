@@ -56,61 +56,49 @@ function showaclrow($row, $total, $update, $count=1)
 	$bgcolor = $count % 2 == 0 ? "#F6F6F6" : "#FFFFFF";
 	
 	?>
-	<TR height='35' bgcolor='<?echo $bgcolor?>'>
-		<FORM action="<?echo basename($PHP_SELF);?>" method="GET">
-		<TD>
-			<INPUT type="hidden" name="clientID" value="<? echo $clientID; ?>">
-			<INPUT type="hidden" name="bannerID" value="<? print $row['bannerID']; ?>">
-			<INPUT type="hidden" name="acl_order" value="<? print $row['acl_order']; ?>">
-			<INPUT type="hidden" name="update" value="<? print $update; ?>">
-			<?
-			acltypeselect(isset($row['acl_type']) ? $row['acl_type'] : ""); 
-			?>
-		</TD>
-		<TD>
-		<?
-		acladselect(isset($row['acl_ad']) ? $row['acl_ad']: ""); 
-		?>
-		</TD>
-		<TD>
-			<INPUT type="text" size="25" name="acl_data" value="<? print isset($row['acl_data']) ? $row['acl_data'] : ""; ?>">
-		</TD>
-		<TD>
-		<? 
-		if ($row['acl_order'] && $row['acl_order'] < $total) 
-		{
-			?>
-			<INPUT type="submit" name="submit" value="<?print $strUp?>">
-			<? 
-		} 
-		?>
-		</TD>
-		<TD>
-		<?
-		if ($row['acl_order'] < $total - 1) 
-		{
-			?>
-			<INPUT type="submit" name="submit" value="<?print $strDown?>">
-			<?
-		}
-		?>
-		</TD>
-		<TD>
-			<INPUT type="submit" name="submit" value="<?print $strSave?>">
-		</TD>
-		<TD>
-		<?
-		if ($row['acl_order'] < $total) 
-		{
-			?>
-			<INPUT type="submit" name="submit" value="<?print $strDelete?>">
-			<?
-		} 
-		?>
-		</TD>
-		</FORM>
-	</TR>
-	<tr height='1'><td colspan='7' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+	<tr bgcolor='<?echo $bgcolor?>'>
+		<form action="<?echo basename($PHP_SELF);?>" method="get">
+		<input type="hidden" name="clientID" value="<? echo $clientID; ?>">
+		<input type="hidden" name="bannerID" value="<? print $row['bannerID']; ?>">
+		<input type="hidden" name="acl_order" value="<? print $row['acl_order']; ?>">
+		<input type="hidden" name="update" value="<? print $update; ?>">
+
+		<td height='35'>
+			&nbsp;<? acltypeselect(isset($row['acl_type']) ? $row['acl_type'] : ""); ?>
+		</td>
+		<td height='35'>
+			<? acladselect(isset($row['acl_ad']) ? $row['acl_ad']: ""); ?>
+		</td>
+		<td height='35'>
+			<input type="text" size="15" name="acl_data" value="<? print isset($row['acl_data']) ? $row['acl_data'] : ""; ?>">
+		</td>
+		<td height='35'>
+			<? if ($row['acl_order'] && $row['acl_order'] < $total) { ?>
+				<input type="submit" name="submit" value="<?print $strUp?>">
+			<? } else { ?>
+				&nbsp;
+			<? } ?>
+		</td>
+		<td height='35'>
+			<? if ($row['acl_order'] < $total - 1) { ?>
+				<input type="submit" name="submit" value="<?print $strDown?>">
+			<? } else { ?>
+				&nbsp;
+			<? } ?>
+		</td>
+		<td height='35'>
+			<input type="submit" name="submit" value="<?print $strSave?>">
+		</td>
+		<td height='35'>
+			<? if ($row['acl_order'] < $total) { ?>
+				<input type="submit" name="submit" value="<?print $strDelete?>">
+			<? } else { ?>
+				&nbsp;
+			<? } ?>
+		</td>
+		</form>
+	</tr>
+	<tr><td height='1' colspan='7' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 	<?
 }
 ?>

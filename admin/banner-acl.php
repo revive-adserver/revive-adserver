@@ -201,7 +201,7 @@ if ($count > 0)
 {
 	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 	echo "<tr><td height='25' colspan='7'><b>$strACLExist</b></td></tr>";
-	echo "<tr height='1'><td colspan='7' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	echo "<tr><td height='1' colspan='7' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	
 	$i = 0;
 	while ($row = mysql_fetch_array($res))	// acl array already sorted by select
@@ -210,16 +210,13 @@ if ($count > 0)
 		$i++;
 	}
 	
-	echo "</table>";
-	echo "<br><br>";
 }
 
 ?>
 
-
-<table border='0' width='100%' cellpadding='0' cellspacing='0'>
+	<tr><td height='35' colspan='7'>&nbsp;</td></tr>
 	<tr><td height='25' colspan='7'><b><? echo $strACLAdd; ?></b></td></tr>
-	<tr height='1'><td colspan='7' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+	<tr><td height='1' colspan='7' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 	<?
 	$newdata['acl_order'] = $count;
 	$newdata['bannerID'] = $bannerID;

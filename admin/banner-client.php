@@ -112,7 +112,7 @@ else
 			<?echo $strKeyword;?>: <b><?echo $row["keyword"];?></b>
 		</td>
 		<td height='25' bgcolor="<?echo $bgcolor;?>" align="Left">
-			<?echo $row["url"];?>
+			<?echo $row["url"];?>&nbsp;
 		</td>
 	</tr>
 	<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
