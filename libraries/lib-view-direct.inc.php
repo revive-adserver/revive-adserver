@@ -25,11 +25,35 @@ function phpAds_fetchBannerDirect($remaining, $clientid = 0, $context = 0, $sour
 {
 	global $phpAds_config, $HTTP_COOKIE_VARS;
 	
-	
 	// Get first part, store second part
 	$what = strtok($remaining, '|');
 	$remaining = strtok ('');
+	
+	
+	// Expand paths to regular statements
+	if (strpos($what, '/') > 0)
+	{
+		if (strpos($what, '@') > 0)
+			list ($what, $append) = explode ('@', $what);
+		else
+			$append = '';
+		
+		$seperate  = explode ('/', $what);
+		$expanded  = '';
+		$collected = array();
+		
+		while (list(,$v) = each($seperate))
+		{
+			$expanded .= ($expanded != '' ? ',+' : '') . $v;
+			$collected[] = $expanded . ($append != '' ? ',+'.$append : '');
+		}
+		
+		$what = strtok(implode('|', array_reverse ($collected)), '|');
+		$remaining = strtok('').($remaining != '' ? '|'.$remaining : '');
+	}
+	
 	$cacheid = 'what='.$what.'&clientid='.$clientid.'&remaining='.($remaining == '' ? 'true' : 'false');
+	
 	
 	
 	// Get cache
