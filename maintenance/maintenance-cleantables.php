@@ -18,7 +18,7 @@
 require	(phpAds_path."/lib-cleantables.inc.php"); 
 
 
-$report = ''
+$report = '';
 
 if ($phpAds_config['auto_clean_tables'])
 	$report .= phpAds_cleanTables($phpAds_config['auto_clean_tables_interval'], true);
