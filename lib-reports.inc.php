@@ -201,7 +201,6 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 				    				day
 				    			ORDER BY
 				    				day DESC
-				    			LIMIT 7
 				    			") or die("$strLogErrorClicks ".phpAds_dbError());
 				        else
 				            $res_adclicks = phpAds_dbQuery("
