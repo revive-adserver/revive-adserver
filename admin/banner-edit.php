@@ -848,9 +848,14 @@ if ($bannerid != '')
 			while (eregi("alink([0-9]+)=\{targeturl:([^\}]+)\}", $buffer, $regs))
 			{
 				if (strpos($regs[2], '|source:') != false)
+				{
 					list ($hardcoded_links[$regs[1]], $hardcoded_sources[$regs[1]]) = explode ('|source:', $regs[2]);
+				}
 				else
+				{
 					$hardcoded_links[$regs[1]] = $regs[2];
+					$hardcoded_sources [$regs[1]] = '';
+				}
 				
 				$buffer = str_replace ($regs[0], '', $buffer);
 			}
@@ -889,6 +894,7 @@ else
 	
 	$hardcoded_links = array();
 	$hardcoded_targets = array();
+	$hardcoded_sources = array();
 }
 
 
