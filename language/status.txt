@@ -34,8 +34,8 @@ English
 French
 	---------------------------------------------------------
 	Maintained by:	   Vincent Zanotti (amidebx@users.sourceforge.net)
-	Is up-to-date?	   No
-	Last update:	   28 October 2002
+	Is up-to-date?	   Yes
+	Last update:	   31 October 2002
 	Translated files:  7
 	---------------------------------------------------------
 
@@ -74,8 +74,8 @@ Italian
 Polish
 	---------------------------------------------------------
 	Maintained by:	   Michael Paluchowski
-	Is up-to-date?	   No
-	Last update:	   21 September 2002
+	Is up-to-date?	   Yes
+	Last update:	   31 October 2002
 	Translated files:  7
 	---------------------------------------------------------
 
