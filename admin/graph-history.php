@@ -112,6 +112,7 @@ if (isset($where))
 if ($period == 'd')
 {
 	$formatted   = $date_format;
+	$unformatted = "%d%m%Y";
 	$returnlimit = $limit;
 	
 	$begin_timestamp = mktime(0, 0, 0, date('m'), date('d') - $limit + 1 - $start, date('Y'));
@@ -121,6 +122,7 @@ if ($period == 'd')
 if ($period == 'w')
 {
 	$formatted   = $date_format;
+	$unformatted = "%d%m%Y";
 	$returnlimit = $limit * 7;
 	
 	$shift = date('w') - ($phpAds_config['begin_of_week'] ? 1 - (date('w') == 0 ? 7 : 0) : 0);
@@ -131,6 +133,7 @@ if ($period == 'w')
 if ($period == 'm')
 {
 	$formatted   = $month_format;
+	$unformatted = "%m%Y";
 	$returnlimit = $limit;
 	
 	$begin_timestamp = mktime(0, 0, 0, date('m') - $limit + 1 - $start, 1, date('Y'));
@@ -153,16 +156,17 @@ if ($phpAds_config['compact_stats'])
 		SELECT
 			sum(views) AS sum_views,
 			sum(clicks) AS sum_clicks,
-			DATE_FORMAT(day, '".$formatted."') AS date
+			DATE_FORMAT(day, '".$formatted."') AS date,
+			DATE_FORMAT(day, '".$unformatted."') AS date_u
 		FROM
 			".$phpAds_config['tbl_adstats']."
 		WHERE
 			day >= $begin AND day < $end
 			".(isset($where) ? 'AND '.$where : '')."
 		GROUP BY
-			day
+			date_u
 		ORDER BY
-			day DESC
+			date_u DESC
 		LIMIT 
 			$returnlimit
 	");
@@ -182,16 +186,17 @@ else
 	$result = phpAds_dbQuery("
 		SELECT
 			COUNT(*) AS sum_views,
-			DATE_FORMAT(t_stamp, '".$formatted."') AS date
+			DATE_FORMAT(t_stamp, '".$formatted."') AS date,
+			DATE_FORMAT(t_stamp, '".$unformatted."') AS date_u
 		FROM
 			".$phpAds_config['tbl_adviews']."
 		WHERE
 			t_stamp >= $begin AND t_stamp < $end
 			".(isset($where) ? 'AND '.$where : '')."
 		GROUP BY
-			date
+			date_u
 		ORDER BY
-			t_stamp DESC
+			date_u DESC
 		LIMIT 
 			$returnlimit
 	");
@@ -206,16 +211,17 @@ else
 	$result = phpAds_dbQuery("
 		SELECT
 			COUNT(*) AS sum_clicks,
-			DATE_FORMAT(t_stamp, '".$formatted."') AS date
+			DATE_FORMAT(t_stamp, '".$formatted."') AS date,
+			DATE_FORMAT(t_stamp, '".$unformatted."') AS date_u
 		FROM
 			".$phpAds_config['tbl_adclicks']."
 		WHERE
 			t_stamp >= $begin AND t_stamp < $end
 			".(isset($where) ? 'AND '.$where : '')."
 		GROUP BY
-			date
+			date_u
 		ORDER BY
-			t_stamp DESC
+			date_u DESC
 		LIMIT 
 			$returnlimit
 	");
@@ -307,6 +313,5 @@ if ($period == 'w')
 
 // Build the graph
 include('lib-graph.inc.php');
-//var_dump($items);
 
 ?>
