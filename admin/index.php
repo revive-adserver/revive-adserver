@@ -41,7 +41,7 @@ if (phpAds_isUser(phpAds_Client))
 
 if (phpAds_isUser(phpAds_Affiliate))
 {
-	Header("Location: ".$phpAds_config['url_prefix']."/admin/zone-index.php");
+	Header("Location: ".$phpAds_config['url_prefix']."/admin/stats-affiliate-zones.php");
 	exit;
 }
 
