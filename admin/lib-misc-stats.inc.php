@@ -221,8 +221,10 @@ if ($type == 's')
 if ($type == 'c')
 {
 	require	(phpAds_path."/admin/resources/res-iso3166.inc.php"); 
+	require	(phpAds_path."/admin/resources/res-continent.inc.php"); 
 	
 	$countries = array();
+	$continents = array();
 	
 	// Get the adviews/clicks for each banner
 	$res_stats = phpAds_dbQuery("
@@ -245,6 +247,16 @@ if ($type == 'c')
 		{
 			$countries[$row_stats['country']]['views']  = $row_stats['views'];
 			$countries[$row_stats['country']]['clicks'] = 0;
+		}
+		
+		if (isset($continents[$phpAds_continent[$row_stats['country']]]))
+		{
+			$continents[$phpAds_continent[$row_stats['country']]]['views'] += $row_stats['views'];
+		}
+		else
+		{
+			$continents[$phpAds_continent[$row_stats['country']]]['views']  = $row_stats['views'];
+			$continents[$phpAds_continent[$row_stats['country']]]['clicks'] = 0;
 		}
 	}
 	
@@ -270,9 +282,71 @@ if ($type == 'c')
 			$countries[$row_stats['country']]['clicks']  = $row_stats['clicks'];
 			$countries[$row_stats['country']]['views'] = 0;
 		}
+		
+		if (isset($continents[$phpAds_continent[$row_stats['country']]]))
+		{
+			$continents[$phpAds_continent[$row_stats['country']]]['clicks'] += $row_stats['clicks'];
+		}
+		else
+		{
+			$continents[$phpAds_continent[$row_stats['country']]]['clicks']  = $row_stats['clicks'];
+			$continents[$phpAds_continent[$row_stats['country']]]['views'] = 0;
+		}
 	}
 	
 	arsort ($countries);
+	arsort ($continents);
+	
+	// Header
+	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+	echo "<tr bgcolor='#FFFFFF' height='25'>";
+	echo "<td align='".$phpAds_TextAlignLeft."' nowrap height='25'>&nbsp;<b>".$strContinent."</b></td>";
+	echo "<td width='20%' align='".$phpAds_TextAlignRight."' nowrap height='25'><b>".$strViews."</b></td>";
+	echo "<td width='20%' align='".$phpAds_TextAlignRight."' nowrap height='25'><b>".$strClicks."</b></td>";
+	echo "<td width='20%' align='".$phpAds_TextAlignRight."' nowrap height='25'><b>".$strCTRShort."</b>&nbsp;&nbsp;</td>";
+	echo "</tr>";
+	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	
+	$totals['clicks'] = 0;
+	$totals['views']  = 0;
+	
+	$i = 0;
+	reset ($continents);
+	while (list($key, $value) = each ($continents))
+	{
+		$bgcolor = "#FFFFFF";
+		$i % 2 ? 0 : $bgcolor = "#F6F6F6";
+		
+		echo "<tr><td height='25' bgcolor='$bgcolor'>&nbsp;";
+		echo $key != '' ? $phpAds_cont_name[$key] : $strUnknown;
+		echo "</td>";
+		echo "<td align='".$phpAds_TextAlignRight."' height='25' bgcolor='$bgcolor'>".phpAds_formatNumber($value['views'])."</td>";
+		echo "<td align='".$phpAds_TextAlignRight."' height='25' bgcolor='$bgcolor'>".phpAds_formatNumber($value['clicks'])."</td>";
+		echo "<td align='".$phpAds_TextAlignRight."' height='25' bgcolor='$bgcolor'>".phpAds_buildCTR($value['views'], $value['clicks'])."&nbsp;&nbsp;</td>";
+		echo "</tr>";
+		
+		echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";	
+		
+		$totals['clicks'] += $value['clicks'];
+		$totals['views']  += $value['views'];
+		
+		$i++;
+	}
+	
+	$bgcolor = "#FFFFFF";
+	$i % 2 ? 0 : $bgcolor = "#F6F6F6";
+	
+	echo "<tr><td height='25' bgcolor='$bgcolor'>&nbsp;";
+	echo "<b>".$strTotal."</b></td>";
+	echo "<td align='".$phpAds_TextAlignRight."' height='25' bgcolor='$bgcolor'>".phpAds_formatNumber($totals['views'])."</td>";
+	echo "<td align='".$phpAds_TextAlignRight."' height='25' bgcolor='$bgcolor'>".phpAds_formatNumber($totals['clicks'])."</td>";
+	echo "<td align='".$phpAds_TextAlignRight."' height='25' bgcolor='$bgcolor'>".phpAds_buildCTR($totals['views'], $totals['clicks'])."&nbsp;&nbsp;</td>";
+	echo "</tr>";
+	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";	
+	
+	echo "</table>";
+	echo "<br><br><br>";
+	
 	
 	// Header
 	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
