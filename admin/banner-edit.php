@@ -226,8 +226,6 @@ if (isset($submit))
 
 if ($bannerID != '')
 {
-	phpAds_PageHeader("$strModifyBanner");
-	
 	$extra = '';
 	
 	$res = db_query("
@@ -266,11 +264,11 @@ if ($bannerID != '')
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/caret-rs.gif'>&nbsp;<a href=stats-weekly.php?clientID=$clientID>$strWeeklyStats</a><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		
-		phpAds_ShowNav("1.3.2", $extra);
+		phpAds_PageHeader("4.1.2", $extra);
 	}
 	else
 	{
-		phpAds_ShowNav("2.4", $extra);
+		phpAds_PageHeader("1.3", $extra);
 	}
 	
 	
@@ -291,8 +289,7 @@ if ($bannerID != '')
 }
 else
 {
-	phpAds_PageHeader("$strAddBanner");
-	phpAds_ShowNav("1.3.1");   
+	phpAds_PageHeader("4.1.1");   
 
 	$type = "mysql";
 	$row['alt'] = "";
@@ -346,10 +343,10 @@ if ($type == "html")  $show_html = true;
           sh="";
         }
 		
-        mysqlObject.style.display=ss; 
-        htmlObject.style.display=sh; 
-        urlObject.style.display=su; 
-		webObject.style.display=sw;
+        if (mysqlObject) mysqlObject.style.display=ss; 
+        if (htmlObject)  htmlObject.style.display=sh; 
+        if (urlObject)   urlObject.style.display=su; 
+		if (webObject)   webObject.style.display=sw;
     }
 //-->
 </script>
