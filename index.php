@@ -20,6 +20,8 @@ if(!isset($clientID) && $Session["username"] == $phpAds_admin && $Session["passw
 
 echo "<!-- $Session[username]/$username, $Session[password]/$password -->\n";
 
+$clientID = $Session[clientID];
+
 page_header();
 show_nav("2");
 $res_banners = db_query("
@@ -32,7 +34,7 @@ $res_banners = db_query("
 	FROM
 		$phpAds_tbl_banners
 	WHERE
-		clientID = $Session[clientID]
+		clientID = $clientID
 	") or mysql_die();
 
 require("./stats.inc.php");
