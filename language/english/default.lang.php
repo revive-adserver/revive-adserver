@@ -351,5 +351,24 @@ $GLOBALS['strTargetLimitAdviews']		= "Limit the number of AdViews to";
 $GLOBALS['strTargetPerDay']				= "per day.";
 $GLOBALS['strRecalculatePriority']		= "Recalculate priority";
 
+$GLOBALS['strProperties']				= "Properties";
+$GLOBALS['strAffiliateProperties']		= "Affiliate Properties";
+$GLOBALS['strBannerOverview']			= "Banner Overview";
+$GLOBALS['strBannerProperties']			= "Banner Properties";
+$GLOBALS['strCampaignProperties']		= "Campaign Properties";
+$GLOBALS['strClientProperties']			= "Client Properties";
+$GLOBALS['strZoneOverview']				= "Zone Overview";
+$GLOBALS['strZoneProperties']			= "Zone Properties";
+
+$GLOBALS['strGlobalHistory']			= "Global History";
+
+$GLOBALS['strMoveTo']					= "Move to";
+$GLOBALS['strDuplicate']				= "Duplicate";
+
+$GLOBALS['strMainSettings']				= "Main settings";
+$GLOBALS['strAdminSettings']			= "Administration settings";
+
+$GLOBALS['strApplyLimitationsTo']		= "Apply limitations to";
+$GLOBALS['strWholeCampaign']			= "Whole campaign";
 
 ?>
