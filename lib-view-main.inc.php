@@ -13,6 +13,10 @@
 /************************************************************************/
 
 
+// Seed the random number generator
+//mt_srand((double)microtime() * 1000000);
+mt_srand(floor((isset($n) ? hexdec($n[0].$n[2].$n[3].$n[4].$n[5]): 1000000) * (double)microtime()));
+
 
 /*********************************************************/
 /* Create the HTML needed to display the banner          */
