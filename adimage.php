@@ -72,7 +72,7 @@ if (isset($filename) && $filename != '')
 				}
 			}
 			
-			header ('Content-Length: '.strlen($image['contents']));
+			header ('Content-Length: '.strlen($row['contents']));
 			echo $row['contents'];
 		}
 		else
