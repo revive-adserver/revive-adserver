@@ -155,7 +155,7 @@ $GLOBALS['strNewPassword']			= "Neues Passwort";
 // General advertising
 $GLOBALS['strViews'] 				= "AdViews";
 $GLOBALS['strClicks']				= "AdClicks";
-$GLOBALS['strCTRShort'] 			= "CTR";
+$GLOBALS['strCTRShort'] 			= "Klickrate (CTR)";
 $GLOBALS['strCTR'] 					= "Klickrate (CTR)";
 $GLOBALS['strTotalViews'] 			= "Summe AdViews";
 $GLOBALS['strTotalClicks'] 			= "Summe AdClicks";
@@ -328,7 +328,7 @@ $GLOBALS['strTrackAdClicks']		= "Aufzeichen der AdClicks";
 
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] 		= "Auslieferungsoptionen";
-$GLOBALS['strACL'] 					= "Bannerauslieferung";
+$GLOBALS['strACL'] 					= "Auslieferungsoptionen";  // war vorher "Bannerauslieferung" ggf. zurueckaendern
 $GLOBALS['strACLAdd'] 				= "Neue Beschränkung hinzufügen";
 $GLOBALS['strACLAdd_Key'] 			= " <u>N</u>eue Beschränkung hinzufügen ";
 $GLOBALS['strNoLimitations']		= "Keine Beschränkungen";
@@ -583,7 +583,7 @@ $GLOBALS['strPriority']				= "Priorität";
 // Settings
 $GLOBALS['strSettings'] 			= "Einstellungen";
 $GLOBALS['strGeneralSettings']		= "Allgemeine Einstellungen";
-$GLOBALS['strMainSettings']			= "Haupteinstellungen";
+$GLOBALS['strMainSettings']			= "Grundeinstellungen";
 $GLOBALS['strAdminSettings']		= "Einstellungen für die Administration";
 
 
