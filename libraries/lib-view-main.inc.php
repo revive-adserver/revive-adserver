@@ -184,7 +184,7 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 		{
 			if ($phpAds_config['type_html_php'])
 			{
-				if (preg_match ("#(\<\?php(.*)\?\>)#i", $outputbuffer, $parser_regs))
+				if (preg_match ("#(\<\?php(.*)\?\>)#si", $outputbuffer, $parser_regs))
 				{
 					// Extract PHP script
 					$parser_php 	= $parser_regs[2];

@@ -10,6 +10,7 @@ CVS
 			  - 2003-07-11:  Fixed E_ALL notices in admin-search.php  (Matteo)
 			  - 2003-07-11:  Fixed E_ALL notices in local and iframe remote invocation when no banner was return by the delivery engine  (Matteo)
 			  - 2003-07-12:  Available languages scan was also searching outside the language dir, giving errors when open_basedir restriction was set   (Matteo)
+			  - 2003-07-14:  PHP code inside HTML banners only worked when it was a single line, now multiple lines are supported again  (Niels)
 
 
 v 2.0rc4		+ Misc changes
