@@ -53,6 +53,7 @@ if ($phpAds_config['geotracking_type'] != 0)
 $type_list['browser']   = $strBrowser;
 $type_list['os']		= $strOS;
 $type_list['useragent']	= $strUserAgent;
+$type_list['referer']	= $strReferer;
 $type_list['source']	= $strSource;
 
 
