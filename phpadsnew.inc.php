@@ -13,33 +13,45 @@
 /************************************************************************/
 
 
-// Figure out our location
-if (strlen(__FILE__) > strlen(basename(__FILE__)))
-    define ('phpAds_path', substr(__FILE__, 0, strlen(__FILE__) - strlen(basename(__FILE__)) - 1));
-else
-    define ('phpAds_path', '.');
-
-// If this path doesn't work for you, customize it here like this
-// Note: no trailing backslash
-// define ('phpAds_path', "/home/myname/www/phpAdsNew");
-
-
-// Include required files
-require	(phpAds_path."/config.inc.php"); 
-require (phpAds_path."/lib-db.inc.php");
-
-
-if (($phpAds_config['log_adviews'] && !$phpAds_config['log_beacon']) || $phpAds_config['acl'])
+if (!defined('PHPADSNEW_INCLUDED'))
 {
-	require (phpAds_path."/lib-remotehost.inc.php");
+	// Figure out our location
+	if (strlen(__FILE__) > strlen(basename(__FILE__)))
+	    define ('phpAds_path', substr(__FILE__, 0, strlen(__FILE__) - strlen(basename(__FILE__)) - 1));
+	else
+	    define ('phpAds_path', '.');
 	
-	if ($phpAds_config['log_adviews'] && !$phpAds_config['log_beacon'])
-		require (phpAds_path."/lib-log.inc.php");
+	// If this path doesn't work for you, customize it here like this
+	// Note: no trailing backslash
+	// define ('phpAds_path', "/home/myname/www/phpAdsNew");
 	
-	if ($phpAds_config['acl'])
-		require (phpAds_path."/lib-acl.inc.php");
+	
+	// Globalize settings
+	// (just in case phpadsnew.inc.php is called from a function)
+	global $phpAds_config;
+	
+	
+	// Include required files
+	require	(phpAds_path."/config.inc.php"); 
+	require (phpAds_path."/lib-db.inc.php");
+	
+	
+	if (($phpAds_config['log_adviews'] && !$phpAds_config['log_beacon']) || $phpAds_config['acl'])
+	{
+		require (phpAds_path."/lib-remotehost.inc.php");
+		
+		if ($phpAds_config['log_adviews'] && !$phpAds_config['log_beacon'])
+			require (phpAds_path."/lib-log.inc.php");
+		
+		if ($phpAds_config['acl'])
+			require (phpAds_path."/lib-acl.inc.php");
+	}
+	
+	require	(phpAds_path."/lib-view-main.inc.php");
+	
+	
+	// Prevent duplicate includes
+	define ('PHPADSNEW_INCLUDED', true);
 }
-
-require	(phpAds_path."/lib-view-main.inc.php");
 
 ?>
