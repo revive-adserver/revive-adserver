@@ -50,7 +50,7 @@ function enjavanateOld ($str, $limit = 60)
 {
 	$str   = str_replace("\r", '', $str);
 	
-	print "var phpadsbanner = '';\n";
+	print "\n\t\tvar phpadsbanner = '';\n";
 	
 	while (strlen($str) > 0)
 	{
@@ -60,8 +60,10 @@ function enjavanateOld ($str, $limit = 60)
 		$line = str_replace('\'', "\\'", $line);
 		$line = str_replace("\n", "\\n", $line);
 		
-		print "phpadsbanner += '$line';\n";
+		print "\t\tphpadsbanner += '$line';\n";
 	}
+	
+	print "\n";
 }
 
 function enjavanateCode ($str, $limit = 60)
@@ -160,7 +162,7 @@ if (!window.<?php echo $windowid; ?>)
 		
 		<?php echo $windowid; ?>.document.open('text/html', 'replace');
 <?php
-		if (ereg('MSIE', $HTTP_USER_AGENT))
+		if (strstr($HTTP_USER_AGENT, 'MSIE') && !strstr($HTTP_USER_AGENT, 'Opera'))
 		{
 			echo enjavanateCode("<html><head>")."\n";
 
@@ -181,7 +183,9 @@ if (!window.<?php echo $windowid; ?>)
 			echo enjavanateCode($output['alt'] ? $output['alt'] : 'Advertisement');
 			echo enjavanateCode("</title></head>");
 			echo enjavanateCode("<body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0'>");
-			echo enjavanateCode("'+phpadsbanner+'");
+?>
+		<?php echo $windowid; ?>.document.write(phpadsbanner);
+<?php
 		}
 		
 		echo enjavanateCode("</body></html>");
@@ -189,14 +193,15 @@ if (!window.<?php echo $windowid; ?>)
 		
 		<?php echo $windowid; ?>.document.close();
 	}
-	
+
 	<?php if (isset($popunder) && $popunder == '1') { ?>
-	window.focus();
+window.focus();
 	<?php } else {?>
-	<?php echo $windowid; ?>.focus();
+<?php echo $windowid; ?>.focus();
 	<?php } ?>
-	
+
 	<?php if (isset($timeout) && $timeout > 0) { ?>
-	window.setTimeout("<?php echo $windowid; ?>.close()", <?php echo $timeout * 1000; ?>);
+window.setTimeout("<?php echo $windowid; ?>.close()", <?php echo $timeout * 1000; ?>);
 	<?php } ?>
+
 }
