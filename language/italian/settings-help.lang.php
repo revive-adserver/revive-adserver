@@ -370,8 +370,14 @@ $GLOBALS['phpAds_hlp_type_html_php'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_admin'] = "
-        The administrator username, you can specify the username that you can 
-        use to log into the administrator interface.
+        Inserire lo username dell'amministratore. Utilizzando questo nome sar&agrave; possibile
+		entrare nell'interfaccia di amministrazione.
+		";
+		
+$GLOBALS['phpAds_hlp_admin_pw'] =
+$GLOBALS['phpAds_hlp_admin_pw2'] = "
+		Inserire la password per entrare nell'interfaccia di amministrazione.
+		&Egrave; necessario scrivere la nuova password due volte, per evitare errori di battitura.
 		";
 		
 $GLOBALS['phpAds_hlp_pwold'] = 

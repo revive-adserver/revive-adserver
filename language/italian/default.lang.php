@@ -107,6 +107,7 @@ $GLOBALS['strFieldContainsErrors']			= "I seguenti campi contengono errori:";
 $GLOBALS['strFieldFixBeforeContinue1']		= "Prima di continuare è necessario";
 $GLOBALS['strFieldFixBeforeContinue2']		= "correggere questi errori.";
 $GLOBALS['strDelimiter']					= "Delimitatore";
+$GLOBALS['strMiscellaneous']				= "Varie";
 
 
 
@@ -289,8 +290,10 @@ $GLOBALS['strBannerWeight']					= "Peso del banner";
 // Banner (swf)
 $GLOBALS['strCheckSWF']						= "Controlla per links codificati dentro il file flash";
 $GLOBALS['strConvertSWFLinks']				= "Converti links Flash";
+$GLOBALS['strHardcodedLinks']				= "Link codificati dentro il file";
 $GLOBALS['strConvertSWF']					= "<br>Il file Flash appena caricato contiene urls codificati. ".$phpAds_productname." non risulta in grado ditracciare il numero di click per questo banner fino a quando non convertirai questi urls codificati. Di seguito troverai una lista di tutti gli urls presenti nel file flash. Se vuoi convertire questi urls, semplicemente clicca <b>Converti</b>, altrimenti clicca <b>Cancella</b>.<br><br> Nota Bene: cliccando <b>Converti</b> il file flash che hai appena caricato viene modificato fisicamente. <br>Tieni da parte una copia di backup del file originale. Indipendentemente alla versione di flash utilizzata, il file risultante necessita del plug-in Flash 4 (o superiore).<br><br>";
 $GLOBALS['strCompressSWF']					= "Comprimi il file SWF per uno scaricamento pi&ugrave; veloce (plug-in Flash 6 necessario)";
+$GLOBALS['strOverwriteSource']				= "Sovrascrivi parametro sorgente";
 
 
 // Banner (network)
@@ -336,7 +339,7 @@ $GLOBALS['strAffiliatesAndZones']			= "Editori e Zone";
 $GLOBALS['strAddNewAffiliate']				= "Aggiungi un nuovo editore";
 $GLOBALS['strAddAffiliate']					= "Crea editore";
 $GLOBALS['strAffiliateProperties']			= "Impostazioni editore";
-$GLOBALS['strAffiliateOverview']			= "Descrizione editore";
+$GLOBALS['strAffiliateOverview']			= "Descrizione Editore";
 $GLOBALS['strAffiliateHistory']				= "Storico editore";
 $GLOBALS['strZonesWithoutAffiliate']		= "Zone senza editore";
 $GLOBALS['strMoveToNewAffiliate']			= "Muovi verso un nuovo editore";
@@ -430,11 +433,15 @@ $GLOBALS['strDistribution']					= "Distribuzione";
 $GLOBALS['strResetStats']					= "Azzera statistiche";
 $GLOBALS['strSourceStats']					= "Statistiche sorgente";
 $GLOBALS['strSelectSource']					= "Seleziona la sorgente da visualizzare:";
+$GLOBALS['strSizeDistribution']				= "Distribuzione per dimensioni";
+$GLOBALS['strCountryDistribution']			= "Distribuzione per stato";
+$GLOBALS['strEffectivity']					= "Efficacia";
 
 
 // Hosts
 $GLOBALS['strHosts']						= "Host";
-$GLOBALS['strTopTenHosts']					= "I migliori 10 host richiedenti";
+$GLOBALS['strTopHosts']						= "Host con pi&ugrave; richieste";
+$GLOBALS['strTopCountries'] 				= "Stati con pi&ugrave; richieste";
 
 
 // Expiration

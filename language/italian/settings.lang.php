@@ -131,8 +131,6 @@ $GLOBALS['strAllowPopups']			= "Consenti Popup";
 
 $GLOBALS['strKeywordRetrieval']			= "Abilita l'uso di parole chiave";
 $GLOBALS['strUseAcl']				= "Utilizza le limitazioni di consegna";
-$GLOBALS['strGeotrackingType']			= "Tipo di database per il tracking geografico";
-$GLOBALS['strGeotrackingLocation'] 		= "Percorso database tracking geografico";
 
 $GLOBALS['strBannerRetrieval']			= "Metodo di scelta del banner";
 $GLOBALS['strRetrieveRandom']			= "Casuale (default)";
@@ -184,13 +182,6 @@ $GLOBALS['strTypeHtmlSettings']			= "Configurazione banner HTML";
 $GLOBALS['strTypeHtmlAuto']			= "Modifica automaticamente i banner HTML per poter registrare i click";
 $GLOBALS['strTypeHtmlPhp']			= "Consenti l'esecuzione di espressioni PHP all'interno dei banner HTML";
 
-$GLOBALS['strAutoCleanTables']			= "Pulizia del dataabse";
-$GLOBALS['strAutoCleanStats']			= "Pulisci statistiche";
-$GLOBALS['strAutoCleanUserlog']			= "Pulisci registro eventi";
-$GLOBALS['strAutoCleanStatsWeeks']		= "Et&agrave; massima statistiche <br>(minimo 3 settimane)";
-$GLOBALS['strAutoCleanUserlogWeeks']		= "Et&agrave; massima registro eventi <br>(minimo 3 settimane)";
-$GLOBALS['strAutoCleanErr']			= "L'et&agrave; massima deve essere di almeno 3 settimane";
-$GLOBALS['strAutoCleanVacuum']			= "Esegui VACUUM ANALYZE sulle tabelle ogni notte"; // only Pg
 
 
 // Statistics Settings
@@ -203,6 +194,12 @@ $GLOBALS['strLogAdviews']			= "Registra visualizzazioni";
 $GLOBALS['strBlockAdviews']			= "Abilita protezione su vis. multiple (sec.)";
 $GLOBALS['strLogAdclicks']			= "Registra click";
 $GLOBALS['strBlockAdclicks']			= "Abilita protezione su click multipli (sec.)";
+
+$GLOBALS['strGeotargeting']			= "Targeting geografico";
+$GLOBALS['strGeotrackingType']			= "Tipo di database per il targeting geografico";
+$GLOBALS['strGeotrackingLocation'] 		= "Percorso database targeting geografico";
+$GLOBALS['strGeoLogStats']			= "Registra lo stato del visitatore nelle statistiche";
+$GLOBALS['strGeoStoreCookie']		= "Memorizza il risultato in un cookie per riutilizzarlo in seguito";
 
 $GLOBALS['strEmailWarnings']			= "Avvertimenti E-mail";
 $GLOBALS['strAdminEmailHeaders']		= "Header aggiuntivi delle email";
@@ -217,6 +214,13 @@ $GLOBALS['strIgnoreHosts']			= "Host da ignorare nelle statistiche";
 $GLOBALS['strReverseLookup']			= "Risolvi nomi di dominio";
 $GLOBALS['strProxyLookup']			= "Risolvi indirizzi che utilizzano un server proxy";
 
+$GLOBALS['strAutoCleanTables']			= "Pulizia del dataabse";
+$GLOBALS['strAutoCleanStats']			= "Pulisci statistiche";
+$GLOBALS['strAutoCleanUserlog']			= "Pulisci registro eventi";
+$GLOBALS['strAutoCleanStatsWeeks']		= "Et&agrave; massima statistiche <br>(minimo 3 settimane)";
+$GLOBALS['strAutoCleanUserlogWeeks']		= "Et&agrave; massima registro eventi <br>(minimo 3 settimane)";
+$GLOBALS['strAutoCleanErr']			= "L'et&agrave; massima deve essere di almeno 3 settimane";
+$GLOBALS['strAutoCleanVacuum']			= "Esegui VACUUM ANALYZE sulle tabelle ogni notte"; // only Pg
 
 
 // Administrator settings
@@ -234,8 +238,6 @@ $GLOBALS['strAdminFullName']			= "Nome e cognome";
 $GLOBALS['strAdminEmail']			= "Indirizzo email";
 $GLOBALS['strCompanyName']			= "Societ&agrave;";
 
-$GLOBALS['strAdminNovice']			= "Richiedi conferma nelle operazioni di cancellazione dell'amministratore";
-
 $GLOBALS['strAdminCheckUpdates']		= "Controlla aggiornamenti disponibili";
 $GLOBALS['strAdminCheckEveryLogin']		= "Ad ogni login";
 $GLOBALS['strAdminCheckDaily']			= "Una volta al giorno";
@@ -243,6 +245,7 @@ $GLOBALS['strAdminCheckWeekly']			= "Una volta alla settimana";
 $GLOBALS['strAdminCheckMonthly']		= "Una volta al mese";
 $GLOBALS['strAdminCheckNever']			= "Non controllare";
 
+$GLOBALS['strAdminNovice']			= "Richiedi conferma nelle operazioni di cancellazione dell'amministratore";
 $GLOBALS['strUserlogEmail']			= "Registra tutte le email in uscita";
 $GLOBALS['strUserlogPriority']			= "Registra i calcoli eseguiti ogni ora nell'assegnamento delle priorit&agrave;";
 $GLOBALS['strUserlogAutoClean']			= "Registra la pulizia automatica del database";
