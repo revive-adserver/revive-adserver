@@ -104,8 +104,12 @@ if (phpAds_dbConnect())
 		// If destination is a parameter don't use
 		// url from database
 		if (isset($dest) && $dest != '')
-			$url = stripslashes($dest);
-		
+		{
+			// Prevent HTTP header injection, suggested by < Tali AT sl0th DOT org >
+			if (preg_match('#^https?://#', $dest) && strpos($dest, "\r\n") === false)
+				$url = stripslashes($dest);
+		}
+
 		
 		// If zoneid is not set, log it as a regular banner
 		if (!isset($zoneid)) $zoneid = 0;
