@@ -708,8 +708,7 @@ if ($phpAds_config['acl'])
 				
 				while (list($iso,$fullname) = each ($phpAds_ISO639))
 				{
-					echo "<div class='boxrow' onMouseOver='boxrow_over(this);' onMouseOut='boxrow_leave(this);' onClick='o=findObj(\"check_".$key."_".$iso."\"); o.checked = !o.checked;'>";
-					echo "<input onClick='boxrow_nonbubble();' tabindex='".($tabindex++)."' ";
+					echo "<div class='boxrow'><input tabindex='".($tabindex++)."' ";
 					echo "type='checkbox' id='check_".$key."_".$iso."' name='acl[".$key."][data][]' value='$iso'".(in_array ($iso, $acl[$key]['data']) ? ' checked' : '')." align='middle'>".$fullname;
 					echo "</div>";
 				}
@@ -726,8 +725,7 @@ if ($phpAds_config['acl'])
 				
 				while (list($iso,$fullname) = each ($phpAds_ISO3166))
 				{
-					echo "<div class='boxrow' onMouseOver='boxrow_over(this);' onMouseOut='boxrow_leave(this);' onClick='o=findObj(\"c_".$key."_".$iso."\"); o.checked = !o.checked;'>";
-					echo "<input onClick='boxrow_nonbubble();' tabindex='".($tabindex++)."' ";
+					echo "<div class='boxrow'><input tabindex='".($tabindex++)."' ";
 					echo "type='checkbox' id='c_".$key."_".$iso."' name='acl[".$key."][data][]' value='$iso'".(in_array ($iso, $acl[$key]['data']) ? ' checked' : '').">".$fullname;
 					echo "</div>";
 				}
@@ -743,8 +741,7 @@ if ($phpAds_config['acl'])
 				
 				while (list($iso,$fullname) = each ($phpAds_cont_name))
 				{
-					echo "<div class='boxrow' onMouseOver='boxrow_over(this);' onMouseOut='boxrow_leave(this);' onClick='o=findObj(\"check_".$key."_".$iso."\"); o.checked = !o.checked;'>";
-					echo "<input onClick='boxrow_nonbubble();' tabindex='".($tabindex++)."' ";
+					echo "<div class='boxrow'><input tabindex='".($tabindex++)."' ";
 					echo "type='checkbox' id='check_".$key."_".$iso."' name='acl[".$key."][data][]' value='$iso'".(in_array ($iso, $acl[$key]['data']) ? ' checked' : '')." align='middle'>".$fullname;
 					echo "</div>";
 				}
@@ -764,8 +761,7 @@ if ($phpAds_config['acl'])
 					
 					while (list($code,$fullname) = each ($regions))
 					{
-						echo "<div class='boxrow' onMouseOver='boxrow_over(this);' onMouseOut='boxrow_leave(this);' onClick='o=findObj(\"check_".$key."_".$postalcode."\"); o.checked = !o.checked;'>";
-						echo "<input onClick='boxrow_nonbubble();' tabindex='".($tabindex++)."' ";
+						echo "<div class='boxrow'><input tabindex='".($tabindex++)."' ";
 						echo "type='checkbox' id='check_".$key."_".$country.$code."' name='acl[".$key."][data][]' value='".$country.$code."'".(in_array ($country.$code, $acl[$key]['data']) ? ' checked' : '')." align='middle'>".$fullname;
 						echo "</div>";
 					}

@@ -321,7 +321,7 @@ function phpAds_PageHeader($ID, $extra="")
 	echo "\t</head>\n\n\n";
 	
 	echo "<body bgcolor='#FFFFFF' background='images/".$phpAds_TextDirection."/background.gif' text='#000000' leftmargin='0' ";
-	echo "topmargin='0' marginwidth='0' marginheight='0' onLoad='initAccessKey();'".($phpAds_showHelp ? " onResize='resizeHelp();' onScroll='resizeHelp();'" : '').">";
+	echo "topmargin='0' marginwidth='0' marginheight='0' onLoad='initPage();'".($phpAds_showHelp ? " onResize='resizeHelp();' onScroll='resizeHelp();'" : '').">";
 	
 	// Header
 	if (isset($phpAds_config['my_header']) && $phpAds_config['my_header'] != '')

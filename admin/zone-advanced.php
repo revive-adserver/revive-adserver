@@ -581,8 +581,7 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 		echo "<div class='box' id='box_".phpAds_AppendBanner."'".($appendselection == phpAds_AppendBanner ? '' : ' style="display: none;"').">";
 		while (list($id,$name) = each ($available_banners))
 		{
-			echo "<div class='boxrow' onMouseOver='boxrow_over(this);' onMouseOut='boxrow_leave(this);' onClick='o=findObj(\"banner_".$id."\"); o.checked = !o.checked;'>";
-			echo "<input onClick='boxrow_nonbubble();' tabindex='".($tabindex++)."' ";
+			echo "<div class='boxrow'><input tabindex='".($tabindex++)."' ";
 			echo "type='checkbox' id='banner_".$id."' name='appendwhat[".phpAds_AppendBanner."][]' value='$id'".($appendselection == phpAds_AppendBanner && in_array ($id, $appendwhat) ? ' checked' : '').">";
 			echo "&nbsp;<img src='images/icon-banner-stored.gif'>&nbsp;".$name;
 			echo "</div>";
@@ -603,8 +602,7 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 		
 		while (list($id,$name) = each ($available_zones))
 		{
-			echo "<div class='boxrow' onMouseOver='boxrow_over(this);' onMouseOut='boxrow_leave(this);' onClick='o=findObj(\"zone_".$id."\"); if (!o.checked) { o.checked = !o.checked; }'>";
-			echo "<input onClick='boxrow_nonbubble();' tabindex='".($tabindex++)."' ";
+			echo "<div class='boxrow'><input tabindex='".($tabindex++)."' ";
 			echo "type='radio' id='zone_".$id."' name='appendwhat[".phpAds_AppendZone."]' value='$id'".($id == $selected ? ' checked' : '').">";
 			
 			if ($appendtype == phpAds_AppendPopup)
