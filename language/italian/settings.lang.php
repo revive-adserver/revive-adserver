@@ -30,6 +30,7 @@ $GLOBALS['strCouldNotConnectToDB']		= "Impossibile connettersi al database, cont
 $GLOBALS['strCreateTableTestFailed']	= "L'utente specificato non ha i permessi necessari a creare o aggiornare la struttura del database, contatta l'amministratore di sistema.";
 $GLOBALS['strUpdateTableTestFailed']	= "L'utente specificato non ha i permessi necessari ad aggiornare la struttura del database, contatta l'amministratore di sistema.";
 $GLOBALS['strTablePrefixInvalid']		= "Il prefisso delle tabelle contiene caratteri non validi";
+$GLOBALS['strTableInUse']				= "The database which you specified is already used for phpAdsNew, please use a different table prefix, or read the manual for upgrading instructions.";
 $GLOBALS['strMayNotFunction']			= "Prima di continuare, correggi questi potenziali problemi:";
 $GLOBALS['strIgnoreWarnings']			= "Ignora avvertimenti";
 $GLOBALS['strWarningPHPversion']		= "phpAdsNew richiede PHP 3.0.8 o pi&ugrave; recente per funzionare correttamente. La versione attualmente utilizzata &egrave; {php_version}.";

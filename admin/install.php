@@ -218,28 +218,35 @@ if (phpAds_isUser(phpAds_Admin))
 			
 			if (!count($errormessage))
 			{
-				$installvars['dbhost'] 	 = $dbhost;
+				$installvars['dbhost'] 	 	 = $dbhost;
 				$installvars['dbuser'] 		 = $dbuser;
 				$installvars['dbpassword'] 	 = $dbpassword;
 				$installvars['dbname'] 		 = $dbname;
-				$installvars['table_prefix'] 	 = $table_prefix;
+				$installvars['table_prefix'] = $table_prefix;
 				$installvars['tabletype'] 	 = $tabletype;
 				
 				// Create table names
-				$installvars['tbl_clients']  = $table_prefix.'clients';
-				$installvars['tbl_banners']  = $table_prefix.'banners';
-				$installvars['tbl_adstats']  = $table_prefix.'adstats';
-				$installvars['tbl_adviews']  = $table_prefix.'adviews';
-				$installvars['tbl_adclicks'] = $table_prefix.'adclicks';
-				$installvars['tbl_acls'] 	 = $table_prefix.'acls';
-				$installvars['tbl_session']  = $table_prefix.'session';
-				$installvars['tbl_zones'] 	 = $table_prefix.'zones';
-				$installvars['tbl_config'] 	 = $table_prefix.'config';
-				$installvars['tbl_affiliates'] 	 = $table_prefix.'affiliates';
-				$installvars['tbl_images'] 	 = $table_prefix.'images';
+				$phpAds_config['tbl_clients'] 	 = $installvars['tbl_clients']    = $table_prefix.'clients';
+				$phpAds_config['tbl_banners']    = $installvars['tbl_banners']    = $table_prefix.'banners';
+				$phpAds_config['tbl_adstats']    = $installvars['tbl_adstats']    = $table_prefix.'adstats';
+				$phpAds_config['tbl_adviews']    = $installvars['tbl_adviews']    = $table_prefix.'adviews';
+				$phpAds_config['tbl_adclicks']   = $installvars['tbl_adclicks']   = $table_prefix.'adclicks';
+				$phpAds_config['tbl_acls'] 	     = $installvars['tbl_acls'] 	  = $table_prefix.'acls';
+				$phpAds_config['tbl_session']    = $installvars['tbl_session']    = $table_prefix.'session';
+				$phpAds_config['tbl_zones'] 	 = $installvars['tbl_zones'] 	  = $table_prefix.'zones';
+				$phpAds_config['tbl_config'] 	 = $installvars['tbl_config'] 	  = $table_prefix.'config';
+				$phpAds_config['tbl_affiliates'] = $installvars['tbl_affiliates'] = $table_prefix.'affiliates';
+				$phpAds_config['tbl_images'] 	 = $installvars['tbl_images'] 	  = $table_prefix.'images';
 				
-				// Go to next phase
-				$phase = 3;
+				if (phpAds_checkDatabase())
+				{
+					$errormessage[2][] = $strTableInUse;
+				}
+				else
+				{
+					// Go to next phase
+					$phase = 3;
+				}
 			}
 			
 			break;
@@ -292,7 +299,7 @@ if (phpAds_isUser(phpAds_Admin))
 							phpAds_SettingsWriteAdd('tbl_images', $installvars['tbl_images']);
 							
 							phpAds_SettingsWriteAdd('table_prefix', $installvars['table_prefix']);
-
+							
 							phpAds_SettingsWriteAdd('admin', $admin);
 							phpAds_SettingsWriteAdd('admin_pw', $admin_pw);
 							phpAds_SettingsWriteAdd('url_prefix', $url_prefix);

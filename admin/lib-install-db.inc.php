@@ -23,6 +23,38 @@ define ('phpAds_tableTypesSupported', true);
 
 
 /*********************************************************/
+/* Create the database                                   */
+/*********************************************************/
+
+function phpAds_checkDatabase ()
+{
+	// Get the database structure
+	$dbstructure = phpAds_prepareDatabaseStructure();
+	
+	// Get table names
+	$res = phpAds_dbQuery("SHOW TABLES");
+	while ($row = phpAds_dbFetchRow($res))
+		$availabletables[] = $row[0];
+	
+	$result = false;
+	
+	for (reset($dbstructure);
+		$key = key($dbstructure);
+		next($dbstructure))
+	{
+		if (is_array($availabletables) && in_array ($key, $availabletables))
+		{
+			// Table exists
+			$result = true;
+		}
+	}
+	
+	return $result;
+}
+
+
+
+/*********************************************************/
 /* Upgrade the database to the latest structure          */
 /*********************************************************/
 
@@ -62,7 +94,7 @@ function phpAds_upgradeDatabase ($tabletype = '')
 
 
 /*********************************************************/
-/* Upgrade the database to the latest structure          */
+/* Create the database                                   */
 /*********************************************************/
 
 function phpAds_createDatabase ($tabletype = '')

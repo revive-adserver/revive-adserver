@@ -30,6 +30,7 @@ $GLOBALS['strCouldNotConnectToDB']		= "Could not connect to database, please rec
 $GLOBALS['strCreateTableTestFailed']	= "The user you specified doesn't have permission to create or update the database structure, please contact the database administrator.";
 $GLOBALS['strUpdateTableTestFailed']	= "The user you specified doesn't have permission to update the database structure, please contact the database administrator.";
 $GLOBALS['strTablePrefixInvalid']		= "Table prefix contains invalid characters";
+$GLOBALS['strTableInUse']				= "The database which you specified is already used for phpAdsNew, please use a different table prefix, or read the manual for upgrading instructions.";
 $GLOBALS['strMayNotFunction']			= "Before you continue, please correct these potential problems:";
 $GLOBALS['strIgnoreWarnings']			= "Ignore warnings";
 $GLOBALS['strWarningPHPversion']		= "phpAdsNew requires PHP 3.0.8 or higher to function correctly. You are currently using {php_version}.";

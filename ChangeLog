@@ -67,6 +67,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Added cache for HTML generated during delivery  (Niels) 20011226
 			  - Added a file-stored "table_prefix" configuration variable and updated
 			    all occurrencies of the old "tbl_prefix"  (Matteo) 20020117
+			  - Added warning for overwriting existing tables during installation  (Niels) 20020126
 
 
 			+ Misc bugfixes
