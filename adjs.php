@@ -117,6 +117,10 @@ enjavanate($output['html']);
 
 // Block this banner for next invocation
 if (isset($block) && $block != '' && $block != '0' && $output['bannerid'])
-	print ("\nif (document.phpAds_used) document.phpAds_used += '".$output['bannerid'].",';\n");
+	print ("\nif (document.phpAds_used) document.phpAds_used += 'bannerid:".$output['bannerid'].",';\n");
+
+// Block this campaign for next invocation
+if (isset($blockcampaign) && $blockcampaign != '' && $blockcampaign != '0' && $output['campaignid'])
+	print ("\nif (document.phpAds_used) document.phpAds_used += 'campaignid:".$output['campaignid'].",';\n");
 
 ?>

@@ -12,6 +12,9 @@
 
   ====================================================
 
+  10-22-2002 - invocation
+    [+] strInvocationDontShowAgainCampaign
+
   10-11-2002 - default
     [+] strLaterThan
     [+] strLaterThanOrEqual

@@ -41,6 +41,7 @@ $GLOBALS['strInvocationTarget']			= "Target frame";
 $GLOBALS['strInvocationSource']			= "Source";
 $GLOBALS['strInvocationWithText']		= "Show text below banner";
 $GLOBALS['strInvocationDontShowAgain']		= "Don't show the banner again on the same page";
+$GLOBALS['strInvocationDontShowAgainCampaign']		= "Don't show a banner from the same campaign again on the same page";
 $GLOBALS['strInvocationTemplate'] 		= "Store the banner inside a variable so it can be used in a template";
 
 
