@@ -2,8 +2,8 @@ phpAdsNew - Readme
 
   PHP Banner Management System
 
-  Version 2 dev 25022002
-  http://www.sourceforge.net/projects/phpadsnew/
+  Version 2 dev 14042002
+  http://www.phpadsnew.com
 
   THIS IS A EXPERIMENTAL DEVELOPMENT BUILD AND MAY NOT BE 
   STABLE ENOUGH FOR USE IN A PRODUCTION ENVIRONMENT.
@@ -11,9 +11,12 @@ phpAdsNew - Readme
 
 
     Copyright (C) 2000-2002
+	Niels Leenheer 	   <niels@creatype.nl>
+	Matteo Beccati     <matteo@beccati.com>
 	Wim Godden 	   <wim@godden.net>
 	Phil Hord 	   <phil@phord.com>
-	Niels Leenheer 	   <niels@creatype.nl>
+	Stefan Morgenroth  <dandra@users.sourceforge.net>
+	Noor Dawod         <noor@COMRAX.COM>
 	Cedric Fontaine    <cfontaine@spidmail.net>
 	Michael Harvey 	   <mike@ve-studio.com>
 	Matteo Beccati     <ciaccia@writeme.com>
@@ -64,8 +67,8 @@ phpAdsNew - Readme
 
 
   Requirements: 
-    PHP 3.0.8 (untested) or higher (100% PHP 4 ready)
-    MySQL
+    PHP 4.0 or higher 	 (4.1.2 recommended)
+    MySQL 3.22 or higher (3.23 with InnoDB recommended)
 
     If you want to run phpAdsNew on a PostgreSQL server you should
     take a look at phpPgAds, which is a port of phpAdsNew to PostgreSQL,
@@ -100,7 +103,7 @@ phpAdsNew - Readme
  
 
   Download:
-    You can get the newest version at http://www.sourceforge.net/projects/phpAdsNew/.
+    You can get the newest version at http://www.phpadsnew.com
 
 
   Credits:
@@ -126,5 +129,4 @@ phpAdsNew - Readme
     Questions about phpAdsNew should be directed to the forums. More
     information about it can be found on phpAdsNew's homepage. Bug reports
     and questions related to the develpment of phpAdsNew are also welcome
-    on the site.
-    Please read the documentation before you ask questions!
+    on the site. Please read the manual before you ask questions!
