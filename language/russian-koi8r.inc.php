@@ -314,11 +314,11 @@ $GLOBALS['strExpired']					= "Устарело";
 $GLOBALS['strModifyBannerAcl'] 			= "Display limitations";
 $GLOBALS['strACL'] 						= "Limit";
 $GLOBALS['strNoMoveUp'] 				= "Не могу переместить первый ряд выше";
-$GLOBALS['strACLAdd'] 					= "Add new limitation";
-$GLOBALS['strNoLimitations']			= "No limitations";
+$GLOBALS['strACLAdd'] 					= "Добавить новое ограничение";
+$GLOBALS['strNoLimitations']			= "Ограничений нет";
 
-$GLOBALS['strLinkedZones']				= "Linked Zones";
-$GLOBALS['strNoZonesToLink']			= "There are no zones available to which this banner can be linked";
+$GLOBALS['strLinkedZones']				= "Связанные зоны";
+$GLOBALS['strNoZonesToLink']			= "Зон, к которым может быть отнесен данный баннер, нет";
 
 $GLOBALS['strCustom']					= "Custom";
 
