@@ -67,8 +67,14 @@
 
     Requirements: 
     ------------------------------------------------------------------------
-    PHP 4.0.3 or higher (4.3.0 recommended)
+    PHP 4.0.3 or higher (4.3.3 recommended)
     MySQL 3.23.3 or higher (InnoDB recommended)
+
+    phpAdsNew is currently not tested against PHP 5 and definately not
+    compatible with PHP 5 beta 1. We advise users to wait with upgrading
+    to PHP 5 until it is officially released. Shortly before the official 
+    release of PHP 5 we will release a version of phpAdsNew that will be
+    compatible.
 
     If you want to run phpAdsNew on a PostgreSQL server you should
     take a look at phpPgAds, which is a port of phpAdsNew to PostgreSQL,
