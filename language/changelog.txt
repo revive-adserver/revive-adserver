@@ -12,7 +12,7 @@
 
   ====================================================
 
-  05-11-2002 - default
+  06-11-2002 - default
     [u] strZoneAppend
     [+] strZoneAppendType
     [+] strZoneAppendHTMLCode
