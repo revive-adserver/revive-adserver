@@ -74,7 +74,15 @@ while ($current = phpAds_dbFetchArray($res))
 		}
 	}
 }
+				
 
-Header("Location: maintenance-storage.php");
+// Rebuild delivery cache
+if (!defined('LIBVIEWCACHE_INCLUDED')) 
+	include (phpAds_path.'/libraries/deliverycache/cache-'.$phpAds_config['delivery_caching'].'.inc.php');
+
+phpAds_cacheDelete();
+
+
+header("Location: maintenance-storage.php");
 
 ?>
