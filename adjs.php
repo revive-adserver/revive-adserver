@@ -20,7 +20,33 @@ require("view.inc.php");
 require("acl.inc.php");
 
 
-// Set header information
+
+/*********************************************************/
+/* Java-encodes text                                     */
+/*********************************************************/
+
+function enjavanate ($str, $limit = 60)
+{
+	$str   = str_replace("\r", '', $str);
+	
+	while (strlen($str) > 0)
+	{
+		$line = substr ($str, 0, $limit);
+		$str  = substr ($str, $limit);
+		
+		$line = str_replace('\'', "\\'", $line);
+		$line = str_replace("\n", "\\n", $line);
+		
+		print "document.write('$line');\n";
+	}
+}
+
+
+
+/*********************************************************/
+/* Main code                                             */
+/*********************************************************/
+
 header("Content-type: application/x-javascript");
 require("nocache.inc.php");
 
@@ -32,6 +58,7 @@ if (!isset($withText)) 	$withText = '';
 if (!isset($context)) 	$context = '';
 
 // Get the banner
-view_js("$what",$clientID,"$target","$source","$withText","$context");
+$output = view_raw ($what, $clientID, $target, $source, $withText, $context);
+enjavanate($output['html']);
 
 ?>

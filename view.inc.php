@@ -528,28 +528,6 @@ function log_adview ($bannerID, $clientID)
 
 
 /*********************************************************/
-/* Java-encodes text                                     */
-/*********************************************************/
-
-function enjavanate ($str, $limit = 60)
-{
-	$str   = str_replace("\r", '', $str);
-	
-	while (strlen($str) > 0)
-	{
-		$line = substr ($str, 0, $limit);
-		$str  = substr ($str, $limit);
-		
-		$line = str_replace('\'', "\\'", $line);
-		$line = str_replace("\n", "\\n", $line);
-		
-		print "document.write('$line');\n";
-	}
-}
-
-
-
-/*********************************************************/
 /* Parse the PHP inside a HTML banner                    */
 /*********************************************************/
 
@@ -741,14 +719,22 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 	global $phpAds_default_banner_url, $phpAds_default_banner_target;
 	global $phpAds_type_html_auto, $phpAds_type_html_php;
 	
+	
+	// If $clientID consists of alpha-numeric chars it is
+	// not the clientID, but the target parameter.
 	if(!ereg('^[0-9]+$', $clientID))
 	{
 		$target = $clientID;
 		$clientID = 0;
 	}
 	
+	// Open database connection
 	db_connect();
+	
+	// Get one valid banner
 	$row = get_banner($what, $clientID, $context, $source);
+	
+	
 	
 	$outputbuffer = "";
 	
@@ -991,24 +977,5 @@ function view($what, $clientID=0, $target='', $source='', $withtext=0, $context=
 }
 
 
-
-/*********************************************************/
-/* Create the Javascript to display a banner             */
-/*********************************************************/
-
-function view_js($what, $clientID=0, $target='', $source='', $withtext=0, $context=0)
-{
-	$output = view_raw($what, $clientID, "$target", "$source", $withtext, $context);
-	
-	enjavanate($output['html']);
-	return($output['bannerID']);
-}
-
-
-
-function view_t($what, $target='')
-{
-	view ($what, $target, 1);
-}
 
 ?>
