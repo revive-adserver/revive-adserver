@@ -453,7 +453,7 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, $profile)
 	for (reset($campaigns);$c=key($campaigns);next($campaigns))
 		$total_target += $campaigns[$c]['target'];
 	
-	if ($total_profile == 0 && $total_target == 0)
+	if ($total_profile == 0 || $total_target == 0)
 	{
 		// No data available, profile is completely zero
 		// No targeting needed, create a profile to match campaign weights only
@@ -469,7 +469,7 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, $profile)
 		$total_weight = $total_banner_weight * $total_campaign_weight;
 		
 		for ($i=0;$i<24;$i++)
-			$profile[$i] = (int)$total_weight;
+			$profile[$i] = (int)($total_weight*100);
 		
 		
 		$profile_correction_executed = false;
