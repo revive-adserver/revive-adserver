@@ -75,14 +75,14 @@ $GLOBALS['phpAds_hlp_my_footer'] = "
 		
 $GLOBALS['phpAds_hlp_language'] = "
         Specify the default language phpAdsNew should use. This language will 
-        be used as a default for the admin and client interface. Please note: 
-        you can set a different language for each client from the admin interface 
-        and allow clients to change their language themselves.
+        be used as a default for the admin and advertiser interface. Please note: 
+        you can set a different language for each advertiser from the admin interface 
+        and allow advertisers to change their language themselves.
 		";
 		
 $GLOBALS['phpAds_hlp_name'] = "
         Specify the name you want to use for this application. This string will 
-        be displayed on all pages in the admin and client interface. If you leave 
+        be displayed on all pages in the admin and advertiser interface. If you leave 
         this setting empty (default) a logo of phpAdsNew will be displayed instead.
 		";
 		
@@ -159,13 +159,13 @@ $GLOBALS['phpAds_hlp_percentage_decimals'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_warn_admin'] = "
-        phpAdsNew can sent you e-mail if a client has only a limited number of 
+        phpAdsNew can sent you e-mail if a campaign has only a limited number of 
         clicks or views left. This is turned on by default.
 		";
 		
 $GLOBALS['phpAds_hlp_warn_client'] = "
-        phpAdsNew can sent the client e-mail if he has only a limited number of 
-        clicks or views left. This is turned on by default.
+        phpAdsNew can sent the advertiser e-mail if one of his campaigns has only a 
+		limited number of clicks or views left. This is turned on by default.
 		";
 		
 $GLOBALS['phpAds_hlp_warn_limit'] = "
@@ -233,8 +233,8 @@ $GLOBALS['phpAds_hlp_type_html_allow'] = "
         ways. The first two options are used for local storage of banners. You 
         can use the admin interface to upload a banner and phpAdsNew will store 
         the banner in the SQL database (option 1) or on a web server (option 2). 
-        You can also use a banner stored on a different web server (option 3) 
-        or use html to generate a banner (option 4). You can disable any one of 
+        You can also use a banner stored on an external web server (option 3) 
+        or use HTML to generate a banner (option 4). You can disable any one of 
         these types by altering these settings. By default all banner types are 
         turned on.
       	If you disable a certain banner type while there are still banners available 
@@ -311,14 +311,14 @@ $GLOBALS['phpAds_hlp_admin_email_headers'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_admin_novice'] = "
-        If you want to recieve a warning before deleting clients, campaigns or 
+        If you want to recieve a warning before deleting advertisers, campaigns or 
         banners; set this option to true.
 		";
 		
 $GLOBALS['phpAds_hlp_client_welcome'] = 
 $GLOBALS['phpAds_hlp_client_welcome_msg'] = "
        If you turn this feature on a welcome message will be displayed on the 
-        first page a client will see after loggin in. You can personalize this 
+        first page an advertiser will see after logging in. You can personalize this 
         message by editing the 'welcome.html' file location in the 'admin/templates' 
         directory. Things you might want to include are for example: Your company 
         name, contact information, your company logo, a link a page with advertising 

@@ -38,7 +38,7 @@ $GLOBALS['strWarningRegisterGlobals']	= "The PHP configuration variable register
 $GLOBALS['strWarningMagicQuotesGPC']	= "The PHP configuration variable magic_quotes_gpc needs to be turned on.";
 $GLOBALS['strWarningMagicQuotesRuntime']= "The PHP configuration variable magic_quotes_runtime needs to be turned off.";
 $GLOBALS['strConfigLockedDetected']		= "phpAdsNew has detected that your <b>config.inc.php</b> file is not writeable by the server.<br> You can't proceed until you change permissions on the file. <br>Read the supplied documentation if you don't know how to do that.";
-$GLOBALS['strCantUpdateDB']  			= "It is currently not possible to update the database. If you decide to proceed, all existing banners, statistics and clients will be deleted.";
+$GLOBALS['strCantUpdateDB']  			= "It is currently not possible to update the database. If you decide to proceed, all existing banners, statistics and advertisers will be deleted.";
 $GLOBALS['strTableNames']				= "Table Names";
 $GLOBALS['strTablesPrefix']				= "Table names prefix";
 $GLOBALS['strTablesType']				= "Table type";
@@ -168,7 +168,7 @@ $GLOBALS['strAdminEmailHeaders']		= "Mail Headers for the reflection of the send
 $GLOBALS['strWarnLimit']				= "Warn Limit";
 $GLOBALS['strWarnLimitErr']				= "Warn Limit should be a positive integer";
 $GLOBALS['strWarnAdmin']				= "Warn Admin";
-$GLOBALS['strWarnClient']				= "Warn Client";
+$GLOBALS['strWarnClient']				= "Warn Advertiser";
 
 $GLOBALS['strRemoteHosts']				= "Remote hosts";
 $GLOBALS['strIgnoreHosts']				= "Ignore Hosts";
@@ -206,9 +206,9 @@ $GLOBALS['strMyHeader']					= "My Header";
 $GLOBALS['strMyFooter']					= "My Footer";
 $GLOBALS['strGzipContentCompression']	= "Use GZIP content compression";
 
-$GLOBALS['strClientInterface']			= "Client interface";
-$GLOBALS['strClientWelcomeEnabled']		= "Enable client welcome message";
-$GLOBALS['strClientWelcomeText']		= "Client Welcome text<br>(HTML tags allowed)";
+$GLOBALS['strClientInterface']			= "Advertiser interface";
+$GLOBALS['strClientWelcomeEnabled']		= "Enable advertiser welcome message";
+$GLOBALS['strClientWelcomeText']		= "Welcome text<br>(HTML tags allowed)";
 
 
 
@@ -226,9 +226,9 @@ $GLOBALS['strDefaultBannerWErr']		= "Default banner weight should be a positive 
 $GLOBALS['strDefaultCampaignWErr']		= "Default campaign weight should be a positive integer";
 
 $GLOBALS['strAllowedBannerTypes']		= "Allowed banner types";
-$GLOBALS['strTypeSqlAllow']				= "Allow SQL stored banners";
-$GLOBALS['strTypeWebAllow']				= "Allow Webserver stored banners";
-$GLOBALS['strTypeUrlAllow']				= "Allow URL banners";
+$GLOBALS['strTypeSqlAllow']				= "Allow local banners (SQL)";
+$GLOBALS['strTypeWebAllow']				= "Allow local banners (Webserver)";
+$GLOBALS['strTypeUrlAllow']				= "Allow external banners";
 $GLOBALS['strTypeHtmlAllow']			= "Allow HTML banners";
 
 

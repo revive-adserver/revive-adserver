@@ -21,8 +21,8 @@ $GLOBALS['strAdministrator']				= "Administrator";
 
 
 $GLOBALS['strUserlog'] = array (
-	phpAds_actionAdvertiserReportMailed 	=> "Advertiser report for client {id} send by e-mail",
-	phpAds_actionPublisherReportMailed 		=> "Publisher report for affiliate {id} send by e-mail",
+	phpAds_actionAdvertiserReportMailed 	=> "Report for advertiser {id} send by e-mail",
+	phpAds_actionPublisherReportMailed 		=> "Report for publisher {id} send by e-mail",
 	phpAds_actionWarningMailed				=> "Deactivation warning for campaign {id} send by e-mail",
 	phpAds_actionDeactivationMailed			=> "Deactivation notification for campaign {id} send by e-mail",
 	phpAds_actionPriorityCalculation		=> "Priority recalculated",
