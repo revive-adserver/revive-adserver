@@ -107,7 +107,7 @@ $idresult = db_query (" SELECT
 					");
 
 
-if (@mysql_num_rows > 0)
+if (@mysql_num_rows($idresult) > 0)
 {
 	while ($row = mysql_fetch_array($idresult))
 	{
