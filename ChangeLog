@@ -201,6 +201,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-03-27:  Priority recalculation from admin interface didn't create an userlog entry  (Matteo) 
 			  - 2002-03-27:  Rewrote Javascripts in campaign-zone and banner-zone to make them usuable when a large number of zones are defined  (Niels) 
 			  - 2002-03-28:  Improved rendering of subtabs in Mozilla  (Niels) 
+			  - 2002-03-30:  Added source to Flash ClickTAG  (Niels)
 			 
 
 
