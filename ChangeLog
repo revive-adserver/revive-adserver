@@ -1,4 +1,11 @@
 phpAdsNew - ChangeLog
+CVS			+ Bugfix: implemented workaround for IE bug in the admin pages (Niels)
+			+ Bugfix: sequential banner retrieval did not work (Niels)
+			+ Bugfix: target was not recognized (Niels)
+			+ Bugfix: client ID, was reset to 0 (Niels)
+			+ Bugfix: Detailed statistics were empty after adding an ACL to a banner (Niels)
+			+ Bugfix: SQL error after resetting statistics (Niels, Phil)
+			+ Bugfix: bad include path (Phil)
 v 1.9.1 - 02/03/2001    
 			+ BugFix: typo in dailystats.inc.php (Phil)
 			+ Bugfix: "when" is a reserved word in mysql?  Who knew?  (Phil)
