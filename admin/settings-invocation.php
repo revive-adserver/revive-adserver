@@ -27,8 +27,6 @@ $sql = array();
 
 if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 {
-	if (isset($retrieval_method))
-		phpAds_SettingsWriteAdd('retrieval_method', $retrieval_method);
 	if (isset($con_key))
 		phpAds_SettingsWriteAdd('con_key', $con_key);
 	if (isset($mult_key))
@@ -75,9 +73,6 @@ phpAds_SettingsSelection("invocation");
 
 phpAds_StartSettings();
 phpAds_AddSettings('start_section', "1.2.1");
-phpAds_AddSettings('select', 'retrieval_method',
-	array($strBannerRetrieval, array($strRetrieveRandom, $strRetrieveNormalSeq, $strWeightSeq, $strFullSeq)));
-phpAds_AddSettings('break', '');
 phpAds_AddSettings('checkbox', 'con_key', $strUseConditionalKeys);
 phpAds_AddSettings('checkbox', 'mult_key', $strUseMultipleKeys);
 phpAds_AddSettings('checkbox', 'acl', $strUseAcl);

@@ -125,13 +125,6 @@ $phpAds_config['warn_limit'] = 100;
 /* Banner retrieval                                      */
 /*********************************************************/
 
-// Use random or sequential banner retrieval? 
-// 0 = Random banner retrieval (default)
-// 1 = Normal sequental banner retrieval
-// 2 = Weight based sequential banner retrieval
-// 3 = Full sequential banner retrieval
-$phpAds_config['retrieval_method'] = 0;
-
 // Use conditional keywords?
 $phpAds_config['con_key'] = true;
 

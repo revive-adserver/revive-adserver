@@ -44,7 +44,6 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'p3p_policies' => 				array ('type' => 'boolean', 'sql' => false),
 	'p3p_compact_policy' => 		array ('type' => 'string', 	'sql' => false),
 	'p3p_policy_location' => 		array ('type' => 'string', 	'sql' => false),
-	'retrieval_method' => 			array ('type' => 'integer', 'sql' => false),
 	'default_banner_url' => 		array ('type' => 'string', 	'sql' => false),
 	'default_banner_target' =>		array ('type' => 'string', 	'sql' => false),
 	'zone_cache' => 				array ('type' => 'boolean', 'sql' => false),
