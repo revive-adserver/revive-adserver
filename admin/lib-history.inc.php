@@ -38,6 +38,7 @@ if (isset($lib_history_params))
 else
 	$params = '?';
 
+$tabindex = 1;
 
 
 /*********************************************************/
@@ -357,7 +358,7 @@ if (isset($row['span']) && $row['span'] > 0)
 		for (reset($lib_history_params); $key = key($lib_history_params); next($lib_history_params))
 			echo "<input type='hidden' name='".$key."' value='".$lib_history_params[$key]."'>";
 	
-	echo "<select name='period' onChange='this.form.submit();'>";
+	echo "<select name='period' onChange='this.form.submit();' accesskey='".$keyList."' tabindex='".($tabindex++)."'>";
 		echo "<option value='d'".($period == 'd' ? ' selected' : '').">".$strDailyHistory."</option>";
 		echo "<option value='w'".($period == 'w' ? ' selected' : '').">".$strWeeklyHistory."</option>";
 		echo "<option value='m'".($period == 'm' ? ' selected' : '').">".$strMonthlyHistory."</option>";
@@ -369,7 +370,7 @@ if (isset($row['span']) && $row['span'] > 0)
 		echo $strFilterBySource;
 		echo "&nbsp;&nbsp;";
 		
-		echo "<select name='source' onChange='this.form.submit();'>";
+		echo "<select name='source' onChange='this.form.submit();' tabindex='".($tabindex++)."'>";
 		echo "<option value='-'".($source == '-' ? ' selected' : '').">".$strNone."</option>";
 		echo "<option value='-'>-----------------</option>";
 		
@@ -501,15 +502,15 @@ if (isset($row['span']) && $row['span'] > 0)
 		echo "<td height='35' colspan='3' align='".$phpAds_TextAlignRight."'>";
 			if ($start > 0)
 			{
-				echo "<a href='".$HTTP_SERVER_VARS['PHP_SELF'].$params."period=".$period."&limit=".$limit."&start=".$previous."&source=".$source."'>";
-				echo "<img src='images/arrow-l.gif' border='0' align='absmiddle'>".$strPrevious."</a>";
+				echo "<a href='".$HTTP_SERVER_VARS['PHP_SELF'].$params."period=".$period."&limit=".$limit."&start=".$previous."&source=".$source."' accesskey='".$keyPrevious."'>";
+				echo "<img src='images/arrow-l.gif' border='0' align='absmiddle'>".$strPrevious_Key."</a>";
 			}
 			if ($timestamp > $span)
 			{
 				if ($start > 0) echo "&nbsp;|&nbsp;";
 				
-				echo "<a href='".$HTTP_SERVER_VARS['PHP_SELF'].$params."period=".$period."&limit=".$limit."&start=".$next."&source=".$source."'>";
-				echo $strNext."<img src='images/arrow-r.gif' border='0' align='absmiddle'></a>";
+				echo "<a href='".$HTTP_SERVER_VARS['PHP_SELF'].$params."period=".$period."&limit=".$limit."&start=".$next."&source=".$source."' accesskey='".$keyNext."'>";
+				echo $strNext_Key."<img src='images/arrow-r.gif' border='0' align='absmiddle'></a>";
 			}
 		echo "</td>";
 		echo "</tr>";

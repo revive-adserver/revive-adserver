@@ -360,6 +360,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	global $transparent, $resize, $block, $raw;
 	global $hostlanguage;
 	global $layerstyle;
+	global $tabindex;
 	
 	
 	
@@ -421,7 +422,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 		echo "<tr><td height='25' colspan='3'><b>".$GLOBALS['strChooseInvocationType']."</b></td></tr>";
 		echo "<tr><td height='35'>";
-		echo "<select name='codetype' onChange=\"this.form.submit()\">";
+		echo "<select name='codetype' onChange=\"this.form.submit()\" accesskey=".$GLOBALS['keyList']." tabindex='".($tabindex++)."'>";
 		
 		if ($allowed['adview'])  echo "<option value='adview'".($codetype == 'adview' ? ' selected' : '').">".$GLOBALS['strInvocationRemote']."</option>";
 		if ($allowed['adjs'])    echo "<option value='adjs'".($codetype == 'adjs' ? ' selected' : '').">".$GLOBALS['strInvocationJS']."</option>";
@@ -533,7 +534,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		{
 			echo "<tr bgcolor='#F6F6F6'><td width='30'>&nbsp;</td>";
 			echo "<td width='200' valign='top'>".$GLOBALS['strInvocationWhat']."</td><td width='370'>";
-				echo "<textarea class='flat' name='what' rows='3' cols='50' style='width:350px;'>".(isset($what) ? stripslashes($what) : '')."</textarea></td></tr>";
+				echo "<textarea class='flat' name='what' rows='3' cols='50' style='width:350px;' tabindex='".($tabindex++)."'>".(isset($what) ? stripslashes($what) : '')."</textarea></td></tr>";
 			echo "<tr bgcolor='#F6F6F6'><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 			echo "<td bgcolor='#F6F6F6' colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 		}
@@ -544,7 +545,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		{
 			echo "<tr bgcolor='#F6F6F6'><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$GLOBALS['strInvocationClientID']."</td><td width='370'>";
-			echo "<select name='clientid' style='width:175px;'>";
+			echo "<select name='clientid' style='width:175px;' tabindex='".($tabindex++)."'>";
 				echo "<option value='0'>-</option>";
 			
 			$res = phpAds_dbQuery("
@@ -574,7 +575,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		{
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$GLOBALS['strInvocationTarget']."</td><td width='370'>";
-				echo "<input class='flat' type='text' name='target' size='' value='".(isset($target) ? $target : '')."' style='width:175px;'></td></tr>";
+				echo "<input class='flat' type='text' name='target' size='' value='".(isset($target) ? $target : '')."' style='width:175px;' tabindex='".($tabindex++)."'></td></tr>";
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 		}
 		
@@ -585,7 +586,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$GLOBALS['strInvocationSource']."</td><td width='370'>";
-				echo "<input class='flat' type='text' name='source' size='' value='".(isset($source) ? $source : '')."' style='width:175px;'></td></tr>";
+				echo "<input class='flat' type='text' name='source' size='' value='".(isset($source) ? $source : '')."' style='width:175px;' tabindex='".($tabindex++)."'></td></tr>";
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 		}
 		
@@ -596,8 +597,8 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$GLOBALS['strInvocationWithText']."</td>";
-			echo "<td width='370'><input type='radio' name='withText' value='1'".(isset($withText) && $withText != 0 ? ' checked' : '').">&nbsp;Yes<br>";
-			echo "<input type='radio' name='withText' value='0'".(!isset($withText) || $withText == 0 ? ' checked' : '').">&nbsp;No</td>";
+			echo "<td width='370'><input type='radio' name='withText' value='1'".(isset($withText) && $withText != 0 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;Yes<br>";
+			echo "<input type='radio' name='withText' value='0'".(!isset($withText) || $withText == 0 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;No</td>";
 			echo "</tr>";
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 		}
@@ -609,7 +610,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$GLOBALS['strIFrameRefreshAfter']."</td><td width='370'>";
-				echo "<input class='flat' type='text' name='refresh' size='' value='".(isset($refresh) ? $refresh : '')."' style='width:175px;'> sec</td></tr>";
+				echo "<input class='flat' type='text' name='refresh' size='' value='".(isset($refresh) ? $refresh : '')."' style='width:175px;' tabindex='".($tabindex++)."'> sec</td></tr>";
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 		}
 		
@@ -620,8 +621,8 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$GLOBALS['strFrameSize']."</td><td width='370'>";
-				echo $GLOBALS['strWidth'].": <input class='flat' type='text' name='width' size='3' value='".(isset($width) ? $width : '')."'>&nbsp;&nbsp;&nbsp;";
-				echo $GLOBALS['strHeight'].": <input class='flat' type='text' name='height' size='3' value='".(isset($height) ? $height : '')."'>";
+				echo $GLOBALS['strWidth'].": <input class='flat' type='text' name='width' size='3' value='".(isset($width) ? $width : '')."' tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
+				echo $GLOBALS['strHeight'].": <input class='flat' type='text' name='height' size='3' value='".(isset($height) ? $height : '')."' tabindex='".($tabindex++)."'>";
 			echo "</td></tr>";
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 		}
@@ -636,8 +637,8 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 				echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 				echo "<tr><td width='30'>&nbsp;</td>";
 				echo "<td width='200'>".$GLOBALS['strIframeResizeToBanner']."</td>";
-				echo "<td width='370'><input type='radio' name='resize' value='1'".(isset($resize) && $resize == 1 ? ' checked' : '').">&nbsp;Yes<br>";
-				echo "<input type='radio' name='resize' value='0'".(!isset($resize) || $resize == 0 ? ' checked' : '').">&nbsp;No</td>";
+				echo "<td width='370'><input type='radio' name='resize' value='1'".(isset($resize) && $resize == 1 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;Yes<br>";
+				echo "<input type='radio' name='resize' value='0'".(!isset($resize) || $resize == 0 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;No</td>";
 				echo "</tr>";
 				echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 			}
@@ -653,8 +654,8 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$GLOBALS['strIframeMakeTransparent']."</td>";
-			echo "<td width='370'><input type='radio' name='transparent' value='1'".(isset($transparent) && $transparent == 1 ? ' checked' : '').">&nbsp;Yes<br>";
-			echo "<input type='radio' name='transparent' value='0'".(!isset($transparent) || $transparent == 0 ? ' checked' : '').">&nbsp;No</td>";
+			echo "<td width='370'><input type='radio' name='transparent' value='1'".(isset($transparent) && $transparent == 1 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;Yes<br>";
+			echo "<input type='radio' name='transparent' value='0'".(!isset($transparent) || $transparent == 0 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;No</td>";
 			echo "</tr>";
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 		}
@@ -666,8 +667,8 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$GLOBALS['strIframeIncludeNetscape4']."</td>";
-			echo "<td width='370'><input type='radio' name='ilayer' value='1'".(isset($ilayer) && $ilayer == 1 ? ' checked' : '').">&nbsp;Yes<br>";
-			echo "<input type='radio' name='ilayer' value='0'".(!isset($ilayer) || $ilayer == 0 ? ' checked' : '').">&nbsp;No</td>";
+			echo "<td width='370'><input type='radio' name='ilayer' value='1'".(isset($ilayer) && $ilayer == 1 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;Yes<br>";
+			echo "<input type='radio' name='ilayer' value='0'".(!isset($ilayer) || $ilayer == 0 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;No</td>";
 			echo "</tr>";
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 		}
@@ -679,8 +680,8 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$GLOBALS['strInvocationDontShowAgain']."</td>";
-			echo "<td width='370'><input type='radio' name='block' value='1'".(isset($block) && $block != 0 ? ' checked' : '').">&nbsp;Yes<br>";
-			echo "<input type='radio' name='block' value='0'".(!isset($block) || $block == 0 ? ' checked' : '').">&nbsp;No</td>";
+			echo "<td width='370'><input type='radio' name='block' value='1'".(isset($block) && $block != 0 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;Yes<br>";
+			echo "<input type='radio' name='block' value='0'".(!isset($block) || $block == 0 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;No</td>";
 			echo "</tr>";
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 		}
@@ -692,8 +693,8 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$GLOBALS['strInvocationTemplate']."</td>";
-			echo "<td width='370'><input type='radio' name='raw' value='1'".(isset($raw) && $raw != 0 ? ' checked' : '').">&nbsp;Yes<br>";
-			echo "<input type='radio' name='raw' value='0'".(!isset($raw) || $raw == 0 ? ' checked' : '').">&nbsp;No</td>";
+			echo "<td width='370'><input type='radio' name='raw' value='1'".(isset($raw) && $raw != 0 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;Yes<br>";
+			echo "<input type='radio' name='raw' value='0'".(!isset($raw) || $raw == 0 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;No</td>";
 			echo "</tr>";
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 		}
@@ -724,7 +725,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$GLOBALS['strAdLayerStyle']."</td><td width='370'>";
-			echo "<select name='layerstyle' onChange='this.form.submit()' style='width:175px;'>";
+			echo "<select name='layerstyle' onChange='this.form.submit()' style='width:175px;' tabindex='".($tabindex++)."'>";
 			
 			while (list($k, $v) = each($layerstyles))
 				echo "<option value='$k'".($layerstyle == $k ? ' selected' : '').">$v</option>";
@@ -742,10 +743,10 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$GLOBALS['strPopUpStyle']."</td>";
 			echo "<td width='370'><input type='radio' name='popunder' value='0'".
-				 (!isset($popunder) || $popunder != '1' ? ' checked' : '').">&nbsp;".
+				 (!isset($popunder) || $popunder != '1' ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;".
 				 "<img src='images/icon-popup-over.gif' align='absmiddle'>&nbsp;".$GLOBALS['strPopUpStylePopUp']."<br>";
 			echo "<input type='radio' name='popunder' value='1'".
-				 (isset($popunder) && $popunder == '1' ? ' checked' : '').">&nbsp;".
+				 (isset($popunder) && $popunder == '1' ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;".
 				 "<img src='images/icon-popup-under.gif' align='absmiddle'>&nbsp;".$GLOBALS['strPopUpStylePopUnder']."</td>";
 			echo "</tr>";
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
@@ -759,12 +760,12 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$GLOBALS['strPopUpCreateInstance']."</td>";
 			echo "<td width='370'><input type='radio' name='delay_type' value='none'".
-				 (!isset($delay_type) || ($delay_type != 'exit' && $delay_time != 'seconds') ? ' checked' : '').">&nbsp;".$GLOBALS['strPopUpImmediately']."<br>";
+				 (!isset($delay_type) || ($delay_type != 'exit' && $delay_time != 'seconds') ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;".$GLOBALS['strPopUpImmediately']."<br>";
 			echo "<input type='radio' name='delay_type' value='exit'".
-				 (isset($delay_type) && $delay_type == 'exit' ? ' checked' : '').">&nbsp;".$GLOBALS['strPopUpOnClose']."<br>";
+				 (isset($delay_type) && $delay_type == 'exit' ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;".$GLOBALS['strPopUpOnClose']."<br>";
 			echo "<input type='radio' name='delay_type' value='seconds'".
-				 (isset($delay_type) && $delay_type == 'seconds' ? ' checked' : '').">&nbsp;".$GLOBALS['strPopUpAfterSec']."&nbsp;".
-				 "<input class='flat' type='text' name='delay' size='' value='".(isset($delay) ? $delay : '-')."' style='width:50px;'> ".$GLOBALS['strAbbrSeconds']."</td>";
+				 (isset($delay_type) && $delay_type == 'seconds' ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;".$GLOBALS['strPopUpAfterSec']."&nbsp;".
+				 "<input class='flat' type='text' name='delay' size='' value='".(isset($delay) ? $delay : '-')."' style='width:50px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrSeconds']."</td>";
 			echo "</tr>";
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 		}
@@ -776,10 +777,10 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$GLOBALS['strPopUpTop']."</td><td width='370'>";
-				echo "<input class='flat' type='text' name='top' size='' value='".(isset($top) ? $top : '-')."' style='width:50px;'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
+				echo "<input class='flat' type='text' name='top' size='' value='".(isset($top) ? $top : '-')."' style='width:50px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$GLOBALS['strPopUpLeft']."</td><td width='370'>";
-				echo "<input class='flat' type='text' name='left' size='' value='".(isset($left) ? $left : '-')."' style='width:50px;'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
+				echo "<input class='flat' type='text' name='left' size='' value='".(isset($left) ? $left : '-')."' style='width:50px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 		}
 		
@@ -790,7 +791,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$GLOBALS['strAutoCloseAfter']."</td><td width='370'>";
-				echo "<input class='flat' type='text' name='timeout' size='' value='".(isset($timeout) ? $timeout : '-')."' style='width:50px;'> ".$GLOBALS['strAbbrSeconds']."</td></tr>";
+				echo "<input class='flat' type='text' name='timeout' size='' value='".(isset($timeout) ? $timeout : '-')."' style='width:50px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrSeconds']."</td></tr>";
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 		}
 		
@@ -806,7 +807,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$GLOBALS['strXmlRpcLanguage']."</td><td width='370'>";
-			echo "<select name='hostlanguage'>";
+			echo "<select name='hostlanguage' tabindex='".($tabindex++)."'>";
 				echo "<option value='php'".($hostlanguage == 'php' ? ' selected' : '').">PHP</option>";
 		//		echo "<option value='php-xmlrpc'".($hostlanguage == 'php-xmlrpc' ? ' selected' : '').">PHP with built in XML-RPC extension</option>";
 		//		echo "<option value='asp'".($hostlanguage == 'asp' ? ' selected' : '').">ASP</option>";
@@ -829,9 +830,9 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<input type='hidden' value='".($generated ? 1 : 0)."' name='generate'>";
 			
 			if ($generated)
-				echo "<input type='submit' value='".$GLOBALS['strRefresh']."' name='submitbutton'>";
+				echo "<input type='submit' value='".$GLOBALS['strRefresh']."' name='submitbutton' tabindex='".($tabindex++)."'>";
 			else
-				echo "<input type='submit' value='".$GLOBALS['strGenerate']."' name='submitbutton'>";
+				echo "<input type='submit' value='".$GLOBALS['strGenerate']."' name='submitbutton' tabindex='".($tabindex++)."'>";
 		}
 	}
 	

@@ -183,13 +183,15 @@ function phpAds_getAffiliateArray()
 /* Main code                                             */
 /*********************************************************/
 
+$tabindex = 1;
+
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
 echo "<tr><td height='25' colspan='2'><b>".$strSelectReport."</b></td></tr>";
 //echo "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 
 echo "<form name='report_selection' action='report-index.php'>";
 echo "<tr><td height='35' colspan='2'>";
-echo "<select name='selection' onChange='this.form.submit();'>";
+echo "<select name='selection' onChange='this.form.submit();' accesskey='".$keyList."' tabindex='".($tabindex++)."'>";
 
 $plugins = phpAds_ReportPluginList ("report-plugins/");
 
@@ -248,7 +250,7 @@ if ($fields = $plugin['plugin-import'])
 			echo isset($fields[$key]['size']) ? $fields[$key]['size'] : "";
 			echo "' value='";
 			echo isset($fields[$key]['default']) ? $fields[$key]['default'] : "";
-			echo "'></td>";
+			echo "' tabindex='".($tabindex++)."'></td>";
 			echo "</tr>";
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
@@ -259,7 +261,7 @@ if ($fields = $plugin['plugin-import'])
 		{
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$fields[$key]['title']."</td>";
-			echo "<td width='370'><select name='".$key."'>";
+			echo "<td width='370'><select name='".$key."' tabindex='".($tabindex++)."'>";
 			
 			$campaignArray = phpAds_getCampaignArray();
 			for (reset($campaignArray);$ckey=key($campaignArray);next($campaignArray))
@@ -281,7 +283,7 @@ if ($fields = $plugin['plugin-import'])
 			{
 				echo "<tr><td width='30'>&nbsp;</td>";
 				echo "<td width='200'>".$fields[$key]['title']."</td>";
-				echo "<td width='370'><select name='".$key."'>";
+				echo "<td width='370'><select name='".$key."' tabindex='".($tabindex++)."'>";
 				
 				$clientArray = phpAds_getClientArray();
 				for (reset($clientArray);$ckey=key($clientArray);next($clientArray))
@@ -304,7 +306,7 @@ if ($fields = $plugin['plugin-import'])
 			{
 				echo "<tr><td width='30'>&nbsp;</td>";
 				echo "<td width='200'>".$fields[$key]['title']."</td>";
-				echo "<td width='370'><select name='".$key."'>";
+				echo "<td width='370'><select name='".$key."' tabindex='".($tabindex++)."'>";
 				
 				$affiliateArray = phpAds_getAffiliateArray();
 				for (reset($affiliateArray);$ckey=key($affiliateArray);next($affiliateArray))
@@ -321,7 +323,7 @@ if ($fields = $plugin['plugin-import'])
 		{
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$fields[$key]['title']."</td>";
-			echo "<td width='370'><select name='".$key."'>";
+			echo "<td width='370'><select name='".$key."' tabindex='".($tabindex++)."'>";
 			
 			$zoneArray = phpAds_getZoneArray();
 			for (reset($zoneArray);$ckey=key($zoneArray);next($zoneArray))
@@ -336,7 +338,7 @@ if ($fields = $plugin['plugin-import'])
 	echo "<tr><td height='25' colspan='3'>";
 	echo "<br><br>";
 	echo "<input type='hidden' name='plugin' value='".$selection."'>";
-	echo "<input type='submit' value='".$strGenerate."'>";
+	echo "<input type='submit' value='".$strGenerate."' tabindex='".($tabindex++)."'>";
 	echo "</td></tr>";
 	
 	echo "</form>";

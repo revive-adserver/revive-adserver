@@ -54,7 +54,7 @@ $GLOBALS['strBasicInformation'] 		= "Basic information";
 $GLOBALS['strContractInformation'] 		= "Contract information";
 $GLOBALS['strLoginInformation'] 		= "Login information";
 $GLOBALS['strOverview']				= "Overview";
-$GLOBALS['strSearch']				= "Search";
+$GLOBALS['strSearch']				= "<u>S</u>earch";
 $GLOBALS['strHistory']				= "History";
 $GLOBALS['strPreferences'] 			= "Preferences";
 $GLOBALS['strDetails']				= "Details";
@@ -76,7 +76,9 @@ $GLOBALS['strDown'] 				= "Down";
 $GLOBALS['strSave'] 				= "Save";
 $GLOBALS['strCancel']				= "Cancel";
 $GLOBALS['strPrevious'] 			= "Previous";
+$GLOBALS['strPrevious_Key'] 			= "<u>P</u>revious";
 $GLOBALS['strNext'] 				= "Next";
+$GLOBALS['strNext_Key'] 				= "<u>N</u>ext";
 $GLOBALS['strYes']				= "Yes";
 $GLOBALS['strNo']				= "No";
 $GLOBALS['strNone'] 				= "None";
@@ -98,8 +100,8 @@ $GLOBALS['strLinkedTo'] 			= "linked to";
 $GLOBALS['strDaysLeft'] 			= "Days left";
 $GLOBALS['strCheckAllNone']			= "Check all / none";
 $GLOBALS['strKiloByte']				= "KB";
-$GLOBALS['strExpandAll']			= "Expand all";
-$GLOBALS['strCollapseAll']			= "Collapse all";
+$GLOBALS['strExpandAll']			= "<u>E</u>xpand all";
+$GLOBALS['strCollapseAll']			= "<u>C</u>ollapse all";
 $GLOBALS['strShowAll']				= "Show All";
 $GLOBALS['strNoAdminInteface']			= "Service unavailable...";
 $GLOBALS['strFilterBySource']			= "filter by source";
@@ -174,6 +176,7 @@ $GLOBALS['strClient']				= "Advertiser";
 $GLOBALS['strClients'] 				= "Advertisers";
 $GLOBALS['strClientsAndCampaigns']		= "Advertisers & Campaigns";
 $GLOBALS['strAddClient'] 			= "Add new advertiser";
+$GLOBALS['strAddClient_Key'] 		= "Add <u>n</u>ew advertiser";
 $GLOBALS['strTotalClients'] 			= "Total advertisers";
 $GLOBALS['strClientProperties']			= "Advertiser properties";
 $GLOBALS['strClientHistory']			= "Advertiser history";
@@ -203,6 +206,7 @@ $GLOBALS['strCampaigns']			= "Campaigns";
 $GLOBALS['strTotalCampaigns'] 			= "Total campaigns";
 $GLOBALS['strActiveCampaigns'] 			= "Active campaigns";
 $GLOBALS['strAddCampaign'] 			= "Add new campaign";
+$GLOBALS['strAddCampaign_Key'] 		= "Add <u>n</u>ew campaign";
 $GLOBALS['strCreateNewCampaign']		= "Create new campaign";
 $GLOBALS['strModifyCampaign']			= "Modify campaign";
 $GLOBALS['strMoveToNewCampaign']		= "Move to a new campaign";
@@ -241,6 +245,7 @@ $GLOBALS['strPriorityAutoTargeting']		= "Distribute the remaining AdViews evenly
 $GLOBALS['strBanner'] 				= "Banner";
 $GLOBALS['strBanners'] 				= "Banners";
 $GLOBALS['strAddBanner'] 			= "Add new banner";
+$GLOBALS['strAddBanner_Key'] 			= "Add <u>n</u>ew banner";
 $GLOBALS['strModifyBanner'] 			= "Modify banner";
 $GLOBALS['strActiveBanners'] 			= "Active banners";
 $GLOBALS['strTotalBanners'] 			= "Total banners";
@@ -308,6 +313,7 @@ $GLOBALS['strTrackAdClicks']			= "Track AdClicks";
 $GLOBALS['strModifyBannerAcl'] 			= "Delivery options";
 $GLOBALS['strACL'] 				= "Delivery";
 $GLOBALS['strACLAdd'] 				= "Add new limitation";
+$GLOBALS['strACLAdd_Key'] 				= "Add <u>n</u>ew limitation";
 $GLOBALS['strNoLimitations']			= "No limitations";
 $GLOBALS['strApplyLimitationsTo']		= "Apply limitations to";
 $GLOBALS['strRemoveAllLimitations']		= "Remove all limitations";
@@ -337,6 +343,7 @@ $GLOBALS['strAffiliate']			= "Publisher";
 $GLOBALS['strAffiliates']			= "Publishers";
 $GLOBALS['strAffiliatesAndZones']		= "Publishers & Zones";
 $GLOBALS['strAddNewAffiliate']			= "Add new publisher";
+$GLOBALS['strAddNewAffiliate_Key']			= "Add <u>n</u>ew publisher";
 $GLOBALS['strAddAffiliate']			= "Create publisher";
 $GLOBALS['strAffiliateProperties']		= "Publisher properties";
 $GLOBALS['strAffiliateOverview']		= "Publisher overview";
@@ -361,6 +368,7 @@ $GLOBALS['strAllowAffiliateDeleteZone'] 	= "Allow this user to delete existing z
 $GLOBALS['strZone']				= "Zone";
 $GLOBALS['strZones']				= "Zones";
 $GLOBALS['strAddNewZone']			= "Add new zone";
+$GLOBALS['strAddNewZone_Key']			= "Add <u>n</u>ew zone";
 $GLOBALS['strAddZone']				= "Create zone";
 $GLOBALS['strModifyZone']			= "Modify zone";
 $GLOBALS['strLinkedZones']			= "Linked zones";
@@ -529,5 +537,32 @@ $GLOBALS['strAdminSettings']			= "Administration settings";
 
 // Product Updates
 $GLOBALS['strProductUpdates']			= "Product updates";
+
+
+
+
+/*********************************************************/
+/* Keyboard shortcut assignments                         */
+/*********************************************************/
+
+
+// Reserved keys
+// Do not change these unless absolutely needed
+$GLOBALS['keyHome']			= 'h';
+$GLOBALS['keyUp']			= 'u';
+$GLOBALS['keyNextItem']		= '.';
+$GLOBALS['keyPreviousItem']	= ',';
+$GLOBALS['keyList']			= 'l';
+
+
+// Other keys
+// Please make sure you underline the key you
+// used in the string in default.lang.php
+$GLOBALS['keySearch']		= 's';
+$GLOBALS['keyCollapseAll']	= 'c';
+$GLOBALS['keyExpandAll']	= 'e';
+$GLOBALS['keyAddNew']		= 'n';
+$GLOBALS['keyNext']			= 'n';
+$GLOBALS['keyPrevious']		= 'p';
 
 ?>

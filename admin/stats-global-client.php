@@ -596,10 +596,10 @@ if ($totalviews > 0 || $totalclicks > 0)
 	
 	echo "</td><td height='25' colspan='2' align='".$phpAds_TextAlignRight."' nowrap>";
 	echo "<img src='images/triangle-d.gif' align='absmiddle' border='0'>";
-	echo "&nbsp;<a href='stats-global-client.php?expand=all'>".$strExpandAll."</a>";
+	echo "&nbsp;<a href='stats-global-client.php?expand=all' accesskey='".$keyExpandAll."'>".$strExpandAll."</a>";
 	echo "&nbsp;&nbsp;|&nbsp;&nbsp;";
 	echo "<img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'>";
-	echo "&nbsp;<a href='stats-global-client.php?expand=none'>".$strCollapseAll."</a>&nbsp;&nbsp;";
+	echo "&nbsp;<a href='stats-global-client.php?expand=none' accesskey='".$keyCollapseAll."'>".$strCollapseAll."</a>&nbsp;&nbsp;";
 	echo "</td></tr>";
 	
 	

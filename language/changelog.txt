@@ -12,6 +12,36 @@
 
   ====================================================
 
+  23-10-2002 - invocation
+    [+] strSmoothMovement
+    [+] strHideNotMoving
+    [+] strHideDelay
+    [+] strHideTransparancy
+
+  23-10-2002 - default
+    [u] strSearch
+    [u] strExpandAll
+    [u] strCollapseAll
+    [+] strPrevious_Key
+    [+] strNext_Key
+    [+] strAddClient_Key
+    [+] strAddCampaign_Key
+    [+] strAddBanner_Key
+    [+] strACLAdd_Key
+    [+] strAddNewAffiliate_Key
+    [+] strAddNewZone_Key
+    [+] keyHome
+    [+] keyUp
+    [+] keyNextItem
+    [+] keyPreviousItem
+    [+] keyList
+    [+] keySearch
+    [+] keyCollapseAll
+    [+] keyExpandAll
+    [+] keyAddNew
+    [+] keyNext
+    [+] keyPrevious
+
   18-10-2002 - default
     [u[ time_format (IMPORTANT!)
     [+] strRecentHosts

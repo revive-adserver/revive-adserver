@@ -227,7 +227,7 @@ if (isset($clients) && is_array($clients) && count($clients) > 0)
 
 
 echo "<img src='images/icon-client.gif' border='0' align='absmiddle'>&nbsp;";
-echo "<a href='client-edit.php'>".$strAddClient."</a>&nbsp;&nbsp;";
+echo "<a href='client-edit.php' accesskey='".$keyAddNew."'>".$strAddClient_Key."</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
 
 
@@ -504,10 +504,10 @@ else
 
 echo "</td><td height='25' colspan='2' align='".$phpAds_TextAlignRight."' nowrap>";
 echo "<img src='images/triangle-d.gif' align='absmiddle' border='0'>";
-echo "&nbsp;<a href='client-index.php?expand=all'>".$strExpandAll."</a>";
+echo "&nbsp;<a href='client-index.php?expand=all' accesskey='".$keyExpandAll."'>".$strExpandAll."</a>";
 echo "&nbsp;&nbsp;|&nbsp;&nbsp;";
 echo "<img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'>";
-echo "&nbsp;<a href='client-index.php?expand=none'>".$strCollapseAll."</a>&nbsp;&nbsp;";
+echo "&nbsp;<a href='client-index.php?expand=none' accesskey='".$keyCollapseAll."'>".$strCollapseAll."</a>&nbsp;&nbsp;";
 echo "</td></tr>";
 
 echo "</table>";

@@ -185,7 +185,7 @@ for ($i=0; $i < $node_array_size;$i++)
 
 
 echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
-echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."'>".$strAddBanner."</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."' accesskey='".$keyAddNew."'>".$strAddBanner_Key."</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 phpAds_ShowBreak();
 
 echo "<br><br>";
@@ -389,10 +389,10 @@ if (!$phpAds_config['gui_show_campaign_preview'])
 {
 	echo "<td colspan='2' align='".$phpAds_TextAlignRight."' nowrap>";
 	echo "<img src='images/triangle-d.gif' align='absmiddle' border='0'>";
-	echo "&nbsp;<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&expand=all'>".$strExpandAll."</a>";
+	echo "&nbsp;<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&expand=all' accesskey='".$keyExpandAll."'>".$strExpandAll."</a>";
 	echo "&nbsp;&nbsp;|&nbsp;&nbsp;";
 	echo "<img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'>";
-	echo "&nbsp;<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&expand=none'>".$strCollapseAll."</a>";
+	echo "&nbsp;<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&expand=none' accesskey='".$keyCollapseAll."'>".$strCollapseAll."</a>";
 	echo "</td>";
 }
 else

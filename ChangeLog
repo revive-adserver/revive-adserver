@@ -11,6 +11,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  from IP2Country. Also added two delivery limitations called 'Country' and 'Continent' to enable the Geotracking  (Niels, 2002-08-18)
 			+ The source parameter can now be overwritten in Flash banners with multiple links in order to be able to log each destination url as a seperate entity (Niels, 2002-10-14)
 			+ Added the ability to log the geotargeting data in the statistics if 'verbose stats' are used  (Niels, 2002-10-17)
+			+ Added keyboard shortcuts for some functions and navigation and changed the tab order for most pages  (Niels, 2002-10-23)
 
 			+ Misc changes
 			  - 2002-07-26:  Added daily and hosts pages for affiliates and zones (Matteo)

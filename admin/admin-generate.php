@@ -40,6 +40,7 @@ phpAds_ShowSections(array("4.1", "4.2", "4.3"));
 /* Main code                                             */
 /*********************************************************/
 
+$tabindex = 1;
 phpAds_placeInvocationForm();
 
 

@@ -294,6 +294,7 @@ function phpAds_showZoneCampaign ($width, $height, $what, $delivery)
 	global $strNoCampaignsToLink, $strMatchingBanners, $strSelectCampaignToLink;
 	global $strHideInactiveCampaigns, $strInactiveCampaignsHidden, $strShowAll;
 	global $strHideMatchingBanners, $strShowMatchingBanners;
+	global $tabindex;
 	
 	$what_array = explode(",",$what);
 	for ($k=0; $k < count($what_array); $k++)
@@ -377,7 +378,7 @@ function phpAds_showZoneCampaign ($width, $height, $what, $delivery)
 		echo "<input type='hidden' name='zonetype' value='".phpAds_ZoneCampaign."'>";
 		
 		echo "<td><img src='images/icon-client.gif' align='absmiddle'>&nbsp;";
-		echo "<select name='clientid' onChange='this.form.submit();'>";
+		echo "<select name='clientid' onChange='this.form.submit();' tabindex='".($tabindex++)."'>";
 		
 		if (!isset($GLOBALS['clientid']) || $GLOBALS['clientid'] == '')
 			echo "<option value='' selected></option>";
@@ -413,7 +414,7 @@ function phpAds_showZoneCampaign ($width, $height, $what, $delivery)
 			echo "<input type='hidden' name='action' value='toggle'>";
 			echo "<td>&nbsp;&nbsp;<img src='images/caret-r.gif' align='absmiddle'>&nbsp;&nbsp;";
 			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;";
-			echo "<select name='campaignid'>";
+			echo "<select name='campaignid' tabindex='".($tabindex++)."'>";
 			
 			// Fetch all campaigns
 			$res = phpAds_dbQuery("
@@ -432,7 +433,7 @@ function phpAds_showZoneCampaign ($width, $height, $what, $delivery)
 			}
 			
 			echo "</select>";
-			echo "&nbsp;<input type='image' src='images/".$GLOBALS['phpAds_TextDirection']."/go_blue.gif' border='0'>";
+			echo "&nbsp;<input type='image' src='images/".$GLOBALS['phpAds_TextDirection']."/go_blue.gif' border='0' tabindex='".($tabindex++)."'>";
 			echo "</td></form>";
 		}
 		
@@ -487,10 +488,10 @@ function phpAds_showZoneCampaign ($width, $height, $what, $delivery)
 				{
 					// Show checkbox
 					if (isset($clientids[$campaign['clientid']]) && $clientids[$campaign['clientid']] == true)
-						echo "<input type='checkbox' name='clientid[]' value='".$campaign['clientid']."' checked onclick='reviewall();'>"; 
+						echo "<input type='checkbox' name='clientid[]' value='".$campaign['clientid']."' checked onclick='reviewall();' tabindex='".($tabindex++)."'>"; 
 					else
 					{
-						echo "<input type='checkbox' name='clientid[]' value='".$campaign['clientid']."' onclick='reviewall();'>"; 
+						echo "<input type='checkbox' name='clientid[]' value='".$campaign['clientid']."' onclick='reviewall();' tabindex='".($tabindex++)."'>"; 
 						$checkedall = false;
 					}
 				}
@@ -629,7 +630,7 @@ function phpAds_showZoneCampaign ($width, $height, $what, $delivery)
 	{
 		echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
 		echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td height='25'>";
-		echo "&nbsp;&nbsp;<input type='checkbox' name='checkall' value=''".($checkedall == true ? ' checked' : '')." onclick='toggleall();'>";
+		echo "&nbsp;&nbsp;<input type='checkbox' name='checkall' value=''".($checkedall == true ? ' checked' : '')." onclick='toggleall();' tabindex='".($tabindex++)."'>";
 		echo "&nbsp;&nbsp;<b>".$strCheckAllNone."</b>";
 		echo "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 	}
@@ -672,7 +673,7 @@ function phpAds_showZoneCampaign ($width, $height, $what, $delivery)
 	
 	if (!$compact)
 	{
-		echo "<input type='submit' name='submit' value='$strSaveChanges'>";
+		echo "<input type='submit' name='submit' value='$strSaveChanges' tabindex='".($tabindex++)."'>";
 		echo "</form>";
 	}
 }
@@ -686,6 +687,7 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype, $delivery)
 	global $strEdit, $strCheckAllNone, $strShowBanner;
 	global $strNoBannersToLink, $strSaveChanges, $strSelectBannerToLink, $strInactiveBannersHidden;
 	global $strShowParentCampaigns, $strHideParentCampaigns, $strHideInactiveBanners, $strShowAll;
+	global $tabindex;
 	
 	if ($zonetype == phpAds_ZoneBanners)
 	{
@@ -811,7 +813,7 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype, $delivery)
 		echo "<input type='hidden' name='zonetype' value='".phpAds_ZoneBanners."'>";
 		
 		echo "<td><img src='images/icon-client.gif' align='absmiddle'>&nbsp;";
-		echo "<select name='clientid' onChange='this.form.submit();'>";
+		echo "<select name='clientid' onChange='this.form.submit();' tabindex='".($tabindex++)."'>";
 		
 		if (!isset($GLOBALS['clientid']) || $GLOBALS['clientid'] == '')
 			echo "<option value='' selected></option>";
@@ -846,7 +848,7 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype, $delivery)
 			echo "<input type='hidden' name='zonetype' value='".phpAds_ZoneBanners."'>";
 			echo "<td>&nbsp;&nbsp;<img src='images/caret-r.gif' align='absmiddle'>&nbsp;&nbsp;";
 			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;";
-			echo "<select name='campaignid' onChange='this.form.submit();'>";
+			echo "<select name='campaignid' onChange='this.form.submit();' tabindex='".($tabindex++)."'>";
 			
 			if (!isset($GLOBALS['campaignid']) || $GLOBALS['campaignid'] == '')
 				echo "<option value='' selected></option>";
@@ -883,7 +885,7 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype, $delivery)
 				echo "<input type='hidden' name='action' value='toggle'>";
 				echo "<td>&nbsp;&nbsp;<img src='images/caret-r.gif' align='absmiddle'>&nbsp;&nbsp;";
 				echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
-				echo "<select name='bannerid'>";
+				echo "<select name='bannerid' tabindex='".($tabindex++)."'>";
 				
 				// Fetch all banners which can be linked
 				$query = "
@@ -933,7 +935,7 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype, $delivery)
 				}
 				
 				echo "</select>";
-				echo "&nbsp;<input type='image' src='images/".$GLOBALS['phpAds_TextDirection']."/go_blue.gif' border='0'>";
+				echo "&nbsp;<input type='image' src='images/".$GLOBALS['phpAds_TextDirection']."/go_blue.gif' border='0' tabindex='".($tabindex++)."'>";
 				echo "</td></form>";
 			}
 		}
@@ -1064,10 +1066,10 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype, $delivery)
 						if (!$compact)
 						{
 							if (isset($bannerids[$banner['bannerid']]) && $bannerids[$banner['bannerid']] == true)
-								echo "<input type='checkbox' name='bannerid[]' value='".$banner['bannerid']."' checked onclick='reviewall();'>"; 
+								echo "<input type='checkbox' name='bannerid[]' value='".$banner['bannerid']."' checked onclick='reviewall();' tabindex='".($tabindex++)."'>"; 
 							else
 							{
-								echo "<input type='checkbox' name='bannerid[]' value='".$banner['bannerid']."' onclick='reviewall();'>"; 
+								echo "<input type='checkbox' name='bannerid[]' value='".$banner['bannerid']."' onclick='reviewall();' tabindex='".($tabindex++)."'>"; 
 								$checkedall = false;
 							}
 						}
@@ -1152,7 +1154,7 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype, $delivery)
 	{
 		echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
 		echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td height='25'>";
-		echo "&nbsp;&nbsp;<input type='checkbox' name='checkall' value=''".($checkedall == true ? ' checked' : '')." onclick='toggleall();'>";
+		echo "&nbsp;&nbsp;<input type='checkbox' name='checkall' value=''".($checkedall == true ? ' checked' : '')." onclick='toggleall();' tabindex='".($tabindex++)."'>";
 		echo "&nbsp;&nbsp;<b>".$strCheckAllNone."</b>";
 		echo "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 	}
@@ -1198,7 +1200,7 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype, $delivery)
 	
 	if (!$compact)
 	{
-		echo "<input type='submit' name='submit' value='$strSaveChanges'>";
+		echo "<input type='submit' name='submit' value='$strSaveChanges' tabindex='".($tabindex++)."'>";
 		echo "</form>";
 	}
 }
@@ -1284,6 +1286,7 @@ if (isset($zoneid) && $zoneid != '')
 if (!isset($zonetype) || $zonetype == '')
 	$zonetype = $zone['zonetype'];
 
+$tabindex = 1;
 
 
 echo "<form name='zonetypes' method='post' action='zone-include.php'>";
@@ -1294,7 +1297,7 @@ echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25' colspan='3'><b>".$strSelectZoneType."</b></td></tr>";
 echo "<tr><td height='25'>";
 
-echo "<select name='zonetype' onChange='this.form.submit();'>";
+echo "<select name='zonetype' onChange='this.form.submit();' accesskey='".$keyList."' tabindex='".($tabindex++)."'>";
 	echo "<option value='".phpAds_ZoneCampaign."'".(($zonetype == phpAds_ZoneCampaign) ? " selected" : "").">".$strCampaignSelection."</option>";
 	echo "<option value='".phpAds_ZoneBanners."'".(($zonetype == phpAds_ZoneBanners) ? " selected" : "").">".$strBannerSelection."</option>";
 	echo "<option value='".phpAds_ZoneRaw."'".(($zonetype == phpAds_ZoneRaw) ? " selected" : "").">".$strRawQueryString."</option>";
@@ -1327,12 +1330,12 @@ if ($zonetype == phpAds_ZoneRaw)
 	echo "<input type='hidden' name='zonetype' value='$zonetype'>";
 	echo "<input type='hidden' name='action' value='set'>";
 	
-	echo "<textarea cols='50' rows='16' name='what' style='width:600px;'>".(isset($zone['what']) ? $zone['what'] : '')."</textarea>";
+	echo "<textarea cols='50' rows='16' name='what' style='width:600px;' tabindex='".($tabindex++)."'>".(isset($zone['what']) ? $zone['what'] : '')."</textarea>";
 	
 	echo "<br><br>";
 	echo "<br><br>";
 	
-	echo "<input type='submit' name='submit' value='$strSaveChanges'>";
+	echo "<input type='submit' name='submit' value='$strSaveChanges' tabindex='".($tabindex++)."'>";
 	echo "</form>";
 }
 

@@ -259,6 +259,8 @@ if (phpAds_dbNumRows($res))
 	$zone = phpAds_dbFetchArray($res);
 }
 
+$tabindex = 1;
+
 
 echo "<br><br>";
 
@@ -280,11 +282,11 @@ else
 echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$strZoneNoDelivery."</td><td>";
 echo "<table cellpadding='0' cellspacing='0' border='0' width='100%'>";
 
-echo "<tr><td><input type='radio' name='chaintype' value='0'".($zone['chain'] == '' ? ' CHECKED' : '').">&nbsp;</td><td>";
+echo "<tr><td><input type='radio' name='chaintype' value='0'".($zone['chain'] == '' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;</td><td>";
 echo $strZoneStopDelivery."</td></tr>";
 echo "<tr><td colspan='2'><img src='images/break-l.gif' height='1' width='100%' align='absmiddle' vspace='8'></td></tr>";
 
-echo "<tr><td><input type='radio' name='chaintype' value='1'".($zone['chain'] != '' && $chainzone != '' ? ' CHECKED' : '').">&nbsp;</td><td>";
+echo "<tr><td><input type='radio' name='chaintype' value='1'".($zone['chain'] != '' && $chainzone != '' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;</td><td>";
 echo $strZoneOtherZone.":</td></tr>";
 echo "<tr><td>&nbsp;</td><td width='100%'><img src='images/spacer.gif' height='1' width='100%' align='absmiddle' vspace='1'>";
 
@@ -293,7 +295,7 @@ if ($zone['delivery'] == phpAds_ZoneInterstitial) echo "<img src='images/icon-in
 if ($zone['delivery'] == phpAds_ZonePopup) echo "<img src='images/icon-popup.gif' align='top'>";
 if ($zone['delivery'] == phpAds_ZoneText) echo "<img src='images/icon-textzone.gif' align='top'>";
 
-echo "&nbsp;&nbsp;<select name='chainzone' style='width: 200;' onchange='phpAds_formSelectZone()'>";
+echo "&nbsp;&nbsp;<select name='chainzone' style='width: 200;' onchange='phpAds_formSelectZone()' tabindex='".($tabindex++)."'>";
 	
 	$available = array();
 	
@@ -321,10 +323,10 @@ echo "&nbsp;&nbsp;<select name='chainzone' style='width: 200;' onchange='phpAds_
 echo "</select></td></tr>";
 echo "<tr><td colspan='2'><img src='images/break-l.gif' height='1' width='100%' align='absmiddle' vspace='8'></td></tr>";
 
-echo "<tr><td><input type='radio' name='chaintype' value='2'".($zone['chain'] != '' && $chainzone == '' ? ' CHECKED' : '').">&nbsp;</td><td>";
+echo "<tr><td><input type='radio' name='chaintype' value='2'".($zone['chain'] != '' && $chainzone == '' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;</td><td>";
 echo $strZoneUseKeywords.":</td></tr>";
 echo "<tr><td>&nbsp;</td><td width='100%'><img src='images/spacer.gif' height='1' width='100%' align='absmiddle' vspace='1'>";
-echo "<img src='images/icon-edit.gif' align='top'>&nbsp;&nbsp;<textarea name='chainwhat' rows='3' cols='55' style='width: 200;' onkeydown='phpAds_formEditWhat()'>".($chainzone == '' ? htmlspecialchars($zone['chain']) : '')."</textarea>";
+echo "<img src='images/icon-edit.gif' align='top'>&nbsp;&nbsp;<textarea name='chainwhat' rows='3' cols='55' style='width: 200;' onkeydown='phpAds_formEditWhat()' tabindex='".($tabindex++)."'>".($chainzone == '' ? htmlspecialchars($zone['chain']) : '')."</textarea>";
 echo "</td></tr></table></td></tr>";
 
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
@@ -339,10 +341,10 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 	echo "<tr><td height='25' colspan='3'><b>".$strAppendSettings."</b></td></tr>";
 	echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-
+	
 	//echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$strZoneAppend."</td><td>";
 	//echo "<textarea name='append' rows='6' cols='55' style='width: 100%;'>".htmlspecialchars($zone['append'])."</textarea>";
-
+	
 	// Get available zones
 	$available = array();
 	
@@ -364,31 +366,31 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 	while ($row = phpAds_dbFetchArray($res))
 		$available[$row['delivery']][$row['zoneid']] = phpAds_buildZoneName($row['zoneid'], $row['zonename']);
 	
-
+	
 	if (isset($appendtype)) $zone['appendtype'] = $appendtype;
-
+	
 	// Select
 	echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>". 'Append type' ."</td><td>";
-	echo "<select name='appendtype' style='width: 200;' onchange='phpAds_formSelectAppendType()'>";
+	echo "<select name='appendtype' style='width: 200;' onchange='phpAds_formSelectAppendType()' tabindex='".($tabindex++)."'>";
 	echo "<option value='".phpAds_ZoneAppendRaw."'".($zone['appendtype'] == phpAds_ZoneAppendRaw ? ' selected' : '').">". 'HTML Code' ."</option>";
-
+	
 	if (count($available[phpAds_ZonePopup]) || count($available[phpAds_ZoneInterstitial]))
 		echo "<option value='".phpAds_ZoneAppendZone."'".($zone['appendtype'] == phpAds_ZoneAppendZone ? ' selected' : '').">". 'Zone selection' ."</option>";
 	else
 		$zone['appendtype'] = phpAds_ZoneAppendRaw;
-
+	
 	echo "</select></td></tr>";
-
+	
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 	echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-
+	
 	if ($zone['appendtype'] == phpAds_ZoneAppendZone)
 	{
 		if (!isset($appendid) || empty($appendid))
 		{
 			$appendvars = phpAds_ZoneParseAppendCode($zone['append']);
-
+			
 			$appendid = $appendvars[0]['zoneid'];
 			$appenddelivery = $appendvars[0]['delivery'];
 			if ($appenddelivery == phpAds_ZonePopup && !count($available[phpAds_ZonePopup]))
@@ -405,7 +407,7 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 				}
 			}
 		}
-
+		
 		
 		echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>". 'Select zone' ."</td><td>";
 		echo "<input type='hidden' name='appendsave' value='1'>";
@@ -415,10 +417,10 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 		// Popup
 		echo "<tr><td><input type='radio' name='appenddelivery' value='".phpAds_ZonePopup."'".
 			(count($available[phpAds_ZonePopup]) ? ' onClick="phpAds_formSelectAppendDelivery(0)"' : ' DISABLED').
-			($appenddelivery == phpAds_ZonePopup ? ' CHECKED' : '').">&nbsp;</td><td>";
+			($appenddelivery == phpAds_ZonePopup ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;</td><td>";
 		echo $GLOBALS['strPopup'].":</td></tr>";
 		echo "<tr><td>&nbsp;</td><td width='100%'><img src='images/spacer.gif' height='1' width='100%' align='absmiddle' vspace='1'>";
-
+		
 		if (count($available[phpAds_ZonePopup]))
 			echo "<img src='images/icon-popup.gif' align='top'>";
 		else
@@ -426,7 +428,7 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 		
 		echo "&nbsp;&nbsp;<select name='appendpopup' style='width: 200;'".
 			" onchange='phpAds_formSelectAppendZone(0)'".
-			(count($available[phpAds_ZonePopup]) ? '' : ' DISABLED').">";
+			(count($available[phpAds_ZonePopup]) ? '' : ' DISABLED')." tabindex='".($tabindex++)."'>";
 			
 		while (list($k, $v) = each($available[phpAds_ZonePopup]))
 		{
@@ -434,15 +436,15 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 				echo "<option value='".$k."' selected>".$v."</option>";
 			else
 				echo "<option value='".$k."'>".$v."</option>";
-
+		
 		}
 			
 		echo "</select></td></tr>";
-
+		
 		// Interstitial
 		echo "<tr><td><input type='radio' name='appenddelivery' value='".phpAds_ZoneInterstitial."'".
 			(count($available[phpAds_ZoneInterstitial]) ? ' onClick="phpAds_formSelectAppendDelivery(1)"' : ' DISABLED').
-			($appenddelivery == phpAds_ZoneInterstitial ? ' CHECKED' : '').">&nbsp;</td><td>";
+			($appenddelivery == phpAds_ZoneInterstitial ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;</td><td>";
 		echo $GLOBALS['strInterstitial'].":</td></tr>";
 		echo "<tr><td>&nbsp;</td><td width='100%'><img src='images/spacer.gif' height='1' width='100%' align='absmiddle' vspace='1'>";
 		
@@ -453,7 +455,7 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 		
 		echo "&nbsp;&nbsp;<select name='appendinterstitial' style='width: 200;'".
 			" onchange='phpAds_formSelectAppendZone(1)'".
-			(count($available[phpAds_ZoneInterstitial]) ? '' : ' DISABLED').">";
+			(count($available[phpAds_ZoneInterstitial]) ? '' : ' DISABLED')." tabindex='".($tabindex++)."'>";
 			
 		while (list($k, $v) = each($available[phpAds_ZoneInterstitial]))
 		{
@@ -464,11 +466,11 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 		}
 			
 		echo "</select></td></tr></table></td></tr>";
-
+		
 		echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 		echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
 		echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-
+		
 		// It shouldn't be necessary to load zone attributes from db
 		$extra = array('what' => '',
 					   //'width' => $zone['width'],
@@ -489,7 +491,7 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 	{
 		echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$strZoneAppend."</td><td>";
 		echo "<input type='hidden' name='appendsave' value='1'>";
-		echo "<textarea name='append' rows='6' cols='55' style='width: 100%;'>".htmlspecialchars($zone['append'])."</textarea>";
+		echo "<textarea name='append' rows='6' cols='55' style='width: 100%;' tabindex='".($tabindex++)."'>".htmlspecialchars($zone['append'])."</textarea>";
 		echo "</td></tr>";
 	}
 	
@@ -508,14 +510,14 @@ elseif ($zone['delivery'] == phpAds_ZoneText )
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$strZonePrependHTML."</td><td>";
-	echo "<textarea name='prepend' rows='6' cols='55' style='width: 100%;'>".htmlspecialchars($zone['prepend'])."</textarea>";
+	echo "<textarea name='prepend' rows='6' cols='55' style='width: 100%;' tabindex='".($tabindex++)."'>".htmlspecialchars($zone['prepend'])."</textarea>";
 	echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$strZoneAppendHTML."</td><td>";
 	echo "<input type='hidden' name='appendsave' value='1'>";
 	echo "<input type='hidden' name='appendtype' value='".phpAds_ZoneAppendRaw."'>";
-	echo "<textarea name='append' rows='6' cols='55' style='width: 100%;'>".htmlspecialchars($zone['append'])."</textarea>";
+	echo "<textarea name='append' rows='6' cols='55' style='width: 100%;' tabindex='".($tabindex++)."'>".htmlspecialchars($zone['append'])."</textarea>";
 	echo "</td></tr>";
 	
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
@@ -524,7 +526,7 @@ elseif ($zone['delivery'] == phpAds_ZoneText )
 }
 
 echo "<br><br>";
-echo "<input type='submit' name='submitbutton' value='".$strSaveChanges."'>";
+echo "<input type='submit' name='submitbutton' value='".$strSaveChanges."' tabindex='".($tabindex++)."'>";
 echo "</form>";
 
 
@@ -546,9 +548,12 @@ echo "</form>";
 	
 	function phpAds_formEditWhat()
 	{
-		document.zoneform.chaintype[0].checked = false;
-		document.zoneform.chaintype[1].checked = false;
-		document.zoneform.chaintype[2].checked = true;
+		if (event.keyCode != 9) 
+		{
+			document.zoneform.chaintype[0].checked = false;
+			document.zoneform.chaintype[1].checked = false;
+			document.zoneform.chaintype[2].checked = true;
+		}
 	}		
 
 	function phpAds_formSelectAppendType()

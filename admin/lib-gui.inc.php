@@ -80,6 +80,8 @@ function phpAds_PageHeader($ID, $extra="")
 	global $strLogout, $strNavigation, $strShortcuts;
 	global $strAuthentification, $strSearch, $strHelp;
 	
+	global $keyHome, $keyUp, $keyNextItem, $keyPreviousItem, $keySearch;
+	
 	
 	$phpAds_GUIDone = true;
 	$phpAds_NavID   = $ID;
@@ -122,7 +124,7 @@ function phpAds_PageHeader($ID, $extra="")
 			else
 			{
 				$sidebar .= "<tr><td width='20' valign='top'><img src='images/caret-u.gif' width='11' height='7'>&nbsp;</td>";
-				$sidebar .= "<td width='140'><a href='$filename'>$title</a></td></tr>";
+				$sidebar .= "<td width='140'><a href='$filename'".($i == count($sections) - 2 ? " accesskey='".$keyUp."'" : "").">$title</a></td></tr>";
 			}
 			
 			if ($i == count($sections) - 2)
@@ -151,14 +153,24 @@ function phpAds_PageHeader($ID, $extra="")
 			$sidebar .= "<tr><td width='20'>&nbsp;</td><td width='140'>";
 			$sidebar .= "<table width='140' cellpadding='0' cellspacing='0' border='0'>";
 			
+			
+			for ($ci=0; $ci < count($phpAds_context); $ci++)
+				if ($phpAds_context[$ci]['selected'])
+					$selectedcontext = $ci;
+			
 			for ($ci=0; $ci < count($phpAds_context); $ci++)
 			{
+				$ac = '';
+				if ($ci == $selectedcontext - 1) $ac = $keyPreviousItem;
+				if ($ci == $selectedcontext + 1) $ac = $keyNextItem;
+				
 				if ($phpAds_context[$ci]['selected'])
 					$sidebar .= "<tr><td width='20' valign='top'><img src='images/box-1.gif'>&nbsp;</td>";
 				else
 					$sidebar .= "<tr><td width='20' valign='top'><img src='images/box-0.gif'>&nbsp;</td>";
 				
-				$sidebar .= "<td width='120'><a href='".$phpAds_context[$ci]['link']."'>".$phpAds_context[$ci]['name']."</a></td></tr>";
+				$sidebar .= "<td width='120'><a href='".$phpAds_context[$ci]['link']."'".($ac != '' ? " accesskey='".$ac."'" : "").">";
+				$sidebar .= $phpAds_context[$ci]['name']."</a></td></tr>";
 			}
 			
 			$sidebar .= "</table></td></tr>";
@@ -229,7 +241,7 @@ function phpAds_PageHeader($ID, $extra="")
 				
 				if ($key == $currentsection)
 				{
-					$tabbar .= "<td bgcolor='#FFFFFF' valign='middle' nowrap>&nbsp;&nbsp;<a class='tab-s' href='$filename'>$title</a></td>";
+					$tabbar .= "<td bgcolor='#FFFFFF' valign='middle' nowrap>&nbsp;&nbsp;<a class='tab-s' href='$filename' accesskey='".$keyHome."'>$title</a></td>";
 					$lastselected = true;
 				}
 				else
@@ -255,8 +267,8 @@ function phpAds_PageHeader($ID, $extra="")
 			$searchbar .= "<form name='search' action='admin-search.php' target='SearchWindow' onSubmit=\"search_window(document.search.keyword.value,'".$phpAds_config['url_prefix']."/admin/admin-search.php'); return false;\">";
 			$searchbar .= "<tr height='24'>";
 			$searchbar .= "<td height='24'><img src='images/".$phpAds_TextDirection."/tab-sb.gif' height='24' width='10'></td>";
-			$searchbar .= "<td class='tab-u'>$strSearch:</td>";
-			$searchbar .= "<td>&nbsp;&nbsp;<input type='text' name='keyword' size='15' class='search'>&nbsp;&nbsp;</td>";
+			$searchbar .= "<td class='tab-u'>".$strSearch.":</td>";
+			$searchbar .= "<td>&nbsp;&nbsp;<input type='text' name='keyword' size='15' class='search' accesskey='".$keySearch."'>&nbsp;&nbsp;</td>";
 			$searchbar .= "<td><a href=\"javascript:search_window(document.search.keyword.value,'".$phpAds_config['url_prefix']."/admin/admin-search.php');\"><img src='images/".$phpAds_TextDirection."/go.gif' border='0'></a></td>";
 			$searchbar .= "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
 			$searchbar .= "</tr>";
@@ -307,7 +319,7 @@ function phpAds_PageHeader($ID, $extra="")
 	echo "\t</head>\n\n\n";
 	
 	echo "<body bgcolor='#FFFFFF' background='images/".$phpAds_TextDirection."/background.gif' text='#000000' leftmargin='0' ";
-	echo "topmargin='0' marginwidth='0' marginheight='0'".($phpAds_showHelp ? " onResize='resizeHelp();' onScroll='resizeHelp();'" : '').">";
+	echo "topmargin='0' marginwidth='0' marginheight='0' onLoad='initAccessKey();'".($phpAds_showHelp ? " onResize='resizeHelp();' onScroll='resizeHelp();'" : '').">";
 	
 	// Header
 	if (isset($phpAds_config['my_header']) && $phpAds_config['my_header'] != '')
@@ -449,6 +461,8 @@ function phpAds_PageFooter()
 		echo "<br><br><br><br><br><br>";
 	}
 	
+	echo "\n\n";
+	
 	// Add Product Update redirector
 	if (phpAds_isUser(phpAds_Admin) &&
 		!isset($Session['update_check']) &&
@@ -457,8 +471,7 @@ function phpAds_PageFooter()
 		echo "\t<script language='JavaScript' src='maintenance-updates-js.php'></script>\n";
 	}
 	
-	echo "</body>";
-	echo "</html>";
+	echo "\n</body></html>";
 }
 
 
@@ -506,7 +519,7 @@ function phpAds_ShowSections($sections)
 				echo "<img src='images/".$phpAds_TextDirection."/stab-bs.gif' align='absmiddle'></td>";
 			
 			echo "<td background='images/".$phpAds_TextDirection."/stab-sb.gif' valign='middle' nowrap>";
-			echo "&nbsp;&nbsp;<a class='tab-s' href='".$sectionUrl."'>".$sectionStr."</a></td>";
+			echo "&nbsp;&nbsp;<a class='tab-s' href='".$sectionUrl."' accesskey='".($i+1)."'>".$sectionStr."</a></td>";
 		}
 		else
 		{
@@ -521,7 +534,7 @@ function phpAds_ShowSections($sections)
 				echo "<img src='images/".$phpAds_TextDirection."/stab-bu.gif' align='absmiddle'></td>";
 			
 			echo "<td background='images/".$phpAds_TextDirection."/stab-ub.gif' valign='middle' nowrap>";
-			echo "&nbsp;&nbsp;<a class='tab-g' href='".$sectionUrl."'>".$sectionStr."</a></td>";
+			echo "&nbsp;&nbsp;<a class='tab-g' href='".$sectionUrl."' accesskey='".($i+1)."'>".$sectionStr."</a></td>";
 		}
 		
 		$previousselected = $selected;

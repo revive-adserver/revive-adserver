@@ -15,6 +15,47 @@
 
 
 /*********************************************************/
+/* Enable accesskeys in IE                               */
+/*********************************************************/
+
+var accessKeyEnabled = true;
+
+function useAccessKey (evt) {
+	if (accessKeyEnabled == true) {
+		if (event.altKey) {
+			event.srcElement.click();
+		}
+	} else {
+		event.srcElement.blur();
+		accessKeyEnabled = true;
+	}
+}
+
+function releaseAccessKey() {
+	if (accessKeyEnabled == false) {
+		accessKeyEnabled = true;
+	}
+}
+
+function initAccessKey() {
+	if (navigator.appName == "Microsoft Internet Explorer") {
+		for (i=0;i<document.all.length;i++) {
+			a = document.all(i);
+			if (a.tagName == 'A' && a.accessKey != '') {
+				a.blur();
+				a.onfocus = useAccessKey;
+			}
+		}
+		if (event.altKey) {
+			accessKeyEnabled = false;
+			document.onkeyup = releaseAccessKey;
+			setTimeout ('releaseAccessKey()', 100);
+		}
+	}
+}
+
+
+/*********************************************************/
 /* General functions                                     */
 /*********************************************************/
 

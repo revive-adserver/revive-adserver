@@ -25,7 +25,7 @@ English
 	---------------------------------------------------------
 	Maintained by:	   Niels Leenheer (niels@creatype.nl)
 	Is up-to-date?	   Always
-	Last update:	   17 October 2002
+	Last update:	   23 October 2002
 	Translated files:  7
 	---------------------------------------------------------
 

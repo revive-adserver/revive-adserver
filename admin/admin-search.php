@@ -105,7 +105,7 @@ if ($compact == '')
 			<input type='hidden' name='compact' value='<?php echo $compact; ?>'>
 			<tr height='24'>
 				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-				<td class='tab-s' valign='bottom'><?php echo $strSearch; ?>:&nbsp;<input type='text' name='keyword' size='15' value='<?php print $keyword ?>'>&nbsp;
+				<td class='tab-s' valign='bottom'><?php echo $strSearch; ?>:&nbsp;<input type='text' name='keyword' size='15' value='<?php print $keyword ?>' accesskey='<? print $keySearch ?>'>&nbsp;
 				<input type='image' src='images/<?php echo $phpAds_TextDirection; ?>/go_blue.gif' border='0'></td>
 				<td height='24'><img src='images/<?php echo $phpAds_TextDirection; ?>/tab-ew.gif' height='24' width='10'></td>
 			</tr>

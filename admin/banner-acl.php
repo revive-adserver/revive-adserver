@@ -515,6 +515,8 @@ if ($time['hour'] == 0 && $time['minute'] == 0) $time['minute'] = '-';
 if ($time['hour'] == 0) $time['hour'] = '-';
 if ($cap == 0) $cap = '-';
 
+$tabindex = 1;
+
 
 
 // Begin form
@@ -566,7 +568,7 @@ if ($phpAds_config['acl'])
 				echo "<input type='hidden' name='acl[".$key."][con]' value='".$acl[$key]['con']."'>&nbsp;";
 			else
 			{
-				echo "<select name='acl[".$key."][con]'>";
+				echo "<select name='acl[".$key."][con]' tabindex='".($tabindex++)."'>";
 				
 				reset($aclcon_types);
 				while (list ($aclcon_type, $aclcon_name) = each ($aclcon_types))
@@ -583,7 +585,7 @@ if ($phpAds_config['acl'])
 			echo "<img src='images/icon-acl.gif' align='absmiddle'>&nbsp;".$acl_types[$acl[$key]['type']];
 			echo "<input type='hidden' name='acl[".$key."][type]' value='".$acl[$key]['type']."'>";
 			echo "</td><td >";
-			echo "<select name='acl[".$key."][ad]'>";
+			echo "<select name='acl[".$key."][ad]' tabindex='".($tabindex++)."'>";
 			
 			reset($aclad_types);
 			while (list ($acl_ad, $acl_name) = each ($aclad_types))
@@ -624,7 +626,7 @@ if ($phpAds_config['acl'])
 				for ($i = 0; $i < 7; $i++)
 				{
 					if ($i % 4 == 0) echo "<tr>";
-					echo "<td><input type='checkbox' name='acl[".$key."][data][]' value='$i'".(in_array ($i, $acl[$key]['data']) ? ' CHECKED' : '').">&nbsp;".$strDayShortCuts[$i]."&nbsp;&nbsp;</td>";
+					echo "<td><input type='checkbox' name='acl[".$key."][data][]' value='$i'".(in_array ($i, $acl[$key]['data']) ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;".$strDayShortCuts[$i]."&nbsp;&nbsp;</td>";
 					if (($i + 1) % 4 == 0) echo "</tr>";
 				}
 				if (($i + 1) % 4 != 0) echo "</tr>";
@@ -639,7 +641,7 @@ if ($phpAds_config['acl'])
 				for ($i = 0; $i < 24; $i++)
 				{
 					if ($i % 4 == 0) echo "<tr>";
-					echo "<td><input type='checkbox' name='acl[".$key."][data][]' value='$i'".(in_array ($i, $acl[$key]['data']) ? ' CHECKED' : '').">&nbsp;".$i.":00&nbsp;&nbsp;</td>";
+					echo "<td><input type='checkbox' name='acl[".$key."][data][]' value='$i'".(in_array ($i, $acl[$key]['data']) ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;".$i.":00&nbsp;&nbsp;</td>";
 					if (($i + 1) % 4 == 0) echo "</tr>";
 				}
 				if (($i + 1) % 4 != 0) echo "</tr>";
@@ -650,7 +652,7 @@ if ($phpAds_config['acl'])
 				if (!isset($acl[$key]['data']))
 					$acl[$key]['data'] = array();
 				
-				echo "<select name='acl[".$key."][data][]' multiple size='6' style='width: 275;'>";
+				echo "<select name='acl[".$key."][data][]' multiple size='6' style='width: 275;' tabindex='".($tabindex++)."'>";
 				
 				while (list($iso,$fullname) = each ($phpAds_ISO639))
 					echo "<option value='$iso'".(in_array ($iso, $acl[$key]['data']) ? ' selected' : '').">".$fullname."</option>";
@@ -662,7 +664,7 @@ if ($phpAds_config['acl'])
 				if (!isset($acl[$key]['data']))
 					$acl[$key]['data'] = array();
 				
-				echo "<select name='acl[".$key."][data][]' multiple size='6' style='width: 275;'>";
+				echo "<select name='acl[".$key."][data][]' multiple size='6' style='width: 275;' tabindex='".($tabindex++)."'>";
 				
 				while (list($iso,$fullname) = each ($phpAds_ISO3166))
 					echo "<option value='$iso'".(in_array ($iso, $acl[$key]['data']) ? ' selected' : '').">".$fullname."</option>";
@@ -674,7 +676,7 @@ if ($phpAds_config['acl'])
 				if (!isset($acl[$key]['data']))
 					$acl[$key]['data'] = array();
 				
-				echo "<select name='acl[".$key."][data][]' multiple size='6' style='width: 275;'>";
+				echo "<select name='acl[".$key."][data][]' multiple size='6' style='width: 275;' tabindex='".($tabindex++)."'>";
 				
 				while (list($iso,$fullname) = each ($phpAds_cont_name))
 					echo "<option value='$iso'".(in_array ($iso, $acl[$key]['data']) ? ' selected' : '').">".$fullname."</option>";
@@ -693,7 +695,7 @@ if ($phpAds_config['acl'])
 				while (list($ukey, $uvalue) = each ($phpAds_Browser))
 				{
 					if ($i % 3 == 0) echo "<tr>";
-					echo "<td><input type='checkbox' name='acl[".$key."][data][]' value='".$ukey."'".(in_array ($ukey, $acl[$key]['data']) ? ' CHECKED' : '').">&nbsp;".$ukey."&nbsp;&nbsp;</td>";
+					echo "<td><input type='checkbox' name='acl[".$key."][data][]' value='".$ukey."'".(in_array ($ukey, $acl[$key]['data']) ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;".$ukey."&nbsp;&nbsp;</td>";
 					if (($i + 1) % 3 == 0) echo "</tr>";
 					$i++;
 				}
@@ -712,7 +714,7 @@ if ($phpAds_config['acl'])
 				while (list($ukey, $uvalue) = each ($phpAds_OS))
 				{
 					if ($i % 3 == 0) echo "<tr>";
-					echo "<td><input type='checkbox' name='acl[".$key."][data][]' value='".$ukey."'".(in_array ($ukey, $acl[$key]['data']) ? ' CHECKED' : '').">&nbsp;".$ukey."&nbsp;&nbsp;</td>";
+					echo "<td><input type='checkbox' name='acl[".$key."][data][]' value='".$ukey."'".(in_array ($ukey, $acl[$key]['data']) ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;".$ukey."&nbsp;&nbsp;</td>";
 					if (($i + 1) % 3 == 0) echo "</tr>";
 					$i++;
 				}
@@ -720,7 +722,7 @@ if ($phpAds_config['acl'])
 				echo "</table>";
 			}
 			else
-				echo "<input type='text' size='40' name='acl[".$key."][data]' value='".phpAds_htmlQuotes(stripslashes(isset($acl[$key]['data']) ? $acl[$key]['data'] : ""))."'>";
+				echo "<input type='text' size='40' name='acl[".$key."][data]' value='".phpAds_htmlQuotes(stripslashes(isset($acl[$key]['data']) ? $acl[$key]['data'] : ""))."' tabindex='".($tabindex++)."'>";
 			
 			echo "<br><br></td></tr>";
 			
@@ -751,7 +753,7 @@ if ($phpAds_config['acl'])
 	
 	echo "</td><td height='30' colspan='2' align='".$phpAds_TextAlignRight."'>";
 	echo "<img src='images/icon-acl-add.gif' align='absmiddle'>&nbsp;";
-	echo "<select name='type'>";
+	echo "<select name='type' accesskey='".$keyAddNew."' tabindex='".($tabindex++)."'>";
 	
 	reset($acl_types);
 	while (list ($acl_type, $acl_name) = each ($acl_types))
@@ -779,9 +781,9 @@ echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 echo "<tr><td width='30'>&nbsp;</td>";
 echo "<td width='200'>".$strTimeCapping."</td>";
 echo "<td valign='top'>";
-echo "<input id='timehour' class='flat' type='text' size='3' name='time[hour]' value='".$time['hour']."' onKeyUp=\"phpAds_formLimitUpdate(this);\"> ".$strHours." &nbsp;&nbsp;";
-echo "<input id='timeminute' class='flat' type='text' size='3' name='time[minute]' value='".$time['minute']."' onKeyUp=\"phpAds_formLimitUpdate(this);\"> ".$strMinutes." &nbsp;&nbsp;";
-echo "<input id='timesecond' class='flat' type='text' size='3' name='time[second]' value='".$time['second']."' onBlur=\"phpAds_formLimitBlur(this);\" onKeyUp=\"phpAds_formLimitUpdate(this);\"> ".$strSeconds." &nbsp;&nbsp;";
+echo "<input id='timehour' class='flat' type='text' size='3' name='time[hour]' value='".$time['hour']."' onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> ".$strHours." &nbsp;&nbsp;";
+echo "<input id='timeminute' class='flat' type='text' size='3' name='time[minute]' value='".$time['minute']."' onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> ".$strMinutes." &nbsp;&nbsp;";
+echo "<input id='timesecond' class='flat' type='text' size='3' name='time[second]' value='".$time['second']."' onBlur=\"phpAds_formLimitBlur(this);\" onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> ".$strSeconds." &nbsp;&nbsp;";
 echo "</td></tr>";
 echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
@@ -789,7 +791,7 @@ echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspac
 echo "<tr><td width='30'>&nbsp;</td>";
 echo "<td width='200'>".$strImpressionCapping."</td>";
 echo "<td valign='top'>";
-echo "<input class='flat' type='text' size='3' name='cap' value='".$cap."' onBlur=\"phpAds_formCapBlur(this);\" > ".$strTimes;
+echo "<input class='flat' type='text' size='3' name='cap' value='".$cap."' onBlur=\"phpAds_formCapBlur(this);\" tabindex='".($tabindex++)."'> ".$strTimes;
 echo "</td></tr>";
 
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
@@ -799,7 +801,7 @@ echo "</table>";
 
 
 echo "<br><br><br>";
-echo "<input type='submit' name='submit' value='$strSaveChanges'>";
+echo "<input type='submit' name='submit' value='$strSaveChanges' tabindex='".($tabindex++)."'>";
 echo "</form><br><br>";
 
 

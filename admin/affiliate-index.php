@@ -157,7 +157,7 @@ if (isset($zones) && is_array($zones) && count($zones) > 0)
 
 
 echo "<img src='images/icon-affiliate.gif' border='0' align='absmiddle'>&nbsp;";
-echo "<a href='affiliate-edit.php'>$strAddNewAffiliate</a>&nbsp;&nbsp;";
+echo "<a href='affiliate-edit.php' accesskey=".$keyAddNew.">".$strAddNewAffiliate_Key."</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
 
 
@@ -352,10 +352,10 @@ if ($loosezones)
 
 echo "<tr><td height='25' colspan='5' align='".$phpAds_TextAlignRight."'>";
 echo "<img src='images/triangle-d.gif' align='absmiddle' border='0'>";
-echo "&nbsp;<a href='affiliate-index.php?expand=all'>".$strExpandAll."</a>";
+echo "&nbsp;<a href='affiliate-index.php?expand=all' accesskey='".$keyExpandAll."'>".$strExpandAll."</a>";
 echo "&nbsp;&nbsp;|&nbsp;&nbsp;";
 echo "<img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'>";
-echo "&nbsp;<a href='affiliate-index.php?expand=none'>".$strCollapseAll."</a>";
+echo "&nbsp;<a href='affiliate-index.php?expand=none' accesskey='".$keyCollapseAll."'>".$strCollapseAll."</a>";
 echo "</td></tr>";
 
 echo "</table>";

@@ -182,6 +182,8 @@ if (phpAds_dbNumRows($res))
 					   'website' => $affiliate['website']
 		);
 		
+		$tabindex = 1;
+		
 		phpAds_placeInvocationForm($extra, true);
 	}
 }

@@ -529,10 +529,10 @@ if ($totalviews > 0 || $totalclicks > 0)
 	echo "</td>";
 	echo "<td colspan='3' height='25' align='".$phpAds_TextAlignRight."' nowrap>";
 	echo "<img src='images/triangle-d.gif' align='absmiddle' border='0'>";
-	echo "&nbsp;<a href='stats-client-campaigns.php?clientid=".$clientid."&expand=all'>".$strExpandAll."</a>";
+	echo "&nbsp;<a href='stats-client-campaigns.php?clientid=".$clientid."&expand=all' accesskey='".$keyExpandAll."'>".$strExpandAll."</a>";
 	echo "&nbsp;&nbsp;|&nbsp;&nbsp;";
 	echo "<img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'>";
-	echo "&nbsp;<a href='stats-client-campaigns.php?clientid=".$clientid."&expand=none'>".$strCollapseAll."</a>&nbsp;&nbsp;";
+	echo "&nbsp;<a href='stats-client-campaigns.php?clientid=".$clientid."&expand=none' accesskey='".$keyCollapseAll."'>".$strCollapseAll."</a>&nbsp;&nbsp;";
 	echo "</td>";
 	echo "</tr>";
 	

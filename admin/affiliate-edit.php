@@ -359,6 +359,8 @@ else
 	$affiliate['permissions'] 	= 0;
 }
 
+$tabindex = 1;
+
 
 
 /*********************************************************/
@@ -376,27 +378,27 @@ echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gi
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strName."</td><td>";
-echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='name' size='35' style='width:350px;' value='".phpAds_htmlQuotes($affiliate['name'])."'>";
+echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='name' size='35' style='width:350px;' value='".phpAds_htmlQuotes($affiliate['name'])."' tabindex='".($tabindex++)."'>";
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strWebsite."</td><td>";
-echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='website' size='35' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($affiliate['website'])."'>";
+echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='website' size='35' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($affiliate['website'])."' tabindex='".($tabindex++)."'>";
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strContact."</td><td>";
-echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='contact' size='35' style='width:350px;' value='".phpAds_htmlQuotes($affiliate['contact'])."'>";
+echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='contact' size='35' style='width:350px;' value='".phpAds_htmlQuotes($affiliate['contact'])."' tabindex='".($tabindex++)."'>";
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strEMail."</td><td>";
-echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='email' size='35' style='width:350px;' value='".phpAds_htmlQuotes($affiliate['email'])."'>";
+echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='email' size='35' style='width:350px;' value='".phpAds_htmlQuotes($affiliate['email'])."' tabindex='".($tabindex++)."'>";
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strLanguage."</td><td>";
-echo "<select name='language'>";
+echo "<select name='language' tabindex='".($tabindex++)."'>";
 echo "<option value='' SELECTED>".$strDefault."</option>\n"; 
 
 $languages = phpAds_AvailableLanguages();
@@ -412,7 +414,7 @@ echo "</select></td></tr><tr><td><img src='images/spacer.gif' height='1' width='
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-echo "<input type='checkbox' name='publiczones' value='t'".($affiliate['publiczones'] == 't' ? ' CHECKED' : '').">&nbsp;";
+echo "<input type='checkbox' name='publiczones' value='t'".($affiliate['publiczones'] == 't' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
 echo $strMakePublisherPublic;
 echo "</td></tr>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
@@ -445,7 +447,7 @@ if (isset($errormessage) && $errormessage == 'duplicateusername')
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strUsername."</td>";
 
 if (phpAds_isUser(phpAds_Admin))
-	echo "<td width='370'><input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='username' size='25' value='".phpAds_htmlQuotes($affiliate['username'])."'></td>";
+	echo "<td width='370'><input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='username' size='25' value='".phpAds_htmlQuotes($affiliate['username'])."' tabindex='".($tabindex++)."'></td>";
 else
 	echo "<td width='370'>".(isset($affiliate['username']) ? $affiliate['username'] : '');
 
@@ -453,7 +455,7 @@ echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strPassword."</td>";
-echo "<td width='370'><input class='flat' type='password' name='password' size='25' value='".phpAds_htmlQuotes($affiliate['password'])."'></td>";
+echo "<td width='370'><input class='flat' type='password' name='password' size='25' value='".phpAds_htmlQuotes($affiliate['password'])."' tabindex='".($tabindex++)."'></td>";
 echo "</tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 if (phpAds_isUser(phpAds_Admin))
@@ -462,27 +464,27 @@ if (phpAds_isUser(phpAds_Admin))
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-	echo "<input type='checkbox' name='affiliatepermissions[]' value='".phpAds_ModifyInfo."'".(phpAds_ModifyInfo & $affiliate['permissions'] ? ' CHECKED' : '').">&nbsp;";
+	echo "<input type='checkbox' name='affiliatepermissions[]' value='".phpAds_ModifyInfo."'".(phpAds_ModifyInfo & $affiliate['permissions'] ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
 	echo $strAllowAffiliateModifyInfo;
 	echo "</td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-	echo "<input type='checkbox' name='affiliatepermissions[]' value='".phpAds_EditZone."'".(phpAds_EditZone & $affiliate['permissions'] ? ' CHECKED' : '').">&nbsp;";
+	echo "<input type='checkbox' name='affiliatepermissions[]' value='".phpAds_EditZone."'".(phpAds_EditZone & $affiliate['permissions'] ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
 	echo $strAllowAffiliateModifyZones;
 	echo "</td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-	echo "<input type='checkbox' name='affiliatepermissions[]' value='".phpAds_LinkBanners."'".(phpAds_LinkBanners & $affiliate['permissions'] ? ' CHECKED' : '').">&nbsp;";
+	echo "<input type='checkbox' name='affiliatepermissions[]' value='".phpAds_LinkBanners."'".(phpAds_LinkBanners & $affiliate['permissions'] ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
 	echo $strAllowAffiliateLinkBanners;
 	echo "</td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-	echo "<input type='checkbox' name='affiliatepermissions[]' value='".phpAds_AddZone."'".(phpAds_AddZone & $affiliate['permissions'] ? ' CHECKED' : '').">&nbsp;";
+	echo "<input type='checkbox' name='affiliatepermissions[]' value='".phpAds_AddZone."'".(phpAds_AddZone & $affiliate['permissions'] ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
 	echo $strAllowAffiliateAddZone;
 	echo "</td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-	echo "<input type='checkbox' name='affiliatepermissions[]' value='".phpAds_DeleteZone."'".(phpAds_DeleteZone & $affiliate['permissions'] ? ' CHECKED' : '').">&nbsp;";
+	echo "<input type='checkbox' name='affiliatepermissions[]' value='".phpAds_DeleteZone."'".(phpAds_DeleteZone & $affiliate['permissions'] ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
 	echo $strAllowAffiliateDeleteZone;
 	echo "</td></tr>";
 }
@@ -491,7 +493,7 @@ echo "<tr><td height='10' colspan='2'>&nbsp;</td></tr>";
 echo "</table>";
 
 echo "<br><br>";
-echo "<input type='submit' name='submit' value='".(isset($affiliateid) && $affiliateid != '' ? $strSaveChanges : ' Next > ')."'>";
+echo "<input type='submit' name='submit' value='".(isset($affiliateid) && $affiliateid != '' ? $strSaveChanges : $strNext.' >')."' tabindex='".($tabindex++)."'>";
 echo "</form>";
 
 

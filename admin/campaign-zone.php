@@ -208,6 +208,8 @@ while ($row = phpAds_dbFetchArray($res))
 	}
 }
 
+$tabindex = 1;
+
 
 echo "<br><br>";
 
@@ -283,7 +285,7 @@ if ($zone_count > 0 && $affiliate_count > 0)
 			else
 				echo "&nbsp;&nbsp;<input name='affiliate[".$affiliate['affiliateid']."]' type='checkbox' value='t' ";
 			
-			echo "onClick='toggleZones(".$affiliate['affiliateid'].");'>";
+			echo "onClick='toggleZones(".$affiliate['affiliateid'].");' tabindex='".($tabindex++)."'>";
 			echo "&nbsp;&nbsp;<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;";
 			echo "<a href='affiliate-edit.php?affiliateid=".$affiliate['affiliateid']."'>".$affiliate['name']."</a>";
 			echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -314,7 +316,7 @@ if ($zone_count > 0 && $affiliate_count > 0)
 				else
 					echo "&nbsp;&nbsp;<input name='includezone[".$zone['zoneid']."]'id='a".$affiliate['affiliateid']."'  type='checkbox' value='t' ";
 				
-				echo "onClick='toggleAffiliate(".$affiliate['affiliateid'].");'>&nbsp;&nbsp;";
+				echo "onClick='toggleAffiliate(".$affiliate['affiliateid'].");' tabindex='".($tabindex++)."'>&nbsp;&nbsp;";
 				
 				if ($zone['delivery'] == phpAds_ZoneBanner)
 					echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
@@ -356,7 +358,7 @@ echo "</table>";
 if (isset($affiliates) && count($affiliates) > 0)
 {
 	echo "<br><br>";
-	echo "<input type='submit' name='submit' value='$strSaveChanges'>";
+	echo "<input type='submit' name='submit' value='$strSaveChanges' tabindex='".($tabindex++)."'>";
 }
 
 echo "</form>";

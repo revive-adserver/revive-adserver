@@ -425,7 +425,7 @@ else
 
 function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 {
-	global $strMonth, $strDontExpire, $strActivateNow;
+	global $strMonth, $strDontExpire, $strActivateNow, $tabindex;
 	
 	if ($day == 0 && $month == 0 && $year == 0)
 	{
@@ -447,19 +447,19 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 	if ($edit)
 	{
 		echo "<table><tr><td>";
-		echo "<input type='radio' name='".$name."Set' value='f' onclick=\"phpAds_formDateClick('".$name."', false);\"".($set==false?' checked':'').">";
+		echo "<input type='radio' name='".$name."Set' value='f' onclick=\"phpAds_formDateClick('".$name."', false);\"".($set==false?' checked':'')." tabindex='".($tabindex++)."'>";
 		echo "&nbsp;$caption";
 		echo "</td></tr><tr><td>";
-		echo "<input type='radio' name='".$name."Set' value='t' onclick=\"phpAds_formDateClick('".$name."', true);\"".($set==true?' checked':'').">";
+		echo "<input type='radio' name='".$name."Set' value='t' onclick=\"phpAds_formDateClick('".$name."', true);\"".($set==true?' checked':'')." tabindex='".($tabindex++)."'>";
 		echo "&nbsp;";
 		
-		echo "<select name='".$name."Day' onchange=\"phpAds_formDateCheck('".$name."');\">\n";
+		echo "<select name='".$name."Day' onchange=\"phpAds_formDateCheck('".$name."');\" tabindex='".($tabindex++)."'>\n";
 		echo "<option value='-'".($day=='-' ? ' selected' : '').">-</option>\n";
 		for ($i=1;$i<=31;$i++)
 			echo "<option value='$i'".($day==$i ? ' selected' : '').">$i</option>\n";
 		echo "</select>&nbsp;\n";
 		
-		echo "<select name='".$name."Month' onchange=\"phpAds_formDateCheck('".$name."');\">\n";
+		echo "<select name='".$name."Month' onchange=\"phpAds_formDateCheck('".$name."');\" tabindex='".($tabindex++)."'>\n";
 		echo "<option value='-'".($month=='-' ? ' selected' : '').">-</option>\n";
 		for ($i=1;$i<=12;$i++)
 			echo "<option value='$i'".($month==$i ? ' selected' : '').">".$strMonth[$i-1]."</option>\n";
@@ -470,7 +470,7 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 		else
 			$start = date('Y');
 		
-		echo "<select name='".$name."Year' onchange=\"phpAds_formDateCheck('".$name."');\">\n";
+		echo "<select name='".$name."Year' onchange=\"phpAds_formDateCheck('".$name."');\" tabindex='".($tabindex++)."'>\n";
 		echo "<option value='-'".($year=='-' ? ' selected' : '').">-</option>\n";
 		for ($i=$start;$i<=($start+4);$i++)
 			echo "<option value='$i'".($year==$i ? ' selected' : '').">$i</option>\n";
@@ -491,10 +491,9 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 	}
 }
 
-
+$tabindex = 1;
 
 echo "<br><br>";
-
 echo "<form name='clientform' method='post' action='campaign-edit.php' onSubmit='return phpAds_formCheck(this);'>";
 echo "<input type='hidden' name='campaignid' value='".(isset($campaignid) ? $campaignid : '')."'>";
 echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clientid : '')."'>";
@@ -507,7 +506,7 @@ echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gi
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strName."</td><td>";
-echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='clientname' size='35' style='width:350px;' value='".phpAds_htmlQuotes($row["clientname"])."'></td>";
+echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='clientname' size='35' style='width:350px;' value='".phpAds_htmlQuotes($row["clientname"])."' tabindex='".($tabindex++)."'></td>";
 echo "</tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -544,15 +543,15 @@ if (isset($row['active']) && $row['active'] == 'f')
 
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strViewsPurchased."</td><td>";
-echo "<input class='flat' type='text' name='views' size='25' value='".($row["views"] > 0 ? $row["views"] : '-')."' onBlur='phpAds_formUpdate(this);' onKeyUp=\"phpAds_formUnlimitedCheck('unlimitedviews', 'views');\">&nbsp;";
-echo "<input type='checkbox' name='unlimitedviews'".($row["views"] == -1 ? " CHECKED" : '')." onClick=\"phpAds_formUnlimitedClick('unlimitedviews', 'views');\">&nbsp;";
+echo "<input class='flat' type='text' name='views' size='25' value='".($row["views"] > 0 ? $row["views"] : '-')."' onBlur='phpAds_formUpdate(this);' onKeyUp=\"phpAds_formUnlimitedCheck('unlimitedviews', 'views');\" tabindex='".($tabindex++)."'>&nbsp;";
+echo "<input type='checkbox' name='unlimitedviews'".($row["views"] == -1 ? " CHECKED" : '')." onClick=\"phpAds_formUnlimitedClick('unlimitedviews', 'views');\" tabindex='".($tabindex++)."'>&nbsp;";
 echo $strUnlimited;
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strClicksPurchased."</td><td>";
-echo "<input class='flat' type='text' name='clicks' size='25' value='".($row["clicks"] > 0 ? $row["clicks"] : '-')."' onBlur='phpAds_formUpdate(this);' onKeyUp=\"phpAds_formUnlimitedCheck('unlimitedclicks', 'clicks');\">&nbsp;";
-echo "<input type='checkbox' name='unlimitedclicks'".($row["clicks"] == -1 ? " CHECKED" : '')." onClick=\"phpAds_formUnlimitedClick('unlimitedclicks', 'clicks');\">&nbsp;";
+echo "<input class='flat' type='text' name='clicks' size='25' value='".($row["clicks"] > 0 ? $row["clicks"] : '-')."' onBlur='phpAds_formUpdate(this);' onKeyUp=\"phpAds_formUnlimitedCheck('unlimitedclicks', 'clicks');\" tabindex='".($tabindex++)."'>&nbsp;";
+echo "<input type='checkbox' name='unlimitedclicks'".($row["clicks"] == -1 ? " CHECKED" : '')." onClick=\"phpAds_formUnlimitedClick('unlimitedclicks', 'clicks');\" tabindex='".($tabindex++)."'>&nbsp;";
 echo $strUnlimited;
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
@@ -576,21 +575,21 @@ echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspac
 echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$strPriority."</td><td><table>";
 
 echo "<tr><td valign='top'>";
-echo "<input type='radio' name='priority' value='-'".($autotarget ? ' checked' : '').">";
+echo "<input type='radio' name='priority' value='-'".($autotarget ? ' checked' : '')." tabindex='".($tabindex++)."'>";
 echo "</td><td valign='top'>".$strPriorityAutoTargeting."<br><br></td></tr>";
 
 echo "<tr><td valign='top'>";
-echo "<input type='radio' name='priority' value='t'".($priority != 'f' && !$autotarget ? ' checked' : '')." onClick='phpAds_formPriorityClick(this.form, true)'>";
+echo "<input type='radio' name='priority' value='t'".($priority != 'f' && !$autotarget ? ' checked' : '')." onClick='phpAds_formPriorityClick(this.form, true)' tabindex='".($tabindex++)."'>";
 echo "</td><td valign='top'>".$strHighPriority."<br><img src='images/break-l.gif' height='1' width='100%' vspace='6'><br>";
 echo $strTargetLimitAdviews." ";
-echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='targetviews' size='7' value='".(isset($row["target"]) ? $row["target"] : '-')."'> ";
+echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='targetviews' size='7' value='".(isset($row["target"]) ? $row["target"] : '-')."' tabindex='".($tabindex++)."'> ";
 echo $strTargetPerDay."<br><br></td></tr>";
 
 echo "<tr><td valign='top'>";
-echo "<input type='radio' name='priority' value='f'".($priority == 'f' && !$autotarget ? ' checked' : '')." onClick='phpAds_formPriorityClick(this.form, true)'>";
+echo "<input type='radio' name='priority' value='f'".($priority == 'f' && !$autotarget ? ' checked' : '')." onClick='phpAds_formPriorityClick(this.form, true)' tabindex='".($tabindex++)."'>";
 echo "</td><td valign='top'>".$strLowPriority."<br><img src='images/break-l.gif' height='1' width='100%' vspace='6'><br>";
 echo $strCampaignWeight.": ";
-echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='weight' size='7' value='".(isset($row["weight"]) ? $row["weight"] : $phpAds_config['default_campaign_weight'])."'>";
+echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='weight' size='7' value='".(isset($row["weight"]) ? $row["weight"] : $phpAds_config['default_campaign_weight'])."' tabindex='".($tabindex++)."'>";
 
 echo "<input type='hidden' name='previousweight' value='".(isset($row["weight"]) ? $row["weight"] : '')."'>";
 echo "<input type='hidden' name='previousactive' value='".(isset($row["active"]) ? $row["active"] : '')."'>";
@@ -603,7 +602,7 @@ echo "</table>";
 
 
 echo "<br><br>";
-echo "<input type='submit' name='submit' value='".$strSaveChanges."'>";
+echo "<input type='submit' name='submit' value='".$strSaveChanges."' tabindex='".($tabindex++)."'>";
 echo "</form>";
 
 

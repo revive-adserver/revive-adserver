@@ -34,13 +34,15 @@ else
 /* Header                                                */
 /*********************************************************/
 
+$tabindex = 1;
+
 echo "<form action='".$HTTP_SERVER_VARS['PHP_SELF']."'>";
 
 if (isset($lib_misc_params))
 	for (reset($lib_misc_params); $key = key($lib_misc_params); next($lib_misc_params))
 		echo "<input type='hidden' name='".$key."' value='".$lib_misc_params[$key]."'>";
 
-echo "<select name='type' onChange='this.form.submit();'>";
+echo "<select name='type' onChange='this.form.submit();' accesskey='".$keyList."' tabindex='".($tabindex++)."'>";
 echo "<option value='s'".($type == 's' ? ' selected' : '').">".$strSizeDistribution."</option>";
 if (!$phpAds_config['compact_stats'] && $phpAds_config['geotracking_stats']) 
 	echo "<option value='c'".($type == 'c' ? ' selected' : '').">".$strCountryDistribution."</option>";

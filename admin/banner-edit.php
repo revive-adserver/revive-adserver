@@ -917,6 +917,8 @@ if (!isset($storagetype))
 	if ($show_sql)     $storagetype = "sql"; 
 }
 
+$tabindex = 1;
+
 
 if (!isset($bannerid) || $bannerid == '')
 {
@@ -928,7 +930,7 @@ if (!isset($bannerid) || $bannerid == '')
 	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 	echo "<tr><td height='25' colspan='3'><b>".$strChooseBanner."</b></td></tr>";
 	echo "<tr><td height='25'>";
-	echo "<select name='storagetype' onChange='this.form.submit();'>";
+	echo "<select name='storagetype' onChange='this.form.submit();' accesskey='".$keyList."' tabindex='".($tabindex++)."'>";
 	
 	if ($show_sql)     echo "<option value='sql'".($storagetype == "sql" ? ' selected' : '').">".$strMySQLBanner."</option>";
 	if ($show_web) 	   echo "<option value='web'".($storagetype == "web" ? ' selected' : '').">".$strWebBanner."</option>";
@@ -1040,7 +1042,7 @@ if ($storagetype == 'sql')
 		echo "<tr><td width='30'>&nbsp;</td>";
 		echo "<td width='200' valign='top'>".$strUploadOrKeep."</td>";
 		echo "<td><table cellpadding='0' cellspacing='0' border='0'>";
-		echo "<tr valign='top'><td><input type='radio' name='replaceimage' value='f' checked></td><td>&nbsp;";
+		echo "<tr valign='top'><td><input type='radio' name='replaceimage' value='f' checked tabindex='".($tabindex++)."'></td><td>&nbsp;";
 		
 		switch ($row['contenttype'])
 		{
@@ -1061,10 +1063,11 @@ if ($storagetype == 'sql')
 			echo " <i dir='".$phpAds_TextDirection."'>(".round($size / 1024)." Kb)</i>";
 		
 		echo "</td></tr>";
-		echo "<tr valign='top'><td><input type='radio' name='replaceimage' value='t'></td><td>&nbsp;<input class='flat' size='26' type='file' name='upload' style='width:250px;' onChange='selectFile(this);'>";
+		echo "<tr valign='top'><td><input type='radio' name='replaceimage' value='t' tabindex='".($tabindex++)."'></td>";
+		echo "<td>&nbsp;<input class='flat' size='26' type='file' name='upload' style='width:250px;' onChange='selectFile(this);' tabindex='".($tabindex++)."'>";
 		
 		echo "<div id='swflayer' style='display:none;'>";
-		echo "<input type='checkbox' name='checkswf' value='t' checked>&nbsp;".$strCheckSWF;
+		echo "<input type='checkbox' name='checkswf' value='t' checked tabindex='".($tabindex++)."'>&nbsp;".$strCheckSWF;
 		echo "</div>";
 		
 		echo "</td></tr></table><br><br></td></tr>";
@@ -1077,10 +1080,10 @@ if ($storagetype == 'sql')
 		
 		echo "<tr><td width='30'>&nbsp;</td>";
 		echo "<td width='200' valign='top'>".$strNewBannerFile."</td>";
-		echo "<td><input class='flat' size='26' type='file' name='upload' style='width:350px;' onChange='selectFile(this);'>";
+		echo "<td><input class='flat' size='26' type='file' name='upload' style='width:350px;' onChange='selectFile(this);' tabindex='".($tabindex++)."'>";
 		
 		echo "<div id='swflayer' style='display:none;'>";
-		echo "<input type='checkbox' name='checkswf' value='t' checked>&nbsp;".$strCheckSWF;
+		echo "<input type='checkbox' name='checkswf' value='t' checked tabindex='".($tabindex++)."'>&nbsp;".$strCheckSWF;
 		echo "</div>";
 		
 		echo "<br><br></td></tr>";
@@ -1092,14 +1095,14 @@ if ($storagetype == 'sql')
 	{
 		echo "<tr><td width='30'>&nbsp;</td>";
 		echo "<td width='200'>".$strURL."</td>";
-		echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["url"])."'></td></tr>";
+		echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["url"])."' tabindex='".($tabindex++)."'></td></tr>";
 		
 		echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 		echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 		
 		echo "<tr><td width='30'>&nbsp;</td>";
 		echo "<td width='200'>".$strTarget."</td>";
-		echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' dir='ltr' value='".$row["target"]."'></td></tr>";
+		echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' dir='ltr' value='".$row["target"]."' tabindex='".($tabindex++)."'></td></tr>";
 	}
 	else
 	{
@@ -1116,8 +1119,8 @@ if ($storagetype == 'sql')
 			
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$strURL."</td>";
-			echo "<td><input class='flat' size='35' type='text' name='alink[".$key."]' style='width:330px;' dir='ltr' value='".phpAds_htmlQuotes($val)."'>";
-			echo "<input type='radio' name='alink_chosen' value='".$key."'".($val == $row['url'] ? ' checked' : '')."></td></tr>";
+			echo "<td><input class='flat' size='35' type='text' name='alink[".$key."]' style='width:330px;' dir='ltr' value='".phpAds_htmlQuotes($val)."' tabindex='".($tabindex++)."'>";
+			echo "<input type='radio' name='alink_chosen' value='".$key."'".($val == $row['url'] ? ' checked' : '')." tabindex='".($tabindex++)."'></td></tr>";
 			
 			if (isset($hardcoded_targets[$key]))
 			{
@@ -1126,7 +1129,7 @@ if ($storagetype == 'sql')
 				
 				echo "<tr><td width='30'>&nbsp;</td>";
 				echo "<td width='200'>".$strTarget."</td>";
-				echo "<td><input class='flat' size='16' type='text' name='atar[".$key."]' style='width:150px;' dir='ltr' value='".phpAds_htmlQuotes($hardcoded_targets[$key])."'>";
+				echo "<td><input class='flat' size='16' type='text' name='atar[".$key."]' style='width:150px;' dir='ltr' value='".phpAds_htmlQuotes($hardcoded_targets[$key])."' tabindex='".($tabindex++)."'>";
 				echo "</td></tr>";
 			}
 			
@@ -1137,7 +1140,7 @@ if ($storagetype == 'sql')
 				
 				echo "<tr><td width='30'>&nbsp;</td>";
 				echo "<td width='200'>".$strOverwriteSource."</td>";
-				echo "<td><input class='flat' size='50' type='text' name='asource[".$key."]' style='width:150px;' dir='ltr' value='".phpAds_htmlQuotes($hardcoded_sources[$key])."'>";
+				echo "<td><input class='flat' size='50' type='text' name='asource[".$key."]' style='width:150px;' dir='ltr' value='".phpAds_htmlQuotes($hardcoded_sources[$key])."' tabindex='".($tabindex++)."'>";
 				echo "</td></tr>";
 			}
 			
@@ -1153,19 +1156,19 @@ if ($storagetype == 'sql')
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strAlt."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='alt' style='width:350px;' value='".$row["alt"]."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='alt' style='width:350px;' value='".$row["alt"]."' tabindex='".($tabindex++)."'></td></tr>";
 	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strStatusText."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='status' style='width:350px;' value='".phpAds_htmlQuotes($row["status"])."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='status' style='width:350px;' value='".phpAds_htmlQuotes($row["status"])."' tabindex='".($tabindex++)."'></td></tr>";
 	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strTextBelow."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='bannertext' style='width:350px;' value='".$row["bannertext"]."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='bannertext' style='width:350px;' value='".$row["bannertext"]."' tabindex='".($tabindex++)."'></td></tr>";
 	
 	if (isset($bannerid) && $bannerid != '')
 	{
@@ -1174,8 +1177,8 @@ if ($storagetype == 'sql')
 		
 		echo "<tr><td width='30'>&nbsp;</td>";
 		echo "<td width='200'>".$strSize."</td>";
-		echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."'>&nbsp;&nbsp;&nbsp;";
-		echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."'></td></tr>";
+		echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."' tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
+		echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' tabindex='".($tabindex++)."'></td></tr>";
 	}
 	
 	echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
@@ -1196,7 +1199,7 @@ if ($storagetype == 'web')
 		echo "<tr><td width='30'>&nbsp;</td>";
 		echo "<td width='200' valign='top'>".$strUploadOrKeep."</td>";
 		echo "<td><table cellpadding='0' cellspacing='0' border='0'>";
-		echo "<tr valign='top'><td><input type='radio' name='replaceimage' value='f' checked></td><td>&nbsp;";
+		echo "<tr valign='top'><td><input type='radio' name='replaceimage' value='f' checked tabindex='".($tabindex++)."'></td><td>&nbsp;";
 		
 		switch ($row['contenttype'])
 		{
@@ -1217,10 +1220,11 @@ if ($storagetype == 'web')
 			echo " <i>(".round($size / 1024)." Kb)</i>";
 		
 		echo "</td></tr>";
-		echo "<tr valign='top'><td><input type='radio' name='replaceimage' value='t'></td><td>&nbsp;<input class='flat' size='26' type='file' name='upload' style='width:250px;' onChange='selectFile(this);'>";
+		echo "<tr valign='top'><td><input type='radio' name='replaceimage' value='t' tabindex='".($tabindex++)."'></td>";
+		echo "<td>&nbsp;<input class='flat' size='26' type='file' name='upload' style='width:250px;' onChange='selectFile(this);' tabindex='".($tabindex++)."'>";
 		
 		echo "<div id='swflayer' style='display:none;'>";
-		echo "<input type='checkbox' name='checkswf' value='t' checked>&nbsp;".$strCheckSWF;
+		echo "<input type='checkbox' name='checkswf' value='t' checked tabindex='".($tabindex++)."'>&nbsp;".$strCheckSWF;
 		echo "</div>";
 		
 		echo "</td></tr></table><br><br></td></tr>";
@@ -1232,10 +1236,10 @@ if ($storagetype == 'web')
 		echo "<input type='hidden' name='replaceimage' value='t'>";
 		echo "<tr><td width='30'>&nbsp;</td>";
 		echo "<td width='200' valign='top'>".$strNewBannerFile."</td>";
-		echo "<td><input class='flat' size='26' type='file' name='upload' style='width:350px;' onChange='selectFile(this);'>";
+		echo "<td><input class='flat' size='26' type='file' name='upload' style='width:350px;' onChange='selectFile(this);' tabindex='".($tabindex++)."'>";
 		
 		echo "<div id='swflayer' style='display:none;'>";
-		echo "<input type='checkbox' name='checkswf' value='t' checked>&nbsp;".$strCheckSWF;
+		echo "<input type='checkbox' name='checkswf' value='t' checked tabindex='".($tabindex++)."'>&nbsp;".$strCheckSWF;
 		echo "</div>";
 		
 		echo "<br><br></td></tr>";
@@ -1247,14 +1251,14 @@ if ($storagetype == 'web')
 	{
 		echo "<tr><td width='30'>&nbsp;</td>";
 		echo "<td width='200'>".$strURL."</td>";
-		echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["url"])."'></td></tr>";
+		echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["url"])."' tabindex='".($tabindex++)."'></td></tr>";
 		
 		echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 		echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 		
 		echo "<tr><td width='30'>&nbsp;</td>";
 		echo "<td width='200'>".$strTarget."</td>";
-		echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' dir='ltr' value='".$row["target"]."'></td></tr>";
+		echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' dir='ltr' value='".$row["target"]."' tabindex='".($tabindex++)."'></td></tr>";
 	}
 	else
 	{
@@ -1271,8 +1275,8 @@ if ($storagetype == 'web')
 			
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$strURL."</td>";
-			echo "<td><input class='flat' size='35' type='text' name='alink[".$key."]' style='width:330px;' dir='ltr' value='".phpAds_htmlQuotes($val)."'>";
-			echo "<input type='radio' name='alink_chosen' value='".$key."'".($val == $row['url'] ? ' checked' : '')."></td></tr>";
+			echo "<td><input class='flat' size='35' type='text' name='alink[".$key."]' style='width:330px;' dir='ltr' value='".phpAds_htmlQuotes($val)."' tabindex='".($tabindex++)."'>";
+			echo "<input type='radio' name='alink_chosen' value='".$key."'".($val == $row['url'] ? ' checked' : '')." tabindex='".($tabindex++)."'></td></tr>";
 			
 			if (isset($hardcoded_targets[$key]))
 			{
@@ -1281,7 +1285,7 @@ if ($storagetype == 'web')
 				
 				echo "<tr><td width='30'>&nbsp;</td>";
 				echo "<td width='200'>".$strTarget."</td>";
-				echo "<td><input class='flat' size='16' type='text' name='atar[".$key."]' style='width:150px;' dir='ltr' value='".phpAds_htmlQuotes($hardcoded_targets[$key])."'>";
+				echo "<td><input class='flat' size='16' type='text' name='atar[".$key."]' style='width:150px;' dir='ltr' value='".phpAds_htmlQuotes($hardcoded_targets[$key])."' tabindex='".($tabindex++)."'>";
 				echo "</td></tr>";
 			}
 			
@@ -1290,7 +1294,7 @@ if ($storagetype == 'web')
 			
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$strOverwriteSource."</td>";
-			echo "<td><input class='flat' size='50' type='text' name='asource[".$key."]' style='width:150px;' dir='ltr' value='".phpAds_htmlQuotes($hardcoded_sources[$key])."'>";
+			echo "<td><input class='flat' size='50' type='text' name='asource[".$key."]' style='width:150px;' dir='ltr' value='".phpAds_htmlQuotes($hardcoded_sources[$key])."' tabindex='".($tabindex++)."'>";
 			echo "</td></tr>";
 			
 			$i++;
@@ -1305,19 +1309,19 @@ if ($storagetype == 'web')
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strAlt."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='alt' style='width:350px;' value='".$row["alt"]."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='alt' style='width:350px;' value='".$row["alt"]."' tabindex='".($tabindex++)."'></td></tr>";
 	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strStatusText."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='status' style='width:350px;' value='".phpAds_htmlQuotes($row["status"])."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='status' style='width:350px;' value='".phpAds_htmlQuotes($row["status"])."' tabindex='".($tabindex++)."'></td></tr>";
 	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strTextBelow."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='bannertext' style='width:350px;' value='".$row["bannertext"]."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='bannertext' style='width:350px;' value='".$row["bannertext"]."' tabindex='".($tabindex++)."'></td></tr>";
 	
 	if (isset($bannerid) && $bannerid != '')
 	{
@@ -1326,8 +1330,8 @@ if ($storagetype == 'web')
 		
 		echo "<tr><td width='30'>&nbsp;</td>";
 		echo "<td width='200'>".$strSize."</td>";
-		echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."'>&nbsp;&nbsp;&nbsp;";
-		echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."'></td></tr>";
+		echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."' tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
+		echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' tabindex='".($tabindex++)."'></td></tr>";
 	}
 	
 	echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
@@ -1345,7 +1349,7 @@ if ($storagetype == 'url')
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strNewBannerURL."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='imageurl' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["imageurl"])."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='imageurl' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["imageurl"])."' tabindex='".($tabindex++)."'></td></tr>";
 	
 	echo "<tr><td height='30' colspan='3'>&nbsp;</td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -1353,13 +1357,13 @@ if ($storagetype == 'url')
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strURL."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["url"])."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["url"])."' tabindex='".($tabindex++)."'></td></tr>";
 	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strTarget."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' dir='ltr' value='".$row["target"]."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' dir='ltr' value='".$row["target"]."' tabindex='".($tabindex++)."'></td></tr>";
 	
 	echo "<tr><td height='30' colspan='3'>&nbsp;</td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -1367,26 +1371,26 @@ if ($storagetype == 'url')
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strAlt."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='alt' style='width:350px;' value='".$row["alt"]."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='alt' style='width:350px;' value='".$row["alt"]."' tabindex='".($tabindex++)."'></td></tr>";
 	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strStatusText."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='status' style='width:350px;' value='".phpAds_htmlQuotes($row["status"])."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='status' style='width:350px;' value='".phpAds_htmlQuotes($row["status"])."' tabindex='".($tabindex++)."'></td></tr>";
 	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strTextBelow."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='bannertext' style='width:350px;' value='".$row["bannertext"]."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='bannertext' style='width:350px;' value='".$row["bannertext"]."' tabindex='".($tabindex++)."'></td></tr>";
 	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strSize."</td>";
-	echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."'>&nbsp;&nbsp;&nbsp;";
-	echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."'></td></tr>";
+	echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."' tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
+	echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' tabindex='".($tabindex++)."'></td></tr>";
 	
 	echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -1403,9 +1407,9 @@ if ($storagetype == 'html')
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td colspan='2'><textarea class='code' cols='45' rows='10' name='banner' wrap='off' dir='ltr' style='width:550px;";
-	echo "'>".$row['htmltemplate']."</textarea></td></tr>";
+	echo "' tabindex='".($tabindex++)."'>".$row['htmltemplate']."</textarea></td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td colspan='2'><input type='checkbox' name='autohtml' value='t'".(!isset($row["autohtml"]) || $row["autohtml"] == 't' ? ' checked' : '')."> ".$strAutoChangeHTML."</td></tr>";
+	echo "<td colspan='2'><input type='checkbox' name='autohtml' value='t'".(!isset($row["autohtml"]) || $row["autohtml"] == 't' ? ' checked' : '')." tabindex='".($tabindex++)."'> ".$strAutoChangeHTML."</td></tr>";
 	
 	echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -1413,20 +1417,20 @@ if ($storagetype == 'html')
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strURL."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["url"])."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["url"])."' tabindex='".($tabindex++)."'></td></tr>";
 	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strTarget."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' dir='ltr' value='".$row["target"]."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' dir='ltr' value='".$row["target"]."' tabindex='".($tabindex++)."'></td></tr>";
 	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strSize."</td>";
-	echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."'>&nbsp;&nbsp;&nbsp;";
-	echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."'></td></tr>";
+	echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."' tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
+	echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' tabindex='".($tabindex++)."'></td></tr>";
 	
 	echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -1443,7 +1447,7 @@ if ($storagetype == 'txt')
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td colspan='2'><textarea class='code' cols='45' rows='10' name='bannertext' wrap='off' style='width:550px; ";
-	echo "'>".$row['bannertext']."</textarea></td></tr>";
+	echo "' tabindex='".($tabindex++)."'>".$row['bannertext']."</textarea></td></tr>";
 	
 	echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -1451,13 +1455,13 @@ if ($storagetype == 'txt')
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strURL."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["url"])."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["url"])."' tabindex='".($tabindex++)."'></td></tr>";
 	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strTarget."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' dir='ltr' value='".$row["target"]."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' dir='ltr' value='".$row["target"]."' tabindex='".($tabindex++)."'></td></tr>";
 	
 	echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -1465,7 +1469,7 @@ if ($storagetype == 'txt')
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strStatusText."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='status' style='width:350px;' value='".phpAds_htmlQuotes($row["status"])."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='status' style='width:350px;' value='".phpAds_htmlQuotes($row["status"])."' tabindex='".($tabindex++)."'></td></tr>";
 	
 	echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -1538,19 +1542,19 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strKeyword."</td>";
-    echo "<td><input class='flat' size='35' type='text' name='keyword' style='width:350px;' value='".phpAds_htmlQuotes($row["keyword"])."'></td></tr>";
+    echo "<td><input class='flat' size='35' type='text' name='keyword' style='width:350px;' value='".phpAds_htmlQuotes($row["keyword"])."' tabindex='".($tabindex++)."'></td></tr>";
 	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strDescription."</td>";
-    echo "<td><input class='flat' size='35' type='text' name='description' style='width:350px;' value='".phpAds_htmlQuotes($row["description"])."'></td></tr>";
+    echo "<td><input class='flat' size='35' type='text' name='description' style='width:350px;' value='".phpAds_htmlQuotes($row["description"])."' tabindex='".($tabindex++)."'></td></tr>";
 	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strWeight."</td>";
-    echo "<td><input class='flat' size='6' type='text' name='weight' value='".(isset($row["weight"]) ? $row["weight"] : $phpAds_config['default_banner_weight'])."'></td></tr>";
+    echo "<td><input class='flat' size='6' type='text' name='weight' value='".(isset($row["weight"]) ? $row["weight"] : $phpAds_config['default_banner_weight'])."' tabindex='".($tabindex++)."'></td></tr>";
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	echo "</table>";
@@ -1558,7 +1562,7 @@ if (phpAds_isUser(phpAds_Admin))
 
 echo "<br><br>";
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-echo "<tr><td height='35' colspan='3'><input type='submit' name='submit' value='".$strSaveChanges."'></td></tr>";
+echo "<tr><td height='35' colspan='3'><input type='submit' name='submit' value='".$strSaveChanges."' tabindex='".($tabindex++)."'></td></tr>";
 echo "</table>";
 echo "</form>";
 

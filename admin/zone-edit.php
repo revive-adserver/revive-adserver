@@ -345,6 +345,8 @@ else
 	$zone['delivery']		= phpAds_ZoneBanner;
 }
 
+$tabindex = 1;
+
 
 echo "<br><br>";
 
@@ -358,32 +360,32 @@ echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gi
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strName."</td><td>";
-echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='zonename' size='35' style='width:350px;' value='".phpAds_htmlQuotes($zone['zonename'])."'></td>";
+echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='zonename' size='35' style='width:350px;' value='".phpAds_htmlQuotes($zone['zonename'])."' tabindex='".($tabindex++)."'></td>";
 echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strDescription."</td><td>";
-echo "<input class='flat' size='35' type='text' name='description' style='width:350px;' value='".phpAds_htmlQuotes($zone["description"])."'></td>";
+echo "<input class='flat' size='35' type='text' name='description' style='width:350px;' value='".phpAds_htmlQuotes($zone["description"])."' tabindex='".($tabindex++)."'></td>";
 echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'><br>".$strZoneType."</td><td><table>";
-echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZoneBanner."'".($zone['delivery'] == phpAds_ZoneBanner ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();'>";
+echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZoneBanner."'".($zone['delivery'] == phpAds_ZoneBanner ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' tabindex='".($tabindex++)."'>";
 echo "&nbsp;<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;".$strBannerButtonRectangle."</td></tr>";
 
 if ($phpAds_config['allow_invocation_interstitial'] || $zone['delivery'] == phpAds_ZoneInterstitial) 
 {
-	echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZoneInterstitial."'".($zone['delivery'] == phpAds_ZoneInterstitial ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();'>";
+	echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZoneInterstitial."'".($zone['delivery'] == phpAds_ZoneInterstitial ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' tabindex='".($tabindex++)."'>";
 	echo "&nbsp;<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;".$strInterstitial."</td></tr>";
 }
 
 if ($phpAds_config['allow_invocation_popup'] || $zone['delivery'] == phpAds_ZonePopup) 
 {
-	echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZonePopup."'".($zone['delivery'] == phpAds_ZonePopup ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();'>";
+	echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZonePopup."'".($zone['delivery'] == phpAds_ZonePopup ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' tabindex='".($tabindex++)."'>";
 	echo "&nbsp;<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;".$strPopup."</td></tr>";
 }
 
-echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZoneText."'".($zone['delivery'] == phpAds_ZoneText ? ' CHECKED' : '')." onClick='phpAds_formDisableSize();'>";
+echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZoneText."'".($zone['delivery'] == phpAds_ZoneText ? ' CHECKED' : '')." onClick='phpAds_formDisableSize();' tabindex='".($tabindex++)."'>";
 echo "&nbsp;<img src='images/icon-textzone.gif' align='absmiddle'>&nbsp;".$strTextAdZone."</td></tr>";
 
 
@@ -407,8 +409,8 @@ echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'><br>".$strSize.
 $exists = phpAds_sizeExists ($zone['width'], $zone['height']);
 
 echo "<table><tr><td>";
-echo "<input type='radio' name='sizetype' value='default'".($exists ? ' CHECKED' : '').$sizedisabled.">&nbsp;";
-echo "<select name='size' onchange='phpAds_formSelectSize(this)'".$sizedisabled.">"; 
+echo "<input type='radio' name='sizetype' value='default'".($exists ? ' CHECKED' : '').$sizedisabled." tabindex='".($tabindex++)."'>&nbsp;";
+echo "<select name='size' onchange='phpAds_formSelectSize(this)'".$sizedisabled." tabindex='".($tabindex++)."'>"; 
 
 for (reset($phpAds_IAB);$key=key($phpAds_IAB);next($phpAds_IAB))
 {
@@ -424,10 +426,10 @@ echo "</select>";
 
 echo "</td></tr><tr><td>";
 
-echo "<input type='radio' name='sizetype' value='custom'".(!$exists ? ' CHECKED' : '').$sizedisabled." onclick='phpAds_formEditSize()'>&nbsp;";
-echo $strWidth.": <input class='flat' size='5' type='text' name='width' value='".(isset($zone["width"]) ? $zone["width"] : '')."'".$sizedisabled." onkeydown='phpAds_formEditSize()' onBlur='phpAds_formUpdate(this);'>";
+echo "<input type='radio' name='sizetype' value='custom'".(!$exists ? ' CHECKED' : '').$sizedisabled." onclick='phpAds_formEditSize()' tabindex='".($tabindex++)."'>&nbsp;";
+echo $strWidth.": <input class='flat' size='5' type='text' name='width' value='".(isset($zone["width"]) ? $zone["width"] : '')."'".$sizedisabled." onkeydown='phpAds_formEditSize()' onBlur='phpAds_formUpdate(this);' tabindex='".($tabindex++)."'>";
 echo "&nbsp;&nbsp;&nbsp;";
-echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".(isset($zone["height"]) ? $zone["height"] : '')."'".$sizedisabled." onkeydown='phpAds_formEditSize()' onBlur='phpAds_formUpdate(this);'>";
+echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".(isset($zone["height"]) ? $zone["height"] : '')."'".$sizedisabled." onkeydown='phpAds_formEditSize()' onBlur='phpAds_formUpdate(this);' tabindex='".($tabindex++)."'>";
 echo "</td></tr></table>";
 echo "</td></tr>";
 
@@ -437,7 +439,7 @@ echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gi
 echo "</table>";
 
 echo "<br><br>";
-echo "<input type='submit' name='submit' value='".(isset($zoneid) && $zoneid != '' ? $strSaveChanges : ' Next > ')."'>";
+echo "<input type='submit' name='submit' value='".(isset($zoneid) && $zoneid != '' ? $strSaveChanges : $strNext.' >')."' tabindex='".($tabindex++)."'>";
 echo "</form>";
 
 
