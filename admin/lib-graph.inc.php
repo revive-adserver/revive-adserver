@@ -37,10 +37,11 @@ function legend($im, $x, $y, $text, $fillcolor, $outlinecolor, $textcolor)
 /* Main code                                             */
 /*********************************************************/
 
-$i=0;
-$total=0;
-$total2=0;
-$max=0;
+$i = 0;
+$totalViews  = 0;
+$totalClicks = 0;
+$maxViews  = 0;
+$maxClicks = 0;
 
 $count=array();
 $maxlen=0;
@@ -48,64 +49,109 @@ $items_count=count($items);
 
 for($x=0;$x<$items_count;$x++)
 {
+	// AdViews
 	$count[$x] = $items[$x]["value1"];
-	$total += $items[$x]["value1"];
-	if($items[$x]["value1"]>$max) $max=$items[$x]["value1"];
-
+	$totalViews += $items[$x]["value1"];
+	
+	if($items[$x]["value1"] > $maxViews)
+		$maxViews = $items[$x]["value1"];
+	
+	// AdClicks
 	$count2[$x] = $items[$x]["value2"];
-	$total2 += $items[$x]["value2"];
-	if($items[$x]["value2"]>$max) $max=$items[$x]["value2"];
-	if(strlen($items[$x]['text'])>$maxlen) $maxlen=strlen($items[$x]['text']);
+	$totalClicks += $items[$x]["value2"];
+	
+	if($items[$x]["value2"] > $maxClicks)
+		$maxClicks = $items[$x]["value2"];
+	
+	// Strings
+	if(strlen($items[$x]['text']) > $maxlen)
+		$maxlen=strlen($items[$x]['text']);
 }
 
-// comlete headers
-$text["value1"] .= ": $total";
-$text["value2"] .= ": $total2";
+// Get next round number
+if (strlen($maxViews) > 2)
+	$maxViews = ceil($maxViews / pow(10, strlen($maxViews) - 2)) * pow(10, strlen($maxViews) - 2);
+else
+	$maxViews = 100;
 
+if (strlen($maxClicks) > 2)
+	$maxClicks = ceil($maxClicks / pow(10, strlen($maxClicks) - 2)) * pow(10, strlen($maxClicks) - 2);
+elseif (strlen($maxClicks) > 1)
+	$maxClicks = ceil($maxClicks / pow(10, strlen($maxClicks) - 1)) * pow(10, strlen($maxClicks) - 1);
+else
+	$maxClicks = 10;
+
+
+// Margins
+$leftMargin = strlen($maxViews) * imageFontWidth(2);
+$rightMargin = strlen($maxClicks) * imageFontWidth(2);
+$margin = $leftMargin + $rightMargin;
+
+
+// Headers
+$text["value1"] .= ": ".$totalViews;
+$text["value2"] .= ": ".$totalClicks;
+
+// Dimensions
 if (!isset($height))
-{
 	$height=180;
-}
+
 if (!isset($width))
-{
-	$width=max( 120 + 12 * $items_count , 120 + imageFontwidth(2) * ( strlen($text["value1"]) + strlen($text["value2"]) ) );
-}
+	$width = max($margin + 20 + 12 * $items_count, $margin + 50 + imageFontwidth(2) * (strlen($text["value1"]) + strlen($text["value2"])));
+
 
 $im = imagecreate($width,$height);
 $bgcolor = ImageColorAllocate($im,$bgcolors[0],$bgcolors[1],$bgcolors[2]);
 $linecolor = ImageColorAllocate($im,$linecolors[0],$linecolors[1],$linecolors[2]);
+$graycolor = ImageColorAllocate($im,$RGB['lgray'][0],$RGB['lgray'][1],$RGB['lgray'][2]);
 $textcolor = ImageColorAllocate($im,$textcolors[0],$textcolors[1],$textcolors[2]);
 $adviewscolor = ImageColorAllocate($im,$adviewscolors[0],$adviewscolors[1],$adviewscolors[2]);
 $adclickscolor = ImageColorAllocate($im,$adclickscolors[0],$adclickscolors[1],$adclickscolors[2]);
-     
+
+
 for($x=0;$x<$items_count;$x++)
-{
-	imagestringup($im, 1, ($x)*12+52, 130+imageFontwidth(1)*$maxlen , $items[$x]["text"], $textcolor);
-}
-       
-if ($max==0)
-	$scale=100;
+	imagestringup($im, 1, $leftMargin + 12 + ($x * 12), 130 + imageFontwidth(1) * $maxlen , $items[$x]["text"], $textcolor);
+
+
+if ($maxViews == 0)
+	$scaleViews = 100;
 else
-	$scale = (double)100/(double)$max;
+	$scaleViews = (double)100/(double)$maxViews;
+
+if ($maxClicks == 0)
+	$scaleClicks = 50;
+else
+	$scaleClicks = (double)50/(double)$maxClicks;
 
 
-imageline($im, 50, 20, 50+$items_count*12, 20, $linecolor);
-imageline($im, 50, 45, 50+$items_count*12, 45, $linecolor);
-imageline($im, 50, 70, 50+$items_count*12, 70, $linecolor);
-imageline($im, 50, 95, 50+$items_count*12, 95, $linecolor);
-imageline($im, 50, 120, 50+$items_count*12, 120, $linecolor);
+imageline($im, $leftMargin + 10, 20, $leftMargin + 10 + ($items_count * 12), 20, $graycolor);
+imageline($im, $leftMargin + 10, 45, $leftMargin + 10 + ($items_count * 12), 45, $graycolor);
+imageline($im, $leftMargin + 10, 70, $leftMargin + 10 + ($items_count * 12), 70, $graycolor);
+imageline($im, $leftMargin + 10, 95, $leftMargin + 10 + ($items_count * 12), 95, $graycolor);
+imageline($im, $leftMargin + 10, 120, $leftMargin + 10 + ($items_count * 12), 120, $linecolor);
 
-legend($im, 50, 2, $text["value1"], $adviewscolor, $linecolor, $textcolor);
-legend($im, 80+imageFontwidth(2)*strlen($text["value1"]), 2, $text["value2"], $adclickscolor, $linecolor, $textcolor);
 
-imagestring($im, 2, 20, 12, $max, $textcolor);
-imagestring($im, 2, 25, 115, "0", $textcolor);
+legend($im, $leftMargin + 10, 2, $text["value1"], $adviewscolor, $linecolor, $textcolor);
+legend($im, $leftMargin + 40 + (imageFontwidth(2) * strlen($text["value1"])), 2, $text["value2"], $adclickscolor, $linecolor, $textcolor);
+
+// Clicks
+imagestring($im, 2, $leftMargin - (imageFontwidth(2) * strlen($maxViews)), 12, $maxViews, $textcolor);
+imagestring($im, 2, $leftMargin - (imageFontwidth(2) * strlen('0')), 115, '0', $textcolor);
+
+// Views
+imagestring($im, 2, $leftMargin + 20 + ($items_count * 12), 63, $maxClicks, $textcolor);
+imagestring($im, 2, $leftMargin + 20 + ($items_count * 12), 115, '0', $textcolor);
+
+
 for($x = 0;$x<$items_count;$x++)
 {
-	ImageFilledRectangle($im,$x*12+50,120-(int)($count[$x]*$scale),$x*12+59,120,$adviewscolor);
-	ImageRectangle($im,$x*12+50,120-(int)($count[$x]*$scale),$x*12+59,120,$linecolor);
-	ImageFilledRectangle($im,$x*12+52,120-(int)($count2[$x]*$scale),$x*12+61,120,$adclickscolor);
-	ImageRectangle($im,$x*12+52,120-(int)($count2[$x]*$scale),$x*12+61,120,$linecolor);
+	// AdViews
+	ImageFilledRectangle($im, $leftMargin + 10 + ($x * 12), 120-(int)($count[$x]*$scaleViews), $leftMargin + 19 + ($x * 12), 120,$adviewscolor);
+	ImageRectangle($im, $leftMargin + 10 + ($x * 12), 120-(int)($count[$x]*$scaleViews), $leftMargin + 19 + ($x * 12), 120,$linecolor);
+	
+	// AdClicks
+	ImageFilledRectangle($im, $leftMargin + 12 + ($x * 12), 120-(int)($count2[$x]*$scaleClicks), $leftMargin + 21 + ($x * 12), 120,$adclickscolor);
+	ImageRectangle($im, $leftMargin + 12 + ($x * 12), 120-(int)($count2[$x]*$scaleClicks), $leftMargin + 21 + ($x * 12), 120,$linecolor);
 }
 
 // IE workaround: Turn off outputbuffering
