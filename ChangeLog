@@ -68,6 +68,11 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			    function did not return the correct value  (Niels) 20011121
 			  - Bugfix: E-mails were sent twice when using qmail as SMTP server   (Matteo) 20011122
 			  - Bugfix: Removed extra \r\n at the end of e-mail headers   (Matteo) 20011122
+			  - Bugfix: Fixed a bug when not collapsing the latest expanded item in
+			    affiliate-, client- and stats-index.php   (Matteo) 20011129
+			  - Bugfix: Added missing link to logout image   (Matteo) 20011130
+			  - Bugfix: Database host specified during install was ignored   (Matteo) 20011130
+			  - Bugfix: Table prefix was ignored when installing affiliates table   (Matteo) 20011130
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
