@@ -6,6 +6,8 @@ CVS
 			  - 2003-08-22:  Optimized in the main stats page and client, campaign, affiliate history  (Matteo)
 			  - 2003-08-22:  Added indexes on zoneid fields of stats tables  (Matteo)
 			  - 2003-09-10:  Added optional check for dev-builds in currently available product updates  (Matteo)
+			  - 2003-09-11:  Added a flag which states if the release is to be considered stable or a development build  (Matteo)
+			  - 2003-09-11:  Added automatic enabling of dev-builds product updates when upgrading to a dev-build  (Matteo)
 
 			+ Misc bugfixes
 			  - 2003-08-08:  Adviews email warning limit wasn't correctly saved (Matteo)
