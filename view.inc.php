@@ -859,9 +859,9 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 				else
 				{
 					if (empty($row['url']))
-						$outputbuffer .= '<img src=\''.$row['banner'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' border=\'0\''.$status.'>';
+						$outputbuffer .= '<img src=\''.$row['banner'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' title=\''.$row['alt'].'\' border=\'0\''.$status.'>';
 					else
-						$outputbuffer .= '<a href=\''.$phpAds_url_prefix.'/adclick.php?bannerID='.$row['bannerID'].$randomstring.'\''.$targettag.$status.'><img src=\''.$row['banner'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' border=\'0\'></a>';
+						$outputbuffer .= '<a href=\''.$phpAds_url_prefix.'/adclick.php?bannerID='.$row['bannerID'].$randomstring.'\''.$targettag.$status.'><img src=\''.$row['banner'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' title=\''.$row['alt'].'\' border=\'0\'></a>';
 				}
 				
 				if ($withtext && !empty($row['bannertext']))
@@ -887,9 +887,9 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 				else
 				{
 					if (empty($row['url']))
-						$outputbuffer .= '<img src=\''.$row['banner'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' border=\'0\''.$status.'>';
+						$outputbuffer .= '<img src=\''.$row['banner'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' title=\''.$row['alt'].'\' border=\'0\''.$status.'>';
 					else
-						$outputbuffer .= '<a href=\''.$phpAds_url_prefix.'/adclick.php?bannerID='.$row['bannerID'].'\''.$targettag.$status.'><img src=\''.$row['banner'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' border=\'0\'></a>';
+						$outputbuffer .= '<a href=\''.$phpAds_url_prefix.'/adclick.php?bannerID='.$row['bannerID'].'\''.$targettag.$status.'><img src=\''.$row['banner'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' title=\''.$row['alt'].'\' border=\'0\'></a>';
 				}
 				
 				if ($withtext && !empty($row['bannertext']))
@@ -915,9 +915,9 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 				else
 				{
 					if (empty($row['url']))
-						$outputbuffer .= '<img src=\''.$phpAds_url_prefix.'/adview.php?bannerID='.$row['bannerID'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' border=\'0\''.$status.'>';
+						$outputbuffer .= '<img src=\''.$phpAds_url_prefix.'/adview.php?bannerID='.$row['bannerID'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' title=\''.$row['alt'].'\' border=\'0\''.$status.'>';
 					else
-						$outputbuffer .= '<a href=\''.$phpAds_url_prefix.'/adclick.php?bannerID='.$row['bannerID'].'\''.$targettag.$status.'><img src=\''.$phpAds_url_prefix.'/adview.php?bannerID='.$row['bannerID'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' border=\'0\'></a>';
+						$outputbuffer .= '<a href=\''.$phpAds_url_prefix.'/adclick.php?bannerID='.$row['bannerID'].'\''.$targettag.$status.'><img src=\''.$phpAds_url_prefix.'/adview.php?bannerID='.$row['bannerID'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' title=\''.$row['alt'].'\' border=\'0\'></a>';
 				}
 				
 				if ($withtext && !empty($row['bannertext']))
