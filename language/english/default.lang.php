@@ -218,6 +218,7 @@ $GLOBALS['strPriorityBasedYesterday']		= "The prediction is based on data from y
 $GLOBALS['strPriorityNoData']				= "There isn't enough data available to make a reliable prediction about the number of impressions this adserver will generate today. Priority assignments will be based on real time statistics only. ";
 $GLOBALS['strPriorityEnoughAdViews']		= "There should be enough AdViews to fully satisfy the target all high priority campaigns. ";
 $GLOBALS['strPriorityNotEnoughAdViews']		= "It isn't clear wether there will be enough AdViews served today to satisfy the target all high priority campaigns. Because of this all low priority campaigns are temporarily disabled. ";
+$GLOBALS['strPriorityAutoTargeting']		= "Purchased impressions and expiration date are set.\nTarget views will be set accordingly every day.";
 
 
 
@@ -247,7 +248,7 @@ $GLOBALS['strConfirmResetBannerStats']		= "Do you really want to delete all exis
 
 // Banner (Properties)
 $GLOBALS['strChooseBanner'] 				= "Please choose the type of the banner";
-$GLOBALS['strMySQLBanner'] 					= "Local banner (SQL)";
+$GLOBALS['strSQLBanner'] 					= "Local banner (SQL)";
 $GLOBALS['strWebBanner'] 					= "Local banner (Webserver)";
 $GLOBALS['strURLBanner'] 					= "External banner";
 $GLOBALS['strHTMLBanner'] 					= "HTML banner";
@@ -427,7 +428,7 @@ $GLOBALS['strBannercode']					= "Bannercode";
 
 
 // Errors
-$GLOBALS['strMySQLError'] 					= "SQL Error:";
+$GLOBALS['strSQLError'] 					= "SQL Error:";
 $GLOBALS['strLogErrorClients'] 				= "[phpAds] An error occurred while trying to fetch the advertisers from the database.";
 $GLOBALS['strLogErrorBanners'] 				= "[phpAds] An error occurred while trying to fetch the banners from the database.";
 $GLOBALS['strLogErrorViews'] 				= "[phpAds] An error occurred while trying to fetch the adviews from the database.";
