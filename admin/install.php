@@ -32,7 +32,7 @@ require ("../config.inc.php");
 // Register input variables
 require ("../libraries/lib-io.inc.php");
 phpAds_registerGlobal ('installvars', 'language', 'phase', 'dbhost', 'dbport', 'dbuser', 'dbpassword', 'dbname', 'table_prefix', 
-					   'table_type', 'admin', 'admin_pw', 'admin_pw2', 'url_prefix');
+					   'table_type', 'admin', 'admin_pw', 'admin_pw2', 'url_prefix', 'arraybugcheck');
 
 
 // Set URL prefix
@@ -190,6 +190,14 @@ if (phpAds_isUser(phpAds_Admin))
 			// Set language
 			$installvars['language'] = $language;
 			
+			// Check for PHP bug #20144
+			if (!(isset($arraybugcheck) && is_array($arraybugcheck) && strlen($arraybugcheck[0]) == 4))
+			{
+				$fatal[] = $strPhpBug20144;
+				$phase = 4;
+				break;
+			}
+
 			// Go to next phase
 			$phase = 2;
 			break;
@@ -634,6 +642,10 @@ if (phpAds_isUser(phpAds_Admin))
 			echo "<input type='hidden' name='installvars[".$key."]' value='".$installvars[$key]."'>\n";
 	
 	echo "<input type='hidden' name='phase' value='".$phase."'>\n";
+	
+	// Check for PHP bug #20144
+	echo "<input type='hidden' name='arraybugcheck[0]' value='xxxx'>\n";
+
 	echo "</form>";
 }
 

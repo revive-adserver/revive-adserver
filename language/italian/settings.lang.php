@@ -90,6 +90,8 @@ $GLOBALS['strSystemRebuildingCache']		= "Ricostruzione cache in corso, attendere
 $GLOBALS['strServiceUnavalable']			= "Il servizio non &egrave; disponibile al momento. &Egrave; in corso l'aggiornamento del sistema.";
 
 $GLOBALS['strConfigNotWritable']			= "Il file config.inc.php non può essere sovrascritto";
+$GLOBALS['strPhpBug20144']					= "La versione di PHP utilizzata &egrave; affetta da un <a href='http://bugs.php.net/bug.php?id=20114' target='_blank'>bug</a> che non permette a ".$phpAds_productname." di funzionare correttamente.
+											   &Egrave; necessario aggiornare PHP alla versione 4.3.0 o successive per poter procedere con l'installazione di ".$phpAds_productname.".";
 
 
 

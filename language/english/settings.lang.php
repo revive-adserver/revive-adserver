@@ -87,6 +87,8 @@ $GLOBALS['strSystemRebuildingCache']		= "Rebuilding cache, please wait...";
 $GLOBALS['strServiceUnavalable']		= "The service is temporarily unavailable. System upgrade in progress";
 
 $GLOBALS['strConfigNotWritable']		= "Your config.inc.php file is not writable";
+$GLOBALS['strPhpBug20144']				= "Your PHP version is affected by a <a href='http://bugs.php.net/bug.php?id=20114' target='_blank'>bug</a> which will prevent ".$phpAds_productname." from running correctly.
+							Upgrading to PHP 4.3.0+ is required before installing ".$phpAds_productname.".";
 
 
 
