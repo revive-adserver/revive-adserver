@@ -33,6 +33,10 @@ $phpAds_config['persistent_connections'] = false;
 // Use INSERT DELAYED in logging functions?
 $phpAds_config['insert_delayed'] = false;
 
+// Database compatibility mode to insure phpAdsNew
+// won't disturb an available database connection
+$phpAds_config['compatibility_mode'] = false;
+
 
 
 /*********************************************************/
@@ -40,7 +44,7 @@ $phpAds_config['insert_delayed'] = false;
 /*********************************************************/
 
 // The URL to your phpAds-installation
-$phpAds_config['url_prefix'] = 'http://localhost/phpPgAds_cm';
+$phpAds_config['url_prefix'] = 'http://www.your-url.com/phpAdsNew';
 
 
 
@@ -148,7 +152,7 @@ $phpAds_config['type_html_php'] = false;
 
 
 /*********************************************************/
-/* phpPgAds self configuration code - don't change       */
+/* phpAdsNew self configuration code - don't change      */
 /*********************************************************/
 
 define('phpAds_installed', true);

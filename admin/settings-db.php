@@ -27,7 +27,6 @@ $sql = array();
 
 if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 {
-
 	if (isset($dbhost) && isset($dbuser) && isset($dbpassword) && isset($dbname) &&
 		isset($persistent_connections) && 
 		($phpAds_config['dbhost'] != $dbhost || $phpAds_config['dbuser'] != $dbuser ||
@@ -40,7 +39,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		
 		$phpAds_config['dbhost'] = $dbhost;
 		$phpAds_config['dbuser'] = $dbuser;
-		$phpAds_config['dbpassword'] = $dbpassword;		
+		$phpAds_config['dbpassword'] = $dbpassword;
 		$phpAds_config['dbname'] = $dbname;
 		$phpAds_config['persistent_connections'] = $persistent_connections;
 		
@@ -50,7 +49,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		{
 			phpAds_SettingsWriteAdd('dbname', $dbhost);
 			phpAds_SettingsWriteAdd('dbuser', $dbuser);
-			phpAds_SettingsWriteAdd('dbpassword', $dbpassword);		
+			phpAds_SettingsWriteAdd('dbpassword', $dbpassword);
 			phpAds_SettingsWriteAdd('dbname', $dbname);
 			phpAds_SettingsWriteAdd('persistent_connections', $persistent_connections);
 		}
@@ -58,7 +57,10 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 	
 	if (isset($insert_delayed))
 		phpAds_SettingsWriteAdd('insert_delayed', $insert_delayed);
-
+	
+	if (isset($compatibility_mode))
+		phpAds_SettingsWriteAdd('compatibility_mode', $compatibility_mode);
+	
 	if (!count($errormessage))
 	{
 		if (phpAds_SettingsWriteFlush())
@@ -101,6 +103,7 @@ phpAds_AddSettings('end_section', '');
 phpAds_AddSettings('start_section', "1.1.2");
 phpAds_AddSettings('checkbox', 'persistent_connections', $strPersistentConnections);
 phpAds_AddSettings('checkbox', 'insert_delayed', $strInsertDelayed);
+phpAds_AddSettings('checkbox', 'compatibility_mode', $strCompatibilityMode);
 phpAds_AddSettings('end_section', '');
 phpAds_EndSettings();
 
