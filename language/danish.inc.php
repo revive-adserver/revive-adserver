@@ -313,15 +313,15 @@ $GLOBALS['strKiloByte']					= "KB";
 $GLOBALS['strSeconds']					= "Sekunder";
 $GLOBALS['strExpired']					= "Udløbet";
 
-$GLOBALS['strModifyBannerAcl'] 			= "Display limitations";
-$GLOBALS['strACL'] 						= "Limit";
+$GLOBALS['strModifyBannerAcl'] 			= "Vis begrænsninger";
+$GLOBALS['strACL'] 						= "Begrænsning";
 $GLOBALS['strNoMoveUp'] 				= "Kan ikke flytte først række op";
-$GLOBALS['strACLAdd'] 					= "Add new limitation";
-$GLOBALS['strNoLimitations']			= "No limitations";
+$GLOBALS['strACLAdd'] 					= "Tilføj ny begrænsning";
+$GLOBALS['strNoLimitations']			= "Ingen begrænsninger";
 
-$GLOBALS['strLinkedZones']				= "Linked Zones";
-$GLOBALS['strNoZonesToLink']			= "There are no zones available to which this banner can be linked";
+$GLOBALS['strLinkedZones']				= "Linkede Zoner";
+$GLOBALS['strNoZonesToLink']			= "Der er ingen zoner til rådighed som dette banner kan linkes til";
 
-$GLOBALS['strCustom']					= "Custom";
+$GLOBALS['strCustom']					= "Specielt";
 
 ?>
