@@ -1,4 +1,9 @@
 
+=================================================================
+               phpAdsNew Banner Management System
+=================================================================
+
+
   This file contains a list of the all the changes
   made to the reference (english) translation files.
   If you want to update your own language file, this
