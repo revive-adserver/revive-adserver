@@ -10,6 +10,7 @@ phpAdsNew 2.0.4
 			  - 2005-02-25:  Rewrote output functions to correctly handle HTML entities in names or descriptions - bug #639011  (Matteo)
 			  - 2005-03-01:  Non-latin1 alt/status texts on JS invocation were broken due to recent changes  (Matteo)
 			  - 2005-03-03:  Added warning when register_log_arrays PHP5 confiugration parameter is disabled  (Matteo)
+			  - 2005-03-03:  Removed default charset, which was breaking browsers' automatic charset recognition (Matteo)
 
 
 phpAdsNew 2.0.3
