@@ -21,10 +21,14 @@ define ('LIBVIEWZONE_INCLUDED', true);
 /* Get a banner                                          */
 /*********************************************************/
 
-function phpAds_fetchBannerZone($what, $clientid, $context = 0, $source = '', $richmedia = true)
+function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '', $richmedia = true)
 {
 	global $phpAds_config;
 	
+	
+	// Get first part, store second part
+	$what = strtok($remaining, '|');
+	$remaining = strtok ('');
 	
 	// Get zone
 	$zoneid  = substr($what,5);
@@ -34,19 +38,24 @@ function phpAds_fetchBannerZone($what, $clientid, $context = 0, $source = '', $r
 	{
 		$zone = phpAds_dbFetchArray($zoneres);
 		
+		// If remaining is empty, use default zone
+		if ($remaining == '' && isset($zone['chain']))
+			$remaining = $zone['chain'];
+		
 		// Set what parameter to zone settings
 		if (isset($zone['what']) && $zone['what'] != '')
 			$what = $zone['what'];
 		else
-			$what = 'default';
+			// No linked banners
+			return ($remaining);
 		
 		$zoneid = $zone['zoneid'];
+		$append = $zone['append'];
 	}
 	else
-	{
-		$zoneid = '';
-		$what = '';
-	}
+		// Zone not found
+		return ($remaining);
+	
 	
 	if (isset($zone) &&
 		$phpAds_config['zone_cache'] && 
@@ -75,7 +84,7 @@ function phpAds_fetchBannerZone($what, $clientid, $context = 0, $source = '', $r
 			$precondition .= " AND ".$phpAds_config['tbl_banners'].".height = ".$zone['height']." ";
 		
 		
-		$select = phpAds_buildQuery ($what, 1, $precondition);
+		$select = phpAds_buildQuery ($what, false, $precondition);
 		$res    = phpAds_dbQuery($select);
 		
 		// Build array for further processing...
@@ -164,6 +173,11 @@ function phpAds_fetchBannerZone($what, $clientid, $context = 0, $source = '', $r
 					    ($rows[$i]['contenttype'] != 'jpeg' && $rows[$i]['contenttype'] != 'gif' && $rows[$i]['contenttype'] != 'png'))
 						$postconditionSucces = false;
 					
+					// Blocked
+					if ($postconditionSucces == true &&
+						isset($GLOBALS['phpAds_blockAd'][$rows[$i]['bannerid']]))
+						$postconditionSucces = false;
+					
 					
 					if ($postconditionSucces == false)
 					{
@@ -185,6 +199,7 @@ function phpAds_fetchBannerZone($what, $clientid, $context = 0, $source = '', $r
 						if (phpAds_aclCheck($rows[$i], $source))
 						{
 							$rows[$i]['zoneid'] = $zoneid;
+							$rows[$i]['append'] = $append;
 							return ($rows[$i]);
 						}
 						
@@ -200,6 +215,7 @@ function phpAds_fetchBannerZone($what, $clientid, $context = 0, $source = '', $r
 					{
 						// Don't check ACLs, found banner!
 						$rows[$i]['zoneid'] = $zoneid;
+						$rows[$i]['append'] = $append;
 						return ($rows[$i]);
 					}
 				}
@@ -207,7 +223,7 @@ function phpAds_fetchBannerZone($what, $clientid, $context = 0, $source = '', $r
 		}
 	}
 	
-	return false;
+	return ($remaining);
 }
 
 

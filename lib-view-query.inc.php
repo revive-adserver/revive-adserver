@@ -21,7 +21,7 @@ define ('LIBVIEWQUERY_INCLUDED', true);
 /* Build the query needed to fetch banners               */
 /*********************************************************/
 
-function phpAds_buildQuery ($part, $numberofparts, $precondition)
+function phpAds_buildQuery ($part, $lastpart, $precondition)
 {
 	global $phpAds_config;
 	
@@ -43,7 +43,9 @@ function phpAds_buildQuery ($part, $numberofparts, $precondition)
 				".$phpAds_config['tbl_banners'].".weight as weight,
 				".$phpAds_config['tbl_banners'].".seq as seq,
 				".$phpAds_config['tbl_banners'].".target as target,
-				".$phpAds_config['tbl_banners'].".alt as alt
+				".$phpAds_config['tbl_banners'].".alt as alt,
+				".$phpAds_config['tbl_banners'].".block as block,
+				".$phpAds_config['tbl_banners'].".compiledlimitation as compiledlimitation
 			FROM
 				".$phpAds_config['tbl_banners'].",
 				".$phpAds_config['tbl_clients']."
@@ -200,17 +202,14 @@ function phpAds_buildQuery ($part, $numberofparts, $precondition)
 					}
 					else
 					{
-						$mult_key_match = "(".$phpAds_config['tbl_banners'].".keyword LIKE '% $part_array[$k] %'".
-										  " OR ".$phpAds_config['tbl_banners'].".keyword LIKE '$part_array[$k] %'".
-										  " OR ".$phpAds_config['tbl_banners'].".keyword LIKE '% $part_array[$k]'".
-										  " OR ".$phpAds_config['tbl_banners'].".keyword LIKE '$part_array[$k]')";
-						
 						if ($operator == 'OR')
-							$conditions .= "OR $mult_key_match ";
+							$conditions .= "OR ";
 						elseif ($operator == 'AND')
-							$conditions .= "AND $mult_key_match ";
+							$conditions .= "AND ";
 						else
-							$conditions .= "AND NOT $mult_key_match ";
+							$conditions .= "AND NOT ";
+						
+						$conditions .= "CONCAT(' ',".$phpAds_config['tbl_banners'].".keyword,' ') LIKE '% $part_array[$k] %' ";
 					}
 				}
 			}
@@ -220,10 +219,8 @@ function phpAds_buildQuery ($part, $numberofparts, $precondition)
 		$conditions = strstr($conditions, ' ');
 		
 		// Add global keyword
-		if ($numberofparts == 1 && $onlykeywords == true)
-		{
-			$conditions .= "OR ".$phpAds_config['tbl_banners'].".keyword = 'global' ";
-		}
+		if ($lastpart == true && $onlykeywords == true)
+			$conditions .= "OR CONCAT(' ',".$phpAds_config['tbl_banners'].".keyword,' ') LIKE '% global %' ";
 		
 		// Add conditions to select
 		if ($conditions != '') $select .= ' AND ('.$conditions.') ';

@@ -66,29 +66,36 @@ if (!isset($n))
 
 if (phpAds_dbConnect())
 {
-	// Include the need sub-libraries
-	if (substr($what,0,5) == 'zone:')
+	$found = false;
+	
+	while ($what != '' && $found == false)
 	{
-		if (!defined('LIBVIEWZONE_INCLUDED'))
-			require (phpAds_path.'/lib-view-zone.inc.php');
+		if (substr($what,0,5) == 'zone:')
+		{
+			if (!defined('LIBVIEWZONE_INCLUDED'))
+				require (phpAds_path.'/lib-view-zone.inc.php');
+			
+			$row = phpAds_fetchBannerZone($what, $clientid, '', $source);
+		}
+		else
+		{
+			if (!defined('LIBVIEWQUERY_INCLUDED'))
+				require (phpAds_path.'/lib-view-query.inc.php');
+			
+			if (!defined('LIBVIEWDIRECT_INCLUDED'))
+				require (phpAds_path.'/lib-view-direct.inc.php');
+			
+			$row = phpAds_fetchBannerDirect($what, $clientid, '', $source);
+		}
 		
-		$row = phpAds_fetchBannerZone($what, $clientid, 0, $source, false);
-	}
-	else
-	{
-		if (!defined('LIBVIEWQUERY_INCLUDED'))
-			require (phpAds_path.'/lib-view-query.inc.php');
-		
-		if (!defined('LIBVIEWDIRECT_INCLUDED'))
-			require (phpAds_path.'/lib-view-direct.inc.php');
-		
-		$row = phpAds_fetchBannerDirect($what, $clientid, 0, $source, false);
+		if (is_array ($row))
+			$found = true;
+		else
+			$what  = $row;
 	}
 }
 
-
-
-if (is_array($row) && isset($row['bannerid']))
+if ($found)
 {
 	// Send P3P Headers
 	if ($phpAds_config['p3p_policies'])
@@ -119,9 +126,13 @@ if (is_array($row) && isset($row['bannerid']))
 		
 		// Send block cookies
 		if ($phpAds_config['block_adviews'] > 0)
-			SetCookie("phpAds_blockView[".$row['bannerid']."]", time(), time() + $phpAds_config['block_adviews'], $url["path"]);
+			SetCookie("phpAds_blockView[".$row['bannerid']."]", time(), time() + $phpAds_config['block_adviews'], '/');
 	}
 	
+	if ($row['block'] != '' && $row['block'] != '0')
+	{
+		SetCookie("phpAds_blockAd[".$row['bannerid']."]", time(), time() + $row['block'], '/');
+	}
 	
 	// Send bannerid headers
 	$cookie['bannerid'] = $row["bannerid"];

@@ -347,10 +347,7 @@ else
 				
 				// Button 2
 				echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
-				if ($phpAds_config['acl'])
-					echo "<a href='banner-acl.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['clientid']."&bannerid=".$banners[$bkey]['bannerid']."'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-				else
-					echo "&nbsp;";
+				echo "<a href='banner-acl.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['clientid']."&bannerid=".$banners[$bkey]['bannerid']."'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 				echo "</td>";
 				
 				// Button 3

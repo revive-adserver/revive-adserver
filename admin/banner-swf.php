@@ -127,10 +127,7 @@ if (isset($convert))
 		Header('Location: stats-campaign-banners.php?clientid='.$clientid.'&campaignid='.$campaignid);
 	else
 	{
-		if ($phpAds_config['acl'])
-			Header('Location: banner-acl.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid);
-		else
-			Header('Location: banner-zone.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid);
+		Header('Location: banner-acl.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid);
 	}
 	
 	exit;
@@ -142,10 +139,7 @@ if (isset($cancel))
 		Header('Location: stats-campaign-banners.php?clientid='.$clientid.'&campaignid='.$campaignid);
 	else
 	{
-		if ($phpAds_config['acl'])
-			Header('Location: banner-acl.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid);
-		else
-			Header('Location: banner-zone.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid);
+		Header('Location: banner-acl.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid);
 	}
 	
 	exit;

@@ -48,6 +48,8 @@ CREATE TABLE phpads_zones (
    height smallint(6) DEFAULT '0' NOT NULL,
    cachecontents mediumblob,
    cachetimestamp int(11) DEFAULT '0' NOT NULL,
+   chain blob NOT NULL,
+   append blob NOT NULL,
    PRIMARY KEY (zoneid),
    KEY zonenameid (zonename,zoneid)
 );
@@ -121,6 +123,8 @@ CREATE TABLE phpads_banners (
    bannertext varchar(255) NOT NULL,
    description varchar(255) NOT NULL,
    autohtml enum('t','f') DEFAULT 't' NOT NULL,
+   block int(11) DEFAULT '0' NOT NULL,
+   compiledlimitation blob NOT NULL,
    PRIMARY KEY (bannerid)
 );
 

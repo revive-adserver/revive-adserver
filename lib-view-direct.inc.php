@@ -21,10 +21,9 @@ define ('LIBVIEWDIRECT_INCLUDED', true);
 /* Get a banner                                          */
 /*********************************************************/
 
-function phpAds_fetchBannerDirect($what, $clientid, $context = 0, $source = '', $richmedia = true)
+function phpAds_fetchBannerDirect($remaining, $clientid, $context = 0, $source = '', $richmedia = true)
 {
 	global $phpAds_config;
-	
 	
 	// Build preconditions
 	if (is_array ($context))
@@ -61,84 +60,87 @@ function phpAds_fetchBannerDirect($what, $clientid, $context = 0, $source = '', 
 	
 	
 	
-	// Separate parts
-	$what_parts = explode ('|', $what);	
+	// Get first part, store second part
+	$what = strtok($remaining, '|');
+	$remaining = strtok ('');
 	
-	for ($wpc=0; $wpc < sizeof($what_parts); $wpc++)
+	$select = phpAds_buildQuery ($what, $remaining == '', $precondition);
+	$res    = phpAds_dbQuery($select);
+	
+	if (phpAds_dbNumRows($res) > 0)	
 	{
-		// Build the query needed to fetch the banners
-		$select = phpAds_buildQuery ($what_parts[$wpc], sizeof($what_parts), $precondition);
-		
-		$res = phpAds_dbQuery($select);
-		if ($res)
+		// Build array for further processing...
+		$rows = array();
+		$prioritysum = 0;
+		while ($tmprow = phpAds_dbFetchArray($res))
 		{
-			if (phpAds_dbNumRows($res) > 0)	
-				break;	// Found banners, continue
-		}
-	}
-	
-	
-	
-	// Build array for further processing...
-	$rows = array();
-	$prioritysum = 0;
-	while ($tmprow = phpAds_dbFetchArray($res))
-	{
-		// weight of 0 disables the banner
-		if ($tmprow['priority'])
-		{
-			$prioritysum += $tmprow['priority'];
-			$rows[] = $tmprow; 
-		}
-	}
-	
-	
-	$maxindex = sizeof($rows);
-	
-	while ($prioritysum && sizeof($rows))
-	{
-		$low = 0;
-		$high = 0;
-		$ranweight = ($prioritysum > 1) ? mt_rand(0, $prioritysum - 1) : 0;
-		
-		for ($i=0; $i<$maxindex; $i++)
-		{
-			if (is_array($rows[$i]))
+			// weight of 0 disables the banner
+			if ($tmprow['priority'])
 			{
-				$low = $high;
-				$high += $rows[$i]['priority'];
-				
-				if ($high > $ranweight && $low <= $ranweight)
+				$prioritysum += $tmprow['priority'];
+				$rows[] = $tmprow; 
+			}
+		}
+		
+		
+		$maxindex = sizeof($rows);
+		
+		while ($prioritysum && sizeof($rows))
+		{
+			$low = 0;
+			$high = 0;
+			$ranweight = ($prioritysum > 1) ? mt_rand(0, $prioritysum - 1) : 0;
+			
+			for ($i=0; $i<$maxindex; $i++)
+			{
+				if (is_array($rows[$i]))
 				{
-					if ($phpAds_config['acl'])
+					$low = $high;
+					$high += $rows[$i]['priority'];
+					
+					if ($high > $ranweight && $low <= $ranweight)
 					{
-						if (phpAds_aclCheck($rows[$i], $source))
+						// Blocked
+						if (isset($GLOBALS['phpAds_blockAd'][$rows[$i]['bannerid']]))
 						{
-							// ACL check passed, found banner!
+							// Delete this row and adjust $prioritysum
+							$prioritysum -= $rows[$i]['priority'];
+							$rows[$i] = '';
+							
+							// Break out of the for loop to try again
+							break;
+						}
+						
+						if ($phpAds_config['acl'])
+						{
+							if (phpAds_aclCheck($rows[$i], $source))
+							{
+								// ACL check passed, found banner!
+								$rows[$i]['zoneid'] = 0;
+								return ($rows[$i]);
+							}
+							
+							// Matched, but phpAds_aclCheck failed.
+							// Delete this row and adjust $prioritysum
+							$prioritysum -= $rows[$i]['priority'];
+							$rows[$i] = '';
+							
+							// Break out of the for loop to try again
+							break;
+						}
+						else
+						{
+							// Don't check ACLs, found banner!
 							$rows[$i]['zoneid'] = 0;
 							return ($rows[$i]);
 						}
-						
-						// Matched, but phpAds_aclCheck failed.
-						// Delete this row and adjust $prioritysum
-						$prioritysum -= $rows[$i]['priority'];
-						$rows[$i] = '';
-						
-						// Break out of the for loop to try again
-						break;
-					}
-					else
-					{
-						// Don't check ACLs, found banner!
-						$rows[$i]['zoneid'] = 0;
-						return ($rows[$i]);
 					}
 				}
 			}
 		}
 	}
 	
-	return false;
+	return ($remaining);
 }
 
 

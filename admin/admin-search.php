@@ -296,10 +296,7 @@ if ($compact == '')
 					   	
 						// Button 1
 						echo "<td height='25'>";
-						if ($phpAds_config['acl'])
-							echo "<a href='JavaScript:GoOpener(\"banner-acl.php?clientid=".$row_clients['clientid']."&campaignid=".$row_b_expand['clientid']."&bannerid=".$row_b_expand['bannerid']."\")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-						else
-							echo "&nbsp;";
+						echo "<a href='JavaScript:GoOpener(\"banner-acl.php?clientid=".$row_clients['clientid']."&campaignid=".$row_b_expand['clientid']."&bannerid=".$row_b_expand['bannerid']."\")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 						echo "</td>";
 						
 						// Button 2
@@ -387,10 +384,7 @@ if ($compact == '')
 				   	
 					// Button 1
 					echo "<td height='25'>";
-					if ($phpAds_config['acl'])
-						echo "<a href='JavaScript:GoOpener(\"banner-acl.php?clientid=".$row_campaigns['parent']."&campaignid=".$row_b_expand['clientid']."&bannerid=".$row_b_expand['bannerid']."\")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-					else
-						echo "&nbsp;";
+					echo "<a href='JavaScript:GoOpener(\"banner-acl.php?clientid=".$row_campaigns['parent']."&campaignid=".$row_b_expand['clientid']."&bannerid=".$row_b_expand['bannerid']."\")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 					echo "</td>";
 					
 					// Button 2
@@ -444,10 +438,7 @@ if ($compact == '')
 		   	
 			// Button 1
 			echo "<td height='25'>";
-			if ($phpAds_config['acl'])
-				echo "<a href='JavaScript:GoOpener(\"banner-acl.php?clientid=".phpAds_getParentID($row_banners['clientid'])."&campaignid=".$row_banners['clientid']."&bannerid=".$row_banners['bannerid']."\")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-			else
-				echo "&nbsp;";
+			echo "<a href='JavaScript:GoOpener(\"banner-acl.php?clientid=".phpAds_getParentID($row_banners['clientid'])."&campaignid=".$row_banners['clientid']."&bannerid=".$row_banners['bannerid']."\")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 			echo "</td>";
 			
 			// Button 2

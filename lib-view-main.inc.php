@@ -41,28 +41,37 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 	// Open database connection and get a banner
 	if (phpAds_dbConnect())
 	{
-		// Include the need sub-libraries
-		if (substr($what,0,5) == 'zone:')
+		$found = false;
+		
+		while ($what != '' && $found == false)
 		{
-			if (!defined('LIBVIEWZONE_INCLUDED'))
-				require (phpAds_path.'/lib-view-zone.inc.php');
+			if (substr($what,0,5) == 'zone:')
+			{
+				if (!defined('LIBVIEWZONE_INCLUDED'))
+					require (phpAds_path.'/lib-view-zone.inc.php');
+				
+				$row = phpAds_fetchBannerZone($what, $clientid, $context, $source);
+			}
+			else
+			{
+				if (!defined('LIBVIEWQUERY_INCLUDED'))
+					require (phpAds_path.'/lib-view-query.inc.php');
+				
+				if (!defined('LIBVIEWDIRECT_INCLUDED'))
+					require (phpAds_path.'/lib-view-direct.inc.php');
+				
+				$row = phpAds_fetchBannerDirect($what, $clientid, $context, $source);
+			}
 			
-			$row = phpAds_fetchBannerZone($what, $clientid, $context, $source);
-		}
-		else
-		{
-			if (!defined('LIBVIEWQUERY_INCLUDED'))
-				require (phpAds_path.'/lib-view-query.inc.php');
-			
-			if (!defined('LIBVIEWDIRECT_INCLUDED'))
-				require (phpAds_path.'/lib-view-direct.inc.php');
-			
-			$row = phpAds_fetchBannerDirect($what, $clientid, $context, $source);
+			if (is_array ($row))
+				$found = true;
+			else
+				$what  = $row;
 		}
 	}
 	
 	
-	if (isset($row) && is_array($row) && $row['bannerid'] != '')
+	if ($found)
 	{
 		// Get HTML cache
 		$outputbuffer = $row['htmlcache'];
@@ -176,13 +185,19 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 				if (ereg ("Mozilla/(1|2|3|4)", $GLOBALS['HTTP_USER_AGENT']) && !ereg("compatible", $GLOBALS['HTTP_USER_AGENT']))
 				{
 					$outputbuffer .= '<layer id="beacon_'.$row['bannerid'].'" width="0" height="0" border="0" visibility="hide">';
-					$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&amp;clientid='.$row['clientid'].'&amp;zoneid='.$row['zoneid'].'&amp;source='.$source.'&amp;cb='.md5(uniqid('')).'\' width=\'0\' height=\'0\' alt=\'\'>';
+					$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&amp;clientid='.$row['clientid'].'&amp;zoneid='.$row['zoneid'].'&amp;source='.$source.'&amp;block='.$row['block'].'&amp;cb='.md5(uniqid('')).'\' width=\'0\' height=\'0\' alt=\'\'>';
 					$outputbuffer .= '</layer>';
 				}
 				else
-					$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&amp;clientid='.$row['clientid'].'&amp;zoneid='.$row['zoneid'].'&amp;source='.$source.'&amp;cb='.md5(uniqid('')).'\' width=\'0\' height=\'0\' alt=\'\' style=\'width: 0px; height: 0px;\'>';
+					$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&amp;clientid='.$row['clientid'].'&amp;zoneid='.$row['zoneid'].'&amp;source='.$source.'&amp;block='.$row['block'].'&amp;cb='.md5(uniqid('')).'\' width=\'0\' height=\'0\' alt=\'\' style=\'width: 0px; height: 0px;\'>';
 			}
 		}
+		
+		
+		// Append
+		if (isset($row['append']))
+			$outputbuffer .= $row['append'];
+		
 		
 		// Return banner
 		return( array('html' => $outputbuffer, 

@@ -63,9 +63,27 @@ if (isset($bannerid) && isset($clientid) && isset($zoneid))
 					header ("P3P: $p3p_header");
 			}
 			
-			$url = parse_url($phpAds_config['url_prefix']);
-			SetCookie("phpAds_blockView[".$bannerid."]", time(), time() + $phpAds_config['block_adviews'], $url["path"]);
+			SetCookie("phpAds_blockView[".$bannerid."]", time(), time() + $phpAds_config['block_adviews'], '/');
 		}
+	}
+	
+	if (isset($block) && $block != '' && $block != '0')
+	{
+		if ($phpAds_config['p3p_policies'] && !isset($php_header))
+		{
+			$p3p_header = '';
+			
+			if ($phpAds_config['p3p_policy_location'] != '')
+				$p3p_header .= " policyref=\"".$phpAds_config['p3p_policy_location']."\"";
+			
+			if ($phpAds_config['p3p_compact_policy'] != '')
+				$p3p_header .= " CP=\"".$phpAds_config['p3p_compact_policy']."\"";
+			
+			if ($p3p_header != '')
+				header ("P3P: $p3p_header");
+		}
+		
+		SetCookie("phpAds_blockAd[".$bannerid."]", time(), time() + $block, '/');
 	}
 }
 

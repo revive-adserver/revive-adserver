@@ -86,7 +86,6 @@ unset($Session);
 // Authorize the user
 phpAds_Start();
 
-
 // Load language strings
 if (file_exists("../language/".strtolower($phpAds_config['language'])."/default.lang.php"))
 	require ("../language/".strtolower($phpAds_config['language'])."/default.lang.php");
@@ -154,6 +153,7 @@ $phpAds_nav = array (
 		      "4.2.3.3"				=> 	array("zone-include.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strIncludedBanners),
 		      "4.2.3.4"				=> 	array("zone-probability.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strProbability),
 		      "4.2.3.5"				=> 	array("zone-invocation.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strInvocationcode),
+  		      "4.2.3.6"				=> 	array("zone-advanced.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strAdvancedSettings),
 		  "4.3" 					=> 	array("admin-generate.php" => $strGenerateBannercode),
 		"5"							=> 	array("settings-index.php" => $strSettings),
 		  "5.1" 					=> 	array("settings-db.php" => $strMainSettings),
@@ -196,6 +196,7 @@ $phpAds_nav = array (
 		    "2.1.3"				=> 	array("zone-include.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strIncludedBanners),
 		    "2.1.4"				=> 	array("zone-probability.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strProbability),
 		    "2.1.5"				=> 	array("zone-invocation.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strInvocationcode),
+  		    "2.1.6"				=> 	array("zone-advanced.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strAdvancedSettings),
 	      "2.2" 				=> 	array("affiliate-edit.php?affiliateid=$affiliateid" => $strPreferences)
 	)
 );

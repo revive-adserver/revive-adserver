@@ -22,61 +22,70 @@ function phpAds_aclCheck($row, $source)
 {
 	global $phpAds_config;
 	
-	$bannerid = $row['bannerid'];
-	
-	// Execute Query
-	$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_acls']."
-					 	   WHERE bannerid = $bannerid ORDER by acl_order");
-	
-	if (phpAds_dbNumRows($res) == 0)
+	if (isset($row['compiledlimitation']) &&
+		$row['compiledlimitation'] != '')
 	{
-		// No ACLs, show banner
-		return(true);
+		eval('$result = ('.$row['compiledlimitation'].');');
+		return($result);
 	}
-	
-	// Check all ACLs
-	$expression = '';
-	$i = 0;
-	
-	while ($aclrow = phpAds_dbFetchArray($res)) 
+	else
 	{
-		if ($i > 0)
-			$expression .= ' '.$aclrow['acl_con'].' ';
+		$bannerid = $row['bannerid'];
 		
-		switch ($aclrow['acl_type'])
+		// Execute Query
+		$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_acls']."
+						 	   WHERE bannerid = $bannerid ORDER by acl_order");
+		
+		if (phpAds_dbNumRows($res) == 0)
 		{
-			case 'clientip':
-				$expression .= "phpAds_aclCheckClientIP('".$aclrow['acl_data']."', '".$aclrow['acl_ad']."')";
-				break;
-			case 'useragent':
-				$expression .= "phpAds_aclCheckUseragent('".$aclrow['acl_data']."', '".$aclrow['acl_ad']."')";
-				break;
-			case 'language':
-				$expression .= "phpAds_aclCheckLanguage('".$aclrow['acl_data']."', '".$aclrow['acl_ad']."')";
-				break;
-			case 'weekday':
-				$expression .= "phpAds_aclCheckWeekday('".$aclrow['acl_data']."', '".$aclrow['acl_ad']."')";
-				break;
-			case 'domain':
-				$expression .= "phpAds_aclCheckDomain('".$aclrow['acl_data']."', '".$aclrow['acl_ad']."')";
-				break;
-			case 'source':
-				$expression .= "phpAds_aclCheckSource('".$aclrow['acl_data']."', '".$aclrow['acl_ad']."', '".$source."')";
-				break;
-			case 'time':
-				$expression .= "phpAds_aclCheckTime('".$aclrow['acl_data']."', '".$aclrow['acl_ad']."')";
-				break;
-			default:
-				return(0);
+			// No ACLs, show banner
+			return(true);
 		}
 		
-		$i++;
+		// Check all ACLs
+		$expression = '';
+		$i = 0;
+		
+		while ($aclrow = phpAds_dbFetchArray($res)) 
+		{
+			if ($i > 0)
+				$expression .= ' '.$aclrow['acl_con'].' ';
+			
+			switch ($aclrow['acl_type'])
+			{
+				case 'clientip':
+					$expression .= "phpAds_aclCheckClientIP('".$aclrow['acl_data']."', '".$aclrow['acl_ad']."')";
+					break;
+				case 'useragent':
+					$expression .= "phpAds_aclCheckUseragent('".$aclrow['acl_data']."', '".$aclrow['acl_ad']."')";
+					break;
+				case 'language':
+					$expression .= "phpAds_aclCheckLanguage('".$aclrow['acl_data']."', '".$aclrow['acl_ad']."')";
+					break;
+				case 'weekday':
+					$expression .= "phpAds_aclCheckWeekday('".$aclrow['acl_data']."', '".$aclrow['acl_ad']."')";
+					break;
+				case 'domain':
+					$expression .= "phpAds_aclCheckDomain('".$aclrow['acl_data']."', '".$aclrow['acl_ad']."')";
+					break;
+				case 'source':
+					$expression .= "phpAds_aclCheckSource('".$aclrow['acl_data']."', '".$aclrow['acl_ad']."', '".$source."')";
+					break;
+				case 'time':
+					$expression .= "phpAds_aclCheckTime('".$aclrow['acl_data']."', '".$aclrow['acl_ad']."')";
+					break;
+				default:
+					return(0);
+			}
+			
+			$i++;
+		}
+		
+		// Evaluate expression and return
+		eval('$result = ('.$expression.');');
+		
+		return($result);
 	}
-	
-	// Evaluate expression and return
-	eval('$result = ('.$expression.');');
-	
-	return($result);
 }
 
 

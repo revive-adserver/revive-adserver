@@ -105,7 +105,7 @@ if (isset($submit))
 				zoneid=".$zoneid."
 			") or phpAds_sqlDie();
 		
-		header ("Location: zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid);
+		header ("Location: zone-advanced.php?affiliateid=".$affiliateid."&zoneid=".$zoneid);
 		exit;
 	}
 	
@@ -138,7 +138,7 @@ if (isset($submit))
 		
 		$zoneid = phpAds_dbInsertID();
 		
-		header ("Location: zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid);
+		header ("Location: zone-advanced.php?affiliateid=".$affiliateid."&zoneid=".$zoneid);
 		exit;
 	}
 }
@@ -216,11 +216,12 @@ if ($zoneid != "")
 			echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
 			echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 			echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br><br><br>";
-			phpAds_ShowSections(array("4.2.3.2", "4.2.3.3", "4.2.3.4", "4.2.3.5"));
+			phpAds_ShowSections(array("4.2.3.2", "4.2.3.6", "4.2.3.3", "4.2.3.4", "4.2.3.5"));
 	}
 	else
 	{
 		$sections[] = "2.1.2";
+		$sections[] = "2.1.6";
 		if (phpAds_isAllowed(phpAds_LinkBanners)) $sections[] = "2.1.3";
 		$sections[] = "2.1.4";
 		$sections[] = "2.1.5";
@@ -285,7 +286,6 @@ else
 	$zone['height'] 		= '60';
 	$zone['delivery']		= phpAds_ZoneBanner;
 }
-
 
 
 echo "<br><br>";

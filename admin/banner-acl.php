@@ -17,6 +17,7 @@
 // Include required files
 require ("config.php");
 require ("lib-statistics.inc.php");
+require ("lib-zones.inc.php");
 
 
 // Security check
@@ -111,43 +112,127 @@ if (isset($action))
 }
 elseif (isset($submit))
 {
-	// First delete existing limitations
-	phpAds_dbQuery ("
-		DELETE FROM 
-			".$phpAds_config['tbl_acls']." 
-		WHERE 
-			bannerid=".$bannerid."
-	");
-	
-	// Store limitations
-	if (isset($acl) && count($acl))
+	if ($phpAds_config['acl'])
 	{
-		reset($acl);
-		while (list ($key,) = each ($acl))
+		// First delete existing limitations
+		phpAds_dbQuery ("
+			DELETE FROM 
+				".$phpAds_config['tbl_acls']." 
+			WHERE 
+				bannerid=".$bannerid."
+		");
+		
+		// Store limitations
+		if (isset($acl) && count($acl))
 		{
-			if (isset($acl[$key]['data']))
+			reset($acl);
+			while (list ($key,) = each ($acl))
 			{
-				if ($acl[$key]['type'] == 'time' || $acl[$key]['type'] == 'weekday')
-					$data = implode (',', $acl[$key]['data']);
+				if (isset($acl[$key]['data']))
+				{
+					if ($acl[$key]['type'] == 'time' || $acl[$key]['type'] == 'weekday')
+						$acl[$key]['data'] = implode (',', $acl[$key]['data']);
+				}
 				else
-					$data = $acl[$key]['data'];
+					$acl[$key]['data'] = '';
+				
+				phpAds_dbQuery ("
+					INSERT INTO
+						".$phpAds_config['tbl_acls']."
+					SET
+						bannerid  = '".$bannerid."',
+						acl_con   = '".$acl[$key]['con']."',
+						acl_type  = '".$acl[$key]['type']."',
+						acl_data  = '".$acl[$key]['data']."',
+						acl_ad    = '".$acl[$key]['ad']."',
+						acl_order = '".$key."'
+				");
 			}
-			else
-				$data = '';
-			
-			phpAds_dbQuery ("
-				INSERT INTO
-					".$phpAds_config['tbl_acls']."
-				SET
-					bannerid  = '".$bannerid."',
-					acl_con   = '".$acl[$key]['con']."',
-					acl_type  = '".$acl[$key]['type']."',
-					acl_data  = '".$data."',
-					acl_ad    = '".$acl[$key]['ad']."',
-					acl_order = '".$key."'
-			");
 		}
+		
+		
+		// Precompile limitation
+		$expression = '';
+		$i = 0;
+		
+		if (isset($acl) && count($acl))
+		{
+			reset($acl);
+			while (list ($key,) = each ($acl))
+			{
+				if ($i > 0)
+					$expression .= ' '.$acl[$key]['con'].' ';
+				
+				switch ($acl[$key]['type'])
+				{
+					case 'clientip':
+						$expression .= "phpAds_aclCheckClientIP('".$acl[$key]['data']."', '".$acl[$key]['ad']."')";
+						break;
+					case 'useragent':
+						$expression .= "phpAds_aclCheckUseragent('".$acl[$key]['data']."', '".$acl[$key]['ad']."')";
+						break;
+					case 'language':
+						$expression .= "phpAds_aclCheckLanguage('".$acl[$key]['data']."', '".$acl[$key]['ad']."')";
+						break;
+					case 'weekday':
+						$expression .= "phpAds_aclCheckWeekday('".$acl[$key]['data']."', '".$acl[$key]['ad']."')";
+						break;
+					case 'domain':
+						$expression .= "phpAds_aclCheckDomain('".$acl[$key]['data']."', '".$acl[$key]['ad']."')";
+						break;
+					case 'source':
+						$expression .= "phpAds_aclCheckSource('".$acl[$key]['data']."', '".$acl[$key]['ad']."', $"."source)";
+						break;
+					case 'time':
+						$expression .= "phpAds_aclCheckTime('".$acl[$key]['data']."', '".$acl[$key]['ad']."')";
+						break;
+					default:
+						return(0);
+				}
+				
+				$i++;
+			}
+		}
+		
+		if ($expression == '')
+			$expression = 'true';
+		
+		$res = phpAds_dbQuery("
+			UPDATE
+				".$phpAds_config['tbl_banners']."
+			SET
+				compiledlimitation='".addslashes($expression)."'
+			WHERE
+				bannerid=".$bannerid."
+		") or phpAds_sqlDie();
 	}
+	
+	
+	// Set time limit
+	if (isset($time) && isset($usetime))
+	{
+		$block = $time['second'];
+		$block = $block + ($time['minute'] * 60);
+		$block = $block + ($time['hour'] * 3600);
+	}
+	else
+		$block = 0;
+	
+	$res = phpAds_dbQuery("
+		UPDATE
+			".$phpAds_config['tbl_banners']."
+		SET
+			block='".$block."'
+		WHERE
+			bannerid=".$bannerid."
+	") or phpAds_sqlDie();
+	
+	
+	
+	// Rebuild zone cache
+	if ($phpAds_config['zone_cache'])
+		phpAds_RebuildZoneCache ();	
+	
 	
 	Header ('Location: banner-zone.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid);
 }
@@ -248,7 +333,7 @@ phpAds_PageHeader("4.1.3.4.3", $extra);
 /* Main code                                             */
 /*********************************************************/
 
-if (!isset($acl))
+if (!isset($acl) && $phpAds_config['acl'])
 {
 	// Fetch all ACLs from the database
 	$res = phpAds_dbQuery("
@@ -274,169 +359,216 @@ if (!isset($acl))
 	}
 }
 
+if (!isset($time))
+{
+	$res = phpAds_dbQuery("
+		SELECT
+			*
+		FROM
+			".$phpAds_config['tbl_banners']."
+		WHERE
+			bannerid = ".$bannerid."
+	");
+	
+	if ($row = phpAds_dbFetchArray ($res))
+	{
+		$seconds = $row['block'];
+		
+		$time['hour'] = ($seconds - ($seconds % 3600)) / 3600;
+		$seconds = $seconds % 3600;
+		
+		$time['minute'] = ($seconds - ($seconds % 60)) / 60;
+		$seconds = $seconds % 60;
+		
+		$time['second'] = $seconds;
+	}
+}
+
 
 // Begin form
-echo "<form action='banner-acl.php' method='post'>";
+echo "<form action='banner-acl.php' method='get'>";
 echo "<input type='hidden' name='clientid' value='".$clientid."'>";
 echo "<input type='hidden' name='campaignid' value='".$campaignid."'>";
 echo "<input type='hidden' name='bannerid' value='".$bannerid."'>";
+echo "<br>";
 
-echo $strACLAdd.":&nbsp;&nbsp;";
-echo "<select name='type'>";
 
-reset($acl_types);
-while (list ($acl_type, $acl_name) = each ($acl_types))
+if ($phpAds_config['acl'])
 {
-	echo "<option value=";
-	printf("\"%s\" %s>", $acl_type, $acl_type == 'clientip' ? 'selected':''); 
-	echo "$acl_name\n";
-}
-
-echo "</select>";
-echo "&nbsp;&nbsp;";
-echo "<input type='image' name='action[new]' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0' align='absmiddle' alt='$strSave'>";
-phpAds_ShowBreak();
-echo "<br><br><br>";
-
-
-// Show header
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-echo "<tr><td height='25' colspan='4'><b>".$strOnlyDisplayWhen."</b></td></tr>";
-echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-
-
-// Display all ACLs
-if (isset($acl) && count($acl))
-{
-	$previous_i = 0;
-	$previous_type = '';
+	// Show header
+	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+	echo "<tr><td height='25'><input type='checkbox' name='' value=''".(isset($acl) && count($acl) ? ' checked' : '')." disabled>&nbsp;</td>";
+	echo "<td><b>".$strOnlyDisplayWhen."</b></td><td align='right'>";
 	
-	reset($acl);
-	while (list ($key,) = each ($acl))
+	echo "<img src='images/icon-acl-add.gif' align='absmiddle'>&nbsp;";
+	echo "<select name='type'>";
+	
+	reset($acl_types);
+	while (list ($acl_type, $acl_name) = each ($acl_types))
 	{
-		if ($acl[$key]['con'] == 'or')
-		{
-			echo "<tr><td colspan='4'><img src='images/break.gif' width='100%' height='1'></td></tr>";
-			$previous_i++;
-		}
-		else
-			if ($previous_type != '') echo "<tr><td colspan='4'><img src='images/break-el.gif' width='100%' height='1'></td></tr>";
-		
-		
-		$bgcolor = $previous_i % 2 == 0 ? "#F6F6F6" : "#FFFFFF";
-		
-		
-		echo "<tr height='35' bgcolor='$bgcolor'>";
-		echo "<td width='75'>&nbsp;&nbsp;";
-		if ($key == 0)
-			echo "<input type='hidden' name='acl[".$key."][con]' value='and'>&nbsp;";
-		else
-		{
-			echo "<select name='acl[".$key."][con]'>";
-			
-			reset($aclcon_types);
-			while (list ($aclcon_type, $aclcon_name) = each ($aclcon_types))
-			{
-				echo "<option value=";
-				printf("\"%s\" %s>", $aclcon_type, $aclcon_type == $acl[$key]['con'] ? 'selected' : '');
-				echo "$aclcon_name\n";
-			}
-			
-			echo "</select>";
-		}
-		
-		echo "</td><td width='175'>";
-		echo "<img src='images/icon-acl.gif' align='absmiddle'>&nbsp;".$acl_types[$acl[$key]['type']];
-		echo "<input type='hidden' name='acl[".$key."][type]' value='".$acl[$key]['type']."'>";
-		echo "</td><td width='200'>";
-		echo "<select name='acl[".$key."][ad]'>";
-		
-		reset($aclad_types);
-		while (list ($acl_ad, $acl_name) = each ($aclad_types))
-		{
-			echo "<option value=";
-			printf("\"%s\" %s>", $acl_ad, $acl_ad == $acl[$key]['ad'] ? 'selected' : '');
-			echo "$acl_name\n";
-		}
-		echo "</select></td>";
-		
-		
-		// Show buttons
-		echo "<td align='right'>";
-		echo "<input type='image' name='action[del][".$key."]' src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>";
-		echo "&nbsp;&nbsp;";
-		echo "<img src='images/break-el.gif' width='1' height='35'>";
-		echo "&nbsp;&nbsp;";
-		
-		if ($key && $key < count($acl))
-			echo "<input type='image' name='action[up][".$key."]' src='images/triangle-u.gif' border='0' alt='$strUp' align='absmiddle'>";
-		else
-			echo "<img src='images/triangle-u-d.gif' alt='$strUp' align='absmiddle'>";
-		
-		if ($key < count($acl) - 1)
-			echo "<input type='image' name='action[down][".$key."]' src='images/triangle-d.gif' border='0' alt='$strDown' align='absmiddle'>";
-		else
-			echo "<img src='images/triangle-d-d.gif' alt='$strDown' align='absmiddle'>";
-		
-		echo "&nbsp;&nbsp;</td></tr>";
-		echo "<tr bgcolor='$bgcolor'><td>&nbsp;</td><td>&nbsp;</td><td colspan='2'>";
-		
-		if ($acl[$key]['type'] == 'weekday')
-		{
-			if (!isset($acl[$key]['data']))
-				$acl[$key]['data'] = array();
-			
-			echo "<table width='275' cellpadding='0' cellspacing='0' border='0'>";
-			for ($i = 0; $i < 7; $i++)
-			{
-				if ($i % 4 == 0) echo "<tr>";
-				echo "<td><input type='checkbox' name='acl[".$key."][data][]' value='$i'".(in_array ($i, $acl[$key]['data']) ? ' CHECKED' : '').">&nbsp;".$strDayShortCuts[$i]."&nbsp;&nbsp;</td>";
-				if (($i + 1) % 4 == 0) echo "</tr>";
-			}
-			if (($i + 1) % 4 != 0) echo "</tr>";
-			echo "</table>";
-		}
-		elseif ($acl[$key]['type'] == 'time')
-		{
-			if (!isset($acl[$key]['data']))
-				$acl[$key]['data'] = array();
-			
-			echo "<table width='275' cellpadding='0' cellspacing='0' border='0'>";
-			for ($i = 0; $i < 24; $i++)
-			{
-				if ($i % 4 == 0) echo "<tr>";
-				echo "<td><input type='checkbox' name='acl[".$key."][data][]' value='$i'".(in_array ($i, $acl[$key]['data']) ? ' CHECKED' : '').">&nbsp;".$i.":00&nbsp;&nbsp;</td>";
-				if (($i + 1) % 4 == 0) echo "</tr>";
-			}
-			if (($i + 1) % 4 != 0) echo "</tr>";
-			echo "</table>";
-		}
-		else
-			echo "<input type='text' size='40' name='acl[".$key."][data]' value='".(isset($acl[$key]['data']) ? $acl[$key]['data'] : "")."'>";
-		
-		echo "<br><br></td></tr>";
-		
-		
-		$previous_type = $acl[$key]['type'];
+		echo "<option value=";
+		printf("\"%s\" %s>", $acl_type, $acl_type == 'clientip' ? 'selected':''); 
+		echo "$acl_name\n";
 	}
 	
-	// Show Footer
-	if (!isset($acl[$key]['type']) || $acl[$key]['type'] != $previous_type && $previous_type != '')
-		echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-}
-else
-{
-	echo "<tr><td height='24' colspan='4' bgcolor='#F6F6F6'>&nbsp;&nbsp;$strNoLimitations</td></tr>";
+	echo "</select>";
+	echo "&nbsp;";
+	echo "<input type='image' name='action[new]' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0' align='absmiddle' alt='$strSave'>";
+	
+	echo "</td></tr>";
+	
+	echo "<tr><td>&nbsp;</td><td colspan='2' width='100%'>";
+	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	
+	// Display all ACLs
+	if (isset($acl) && count($acl))
+	{
+		$previous_i = 0;
+		$previous_type = '';
+		
+		reset($acl);
+		while (list ($key,) = each ($acl))
+		{
+			if ($acl[$key]['con'] == 'or')
+			{
+				echo "<tr><td colspan='4'><img src='images/break.gif' width='100%' height='1'></td></tr>";
+				$previous_i++;
+			}
+			else
+				if ($previous_type != '') echo "<tr><td colspan='4'><img src='images/break-el.gif' width='100%' height='1'></td></tr>";
+			
+			
+			$bgcolor = $previous_i % 2 == 0 ? "#F6F6F6" : "#FFFFFF";
+			
+			
+			echo "<tr height='35' bgcolor='$bgcolor'>";
+			echo "<td width='75'>&nbsp;&nbsp;";
+			if ($key == 0)
+				echo "<input type='hidden' name='acl[".$key."][con]' value='and'>&nbsp;";
+			else
+			{
+				echo "<select name='acl[".$key."][con]'>";
+				
+				reset($aclcon_types);
+				while (list ($aclcon_type, $aclcon_name) = each ($aclcon_types))
+				{
+					echo "<option value=";
+					printf("\"%s\" %s>", $aclcon_type, $aclcon_type == $acl[$key]['con'] ? 'selected' : '');
+					echo "$aclcon_name\n";
+				}
+				
+				echo "</select>";
+			}
+			
+			echo "</td><td width='175'>";
+			echo "<img src='images/icon-acl.gif' align='absmiddle'>&nbsp;".$acl_types[$acl[$key]['type']];
+			echo "<input type='hidden' name='acl[".$key."][type]' value='".$acl[$key]['type']."'>";
+			echo "</td><td width='200'>";
+			echo "<select name='acl[".$key."][ad]'>";
+			
+			reset($aclad_types);
+			while (list ($acl_ad, $acl_name) = each ($aclad_types))
+			{
+				echo "<option value=";
+				printf("\"%s\" %s>", $acl_ad, $acl_ad == $acl[$key]['ad'] ? 'selected' : '');
+				echo "$acl_name\n";
+			}
+			echo "</select></td>";
+			
+			
+			// Show buttons
+			echo "<td align='right'>";
+			echo "<input type='image' name='action[del][".$key."]' src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>";
+			echo "&nbsp;&nbsp;";
+			echo "<img src='images/break-el.gif' width='1' height='35'>";
+			echo "&nbsp;&nbsp;";
+			
+			if ($key && $key < count($acl))
+				echo "<input type='image' name='action[up][".$key."]' src='images/triangle-u.gif' border='0' alt='$strUp' align='absmiddle'>";
+			else
+				echo "<img src='images/triangle-u-d.gif' alt='$strUp' align='absmiddle'>";
+			
+			if ($key < count($acl) - 1)
+				echo "<input type='image' name='action[down][".$key."]' src='images/triangle-d.gif' border='0' alt='$strDown' align='absmiddle'>";
+			else
+				echo "<img src='images/triangle-d-d.gif' alt='$strDown' align='absmiddle'>";
+			
+			echo "&nbsp;&nbsp;</td></tr>";
+			echo "<tr bgcolor='$bgcolor'><td>&nbsp;</td><td>&nbsp;</td><td colspan='2'>";
+			
+			if ($acl[$key]['type'] == 'weekday')
+			{
+				if (!isset($acl[$key]['data']))
+					$acl[$key]['data'] = array();
+				
+				echo "<table width='275' cellpadding='0' cellspacing='0' border='0'>";
+				for ($i = 0; $i < 7; $i++)
+				{
+					if ($i % 4 == 0) echo "<tr>";
+					echo "<td><input type='checkbox' name='acl[".$key."][data][]' value='$i'".(in_array ($i, $acl[$key]['data']) ? ' CHECKED' : '').">&nbsp;".$strDayShortCuts[$i]."&nbsp;&nbsp;</td>";
+					if (($i + 1) % 4 == 0) echo "</tr>";
+				}
+				if (($i + 1) % 4 != 0) echo "</tr>";
+				echo "</table>";
+			}
+			elseif ($acl[$key]['type'] == 'time')
+			{
+				if (!isset($acl[$key]['data']))
+					$acl[$key]['data'] = array();
+				
+				echo "<table width='275' cellpadding='0' cellspacing='0' border='0'>";
+				for ($i = 0; $i < 24; $i++)
+				{
+					if ($i % 4 == 0) echo "<tr>";
+					echo "<td><input type='checkbox' name='acl[".$key."][data][]' value='$i'".(in_array ($i, $acl[$key]['data']) ? ' CHECKED' : '').">&nbsp;".$i.":00&nbsp;&nbsp;</td>";
+					if (($i + 1) % 4 == 0) echo "</tr>";
+				}
+				if (($i + 1) % 4 != 0) echo "</tr>";
+				echo "</table>";
+			}
+			else
+				echo "<input type='text' size='40' name='acl[".$key."][data]' value='".(isset($acl[$key]['data']) ? $acl[$key]['data'] : "")."'>";
+			
+			echo "<br><br></td></tr>";
+			
+			
+			$previous_type = $acl[$key]['type'];
+		}
+		
+		// Show Footer
+		if (!isset($acl[$key]['type']) || $acl[$key]['type'] != $previous_type && $previous_type != '')
+			echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	}
+	else
+		echo "<tr><td height='24' colspan='4'>".$strNoLimitations."</td></tr>";
+	
+	echo "</table>";
+	echo "</td></tr></table>";
+	echo "<br><br><br>";
 }
 
-echo "</table>";
 
-echo "<br><br>";
+echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+echo "<tr><td height='25'><input type='checkbox' name='usetime' value='true' align='bottom'".($row['block'] > 0 ? ' checked' : '').">&nbsp;</td>";
+echo "<td><b>Only display this banner once every:</b></td></tr>";
+echo "<tr><td>&nbsp;</td><td width='100%'>";
+
+	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+	echo "<tr><td height='6' valign='top'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	
+	echo "<tr><td>";
+	echo "<input type='text' size='3' name='time[hour]' value='".$time['hour']."'> hours &nbsp;&nbsp;";
+	echo "<input type='text' size='3' name='time[minute]' value='".$time['minute']."'> minutes &nbsp;&nbsp;";
+	echo "<input type='text' size='3' name='time[second]' value='".$time['second']."'> seconds &nbsp;&nbsp;";
+	echo "</td></tr>";
+	echo "</table>";
+
+echo "</td></tr></table>";
+
+echo "<br><br><br>";
 echo "<input type='submit' name='submit' value='$strSaveChanges'>";
-
-echo "</form>";
-echo "<br><br>";
+echo "</form><br><br>";
 
 
 

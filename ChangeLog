@@ -143,6 +143,13 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-05-06:  Added wildcard support to source display limitation  (Niels)
 			  - 2002-05-07:  Speed optimalisations for display limitations  (Niels)
 			  - 2002-05-08:  Made source field for statistics a bit larger  (Niels)
+			  - 2002-05-08:  Speed optimalisations for keyword direct selection  (Niels)
+			  - 2002-05-08:	 Added support for zones inside multi-expression direct selection strings  (Niels)
+			  - 2002-05-09:  Added the ability to chain multiple zones together, in case one zone can't deliver any banners  (Niels)
+			  - 2002-05-09:  Added the ability to add a popup invocation code to a regular zone  (Niels)
+			  - 2002-05-09:  Banners can now have a time limit, which means the banner will only be displayed once in that timeframe  (Niels)
+			  - 2002-05-09:  More speed optimalisations for display limitations. Limitations are not pre-compiled and cached, so no extra datbase queries are needed  (Niels)
+			  - 2002-05-09:  Changed path of block cookies to make sure they also work with local mode invocation on the same server  (Niels)
 
 
 			+ Misc bugfixes
@@ -254,6 +261,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-05-04:	 Zone probability showed all banners when nothing was selected  (Niels)
 			  - 2002-05-05:  Added workaround for broken images in IE when zlib.output_compression was turned on  (Niels)
 			  - 2002-05-07:  Fixed errors when upgrading from a no longer support language  (Niels)
+			  - 2002-05-07:  When try to find a global banner during direct selection only banners with only the global keyword were found  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015

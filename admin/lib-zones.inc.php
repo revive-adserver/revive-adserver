@@ -86,7 +86,7 @@ function phpAds_RebuildZoneCache ($zoneid = '')
 				
 				
 				// Get banners
-				$select = phpAds_buildQuery ($what, 1, $precondition);
+				$select = phpAds_buildQuery ($what, false, $precondition);
 				$res    = phpAds_dbQuery($select);
 				
 				// Build array for further processing...

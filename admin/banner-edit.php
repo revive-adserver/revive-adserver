@@ -538,6 +538,8 @@ if (isset($submit))
 	else
 	{
 		// INSERT
+		$final['compiledlimitation'] = "true";
+		
 		$values_fields = "";
 		$values = "";
 		while (list($name, $value) = each($final))
@@ -597,10 +599,7 @@ if (isset($submit))
 		}
 		else
 		{
-			if ($phpAds_config['acl'])
-				Header('Location: banner-acl.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid);
-			else
-				Header('Location: banner-zone.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid);
+			Header('Location: banner-acl.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid);
 		}
 	}
 	
@@ -680,9 +679,7 @@ if ($bannerid != '')
 		
 		
 		
-		$sections = array ("4.1.3.4.2");
-		if ($phpAds_config['acl']) $sections[] = "4.1.3.4.3";
-		$sections[] = "4.1.3.4.4";
+		$sections = array ("4.1.3.4.2", "4.1.3.4.3", "4.1.3.4.4");
 		
 		phpAds_PageHeader("4.1.3.4.2", $extra);
 			echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
