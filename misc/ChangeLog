@@ -21,7 +21,8 @@ CVS
 			  - 2003-05-13:  When clicking on a banner from the administor interface, "log=no" parameter was propagated to the destination site  (Matteo)
 			  - 2003-05-13:  The english language file is now always included by lib-invocation, because it contains strings that might not yet have been translated  (Niels)
 			  - 2003-05-13:  Made some experimental changes to lib-priority, which should make it less agressive  (Niels)
-			
+			  - 2003-05-13:  Added extra headers to prevent caching of admin pages by proxy servers	 (Niels)
+
 
 v 2.0rc3		+ Added a cron replacement for users who don't have access to the cron utility for scheduling the maintenance script  (Niels, 2003-01-14)
 			+ The database is now checked after an update to make sure the update was succesful. If not an error is shown and the can retry to update  (Niels, 2003-01-15)
