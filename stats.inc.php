@@ -103,9 +103,19 @@ while ($row_banners = mysql_fetch_array($res_banners))
           }
        ?>
        </td>
-       <td bgcolor="<?echo $bgcolor;?>">
-       <?print "<a href=\"resetstats.php$fncpageid&bannerID=$row_banners[bannerID]\">$strResetStats</a>";?>
-       </td>
+       <?
+       if ($row_adclicks["qnt"] > 0 || $row_adviews["qnt"] > 0)
+       {
+       ?>
+           <form action="resetstats.php" method="post" name="client_reset">
+           <input type="hidden" name="pageid" value="<? print $pageid; ?>">
+           <input type="hidden" name="bannerID" value="<? print $row_banners[bannerID]; ?>">
+           <td bgcolor="<?echo $bgcolor;?>">
+           <?print "<input type=submit value=\"$strResetStats\" onClick=\"return confirm('This purges all your files. Are you sure?')\">\n";?>
+           </td>
+       <?
+       }
+       ?>
       </tr>
       <?
       }
