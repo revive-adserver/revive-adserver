@@ -39,7 +39,7 @@ if ($res)
 {
 	$row = phpAds_dbFetchArray($res);
 	
-	echo "<html><head><title>".phpAds_buildBannerName ($bannerid, $row['description'], $row['alt'])."</title>";
+	echo "<html><head><title>".strip_tags(phpAds_buildBannerName ($bannerid, $row['description'], $row['alt']))."</title>";
 	echo "<link rel='stylesheet' href='images/".$phpAds_TextDirection."/interface.css'></head>";
 	echo "<body marginheight='0' marginwidth='0' leftmargin='0' topmargin='0' bgcolor='#EFEFEF'>";
 	echo "<table cellpadding='0' cellspacing='0' border='0'>";
