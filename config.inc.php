@@ -156,7 +156,7 @@ $phpAds_config['warn_limit'] = 100;
 /*********************************************************/
 
 // Delivery caching type?
-// Possible options: db, shm
+// Possible options: db, shm or file
 $phpAds_config['delivery_caching'] = 'db';
 
 // Use conditional keywords?
