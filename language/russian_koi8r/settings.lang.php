@@ -4,7 +4,7 @@
 /* phpAdsNew 2                                                          */
 /* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2000-2003 by the phpAdsNew developers                  */
+/* Copyright (c) 2000-2005 by the phpAdsNew developers                  */
 /* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
