@@ -282,7 +282,7 @@ $GLOBALS['strConfirmResetBannerStats']	= "Weet u zeker dat u de statistieken wil
 
 $GLOBALS['strClientsAndCampaigns']		= "Klanten & Campagnes";
 $GLOBALS['strCampaignOverview']			= "Campagnes overzicht";
-$GLOBALS['strReports']					= "Reportage";
+$GLOBALS['strReports']					= "Rapportage";
 $GLOBALS['strShowBanner']				= "Toon banner";
 
 $GLOBALS['strIncludedBanners']			= "Gekoppelde banners";
