@@ -29,12 +29,12 @@ require	("view.inc.php");
 // Set header information
 include ("lib-cache.inc.php");
 
+// Open a connection to the database
+phpAds_dbConnect();
+
 
 if (isset($bannerID) && !isset($what))
 {
-	// Open a connection to the database
-	phpAds_dbConnect();
-	
 	$res = phpAds_dbQuery("
 		SELECT
 			*
@@ -69,8 +69,6 @@ if (isset($bannerID) && !isset($what))
 			echo $row["banner"];
 		}
 	}
-	
-	phpAds_dbClose();
 }
 else
 {
@@ -239,5 +237,6 @@ else
 	}
 }
 
+phpAds_dbClose();
 
 ?>
