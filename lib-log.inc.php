@@ -140,7 +140,7 @@ function phpAds_getClientInformation()
 	// Lookup host name if needed
 	if ($host == '' && $phpAds_config['reverse_lookup'])
 		$host = @gethostbyaddr ($addr);
-	else
+	elseif ($host == '')
 		$host = $addr;
 	
 	if ($phpAds_config['proxy_lookup'])
