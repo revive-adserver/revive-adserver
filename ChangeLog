@@ -127,6 +127,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-04-01:  Changed hierarchy of the campaign and banner statistic pages  (Niels)
 			  - 2002-04-06:  Added a workaround for IE own bug when loading external JS into a popup  (Niels, Matteo)
 			  - 2002-04-09:  Rewrote part of lib-priority to always assign a priority > 0 to low-pri campaigns  (Matteo)
+			  - 2002-04-15:  Added ability to override frame targets even if no target is specified in HTML banner  (Niels)
 
 
 			+ Misc bugfixes
@@ -223,6 +224,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-04-14:  Mixing zones and direct selection with the view() function is now possible  (Niels)
 			  - 2002-04-14:  Adlayer is now IE, Mozilla and Opera compatible  (Matteo & Niels)
 			  - 2002-04-15:  Fixed no cookie / no database connection errors  (Niels)
+			  - 2002-04-16:  Not all views and clicks were displayed on the daily stats  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
