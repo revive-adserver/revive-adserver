@@ -88,9 +88,9 @@ $GLOBALS['strBannerID'] = "ID Banner";
 $GLOBALS['strClientID'] = "ID Utente";
 $GLOBALS['strMailSubject'] = "Statistiche phpAds";
 $GLOBALS['strMailSubjectDeleted'] = "Banner Disattivati";
-$GLOBALS['strMailHeader'] = "Egr. Sig. ".(isset($client["contact"]) ? $client["contact"] : '').",\n";
-$GLOBALS['strMailBannerStats'] = "ecco le statistiche dei banner per ".(isset($client["clientname"]) ? $client["clientname"] : '').":";
-$GLOBALS['strMailFooter'] = "Distinti saluti,\n   $phpAds_admin_fullname";
+$GLOBALS['strMailHeader'] = "Egr. Sig. {contact},\n";
+$GLOBALS['strMailBannerStats'] = "ecco le statistiche dei banner per {clientname}:";
+$GLOBALS['strMailFooter'] = "Distinti saluti,\n   {adminfullname}";
 $GLOBALS['strLogMailSent'] = "[phpAds] Statistiche inviate correttamente.";
 $GLOBALS['strLogErrorClients'] = "[phpAds] Si e' verificato un errore nel tentativo di recuperare gli utenti dal database.";
 $GLOBALS['strLogErrorBanners'] = "[phpAds] Si e' verificato un errore nel tentativo di recuperare i banner dal database.";
@@ -210,5 +210,29 @@ $GLOBALS['strAfterExpire'] = "La data di scadenza &egrave; stata raggiunta";
 $GLOBALS['strNoMoreClicks'] = "Totale dei Click utilizzati";
 $GLOBALS['strNoMoreViews'] = "Totale dei banner utilizzati";
 
+$GLOBALS['strBanners'] 					= "Banners";
+$GLOBALS['strCampaigns']				= "Campaigns";
+$GLOBALS['strCampaign']					= "Campaign";
+$GLOBALS['strName']						= "Name";
+$GLOBALS['strBannersWithoutCampaign']	= "Banners without a campaign";
+$GLOBALS['strMoveToNewCampaign']		= "Move to a new campaign";
+$GLOBALS['strCreateNewCampaign']		= "Create new campaign";
+$GLOBALS['strEditCampaign']				= "Edit campaign";
+$GLOBALS['strEdit']						= "Edit";
+$GLOBALS['strCreate']					= "Create";
+$GLOBALS['strUntitled']					= "Untitled";
+
+$GLOBALS['strTotalCampaigns'] 			= "Total campaigns";
+$GLOBALS['strActiveCampaigns'] 			= "Active campaigns";
+
+$GLOBALS['strLinkedTo']					= "linked to";
+$GLOBALS['strNoViewLoggedInInterval']   = "No views were logged in the last {interval} days";
+$GLOBALS['strNoClickLoggedInInterval']  = "No clicks were logged in the last {interval} days";
+$GLOBALS['strSendAdvertisingReport']	= "Send an advertising report via e-mail";
+$GLOBALS['strNoDaysBetweenReports']		= "Number of days between reports";
+$GLOBALS['strSendDeactivationWarning']  = "Send a warning when a campaign is deactivated";
+
+$GLOBALS['strWarnClientTxt']			= "Click or View count is getting below {limit} for your banners. ";
+$GLOBALS['strViewsClicksLow']			= "Ad views/clicks are low";
 ?>
 
