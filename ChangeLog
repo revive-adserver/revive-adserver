@@ -182,7 +182,8 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: Fixed bug when resolving was made by http server and reverse_lookup off  (Matteo) 20020218
 			  - Bugfix: Increased the size of the zone cache  (Niels) 20020224
 			  - Bugfix: Moving a banner or campaign to an nonexisting parent no longer results in an empty page  (Niels) 20020224
-			  - Bugfix: phpAds_path constant was wrong in damin interface when no __FILE__ constant available  (Matteo) 20020319
+			  - Bugfix: phpAds_path constant was wrong in admin insterface, install, upgrade and
+			    maintenence when no __FILE__ constant available  (Matteo) 20020319
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
