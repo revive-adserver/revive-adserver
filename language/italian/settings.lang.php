@@ -25,6 +25,10 @@ $GLOBALS['strAdminSettings']				= "Impostazioni amministratore";
 $GLOBALS['strAdvancedSettings']				= "Impostazioni avanzate";
 $GLOBALS['strOtherSettings']				= "Altre impostazioni";
 
+$GLOBALS['strSpecifyAdmin']					= "Configurazione account amministratore";
+$GLOBALS['strSpecifyLocaton']				= "Inserisci l'indirizzo di ".$phpAds_productname." sul server";
+
+
 $GLOBALS['strWarning']						= "Attenzione";
 $GLOBALS['strFatalError']					= "Si &egrave; verificato un errore fatale";
 $GLOBALS['strUpdateError']					= "Si &egrave; verificato un errore durante l'aggiornamento";
@@ -41,14 +45,16 @@ $GLOBALS['strFixProblemsBefore']			= "Le seguenti cose devono essere corrette pr
 $GLOBALS['strFixProblemsAfter']				= "Se non sei in grado di risolvere i problemi elencati, contatta l'amministratore del sistema su cui stai installando ".$phpAds_productname.". L'amministratore del server potrebbe essere in grado di aiutarti.";
 $GLOBALS['strIgnoreWarnings']				= "Ignora avvertimenti";
 $GLOBALS['strWarningDBavailable']			= "La versione di PHP utilizzata non ha il supporto per connettersi a un database ".$phpAds_dbmsname.". &Egrave; necessario abilitare l'estensione PHP ".$phpAds_dbmsname." prima di procedere.";
-$GLOBALS['strWarningPHPversion']			= $phpAds_productname." richiede PHP 4.0 o pi&ugrave; recente per funzionare correttamente. La versione attualmente utilizzata &egrave; {php_version}.";
+$GLOBALS['strWarningPHPversion']			= $phpAds_productname." richiede PHP 4.0.3 o pi&ugrave; recente per funzionare correttamente. La versione attualmente utilizzata &egrave; {php_version}.";
 $GLOBALS['strWarningRegisterGlobals']		= "La variabile di configurazione del PHP register_globals deve essere abilitata.";
 $GLOBALS['strWarningMagicQuotesGPC']		= "La variabile di configurazione del PHP magic_quotes_gpc deve essere abilitata.";
 $GLOBALS['strWarningMagicQuotesRuntime']	= "La variabile di configurazione del PHP magic_quotes_runtime deve essere disabilitata.";
+$GLOBALS['strWarningMagicQuotesSybase']		= "La variabile di configurazione del PHP magic_quotes_sybase deve essere disabilitata.";
 $GLOBALS['strWarningFileUploads']			= "La variabile di configurazione del PHP file_uploads deve essere abilitata.";
 $GLOBALS['strWarningTrackVars']				= "La variabile di configurazione del PHP track_vars deve essere abilitata.";
 $GLOBALS['strWarningPREG']					= "La versione di PHP utilizzata non ha il supporto alle espressioni regolari PERL-compatibili. &Egrave; necessario abilitare l'estensione PREG prima di procedere.";
 $GLOBALS['strConfigLockedDetected']			= "Il file <b>config.inc.php</b> non pu&ograve; essere sovrascritto dal server. Non è possiblie procedere finch&eacute; non vengono modificati i permessi sul file. Puoi leggere sul manuale di ".$phpAds_productname." come fare.";
+$GLOBALS['strCacheLockedDetected']			= "La cache di consegna &egrave; impostata in modalit&agrave; 'File' e ".$phpAds_productname." ha riscontrato che il server web non &egrave; in grado di scrivere nella directory <b>cache</b>. Non sar&agrave; possibile procedere finch&eacute; non verranno modificati i permessi della cartella. Puoi leggere sul manuale di ".$phpAds_productname." come fare.";
 $GLOBALS['strCantUpdateDB']					= "Non &egrave; possibile aggiornare il database. Se decidi di procedere, tutti i banner, le statistiche e i clienti saranno cancellati.";
 $GLOBALS['strIgnoreErrors']					= "Ignora errori";
 $GLOBALS['strRetryUpdate']					= "Riprova";
@@ -56,8 +62,14 @@ $GLOBALS['strTableNames']					= "Nomi delle tabelle";
 $GLOBALS['strTablesPrefix']					= "Prefisso delle tabelle";
 $GLOBALS['strTablesType']					= "Tipo di tabelle";
 
+$GLOBALS['strRevCorrupt']					= "Il file <b>{filename}</b> &egrave; corrotto o &egrave; stato modificato. Se non hai modificato il file, prova ad eseguire nuovamente l'upload del file sul server. Se hai modificato volutamente il file, puoi ignorare questo avvertimento.";
+$GLOBALS['strRevTooOld']					= "Il file <b>{filename}</b> &egrave; pi&ugrave; vecchio di quello che dovrebbe essere utilizzato con questa versione di ".$phpAds_productname.". Prova ad eseguire nuovamente l'upload del file sul server.";
+$GLOBALS['strRevMissing']					= "Il file <b>{filename}</b> non pu&ograve; essere controllato poich&eacute; non &egrave; presente sul server. Prova ad eseguire nuovamente l'upload del file sul server.";
+$GLOBALS['strRevCVS']						= "Stai installando una copia prelevata via CVS di ".$phpAds_productname.". Questa non &egrave; una versione ufficiale e potrebbe essere instabile o addirittura non funzionante. Sei sicuro di voler continuare?";
+
 $GLOBALS['strInstallWelcome']				= "Benvenuto in ".$phpAds_productname;
 $GLOBALS['strInstallMessage']				= "Prima di utilizzare ".$phpAds_productname." &egrave; necessario configurarlo e <br> il database deve essere creato. Clicca su <b>Procedi</b> per continuare.";
+$GLOBALS['strInstallMessageCheck']			= $phpAds_productname." ha controllato l'integrit&agrave; dei file caricati sul server ed ha controllato se il server &egrave; in grado di far funzionare ".$phpAds_productname." correttamente. Le seguenti cose richiedono la tua attenzione.";
 $GLOBALS['strInstallSuccess']				= "<b>L'istallazione di ".$phpAds_productname." &egrave stata completata.</b><br><br>Affinch&eacute; ".$phpAds_productname." funzioni correttamente devi assicurarti
                                         	   che lo script di manutenzione sia lanciato ogni ora. Puoi trovare informazioni maggiori sull'argomento nel manuale.
                                         	   <br><br>Clicca <b>Procedi</b> per andare alla pagina di configurazione e impostare
