@@ -1,5 +1,7 @@
 <?
 
+$GLOBALS[phpAds_CharSet] = "iso-8859-2";
+
 $GLOBALS[strHome] = "Home";
 $GLOBALS[date_format] = "%m/%d/%Y";
 $GLOBALS[time_format] = "%H:%i:%S";

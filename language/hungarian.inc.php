@@ -2,8 +2,9 @@
 // hungarian.inc.php
 // translated by DaVe|D3 <dave@wh.hu> (http://www.wh.hu)
 
-$GLOBALS[strHome] = "Home";
+$GLOBALS[phpAds_CharSet] = "iso-8859-2";
 
+$GLOBALS[strHome] = "Home";
 $GLOBALS[date_format] = "%Y/%m/%d";
 $GLOBALS[time_format] = "%H:%i:%S";
 $GLOBALS[strMySQLError] = "MySQL-Hiba:";
