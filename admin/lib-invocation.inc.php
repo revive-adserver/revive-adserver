@@ -312,26 +312,28 @@ function phpAds_GenerateInvocationCode()
 			$path = "'".$path."/phpadsnew.inc.php'";
 		
 		$buffer .= "<"."?php\n";
-		$buffer .= "    require($path);\n";
-		$buffer .= "    if (!isset($"."phpAds_context)) $"."phpAds_context = array();\n";
+		$buffer .= "    if (@include($path)) {\n";
+		$buffer .= "        if (!isset($"."phpAds_context)) $"."phpAds_context = array();\n";
 		
 		if (isset($raw) && $raw == '1')
 		{
-			$buffer .= "    $"."phpAds_raw = view_raw ('$what', $clientid, '$target', '$source', '$withText', $"."phpAds_context);\n";
+			$buffer .= "        $"."phpAds_raw = view_raw ('$what', $clientid, '$target', '$source', '$withText', $"."phpAds_context);\n";
 			
 			if (isset($block) && $block == '1')
-				$buffer .= "    $"."phpAds_context[] = array('!=' => $"."phpAds_raw['bannerid']);\n";
+				$buffer .= "        $"."phpAds_context[] = array('!=' => $"."phpAds_raw['bannerid']);\n";
 			
-			$buffer .= "    \n";
+			$buffer .= "    }\n    \n";
 			$buffer .= "    // Assign the $"."phpAds_raw['html'] variable to your template\n";
 			$buffer .= "    // echo $"."phpAds_raw['html'];\n";
 		}
 		else
 		{
-			$buffer .= "    $"."phpAds_id = view ('$what', $clientid, '$target', '$source', '$withText', $"."phpAds_context);\n";
+			$buffer .= "        $"."phpAds_id = view ('$what', $clientid, '$target', '$source', '$withText', $"."phpAds_context);\n";
 			
 			if (isset($block) && $block == '1')
-				$buffer .= "    $"."phpAds_context[] = array('!=' => $"."phpAds_id);\n";
+				$buffer .= "        $"."phpAds_context[] = array('!=' => $"."phpAds_id);\n";
+			
+			$buffer .= "    }\n";
 		}
 		
 		$buffer .= "?".">\n";
