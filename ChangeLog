@@ -14,8 +14,10 @@ CVS			+ Misc changes to library and function names
 			  - Removed space from UNIQUE INDEX definition in all.sql  (Niels) 20011024
 
 			+ Misc bugfixes
+			  - Removed extra comma from config.inc  (Matteo) 20011017
 			  - Removed background color for flash banner; lets see if it's better... (Stefan) 20011019
-			  - Remove extra comma from config.inc  (Matteo)
+			  - Fixed bug which prevented IP/hostname detection for ACLs, ignored hosts and logging
+			    when 'x-http-forwarded-for' header was set to 'unknown' by the proxy  (Matteo) 20011022
 			  - Fixed warning 'No DB connection'  (Niels) 20011024
 
 
