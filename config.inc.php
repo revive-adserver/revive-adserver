@@ -236,14 +236,4 @@ $phpAds_client_welcome = true;
 // Disable magic_quotes_runtime
 set_magic_quotes_runtime(0);
 
-if (strlen(__FILE__) > strlen(basename(__FILE__)))
-    define ('phpAds_path', substr(__FILE__, 0, strlen(__FILE__) - strlen(basename(__FILE__)) - 1));
-else
-    define ('phpAds_path', '.');
-
-// If this path doesn't work for you, customize it here like this
-// Note: no trailing backslash
-// define ('phpAds_path', "/home/myname/www/phpAdsNew");
-
-
 ?>

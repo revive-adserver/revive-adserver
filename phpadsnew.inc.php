@@ -37,6 +37,13 @@ else
 
 // Include required files
 require	(phpAds_path."/config.inc.php"); 
+require (phpAds_path."/lib-db.inc.php");
+require (phpAds_path."/lib-expire.inc.php");
+require (phpAds_path."/lib-log.inc.php");
+
+if ($phpAds_acl == '1')
+	require (phpAds_path."/lib-acl.inc.php");
+
 require	(phpAds_path."/view.inc.php"); 
 
 ?>

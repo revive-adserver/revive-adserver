@@ -15,8 +15,16 @@
 
 
 // Include required files
-require("config.inc.php");
-require("view.inc.php");
+require	("config.inc.php"); 
+require ("lib-db.inc.php");
+require ("lib-expire.inc.php");
+require ("lib-log.inc.php");
+
+if ($phpAds_acl == '1')
+	require ("lib-acl.inc.php");
+
+require	("view.inc.php"); 
+
 
 // Set header information
 require("lib-cache.inc.php");

@@ -14,15 +14,6 @@
 
 
 
-// Include required files
-require (phpAds_path."/lib-db.inc.php");
-require (phpAds_path."/lib-expire.inc.php");
-require (phpAds_path."/lib-log.inc.php");
-
-if ($phpAds_acl == '1')
-	require (phpAds_path."/lib-acl.inc.php");
-
-
 // Seed the random number generator
 mt_srand((double) microtime() * 1000000);
 
