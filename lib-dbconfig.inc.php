@@ -18,8 +18,8 @@ define ('LIBDBCONFIG_INCLUDED', true);
 
 
 // Current phpAds version
-$phpAds_version = 200.110;
-$phpAds_version_readable = "2 dev 02092002";
+$phpAds_version = 200.111;
+$phpAds_version_readable = "2 dev 08092002";
 $phpAds_productname = "phpAdsNew";
 $phpAds_dbmsname = "MySQL";
 
@@ -57,6 +57,7 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'con_key' =>					array ('type' => 'boolean', 'sql' => false),
 	'mult_key' =>	 				array ('type' => 'boolean', 'sql' => false),
 	'acl' =>  						array ('type' => 'boolean', 'sql' => false),
+	'geotracking_type' => 			array ('type' => 'integer', 'sql' => false),
 	'geotracking_location' => 		array ('type' => 'string',  'sql' => false),
 	'compact_stats' =>				array ('type' => 'boolean', 'sql' => false),
 	'log_beacon' =>					array ('type' => 'boolean', 'sql' => false),

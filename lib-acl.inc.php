@@ -275,24 +275,25 @@ function phpAds_aclCheckCountry($data, $ad)
 {
 	global $HTTP_SERVER_VARS, $phpAds_CountryLookup, $phpAds_config;
 	
+	// Geotracking not enabled, return true
+	if ($phpAds_config['geotracking_type'] == 0 ||
+		$phpAds_config['geotracking_location'] == '')
+		return (true);
+	
 	if (!isset($phpAds_CountryLookup))
 	{
-		$zz 	= explode('.', $HTTP_SERVER_VARS['REMOTE_ADDR']);
-		$offset = (($zz[0]<<16)+($zz[1]<<8)+$zz[2])*2;
-		
-		// Lookup IP in database
-		if ($fp = @fopen($phpAds_config['geotracking_location'], 'r'))
+		switch ($phpAds_config['geotracking_type'])
 		{
-			fseek($fp, $offset, SEEK_SET);
-			$phpAds_CountryLookup = fread($fp, 2);
-			fclose($fp);
+			case 1:	 @include_once (phpAds_path."/misc/geotracking/geo-ip2country.inc.php");
+					 $phpAds_CountryLookup = phpAds_countryCodeByAddr($HTTP_SERVER_VARS['REMOTE_ADDR']);
+					 break;
+				
+			default: $phpAds_CountryLookup = false;
 		}
-		else
-			return (true);
 	}
 	
 	// Allow if no info is available
-	if ($phpAds_CountryLookup == "\0\0") return (true);
+	if ($phpAds_CountryLookup == false)	return (true);
 	
 	// Evaluate country code
 	$expression = ($data == $phpAds_CountryLookup || in_array ($phpAds_CountryLookup, explode(',', $data)));
@@ -310,26 +311,27 @@ function phpAds_aclCheckContinent($data, $ad)
 {
 	global $HTTP_SERVER_VARS, $phpAds_CountryLookup, $phpAds_ContinentLookup, $phpAds_config;
 	
+	// Geotracking not enabled, return true
+	if ($phpAds_config['geotracking_type'] == 0 ||
+		$phpAds_config['geotracking_location'] == '')
+		return (true);
+	
 	if (!isset($phpAds_ContinentLookup))
 	{
 		if (!isset($phpAds_CountryLookup))
 		{
-			$zz 	= explode('.', $HTTP_SERVER_VARS['REMOTE_ADDR']);
-			$offset = (($zz[0]<<16)+($zz[1]<<8)+$zz[2])*2;
-			
-			// Lookup IP in database
-			if ($fp = @fopen($phpAds_config['geotracking_location'], 'r'))
+			switch ($phpAds_config['geotracking_type'])
 			{
-				fseek($fp, $offset, SEEK_SET);
-				$phpAds_CountryLookup = fread($fp, 2);
-				fclose($fp);
+				case 1:	 @include_once (phpAds_path."/misc/geotracking/geo-ip2country.inc.php");
+						 $phpAds_CountryLookup = phpAds_countryCodeByAddr($HTTP_SERVER_VARS['REMOTE_ADDR']);
+						 break;
+					
+				default: $phpAds_CountryLookup = false;
 			}
-			else
-				return (true);
 		}
 		
 		// Allow if no info is available
-		if ($phpAds_CountryLookup == "\0\0") return (true);
+		if ($phpAds_CountryLookup == false)	return (true);
 		
 		// Get continent code
 		@include_once (phpAds_path.'/admin/resources/res-continent.inc.php');

@@ -22,7 +22,8 @@ include ("lib-settings.inc.php");
 phpAds_registerGlobal ('allow_invocation_plain', 'allow_invocation_js', 'allow_invocation_frame', 
 					   'allow_invocation_xmlrpc', 'allow_invocation_local', 'allow_invocation_interstitial', 
 					   'allow_invocation_popup', 'con_key', 'mult_key', 'acl', 'zone_cache', 'zone_cache_limit',
-					   'p3p_policies', 'p3p_compact_policy', 'p3p_policy_location', 'geotracking_location');
+					   'p3p_policies', 'p3p_compact_policy', 'p3p_policy_location', 'geotracking_location',
+					   'geotracking_type');
 
 
 // Security check
@@ -55,6 +56,8 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		phpAds_SettingsWriteAdd('mult_key', $mult_key);
 	if (isset($acl))
 		phpAds_SettingsWriteAdd('acl', $acl);
+	if (isset($geotracking_type))
+		phpAds_SettingsWriteAdd('geotracking_type', $geotracking_type);
 	if (isset($geotracking_location))
 		phpAds_SettingsWriteAdd('geotracking_location', $geotracking_location);
 	
@@ -118,7 +121,10 @@ phpAds_AddSettings('end_section', '');
 
 phpAds_AddSettings('start_section', "1.2.5");
 phpAds_AddSettings('checkbox', 'acl', 
-	array($strUseAcl, array('geotracking_location')));
+	array($strUseAcl, array('geotracking_location','geotracking_type')));
+phpAds_AddSettings('break', '');
+phpAds_AddSettings('select', 'geotracking_type',
+	array($strGeotrackingType, array($strNone, 'IP2Country')));
 phpAds_AddSettings('break', '');
 phpAds_AddSettings('text', 'geotracking_location',
 	array($strGeotrackingLocation, 35, 'text', 0, 'acl'));
