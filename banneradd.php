@@ -59,7 +59,7 @@ if (isset($submit))
 			$final["height"] = "";
 			$final["alt"] = "";
 			$final["bannertext"] = "";
-			$final["url"] = $html_url;
+			$final["url"] = addslashes($html_url);
 			break;
 	}
 	$final["clientID"] = $clientID;
