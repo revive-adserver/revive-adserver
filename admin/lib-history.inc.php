@@ -119,6 +119,7 @@ if (isset($row['span']))
 		$limits = array(7, 14, 21, 28);
 		
 		$formatted   = $date_format;
+		$unformatted = "%d%m%Y";
 		$returnlimit = $limit;
 		$span_period = $span_days;
 		
@@ -135,6 +136,7 @@ if (isset($row['span']))
 		$limits = array(4, 8, 12, 16);
 		
 		$formatted   = $date_format;
+		$unformatted = "%d%m%Y";
 		$returnlimit = $limit * 7;
 		$span_period = $span_weeks;
 		
@@ -152,6 +154,7 @@ if (isset($row['span']))
 		$limits = array(6, 12);
 		
 		$formatted   = $month_format;
+		$unformatted = "%m%Y";
 		$returnlimit = $limit;
 		$span_period = $span_months;
 		
@@ -228,16 +231,17 @@ if (isset($row['span']))
 			SELECT
 				sum(views) AS sum_views,
 				sum(clicks) AS sum_clicks,
-				DATE_FORMAT(day, '".$formatted."') AS date
+				DATE_FORMAT(day, '".$formatted."') AS date,
+				DATE_FORMAT(day, '".$unformatted."') AS date_u
 			FROM
 				".$phpAds_config['tbl_adstats']."
 			WHERE
 				day >= $begin AND day < $end
 				".(isset($lib_history_where) ? 'AND '.$lib_history_where : '')."
 			GROUP BY
-				day
+				date_u
 			ORDER BY
-				day DESC
+				date_u DESC
 			LIMIT 
 				$returnlimit
 		");
@@ -257,16 +261,17 @@ if (isset($row['span']))
 		$result = phpAds_dbQuery("
 			SELECT
 				COUNT(*) AS sum_views,
-				DATE_FORMAT(t_stamp, '".$formatted."') AS date
+				DATE_FORMAT(t_stamp, '".$formatted."') AS date,
+				DATE_FORMAT(t_stamp, '".$unformatted."') AS date_u
 			FROM
 				".$phpAds_config['tbl_adviews']."
 			WHERE
 				t_stamp >= $begin AND t_stamp < $end
 				".(isset($lib_history_where) ? 'AND '.$lib_history_where : '')."
 			GROUP BY
-				date
+				date_u
 			ORDER BY
-				t_stamp DESC
+				date_u DESC
 			LIMIT 
 				$returnlimit
 		");
@@ -281,16 +286,17 @@ if (isset($row['span']))
 		$result = phpAds_dbQuery("
 			SELECT
 				COUNT(*) AS sum_clicks,
-				DATE_FORMAT(t_stamp, '".$formatted."') AS date
+				DATE_FORMAT(t_stamp, '".$formatted."') AS date,
+				DATE_FORMAT(t_stamp, '".$unformatted."') AS date_u
 			FROM
 				".$phpAds_config['tbl_adclicks']."
 			WHERE
 				t_stamp >= $begin AND t_stamp < $end
 				".(isset($lib_history_where) ? 'AND '.$lib_history_where : '')."
 			GROUP BY
-				date
+				date_u
 			ORDER BY
-				t_stamp DESC
+				date_u DESC
 			LIMIT 
 				$returnlimit
 		");
