@@ -408,8 +408,8 @@ echo "</tr>";
 
 echo "<tr>";
 echo "<td height='25'>&nbsp;<b>$strTotalThisPeriod</b></td>";
-echo "<td height='25'>".$totalviews."&nbsp(".number_format(($totals['views'] ? $totalviews / $totals['views'] * 100 : 0), $phpAds_config['percentage_decimals'])."%)</td>";
-echo "<td height='25'>".$totalclicks."&nbsp(".number_format(($totals['clicks'] ? $totalclicks / $totals['clicks'] * 100 : 0), $phpAds_config['percentage_decimals'])."%)</td>";
+echo "<td height='25'>".(int)$totalviews."&nbsp(".number_format(($totals['views'] ? $totalviews / $totals['views'] * 100 : 0), $phpAds_config['percentage_decimals'])."%)</td>";
+echo "<td height='25'>".(int)$totalclicks."&nbsp(".number_format(($totals['clicks'] ? $totalclicks / $totals['clicks'] * 100 : 0), $phpAds_config['percentage_decimals'])."%)</td>";
 echo "<td height='25'>".phpAds_buildCTR($totalviews, $totalclicks)."</td>";
 echo "</tr>";
 
@@ -426,8 +426,8 @@ echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gi
 
 echo "<tr>";
 echo "<td height='25'>&nbsp;<b>$strTotal</b></td>";
-echo "<td height='25'>".$totals['views']."</td>";
-echo "<td height='25'>".$totals['clicks']."</td>";
+echo "<td height='25'>".(int)$totals['views']."</td>";
+echo "<td height='25'>".(int)$totals['clicks']."</td>";
 echo "<td height='25'>".phpAds_buildCTR($totals['views'], $totals['clicks'])."</td>";
 echo "</tr>";
 
@@ -435,8 +435,8 @@ echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gi
 
 echo "<tr>";
 echo "<td height='25'>&nbsp;$strAverage</td>";
-echo "<td height='25'>".number_format (($totals['views'] / $span), $phpAds_config['percentage_decimals'])."</td>";
-echo "<td height='25'>".number_format (($totals['clicks'] / $span), $phpAds_config['percentage_decimals'])."</td>";
+echo "<td height='25'>".number_format (($span ? $totals['views'] / $span : 0), $phpAds_config['percentage_decimals'])."</td>";
+echo "<td height='25'>".number_format (($span ? $totals['clicks'] / $span : 0), $phpAds_config['percentage_decimals'])."</td>";
 echo "<td height='25'>&nbsp;</td>";
 echo "</tr>";
 
