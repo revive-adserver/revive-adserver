@@ -325,4 +325,55 @@ $GLOBALS['strCustom']					= "Personnalisé";
 
 $GLOBALS['strSettings'] 				= "Settings";
 
+$GLOBALS['strAffiliates']				= "Affiliates";
+$GLOBALS['strAffiliatesAndZones']		= "Affiliates & Zones";
+$GLOBALS['strAddAffiliate']				= "Create affiliate";
+$GLOBALS['strModifyAffiliate']			= "Modify affiliate";
+$GLOBALS['strAddNewAffiliate']			= "Add new affiliate";
+
+$GLOBALS['strCheckAllNone']				= "Check all / none";
+
+$GLOBALS['strAllowAffiliateModifyInfo'] = "Allow this user to modify his own affiliate information";
+$GLOBALS['strAllowAffiliateModifyZones'] = "Allow this user to modify his own zones";
+$GLOBALS['strAllowAffiliateLinkBanners'] = "Allow this user to link banners to his own zones";
+$GLOBALS['strAllowAffiliateAddZone'] = "Allow this user to define new zones";
+$GLOBALS['strAllowAffiliateDeleteZone'] = "Allow this user to delete existing zones";
+
+$GLOBALS['strPriority']					= "Priority";
+$GLOBALS['strHighPriority']				= "Show banners in this campaign with high priority.<br>
+										   If you use this option phpAdsNew will try to distribute the 
+										   number of AdViews evenly over the course of the day.";
+$GLOBALS['strLowPriority']				= "Show banner in this campaign with low priority.<br>
+										   This campaign is used to show the left over AdViews which 
+										   aren't used by high priority campaigns.";
+$GLOBALS['strTargetLimitAdviews']		= "Limit the number of AdViews to";
+$GLOBALS['strTargetPerDay']				= "per day.";
+$GLOBALS['strRecalculatePriority']		= "Recalculate priority";
+
+$GLOBALS['strProperties']				= "Properties";
+$GLOBALS['strAffiliateProperties']		= "Affiliate Properties";
+$GLOBALS['strBannerOverview']			= "Banner Overview";
+$GLOBALS['strBannerProperties']			= "Banner Properties";
+$GLOBALS['strCampaignProperties']		= "Campaign Properties";
+$GLOBALS['strClientProperties']			= "Client Properties";
+$GLOBALS['strZoneOverview']				= "Zone Overview";
+$GLOBALS['strZoneProperties']			= "Zone Properties";
+
+$GLOBALS['strGlobalHistory']			= "Global History";
+
+$GLOBALS['strMoveTo']					= "Move to";
+$GLOBALS['strDuplicate']				= "Duplicate";
+
+$GLOBALS['strMainSettings']				= "Main settings";
+$GLOBALS['strAdminSettings']			= "Administration settings";
+
+$GLOBALS['strApplyLimitationsTo']		= "Apply limitations to";
+$GLOBALS['strWholeCampaign']			= "Whole campaign";
+$GLOBALS['strZonesWithoutAffiliate']	= "Zones without affiliate";
+$GLOBALS['strMoveToNewAffiliate']		= "Move to new affiliate";
+
+$GLOBALS['strNoBannersToLink']			= "There are currently no banners available which can be linked to this zone";
+
+$GLOBALS['strAdviewsLimit']				= "AdViews limit";
+
 ?>

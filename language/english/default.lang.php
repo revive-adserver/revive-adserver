@@ -375,4 +375,6 @@ $GLOBALS['strMoveToNewAffiliate']		= "Move to new affiliate";
 
 $GLOBALS['strNoBannersToLink']			= "There are currently no banners available which can be linked to this zone";
 
+$GLOBALS['strAdviewsLimit']				= "AdViews limit";
+
 ?>
