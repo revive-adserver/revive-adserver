@@ -177,6 +177,9 @@ if (isset($submit))
 					case 'png':  $final['contenttype'] = 'png';   break;
 					case 'gif':  $final['contenttype'] = 'gif';   break;
 					case 'swf':  $final['contenttype'] = 'swf';   break;
+					case 'dcr':  $final['contenttype'] = 'dcr';   break;
+					case 'rpm':  $final['contenttype'] = 'rpm';   break;
+					case 'mov':  $final['contenttype'] = 'mov';   break;
 				}
 				
 				// Get the filename
@@ -260,6 +263,9 @@ if (isset($submit))
 					case 'png':  $final['contenttype'] = 'png';   break;
 					case 'gif':  $final['contenttype'] = 'gif';   break;
 					case 'swf':  $final['contenttype'] = 'swf';   break;
+					case 'dcr':  $final['contenttype'] = 'dcr';   break;
+					case 'rpm':  $final['contenttype'] = 'rpm';   break;
+					case 'mov':  $final['contenttype'] = 'mov';   break;
 				}
 				
 				// Get the filename
@@ -295,6 +301,7 @@ if (isset($submit))
 			{
 				$final['contenttype'] = $current['contenttype'];
 				$final['filename'] = $current['filename'];
+				$final['imageurl'] = $current['imageurl'];
 				$final['width']  = $width;
 				$final['height'] = $height;
 			}
@@ -343,6 +350,9 @@ if (isset($submit))
 				case 'png':  $final['contenttype'] = 'png';   break;
 				case 'gif':  $final['contenttype'] = 'gif';   break;
 				case 'swf':  $final['contenttype'] = 'swf';   break;
+				case 'dcr':  $final['contenttype'] = 'dcr';   break;
+				case 'rpm':  $final['contenttype'] = 'rpm';   break;
+				case 'mov':  $final['contenttype'] = 'mov';   break;
 				default:  	 $final['contenttype'] = 'gif';   break;
 			}
 			
@@ -821,9 +831,12 @@ if ($storagetype == 'sql')
 		echo "<tr valign='top'><td><input type='radio' name='replaceimage' value='f' checked></td><td>&nbsp;";
 		
 		if ($row['contenttype'] == 'swf') echo "<img src='images/icon-filetype-swf.gif' align='absmiddle'> ".$row['filename'];
+		if ($row['contenttype'] == 'dcr') echo "<img src='images/icon-filetype-swf.gif' align='absmiddle'> ".$row['filename'];
 		if ($row['contenttype'] == 'jpg') echo "<img src='images/icon-filetype-jpg.gif' align='absmiddle'> ".$row['filename'];
 		if ($row['contenttype'] == 'gif') echo "<img src='images/icon-filetype-gif.gif' align='absmiddle'> ".$row['filename'];
 		if ($row['contenttype'] == 'png') echo "<img src='images/icon-filetype-png.gif' align='absmiddle'> ".$row['filename'];
+		if ($row['contenttype'] == 'rpm') echo "<img src='images/icon-filetype-rpm.gif' align='absmiddle'> ".$row['filename'];
+		if ($row['contenttype'] == 'mov') echo "<img src='images/icon-filetype-mov.gif' align='absmiddle'> ".$row['filename'];
 		
 		echo "</td></tr>";
 		echo "<tr valign='top'><td><input type='radio' name='replaceimage' value='t'></td><td>&nbsp;<input class='flat' size='26' type='file' name='upload' style='width:250px;' onChange='selectFile(this);'>";
@@ -907,9 +920,12 @@ if ($storagetype == 'web')
 		echo "<tr valign='top'><td><input type='radio' name='replaceimage' value='f' checked></td><td>&nbsp;";
 		
 		if ($row['contenttype'] == 'swf') echo "<img src='images/icon-filetype-swf.gif' align='absmiddle'> ".$row['filename'];
+		if ($row['contenttype'] == 'dcr') echo "<img src='images/icon-filetype-swf.gif' align='absmiddle'> ".$row['filename'];
 		if ($row['contenttype'] == 'jpg') echo "<img src='images/icon-filetype-jpg.gif' align='absmiddle'> ".$row['filename'];
 		if ($row['contenttype'] == 'gif') echo "<img src='images/icon-filetype-gif.gif' align='absmiddle'> ".$row['filename'];
 		if ($row['contenttype'] == 'png') echo "<img src='images/icon-filetype-png.gif' align='absmiddle'> ".$row['filename'];
+		if ($row['contenttype'] == 'rpm') echo "<img src='images/icon-filetype-rpm.gif' align='absmiddle'> ".$row['filename'];
+		if ($row['contenttype'] == 'mov') echo "<img src='images/icon-filetype-mov.gif' align='absmiddle'> ".$row['filename'];
 		
 		echo "</td></tr>";
 		echo "<tr valign='top'><td><input type='radio' name='replaceimage' value='t'></td><td>&nbsp;<input class='flat' size='26' type='file' name='upload' style='width:250px;' onChange='selectFile(this);'>";

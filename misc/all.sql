@@ -85,7 +85,7 @@ CREATE TABLE phpads_banners (
    clientid mediumint(9) DEFAULT '0' NOT NULL,
    active enum('t','f') DEFAULT 't' NOT NULL,
    priority int(11) DEFAULT '0' NOT NULL,
-   contenttype enum('gif','jpeg','png','html','swf') DEFAULT 'gif' NOT NULL,
+   contenttype enum('gif','jpeg','png','html','swf','dcr','rpm','mov') DEFAULT 'gif' NOT NULL,
    storagetype enum('sql','web','url','html','network') DEFAULT 'sql' NOT NULL,
    filename varchar(255) NOT NULL,
    imageurl varchar(255) NOT NULL,

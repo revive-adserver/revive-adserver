@@ -28,6 +28,47 @@ function phpAds_getBannerTemplate($type)
 		$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
 		$buffer .= "</object>";
 	}
+	elseif ($type == 'dcr')
+	{
+		$buffer  = "<object classid='clsid:166B1BCA-3F9C-11CF-8075-444553540000' ";
+		$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/director/";
+		$buffer .= "swdir85r321.cab#version=8,5,0,321' width='{width}' height='{height}'>";
+		$buffer .= "<param name='src' value='{imageurl}'>";
+		$buffer .= "<param name='swStretchStyle' value='fill'>";
+		$buffer .= "<param name='quality' value='high'>";
+		$buffer .= "<param name='swRemote' value=\"swSaveEnabled='false' swVolume='false' swRestart='false' swPausePlay='false' swFastForward='false' swContextMenu='false'\">";
+		$buffer .= "<param name='bgColor' value='#FFFFFF'>";
+		$buffer .= "<param name='progress' value='false'>";
+ 		$buffer .= "<param name='logo' value='false'>";
+ 		$buffer .= "<embed src='{imageurl}' quality=high ";
+		$buffer .= "width='{width}' height='{height}' type='application/x-director' ";
+		$buffer .= "bgColor='#FFFFFF' progress='false' logo=false' swRemote=\"swSaveEnabled='false' swVolume='false' swRestart='true' swPausePlay='true' swFastForward='true' swContextMenu='true'\" swStretchStyle=fill ";
+		$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/'></embed>";
+		$buffer .= "</object>";
+	}
+	elseif ($type == 'rpm')
+	{
+		$buffer  = "<object classid='clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA' ";
+		$buffer .= "width='{width}' height='{height}'>";
+		$buffer .= "<param name='src' value='{imageurl}'>";
+		$buffer .= "<param name='controls' value='ImageWindow'>";
+		$buffer .= "<param name='autostart' value='true'>";
+		$buffer .= "<embed src='{imageurl}' controls='ImageWindow' autostart='true' ";
+		$buffer .= "width='{width}' height='{height}' type='audio/x-pn-realaudio-plugin'></embed>";
+		$buffer .= "</object>";
+	}
+	elseif ($type == 'mov')
+	{
+		$buffer  = "<object classid='clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B' ";
+		$buffer .= "codebase='http://www.apple.com/qtactivex/qtplugin.cab' ";
+		$buffer .= "width='{width}' height='{height}'>";
+		$buffer .= "<param name='src' value='{imageurl}'>";
+		$buffer .= "<param name='controller' value='false'>";
+		$buffer .= "<param name='autoplay' value='true'>";
+		$buffer .= "<embed src='{imageurl}' controller='false' autoplay='true' ";
+		$buffer .= "width='{width}' height='{height}' pluginspace='http://www.apple.com/quicktime/download/'></embed>";
+		$buffer .= "</object>";
+	}
 	else
 	{
 		$buffer  = "<a href='{targeturl}' target='{target}' ";
