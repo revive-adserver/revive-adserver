@@ -1,6 +1,7 @@
 phpAdsNew - ChangeLog
 
-CVS
+CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
+
 			+ Misc changes
 			  - 2002-07-26:  Added daily and hosts pages for affiliates and zones (Matteo)
 			  - 2002-07-28:  Added publisher name to the default name of new zones  (Niels)
@@ -15,6 +16,8 @@ CVS
 			  - 2002-07-26:  stats-affiliate-zones.php was displaying affiliateid instead of zoneid  (Matteo)
 			  - 2002-07-26:  The size of a FTP stored banner wasn't displayed in banner-edit.php  (Matteo)
 			  - 2002-07-27:  When upgrading from a release without priority system, no banner was shown; added priority recalculation to the upgrade process if needed  (Matteo)
+			  - 2002-07-30:  When editing a banner, the Keyword field wasn't updated when it was left empty  (Niels)
+			  - 2002-07-30:  Campaigns with weight 0 were mistakenly shown as high priority campaigns on the campaign-edit page  (Niels)
 
 
 
