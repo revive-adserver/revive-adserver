@@ -5,6 +5,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			+ Added the ability to show which banners match when using campaigns to link zones to banners  (Niels, 2002-08-01)
 			+ Added the ability to show the parent campaigns when using banners to link zones to banners  (Niels, 2002-08-01)
 			+ Added the ability to auto clean old statistics and userlog entries  (Matteo, 2002-08-02)
+			+ Made phpAdsNew compatible with register_globals = off and/or gpc_magic_quotes = off  (Niels, 2002-08-05)
 
 			+ Misc changes
 			  - 2002-07-26:  Added daily and hosts pages for affiliates and zones (Matteo)
@@ -25,6 +26,8 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-07-30:  Campaigns with weight 0 were mistakenly shown as high priority campaigns on the campaign-edit page  (Niels)
 			  - 2002-07-30:  Fixed E_ALL error in lib-view-main.inc.php  (Pawel Marzec)
 			  - 2002-08-01:  Link to banner-edit and campaign-edit were shown when logged in as publisher on the zone-include page  (Niels)
+			  - 2002-08-05:  Added new cookie routines which should fix some very rare login problems with IE6  (Niels)
+			  - 2002-08-05:  When no banner can be delivered adview.php now returns a 1 x 1 pixel transparent gif file, so no broken image icon is shown  (Niels)
 
 
 
