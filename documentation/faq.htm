@@ -42,6 +42,23 @@ a:hover { color: #333366; text-decoration: underline; }
   recompile PHP --with-mysql. If you're on Windows, you have to enable the MySQL 
   DLL in your PHP configuration. See the manual, installation section, for more 
   details.</p>
+<h4>Does phpAdsNew has support cache busters?</h4>
+<p>In some circumstances you may want to add a banner network to phpAdsNew. Some 
+  banner networks rely on cache busters in order to work correctly. A cache buster 
+  is a random string of digits which must be unique in every call to the banner 
+  network. In the next example the # must be replaced with unique number everytime 
+  the banner is shown. <br>
+  http://servedby.advertising.com/site=12345/size=468060/bnum=########/bins=1/rich=0<br>
+  <br>
+  If you add this banner network to phpAdsNew you must use 'Banner refered through 
+  URL' and replace the random number with the following string {random:x} and 
+  replace x with the number of digits you want to have. For example:<br>
+  http://servedby.advertising.com/site=12345/size=468060/bnum={random:8}/bins=1/rich=0</p>
+<p>If you need to add the same random number to both the image and the target 
+  url you can simply specify the same {random:x} code in both the image and target 
+  url. phpAdsNew will make sure the string {random:x} is replaced with the same 
+  number in both cases.<br>
+</p>
 <h4>Can you help me to install phpAdsNew? Can you please implement this feature 
   I need?</h4>
 <p>Maybe. Let us know what you want...</p>
