@@ -471,7 +471,7 @@ function get_banner($what, $clientID, $context=0, $source='', $allowhtml=true)
 			
 			if ($high > $ranweight && $low <= $ranweight)
 			{
-				if ($phpAds_acl = '1')
+				if ($phpAds_acl == '1')
 				{
 					if (acl_check($request, $rows[$i]))
 						return ($rows[$i]);
