@@ -112,7 +112,8 @@ array (
 		array (
 			'type'    => 'checkbox',
 			'name'    => 'geotracking_cookie',
-			'text'	  => $strGeoStoreCookie
+			'text'	  => $strGeoStoreCookie,
+			'depends' => 'geotracking_type>0'
 		)
 	)
 ));
