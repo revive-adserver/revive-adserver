@@ -96,7 +96,7 @@ while ($row = phpAds_dbFetchArray($res))
 {
 	phpAds_PageContext (
 		$row['date_formatted'],
-		"stats-banner-daily.php?day=".$row['date']."&clientid=".$clientid."campaignid=".$campaignid."&bannerid=".$bannerid,
+		"stats-banner-daily.php?day=".$row['date']."&clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bannerid,
 		$day == $row['date']
 	);
 }
