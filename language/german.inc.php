@@ -16,7 +16,6 @@
 /* the Free Software Foundation; either version 2 of the License.       */
 /************************************************************************/
 
-global $client;
 
 // Set translation strings
 $GLOBALS['strHome'] = "Home";
@@ -93,8 +92,8 @@ $GLOBALS['strBannerID'] = "Banner-ID";
 $GLOBALS['strClientID'] = "Kunden-ID";
 $GLOBALS['strMailSubject'] = "Banner-Report";
 $GLOBALS['strMailSubjectDeleted'] = "Deaktiviertes Banner";
-$GLOBALS['strMailHeader'] = "Guten Tag, ".$client["contact"].",\n\n";
-$GLOBALS['strMailBannerStats'] = "Hiermit senden wir Ihnen die Banner-Statistik fuer ".$client["clientname"].":";
+$GLOBALS['strMailHeader'] = "Guten Tag, ".(isset($client["contact"]) ? $client["contact"] : '').",\n\n";
+$GLOBALS['strMailBannerStats'] = "Hiermit senden wir Ihnen die Banner-Statistik fuer ".(isset($client["clientname"]) ? $client["clientname"] : '').":";
 $GLOBALS['strMailFooter'] = "Mit freundlichen Gruessen\n\n   $phpAds_admin_fullname";
 $GLOBALS['strLogMailSent'] = "[phpAds] Statistik erfolgreich verschickt.";
 $GLOBALS['strLogErrorClients'] = "[phpAds] Beim Versuch, den Benutzer in der Datenbank zu finden, ist ein Fehler aufgetreten.";
@@ -201,7 +200,7 @@ $GLOBALS['strShowClientsActive'] 		= "Kunden mit aktiven Banner anzeigen";
 $GLOBALS['strShowClientsInactive']	= "Kunden mit inaktiven Banner anzeigen";
 $GLOBALS['strSize']					= "Gr&ouml;&szlig;e";
 
-$GLOBALS['strMonth'] 				= ("Januar", "Februar", "M&auml;rz", "April", "Mai", "Juni", "July", "August", "September", "Oktober", "November", "Dezember");
+$GLOBALS['strMonth'] 				= array("Januar", "Februar", "M&auml;rz", "April", "Mai", "Juni", "July", "August", "September", "Oktober", "November", "Dezember");
 $GLOBALS['strDontExpire']			= "Diesen Kunden nicht an einem Ablaufdatum deaktivieren";
 $GLOBALS['strActivateNow'] 			= "Kunden sofort aktivieren";
 $GLOBALS['strExpirationDate']		= "Ablaufdatum";

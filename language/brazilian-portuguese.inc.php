@@ -12,7 +12,6 @@
 /* the Free Software Foundation; either version 2 of the License.       */
 /************************************************************************/
 
-global $client;
 
 // Set translation strings
 $GLOBALS['strHome'] = "Início";
@@ -89,8 +88,8 @@ $GLOBALS['strBannerID'] = "Banner-ID";
 $GLOBALS['strClientID'] = "Cliente ID";
 $GLOBALS['strMailSubject'] = "Relatório de Publicidade";
 $GLOBALS['strMailSubjectDeleted'] = "Anúncios Desativados";
-$GLOBALS['strMailHeader'] = "Prezado ".$client["contact"].",\n";
-$GLOBALS['strMailBannerStats'] = "seguem estatísitcas do banner de ".$client["clientname"].":";
+$GLOBALS['strMailHeader'] = "Prezado ".(isset($client["contact"]) ? $client["contact"] : '').",\n";
+$GLOBALS['strMailBannerStats'] = "seguem estatísitcas do banner de ".(isset($client["clientname"]) ? $client["clientname"] : '').":";
 $GLOBALS['strMailFooter'] = "Atenciosamente,\n   $phpAds_admin_fullname";
 $GLOBALS['strLogMailSent'] = "[phpAds] Estatisticas enviadas com sucesso.";
 $GLOBALS['strLogErrorClients'] = "[phpAds] Um erro ocorreu ao buscar os clientes no banco de dados.";

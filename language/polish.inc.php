@@ -12,7 +12,6 @@
 /* the Free Software Foundation; either version 2 of the License.       */
 /************************************************************************/
 
-global $client;
 
 // Set character-set
 $GLOBALS['phpAds_CharSet'] = "iso-8859-2";
@@ -93,8 +92,8 @@ $GLOBALS['strBannerID'] = "ID Bannera";
 $GLOBALS['strClientID'] = "ID klienta";
 $GLOBALS['strMailSubject'] = "Raport systemu bannerów";
 $GLOBALS['strMailSubjectDeleted'] = "Deactivated Ads";
-$GLOBALS['strMailHeader'] = "Drogi(a) ".$client["contact"].",\n";
-$GLOBALS['strMailBannerStats'] = "Poni¿ej znajduje siê statystyka dla ".$client["clientname"].":";
+$GLOBALS['strMailHeader'] = "Drogi(a) ".(isset($client["contact"]) ? $client["contact"] : '').",\n";
+$GLOBALS['strMailBannerStats'] = "Poni¿ej znajduje siê statystyka dla ".(isset($client["clientname"]) ? $client["clientname"] : '').":";
 $GLOBALS['strMailFooter'] = "Z pozdrowieniami,\n   $phpAds_admin_fullname";
 $GLOBALS['strLogMailSent'] = "[Wymiana Bannerów] Statystyki zosta³y pomy¶lnie wys³ane.";
 $GLOBALS['strLogErrorClients'] = "[Wymiana Bannerów] Wyst±pi³ b³±d w czasie wyszukiwania klienta w bazie.";

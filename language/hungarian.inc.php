@@ -14,7 +14,6 @@
 /* the Free Software Foundation; either version 2 of the License.       */
 /************************************************************************/
 
-global $client;
 
 // Set character-set
 $GLOBALS['phpAds_CharSet'] = "iso-8859-2";
@@ -64,9 +63,9 @@ $GLOBALS['strNoBanners'] = "Nem találtam bannert!";
 $GLOBALS['strBanner'] = "Banner";
 $GLOBALS['strCurrentBanner'] = "Aktuális banner";
 $GLOBALS['strDelete'] = "Törlés";
-$GLOBALS['strAddBanner '] = "Új banner";
-$GLOBALS['strModifyBanner '] = "Banner módosítás";
-$GLOBALS['strModifyBannerAcl '] = "Banner ACL módósítás";
+$GLOBALS['strAddBanner'] = "Új banner";
+$GLOBALS['strModifyBanner'] = "Banner módosítás";
+$GLOBALS['strModifyBannerAcl'] = "Banner ACL módósítás";
 $GLOBALS['strURL'] = "Linkelt URL (http:// -el)";
 $GLOBALS['strKeyword'] = "Kulcsszó";
 $GLOBALS['strWeight'] = "Suly";
@@ -97,8 +96,8 @@ $GLOBALS['strBannerID'] = "Banner-ID";
 $GLOBALS['strClientID'] = "Kliens ID";
 $GLOBALS['strMailSubject'] = "Hírdetési jelentés";
 $GLOBALS['strMailSubjectDeleted'] = "Deaktívált hírdetések";
-$GLOBALS['strMailHeader'] = "Kedves ".$client["contact"].",\n";
-$GLOBALS['strMailBannerStats'] = "a következöekben megtalálja a banner-statisztikát a ".$client["clientname"]."-hoz :";
+$GLOBALS['strMailHeader'] = "Kedves ".(isset($client["contact"]) ? $client["contact"] : '').",\n";
+$GLOBALS['strMailBannerStats'] = "a következöekben megtalálja a banner-statisztikát a ".(isset($client["clientname"]) ? $client["clientname"] : '')."-hoz :";
 $GLOBALS['strMailFooter'] = "Tisztelettel,\n   $phpAds_admin_fullname";
 $GLOBALS['strLogMailSent'] = "[phpAds] Statisztika sikeresen elkuldve.";
 $GLOBALS['strLogErrorClients'] = "[phpAds] Hiba tortent a felhasznalok lehivasakor.";

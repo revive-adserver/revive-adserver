@@ -12,7 +12,6 @@
 /* the Free Software Foundation; either version 2 of the License.       */
 /************************************************************************/
 
-global $client;
 
 // Set translation strings
 $GLOBALS['strHome'] = "Home";
@@ -89,8 +88,8 @@ $GLOBALS['strBannerID'] = "ID Banner";
 $GLOBALS['strClientID'] = "ID Utente";
 $GLOBALS['strMailSubject'] = "Statistiche phpAds";
 $GLOBALS['strMailSubjectDeleted'] = "Banner Disattivati";
-$GLOBALS['strMailHeader'] = "Egr. Sig. ".$client["contact"].",\n";
-$GLOBALS['strMailBannerStats'] = "ecco le statistiche dei banner per ".$client["clientname"].":";
+$GLOBALS['strMailHeader'] = "Egr. Sig. ".(isset($client["contact"]) ? $client["contact"] : '').",\n";
+$GLOBALS['strMailBannerStats'] = "ecco le statistiche dei banner per ".(isset($client["clientname"]) ? $client["clientname"] : '').":";
 $GLOBALS['strMailFooter'] = 'Distinti saluti,\n   $phpAds_admin_fullname';
 $GLOBALS['strLogMailSent'] = "[phpAds] Statistiche inviate correttamente.";
 $GLOBALS['strLogErrorClients'] = "[phpAds] Si e\' verificato un errore nel tentativo di recuperare gli utenti dal database.";

@@ -12,7 +12,6 @@
 /* the Free Software Foundation; either version 2 of the License.       */
 /************************************************************************/
 
-global $client;
 
 // Set translation strings
 $GLOBALS['strHome'] = "Hoofdpagina";
@@ -89,8 +88,8 @@ $GLOBALS['strBannerID'] = "Banner-ID";
 $GLOBALS['strClientID'] = "Klant-ID";
 $GLOBALS['strMailSubject'] = "Advertentierapport";
 $GLOBALS['strMailSubjectDeleted'] = "Gedeactiveerde banners";
-$GLOBALS['strMailHeader'] = "Geachte ".$client["contact"].",\n";
-$GLOBALS['strMailBannerStats'] = "Bijgevoegd vind u de banner-statistieken van ".$client["clientname"].":";
+$GLOBALS['strMailHeader'] = "Geachte ".(isset($client["contact"]) ? $client["contact"] : '').",\n";
+$GLOBALS['strMailBannerStats'] = "Bijgevoegd vind u de banner-statistieken van ".(isset($client["clientname"]) ? $client["clientname"] : '').":";
 $GLOBALS['strMailFooter'] = 'Met vriendelijke groet,\n    $phpAds_admin_fullname';
 $GLOBALS['strLogMailSent'] = "[phpAdsNew] Statistieken successvol verzonden.";
 $GLOBALS['strLogErrorClients'] = "[phpAdsNew] Er is een fout opgetreden. De klanten konden niet worden opgevraagd vanuit de database.";
