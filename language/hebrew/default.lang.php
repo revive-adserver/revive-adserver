@@ -109,7 +109,10 @@ $GLOBALS['strFieldFixBeforeContinue1']		= "לפני שתמשיך עליך";
 $GLOBALS['strFieldFixBeforeContinue2']		= "לתקן שגיאות אלו.";
 $GLOBALS['strDelimiter']			= "תוחם";
 $GLOBALS['strMiscellaneous']		= "שונות";
-
+$GLOBALS['strCollectedAll']			= "כל הסטטיסטיקה שנאספה";
+$GLOBALS['strCollectedToday']		= "סטטיסטיקה להיום בלבד";
+$GLOBALS['strCollected7Days']		= "סטטיסטיקה ל-7 הימים האחרונים";
+$GLOBALS['strCollectedMonth']		= "סטטיסטיקה לחודש זה בלבד";
 
 
 
@@ -141,7 +144,11 @@ $GLOBALS['strAccessDenied']			= "גישה לא מאושרת";
 $GLOBALS['strPasswordWrong']			= "הסיסמא אינה נכונה";
 $GLOBALS['strNotAdmin']				= "איך לך הרשאה מספקת";
 $GLOBALS['strDuplicateClientName']		= "שם המשתמש שבחרת כבר קיים, נא לבחור שם אחר.";
-
+$GLOBALS['strInvalidPassword']			= "סיסמא פסולה";
+$GLOBALS['strNotSamePasswords']			= "סיסמאות אינן תואמות";
+$GLOBALS['strRepeatPassword']			= "חזור על הסיסמא";
+$GLOBALS['strOldPassword']			= "סיסמא קודמת";
+$GLOBALS['strNewPassword']			= "סיסמא חדשה";
 
 
 // General advertising
@@ -184,7 +191,7 @@ $GLOBALS['strTotalClients'] 			= "סך הכל מפרסמים";
 $GLOBALS['strClientProperties']			= "נתוני מפרסם";
 $GLOBALS['strClientHistory']			= "היסטורית מפרסם";
 $GLOBALS['strNoClients']			= "אין כרגע אף מפרסם";
-$GLOBALS['strConfirmDeleteClient'] 		= "Dהאם באמת למחוק מפרסם זה?";
+$GLOBALS['strConfirmDeleteClient'] 		= "האם באמת למחוק מפרסם זה?";
 $GLOBALS['strConfirmResetClientStats']		= "האם באמת למחוק את כל הסטטיסטיקה של מפרסם זה?";
 $GLOBALS['strHideInactiveAdvertisers']		= "הסתר מפרסם לא פעיל";
 $GLOBALS['strInactiveAdvertisersHidden']	= "מפרסם לא פעיל מוסתר";
@@ -247,7 +254,8 @@ $GLOBALS['strLowPriority']			= "הצג באנרים מקמפיין זה בקדימות נמוכה.<br>קמפיין ז
 $GLOBALS['strTargetLimitAdviews']		= "הגבל את מספר החשיפות ל";
 $GLOBALS['strTargetPerDay']			= "ליום.";
 $GLOBALS['strPriorityAutoTargeting']		= "פזר את שארית החשיפות בצורה שווה במשך הימים שנותרו. מספר החשיפות הנדרשות יעודכן בהתאם בכל יום.";
-
+$GLOBALS['strCampaignWarningNoWeight'] = "הקדימות של קמפיין זה נקבע לנמוכה, \nאך המשקל נקבע לאפס או שלא נקבע כלל. \nזה יגרום לקמפיין להיות לא פעיל \nוהבאנרים שלו לא יונפקו\nעד אשר המשקל ייקבע לערך תקף. \n\nהאם אתה רוצה להשמיך?";
+$GLOBALS['strCampaignWarningNoTarget'] = "הקדימות של קמפיין זה נקבעה כגבוהה,\nאך מספר המטרה של חשיפות לא נקבע.\n זה יגרום לקמפיין להיות לא פעיל\nובאנרים לא יונפקו עד שמספר מטרה תקף ייקבע.\n האפ אתה בטוח רושצה להשמיך?";
 
 
 
@@ -278,8 +286,8 @@ $GLOBALS['strShowParentCampaigns']		= "הצג מערכת פרסות ראשית";
 $GLOBALS['strHideParentCampaigns']		= "הסתר קמפיין-אב";
 $GLOBALS['strHideInactiveBanners']		= "הסתר באנרים לא פעילים";
 $GLOBALS['strInactiveBannersHidden']		= "באנר(ים) לא פעיל(ים) מוסתר(ים)";
-
-
+$GLOBALS['strAppendOthers']				= "הוסף אחרים";
+$GLOBALS['strAppendTextAdNotPossible']	= "אין אפשרות להוסיף באנרים אחרים לבארים טקסטואליים.";
 
 
 
@@ -338,6 +346,8 @@ $GLOBALS['strLaterThan']				= "מאוחר יותר מ";
 $GLOBALS['strLaterThanOrEqual']			= "מאוחר יותר או שווה ל";
 $GLOBALS['strEarlierThan']				= "מוקדם יותר מ";
 $GLOBALS['strEarlierThanOrEqual']		= "מוקדם יותר או שווה ל";
+$GLOBALS['strContains']					= "מכיל";
+$GLOBALS['strNotContains']				= "אינו מכיל";
 $GLOBALS['strAND']				= "ו";  						// logical operator
 $GLOBALS['strOR']				= "או"; 						// logical operator
 $GLOBALS['strOnlyDisplayWhen']			= "הצג באנר זה רק כש:";
@@ -351,6 +361,8 @@ $GLOBALS['strBrowser'] 				= "דפדפן";
 $GLOBALS['strOS'] 				= "מערכת הפעלה";
 $GLOBALS['strCountry'] 				= "מדינה";
 $GLOBALS['strContinent'] 			= "יבשת";
+$GLOBALS['strUSState']					= "מדינה בארה\"ב";
+$GLOBALS['strReferer'] 					= "עמוד הפנייה";
 $GLOBALS['strDeliveryLimitations']		= "הגבלות תפוצה";
 $GLOBALS['strDeliveryCapping']			= "היקף תפוצה";
 $GLOBALS['strTimeCapping']			= "ברגע שבאנר זה הוצג, אל תציג אותו שוב לאותו משתמש במשך:";
@@ -431,9 +443,9 @@ $GLOBALS['strZoneAppendSelectZone']		= "צרף תמיד את הקופץ או הצף לבאנרים המוצגים
 
 
 // Zone probability
-$GLOBALS['strZoneProbListChain']		= "לכל הבאנרים המקושרים לאיזור הנבחר יש עדיפות אפשית. שרשרת האיזור שתעקוב:";
-$GLOBALS['strZoneProbNullPri']			= "כל הבאנרים המקושרים לאיזור זה יש עדיפות אפסית.";
-$GLOBALS['strZoneProbListChainLoop']	= "מעקב אחר זרזרת האיזור תגרום ללואה אינסופית. הפצה לאיזור זה נעצרה";
+$GLOBALS['strZoneProbListChain']		= "כל הבאנרים המקושרים לאיזור הנבחר אינם פעילים כעת.<br>זו שרשרת האיזור שתעקוב:";
+$GLOBALS['strZoneProbNullPri']			= "כל הבאנרים המקושרים לאיזור זה אינם פעילים.";
+$GLOBALS['strZoneProbListChainLoop']	= "מעקב אחר שרשרת האיזור תגרום ללואה אינסופית. הפצה מאיזור זה נעצרה";
 
 
 
@@ -518,13 +530,13 @@ $GLOBALS['strNoActionsLogged']			= "לא נרשמה שום פעולה";
 
 
 // Code generation
-$GLOBALS['strGenerateBannercode']		= "צור קוד באנר";
+$GLOBALS['strGenerateBannercode']		= "בחירה ישירה";
 $GLOBALS['strChooseInvocationType']		= "נא לבחור בסוג קוד הקריאה";
 $GLOBALS['strGenerate']				= "ייצר קוד";
 $GLOBALS['strParameters']			= "פרמטרים";
 $GLOBALS['strFrameSize']			= "גודל מסגרת";
 $GLOBALS['strBannercode']			= "קוד באנר";
-
+$GLOBALS['strOptional']				= "אופציה";
 
 // Errors
 $GLOBALS['strMySQLError'] 			= "SQL Error:";
@@ -543,7 +555,14 @@ $GLOBALS['strErrorUploadBasedir']		= "אין גישה לקובץ שהועלה, כנראה עקב מיצוב \"s
 $GLOBALS['strErrorUploadUnknown']		= "אין גישה לקובץ שהועלה,  עקב סיבה לא ידועה. אנא בדוק את קונפיגורציית ה-PHP";
 $GLOBALS['strErrorStoreLocal']			= "ארעה שגיאה בעת הנסיון לשמור את הבאנר בתיקייה המקומית. אפשר שזה עקב קונפיגורציה שגויה של קביעות בתיב התיקייה.";
 $GLOBALS['strErrorStoreFTP']			= "ארעה שגיאה בעת נסיון להעלות את הבאנר לשרת FTP. אפשר שהשרת לא זמין, או קונפיגורציה שגויה של קביעות שרת ה-FTP";
-
+$GLOBALS['strErrorDBPlain']				= "ארעה שגיאה בגישה לבסיס הנתונים";
+$GLOBALS['strErrorDBSerious']			= "ארעה שגיאה חמורה בבסיס הנתונים";
+$GLOBALS['strErrorDBNoDataPlain']		= "עקב בעיה בבבסיס הנתונים ".$phpAds_productname." לא יכלה להשיג מידע. ";
+$GLOBALS['strErrorDBNoDataSerious']		= "עקב בעיה חמורה בבסיס הנתונים, ".$phpAds_productname." לא יכלה להשיג מידע.";
+$GLOBALS['strErrorDBCorrupt']			= "טבלאות בסיס הנתונים כנראה קרסו ודורשות תיקון. מידע נוסף בדבר תיקון טבלאות שקרסו ניתן למצוא בפרק <i>Troubleshooting</i> של ה<i>Administrator guide</i>.";
+$GLOBALS['strErrorDBContact']			= "אנא צור קשר עם האחראי של שרת זה והודיע לו לגבי הבעיה.";
+$GLOBALS['strErrorDBSubmitBug']			= "אם הבעיה נשנית, אפשר שמדובר בבאג ב-".$phpAds_productname.". אנא דווח את המידע הבא ליוצרים של ".$phpAds_productname.". כמו כן נסה לתאר בצורה ברורה ככל האפשר את הפעולות שהובילו לקריסה זו.";
+$GLOBALS['strMaintenanceNotActive']		= "תסריט התחזוקה לא רץ ב-24 השעות האחרונות. \\nכדי ש".$phpAds_productname." תוכל לתפקד נכונה, הוא צריך לרוץ\\nכל שעה. \\n\\nאנא קרא את מדריך האחראי (Administrator guide) למידע נוסף עבור\\nהגדרות התחזוקה.";
 
 
 
@@ -561,6 +580,7 @@ $GLOBALS['strBeforeActivate']			= "תאריך ההתחלה עדיין לא הגיעt";
 $GLOBALS['strAfterExpire']			= "תאריך התפוגה הגיע.";
 $GLOBALS['strNoMoreClicks']			= "לא נותרו הקלקות";
 $GLOBALS['strNoMoreViews']			= "לא נותרו חשיפות";
+$GLOBALS['strWeightIsNull']			= "משקלו נקבע לאפס";
 $GLOBALS['strWarnClientTxt']			= "כמות החשיפות או הקלקות שנותרה לבאנרים שלך מתחילה להגיע אל מתחת ל{limit}. \nהבאנרים שלך יופסקו כאשר תושג כמות החשיפה או ההקלקה.";
 $GLOBALS['strViewsClicksLow']			= "מספר חשיפות/הקלקות נמוך";
 $GLOBALS['strNoViewLoggedInInterval']   	= "לא נרשמו חשיפות לאורך תקופת דוח זה.";

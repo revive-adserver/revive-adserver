@@ -63,7 +63,13 @@ $GLOBALS['strPopUpAfterSec']			= 'Après';
 $GLOBALS['strAutoCloseAfter']			= 'Fermer automatiquement après';
 $GLOBALS['strPopUpTop']				= 'Position initiale (haut)';
 $GLOBALS['strPopUpLeft']			= 'Position initiale (gauche)';
-
+$GLOBALS['strWindowOptions']			= "Options des fenêtres";
+$GLOBALS['strShowToolbars']			= "Barre d'outils";
+$GLOBALS['strShowLocation']			= "Emplacement";
+$GLOBALS['strShowMenubar']			= "Barre de menus";
+$GLOBALS['strShowStatus']			= "Barre d'état";
+$GLOBALS['strWindowResizable']			= "Redimensionnable";
+$GLOBALS['strShowScrollbars']			= "Ascenseurs";
 
 // XML-RPC
 $GLOBALS['strXmlRpcLanguage']			= 'Language de la machine cliente';

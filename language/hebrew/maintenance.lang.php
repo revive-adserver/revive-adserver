@@ -50,12 +50,14 @@ $GLOBALS['strDeliveryCacheExplaination']		= "
 	זיכרון-מטמון תפוצה משמש להמהרת התפוצה של הבאנרים. המטמון כולל העתק של כל הבאנרים המקושרים לאיזור, מה שחוסך קריאות נוספות לבסיס הנתונים כאשר הבאנרים נקראים לתצוגה ממשית. המטמון מתחדש בכל פעם שחל שינוי לאיזור או לאחד מהבאנרים שבתוכו, ויש אפשרות שהוא ייהפך למיושן. מכאן שהוא נבנה מחדש כל שעה, אך ניתן להפעיל זאת גם ידנית.
 ";
 $GLOBALS['strDeliveryCacheSharedMem']		= "
-	Shared memory is currently being used for storing the delivery cache.
+נעשה כעת שימוש בזכרון משותף	לאיחסון זכרון מטמון (cache).
 ";
 $GLOBALS['strDeliveryCacheDatabase']		= "
-	The database is currently being used for storing the delivery cache.
+	בסיס הנתונים משמשמ בעת לאיחסון מטמון הפקת הבנארים (cache).
 ";
-
+$GLOBALS['strDeliveryCacheFiles']		= "
+מטמון הפקת הבנארים (cache) מאוחסן כעת על כמה קבצים בשרת שלך.
+";
 
 
 
@@ -77,7 +79,7 @@ $GLOBALS['strStatisticsExplaination']		= " הפעלת תצורת <i>סטטיסטיקה קומפקטית</i>
 
 // Product Updates
 $GLOBALS['strSearchingUpdates']			= "מחפש עדכונים. אנא המתן...";
-$GLOBALS['strAvailableUpdates']			= "עדכונים קיימים";
+$GLOBALS['strAvailableUpdates']			= "עדכונים זמינים";
 $GLOBALS['strDownloadZip']			= "הורד (.zip)";
 $GLOBALS['strDownloadGZip']			= "הורד (.tar.gz)";
 
@@ -90,7 +92,7 @@ $GLOBALS['strNoNewVersionAvailable']		= "הגירסה שלך של ".$phpAds_productname." מ
 
 $GLOBALS['strNewVersionAvailable']		= "<b>גירסה חדשה של ".$phpAds_productname."יצאה לאור.</b><br> מומלץ להתקין גירסה זו, כיוון שהי  עשויה לתקן כמה בעיות קיימות ותוסיף תכונות חדשות. למידע נוסף אודות השדרוג אנא קרא את התיועד הכלול בקבצים מטה. ";
 
-$GLOBALS['strSecurityUpdate']			= "<b>מומלץ ביותר להתקין את העשכון הזה בהקשם האפשרי, כיוון שהוא מכיל מספר תיקוני אבטחה.</b> הגירסה של ".$phpAds_productname." בה אתה משתמש עכשיו, אפשר שהיא פגיעה להתקפות מסוימות ואולי אינה מוגנת. למידע נוסף אודות העדכון אנא קרא את התיועד הכלולל בקבצים מטה. ";
+$GLOBALS['strSecurityUpdate']			= "<b>מומלץ ביותר להתקין את העדכון הזה בהקדם האפשרי, כיוון שהוא מכיל מספר תיקוני אבטחה.</b><br> הגירסה של ".$phpAds_productname.", בה אתה משתמש כעת, אפשר שהיא פגיעה להתקפות מסוימות ואולי אינה מוגנת. למידע נוסף אודות העדכון אנא קרא את התיועד הכלול בקבצים מטה. ";
 
 
 
@@ -98,14 +100,13 @@ $GLOBALS['strNotAbleToCheck']			= "
 	<b>כיוון שהרחבת ה-XML אינה קיימת על השרת שלך, ".$phpAds_productname." אינה יכולה לבדוק את יצאה גירסה חדשה.</b>
 ";
 
-$GLOBALS['strForUpdatesLookOnWebsite']	= "
-	אתה מריץ כעת ".$phpAds_productname." ".$phpAds_version_readable.". 
-	אם אתה רוצה לדעת האם קיימת גירסה חדשה, אנא בקר באתר שלנו.
+$GLOBALS['strForUpdatesLookOnWebsite']	= "אם אתה רוצה לדעת האם קיימת גירסה חדשה, אנא בקר באתר שלנו.
 ";
 
-$GLOBALS['strClickToVisitWebsite']		= "
-	לחץ כאן כדי לבקר באתר שלנו";
-	
+$GLOBALS['strClickToVisitWebsite']		= "לחץ כאן כדי לבקר באתר שלנו";
+$GLOBALS['strCurrentlyUsing'] 			= "אתה משתמש כעת";
+$GLOBALS['strRunningOn']				= "רץ על";
+$GLOBALS['strAndPlain']					= "ו";	
 // Stats conversion
 $GLOBALS['strConverting']			= "ממיר";
 $GLOBALS['strConvertingStats']			= "ממיר סטטיסטיקה...";

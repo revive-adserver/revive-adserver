@@ -107,7 +107,11 @@ $GLOBALS['strFieldFixBeforeContinue1']		= 'Avant de pouvoir continuer, vous deve
 $GLOBALS['strFieldFixBeforeContinue2']		= 'corriger ces erreurs.';
 $GLOBALS['strDelimiter']			= 'Delimiteur';
 $GLOBALS['strMiscellaneous']			= 'Divers';
-
+$GLOBALS['strCollectedAll']			= 'Toutes les statistiques';
+$GLOBALS['strCollectedToday']			= 'Seulement les statistiques d\'aujourd\'hui';
+$GLOBALS['strCollected7Days']			= 'Seulement les statistiques des derniers 7 jours';
+$GLOBALS['strCollectedMonth']			= 'Seulement les statistiques de ce mois';
+$GLOBALS['strUseQuotes']			= 'Utiliser les guillemets';
 
 // Properties
 $GLOBALS['strName']				= 'Nom ';
@@ -349,9 +353,10 @@ $GLOBALS['strClientIP'] 			= 'L\'IP du visiteur';
 $GLOBALS['strSource'] 				= 'La source';
 $GLOBALS['strBrowser'] 				= 'Le navigateur';
 $GLOBALS['strOS'] 				= 'Le système d\'exploitation';
-$GLOBALS['strReferer'] 				= 'Page d\'origine';
 $GLOBALS['strCountry'] 				= 'Le pays';
 $GLOBALS['strContinent'] 			= 'Le continent';
+$GLOBALS['strUSState']				= '&Eacute;tat (&Eacute;tat-Unis seulement)';
+$GLOBALS['strReferer'] 				= 'Page d\'origine';
 $GLOBALS['strDeliveryLimitations']		= 'Limites de distribution';
 $GLOBALS['strDeliveryCapping']			= 'Limites de répétition';
 $GLOBALS['strTimeCapping']			= 'Une fois affichée, l\'utilisateur ne devra plus avoir cette bannière pendant :';
@@ -418,9 +423,6 @@ $GLOBALS['strZoneAppend']			= 'Toujours faire suivre le code d\'invocation des b
 $GLOBALS['strAppendSettings']			= 'Paramètres de préfixation et de suffixation';
 $GLOBALS['strZonePrependHTML']			= 'Toujours afficher le code HTML suivant avant les publicités textuelles de cette zone';
 $GLOBALS['strZoneAppendHTML']			= 'Toujours afficher le code HTML suivant après les publicités textuelles de cette zone';
-$GLOBALS['strZoneAppendType']                   = 'Type de code à faire suivre';
-$GLOBALS['strZoneAppendHTMLCode']               = 'Code HTML';
-$GLOBALS['strZoneAppendZoneSelection']  	= 'Popup ou interstitiel';
 $GLOBALS['strZoneAppendSelectZone']             = 'Toujours faire suivre le code d\'invocation des bannières de cette zone par le popup ou interstitiel ci-contre';
 
 // Zone probability
@@ -446,6 +448,16 @@ $GLOBALS['strNoZonesToLinkToCampaign']  	= 'Aucune zone ne peut être liée à cett
 $GLOBALS['strSelectBannerToLink']		= 'Sélectionnez la bannière que vous souhaiteriez lier à cette zone:';
 $GLOBALS['strSelectCampaignToLink']		= 'Sélectionnez la campagne que vous souhaiteriez lier à cette zone:';
 
+// Append
+$GLOBALS['strAppendType']			= 'Type de code à faire suivre';
+$GLOBALS['strAppendHTMLCode']			= 'Code HTML';
+$GLOBALS['strAppendWhat']			= 'De quoi souhaitez vous faire suivre vos bannière ?';
+$GLOBALS['strAppendZone']			= 'Faire suivre d\'une publicité d\'une zone spécifique';
+$GLOBALS['strAppendErrorZone']			= 'Vous devez spécifier une zone avant de pouvoir \n continuer. Autrement aucune bannière \nne sera postfixée.';
+$GLOBALS['strAppendBanner']			= 'Faire suivre d\'une ou plusieurs bannières individuelles';
+$GLOBALS['strAppendErrorBanner']		= 'Vous devez sélectionner au moins une \nbannière avant de pouvoir continuer.  Autrement aucune\n bannière ne sera postfixée.';
+$GLOBALS['strAppendKeyword']			= 'Faire suivre d\'une bannière en se basant sur les mots clés';
+$GLOBALS['strAppendErrorKeyword']		= 'Vous devez spécifier au moins un mot clé \\n avant de pouvoir continuer.  Autrement aucune\n bannière ne sera postfixée.';
 
 // Statistics
 $GLOBALS['strStats'] 				= 'Statistiques';

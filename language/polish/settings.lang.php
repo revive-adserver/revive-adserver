@@ -25,6 +25,8 @@ $GLOBALS['strOtherSettings']			= "Inne Ustawienia";
 
 $GLOBALS['strWarning']				= "Uwaga";
 $GLOBALS['strFatalError']			= "Wyst±pi³ b³ad krytyczny";
+$GLOBALS['strUpdateError']			= "Wyst±pi³ b³±d podczas aktualizacji";
+$GLOBALS['strUpdateDatabaseError']		= "Z nieznanych powodów aktualizacja struktury bazy danych nie powiod³a siê. Rekomendowan± drog± postêpowania w tej sytuacji jest klikniêcie <b>Ponowna aktualizacja</b> aby spróbowaæ naprawiæ potencjalne problemy. Je¶li jeste¶ pewien, ¿e b³êdy nie bêd± mia³y wp³ywu na funkcjonowanie  ".$phpAds_productname." mo¿esz klikn±æ <b>Zignoruj b³êdy</b> aby kontynuowaæ. Zignorowanie tych b³êdów mo¿e byæ przyczyn± powa¿nych problemów i nie jest polecane!";
 $GLOBALS['strAlreadyInstalled']			= $phpAds_productname." jest ju¿ zainstalowany na tym systemie. Je¶li chcesz go skonfigurowaæ, id¼ do <a href='settings-index.php'>czê¶ci ustawieñ</a>";
 $GLOBALS['strCouldNotConnectToDB']		= "Po³±czenie z baz± danych nie by³o mo¿liwe, sprawd¼ poprawno¶æ wpisanych danych";
 $GLOBALS['strCreateTableTestFailed']		= "U¿ytkownik, którego poda³e¶ nie ma uprawnieñ do tworzenia lub zmiany tabel w bazie danych, skontaktuj siê z administratorem bazy danych.";
@@ -33,6 +35,8 @@ $GLOBALS['strTablePrefixInvalid']		= "Prefiks tabeli zawiera nieprawid³owe znaki
 $GLOBALS['strTableInUse']			= "Baza danych, któr± poda³e¶ jest ju¿ u¿ywana przez ".$phpAds_productname.", podaj inny prefiks tabeli lub przeczytaj w dokumentacji instrukcje dotycz±ce aktualizacji.";
 $GLOBALS['strTableWrongType']			= "Wybrany przez ciebie typ tabeli nie jest obs³ugiwany przez twoj± instalacjê ".$phpAds_dbmsname;
 $GLOBALS['strMayNotFunction']			= "Przed kontynuacj± popraw te potencjalne problemy:";
+$GLOBALS['strFixProblemsBefore']		= "Poni¿sze elementy musz± zostaæ skorygowane zanim bêdziesz móg³ zainstalowaæ ".$phpAds_productname.". Je¶li masz pytania dotycz±ce tej informacji o b³êdzie przeczytaj <i>Podrêcznik administratora</i>, który jest czê¶ci± ¶ci±gnietego przez ciebie pakietu.";
+$GLOBALS['strFixProblemsAfter']			= "Je¶li nie jeste¶ w stanie skorygowaæ podanych problemów, skontaktuj siê z administratorem serwera, na którym chcesz zainstalowaæ ".$phpAds_productname.". Mo¿e on udzieliæ ci w tej kwestii pomocy.";
 $GLOBALS['strIgnoreWarnings']			= "Ignoruj ostrze¿enia";
 $GLOBALS['strWarningDBavailable']		= "Wersja PHP, której u¿ywasz nie ma mo¿liwo¶ci korzystania z serwera baz danych ".$phpAds_dbmsname.". Musisz w³±czyæ rozszerzenie PHP ".$phpAds_dbmsname." zanim bêdziesz móg³ kontynuowaæ.";
 $GLOBALS['strWarningPHPversion']		= $phpAds_productname." wymaga PHP 4.0 lub nowszego do poprawnego funkcjonowania. Na serwerze jest obecnie {php_version}.";
@@ -42,8 +46,10 @@ $GLOBALS['strWarningMagicQuotesRuntime']	= "Opcja konfiguracyjna PHP magic_quote
 $GLOBALS['strWarningFileUploads']		= "Opcja konfiguracyjna PHP file_uploads musi byæ w³±czona.";
 $GLOBALS['strWarningTrackVars']			= "Opcja konfiguracyjna PHP variable track_vars musi byæ w³±czona.";
 $GLOBALS['strWarningPREG']			= "Wersja PHP, której u¿ywasz nie posiada obs³ugi wyra¿eñ regularnych w formacie PERL'a. Musisz w³±czyæ rozszerzenie PREG zanim bêdziesz móg³ przej¶æ dalej.";
-$GLOBALS['strConfigLockedDetected']		= $phpAds_productname." wykry³o, ¿e twój plik <b>config.inc.php</b> nie mo¿e byæ modyfikowany przez server.<br> Kontynuacja nie bêdzie mo¿liwa zanim nie zmienisz uprawnieñ dla tego pliku. <br>Przeczytaj do³±czon± dokumentacjê, je¶li nie wiesz jak to zrobiæ.";
+$GLOBALS['strConfigLockedDetected']		= $phpAds_productname." wykry³o, ¿e twój plik <b>config.inc.php</b> nie mo¿e byæ modyfikowany przez server. Kontynuacja nie bêdzie mo¿liwa zanim nie zmienisz uprawnieñ dla tego pliku. Przeczytaj do³±czon± dokumentacjê, je¶li nie wiesz jak to zrobiæ.";
 $GLOBALS['strCantUpdateDB']  			= "Aktualizacja bazy danych nie jest w tej chwili mo¿liwa. Je¶li zdecydujesz siê kontynuowaæ, wszystkie istniej±ce bannery, statystyki i reklamodawcy zostan± usuniêci.";
+$GLOBALS['strIgnoreErrors']			= "Zignoruj b³êdy";
+$GLOBALS['strRetryUpdate']			= "Ponowna aktualizacja";
 $GLOBALS['strTableNames']			= "Nazwy Tabeli";
 $GLOBALS['strTablesPrefix']			= "Prefiks nazw tabeli";
 $GLOBALS['strTablesType']			= "Typ tabeli";
@@ -71,8 +77,6 @@ $GLOBALS['strErrorInstallDbConnect']		= "Nie mo¿na by³o po³±czyæ siê z baz± dany
 $GLOBALS['strUrlPrefix']			= "Prefiks adresu URL";
 
 $GLOBALS['strProceed']				= "Dalej &gt;";
-$GLOBALS['strRepeatPassword']			= "Powtórz has³o";
-$GLOBALS['strNotSamePasswords']			= "Has³a nie pasuj± do siebie";
 $GLOBALS['strInvalidUserPwd']			= "B³êdna nazwa u¿ytkownika lub has³o";
 
 $GLOBALS['strUpgrade']				= "Aktualizacja";
@@ -210,6 +214,7 @@ $GLOBALS['strProxyLookup']			= "Spróbuj ustaliæ prawdziwy adres IP odwiedzaj±ceg
 $GLOBALS['strGeotargeting']			= "Geotargeting";
 $GLOBALS['strGeotrackingType']			= "Typ bazy danych ¶ledzenia geograficznego";
 $GLOBALS['strGeotrackingLocation'] 		= "Lokalizacja bazy danych ¶ledzenia geograficznego";
+$GLOBALS['strGeotrackingLocationError'] 	= "Baza danych ¶ledzenia geograficznego nie istnieje w podanej lokalizacji";
 $GLOBALS['strGeoStoreCookie']			= "Zapisz wyniki w cookie dla pó¼niejszego wykorzystania";
 
 
@@ -235,11 +240,11 @@ $GLOBALS['strBlockAdclicks']			= "Nie loguj Klikniêæ je¶li odwiedzaj±cy klikn±³ 
 
 
 $GLOBALS['strEmailWarnings']			= "Ostrze¿enia Przez E-mail";
-$GLOBALS['strAdminEmailHeaders']		= "Nag³ówek z informacj± o nadawcy dziennych raportów";
-$GLOBALS['strWarnLimit']			= "Limit Ostrze¿enia";
-$GLOBALS['strWarnLimitErr']			= "Limit ostrze¿enia powinien byæ dodatni± liczb± ca³kowit±";
-$GLOBALS['strWarnAdmin']			= "Ostrze¿enie Administratora";
-$GLOBALS['strWarnClient']			= "Ostrze¿enie Reklamodawcy";
+$GLOBALS['strAdminEmailHeaders']		= "Dodaj nastêpuj±cy nag³owek do wszystkich emaili wysy³anych przez ".$phpAds_productname;
+$GLOBALS['strWarnLimit']			= "Wy¶lij ostrze¿enie kiedy liczba pozosta³ych ods³on spadnie poni¿ej podanej warto¶ci";
+$GLOBALS['strWarnLimitErr']			= "Limit ostrze¿enia powinien byæ liczb± dodatni±";
+$GLOBALS['strWarnAdmin']			= "Wy¶lij ostrze¿enie do administratora za ka¿dym razem kiedy kampania prawie wygasa";
+$GLOBALS['strWarnClient']			= "Wy¶lij ostrze¿enie do reklamodawcy za ka¿dym razem kiedy kampania prawie wygasa";
 $GLOBALS['strQmailPatch']			= "W³±cz ³atkê qmail'a";
 
 $GLOBALS['strAutoCleanTables']			= "Automatycznie Czyszczenie Bazy Danych";
@@ -257,10 +262,7 @@ $GLOBALS['strAdministratorSettings']		= "Ustawienia Administratora";
 
 $GLOBALS['strLoginCredentials']			= "Informacje Logowania";
 $GLOBALS['strAdminUsername']			= "Nazwa u¿ytkownika Admina";
-$GLOBALS['strOldPassword']			= "Stare has³o";
-$GLOBALS['strNewPassword']			= "Nowe has³o";
 $GLOBALS['strInvalidUsername']			= "Nieprawid³owa nazwa u¿ytkownika";
-$GLOBALS['strInvalidPassword']			= "Nieprawid³owe has³o";
 
 $GLOBALS['strBasicInformation']			= "Podstawowe informacje";
 $GLOBALS['strAdminFullName']			= "Imiê i nazwisko admina";
@@ -285,8 +287,10 @@ $GLOBALS['strGuiSettings']			= "Konfiguracja Interfejsu U¿ytkownika";
 
 $GLOBALS['strGeneralSettings']			= "Ogólne Ustawienia";
 $GLOBALS['strAppName']				= "Nazwa programu";
-$GLOBALS['strMyHeader']				= "Mój nag³ówek";
-$GLOBALS['strMyFooter']				= "Moja stopka";
+$GLOBALS['strMyHeader']				= "Lokalizacja pliku nag³ówka";
+$GLOBALS['strMyHeaderError']			= "Plik nag³ówka nie istnieje w podanej lokalizacji";
+$GLOBALS['strMyFooter']				= "Lokalizacja pliku stopki";
+$GLOBALS['strMyFooterError']			= "Plik stopki nie istnieje w podanej lokalizacji";
 $GLOBALS['strGzipContentCompression']		= "U¿yj kompresji zawarto¶ci GZIP";
 
 $GLOBALS['strClientInterface']			= "Interfejs Reklamodawcy";

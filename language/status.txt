@@ -60,8 +60,8 @@ French
 	---------------------------------------------------------
 	Maintained by:	   Vincent Zanotti (amidebx@users.sourceforge.net)
 	Is up-to-date?	   No
-	Last update:	   22 Februari 2002
-	Translated files:  7
+	Last update:	   4 June 2002
+	Translated files:  7 + 3 resource files
 	---------------------------------------------------------
 
 
@@ -80,7 +80,7 @@ Hebrew
 	---------------------------------------------------------
 	Maintained by:	   Reuven Mansharoff (reuven@act.co.il)
 	Is up-to-date?	   No
-	Last update:	   18 December 2002
+	Last update:	   23 June 2003
 	Translated files:  7
 	---------------------------------------------------------
 
@@ -88,10 +88,10 @@ Hebrew
 
 Hungarian
 	---------------------------------------------------------
-	Maintained by:	   Medgyesi Zoltán
-	Is up-to-date?	   Working on it
-	Last update:	   -
-	Translated files:  -
+	Maintained by:	   Jozsef Tamas Herczeg
+	Is up-to-date?	   No
+	Last update:	   28 April 2003
+	Translated files:  7
 	---------------------------------------------------------
 
 
@@ -130,7 +130,7 @@ Polish
 	---------------------------------------------------------
 	Maintained by:	   Michael Paluchowski
 	Is up-to-date?	   No
-	Last update:	   25 December 2002
+	Last update:	   17 April 2003
 	Translated files:  7
 	---------------------------------------------------------
 

@@ -16,9 +16,15 @@
 
 // Settings help translation strings
 $GLOBALS['phpAds_hlp_dbhost'] = '
-	Spécifiez ici l\'adresse du serveur de données '.$phpAds_dbmsname.' (Ex: sql.monsite.fr).
+	Spécifiez ici l\'adresse de votre serveur de données '.$phpAds_dbmsname.' auquel '.$phpAds_productname.' doit se connecter (Ex: sql.monsite.fr).
 ';
-		
+
+$GLOBALS['phpAds_hlp_dbport'] = '
+        Spécifiez le numéro du port de la base de données '.$phpAds_dbmsname.' à laquelle '.$phpAds_productname.' doit se connecter. Le port par défaut
+        pour une base de données ".$phpAds_dbmsname." est <i>'.
+		($phpAds_productname == 'phpAdsNew' ? '3306' : '5432').'</i>.
+';
+
 $GLOBALS['phpAds_hlp_dbuser'] = '
 	Spécifiez le nom d\'utilisateur avec lequel '.$phpAds_productname.' peut se connecter à la base '.$phpAds_dbmsname.'.
 ';
@@ -26,9 +32,10 @@ $GLOBALS['phpAds_hlp_dbuser'] = '
 $GLOBALS['phpAds_hlp_dbpassword'] = '
 	Spécifiez le mot de passe avec lequel '.$phpAds_productname.' peut se connecter à la base '.$phpAds_dbmsname.'.
 ';
-		
+
 $GLOBALS['phpAds_hlp_dbname'] = '
-	Spécifiez le nom de la base dans laquelle '.$phpAds_productname.' doit stocker ses données.
+	Spécifiez le nom de la base de données dans laquelle '.$phpAds_productname.' doit stocker ses données.
+	Attention: la base doit déjà exister sur le serveur de données. '.$phpAds_productname.' ne créeras <b>pas</b> la base si elle n\'existe pas.
 ';
 
 $GLOBALS['phpAds_hlp_persistent_connections'] = '
@@ -56,10 +63,10 @@ $GLOBALS['phpAds_hlp_compatibility_mode'] = '
 $GLOBALS['phpAds_hlp_table_prefix'] = '
 	Si la base de données que '.$phpAds_productname.' utilise est partagée par plusieurs produits, il est intéressant d\'ajouter
 	un préfixe aux noms des tables de '.$phpAds_productname.'. Si vous utilisez plusieurs '.$phpAds_productname.' avec la même base
-	de données, vous devez choisir un préfixe unique pour chaque installation de '.$phpAds_productname.'.
+	de données, vous devez choisir un préfixe différent pour chacune des installation.
 ';
 
-$GLOBALS['phpAds_hlp_tabletype'] = '
+$GLOBALS['phpAds_hlp_table_type'] = '
 	'.$phpAds_dbmsname.' supporte plusieurs types de table. Chacun de ces types a des propriétés particulières, et certains
 	peuvent accélérer '.$phpAds_productname.' considérablement. MyISAM est le type par défaut, et est présent dans
 	toutes les installations '.$phpAds_dbmsname.'. Certains autres types de tables peuvent ne pas être présents sur votre serveur SQL.
@@ -67,7 +74,7 @@ $GLOBALS['phpAds_hlp_tabletype'] = '
 
 $GLOBALS['phpAds_hlp_url_prefix'] = '
 	'.$phpAds_productname.' a besoin de connaitre l\'adresse où il réside. Vous devez donc préciser l\'url publique à laquelle se trouve '.$phpAds_productname.'.
-	Par exemple : http://www.monsite.fr/'.$phpAds_productname.'
+	Par exemple : <i>http://www.monsite.fr/'.$phpAds_productname.'</i>
 ';
 
 $GLOBALS['phpAds_hlp_my_header'] =
@@ -142,8 +149,8 @@ $GLOBALS['phpAds_hlp_log_adviews'] = '
 $GLOBALS['phpAds_hlp_block_adviews'] = '
 	Si un visiteur recharge une page, à chaque fois un affichage sera compté. Cette fonctionnalité est utilisée pour s\'assurer que un seul affichage est décompté pour
 	la même bannière, et pour le temps spécifié (en secondes). Par exemple, si vous mettez cette valeur à 300 secondes, '.$phpAds_productname.' ne comptera l\'affichage
-	d\'une bannière que si elle n\'a pas été montrée à ce visiteur dans les 5 dernières minutes. Cette option n\'est valable que lorsque <i>Utiliser des balises invisibles
-	pour compter les affichages</i> est activé, et si le navigateur du visiteur accepte les cookies.
+	d\'une bannière que si elle n\'a pas été montrée à ce visiteur dans les 5 dernières minutes. Cette fonction n\'est active que si le navigateur du visiteur
+	accepte les cookies.
 ';
 		
 $GLOBALS['phpAds_hlp_log_adclicks'] = '
@@ -158,20 +165,79 @@ $GLOBALS['phpAds_hlp_block_adclicks'] = '
 	bannière dans les 5 dernières minutes. Cette option ne marche que si le navigateur du visiteur accepte les
 	cookies.
 ';
+
+$GLOBALS['phpAds_hlp_log_source'] = '
+	Si vous utilisez le paramètre &quot;source&quot; dans votre conde d\'invocation des bannières, '.$phpAds_productname.' peut le journaliser
+	de telle sorte que vous serez capable de voir les statistiques d\'affichages des différentes sources.
+	Si vous n\'utilisez pas le paramètre &quot;source&quot;, ou si vous ne souhaitez pas journaliser cette information, vous pouvez
+	désactiver sans crainte cette option.
+';
 		
+$GLOBALS['phpAds_hlp_geotracking_stats'] = '
+	Si vous utilisez une base de géolocalisation, vous pouvez journaliser les informations d\'emplacement dans la base de données.
+	Si vous avez activé cette option, vous pourrez visualiser les statistiques de positionnement géographique de vos visiteurs, et savoir dans quels
+	pays chaque bannière est la plus vue. Cette option n\'est disponible que si vous utilisez les statistiques détaillées.
+';
+		
+$GLOBALS['phpAds_hlp_log_hostname'] = '
+	Il est possible de journaliser le nom d\'hôte ou l\'adresse IP de chaque visiteur. Activer cette option vous permettra de voir quelle machine
+	affiche le plus de bannières. Cette option n\'est disponible que si vous utilisez les statistiques détaillées.
+';
+		
+$GLOBALS['phpAds_hlp_log_iponly'] = '
+	La journalisation du nom d\'hôte de vos visiteurs prends énormément de place dans la base de données. Si vous activez cette option,
+	'.$phpAds_productname.' continuera de journaliser les informations concernant l\'hôte, mais en utilisant l\'adresse IP, beaucoup plus petite.
+	Cette option n\'est pas disponible si le nom d\'hôte n\'est pas fourni par le serveur ou par '.$phpAds_productname.', car dans ce cas ce sera
+	toujours l\'adresse IP qui sera journalisée.
+';	
+
+
 $GLOBALS['phpAds_hlp_reverse_lookup'] = '
-	Par défaut, '.$phpAds_productname.' journalise l\'adresse IP de chaque visiteur. Si vous préférez que '.$phpAds_productname.' journalise le nom de la machine, activez
-	cette option. La résolution inversée  des noms de domaine prend du temps; cela ralentira '.$phpAds_productname.'.
+	Le nom d\'hôte est habituellement déterminé par le serveur Web, mais dans certains cas, cela est désactivé.
+	Si vous souhaitez utiliser le nom d\'hôte dans les limitations de distributions et/ou en garder des statistiques, et que le
+	serveur ne fournit pas le nom d\'hôte, vous devrez activer cette option.
+	Attention néanmoins: la détermination du nom d\'hôte est une opération longue, et cela ralentiras la distribution des bannières.
+';
+		
+$GLOBALS['phpAds_hlp_proxy_lookup'] = '
+	Certains visiteurs utilisent un serveur proxy pour accéder à Internet. Dans ce cas, c\'est le nom d\'hôte (ou l\'adresse IP) du serveur proxy
+	qui sera journalisé à la place de celui du visiteur. Si vous activez cette option, '.$phpAds_productname.' essaiera de déterminer le nom d\'hôte ou
+	l\'adresse IP du visiteur placé derrière le serveur proxy. Si il n\'est pas possible de déterminer ces informations, celles du serveur proxy seront
+	utilisées à la place. Cette option est désactivée par défaut, car elle ralentit considérablement la distribution des bannières.
 ';
 
-$GLOBALS['phpAds_hlp_proxy_lookup'] = '
-	Certains utilisateurs utilisent des Proxy pour accéder à l\'internet. Dans ce cas, '.$phpAds_productname.' va journaliser
-	le nom d\'hôte du Proxy, plutôt que celui de l\'utilisateur. Si vous activez cette option, '.$phpAds_productname.' essayera
-	de trouver l\'adresse IP, ou le nom d\'hôte de l\'utilisateur derrière ce proxy. Si ce n\'est pas possible
-	de récupérer l\'adresse exacte de l\'utilisateur, l\'adresse du Proxy sera utilisée à la place. Cette option
-	est désactivée par défaut, car elle ralentit la journalisation.
+$GLOBALS['phpAds_hlp_auto_clean_tables'] = 
+$GLOBALS['phpAds_hlp_auto_clean_tables_interval'] = '
+	Si vous activez cette option, les informations récupérées seront automatiquement supprimées après le nombre de semaines
+	spécifié juste en dessous dans la case. Par exemple, si vous réglez la période à 5 semaines, toutes les statistiques plus vieilles que 5 semaines
+	seront automatiquement supprimées.
 ';
 		
+$GLOBALS['phpAds_hlp_auto_clean_userlog'] = 
+$GLOBALS['phpAds_hlp_auto_clean_userlog_interval'] = '
+	Cette fonctionnalité supprimera automatiquement les entrées du journal utilisateur plus vieilles que le nombre de semaines spécifié.
+';
+		
+$GLOBALS['phpAds_hlp_geotracking_type'] = '
+	La géolocalisation permet à '.$phpAds_productname.' de transformer l\'adresse IP du visiteur en une information de positionnement géographique.
+	Grâce à cette information, vous pouvez régler une limitation de distribution, ou vous pouvez journaliser cette information pour
+	voir quel pays génère le plus d\'affichages ou de clics. Si vous voulez activer la géolocalisation, vous devez indiquer quel type de base vous avez.
+	'.$phpAds_productname.' supporte actuellement les bases <a href="http://hop.clickbank.net/?phpadsnew/ip2country" target="_blank">IP2Country</a>
+	et <a href="http://www.maxmind.com/?rId=phpadsnew" target="_blank">GeoIP</a>.
+';
+		
+$GLOBALS['phpAds_hlp_geotracking_location'] = '
+	A moins que vous n\'utilisiez le module Apache GeoIP, vous devez indiquer à '.$phpAds_productname.' l\'emplacement
+	de votre base de géolocalisation. Il est vivement recommandé de placer la base à l\'extérieur de la racine Web, afin d\'éviter
+	que n\'importe qui ne puisse la télécharger.
+';
+		
+$GLOBALS['phpAds_hlp_geotracking_cookie'] = '
+	La conversion de l\'adresse IP en informations géographiques prends du temps. Afin d\'éviter à '.$phpAds_productname.' d\'avoir à faire cela
+	à chaque bannière, le résultat de la conversion peut être stocké dans un cookie. Si le cookie est présent, '.$phpAds_productname.' utilisera
+	ce cookie plutôt que de retransformer l\'adresse IP.
+';
+
 $GLOBALS['phpAds_hlp_ignore_hosts'] = '
 	Si vous ne voulez pas compter les clics et les affichages de certaines machines, vous pouvez les entrer
 	ci-contre. Si vous avez activé la requête DNS inversée, vous pouvez entrer des adresses IP et des noms de
@@ -238,20 +304,11 @@ $GLOBALS['phpAds_hlp_default_banner_target'] = '
 	Si '.$phpAds_productname.' n\'arrive pas à se connecter au serveur SQL, ou bien qu\'il ne trouve aucune bannière à afficher, il se tournera vers ces réglages.
 	Cette option est désactivée par défaut.
 ';
-
-$GLOBALS['phpAds_hlp_zone_cache'] = '
-	Si vous utilisez des zones, ce paramètre permet à '.$phpAds_productname.' de stocker les informations sur les bannières
-	dans un cache, qui sera ensuite réutilisé. Cela accélère un peu '.$phpAds_productname.', car plutôt que de récupérer toutes
-	les informations de la zone, de récupérer les bannières, et de sélectionner la bonne, '.$phpAds_productname.' a juste
-	besoin de lire le cache. Cette option est activée par défaut.
-';
-
-$GLOBALS['phpAds_hlp_zone_cache_limit'] = '
-	Si vous utilisez le cachage des zones, les informations présentes dans le cache peuvent se périmer.
-	De temps en temps, '.$phpAds_productname.' a besoin de reconstruire le cache, afin que les nouvelles bannières soient incluses.
-	Ce paramètre vous laisse décider quand un cache doit être reconstruit, en spécifiant son âge maximum.
-	Par exemple, si vous mettez ici 600, le cache sera reconstruit à chaque fois qu\'il aura plus de 10 minutes
-	(600 secondes).
+$GLOBALS['phpAds_hlp_delivery_caching'] = '
+	Afin d\'accélérer la distribution, '.$phpAds_productname.' utilise un cache qui contient les informations nécessitées pour la distribution
+	d\'une bannière à un visiteur de votre site. Le cache de distribution est stocké par défaut dans votre base de données, mais pour accélérer encore plus,
+	il est possible de stocker le cache dans un fichier, ou en mémoire partagée. La mémoire partagée est la plus rapide, mais les fichiers sont rapides aussi.
+	Il n\'est pas recommandé de désactiver le cache de distribution, car cela affecterait fortement les performances.
 ';
 
 $GLOBALS['phpAds_hlp_type_sql_allow'] = 
@@ -388,7 +445,12 @@ $GLOBALS['phpAds_hlp_userlog_priority'] = '
 	les prévisions, ainsi que la priorité assignée à chaque bannière. Ces informations peuvent être utiles si
 	vous souhaitez soumettre un rapport de bug à propos de ces calculs de priorité.
 ';
-		
+
+$GLOBALS['phpAds_hlp_userlog_autoclean'] = '
+	Afin de pouvoir vous assurer que la base de données a été nettoyée correctement, vous pouvez sauver un rapport qui décrira
+	ce qui s\'est exactement passé durant le nettoyage. Ce rapport sera stocké dans le journal utilisateur.
+';
+
 $GLOBALS['phpAds_hlp_default_banner_weight'] = '
 	Si vous souhaitez assigner un poids par défaut des bannières supérieur à 1 (valeur par défaut), vous pouvez
 	spécifier ici le poids désiré.
@@ -437,4 +499,24 @@ $GLOBALS['phpAds_hlp_gui_hide_inactive'] = '
 	possible de voir les éléments cachés, en cliquant sur <i>Montrer tout</i> en bas de ces pages.
 ';
 
+$GLOBALS['phpAds_hlp_gui_show_matching'] = '
+	Si cette option est activée, les bannières correspondantes seront montrée dans la page <i>Bannières liées</i>,
+	si la méthode <i>Sélection par campagnes</i> est choisie. Cela vous permettra de voir exactement quelles bannières
+	serait susceptibles d\'être distribuées si la campagne était liée. Il sera aussi possible de voir un aperçu des
+	bannières correspondantes.
+';
+		
+$GLOBALS['phpAds_hlp_gui_show_parents'] = '
+	Si cette option est activée, les campagnes parentes des bannières seront montrées sur la page <i>Bannières liées</i>,
+	si la méthode <i>Sélection par bannières</i> est choisie. Cela vous permettra de voir exactement à quelles campagnes
+	appartiennent les bannières que vous vous apprêtez à lier. Cela signifie aussi que les bannières seront groupées par
+	campagnes parentes, et non plus triées alphabétiquement.
+';
+		
+$GLOBALS['phpAds_hlp_gui_link_compact_limit'] = '
+	Par défaut toutes les bannières disponibles sont affichées sur la page <i>Bannières liées</i>.
+	Cette page pourrait ainsi devenir très longue si le nombre de bannières est important.
+	En activant cette option, vous pourrez régler un nombre maximal d\'éléments qui seront affichées sur la page.
+	Si il y a plus d\'éléments, ou plusieurs manières de lier, les bannières seront montrées ce qui prendra moins de place.
+';
 ?>

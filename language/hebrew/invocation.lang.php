@@ -63,6 +63,13 @@ $GLOBALS['strPopUpAfterSec']			= "לאחר";
 $GLOBALS['strAutoCloseAfter']			= "יסגר אוטומטית אחרי";
 $GLOBALS['strPopUpTop']				= "מיקום התחלתי (עליון)";
 $GLOBALS['strPopUpLeft']			= "מיקום התחלתי (שמאל)";
+$GLOBALS['strWindowOptions']		= "אופציות חלון";
+$GLOBALS['strShowToolbars']			= "כלים";
+$GLOBALS['strShowLocation']			= "מיקום";
+$GLOBALS['strShowMenubar']			= "תפריט";
+$GLOBALS['strShowStatus']			= "סטטוס";
+$GLOBALS['strWindowResizable']		= "שינוי גודל";
+$GLOBALS['strShowScrollbars']		= "גוללים";
 
 
 // XML-RPC

@@ -1,4 +1,4 @@
-<?php // $Revision$
+<?php // $Revision: 2.0 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -13,23 +13,10 @@
 /************************************************************************/
 
 
-// Set translation strings
 
-$GLOBALS['strDeliveryEngine']				= "מנוע הפצה";
-$GLOBALS['strMaintenance']					= "תחזוקה";
-$GLOBALS['strAdministrator']				= "אחראי";
-
-
-$GLOBALS['strUserlog'] = array (
-	phpAds_actionAdvertiserReportMailed 	=> "דוח למפרסם {id} נשלח באימייל",
-	phpAds_actionPublisherReportMailed 		=> "דוח למפיץ{id} נשלח באימייל",
-	phpAds_actionWarningMailed				=> "אזהרת ביטול למערכת פרסום {id} נשלחה באימייל",
-	phpAds_actionDeactivationMailed			=> "הודעת ביטול למערכת הפרסום{id} נשלחה באימייל",
-	phpAds_actionPriorityCalculation		=> "קדימות שוקללה מחדש",
-	phpAds_actionPriorityAutoTargeting		=> "מטרות קמפיין הוערכו מחדש",
-	phpAds_actionDeactiveCampaign			=> "קמפיין {id} שותק",
-	phpAds_actionActiveCampaign				=> "קמפיין{id} הופעל",
-		phpAds_actionAutoClean					=> "ניקוי אוטומטי של בסיס הנתונים"
-);
+// Meta information
+$translation_readable   = "Hungarian (Magyar)";
+$translation_maintainer	= "Herczeg Jףzsef Tamבs";
+$translation_contact	= "hdodi@freemail.hu";
 
 ?>

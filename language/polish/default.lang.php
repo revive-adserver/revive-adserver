@@ -139,7 +139,12 @@ $GLOBALS['strPassword']				= "Has³o";
 $GLOBALS['strAccessDenied']			= "Dostêp zabroniony";
 $GLOBALS['strPasswordWrong']			= "Has³o jest nieprawid³owe";
 $GLOBALS['strNotAdmin']				= "Mo¿esz nie mieæ odpowiednich uprawnieñ";
-$GLOBALS['strDuplicateClientName']		= "Nazwa u¿ytkownika, któr± wpisa³e¶, ju¿ istnieje; podaj inn±.";
+$GLOBALS['strDuplicateClientName']		= "Nazwa u¿ytkownika, któr± wpisa³e¶, ju¿ istnieje, podaj inn±.";
+$GLOBALS['strInvalidPassword']			= "Nowe has³o jest nieprawid³owe, podaj inne.";
+$GLOBALS['strNotSamePasswords']			= "Podane has³a nie s± identyczne";
+$GLOBALS['strRepeatPassword']			= "Powtórz has³o";
+$GLOBALS['strOldPassword']			= "Stare has³o";
+$GLOBALS['strNewPassword']			= "Nowe has³o";
 
 
 // General advertising
@@ -220,6 +225,7 @@ $GLOBALS['strCampaignHistory']			= "Historia kampanii";
 $GLOBALS['strNoCampaigns']			= "Nie ma obecnie zdefiniowanych kampanii";
 $GLOBALS['strConfirmDeleteAllCampaigns']	= "Czy na pewno chcesz usun±æ wszystkie kampanie tego u¿ytkownika?";
 $GLOBALS['strConfirmDeleteCampaign']		= "Czy na pewno chcesz usun±æ t± kampaniê?";
+$GLOBALS['strConfirmResetCampaignStats']	= "Czy na pewno chcesz usun±æ wszystkie statystyki dla tej kampanii?";
 $GLOBALS['strHideInactiveCampaigns']		= "Ukryj nieaktywne kampanie";
 $GLOBALS['strInactiveCampaignsHidden']		= "nieaktywne kampanie ukryte";
 
@@ -239,6 +245,8 @@ $GLOBALS['strLowPriority']			= "Wy¶wietlaj bannery z tej kampanii z niskim prior
 $GLOBALS['strTargetLimitAdviews']		= "Organicz liczbê Ods³on do";
 $GLOBALS['strTargetPerDay']			= "dziennie.";
 $GLOBALS['strPriorityAutoTargeting']		= "Rozdziel pozosta³± liczbê Ods³on równomiernie przez pozosta³± liczbê dni. Docelowa liczba Ods³on bêdzie ustawiana odpowiednio ka¿dego dnia.";
+$GLOBALS['strCampaignWarningNoWeight'] 		= "Priorytet tej kampanii zosta³ ustawiony na niski, \nale jej waga jest ustawiona na zero lub nie zosta³a \npodana. Spowoduje to deaktywacjê kampanii \na jej bannery nie bêd± wy¶wietlane dopóki \nwaga nie zostanie odpowiednio ustawiona. \n\nCzy na pewno chcesz kontynuowaæ?";
+$GLOBALS['strCampaignWarningNoTarget'] 		= "Priorytet tej kampanii zosta³ ustawiony na wysoki, \nale nie podano docelowej liczy Wy¶wietleñ. \nSpowoduje to deaktywacjê kampanii a \njej bannery nie bêd± wy¶wietlane dopóki odpowiednia liczba \ndocelowa Wy¶wietleñ nie zostanie ustawiona. \n\nCzy na pewno chcesz kontynuowaæ?";
 
 
 
@@ -269,6 +277,8 @@ $GLOBALS['strShowParentCampaigns']		= "Poka¿ nadrzêdne kampanie";
 $GLOBALS['strHideParentCampaigns']		= "Ukryj nadrzêdne kampanie";
 $GLOBALS['strHideInactiveBanners']		= "Ukryj nieaktywne bannery";
 $GLOBALS['strInactiveBannersHidden']		= "nieaktywne bannery s± ukryte";
+$GLOBALS['strAppendOthers']			= "Dodaj inne";
+$GLOBALS['strAppendTextAdNotPossible']		= "Nie mo¿na dodaæ innych bannerów do reklam tekstowych.";
 
 
 
@@ -324,6 +334,8 @@ $GLOBALS['strLaterThan']			= "jest pó¼niej ni¿";
 $GLOBALS['strLaterThanOrEqual']			= "jest pó¿niej lub równocze¶nie z";
 $GLOBALS['strEarlierThan']			= "jest wcze¶niej ni¿";
 $GLOBALS['strEarlierThanOrEqual']		= "jest wcze¶niej lub równocze¶nie z";
+$GLOBALS['strContains']				= "zawiera";
+$GLOBALS['strNotContains']			= "nie zawiera";
 $GLOBALS['strAND']				= "I";  						// logical operator
 $GLOBALS['strOR']				= "LUB"; 						// logical operator
 $GLOBALS['strOnlyDisplayWhen']			= "Wy¶wietlaj ten banner tylko kiedy:";
@@ -337,6 +349,7 @@ $GLOBALS['strBrowser'] 				= "Przegl±darka";
 $GLOBALS['strOS'] 				= "System";
 $GLOBALS['strCountry'] 				= "Kraj";
 $GLOBALS['strContinent'] 			= "Kontynent";
+$GLOBALS['strReferer'] 				= "Strona referuj±ca";
 $GLOBALS['strDeliveryLimitations']		= "Ograniczenia dostarczania";
 $GLOBALS['strDeliveryCapping']			= "Odstêpy dostarczania";
 $GLOBALS['strTimeCapping']			= "Kiedy ten banner zostanie wy¶wietlony raz, nie pokazuj go ponownie temu samemu u¿ytkownikowi przez:";
@@ -405,13 +418,13 @@ $GLOBALS['strZonePrependHTML']			= "Zawsze dodawaj ten kod HTML przed odno¶nikam
 $GLOBALS['strZoneAppendHTML']			= "Zawsze dodawaj ten kod HTML po odno¶nikach tekstowych wy¶wietlanych przez t± strefê";
 $GLOBALS['strZoneAppendType']			= "Dodaj typ";
 $GLOBALS['strZoneAppendHTMLCode']		= "Kod HTML";
-$GLOBALS['strZoneAppendZoneSelection']		= "Popup lub intersitial";
+$GLOBALS['strZoneAppendZoneSelection']		= "Popup lub interstitial";
 $GLOBALS['strZoneAppendSelectZone']		= "Zawsze dodawaj ten popup lub intersitial do bannerów wy¶wietlanych przez t± strefê";
 
 
 // Zone probability
-$GLOBALS['strZoneProbListChain']		= "Wszystkie bannery pod³±czone do tej strefy maj± zerowy priorytet. Tak wygl±da ³añcuch strefy, wed³ug którego bêd± ustawione:";
-$GLOBALS['strZoneProbNullPri']			= "Wszystkie bannery pod³±czone do tej strefy maj± zerowy priorytet";
+$GLOBALS['strZoneProbListChain']		= "Wszystkie bannery pod³±czone do wybranej strefy s± nieaktywne. <br>Nastêpuj±cy ³añcuch strefy bêdzie wykonywany:";
+$GLOBALS['strZoneProbNullPri']			= "Wszystkie bannery pod³±czone do tej strefy s± nieaktywne.";
 $GLOBALS['strZoneProbListChainLoop']		= "Postêpowanie zgodnie z ³añcuchem stref spowodowa³oby ko³ow± pêtlê. Dostarczanie z tej strefy zosta³o wstrzymane.";
 
 
@@ -491,12 +504,13 @@ $GLOBALS['strNoActionsLogged']			= "¯adne dzia³ania nie s± zalogowane";
 
 
 // Code generation
-$GLOBALS['strGenerateBannercode']		= "Generuj Kod Bannera";
+$GLOBALS['strGenerateBannercode']		= "Bezpo¶redni wybór";
 $GLOBALS['strChooseInvocationType']		= "Wybierz typ inwokacji bannera";
 $GLOBALS['strGenerate']				= "Generuj";
 $GLOBALS['strParameters']			= "Parametry";
 $GLOBALS['strFrameSize']			= "Rozmiar ramki";
 $GLOBALS['strBannercode']			= "Kod bannera";
+$GLOBALS['strOptional']				= "opcjonalne";
 
 
 // Errors
@@ -516,6 +530,14 @@ $GLOBALS['strErrorUploadBasedir']		= "Brak dostêpu do wys³anego pliku, prawdopod
 $GLOBALS['strErrorUploadUnknown']		= "Brak dostêpu do wys³anego pliku, z niewiadomego powodu. Sprawd¼ konfiguracjê PHP";
 $GLOBALS['strErrorStoreLocal']			= "Wyst±pi³ b³±d podczas zapisywania bannera w lokalnym katalogu. Powodem tego jest prawdopodobnie b³êdna ¶cie¿ka lokalnego katalogu podana w ustawieniach";
 $GLOBALS['strErrorStoreFTP']			= "Wyst±pi³ b³±d podczas zapisywania bannera na serwerze FTP. Powodem tego mo¿e byæ niedostêpno¶æ serwera lub jego b³êdna konfiguracja w ustawieniach";
+$GLOBALS['strErrorDBPlain']			= "Wyst±pi³ b³±d podczas próby dostêpu do bazy danych";
+$GLOBALS['strErrorDBSerious']			= "Wyst±pi³ powa¿ny b³±d zwi±zany z baz± danych";
+$GLOBALS['strErrorDBNoDataPlain']		= "Z powodu problemu z baz± danych ".$phpAds_productname." nie móg³ pobraæ lub zapisaæ danych. ";
+$GLOBALS['strErrorDBNoDataSerious']		= "Z powodu powa¿nego problemu z baz± danych , ".$phpAds_productname." nie móg³ pobraæ danych.";
+$GLOBALS['strErrorDBCorrupt']			= "Tabela w bazie danych jest prawdopodobnie uszkodzona i wymaga naprawy. Wiêcej informacji na temat naprawy tabel znajdziesz w rozdziale <i>Troubleshooting</i> <i>Podrêcznika administratora</i>.";
+$GLOBALS['strErrorDBContact']			= "Skontaktuj siê z administratorem serwera i powiadom go o problemie.";
+$GLOBALS['strErrorDBSubmitBug']			= "Je¶li ten problem siê powtarza, mo¿e byæ powodowany przez b³±d w ".$phpAds_productname.". Przeka¿ poni¿sze informacje twórcom ".$phpAds_productname.". Spróbuj tak¿e opisaæ w jasny sposób dzia³ania, które prowadz± do wyst±pienia b³êdu.";
+$GLOBALS['strMaintenanceNotActive']		= "Skrypt utrzymania nie zosta³ wykonany w ci±gu ostatnich 24 godzin. \\nAby zapewniæ prawid³owe funkcjonowanie ".$phpAds_productname." musi on byæ wykonywany \\nco godzinê. \\n\\nWiêcej informacje na temat konfiguracji skryptu utrzymania \\nznajdziesz w Podrêczniku administratora.";
 
 
 // E-mail
@@ -532,6 +554,7 @@ $GLOBALS['strBeforeActivate']			= "data aktywacji nie zosta³a osi±gniêta";
 $GLOBALS['strAfterExpire']			= "data zakoñczenia zosta³a osi±gniêta";
 $GLOBALS['strNoMoreClicks']			= "wszystkie Klikniêcia zosta³y wykorzystane";
 $GLOBALS['strNoMoreViews']			= "wszystkie Ods³ony zosta³y wykorzystane";
+$GLOBALS['strWeightIsNull']			= "jego waga jest uztawiona na zero";
 $GLOBALS['strWarnClientTxt']			= "Liczba Klikniêæ lub Ods³on dla pozosta³ych dla Pañstwa bannerów schodzi poni¿ej granicy {limit}. \nKiedy liczba Klikniêæ lub Ods³on zostanie wykorzystana, bannery zostan± deaktywowane. ";
 $GLOBALS['strViewsClicksLow']			= "Liczba Klikniêæ/Ods³on jest prawie wykorzystana";
 $GLOBALS['strNoViewLoggedInInterval']   	= "Nie zarejestrowano ¿adnych Ods³on w czasie objêtym tym raportem";

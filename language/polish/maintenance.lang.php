@@ -58,6 +58,9 @@ $GLOBALS['strDeliveryCacheSharedMem']		= "
 $GLOBALS['strDeliveryCacheDatabase']		= "
 	Baza danych jest obecnie wykorzystywana do przechowywania cache'u dostarczania.
 ";
+$GLOBALS['strDeliveryCacheFiles']		= "
+	Cache dostarczania jest obecnie przechowywany w wielu plikach na serwerze.
+";
 
 
 // Storage
@@ -113,13 +116,13 @@ $GLOBALS['strNotAbleToCheck']			= "
 ";
 
 $GLOBALS['strForUpdatesLookOnWebsite']		= "
-	Pracujesz obecnie z wersj± ".$phpAds_productname." ".$phpAds_version_readable.". 
 	Je¶li chcesz dowiedzieæ siê, czy jest dostêpna nowsza wersja, zobacz nasz± stronê.
 ";
 
-$GLOBALS['strClickToVisitWebsite']		= "
-	Kliknij aby odwiedziæ nasz± stronê
-";
+$GLOBALS['strClickToVisitWebsite']		= "Kliknij aby odwiedziæ nasz± stronê";
+$GLOBALS['strCurrentlyUsing'] 			= "U¿ywasz obecnie";
+$GLOBALS['strRunningOn']			= "dzia³aj±cy na";
+$GLOBALS['strAndPlain']				= "i";
 
 
 // Stats conversion

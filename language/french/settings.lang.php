@@ -89,6 +89,13 @@ $GLOBALS['strSystemRebuildingCache']		= 'Reconstruction du cache, merci de patie
 $GLOBALS['strServiceUnavalable']		= 'Le service est temporairement indisponible. Mise à jour du système en cours.';
 
 $GLOBALS['strConfigNotWritable']		= $phpAds_productname.' ne peut écrire dans le fichier config.inc.php';
+$GLOBALS['strPhpBug20144']			= 'Votre version de PHP est affecté par un <a href="http://bugs.php.net/bug.php?id=20114" target="_blank">bogue</a> qui ne permet pas à '.$phpAds_productname.' de fonctionner correctement.
+							La mise à jour vers PHP 4.3.0 (ou plus) doit être réalisée avant de pouvoir installer '.$phpAds_productname.'.';
+
+
+
+
+
 
 
 
@@ -236,7 +243,7 @@ $GLOBALS['strIgnoreHosts']			= '<br>Ne pas journaliser les demandes des adresses
 $GLOBALS['strBlockAdviews']			= 'Ne pas compter deux affichages d\'un même client en moins de :<br>(secondes)';
 $GLOBALS['strBlockAdclicks']			= 'Ne pas compter deux clics d\'un même client en moins de :<br>(secondes)';
 
-
+$GLOBALS['strPreventLogging']                   = 'Empêcher la journalisation';
 $GLOBALS['strEmailWarnings']			= 'Avertissements par Email';
 $GLOBALS['strAdminEmailHeaders']		= '<br><br>Ajouter les entêtes suivante aux mails envoyés par '.$phpAds_productname . ' :';
 $GLOBALS['strWarnLimit']			= 'Envoyer un avertissement lorsque le crédit d\'affichages passe sous :';

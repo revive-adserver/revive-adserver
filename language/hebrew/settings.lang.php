@@ -25,13 +25,18 @@ $GLOBALS['strOtherSettings']			= "קביעות אחרות";
 
 $GLOBALS['strWarning']				= "אזהרה";
 $GLOBALS['strFatalError']			= "קרתה שגיאה גורלית";
+$GLOBALS['strUpdateError']			= "חלה שגיאה בזמן העדכון";
+$GLOBALS['strUpdateDatabaseError']	= "מסיבות לא ברורות עדכון בסיס הנתונים לא הצליח. הררך המומלצת להמשיך היא ללחוץ <b>נסה עדכון מחדש</b> כדי לנסות ולתקן בעיות אפשריות. אם אתה בטוח שבעיות אלו לא יכולות לפגוע בתפקוד ".$phpAds_productname." אתה יכול ללחוץ <b>התעלם משגיאות</b> כדי להמשיך. התעלמות משגיאות אלו אפשר שתיור בעיה חמורה וזה לא מומלץ!";
 $GLOBALS['strAlreadyInstalled']			= $phpAds_productname." כבר מותקנת במערכת זו. אם אתה רוצה לעצב אותה לך ל<a href='settings-index.php'>קיבעות ממשק</a>";
 $GLOBALS['strCouldNotConnectToDB']		= "לא יכול להתחבר לבסיס הנתונים, אנא בדוק מחדש את הקביעות שרשמת.";
 $GLOBALS['strCreateTableTestFailed']		= "לשם המשתמש שרשמת אין מספיק הרשאה ליצירת או עדכון מבנה בסיס הנתונים, אנא צור קשר עם האחראי בשרת.";
 $GLOBALS['strUpdateTableTestFailed']		= "לשם המשתמש שרשמת אין די הרשאה לעדכון בסיס הנתונים. אנא צור קשר עם האחראים.";
 $GLOBALS['strTablePrefixInvalid']		= "קידומת הטבלאות מכילה אותיות פסולות.";
 $GLOBALS['strTableInUse']			= "בסיס הנתונים שרשמת נמצא כבר בשימוש של ".$phpAds_productname.", אנא בחר בקידומת טבלאות אחרת, או קרא את המדריך לגבי הוראות שדרוג.";
+$GLOBALS['strTableWrongType']		= "סוג הטבלה שבחרת אינו נתמך בהתקנת ".$phpAds_dbmsname."שלך";
 $GLOBALS['strMayNotFunction']			= "לפני שאתה ממשיך, אנא תקן את הבעיה האפשריות האלו:";
+$GLOBALS['strFixProblemsBefore']		= "הפריט(ים) הבא(ים) דורשים תיקון לפני שניתן יהיה להתקין את ".$phpAds_productname.". אם יש לך שאלה לגבי שיאה זו, אנא קרא את ה<i>מדריך לאדמיניסטרטור</i>, הנמצא בחבילה שהורדת.";
+$GLOBALS['strFixProblemsAfter']			= "אם אין באפשרותך לתקן את הבעיה שהוצגה מעלה, נא צור שר עם האחראי של השרת שעליו אתה מנסה להתקין את ".$phpAds_productname.". אפשר שהוא יוכל לעזור לך או לכוון לפתרון.";
 $GLOBALS['strIgnoreWarnings']			= "התעלם מאזארות";
 $GLOBALS['strWarningPHPversion']		= $phpAds_productname." נדרש PHP 4.0 או גירסה גבוהה יותר לשם תפקוד נכון. אתה משתמש כעת בגירסה {php_version}.";
 $GLOBALS['strWarningRegisterGlobals']		= "קונפיגורצית  PHP של המשתנה <B>register_globals</B> צריכה להיות מופעלת.";
@@ -40,6 +45,8 @@ $GLOBALS['strWarningMagicQuotesRuntime']	= "קונפיגורצית  PHP של המשתנה  <B>magic
 $GLOBALS['strWarningFileUploads']		= "קונפיגורצית  PHP של המשתנה  <B>file_uploads</B>  צריכה להיות מופעלת.";
 $GLOBALS['strConfigLockedDetected']		= $phpAds_productname." זיהה שהקובץ <b>config.inc.php</b> מוגן מכתיבה.<br> לא תוכל להמשיך עד שתשנה את אישור הגישה לקובץ זה. <br>קרא את התיעוד המצורף אם אינך יודע כיצד לעשות זאת.";
 $GLOBALS['strCantUpdateDB']  			= "לא ניתן לעדכן את בסיס הנתונים כעתץ אם החלטת להמשיך, כל הבאנרים הקיימים, סטטיסטיקה ומפרסמים ימחקו.";
+$GLOBALS['strIgnoreErrors']			= "התעלם משגיאות";
+$GLOBALS['strRetryUpdate']			= "נסה עדכון מחדש";
 $GLOBALS['strTableNames']			= "שמות הטבלאות";
 $GLOBALS['strTablesPrefix']			= "קידומת של טבלאות";
 $GLOBALS['strTablesType']			= "סוגי הטבלאות";
@@ -47,7 +54,7 @@ $GLOBALS['strTablesType']			= "סוגי הטבלאות";
 $GLOBALS['strInstallWelcome']			= "ברוכים הבאים ל".$phpAds_productname;
 $GLOBALS['strInstallMessage']			= "לפני השימוש ב-".$phpAds_productname." יש לעצב את תפקודי התוכנה ויצור בסיס נתונים.<br>לחץ <b>המשך</b> להתקדמות.";
 $GLOBALS['strInstallSuccess']			= "<b>ההתקנה של ".$phpAds_productname." הסתיימה ברגע זה.</b><br><br>כדי ש- ".$phpAds_productname." תתפקד נכון עליך גם לוודא שקובץ התחזוקה ירוץ כל שעה. מידע נוסף אודות נושא זה ניתן למצוא בתיעוד המצורף. <br><br>לחץ <b>המשך</b> כדי להגיע לעמוד העיצוב/קינפוג, היכן שתוכל לקבוע נתונים נוספים. אנא אל תשכח לנעול את הקובץ <B> config.inc.php</B> ברגע שסיימת, כדי למנוע פגיעות והטרדות בשרת.";
-$GLOBALS['strUpdateSuccess']			= "<b>העשכון של ".$phpAds_productname." הסתיים בהצלחה.</b><br><br>כדי ש-".$phpAds_productname." תתפקד נכון עליך גם tלהבטיח שקובץ התחזוקה ירוץ כל שעה (עד עתה הוא נדרש לרוץ פעם ביום) מידע נוסף בנושא זה ניתן למצוא בתיעוד המצורף. <br><br>לחץ <b>המשך</b> כדי להגיע לעמוד ממשק ההנהלה. אנא אל תשכח לנעול את הקובץ  <B>config.inc.php</B> למניעת בעיות אבטחה.";
+$GLOBALS['strUpdateSuccess']			= "<b>העדכון של ".$phpAds_productname." הסתיים בהצלחה.</b><br><br>כדי ש-".$phpAds_productname." תתפקד נכון עליך גם להבטיח שקובץ התחזוקה ירוץ כל שעה (עד עתה הוא נדרש לרוץ פעם ביום) מידע נוסף בנושא זה ניתן למצוא בתיעוד המצורף. <br><br>לחץ <b>המשך</b> כדי להגיע לעמוד ממשק ההנהלה. אנא אל תשכח לנעול את הקובץ  <B>config.inc.php</B> למניעת בעיות אבטחה.";
 $GLOBALS['strInstallNotSuccessful']		= "<b>ההתקנה של ".$phpAds_productname."לא הצליחה</b><br><br>חלקים מסוימים מתהליך ההתקנה לא הושלמו. אפשר שבעיות אלו הן זמניות בלבד, במקרה זה פשוט לחץ <b>המשך</b> ותחזור לשלב הראשון של תהליך ההתקנה. אם אתה רוצה לדעת יותר מה אומרות הודעות השגיאה מטה, וכיתד לפתור אותן, אנא היוועץ בתיעוד המצורף.";
 $GLOBALS['strErrorOccured']			= "השגיאה הבאה קרתה:";
 $GLOBALS['strErrorInstallDatabase']		= "מבנה בסיס הנתונים לא יכל להיווצר.";
@@ -57,13 +64,12 @@ $GLOBALS['strErrorInstallDbConnect']		= "לא ניתן היה להתחבר לבסיס הנתונים.";
 $GLOBALS['strUrlPrefix']			= "קידומת URL";
 
 $GLOBALS['strProceed']				= "המשך &gt;";
-$GLOBALS['strRepeatPassword']			= "חזור על הסיסמא";
-$GLOBALS['strNotSamePasswords']			= "סיסמאות אינן תואמות";
+
 $GLOBALS['strInvalidUserPwd']			= "שם משתמש או סיסמא פסולים";
 
 $GLOBALS['strUpgrade']				= "עדכון";
 $GLOBALS['strSystemUpToDate']			= "המערכת שלך מוכנה ומעודנת, לא נדרש עדכון ברגע זה. <br>לחץ על <b>המשך</b> כדי להגיע לעמוד הבית.";
-$GLOBALS['strSystemNeedsUpgrade']		= "מבנה בסיס הנתונים וקובץ הקוניגורציה זקוקים לעדכון כדי שהמערכת תתפקד נכונה.<br>אנא התאזר בסבלנות כיוון שתהליך העשכון יכול לקחת כמה דקות.";
+$GLOBALS['strSystemNeedsUpgrade']		= "מבנה בסיס הנתונים וקובץ הקונפיגורציה זקוקים לעדכון כדי שהמערכת תתפקד נכונה.<br>אנא התאזר בסבלנות כיוון שתהליך העדכון יכול לקחת כמה דקות.";
 $GLOBALS['strSystemUpgradeBusy']		= "תהליך עדכון המערכת בעיצומו, אנא המתן...";
 $GLOBALS['strSystemRebuildingCache']		= "בונה את זכרון המטמון מחדש, אנא המתן...";
 $GLOBALS['strServiceUnavalable']		= "השירות אינו אפשרי זמנית. תהליך עדכון המערכת בעיצומו";
@@ -91,7 +97,9 @@ $GLOBALS['strEditConfigPossible']		= "ניתן לערוך את כל הקביעות כיוון שקובץ הקונפ
 // Database
 $GLOBALS['strDatabaseSettings']			= "קביעות בסיס נתונים";
 $GLOBALS['strDatabaseServer']			= "שרת בסיס הנתונים";
+$GLOBALS['strDbLocal']				= "התחבר לשרת המקומי באמצעות מעברים (sockets)"; 
 $GLOBALS['strDbHost']				= "השרת המארח";
+$GLOBALS['strDbPort']				= "מספר המבוא של בסיס הנתונים (port)";
 $GLOBALS['strDbUser']				= "שם המשתמש בבסיס הנתונים";
 $GLOBALS['strDbPassword']			= "הסיסמא של בסיס הנתונים";
 $GLOBALS['strDbName']				= "השם של בסיס הנתונים";
@@ -168,11 +176,13 @@ $GLOBALS['strTypeFTPHost']			= "מארח FTP";
 $GLOBALS['strTypeFTPDirectory']			= "תיקיית FTP";
 $GLOBALS['strTypeFTPUsername']			= "שם משתמש";
 $GLOBALS['strTypeFTPPassword']			= "סיסמא";
-
+$GLOBALS['strTypeFTPErrorDir']			= "תיקיית השרת אינה קיימת";
+$GLOBALS['strTypeFTPErrorConnect']		= "לא ניתן היה להתחבר לשרת ה-FTP, שם המשתמש או הסיסמא שגויים";
+$GLOBALS['strTypeFTPErrorHost']			= "שם שרת ה-FTP אינו נכון";
 $GLOBALS['strTypeFTPErrorDir']			= "תקיית המארח אינה קיימת";
 $GLOBALS['strTypeFTPErrorConnect']		= "לא ניתן להתחבר לשרת ה-FTP, שם המשתמש או הסיסמא שגויים";
 $GLOBALS['strTypeFTPErrorHost']			= "שם השרת המארח את ה-FTP שגוי";
-$GLOBALS['strTypeDirError']				= "Tהתיקייה המקומית אינה קיימת";
+$GLOBALS['strTypeDirError']				= "התיקייה המקומית אינה קיימת";
 
 
 
@@ -187,15 +197,16 @@ $GLOBALS['strTypeHtmlPhp']			= " אפשר יישום ביטויי PHP מתוך באנרים מסוג HTML ";
 
 
 // Host information and Geotargeting
-$GLOBALS['strHostAndGeo']				= "Host information and Geotargeting";
+$GLOBALS['strHostAndGeo']				= "מידע ספקית ומעקב גיאוגרפי (Geotargeting)";
 $GLOBALS['strRemoteHosts']			= "שרתים מרוחקים";
 
 $GLOBALS['strReverseLookup']			= "נסה לקבוע את ספקית השירות של המבקר אם הנתון לא מגיע מהשרת";
-$GLOBALS['strProxyLookup']				= "נסה לקבוע את כתובת ה--IP aהאמיתית של המבקר אם הוא משתמש במאגר ביניים (proxy).";
+$GLOBALS['strProxyLookup']				= "נסה לקבוע את כתובת ה-IP האמיתית של המבקר אם הוא משתמש במאגר ביניים (proxy).";
 
 $GLOBALS['strGeotargeting']				= "Geotargeting - מיקוד גיאוגרפי";
 $GLOBALS['strGeotrackingType']			= "סוג מאגר מעקב";
 $GLOBALS['strGeotrackingLocation'] 		= "מיקום מאגר מעקב";
+$GLOBALS['strGeotrackingLocationError'] = "מאגר הנתונים של מעקב גיאוגרפי אינו נמצא במיקום שנמסר";
 $GLOBALS['strGeoStoreCookie']			= "שמור את התוצאה בקוקי (cookie) להתיחסות עתידית";
 
 
@@ -207,11 +218,11 @@ $GLOBALS['strStatisticsFormat']			= "תצורת סטטיסטיקה";
 $GLOBALS['strCompactStats']			= " השתמש בסטטיסטיקה קומפקטית";
 $GLOBALS['strLogAdviews']			= " תעד חשיפות";
 $GLOBALS['strLogAdclicks']				= "תעד הקלקה בכל פעם שהמבקר לוחץ על באנר";
-$GLOBALS['strLogSource']				= "Log the source parameter specified during invocation";
-$GLOBALS['strGeoLogStats']				= "Log the country of the visitor in the statistics";
-$GLOBALS['strLogHostnameOrIP']			= "Log the hostname or IP address of the visitor";
-$GLOBALS['strLogIPOnly']				= "Only log the IP address of the visitor even if the hostname is known";
-$GLOBALS['strLogIP']					= "Log the IP address of the visitor";
+$GLOBALS['strLogSource']				= "תעד את נתוני המקור המוגדרים בזמן החשיפה";
+$GLOBALS['strGeoLogStats']				= "תעד בסטטיסטיקה את הארץ ממנה מגיע המבקר";
+$GLOBALS['strLogHostnameOrIP']			= "תעד את ספקית השירות או כתובת ה-IP של המבקר";
+$GLOBALS['strLogIPOnly']				= "תעד את כתובת ה-IP של המבקר אפילו אם שם הספקית ידוע";
+$GLOBALS['strLogIP']					= "תעד את כתובת ה-IP של המבקר";
 $GLOBALS['strLogBeacon']			= " השתמש באתתים לתיעוד חשיפות";
 
 
@@ -219,23 +230,22 @@ $GLOBALS['strIgnoreHosts']				= "אל תתעד סטטיסטיקה ממבקרים המשתמשים באחד ממספרי 
 $GLOBALS['strBlockAdviews']				= "אל תתעד חשיפות אם המבקר כבר נחשף לבאנר הזה במהלך מספר השניות הנקוב.";
 $GLOBALS['strBlockAdclicks']			= "אל תתעד הקלקות אם המבקר כבר לחץ על אותו הבאנר במהלך מספר השניות הנקוב";
 
-
+$GLOBALS['strPreventLogging']			= "מנע התחברות";
 $GLOBALS['strEmailWarnings']			= "אתראה באימייל";
-$GLOBALS['strAdminEmailHeaders']		= "כותרת המכתב שישקף את השולח של הדוח היומי.";
-$GLOBALS['strWarnLimitErr']			= "סף אתראה חייב להיות מספר חיובי";
-$GLOBALS['strWarnLimit']			= "סף התראה (מינימום נותר)";
+$GLOBALS['strAdminEmailHeaders']		= "הוסף את הכותרת הבאה לכל אימייל שישלח על ידי ".$phpAds_productname;
+$GLOBALS['strWarnLimit']				= "שלח אתראה כאשר מספר החשיפות הנותר הינו פחות מהנקוב כאן";
 
-$GLOBALS['strWarnAdmin']			= " שלח התראת מנהל";
-$GLOBALS['strWarnClient']			= " שלח התראת מפרסם";
+$GLOBALS['strWarnAdmin']			= " שלח התראת מנהל בכל פעם שקמפין מסויים לפני סיומו";
+$GLOBALS['strWarnClient']			= " שלח התראת מפרסם בכל פעם שהקמפין שלו לפני סיום";
 $GLOBALS['strQmailPatch']			= " אפשר טלאי qmail ";
 
-$GLOBALS['strAutoCleanTables']			= "דילול בסיס הנתונים";
-$GLOBALS['strAutoCleanStats']			= "דילול סטטיסטיקה";
-$GLOBALS['strAutoCleanUserlog']			= "דילול תיעוד מתמש";
-$GLOBALS['strAutoCleanStatsWeeks']		= "גיל מירבי של סטטיסטיקה <br>(3 שבועות מינימום)";
-$GLOBALS['strAutoCleanUserlogWeeks']		= "גיל מירבי של תיעוד משתמש <br>(3 שבועות מינימום)";
-$GLOBALS['strAutoCleanErr']			= "גיל מירבי חייב ליהות 3 שבועות לפחות";
-$GLOBALS['strAutoCleanVacuum']			= "בצע ניקיון כללי אוטומטית כל לילה"; // only Pg
+$GLOBALS['strAutoCleanTables']			= " דילול בסיס הנתונים";
+$GLOBALS['strAutoCleanStats']			= " דילול סטטיסטיקה";
+$GLOBALS['strAutoCleanUserlog']			= " דילול תיעוד משתמש";
+$GLOBALS['strAutoCleanStatsWeeks']		= " גיל מירבי של סטטיסטיקה <br>(3 שבועות מינימום)";
+$GLOBALS['strAutoCleanUserlogWeeks']		= " גיל מירבי של תיעוד משתמש <br>(3 שבועות מינימום)";
+$GLOBALS['strAutoCleanErr']			= " גיל מירבי חייב ליהות 3 שבועות לפחות";
+$GLOBALS['strAutoCleanVacuum']			= " בצע ניקיון כללי אוטומטית כל לילה"; // only Pg
 
 
 // Administrator settings
@@ -243,10 +253,7 @@ $GLOBALS['strAdministratorSettings']		= "קביעות מינהלה";
 
 $GLOBALS['strLoginCredentials']			= "הרשאות התחברות";
 $GLOBALS['strAdminUsername']			= "שם המשתמש - מנהל";
-$GLOBALS['strOldPassword']			= "סיסמא קודמת";
-$GLOBALS['strNewPassword']			= "סיסמא חדשה";
 $GLOBALS['strInvalidUsername']			= "שם משתמש פסול";
-$GLOBALS['strInvalidPassword']			= "סיסמא פסולה";
 
 $GLOBALS['strBasicInformation']			= "מידע בסיסי";
 $GLOBALS['strAdminFullName']			= "השם המלא של המנהל";
@@ -272,7 +279,9 @@ $GLOBALS['strGuiSettings']			= "קביעות ממשק משתמש";
 $GLOBALS['strGeneralSettings']			= "קביעות כלליות";
 $GLOBALS['strAppName']				= "שם היישום שיוצג";
 $GLOBALS['strMyHeader']				= "כותרת העמוד שלי נמצאת בכתובת:";
+$GLOBALS['strMyHeaderError']		= "כותרת העמוד לא נמצאה במיקום שנרשם";
 $GLOBALS['strMyFooter']				= "תחתית העמוד שלי נמצאת בכתובת:";
+$GLOBALS['strMyFooterError']		= "תחתית העמוד לא נמצאה במיקום שנרשם";
 $GLOBALS['strGzipContentCompression']		= "השתמש בדחיסת-תכולה GZIP";
 
 $GLOBALS['strClientInterface']			= "ממשק מפרסם";
