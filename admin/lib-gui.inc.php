@@ -603,7 +603,7 @@ function phpAds_ShowBreak()
 
 function phpAds_sqlDie()
 {
-	global $phpAds_dbmsname, $phpAds_version_readable, $phpAds_version;
+	global $phpAds_dbmsname, $phpAds_version_readable, $phpAds_version, $phpAds_productname;
     global $phpAds_last_query, $HTTP_SERVER_VARS;
 	
 	
@@ -654,11 +654,13 @@ function phpAds_sqlDie()
 			
 			$last_query = $phpAds_last_query;
 			
-			$message .= "<br><br><b>Version:</b> ".$phpAds_version_readable." (".$phpAds_version.")<br>";
-			$message .= "<b>".$phpAds_dbmsname." version:</b> ".phpAds_dbResult(phpAds_dbQuery('SELECT VERSION()'), 0, 0)."<br>";
-			$message .= "<b>Page: </b>".$HTTP_SERVER_VARS['PHP_SELF']."<br>";
-			$message .= "<b>Error:</b> ".$error."<br>";
-			$message .= "<b>Query:</b> ".$last_query."<br>";
+			$message .= "<br><br><table cellpadding='0' cellspacing='0' border='0'>";
+			$message .= "<tr><td valign='top' nowrap><b>Version:</b>&nbsp;&nbsp;&nbsp;</td><td>".$phpAds_productname." ".$phpAds_version_readable." (".$phpAds_version.")</td></tr>";
+			$message .= "<tr><td>&nbsp;</td><td>PHP ".phpversion()." / ".$phpAds_dbmsname." ".phpAds_dbResult(phpAds_dbQuery('SELECT VERSION()'), 0, 0)."</td></tr>";
+			$message .= "<tr><td valign='top' nowrap><b>Page:</b></td><td>".$HTTP_SERVER_VARS['PHP_SELF']."</td></tr>";
+			$message .= "<tr><td valign='top' nowrap><b>Error:</b></td><td>".$error."</td></tr>";
+			$message .= "<tr><td valign='top' nowrap><b>Query:</b></td><td>".$last_query."</td></tr>";
+			$message .= "</table>";
 		}
 	}
 	
