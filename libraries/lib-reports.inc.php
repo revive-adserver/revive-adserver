@@ -95,7 +95,7 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 				SELECT
 					bannerid,
 					clientid,
-					URL,
+					url,
 					active,
 					description,
 					alt
@@ -120,7 +120,7 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 				
 				
 				$current_log .= $strBanner."  ".strip_tags(phpAds_buildBannerName ($row_banners['bannerid'], $row_banners['description'], $row_banners['alt']))."\n";
-				$current_log .= $strLinkedTo.": ".$row_banners['URL']."\n";
+				$current_log .= $strLinkedTo.": ".$row_banners['url']."\n";
 				$current_log .= "-------------------------------------------------------\n";
 				
 				$active_banner_stats = false;
