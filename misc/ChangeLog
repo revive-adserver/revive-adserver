@@ -17,7 +17,7 @@ phpAdsNew 2.0.1		+ Misc bugfixes
 			  - 2003-10-27:  A major rewrite of adpopup.php  (Niels)
 					 - Now compatible with the upcoming IE ActiveX changes
 					 - Improved compatibility with untested browsers such as (hopefully) Safari
-					 - Tested with IE4, IE5, IE5.5, IE6, NS3, NS4, NS6, NS7, O5, O6, O7, Moz 0.9.2 - Moz 1.5.0 on Windows
+					 - Tested with IE4, IE5, IE5.5, IE6, NS3, NS4, NS6, NS7, O5, O6, O7, Moz 0.9.2 - Moz 1.5.0 on Windows, IE4.5, IE5 on Mac
 					 - Added the ability to center the popup in the middle of the screen
 					 - Added the ability to move the popup to coordinates from the bottom right of the screen
 					 - Creating a popup with the toolbar visible now works
