@@ -1094,11 +1094,19 @@ if ($storagetype == 'sql')
 		
 		echo "<tr><td width='30'>&nbsp;</td>";
 		echo "<td width='200' valign='top'>".$strNewBannerFile."</td>";
-		echo "<td><input class='flat' size='26' type='file' name='upload' style='width:350px;' onChange='selectFile(this);' tabindex='".($tabindex++)."'>";
 		
-		echo "<div id='swflayer' style='display:none;'>";
-		echo "<input type='checkbox' name='checkswf' value='t' checked tabindex='".($tabindex++)."'>&nbsp;".$strCheckSWF;
-		echo "</div>";
+		if (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'MSIE') && !strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Opera'))
+		{
+			echo "<td><input class='flat' size='26' type='file' name='upload' style='width:350px;' onChange='selectFile(this);' tabindex='".($tabindex++)."'>";
+			echo "<div id='swflayer' style='display:none;'>";
+			echo "<input type='checkbox' name='checkswf' value='t' checked tabindex='".($tabindex++)."'>&nbsp;".$strCheckSWF;
+			echo "</div>";
+		}
+		else
+		{
+			echo "<td><input class='flat' size='26' type='file' name='upload' style='width:350px;' tabindex='".($tabindex++)."'><br>";
+			echo "<input type='checkbox' name='checkswf' value='t' checked tabindex='".($tabindex++)."'>&nbsp;".$strCheckSWF;
+		}
 		
 		echo "<br><br></td></tr>";
 		echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -1249,11 +1257,20 @@ if ($storagetype == 'web')
 		echo "<input type='hidden' name='replaceimage' value='t'>";
 		echo "<tr><td width='30'>&nbsp;</td>";
 		echo "<td width='200' valign='top'>".$strNewBannerFile."</td>";
-		echo "<td><input class='flat' size='26' type='file' name='upload' style='width:350px;' onChange='selectFile(this);' tabindex='".($tabindex++)."'>";
 		
-		echo "<div id='swflayer' style='display:none;'>";
-		echo "<input type='checkbox' name='checkswf' value='t' checked tabindex='".($tabindex++)."'>&nbsp;".$strCheckSWF;
-		echo "</div>";
+		
+		if (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'MSIE') && !strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Opera'))
+		{
+			echo "<td><input class='flat' size='26' type='file' name='upload' style='width:350px;' onChange='selectFile(this);' tabindex='".($tabindex++)."'>";
+			echo "<div id='swflayer' style='display:none;'>";
+			echo "<input type='checkbox' name='checkswf' value='t' checked tabindex='".($tabindex++)."'>&nbsp;".$strCheckSWF;
+			echo "</div>";
+		}
+		else
+		{
+			echo "<td><input class='flat' size='26' type='file' name='upload' style='width:350px;' tabindex='".($tabindex++)."'><br>";
+			echo "<input type='checkbox' name='checkswf' value='t' checked tabindex='".($tabindex++)."'>&nbsp;".$strCheckSWF;
+		}
 		
 		echo "<br><br></td></tr>";
 		echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";

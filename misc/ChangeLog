@@ -5,7 +5,9 @@ phpAdsNew 2.1		+ Misc bugfixes
 			  - 2003-10-07:  Fixed referer delivery limitation when using JavaScript  (Niels)
 			  - 2003-10-08:  Added missing comma to P3P header  (Niels)
 			  - 2003-10-09:  Added support for stats conversion using Mozilla  (Niels)
-			  - 2003-10-09:  Added post-Eolas ActiveX handling for Flash, QuickTime, Real and Shockwave banners... JS REQUIRED NOW!  (Niels)
+			  - 2003-10-20:  Added post-Eolas ActiveX handling for Flash, QuickTime, Real and Shockwave banners... JS REQUIRED NOW!  (Niels)
+			  - 2003-10-20:  The 'check hardcoded links' checkbox on the 'Add new banner' page is now always visible for Opera and Netscape  (Niels)
+			  
 
 
 phpAdsNew 2.0
