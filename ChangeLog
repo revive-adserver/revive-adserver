@@ -312,6 +312,7 @@ CVS			+ Added configuration manager  (Matteo, 2001-11-04)
 			  - 2002-07-07:  Added a new message when upgrade is successfull  (Niels)
 			  - 2002-07-07:  Message after a successfull install was flawed, because it said maintenance script needed to run every day  (Niels)
 			  - 2002-07-07:  'No upgrade needed' message is now displayed directly  (Niels)
+			  - 2002-07-08:  Selected language was not used in the second install screen  (Matteo)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
