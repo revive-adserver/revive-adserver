@@ -558,6 +558,8 @@ if (isset($submit))
 			$keywordArray = split('[ ,]+', trim($keyword));
 			$final['keyword'] = implode(' ', $keywordArray);
 		}
+		else
+			$final['keyword'] = '';
 		
 		$final['active'] = "t";
 		$final['description'] = $description;
