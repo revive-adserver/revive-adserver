@@ -7,12 +7,18 @@ other products. If you are upgrading from a previous version, it is not
 needed to change the names of existing tables, as long as you specify the 
 correct names in de config.inc.php file.
 
-Two columns were added to the clients table. The status column is used 
+
+One column of the banners table was changed, in order to support flash banners:
+
+   ALTER TABLE banners MODIFY COLUMN format enum('gif','jpeg','png','html','url','web','swf') DEFAULT 'gif' NOT NULL;
+
+
+Two columns were added to the banners table. The status column is used 
 for changing the browser statusbar. The autohtml column is used for preventing 
 phpAdsNew from changing HTML banners in order to automatically log clicks.
 
-   ALTER TABLE clients ADD COLUMN status varchar(255) NOT NULL;
-   ALTER TABLE clients ADD COLUMN autohtml enum('true','false') DEFAULT 'true' NOT NULL;
+   ALTER TABLE banners ADD COLUMN status varchar(255) NOT NULL;
+   ALTER TABLE banners ADD COLUMN autohtml enum('true','false') DEFAULT 'true' NOT NULL;
 
 
 One column was added to the acls table, another column was changed. The 
