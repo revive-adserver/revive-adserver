@@ -211,7 +211,7 @@ while ($row = phpAds_dbFetchArray($res))
 
 $extra .= "</select>&nbsp;<input type='image' name='applyto' src='images/go_blue.gif'><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?campaignid=$campaignid&bannerid=$bannerid'".phpAds_DelConfirm($strConfirmDeleteBanner).">$strDelete</a><br>";
+$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?campaignid=$campaignid&bannerid=$bannerid&returnurl=campaign-index.php'".phpAds_DelConfirm($strConfirmDeleteBanner).">$strDelete</a><br>";
 $extra .= "</form>";
 
 

@@ -73,7 +73,7 @@ while ($row = phpAds_dbFetchArray($res))
 
 $extra .= "</select>&nbsp;<input type='image' src='images/go_blue.gif'><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='campaign-delete.php?campaignid=$campaignid'".phpAds_DelConfirm($strConfirmDeleteCampaign).">$strDelete</a><br>";
+$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='campaign-delete.php?campaignid=$campaignid&returnurl=client-index.php'".phpAds_DelConfirm($strConfirmDeleteCampaign).">$strDelete</a><br>";
 $extra .= "</form>";
 
 
@@ -222,7 +222,7 @@ else
 		}
 		
 		echo "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-		echo "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?campaignid=$campaignid&bannerid=".$row["bannerid"]."'".phpAds_DelConfirm($strConfirmDeleteBanner).">$strDelete</a>";
+		echo "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?campaignid=$campaignid&bannerid=".$row["bannerid"]."&returnurl=campaign-index.php'".phpAds_DelConfirm($strConfirmDeleteBanner).">$strDelete</a>";
 		
 		echo "</td></tr>";
 		

@@ -62,6 +62,6 @@ if (isset($zoneid) && $zoneid != '')
 		") or phpAds_sqlDie();
 }
 
-Header("Location: zone-index.php?affiliateid=$affiliateid");
+Header("Location: ".$returnurl."?affiliateid=$affiliateid");
 
 ?>

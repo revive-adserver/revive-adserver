@@ -101,7 +101,7 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	$extra .= "</select>&nbsp;<input type='image' src='images/go_blue.gif'><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='zone-delete.php?affiliateid=$affiliateid&zoneid=$zoneid'".phpAds_DelConfirm($strConfirmDeleteZone).">$strDelete</a><br>";
+	$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='zone-delete.php?affiliateid=$affiliateid&zoneid=$zoneid&returnurl=zone-index.php'".phpAds_DelConfirm($strConfirmDeleteZone).">$strDelete</a><br>";
 	$extra .= "</form>";
 	
 	

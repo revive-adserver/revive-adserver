@@ -46,6 +46,6 @@ if (isset($affiliateid) && $affiliateid != '')
 		") or phpAds_sqlDie();
 }
 
-Header("Location: affiliate-index.php");
+Header("Location: ".$returnurl);
 
 ?>

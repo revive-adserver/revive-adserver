@@ -109,6 +109,6 @@ if (isset($clientid) && $clientid != '')
 if ($phpAds_config['zone_cache'])
 	phpAds_RebuildZoneCache ();
 
-header("Location: client-index.php");
+header("Location: ".$returnurl);
 
 ?>

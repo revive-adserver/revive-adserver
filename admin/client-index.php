@@ -266,7 +266,7 @@ else
 			
 			// Button 1
 			echo "<td height='25'>";
-			echo "<a href='client-delete.php?clientid=".$client['clientid']."'".phpAds_DelConfirm($strConfirmDeleteClient)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+			echo "<a href='client-delete.php?clientid=".$client['clientid']."&returnurl=client-index.php'".phpAds_DelConfirm($strConfirmDeleteClient)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 			echo "</td></tr>";
 			
 			
@@ -324,7 +324,7 @@ else
 					
 					// Button 3
 					echo "<td height='25'>";
-					echo "<a href='campaign-delete.php?campaignid=".$campaigns[$ckey]['clientid']."'".phpAds_DelConfirm($strConfirmDeleteCampaign)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+					echo "<a href='campaign-delete.php?campaignid=".$campaigns[$ckey]['clientid']."&returnurl=client-index.php'".phpAds_DelConfirm($strConfirmDeleteCampaign)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 					echo "</td></tr>";
 					
 					
@@ -399,7 +399,7 @@ else
 							
 							// Button 1
 							echo "<td height='25'>";
-							echo "<a href='banner-delete.php?bannerid=".$banners[$bkey]['bannerid']."&campaignid=".$campaigns[$ckey]['clientid']."'".phpAds_DelConfirm($strConfirmDeleteBanner)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+							echo "<a href='banner-delete.php?bannerid=".$banners[$bkey]['bannerid']."&campaignid=".$campaigns[$ckey]['clientid']."&returnurl=client-index.php'".phpAds_DelConfirm($strConfirmDeleteBanner)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 							echo "</td></tr>";
 						}
 					}
