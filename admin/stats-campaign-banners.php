@@ -541,7 +541,7 @@ if (count($order_array) > 0)
 			if ($adclicks > 0 || $adviews > 0)
 			{
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;";
-				echo "<img src='images/icon-zoom.gif' align='absmiddle'>&nbsp;";
+				echo "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;";
 				echo "<a href='stats-banner-history.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row_banners['bannerid']."'>$strBannerHistory</a>";
 				
 				if (phpAds_isUser(phpAds_Admin)) // only for the admin
@@ -662,10 +662,6 @@ if (count($order_array) > 0)
 				
 			    if ($adclicks > 0 || $adviews > 0)
 				{
-					echo "<a href='stats-banner-history.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row_banners['bannerid']."'>";
-					echo "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;$strBannerHistory</a>";
-					echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-					
 					if (phpAds_isUser(phpAds_Admin)) // only for the admin
 					{
 						echo "<a href='stats-reset.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row_banners['bannerid']."'".phpAds_DelConfirm($strConfirmResetBannerStats).">";
