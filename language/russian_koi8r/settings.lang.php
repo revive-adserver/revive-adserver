@@ -15,19 +15,19 @@
 
 
 // Installer translation strings
-$GLOBALS['strInstall']					= "Install";
-$GLOBALS['strChooseInstallLanguage']	= "Choose language for the installation procedure";
-$GLOBALS['strLanguageSelection']		= "Language Selection";
-$GLOBALS['strDatabaseSettings']			= "Database Settings";
-$GLOBALS['strAdminSettings']			= "Administrator Settings";
-$GLOBALS['strAdvancedSettings']			= "Advanced Settings";
-$GLOBALS['strOtherSettings']			= "Other settings";
+$GLOBALS['strInstall']					= "Установка";
+$GLOBALS['strChooseInstallLanguage']	= "Выберите язык для процедуры установки";
+$GLOBALS['strLanguageSelection']		= "Выбор Языка";
+$GLOBALS['strDatabaseSettings']			= "Настройки Базы Данных";
+$GLOBALS['strAdminSettings']			= "Настройки Администратора";
+$GLOBALS['strAdvancedSettings']			= "Расширенные Настройки";
+$GLOBALS['strOtherSettings']			= "Другие Настройки";
 
-$GLOBALS['strWarning']					= "Warning";
-$GLOBALS['strFatalError']				= "A fatal error occurred";
-$GLOBALS['strAlreadyInstalled']			= "phpAdsNew is already installed on this system. If you want to configure it go to <a href='settings-index.php'>settings interface</a>";
-$GLOBALS['strCouldNotConnectToDB']		= "Could not connect to database, please recheck the settings you specified";
-$GLOBALS['strCreateTableTestFailed']	= "The user you specified doesn't have permission to create or update the database structure, please contact the database administrator.";
+$GLOBALS['strWarning']					= "Предупреждение";
+$GLOBALS['strFatalError']				= "Произошла фатальная ошибка";
+$GLOBALS['strAlreadyInstalled']			= "phpAdsNew уже установлена на этой системе. Если вы хотите ее настроить, переходите к <a href='settings-index.php'>интерфейсу настроек</a>";
+$GLOBALS['strCouldNotConnectToDB']		= "Не удалось связаться с базой данной, перепроверьте указанные вами параметры";
+$GLOBALS['strCreateTableTestFailed']	= "Указанный вами пользователь не имеет прав создавать или изменять структуру базы данных, пожалуйста, свяжитесь с администратором БД.";
 $GLOBALS['strUpdateTableTestFailed']	= "The user you specified doesn't have permission to update the database structure, please contact the database administrator.";
 $GLOBALS['strTablePrefixInvalid']		= "Table prefix contains invalid characters";
 $GLOBALS['strTableInUse']				= "The database which you specified is already used for phpAdsNew, please use a different table prefix, or read the manual for upgrading instructions.";
