@@ -31,15 +31,26 @@
       <p><br>
         <span class="subtitle">The PHP configuration variable register_globals 
         needs to be turned on</span><br>
-        This item isn't written yet.</p>
+        In order to function correctly phpAdsNew needs depends on the register_globals 
+        function of PHP. If you want to continue the installation of phpAdsNew 
+        you first need to make sure this setting is turned on in your PHP configuration 
+        file. For more information about this setting, please check the PHP manual.</p>
       <p><br>
         <span class="subtitle">The PHP configuration variable magic_quote_gpc 
         needs to be turned on</span><br>
-        This item isn't written yet.</p>
+        In order to function correctly phpAdsNew needs depends on the magic_quote_gpc 
+        function of PHP. If you want to continue the installation of phpAdsNew 
+        you first need to make sure this setting is turned on in your PHP configuration 
+        file. For more information about this setting, please check the PHP manual.</p>
+      <p></p>
       <p><br>
         <span class="subtitle">The PHP configuration variable magic_quotes_runtime 
         needs to be turned off</span><br>
-        This item isn't written yet.</p>
+        In order to function correctly the magic_quotes_runtime function of PHP 
+        needs to be turned off. If you want to continue the installation of phpAdsNew 
+        you first need to make sure this setting is turned off in your PHP configuration 
+        file. For more information about this setting, please check the PHP manual.</p>
+      <p></p>
       <p><br>
         <span class="subtitle">phpAdsNew has detected that your config.inc.php 
         file is not writeable by the server</span><br>
@@ -87,14 +98,35 @@
         do about it.</p>
       <p><br><span class="subtitle">phpAdsNew doesn't display any HTML banners</span><br>HTML banners are only supported if you use remote invocation with JavaScript 
   of local mode. It is not possible to display HTML banner with normal remote 
-  invocation.</p><p><span class="subtitle"><br>The login doesn't work, it keeps prompting for username/password all over 
-  again or I can't add banners</span><br>Make sure you have enabled magic_quotes_gpc in your PHP configuration.<br>
-  Make sure $phpAds_url_prefix in config.inc.php is exactly the same as it is 
-  on the server (http://www.test.com/phpads is not the same as http://www.test.com/phpAds). 
-  Also make sure it doesn't end with a slash (/).</p><p><br><span class="subtitle">I get the following error: Fatal error: Call to unsupported or undefined function 
-  mysql_(p)connect()</span><br>Your PHP is not configured for MySQL support. If you're on Unix, you need to 
-  recompile PHP --with-mysql. If you're on Windows, you have to enable the MySQL 
-  DLL in your PHP configuration. See the manual, installation section, for more 
-  details.</p><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75">&nbsp;</td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><p>&nbsp;</p>
+  invocation.</p>
+      <p><span class="subtitle"><br>
+        The login doesn't work, it keeps prompting for username/password all over 
+        again or I can't add banners</span><br>
+        Make sure you have enabled magic_quotes_gpc in your PHP configuration.<br>
+        Make sure $phpAds_url_prefix in config.inc.php is exactly the same as 
+        it is on the server (http://www.test.com/phpads is not the same as http://www.test.com/phpAds). 
+        Also make sure it doesn't end with a slash (/).</p>
+      <p><span class="subtitle"><br>
+        Whenever I click on a banner I get a blank page instead of the url I set 
+        as the target url<br>
+        </span>Make sure $phpAds_url_prefix in config.inc.php is exactly the same 
+        as it is on the server (http://www.test.com/phpads is not the same as 
+        http://www.test.com/phpAds). Also make sure it doesn't end with a slash 
+        (/).<br>
+        <br>
+        <br>
+        <span class="subtitle">Whenever I click on a banner I get the following 
+        error message: Undefined variable vars<br>
+        </span>Make sure you have set the track_vars setting to true in your PHP 
+        configuration.<br>
+        <br>
+        <span class="subtitle"><br>
+        I get the following error: Fatal error: Call to unsupported or undefined 
+        function mysql_(p)connect()</span><br>
+        Your PHP is not configured for MySQL support. If you're on Unix, you need 
+        to recompile PHP --with-mysql. If you're on Windows, you have to enable 
+        the MySQL DLL in your PHP configuration. See the manual, installation 
+        section, for more details.</p>
+      <p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75">&nbsp;</td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><p>&nbsp;</p>
 </body>
 </html>
