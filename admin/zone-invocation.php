@@ -520,7 +520,7 @@ if (isset($submit))
 	echo "<td width='560' colspan='2'>";
 	echo "<br><br><img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>$strBannercode:</b><br><br>";
 	
-	echo "<textarea class='flat' rows='8' cols='55' style='width:560px;'>".htmlentities(phpAds_GenerateInvocationCode($zoneid))."</textarea>";
+	echo "<textarea class='flat' rows='8' cols='55' style='width:560px;'>".htmlspecialchars(phpAds_GenerateInvocationCode($zoneid))."</textarea>";
 	echo "</td></tr>";
 }
 

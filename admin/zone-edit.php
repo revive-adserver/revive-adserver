@@ -338,7 +338,7 @@ else
 	<tr>
 		<td width='30'>&nbsp;</td>	
 		<td width='200'><?php echo $strDescription;?></td>
-    	<td><input class='flat' size="35" type="text" name="description" style="width:350px;" value="<?php if(isset($zone["description"])) echo htmlentities(stripslashes ($zone["description"]));?>"></td>
+    	<td><input class='flat' size="35" type="text" name="description" style="width:350px;" value="<?php if(isset($zone["description"])) echo htmlspecialchars(stripslashes ($zone["description"]));?>"></td>
 	</tr>
 	<tr>
 		<td><img src='images/spacer.gif' height='1' width='100%'></td>
