@@ -178,7 +178,7 @@ function phpAds_floater_grow_<?php echo $uniqid; ?>()
 <?php
 	}
 	
-	if (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Opera'))
+	if (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Opera 6'))
 	{
 ?>
 	mr = mr - w; ml = ml + w;
