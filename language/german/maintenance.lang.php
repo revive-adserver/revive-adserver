@@ -70,7 +70,7 @@ $GLOBALS['strStatisticsExplaination']		= "
 
 
 // Product Updates
-$GLOBALS['strSearchingUpdates']		= "Sehe nach neuen Updates. Bitte warten...";
+$GLOBALS['strSearchingUpdates']		= "Suche nach neuen Updates. Bitte warten...";
 $GLOBALS['strAvailableUpdates']			= "Vorhandene Updates";
 $GLOBALS['strDownloadZip']			= "Download (.zip)";
 $GLOBALS['strDownloadGZip']			= "Download (.tar.gz)";
@@ -108,7 +108,7 @@ $GLOBALS['strForUpdatesLookOnWebsite']	= "
 $GLOBALS['strClickToVisitWebsite']		= "	Zu unserer Webseite ";
 
 $GLOBALS['strCurrentlyUsing'] 			= "Sie nutzen derzeit";
-$GLOBALS['strRunningOn']				= "laufend auf";
+$GLOBALS['strRunningOn']				= "mit";
 $GLOBALS['strAndPlain']				= "und";
 
 

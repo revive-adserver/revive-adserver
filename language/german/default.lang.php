@@ -50,7 +50,7 @@ $GLOBALS['strAdminstration'] 		= "Bannerverwaltung";
 $GLOBALS['strMaintenance']			= "Wartung";
 $GLOBALS['strProbability']			= "Wahrscheinlichkeit";
 $GLOBALS['strInvocationcode']		= "Bannercode (in HTML-Seite)";
-$GLOBALS['strBasicInformation'] 	= "Basisinformationen";
+$GLOBALS['strBasicInformation'] 	= "Stammdaten";
 $GLOBALS['strContractInformation'] 	= "Vertragsinformationen";
 $GLOBALS['strLoginInformation'] 	= "Login-Information";
 $GLOBALS['strOverview']				= "Übersicht";
@@ -81,7 +81,7 @@ $GLOBALS['strNext'] 				= "Weiter";
 $GLOBALS['strNext_Key'] 			= "<u>W</u>eiter";
 $GLOBALS['strYes']					= "Ja";
 $GLOBALS['strNo']					= "Nein";
-$GLOBALS['strNone'] 				= "Keiner";
+$GLOBALS['strNone'] 				= "Keine";
 $GLOBALS['strCustom']				= "Benutzerdefiniert";
 $GLOBALS['strDefault'] 				= "Voreinstellung";
 $GLOBALS['strOther']				= "Andere(r)";
@@ -101,21 +101,17 @@ $GLOBALS['strDaysLeft'] 			= "Verbliebene Tage";
 $GLOBALS['strCheckAllNone']			= "Prüfe alle / keine";
 $GLOBALS['strKiloByte']				= "KB";
 $GLOBALS['strExpandAll']			= "Alle <u>a</u>usklappen"; 
-$GLOBALS['strCollapseAll']			= "Alle <u>z</u>usammenklappenl"; 
+$GLOBALS['strCollapseAll']			= "Alle <u>z</u>usammenklappen"; 
 $GLOBALS['strShowAll']				= "Alle anzeigen";
 $GLOBALS['strNoAdminInteface']		= "Service nicht verfügbar ...";
 $GLOBALS['strFilterBySource']			= "filtern nach Quelle";
-$GLOBALS['strFieldContainsErrors']		= "Folgende Felder sind fehlerhaft:";
+$GLOBALS['strFieldContainsErrors']		= "[phpAds] Folgende Felder sind fehlerhaft:";
 $GLOBALS['strFieldFixBeforeContinue1']	= "Bevor Sie fortgefahren können, müssen Sie";
 $GLOBALS['strFieldFixBeforeContinue2']	= "diese Fehler beheben.";
 $GLOBALS['strDelimiter']			= "Trennzeichen";
 $GLOBALS['strMiscellaneous']		= "Weitere Auswertungen";
 
-$GLOBALS['strCollectedAll']			= "Alle gesammelten Statistiken";
-$GLOBALS['strCollectedToday']		= "Statistiken nur für heute";
-$GLOBALS['strCollected7Days']		= " Statistiken nur für die letzten 7 Tage";
-$GLOBALS['strCollectedMonth']		= " Statistiken nur für den laufenden Monat";
-$GLOBALS['strUseQuotes']			= "Verwende Quoten";
+$GLOBALS['strUseQuotes']			= "Anführungszeichen";
 
 
 // Properties
@@ -356,11 +352,11 @@ $GLOBALS['strBrowser'] 				= "Browser";
 $GLOBALS['strOS'] 					= "Betriebsystem";
 $GLOBALS['strCountry'] 				= "Land";
 $GLOBALS['strContinent'] 			= "Kontinent";
-$GLOBALS['strUSState']				= "US-Bundesländer";
+$GLOBALS['strUSState']				= "US-Bundesstaaten";
 $GLOBALS['strReferer'] 				= "Referenzseite";
 $GLOBALS['strDeliveryLimitations']	= "Auslieferungsbeschränkungen";
 $GLOBALS['strDeliveryCapping']		= "Bannereinblendung kappen <i>(nach Anzahl oder zeitlich)</i>"; 
-$GLOBALS['strTimeCapping']			= "Diesen Banner einem Besucher nicht länger zeigen als:";
+$GLOBALS['strTimeCapping']			= " Diesen Banner Besuchern erst wieder zeigen nach:";
 $GLOBALS['strImpressionCapping']	= "Diesen Banner einem Besucher nicht mehrmals zeigen als:";
 
 
@@ -413,7 +409,7 @@ $GLOBALS['strHideMatchingBanners']	= "Verbergen zugehörende Banner";
 
 
 // Advanced zone settings
-$GLOBALS['strAdvanced']				= "Zusätze";
+$GLOBALS['strAdvanced']				= "Erweitert";
 $GLOBALS['strChains']				= "Verkettung";
 $GLOBALS['strChainSettings']		= "Einstellung Verkettung"; 
 $GLOBALS['strZoneNoDelivery']		= "Wenn kein Banner dieser Zone <br>ausgeliefert werden kann, dann versuche...";
@@ -426,10 +422,6 @@ $GLOBALS['strZonePrependHTML']		= "Immer diesen HTML-Code den Testanzeigen aus d
 $GLOBALS['strZoneAppendHTML']		= "Immer diesen HTML-Code den Testanzeigen aus dieser Zone anhängen ";
 
 $GLOBALS['strZoneAppendType']			= "Type (Anhang)";
-$GLOBALS['strZoneAppendHTMLCode']		= "HTML-Code";
-$GLOBALS['strZoneAppendZoneSelection']	= "PopUp oder Intersitial";
-$GLOBALS['strZoneAppendSelectZone']		= "Immer das nebenstehende PopUp oder Intersitial-Banner zusätzlich mit den Bannern dieser Zone ausliefern";
-
 
 // Zone probability
 $GLOBALS['strZoneProbListChain']		= "Die Banner dieser Zone(n) sind nicht aktiv. Die Zonen sind miteinander verkettet.<br>
@@ -483,8 +475,8 @@ $GLOBALS['strWeeklyHistory']		= "Entwicklung Woche";
 $GLOBALS['strMonthlyHistory']		= "Entwicklung Monat";
 $GLOBALS['strCreditStats'] 			= "Guthabenstatistik";
 $GLOBALS['strDetailStats'] 			= "Detaillierte Statistik";
-$GLOBALS['strTotalThisPeriod']		= "Summe in der Periode";
-$GLOBALS['strAverageThisPeriod']	= "Durchschnitt in der Periode";
+$GLOBALS['strTotalThisPeriod']		= "Summe in dieser Periode";
+$GLOBALS['strAverageThisPeriod']	= "Durchschnitt in dieser Periode";
 $GLOBALS['strDistribution']			= "Verteilung";
 $GLOBALS['strResetStats'] 			= "Statistiken zurücksetzen";
 $GLOBALS['strSourceStats']			= "Quellstatistiken";
@@ -499,14 +491,20 @@ $GLOBALS['strTargetModifiedDay']	= "Die Sollvorgaben wurden an diesem Tag veränd
 $GLOBALS['strTargetModifiedWeek']	= "Die Sollvorgaben wurden in dieser Woche verändert. Die Berechnungen können u.U. nicht korrekt sein";
 $GLOBALS['strTargetModifiedMonth']	= "Die Sollvorgaben wurden in diesem Monat verändert. Die Berechnungen können u.U. nicht korrekt sein";
 $GLOBALS['strNoTargetStats']		= "Es ist kein Soll-/Ist-Vergleich vorhanden ";
+
+
+$GLOBALS['strCollectedAll']			= "Alle gesammelten Statistiken";
+$GLOBALS['strCollectedToday']		= "Statistiken nur für heute";
+$GLOBALS['strCollected7Days']		= " Statistiken nur für die letzten 7 Tage";
+$GLOBALS['strCollectedMonth']		= " Statistiken nur für den laufenden Monat";
 $GLOBALS['strCollectedYesterday']	= "Statistiken nur für gestern";
 $GLOBALS['strCollectedRange']		= "Wählen Sie einen Zeitraum";
 
 
 // Hosts
 $GLOBALS['strHosts']				= "Besucherhost";
-$GLOBALS['strTopHosts'] 			= "Besucherhosts <i>(nach Zugriffen)</i>";
-$GLOBALS['strTopCountries'] 		= "Aktivsten Länder";
+$GLOBALS['strTopHosts'] 			= "Besucherhost <i>(nach Zugriffen)</i>";
+$GLOBALS['strTopCountries'] 		= "Aktivitäten <i>(nach Ländern)</I>";
 $GLOBALS['strRecentHosts'] 			= "Besucherhost <i>(zeitlich absteigend)</i>";
 
 
@@ -541,11 +539,11 @@ $GLOBALS['strOptional']				= "optional";
 
 
 // Errors
-$GLOBALS['strMySQLError'] 			= "SQL Fehler:";
-$GLOBALS['strLogErrorClients'] 		= "Ein Fehler ist beim Versuch aufgetreten, den Inserenten aus der Datenbank zu laden.";
-$GLOBALS['strLogErrorBanners'] 		= "Ein Fehler ist beim Versuch aufgetreten, den Banner aus der Datenbank zu laden.";
-$GLOBALS['strLogErrorViews']		= "Ein Fehler ist beim Versuch aufgetreten, die AdViews aus der Datenbank zu laden.";
-$GLOBALS['strLogErrorClicks'] 		= "Ein Fehler ist beim Versuch aufgetreten, die AdClicks aus der Datenbank zu laden.";
+$GLOBALS['strMySQLError'] 			= "[phpAds] SQL Fehler:";
+$GLOBALS['strLogErrorClients'] 		= "[phpAds] Ein Fehler ist beim Versuch aufgetreten, den Inserenten aus der Datenbank zu laden.";
+$GLOBALS['strLogErrorBanners'] 		= "[phpAds] Ein Fehler ist beim Versuch aufgetreten, den Banner aus der Datenbank zu laden.";
+$GLOBALS['strLogErrorViews']		= "[phpAds] Ein Fehler ist beim Versuch aufgetreten, die AdViews aus der Datenbank zu laden.";
+$GLOBALS['strLogErrorClicks'] 		= "[phpAds] Ein Fehler ist beim Versuch aufgetreten, die AdClicks aus der Datenbank zu laden.";
 $GLOBALS['strErrorViews'] 			= "Sie müssen die Anzahl der AdViews eingeben oder unbegrenzt wählen!";
 $GLOBALS['strErrorNegViews'] 		= "Negative AdViews sind nicht möglich";
 $GLOBALS['strErrorClicks'] 			= "Sie müssen die Anzahl der AdClicks eingeben oder unbegrenzt wählen!";

@@ -37,6 +37,7 @@ $GLOBALS['strUpdateDatabaseError']	= "Aus unbekannten Gründen war die Aktualisie
 $GLOBALS['strAlreadyInstalled']			= $phpAds_productname." ist bereits auf diesem System installiert. Zur Konfiguration nutzen Sie das <a href='settings-index.php'>Konfigurationsmenü</a>"; 
 $GLOBALS['strCouldNotConnectToDB']		= "Verbindung zur Datenbank war nicht möglich. Bitte vorgenommene Einstellung prüfen. Prüfen Sie ggf., ob die von Ihnen angegebene Datenbank überhaupt auf dem Datenbank-Server vorhanden ist. ".$phpAds_productname." erstellt die Datenbank  <i>nicht</i> automatisch. ";
 $GLOBALS['strCreateTableTestFailed']		= "Der von Ihnen angegebene Nutzer hat nicht die notwendigen Zugriffsrechte, um die Datenbankstruktur anlegen zu können. Wenden Sie sich an den Systemverwalter.";
+$GLOBALS['strWarningPHP5beta']			= "Sie versuchen ".$phpAds_productname." auf einem Server mit einer frühen Testversion von PHP 5 zu installieren. Diese Versionen sind nicht für Produktionsumgebungen gedacht da sie normalerweise Fehler enthalten. Es wird davon abgeraten ".$phpAds_productname." mit PHP 5 zu betreiben, außer zu Testzwecken.";
 $GLOBALS['strUpdateTableTestFailed']		= " Der von Ihnen angegebene Nutzer hat nicht die notwendigen Zugriffsrechte, um die Datenbank zu aktualisieren. Wenden Sie sich an den Systemverwalter.";
 $GLOBALS['strTablePrefixInvalid']		= "Ungültiges Vorzeichen (Präfix) im Tabellennamen";
 $GLOBALS['strTableInUse']			= "Die genannte Datenbank wird bereits von ".$phpAds_productname.", genutzt. Verwenden Sie einen anderen Präfix oder lesen Sie im Handbuch die Hinweise für ein Upgrade.";
@@ -66,6 +67,11 @@ $GLOBALS['strTableNames']			= "Tabellenname";
 $GLOBALS['strTablesPrefix']			= "Präfix zum Tabellenname";
 $GLOBALS['strTablesType']			= "Tabellentype";
 $GLOBALS['strRevCorrupt']			= "Die Datei  <b>{filename}</b> ist beschädigt oder verändert worden. Sollte sie nicht von Ihnen verändert worden sein, ist es angeraten, sie noch einmal auf den Server hochzuladen. Wurden Änderungen von Ihnen vorgenommen, kann diese Fehlermeldung ignoriert werden.";
+$GLOBALS['strPhpBug24652']			= "Sie versuchen ".$phpAds_productname." auf einem Server mit einer frühen Testversion von PHP 5 zu installieren.
+										   Diese Versionen sind nicht für den Einsatz in Produktionsumgebungen gedacht und enthalten normalerweise Fehler.
+										   Einer dieser Fehler verhindert das ".$phpAds_productname." fehlerfrei läuft.
+										   Dieser <a href='http://bugs.php.net/bug.php?id=24652' target='_blank'>Fehler</a> ist bereits behoben
+										   und die finale Version von PHP 5 wird von diesem Fehler nicht betroffen sein.";
 $GLOBALS['strRevTooOld']			= "Die Datei <b>{filename}</b> ist älter als die für diese Version von ".$phpAds_productname." vorgesehene. Es ist angeraten, diese Datei noch einmal auf den Server hochzuladen. ";
 $GLOBALS['strRevMissing']			= "Die Datei <b>{filename}</b> ist nicht vorhanden und kann nicht überprüft werden. Es ist angeraten, diese Datei noch einmal auf den Server hochzuladen. ";
 $GLOBALS['strRevCVS']				= "Sie installieren eine noch nicht vollständig überprüfte und getestete Version <i>(CVS checkout of</i> von ".$phpAds_productname.". Soll diese möglicherweise instabile Version installiert werden? ";
@@ -96,7 +102,7 @@ $GLOBALS['strUrlPrefix']			= "URL Präfix";
 $GLOBALS['strProceed']				= "Weiter &gt;";
 $GLOBALS['strInvalidUserPwd']			= "Fehlerhafter Benutzername oder Kennwort";
 
-$GLOBALS['strUpgrade']				= "Prorammergänzung (Upgrade)";
+$GLOBALS['strUpgrade']				= "Programmergänzung (Upgrade)";
 $GLOBALS['strSystemUpToDate']		= "Das System ist up to date. Eine Ergänzung (Upgrade) ist nicht notwendig. <br>
 Drücken Sie <b>Weiter</b>, um zur Startseite zu gelangen.";
 $GLOBALS['strSystemNeedsUpgrade']		= "Die Datenbankstruktur und die Konfigurationsdateien sollten aktualisiert werden. Drücken Sie <b>Weiter</b> für den Start des Aktualisierungslauf.
@@ -195,7 +201,7 @@ $GLOBALS['strTypeUrlAllow']			= "Banner über URL verwalten";
 $GLOBALS['strTypeHtmlAllow']			= "HTML-Banners";
 $GLOBALS['strTypeTxtAllow']			= "Textanzeigen";
 
-$GLOBALS['strTypeWebSettings']		= "Bannerkonfiguration auf Webserver (lokal)";
+$GLOBALS['strTypeWebSettings']		= "Einstellungen für Speicherverfahren <i>Banner auf Webserver</i>";
 $GLOBALS['strTypeWebMode']			= "Speichermethode";
 $GLOBALS['strTypeWebModeLocal']		= "Lokales Verzeichnis";
 $GLOBALS['strTypeWebModeFtp']		= "Externer FTP-Server";
@@ -213,7 +219,7 @@ $GLOBALS['strTypeDirError']				= "Das lokale Verzeichnis existiert nicht";
 
 
 
-$GLOBALS['strDefaultBanners']			= "Ersatzbanner <i>(kein reguläres Banner steht zur Verfügung)</i>";
+$GLOBALS['strDefaultBanners']			= "Ersatzbanner <i>(kein regulärer Banner steht zur Verfügung)</i>";
 $GLOBALS['strDefaultBannerUrl']		= "Bild-URL für Ersatzbanner";
 $GLOBALS['strDefaultBannerTarget']		= "Ziel-URL für Ersatzbanner";
 
@@ -285,7 +291,7 @@ $GLOBALS['strLoginCredentials']			= "Erkennungsprüfung";
 $GLOBALS['strAdminUsername']			= "Benutzername (Admin)";
 $GLOBALS['strInvalidUsername']			= "Benutzername fehlerhaft";
 
-$GLOBALS['strBasicInformation']			= "Basisinformation";
+$GLOBALS['strBasicInformation']			= "Stammdaten";
 $GLOBALS['strAdminFullName']			= "Name, Vorname";
 $GLOBALS['strAdminEmail']			= "E-Mail";
 $GLOBALS['strCompanyName']			= "Firma";
@@ -330,9 +336,9 @@ $GLOBALS['strShowCampaignPreview']		= "Vorschau aller Banner auf der Seite  <i>Ü
 $GLOBALS['strShowBannerHTML']			= "Anzeige des Banners anstelle des HTML-Codes bei Vorschau von HTML-Bannern ";
 $GLOBALS['strShowBannerPreview']		= "Bannervorschau oben auf allen Seiten mit dem Bezug zum Banner ";
 $GLOBALS['strHideInactive']			= "Verbergen inaktive Teile auf den Übersichtsseiten";
-$GLOBALS['strGUIShowMatchingBanners']		= "Anzeige des zugehörenden Banner auf der Seite <i>Verknüpfte Banner</i>";
-$GLOBALS['strGUIShowParentCampaigns']		= "Anzeige der zugehörenden Kampagne auf der Seite <i>Veknüpfte Banner</i>";
-$GLOBALS['strGUILinkCompactLimit']		= "Verbergen nicht verknüpfter Banner auf der Seite <i>Verknüpfte Banner</i>, sofern es mehr sind als ";
+$GLOBALS['strGUIShowMatchingBanners']		= "Anzeige der zugehörenden Banner auf der Seite <i>Verknüpfte Banner</i>";
+$GLOBALS['strGUIShowParentCampaigns']		= "Anzeige der zugehörenden Kampagnen auf der Seite <i>Veknüpfte Banner</i>";
+$GLOBALS['strGUILinkCompactLimit']		= "Verbergen nicht verknüpfter Banner, sofern es mehr sind als ";
 
 $GLOBALS['strStatisticsDefaults'] 		= "Statistiken";
 $GLOBALS['strBeginOfWeek']			= "Wochenbeginn";

@@ -77,7 +77,7 @@ In den HTML-Dateien ist der entsprechende Text für die Kopf- oder Fußzeile zu hi
 		";
 		
 $GLOBALS['phpAds_hlp_content_gzip_compression'] = "
-		Die Kompression durch GZIP vermindert dem Umfang der Daten, die aus dem 	Administrationsberich zum Browser übertragen werden. Dadurch wird die Datenübertragung stark beschleunigt. Benötigt wird hierfür mindestens PHP 4.0.5 mit GZIP-Erweiterung.
+		Die Komprimierung mit GZIP vermindert dem Umfang der Daten, die aus dem 	Administrationsberich zum Browser übertragen werden. Dadurch wird die Datenübertragung stark beschleunigt. Benötigt wird hierfür mindestens PHP 4.0.5 mit GZIP-Erweiterung.
 		";
 		
 $GLOBALS['phpAds_hlp_language'] = "
@@ -152,7 +152,7 @@ Das Herkunftsland des Besuchers und die Entwicklung der Banner nach Ländern. Die
 		";
 		
 $GLOBALS['phpAds_hlp_log_hostname'] = "
-		Sowohl IP-Adresse al auch der Hostname können für jeden Besucher aufgezeichnet werden.
+		Sowohl IP-Adresse als auch der Hostname können für jeden Besucher aufgezeichnet werden.
 		Die Speicherung beider Informationen gestattet die Auswertung, wie sich Banner in Abhängigkeit zum Besucherhost entwickeln. Diese Option kann nur in Verbindung mit detaillierten Statistiken aktiviert werden. Der Speicherbedarf ist größer als bei alleiniger Speicherung der IP-Adresse.
 		";
 		
@@ -401,6 +401,6 @@ $GLOBALS['phpAds_hlp_gui_show_parents'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_gui_link_compact_limit'] = "
-	Als Voreinstellung werden auf der Seite <i>Verknüpfte Banner</i> alle verfügbaren Banner oder Kampagnen angezeigt. Da diese Anzeige sehr lang werden kann, gestattet diese Option die Darstellung einer maximalen Anzahl von Positionen. Sind mehr Positionen als festgelegt vorhanden, aber verschiedene Wege der Darstellung, wird die Darstellungsart gewählt, die weniger Platz benötigt.
+	Als Voreinstellung werden auf der Seite <i>Verknüpfte Banner</i> alle verfügbaren Banner oder Kampagnen angezeigt. Da diese Anzeige sehr lang werden kann, gestattet diese Option die Darstellung einer maximalen Anzahl von Positionen. Sind mehr Positionen als festgelegt vorhanden, bestehen aber verschieden Darstellungsmöglichkeiten, wird die Darstellungsart gewählt, die weniger Platz benötigt
 		";
 ?>

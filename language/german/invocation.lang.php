@@ -20,7 +20,7 @@ $GLOBALS['strInvocationJS']			= "Bannercode für JavaScript";
 $GLOBALS['strInvocationIframes']		= "Bannercode für Frames (iframe/ilayer)";
 $GLOBALS['strInvocationXmlRpc']		= "Bannercode bei Nutzung von XML-RPC"; 
 $GLOBALS['strInvocationCombined']		= "Kombinierter Bannercode";
-$GLOBALS['strInvocationPopUp']			= "PopUp";
+$GLOBALS['strInvocationPopUp']		= "PopUp";
 $GLOBALS['strInvocationAdLayer']		= "Interstitial oder Floating DHTML";
 $GLOBALS['strInvocationLocal']			= "Lokaler Modus";
 
@@ -63,7 +63,7 @@ $GLOBALS['strPopUpAfterSec']			= "Nach";
 $GLOBALS['strAutoCloseAfter']			= "Schließt automatisch nach";
 $GLOBALS['strPopUpTop']			= "Startposition (oben)";
 $GLOBALS['strPopUpLeft']			= "Startposition (links)";
-$GLOBALS['strWindowOptions']			= "Window-Optionen";
+$GLOBALS['strWindowOptions']			= "Fenster-Optionen";
 $GLOBALS['strShowToolbars']			= "Werkzeugleiste";
 $GLOBALS['strShowLocation']			= "Standortleiste";
 $GLOBALS['strShowMenubar']			= "Menüleiste";
