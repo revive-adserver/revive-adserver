@@ -42,7 +42,7 @@ if (phpAds_isUser(phpAds_Affiliate))
 		FROM
 			".$phpAds_config['tbl_zones']."
 		WHERE
-			zoneid = $zoneid
+			zoneid = '$zoneid'
 		") or phpAds_sqlDie();
 	$row = phpAds_dbFetchArray($result);
 	
@@ -74,7 +74,7 @@ if (isset($zoneid) && $zoneid != '')
 			FROM
 				".$phpAds_config['tbl_zones']."
 			WHERE
-				zoneid = ".$zoneid."
+				zoneid = '".$zoneid."'
 		") or phpAds_sqlDie();
 		
 		if ($row = phpAds_dbFetchArray($result))
@@ -88,7 +88,7 @@ if (isset($zoneid) && $zoneid != '')
 						zonetype = ".$zonetype.",
 						what = ''
 					WHERE
-						zoneid = ".$zoneid."
+						zoneid = '".$zoneid."'
 				") or phpAds_sqlDie();
 			}
 		}
@@ -214,7 +214,7 @@ $res = phpAds_dbQuery("
 	FROM
 		".$phpAds_config['tbl_zones']."
 	WHERE
-		affiliateid = ".$affiliateid."
+		affiliateid = '".$affiliateid."'
 		".phpAds_getZoneListOrder ($navorder, $navdirection)."
 ");
 
@@ -1271,7 +1271,7 @@ if (isset($zoneid) && $zoneid != '')
 		FROM
 			".$phpAds_config['tbl_zones']."
 		WHERE
-			zoneid = $zoneid
+			zoneid = '$zoneid'
 		") or phpAds_sqlDie();
 	
 	if (phpAds_dbNumRows($res))

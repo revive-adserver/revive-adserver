@@ -341,7 +341,7 @@ $res = phpAds_dbQuery("
 	FROM
 		".$phpAds_config['tbl_banners']."
 	WHERE
-		clientid = $campaignid
+		clientid = '$campaignid'
 	".phpAds_getBannerListOrder($navorder, $navdirection)."
 ");
 
@@ -375,7 +375,7 @@ $extra .= "<img src='images/spacer.gif' height='1' width='160' vspace='2'><br>";
 $extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 $extra .= "<select name='moveto' style='width: 110;'>";
 
-$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE parent != 0 AND clientid != ".$campaignid."") or phpAds_sqlDie();
+$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE parent != 0 AND clientid != '".$campaignid."'") or phpAds_sqlDie();
 while ($row = phpAds_dbFetchArray($res))
 	$extra .= "<option value='".$row['clientid']."'>".phpAds_buildClientName($row['clientid'], $row['clientname'])."</option>";
 
@@ -386,7 +386,7 @@ $extra .= "<img src='images/spacer.gif' height='1' width='160' vspace='2'><br>";
 $extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 $extra .= "<select name='applyto' style='width: 110;'>";
 
-$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_banners']." WHERE bannerid != ".$bannerid." AND clientid = ".$campaignid."") or phpAds_sqlDie();
+$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_banners']." WHERE bannerid != '".$bannerid."' AND clientid = '".$campaignid."'") or phpAds_sqlDie();
 while ($row = phpAds_dbFetchArray($res))
 	$extra .= "<option value='".$row['bannerid']."'>".phpAds_buildBannerName ($row['bannerid'], $row['description'], $row['alt'])."</option>";
 
@@ -422,7 +422,7 @@ if (!isset($acl) && $phpAds_config['acl'])
 		FROM
 			".$phpAds_config['tbl_acls']."
 		WHERE
-			bannerid = ".$bannerid."
+			bannerid = '".$bannerid."'
 		ORDER BY acl_order
 	") or phpAds_sqlDie();
 	
@@ -485,7 +485,7 @@ if (!isset($time) || !isset($cap))
 		FROM
 			".$phpAds_config['tbl_banners']."
 		WHERE
-			bannerid = ".$bannerid."
+			bannerid = '".$bannerid."'
 	");
 	
 	if ($row = phpAds_dbFetchArray ($res))

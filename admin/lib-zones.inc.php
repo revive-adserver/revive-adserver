@@ -135,7 +135,7 @@ function phpAds_IsBannerInZone ($bannerid, $zoneid, $what = '')
 			FROM
 				".$phpAds_config['tbl_zones']."
 			WHERE
-				zoneid = $zoneid
+				zoneid = '$zoneid'
 		") or phpAds_sqlDie();
 		
 		if ($zone = phpAds_dbFetchArray($res))
@@ -175,7 +175,7 @@ function phpAds_IsCampaignInZone ($clientid, $zoneid, $what = '')
 			FROM
 				".$phpAds_config['tbl_zones']."
 			WHERE
-				zoneid = $zoneid
+				zoneid = '$zoneid'
 		") or phpAds_sqlDie();
 		
 		if ($zone = phpAds_dbFetchArray($res))
@@ -216,7 +216,7 @@ function phpAds_ToggleBannerInZone ($bannerid, $zoneid)
 			FROM
 				".$phpAds_config['tbl_zones']."
 			WHERE
-				zoneid = $zoneid
+				zoneid = '$zoneid'
 			") or phpAds_sqlDie();
 		
 		if (phpAds_dbNumRows($res))
@@ -262,7 +262,7 @@ function phpAds_ToggleBannerInZone ($bannerid, $zoneid)
 					SET 
 						what = '".$zone['what']."'
 					WHERE
-						zoneid = $zoneid
+						zoneid = '$zoneid'
 					") or phpAds_sqlDie();
 				
 				// Rebuild Cache
@@ -292,7 +292,7 @@ function phpAds_ToggleCampaignInZone ($clientid, $zoneid)
 			FROM
 				".$phpAds_config['tbl_zones']."
 			WHERE
-				zoneid = $zoneid
+				zoneid = '$zoneid'
 			") or phpAds_sqlDie();
 		
 		if (phpAds_dbNumRows($res))
@@ -338,7 +338,7 @@ function phpAds_ToggleCampaignInZone ($clientid, $zoneid)
 					SET 
 						what = '".$zone['what']."'
 					WHERE
-						zoneid = $zoneid
+						zoneid = '$zoneid'
 					") or phpAds_sqlDie();
 				
 				// Rebuild Cache

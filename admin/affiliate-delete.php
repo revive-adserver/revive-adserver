@@ -38,7 +38,7 @@ if (isset($affiliateid) && $affiliateid != '')
 		DELETE FROM
 			".$phpAds_config['tbl_zones']."
 		WHERE
-			affiliateid = $affiliateid
+			affiliateid = '$affiliateid'
 		") or phpAds_sqlDie();
 	
 	// Delete affiliate
@@ -46,7 +46,7 @@ if (isset($affiliateid) && $affiliateid != '')
 		DELETE FROM
 			".$phpAds_config['tbl_affiliates']."
 		WHERE
-			affiliateid = $affiliateid
+			affiliateid = '$affiliateid'
 		") or phpAds_sqlDie();
 }
 

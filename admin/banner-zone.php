@@ -109,7 +109,7 @@ $res = phpAds_dbQuery("
 	FROM
 		".$phpAds_config['tbl_banners']."
 	WHERE
-		clientid = $campaignid
+		clientid = '$campaignid'
 	".phpAds_getBannerListOrder($navorder, $navdirection)."
 ");
 
@@ -143,7 +143,7 @@ $extra .= "<img src='images/spacer.gif' height='1' width='160' vspace='2'><br>";
 $extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 $extra .= "<select name='moveto' style='width: 110;'>";
 
-$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE parent != 0 AND clientid != ".$campaignid."") or phpAds_sqlDie();
+$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE parent != 0 AND clientid != '".$campaignid."'") or phpAds_sqlDie();
 while ($row = phpAds_dbFetchArray($res))
 	$extra .= "<option value='".$row['clientid']."'>".phpAds_buildClientName($row['clientid'], $row['clientname'])."</option>";
 
@@ -178,7 +178,7 @@ $res = phpAds_dbQuery ("
 	FROM
 		".$phpAds_config['tbl_banners']."
 	WHERE
-		bannerid = ".$bannerid."
+		bannerid = '".$bannerid."'
 ") or phpAds_sqlDie();
 
 $banner = phpAds_dbFetchArray($res);

@@ -34,7 +34,7 @@ function phpAds_aclCheck($row, $source)
 		
 		// Execute Query
 		$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_acls']."
-						 	   WHERE bannerid = $bannerid ORDER by acl_order");
+						 	   WHERE bannerid = '$bannerid' ORDER by acl_order");
 		
 		if (phpAds_dbNumRows($res) == 0)
 		{

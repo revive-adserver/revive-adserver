@@ -36,7 +36,7 @@ if (phpAds_isUser(phpAds_Client))
 		FROM
 			".$phpAds_config['tbl_banners']."
 		WHERE
-			bannerid = $bannerid
+			bannerid = '$bannerid'
 		") or phpAds_sqlDie();
 	$row = phpAds_dbFetchArray($result);
 	
@@ -66,7 +66,7 @@ if ($phpAds_config['compact_stats'])
 		FROM
 			".$phpAds_config['tbl_adstats']."
 		WHERE
-			bannerid = $bannerid
+			bannerid = '$bannerid'
 		GROUP BY
 			day
 		ORDER BY
@@ -83,7 +83,7 @@ else
 		 FROM
 			".$phpAds_config['tbl_adviews']."
 		 WHERE
-			bannerid = $bannerid
+			bannerid = '$bannerid'
 		 GROUP BY
 			date
 		 ORDER BY

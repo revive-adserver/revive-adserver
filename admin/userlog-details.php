@@ -45,7 +45,7 @@ $res = phpAds_dbQuery("
 	FROM 
 		".$phpAds_config['tbl_userlog']."
 	WHERE
-		userlogid = ".$userlogid."
+		userlogid = '".$userlogid."'
 ");
 
 

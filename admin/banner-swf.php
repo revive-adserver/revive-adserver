@@ -46,7 +46,7 @@ if (phpAds_isUser(phpAds_Client))
 			FROM
 				".$phpAds_config['tbl_banners']."
 			WHERE
-				bannerid = $bannerid
+				bannerid = '$bannerid'
 			") or phpAds_sqlDie();
 		$row = phpAds_dbFetchArray($result);
 		
@@ -82,7 +82,7 @@ if (isset($convert))
 		FROM
 			".$phpAds_config['tbl_banners']."
 		WHERE
-			bannerid = $bannerid
+			bannerid = '$bannerid'
 	") or phpAds_sqlDie();
 	
 	$row = phpAds_dbFetchArray($res);
@@ -125,7 +125,7 @@ if (isset($convert))
 				$res = phpAds_dbQuery ("
 					UPDATE ".$phpAds_config['tbl_banners']." 
 					SET pluginversion='".$row['pluginversion']."', htmltemplate='".$row['htmltemplate']."', htmlcache='".$row['htmlcache']."'
-					WHERE bannerid = ".$bannerid."
+					WHERE bannerid = '".$bannerid."'
 				");
 				
 				// Store the banner
@@ -187,7 +187,7 @@ if ($bannerid != '')
 		FROM
 			".$phpAds_config['tbl_banners']."
 		WHERE
-			clientid = $campaignid
+			clientid = '$campaignid'
 		".phpAds_getBannerListOrder($navorder, $navdirection)."
 	");
 	
@@ -234,7 +234,7 @@ if ($bannerid != '')
 		FROM
 			".$phpAds_config['tbl_banners']."
 		WHERE
-			bannerid = $bannerid
+			bannerid = '$bannerid'
 		") or phpAds_sqlDie();
 	$row = phpAds_dbFetchArray($res);
 	

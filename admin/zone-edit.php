@@ -182,7 +182,7 @@ if ($zoneid != "")
 		FROM
 			".$phpAds_config['tbl_zones']."
 		WHERE
-			affiliateid = ".$affiliateid."
+			affiliateid = '".$affiliateid."'
 			".phpAds_getZoneListOrder ($navorder, $navdirection)."
 	");
 	
@@ -281,7 +281,7 @@ if (isset($zoneid) && $zoneid != '')
 		FROM
 			".$phpAds_config['tbl_zones']."
 		WHERE
-			zoneid = ".$zoneid."
+			zoneid = '".$zoneid."'
 		") or phpAds_sqlDie();
 	
 	if (phpAds_dbNumRows($res))
@@ -419,7 +419,7 @@ echo "</form>";
 // Get unique affiliate
 $unique_names = array();
 
-$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_zones']." WHERE affiliateid = ".$affiliateid." AND zoneid != '".$zoneid."'");
+$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_zones']." WHERE affiliateid = '".$affiliateid."' AND zoneid != '".$zoneid."'");
 while ($row = phpAds_dbFetchArray($res))
 	$unique_names[] = $row['zonename'];
 

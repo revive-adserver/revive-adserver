@@ -48,7 +48,7 @@ if (phpAds_isUser(phpAds_Admin))
 		FROM
 			".$phpAds_config['tbl_zones']."
 		WHERE
-			affiliateid = ".$affiliateid."
+			affiliateid = '".$affiliateid."'
 	") or phpAds_sqlDie();
 	
 	while ($row = phpAds_dbFetchArray($res))
@@ -94,7 +94,7 @@ $res_stats = phpAds_dbQuery("
 	FROM 
 		".$phpAds_config['tbl_zones']."
 	WHERE
-		zoneid = ".$zoneid."
+		zoneid = '".$zoneid."'
 ");
 
 if ($row_zone = phpAds_dbFetchArray($res_stats))
@@ -112,7 +112,7 @@ if ($row_zone = phpAds_dbFetchArray($res_stats))
 			FROM 
 				".$phpAds_config['tbl_adstats']."
 			WHERE
-				zoneid = ".$zoneid."
+				zoneid = '".$zoneid."'
 			GROUP BY
 				zoneid, bannerid
 		");
@@ -137,7 +137,7 @@ if ($row_zone = phpAds_dbFetchArray($res_stats))
 			FROM 
 				".$phpAds_config['tbl_adviews']."
 			WHERE
-				zoneid = ".$zoneid."
+				zoneid = '".$zoneid."'
 			GROUP BY
 				zoneid, bannerid
 		");
@@ -160,7 +160,7 @@ if ($row_zone = phpAds_dbFetchArray($res_stats))
 			FROM 
 				".$phpAds_config['tbl_adclicks']."
 			WHERE
-				zoneid = ".$zoneid."
+				zoneid = '".$zoneid."'
 			GROUP BY
 				zoneid, bannerid
 		");

@@ -52,7 +52,7 @@ elseif (isset($campaignid) && $campaignid != '')
 							  FROM
 							  	".$phpAds_config['tbl_banners']."
 							  WHERE
-								clientid = $campaignid
+								clientid = '$campaignid'
 		  				 ");
 	
 	// Loop to all banners for this client

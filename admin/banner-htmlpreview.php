@@ -30,7 +30,7 @@ $res = phpAds_dbQuery("
 	FROM
 		".$phpAds_config['tbl_banners']."
 	WHERE
-		bannerid = $bannerid
+		bannerid = '$bannerid'
 	") or phpAds_sqlDie();
 
 

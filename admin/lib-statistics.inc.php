@@ -68,7 +68,7 @@ function phpAds_getClientName ($clientid)
 			FROM
 				".$phpAds_config['tbl_clients']."
 			WHERE
-				clientid = $clientid
+				clientid = '$clientid'
 			") or phpAds_sqlDie();
 			
 			$row = phpAds_dbFetchArray($res);
@@ -232,7 +232,7 @@ function phpAds_getParentID ($clientid)
 			FROM
 				".$phpAds_config['tbl_clients']."
 			WHERE
-				clientid = $clientid
+				clientid = '$clientid'
 		") or phpAds_sqlDie();
 		
 		$row = phpAds_dbFetchArray($res);
@@ -266,7 +266,7 @@ function phpAds_getParentName ($clientid)
 			FROM
 				".$phpAds_config['tbl_clients']."
 			WHERE
-				clientid = $clientid
+				clientid = '$clientid'
 		") or phpAds_sqlDie();
 		
 		$row = phpAds_dbFetchArray($res);
@@ -329,7 +329,7 @@ function phpAds_getBannerName ($bannerid, $limit = 30, $id = true)
 			FROM
 				".$phpAds_config['tbl_banners']."
 			WHERE
-				bannerid = $bannerid
+				bannerid = '$bannerid'
 		") or phpAds_sqlDie();
 		
 		$row = phpAds_dbFetchArray($res);
@@ -378,7 +378,7 @@ function phpAds_getZoneName ($zoneid)
 			FROM
 				".$phpAds_config['tbl_zones']."
 			WHERE
-				zoneid = $zoneid
+				zoneid = '$zoneid'
 			") or phpAds_sqlDie();
 			
 			$row = phpAds_dbFetchArray($res);
@@ -429,7 +429,7 @@ function phpAds_getAffiliateName ($affiliateid)
 				FROM
 					".$phpAds_config['tbl_affiliates']."
 				WHERE
-					affiliateid = $affiliateid
+					affiliateid = '$affiliateid'
 			") or phpAds_sqlDie();
 			
 			$row = phpAds_dbFetchArray($res);
@@ -462,7 +462,7 @@ function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 		FROM
 			".$phpAds_config['tbl_banners']."
 		WHERE
-			bannerid = ".$bannerid."
+			bannerid = '".$bannerid."'
 	");
 	
 	$row = phpAds_dbFetchArray($res);
@@ -613,9 +613,9 @@ function phpAds_deleteStats($bannerid)
 {
     global $phpAds_config;
 	
-    phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_adviews']." WHERE bannerid = $bannerid") or phpAds_sqlDie();
-    phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_adclicks']." WHERE bannerid = $bannerid") or phpAds_sqlDie();
-    phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_adstats']." WHERE bannerid = $bannerid") or phpAds_sqlDie();
+    phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_adviews']." WHERE bannerid = '$bannerid'") or phpAds_sqlDie();
+    phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_adclicks']." WHERE bannerid = '$bannerid'") or phpAds_sqlDie();
+    phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_adstats']." WHERE bannerid = '$bannerid'") or phpAds_sqlDie();
 }
 
 
@@ -632,7 +632,7 @@ function phpAds_totalStats($table, $column, $bannerid, $timeconstraint="")
 	    $where = "";
 		
 	    if (!empty($bannerid)) 
-        	$where = "WHERE bannerid = $bannerid";
+        	$where = "WHERE bannerid = '$bannerid'";
 	    
 		if (!empty($timeconstraint))
 		{
@@ -676,7 +676,7 @@ function phpAds_totalStats($table, $column, $bannerid, $timeconstraint="")
 	    $where = "";
 		
 	    if (!empty($bannerid)) 
-	        $where = "WHERE bannerid = $bannerid";
+	        $where = "WHERE bannerid = '$bannerid'";
 	    
 		if (!empty($timeconstraint))
 		{

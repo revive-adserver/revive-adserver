@@ -78,7 +78,7 @@ $res = phpAds_dbQuery("
 	FROM
 		".$phpAds_config['tbl_banners']."
 	WHERE
-		clientid = $campaignid
+		clientid = '$campaignid'
 	".phpAds_getBannerListOrder($navorder, $navdirection)."
 ") or phpAds_sqlDie();
 
@@ -166,7 +166,7 @@ if ($phpAds_config['compact_stats'])
 		FROM 
 			".$phpAds_config['tbl_adstats']."
 		WHERE
-			bannerid = ".$bannerid."
+			bannerid = '".$bannerid."'
 		GROUP BY
 			zoneid
 		") or phpAds_sqlDie();
@@ -194,7 +194,7 @@ else
 		FROM 
 			".$phpAds_config['tbl_adviews']."
 		WHERE
-			bannerid = ".$bannerid."
+			bannerid = '".$bannerid."'
 		GROUP BY
 			zoneid
 		") or phpAds_sqlDie();
@@ -220,7 +220,7 @@ else
 		FROM 
 			".$phpAds_config['tbl_adclicks']."
 		WHERE
-			bannerid = ".$bannerid."
+			bannerid = '".$bannerid."'
 		GROUP BY
 			zoneid
 		") or phpAds_sqlDie();

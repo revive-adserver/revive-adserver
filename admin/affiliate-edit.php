@@ -284,7 +284,7 @@ if ($affiliateid != "")
 		FROM
 			".$phpAds_config['tbl_affiliates']."
 		WHERE
-			affiliateid = ".$affiliateid."
+			affiliateid = '".$affiliateid."'
 		") or phpAds_sqlDie();
 	
 	if (phpAds_dbNumRows($res))

@@ -46,7 +46,7 @@ function phpAds_DeleteBanner($bannerid)
 		FROM
 			".$phpAds_config['tbl_banners']."
 		WHERE
-			bannerid = $bannerid
+			bannerid = '$bannerid'
 	") or phpAds_sqlDie();
 	
 	if ($row = phpAds_dbFetchArray($res))
@@ -60,7 +60,7 @@ function phpAds_DeleteBanner($bannerid)
 		DELETE FROM
 			".$phpAds_config['tbl_banners']."
 		WHERE
-			bannerid = $bannerid
+			bannerid = '$bannerid'
 		") or phpAds_sqlDie();
 	
 	// Delete banner ACLs
@@ -68,7 +68,7 @@ function phpAds_DeleteBanner($bannerid)
 		DELETE FROM
 			".$phpAds_config['tbl_acls']."
 		WHERE
-			bannerid = $bannerid
+			bannerid = '$bannerid'
 		") or phpAds_sqlDie();
 	
 	// Delete statistics for this banner
@@ -87,7 +87,7 @@ elseif (isset($campaignid) && $campaignid != '')
 		FROM
 			".$phpAds_config['tbl_banners']."
 		WHERE
-			clientid = $campaignid
+			clientid = '$campaignid'
 	");
 	
 	while ($row = phpAds_dbFetchArray($res))

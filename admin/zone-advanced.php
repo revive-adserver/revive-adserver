@@ -142,7 +142,7 @@ $res = phpAds_dbQuery("
 	FROM
 		".$phpAds_config['tbl_zones']."
 	WHERE
-		affiliateid = ".$affiliateid."
+		affiliateid = '".$affiliateid."'
 		".phpAds_getZoneListOrder ($navorder, $navdirection)."
 ");
 
@@ -217,7 +217,7 @@ $res = phpAds_dbQuery("
 	FROM
 		".$phpAds_config['tbl_zones']."
 	WHERE
-		zoneid = ".$zoneid."
+		zoneid = '".$zoneid."'
 ") or phpAds_sqlDie();
 
 if (phpAds_dbNumRows($res))

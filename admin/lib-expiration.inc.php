@@ -232,7 +232,7 @@ function days_left($clientid)
 						".$phpAds_config['tbl_adstats']."
 						LEFT JOIN ".$phpAds_config['tbl_banners']." USING (bannerid)
 					WHERE
-						clientid = $clientid AND
+						clientid = '$clientid' AND
 						clicks > 0";
 			}
 			else

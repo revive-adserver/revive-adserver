@@ -41,7 +41,7 @@ if (isset($zoneid) && $zoneid != '')
 			FROM
 				".$phpAds_config['tbl_zones']."
 			WHERE
-				zoneid = $zoneid
+				zoneid = '$zoneid'
 			") or phpAds_sqlDie();
 		$row = phpAds_dbFetchArray($result);
 		
@@ -62,7 +62,7 @@ if (isset($zoneid) && $zoneid != '')
 		DELETE FROM
 			".$phpAds_config['tbl_zones']."
 		WHERE
-			zoneid = $zoneid
+			zoneid = '$zoneid'
 		") or phpAds_sqlDie();
 }
 

@@ -73,7 +73,7 @@ if (isset($bannerid) && $bannerid != '')
 	   	   FROM
 	   	      ".$phpAds_config['tbl_acls']."
 	   	   WHERE
-	   	      bannerid = ".$bannerid."
+	   	      bannerid = '".$bannerid."'
    	    ") or phpAds_sqlDie();
 		
 	   	while ($row = phpAds_dbFetchArray($res))
@@ -113,7 +113,7 @@ if (isset($bannerid) && $bannerid != '')
 			FROM
 				".$phpAds_config['tbl_banners']."
 			WHERE
-				bannerid = ".$bannerid."
+				bannerid = '".$bannerid."'
 		") or phpAds_sqlDie();
 		
 		if ($row = phpAds_dbFetchArray($res))
@@ -160,7 +160,7 @@ if (isset($bannerid) && $bannerid != '')
 			   	   FROM
 			   	      ".$phpAds_config['tbl_acls']."
 			   	   WHERE
-			   	      bannerid = ".$bannerid."
+			   	      bannerid = '".$bannerid."'
 		   	    ") or phpAds_sqlDie();
 				
 			   	while ($row = phpAds_dbFetchArray($res))

@@ -46,7 +46,7 @@ elseif ($campaignid != '')
 		FROM
 			".$phpAds_config['tbl_banners']."
 		WHERE
-			clientid = $campaignid
+			clientid = '$campaignid'
 	");
 	
 	if (phpAds_dbNumRows($idresult) > 0)
@@ -92,7 +92,7 @@ elseif ($affiliateid != '')
 		FROM
 			".$phpAds_config['tbl_zones']."
 		WHERE
-			affiliateid = ".$affiliateid."
+			affiliateid = '".$affiliateid."'
 	");
 	
 	if (phpAds_dbNumRows($idresult) > 0)

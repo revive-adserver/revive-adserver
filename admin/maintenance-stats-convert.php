@@ -147,14 +147,14 @@ function phpAds_storeCompact ($base, $count, $stats)
 			        $result = phpAds_dbQuery(
 						"INSERT INTO ".
 	                   	$phpAds_config['tbl_adstats']." SET clicks = ".$stats_s['clicks'].", views = ".$stats_s['views'].", 
-						day = $day, hour = $hour, bannerid = $bannerid, zoneid = $zoneid, source = $source ");
+						day = $day, hour = $hour, bannerid = '$bannerid', zoneid = '$zoneid', source = $source ");
 					
 		       		if (phpAds_dbAffectedRows() < 1) 
 		       		{
 						$result = phpAds_dbQuery(
 							"UPDATE ".$phpAds_config['tbl_adstats']." SET views = views + ".$stats_s['views'].",
 							clicks = clicks + ".$stats_s['clicks']." WHERE day = $day AND hour = $hour 
-							AND bannerid = $bannerid AND zoneid = $zoneid AND source = $source ");
+							AND bannerid = '$bannerid' AND zoneid = '$zoneid' AND source = $source ");
 		       		}
 					
 					$adclicks += $stats_s['clicks'];

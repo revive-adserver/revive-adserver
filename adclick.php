@@ -94,7 +94,7 @@ if (phpAds_dbConnect())
 			FROM
 				".$phpAds_config['tbl_banners']."
 			WHERE
-				bannerid = $bannerid
+				bannerid = '$bannerid'
 		") or die();
 		
 		$url 	  = phpAds_dbResult($res, 0, 0);

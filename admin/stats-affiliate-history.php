@@ -99,7 +99,7 @@ $idresult = phpAds_dbQuery ("
 	FROM
 		".$phpAds_config['tbl_zones']."
 	WHERE
-		affiliateid = ".$affiliateid."
+		affiliateid = '".$affiliateid."'
 ");
 
 if (phpAds_dbNumRows($idresult) > 0)

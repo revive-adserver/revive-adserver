@@ -294,7 +294,7 @@ if ($clientid != "")
 		FROM
 			".$phpAds_config['tbl_clients']."
 		WHERE
-			clientid = $clientid
+			clientid = '$clientid'
 		") or phpAds_sqlDie();
 	$row = phpAds_dbFetchArray($res);
 	

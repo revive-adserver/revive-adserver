@@ -51,7 +51,7 @@ $idresult = phpAds_dbQuery ("
 	FROM
 		".$phpAds_config['tbl_banners']."
 	WHERE
-		clientid = $campaignid
+		clientid = '$campaignid'
 ");
 
 while ($row = phpAds_dbFetchArray($idresult))

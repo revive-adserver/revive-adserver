@@ -138,7 +138,7 @@ $res = phpAds_dbQuery("
 	FROM
 		".$phpAds_config['tbl_banners']."
 	WHERE
-		clientid = $campaignid
+		clientid = '$campaignid'
 	".phpAds_getBannerListOrder($listorder, $orderdirection)."
 ") or phpAds_sqlDie();
 

@@ -50,7 +50,7 @@ if (phpAds_isUser(phpAds_Client))
 			FROM
 				".$phpAds_config['tbl_banners']."
 			WHERE
-				bannerid = $bannerid
+				bannerid = '$bannerid'
 			") or phpAds_sqlDie();
 		$row = phpAds_dbFetchArray($result);
 		
@@ -69,7 +69,7 @@ if (phpAds_isUser(phpAds_Client))
 				SET
 					active = '$value'
 				WHERE
-					bannerid = $bannerid
+					bannerid = '$bannerid'
 				") or phpAds_sqlDie();
 			
 			// Rebuild zone cache
@@ -100,7 +100,7 @@ if (phpAds_isUser(phpAds_Admin))
 			SET
 				active = '$value'
 			WHERE
-				bannerid = $bannerid
+				bannerid = '$bannerid'
 		") or phpAds_sqlDie();
 	}
 	elseif (isset($campaignid) && $campaignid != '')
@@ -111,7 +111,7 @@ if (phpAds_isUser(phpAds_Admin))
 			SET
 				active = '$value'
 			WHERE
-				clientid = $campaignid
+				clientid = '$campaignid'
 		") or phpAds_sqlDie();
 	}
 	

@@ -128,7 +128,7 @@ $res_zones = phpAds_dbQuery("
 		FROM 
 			".$phpAds_config['tbl_zones']."
 		WHERE
-			affiliateid = ".$affiliateid."
+			affiliateid = '".$affiliateid."'
 		".phpAds_getZoneListOrder ($listorder, $orderdirection)."
 		") or phpAds_sqlDie();
 

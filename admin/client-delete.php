@@ -42,7 +42,7 @@ if (isset($clientid) && $clientid != '')
 		DELETE FROM
 			".$phpAds_config['tbl_clients']."
 		WHERE
-			clientid = $clientid
+			clientid = '$clientid'
 		") or phpAds_sqlDie();
 	
 	
