@@ -1,11 +1,11 @@
-<?php // $Revision$
+<?php // $Id$
 
 /************************************************************************/
-/* phpAdsNew 2                                                          */
-/* ===========                                                          */
+/* phpPgAds                                                             */
+/* ========                                                             */
 /*                                                                      */
-/* Copyright (c) 2000-2002 by the phpAdsNew developers                  */
-/* For more information visit: http://www.phpadsnew.com                 */
+/* Copyright (c) 2001-2002 by the phpPgAds developers                   */
+/* For more information visit: http://phppgads.sourceforge.net          */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -73,6 +73,68 @@ function enjavanate ($str, $limit = 60)
 
 
 /*********************************************************/
+/* Return browser type, version and platform             */
+/*********************************************************/
+
+function phpAds_getUserAgent()
+{
+	global $HTTP_USER_AGENT;
+	
+	if (ereg('MSIE ([0-9].[0-9]{1,2})(.*Opera ([0-9].[0-9]{1,2}))?', $HTTP_USER_AGENT, $log_version))
+	{
+		if ($log_version[3])
+		{
+			$ver = $log_version[3];
+			$agent = 'Opera';
+		}
+		else
+		{
+			$ver = $log_version[1];
+			$agent = 'IE';
+		}
+	}
+	elseif (ereg('Opera ([0-9].[0-9]{1,2})', $HTTP_USER_AGENT, $log_version))
+	{
+		$ver = $log_version[1];
+		$agent = 'Opera';
+	}
+	elseif (ereg('Mozilla/([0-9].[0-9]{1,2})', $HTTP_USER_AGENT, $log_version))
+	{
+		$ver = $log_version[1];
+		$agent = 'Mozilla';
+	}
+	elseif (strstr($HTTP_USER_AGENT, 'Konqueror') && ereg('([0-9].[0-9]{1,2})', $HTTP_USER_AGENT, $log_version))
+	{
+		$ver = $log_version[1];
+		$agent = 'Konqueror';
+	}
+	else
+	{
+		$ver = 0;
+		$agent = 'Other';
+	}
+	
+	if (strstr($HTTP_USER_AGENT, 'Win'))
+		$platform = 'Win';
+	else if (strstr($HTTP_USER_AGENT, 'Mac'))
+		$platform = 'Mac';
+	else if (strstr($HTTP_USER_AGENT, 'Linux'))
+		$platform = 'Linux';
+	else if (strstr($HTTP_USER_AGENT, 'Unix'))
+		$platform = 'Unix';
+	else
+		$platform = 'Other';
+	
+	return array(
+		'agent' => $agent,
+		'version' => $ver,
+		'platform' => $platform
+	);
+}
+
+
+
+/*********************************************************/
 /* Main code                                             */
 /*********************************************************/
 
@@ -91,16 +153,22 @@ if (!isset($context)) $context = '';
 
 if (!isset($layerstyle) || empty($layerstyle)) $layerstyle = 'geocities';
 
-// Get the banner
-$output = view_raw ($what, $clientid, $target, $source, $withtext, $context);
 
-// Create unique id
-$uniqid = substr(md5(uniqid('')), 0, 8);
-
+// Include layerstyle
 require(phpAds_path.'/misc/layerstyles/'.$layerstyle.'/layerstyle.inc.php');
 
-enjavanate(phpAds_getLayerHTML($output, $uniqid));
+$limitations = phpAds_getLayerLimitations();
 
-phpAds_putLayerJS($output, $uniqid);
+if ($limitations['compatible'])
+{
+	$output = view_raw ($what, $clientid, $target, $source, $withtext, $context, $limitations['richmedia']);
+	
+	// Exit if no matching banner was found
+	if (!$output) exit;
+	
+	$uniqid = substr(md5(uniqid('')), 0, 8);
+	enjavanate(phpAds_getLayerHTML($output, $uniqid));
+	phpAds_putLayerJS($output, $uniqid);
+}
 
 ?>
