@@ -205,7 +205,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-03-30:  Path detection during install on IIS fixed  (Niels)
 			  - 2002-03-30:  Fixed MS Exchange problem when sending email  (Niels)
 			  - 2002-03-31:  Duplicated zones now have an unique name  (Niels)
-			 
+			  - 2002-03-31:  Fixed errors when no banner networks were present  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
