@@ -97,8 +97,8 @@ h3 {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt}
             <h3>Local Mode</h3>
             <p>This is the traditional style of a including a banner within a PHP3-powered 
               website. On every page you want to have a banner, you have to include 
-              config.inc.php, view.inc.php and acl.inc.php. These files are 
-              in your phpAdsNew-installation-directory. Banner are displayed using 
+              phpadsnew.inc.php. This file is
+              in your phpAdsNew-installation-directory. Banners are displayed using 
               the view()-function. This function has the following syntax: </p>
             <h3>int view (mixed what [, int clientID [, string target [, string source [, bool 
               withText = 0[, array context]]]]); </h3>
@@ -119,9 +119,10 @@ h3 {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt}
                     Multiple keywords are possible using conditional statements. Some examples :<br>
                     key1,key2,key3 (Meaning key1 OR key2 OR key3)<br>
                     key1,+key2,-key3 (Meaning key1 AND key2 AND NOT key3)<br>
+                    
                     Some rules :<br>
                     <ul>
-                    <li>The swithes are "+" (meaning AND) and "-" (meaning NOT).
+                    <li>The switches are "+" (meaning AND) and "-" (meaning NOT).
                     <li>The first keyword <b>must not</b> have a switch, the rest may.
                     <li>Do not put a space between the switch and the keyword.
                     <li>If the "+" or "_" switch is used then that keyword must be in the banner's list for the banner to show. For remote invocation you have to use "_".
@@ -131,6 +132,19 @@ h3 {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt}
                   </li>
                 </ul>
               </li>
+                <BR>
+                In addition, multiple expressions can be specified in case one does not match
+                any banners.  
+                The syntax is as follows:<BR>
+                <BLOCKQUOTE>
+                    what = part 1[|part 2[|..[|part n]]]<BR>
+                    If the first part doesn't match any banners the next part is used until a
+                    part is found which does match banners<BR>
+                    part x = (bannerid) or (width/height) or &quot;html&quot; or (keywords)<BR>
+                </BLOCKQUOTE>    
+                For example, <BR>
+                key1,+key2|486x60|global (Meaning, find a banner with key1 and key2, or if no match, 
+                find one that's 486x60, or if none match that find one matching the keyword global.)<BR>
               <li>The optional argument <b>clientID</b> allows you to retrieve 
                 only banners by a specific client. Specify &quot;&quot; to view 
                 banners from all clients (in case you need the third or fourth 
@@ -167,7 +181,7 @@ h3 {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt}
                   =&gt; $id)<br>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br>
                   view(&quot;main&quot;, 0, &quot;&quot;, &quot;&quot;, 0, $arr);<br>
-                  </font>To make sure that the page does <i>not</i> the same banner 
+                  </font>To make sure that the page does <i>not</i> show the same banner 
                   two times, you could use this:<br>
                   <font face="Courier New, Courier, mono">// Top of the page:<br>
                   $id = view(&quot;main&quot;, 5); </font> </p>
@@ -201,9 +215,7 @@ h3 {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt}
             <p>A sample HTML file could look like this:<br>
             </p>
             <pre>&lt;?
- require("/usr/local/etc/phpAds/config.inc.php"); 
- require("/usr/local/etc/phpAds/view.inc.php"); 
- require("/usr/local/etc/phpAds/acl.inc.php"); 
+ require("/usr/local/etc/phpAds/phpadsnew.inc.php"); 
 ?&gt; 
   
 &lt;html&gt;
@@ -261,7 +273,7 @@ h3 {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt}
             <h3>I get the following error: Fatal error: Call to unsupported or 
               undefined function mysql_pconnect().</h3>
             <p>Your PHP is not configured for MySQL support. If you're on Unix, 
-              you need to recompile PHp --with-mysql. If you're on Windows, you 
+              you need to recompile PHP --with-mysql. If you're on Windows, you 
               have to enable the MySQL DLL in your PHP configuration. See the 
               manual, installation section, for more details.</p>
             <h3>Can you help me to install phpAdsNew? Can you please implement this 

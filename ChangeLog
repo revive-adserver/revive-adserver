@@ -1,15 +1,22 @@
 phpAdsNew - ChangeLog
-                        + Several bugfixes
-                        + Changed banneradd.php layout for IE ONLY (with javascript and <DIV>s)
+
+v 1.9.0 - 01/03/2001    + Several bugfixes (Phil)
+                        + Changed banneradd.php layout for IE ONLY (with javascript and <DIV>s) (Phil)
                         + Added db_query() function to assist debugging mysql errors
-                        + Added description field database for future use
+                        + Added description field in the database for future use (Phil)
                         + Fixed some language text bugs
-                        + Added/corrected some ACL help text
-                        + Fixed ACL DOMAIN FILTER bug
-                        + Added ACL "*" feature for default DENY
-                        + Added persistent connections OPTION
+                        + Added/corrected some ACL help text (Phil)
+                        + Fixed ACL DOMAIN FILTER bug (Phil, others)
+                        + Added ACL "*" feature for default DENY (Phil)
+                        + Added persistent connections OPTION (Phil)
                         + Fixed gd.php to determine graphics capabilities for php 4.04 (Niels Leenheer)
-                        + Div by zero error in expiration.inc.php
+                        + Div by zero error in expiration.inc.php (Phil)
+                        + New compact statistics database format (Phil)
+                        + Multipart "what" syntax for view() function (Niels Leenheer)
+                        + German/Dutch/Flemish language file fixes (silicon, Niels)
+                        + Bugfix: Javascript remotehtmlview bugs with newlines, squotes, etc. (Phil)
+                        + Added view_raw() function (Niels)
+                        + Rewrote weighting system for efficiency (Phil)
  v 1.8.1 - 01/02/2001
 			+ Added Login as a string (Fabian Rodriguez and me)
 			+ Bugfix: parse error in mail.php (me)

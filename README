@@ -2,7 +2,7 @@ phpAdsNew - Readme
 
   PHP Banner Management System
 
-  Version 1.8.0
+  Version 1.9.0
   http://www.sourceforge.net/projects/phpadsnew/
 
     Copyright (C) 1999-2000 Tobias Ratschiller <tobias@dnet.it>
@@ -38,7 +38,7 @@ phpAdsNew - Readme
     - supports multiple keywords for groups of banners
     - supports conditional keywords
     - activate and deactivate single banners
-    - show banners based on filters: user-agent, day-of-week, IP masks, domain, source page
+    - show banners based on filters: user-agent, day-of-week, IP masks, domain, source page, time
     - Perform banner weighing
     - Target banner clicks to frames
     - Use random or sequential banner retrieval
@@ -70,8 +70,8 @@ phpAdsNew - Readme
     Please see the INSTALL file.
   
   Mailing List:
-    Questions about phpAdsNew should be directed to the mailing list. More
+    Questions about phpAdsNew should be directed to the forums. More
     information about it can be found on phpAdsNew's homepage. Bug reports
     and questions related to the develpment of phpAdsNew are also welcome
-    on the list.
+    on the site.
     Please read Documentation.html before you ask questions!
