@@ -909,7 +909,8 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 				// Banner refered through URL
 				
 				// Replace standard variables
-				$row['banner'] = str_replace ('{timestamp}',	time(), $row['banner']);
+				$row['banner'] = str_replace ('{timestamp}', time(), $row['banner']);
+				$row['url']    = str_replace ('{timestamp}', time(), $row['url']);
 				
 				// Determine cachebuster
 				if (eregi ('\{random(:([1-9])){0,1}\}', $row['banner'], $matches))
@@ -921,12 +922,21 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 					
 					$randomnumber = sprintf ('%0'.$randomdigits.'d', mt_rand (0, pow (10, $randomdigits) - 1));
 					$row['banner'] = str_replace ($matches[0], $randomnumber, $row['banner']);
-					
-					$randomstring = '&cb='.$randomnumber;
 				}
-				else
+				
+				if (eregi ('\{random(:([1-9])){0,1}\}', $row['url'], $matches))
 				{
-					$randomstring = "";
+					if (!isset($randomnumber) || $randomnumber == '')
+					{
+						if ($matches[1] == "")
+							$randomdigits = 8;
+						else
+							$randomdigits = $matches[2];
+						
+						$randomnumber = sprintf ('%0'.$randomdigits.'d', mt_rand (0, pow (10, $randomdigits) - 1));
+					}
+					
+					$row['url'] = str_replace ($matches[0], $randomnumber, $row['url']);
 				}
 				
 				if (strtolower(substr($row['banner'], -3)) == 'swf')
@@ -934,10 +944,10 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 					$outputbuffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
 					$outputbuffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
 					$outputbuffer .= "swflash.cab#version=5,0,0,0' width='".$row['width']."' height='".$row['height']."'>";
-					$outputbuffer .= "<param name='movie' value='".$row['banner'].(empty($row['url']) ? '' : '?targeturl='.urlencode($phpAds_url_prefix.'/adclick.php?bannerID='.$row['bannerID'].$randomstring))."'>";
+					$outputbuffer .= "<param name='movie' value='".$row['banner'].(empty($row['url']) ? '' : '?targeturl='.urlencode($phpAds_url_prefix.'/adclick.php?bannerID='.$row['bannerID'].'&dest='.$row['url']))."'>";
 					$outputbuffer .= "<param name='quality' value='high'>";
 					$outputbuffer .= "<param name='bgcolor' value='#FFFFFF'>";
-					$outputbuffer .= "<embed src='".$row['banner'].(empty($row['url']) ? '' : '?targeturl='.urlencode($phpAds_url_prefix.'/adclick.php?bannerID='.$row['bannerID'].$randomstring))."' quality=high ";
+					$outputbuffer .= "<embed src='".$row['banner'].(empty($row['url']) ? '' : '?targeturl='.urlencode($phpAds_url_prefix.'/adclick.php?bannerID='.$row['bannerID'].'&dest='.$row['url']))."' quality=high ";
 					$outputbuffer .= "bgcolor='#FFFFFF' width='".$row['width']."' height='".$row['height']."' type='application/x-shockwave-flash' ";
 					$outputbuffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
 					$outputbuffer .= "</object>";
@@ -947,7 +957,7 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 					if (empty($row['url']))
 						$outputbuffer .= '<img src=\''.$row['banner'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' title=\''.$row['alt'].'\' border=\'0\''.$status.'>';
 					else
-						$outputbuffer .= '<a href=\''.$phpAds_url_prefix.'/adclick.php?bannerID='.$row['bannerID'].$randomstring.'\''.$targettag.$status.'><img src=\''.$row['banner'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' title=\''.$row['alt'].'\' border=\'0\'></a>';
+						$outputbuffer .= '<a href=\''.$phpAds_url_prefix.'/adclick.php?bannerID='.$row['bannerID'].'&dest='.urlencode($row['url']).'\''.$targettag.$status.'><img src=\''.$row['banner'].'\' width=\''.$row['width'].'\' height=\''.$row['height'].'\' alt=\''.$row['alt'].'\' title=\''.$row['alt'].'\' border=\'0\'></a>';
 				}
 				
 				if ($withtext && !empty($row['bannertext']))

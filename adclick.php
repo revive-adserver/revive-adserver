@@ -28,10 +28,13 @@ db_connect();
 // Fetch BannerID
 if (!isset($bannerID))
 {
+	// Get bannerID
 	if(isset($bannerNum) && !empty($bannerNum)) $bannerID = $bannerNum;
 	if(isset($n) && is_array($banID)) $bannerID = $banID[$n];
+	
+	// Get destination
+	if(isset($n) && is_array($destID)) $dest = $destID[$n];
 }
-
 
 if ($bannerID != "DEFAULT")
 {
@@ -73,6 +76,7 @@ if ($bannerID != "DEFAULT")
 			if ($key != 'bannerID' &&
 				$key != 'dest' &&
 				$key != 'ismap' &&
+				$key != 'n' &&
 				$key != 'cb')
 				$vars[] = $key.'='.$HTTP_GET_VARS[$key];
 		}
@@ -83,6 +87,7 @@ if ($bannerID != "DEFAULT")
 			if ($key != 'bannerID' &&
 				$key != 'dest' &&
 				$key != 'ismap' &&
+				$key != 'n' &&
 				$key != 'cb')
 				$vars[] = $key.'='.$HTTP_POST_VARS[$key];
 		}
@@ -98,25 +103,6 @@ if ($bannerID != "DEFAULT")
 	
 	// Referer
 	$url = str_replace ("{referer}", urlencode($HTTP_REFERER), $url);
-	
-	
-	// Cache buster
-	if (eregi ('\{random(:([1-9])){0,1}\}', $url, $matches))
-	{
-		if (!isset($cb) || $cb == "")
-		{
-			// calculate random number
-			
-			if ($matches[1] == "")
-				$randomdigits = 8;
-			else
-				$randomdigits = $matches[2];
-			
-			$cb = sprintf ("%0".$randomdigits."d", mt_rand (0, pow (10, $randomdigits) - 1));
-		}
-		
-		$url = str_replace ($matches[0], $cb, $url);
-	}
 	
 	// ISMAP click location
 	if (isset($ismap) && $ismap != '')

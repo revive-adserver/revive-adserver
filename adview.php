@@ -22,6 +22,7 @@ require ("acl.inc.php");
 // Open a connection to the database
 db_connect();
 
+include ("nocache.inc.php");
 
 if (isset($bannerID) && !isset($what))
 {
@@ -103,14 +104,61 @@ else
 			
 			if ($row["format"] == "html")
 			{
+				// HTML -> print the banner
 				echo $row["banner"];
 			}
-			elseif ($row["format"] == "url" || $row["format"] == "web")
+			elseif ($row["format"] == "url")
 			{
-				Header("Location: $row[banner]");
+				// URL
+				
+				// Replace standard variables
+				$row['banner'] = str_replace ('{timestamp}', time(), $row['banner']);
+				$row['url']    = str_replace ('{timestamp}', time(), $row['url']);
+				
+				
+				// Determine cachebuster
+				if (eregi ('\{random(:([1-9])){0,1}\}', $row['banner'], $matches))
+				{
+					if ($matches[1] == "")
+						$randomdigits = 8;
+					else
+						$randomdigits = $matches[2];
+					
+					$randomnumber = sprintf ('%0'.$randomdigits.'d', mt_rand (0, pow (10, $randomdigits) - 1));
+					$row['banner'] = str_replace ($matches[0], $randomnumber, $row['banner']);
+				}
+				
+				if (eregi ('\{random(:([1-9])){0,1}\}', $row['url'], $matches))
+				{
+					if (!isset($randomnumber) || $randomnumber == '')
+					{
+						if ($matches[1] == "")
+							$randomdigits = 8;
+						else
+							$randomdigits = $matches[2];
+						
+						$randomnumber = sprintf ('%0'.$randomdigits.'d', mt_rand (0, pow (10, $randomdigits) - 1));
+					}
+					
+					$row['url'] = str_replace ($matches[0], $randomnumber, $row['url']);
+				}
+				
+				// Store destination URL
+				SetCookie("dest", $row['url'], 0, $url["path"]);
+				if(isset($n)) SetCookie("destID[$n]", $row['url'], 0, $url["path"]);
+				
+				// Redirect to the banner
+				Header("Location: ".$row['banner']);
+			}
+			elseif ($row["format"] == "web")
+			{
+				// WEB -> redirect to the banner
+				Header("Location: ".$row['banner']);
 			}
 			else
 			{
+				// SQL -> load the banner from the database
+				
 				if (!isset($row['banner']) || $row['banner'] == '')
 				{
 					// The image is not returned when using zones,
