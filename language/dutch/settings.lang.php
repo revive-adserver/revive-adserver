@@ -173,14 +173,15 @@ $GLOBALS['strCompactStats']				= "Gebruik compacte statistieken";
 $GLOBALS['strLogAdviews']				= "Log AdViews";
 $GLOBALS['strBlockAdviews']				= "Log protectie (sec.)";
 $GLOBALS['strLogAdclicks']				= "Log AdClicks";
-$GLOBALS['strBlockAdclicks']			= "Log protection (sec.)";
+$GLOBALS['strBlockAdclicks']			= "Log protectie (sec.)";
 
 $GLOBALS['strEmailWarnings']			= "Waarschuwingen per email";
-$GLOBALS['strAdminEmailHeaders']		= "Mail Headers for the reflection of the sender of the daily ad reports";
+$GLOBALS['strAdminEmailHeaders']		= "Headers voor gebruik in te verzenden email";
 $GLOBALS['strWarnLimit']				= "Waarschuwings limiet";
 $GLOBALS['strWarnLimitErr']				= "Waarschuwings limiet moet een positief nummer zijn";
 $GLOBALS['strWarnAdmin']				= "Waarschuw de beheerder";
 $GLOBALS['strWarnClient']				= "Waarschuw de klant";
+$GLOBALS['strQmailPatch']				= "Pas headers aan voor qmail";
 
 $GLOBALS['strRemoteHosts']				= "Remote hosts";
 $GLOBALS['strIgnoreHosts']				= "Negeer hosts";
