@@ -514,7 +514,7 @@ function phpAds_PriorityPredictProfile($campaigns, $banners)
 		$total_weight = $total_banner_weight * $total_campaign_weight;
 		
 		for ($i=0;$i<24;$i++)
-			$profile[$i] = (int)($total_weight*100);
+			$profile[$i] = (int)$total_weight;
 		
 		
 		$profile_correction_executed = false;
@@ -715,7 +715,7 @@ function phpAds_PriorityCalculate()
 		$campaigns[$c]['hits'] = $targeted_hits + $other_hits;
 	}
 	
-	if ($total_targeted_hits)
+	if ($total_requested)
 	{
 		// High pri campaigns present, run profiling
 		list($profile, $profile_correction_executed) = phpAds_PriorityPredictProfile($campaigns, $banners);
