@@ -1,4 +1,4 @@
-<?php // $Revision: 1.1 $
+<?php // $Revision: 1.3 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -312,21 +312,21 @@ $GLOBALS['strKiloByte'] = "kB";
 $GLOBALS['strSeconds'] = "Sekunden";
 $GLOBALS['strExpired'] = "Abgelaufen";
 
-$GLOBALS['strModifyBannerAcl'] 			= "Darstellungsbeschränkungen";
-$GLOBALS['strACL'] 						= "Limit";
-$GLOBALS['strNoMoveUp'] 				= "Kann nicht zur ersten Zeile gehen";
-$GLOBALS['strACLAdd'] 					= "Neue Beschränkung hinzufügen";
-$GLOBALS['strNoLimitations']			= "Keine Beschränkungen";
+$GLOBALS['strModifyBannerAcl'] = "Darstellungsbeschränkungen";
+$GLOBALS['strACL'] = "Limit";
+$GLOBALS['strNoMoveUp'] = "Kann nicht zur ersten Zeile gehen";
+$GLOBALS['strACLAdd'] = "Neue Beschränkung hinzufügen";
+$GLOBALS['strNoLimitations'] = "Keine Beschränkungen";
 
-$GLOBALS['strLinkedZones']				= "Verknüpfte Zonen";
-$GLOBALS['strNoZonesToLink']			= "Es gibt keine Zonen, mit denen dieser Banner verknüpft werden kann";
-$GLOBALS['strNoZones']					= "There are currently no zones defined";
-$GLOBALS['strNoClients']				= "There are currently no clients defined";
-$GLOBALS['strNoStats']					= "There are currently no statistics available";
+$GLOBALS['strLinkedZones'] = "Verknüpfte Zonen";
+$GLOBALS['strNoZonesToLink'] = "Es gibt keine Zonen, mit denen dieser Banner verknüpft werden kann";
+$GLOBALS['strNoZones'] 	= "Es sind z.Z. keine Zonen definiert";
+$GLOBALS['strNoClients'] = "Es sind z.Z. keine Kunden(Clients) definiert";
+$GLOBALS['strNoStats']	= "Es sind z.Z. keine Statistiken verfügbar";
 
-$GLOBALS['strCustom']					= "Benutzerdefiniert";
+$GLOBALS['strCustom'] = "Benutzerdefiniert";
 
-$GLOBALS['strSettings'] 				= "Settings";
+$GLOBALS['strSettings'] = "Einstellungen";
 
 
 ?>
