@@ -48,92 +48,6 @@ require (phpAds_path."/libraries/lib-cache.inc.php");
 
 
 /*********************************************************/
-/* Java-encodes text                                     */
-/*********************************************************/
-
-function enjavanateOld ($str, $limit = 60)
-{
-	print "\n\t\tvar phpadsbanner = '';\n";
-	
-	while (strlen($str) > 0)
-	{
-		$line = substr ($str, 0, $limit);
-		$str  = substr ($str, $limit);
-		
-		$line = str_replace('\\', "\\\\", $line);
-		$line = str_replace('\'', "\\'", $line);
-		$line = str_replace("\r", '', $line);
-		$line = str_replace("\n", "\\n", $line);
-		$line = str_replace("\t", "\\t", $line);
-		$line = str_replace('<', "<'+'", $line);
-		
-		print "\t\tphpadsbanner += '$line';\n";
-	}
-	
-	print "\n";
-}
-
-function enjavanateCode ($str, $limit = 60)
-{
-	global $windowid;
-	
-	$str = str_replace("\r", '', $str);
-	
-	while (strlen($str) > 0)
-	{
-		$line = substr ($str, 0, $limit);
-		$str  = substr ($str, $limit);
-		
-		while (substr($line, strlen($line)-1, 1) == "\\")
-		{
-			$line .= substr($str, 0, 1);
-			$str = substr($str, 1);
-		}
-		
-		$line = str_replace('\\', "\\\\", $line);
-		$line = str_replace('\'', "\\'", $line);
-		$line = str_replace("\r", '', $line);
-		$line = str_replace("\n", "\\n", $line);
-		$line = str_replace("\t", "\\t", $line);
-		$line = str_replace('<', "<'+'", $line);
-		
-		echo "\t\t".$windowid.".document.write('$line');\n";
-	}
-}
-
-function enjavanateBanner ($output, $limit = 60)
-{
-	$str = $output['html'];
-	$ret =  "\tvar phpadsbanner = '';\n";
-	
-	while (strlen($str) > 0)
-	{
-		$line = substr ($str, 0, $limit);
-		$str  = substr ($str, $limit);
-		
-		$line = str_replace('\\', "\\\\", $line);
-		$line = str_replace('\'', "\\'", $line);
-		$line = str_replace("\r", '', $line);
-		$line = str_replace("\n", "\\n", $line);
-		$line = str_replace("\t", "\\t", $line);
-		$line = str_replace('<', "<'+'", $line);
-		
-		$ret .= "\tphpadsbanner += '$line';\n";
-	}
-	
-	$ret .= "\n\tdocument.write('<'+'html><'+'head><'+'title>');\n";
-	$ret .= "\tdocument.write('".($output['alt'] ? $output['alt'] : 'Advertisement')."');\n";
-	$ret .= "\tdocument.write('<'+'/title><'+'/head>');\n";
-	$ret .= "\tdocument.write('<'+'body leftmargin=\"0\" topmargin=\"0\" marginwidth=\"0\" marginheight=\"0\">');\n";
-	$ret .= "\tdocument.write(phpadsbanner);\n";
-	$ret .= "\tdocument.write('<'+'/body><'+'/html>');\n";
-	
-	return $ret;
-}
-
-
-
-/*********************************************************/
 /* Register input variables                              */
 /*********************************************************/
 
@@ -144,8 +58,9 @@ phpAds_registerGlobal ('what', 'clientid', 'clientID', 'context',
 					   'resizable', 'scrollbars');
 
 
+
 /*********************************************************/
-/* Main code                                             */
+/* Set default values for input variables                */
 /*********************************************************/
 
 if (isset($clientID) && !isset($clientid))	$clientid = $clientID;
@@ -157,6 +72,8 @@ if (!isset($target)) 	 $target = '_new';
 if (!isset($source)) 	 $source = '';
 if (!isset($withtext)) 	 $withtext = '';
 if (!isset($context)) 	 $context = '';
+
+if (!isset($timeout))    $timeout    = 0;
 
 if (!isset($toolbars))   $toolbars   = 0;
 if (!isset($location))	 $location   = 0;
@@ -171,101 +88,130 @@ if (isset($HTTP_SERVER_VARS['HTTP_REFERER'])) unset($HTTP_SERVER_VARS['HTTP_REFE
 if (isset($HTTP_REFERER)) unset($HTTP_REFERER);
 
 
-// Get the banner
-$output = view_raw ($what, $clientid, $target, $source, $withtext, $context);
-
-// Exit if no banner was fetched
-if (!$output['bannerid'])
-	exit;
-
-
-$windowid = 'phpads_'.$output['bannerid'];
-
-if (isset($timeout) && $timeout > 0) 
-{
-	$output['html'] .= "<script language='Javascript'  type='text/javascript'>\n";
-	$output['html'] .= "\twindow.setTimeout(\"window.close()\", ".($timeout * 1000).");\n";
-	$output['html'] .= "</script>";
-}
-
-header("Content-type: application/x-javascript");
-
 
 /*********************************************************/
-/* Create the Javascript for opening the popup           */
+/* Determine which banner we are going to show           */
 /*********************************************************/
 
-?>
-
-function <?php echo $windowid; ?>_pop(e)
+$found = false;
+	
+// Reset followed zone chain
+$phpAds_followedChain = array();
+	
+$first = true;
+	
+while (($first || $what != '') && $found == false)
 {
-	if (!window.<?php echo $windowid; ?>)
+	$first = false;
+	if (substr($what,0,5) == 'zone:')
 	{
-		<?php echo $windowid; ?> =  window.open('', '<?php echo $windowid; ?>', 'height=<?php echo $output['height']; ?>,width=<?php echo $output['width']; ?>,toolbars=<?php echo $toolbars == 1 ? 'yes' : 'no'; ?>,location=<?php echo $location == 1 ? 'yes' : 'no'; ?>,menubar=<?php echo $menubar == 1 ? 'yes' : 'no'; ?>,status=<?php echo $status == 1 ? 'yes' : 'no'; ?>,resizable=<?php echo $resizable == 1 ? 'yes' : 'no'; ?>,scrollbars=<?php echo $scrollbars == 1 ? 'yes' : 'no'; ?>');
+		if (!defined('LIBVIEWZONE_INCLUDED'))
+			require (phpAds_path.'/libraries/lib-view-zone.inc.php');
 		
-		if (!<?php echo $windowid; ?>.document.title || <?php echo $windowid; ?>.document.title == '')
-		{
-			<?php if(isset($left) && isset($top)) { ?>
-			<?php echo $windowid; ?>.moveTo (<?php echo $left; ?>,<?php echo $top; ?>);
-			<?php } ?>
-			
-			<?php echo $windowid; ?>.document.open('text/html', 'replace');
-	<?php
-			if (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'MSIE') && !strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Opera'))
-			{
-				echo enjavanateCode("<html><head>")."\n";
-				
-				echo enjavanateCode("<script language='JavaScript'>");
-				echo enjavanateCode("function showbanner() {");
-				echo enjavanateCode(enjavanateBanner($output));
-				echo enjavanateCode("}");
-				echo enjavanateCode("</script>")."\n";
-				
-				echo enjavanateCode("</head>");
-				echo enjavanateCode("<body onLoad='showbanner()'>");
-			}
-			else
-			{
-				enjavanateOld($output['html']);
-				
-				echo enjavanateCode("<html><head><title>");
-				echo enjavanateCode($output['alt'] ? $output['alt'] : 'Advertisement');
-				echo enjavanateCode("</title></head>");
-				echo enjavanateCode("<body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0'>");
-	?>
-			<?php echo $windowid; ?>.document.write(phpadsbanner);
-	<?php
-			}
-			
-			echo enjavanateCode("</body></html>");
-	?>
-			
-			<?php echo $windowid; ?>.document.close();
-		}
-
-		<?php if (isset($popunder) && $popunder == '1') { ?>
-	window.focus();
-		<?php } else {?>
-	<?php echo $windowid; ?>.focus();
-		<?php } ?>
+		$row = phpAds_fetchBannerZone($what, $clientid, $context, $source, true);
+	}
+	else
+	{
+		if (!defined('LIBVIEWDIRECT_INCLUDED'))
+			require (phpAds_path.'/libraries/lib-view-direct.inc.php');
+		
+		$row = phpAds_fetchBannerDirect($what, $clientid, $context, $source, true);
 	}
 	
-	return true;
+	if (is_array ($row))
+		$found = true;
+	else
+		$what  = $row;
 }
 
-<?php if (isset($delay) && $delay == 'exit') { ?>
+// Do not pop a window if not banner was found..
+if (!$found)
+	exit;
+		
+	
+$contenturl  = $phpAds_config['url_prefix']."/adcontent.php?bannerid=".$row['bannerid'];
+$contenturl .= "&zone=".$row['zoneid'];
+$contenturl .= "&source=".urlencode($source)."&timeout=".$timeout;
+	
+	
+	
+/*********************************************************/
+/* Build the code needed to pop up a window              */
+/*********************************************************/
 
-if (window.captureEvents && Event.UNLOAD) 
-	window.captureEvents (Event.UNLOAD);
+header("Content-type: application/x-javascript");
+		
 
-window.onunload = <?php echo $windowid; ?>_pop;
+echo "function phpads_".$row['bannerid']."_pop() {\n";
+echo "\tphpads_".$row['bannerid']." =  window.open('', 'phpads_".$row['bannerid']."', 'height=".$row['height'].",width=".$row['width'].",toolbar=".($toolbars == 1 ? 'yes' : 'no').",location=".($location == 1 ? 'yes' : 'no').",menubar=".($menubar == 1 ? 'yes' : 'no').",status=".($status == 1 ? 'yes' : 'no').",resizable=".($resizable == 1 ? 'yes' : 'no').",scrollbars=".($scrollbars == 1 ? 'yes' : 'no')."');\n";
+echo "\tif (window.phpads_".$row['bannerid'].".document.title == '' || window.phpads_".$row['bannerid'].".location == 'about:blank' || window.phpads_".$row['bannerid'].".location == '') {\n";
+echo "\t\tphpads_".$row['bannerid'].".location = '".$contenturl."';\n";
 
-<?php } elseif (isset($delay) && $delay > 0) { ?>
 
-window.setTimeout("<?php echo $windowid; ?>_pop();", <?php echo $delay * 1000; ?>);
+// Resize window to correct size, determine outer width and height
+echo "\t\tif (window.resizeTo) {\n";
+echo "\t\t\tif(phpads_".$row['bannerid'].".innerHeight) {\n";
+echo "\t\t\t\tvar diffY = phpads_".$row['bannerid'].".outerHeight - ".$row['height'].";\n";
+echo "\t\t\t\tvar diffX = phpads_".$row['bannerid'].".outerWidth - ".$row['width'].";\n";
+echo "\t\t\t\tvar outerX = ".$row['width']." + diffX;\n";
+echo "\t\t\t\tvar outerY = ".$row['height']." + diffY;\n";
+echo "\t\t\t} else {\n";
+echo "\t\t\t\tphpads_".$row['bannerid'].".resizeTo(".$row['width'].",".$row['height'].");\n";
+echo "\t\t\t\tvar diffY = phpads_".$row['bannerid'].".document.body.clientHeight - ".$row['height'].";\n";
+echo "\t\t\t\tvar diffX = phpads_".$row['bannerid'].".document.body.clientWidth - ".$row['width'].";\n";
+echo "\t\t\t\tvar outerX = ".$row['width']." - diffX;\n";
+echo "\t\t\t\tvar outerY = ".$row['height']." - diffY;\n";
+echo "\t\t\t}\n";
+echo "\t\t\tphpads_".$row['bannerid'].".resizeTo(outerX, outerY);\n";
+echo "\t\t}\n";
 
-<?php } else {?>
 
-<?php echo $windowid; ?>_pop();
 
-<?php } ?>
+if (isset($left) && isset($top))
+{
+	echo "\t\tif (window.moveTo) {\n";
+	
+	if ($left == 'center')  
+		echo "\t\t\tvar posX = parseInt((screen.width / 2) - (outerX / 2));\n";
+	elseif ($left >= 0) 
+		echo "\t\t\tvar posX = ".$left.";\n";
+	elseif ($left < 0)  
+		echo "\t\t\tvar posX = screen.width - outerX + ".$left.";\n";
+	
+	if ($top == 'center')
+		echo "\t\t\tvar posY = parseInt((screen.height / 2) - (outerY / 2));\n";
+	elseif ($top  >= 0) 
+		echo "\t\t\tvar posY = ".$top.";\n";
+	elseif ($top  < 0)  
+		echo "\t\t\tvar posY = screen.height - outerY + ".$top.";\n";
+	
+	echo "\t\t\tphpads_".$row['bannerid'].".moveTo (posX, posY);\n";
+	echo "\t\t}\n";
+}
+
+
+if (isset($popunder) && $popunder == '1')
+	echo "\t\twindow.focus();\n";
+else
+	echo "\t\tphpads_".$row['bannerid'].".focus();\n";
+
+echo "\t}\n";
+echo "\t\treturn true;\n";
+echo "}\n\n";
+
+
+
+if (isset($delay) && $delay == 'exit')
+{
+	echo "if (window.captureEvents && Event.UNLOAD)\n";
+	echo "\twindow.captureEvents (Event.UNLOAD);\n\n";
+	echo "window.onunload = phpads_".$row['bannerid']."_pop;\n";
+}
+elseif (isset($delay) && $delay > 0) 
+{
+	echo "window.setTimeout(\"phpads_".$row['bannerid']."_pop();\", ".($delay * 1000).");\n";
+}
+else
+{
+	echo "phpads_".$row['bannerid']."_pop();\n";
+}
