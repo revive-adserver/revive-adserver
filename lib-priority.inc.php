@@ -714,7 +714,9 @@ function phpAds_PriorityCalculate()
 		{
 			// BEGIN REPORTING
 			$debuglog .= "\n\n";
-			$debuglog .= "Removed ".($total_targeted_hits+$total_other_hits-$corrected_hits)." hits added during peak compensation\n";
+			$debuglog .= abs($total_targeted_hits+$total_other_hits-$corrected_hits)." hits were ".
+				(($total_targeted_hits+$total_other_hits-$corrected_hits) > 0 ? "added" : "removed").
+				" during peak compensation\n";
 			// END REPORTING
 			
 			$total_other_hits = $corrected_hits - $total_targeted_hits;
@@ -823,41 +825,57 @@ function phpAds_PriorityCalculate()
 					}
 			}
 		}
-		
-		//$available_for_others = $estimated_remaining - $totalassigned;
-		
-		
+
 		// BEGIN REPORTING
 		$debuglog .= "\n\n\n";
 		$debuglog .= "Impressions assigned to meet the targets: $totalassigned \n";
 		// END REPORTING
 
-		if (!$totalassigned && !$available_for_others)
-		{
-			// BEGIN REPORTING
-			$debuglog .= "-----------------------------------------------------\n";
-			$debuglog .= "Using profile prediction would result in no banner shown.\n";
-			$debuglog .= "Reverting back to weights for low-pri campaings.\n";
-			// END REPORTING
-
-			$available_for_others = phpAds_PriorityTotalWeight($campaigns, $banners);
-		}
+		$no_high_pri = !$totalassigned;
 	}	
 	else
 	{
 		// BEGIN REPORTING
 		$debuglog .= "-----------------------------------------------------\n";
 		$debuglog .= "No targeding needed, skipping profile prediction.\n";
+		$debuglog .= "-----------------------------------------------------\n";
 		// END REPORTING
 		
-		$available_for_others = phpAds_PriorityTotalWeight($campaigns, $banners);
+		$no_high_pri = true;
 	}
-		
-		// BEGIN REPORTING
+
+	// BEGIN REPORTING
 	$debuglog .= "Impressions left over: $available_for_others \n";
 	$debuglog .= "-----------------------------------------------------\n";
 	// END REPORTING
 
+	$totalweight =  phpAds_PriorityTotalWeight($campaigns, $banners);
+
+	if ($no_high_pri || $available_for_others < $totalweight)
+	{
+		// BEGIN REPORTING
+
+		if ($no_high_pri)
+		{
+			$debuglog .= "\n\n\nNo impressions assigned to meet the targets\n";
+		}
+		else
+		{
+			$debuglog .= "\n\n\nNo or few impressions left over, this would result\n";
+			$debuglog .= "in low-priority banners never shown\n";
+		}
+
+		$debuglog .= "Using weights for remaining campaigns.\n";
+		$debuglog .= "-----------------------------------------------------\n";
+		// END REPORTING
+
+		$available_for_others = $totalweight;
+		$high_pri_boost = true;
+	}
+	else
+		$high_pri_boost = false;
+
+	
 	for (reset($campaigns);$c=key($campaigns);next($campaigns))
 	{
 		if ($campaigns[$c]['target'] == 0)
@@ -891,6 +909,41 @@ function phpAds_PriorityCalculate()
 					$debuglog .= "- Assigned priority to banner $b: ".$banners[$b]['priority']." \n";
 					// END REPORTING
 				}
+		}
+	}
+
+
+	if ($high_pri_boost && !$no_high_pri && $totalweight)
+	{
+		// BEGIN REPORTING
+		$debuglog .= "\n\n\n-----------------------------------------------------\n";
+		$debuglog .= "HIGH PRIORITY CAMPAIGNS BOOST ENABLED\n";
+		$debuglog .= "-----------------------------------------------------\n";
+		// END REPORTING
+
+		for (reset($campaigns);$c=key($campaigns);next($campaigns))
+		{
+			if ($campaigns[$c]['target'] > 0)
+			{
+				// BEGIN REPORTING
+				$debuglog .= "\n\n\nCAMPAIGN $c \n";
+				$debuglog .= "-----------------------------------------------------\n";
+				// END REPORTING
+
+				for (reset($banners);$b=key($banners);next($banners))
+					if ($banners[$b]['parent'] == $c)
+					{
+						// BEGIN REPORTING
+						$debuglog .= "- Assigned priority to banner $b: ".$banners[$b]['priority']." * $totalweight = ";
+						// END REPORTING
+
+						$banners[$b]['priority'] *= $totalweight;
+					
+						// BEGIN REPORTING
+						$debuglog .= $banners[$b]['priority']."\n";
+						// END REPORTING
+					}
+			}
 		}
 	}
 	
