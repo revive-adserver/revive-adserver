@@ -71,7 +71,6 @@ if (!isset($bannerid) && isset($phpAds_banner[$n]))
 }
 
 
-
 // Open a connection to the database
 phpAds_dbConnect();
 
@@ -94,7 +93,8 @@ if ($bannerid != "DEFAULT")
 	// If destination is a parameter don't use
 	// url from database
 	if (isset($dest) && $dest != '')
-		$url = $dest;
+		$url = stripslashes($dest);
+	
 	
 	
 	// If zoneid is not set, log it as a regular banner
@@ -112,8 +112,6 @@ if ($bannerid != "DEFAULT")
 		// Send block cookies
 		if ($phpAds_config['block_adclicks'] > 0)
 		{
-			header ("X-phpAdsNew: LOGGING!");
-			
 			if ($phpAds_config['p3p_policies'])
 			{
 				$p3p_header = '';

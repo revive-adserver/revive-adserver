@@ -90,6 +90,12 @@ function phpAds_getBannerCache($banner)
 	
 	$buffer = $banner['htmltemplate'];
 	
+	
+	// Strip slashes from urls
+	$banner['url'] 		= stripslashes($banner['url']);
+	$banner['imageurl'] = stripslashes($banner['imageurl']);
+	
+	
 	// The following properties depend on data from the invocation process
 	// and can't yet be determined: {zoneid}, {bannerid}
 	// These properties will be set during invocation
