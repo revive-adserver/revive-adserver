@@ -549,7 +549,16 @@ if ($phpAds_config['acl'])
 	}
 	
 	
-	echo "<tr><td height='30' colspan='4' align='right'>";
+	echo "<tr><td height='30' colspan='2'>";
+	
+	if (isset($acl) && count($acl) > 1)
+	{
+		echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle'>&nbsp;";
+		echo "<a href='banner-acl.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bannerid."&action[clear]=true'>";
+		echo $strRemoveAllLimitations."</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+	}
+	
+	echo "</td><td height='30' colspan='2' align='right'>";
 	echo "<img src='images/icon-acl-add.gif' align='absmiddle'>&nbsp;";
 	echo "<select name='type'>";
 	
