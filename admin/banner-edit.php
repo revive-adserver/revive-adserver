@@ -136,7 +136,8 @@ if (isset($submit))
 		// Don't use file in case of exploit
 		if (!$upload_valid)
 		{
-			unset ($uploaded);
+			phpAds_PageHeader("1");
+			phpAds_Die ('Error', 'Detected a possible security problem, upload halted!');
 		}
 	}
 	
