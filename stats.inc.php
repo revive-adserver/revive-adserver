@@ -82,7 +82,7 @@ while ($row_banners = mysql_fetch_array($res_banners))
 		</td>
 		<td bgcolor="<?echo $bgcolor;?>" width="10%"><b>
 		<?
-		if ($row_adclicks["qnt"] != 0)
+		if ($row_adclicks["qnt"] != 0 && $row_adviews["qnt"] != 0)
 		{
 			$percent = 100 / ($row_adviews["qnt"]/$row_adclicks["qnt"]);
 			printf(" %.2f%%", $percent);

@@ -1,5 +1,6 @@
 phpAdsNew - ChangeLog
  v 1.8.1 - 01/02/2001
+			+ Bugfix: division by 0 in stats.inc.php (Phil)
 			+ All language files now have a seperate directory (me)
 			+ Added customizable colours to config.inc.php (me)
 			+ Update color schemes in weeklystats.html.php (me)
