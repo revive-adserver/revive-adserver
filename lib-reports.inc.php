@@ -261,7 +261,7 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 				$Headers .= "Content-Type: text/plain; charset=".$phpAds_CharSet."\n"; 
 			
 			$Headers .= "To: ".$client['contact']." <".$client['email'].">\n";
-			$Headers .= "From: <".$phpAds_admin_email.">\n";
+			$Headers .= "From: <".$phpAds_config['admin_email'].">\n";
 			if (!empty($phpAds_config['admin_email_headers']))
 				$Headers .= $phpAds_config['admin_email_headers']."\n";
 			
