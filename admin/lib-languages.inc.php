@@ -25,6 +25,9 @@ function phpAds_AvailableLanguages()
 	$langdir = opendir(phpAds_path.'/language/');
 	while ($langfile = readdir($langdir))
 	{
+		if ($langfile{0} == '.')
+				continue;
+		
 		if (is_dir(phpAds_path.'/language/'.$langfile) &&
 			file_exists(phpAds_path.'/language/'.$langfile.'/index.lang.php'))
 		{
