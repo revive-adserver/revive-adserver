@@ -7,59 +7,59 @@
 		<TD bgcolor="#CCCCCC">
 			<table width="100%" cellspacing="1" cellpadding="5">
 				<tr> 
-					<td bgcolor="#FFFFFF"><b>Title</b></td>
+					<td bgcolor="#FFFFFF"><b>Tytu³</b></td>
 					<td bgcolor="#FFFFFF"><b>Argument</b></td>
-					<td bgcolor="#FFFFFF"><b>Description</b></td>
+					<td bgcolor="#FFFFFF"><b>Opis</b></td>
 				</tr>
 				<tr> 
-					<td bgcolor="#FFFFFF">Client IP</td>
-					<td bgcolor="#FFFFFF">IP net/mask: ip.ip.ip.ip/mask.mask.mask.mask, for example 127.0.0.1/255.255.255.0</td>
-					<td bgcolor="#FFFFFF">Display banner only for a specific IP region.</td>
+					<td bgcolor="#FFFFFF">IP Klienta</td>
+					<td bgcolor="#FFFFFF">Sieæ/maska IP: ip.ip.ip.ip/maska.maska.maska.maska, np. 127.0.0.1/255.255.255.0</td>
+					<td bgcolor="#FFFFFF">Wy¶wietla banner tylko dla konkretnych regionów IP.</td>
 				</tr>
 				<tr> 
-					<td bgcolor="#FFFFFF">User agent regexp</td>
-					<td bgcolor="#FFFFFF">Regular expression matching a user agent, for example ^Mozilla/4.? </td>
-		 			<td bgcolor="#FFFFFF">Display banner only for certain browsers.</td>
+					<td bgcolor="#FFFFFF">Nazwa przegl±darki</td>
+					<td bgcolor="#FFFFFF">Nazwa podana przez przegl±darkê, np. ^Mozilla/4.? </td>
+		 			<td bgcolor="#FFFFFF">Wy¶wietla banner tylko dla konkretnych przegl±darek.</td>
 				</tr>
 				<tr> 
-					<td bgcolor="#FFFFFF">Weekday (0-6)</td>
-					<td bgcolor="#FFFFFF">Day of the week, from 0 = Sunday to 6 = Saturday</td>
+					<td bgcolor="#FFFFFF">Dzieñ Tygodnia (0-6)</td>
+					<td bgcolor="#FFFFFF">Dzieñ tygodnia, od 0 = Niedziala do 6 = Sobota</td>
 					<td bgcolor="#FFFFFF">Display banner only on a specific day of the week.</td>
 				</tr>
 				<tr>
-					<td bgcolor="#FFFFFF">Domain</td>
-					<td bgcolor="#FFFFFF">Domain suffix (eg. .jp, .edu, or google.com)</td>
-					<td bgcolor="#FFFFFF">Displays banner only to certain domain.</td>
+					<td bgcolor="#FFFFFF">Domena</td>
+					<td bgcolor="#FFFFFF">Koñcówka domeny (np. .jp, .edu, .pl, lub google.com)</td>
+					<td bgcolor="#FFFFFF">Wy¶wietla banner tylko dla niektórych domen.</td>
 				</tr>
 				<tr>
-					<td bgcolor="#FFFFFF">Source</td>
-					<td bgcolor="#FFFFFF">Name of source page</td>
-					<td bgcolor="#FFFFFF">Displays banner only on certain pages.</td>
+					<td bgcolor="#FFFFFF">¬ród³o</td>
+					<td bgcolor="#FFFFFF">Nazwa strony ¼ród³owej</td>
+					<td bgcolor="#FFFFFF">Wy¶wietla banner tylko na niektórych stronach.</td>
 				</tr>
                 <tr> 
-                    <td bgcolor="#FFFFFF">Time (0-23)</td>
-                    <td bgcolor="#FFFFFF">Hour of the day, from 0 = midnight to 23 = 11:00 pm</td>
-                    <td bgcolor="#FFFFFF">Display banner only on a specific hour of the day.</td>
+                    <td bgcolor="#FFFFFF">Czas (0-23)</td>
+                    <td bgcolor="#FFFFFF">Godzina dnia, od 0 = pó³noc do 23 = 23:00</td>
+                    <td bgcolor="#FFFFFF">Wy¶wietlaj banner tylko w pewne godziny dnia.</td>
                 </tr>
 			</table>
 		</TD>
 	</TR>
 </table>
-<p>For example, if you want to display this banner only on weekends, you would add two ACL entries:</p>
+<p>Na przyk³ad je¶li chcesz wy¶wietlaæ banner tylko w weekendy, powiniene¶ dodaæ dwa wpisy ACL:</p>
 <ul>
-	<li>Weekday (0-6), <? echo $strAllow; ?>, argument 6 (for Saturday)</li>
-	<li>Weekday (0-6), <? echo $strAllow; ?>, argument 0 (for Sunday)</li>
-    <li>Weekday (0-6), <? echo $strDeny; ?>, argument * (for any day)</li>
+	<li>Dzieñ tygodnia (0-6), <? echo $strAllow; ?>, argument 6 (dla Soboty)</li>
+	<li>Dzieñ tygodnia (0-6), <? echo $strAllow; ?>, argument 0 (dla Niedzieli)</li>
+    <li>Dzieñ tygodnia (0-6), <? echo $strDeny; ?>, argument * (dla ka¿dego dnia)</li>
 </ul>
-Note that the last entry need not have been &quot;Weekday&quot;.  Any <? echo $strDeny; ?> *
-ACL would suffice to deny any ad if an associated <? echo $strAllow; ?> had not already been matched.
+Zauwa¿, ¿e ostatni wpis nie musia³ byæ &quot;Dzieñ tygodnia&quot;. Ka¿de ACL <? echo $strDeny; ?> *
+wystarczy³oby aby uniemo¿liwiæ wy¶wietlanie bannera, je¶li odpowiedni <? echo $strAllow; ?> nie by³by jeszcze pozytywnie zweryfikowany.
 
-<p>To show the banner between 5pm and 8pm:</p>
+<p>Aby pokazaæ banner miêdzy godzin± 17 i 20:</p>
 <ul>
-    <li>Time, <? echo $strAllow; ?>, argument 17</li>  (5:00pm - 5:59pm)
-    <li>Time, <? echo $strAllow; ?>, argument 18</li>  (6:00pm - 6:59pm)
-	<li>Time, <? echo $strAllow; ?>, argument 19</li>  (7:00pm - 7:59pm)
-    <li>Time, <? echo $strDeny; ?>, argument * (for any time)</li>
+    <li>Czas, <? echo $strAllow; ?>, argument 17</li>  (17:00 - 17:59)
+    <li>Czas, <? echo $strAllow; ?>, argument 18</li>  (18:00 - 18:59)
+	<li>Czas, <? echo $strAllow; ?>, argument 19</li>  (19:00 - 19:59)
+    <li>Czas, <? echo $strDeny; ?>, argument * (dla dowolnego czasu)</li>
 </ul>
 <?
 // EOF english doc file for Banner ACL administration
