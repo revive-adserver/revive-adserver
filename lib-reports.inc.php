@@ -17,7 +17,7 @@
 
 function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_unixtimestamp, $update=true)
 {
-	global $phpAds_path, $phpAds_language, $date_format, $phpAds_compact_stats;
+	global $phpAds_language, $date_format, $phpAds_compact_stats;
 	global $phpAds_tbl_clients, $phpAds_tbl_banners, $phpAds_tbl_adstats;
 	global $phpAds_tbl_adviews, $phpAds_tbl_adclicks;
 	
@@ -57,9 +57,9 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 		
 		// Load client language strings
 		if (isset($client["language"]) && $client["language"] != "")
-			include ("$phpAds_path/language/".$client["language"].".inc.php");
+			include (phpAds_path."/language/".$client["language"].".inc.php");
 		else
-			include ("$phpAds_path/language/$phpAds_language.inc.php");
+			include (phpAds_path."/language/$phpAds_language.inc.php");
 		
 		
 		$active_campaigns = false;

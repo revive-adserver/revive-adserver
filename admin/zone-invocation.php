@@ -42,7 +42,7 @@ function phpAds_GenerateInvocationCode($zoneid)
 {
 	global $codetype, $clientID, $source, $target;
 	global $withText, $template, $refresh, $uniqueid;
-	global $phpAds_url_prefix, $phpAds_path;
+	global $phpAds_url_prefix;
 	global $phpAds_tbl_zones;
 	
 	
@@ -178,7 +178,7 @@ function phpAds_GenerateInvocationCode($zoneid)
 	
 	if ($codetype=='local')
 	{
-		$path = $phpAds_path;
+		$path = phpAds_path;
 		$path = str_replace ('\\', '/', $path);
 		$root = getenv('DOCUMENT_ROOT');
 		$pos  = strpos ($path, $root);

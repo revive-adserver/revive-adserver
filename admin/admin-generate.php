@@ -43,7 +43,7 @@ function phpAds_GenerateInvocationCode()
 	global $codetype, $what, $clientID, $source, $target;
 	global $withText, $template, $refresh, $uniqueid;
 	global $width, $height;
-	global $phpAds_url_prefix, $phpAds_path;
+	global $phpAds_url_prefix;
 	
 	$buffer = '';
 	$parameters = array();
@@ -160,7 +160,7 @@ function phpAds_GenerateInvocationCode()
 	
 	if ($codetype=='local')
 	{
-		$path = $phpAds_path;
+		$path = phpAds_path;
 		$path = str_replace ('\\', '/', $path);
 		$root = getenv('DOCUMENT_ROOT');
 		$pos  = strpos ($path, $root);

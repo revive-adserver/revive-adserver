@@ -88,7 +88,7 @@ function phpAds_warningMail ($campaign)
 	global $phpAds_warn_limit, $phpAds_warn_admin, $phpAds_warn_client;
 	global $phpAds_admin_email, $phpAds_admin_email_headers, $phpAds_admin_fullname;
 	global $strViewsClicksLow, $strMailHeader, $strWarnClientTxt, $strMailNothingLeft, $strMailFooter;
-	global $phpAds_tbl_clients, $phpAds_language, $phpAds_path, $phpAds_CharSet;
+	global $phpAds_tbl_clients, $phpAds_language, $phpAds_CharSet;
 	
 	if ($phpAds_warn_admin=='1' || $phpAds_warn_client=='1')
 	{
@@ -98,9 +98,9 @@ function phpAds_warningMail ($campaign)
 		{
 			// Load client language strings
 			if (isset($client["language"]) && $client["language"] != "")
-				include ("$phpAds_path/language/".$client["language"].".inc.php");
+				include (phpAds_path."/language/".$client["language"].".inc.php");
 			else
-				include ("$phpAds_path/language/$phpAds_language.inc.php");		
+				include (phpAds_path."/language/$phpAds_language.inc.php");		
 			
 			
 			$Subject = $strViewsClicksLow.": ".$campaign["clientname"];
@@ -159,9 +159,9 @@ function phpAds_deactivateMail ($campaign)
 		{
 			// Load client language strings
 			if (isset($client["language"]) && $client["language"] != "")
-				include ("$phpAds_path/language/".$client["language"].".inc.php");
+				include (phpAds_path."/language/".$client["language"].".inc.php");
 			else
-				include ("$phpAds_path/language/$phpAds_language.inc.php");		
+				include (phpAds_path."/language/$phpAds_language.inc.php");		
 			
 			$Subject = $strMailSubjectDeleted.": ".$campaign["clientname"];
 			$To		  = $client['email'];

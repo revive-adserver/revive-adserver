@@ -15,8 +15,8 @@
 
 
 // Include required files
-require ("$phpAds_path/dblib.php");
-require ("$phpAds_path/lib-expire.inc.php");
+require (phpAds_path."/dblib.php");
+require (phpAds_path."/lib-expire.inc.php");
 
 // Seed the random number generator
 mt_srand((double) microtime() * 1000000);
