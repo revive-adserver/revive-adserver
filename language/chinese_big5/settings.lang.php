@@ -100,6 +100,7 @@ $GLOBALS['strDbPassword']				= "Database password";
 $GLOBALS['strDbName']					= "Database name";
 $GLOBALS['strPersistentConnections']	= "Use persistent connections";
 $GLOBALS['strInsertDelayed']			= "Use delayed inserts";
+$GLOBALS['strCompatibilityMode']		= "Use database compatibility mode";
 $GLOBALS['strCantConnectToDb']			= "Can't connect to database";
 
 $GLOBALS['strAdminUsername']			= "Admin's username";

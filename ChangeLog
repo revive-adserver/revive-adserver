@@ -25,6 +25,8 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			    to prevent it from being executed twice  (Niels) 20011025
 			  - Added filter to make sure keywords are entered the right way  (Niels) 20011025
 			  - Added messages for empty lists of zones, stats and clients  (Niels) 20011104
+			  - Added a database compatibility mode, to solve potential problems
+			    when the database connection is shared with another product or script  (Niels) 20011111
 
 			+ Misc bugfixes
 			  - Removed extra comma from config.inc  (Matteo) 20011017

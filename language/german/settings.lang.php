@@ -1,4 +1,4 @@
-<?php // $Revision: 1.5 $
+<?php // $Revision: 1.6 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -101,6 +101,7 @@ $GLOBALS['strDbPassword']				= "Datenbank Passwort";
 $GLOBALS['strDbName']					= "Datenbankname";
 $GLOBALS['strPersistentConnections']	= "Ständige Dantenbankverbindung nutzen (persistent)";
 $GLOBALS['strInsertDelayed']			= "Verzögerte Inserts (Einfügungen) nutzen";
+$GLOBALS['strCompatibilityMode']		= "Use database compatibility mode";
 $GLOBALS['strCantConnectToDb']			= "Es kann keine Verbindung zur Datenbank aufgebaut werden";
 
 $GLOBALS['strAdminUsername']			= "Admins Username";
