@@ -105,7 +105,7 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 			
 			$active_banners = false;
 		    
-			$log .= "\n".$strCampaign."  ".phpAds_buildClientName ($campaign['clientid'], $campaign['clientname'])."\n";
+			$log .= "\n".$strCampaign."  ".strip_tags(phpAds_buildClientName ($campaign['clientid'], $campaign['clientname']))."\n";
 			$log .= "=======================================================\n\n";
 			
 			while($row_banners = phpAds_dbFetchArray($res_banners))
@@ -117,7 +117,7 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 				
 				if ($adviews > 0 || $adclicks > 0)
 				{
-					$log .= $strBanner."  ".phpAds_buildBannerName ($row_banners['bannerid'], $row_banners['description'], $row_banners['alt'])."\n";
+					$log .= $strBanner."  ".strip_tags(phpAds_buildBannerName ($row_banners['bannerid'], $row_banners['description'], $row_banners['alt']))."\n";
 					$log .= $strLinkedTo.": ".$row_banners['URL']."\n";
 					$log .= "-------------------------------------------------------\n";
 					
