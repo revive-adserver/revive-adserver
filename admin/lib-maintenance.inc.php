@@ -64,7 +64,7 @@ function maintenance_goto_section()
 	echo "<option value='banners'".($section == 'banners' ? ' selected' : '').">".$strBanners."</option>";
 	echo "<option value='priority'".($section == 'priority' ? ' selected' : '').">".$strPriority."</option>";
 	
-	if ($verboseviews > 0 || $verboseclicks > 0)
+	if ($phpAds_config['compact_stats'] && ($verboseviews > 0 || $verboseclicks > 0))
 		echo "<option value='stats'".($section == 'stats' ? ' selected' : '').">".$strStats."</option>";
 	
 	if ($phpAds_config['type_web_allow'] == true && (($phpAds_config['type_web_mode'] == 0 && 
