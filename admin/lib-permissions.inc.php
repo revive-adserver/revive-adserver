@@ -217,7 +217,7 @@ function phpAds_Login()
 function phpAds_IsLoggedIn()
 {
 	global $Session;
-	return ($Session['loggedin'] == "true");
+	return (isset($Session['loggedin']) ? ($Session['loggedin'] == "true") : false);
 }
 
 
