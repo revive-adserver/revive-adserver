@@ -310,7 +310,7 @@ if (phpAds_isUser(phpAds_Admin))
 		list($banners, $priority_sum) = phpAds_dbFetchRow(phpAds_dbQuery("
 			SELECT
 				COUNT(bannerid),
-				SUM (priority)
+				SUM(priority)
 			FROM
 				".$phpAds_config['tbl_banners']."
 		"));
