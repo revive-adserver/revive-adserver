@@ -68,7 +68,7 @@ function phpAds_showCache ()
 		
 		for (reset($rows);$key=key($rows);next($rows))
 		{
-			strtok($key, "=");
+			$type = strtok($key, "=");
 			$what = strtok("&");
 			
 			if ($i > 0) echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
@@ -79,7 +79,9 @@ function phpAds_showCache ()
 			echo "&nbsp;&nbsp;";
 			
 			// Icon
-			if (substr($what,0,5) == 'zone:')
+			if ($type == 'bannerid')
+				echo "<img src='images/banner-stored.gif' align='absmiddle'>&nbsp;";			
+			elseif (substr($what,0,5) == 'zone:')
 				echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
 			else
 				echo "<img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;";
