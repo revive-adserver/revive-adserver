@@ -333,9 +333,10 @@ $GLOBALS['strZonesWithoutAffiliate']			= "Zones zonder uitgever";
 $GLOBALS['strMoveToNewAffiliate']			= "Verplaats naar een nieuwe uitgever";
 $GLOBALS['strNoAffiliates']				= "Er zijn momenteel geen uitgevers gedefinieerd";
 $GLOBALS['strConfirmDeleteAffiliate']			= "Weet u zeker dat u deze uitgever wilt wissen?";
+$GLOBALS['strMakePublisherPublic']			= "Maak de zones die eigendom zijn van de uitgever publiekelijk toegankelijk";
 
 
-// Affiliates (properties)
+// Publisher (properties)
 $GLOBALS['strAllowAffiliateModifyInfo'] 		= "Deze gebruiker kan zijn eigen affiliate informatie wijzigen";
 $GLOBALS['strAllowAffiliateModifyZones'] 		= "Deze gebruiker kan zijn eigen zones wijzigen";
 $GLOBALS['strAllowAffiliateLinkBanners'] 		= "Deze gebruiker kan banners koppelen aan zijn eigen zones";

@@ -336,9 +336,10 @@ $GLOBALS['strZonesWithoutAffiliate']		= "Zone senza editore";
 $GLOBALS['strMoveToNewAffiliate']			= "Muovi verso un nuovo editore";
 $GLOBALS['strNoAffiliates']					= "Non &egrave; ancora stato creato nessun editore";
 $GLOBALS['strConfirmDeleteAffiliate']		= "Desideri realmente cancellare questo editore?";
+$GLOBALS['strMakePublisherPublic']			= "Make the zones owned by this publisher publicly available";
 
 
-// Affiliates (properties)
+// Publisher (properties)
 $GLOBALS['strAllowAffiliateModifyInfo']		= "Permetti a questo utente di modificare le proprie impostazioni";
 $GLOBALS['strAllowAffiliateModifyZones']	= "Permetti a questo utente di modificare le proprie zone";
 $GLOBALS['strAllowAffiliateLinkBanners']	= "Permetti a questo utente di collegare i banner alle proprie zone";

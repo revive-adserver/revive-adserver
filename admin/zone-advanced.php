@@ -254,10 +254,22 @@ if ($zone['delivery'] == phpAds_ZonePopup) echo "<img src='images/icon-popup.gif
 
 echo "&nbsp;&nbsp;<select name='chainzone' style='width: 200;' onchange='phpAds_formSelectZone()'>";
 	
+	$available = array();
+	
+	// Get list of public publishers
+	$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_affiliates']." WHERE ".
+						  "public = 't' OR affiliateid = '".$affiliateid."'");
+	
+	while ($row = phpAds_dbFetchArray($res))
+		$available[] = "affiliateid = '".$row['affiliateid']."'";
+	
+	$available = implode ($available, ' OR ');
+	
+	// Get list of zones to link to
 	$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_zones']." WHERE ".
 						  ($zone['width'] == -1 ? "" : "width = ".$zone['width']." AND ").
 						  ($zone['height'] == -1 ? "" : "height = ".$zone['height']." AND ").
-						  "delivery = ".$zone['delivery']." AND affiliateid = ".$affiliateid." AND zoneid != ".$zoneid);
+						  "delivery = ".$zone['delivery']." AND (".$available.") AND zoneid != ".$zoneid);
 	
 	while ($row = phpAds_dbFetchArray($res))
 		if ($chainzone == $row['zoneid'])

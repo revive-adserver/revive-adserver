@@ -333,9 +333,10 @@ $GLOBALS['strZonesWithoutAffiliate']		= "Zones without publisher";
 $GLOBALS['strMoveToNewAffiliate']			= "Move to new publisher";
 $GLOBALS['strNoAffiliates']					= "There are currently no publishers defined";
 $GLOBALS['strConfirmDeleteAffiliate']		= "Do you really want to delete this publisher?";
+$GLOBALS['strMakePublisherPublic']			= "Make the zones owned by this publisher publicly available";
 
 
-// Affiliates (properties)
+// Publisher (properties)
 $GLOBALS['strAllowAffiliateModifyInfo'] 	= "Allow this user to modify his own settings";
 $GLOBALS['strAllowAffiliateModifyZones'] 	= "Allow this user to modify his own zones";
 $GLOBALS['strAllowAffiliateLinkBanners'] 	= "Allow this user to link banners to his own zones";

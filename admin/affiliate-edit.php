@@ -137,7 +137,8 @@ if (isset($submit))
 				language,
 				username,
 				password,
-				permissions
+				permissions,
+				public
 				)
 			 VALUES (
 			 	'".$affiliateid."',
@@ -148,7 +149,8 @@ if (isset($submit))
 				'".$language."',
 				'".$username."',
 				'".$password."',
-				'".$permissions."'
+				'".$permissions."',
+				'".$public."'
 				)
 			") or phpAds_sqlDie();
 		
@@ -295,6 +297,7 @@ else
 	$affiliate['website'] 		= 'http://';
 	$affiliate['contact'] 		= '';
 	$affiliate['email'] 		= '';
+	$affiliate['public']		= 'f';
 	
 	$affiliate['username'] 		= '';
 	$affiliate['password'] 		= '';
@@ -350,7 +353,14 @@ while (list($k, $v) = each($languages))
 		echo "<option value='$k'>$v</option>\n";
 }
 
-echo "</select></td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+echo "</select></td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+
+echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
+echo "<input type='checkbox' name='public' value='t'".($affiliate['public'] == 't' ? ' CHECKED' : '').">&nbsp;";
+echo $strMakePublisherPublic;
+echo "</td></tr>";
+echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 echo "</table>";

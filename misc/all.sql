@@ -29,6 +29,7 @@ CREATE TABLE phpads_affiliates (
    password varchar(64),
    permissions mediumint(9),
    language varchar(64),
+   public enum('t','f') DEFAULT 'f' NOT NULL,
    PRIMARY KEY (affiliateid)
 );
 
