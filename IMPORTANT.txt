@@ -1,0 +1,25 @@
+Important behaviour change from b14 to b15 (and after) :
+
+WinCvs now relies on the login given by the system
+(which is the login you use at start-up) when making
+a .rhosts authentication.
+
+This behaviour is the original one cvs uses, but I did supply a hack
+so LOGNAME was interpreted first, which is STUPID (it is
+a security hole) !
+
+Thanks to Neal Becker who reported this bug. So check your
+login name if you use the .rhosts authentication !
+
+Also the "Force using the CVSROOT" is grayed-out because it is buggy right now
+in cvs 1.10. This is a known issue and I hope it will be fixed soon (Suggestion
+of Steve Cameron).
+
+6/15/99 : WinCvs requires a recent version of shlwapi.dll, COMCTL32.DLL,
+COMDLG32.DLL. Since they are language dependents, I cannot include them.
+Ask the Microsoft support, or Install a recent version of Internet Explorer.
+
+Enjoy !
+
+5/1/98
+Alexandre Parenteau  <aubonbeurre@hotmail.com>

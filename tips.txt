@@ -1,0 +1,26 @@
+Find more informations about cvs at http://www.cyclic.com. Cvs and WinCVS are free and distributed under the terms of the Gnu Public Licence version 2.
+If you have some questions about cvs, the good place to ask is the cvs mailing list.
+Before using WinCvs, you should have read the cvs documentation.
+In order to take full advantage of WinCvs, update your server to a recent cvs-1.10.x version.
+Read the log window, it is a good way to learn how to use cvs as a command line tool.
+Never experience new cvs commands on your working repository. Create a sample module instead.
+You can type a cvs command in the log window if you installed TCL (http://www.scriptics.com)
+Having the cvs repository backed-up every-day is a good idea...
+The cvs documentation explains in details how to use branching and merging.
+Use the TCP/IP compression only if you have a slow modem connection.
+You can easily visualize the history of a file by using the "Graph log" command.
+In order to use the command "Lock", you have to set-up correctly the server (see the cvs documentation).
+Using a Unix server is a good choice for cvs if you want to customize the cvs behaviours.
+Check-out the standard module "CVSROOT" in order to customize the cvs server remotely.
+Using TCL script, you can call an external program using the command "exec".
+cvs is outstanding for tracking/customizing third part source code or libraries (see the cvs documentation about the import process).
+You cannot remove a folder : use the "prune" option instead.
+Importing a new module requires some skills : WinCvs is designed to make it easier.
+You can open a file directly from WinCvs by double-clicking on it. You can also customize this feature (see the preferences).
+In the "Graph log" window you can compare revisions using an external diff program (as set in the preferences).
+You can switch between the log window and a graph window by using Ctrl+Tab.
+You can reload a view by using 'F5'.
+You can open-up an explorer view by using 'F2'.
+Install CvsWeb on your cvs server : this way you can browse the server repository.
+'GoToFile' - You can pass the filename or directory as a call argument and WinCvs will locate and select it for you so you can operate on it right away.
+'SendTo' - You can create the shortcut to WinCvs in the 'SendTo' Windows directory and then invoke WinCvs with the right-click menu from Windows Explorer.

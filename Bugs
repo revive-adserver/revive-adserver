@@ -1,0 +1,17 @@
+WinCvs is somehow experimental and is provided without support
+or great documentation.
+
+- patch.exe from the regular cvs distribution will fail to patch very often :
+it has no impact since cvs will send the entire file instead : I've not identified
+the problem but patch.exe 2.5 seems to work better so I added it to the WinCvs
+distribution.
+- when using -z9, it was freezing. I did fix it temporaly (see zlib.c).
+- Not all the options are avalaible thru the menus, so use the command line
+instead.
+- Still a problem for the multi-files picking : I think I do
+the good thing and the browser still cut the line after xxx files.
+- I still don't know if ssh works.
+- cvs release has some problems due to the fact that cvs is recalling itself.
+Set the HOME variable to the same location than WinCvs and it may work.
+
+Alexandre Parenteau  <aubonbeurre@hotmail.com>

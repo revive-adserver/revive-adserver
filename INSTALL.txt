@@ -1,0 +1,35 @@
+Please read the COPYING file first.
+
+Few additional notes about WinCvs :
+
+In order to use WinCvs you need the application WinCvs.exe and
+the dll's, plus :
+
+1) tcl81.dll. Refer to http://www.scriptics.com.
+
+2) "cvs.exe" is based upon cvs 1.10 code. It is a little
+bit different than the Cyclic one because it has some hacks
+usefull for WinCvs (dirty files mainly + some extras fixes).
+
+3) You need to set-up some environment variables in
+order to use cvs.exe in a dos command (unused by WinCvs) :
+
+HOME : the location for cvs to find global settings files
+(.cvspass, .cvsignore, .cvsrc)...
+PATH : needs to point out the WinCvs folder.
+CVSROOT : your CVSROOT.
+
+4) If you use it WinCvs in "client" mode (means your cvs
+repository is accessed thru TCP/IP) and your server is a cvs-1.9
+server, you need patch.exe.
+
+5) All the others exe are used in local mode only.
+
+Note (8/20/98) : If you got some problems with the files patching,
+please update your server to cvs-1.10. Later versions of WinCvs
+don't support anymore cvs-1.9.
+
+Enjoy !
+
+4/5/98
+Alexandre Parenteau  <aubonbeurre@hotmail.com>
