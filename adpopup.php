@@ -104,7 +104,7 @@ if (!window.<?php echo $windowid; ?>)
 		<?php echo $windowid; ?>.document.close();
 	}
 	
-	<?php if (isset($popunder) && $popunder == 'true') { ?>
+	<?php if (isset($popunder) && $popunder == '1') { ?>
 	window.focus();
 	<?php } ?>
 	
