@@ -61,8 +61,14 @@ else
 {
 	// Fetch a banner
 	
+	if (!isset($what))
+		$what = '';
+	
 	if (!isset($clientID))
 		$clientID = 0;
+	
+	if (!isset($source))
+		$source = '';
 	
 	
 	$row = get_banner($what, $clientID, 0, $source);
