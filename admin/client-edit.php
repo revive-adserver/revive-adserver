@@ -53,8 +53,6 @@ if (isset($submit))
 		$error = false;
 		$errormessage ='';
 		
-		$message = $strClientModified;
-		
 		
 		if (isset($clientusername) && $clientusername != '')
 		{
@@ -115,10 +113,7 @@ if (isset($submit))
 		
 		
 		if (empty($clientid))
-		{
 			$clientid = "null";
-			$message = $strClientAdded;
-		}
 		
 		$permissions = 0;
 		if (isset($clientpermissions) && is_array($clientpermissions))
@@ -181,7 +176,7 @@ if (isset($submit))
 			}
 			else
 			{
-				Header("Location: client-index.php?message=".urlencode($message));
+				Header("Location: client-index.php");
 				exit;
 			}
 		}
@@ -205,7 +200,6 @@ if (isset($submit))
 			$clientreportlastdate = date ("Y-m-d");
 		}
 		
-		$message = $strClientModified;
 		$res = phpAds_dbQuery("
 			UPDATE 
 				".$phpAds_config['tbl_clients']."
@@ -226,7 +220,7 @@ if (isset($submit))
 		$Session['language'] = $clientlanguage;
 		phpAds_SessionDataStore();
 		
-		Header("Location: index.php?message=".urlencode($message));
+		Header("Location: index.php");
 		exit;
 	}
 }

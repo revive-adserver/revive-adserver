@@ -75,7 +75,7 @@ if (phpAds_isUser(phpAds_Client))
 			// Rebuild priorities
 			phpAds_PriorityCalculate ();
 			
-			Header("Location: stats-campaign-banners.php?campaignid=$campaignid&message=".urlencode($strBannerChanged));
+			Header("Location: stats-campaign-banners.php?campaignid=$campaignid");
 		}
 	}
 	else
@@ -104,7 +104,7 @@ if (phpAds_isUser(phpAds_Admin))
 	// Rebuild priorities
 	phpAds_PriorityCalculate ();
 	
-	Header("Location: campaign-index.php?campaignid=$campaignid&message=".urlencode($strBannerChanged));
+	Header("Location: campaign-index.php?campaignid=$campaignid");
 }
 
 
