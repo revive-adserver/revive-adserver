@@ -2,7 +2,9 @@ phpAdsNew - ChangeLog
  v 1.8.1 - 01/02/2001
 			+ All language files now have a seperate directory (me)
 			+ Added customizable colours to config.inc.php (me)
+			+ Update color schemes in weeklystats.html.php (me)
 			+ Increased mail.php speed (Martin Braun)
+			+ Small change to Documentation.html explaining problems with login (me)
 			+ Bugfix: banners no longer deactivated from mail.php when not needed (Martin Braun)
 			+ Bugfix: several fixes in expiration and weeklystats (Martin Braun)
 			+ Updated banner acl screen (Martin Braun)

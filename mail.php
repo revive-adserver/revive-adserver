@@ -10,7 +10,7 @@ $res_clients = mysql_db_query($phpAds_db, "
 		email,
 		views,
 		clicks,
-		to_days(expire)-to_days(curdate()) as days
+		to_days(expire)-to_days(curdate()) as days,
 		expire
 	FROM
 		$phpAds_tbl_clients
@@ -27,6 +27,7 @@ while($row_clients = mysql_fetch_array($res_clients))
 	$clients[$i]["contact"] = $row_clients["contact"];
 	$clients[$i]["clientname"] = $row_clients["clientname"];      
 	$clients[$i]["views"] = $row_clients["views"];
+	$clients[$i]["clicks"] = $row_clients["clicks"];
 	$clients[$i]["days"] = substr_count($row_clients["expire"],"0")==8 ? -1 : $row_clients["days"];
 	$clients[$i]["active"] = false;
 
@@ -136,7 +137,7 @@ for($i=0; $i<count($logs); $i++)
 		continue;
     
 	// Check if the client has remaining adviews
-	if ($clients[$i]["views"] <= 0 && $clients[$i]["clicks"] <= 0 && $clients[$i]["days"] > 0)
+	if ($clients[$i]["views"] <= 0 && $clients[$i]["clicks"] <= 0 && $clients[$i]["days"] < 0)
 	{
 		$client_name = $clients[$i]["clientname"];
 		unset ($client_ID);

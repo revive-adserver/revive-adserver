@@ -115,8 +115,8 @@ function WeekPrint() // html generator for one week
 	{
 
 		// set background color
-		$bgcolor='#F7F7F7';
-		$j % 2 ? 0: $bgcolor = $GLOBALS['phpAds_tbl_color'];
+		$bgcolor=$GLOBALS['phpAds_table_back_color_alternative'];;
+		$j % 2 ? 0: $bgcolor = $GLOBALS['phpAds_table_back_color'];
 		$j++;       
 
 		WeekStat(); // calculate daily ctr and summary  
@@ -399,16 +399,16 @@ function stats() // generate weekly statistics
 	else
 	{
 	?>
-	<table border="0" cellpadding="0" cellspacing="0" BGCOLOR="999999">
+	<table border="0" cellpadding="0" cellspacing="0" BGCOLOR="<?print $GLOBALS["phpAds_table_back_color"];?>">
 		<TR>
 			<TD>
 				<table border="0" cellpadding="2" cellspacing="1">
 					<TR>
-						<TD class="head" ROWSPAN="2" BGCOLOR="DDDDDD"><? echo $GLOBALS["strWeek"]; ?></TD>
-						<TD ROWSPAN="2" BGCOLOR="DDDDDD">&nbsp;</TD>
-						<TD class="head" COLSPAN="7" ALIGN="CENTER" BGCOLOR="DDDDDD"><? echo $GLOBALS["strWeekDay"]; ?></TD>
-						<TD class="head" ROWSPAN="2" ALIGN="CENTER" BGCOLOR="DDDDDD"><? echo $GLOBALS["strAvg"]; ?></TD>
-						<TD class="head" ROWSPAN="2" ALIGN="CENTER" BGCOLOR="DDDDDD"><? echo $GLOBALS["strTotal"]; ?></TD>
+						<TD class="head" ROWSPAN="2" BGCOLOR="<?print $GLOBALS["phpAds_table_back_color"];?>"><? echo $GLOBALS["strWeek"]; ?></TD>
+						<TD ROWSPAN="2" BGCOLOR="<?print $GLOBALS["phpAds_table_back_color"];?>">&nbsp;</TD>
+						<TD class="head" COLSPAN="7" ALIGN="CENTER" BGCOLOR="<?print $GLOBALS["phpAds_table_back_color"];?>"><? echo $GLOBALS["strWeekDay"]; ?></TD>
+						<TD class="head" ROWSPAN="2" ALIGN="CENTER" BGCOLOR="<?print $GLOBALS["phpAds_table_back_color"];?>"><? echo $GLOBALS["strAvg"]; ?></TD>
+						<TD class="head" ROWSPAN="2" ALIGN="CENTER" BGCOLOR="<?print $GLOBALS["phpAds_table_back_color"];?>"><? echo $GLOBALS["strTotal"]; ?></TD>
 					</TR>            
 					<TR>
 						<!--<TD>void column</TD>-->
@@ -416,7 +416,7 @@ function stats() // generate weekly statistics
 	// display weekday-names from Sunday/Monday
 	for ($i=0;$i<7;$i++)
 	{
-		echo "<TD class=\"normal\" ALIGN=\"center\" BGCOLOR=\"DDDDDD\">".$strDayShortCuts[DayInd($i)]."</TD>\n";
+		echo "<TD class=\"normal\" ALIGN=\"center\" BGCOLOR=\"".$GLOBALS["phpAds_table_back_color"]."\">".$strDayShortCuts[DayInd($i)]."</TD>\n";
 	}	
 	?>
 	</TR>
