@@ -182,5 +182,5 @@ $GLOBALS[strShowBannersNoAdViews]	= "Show banners without AdViews";
 $GLOBALS[strShowAllClients] 		= "Show all clients";
 $GLOBALS[strShowClientsActive] 		= "Show clients with active banners";
 $GLOBALS[strShowClientsInactive]	= "Show clients with inactive banners";
-
+$GLOBALS[strSize]					= "Size";
 ?>
