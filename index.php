@@ -14,7 +14,13 @@
 
 
 
+// Include required files
+require	("config.inc.php");
+
 // Redirect to the admin interface
-Header("Location: admin/index.php");
+if (phpAds_installed)
+	Header("Location: ".$phpAds_config['url_prefix']."/admin/index.php");
+else
+	Header("Location: admin/index.php");
 
 ?>
