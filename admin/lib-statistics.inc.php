@@ -514,7 +514,6 @@ function phpAds_buildBannerCode ($bannerid, $banner, $active, $format, $width, $
 				$buffer .= "swflash.cab#version=5,0,0,0' width='$width' height='$height'>";
 				$buffer .= "<param name='movie' value='$banner'>";
 				$buffer .= "<param name='quality' value='high'>";
-				$buffer .= "<param name='bgcolor' value='#FFFFFF'>";
 				$buffer .= "<embed src='$banner' quality=high ";
 				$buffer .= "bgcolor='#FFFFFF' width='$width' height='$height' type='application/x-shockwave-flash' ";
 				$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
@@ -530,7 +529,6 @@ function phpAds_buildBannerCode ($bannerid, $banner, $active, $format, $width, $
 			$buffer .= "swflash.cab#version=5,0,0,0' width='$width' height='$height'>";
 			$buffer .= "<param name='movie' value='../adview.php?bannerid=$bannerid'>";
 			$buffer .= "<param name='quality' value='high'>";
-			$buffer .= "<param name='bgcolor' value='#FFFFFF'>";
 			$buffer .= "<embed src='../adview.php?bannerid=$bannerid' quality=high ";
 			$buffer .= "bgcolor='#FFFFFF' width='$width' height='$height' type='application/x-shockwave-flash' ";
 			$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
@@ -567,7 +565,6 @@ function phpAds_buildBannerCode ($bannerid, $banner, $active, $format, $width, $
 				$buffer .= "swflash.cab#version=5,0,0,0' width='$width' height='$height'>";
 				$buffer .= "<param name='movie' value='$banner'>";
 				$buffer .= "<param name='quality' value='high'>";
-				$buffer .= "<param name='bgcolor' value='#FFFFFF'>";
 				$buffer .= "<embed src='$banner' quality=high ";
 				$buffer .= "bgcolor='#FFFFFF' width='$width' height='$height' type='application/x-shockwave-flash' ";
 				$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
@@ -583,7 +580,6 @@ function phpAds_buildBannerCode ($bannerid, $banner, $active, $format, $width, $
 			$buffer .= "swflash.cab#version=5,0,0,0' width='$width' height='$height'>";
 			$buffer .= "<param name='movie' value='../adview.php?bannerid=$bannerid'>";
 			$buffer .= "<param name='quality' value='high'>";
-			$buffer .= "<param name='bgcolor' value='#FFFFFF'>";
 			$buffer .= "<embed src='../adview.php?bannerid=$bannerid' quality=high ";
 			$buffer .= "bgcolor='#FFFFFF' width='$width' height='$height' type='application/x-shockwave-flash' ";
 			$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
