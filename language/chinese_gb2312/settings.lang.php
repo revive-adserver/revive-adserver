@@ -224,6 +224,7 @@ $GLOBALS['strBlockAdviews']			= "如果访问者已经访问了广告,不记录同一广告访问数的
 $GLOBALS['strBlockAdclicks']			= "如果访问者已经点击了广告,不记录同一广告点击数的时间间隔";
 
 
+$GLOBALS['strPreventLogging']			= "禁止记录日志";
 $GLOBALS['strEmailWarnings']			= "电子邮件警告";
 $GLOBALS['strAdminEmailHeaders']		= $phpAds_productname."发送的每一封电子邮件都加上此邮件头";
 $GLOBALS['strWarnLimit']			= "当访问数存量小于此指定数时发送一个警告信息";

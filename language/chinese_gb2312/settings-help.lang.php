@@ -16,19 +16,27 @@
 
 // Settings help translation strings
 $GLOBALS['phpAds_hlp_dbhost'] = "
-        设置".$phpAds_dbmsname."数据库的主机名.
+        请指定您要连接的".$phpAds_dbmsname."数据库服务器的主机名.
+		";
+		
+$GLOBALS['phpAds_hlp_dbport'] = "
+        请指定您要连接的".$phpAds_dbmsname."数据库服务器的端口号. 
+		".$phpAds_dbmsname."服务器的缺省端口号是<i>".
+		($phpAds_productname == 'phpAdsNew' ? '3306' : '5432')."</i>.
 		";
 		
 $GLOBALS['phpAds_hlp_dbuser'] = "
-        ".$phpAds_productname."需要您提供用户名来存取".$phpAds_dbmsname."数据库服务器.
+        请指定".$phpAds_productname."用来存取".$phpAds_dbmsname."数据库服务器的用户名.
 		";
 		
 $GLOBALS['phpAds_hlp_dbpassword'] = "
-        ".$phpAds_productname."需要您提供密码来存取".$phpAds_dbmsname."数据库服务器.
+        请指定".$phpAds_productname."用来存取".$phpAds_dbmsname."数据库服务器的密码.
 		";
 		
 $GLOBALS['phpAds_hlp_dbname'] = "
-        ".$phpAds_productname."需要您提供数据库名来存取".$phpAds_dbmsname."数据库服务器.
+        请指定".$phpAds_productname."在".$phpAds_dbmsname."数据库服务器上用来存放数据的数据库名.
+		需要注意的是在数据库服务器上此数据库必须已经存在.
+		如果此数据库不存在的话,".$phpAds_productname."将<b>不会</b>自动创建此数据库.
 		";
 		
 $GLOBALS['phpAds_hlp_persistent_connections'] = "
@@ -56,7 +64,7 @@ $GLOBALS['phpAds_hlp_table_prefix'] = "
 		如果你在同一个数据库中使用".$phpAds_productname."的多个安装版本，你要保证这个前缀在所有的安装版本里是唯一的。
 		";
 		
-$GLOBALS['phpAds_hlp_tabletype'] = "
+$GLOBALS['phpAds_hlp_table_type'] = "
         ".$phpAds_dbmsname."支持多种数据表类型。每种数据库都有独有的特征而且有的能够很大提高".$phpAds_productname."的运行速度。
 		MyISAM是缺省的数据表类型并且可以在".$phpAds_dbmsname."的所有安装版本上使用。其他类型的数据表可能不能在你的服务器上使用。
 		";
@@ -133,7 +141,7 @@ $GLOBALS['phpAds_hlp_block_adviews'] = "
 		如果一个访问者刷新页面,每次".$phpAds_productname."都会记录访问数. 
 		此选项用来保证在您指定的时间间隔内对一个广告的多次访问仅记录一次访问数.
 		如:如果您设置此值为300秒,".$phpAds_productname."仅当5分钟内此广告对此访问者没有显示过才记录该访问数.
-		此选项仅当<i>使用信号灯记录访问数</i>启用和浏览器接受cookies的时候才起作用.
+		此选项仅当浏览器接受cookies的时候才起作用.
 		";
 		
 $GLOBALS['phpAds_hlp_log_adclicks'] = "
@@ -146,18 +154,83 @@ $GLOBALS['phpAds_hlp_block_adclicks'] = "
 		如:如果您设置此值为300秒,".$phpAds_productname."仅当5分钟内此访问者没有点击过此广告才记录该点击数.
 		此选项仅当浏览器接受cookies的时候才起作用.
 		";
+			
+$GLOBALS['phpAds_hlp_log_source'] = "
+		如果您正在广告调用代码中使用源参数,您可以把这个信息存到数据库中,
+		这样您可以在统计数据中看到运行中的不同源参数信息.
+		如果您没有使用源参数或者您不想使用此参数来保存信息,
+		您可以安全的关闭此选项.
+		";
 		
+$GLOBALS['phpAds_hlp_geotracking_stats'] = "
+		如果您正在使用一个geotargeting数据库,您可以把地理信息存入数据库.
+		i如果您启用此选项,您可以在统计数据中看到您的访问者的地理位置
+		和每个广告在不同国家发布的情况.
+		此选项仅当您使用详细统计方式的时候才能使用.
+		";
+		
+$GLOBALS['phpAds_hlp_log_hostname'] = "
+		如果您想保存每个访问者的主机名或者IP地址,您可以启用此选项.
+		保存此信息您可以看到那些主机检索了最多的广告.
+		此选项仅当您使用详细统计方式的时候才能使用.
+		";
+		
+$GLOBALS['phpAds_hlp_log_iponly'] = "
+		保存访问者的主机名会占用数据库很多的空间.
+		如果您启用此选项,".$phpAds_productname."将还是保存主机的信息,
+		但是仅保存占用空间少的IP地址信息.
+		如果服务器不提供主机名或者".$phpAds_productname."设置问题,此选项不可用.
+		因为此情况下总是记录IP地址.
+		";
+	
 $GLOBALS['phpAds_hlp_reverse_lookup'] = "
-        ".$phpAds_productname."缺省将记录每个访问者的IP地址. 如果您想让".$phpAds_productname.
-		"记录域名,您需要打开此选项.反向域名查询可能需要一定的时间;可能减慢所有步骤的速度.
+        	网页服务器可以自动检测到主机名,但是一些情况下此选项是关闭的.
+		如果您想在发送限制中使用访问者的主机名信息和/或保存此统计数据,
+		并且服务器没有提供此信息,您需要打开此选项.
+		反向域名查询需要一定的时间,可能减慢广告发送的速度.
 		";
 		
 $GLOBALS['phpAds_hlp_proxy_lookup'] = "
 		一些用户使用代理服务器来访问互联网.在此情况下,".$phpAds_productname."将记录代理服务器的IP地址或者主机名,
 		而不是用户的. 如果您启用此选项,".$phpAds_productname."将查找通过代理服务器上网的用户的真实IP地址和主机名. 
-		如果不能找到用户的真实地址,就使用代理服务器的地址. 此选项缺省并没有启用,因为可能减慢速度.
+		如果不能找到用户的真实地址,就使用代理服务器的地址.此选项缺省并没有启用,因为可能会减慢广告发送的速度.
+		";
+				
+$GLOBALS['phpAds_hlp_auto_clean_tables'] = 
+$GLOBALS['phpAds_hlp_auto_clean_tables_interval'] = "
+		如果您启用此选项,超过您在此选择框下面指定时间的统计数据将被自动删除.
+		例如,如果您设置为5个星期,那么5个星期之前的统计数据将被自动删除.
 		";
 		
+$GLOBALS['phpAds_hlp_auto_clean_userlog'] = 
+$GLOBALS['phpAds_hlp_auto_clean_userlog_interval'] = "
+		如果您启用此选项,超过您在此选择框下面指定时间的用户记录将被自动删除.
+		例如,如果您设置为5个星期,那么5个星期之前的用户记录将被自动删除.
+		";
+		
+$GLOBALS['phpAds_hlp_geotracking_type'] = "
+		Geotargeting允许".$phpAds_productname."把访问者的IP地址转换成地理信息.
+		您可以在此信息的基础上设置发送限制,或者您可以保存此信息来查看
+		哪个国家有最多的广告发送和点击率.
+		如果您想启用geotargeting,您需要选择您现有的数据库类型.
+		".$phpAds_productname."现在支持<a href='http://hop.clickbank.net/?phpadsnew/ip2country' target='_blank'>IP2Country</a> 
+		和 <a href='http://www.maxmind.com/?rId=phpadsnew' target='_blank'>GeoIP</a> 数据库.
+		";
+		
+$GLOBALS['phpAds_hlp_geotracking_location'] = "
+		除非您使用GeoIP的Apache模块, 否则您应该告诉".$phpAds_productname."
+		geotargeting数据库的位置. 强烈推荐把此数据库放到网页服务器的文档目录外面,
+		否则的话其他人可以直接下载此数据库.
+		";
+		
+$GLOBALS['phpAds_hlp_geotracking_cookie'] = "
+		把IP地址转换成地理信息需要一定的时间.
+		为了防止".$phpAds_productname."在每个广告发送的时候都进行转换,
+		可以把结果保存在cookie中. 如果这个cookie已经存在,
+		".$phpAds_productname."将直接使用此信息而不用再转换IP.
+		";
+		
+
 $GLOBALS['phpAds_hlp_ignore_hosts'] = "
         如果您不想记录特定计算机的访问数和点击数,您可以把他们加入此列表. 如果您启用了反向域名查询,
 		您可以添加域名和IP地址,否则您只能使用IP地址. 您也可以使用通配符(也就是'*.altavista.com'或者'192.168.*').
@@ -220,17 +293,14 @@ $GLOBALS['phpAds_hlp_default_banner_target'] = "
 		将不显示任何东西.一些用户可能想在这种情况下来显示一个指定的缺省广告.此指定的缺省广告将不被记录,
 		如果数据库中仍旧有启用的广告,此指定的缺省广告也将不被使用.这个选项缺省是关闭的.
 		";
-		
-$GLOBALS['phpAds_hlp_zone_cache'] = "
-        如果您正在使用版位,此设置允许".$phpAds_productname."在缓存区中存放广告信息,缓存区将在以后使用.
-		这将使".$phpAds_productname."速度稍微快一些, 因为不再需要获取版位和广告的信息和选择正确的广告, 
-        ".$phpAds_productname." 仅需要加载此缓存区,这个选项缺省是打开的.
-		";
-		
-$GLOBALS['phpAds_hlp_zone_cache_limit'] = "
-        如果您正在使用缓存的版位,缓存区中的信息可能过期,所以".$phpAds_productname."偶尔需要重建缓存区, 
-		此选项可以让你指定一个缓存区的最长生命周期,来决定什么时候缓存区应该重新加载. 如:如果您设置此项为600,
-		缓存区寿命如果超过10分钟(600秒),缓存区将被重建.
+			
+$GLOBALS['phpAds_hlp_delivery_caching'] = "
+		为了帮助提高广告发送的速度,".$phpAds_productname."使用了缓存,uses a cache which includes all
+		缓存中包含了发送一个广告给你的网站访问者的所有需要的信息.he information needed to delivery the banner to the visitor of your website. The delivery
+		这个发送缓存区缺省是存放在数据库里,为了进一步提高速度,
+		它也可以存放在一个文件或者共享内存中.
+		共享内存是最快的,文件也是很快的. 建议不要关闭此缓存区, 
+		因为会对性能影响极大.
 		";
 		
 $GLOBALS['phpAds_hlp_type_sql_allow'] = 
@@ -343,6 +413,12 @@ $GLOBALS['phpAds_hlp_userlog_priority'] = "
 		为了保证优先权计算的正确,您可以为每个小时的计算保存一份报表. 这个报表包括预估的情况和每个广告分配的优先权.
 		这个信息在您想提交一个bug报告的时候比较有用. 这个报表存放在用户记录里.
 		";
+				
+$GLOBALS['phpAds_hlp_userlog_autoclean'] = "
+		为了保证数据库正确删减,
+		您可以保存一份关于删减期间所有发生情况的报告.
+		这个信息将保存在用户记录中.
+		";
 		
 $GLOBALS['phpAds_hlp_default_banner_weight'] = "
 		如果您想使用一个缺省更高的广告权值,您可以在这里指定您期望的权值.这个选项缺省设置为1.
@@ -379,6 +455,27 @@ $GLOBALS['phpAds_hlp_gui_show_banner_preview'] = "
 $GLOBALS['phpAds_hlp_gui_hide_inactive'] = "
 		如果启用此选项,所有停用的广告,项目,客户将在<i>客户&项目</i>和<i>项目总览</i>页面被隐藏. 
 		当启用此选项,您仍旧可以点击页面底部的<i>显示所有</i>按钮来查看隐藏的条目.
+		";
+		
+$GLOBALS['phpAds_hlp_gui_show_matching'] = "
+		如果启用此选项,然后选定<i>项目选择</i>模式,
+		那么符合条件的广告将在<i>连接广告</i>页面显示.
+		这允许您准确知道如果链接到此项目,那些广告可以发送.
+		您也可以预览一下符合条件的广告.
+		";
+		
+$GLOBALS['phpAds_hlp_gui_show_parents'] = "
+		如果启用此选项,然后选定<i>广告选择</i>模式,
+		广告的父项目将显示在<i>连接广告</i>页面.
+		这允许您知道在此广告前哪个项目的哪个广告已经连接了.
+		这意味着广告根据父项目来分组,而不是象以前根据字母顺序排序.
+		";
+		
+$GLOBALS['phpAds_hlp_gui_link_compact_limit'] = "
+		缺省所有可用的广告和项目都在<i>连接广告</i>页面显示.
+		所以如果目录中有很多不同的可用广告的话,这个页面会变的非常长.
+		这个选项允许您设置此页面最多显示的条目.
+		如果有更多条目和不同连接方式,将显示占用空间最少的广告.
 		";
 		
 ?>

@@ -110,6 +110,10 @@ $GLOBALS['strFieldFixBeforeContinue1']		= "在进行下一步之前必须";
 $GLOBALS['strFieldFixBeforeContinue2']		= "改正错误";
 $GLOBALS['strDelimiter']			= "分隔符";
 $GLOBALS['strMiscellaneous']			= "杂项";
+$GLOBALS['strCollectedAll']			= "所有收集的统计数据";
+$GLOBALS['strCollectedToday']			= "今天的统计数据";
+$GLOBALS['strCollected7Days']			= "七天内的统计数据";
+$GLOBALS['strCollectedMonth']			= "本月的统计数据";
 
 
 
@@ -349,6 +353,7 @@ $GLOBALS['strBrowser'] 				= "浏览";
 $GLOBALS['strOS'] 				= "操作系统";
 $GLOBALS['strCountry'] 				= "国家";
 $GLOBALS['strContinent'] 			= "洲";
+$GLOBALS['strUSState'] 				= "美国";
 $GLOBALS['strReferer'] 				= "参考页面";
 $GLOBALS['strDeliveryLimitations']		= "发送限制";
 $GLOBALS['strDeliveryCapping']			= "发送封顶";
@@ -504,12 +509,13 @@ $GLOBALS['strNoActionsLogged']			= "没有活动记录";
 
 
 // Code generation
-$GLOBALS['strGenerateBannercode']		= "自动产生广告原始码";
-$GLOBALS['strChooseInvocationType']		= "请选择广告原始码类型";
+$GLOBALS['strGenerateBannercode']		= "直接选择";
+$GLOBALS['strChooseInvocationType']		= "请选择广告代码类型";
 $GLOBALS['strGenerate']				= "产生";
 $GLOBALS['strParameters']			= "参数设置";
 $GLOBALS['strFrameSize']			= "分页尺寸";
-$GLOBALS['strBannercode']			= "广告原始码";
+$GLOBALS['strBannercode']			= "广告代码";
+$GLOBALS['strOptional']				= "选择项";
 
 
 // Errors

@@ -63,6 +63,13 @@ $GLOBALS['strPopUpAfterSec']			= "时间间隔";
 $GLOBALS['strAutoCloseAfter']			= "自动关闭时间";
 $GLOBALS['strPopUpTop']				= "起始位置(上)";
 $GLOBALS['strPopUpLeft']			= "起始位置(左)";
+$GLOBALS['strWindowOptions']			= "窗口选项";
+$GLOBALS['strShowToolbars']			= "工具栏";
+$GLOBALS['strShowLocation']			= "地址栏";
+$GLOBALS['strShowMenubar']			= "菜单栏";
+$GLOBALS['strShowStatus']			= "状态栏";
+$GLOBALS['strWindowResizable']			= "可调大小";
+$GLOBALS['strShowScrollbars']			= "滑块";
 
 
 // XML-RPC
