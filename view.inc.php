@@ -724,8 +724,8 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 				{
 					$randomnumber = '';
 					
-					for ($r=0; $r<$randomdigits; $r=$r+10)
-						$randomnumber .= (string)mt_rand (1111111111, 9999999999);
+					for ($r=0; $r<$randomdigits; $r=$r+9)
+						$randomnumber .= (string)mt_rand (111111111, 999999999);
 					
 					$randomnumber  = substr($randomnumber, 0 - $randomdigits);
 				}
