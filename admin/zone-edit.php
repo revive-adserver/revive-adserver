@@ -259,9 +259,10 @@ if (isset($zoneid) && $zoneid != '')
 }
 else
 {
-	$zone['zonename'] = $strDefault;
-	$zone['width'] = '468';
-	$zone['height'] = '60';
+	$zone['zonename'] 		= $strDefault;
+	$zone['description'] 	= '';
+	$zone['width'] 			= '468';
+	$zone['height'] 		= '60';
 }
 
 
@@ -278,12 +279,12 @@ echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gi
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strName."</td><td>";
-echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='zonename' size='35' style='width:350px;' value='".(isset($zone['zonename']) ? $zone['zonename'] : '')."'></td>";
+echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='zonename' size='35' style='width:350px;' value='".phpAds_htmlQuotes($zone['zonename'])."'></td>";
 echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strDescription."</td><td>";
-echo "<input class='flat' size='35' type='text' name='description' style='width:350px;' value='".(isset($zone["description"]) ? htmlspecialchars(stripslashes($zone['description'])) : '')."'></td>";
+echo "<input class='flat' size='35' type='text' name='description' style='width:350px;' value='".phpAds_htmlQuotes($zone["description"])."'></td>";
 echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
@@ -344,7 +345,7 @@ while ($row = phpAds_dbFetchArray($res))
 	phpAds_formSetRequirements('width', '<?php echo $strWidth; ?>', true, 'number*');
 	phpAds_formSetRequirements('height', '<?php echo $strHeight; ?>', true, 'number*');
 	
-	phpAds_formSetUnique('zonename', '|<?php echo implode('|', $unique_names); ?>|');
+	phpAds_formSetUnique('zonename', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
 
 
 	function phpAds_formSelectSize(o)

@@ -365,8 +365,10 @@ else
 {
 	// New
 	
-	$row["views"] = '';
-	$row["clicks"] = '';
+	$row["clientname"]	= $strDefault;
+	$row["views"] 		= '';
+	$row["clicks"] 		= '';
+	
 	$days_left = '';
 	$priority = 'f';
 }
@@ -475,7 +477,7 @@ echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gi
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strName."</td><td>";
-echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='clientname' size='35' style='width:350px;' value='".(isset($row["clientname"]) ? $row["clientname"] : $strDefault)."'></td>";
+echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='clientname' size='35' style='width:350px;' value='".phpAds_htmlQuotes($row["clientname"])."'></td>";
 echo "</tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -597,7 +599,7 @@ while ($row = phpAds_dbFetchArray($res))
 	phpAds_formSetRequirements('weight', '<?php echo $strCampaignWeight; ?>', false, 'number+');
 	phpAds_formSetRequirements('targetviews', '<?php echo $strTargetLimitAdviews.' x '.$strTargetPerDay; ?>', false, 'number+');
 	
-	phpAds_formSetUnique('clientname', '|<?php echo implode('|', $unique_names); ?>|');
+	phpAds_formSetUnique('clientname', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
 
 
 	

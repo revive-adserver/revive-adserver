@@ -278,9 +278,14 @@ else
 		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br><br><br>";
 		phpAds_ShowSections(array("4.2.1"));
 	
-	$affiliate['name'] = $strUntitled;
-	$affiliate['website'] = 'http://';
-	$affiliate['permissions'] = 0;
+	$affiliate['name'] 			= $strUntitled;
+	$affiliate['website'] 		= 'http://';
+	$affiliate['contact'] 		= '';
+	$affiliate['email'] 		= '';
+	
+	$affiliate['username'] 		= '';
+	$affiliate['password'] 		= '';
+	$affiliate['permissions'] 	= 0;
 }
 
 
@@ -300,22 +305,22 @@ echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gi
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strName."</td><td>";
-echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='name' size='35' style='width:350px;' value='".(isset($affiliate['name']) ? $affiliate['name'] : '')."'>";
+echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='name' size='35' style='width:350px;' value='".phpAds_htmlQuotes($affiliate['name'])."'>";
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".'Website'."</td><td>";
-echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='website' size='35' style='width:350px;' value='".(isset($affiliate['website']) ? $affiliate['website'] : '')."'>";
+echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='website' size='35' style='width:350px;' value='".phpAds_htmlQuotes($affiliate['website'])."'>";
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strContact."</td><td>";
-echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='contact' size='35' style='width:350px;' value='".(isset($affiliate['contact']) ? $affiliate['contact'] : '')."'>";
+echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='contact' size='35' style='width:350px;' value='".phpAds_htmlQuotes($affiliate['contact'])."'>";
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strEMail."</td><td>";
-echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='email' size='35' style='width:350px;' value='".(isset($affiliate['email']) ? $affiliate['email'] : '')."'>";
+echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='email' size='35' style='width:350px;' value='".phpAds_htmlQuotes($affiliate['email'])."'>";
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
@@ -362,7 +367,7 @@ if (isset($errormessage) && $errormessage == 'duplicateusername')
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strUsername."</td>";
 
 if (phpAds_isUser(phpAds_Admin))
-	echo "<td width='370'><input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='username' size='25' value='".(isset($affiliate['username']) ? $affiliate['username'] : '')."'></td>";
+	echo "<td width='370'><input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='username' size='25' value='".phpAds_htmlQuotes($affiliate['username'])."'></td>";
 else
 	echo "<td width='370'>".(isset($affiliate['username']) ? $affiliate['username'] : '');
 
@@ -370,7 +375,7 @@ echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strPassword."</td>";
-echo "<td width='370'><input class='flat' type='password' name='password' size='25' value='".(isset($affiliate['password']) ? $affiliate['password'] : '')."'></td>";
+echo "<td width='370'><input class='flat' type='password' name='password' size='25' value='".phpAds_htmlQuotes($affiliate['password'])."'></td>";
 echo "</tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 if (phpAds_isUser(phpAds_Admin))
@@ -446,8 +451,8 @@ while ($row = phpAds_dbFetchArray($res))
 	phpAds_formSetRequirements('email', '<?php echo $strEMail; ?>', true, 'email');
 	phpAds_formSetRequirements('username', '<?php echo $strUsername; ?>', false, 'unique');
 	
-	phpAds_formSetUnique('name', '|<?php echo implode('|', $unique_names); ?>|');
-	phpAds_formSetUnique('username', '|<?php echo implode('|', $unique_users); ?>|');
+	phpAds_formSetUnique('name', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
+	phpAds_formSetUnique('username', '|<?php echo addslashes(implode('|', $unique_users)); ?>|');
 //-->
 </script>
 

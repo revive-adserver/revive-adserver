@@ -284,10 +284,16 @@ else
 		phpAds_ShowSections(array("4.1.1"));
 	
 	$row["clientname"]			= $strUntitled;
-	$row["permissions"] 		= '';
+	$row["contact"]				= '';
+	$row["email"]				= '';
+	
 	$row["reportdeactivate"] 	= 't';
 	$row["report"] 				= 't';
 	$row["reportinterval"] 		= 7;
+	
+	$row["clientusername"]		= '';
+	$row["clientpassword"]		= '';
+	$row["permissions"] 		= '';
 }
 
 
@@ -312,19 +318,19 @@ echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 // Clientname
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strName."</td><td>";
-echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='clientname' size='25' value='".(isset($row['clientname']) ? $row['clientname'] : '')."' style='width: 350px;'>";
+echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='clientname' size='25' value='".phpAds_htmlQuotes($row['clientname'])."' style='width: 350px;'>";
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 // Contact
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strContact."</td><td>";
-echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='contact' size='25' value='".(isset($row['contact']) ? $row['contact'] : '')."' style='width: 350px;'>";
+echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='contact' size='25' value='".phpAds_htmlQuotes($row['contact'])."' style='width: 350px;'>";
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 // Email
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strEMail."</td><td>";
-echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='email' size='25' value='".(isset($row['email']) ? $row['email'] : '')."' style='width: 350px;'>";
+echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='email' size='25' value='".phpAds_htmlQuotes($row['email'])."' style='width: 350px;'>";
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
@@ -379,7 +385,7 @@ echo "</td></tr>";
 echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strNoDaysBetweenReports."</td><td>";
-echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='clientreportinterval' size='25' value='".(isset($row['reportinterval']) ? $row['reportinterval'] : '')."'>";
+echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='clientreportinterval' size='25' value='".$row['reportinterval']."'>";
 echo "</td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 // Footer
@@ -413,7 +419,7 @@ if (isset($errormessage) && $errormessage == 'duplicateclientname')
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strUsername."</td>";
 
 if (phpAds_isUser(phpAds_Admin))
-	echo "<td><input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='clientusername' size='25' value='".(isset($row['clientusername']) ? $row['clientusername'] : '')."'></td>";
+	echo "<td><input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='clientusername' size='25' value='".phpAds_htmlQuotes($row['clientusername'])."'></td>";
 else 
 	echo "<td>".(isset($row['clientusername']) ? $row['clientusername'] : '')."</td>";
 
@@ -421,7 +427,7 @@ echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strPassword."</td>";
-echo "<td><input class='flat' type='password' name='clientpassword' size='25' value='".(isset($row['clientpassword']) ? $row['clientpassword'] : '')."'></td>";
+echo "<td><input class='flat' type='password' name='clientpassword' size='25' value='".phpAds_htmlQuotes($row['clientpassword'])."'></td>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 if (phpAds_isUser(phpAds_Admin))
@@ -492,8 +498,8 @@ while ($row = phpAds_dbFetchArray($res))
 	phpAds_formSetRequirements('clientreportinterval', '<?php echo $strNoDaysBetweenReports; ?>', true, 'number+');
 	phpAds_formSetRequirements('clientusername', '<?php echo $strUsername; ?>', false, 'unique');
 	
-	phpAds_formSetUnique('clientname', '|<?php echo implode('|', $unique_names); ?>|');
-	phpAds_formSetUnique('clientusername', '|<?php echo implode('|', $unique_users); ?>|');
+	phpAds_formSetUnique('clientname', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
+	phpAds_formSetUnique('clientusername', '|<?php echo addslashes(implode('|', $unique_users)); ?>|');
 //-->
 </script>
 
