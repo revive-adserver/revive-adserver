@@ -228,7 +228,7 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 								the_day DESC
 							") or die("$strLogErrorClicks ".phpAds_dbError());
 					
-					if (phpAds_dbNumRows($res_adviews))
+					if (phpAds_dbNumRows($res_adclicks))
 					{
 						$total = 0;
 						
