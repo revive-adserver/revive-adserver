@@ -243,6 +243,9 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-04-02:  Multiple simple adlayers on one page now don't interfere with each other anymore  (Niels)
 			  - 2002-04-02:  HTML banners were displayed without slashes  (Niels)
 			  - 2002-04-02:  Upgrade script forgot to remove unneeded slashes from HTML banners  (Niels)
+			  - 2002-04-04:	 If no banners are linked to a zone, the update of linked banners is now saved  (Niels)
+			  - 2002-04-04:	 When using keyword selection for linking banners the update is now saved  (Niels)
+			  - 2002-04-04:	 Zone probability showed all banners when nothing was selected  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
