@@ -29,23 +29,6 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 	$outputbuffer = '';
 	
 	
-	// Include the need sub-libraries
-	if (substr($what,0,5) == 'zone:')
-	{
-		if (!defined('LIBVIEWZONE_INCLUDED'))
-			require (phpAds_path.'/lib-view-zone.inc.php');
-	}
-	else
-	{
-		if (!defined('LIBVIEWQUERY_INCLUDED'))
-			require (phpAds_path.'/lib-view-query.inc.php');
-		
-		if (!defined('LIBVIEWDIRECT_INCLUDED'))
-			require (phpAds_path.'/lib-view-direct.inc.php');
-	}
-	
-	
-	
 	// If $clientid consists of alpha-numeric chars it is
 	// not the clientid, but the target parameter.
 	if(!ereg('^[0-9]+$', $clientid))
@@ -57,7 +40,26 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 	
 	// Open database connection and get a banner
 	if (phpAds_dbConnect())
-		$row = phpAds_fetchBanner($what, $clientid, $context, $source);
+	{
+		// Include the need sub-libraries
+		if (substr($what,0,5) == 'zone:')
+		{
+			if (!defined('LIBVIEWZONE_INCLUDED'))
+				require (phpAds_path.'/lib-view-zone.inc.php');
+			
+			$row = phpAds_fetchBannerZone($what, $clientid, $context, $source);
+		}
+		else
+		{
+			if (!defined('LIBVIEWQUERY_INCLUDED'))
+				require (phpAds_path.'/lib-view-query.inc.php');
+			
+			if (!defined('LIBVIEWDIRECT_INCLUDED'))
+				require (phpAds_path.'/lib-view-direct.inc.php');
+			
+			$row = phpAds_fetchBannerDirect($what, $clientid, $context, $source);
+		}
+	}
 	
 	
 	if (isset($row) && is_array($row) && $row['bannerid'] != '')

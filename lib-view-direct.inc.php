@@ -21,7 +21,7 @@ define ('LIBVIEWDIRECT_INCLUDED', true);
 /* Get a banner                                          */
 /*********************************************************/
 
-function phpAds_fetchBanner($what, $clientid, $context = 0, $source = '', $richmedia = true)
+function phpAds_fetchBannerDirect($what, $clientid, $context = 0, $source = '', $richmedia = true)
 {
 	global $phpAds_config;
 	

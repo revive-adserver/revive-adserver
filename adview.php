@@ -45,6 +45,8 @@ require (phpAds_path."/lib-cache.inc.php");
 /* Main code                                             */
 /*********************************************************/
 
+$url = parse_url($phpAds_config['url_prefix']);
+
 if (isset($clientID) && !isset($clientid))	
 	$clientid = $clientID;
 
@@ -61,26 +63,28 @@ if (!isset($n))
 	$n = 'default';
 
 
-// Include the need sub-libraries
-if (substr($what,0,5) == 'zone:')
+
+if (phpAds_dbConnect())
 {
-	if (!defined('LIBVIEWZONE_INCLUDED'))
-		require (phpAds_path.'/lib-view-zone.inc.php');
+	// Include the need sub-libraries
+	if (substr($what,0,5) == 'zone:')
+	{
+		if (!defined('LIBVIEWZONE_INCLUDED'))
+			require (phpAds_path.'/lib-view-zone.inc.php');
+		
+		$row = phpAds_fetchBannerZone($what, $clientid, 0, $source, false);
+	}
+	else
+	{
+		if (!defined('LIBVIEWQUERY_INCLUDED'))
+			require (phpAds_path.'/lib-view-query.inc.php');
+		
+		if (!defined('LIBVIEWDIRECT_INCLUDED'))
+			require (phpAds_path.'/lib-view-direct.inc.php');
+		
+		$row = phpAds_fetchBannerDirect($what, $clientid, 0, $source, false);
+	}
 }
-else
-{
-	if (!defined('LIBVIEWQUERY_INCLUDED'))
-		require (phpAds_path.'/lib-view-query.inc.php');
-	
-	if (!defined('LIBVIEWDIRECT_INCLUDED'))
-		require (phpAds_path.'/lib-view-direct.inc.php');
-}
-
-
-
-phpAds_dbConnect();
-
-$row = phpAds_fetchBanner($what, $clientid, 0, $source, false);
 
 
 
@@ -104,7 +108,6 @@ if (is_array($row) && isset($row['bannerid']))
 	
 	
 	$cookie = array();
-	$url 	= parse_url($phpAds_config['url_prefix']);
 	
 	
 	// Log this impression
@@ -223,7 +226,9 @@ else
 	}
 	
 	setcookie ("phpAds_banner[".$n."]", 'DEFAULT', 0, $url["path"]);
-	header 	  ("Location: ".$phpAds_config['default_banner_url']);
+	
+	if ($phpAds_config['default_banner_url'] != '')
+		header 	  ("Location: ".$phpAds_config['default_banner_url']);
 }
 
 phpAds_dbClose();
