@@ -586,7 +586,7 @@ if ($type == "html")  $show_html = true;
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td width='200' valign='top'><?echo $strHTML;?></td>
-		<td><textarea cols="35" rows="8" name="html_banner" style="width:350px;"><?if (isset($type) && $type == "html") echo $row["banner"];?></textarea></td>
+		<td><textarea cols="35" rows="8" name="html_banner" style="width:350px;"><?if (isset($type) && $type == "html") echo stripslashes($row["banner"]);?></textarea></td>
 	</tr>
 	<tr>
 		<td><img src='images/spacer.gif' height='1' width='100%'></td>
