@@ -1210,6 +1210,9 @@ function phpAds_PriorityTotalWeight($campaigns, $banners)
 		if ($campaigns[$banners[$b]['parent']]['active'] == 't' && $campaigns[$banners[$b]['parent']]['weight'] > 0)
 			$pr[] = ($campaigns[$banners[$b]['parent']]['weight'] / $tcw / $tbw[$banners[$b]['parent']]) * $banners[$b]['weight'];
 	
+	// Return if probability array is empty
+	if (!count($pr))
+		return 0;
 	
 	// Determine minimum probability
 	$min = min($pr);
