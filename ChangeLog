@@ -62,6 +62,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-09-02:  Fixed Javascript error on property pages when translated strings contained a single quote  (Niels)
 			  - 2002-09-02:  Moved untranslated string in interface.js (renamed to js-gui.php) to language files  (Niels)
 			  - 2002-09-02:  Upgrading on IIS caused the url_prefix to be set to the wrong directory  (Niels)
+			  - 2002-09-02:  Fixed JavaScript error during update, install and login  (Niels)
 
 
 
