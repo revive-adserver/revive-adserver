@@ -231,7 +231,6 @@ function phpAds_GenerateInvocationCode()
 /* Main code                                             */
 /*********************************************************/
 
-echo "<br><br>";
 echo "<form name='availability' action='admin-generate.php' method='POST'>\n";
 
 
@@ -239,8 +238,7 @@ if (!isset($codetype)) $codetype = 'local';
 
 // Invocation type selection
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-echo "<tr><td height='25' colspan='3'><img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>$strChooseInvocationType</b></td></tr>";
-echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "<tr><td height='25' colspan='3'><b>$strChooseInvocationType</b></td></tr>";
 echo "<tr><td height='35'>";
 	echo "<select name='codetype'>";
 	echo "<option value='adview'".($codetype == 'adview' ? ' selected' : '').">Remote Invocation</option>";
@@ -249,8 +247,11 @@ echo "<tr><td height='35'>";
 	echo "<option value='ad'".($codetype == 'ad' ? ' selected' : '').">Combined Remote Invocation</option>";
 	echo "<option value='popup'".($codetype == 'popup' ? ' selected' : '').">Pop-up</option>";
 	if (phpAds_isUser(phpAds_Admin)) echo "<option value='local'".($codetype == 'local' ? ' selected' : '').">Local mode</option>";
-	echo "</select>&nbsp;";
+	echo "</select>";
+	echo "&nbsp;<a href='javascript:document.availability.submit();'><img src='images/go_blue.gif' border='0'></a>";
 echo "</td></tr></table>";
+
+phpAds_ShowBreak();
 echo "<br><br>";
 
 

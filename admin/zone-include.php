@@ -399,16 +399,13 @@ if (!isset($zonetype) || $zonetype == '')
 
 
 
-echo "<br><br>";
-
 echo "<form name='zonetypes' method='post' action='zone-include.php'>";
 echo "<input type='hidden' name='zoneid' value='".$zoneid."'>";
 echo "<input type='hidden' name='affiliateid' value='".$affiliateid."'>";
 
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25' colspan='3'><b>".$strSelectZoneType."</b></td></tr>";
-echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-echo "<tr><td height='35'>";
+echo "<tr><td height='25'>";
 
 echo "<select name='zonetype' onChange='this.form.submit();'>";
 	echo "<option value='".phpAds_ZoneBanners."'".(($zonetype == phpAds_ZoneBanners) ? " selected" : "").">".$strBannerSelection."</option>";
@@ -419,9 +416,9 @@ echo "&nbsp;<a href='javascript:document.zonetypes.submit();'><img src='images/g
 
 echo "</td></tr>";
 echo "</table>";
-echo "<br><br>";
-
+phpAds_ShowBreak();
 echo "</form>";
+echo "<br>";
 
 
 
