@@ -106,6 +106,7 @@ $GLOBALS['strFilterBySource']				= "filtra per sorgente";
 $GLOBALS['strFieldContainsErrors']			= "I seguenti campi contengono errori:";
 $GLOBALS['strFieldFixBeforeContinue1']		= "Prima di continuare è necessario";
 $GLOBALS['strFieldFixBeforeContinue2']		= "correggere questi errori.";
+$GLOBALS['strDelimiter']					= "Delimitatore";
 
 
 
@@ -472,6 +473,11 @@ $GLOBALS['strErrorClicks']					= "Devi inserire il numero di click oppure selezi
 $GLOBALS['strErrorNegClicks']				= "I click negativi non sono permessi";
 $GLOBALS['strNoMatchesFound']				= "Nessuna corrispondenza trovata";
 $GLOBALS['strErrorOccurred']				= "Segnalazione Errore";
+$GLOBALS['strErrorUploadSecurity']			= "&Egrave; stato riscontrato un possibile problema di sicurezza nell'upload. Upload bloccato!";
+$GLOBALS['strErrorUploadBasedir']			= "Impossibile accedere al file uploadato, probabilmente ci&ograve; &egrave; dovuto alle impostazioni di sicurezza safe_mode e/o open_basedir del PHP";
+$GLOBALS['strErrorUploadUnknown']			= "Impossibile accedere al file uploadato per un motivo sconosciuto. Controllare la propria configurazione del PHP";
+$GLOBALS['strErrorStoreLocal']				= "Impossibile salvare il banner nella directory locale. La causa probabile &egrave; una configurazione errata del percorso della directory locale";
+$GLOBALS['strErrorStoreFTP']				= "Impossibile effetuare l'upload del banner via FTP. Il server potrebbe non essere raggiungibile o i parametri di connessione sono errati";
 
 
 // E-mail
