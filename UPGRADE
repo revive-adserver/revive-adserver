@@ -1,11 +1,12 @@
 phpAdsNew 2 beta 1 -> phpadsNew 2 beta 2
 
-Two columns were added to the client table in order to keep track of active
-clients and client weight. You can add these table to an existing installation
-of phpAdsNew 2 beta 1 by using the below queries:
+Three columns were added to the client table in order to keep track of active
+clients, the activation date and client weight. You can add these table to an existing 
+installation of phpAdsNew 2 beta 1 by using the below queries:
 
-MODIFY TABLE clients ADD COLUMN active enum('true','false') NOT NULL;
-MODIFY TABLE clients ADD COLUMN weight tinyint(4) default '1' NOT NULL;
+ALTER TABLE clients ADD COLUMN active enum('true','false') NOT NULL;
+ALTER TABLE clients ADD COLUMN weight tinyint(4) default '1' NOT NULL;
+ALTER TABLE clients ADD COLUMN activate date DEFAULT '0000-00-00';
 
 One column was modified to allow webserver stored banners:
 
@@ -19,8 +20,8 @@ Two new columns were added to the client table in order to allow permissions
 and client specific language settings. When upgrading to this version you
 need to manually add these to columns, for example:
 
-MODIFY TABLE clients ADD COLUMN permissions mediumint(9);
-MODIFY TABLE clients ADD COLUMN language varchar(64);
+ALTER TABLE clients ADD COLUMN permissions mediumint(9);
+ALTER TABLE clients ADD COLUMN language varchar(64);
 
 In addition to this config.inc.php has a few new parameters you should set.
 
