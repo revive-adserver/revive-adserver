@@ -1013,7 +1013,7 @@ if (!isset($bannerid) || $bannerid == '')
 	
 	function selectFile(o)
 	{
-		var filename = o.value.toLowerCase();
+		var filename = o.value;
 		var swflayer = findObj ('swflayer');
 		var editbanner = findObj ('editbanner');
 		
