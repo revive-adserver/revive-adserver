@@ -128,17 +128,22 @@ $GLOBALS['strID']							= "ID";
 // Login & Permissions
 $GLOBALS['strAuthentification']				= "Autenticazione";
 $GLOBALS['strWelcomeTo']					= "Benvenuto su";
-$GLOBALS['strEnterUsername']				= "Inserisci la tua username e la tua password per accedere";
-$GLOBALS['strEnterBoth']					= "&Egrave; necessario necessario inserire sia username che password";
+$GLOBALS['strEnterUsername']				= "Inserisci il tuo nome utente e la tua password per accedere";
+$GLOBALS['strEnterBoth']					= "&Egrave; necessario necessario inserire sia nome utente che password";
 $GLOBALS['strEnableCookies']				= "&Egrave; necessario abilitare i cookie per poter utilizzare ".$phpAds_productname;
 $GLOBALS['strLogin']						= "Login";
 $GLOBALS['strLogout']						= "Esci";
-$GLOBALS['strUsername']						= "Username";
+$GLOBALS['strUsername']						= "Nome utente";
 $GLOBALS['strPassword']						= "Password";
 $GLOBALS['strAccessDenied']					= "Accesso negato";
 $GLOBALS['strPasswordWrong']				= "Password errata";
-$GLOBALS['strNotAdmin']						= "non hai abbastanza privilegi";
-$GLOBALS['strDuplicateClientName']			= "Un altro utente utilizza questa username, devi sceglierne un altra.";
+$GLOBALS['strNotAdmin']						= "Non hai abbastanza privilegi";
+$GLOBALS['strDuplicateClientName']			= "Il nome utente inserito &egrave; gi&agrave; esistente, utilizzare un altro nome.";
+$GLOBALS['strInvalidPassword']				= "La nuova password non &egrave; valida, utilizzare un'altra password.";
+$GLOBALS['strNotSamePasswords']				= "Le due password inserite sono diverse";
+$GLOBALS['strRepeatPassword']				= "Ripeti password";
+$GLOBALS['strOldPassword']					= "Vecchia password";
+$GLOBALS['strNewPassword']					= "Nuova password";
 
 
 // General advertising

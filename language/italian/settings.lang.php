@@ -78,8 +78,6 @@ $GLOBALS['strErrorInstallDbConnect']		= "Non &egrave; stato possibile connetters
 $GLOBALS['strUrlPrefix']					= "Prefisso URL";
 
 $GLOBALS['strProceed']						= "Procedi &gt;";
-$GLOBALS['strRepeatPassword']				= "Ripeti password";
-$GLOBALS['strNotSamePasswords']				= "Le password non coincidono";
 $GLOBALS['strInvalidUserPwd']				= "Username o password non validi";
 
 $GLOBALS['strUpgrade']						= "Aggiornamento";
@@ -262,10 +260,7 @@ $GLOBALS['strAdministratorSettings']		= "Impostazioni amministratore";
 
 $GLOBALS['strLoginCredentials']				= "Credenziali di login";
 $GLOBALS['strAdminUsername']				= "Username";
-$GLOBALS['strOldPassword']					= "Vecchia password";
-$GLOBALS['strNewPassword']					= "Nuova password";
 $GLOBALS['strInvalidUsername']				= "Username non valido";
-$GLOBALS['strInvalidPassword']				= "Password non valida";
 
 $GLOBALS['strBasicInformation']				= "Informazioni di base";
 $GLOBALS['strAdminFullName']				= "Nome e cognome";
