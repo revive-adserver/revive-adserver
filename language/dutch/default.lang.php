@@ -90,6 +90,7 @@ $GLOBALS['strTo']					= "tot";
 $GLOBALS['strLinkedTo'] 				= "gelinked met";
 $GLOBALS['strDaysLeft'] 				= "Dagen te gaan";
 $GLOBALS['strCheckAllNone']				= "Selecteer alle / geen";
+$GLOBALS['strKiloByte']						= "KB";
 
 
 // Properties
@@ -141,6 +142,7 @@ $GLOBALS['strMonths'] 					= "Maanden";
 $GLOBALS['strThisMonth'] 				= "Deze maand";
 $GLOBALS['strMonth'] 					= array("januari","februari","maart","april","mei","juni","juli","augustus","september","oktober","november","december");
 $GLOBALS['strDayShortCuts'] 				= array("zo","ma","di","wo","do","vr","za");
+$GLOBALS['strSeconds']					= "seconden";
 
 
 // Advertiser
@@ -207,17 +209,6 @@ $GLOBALS['strLowPriority']				= "Toon de banners in deze campagne met lage prior
 							   welke niet gebruikt worden door hoge prioriteit campagnes.";
 $GLOBALS['strTargetLimitAdviews']			= "Limiteer het aantal AdViews tot";
 $GLOBALS['strTargetPerDay']				= "per dag.";
-$GLOBALS['strHighPriorityCampaigns']			= "Hoge prioriteit campagnes";
-$GLOBALS['strAdViewsAssigned']				= "AdViews toegewezen";
-$GLOBALS['strLowPriorityCampaigns']			= "Lage prioriteit campagnes";
-$GLOBALS['strPredictedAdViews']				= "Voorspelde AdViews";
-$GLOBALS['strPriorityDaysRunning']			= "Er zijn momenteel {days} dagen aan statistieken beschikbaar waar phpAdsNew zijn dagelijkse voorspellingen op kan baseren. ";
-$GLOBALS['strPriorityBasedLastWeek']			= "De voorspelling is gebaseerd op data van deze week en afgelopen week. ";
-$GLOBALS['strPriorityBasedLastDays']			= "De voorspelling is gebaseerd op data van de laatste paar dagen. ";
-$GLOBALS['strPriorityBasedYesterday']			= "De voorspelling is gebaseerd op data van gisteren. ";
-$GLOBALS['strPriorityNoData']				= "Er is niet genoeg data beschikbaar om een betrouwbare voorspelling te doen betreffende het aantal impressies dat deze ad server vandaag zal genereren. De toewijzing van de prioriteit zal op basis van de statistieken van vandaag gebeuren. ";
-$GLOBALS['strPriorityEnoughAdViews']			= "Er zijn genoeg AdViews om aan de doelstelling van alle hoge prioriteit campagnes te voldoen. ";
-$GLOBALS['strPriorityNotEnoughAdViews']			= "Het is niet zeker dat er vandaag genoeg AdViews zijn om de doelstellingen van alle hoge prioriteit campaignes te halen. Daarom zijn alle lage prioriteit campagnes tijdelijk uitgeschaked. ";
 $GLOBALS['strPriorityAutoTargeting']			= "Gekochte AdViews en vervaldatum zijn ingesteld.\n De limiet wordt elke dag bijgesteld.";
 
 
@@ -288,10 +279,6 @@ $GLOBALS['strRichMedia']				= "Richmedia";
 $GLOBALS['strTrackAdClicks']				= "Volg AdClicks";
 
 
-// Banner (cache)
-$GLOBALS['strRebuildBannerCache']			= "Banner cache opnieuw aanmaken";
-
-
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] 				= "Beperkingen";
 $GLOBALS['strACL'] 					= "Beperkingen";
@@ -346,17 +333,6 @@ $GLOBALS['strZoneProperties']				= "Zone eigenschappen";
 $GLOBALS['strZoneHistory']				= "Zone geschiendenis";
 $GLOBALS['strNoZones']					= "Er zijn momenteel geen zones gedefinieerd";
 $GLOBALS['strConfirmDeleteZone']			= "Weet u zeker dat u deze zone wilt wissen?";
-
-
-// Zone (cache)
-$GLOBALS['strZoneCacheOn']				= "Zone cache staat aan";
-$GLOBALS['strZoneCacheOff']				= "Zone cache staat uit";
-$GLOBALS['strCachedZones']				= "Gecachede zones";
-$GLOBALS['strSizeOfCache']				= "Cache grootte";
-$GLOBALS['strAverageAge']				= "Gemiddelde leeftijd";
-$GLOBALS['strRebuildZoneCache']				= "Zone cache opnieuw aanmaken";
-$GLOBALS['strKiloByte']					= "KB";
-$GLOBALS['strSeconds']					= "seconden";
 
 
 // Linked banners/campaigns
@@ -470,7 +446,6 @@ $GLOBALS['strNoStatsForCampaign'] 			= "Er zijn geen statistieken beschikbaar vo
 
 // Priority
 $GLOBALS['strPriority']					= "Prioriteit";
-$GLOBALS['strRecalculatePriority']			= "Prioriteit opnieuw berekenen";
 
 
 // Settings
