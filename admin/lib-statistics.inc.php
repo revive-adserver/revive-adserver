@@ -84,18 +84,6 @@ function phpAds_getClientName ($clientID)
 /*********************************************************/
 /* Get order status                                      */
 /*********************************************************/
-/*
-$phpAds_tbl_clients
- 		ORDER BY
-			parent, clientID
-		ORDER BY
-			clientname
-$phpAds_tbl_banners
-	ORDER BY
-		bannerID
-	ORDER BY
-		description
-*/
 // Order for $phpAds_tbl_clients
 function phpAds_getListOrder ($ListOrder)
 {
@@ -126,6 +114,23 @@ function phpAds_getBannerListOrder ($ListOrder)
 			break;
 		default:
 			$sqlTableOrder = 'ORDER BY description';
+	}
+	return ($sqlTableOrder);
+}
+
+// Order for $phpAds_tbl_banners
+function phpAds_getZoneListOrder ($ListOrder)
+{
+	switch ($ListOrder)
+	{
+		case 'name':
+			$sqlTableOrder = 'ORDER BY zonename';
+			break;
+		case 'id':
+			$sqlTableOrder = 'ORDER BY zoneid';
+			break;
+		default:
+			$sqlTableOrder = 'ORDER BY zonename';
 	}
 	return ($sqlTableOrder);
 }

@@ -50,14 +50,14 @@ if (isset($submit))
 	{
 		$res = db_query("
 			UPDATE
-				$phpAds_tbl_zones
+				".$phpAds_tbl_zones."
 			SET
-				zonename='$zonename',
-				description='$description',
-				width='$width',
-				height='$height'
+				zonename='".$zonename."',
+				description='".$description."',
+				width='".$width."',
+				height='".$height."'
 			WHERE
-				zoneid=$zoneid
+				zoneid=".$zoneid."
 			") or mysql_die();
 		
 		header ("Location: zone-index.php");
@@ -70,12 +70,19 @@ if (isset($submit))
 	{
 		$res = db_query("
 			INSERT INTO
-				$phpAds_tbl_zones
-			SET
-				zonename='$zonename',
-				description='$description',
-				width='$width',
-				height='$height'
+				".$phpAds_tbl_zones."
+				(
+				zonename,
+				description,
+				width,
+				height
+				)
+			 VALUES (
+				'".$zonename."',
+				'".$description."',
+				'".$width."',
+				'".$height."'
+				)
 			") or mysql_die();
 		
 		$zoneid = @mysql_insert_id ($phpAds_db_link);
@@ -100,7 +107,7 @@ if ($zoneid != "")
 			SELECT
 				*
 			FROM
-				$phpAds_tbl_zones
+				".$phpAds_tbl_zones."
 			") or mysql_die();
 		
 		$extra = "";
@@ -138,9 +145,9 @@ if (isset($zoneid) && $zoneid != '')
 		SELECT
 			*
 		FROM
-			$phpAds_tbl_zones
+			".$phpAds_tbl_zones."
 		WHERE
-			zoneid = $zoneid
+			zoneid = ".$zoneid."
 		") or mysql_die();
 	
 	if (@mysql_num_rows($res))
