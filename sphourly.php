@@ -2,8 +2,9 @@
 require ("config.php");
 require("kcsm.php");
 require("gdcolors.inc.php");
+require("gd.php");
 
-Header("Content-type: image/png");
+Header("Content-type: image/$gdimageformat");
 header("Cache-Control: no-cache, must-revalidate");
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 
@@ -66,5 +67,6 @@ for($x = 0;$x<24;$x++){
      ImageFilledRectangle($im,$x*12+52,120-($count2[$x]*$scale),$x*12+61,120,$adclickscolor);
      ImageRectangle($im,$x*12+52,120-($count2[$x]*$scale),$x*12+61,120,$linecolor);
 }
-ImagePng($im);
+showimage($im);
+ImageDestroy($im);
 ?>

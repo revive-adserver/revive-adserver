@@ -1,6 +1,7 @@
 <?php   
 /* This is a special version of this script for phpAdsNew. It's not pretty, I know !/*
 
+require("gd.php");
 
 /**************************************************************************/  
 /* you must supply to this script 3 parameters :  title,width and data.   */  
@@ -61,7 +62,7 @@ reset($items);
 //calculate height of graph  
 $height=38;
 
-Header("Content-type:  image/png");  
+Header("Content-type:  $gdimageformat");  
 
 $im = imagecreate($width,$height);  
     
@@ -108,7 +109,7 @@ while (list($key,$item) = each($items))
          }  
       $y=$y+($bar_width+20);
 	// Display modified image  
-	ImagePng($im);  
+	showimage($im);
 
 	// Release allocated ressources  
 	ImageDestroy($im);  

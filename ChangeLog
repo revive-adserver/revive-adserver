@@ -1,5 +1,6 @@
 phpAdsNew - ChangeLog
- v 1.6.4 - 12/12/2000  + Clients now have logout function
+ v 1.6.4 - 13/12/2000  + GIF/PNG support automatically detected (first contribution of Phil)
+                       + Clients now have logout function
                        + When logging in, user is first logged out
                        + Added remote HTML banners through JavaScript
                        + Credit Statistics now sorted by letter. 1 screen per letter.
