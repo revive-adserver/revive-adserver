@@ -34,8 +34,8 @@ English
 French
 	---------------------------------------------------------
 	Maintained by:	   Vincent
-	Is up-to-date?	   No
-	Last update:	   24 Juli 2002
+	Is up-to-date?	   Yes
+	Last update:	   31 August 2002
 	Translated files:  6
 	---------------------------------------------------------
 
@@ -43,10 +43,10 @@ French
 
 Hebrew
 	---------------------------------------------------------
-	Maintained by:	   Reuven Mansharoff
-	Is up-to-date?	   Working on it
-	Last update:	   -
-	Translated files:  -
+	Maintained by:	   Reuven Mansharoff (reuven@act.co.il)
+	Is up-to-date?	   No
+	Last update:	   31 August 2002
+	Translated files:  6
 	---------------------------------------------------------
 
 
