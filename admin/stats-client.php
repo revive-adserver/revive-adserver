@@ -110,83 +110,85 @@ $idresult = db_query (" SELECT
 						$phpAds_tbl_clients.clientID = $phpAds_tbl_banners.clientID
 					");
 
-while ($row = mysql_fetch_array($idresult))
-{
-	$bannerIDs[] = "bannerID = ".$row['bannerID'];
-}
 
-
-if ($phpAds_compact_stats) 
+if (@mysql_num_rows > 0)
 {
-	$result = db_query(" SELECT
-							*,
-							sum(views) as sum_views,
-							sum(clicks) as sum_clicks,
-							DATE_FORMAT(day, '$date_format') as t_stamp_f
-				 		 FROM
-							$phpAds_tbl_adstats
-						 WHERE
-							(".implode(' OR ', $bannerIDs).")
-						 GROUP BY
-						 	day
-						 ORDER BY
-							day DESC
-						 LIMIT $limit 
-			  ") or mysql_die();
-	
-	//mysql_die();
-	while ($row = mysql_fetch_array($result))
+	while ($row = mysql_fetch_array($idresult))
 	{
-		$stats[$row['day']] = $row;
-	}
-}
-else
-{
-	$result = db_query(" SELECT
-							count(*) as views,
-							DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
-							DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
-				 		 FROM
-							$phpAds_tbl_adviews
-						 WHERE
-							(".implode(' OR ', $bannerIDs).")
-						 GROUP BY
-						    day
-						 ORDER BY
-							day DESC
-						 LIMIT $limit 
-			  ");
-	
-	while ($row = mysql_fetch_array($result))
-	{
-		$stats[$row['day']]['sum_views'] = $row['views'];
-		$stats[$row['day']]['sum_clicks'] = '0';
-		$stats[$row['day']]['t_stamp_f'] = $row['t_stamp_f'];
+		$bannerIDs[] = "bannerID = ".$row['bannerID'];
 	}
 	
-	
-	$result = db_query(" SELECT
-							count(*) as clicks,
-							DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
-							DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
-				 		 FROM
-							$phpAds_tbl_adclicks
-						 WHERE
-							(".implode(' OR ', $bannerIDs).")
-						 GROUP BY
-						    day
-						 ORDER BY
-							day DESC
-						 LIMIT $limit 
-			  ");
-	
-	while ($row = mysql_fetch_array($result))
+	if ($phpAds_compact_stats) 
 	{
-		$stats[$row['day']]['sum_clicks'] = $row['clicks'];
-		$stats[$row['day']]['t_stamp_f'] = $row['t_stamp_f'];
+		$result = db_query(" SELECT
+								*,
+								sum(views) as sum_views,
+								sum(clicks) as sum_clicks,
+								DATE_FORMAT(day, '$date_format') as t_stamp_f
+					 		 FROM
+								$phpAds_tbl_adstats
+							 WHERE
+								(".implode(' OR ', $bannerIDs).")
+							 GROUP BY
+							 	day
+							 ORDER BY
+								day DESC
+							 LIMIT $limit 
+				  ") or mysql_die();
+		
+		//mysql_die();
+		while ($row = mysql_fetch_array($result))
+		{
+			$stats[$row['day']] = $row;
+		}
+	}
+	else
+	{
+		$result = db_query(" SELECT
+								count(*) as views,
+								DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
+								DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
+					 		 FROM
+								$phpAds_tbl_adviews
+							 WHERE
+								(".implode(' OR ', $bannerIDs).")
+							 GROUP BY
+							    day
+							 ORDER BY
+								day DESC
+							 LIMIT $limit 
+				  ");
+		
+		while ($row = mysql_fetch_array($result))
+		{
+			$stats[$row['day']]['sum_views'] = $row['views'];
+			$stats[$row['day']]['sum_clicks'] = '0';
+			$stats[$row['day']]['t_stamp_f'] = $row['t_stamp_f'];
+		}
+		
+		
+		$result = db_query(" SELECT
+								count(*) as clicks,
+								DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
+								DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
+					 		 FROM
+								$phpAds_tbl_adclicks
+							 WHERE
+								(".implode(' OR ', $bannerIDs).")
+							 GROUP BY
+							    day
+							 ORDER BY
+								day DESC
+							 LIMIT $limit 
+				  ");
+		
+		while ($row = mysql_fetch_array($result))
+		{
+			$stats[$row['day']]['sum_clicks'] = $row['clicks'];
+			$stats[$row['day']]['t_stamp_f'] = $row['t_stamp_f'];
+		}
 	}
 }
-
 
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 
@@ -276,7 +278,7 @@ if ($totalviews > 0 || $totalclicks > 0)
 }
 
 echo "<tr>";
-echo "<form action='stats-client.php'>";
+echo "<form action='".$GLOBALS['PHP_SELF']."'>";
 echo "<td height='35' colspan='4' align='right'>";
 	echo $strHistory.":&nbsp;&nbsp;";
 	echo "<input type='hidden' name='clientID' value='$clientID'>";
@@ -383,6 +385,8 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	echo "</table>";
 }
+
+
 
 
 /*********************************************************/
