@@ -51,6 +51,7 @@ while($client = phpAds_dbFetchArray($res_clients))
 		SELECT
 			clientid,
 			clientname,
+			parent,
 			views,
 			clicks,
 			expire,
