@@ -68,7 +68,7 @@ if ($phpAds_config['compact_stats'])
 			".$phpAds_config['tbl_adstats']."
 		WHERE
 			bannerid = $bannerid AND
-			hour > 0
+			hour >= 0
 		GROUP BY
 			day
 		ORDER BY
