@@ -554,7 +554,7 @@ function phpAds_buildBannerCode ($bannerid)
 				$buffer .= "</object>";
 			}
 			else
-				$buffer = "<img src='".$phpAds_config['type_web_url']."/".$row['filename']."' width='".$row['width']."' height='".$row['height']."'>";
+				$buffer = "<img src='".$row['imageurl']."' width='".$row['width']."' height='".$row['height']."'>";
 		}
 		
 		
@@ -573,7 +573,7 @@ function phpAds_buildBannerCode ($bannerid)
 				$buffer .= "</object>";
 			}
 			else
-				$buffer = "<img src='".$row['filename']."' width='".$row['width']."' height='".$row['height']."'>";
+				$buffer = "<img src='".$row['imageurl']."' width='".$row['width']."' height='".$row['height']."'>";
 		}
 		
 		
@@ -584,15 +584,15 @@ function phpAds_buildBannerCode ($bannerid)
 				$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
 				$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
 				$buffer .= "swflash.cab#version=5,0,0,0' width='".$row['width']."' height='".$row['height']."'>";
-				$buffer .= "<param name='movie' value='../adview.php?bannerid=".$row['bannerid']."'>";
+				$buffer .= "<param name='movie' value='".$row['imageurl']."'>";
 				$buffer .= "<param name='quality' value='high'>";
-				$buffer .= "<embed src='../adview.php?bannerid=".$row['bannerid']."' quality=high ";
+				$buffer .= "<embed src='".$row['imageurl']."' quality=high ";
 				$buffer .= "bgcolor='#FFFFFF' width='".$row['width']."' height='".$row['height']."' type='application/x-shockwave-flash' ";
 				$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
 				$buffer .= "</object>";
 			}
 			else
-				$buffer = "<img src='../adview.php?bannerid=".$row['bannerid']."' width='".$row['width']."' height='".$row['height']."'>";
+				$buffer = "<img src='".$row['imageurl']."' width='".$row['width']."' height='".$row['height']."'>";
 		}
 	}
 	else
@@ -644,15 +644,15 @@ function phpAds_buildBannerCode ($bannerid)
 				$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
 				$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
 				$buffer .= "swflash.cab#version=5,0,0,0' width='".$row['width']."' height='".$row['height']."'>";
-				$buffer .= "<param name='movie' value='".$phpAds_config['type_web_url']."/".$row['filename']."'>";
+				$buffer .= "<param name='movie' value='".$row['imageurl']."'>";
 				$buffer .= "<param name='quality' value='high'>";
-				$buffer .= "<embed src='".$phpAds_config['type_web_url']."/".$row['filename']."' quality=high ";
+				$buffer .= "<embed src='".$row['imageurl']."' quality=high ";
 				$buffer .= "bgcolor='#FFFFFF' width='".$row['width']."' height='".$row['height']."' type='application/x-shockwave-flash' ";
 				$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
 				$buffer .= "</object>";
 			}
 			else
-				$buffer = "<img src='".$phpAds_config['type_web_url']."/".$row['filename']."' width='".$row['width']."' height='".$row['height']."' style='filter: Alpha(Opacity=50)'>";
+				$buffer = "<img src='".$row['imageurl']."' width='".$row['width']."' height='".$row['height']."' style='filter: Alpha(Opacity=50)'>";
 		}
 		
 		
@@ -663,15 +663,15 @@ function phpAds_buildBannerCode ($bannerid)
 				$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
 				$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
 				$buffer .= "swflash.cab#version=5,0,0,0' width='".$row['width']."' height='".$row['height']."'>";
-				$buffer .= "<param name='movie' value='".$row['filename']."'>";
+				$buffer .= "<param name='movie' value='".$row['imageurl']."'>";
 				$buffer .= "<param name='quality' value='high'>";
-				$buffer .= "<embed src='".$row['filename']."' quality=high ";
+				$buffer .= "<embed src='".$row['imageurl']."' quality=high ";
 				$buffer .= "bgcolor='#FFFFFF' width='".$row['width']."' height='".$row['height']."' type='application/x-shockwave-flash' ";
 				$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
 				$buffer .= "</object>";
 			}
 			else
-				$buffer = "<img src='".$row['filename']."' width='".$row['width']."' height='".$row['height']."' style='filter: Alpha(Opacity=50)'>";
+				$buffer = "<img src='".$row['imageurl']."' width='".$row['width']."' height='".$row['height']."' style='filter: Alpha(Opacity=50)'>";
 		}
 		
 		
@@ -682,15 +682,15 @@ function phpAds_buildBannerCode ($bannerid)
 				$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
 				$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
 				$buffer .= "swflash.cab#version=5,0,0,0' width='".$row['width']."' height='".$row['height']."'>";
-				$buffer .= "<param name='movie' value='../adview.php?bannerid=".$row['bannerid']."'>";
+				$buffer .= "<param name='movie' value='".$row['imageurl']."'>";
 				$buffer .= "<param name='quality' value='high'>";
-				$buffer .= "<embed src='../adview.php?bannerid=".$row['bannerid']."' quality=high ";
+				$buffer .= "<embed src='".$row['imageurl']."' quality=high ";
 				$buffer .= "bgcolor='#FFFFFF' width='".$row['width']."' height='".$row['height']."' type='application/x-shockwave-flash' ";
 				$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
 				$buffer .= "</object>";
 			}
 			else
-				$buffer = "<img src='../adview.php?bannerid=".$row['bannerid']."' width='".$row['width']."' height='".$row['height']."' style='filter: Alpha(Opacity=50)'>";
+				$buffer = "<img src='".$row['imageurl']."' width='".$row['width']."' height='".$row['height']."' style='filter: Alpha(Opacity=50)'>";
 		}
 	}
 	
