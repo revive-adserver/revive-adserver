@@ -1,3 +1,5 @@
+// $Id:
+
 <?
 if (isset($pageid) && $pageid =="client")
 {
@@ -36,12 +38,12 @@ function make_options($description)
 }
 
 // total number of clients
-$res_clients = mysql_db_query($phpAds_db, "SELECT * FROM $phpAds_tbl_clients ORDER BY clientname") or mysql_die();
-$res_active_clients = mysql_db_query($phpAds_db, "SELECT count(clientID) from $phpAds_tbl_clients WHERE views <> 0 or clicks <> 0");
-$res_active_banners = mysql_db_query($phpAds_db, "SELECT count(bannerID) from $phpAds_tbl_banners where active='true'");
+$res_clients = db_query("SELECT * FROM $phpAds_tbl_clients ORDER BY clientname") or mysql_die();
+$res_active_clients = db_query("SELECT count(clientID) from $phpAds_tbl_clients WHERE views <> 0 or clicks <> 0");
+$res_active_banners = db_query("SELECT count(bannerID) from $phpAds_tbl_banners where active='true'");
 
-$res_tot_adviews = mysql_db_query($phpAds_db, "SELECT count(*) as qnt FROM $phpAds_tbl_adviews") or mysql_die();
-$res_tot_adclicks = mysql_db_query($phpAds_db, "SELECT count(*) as qnt FROM $phpAds_tbl_adclicks") or mysql_die();
+$res_tot_adviews = db_query("SELECT count(*) as qnt FROM $phpAds_tbl_adviews") or mysql_die();
+$res_tot_adclicks = db_query("SELECT count(*) as qnt FROM $phpAds_tbl_adclicks") or mysql_die();
 $row_tot_adviews = mysql_fetch_array($res_tot_adviews);
 $row_tot_adclicks = mysql_fetch_array($res_tot_adclicks);
 $adviews = $row_tot_adviews["qnt"];
