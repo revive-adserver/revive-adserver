@@ -357,7 +357,7 @@ function phpAds_showZoneCampaign ($width, $height, $what)
 	// Header
 	echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
 	echo "<tr height='25'>";
-	echo "<td height='25'><b>&nbsp;&nbsp;$strName</b></td>";
+	echo "<td height='25' width='40%'><b>&nbsp;&nbsp;$strName</b></td>";
 	echo "<td height='25'><b>$strID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>";
 	echo "<td height='25'><b>$strDescription</b></td>";
 	echo "</tr>";
@@ -677,7 +677,7 @@ function phpAds_showZoneBanners ($width, $height, $what)
 	// Header
 	echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
 	echo "<tr height='25'>";
-	echo "<td height='25'><b>&nbsp;&nbsp;$strName</b></td>";
+	echo "<td height='25' width='40%'><b>&nbsp;&nbsp;$strName</b></td>";
 	echo "<td height='25'><b>$strID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>";
 	echo "<td height='25'><b>$strDescription</b></td>";
 	echo "</tr>";

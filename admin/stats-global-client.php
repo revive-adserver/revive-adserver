@@ -367,7 +367,7 @@ if (phpAds_isUser(phpAds_Admin))
 	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
 	
 	echo "<tr height='25'>";
-	echo '<td height="25"><b>&nbsp;&nbsp;<a href="stats-global-client.php?listorder=name">'.$GLOBALS['strName'].'</a>';
+	echo '<td height="25" width="40%"><b>&nbsp;&nbsp;<a href="stats-global-client.php?listorder=name">'.$GLOBALS['strName'].'</a>';
 	if (($listorder == "name") || ($listorder == ""))
 	{
 		if  (($orderdirection == "") || ($orderdirection == "down"))
@@ -486,7 +486,7 @@ if (phpAds_isUser(phpAds_Admin))
 					else
 						echo "<img src='images/icon-campaign-d.gif' align='absmiddle'>&nbsp;";
 					
-					echo "<a href='stats-campaign-history.php?campaignid=".$campaigns[$ckey]['clientid']."'>".$campaigns[$ckey]['clientname']."</td>";
+					echo "<a href='stats-campaign-history.php?clientid=".$client['clientid']."&campaignid=".$campaigns[$ckey]['clientid']."'>".$campaigns[$ckey]['clientname']."</td>";
 					echo "</td>";
 					
 					// ID
@@ -543,7 +543,7 @@ if (phpAds_isUser(phpAds_Admin))
 									echo "<img src='images/icon-banner-stored-d.gif' align='absmiddle'>";
 							}
 							
-							echo "&nbsp;<a href='stats-banner-history.php?bannerid=".$banners[$bkey]['bannerid']."&campaignid=".$campaigns[$ckey]['clientid']."'>".$name."</a></td>";
+							echo "&nbsp;<a href='stats-banner-history.php?clientid=".$client['clientid']."&campaignid=".$campaigns[$ckey]['clientid']."&bannerid=".$banners[$bkey]['bannerid']."'>".$name."</a></td>";
 							
 							// ID
 							echo "<td height='25'>".$banners[$bkey]['bannerid']."</td>";
@@ -652,7 +652,7 @@ else
 		echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
 		
 		echo "<tr height='25'>";
-		echo "<td height='25'><b>&nbsp;&nbsp;".$GLOBALS['strName']."</b></td>";
+		echo "<td height='25' width='40%'><b>&nbsp;&nbsp;".$GLOBALS['strName']."</b></td>";
 		echo "<td height='25'><b>".$GLOBALS['strID']."</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
 		echo "<td height='25' align='right'><b>".$GLOBALS['strViews']."</b></td>";
 		echo "<td height='25' align='right'><b>".$GLOBALS['strClicks']."</b></td>";
@@ -686,7 +686,7 @@ else
 			else
 				echo "<img src='images/icon-campaign-d.gif' align='absmiddle'>&nbsp;";
 			
-			echo "<a href='stats-campaign-banners.php?campaignid=".$campaigns[$ckey]['clientid']."'>".$campaigns[$ckey]['clientname']."</td>";
+			echo "<a href='stats-campaign-banners.php?clientid=".$client['clientid']."&campaignid=".$campaigns[$ckey]['clientid']."'>".$campaigns[$ckey]['clientname']."</td>";
 			echo "</td>";
 			
 			// ID
@@ -743,7 +743,7 @@ else
 							echo "<img src='images/icon-banner-stored-d.gif' align='absmiddle'>";
 					}
 					
-					echo "&nbsp;<a href='stats-banner-history.php?bannerid=".$banners[$bkey]['bannerid']."&campaignid=".$campaigns[$ckey]['clientid']."'>".$name."</a></td>";
+					echo "&nbsp;<a href='stats-banner-history.php?clientid=".$client['clientid']."&campaignid=".$campaigns[$ckey]['clientid']."&bannerid=".$banners[$bkey]['bannerid']."'>".$name."</a></td>";
 					
 					// ID
 					echo "<td height='25'>".$banners[$bkey]['bannerid']."</td>";

@@ -46,7 +46,7 @@ if (phpAds_isUser(phpAds_Client))
 		{
 			phpAds_PageContext (
 				phpAds_buildClientName ($row['clientid'], $row['clientname']),
-				"stats-campaign-history.php?campaignid=".$row['clientid'],
+				"stats-campaign-history.php?clientid=".$clientid."&campaignid=".$row['clientid'],
 				$campaignid == $row['clientid']
 			);
 		}
@@ -77,13 +77,13 @@ if (phpAds_isUser(phpAds_Admin))
 	{
 		phpAds_PageContext (
 			phpAds_buildClientName ($row['clientid'], $row['clientname']),
-			"stats-campaign-history.php?campaignid=".$row['clientid'],
+			"stats-campaign-history.php?clientid=".$clientid."&campaignid=".$row['clientid'],
 			$campaignid == $row['clientid']
 		);
 	}
 	
-	phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.phpAds_getParentID($campaignid), 'images/icon-client.gif');
-	phpAds_PageShortcut($strCampaignProperties, 'campaign-edit.php?campaignid='.$campaignid, 'images/icon-campaign.gif');
+	phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.$clientid, 'images/icon-client.gif');
+	phpAds_PageShortcut($strCampaignProperties, 'campaign-edit.php?clientid='.$clientid.'&campaignid='.$campaignid, 'images/icon-campaign.gif');
 	
 	phpAds_PageHeader("2.1.3");
 		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
@@ -115,7 +115,7 @@ if (phpAds_dbNumRows($idresult) > 0)
 	}
 	
 	$lib_history_where     = "(".implode(' OR ', $bannerids).")";
-	$lib_history_params    = array ('campaignid' => $campaignid);
+	$lib_history_params    = array ('clientid' => $clientid, 'campaignid' => $campaignid);
 	
 	include ("lib-history.inc.php");
 }

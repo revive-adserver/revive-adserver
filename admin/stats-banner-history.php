@@ -70,19 +70,19 @@ while ($row = phpAds_dbFetchArray($res))
 {
 	phpAds_PageContext (
 		phpAds_buildBannerName ($row['bannerid'], $row['description'], $row['alt']),
-		"stats-banner-history.php?campaignid=".$campaignid."&bannerid=".$row['bannerid'],
+		"stats-banner-history.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row['bannerid'],
 		$bannerid == $row['bannerid']
 	);
 }
 
 if (phpAds_isUser(phpAds_Admin))
 {
-	phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.phpAds_getParentID($campaignid), 'images/icon-client.gif');
-	phpAds_PageShortcut($strCampaignProperties, 'campaign-edit.php?campaignid='.$campaignid, 'images/icon-campaign.gif');
-	phpAds_PageShortcut($strBannerProperties, 'banner-edit.php?campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-banner-stored.gif');
+	phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.$clientid, 'images/icon-client.gif');
+	phpAds_PageShortcut($strCampaignProperties, 'campaign-edit.php?clientid='.$clientid.'&campaignid='.$campaignid, 'images/icon-campaign.gif');
+	phpAds_PageShortcut($strBannerProperties, 'banner-edit.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-banner-stored.gif');
 	
 	if ($phpAds_config['acl'])
-		phpAds_PageShortcut($strModifyBannerAcl, 'banner-acl.php?campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-acl.gif');
+		phpAds_PageShortcut($strModifyBannerAcl, 'banner-acl.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-acl.gif');
 	
 	
 	phpAds_PageHeader("2.1.2.1");
@@ -114,8 +114,9 @@ if (phpAds_isUser(phpAds_Client))
 $lib_history_hourlyurl = "stats-banner-daily.php";
 
 $lib_history_where     = "bannerid = ".$bannerid;
-$lib_history_params    = array ('bannerid' => $bannerid,
-								'campaignid' => $campaignid
+$lib_history_params    = array ('clientid' => $clientid,
+								'campaignid' => $campaignid,
+								'bannerid' => $bannerid
 						 );
 
 include ("lib-history.inc.php");

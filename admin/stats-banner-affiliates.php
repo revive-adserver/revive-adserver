@@ -69,17 +69,17 @@ while ($row = phpAds_dbFetchArray($res))
 {
 	phpAds_PageContext (
 		phpAds_buildBannerName ($row['bannerid'], $row['description'], $row['alt']),
-		"stats-banner-affiliates.php?campaignid=".$campaignid."&bannerid=".$row['bannerid'],
+		"stats-banner-affiliates.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row['bannerid'],
 		$bannerid == $row['bannerid']
 	);
 }
 
-phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.phpAds_getParentID($campaignid), 'images/icon-client.gif');
-phpAds_PageShortcut($strCampaignProperties, 'campaign-edit.php?campaignid='.$campaignid, 'images/icon-campaign.gif');
-phpAds_PageShortcut($strBannerProperties, 'banner-edit.php?campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-banner-stored.gif');
+phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.$clientid, 'images/icon-client.gif');
+phpAds_PageShortcut($strCampaignProperties, 'campaign-edit.php?clientid='.$clientid.'&campaignid='.$campaignid, 'images/icon-campaign.gif');
+phpAds_PageShortcut($strBannerProperties, 'banner-edit.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-banner-stored.gif');
 
 if ($phpAds_config['acl'])
-	phpAds_PageShortcut($strModifyBannerAcl, 'banner-acl.php?campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-acl.gif');
+	phpAds_PageShortcut($strModifyBannerAcl, 'banner-acl.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-acl.gif');
 
 
 phpAds_PageHeader("2.1.2.2");
@@ -297,36 +297,36 @@ echo "<br><br>";
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
 
 echo "<tr height='25'>";
-echo '<td height="25"><b>&nbsp;&nbsp;<a href="stats-banner-affiliates.php?campaignid='.$campaignid.'&bannerid='.$bannerid.'&listorder=name">'.$GLOBALS['strName'].'</a>';
+echo '<td height="25" width="40%"><b>&nbsp;&nbsp;<a href="stats-banner-affiliates.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&listorder=name">'.$GLOBALS['strName'].'</a>';
 
 if (($listorder == "name") || ($listorder == ""))
 {
 	if  (($orderdirection == "") || ($orderdirection == "down"))
 	{
-		echo ' <a href="stats-banner-affiliates.php?campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=up">';
+		echo ' <a href="stats-banner-affiliates.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=up">';
 		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 	}
 	else
 	{
-		echo ' <a href="stats-banner-affiliates.php?campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=down">';
+		echo ' <a href="stats-banner-affiliates.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=down">';
 		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 	}
 	echo '</a>';
 }
 
 echo '</b></td>';
-echo '<td height="25"><b><a href="stats-banner-affiliates.php?campaignid='.$campaignid.'&bannerid='.$bannerid.'&listorder=id">'.$GLOBALS['strID'].'</a>';
+echo '<td height="25"><b><a href="stats-banner-affiliates.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&listorder=id">'.$GLOBALS['strID'].'</a>';
 
 if ($listorder == "id")
 {
 	if  (($orderdirection == "") || ($orderdirection == "down"))
 	{
-		echo ' <a href="stats-banner-affiliates.php?campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=up">';
+		echo ' <a href="stats-banner-affiliates.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=up">';
 		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 	}
 	else
 	{
-		echo ' <a href="stats-banner-affiliates.php?campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=down">';
+		echo ' <a href="stats-banner-affiliates.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=down">';
 		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 	}
 	echo '</a>';
@@ -365,9 +365,9 @@ else
 			if (isset($affiliate['zones']))
 			{
 				if ($affiliate['expand'] == '1')
-					echo "&nbsp;<a href='stats-banner-affiliates.php?campaignid=".$campaignid."&bannerid=".$bannerid."&collapse=".$affiliate['affiliateid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
+					echo "&nbsp;<a href='stats-banner-affiliates.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bannerid."&collapse=".$affiliate['affiliateid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
 				else
-					echo "&nbsp;<a href='stats-banner-affiliates.php?campaignid=".$campaignid."&bannerid=".$bannerid."&expand=".$affiliate['affiliateid']."'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
+					echo "&nbsp;<a href='stats-banner-affiliates.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bannerid."&expand=".$affiliate['affiliateid']."'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
 			}
 			else
 				echo "&nbsp;<img src='images/spacer.gif' height='16' width='16'>&nbsp;";

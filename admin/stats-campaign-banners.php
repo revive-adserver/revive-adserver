@@ -85,7 +85,7 @@ if (phpAds_isUser(phpAds_Client))
 		{
 			phpAds_PageContext (
 				phpAds_buildClientName ($row['clientid'], $row['clientname']),
-				"stats-campaign-banners.php?campaignid=".$row['clientid'],
+				"stats-campaign-banners.php?clientid=".$clientid."&campaignid=".$row['clientid'],
 				$campaignid == $row['clientid']
 			);
 		}
@@ -116,13 +116,13 @@ if (phpAds_isUser(phpAds_Admin))
 	{
 		phpAds_PageContext (
 			phpAds_buildClientName ($row['clientid'], $row['clientname']),
-			"stats-campaign-banners.php?campaignid=".$row['clientid'],
+			"stats-campaign-banners.php?clientid=".$clientid."&campaignid=".$row['clientid'],
 			$campaignid == $row['clientid']
 		);
 	}
 	
-	phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.phpAds_getParentID($campaignid), 'images/icon-client.gif');
-	phpAds_PageShortcut($strCampaignProperties, 'campaign-edit.php?campaignid='.$campaignid, 'images/icon-campaign.gif');
+	phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.$clientid, 'images/icon-client.gif');
+	phpAds_PageShortcut($strCampaignProperties, 'campaign-edit.php?clientid='.$clientid.'&campaignid='.$campaignid, 'images/icon-campaign.gif');
 	
 	phpAds_PageHeader("2.1.2");
 		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
@@ -312,90 +312,90 @@ if (count($order_array) > 0)
 		echo "<tr bgcolor='#FFFFFF' height='25'>";
 		echo "<td>&nbsp;</td>";
 		
-		echo "<td align='".$phpAds_TextAlignLeft."' nowrap height='25'><b><a href='stats-campaign-banners.php?campaignid=".$campaignid."&listorder=name'>".$strName."</a>";
+		echo "<td align='".$phpAds_TextAlignLeft."' nowrap height='25'><b><a href='stats-campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&listorder=name'>".$strName."</a>";
 		
 		if (($listorder == "name") || ($listorder == ""))
 		{
 			if  (($orderdirection == "") || ($orderdirection == "down"))
 			{
-				echo ' <a href="stats-campaign-banners.php?campaignid='.$campaignid.'&orderdirection=up">';
+				echo ' <a href="stats-campaign-banners.php?clientid='.$clientid.'&campaignid='.$campaignid.'&orderdirection=up">';
 				echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 			}
 			else
 			{
-				echo ' <a href="stats-campaign-banners.php?campaignid='.$campaignid.'&orderdirection=down">';
+				echo ' <a href="stats-campaign-banners.php?clientid='.$clientid.'&campaignid='.$campaignid.'&orderdirection=down">';
 				echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 			}
 			echo '</a>';
 		}
 		
 		echo "</b></td>";
-		echo "<td align='".$phpAds_TextAlignLeft."' nowrap height='25'><b><a href='stats-campaign-banners.php?campaignid=".$campaignid."&listorder=id'>".$strID."</a>";
+		echo "<td align='".$phpAds_TextAlignLeft."' nowrap height='25'><b><a href='stats-campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&listorder=id'>".$strID."</a>";
 		
 		if ($listorder == "id")
 		{
 			if  (($orderdirection == "") || ($orderdirection == "down"))
 			{
-				echo ' <a href="stats-campaign-banners.php?campaignid='.$campaignid.'&orderdirection=up">';
+				echo ' <a href="stats-campaign-banners.php?clientid='.$clientid.'&campaignid='.$campaignid.'&orderdirection=up">';
 				echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 			}
 			else
 			{
-				echo ' <a href="stats-campaign-banners.php?campaignid='.$campaignid.'&orderdirection=down">';
+				echo ' <a href="stats-campaign-banners.php?clientid='.$clientid.'&campaignid='.$campaignid.'&orderdirection=down">';
 				echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 			}
 			echo '</a>';
 		}
 		
 		echo "</b></td>";
-		echo "<td align='".$phpAds_TextAlignRight."' nowrap height='25'><b><a href='stats-campaign-banners.php?campaignid=".$campaignid."&listorder=adviews'>".$strViews."</a>";
+		echo "<td align='".$phpAds_TextAlignRight."' nowrap height='25'><b><a href='stats-campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&listorder=adviews'>".$strViews."</a>";
 		
 		if ($listorder == "adviews")
 		{
 			if  (($orderdirection == "") || ($orderdirection == "down"))
 			{
-				echo ' <a href="stats-campaign-banners.php?campaignid='.$campaignid.'&orderdirection=up">';
+				echo ' <a href="stats-campaign-banners.php?clientid='.$clientid.'&campaignid='.$campaignid.'&orderdirection=up">';
 				echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 			}
 			else
 			{
-				echo ' <a href="stats-campaign-banners.php?campaignid='.$campaignid.'&orderdirection=down">';
+				echo ' <a href="stats-campaign-banners.php?clientid='.$clientid.'&campaignid='.$campaignid.'&orderdirection=down">';
 				echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 			}
 			echo '</a>';
 		}
 		
 		echo "</b></td>";
-		echo "<td align='".$phpAds_TextAlignRight."' nowrap height='25'><b><a href='stats-campaign-banners.php?campaignid=".$campaignid."&listorder=adclicks'>".$strClicks."</a>";
+		echo "<td align='".$phpAds_TextAlignRight."' nowrap height='25'><b><a href='stats-campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&listorder=adclicks'>".$strClicks."</a>";
 		
 		if ($listorder == "adclicks")
 		{
 			if  (($orderdirection == "") || ($orderdirection == "down"))
 			{
-				echo ' <a href="stats-campaign-banners.php?campaignid='.$campaignid.'&orderdirection=up">';
+				echo ' <a href="stats-campaign-banners.php?clientid='.$clientid.'&campaignid='.$campaignid.'&orderdirection=up">';
 				echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 			}
 			else
 			{
-				echo ' <a href="stats-campaign-banners.php?campaignid='.$campaignid.'&orderdirection=down">';
+				echo ' <a href="stats-campaign-banners.php?clientid='.$clientid.'&campaignid='.$campaignid.'&orderdirection=down">';
 				echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 			}
 			echo '</a>';
 		}
 		
 		echo "</b></td>";
-		echo "<td align='".$phpAds_TextAlignRight."' nowrap height='25'><b><a href='stats-campaign-banners.php?campaignid=".$campaignid."&listorder=ctr'>".$strCTRShort."</a>";
+		echo "<td align='".$phpAds_TextAlignRight."' nowrap height='25'><b><a href='stats-campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&listorder=ctr'>".$strCTRShort."</a>";
 		
 		if ($listorder == "ctr")
 		{
 			if  (($orderdirection == "") || ($orderdirection == "down"))
 			{
-				echo ' <a href="stats-campaign-banners.php?campaignid='.$campaignid.'&orderdirection=up">';
+				echo ' <a href="stats-campaign-banners.php?clientid='.$clientid.'&campaignid='.$campaignid.'&orderdirection=up">';
 				echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 			}
 			else
 			{
-				echo ' <a href="stats-campaign-banners.php?campaignid='.$campaignid.'&orderdirection=down">';
+				echo ' <a href="stats-campaign-banners.php?clientid='.$clientid.'&campaignid='.$campaignid.'&orderdirection=down">';
 				echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 			}
 			echo '</a>';
@@ -530,32 +530,32 @@ if (count($order_array) > 0)
 			{
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;";
 				echo "<img src='images/icon-deactivate.gif' align='absmiddle'>&nbsp;";
-				echo "<a href='banner-activate.php?campaignid=$campaignid&bannerid=".$row_banners['bannerid']."&value=t'>$strDeActivate</a>";
+				echo "<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row_banners['bannerid']."&value=t'>$strDeActivate</a>";
 			}
 			if (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_ActivateBanner) && $row_banners['active'] != 't') // only for the client if allowed
 			{
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;";
 				echo "<img src='images/icon-activate.gif' align='absmiddle'>&nbsp;";
-				echo "<a href='banner-activate.php?campaignid=$campaignid&bannerid=".$row_banners['bannerid']."&value=f'>$strActivate</a>";
+				echo "<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row_banners['bannerid']."&value=f'>$strActivate</a>";
 			}
 			if ($adclicks > 0 || $adviews > 0)
 			{
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;";
 				echo "<img src='images/icon-zoom.gif' align='absmiddle'>&nbsp;";
-				echo "<a href='stats-banner-history.php?campaignid=$campaignid&bannerid=".$row_banners['bannerid']."'>$strBannerHistory</a>";
+				echo "<a href='stats-banner-history.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row_banners['bannerid']."'>$strBannerHistory</a>";
 				
 				if (phpAds_isUser(phpAds_Admin)) // only for the admin
 				{
 					echo "&nbsp;&nbsp;&nbsp;&nbsp;";
 					echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' align='absmiddle'>&nbsp;";
-					echo "<a href='stats-reset.php?campaignid=$campaignid&bannerid=".$row_banners['bannerid']."'".phpAds_DelConfirm($strConfirmResetBannerStats).">$strResetStats</a>";
+					echo "<a href='stats-reset.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row_banners['bannerid']."'".phpAds_DelConfirm($strConfirmResetBannerStats).">$strResetStats</a>";
 				}
 			}
 			if (phpAds_isUser(phpAds_Admin) || (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_ModifyBanner))) // only for the admin
 			{
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;";
 				echo "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;";
-				echo "<a href='banner-edit.php?campaignid=$campaignid&bannerid=".$row_banners['bannerid']."'>$strModifyBanner</a>";
+				echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row_banners['bannerid']."'>$strModifyBanner</a>";
 			}
 			echo "</td></tr>";
 			
@@ -613,7 +613,7 @@ if (count($order_array) > 0)
 			}
 			
 			echo "&nbsp;";
-			echo "<a height='25' href='stats-banner-history.php?campaignid=$campaignid&bannerid=".$row_banners['bannerid']."'>";
+			echo "<a height='25' href='stats-banner-history.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row_banners['bannerid']."'>";
 			
 			if ($row_banners['description'] != '')	$name = $row_banners['description'];
 			elseif ($row_banners['alt'] != '')		$name = $row_banners['alt'];
@@ -662,13 +662,13 @@ if (count($order_array) > 0)
 				
 			    if ($adclicks > 0 || $adviews > 0)
 				{
-					echo "<a href='stats-banner-history.php?campaignid=$campaignid&bannerid=".$row_banners['bannerid']."'>";
+					echo "<a href='stats-banner-history.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row_banners['bannerid']."'>";
 					echo "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;$strBannerHistory</a>";
 					echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 					
 					if (phpAds_isUser(phpAds_Admin)) // only for the admin
 					{
-						echo "<a href='stats-reset.php?campaignid=$campaignid&bannerid=".$row_banners['bannerid']."'".phpAds_DelConfirm($strConfirmResetBannerStats).">";
+						echo "<a href='stats-reset.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row_banners['bannerid']."'".phpAds_DelConfirm($strConfirmResetBannerStats).">";
 						echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' align='absmiddle' border='0'>&nbsp;$strResetStats</a>";
 						echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 					}
@@ -676,7 +676,7 @@ if (count($order_array) > 0)
 				
 				if (phpAds_isUser(phpAds_Admin) || (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_ModifyBanner))) // only for the admin
 				{
-					echo "<a href='banner-edit.php?campaignid=$campaignid&bannerid=".$row_banners['bannerid']."'>";
+					echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row_banners['bannerid']."'>";
 					echo "<img src='images/icon-edit.gif' align='absmiddle' border='0'>&nbsp;$strModifyBanner</a>";
 					echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 				}
@@ -697,6 +697,7 @@ if (count($order_array) > 0)
 	echo "<tr>";
 	echo "<form action='stats-campaign-banners.php'>";
 	echo "<td colspan='6' height='35' align='right'>";
+	echo "<input type='hidden' name='clientid' value='$clientid'>";
 	echo "<input type='hidden' name='campaignid' value='$campaignid'>";
 	echo "<select name='view' onChange='this.form.submit();'>";
 		echo "<option value='all'".($view=='all' ? " selected" : "").">$strShowAllBanners</option>";
