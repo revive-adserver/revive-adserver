@@ -130,7 +130,7 @@ function phpads_logCheckHost()
 			return false;
 	}
 	
-	return $phpAds_config['reverse_lookup'] ? $REMOTE_HOST : $REMOTE_ADDR;
+	return $REMOTE_HOST;
 }
 
 
