@@ -286,11 +286,11 @@ if (isset($campaigns) && is_array($campaigns) && count($campaigns) > 0)
 
 
 
+$totalviews = 0;
+$totalclicks = 0;
+
 if (isset($clients) && is_array($clients) && count($clients) > 0)
 {
-	$totalviews = 0;
-	$totalclicks = 0;
-	
 	// Calculate statistics for clients
 	for (reset($clients);$key=key($clients);next($clients))
 	{
