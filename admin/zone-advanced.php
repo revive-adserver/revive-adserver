@@ -377,12 +377,12 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 	if (isset($appendtype)) $zone['appendtype'] = $appendtype;
 	
 	// Select
-	echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>". 'Append type' ."</td><td>";
+	echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$GLOBALS['strZoneAppendType']."</td><td>";
 	echo "<select name='appendtype' style='width: 200;' onchange='phpAds_formSelectAppendType()' tabindex='".($tabindex++)."'>";
-	echo "<option value='".phpAds_ZoneAppendRaw."'".($zone['appendtype'] == phpAds_ZoneAppendRaw ? ' selected' : '').">". 'HTML Code' ."</option>";
+	echo "<option value='".phpAds_ZoneAppendRaw."'".($zone['appendtype'] == phpAds_ZoneAppendRaw ? ' selected' : '').">".$GLOBALS['strZoneAppendHTMLCode']."</option>";
 	
 	if (count($available[phpAds_ZonePopup]) || count($available[phpAds_ZoneInterstitial]))
-		echo "<option value='".phpAds_ZoneAppendZone."'".($zone['appendtype'] == phpAds_ZoneAppendZone ? ' selected' : '').">". 'Zone selection' ."</option>";
+		echo "<option value='".phpAds_ZoneAppendZone."'".($zone['appendtype'] == phpAds_ZoneAppendZone ? ' selected' : '').">".$GLOBALS['strZoneAppendZoneSelection']."</option>";
 	else
 		$zone['appendtype'] = phpAds_ZoneAppendRaw;
 	
@@ -416,7 +416,7 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 		}
 		
 		
-		echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>". 'Select zone' ."</td><td>";
+		echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$GLOBALS['strZoneAppendSelectZone']."</td><td>";
 		echo "<input type='hidden' name='appendsave' value='1'>";
 		echo "<input type='hidden' name='appendid' value='".$appendid."'>";
 		echo "<table cellpadding='0' cellspacing='0' border='0' width='100%'>";

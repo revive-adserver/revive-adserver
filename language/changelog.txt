@@ -12,6 +12,13 @@
 
   ====================================================
 
+  05-11-2002 - default
+    [u] strZoneAppend
+    [+] strZoneAppendType
+    [+] strZoneAppendHTMLCode
+    [+] strZoneAppendZoneSelection
+    [+] strZoneAppendSelectZone
+
   29-10-2002 - settings
     [u] strUseAcl
     [+] strDeliverySettings

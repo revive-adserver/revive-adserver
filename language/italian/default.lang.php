@@ -394,10 +394,14 @@ $GLOBALS['strZoneNoDelivery']				= "Se nessun banner di questa zona <br>pu&ograv
 $GLOBALS['strZoneStopDelivery']				= "Arrestare la fornitura e non visualizzare alcun banner";
 $GLOBALS['strZoneOtherZone']				= "Mostrare la zona selezionata";
 $GLOBALS['strZoneUseKeywords']				= "Scegliere un banner usando la seguente stringa di query";
-$GLOBALS['strZoneAppend']					= "Aggiungi sempre il seguente codice di invocazione popup o interstiziale ai banner di questa zona";
+$GLOBALS['strZoneAppend']					= "Aggiungi sempre il seguente codice HTML ai banner di questa zona";
 $GLOBALS['strAppendSettings']				= "Impostazioni prefisso e suffisso";
 $GLOBALS['strZonePrependHTML']				= "Codice HTML da utilizzare come prefisso per i banner testuali visualizzati in questa zona";
 $GLOBALS['strZoneAppendHTML']				= "Codice HTML da utilizzare come suffisso per i banner testuali visualizzati in questa zona";
+$GLOBALS['strZoneAppendType']				= "Tipo di suffisso";
+$GLOBALS['strZoneAppendHTMLCode']			= "Codice HTML";
+$GLOBALS['strZoneAppendZoneSelection']		= "Popup o interstiziale";
+$GLOBALS['strZoneAppendSelectZone']			= "Aggiungi sempre il seguente popup o interstiziale ai banner di questa zona";
 
 
 // Zone probability
