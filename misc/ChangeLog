@@ -6,6 +6,7 @@ CVS
 			  - 2005-01-27:  Content-disposition header was wrong in generated reports, resulting in a mangled filename - bug #1067963  (Matteo)
 			  - 2005-01-29:  There was an error in the queries used when generating reports with compact stats enabled  (Matteo)
 			  - 2005-02-04:  Fixed incompatibilites with IE and Flash banners caused by post-Eolas handling  (Matteo)
+			  - 2005-02-04:  Fixed problems with IE when using JS invocation with non-latin status/alt texts  (Matteo)
 
 
 
