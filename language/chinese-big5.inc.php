@@ -292,4 +292,6 @@ $GLOBALS['strConfirmResetCampaignStats']= "琌絋﹚璶砞盡参璸计沮?";
 $GLOBALS['strConfirmResetClientStats']	= "琌絋﹚璶砞め参璸计沮?";
 $GLOBALS['strConfirmResetBannerStats']	= "琌絋﹚璶砞約参璸计沮?";
 
+$GLOBALS['strClientsAndCampaigns']		= "Clients & Campaigns";
+
 ?>

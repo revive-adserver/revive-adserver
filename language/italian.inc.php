@@ -292,4 +292,6 @@ $GLOBALS['strConfirmResetCampaignStats']= "Vuoi veramente azzerare le statistich
 $GLOBALS['strConfirmResetClientStats']	= "Vuoi veramente azzerare le statistiche di questo cliente?";
 $GLOBALS['strConfirmResetBannerStats']	= "Vuoi veramente azzerare le statistiche di questo banner?";
 
+$GLOBALS['strClientsAndCampaigns']		= "Clients & Campaigns";
+
 ?>

@@ -286,4 +286,6 @@ $GLOBALS['strConfirmResetCampaignStats']= "Weet u zeker dat u de statistieken wi
 $GLOBALS['strConfirmResetClientStats']	= "Weet u zeker dat u de statistieken wilt wissen voor deze klant?";
 $GLOBALS['strConfirmResetBannerStats']	= "Weet u zeker dat u de statistieken wilt wizzen voor deze banner?";
 
+$GLOBALS['strClientsAndCampaigns']		= "Klanten & Campagnes";
+
 ?>

@@ -291,4 +291,6 @@ $GLOBALS['strConfirmResetCampaignStats']= "Вы действительно хотите обнулить стат
 $GLOBALS['strConfirmResetClientStats']	= "Вы действительно хотите обнулить статистику для этого клиента ?";
 $GLOBALS['strConfirmResetBannerStats']	= "Вы действительно хотите обнулить статистику для этого баннера?";
 
+$GLOBALS['strClientsAndCampaigns']		= "Clients & Campaigns";
+
 ?>
