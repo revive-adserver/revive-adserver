@@ -24,7 +24,7 @@ require ("lib-banner.inc.php");
 // Include needed resources
 require (phpAds_path."/libraries/resources/res-iso639.inc.php");
 require (phpAds_path."/libraries/resources/res-iso3166.inc.php");
-require (phpAds_path."/libraries/resources/res-usstates.inc.php");
+require (phpAds_path."/libraries/resources/res-iso3166-2.inc.php");
 require (phpAds_path."/libraries/resources/res-useragent.inc.php");
 require (phpAds_path."/libraries/resources/res-continent.inc.php");
 
@@ -80,7 +80,7 @@ $comparison_date = array (
 	'!=' => $strDifferentFrom,
 	'>'  => $strLaterThan,
 	'>=' => $strLaterThanOrEqual,
-	'<'	 => $strEarlierThan,
+	'<'  => $strEarlierThan,
 	'<=' => $strEarlierThanOrEqual
 );
 
@@ -758,12 +758,17 @@ if ($phpAds_config['acl'])
 				
 				echo "<div class='box'>";
 				
-				while (list($postalcode,$fullname) = each ($phpAds_USStates))
+				while (list($country, $regions) = each ($phpAds_ISO3166-2))
 				{
-					echo "<div class='boxrow' onMouseOver='boxrow_over(this);' onMouseOut='boxrow_leave(this);' onClick='o=findObj(\"check_".$key."_".$postalcode."\"); o.checked = !o.checked;'>";
-					echo "<input onClick='boxrow_nonbubble();' tabindex='".($tabindex++)."' ";
-					echo "type='checkbox' id='check_".$key."_".$postalcode."' name='acl[".$key."][data][]' value='$postalcode'".(in_array ($postalcode, $acl[$key]['data']) ? ' checked' : '')." align='middle'>".$fullname;
-					echo "</div>";
+					echo "<div class='boxrow'><b>".$phpAds_ISO3166[$country]."</b></div>";
+					
+					while (list($code,$fullname) = each ($regions))
+					{
+						echo "<div class='boxrow' onMouseOver='boxrow_over(this);' onMouseOut='boxrow_leave(this);' onClick='o=findObj(\"check_".$key."_".$postalcode."\"); o.checked = !o.checked;'>";
+						echo "<input onClick='boxrow_nonbubble();' tabindex='".($tabindex++)."' ";
+						echo "type='checkbox' id='check_".$key."_".$country.$code."' name='acl[".$key."][data][]' value='".$country.$code."'".(in_array ($country.$code, $acl[$key]['data']) ? ' checked' : '')." align='middle'>".$fullname;
+						echo "</div>";
+					}
 				}
 				
 				echo "</div>";

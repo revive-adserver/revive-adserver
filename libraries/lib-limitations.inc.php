@@ -289,13 +289,10 @@ function phpAds_aclCheckRegion($data, $ad)
 {
 	global $phpAds_geo;
 	
-	if ($phpAds_geo && $phpAds_geo['country'] == 'US')
+	if ($phpAds_geo && $phpAds_geo['country'] && $phpAds_geo['region'])
 	{
-		if (!$phpAds_geo['region'])
-			return ($ad != '==');
-		
-		// Evaluate continent code
-		$expression = ($data == $phpAds_geo['region'] || in_array ($phpAds_geo['region'], explode(',', $data)));
+		// Evaluate region code
+		$expression = ($data == $phpAds_geo['country'].$phpAds_geo['region'] || in_array ($phpAds_geo['country'].$phpAds_geo['region'], explode(',', $data)));
 		$operator   = $ad == '==';
 		return ($expression == $operator);
 	}
