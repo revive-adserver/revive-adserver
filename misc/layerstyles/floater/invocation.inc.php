@@ -18,6 +18,11 @@
 define('phpAds_adLayerLoaded', true);
 
 
+// Register input variables
+phpAds_registerGlobal ('ltr', 'loop', 'speed', 'pause', 'shiftv', 'transparent', 'backcolor',
+					   'limited', 'lmargin', 'rmargin');
+
+
 
 /*********************************************************/
 /* Place ad-generator settings                           */

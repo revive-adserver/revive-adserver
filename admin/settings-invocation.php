@@ -18,6 +18,13 @@
 include ("lib-settings.inc.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('allow_invocation_plain', 'allow_invocation_js', 'allow_invocation_frame', 
+					   'allow_invocation_xmlrpc', 'allow_invocation_local', 'allow_invocation_interstitial', 
+					   'allow_invocation_popup', 'con_key', 'mult_key', 'acl', 'zone_cache', 'zone_cache_limit',
+					   'p3p_policies', 'p3p_compact_policy', 'p3p_policy_location');
+
+
 // Security check
 phpAds_checkAccess(phpAds_Admin);
 
@@ -140,7 +147,7 @@ phpAds_EndSettings();
 /*********************************************************/
 
 ?>
-<form name="settingsform" method="post" action="<?php echo $PHP_SELF;?>">
+<form name="settingsform" method="post" action="<?php echo $HTTP_SERVER_VARS['PHP_SELF'];?>">
 <?php
 
 phpAds_FlushSettings();

@@ -24,6 +24,7 @@ define ('phpAds_path', '.');
 /*********************************************************/
 
 require	(phpAds_path."/config.inc.php"); 
+require (phpAds_path."/lib-io.inc.php");
 require (phpAds_path."/lib-db.inc.php");
 
 if ($phpAds_config['log_adviews'] || $phpAds_config['acl'])
@@ -42,25 +43,27 @@ require (phpAds_path."/lib-cache.inc.php");
 
 
 /*********************************************************/
+/* Register input variables                              */
+/*********************************************************/
+
+phpAds_registerGlobal ('clientid', 'clientID', 'what', 'source',
+					   'n');
+
+
+
+/*********************************************************/
 /* Main code                                             */
 /*********************************************************/
 
 $url = parse_url($phpAds_config['url_prefix']);
 
-if (isset($clientID) && !isset($clientid))	
-	$clientid = $clientID;
 
-if (!isset($clientid))
-	$clientid = 0;
+if (isset($clientID) && !isset($clientid)) $clientid = $clientID;
+if (!isset($clientid)) $clientid = 0;
+if (!isset($what)) $what = '';
+if (!isset($source)) $source = '';
+if (!isset($n)) $n = 'default';
 
-if (!isset($what))
-	$what = '';
-
-if (!isset($source))
-	$source = '';
-
-if (!isset($n))
-	$n = 'default';
 
 if (phpAds_dbConnect())
 {
@@ -98,42 +101,23 @@ if (phpAds_dbConnect())
 
 if ($found)
 {
-	// Send P3P Headers
-	if ($phpAds_config['p3p_policies'])
-	{
-		$p3p_header = '';
-		
-		if (isset($phpAds_config['p3p_policy_location']) && 
-		    $phpAds_config['p3p_policy_location'] != '')
-			$p3p_header .= " policyref=\"".$phpAds_config['p3p_policy_location']."\"";
-		
-		if ($phpAds_config['p3p_compact_policy'] != '')
-			$p3p_header .= " CP=\"".$phpAds_config['p3p_compact_policy']."\"";
-		
-		if ($p3p_header != '')
-			header ("P3P: $p3p_header");
-	}
-	
-	
-	$cookie = array();
-	
-	
 	// Log this impression
 	if ($phpAds_config['block_adviews'] == 0 ||
-	   ($phpAds_config['block_adviews'] > 0 && !isset($phpAds_blockView[$row['bannerid']])))
+	   ($phpAds_config['block_adviews'] > 0 && 
+	   !isset($HTTP_COOKIE_VARS['phpAds_blockView'][$row['bannerid']])))
 	{
 		if ($phpAds_config['log_adviews'])
 			phpAds_logImpression ($row['bannerid'], $row['clientid'], $row['zoneid'], $source);
 		
 		// Send block cookies
 		if ($phpAds_config['block_adviews'] > 0)
-			SetCookie("phpAds_blockView[".$row['bannerid']."]", time(), time() + $phpAds_config['block_adviews'], '/');
+			phpAds_setCookie ("phpAds_blockView[".$row['bannerid']."]", time(), time() + $phpAds_config['block_adviews']);
 	}
 	
+	
 	if ($row['block'] != '' && $row['block'] != '0')
-	{
-		SetCookie("phpAds_blockAd[".$row['bannerid']."]", time(), time() + $row['block'], '/');
-	}
+		phpAds_setCookie ("phpAds_blockAd[".$row['bannerid']."]", time(), time() + $row['block']);
+	
 	
 	if ($row['capping'] != '' && $row['capping'] != '0')
 	{
@@ -142,10 +126,12 @@ if ($found)
 		else
 			$newcap = 1;
 		
-		SetCookie("phpAds_capAd[".$row['bannerid']."]", $newcap, time()+31536000, '/');
+		phpAds_setCookie ("phpAds_capAd[".$row['bannerid']."]", $newcap, time()+31536000);
 	}
 	
+	
 	// Send bannerid headers
+	$cookie = array();
 	$cookie['bannerid'] = $row["bannerid"];
 	
 	// Send zoneid headers
@@ -194,7 +180,9 @@ if ($found)
 			$cookie['dest'] = $row['url'];
 			
 			// Redirect to the banner
-			setcookie ("phpAds_banner[".$n."]", serialize($cookie), 0, $url["path"]);
+			phpAds_setCookie ("phpAds_banner[".$n."]", serialize($cookie), 0);
+			phpAds_flushCookie ();
+			
 			header 	  ("Location: ".$row['imageurl']);
 			break;
 		
@@ -203,7 +191,9 @@ if ($found)
 			$cookie['dest'] = $row['url'];
 			
 			// Redirect to the banner
-			setcookie ("phpAds_banner[".$n."]", serialize($cookie), 0, $url["path"]);
+			phpAds_setCookie ("phpAds_banner[".$n."]", serialize($cookie), 0);
+			phpAds_flushCookie ();
+			
 			header 	  ("Location: ".$row['imageurl']);
 			break;
 		
@@ -211,14 +201,16 @@ if ($found)
 		case 'sql':
 			$cookie['dest'] = $row['url'];
 			
-			if (ereg ("Mozilla/(1|2|3|4)", $GLOBALS['HTTP_USER_AGENT']) && !ereg("compatible", $GLOBALS['HTTP_USER_AGENT']))
+			if (ereg ("Mozilla/(1|2|3|4)", $HTTP_SERVER_VARS['HTTP_USER_AGENT']) && !ereg("compatible", $HTTP_SERVER_VARS['HTTP_USER_AGENT']))
 			{
 				// Workaround for Netscape 4 problem
 				// with animated GIFs. Redirect to
 				// adimage to prevent banner changing
 				// at the end of each animation loop
 				
-				setcookie ("phpAds_banner[".$n."]", serialize($cookie), 0, $url["path"]);
+				phpAds_setCookie ("phpAds_banner[".$n."]", serialize($cookie), 0);
+				phpAds_flushCookie ();
+				
 				header 	  ("Location: ".$row['imageurl']);
 			}
 			else
@@ -240,7 +232,9 @@ if ($found)
 				
 				if ($image = phpAds_dbFetchArray($res))
 				{
-					setcookie ("phpAds_banner[".$n."]", serialize($cookie), 0, $url["path"]);
+					phpAds_setCookie ("phpAds_banner[".$n."]", serialize($cookie), 0);
+					phpAds_flushCookie ();
+					
 					header 	  ('Content-type: image/'.$row['contenttype'].'; name='.md5(microtime()).'.'.$row['contenttype']);
 					echo $image['contents'];
 				}
@@ -251,24 +245,25 @@ if ($found)
 }
 else
 {
-	if ($phpAds_config['p3p_policies'])
-	{
-		$p3p_header = '';
-		
-		if ($phpAds_config['p3p_policy_location'] != '')
-			$p3p_header .= " policyref=\"".$phpAds_config['p3p_policy_location']."\"";
-		
-		if ($phpAds_config['p3p_compact_policy'] != '')
-			$p3p_header .= " CP=\"".$phpAds_config['p3p_compact_policy']."\"";
-		
-		if ($p3p_header != '')
-			header ("P3P: $p3p_header");
-	}
-	
-	setcookie ("phpAds_banner[".$n."]", 'DEFAULT', 0, $url["path"]);
+	phpAds_setCookie ("phpAds_banner[".$n."]", 'DEFAULT', 0);
+	phpAds_flushCookie ();
 	
 	if ($phpAds_config['default_banner_url'] != '')
-		header 	  ("Location: ".$phpAds_config['default_banner_url']);
+		header ("Location: ".$phpAds_config['default_banner_url']);
+	else
+	{
+		// Show 1x1 Gif, to ensure not broken image icon
+		// is shown.
+		
+		header 	 ("Content-type: image/gif");
+		
+		echo chr(0x47).chr(0x49).chr(0x46).chr(0x38).chr(0x39).chr(0x61).chr(0x01).chr(0x00).
+		     chr(0x01).chr(0x00).chr(0x80).chr(0x00).chr(0x00).chr(0x04).chr(0x02).chr(0x04).
+		 	 chr(0x00).chr(0x00).chr(0x00).chr(0x21).chr(0xF9).chr(0x04).chr(0x01).chr(0x00).
+		     chr(0x00).chr(0x00).chr(0x00).chr(0x2C).chr(0x00).chr(0x00).chr(0x00).chr(0x00).
+		     chr(0x01).chr(0x00).chr(0x01).chr(0x00).chr(0x00).chr(0x02).chr(0x02).chr(0x44).
+		     chr(0x01).chr(0x00).chr(0x3B);
+	}
 }
 
 phpAds_dbClose();

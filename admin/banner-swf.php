@@ -23,6 +23,10 @@ require ("lib-banner.inc.php");
 require ("lib-zones.inc.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('convert', 'cancel', 'compress');
+
+
 // Security check
 phpAds_checkAccess(phpAds_Admin+phpAds_Client);
 

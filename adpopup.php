@@ -24,6 +24,7 @@ define ('phpAds_path', '.');
 /*********************************************************/
 
 require	(phpAds_path."/config.inc.php"); 
+require (phpAds_path."/lib-io.inc.php");
 require (phpAds_path."/lib-db.inc.php");
 
 if (($phpAds_config['log_adviews'] && !$phpAds_config['log_beacon']) || $phpAds_config['acl'])
@@ -125,6 +126,16 @@ function enjavanateBanner ($output, $limit = 60)
 
 
 /*********************************************************/
+/* Register input variables                              */
+/*********************************************************/
+
+phpAds_registerGlobal ('what', 'clientid', 'clientID', 'context',
+					   'target', 'source', 'withtext', 'withText',
+					   'left', 'top', 'popunder', 'timeout');
+
+
+
+/*********************************************************/
 /* Main code                                             */
 /*********************************************************/
 
@@ -171,7 +182,7 @@ if (!window.<?php echo $windowid; ?>)
 		
 		<?php echo $windowid; ?>.document.open('text/html', 'replace');
 <?php
-		if (strstr($HTTP_USER_AGENT, 'MSIE') && !strstr($HTTP_USER_AGENT, 'Opera'))
+		if (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'MSIE') && !strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Opera'))
 		{
 			echo enjavanateCode("<html><head>")."\n";
 			

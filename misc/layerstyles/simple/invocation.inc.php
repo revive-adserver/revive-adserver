@@ -18,6 +18,11 @@
 define('phpAds_adLayerLoaded', true);
 
 
+// Register input variables
+phpAds_registerGlobal ('target', 'align', 'padding', 'closebutton', 'backcolor', 'bordercolor',
+					   'valign', 'closetime', 'shifth', 'shiftv');
+
+
 
 /*********************************************************/
 /* Return HTML code for the layer                        */

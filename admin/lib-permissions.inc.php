@@ -75,7 +75,7 @@ function phpAds_Start()
 function phpAds_Logout()
 {
 	global $phpAds_config;
-
+	
 	phpAds_SessionDataDestroy();
 	
 	// Return to the login screen
@@ -155,26 +155,28 @@ function phpAds_getUserID ()
 function phpAds_Login()
 {
 	global $phpAds_config;
-	global $phpAds_username, $phpAds_password, $phpAds_cookiecheck;
 	global $strPasswordWrong;
-	global $SessionID;
+	
+	global $HTTP_COOKIE_VARS;
+	global $HTTP_POST_VARS;
+	
 	
 	if (phpAds_SuppliedCredentials())
 	{
-		if ($SessionID != $phpAds_cookiecheck)
+		if ($HTTP_COOKIE_VARS['SessionID'] != $HTTP_POST_VARS['phpAds_cookiecheck'])
 		{
 			// Cookiecheck failed
-				$sessionID = phpAds_SessionStart();
-				phpAds_LoginScreen("You need to enable cookies before you can use phpAdsNew", $sessionID);
+			$HTTP_COOKIE_VARS['sessionID'] = phpAds_SessionStart();
+			phpAds_LoginScreen("You need to enable cookies before you can use phpAdsNew", $HTTP_COOKIE_VARS['sessionID']);
 		}
 		
-		if (phpAds_isAdmin($phpAds_username, $phpAds_password))
+		if (phpAds_isAdmin($HTTP_POST_VARS['phpAds_username'], $HTTP_POST_VARS['phpAds_password']))
 		{
 			// User is Administrator
 			return (array ("usertype" 		=> phpAds_Admin,
 						   "loggedin" 		=> "t",
-						   "username" 		=> $phpAds_username,
-						   "password" 		=> $phpAds_password)
+						   "username" 		=> $HTTP_POST_VARS['phpAds_username'],
+						   "password" 		=> $HTTP_POST_VARS['phpAds_password'])
 			       );
 		}
 		else
@@ -189,20 +191,22 @@ function phpAds_Login()
 				FROM
 					".$phpAds_config['tbl_clients']."
 				WHERE
-					clientusername = '$phpAds_username'
-					AND clientpassword = '$phpAds_password'
+					clientusername = '".$HTTP_POST_VARS['phpAds_username']."'
+					AND clientpassword = '".$HTTP_POST_VARS['phpAds_password']."'
 				") or phpAds_sqlDie();
 			
 			
-			if (phpAds_dbNumRows($res) > 0 && trim($phpAds_username) != "" && trim($phpAds_password) != "")
+			if (phpAds_dbNumRows($res) > 0 && 
+				trim($HTTP_POST_VARS['phpAds_username']) != "" && 
+				trim($HTTP_POST_VARS['phpAds_password']) != "")
 			{
 				// User found with correct password
 				$row = phpAds_dbFetchArray($res);
 				
 				return (array ("usertype" 		=> phpAds_Client,
 							   "loggedin" 		=> "t",
-							   "username" 		=> $phpAds_username,
-							   "password" 		=> $phpAds_password,
+							   "username" 		=> $HTTP_POST_VARS['phpAds_username'],
+							   "password" 		=> $HTTP_POST_VARS['phpAds_password'],
 							   "userid" 		=> $row['clientid'],
 							   "permissions" 	=> $row['permissions'],
 							   "language" 		=> $row['language'])
@@ -218,19 +222,21 @@ function phpAds_Login()
 					FROM
 						".$phpAds_config['tbl_affiliates']."
 					WHERE
-						username = '$phpAds_username'
-						AND password = '$phpAds_password'
+						username = '".$HTTP_POST_VARS['phpAds_username']."'
+						AND password = '".$HTTP_POST_VARS['phpAds_password']."'
 					");
 				
-				if ($res && phpAds_dbNumRows($res) > 0 && trim($phpAds_username) != "" && trim($phpAds_password) != "")
+				if ($res && phpAds_dbNumRows($res) > 0 && 
+					trim($HTTP_POST_VARS['phpAds_username']) != "" && 
+					trim($HTTP_POST_VARS['phpAds_password']) != "")
 				{
 					// User found with correct password
 					$row = phpAds_dbFetchArray($res);
 					
 					return (array ("usertype" 		=> phpAds_Affiliate,
 								   "loggedin" 		=> "t",
-								   "username" 		=> $phpAds_username,
-								   "password" 		=> $phpAds_password,
+								   "username" 		=> $HTTP_POST_VARS['phpAds_username'],
+								   "password" 		=> $HTTP_POST_VARS['phpAds_password'],
 								   "userid" 		=> $row['affiliateid'],
 								   "permissions" 	=> $row['permissions'],
 								   "language" 		=> $row['language'])
@@ -241,8 +247,8 @@ function phpAds_Login()
 					// Password is not correct or user is not known
 					
 					// Set the session ID now, some server do not support setting a cookie during a redirect
-					$sessionID = phpAds_SessionStart();
-					phpAds_LoginScreen($strPasswordWrong, $sessionID);
+					$HTTP_COOKIE_VARS['sessionID'] = phpAds_SessionStart();
+					phpAds_LoginScreen($strPasswordWrong, $HTTP_COOKIE_VARS['sessionID']);
 				}
 			}
 		}
@@ -252,8 +258,8 @@ function phpAds_Login()
 		// User has not supplied credentials yet
 		
 		// Set the session ID now, some server do not support setting a cookie during a redirect
-		$sessionID = phpAds_SessionStart();
-		phpAds_LoginScreen('', $sessionID);
+		$HTTP_COOKIE_VARS['sessionID'] = phpAds_SessionStart();
+		phpAds_LoginScreen('', $HTTP_COOKIE_VARS['sessionID']);
 	}
 }
 
@@ -267,9 +273,9 @@ function phpAds_IsLoggedIn()
 
 function phpAds_SuppliedCredentials()
 {
-	global $phpAds_username, $phpAds_password;
+	global $HTTP_POST_VARS;
 	
-	return (isset($phpAds_username) && isset($phpAds_password));
+	return (isset($HTTP_POST_VARS['phpAds_username']) && isset($HTTP_POST_VARS['phpAds_password']));
 }
 
 
@@ -285,7 +291,7 @@ function phpAds_isAdmin($username, $password)
 
 function phpAds_LoginScreen($message='', $SessionID=0)
 {
-	global $PHP_SELF, $QUERY_STRING;
+	global $HTTP_COOKIE_VARS, $HTTP_SERVER_VARS;
 	global $phpAds_config, $phpAds_productname;
 	global $strUsername, $strPassword, $strLogin, $strWelcomeTo, $strEnterUsername, $strNoAdminInteface;
 	
@@ -297,8 +303,9 @@ function phpAds_LoginScreen($message='', $SessionID=0)
 		phpAds_ShowBreak();
 		echo "<br>";
 		
-		echo "<form name='login' method='post' action='".basename($PHP_SELF).(isset($QUERY_STRING) && $QUERY_STRING != '' ? '?'.$QUERY_STRING : '')."'>";
-		echo "<input type='hidden' name='phpAds_cookiecheck' value='".$SessionID."'>";
+		echo "<form name='login' method='post' action='".basename($HTTP_SERVER_VARS['PHP_SELF']);
+		echo (isset($HTTP_SERVER_VARS['QUERY_STRING']) && $HTTP_SERVER_VARS['QUERY_STRING'] != '' ? '?'.$HTTP_SERVER_VARS['QUERY_STRING'] : '')."'>";
+		echo "<input type='hidden' name='phpAds_cookiecheck' value='".$HTTP_COOKIE_VARS['SessionID']."'>";
 		echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>";
 		echo "<td width='80' valign='bottom'><img src='images/login-welcome.gif'>&nbsp;&nbsp;</td>";
 		echo "<td width='100%' valign='bottom'>";

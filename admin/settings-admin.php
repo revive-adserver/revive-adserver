@@ -19,6 +19,11 @@ include ("lib-settings.inc.php");
 include ("lib-languages.inc.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('admin', 'pwold', 'pw', 'pw2', 'admin_fullname', 'admin_email', 'company_name', 'language', 
+					   'updates_frequency', 'admin_novice', 'userlog_email', 'userlog_priority', 'userlog_autoclean');
+
+
 // Security check
 phpAds_checkAccess(phpAds_Admin);
 
@@ -160,7 +165,7 @@ phpAds_EndSettings();
 /*********************************************************/
 
 ?>
-<form name="settingsform" method="post" action="<?php echo $PHP_SELF;?>">
+<form name="settingsform" method="post" action="<?php echo $HTTP_SERVER_VARS['PHP_SELF'];?>">
 <?php
 
 phpAds_FlushSettings();

@@ -44,6 +44,7 @@ elseif (!phpAds_installed)
 
 
 // Include required files
+include ("../lib-io.inc.php");
 include ("../lib-db.inc.php");
 include ("../lib-dbconfig.inc.php");
 include ("lib-gui.inc.php");
@@ -95,6 +96,10 @@ if (file_exists("../language/".strtolower($phpAds_config['language'])."/default.
 else
 	require ("../language/english/default.lang.php");
 
+
+// Register variables
+phpAds_registerGlobal ('bannerid', 'campaignid', 'clientid',
+					   'zoneid', 'affiliateid', 'userlogid', 'day');
 
 if (!isset($clientid))    $clientid = '';
 if (!isset($campaignid))  $campaignid = '';
@@ -213,6 +218,5 @@ $phpAds_nav = array (
 
 if (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_ModifyInfo))
 	$phpAds_nav["client"]["2"] =  array("client-edit.php" => $strPreferences);
-
 
 ?>

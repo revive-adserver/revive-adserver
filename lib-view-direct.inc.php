@@ -23,7 +23,7 @@ define ('LIBVIEWDIRECT_INCLUDED', true);
 
 function phpAds_fetchBannerDirect($remaining, $clientid, $context = 0, $source = '', $richmedia = true)
 {
-	global $phpAds_config;
+	global $phpAds_config, $HTTP_COOKIE_VARS;
 	
 	// Build preconditions
 	if (is_array ($context))
@@ -101,7 +101,7 @@ function phpAds_fetchBannerDirect($remaining, $clientid, $context = 0, $source =
 					if ($high > $ranweight && $low <= $ranweight)
 					{
 						// Blocked
-						if (isset($GLOBALS['phpAds_blockAd'][$rows[$i]['bannerid']]))
+						if (isset($HTTP_COOKIE_VARS['phpAds_blockAd'][$rows[$i]['bannerid']]))
 						{
 							// Delete this row and adjust $prioritysum
 							$prioritysum -= $rows[$i]['priority'];
@@ -113,8 +113,8 @@ function phpAds_fetchBannerDirect($remaining, $clientid, $context = 0, $source =
 						
 						// Capped
 						if ($rows[$i]['capping'] > 0 &&
-							isset($GLOBALS['phpAds_capAd'][$rows[$i]['bannerid']]) &&
-							$GLOBALS['phpAds_capAd'][$rows[$i]['bannerid']] >= $rows[$i]['capping'])
+							isset($HTTP_COOKIE_VARS['phpAds_capAd'][$rows[$i]['bannerid']]) &&
+							$HTTP_COOKIE_VARS['phpAds_capAd'][$rows[$i]['bannerid']] >= $rows[$i]['capping'])
 						{
 							// Delete this row and adjust $prioritysum
 							$prioritysum -= $rows[$i]['priority'];

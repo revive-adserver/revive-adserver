@@ -20,6 +20,10 @@ require ("lib-maintenance.inc.php");
 require ("lib-statistics.inc.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('action', 'min', 'count', 'days');
+
+
 // Security check
 phpAds_checkAccess(phpAds_Admin);
 

@@ -21,6 +21,10 @@ require ("lib-zones.inc.php");
 require ("../lib-priority.inc.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('value');
+
+
 // Security check
 phpAds_checkAccess(phpAds_Admin+phpAds_Client);
 

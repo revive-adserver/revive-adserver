@@ -51,7 +51,12 @@ function phpAds_getLayerLimitations ()
 function phpAds_putLayerJS ($output, $uniqid)
 {
 	global $ltr, $loop, $speed, $pause, $shiftv;
-	global $limited, $lmargin, $rmargin, $HTTP_USER_AGENT;
+	global $limited, $lmargin, $rmargin, $HTTP_SERVER_VARS;
+	
+	// Register input variables
+	phpAds_registerGlobal ('ltr', 'loop', 'speed', 'pause',
+					       'shiftv', 'limited', 'lmargin', 'rmargin');
+	
 	
 	if (!isset($ltr)) $ltr = 't';
 	if (!isset($loop)) $loop = 'n';
@@ -173,7 +178,7 @@ function phpAds_floater_grow_<?php echo $uniqid; ?>()
 <?php
 	}
 	
-	if (strstr($HTTP_USER_AGENT, 'Opera'))
+	if (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Opera'))
 	{
 ?>
 	mr = mr - w; ml = ml + w;
@@ -290,6 +295,10 @@ phpAds_floater_<?php echo $uniqid; ?>();
 function phpAds_getLayerHTML ($output, $uniqid)
 {
 	global $transparent, $backcolor, $shiftv;
+	
+	// Register input variables
+	phpAds_registerGlobal ('transparent', 'backcolor', 'shiftv');
+	
 	
 	if (!isset($transparent)) $transparent = 't';
 	if (!isset($backcolor)) $backcolor = '#FFFFFF';

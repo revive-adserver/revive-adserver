@@ -22,6 +22,10 @@ require ("lib-statistics.inc.php");
 require ("../lib-priority.inc.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('returnurl');
+
+
 // Security check
 phpAds_checkAccess(phpAds_Admin);
 

@@ -20,6 +20,12 @@ require ("lib-statistics.inc.php");
 require ("lib-languages.inc.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('errormessage', 'clientname', 'contact', 'email', 'clientlanguage', 'clientreportlastdate', 
+					   'clientreportprevious', 'clientreportdeactivate', 'clientreport', 'clientreportinterval', 
+					   'clientusername', 'clientpassword', 'clientpermissions', 'submit');
+
+
 // Security check
 phpAds_checkAccess(phpAds_Admin+phpAds_Client);
 
@@ -36,7 +42,7 @@ if (phpAds_isUser(phpAds_Client))
 		phpAds_PageHeader("2");
 		phpAds_Die ($strAccessDenied, $strNotAdmin);
 	}
-
+	
 	$clientid = phpAds_getUserID();
 }
 

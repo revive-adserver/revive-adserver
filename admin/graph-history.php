@@ -18,6 +18,10 @@
 require ("config.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('period', 'start', 'limit', 'source');
+
+
 /*********************************************************/
 /* Prepare for current selection                         */
 /*********************************************************/

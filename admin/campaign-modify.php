@@ -20,6 +20,10 @@ require ("lib-storage.inc.php");
 require ("lib-zones.inc.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('moveto', 'returnurl');
+
+
 // Security check
 phpAds_checkAccess(phpAds_Admin);
 

@@ -23,7 +23,7 @@ define ('LIBVIEWZONE_INCLUDED', true);
 
 function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '', $richmedia = true)
 {
-	global $phpAds_config;
+	global $phpAds_config, $HTTP_COOKIE_VARS;
 	
 	
 	// Get first part, store second part
@@ -176,14 +176,14 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 					
 					// Blocked
 					if ($postconditionSucces == true &&
-						isset($GLOBALS['phpAds_blockAd'][$rows[$i]['bannerid']]))
+						isset($HTTP_COOKIE_VARS['phpAds_blockAd'][$rows[$i]['bannerid']]))
 						$postconditionSucces = false;
 					
 					// Capped
 					if ($postconditionSucces == true &&
 						$rows[$i]['capping'] > 0 &&
-						isset($GLOBALS['phpAds_capAd'][$rows[$i]['bannerid']]) &&
-						$GLOBALS['phpAds_capAd'][$rows[$i]['bannerid']] >= $rows[$i]['capping'])
+						isset($HTTP_COOKIE_VARS['phpAds_capAd'][$rows[$i]['bannerid']]) &&
+						$HTTP_COOKIE_VARS['phpAds_capAd'][$rows[$i]['bannerid']] >= $rows[$i]['capping'])
 						$postconditionSucces = false;
 					
 					

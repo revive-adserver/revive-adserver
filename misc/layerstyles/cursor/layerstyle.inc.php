@@ -50,6 +50,11 @@ function phpAds_putLayerJS ($output, $uniqid)
 {
 	global $stickyness, $offsetx, $offsety, $hide, $transparancy, $delay, $trail;
 	
+	// Register input variables
+	phpAds_registerGlobal ('stickyness', 'offsetx', 'offsety', 'hide',
+					       'transparancy', 'delay', 'trail');
+	
+	
 	if (!isset($trail) || $trail == '') $trail = 0;
 	if (!isset($stickyness) || $stickyness == '') $stickyness = 5;
 	

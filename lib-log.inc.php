@@ -130,7 +130,7 @@ function phpAds_logExpire ($clientid, $type=0)
 function phpads_logCheckHost()
 {
 	global $phpAds_config;
-	global $REMOTE_HOST, $REMOTE_ADDR;
+	global $HTTP_SERVER_VARS;
 	
 	if (count($phpAds_config['ignore_hosts']))
 	{
@@ -141,15 +141,15 @@ function phpads_logCheckHost()
 			$hosts = str_replace (".", '\.', $hosts);
 			$hosts = str_replace ("*", '[^.]+', $hosts);
 			
-			if (eregi($hosts, $REMOTE_ADDR))
+			if (eregi($hosts, $HTTP_SERVER_VARS['REMOTE_ADDR']))
 				return false;
 			
-			if (eregi($hosts, $REMOTE_HOST))
+			if (eregi($hosts, $HTTP_SERVER_VARS['REMOTE_HOST']))
 				return false;
 		}
 	}
 	
-	return $REMOTE_HOST;
+	return $HTTP_SERVER_VARS['REMOTE_HOST'];
 }
 
 

@@ -18,6 +18,12 @@
 include ("lib-settings.inc.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('ignore_hosts', 'warn_limit', 'admin_email_headers', 'log_beacon', 'compact_stats', 'log_adviews', 
+					   'log_adclicks', 'block_adviews', 'block_adclicks', 'reverse_lookup', 'proxy_lookup', 'warn_admin', 
+					   'warn_client', 'qmail_patch', 'auto_clean_tables', 'auto_clean_tables_interval');
+
+
 // Security check
 phpAds_checkAccess(phpAds_Admin);
 
@@ -40,7 +46,6 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		else
 			phpAds_settingsWriteAdd('ignore_hosts', array());
 	}
-	
 	
 	
 	if (isset($warn_limit))
@@ -178,7 +183,7 @@ phpAds_EndSettings();
 /*********************************************************/
 
 ?>
-<form name="settingsform" method="post" action="<?php echo $PHP_SELF;?>">
+<form name="settingsform" method="post" action="<?php echo $HTTP_SERVER_VARS['PHP_SELF'];?>">
 <?php
 
 phpAds_FlushSettings();

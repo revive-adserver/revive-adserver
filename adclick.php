@@ -24,6 +24,7 @@ define ('phpAds_path', '.');
 /*********************************************************/
 
 require	(phpAds_path."/config.inc.php"); 
+require (phpAds_path."/lib-io.inc.php");
 require (phpAds_path."/lib-db.inc.php");
 
 if ($phpAds_config['log_adclicks'])
@@ -35,10 +36,19 @@ if ($phpAds_config['log_adclicks'])
 
 
 /*********************************************************/
+/* Register input variables                              */
+/*********************************************************/
+
+phpAds_registerGlobal ('bannerid', 'bannerID', 'n',
+					   'zoneid', 'source', 'dest', 'ismap');
+
+
+
+/*********************************************************/
 /* Main code                                             */
 /*********************************************************/
 
-if (isset($bannerID) && !isset($bannerid))	$bannerid = $bannerID;
+if (!isset($bannerid) && isset($bannerID)) $bannerid = $bannerID;
 if (!isset($n)) $n = 'default';
 
 
@@ -48,9 +58,10 @@ if (!isset($bannerid))
  	// Bannerid and destination not known, try to get
 	// values from the phpAds_banner cookie.
 	
-	if (isset($phpAds_banner[$n]) && $phpAds_banner[$n] != 'DEFAULT')
+	if (isset($HTTP_COOKIE_VARS['phpAds_banner'][$n]) && 
+		$HTTP_COOKIE_VARS['phpAds_banner'][$n] != 'DEFAULT')
 	{
-		$cookie = unserialize (stripslashes($phpAds_banner[$n]));
+		$cookie = unserialize (stripslashes($HTTP_COOKIE_VARS['phpAds_banner'][$n]));
 		
 		if (isset($cookie['bannerid'])) 
 			$bannerid = $cookie['bannerid'];
@@ -79,7 +90,7 @@ if (phpAds_dbConnect())
 		// Get target URL and ClientID
 		$res = phpAds_dbQuery("
 			SELECT
-				url,clientid
+				url, clientid
 			FROM
 				".$phpAds_config['tbl_banners']."
 			WHERE
@@ -103,7 +114,8 @@ if (phpAds_dbConnect())
 		
 		// Log clicks
 		if ($phpAds_config['block_adclicks'] == 0 ||
-		   ($phpAds_config['block_adclicks'] > 0 && !isset($phpAds_blockClick[$bannerid])))
+		   ($phpAds_config['block_adclicks'] > 0 && 
+		   !isset($HTTP_COOKIE_VARS['phpAds_blockClick'][$bannerid])))
 		{
 			if ($phpAds_config['log_adclicks'])
 				phpAds_logClick($bannerid, $clientid, $zoneid, $source);
@@ -111,22 +123,8 @@ if (phpAds_dbConnect())
 			// Send block cookies
 			if ($phpAds_config['block_adclicks'] > 0)
 			{
-				if ($phpAds_config['p3p_policies'])
-				{
-					$p3p_header = '';
-					
-					if ($phpAds_config['p3p_policy_location'] != '')
-						$p3p_header .= " policyref=\"".$phpAds_config['p3p_policy_location']."\"";
-					
-					if ($phpAds_config['p3p_compact_policy'] != '')
-						$p3p_header .= " CP=\"".$phpAds_config['p3p_compact_policy']."\"";
-					
-					if ($p3p_header != '')
-						header ("P3P: $p3p_header");
-				}
-				
-				$url_prefix = parse_url($phpAds_config['url_prefix']);
-				setcookie ("phpAds_blockClick[".$bannerid."]", time(), time() + $phpAds_config['block_adclicks'], $url_prefix["path"]);
+				phpAds_setCookie ("phpAds_blockClick[".$bannerid."]", time(), time() + $phpAds_config['block_adclicks']);
+				phpAds_flushCookie ();
 			}
 		}
 		
@@ -168,8 +166,8 @@ if (phpAds_dbConnect())
 		
 		
 		// Referer
-		if (isset($HTTP_REFERER))
-			$url = str_replace ("{referer}", urlencode($HTTP_REFERER), $url);
+		if (isset($HTTP_SERVER_VARS['HTTP_REFERER']))
+			$url = str_replace ("{referer}", urlencode($HTTP_SERVER_VARS['HTTP_REFERER']), $url);
 		else
 			$url = str_replace ("{referer}", '', $url);
 		

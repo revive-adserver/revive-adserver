@@ -18,6 +18,10 @@
 require ("config.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('returnurl');
+
+
 // Security check
 phpAds_checkAccess(phpAds_Admin+phpAds_Affiliate);
 

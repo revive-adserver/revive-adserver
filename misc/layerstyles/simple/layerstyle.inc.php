@@ -51,6 +51,11 @@ function phpAds_putLayerJS ($output, $uniqid)
 	global $align, $valign, $closetime, $padding;
 	global $shifth, $shiftv, $closebutton;
 	
+	// Register input variables
+	phpAds_registerGlobal ('align', 'valign', 'closetime', 'padding',
+						   'shifth', 'shiftv', 'closebutton');
+	
+	
 	if (!isset($padding)) $padding = 0;
 	if (!isset($shifth)) $shifth = 0;
 	if (!isset($shiftv)) $shiftv = 0;
@@ -196,6 +201,11 @@ function phpAds_getLayerHTML ($output, $uniqid)
 	global $phpAds_config, $target;
 	global $align, $padding, $closebutton;
 	global $backcolor, $bordercolor;
+	
+	// Register input variables
+	phpAds_registerGlobal ('align', 'padding', 'closebutton',
+						   'backcolor', 'bordercolor');
+	
 	
 	if (!isset($padding)) $padding = '2';
 	if (!isset($closebutton)) $closebutton = 'f';

@@ -20,6 +20,10 @@ require ("lib-statistics.inc.php");
 require ("lib-expiration.inc.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('period', 'start', 'limit', 'source');
+
+
 // Security check
 phpAds_checkAccess(phpAds_Admin+phpAds_Client);
 

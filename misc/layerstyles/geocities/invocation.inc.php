@@ -18,6 +18,10 @@
 define('phpAds_adLayerLoaded', true);
 
 
+// Register input variables
+phpAds_registerGlobal ('align', 'collapsetime', 'padding', 'closetext');
+
+
 
 /*********************************************************/
 /* Place ad-generator settings                           */

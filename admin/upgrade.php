@@ -29,10 +29,17 @@ else
 // Include default settings
 require (phpAds_path.'/misc/config.template.php');
 
+
+// Register input variables
+require ("../lib-io.inc.php");
+phpAds_registerGlobal ('step');
+
+
 // Include config edit library
 require ("lib-config.inc.php");
 include ("../lib-db.inc.php");
 include ("../lib-dbconfig.inc.php");
+
 
 // Read the config file and overwrite default values
 phpAds_ConfigFileUpdatePrepare();
@@ -267,7 +274,7 @@ if (phpAds_isUser(phpAds_Admin))
 		
 		// Rebuild cache of all zones
 		phpAds_RebuildZoneCache();
-
+		
 		// Check if priority recalculation is needed
 		list($banners, $priority_sum) = phpAds_dbFetchRow(phpAds_dbQuery("
 			SELECT
@@ -284,7 +291,7 @@ if (phpAds_isUser(phpAds_Admin))
 			
 			phpAds_PriorityCalculate();
 		}
-
+		
 		// Send the output to the browser
 		flush();
 		

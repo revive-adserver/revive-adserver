@@ -18,6 +18,10 @@
 require ("config.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('start');
+
+
 // Security check
 phpAds_checkAccess(phpAds_Admin);
 

@@ -21,6 +21,10 @@ require ("lib-zones.inc.php");
 require ("lib-size.inc.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('zonename', 'description', 'delivery', 'sizetype', 'size', 'width', 'height', 'submit');
+
+
 // Security check
 phpAds_checkAccess(phpAds_Admin+phpAds_Affiliate);
 

@@ -18,6 +18,12 @@
 include ("lib-settings.inc.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('dbhost', 'dbuser', 'dbpassword', 'dbname', 
+					   'persistent_connections', 'insert_delayed', 
+					   'compatibility_mode');
+
+
 // Security check
 phpAds_checkAccess(phpAds_Admin);
 
@@ -114,7 +120,7 @@ phpAds_EndSettings();
 /*********************************************************/
 
 ?>
-<form name="settingsform" method="post" action="<?php echo $PHP_SELF;?>">
+<form name="settingsform" method="post" action="<?php echo $HTTP_SERVER_VARS['PHP_SELF'];?>">
 <?php
 
 phpAds_FlushSettings();

@@ -23,7 +23,8 @@ define ('phpAds_path', '.');
 /* Include required files                                */
 /*********************************************************/
 
-require	(phpAds_path."/config.inc.php"); 
+require	(phpAds_path."/config.inc.php");
+require (phpAds_path."/lib-io.inc.php");
 require (phpAds_path."/lib-db.inc.php");
 
 if (($phpAds_config['log_adviews'] && !$phpAds_config['log_beacon']) || $phpAds_config['acl'])
@@ -78,9 +79,9 @@ function enjavanate ($str, $limit = 60)
 
 function phpAds_getUserAgent()
 {
-	global $HTTP_USER_AGENT;
+	global $HTTP_SERVER_VARS;
 	
-	if (ereg('MSIE ([0-9].[0-9]{1,2})(.*Opera ([0-9].[0-9]{1,2}))?', $HTTP_USER_AGENT, $log_version))
+	if (ereg('MSIE ([0-9].[0-9]{1,2})(.*Opera ([0-9].[0-9]{1,2}))?', $HTTP_SERVER_VARS['HTTP_USER_AGENT'], $log_version))
 	{
 		if ($log_version[3])
 		{
@@ -93,17 +94,17 @@ function phpAds_getUserAgent()
 			$agent = 'IE';
 		}
 	}
-	elseif (ereg('Opera ([0-9].[0-9]{1,2})', $HTTP_USER_AGENT, $log_version))
+	elseif (ereg('Opera ([0-9].[0-9]{1,2})', $HTTP_SERVER_VARS['HTTP_USER_AGENT'], $log_version))
 	{
 		$ver = $log_version[1];
 		$agent = 'Opera';
 	}
-	elseif (ereg('Mozilla/([0-9].[0-9]{1,2})', $HTTP_USER_AGENT, $log_version))
+	elseif (ereg('Mozilla/([0-9].[0-9]{1,2})', $HTTP_SERVER_VARS['HTTP_USER_AGENT'], $log_version))
 	{
 		$ver = $log_version[1];
 		$agent = 'Mozilla';
 	}
-	elseif (strstr($HTTP_USER_AGENT, 'Konqueror') && ereg('([0-9].[0-9]{1,2})', $HTTP_USER_AGENT, $log_version))
+	elseif (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Konqueror') && ereg('([0-9].[0-9]{1,2})', $HTTP_SERVER_VARS['HTTP_USER_AGENT'], $log_version))
 	{
 		$ver = $log_version[1];
 		$agent = 'Konqueror';
@@ -114,13 +115,13 @@ function phpAds_getUserAgent()
 		$agent = 'Other';
 	}
 	
-	if (strstr($HTTP_USER_AGENT, 'Win'))
+	if (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Win'))
 		$platform = 'Win';
-	else if (strstr($HTTP_USER_AGENT, 'Mac'))
+	else if (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Mac'))
 		$platform = 'Mac';
-	else if (strstr($HTTP_USER_AGENT, 'Linux'))
+	else if (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Linux'))
 		$platform = 'Linux';
-	else if (strstr($HTTP_USER_AGENT, 'Unix'))
+	else if (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Unix'))
 		$platform = 'Unix';
 	else
 		$platform = 'Other';
@@ -131,6 +132,16 @@ function phpAds_getUserAgent()
 		'platform' => $platform
 	);
 }
+
+
+
+/*********************************************************/
+/* Register input variables                              */
+/*********************************************************/
+
+phpAds_registerGlobal ('what', 'clientid', 'clientID', 'context',
+					   'target', 'source', 'withtext', 'withText',
+					   'layerstyle');
 
 
 

@@ -114,10 +114,12 @@ function phpAds_aclCheckWeekday($data, $ad)
 
 function phpAds_aclCheckUseragent($data, $ad)
 {
+	global $HTTP_SERVER_VARS;
+	
 	if ($data == '')
 		return (true);
 	
-	$agent = $GLOBALS['HTTP_USER_AGENT'];
+	$agent = $HTTP_SERVER_VARS['HTTP_USER_AGENT'];
 	
 	$expression = ($data == "*" || eregi($data, $agent));
 	$operator   = $ad == 'allow';
@@ -132,10 +134,12 @@ function phpAds_aclCheckUseragent($data, $ad)
 
 function phpAds_aclCheckClientip($data, $ad)
 {
+	global $HTTP_SERVER_VARS;
+	
 	if ($data == '')
 		return (true);
 	
-	$host = $GLOBALS['REMOTE_ADDR'];
+	$host = $HTTP_SERVER_VARS['REMOTE_ADDR'];
 	
 	if (!strpos($data, '/'))
 	{
@@ -181,10 +185,12 @@ function phpAds_aclCheckClientip($data, $ad)
 
 function phpAds_aclCheckDomain($data, $ad)
 {
+	global $HTTP_SERVER_VARS;
+	
 	if ($data == '')
 		return (true);
 	
-	$host = $GLOBALS['REMOTE_HOST'];
+	$host = $HTTP_SERVER_VARS['REMOTE_HOST'];
 	
 	$domain 	= substr($host,-(strlen($data)));
 	$expression = ($data == "*" || strtolower($domain) == strtolower($data)) ;
@@ -200,10 +206,12 @@ function phpAds_aclCheckDomain($data, $ad)
 
 function phpAds_aclCheckLanguage($data, $ad)
 {
+	global $HTTP_SERVER_VARS;
+	
 	if ($data == '')
 		return (true);
 	
-	$source = $GLOBALS['HTTP_ACCEPT_LANGUAGE'];
+	$source = $HTTP_SERVER_VARS['HTTP_ACCEPT_LANGUAGE'];
 	
 	$expression = ($data == "*" || eregi("^".$data, $source));
 	$operator   = $ad == 'allow';

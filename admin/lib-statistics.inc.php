@@ -165,7 +165,7 @@ function phpAds_getBannerListOrder ($ListOrder, $OrderDirection)
 	return ($sqlTableOrder);
 }
 
-// Order for $phpAds_config['tbl_banners']
+// Order for $phpAds_config['tbl_zones']
 function phpAds_getZoneListOrder ($ListOrder, $OrderDirection)
 {
 	switch ($ListOrder)
@@ -214,6 +214,7 @@ function phpAds_getAffiliateListOrder ($ListOrder, $OrderDirection)
 /*********************************************************/
 /* Fetch the ID of the parent of a campaign              */
 /*********************************************************/
+
 function phpAds_getParentID ($clientid)
 {
 	global $phpAds_config;
@@ -423,12 +424,12 @@ function phpAds_getAffiliateName ($affiliateid)
 		else
 		{
 			$res = phpAds_dbQuery("
-			SELECT
-				*
-			FROM
-				".$phpAds_config['tbl_affiliates']."
-			WHERE
-				affiliateid = $affiliateid
+				SELECT
+					*
+				FROM
+					".$phpAds_config['tbl_affiliates']."
+				WHERE
+					affiliateid = $affiliateid
 			") or phpAds_sqlDie();
 			
 			$row = phpAds_dbFetchArray($res);

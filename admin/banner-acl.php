@@ -20,6 +20,10 @@ require ("lib-statistics.inc.php");
 require ("lib-zones.inc.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('submit', 'action', 'acl', 'type', 'time', 'cap');
+
+
 // Security check
 phpAds_checkAccess(phpAds_Admin);
 
@@ -363,7 +367,7 @@ if (!isset($acl) && $phpAds_config['acl'])
 		if ($row['acl_type'] == 'time' || $row['acl_type'] == 'weekday')
 			$acl[$row['acl_order']]['data'] = explode (',', $row['acl_data']);
 		else
-			$acl[$row['acl_order']]['data'] = $row['acl_data'];
+			$acl[$row['acl_order']]['data'] = addslashes($row['acl_data']);
 	}
 }
 
@@ -404,6 +408,7 @@ if ($time['hour'] == 0 && $time['minute'] == 0 && $time['second'] == 0) $time['s
 if ($time['hour'] == 0 && $time['minute'] == 0) $time['minute'] = '-'; 
 if ($time['hour'] == 0) $time['hour'] = '-';
 if ($cap == 0) $cap = '-';
+
 
 
 // Begin form
@@ -535,7 +540,7 @@ if ($phpAds_config['acl'])
 				echo "</table>";
 			}
 			else
-				echo "<input type='text' size='40' name='acl[".$key."][data]' value='".(isset($acl[$key]['data']) ? $acl[$key]['data'] : "")."'>";
+				echo "<input type='text' size='40' name='acl[".$key."][data]' value='".phpAds_htmlQuotes(stripslashes(isset($acl[$key]['data']) ? $acl[$key]['data'] : ""))."'>";
 			
 			echo "<br><br></td></tr>";
 			

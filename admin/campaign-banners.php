@@ -21,6 +21,10 @@ require ("lib-expiration.inc.php");
 require ("lib-gd.inc.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('expand', 'collapse', 'listorder', 'orderdirection');
+
+
 // Security check
 phpAds_checkAccess(phpAds_Admin);
 

@@ -50,6 +50,10 @@ function phpAds_putLayerJS ($output, $uniqid)
 {
 	global $align, $collapsetime, $padding;
 	
+	// Register input variables
+	phpAds_registerGlobal ('align', 'collapsetime', 'padding');
+	
+	
 	// Calculate layer size (inc. borders)
 	$layer_width = $output['width'] + 4 + $padding*2;
 	$layer_height = $output['height'] + 30 + $padding*2;
@@ -179,6 +183,10 @@ function phpAds_getLayerHTML ($output, $uniqid)
 {
 	global $phpAds_config, $target;
 	global $align, $collapsetime, $padding, $closetext;
+	
+	// Register input variables
+	phpAds_registerGlobal ('align', 'collapsetime', 'padding', 'closetext');
+	
 	
 	if (!isset($padding)) $padding = '2';
 	

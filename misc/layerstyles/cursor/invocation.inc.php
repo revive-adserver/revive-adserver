@@ -18,6 +18,11 @@
 define('phpAds_adLayerLoaded', true);
 
 
+// Register input variables
+phpAds_registerGlobal ('stickyness', 'offsetx', 'offsety', 'hide',
+					   'transparancy', 'delay', 'trail');
+
+
 
 /*********************************************************/
 /* Place ad-generator settings                           */

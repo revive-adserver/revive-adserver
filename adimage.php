@@ -15,12 +15,14 @@
 
 
 // Include required files
-require	("config.inc.php"); 
+require	("config.inc.php");
+require ("lib-io.inc.php");
 require ("lib-db.inc.php");
 
 
-// Set header information
-//include ("lib-cache.inc.php");
+// Register input variables
+phpAds_registerGlobal ('filename', 'contenttype');
+
 
 // Open a connection to the database
 phpAds_dbConnect();

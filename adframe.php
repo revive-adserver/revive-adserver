@@ -24,6 +24,7 @@ define ('phpAds_path', '.');
 /*********************************************************/
 
 require	(phpAds_path."/config.inc.php"); 
+require (phpAds_path."/lib-io.inc.php");
 require (phpAds_path."/lib-db.inc.php");
 
 if (($phpAds_config['log_adviews'] && !$phpAds_config['log_beacon']) || $phpAds_config['acl'])
@@ -39,6 +40,16 @@ if (($phpAds_config['log_adviews'] && !$phpAds_config['log_beacon']) || $phpAds_
 
 require	(phpAds_path."/lib-view-main.inc.php");
 require (phpAds_path."/lib-cache.inc.php");
+
+
+
+/*********************************************************/
+/* Register input variables                              */
+/*********************************************************/
+
+phpAds_registerGlobal ('what', 'clientid', 'clientID', 'context',
+					   'target', 'source', 'withtext', 'withText',
+					   'refresh', 'resize');
 
 
 
@@ -59,6 +70,7 @@ if (!isset($context)) 	$context = '';
 
 // Get the banner
 $banner = view_raw ($what, $clientid, $target, $source, $withtext, $context);
+
 
 // Build HTML
 echo "<html>\n";

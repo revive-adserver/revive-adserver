@@ -13,9 +13,8 @@
 /************************************************************************/
 
 
-$now = gmdate("D, d M Y H:i:s") . " GMT";
-header ("Pragma: no-cache");
-header ("Cache-Control: private, max-age=0, no-cache");
-header ("Date: $now");
+header ('Pragma: no-cache');
+header ('Cache-Control: private, max-age=0, no-cache');
+header ('Date: '.gmdate('D, d M Y H:i:s').' GMT');
 
 ?>

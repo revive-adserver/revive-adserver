@@ -14,15 +14,18 @@
 
 
 
+// Register input variables
+phpAds_registerGlobal ('codetype', 'what', 'clientid', 'source', 'target', 'withText', 'template', 'refresh',
+					   'uniqueid', 'width', 'height', 'website', 'ilayer', 'popunder', 'left', 'top', 'timeout',
+					   'transparent', 'resize', 'block', 'raw', 'hostlanguage', 'submitbutton', 'generate',
+					   'layerstyle');
+
+
 // Load translations
 if (file_exists("../language/".strtolower($phpAds_config['language'])."/invocation.lang.php"))
-{
 	require ("../language/".strtolower($phpAds_config['language'])."/invocation.lang.php");
-}
 else
-{
 	require ("../language/english/invocation.lang.php");
-}
 
 
 
@@ -293,7 +296,7 @@ function phpAds_GenerateInvocationCode()
 
 function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 {
-	global $phpAds_config, $phpAds_TextDirection, $PHP_SELF;
+	global $phpAds_config, $phpAds_TextDirection, $HTTP_SERVER_VARS;
 	global $submitbutton, $generate;
 	global $codetype, $what, $clientid, $source, $target;
 	global $withText, $template, $refresh, $uniqueid;
@@ -318,7 +321,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	
 	
 	
-	echo "<form name='generate' action='".$PHP_SELF."' method='POST'>\n";
+	echo "<form name='generate' action='".$HTTP_SERVER_VARS['PHP_SELF']."' method='POST'>\n";
 	
 	// Invocation type selection
 	if (!is_array($extra) || $extra['delivery'] != phpAds_ZoneInterstitial && $extra['delivery'] != phpAds_ZonePopup)
@@ -409,8 +412,8 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<tr><td height='25'><img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strBannercode']."</b></td>";
 			
 			// Show clipboard button only on IE
-			if (strpos ($GLOBALS['HTTP_USER_AGENT'], 'MSIE') > 0 &&
-				strpos ($GLOBALS['HTTP_USER_AGENT'], 'Opera') < 1)
+			if (strpos ($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'MSIE') > 0 &&
+				strpos ($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Opera') < 1)
 			{
 				echo "<td height='25' align='right'><img src='images/icon-clipboard.gif' align='absmiddle'>&nbsp;";
 				echo "<a href='javascript:phpAds_CopyClipboard(\"bannercode\");'>".$GLOBALS['strCopyToClipboard']."</a></td></tr>";

@@ -17,6 +17,7 @@
 // Tell to all includes that we are installing
 define('phpAds_installing', 1);
 
+
 // Figure out our location
 if (strlen(__FILE__) > strlen(basename(__FILE__)))
     define ('phpAds_path', substr(__FILE__, 0, (strlen(__FILE__) - strpos(strrev(__FILE__), strrev('admin')) - strlen('admin') - 1)));
@@ -24,15 +25,21 @@ else
     define ('phpAds_path', '..');
 
 
-
-
 // Include config file
 require ("../config.inc.php");
 
+
+// Register input variables
+require ("../lib-io.inc.php");
+phpAds_registerGlobal ('installvars', 'language', 'phase', 'dbhost', 'dbuser', 'dbpassword', 'dbname', 'table_prefix', 
+					   'tabletype', 'admin', 'admin_pw', 'admin_pw2', 'url_prefix');
+
+
 // Set URL prefix
 $phpAds_config['url_prefix'] = strtolower(eregi_replace("^([a-z]+)/.*$", "\\1://",
-	$SERVER_PROTOCOL)).$HTTP_HOST.
-	ereg_replace("/admin/install.php(\?.*)?$", "", $SCRIPT_NAME);
+	$HTTP_SERVER_VARS['SERVER_PROTOCOL'])).$HTTP_SERVER_VARS['HTTP_HOST'].
+	ereg_replace("/admin/install.php(\?.*)?$", "", $HTTP_SERVER_VARS['SCRIPT_NAME']);
+
 
 // Overwrite settings with install vars
 if (isset($installvars) && is_array($installvars))
@@ -135,12 +142,8 @@ phpAds_checkAccess(phpAds_Admin);
 
 if (phpAds_isUser(phpAds_Admin))
 {
-	if (isset($HTTP_POST_VARS['phase']))
-		$phase = $HTTP_POST_VARS['phase'];
-	else
+	if (!isset($phase))
 		$phase = 0;
-	
-	
 	
 	// Process information
 	switch($phase)
@@ -160,13 +163,13 @@ if (phpAds_isUser(phpAds_Admin))
 			// Config variables can only be checked with php 4
 			if ($phpversion >= 4000)
 			{
-				// Check register_globals
-				if (ini_get ('register_globals') != true)
-					$fatal[] = $strWarningRegisterGlobals;
+				// Check register_globals (Should now be compatible)
+				// if (ini_get ('register_globals') != true)
+				//	  $fatal[] = $strWarningRegisterGlobals;
 				
-				// Check magic_quote_gpc
-				if (ini_get ('magic_quotes_gpc') != true)
-					$fatal[] = $strWarningMagicQuotesGPC;
+				// Check magic_quote_gpc (Should now be compatible)
+				// if (ini_get ('magic_quotes_gpc') != true)
+				//	  $fatal[] = $strWarningMagicQuotesGPC;
 				
 				// Check magic_quotes_runtime
 				if (ini_get ('magic_quotes_runtime') != false)

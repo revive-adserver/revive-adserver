@@ -26,13 +26,14 @@ if (!defined('PHPADSNEW_INCLUDED'))
 	// define ('phpAds_path', "/home/myname/www/phpAdsNew");
 	
 	
-	// Globalize settings
+	// Globalize settings and IO
 	// (just in case phpadsnew.inc.php is called from a function)
-	global $phpAds_config;
+	global $phpAds_config, $HTTP_SERVER_VARS;
 	
 	
 	// Include required files
 	require	(phpAds_path."/config.inc.php"); 
+	require (phpAds_path."/lib-io.inc.php");
 	require (phpAds_path."/lib-db.inc.php");
 	
 	

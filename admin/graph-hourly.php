@@ -18,6 +18,9 @@
 require ("config.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('where');
+
 
 /*********************************************************/
 /* Prepare data for graph                                */

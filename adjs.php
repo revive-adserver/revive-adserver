@@ -24,6 +24,7 @@ define ('phpAds_path', '.');
 /*********************************************************/
 
 require	(phpAds_path."/config.inc.php"); 
+require (phpAds_path."/lib-io.inc.php");
 require (phpAds_path."/lib-db.inc.php");
 
 if (($phpAds_config['log_adviews'] && !$phpAds_config['log_beacon']) || $phpAds_config['acl'])
@@ -69,6 +70,16 @@ function enjavanate ($str, $limit = 60)
 	
 	print "\ndocument.write(phpadsbanner);\n";
 }
+
+
+
+/*********************************************************/
+/* Register input variables                              */
+/*********************************************************/
+
+phpAds_registerGlobal ('what', 'clientid', 'clientID', 'context',
+					   'target', 'source', 'withtext', 'withText',
+					   'exclude', 'block');
 
 
 

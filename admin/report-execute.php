@@ -19,6 +19,10 @@ require ("config.php");
 require ("lib-statistics.inc.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('plugin');
+
+
 if (isset($plugin) && $plugin != '')
 {
 	$filename = 'report-plugins/'.$plugin.'.plugin.php';
@@ -37,14 +41,17 @@ if (isset($plugin) && $plugin != '')
 		
 		for (reset($plugin_import);$key=key($plugin_import);next($plugin_import))
 		{
+			// Register needed plugin variables
+			phpAds_registerGlobal ($key);
+			
 			if (isset($$key) && $$key != '')
-				$plugin_variables[] = "'".$$key."'";
+				$plugin_variables[] = "'".addslashes($$key)."'";
 			else
 				$plugin_variables[] = "''";
 		}
 		
 		$executestring = $plugin_execute_function."(".implode(",", $plugin_variables).");";
-		eval ($executestring);
+		@eval ($executestring);
 	}
 }
 

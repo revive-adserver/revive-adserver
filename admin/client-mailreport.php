@@ -19,6 +19,12 @@ require ("config.php");
 require ("lib-statistics.inc.php");
 require ("../lib-reports.inc.php");
 
+
+// Register input variables
+phpAds_registerGlobal ('startday', 'startmonth', 'startyear', 
+					   'endday', 'endmonth', 'endyear');
+
+
 // Security check
 phpAds_checkAccess(phpAds_Admin);
 

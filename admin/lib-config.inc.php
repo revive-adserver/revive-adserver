@@ -138,7 +138,7 @@ function phpAds_ConfigFileUpdatePrepare ()
 {
 	global $phpAds_configFilepath;
 	global $phpAds_settings_information, $phpAds_settings_update_cache;
-	global $phpAds_config;
+	global $phpAds_config, $HTTP_SERVER_VARS;
 	
 	if ($confighandle = @fopen($phpAds_configFilepath,'r'))
 	{
@@ -166,11 +166,11 @@ function phpAds_ConfigFileUpdatePrepare ()
 					if ($regs[1] == 'url_prefix')
 					{
 						$regs[2] = ' = \''.strtolower(eregi_replace("^([a-z]+)/.*$", "\\1://",
-							       $GLOBALS['SERVER_PROTOCOL'])).$GLOBALS['HTTP_HOST'].
-								   ereg_replace("/admin/upgrade.php(\?.*)?$", "", $GLOBALS['REQUEST_URI']).'\'';
+							       $HTTP_SERVER_VARS['SERVER_PROTOCOL'])).$HTTP_SERVER_VARS['HTTP_HOST'].
+								   ereg_replace("/admin/upgrade.php(\?.*)?$", "", $HTTP_SERVER_VARS['REQUEST_URI']).'\'';
 					}
 					
-					eval ("$"."value ".$regs[2].";");
+					@eval ("$"."value ".$regs[2].";");
 					
 					if ($phpAds_settings_information[$regs[1]]['type'] == 'string')
 					{
@@ -223,8 +223,8 @@ function phpAds_ConfigFileUpdatePrepare ()
 					if ($regs[1] == 'url_prefix')
 					{
 						$regs[2] = ' = \''.strtolower(eregi_replace("^([a-z]+)/.*$", "\\1://",
-							       $GLOBALS['SERVER_PROTOCOL'])).$GLOBALS['HTTP_HOST'].
-								   ereg_replace("/admin/upgrade.php(\?.*)?$", "", $GLOBALS['REQUEST_URI']).'\'';
+							       $HTTP_SERVER_VARS['SERVER_PROTOCOL'])).$HTTP_SERVER_VARS['HTTP_HOST'].
+								   ereg_replace("/admin/upgrade.php(\?.*)?$", "", $HTTP_SERVER_VARS['REQUEST_URI']).'\'';
 					}
 					
 					// Parse variables inside assignments
@@ -236,7 +236,7 @@ function phpAds_ConfigFileUpdatePrepare ()
 								'', $regs[2]);
 					}
 					
-					eval ("$"."value ".$regs[2].";");
+					@eval ("$"."value ".$regs[2].";");
 					
 					if ($phpAds_settings_information[$regs[1]]['type'] == 'string')
 					{

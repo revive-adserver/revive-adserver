@@ -20,6 +20,10 @@ require ("lib-storage.inc.php");
 require ("lib-statistics.inc.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('returnurl', 'moveto', 'duplicate');
+
+
 // Security check
 phpAds_checkAccess(phpAds_Admin);
 

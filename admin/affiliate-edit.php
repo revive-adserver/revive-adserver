@@ -21,6 +21,11 @@ require ("lib-zones.inc.php");
 require ("lib-languages.inc.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('move', 'name', 'website', 'contact', 'email', 'language', 'publiczones', 
+					   'errormessage', 'username', 'password', 'affiliatepermissions', 'submit');
+
+
 // Security check
 phpAds_checkAccess(phpAds_Admin+phpAds_Affiliate);
 

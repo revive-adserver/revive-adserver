@@ -21,6 +21,10 @@ require ("lib-statistics.inc.php");
 require ("lib-zones.inc.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('action');
+
+
 // Security check
 phpAds_checkAccess(phpAds_Admin);
 

@@ -19,6 +19,10 @@ require ("config.php");
 require ("lib-statistics.inc.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection');
+
+
 // Security check
 phpAds_checkAccess(phpAds_Admin);
 
