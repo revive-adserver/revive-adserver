@@ -17,11 +17,11 @@
 // Invocation Types
 $GLOBALS['strInvocationRemote']			= "Remote Invocation";
 $GLOBALS['strInvocationJS']				= "Remote Invocation for Javascript";
-$GLOBALS['strInvocationIframes']		= "Remote Invocation for iframes";
+$GLOBALS['strInvocationIframes']		= "Remote Invocation for Frames";
 $GLOBALS['strInvocationXmlRpc']			= "Remote Invocation using XML-RPC";
 $GLOBALS['strInvocationCombined']		= "Combined Remote Invocation";
 $GLOBALS['strInvocationPopUp']			= "Pop-up";
-$GLOBALS['strInvocationAdLayer']		= "AdLayer";
+$GLOBALS['strInvocationAdLayer']		= "Interstitial";
 $GLOBALS['strInvocationLocal']			= "Local mode";
 
 
@@ -31,11 +31,11 @@ $GLOBALS['strAbbrSeconds']				= "sec";
 
 
 // Common Invocation Parameters
-$GLOBALS['strInvocationWhat']			= "What";
-$GLOBALS['strInvocationClientID']		= "ClientID";
-$GLOBALS['strInvocationTarget']			= "Target";
+$GLOBALS['strInvocationWhat']			= "Banner selection";
+$GLOBALS['strInvocationClientID']		= "Advertiser or campaign";
+$GLOBALS['strInvocationTarget']			= "Target frame";
 $GLOBALS['strInvocationSource']			= "Source";
-$GLOBALS['strInvocationWithText']		= "WithText";
+$GLOBALS['strInvocationWithText']		= "Show text below banner";
 
 
 // Iframe
@@ -54,34 +54,34 @@ $GLOBALS['strPopUpLeft']				= "Initial position (left)";
 
 
 // XML-RPC
-$GLOBALS['strXmlRpcLanguage']			= "Host Language";
+$GLOBALS['strXmlRpcLanguage']			= "Host language";
 
 
 // AdLayer
-$GLOBALS['strAdLayerStyle']				= "Layer Style";
+$GLOBALS['strAdLayerStyle']				= "Style";
 
 $GLOBALS['strAlignment']				= "Alignment";
-$GLOBALS['strHAlignment']				= "Horizontal Alignment";
+$GLOBALS['strHAlignment']				= "Horizontal alignment";
 $GLOBALS['strLeft']						= "Left";
 $GLOBALS['strCenter']					= "Center";
 $GLOBALS['strRight']					= "Right";
 
-$GLOBALS['strVAlignment']				= "Vertical Alignment";
+$GLOBALS['strVAlignment']				= "Vertical alignment";
 $GLOBALS['strTop']						= "Top";
 $GLOBALS['strMiddle']					= "Middle";
 $GLOBALS['strBottom']					= "Bottom";
 
 $GLOBALS['strAutoCollapseAfter']		= "Automatically collapse after";
-$GLOBALS['strCloseText']				= "Close Text";
+$GLOBALS['strCloseText']				= "Close text";
 $GLOBALS['strClose']					= "[Close]";
-$GLOBALS['strBannerPadding']			= "Banner Padding";
+$GLOBALS['strBannerPadding']			= "Banner padding";
 
-$GLOBALS['strHShift']					= "Horizontal Shift";
-$GLOBALS['strVShift']					= "Vertical Shift";
+$GLOBALS['strHShift']					= "Horizontal shift";
+$GLOBALS['strVShift']					= "Vertical shift";
 
 $GLOBALS['strShowCloseButton']			= "Show close button";
-$GLOBALS['strBackgroundColor']			= "Background Color";
-$GLOBALS['strBorderColor']				= "Border Color";
+$GLOBALS['strBackgroundColor']			= "Background color";
+$GLOBALS['strBorderColor']				= "Border color";
 
 
 $GLOBALS['strAdLayerStyleName']				= array(
