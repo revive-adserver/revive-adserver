@@ -142,23 +142,48 @@ $contenturl .= "&source=".urlencode($source)."&timeout=".$timeout;
 header("Content-type: application/x-javascript");
 		
 
+echo "var phpads_errorhandler = null;\n\n";
+
+echo "if (window.captureEvents && Event.ERROR)\n";
+echo "\twindow.captureEvents (Event.ERROR);\n\n";
+
+// Error handler to prevent 'Access denied' errors
+echo "function phpads_onerror(e) {\n";
+echo "\twindow.onerror = phpads_errorhandler;\n";
+echo "\treturn true;\n";
+echo "}\n\n";
+
 echo "function phpads_".$row['bannerid']."_pop() {\n";
-echo "\tphpads_".$row['bannerid']." =  window.open('', 'phpads_".$row['bannerid']."', 'height=".$row['height'].",width=".$row['width'].",toolbar=".($toolbars == 1 ? 'yes' : 'no').",location=".($location == 1 ? 'yes' : 'no').",menubar=".($menubar == 1 ? 'yes' : 'no').",status=".($status == 1 ? 'yes' : 'no').",resizable=".($resizable == 1 ? 'yes' : 'no').",scrollbars=".($scrollbars == 1 ? 'yes' : 'no')."');\n";
+echo "\tphpads_errorhandler = window.onerror;\n";
+echo "\twindow.onerror = phpads_onerror;\n\n";
+
+// Determine the size of the window
+echo "\tvar X = ".$row['width'].";\n";
+echo "\tvar Y = ".$row['height'].";\n\n";
+
+// If Netscape 3 is used add 20 to the size because it doesn't support a margin of 0
+echo "\tif(!window.resizeTo) {\n";
+echo "\t\tX = X + 20;\n";
+echo "\t\tY = Y + 20;\n";
+echo "\t}\n\n";
+
+// Open the window if needed
+echo "\twindow.phpads_".$row['bannerid']." =  window.open('', 'phpads_".$row['bannerid']."', 'height=' + Y + ',width=' + X + ',toolbar=".($toolbars == 1 ? 'yes' : 'no').",location=".($location == 1 ? 'yes' : 'no').",menubar=".($menubar == 1 ? 'yes' : 'no').",status=".($status == 1 ? 'yes' : 'no').",resizable=".($resizable == 1 ? 'yes' : 'no').",scrollbars=".($scrollbars == 1 ? 'yes' : 'no')."');\n";
 echo "\tif (window.phpads_".$row['bannerid'].".document.title == '' || window.phpads_".$row['bannerid'].".location == 'about:blank' || window.phpads_".$row['bannerid'].".location == '') {\n";
 
 // Resize window to correct size, determine outer width and height
 echo "\t\tif (window.resizeTo) {\n";
 echo "\t\t\tif(phpads_".$row['bannerid'].".innerHeight) {\n";
-echo "\t\t\t\tvar diffY = phpads_".$row['bannerid'].".outerHeight - ".$row['height'].";\n";
-echo "\t\t\t\tvar diffX = phpads_".$row['bannerid'].".outerWidth - ".$row['width'].";\n";
-echo "\t\t\t\tvar outerX = ".$row['width']." + diffX;\n";
-echo "\t\t\t\tvar outerY = ".$row['height']." + diffY;\n";
+echo "\t\t\t\tvar diffY = phpads_".$row['bannerid'].".outerHeight - Y;\n";
+echo "\t\t\t\tvar diffX = phpads_".$row['bannerid'].".outerWidth - X;\n";
+echo "\t\t\t\tvar outerX = X + diffX;\n";
+echo "\t\t\t\tvar outerY = Y + diffY;\n";
 echo "\t\t\t} else {\n";
-echo "\t\t\t\tphpads_".$row['bannerid'].".resizeTo(".$row['width'].",".$row['height'].");\n";
-echo "\t\t\t\tvar diffY = phpads_".$row['bannerid'].".document.body.clientHeight - ".$row['height'].";\n";
-echo "\t\t\t\tvar diffX = phpads_".$row['bannerid'].".document.body.clientWidth - ".$row['width'].";\n";
-echo "\t\t\t\tvar outerX = ".$row['width']." - diffX;\n";
-echo "\t\t\t\tvar outerY = ".$row['height']." - diffY;\n";
+echo "\t\t\t\tphpads_".$row['bannerid'].".resizeTo(X, Y);\n";
+echo "\t\t\t\tvar diffY = phpads_".$row['bannerid'].".document.body.clientHeight - Y;\n";
+echo "\t\t\t\tvar diffX = phpads_".$row['bannerid'].".document.body.clientWidth - X;\n";
+echo "\t\t\t\tvar outerX = X - diffX;\n";
+echo "\t\t\t\tvar outerY = Y - diffY;\n";
 echo "\t\t\t}\n";
 echo "\t\t\tphpads_".$row['bannerid'].".resizeTo(outerX, outerY);\n";
 echo "\t\t}\n";
@@ -188,13 +213,13 @@ if (isset($left) && isset($top))
 // Set the actual location after resize otherwise we might get 'access denied' errors
 echo "\t\tphpads_".$row['bannerid'].".location = '".$contenturl."';\n";
 
+// Move main window to the foreground if we are dealing with a popunder
 if (isset($popunder) && $popunder == '1')
 	echo "\t\twindow.focus();\n";
-else
-	echo "\t\tphpads_".$row['bannerid'].".focus();\n";
 
 echo "\t}\n";
-echo "\t\treturn true;\n";
+echo "\twindow.onerror = phpads_errorhandler;\n";
+echo "\treturn true;\n";
 echo "}\n\n";
 
 
