@@ -32,11 +32,6 @@ phpAds_checkAccess(phpAds_Admin);
 phpAds_PageHeader("4.2");
 phpAds_ShowSections(array("4.1", "4.2", "4.3", "4.4"));
 
-if (isset($message))
-{
-	phpAds_ShowMessage($message);
-}
-
 
 
 /*********************************************************/
@@ -47,6 +42,7 @@ $stats['cachesize'] = 0;
 $stats['cachedzones'] = 0;
 $stats['cachetimestamp'] = 0;
 
+$loosezones = false;
 
 if (!isset($listorder)) 	 $listorder = '';
 if (!isset($orderdirection)) $orderdirection = '';
@@ -85,6 +81,8 @@ while ($row_zones = phpAds_dbFetchArray($res_zones))
 		$zones[$row_zones['zoneid']] = $row_zones;
 		$affiliates[$row_zones['affiliateid']]['count']++;
 	}
+	else
+		$loosezones = true;
 	
 	$stats['cachetimestamp'] += $row_zones['cachetimestamp'];
 	$stats['cachesize'] += strlen($row_zones['cachecontents']);
@@ -125,7 +123,9 @@ if (isset($zones) && is_array($zones) && count($zones) > 0)
 {
 	// Add banner to campaigns
 	for (reset($zones);$zkey=key($zones);next($zones))
+	{
 		$affiliates[$zones[$zkey]['affiliateid']]['zones'][$zkey] = $zones[$zkey];
+	}
 	
 	unset ($zones);
 }
@@ -283,6 +283,22 @@ else
 		
 		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 		$i++;
+	}
+	
+	if ($loosezones)
+	{
+		echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
+		echo "<td height='25'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+		echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
+		echo $strZonesWithoutAffiliate."</td>";
+		echo "<td height='25'>&nbsp;-&nbsp;</td>";
+		echo "<td height='25' colspan='3'>";
+		echo "<a href='affiliate-edit.php?move=t'>";
+		echo "<img src='images/icon-update.gif' border='0' align='absmiddle' alt='$strMoveToNewAffiliate'>&nbsp;$strMoveToNewAffiliate</a>&nbsp;&nbsp;";
+		echo "</td>";
+		echo "</tr>";
+		
+		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	}
 }
 

@@ -155,8 +155,28 @@ if (isset($submit))
 			{
 				$affiliateid = phpAds_dbInsertID();
 				
-				header ("Location: zone-edit.php?affiliateid=$affiliateid");
-				exit;
+				if (isset($move) && $move == 't')
+				{
+					// Move loose zones to this affiliate
+					
+					$res = phpAds_dbQuery("
+						UPDATE
+							".$phpAds_config['tbl_zones']."
+						SET
+							affiliateid = '".$affiliateid."'
+						WHERE
+							ISNULL(affiliateid) OR
+							affiliateid = 0
+					");
+					
+					header ("Location: affiliate-index.php");
+					exit;
+				}
+				else
+				{
+					header ("Location: zone-edit.php?affiliateid=$affiliateid");
+					exit;
+				}
 			}
 			else
 			{
@@ -273,6 +293,7 @@ if (isset($affiliateid) && $affiliateid != '')
 
 <form name="affiliateform" method="post" action="affiliate-edit.php">
 <input type="hidden" name="affiliateid" value="<?php if(isset($affiliateid) && $affiliateid != '') echo $affiliateid;?>">
+<input type="hidden" name="move" value="<?php if (isset($move) && $move != '') echo $move;?>">
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 	<tr><td height='25' colspan='3'><b><?php echo $strBasicInformation;?></b></td></tr>
