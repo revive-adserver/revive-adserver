@@ -1,4 +1,5 @@
 phpAdsNew - ChangeLog
+			+ Added cache buster support for banners refered through URL (Niels)
 			+ Added configurable default banner to display when an error occurs or when 
 			  there are no banners to display at all (Niels)
 			+ Additional translations (Niels, thanks to Hugo Gomez, Michael Bravo, Alain Fontaine)
