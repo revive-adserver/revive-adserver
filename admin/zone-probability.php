@@ -193,11 +193,13 @@ function phpAds_showZoneBanners ($zoneid)
 				$precondition .= " AND ".$phpAds_config['tbl_banners'].".storagetype <> 'txt' ";
 			
 			
+			if (!defined('LIBVIEWQUERY_INCLUDED'))  include (phpAds_path.'/lib-view-query.inc.php');
 			$select = phpAds_buildQuery ($what, false, $precondition);
 		}
 		else
 		{
 			// Direct selection
+			if (!defined('LIBVIEWQUERY_INCLUDED'))  include (phpAds_path.'/lib-view-query.inc.php');
 			$select = phpAds_buildQuery ($what, false, '');
 			$zone = array('what' => $what);
 		}
@@ -220,7 +222,7 @@ function phpAds_showZoneBanners ($zoneid)
 		if (!count($rows) && isset($zone['chain']) && strlen($zone['chain']))
 		{
 			// Follow the chain if no banner was found
-
+			
 			if (ereg('^zone:([0-9]+)$', $zone['chain'], $match))
 			{
 				// Zone chain
@@ -243,7 +245,7 @@ function phpAds_showZoneBanners ($zoneid)
 			$what = '';
 		}
 	}
-
+	
 	if (isset($rows) && is_array($rows))
 	{
 		$i=0;
@@ -251,22 +253,22 @@ function phpAds_showZoneBanners ($zoneid)
 		if (count($zonechain))
 		{
 			// Zone Chain
-			echo "<br><table width='100% border='0' align='center' cellspacing='0' cellpadding='0'>";
+			echo "<br><br><table width='100% border='0' align='center' cellspacing='0' cellpadding='0'>";
 			echo "<tr><td valign='top'><img src='images/info.gif' align='absmiddle'>&nbsp;</td>";
 			echo "<td width='100%'><b>".$strZoneProbListChain."</b></td></tr>";
-			echo "</table><br><br>";
+			echo "</table>";
+			phpAds_ShowBreak();
+			
 			while (list(, $z) = each($zonechain))
 			{
 				echo "<nobr><img src='images/icon-zone-d.gif' align='absmiddle'>&nbsp;".phpAds_buildZoneName($z['zoneid'], $z['zonename']);
 				echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'></nobr> ";
 			}
-
+			
 			if (isset($zone['zoneid']))
 				echo "<nobr><img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_buildZoneName($zone['zoneid'], $zone['zonename'])."</b></nobr><br>";
 			else
 				echo "<nobr><img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strRawQueryString'].":</b> ".htmlentities($zone['what'])."</nobr><br>";
-				
-			phpAds_ShowBreak();
 		}
 		
 		
