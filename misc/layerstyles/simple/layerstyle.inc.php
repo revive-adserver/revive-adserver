@@ -26,15 +26,16 @@ define('phpAds_adLayerLoaded', true);
 function phpAds_putLayerJS ($output, $uniqid)
 {
 	global $align, $valign, $closetime, $padding;
-	global $shifth, $shiftv;
+	global $shifth, $shiftv, $closebutton;
 	
 	if (!isset($padding)) $padding = 0;
 	if (!isset($shifth)) $shifth = 0;
 	if (!isset($shiftv)) $shiftv = 0;
-	
+	if (!isset($closebutton)) $closebutton = 'f';
+
 	// Calculate layer size (inc. borders)
-	$layer_width = $output['width'] + 4 + $padding*2;
-	$layer_height = $output['height'] + 14 + $padding*2;
+	$layer_width = $output['width'] + 2 + $padding*2;
+	$layer_height = $output['height'] + 2 + ($closebutton == 't' ? 11 : 0) + $padding*2;
 	
 ?>
 
@@ -42,7 +43,7 @@ function phpAds_findObj(n, d) {
   var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
   d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
   if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
-  for(i=0;!x&&d.layers&&i>d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  for(i=0;!x&&d.layers&&i>d.layers.length;i++) x=phpAds_findObj(n,d.layers[i].document);
   if(!x && document.getElementById) x=document.getElementById(n); return x;
 }
 
@@ -52,26 +53,39 @@ function phpAds_adlayers_place_<?php echo $uniqid; ?>()
 
 	if (!c)
 		return false;
-
-	c = c.style;
-
+	
+	if (c.style)
+		c = c.style;
+	
+	if (window.innerHeight)
+		ih = window.innerHeight;
+	else
+		ih = document.body.clientHeight;
+	
+	if (window.innerWidth)
+		iw = window.innerWidth;
+	else
+		iw = document.body.clientWidth;
+	
+	
 	if (document.all) { 
+		
 <?php
 	echo "\t\tc.pixelLeft = ";
 	
 	if ($align == 'left')
-		echo abs($shifth);
+		echo abs($shifth).' + document.body.scrollLeft';
 	elseif ($align == 'center')
-		echo '(document.body.clientWidth - '.$layer_width.') / 2 + document.body.scrollLeft + '.$shifth;
+		echo '(iw - '.$layer_width.') / 2 + document.body.scrollLeft + '.$shifth;
 	else
-		echo 'document.body.clientWidth + document.body.scrollLeft - '.($layer_width+abs($shifth));
-
+		echo 'iw + document.body.scrollLeft - '.($layer_width+abs($shifth));
+	
 	echo ";\n\t\tc.pixelTop = ";
-
+	
 	if ($valign == 'middle')
-		echo '(document.body.clientHeight - '.$layer_height.') / 2 + document.body.scrollTop + '.$shiftv;
+		echo '(ih - '.$layer_height.') / 2 + document.body.scrollTop + '.$shiftv;
 	elseif ($valign == 'bottom')
-		echo 'document.body.clientHeight + document.body.scrollTop - '.($layer_height+abs($shiftv));
+		echo 'ih + document.body.scrollTop - '.($layer_height+abs($shiftv));
 	else
 		echo abs($shiftv).' + document.body.scrollTop';
 	
@@ -82,46 +96,51 @@ function phpAds_adlayers_place_<?php echo $uniqid; ?>()
 	echo "\t\tc.left = ";
 	
 	if ($align == 'left')
-		echo abs($shifth);
+		echo abs($shifth).' + window.pageXOffset';
 	elseif ($align == 'center')
-		echo '(window.innerWidth - '.$layer_width.') / 2 + window.pageXOffset + '.$shifth;
+		echo '(iw - '.$layer_width.') / 2 + window.pageXOffset + '.$shifth;
 	else
-		echo 'window.innerWidth + window.pageXOffset - '.($layer_width+abs($shifth));
-
+		echo 'iw + window.pageXOffset - '.($layer_width+abs($shifth)).' - 16';
+	
 	echo ";\n\t\tc.top = ";
-
+	
 	if ($valign == 'middle')
-		echo '(window.innerHeight - '.$layer_height.') / 2 + window.pageYOffset + '.$shiftv;
+		echo '(ih - '.$layer_height.') / 2 + window.pageYOffset + '.$shiftv;
 	elseif ($valign == 'bottom')
-		echo 'window.innerHeight + window.pageYOffset - '.($layer_height+abs($shiftv));
+		echo 'ih + window.pageYOffset -'.($layer_height+abs($shiftv)).' - 16';
 	else
 		echo abs($shiftv).' + window.pageYOffset';
 	
 	echo ";\n";
 ?>	
 	}
+
+	c.visibility = phpAds_adlayers_visible_<?php echo $uniqid; ?>;
 }
+
 
 function phpAds_simplepop(what, ad)
 {
-	c = phpAds_findObj('phpads_' + ad);
+	var c = phpAds_findObj('phpads_' + ad);
 
 	if (!c)
 		return false;
 
-	c = c.style;
+	if (c.style)
+		c = c.style;
 
 	switch(what)
 	{
 		case 'close':
-			c.visibility = 'hidden'; 
-		break;
+			phpAds_adlayers_visible_<?php echo $uniqid; ?> = 'hidden';
+			phpAds_adlayers_place_<?php echo $uniqid; ?>();
+			window.clearInterval(phpAds_adlayers_timerid_<?php echo $uniqid; ?>);
+			break;
 
 		case 'open':
-		
+			phpAds_adlayers_visible_<?php echo $uniqid; ?> = 'visible';
 			phpAds_adlayers_place_<?php echo $uniqid; ?>();
-
-			c.visibility = 'visible';
+			phpAds_adlayers_timerid_<?php echo $uniqid; ?> = window.setInterval('phpAds_adlayers_place_<?php echo $uniqid; ?>()', 10);
 
 <?php
 
@@ -133,6 +152,11 @@ if (isset($closetime) && $closetime > 0)
 			break;
 	}
 }
+
+
+var phpAds_adlayers_timerid_<?php echo $uniqid; ?>;
+var phpAds_adlayers_visible_<?php echo $uniqid; ?>;
+
 
 phpAds_simplepop('open', '<?php echo $uniqid; ?>');
 <?php
@@ -147,13 +171,17 @@ phpAds_simplepop('open', '<?php echo $uniqid; ?>');
 function phpAds_getLayerHTML ($output, $uniqid)
 {
 	global $phpAds_config, $target;
-	global $align, $padding;
+	global $align, $padding, $closebutton;
+	global $backcolor, $bordercolor;
 
 	if (!isset($padding)) $padding = '2';
+	if (!isset($closebutton)) $closebutton = 'f';
+	if (!isset($backcolor)) $backcolor = 'FFFFFF';
+	if (!isset($bordercolor)) $bordercolor = '000000';
 
 	// Calculate layer size (inc. borders)
-	$layer_width = $output['width'] + 4 + $padding*2;
-	$layer_height = $output['height'] + 14 + $padding*2;
+	$layer_width = $output['width'] + 2 + $padding*2;
+	$layer_height = $output['height'] + 2 + ($closebutton == 't' ? 11 : 0) + $padding*2;
 
 	// Create imagepath
 	$imagepath = $phpAds_config['url_prefix'].'/misc/layerstyles/simple/images/';
@@ -161,12 +189,14 @@ function phpAds_getLayerHTML ($output, $uniqid)
 	// return HTML code
 	return '
 <div id="phpads_'.$uniqid.'" style="position:absolute; width:'.$layer_width.'px; height:'.$layer_height.'px; z-index:99; left: 0px; top: 0px; visibility: hidden"> 
-	<table width="100%" cellspacing="0" cellpadding="0" style="border-style: solid; border-width: 1px; border-color: #000000">
-		<tr> 
-			<td bgcolor="#FFFFFF" align="right" style="padding: 2px"><a href="javascript:;" onClick="phpAds_simplepop(\'close\', \''.$uniqid.'\')" style="color:#0000ff"><img src="'.$imagepath.'close.gif" width="7" height="7" alt="Close" border="0"></a></td>
+	<table cellspacing="0" cellpadding="0" style="border-style: solid; border-width: 1px; border-color: #'.$bordercolor.'">
+'.($closebutton == 't' ?
+'		<tr> 
+			<td bgcolor="#'.$backcolor.'" align="right" style="padding: 2px"><a href="javascript:;" onClick="phpAds_simplepop(\'close\', \''.$uniqid.'\')" style="color:#0000ff"><img src="'.$imagepath.'close.gif" width="7" height="7" alt="Close" border="0"></a></td>
 		</tr>
-		<tr> 
-			<td bgcolor="#FFFFFF" align="center">
+' : '').
+'		<tr> 
+			<td bgcolor="#'.$backcolor.'" align="center">
 				<table border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<td width="'.$output['width'].'" height="'.$output['height'].'" align="center" valign="middle" style="padding: '.$padding.'px">'.$output['html'].'</td>
@@ -188,7 +218,8 @@ function phpAds_getLayerHTML ($output, $uniqid)
 function phpAds_placeLayerSettings ()
 {
 	global $align, $valign, $closetime, $padding;
-	global $shifth, $shiftv;
+	global $shifth, $shiftv, $closebutton;
+	global $backcolor, $bordercolor;
 	
 	if (!isset($align)) $align = 'right';
 	if (!isset($valign)) $valign = 'top';
@@ -196,6 +227,9 @@ function phpAds_placeLayerSettings ()
 	if (!isset($padding)) $padding = '2';
 	if (!isset($shifth)) $shifth = 0;
 	if (!isset($shiftv)) $shiftv = 0;
+	if (!isset($closebutton)) $closebutton = 'f';
+	if (!isset($backcolor)) $backcolor = '#FFFFFF';
+	if (!isset($bordercolor)) $bordercolor = '#000000';
 
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td>";
@@ -227,6 +261,15 @@ function phpAds_placeLayerSettings ()
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 	echo "<tr><td width='30'>&nbsp;</td>";
+	echo "<td width='200'>".$GLOBALS['strShowCloseButton']."</td><td width='370'>";
+	echo "<select name='closebutton' style='width:175px;'>";
+		echo "<option value='t'".($closebutton == 't' ? ' selected' : '').">".$GLOBALS['strYes']."</option>";
+		echo "<option value='f'".($closebutton == 'f' ? ' selected' : '').">".$GLOBALS['strNo']."</option>";
+	echo "</select>";
+	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+
+	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$GLOBALS['strBannerPadding']."</td><td width='370'>";
 		echo "<input class='flat' type='text' name='padding' size='' value='".$padding."' style='width:60px;'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
@@ -242,6 +285,36 @@ function phpAds_placeLayerSettings ()
 	echo "<td width='200'>".$GLOBALS['strVShift']."</td><td width='370'>";
 		echo "<input class='flat' type='text' name='shiftv' size='' value='".$shiftv."' style='width:60px;'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+
+	phpAds_settings_cp_map();
+
+	echo "<tr><td width='30'>&nbsp;</td>";
+	echo "<td width='200'>".$GLOBALS['strBackgroundColor']."</td><td width='370'>";
+		echo "<table border='0' cellspacing='0' cellpadding='0'>";
+		echo "<tr><td width='22'>";
+		echo "<table border='0' cellspacing='1' cellpadding='0' bgcolor='#000000'><tr>";
+		echo "<td id='backcolor_box' bgcolor='".$backcolor."'><img src='images/spacer.gif' width='16' height='16'></td>";
+		echo "</tr></table></td><td>";
+		echo "<input type='text' name='backcolor' size='10' maxlength='7' value='".$backcolor."' onFocus='current_cp = this; current_cp_oldval = this.value; current_box = backcolor_box' onChange='c_update()'>";
+		echo "</td><td align='right' width='218'>";
+		echo "<div onMouseOver='current_cp = backcolor; current_box = backcolor_box' onMouseOut='current_cp = null'><img src='images/colorpicker.png' width='193' height='18' align='absmiddle' usemap='#colorpicker' border='0'><img src='images/spacer.gif' width='22' height='1'></div>";
+        echo "</td></tr></table>";
+	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+
+	echo "<tr><td width='30'>&nbsp;</td>";
+	echo "<td width='200'>".$GLOBALS['strBorderColor']."</td><td width='370'>";
+		echo "<table border='0' cellspacing='0' cellpadding='0'>";
+		echo "<tr><td width='22'>";
+		echo "<table border='0' cellspacing='1' cellpadding='0' bgcolor='#000000'><tr>";
+		echo "<td id='bordercolor_box' bgcolor='".$bordercolor."'><img src='images/spacer.gif' width='16' height='16'></td>";
+		echo "</tr></table></td><td>";
+		echo "<input type='text' name='bordercolor' size='10' maxlength='7' value='".$bordercolor."' onFocus='current_cp = this; current_cp_oldval = this.value; current_box = bordercolor_box' onChange='c_update()'>";
+		echo "</td><td align='right' width='218'>";
+		echo "<div onMouseOver='current_cp = bordercolor; current_box = bordercolor_box' onMouseOut='current_cp = null'><img src='images/colorpicker.png' width='193' height='18' align='absmiddle' usemap='#colorpicker' border='0'><img src='images/spacer.gif' width='22' height='1'></div>";
+        echo "</td></tr></table>";
+	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 }
 
 
@@ -254,7 +327,8 @@ function phpAds_generateLayerCode ($parameters)
 {
 	global $phpAds_config;
 	global $align, $valign, $closetime, $padding;
-	global $shifth, $shiftv;
+	global $shifth, $shiftv, $closebutton;
+	global $backcolor, $bordercolor;
 	
 	$parameters[] = 'layerstyle=simple';
 	$parameters[] = 'align='.(isset($align) ? $align : 'right');
@@ -269,6 +343,12 @@ function phpAds_generateLayerCode ($parameters)
 		$parameters[] = 'shifth='.$shifth;
 	if (isset($shiftv))
 		$parameters[] = 'shiftv='.$shiftv;
+	if (isset($closebutton))
+		$parameters[] = 'closebutton='.$closebutton;
+	if (isset($backcolor))
+		$parameters[] = 'backcolor='.substr($backcolor, 1);
+	if (isset($bordercolor))
+		$parameters[] = 'bordercolor='.substr($bordercolor, 1);
 	
 	$buffer = "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adlayer.php";
 	if (sizeof($parameters) > 0)
@@ -296,4 +376,93 @@ function phpAds_getlayerShowVar ()
 	);
 }
 
+
+
+/*********************************************************/
+/* Dec2Hex                                               */
+/*********************************************************/
+
+function toHex($d)
+{
+	return strtoupper(sprintf("%02x", $d));
+}
+
+
+
+/*********************************************************/
+/* Add scripts and map for color pickers                 */
+/*********************************************************/
+
+function phpAds_settings_cp_map()
+{
+	static $done = false;
+	
+	if (!$done)
+	{
+		$done = true;
+?>
+<script language="JavaScript">
+<!--
+var current_cp = null;
+var current_cp_oldval = null;
+var current_box = null;
+
+function c_pick(value)
+{
+	if (current_cp)
+	{
+		current_cp.value = value;
+		c_update();
+	}
+}
+
+function c_update()
+{
+	if (!current_cp.value.match(/^#[0-9a-f]{6}$/gi))
+	{
+		current_cp.value = current_cp_oldval;
+		return;
+	}
+	
+	current_cp.value.toUpperCase();
+	current_box.style.backgroundColor = current_cp.value;
+}
+
+// -->
+</script>
+<?php
+		echo "<map name=\"colorpicker\">\n";
+		
+		$x = 2;
+		
+		for($i=1; $i <= 255*6; $i+=8)
+		{
+			if($i > 0 && $i <=255 * 1)
+				$incColor='#FF'.toHex($i).'00';
+			elseif ($i>255*1 && $i <=255*2)
+				$incColor='#'.toHex(255-($i-255)).'FF00';
+			elseif ($i>255*2 && $i <=255*3)
+				$incColor='#00FF'.toHex($i-(2*255));
+			elseif ($i>255*3 && $i <=255*4)
+				$incColor='#00'.toHex(255-($i-(3*255))).'FF';
+			elseif ($i>255*4 && $i <=255*5)
+				$incColor='#'.toHex($i-(4*255)).'00FF';
+			elseif ($i>255*5 && $i <255*6)
+				$incColor='#FF00' . toHex(255-($i-(5*255)));
+
+			echo "<area shape='rect' coords='$x,0,".($x+1).",9' href='javascript:c_pick(\"$incColor\")'>\n"; $x++;
+		}
+
+		$x = 2;
+		
+		for($j = 0; $j < 255; $j += 1.34)
+		{
+			$i = round($j);
+			$incColor = '#'.toHex($i).toHex($i).toHex($i);
+			echo "<area shape='rect' coords='$x,11,".($x+1).",20' href='javascript:c_pick(\"$incColor\")'>\n"; $x++;
+		}
+
+		echo "</map>";
+	}
+}
 ?>

@@ -197,7 +197,7 @@ if (isset($submit))
 					list ($final['width'], $final['height']) = phpAds_SWFDimensions($buffer);
 					
 					// Check if the Flash banner includes hard coded urls
-					if ($checkswf == 't' &&
+					if (isset($checkswf) && $checkswf == 't' &&
 						phpAds_SWFVersion($buffer) >= 3 &&
 						phpAds_SWFInfo($buffer))
 					{
@@ -444,7 +444,7 @@ if (isset($submit))
 			
 			$final['width'] 	  = $width;
 			$final['height'] 	  = $height;
-			$final['autohtml'] 	  = $autohtml;
+			$final['autohtml'] 	  = isset($autohtml) ? 't' : 'f';
 			$final['url'] 		  = $url;
 			$final['target'] 	  = $target;
 			$final['contenttype'] = 'html';

@@ -79,6 +79,10 @@ $GLOBALS['strBannerPadding']			= "Banner Padding";
 $GLOBALS['strHShift']					= "Horizontal Shift";
 $GLOBALS['strVShift']					= "Vertical Shift";
 
+$GLOBALS['strShowCloseButton']			= "Show close button";
+$GLOBALS['strBackgroundColor']			= "Background Color";
+$GLOBALS['strBorderColor']				= "Border Color";
+
 
 $GLOBALS['strAdLayerStyleName']				= array(
 	'geocities'		=> "Geocities",

@@ -327,7 +327,7 @@ function days_left($clientid)
 		$ret_val[] = '';
 	}
 	
-	return $ret_val;
+	return isset($ret_val) $ret_val : false;
 }
 
 
