@@ -179,7 +179,7 @@ array (
 			'type'    => 'checkbox',
 			'name'    => 'geotracking_stats',
 			'text'	  => $strGeoLogStats,
-			'visible' => $phpAds_config['geotracking_type'] > 0,
+			'visible' => $phpAds_config['geotracking_type'] != '',
 			'depends' => 'log_adclicks==true || log_adviews==true'
 		),
 		array (
