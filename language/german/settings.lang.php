@@ -1,4 +1,4 @@
-<?php // $Revision: 1.3 $
+<?php // $Revision: 1.4 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -17,7 +17,7 @@
 
 // Installer translation strings
 $GLOBALS['strInstall']					= "Installation";
-$GLOBALS['strChooseInstallLanguage']	= "Wähle die Sprache für Installation";
+$GLOBALS['strChooseInstallLanguage']	= "Wähle die Sprache für die Installation";
 $GLOBALS['strLanguageSelection']		= "Sprachauswahl";
 $GLOBALS['strDatabaseSettings']			= "Datenbankeinstellungen";
 $GLOBALS['strAdminSettings']			= "Administratoreinstellungen";
@@ -63,13 +63,13 @@ $GLOBALS['strInstallCompleted']			= "Installation abgeschlossen";
 $GLOBALS['strInstallCompleted2']		= "Klick <b>Fortsetzen</b>, um zur Konfiguration zu gelangen und um die sontigen Einstellungen anzupassen.";
 
 $GLOBALS['strUpgrade']					= "Upgrade";
-$GLOBALS['strSystemUpToDate']			= "System ist Up-To-Date, ein Upgrade ist z.Z. nicht notwendig. Klicke <a href='index.php'>hier</a>, um zur Hompage zu gelangen.";
+$GLOBALS['strSystemUpToDate']			= "System ist Up-To-Date, ein Upgrade ist z.Z. nicht notwendig. Klicke <a href='index.php'>hier</a>, um zur Homepage zu gelangen.";
 $GLOBALS['strSystemNeedsUpgrade']		= "Ein Upgrade für das System ist notwendig. Klicke <b>Fortsetzen</b> zum starten.<br><br>Bitte etwas gedultig sein, das Upgrade kann u.U. bis zu 2 Minuten dauern. <b>Bitte nicht Doppelklicken!</b>";
 $GLOBALS['strServiceUnavalable']		= "Der Dienst ist zeitweise nicht verfügbar. Systemupgrade läuft...";
 $GLOBALS['strDownloadConfig']			= "Downloade die <b>config.inc.php</b> und uploade sie auf den Server, dann klicke <b>Fortsetzen</b>.";
 $GLOBALS['strDownload']					= "Download";
 
-$GLOBALS['strConfigNotWritable']		= "Die Datei config.inc.php ist nicht beschreibbar";
+$GLOBALS['strConfigNotWritable']		= "Die Datei <b>config.inc.php</b> ist nicht beschreibbar";
 
 // Settings translation strings
 $GLOBALS['strChooseSection']			= "Abschnitt schließen";
@@ -78,15 +78,15 @@ $GLOBALS['strDbHost']					= "Datenbank Hostname";
 $GLOBALS['strDbUser']					= "Datenbank Username";
 $GLOBALS['strDbPassword']				= "Datenbank Passwort";
 $GLOBALS['strDbName']					= "Datenbankname";
-$GLOBALS['strPersistentConnections']	= "Ständige Verbindung nutzen (persistent)";
+$GLOBALS['strPersistentConnections']	= "Ständige Dantenbankverbindung nutzen (persistent)";
 $GLOBALS['strInsertDelayed']			= "Verzögerte Inserts (Einfügungen) nutzen";
-$GLOBALS['strCantConnectToDb']			= "Kann keine Verbindung zur Datenbank aufbauen";
+$GLOBALS['strCantConnectToDb']			= "Es kann keine Verbindung zur Datenbank aufgebaut werden";
 
 $GLOBALS['strAdminUsername']			= "Admins Username";
 $GLOBALS['strAdminFullName']			= "Admins voller Vor-,Nachname";
 $GLOBALS['strAdminEmail']				= "Admins E-Mail Adresse";
 $GLOBALS['strAdminEmailHeaders']		= "Mailkopf zur Wiedergabe des Senders der täglichen Werbeberichte";
-$GLOBALS['strAdminNovice']				= "Admins Löschvorgänge benötigen zu Sicherheit eine Bestätigung";
+$GLOBALS['strAdminNovice']				= "Des Admins Löschvorgänge benötigen zur Sicherheit eine Bestätigung";
 $GLOBALS['strOldPassword']				= "Altes Passwort";
 $GLOBALS['strNewPassword']				= "Neues Passwort";
 $GLOBALS['strInvalidUsername']			= "Ungültiger Username";
@@ -98,7 +98,7 @@ $GLOBALS['strMyFooter']					= "Mein Footer";
 $GLOBALS['strTableBorderColor']			= "Tabellenrahmenfarbe";
 $GLOBALS['strTableBackColor']			= "Tabellenhintergrundfarbe";
 $GLOBALS['strTableBackColorAlt']		= "Tabellenhintergrundfarbe (alternativ)";
-$GLOBALS['strMainBackColor']			= "Haupthintergrundfarbe";
+$GLOBALS['strMainBackColor']			= "Seiten Haupthintergrundfarbe";
 $GLOBALS['strAppName']					= "Applikationsname";
 $GLOBALS['strCompanyName']				= "Unternehmensname";
 $GLOBALS['strOverrideGD']				= "Überschreiben des GD-Bildformats";
@@ -111,7 +111,7 @@ $GLOBALS['strWarnLimit']				= "Limitwarnung";
 $GLOBALS['strWarnLimitErr']				= "Limitwarnung sollte eine positive ganze Zahl sein";
 $GLOBALS['strBeginOfWeek']				= "Beginn der Woche";
 $GLOBALS['strPercentageDecimals']		= "Percentage Decimals";
-$GLOBALS['strCompactStats']				= "Nutze Kompakte Statistik";
+$GLOBALS['strCompactStats']				= "Nutze kompackte Statistik";
 $GLOBALS['strLogAdviews']				= "Log Adviews";
 $GLOBALS['strLogAdclicks']				= "Log Adclicks";
 $GLOBALS['strReverseLookup']			= "Reverse DNS Lookup";
@@ -132,14 +132,14 @@ $GLOBALS['strTypeWebFtp']				= "FTP Mode Webbanner Server";
 $GLOBALS['strTypeWebUrl']				= "Öffentliche URL des lokalen Verzeichnisses / FTP-Servers";
 $GLOBALS['strTypeHtmlSettings']			= "HTML-Banner Konfiguration";
 $GLOBALS['strTypeHtmlAuto']				= "Automatisch HTML-Banner anpassen, um ein Adclick Loggen zu ermöglichen";
-$GLOBALS['strTypeHtmlPhp']				= "Erlaube die Ausführung von PHP Funktionen innerhalb eines HTML-Banners";
+$GLOBALS['strTypeHtmlPhp']				= "Erlaube die Ausführung von PHP-Funktionen innerhalb eines HTML-Banners";
 
 $GLOBALS['strBannerRetrieval']			= "Banner Einblendungsmethode";
 $GLOBALS['strRetrieveRandom']			= "Zufällige Bannereinblendung (Standard)";
 $GLOBALS['strRetrieveNormalSeq']		= "Normal sequentielle Bannereinblendung";
 $GLOBALS['strWeightSeq']				= "Gewichtet sequentielle Bannereinblendung";
 $GLOBALS['strFullSeq']					= "Volle sequentielle Bannereinblendung";
-$GLOBALS['strDefaultBannerUrl']			= "Standard Banner URL";
+$GLOBALS['strDefaultBannerUrl']			= "Standard Banner-URL";
 $GLOBALS['strDefaultBannerTarget']		= "Standard Banner Klick-Ziel";
 $GLOBALS['strUseConditionalKeys']		= "Nutze bedingte Schlüsselwörter";
 $GLOBALS['strUseMultipleKeys']			= "Nutze multiple Schlüsselwörter";
@@ -148,7 +148,7 @@ $GLOBALS['strUseAcl']					= "Nutze Einblendungsbegrenzungen (ACL)";
 $GLOBALS['strZonesSettings']			= "Zonen Einstellungen";
 $GLOBALS['strZoneCache']				= "Cache Zonen, dies sollte die Geschwindigkeit bei Zonennutzung erhöhen";
 $GLOBALS['strZoneCacheLimit']			= "Zeit zwischen Cache Updates (in Sekunden)";
-$GLOBALS['strZoneCacheLimitErr']		= "Zeit zwischen Cache Updates sollte eine positive ganze Zahlen sein";
+$GLOBALS['strZoneCacheLimitErr']		= "Zeit zwischen Cache Updates sollte eine positive ganze Zahl sein";
 
 $GLOBALS['strP3PSettings']				= "P3P Einstellungen";
 $GLOBALS['strUseP3P']					= "Nutze P3P Policies";
