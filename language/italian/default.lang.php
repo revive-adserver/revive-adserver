@@ -51,7 +51,7 @@ $GLOBALS['strMaintenance']					= "Manutenzione";
 $GLOBALS['strProbability']					= "Probabilit&agrave;";
 $GLOBALS['strInvocationcode']				= "Codice Invocazione";
 $GLOBALS['strBasicInformation']				= "Informazioni di base";
-$GLOBALS['strContractInformation']			= "informazioni sul contratto";
+$GLOBALS['strContractInformation']			= "Informazioni sul contratto";
 $GLOBALS['strLoginInformation']				= "Informazioni sul login";
 $GLOBALS['strOverview']						= "Descrizione";
 $GLOBALS['strSearch']						= "<u>C</u>erca";
@@ -422,8 +422,8 @@ $GLOBALS['strZoneAppendSelectZone']			= "Aggiungi sempre il seguente popup o int
 
 
 // Zone probability
-$GLOBALS['strZoneProbListChain']			= "Tutti i banner collegati alla zona selezionata hanno priorit&agrave; nulla. Questa &egrave; la catena di zone che verr&agrave; seguita:";
-$GLOBALS['strZoneProbNullPri']				= "Tutti i banner collegati alla zona selezionata hanno priorit&agrave; nulla";
+$GLOBALS['strZoneProbListChain']			= "Tutti i banner collegati alla zona selezionata sono al momento disattivati. <br>Questa &egrave; la catena di zone che verr&agrave; seguita:";
+$GLOBALS['strZoneProbNullPri']				= "Tutti i banner collegati alla zona selezionata sono al momento disattivati";
 $GLOBALS['strZoneProbListChainLoop']		= "Si &egrave; verificato un ciclo infinito seguendo la catena delle zone. La fornitura della zona &egrave; sospesa";
 
 
@@ -546,7 +546,7 @@ $GLOBALS['strMailBannerStats']				= "Di seguito troverai le statistiche di visua
 $GLOBALS['strMailFooter']					= "Cordiali saluti,\n   {adminfullname}";
 $GLOBALS['strMailClientDeactivated']		= "I seguenti banner sono stati disattivati poiché";
 $GLOBALS['strMailNothingLeft']				= "Se desideri continuare ad apparire sul nostro sito con i tuoi banner, per favore contattaci.\nSaremo felici di poter soddisfare le tue richieste.";
-$GLOBALS['strClientDeactivated']			= "Questa campagna non risulta attualmente attiva dato che";
+$GLOBALS['strClientDeactivated']			= "Questa campagna non risulta attualmente attiva poiché";
 $GLOBALS['strBeforeActivate']				= "non ha raggiunto la data di attivazione";
 $GLOBALS['strAfterExpire']					= "ha raggiunto la data di scadenza";
 $GLOBALS['strNoMoreClicks']					= "non ci sono più Click a disposizione";
