@@ -18,8 +18,8 @@ define ('LIBDBCONFIG_INCLUDED', true);
 
 
 // Current phpAds version
-$phpAds_version = 200.093;
-$phpAds_version_readable = "2 dev 07072002";
+$phpAds_version = 200.094;
+$phpAds_version_readable = "2 beta 7";
 $phpAds_productname = "phpAdsNew";
 
 $GLOBALS['phpAds_settings_information'] = array(
@@ -69,6 +69,7 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'warn_client' => 				array ('type' => 'boolean', 'sql' => false),
 	'warn_limit' =>					array ('type' => 'integer', 'sql' => false),
 	'proxy_lookup' =>				array ('type' => 'boolean', 'sql' => false),
+	'ui_enabled' =>					array ('type' => 'boolean', 'sql' => false),
 	
 	'my_header' =>					array ('type' => 'string', 'sql' => true),
 	'my_footer' =>					array ('type' => 'string', 'sql' => true),
@@ -104,6 +105,7 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'gui_show_banner_info' =>		array ('type' => 'boolean', 'sql' => true),
 	'gui_show_banner_preview' =>	array ('type' => 'boolean', 'sql' => true),
 	'gui_show_banner_html' =>		array ('type' => 'boolean', 'sql' => true),
+	'gui_hide_inactive' =>			array ('type' => 'boolean', 'sql' => true),
 	'qmail_patch' =>				array ('type' => 'boolean', 'sql' => true),
 	'updates_frequency' =>			array ('type' => 'integer', 'sql' => true),
 	'updates_last_seen' =>			array ('type' => 'string', 'sql' => true),

@@ -256,6 +256,7 @@ $GLOBALS['strShowBannerInfo']			= "Show extra banner info on <i>Banner overview<
 $GLOBALS['strShowCampaignPreview']		= "Show preview of all banners on <i>Banner overview</i> page";
 $GLOBALS['strShowBannerHTML']			= "Show actual banner instead of plain HTML code for HTML banner preview";
 $GLOBALS['strShowBannerPreview']		= "Show banner preview at the top of pages which deals with banners";
+$GLOBALS['strHideInactive']				= "Hide inactive items from all overview pages";
 
 $GLOBALS['strStatisticsDefaults'] 		= "Statistics";
 $GLOBALS['strBeginOfWeek']				= "Begin of Week";

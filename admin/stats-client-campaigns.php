@@ -101,6 +101,14 @@ if (phpAds_isUser(phpAds_Client))
 /* Get preferences                                       */
 /*********************************************************/
 
+if (!isset($hideinactive))
+{
+	if (isset($Session['prefs']['stats-client-campaigns.php']['hideinactive']))
+		$hideinactive = $Session['prefs']['stats-client-campaigns.php']['hideinactive'];
+	else
+		$hideinactive = ($phpAds_config['gui_hide_inactive'] == 't');
+}
+
 if (!isset($listorder))
 {
 	if (isset($Session['prefs']['stats-client-campaigns.php']['listorder']))
@@ -142,6 +150,7 @@ while ($row_campaigns = phpAds_dbFetchArray($res_campaigns))
 {
 	$campaigns[$row_campaigns['clientid']] = $row_campaigns;
 	$campaigns[$row_campaigns['clientid']]['expand'] = 0;
+	$campaigns[$row_campaigns['clientid']]['count'] = 0;
 }
 
 
@@ -166,6 +175,7 @@ while ($row_banners = phpAds_dbFetchArray($res_banners))
 		$banners[$row_banners['bannerid']] = $row_banners;
 		$banners[$row_banners['bannerid']]['clicks'] = 0;
 		$banners[$row_banners['bannerid']]['views'] = 0;
+		$campaigns[$row_banners['clientid']]['count']++;
 	}
 }
 
@@ -251,7 +261,21 @@ else
 
 // Add ID found in expand to expanded nodes
 if (isset($expand) && $expand != '')
-	$node_array[] = $expand;
+{
+	switch ($expand)
+	{
+		case 'all' :	$node_array   = array();
+						if (isset($campaigns)) while (list($key,) = each($campaigns)) $node_array[] = $key;
+						break;
+						
+		case 'none':	$node_array   = array();
+						break;
+						
+		default:		$node_array[] = $expand;
+						break;
+	}
+}
+
 
 $node_array_size = sizeof($node_array);
 for ($i=0; $i < $node_array_size;$i++)
@@ -268,15 +292,30 @@ for ($i=0; $i < $node_array_size;$i++)
 
 
 // Build Tree
+$campaignshidden = 0;
+
 if (isset($banners) && is_array($banners) && count($banners) > 0)
 {
 	// Add banner to campaigns
-	for (reset($banners);$bkey=key($banners);next($banners))
-		$campaigns[$banners[$bkey]['clientid']]['banners'][$bkey] = $banners[$bkey];
+	reset ($banners);
+	while (list ($bkey, $banner) = each ($banners))
+		if ($hideinactive == false || $banner['active'] == 't')
+			$campaigns[$banner['clientid']]['banners'][$bkey] = $banner;
 	
 	unset ($banners);
 }
 
+if (isset($campaigns) && is_array($campaigns) && count($campaigns) > 0)
+{
+	reset ($campaigns);
+	while (list ($key, $campaign) = each ($campaigns))
+		if ($hideinactive == true && ($campaign['active'] == 'f' || $campaign['active'] == 't' && 
+			count($campaign['banners']) == 0 && count($campaign['banners']) < $campaign['count']))
+		{
+			$campaignshidden++;
+			unset($campaigns[$key]);
+		}
+}
 
 
 $totalviews = 0;
@@ -360,8 +399,8 @@ if ($totalviews > 0 || $totalclicks > 0)
 	for (reset($campaigns);$ckey=key($campaigns);next($campaigns))
 	{
 		// Icon & name
-		echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td height='25'>";
-		echo "&nbsp;&nbsp;";
+		echo "<tr height='25' ".($i % 2 == 0 ? "bgcolor='#F6F6F6'" : "")."><td height='25'>";
+		echo "&nbsp;";
 		
 		if (isset($campaigns[$ckey]['banners']))
 		{
@@ -415,7 +454,7 @@ if ($totalviews > 0 || $totalclicks > 0)
 				
 				// Icon & name
 				echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
-				echo "<td height='25'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+				echo "<td height='25'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 				
 				if ($banners[$bkey]['active'] == 't' && $campaigns[$ckey]['active'] == 't')
 				{
@@ -457,12 +496,38 @@ if ($totalviews > 0 || $totalclicks > 0)
 	}
 	
 	// Total
-	echo "<tr height='25'><td height='25'>&nbsp;&nbsp;<b>".$strTotal."</b></td>";
+	echo "<tr height='25' ".($i % 2 == 0 ? "bgcolor='#F6F6F6'" : "")."><td height='25'>&nbsp;&nbsp;<b>".$strTotal."</b></td>";
 	echo "<td height='25'>&nbsp;</td>";
 	echo "<td height='25' align='right'>".phpAds_formatNumber($totalviews)."</td>";
 	echo "<td height='25' align='right'>".phpAds_formatNumber($totalclicks)."</td>";
 	echo "<td height='25' align='right'>".phpAds_buildCTR($totalviews, $totalclicks)."&nbsp;&nbsp;</td>";
 	echo "</tr>";
+	echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	
+	echo "<tr height='25'><td colspan='2' height='25' nowrap>";
+	
+	if ($hideinactive == true)
+	{
+		echo "&nbsp;&nbsp;<img src='images/icon-activate.gif' align='absmiddle' border='0'>";
+		echo "&nbsp;<a href='stats-client-campaigns.php?clientid=".$clientid."&hideinactive=0'>".$strShowAll."</a>";
+		echo "&nbsp;&nbsp;|&nbsp;&nbsp;".$campaignshidden." ".$strInactiveCampaignsHidden;
+	}
+	else
+	{
+		echo "&nbsp;&nbsp;<img src='images/icon-hideinactivate.gif' align='absmiddle' border='0'>";
+		echo "&nbsp;<a href='stats-client-campaigns.php?clientid=".$clientid."&hideinactive=1'>".$strHideInactiveCampaigns."</a>";
+	}
+	
+	echo "</td>";
+	echo "<td colspan='3' height='25' align='right' nowrap>";
+	echo "<img src='images/triangle-d.gif' align='absmiddle' border='0'>";
+	echo "&nbsp;<a href='stats-client-campaigns.php?clientid=".$clientid."&expand=all'>".$strExpandAll."</a>";
+	echo "&nbsp;&nbsp;|&nbsp;&nbsp;";
+	echo "<img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'>";
+	echo "&nbsp;<a href='stats-client-campaigns.php?clientid=".$clientid."&expand=none'>".$strCollapseAll."</a>&nbsp;&nbsp;";
+	echo "</td>";
+	echo "</tr>";
+	
 	
 	echo "</table>";
 	echo "<br><br><br><br>";
@@ -480,6 +545,7 @@ else
 /* Store preferences                                     */
 /*********************************************************/
 
+$Session['prefs']['stats-client-campaigns.php']['hideinactive'] = $hideinactive;
 $Session['prefs']['stats-client-campaigns.php']['listorder'] = $listorder;
 $Session['prefs']['stats-client-campaigns.php']['orderdirection'] = $orderdirection;
 $Session['prefs']['stats-client-campaigns.php']['nodes'] = implode (",", $node_array);

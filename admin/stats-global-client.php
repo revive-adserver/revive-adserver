@@ -37,6 +37,14 @@ phpAds_ShowSections(array("2.1", "2.4", "2.3", "2.2"));
 /* Get preferences                                       */
 /*********************************************************/
 
+if (!isset($hideinactive))
+{
+	if (isset($Session['prefs']['stats-global-client.php']['hideinactive']))
+		$hideinactive = $Session['prefs']['stats-global-client.php']['hideinactive'];
+	else
+		$hideinactive = ($phpAds_config['gui_hide_inactive'] == 't');
+}
+
 if (!isset($listorder))
 {
 	if (isset($Session['prefs']['stats-global-client.php']['listorder']))
@@ -95,11 +103,14 @@ while ($row_clients = phpAds_dbFetchArray($res_clients))
 	{
 		$clients[$row_clients['clientid']] = $row_clients;
 		$clients[$row_clients['clientid']]['expand'] = 0;
+		$clients[$row_clients['clientid']]['count'] = 0;
+		$clients[$row_clients['clientid']]['hideinactive'] = 0;
 	}
 	else
 	{
 		$campaigns[$row_clients['clientid']] = $row_clients;
 		$campaigns[$row_clients['clientid']]['expand'] = 0;
+		$campaigns[$row_clients['clientid']]['count'] = 0;
 	}
 }
 
@@ -120,11 +131,17 @@ $res_banners = phpAds_dbQuery("
 
 while ($row_banners = phpAds_dbFetchArray($res_banners))
 {
+	if (isset($clients[$row_banners['clientid']]))
+	{
+		$clients[$row_banners['clientid']]['count']++;
+	}
+	
 	if (isset($campaigns[$row_banners['clientid']]))
 	{
 		$banners[$row_banners['bannerid']] = $row_banners;
 		$banners[$row_banners['bannerid']]['clicks'] = 0;
 		$banners[$row_banners['bannerid']]['views'] = 0;
+		$campaigns[$row_banners['clientid']]['count']++;
 	}
 }
 
@@ -210,7 +227,22 @@ else
 
 // Add ID found in expand to expanded nodes
 if (isset($expand) && $expand != '')
-	$node_array[] = $expand;
+{
+	switch ($expand)
+	{
+		case 'all' :	$node_array   = array();
+						if (isset($clients)) while (list($key,) = each($clients)) $node_array[] = $key;
+						if (isset($campaigns)) while (list($key,) = each($campaigns)) $node_array[] = $key;
+						break;
+						
+		case 'none':	$node_array   = array();
+						break;
+						
+		default:		$node_array[] = $expand;
+						break;
+	}
+}
+
 
 $node_array_size = sizeof($node_array);
 for ($i=0; $i < $node_array_size;$i++)
@@ -229,21 +261,43 @@ for ($i=0; $i < $node_array_size;$i++)
 
 
 // Build Tree
+$clientshidden = 0;
+
 if (isset($banners) && is_array($banners) && count($banners) > 0)
 {
 	// Add banner to campaigns
-	for (reset($banners);$bkey=key($banners);next($banners))
-		$campaigns[$banners[$bkey]['clientid']]['banners'][$bkey] = $banners[$bkey];
+	reset ($banners);
+	while (list ($bkey, $banner) = each ($banners))
+		if ($hideinactive == false || $banner['active'] == 't')
+			$campaigns[$banner['clientid']]['banners'][$bkey] = $banner;
 	
 	unset ($banners);
 }
 
 if (isset($campaigns) && is_array($campaigns) && count($campaigns) > 0)
 {
-	for (reset($campaigns);$ckey=key($campaigns);next($campaigns))
-		$clients[$campaigns[$ckey]['parent']]['campaigns'][$ckey] = $campaigns[$ckey];
+	reset ($campaigns);
+	while (list ($ckey, $campaign) = each ($campaigns))
+	{
+		if ($hideinactive == false || $campaign['active'] == 't' && 
+		   (count($campaign['banners']) != 0 || count($campaign['banners']) == $campaign['count']))
+			$clients[$campaign['parent']]['campaigns'][$ckey] = $campaign;
+		else
+			$clients[$campaign['parent']]['hideinactive']++;
+	}
 	
 	unset ($campaigns);
+}
+
+if (isset($clients) && is_array($clients) && count($clients) > 0)
+{
+	reset ($clients);
+	while (list ($key, $client) = each ($clients))
+		if (count($client['campaigns']) == 0 && $client['hideinactive'] > 0)
+		{
+			$clientshidden++;
+			unset($clients[$key]);
+		}
 }
 
 
@@ -507,24 +561,51 @@ if ($totalviews > 0 || $totalclicks > 0)
 		$i++;
 	}
 	
+	
 	// Total
-	echo "<tr height='25'><td height='25'>&nbsp;&nbsp;<b>".$strTotal."</b></td>";
+	echo "<tr height='25' ".($i % 2 == 0 ? "bgcolor='#F6F6F6'" : "")."><td height='25'>&nbsp;&nbsp;<b>".$strTotal."</b></td>";
 	echo "<td height='25'>&nbsp;</td>";
 	echo "<td height='25' align='right'>".phpAds_formatNumber($totalviews)."</td>";
 	echo "<td height='25' align='right'>".phpAds_formatNumber($totalclicks)."</td>";
 	echo "<td height='25' align='right'>".phpAds_buildCTR($totalviews, $totalclicks)."&nbsp;&nbsp;</td>";
 	echo "</tr>";
+	echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	
+	
+	//echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
+	echo "<tr><td height='25' colspan='3' align='left' nowrap>";
+	
+	if ($hideinactive == true)
+	{
+		echo "&nbsp;&nbsp;<img src='images/icon-activate.gif' align='absmiddle' border='0'>";
+		echo "&nbsp;<a href='stats-global-client.php?hideinactive=0'>".$strShowAll."</a>";
+		echo "&nbsp;&nbsp;|&nbsp;&nbsp;".$clientshidden." ".$strInactiveAdvertisersHidden;
+	}
+	else
+	{
+		echo "&nbsp;&nbsp;<img src='images/icon-hideinactivate.gif' align='absmiddle' border='0'>";
+		echo "&nbsp;<a href='stats-global-client.php?hideinactive=1'>".$strHideInactiveAdvertisers."</a>";
+	}
+	
+	echo "</td><td height='25' colspan='2' align='right' nowrap>";
+	echo "<img src='images/triangle-d.gif' align='absmiddle' border='0'>";
+	echo "&nbsp;<a href='stats-global-client.php?expand=all'>".$strExpandAll."</a>";
+	echo "&nbsp;&nbsp;|&nbsp;&nbsp;";
+	echo "<img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'>";
+	echo "&nbsp;<a href='stats-global-client.php?expand=none'>".$strCollapseAll."</a>&nbsp;&nbsp;";
+	echo "</td></tr>";
 	
 	
 	// Spacer
 	echo "<tr><td colspan='5' height='40'>&nbsp;</td></tr>";
 	
 	
+	
 	// Stats today
 	$adviews  = (int)phpAds_totalViews("", "day");
 	$adclicks = (int)phpAds_totalClicks("", "day");
 	$ctr = phpAds_buildCTR($adviews, $adclicks);
-		echo "<tr><td height='25' colspan='2'>&nbsp;&nbsp;<b>$strToday</b></td>";
+		echo "<tr><td height='25' colspan='2'>&nbsp;&nbsp;<b>".$strToday."</b></td>";
 		echo "<td height='25' align='right'>".phpAds_formatNumber($adviews)."</td>";
 		echo "<td height='25' align='right'>".phpAds_formatNumber($adclicks)."</td>";
 		echo "<td height='25' align='right'>".$ctr."&nbsp;&nbsp;</td></tr>";
@@ -535,7 +616,7 @@ if ($totalviews > 0 || $totalclicks > 0)
 	$adviews  = (int)phpAds_totalViews("", "week");
 	$adclicks = (int)phpAds_totalClicks("", "week");
 	$ctr = phpAds_buildCTR($adviews, $adclicks);
-		echo "<tr><td height='25' colspan='2'>&nbsp;&nbsp;$strLast7Days</td>";
+		echo "<tr><td height='25' colspan='2'>&nbsp;&nbsp;".$strLast7Days."</td>";
 		echo "<td height='25' align='right'>".phpAds_formatNumber($adviews)."</td>";
 		echo "<td height='25' align='right'>".phpAds_formatNumber($adclicks)."</td>";
 		echo "<td height='25' align='right'>".$ctr."&nbsp;&nbsp;</td></tr>";
@@ -546,7 +627,7 @@ if ($totalviews > 0 || $totalclicks > 0)
 	$adviews  = (int)phpAds_totalViews("", "month");
 	$adclicks = (int)phpAds_totalClicks("", "month");
 	$ctr = phpAds_buildCTR($adviews, $adclicks);
-		echo "<tr><td height='25' colspan='2'>&nbsp;&nbsp;$strThisMonth</td>";
+		echo "<tr><td height='25' colspan='2'>&nbsp;&nbsp;".$strThisMonth."</td>";
 		echo "<td height='25' align='right'>".phpAds_formatNumber($adviews)."</td>";
 		echo "<td height='25' align='right'>".phpAds_formatNumber($adclicks)."</td>";
 		echo "<td height='25' align='right'>".$ctr."&nbsp;&nbsp;</td></tr>";
@@ -554,7 +635,7 @@ if ($totalviews > 0 || $totalclicks > 0)
 	
 	
 	echo "<tr height='25'><td colspan='5' height='25'>";
-	echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' align='absmiddle'>&nbsp;<a href='stats-reset.php?all=true'".phpAds_DelConfirm($strConfirmResetStats).">$strResetStats</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+	echo "&nbsp;&nbsp;<img src='images/".$phpAds_TextDirection."/icon-undo.gif' align='absmiddle'>&nbsp;<a href='stats-reset.php?all=true'".phpAds_DelConfirm($strConfirmResetStats).">$strResetStats</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "</td></tr>";
 	echo "</table>";
 	echo "<br><br>";
@@ -572,6 +653,7 @@ else
 /* Store preferences                                     */
 /*********************************************************/
 
+$Session['prefs']['stats-global-client.php']['hideinactive'] = $hideinactive;
 $Session['prefs']['stats-global-client.php']['listorder'] = $listorder;
 $Session['prefs']['stats-global-client.php']['orderdirection'] = $orderdirection;
 $Session['prefs']['stats-global-client.php']['nodes'] = implode (",", $node_array);

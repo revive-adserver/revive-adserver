@@ -97,6 +97,8 @@ $GLOBALS['strCheckAllNone']					= "Check all / none";
 $GLOBALS['strKiloByte']						= "KB";
 $GLOBALS['strExpandAll']					= "Expand all";
 $GLOBALS['strCollapseAll']					= "Collapse all";
+$GLOBALS['strShowAll']						= "Show All";
+$GLOBALS['strNoAdminInteface']				= "Service unavailable...";
 
 
 // Properties
@@ -166,6 +168,8 @@ $GLOBALS['strClientHistory']				= "Advertiser history";
 $GLOBALS['strNoClients']					= "There are currently no advertisers defined";
 $GLOBALS['strConfirmDeleteClient'] 			= "Do you really want to delete this advertiser?";
 $GLOBALS['strConfirmResetClientStats']		= "Do you really want to delete all existing statistics for this advertiser?";
+$GLOBALS['strHideInactiveAdvertisers']		= "Hide inactive advertisers";
+$GLOBALS['strInactiveAdvertisersHidden']	= "inactive advertiser(s) hidden";
 
 
 // Advertisers properties
@@ -199,6 +203,8 @@ $GLOBALS['strCampaignHistory']				= "Campaign history";
 $GLOBALS['strNoCampaigns']					= "There are currently no campaigns defined";
 $GLOBALS['strConfirmDeleteAllCampaigns']	= "Do you really want to delete all campaigns owned by this advertiser?";
 $GLOBALS['strConfirmDeleteCampaign']		= "Do you really want to delete this campaign?";
+$GLOBALS['strHideInactiveCampaigns']		= "Hide inactive campaigns";
+$GLOBALS['strInactiveCampaignsHidden']		= "inactive campaign(s) hidden";
 
 
 // Campaign properties
