@@ -92,7 +92,7 @@ if (isset($submit))
 	$client['reportinterval'] = (int)$clientreportinterval;
 	
 	if ($clientreportlastdate == '' || $clientreportlastdate == '0000-00-00' || 
-		$clientreportprevious != $clientreport)
+		$clientreportprevious != $client['report'])
 	{
 		$client['reportlastdate'] = date ("Y-m-d");
 	}
