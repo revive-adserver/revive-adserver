@@ -776,7 +776,7 @@ if ($section == 'history')
 	}
 	
 	echo "<tr>";
-	echo "<form action='".$GLOBALS['PHP_SELF']."'>";
+	echo "<form action='stats-index.php'>";
 	echo "<td height='35' colspan='4' align='right'>";
 		echo $strHistory.":&nbsp;&nbsp;";
 		echo "<input type='hidden' name='section' value='history'>";

@@ -504,7 +504,7 @@ if (count($tmp_order) > 0)
 	
 	
 	echo "<tr>";
-	echo "<form action='".$GLOBALS['PHP_SELF']."'>";
+	echo "<form action='stats-campaign.php'>";
 	echo "<td colspan='6' height='35' align='right'>";
 	echo "<input type='hidden' name='campaignID' value='$campaignID'>";
 	echo "<input type='hidden' name='order' value='$order'>";

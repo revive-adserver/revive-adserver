@@ -521,7 +521,7 @@ function stats()
 	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 
 	<tr>
-		<form action="<?php echo $GLOBALS['PHP_SELF']; ?>">
+		<form action="stats-weekly.php">
 			<input type="hidden" name="campaignID" value="<?php echo $campaignID;?>">
 			<input type="hidden" name="which" value="<?php echo $which;?>">
 			<td height='35'>
@@ -541,7 +541,7 @@ function stats()
 	if ( $countbanners > 1 )
 	{
 		?>
-		<form action="<?php echo $GLOBALS['PHP_SELF']; ?>">
+		<form action="stats-weekly.php">
 			<input type="hidden" name="campaignID" value="<?php echo $campaignID;?>">
 			<input type="hidden" name="max_weeks" value="<?php echo $max_weeks;?>">
 			<td height='35' align="right">
