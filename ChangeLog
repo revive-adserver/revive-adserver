@@ -278,6 +278,8 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-06-04:  Zones were not shown on the banner-zone.php page when no compatible campaign zones were available  (Niels)
 			  - 2002-06-04:  Moved path detection behind include of config file to prevent warnings during upgrade  (Niels)
 			  - 2002-06-04:  Fixed E_ALL errors in database upgrade script when no banners were present during the upgrade  (Niels)
+			  - 2002-06-05:  Priority calculation wrongly counted impressions  (Niels, Matteo)
+			  - 2002-06-05:  Stats converter didn't convert views/click made on 23:59:59 and/or 00:59:59  (Matteo)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
