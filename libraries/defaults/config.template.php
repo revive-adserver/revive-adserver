@@ -11,13 +11,13 @@ $phpAds_config['dbhost'] = 'localhost';
 $phpAds_config['dbport'] = '3306';
 
 // Database username
-$phpAds_config['dbuser'] = 'mysqlusername';
+$phpAds_config['dbuser'] = '';
 
 // Database password
-$phpAds_config['dbpassword'] = 'mysqlpassword';
+$phpAds_config['dbpassword'] = '';
 
 // Database name
-$phpAds_config['dbname'] = 'phpads';
+$phpAds_config['dbname'] = '';
 
 // Database table names
 $phpAds_config['tbl_adclicks'] = 'phpads_adclicks';
