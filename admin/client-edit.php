@@ -287,13 +287,14 @@ else
 /* Main code                                             */
 /*********************************************************/
 
+if (phpAds_isUser(phpAds_Admin))
+	echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientID)."</b><br>";
+
+echo "<br><br>";
+echo "<br><br>";
+echo "<br><br>";
+
 ?>
-
-<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b><?php echo phpAds_getClientName($clientID);?></b><br>
-<br><br>
-<br><br>
-<br><br>
-
 
 <form name="clientform" method="post" action="<?php echo basename($PHP_SELF);?>">
 <input type="hidden" name="clientID" value="<?php if(isset($clientID)) echo $clientID;?>">
