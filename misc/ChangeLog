@@ -25,6 +25,7 @@ CVS
 			  - 2003-05-13:  Added extra headers to prevent caching of admin pages by proxy servers	 (Niels)
 			  - 2003-05-14:  Added a 10 second timeout to the product updates check, to prevent unwanted error messages  (Niels)
 			  - 2003-05-14:  Strings that are stored in config.inc.php can now include single quotes  (Niels)
+			  - 2003-05-14:  Reports are no longer send when all the advertisers campaigns are deactivated and no new statistics are available  (Niels)
 
 
 v 2.0rc3		+ Added a cron replacement for users who don't have access to the cron utility for scheduling the maintenance script  (Niels, 2003-01-14)
