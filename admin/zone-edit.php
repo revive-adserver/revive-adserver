@@ -419,7 +419,7 @@ for (reset($phpAds_IAB);$key=key($phpAds_IAB);next($phpAds_IAB))
 		echo "<option value='".$phpAds_IAB[$key]['width']."x".$phpAds_IAB[$key]['height']."'>".$key."</option>";
 }
 
-echo "<option value='-'".(!$exists ? ' SELECTED' : '').">Custom</option>";
+echo "<option value='-'".(!$exists ? ' SELECTED' : '').">".$strCustom."</option>";
 echo "</select>";
 
 echo "</td></tr><tr><td>";

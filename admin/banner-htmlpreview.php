@@ -83,7 +83,7 @@ if ($res)
 	if ($row['contenttype'] == 'txt')
 		echo "&nbsp;";
 	else
-		echo "&nbsp;&nbsp;&nbsp;width: ".$row['width']."&nbsp;&nbsp;height: ".$row['height']."&nbsp".($row['bannertext'] ? '+ text&nbsp;' : '');
+		echo "&nbsp;&nbsp;&nbsp;".$strWidth.": ".$row['width']."&nbsp;&nbsp;".$strHeight.": ".$row['height']."&nbsp".($row['bannertext'] ? '+ text&nbsp;' : '');
 	
 	echo "</td><td width='32'><img src='images/cropmark-br.gif' width='32' height='32'></td></tr>";
 	echo "</table>";
