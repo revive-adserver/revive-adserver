@@ -80,6 +80,7 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-03-13:  If remote invocation for iframes is used, then the target frames in the HTML are rewritten to make sure they are local to the parent frame instead of the iframe  (Niels)
 			  - 2003-03-19:  Clicking on a banner inside the admin interface no longer increases the number of AdClicks for that particular banner  (Niels)
 			  - 2003-04-01:  Autotargeting is now able to make use of the advanced routines  (Matteo)
+			  - 2003-04-02:  Added support for Apache 2.0 to the mod_geoip geotargeting plugin  (Niels, thanks to Scott Switzer)
 			
 
 

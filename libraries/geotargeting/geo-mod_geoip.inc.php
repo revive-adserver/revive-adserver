@@ -33,7 +33,13 @@ function phpAds_mod_geoip_getGeo($addr, $db)
 {
 	// $addr and $db parameter is ignored and is here for API consistency only
 	
-	$country = @apache_note('GEOIP_COUNTRY_CODE');
+	global $HTTP_SERVER_VARS;
+	
+	if (isset($HTTP_SERVER_VARS['GEOIP_COUNTRY_CODE']))
+		$country = $HTTP_SERVER_VARS['GEOIP_COUNTRY_CODE'];
+	else
+		$country = '';
+	
 	
 	if ($country != '' && $country != '--')
 	{
