@@ -124,14 +124,13 @@ if (phpAds_isUser(phpAds_Client))
 		phpAds_ShowSections(array("1.1.1.1"));
 }
 
+echo "<br><br>";
+
 
 
 /*********************************************************/
 /* Main code                                             */
 /*********************************************************/
-
-
-echo "<br><br>";
 
 if (!isset($limit) || $limit=='') $limit = '7';
 if (!isset($start) || $start=='') $start = '0';
@@ -139,6 +138,23 @@ if (!isset($start) || $start=='') $start = '0';
 
 if ($phpAds_config['compact_stats']) 
 {
+	// Determine first and last day of stats
+	$result = phpAds_dbQuery("
+		SELECT
+			TO_DAYS(NOW()) - TO_DAYS(MIN(day)) + 1 AS span
+		FROM
+			".$phpAds_config['tbl_adstats']."
+		WHERE
+			bannerid = ".$bannerid."
+	");
+	
+	if ($row = phpAds_dbFetchArray($result))
+	{
+		$span = $row['span'];
+	}
+	
+	
+	// Get stats for selected period
 	$begin = date('Ymd', mktime(0, 0, 0, date('m'), date('d') - $limit + 1 - $start, date('Y')));
 	$end   = date('Ymd', mktime(0, 0, 0, date('m'), date('d') + 1 - $start, date('Y')));
 	
@@ -166,6 +182,23 @@ if ($phpAds_config['compact_stats'])
 }
 else
 {
+	// Determine first and last day of stats
+	$result = phpAds_dbQuery("
+		SELECT
+			TO_DAYS(NOW()) - TO_DAYS(MIN(t_stamp)) + 1 AS span
+		FROM
+			".$phpAds_config['tbl_adviews']."
+		WHERE
+			bannerid = ".$bannerid."
+	");
+	
+	if ($row = phpAds_dbFetchArray($result))
+	{
+		$span = $row['span'];
+	}
+	
+	
+	// Get stats for selected period
 	$begin = date('YmdHis', mktime(0, 0, 0, date('m'), date('d') - $limit + 1 - $start, date('Y')));
 	$end   = date('YmdHis', mktime(0, 0, 0, date('m'), date('d') + 1 - $start, date('Y')));
 	
@@ -251,10 +284,20 @@ for ($d=0;$d<$limit;$d++)
 	}
 	else
 	{
-		$views  = '-';
-		$clicks = '-';
-		$ctr	= '-';
-		$available = false;
+		if ($d + $start < $span)
+		{
+			$views  = 0;
+			$clicks = 0;
+			$ctr	= phpAds_buildCTR($views, $clicks);
+			$available = true;
+		}
+		else
+		{
+			$views  = '-';
+			$clicks = '-';
+			$ctr	= '-';
+			$available = false;
+		}
 	}
 	
 	$bgcolor="#FFFFFF";
@@ -263,8 +306,11 @@ for ($d=0;$d<$limit;$d++)
 	echo "<tr>";
 	
 	echo "<td height='25' bgcolor='$bgcolor'>&nbsp;";
-	echo "<a href='stats-daily.php?day=".$key."&campaignid=".$campaignid."&bannerid=".$bannerid."'>";
-	echo $text."</a></td>";
+	
+	if ($available)
+		echo "<a href='stats-daily.php?day=".$key."&campaignid=".$campaignid."&bannerid=".$bannerid."'>".$text."</a></td>";
+	else
+		echo $text."</td>";
 	
 	echo "<td height='25' bgcolor='$bgcolor'>".$views."</td>";
 	echo "<td height='25' bgcolor='$bgcolor'>".$clicks."</td>";
@@ -279,30 +325,27 @@ $previous = $start < $limit ? 0 : $start - $limit;
 $next = $start + $limit;
 
 echo "<tr>";
-echo "<form action='stats-details.php'>";
 echo "<td height='35' colspan='1' align='left'>";
-	echo "&nbsp;".$strDays.":&nbsp;&nbsp;";
-	echo "<input type='hidden' name='bannerid' value='$bannerid'>";
-	echo "<input type='hidden' name='campaignid' value='$campaignid'>";
-	echo "<input type='hidden' name='start' value='$start'>";
-	echo "<select name='limit' onChange=\"this.form.submit();\">";
-	echo "<option value='7' ".($limit==7?'selected':'').">7 ".$strDays."</option>";
-	echo "<option value='14' ".($limit==14?'selected':'').">14 ".$strDays."</option>";
-	echo "<option value='21' ".($limit==21?'selected':'').">21 ".$strDays."</option>";
-	echo "<option value='28' ".($limit==28?'selected':'').">28 ".$strDays."</option>";
-	echo "</select>&nbsp;";
-	echo "<input type='image' src='images/go_blue.gif' border='0' name='submit'>";
+	echo "&nbsp;".$strDays.":&nbsp;";
+	echo "<a href='stats-details.php?campaignid=".$campaignid."&bannerid=".$bannerid."&start=".$start."&limit=7'>7</a>&nbsp;|&nbsp;";
+	echo "<a href='stats-details.php?campaignid=".$campaignid."&bannerid=".$bannerid."&start=".$start."&limit=14'>14</a>&nbsp;|&nbsp;";
+	echo "<a href='stats-details.php?campaignid=".$campaignid."&bannerid=".$bannerid."&start=".$start."&limit=21'>21</a>&nbsp;|&nbsp;";
+	echo "<a href='stats-details.php?campaignid=".$campaignid."&bannerid=".$bannerid."&start=".$start."&limit=28'>28</a>";
 echo "</td>";
 echo "<td height='35' colspan='3' align='right'>";
 	if ($start > 0)
 	{
 		echo "<a href='stats-details.php?campaignid=$campaignid&bannerid=$bannerid&limit=$limit&start=$previous'>";
-		echo "<img src='images/arrow-l.gif' border='0' align='absmiddle'>".$strPrevious."</a>&nbsp;|&nbsp;";
+		echo "<img src='images/arrow-l.gif' border='0' align='absmiddle'>".$strPrevious."</a>";
 	}
-	echo "<a href='stats-details.php?campaignid=$campaignid&bannerid=$bannerid&limit=$limit&start=$next'>";
-	echo $strNext."<img src='images/arrow-r.gif' border='0' align='absmiddle'></a>";
+	if ($span > ($start + $limit))
+	{
+		if ($start > 0) echo "&nbsp;|&nbsp;";
+		
+		echo "<a href='stats-details.php?campaignid=$campaignid&bannerid=$bannerid&limit=$limit&start=$next'>";
+		echo $strNext."<img src='images/arrow-r.gif' border='0' align='absmiddle'></a>";
+	}
 echo "</td>";
-echo "</form>";
 echo "</tr>";
 
 
@@ -335,7 +378,7 @@ if ($totalviews > 0 || $totalclicks > 0)
 }
 
 
-if ($totalviews > 0 || $totalclicks > 0)
+if (($totalviews > 0 || $totalclicks > 0) && $start == 0)
 {
 	if (phpAds_GDImageFormat() != "none") 
 	{
