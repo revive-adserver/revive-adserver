@@ -133,14 +133,14 @@ if (phpAds_isUser(phpAds_Client))
 
 echo "<br><br>";
 
-
-
 if (!isset($limit) || $limit=='') $limit = '7';
+if (!isset($start) || $start=='') $start = '0';
+
 
 if ($phpAds_config['compact_stats']) 
 {
-	$begin = date('Ymd', mktime(0, 0, 0, date('m'), date('d') - $limit + 1, date('Y')));
-	$end   = date('Ymd', mktime(0, 0, 0, date('m'), date('d') + 1, date('Y')));
+	$begin = date('Ymd', mktime(0, 0, 0, date('m'), date('d') - $limit + 1 - $start, date('Y')));
+	$end   = date('Ymd', mktime(0, 0, 0, date('m'), date('d') + 1 - $start, date('Y')));
 	
 	$result = phpAds_dbQuery("
 		SELECT
@@ -166,8 +166,8 @@ if ($phpAds_config['compact_stats'])
 }
 else
 {
-	$begin = date('YmdHis', mktime(0, 0, 0, date('m'), date('d') - $limit + 1, date('Y')));
-	$end   = date('YmdHis', mktime(0, 0, 0, date('m'), date('d') + 1, date('Y')));
+	$begin = date('YmdHis', mktime(0, 0, 0, date('m'), date('d') - $limit + 1 - $start, date('Y')));
+	$end   = date('YmdHis', mktime(0, 0, 0, date('m'), date('d') + 1 - $start, date('Y')));
 	
 	$result = phpAds_dbQuery("
 		SELECT
@@ -234,8 +234,8 @@ $today = time();
 
 for ($d=0;$d<$limit;$d++)
 {
-	$key = date ("Ymd", $today - ((60 * 60 * 24) * $d));
-	$text = date (str_replace ("%", "", $date_format), $today - ((60 * 60 * 24) * $d));
+	$key = date ("Ymd", $today - ((60 * 60 * 24) * ($d + $start)));
+	$text = date (str_replace ("%", "", $date_format), $today - ((60 * 60 * 24) * ($d + $start)));
 	
 	if (isset($stats[$key]))
 	{
@@ -274,6 +274,38 @@ for ($d=0;$d<$limit;$d++)
 	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 }
 
+
+$previous = $start < 7 ? 0 : $start - $limit;
+$next = $start + $limit;
+
+echo "<tr>";
+echo "<form action='stats-details.php'>";
+echo "<td height='35' colspan='1' align='left'>";
+	echo "&nbsp;".$strDays.":&nbsp;&nbsp;";
+	echo "<input type='hidden' name='bannerid' value='$bannerid'>";
+	echo "<input type='hidden' name='campaignid' value='$campaignid'>";
+	echo "<input type='hidden' name='start' value='$start'>";
+	echo "<select name='limit' onChange=\"this.form.submit();\">";
+	echo "<option value='7' ".($limit==7?'selected':'').">7 ".$strDays."</option>";
+	echo "<option value='14' ".($limit==14?'selected':'').">14 ".$strDays."</option>";
+	echo "<option value='21' ".($limit==21?'selected':'').">21 ".$strDays."</option>";
+	echo "<option value='28' ".($limit==28?'selected':'').">28 ".$strDays."</option>";
+	echo "</select>&nbsp;";
+	echo "<input type='image' src='images/go_blue.gif' border='0' name='submit'>";
+echo "</td>";
+echo "<td height='35' colspan='3' align='right'>";
+	if ($start > 0)
+	{
+		echo "<a href='stats-details.php?campaignid=$campaignid&bannerid=$bannerid&limit=$limit&start=$previous'>";
+		echo "<img src='images/arrow-l.gif' border='0' align='absmiddle'>".$strPrevious."</a>&nbsp;|&nbsp;";
+	}
+	echo "<a href='stats-details.php?campaignid=$campaignid&bannerid=$bannerid&limit=$limit&start=$next'>";
+	echo $strNext."<img src='images/arrow-r.gif' border='0' align='absmiddle'></a>";
+echo "</td>";
+echo "</form>";
+echo "</tr>";
+
+
 if ($totalviews > 0 || $totalclicks > 0)
 {
 	echo "<tr>";
@@ -302,22 +334,6 @@ if ($totalviews > 0 || $totalclicks > 0)
 	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 }
 
-echo "<tr>";
-echo "<form action='stats-details.php'>";
-echo "<td height='35' colspan='4' align='right'>";
-	echo $strHistory.":&nbsp;&nbsp;";
-	echo "<input type='hidden' name='bannerid' value='$bannerid'>";
-	echo "<input type='hidden' name='campaignid' value='$campaignid'>";
-	echo "<select name='limit' onChange=\"this.form.submit();\">";
-	echo "<option value='7' ".($limit==7?'selected':'').">7 ".$strDays."</option>";
-	echo "<option value='14' ".($limit==14?'selected':'').">14 ".$strDays."</option>";
-	echo "<option value='21' ".($limit==21?'selected':'').">21 ".$strDays."</option>";
-	echo "<option value='28' ".($limit==28?'selected':'').">28 ".$strDays."</option>";
-	echo "</select>&nbsp;";
-	echo "<input type='image' src='images/go_blue.gif' border='0' name='submit'>";
-echo "</td>";
-echo "</form>";
-echo "</tr>";
 
 if ($totalviews > 0 || $totalclicks > 0)
 {
@@ -326,13 +342,12 @@ if ($totalviews > 0 || $totalclicks > 0)
 		echo "<tr><td colspan='4' align='left' bgcolor='#FFFFFF'>";
 		echo "<br><br><img src='graph-details.php?bannerid=$bannerid&campaignid=$campaignid&limit=$limit'><br><br><br>";
 		echo "</td></tr>";
+		echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	}
-	
-	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 }
 
 echo "</table>";
-
+echo "<br><br>";
 
 
 
