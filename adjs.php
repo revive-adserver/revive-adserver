@@ -57,8 +57,11 @@ function enjavanate ($str, $limit = 60)
 		$line = substr ($str, 0, $limit);
 		$str  = substr ($str, $limit);
 		
+		$line = str_replace('\\', "\\\\", $line);
 		$line = str_replace('\'', "\\'", $line);
+		$line = str_replace("\r", '', $line);
 		$line = str_replace("\n", "\\n", $line);
+		$line = str_replace("\t", "\\t", $line);
 		$line = str_replace('<', "<'+'", $line);
 		
 		print "phpadsbanner += '$line';\n";

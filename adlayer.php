@@ -49,23 +49,24 @@ require (phpAds_path."/lib-cache.inc.php");
 function enjavanate ($str, $limit = 60)
 {
 	$str   = str_replace("\r", '', $str);
-
+	
 	print "var phpadsbanner = '';\n\n";
-
+	
 	while (strlen($str) > 0)
 	{
 		$line = substr ($str, 0, $limit);
 		$str  = substr ($str, $limit);
-
+		
+		$line = str_replace('\\', "\\\\", $line);
 		$line = str_replace('\'', "\\'", $line);
 		$line = str_replace("\r", '', $line);
 		$line = str_replace("\n", "\\n", $line);
 		$line = str_replace("\t", "\\t", $line);
 		$line = str_replace('<', "<'+'", $line);
-
+		
 		print "phpadsbanner += '$line';\n";
 	}
-
+	
 	print "\ndocument.write(phpadsbanner);\n";
 }
 
