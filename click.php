@@ -1,6 +1,9 @@
 <?
 
-require("config.php");
+require("config.inc.php");
+require("dblib.php");
+
+db_connect();
 
 if(!isset($bannerID))
 {
