@@ -116,41 +116,88 @@ if ($command == 'start')
 
 if ($command == 'overview')
 {
-	$day = array();
-	
-	$overviewresult = @db_query("SELECT count(*) as count, DATE_FORMAT(t_stamp, '$date_format') as date_f, DATE_FORMAT(t_stamp, '%Y-%m-%d') as date FROM $phpAds_tbl_adviews GROUP BY date");
-	while ($overviewrow = @mysql_fetch_array($overviewresult))
+	if (!phpAds_convertTableExists())
 	{
-		$day[$overviewrow['date']]['views'] = $overviewrow['count'];
-		$day[$overviewrow['date']]['date_f'] = $overviewrow['date_f'];
+		// Setup a new conversion
+		phpAds_convertTableCreate();
+		
+		$day = array();
+		
+		$overviewresult = @db_query("SELECT bannerid, count(*) as count, DATE_FORMAT(t_stamp, '$date_format') as date_f, DATE_FORMAT(t_stamp, '%Y-%m-%d') as date FROM $phpAds_tbl_adviews GROUP BY date, bannerid");
+		while ($overviewrow = @mysql_fetch_array($overviewresult))
+		{
+			$day[$overviewrow['date']][$overviewrow['bannerid']]['views'] = $overviewrow['count'];
+			$day[$overviewrow['date']][$overviewrow['bannerid']]['date_f'] = $overviewrow['date_f'];
+		}
+		
+		$overviewresult = @db_query("SELECT bannerid, count(*) as count, DATE_FORMAT(t_stamp, '$date_format') as date_f, DATE_FORMAT(t_stamp, '%Y-%m-%d') as date FROM $phpAds_tbl_adclicks GROUP BY date, bannerid");
+		while ($overviewrow = @mysql_fetch_array($overviewresult))
+		{
+			$day[$overviewrow['date']][$overviewrow['bannerid']]['clicks'] = $overviewrow['count'];
+			$day[$overviewrow['date']][$overviewrow['bannerid']]['date_f'] = $overviewrow['date_f'];
+		}
+		
+		for (reset($day);$key=key($day);next($day))
+		{
+			$section_year = substr ($key, 0, 4);
+			$section_month  = substr ($key, 5, 2);
+			$section_day  = substr ($key, 8, 2);
+			
+			$begin_stamp = date ("Ymd000000", mktime(0, 0, 0, $section_month, $section_day, $section_year));
+			$end_stamp = date ("Ymd000000", mktime(0, 0, 0, $section_month, $section_day, $section_year) + 86400);
+			
+			$banner = $day[$key];
+			
+			for (reset($banner);$bkey=key($banner);next($banner))
+			{
+				$records = 0;
+				if (isset($banner[$bkey]['views'])) $records += $banner[$bkey]['views'];
+				if (isset($banner[$bkey]['clicks'])) $records += $banner[$bkey]['clicks'];
+				
+				phpAds_convertAddTask($begin_stamp, $end_stamp, $records, $bkey);
+			}
+		}
 	}
 	
-	$overviewresult = @db_query("SELECT count(*) as count, DATE_FORMAT(t_stamp, '$date_format') as date_f, DATE_FORMAT(t_stamp, '%Y-%m-%d') as date FROM $phpAds_tbl_adclicks GROUP BY date");
-	while ($overviewrow = @mysql_fetch_array($overviewresult))
-	{
-		$day[$overviewrow['date']]['clicks'] = $overviewrow['count'];
-		$day[$overviewrow['date']]['date_f'] = $overviewrow['date_f'];
-	}
+	
+	
+	// Build HTML Taskscheduler :-)
+	$result = @db_query("SELECT begin_stamp, DATE_FORMAT(begin_stamp, '$date_format') as date_f, sum(records) as sum FROM phpAdsConversionTemp WHERE status='waiting' GROUP BY begin_stamp");
 	
 	echo "<html><head>";
 	echo "<link rel='stylesheet' href='interface.css'>";
-	echo "</head><body>";
+	?>
+		<script language='JavaScript'>
+		<!--
+			function StartCleanup()
+			{
+				document.images.cleanup.src = 'stats-convert.php?command=cleanup';
+			}
+		//-->
+		</script>
+	<?
+	echo "</head><body onLoad=\"StartCleanup();\">";
 	echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'>";
 	
-	for (reset($day);$key=key($day);next($day))
+	while ($task = @mysql_fetch_array($result))
 	{
-		$records = 0;
-		if (isset($day[$key]['views'])) $records += $day[$key]['views'];
-		if (isset($day[$key]['clicks'])) $records += $day[$key]['clicks'];
-		
 		echo "<tr>";
-		echo "<td height='25'>&nbsp;&nbsp;<img src='stats-convert.php?command=convert&day=$key' width='16' height='16'></td>";
-		echo "<td>".$day[$key]['date_f']."</td>";
-		echo "<td>$records records to convert...</td>";
+		echo "<td height='25'>&nbsp;&nbsp;<img src='stats-convert.php?command=convert&id=".$task['begin_stamp']."' width='16' height='16'></td>";
+		echo "<td>".$task['date_f']."</td>";
+		echo "<td>".$task['sum']." records to convert...</td>";
 		echo "</tr>";
 		
 		echo "<tr><td colspan='3'><img src='images/break-l.gif' width='100%' height='1'></td></tr>";
 	}
+	
+	
+	echo "<tr>";
+	echo "<td height='25'>&nbsp;&nbsp;<img name='cleanup' src='images/spacer.gif' width='16' height='16'></td>";
+	echo "<td>&nbsp;</td>";
+	echo "<td>Cleaning up...</td>";
+	echo "</tr>";
+	
+	echo "<tr><td colspan='3'><img src='images/break-l.gif' width='100%' height='1'></td></tr>";
 	
 	echo "</table>";
 	echo "</body></html>";
@@ -165,7 +212,7 @@ if ($command == 'overview')
 if ($command == 'convert')
 {
 	// don't let the user interupt with this process!
-	// timeout this script in 5 minutes for safety
+	// timeout this script in 10 minutes for safety
 	if (!get_cfg_var ('safe_mode'))
 	{
 		set_time_limit (600);
@@ -174,112 +221,81 @@ if ($command == 'convert')
 	
 	$error = true;
 	
-	if (isset($day) && $day != '')
+	if (isset($id) && $id != '')
 	{
-		//$countresult = @db_query("LOCK TABLES $phpAds_tbl_adviews");
+		$result = @db_query("SELECT * FROM phpadsconversiontemp WHERE begin_stamp='$id' AND status='waiting'");
 		
-		$section_year = substr ($day, 0, 4);
-		$section_month  = substr ($day, 5, 2);
-		$section_day  = substr ($day, 8, 2);
-		
-		$begintime = date ("Ymd000000", mktime(0, 0, 0, $section_month, $section_day, $section_year));
-		$endtime = date ("Ymd000000", mktime(0, 0, 0, $section_month, $section_day, $section_year) + 86400);
-		
-		//echo "$begintime - $endtime";
-		
-		//echo "SELECT bannerID, count(*) as count FROM $phpAds_tbl_adviews WHERE t_stamp > $begintime AND t_stamp < $endtime GROUP BY bannerID <br>";
-			
-		$countresult = @db_query("SELECT bannerID, count(*) as count FROM $phpAds_tbl_adviews WHERE t_stamp > $begintime AND t_stamp < $endtime GROUP BY bannerID");
-		while ($countrow = @mysql_fetch_array($countresult))
+		if (@mysql_num_rows($result) > 0)
 		{
-			$bannerID = $countrow['bannerID'];
-			$adstats[$bannerID]['views'] = $countrow['count'];
-		}
-		
-		$countresult = @db_query("SELECT bannerID, count(*) as count FROM $phpAds_tbl_adclicks WHERE t_stamp > $begintime AND t_stamp < $endtime GROUP BY bannerID"); 
-		while ($countrow = @mysql_fetch_array($countresult))
-		{
-			$bannerID = $countrow['bannerID'];
-			$adstats[$bannerID]['clicks'] = $countrow['count'];
-		}
-		
-		if (isset($adstats) && is_array($adstats))
-		{
-			$deleteid = array();
-			
-			for (reset($adstats);$bannerID=key($adstats);next($adstats))
+			while ($task = @mysql_fetch_array($result))
 			{
-				$checkresult = @db_query("SELECT count(*) as count FROM $phpAds_tbl_adstats WHERE day='$day' AND bannerID='$bannerID'");
-				$checkrow = @mysql_fetch_array ($checkresult);
-				
-				$clicks = 0;
 				$views = 0;
-				if (isset($adstats[$bannerID]['views'])) $views = $adstats[$bannerID]['views'];
-				if (isset($adstats[$bannerID]['clicks'])) $clicks = $adstats[$bannerID]['clicks'];
+				$clicks = 0;
 				
-				if (isset($checkrow['count']) && $checkrow['count'] > 0)
+				$begintime 	= $task['begin_stamp'];
+				$endtime 	= $task['end_stamp'];
+				$bannerID 	= $task['bannerID'];
+				$id		 	= $task['conversionID'];
+				
+				//echo "<br><br>ID:$id BANNERID:$bannerID > $begintime - $endtime <br>";
+				
+				$day = substr($begintime, 0, 4)."-".substr($begintime, 4, 2)."-".substr($begintime, 6, 2);
+				
+				$countresult = @db_query("SELECT count(*) as count FROM $phpAds_tbl_adviews WHERE bannerID='$bannerID' AND t_stamp >= $begintime AND t_stamp < $endtime");
+				if ($countrow = @mysql_fetch_array($countresult))
 				{
-					$result = @db_query("UPDATE $phpAds_tbl_adstats SET clicks=clicks+$clicks, views=views+$views WHERE day='$day' AND bannerID='$bannerID'");
-					if (@mysql_affected_rows() > 0)
-					{
-						$deleteid[$bannerID] = true;
-					}
-					$error = false;
+					$views = $countrow['count'];
 				}
-				else
+				
+				$countresult = @db_query("SELECT count(*) as count FROM $phpAds_tbl_adclicks WHERE bannerID='$bannerID' AND t_stamp >= $begintime AND t_stamp < $endtime"); 
+				if ($countrow = @mysql_fetch_array($countresult))
 				{
-					//echo "INSERT INTO $phpAds_tbl_adstats SET bannerID='$bannerID', day='$day', clicks=$clicks, views=$views";
+					$clicks = $countrow['count'];
+				}
+				
+				//echo "CLICKS=$clicks VIEWS=$views <br>";
+				
+				if ($clicks > 0 || $views > 0)
+				{
+					$checkresult = @db_query("SELECT count(*) as count FROM $phpAds_tbl_adstats WHERE day='$day' AND bannerID='$bannerID'");
+					$checkrow = @mysql_fetch_array ($checkresult);
 					
-					$result = @db_query("INSERT INTO $phpAds_tbl_adstats SET bannerID='$bannerID', day='$day', clicks=$clicks, views=$views");
-					if (@mysql_affected_rows() > 0)
+					if (isset($checkrow['count']) && $checkrow['count'] > 0)
 					{
-						$deleteid[$bannerID] = true;
+						//echo "UPDATE $phpAds_tbl_adstats SET clicks=clicks+$clicks, views=views+$views WHERE day='$day' AND bannerID='$bannerID' <br>";
+						$updateresult = @db_query("UPDATE $phpAds_tbl_adstats SET clicks=clicks+$clicks, views=views+$views WHERE day='$day' AND bannerID='$bannerID'");
+						
+						if (@mysql_affected_rows() > 0)
+						{
+							phpAds_convertSetStatus ($id, 'finished');
+							$error = false;
+						}
+						else
+							phpAds_convertSetStatus ($id, 'error');
 					}
-					$error = false;
+					else
+					{
+						//echo "INSERT INTO $phpAds_tbl_adstats SET bannerID='$bannerID', day='$day', clicks=$clicks, views=$views <br>";
+						$updateresult = @db_query("INSERT INTO $phpAds_tbl_adstats SET bannerID='$bannerID', day='$day', clicks=$clicks, views=$views");
+						
+						if (@mysql_affected_rows() > 0)
+						{
+							phpAds_convertSetStatus ($id, 'finished');
+							$error = false;
+						}
+						else
+							phpAds_convertSetStatus ($id, 'error');
+					}
 				}
 			}
-			
-			if ($error)
-			{
-				header ("Content-type: image/gif");
-				$image = @fopen ('images/delete.gif', 'r');
-				fpassthru ($image);
-				fclose ($image);
-			}
-			else
-			{
-				header ("Content-type: image/gif");
-				$image = @fopen ('images/save.gif', 'r');
-				fpassthru ($image);
-				fclose ($image);
-			}
-			
-			flush();
-			
-			if (sizeof($deleteid) == sizeof($adstats))
-			{
-				//echo "REMOVING IN ONE";
-				$result = @db_query("DELETE LOW_PRIORITY FROM $phpAds_tbl_adviews WHERE t_stamp > $begintime AND t_stamp < $endtime");
-				$result = @db_query("DELETE LOW_PRIORITY FROM $phpAds_tbl_adclicks WHERE t_stamp > $begintime AND t_stamp < $endtime");
-			}
-			else
-			{
-				for (reset($deleteid);$bannerID=key($deleteid);next($deleteid))
-				{
-					$result = @db_query("DELETE LOW_PRIORITY FROM $phpAds_tbl_adviews WHERE bannerID='$bannerID' AND t_stamp > $begintime AND t_stamp < $endtime");
-					$result = @db_query("DELETE LOW_PRIORITY FROM $phpAds_tbl_adclicks WHERE bannerID='$bannerID' AND t_stamp > $begintime AND t_stamp < $endtime");
-				}
-			}
-			
-			exit;
 		}
-		
-		//$countresult = @db_query("UNLOCK TABLES");
 	}
+	
 	
 	if ($error)
 	{
 		header ("Content-type: image/gif");
+		include ("../nocache.inc.php");
 		$image = @fopen ('images/delete.gif', 'r');
 		fpassthru ($image);
 		fclose ($image);
@@ -287,11 +303,168 @@ if ($command == 'convert')
 	else
 	{
 		header ("Content-type: image/gif");
+		include ("../nocache.inc.php");
 		$image = @fopen ('images/save.gif', 'r');
 		fpassthru ($image);
 		fclose ($image);
 	}
 	
+	//echo "$error <br>";
+}
+
+
+
+/*********************************************************/
+/* Cleanup mess                                          */
+/*********************************************************/
+
+if ($command == 'cleanup')
+{
+	if (!get_cfg_var ('safe_mode'))
+	{
+		set_time_limit (600);
+		ignore_user_abort(1);
+	}
+	
+	$error = true;
+	$status = array();
+	
+	$result = @db_query("select status, count(*) as count from phpadsconversiontemp group by status");
+	while ($row = @mysql_fetch_array($result))
+	{
+		$status[$row['status']] = $row['count'];
+	}
+	
+	if (sizeof($status) == 1 && isset ($status['finished']))
+	{
+		$scheduler = @mysql_fetch_array($result);
+		
+		if ($scheduler['status'] == 'finished')
+		{
+			// Clean up whole table
+			@db_query("delete from $phpAds_tbl_adviews");
+			phpAds_convertTableDrop();
+			$error = false;
+		}
+	}
+	elseif (sizeof($status) == 2 && isset ($status['finished']) && isset ($status['error']))
+	{
+		$result = @db_query("select * from phpadsconversiontemp where status='error'");
+		
+		$where = "";
+		
+		while ($error = @mysql_fetch_array($result))
+		{
+			$begintime 	= $error['begin_stamp'];
+			$endtime 	= $error['end_stamp'];
+			$bannerID 	= $error['bannerID'];
+			
+			if ($where == "")
+			{
+				$where .= "(bannerID='$bannerID' AND t_stamp >= $begintime AND t_stamp < $endtime)";
+			}
+			else
+			{
+				$where .= " OR (bannerID='$bannerID' AND t_stamp >= $begintime AND t_stamp < $endtime)";
+			}
+		}
+		
+		if ($where != "")
+			$where = "WHERE NOT ($where)";
+		
+		@db_query("DELETE FROM adviews $where");
+		@db_query("DELETE FROM adclicks $where");
+		
+		$error = false;
+	}
+	
+	echo $error;
+	
+	if ($error)
+	{
+		header ("Content-type: image/gif");
+		include ("../nocache.inc.php");
+		$image = @fopen ('images/delete.gif', 'r');
+		fpassthru ($image);
+		fclose ($image);
+	}
+	else
+	{
+		header ("Content-type: image/gif");
+		include ("../nocache.inc.php");
+		$image = @fopen ('images/save.gif', 'r');
+		fpassthru ($image);
+		fclose ($image);
+	}
+}
+
+
+function phpAds_convertTableExists()
+{
+	$available = false;
+	$result = @db_query("SHOW TABLES");
+	
+	while ($tables = @mysql_fetch_row($result)) 
+	{
+    	if ($tables[0] == 'phpadsconversiontemp') 
+		{
+			$available = true;
+		}
+	}
+	
+	return ($available);
+}
+
+
+function phpAds_convertTableCreate()
+{
+	$result = @db_query("
+		CREATE TABLE phpadsconversiontemp (
+		   conversionID mediumint(9) NOT NULL auto_increment,
+		   begin_stamp timestamp(14),
+		   end_stamp timestamp(14),
+		   status enum('waiting','running','finished','error') DEFAULT 'waiting',
+		   records int(11),
+		   bannerID mediumint(9),
+		   PRIMARY KEY (conversionID)
+		)
+	");
+	
+	echo mysql_error();
+}
+
+
+function phpAds_convertTableDrop()
+{
+	$result = @db_query("DROP TABLE phpadsconversiontemp");
+}
+
+
+function phpAds_convertAddTask($begin_stamp, $end_stamp, $records, $bannerID)
+{
+	$result = @db_query("
+		INSERT INTO 
+			phpadsconversiontemp
+		SET
+		   	begin_stamp = '$begin_stamp',
+		   	end_stamp = '$end_stamp',
+			bannerID = '$bannerID',
+		   	records = $records
+	");
+}
+
+function phpAds_convertSetStatus ($id, $status)
+{
+	$result = @db_query("
+		UPDATE 
+			phpadsconversiontemp
+		SET
+		   	status = '$status',
+			begin_stamp = begin_stamp,
+			end_stamp = end_stamp
+		WHERE
+			conversionID = '$id'
+	");
 }
 
 ?>

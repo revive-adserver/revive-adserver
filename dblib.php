@@ -184,19 +184,19 @@ function db_total_stats($table, $column, $bannerID, $timeconstraint="")
 		{
 			$begintime = date ("Ym01000000");
 			$endtime = date ("YmdHis", mktime(0, 0, 0, date("m") + 1, 1, date("Y")));
-			$where .= "t_stamp > $begintime AND t_stamp < $endtime";
+			$where .= "t_stamp >= $begintime AND t_stamp < $endtime";
 		}
 		elseif ($timeconstraint == "week")
 		{
 			$begintime = date ("Ymd000000", time() - 518400);
 			$endtime = date ("Ymd000000", time() + 86400);
-			$where .= "t_stamp > $begintime AND t_stamp < $endtime";
+			$where .= "t_stamp >= $begintime AND t_stamp < $endtime";
 		}
 		else
 		{
 		    $begintime = date ("Ymd000000");
 			$endtime = date ("Ymd000000", time() + 86400);
-			$where .= "t_stamp > $begintime AND t_stamp < $endtime";
+			$where .= "t_stamp >= $begintime AND t_stamp < $endtime";
 		}
 	}
 	
