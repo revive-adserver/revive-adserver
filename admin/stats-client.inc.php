@@ -303,7 +303,7 @@ while (list ($bannerID,) = each ($tmp_order))
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;";
 			}
 		}
-		if (phpAds_isUser(phpAds_Admin))
+		if (phpAds_isUser(phpAds_Admin) || (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_ModifyBanner))) // only for the admin
 		{
 			echo "<img src='images/go_blue.gif'>&nbsp;";
 			echo "<a href='banner-edit.php?clientID=$clientID&bannerID=$row_banners[bannerID]'>$strModifyBanner</a>";
@@ -366,10 +366,15 @@ while (list ($bannerID,) = each ($tmp_order))
 		{
 			echo "<div id='banner$row_banners[bannerID]' style='position:relative; height: 1px; overflow: hidden; visibility: hidden;'>";
 			
-			echo "<table cellpadding=0 cellspacing=0 border=0><tr><td align='left'>";
-			echo "<br>";
-			echo phpAds_buildBannerCode ($row_banners[bannerID], $row_banners[banner], $row_banners[active], $row_banners[format], $row_banners[width], $row_banners[height], $row_banners[bannertext]);
-			echo "<br><br>";
+			echo "<table width='100%' cellpadding=0 cellspacing=0 border=0><tr><td align='left'>";
+			echo "<tr><td><img src='images/break-l.gif' height='1' width='100%' vspace='0'></tr><td>";
+			echo "<tr><td>&nbsp;</tr><td>";
+			echo "<tr><td>";
+				echo phpAds_buildBannerCode ($row_banners[bannerID], $row_banners[banner], $row_banners[active], $row_banners[format], $row_banners[width], $row_banners[height], $row_banners[bannertext]);
+			echo "</tr><td>";
+			echo "<tr><td>&nbsp;</tr><td>";
+			echo "<tr><td><img src='images/break-l.gif' height='1' width='100%' vspace='0'></tr><td>";
+			echo "<tr><td height='25'>";
 			
 		    if ($adclicks > 0 || $adviews > 0)
 			{
@@ -383,14 +388,14 @@ while (list ($bannerID,) = each ($tmp_order))
 				}
 			}
 			
-			if (phpAds_isUser(phpAds_Admin)) // only for the admin
+			if (phpAds_isUser(phpAds_Admin) || (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_ModifyBanner))) // only for the admin
 			{
 				echo "<a href='banner-edit.php?clientID=$clientID&bannerID=$row_banners[bannerID]'>[&nbsp;$strModifyBanner&nbsp;]</a>";
 				echo "&nbsp;&nbsp;&nbsp;";
 			}
-			echo "<br><br>";
+			echo "</tr><td>";
+			echo "</table>";
 			
-			echo "</td></tr></table>";
 			echo "</div>";
 		}
 		

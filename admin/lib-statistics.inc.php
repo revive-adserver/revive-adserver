@@ -112,20 +112,36 @@
 		if ($active == "true")
 		{
 			if ($format == "html")
-				$buffer = htmlspecialchars (stripslashes ($banner));
+			{
+				$htmlcode 	= htmlspecialchars (stripslashes ($banner));
+				$buffer		= "<table border='0' cellspacing='0' cellpadding='0'><tr>";
+				$buffer    .= "<td width='66%' valign='top' align='right'>";
+				$buffer	   .= strlen($htmlcode) > 500 ? substr ($htmlcode, 0, 500)."..." : $htmlcode;
+				$buffer    .= "</td>";
+				$buffer    .= "<td width='33%' valign='top' align='center' nowrap>&nbsp;&nbsp;<a href='banner-htmlpreview.php?bannerID=$bannerID' target='_new'>[ Show banner ]</a>&nbsp;&nbsp;</td>";
+				$buffer	   .= "</tr></table>";
+			}
 			elseif($format == "url")
-				$buffer = "<p><img src='$banner' width='$width' height='$height'>";
+				$buffer = "<img src='$banner' width='$width' height='$height'>";
 			else
-				$buffer = "<p><img src='../viewbanner.php?bannerID=$bannerID' width='$width' height='$height'>";
+				$buffer = "<img src='../viewbanner.php?bannerID=$bannerID' width='$width' height='$height'>";
 		}
 		else
 		{
 			if ($format == "html")
-				$buffer = htmlspecialchars (stripslashes( $banner));
+			{
+				$htmlcode 	= htmlspecialchars (stripslashes ($banner));
+				$buffer		= "<table border='0' cellspacing='0' cellpadding='0'><tr>";
+				$buffer    .= "<td width='66%' valign='top' align='right' style='filter: Alpha(Opacity=50)'>";
+				$buffer	   .= strlen($htmlcode) > 500 ? substr ($htmlcode, 0, 500)."..." : $htmlcode;
+				$buffer    .= "</td>";
+				$buffer    .= "<td width='33%' valign='top' align='center' nowrap>&nbsp;&nbsp;<a href='banner-htmlpreview.php?bannerID=$bannerID' target='_new'>[ Show banner ]</a>&nbsp;&nbsp;</td>";
+				$buffer	   .= "</tr></table>";
+			}
 			elseif($format == "url")
-				$buffer = "<p><img src='$banner' width='$width' height='$height' style='filter: Alpha(Opacity=50)'>";
+				$buffer = "<img src='$banner' width='$width' height='$height' style='filter: Alpha(Opacity=50)'>";
 			else
-				$buffer = "<p><img src='../viewbanner.php?bannerID=$bannerID' width='$width' height='$height' style='filter: Alpha(Opacity=50)'>";
+				$buffer = "<img src='../viewbanner.php?bannerID=$bannerID' width='$width' height='$height' style='filter: Alpha(Opacity=50)'>";
 		}
 		
 		if (!$bannertext == "")
