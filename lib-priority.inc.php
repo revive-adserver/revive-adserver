@@ -109,7 +109,11 @@ function phpAds_PriorityPredictProfile($campaigns, $banners)
 	global $debug, $debuglog;
 	
 	
-
+	$real_profile = array (0, 0, 0, 0, 0, 0,
+					  0, 0, 0, 0, 0, 0,
+					  0, 0, 0, 0, 0, 0,
+					  0, 0, 0, 0, 0, 0);
+	
 	$profile_correction_executed = false;
 	
 	// Get the number of days running
@@ -221,13 +225,7 @@ function phpAds_PriorityPredictProfile($campaigns, $banners)
 	$debuglog .= "PREDICTED PROFILE\n";
 	$debuglog .= "-----------------------------------------------------\n";
 	
-	for ($i=0;$i<12;$i++)
-		$debuglog .= isset($profile[$i]) ? $profile[$i] : '0'."  ";
-	
-	$debuglog .= "\n";
-	
-	for ($i=12;$i<24;$i++)
-		$debuglog .= isset($profile[$i]) ? $profile[$i] : '0'."  ";
+	$debuglog .= phpAds_PriorityPrintProfile($profile);	
 	
 	$debuglog .= "\n\n\n";
 	// END REPORTING
@@ -275,13 +273,7 @@ function phpAds_PriorityPredictProfile($campaigns, $banners)
 	$debuglog .= "REAL VALUES UP TILL ".phpAds_CurrentHour.":00 \n";
 	$debuglog .= "-----------------------------------------------------\n";
 	
-	for ($i=0;$i<12;$i++)
-		$debuglog .= (isset($real_profile[$i]) ? $real_profile[$i] : 0)."  ";
-	
-	$debuglog .= "\n";
-	
-	for ($i=12;$i<24;$i++)
-		$debuglog .= (isset($real_profile[$i]) ? $real_profile[$i] : 0)."  ";
+	$debuglog .= phpAds_PriorityPrintProfile($real_profile);	
 	
 	$debuglog .= "\n\n\n";
 	// END REPORTING
@@ -394,13 +386,7 @@ function phpAds_PriorityPredictProfile($campaigns, $banners)
 					$debuglog .= "\n\nNEW PREDICTED PROFILE\n";
 					$debuglog .= "-----------------------------------------------------\n";
 					
-					for ($i=0;$i<12;$i++)
-						$debuglog .= $profile[$i]."  ";
-					
-					$debuglog .= "\n";
-					
-					for ($i=12;$i<24;$i++)
-						$debuglog .= $profile[$i]."  ";
+					$debuglog .= phpAds_PriorityPrintProfile($profile);	
 					
 					$debuglog .= "\n\n\n";
 				}
@@ -526,13 +512,7 @@ function phpAds_PriorityPredictProfile($campaigns, $banners)
 	$debuglog .= "\n\n\nADJUSTED PROFILE\n";
 	$debuglog .= "-----------------------------------------------------\n";
 	
-	for ($i=0;$i<12;$i++)
-		$debuglog .= $profile[$i]."  ";
-	
-	$debuglog .= "\n";
-	
-	for ($i=12;$i<24;$i++)
-		$debuglog .= $profile[$i]."  ";
+	$debuglog .= phpAds_PriorityPrintProfile($profile);	
 	
 	$debuglog .= "\n\n\n";
 	// END REPORTING
@@ -937,14 +917,29 @@ function phpAds_PriorityGetDeviance($hour, $profile, $real_profile)
 	
 	for ($i=0;$i<$hour;$i++)
 	{
-		$predicted += $profile[$i];
-		$real += $real_profile[$i];
+		$predicted += isset($profile[$i]) ? $profile[$i] : 0;
+		$real += isset($real_profile[$i]) ? $real_profile[$i] : 0;
 	}
 	
 	if (!$predicted)
 		$predicted = 0.1;
 	
 	return (($real / $predicted)-1) * phpAds_priorityGetImportance($hour) + 1;
+}
+
+function phpAds_PriorityPrintProfile($profile)
+{
+	$debuglog = '';
+
+	for ($i=0;$i<24;$i++)
+	{
+		if ($i && !($i % 6))
+			$debuglog .= "\n";
+
+		$debuglog .= sprintf('%7d', isset($profile[$i]) ? $profile[$i] : '0')."  ";
+	}
+
+	return $debuglog;
 }
 
 ?>
