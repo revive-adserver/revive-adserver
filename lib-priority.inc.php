@@ -496,15 +496,7 @@ function phpAds_PriorityPredictProfile($campaigns, $banners)
 		// No data available, profile is completely zero
 		// create a profile to match campaign weights only
 		
-		$total_campaign_weight = 0;
-		for (reset($campaigns);$c=key($campaigns);next($campaigns))
-			$total_campaign_weight += $campaigns[$c]['weight'];
-		
-		$total_banner_weight = 0;
-		for (reset($banners);$b=key($banners);next($banners))
-			$total_banner_weight += $banners[$b]['weight'];
-		
-		$total_weight = $total_banner_weight * $total_campaign_weight;
+		$total_weight = phpAds_PriorityTotalWeight($campaigns, $banners);
 		
 		for ($i=0;$i<24;$i++)
 			$profile[$i] = (int)$total_weight;
@@ -858,15 +850,7 @@ function phpAds_PriorityCalculate()
 		$debuglog .= "No targeding needed, skipping profile prediction.\n";
 		// END REPORTING
 		
-		$total_campaign_weight = 0;
-		for (reset($campaigns);$c=key($campaigns);next($campaigns))
-			$total_campaign_weight += $campaigns[$c]['weight'];
-		
-		$total_banner_weight = 0;
-		for (reset($banners);$b=key($banners);next($banners))
-			$total_banner_weight += $banners[$b]['weight'];
-		
-		$available_for_others = $total_banner_weight * $total_campaign_weight;
+		$available_for_others = phpAds_PriorityTotalWeight($campaigns, $banners);
 	}
 		
 		// BEGIN REPORTING
