@@ -67,7 +67,7 @@ function phpAds_fetchBannerDirect($remaining, $clientid = 0, $context = 0, $sour
 		if (!defined('LIBVIEWQUERY_INCLUDED'))  include (phpAds_path.'/libraries/lib-view-query.inc.php');
 		
 		if ($clientid > 0)
-			$precondition = " AND (".$phpAds_config['tbl_clients'].".clientid = ".$clientid." OR ".$phpAds_config['tbl_clients'].".parent = ".$clientid.") ";
+			$precondition = " AND ".$phpAds_config['tbl_banners'].".clientid = ".$clientid." ";
 		else
 			$precondition = '';
 		

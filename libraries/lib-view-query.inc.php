@@ -31,29 +31,18 @@ function phpAds_buildQuery ($part, $lastpart, $precondition)
 				".$phpAds_config['tbl_banners'].".bannerid as bannerid,
 				".$phpAds_config['tbl_banners'].".clientid as clientid,
 				".$phpAds_config['tbl_banners'].".priority as priority,
-				".$phpAds_config['tbl_clients'].".weight as clientweight,
 				".$phpAds_config['tbl_banners'].".contenttype as contenttype,
-				".$phpAds_config['tbl_banners'].".storagetype as storagetype,
-				".$phpAds_config['tbl_banners'].".filename as filename,
-				".$phpAds_config['tbl_banners'].".imageurl as imageurl,
-				".$phpAds_config['tbl_banners'].".url as url,
-				".$phpAds_config['tbl_banners'].".htmlcache as htmlcache,
 				".$phpAds_config['tbl_banners'].".width as width,
 				".$phpAds_config['tbl_banners'].".height as height,
-				".$phpAds_config['tbl_banners'].".weight as weight,
-				".$phpAds_config['tbl_banners'].".seq as seq,
-				".$phpAds_config['tbl_banners'].".target as target,
-				".$phpAds_config['tbl_banners'].".alt as alt,
 				".$phpAds_config['tbl_banners'].".block as block,
 				".$phpAds_config['tbl_banners'].".capping as capping,
 				".$phpAds_config['tbl_banners'].".compiledlimitation as compiledlimitation
 			FROM
-				".$phpAds_config['tbl_banners'].",
-				".$phpAds_config['tbl_clients']."
+				".$phpAds_config['tbl_banners']."
 			WHERE
-				".$phpAds_config['tbl_banners'].".active = 't' AND 
-				".$phpAds_config['tbl_clients'].".active = 't' AND 
-				".$phpAds_config['tbl_banners'].".clientid = ".$phpAds_config['tbl_clients'].".clientid";
+				".$phpAds_config['tbl_banners'].".priority > 0";
+
+	
 	
 	// Add preconditions to query
 	if ($precondition != '')
@@ -240,16 +229,33 @@ function phpAds_buildQuery ($part, $lastpart, $precondition)
 					if ($part_array[$k] != '' && $part_array[$k] != ' ')
 					{
 						if ($operator == 'OR')
-							$conditions .= "OR (".$phpAds_config['tbl_clients'].".clientid='".trim($part_array[$k])."' OR ".$phpAds_config['tbl_clients'].".parent='".trim($part_array[$k])."') ";
+							$conditions .= "OR ".$phpAds_config['tbl_banners'].".clientid='".trim($part_array[$k])."' ";
 						elseif ($operator == 'AND')
-							$conditions .= "AND (".$phpAds_config['tbl_clients'].".clientid='".trim($part_array[$k])."' OR ".$phpAds_config['tbl_clients'].".parent='".trim($part_array[$k])."') ";
+							$conditions .= "AND ".$phpAds_config['tbl_banners'].".clientid='".trim($part_array[$k])."' ";
 						else
-							$conditions .= "AND (".$phpAds_config['tbl_clients'].".clientid!='".trim($part_array[$k])."' AND ".$phpAds_config['tbl_clients'].".parent!='".trim($part_array[$k])."') ";
+							$conditions .= "AND ".$phpAds_config['tbl_banners'].".clientid!='".trim($part_array[$k])."' ";
 					}
 					
 					$onlykeywords = false;
 				}
 				
+				// Client ID
+				elseif (substr($part_array[$k], 0, 11) == 'campaignid:')
+				{
+					$part_array[$k] = substr($part_array[$k], 11);
+					if ($part_array[$k] != '' && $part_array[$k] != ' ')
+					{
+						if ($operator == 'OR')
+							$conditions .= "OR ".$phpAds_config['tbl_banners'].".clientid='".trim($part_array[$k])."' ";
+						elseif ($operator == 'AND')
+							$conditions .= "AND ".$phpAds_config['tbl_banners'].".clientid='".trim($part_array[$k])."' ";
+						else
+							$conditions .= "AND ".$phpAds_config['tbl_banners'].".clientid!='".trim($part_array[$k])."' ";
+					}
+					
+					$onlykeywords = false;
+				}
+
 				// Format
 				elseif (substr($part_array[$k], 0, 7) == 'format:')
 				{
