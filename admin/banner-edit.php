@@ -389,9 +389,10 @@ if (isset($submit))
 					phpAds_Die ('Error', 'An error occcured while uploading the banner to the ftp server');
 				}
 				
+				
 				// Cleanup existing image, if it exists
-				if (isset($filename) && $filename != '' && $filename != $final['filename'])
-					phpAds_ImageDelete ($storagetype, $filename);
+				if (isset($current['filename']) && $current['filename'] != '' && $current['filename'] != $final['filename'])
+					phpAds_ImageDelete ($current['storagetype'], $current['filename']);				
 			}
 			else
 			{
