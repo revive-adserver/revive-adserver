@@ -522,7 +522,13 @@ $GLOBALS['strErrorUploadBasedir']		= "Could not access uploaded file, probably d
 $GLOBALS['strErrorUploadUnknown']		= "Could not access uploaded file, due to an unknown reason. Please check your PHP configuration";
 $GLOBALS['strErrorStoreLocal']			= "An error occcured while trying to save the banner in the local directory. This is probably the result of a misconfiguration of the local directory path settings";
 $GLOBALS['strErrorStoreFTP']			= "An error occcured while trying to upload the banner to the FTP server. This could be because the server is not available, or because of a misconfiguration of the FTP server settings";
-
+$GLOBALS['strErrorDBPlain']				= "An error occurred while accessing the database";
+$GLOBALS['strErrorDBSerious']			= "A serious problem with the database has been detected";
+$GLOBALS['strErrorDBNoDataPlain']		= "Due to a problem with the database phpAdsNew couldn't retrieve or store data. ";
+$GLOBALS['strErrorDBNoDataSerious']		= "Due to a serious problem with the database, ".$phpAds_productname." couldn't retrieve data";
+$GLOBALS['strErrorDBCorrupt']			= "The database table is probably corrupt and needs to be repaired. For more information about repairing corrupted tables please read the chapter <i>Troubleshooting</i> of the <i>Administrator guide</i>.";
+$GLOBALS['strErrorDBContact']			= "Please contact the administrator of this server and notify him or her of the problem.";
+$GLOBALS['strErrorDBSubmitBug']			= "If this problem is reproducable it might be caused by a bug in ".$phpAds_productname.". Please report the following information to the creators of ".$phpAds_productname.". Also try to describe the actions that led to this error as clearly as possible.";
 
 // E-mail
 $GLOBALS['strMailSubject'] 			= "Advertiser report";

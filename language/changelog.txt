@@ -12,6 +12,15 @@
 
   ====================================================
 
+  02-02-2003 - default
+    [+] strErrorDBPlain
+    [+] strErrorDBSerious
+    [+] strErrorDBNoDataPlain
+    [+] strErrorDBNoDataSerious
+    [+] strErrorDBCorrupt
+    [+] strErrorDBContact
+    [+] strErrorDBSubmitBug
+
   01-21-2003 - default
     [u] strDuplicateClientName
     [+] strInvalidPassword
