@@ -337,15 +337,11 @@ if ($command == 'cleanup')
 	
 	if (sizeof($status) == 1 && isset ($status['finished']))
 	{
-		$scheduler = @mysql_fetch_array($result);
-		
-		if ($scheduler['status'] == 'finished')
-		{
-			// Clean up whole table
-			@db_query("delete from $phpAds_tbl_adviews");
-			phpAds_convertTableDrop();
-			$error = false;
-		}
+		// Only one type of status and status = finished
+		// Clean up whole table
+		@db_query("delete from $phpAds_tbl_adviews");
+		phpAds_convertTableDrop();
+		$error = false;
 	}
 	elseif (sizeof($status) == 2 && isset ($status['finished']) && isset ($status['error']))
 	{
@@ -378,7 +374,7 @@ if ($command == 'cleanup')
 		$error = false;
 	}
 	
-	echo $error;
+//	echo $error;
 	
 	if ($error)
 	{
