@@ -79,16 +79,10 @@ a:hover { color: #333366; text-decoration: underline; }
   for example: http://www.your-url.com/phpAdsNew</p>
 <h4>$phpAds_my_header<br>
   $phpAds_my_footer</h4>
-<p>You should put here the relative path (e.g.: /home/login/www/header.htm) to 
-  have a header and/or footer on each page in the admin interface. You can put 
-  either text or html in these files (if you want to use html in one or both of 
-  these files do not use tags like &lt;body&gt; or &lt;html&gt;)</p>
-<h4>$phpAds_table_border_color<br>
-  $phpAds_table_back_color<br>
-  $phpAds_table_back_color_alternative<br>
-  $phpAds_main_back_color</h4>
-<p>If you want you can change the look of phpAdsNew by changing these colors. 
-  The default color scheme is blue.</p>
+<p>You should put here the path to the header files (e.g.: /home/login/www/header.htm) 
+  to have a header and/or footer on each page in the admin interface. You can 
+  put either text or html in these files (if you want to use html in one or both 
+  of these files do not use tags like &lt;body&gt; or &lt;html&gt;)</p>
 <h4>$phpAds_language</h4>
 <p>Specify the default language phpAdsNew should use. This language will be used 
   as a default for the admin and client interface. Please note: you can set a 
@@ -156,6 +150,10 @@ a:hover { color: #333366; text-decoration: underline; }
 <h4>$phpAds_mult_key</h4>
 <p>For each banner, you can specify one or more keywords. This option is needed 
   if you want to specify more than one keyword. This is turned on by default.</p>
+<h4>$phpAds_acl</h4>
+<p>If you are not using ACL's you can disable ACL checking with this parameter, 
+  this will speed up phpAdsNew. If you have disabled ACL's with this parameter 
+  you can't modify ACL settings from the admin interface.</p>
 <h4>$phpads_default_banner_url<br>
   $phpads_default_banner_target </h4>
 <p>If phpAdsNew can't connect to the database server, or can't find any matching 
