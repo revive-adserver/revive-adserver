@@ -810,70 +810,95 @@ function phpAds_PriorityCalculate()
 				// Hits assigned  = 
 				$remaining_for_campaign 	= $campaigns[$c]['target'] - $campaigns[$c]['hits'];
 				
-				// Determine expected hits uptil period
-				if (!isset($profile[$period]) || $profile[$period] == 0)
+				$total_profile = 0;
+				for ($p=0;$p<$maxperiod;$p++)
+					$total_profile += isset($profile[$p]) ? $profile[$p] : 0;
+
+				$profile_uptil_now = 0;
+				for ($p=0;$p<$period;$p++)
+					$profile_uptil_now += isset($profile[$p]) ? $profile[$p] : 0;
+					
+					
+				if ($total_profile == 0)
 				{
-					$expected_hits_this_period  = round($campaigns[$c]['target'] / $maxperiod * ($period));
+					// No profile available yet, just divide evently
+					$expected_hits_this_period  = round($campaigns[$c]['target'] / $maxperiod * ($period + 1));
 				}
 				else
 				{
-					$total_profile = 0;
-					for ($p=0;$p<$maxperiod;$p++)
-						$total_profile += $profile[$p];
-					
-					$profile_uptil_now = 0;
-					for ($p=0;$p<phpAds_CurrentHour;$p++)
-						$profile_uptil_now += $profile[$p];
-					
-					$expected_hits_this_period = round ($profile_uptil_now / $total_profile * $campaigns[$c]['target']);
+					if ($profile[$period] == 0)
+					{
+						// Profile available, but no impressions expected this hour
+						// Set the number of expected hits to 1, to make sure the campaign isn't deactivated
+						// and the real impressions won't bring it much of target
+						$expected_hits_this_period = 1;
+					}
+					else
+					{	
+						// Profile available, use expected impressions
+						$expected_hits_this_period = round ($profile_uptil_now / $total_profile * $campaigns[$c]['target']);
+					}
 				}
 				
 				// BEGIN REPORTING
 				$debuglog .= "Target for campaign: ".$campaigns[$c]['target']." \n";
 				$debuglog .= "Remaining for campaign: $remaining_for_campaign \n";
-				$debuglog .= "Real impressions up till now: ".$campaigns[$c]['hits']." \n";
-				$debuglog .= "Expected impressions up till now: $expected_hits_this_period \n";
 				// END REPORTING
 				
 				
-				$current_deviance_from_prediction  = $campaigns[$c]['hits'] / $expected_hits_this_period; // > 1 = overdelivery, < 1 = underdelivery
-				$expected_today_without_correction = $campaigns[$c]['target'] * $current_deviance_from_prediction;
-				$expected_deviance_todays_in_hits  = $expected_today_without_correction - $campaigns[$c]['target'];
-				
-
-				// BEGIN REPORTING
-				$debuglog .= "Deviance from prediction: ".$current_deviance_from_prediction."x \n";
-				$debuglog .= "Total impressions expected without correction: $expected_today_without_correction \n";
-				$debuglog .= "Total deviance expected without correction: $expected_deviance_todays_in_hits \n";
-				// END REPORTING
-
-
-				$aggression = 2; // The deviance needs to be fixed in the remaining hours / agression
-				
-				$fix_in_no_hours = round(($maxperiod - $period) / $aggression);
-				$extra_to_assign = 0 - round($expected_deviance_todays_in_hits / $fix_in_no_hours);
-				$remaining_for_campaign += $extra_to_assign;
-				
-				/*
 				if ($period > 0)
-					$extra_to_assign = $expected_hits_this_period - $campaigns[$c]['hits'];
-				else
-					$extra_to_assign = 0;
+				{
+					// The first time the priority calculation is running there is no
+					// need to compensate, since there are no previous hours available
+					
+					$current_deviance_from_prediction  = $campaigns[$c]['hits'] / $expected_hits_this_period; // > 1 = overdelivery, < 1 = underdelivery
+					$expected_today_without_correction = $campaigns[$c]['target'] * $current_deviance_from_prediction;
+					$expected_deviance_todays_in_hits  = $expected_today_without_correction - $campaigns[$c]['target'];
+					
+					// BEGIN REPORTING
+					$debuglog .= "Real impressions up till now: ".$campaigns[$c]['hits']." \n";
+					$debuglog .= "Expected impressions up till now: $expected_hits_this_period \n";
+					$debuglog .= "Deviance from prediction: ".$current_deviance_from_prediction."x \n";
+					$debuglog .= "Total impressions expected without correction: $expected_today_without_correction \n";
+					$debuglog .= "Total deviance expected without correction: $expected_deviance_todays_in_hits \n";
+					// END REPORTING
+	
+					$aggression = 2; // The deviance needs to be fixed in the remaining hours / agression
+					
+					$fix_in_no_hours = round(($maxperiod - $period) / $aggression);
+					$extra_to_assign = 0 - ($expected_deviance_todays_in_hits / $fix_in_no_hours);
+					
+					// BEGIN REPORTING
+					$debuglog .= "Deviance needs to fixed in: $fix_in_no_hours hours (aggression ".$aggression.")\n";
+					$debuglog .= "Compensate linear by: $extra_to_assign \n";
+					// END REPORTING
+					
+					// Find out how many impressions the next hour will generate compared
+					// to the other hours (according to predictions).
+					
+					$avg_impressions_per_hour = $estimated_remaining / ($maxperiod - $period);
+				    $compensation_factor = $profile[$period] / $avg_impressions_per_hour;
+					$extra_to_assign = round($compensation_factor * $extra_to_assign);
+					
+					
+					// BEGIN REPORTING
+					$debuglog .= "Average impressions per hour: ".$avg_impressions_per_hour."\n";
+					$debuglog .= "Expected impressions next hour: ".$profile[$period]."\n";
+					$debuglog .= "Deviance from average: ".$compensation_factor."\n";
+					$debuglog .= "Compensate realisticly by: $extra_to_assign \n";
+					// END REPORTING
+
+					$remaining_for_campaign += $extra_to_assign;
 				
-				$extra_to_assign  		 = $extra_to_assign * ($maxperiod - $period);
-				$remaining_for_campaign += $extra_to_assign;
-				*/
+					if ($remaining_for_campaign < 0)
+						$remaining_for_campaign = 0;
+				}
 				
-				
-				if ($remaining_for_campaign < 0)
-					$remaining_for_campaign = 0;
 				
 				// BEGIN REPORTING
-				$debuglog .= "Deviance needs to fixed in: $fix_in_no_hours hours (aggression ".$aggression.")\n";
-				$debuglog .= "Compensate by: $extra_to_assign \n";
 				$debuglog .= "Priority for whole campaign: $remaining_for_campaign \n";
 				// END REPORTING
-				
+
 				$totalassigned 			+= $remaining_for_campaign;
 				
 				$total_banner_weight     = 0;
@@ -1064,6 +1089,7 @@ function phpAds_PriorityCalculate()
 			{
 				// BEGIN REPORTING
 				$debuglog .= "\n\n\nHIGH-PRI CAMPAIGN $c \n";
+
 				$debuglog .= "-----------------------------------------------------\n";
 				// END REPORTING
 
