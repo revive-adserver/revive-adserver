@@ -129,7 +129,7 @@ $phpAds_nav = array (
 		      "4.1.5.2"		=> 	array("banner-edit.php?campaignid=$campaignid&bannerid=$bannerid" => $strBannerProperties),
 		      "4.1.5.3"		=> 	array("banner-acl.php?campaignid=$campaignid&bannerid=$bannerid" => $strModifyBannerAcl),
 		      "4.1.5.4"		=> 	array("banner-zone.php?campaignid=$campaignid&bannerid=$bannerid" => $strLinkedZones),
-			  "4.1.5.5"		=>  array("banner-swf.php?campaignid=$campaignid&bannerid=$bannerid" => 'Convert Flash links'),
+			  "4.1.5.5"		=>  array("banner-swf.php?campaignid=$campaignid&bannerid=$bannerid" => $strConvertSWFLinks),
 		  "4.2" 			=> 	array("affiliate-index.php" => $strAffiliatesAndZones),
 		    "4.2.1" 		=> 	array("affiliate-edit.php?affiliateid=0" => $strAddAffiliate),
 		    "4.2.2" 		=> 	array("affiliate-edit.php?affiliateid=$affiliateid" => $strAffiliateProperties),
