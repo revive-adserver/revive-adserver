@@ -518,7 +518,7 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0)
 
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
 	<?
-		if ($row['active'] == 'false') {
+		if (isset($row['active']) && $row['active'] == 'false') {
 	?>
 	<tr>
 		<td width='30' valign='top'><img src='images/info.gif'></td>
@@ -604,7 +604,9 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0)
 		{
 			?>
 			<td>
-				<? phpAds_showDateEdit('activate', $row["activate_dayofmonth"], $row["activate_month"], $row["activate_year"]); ?>
+				<? phpAds_showDateEdit('activate', isset($row["activate_dayofmonth"]) ? $row["activate_dayofmonth"] : 0, 
+												   isset($row["activate_month"]) ? $row["activate_month"] : 0, 
+												   isset($row["activate_year"]) ? $row["activate_year"] : 0); ?>
 			</td>
 			<?
 		}
@@ -628,7 +630,9 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0)
 		{
 			?>
 			<td>
-				<? phpAds_showDateEdit('expire', $row["expire_dayofmonth"], $row["expire_month"], $row["expire_year"]); ?>
+				<? phpAds_showDateEdit('expire', isset($row["expire_dayofmonth"]) ? $row["expire_dayofmonth"] : 0, 
+												 isset($row["expire_month"]) ? $row["expire_month"] : 0, 
+												 isset($row["expire_year"]) ? $row["expire_year"] : 0); ?>
 			</td>
 			<?
 		}
@@ -652,7 +656,7 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0)
 		{
 			?>
 			<td>
-				<input type="text" name="weight" size='25' value="<?echo $row["weight"];?>">
+				<input type="text" name="weight" size='25' value="<?echo isset($row["weight"]) ? $row["weight"] : 1;?>">
 			</td>
 			<?
 		}
