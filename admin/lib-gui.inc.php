@@ -153,6 +153,7 @@ function phpAds_PageHeader($ID, $extra="")
 			$sidebar .= "<tr><td width='20'>&nbsp;</td><td width='140'>";
 			$sidebar .= "<table width='140' cellpadding='0' cellspacing='0' border='0'>";
 			
+			$selectedcontext = '';
 			
 			for ($ci=0; $ci < count($phpAds_context); $ci++)
 				if ($phpAds_context[$ci]['selected'])

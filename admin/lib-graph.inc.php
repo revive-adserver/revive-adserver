@@ -110,7 +110,7 @@ for($x = 0;$x<$items_count;$x++)
 
 // IE workaround: Turn off outputbuffering
 // if zlib compression is turned on
-if (strpos ($GLOBALS['HTTP_USER_AGENT'], 'MSIE') > 0 &&
+if (strpos ($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'MSIE') > 0 &&
 	function_exists('ini_get') && (
 	ini_get ('zlib.output_compression') ||
 	ini_get ('output_handler') == 'ob_gzhandler'))
