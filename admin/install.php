@@ -313,6 +313,7 @@ if (phpAds_isUser(phpAds_Admin))
 							phpAds_SettingsWriteAdd('tbl_affiliates', $installvars['tbl_affiliates']);
 							phpAds_SettingsWriteAdd('tbl_images', $installvars['tbl_images']);
 							phpAds_SettingsWriteAdd('tbl_userlog', $installvars['tbl_userlog']);
+							phpAds_SettingsWriteAdd('tbl_cache', $installvars['tbl_cache']);
 							
 							phpAds_SettingsWriteAdd('table_prefix', $installvars['table_prefix']);
 							
