@@ -88,16 +88,25 @@ while ($row_banners = mysql_fetch_array($res_banners))
 		?>
 		</td>
 		<?
-		if ($adclicks > 0 || $adviews > 0)
+		if ($Session["username"] == $phpAds_admin && $Session["password"] == $phpAds_admin_pw) // only for the admin
 		{
+			if ($adclicks > 0 || $adviews > 0)
+			{
+				?>
+				<form action="resetstats.php" method="post" name="client_reset">
+				<input type="hidden" name="pageid" value="<? print $pageid; ?>">
+				<input type="hidden" name="bannerID" value="<? print $row_banners[bannerID]; ?>">
+				<td bgcolor="<?echo $bgcolor;?>">
+				<?print "<input type=submit value=\"$strResetStats\" onClick=\"return confirm('$strConfirm')\">\n";?>
+				</td>
+				</form>
+				<?
+			}
+		}
+		else
+		{	
 			?>
-			<form action="resetstats.php" method="post" name="client_reset">
-			<input type="hidden" name="pageid" value="<? print $pageid; ?>">
-			<input type="hidden" name="bannerID" value="<? print $row_banners[bannerID]; ?>">
-			<td bgcolor="<?echo $bgcolor;?>">
-			<?print "<input type=submit value=\"$strResetStats\" onClick=\"return confirm('$strConfirm')\">\n";?>
-			</td>
-			</form>
+				<td bgcolor="<?echo $bgcolor;?>">&nbsp;</td>
 			<?
 		}
 		?>
