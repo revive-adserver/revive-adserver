@@ -12,6 +12,13 @@
 
   ====================================================
 
+  01-07-2003 - settings
+    [u] strAdminEmailHeaders
+    [u] strWarnLimit
+    [u] strWarnLimitErr
+    [u] strWarnAdmin
+    [u] strWarnClient  
+
   01-05-2003 - settings
     [+] strGeotrackingLocationError
     [+] strMyHeaderError

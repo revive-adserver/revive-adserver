@@ -35,7 +35,7 @@ English
 	---------------------------------------------------------
 	Maintained by:	   Niels Leenheer (niels@creatype.nl)
 	Is up-to-date?	   Always
-	Last update:	   5 Januari 2003
+	Last update:	   6 Januari 2003
 	Translated files:  7
 	---------------------------------------------------------
 

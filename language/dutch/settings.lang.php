@@ -233,10 +233,10 @@ $GLOBALS['strBlockAdclicks']			= "Sla geen AdClicks op als de gebruiker al eerde
 
 $GLOBALS['strEmailWarnings']			= "Waarschuwingen per email";
 $GLOBALS['strAdminEmailHeaders']		= "Headers voor gebruik in te verzenden email";
-$GLOBALS['strWarnLimit']			= "Waarschuwings limiet";
+$GLOBALS['strWarnLimit']			= "Stuur een waarschuwing als de resterende impressies minder zijn dan hier gespecificeerd";
 $GLOBALS['strWarnLimitErr']			= "Waarschuwings limiet moet een positief nummer zijn";
-$GLOBALS['strWarnAdmin']			= "Waarschuw de beheerder";
-$GLOBALS['strWarnClient']			= "Waarschuw de klant";
+$GLOBALS['strWarnAdmin']			= "Waarschuw de beheerder wanneer er voor een campagne bijna geen impressies meer over zijn";
+$GLOBALS['strWarnClient']			= "Waarschuw de adverteerder wanneer er voor een campagne bijna geen impressies meer over zijn";
 $GLOBALS['strQmailPatch']			= "Pas headers aan voor qmail";
 
 
