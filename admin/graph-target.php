@@ -247,6 +247,7 @@ if ($period == 'w')
 
 
 // Build the graph
+define('LIB_GRAPH_SAME_SCALE', 1);
 include('lib-graph.inc.php');
 
 ?>

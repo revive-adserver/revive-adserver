@@ -25,6 +25,7 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-02-11:  Added HTTP referer delivery limitation; it's working with local, js and xmlrpc invocations only  (Matteo)
 			  - 2003-02-12:  Iframes, XML-RPC and plain remote invocation are no longer used by default  (Niels)
 			  - 2003-02-13:  Added some info text if a campaign was deactivated because its weight is null  (Matteo)
+			  - 2003-02-18:  Added option to lib-graph to draw graphs with only one scale, useful e.g. for targetstats  (Matteo)
 
 			+ Misc bugfixes
 			  - 2003-01-13:  If a zero was used in a random variable (ie. random:10) it wasn't replaced  (Niels)

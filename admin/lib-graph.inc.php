@@ -82,6 +82,16 @@ else
 	$maxClicks = 10;
 
 
+// Use the same scale
+if (defined('LIB_GRAPH_SAME_SCALE'))
+{
+	if ($maxViews > $maxClicks)	
+		$maxClicks = $maxViews;
+	else
+		$maxViews = $maxClicks;
+}
+
+
 // Margins
 $leftMargin = strlen($maxViews) * imageFontWidth(2);
 $rightMargin = strlen($maxClicks) * imageFontWidth(2);
@@ -118,7 +128,9 @@ if ($maxViews == 0)
 else
 	$scaleViews = (double)100/(double)$maxViews;
 
-if ($maxClicks == 0)
+if (defined('LIB_GRAPH_SAME_SCALE'))
+	$scaleClicks = $scaleViews;
+elseif ($maxClicks == 0)
 	$scaleClicks = 50;
 else
 	$scaleClicks = (double)50/(double)$maxClicks;
@@ -134,13 +146,16 @@ imageline($im, $leftMargin + 10, 120, $leftMargin + 10 + ($items_count * 12), 12
 legend($im, $leftMargin + 10, 2, $text["value1"], $adviewscolor, $linecolor, $textcolor);
 legend($im, $leftMargin + 40 + (imageFontwidth(2) * strlen($text["value1"])), 2, $text["value2"], $adclickscolor, $linecolor, $textcolor);
 
-// Clicks
+// Views
 imagestring($im, 2, $leftMargin - (imageFontwidth(2) * strlen($maxViews)), 12, $maxViews, $textcolor);
 imagestring($im, 2, $leftMargin - (imageFontwidth(2) * strlen('0')), 115, '0', $textcolor);
 
-// Views
-imagestring($im, 2, $leftMargin + 20 + ($items_count * 12), 63, $maxClicks, $textcolor);
-imagestring($im, 2, $leftMargin + 20 + ($items_count * 12), 115, '0', $textcolor);
+// Clicks
+if (!defined('LIB_GRAPH_SAME_SCALE'))
+{
+	imagestring($im, 2, $leftMargin + 20 + ($items_count * 12), 63, $maxClicks, $textcolor);
+	imagestring($im, 2, $leftMargin + 20 + ($items_count * 12), 115, '0', $textcolor);
+}
 
 
 for($x = 0;$x<$items_count;$x++)
