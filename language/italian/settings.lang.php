@@ -238,7 +238,7 @@ $GLOBALS['strPreventLogging']				= "Eccezioni della memorizzazione";
 $GLOBALS['strRemoteHosts']					= "Host remoti";
 $GLOBALS['strIgnoreHosts']					= "Non memorizzare statistiche dei visitatori che utilizzano uno dei seguenti indirizzi IP o nomi di host";
 $GLOBALS['strBlockAdviews']					= "Non registrare una Visualizzazione se il visitatore ha gi&agrave; visto lo stesso banner entro il numero di secondi specificato";
-$GLOBALS['strBlockAdclicks']				= "Non registrare una Visualizzazione se il visitatore ha gi&agrave; clissato sullo stesso banner entro il numero di secondi specificato";
+$GLOBALS['strBlockAdclicks']				= "Non registrare un Click se il visitatore ha gi&agrave; cliccato sullo stesso banner entro il numero di secondi specificato";
 
 
 $GLOBALS['strEmailWarnings']				= "Avvertimenti E-mail";
