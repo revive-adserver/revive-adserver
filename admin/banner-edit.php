@@ -376,8 +376,8 @@ if ($bannerid != '')
 		$extra .= "<input type='hidden' name='returnurl' value='banner-edit.php'>";
 		$extra .= "<br><br>";
 		$extra .= "<b>$strModifyBanner</b><br>";
-		//$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-		//$extra .= "<img src='images/icon-duplicate-banner.gif' align='absmiddle'>&nbsp;<a href='banner-modify.php?campaignid=$campaignid&bannerid=$bannerid&duplicate=true&returnurl=banner-edit.php'>$strDuplicate</a><br>";
+		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+		$extra .= "<img src='images/icon-duplicate-banner.gif' align='absmiddle'>&nbsp;<a href='banner-modify.php?campaignid=$campaignid&bannerid=$bannerid&duplicate=true&returnurl=banner-edit.php'>$strDuplicate</a><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		$extra .= "<img src='images/icon-move-banner.gif' align='absmiddle'>&nbsp;$strMoveTo<br>";
 		$extra .= "<img src='images/spacer.gif' height='1' width='160' vspace='2'><br>";

@@ -45,6 +45,88 @@ if (isset($bannerid) && $bannerid != '')
 	elseif (isset($duplicate) && $duplicate == 'true')
 	{
 		// Duplicate the banner
+		
+		$res = phpAds_dbQuery("
+			SELECT
+		   		*
+			FROM
+				".$phpAds_config['tbl_banners']."
+			WHERE
+				bannerid = ".$bannerid."
+		") or phpAds_sqlDie();
+		
+		if ($row = phpAds_dbFetchArray($res))
+		{
+			unset($row['bannerid']);
+			
+	   		$values_fields = '';
+	   		$values = '';
+			
+			while (list($name, $value) = each($row))
+			{
+				$values_fields .= "$name, ";
+				$values .= "'".addslashes($value)."', ";
+			}
+			
+			$values_fields = ereg_replace(", $", "", $values_fields);
+			$values = ereg_replace(", $", "", $values);
+			
+			// Clone banner
+	   		$res = phpAds_dbQuery("
+		   		INSERT INTO
+		   			".$phpAds_config['tbl_banners']."
+		   			($values_fields)
+		   		VALUES
+		   			($values)
+	   		") or phpAds_sqlDie();
+			
+			$new_bannerid = phpAds_dbInsertID();
+			
+		   	
+			if ($phpAds_config['acl'])
+			{
+				// Clone display limitations
+			   	$res = phpAds_dbQuery("
+			   	   SELECT
+			   	      *
+			   	   FROM
+			   	      ".$phpAds_config['tbl_acls']."
+			   	   WHERE
+			   	      bannerid = ".$bannerid."
+		   	    ") or phpAds_sqlDie();
+				
+			   	while ($row = phpAds_dbFetchArray($res))
+			   	{
+			   		$values_fields = '';
+			   		$values = '';
+			   		
+					$row['bannerid'] = $new_bannerid;
+			   		
+					while (list($name, $value) = each($row))
+					{
+						$values_fields .= "$name, ";
+						$values .= "'".addslashes($value)."', ";
+					}
+					
+   					$values_fields = ereg_replace(", $", "", $values_fields);
+					$values = ereg_replace(", $", "", $values);
+					
+					phpAds_dbQuery("
+						INSERT INTO
+							".$phpAds_config['tbl_acls']."
+							($values_fields)
+						VALUES
+							($values)
+					") or phpAds_sqlDie();
+				}
+			}
+		}
+		
+		// Rebuild zone cache
+		if ($phpAds_config['zone_cache'])
+			phpAds_RebuildZoneCache ();
+		
+		Header ("Location: ".$returnurl."?campaignid=".$campaignid."&bannerid=".$new_bannerid);
 	}
 }
 
