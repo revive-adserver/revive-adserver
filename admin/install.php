@@ -186,10 +186,11 @@ if (phpAds_isUser(phpAds_Admin))
 			
 		case 2:
 			// Setup database check
-			$phpAds_config['dbhost'] 	 = $dbhost;
-			$phpAds_config['dbuser'] 	 = $dbuser;
-			$phpAds_config['dbpassword'] = $dbpassword;
-			$phpAds_config['dbname'] 	 = $dbname;
+			$phpAds_config['compatibility_mode'] = false;
+			$phpAds_config['dbhost'] 	 		 = $dbhost;
+			$phpAds_config['dbuser'] 	 		 = $dbuser;
+			$phpAds_config['dbpassword'] 		 = $dbpassword;
+			$phpAds_config['dbname'] 	 		 = $dbname;
 			
 			if (!phpAds_dbConnect())
 				$errormessage[1][] = $strCouldNotConnectToDB;
