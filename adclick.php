@@ -39,7 +39,7 @@ if ($phpAds_config['log_adclicks'])
 /* Register input variables                              */
 /*********************************************************/
 
-phpAds_registerGlobal ('bannerid', 'bannerID', 'n',
+phpAds_registerGlobal ('bannerid', 'bannerID', 'n', 'log',
 					   'zoneid', 'source', 'dest', 'ismap');
 
 
@@ -113,20 +113,23 @@ if (phpAds_dbConnect())
 		
 		
 		// Log clicks
-		if ($phpAds_config['block_adclicks'] == 0 ||
-		   ($phpAds_config['block_adclicks'] > 0 && 
-		   (!isset($HTTP_COOKIE_VARS['phpAds_blockClick'][$bannerid]) ||
-		   $HTTP_COOKIE_VARS['phpAds_blockClick'][$bannerid] <= time())))
+		if (!isset($log) || $log != 'no')
 		{
-			if ($phpAds_config['log_adclicks'])
-				phpAds_logClick($bannerid, $clientid, $zoneid, $source);
-			
-			// Send block cookies
-			if ($phpAds_config['block_adclicks'] > 0)
+			if ($phpAds_config['block_adclicks'] == 0 ||
+			   ($phpAds_config['block_adclicks'] > 0 && 
+			   (!isset($HTTP_COOKIE_VARS['phpAds_blockClick'][$bannerid]) ||
+			   $HTTP_COOKIE_VARS['phpAds_blockClick'][$bannerid] <= time())))
 			{
-				phpAds_setCookie ("phpAds_blockClick[".$bannerid."]", time() + $phpAds_config['block_adclicks'], 
-								  time() + $phpAds_config['block_adclicks'] + 43200);
-				phpAds_flushCookie ();
+				if ($phpAds_config['log_adclicks'])
+					phpAds_logClick($bannerid, $clientid, $zoneid, $source);
+				
+				// Send block cookies
+				if ($phpAds_config['block_adclicks'] > 0)
+				{
+					phpAds_setCookie ("phpAds_blockClick[".$bannerid."]", time() + $phpAds_config['block_adclicks'], 
+									  time() + $phpAds_config['block_adclicks'] + 43200);
+					phpAds_flushCookie ();
+				}
 			}
 		}
 		

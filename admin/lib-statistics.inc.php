@@ -659,6 +659,9 @@ function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 		$buffer    .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strShowBanner."</a>&nbsp;&nbsp;";
 	}
 	
+	// Disable logging of adclicks
+	$buffer = str_replace ('adclick.php?', 'adclick.php?log=no&', $buffer);
+	
 	return ($buffer);
 }
 

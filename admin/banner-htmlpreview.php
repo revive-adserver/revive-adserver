@@ -68,11 +68,14 @@ if ($res)
 		// Remove appended HTML for the preview
 		$htmlcode = str_replace ($row['append'], '', $htmlcode);
 		
-		// Output banner
-		echo $htmlcode;
+		// Disable logging of adclicks
+		$htmlcode = str_replace ('adclick.php?', 'adclick.php?log=no&', $htmlcode);
 	}
 	else
-		echo phpAds_buildBannerCode ($row['bannerid'], true);
+		$htmlcode = phpAds_buildBannerCode ($row['bannerid'], true);
+	
+	// Output banner
+	echo $htmlcode;
 	
 	echo "</td><td width='32'>&nbsp;</td></tr>";
 	echo "<tr height='32'><td width='32'><img src='images/cropmark-bl.gif' width='32' height='32'></td><td>";
