@@ -94,6 +94,13 @@ function phpAds_logExpire ($clientid, $type=0)
 			// Send deactivation warning
 			if ($active == 'f')
 			{
+				// Rebuild priorities
+				if (!defined('LIBPRIORITY_INCLUDED'))  
+					require (phpAds_path.'/lib-priority.inc.php');
+				
+				phpAds_PriorityCalculate ();
+				
+				
 				// Recalculate zonecache
 				if (!defined('LIBZONES_INCLUDED'))  
 					require (phpAds_path.'/admin/lib-zones.inc.php');
