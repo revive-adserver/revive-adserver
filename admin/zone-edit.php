@@ -22,7 +22,7 @@ require ("lib-size.inc.php");
 
 
 // Register input variables
-phpAds_registerGlobal ('zonename', 'description', 'delivery', 'sizetype', 'size', 'width', 'height', 'submit');
+phpAds_registerGlobal ('zonename', 'description', 'delivery', 'sizetype', 'size', 'zwidth', 'zheight', 'submit');
 
 
 // Security check
@@ -84,19 +84,19 @@ if (isset($submit))
 	
 	if ($delivery == phpAds_ZoneText)
 	{
-		$width = 0;
-		$height = 0;
+		$zwidth = 0;
+		$zheight = 0;
 	}
 	else
 	{
 		if ($sizetype == 'custom')
 		{
-			if (isset($width) && $width == '*') $width = -1;
-			if (isset($height) && $height == '*') $height = -1;
+			if (isset($zwidth) && $zwidth == '*') $zwidth = -1;
+			if (isset($zheight) && $zheight == '*') $zheight = -1;
 		}
 		else
 		{
-			list ($width, $height) = explode ('x', $size);
+			list ($zwidth, $zheight) = explode ('x', $size);
 		}
 	}
 	
@@ -110,8 +110,8 @@ if (isset($submit))
 			SET
 				zonename='".$zonename."',
 				description='".$description."',
-				width='".$width."',
-				height='".$height."',
+				width='".$zwidth."',
+				height='".$zheight."',
 				delivery='".$delivery."'
 				".($delivery != phpAds_ZoneText && $delivery != phpAds_ZoneBanner ? ", append = ''" : "")."
 				".($delivery != phpAds_ZoneText ? ", prepend = ''" : "")."
@@ -174,8 +174,8 @@ if (isset($submit))
 				'".$zonename."',
 				'".phpAds_ZoneCampaign."',
 				'".$description."',
-				'".$width."',
-				'".$height."',
+				'".$zwidth."',
+				'".$zheight."',
 				'".$delivery."'
 				)
 			") or phpAds_sqlDie();
@@ -425,9 +425,9 @@ echo "</select>";
 echo "</td></tr><tr><td>";
 
 echo "<input type='radio' name='sizetype' value='custom'".(!$exists ? ' CHECKED' : '').$sizedisabled." onclick='phpAds_formEditSize()' tabindex='".($tabindex++)."'>&nbsp;";
-echo $strWidth.": <input class='flat' size='5' type='text' name='width' value='".(isset($zone["width"]) ? $zone["width"] : '')."'".$sizedisabled." onkeydown='phpAds_formEditSize()' onBlur='phpAds_formUpdate(this);' tabindex='".($tabindex++)."'>";
+echo $strWidth.": <input class='flat' size='5' type='text' name='zwidth' value='".(isset($zone["width"]) ? $zone["width"] : '')."'".$sizedisabled." onkeydown='phpAds_formEditSize()' onBlur='phpAds_formUpdate(this);' tabindex='".($tabindex++)."'>";
 echo "&nbsp;&nbsp;&nbsp;";
-echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".(isset($zone["height"]) ? $zone["height"] : '')."'".$sizedisabled." onkeydown='phpAds_formEditSize()' onBlur='phpAds_formUpdate(this);' tabindex='".($tabindex++)."'>";
+echo $strHeight.": <input class='flat' size='5' type='text' name='zheight' value='".(isset($zone["height"]) ? $zone["height"] : '')."'".$sizedisabled." onkeydown='phpAds_formEditSize()' onBlur='phpAds_formUpdate(this);' tabindex='".($tabindex++)."'>";
 echo "</td></tr></table>";
 echo "</td></tr>";
 
@@ -458,8 +458,8 @@ while ($row = phpAds_dbFetchArray($res))
 <script language='JavaScript'>
 <!--
 	phpAds_formSetRequirements('zonename', '<?php echo addslashes($strName); ?>', true, 'unique');
-	phpAds_formSetRequirements('width', '<?php echo addslashes($strWidth); ?>', true, 'number*');
-	phpAds_formSetRequirements('height', '<?php echo addslashes($strHeight); ?>', true, 'number*');
+	phpAds_formSetRequirements('zwidth', '<?php echo addslashes($strWidth); ?>', true, 'number*');
+	phpAds_formSetRequirements('zheight', '<?php echo addslashes($strHeight); ?>', true, 'number*');
 	
 	phpAds_formSetUnique('zonename', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
 
@@ -477,8 +477,8 @@ while ($row = phpAds_dbFetchArray($res))
 			width  = sarray.pop();
 		
 			// Set width and height
-			document.zoneform.width.value = width;
-			document.zoneform.height.value = height;
+			document.zoneform.zwidth.value = width;
+			document.zoneform.zheight.value = height;
 		
 			// Set radio
 			document.zoneform.sizetype[0].checked = true;
@@ -502,8 +502,8 @@ while ($row = phpAds_dbFetchArray($res))
 	{
 		document.zoneform.sizetype[0].disabled = true;
 		document.zoneform.sizetype[1].disabled = true;
-		document.zoneform.width.disabled = true;
-		document.zoneform.height.disabled = true;
+		document.zoneform.zwidth.disabled = true;
+		document.zoneform.zheight.disabled = true;
 		document.zoneform.size.disabled = true;
 	}
 
@@ -511,8 +511,8 @@ while ($row = phpAds_dbFetchArray($res))
 	{
 		document.zoneform.sizetype[0].disabled = false;
 		document.zoneform.sizetype[1].disabled = false;
-		document.zoneform.width.disabled = false;
-		document.zoneform.height.disabled = false;
+		document.zoneform.zwidth.disabled = false;
+		document.zoneform.zheight.disabled = false;
 		document.zoneform.size.disabled = false;
 	}
 //-->
