@@ -30,8 +30,8 @@ function phpAds_PriorityGetImpressions($days, $offset)
 	
 	if ($phpAds_config['compact_stats'])
 	{
-		$begin = date('Ymd', mktime (0, 0, 0, date('m'), date('d'), date('Y')) - 1 - $offset);
-		$end   = date('Ymd', mktime (0, 0, 0, date('m'), date('d'), date('Y')) - (60 * 60 * 24 * $days) - $offset);
+		$begin = date('Ymd', phpAds_makeTimestamp(mktime (0, 0, 0, date('m'), date('d'), date('Y')), - 1 - $offset));
+		$end   = date('Ymd', phpAds_makeTimestamp(mktime (0, 0, 0, date('m'), date('d'), date('Y')), - (60 * 60 * 24 * $days) - $offset));
 		
 		$query = "
 			SELECT SUM(views) as sum_views
@@ -42,8 +42,8 @@ function phpAds_PriorityGetImpressions($days, $offset)
 	}
 	else
 	{
-		$begin = date('YmdHis', mktime (0, 0, 0, date('m'), date('d'), date('Y')) - 1 - $offset);
-		$end   = date('YmdHis', mktime (0, 0, 0, date('m'), date('d'), date('Y')) - (60 * 60 * 24 * $days) - $offset);
+		$begin = date('YmdHis', phpAds_makeTimestamp(mktime (0, 0, 0, date('m'), date('d'), date('Y')), - 1 - $offset));
+		$end   = date('YmdHis', phpAds_makeTimestamp(mktime (0, 0, 0, date('m'), date('d'), date('Y')), - (60 * 60 * 24 * $days) - $offset));
 		
 		$query = "
 			SELECT COUNT(*) as sum_views
@@ -72,8 +72,8 @@ function phpAds_PriorityGetHourlyProfile($days, $offset)
 	
 	if ($phpAds_config['compact_stats'])
 	{
-		$begin = date('Ymd', mktime (0, 0, 0, date('m'), date('d'), date('Y')) - 1 - $offset);
-		$end   = date('Ymd', mktime (0, 0, 0, date('m'), date('d'), date('Y')) - (60 * 60 * 24 * $days) - $offset);
+		$begin = date('Ymd', phpAds_makeTimestamp(mktime (0, 0, 0, date('m'), date('d'), date('Y')), - 1 - $offset));
+		$end   = date('Ymd', phpAds_makeTimestamp(mktime (0, 0, 0, date('m'), date('d'), date('Y')), - (60 * 60 * 24 * $days) - $offset));
 		
 		$query = "
 			SELECT hour, SUM(views) AS sum_views
@@ -85,8 +85,8 @@ function phpAds_PriorityGetHourlyProfile($days, $offset)
 	}
 	else
 	{
-		$begin = date('YmdHis', mktime (0, 0, 0, date('m'), date('d'), date('Y')) - 1 - $offset);
-		$end   = date('YmdHis', mktime (0, 0, 0, date('m'), date('d'), date('Y')) - (60 * 60 * 24 * $days) - $offset);
+		$begin = date('YmdHis', phpAds_makeTimestamp(mktime (0, 0, 0, date('m'), date('d'), date('Y')), - 1 - $offset));
+		$end   = date('YmdHis', phpAds_makeTimestamp(mktime (0, 0, 0, date('m'), date('d'), date('Y')), - (60 * 60 * 24 * $days) - $offset));
 		
 		$query = "
 			SELECT HOUR(t_stamp) AS hour, COUNT(*) AS sum_views
@@ -134,7 +134,8 @@ function phpAds_PriorityPredictProfile($campaigns, $banners)
 	
 	if ($days_running > 0)
 	{
-		$days_running = mktime (0, 0, 0, date('m'), date('d'), date('Y')) - $days_running;
+		$now = mktime (0, 0, 0, date('m'), date('d'), date('Y'));
+		$days_running = $now - $days_running + (date('I', $days_running) - date('I', $now)) * 60;
 		$days_running = round ($days_running / (60 * 60 * 24)) - 1;
 	}
 	else

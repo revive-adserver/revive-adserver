@@ -61,8 +61,8 @@ function phpAds_getVerbose($base, $count)
 {
 	global $phpAds_config;
 	
-	$begin_timestamp = date('YmdHis', $base + ($count * 60 * 60 * 24));
-	$end_timestamp   = date('YmdHis', $base + (($count + 1) * 60 * 60 * 24) - 1);
+	$begin_timestamp = date('YmdHis', phpAds_makeTimestamp($base, $count * 60 * 60 * 24));
+	$end_timestamp   = date('YmdHis', phpAds_makeTimestamp($base, ($count + 1) * 60 * 60 * 24 - 1));
 	
 	// Get views
 	$result = phpAds_dbQuery("
@@ -168,8 +168,8 @@ function phpAds_deleteVerbose ($base, $count)
 {
 	global $phpAds_config;
 	
-	$begin_timestamp = date('YmdHis', $base + ($count * 60 * 60 * 24));
-	$end_timestamp   = date('YmdHis', $base + (($count + 1) * 60 * 60 * 24) - 1);
+	$begin_timestamp = date('YmdHis', phpAds_makeTimestamp($base, $count * 60 * 60 * 24));
+	$end_timestamp   = date('YmdHis', phpAds_makeTimestamp($base, ($count + 1) * 60 * 60 * 24 - 1));
 	
 	
 	// Delete views
@@ -206,7 +206,7 @@ if (isset($action) && $action == 'start')
 	
 	phpAds_startResult ();
 	
-	if ($span > 0)
+	if (is_array($span) && $span['days'] > 0)
 	{
 		phpAds_printResult (" Starting conversion...\\n\\n");
 		
@@ -219,13 +219,18 @@ if (isset($action) && $action == 'start')
 	else
 	{
 		phpAds_printResult (" ".$strConvertNothing."\\n");
+		
+		echo "var busy = findObj('busy');\n";
+		echo "var done = findObj('done');\n";
+		echo "if (busy) busy.style.display = 'none';\n";
+		echo "if (done) done.style.display = '';\n";
 	}
 }
 else
 {
 	// Set base variables
 	$base 			 = mktime(0, 0, 0, substr($min, 4, 2), substr($min, 6, 2), substr($min, 0, 4));
-	$formatted		 = date('d-m-Y', $base + ($count * 60 * 60 * 24));
+	$formatted		 = date('d-m-Y', phpAds_makeTimestamp($base, ($count * 60 * 60 * 24)));
 	
 	
 	// Start converting...

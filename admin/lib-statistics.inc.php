@@ -731,4 +731,18 @@ function phpAds_formatNumber ($number)
 	return (number_format($number, 0, '', $phpAds_ThousandsSeperator));
 }
 
+
+
+/*********************************************************/
+/* Calculates timestamp taking DST into account          */
+/*********************************************************/
+
+function phpAds_makeTimestamp($start, $offset = 0)
+{
+	if (!$offset)
+		return $start;
+	
+	return $start + $offset + (date('I', $start) - date('I', $start + $offset)) * 60;
+}
+
 ?>

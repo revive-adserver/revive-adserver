@@ -24,6 +24,7 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 	global $strMailSubject, $strMailHeader, $strMailBannerStats, $strMailFooter, $strMailReportPeriod;
 	global $strLogErrorClients, $strLogErrorBanners, $strLogErrorViews, $strNoStatsForCampaign;
 	global $strLogErrorClicks, $strNoClickLoggedInInterval, $strNoViewLoggedInInterval;
+	global $strTotal, $strTotalThisPeriod;
 	global $strCampaign, $strBanner, $strLinkedTo, $strViews, $strClicks, $strMailReportPeriodAll;
 	global $phpAds_CharSet;
 	
@@ -124,7 +125,7 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 					
 					if ($adviews > 0)
 					{
-						$log .= "$strViews (total):    $adviews\n";
+						$log .= "$strViews ($strTotal):    $adviews\n";
 						
 						// Fetch all adviews belonging to banner belonging to client, grouped by day
 						if ($phpAds_config['compact_stats'])
@@ -166,9 +167,15 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 				        
 						if (phpAds_dbNumRows($res_adviews))
 						{
+							$total = 0;
+
 							while($row_adviews = phpAds_dbFetchArray($res_adviews))
+							{
 								$log .= "      $row_adviews[t_stamp_f]:   $row_adviews[qnt]\n";
+								$total += $row_adclicks['qnt'];
+							}
 							
+							$log .= $strTotalThisPeriod.": ".$total."\n";
 							$active_banner_stats = true;
 						}
 						else
@@ -180,7 +187,7 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 					if ($adclicks > 0)
 					{
 						// Total adclicks
-				        $log .= "\n$strClicks (total):   $adclicks\n";
+				        $log .= "\n$strClicks ($strTotal):   $adclicks\n";
 						
 						// Fetch all adclicks belonging to banner belonging to client, grouped by day
 						if ($phpAds_config['compact_stats'])
@@ -221,9 +228,15 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 						
 						if (phpAds_dbNumRows($res_adviews))
 						{
+							$total = 0;
+
 							while($row_adclicks = phpAds_dbFetchArray($res_adclicks))
+							{
 								$log .= "      $row_adclicks[t_stamp_f]:   $row_adclicks[qnt]\n";
+								$total += $row_adclicks['qnt'];
+							}
 							
+							$log .= $strTotalThisPeriod.": ".$total."\n";
 							$active_banner_stats = true;
 						}
 						else
