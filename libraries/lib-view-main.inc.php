@@ -25,6 +25,7 @@ mt_srand(floor((isset($n) && strlen($n) > 5 ? hexdec($n[0].$n[2].$n[3].$n[4].$n[
 function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 0, $context = 0, $richmedia = true)
 {
 	global $phpAds_config, $HTTP_SERVER_VARS;
+	global $phpAds_followedChain;
 	
 	$outputbuffer = '';
 	

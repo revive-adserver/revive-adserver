@@ -32,7 +32,7 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 	$zoneid  = substr($what,5);
 	
 	// Check if zone was already evaluated in the chain
-	if (in_array($zoneid, $phpAds_followedChain))
+	if (isset($phpAds_followedChain) && in_array($zoneid, $phpAds_followedChain))
 		return ($remaining);
 	else
 		$phpAds_followedChain[] = $zoneid;
