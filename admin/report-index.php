@@ -95,15 +95,19 @@ if ($fields = & $plugin['plugin-import'])
 		echo "<td width='200'>".$fields[$key]['title']."</td>";
 		
 		// Text field
-		if ($fields[$key]['type'] == 'text')
+		if ($fields[$key]['type'] == 'edit')
 		{
-			echo "<td><input type='text' name='".$key."' size='35' style='width:350px;' value=''></td>";
+			echo "<td width='370'><input type='text' name='".$key."' size='";
+			echo isset($fields[$key]['size']) ? $fields[$key]['size'] : "";
+			echo "' value='";
+			echo isset($fields[$key]['default']) ? $fields[$key]['default'] : "";
+			echo "'></td>";
 		}
 		
 		// CampaignID-dropdown
 		elseif ($fields[$key]['type'] == 'campaignID-dropdown')
 		{
-			echo "<td><select name='".$key."'>";
+			echo "<td width='370'><select name='".$key."'>";
 			
 			$campaignArray = phpAds_getCampaignArray();
 			for (reset($campaignArray);$ckey=key($campaignArray);next($campaignArray))
@@ -114,7 +118,7 @@ if ($fields = & $plugin['plugin-import'])
 		// ClientID-dropdown
 		elseif ($fields[$key]['type'] == 'clientID-dropdown')
 		{
-			echo "<td><select name='".$key."'>";
+			echo "<td width='370'><select name='".$key."'>";
 			
 			$clientArray = phpAds_getClientArray();
 			for (reset($clientArray);$ckey=key($clientArray);next($clientArray))
