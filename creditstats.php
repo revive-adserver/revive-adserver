@@ -101,7 +101,7 @@ while ($row_clients = mysql_fetch_array($res_clients))
                      bannerID = $row_banners[bannerID]
                    ") or mysql_die();
         print MYSQL_RESULT($res_adclicks,0,"count(bannerID)");
-        $total_adclicks=$total_adclicks+MYSQL_RESULT($res_adviews,0,"count(bannerID)");
+        $total_adclicks=$total_adclicks+MYSQL_RESULT($res_adclicks,0,"count(bannerID)");
         ?></td>
       <?
       }
