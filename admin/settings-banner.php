@@ -133,7 +133,8 @@ phpAds_AddSettings('start_section', "1.3.1");
 phpAds_AddSettings('text', 'default_banner_url',
 	array($strDefaultBannerUrl, 35, 'text'));
 phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'default_banner_target', $strDefaultBannerTarget);
+phpAds_AddSettings('text', 'default_banner_target', 
+	array($strDefaultBannerTarget, 35, 'text'));
 phpAds_AddSettings('end_section', '');
 
 phpAds_AddSettings('start_section', "1.3.2");
