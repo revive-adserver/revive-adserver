@@ -32,7 +32,7 @@ require ("../config.inc.php");
 // Set URL prefix
 $phpAds_config['url_prefix'] = strtolower(eregi_replace("^([a-z]+)/.*$", "\\1://",
 	$SERVER_PROTOCOL)).$HTTP_HOST.
-	ereg_replace("/admin/install.php(\?.*)?$", "", $REQUEST_URI);
+	ereg_replace("/admin/install.php(\?.*)?$", "", $SCRIPT_NAME);
 
 // Overwrite settings with install vars
 if (isset($installvars) && is_array($installvars))
