@@ -292,17 +292,40 @@ function phpAds_isAdmin($username, $password)
 function phpAds_LoginScreen($message='', $SessionID=0)
 {
 	global $PHP_SELF, $QUERY_STRING;
-	global $strUsername, $strPassword, $strLogin;
+	global $phpAds_config;
+	global $strUsername, $strPassword, $strLogin, $strWelcomeTo, $strEnterUsername;
 	
 	phpAds_PageHeader(0);
-	if ($message != "") echo "<b>$message</b><br>";
+	
+	echo "<br>";
+	phpAds_ShowBreak();
+	echo "<br>";
 	
 	echo "<form name='login' method='post' action='".basename($PHP_SELF).(isset($QUERY_STRING) && $QUERY_STRING != '' ? '?'.$QUERY_STRING : '')."'>";
-	echo "<table><input type='hidden' name='phpAds_cookiecheck' value='".$SessionID."'>";
-	echo "<tr><td>".$strUsername.":</td><td><input type='text' name='phpAds_username'></td></tr>";
-	echo "<tr><td>".$strPassword.":</td><td><input type='password' name='phpAds_password'></td></tr>";
-	echo "<tr><td>&nbsp;</td><td><input type='submit' value='".$strLogin."'></td></tr>";
-	echo "</table></form>";
+	echo "<input type='hidden' name='phpAds_cookiecheck' value='".$SessionID."'>";
+	echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>";
+	echo "<td width='80' valign='bottom'><img src='images/login-welcome.gif'>&nbsp;&nbsp;</td>";
+	echo "<td width='100%' valign='bottom'>";
+	echo "<span class='tab-s'>".$strWelcomeTo." ".($phpAds_config['name'] != '' ? $phpAds_config['name'] : 'phpAdsNew')."</span><br>";
+	echo "<span class='install'>".$strEnterUsername."</span><br>";
+	echo "<img src='images/break-el.gif' width='400' height='1' vspace='8'>";	
+	echo "</td></tr><tr><td>&nbsp;</td><td>";
+	echo "<table cellpadding='0' cellspacing='0' border='0'>";
+	
+	echo "<tr height='24'><td>".$strUsername.":&nbsp;</td><td><input class='flat' type='text' name='phpAds_username'></td></tr>";
+	echo "<tr height='24'><td>".$strPassword.":&nbsp;</td><td><input class='flat' type='password' name='phpAds_password'></td></tr>";
+	echo "<tr height='24'><td>&nbsp;</td><td><input type='submit' value='".$strLogin."'></td></tr>";
+	echo "</table>";
+	echo "</td></tr></table>";
+	echo "</form>";
+	
+	phpAds_ShowBreak();
+	
+	if ($message != "")
+	{
+		echo "<img src='images/error.gif'>&nbsp;&nbsp;<span class='tab-r'>$message</span>";
+	}
+	
 	echo "<script language='JavaScript'>\n<!--\n\tlogin_focus();\n// -->\n</script>";
 	
 	phpAds_PageFooter();
