@@ -39,7 +39,7 @@ if (isset($submit))
                          case "GIF":
                               $final["format"] = "gif";
                          }
-                  $final["banner"] = addslashes(fread(fopen($mysql_banner, "r"), filesize($mysql_banner)));
+                  $final["banner"] = addslashes(fread(fopen($mysql_banner, "rb"), filesize($mysql_banner)));
                   }
                $final["alt"] = $mysql_alt;
                $final["bannertext"] = $mysql_bannertext;

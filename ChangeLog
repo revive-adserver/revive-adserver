@@ -1,5 +1,6 @@
 phpAdsNew - ChangeLog
- v 1.6.4 - 13/12/2000  + GIF/PNG support automatically detected (first contribution of Phil)
+ v 1.6.4 - 13/12/2000  + Fixed a problem for Windows users with banneradd.php
+                       + GIF/PNG support automatically detected (first contribution of Phil)
                        + Clients now have logout function
                        + When logging in, user is first logged out
                        + Added remote HTML banners through JavaScript
