@@ -521,6 +521,10 @@ function phpAds_PriorityCalculate()
 			
 			$extra_to_assign  		 = $extra_to_assign * ($maxperiod - $period);
 			$remaining_for_campaign += $extra_to_assign;
+			
+			if ($remaining_for_campaign < 0)
+				$remaining_for_campaign = 0;
+			
 			$totalassigned 			+= $remaining_for_campaign;
 			
 			$total_banner_weight     = 0;
