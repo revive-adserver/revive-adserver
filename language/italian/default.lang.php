@@ -103,9 +103,9 @@ $GLOBALS['strCollapseAll']					= "Chiudi tutti";
 $GLOBALS['strShowAll']						= "Mostra tutto";
 $GLOBALS['strNoAdminInteface']				= "Servizio non disponibile...";
 $GLOBALS['strFilterBySource']				= "filtra per sorgente";
-$GLOBALS['strFieldContainsErrors']			= "The following fields contain errors:";
-$GLOBALS['strFieldFixBeforeContinue1']		= "Before you can continue you need";
-$GLOBALS['strFieldFixBeforeContinue2']		= "to correct these errors.";
+$GLOBALS['strFieldContainsErrors']			= "I seguenti campi contengono errori:";
+$GLOBALS['strFieldFixBeforeContinue1']		= "Prima di continuare è necessario";
+$GLOBALS['strFieldFixBeforeContinue2']		= "correggere questi errori.";
 
 
 
@@ -125,7 +125,7 @@ $GLOBALS['strID']							= "ID";
 $GLOBALS['strAuthentification']				= "Autenticazione";
 $GLOBALS['strWelcomeTo']					= "Benvenuto su";
 $GLOBALS['strEnterUsername']				= "Inserisci la tua username e la tua password per accedere";
-$GLOBALS['strEnterBoth']					= "&Egrave; necessario inserire sia username che password";
+$GLOBALS['strEnterBoth']					= "&Egrave; necessario necessario inserire sia username che password";
 $GLOBALS['strEnableCookies']				= "&Egrave; necessario abilitare i cookie per poter utilizzare ".$phpAds_productname;
 $GLOBALS['strLogin']						= "Login";
 $GLOBALS['strLogout']						= "Esci";
@@ -357,7 +357,7 @@ $GLOBALS['strMakePublisherPublic']			= "Rendi pubblicamente disponibili le zone 
 
 
 // Publisher (properties)
-$GLOBALS['strWebsite']						= "Website";
+$GLOBALS['strWebsite']						= "Sito web";
 $GLOBALS['strAllowAffiliateModifyInfo']		= "Permetti a questo utente di modificare le proprie impostazioni";
 $GLOBALS['strAllowAffiliateModifyZones']	= "Permetti a questo utente di modificare le proprie zone";
 $GLOBALS['strAllowAffiliateLinkBanners']	= "Permetti a questo utente di collegare i banner alle proprie zone";

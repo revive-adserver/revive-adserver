@@ -183,12 +183,12 @@ $GLOBALS['strTypeHtmlSettings']			= "Configurazione banner HTML";
 $GLOBALS['strTypeHtmlAuto']				= "Modifica automaticamente i banner HTML per poter registrare i click";
 $GLOBALS['strTypeHtmlPhp']				= "Consenti l'esecuzione di espressioni PHP all'interno dei banner HTML";
 
-$GLOBALS['strAutoCleanTables']			= "Database pruning";
-$GLOBALS['strAutoCleanStats']			= "Prune statistics";
-$GLOBALS['strAutoCleanUserlog']			= "Prune user log";
-$GLOBALS['strAutoCleanStatsWeeks']		= "Maximum age of statistics <br>(3 weeks minimum)";
-$GLOBALS['strAutoCleanUserlogWeeks']	= "Maximum age of user log <br>(3 weeks minimum)";
-$GLOBALS['strAutoCleanErr']				= "Maximum age must be at least 3 weeks";
+$GLOBALS['strAutoCleanTables']			= "Pulizia del dataabse";
+$GLOBALS['strAutoCleanStats']			= "Pulisci statistiche";
+$GLOBALS['strAutoCleanUserlog']			= "Pulisci registro eventi";
+$GLOBALS['strAutoCleanStatsWeeks']		= "Et&agrave; massima statistiche <br>(minimo 3 settimane)";
+$GLOBALS['strAutoCleanUserlogWeeks']	= "Et&agrave; massima registro eventi <br>(minimo 3 settimane)";
+$GLOBALS['strAutoCleanErr']				= "L'et&agrave; massima deve essere di almeno 3 settimane";
 $GLOBALS['strAutoCleanVacuum']			= "Esegui VACUUM ANALYZE sulle tabelle ogni notte"; // only Pg
 
 
