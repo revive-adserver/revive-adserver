@@ -5,6 +5,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			+ Added support for different table types, such as InnoDB  (Niels) 20011104
 			+ Added logging for zone statistics  (Niels) 20011118
 			+ Added support for affiliates  (Niels) 20011119
+			+ Added logging of hourly statistics for compact stats  (Niels) 20011121
 
 			+ Misc changes to library and function names
 			  - Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 20011020
@@ -56,6 +57,10 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: Changed \n to \r\n in e-mail headers  (Niels) 20011117
 			  - Bugfix: Fixed some left old style config vars in lib-expire (Matteo) 20011118
 			  - Bugfix: Added missing website field in all.sql (Matteo) 20011120
+			  - Bugfix: Total Statistic in mailed reports now only use the selected
+			    statistics type, instead of using both compact and verbose  (Niels) 20011121
+			  - Bugfix: Logging didn't work correctly because affected rows 
+			    function did not return the correct value  (Niels) 20011121
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
