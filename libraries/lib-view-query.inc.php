@@ -4,7 +4,7 @@
 /* phpAdsNew 2                                                          */
 /* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2000-2002 by the phpAdsNew developers                  */
+/* Copyright (c) 2000-2003 by the phpAdsNew developers                  */
 /* For more information visit: http://www.phpadsnew.com                 */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
@@ -111,18 +111,109 @@ function phpAds_buildQuery ($part, $lastpart, $precondition)
 				elseif (substr($part_array[$k],0,6) == 'width:')
 				{
 					$part_array[$k] = substr($part_array[$k], 6);
-					if($part_array[$k] != '' && $part_array[$k] != ' ')
-						
-					if ($operator == 'OR')
-						$conditions .= "OR ".$phpAds_config['tbl_banners'].".width = '".trim($part_array[$k])."' ";
-					elseif ($operator == 'AND')
-						$conditions .= "AND ".$phpAds_config['tbl_banners'].".width = '".trim($part_array[$k])."' ";
-					else
-						$conditions .= "AND ".$phpAds_config['tbl_banners'].".width != '".trim($part_array[$k])."' ";
-					
+
+					if ($part_array[$k] != '' && $part_array[$k] != ' ')
+					{
+						if (is_int(strpos($part_array[$k], '-')))
+						{
+							// Width range
+							list($min, $max) = explode('-', $part_array[$k]);
+							
+							// Only upper limit, set lower limit to make sure not text ads are delivered
+							if ($min == '')
+								$min = 1;
+							
+							// Only lower limit
+							if ($max == '')
+							{
+								if ($operator == 'OR')
+									$conditions .= "OR ".$phpAds_config['tbl_banners'].".width >= '".trim($min)."' ";
+								elseif ($operator == 'AND')
+									$conditions .= "AND ".$phpAds_config['tbl_banners'].".width >= '".trim($min)."' ";
+								else
+									$conditions .= "AND ".$phpAds_config['tbl_banners'].".width < '".trim($min)."' ";
+							}
+	
+							// Both lower and upper limit
+							if ($max != '')
+							{
+								if ($operator == 'OR')
+									$conditions .= "OR (".$phpAds_config['tbl_banners'].".width >= '".trim($min)."' AND ".$phpAds_config['tbl_banners'].".width <= '".trim($max)."') ";
+								elseif ($operator == 'AND')
+									$conditions .= "AND (".$phpAds_config['tbl_banners'].".width >= '".trim($min)."' AND ".$phpAds_config['tbl_banners'].".width <= '".trim($max)."') ";
+								else
+									$conditions .= "AND (".$phpAds_config['tbl_banners'].".width < '".trim($min)."' OR ".$phpAds_config['tbl_banners'].".width > '".trim($max)."') ";
+							}
+						}
+						else
+						{
+							// Single value
+							
+							if ($operator == 'OR')
+								$conditions .= "OR ".$phpAds_config['tbl_banners'].".width = '".trim($part_array[$k])."' ";
+							elseif ($operator == 'AND')
+								$conditions .= "AND ".$phpAds_config['tbl_banners'].".width = '".trim($part_array[$k])."' ";
+							else
+								$conditions .= "AND ".$phpAds_config['tbl_banners'].".width != '".trim($part_array[$k])."' ";
+						}
+					}
+															
 					$onlykeywords = false;
 				}
 				
+				// Banner Height
+				elseif (substr($part_array[$k],0,7) == 'height:')
+				{
+					$part_array[$k] = substr($part_array[$k], 7);
+					if ($part_array[$k] != '' && $part_array[$k] != ' ')
+					{
+						if (is_int(strpos($part_array[$k], '-')))
+						{
+							// Height range
+							list($min, $max) = explode('-', $part_array[$k]);
+							
+							// Only upper limit, set lower limit to make sure not text ads are delivered
+							if ($min == '')
+								$min = 1;
+							
+							// Only lower limit
+							if ($max == '')
+							{
+								if ($operator == 'OR')
+									$conditions .= "OR ".$phpAds_config['tbl_banners'].".height >= '".trim($min)."' ";
+								elseif ($operator == 'AND')
+									$conditions .= "AND ".$phpAds_config['tbl_banners'].".height >= '".trim($min)."' ";
+								else
+									$conditions .= "AND ".$phpAds_config['tbl_banners'].".height < '".trim($min)."' ";
+							}
+	
+							// Both lower and upper limit
+							if ($max != '')
+							{
+								if ($operator == 'OR')
+									$conditions .= "OR (".$phpAds_config['tbl_banners'].".height >= '".trim($min)."' AND ".$phpAds_config['tbl_banners'].".height <= '".trim($max)."') ";
+								elseif ($operator == 'AND')
+									$conditions .= "AND (".$phpAds_config['tbl_banners'].".height >= '".trim($min)."' AND ".$phpAds_config['tbl_banners'].".height <= '".trim($max)."') ";
+								else
+									$conditions .= "AND (".$phpAds_config['tbl_banners'].".height < '".trim($min)."' OR ".$phpAds_config['tbl_banners'].".height > '".trim($max)."') ";
+							}
+						}
+						else
+						{
+							// Single value
+							
+							if ($operator == 'OR')
+								$conditions .= "OR ".$phpAds_config['tbl_banners'].".height = '".trim($part_array[$k])."' ";
+							elseif ($operator == 'AND')
+								$conditions .= "AND ".$phpAds_config['tbl_banners'].".height = '".trim($part_array[$k])."' ";
+							else
+								$conditions .= "AND ".$phpAds_config['tbl_banners'].".height != '".trim($part_array[$k])."' ";
+						}
+					}
+										
+					$onlykeywords = false;
+				}
+
 				// Banner ID
 				elseif ((substr($part_array[$k], 0, 9) == 'bannerid:') || (preg_match('#^[0-9]+$#', $part_array[$k])))
 				{
@@ -189,6 +280,19 @@ function phpAds_buildQuery ($part, $lastpart, $precondition)
 					$onlykeywords = false;
 				}
 				
+				// TextAd
+				elseif($part_array[$k] == 'textad')
+				{
+					if ($operator == 'OR')
+						$conditions .= "OR ".$phpAds_config['tbl_banners'].".contenttype='txt' ";
+					elseif ($operator == 'AND')
+						$conditions .= "AND ".$phpAds_config['tbl_banners'].".contenttype='txt' ";
+					else
+						$conditions .= "AND ".$phpAds_config['tbl_banners'].".contenttype!='txt' ";
+					
+					$onlykeywords = false;
+				}
+
 				// Keywords
 				else
 				{
