@@ -12,6 +12,15 @@
 
   ====================================================
 
+  03-18-2003 - invocation
+    [+] strWindowOptions
+    [+] strShowToolbars
+    [+] strShowLocation
+    [+] strShowMenubar
+    [+] strShowStatus
+    [+] strWindowResizable
+    [+] strShowScrollbars
+
   02-19-2003 - default
     [+] strOptional
     [u] strGenerateBannercode

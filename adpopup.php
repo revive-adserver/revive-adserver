@@ -91,6 +91,7 @@ function enjavanateCode ($str, $limit = 60)
 		$line = str_replace("\r", '', $line);
 		$line = str_replace("\n", "\\n", $line);
 		$line = str_replace("\t", "\\t", $line);
+		$line = str_replace('<', "<'+'", $line);
 		
 		echo "\t\t".$windowid.".document.write('$line');\n";
 	}
@@ -116,12 +117,12 @@ function enjavanateBanner ($output, $limit = 60)
 		$ret .= "\tphpadsbanner += '$line';\n";
 	}
 	
-	$ret .= "\n\tdocument.write('<html><head><title>');\n";
+	$ret .= "\n\tdocument.write('<'+'html><'+'head><'+'title>');\n";
 	$ret .= "\tdocument.write('".($output['alt'] ? $output['alt'] : 'Advertisement')."');\n";
-	$ret .= "\tdocument.write('</title></head>');\n";
-	$ret .= "\tdocument.write('<body leftmargin=\"0\" topmargin=\"0\" marginwidth=\"0\" marginheight=\"0\">');\n";
+	$ret .= "\tdocument.write('<'+'/title><'+'/head>');\n";
+	$ret .= "\tdocument.write('<'+'body leftmargin=\"0\" topmargin=\"0\" marginwidth=\"0\" marginheight=\"0\">');\n";
 	$ret .= "\tdocument.write(phpadsbanner);\n";
-	$ret .= "\tdocument.write('</body></html>');\n";
+	$ret .= "\tdocument.write('<'+'/body><'+'/html>');\n";
 	
 	return $ret;
 }
@@ -134,8 +135,9 @@ function enjavanateBanner ($output, $limit = 60)
 
 phpAds_registerGlobal ('what', 'clientid', 'clientID', 'context',
 					   'target', 'source', 'withtext', 'withText',
-					   'left', 'top', 'popunder', 'timeout', 'delay');
-
+					   'left', 'top', 'popunder', 'timeout', 'delay',
+					   'toolbars', 'location', 'menubar', 'status',
+					   'resizable', 'scrollbars');
 
 
 /*********************************************************/
@@ -145,12 +147,20 @@ phpAds_registerGlobal ('what', 'clientid', 'clientID', 'context',
 if (isset($clientID) && !isset($clientid))	$clientid = $clientID;
 if (isset($withText) && !isset($withtext))  $withtext = $withText;
 
-if (!isset($what)) 		$what = '';
-if (!isset($clientid)) 	$clientid = 0;
-if (!isset($target)) 	$target = '_new';
-if (!isset($source)) 	$source = '';
-if (!isset($withtext)) 	$withtext = '';
-if (!isset($context)) 	$context = '';
+if (!isset($what)) 		 $what = '';
+if (!isset($clientid)) 	 $clientid = 0;
+if (!isset($target)) 	 $target = '_new';
+if (!isset($source)) 	 $source = '';
+if (!isset($withtext)) 	 $withtext = '';
+if (!isset($context)) 	 $context = '';
+
+if (!isset($toolbars))   $toolbars   = 0;
+if (!isset($location))	 $location   = 0;
+if (!isset($menubar))	 $menubar    = 0;
+if (!isset($status))	 $status     = 0;
+if (!isset($resizable))  $resizable  = 0;
+if (!isset($scrollbars)) $scrollbars = 0;
+
 
 // Remove referer, to be sure it doesn't cause problems with limitations
 if (isset($HTTP_SERVER_VARS['HTTP_REFERER'])) unset($HTTP_SERVER_VARS['HTTP_REFERER']);
@@ -187,7 +197,7 @@ function <?php echo $windowid; ?>_pop(e)
 {
 	if (!window.<?php echo $windowid; ?>)
 	{
-		<?php echo $windowid; ?> =  window.open('', '<?php echo $windowid; ?>', 'height=<?php echo $output['height']; ?>,width=<?php echo $output['width']; ?>,toolbars=no,location=no,menubar=no,status=no,resizable=no,scrollbars=no');
+		<?php echo $windowid; ?> =  window.open('', '<?php echo $windowid; ?>', 'height=<?php echo $output['height']; ?>,width=<?php echo $output['width']; ?>,toolbars=<?php echo $toolbars == 1 ? 'yes' : 'no'; ?>,location=<?php echo $location == 1 ? 'yes' : 'no'; ?>,menubar=<?php echo $menubar == 1 ? 'yes' : 'no'; ?>,status=<?php echo $status == 1 ? 'yes' : 'no'; ?>,resizable=<?php echo $resizable == 1 ? 'yes' : 'no'; ?>,scrollbars=<?php echo $scrollbars == 1 ? 'yes' : 'no'; ?>');
 		
 		if (!<?php echo $windowid; ?>.document.title || <?php echo $windowid; ?>.document.title == '')
 		{
@@ -202,12 +212,12 @@ function <?php echo $windowid; ?>_pop(e)
 				echo enjavanateCode("<html><head>")."\n";
 				
 				echo enjavanateCode("<script language='JavaScript'>");
-				echo enjavanateCode("function showbanner() {");		
-				echo enjavanateCode(enjavanateBanner($output)); 
-				echo enjavanateCode("}");		
+				echo enjavanateCode("function showbanner() {");
+				echo enjavanateCode(enjavanateBanner($output));
+				echo enjavanateCode("}");
 				echo enjavanateCode("</script>")."\n";
 				
-				echo enjavanateCode("</head>");		
+				echo enjavanateCode("</head>");
 				echo enjavanateCode("<body onLoad='showbanner()'>");
 			}
 			else

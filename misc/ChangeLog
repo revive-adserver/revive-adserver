@@ -31,6 +31,8 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-02-24:  Changed handling of geotargeting limitations when the location couldn't be detected  (Niels)
 			  - 2003-02-25:  Added dbms version when displaying query errors  (Matteo)
 			  - 2003-02-25:  Added flag for Micronesia  (Niels)
+			  - 2003-03-18:  When linking two popup or interstitial zones the dimensions of the zone are now ignored  (Niels)
+			  - 2003-03-18:  Added extra options to the popup invocation, which allow you to control the settings of the window in which the popup is opened  (Niels)
 
 			+ Misc bugfixes
 			  - 2003-01-13:  If a zero was used in a random variable (ie. random:10) it wasn't replaced  (Niels)
