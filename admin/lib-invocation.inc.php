@@ -64,7 +64,7 @@ function phpAds_GenerateInvocationCode()
 	$buffer = '';
 	
 	$parameters = array();
-	$uniqueid = 'a'.substr(md5(uniqid('')), 0, 7);
+	$uniqueid = 'a'.substr(md5(uniqid('', 1)), 0, 7);
 	if (!isset($withText)) $withText = 0;
 	
 	

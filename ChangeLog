@@ -68,6 +68,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-09-03:  Errormessages during the configuration of the FTP server appeared in the wrong block  (Niels)
 			  - 2002-09-03:  An incorrect path name for the FTP server appeared during editing the FTP settings, if it had been previously left empty  (Niels)
 			  - 2002-09-07:  Changed check for localmode during invocationcode generation from hostname to IP address  (Niels)
+			  - 2002-09-08:  Added second parameter to all uniqid() functions for speed optimalisation  (Niels)
 
 
 

@@ -177,7 +177,7 @@ if ($limitations['compatible'])
 	// Exit if no matching banner was found
 	if (!$output) exit;
 	
-	$uniqid = substr(md5(uniqid('')), 0, 8);
+	$uniqid = substr(md5(uniqid('', 1)), 0, 8);
 	enjavanate(phpAds_getLayerHTML($output, $uniqid));
 	phpAds_putLayerJS($output, $uniqid);
 }
