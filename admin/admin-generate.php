@@ -187,8 +187,6 @@ function phpAds_GenerateInvocationCode()
 /*********************************************************/
 
 echo "<br><br>";
-echo "<br><br>";
-echo "<br><br>";
 echo "<form name='availability' action='admin-generate.php' method='POST'>\n";
 
 

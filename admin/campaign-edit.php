@@ -183,7 +183,10 @@ if ($campaignid != "")
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	
 	phpAds_PageHeader("4.1.4", $extra);
-	phpAds_ShowSections(array("4.1.5", "4.1.4"));
+		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
+		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+		echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignid)."</b><br><br><br>";
+		phpAds_ShowSections(array("4.1.5", "4.1.4"));
 }
 else
 {
@@ -191,13 +194,19 @@ else
 	{
 		// Convert client to campaign
 		phpAds_PageHeader("4.1.4");
-		phpAds_ShowSections(array("4.1.4"));
+			echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($clientid);
+			echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".$strUntitled."</b><br><br><br>";
+			phpAds_ShowSections(array("4.1.4"));
 	}
 	else
 	{
 		// New campaign
 		phpAds_PageHeader("4.1.3");   
-		phpAds_ShowSections(array("4.1.3"));
+			echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($clientid);
+			echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".$strUntitled."</b><br><br><br>";
+			phpAds_ShowSections(array("4.1.3"));
 	}
 }
 
@@ -447,20 +456,6 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 </script>
 
 
-
-	<?php if (isset($campaignid) && $campaignid > 0) { ?>
-<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getParentName($campaignid);?>
-&nbsp;<img src='images/caret-rs.gif'>&nbsp;
-<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b><?php echo phpAds_getClientName($campaignid);?></b><br>
-	<?php } else { ?>
-<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getClientName($clientid);?>
-&nbsp;<img src='images/caret-rs.gif'>&nbsp;
-<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b><?php echo $strUntitled; ?></b><br>
-	<?php } ?>
-
-
-<br><br>
-<br><br>
 <br><br>
   
 

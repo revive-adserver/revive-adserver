@@ -68,7 +68,10 @@ $extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-weekly.gif' align
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 
 phpAds_PageHeader("4.1.5", $extra);
-phpAds_ShowSections(array("4.1.5", "4.1.4"));
+	echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
+	echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+	echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignid)."</b><br><br><br>";
+	phpAds_ShowSections(array("4.1.5", "4.1.4"));
 
 if (isset($message))
 	phpAds_ShowMessage($message);
@@ -79,16 +82,8 @@ if (isset($message))
 /* Main code                                             */
 /*********************************************************/
 
-
-
 ?>
 
-<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<?php echo phpAds_getParentName($campaignid);?>
-&nbsp;<img src='images/caret-rs.gif'>&nbsp;
-<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b><?php echo phpAds_getClientName($campaignid);?></b><br>
-
-<br><br>
-<br><br>
 <br><br>
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>

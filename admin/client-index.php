@@ -166,13 +166,6 @@ if (isset($campaigns) && is_array($campaigns) && count($campaigns) > 0)
 
 
 
-
-
-
-
-
-echo "<br><br>";
-echo "<br><br>";
 echo "<br><br>";
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
 

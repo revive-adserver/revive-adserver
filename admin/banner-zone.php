@@ -94,7 +94,13 @@ if ($phpAds_config['acl']) $sections[] = "4.1.5.3";
 $sections[] = "4.1.5.4";
 
 phpAds_PageHeader("4.1.5.4", $extra);
-phpAds_ShowSections($sections);
+	echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
+	echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+	echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
+	echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+	echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br><br>";
+	echo phpAds_getBannerCode($bannerid)."<br><br><br><br>";
+	phpAds_ShowSections($sections);
 
 
 
@@ -102,29 +108,7 @@ phpAds_ShowSections($sections);
 /* Main code                                             */
 /*********************************************************/
 
-echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
-echo "<tr><td height='25'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
-echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
-echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
-echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
-if ($bannerid != '')
-	echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b></td></tr>";
-else
-	echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;".$strUntitled."</td></tr>";
-
-if ($bannerid != '')
-{
-	echo "<tr><td height='1' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-	echo "<tr><td align='left'><br>".phpAds_getBannerCode($bannerid)."</td></tr>";
-}
-
-echo "</table>";
-
 echo "<br><br>";
-echo "<br><br>";
-echo "<br><br>";
-
-
 
 $res_zones = phpAds_dbQuery("
 		SELECT 

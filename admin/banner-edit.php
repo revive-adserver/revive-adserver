@@ -43,7 +43,7 @@ if (phpAds_isUser(phpAds_Client))
 			") or phpAds_sqlDie();
 		$row = phpAds_dbFetchArray($result);
 		
-		if ($row["clientid"] == '' || phpAds_clientid() != phpAds_getParentID ($row["clientid"]))
+		if ($row["clientid"] == '' || phpAds_getUserID() != phpAds_getParentID ($row["clientid"]))
 		{
 			phpAds_PageHeader("1");
 			phpAds_Die ($strAccessDenied, $strNotAdmin);
@@ -390,11 +390,23 @@ if ($bannerid != '')
 		$sections[] = "4.1.5.4";
 		
 		phpAds_PageHeader("4.1.5.2", $extra);
-		phpAds_ShowSections($sections);
+			echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
+			echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
+			echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+			echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br><br>";
+			echo phpAds_getBannerCode($bannerid)."<br><br><br><br>";
+			phpAds_ShowSections($sections);
 	}
 	else
 	{
 		phpAds_PageHeader("1.1.1.2", $extra);
+		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
+		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+		echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
+		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+		echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br><br>";
+		echo phpAds_getBannerCode($bannerid)."<br><br><br><br>";
 	}
 	
 	
@@ -428,7 +440,12 @@ if ($bannerid != '')
 else
 {
 	phpAds_PageHeader("4.1.5.1");
-	phpAds_ShowSections(array("4.1.5.1"));
+		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
+		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+		echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
+		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+		echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".$strUntitled."</b><br><br><br>";
+		phpAds_ShowSections(array("4.1.5.1"));
 	
 	$row['alt'] = "";
 	$row['status'] = "";
@@ -507,30 +524,6 @@ if (!isset($type))
 //-->
 </script>
 
-
-
-<?php
-	echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
-	echo "<tr><td height='25'><img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
-	echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
-	echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
-	echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
-	if ($bannerid != '')
-		echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b></td></tr>";
-	else
-		echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;".$strUntitled."</td></tr>";
-	
-	if ($bannerid != '')
-	{
-		echo "<tr><td height='1' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-		echo "<tr><td align='left'><br>".phpAds_getBannerCode($bannerid)."</td></tr>";
-	}
-	
-	echo "</table>";
-?>
-
-<br><br>
-<br><br>
 <br><br>
 
 <form action="<?php echo basename($PHP_SELF);?>" method="POST" enctype="multipart/form-data">
