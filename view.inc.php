@@ -81,7 +81,7 @@ function get_banner($what, $clientID, $context=0, $source="")
 						{
 							$what_array[$k]=substr($what_array[$k],1);
 							$select=substr($select,0,(strlen($select)-3));
-							$select .= "keyword LIKE '%".trim($what_array[$k])."%' OR ";
+							$select .= "AND keyword NOT LIKE '%".trim($what_array[$k])."%' OR ";
 						}
 						else
 						{

@@ -1,5 +1,6 @@
 <?
 require ("config.php");
+require("nocache.inc.php");
 
 $res_clients = mysql_db_query($phpAds_db, "
 	SELECT
@@ -9,8 +10,8 @@ $res_clients = mysql_db_query($phpAds_db, "
 		email,
 		views,
 		clicks,
-		to_days(expire) as expire_day,
-		to_days(curdate()) as cur_date 
+		to_days(expire)-to_days(curdate()) as days
+		expire
 	FROM
 		$phpAds_tbl_clients
 	") or die($strLogErrorClients);
@@ -26,8 +27,8 @@ while($row_clients = mysql_fetch_array($res_clients))
 	$clients[$i]["contact"] = $row_clients["contact"];
 	$clients[$i]["clientname"] = $row_clients["clientname"];      
 	$clients[$i]["views"] = $row_clients["views"];
-	$clients[$i]["days"] = $row_clients["expire_day"]!=-1 ? $row_clients["expire_day"] - $row_clients["cur_date"] : 1;
-	$clients[$i]["active"] = true;
+	$clients[$i]["days"] = substr_count($row_clients["expire"],"0")==8 ? -1 : $row_clients["days"];
+	$clients[$i]["active"] = false;
 
 	print "Processing $clients[$i]["clientname"]...<BR>\n";
 	flush();
@@ -48,8 +49,8 @@ while($row_clients = mysql_fetch_array($res_clients))
 	$logs[$i] = "";
 	while($row_banners = mysql_fetch_array($res_banners))
 	{
-		if($row_banners["active"] == "false")
-			$clients[$i]["active"] = false;
+		if($row_banners["active"] == "true")
+			$clients[$i]["active"] = true;
        
 		$logs[$i] .= "BannerID: $row_banners[bannerID] [linked to: $row_banners[URL]]\n";
 
@@ -74,15 +75,16 @@ while($row_clients = mysql_fetch_array($res_clients))
 			SELECT
 				*,
 				count(*) as qnt,
-				DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f
+				DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
+				TO_DAYS(t_stamp) AS the_day
 			FROM
 				$phpAds_tbl_adviews
 			WHERE
 				bannerID = $row_banners[bannerID]
 			GROUP BY
-				t_stamp_f  
+				the_day
 			ORDER BY
-				t_stamp DESC
+				the_day DESC
 			LIMIT 7
 			") or die($strLogErrorViews);
                            
@@ -108,15 +110,16 @@ while($row_clients = mysql_fetch_array($res_clients))
 			SELECT
 				*,
 				count(*) as qnt,
-				DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f
+				DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
+				TO_DAYS(t_stamp) AS the_day
 			FROM
 				$phpAds_tbl_adclicks
 			WHERE
 				bannerID = $row_banners[bannerID]
 			GROUP BY
-				t_stamp_f  
+				the_day
 			ORDER BY
-				t_stamp DESC
+				the_day DESC
 			LIMIT 7
 			") or die("$strLogErrorClicks ".mysql_error());
 		while($row_adclicks = mysql_fetch_array($res_adclicks))
@@ -133,9 +136,7 @@ for($i=0; $i<count($logs); $i++)
 		continue;
     
 	// Check if the client has remaining adviews
-	if((!empty($clients[$i]["views"]) && $clients[$i]["views"] >= 0 && $clients[$i]["views"] < $clients[$i]["views_used"]) || 
-	(!empty($clients[$i]["clicks"]) && $clients[$i]["clicks"] >= 0 && $clients[$i]["clicks"] < $clients[$i]["clicks_used"]) ||
-	(isset($clients[$i]["days"])  && $clients[$i]["days"] <= 0))
+	if ($clients[$i]["views"] <= 0 && $clients[$i]["clicks"] <= 0 && $clients[$i]["days"] > 0)
 	{
 		$client_name = $clients[$i]["clientname"];
 		unset ($client_ID);
@@ -156,14 +157,13 @@ for($i=0; $i<count($logs); $i++)
 			mail($clients[$i]["email"], $strMailSubject2, $body,$phpAds_admin_email_headers);
 			unset($strMailSubject2 ) ;
 		}
-
-		if ( $email = $clients[$i]["email"] )
-		{
-			eval("\$body = \"$strMailHeader\n$strMailBannerStats\n\n\$logs[$i]\n$strMailFooter\";");
-			$strMailSubject1 =  $strMailSubject.": ".$clients[$i]["clientname"];
-			mail($clients[$i]["email"], $strMailSubject1, $body, $phpAds_admin_email_headers);
-			unset ($strMailSubject1 ) ;
-		}
+	}
+	if ( $email = $clients[$i]["email"] )
+	{
+		eval("\$body = \"$strMailHeader\n$strMailBannerStats\n\n\$logs[$i]\n$strMailFooter\";");
+		$strMailSubject1 =  $strMailSubject.": ".$clients[$i]["clientname"];
+		mail($clients[$i]["email"], $strMailSubject1, $body, $phpAds_admin_email_headers);
+		unset ($strMailSubject1 ) ;
 	}
 }
 

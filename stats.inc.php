@@ -141,7 +141,7 @@ list($desc,$enddate,$daysleft)=days_left($clientID);
 		<td bgcolor="#CCCCCC"><? echo $desc; ?></td>
 		<td bgcolor="#CCCCCC">
 <?
-if ($row_adclicks["qnt"] > 0 || $row_adviews["qnt"] > 0)
+if ($totaladclicks > 0 || $totaladviews > 0)
 {
 	print "<a href=\"weeklystats.php$fncpageid&clientID=$clientID\">$strWeeklyStats</a>";
 }

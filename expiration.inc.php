@@ -75,11 +75,11 @@ function days_left($clientID)
 					b.bannerID = v.bannerID";
 
 			$res_views = mysql_db_query($phpAds_db, $view_query) or mysql_die() ;
-			if ( mysql_num_rows($res_views)==1)
+			if ( mysql_num_rows($res_views)==1 )
 			{
 				$row_views = mysql_fetch_array($res_views);
 				// calculate estimated end of views
-				if ($row_views["days_since_start"]==0)
+				if ($row_views["days_since_start"] == 0 || $row_views["days_since_start"] == null )
 				{
 					// to avoid division by zero
 					$row_views["days_since_start"]=1;
@@ -113,7 +113,7 @@ function days_left($clientID)
 						else
 						{
 							// calculate estimated end of clicks
-							if ( $row_clicks["total_clicks"] > 0 )
+							if ( $row_clicks["total_clicks"] > 0 && $row_clicks["days_since_start"] != null )
 							{
 								$click_days_left = $row_client["clicks"]/($row_clicks["total_clicks"]/$row_clicks["days_since_start"]);
 								$days_left = sprintf("%d",max(strval($days_left),$click_days_left));

@@ -256,6 +256,8 @@ h3 {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt}
               all over again.<br>
               or I can't add banners.</h3>
             <p>Make sure you have enabled magic_quotes_gpc in your PHP configuration.</p>
+            <p>Make sure $phpAds_url_prefix in config.inc.php is exactly the same as it is on the server
+(http://www.test.com/phpads is not the same as http://www.test.com/phpAds). Also make sure it doesn't end with a slash (/).</p>
             <h3>I get the following error: Fatal error: Call to unsupported or 
               undefined function mysql_pconnect().</h3>
             <p>Your PHP is not configured for MySQL support. If you're on Unix, 

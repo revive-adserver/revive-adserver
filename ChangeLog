@@ -1,9 +1,13 @@
 phpAdsNew - ChangeLog
- v 1.8.1 - 08/01/2001	+ Updated banner acl screen (Martin Braun)
-			+ Added language files with help for banner acl (Martin Braun)
-			+ Added customizable colours to config.inc.php (me)
-			+ New lines are automatically removed from html code in remotehtmlview.php (me)
+ v 1.8.1 - 01/02/2001
 			+ All language files now have a seperate directory (me)
+			+ Added customizable colours to config.inc.php (me)
+			+ Increased mail.php speed (Martin Braun)
+			+ Bugfix: banners no longer deactivated from mail.php when not needed (Martin Braun)
+			+ Bugfix: several fixes in expiration and weeklystats (Martin Braun)
+			+ Updated banner acl screen (Martin Braun)
+			+ Added language files with help for banner acl (Martin Braun)
+			+ New lines are automatically removed from html code in remotehtmlview.php (me)
 			+ Bugfix: creditstats now shows html banners correctly (me)
  v 1.8.0 - 06/01/2001	+ Added expiration stats on credit stats and client stats (Martin Braun)
                         + Added weekly stats - needs serious optimizing (Martin Braun)
