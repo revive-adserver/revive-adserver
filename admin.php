@@ -1,4 +1,4 @@
-// $Id:
+// $Id$
 
 <?
 if (isset($pageid) && $pageid =="client")
