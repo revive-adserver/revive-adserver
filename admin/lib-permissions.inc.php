@@ -212,8 +212,6 @@ function phpAds_checkIds()
 			$part[0] = '';
 		elseif ($part[0] == 'zone')
 			$part[0] = 'affiliate';
-		elseif ($part[0] == 'userlog')
-			$part[0] = '';
 	}
 		
 	switch ($part[0])
@@ -264,15 +262,6 @@ function phpAds_checkIds()
 			if (!is_numeric($affiliateid))
 			{
 				header('Location: '.$redirects['affiliate']);
-				exit;
-			}
-			
-			break;
-		
-		case 'userlog':
-			if (!is_numeric($userlogid))
-			{
-				header('Location: userlog-index.php');
 				exit;
 			}
 			
