@@ -224,7 +224,7 @@ function phpAds_getBannerCache($banner)
 											substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . 
 											$quotechar . '{url_prefix}/adclick.php?bannerid=' . 
 											'{bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;dest=' . 
-											urlencode(substr($buffer, $quotepos+1, $endquotepos - $quotepos - 1)) .
+											urlencode(phpAds_UnHTMLentities(substr($buffer, $quotepos+1, $endquotepos - $quotepos - 1))) .
 											'&amp;ismap=';
 								}
 								else
@@ -254,7 +254,7 @@ function phpAds_getBannerCache($banner)
 											substr($buffer, $prevhrefpos, $hrefpos - $prevhrefpos) . 
 											'"' . '{url_prefix}/adclick.php?bannerid=' . 
 											'{bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;dest=' . 
-											urlencode(substr($buffer, $hrefpos, $endpos - $hrefpos)) .
+											urlencode(phpAds_UnHTMLentities(substr($buffer, $hrefpos, $endpos - $hrefpos))) .
 											'&amp;ismap="';
 								}
 								else
@@ -322,7 +322,7 @@ function phpAds_getBannerCache($banner)
 					$url    = $regs[1];
 				}
 				
-				$buffer = str_replace ($regs[0], '{url_prefix}/adclick.php?bannerid={bannerid}&amp;zoneid={zoneid}&amp;source='.$source.'&amp;dest='.urlencode($url).'&amp;ismap=', $buffer);
+				$buffer = str_replace ($regs[0], '{url_prefix}/adclick.php?bannerid={bannerid}&amp;zoneid={zoneid}&amp;source='.$source.'&amp;dest='.urlencode(phpAds_UnHTMLentities($url)).'&amp;ismap=', $buffer);
 			}
 		}
 		
@@ -603,7 +603,14 @@ function phpAds_compileLimitation ($bannerid = '')
 }
 
 
-
+function phpAds_UnHTMLentities ($str)  
+{
+	$trans_tbl = get_html_translation_table (HTML_ENTITIES);
+  $trans_tbl = array_flip ($trans_tbl);
+  $return = strtr ($str, $trans_tbl);
+  
+	return (preg_replace('/\&\#([0-9]+)\;/me', "chr('\\1')", $return));
+} 
 
 
 
