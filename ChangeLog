@@ -40,6 +40,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Moved all includes inside view.inc.php to all invocation files  (Niels) 20011027
 			  - view.inc.php is now split into multiple libraries, so only code actually
 			    needed is included to achieve a big improvement in performance  (Niels) 20020206
+			  - Moved invocation code into lib-invocation.inc.php  (Matteo) 20020307
 
 			+ Misc changes
 			  - Moved some functions around to make sure no unneeded 
@@ -103,6 +104,8 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Added <img> invocation to <iframe> invocation type for browser compatibility  (Niels) 20020224
 			  - Added ability to delete all banners of a campaign  (Niels) 20020225
 			  - Added 'url' and 'clientid' to view_raw result array  (Matteo) 20020304
+			  - Added XML-RPC invocation  (Matteo) 20020307
+			  - Added AdLayers invocation with plug-in styles  (Matteo) 20020307
 
 
 			+ Misc bugfixes
