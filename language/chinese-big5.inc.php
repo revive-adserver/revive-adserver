@@ -1,4 +1,4 @@
-<?php // $Revision: 1.29 $
+<?php // $Revision: 1.6 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -7,7 +7,7 @@
 /* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
-/* Translations by Yen-Shuo Su                                          */
+/* Translations by Yen-Shuo Su <yssu@dottech.com.tw>                    */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -257,8 +257,8 @@ $GLOBALS['strNoMatchesFound']			= "沒有找到符合的資料";
 
 $GLOBALS['strNoViewLoggedInInterval']   = "本報告的統計期間中沒有任何的點選動作";
 $GLOBALS['strNoClickLoggedInInterval']  = "本報告的統計期間中沒有任何的推播動作";
-$GLOBALS['strMailReportPeriod']			= "本報告包含了自 {startdate} 至 {enddate} 的統計數據。";
-$GLOBALS['strMailReportPeriodAll']		= "本報告包含了至 {enddate} 的所有統計數據。";
+$GLOBALS['strMailReportPeriod']			= "本報表包含了自 {startdate} 至 {enddate} 的統計數據。";
+$GLOBALS['strMailReportPeriodAll']		= "本報表包含了至 {enddate} 的所有統計數據。";
 $GLOBALS['strNoStatsForCampaign'] 		= "本專案目前沒有任何的統計數據";
 $GLOBALS['strFrom']						= "自";
 $GLOBALS['strTo']						= "至";
@@ -266,7 +266,7 @@ $GLOBALS['strMaintenance']				= "維護";
 $GLOBALS['strCampaignStats']			= "專案統計";
 $GLOBALS['strClientStats']				= "客戶統計";
 $GLOBALS['strErrorOccurred']			= "發生錯誤";
-$GLOBALS['strAdReportSent']				= "廣告統計數據已寄送完成";
+$GLOBALS['strAdReportSent']				= "廣告效益報表已寄送完成";
 
 $GLOBALS['strAutoChangeHTML']			= "自動轉換 HTML 原始碼以記錄廣告點選數";
 
@@ -292,30 +292,30 @@ $GLOBALS['strConfirmResetCampaignStats']= "是否確定要重設此專案統計數據?";
 $GLOBALS['strConfirmResetClientStats']	= "是否確定要重設此客戶統計數據?";
 $GLOBALS['strConfirmResetBannerStats']	= "是否確定要重設此廣告統計數據?";
 
-$GLOBALS['strClientsAndCampaigns']		= "Clients & Campaigns";
-$GLOBALS['strCampaignOverview']			= "Campaign overview";
-$GLOBALS['strReports']					= "Reports";
-$GLOBALS['strShowBanner']				= "Show banner";
+$GLOBALS['strClientsAndCampaigns']		= "客戶 & 專案";
+$GLOBALS['strCampaignOverview']			= "專案總覽";
+$GLOBALS['strReports']					= "廣告效益報表";
+$GLOBALS['strShowBanner']				= "顯示廣告";
 
-$GLOBALS['strIncludedBanners']			= "Linked banners";
-$GLOBALS['strProbability']				= "Probability";
-$GLOBALS['strInvocationcode']			= "Invocationcode";
-$GLOBALS['strSelectZoneType']			= "Please choose the type of linking banners";
-$GLOBALS['strBannerSelection']			= "Banner selection";
-$GLOBALS['strInteractive']				= "Interactive";
-$GLOBALS['strRawQueryString']			= "Raw querystring";
+$GLOBALS['strIncludedBanners']			= "連結廣告";
+$GLOBALS['strProbability']				= "推播比例";
+$GLOBALS['strInvocationcode']			= "產生網頁原始碼";
+$GLOBALS['strSelectZoneType']			= "請選擇版位與廣告連結的檢視方式";
+$GLOBALS['strBannerSelection']			= "廣告列表";
+$GLOBALS['strInteractive']				= "互動連結";
+$GLOBALS['strRawQueryString']			= "詳細內容";
 
-$GLOBALS['strBannerWeight']				= "Banner weight";
-$GLOBALS['strCampaignWeight']			= "Campaign weight";
+$GLOBALS['strBannerWeight']				= "廣告比重";
+$GLOBALS['strCampaignWeight']			= "專案比重";
 
-$GLOBALS['strZoneCacheOn']				= "Zone caching is turned on";
-$GLOBALS['strZoneCacheOff']				= "Zone caching is turned off";
-$GLOBALS['strCachedZones']				= "Cached zones";
-$GLOBALS['strSizeOfCache']				= "Size of cache";
-$GLOBALS['strAverageAge']				= "Average age";
-$GLOBALS['strRebuildZoneCache']			= "Rebuild zone cache";
+$GLOBALS['strZoneCacheOn']				= "版位快取暫存空間已啟用";
+$GLOBALS['strZoneCacheOff']				= "版位快取暫存空間已停用";
+$GLOBALS['strCachedZones']				= "已暫存的版位";
+$GLOBALS['strSizeOfCache']				= "版位空間";
+$GLOBALS['strAverageAge']				= "平均停留時數";
+$GLOBALS['strRebuildZoneCache']			= "重建版位快取暫存空間";
 $GLOBALS['strKiloByte']					= "KB";
-$GLOBALS['strSeconds']					= "seconds";
-$GLOBALS['strExpired']					= "Expired";
+$GLOBALS['strSeconds']					= "秒";
+$GLOBALS['strExpired']					= "已失效";
 
 ?>
