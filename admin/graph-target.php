@@ -139,10 +139,7 @@ if (count($clientids))
 		");
 
 		while ($row = phpAds_dbFetchArray($result))
-		{
 			$stats[$row['date']]['sum_views'] = $row['sum_views'];
-			$totals['views'] += $row['sum_views'];
-		}
 	}
 	else
 	{
@@ -167,10 +164,7 @@ if (count($clientids))
 		") or phpAds_sqlDie();
 		
 		while ($row = phpAds_dbFetchArray($result))
-		{
 			$stats[$row['date']]['sum_views'] = $row['sum_views'];
-			$totals['views'] += $row['sum_views'];
-		}
 	}
 }
 

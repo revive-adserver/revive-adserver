@@ -662,6 +662,21 @@ function phpAds_PriorityStore($banners)
 		
 		$res = phpAds_dbQuery($query);
 	}
+
+	// Update targetstats at midnight
+	if (phpAds_CurrentHour == 0)
+	{
+		for (reset($campaigns);$c=key($campaigns);next($campaigns))
+		{
+			if ($campaigns[$c]['target'])
+				phpAds_dbQuery("
+					INSERT INTO ".$phpAds_config['tbl_targetstats']."
+						(day, clientid, target)
+					VALUES
+						(NOW(), ".$campaigns[$c]['clientid'].", ".$campaigns[$c]['target'].")
+				");
+		}
+	}
 }
 
 
