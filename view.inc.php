@@ -395,12 +395,19 @@ function enjavanate($str)
 	$lines = explode("\n", $str);
 	
 	reset ($lines);
-	while (list(,$line) = each($lines))
+
+	$i = 0;
+    while (list(,$line) = each($lines))
 	{
         $line = str_replace("\r", "", $line);
         $line = str_replace("'", "\\'", $line);
-        if (!empty($line))
-            print "document.writeln('$line');\n";
+        
+    	if (!empty($line))
+    	{
+            if ($i++)
+                print "document.writeln('');\n";
+            print "document.write('$line');\n";
+        }
 	}
 }
 
