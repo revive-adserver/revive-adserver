@@ -52,6 +52,7 @@ function phpAds_PriorityGetImpressions($days, $offset)
 	}
 	
 	$res = phpAds_dbQuery($query);
+	
 	return (phpAds_dbResult($res, 0, 'sum_views'));
 }
 
@@ -75,8 +76,8 @@ function phpAds_PriorityGetHourlyProfile($days, $offset)
 		$query = "
 			SELECT hour, SUM(views) AS sum_views
 			FROM ".$phpAds_config['tbl_adstats']."
-			WHERE day >= ".$begin."
-			AND day <= ".$end."
+			WHERE day <= ".$begin."
+			AND day >= ".$end."
 			GROUP BY hour
 		";
 	}
@@ -88,8 +89,8 @@ function phpAds_PriorityGetHourlyProfile($days, $offset)
 		$query = "
 			SELECT HOUR(t_stamp) AS hour, COUNT(*) AS sum_views
 			FROM ".$phpAds_config['tbl_adviews']."
-			WHERE t_stamp >= ".$begin."
-			AND t_stamp <= ".$end."
+			WHERE t_stamp <= ".$begin."
+			AND t_stamp >= ".$end."
 			GROUP BY hour
 		";
 	}
