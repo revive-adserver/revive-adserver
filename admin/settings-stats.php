@@ -122,7 +122,7 @@ phpAds_AddSettings('text', 'ignore_hosts',
 phpAds_AddSettings('break', '');
 phpAds_AddSettings('checkbox', 'reverse_lookup', $strReverseLookup);
 phpAds_AddSettings('break', '');
-phpAds_AddSettings('checkbox', 'proxy_lookup', "Proxy Lookup");
+phpAds_AddSettings('checkbox', 'proxy_lookup', $strProxyLookup);
 phpAds_AddSettings('end_section', '');
 phpAds_EndSettings();
 

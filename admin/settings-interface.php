@@ -78,7 +78,7 @@ phpAds_AddSettings('text', 'my_footer',
 	array($strMyFooter, 35));
 phpAds_AddSettings('end_section', '');
 
-phpAds_AddSettings('start_section', "2.1.2");
+phpAds_AddSettings('start_section', "2.2.2");
 phpAds_AddSettings('checkbox', 'client_welcome',
 	array($strClientWelcomeEnabled, array('client_welcome_msg')));
 phpAds_AddSettings('break', '');

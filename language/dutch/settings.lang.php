@@ -73,60 +73,72 @@ $GLOBALS['strServiceUnavalable']		= "Deze service is momenteel niet beschikbaar.
 
 $GLOBALS['strConfigNotWritable']		= "Uw config.inc.php is niet te wijzigen";
 
-// Settings translation strings
-$GLOBALS['strChooseSection']			= "Kies sectie";
 
-$GLOBALS['strDbHost']					= "Database server";
+
+
+
+/*********************************************************/
+/* Configuration translations                            */
+/*********************************************************/
+
+// Global
+$GLOBALS['strChooseSection']			= "Kies sectie";
+$GLOBALS['strDayFullNames'] 			= array("zondag","maandag","dinsdag","woensdag","donderdag","vrijdag","zaterdag");
+$GLOBALS['strEditConfigNotPossible']    = "Het is niet mogelijk om deze instellingen te wijzigen, omdat het configuratiebestand vanwege veiligheidsredenen op slot staat. ".
+										  "Indien u veranderingen wilt maken dient u eerst het bestand config.inc.php schrijfbaar maken.";
+$GLOBALS['strEditConfigPossible']		= "Het is mogelijk om alle instellingen te wijzigen, omdat het configuratiebestand niet op slot staat, maar dit zou kunnen lijden tot een veiligheidslek. ".
+										  "Indien u uw systeem wilt behouden voor eventuele veiligheidsproblemen, dan moet u het bestand config.inc.php op slot zetten.";
+
+
+
+// Database
+$GLOBALS['strDatabaseSettings']			= "Database instellingen";
+$GLOBALS['strDatabaseServer']			= "Database server";
+$GLOBALS['strDbHost']					= "Database adres";
 $GLOBALS['strDbUser']					= "Database gebruikersnaam";
 $GLOBALS['strDbPassword']				= "Database wachtwoord";
 $GLOBALS['strDbName']					= "Database naam";
+
+$GLOBALS['strDatabaseOptimalisations']	= "Database optimalisaties";
 $GLOBALS['strPersistentConnections']	= "Gebruik 'persistent connections'";
 $GLOBALS['strInsertDelayed']			= "Gebruik 'delayed inserts'";
 $GLOBALS['strCompatibilityMode']		= "Gebruik database compatibiliteits mode";
 $GLOBALS['strCantConnectToDb']			= "Kan geen connectie maken met de database";
 
-$GLOBALS['strAdminUsername']			= "Gebruikersnaam van de beheerder";
-$GLOBALS['strAdminFullName']			= "Volledige naam van de beheerder";
-$GLOBALS['strAdminEmail']				= "E-mail adres van de beheerder";
-$GLOBALS['strAdminEmailHeaders']		= "Mail Headers for the reflection of the sender of the daily ad reports";
-$GLOBALS['strAdminNovice']				= "Toon een waarschuwing wanneer er items verwijderd worden";
-$GLOBALS['strOldPassword']				= "Oud wachtwoord";
-$GLOBALS['strNewPassword']				= "Nieuw wachtwoord";
-$GLOBALS['strInvalidUsername']			= "Ongeldige gebruikersnaam";
-$GLOBALS['strInvalidPassword']			= "Ongeldig wachtwoord";
 
-$GLOBALS['strGuiSettings']				= "Gebruikers Interface Instellingen";
-$GLOBALS['strMyHeader']					= "My Header";
-$GLOBALS['strMyFooter']					= "My Footer";
-$GLOBALS['strTableBorderColor']			= "Table Border Color";
-$GLOBALS['strTableBackColor']			= "Table Back Color";
-$GLOBALS['strTableBackColorAlt']		= "Table Back Color (Alternative)";
-$GLOBALS['strMainBackColor']			= "Main Back Color";
-$GLOBALS['strAppName']					= "Applicatienaam";
-$GLOBALS['strCompanyName']				= "Bedrijfsnaam";
-$GLOBALS['strOverrideGD']				= "Override GD Imageformat";
-$GLOBALS['strTimeZone']					= "Tijdzone";
 
-$GLOBALS['strDayFullNames'] = array("zondag","maandag","dinsdag","woensdag","donderdag","vrijdag","zaterdag");
+// Invocation and Delivery
+$GLOBALS['strInvocationAndDelivery']	= "Aanroep en aflevering instellingen";
 
-$GLOBALS['strIgnoreHosts']				= "Negeer hosts";
-$GLOBALS['strWarnLimit']				= "Waarschuwings limiet";
-$GLOBALS['strWarnLimitErr']				= "Waarschuwings limiet moet een positief nummer zijn";
-$GLOBALS['strBeginOfWeek']				= "Begin van de week";
-$GLOBALS['strPercentageDecimals']		= "Nauwkeurigheid van percentages";
-$GLOBALS['strLogBeacon']				= "Gebruik beacons om Adviews te loggen";
-$GLOBALS['strCompactStats']				= "Gebruik compacte statistieken";
-$GLOBALS['strLogAdviews']				= "Log AdViews";
-$GLOBALS['strLogAdclicks']				= "Log AdClicks";
-$GLOBALS['strReverseLookup']			= "Reverse DNS Lookup";
-$GLOBALS['strWarnAdmin']				= "Waarschuw de beheerder";
-$GLOBALS['strWarnClient']				= "Waarschuw de klant";
+$GLOBALS['strKeywordRetrieval']			= "Sleutelwoord selectie";
+$GLOBALS['strBannerRetrieval']			= "Banner selectie methode";
+$GLOBALS['strRetrieveRandom']			= "Willekeurige banner selectie (standaard)";
+$GLOBALS['strRetrieveNormalSeq']		= "Normale sequentieele banner selectie";
+$GLOBALS['strWeightSeq']				= "Op gewicht gebaseerde sequentieele banner selectie";
+$GLOBALS['strFullSeq']					= "Volledige sequentieele banner selectie";
+$GLOBALS['strUseConditionalKeys']		= "Gebruik conditionele sleutelwoorden";
+$GLOBALS['strUseMultipleKeys']			= "Gebruik meerdere sleutelwoorden";
+$GLOBALS['strUseAcl']					= "Gebruik beperkingen";
 
-$GLOBALS['strAllowedBannerTypes']		= "Toegestane banner types";
-$GLOBALS['strTypeSqlAllow']				= "Sta banners opgeslagen in de SQL database toe";
-$GLOBALS['strTypeWebAllow']				= "Sta banners opgeslagen op een webserver toe";
-$GLOBALS['strTypeUrlAllow']				= "Sta URL banners toe";
-$GLOBALS['strTypeHtmlAllow']			= "Sta HTML banners toe";
+$GLOBALS['strZonesSettings']			= "Zone selectie";
+$GLOBALS['strZoneCache']				= "Cache zones, dit zou het gebruik moeten versnellen wanneer gebruik gemaakt word van zones";
+$GLOBALS['strZoneCacheLimit']			= "Tijd tussen het updaten van de cache (in seconden)";
+$GLOBALS['strZoneCacheLimitErr']		= "De tijd tussen het updaten van de cache moet een positief getal zijn";
+
+$GLOBALS['strP3PSettings']				= "P3P Privacy Policies";
+$GLOBALS['strUseP3P']					= "Gebruik P3P Policies";
+$GLOBALS['strP3PCompactPolicy']			= "P3P Compacte Policy";
+$GLOBALS['strP3PPolicyLocation']		= "P3P Policy Locatie";
+
+
+
+// Banner Settings
+$GLOBALS['strBannerSettings']			= "Banner instellingen";
+
+$GLOBALS['strTypeHtmlSettings']			= "HTML banner opties";
+$GLOBALS['strTypeHtmlAuto']				= "Verander HTML automatisch om het loggen van AdClicks te forceren";
+$GLOBALS['strTypeHtmlPhp']				= "Sta het gebruik van PHP code toe binnen in HTML banners.";
+
 $GLOBALS['strTypeWebSettings']			= "Web banner instellingen";
 $GLOBALS['strTypeWebMode']				= "Opslag methode";
 $GLOBALS['strTypeWebModeLocal']			= "Lokaal (opgeslagen in een lokale map)";
@@ -134,39 +146,96 @@ $GLOBALS['strTypeWebModeFtp']			= "FTP (opgeslagen op een externe FTP server)";
 $GLOBALS['strTypeWebDir']				= "Lokale map";
 $GLOBALS['strTypeWebFtp']				= "FTP server";
 $GLOBALS['strTypeWebUrl']				= "Publieke URL van de lokale map of FTP server";
-$GLOBALS['strTypeHtmlSettings']			= "HTML banner instellingen";
-$GLOBALS['strTypeHtmlAuto']				= "Verander HTML automatisch om het loggen van AdClicks te forceren";
-$GLOBALS['strTypeHtmlPhp']				= "Sta het gebruik van PHP code toe binnen in HTML banners.";
 
-$GLOBALS['strBannerRetrieval']			= "Banner selectie methode";
-$GLOBALS['strRetrieveRandom']			= "Willekeurige banner selectie (standaard)";
-$GLOBALS['strRetrieveNormalSeq']		= "Normale sequentieele banner selectie";
-$GLOBALS['strWeightSeq']				= "Op gewicht gebaseerde sequentieele banner selectie";
-$GLOBALS['strFullSeq']					= "Volledige sequentieele banner selectie";
+$GLOBALS['strDefaultBanners']			= "Standaard banner";
 $GLOBALS['strDefaultBannerUrl']			= "Standaard banner afbeelding";
 $GLOBALS['strDefaultBannerTarget']		= "Standaard banner doellocatie";
-$GLOBALS['strUseConditionalKeys']		= "Gebruik conditionele sleutelwoorden";
-$GLOBALS['strUseMultipleKeys']			= "Gebruik meerdere sleutelwoorden";
-$GLOBALS['strUseAcl']					= "Gebruik beperkingen";
 
-$GLOBALS['strZonesSettings']			= "Zone Instellingen";
-$GLOBALS['strZoneCache']				= "Cache zones, dit zou het gebruik moeten versnellen wanneer gebruik gemaakt word van zones";
-$GLOBALS['strZoneCacheLimit']			= "Tijd tussen het updaten van de cache (in seconden)";
-$GLOBALS['strZoneCacheLimitErr']		= "De tijd tussen het updaten van de cache moet een positief getal zijn";
 
-$GLOBALS['strP3PSettings']				= "P3P Instellingen";
-$GLOBALS['strUseP3P']					= "Gebruik P3P Policies";
-$GLOBALS['strP3PCompactPolicy']			= "P3P Compacte Policy";
-$GLOBALS['strP3PPolicyLocation']		= "P3P Policy Locatie";
 
-$GLOBALS['strClientWelcomeMessage']		= "Klanten Welkomsbericht";
-$GLOBALS['strClientWelcomeEnabled']		= "Toon een welkomsbericht";
-$GLOBALS['strClientWelcomeText']		= "Welkomsbericht<br>(HTML is toegestaan)";
+// Statistics Settings
+$GLOBALS['strStatisticsSettings']		= "Statistieken Instellingen";
 
+$GLOBALS['strStatisticsFormat']			= "Statistieken formaat";
+$GLOBALS['strLogBeacon']				= "Gebruik beacons om Adviews te loggen";
+$GLOBALS['strCompactStats']				= "Gebruik compacte statistieken";
+$GLOBALS['strLogAdviews']				= "Log AdViews";
+$GLOBALS['strLogAdclicks']				= "Log AdClicks";
+
+$GLOBALS['strEmailWarnings']			= "Waarschuwingen per email";
+$GLOBALS['strAdminEmailHeaders']		= "Mail Headers for the reflection of the sender of the daily ad reports";
+$GLOBALS['strWarnLimit']				= "Waarschuwings limiet";
+$GLOBALS['strWarnLimitErr']				= "Waarschuwings limiet moet een positief nummer zijn";
+$GLOBALS['strWarnAdmin']				= "Waarschuw de beheerder";
+$GLOBALS['strWarnClient']				= "Waarschuw de klant";
+
+$GLOBALS['strRemoteHosts']				= "Remote hosts";
+$GLOBALS['strIgnoreHosts']				= "Negeer hosts";
+$GLOBALS['strReverseLookup']			= "Reverse DNS Lookup";
+$GLOBALS['strProxyLookup']				= "Proxy Lookup";
+
+
+
+// Administrator settings
+$GLOBALS['strAdministratorSettings']	= "Beheerder instellingen";
+
+$GLOBALS['strLoginCredentials']			= "Inlog gegevens";
+$GLOBALS['strAdminUsername']			= "Gebruikersnaam van de beheerder";
+$GLOBALS['strOldPassword']				= "Oud wachtwoord";
+$GLOBALS['strNewPassword']				= "Nieuw wachtwoord";
+$GLOBALS['strInvalidUsername']			= "Ongeldige gebruikersnaam";
+$GLOBALS['strInvalidPassword']			= "Ongeldig wachtwoord";
+
+$GLOBALS['strBasicInformation']			= "Basis informatie";
+$GLOBALS['strAdminFullName']			= "Volledige naam van de beheerder";
+$GLOBALS['strAdminEmail']				= "E-mail adres van de beheerder";
+$GLOBALS['strCompanyName']				= "Bedrijfsnaam";
+
+$GLOBALS['strAdminNovice']				= "Toon een waarschuwing wanneer er items verwijderd worden";
+
+
+
+// User interface settings
+$GLOBALS['strGuiSettings']				= "Gebruikersinterface instellingen";
+
+$GLOBALS['strGeneralSettings']			= "Algemene instellingen";
+$GLOBALS['strAppName']					= "Applicatienaam";
+$GLOBALS['strMyHeader']					= "My Header";
+$GLOBALS['strMyFooter']					= "My Footer";
+
+$GLOBALS['strClientInterface']			= "Klant interface";
+$GLOBALS['strClientWelcomeEnabled']		= "Toon een welkomstbericht";
+$GLOBALS['strClientWelcomeText']		= "Welkomstbericht<br>(HTML is toegestaan)";
+
+
+
+// Interface defaults
+$GLOBALS['strInterfaceDefaults']		= "Interface standaardwaarden";
+
+$GLOBALS['strStatisticsDefaults'] 		= "Statistieken";
+$GLOBALS['strBeginOfWeek']				= "Begin van de week";
+$GLOBALS['strPercentageDecimals']		= "Nauwkeurigheid van percentages";
+
+$GLOBALS['strWeightDefaults']			= "Standaard gewicht";
 $GLOBALS['strDefaultBannerWeight']		= "Standaard banner gewicht";
 $GLOBALS['strDefaultCampaignWeight']	= "Standaard campagne gewicht";
-
 $GLOBALS['strDefaultBannerWErr']		= "Standaard banner gewicht moet een positief getal zijn";
 $GLOBALS['strDefaultCampaignWErr']		= "Standaard campagne gewicht moet een positief getal zijn";
+
+$GLOBALS['strAllowedBannerTypes']		= "Toegestane banner types";
+$GLOBALS['strTypeSqlAllow']				= "Sta banners opgeslagen in de SQL database toe";
+$GLOBALS['strTypeWebAllow']				= "Sta banners opgeslagen op een webserver toe";
+$GLOBALS['strTypeUrlAllow']				= "Sta URL banners toe";
+$GLOBALS['strTypeHtmlAllow']			= "Sta HTML banners toe";
+
+
+
+// Not used at the moment
+$GLOBALS['strTableBorderColor']			= "Tabel rand kleur";
+$GLOBALS['strTableBackColor']			= "Table achtergrond kleur";
+$GLOBALS['strTableBackColorAlt']		= "Table achtergrond kleur (alternatief)";
+$GLOBALS['strMainBackColor']			= "Globale achtergrond kleur";
+$GLOBALS['strOverrideGD']				= "Override GD Imageformat";
+$GLOBALS['strTimeZone']					= "Tijdzone";
 
 ?>

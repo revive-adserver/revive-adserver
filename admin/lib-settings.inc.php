@@ -39,35 +39,34 @@ include('lib-config.inc.php');
 $phpAds_config_locked = !phpAds_isConfigWritable();
 
 $phpAds_settings_sections = array(
-	"1"			=> "Main Settings",
-	"1.1"		=> "Database settings",
-	"1.1.1"		=> "Database server",
-	"1.1.2"		=> "Database optimalisation",
-	"1.2"		=> "Invocation and delivery settings",
-	"1.2.1"		=> "Keyword retrieval",
-	"1.2.2"		=> "Zone retrieval",
-	"1.2.3"		=> "P3P Privacy Policies",
-	"1.3"		=> "Banner settings",
-	"1.3.1"		=> "HTML banner options",
-	"1.3.2"		=> "Webserver stored banner options",
-	"1.3.3"		=> "Default banners",
-	"1.4"		=> "Statistics",
-	"1.4.1"		=> "Statistisc format",
-	"1.4.2"		=> "E-mail warnings",
-	"1.4.3"		=> "Remote hosts",
-	"2"			=> "Administration settings",
-	"2.1"		=> "Administrator settings",
-	"2.1.1"		=> "Login credentials",
-	"2.1.2"		=> "Basic information",
-	"2.1.3"		=> "Preferences",
-	"2.2"		=> "User interface settings",
-	"2.2.1"		=> "General settings",
-	"2.2.2"		=> "Client interface",
-	"2.2.3"		=> "Charts",
-	"2.3"		=> "Interface defaults",
-	"2.3.1"		=> "Statistics",
-	"2.3.2"		=> "Default weight",
-	"2.3.3"		=> "Available banner types"
+	"1"			=> $strMainSettings,
+	"1.1"		=> $strDatabaseSettings,
+	"1.1.1"		=> $strDatabaseServer,
+	"1.1.2"		=> $strDatabaseOptimalisations,
+	"1.2"		=> $strInvocationAndDelivery,
+	"1.2.1"		=> $strKeywordRetrieval,
+	"1.2.2"		=> $strZonesSettings,
+	"1.2.3"		=> $strP3PSettings,
+	"1.3"		=> $strBannerSettings,
+	"1.3.1"		=> $strTypeHtmlSettings,
+	"1.3.2"		=> $strTypeWebSettings,
+	"1.3.3"		=> $strDefaultBanners,
+	"1.4"		=> $strStatisticsSettings,
+	"1.4.1"		=> $strStatisticsFormat,
+	"1.4.2"		=> $strEmailWarnings,
+	"1.4.3"		=> $strRemoteHosts,
+	"2"			=> $strAdminSettings,
+	"2.1"		=> $strAdministratorSettings,
+	"2.1.1"		=> $strLoginCredentials,
+	"2.1.2"		=> $strBasicInformation,
+	"2.1.3"		=> $strPreferences,
+	"2.2"		=> $strGuiSettings,
+	"2.2.1"		=> $strGeneralSettings,
+	"2.2.2"		=> $strClientInterface,
+	"2.3"		=> $strInterfaceDefaults,
+	"2.3.1"		=> $strStatisticsDefaults,
+	"2.3.2"		=> $strWeightDefaults,
+	"2.3.3"		=> $strAllowedBannerTypes
 );
 
 $phpAds_settings_cache = array();
@@ -82,6 +81,8 @@ $phpAds_settings_show_submit = !$phpAds_config_locked;
 
 function phpAds_SettingsSelection($parent, $section)
 {
+	global $phpAds_settings_sections;
+
 ?>
 <script language="JavaScript">
 <!--
@@ -106,16 +107,16 @@ function settings_goto_section()
 
 	if ($parent == 'main')
 	{
-		echo "<option value='db'".($section == 'db' ? ' selected' : '').">Database settings</option>";
-		echo "<option value='invocation'".($section == 'invocation' ? ' selected' : '').">Invocation and delivery settings</option>";
-		echo "<option value='banner'".($section == 'banner' ? ' selected' : '').">Banner settings</option>";
-		echo "<option value='stats'".($section == 'stats' ? ' selected' : '').">Statistics settings</option>";
+		echo "<option value='db'".($section == 'db' ? ' selected' : '').">".$phpAds_settings_sections["1.1"]."</option>";
+		echo "<option value='invocation'".($section == 'invocation' ? ' selected' : '').">".$phpAds_settings_sections["1.2"]."</option>";
+		echo "<option value='banner'".($section == 'banner' ? ' selected' : '').">".$phpAds_settings_sections["1.3"]."</option>";
+		echo "<option value='stats'".($section == 'stats' ? ' selected' : '').">".$phpAds_settings_sections["1.4"]."</option>";
 	}
 	elseif ($parent == 'admin')
 	{
-		echo "<option value='admin'".($section == 'admin' ? ' selected' : '').">Administrator settings</option>";
-		echo "<option value='interface'".($section == 'interface' ? ' selected' : '').">User interface settings</option>";
-		echo "<option value='defaults'".($section == 'defaults' ? ' selected' : '').">Interface defaults</option>";
+		echo "<option value='admin'".($section == 'admin' ? ' selected' : '').">".$phpAds_settings_sections["2.1"]."</option>";
+		echo "<option value='interface'".($section == 'interface' ? ' selected' : '').">".$phpAds_settings_sections["2.2"]."</option>";
+		echo "<option value='defaults'".($section == 'defaults' ? ' selected' : '').">".$phpAds_settings_sections["2.3"]."</option>";
 	}
 ?>
         </select>
@@ -561,6 +562,7 @@ function phpAds_FlushSettings()
 	global $phpAds_settings_help_cache;
 	global $phpAds_config_locked;
 	global $phpAds_settings_show_submit;
+	global $strEditConfigNotPossible, $strEditConfigPossible;
 	
 	if (!$phpAds_settings_cache_on)
 		return;
@@ -569,21 +571,14 @@ function phpAds_FlushSettings()
 	
 	if (!defined('phpAds_installing'))
 	{
-	$image = $phpAds_config_locked ? 'closed' : 'open';
-	
-	echo "<br>";
-	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-	echo "<tr><td valign='top'><img src='images/padlock-$image.gif' width='16' height='16' border='0' align='absmiddle'>&nbsp;&nbsp;</td><td>";
-	
-	echo $phpAds_config_locked ?
-		"It is not possible to edit these settings because the configuration file is locked for security reasons. ".
-		"If you want to make changes, you need to unlock the config.inc.php file first."
-		:
-		"It is possible to edit all settings because the configuration file is not locked, but this could lead to security leaks. ".
-		"If you want to secure your system, you need to lock the config.inc.php file.";
+		$image = $phpAds_config_locked ? 'closed' : 'open';
 		
-	echo "</td></tr><tr><td colspan='2'><img src='images/break.gif' height='1' width='100%' vspace='8'></td></tr></table>";
-	echo "\n";
+		echo "<br>";
+		echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+		echo "<tr><td valign='top'><img src='images/padlock-$image.gif' width='16' height='16' border='0' align='absmiddle'>&nbsp;&nbsp;</td><td>";
+		echo $phpAds_config_locked ? $strEditConfigNotPossible : $strEditConfigPossible;
+		echo "</td></tr><tr><td colspan='2'><img src='images/break.gif' height='1' width='100%' vspace='8'></td></tr></table>";
+		echo "\n";
 	}
 	
 	if (!empty($phpAds_settings_help_cache))
@@ -594,7 +589,6 @@ function phpAds_FlushSettings()
 	
 	if (!defined('phpAds_installing') && $phpAds_settings_show_submit)
 		echo '<input type="submit" value="'.$GLOBALS['strSaveChanges'].'">';
-
 }
 
 ?>
