@@ -45,8 +45,8 @@ $query2="
 		week DESC
 	LIMIT ".$max_weeks;
             
-$result = db_query(($query) or mysql_die();
-$result2 = db_query(($query2) or mysql_die();
+$result = db_query($query) or mysql_die();
+$result2 = db_query($query2) or mysql_die();
 
 $text=array(
 	'value1' => $GLOBALS['strViews'],
