@@ -31,7 +31,12 @@ function Plugin_CampaignoverviewInfo()
 		"plugin-import"			=> array (
 			"campaignID"			=> array (
 				"title"					=> "Campaign",
-				"type"					=> "campaignID-dropdown" ) )
+				"type"					=> "campaignID-dropdown" ),
+			"delimiter"		=> array (
+				"title"					=> "Delimiter",
+				"type"					=> "edit",
+				"size"					=> 1,
+				"default"				=> "," ) )
 	);
 	
 	return ($plugininfo);
@@ -43,7 +48,7 @@ function Plugin_CampaignoverviewInfo()
 /* Private plugin function                               */
 /*********************************************************/
 
-function Plugin_CampaignoverviewExecute($campaignID)
+function Plugin_CampaignoverviewExecute($campaignID, $delimiter=",")
 {
 	global $phpAds_tbl_banners, $phpAds_tbl_adstats, $phpAds_tbl_adviews, $phpAds_tbl_adclicks;
 	global $phpAds_compact_stats;
@@ -90,7 +95,7 @@ function Plugin_CampaignoverviewExecute($campaignID)
 				$phpAds_tbl_banners
 				LEFT JOIN $phpAds_tbl_adviews USING (bannerID)
 			WHERE
-				$phpAds_tbl_banners.clientID = $clientID
+				$phpAds_tbl_banners.clientID = $campaignID
 			GROUP BY
 				$phpAds_tbl_banners.bannerID
 			";
@@ -107,12 +112,14 @@ function Plugin_CampaignoverviewExecute($campaignID)
 		$res_query = "
 			SELECT
 				$phpAds_tbl_banners.bannerID as bannerID,
+				$phpAds_tbl_banners.description as description, 
+				$phpAds_tbl_banners.alt as alt,
 				count($phpAds_tbl_adclicks.bannerID) as adclicks
 			FROM
 				$phpAds_tbl_banners
 				LEFT JOIN $phpAds_tbl_adclicks USING (bannerID)
 			WHERE
-				$phpAds_tbl_banners.clientID = $clientID
+				$phpAds_tbl_banners.clientID = $campaignID
 			GROUP BY
 				$phpAds_tbl_banners.bannerID
 			";
@@ -127,28 +134,32 @@ function Plugin_CampaignoverviewExecute($campaignID)
 		}
 	}
 	
-	echo "Banner;AdViews;AdClicks;CTR\n";
+	echo "Campaign: ".phpAds_getClientName ($campaignID)."\n\n";
+	echo "Banner".$delimiter."AdViews".$delimiter."AdClicks".$delimiter."CTR\n";
 	
 	$totalclicks = 0;
 	$totalviews = 0;
 	
-	for (reset($stats);$key=key($stats);next($stats))
+	if (isset($stats) && is_array($stats))
 	{
-		$row = array();
-		
-		$row[] = phpAds_buildBannerName ($key, $stats[$key]['description'], $stats[$key]['alt']);
-		$row[] = $stats[$key]['views'];
-		$row[] = $stats[$key]['clicks'];
-		$row[] = phpAds_buildCTR ($stats[$key]['views'], $stats[$key]['clicks']);
-		
-		echo implode (";", $row)."\n";
-		
-		$totalclicks += $stats[$key]['clicks'];
-		$totalviews += $stats[$key]['views'];
+		for (reset($stats);$key=key($stats);next($stats))
+		{
+			$row = array();
+			
+			$row[] = phpAds_buildBannerName ($key, $stats[$key]['description'], $stats[$key]['alt']);
+			$row[] = $stats[$key]['views'];
+			$row[] = $stats[$key]['clicks'];
+			$row[] = phpAds_buildCTR ($stats[$key]['views'], $stats[$key]['clicks']);
+			
+			echo implode ($delimiter, $row)."\n";
+			
+			$totalclicks += $stats[$key]['clicks'];
+			$totalviews += $stats[$key]['views'];
+		}
 	}
 	
-	echo ";;;\n";
-	echo "Total;".$totalviews.";".$totalclicks.";".phpAds_buildCTR ($totalviews, $totalclicks)."\n";
+	echo "\n";
+	echo "Total".$delimiter.$totalviews.$delimiter.$totalclicks.$delimiter.phpAds_buildCTR ($totalviews, $totalclicks)."\n";
 }
 
 ?>
