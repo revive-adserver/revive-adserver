@@ -39,7 +39,33 @@ $tabindex = 1;
 
 if (phpAds_isUser(phpAds_Affiliate))
 {
-	$affiliateid = phpAds_getUserID();
+	if (isset($zoneid) && $zoneid > 0)
+	{
+		$result = phpAds_dbQuery("
+			SELECT
+				affiliateid
+			FROM
+				".$phpAds_config['tbl_zones']."
+			WHERE
+				zoneid = '$zoneid'
+			") or phpAds_sqlDie();
+		$row = phpAds_dbFetchArray($result);
+		
+		if ($row["affiliateid"] == '' || phpAds_getUserID() != $row["affiliateid"])
+		{
+			phpAds_PageHeader("1");
+			phpAds_Die ($strAccessDenied, $strNotAdmin);
+		}
+		else
+		{
+			$affiliateid = phpAds_getUserID();
+		}
+	}
+	else
+	{
+		phpAds_PageHeader("1");
+		phpAds_Die ($strAccessDenied, $strNotAdmin);
+	}
 }
 
 
