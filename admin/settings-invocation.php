@@ -21,7 +21,7 @@ include ("lib-settings.inc.php");
 // Register input variables
 phpAds_registerGlobal ('allow_invocation_plain', 'allow_invocation_js', 'allow_invocation_frame', 
 					   'allow_invocation_xmlrpc', 'allow_invocation_local', 'allow_invocation_interstitial', 
-					   'allow_invocation_popup', 'con_key', 'mult_key', 'acl', 
+					   'allow_invocation_popup', 'con_key', 'mult_key', 'acl', 'delivery_caching', 
 					   'p3p_policies', 'p3p_compact_policy', 'p3p_policy_location');
 
 
@@ -49,12 +49,14 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 	if (isset($allow_invocation_popup))
 		phpAds_SettingsWriteAdd('allow_invocation_popup', $allow_invocation_popup);
 	
+	if (isset($delivery_caching))
+		phpAds_SettingsWriteAdd('delivery_caching', $delivery_caching);
+	if (isset($acl))
+		phpAds_SettingsWriteAdd('acl', $acl);
 	if (isset($con_key))
 		phpAds_SettingsWriteAdd('con_key', $con_key);
 	if (isset($mult_key))
 		phpAds_SettingsWriteAdd('mult_key', $mult_key);
-	if (isset($acl))
-		phpAds_SettingsWriteAdd('acl', $acl);
 	
 	if (isset($p3p_policies))
 		phpAds_SettingsWriteAdd('p3p_policies', $p3p_policies);
@@ -91,7 +93,34 @@ phpAds_SettingsSelection("invocation");
 /* Cache settings fields and get help HTML Code          */
 /*********************************************************/
 
+// Determine delivery cache methods
+$delivery_cache_methods['db'] = 'Database';
+
+if ($fp = @fopen(phpAds_path.'/cache/available', 'wb'))
+{
+	@fclose($fp);
+	@unlink(phpAds_path.'/cache/available');
+	
+	$delivery_cache_methods['file'] = 'Files';
+}
+
+if (function_exists('shmop_open'))
+	$delivery_cache_methods['shm'] = 'Shared memory (shmop)';
+
+
+
+
 phpAds_StartSettings();
+phpAds_AddSettings('start_section', "1.2.2");
+phpAds_AddSettings('select', 'delivery_caching',
+	array('Delivery cache type', $delivery_cache_methods));
+phpAds_AddSettings('break', '');
+phpAds_AddSettings('checkbox', 'acl', $strUseAcl);
+phpAds_AddSettings('break', '');
+phpAds_AddSettings('checkbox', 'con_key', $strUseConditionalKeys);
+phpAds_AddSettings('checkbox', 'mult_key', $strUseMultipleKeys);
+phpAds_AddSettings('end_section', '');
+
 phpAds_AddSettings('start_section', "1.2.1");
 phpAds_AddSettings('checkbox', 'allow_invocation_plain', $strAllowRemoteInvocation);
 phpAds_AddSettings('checkbox', 'allow_invocation_js', $strAllowRemoteJavascript);
@@ -102,15 +131,6 @@ phpAds_AddSettings('break', '');
 phpAds_AddSettings('checkbox', 'allow_invocation_interstitial', $strAllowInterstitial);
 phpAds_AddSettings('break', '');
 phpAds_AddSettings('checkbox', 'allow_invocation_popup', $strAllowPopups);
-phpAds_AddSettings('end_section', '');
-
-phpAds_AddSettings('start_section', "1.2.5");
-phpAds_AddSettings('checkbox', 'acl', $strUseAcl);
-phpAds_AddSettings('end_section', '');
-
-phpAds_AddSettings('start_section', "1.2.2");
-phpAds_AddSettings('checkbox', 'con_key', $strUseConditionalKeys);
-phpAds_AddSettings('checkbox', 'mult_key', $strUseMultipleKeys);
 phpAds_AddSettings('end_section', '');
 
 phpAds_AddSettings('start_section', "1.2.4");
