@@ -139,6 +139,8 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-05-03:  Added configuration settings to hide invocation types from the users  (Niels)
 			  - 2002-05-04:  Added extra option to local mode invocation generator for preventing a banner to be displayed twice on one page  (Niels)
 			  - 2002-05-04:  Added option to local mode invocation generator for generating view_raw() based template compatible code  (Niels)
+			  - 2002-05-06:  Changed generated HTML to make it more compatible with W3C standards  (Niels)
+			  - 2002-05-06:  Added wildcard support to source display limitation  (Niels)
 
 
 			+ Misc bugfixes
