@@ -238,6 +238,14 @@ h3 {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt}
                 - Show a randomly selected banner of the size 468x60 with the 
                 name &quot;left&quot;.</li>
             </ul>
+            <h3>Remote Invocation with JavaScript (better)</h3>
+            <p>This technique allows you to use HTML banners remotely. All you need to do is insert this code :<br>
+            &lt;SCRIPT LANGUAGE=JavaScript SRC=remotehtmlview.php&gt;&lt;/SCRIPT&gt;<br>
+            You should also add parameters to the remotehtmlview.php.<br>
+            <p><b>Example: </b></p>
+            &lt;SCRIPT LANGUAGE=JavaScript SRC=remotehtmlview.php?what=main&amp;target=_blank&gt;&lt;/SCRIPT&gt;<br>
+              - This would show a banner from the main group and, when clicked, a new window would be opened.
+            <br>
             <h3>The mail.php File</h3>
             <p>This file is responsible for sending statistics to your clients 
               (via email) and for disabling banners which have no adviews left. 
