@@ -224,7 +224,29 @@ function phpAds_GenerateInvocationCode($zoneid)
 			$buffer .= " height='".$height."'";
 		if (isset($transparent) & $transparent == '1')
 			$buffer .= " allowtransparency='true'";
-		$buffer .= "></iframe>";
+		$buffer .= ">";
+		
+		if (isset($refresh) && $refresh != '')
+			unset ($parameters['refresh']);
+		
+		if (isset($resize) && $resize == '1')
+			unset ($parameters['resize']);
+		
+		if (isset($uniqueid) && $uniqueid != '')
+			$parameters[] = "n=".$uniqueid;	
+		
+		$buffer .= "<a href='".$phpAds_config['url_prefix']."/adclick.php";
+		if (isset($uniqueid) & $uniqueid != '')
+			$buffer .= "?n=".$uniqueid;
+		$buffer .= "'";
+		if (isset($target) && $target != '')
+			$buffer .= " target='$target'";
+		$buffer .= "><img src='".$phpAds_config['url_prefix']."/adview.php";
+		if (sizeof($parameters) > 0)
+			$buffer .= "?".implode ("&", $parameters);
+		$buffer .= "' border='0'></a>";
+		
+		$buffer .= "</iframe>";
 	}
 	
 	// Combined remote invocation
