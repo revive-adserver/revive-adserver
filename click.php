@@ -48,7 +48,7 @@ if($phpAds_log_adclicks)
 			if($clickcount["clicks"]==$phpAds_warn_limit)
 				warn_mail($clickcount);
 
-			db_query("UPDATE $phpAds_tbl_clients SET clicks='$clickcount[clicks]' WHERE clientID='$clientID'");
+			db_query("UPDATE $phpAds_tbl_clients SET clicks=clicks-1 WHERE clientID='$clientID'");
 			// Check click count and de-activate banner if needed
 			if($clickcount["clicks"]==0)        // phord: && $clickcount["views"]==0
 				db_query("UPDATE $phpAds_tbl_banners SET active='false' WHERE clientID='$clientID'");
