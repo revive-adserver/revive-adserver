@@ -145,8 +145,6 @@ if (isset($submit))
 
 if ($zoneid != "")
 {
-	$extra = '';
-	
 	$res = phpAds_dbQuery("
 		SELECT
 			*
@@ -154,25 +152,25 @@ if ($zoneid != "")
 			".$phpAds_config['tbl_zones']."
 		WHERE
 			affiliateid = ".$affiliateid."
-		") or phpAds_sqlDie();
+		");
 	
 	while ($row = phpAds_dbFetchArray($res))
 	{
-		if ($zoneid == $row['zoneid'])
-			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
-		else
-			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
-		
-		$extra .= "<a href='zone-edit.php?affiliateid=".$affiliateid."&zoneid=".$row['zoneid']."'>".phpAds_buildZoneName ($row['zoneid'], $row['zonename'])."</a>";
-		$extra .= "<br>"; 
+		phpAds_PageContext (
+			phpAds_buildZoneName ($row['zoneid'], $row['zonename']),
+			"zone-edit.php?affiliateid=".$affiliateid."&zoneid=".$row['zoneid'],
+			$zoneid == $row['zoneid']
+		);
 	}
-	
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	
 	
 	if (phpAds_isUser(phpAds_Admin))
 	{
-		$extra .= "<form action='zone-modify.php'>";
+		phpAds_PageShortcut($strAffiliateProperties, 'affiliate-edit.php?affiliateid='.$affiliateid, 'images/icon-affiliate.gif');
+		phpAds_PageShortcut($strStats, 'stats-affiliate-zones.php?affiliateid='.$affiliateid, 'images/icon-statistics.gif');
+		
+		
+		$extra  = "<form action='zone-modify.php'>";
 		$extra .= "<input type='hidden' name='zoneid' value='$zoneid'>";
 		$extra .= "<input type='hidden' name='returnurl' value='zone-edit.php'>";
 		$extra .= "<br><br>";
@@ -193,15 +191,6 @@ if ($zoneid != "")
 		$extra .= "</form>";
 		
 		
-		$extra .= "<br><br><br>";
-		$extra .= "<b>$strShortcuts</b><br>";
-		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<a href=affiliate-edit.php?affiliateid=$affiliateid>$strAffiliateProperties</a><br>";
-		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-affiliate-zones.php?affiliateid=$affiliateid>$strStats</a><br>";
-		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-		
-		
 		phpAds_PageHeader("4.2.3.2", $extra);
 			echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
 			echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
@@ -215,7 +204,7 @@ if ($zoneid != "")
 		$sections[] = "2.1.4";
 		$sections[] = "2.1.5";
 		
-		phpAds_PageHeader("2.1.2", $extra);
+		phpAds_PageHeader("2.1.2");
 			echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
 			echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 			echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br><br><br>";
