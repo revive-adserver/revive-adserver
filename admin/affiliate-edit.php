@@ -331,7 +331,7 @@ echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></t
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".'Website'."</td><td>";
-echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='website' size='35' style='width:350px;' value='".phpAds_htmlQuotes($affiliate['website'])."'>";
+echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='website' size='35' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($affiliate['website'])."'>";
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 

@@ -548,7 +548,7 @@ if ($phpAds_config['acl'])
 			
 			
 			// Show buttons
-			echo "<td align='right'>";
+			echo "<td align='".$phpAds_TextAlignRight."'>";
 			echo "<input type='image' name='action[del][".$key."]' src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>";
 			echo "&nbsp;&nbsp;";
 			echo "<img src='images/break-el.gif' width='1' height='35'>";
@@ -672,7 +672,7 @@ if ($phpAds_config['acl'])
 		echo $strRemoveAllLimitations."</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 	}
 	
-	echo "</td><td height='30' colspan='2' align='right'>";
+	echo "</td><td height='30' colspan='2' align='".$phpAds_TextAlignRight."'>";
 	echo "<img src='images/icon-acl-add.gif' align='absmiddle'>&nbsp;";
 	echo "<select name='type'>";
 	

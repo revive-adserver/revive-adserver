@@ -488,7 +488,7 @@ else
 	}
 }
 
-echo "<tr><td height='25' colspan='3' align='left' nowrap>";
+echo "<tr><td height='25' colspan='3' align='".$phpAds_TextAlignLeft."' nowrap>";
 
 if ($hideinactive == true)
 {
@@ -502,7 +502,7 @@ else
 	echo "&nbsp;<a href='client-index.php?hideinactive=1'>".$strHideInactiveAdvertisers."</a>";
 }
 
-echo "</td><td height='25' colspan='2' align='right' nowrap>";
+echo "</td><td height='25' colspan='2' align='".$phpAds_TextAlignRight."' nowrap>";
 echo "<img src='images/triangle-d.gif' align='absmiddle' border='0'>";
 echo "&nbsp;<a href='client-index.php?expand=all'>".$strExpandAll."</a>";
 echo "&nbsp;&nbsp;|&nbsp;&nbsp;";

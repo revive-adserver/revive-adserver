@@ -40,7 +40,7 @@ function phpAds_breakString ($str, $maxLen, $append = "...")
 
 function phpAds_buildClientName ($clientid, $clientName)
 {
-	return ("[id$clientid] $clientName");
+	return ("<span dir='".$GLOBALS['phpAds_TextDirection']."'>[id$clientid]</span> ".$clientName);
 }
 
 
@@ -301,7 +301,7 @@ function phpAds_buildBannerName ($bannerid, $description = '', $alt = '', $limit
 		$name = phpAds_breakString ($name, $limit);
 	
 	if ($bannerid != '')
-		$name = "[id$bannerid] ".$name;
+		$name = "<span dir='".$GLOBALS['phpAds_TextDirection']."'>[id$bannerid]</span> ".$name;
 	
 	return ($name);
 }
@@ -350,7 +350,7 @@ function phpAds_getBannerName ($bannerid, $limit = 30, $id = true)
 
 function phpAds_buildZoneName ($zoneid, $zonename)
 {
-	return ("[id$zoneid] $zonename");
+	return ("<span dir='".$GLOBALS['phpAds_TextDirection']."'>[id$zoneid]</span> $zonename");
 }
 
 
@@ -400,7 +400,7 @@ function phpAds_getZoneName ($zoneid)
 
 function phpAds_buildAffiliateName ($affiliateid, $name)
 {
-	return ("[id$affiliateid] $name");
+	return ("<span dir='".$GLOBALS['phpAds_TextDirection']."'>[id$affiliateid]</span> $name");
 }
 
 

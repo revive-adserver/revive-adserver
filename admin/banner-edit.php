@@ -990,9 +990,9 @@ if ($storagetype == 'sql')
 		
 		$size = phpAds_ImageSize($storagetype, $row['filename']);
 		if (round($size / 1024) == 0)
-			echo " <i>(".$size." bytes)</i>";
+			echo " <i dir='".$phpAds_TextDirection."'>(".$size." bytes)</i>";
 		else
-			echo " <i>(".round($size / 1024)." Kb)</i>";
+			echo " <i dir='".$phpAds_TextDirection."'>(".round($size / 1024)." Kb)</i>";
 		
 		echo "</td></tr>";
 		echo "<tr valign='top'><td><input type='radio' name='replaceimage' value='t'></td><td>&nbsp;<input class='flat' size='26' type='file' name='upload' style='width:250px;' onChange='selectFile(this);'>";
@@ -1026,14 +1026,14 @@ if ($storagetype == 'sql')
 	{
 		echo "<tr><td width='30'>&nbsp;</td>";
 		echo "<td width='200'>".$strURL."</td>";
-		echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' value='".phpAds_htmlQuotes($row["url"])."'></td></tr>";
+		echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["url"])."'></td></tr>";
 		
 		echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 		echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 		
 		echo "<tr><td width='30'>&nbsp;</td>";
 		echo "<td width='200'>".$strTarget."</td>";
-		echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' value='".$row["target"]."'></td></tr>";
+		echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' dir='ltr' value='".$row["target"]."'></td></tr>";
 	}
 	else
 	{
@@ -1049,7 +1049,7 @@ if ($storagetype == 'sql')
 			
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$strURL."</td>";
-			echo "<td><input class='flat' size='35' type='text' name='alink[".$key."]' style='width:330px;' value='".phpAds_htmlQuotes($val)."'>";
+			echo "<td><input class='flat' size='35' type='text' name='alink[".$key."]' style='width:330px;' dir='ltr' value='".phpAds_htmlQuotes($val)."'>";
 			echo "<input type='radio' name='alink_chosen' value='".$key."'".($val == $row['url'] ? ' checked' : '')."></td></tr>";
 			
 			if (isset($hardcoded_targets[$key]))
@@ -1059,7 +1059,7 @@ if ($storagetype == 'sql')
 				
 				echo "<tr><td width='30'>&nbsp;</td>";
 				echo "<td width='200'>".$strTarget."</td>";
-				echo "<td><input class='flat' size='35' type='text' name='atar[".$key."]' style='width:330px;' value='".phpAds_htmlQuotes($hardcoded_targets[$key])."'>";
+				echo "<td><input class='flat' size='35' type='text' name='atar[".$key."]' style='width:330px;' dir='ltr' value='".phpAds_htmlQuotes($hardcoded_targets[$key])."'>";
 				echo "</td></tr>";
 			}
 			
@@ -1169,14 +1169,14 @@ if ($storagetype == 'web')
 	{
 		echo "<tr><td width='30'>&nbsp;</td>";
 		echo "<td width='200'>".$strURL."</td>";
-		echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' value='".phpAds_htmlQuotes($row["url"])."'></td></tr>";
+		echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["url"])."'></td></tr>";
 		
 		echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 		echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 		
 		echo "<tr><td width='30'>&nbsp;</td>";
 		echo "<td width='200'>".$strTarget."</td>";
-		echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' value='".$row["target"]."'></td></tr>";
+		echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' dir='ltr' value='".$row["target"]."'></td></tr>";
 	}
 	else
 	{
@@ -1192,7 +1192,7 @@ if ($storagetype == 'web')
 			
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$strURL."</td>";
-			echo "<td><input class='flat' size='35' type='text' name='alink[".$key."]' style='width:330px;' value='".phpAds_htmlQuotes($val)."'>";
+			echo "<td><input class='flat' size='35' type='text' name='alink[".$key."]' style='width:330px;' dir='ltr' value='".phpAds_htmlQuotes($val)."'>";
 			echo "<input type='radio' name='alink_chosen' value='".$key."'".($val == $row['url'] ? ' checked' : '')."></td></tr>";
 			
 			if (isset($hardcoded_targets[$key]))
@@ -1202,7 +1202,7 @@ if ($storagetype == 'web')
 				
 				echo "<tr><td width='30'>&nbsp;</td>";
 				echo "<td width='200'>".$strTarget."</td>";
-				echo "<td><input class='flat' size='35' type='text' name='atar[".$key."]' style='width:330px;' value='".phpAds_htmlQuotes($hardcoded_targets[$key])."'>";
+				echo "<td><input class='flat' size='35' type='text' name='atar[".$key."]' style='width:330px;' dir='ltr' value='".phpAds_htmlQuotes($hardcoded_targets[$key])."'>";
 				echo "</td></tr>";
 			}
 			$i++;
@@ -1257,7 +1257,7 @@ if ($storagetype == 'url')
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strNewBannerURL."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='imageurl' style='width:350px;' value='".phpAds_htmlQuotes($row["imageurl"])."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='imageurl' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["imageurl"])."'></td></tr>";
 	
 	echo "<tr><td height='30' colspan='3'>&nbsp;</td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -1265,13 +1265,13 @@ if ($storagetype == 'url')
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strURL."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' value='".phpAds_htmlQuotes($row["url"])."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["url"])."'></td></tr>";
 	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strTarget."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' value='".$row["target"]."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' dir='ltr' value='".$row["target"]."'></td></tr>";
 	
 	echo "<tr><td height='30' colspan='3'>&nbsp;</td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -1314,7 +1314,7 @@ if ($storagetype == 'html')
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td colspan='2'><textarea class='code' cols='45' rows='10' name='banner' wrap='off' style='width:550px; ";
+	echo "<td colspan='2'><textarea class='code' cols='45' rows='10' name='banner' wrap='off' dir='ltr' style='width:550px;";
 	echo "'>".$row['htmltemplate']."</textarea></td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td colspan='2'><input type='checkbox' name='autohtml' value='t'".(!isset($row["autohtml"]) || $row["autohtml"] == 't' ? ' checked' : '')."> ".$strAutoChangeHTML."</td></tr>";
@@ -1325,13 +1325,13 @@ if ($storagetype == 'html')
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strURL."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' value='".phpAds_htmlQuotes($row["url"])."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["url"])."'></td></tr>";
 	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strTarget."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' value='".$row["target"]."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' dir='ltr' value='".$row["target"]."'></td></tr>";
 	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
@@ -1363,13 +1363,13 @@ if ($storagetype == 'txt')
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strURL."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' value='".phpAds_htmlQuotes($row["url"])."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["url"])."'></td></tr>";
 	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strTarget."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' value='".$row["target"]."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' dir='ltr' value='".$row["target"]."'></td></tr>";
 	
 	echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";

@@ -350,7 +350,7 @@ if ($loosezones)
 	echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 }
 
-echo "<tr><td height='25' colspan='5' align='right'>";
+echo "<tr><td height='25' colspan='5' align='".$phpAds_TextAlignRight."'>";
 echo "<img src='images/triangle-d.gif' align='absmiddle' border='0'>";
 echo "&nbsp;<a href='affiliate-index.php?expand=all'>".$strExpandAll."</a>";
 echo "&nbsp;&nbsp;|&nbsp;&nbsp;";

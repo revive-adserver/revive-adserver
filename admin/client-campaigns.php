@@ -438,7 +438,7 @@ else
 }
 
 echo "</td>";
-echo "<td colspan='3' height='25' align='right' nowrap>";
+echo "<td colspan='3' height='25' align='".$phpAds_TextAlignRight."' nowrap>";
 echo "<img src='images/triangle-d.gif' align='absmiddle' border='0'>";
 echo "&nbsp;<a href='client-campaigns.php?clientid=".$clientid."&expand=all'>".$strExpandAll."</a>";
 echo "&nbsp;&nbsp;|&nbsp;&nbsp;";
@@ -451,7 +451,7 @@ if (count($campaigns))
 {
 	echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
 	echo "<tr height='25'>";
-	echo "<td colspan='5' height='25' align='right'>";
+	echo "<td colspan='5' height='25' align='".$phpAds_TextAlignRight."'>";
 	echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle'>&nbsp;<a href='campaign-delete.php?clientid=".$clientid."&returnurl=client-campaigns.php'".phpAds_DelConfirm($strConfirmDeleteAllCampaigns).">$strDeleteAllCampaigns</a>&nbsp;&nbsp;";
 	echo "</td>";
 	echo "</tr>";

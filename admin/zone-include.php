@@ -289,7 +289,7 @@ function phpAds_showZoneCampaign ($width, $height, $what, $delivery)
 {
 	global $affiliateid, $zoneid;
 	global $phpAds_config, $showbanners, $hideinactive;
-	global $strName, $strID, $strDescription, $strUntitled;
+	global $strName, $strID, $strDescription, $strUntitled, $phpAds_TextAlignRight, $phpAds_TextAlignLeft;
 	global $strEdit, $strCheckAllNone, $strSaveChanges, $strShowBanner;
 	global $strNoCampaignsToLink, $strMatchingBanners, $strSelectCampaignToLink;
 	global $strHideInactiveCampaigns, $strInactiveCampaignsHidden, $strShowAll;
@@ -611,7 +611,7 @@ function phpAds_showZoneCampaign ($width, $height, $what, $delivery)
 							$height = $banner['bannertext'] ? $banner['height'] + 90 : $banner['height'] + 64;
 						}
 						
-						echo "<td height='25' align='right'>";
+						echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
 						echo "<a href='banner-htmlpreview.php?bannerid=$bannerid' target='_new' ";
 						echo "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=".$banner['bannerid']."', '', 'status=no,scrollbars=no,resizable=no,width=".$width.",height=".$height."');\">";
 						echo "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strShowBanner."</a>&nbsp;&nbsp;";
@@ -635,7 +635,7 @@ function phpAds_showZoneCampaign ($width, $height, $what, $delivery)
 	}
 	
 	echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-	echo "<tr><td height='25' align='left' nowrap>";
+	echo "<tr><td height='25' align='".$phpAds_TextAlignLeft."' nowrap>";
 	
 	if (!$compact)
 	{
@@ -652,7 +652,7 @@ function phpAds_showZoneCampaign ($width, $height, $what, $delivery)
 		}
 	}
 	
-	echo "</td><td colspan='2' align='right' nowrap>";
+	echo "</td><td colspan='2' align='".$phpAds_TextAlignRight."' nowrap>";
 	
 	if ($showbanners == true)
 	{
@@ -682,7 +682,7 @@ function phpAds_showZoneCampaign ($width, $height, $what, $delivery)
 function phpAds_showZoneBanners ($width, $height, $what, $zonetype, $delivery)
 {
 	global $phpAds_config, $showcampaigns, $hideinactive, $affiliateid, $zoneid;
-	global $strName, $strID, $strUntitled, $strDescription;
+	global $strName, $strID, $strUntitled, $strDescription, $phpAds_TextAlignRight, $phpAds_TextAlignLeft;
 	global $strEdit, $strCheckAllNone, $strShowBanner;
 	global $strNoBannersToLink, $strSaveChanges, $strSelectBannerToLink, $strInactiveBannersHidden;
 	global $strShowParentCampaigns, $strHideParentCampaigns, $strHideInactiveBanners, $strShowAll;
@@ -1129,7 +1129,7 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype, $delivery)
 							$height = $banner['bannertext'] ? $banner['height'] + 90 : $banner['height'] + 64;
 						}
 						
-						echo "<td height='25' align='right'>";
+						echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
 						echo "<a href='banner-htmlpreview.php?bannerid=$bannerid' target='_new' ";
 						echo "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=".$banner['bannerid']."', '', 'status=no,scrollbars=no,resizable=no,width=".$width.",height=".$height."');\">";
 						echo "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strShowBanner."</a>&nbsp;&nbsp;";
@@ -1158,7 +1158,7 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype, $delivery)
 	}
 	
 	echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-	echo "<tr><td height='25' align='left' nowrap>";
+	echo "<tr><td height='25' align='".$phpAds_TextAlignLeft."' nowrap>";
 	
 	if (!$compact)
 	{
@@ -1175,7 +1175,7 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype, $delivery)
 		}
 	}
 	
-	echo "</td><td colspan='2' align='right' nowrap>";
+	echo "</td><td colspan='2' align='".$phpAds_TextAlignRight."' nowrap>";
 	
 	if ($showcampaigns == true)
 	{

@@ -387,7 +387,7 @@ echo "</td>";
 
 if (!$phpAds_config['gui_show_campaign_preview'])
 {
-	echo "<td colspan='2' align='right' nowrap>";
+	echo "<td colspan='2' align='".$phpAds_TextAlignRight."' nowrap>";
 	echo "<img src='images/triangle-d.gif' align='absmiddle' border='0'>";
 	echo "&nbsp;<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&expand=all'>".$strExpandAll."</a>";
 	echo "&nbsp;&nbsp;|&nbsp;&nbsp;";

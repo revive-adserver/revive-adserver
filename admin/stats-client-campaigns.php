@@ -392,9 +392,9 @@ if ($totalviews > 0 || $totalclicks > 0)
 		echo '</a>';
 	}
 	echo '</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>';
-	echo "<td height='25' align='right'><b>".$GLOBALS['strViews']."</b></td>";
-	echo "<td height='25' align='right'><b>".$GLOBALS['strClicks']."</b></td>";
-	echo "<td height='25' align='right'><b>".$GLOBALS['strCTRShort']."</b>&nbsp;&nbsp;</td>";
+	echo "<td height='25' align='".$phpAds_TextAlignRight."'><b>".$GLOBALS['strViews']."</b></td>";
+	echo "<td height='25' align='".$phpAds_TextAlignRight."'><b>".$GLOBALS['strClicks']."</b></td>";
+	echo "<td height='25' align='".$phpAds_TextAlignRight."'><b>".$GLOBALS['strCTRShort']."</b>&nbsp;&nbsp;</td>";
 	echo "</tr>";
 	
 	echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -429,13 +429,13 @@ if ($totalviews > 0 || $totalclicks > 0)
 		echo "<td height='25'>".$campaigns[$ckey]['clientid']."</td>";
 		
 		// Button 1
-		echo "<td height='25' align='right'>".phpAds_formatNumber($campaigns[$ckey]['views'])."</td>";
+		echo "<td height='25' align='".$phpAds_TextAlignRight."'>".phpAds_formatNumber($campaigns[$ckey]['views'])."</td>";
 		
 		// Button 2
-		echo "<td height='25' align='right'>".phpAds_formatNumber($campaigns[$ckey]['clicks'])."</td>";
+		echo "<td height='25' align='".$phpAds_TextAlignRight."'>".phpAds_formatNumber($campaigns[$ckey]['clicks'])."</td>";
 		
 		// Button 3
-		echo "<td height='25' align='right'>".phpAds_buildCTR($campaigns[$ckey]['views'], $campaigns[$ckey]['clicks'])."&nbsp;&nbsp;</td>";
+		echo "<td height='25' align='".$phpAds_TextAlignRight."'>".phpAds_buildCTR($campaigns[$ckey]['views'], $campaigns[$ckey]['clicks'])."&nbsp;&nbsp;</td>";
 		
 		
 		
@@ -489,13 +489,13 @@ if ($totalviews > 0 || $totalclicks > 0)
 				echo "<td height='25'>".$banners[$bkey]['bannerid']."</td>";
 				
 				// Empty
-				echo "<td height='25' align='right'>".phpAds_formatNumber($banners[$bkey]['views'])."</td>";
+				echo "<td height='25' align='".$phpAds_TextAlignRight."'>".phpAds_formatNumber($banners[$bkey]['views'])."</td>";
 				
 				// Button 2
-				echo "<td height='25' align='right'>".phpAds_formatNumber($banners[$bkey]['clicks'])."</td>";
+				echo "<td height='25' align='".$phpAds_TextAlignRight."'>".phpAds_formatNumber($banners[$bkey]['clicks'])."</td>";
 				
 				// Button 1
-				echo "<td height='25' align='right'>".phpAds_buildCTR($banners[$bkey]['views'], $banners[$bkey]['clicks'])."&nbsp;&nbsp;</td>";
+				echo "<td height='25' align='".$phpAds_TextAlignRight."'>".phpAds_buildCTR($banners[$bkey]['views'], $banners[$bkey]['clicks'])."&nbsp;&nbsp;</td>";
 			}
 		}
 		
@@ -506,13 +506,13 @@ if ($totalviews > 0 || $totalclicks > 0)
 	// Total
 	echo "<tr height='25' ".($i % 2 == 0 ? "bgcolor='#F6F6F6'" : "")."><td height='25'>&nbsp;&nbsp;<b>".$strTotal."</b></td>";
 	echo "<td height='25'>&nbsp;</td>";
-	echo "<td height='25' align='right'>".phpAds_formatNumber($totalviews)."</td>";
-	echo "<td height='25' align='right'>".phpAds_formatNumber($totalclicks)."</td>";
-	echo "<td height='25' align='right'>".phpAds_buildCTR($totalviews, $totalclicks)."&nbsp;&nbsp;</td>";
+	echo "<td height='25' align='".$phpAds_TextAlignRight."'>".phpAds_formatNumber($totalviews)."</td>";
+	echo "<td height='25' align='".$phpAds_TextAlignRight."'>".phpAds_formatNumber($totalclicks)."</td>";
+	echo "<td height='25' align='".$phpAds_TextAlignRight."'>".phpAds_buildCTR($totalviews, $totalclicks)."&nbsp;&nbsp;</td>";
 	echo "</tr>";
 	echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	
-	echo "<tr height='25'><td colspan='2' height='25' nowrap>";
+	echo "<tr height='25'><td colspan='2' height='25' align='".$phpAds_TextAlignLeft."' nowrap>";
 	
 	if ($hideinactive == true)
 	{
@@ -527,7 +527,7 @@ if ($totalviews > 0 || $totalclicks > 0)
 	}
 	
 	echo "</td>";
-	echo "<td colspan='3' height='25' align='right' nowrap>";
+	echo "<td colspan='3' height='25' align='".$phpAds_TextAlignRight."' nowrap>";
 	echo "<img src='images/triangle-d.gif' align='absmiddle' border='0'>";
 	echo "&nbsp;<a href='stats-client-campaigns.php?clientid=".$clientid."&expand=all'>".$strExpandAll."</a>";
 	echo "&nbsp;&nbsp;|&nbsp;&nbsp;";
