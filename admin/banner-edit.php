@@ -142,11 +142,11 @@ if (isset($submit))
 	}
 	
 	// Clean up old webserver stored banner
-	if (isset($web_banner_cleanup) && $web_banner_cleanup != "")
+	if (isset($webcleanup) && $webcleanup != "")
 	{
 		if (($bannertype == "web" && isset($uploaded)) OR ($bannertype != "web"))
 		{
-			phpAds_Cleanup($web_banner_cleanup);
+			phpAds_Cleanup($webcleanup);
 		}
 	}
 	
