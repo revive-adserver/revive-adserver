@@ -76,6 +76,7 @@ if (phpAds_isUser(phpAds_Admin))
 			$phpAds_tbl_clients  
 		") or mysql_die();
 		
+		$extra = "";		
 		while ($row = mysql_fetch_array($res))
 		{
 			if ($clientID == $row['clientID'])

@@ -133,11 +133,11 @@ function days_left($clientID)
 	if ( mysql_num_rows($res_client)==1)
 	{
 		$row_client = mysql_fetch_array($res_client);
-		
-		$rawexpire=$row_client["expire"];
-		
+
+		$rawexpire = empty($row_client["expire"]) ? "0000-00-00" : $row_client["expire"];
+	
 		// handle things when client works with credit days
-		if ( $row_client["expire"] )
+		if ( !empty($row_client["expire"]) )
 		{
 			$days_left = sprintf("%d",$row_client["days_left"]);
 			$estimated_end = $row_client["expire"];
@@ -180,12 +180,12 @@ function days_left($clientID)
 			{
 				$row_views = mysql_fetch_array($res_views);
 				// calculate estimated end of views
-				if ($row_views["days_since_start"] == 0 || $row_views["days_since_start"] == null )
+				if (empty($row_views["days_since_start"]) || $row_views["days_since_start"] == 0 || $row_views["days_since_start"] == null )
 				{
 					// to avoid division by zero
 					$row_views["days_since_start"]=1;
 				}
-				if ( $row_views["total_views"] > 0 )
+				if ( !empty($row_views["total_views"]) && $row_views["total_views"] > 0 )
 				{
 					$days_left = sprintf("%d",$row_client["views"]/($row_views["total_views"]/$row_views["days_since_start"]));
 					// get clicks

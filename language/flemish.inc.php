@@ -12,6 +12,7 @@
 /* the Free Software Foundation; either version 2 of the License.       */
 /************************************************************************/
 
+global $client;
 
 // Set translation strings
 $GLOBALS['strHome'] = "Hoofdpagina";
@@ -150,8 +151,8 @@ $GLOBALS['strMovedDown'] = "is omlaag geplaatst";
 $GLOBALS['strUpdated'] = "is gewijzigd";
 $GLOBALS['strACL'] = "ACL";
 $GLOBALS['strNoMoveUp'] = "Kan de eerste rij niet omhoog plaatsen";
-$GLOBALS['strACLAdd'] = "Voeg nieuwe $strACL toe";
-$GLOBALS['strACLExist'] = "Bestaande $strACL:";
+$GLOBALS['strACLAdd'] = "Voeg nieuwe ".$GLOBALS['strACL']." toe";
+$GLOBALS['strACLExist'] = "Bestaande ".$GLOBALS['strACL'].":";
 $GLOBALS['strLogin'] = "Inloggen";
 $GLOBALS['strPreferences'] = "Instellingen";
 $GLOBALS['strAllowClientModifyInfo'] = "Deze klant kan zijn eigen instelling wijzigen";

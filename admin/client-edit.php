@@ -173,13 +173,14 @@ if (isset($submit))
 				clientID = '$clientID'")
 			or mysql_die();  
 		
-		$Session[language] = $clientlanguage;
+		$Session['language'] = $clientlanguage;
 		phpAds_SessionDataStore();
 		
 		Header("Location: index.php?message=".urlencode($message));
 		exit;
 	}
 }
+
 
 
 
@@ -201,7 +202,8 @@ if ($clientID != "")
 			FROM
 				$phpAds_tbl_clients  
 			") or mysql_die();
-		
+
+		$extra = "";		
 		while ($row = mysql_fetch_array($res))
 		{
 			if ($clientID == $row['clientID'])
@@ -252,7 +254,24 @@ if ($clientID != "")
 		") or mysql_die();
 	$row = mysql_fetch_array($res);
 	
+	if (!isset($row["activate_dayofmonth"]))
+		$row["activate_dayofmonth"] = 0;
+	if (!isset($row["activate_month"]))
+		$row["activate_month"] = 0;
+	if (!isset($row["activate_year"]))
+		$row["activate_year"] = 0;
+	if (!isset($row["activate_f"]))
+		$row["activate_f"] = "-";
 	
+	if (!isset($row["expire_dayofmonth"]))
+		$row["expire_dayofmonth"] = 0;
+	if (!isset($row["expire_month"]))
+		$row["expire_month"] = 0;
+	if (!isset($row["expire_year"]))
+		$row["expire_year"] = 0;
+	if (!isset($row["expire_f"]))
+		$row["expire_f"] = "-";
+
 	if ($row["timestamp"] < time())
 	{
 		if ($row["timestamp"] > 0)
@@ -273,6 +292,12 @@ else
 {
 	phpAds_PageHeader("$strAddClient");
 	phpAds_ShowNav("1.1");   
+
+	$row["views"] = "";
+	$row["clicks"] = "";
+	$row["permissions"] = "";
+
+	$days_left = "";
 }
 
 
@@ -584,7 +609,7 @@ if (phpAds_isUser(phpAds_Admin))
 	</tr>
 	<tr>
 		<td width='30'>&nbsp;</td>
-		<td width='200'><? echo $strActivationDate; ?></td>
+		<td width='200'><? echo $GLOBALS['strActivationDate']; ?></td>
 		<?
 		if (phpAds_isUser(phpAds_Admin))
 		{

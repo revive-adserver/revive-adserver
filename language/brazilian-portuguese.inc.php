@@ -12,6 +12,7 @@
 /* the Free Software Foundation; either version 2 of the License.       */
 /************************************************************************/
 
+global $client;
 
 // Set translation strings
 $GLOBALS['strHome'] = "Início";
@@ -150,8 +151,8 @@ $GLOBALS['strMovedDown'] = "foi movido pra baixo";
 $GLOBALS['strUpdated'] = "foi atualizado";
 $GLOBALS['strACL'] = "LCA";
 $GLOBALS['strNoMoveUp'] = "Impossível mover acima da primeira linha";
-$GLOBALS['strACLAdd'] = "Adicionar novo $strACL";
-$GLOBALS['strACLExist'] = "Existente $strACL:";
+$GLOBALS['strACLAdd'] = "Adicionar novo ".$GLOBALS['strACL'];
+$GLOBALS['strACLExist'] = "Existente ".$GLOBALS['strACL'].":";
 $GLOBALS['strLogin'] = "Login";
 $GLOBALS['strPreferences'] = "Preferences";
 $GLOBALS['strAllowClientModifyInfo'] = "Allow this user to modify his own client information";

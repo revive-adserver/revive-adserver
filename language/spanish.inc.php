@@ -12,6 +12,7 @@
 /* the Free Software Foundation; either version 2 of the License.       */
 /************************************************************************/
 
+global $client;
 
 // Set translation strings
 $GLOBALS['strHome'] = "Home";
@@ -88,7 +89,7 @@ $GLOBALS['strBannerID'] = "ID del banner";
 $GLOBALS['strClientID'] = "ID del cliente";
 $GLOBALS['strMailSubject'] = "Reporte de Publicidad";
 $GLOBALS['strMailSubjectDeleted'] = "Ads desactivados";
-$GLOBALS['strMailHeader'] = "Estimado ".$client[contact].",\n\n";
+$GLOBALS['strMailHeader'] = "Estimado ".$client["contact"].",\n\n";
 $GLOBALS['strMailBannerStats'] = "A continuación encontrará las estadisticas de banner para ".$client["clientname"].":";
 $GLOBALS['strMailFooter'] = "\nAtte.,\n   $phpAds_admin_fullname";
 $GLOBALS['strLogMailSent'] = "[phpAds] Estadísticas enviadas satisfactoriamente.";
@@ -150,8 +151,8 @@ $GLOBALS['strMovedDown'] = "fue bajado";
 $GLOBALS['strUpdated'] = "fue actualizado";
 $GLOBALS['strACL'] = "ACL";
 $GLOBALS['strNoMoveUp'] = "No se puede subir el primer renglón";
-$GLOBALS['strACLAdd'] = "Agregar $strACL";
-$GLOBALS['strACLExist'] = "$strACL existente:";
+$GLOBALS['strACLAdd'] = "Agregar ".$GLOBALS['strACL'];
+$GLOBALS['strACLExist'] = $GLOBALS['strACL']." existente:";
 $GLOBALS['strLogin'] = "Entrar";
 $GLOBALS['strPreferences'] = "Preferencias";
 $GLOBALS['strAllowClientModifyInfo'] = "Permitir que este usuario modifique su información de cliente";

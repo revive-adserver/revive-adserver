@@ -12,6 +12,7 @@
 /* the Free Software Foundation; either version 2 of the License.       */
 /************************************************************************/
 
+global $client;
 
 // Set translation strings
 $GLOBALS['strHome'] = "Accueil";
@@ -152,8 +153,8 @@ $GLOBALS['strMovedDown'] = "descendu";
 $GLOBALS['strUpdated'] = "mis à jour";
 $GLOBALS['strACL'] = "règle d'affichage";
 $GLOBALS['strNoMoveUp'] = "ne pas monter la première ligne";
-$GLOBALS['strACLAdd'] = "Ajouter une nouvelle {$GLOBALS['strACL']}";
-$GLOBALS['strACLExist'] = "{$GLOBALS['strACL']} existante:";
+$GLOBALS['strACLAdd'] = "Ajouter une nouvelle ".$GLOBALS['strACL'];
+$GLOBALS['strACLExist'] = $GLOBALS['strACL']." existante:";
 $GLOBALS['strLogin'] = "Login";
 $GLOBALS['strPreferences'] = "Préférences";
 $GLOBALS['strAllowClientModifyInfo'] = "Permettre à cet utilisateur de modifier ses propres paramètres";
@@ -197,17 +198,17 @@ $GLOBALS['strShowClientsActive'] 		= "Afficher les clients actifs";
 $GLOBALS['strShowClientsInactive']	= "Afficher les clients inactifs";
 $GLOBALS['strSize']					= "Taille";
 
-$GLOBALS['strMonth'] 				= array("January","February","March","April","May","June","July", "August", "September", "October", "November", "December");
-$GLOBALS['strDontExpire']			= "Don't expire this client on a specific date";
-$GLOBALS['strActivateNow'] 			= "Activate this client immediately";
-$GLOBALS['strExpirationDate']		= "Expiration date";
-$GLOBALS['strActivationDate']		= "Activation date";
+$GLOBALS['strMonth'] 				= array("Janvier","Février","Mars","Avril","Mai","Juin","Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre");
+$GLOBALS['strDontExpire']			= "Ne pas désactiver ce client selon la date";
+$GLOBALS['strActivateNow'] 			= "Activer ce client immédiatement";
+$GLOBALS['strExpirationDate']		= "Date d'expiration";
+$GLOBALS['strActivationDate']		= "Date d'activation";
 
-$GLOBALS['strMailClientDeactivated'] 	= "Your banners have been disabled because";
-$GLOBALS['strMailNothingLeft'] 			= "If you would like to continue advertising on our website, please feel free to contact us. We'd be glad to hear from you.";
+$GLOBALS['strMailClientDeactivated'] 	= "Vos bandeaux sont désactivés car";
+$GLOBALS['strMailNothingLeft'] 			= "nSi vous souhaitez prolonger votre présence sur notre site, nous vous remercions de bien vouloir nous contacter.";
 $GLOBALS['strClientDeactivated']	= "This client is currently not active because";
-$GLOBALS['strBeforeActivate']		= "the activation date has not yet been reached";
-$GLOBALS['strAfterExpire']			= "the expiration date has been reached";
-$GLOBALS['strNoMoreClicks']			= "the amount of AdClicks purchased are used";
-$GLOBALS['strNoMoreViews']			= "the amount of AdViews purchased are used";
+$GLOBALS['strBeforeActivate']		= "la date de début de la campagne n'est pas encore atteinte";
+$GLOBALS['strAfterExpire']			= "la date de fin de la campagne a été atteinte";
+$GLOBALS['strNoMoreClicks']			= "le nombre de clics maximal souhaité a été atteint";
+$GLOBALS['strNoMoreViews']			= "le nombre d'affichages maximal souhaité a été atteint";
 ?>

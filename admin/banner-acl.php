@@ -155,7 +155,7 @@ $res = db_query("
 	FROM
 		$phpAds_tbl_banners
 	WHERE
-		clientID = $GLOBALS[clientID]
+		clientID = ".$GLOBALS['clientID']."
 ") or mysql_die();
 
 while ($row = mysql_fetch_array($res))
@@ -164,7 +164,6 @@ while ($row = mysql_fetch_array($res))
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
 	else
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
-	
 	$extra .= "<a href='banner-acl.php?clientID=$clientID&bannerID=".$row['bannerID']."'>";
 	$extra .= phpAds_buildBannerName ($row['bannerID'], $row['description'], $row['alt']);
 	$extra .= "</a>";

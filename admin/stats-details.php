@@ -43,7 +43,7 @@ if (phpAds_isUser(phpAds_Client))
 		FROM
 			$phpAds_tbl_banners
 		WHERE
-			bannerID = $GLOBALS[bannerID]
+			bannerID = ".$GLOBALS['bannerID']."
 		") or mysql_die();
 	$row = mysql_fetch_array($result);
 	
@@ -135,7 +135,7 @@ function showDetailedStats($what, $totalTitle, $avgTitle)
 				 		 FROM
 							$table
 						 WHERE
-							bannerID = $GLOBALS[bannerID]
+							bannerID = ".$GLOBALS['bannerID']."
 						 GROUP BY
 							t_stamp_f  
 						 ORDER BY
@@ -151,7 +151,7 @@ function showDetailedStats($what, $totalTitle, $avgTitle)
 				 		 FROM
 							$phpAds_tbl_adstats
 						 WHERE
-							bannerID = $GLOBALS[bannerID]
+							bannerID = ".$GLOBALS['bannerID']."
 						 ORDER BY
 							day DESC
 						 LIMIT 7          
@@ -177,7 +177,7 @@ function showDetailedStats($what, $totalTitle, $avgTitle)
 		?>
 		<tr>
 			<td height='25' bgcolor="<?echo $bgcolor;?>">
-				&nbsp;<?echo "$row[t_stamp_f]";?>
+				&nbsp;<?echo $row['t_stamp_f'];?>
 			</td>
 			<td height='25' bgcolor="<?echo $bgcolor;?>" align='right'>
 				<b><?echo $row["qnt"];?></b>&nbsp;&nbsp;&nbsp;

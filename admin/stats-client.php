@@ -96,6 +96,8 @@ if (phpAds_isUser(phpAds_Admin))
 
 $UpdateSession = false;
 
+if (empty($Session["stats_compact"]))
+	$Session["stats_compact"] = "";
 if (!isset($compact))
 	$compact = $Session["stats_compact"];
 elseif ($compact != $Session["stats_compact"])
@@ -104,6 +106,8 @@ elseif ($compact != $Session["stats_compact"])
 	$UpdateSession = true;
 }
 
+if (empty($Session["stats_view"]))
+	$Session["stats_view"] = "";
 if (!isset($view))
 	$view = $Session["stats_view"];
 elseif ($view != $Session["stats_view"])
@@ -112,6 +116,8 @@ elseif ($view != $Session["stats_view"])
 	$UpdateSession = true;
 }
 
+if (empty($Session["stats_order"]))
+	$Session["stats_order"] = "";
 if (!isset($order))
 	$order = $Session["stats_order"];
 elseif ($order != $Session["stats_order"])

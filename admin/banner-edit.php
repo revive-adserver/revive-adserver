@@ -54,6 +54,7 @@ if (phpAds_isUser(phpAds_Client))
 
 
 
+
 /*********************************************************/
 /* Process submitted form                                */
 /*********************************************************/
@@ -174,7 +175,7 @@ if (isset($submit))
 			SET
 				$set
 			WHERE
-				bannerID = $final[bannerID]";
+				bannerID = ".$final['bannerID'];
 		$res = db_query($sql_query) or mysql_die();     
 	}
 	
@@ -209,9 +210,10 @@ if ($bannerID != '')
 	FROM
 		$phpAds_tbl_banners
 	WHERE
-		clientID = $GLOBALS[clientID]
+		clientID = ".$GLOBALS['clientID']."
 	") or mysql_die();
-	
+
+	$extra = "";	
 	while ($row = mysql_fetch_array($res))
 	{
 		if ($bannerID == $row['bannerID'])
@@ -265,6 +267,11 @@ else
 {
 	phpAds_PageHeader("$strAddBanner");
 	phpAds_ShowNav("1.3.1");   
+
+	$type = "mysql";
+	$row['alt'] = "";
+	$row['bannertext'] = "";
+	$row['url'] = "";
 }
 
 

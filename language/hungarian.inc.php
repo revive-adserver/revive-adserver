@@ -14,6 +14,7 @@
 /* the Free Software Foundation; either version 2 of the License.       */
 /************************************************************************/
 
+global $client;
 
 // Set character-set
 $GLOBALS['phpAds_CharSet'] = "iso-8859-2";
@@ -159,8 +160,8 @@ $GLOBALS['strMovedDown'] = "lemozdítva";
 $GLOBALS['strUpdated'] = "frissítve";
 $GLOBALS['strACL'] = "ACL";
 $GLOBALS['strNoMoveUp'] = "Nem lehet az elsõ sort felmozdítani";
-$GLOBALS['strACLAdd'] = "Új $strACL hozzáadása";
-$GLOBALS['strACLExist'] = "Létezõ $strACL:";
+$GLOBALS['strACLAdd'] = "Új ".$GLOBALS['strACL']." hozzáadása";
+$GLOBALS['strACLExist'] = "Létezõ ".$GLOBALS['strACL'].":";
 $GLOBALS['strLogin'] = "Login";
 $GLOBALS['strPreferences'] = "Preferences";
 $GLOBALS['strAllowClientModifyInfo'] = "Allow this user to modify his own client information";

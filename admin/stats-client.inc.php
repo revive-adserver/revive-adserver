@@ -75,10 +75,10 @@ else
 	
 	while ($row_banners = mysql_fetch_array($res_banners))
 	{
-		$tmp_views[$row_banners[bannerID]] = $row_banners[adviews];
-		$tmp_clicks[$row_banners[bannerID]] = 0;
-		$tmp_alt[$row_banners[bannerID]] = strtolower($row_banners[alt]);
-		$tmp_ctr[$row_banners[bannerID]] = 0;
+		$tmp_views[$row_banners['bannerID']] = $row_banners['adviews'];
+		$tmp_clicks[$row_banners['bannerID']] = 0;
+		$tmp_alt[$row_banners['bannerID']] = strtolower($row_banners['alt']);
+		$tmp_ctr[$row_banners['bannerID']] = 0;
 	}
 	
 	$res_query = "
@@ -98,7 +98,7 @@ else
 	
 	while ($row_banners = mysql_fetch_array($res_banners))
 	{
-		$tmp_clicks[$row_banners[bannerID]] = $row_banners[adclicks];
+		$tmp_clicks[$row_banners['bannerID']] = $row_banners['adclicks'];
 	}
 }
 
@@ -279,7 +279,7 @@ if (count($tmp_order) > 0)
 		$grayedout = $row_banners["active"] == "true" ? "" : "class='gray'";
 		$grayedtext = $row_banners["active"] == "true" ? "black" : "gray";
 		
-		$where .= " bannerID = $row_banners[bannerID] OR";
+		$where .= " bannerID = ".$row_banners['bannerID']." OR";
 		
 		if ($compact != "true")
 		{
@@ -304,7 +304,7 @@ if (count($tmp_order) > 0)
 		    {
 				// Stats
 				echo "<tr bgcolor='$bgcolor'>";
-				echo "<td height='25' align='left' nowrap $grayedout>&nbsp;$strID: <b>$row_banners[bannerID]</b></td>";
+				echo "<td height='25' align='left' nowrap $grayedout>&nbsp;$strID: <b>".$row_banners['bannerID']."</b></td>";
 				echo "<td height='25' align='left' nowrap $grayedout>$strViews: <b>$adviews</b></td>";
 				echo "<td height='25' align='left' nowrap $grayedout>$strClicks: <b>$adclicks</b></td>";
 				echo "<td height='25' align='left' nowrap $grayedout>$strRatio: <b>";
@@ -315,7 +315,7 @@ if (count($tmp_order) > 0)
 			else
 			{
 				echo "<tr bgcolor='$bgcolor'>";
-				echo "<td height='25' align='left' nowrap $grayedout>&nbsp;ID: <b>$row_banners[bannerID]</b></td>";
+				echo "<td height='25' align='left' nowrap $grayedout>&nbsp;ID: <b>".$row_banners['bannerID']."</b></td>";
 				echo "<td height='25' bgcolor='$bgcolor' colspan='3' $grayedout>$strBannerNoStats</td>";
 				echo "</tr>";
 			}
@@ -331,20 +331,20 @@ if (count($tmp_order) > 0)
 			if ($adclicks > 0 || $adviews > 0)
 			{
 				echo "<img src='images/go_blue.gif'>&nbsp;";
-				echo "<a href='stats-details.php?clientID=$clientID&bannerID=$row_banners[bannerID]'>$strDetailStats</a>";
+				echo "<a href='stats-details.php?clientID=$clientID&bannerID=".$row_banners['bannerID']."'>$strDetailStats</a>";
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;";
 				
 				if (phpAds_isUser(phpAds_Admin)) // only for the admin
 				{
 					echo "<img src='images/go_blue.gif'>&nbsp;";
-					echo "<a href='stats-reset.php?clientID=$clientID&bannerID=$row_banners[bannerID]'>$strResetStats</a>";
+					echo "<a href='stats-reset.php?clientID=$clientID&bannerID=".$row_banners['bannerID']."'>$strResetStats</a>";
 					echo "&nbsp;&nbsp;&nbsp;&nbsp;";
 				}
 			}
 			if (phpAds_isUser(phpAds_Admin) || (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_ModifyBanner))) // only for the admin
 			{
 				echo "<img src='images/go_blue.gif'>&nbsp;";
-				echo "<a href='banner-edit.php?clientID=$clientID&bannerID=$row_banners[bannerID]'>$strModifyBanner</a>";
+				echo "<a href='banner-edit.php?clientID=$clientID&bannerID=".$row_banners['bannerID']."'>$strModifyBanner</a>";
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;";
 			}
 			echo "</td></tr>";
@@ -418,19 +418,19 @@ if (count($tmp_order) > 0)
 				
 			    if ($adclicks > 0 || $adviews > 0)
 				{
-					echo "<a href='stats-details.php?clientID=$clientID&bannerID=$row_banners[bannerID]'>[&nbsp;$strDetailStats&nbsp;]</a>";
+					echo "<a href='stats-details.php?clientID=$clientID&bannerID=".$row_banners['bannerID']."'>[&nbsp;$strDetailStats&nbsp;]</a>";
 					echo "&nbsp;&nbsp;&nbsp;";
 					
 					if (phpAds_isUser(phpAds_Admin)) // only for the admin
 					{
-						echo "<a href='stats-reset.php?clientID=$clientID&bannerID=$row_banners[bannerID]'>[&nbsp;$strResetStats&nbsp;]</a>";
+						echo "<a href='stats-reset.php?clientID=$clientID&bannerID=".$row_banners['bannerID']."'>[&nbsp;$strResetStats&nbsp;]</a>";
 						echo "&nbsp;&nbsp;&nbsp;";
 					}
 				}
 				
 				if (phpAds_isUser(phpAds_Admin) || (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_ModifyBanner))) // only for the admin
 				{
-					echo "<a href='banner-edit.php?clientID=$clientID&bannerID=$row_banners[bannerID]'>[&nbsp;$strModifyBanner&nbsp;]</a>";
+					echo "<a href='banner-edit.php?clientID=$clientID&bannerID=".$row_banners['bannerID']."'>[&nbsp;$strModifyBanner&nbsp;]</a>";
 					echo "&nbsp;&nbsp;&nbsp;";
 				}
 				echo "</tr><td>";

@@ -12,6 +12,7 @@
 /* the Free Software Foundation; either version 2 of the License.       */
 /************************************************************************/
 
+global $client;
 
 // Set character-set
 $GLOBALS['phpAds_CharSet'] = "iso-8859-2";
@@ -92,8 +93,8 @@ $GLOBALS['strBannerID'] = "Banner-ID";
 $GLOBALS['strClientID'] = "Klient ID";
 $GLOBALS['strMailSubject'] = "phpAds Zpráva";
 $GLOBALS['strMailSubjectDeleted'] = "Deactivated Ads";
-$GLOBALS['strMailHeader'] = "Vážený ".$client['contact'].",\n";
-$GLOBALS['strMailBannerStats'] = "Následující data jsou statistikou pro ".$client['clientname'].":";
+$GLOBALS['strMailHeader'] = "Vážený ".$client["contact"].",\n";
+$GLOBALS['strMailBannerStats'] = "Následující data jsou statistikou pro ".$client["clientname"].":";
 $GLOBALS['strMailFooter'] = 'S pozdravem,\n   $phpAds_admin_fullname';
 $GLOBALS['strLogMailSent'] = "[phpAds] Statistika úspìšnì odeslána.";
 $GLOBALS['strLogErrorClients'] = "[phpAds] Nepodaøilo se z databáze stáhnout informace o klientech.";
@@ -154,8 +155,8 @@ $GLOBALS['strMovedDown'] = "was moved down";
 $GLOBALS['strUpdated'] = "was updated";
 $GLOBALS['strACL'] = "ACL";
 $GLOBALS['strNoMoveUp'] = "Can't move up first row";
-$GLOBALS['strACLAdd'] = "Add new $strACL";
-$GLOBALS['strACLExist'] = "Existing $strACL:";
+$GLOBALS['strACLAdd'] = "Add new ".$GLOBALS['strACL'];
+$GLOBALS['strACLExist'] = "Existing ".$GLOBALS['strACL'].":";
 $GLOBALS['strLogin'] = "Login";
 $GLOBALS['strPreferences'] = "Preferences";
 $GLOBALS['strAllowClientModifyInfo'] = "Allow this user to modify his own client information";
