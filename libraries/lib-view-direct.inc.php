@@ -60,7 +60,7 @@ function phpAds_fetchBannerDirect($remaining, $clientid = 0, $context = 0, $sour
 	if (!defined('LIBVIEWCACHE_INCLUDED'))
 		@include (phpAds_path.'/libraries/deliverycache/cache-'.$phpAds_config['delivery_caching'].'.inc.php');
 	
-	$cache = @phpAds_cacheFetch ('what=zone:'.$zoneid);
+	$cache = @phpAds_cacheFetch ($cacheid);
 	
 	if (!$cache)
 	{
