@@ -61,6 +61,7 @@ $GLOBALS['strConfigLockedDetected']		= $phpAds_productname." has detected that y
 $GLOBALS['strCacheLockedDetected']		= "You are using Files delivery caching and ".$phpAds_productname." has detected that the <b>cache</b> directory is not writeable by the server. You can't proceed until you change permissions of the folder. Read the supplied documentation if you don't know how to do that.";
 $GLOBALS['strCantUpdateDB']  			= "It is currently not possible to update the database. If you decide to proceed, all existing banners, statistics and advertisers will be deleted.";
 $GLOBALS['strIgnoreErrors']			= "Ignore errors";
+$GLOBALS['strRetry']				= "Retry";
 $GLOBALS['strRetryUpdate']			= "Retry updating";
 $GLOBALS['strTableNames']			= "Table Names";
 $GLOBALS['strTablesPrefix']			= "Table names prefix";

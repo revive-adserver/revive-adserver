@@ -17,6 +17,9 @@
 
   ====================================================
 
+  02-22-2005 - settings
+    [+] strRetry
+
   10-28-2003 - invocation
     [-] strPopUpTop
     [-] strPopUpLeft
