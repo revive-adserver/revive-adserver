@@ -49,7 +49,7 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 			if ($zone['what'] == '')
 				return ($remaining);
 			
-			if (!defined('LIBVIEWQUERY_INCLUDED'))  include (phpAds_path.'/lib-view-query.inc.php');
+			if (!defined('LIBVIEWQUERY_INCLUDED'))  include (phpAds_path.'/libraries/lib-view-query.inc.php');
 			
 			
 			$precondition = '';

@@ -48,13 +48,13 @@ function phpAds_logExpire ($clientid, $type=0)
 			{
 				// Include warning library
 				if (!defined('LIBWARNING_INCLUDED'))
-					require (phpAds_path.'/lib-warnings.inc.php');
+					require (phpAds_path.'/libraries/lib-warnings.inc.php');
 				
 				if (!defined('LIBMAIL_INCLUDED'))
-					require (phpAds_path.'/lib-mail.inc.php');
+					require (phpAds_path.'/libraries/lib-mail.inc.php');
 				
 				if (!defined('LIBUSERLOG_INCLUDED'))
-					require (phpAds_path.'/lib-userlog.inc.php');
+					require (phpAds_path.'/libraries/lib-userlog.inc.php');
 				
 				phpAds_userlogSetUser (phpAds_userDeliveryEngine);
 				phpAds_warningMail ($campaign);
@@ -82,7 +82,7 @@ function phpAds_logExpire ($clientid, $type=0)
 		if ($campaign["active"] != $active)
 		{
 			if (!defined('LIBUSERLOG_INCLUDED'))
-				require (phpAds_path.'/lib-userlog.inc.php');
+				require (phpAds_path.'/libraries/lib-userlog.inc.php');
 			
 			// Log deactivation
 			phpAds_userlogSetUser (phpAds_userDeliveryEngine);
@@ -96,7 +96,7 @@ function phpAds_logExpire ($clientid, $type=0)
 			{
 				// Rebuild priorities
 				if (!defined('LIBPRIORITY_INCLUDED'))  
-					require (phpAds_path.'/lib-priority.inc.php');
+					require (phpAds_path.'/libraries/lib-priority.inc.php');
 				
 				phpAds_PriorityCalculate ();
 				
@@ -110,10 +110,10 @@ function phpAds_logExpire ($clientid, $type=0)
 				
 				// Include warning library
 				if (!defined('LIBWARNING_INCLUDED'))
-					require (phpAds_path.'/lib-warnings.inc.php');
+					require (phpAds_path.'/libraries/lib-warnings.inc.php');
 				
 				if (!defined('LIBMAIL_INCLUDED'))
-					require (phpAds_path.'/lib-mail.inc.php');
+					require (phpAds_path.'/libraries/lib-mail.inc.php');
 				
 				phpAds_deactivateMail ($campaign);
 			}

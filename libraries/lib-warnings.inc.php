@@ -37,7 +37,7 @@ function phpAds_warningMail ($campaign)
 			// Load config from the database
 			if (!defined('LIBDBCONFIG_INCLUDED'))
 			{
-				include (phpAds_path.'/lib-dbconfig.inc.php');
+				include (phpAds_path.'/libraries/lib-dbconfig.inc.php');
 				phpAds_LoadDbConfig();
 			}
 			
@@ -100,7 +100,7 @@ function phpAds_deactivateMail ($campaign)
 			// Load config from the database
 			if (!defined('LIBDBCONFIG_INCLUDED'))
 			{
-				include (phpAds_path.'/lib-dbconfig.inc.php');
+				include (phpAds_path.'/libraries/lib-dbconfig.inc.php');
 				phpAds_LoadDbConfig();
 			}
 			

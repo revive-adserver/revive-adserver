@@ -53,17 +53,17 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 			if (substr($what,0,5) == 'zone:')
 			{
 				if (!defined('LIBVIEWZONE_INCLUDED'))
-					require (phpAds_path.'/lib-view-zone.inc.php');
+					require (phpAds_path.'/libraries/lib-view-zone.inc.php');
 				
 				$row = phpAds_fetchBannerZone($what, $clientid, $context, $source, $richmedia);
 			}
 			else
 			{
 				if (!defined('LIBVIEWQUERY_INCLUDED'))
-					require (phpAds_path.'/lib-view-query.inc.php');
+					require (phpAds_path.'/libraries/lib-view-query.inc.php');
 				
 				if (!defined('LIBVIEWDIRECT_INCLUDED'))
-					require (phpAds_path.'/lib-view-direct.inc.php');
+					require (phpAds_path.'/libraries/lib-view-direct.inc.php');
 				
 				$row = phpAds_fetchBannerDirect($what, $clientid, $context, $source, $richmedia);
 			}

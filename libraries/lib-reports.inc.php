@@ -14,7 +14,7 @@
 
 
 if (!defined('LIBMAIL_INCLUDED'))
-	require (phpAds_path.'/lib-mail.inc.php');
+	require (phpAds_path.'/libraries/lib-mail.inc.php');
 
 
 function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_unixtimestamp, $update=true)
