@@ -91,8 +91,11 @@ while ($row_zones = mysql_fetch_array($res_zones))
 	// ID
 	echo "<td height='25'>".$row_zones['zoneid']."</td>";
 	
-	// Width
-	echo "<td height='25'>".$row_zones['width']."x".$row_zones['height']."</td>";
+	// Size
+	if ($row_zones['width'] == -1) $row_zones['width'] = '*';
+	if ($row_zones['height'] == -1) $row_zones['height'] = '*';
+		
+	echo "<td height='25'>".$row_zones['width']." x ".$row_zones['height']."</td>";
 	echo "<td>&nbsp;</td>";
 	echo "</tr>";
 	
@@ -141,12 +144,18 @@ echo "</table>";
 
 
 $stats['cachesize'] = round ($stats['cachesize'] / 1024);
-$stats['cachetimestamp'] = time() - round ($stats['cachetimestamp'] / $stats['cachedzones']);
 
-if ($stats['cachetimestamp'] > $phpAds_zone_cache_limit)
+if ($stats['cachedzones'] == 0)
 	$stats['cachetimestamp'] = $strExpired;
 else
-	$stats['cachetimestamp'] .= ' '.$strSeconds;
+{
+	$stats['cachetimestamp'] = time() - round ($stats['cachetimestamp'] / $stats['cachedzones']);
+	
+	if ($stats['cachetimestamp'] > $phpAds_zone_cache_limit)
+		$stats['cachetimestamp'] = $strExpired;
+	else
+		$stats['cachetimestamp'] .= ' '.$strSeconds;
+}
 
 echo "<br><br><br><br>";
 echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";

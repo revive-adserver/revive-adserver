@@ -35,6 +35,8 @@ if (isset($submit))
 	if (isset($zoneid) && $zoneid != '')
 	{
 		if (isset($description)) $description = addslashes ($description);
+		if (isset($width) && $width == '*') $width = -1;
+		if (isset($height) && $height == '*') $height = -1;
 		
 		$res = db_query("
 			UPDATE
@@ -57,6 +59,8 @@ if (isset($submit))
 	else
 	{
 		if (isset($description)) $description = addslashes ($description);
+		if (isset($width) && $width == '*') $width = -1;
+		if (isset($height) && $height == '*') $height = -1;
 		
 		$res = db_query("
 			INSERT INTO
@@ -137,6 +141,9 @@ if (isset($zoneid) && $zoneid != '')
 	{
 		$zone = @mysql_fetch_array($res);
 	}
+	
+	if ($zone['width'] == -1) $zone['width'] = '*';
+	if ($zone['height'] == -1) $zone['height'] = '*';
 }
 
 ?>

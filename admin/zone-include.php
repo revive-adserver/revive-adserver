@@ -122,18 +122,25 @@ function phpAds_showZoneBanners ($width, $height, $what)
 		}
 	}
 	
-	
-	$res = db_query("
+	$query = "
 		SELECT
 			*
 		FROM
 			$phpAds_tbl_banners
-		WHERE
-			width = $width
-			AND height = $height
+		";
+	
+	if ($width != -1 && $height != -1)
+		$query .= "WHERE width = $width AND height = $height";
+	elseif ($width != -1)
+		$query .= "WHERE width = $width";
+	elseif ($height != -1)
+		$query .= "WHERE height = $height";
+	
+	$query .= "
 		ORDER BY
-			bannerID
-		") or mysql_die();
+			bannerID";
+		
+	$res = db_query($query) or mysql_die();
 	
 	//echo "<span style='width:350; height:250; overflow: scroll; overflow-x:hidden;'>";
 	
