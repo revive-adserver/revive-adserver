@@ -119,13 +119,13 @@ $GLOBALS['strNotAbleToCheck']			= "
 ";
 
 $GLOBALS['strForUpdatesLookOnWebsite']	= "
-    Stai utilizzando ".$phpAds_productname." ".$phpAds_version_readable.". 
 	Per sapere se c'&egrave; una versione pi&ugrave; recente, collegati al nostro sito.
 ";
 
-$GLOBALS['strClickToVisitWebsite']		= "
-	Clicca per visitare il nostro sito
-";
+$GLOBALS['strClickToVisitWebsite']		= "Clicca qui per visitare il nostro sito";
+$GLOBALS['strCurrentlyUsing'] 			= "Stai utilizzando";
+$GLOBALS['strRunningOn']				= "su";
+$GLOBALS['strAndPlain']					= "e";
 
 
 // Stats conversion
