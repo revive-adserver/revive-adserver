@@ -82,16 +82,20 @@ function phpAds_geoipregion_getGeo($addr, $db)
 		
 		@fclose($fp);
 		
-		
-		// Get continent code
-		@include_once (phpAds_path.'/libraries/resources/res-continent.inc.php');
-		$continent = $phpAds_continent[$country];
-		
-		return (array (
-			'country' => $country,
-			'continent' => $continent,
-			'region' => $region
-		));
+		if ($country != '' && $country != '--')
+		{
+			// Get continent code
+			@include_once (phpAds_path.'/libraries/resources/res-continent.inc.php');
+			$continent = $phpAds_continent[$country];
+			
+			return (array (
+				'country' => $country,
+				'continent' => $continent,
+				'region' => $region
+			));
+		}
+		else
+			return false;
 	}
 	else
 		return false;
