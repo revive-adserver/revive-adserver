@@ -114,6 +114,7 @@ $GLOBALS['strCollectedAll']					= "Tutte le statistiche raccolte";
 $GLOBALS['strCollectedToday']				= "Statistiche di oggi";
 $GLOBALS['strCollected7Days']				= "Statistiche degli ultimi 7 giorni";
 $GLOBALS['strCollectedMonth']				= "Statistiche del mese corrente";
+$GLOBALS['strUseQuotes']					= "Usa le virgolette";
 
 
 
