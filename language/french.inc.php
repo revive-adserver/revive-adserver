@@ -143,11 +143,11 @@ $GLOBALS[strACLAdd] = "Ajouter nouveau $strACL";
 $GLOBALS[strACLExist] = "$strACL existant:";
 $GLOBALS[strLogin] = "Login";
 $GLOBALS[strPreferences] = "Préférences";
-$GLOBALS[strAllowClientModifyInfo] = "Allow this user to modify his own client information";
-$GLOBALS[strAllowClientModifyBanner] = "Allow this user to modify his own banners";
-$GLOBALS[strAllowClientAddBanner] = "Allow this user to add his own banners";
-$GLOBALS[strLanguage] = "Language";
-$GLOBALS[strDefault] = "Default";
+$GLOBALS[strAllowClientModifyInfo] = "Permettre à cet utilisateur de modifier ses propres paramètres";
+$GLOBALS[strAllowClientModifyBanner] = "Permettre à cet utilisateur de modifier ses bannières";
+$GLOBALS[strAllowClientAddBanner] = "Permettre à cet utilisateur de s'ajouter des bannières";
+$GLOBALS[strLanguage] = "Langage";
+$GLOBALS[strDefault] = "Par défaut";
 $GLOBALS[strErrorViews] = "Vous devez indiquer le nombre d'affichages ou cocher la case illimité !";
 $GLOBALS[strErrorNegViews] = "Nombre d'affichage négatif non autorisé";
 $GLOBALS[strErrorClicks] =  "Vous devez indiquer le nombre de cliques ou cochez la case illimité !";
@@ -155,5 +155,5 @@ $GLOBALS[strErrorNegClicks] = "Nombre de cliques négatif non autorisé";
 $GLOBALS[strErrorDays] = "Vous devez indiquer le nombre de jours de la campagne ou cochez la case illimité !";
 $GLOBALS[strErrorNegDays] = "Nombre de jours négatif non autorisé";
 
-$GLOBALS[strTrackerImage] = "Tracker image:";
+$GLOBALS[strTrackerImage] = "Image traceur:";
 ?>
