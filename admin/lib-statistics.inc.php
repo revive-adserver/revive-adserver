@@ -473,6 +473,15 @@ function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 			echo "<div style='filter: Alpha(Opacity=50)'>";
 		
 		
+		// Determine target
+		if ($row['target'] == '')
+		{
+			if (!isset($target) || $target == '') $target = '_blank';  // default
+		}
+		else
+			$target = $row['target'];
+		
+		
 		switch ($row['storagetype'])
 		{
 			case 'html':
@@ -529,14 +538,6 @@ function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 			
 			default:
 				$htmlcode = $row['htmlcache'];
-				
-				// Determine target
-				if ($row['target'] == '')
-				{
-					if (!isset($target) || $target == '') $target = '_blank';  // default
-				}
-				else
-					$target = $row['target'];
 				
 				// Set basic variables
 				$htmlcode = str_replace ('{bannerid}', $row['bannerid'], $htmlcode);
