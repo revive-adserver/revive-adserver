@@ -24,6 +24,7 @@ require ("lib-banner.inc.php");
 // Include needed resources
 require (phpAds_path."/libraries/resources/res-iso639.inc.php");
 require (phpAds_path."/libraries/resources/res-iso3166.inc.php");
+require (phpAds_path."/libraries/resources/res-usstates.inc.php");
 require (phpAds_path."/libraries/resources/res-useragent.inc.php");
 require (phpAds_path."/libraries/resources/res-continent.inc.php");
 
@@ -56,7 +57,7 @@ if ($phpAds_config['geotracking_type'] != '')
 		eval ('$'.'info = phpAds_'.$phpAds_geoPluginID.'_getInfo();');
 		
 		if ($info['country']) $type_list['country']	= $strCountry;
-		if ($info['region']) $type_list['region'] == $strUSState;
+		if ($info['region']) $type_list['region'] = $strUSState;
 		if ($info['continent']) $type_list['continent']	= $strContinent;
 	}
 }
@@ -154,7 +155,7 @@ if (isset($action))
 		
 		
 		if ($type == 'time' || $type == 'weekday' || $type == 'browser' || $type == 'os' ||
-			$type == 'country' || $type == 'continent' || $type == 'language')
+			$type == 'country' || $type == 'continent' || $type == 'region' || $type == 'language')
 		{
 			$acl[$last]['data'] = array();
 		}
@@ -191,7 +192,8 @@ elseif (isset($submit))
 				if (isset($acl[$key]['data']))
 				{
 					if ($acl[$key]['type'] == 'time' || $acl[$key]['type'] == 'weekday' || 
-						$acl[$key]['type'] == 'country' || $acl[$key]['type'] == 'continent')
+						$acl[$key]['type'] == 'country' || $acl[$key]['type'] == 'continent' || 
+						$acl[$key]['type'] == 'region')
 					{
 						$acl[$key]['data'] = implode (',', $acl[$key]['data']);
 					}
@@ -271,6 +273,7 @@ elseif (isset($submit))
 	}
 	else
 		$block = 0;
+	
 	
 	// Set capping
 	if (isset($cap) && $cap != '-')
@@ -417,7 +420,8 @@ if (!isset($acl) && $phpAds_config['acl'])
 		
 		// Misc lists
 		if ($row['type'] == 'time' || $row['type'] == 'weekday' || 
-			$row['type'] == 'country' || $row['type'] == 'continent')
+			$row['type'] == 'country' || $row['type'] == 'continent' || 
+			$row['type'] == 'region')
 		{
 			$acl[$row['executionorder']]['data'] = explode (',', $row['data']);
 		}
@@ -742,6 +746,23 @@ if ($phpAds_config['acl'])
 					echo "<div class='boxrow' onMouseOver='boxrow_over(this);' onMouseOut='boxrow_leave(this);' onClick='o=findObj(\"check_".$key."_".$iso."\"); o.checked = !o.checked;'>";
 					echo "<input onClick='boxrow_nonbubble();' tabindex='".($tabindex++)."' ";
 					echo "type='checkbox' id='check_".$key."_".$iso."' name='acl[".$key."][data][]' value='$iso'".(in_array ($iso, $acl[$key]['data']) ? ' checked' : '')." align='middle'>".$fullname;
+					echo "</div>";
+				}
+				
+				echo "</div>";
+			}
+			elseif ($acl[$key]['type'] == 'region')
+			{
+				if (!isset($acl[$key]['data']))
+					$acl[$key]['data'] = array();
+				
+				echo "<div class='box'>";
+				
+				while (list($postalcode,$fullname) = each ($phpAds_USStates))
+				{
+					echo "<div class='boxrow' onMouseOver='boxrow_over(this);' onMouseOut='boxrow_leave(this);' onClick='o=findObj(\"check_".$key."_".$postalcode."\"); o.checked = !o.checked;'>";
+					echo "<input onClick='boxrow_nonbubble();' tabindex='".($tabindex++)."' ";
+					echo "type='checkbox' id='check_".$key."_".$postalcode."' name='acl[".$key."][data][]' value='$postalcode'".(in_array ($postalcode, $acl[$key]['data']) ? ' checked' : '')." align='middle'>".$fullname;
 					echo "</div>";
 				}
 				

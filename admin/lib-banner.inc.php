@@ -535,6 +535,9 @@ function phpAds_compileLimitation ($bannerid = '')
 					case 'continent':
 						$expression .= "phpAds_aclCheckContinent(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
 						break;
+					case 'region':
+						$expression .= "phpAds_aclCheckRegion(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+						break;
 					case 'weekday':
 						$expression .= "phpAds_aclCheckWeekday(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
 						break;

@@ -282,6 +282,27 @@ function phpAds_aclCheckContinent($data, $ad)
 
 
 /*********************************************************/
+/* Check if the US State ACL is valid                    */
+/*********************************************************/
+
+function phpAds_aclCheckRegion($data, $ad)
+{
+	global $phpAds_geo;
+	
+	if ($phpAds_geo && $phpAds_geo['region'])
+	{
+		// Evaluate continent code
+		$expression = ($data == $phpAds_geo['region'] || in_array ($phpAds_geo['region'], explode(',', $data)));
+		$operator   = $ad == '==';
+		return ($expression == $operator);
+	}
+	else
+		return true;
+}
+
+
+
+/*********************************************************/
 /* Check if the Referer ACL is valid                     */
 /*********************************************************/
 
