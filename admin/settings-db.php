@@ -33,11 +33,10 @@ $sql = array();
 
 if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 {
-	if (isset($dbhost) && isset($dbuser) && isset($dbpassword) && isset($dbname) &&
-		isset($persistent_connections) && 
-		($phpAds_config['dbhost'] != $dbhost || $phpAds_config['dbuser'] != $dbuser ||
-		$phpAds_config['dbpassword'] != $dbpassword || $phpAds_config['dbname'] != $dbname ||
-		$phpAds_config['persistent_connections'] != ($persistent_connections == 't' ? true : false)))
+	if (isset($dbpassword) && ereg('^\*+$', $dbpassword))
+		$dbpassword = $phpAds_config['dbpassword'];
+	
+	if (isset($dbhost) && isset($dbuser) && isset($dbpassword) && isset($dbname))
 	{
 		phpAds_dbClose();
 		
@@ -47,25 +46,24 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		$phpAds_config['dbuser'] = $dbuser;
 		$phpAds_config['dbpassword'] = $dbpassword;
 		$phpAds_config['dbname'] = $dbname;
-		$phpAds_config['persistent_connections'] = $persistent_connections;
+		$phpAds_config['persistent_connections'] = isset($persistent_connections) ? true : false;
 		
 		if (!phpAds_dbConnect(true))
-			$errormessage[1][] = $strCantConnectToDb;
+			$errormessage[0][] = $strCantConnectToDb;
 		else
 		{
 			phpAds_SettingsWriteAdd('dbname', $dbhost);
 			phpAds_SettingsWriteAdd('dbuser', $dbuser);
 			phpAds_SettingsWriteAdd('dbpassword', $dbpassword);
 			phpAds_SettingsWriteAdd('dbname', $dbname);
-			phpAds_SettingsWriteAdd('persistent_connections', $persistent_connections);
+			
+			phpAds_SettingsWriteAdd('persistent_connections', isset($persistent_connections));
 		}
 	}
 	
-	if (isset($insert_delayed))
-		phpAds_SettingsWriteAdd('insert_delayed', $insert_delayed);
+	phpAds_SettingsWriteAdd('insert_delayed', isset($insert_delayed));
+	phpAds_SettingsWriteAdd('compatibility_mode', isset($compatibility_mode));
 	
-	if (isset($compatibility_mode))
-		phpAds_SettingsWriteAdd('compatibility_mode', $compatibility_mode);
 	
 	if (!count($errormessage))
 	{
@@ -94,24 +92,66 @@ phpAds_SettingsSelection("db");
 /* Cache settings fields and get help HTML Code          */
 /*********************************************************/
 
-phpAds_StartSettings();
-phpAds_AddSettings('start_section', "1.1.1");
-phpAds_AddSettings('text', 'dbhost', $strDbHost);
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'dbuser', $strDbUser);
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'dbpassword',
-	array($strDbPassword, 25, 'password'));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'dbname', $strDbName);
-phpAds_AddSettings('end_section', '');
+$settings = array (
 
-phpAds_AddSettings('start_section', "1.1.2");
-phpAds_AddSettings('checkbox', 'persistent_connections', $strPersistentConnections);
-phpAds_AddSettings('checkbox', 'insert_delayed', $strInsertDelayed);
-phpAds_AddSettings('checkbox', 'compatibility_mode', $strCompatibilityMode);
-phpAds_AddSettings('end_section', '');
-phpAds_EndSettings();
+array (
+	'text' 	  => $strDatabaseServer,
+	'items'	  => array (
+		array (
+			'type' 	  => 'text', 
+			'name' 	  => 'dbhost',
+			'text' 	  => $strDbHost,
+			'req'	  => true
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type' 	  => 'text', 
+			'name' 	  => 'dbuser',
+			'text' 	  => $strDbUser,
+			'req'	  => true
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type' 	  => 'password', 
+			'name' 	  => 'dbpassword',
+			'text' 	  => $strDbPassword,
+			'req'	  => true
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type' 	  => 'text', 
+			'name' 	  => 'dbname',
+			'text' 	  => $strDbName,
+			'req'	  => true
+		)
+	)
+),
+array (
+	'text' 	  => $strDatabaseOptimalisations,
+	'items'	  => array (
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'persistent_connections',
+			'text'	  => $strPersistentConnections
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'insert_delayed',
+			'text'	  => $strInsertDelayed
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'compatibility_mode',
+			'text'	  => $strCompatibilityMode
+		)
+	)
+));
 
 
 
@@ -119,15 +159,7 @@ phpAds_EndSettings();
 /* Main code                                             */
 /*********************************************************/
 
-?>
-<form name="settingsform" method="post" action="<?php echo $HTTP_SERVER_VARS['PHP_SELF'];?>">
-<?php
-
-phpAds_FlushSettings();
-
-?>
-</form>
-<?php
+phpAds_ShowSettings($settings, $errormessage);
 
 
 

@@ -36,11 +36,11 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 	if (isset($admin))
 	{
 		if (!strlen($admin))
-			$errormessage[1][] = $strInvalidUsername;
+			$errormessage[0][] = $strInvalidUsername;
 		elseif (phpAds_dbNumRows(phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE LOWER(clientusername) = '".strtolower($admin)."'")))
-			$errormessage[1][] = $strDuplicateClientName;
+			$errormessage[0][] = $strDuplicateClientName;
 		elseif (phpAds_dbNumRows(phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_affiliates']." WHERE LOWER(username) = '".strtolower($admin)."'")))
-			$errormessage[1][] = $strDuplicateClientName;
+			$errormessage[0][] = $strDuplicateClientName;
 		else
 			phpAds_SettingsWriteAdd('admin', $admin);
 	}
@@ -50,11 +50,11 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		isset($pw2) && strlen($pw2))
 	{
 		if ($pwold != $phpAds_config['admin_pw'])
-			$errormessage[1][] = $strPasswordWrong;
+			$errormessage[0][] = $strPasswordWrong;
 		elseif (!strlen($pw)  || strstr("\\", $pw))
-			$errormessage[1][] = $strInvalidPassword;
+			$errormessage[0][] = $strInvalidPassword;
 		elseif (strcmp($pw, $pw2))
-			$errormessage[1][] = $strNotSamePasswords;
+			$errormessage[0][] = $strNotSamePasswords;
 		else
 		{
 			$admin_pw = $pw;
@@ -68,19 +68,20 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		phpAds_SettingsWriteAdd('admin_email', $admin_email);
 	if (isset($company_name))
 		phpAds_SettingsWriteAdd('company_name', $company_name);
+	
+	
 	if (isset($language))
 		phpAds_SettingsWriteAdd('language', $language);
 	if (isset($updates_frequency))
 		phpAds_SettingsWriteAdd('updates_frequency', $updates_frequency);
-	if (isset($admin_novice))
-		phpAds_SettingsWriteAdd('admin_novice', $admin_novice);
 	
-	if (isset($userlog_email))
-		phpAds_SettingsWriteAdd('userlog_email', $userlog_email);
-	if (isset($userlog_priority))
-		phpAds_SettingsWriteAdd('userlog_priority', $userlog_priority);
-	if (isset($userlog_autoclean))
-		phpAds_SettingsWriteAdd('userlog_autoclean', $userlog_autoclean);
+	phpAds_SettingsWriteAdd('admin_novice', isset($admin_novice));
+	
+	
+	phpAds_SettingsWriteAdd('userlog_email', isset($userlog_email));
+	phpAds_SettingsWriteAdd('userlog_priority', isset($userlog_priority));
+	phpAds_SettingsWriteAdd('userlog_autoclean', isset($userlog_autoclean));
+	
 	
 	if (!count($errormessage))
 	{
@@ -111,52 +112,142 @@ phpAds_SettingsSelection("admin");
 /* Cache settings fields and get help HTML Code          */
 /*********************************************************/
 
-phpAds_StartSettings();
-phpAds_AddSettings('start_section', "2.1.1");
-phpAds_AddSettings('text', 'admin',
-	$strAdminUsername);
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'pwold',
-	array($strOldPassword, 25, 'password'));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'pw',
-	array($strNewPassword, 25, 'password'));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'pw2',
-	array($strRepeatPassword, 25, 'password'));
-phpAds_AddSettings('end_section', '');
+$unique_users = array();
 
-phpAds_AddSettings('start_section', "2.1.2");
-phpAds_AddSettings('text', 'admin_fullname',
-	array($strAdminFullName, 35));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'admin_email',
-	array($strAdminEmail, 35));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'company_name',
-	array($strCompanyName, 35));
-phpAds_AddSettings('end_section', '');
+$res = phpAds_dbQuery("SELECT LOWER(clientusername) as used FROM ".$phpAds_config['tbl_clients']." WHERE clientusername != ''");
+while ($row = phpAds_dbFetchArray($res))
+	$unique_users[] = $row['used'];
 
-phpAds_AddSettings('start_section', "2.1.3");
-phpAds_AddSettings('select', 'language',
-	array($strLanguage, phpAds_AvailableLanguages()));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('select', 'updates_frequency', array(
-	$strAdminCheckUpdates, array(
-		'0'  => $strAdminCheckEveryLogin,
-		'1'  => $strAdminCheckDaily,
-		'7'  => $strAdminCheckWeekly,
-		'30' => $strAdminCheckMonthly,
-		'-1' => $strAdminCheckNever
-)));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('checkbox', 'admin_novice', $strAdminNovice);
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('checkbox', 'userlog_email', $strUserlogEmail);
-phpAds_AddSettings('checkbox', 'userlog_priority', $strUserlogPriority);
-phpAds_AddSettings('checkbox', 'userlog_autoclean', $strUserlogAutoClean);
-phpAds_AddSettings('end_section', '');
-phpAds_EndSettings();
+$res = phpAds_dbQuery("SELECT LOWER(username) as used FROM ".$phpAds_config['tbl_affiliates']." WHERE username != ''");
+while ($row = phpAds_dbFetchArray($res))
+	$unique_users[] = $row['used'];
+
+
+
+
+$settings = array (
+
+array (
+	'text' 	  => $strLoginCredentials,
+	'items'	  => array (
+		array (
+			'type' 	  => 'text', 
+			'name' 	  => 'admin',
+			'text' 	  => $strAdminUsername,
+			'check'	  => 'unique',
+			'unique'  => $unique_users
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type' 	  => 'password', 
+			'name' 	  => 'pwold',
+			'text' 	  => $strOldPassword
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type' 	  => 'password', 
+			'name' 	  => 'pw',
+			'text' 	  => $strNewPassword,
+			'depends' => 'pwold!=""'
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type' 	  => 'password', 
+			'name' 	  => 'pw2',
+			'text' 	  => $strRepeatPassword,
+			'depends' => 'pwold!=""',
+			'check'	  => 'compare:pw'
+		)
+	)
+),
+array (
+	'text' 	  => $strBasicInformation,
+	'items'	  => array (
+		array (
+			'type' 	  => 'text', 
+			'name' 	  => 'admin_fullname',
+			'text' 	  => $strAdminFullName,
+			'size'	  => 35
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type' 	  => 'text', 
+			'name' 	  => 'admin_email',
+			'text' 	  => $strAdminEmail,
+			'size'	  => 35,
+			'check'	  => 'email'
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type' 	  => 'text', 
+			'name' 	  => 'company_name',
+			'text' 	  => $strCompanyName,
+			'size'	  => 35
+		)
+	)
+),
+array (
+	'text' 	  => $strPreferences,
+	'items'	  => array (
+		array (
+			'type' 	  => 'select', 
+			'name' 	  => 'language',
+			'text' 	  => $strLanguage,
+			'items'   => phpAds_AvailableLanguages()
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type' 	  => 'select', 
+			'name' 	  => 'updates_frequency',
+			'text' 	  => $strAdminCheckUpdates,
+			'items'   => array (
+				'0'  => $strAdminCheckEveryLogin,
+				'1'  => $strAdminCheckDaily,
+				'7'  => $strAdminCheckWeekly,
+				'30' => $strAdminCheckMonthly,
+				'-1' => $strAdminCheckNever
+			)
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'admin_novice',
+			'text'	  => $strAdminNovice
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'userlog_email',
+			'text'	  => $strUserlogEmail
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'userlog_priority',
+			'text'	  => $strUserlogPriority
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'userlog_autoclean',
+			'text'	  => $strUserlogAutoClean
+		)
+	)
+));
 
 
 
@@ -164,15 +255,7 @@ phpAds_EndSettings();
 /* Main code                                             */
 /*********************************************************/
 
-?>
-<form name="settingsform" method="post" action="<?php echo $HTTP_SERVER_VARS['PHP_SELF'];?>">
-<?php
-
-phpAds_FlushSettings();
-
-?>
-</form>
-<?php
+phpAds_ShowSettings($settings, $errormessage);
 
 
 

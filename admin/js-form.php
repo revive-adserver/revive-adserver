@@ -51,47 +51,68 @@ function phpAds_formSetUnique(obj, unique)
 
 function phpAds_formUpdate(obj)
 {
-	err = false;
-	val = obj.value;
-	
-	if ((val == '' || val == '-' || val == 'http://') && obj.validateReq == true)
-		err = true;
-	
-	if (err == false && val != '')
+	if (obj.validateCheck)
 	{
-		if (obj.validateCheck == 'url' &&
-			val.indexOf('http://') != 0)
-			err = true;
-			
-		if (obj.validateCheck == 'email' && 
-			(val.indexOf('@') < 1 || val.indexOf('@') == (val.length - 1)))
+		err = false;
+		val = obj.value;
+		
+		if ((val == '' || val == '-' || val == 'http://') && obj.validateReq == true)
 			err = true;
 		
-		if (obj.validateCheck == 'number*' &&
-			(isNaN(val) && val != '*' || val < 0))
-			err = true;
-
-		if (obj.validateCheck == 'number+' &&
-			(isNaN(val) && val != '-'  || val < 0))
-			err = true;
-		
-		if (obj.validateCheck == 'unique')
+		if (err == false && val != '')
 		{
-			needle = obj.value.toLowerCase();
-			haystack = obj.validateUnique.toLowerCase();
-			
-			if (haystack.indexOf('|'+needle+'|') > -1)
+			if (obj.validateCheck == 'url' &&
+				val.indexOf('http://') != 0)
 				err = true;
+				
+			if (obj.validateCheck == 'email' && 
+				(val.indexOf('@') < 1 || val.indexOf('@') == (val.length - 1)))
+				err = true;
+			
+			if (obj.validateCheck == 'number*' &&
+				(isNaN(val) && val != '*' || parseInt(val) < 0))
+				err = true;
+	
+			if (obj.validateCheck.substr(0,7) == 'number+')
+			{	
+				if (obj.validateCheck.length > 7)
+					min = obj.validateCheck.substr(7,obj.validateCheck.length - 7);
+				else
+					min = 0;
+				
+				if (min == 0 && val == '-') val = 0;
+				
+				if (isNaN(val) || parseInt(val) < parseInt(min))
+					err = true;
+			}
+			
+			if (obj.validateCheck.substr(0,8) == 'compare:')
+			{
+				compare = obj.validateCheck.substr(8,obj.validateCheck.length - 8);
+				compareobj = findObj(compare);
+				
+				if (val != compareobj.value)
+					err = true;
+			}
+			
+			if (obj.validateCheck == 'unique')
+			{
+				needle = obj.value.toLowerCase();
+				haystack = obj.validateUnique.toLowerCase();
+				
+				if (haystack.indexOf('|'+needle+'|') > -1)
+					err = true;
+			}
 		}
+		
+		// Change class
+		if (err)
+			obj.className='error';
+		else
+			obj.className='flat';
+		
+		return (err);
 	}
-	
-	// Change class
-	if (err)
-		obj.className='error';
-	else
-		obj.className='flat';
-	
-	return (err);
 }
 
 

@@ -33,34 +33,30 @@ $sql = array();
 
 if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 {
-	if (isset($gui_show_campaign_info))
-		phpAds_SettingsWriteAdd('gui_show_campaign_info', $gui_show_campaign_info);
-	if (isset($gui_show_banner_info))
-		phpAds_SettingsWriteAdd('gui_show_banner_info', $gui_show_banner_info);
-	if (isset($gui_show_campaign_preview))
-		phpAds_SettingsWriteAdd('gui_show_campaign_preview', $gui_show_campaign_preview);
-	if (isset($gui_show_banner_html))
-		phpAds_SettingsWriteAdd('gui_show_banner_html', $gui_show_banner_html);
-	if (isset($gui_show_banner_preview))
-		phpAds_SettingsWriteAdd('gui_show_banner_preview', $gui_show_banner_preview);
-	if (isset($gui_hide_inactive))
-		phpAds_SettingsWriteAdd('gui_hide_inactive', $gui_hide_inactive);
-	if (isset($gui_show_matching))
-		phpAds_SettingsWriteAdd('gui_show_matching', $gui_show_matching);
-	if (isset($gui_show_parents))
-		phpAds_SettingsWriteAdd('gui_show_parents', $gui_show_parents);
+	phpAds_SettingsWriteAdd('gui_show_campaign_info', isset($gui_show_campaign_info));
+	phpAds_SettingsWriteAdd('gui_show_banner_info', isset($gui_show_banner_info));
+	phpAds_SettingsWriteAdd('gui_show_campaign_preview', isset($gui_show_campaign_preview));
+	phpAds_SettingsWriteAdd('gui_show_banner_html', isset($gui_show_banner_html));
+	phpAds_SettingsWriteAdd('gui_show_banner_preview', isset($gui_show_banner_preview));
+	phpAds_SettingsWriteAdd('gui_hide_inactive', isset($gui_hide_inactive));
+	phpAds_SettingsWriteAdd('gui_show_matching', isset($gui_show_matching));
+	phpAds_SettingsWriteAdd('gui_show_parents', isset($gui_show_parents));
+	
 	if (isset($gui_link_compact_limit))
 		phpAds_SettingsWriteAdd('gui_link_compact_limit', $gui_link_compact_limit);
+	
 	
 	if (isset($begin_of_week))
 		phpAds_SettingsWriteAdd('begin_of_week', $begin_of_week);
 	if (isset($percentage_decimals))
 		phpAds_SettingsWriteAdd('percentage_decimals', $percentage_decimals);
 	
+	
 	if (isset($default_banner_weight))
 		phpAds_SettingsWriteAdd('default_banner_weight', $default_banner_weight);
 	if (isset($default_campaign_weight))
 		phpAds_SettingsWriteAdd('default_campaign_weight', $default_campaign_weight);
+	
 	
 	if (!count($errormessage))
 	{
@@ -89,43 +85,114 @@ phpAds_SettingsSelection("defaults");
 /* Cache settings fields and get help HTML Code          */
 /*********************************************************/
 
-phpAds_StartSettings();
-phpAds_AddSettings('start_section', "2.3.1");
-phpAds_AddSettings('checkbox', 'gui_show_campaign_info', $strShowCampaignInfo);
-phpAds_AddSettings('checkbox', 'gui_show_banner_info', $strShowBannerInfo);
-phpAds_AddSettings('checkbox', 'gui_show_campaign_preview', $strShowCampaignPreview);
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('checkbox', 'gui_show_banner_html', $strShowBannerHTML);
-phpAds_AddSettings('checkbox', 'gui_show_banner_preview', $strShowBannerPreview);
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('checkbox', 'gui_hide_inactive', $strHideInactive);
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('checkbox', 'gui_show_matching', $strGUIShowMatchingBanners);
-phpAds_AddSettings('checkbox', 'gui_show_parents', $strGUIShowParentCampaigns);
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'gui_link_compact_limit',
-	array($strGUILinkCompactLimit, 12));
-phpAds_AddSettings('end_section', '');
+$settings = array (
 
-
-phpAds_AddSettings('start_section', "2.3.2");
-phpAds_AddSettings('select', 'begin_of_week',
-	array($strBeginOfWeek, array($strDayFullNames[0], $strDayFullNames[1])));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('select', 'percentage_decimals',
-	array($strPercentageDecimals, array(0, 1, 2, 3)));
-phpAds_AddSettings('end_section', '');
-
-
-phpAds_AddSettings('start_section', "2.3.3");
-phpAds_AddSettings('text', 'default_banner_weight',
-	array($strDefaultBannerWeight, 12));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'default_campaign_weight',
-	array($strDefaultCampaignWeight, 12));
-phpAds_AddSettings('end_section', '');
-
-phpAds_EndSettings();
+array (
+	'text' 	  => $strInventory,
+	'items'	  => array (
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'gui_show_campaign_info',
+			'text'	  => $strShowCampaignInfo
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'gui_show_banner_info',
+			'text'	  => $strShowBannerInfo
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'gui_show_campaign_preview',
+			'text'	  => $strShowCampaignPreview
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'gui_show_banner_html',
+			'text'	  => $strShowBannerHTML
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'gui_show_banner_preview',
+			'text'	  => $strShowBannerPreview
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'gui_hide_inactive',
+			'text'	  => $strHideInactive
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'gui_show_matching',
+			'text'	  => $strGUIShowMatchingBanners
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'gui_show_parents',
+			'text'	  => $strGUIShowParentCampaigns
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type' 	  => 'text', 
+			'name' 	  => 'gui_link_compact_limit',
+			'text' 	  => $strGUILinkCompactLimit,
+			'size'	  => 12,
+			'check'	  => 'number+'
+		)
+	)
+),
+array (
+	'text' 	  => $strStatisticsDefaults,
+	'items'	  => array (
+		array (
+			'type' 	  => 'select', 
+			'name' 	  => 'begin_of_week',
+			'text' 	  => $strBeginOfWeek,
+			'items'   => array($strDayFullNames[0], $strDayFullNames[1])
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type' 	  => 'select', 
+			'name' 	  => 'percentage_decimals',
+			'text' 	  => $strPercentageDecimals,
+			'items'   => array(0, 1, 2, 3)
+		)
+	)
+),
+array (
+	'text' 	  => $strWeightDefaults,
+	'items'	  => array (
+		array (
+			'type' 	  => 'text', 
+			'name' 	  => 'default_banner_weight',
+			'text' 	  => $strDefaultBannerWeight,
+			'size'	  => 12,
+			'check'	  => 'number+'
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type' 	  => 'text', 
+			'name' 	  => 'default_campaign_weight',
+			'text' 	  => $strDefaultCampaignWeight,
+			'size'	  => 12,
+			'check'	  => 'number+'
+		)
+	)
+));
 
 
 
@@ -133,15 +200,7 @@ phpAds_EndSettings();
 /* Main code                                             */
 /*********************************************************/
 
-?>
-<form name="settingsform" method="post" action="<?php echo $HTTP_SERVER_VARS['PHP_SELF'];?>">
-<?php
-
-phpAds_FlushSettings();
-
-?>
-</form>
-<?php
+phpAds_ShowSettings($settings, $errormessage);
 
 
 

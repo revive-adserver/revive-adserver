@@ -34,6 +34,20 @@ $sql = array();
 
 if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 {
+	if (isset($compact_stats))
+		phpAds_SettingsWriteAdd('compact_stats', $compact_stats);
+	
+	phpAds_SettingsWriteAdd('log_adviews', isset($log_adviews));
+	phpAds_SettingsWriteAdd('log_adclicks', isset($log_adclicks));
+	
+	phpAds_SettingsWriteAdd('log_source', isset($log_source));
+	phpAds_SettingsWriteAdd('geotracking_stats', isset($geotracking_stats));
+	phpAds_SettingsWriteAdd('log_hostname', isset($log_hostname));
+	phpAds_SettingsWriteAdd('log_iponly', isset($log_iponly));
+	
+	phpAds_SettingsWriteAdd('log_beacon', isset($log_beacon));
+	
+	
 	if (isset($ignore_hosts))
 	{
 		if (trim($ignore_hosts) != '')
@@ -48,6 +62,15 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 			phpAds_settingsWriteAdd('ignore_hosts', array());
 	}
 	
+	if (isset($block_adviews))
+		phpAds_SettingsWriteAdd('block_adviews', $block_adviews);
+	if (isset($block_adclicks))
+		phpAds_SettingsWriteAdd('block_adclicks', $block_adclicks);
+	
+	
+	
+	phpAds_SettingsWriteAdd('warn_admin', isset($warn_admin));
+	phpAds_SettingsWriteAdd('warn_client', isset($warn_client));
 	
 	if (isset($warn_limit))
 	{
@@ -63,47 +86,17 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		phpAds_SettingsWriteAdd('admin_email_headers', $admin_email_headers);
 	}
 	
-	if (isset($log_beacon))
-		phpAds_SettingsWriteAdd('log_beacon', $log_beacon);
-	if (isset($log_adviews))
-		phpAds_SettingsWriteAdd('log_adviews', $log_adviews);
-	if (isset($log_adclicks))
-		phpAds_SettingsWriteAdd('log_adclicks', $log_adclicks);
+	phpAds_SettingsWriteAdd('qmail_patch', isset($qmail_patch));
 	
-	if (isset($geotracking_stats))
-		phpAds_SettingsWriteAdd('geotracking_stats', $geotracking_stats);
-	if (isset($log_source))
-		phpAds_SettingsWriteAdd('log_source', $log_source);
-	if (isset($log_hostname))
-		phpAds_SettingsWriteAdd('log_hostname', $log_hostname);
-	if (isset($log_iponly))
-		phpAds_SettingsWriteAdd('log_iponly', $log_iponly);
 	
-	if (isset($compact_stats))
-		phpAds_SettingsWriteAdd('compact_stats', $compact_stats);
 	
-	if (isset($block_adviews))
-		phpAds_SettingsWriteAdd('block_adviews', $block_adviews);
-	if (isset($block_adclicks))
-		phpAds_SettingsWriteAdd('block_adclicks', $block_adclicks);
-	
-	if (isset($warn_admin))
-		phpAds_SettingsWriteAdd('warn_admin', $warn_admin);
-	if (isset($warn_client))
-		phpAds_SettingsWriteAdd('warn_client', $warn_client);
-	if (isset($qmail_patch))
-		phpAds_SettingsWriteAdd('qmail_patch', $qmail_patch);
-	
-	if (isset($auto_clean_tables))
-		phpAds_SettingsWriteAdd('auto_clean_tables', $auto_clean_tables);
-	
-	if (isset($auto_clean_userlog))
-		phpAds_SettingsWriteAdd('auto_clean_userlog', $auto_clean_userlog);
+	phpAds_SettingsWriteAdd('auto_clean_tables', isset($auto_clean_tables));
+	phpAds_SettingsWriteAdd('auto_clean_userlog', isset($auto_clean_userlog));
 	
 	if (isset($auto_clean_tables_interval))
 	{
 		if (!is_numeric($auto_clean_tables_interval) || $auto_clean_tables_interval <= 2)
-			$errormessage[4][] = $strAutoCleanErr ;
+			$errormessage[3][] = $strAutoCleanErr;
 		else
 			phpAds_SettingsWriteAdd('auto_clean_tables_interval', $auto_clean_tables_interval);
 	}
@@ -111,7 +104,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 	if (isset($auto_clean_userlog_interval))
 	{
 		if (!is_numeric($auto_clean_userlog_interval) || $auto_clean_userlog_interval <= 2)
-			$errormessage[4][] = $strAutoCleanErr ;
+			$errormessage[3][] = $strAutoCleanErr;
 		else
 			phpAds_SettingsWriteAdd('auto_clean_userlog_interval', $auto_clean_userlog_interval);
 	}
@@ -146,74 +139,212 @@ phpAds_SettingsSelection("stats");
 // Change ignore_hosts into a string, so the function handles it good
 $phpAds_config['ignore_hosts'] = join("\n", $phpAds_config['ignore_hosts']);
 
-phpAds_StartSettings();
-phpAds_AddSettings('start_section', "1.4.1");
-phpAds_AddSettings('select', 'compact_stats',
-	array($strCompactStats, array($strVerbose, $strCompact)));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('checkbox', 'log_adviews',
-	array($strLogAdviews, array('block_adviews')));
-phpAds_AddSettings('checkbox', 'log_adclicks',
-	array($strLogAdclicks, array('block_adclicks')));
-
-phpAds_AddSettings('break', 'large');
-phpAds_AddSettings('checkbox', 'log_source', $strLogSource);
-
-if ($phpAds_config['geotracking_type'] > 0)
-	phpAds_AddSettings('checkbox', 'geotracking_stats', $strGeoLogStats);
-
-if (isset($HTTP_SERVER_VARS['REMOTE_HOST']) || $phpAds_config['reverse_lookup'])
-{
-	phpAds_AddSettings('checkbox', 'log_hostname', $strLogHostnameOrIP);
-	phpAds_AddSettings('checkbox+', 'log_iponly', $strLogIPOnly);
-}
-else
-	phpAds_AddSettings('checkbox', 'log_hostname', $strLogIP);
-
-phpAds_AddSettings('break', 'large');
-phpAds_AddSettings('checkbox', 'log_beacon', $strLogBeacon);
-phpAds_AddSettings('end_section', '');
-
-phpAds_AddSettings('start_section', "1.4.4");
-phpAds_AddSettings('text', 'ignore_hosts',
-	array($strIgnoreHosts, 35, 'textarea'));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'block_adviews',
-	array($strBlockAdviews, 12, 'text', 5, 'log_adviews'));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'block_adclicks',
-	array($strBlockAdclicks, 12, 'text', 5, 'log_adclicks'));
-phpAds_AddSettings('end_section', '');
 
 
-phpAds_AddSettings('start_section', "1.4.3");
-phpAds_AddSettings('text', 'warn_limit',
-	array($strWarnLimit, 12));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('checkbox', 'warn_admin', $strWarnAdmin);
-phpAds_AddSettings('checkbox', 'warn_client', $strWarnClient);
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'admin_email_headers',
-	array($strAdminEmailHeaders, 35, 'textarea', 5));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('checkbox', 'qmail_patch', $strQmailPatch);
-phpAds_AddSettings('end_section', '');
+$settings = array (
 
-phpAds_AddSettings('start_section', "1.4.5");
-phpAds_AddSettings('checkbox', 'auto_clean_tables',
-	array($strAutoCleanStats, array('auto_clean_tables_interval')));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'auto_clean_tables_interval',
-	array($strAutoCleanStatsWeeks, 25, 'text', 1, 'auto_clean_tables'));
-phpAds_AddSettings('break', 'large');
+array (
+	'text' 	  => $strStatisticsFormat,
+	'items'	  => array (
+		array (
+			'type' 	  => 'select', 
+			'name' 	  => 'compact_stats',
+			'text' 	  => $strCompactStats,
+			'items'   => array($strVerbose, $strCompact)
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'log_adviews',
+			'text'	  => $strLogAdviews,
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'log_adclicks',
+			'text'	  => $strLogAdclicks,
+		),
+		array (
+			'type'    => 'break',
+			'size'	  => 'large'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'log_source',
+			'text'	  => $strLogSource,
+			'depends' => 'log_adclicks==true || log_adviews==true'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'geotracking_stats',
+			'text'	  => $strGeoLogStats,
+			'visible' => $phpAds_config['geotracking_type'] > 0,
+			'depends' => 'log_adclicks==true || log_adviews==true'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'log_hostname',
+			'text'	  => $strLogHostnameOrIP,
+			'visible' => isset($HTTP_SERVER_VARS['REMOTE_HOST']) || $phpAds_config['reverse_lookup'],
+			'depends' => '(log_adclicks==true || log_adviews==true) && compact_stats==0'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'log_iponly',
+			'text'	  => $strLogIPOnly,
+			'indent'  => true,
+			'visible' => isset($HTTP_SERVER_VARS['REMOTE_HOST']) || $phpAds_config['reverse_lookup'],
+			'depends' => '(log_adclicks==true || log_adviews==true) && compact_stats==0 && log_hostname==true'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'log_hostname',
+			'text'	  => $strLogIP,
+			'visible' => !isset($HTTP_SERVER_VARS['REMOTE_HOST']) && !$phpAds_config['reverse_lookup'],
+			'depends' => '(log_adclicks==true || log_adviews==true) && compact_stats==0'
+		),
+		array (
+			'type'    => 'break',
+			'size'	  => 'large'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'log_beacon',
+			'text'	  => $strLogBeacon
+		)
+	)
+),
+array (
+	'text' 	  => 'Prevent logging',
+	'items'	  => array (
+		array (
+			'type' 	  => 'textarea', 
+			'name' 	  => 'ignore_hosts',
+			'text' 	  => $strIgnoreHosts
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type' 	  => 'text', 
+			'name' 	  => 'block_adviews',
+			'text' 	  => $strBlockAdviews,
+			'size'    => 12,
+			'depends' => 'log_beacon==true && log_adviews==true',
+			'check'	  => 'number+',
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type' 	  => 'text', 
+			'name' 	  => 'block_adclicks',
+			'text' 	  => $strBlockAdclicks,
+			'size'    => 12,
+			'depends' => 'log_beacon==true && log_adclicks==true',
+			'check'	  => 'number+',
+		)
+	)
+),
+array (
+	'text' 	  => $strEmailWarnings,
+	'items'	  => array (
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'warn_admin',
+			'text'	  => $strWarnAdmin
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'warn_client',
+			'text'	  => $strWarnClient
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type' 	  => 'text', 
+			'name' 	  => 'warn_limit',
+			'text' 	  => $strWarnLimit,
+			'size'    => 12,
+			'depends' => 'warn_client==true || warn_admin==true',
+			'check'	  => 'number+20',
+			'req'	  => true
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type' 	  => 'textarea', 
+			'name' 	  => 'admin_email_headers',
+			'text' 	  => $strAdminEmailHeaders
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'qmail_patch',
+			'text'	  => $strQmailPatch
+		)
+	)
+),
+array (
+	'text' 	  => $strAutoCleanTables,
+	'items'	  => array (
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'auto_clean_tables_vacuum',
+			'text'	  => $strAutoCleanVacuum,
+			'visible' => $phpAds_productname == 'phpPgAds'
+		),
+		array (
+			'type'    => 'break',
+			'size'	  => 'large',
+			'visible' => $phpAds_productname == 'phpPgAds'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'auto_clean_tables',
+			'text'	  => $strAutoCleanStats
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type' 	  => 'text', 
+			'name' 	  => 'auto_clean_tables_interval',
+			'text' 	  => $strAutoCleanStatsWeeks,
+			'size'    => 25,
+			'depends' => 'auto_clean_tables==true',
+			'check'	  => 'number+3',
+			'req'	  => true
+		),
+		array (
+			'type'    => 'break',
+			'size'	  => 'large'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'auto_clean_userlog',
+			'text'	  => $strAutoCleanUserlog
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type' 	  => 'text', 
+			'name' 	  => 'auto_clean_userlog_interval',
+			'text' 	  => $strAutoCleanUserlogWeeks,
+			'size'    => 25,
+			'depends' => 'auto_clean_userlog==true',
+			'check'	  => 'number+3',
+			'req'	  => true
+		)
+	)
+));
 
-phpAds_AddSettings('checkbox', 'auto_clean_userlog',
-	array($strAutoCleanUserlog, array('auto_clean_userlog_interval')));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'auto_clean_userlog_interval',
-	array($strAutoCleanUserlogWeeks, 25, 'text', 1, 'auto_clean_userlog'));
-phpAds_AddSettings('end_section', '');
-phpAds_EndSettings();
 
 
 
@@ -221,15 +352,7 @@ phpAds_EndSettings();
 /* Main code                                             */
 /*********************************************************/
 
-?>
-<form name="settingsform" method="post" action="<?php echo $HTTP_SERVER_VARS['PHP_SELF'];?>">
-<?php
-
-phpAds_FlushSettings();
-
-?>
-</form>
-<?php
+phpAds_ShowSettings($settings, $errormessage);
 
 
 

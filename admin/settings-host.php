@@ -20,7 +20,7 @@ include ("lib-settings.inc.php");
 
 // Register input variables
 phpAds_registerGlobal ('reverse_lookup', 'proxy_lookup', 'geotracking_location', 'geotracking_type', 
-					   'geotracking_stats', 'geotracking_cookie');
+					   'geotracking_cookie');
 
 
 // Security check
@@ -32,20 +32,12 @@ $sql = array();
 
 if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 {
-	if (isset($reverse_lookup))
-		phpAds_SettingsWriteAdd('reverse_lookup', $reverse_lookup);
-	if (isset($proxy_lookup))
-		phpAds_SettingsWriteAdd('proxy_lookup', $proxy_lookup);
+	phpAds_SettingsWriteAdd('reverse_lookup', isset($reverse_lookup));
+	phpAds_SettingsWriteAdd('proxy_lookup', isset($proxy_lookup));
 	
-	if (isset($geotracking_type))
-		phpAds_SettingsWriteAdd('geotracking_type', $geotracking_type);
-	if (isset($geotracking_location))
-		phpAds_SettingsWriteAdd('geotracking_location', $geotracking_location);	
-	if (isset($geotracking_stats))
-		phpAds_SettingsWriteAdd('geotracking_stats', $geotracking_stats);
-	if (isset($geotracking_cookie))
-		phpAds_SettingsWriteAdd('geotracking_cookie', $geotracking_cookie);	
-	
+	if (isset($geotracking_type)) phpAds_SettingsWriteAdd('geotracking_type', $geotracking_type);
+	if (isset($geotracking_location)) phpAds_SettingsWriteAdd('geotracking_location', $geotracking_location);	
+	phpAds_SettingsWriteAdd('geotracking_cookie', isset($geotracking_cookie));
 	
 	if (!count($errormessage))
 	{
@@ -74,24 +66,56 @@ phpAds_SettingsSelection("host");
 /* Cache settings fields and get help HTML Code          */
 /*********************************************************/
 
-phpAds_StartSettings();
-phpAds_AddSettings('start_section', "1.5.1");
-phpAds_AddSettings('checkbox', 'reverse_lookup', $strReverseLookup);
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('checkbox', 'proxy_lookup', $strProxyLookup);
-phpAds_AddSettings('end_section', '');
 
-phpAds_AddSettings('start_section', "1.5.2");
-phpAds_AddSettings('select', 'geotracking_type',
-	array($strGeotrackingType, array($strNone, 'IP2Country', 'MaxMind GeoIP', 'MaxMind GeoIP (mod_geoip)')));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'geotracking_location',
-	array($strGeotrackingLocation, 35, 'text', 0));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('checkbox', 'geotracking_cookie', $strGeoStoreCookie);
-phpAds_AddSettings('end_section', '');
+$settings = array (
 
-phpAds_EndSettings();
+array (
+	'text' 	  => $strRemoteHost,
+	'items'	  => array (
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'reverse_lookup',
+			'text'	  => $strReverseLookup
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'proxy_lookup',
+			'text'	  => $strProxyLookup
+		)
+	)
+),
+array (
+	'text' 	  => $strGeotargeting,
+	'items'	  => array (
+		array (
+			'type' 	  => 'select', 
+			'name' 	  => 'geotracking_type',
+			'text' 	  => $strGeotrackingType,
+			'items'   => array($strNone, 'IP2Country', 'MaxMind GeoIP', 'MaxMind GeoIP (mod_geoip)')
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type' 	  => 'text', 
+			'name' 	  => 'geotracking_location',
+			'text' 	  => $strGeotrackingLocation,
+			'size'	  => 35,
+			'depends' => 'geotracking_type>0 && geotracking_type!=3'
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'geotracking_cookie',
+			'text'	  => $strGeoStoreCookie
+		)
+	)
+));
 
 
 
@@ -99,15 +123,7 @@ phpAds_EndSettings();
 /* Main code                                             */
 /*********************************************************/
 
-?>
-<form name="settingsform" method="post" action="<?php echo $HTTP_SERVER_VARS['PHP_SELF'];?>">
-<?php
-
-phpAds_FlushSettings();
-
-?>
-</form>
-<?php
+phpAds_ShowSettings($settings, $errormessage);
 
 
 

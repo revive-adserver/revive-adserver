@@ -34,37 +34,22 @@ $sql = array();
 
 if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 {
-	if (isset($allow_invocation_plain))
-		phpAds_SettingsWriteAdd('allow_invocation_plain', $allow_invocation_plain);
-	if (isset($allow_invocation_js))
-		phpAds_SettingsWriteAdd('allow_invocation_js', $allow_invocation_js);
-	if (isset($allow_invocation_frame))
-		phpAds_SettingsWriteAdd('allow_invocation_frame', $allow_invocation_frame);
-	if (isset($allow_invocation_xmlrpc))
-		phpAds_SettingsWriteAdd('allow_invocation_xmlrpc', $allow_invocation_xmlrpc);
-	if (isset($allow_invocation_local))
-		phpAds_SettingsWriteAdd('allow_invocation_local', $allow_invocation_local);
-	if (isset($allow_invocation_interstitial))
-		phpAds_SettingsWriteAdd('allow_invocation_interstitial', $allow_invocation_interstitial);
-	if (isset($allow_invocation_popup))
-		phpAds_SettingsWriteAdd('allow_invocation_popup', $allow_invocation_popup);
+	phpAds_SettingsWriteAdd('allow_invocation_plain', isset($allow_invocation_plain));
+	phpAds_SettingsWriteAdd('allow_invocation_js', isset($allow_invocation_js));
+	phpAds_SettingsWriteAdd('allow_invocation_frame', isset($allow_invocation_frame));
+	phpAds_SettingsWriteAdd('allow_invocation_xmlrpc', isset($allow_invocation_xmlrpc));
+	phpAds_SettingsWriteAdd('allow_invocation_local', isset($allow_invocation_local));
+	phpAds_SettingsWriteAdd('allow_invocation_interstitial', isset($allow_invocation_interstitial));
+	phpAds_SettingsWriteAdd('allow_invocation_popup', isset($allow_invocation_popup));
 	
-	if (isset($delivery_caching))
-		phpAds_SettingsWriteAdd('delivery_caching', $delivery_caching);
-	if (isset($acl))
-		phpAds_SettingsWriteAdd('acl', $acl);
-	if (isset($con_key))
-		phpAds_SettingsWriteAdd('con_key', $con_key);
-	if (isset($mult_key))
-		phpAds_SettingsWriteAdd('mult_key', $mult_key);
+	if (isset($delivery_caching)) phpAds_SettingsWriteAdd('delivery_caching', $delivery_caching);
+	phpAds_SettingsWriteAdd('acl', isset($acl));
+	phpAds_SettingsWriteAdd('con_key', isset($con_key));
+	phpAds_SettingsWriteAdd('mult_key', isset($mult_key));
 	
-	if (isset($p3p_policies))
-		phpAds_SettingsWriteAdd('p3p_policies', $p3p_policies);
-	if (isset($p3p_compact_policy))
-		phpAds_SettingsWriteAdd('p3p_compact_policy', $p3p_compact_policy);
-	if (isset($p3p_policy_location))
-		phpAds_SettingsWriteAdd('p3p_policy_location', $p3p_policy_location);
-	
+	phpAds_SettingsWriteAdd('p3p_policies', isset($p3p_policies));
+	if (isset($p3p_compact_policy)) phpAds_SettingsWriteAdd('p3p_compact_policy', $p3p_compact_policy);
+	if (isset($p3p_policy_location)) phpAds_SettingsWriteAdd('p3p_policy_location', $p3p_policy_location);
 	
 	if (!count($errormessage))
 	{
@@ -111,40 +96,117 @@ if (function_exists('shmop_open'))
 
 
 
-phpAds_StartSettings();
-phpAds_AddSettings('start_section', "1.2.1");
-phpAds_AddSettings('select', 'delivery_caching',
-	array($strCacheType, $delivery_cache_methods));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('checkbox', 'acl', $strUseAcl);
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('checkbox', 'con_key', $strUseConditionalKeys);
-phpAds_AddSettings('checkbox', 'mult_key', $strUseMultipleKeys);
-phpAds_AddSettings('end_section', '');
+$settings = array (
 
-phpAds_AddSettings('start_section', "1.2.2");
-phpAds_AddSettings('checkbox', 'allow_invocation_plain', $strAllowRemoteInvocation);
-phpAds_AddSettings('checkbox', 'allow_invocation_js', $strAllowRemoteJavascript);
-phpAds_AddSettings('checkbox', 'allow_invocation_frame', $strAllowRemoteFrames);
-phpAds_AddSettings('checkbox', 'allow_invocation_xmlrpc', $strAllowRemoteXMLRPC);
-phpAds_AddSettings('checkbox', 'allow_invocation_local', $strAllowLocalmode);
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('checkbox', 'allow_invocation_interstitial', $strAllowInterstitial);
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('checkbox', 'allow_invocation_popup', $strAllowPopups);
-phpAds_AddSettings('end_section', '');
-
-phpAds_AddSettings('start_section', "1.2.3");
-phpAds_AddSettings('checkbox', 'p3p_policies',
-	array($strUseP3P, array('p3p_compact_policy', 'p3p_policy_location')));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'p3p_compact_policy',
-	array($strP3PCompactPolicy, 35, 'text', 0, 'p3p_policies'));
-phpAds_AddSettings('break', '');
-phpAds_AddSettings('text', 'p3p_policy_location',
-	array($strP3PPolicyLocation, 35, 'text', 0, 'p3p_policies'));
-phpAds_AddSettings('end_section', '');
-phpAds_EndSettings();
+array (
+	'text' 	  => $strDeliverySettings,
+	'items'	  => array (
+		array (
+			'type' 	  => 'select', 
+			'name' 	  => 'delivery_caching',
+			'text' 	  => $strCacheType,
+			'items'   => $delivery_cache_methods
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'acl',
+			'text'	  => $strUseAcl
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'con_key',
+			'text'	  => $strUseConditionalKeys
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'mult_key',
+			'text'	  => $strUseMultipleKeys
+		)
+	)
+),
+array (
+	'text' 	  => $strAllowedInvocationTypes,
+	'items'	  => array (
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'allow_invocation_plain',
+			'text'	  => $strAllowRemoteInvocation
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'allow_invocation_js',
+			'text'	  => $strAllowRemoteJavascript
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'allow_invocation_frame',
+			'text'	  => $strAllowRemoteFrames
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'allow_invocation_xmlrpc',
+			'text'	  => $strAllowRemoteXMLRPC
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'allow_invocation_local',
+			'text'	  => $strAllowLocalmode
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'allow_invocation_interstitial',
+			'text'	  => $strAllowInterstitial
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'allow_invocation_popup',
+			'text'	  => $strAllowPopups
+		)
+	)
+),
+array (
+	'text' 	  => $strP3PSettings,
+	'items'	  => array (
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'p3p_policies',
+			'text'	  => $strUseP3P
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type' 	  => 'text', 
+			'name' 	  => 'p3p_compact_policy',
+			'text' 	  => $strP3PCompactPolicy,
+			'size'	  => 35,
+			'depends' => 'p3p_policies==true'
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type' 	  => 'text', 
+			'name' 	  => 'p3p_policy_location',
+			'text' 	  => $strP3PPolicyLocation,
+			'size'	  => 35,
+			'depends' => 'p3p_policies==true',
+			'check'   => 'url'
+		)
+	)
+));
 
 
 
@@ -152,15 +214,7 @@ phpAds_EndSettings();
 /* Main code                                             */
 /*********************************************************/
 
-?>
-<form name="settingsform" method="post" action="<?php echo $HTTP_SERVER_VARS['PHP_SELF'];?>">
-<?php
-
-phpAds_FlushSettings();
-
-?>
-</form>
-<?php
+phpAds_ShowSettings($settings, $errormessage);
 
 
 
