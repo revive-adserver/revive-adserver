@@ -167,7 +167,7 @@ function phpAds_ConfigFileUpdatePrepare ()
 					{
 						$regs[2] = ' = \''.strtolower(eregi_replace("^([a-z]+)/.*$", "\\1://",
 							       $HTTP_SERVER_VARS['SERVER_PROTOCOL'])).$HTTP_SERVER_VARS['HTTP_HOST'].
-								   ereg_replace("/admin/upgrade.php(\?.*)?$", "", $HTTP_SERVER_VARS['REQUEST_URI']).'\'';
+								   ereg_replace("/admin/upgrade.php(\?.*)?$", "", $HTTP_SERVER_VARS['SCRIPT_NAME']).'\'';
 					}
 					
 					@eval ("$"."value ".$regs[2].";");
