@@ -1,8 +1,6 @@
 <?php   
 /* This is a special version of this script for phpAdsNew. It's not pretty, I know !/*
 
-require("gd.php");
-
 /**************************************************************************/  
 /* you must supply to this script 3 parameters :  title,width and data.   */  
 /* - title is the title of the graph                                      */  
@@ -109,6 +107,7 @@ while (list($key,$item) = each($items))
          }  
       $y=$y+($bar_width+20);
 	// Display modified image  
+	require("gd.php");
 	showimage($im);
 
 	// Release allocated ressources  
