@@ -1,6 +1,11 @@
 phpAdsNew - ChangeLog
 
 CVS
+			+ Misc bugfixes
+			  - 2003-07-09:  HTML banner preview wasn't working: it redirected to client-index instead  (Matteo)
+			  - 2003-07-09:  Fixed division by zero error in lib-priority that could have been generated on line 886  (Matteo)
+
+
 v 2.0rc4		+ Misc changes
 			  - 2003-04-13:  Added support for paths in direct selection query string  (Niels)
  			  - 2003-04-13:  Beacon image is now enclosed in a hidden layer to prevent unneeded linewraps after tables and other html tags  (Niels)
