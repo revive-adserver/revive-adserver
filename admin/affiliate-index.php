@@ -148,6 +148,9 @@ if (isset($zones) && is_array($zones) && count($zones) > 0)
 
 
 
+echo "<img src='images/icon-affiliate.gif' border='0' align='absmiddle'>&nbsp;";
+echo "<a href='affiliate-edit.php'>$strAddAffiliate</a>&nbsp;&nbsp;";
+phpAds_ShowBreak();
 
 
 
@@ -317,10 +320,6 @@ if ($loosezones)
 	
 	echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 }
-
-echo "<tr height='25'><td colspan='5' height='25'>";
-echo "<img src='images/icon-affiliate.gif' border='0' align='absmiddle'>&nbsp;<a href='affiliate-edit.php'>$strAddAffiliate</a>&nbsp;&nbsp;";
-echo "</td></tr>";
 
 echo "</table>";
 
