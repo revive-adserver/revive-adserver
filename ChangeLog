@@ -18,6 +18,8 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			+ Added support for QuickTime, Real and Shockwave files  (Niels) 20020109
 			+ Added source statistics  (Wim) 20020129
 			+ Added monthly statistics  (Niels) 20020203
+			+ Added a log for actions taken during delivery and 
+			  maintenance, which is also used to log all outgoing email  (Niels) 20020211
 
 			+ Misc changes to library and function names
 			  - Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 20011020
@@ -82,6 +84,9 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Added graphs to every history page  (Niels) 20020203
 			  - Optimised ignore_hosts function so only two regular expressions 
 			    are used in total, instead of 3 for each listed host.  (Niels) 20020206
+			  - Added general library for sending email  (Niels) 20020211
+			  - Moved deactivation warning to a seperate library  (Niels) 20020211
+			  - Added support for GZIP content encoding of the admin interface  (Niels) 20020211
 
 
 			+ Misc bugfixes
