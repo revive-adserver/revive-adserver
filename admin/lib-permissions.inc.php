@@ -317,7 +317,10 @@ function phpAds_isAdmin($username, $md5)
 {
 	global $phpAds_config;
 	
-	return ($username == $phpAds_config['admin'] && $md5 == $phpAds_config['admin_pw']);
+	return (
+		($username == $phpAds_config['admin'] && $md5 == $phpAds_config['admin_pw']) ||
+		($username == $phpAds_config['admin'] && $md5 == md5($phpAds_config['admin_pw']) && defined('phpAds_updating'))
+	);
 }
 
 
