@@ -76,6 +76,11 @@ div.errormessage {
 	margin-top: 8px;
 	margin-bottom: 16px;
 	padding: 6px 6px 6px 32px;
+	line-height: 18px;
+}
+
+div.errormessage td {
+	line-height: 18px;
 }
 
 img.errormessage {
