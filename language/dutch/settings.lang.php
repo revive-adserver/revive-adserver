@@ -114,6 +114,7 @@ $GLOBALS['strWarnLimit']				= "Waarschuwings limiet";
 $GLOBALS['strWarnLimitErr']				= "Waarschuwings limiet moet een positief nummer zijn";
 $GLOBALS['strBeginOfWeek']				= "Begin van de week";
 $GLOBALS['strPercentageDecimals']		= "Nauwkeurigheid van percentages";
+$GLOBALS['strLogBeacon']				= "Gebruik beacons om Adviews te loggen";
 $GLOBALS['strCompactStats']				= "Gebruik compacte statistieken";
 $GLOBALS['strLogAdviews']				= "Log AdViews";
 $GLOBALS['strLogAdclicks']				= "Log AdClicks";
