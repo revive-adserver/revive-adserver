@@ -164,7 +164,7 @@ if (isset($submit))
 			") or phpAds_sqlDie();
 	}
 	
-	if ($weight != $previousweight)
+	if ($weight != $previousweight || $active != $previousactive)
 	{
 		require ("../lib-priority.inc.php");
 		phpAds_PriorityCalculate ();
@@ -686,6 +686,7 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 			<?php echo $strCampaignWeight; ?>: 
 			<input class='flat' type="text" name="weight" size='7' value="<?php echo isset($row["weight"]) ? $row["weight"] : $phpAds_config['default_campaign_weight'];?>">
 			<input type="hidden" name="previousweight" value="<?php echo isset($row["weight"]) ? $row["weight"] : '';?>">
+			<input type="hidden" name="previousactive" value="<?php echo isset($row["active"]) ? $row["active"] : '';?>">
 			</td></tr></table>
 		</td>
 	</tr>
