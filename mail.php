@@ -28,7 +28,11 @@ while($row_clients = mysql_fetch_array($res_clients))
 	$clients[$i]["clientname"] = $row_clients["clientname"];      
 	$clients[$i]["views"] = $row_clients["views"];
 	$clients[$i]["clicks"] = $row_clients["clicks"];
-	$clients[$i]["days"] = substr_count($row_clients["expire"],"0")==8 ? -1 : $row_clients["days"];
+	if (substr_count($row_clients["expire"],"0") == 8) {
+		$clients[$i]["days"] = 0 ;
+	} else {
+		$clients[$i]["days"] = $row_clients["days"];
+	}
 	$clients[$i]["active"] = false;
 
 	print "Processing ".$clients[$i]["clientname"]."...<BR>\n";
@@ -154,10 +158,11 @@ for($i=0; $i<count($logs); $i++)
 		continue;
     
 	// Check if the client has remaining adviews
-	if ($clients[$i]["views"] <= 0 && $clients[$i]["clicks"] <= 0 && $clients[$i]["days"] < 0)
+	if ($clients[$i]["views"] = 0 or $clients[$i]["clicks"] = 0 or $clients[$i]["days"] < 0)
 	{
 		$client_name = $clients[$i]["clientname"];
 		unset ($client_ID);
+		print "Desactivate ".$client_name."\n\n";
 		$client_ID = $clients[$i]['clientID'];
 		$result = db_query("
 			UPDATE
@@ -167,7 +172,7 @@ for($i=0; $i<count($logs); $i++)
 			WHERE
 				clientID = $client_ID
 			") or mysql_die ("$strLogErrorDisactivate");
-
+			
 		if ( $email = $clients[$i]["email"] )
 		{
         		$strMailSubject2 =  $strMailSubjectDeleted.": ".$client_name;
@@ -182,7 +187,7 @@ for($i=0; $i<count($logs); $i++)
 		$strMailSubject1 =  $strMailSubject.": ".$clients[$i]["clientname"];
 		mail($clients[$i]["email"], $strMailSubject1, $body, $phpAds_admin_email_headers);
 		unset ($strMailSubject1 ) ;
-	}
+	}	
 }
 
 echo "$strLogMailSent\n";  

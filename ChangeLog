@@ -6,6 +6,8 @@ CVS			+ Bugfix: implemented workaround for IE bug in the admin pages (Niels)
 			+ Bugfix: Detailed statistics were empty after adding an ACL to a banner (Niels)
 			+ Bugfix: SQL error after resetting statistics (Niels, Phil)
 			+ Bugfix: bad include path (Phil)
+			+ Bugfix: mail.php disable wrong clients (Cedric)
+			+ Translate french version (Cedric)
 v 1.9.1 - 02/03/2001    
 			+ BugFix: typo in dailystats.inc.php (Phil)
 			+ Bugfix: "when" is a reserved word in mysql?  Who knew?  (Phil)
