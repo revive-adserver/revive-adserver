@@ -200,12 +200,12 @@ if (phpAds_isUser(phpAds_Admin))
 			{
 				if (eval(form.unlimitedviews.checked) == false)
 				{
-					alert("You must enter the number of views or select the unlimited box !");
+					alert("<?print $GLOBALS['strErrorViews'];?>");
 					return false;
 				}
 			} else if (views < 0)
 			{
-				alert("Negative views are not allowed");
+				alert("<?print $GLOBALS['strErrorNegViews'];?>");
 				return false;
 			}
 			var clicks=parseInt(form.clicks.value);
@@ -213,12 +213,12 @@ if (phpAds_isUser(phpAds_Admin))
 			{
 				if (eval(form.unlimitedclicks.checked) == false)
 				{
-					alert("You must enter the number of clicks or select the unlimited box !");
+					alert("<?print $GLOBALS['strErrorClicks'];?>");
 					return false;
 				}
 			} else if (clicks < 0)
 			{
-				alert("Negative clicks are not allowed");
+				alert("<?print $GLOBALS['strErrorNegClicks'];?>");
 				return false;
 			}
 			var days_left=parseInt(form.days_left.value);
@@ -226,12 +226,12 @@ if (phpAds_isUser(phpAds_Admin))
 			{
 				if (eval(form.unlimiteddays_left.checked) == false)
 				{
-					alert("You must enter the number of days or select the unlimited box !");
+					alert("<?print $GLOBALS['strErrorDays'];?>");
 					return false;
 				}
 			} else if (days_left < 0)
 			{
-				alert("Negative days are not allowed");
+				alert("<?print $GLOBALS['strErrorNegDays'];?>");
 				return false;
 			}
 		}
@@ -273,7 +273,7 @@ if (phpAds_isUser(phpAds_Admin))
 		$langdir = opendir ("./language/");
 		while ($langfile = readdir ($langdir))
 		{
-			if (ereg ("^([a-zA-Z]*)\.inc\.php$", $langfile, $matches))
+			if (ereg ("^([a-zA-Z0-9\-]*)\.inc\.php$", $langfile, $matches))
 			{
 				$option = $matches[1];
 				if ($row["language"] == $option)
