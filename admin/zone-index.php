@@ -64,54 +64,119 @@ if (@mysql_num_rows($res_zones) > 0)
 {
 	echo "<tr height='25'>";
 	echo "<td height='25'><b>&nbsp;&nbsp;".$GLOBALS['strName']."</b></td>";
-	echo "<td height='25'><b>".$GLOBALS['strID']."</b></td>";
+	echo "<td height='25'><b>".$GLOBALS['strID']."</b>&nbsp;&nbsp;&nbsp;</td>";
 	echo "<td height='25'><b>".$GLOBALS['strSize']."</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-	echo "<td height='25'>&nbsp;</td>";
 	echo "<td height='25'>&nbsp;</td>";
 	echo "</tr>";
 	
-	echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 }
+
+$stats['cachesize'] = 0;
+$stats['cachedzones'] = 0;
+$stats['cachetimestamp'] = 0;
 
 $i=0;
 while ($row_zones = mysql_fetch_array($res_zones))
 {
-	if ($i > 0) echo "<td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
+	if ($i > 0) echo "<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
 	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 	
 	echo "<td height='25'>";
 	echo "&nbsp;&nbsp;<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
 	echo "<a href='zone-edit.php?zoneid=".$row_zones['zoneid']."'>".$row_zones['zonename']."</a>";
+	echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "</td>";
 	
 	// ID
 	echo "<td height='25'>".$row_zones['zoneid']."</td>";
 	
-	// Empty
+	// Width
 	echo "<td height='25'>".$row_zones['width']."x".$row_zones['height']."</td>";
+	echo "<td>&nbsp;</td>";
+	echo "</tr>";
+	
+	// Description
+	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
+	echo "<td>&nbsp;</td>";
+	echo "<td height='25' colspan='3'>".stripslashes($row_zones['description'])."</td>";
+	echo "</tr>";
+	
+	echo "<tr height='1'>";
+	echo "<td ".($i%2==0?"bgcolor='#F6F6F6'":"")."><img src='images/spacer.gif' width='1' height='1'></td>";
+	echo "<td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
+	echo "</tr>";
+	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 	
 	// Empty
 	echo "<td>&nbsp;</td>";
 	
-	// Button 1
-	echo "<td height='25'>";
+	// Button 1, 2 & 3
+	echo "<td height='25' colspan='3'>";
+	echo "<a href='zone-include.php?zoneid=".$row_zones['zoneid']."'><img src='images/icon-zone-linked.gif' border='0' align='absmiddle' alt='$strIncludedBanners'>&nbsp;$strIncludedBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+	echo "<a href='zone-probability.php?zoneid=".$row_zones['zoneid']."'><img src='images/icon-zone-probability.gif' border='0' align='absmiddle' alt='$strProbability'>&nbsp;$strProbability</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+	echo "<a href='zone-invocation.php?zoneid=".$row_zones['zoneid']."'><img src='images/icon-generatecode.gif' border='0' align='absmiddle' alt='$strInvocationcode'>&nbsp;$strInvocationcode</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "<a href='zone-delete.php?zoneid=".$row_zones['zoneid']."'><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "</td></tr>";
+	
+	$stats['cachetimestamp'] += $row_zones['cachetimestamp'];
+	$stats['cachesize'] += strlen($row_zones['cachecontents']);
+	if ($row_zones['cachecontents'] != '')
+		$stats['cachedzones']++;
 	
 	$i++;
 }
 
 if (@mysql_num_rows($res_zones) > 0)
 {
-	echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 }
 
-echo "<tr height='25'><td colspan='5' height='25'>";
+echo "<tr height='25'><td colspan='4' height='25'>";
 echo "<img src='images/icon-zone.gif' border='0' align='absmiddle'>&nbsp;<a href='zone-edit.php'>$strAddNewZone</a>&nbsp;&nbsp;";
 echo "</td></tr>";
 
 echo "</table>";
 
+
+
+$stats['cachesize'] = round ($stats['cachesize'] / 1024);
+$stats['cachetimestamp'] = time() - round ($stats['cachetimestamp'] / $stats['cachedzones']);
+
+if ($stats['cachetimestamp'] > $phpAds_zone_cache_limit)
+	$stats['cachetimestamp'] = $strExpired;
+else
+	$stats['cachetimestamp'] .= ' '.$strSeconds;
+
+echo "<br><br><br><br>";
+echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
+echo "<tr><td height='25' colspan='3'><b>".$strOverall."</b></td></tr>";
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+
+if (!$phpAds_zone_cache)
+	echo "<tr><td height='25'>".$strZoneCacheOff."</b></td></tr>";
+else
+{
+	echo "<tr><td height='25'>".$strZoneCacheOn."</b></td></tr>";
+	
+	echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
+	
+	echo "<tr><td height='25'>".$strCachedZones.": <b>".$stats['cachedzones']."</b></td>";
+	echo "<td height='25'>".$strAverageAge.": <b>".$stats['cachetimestamp']."</b></td>";
+	echo "<td height='25'>".$strSizeOfCache.": <b>".$stats['cachesize']." ".$strKiloByte."</b></td></tr>";
+}
+
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+
+if ($phpAds_zone_cache)
+{
+	echo "<tr height='25'><td colspan='3' height='25'>";
+	echo "<img src='images/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='zone-rebuildcache.php'>$strRebuildZoneCache</a>&nbsp;&nbsp;";
+	echo "</td></tr>";
+}
+
+echo "</table>";
+echo "<br><br>";
 
 
 
