@@ -30,11 +30,14 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-08-05:  Added new cookie routines which should fix some very rare login problems with IE6  (Niels)
 			  - 2002-08-05:  When no banner can be delivered adview.php now returns a 1 x 1 pixel transparent gif file, so no broken image icon is shown  (Niels)
 			  - 2002-08-07:  {url_prefix} wasn't replaced by adview.php when using Netscape 4.7  (Niels)
-			  - 2002-08-08:  Delivery limitations can now contain quotes without generation errors during delivery  (Niels)
+			  - 2002-08-08:  Delivery limitations can now contain quotes without generating errors during delivery  (Niels)
 			  - 2002-08-08:  Adview.php tried to display Flash banners during plain remote invocation  (Niels)
 			  - 2002-08-08:  Time capping and log protection can now handle a 6 hour time difference between user and server  (Niels)
 			  - 2002-08-10:  Made a couple of pages compatible with RTL language files  (Niels)
 			  - 2002-08-11:  Made the output of adimage better cachable by the browser  (Niels)
+			  - 2002-08-11:  Rare double login problem fixed  (Niels)
+			  - 2002-08-11:  Delivery capping and log protection should now work better when using local mode from a different domain  (Niels)
+			  - 2002-08-11:  Total for adviews on mailed reports should now work again  (Niels)
 
 
 
