@@ -504,8 +504,15 @@ function view_raw($what, $clientID=0, $target="", $source="", $withtext=0, $cont
 				
 				if(!empty($row["url"])) 
 				{
-					$outputbuffer .= "<a href='$phpAds_url_prefix/click.php?bannerID=".$row['bannerID']."'".$target.">";
-	                $outputbuffer .= $row["banner"];
+					if (strpos ($row['banner'], "{TARGETURL}") > 0)
+					{
+						$outputbuffer .= str_replace ("{TARGETURL}", urlencode("$phpAds_url_prefix/click.php?bannerID=".$row['bannerID']), stripslashes($row['banner']));
+					}
+					else
+					{
+						$outputbuffer .= "<a href='$phpAds_url_prefix/click.php?bannerID=".$row['bannerID']."'".$target.">";
+		                $outputbuffer .= stripslashes($row["banner"]);
+					}
 				} 
 				else
 				{
@@ -584,8 +591,9 @@ function view_raw($what, $clientID=0, $target="", $source="", $withtext=0, $cont
 					}
 					$newbanner = $newbanner.substr($html, $prevhrefpos);
 					$outputbuffer .= $newbanner;
+					
 				}
-				if(!empty($row["url"])) 
+				if (!empty($row["url"]) && strpos ($row['banner'], "{TARGET_URL}") == 0) 
 					$outputbuffer .= "</a>";
 			}
 			elseif ($row["format"] == "url")
