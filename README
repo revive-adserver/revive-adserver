@@ -1,36 +1,35 @@
 
-    phpAdsNew 2
+    phpAdsNew 2.0
     ------------------------------------------------------------------------
-    An ad server and banner management system written in PHP
 
-
-    Version 2 RC 4.2
-    ------------------------------------------------------------------------
-    THIS IS A RELEASE CANDIDATE AND MAY NOT BE 
-    STABLE ENOUGH FOR USE IN A PRODUCTION ENVIRONMENT.
-    THE USE OF THIS SOFTWARE IS COMPLETELY AT YOUR OWN RISK!
+    phpAdsNew is an open-source ad server, with an integrated banner management 
+    interface and tracking system for gathering statistics. With phpAdsNew you 
+    can easily rotate paid banners and your own in-house advertisements. You can 
+    even integrate banners from third party advertising companies.
 
 
     
-    Copyright (C) 2000-2003
-	Niels Leenheer 	   <niels@creatype.nl>
-	Matteo Beccati     <matteo@beccati.com>
+    Copyright (c) 2000-2003
+    ------------------------------------------------------------------------
 
-	Wim Godden 	   <wim@godden.net>
-	Phil Hord 	   <phil@phord.com>
-	Noor Dawod         <noor@COMRAX.COM>
-	Cedric Fontaine    <cfontaine@spidmail.net>
-	Michael Harvey 	   <mike@ve-studio.com>
-	Stefan Morgenroth  <dandra@users.sourceforge.net>
+	Niels Leenheer 	   <niels at phpadsnew dot com>
+	Matteo Beccati     <matteo at phpadsnew dot com>
+	
+	Noor Dawod         <noor at comrax dot com>
+	Stefan Morgenroth  <dandra at users.sourceforge dot net>
 
 
-    Documentation written and maintained by:
-	Niels Leenheer 	   <niels@creatype.nl>
+    - Documentation written and maintained by:
+      Niels Leenheer
 
+    - Based on phpAdsNew 1 created by:
+      Wim Godden, Phil Hord, Niels Leenheer, 
+      Cedric Fontaine and Michael Harvey
 
-    Based on phpAds created by Tobias Ratschiller <tobias@dnet.it>
-    Copyright (C) 1999-2000 
+    - Based on phpAds created by:
+      Tobias Ratschiller 
 
+    ------------------------------------------------------------------------
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -68,7 +67,7 @@
 
     Requirements: 
     ------------------------------------------------------------------------
-    PHP 4.0.1 or higher (4.3.0 recommended)
+    PHP 4.0.3 or higher (4.3.0 recommended)
     MySQL 3.23.3 or higher (InnoDB recommended)
 
     If you want to run phpAdsNew on a PostgreSQL server you should
@@ -77,36 +76,6 @@
     http://sourceforge.net/projects/phppgads/
        
          
-    Summary:
-    ------------------------------------------------------------------------
-    phpAdsNew is a banner management and tracking system written in PHP.
-    Currently it can
-    - manage multiple campaigns per advertiser
-    - manage multiple banners (any size) per campaign
-    - manage multiple zones per publisher
-    - Link banners or campaigns to different zones
-    - view daily, weekly, monthly, overall and summary statistics
-    - send statistics to advertisers via email
-    - use HTML (Rich media), GIF, JPEG, PNG and Flash banners
-    - use banners stored on an external server (linked) or
-      store banner through the admin interface in the 
-      MySQL server or on a ftp server.
-    - integrate banner networks with your own banners
-    - show random, pre-defined or HTML/image banners
-    - supports multiple keywords for groups of banners
-    - supports conditional keywords
-    - activate and deactivate single banners
-    - show banners based on filters: user-agent, accept-language, day-of-week, IP masks, domain, source page, time
-    - Set a target number of impressions for a campaign
-    - Perform campaign/banner weighing
-    - Target banner clicks to frames
-    - Multi-lingual and support for right-to-left languages, like Arabic
- 
-
-    Download:
-    ------------------------------------------------------------------------
-    You can get the latest version at http://www.phpadsnew.com
-
 
     Credits:
     ------------------------------------------------------------------------
@@ -126,6 +95,7 @@
     Occasional bugfixes and support: 
     Manuel Lemos, Boaz Yahav, Roy Nasser, Mark Maggalet, Ben Schumacher.
     And all the rest who helped.
+
 
 
     Support:
