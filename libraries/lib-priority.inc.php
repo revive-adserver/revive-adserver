@@ -1191,19 +1191,30 @@ function phpAds_PriorityTotalWeight($campaigns, $banners)
 		$tbw[$c] = 0;
 	}
 	
+	
+	if ($tcw == 0)
+		return 0;  // All campaigns are disabled or high priority
+	
+	
 	// Get total banner weight for each campaign
 	for (reset($banners);$b=key($banners);next($banners))
 		if ($campaigns[$banners[$b]['parent']]['active'] == 't')
 			$tbw[$banners[$b]['parent']] += $banners[$b]['weight'];
 	
-	// Determine probability
+	
+	// Determine probability or low priority campaigns
 	for (reset($banners);$b=key($banners);next($banners))
-		if ($campaigns[$banners[$b]['parent']]['active'] == 't')
+		if ($campaigns[$banners[$b]['parent']]['active'] == 't' && $campaigns[$banners[$b]['parent']]['weight'] > 0)
 			$pr[] = ($campaigns[$banners[$b]['parent']]['weight'] / $tcw / $tbw[$banners[$b]['parent']]) * $banners[$b]['weight'];
 	
 	
 	// Determine minimum probability
 	$min = min($pr);
+	
+	
+	if ($min == 0)
+		return 0; // No active banners in low priority campaigns
+	
 	
 	// Determine total weight
 	reset($pr); $total = 0;
