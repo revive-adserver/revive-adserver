@@ -1,0 +1,95 @@
+<?php // $Revision$
+
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2000-2003 by the phpAdsNew developers                  */
+/* For more information visit: http://www.phpadsnew.com                 */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
+
+
+// This is by no means a complete list of all iso3166-2 codes, but rather
+// an unofficial list used by MaxMind GeoIP. If you have corrections or
+// additions to this list, please send them to niels@creatype.nl
+
+$phpAds_ISO3166-2['CA']['AB'] = "Alberta";
+$phpAds_ISO3166-2['CA']['BC'] = "British Columbia";
+$phpAds_ISO3166-2['CA']['MB'] = "Manitoba";
+$phpAds_ISO3166-2['CA']['NB'] = "New Brunswick";
+$phpAds_ISO3166-2['CA']['NF'] = "Newfoundland";
+$phpAds_ISO3166-2['CA']['NS'] = "Nova Scotia";
+$phpAds_ISO3166-2['CA']['NU'] = "Nunavut";
+$phpAds_ISO3166-2['CA']['ON'] = "Ontario";
+$phpAds_ISO3166-2['CA']['PE'] = "Prince Edward Island";
+$phpAds_ISO3166-2['CA']['QC'] = "Quebec";
+$phpAds_ISO3166-2['CA']['SK'] = "Saskatchewan";
+$phpAds_ISO3166-2['CA']['NT'] = "Northwest Territories";
+$phpAds_ISO3166-2['CA']['YT'] = "Yukon Territories";
+
+$phpAds_ISO3166-2['US']['AL'] = "Alabama";
+$phpAds_ISO3166-2['US']['AK'] = "Alaska";
+$phpAds_ISO3166-2['US']['AZ'] = "Arizona";
+$phpAds_ISO3166-2['US']['AR'] = "Arkansas";
+$phpAds_ISO3166-2['US']['CA'] = "California";
+$phpAds_ISO3166-2['US']['CO'] = "Colorado";
+$phpAds_ISO3166-2['US']['CT'] = "Connecticut";
+$phpAds_ISO3166-2['US']['DE'] = "Delaware";
+$phpAds_ISO3166-2['US']['DC'] = "Dist. of Columbia";
+$phpAds_ISO3166-2['US']['FL'] = "Florida";
+$phpAds_ISO3166-2['US']['GA'] = "Georgia";
+$phpAds_ISO3166-2['US']['GU'] = "Guam";
+$phpAds_ISO3166-2['US']['HI'] = "Hawaii";
+$phpAds_ISO3166-2['US']['ID'] = "Idaho";
+$phpAds_ISO3166-2['US']['IL'] = "Illinois";
+$phpAds_ISO3166-2['US']['IN'] = "Indiana";
+$phpAds_ISO3166-2['US']['IA'] = "Iowa";
+$phpAds_ISO3166-2['US']['KS'] = "Kansas";
+$phpAds_ISO3166-2['US']['KY'] = "Kentucky";
+$phpAds_ISO3166-2['US']['LA'] = "Louisiana";
+$phpAds_ISO3166-2['US']['ME'] = "Maine";
+$phpAds_ISO3166-2['US']['MD'] = "Maryland";
+$phpAds_ISO3166-2['US']['MA'] = "Massachusetts";
+$phpAds_ISO3166-2['US']['MI'] = "Michigan";
+$phpAds_ISO3166-2['US']['MN'] = "Minnesota";
+$phpAds_ISO3166-2['US']['MS'] = "Mississippi";
+$phpAds_ISO3166-2['US']['MO'] = "Missouri";
+$phpAds_ISO3166-2['US']['MT'] = "Montana";
+$phpAds_ISO3166-2['US']['NE'] = "Nebraska";
+$phpAds_ISO3166-2['US']['NV'] = "Nevada";
+$phpAds_ISO3166-2['US']['NH'] = "New Hampshire";
+$phpAds_ISO3166-2['US']['NJ'] = "New Jersey";
+$phpAds_ISO3166-2['US']['NM'] = "New Mexico";
+$phpAds_ISO3166-2['US']['NY'] = "New York";
+$phpAds_ISO3166-2['US']['NC'] = "North Carolina";
+$phpAds_ISO3166-2['US']['ND'] = "North Dakota";
+$phpAds_ISO3166-2['US']['OH'] = "Ohio";
+$phpAds_ISO3166-2['US']['OK'] = "Oklahoma";
+$phpAds_ISO3166-2['US']['OR'] = "Oregon";
+$phpAds_ISO3166-2['US']['PA'] = "Pennsylvania";
+$phpAds_ISO3166-2['US']['PR'] = "Puerto Rico";
+$phpAds_ISO3166-2['US']['RI'] = "Rhode Island";
+$phpAds_ISO3166-2['US']['SC'] = "South Carolina";
+$phpAds_ISO3166-2['US']['SD'] = "South Dakota";
+$phpAds_ISO3166-2['US']['TN'] = "Tennessee";
+$phpAds_ISO3166-2['US']['TX'] = "Texas";
+$phpAds_ISO3166-2['US']['UT'] = "Utah";
+$phpAds_ISO3166-2['US']['VT'] = "Vermont";
+$phpAds_ISO3166-2['US']['VA'] = "Virginia";
+$phpAds_ISO3166-2['US']['VI'] = "Virgin Islands";
+$phpAds_ISO3166-2['US']['WA'] = "Washington";
+$phpAds_ISO3166-2['US']['WV'] = "West Virginia";
+$phpAds_ISO3166-2['US']['WI'] = "Wisconsin";
+$phpAds_ISO3166-2['US']['WY'] = "Wyoming";
+
+
+
+// Load localized strings
+if (file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/res-iso3166-2.lang.php'))
+	@include(phpAds_path.'/language/'.$phpAds_config['language'].'/res-iso3166-2.lang.php');
+
+?>
