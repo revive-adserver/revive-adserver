@@ -174,10 +174,7 @@ function phpAds_Login()
 			return (array ("usertype" 		=> phpAds_Admin,
 						   "loggedin" 		=> "t",
 						   "username" 		=> $phpAds_username,
-						   "password" 		=> $phpAds_password,
-						   "stats_compact" 	=> "f",
-						   "stats_view" 	=> "all",
-						   "stats_order" 	=> "bannerid")
+						   "password" 		=> $phpAds_password)
 			       );
 		}
 		else
@@ -208,10 +205,7 @@ function phpAds_Login()
 							   "password" 		=> $phpAds_password,
 							   "userid" 		=> $row['clientid'],
 							   "permissions" 	=> $row['permissions'],
-							   "language" 		=> $row['language'],
-							   "stats_compact" 	=> "f",
-							   "stats_view" 	=> "all",
-							   "stats_order" 	=> "bannerid")
+							   "language" 		=> $row['language'])
 				       );
 			}
 			else

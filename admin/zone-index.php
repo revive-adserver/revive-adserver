@@ -36,6 +36,27 @@ if (phpAds_isUser(phpAds_Affiliate))
 
 
 
+/*********************************************************/
+/* Get preferences                                       */
+/*********************************************************/
+
+if (!isset($listorder))
+{
+	if (isset($Session['prefs']['zone-index.php']['listorder']))
+		$listorder = $Session['prefs']['zone-index.php']['listorder'];
+	else
+		$listorder = '';
+}
+
+if (!isset($orderdirection))
+{
+	if (isset($Session['prefs']['zone-index.php']['orderdirection']))
+		$orderdirection = $Session['prefs']['zone-index.php']['orderdirection'];
+	else
+		$orderdirection = '';
+}
+
+
 
 /*********************************************************/
 /* HTML framework                                        */
@@ -86,10 +107,6 @@ else
 /* Main code                                             */
 /*********************************************************/
 
-if (!isset($listorder)) 	 $listorder = '';
-if (!isset($orderdirection)) $orderdirection = '';
-
-
 // Get clients & campaign and build the tree
 
 $res_zones = phpAds_dbQuery("
@@ -108,54 +125,54 @@ echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 
 
 echo "<tr height='25'>";
-echo '<td height="25"><b>&nbsp;&nbsp;<a href="'.$PHP_SELF.'?affiliateid='.$affiliateid.'&listorder=name">'.$GLOBALS['strName'].'</a>';
+echo '<td height="25"><b>&nbsp;&nbsp;<a href="zone-index.php?affiliateid='.$affiliateid.'&listorder=name">'.$GLOBALS['strName'].'</a>';
 
 if (($listorder == "name") || ($listorder == ""))
 {
 	if  (($orderdirection == "") || ($orderdirection == "down"))
 	{
-		echo ' <a href="'.$PHP_SELF.'?affiliateid='.$affiliateid.'&listorder=name&orderdirection=up">';
+		echo ' <a href="zone-index.php?affiliateid='.$affiliateid.'&orderdirection=up">';
 		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 	}
 	else
 	{
-		echo ' <a href="'.$PHP_SELF.'?affiliateid='.$affiliateid.'&listorder=name&orderdirection=down">';
+		echo ' <a href="zone-index.php?affiliateid='.$affiliateid.'&orderdirection=down">';
 		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 	}
 	echo '</a>';
 }
 
 echo '</b></td>';
-echo '<td height="25"><b><a href="'.$PHP_SELF.'?affiliateid='.$affiliateid.'&listorder=id">'.$GLOBALS['strID'].'</a>';
+echo '<td height="25"><b><a href="zone-index.php?affiliateid='.$affiliateid.'&listorder=id">'.$GLOBALS['strID'].'</a>';
 
 if ($listorder == "id")
 {
 	if  (($orderdirection == "") || ($orderdirection == "down"))
 	{
-		echo ' <a href="'.$PHP_SELF.'?affiliateid='.$affiliateid.'&listorder=id&orderdirection=up">';
+		echo ' <a href="zone-index.php?affiliateid='.$affiliateid.'&orderdirection=up">';
 		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 	}
 	else
 	{
-		echo ' <a href="'.$PHP_SELF.'?affiliateid='.$affiliateid.'&listorder=id&orderdirection=down">';
+		echo ' <a href="zone-index.php?affiliateid='.$affiliateid.'&orderdirection=down">';
 		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 	}
 	echo '</a>';
 }
 
 echo '</b>&nbsp;&nbsp;&nbsp;</td>';
-echo '<td height="25"><b><a href="'.$PHP_SELF.'?affiliateid='.$affiliateid.'&listorder=size">'.$GLOBALS['strSize'].'</a>';
+echo '<td height="25"><b><a href="zone-index.php?affiliateid='.$affiliateid.'&listorder=size">'.$GLOBALS['strSize'].'</a>';
 
 if ($listorder == "size")
 {
 	if  (($orderdirection == "") || ($orderdirection == "down"))
 	{
-		echo ' <a href="'.$PHP_SELF.'?affiliateid='.$affiliateid.'&listorder=size&orderdirection=up">';
+		echo ' <a href="zone-index.php?affiliateid='.$affiliateid.'&orderdirection=up">';
 		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 	}
 	else
 	{
-		echo ' <a href="'.$PHP_SELF.'?affiliateid='.$affiliateid.'&listorder=size&orderdirection=down">';
+		echo ' <a href="zone-index.php?affiliateid='.$affiliateid.'&orderdirection=down">';
 		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 	}
 	echo '</a>';
@@ -245,6 +262,17 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isAllowed(phpAds_AddZone))
 
 echo "</table>";
 echo "<br><br>";
+
+
+
+/*********************************************************/
+/* Store preferences                                     */
+/*********************************************************/
+
+$Session['prefs']['zone-index.php']['listorder'] = $listorder;
+$Session['prefs']['zone-index.php']['orderdirection'] = $orderdirection;
+
+phpAds_SessionDataStore();
 
 
 

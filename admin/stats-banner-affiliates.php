@@ -26,6 +26,33 @@ phpAds_checkAccess(phpAds_Admin);
 
 
 /*********************************************************/
+/* Get preferences                                       */
+/*********************************************************/
+
+if (!isset($listorder))
+{
+	if (isset($Session['prefs']['stats-banner-affiliates.php']['listorder']))
+		$listorder = $Session['prefs']['stats-banner-affiliates.php']['listorder'];
+	else
+		$listorder = '';
+}
+
+if (!isset($orderdirection))
+{
+	if (isset($Session['prefs']['stats-banner-affiliates.php']['orderdirection']))
+		$orderdirection = $Session['prefs']['stats-banner-affiliates.php']['orderdirection'];
+	else
+		$orderdirection = '';
+}
+
+if (isset($Session['prefs']['stats-banner-affiliates.php']['nodes']))
+	$node_array = explode (",", $Session['prefs']['stats-banner-affiliates.php']['nodes']);
+else
+	$node_array = array();
+
+
+
+/*********************************************************/
 /* HTML framework                                        */
 /*********************************************************/
 
@@ -88,9 +115,6 @@ phpAds_PageHeader("2.1.2.2", $extra);
 /*********************************************************/
 /* Main code                                             */
 /*********************************************************/
-
-if (!isset($listorder)) 	 $listorder = '';
-if (!isset($orderdirection)) $orderdirection = '';
 
 $manual['clicks'] = 0;
 $manual['views'] = 0;
@@ -220,16 +244,6 @@ else
 
 
 
-
-
-
-// Expand tree nodes
-
-if (isset($Session["affiliate_nodes"]) && $Session["affiliate_nodes"])
-	$node_array = explode (",", $Session["affiliate_nodes"]);
-else
-	$node_array = array();
-
 // Add ID found in expand to expanded nodes
 if (isset($expand) && $expand != '')
 	$node_array[] = $expand;
@@ -245,8 +259,6 @@ for ($i=0; $i < sizeof($node_array);$i++)
 	}
 }
 
-$Session["affiliate_nodes"] = implode (",", $node_array);
-phpAds_SessionDataStore();
 
 
 // Build Tree
@@ -304,36 +316,36 @@ echo "<br><br>";
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
 
 echo "<tr height='25'>";
-echo '<td height="25"><b>&nbsp;&nbsp;<a href="'.$PHP_SELF.'?campaignid='.$campaignid.'&bannerid='.$bannerid.'&listorder=name">'.$GLOBALS['strName'].'</a>';
+echo '<td height="25"><b>&nbsp;&nbsp;<a href="stats-banner-affiliates.php?campaignid='.$campaignid.'&bannerid='.$bannerid.'&listorder=name">'.$GLOBALS['strName'].'</a>';
 
 if (($listorder == "name") || ($listorder == ""))
 {
 	if  (($orderdirection == "") || ($orderdirection == "down"))
 	{
-		echo ' <a href="'.$PHP_SELF.'?campaignid='.$campaignid.'&bannerid='.$bannerid.'&?listorder=name&orderdirection=up">';
+		echo ' <a href="stats-banner-affiliates.php?campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=up">';
 		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 	}
 	else
 	{
-		echo ' <a href="'.$PHP_SELF.'?campaignid='.$campaignid.'&bannerid='.$bannerid.'&listorder=name&orderdirection=down">';
+		echo ' <a href="stats-banner-affiliates.php?campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=down">';
 		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 	}
 	echo '</a>';
 }
 
 echo '</b></td>';
-echo '<td height="25"><b><a href="'.$PHP_SELF.'?campaignid='.$campaignid.'&bannerid='.$bannerid.'&listorder=id">'.$GLOBALS['strID'].'</a>';
+echo '<td height="25"><b><a href="stats-banner-affiliates.php?campaignid='.$campaignid.'&bannerid='.$bannerid.'&listorder=id">'.$GLOBALS['strID'].'</a>';
 
 if ($listorder == "id")
 {
 	if  (($orderdirection == "") || ($orderdirection == "down"))
 	{
-		echo ' <a href="'.$PHP_SELF.'?campaignid='.$campaignid.'&bannerid='.$bannerid.'&listorder=id&orderdirection=up">';
+		echo ' <a href="stats-banner-affiliates.php?campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=up">';
 		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 	}
 	else
 	{
-		echo ' <a href="'.$PHP_SELF.'?campaignid='.$campaignid.'&bannerid='.$bannerid.'&listorder=id&orderdirection=down">';
+		echo ' <a href="stats-banner-affiliates.php?campaignid='.$campaignid.'&bannerid='.$bannerid.'&orderdirection=down">';
 		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 	}
 	echo '</a>';
@@ -372,9 +384,9 @@ else
 			if (isset($affiliate['zones']))
 			{
 				if ($affiliate['expand'] == '1')
-					echo "&nbsp;<a href='stats-banner-affiliates.php?campaignid=".$campaignid."&bannerid=".$bannerid."&listorder=".$listorder."&orderdirection=".$orderdirection."&collapse=".$affiliate['affiliateid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
+					echo "&nbsp;<a href='stats-banner-affiliates.php?campaignid=".$campaignid."&bannerid=".$bannerid."&collapse=".$affiliate['affiliateid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
 				else
-					echo "&nbsp;<a href='stats-banner-affiliates.php?campaignid=".$campaignid."&bannerid=".$bannerid."&listorder=".$listorder."&orderdirection=".$orderdirection."&expand=".$affiliate['affiliateid']."'><img src='images/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
+					echo "&nbsp;<a href='stats-banner-affiliates.php?campaignid=".$campaignid."&bannerid=".$bannerid."&expand=".$affiliate['affiliateid']."'><img src='images/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
 			}
 			else
 				echo "&nbsp;<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
@@ -453,8 +465,21 @@ else
 }
 
 echo "</table>";
-
 echo "<br><br>";
+
+
+
+/*********************************************************/
+/* Store preferences                                     */
+/*********************************************************/
+
+$Session['prefs']['stats-banner-affiliates.php']['listorder'] = $listorder;
+$Session['prefs']['stats-banner-affiliates.php']['orderdirection'] = $orderdirection;
+$Session['prefs']['stats-banner-affiliates.php']['nodes'] = implode (",", $node_array);
+
+phpAds_SessionDataStore();
+
+
 
 /*********************************************************/
 /* HTML framework                                        */

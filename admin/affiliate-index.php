@@ -35,6 +35,33 @@ phpAds_ShowSections(array("4.1", "4.2", "4.3", "4.4"));
 
 
 /*********************************************************/
+/* Get preferences                                       */
+/*********************************************************/
+
+if (!isset($listorder))
+{
+	if (isset($Session['prefs']['affiliate-index.php']['listorder']))
+		$listorder = $Session['prefs']['affiliate-index.php']['listorder'];
+	else
+		$listorder = '';
+}
+
+if (!isset($orderdirection))
+{
+	if (isset($Session['prefs']['affiliate-index.php']['orderdirection']))
+		$orderdirection = $Session['prefs']['affiliate-index.php']['orderdirection'];
+	else
+		$orderdirection = '';
+}
+
+if (isset($Session['prefs']['affiliate-index.php']['nodes']))
+	$node_array = explode (",", $Session['prefs']['affiliate-index.php']['nodes']);
+else
+	$node_array = array();
+
+
+
+/*********************************************************/
 /* Main code                                             */
 /*********************************************************/
 
@@ -43,9 +70,6 @@ $stats['cachedzones'] = 0;
 $stats['cachetimestamp'] = 0;
 
 $loosezones = false;
-
-if (!isset($listorder)) 	 $listorder = '';
-if (!isset($orderdirection)) $orderdirection = '';
 
 
 // Get affiliates and build the tree
@@ -92,13 +116,6 @@ while ($row_zones = phpAds_dbFetchArray($res_zones))
 
 
 
-// Expand tree nodes
-
-if (isset($Session["affiliate_nodes"]) && $Session["affiliate_nodes"])
-	$node_array = explode (",", $Session["affiliate_nodes"]);
-else
-	$node_array = array();
-
 // Add ID found in expand to expanded nodes
 if (isset($expand) && $expand != '')
 	$node_array[] = $expand;
@@ -115,8 +132,6 @@ for ($i=0; $i < $node_array_size;$i++)
 	}
 }
 
-$Session["affiliate_nodes"] = implode (",", $node_array);
-phpAds_SessionDataStore();
 
 
 // Build Tree
@@ -140,36 +155,36 @@ echo "<br><br>";
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
 
 echo "<tr height='25'>";
-echo '<td height="25"><b>&nbsp;&nbsp;<a href="'.$PHP_SELF.'?listorder=name">'.$GLOBALS['strName'].'</a>';
+echo '<td height="25"><b>&nbsp;&nbsp;<a href="affiliate-index.php?listorder=name">'.$GLOBALS['strName'].'</a>';
 
 if (($listorder == "name") || ($listorder == ""))
 {
 	if  (($orderdirection == "") || ($orderdirection == "down"))
 	{
-		echo ' <a href="'.$PHP_SELF.'?listorder=name&orderdirection=up">';
+		echo ' <a href="affiliate-index.php?orderdirection=up">';
 		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 	}
 	else
 	{
-		echo ' <a href="'.$PHP_SELF.'?listorder=name&orderdirection=down">';
+		echo ' <a href="affiliate-index.php?orderdirection=down">';
 		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 	}
 	echo '</a>';
 }
 
 echo '</b></td>';
-echo '<td height="25"><b><a href="'.$PHP_SELF.'?listorder=id">'.$GLOBALS['strID'].'</a>';
+echo '<td height="25"><b><a href="affiliate-index.php?listorder=id">'.$GLOBALS['strID'].'</a>';
 
 if ($listorder == "id")
 {
 	if  (($orderdirection == "") || ($orderdirection == "down"))
 	{
-		echo ' <a href="'.$PHP_SELF.'?listorder=id&orderdirection=up">';
+		echo ' <a href="affiliate-index.php?orderdirection=up">';
 		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 	}
 	else
 	{
-		echo ' <a href="'.$PHP_SELF.'?listorder=id&orderdirection=down">';
+		echo ' <a href="affiliate-index.php?orderdirection=down">';
 		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 	}
 	echo '</a>';
@@ -206,9 +221,9 @@ else
 		if (isset($affiliate['zones']))
 		{
 			if ($affiliate['expand'] == '1')
-				echo "&nbsp;<a href='affiliate-index.php?listorder=".$listorder."&orderdirection=".$orderdirection."&collapse=".$affiliate['affiliateid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
+				echo "&nbsp;<a href='affiliate-index.php?collapse=".$affiliate['affiliateid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
 			else
-				echo "&nbsp;<a href='affiliate-index.php?listorder=".$listorder."&orderdirection=".$orderdirection."&expand=".$affiliate['affiliateid']."'><img src='images/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
+				echo "&nbsp;<a href='affiliate-index.php?expand=".$affiliate['affiliateid']."'><img src='images/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
 		}
 		else
 			echo "&nbsp;<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
@@ -354,6 +369,20 @@ if ($phpAds_config['zone_cache'])
 
 echo "</table>";
 echo "<br><br>";
+
+
+
+/*********************************************************/
+/* Store preferences                                     */
+/*********************************************************/
+
+$Session['prefs']['affiliate-index.php']['listorder'] = $listorder;
+$Session['prefs']['affiliate-index.php']['orderdirection'] = $orderdirection;
+$Session['prefs']['affiliate-index.php']['nodes'] = implode (",", $node_array);
+
+phpAds_SessionDataStore();
+
+
 
 /*********************************************************/
 /* HTML framework                                        */

@@ -68,6 +68,8 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Added a file-stored "table_prefix" configuration variable and updated
 			    all occurrencies of the old "tbl_prefix"  (Matteo) 20020117
 			  - Added warning for overwriting existing tables during installation  (Niels) 20020126
+			  - Table orderdirection and listorder are now stored inside the session  (Niels) 20020127
+			  - Campaign statistics table now uses the same interface for sorting  (Niels) 20020127
 
 
 			+ Misc bugfixes

@@ -87,6 +87,32 @@ echo "<br><br>";
 
 
 
+/*********************************************************/
+/* Get preferences                                       */
+/*********************************************************/
+
+if (!isset($listorder))
+{
+	if (isset($Session['prefs']['stats-index.php']['listorder']))
+		$listorder = $Session['prefs']['stats-index.php']['listorder'];
+	else
+		$listorder = '';
+}
+
+if (!isset($orderdirection))
+{
+	if (isset($Session['prefs']['stats-index.php']['orderdirection']))
+		$orderdirection = $Session['prefs']['stats-index.php']['orderdirection'];
+	else
+		$orderdirection = '';
+}
+
+if (isset($Session['prefs']['stats-index.php']['nodes']))
+	$node_array = explode (",", $Session['prefs']['stats-index.php']['nodes']);
+else
+	$node_array = array();
+
+
 
 /*********************************************************/
 /* Main code                                             */
@@ -104,10 +130,6 @@ if (phpAds_isUser(phpAds_Client) && $phpAds_config['client_welcome'])
 	
 	echo "<br><br>";
 }
-
-
-if (!isset($listorder)) 	 $listorder = '';
-if (!isset($orderdirection)) $orderdirection = '';
 
 
 // Get clients & campaign and build the tree
@@ -254,13 +276,6 @@ else
 
 
 
-// Expand tree nodes
-
-if (isset($Session["stats_nodes"]) && $Session["stats_nodes"])
-	$node_array = explode (",", $Session["stats_nodes"]);
-else
-	$node_array = array();
-
 // Add ID found in expand to expanded nodes
 if (isset($expand) && $expand != '')
 	$node_array[] = $expand;
@@ -278,9 +293,6 @@ for ($i=0; $i < $node_array_size;$i++)
 			$campaigns[$node_array[$i]]['expand'] = 1;
 	}
 }
-
-$Session["stats_nodes"] = implode (",", $node_array);
-phpAds_SessionDataStore();
 
 
 
@@ -355,33 +367,33 @@ if (phpAds_isUser(phpAds_Admin))
 	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
 	
 	echo "<tr height='25'>";
-	echo '<td height="25"><b>&nbsp;&nbsp;<a href="'.$PHP_SELF.'?listorder=name">'.$GLOBALS['strName'].'</a>';
+	echo '<td height="25"><b>&nbsp;&nbsp;<a href="stats-index.php?listorder=name">'.$GLOBALS['strName'].'</a>';
 	if (($listorder == "name") || ($listorder == ""))
 	{
 		if  (($orderdirection == "") || ($orderdirection == "down"))
 		{
-			echo ' <a href="'.$PHP_SELF.'?listorder=name&orderdirection=up">';
+			echo ' <a href="stats-index.php?orderdirection=up">';
 			echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 		}
 		else
 		{
-			echo ' <a href="'.$PHP_SELF.'?listorder=name&orderdirection=down">';
+			echo ' <a href="stats-index.php?orderdirection=down">';
 			echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 		}
 		echo '</a>';
 	}
 	echo '</b></td>';
-	echo '<td height="25"><b><a href="'.$PHP_SELF.'?listorder=id">'.$GLOBALS['strID'].'</a>';
+	echo '<td height="25"><b><a href="stats-index.php?listorder=id">'.$GLOBALS['strID'].'</a>';
 	if ($listorder == "id")
 	{
 		if  (($orderdirection == "") || ($orderdirection == "down"))
 		{
-			echo ' <a href="'.$PHP_SELF.'?listorder=id&orderdirection=up">';
+			echo ' <a href="stats-index.php?orderdirection=up">';
 			echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 		}
 		else
 		{
-			echo ' <a href="'.$PHP_SELF.'?listorder=id&orderdirection=down">';
+			echo ' <a href="stats-index.php?orderdirection=down">';
 			echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 		}
 		echo '</a>';
@@ -417,9 +429,9 @@ if (phpAds_isUser(phpAds_Admin))
 			if (isset($client['campaigns']))
 			{
 				if ($client['expand'] == '1')
-					echo "&nbsp;<a href='stats-index.php?listorder=".$listorder."&orderdirection=".$orderdirection."&collapse=".$client['clientid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
+					echo "&nbsp;<a href='stats-index.php?collapse=".$client['clientid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
 				else
-					echo "&nbsp;<a href='stats-index.php?listorder=".$listorder."&orderdirection=".$orderdirection."&expand=".$client['clientid']."'><img src='images/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
+					echo "&nbsp;<a href='stats-index.php?expand=".$client['clientid']."'><img src='images/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
 			}
 			else
 				echo "&nbsp;<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
@@ -461,9 +473,9 @@ if (phpAds_isUser(phpAds_Admin))
 					if (isset($campaigns[$ckey]['banners']))
 					{
 						if ($campaigns[$ckey]['expand'] == '1')
-							echo "<a href='stats-index.php?listorder=".$listorder."&orderdirection=".$orderdirection."&collapse=".$campaigns[$ckey]['clientid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
+							echo "<a href='stats-index.php?collapse=".$campaigns[$ckey]['clientid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
 						else
-							echo "<a href='stats-index.php?listorder=".$listorder."&orderdirection=".$orderdirection."&expand=".$campaigns[$ckey]['clientid']."'><img src='images/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
+							echo "<a href='stats-index.php?expand=".$campaigns[$ckey]['clientid']."'><img src='images/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
 					}
 					else
 						echo "<img src='images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;";
@@ -770,9 +782,19 @@ else
 	}
 }
 
-
-
 echo "<br><br>";
+
+
+
+/*********************************************************/
+/* Store preferences                                     */
+/*********************************************************/
+
+$Session['prefs']['stats-index.php']['listorder'] = $listorder;
+$Session['prefs']['stats-index.php']['orderdirection'] = $orderdirection;
+$Session['prefs']['stats-index.php']['nodes'] = implode (",", $node_array);
+
+phpAds_SessionDataStore();
 
 
 

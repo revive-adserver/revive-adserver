@@ -27,13 +27,46 @@ phpAds_checkAccess(phpAds_Admin+phpAds_Client);
 
 
 /*********************************************************/
-/* HTML framework                                        */
+/* Get preferences                                       */
 /*********************************************************/
 
-if (!isset($order))   $order = '';
-if (!isset($compact)) $compact = '';
-if (!isset($view))	  $view = '';
+if (!isset($compact))
+{
+	if (isset($Session['prefs']['stats-campaign.php']['compact']))
+		$compact = $Session['prefs']['stats-campaign.php']['compact'];
+	else
+		$compact = 't';
+}
 
+if (!isset($view))
+{
+	if (isset($Session['prefs']['stats-campaign.php']['view']))
+		$view = $Session['prefs']['stats-campaign.php']['view'];
+	else
+		$view = 'all';
+}
+
+if (!isset($listorder))
+{
+	if (isset($Session['prefs']['stats-campaign.php']['listorder']))
+		$listorder = $Session['prefs']['stats-campaign.php']['listorder'];
+	else
+		$listorder = 'name';
+}
+
+if (!isset($orderdirection))
+{
+	if (isset($Session['prefs']['stats-campaign.php']['orderdirection']))
+		$orderdirection = $Session['prefs']['stats-campaign.php']['orderdirection'];
+	else
+		$orderdirection = '';
+}
+
+
+
+/*********************************************************/
+/* HTML framework                                        */
+/*********************************************************/
 
 if (phpAds_isUser(phpAds_Client))
 {
@@ -130,140 +163,121 @@ $i = 0;
 /* Get statistics                                        */
 /*********************************************************/
 
-$tmp_views = array();
-$tmp_clicks = array();
-$tmp_alt = array();
-$tmp_crt = array();
+$banners = array();
+$order_array = array();
 
 if ($phpAds_config['compact_stats'])
 {
-	$res_query = "
+	$query = "
 		SELECT
-			".$phpAds_config['tbl_banners'].".bannerid as bannerid,
-			IF (".$phpAds_config['tbl_banners'].".description='', ".$phpAds_config['tbl_banners'].".description, ".$phpAds_config['tbl_banners'].".alt) as alt,
-			sum(".$phpAds_config['tbl_adstats'].".views) as adviews,
-			sum(".$phpAds_config['tbl_adstats'].".clicks) as adclicks
+			".$phpAds_config['tbl_banners'].".bannerid,
+			".$phpAds_config['tbl_banners'].".description,
+			".$phpAds_config['tbl_banners'].".alt,
+			SUM(".$phpAds_config['tbl_adstats'].".views) AS adviews,
+			SUM(".$phpAds_config['tbl_adstats'].".clicks) AS adclicks
 		FROM
-			".$phpAds_config['tbl_banners']."
-			LEFT JOIN ".$phpAds_config['tbl_adstats']." USING (bannerid)
+			".$phpAds_config['tbl_banners']." LEFT JOIN 
+			".$phpAds_config['tbl_adstats']." USING (bannerid)
 		WHERE
 			".$phpAds_config['tbl_banners'].".clientid = $campaignid
 		GROUP BY
 			".$phpAds_config['tbl_banners'].".bannerid
 		";
 	
-	$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
+	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
 	
-	while ($row_banners = phpAds_dbFetchArray($res_banners))
+	while ($row = phpAds_dbFetchArray($res))
 	{
-		$tmp_views[$row_banners['bannerid']] = $row_banners['adviews'];
-		$tmp_clicks[$row_banners['bannerid']] = $row_banners['adclicks'];
-		$tmp_alt[$row_banners['bannerid']] = strtolower($row_banners['alt']);
-		$tmp_ctr[$row_banners['bannerid']] = 0;
+		$banners[$row['bannerid']]['id'] = $row['bannerid'];
+		$banners[$row['bannerid']]['name'] = phpAds_buildBannerName ('', $row['description'], $row['alt']);
+		$banners[$row['bannerid']]['adviews'] = $row['adviews'];
+		$banners[$row['bannerid']]['adclicks'] = $row['adclicks'];
 	}
 }
 else
 {
-	$res_query = "
+	$query = "
 		SELECT
-			".$phpAds_config['tbl_banners'].".bannerid as bannerid,
-			IF (".$phpAds_config['tbl_banners'].".description='', ".$phpAds_config['tbl_banners'].".description, ".$phpAds_config['tbl_banners'].".alt) as alt,
-			count(".$phpAds_config['tbl_adviews'].".bannerid) as adviews
+			".$phpAds_config['tbl_banners'].".bannerid,
+			".$phpAds_config['tbl_banners'].".description,
+			".$phpAds_config['tbl_banners'].".alt,
+			COUNT(".$phpAds_config['tbl_adviews'].".bannerid) AS adviews
 		FROM
-			".$phpAds_config['tbl_banners']."
-			LEFT JOIN ".$phpAds_config['tbl_adviews']." USING (bannerid)
+			".$phpAds_config['tbl_banners']." LEFT JOIN
+			".$phpAds_config['tbl_adviews']." USING (bannerid)
 		WHERE
 			".$phpAds_config['tbl_banners'].".clientid = $campaignid
 		GROUP BY
 			".$phpAds_config['tbl_banners'].".bannerid
 		";
 	
-	$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
+	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
 	
-	while ($row_banners = phpAds_dbFetchArray($res_banners))
+	while ($row = phpAds_dbFetchArray($res))
 	{
-		$tmp_views[$row_banners['bannerid']] = $row_banners['adviews'];
-		$tmp_clicks[$row_banners['bannerid']] = 0;
-		$tmp_alt[$row_banners['bannerid']] = strtolower($row_banners['alt']);
-		$tmp_ctr[$row_banners['bannerid']] = 0;
+		$banners[$row['bannerid']]['id'] = $row['bannerid'];
+		$banners[$row['bannerid']]['name'] = phpAds_buildBannerName ('', $row['description'], $row['alt']);
+		$banners[$row['bannerid']]['adviews'] = $row['adviews'];
 	}
 	
-	$res_query = "
+	$query = "
 		SELECT
-			".$phpAds_config['tbl_banners'].".bannerid as bannerid,
-			count(".$phpAds_config['tbl_adclicks'].".bannerid) as adclicks
+			".$phpAds_config['tbl_banners'].".bannerid,
+			COUNT(".$phpAds_config['tbl_adclicks'].".bannerid) AS adclicks
 		FROM
-			".$phpAds_config['tbl_banners']."
-			LEFT JOIN ".$phpAds_config['tbl_adclicks']." USING (bannerid)
+			".$phpAds_config['tbl_banners']." LEFT JOIN 
+			".$phpAds_config['tbl_adclicks']." USING (bannerid)
 		WHERE
 			".$phpAds_config['tbl_banners'].".clientid = $campaignid
 		GROUP BY
 			".$phpAds_config['tbl_banners'].".bannerid
 		";
 	
-	$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
+	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
 	
-	while ($row_banners = phpAds_dbFetchArray($res_banners))
+	while ($row = phpAds_dbFetchArray($res))
 	{
-		$tmp_clicks[$row_banners['bannerid']] = $row_banners['adclicks'];
+		if (isset($banners[$row['bannerid']]))
+			$banners[$row['bannerid']]['adclicks'] = $row['adclicks'];
 	}
 }
 
-if (count($tmp_clicks) > 0)
+if (count($banners))
 {
-	reset ($tmp_clicks);
-	while (list ($key,) = each ($tmp_clicks)) 
+	// Calculate CTR
+	for (reset($banners); $key = key($banners); next($banners))
+		$banners[$key]['ctr'] = phpAds_buildCTR ($banners[$key]['adviews'], $banners[$key]['adclicks']);
+	
+	// Build order array
+	for (reset($banners); $key = key($banners); next($banners))
 	{
-		if ($tmp_clicks[$key] != 0 && $tmp_views[$key] != 0)
-			$tmp_ctr[$key] = 100 * $tmp_clicks[$key] / $tmp_views[$key];
+		$order_array[$key] = $banners[$key][$listorder];
+	}
+	
+	// Sort order array
+	if ($listorder == 'name')
+	{
+		if ($orderdirection == 'down')
+			asort ($order_array, SORT_STRING);
 		else
-			$tmp_ctr[$key] = 0;
+			arsort ($order_array, SORT_STRING);
+	}
+	else
+	{
+		if ($orderdirection == 'down')
+			asort ($order_array, SORT_NUMERIC);
+		else
+			arsort ($order_array, SORT_NUMERIC);
 	}
 }
 
 
-if ($order == "adviews")
-{
-	if (count($tmp_views) > 0) arsort ($tmp_views, SORT_NUMERIC);
-	$tmp_order = $tmp_views;
-}
-elseif ($order == "adclicks")
-{
-	if (count($tmp_clicks) > 0) arsort ($tmp_clicks, SORT_NUMERIC);
-	$tmp_order = $tmp_clicks;
-}
-elseif ($order == "ctr")
-{
-	if (count($tmp_ctr) > 0) arsort ($tmp_ctr, SORT_NUMERIC);
-	$tmp_order = $tmp_ctr;
-}
-elseif ($order == "alt")
-{
-	if (count($tmp_alt) > 0) asort ($tmp_alt, SORT_STRING);
-	$tmp_order = $tmp_alt;
-}
-else
-{
-	$tmp_order = $tmp_views;
-	$order = "id";
-}
-
-if (!isset($order))
-	$order = '';
-
-
 
 /*********************************************************/
-/* Main code                                             */
+/* Custom JavaScript code                                */
 /*********************************************************/
 
-echo "<br><br>";
-?>
-
-
-
-
-<script language="JavaScript">
+?><script language="JavaScript">
 <!--
 function findObj(n, d) { 
   var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
@@ -292,15 +306,20 @@ function showHideLayers(obj) {
 	}
 }
 //-->
-</script>
+</script><?php
 
 
-<?php
+
+/*********************************************************/
+/* Main code                                             */
+/*********************************************************/
+
+echo "<br><br>";
 
 $totaladviews = 0;
 $totaladclicks = 0;
 
-if (count($tmp_order) > 0)
+if (count($order_array) > 0)
 {
 	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 	
@@ -310,42 +329,107 @@ if (count($tmp_order) > 0)
 		echo "<tr bgcolor='#FFFFFF' height='25'>";
 		echo "<td>&nbsp;</td>";
 		
-		if ($order == "alt")
-			echo "<td align='left' nowrap height='25'><b><a href='$PHP_SELF?campaignid=$campaignid&view=$view&order=alt&compact=$compact'><u>$strDescription</u></a></b></td>";
-		else
-			echo "<td align='left' nowrap height='25'><b><a href='$PHP_SELF?campaignid=$campaignid&view=$view&order=alt&compact=$compact'>$strDescription</a></b></td>";
+		echo "<td align='left' nowrap height='25'><b><a href='stats-campaign.php?campaignid=".$campaignid."&listorder=name'>".$strName."</a>";
 		
-		if ($order == "id")
-			echo "<td align='left' nowrap height='25'><b><a href='$PHP_SELF?campaignid=$campaignid&view=$view&order=id&compact=$compact'><u>$strID</u></a></b></td>";
-		else
-			echo "<td align='left' nowrap height='25'><b><a href='$PHP_SELF?campaignid=$campaignid&view=$view&order=id&compact=$compact'>$strID</a></b></td>";
+		if (($listorder == "name") || ($listorder == ""))
+		{
+			if  (($orderdirection == "") || ($orderdirection == "down"))
+			{
+				echo ' <a href="stats-campaign.php?campaignid='.$campaignid.'&orderdirection=up">';
+				echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
+			}
+			else
+			{
+				echo ' <a href="stats-campaign.php?campaignid='.$campaignid.'&orderdirection=down">';
+				echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
+			}
+			echo '</a>';
+		}
 		
-		if ($order == "adviews")
-			echo "<td align='right' nowrap height='25'><b><a href='$PHP_SELF?campaignid=$campaignid&view=$view&order=adviews&compact=$compact'><u>$strViews</u></a></b></td>";
-		else
-			echo "<td align='right' nowrap height='25'><b><a href='$PHP_SELF?campaignid=$campaignid&view=$view&order=adviews&compact=$compact'>$strViews</a></b></td>";
+		echo "</b></td>";
+		echo "<td align='left' nowrap height='25'><b><a href='stats-campaign.php?campaignid=".$campaignid."&listorder=id'>".$strID."</a>";
 		
-		if ($order == "adclicks")
-			echo "<td align='right' nowrap height='25'><b><a href='$PHP_SELF?campaignid=$campaignid&view=$view&order=adclicks&compact=$compact'><u>$strClicks</u></a></b></td>";
-		else
-			echo "<td align='right' nowrap height='25'><b><a href='$PHP_SELF?campaignid=$campaignid&view=$view&order=adclicks&compact=$compact'>$strClicks</a></b></td>";
+		if ($listorder == "id")
+		{
+			if  (($orderdirection == "") || ($orderdirection == "down"))
+			{
+				echo ' <a href="stats-campaign.php?campaignid='.$campaignid.'&orderdirection=up">';
+				echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
+			}
+			else
+			{
+				echo ' <a href="stats-campaign.php?campaignid='.$campaignid.'&orderdirection=down">';
+				echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
+			}
+			echo '</a>';
+		}
 		
-		if ($order == "ctr")
-			echo "<td align='right' nowrap height='25'><b><a href='$PHP_SELF?campaignid=$campaignid&view=$view&order=ctr&compact=$compact'><u>$strCTRShort</u></a></b>&nbsp;&nbsp;</td>";
-		else
-			echo "<td align='right' nowrap height='25'><b><a href='$PHP_SELF?campaignid=$campaignid&view=$view&order=ctr&compact=$compact'>$strCTRShort</a></b>&nbsp;&nbsp;</td>";
+		echo "</b></td>";
+		echo "<td align='right' nowrap height='25'><b><a href='stats-campaign.php?campaignid=".$campaignid."&listorder=adviews'>".$strViews."</a>";
 		
+		if ($listorder == "adviews")
+		{
+			if  (($orderdirection == "") || ($orderdirection == "down"))
+			{
+				echo ' <a href="stats-campaign.php?campaignid='.$campaignid.'&orderdirection=up">';
+				echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
+			}
+			else
+			{
+				echo ' <a href="stats-campaign.php?campaignid='.$campaignid.'&orderdirection=down">';
+				echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
+			}
+			echo '</a>';
+		}
+		
+		echo "</b></td>";
+		echo "<td align='right' nowrap height='25'><b><a href='stats-campaign.php?campaignid=".$campaignid."&listorder=adclicks'>".$strClicks."</a>";
+		
+		if ($listorder == "adclicks")
+		{
+			if  (($orderdirection == "") || ($orderdirection == "down"))
+			{
+				echo ' <a href="stats-campaign.php?campaignid='.$campaignid.'&orderdirection=up">';
+				echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
+			}
+			else
+			{
+				echo ' <a href="stats-campaign.php?campaignid='.$campaignid.'&orderdirection=down">';
+				echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
+			}
+			echo '</a>';
+		}
+		
+		echo "</b></td>";
+		echo "<td align='right' nowrap height='25'><b><a href='stats-campaign.php?campaignid=".$campaignid."&listorder=ctr'>".$strCTRShort."</a>";
+		
+		if ($listorder == "ctr")
+		{
+			if  (($orderdirection == "") || ($orderdirection == "down"))
+			{
+				echo ' <a href="stats-campaign.php?campaignid='.$campaignid.'&orderdirection=up">';
+				echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
+			}
+			else
+			{
+				echo ' <a href="stats-campaign.php?campaignid='.$campaignid.'&orderdirection=down">';
+				echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
+			}
+			echo '</a>';
+		}
+		
+		echo "</b>&nbsp;&nbsp;</td>";
 		echo "</tr>";
 	}
 	
 	$where = "";
 	
 	
-	reset ($tmp_order);
-	while (list ($bannerid,) = each ($tmp_order)) 
+	reset ($order_array);
+	while (list ($bannerid,) = each ($order_array)) 
 	{
-	    $adviews  = $tmp_views[$bannerid];
-	    $adclicks = $tmp_clicks[$bannerid];
+	    $adviews  = $banners[$bannerid]['adviews'];
+	    $adclicks = $banners[$bannerid]['adclicks'];
 		
 		if ($adclicks != 0 && $view == 'adclicks') continue;	// Don't show banners without adclicks
 		if ($adviews != 0 && $view == 'adviews') continue;	// Don't show banners without adclicks
@@ -631,7 +715,6 @@ if (count($tmp_order) > 0)
 	echo "<form action='stats-campaign.php'>";
 	echo "<td colspan='6' height='35' align='right'>";
 	echo "<input type='hidden' name='campaignid' value='$campaignid'>";
-	echo "<input type='hidden' name='order' value='$order'>";
 	echo "<select name='view' onChange='this.form.submit();'>";
 		echo "<option value='all'".($view=='all' ? " selected" : "").">$strShowAllBanners</option>";
 		echo "<option value='adclicks'".($view=='adclicks' ? " selected" : "").">$strShowBannersNoAdClicks</option>";
@@ -719,6 +802,19 @@ $adviewsleft  = adviews_left($campaignid);
 	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 </table>
 <?php
+
+
+
+/*********************************************************/
+/* Store preferences                                     */
+/*********************************************************/
+
+$Session['prefs']['stats-campaign.php']['compact'] = $compact;
+$Session['prefs']['stats-campaign.php']['view'] = $view;
+$Session['prefs']['stats-campaign.php']['listorder'] = $listorder;
+$Session['prefs']['stats-campaign.php']['orderdirection'] = $orderdirection;
+
+phpAds_SessionDataStore();
 
 
 
