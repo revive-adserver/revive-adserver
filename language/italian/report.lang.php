@@ -15,10 +15,10 @@
 /************************************************************************/
 
 
-$GLOBALS['strPluginAffiliate'] 		= "Genera un resoconto per l'editore selezionato. Il rapporto sar&agrave; esportato in formato CSV per l'utilizzo in un foglio elettronico."
-$GLOBALS['strPluginCampaign'] 		= "Genera un resoconto per la campagna selezionata. Il rapporto sar&agrave; esportato in formato CSV per l'utilizzo in un foglio elettronico."
-$GLOBALS['strPluginClient'] 		= "Genera un resoconto per l'inserzionista selezionato. Il rapporto sar&agrave; esportato in formato CSV per l'utilizzo in un foglio elettronico."
-$GLOBALS['strPluginGlobal'] 		= "Genera un resoconto storico globale. Il rapporto sar&agrave; esportato in formato CSV per l'utilizzo in un foglio elettronico."
-$GLOBALS['strPluginZone'] 		= "Genera un resoconto per la zona selezionata. Il rapporto sar&agrave; esportato in formato CSV per l'utilizzo in un foglio elettronico."
+$GLOBALS['strPluginAffiliate'] 		= "Genera un resoconto per l'editore selezionato. Il rapporto sar&agrave; esportato in formato CSV per l'utilizzo in un foglio elettronico.";
+$GLOBALS['strPluginCampaign'] 		= "Genera un resoconto per la campagna selezionata. Il rapporto sar&agrave; esportato in formato CSV per l'utilizzo in un foglio elettronico.";
+$GLOBALS['strPluginClient'] 		= "Genera un resoconto per l'inserzionista selezionato. Il rapporto sar&agrave; esportato in formato CSV per l'utilizzo in un foglio elettronico.";
+$GLOBALS['strPluginGlobal'] 		= "Genera un resoconto storico globale. Il rapporto sar&agrave; esportato in formato CSV per l'utilizzo in un foglio elettronico.";
+$GLOBALS['strPluginZone'] 			= "Genera un resoconto per la zona selezionata. Il rapporto sar&agrave; esportato in formato CSV per l'utilizzo in un foglio elettronico.";
 
 ?>
