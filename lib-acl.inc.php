@@ -91,6 +91,9 @@ function phpAds_aclCheckWeekday($aclrow)
 	$data = $aclrow['acl_data'];
 	$day = date('w');
 	
+	if ($data == '')
+		return (true);
+	
 	$expression = ($data == "*" || $data == $day || in_array ($day, explode(',', $data)));
 	$operator   = $aclrow['acl_ad'] == 'allow';
 	return ($expression == $operator);
@@ -106,6 +109,9 @@ function phpAds_aclCheckUseragent($aclrow)
 {
 	$data = $aclrow['acl_data'];
 	$agent = $GLOBALS['HTTP_USER_AGENT'];
+	
+	if ($data == '')
+		return (true);
 	
 	$expression = ($data == "*" || eregi($data, $agent));
 	$operator   = $aclrow['acl_ad'] == 'allow';
@@ -173,6 +179,9 @@ function phpAds_aclCheckDomain($aclrow)
 	$data = $aclrow['acl_data'];
 	$host = $GLOBALS['REMOTE_HOST'];
 	
+	if ($data == '')
+		return (true);
+	
 	$domain 	= substr($host,-(strlen($data)+1));
 	$expression = ($data == "*" || strtolower($domain) == strtolower(".$data")) ;
 	$operator   = $aclrow['acl_ad'] == 'allow';
@@ -190,6 +199,9 @@ function phpAds_aclCheckLanguage($aclrow)
 	$data = $aclrow['acl_data'];
 	$source = $GLOBALS['HTTP_ACCEPT_LANGUAGE'];
 	
+	if ($data == '')
+		return (true);
+	
 	$expression = ($data == "*" || eregi("^".$data, $source));
 	$operator   = $aclrow['acl_ad'] == 'allow';
 	return ($expression == $operator);
@@ -204,6 +216,9 @@ function phpAds_aclCheckLanguage($aclrow)
 function phpAds_aclCheckSource($aclrow, $source)
 {
 	$data = $aclrow['acl_data'];
+	
+	if ($data == '')
+		return (true);
 	
 	$expression = ($data == "*" || strtolower($source) == strtolower($data));
 	$operator   = $aclrow['acl_ad'] == 'allow';
@@ -220,6 +235,9 @@ function phpAds_aclCheckTime($aclrow)
 {
 	$data = $aclrow['acl_data'];
 	$time = date('G');
+	
+	if ($data == '')
+		return (true);
 	
 	$expression = ($data == "*" || $data == $time || in_array ($time, explode(',', $data)));
 	$operator   = $aclrow['acl_ad'] == 'allow';
