@@ -44,14 +44,21 @@ $GLOBALS['strBannerCacheExplaination']		= "
 ";
 
 
-// Zone cache
+// Cache
+$GLOBALS['strCache']			= "Cache di consegna";
 $GLOBALS['strAge']				= "Et&agrave;";
-$GLOBALS['strRebuildZoneCache']			= "Ricostruisci la cache delle zone";
-$GLOBALS['strZoneCacheExplaination']		= "
-	La cache delle zone &egrave; usata per velocizzare la fornitura dei banner collegati alle zone. La cache contiene una copia di tutti i
-	banner collegati e permette di evitare l'esecuzione di molte query al database quando il banner viene richiamato. Normalmente la cache
+$GLOBALS['strRebuildDeliveryCache']			= "Ricostruisci la cache di consegna";
+$GLOBALS['strDeliveryCacheExplaination']		= "
+	La cache di consegna &egrave; usata per velocizzare la fornitura dei banner. La cache contiene una copia di tutti i
+	banner collegati a una zona e permette di evitare l'esecuzione di molte query al database quando il banner viene richiamato. Normalmente la cache
 	&egrave; ricostruita ogni volta che si effettua una modifica alla zone o ad uno dei suoi banner, ma &egrave; possibile che essa diventi
-	obsoleta. Per questo motivo la cache viene automaticamente ricostruita ogni {seconds} secondi, ma &egrave; anche possibile forzare il processo manualmente.
+	obsoleta. Per questo motivo la cache viene automaticamente ricostruita ogni ora, tuttavia &egrave; anche possibile forzare il processo manualmente.
+";
+$GLOBALS['strDeliveryCacheSharedMem']		= "
+	Per memorizzare la cache di consegna &egrave; utilizzata la memoria condivisa.
+";
+$GLOBALS['strDeliveryCacheDatabase']		= "
+	Per memorizzare la cache di consegna &egrave; utilizzato il database.
 ";
 
 
@@ -101,6 +108,20 @@ $GLOBALS['strSecurityUpdate']			= "
 	aggiornamenti alla sicurezza.</b> La versione di ".$phpAds_productname." utilizzata al momento potrebbe essere
 	vulnerabile ad alcuni attacchi e probabilmente non &egrave; sicura. Per maggiori
 	informazioni sull'aggiornamento leggere la documentazione incluse nei file qui sotto. 
+";
+
+$GLOBALS['strNotAbleToCheck']			= "
+	<b>".$phpAds_productname." non &egrave; in grado di controllare se ci sono nuove versioni,
+	poich&eacute; l'estensione XML non &egrave; disponibile su questo server .</b>
+";
+
+$GLOBALS['strForUpdatesLookOnWebsite']	= "
+    Stai utilizzando ".$phpAds_productname." ".$phpAds_version_readable.". 
+	Per sapere se c'&egrave; una versione pi&ugrave; recente, collegati al nostro sito.
+";
+
+$GLOBALS['strClickToVisitWebsite']		= "
+	Clicca per visitare il nostro sito
 ";
 
 

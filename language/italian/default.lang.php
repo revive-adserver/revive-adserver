@@ -28,13 +28,13 @@ $GLOBALS['phpAds_ThousandsSeperator']		= '.';
 
 
 // Date & time configuration
-$GLOBALS['date_format']						= "%d/%m/%Y";
-$GLOBALS['time_format']						= "%H:%i:%S";
+$GLOBALS['date_format']						= "%d-%m-%Y";
+$GLOBALS['time_format']						= "%H:%M:%S";
 $GLOBALS['minute_format']					= "%H:%M";
-$GLOBALS['month_format']					= "%m/%Y";
-$GLOBALS['day_format']						= "%d/%m";
-$GLOBALS['week_format']						= "%W/%Y";
-$GLOBALS['weekiso_format']					= "%V/%G";
+$GLOBALS['month_format']					= "%m-%Y";
+$GLOBALS['day_format']						= "%d-%m";
+$GLOBALS['week_format']						= "%W-%Y";
+$GLOBALS['weekiso_format']					= "%V-%G";
 
 
 
@@ -54,7 +54,7 @@ $GLOBALS['strBasicInformation']				= "Informazioni di base";
 $GLOBALS['strContractInformation']			= "informazioni sul contratto";
 $GLOBALS['strLoginInformation']				= "Informazioni sul login";
 $GLOBALS['strOverview']						= "Descrizione";
-$GLOBALS['strSearch']						= "Cerca";
+$GLOBALS['strSearch']						= "<u>C</u>erca";
 $GLOBALS['strHistory']						= "Storico";
 $GLOBALS['strPreferences']					= "Preferenze";
 $GLOBALS['strDetails']						= "Dettagli";
@@ -76,7 +76,9 @@ $GLOBALS['strDown']							= "Gi&ugrave;";
 $GLOBALS['strSave']							= "Salva";
 $GLOBALS['strCancel']						= "Cancella";
 $GLOBALS['strPrevious']						= "Precedente";
+$GLOBALS['strPrevious_Key']					= "<u>P</u>recedente";
 $GLOBALS['strNext']							= "Successivo";
+$GLOBALS['strNext_Key']						= "<u>S</u>uccessivo";
 $GLOBALS['strYes']							= "S&igrave;";
 $GLOBALS['strNo']							= "No";
 $GLOBALS['strNone']							= "Nessuno";
@@ -98,8 +100,8 @@ $GLOBALS['strLinkedTo']						= "collegato a";
 $GLOBALS['strDaysLeft']						= "Giorni mancanti";
 $GLOBALS['strCheckAllNone']					= "Seleziona tutti / nessuno";
 $GLOBALS['strKiloByte']						= "KB";
-$GLOBALS['strExpandAll']					= "Espandi tutti";
-$GLOBALS['strCollapseAll']					= "Chiudi tutti";
+$GLOBALS['strExpandAll']					= "<u>E</u>spandi tutti";
+$GLOBALS['strCollapseAll']					= "<u>C</u>hiudi tutti";
 $GLOBALS['strShowAll']						= "Mostra tutto";
 $GLOBALS['strNoAdminInteface']				= "Servizio non disponibile...";
 $GLOBALS['strFilterBySource']				= "filtra per sorgente";
@@ -174,6 +176,7 @@ $GLOBALS['strClient']						= "Inserzionista";
 $GLOBALS['strClients']						= "Inserzionisti";
 $GLOBALS['strClientsAndCampaigns']			= "Inserzionisti e Campagne";
 $GLOBALS['strAddClient']					= "Aggiungi un nuovo inserzionista";
+$GLOBALS['strAddClient_Key']				= "Aggiungi un <u>n</u>uovo inserzionista";
 $GLOBALS['strTotalClients']					= "Inserzionisti totali";
 $GLOBALS['strClientProperties']				= "Impostazioni inserzionista";
 $GLOBALS['strClientHistory']				= "Storico inserzionista";
@@ -203,6 +206,7 @@ $GLOBALS['strCampaigns']					= "Campagne";
 $GLOBALS['strTotalCampaigns']				= "Campagne totali";
 $GLOBALS['strActiveCampaigns']				= "Campagne attive";
 $GLOBALS['strAddCampaign']					= "Aggiungi nuova campagna";
+$GLOBALS['strAddCampaign_Key']				= "Aggiungi <u>n</u>uova campagna";
 $GLOBALS['strCreateNewCampaign']			= "Crea nuova campagna";
 $GLOBALS['strModifyCampaign']				= "Modifica campagna";
 $GLOBALS['strMoveToNewCampaign']			= "Muovi verso una nuova campagna";
@@ -241,6 +245,7 @@ $GLOBALS['strPriorityAutoTargeting']		= "Distribisci le visualizzazioni durante 
 $GLOBALS['strBanner']						= "Banner";
 $GLOBALS['strBanners']						= "Banner";
 $GLOBALS['strAddBanner']					= "Aggiungi nuovo banner";
+$GLOBALS['strAddBanner_Key']				= "Aggiungi <u>n</u>uovo banner";
 $GLOBALS['strModifyBanner']					= "Modifica banner";
 $GLOBALS['strActiveBanners']				= "Banner attivi";
 $GLOBALS['strTotalBanners']					= "Banner totali";
@@ -308,6 +313,7 @@ $GLOBALS['strTrackAdClicks']				= "Traccia i Click";
 $GLOBALS['strModifyBannerAcl']				= "Opzioni consegna";
 $GLOBALS['strACL']							= "Consegna";
 $GLOBALS['strACLAdd']						= "Aggiungi nuova limitazione";
+$GLOBALS['strACLAdd_Key']					= "Aggiungi <u>nuova</u> limitazione";
 $GLOBALS['strNoLimitations']				= "Nessuna limitazione";
 $GLOBALS['strApplyLimitationsTo']			= "Applica limitazioni a";
 $GLOBALS['strRemoveAllLimitations']			= "Rimuovi tutte le limitzioni";
@@ -337,6 +343,7 @@ $GLOBALS['strAffiliate']					= "Editore";
 $GLOBALS['strAffiliates']					= "Editori";
 $GLOBALS['strAffiliatesAndZones']			= "Editori e Zone";
 $GLOBALS['strAddNewAffiliate']				= "Aggiungi un nuovo editore";
+$GLOBALS['strAddNewAffiliate_Key']			= "Aggiungi un <u>n</u>uovo editore";
 $GLOBALS['strAddAffiliate']					= "Crea editore";
 $GLOBALS['strAffiliateProperties']			= "Impostazioni editore";
 $GLOBALS['strAffiliateOverview']			= "Descrizione Editore";
@@ -361,6 +368,7 @@ $GLOBALS['strAllowAffiliateDeleteZone']		= "Permetti a questo utente di cancella
 $GLOBALS['strZone']							= "Zona";
 $GLOBALS['strZones']						= "Zone";
 $GLOBALS['strAddNewZone']					= "Aggiungi una nuova zona";
+$GLOBALS['strAddNewZone_Key']				= "Aggiungi una <u>n</u>uova zona";
 $GLOBALS['strAddZone']						= "Crea zona";
 $GLOBALS['strModifyZone']					= "Modifica zona";
 $GLOBALS['strLinkedZones']					= "Zone collegate";
@@ -442,6 +450,7 @@ $GLOBALS['strEffectivity']					= "Efficacia";
 $GLOBALS['strHosts']						= "Host";
 $GLOBALS['strTopHosts']						= "Host con pi&ugrave; richieste";
 $GLOBALS['strTopCountries'] 				= "Stati con pi&ugrave; richieste";
+$GLOBALS['strRecentHosts'] 					= "Host pi&ugrave; recenti";
 
 
 // Expiration
@@ -528,5 +537,32 @@ $GLOBALS['strAdminSettings']				= "Impostazioni amministratore";
 
 // Product Updates
 $GLOBALS['strProductUpdates']				= "Ricerca aggiornamenti";
+
+
+
+
+/*********************************************************/
+/* Keyboard shortcut assignments                         */
+/*********************************************************/
+
+
+// Reserved keys
+// Do not change these unless absolutely needed
+$GLOBALS['keyHome']			= 'h';
+$GLOBALS['keyUp']			= 'u';
+$GLOBALS['keyNextItem']		= '.';
+$GLOBALS['keyPreviousItem']	= ',';
+$GLOBALS['keyList']			= 'l';
+
+
+// Other keys
+// Please make sure you underline the key you
+// used in the string in default.lang.php
+$GLOBALS['keySearch']		= 'c';
+$GLOBALS['keyCollapseAll']	= 'h';
+$GLOBALS['keyExpandAll']	= 'e';
+$GLOBALS['keyAddNew']		= 'n';
+$GLOBALS['keyNext']			= 's';
+$GLOBALS['keyPrevious']		= 'p';
 
 ?>
