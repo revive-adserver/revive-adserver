@@ -31,6 +31,12 @@ function openWindow(theURL,winName,features) {
   return false;
 }
 
+function setTextOfLayer(objName,newText) {
+  if ((obj=findObj(objName))!=null) with (obj)
+    if (document.layers) {document.write(unescape(newText)); document.close();}
+    else innerHTML = unescape(newText);
+}
+
 
 /*********************************************************/
 /* Confirm form submit                                   */
