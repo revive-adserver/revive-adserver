@@ -63,9 +63,9 @@ Hungarian
 
 Italian
 	---------------------------------------------------------
-	Maintained by:	   Matteo Becatti (matteo@beccati.com)
+	Maintained by:	   Matteo Beccati (matteo@beccati.com)
 	Is up-to-date?	   Yes
-	Last update:	   7 August 2002
+	Last update:	   22 August 2002
 	Translated files:  5
 	---------------------------------------------------------
 

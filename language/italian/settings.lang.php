@@ -129,10 +129,10 @@ $GLOBALS['strAllowLocalmode']			= "Consenti modo locale";
 $GLOBALS['strAllowInterstitial']		= "Consenti Interstiziali";
 $GLOBALS['strAllowPopups']				= "Consenti Popup";
 
-$GLOBALS['strUseAcl']					= "Utilizza le limitazioni consegna";
-$GLOBALS['strGeotrackingLocation'] 		= "IP2Country geotracking<br> database location";
-
 $GLOBALS['strKeywordRetrieval']			= "Abilita l'uso di keyword";
+$GLOBALS['strUseAcl']					= "Utilizza le limitazioni di consegna";
+$GLOBALS['strGeotrackingLocation'] 		= "Percorso database<br>IP2Country geotracking";
+
 $GLOBALS['strBannerRetrieval']			= "Metodo di scelta del banner";
 $GLOBALS['strRetrieveRandom']			= "Casuale (default)";
 $GLOBALS['strRetrieveNormalSeq']		= "Sequenziale normale";
