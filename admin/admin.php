@@ -78,10 +78,10 @@ function confirm_delete()
 	$i==0;
 	while ($row_clients = mysql_fetch_array($res_clients))
 	{
-		echo "<tr height=30 ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
-		echo "<td>&nbsp;<input type='checkbox' name='clientID[]' value='$row_clients[clientID]'>";
+		echo "<tr height='30' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
+		echo "<td height='30'>&nbsp;<input type='checkbox' name='clientID[]' value='$row_clients[clientID]'>";
 		echo "&nbsp;$row_clients[clientname]</td>";	
-		echo "<td align='right'><a href='client-edit.php?clientID=$row_clients[clientID]'>[ $strModifyClient ]</a>&nbsp;&nbsp;";
+		echo "<td height='30' align='right'><a href='client-edit.php?clientID=$row_clients[clientID]'>[ $strModifyClient ]</a>&nbsp;&nbsp;";
 		echo "<a href='banner-client.php?clientID=$row_clients[clientID]'>[ $strBannerAdmin ]</a>&nbsp;&nbsp;";
 		echo "<a href='stats-client.php?clientID=$row_clients[clientID]'>[ $strStats ]</a>&nbsp;&nbsp;";
 		echo "</td></tr>";
@@ -92,7 +92,7 @@ function confirm_delete()
 	
 	echo "</form>";
 	
-	echo "<tr height='25'><td colspan='2'>";
+	echo "<tr height='25'><td height='25' colspan='2'>";
 	echo "<img src='images/go_blue.gif'>&nbsp;<a href=client-edit.php>$strAddClient</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "<img src='images/go_blue.gif'>&nbsp;<a href='javascript:confirm_delete()'>$strDeleteClient</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "</td></tr>";

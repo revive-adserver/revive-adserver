@@ -122,13 +122,13 @@ else
 		<form action='<? echo $GLOBALS['PHP_SELF']; ?>'>
 		<td height='35' align='left'>
 			<input type='hidden' name='clientID' value='<? echo $clientID; ?>'>
-			<select name='view' onChange='this.form.submit()'>
+			<select name='view' onChange='this.form.submit();'>
 				<option value='all'<? echo $view=='all' ? " selected" : ""?>><? echo $strShowAllBanners ?></option>
 				<option value='adclicks'<? echo $view=='adclicks' ? " selected" : ""?>><? echo $strShowBannersNoAdClicks ?></option>
 				<option value='adviews'<? echo $view=='adviews' ? " selected" : ""?>><? echo $strShowBannersNoAdViews ?></option>
 			</select>
 			&nbsp;<? echo $strOrderBy ?>&nbsp;
-			<select name='order' onChange='this.form.submit()'>
+			<select name='order' onChange='this.form.submit();'>
 				<option value='bannerid'<? echo $order=='bannerid' ? " selected" : ""?>><? echo $strID ?></option>
 				<option value='alt'<? echo $order=='alt' ? " selected" : ""?>><? echo $strDescription ?></option>
 				<option value='adviews'<? echo $order=='adviews' ? " selected" : ""?>><? echo $strViews ?></option>
@@ -138,7 +138,7 @@ else
 			<input type="image" border="0" name='submit' src="images/go_blue.gif">
 		</td>
 		<td height='35' align='right'>
-			<select name='compact' onChange='this.form.submit()'>
+			<select name='compact' onChange='this.form.submit();'>
 				<option value='false'<? echo $compact!='true' ? " selected" : ""?>><? echo $strVerbose ?></option>
 				<option value='true'<? echo $compact=='true' ? " selected" : ""?>><? echo $strCompact ?></option>
 			</select>
@@ -257,45 +257,45 @@ if (count($tmp_order) > 0)
 			$i++;
 			
 			// Divider
-			echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+			echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 			
 			
 			// Banner
-			echo "<tr height='10'><td colspan='4' bgcolor='$bgcolor'>&nbsp;</td></tr>";
+			echo "<tr><td height='10' colspan='4' bgcolor='$bgcolor'>&nbsp;</td></tr>";
 			echo "<tr bgcolor='$bgcolor'>";
 		   	echo "<td colspan='4' align='center'>";
 			echo phpAds_buildBannerCode ($row_banners[bannerID], $row_banners[banner], $row_banners[active], $row_banners[format], $row_banners[width], $row_banners[height], $row_banners[bannertext]);
 			echo "</td></tr>";
-			echo "<tr height='10'><td colspan='4' bgcolor='$bgcolor'>&nbsp;</td></tr>";
+			echo "<tr><td height='10' colspan='4' bgcolor='$bgcolor'>&nbsp;</td></tr>";
 		  	
 			
 		    if ($adclicks > 0 || $adviews > 0)
 		    {
 				// Stats
-				echo "<tr bgcolor='$bgcolor' height='25'>";
-				echo "<td align='left' nowrap $grayedout height='25'>&nbsp;$strID: <b>$row_banners[bannerID]</b></td>";
-				echo "<td align='left' nowrap $grayedout height='25'>$strViews: <b>$adviews</b></td>";
-				echo "<td align='left' nowrap $grayedout height='25'>$strClicks: <b>$adclicks</b></td>";
-				echo "<td align='left' nowrap $grayedout height='25'>$strRatio: <b>";
+				echo "<tr bgcolor='$bgcolor'>";
+				echo "<td height='25' align='left' nowrap $grayedout>&nbsp;$strID: <b>$row_banners[bannerID]</b></td>";
+				echo "<td height='25' align='left' nowrap $grayedout>$strViews: <b>$adviews</b></td>";
+				echo "<td height='25' align='left' nowrap $grayedout>$strClicks: <b>$adclicks</b></td>";
+				echo "<td height='25' align='left' nowrap $grayedout>$strRatio: <b>";
 				printf(" %.2f%%", $adctr);
 				echo "<b></td>";
 				echo "</tr>";
 			}
 			else
 			{
-				echo "<tr bgcolor='$bgcolor' height='25'>";
-				echo "<td align='left' nowrap $grayedout>&nbsp;ID: <b>$row_banners[bannerID]</b></td>";
-				echo "<td bgcolor='$bgcolor' colspan='3' height='25' $grayedout>$strBannerNoStats</td>";
+				echo "<tr bgcolor='$bgcolor'>";
+				echo "<td height='25' align='left' nowrap $grayedout>&nbsp;ID: <b>$row_banners[bannerID]</b></td>";
+				echo "<td height='25' bgcolor='$bgcolor' colspan='3' $grayedout>$strBannerNoStats</td>";
 				echo "</tr>";
 			}
 			
 			
 			// Divider
-			echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+			echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 			
 			
 			// Buttons
-			echo "<tr height='25'><td colspan='3' height='25'>";
+			echo "<tr><td colspan='3' height='25'>";
 			
 			if ($adclicks > 0 || $adviews > 0)
 			{
@@ -318,7 +318,7 @@ if (count($tmp_order) > 0)
 			}
 			echo "</td></tr>";
 			
-			echo "<tr height='35'><td colspan=4 bgcolor='#FFFFFF'>&nbsp;</td></tr>";
+			echo "<tr><td height='35' colspan=4 bgcolor='#FFFFFF'>&nbsp;</td></tr>";
 		}
 		else
 		{
@@ -327,34 +327,34 @@ if (count($tmp_order) > 0)
 			$i++;
 			
 			
-			echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+			echo "<tr><td height='1' colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 			
-			echo "<tr bgcolor='$bgcolor' height='25'>";
+			echo "<tr bgcolor='$bgcolor'>";
 			
-			echo "<td align='left'>&nbsp;";
+			echo "<td height='25' align='left'>&nbsp;";
 			if (!ereg ("Mozilla/4", $HTTP_USER_AGENT) || ereg ("IE", $HTTP_USER_AGENT))
 				echo "<img name='caret$row_banners[bannerID]' src='images/caret-r.gif' onClick=\"showHideLayers('$row_banners[bannerID]');\">&nbsp;&nbsp;&nbsp;&nbsp;";
 			echo "</td>";
 			
-			echo "<td align='left' nowrap $grayedout height='25'>$row_banners[bannerID]</td>";
+			echo "<td height='25' align='left' nowrap $grayedout>$row_banners[bannerID]</td>";
 			
 			if ($row_banners[description] != '')
-				echo "<td align='left' nowrap $grayedout height='25'>$row_banners[description]</td>";
+				echo "<td height='25' align='left' nowrap $grayedout>$row_banners[description]</td>";
 			else
-				echo "<td align='left' nowrap $grayedout height='25'>$row_banners[alt]</td>";
+				echo "<td height='25' align='left' nowrap $grayedout>$row_banners[alt]</td>";
 			
 		    if ($adclicks > 0 || $adviews > 0)
 		    {
 				// Stats
-				echo "<td align='left' nowrap $grayedout>";
+				echo "<td height='25' align='left' nowrap $grayedout>";
 				echo "<a class='$grayedtext' height='25' href='stats-details.php?clientID=$clientID&bannerID=$row_banners[bannerID]'>$adviews</a>";
 				echo "</td>";
 	
-				echo "<td align='left' nowrap $grayedout>";
+				echo "<td height='25' align='left' nowrap $grayedout>";
 				echo "<a class='$grayedtext' height='25' href='stats-details.php?clientID=$clientID&bannerID=$row_banners[bannerID]'>$adclicks</a>";
 				echo "</td>";
 	
-				echo "<td align='left' nowrap $grayedout>";
+				echo "<td height='25' align='left' nowrap $grayedout>";
 				echo "<a class='$grayedtext' height='25' href='stats-details.php?clientID=$clientID&bannerID=$row_banners[bannerID]'>";
 				printf(" %.2f%%", $adctr);
 				echo "</a>";
@@ -362,25 +362,27 @@ if (count($tmp_order) > 0)
 			}
 			else
 			{
-				echo "<td bgcolor='$bgcolor' colspan='3' height='25' $grayedout>$strBannerNoStats</td>";
+				echo "<td height='25' bgcolor='$bgcolor' colspan='3' $grayedout>$strBannerNoStats</td>";
 			}
 			
 			echo "</tr>";
 			
-			echo "<tr bgcolor='$bgcolor'><td><img src='images/spacer.gif' width='1' height='1'></td><td colspan='5'>";
+			echo "<tr bgcolor='$bgcolor'>";
+			echo "<td height='1'><img src='images/spacer.gif' width='1' height='1'></td>";
+			echo "<td colspan='5'>";
 			
 			if (!ereg ("Mozilla/4", $HTTP_USER_AGENT) || ereg ("IE", $HTTP_USER_AGENT))
 			{
 				echo "<div id='banner$row_banners[bannerID]' style='position:relative; height: 1px; overflow: hidden; visibility: hidden;'>";
 				
 				echo "<table width='100%' cellpadding=0 cellspacing=0 border=0><tr><td align='left'>";
-				echo "<tr><td><img src='images/break-l.gif' height='1' width='100%' vspace='0'></tr><td>";
-				echo "<tr><td>&nbsp;</tr><td>";
+				echo "<tr><td height='1'><img src='images/break-l.gif' height='1' width='100%' vspace='0'></tr><td>";
+				echo "<tr><td height='10'>&nbsp;</tr><td>";
 				echo "<tr><td>";
 					echo phpAds_buildBannerCode ($row_banners[bannerID], $row_banners[banner], $row_banners[active], $row_banners[format], $row_banners[width], $row_banners[height], $row_banners[bannertext]);
 				echo "</tr><td>";
-				echo "<tr><td>&nbsp;</tr><td>";
-				echo "<tr><td><img src='images/break-l.gif' height='1' width='100%' vspace='0'></tr><td>";
+				echo "<tr><td height='10'>&nbsp;</tr><td>";
+				echo "<tr><td height='1'><img src='images/break-l.gif' height='1' width='100%' vspace='0'></tr><td>";
 				echo "<tr><td height='25'>";
 				
 			    if ($adclicks > 0 || $adviews > 0)
@@ -412,8 +414,8 @@ if (count($tmp_order) > 0)
 	
 	if ($compact == "true")
 	{
-		echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-		echo "<tr height='35'><td colspan='6' bgcolor='#FFFFFF'>&nbsp;</td></tr>";
+		echo "<tr><td height='1' colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+		echo "<tr><td height='35' colspan='6' bgcolor='#FFFFFF'>&nbsp;</td></tr>";
 	}
 	
 	echo "</table>";
@@ -426,18 +428,18 @@ if (count($tmp_order) > 0)
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 	<tr><td height='25' colspan='2'><b><?echo $strCreditStats;?></b></td></tr>
-	<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 
 <?
 if (phpAds_GDImageFormat() != "none" && $totaladviews > 0 && !$phpAds_compact_stats)
 {
 ?>
-	<tr height='20'><td colspan='2'>&nbsp;</td></tr>	
+	<tr><td height='20' colspan='2'>&nbsp;</td></tr>	
 	<tr>
 		<td bgcolor="#FFFFFF" colspan=2><img src="graph-hourly.php?where=<?$where = ereg_replace("OR$", "", $where); echo urlencode("$where");?>" border="0" width="385" height="150"></td>
 	</tr>
-	<tr height='10'><td colspan='2'>&nbsp;</td></tr>	
-	<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+	<tr><td height='10' colspan='2'>&nbsp;</td></tr>	
+	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 <?
 }
 ?>
@@ -447,31 +449,31 @@ list($desc,$enddate,$daysleft)=days_left($clientID);
 $adclicksleft = adclicks_left($clientID);
 $adviewsleft  = adviews_left($clientID);
 ?>
-	<tr height='25'>
-		<td><?echo $strTotalViews;?>: <b><?echo $totaladviews;?></b></td>
-		<td><?echo $strViewCredits;?>: <b><?echo $adviewsleft;?></b></td>
+	<tr>
+		<td height='25'><?echo $strTotalViews;?>: <b><?echo $totaladviews;?></b></td>
+		<td height='25'><?echo $strViewCredits;?>: <b><?echo $adviewsleft;?></b></td>
 	</tr>
-	<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>
-	<tr height='25'>
-		<td><?echo $strTotalClicks;?>: <b><?echo $totaladclicks;?></b></td>
-		<td><?echo $strClickCredits;?>: <b><?echo $adclicksleft;?></b></td>
+	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>
+	<tr>
+		<td height='25'><?echo $strTotalClicks;?>: <b><?echo $totaladclicks;?></b></td>
+		<td height='25'><?echo $strClickCredits;?>: <b><?echo $adclicksleft;?></b></td>
 	</tr>
-	<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>
-	<tr height='25'>
-		<td colspan='2'><? echo $desc; ?></td>
+	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>
+	<tr>
+		<td height='25' colspan='2'><? echo $desc; ?></td>
 	</tr>
 	<?
 		if ($adviewsleft != $strUnlimited || $adclicksleft != $strUnlimited) {
 	?>
-	<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-	<tr height='60'>
-		<td colspan=1 align="left">
+	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+	<tr>
+		<td height='60' align='left'>
 		<?
 		if ($adviewsleft == $strUnlimited)
 			print "&nbsp;";
 		else
 			print "<img src='graph-daily.php?width=200&data=Views^$totaladviews^^Credits^$adviewsleft^^'></td>\n";
-		print "<td colspan=1>";
+		print "<td height='60'>";
 		if ($adclicksleft == $strUnlimited)
 			print "&nbsp;";
 		else
@@ -481,8 +483,8 @@ $adviewsleft  = adviews_left($clientID);
 	<?
 		}
 	?>
-	<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-	<tr height='25'>
+	<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+	<tr>
 		<td colspan='2' height='25'>
 		<?
 		if ($totaladclicks > 0 || $totaladviews > 0)

@@ -148,35 +148,35 @@ function showDetailedStats($what, $totalTitle, $avgTitle)
 		$i % 2 ? 0: $bgcolor= "#F6F6F6";
 		$i++;
 		?>
-		<tr height='25'>
-			<td bgcolor="<?echo $bgcolor;?>">
+		<tr>
+			<td height='25' bgcolor="<?echo $bgcolor;?>">
 				&nbsp;<?echo "$row[t_stamp_f]";?>
 			</td>
-			<td bgcolor="<?echo $bgcolor;?>" align='right'>
+			<td height='25' bgcolor="<?echo $bgcolor;?>" align='right'>
 				<b><?echo $row["qnt"];?></b>&nbsp;&nbsp;&nbsp;
 			</td>
-			<td bgcolor="<?echo $bgcolor;?>">
+			<td height='25' bgcolor="<?echo $bgcolor;?>">
 				<img src="images/bar.gif" width="<?echo ($row["qnt"]*300)/$max;?>" height="11"><img src="images/bar_off.gif" width="<?echo 300-(($row["qnt"]*300)/$max);?>" height="11">
 			</td>
-			<td bgcolor="<?echo $bgcolor;?>" align='right'>
+			<td height='25' bgcolor="<?echo $bgcolor;?>" align='right'>
 				<?	if (!$phpAds_compact_stats) { ?>
 				<a href="stats-daily.php?day=<?echo urlencode($row["t_stamp_f"]);?>&clientID=<?echo $GLOBALS["clientID"];?>&bannerID=<?echo $GLOBALS["bannerID"];?>">[ <?echo $GLOBALS["strDailyStats"];?> ]</a>&nbsp;
 				<? } ?>				
 			</td>
 		</tr>
-  	    <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+  	    <tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 		<?
 	}
 	?>
-	<tr height='60'>
-		<td bgcolor="#FFFFFF" colspan=4>
+	<tr>
+		<td height='60' bgcolor="#FFFFFF" colspan=4>
 			<br>
 			<?echo $totalTitle;?>: <b><?echo $total;?></b><br>
 			<?echo $avgTitle;?>: <b><? printf("%.2f", $total/7);?></b>
 		</td>
 	</tr>
-	<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-	<?       
+	<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+	<?
 }
 
 
@@ -189,7 +189,7 @@ function showDetailedStats($what, $totalTitle, $avgTitle)
 	<img src='images/caret-rs.gif'>
 	<?echo $strClientName.': '.phpAds_getClientName($clientID);?>
   </td></tr>
-  <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+  <tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
   <tr><td colspan='4' align='left'><br><?echo phpAds_getBannerCode($bannerID);?><br><br></td></tr>
 </table>
 
@@ -197,7 +197,7 @@ function showDetailedStats($what, $totalTitle, $avgTitle)
 
 <table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
   <tr><td height='25' colspan='4'><b><?print $strViews;?></b></td></tr>
-  <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+  <tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
   <? showDetailedStats("views", $strTotalViews7Days, $strAvgViews7Days); ?>
 </table>
 
@@ -205,7 +205,7 @@ function showDetailedStats($what, $totalTitle, $avgTitle)
 
 <table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
   <tr><td height='25' colspan='4'><b><?print $strClicks;?></b></td></tr>
-  <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+  <tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
   <? showDetailedStats("clicks", $strTotalClicks7Days, $strAvgClicks7Days); ?>
 </table>
 
