@@ -221,7 +221,8 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 					  'width' => $row['width'],
 					  'height' => $row['height'],
 					  'url' => $row['url'],
-					  'clientid' => $row['clientid'])
+					  'clientid' => $row['clientid'],
+					  'campaignid' => $row['clientid'])
 			  );
 	}
 	else

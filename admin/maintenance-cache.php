@@ -68,6 +68,9 @@ function phpAds_showCache ()
 		
 		for (reset($rows);$key=key($rows);next($rows))
 		{
+			strtok($key, "=");
+			$what = strtok("&");
+			
 			if ($i > 0) echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
 			
 	    	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
@@ -76,14 +79,14 @@ function phpAds_showCache ()
 			echo "&nbsp;&nbsp;";
 			
 			// Icon
-			if (substr($key,0,5) == 'zone:')
+			if (substr($what,0,5) == 'zone:')
 				echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
 			else
 				echo "<img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;";
 			
 			
 			// Name
-			echo $key;
+			echo $what;
 			echo "</td>";
 			
 			echo "<td height='25'>".round ($rows[$key] / 1024)." ".$strKiloByte."</td>";

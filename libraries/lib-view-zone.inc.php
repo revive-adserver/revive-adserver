@@ -34,7 +34,7 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 	
 	// Get cache
 	if (!defined('LIBVIEWCACHE_INCLUDED'))  include (phpAds_path.'/libraries/deliverycache/cache-'.$phpAds_config['delivery_caching'].'.inc.php');
-	$cache = phpAds_cacheFetch ('zone:'.$zoneid);
+	$cache = phpAds_cacheFetch ('what=zone:'.$zoneid);
 	
 	if (!$cache)
 	{
@@ -96,7 +96,7 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 				$zone['append']
 			);
 			
-			phpAds_cacheStore ('zone:'.$zone['zoneid'], $cache);
+			phpAds_cacheStore ('what=zone:'.$zone['zoneid'], $cache);
 			
 			// Unpack cache
 			list ($zoneid, $rows, $what, $prioritysum, $chain, $prepend, $append) = $cache;
@@ -124,7 +124,9 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 	
 	// Build preconditions
 	$excludeBannerID = array();
+	$excludeCampaignID = array();
 	$includeBannerID = array();
+	$includeCampaignID = array();
 	
 	if (is_array ($context))
 	{
@@ -132,10 +134,30 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 		{
 			list ($key, $value) = each($context[$i]);
 			{
-				switch ($key)
+				$type = 'bannerid';
+				$value = explode(':', $value);
+				
+				if (count($value) == 1)
+					list($value) = $value;
+				else
+					list($type, $value) = $value;
+				
+				if ($type == 'bannerid')
 				{
-					case '!=': $excludeBannerID[$value] = true; break;
-					case '==': $includeBannerID[$value] = true; break;
+					switch ($key)
+					{
+						case '!=': $excludeBannerID[$value] = true; break;
+						case '==': $includeBannerID[$value] = true; break;
+					}
+				}
+				
+				if ($type == 'campaignid')
+				{
+					switch ($key)
+					{
+						case '!=': $excludeCampaignID[$value] = true; break;
+						case '==': $includeCampaignID[$value] = true; break;
+					}
 				}
 			}
 		}
@@ -162,16 +184,25 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 				{
 					$postconditionSucces = true;
 					
-					// Excludelist
-					if (isset ($excludeBannerID[$rows[$i]['bannerid']]) &&
-						$excludeBannerID[$rows[$i]['bannerid']] == true)
+					// Excludelist banners
+					if (isset($excludeBannerID[$rows[$i]['bannerid']]))
 						$postconditionSucces = false;
 					
-					// Includelist
+					// Excludelist campaigns
 					if ($postconditionSucces == true &&
-					    sizeof($includeBannerID) > 0 &&
-					    (!isset ($includeBannerID[$rows[$i]['bannerid']]) ||
-						$includeBannerID[$rows[$i]['bannerid']] != true))
+						isset($excludeCampaignID[$rows[$i]['clientid']]))
+						$postconditionSucces = false;
+					
+					// Includelist banners
+					if ($postconditionSucces == true &&
+						sizeof($includeBannerID) &&
+					    !isset ($includeBannerID[$rows[$i]['bannerid']]))
+						$postconditionSucces = false;
+					
+					// Includelist campaigns
+					if ($postconditionSucces == true &&
+						sizeof($includeCampaignID) &&
+					    !isset ($includeCampaignID[$rows[$i]['clientid']]))
 						$postconditionSucces = false;
 					
 					// HTML or Flash banners
