@@ -221,7 +221,7 @@ $extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=cli
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 $extra .= "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignid=$campaignid>$strCampaignProperties</a><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-details.php?campaignid=$campaignid&bannerid=$bannerid>$strBannerHistory</a><br>";
+$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-banner-history.php?campaignid=$campaignid&bannerid=$bannerid>$strBannerHistory</a><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 
 phpAds_PageHeader("4.1.5.3", $extra);

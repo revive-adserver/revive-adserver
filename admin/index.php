@@ -29,13 +29,13 @@ phpAds_checkAccess(phpAds_Admin+phpAds_Client+phpAds_Affiliate);
 
 if (phpAds_isUser(phpAds_Admin))
 {
-	Header("Location: ".$phpAds_config['url_prefix']."/admin/stats-index.php");
+	Header("Location: ".$phpAds_config['url_prefix']."/admin/stats-global-client.php");
 	exit;
 }
 
 if (phpAds_isUser(phpAds_Client))
 {
-	Header("Location: ".$phpAds_config['url_prefix']."/admin/stats-index.php");
+	Header("Location: ".$phpAds_config['url_prefix']."/admin/stats-global-client.php");
 	exit;
 }
 

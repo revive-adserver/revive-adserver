@@ -51,7 +51,7 @@ if (phpAds_isUser(phpAds_Client))
 			else
 				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 			
-			$extra .= "<a href=stats-campaign.php?campaignid=".$row['clientid'].">".phpAds_buildClientName ($row['clientid'], $row['clientname'])."</a>";
+			$extra .= "<a href=stats-campaign-banners.php?campaignid=".$row['clientid'].">".phpAds_buildClientName ($row['clientid'], $row['clientname'])."</a>";
 			$extra .= "<br>"; 
 		}
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";

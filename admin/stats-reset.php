@@ -35,7 +35,7 @@ if (isset($bannerid) && $bannerid != '')
 	phpAds_deleteStats($bannerid);
 	
 	// Return to campaign statistics
-	Header("Location: stats-campaign.php?campaignid=$campaignid");
+	Header("Location: stats-campaign-banners.php?campaignid=$campaignid");
 }
 
 
@@ -59,7 +59,7 @@ elseif (isset($campaignid) && $campaignid != '')
 	}
 	
 	// Return to campaign statistics
-	Header("Location: stats-campaign.php?campaignid=$campaignid");
+	Header("Location: stats-campaign-banners.php?campaignid=$campaignid");
 }
 
 
@@ -86,7 +86,7 @@ elseif (isset($clientid) && $clientid != '')
 	}
 	
 	// Return to campaign statistics
-	Header("Location: stats-client.php?clientid=$clientid");
+	Header("Location: stats-client-history.php?clientid=$clientid");
 }
 
 
@@ -98,6 +98,6 @@ elseif (isset($all) && $all == 'tr'.'ue')
     phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_adstats']) or phpAds_sqlDie();
 	
 	// Return to campaign statistics
-	Header("Location: stats-index.php");
+	Header("Location: stats-global-client.php");
 }
 ?>

@@ -75,7 +75,7 @@ while ($row = phpAds_dbFetchArray($res))
 	else
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 	
-	$extra .= "<a href='stats-details.php?campaignid=$campaignid&bannerid=".$row['bannerid']."'>";
+	$extra .= "<a href='stats-banner-history.php?campaignid=$campaignid&bannerid=".$row['bannerid']."'>";
 	$extra .= phpAds_buildBannerName ($row['bannerid'], $row['description'], $row['alt']);
 	$extra .= "</a>";
 	$extra .= "<br>"; 
@@ -129,7 +129,7 @@ if (phpAds_isUser(phpAds_Client))
 /* Main code                                             */
 /*********************************************************/
 
-$lib_history_hourlyurl = "stats-daily.php";
+$lib_history_hourlyurl = "stats-banner-daily.php";
 
 $lib_history_where     = "bannerid = ".$bannerid;
 $lib_history_params    = array ('bannerid' => $bannerid,

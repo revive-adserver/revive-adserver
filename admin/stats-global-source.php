@@ -58,7 +58,7 @@ function goto_source()
 {
 	s = document.source_selection.source.selectedIndex;
 	s = document.source_selection.source.options[s].value;
-	document.location='stats-source.php?source=' + s;
+	document.location='stats-global-source.php?source=' + s;
 }
 // -->
 </script>
@@ -287,22 +287,22 @@ $next = $start + $limit;
 echo "<tr>";
 echo "<td height='35' colspan='1' align='".$phpAds_TextAlignLeft."'>";
 	echo "&nbsp;".$strDays.":&nbsp;";
-	echo "<a href='stats-source.php?source=".$source."&start=".$start."&limit=7'>7</a>&nbsp;|&nbsp;";
-	echo "<a href='stats-source.php?source=".$source."&start=".$start."&limit=14'>14</a>&nbsp;|&nbsp;";
-	echo "<a href='stats-source.php?source=".$source."&start=".$start."&limit=21'>21</a>&nbsp;|&nbsp;";
-	echo "<a href='stats-source.php?source=".$source."&start=".$start."&limit=28'>28</a>";
+	echo "<a href='stats-global-source.php?source=".$source."&start=".$start."&limit=7'>7</a>&nbsp;|&nbsp;";
+	echo "<a href='stats-global-source.php?source=".$source."&start=".$start."&limit=14'>14</a>&nbsp;|&nbsp;";
+	echo "<a href='stats-global-source.php?source=".$source."&start=".$start."&limit=21'>21</a>&nbsp;|&nbsp;";
+	echo "<a href='stats-global-source.php?source=".$source."&start=".$start."&limit=28'>28</a>";
 echo "</td>";
 echo "<td height='35' colspan='3' align='".$phpAds_TextAlignRight."'>";
 	if ($start > 0)
 	{
-		echo "<a href='stats-source.php?source=".$source."&limit=$limit&start=$previous'>";
+		echo "<a href='stats-global-source.php?source=".$source."&limit=$limit&start=$previous'>";
 		echo "<img src='images/arrow-l.gif' border='0' align='absmiddle'>".$strPrevious."</a>";
 	}
 	if ($span > ($start + $limit))
 	{
 		if ($start > 0) echo "&nbsp;|&nbsp;";
 		
-		echo "<a href='stats-source.php?source=".$source."&limit=$limit&start=$next'>";
+		echo "<a href='stats-global-source.php?source=".$source."&limit=$limit&start=$next'>";
 		echo $strNext."<img src='images/arrow-r.gif' border='0' align='absmiddle'></a>";
 	}
 echo "</td>";

@@ -103,7 +103,7 @@ $extra .= "<b>$strShortcuts</b><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 $extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientid=".phpAds_getParentID ($campaignid).">$strClientProperties</a><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-campaign.php?campaignid=$campaignid>$strStats</a><br>";
+$extra .= "<img src='images/icon-statistics.gif' align='absmiddle'>&nbsp;<a href=stats-campaign-banners.php?campaignid=$campaignid>$strStats</a><br>";
 $extra .= "<img src='images/break-el.gif' height='1' width='160' vspace='4'><br>";
 $extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-weekly.gif' align='absmiddle'>&nbsp;<a href=stats-weekly.php?campaignid=$campaignid>$strWeeklyStats</a><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
