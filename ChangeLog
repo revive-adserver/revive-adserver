@@ -142,6 +142,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-05-06:  Changed generated HTML to make it more compatible with W3C standards  (Niels)
 			  - 2002-05-06:  Added wildcard support to source display limitation  (Niels)
 			  - 2002-05-07:  Speed optimalisations for display limitations  (Niels)
+			  - 2002-05-08:  Made source field for statistics a bit larger  (Niels)
 
 
 			+ Misc bugfixes
