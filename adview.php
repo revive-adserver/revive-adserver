@@ -15,17 +15,25 @@
 
 
 // Include required files
-require ("config.inc.php");
-require ("view.inc.php");
+require	("config.inc.php"); 
+require ("lib-db.inc.php");
+require ("lib-expire.inc.php");
+require ("lib-log.inc.php");
 
-// Open a connection to the database
-phpAds_dbConnect();
+if ($phpAds_acl == '1')
+	require ("lib-acl.inc.php");
 
+require	("view.inc.php");
+
+
+// Set header information
 include ("lib-cache.inc.php");
+
 
 if (isset($bannerID) && !isset($what))
 {
-	// Show banner with bannerID
+	// Open a connection to the database
+	phpAds_dbConnect();
 	
 	$res = phpAds_dbQuery("
 		SELECT
@@ -61,6 +69,8 @@ if (isset($bannerID) && !isset($what))
 			echo $row["banner"];
 		}
 	}
+	
+	phpAds_dbClose();
 }
 else
 {
@@ -229,6 +239,5 @@ else
 	}
 }
 
-phpAds_dbClose();
 
 ?>
