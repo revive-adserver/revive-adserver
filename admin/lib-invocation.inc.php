@@ -247,6 +247,8 @@ function phpAds_GenerateInvocationCode()
 		$root = getenv('DOCUMENT_ROOT');
 		$pos  = strpos ($path, $root);
 		
+		if (!isset($clientid) || $clientid == '') $clientid = 0;
+		
 		
 		if (is_int($pos) && $pos == 0)
 			$path = "getenv('DOCUMENT_ROOT').'".substr ($path, $pos + strlen ($root))."/phpadsnew.inc.php'";
