@@ -30,6 +30,6 @@ phpAds_checkAccess(phpAds_Admin);
 
 phpAds_RebuildZoneCache ();
 
-Header("Location: zone-index.php");
+Header("Location: affiliate-index.php");
 
 ?>
