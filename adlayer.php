@@ -99,15 +99,20 @@ function phpAds_getUserAgent()
 		$ver = $log_version[1];
 		$agent = 'Opera';
 	}
+	elseif (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Safari') && preg_match('#Safari/([0-9]{1,3})#', $HTTP_SERVER_VARS['HTTP_USER_AGENT'], $log_version))
+	{
+		$ver = $log_version[1];
+		$agent = 'Safari';
+	}
+	elseif (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Konqueror') && preg_match('#Konqueror/([0-9])#', $HTTP_SERVER_VARS['HTTP_USER_AGENT'], $log_version))
+	{
+		$ver = $log_version[1];
+		$agent = 'Konqueror';
+	}
 	elseif (preg_match('#Mozilla/([0-9].[0-9]{1,2})#', $HTTP_SERVER_VARS['HTTP_USER_AGENT'], $log_version))
 	{
 		$ver = $log_version[1];
 		$agent = 'Mozilla';
-	}
-	elseif (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Konqueror') && preg_match('#([0-9].[0-9]{1,2})#', $HTTP_SERVER_VARS['HTTP_USER_AGENT'], $log_version))
-	{
-		$ver = $log_version[1];
-		$agent = 'Konqueror';
 	}
 	else
 	{
