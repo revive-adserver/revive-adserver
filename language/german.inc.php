@@ -7,9 +7,10 @@
 /* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
-/* Translations by silicon (silicon@ins.at)								*/
-/*				   Repsak (kasper@manson-valley.de)						*/
-/*                                                                      */
+/* Translations by Repsak (kasper@manson-valley.de)						*/
+/*                 René Friedrich (rene.friedrich@web.de)				*/
+/*				   silicon (silicon@ins.at)								*/
+/*				                                                        */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
@@ -106,7 +107,7 @@ $GLOBALS['strChooseBanner'] = "Bitte einen Bannertyp ausw&auml;hlen.";
 $GLOBALS['strMySQLBanner'] = "Bild lokal verwalten";
 $GLOBALS['strURLBanner'] = "Bild &uuml;ber URL verwalten";
 $GLOBALS['strHTMLBanner'] = "HTML-Banner";
-$GLOBALS['strNewBannerFile'] = "Bild-Quelle"; ## I'm sure there is a better expression, but I can't remember ... - Repsak
+$GLOBALS['strNewBannerFile'] = "Bild-Datei";
 $GLOBALS['strNewBannerURL'] = "Bild-URL (inkl. http://)";
 $GLOBALS['strWidth'] = "Breite";
 $GLOBALS['strHeight'] = "H&ouml;he";
@@ -114,9 +115,9 @@ $GLOBALS['strTotalViews7Days'] = "Summe der AdViews der letzten 7 Tage";
 $GLOBALS['strTotalClicks7Days'] = "Summe der AdClicks der letzten 7 Tage";
 $GLOBALS['strAvgViews7Days'] = "AdViews pro Tag (Durchschnitt der letzten 7 Tage)";
 $GLOBALS['strAvgClicks7Days'] = "AdClicks pro Tag (Durchschnitt der letzten 7 Tage)";
-$GLOBALS['strTopTenHosts'] = "Top 10 anfordernde Hosts/Rechner"; ## I have no idea what that should mean (Top ten requesting hosts) - Repsak
+$GLOBALS['strTopTenHosts'] = "Top 10 anfordernde IP-Adressen";
 $GLOBALS['strConfirmDeleteClient'] = "Möchten Sie diesen Kunden wirklich löschen?";
-$GLOBALS['strClientIP'] = "Client IP";
+$GLOBALS['strClientIP'] = "Kunden-IP";
 $GLOBALS['strUserAgent'] = "RegExp f&uuml;r Browser";
 $GLOBALS['strWeekDay'] = "Wochentag (0 - 6)";
 $GLOBALS['strDomain'] = "Domain (ohne Punkt)";
@@ -199,17 +200,17 @@ $GLOBALS['strShowClientsActive'] 		= "Kunden mit aktiven Banner anzeigen";
 $GLOBALS['strShowClientsInactive']	= "Kunden mit inaktiven Banner anzeigen";
 $GLOBALS['strSize']					= "Gr&ouml;&szlig;e";
 
-$GLOBALS['strMonth'] 				= array("January","February","March","April","May","June","July", "August", "September", "October", "November", "December");
-$GLOBALS['strDontExpire']			= "Don't expire this client on a specific date";
-$GLOBALS['strActivateNow'] 			= "Activate this client immediately";
-$GLOBALS['strExpirationDate']		= "Expiration date";
-$GLOBALS['strActivationDate']		= "Activation date";
+$GLOBALS['strMonth'] 				= ("Januar", "Februar", "M&auml;rz", "April", "Mai", "Juni", "July", "August", "September", "Oktober", "November", "Dezember");
+$GLOBALS['strDontExpire']			= "Diesen Kunden nicht an einem Ablaufdatum deaktivieren";
+$GLOBALS['strActivateNow'] 			= "Kunden sofort aktivieren";
+$GLOBALS['strExpirationDate']		= "Ablaufdatum";
+$GLOBALS['strActivationDate']		= "Aktivierungsdatum";
 
-$GLOBALS['strMailClientDeactivated'] 	= "Your banners have been disabled because";
-$GLOBALS['strMailNothingLeft'] 			= "If you would like to continue advertising on our website, please feel free to contact us. We'd be glad to hear from you.";
-$GLOBALS['strClientDeactivated']	= "This client is currently not active because";
-$GLOBALS['strBeforeActivate']		= "the activation date has not yet been reached";
-$GLOBALS['strAfterExpire']			= "the expiration date has been reached";
-$GLOBALS['strNoMoreClicks']			= "the amount of AdClicks purchased are used";
-$GLOBALS['strNoMoreViews']			= "the amount of AdViews purchased are used";
+$GLOBALS['strMailClientDeactivated'] 	= "Ihr Banner wurden deaktiviert, weil";
+$GLOBALS['strMailNothingLeft'] 			= "Sollten Sie weiterhin auf unserer Website Werbung schalten möchten, dann kontaktieren Sie uns. Wir freuen uns darauf wieder von Ihnen zu hören.";
+$GLOBALS['strClientDeactivated']	= "Dieser Kunde ist zur Zeit nicht aktiviert, weil";
+$GLOBALS['strBeforeActivate']		= "das Aktivierungsdatum noch nicht erreicht wurde";
+$GLOBALS['strAfterExpire']			= "das Ablaufdatum erreicht wurde";
+$GLOBALS['strNoMoreClicks']			= "die Zahl der gekauften AdClicks erreicht wurde";
+$GLOBALS['strNoMoreViews']			= "die Zahl der gekauften AdViews erreicht wurde";
 ?>
