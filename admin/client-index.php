@@ -303,7 +303,7 @@ else
 					else
 						echo "<img src='images/icon-campaign-d.gif' align='absmiddle'>&nbsp;";
 					
-					echo "<a href='campaign-index.php?campaignid=".$campaigns[$ckey]['clientid']."'>".$campaigns[$ckey]['clientname']."</td>";
+					echo "<a href='campaign-edit.php?campaignid=".$campaigns[$ckey]['clientid']."'>".$campaigns[$ckey]['clientname']."</td>";
 					echo "</td>";
 					
 					// ID
@@ -319,7 +319,7 @@ else
 					
 					// Button 2
 					echo "<td height='25'>";
-					echo "<a href='campaign-edit.php?campaignid=".$campaigns[$ckey]['clientid']."'><img src='images/icon-edit.gif' border='0' align='absmiddle' alt='$strEdit'>&nbsp;$strEdit</a>&nbsp;&nbsp;";
+					echo "<a href='campaign-index.php?campaignid=".$campaigns[$ckey]['clientid']."'><img src='images/icon-edit.gif' border='0' align='absmiddle' alt='$strOverview'>&nbsp;$strOverview</a>&nbsp;&nbsp;";
 					echo "</td>";
 					
 					// Button 3

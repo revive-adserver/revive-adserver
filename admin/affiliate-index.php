@@ -213,7 +213,7 @@ else
 			echo "&nbsp;<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
 			
 		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;";
-		echo "<a href='zone-index.php?affiliateid=".$affiliate['affiliateid']."'>".$affiliate['name']."</a>";
+		echo "<a href='affiliate-edit.php?affiliateid=".$affiliate['affiliateid']."'>".$affiliate['name']."</a>";
 		echo "</td>";
 		
 		// ID
@@ -229,7 +229,7 @@ else
 		
 		// Button 2
 		echo "<td height='25'>";
-		echo "<a href='affiliate-edit.php?affiliateid=".$affiliate['affiliateid']."'><img src='images/icon-edit.gif' border='0' align='absmiddle' alt='$strEdit'>&nbsp;$strEdit</a>&nbsp;&nbsp;";
+		echo "<a href='zone-index.php?affiliateid=".$affiliate['affiliateid']."'><img src='images/icon-edit.gif' border='0' align='absmiddle' alt='$strOverview'>&nbsp;$strOverview</a>&nbsp;&nbsp;";
 		echo "</td>";
 		
 		// Button 3
@@ -258,7 +258,7 @@ else
 				
 				echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
 				
-				echo "<a href='zone-include.php?affiliateid=".$affiliate['affiliateid']."&zoneid=".$zones[$zkey]['zoneid']."'>".$zones[$zkey]['zonename']."</td>";
+				echo "<a href='zone-edit.php?affiliateid=".$affiliate['affiliateid']."&zoneid=".$zones[$zkey]['zoneid']."'>".$zones[$zkey]['zonename']."</td>";
 				echo "</td>";
 				
 				// ID
@@ -271,7 +271,7 @@ else
 				
 				// Button 2
 				echo "<td height='25'>";
-				echo "<a href='zone-edit.php?affiliateid=".$affiliate['affiliateid']."&zoneid=".$zones[$zkey]['zoneid']."'><img src='images/icon-edit.gif' border='0' align='absmiddle' alt='$strEdit'>&nbsp;$strEdit</a>&nbsp;&nbsp;";
+				echo "<a href='zone-include.php?affiliateid=".$affiliate['affiliateid']."&zoneid=".$zones[$zkey]['zoneid']."'><img src='images/icon-zone-linked.gif' border='0' align='absmiddle' alt='$strIncludedBanners'>&nbsp;$strIncludedBanners</a>&nbsp;&nbsp;";
 				echo "</td>";
 				
 				// Button 3
