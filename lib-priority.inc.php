@@ -852,7 +852,7 @@ function phpAds_PriorityCalculate()
 	{
 		// BEGIN REPORTING
 		$debuglog .= "-----------------------------------------------------\n";
-		$debuglog .= "No targeding needed, skipping profile prediction.\n";
+		$debuglog .= "No targeting needed, skipping profile prediction.\n";
 		$debuglog .= "-----------------------------------------------------\n";
 		// END REPORTING
 		
