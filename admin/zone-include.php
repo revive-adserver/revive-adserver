@@ -156,6 +156,8 @@ function phpAds_showZoneBanners ($width, $height, $what)
 	echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	
 	$i = 0;
+	$checkedall = true;
+	
 	while ($row = mysql_fetch_array($res))
 	{
 		$name = $strUntitled;
@@ -174,9 +176,12 @@ function phpAds_showZoneBanners ($width, $height, $what)
 		
 		// Show checkbox
 		if ($bannerIDs[$row['bannerID']] == true)
-			echo "<input type='checkbox' name='bannerid[]' value='".$row['bannerID']."' checked>"; 
+			echo "<input type='checkbox' name='bannerid[]' value='".$row['bannerID']."' checked onclick='reviewall();'>"; 
 		else
-			echo "<input type='checkbox' name='bannerid[]' value='".$row['bannerID']."'>"; 
+		{
+			echo "<input type='checkbox' name='bannerid[]' value='".$row['bannerID']."' onclick='reviewall();'>"; 
+			$checkedall = false;
+		}
 		
 		// Space
 		echo "&nbsp;&nbsp;";
@@ -220,6 +225,11 @@ function phpAds_showZoneBanners ($width, $height, $what)
 	
 	// Footer
 	echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	
+	echo "<tr><td height='25'>";
+	echo "&nbsp;&nbsp;<input type='checkbox' name='checkall' value=''".($checkedall == true ? ' checked' : '')." onclick='toggleall();'>";
+	echo "</td></tr>";	
+	
 	echo "</table>";
 	
 	//echo "</span>";
@@ -230,6 +240,57 @@ function phpAds_showZoneBanners ($width, $height, $what)
 /*********************************************************/
 /* Main code                                             */
 /*********************************************************/
+
+?>
+
+<script language='Javascript'>
+<!--
+	function toggleall()
+	{
+		allchecked = false;
+		
+		for (var i=0; i<document.zonetypeselection.elements.length; i++)
+		{
+			if (document.zonetypeselection.elements[i].name == 'bannerid[]')
+			{
+				if (document.zonetypeselection.elements[i].checked == false)
+				{
+					allchecked = true;
+				}
+			}
+		}
+		
+		for (var i=0; i<document.zonetypeselection.elements.length; i++)
+		{
+			if (document.zonetypeselection.elements[i].name == 'bannerid[]')
+			{
+				document.zonetypeselection.elements[i].checked = allchecked;
+			}
+		}
+	}
+	
+	function reviewall()
+	{
+		allchecked = true;
+		
+		for (var i=0; i<document.zonetypeselection.elements.length; i++)
+		{
+			if (document.zonetypeselection.elements[i].name == 'bannerid[]')
+			{
+				if (document.zonetypeselection.elements[i].checked == false)
+				{
+					allchecked = false;
+				}
+			}
+		}
+		
+				
+		document.zonetypeselection.checkall.checked = allchecked;
+	}	
+//-->
+</script>
+
+<?php
 
 if (isset($zoneid) && $zoneid != '')
 {
@@ -282,7 +343,7 @@ echo "</form>";
 
 
 
-echo "<form name='zonetype_selection' method='post' action='zone-include.php'>";
+echo "<form name='zonetypeselection' method='post' action='zone-include.php'>";
 echo "<input type='hidden' name='zoneid' value='$zoneid'>";
 echo "<input type='hidden' name='zonetype' value='$zonetype'>";
 
