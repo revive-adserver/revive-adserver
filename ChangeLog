@@ -2,6 +2,7 @@ phpAdsNew - ChangeLog
 
 CVS			+ Minor speed improvements in view.inc.php  (Niels) 20011015
 			+ Added support for URL banner variables during regular remote invocation  (Niels) 20011016
+			- Removed background color for flash banner; lets see if it's better... (Stefan) 20011019
 
 			+ Misc bugfixes
 			  - Fixed pass by reference warnings in lib-ftp.inc.php  (Niels) 20011015
