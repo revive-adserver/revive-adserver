@@ -1,11 +1,11 @@
-<?php // $Revision: 1.0 $
+<?php // $Id: $
 
 /************************************************************************/
-/* phpAdsNew 2                                                          */
-/* ===========                                                          */
+/* phpPgAds                                                             */
+/* ========                                                             */
 /*                                                                      */
-/* Copyright (c) 2001 by the phpAdsNew developers                       */
-/* http://sourceforge.net/projects/phpadsnew                            */
+/* Copyright (c) 2001 by the phpPgAds developers                        */
+/* http://sourceforge.net/projects/phppgads                             */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */

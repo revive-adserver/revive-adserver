@@ -1,11 +1,11 @@
-<?php // $Revision$
+<?php // $Id$
 
 /************************************************************************/
-/* phpAdsNew 2                                                          */
-/* ===========                                                          */
+/* phpPgAds                                                             */
+/* ========                                                             */
 /*                                                                      */
-/* Copyright (c) 2001 by the phpAdsNew developers                       */
-/* http://sourceforge.net/projects/phpadsnew                            */
+/* Copyright (c) 2001 by the phpPgAds developers                        */
+/* http://sourceforge.net/projects/phppgads                             */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -17,7 +17,7 @@
 $GLOBALS['strHome'] = "Home";
 $GLOBALS['date_format'] = "%m/%d/%Y";
 $GLOBALS['time_format'] = "%H:%i:%S";
-$GLOBALS['strMySQLError'] = "Error mySQL:";
+$GLOBALS['strPgSQLError'] = "Error PostgreSQL:";
 $GLOBALS['strAdminstration'] = "Administraci&oacute;n";
 $GLOBALS['strAddClient'] = "Adicionar un nuevo cliente";
 $GLOBALS['strModifyClient'] = "Modificar cliente";
@@ -98,7 +98,7 @@ $GLOBALS['strLogErrorClicks'] = "[phpAds] Ocurrió un error mientras intentaba ca
 $GLOBALS['strLogErrorDisactivate'] = "[phpAds] Ocurrió un error mientras intentaba desactivar un banner.";
 $GLOBALS['strRatio'] = "Porcentaje de clicks";
 $GLOBALS['strChooseBanner'] = "Por favor escoja el tipo de banner.";
-$GLOBALS['strMySQLBanner'] = "Banner almacenado en mySQL";
+$GLOBALS['strPgSQLBanner'] = "Banner almacenado en PostgreSQL";
 $GLOBALS['strWebBanner'] = "Banner stored on the Webserver";
 $GLOBALS['strURLBanner'] = "Banner remitido a través de un URL";
 $GLOBALS['strHTMLBanner'] = "Banner HTML";

@@ -1,11 +1,11 @@
-<?php // $Revision$
+<?php // $Id$
 
 /************************************************************************/
-/* phpAdsNew 2                                                          */
-/* ===========                                                          */
+/* phpPgAds                                                             */
+/* ========                                                             */
 /*                                                                      */
-/* Copyright (c) 2001 by the phpAdsNew developers                       */
-/* http://sourceforge.net/projects/phpadsnew                            */
+/* Copyright (c) 2001 by the phpPgAds developers                        */
+/* http://sourceforge.net/projects/phppgads                             */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -21,7 +21,7 @@
 $GLOBALS['strHome'] = "Hjem";
 $GLOBALS['date_format'] = "%d/%m-%Y";
 $GLOBALS['time_format'] = "%H:%i:%S";
-$GLOBALS['strMySQLError'] = "MySQL-fejl:";
+$GLOBALS['strPgSQLError'] = "PostgreSQL-fejl:";
 $GLOBALS['strAdminstration'] = "Administration";
 $GLOBALS['strAddClient'] = "Tilføj ny klient";
 $GLOBALS['strModifyClient'] = "Ret klient";
@@ -101,7 +101,7 @@ $GLOBALS['strLogErrorClicks'] = "[phpAds] En fejl opstod ved hentning af bannerk
 $GLOBALS['strLogErrorDisactivate'] = "[phpAds] En fejl opstod ved deaktiveringen af et banner.";
 $GLOBALS['strRatio'] = "Click-Through Ratio";
 $GLOBALS['strChooseBanner'] = "Vælg venligst en bannertype.";
-$GLOBALS['strMySQLBanner'] = "Banner gemt i databasen";
+$GLOBALS['strPgSQLBanner'] = "Banner gemt i databasen";
 $GLOBALS['strWebBanner'] = "Banner gemt på webserveren";
 $GLOBALS['strURLBanner'] = "Banner refereres fra en URL";
 $GLOBALS['strHTMLBanner'] = "HTML banner";

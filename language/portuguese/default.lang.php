@@ -1,11 +1,11 @@
-<?php // $Revision$
+<?php // $Id$
 
 /************************************************************************/
-/* phpAdsNew 2                                                          */
-/* ===========                                                          */
+/* phpPgAds                                                             */
+/* ========                                                             */
 /*                                                                      */
-/* Copyright (c) 2001 by the phpAdsNew developers                       */
-/* http://sourceforge.net/projects/phpadsnew                            */
+/* Copyright (c) 2001 by the phpPgAds developers                        */
+/* http://sourceforge.net/projects/phppgads                             */
 /*                                                                      */
 /* Translations by lopo.almeida@sitaar.pt                               */
 /*                                                                      */
@@ -19,7 +19,7 @@
 $GLOBALS['strHome'] = "In&iacute;cio";
 $GLOBALS['date_format'] = "%d/%m/%Y";
 $GLOBALS['time_format'] = "%H:%i:%S";
-$GLOBALS['strMySQLError'] = "Erro MySQL:";
+$GLOBALS['strPgSQLError'] = "Erro PostgreSQL:";
 $GLOBALS['strAdminstration'] = "Administra&ccedil;&atilde;o";
 $GLOBALS['strAddClient'] = "Adicionar novo cliente";
 $GLOBALS['strModifyClient'] = "Modificar cliente";
@@ -102,7 +102,7 @@ $GLOBALS['strLogErrorClicks'] = "[phpAds] Um erro ocorreu ao pesquisar os clique
 $GLOBALS['strLogErrorDisactivate'] = "[phpAds] Um erro ocorreu ao desactivar o anúncio.";
 $GLOBALS['strRatio'] = "Taxa de Impress&atilde;o/Clique";
 $GLOBALS['strChooseBanner'] = "Escolha o tipo de an&uacute;ncio.";
-$GLOBALS['strMySQLBanner'] = "An&uacute;ncio armazenado no MySQL";
+$GLOBALS['strPgSQLBanner'] = "An&uacute;ncio armazenado no PostgreSQL";
 $GLOBALS['strWebBanner'] = "An&uacute;ncio armazenado no Servidor Web";
 $GLOBALS['strURLBanner'] = "An&uacute;ncio referido atrav&eacute;s de URL";
 $GLOBALS['strHTMLBanner'] = "An&uacute;ncio HTML";
