@@ -70,13 +70,16 @@ require ("lib-install-db.inc.php");
 require ("lib-permissions.inc.php");
 require ("lib-gui.inc.php");
 require ("lib-languages.inc.php");
-require ("lib-settings.inc.php");
 
 
 // Load settings/install language strings
 @include (phpAds_path.'/language/english/settings.lang.php');
 if ($phpAds_config['language'] != 'english' && file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/settings.lang.php'))
 	@include (phpAds_path.'/language/'.$phpAds_config['language'].'/settings.lang.php');
+
+
+// Include other required files
+require ("lib-settings.inc.php");
 
 
 // If an old config.inc.php is present, upgrade!
