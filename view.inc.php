@@ -15,7 +15,7 @@
 
 
 // Include required files
-require ("$phpAds_path/dblib.php"); 26/09/2001
+require ("$phpAds_path/dblib.php");
 require ("$phpAds_path/lib-expire.inc.php");
 
 // Seed the random number generator
