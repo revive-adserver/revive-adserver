@@ -29,19 +29,6 @@ a:hover { color: #333366; text-decoration: underline; }
 </p>
 <hr>
 <h3>Frequently Asked Questions</h3>
-<h4>The login doesn't work, it keeps prompting for username/password all over 
-  again.<br>
-  or I can't add banners.</h4>
-<p>Make sure you have enabled magic_quotes_gpc in your PHP configuration.</p>
-<p>Make sure $phpAds_url_prefix in config.inc.php is exactly the same as it is 
-  on the server (http://www.test.com/phpads is not the same as http://www.test.com/phpAds). 
-  Also make sure it doesn't end with a slash (/).</p>
-<h4>I get the following error: Fatal error: Call to unsupported or undefined function 
-  mysql_(p)connect().</h4>
-<p>Your PHP is not configured for MySQL support. If you're on Unix, you need to 
-  recompile PHP --with-mysql. If you're on Windows, you have to enable the MySQL 
-  DLL in your PHP configuration. See the manual, installation section, for more 
-  details.</p>
 <h4>Does phpAdsNew has support cache busters?</h4>
 <p>In some circumstances you may want to add a banner network to phpAdsNew. Some 
   banner networks rely on cache busters in order to work correctly. A cache buster 
@@ -62,5 +49,35 @@ a:hover { color: #333366; text-decoration: underline; }
 <h4>Can you help me to install phpAdsNew? Can you please implement this feature 
   I need?</h4>
 <p>Maybe. Let us know what you want...</p>
+<h3>Troubleshooting</h3>
+<h4>phpAdsNew doesn't display any banners on pages which are the result of a form 
+  being submitted in IE</h4>
+<p>This is a known bug in IE 4 and higher. phpAdsNew 1.9 does have a workaround 
+  for this bug, but it only works in remote invocation with JavaScript and local 
+  mode. Normal remote invocation is still affected by this bug. Microsoft is aware 
+  of this bug for some time and IE 6 apparently works fine. If you use normal 
+  remote invocation there is nothing we can do about it.<br>
+</p>
+<h4>phpAdsNew doesn't display any HTML banners</h4>
+<p>HTML banners are only supported if you use remote invocation with JavaScript 
+  of local mode. It is not possible to display HTML banner with normal remote 
+  invocation. </p>
+<h4>The login doesn't work, it keeps prompting for username/password all over 
+  again or I can't add banners</h4>
+<p>Make sure you have enabled magic_quotes_gpc in your PHP configuration.<br>
+  Make sure $phpAds_url_prefix in config.inc.php is exactly the same as it is 
+  on the server (http://www.test.com/phpads is not the same as http://www.test.com/phpAds). 
+  Also make sure it doesn't end with a slash (/).</p>
+<h4></h4>
+<h4>I get the following error: Fatal error: Call to unsupported or undefined function 
+  mysql_(p)connect()</h4>
+<p>Your PHP is not configured for MySQL support. If you're on Unix, you need to 
+  recompile PHP --with-mysql. If you're on Windows, you have to enable the MySQL 
+  DLL in your PHP configuration. See the manual, installation section, for more 
+  details.</p>
+<h4></h4>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
 </body>
 </html>
