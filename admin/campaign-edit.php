@@ -22,7 +22,7 @@ require ("lib-statistics.inc.php");
 // Register input variables
 phpAds_registerGlobal ('move', 'submit', 'clientname', 'views', 'clicks', 'unlimitedviews', 'unlimitedclicks', 'priority', 
 					   'targetviews', 'weight', 'expire', 'expireSet', 'expireDay', 'expireMonth', 'expireYear', 'activateSet', 
-					   'activateDay', 'activateMonth', 'activateYear', 'target_old');
+					   'activateDay', 'activateMonth', 'activateYear', 'target_old', 'wheight_old', 'active_old');
 
 
 // Security check
@@ -222,8 +222,14 @@ if (isset($submit))
 				");
 	}
 	
-	require ("../libraries/lib-priority.inc.php");
-	phpAds_PriorityCalculate ();
+	
+	// Recalculate priority only if needed
+	if (($active != $active_old) ||
+		($active == 't' && ($targetviews != $target_old || $weight != $weight_old)))
+	{
+		include ("../libraries/lib-priority.inc.php");
+		phpAds_PriorityCalculate ();
+	}
 	
 	
 	// Rebuild cache
@@ -536,7 +542,9 @@ echo "<input type='hidden' name='campaignid' value='".(isset($campaignid) ? $cam
 echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clientid : '')."'>";
 echo "<input type='hidden' name='expire' value='".(isset($row["expire"]) ? $row["expire"] : '')."'>";
 echo "<input type='hidden' name='move' value='".(isset($move) ? $move : '')."'>";
-echo "<input type='hidden' name='target_old' value='".(isset($row['target']) ? $row['target'] : 0)."'>";
+echo "<input type='hidden' name='target_old' value='".(isset($row['target']) ? (int)$row['target'] : 0)."'>";
+echo "<input type='hidden' name='weight_old' value='".(isset($row['weight']) ? (int)$row['weight'] : 0)."'>";
+echo "<input type='hidden' name='active_old' value='".(isset($row['active']) && $row['active'] == 't' ? 't' : 'f')."'>";
 
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25' colspan='3'><b>".$strBasicInformation."</b></td></tr>";
