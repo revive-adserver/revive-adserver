@@ -227,7 +227,7 @@ function phpAds_checkIds()
 					exit;
 				}
 			}
-			elseif ($part[1] == 'htmlpreview')
+			elseif (isset($part[1]) && $part[1] == 'htmlpreview')
 				break;
 		
 		case 'campaign':
