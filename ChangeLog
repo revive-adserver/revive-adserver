@@ -222,6 +222,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-04-08:  The popup was being opened even when no banner was fetched  (Matteo)
 			  - 2002-04-14:  Mixing zones and direct selection with the view() function is now possible  (Niels)
 			  - 2002-04-14:  Adlayer is now IE, Mozilla and Opera compatible  (Matteo & Niels)
+			  - 2002-04-15:  Fixed no cookie / no database connection errors  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
