@@ -248,7 +248,7 @@ $GLOBALS['strConfirmResetBannerStats']		= "Do you really want to delete all exis
 
 // Banner (Properties)
 $GLOBALS['strChooseBanner'] 				= "Please choose the type of the banner";
-$GLOBALS['strSQLBanner'] 					= "Local banner (SQL)";
+$GLOBALS['strMySQLBanner'] 					= "Local banner (SQL)";
 $GLOBALS['strWebBanner'] 					= "Local banner (Webserver)";
 $GLOBALS['strURLBanner'] 					= "External banner";
 $GLOBALS['strHTMLBanner'] 					= "HTML banner";
@@ -428,7 +428,7 @@ $GLOBALS['strBannercode']					= "Bannercode";
 
 
 // Errors
-$GLOBALS['strSQLError'] 					= "SQL Error:";
+$GLOBALS['strMySQLError'] 					= "SQL Error:";
 $GLOBALS['strLogErrorClients'] 				= "[phpAds] An error occurred while trying to fetch the advertisers from the database.";
 $GLOBALS['strLogErrorBanners'] 				= "[phpAds] An error occurred while trying to fetch the banners from the database.";
 $GLOBALS['strLogErrorViews'] 				= "[phpAds] An error occurred while trying to fetch the adviews from the database.";
