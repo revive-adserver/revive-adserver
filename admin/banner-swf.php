@@ -186,13 +186,14 @@ if ($bannerid != '')
 	}
 	else
 	{
-		phpAds_PageHeader("1.1.1.2", $extra);
-		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
-		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
-		echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
-		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
-		echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br><br>";
-		echo phpAds_getBannerCode($bannerid)."<br><br><br><br>";
+		phpAds_PageHeader("1.1.1.3", $extra);
+			echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
+			echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
+			echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
+			echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br><br>";
+			echo phpAds_getBannerCode($bannerid)."<br><br><br><br>";
+			phpAds_ShowSections(array("1.1.1.3"));
 	}
 	
 	
