@@ -108,9 +108,27 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 		$outputbuffer = str_replace ('{target}', $target, $outputbuffer);
 		$outputbuffer = str_replace ('{source}', $source, $outputbuffer);
 		
-		// Set path of phpAdsNew
+		// If SSL is used, make sure to use the https:// protocol
 		if ($HTTP_SERVER_VARS['SERVER_PORT'] == 443) $phpAds_config['url_prefix'] = str_replace ('http://', 'https://', $phpAds_config['url_prefix']);
-		if (isset($HTTP_SERVER_VARS['HTTP_HOST']))   $phpAds_config['url_prefix'] = preg_replace ('#//[^/]+/#', '//'.$HTTP_SERVER_VARS['HTTP_HOST'].'/', $phpAds_config['url_prefix']);
+		
+		// Replace url_prefix with the domain name that is actually used
+		if (isset($HTTP_SERVER_VARS['HTTP_HOST']))
+		{
+			if (preg_match('#//[^/]+:[0-9]+/#', $phpAds_config['url_prefix']))
+			{
+				// The port was set using url_prefix, make sure this port
+				// is used and not the port used by HTTP_HOST
+				if (strpos($HTTP_SERVER_VARS['HTTP_HOST'], ':') > 0)
+					list($real_host,) = explode(':', $HTTP_SERVER_VARS['HTTP_HOST']);
+				else
+					$real_host = $HTTP_SERVER_VARS['HTTP_HOST'];
+			
+				$phpAds_config['url_prefix'] = preg_replace ('#//[^/]+:([0-9]+)/#', '//'.$real_host.':\\1/', $phpAds_config['url_prefix']);			
+			}
+			else
+				$phpAds_config['url_prefix'] = preg_replace ('#//[^/]+/#', '//'.$HTTP_SERVER_VARS['HTTP_HOST'].'/', $phpAds_config['url_prefix']);		
+		}
+		
 		$outputbuffer = str_replace ('{url_prefix}', $phpAds_config['url_prefix'], $outputbuffer);
 		
 		
