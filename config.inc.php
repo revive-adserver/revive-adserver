@@ -114,6 +114,9 @@ $phpAds_con_key = "1";
 // Use multiple keywords for banners in banner table? (0=no, 1=yes)
 $phpAds_mult_key = "1";
 
+// Use ACL (0=no, 1=yes)
+$phpAds_acl = "0";
+
 // default banner, it is show when phpAdsNew can't connect to the database or
 // there are absolutely no banner to display. The banner is not logged.
 // Enter the complete url (incl. http://) for the image and the target,

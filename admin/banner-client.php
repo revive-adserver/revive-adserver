@@ -150,7 +150,9 @@ else
 			</a>&nbsp;&nbsp;&nbsp;&nbsp;
 			<img src='images/go_blue.gif'>&nbsp;<a href="banner-delete.php?clientID=<?echo $clientID;?>&bannerID=<?echo $row["bannerID"];?>"><?echo $strDelete;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
 			<img src='images/go_blue.gif'>&nbsp;<a href="banner-edit.php?clientID=<?echo $clientID;?>&bannerID=<?echo $row["bannerID"];?>"><?echo $strModifyBanner;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<? if ($phpAds_acl == '1') { ?>
 			<img src='images/go_blue.gif'>&nbsp;<a href="banner-acl.php?clientID=<?echo $clientID;?>&bannerID=<?echo $row["bannerID"];?>"><?echo $strModifyBannerAcl;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<? } ?>
 		</td>
 	</tr>
 	<tr>

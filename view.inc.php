@@ -342,17 +342,26 @@ function get_banner($what, $clientID, $context=0, $source="")
             
 			if ($high > $ranweight && $low <= $ranweight)
             {
-				$tmprow=$rows[$i];
-                if (acl_check($request,$tmprow))
-                    return ($tmprow);
-                
-                // Matched, but acl_check failed.  delete this row and adjust $weightsum
-                if (sizeof($rows) == 1)
-                    return false;
-				
-                $weightsum -= $tmprow["weight"];
-                $rows[$i] = array_pop($rows);
-                break;                              // break out of the for loop to try again
+				if ($phpAds_acl = '1')
+				{
+					$tmprow=$rows[$i];
+	                if (acl_check($request,$tmprow))
+	                    return ($tmprow);
+	                
+	                // Matched, but acl_check failed.  delete this row and adjust $weightsum
+	                if (sizeof($rows) == 1)
+	                    return false;
+					
+	                $weightsum -= $tmprow["weight"];
+	                $rows[$i] = array_pop($rows);
+					
+					// break out of the for loop to try again
+	                break;
+				}
+				else
+				{
+					return ($row[$i]);
+				}
             }
         }
     }
