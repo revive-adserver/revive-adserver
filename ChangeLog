@@ -117,7 +117,10 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-03-27:  Optimized BannerInZone and CampaignInZone  (Niels) 
 			  - 2002-03-28:  Added optional patch for systems with a local qmail as SMTP deamon  (Matteo) 
 			  - 2002-03-28:  Made version number less visible  (Niels) 
-			  - 2002-03-28:  Added the ability to rebuild the zonecache and imageurl's  (Niels) 
+			  - 2002-03-28:  Added the ability to rebuild the zonecache and imageurl's  (Niels)
+			  - 2002-04-01:  Added warning to statistics pages when there are not stats available  (Niels)
+			  - 2002-04-01:  Added Campaign Overview page to the statistics  (Niels)
+			  - 2002-04-01:  Changed hierarchy of the campaign and banner statistic pages  (Niels)
 
 
 			+ Misc bugfixes
@@ -208,6 +211,8 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-03-31:  Duplicated zones now have an unique name  (Niels)
 			  - 2002-03-31:  Fixed errors when no banner networks were present  (Niels)
 			  - 2002-04-01:  Fixed report checkboxes on the advertiser properties page  (Niels)
+			  - 2002-04-01:  Fixed misc. E_ALL warnings  (Niels)
+			  - 2002-04-02:  Source statistics now work properly for compact statistics  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
