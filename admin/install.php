@@ -443,7 +443,7 @@ if (phpAds_isUser(phpAds_Admin))
 			// Welcome text
 			echo "<form name='settingsform' method='post' action='install.php'>";
 			echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
-			echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
+			echo "<img src='images/install-license.gif'></td><td width='100%' valign='top'>";
 			echo "<br><span class='tab-s'>".$strLicenseInformation."</span><br>";
 			echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
 			echo "<span class='install'>";

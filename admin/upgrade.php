@@ -467,8 +467,8 @@ if (phpAds_isUser(phpAds_Admin))
 		
 		echo "<form name='upgrade' method='post' action='index.php'>";
 		echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
-		echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
-		echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
+		echo "<img src='images/install-success.gif'></td><td width='100%' valign='top'>";
+		echo "<br><span class='tab-s'>".$strCongratulations."</span><br>";
 		echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
 		echo "<span class='install'>".$strUpdateSuccess."</td></tr></table>";
 		
