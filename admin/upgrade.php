@@ -40,8 +40,13 @@ require ("lib-gui.inc.php");
 require ("lib-install.inc.php");
 require ("lib-languages.inc.php");
 require ("lib-install-db.inc.php");
+require ("lib-statistics.inc.php");
+require ("lib-storage.inc.php");
+require ("lib-banner.inc.php");
 
 
+// Turn off database compatibility mode
+$phpAds_config['compatibility_mode'] = false;
 
 // Open the database connection
 $link = phpAds_dbConnect();
