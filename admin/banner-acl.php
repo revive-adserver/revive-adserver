@@ -17,11 +17,33 @@
 // Include required files
 require ("config.php");
 require ("lib-statistics.inc.php");
-require ("banner-acl.inc.php");
 
 
 // Security check
 phpAds_checkAccess(phpAds_Admin);
+
+
+// Define variable types
+$acl_types = array(
+		'none'		=> '',
+		'clientip'	=> $strClientIP,
+		'useragent'	=> $strUserAgent,
+		'weekday'	=> $strWeekDay,
+		'domain'	=> $strDomain,
+		'source'	=> $strSource,
+		'time'		=> $strTime,
+		'language'	=> $strLanguage
+	);
+
+$aclad_types = array(
+		'allow' => $strEqualTo,
+		'deny'  => $strDifferentFrom
+	);
+
+$aclcon_types = array(
+		'or'  => $strOR,
+		'and' => $strAND
+	);
 
 
 
@@ -29,122 +51,100 @@ phpAds_checkAccess(phpAds_Admin);
 /* Process submitted form                                */
 /*********************************************************/
 
-
-// Convert weekday and time to usable string
-if (isset($acl_data) && isset($acl_type) &&
-	($acl_type == 'time' || $acl_type == 'weekday'))
+if (isset($action))
 {
-	if (is_array($acl_data))
-		$acl_data = implode (',', $acl_data);
-}
-
-
-if (isset($btndel_x))
-{
-	if (!isset($acl_order)) 
-		phpAds_Die("hu?", "Where is my acl_order? I've lost my acl_orde! Moooommmeee... I want my acl_order back!");
-	
-	$res = phpAds_dbQuery("
-      	DELETE FROM ".$phpAds_config['tbl_acls']." WHERE
-        bannerid = $bannerid AND acl_order = $acl_order ") or phpAds_sqlDie();
-	
-	// get banner-acl after the deleted one
-	$res = phpAds_dbQuery("
-		SELECT * FROM ".$phpAds_config['tbl_acls']." WHERE
-		bannerid = $bannerid AND acl_order > $acl_order") or phpAds_sqlDie();
-    
-	// decrement every following acl
-	while ($row = phpAds_dbFetchArray($res)) 
+	if (isset($action['down']))
 	{
-		$old_order = $row['acl_order'];
-		$res1 = phpAds_dbQuery("
-			UPDATE ".$phpAds_config['tbl_acls']." SET
-			acl_order = acl_order - 1 WHERE
-			acl_order = $old_order
-            AND bannerid = $bannerid") or phpAds_sqlDie();
+		// Move limitation down
+		$source = key($action['down']);
+		$destination = $source + 1;
+		
+		$tmp = $acl[$source];
+		$acl[$source] = $acl[$destination];
+		$acl[$destination] = $tmp;
 	}
 	
-	header ("Location: banner-acl.php?campaignid=$campaignid&bannerid=$bannerid");
-	exit;
-}
-
-if (isset($btnsave_x))
-{
-	if ($update)
+	if (isset($action['up']))
 	{
-		$res = phpAds_dbQuery("
-			UPDATE ".$phpAds_config['tbl_acls']." SET
-			acl_type = '$acl_type', acl_data = '$acl_data',
-			acl_ad = '$acl_ad', acl_con = '$acl_con' 
-			where bannerid = $bannerid 
-			AND acl_order = $acl_order") or phpAds_sqlDie();
+		// Move limitation up
+		$source = key($action['up']);
+		$destination = $source - 1;
 		
-		header ("Location: banner-acl.php?campaignid=$campaignid&bannerid=$bannerid");
-		exit;
-	} 
-	else
+		$tmp = $acl[$source];
+		$acl[$source] = $acl[$destination];
+		$acl[$destination] = $tmp;
+	}
+	
+	if (isset($action['del']))
 	{
-		$res = phpAds_dbQuery("
-			INSERT INTO ".$phpAds_config['tbl_acls']." SET
-			acl_order = $acl_order, bannerid = $bannerid,
-			acl_type = '$acl_type', acl_data = '$acl_data',
-			acl_ad = '$acl_ad', acl_con = '$acl_con'") or phpAds_sqlDie();
+		// Delete limitation
+		$first = key($action['del']);
+		$last  = count($acl) - 1;
+		$tmp   = array();
 		
-		header ("Location: banner-acl.php?campaignid=$campaignid&bannerid=$bannerid");
-		exit;
+		for ($i=0; $i < $first; $i++)
+			$tmp[$i] = $acl[$i];
+		
+		for ($i=$first; $i < $last; $i++)
+			$tmp[$i] = $acl[$i + 1];
+		
+		$acl = $tmp;
+	}
+	
+	if (isset($action['new']))
+	{
+		// Create new limitation
+		$last  = count($acl);
+		
+		$acl[$last]['con']  = 'and';
+		$acl[$last]['type'] = $type;
+		$acl[$last]['ad']   = 'allow';
+		
+		if ($type == 'time' || $type == 'weekday')
+			$acl[$last]['data'] = array();
+		else
+			$acl[$last]['data'] = '';
 	}
 }
-
-if (isset($btnup_x))
+elseif (isset($submit))
 {
-	if ($acl_order < 1)
-		 phpAds_Die("oops", $strNoMoveUp);
+	// First delete existing limitations
+	phpAds_dbQuery ("
+		DELETE FROM 
+			".$phpAds_config['tbl_acls']." 
+		WHERE 
+			bannerid=".$bannerid."
+	");
 	
-    // delete current acl
-	$res = phpAds_dbQuery("
-		DELETE FROM ".$phpAds_config['tbl_acls']." WHERE
-		bannerid = $bannerid AND acl_order = $acl_order ") or phpAds_sqlDie();
-	
-	// increment previous acl
-	$new_acl_order = $acl_order - 1;
-	$res = phpAds_dbQuery("
-		UPDATE ".$phpAds_config['tbl_acls']." SET
-		acl_order = acl_order + 1 WHERE 
-		acl_order = $new_acl_order 
-		AND bannerid = $bannerid") or phpAds_sqlDie();
-	
-	// insert actual acl with decremented order
-	$res = phpAds_dbQuery("
-		INSERT INTO ".$phpAds_config['tbl_acls']." SET
-		acl_order = $new_acl_order, bannerid = $bannerid,
-		acl_type = '$acl_type', acl_data = '$acl_data',
-		acl_ad = '$acl_ad', acl_con = '$acl_con'") or phpAds_sqlDie();
-	
-	header ("Location: banner-acl.php?campaignid=$campaignid&bannerid=$bannerid");
-	exit;
-}
-
-if (isset($btndown_x))
-{
-	$res = phpAds_dbQuery("
-		DELETE FROM ".$phpAds_config['tbl_acls']." WHERE
-		bannerid = $bannerid AND acl_order = $acl_order ") or phpAds_sqlDie();
-	
-	$new_acl_order = $acl_order + 1;
-	$res = phpAds_dbQuery("
-		UPDATE ".$phpAds_config['tbl_acls']." SET
-		acl_order = acl_order - 1 WHERE 
-		acl_order = $new_acl_order
-		AND bannerid = $bannerid") or phpAds_sqlDie();
-	
-	$res = phpAds_dbQuery("
-		INSERT INTO ".$phpAds_config['tbl_acls']." SET
-		acl_order = $new_acl_order, bannerid = $bannerid,
-		acl_type = '$acl_type', acl_data = '$acl_data',
-		acl_ad = '$acl_ad', acl_con = '$acl_con'") or phpAds_sqlDie();
-	
-	header ("Location: banner-acl.php?campaignid=$campaignid&bannerid=$bannerid");
-	exit;
+	// Store limitations
+	if (count($acl))
+	{
+		reset($acl);
+		while (list ($key,) = each ($acl))
+		{
+			if (isset($acl[$key]['data']))
+			{
+				if ($acl[$key]['type'] == 'time' || $acl[$key]['type'] == 'weekday')
+					$data = implode (',', $acl[$key]['data']);
+				else
+					$data = $acl[$key]['data'];
+			}
+			else
+				$data = '';
+			
+			phpAds_dbQuery ("
+				INSERT INTO
+					".$phpAds_config['tbl_acls']."
+				SET
+					bannerid  = '".$bannerid."',
+					acl_con   = '".$acl[$key]['con']."',
+					acl_type  = '".$acl[$key]['type']."',
+					acl_data  = '".$data."',
+					acl_ad    = '".$acl[$key]['ad']."',
+					acl_order = '".$key."'
+			");
+		}
+	}
 }
 
 
@@ -152,9 +152,6 @@ if (isset($btndown_x))
 /*********************************************************/
 /* HTML framework                                        */
 /*********************************************************/
-
-if (!isset($bannerid)) 
-	phpAds_Die("This page can't be displayed",	"There was no bannerid suppied");
 
 $extra = '';
 
@@ -245,21 +242,54 @@ phpAds_PageHeader("4.1.5.3", $extra);
 /* Main code                                             */
 /*********************************************************/
 
-echo "<br><br>";
-
-
-// Fetch all ACLs from the database
-$res = phpAds_dbQuery("
-	SELECT
-		*
-	FROM
-		".$phpAds_config['tbl_acls']."
-	WHERE
-		bannerid = $bannerid ORDER BY acl_order
+if (!isset($acl))
+{
+	// Fetch all ACLs from the database
+	$res = phpAds_dbQuery("
+		SELECT
+			*
+		FROM
+			".$phpAds_config['tbl_acls']."
+		WHERE
+			bannerid = ".$bannerid."
+		ORDER BY acl_order
 	") or phpAds_sqlDie();
+	
+	while ($row = phpAds_dbFetchArray ($res))
+	{
+		$acl[$row['acl_order']]['con'] 	= $row['acl_con'];
+		$acl[$row['acl_order']]['type'] = $row['acl_type'];
+		$acl[$row['acl_order']]['ad'] 	= $row['acl_ad'];
+		
+		if ($row['acl_type'] == 'time' || $row['acl_type'] == 'weekday')
+			$acl[$row['acl_order']]['data'] = explode (',', $row['acl_data']);
+		else
+			$acl[$row['acl_order']]['data'] = $row['acl_data'];
+	}
+}
 
-$count = phpAds_dbNumRows ($res);
 
+// Begin form
+echo "<form action='banner-acl.php' method='post'>";
+echo "<input type='hidden' name='campaignid' value='".$campaignid."'>";
+echo "<input type='hidden' name='bannerid' value='".$bannerid."'>";
+
+echo $strACLAdd.":&nbsp;&nbsp;";
+echo "<select name='type'>";
+
+reset($acl_types);
+while (list ($acl_type, $acl_name) = each ($acl_types))
+{
+	echo "<option value=";
+	printf("\"%s\" %s>", $acl_type, $acl_type == 'clientip' ? 'selected':''); 
+	echo "$acl_name\n";
+}
+
+echo "</select>";
+echo "&nbsp;&nbsp;";
+echo "<input type='image' name='action[new]' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0' align='absmiddle' alt='$strSave'>";
+phpAds_ShowBreak();
+echo "<br><br>";
 
 
 // Show header
@@ -267,34 +297,123 @@ echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25' colspan='4'><b>".$strOnlyDisplayWhen."</b></td></tr>";
 echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 
+
 // Display all ACLs
-if ($count > 0)
+if (count($acl))
 {
-	$i = 0;
+	$previous_i = 0;
 	$previous_type = '';
 	
-	// Get next ACL
-	while ($row = phpAds_dbFetchArray ($res))
+	reset($acl);
+	while (list ($key,) = each ($acl))
 	{
-		if ($row['acl_con'] == 'or')
+		if ($acl[$key]['con'] == 'or')
 		{
 			echo "<tr><td colspan='4'><img src='images/break.gif' width='100%' height='1'></td></tr>";
-			$i++;
+			$previous_i++;
 		}
 		else
 			if ($previous_type != '') echo "<tr><td colspan='4'><img src='images/break-el.gif' width='100%' height='1'></td></tr>";
 		
-		// Show Row
-		phpAds_ShowRow ($row, $count, 1, $i);
 		
-		$previous_type = $row['acl_type'];
+		$bgcolor = $previous_i % 2 == 0 ? "#F6F6F6" : "#FFFFFF";
+		
+		
+		echo "<tr height='35' bgcolor='$bgcolor'>";
+		echo "<td width='75'>&nbsp;&nbsp;";
+		if ($key == 0)
+			echo "<input type='hidden' name='acl[".$key."][con]' value='and'>&nbsp;";
+		else
+		{
+			echo "<select name='acl[".$key."][con]'>";
+			
+			reset($aclcon_types);
+			while (list ($aclcon_type, $aclcon_name) = each ($aclcon_types))
+			{
+				echo "<option value=";
+				printf("\"%s\" %s>", $aclcon_type, $aclcon_type == $acl[$key]['con'] ? 'selected' : '');
+				echo "$aclcon_name\n";
+			}
+			
+			echo "</select>";
+		}
+		
+		echo "</td><td width='175'><b>";
+		echo $acl_types[$acl[$key]['type']];
+		echo "</b><input type='hidden' name='acl[".$key."][type]' value='".$acl[$key]['type']."'>";
+		echo "</td><td width='200'>";
+		echo "<select name='acl[".$key."][ad]'>";
+		
+		reset($aclad_types);
+		while (list ($acl_ad, $acl_name) = each ($aclad_types))
+		{
+			echo "<option value=";
+			printf("\"%s\" %s>", $acl_ad, $acl_ad == $acl[$key]['ad'] ? 'selected' : '');
+			echo "$acl_name\n";
+		}
+		echo "</select></td>";
+		
+		
+		// Show buttons
+		echo "<td align='right'>";
+		echo "<input type='image' name='action[del][".$key."]' src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>";
+		echo "&nbsp;&nbsp;&nbsp;&nbsp;";
+		
+		if ($key && $key < count($acl))
+			echo "<input type='image' name='action[up][".$key."]' src='images/triangle-u.gif' border='0' alt='$strUp'>";
+		else
+			echo "<img src='images/triangle-u-d.gif' alt='$strUp'>";
+		
+		if ($key < count($acl) - 1)
+			echo "<input type='image' name='action[down][".$key."]' src='images/triangle-d.gif' border='0' alt='$strDown'>";
+		else
+			echo "<img src='images/triangle-d-d.gif' alt='$strDown'>";
+		
+		echo "&nbsp;&nbsp;</td></tr>";
+		echo "<tr bgcolor='$bgcolor'><td>&nbsp;</td><td>&nbsp;</td><td colspan='2'>";
+		
+		if ($acl[$key]['type'] == 'weekday')
+		{
+			if (!isset($acl[$key]['data'])) $acl[$key]['data'] = array();
+			
+			$data_array = explode (',', $acl[$key]['data']);
+			
+			echo "<table width='275' cellpadding='0' cellspacing='0' border='0'>";
+			for ($i = 0; $i < 7; $i++)
+			{
+				if ($i % 4 == 0) echo "<tr>";
+				echo "<td><input type='checkbox' name='acl[".$key."][data][]' value='$i'".(in_array ($i, $acl[$key]['data']) ? ' CHECKED' : '').">&nbsp;".$strDayShortCuts[$i]."&nbsp;&nbsp;</td>";
+				if (($i + 1) % 4 == 0) echo "</tr>";
+			}
+			if (($i + 1) % 4 != 0) echo "</tr>";
+			echo "</table>";
+		}
+		elseif ($acl[$key]['type'] == 'time')
+		{
+			if (!isset($acl[$key]['data'])) $acl[$key]['data'] = array();
+			
+			echo "<table width='275' cellpadding='0' cellspacing='0' border='0'>";
+			for ($i = 0; $i < 24; $i++)
+			{
+				if ($i % 4 == 0) echo "<tr>";
+				echo "<td><input type='checkbox' name='acl[".$key."][data][]' value='$i'".(in_array ($i, $acl[$key]['data']) ? ' CHECKED' : '').">&nbsp;".$i.":00&nbsp;&nbsp;</td>";
+				if (($i + 1) % 4 == 0) echo "</tr>";
+			}
+			if (($i + 1) % 4 != 0) echo "</tr>";
+			echo "</table>";
+		}
+		else
+			echo "<input type='text' size='40' name='acl[".$key."][data]' value='".(isset($acl[$key]['data']) ? $acl[$key]['data'] : "")."'>";
+		
+		echo "<br><br></td></tr>";
+		
+		
+		$previous_type = $acl[$key]['type'];
 	}
 	
 	// Show Footer
-	if ($row['acl_type'] != $previous_type && $previous_type != '')
-	{
+	if ($acl[$key]['type'] != $previous_type && $previous_type != '')
 		echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-	}
 }
 else
 {
@@ -302,31 +421,16 @@ else
 	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 }
 
-echo "<form action='".basename($PHP_SELF)."' method='get'>";
-echo "<input type='hidden' name='campaignid' value='".(isset($campaignid) ? $campaignid : '')."'>";
-echo "<input type='hidden' name='bannerid' value='".(isset($bannerid) ? $bannerid : '')."'>";
-echo "<input type='hidden' name='update' value='".(isset($update) ? $update : '')."'>";
-echo "<input type='hidden' name='acl_order' value='".(isset($count) ? $count : '')."'>";
-echo "<input type='hidden' name='acl_con' value='and'>";
-echo "<input type='hidden' name='acl_type' value='allow'>";
-echo "<input type='hidden' name='acl_data' value=''>";
-echo "<input type='hidden' name='acl_ad' value=''>&nbsp;";
+echo "</table>";
 
-echo "<tr height='30'><td colspan='4' align='right'>";
-	echo $strACLAdd;
-	echo "&nbsp;&nbsp;";
-	phpAds_ACLTypeSelect ('clientip');
-	echo "&nbsp;&nbsp;";
-	echo "<input type='image' name='btnsave' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0' align='absmiddle' alt='$strSave'>";
-echo "</td></tr>";
+if (count($acl) > 0)
+{
+	echo "<br><br>";
+	echo "<input type='submit' name='submit' value='$strSaveChanges'>";
+}
 
 echo "</form>";
-echo "</table>";
 echo "<br><br>";
-
-
-// Show Acl help file
-//include("../language/banneracl.".$phpAds_config['language']."/banneracl.lang.php");
 
 
 
