@@ -67,34 +67,32 @@ function showaclrow($row, $total, $update, $count=1)
 			&nbsp;<? acltypeselect(isset($row['acl_type']) ? $row['acl_type'] : ""); ?>
 		</td>
 		<td height='35'>
-			<? acladselect(isset($row['acl_ad']) ? $row['acl_ad']: ""); ?>
+			<? acladselect(isset($row['acl_ad']) ? $row['acl_ad']: ""); ?>&nbsp;&nbsp;
 		</td>
 		<td height='35'>
-			<input type="text" size="15" name="acl_data" value="<? print isset($row['acl_data']) ? $row['acl_data'] : ""; ?>">
+			<input type="text" size="40" name="acl_data" value="<? print isset($row['acl_data']) ? $row['acl_data'] : ""; ?>">
 		</td>
-		<td height='35'>
+		<td height='35' colspan='4' align='right'>
 			<? if ($row['acl_order'] && $row['acl_order'] < $total) { ?>
-				<input type="submit" name="submit" value="<?print $strUp?>">
+				<input type="image" name="btnup" src='images/up.gif' border='0' alt='<?print $strUp?>'>
 			<? } else { ?>
-				&nbsp;
+				<img src='images/up-g.gif' alt='<?print $strUp?>'>
 			<? } ?>
-		</td>
-		<td height='35'>
+
 			<? if ($row['acl_order'] < $total - 1) { ?>
-				<input type="submit" name="submit" value="<?print $strDown?>">
+				<input type="image" name="btndown" src='images/down.gif' border='0' alt='<?print $strDown?>'>
 			<? } else { ?>
-				&nbsp;
+				<img src='images/down-g.gif' alt='<?print $strDown?>'>
 			<? } ?>
-		</td>
-		<td height='35'>
-			<input type="submit" name="submit" value="<?print $strSave?>">
-		</td>
-		<td height='35'>
+
 			<? if ($row['acl_order'] < $total) { ?>
-				<input type="submit" name="submit" value="<?print $strDelete?>">
+				<input type="image" name="btndel" src='images/delete.gif' border='0' alt='<?print $strDelete?>'>
 			<? } else { ?>
-				&nbsp;
+				<img src='images/delete-g.gif' alt='<?print $strDelete?>'>
 			<? } ?>
+			
+			<input type="image" name="btnsave" src='images/save.gif' border='0' alt='<?print $strSave?>'>
+			&nbsp;
 		</td>
 		</form>
 	</tr>

@@ -12,114 +12,112 @@ phpAds_PageHeader("$strModifyBannerAcl");
 
 
 // If the form is being submitted, add a new record to banners
-if (isset($submit)) 
+
+if (isset($btndel_x))
 {
-	if ($submit == $strDelete) 
-	{
-		if (!isset($acl_order)) 
-			php_die("hu?", "Where is my acl_order? I've lost my acl_orde! Moooommmeee... I want my acl_order back!");
-		$res = db_query("
-       			DELETE FROM $phpAds_tbl_acls WHERE
-         		bannerID = $bannerID AND acl_order = $acl_order ") or
-			mysql_die();
-		
-		// get banner-acl after the deleted one
-		$res = db_query("
-			SELECT * FROM $phpAds_tbl_acls WHERE
-			bannerID = $bannerID AND acl_order > $acl_order") or
-			mysql_die();
-	    
-		// decrement every following acl
-		while ($row = mysql_fetch_array($res)) 
-		{
-			$old_order = $row['acl_order'];
-			$res1 = db_query("
-				UPDATE $phpAds_tbl_acls SET
-				acl_order = acl_order - 1 WHERE
-				acl_order = $old_order
-                AND bannerID = $bannerID
-                ") or mysql_die();
-		}
-		
-		phpAds_ShowMessage("$strACL $strDeleted");
-	}
-	
-	if ($submit == $strSave)
-	{
-		if ($update)
-		{
-			$res = db_query("
-				UPDATE $phpAds_tbl_acls SET
-				acl_type = '$acl_type', acl_data = '$acl_data',
-				acl_ad = '$acl_ad' where bannerID = $bannerID 
-				AND acl_order = $acl_order") or mysql_die();
-			
-			phpAds_ShowMessage("$strACL $strUpdated");
-		} 
-		else
-		{
-			$res = db_query("
-				INSERT into $phpAds_tbl_acls SET
-				acl_order = $acl_order, bannerID = $bannerID,
-				acl_type = '$acl_type', acl_data = '$acl_data',
-				acl_ad = '$acl_ad'") or mysql_die();
-			phpAds_ShowMessage("$strACL $strSaved");
-		}
-	}
-	
-	if ($submit == $strUp)
-	{
-		if ($acl_order < 1)
-			 php_die("oops", $strNoMoveUp);
-		
-        // delete current acl
-		$res = db_query("
-			DELETE FROM $phpAds_tbl_acls WHERE
-			bannerID = $bannerID AND acl_order = $acl_order ") or
-			mysql_die();		
-		
-		// increment previous acl
-		$new_acl_order = $acl_order - 1;
-		$res = db_query("
-			UPDATE $phpAds_tbl_acls SET
-			acl_order = acl_order + 1 WHERE 
-			acl_order = $new_acl_order 
-			AND bannerID = $bannerID
-			") or mysql_die();	 
-		
-		// insert actual acl with decremented order
-		$res = db_query("
-			INSERT into $phpAds_tbl_acls SET
-			acl_order = $new_acl_order, bannerID = $bannerID,
-			acl_type = '$acl_type', acl_data = '$acl_data',
-			acl_ad = '$acl_ad'") or mysql_die();
-		
-		phpAds_ShowMessage("$strACL $strMovedUp");
-	}
-	
-	if ($submit == $strDown) 
-	{
-		$res = db_query("
-			DELETE FROM $phpAds_tbl_acls WHERE
-			bannerID = $bannerID AND acl_order = $acl_order ") or
+	if (!isset($acl_order)) 
+		php_die("hu?", "Where is my acl_order? I've lost my acl_orde! Moooommmeee... I want my acl_order back!");
+	$res = db_query("
+      			DELETE FROM $phpAds_tbl_acls WHERE
+        		bannerID = $bannerID AND acl_order = $acl_order ") or
 		mysql_die();
-		
-		$new_acl_order = $acl_order + 1;
+	
+	// get banner-acl after the deleted one
+	$res = db_query("
+		SELECT * FROM $phpAds_tbl_acls WHERE
+		bannerID = $bannerID AND acl_order > $acl_order") or
+		mysql_die();
+    
+	// decrement every following acl
+	while ($row = mysql_fetch_array($res)) 
+	{
+		$old_order = $row['acl_order'];
+		$res1 = db_query("
+			UPDATE $phpAds_tbl_acls SET
+			acl_order = acl_order - 1 WHERE
+			acl_order = $old_order
+               AND bannerID = $bannerID
+               ") or mysql_die();
+	}
+	
+	phpAds_ShowMessage("$strACL $strDeleted");
+}
+
+if (isset($btnsave_x))
+{
+	if ($update)
+	{
 		$res = db_query("
 			UPDATE $phpAds_tbl_acls SET
-			acl_order = acl_order - 1 WHERE 
-			acl_order = $new_acl_order
-			AND bannerID = $bannerID
-			") or mysql_die();
+			acl_type = '$acl_type', acl_data = '$acl_data',
+			acl_ad = '$acl_ad' where bannerID = $bannerID 
+			AND acl_order = $acl_order") or mysql_die();
 		
+		phpAds_ShowMessage("$strACL $strUpdated");
+	} 
+	else
+	{
 		$res = db_query("
 			INSERT into $phpAds_tbl_acls SET
-			acl_order = $new_acl_order, bannerID = $bannerID,
+			acl_order = $acl_order, bannerID = $bannerID,
 			acl_type = '$acl_type', acl_data = '$acl_data',
 			acl_ad = '$acl_ad'") or mysql_die();
-		
-		phpAds_ShowMessage("$strACL $strMovedDown");
+		phpAds_ShowMessage("$strACL $strSaved");
 	}
+}
+
+if (isset($btnup_x))
+{
+	if ($acl_order < 1)
+		 php_die("oops", $strNoMoveUp);
+	
+       // delete current acl
+	$res = db_query("
+		DELETE FROM $phpAds_tbl_acls WHERE
+		bannerID = $bannerID AND acl_order = $acl_order ") or
+		mysql_die();		
+	
+	// increment previous acl
+	$new_acl_order = $acl_order - 1;
+	$res = db_query("
+		UPDATE $phpAds_tbl_acls SET
+		acl_order = acl_order + 1 WHERE 
+		acl_order = $new_acl_order 
+		AND bannerID = $bannerID
+		") or mysql_die();	 
+	
+	// insert actual acl with decremented order
+	$res = db_query("
+		INSERT into $phpAds_tbl_acls SET
+		acl_order = $new_acl_order, bannerID = $bannerID,
+		acl_type = '$acl_type', acl_data = '$acl_data',
+		acl_ad = '$acl_ad'") or mysql_die();
+	
+	phpAds_ShowMessage("$strACL $strMovedUp");
+}
+
+if (isset($btndown_x))
+{
+	$res = db_query("
+		DELETE FROM $phpAds_tbl_acls WHERE
+		bannerID = $bannerID AND acl_order = $acl_order ") or
+	mysql_die();
+	
+	$new_acl_order = $acl_order + 1;
+	$res = db_query("
+		UPDATE $phpAds_tbl_acls SET
+		acl_order = acl_order - 1 WHERE 
+		acl_order = $new_acl_order
+		AND bannerID = $bannerID
+		") or mysql_die();
+	
+	$res = db_query("
+		INSERT into $phpAds_tbl_acls SET
+		acl_order = $new_acl_order, bannerID = $bannerID,
+		acl_type = '$acl_type', acl_data = '$acl_data',
+		acl_ad = '$acl_ad'") or mysql_die();
+	
+	phpAds_ShowMessage("$strACL $strMovedDown");
 }
 
 
@@ -172,20 +170,26 @@ if (!isset($bannerID))
 
 
 
-
 <table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
-  <tr><td height='25' colspan='4'>
-  	<b><?echo $strBanner.': '.phpAds_getBannerName($bannerID);?></b>
-	<img src='images/caret-rs.gif'>
-	<?echo $strClientName.': '.phpAds_getClientName($clientID);?>
+  <tr><td height='25'>
+  <? 
+	if ($bannerID != '')
+		echo "<b>$strBanner: ".phpAds_getBannerName($bannerID)."</b> <img src='images/caret-rs.gif'> ";
+		echo $strClientName.': '.phpAds_getClientName($clientID);
+  ?>
   </td></tr>
-  <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-  <tr><td colspan='4' align='left'><br><?echo phpAds_getBannerCode($bannerID);?><br><br></td></tr>
+  <tr><td height='1' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+  <?
+	if ($bannerID != '')
+		echo "<tr><td align='left'><br>".phpAds_getBannerCode($bannerID)."<br><br></td></tr>";
+  ?>
 </table>
 
 <br><br>
 
 <?
+echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+
 
 $res = db_query("
 	SELECT
@@ -199,7 +203,6 @@ $res = db_query("
 $count = mysql_num_rows($res);
 if ($count > 0)
 {
-	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 	echo "<tr><td height='25' colspan='7'><b>$strACLExist</b></td></tr>";
 	echo "<tr><td height='1' colspan='7' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	
