@@ -191,7 +191,7 @@ CREATE TABLE phpads_adstats (
   bannerid smallint(6) DEFAULT '0' NOT NULL,
   zoneid smallint(6) DEFAULT '0' NOT NULL,
   source varchar(20) DEFAULT '' NOT NULL,
-  PRIMARY KEY (day,hour,bannerid,zoneid),
+  PRIMARY KEY (day,hour,bannerid,zoneid,source),
   KEY bannerid_day (bannerid,day)
 );
 
