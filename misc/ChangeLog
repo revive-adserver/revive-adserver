@@ -35,6 +35,8 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-01-23:  Rewrote index handling in database upgrade script, so unwanted indexes are removed and the primary key is only rebuild when needed  (Niels)
 			  - 2003-01-23:  Fixed some errors in the all.sql file which caused unneeded update queries during the update  (Niels)
 			  - 2003-01-24:  Precompiled limitations are now rebuild during an upgrade  (Niels)
+			  - 2003-01-24:  The geotargeting cookie is now saved only for the current session, to make sure the location of the visitor is correct after a database update  (Niels)
+			  - 2003-01-24:  When using plain remote invocation the geotargeting cookie wasn't set, now it is  (Niels)
 			
 
 v 2.0rc2		+ Misc bugfixes
