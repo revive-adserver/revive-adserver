@@ -75,7 +75,7 @@ if (phpAds_isUser(phpAds_Client))
 			// Rebuild priorities
 			phpAds_PriorityCalculate ();
 			
-			Header("Location: stats-campaign-banners.php?campaignid=$campaignid");
+			Header("Location: stats-campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid);
 		}
 	}
 	else
@@ -88,14 +88,28 @@ if (phpAds_isUser(phpAds_Client))
 
 if (phpAds_isUser(phpAds_Admin))
 {
-	$res = phpAds_dbQuery("
-		UPDATE
-			".$phpAds_config['tbl_banners']."
-		SET
-			active = '$value'
-		WHERE
-			bannerid = $bannerid
+	if (isset($bannerid) && $bannerid != '')
+	{
+		$res = phpAds_dbQuery("
+			UPDATE
+				".$phpAds_config['tbl_banners']."
+			SET
+				active = '$value'
+			WHERE
+				bannerid = $bannerid
 		") or phpAds_sqlDie();
+	}
+	elseif (isset($campaignid) && $campaignid != '')
+	{
+		$res = phpAds_dbQuery("
+			UPDATE
+				".$phpAds_config['tbl_banners']."
+			SET
+				active = '$value'
+			WHERE
+				clientid = $campaignid
+		") or phpAds_sqlDie();
+	}
 	
 	// Rebuild zone cache
 	if ($phpAds_config['zone_cache'])
@@ -104,7 +118,7 @@ if (phpAds_isUser(phpAds_Admin))
 	// Rebuild priorities
 	phpAds_PriorityCalculate ();
 	
-	Header("Location: campaign-index.php?campaignid=$campaignid");
+	Header("Location: campaign-index.php?clientid=".$clientid."&campaignid=".$campaignid);
 }
 
 

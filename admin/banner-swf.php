@@ -120,13 +120,13 @@ if (isset($convert))
 	
 	
 	if (phpAds_isUser(phpAds_Client))
-		Header('Location: stats-campaign-banners.php?campaignid='.$campaignid);
+		Header('Location: stats-campaign-banners.php?clientid='.$clientid.'&campaignid='.$campaignid);
 	else
 	{
 		if ($phpAds_config['acl'])
-			Header('Location: banner-acl.php?campaignid='.$campaignid.'&bannerid='.$bannerid);
+			Header('Location: banner-acl.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid);
 		else
-			Header('Location: banner-zone.php?campaignid='.$campaignid.'&bannerid='.$bannerid);
+			Header('Location: banner-zone.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid);
 	}
 	
 	exit;
@@ -135,13 +135,13 @@ if (isset($convert))
 if (isset($cancel))
 {
 	if (phpAds_isUser(phpAds_Client))
-		Header('Location: stats-campaign-banners.php?campaignid='.$campaignid);
+		Header('Location: stats-campaign-banners.php?clientid='.$clientid.'&campaignid='.$campaignid);
 	else
 	{
 		if ($phpAds_config['acl'])
-			Header('Location: banner-acl.php?campaignid='.$campaignid.'&bannerid='.$bannerid);
+			Header('Location: banner-acl.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid);
 		else
-			Header('Location: banner-zone.php?campaignid='.$campaignid.'&bannerid='.$bannerid);
+			Header('Location: banner-zone.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid);
 	}
 	
 	exit;
@@ -168,7 +168,7 @@ if ($bannerid != '')
 	{
 		phpAds_PageContext (
 			phpAds_buildBannerName ($row['bannerid'], $row['description'], $row['alt']),
-			"banner-edit.php?campaignid=".$campaignid."&bannerid=".$row['bannerid'],
+			"banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row['bannerid'],
 			$bannerid == $row['bannerid']
 		);
 	}
@@ -176,19 +176,19 @@ if ($bannerid != '')
 	
 	if (phpAds_isUser(phpAds_Admin))
 	{
-		phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.phpAds_getParentID($campaignid), 'images/icon-client.gif');
-		phpAds_PageShortcut($strCampaignProperties, 'campaign-edit.php?campaignid='.$campaignid, 'images/icon-campaign.gif');
-		phpAds_PageShortcut($strBannerHistory, 'stats-banner-history.php?campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-statistics.gif');
+		phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.$clientid, 'images/icon-client.gif');
+		phpAds_PageShortcut($strCampaignProperties, 'campaign-edit.php?clientid='.$clientid.'&campaignid='.$campaignid, 'images/icon-campaign.gif');
+		phpAds_PageShortcut($strBannerHistory, 'stats-banner-history.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-statistics.gif');
 		
 		
-		phpAds_PageHeader("4.1.5.5");
+		phpAds_PageHeader("4.1.3.4.5");
 			echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
 			echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
 			echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 			echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br><br>";
 			echo phpAds_buildBannerCode($bannerid)."<br><br><br><br>";
-			phpAds_ShowSections(array("4.1.5.5"));
+			phpAds_ShowSections(array("4.1.3.4.5"));
 	}
 	else
 	{
@@ -222,14 +222,14 @@ if ($bannerid != '')
 	else
 	{
 		// Banner is not a flash banner, return to banner-edit.php
-		header ("Location: banner-edit.php?campaignid=$campaignid&bannerid=$bannerid");
+		header ("Location: banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bannerid);
 		exit;
 	}
 }
 else
 {
 	// Banner does not exist, return to banner-edit.php
-	header ("Location: banner-edit.php?campaignid=$campaignid");
+	header ("Location: banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid);
 	exit;
 }
 
@@ -269,8 +269,9 @@ if ($result)
 	echo "<br><br>";
 	
 	echo "<form action='banner-swf.php' method='post'>";
-	echo "<input type='hidden' name='bannerid' value='$bannerid'>";
+	echo "<input type='hidden' name='clientid' value='$clientid'>";
 	echo "<input type='hidden' name='campaignid' value='$campaignid'>";
+	echo "<input type='hidden' name='bannerid' value='$bannerid'>";
 	echo "<input type='submit' name='convert' value='".$strConvert."'>&nbsp;&nbsp;";
 	echo "<input type='submit' name='cancel' value='".$strCancel."'>";
 	echo "</form>";

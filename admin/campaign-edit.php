@@ -147,20 +147,21 @@ if (isset($submit))
 	
 	
 	$res = phpAds_dbQuery($query) or phpAds_sqlDie();  
+	
+	// Get ID of campaign
+	$campaignid = phpAds_dbInsertID();
+	
 	if (isset($move) && $move == 't')
 	{
 		// We are moving a client to a campaign
-		// Get ID of new campaign
-		$campaignid = phpAds_dbInsertID();
-		
 		// Update banners
 		$res = phpAds_dbQuery("
 			UPDATE
 				".$phpAds_config['tbl_banners']."
 			SET
-				clientid=$campaignid
+				clientid=".$campaignid."
 			WHERE
-				clientid=$clientid  
+				clientid=".$clientid."
 			") or phpAds_sqlDie();
 	}
 	
@@ -171,7 +172,7 @@ if (isset($submit))
 	}
 	
 	
-	Header("Location: campaign-zone.php?campaignid=".$campaignid);
+	Header("Location: campaign-zone.php?clientid=".$clientid."&campaignid=".$campaignid);
 	exit;
 }
 
@@ -199,18 +200,19 @@ if ($campaignid != "")
 	{
 		phpAds_PageContext (
 			phpAds_buildClientName ($row['clientid'], $row['clientname']),
-			"campaign-edit.php?campaignid=".$row['clientid'],
+			"campaign-edit.php?clientid=".$clientid."&campaignid=".$row['clientid'],
 			$campaignid == $row['clientid']
 		);
 	}
 	
-	phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.phpAds_getParentID($campaignid), 'images/icon-client.gif');
+	phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.$clientid, 'images/icon-client.gif');
 	phpAds_PageShortcut($strCampaignHistory, 'stats-campaign-history.php?campaignid='.$campaignid, 'images/icon-statistics.gif');
 	
 	
 	
 	$extra  = "<form action='campaign-modify.php'>";
 	$extra .= "<input type='hidden' name='campaignid' value='$campaignid'>";
+	$extra .= "<input type='hidden' name='clientid' value='$clientid'>";
 	$extra .= "<input type='hidden' name='returnurl' value='campaign-edit.php'>";
 	$extra .= "<br><br>";
 	$extra .= "<b>$strModifyCampaign</b><br>";
@@ -226,16 +228,16 @@ if ($campaignid != "")
 	
 	$extra .= "</select>&nbsp;<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif'><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='campaign-delete.php?campaignid=$campaignid&returnurl=client-index.php'".phpAds_DelConfirm($strConfirmDeleteCampaign).">$strDelete</a><br>";
+	$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='campaign-delete.php?clientid=".$clientid."&campaignid=".$campaignid."&returnurl=client-index.php'".phpAds_DelConfirm($strConfirmDeleteCampaign).">$strDelete</a><br>";
 	$extra .= "</form>";
 	
 	
 	
-	phpAds_PageHeader("4.1.4", $extra);
+	phpAds_PageHeader("4.1.3.2", $extra);
 		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
 		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignid)."</b><br><br><br>";
-		phpAds_ShowSections(array("4.1.4", "4.1.6", "4.1.5"));
+		phpAds_ShowSections(array("4.1.3.2", "4.1.3.3", "4.1.3.4"));
 }
 else
 {
@@ -243,21 +245,21 @@ else
 	{
 		// Convert client to campaign
 		
-		phpAds_PageHeader("4.1.4");
+		phpAds_PageHeader("4.1.3.2");
 			echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($clientid);
 			echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".$strUntitled."</b><br><br><br>";
-			phpAds_ShowSections(array("4.1.4"));
+			phpAds_ShowSections(array("4.1.3.2"));
 	}
 	else
 	{
 		// New campaign
 		
-		phpAds_PageHeader("4.1.3");
+		phpAds_PageHeader("4.1.3.1");
 			echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($clientid);
 			echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".$strUntitled."</b><br><br><br>";
-			phpAds_ShowSections(array("4.1.3"));
+			phpAds_ShowSections(array("4.1.3.1"));
 	}
 }
 

@@ -76,6 +76,6 @@ if ($phpAds_config['zone_cache'])
 // Rebuild priorities
 phpAds_PriorityCalculate ();
 
-Header("Location: ".$returnurl."?campaignid=$campaignid");
+Header("Location: ".$returnurl."?clientid=".$clientid."&campaignid=".$campaignid);
 
 ?>

@@ -42,6 +42,6 @@ if (isset($campaignid) && $campaignid != '')
 	}
 }
 
-Header ("Location: ".$returnurl."?campaignid=".$campaignid);
+Header ("Location: ".$returnurl."?clientid=".$moveto."&campaignid=".$campaignid);
 
 ?>

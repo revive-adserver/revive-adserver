@@ -44,7 +44,10 @@ if (isset($bannerid) && $bannerid != '')
 		// Rebuild priorities
 		phpAds_PriorityCalculate ();
 		
-		Header ("Location: ".$returnurl."?campaignid=".$moveto."&bannerid=".$bannerid);
+		// Get new clientid
+		$clientid = phpAds_getParentID ($moveto);
+		
+		Header ("Location: ".$returnurl."?clientid=".$clientid."&campaignid=".$moveto."&bannerid=".$bannerid);
 	}
 	elseif (isset($applyto_x) && $applyto != '')
 	{
@@ -93,7 +96,7 @@ if (isset($bannerid) && $bannerid != '')
 			") or phpAds_sqlDie();
 		}
 		
-		Header ("Location: ".$returnurl."?campaignid=".$campaignid."&bannerid=".$applyto);
+		Header ("Location: ".$returnurl."?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$applyto);
 	}
 	elseif (isset($duplicate) && $duplicate == 'true')
 	{
@@ -189,11 +192,11 @@ if (isset($bannerid) && $bannerid != '')
 		// Rebuild priorities
 		phpAds_PriorityCalculate ();
 		
-		Header ("Location: ".$returnurl."?campaignid=".$campaignid."&bannerid=".$new_bannerid);
+		Header ("Location: ".$returnurl."?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$new_bannerid);
 	}
 	else
 	{
-		Header ("Location: ".$returnurl."?campaignid=".$campaignid."&bannerid=".$bannerid);
+		Header ("Location: ".$returnurl."?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bannerid);
 	}
 }
 

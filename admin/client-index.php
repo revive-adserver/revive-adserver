@@ -266,7 +266,7 @@ else
 			// ID
 			echo "<td height='25'>".$client['clientid']."</td>";
 			
-			// Button 2
+			// Button 1
 			echo "<td height='25'>";
 			if (($client['count'] == 0 && $client['expand'] == '1') || !isset($client['campaigns']))
 				echo "<a href='campaign-edit.php?clientid=".$client['clientid']."'><img src='images/icon-campaign.gif' border='0' align='absmiddle' alt='$strCreate'>&nbsp;$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -274,10 +274,12 @@ else
 				echo "&nbsp;";
 			echo "</td>";
 			
-			// Empty
-			echo "<td>&nbsp;</td>";
+			// Button 2
+			echo "<td height='25'>";
+			echo "<a href='client-campaigns.php?clientid=".$client['clientid']."'><img src='images/icon-overview.gif' border='0' align='absmiddle' alt='$strOverview'>&nbsp;$strOverview</a>&nbsp;&nbsp;";
+			echo "</td>";
 			
-			// Button 1
+			// Button 3
 			echo "<td height='25'>";
 			echo "<a href='client-delete.php?clientid=".$client['clientid']."&returnurl=client-index.php'".phpAds_DelConfirm($strConfirmDeleteClient)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 			echo "</td></tr>";
@@ -316,7 +318,7 @@ else
 					else
 						echo "<img src='images/icon-campaign-d.gif' align='absmiddle'>&nbsp;";
 					
-					echo "<a href='campaign-edit.php?campaignid=".$campaigns[$ckey]['clientid']."'>".$campaigns[$ckey]['clientname']."</td>";
+					echo "<a href='campaign-edit.php?clientid=".$client['clientid']."&campaignid=".$campaigns[$ckey]['clientid']."'>".$campaigns[$ckey]['clientname']."</td>";
 					echo "</td>";
 					
 					// ID
@@ -325,19 +327,19 @@ else
 					// Button 1
 					echo "<td height='25'>";
 					if ($campaigns[$ckey]['expand'] == '1' || !isset($campaigns[$ckey]['banners']))
-						echo "<a href='banner-edit.php?campaignid=".$campaigns[$ckey]['clientid']."'><img src='images/icon-banner-stored.gif' border='0' align='absmiddle' alt='$strCreate'>&nbsp;$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+						echo "<a href='banner-edit.php?clientid=".$client['clientid']."&campaignid=".$campaigns[$ckey]['clientid']."'><img src='images/icon-banner-stored.gif' border='0' align='absmiddle' alt='$strCreate'>&nbsp;$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 					else
 						echo "&nbsp;";
 					echo "</td>";
 					
 					// Button 2
 					echo "<td height='25'>";
-					echo "<a href='campaign-index.php?campaignid=".$campaigns[$ckey]['clientid']."'><img src='images/icon-overview.gif' border='0' align='absmiddle' alt='$strOverview'>&nbsp;$strOverview</a>&nbsp;&nbsp;";
+					echo "<a href='campaign-index.php?clientid=".$client['clientid']."&campaignid=".$campaigns[$ckey]['clientid']."'><img src='images/icon-overview.gif' border='0' align='absmiddle' alt='$strOverview'>&nbsp;$strOverview</a>&nbsp;&nbsp;";
 					echo "</td>";
 					
 					// Button 3
 					echo "<td height='25'>";
-					echo "<a href='campaign-delete.php?campaignid=".$campaigns[$ckey]['clientid']."&returnurl=client-index.php'".phpAds_DelConfirm($strConfirmDeleteCampaign)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+					echo "<a href='campaign-delete.php?clientid=".$client['clientid']."&campaignid=".$campaigns[$ckey]['clientid']."&returnurl=client-index.php'".phpAds_DelConfirm($strConfirmDeleteCampaign)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 					echo "</td></tr>";
 					
 					
@@ -394,7 +396,7 @@ else
 								}
 							}
 							
-							echo "&nbsp;<a href='banner-edit.php?bannerid=".$banners[$bkey]['bannerid']."&campaignid=".$campaigns[$ckey]['clientid']."'>".$name."</a></td>";
+							echo "&nbsp;<a href='banner-edit.php?clientid=".$client['clientid']."&campaignid=".$campaigns[$ckey]['clientid']."&bannerid=".$banners[$bkey]['bannerid']."'>".$name."</a></td>";
 							
 							// ID
 							echo "<td height='25'>".$banners[$bkey]['bannerid']."</td>";
@@ -405,14 +407,14 @@ else
 							// Button 2
 							echo "<td height='25'>";
 							if ($phpAds_config['acl'])
-								echo "<a href='banner-acl.php?bannerid=".$banners[$bkey]['bannerid']."&campaignid=".$campaigns[$ckey]['clientid']."'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+								echo "<a href='banner-acl.php?clientid=".$client['clientid']."&campaignid=".$campaigns[$ckey]['clientid']."&bannerid=".$banners[$bkey]['bannerid']."'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 							else
 								echo "&nbsp;";
 							echo "</td>";
 							
 							// Button 1
 							echo "<td height='25'>";
-							echo "<a href='banner-delete.php?bannerid=".$banners[$bkey]['bannerid']."&campaignid=".$campaigns[$ckey]['clientid']."&returnurl=client-index.php'".phpAds_DelConfirm($strConfirmDeleteBanner)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+							echo "<a href='banner-delete.php?clientid=".$client['clientid']."&campaignid=".$campaigns[$ckey]['clientid']."&bannerid=".$banners[$bkey]['bannerid']."&returnurl=client-index.php'".phpAds_DelConfirm($strConfirmDeleteBanner)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 							echo "</td></tr>";
 						}
 					}
@@ -433,7 +435,7 @@ else
 				echo "$strBannersWithoutCampaign</td>";
 				echo "<td height='25'>&nbsp;-&nbsp;</td>";
 				echo "<td height='25' colspan='3'>";
-				echo "<a href='campaign-edit.php?move=t&clientid=".$client['clientid']."'>";
+				echo "<a href='campaign-edit.php?clientid=".$client['clientid']."&move=t'>";
 				echo "<img src='images/".$phpAds_TextDirection."/icon-update.gif' border='0' align='absmiddle' alt='$strMoveToNewCampaign'>&nbsp;$strMoveToNewCampaign</a>&nbsp;&nbsp;";
 				echo "</td>";
 				echo "</tr>";

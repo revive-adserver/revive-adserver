@@ -31,15 +31,17 @@ phpAds_checkAccess(phpAds_Admin);
 /* Main code                                             */
 /*********************************************************/
 
-if (isset($campaignid) && $campaignid != '')
+function phpAds_DeleteCampaign($campaignid)
 {
+	global $phpAds_config;
+	
 	// Delete Campaign
 	$res = phpAds_dbQuery("
 		DELETE FROM
 			".$phpAds_config['tbl_clients']."
 		WHERE
 			clientid = $campaignid
-		") or phpAds_sqlDie();
+	") or phpAds_sqlDie();
 	
 	
 	// Loop through each banner
@@ -52,7 +54,7 @@ if (isset($campaignid) && $campaignid != '')
 			".$phpAds_config['tbl_banners']."
 		WHERE
 			clientid = $campaignid
-		") or phpAds_sqlDie();
+	") or phpAds_sqlDie();
 	
 	while ($row = phpAds_dbFetchArray($res_banners))
 	{
@@ -67,7 +69,7 @@ if (isset($campaignid) && $campaignid != '')
 				".$phpAds_config['tbl_acls']."
 			WHERE
 				bannerid = ".$row['bannerid']."
-			") or phpAds_sqlDie();
+		") or phpAds_sqlDie();
 		
 		
 		// Delete stats for each banner
@@ -81,8 +83,33 @@ if (isset($campaignid) && $campaignid != '')
 			".$phpAds_config['tbl_banners']."
 		WHERE
 			clientid = $campaignid
-		") or phpAds_sqlDie();
+	") or phpAds_sqlDie();
 }
+
+
+if (isset($campaignid) && $campaignid != '')
+{
+	// Campaign is specified, delete only this campaign
+	phpAds_DeleteCampaign($campaignid);
+}
+elseif (isset($clientid) && $clientid != '')
+{
+	// No campaign specified, delete all campaigns for this client
+	$res_campaigns = phpAds_dbQuery("
+		SELECT
+			clientid
+		FROM
+			".$phpAds_config['tbl_clients']."
+		WHERE
+			parent = ".$clientid."
+	");
+	
+	while ($row = phpAds_dbFetchArray($res_campaigns))
+	{
+		phpAds_DeleteCampaign($row['clientid']);
+	}
+}
+
 
 // Rebuild zone cache
 if ($phpAds_config['zone_cache'])
@@ -91,6 +118,6 @@ if ($phpAds_config['zone_cache'])
 // Rebuild priorities
 phpAds_PriorityCalculate ();
 
-header("Location: ".$returnurl);
+header ("Location: ".$returnurl."?clientid=".$clientid);
 
 ?>

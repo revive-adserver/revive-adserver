@@ -531,20 +531,20 @@ if (isset($submit))
 	
 	if ($edit_swf)
 	{
-		Header('Location: banner-swf.php?campaignid='.$campaignid.'&bannerid='.$bannerid);
+		Header('Location: banner-swf.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid);
 	}
 	else
 	{
 		if (phpAds_isUser(phpAds_Client))
 		{
-			Header('Location: stats-campaign-banners.php?campaignid='.$campaignid);
+			Header('Location: stats-campaign-banners.php?clientid='.$clientid.'&campaignid='.$campaignid);
 		}
 		else
 		{
 			if ($phpAds_config['acl'])
-				Header('Location: banner-acl.php?campaignid='.$campaignid.'&bannerid='.$bannerid);
+				Header('Location: banner-acl.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid);
 			else
-				Header('Location: banner-zone.php?campaignid='.$campaignid.'&bannerid='.$bannerid);
+				Header('Location: banner-zone.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid);
 		}
 	}
 	
@@ -572,27 +572,28 @@ if ($bannerid != '')
 	{
 		phpAds_PageContext (
 			phpAds_buildBannerName ($row['bannerid'], $row['description'], $row['alt']),
-			"banner-edit.php?campaignid=".$campaignid."&bannerid=".$row['bannerid'],
+			"banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row['bannerid'],
 			$bannerid == $row['bannerid']
 		);
 	}
 	
 	if (phpAds_isUser(phpAds_Admin))
 	{
-		phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.phpAds_getParentID($campaignid), 'images/icon-client.gif');
-		phpAds_PageShortcut($strCampaignProperties, 'campaign-edit.php?campaignid='.$campaignid, 'images/icon-campaign.gif');
+		phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.$clientid, 'images/icon-client.gif');
+		phpAds_PageShortcut($strCampaignProperties, 'campaign-edit.php?clientid='.$clientid.'&campaignid='.$campaignid, 'images/icon-campaign.gif');
 		phpAds_PageShortcut($strBannerHistory, 'stats-banner-history.php?campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-statistics.gif');
 		
 		
 		
 		$extra  = "<form action='banner-modify.php'>";
 		$extra .= "<input type='hidden' name='bannerid' value='$bannerid'>";
+		$extra .= "<input type='hidden' name='clientid' value='$clientid'>";
 		$extra .= "<input type='hidden' name='campaignid' value='$campaignid'>";
 		$extra .= "<input type='hidden' name='returnurl' value='banner-edit.php'>";
 		$extra .= "<br><br>";
 		$extra .= "<b>$strModifyBanner</b><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "<img src='images/icon-duplicate-banner.gif' align='absmiddle'>&nbsp;<a href='banner-modify.php?campaignid=$campaignid&bannerid=$bannerid&duplicate=true&returnurl=banner-edit.php'>$strDuplicate</a><br>";
+		$extra .= "<img src='images/icon-duplicate-banner.gif' align='absmiddle'>&nbsp;<a href='banner-modify.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bannerid."&duplicate=true&returnurl=banner-edit.php'>$strDuplicate</a><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		$extra .= "<img src='images/icon-move-banner.gif' align='absmiddle'>&nbsp;$strMoveTo<br>";
 		$extra .= "<img src='images/spacer.gif' height='1' width='160' vspace='2'><br>";
@@ -605,16 +606,16 @@ if ($bannerid != '')
 		
 		$extra .= "</select>&nbsp;<input type='image' name='moveto' src='images/".$phpAds_TextDirection."/go_blue.gif'><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-		$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?campaignid=$campaignid&bannerid=$bannerid&returnurl=campaign-index.php'".phpAds_DelConfirm($strConfirmDeleteBanner).">$strDelete</a><br>";
+		$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bannerid."&returnurl=campaign-index.php'".phpAds_DelConfirm($strConfirmDeleteBanner).">$strDelete</a><br>";
 		$extra .= "</form>";
 		
 		
 		
-		$sections = array ("4.1.5.2");
-		if ($phpAds_config['acl']) $sections[] = "4.1.5.3";
-		$sections[] = "4.1.5.4";
+		$sections = array ("4.1.3.4.2");
+		if ($phpAds_config['acl']) $sections[] = "4.1.3.4.3";
+		$sections[] = "4.1.3.4.4";
 		
-		phpAds_PageHeader("4.1.5.2", $extra);
+		phpAds_PageHeader("4.1.3.4.2", $extra);
 			echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
 			echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
@@ -652,13 +653,13 @@ if ($bannerid != '')
 }
 else
 {
-	phpAds_PageHeader("4.1.5.1");
+	phpAds_PageHeader("4.1.3.4.1");
 		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
 		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
 		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".$strUntitled."</b><br><br><br>";
-		phpAds_ShowSections(array("4.1.5.1"));
+		phpAds_ShowSections(array("4.1.3.4.1"));
 	
 	$row['alt'] = "";
 	$row['status'] = "";
@@ -702,6 +703,7 @@ if (!isset($storagetype))
 if (!isset($bannerid) || $bannerid == '')
 {
 	echo "<form action='banner-edit.php' method='POST' enctype='multipart/form-data'>";
+	echo "<input type='hidden' name='clientid' value='".$clientid."'>";
 	echo "<input type='hidden' name='campaignid' value='".$campaignid."'>";
 	echo "<input type='hidden' name='bannerid' value='".$bannerid."'>";
 	
@@ -725,6 +727,7 @@ if (!isset($bannerid) || $bannerid == '')
 	if ($storagetype == "network")
 	{
 		echo "<form action='banner-edit.php' method='POST' enctype='multipart/form-data'>";
+		echo "<input type='hidden' name='clientid' value='".$clientid."'>";
 		echo "<input type='hidden' name='campaignid' value='".$campaignid."'>";
 		echo "<input type='hidden' name='bannerid' value='".$bannerid."'>";
 		echo "<input type='hidden' name='storagetype' value='".$storagetype."'>";
@@ -787,6 +790,7 @@ if (!isset($bannerid) || $bannerid == '')
 
 
 echo "<form id='editbanner' action='banner-edit.php' method='POST' enctype='multipart/form-data'>";
+echo "<input type='hidden' name='clientid' value='".$clientid."'>";
 echo "<input type='hidden' name='campaignid' value='".$campaignid."'>";
 echo "<input type='hidden' name='bannerid' value='".$bannerid."'>";
 echo "<input type='hidden' name='storagetype' value='".$storagetype."'>";

@@ -64,25 +64,26 @@ while ($row = phpAds_dbFetchArray($res))
 {
 	phpAds_PageContext (
 		phpAds_buildBannerName ($row['bannerid'], $row['description'], $row['alt']),
-		"banner-zone.php?campaignid=".$campaignid."&bannerid=".$row['bannerid'],
+		"banner-zone.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row['bannerid'],
 		$bannerid == $row['bannerid']
 	);
 }
 
-phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.phpAds_getParentID($campaignid), 'images/icon-client.gif');
-phpAds_PageShortcut($strCampaignProperties, 'campaign-edit.php?campaignid='.$campaignid, 'images/icon-campaign.gif');
-phpAds_PageShortcut($strBannerHistory, 'stats-banner-history.php?campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-statistics.gif');
+phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.$clientid, 'images/icon-client.gif');
+phpAds_PageShortcut($strCampaignProperties, 'campaign-edit.php?clientid='.$clientid.'&campaignid='.$campaignid, 'images/icon-campaign.gif');
+phpAds_PageShortcut($strBannerHistory, 'stats-banner-history.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-statistics.gif');
 
 
 
 $extra  = "<form action='banner-modify.php'>";
-$extra .= "<input type='hidden' name='bannerid' value='$bannerid'>";
+$extra .= "<input type='hidden' name='clientid' value='$clientid'>";
 $extra .= "<input type='hidden' name='campaignid' value='$campaignid'>";
+$extra .= "<input type='hidden' name='bannerid' value='$bannerid'>";
 $extra .= "<input type='hidden' name='returnurl' value='banner-zone.php'>";
 $extra .= "<br><br>";
 $extra .= "<b>$strModifyBanner</b><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "<img src='images/icon-duplicate-banner.gif' align='absmiddle'>&nbsp;<a href='banner-modify.php?campaignid=$campaignid&bannerid=$bannerid&duplicate=true&returnurl=banner-zone.php'>$strDuplicate</a><br>";
+$extra .= "<img src='images/icon-duplicate-banner.gif' align='absmiddle'>&nbsp;<a href='banner-modify.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bannerid."&duplicate=true&returnurl=banner-zone.php'>$strDuplicate</a><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 $extra .= "<img src='images/icon-move-banner.gif' align='absmiddle'>&nbsp;$strMoveTo<br>";
 $extra .= "<img src='images/spacer.gif' height='1' width='160' vspace='2'><br>";
@@ -95,16 +96,16 @@ while ($row = phpAds_dbFetchArray($res))
 
 $extra .= "</select>&nbsp;<input type='image' name='moveto' src='images/".$phpAds_TextDirection."/go_blue.gif'><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?campaignid=$campaignid&bannerid=$bannerid&returnurl=campaign-index.php'".phpAds_DelConfirm($strConfirmDeleteBanner).">$strDelete</a><br>";
+$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bannerid."&returnurl=campaign-index.php'".phpAds_DelConfirm($strConfirmDeleteBanner).">$strDelete</a><br>";
 $extra .= "</form>";
 
 
 
-$sections = array ("4.1.5.2");
-if ($phpAds_config['acl']) $sections[] = "4.1.5.3";
-$sections[] = "4.1.5.4";
+$sections = array ("4.1.3.4.2");
+if ($phpAds_config['acl']) $sections[] = "4.1.3.4.3";
+$sections[] = "4.1.3.4.4";
 
-phpAds_PageHeader("4.1.5.4", $extra);
+phpAds_PageHeader("4.1.3.4.4", $extra);
 	echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
 	echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 	echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
@@ -241,6 +242,7 @@ echo "<br><br>";
 
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<form name='zones' action='banner-zone.php' method='post'>";
+echo "<input type='hidden' name='clientid' value='".$clientid."'>";
 echo "<input type='hidden' name='campaignid' value='".$campaignid."'>";
 echo "<input type='hidden' name='bannerid' value='".$bannerid."'>";
 

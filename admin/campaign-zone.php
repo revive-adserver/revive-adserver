@@ -44,7 +44,7 @@ if (isset($submit))
 		}
 	}
 	
-	Header("Location: campaign-index.php?campaignid=".$campaignid);
+	Header("Location: campaign-index.php?clientid=".$clientid."&campaignid=".$campaignid);
 	exit;
 }
 
@@ -69,17 +69,18 @@ while ($row = phpAds_dbFetchArray($res))
 {
 	phpAds_PageContext (
 		phpAds_buildClientName ($row['clientid'], $row['clientname']),
-		"campaign-zone.php?campaignid=".$row['clientid'],
+		"campaign-zone.php?clientid=".$clientid."&campaignid=".$row['clientid'],
 		$campaignid == $row['clientid']
 	);
 }
 
-phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.phpAds_getParentID($campaignid), 'images/icon-client.gif');
+phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.$clientid, 'images/icon-client.gif');
 phpAds_PageShortcut($strCampaignHistory, 'stats-campaign-history.php?campaignid='.$campaignid, 'images/icon-statistics.gif');
 
 
 
 $extra  = "<form action='campaign-modify.php'>";
+$extra .= "<input type='hidden' name='clientid' value='$clientid'>";
 $extra .= "<input type='hidden' name='campaignid' value='$campaignid'>";
 $extra .= "<input type='hidden' name='returnurl' value='campaign-index.php'>";
 $extra .= "<br><br>";
@@ -96,16 +97,16 @@ while ($row = phpAds_dbFetchArray($res))
 
 $extra .= "</select>&nbsp;<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif'><br>";
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='campaign-delete.php?campaignid=$campaignid&returnurl=client-index.php'".phpAds_DelConfirm($strConfirmDeleteCampaign).">$strDelete</a><br>";
+$extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='campaign-delete.php?clientid=".$clientid."&campaignid=".$campaignid."&returnurl=client-index.php'".phpAds_DelConfirm($strConfirmDeleteCampaign).">$strDelete</a><br>";
 $extra .= "</form>";
 
 
 
-phpAds_PageHeader("4.1.6", $extra);
+phpAds_PageHeader("4.1.3.3", $extra);
 	echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
 	echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 	echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignid)."</b><br><br><br>";
-	phpAds_ShowSections(array("4.1.4", "4.1.6", "4.1.5"));
+	phpAds_ShowSections(array("4.1.3.2", "4.1.3.3", "4.1.3.4"));
 
 
 
@@ -230,6 +231,7 @@ echo "<br><br>";
 
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<form name='zones' action='campaign-zone.php' method='post'>";
+echo "<input type='hidden' name='clientid' value='".$clientid."'>";
 echo "<input type='hidden' name='campaignid' value='".$campaignid."'>";
 
 echo "<tr height='25'>";

@@ -37,6 +37,7 @@ $GLOBALS['weekiso_format']					= "%V/%G";
 /*********************************************************/
 
 $GLOBALS['strHome'] 						= "Home";
+$GLOBALS['strHelp']							= "Help";
 $GLOBALS['strNavigation'] 					= "Navigation";
 $GLOBALS['strShortcuts'] 					= "Shortcuts";
 $GLOBALS['strAdminstration'] 				= "Administration";
@@ -173,20 +174,26 @@ $GLOBALS['strCampaign']						= "Campaign";
 $GLOBALS['strCampaigns']					= "Campaigns";
 $GLOBALS['strTotalCampaigns'] 				= "Total campaigns";
 $GLOBALS['strActiveCampaigns'] 				= "Active campaigns";
+$GLOBALS['strAddCampaign'] 					= "Add new campaign";
 $GLOBALS['strCreateNewCampaign']			= "Create new campaign";
 $GLOBALS['strModifyCampaign']				= "Modify campaign";
 $GLOBALS['strMoveToNewCampaign']			= "Move to a new campaign";
 $GLOBALS['strBannersWithoutCampaign']		= "Banners without a campaign";
+$GLOBALS['strDeleteAllCampaigns']			= "Delete all campaigns";
 $GLOBALS['strCampaignStats']				= "Campaign statistics";
 $GLOBALS['strCampaignProperties']			= "Campaign properties";
 $GLOBALS['strCampaignOverview']				= "Campaign overview";
 $GLOBALS['strCampaignHistory']				= "Campaign history";
+$GLOBALS['strNoCampaigns']					= "There are currently no campaigns defined";
+$GLOBALS['strConfirmDeleteAllCampaigns']	= "Do you really want to delete all campaigns owned by this advertiser?";
 $GLOBALS['strConfirmDeleteCampaign']		= "Do you really want to delete this campaign?";
 
 
 // Campaign properties
 $GLOBALS['strDontExpire']					= "Don't expire this campaign on a specific date";
 $GLOBALS['strActivateNow'] 					= "Activate this campaign immediately";
+$GLOBALS['strLow']							= "Low";
+$GLOBALS['strHigh']							= "High";
 $GLOBALS['strExpirationDate']				= "Expiration date";
 $GLOBALS['strActivationDate']				= "Activation date";
 $GLOBALS['strViewsPurchased'] 				= "AdViews purchased";
@@ -213,11 +220,15 @@ $GLOBALS['strShowBanner']					= "Show banner";
 $GLOBALS['strShowAllBanners']	 			= "Show all banners";
 $GLOBALS['strShowBannersNoAdClicks']		= "Show banners without AdClicks";
 $GLOBALS['strShowBannersNoAdViews']			= "Show banners without AdViews";
+$GLOBALS['strDeleteAllBanners']	 			= "Delete all banners";
+$GLOBALS['strActivateAllBanners']			= "Activate all banners";
+$GLOBALS['strDeactivateAllBanners']			= "Deactivate all banners";
 $GLOBALS['strBannerOverview']				= "Banner overview";
 $GLOBALS['strBannerProperties']				= "Banner properties";
 $GLOBALS['strBannerHistory']				= "Banner history";
 $GLOBALS['strBannerNoStats'] 				= "There are no statistics available for this banner";
 $GLOBALS['strConfirmDeleteBanner']			= "Do you really want to delete this banner?";
+$GLOBALS['strConfirmDeleteAllBanners']		= "Do you really want to delete all banners which are owned by this campaign?";
 $GLOBALS['strConfirmResetBannerStats']		= "Do you really want to delete all existing statistics for this banner?";
 
 
@@ -234,7 +245,7 @@ $GLOBALS['strNewBannerURL'] 				= "Image URL (incl. http://)";
 $GLOBALS['strURL'] 							= "Destination URL (incl. http://)";
 $GLOBALS['strHTML'] 						= "HTML";
 $GLOBALS['strTextBelow'] 					= "Text below image";
-$GLOBALS['strKeyword'] 						= "Keyword";
+$GLOBALS['strKeyword'] 						= "Keywords";
 $GLOBALS['strWeight'] 						= "Weight";
 $GLOBALS['strAlt'] 							= "Alt text";
 $GLOBALS['strStatusText']					= "Status text";
