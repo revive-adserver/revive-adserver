@@ -14,10 +14,11 @@
 
 
 // Define defaults
-$phpAds_Message = '';
-$phpAds_NavID	= '';
-$phpAds_GUIDone = false;
-
+$phpAds_Message     = '';
+$phpAds_NavID	    = '';
+$phpAds_GUIDone     = false;
+$phpAds_showHelp    = false;
+$phpAds_helpDefault = '';
 
 
 /*********************************************************/
@@ -32,6 +33,7 @@ function phpAds_PageHeader($ID, $extra="")
 	global $phpAds_url_prefix;
 	global $strLogout, $strNavigation;
 	global $strAuthentification, $strSearch;
+	global $phpAds_showHelp;
 	
 	$phpAds_GUIDone = true;
 	$phpAds_NavID   = $ID;
@@ -171,24 +173,26 @@ function phpAds_PageHeader($ID, $extra="")
 	// Send header with charset info
 	header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
 	
-	// Begin HTML
-	?>
-<html>
-	<head>
-		<title><?php echo $pagetitle;?></title>
-		<meta http-equiv='Content-Type' content='text/html<?php echo $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : "" ?>'>
-		<meta name='author" content='phpAdsNew - http://sourceforge.net/projects/phpadsnew'>
-		<meta name='robots' content='noindex, nofollow'>
-		<link rel='stylesheet' href='interface.css'>
-		<script language='JavaScript' src='interface.js'></script>
-	</head>
 	
-<body bgcolor='#FFFFFF' background='images/background.gif' text='#000000' leftmargin='0' topmargin='0' marginwidth='0' marginheight='0'>
-
-<!-- Top -->
-<table width='100%' border='0' cellspacing='0' cellpadding='0'>
-<tr>
-<?php
+	// Head
+	echo "<html>\n";
+	echo "\t<head>\n";
+	echo "\t\t<title>".$pagetitle."</title>\n";
+	echo "\t\t<meta http-equiv='Content-Type' content='text/html".($phpAds_CharSet != '' ? '; charset='.$phpAds_CharSet : '')."'>\n";
+	echo "\t\t<meta name='author' content='phpAdsNew - http://sourceforge.net/projects/phpadsnew'>\n";
+	echo "\t\t<meta name='robots' content='noindex, nofollow'>\n";
+	echo "\t\t<link rel='stylesheet' href='interface.css'>\n";
+	echo "\t\t<script language='JavaScript' src='interface.js'></script>\n";
+	if ($phpAds_showHelp) echo "\t\t<script language='JavaScript' src='help.js'></script>\n";
+	echo "\t</head>\n";
+	
+	
+	// Header
+	echo "<body bgcolor='#FFFFFF' background='images/background.gif' text='#000000' leftmargin='0' ";
+	echo "topmargin='0' marginwidth='0' marginheight='0'".($phpAds_showHelp ? " onResize='resizeHelp();' onScroll='resizeHelp();'" : '').">\n";
+	echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>";
+	echo "<tr>";
+	
  	if ($phpAds_name != "")
 	{
 		echo "<td height='48' bgcolor='#000063' valign='middle'>";
@@ -199,83 +203,79 @@ function phpAds_PageHeader($ID, $extra="")
 		echo "<td height='48' bgcolor='#000063' valign='bottom'>";
 		echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/logo.gif' width='163' height='34' alt='phpAdsNew 2 beta 6.1'>";
 	}
-?>
-	</td>
-	<td bgcolor='#000063' valign='top' align='right'>
-		<?php echo $searchbar; ?>
-	</td>
-</tr>
-</table>
-
-<!-- Spacer -->
-<table width='100%' border='0' cellspacing='0' cellpadding='0'>
-<tr><td colspan='2' height='6' bgcolor='#000063'><img src='images/spacer.gif' height='1' width='1'></td></tr>
-</table>
-
-<!-- Tabbar -->
-<table width='100%' border='0' cellspacing='0' cellpadding='0'>
-<tr><td height='24' width='181' bgcolor='#000063'>&nbsp;</td>
-<td height='24' bgcolor="#000063"> 
-	<table border="0" cellspacing="0" cellpadding="0" width='100%'>
-	<tr><td>
-		<table border="0" cellspacing="0" cellpadding="0" width='1'>
-	    <tr><?php echo $tabbar; ?></tr>
-		</table>
-	</td><td align='right' valign='middle' nowrap>
-		<?php
-		if ($ID != "" && phpAds_isLoggedIn())
-		{
-			echo "<a class='tab-n' href='logout.php'>$strLogout</a> ";
-			echo "<img src='images/logout.gif' width='16' height='16' align='absmiddle'>";
-		}
-		?>
-		&nbsp;&nbsp;&nbsp;
-	</td></tr>
-	</table>
-</td></tr>
-</table>
-
-<!-- Sidebar -->
-<table width='100%' border='0' cellspacing='0' cellpadding='0'>
-<tr><td valign="top">
-	<table width="181" border="0" cellspacing="0" cellpadding="0">
-
-	<!-- Blue square -->
-    <tr valign="top"><td colspan='2' width="20" height="48" bgcolor='#000063' valign='bottom'>
-	<?php
-		// Show a message if defined
-		if ($phpAds_Message != '')
-		{
-			echo "<table border='0' cellpadding='0' cellspacing='0' width='160'>";
-			echo "<tr>";
-			echo "<td width='20'>&nbsp;</td>";
-			echo "<td width='20' valign='top'><img src='images/info.gif'>&nbsp;</td>";
-			echo "<td width='120' valign='top'><b><font color='#FFFFFF'>$phpAds_Message</font></b></td>";
-			echo "</tr><tr><td colspan='3'><img src='images/spacer.gif' width='160' height='5'></td>";
-			echo "</tr></table>";
-		}
-		else
-			echo "&nbsp;";
-	?>
-	</td></tr>
 	
-	<!-- Gradient -->
-    <tr valign="top"><td width="20" height="24"><img src="images/grad-1.gif" width="20" height="20"></td>
-	<td height="24"><img src="images/grad-1.gif" width="160" height="20"></td></tr>
+	echo "</td><td bgcolor='#000063' valign='top' align='right'>";
+	echo $searchbar;
+	echo "</td></tr></table>";
 	
-	<!-- Navigation -->	
-	<tr><td width="20">&nbsp;</td>
-    <td class='nav'><?php echo $sidebar; ?></td></tr>
-    </table>
-</td>
-
-<!-- Main contents -->
-<td valign="top" width='100%'>
-	<table width="640" border="0" cellspacing="0" cellpadding="0">
-    <tr><td width="40" height="20">&nbsp;</td><td height="20">&nbsp;</td></tr>
-    <tr><td width="20">&nbsp;</td><td>
-<?php
-	// END HTML
+	
+	// Spacer
+	echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>";
+	echo "<tr><td colspan='2' height='6' bgcolor='#000063'><img src='images/spacer.gif' height='1' width='1'></td></tr>";
+	echo "</table>";
+	
+	
+	// Tabbar
+	echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>";
+	echo "<tr><td height='24' width='181' bgcolor='#000063'>&nbsp;</td>";
+	echo "<td height='24' bgcolor='#000063'>";
+	echo "<table border='0' cellspacing='0' cellpadding='0' width='100%'>";
+	echo "<tr><td>";
+	echo "<table border='0' cellspacing='0' cellpadding='0' width='1'>";
+	echo "<tr>".$tabbar."</tr>";
+	echo "</table>";
+	echo "</td><td align='right' valign='middle' nowrap>";
+	
+	if ($ID != "" && phpAds_isLoggedIn())
+	{
+		echo "<a class='tab-n' href='logout.php'>$strLogout</a> ";
+		echo "<img src='images/logout.gif' width='16' height='16' align='absmiddle'>";
+	}
+	
+	echo "&nbsp;&nbsp;&nbsp;";
+	echo "</td></tr></table>";
+	echo "</td></tr></table>";
+	
+	
+	// Sidebar
+	echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>";
+	echo "<tr><td valign='top'>";
+	echo "<table width='181' border='0' cellspacing='0' cellpadding='0'>";
+	
+	
+	// Blue square
+    echo "<tr valign='top'><td colspan='2' width='20' height='48' bgcolor='#000063' valign='bottom'>";
+	if ($phpAds_Message != '')
+	{
+		echo "<table border='0' cellpadding='0' cellspacing='0' width='160'>";
+		echo "<tr>";
+		echo "<td width='20'>&nbsp;</td>";
+		echo "<td width='20' valign='top'><img src='images/info.gif'>&nbsp;</td>";
+		echo "<td width='120' valign='top'><b><font color='#FFFFFF'>$phpAds_Message</font></b></td>";
+		echo "</tr><tr><td colspan='3'><img src='images/spacer.gif' width='160' height='5'></td>";
+		echo "</tr></table>";
+	}
+	else
+		echo "&nbsp;";
+	echo "</td></tr>";
+	
+	
+	// Gradient
+    echo "<tr valign='top'><td width='20' height='24'><img src='images/grad-1.gif' width='20' height='20'></td>";
+	echo "<td height='24'><img src='images/grad-1.gif' width='160' height='20'></td></tr>";
+	
+	
+	// Navigation
+	echo "<tr><td width='20'>&nbsp;</td>";
+    echo "<td class='nav'>".$sidebar."</td></tr>";
+    echo "</table></td>";
+	
+	
+	// Main contents
+	echo "<td valign='top' width='100%'>";
+	echo "<table width='640' border='0' cellspacing='0' cellpadding='0'>";
+    echo "<tr><td width='40' height='20'>&nbsp;</td><td height='20'>&nbsp;</td></tr>";
+    echo "<tr><td width='20'>&nbsp;</td><td>";
 }
 
 
@@ -286,27 +286,48 @@ function phpAds_PageHeader($ID, $extra="")
 
 function phpAds_PageFooter()
 {
-	global $phpAds_my_footer, $strLogout, $strPreferences;
+	global $phpAds_my_footer, $phpAds_showHelp, $phpAds_helpDefault;
+	
+	echo "</td></tr>";
+	
+	// Spacer
+	echo "<tr><td width='40' height='20'>&nbsp;</td>";
+	echo "<td height='20'>&nbsp;</td></tr>";
+	echo "</table>";
+	echo "</td></tr>";
+	echo "</table>";
+	
+	
+	if ($phpAds_showHelp) 
+	{
 ?>
-	</td></tr>
 
-	<!-- Spacer -->
-	<tr><td width="40" height="20">&nbsp;</td>
-	<td height="20">&nbsp;</td></tr>
-	</table>
-</td></tr>
-</table>
+<div id="helpLayer" name="helpLayer" style="position:absolute; left:-40; top:-40; width:10px; height:10px; z-index:1; background-color: #F6F6F6; layer-background-color: #F6F6F6; border: 1px none #000000; overflow: hidden; visibility: visible; background-image: url(images/help-background.gif); layer-background-image: url(images/help-background.gif);">
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+	<tr>
+		<td width='40' align='left' valign='top'><img src="images/help-icon.gif" width="40" height="40" border="0" vspace="0" hspace="0"></td>
+		<td width='100%' align='left' valign='top' style="font-family: Verdana; font-size: 11px;">
+			<br>
+			<div id="helpContents" name="helpContents">
+				<?php echo $phpAds_helpDefault; ?>
+			</div>
+		</td>
+		<td width='16' align='right' valign='top'><img src="images/help-close.gif" width="16" height="16" border="0" vspace="4" hspace="4" onClick="hideHelp();"></td>
+	</tr>
+</table> 
+</div>
 
-<?php
-if (!empty($phpAds_my_footer))
-{
-	include ($phpAds_my_footer);
+<?php 
+	}
+	
+	if (!empty($phpAds_my_footer))
+	{
+		include ($phpAds_my_footer);
+	}
+	
+	echo "</body>";
+	echo "</html>";
 }
-?>
-</body>
-</html>
-<?php
-} 
 
 
 
@@ -324,7 +345,7 @@ function phpAds_ShowMessage($message)
 
 
 /*********************************************************/
-/* Show a the last SQL error and die                      */
+/* Show a the last SQL error and die                     */
 /*********************************************************/
 
 function phpAds_sqlDie()
@@ -435,6 +456,20 @@ function phpAds_ShowSections($sections)
 	echo "<img src='images/break-el.gif' height='1' width='100%' vspace='5'>";
 	echo "<table width='640' border='0' cellspacing='0' cellpadding='0'>";
 	echo "<tr><td width='40'>&nbsp;</td><td>";
+}
+
+
+
+/*********************************************************/
+/* Load the function need for the help system            */
+/*********************************************************/
+
+function phpAds_PrepareHelp($default='')
+{
+	global $phpAds_showHelp, $phpAds_helpDefault;
+	
+	$phpAds_helpDefault = $default;
+	$phpAds_showHelp = true;
 }
 
 ?>
