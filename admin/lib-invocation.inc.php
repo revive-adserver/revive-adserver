@@ -271,7 +271,7 @@ function phpAds_GenerateInvocationCode()
 
 function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 {
-	global $phpAds_config, $phpAds_TextDirection;
+	global $phpAds_config, $phpAds_TextDirection, $PHP_SELF;
 	global $submitbutton, $generate;
 	global $codetype, $what, $clientid, $source, $target;
 	global $withText, $template, $refresh, $uniqueid;
@@ -280,9 +280,9 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	global $transparent, $resize;
 	global $hostlanguage;
 	global $layerstyle;
-
-
-	echo "<form name='generate' action='$PHP_SELF' method='POST'>\n";
+	
+	
+	echo "<form name='generate' action='".$PHP_SELF."' method='POST'>\n";
 	
 	if (!isset($codetype)) $codetype = 'local';
 	

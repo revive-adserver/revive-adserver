@@ -241,7 +241,7 @@ function phpAds_settings_text($name, $text, $size = 25, $type = 'text', $rows = 
 		if (isset($GLOBALS[$name]))
 			$value = stripslashes($GLOBALS[$name]);
 		else
-			$value = $phpAds_config[$name];
+			$value = isset($phpAds_config[$name]) ? $phpAds_config[$name] : '';
 	}
 ?>
   <tr onMouseOver="setHelp('<?php echo "$name";?>')"> 
@@ -306,7 +306,7 @@ function phpAds_settings_select($name, $text, $options, $parent = '', $value = '
 		if (isset($GLOBALS[$name]))
 			$value = stripslashes($GLOBALS[$name]);
 		else
-			$value = $phpAds_config[$name];
+			$value = isset($phpAds_config[$name]) ? $phpAds_config[$name] : '';
 	}
 	
 	$options = unserialize($options);

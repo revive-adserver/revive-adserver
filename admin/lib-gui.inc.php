@@ -95,12 +95,12 @@ function phpAds_PageHeader($ID, $extra="")
 			$sidebar .= "<td width='140' class='nav'>$title</td></tr>";
 			$sidebar .= "<tr><td colspan='2'><img src='images/break.gif' height='1' width='160' vspace='4'></td></tr>";
 			
-			$pagetitle  = $phpAds_config['name'] != '' ? $phpAds_config['name'] : 'phpAdsNew';
+			$pagetitle  = isset($phpAds_config['name']) && $phpAds_config['name'] != '' ? $phpAds_config['name'] : 'phpAdsNew';
 			$pagetitle .= ' - '.$title;
 		}
 		else
 		{
-			$pagetitle = $phpAds_config['name'] != '' ? $phpAds_config['name'] : 'phpAdsNew';
+			$pagetitle = isset($phpAds_config['name']) && $phpAds_config['name'] != '' ? $phpAds_config['name'] : 'phpAdsNew';
 		}
 		
 		
@@ -229,13 +229,13 @@ function phpAds_PageHeader($ID, $extra="")
 		$searchbar = "&nbsp;";
 		$tabbar    = "<td bgcolor='#FFFFFF' valign='middle' nowrap>&nbsp;&nbsp;<a class='tab-s' href='index.php'>$strAuthentification</a></td>";
 		$tabbar   .= "<td><img src='images/".$phpAds_TextDirection."/tab-ew.gif' width='10' height='24'></td>";
-		$pagetitle = $phpAds_config['name'] != '' ? $phpAds_config['name'] : 'phpAdsNew';
+		$pagetitle = isset($phpAds_config['name']) && $phpAds_config['name'] != '' ? $phpAds_config['name'] : 'phpAdsNew';
 	}
 	
 	
 	
 	// Use gzip content compression
-	if ($phpAds_config['content_gzip_compression'])
+	if (isset($phpAds_config['content_gzip_compression']) && $phpAds_config['content_gzip_compression'])
 		ob_start("ob_gzhandler");
 	
 	// Send header with charset info
@@ -261,7 +261,7 @@ function phpAds_PageHeader($ID, $extra="")
 	echo "topmargin='0' marginwidth='0' marginheight='0'".($phpAds_showHelp ? " onResize='resizeHelp();' onScroll='resizeHelp();'" : '').">\n";
 	
 	// Header
-	if ($phpAds_config['my_header'] != '')
+	if (isset($phpAds_config['my_header']) && $phpAds_config['my_header'] != '')
 	{
 		include ($phpAds_config['my_header']);
 	}
@@ -271,7 +271,7 @@ function phpAds_PageHeader($ID, $extra="")
  	echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>";
 	echo "<tr>";
 	
-	if ($phpAds_config['name'] != "")
+	if (isset($phpAds_config['name']) && $phpAds_config['name'] != '')
 	{
 		echo "<td height='48' bgcolor='#000063' valign='middle'>";
 		echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/logo-s.gif' width='36' height='34' align='absmiddle' alt='phpAdsNew ".$phpAds_version_readable."'>";
@@ -336,19 +336,7 @@ function phpAds_PageHeader($ID, $extra="")
 	
 	// Blue square
     echo "<tr valign='top'><td colspan='2' width='20' height='48' bgcolor='#000063' valign='bottom'>";
-	if ($phpAds_Message != '')
-	{
-		echo "<table border='0' cellpadding='0' cellspacing='0' width='160'>";
-		echo "<tr>";
-		echo "<td width='20'>&nbsp;</td>";
-		echo "<td width='20' valign='top'><img src='images/info.gif'>&nbsp;</td>";
-		echo "<td width='120' valign='top'><b><font color='#FFFFFF'>$phpAds_Message</font></b></td>";
-		echo "</tr><tr><td colspan='3'><img src='images/spacer.gif' width='160' height='5'></td>";
-		echo "</tr></table>";
-	}
-	else
-		echo "&nbsp;";
-	echo "</td></tr>";
+	echo "&nbsp;</td></tr>";
 	
 	
 	// Gradient
@@ -387,7 +375,7 @@ function phpAds_PageFooter()
 	echo "<td height='20'>&nbsp;</td></tr>";
 	
 	// Footer
-	if ($phpAds_config['my_footer'] != '')
+	if (isset($phpAds_config['my_footer']) && $phpAds_config['my_footer'] != '')
 	{
 		echo "<tr><td width='40' height='20'>&nbsp;</td>";
 		echo "<td height='20'>";
@@ -413,19 +401,6 @@ function phpAds_PageFooter()
 	
 	echo "</body>";
 	echo "</html>";
-}
-
-
-
-/*********************************************************/
-/* Show a messagebox                                     */
-/*********************************************************/
-
-function phpAds_ShowMessage($message)
-{
-	global $phpAds_Message;
-	
-	$phpAds_Message = $message;
 }
 
 

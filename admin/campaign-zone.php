@@ -338,7 +338,7 @@ else
 
 echo "</table>";
 
-if (count($affiliates) > 0)
+if (isset($affiliates) && count($affiliates) > 0)
 {
 	echo "<br><br>";
 	echo "<input type='submit' name='submit' value='$strSaveChanges'>";

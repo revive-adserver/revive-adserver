@@ -29,7 +29,8 @@ define ('phpAds_tableTypesSupported', true);
 function phpAds_checkDatabase ()
 {
 	// Get the database structure
-	$dbstructure = phpAds_prepareDatabaseStructure();
+	$dbstructure 	 = phpAds_prepareDatabaseStructure();
+	$availabletables = array();
 	
 	// Get table names
 	$res = phpAds_dbQuery("SHOW TABLES");

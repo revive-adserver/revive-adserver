@@ -104,8 +104,8 @@ $phpAds_cookiecheck = $SessionID = 'install';
 
 
 // Fake authorize the user and load user specific settings.
-$phpAds_username = $phpAds_config['admin'];
-$phpAds_password = $phpAds_config['admin_pw'];
+$phpAds_username = isset($phpAds_config['admin']) ? $phpAds_config['admin'] : '';
+$phpAds_password = isset($phpAds_config['admin_pw']) ? $phpAds_config['admin_pw'] : '';
 phpAds_Start();
 
 
@@ -216,7 +216,7 @@ if (phpAds_isUser(phpAds_Admin))
 				$errormessage[2][] = $strTablePrefixInvalid;
 			
 			
-			if (!count($errormessage))
+			if (!isset($errormessage) || !count($errormessage))
 			{
 				$installvars['dbhost'] 	 	 = $dbhost;
 				$installvars['dbuser'] 		 = $dbuser;
@@ -264,7 +264,7 @@ if (phpAds_isUser(phpAds_Admin))
 				$errormessage[1][] = $strNotSamePasswords;
 			
 			
-			if (!count($errormessage))
+			if (!isset($errormessage) || !count($errormessage))
 			{
 				$installvars['admin'] 		 = $admin;
 				$installvars['admin_pw'] 	 = $admin_pw;
@@ -469,7 +469,7 @@ if (phpAds_isUser(phpAds_Admin))
 			
 		case 4:
 			// Admin settings
-			if (count($fatal) == 0)
+			if (!isset($fatal) || !count($fatal))
 			{
 				echo "<form name='installform' method='post' action='settings-index.php'>";
 				echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
@@ -514,7 +514,7 @@ if (phpAds_isUser(phpAds_Admin))
 	echo "<input type='submit' name='proceed' value='".$strProceed."'>";
 	echo "</td></tr></table>\n\n";
 	
-	if (count($installvars))
+	if (isset($installvars) && count($installvars))
 		for (reset($installvars); $key=key($installvars); next($installvars))
 			echo "<input type='hidden' name='installvars[".$key."]' value='".$installvars[$key]."'>\n";
 	

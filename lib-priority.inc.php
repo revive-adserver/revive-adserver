@@ -222,12 +222,12 @@ function phpAds_PriorityPredictProfile($campaigns, $banners)
 	$debuglog .= "-----------------------------------------------------\n";
 	
 	for ($i=0;$i<12;$i++)
-		$debuglog .= $profile[$i]."  ";
+		$debuglog .= isset($profile[$i]) ? $profile[$i] : '0'."  ";
 	
 	$debuglog .= "\n";
 	
 	for ($i=12;$i<24;$i++)
-		$debuglog .= $profile[$i]."  ";
+		$debuglog .= isset($profile[$i]) ? $profile[$i] : '0'."  ";
 	
 	$debuglog .= "\n\n\n";
 	// END REPORTING
@@ -291,7 +291,7 @@ function phpAds_PriorityPredictProfile($campaigns, $banners)
 	// Calculate total predicted profile
 	$total_profile = 0;
 	for ($i=0;$i<24;$i++)
-		$total_profile += $profile[$i];
+		$total_profile += isset($profile[$i]) ? $profile[$i] : 0;
 	
 	// Adjust profile with real data
 	if ($total_profile > 0)
@@ -300,11 +300,11 @@ function phpAds_PriorityPredictProfile($campaigns, $banners)
 		{
 			$predicted_today = 0;
 			for ($i=0;$i<24;$i++)
-				$predicted_today += $profile[$i];
+				$predicted_today += isset($profile[$i]) ? $profile[$i] : 0;
 			
 			$predicted_up_till_now = 0;
 			for ($i=0;$i<phpAds_CurrentHour;$i++)
-				$predicted_up_till_now += $profile[$i];
+				$predicted_up_till_now += isset($profile[$i]) ? $profile[$i] : 0;
 			
 			$predicted_left_today = $predicted_today - $predicted_up_till_now;
 			
@@ -690,7 +690,7 @@ function phpAds_PriorityCalculate()
 		{
 			for (reset($banners);$b=key($banners);next($banners))
 				if ($banners[$b]['parent'] == $c)
-					$targeted_hits += $banners[$b]['hits'];
+					$targeted_hits += isset($banners[$b]['hits']) ? $banners[$b]['hits'] : 0;
 			
 			$total_targeted_hits += $targeted_hits;
 			$total_requested 	 += $campaigns[$c]['target'];
