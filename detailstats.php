@@ -33,6 +33,7 @@ if($pageid == "client")
 
 if($pageid == "admin")
 {
+    kc_auth_admin();
     page_header();
     show_nav("1.4.1");
     if (!isset($bannerID))
