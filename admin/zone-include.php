@@ -1135,7 +1135,7 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype, $delivery)
 						}
 						
 						echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
-						echo "<a href='banner-htmlpreview.php?bannerid=$bannerid' target='_new' ";
+						echo "<a href='banner-htmlpreview.php?bannerid=".$banner['bannerid']."' target='_new' ";
 						echo "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=".$banner['bannerid']."', '', 'status=no,scrollbars=no,resizable=no,width=".$width.",height=".$height."');\">";
 						echo "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strShowBanner."</a>&nbsp;&nbsp;";
 						echo "</td>";
