@@ -239,6 +239,18 @@ if (isset($submit))
 			$final['storagetype'] = $storagetype;
 			
 			
+			// Update existing hard-coded links
+			if (isset($alink) && is_array($alink) && count($alink))
+			{
+				while (list ($key, $val) = each ($alink))
+					if (substr($val, 0, 7) == 'http://' && strlen($val) > 7)
+					{
+						$final['htmltemplate'] = eregi_replace ("alink".$key."={targeturl:[^}]+}", "alink".$key."={targeturl:".$val."}", $final['htmltemplate']);
+						if (isset($alink_chosen) && $alink_chosen == $key) $final['url'] = $val;
+					}
+			}
+			
+			
 			// Update bannercache
 			$final['htmlcache']   = addslashes(phpAds_getBannerCache($final));
 			$final['htmltemplate']= addslashes($final['htmltemplate']);
@@ -330,6 +342,18 @@ if (isset($submit))
 			$final['bannertext']  = phpAds_htmlQuotes($bannertext);
 			$final['url'] 		  = $url;
 			$final['storagetype'] = $storagetype;
+			
+			
+			// Update existing hard-coded links
+			if (isset($alink) && is_array($alink) && count($alink))
+			{
+				while (list ($key, $val) = each ($alink))
+					if (substr($val, 0, 7) == 'http://' && strlen($val) > 7)
+					{
+						$final['htmltemplate'] = eregi_replace ("alink".$key."={targeturl:[^}]+}", "alink".$key."={targeturl:".$val."}", $final['htmltemplate']);
+						if (isset($alink_chosen) && $alink_chosen == $key) $final['url'] = $val;
+					}
+			}
 			
 			
 			// Update bannercache
@@ -652,7 +676,24 @@ if ($bannerid != '')
 	$row = phpAds_dbFetchArray($res);
 	
 	
-	$storagetype = $row['storagetype'];
+	$storagetype 	 = $row['storagetype'];
+	$hardcoded_links = array();;
+	
+	
+	// Check for hard-coded links
+	if ($row['contenttype'] == 'swf')
+	{
+		if (strpos($row['htmltemplate'], 'alink1={targeturl:') != false)
+		{
+			$buffer = $row['htmltemplate'];
+			
+			while (eregi("alink([0-9]+)={targeturl:([^}]+)}", $buffer, $regs))
+			{
+				$hardcoded_links[$regs[1]] = $regs[2];
+				$buffer = str_replace ($regs[0], '', $buffer);
+			}
+		}
+	}
 }
 else
 {
@@ -675,6 +716,8 @@ else
 	$row['htmltemplate'] = '';
 	$row['keyword'] 	 = '';
 	$row['description']  = '';
+	
+	$hardcoded_links = array();
 }
 
 
@@ -857,11 +900,36 @@ if ($storagetype == 'sql')
 		echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 	}
 	
-	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>".$strURL."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' value='".$row["url"]."'></td></tr>";
-	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+	if (count($hardcoded_links) == 0)
+	{
+		echo "<tr><td width='30'>&nbsp;</td>";
+		echo "<td width='200'>".$strURL."</td>";
+		echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' value='".$row["url"]."'></td></tr>";
+	}
+	else
+	{
+		$i = 0;
+		
+		while (list($key, $val) = each($hardcoded_links))
+		{
+			if ($i > 0)
+			{
+				echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+				echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+			}
+			
+			echo "<tr><td width='30'>&nbsp;</td>";
+			echo "<td width='200'>".$strURL."</td>";
+			echo "<td><input class='flat' size='35' type='text' name='alink[".$key."]' style='width:350px;' value='".$val."'>";
+			echo "<input type='radio' name='alink_chosen' value='".$key."'".($val == $row['url'] ? ' checked' : '')."></td></tr>";
+			
+			$i++;
+		}
+	}
+	
+	echo "<tr><td height='30' colspan='3'>&nbsp;</td></tr>";
+	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strAlt."</td>";
@@ -945,11 +1013,36 @@ if ($storagetype == 'web')
 		echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 	}
 	
-	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>".$strURL."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' value='".$row["url"]."'></td></tr>";
-	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+	if (count($hardcoded_links) == 0)
+	{
+		echo "<tr><td width='30'>&nbsp;</td>";
+		echo "<td width='200'>".$strURL."</td>";
+		echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' value='".$row["url"]."'></td></tr>";
+	}
+	else
+	{
+		$i = 0;
+		
+		while (list($key, $val) = each($hardcoded_links))
+		{
+			if ($i > 0)
+			{
+				echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+				echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+			}
+			
+			echo "<tr><td width='30'>&nbsp;</td>";
+			echo "<td width='200'>".$strURL."</td>";
+			echo "<td><input class='flat' size='35' type='text' name='alink[".$key."]' style='width:350px;' value='".$val."'>";
+			echo "<input type='radio' name='alink_chosen' value='".$key."'".($val == $row['url'] ? ' checked' : '')."></td></tr>";
+			
+			$i++;
+		}
+	}
+	
+	echo "<tr><td height='30' colspan='3'>&nbsp;</td></tr>";
+	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strAlt."</td>";
