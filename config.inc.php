@@ -51,7 +51,8 @@ $phpAds_config['compatibility_mode'] = false;
 // The URL to your phpAdsNew-installation
 $phpAds_config['url_prefix'] = 'http://www.your-url.com/phpAdsNew';
 
-// The Language of the Interface
+// The Language of the Interface (eg. english, german, spanish) 
+// for the right string look for the directory name in the language subdirectory
 $phpAds_config['language'] = 'english';
 
 
