@@ -1214,22 +1214,27 @@ function phpAds_PriorityGetGaussianProfile($days_running)
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0
 	);
-
+	
 	// Go for the last 5 weeks (if any)
 	for ($i = 1; $i < 6 && $days_running > 7; $i++)
 	{
 		$j_tot = 0;
-
+		
 		// Get an centered interval of 3 days
 		for ($x=-1; $x <= 1; $x++)
 		{
 			$j = phpAds_PriorityNormalDistribution($x, 2/3);
 			$j_tot += $j;
-
+			
 			$tmp = phpAds_PriorityGetHourlyProfile(1, 7 * $i - $x - 1);
-
+			
 			for ($h=0;$h<24;$h++)
+			{
+				if (!isset($profile[$i][$h]))
+					$profile[$i][$h] = 0;
+				
 				$profile[$i][$h] += $j * $tmp[$h];
+			}
 		}
 		// Apply trend to get back lost impressions
 		for ($h=0;$h<24;$h++)
@@ -1246,7 +1251,7 @@ function phpAds_PriorityGetGaussianProfile($days_running)
 		{
 			// More than a week of statistics gathered
 			$j_tot = 0;
-
+			
 			while (list($k, $v) = each($profile))
 			{
 				$j = phpAds_PriorityNormalDistribution($k, 1.5, 1);
@@ -1270,7 +1275,7 @@ function phpAds_PriorityGetGaussianProfile($days_running)
 				$result[$h] = $profile[1][$h];
 		}
 	}
-
+	
 	
 	for ($h=0;$h<24;$h++)
 		$result[$h] = round($result[$h]);
