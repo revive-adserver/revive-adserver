@@ -52,6 +52,11 @@ $GLOBALS['strInstallSuccess']			= "<b>L'istallazione di ".$phpAds_productname." 
                                            <br><br>Clicca <b>Procedi</b> per andare alla pagina di configurazione e impostare
                                            altri parametri. Ricordati di togliere i permessi al file config.inc.php quando hai finito, per evitare problemi di
                                            sicurezza.";
+$GLOBALS['strUpdateSuccess']			= "<b>L'aggiornamento di ".$phpAds_productname." &egrave stato completato.</b><br><br>Affinch&eacute; ".$phpAds_productname." funzioni correttamente devi assicurarti
+                                           che lo script di manutenzione sia lanciato ogni giorno. Puoi trovare informazioni maggiori sull'argomento nel manuale.
+                                           <br><br>Clicca <b>Procedi</b> per andare alla pagina di configurazione e impostare
+                                           altri parametri. Ricordati di togliere i permessi al file config.inc.php quando hai finito, per evitare problemi di
+                                           sicurezza.";
 $GLOBALS['strInstallNotSuccessful']		= "<b>L'installazione di ".$phpAds_productname." non ha avuto successo</b><br><br>Alcune parti del processo di installazione non possono essere completate.
                                            &Egrave; possibile che questi problemi siano solo temporanei, in questo caso clicca <b>Procedi</b> per ritornare alla
                                            prima fase dell'installazione. Se vuoi saperne di più sul significato dell'errore, e su come risolvere il problema,
@@ -72,6 +77,7 @@ $GLOBALS['strUpgrade']					= "Aggiornamento";
 $GLOBALS['strSystemUpToDate']			= "Il sistema &egrave; aggiornato, al momento non sono necessari aggiornamenti. <br>Clicca <b>Procedi</b> per andare alla pagina principale.";
 $GLOBALS['strSystemNeedsUpgrade']		= "La struttura del database e il file di configurazione devono essere aggiornati per funzionare correttamente. Clicca <b>Procedi</b> per iniziare il processo di aggiornamento. <br>Sii paziente, il processo può durare anche alcuni minuti.";
 $GLOBALS['strSystemUpgradeBusy']		= "Aggiornamento in corso, attendere prego...";
+$GLOBALS['strSystemRebuildingCache']	= "Ricostruzione cache in corso, attendere prego...";
 $GLOBALS['strServiceUnavalable']		= "Il servizio non &egrave; disponibile al momento. &Egrave; in corso l'aggiornamento del sistema.";
 
 $GLOBALS['strConfigNotWritable']		= "Il file config.inc.php non può essere sovrascritto";
@@ -152,6 +158,7 @@ $GLOBALS['strTypeSqlAllow']				= "Consenti banner locali (SQL)";
 $GLOBALS['strTypeWebAllow']				= "Consenti banner locali (Server web)";
 $GLOBALS['strTypeUrlAllow']				= "Consenti banner esterni";
 $GLOBALS['strTypeHtmlAllow']			= "Consenti banner HTML";
+$GLOBALS['strTypeTxtAllow']				= "Consenti banner testuali";
 
 $GLOBALS['strTypeWebSettings']			= "Configurazione banner locali (Server web)";
 $GLOBALS['strTypeWebMode']				= "Tipo di memorizzazione";
@@ -257,6 +264,7 @@ $GLOBALS['strShowBannerPreview']		= "Mostra anteprima nella parte superiore dell
 $GLOBALS['strStatisticsDefaults']		= "Statistiche";
 $GLOBALS['strBeginOfWeek']				= "Primo giorno della settimana";
 $GLOBALS['strPercentageDecimals']		= "Numero decimali nelle percentuali";
+$GLOBALS['strHideInactive']				= "Nascondi entit&agrave; inattive in tutte le pagine riassuntive";
 
 $GLOBALS['strWeightDefaults']			= "Peso di default";
 $GLOBALS['strDefaultBannerWeight']		= "Peso di default dei banner";

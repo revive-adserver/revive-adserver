@@ -102,6 +102,7 @@ $GLOBALS['strExpandAll']					= "Espandi tutti";
 $GLOBALS['strCollapseAll']					= "Chiudi tutti";
 $GLOBALS['strShowAll']						= "Mostra tutto";
 $GLOBALS['strNoAdminInteface']				= "Servizio non disponibile...";
+$GLOBALS['strFilterBySource']				= "filtra per sorgente";
 
 
 // Properties
@@ -237,8 +238,8 @@ $GLOBALS['strBanner']						= "Banner";
 $GLOBALS['strBanners']						= "Banner";
 $GLOBALS['strAddBanner']					= "Aggiungi nuovo banner";
 $GLOBALS['strModifyBanner']					= "Modifica banner";
-$GLOBALS['strActiveBanners']				= "Attiva banner";
-$GLOBALS['strTotalBanners']					= "Banners totali";
+$GLOBALS['strActiveBanners']				= "Banner attici";
+$GLOBALS['strTotalBanners']					= "Banner totali";
 $GLOBALS['strShowBanner']					= "Mostra banner";
 $GLOBALS['strShowAllBanners']				= "Mostra tutti i banner";
 $GLOBALS['strShowBannersNoAdClicks']		= "Mostra i banner senza click";
@@ -262,6 +263,7 @@ $GLOBALS['strMySQLBanner']					= "Banner locale (SQL)";
 $GLOBALS['strWebBanner']					= "Banner locale (su questo Webserver)";
 $GLOBALS['strURLBanner']					= "Banner esterno";
 $GLOBALS['strHTMLBanner']					= "Banner HTML";
+$GLOBALS['strTextBanner'] 					= "Banner testuale";
 $GLOBALS['strAutoChangeHTML']				= "Modifica HTML per attivare la registrazione dei Click";
 $GLOBALS['strUploadOrKeep']					= "Preferisci mantenere la<br>immagine esistente, o preferisci<br>caricarne un altra?";
 $GLOBALS['strNewBannerFile']				= "Scegli <br>la immagine che vuoi da <br>usare in questo banner<br><br>";
@@ -326,7 +328,7 @@ $GLOBALS['strImpressionCapping']			= "Non mostrare il banner allo stesso utente 
 // Publisher
 $GLOBALS['strAffiliate']					= "Editore";
 $GLOBALS['strAffiliates']					= "Editori";
-$GLOBALS['strAffiliatesAndZones']			= "Editori & Zone";
+$GLOBALS['strAffiliatesAndZones']			= "Editori e Zone";
 $GLOBALS['strAddNewAffiliate']				= "Aggiungi un nuovo editore";
 $GLOBALS['strAddAffiliate']					= "Crea editore";
 $GLOBALS['strAffiliateProperties']			= "Impostazioni editore";
@@ -363,9 +365,11 @@ $GLOBALS['strZoneType']						= "Tipo di zona";
 $GLOBALS['strBannerButtonRectangle']		= "Banner, Pulsante o Rettangolo";
 $GLOBALS['strInterstitial']					= "Interstiziale o DHTML floating";
 $GLOBALS['strPopup']						= "Popup";
+$GLOBALS['strTextAdZone']					= "Banner testuale";
 
 
 // Advanced zone settings
+$GLOBALS['strAdvanced']						= "Avanzate";
 $GLOBALS['strChains']						= "Catene";
 $GLOBALS['strChainSettings']				= "Impostazioni della catena";
 $GLOBALS['strZoneNoDelivery']				= "Se nessun banner di questa zona <br>pu&ograve; essere fornito, prova a...";
@@ -373,6 +377,9 @@ $GLOBALS['strZoneStopDelivery']				= "Arrestare la fornitura e non visualizzare 
 $GLOBALS['strZoneOtherZone']				= "Mostrare la zona selezionata";
 $GLOBALS['strZoneUseKeywords']				= "Scegliere un banner usando la seguente stringa di query";
 $GLOBALS['strZoneAppend']					= "Aggiungi sempre il seguente codice di invocazione popup o interstiziale ai banner di questa zona";
+$GLOBALS['strAppendSettings']				= "Impostazioni prefisso e suffisso";
+$GLOBALS['strZonePrependHTML']				= "Codice HTML da utilizzare come prefisso per i banner testuali visualizzati in questa zona";
+$GLOBALS['strZoneAppendHTML']				= "Codice HTML da utilizzare come suffisso per i banner testuali visualizzati in questa zona";
 
 
 // Linked banners/campaigns
