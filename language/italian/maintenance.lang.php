@@ -60,6 +60,9 @@ $GLOBALS['strDeliveryCacheSharedMem']		= "
 $GLOBALS['strDeliveryCacheDatabase']		= "
 	Per memorizzare la cache di consegna &egrave; utilizzato il database.
 ";
+$GLOBALS['strDeliveryCacheFiles']		= "
+	Per memorizzare la cache di consegna sono utilizzati dei file sul server.
+";
 
 
 // Storage
