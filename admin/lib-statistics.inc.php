@@ -634,14 +634,15 @@ function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 		// If the HTML contains ActiveX code we need
 		// to use a JavaScript workaround because the outcome of the Eolas lawsuit
 		// agains Microsoft. Without these changes the user would get a warning dialogbox.
-		if (!(strpos (strtolower($row['htmlcache']), "<object") === false) &&
+		if ($fullpreview &&
+			!(strpos (strtolower($row['htmlcache']), "<object") === false) &&
 	   		(strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'MSIE') && !strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Opera')))
 		{
 			$activexbuffer  = "<script language='JavaScript' type='text/javascript' src='{url_prefix}/adx.js'></script>";
 			$activexbuffer .= "<script language='JavaScript' type='text/javascript'>\n";
 			$activexbuffer .= "<!--\n";
 			$activexbuffer .= "var phpads_activex = \"";
-			$activexbuffer .= addslashes($buffer);
+			$activexbuffer .= addcslashes($buffer, "\0..\37\"");
 			$activexbuffer .= "\";\n";
  			$activexbuffer .= "phpads_deliverActiveX(phpads_activex);\n";
  			$activexbuffer .= "//-->\n";
