@@ -425,13 +425,9 @@ function phpAds_PriorityCalculate()
 	$campaigns = phpAds_PriorityPrepareCampaigns();
 	$profile   = phpAds_PriorityPredictProfile($campaigns, $banners);
 	
-	var_dump($profile);
-	echo "<hr>";
-	
 	// Determine period
 	$maxperiod = 24;
 	$period = date('H') - 1;
-	
 	
 	// Populate campaign statistics
 	$total_requested 	 = 0;
@@ -478,14 +474,6 @@ function phpAds_PriorityCalculate()
 	$estimated_remaining  = $estimated_hits - $total_hits;
 	$requested_remaining  = $total_requested - $total_targeted_hits;
 	
-	
-	
-	
-	
-	echo "<table>";
-	echo "<tr>";
-	echo "<td>".$total_hits."</td><td>".$estimated_hits."</td><td>".$estimated_remaining."</td><td>".$requested_remaining."</td>";
-	
 	if ($estimated_remaining > $requested_remaining)
 	{
 		$available_for_targeting = $requested_remaining;
@@ -497,8 +485,6 @@ function phpAds_PriorityCalculate()
 		$available_for_others    = 0;
 	}
 	
-	echo "<td>".($total_other_hits)."</td><td>".($total_targeted_hits)."</td><td>".($available_for_targeting)."</td>";
-	echo "<td>".($available_for_others)."</td>";
 	
 	
 	$totalassigned = 0;
@@ -545,10 +531,6 @@ function phpAds_PriorityCalculate()
 			for (reset($banners);$b=key($banners);next($banners))
 				if ($banners[$b]['parent'] == $c)
 					$banners[$b]['priority'] = round ($remaining_for_campaign / $total_banner_weight * $banners[$b]['weight']);
-			
-			
-			echo "<td>&nbsp;</td><td>".$campaigns[$c]['hits']."</td>";
-			echo "<td>".$remaining_for_campaign."</td><td>".($campaigns[$c]['hits'] > 0 ? round($campaigns[$c]['hits'] / $total_hits  * 100, 2) : 0)."</td>";
 		}
 	}
 	
@@ -572,14 +554,8 @@ function phpAds_PriorityCalculate()
 			for (reset($banners);$b=key($banners);next($banners))
 				if ($banners[$b]['parent'] == $c)
 					$banners[$b]['priority'] = round ($remaining_for_campaign / $total_banner_weight * $banners[$b]['weight']);
-			
-			echo "<td>&nbsp;</td><td>".$campaigns[$c]['hits']."</td>";
-			echo "<td>".$remaining_for_campaign."</td><td>".($campaigns[$c]['hits'] > 0 ? round($campaigns[$c]['hits'] / $total_hits  * 100, 2) : 0)."</td>";
 		}
 	}
-	
-	echo "</tr></table>";
-	var_dump($banners);
 	
 	// Store priority information
 	phpAds_PriorityStore($banners);
