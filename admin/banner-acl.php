@@ -211,15 +211,16 @@ elseif (isset($submit))
 	// Set time limit
 	if (isset($time))
 	{
-		$block = $time['second'];
-		$block = $block + ($time['minute'] * 60);
-		$block = $block + ($time['hour'] * 3600);
+		$block = 0;
+		if ($time['second'] != '-') $block += (int)$time['second'];
+		if ($time['minute'] != '-') $block += (int)$time['minute'] * 60;
+		if ($time['hour'] != '-') 	$block += (int)$time['hour'] * 3600;
 	}
 	else
 		$block = 0;
 	
 	// Set capping
-	if (isset($cap))
+	if (isset($cap) && $cap != '-')
 		$cap = (int)$cap;
 	else
 		$cap = 0;
@@ -398,6 +399,11 @@ if (!isset($time) || !isset($cap))
 		}
 	}
 }
+
+if ($time['hour'] == 0 && $time['minute'] == 0 && $time['second'] == 0) $time['second'] = '-'; 
+if ($time['hour'] == 0 && $time['minute'] == 0) $time['minute'] = '-'; 
+if ($time['hour'] == 0) $time['hour'] = '-';
+if ($cap == 0) $cap = '-';
 
 
 // Begin form
@@ -588,9 +594,9 @@ echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 echo "<tr><td width='30'>&nbsp;</td>";
 echo "<td width='200'>".$strTimeCapping."</td>";
 echo "<td valign='top'>";
-echo "<input class='flat' type='text' size='3' name='time[hour]' value='".$time['hour']."'> ".$strHours." &nbsp;&nbsp;";
-echo "<input class='flat' type='text' size='3' name='time[minute]' value='".$time['minute']."'> ".$strMinutes." &nbsp;&nbsp;";
-echo "<input class='flat' type='text' size='3' name='time[second]' value='".$time['second']."'> ".$strSeconds." &nbsp;&nbsp;";
+echo "<input id='timehour' class='flat' type='text' size='3' name='time[hour]' value='".$time['hour']."' onKeyUp=\"phpAds_formLimitUpdate(this);\"> ".$strHours." &nbsp;&nbsp;";
+echo "<input id='timeminute' class='flat' type='text' size='3' name='time[minute]' value='".$time['minute']."' onKeyUp=\"phpAds_formLimitUpdate(this);\"> ".$strMinutes." &nbsp;&nbsp;";
+echo "<input id='timesecond' class='flat' type='text' size='3' name='time[second]' value='".$time['second']."' onBlur=\"phpAds_formLimitBlur(this);\" onKeyUp=\"phpAds_formLimitUpdate(this);\"> ".$strSeconds." &nbsp;&nbsp;";
 echo "</td></tr>";
 echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
@@ -598,7 +604,7 @@ echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspac
 echo "<tr><td width='30'>&nbsp;</td>";
 echo "<td width='200'>".$strImpressionCapping."</td>";
 echo "<td valign='top'>";
-echo "<input class='flat' type='text' size='3' name='cap' value='".$cap."'> ".$strTimes;
+echo "<input class='flat' type='text' size='3' name='cap' value='".$cap."' onBlur=\"phpAds_formCapBlur(this);\" > ".$strTimes;
 echo "</td></tr>";
 
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
@@ -610,6 +616,52 @@ echo "</table>";
 echo "<br><br><br>";
 echo "<input type='submit' name='submit' value='$strSaveChanges'>";
 echo "</form><br><br>";
+
+
+
+/*********************************************************/
+/* Form requirements                                     */
+/*********************************************************/
+
+?>
+
+<script language='JavaScript'>
+<!--
+	
+	function phpAds_formCapBlur (i)
+	{
+		if (i.value == '' || i.value == '0') i.value = '-'
+	}
+	
+	function phpAds_formLimitBlur (i)
+	{
+		f = i.form;
+		
+		if (f.timehour.value == '') f.timehour.value = '0';
+		if (f.timeminute.value == '') f.timeminute.value = '0';
+		if (f.timesecond.value == '') f.timesecond.value = '0';
+		
+		phpAds_formLimitUpdate (i);
+	}
+			
+	function phpAds_formLimitUpdate (i)
+	{
+		f = i.form;
+		
+		// Set -
+		if (f.timeminute.value == '-' && f.timehour.value != '-') f.timeminute.value = '0';
+		if (f.timesecond.value == '-' && f.timeminute.value != '-') f.timesecond.value = '0';
+		
+		// Set 0
+		if (f.timehour.value == '0') f.timehour.value = '-';
+		if (f.timehour.value == '-' && f.timeminute.value == '0') f.timeminute.value = '-';
+		if (f.timeminute.value == '-' && f.timesecond.value == '0') f.timesecond.value = '-';
+	}
+	
+//-->
+</script>
+
+<?php
 
 
 
