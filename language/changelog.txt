@@ -12,6 +12,36 @@
 
   ====================================================
 
+  04-01-2003 - setting-help
+    [u] phpAds_hlp_dbhost
+    [+] phpAds_hlp_dbport
+    [u] phpAds_hlp_dbname
+    [-] phpAds_hlp_tabletype
+    [+] phpAds_hlp_table_type
+    [u] phpAds_hlp_table_prefix
+    [u] phpAds_hlp_url_prefix
+    [u] phpAds_hlp_block_adviews
+    [+] phpAds_hlp_log_source
+    [+] phpAds_hlp_geotracking_stats
+    [+] phpAds_hlp_log_hostname
+    [+] phpAds_hlp_log_iponly
+    [u] phpAds_hlp_reverse_lookup
+    [u] phpAds_hlp_proxy_lookup
+    [+] phpAds_hlp_auto_clean_tables
+    [+] phpAds_hlp_auto_clean_tables_interval
+    [+] phpAds_hlp_auto_clean_userlog
+    [+] phpAds_hlp_auto_clean_userlog_interval
+    [+] phpAds_hlp_geotracking_type
+    [+] phpAds_hlp_geotracking_location
+    [+] phpAds_hlp_geotracking_cookie
+    [-] phpAds_hlp_zone_cache
+    [-] phpAds_hlp_zone_cache_limit
+    [+] phpAds_hlp_delivery_caching
+    [+] phpAds_hlp_userlog_autoclean
+    [+] phpAds_hlp_gui_show_matching
+    [+] phpAds_hlp_gui_show_parents
+    [+] phpAds_hlp_gui_link_compact_limit
+    
   03-18-2003 - invocation
     [+] strWindowOptions
     [+] strShowToolbars
