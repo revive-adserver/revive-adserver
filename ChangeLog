@@ -50,6 +50,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: Removed extra return at the end of the banner-edit.php file  (Niels) 20011110
 			  - Bugfix: Zonecache still included banners  (Niels) 20011116
 			  - Bugfix: Zones admin files needed view.inc.php include: added it to lib-zones  (Matteo) 20011116
+			  - Bugfix: Changed \n to \r\n in e-mail headers  (Niels) 20011117
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015

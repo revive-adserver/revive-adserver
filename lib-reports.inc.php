@@ -255,15 +255,15 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 			$Subject  = $strMailSubject.": ".$client["clientname"];
 			$To		  = $client['email'];
 			
-			$Headers = "Content-Transfer-Encoding: 8bit\n";
+			$Headers = "Content-Transfer-Encoding: 8bit\r\n";
 			
 			if (isset($phpAds_CharSet))
-				$Headers .= "Content-Type: text/plain; charset=".$phpAds_CharSet."\n"; 
+				$Headers .= "Content-Type: text/plain; charset=".$phpAds_CharSet."\r\n"; 
 			
-			$Headers .= "To: ".$client['contact']." <".$client['email'].">\n";
-			$Headers .= "From: <".$phpAds_config['admin_email'].">\n";
+			$Headers .= "To: ".$client['contact']." <".$client['email'].">\r\n";
+			$Headers .= "From: <".$phpAds_config['admin_email'].">\r\n";
 			if (!empty($phpAds_config['admin_email_headers']))
-				$Headers .= $phpAds_config['admin_email_headers']."\n";
+				$Headers .= $phpAds_config['admin_email_headers']."\r\n";
 			
 			
 			$Body    = "$strMailHeader\n";
