@@ -20,6 +20,7 @@ require ("lib-statistics.inc.php");
 require ("lib-storage.inc.php");
 require ("lib-swf.inc.php");
 require ("lib-banner.inc.php");
+require ("lib-zones.inc.php");
 
 
 // Security check
@@ -113,6 +114,10 @@ if (isset($convert))
 				
 				// Store the banner
 				phpAds_ImageStore ($row['storagetype'], $row['filename'], $result, true);
+				
+				// Rebuild zone cache
+				if ($phpAds_config['zone_cache'])
+					phpAds_RebuildZoneCache ();	
 			}
 		}
 	}

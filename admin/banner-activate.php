@@ -111,12 +111,12 @@ if (phpAds_isUser(phpAds_Admin))
 		") or phpAds_sqlDie();
 	}
 	
+	// Rebuild priorities
+	phpAds_PriorityCalculate ();
+	
 	// Rebuild zone cache
 	if ($phpAds_config['zone_cache'])
 		phpAds_RebuildZoneCache ();
-	
-	// Rebuild priorities
-	phpAds_PriorityCalculate ();
 	
 	Header("Location: campaign-index.php?clientid=".$clientid."&campaignid=".$campaignid);
 }

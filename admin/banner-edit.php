@@ -20,6 +20,7 @@ require ("lib-statistics.inc.php");
 require ("lib-storage.inc.php");
 require ("lib-swf.inc.php");
 require ("lib-banner.inc.php");
+require ("lib-zones.inc.php");
 
 
 // Security check
@@ -564,6 +565,9 @@ if (isset($submit))
 		phpAds_PriorityCalculate ();
 	}
 	
+	// Rebuild zone cache
+	if ($phpAds_config['zone_cache'])
+		phpAds_RebuildZoneCache ();	
 	
 	
 	if ($edit_swf)

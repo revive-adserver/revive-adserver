@@ -38,12 +38,12 @@ if (isset($bannerid) && $bannerid != '')
 		// Move the banner
 		$res = phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_banners']." SET clientid = '".$moveto."' WHERE bannerid = '".$bannerid."'") or phpAds_sqlDie();
 		
+		// Rebuild priorities
+		phpAds_PriorityCalculate ();
+		
 		// Rebuild zone cache
 		if ($phpAds_config['zone_cache'])
 			phpAds_RebuildZoneCache ();
-		
-		// Rebuild priorities
-		phpAds_PriorityCalculate ();
 		
 		// Get new clientid
 		$clientid = phpAds_getParentID ($moveto);
@@ -186,12 +186,12 @@ if (isset($bannerid) && $bannerid != '')
 			}
 		}
 		
+		// Rebuild priorities
+		phpAds_PriorityCalculate ();
+		
 		// Rebuild zone cache
 		if ($phpAds_config['zone_cache'])
 			phpAds_RebuildZoneCache ();
-		
-		// Rebuild priorities
-		phpAds_PriorityCalculate ();
 		
 		Header ("Location: ".$returnurl."?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$new_bannerid);
 	}

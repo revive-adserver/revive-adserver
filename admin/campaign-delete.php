@@ -111,12 +111,12 @@ elseif (isset($clientid) && $clientid != '')
 }
 
 
+// Rebuild priorities
+phpAds_PriorityCalculate ();
+
 // Rebuild zone cache
 if ($phpAds_config['zone_cache'])
 	phpAds_RebuildZoneCache ();
-
-// Rebuild priorities
-phpAds_PriorityCalculate ();
 
 
 if (!isset($returnurl) && $returnurl == '')
