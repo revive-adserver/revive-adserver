@@ -11,9 +11,12 @@ CVS			+ Misc changes to library and function names
 			+ Misc changes
 			  - Moved some functions around to make sure no unneeded 
 			    functions were included during invocation.  (Niels) 20011020
+			  - Removed space from UNIQUE INDEX definition in all.sql  (Niels) 20011024
 
 			+ Misc bugfixes
 			  - Removed background color for flash banner; lets see if it's better... (Stefan) 20011019
+			  - Remove extra comma from config.inc  (Matteo)
+			  - Fixed warning 'No DB connection'  (Niels) 20011024
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
