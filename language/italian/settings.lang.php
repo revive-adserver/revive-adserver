@@ -15,34 +15,34 @@
 
 
 // Installer translation strings
-$GLOBALS['strInstall']					= "Install";
-$GLOBALS['strChooseInstallLanguage']	= "Choose language for the installation procedure";
-$GLOBALS['strLanguageSelection']		= "Language Selection";
-$GLOBALS['strDatabaseSettings']			= "Database Settings";
-$GLOBALS['strAdminSettings']			= "Administrator Settings";
-$GLOBALS['strAdvancedSettings']			= "Advanced Settings";
-$GLOBALS['strOtherSettings']			= "Other settings";
+$GLOBALS['strInstall']					= "Installazione";
+$GLOBALS['strChooseInstallLanguage']	= "Scegli la lingua per il processo di installazione";
+$GLOBALS['strLanguageSelection']		= "Selezione Lingua";
+$GLOBALS['strDatabaseSettings']			= "Impostazioni Database";
+$GLOBALS['strAdminSettings']			= "Impostazioni Amministratore";
+$GLOBALS['strAdvancedSettings']			= "Impostazioni Avanzate";
+$GLOBALS['strOtherSettings']			= "Altre Impostazioni";
 
-$GLOBALS['strWarning']					= "Warning";
-$GLOBALS['strFatalError']				= "A fatal error occurred";
-$GLOBALS['strAlreadyInstalled']			= "phpAdsNew is already installed on this system. If you want to configure it go to <a href='settings-index.php'>settings interface</a>";
-$GLOBALS['strCouldNotConnectToDB']		= "Could not connect to database, please recheck the settings you specified";
-$GLOBALS['strCreateTableTestFailed']	= "The user you specified doesn't have permission to create or update the database structure, please contact the database administrator.";
-$GLOBALS['strUpdateTableTestFailed']	= "The user you specified doesn't have permission to update the database structure, please contact the database administrator.";
-$GLOBALS['strTablePrefixInvalid']		= "Table prefix contains invalid characters";
-$GLOBALS['strMayNotFunction']			= "Before you continue, please correct these potential problems:";
-$GLOBALS['strIgnoreWarnings']			= "Ignore warnings";
-$GLOBALS['strWarningPHPversion']		= "phpAdsNew requires PHP 3.0.8 or higher to function correctly. You are currently using {php_version}.";
-$GLOBALS['strWarningRegisterGlobals']	= "The PHP configuration variable register_globals needs to be turned on.";
-$GLOBALS['strWarningMagicQuotesGPC']	= "The PHP configuration variable magic_quote_gpc needs to be turned on.";
-$GLOBALS['strWarningMagicQuotesRuntime']= "The PHP configuration variable magic_quotes_runtime needs to be turned off.";
-$GLOBALS['strConfigLockedDetected']		= "phpAdsNew has detected that your <b>config.inc.php</b> file is not writeable by the server.<br> You can't proceed until you change permissions on the file. <br>Read the supplied documentation if you don't know how to do that.";
-$GLOBALS['strCantUpdateDB']  			= "It is currently not possible to update the database. If you decide to proceed, all existing banners, statistics and clients will be deleted.";
-$GLOBALS['strTableNames']				= "Table Names";
-$GLOBALS['strTablesPrefix']				= "Table names prefix";
-$GLOBALS['strTablesType']				= "Table type";
+$GLOBALS['strWarning']					= "Attenzione";
+$GLOBALS['strFatalError']				= "Si &egrave; verificato un errore fatale";
+$GLOBALS['strAlreadyInstalled']			= "phpAdsNew &egrave; gi&agrave; installato su questo sistema. Se vuoi configurarlo utilizza l'interfaccia delle <a href='settings-index.php'>impostazioni</a>";
+$GLOBALS['strCouldNotConnectToDB']		= "Impossibile connettersi al database, controlla i parametri immessi";
+$GLOBALS['strCreateTableTestFailed']	= "L'utente specificato non ha i permessi necessari a creare o modificare la struttura del database, contatta l'amministratore di sistema.";
+$GLOBALS['strUpdateTableTestFailed']	= "L'utente specificato non ha i permessi necessari a modificare la struttura del database, contatta l'amministratore di sistema.";
+$GLOBALS['strTablePrefixInvalid']		= "Il prefisso delle tabelle contiene caratteri non validi";
+$GLOBALS['strMayNotFunction']			= "Prima di continuare, correggi questi potenziali problemi:";
+$GLOBALS['strIgnoreWarnings']			= "Ignora avvertimenti";
+$GLOBALS['strWarningPHPversion']		= "phpAdsNew richiede PHP 3.0.8 or pi&ugrave; recente per funzionare. La versione utilizzata &egrave; {php_version}.";
+$GLOBALS['strWarningRegisterGlobals']	= "La variabile di configurazione del PHP register_globals deve essere abilitata.";
+$GLOBALS['strWarningMagicQuotesGPC']	= "La variabile di configurazione del PHP magic_quotes_gpc deve essere abilitata.";
+$GLOBALS['strWarningMagicQuotesRuntime']= "La variabile di configurazione del PHP magic_quotes_runtime deve essere disabilitata.";
+$GLOBALS['strConfigLockedDetected']		= "Il file <b>config.inc.php</b> non può essere modificato dal server.<br> Non sar&agrave; possibile procedere finch&eacute; non verranno modificati i permessi del file. <br>Leggi la documentazione formita se non sai come comportarti.";
+$GLOBALS['strCantUpdateDB']  			= "Non &egrave; possibile aggiornare il database. Se decidi di continuare, tutti i banner, i clienti e le statistiche seranno eliminati.";
+$GLOBALS['strTableNames']				= "Nomi delle tabelle";
+$GLOBALS['strTablesPrefix']				= "Prefisso delle tabelle";
+$GLOBALS['strTablesType']				= "Tipo di tabelle";
 
-$GLOBALS['strInstallWelcome']			= "Welcome to phpAdsNew";
+$GLOBALS['strInstallWelcome']			= "Benvenuti in phpAdsNew";
 $GLOBALS['strInstallMessage']			= "Before you can use phpAdsNew it needs to be configured and <br> the database needs to be created. Click <b>Proceed</b> to continue.";
 $GLOBALS['strInstallSuccess']			= "<b>The installation of phpAdsNew is now complete.</b><br><br>In order for phpAdsNew to function correctly you also need
 										   to make sure the maintenance file is run every day. More information about this subject can be found in the documentation.
@@ -58,9 +58,9 @@ $GLOBALS['strErrorInstallDatabase']		= "The database structure could not be crea
 $GLOBALS['strErrorInstallConfig']		= "The configuration file or database could not be updated.";
 $GLOBALS['strErrorInstallDbConnect']	= "It was not possible to open a connection to the database.";
 
-$GLOBALS['strUrlPrefix']				= "URL Prefix";
+$GLOBALS['strUrlPrefix']				= "Prefisso dell'URL";
 
-$GLOBALS['strProceed']					= "Proceed &gt;";
+$GLOBALS['strProceed']					= "Procedi &gt;";
 $GLOBALS['strInstallDatabase']			= "Database structure installation";
 $GLOBALS['strFunctionAlreadyExists']	= "Function %s already exists";
 $GLOBALS['strFunctionInAllDotSqlErr']	= "Can't create a function from 'all.sql'";
