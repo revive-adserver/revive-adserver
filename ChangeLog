@@ -30,6 +30,8 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			+ Added misc. maintenance options to the admin interface  (Niels, 2002-04-08)
 			+ Added the ability to check for newer versions of phpAdsNew  (Matteo, 2002-04-11)
 			+ Added the ability to change the target frame for each banner  (Niels, 2002-04-14)
+			+ Added new style JavaScript invocation, with the ability 
+			  to prevent one banner from being displayed twice on one page  (Niels, 2002-04-30)
 
 			+ Misc changes to library and function names
 			  - 2001-10-20:  Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 
@@ -129,6 +131,8 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-04-09:  Rewrote part of lib-priority to always assign a priority > 0 to low-pri campaigns  (Matteo)
 			  - 2002-04-15:  Added ability to override frame targets even if no target is specified in HTML banner  (Niels)
 			  - 2002-04-19:  Rewritten verbose stats convertor, now available from the maintenance menu  (Niels)
+			  - 2002-04-30:  Added better support for different versions of Flash plugins, phpAdsNew won't ask 
+					 for the latest version of the plugin when the .swf file is created in an older version  (Niels)
 
 
 			+ Misc bugfixes
