@@ -264,12 +264,90 @@ else
 	$zone['height'] = '60';
 }
 
+
+
+echo "<br><br>";
+
+echo "<form name='zoneform' method='post' action='zone-edit.php' onSubmit='return phpAds_formCheck(this);'>";
+echo "<input type='hidden' name='zoneid' value='".(isset($zoneid) && $zoneid != '' ? $zoneid : '')."'>";
+echo "<input type='hidden' name='affiliateid' value='".(isset($affiliateid) && $affiliateid != '' ? $affiliateid : '')."'>";
+
+echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+echo "<tr><td height='25' colspan='3'><b>".$strBasicInformation."</b></td></tr>";
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+
+echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strName."</td><td>";
+echo "<input onBlur='phpAds_formUpdate(this);' class='flat' type='text' name='zonename' size='35' style='width:350px;' value='".(isset($zone['zonename']) ? $zone['zonename'] : '')."'></td>";
+echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+
+echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strDescription."</td><td>";
+echo "<input class='flat' size='35' type='text' name='description' style='width:350px;' value='".(isset($zone["description"]) ? htmlspecialchars(stripslashes($zone['description'])) : '')."'></td>";
+echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+
+echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strSize."</td><td>";
+
+$exists = phpAds_sizeExists ($zone['width'], $zone['height']);
+
+echo "<table><tr><td>";
+echo "<input type='radio' name='sizetype' value='default'".($exists ? ' CHECKED' : '').">&nbsp;";
+echo "<select name='size' onchange='phpAds_formSelectSize(this)'>"; 
+
+for (reset($phpAds_BannerSize);$key=key($phpAds_BannerSize);next($phpAds_BannerSize))
+{
+	if ($phpAds_BannerSize[$key]['width'] == $zone['width'] &&
+		$phpAds_BannerSize[$key]['height'] == $zone['height'])
+		echo "<option value='".$phpAds_BannerSize[$key]['width']."x".$phpAds_BannerSize[$key]['height']."' selected>".$key."</option>";
+	else
+		echo "<option value='".$phpAds_BannerSize[$key]['width']."x".$phpAds_BannerSize[$key]['height']."'>".$key."</option>";
+}
+
+echo "<option value='-'".(!$exists ? ' SELECTED' : '').">Custom</option>";
+echo "</select>";
+
+echo "</td></tr><tr><td>";
+
+echo "<input type='radio' name='sizetype' value='custom'".(!$exists ? ' CHECKED' : '')." onclick='phpAds_formEditSize()'>&nbsp;";
+echo $strWidth.": <input class='flat' size='5' type='text' name='width' value='".(isset($zone["width"]) ? $zone["width"] : '')."' onkeydown='phpAds_formEditSize()' onBlur='phpAds_formUpdate(this);'>";
+echo "&nbsp;&nbsp;&nbsp;";
+echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".(isset($zone["height"]) ? $zone["height"] : '')."' onkeydown='phpAds_formEditSize()' onBlur='phpAds_formUpdate(this);'>";
+echo "</td></tr></table>";
+
+echo "</td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "</table>";
+
+echo "<br><br>";
+echo "<input type='submit' name='submit' value='".(isset($zoneid) && $zoneid != '' ? $strSaveChanges : ' Next > ')."'>";
+echo "</form>";
+
+
+
+/*********************************************************/
+/* Form requirements                                     */
+/*********************************************************/
+
+// Get unique affiliate
+$unique_names = array();
+
+$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_zones']." WHERE affiliateid = ".$affiliateid." AND zoneid != '".$zoneid."'");
+while ($row = phpAds_dbFetchArray($res))
+	$unique_names[] = $row['zonename'];
+
 ?>
 
-<script language="JavaScript">
+<script language='JavaScript'>
 <!--
+	phpAds_formSetRequirements('zonename', '<?php echo $strName; ?>', true, 'unique');
+	phpAds_formSetRequirements('width', '<?php echo $strWidth; ?>', true, 'number*');
+	phpAds_formSetRequirements('height', '<?php echo $strHeight; ?>', true, 'number*');
+	
+	phpAds_formSetUnique('zonename', '|<?php echo implode('|', $unique_names); ?>|');
 
-	function selectsize(o)
+
+	function phpAds_formSelectSize(o)
 	{
 		// Get size from select
 		size   = o.options[o.selectedIndex].value;
@@ -296,7 +374,7 @@ else
 		}
 	}
 	
-	function editsize()
+	function phpAds_formEditSize()
 	{
 		document.zoneform.sizetype[0].checked = false;
 		document.zoneform.sizetype[1].checked = true;
@@ -306,83 +384,9 @@ else
 //-->
 </script>
 
-<br><br>
-
-<form name="zoneform" method="post" action="zone-edit.php">
-<input type="hidden" name="zoneid" value="<?php if(isset($zoneid) && $zoneid != '') echo $zoneid;?>">
-<input type="hidden" name="affiliateid" value="<?php if(isset($affiliateid) && $affiliateid != '') echo $affiliateid;?>">
-
-<table border='0' width='100%' cellpadding='0' cellspacing='0'>
-	<tr><td height='25' colspan='3'><b><?php echo $strBasicInformation;?></b></td></tr>
-	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-
-	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
-	<tr>
-		<td width='30'>&nbsp;</td>
-		<td width='200'><?php echo $strName;?></td>
-		<td><input class='flat' type="text" name="zonename" size='35' style="width:350px;" value="<?php if(isset($zone["zonename"]))echo $zone["zonename"];?>"></td>
-	</tr>
-	<tr>
-		<td><img src='images/spacer.gif' height='1' width='100%'></td>
-		<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
-	</tr>
-	<tr>
-		<td width='30'>&nbsp;</td>	
-		<td width='200'><?php echo $strDescription;?></td>
-    	<td><input class='flat' size="35" type="text" name="description" style="width:350px;" value="<?php if(isset($zone["description"])) echo htmlspecialchars(stripslashes ($zone["description"]));?>"></td>
-	</tr>
-	<tr>
-		<td><img src='images/spacer.gif' height='1' width='100%'></td>
-		<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
-	</tr>
-	<tr>
-		<td width='30'>&nbsp;</td>	
-		<td width='200'><?php echo $strSize;?></td>
-		<td>
-			<?php
-				$exists = phpAds_sizeExists ($zone['width'], $zone['height']);
-				
-				echo "<table><tr><td>";
-				echo "<input type='radio' name='sizetype' value='default'".($exists ? ' CHECKED' : '').">&nbsp;";
-				echo "<select name='size' onchange='selectsize(this)'>"; 
-				
-				for (reset($phpAds_BannerSize);$key=key($phpAds_BannerSize);next($phpAds_BannerSize))
-				{	
-					if ($phpAds_BannerSize[$key]['width'] == $zone['width'] &&
-						$phpAds_BannerSize[$key]['height'] == $zone['height'])
-						echo "<option value='".$phpAds_BannerSize[$key]['width']."x".$phpAds_BannerSize[$key]['height']."' selected>".$key."</option>";
-					else
-						echo "<option value='".$phpAds_BannerSize[$key]['width']."x".$phpAds_BannerSize[$key]['height']."'>".$key."</option>";
-				}
-				
-				echo "<option value='-'".(!$exists ? ' SELECTED' : '').">Custom</option>";
-				echo "</select>";
-				
-				echo "</td></tr><tr><td>";
-				
-				echo "<input type='radio' name='sizetype' value='custom'".(!$exists ? ' CHECKED' : '')." onclick='editsize()'>&nbsp;";
-				echo $strWidth.": <input class='flat' size='5' type='text' name='width' value='".(isset($zone["width"]) ? $zone["width"] : '')."' onkeydown='editsize()'>";
-				echo "&nbsp;&nbsp;&nbsp;";
-				echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".(isset($zone["height"]) ? $zone["height"] : '')."' onkeydown='editsize()'>";
-				echo "</td></tr></table>";
-			?>
-		</td>
-	</tr>
-	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
-
-
-	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-</table>
-
-
-<br><br>
-
-<input type="submit" name="submit" value="<?php if (isset($zoneid) && $zoneid != '') echo $strSaveChanges; else echo ' Next > '; ?>">
-</form>
-
-
-
 <?php
+
+
 
 /*********************************************************/
 /* HTML framework                                        */

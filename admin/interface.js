@@ -22,7 +22,7 @@ function findObj(n, d) {
   var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
   d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
   if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
-  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=findObj(n,d.layers[i].document);
   if(!x && document.getElementById) x=document.getElementById(n); return x;
 }
 
@@ -120,6 +120,112 @@ function login_focus()
 /*********************************************************/
 /* Check form                                            */
 /*********************************************************/
+
+function phpAds_formSetRequirements(obj, descr, req, check)
+{
+	obj = findObj(obj);
+	
+	// set properties
+	if (obj)
+	{
+		obj.validateReq = req;
+		obj.validateCheck = check;
+		obj.validateDescr = descr;
+	}
+}
+
+function phpAds_formSetUnique(obj, unique)
+{
+	obj = findObj(obj);
+	
+	// set properties
+	if (obj)
+		obj.validateUnique = unique;
+}
+
+function phpAds_formUpdate(obj)
+{
+	err = false;
+	val = obj.value;
+	
+	if ((val == '' || val == '-' || val == 'http://') && obj.validateReq == true)
+		err = true;
+	
+	if (err == false && val != '')
+	{
+		if (obj.validateCheck == 'url' &&
+			val.indexOf('http://') != 0)
+			err = true;
+			
+		if (obj.validateCheck == 'email' && 
+			(val.indexOf('@') < 1 || val.indexOf('@') == (val.length - 1)))
+			err = true;
+		
+		if (obj.validateCheck == 'number*' &&
+			(isNaN(val) && val != '*' || val < 0))
+			err = true;
+
+		if (obj.validateCheck == 'number+' &&
+			(isNaN(val) || val < 0))
+			err = true;
+		
+		if (obj.validateCheck == 'unique')
+		{
+			if (obj.validateUnique.indexOf('|'+obj.value+'|') > -1)
+				err = true;
+		}
+	}
+	
+	// Change class
+	if (err)
+		obj.className='error';
+	else
+		obj.className='flat';
+	
+	return (err);
+}
+
+
+function phpAds_formCheck(f)
+{
+	var noerrors = true;
+	var first	 = false;
+	var fields   = new Array();
+
+	// Check for errors
+	for (var i = 0; i < f.elements.length; i++)
+	{
+		if (f.elements[i].validateCheck ||
+			f.elements[i].validateReq)
+		{
+			err = phpAds_formUpdate (obj = f.elements[i]);
+			
+			if (err)
+			{
+				if (first == false) first = i;
+				
+				fields.push(f.elements[i].validateDescr);
+				noerrors = false;
+			}
+		}
+	}
+	
+	if (noerrors == false)
+	{
+		alert ('The following fields contain errors:                     \n\n- ' + 
+			   fields.join('\n- ') + 
+			   '\n\nBefore you can continue you need to \ncorrect these errors.\n');
+		
+		// Select field with first error
+		f.elements[first].select();
+		f.elements[first].focus();
+	}
+	
+	return (noerrors);
+}
+
+
+// Old
 
 function validate_form() 
 {
