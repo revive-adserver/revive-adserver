@@ -26,14 +26,14 @@ function phpAds_SessionDataFetch()
 	if(isset($SessionID) && !empty($SessionID) && !defined('phpAds_installing'))
 	{
 		$result = phpAds_dbQuery("SELECT sessiondata FROM ".$phpAds_config['tbl_session']." WHERE sessionid='$SessionID'" .
-					 	         " AND UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(lastused) < 3600") or phpAds_sqlDie();
+					 	         " AND UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(lastused) < 3600");
 		
 		if($row = phpAds_dbFetchArray($result))
 		{
 			$Session = unserialize(stripslashes($row['sessiondata']));
 			
 			// Reset LastUsed, prevent from timing out
-			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_session']." SET lastused = NOW() WHERE sessionid = '$SessionID'") or phpAds_sqlDie();
+			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_session']." SET lastused = NOW() WHERE sessionid = '$SessionID'");
 		}
 	}
 	else
@@ -108,12 +108,12 @@ function phpAds_SessionDataStore()
 	
 	if(isset($SessionID))
 		phpAds_dbQuery("REPLACE INTO ".$phpAds_config['tbl_session']." VALUES ('$SessionID', '" .
-					   AddSlashes(serialize($Session)) . "', null )") or phpAds_sqlDie();
+					   AddSlashes(serialize($Session)) . "', null )");
 	
 	// Randomly purge old sessions
 	srand((double)microtime()*1000000);
 	if(rand(1, 100) == 42)	
-		phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_session']." WHERE UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(lastused) > 43200") or phpAds_sqlDie();
+		phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_session']." WHERE UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(lastused) > 43200");
 }
 
 
