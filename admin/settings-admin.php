@@ -30,8 +30,6 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 {
 	if (isset($admin))
 	{
-		$message = '';
-		
 		$admin = strtolower($admin);
 		
 		if (!strlen($admin))
@@ -56,7 +54,6 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		{
 			$admin_pw = $pw;
 			phpAds_SettingsWriteAdd('admin_pw', $admin_pw);
-			$message = 'Admin password changed';
 		}
 	}
 	
@@ -82,7 +79,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 	{
 		if (phpAds_SettingsWriteFlush())
 		{
-			header("Location: $PHP_SELF".(empty($message) ? '' : '?message='.urlencode($message)));
+			header("Location: settings-interface.php");
 			exit;
 		}
 	}

@@ -104,7 +104,7 @@ if (isset($submit))
 				zoneid=".$zoneid."
 			") or phpAds_sqlDie();
 		
-		header ("Location: zone-index.php?affiliateid=$affiliateid");
+		header ("Location: zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid);
 		exit;
 	}
 	
@@ -133,7 +133,7 @@ if (isset($submit))
 		
 		$zoneid = phpAds_dbInsertID();
 		
-		header ("Location: zone-include.php?affiliateid=$affiliateid&zoneid=$zoneid");
+		header ("Location: zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid);
 		exit;
 	}
 }

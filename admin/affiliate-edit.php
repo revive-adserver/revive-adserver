@@ -169,18 +169,18 @@ if (isset($submit))
 							affiliateid = 0
 					");
 					
-					header ("Location: affiliate-index.php");
+					header ("Location: zone-index.php?affiliateid=".$affiliateid);
 					exit;
 				}
 				else
 				{
-					header ("Location: zone-edit.php?affiliateid=$affiliateid");
+					header ("Location: zone-edit.php?affiliateid=".$affiliateid);
 					exit;
 				}
 			}
 			else
 			{
-				header ("Location: affiliate-index.php");
+				header ("Location: zone-index.php?affiliateid=".$affiliateid);
 				exit;
 			}
 		}
@@ -189,7 +189,7 @@ if (isset($submit))
 			if (!$affiliateid)
 				$affiliateid = phpAds_dbInsertID();
 			
-			header ("Location: affiliate-edit.php?affiliateid=$affiliateid&errormessage=".urlencode($errormessage));
+			header ("Location: affiliate-edit.php?affiliateid=".$affiliateid."&errormessage=".urlencode($errormessage));
 			exit;
 		}
 	}

@@ -65,7 +65,7 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 	{
 		if (phpAds_SettingsWriteFlush())
 		{
-			header("Location: $PHP_SELF");
+			header("Location: settings-invocation.php");
 			exit;
 		}
 	}
