@@ -12,6 +12,11 @@
 
   ====================================================
 
+  02-03-2003 - settings
+    [u] strConfigLockedDetected
+    [+] strFixProblemsBefore
+    [+] strFixProblemsAfter
+
   02-02-2003 - default
     [+] strErrorDBPlain
     [+] strErrorDBSerious
