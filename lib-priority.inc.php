@@ -571,6 +571,8 @@ function phpAds_PriorityPrepareBanners()
 	while ($row = phpAds_dbFetchArray($res))
 	{
 		$banners[$row['bannerid']] = $row;
+		$banners[$row['bannerid']]['priority'] = 0;
+		$banners[$row['bannerid']]['hits'] = 0;
 	}
 	
 	
