@@ -45,23 +45,46 @@ if (isset($submit))
 		if (strtolower ($unlimitedclicks) == "on")
 			$clicks = -1;
 		
-		if (strtolower ($unlimiteddays_left) == "on")
-			$expire = "'0000-00-00'";
-		else
-			if ($days_left != '-')
-				$expire = "DATE_ADD(CURDATE(), INTERVAL $days_left DAY)";
-			else
-				$expire = "'$expire'";
-		
-		
-		if (strtolower ($unlimiteddays_left) == "on" || $days_left != '-')
+		if ($expireSet == 'true')
 		{
-			if($clicks>0 OR $views>0 OR $clicks==-1 OR $views==-1)
+			if ($expireDay != '-' && $expireMonth != '-' && $expireYear != '-')
 			{
-				$active="true";
-				db_query("UPDATE $phpAds_tbl_banners SET active='$active' WHERE clientID='$clientID'");
+				$expire = $expireYear."-".$expireMonth."-".$expireDay;
 			}
+			else
+				$expire = "0000-00-00";
 		}
+		else
+			$expire = "0000-00-00";
+		
+		
+		if ($activateSet == 'true')
+		{
+			if ($activateDay != '-' && $activateMonth != '-' && $activateYear != '-')
+			{
+				$activate = $activateYear."-".$activateMonth."-".$activateDay;
+			}
+			else
+				$activate = "0000-00-00";
+		}
+		else
+			$activate = "0000-00-00";
+		
+		
+		$active = "true";
+		
+		if ($clicks == 0 || $views==0)
+			$active = "false";
+		
+		if ($activateDay != '-' && $activateMonth != '-' && $activateYear != '-')
+			if (time() < mktime(0, 0, 0, $activateMonth, $activateDay, $activateYear))
+				$active = "false";
+		
+		if ($expireDay != '-' && $expireMonth != '-' && $expireYear != '-')
+			if (time() > mktime(0, 0, 0, $expireMonth, $expireDay, $expireYear))
+				$active = "false";
+		
+		
 		
 		$permissions = 0;
 		for ($i=0;$i<sizeof($clientpermissions);$i++)
@@ -80,6 +103,8 @@ if (isset($submit))
 				clientusername,
 				clientpassword,
 				expire,
+				activate,
+				active,
 				permissions,
 				language)
 			VALUES
@@ -91,7 +116,9 @@ if (isset($submit))
 				'$clicks',
 				'$clientusername',
 				'$clientpassword',
-				$expire,
+				'$expire',
+				'$activate',
+				'$active',
 				$permissions,
 				'$clientlanguage')";
 		
@@ -181,7 +208,15 @@ if ($clientID != "")
 			*,
 			to_days(expire) as expire_day,
 			to_days(curdate()) as cur_date,
-			UNIX_TIMESTAMP(expire) as timestamp
+			UNIX_TIMESTAMP(expire) as timestamp,
+			DATE_FORMAT(expire, '$date_format') as expire_f,
+			dayofmonth(expire) as expire_dayofmonth,
+			month(expire) as expire_month,
+			year(expire) as expire_year,
+			DATE_FORMAT(activate, '$date_format') as activate_f,
+			dayofmonth(activate) as activate_dayofmonth,
+			month(activate) as activate_month,
+			year(activate) as activate_year
 		FROM
 			$phpAds_tbl_clients
 		WHERE
@@ -223,12 +258,105 @@ if ($days_left == "")
 
 
 
+
+function phpAds_showDateEdit($name, $day=0, $month=0, $year=0)
+{
+	global $strMonth, $strDontExpire, $strActivateNow;
+	
+	if ($day == 0 && $month == 0 && $year == 0)
+	{
+		$day = '-';
+		$month = '-';
+		$year = '-';
+		$set = false;
+	}
+	else
+	{
+		$set = set;
+	}
+	
+	if ($name == 'expire')
+		$caption = $strDontExpire;
+	elseif ($name == 'activate')
+		$caption = $strActivateNow;
+	
+	echo "<table><tr><td>";
+	echo "<input type='radio' name='".$name."Set' value='false' onclick=\"disableradio('".$name."', false);\"".($set==false?' checked':'').">";
+	echo "&nbsp;$caption";
+	echo "</td></tr><tr><td>";
+	echo "<input type='radio' name='".$name."Set' value='true' onclick=\"disableradio('".$name."', true);\"".($set==true?' checked':'').">";
+	echo "&nbsp;";
+	
+	echo "<select name='".$name."Day' onchange=\"checkdate('".$name."');\">\n";
+	echo "<option value='-'".($day=='-' ? ' selected' : '').">-</option>\n";
+	for ($i=1;$i<=31;$i++)
+		echo "<option value='$i'".($day==$i ? ' selected' : '').">$i</option>\n";
+	echo "</select>&nbsp;\n";
+	
+	echo "<select name='".$name."Month' onchange=\"checkdate('".$name."');\">\n";
+	echo "<option value='-'".($month=='-' ? ' selected' : '').">-</option>\n";
+	for ($i=1;$i<=12;$i++)
+		echo "<option value='$i'".($month==$i ? ' selected' : '').">".$strMonth[$i-1]."</option>\n";
+	echo "</select>&nbsp;\n";
+	
+	if ($year != '-')
+		$start = $year < date('Y') ? $year : date('Y');
+	else
+		$start = date('Y');
+	
+	echo "<select name='".$name."Year' onchange=\"checkdate('".$name."');\">\n";
+	echo "<option value='-'".($year=='-' ? ' selected' : '').">-</option>\n";
+	for ($i=$start;$i<=($start+4);$i++)
+		echo "<option value='$i'".($year==$i ? ' selected' : '').">$i</option>\n";
+	echo "</select>\n";
+	
+	echo "</td></tr></table>";
+}
+
+
+
+
 if (phpAds_isUser(phpAds_Admin))
 {
 	?>
 
 	<script language="JavaScript">
 	<!--
+		function disableradio(o, value)
+		{
+			day = eval ("document.clientform." + o + "Day.value");
+			month = eval ("document.clientform." + o + "Month.value");
+			year = eval ("document.clientform." + o + "Year.value");
+
+			if (value == false)
+			{
+				eval ("document.clientform." + o + "Day.selectedIndex = 0");
+				eval ("document.clientform." + o + "Month.selectedIndex = 0");
+				eval ("document.clientform." + o + "Year.selectedIndex = 0");
+			}
+			
+			if (value == true && (day=='-' || month=='-' || year=='-'))
+			{
+				eval ("document.clientform." + o + "Set[0].checked = true");
+			}
+		}
+	
+		function checkdate(o)
+		{
+			day = eval ("document.clientform." + o + "Day.value");
+			month = eval ("document.clientform." + o + "Month.value");
+			year = eval ("document.clientform." + o + "Year.value");
+			
+			if (day=='-' || month=='-' || year=='-')
+			{
+				eval ("document.clientform." + o + "Set[0].checked = true");
+			}
+			else
+			{
+				eval ("document.clientform." + o + "Set[1].checked = true");
+			}
+		}
+		
 		function typeviews()
 		{
 			if (eval(document.clientform.unlimitedviews.checked) == true)
@@ -244,15 +372,6 @@ if (phpAds_isUser(phpAds_Admin))
 				document.clientform.unlimitedclicks.checked = false;
 			}
 		}
-
-		function typedays_left()
-		{
-			if (eval(document.clientform.unlimiteddays_left.checked) == true)
-			{
-				document.clientform.unlimiteddays_left.checked = false;
-			}
-		}
-
 		
 		function checkunlimitedviews()
 		{
@@ -276,22 +395,11 @@ if (phpAds_isUser(phpAds_Admin))
 				document.clientform.clicks.focus();
 			}
 		}
-		function checkunlimiteddays_left()
-		{
-			if (eval(document.clientform.unlimiteddays_left.checked) == true)
-			{
-				document.clientform.days_left.value="-";
-			} else
-			{
-				document.clientform.days_left.value="";
-				document.clientform.days_left.focus();
-			}
-		}
+
 		function valid(form)
 		{
 			var views=form.views.value;
 			var clicks=form.clicks.value;
-			var days_left=form.days_left.value;
 
 			if (!parseInt(views))
 			{
@@ -318,20 +426,6 @@ if (phpAds_isUser(phpAds_Admin))
 			else if (parseInt(clicks) < 0)
 			{
 				alert("<?print $GLOBALS['strErrorNegClicks'];?>");
-				return false;
-			}
-			
-			if (!parseInt(days_left))
-			{
-				if (eval(form.unlimiteddays_left.checked) == false && days_left != '-')
-				{
-					alert("<?print $GLOBALS['strErrorDays'];?>");
-					return false;
-				}
-			}
-			else if (parseInt(days_left) < 0)
-			{
-				alert("<?print $GLOBALS['strErrorNegDays'];?>");
 				return false;
 			}
 		}
@@ -387,7 +481,7 @@ if (phpAds_isUser(phpAds_Admin))
 		<td>
 			<select name="clientlanguage">
 		<?
-		echo "<option value='' SELECTED>".$GLOBALS[strDefault]."</option>\n";
+		echo "<option value='' SELECTED>".$GLOBALS[strDefault]."</option>\n"; 
 
 		$langdir = opendir ("../language/");
 		while ($langfile = readdir ($langdir))
@@ -413,12 +507,38 @@ if (phpAds_isUser(phpAds_Admin))
 
 <br><br>
 <br><br>
-
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 	<tr><td height='25' colspan='3'><b><?echo $strContractInformation;?></b></td></tr>
 	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
+	<?
+		if ($row['active'] == 'false') {
+	?>
+	<tr>
+		<td width='30' valign='top'><img src='images/info.gif'></td>
+		<td width='200' colspan='2'>
+		<?
+			echo $strClientDeactivated;
+			
+			if ($row['clicks'] == 0) echo ", $strNoMoreClicks";
+			if ($row['views'] == 0) echo ", $strNoMoreViews";
+			if (time() < mktime(0, 0, 0, $row["activate_month"], $row["activate_dayofmonth"], $row["activate_year"]))
+				echo ", $strBeforeActivate";
+			if (time() > mktime(0, 0, 0, $row["expire_month"], $row["expire_dayofmonth"], $row["expire_year"]))
+				echo ", $strAfterExpire";
+			
+			echo ".<br><br>";
+		?>
+		</td>
+	</tr>
+	<tr>
+		<td><img src='images/spacer.gif' height='1' width='100%'></td>
+		<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
+	</tr>
+	<?
+		}
+	?>
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td width='200'><?echo $strViewsPurchased;?></td>
@@ -471,26 +591,49 @@ if (phpAds_isUser(phpAds_Admin))
 	</tr>
 	<tr>
 		<td width='30'>&nbsp;</td>
-		<td width='200'><?echo $strDaysPurchased;?></td>
+		<td width='200'><? echo $strActivationDate; ?></td>
 		<?
 		if (phpAds_isUser(phpAds_Admin))
 		{
 			?>
 			<td>
-				<input type="text" name="days_left" size='25' value="<?if($days_left>0)echo $days_left;else echo '-';?>" onKeyUp="typedays_left();">
-				<input type="checkbox" name="unlimiteddays_left"<?if($days_left==-1)print " CHECKED";?> onClick="checkunlimiteddays_left();">
-				<? echo $GLOBALS['strUnlimited']; ?>
+				<? phpAds_showDateEdit('activate', $row["activate_dayofmonth"], $row["activate_month"], $row["activate_year"]); ?>
 			</td>
 			<?
 		}
 		else 
 		{
 			?>
-			<td><?if($days_left!=-1)echo $days_left;else echo $GLOBALS['strUnlimited'];?></td>
+			<td><? echo $row["activate_f"]; ?></td>
 			<?
 		}
 		?>
 	</tr>
+	<tr>
+		<td><img src='images/spacer.gif' height='1' width='100%'></td>
+		<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
+	</tr>
+	<tr>
+		<td width='30'>&nbsp;</td>
+		<td width='200'><? echo $strExpirationDate; ?></td>
+		<?
+		if (phpAds_isUser(phpAds_Admin))
+		{
+			?>
+			<td>
+				<? phpAds_showDateEdit('expire', $row["expire_dayofmonth"], $row["expire_month"], $row["expire_year"]); ?>
+			</td>
+			<?
+		}
+		else 
+		{
+			?>
+			<td><? echo $row["expire_f"]; ?></td>
+			<?
+		}
+		?>
+	</tr>
+
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
 
 	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>

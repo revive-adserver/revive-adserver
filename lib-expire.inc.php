@@ -36,7 +36,7 @@
 			
 			// Check view count and de-activate banner if needed
 			if ($client["views"] == 0 || $client["clicks"] == 0 || ($client["timestamp"] < time() && $client["timestamp"] > 0))
-				db_query("UPDATE $phpAds_tbl_banners SET active='false' WHERE clientID=$clientID");
+				db_query("UPDATE $phpAds_tbl_clients SET active='false' WHERE clientID=$clientID");
 		}
 	}
 
