@@ -66,6 +66,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-12-16:  Added an extra check to see if the local directory exist when setting up local banners stored on the webserver  (Niels)
 			  - 2002-12-17:  Added database server port number to the configuration, install and settings  (Matteo)
 			  - 2002-12-17:  Added blocking and capping when beacon logging was not enabled  (Niels)
+			  - 2003-01-03:  Removed the default database username and password from the configuration files  (Niels)
 
 			+ Misc bugfixes
 			  - 2002-07-25:  On some systems history pages showed '-0' instead of simply '-' (Matteo)
@@ -174,6 +175,13 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2003-01-03:  No stats were shown when all banners were deactivated  (Niels)
 			  - 2003-01-03:  Fixed JS error when phpAds_formSetRequirements only had a requirement but no check  (Niels)
 			  - 2003-01-03:  Changed form used on the delivery limitations page to post because there was too much data if all country were selected  (Niels)
+			  - 2003-01-03:  The delivery cache wasn't deleted when updating linked banners/zones  (Niels)
+			  - 2003-01-03:  The geocookies checkbox is not disabled when geotracking is turned off  (Niels)
+			  - 2003-01-03:  Fixed an E_ALL error in the Flash link converter, which occured when only one link was converted  (Niels)
+			  - 2003-01-03:  Fixed typo in popup generation code (delay_type was misspelled)  (Niels)
+			  - 2003-01-03:  Close delay now works when the popup is opened after the current page is closed  (Niels)
+			  - 2003-01-04:  Added support for Opera 7 to the floater interstitial  (Niels)
+			  - 2003-01-04:  HTML banners containing entities were malformed when opening and resaving  (Niels)
 
 
 
