@@ -136,21 +136,31 @@ $GLOBALS['strP3PPolicyLocation']		= "P3P Policy Locatie";
 // Banner Settings
 $GLOBALS['strBannerSettings']			= "Banner instellingen";
 
-$GLOBALS['strTypeHtmlSettings']			= "HTML banner opties";
-$GLOBALS['strTypeHtmlAuto']				= "Verander HTML automatisch om het loggen van AdClicks te forceren";
-$GLOBALS['strTypeHtmlPhp']				= "Sta het gebruik van PHP code toe binnen in HTML banners.";
+$GLOBALS['strAllowedBannerTypes']		= "Toegestane banner types";
+$GLOBALS['strTypeSqlAllow']				= "Sta lokale banners toe (SQL)";
+$GLOBALS['strTypeWebAllow']				= "Sta lokale banners toe (Webserver)";
+$GLOBALS['strTypeUrlAllow']				= "Sta externe banners toe";
+$GLOBALS['strTypeHtmlAllow']			= "Sta HTML banners toe";
 
-$GLOBALS['strTypeWebSettings']			= "Web banner instellingen";
+$GLOBALS['strTypeWebSettings']			= "Lokale banner (Webserver) instellingen";
 $GLOBALS['strTypeWebMode']				= "Opslag methode";
-$GLOBALS['strTypeWebModeLocal']			= "Lokaal (opgeslagen in een lokale map)";
-$GLOBALS['strTypeWebModeFtp']			= "FTP (opgeslagen op een externe FTP server)";
+$GLOBALS['strTypeWebModeLocal']			= "Lokale map";
+$GLOBALS['strTypeWebModeFtp']			= "Externe FTP server)";
 $GLOBALS['strTypeWebDir']				= "Lokale map";
 $GLOBALS['strTypeWebFtp']				= "FTP server";
-$GLOBALS['strTypeWebUrl']				= "Publieke URL van de lokale map of FTP server";
+$GLOBALS['strTypeWebUrl']				= "Publieke URL";
+$GLOBALS['strTypeFTPHost']				= "FTP server";
+$GLOBALS['strTypeFTPDirectory']			= "Server map";
+$GLOBALS['strTypeFTPUsername']			= "Gebruikersnaam";
+$GLOBALS['strTypeFTPPassword']			= "Wachtwoord";
 
 $GLOBALS['strDefaultBanners']			= "Standaard banner";
 $GLOBALS['strDefaultBannerUrl']			= "Standaard banner afbeelding";
 $GLOBALS['strDefaultBannerTarget']		= "Standaard banner doellocatie";
+
+$GLOBALS['strTypeHtmlSettings']			= "HTML banner opties";
+$GLOBALS['strTypeHtmlAuto']				= "Verander HTML automatisch om het loggen van AdClicks te forceren";
+$GLOBALS['strTypeHtmlPhp']				= "Sta het gebruik van PHP code toe binnen in HTML banners.";
 
 
 
@@ -161,7 +171,9 @@ $GLOBALS['strStatisticsFormat']			= "Statistieken formaat";
 $GLOBALS['strLogBeacon']				= "Gebruik beacons om Adviews te loggen";
 $GLOBALS['strCompactStats']				= "Gebruik compacte statistieken";
 $GLOBALS['strLogAdviews']				= "Log AdViews";
+$GLOBALS['strBlockAdviews']				= "Log protectie (sec.)";
 $GLOBALS['strLogAdclicks']				= "Log AdClicks";
+$GLOBALS['strBlockAdclicks']			= "Log protection (sec.)";
 
 $GLOBALS['strEmailWarnings']			= "Waarschuwingen per email";
 $GLOBALS['strAdminEmailHeaders']		= "Mail Headers for the reflection of the sender of the daily ad reports";
@@ -193,7 +205,8 @@ $GLOBALS['strAdminEmail']				= "E-mail adres van de beheerder";
 $GLOBALS['strCompanyName']				= "Bedrijfsnaam";
 
 $GLOBALS['strAdminNovice']				= "Toon een waarschuwing wanneer er items verwijderd worden";
-
+$GLOBALS['strUserlogEmail']				= "Sla alle uitgaande e-mails op";
+$GLOBALS['strUserlogPriority']			= "Sla alle uurlijkse prioriteit berekeningen op";
 
 
 // User interface settings
@@ -201,10 +214,11 @@ $GLOBALS['strGuiSettings']				= "Gebruikersinterface instellingen";
 
 $GLOBALS['strGeneralSettings']			= "Algemene instellingen";
 $GLOBALS['strAppName']					= "Applicatienaam";
-$GLOBALS['strMyHeader']					= "My Header";
-$GLOBALS['strMyFooter']					= "My Footer";
+$GLOBALS['strMyHeader']					= "Voetnoot";
+$GLOBALS['strMyFooter']					= "Eindnoot";
+$GLOBALS['strGzipContentCompression']	= "Gebruik GZIP content compression";
 
-$GLOBALS['strClientInterface']			= "Klant interface";
+$GLOBALS['strClientInterface']			= "Adverteerder interface";
 $GLOBALS['strClientWelcomeEnabled']		= "Toon een welkomstbericht";
 $GLOBALS['strClientWelcomeText']		= "Welkomstbericht<br>(HTML is toegestaan)";
 
@@ -212,6 +226,13 @@ $GLOBALS['strClientWelcomeText']		= "Welkomstbericht<br>(HTML is toegestaan)";
 
 // Interface defaults
 $GLOBALS['strInterfaceDefaults']		= "Interface standaardwaarden";
+
+$GLOBALS['strInventory']				= "Vooraad";
+$GLOBALS['strShowCampaignInfo']			= "Toon extra campagne informatie op de <i>Campagne overzicht</i> pagina";
+$GLOBALS['strShowBannerInfo']			= "Toon extra banner informatie op de <i>Banner overzicht</i> pagina";
+$GLOBALS['strShowCampaignPreview']		= "Toon voorvertooning van alle banners op de <i>Banner overzicht</i> pagina";
+$GLOBALS['strShowBannerHTML']			= "Toon werkelijke banner in plaats van HTML code voor de voorvertoning van HTML banners";
+$GLOBALS['strShowBannerPreview']		= "Toon voorvertoning bovenaan alle pagina's welke betrekking hebben op banners";
 
 $GLOBALS['strStatisticsDefaults'] 		= "Statistieken";
 $GLOBALS['strBeginOfWeek']				= "Begin van de week";
@@ -222,12 +243,6 @@ $GLOBALS['strDefaultBannerWeight']		= "Standaard banner gewicht";
 $GLOBALS['strDefaultCampaignWeight']	= "Standaard campagne gewicht";
 $GLOBALS['strDefaultBannerWErr']		= "Standaard banner gewicht moet een positief getal zijn";
 $GLOBALS['strDefaultCampaignWErr']		= "Standaard campagne gewicht moet een positief getal zijn";
-
-$GLOBALS['strAllowedBannerTypes']		= "Toegestane banner types";
-$GLOBALS['strTypeSqlAllow']				= "Sta banners opgeslagen in de SQL database toe";
-$GLOBALS['strTypeWebAllow']				= "Sta banners opgeslagen op een webserver toe";
-$GLOBALS['strTypeUrlAllow']				= "Sta URL banners toe";
-$GLOBALS['strTypeHtmlAllow']			= "Sta HTML banners toe";
 
 
 

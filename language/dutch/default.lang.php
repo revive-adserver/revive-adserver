@@ -221,6 +221,7 @@ $GLOBALS['strPriorityNotEnoughAdViews']			= "Het is niet zeker dat er vandaag ge
 $GLOBALS['strPriorityAutoTargeting']			= "Gekochte AdViews en vervaldatum zijn ingesteld.\n De limiet wordt elke dag bijgesteld.";
 
 
+
 // Banners (General)
 $GLOBALS['strBanner'] 					= "Banner";
 $GLOBALS['strBanners'] 					= "Banners";
