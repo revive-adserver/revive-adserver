@@ -367,7 +367,7 @@ function phpAds_ConfigFileSet ($key, $value, $type)
 		
 		while (list ($akey, $aval) = each ($value)) 
 		{
-		    if (is_string ($aval))
+		    if (is_string ($aval) && $aval != '')
 				$value[$akey] = "'$aval'";
 		}
 		
