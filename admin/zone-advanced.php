@@ -139,7 +139,7 @@ if (isset($submitbutton))
 		// Rebuild Cache
 		if (!defined('LIBVIEWCACHE_INCLUDED'))  include (phpAds_path.'/libraries/deliverycache/cache-'.$phpAds_config['delivery_caching'].'.inc.php');
 		
-		phpAds_cacheDelete('zone:'.$zoneid);
+		phpAds_cacheDelete('what=zone:'.$zoneid);
 		
 		
 		// Do not redirect until not finished with zone appending, if present

@@ -185,7 +185,7 @@ function phpAds_ToggleBannerInZone ($bannerid, $zoneid)
 				if (!defined('LIBVIEWCACHE_INCLUDED')) 
 					include (phpAds_path.'/libraries/deliverycache/cache-'.$phpAds_config['delivery_caching'].'.inc.php');
 				
-				phpAds_cacheDelete('zone:'.$zoneid);
+				phpAds_cacheDelete('what=zone:'.$zoneid);
 			}
 		}
 	}
@@ -264,7 +264,7 @@ function phpAds_ToggleCampaignInZone ($clientid, $zoneid)
 				if (!defined('LIBVIEWCACHE_INCLUDED')) 
 					include (phpAds_path.'/libraries/deliverycache/cache-'.$phpAds_config['delivery_caching'].'.inc.php');
 				
-				phpAds_cacheDelete('zone:'.$zoneid);
+				phpAds_cacheDelete('what=zone:'.$zoneid);
 			}
 		}
 	}
