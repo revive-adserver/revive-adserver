@@ -12,6 +12,10 @@
 
   ====================================================
 
+  18-10-2002 - default
+    [u[ time_format (IMPORTANT!)
+    [+] strRecentHosts
+
   16-10-2002 - settings
     [+] strGeotargeting
     [+] strGeoLogStats
