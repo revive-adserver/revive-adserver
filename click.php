@@ -50,20 +50,7 @@ if ($bannerID != "DEFAULT")
 	
 	
 	// Log clicks
-	if ($phpAds_log_adclicks)
-	{
-		if ($phpAds_reverse_lookup)
-			$host = isset($REMOTE_HOST) ? $REMOTE_HOST : @gethostbyaddr($REMOTE_ADDR);
-		else
-			$host = $REMOTE_ADDR;
-		
-		// Check if host is on list of hosts to ignore
-		$found=0;
-		while (($found == 0) && (list ($key, $ignore_host)=each($phpAds_ignore_hosts)))
-			if (eregi("$host|$REMOTE_ADDR", $ignore_host)) // host found in ignore list
-				$found=1;
-		
-		if ($found == 0)
+		if ($host == phpads_ignore_host())
 		{
 			db_log_click($bannerID, $host);
 			phpAds_expire ($clientID, phpAds_Clicks);

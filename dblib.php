@@ -266,4 +266,45 @@ function db_delete_stats($bannerID)
     db_query("DELETE FROM $phpAds_tbl_adstats WHERE bannerID = $bannerID") or mysql_die();
 }
 
+
+
+/*********************************************************/
+/* Check if host has to be ignored                       */
+/*********************************************************/
+
+function phpads_ignore_host()
+{
+	global $phpAds_ignore_hosts, $phpAds_reverse_lookup, $REMOTE_HOST, $REMOTE_ADDR;
+	
+	if($phpAds_reverse_lookup)
+		$host = isset($REMOTE_HOST) ? $REMOTE_HOST : gethostbyaddr($REMOTE_ADDR);
+	
+	$found=0;
+	
+	while (($found == 0) && (list (, $h)=each($phpAds_ignore_hosts)))
+	{
+		if (ereg("^([0-9]{1,3}\.){1,3}([0-9]{1,3}|\*)$", $h))
+		{
+			// It's an IP address, evenually with a wildcard, so I create a regexp
+			$h = str_replace(".", '\.', str_replace("*$", "", "^".$h."$"));
+			
+			if (ereg($h, $REMOTE_ADDR))
+				$found = 1;
+		}
+		elseif (eregi("^(\*\.)?([a-z0-9-]+\.)*[a-z0-9-]+$", $h))
+		{
+			// It's an host name, evenually with a wildcard, so I create a regexp
+			$h = str_replace(".", '\.', str_replace("^*", "", "^".$h."$"));
+						
+			if (eregi($h, $host))
+				$found = 1;
+		}
+		elseif (eregi("$host|$REMOTE_ADDR", $h)) // This check is backwards compatibile
+				$found = 1;
+	}
+	
+	// Returns hostname or IP address if OK, false if host is ignored
+	return $found ? false : $host;
+}
+
 ?>
