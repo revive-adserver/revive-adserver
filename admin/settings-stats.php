@@ -216,7 +216,7 @@ array (
 	)
 ),
 array (
-	'text' 	  => 'Prevent logging',
+	'text' 	  => $strPreventLogging,
 	'items'	  => array (
 		array (
 			'type' 	  => 'textarea', 

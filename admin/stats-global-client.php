@@ -400,10 +400,10 @@ if (isset($clients) && is_array($clients) && count($clients) > 0)
 echo "<form action='".$HTTP_SERVER_VARS['PHP_SELF']."'>";
 
 echo "<select name='period' onChange='this.form.submit();' accesskey='".$keyList."' tabindex='".($tabindex++)."'>";
-	echo "<option value=''".($period == '' ? ' selected' : '').">".'All collected statistics'."</option>";
-	echo "<option value='t'".($period == 't' ? ' selected' : '').">".'Statistics for today only'."</option>";
-	echo "<option value='w'".($period == 'w' ? ' selected' : '').">".'Statistics for the last 7 days only'."</option>";
-	echo "<option value='m'".($period == 'm' ? ' selected' : '').">".'Statistics for this month only'."</option>";
+	echo "<option value=''".($period == '' ? ' selected' : '').">".$strCollectedAll."</option>";
+	echo "<option value='t'".($period == 't' ? ' selected' : '').">".$strCollectedToday."</option>";
+	echo "<option value='w'".($period == 'w' ? ' selected' : '').">".$strCollected7Days."</option>";
+	echo "<option value='m'".($period == 'm' ? ' selected' : '').">".$strCollectedMonth."</option>";
 echo "</select>";
 
 phpAds_ShowBreak();

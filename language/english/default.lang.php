@@ -110,6 +110,10 @@ $GLOBALS['strFieldFixBeforeContinue1']		= "Before you can continue you need";
 $GLOBALS['strFieldFixBeforeContinue2']		= "to correct these errors.";
 $GLOBALS['strDelimiter']			= "Delimiter";
 $GLOBALS['strMiscellaneous']		= "Miscellaneous";
+$GLOBALS['strCollectedAll']			= "All collected statistics";
+$GLOBALS['strCollectedToday']		= "Statistics for today only";
+$GLOBALS['strCollected7Days']		= "Statistics for the last 7 days only";
+$GLOBALS['strCollectedMonth']		= "Statistics for this month only";
 
 
 

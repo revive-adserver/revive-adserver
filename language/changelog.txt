@@ -12,6 +12,15 @@
 
   ====================================================
 
+  04-03-2003 - default
+    [+] strCollectedAll
+    [+] strCollectedToday
+    [+] strCollected7Days
+    [+] strCollectedMonth
+
+  04-03-2003 - settings
+    [+] strPreventLogging
+
   04-02-2003 - default
     [+] strUSState
 

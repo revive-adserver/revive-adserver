@@ -239,6 +239,7 @@ $GLOBALS['strBlockAdviews']				= "Don't log AdViews if the visitor already seen 
 $GLOBALS['strBlockAdclicks']			= "Don't log AdClicks if the visitor already clicked on the same banner within the specified number of seconds";
 
 
+$GLOBALS['strPreventLogging']			= "Prevent logging";
 $GLOBALS['strEmailWarnings']			= "E-mail warnings";
 $GLOBALS['strAdminEmailHeaders']		= "Add the following headers to each e-mail message sent by ".$phpAds_productname;
 $GLOBALS['strWarnLimit']				= "Send a warning when the number of impressions left are less than specified here";
