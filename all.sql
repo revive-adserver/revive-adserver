@@ -132,7 +132,7 @@ CREATE TABLE phpads_acls (
    acl_ad set('allow','deny') NOT NULL,
    acl_order int(10) unsigned DEFAULT '0' NOT NULL,
    KEY bannerID (bannerID),
-   UNIQUE bannerID_2 (bannerID, acl_order)
+   UNIQUE bannerID_2 (bannerID,acl_order)
 );
 
 # --------------------------------------------------------
