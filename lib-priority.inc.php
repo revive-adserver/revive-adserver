@@ -13,7 +13,7 @@
 /************************************************************************/
 
 
-$debug = false;
+$debug = true;
 $debuglog = '';
 
 define('phpAds_CurrentHour', date('H'));
@@ -104,35 +104,12 @@ function phpAds_PriorityGetHourlyProfile($days, $offset)
 	return ($profile);
 }
 
-function phpAds_PriorityPredictProfile($campaigns, $banners, &$profile)
+function phpAds_PriorityPredictProfile($campaigns, $banners, $profile)
 {
 	global $phpAds_config;
 	global $debug, $debuglog;
 	
-	// Calculate total impressions target
-	$total_target = 0;
-	for (reset($campaigns);$c=key($campaigns);next($campaigns))
-		$total_target += $campaigns[$c]['target'];
 	
-	if (!$total_target)
-	{
-		// No targeting needed, create a profile to match campaign weights only
-		
-		$total_campaign_weight = 0;
-		for (reset($campaigns);$c=key($campaigns);next($campaigns))
-			$total_campaign_weight += $campaigns[$c]['weight'];
-		
-		$total_banner_weight = 0;
-		for (reset($banners);$b=key($banners);next($banners))
-			$total_banner_weight += $banners[$b]['weight'];
-		
-		$total_weight = $total_banner_weight * $total_campaign_weight;
-		
-		for ($i=0;$i<24;$i++)
-			$profile[$i] = (int)$total_weight;
-		
-		return false;
-	}
 	
 	$profile_correction_executed = false;
 	
@@ -171,17 +148,26 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, &$profile)
 		// get total impressions last {$use_days} days last week
 		$impressions_last_week = phpAds_PriorityGetImpressions ($use_days, 7);
 		
-		// determine trend
-		$trend = $impressions_this_week / $impressions_last_week;
-		
-		// get profile seven days ago
-		$profile = phpAds_PriorityGetHourlyProfile (1, 7);
-		
-		// apply trend
-		for ($i=0;$i<count($profile);$i++)
-			$profile[$i] = (int)round ($profile[$i] * $trend);
+		if ($impressions_last_week > 0)
+		{
+			// determine trend
+			$trend = $impressions_this_week / $impressions_last_week;
+			
+			// get profile seven days ago
+			$profile = phpAds_PriorityGetHourlyProfile (1, 7);
+			
+			// apply trend
+			for ($i=0;$i<count($profile);$i++)
+				$profile[$i] = (int)round ($profile[$i] * $trend);
+		}
+		else
+		{
+			// no stats for last week, fall back to looking only at yesterday
+			$days_running = 1;
+		}
 	}
-	elseif ($days_running >= 2)
+	
+	if ($days_running >= 2 && $days_running < 8)
 	{
 		// get last couple of days
 		$profile = phpAds_PriorityGetHourlyProfile ($days_running, 0);
@@ -190,7 +176,8 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, &$profile)
 		for ($i=0;$i<count($profile);$i++)
 			$profile[$i] = (int)round ($profile[$i] / $days_running);
 	}
-	elseif ($days_running == 1)
+	
+	if ($days_running == 1)
 	{
 		// get yesterday
 		$profile = phpAds_PriorityGetHourlyProfile ($days_running, 0);
@@ -457,6 +444,40 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, &$profile)
 	}
 	
 	
+	// Calculate total predicted profile
+	$total_profile = 0;
+	for ($i=0;$i<24;$i++)
+		$total_profile += $profile[$i];
+	
+	// Calculate total impressions target
+	$total_target = 0;
+	for (reset($campaigns);$c=key($campaigns);next($campaigns))
+		$total_target += $campaigns[$c]['target'];
+	
+	if ($total_profile == 0 && $total_target == 0)
+	{
+		// No data available, profile is completely zero
+		// No targeting needed, create a profile to match campaign weights only
+		
+		$total_campaign_weight = 0;
+		for (reset($campaigns);$c=key($campaigns);next($campaigns))
+			$total_campaign_weight += $campaigns[$c]['weight'];
+		
+		$total_banner_weight = 0;
+		for (reset($banners);$b=key($banners);next($banners))
+			$total_banner_weight += $banners[$b]['weight'];
+		
+		$total_weight = $total_banner_weight * $total_campaign_weight;
+		
+		for ($i=0;$i<24;$i++)
+			$profile[$i] = (int)$total_weight;
+		
+		
+		$profile_correction_executed = false;
+	}
+	
+	
+	
 	if ($debug == true)
 	{
 		$debuglog .= "\n\n\nADJUSTED PROFILE\n";
@@ -473,7 +494,7 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, &$profile)
 		$debuglog .= "\n\n\n";
 	}
 	
-	return $profile_correction_executed;
+	return array ($profile, $profile_correction_executed);
 }
 
 function phpAds_PriorityPrepareCampaigns()
@@ -597,7 +618,7 @@ function phpAds_PriorityCalculate()
 	$campaigns = phpAds_PriorityPrepareCampaigns();
 	$profile   = array();
 	
-	$profile_correction_executed = phpAds_PriorityPredictProfile($campaigns, $banners, $profile);
+	list($profile, $profile_correction_executed) = phpAds_PriorityPredictProfile($campaigns, $banners, $profile);
 	
 	// Determine period
 	$maxperiod = 24;
