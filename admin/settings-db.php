@@ -21,7 +21,7 @@ include ("lib-settings.inc.php");
 // Register input variables
 phpAds_registerGlobal ('dbhost', 'dbuser', 'dbpassword', 'dbname', 
 					   'persistent_connections', 'insert_delayed', 
-					   'compatibility_mode');
+					   'compatibility_mode', 'auto_clean_tables_vacuum');
 
 
 // Security check
@@ -143,12 +143,20 @@ array (
 		array (
 			'type'    => 'checkbox',
 			'name'    => 'insert_delayed',
-			'text'	  => $strInsertDelayed
+			'text'	  => $strInsertDelayed,
+			'visible' => $phpAds_productname == 'phpAdsNew'
 		),
 		array (
 			'type'    => 'checkbox',
 			'name'    => 'compatibility_mode',
-			'text'	  => $strCompatibilityMode
+			'text'	  => $strCompatibilityMode,
+			'visible' => $phpAds_productname == 'phpAdsNew'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'auto_clean_tables_vacuum',
+			'text'	  => $strAutoCleanVacuum,
+			'visible' => $phpAds_productname == 'phpPgAds'
 		)
 	)
 ));

@@ -295,17 +295,6 @@ array (
 	'items'	  => array (
 		array (
 			'type'    => 'checkbox',
-			'name'    => 'auto_clean_tables_vacuum',
-			'text'	  => $strAutoCleanVacuum,
-			'visible' => $phpAds_productname == 'phpPgAds'
-		),
-		array (
-			'type'    => 'break',
-			'size'	  => 'large',
-			'visible' => $phpAds_productname == 'phpPgAds'
-		),
-		array (
-			'type'    => 'checkbox',
 			'name'    => 'auto_clean_tables',
 			'text'	  => $strAutoCleanStats
 		),
