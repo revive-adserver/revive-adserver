@@ -84,7 +84,9 @@ function phpAds_PageHeader($ID, $extra="")
 			$sidebar .= "<img src='images/caret-u.gif' width='11' height='7'>&nbsp;";
 			$sidebar .= "$title<br>";
 			$sidebar .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-			$pagetitle = $title;
+			
+			$pagetitle  = $phpAds_config['name'] != '' ? $phpAds_config['name'] : 'phpAdsNew';
+			$pagetitle .= ' - '.$title;
 		}
 		else
 		{
