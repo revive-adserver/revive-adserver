@@ -145,8 +145,6 @@ header("Content-type: application/x-javascript");
 echo "function phpads_".$row['bannerid']."_pop() {\n";
 echo "\tphpads_".$row['bannerid']." =  window.open('', 'phpads_".$row['bannerid']."', 'height=".$row['height'].",width=".$row['width'].",toolbar=".($toolbars == 1 ? 'yes' : 'no').",location=".($location == 1 ? 'yes' : 'no').",menubar=".($menubar == 1 ? 'yes' : 'no').",status=".($status == 1 ? 'yes' : 'no').",resizable=".($resizable == 1 ? 'yes' : 'no').",scrollbars=".($scrollbars == 1 ? 'yes' : 'no')."');\n";
 echo "\tif (window.phpads_".$row['bannerid'].".document.title == '' || window.phpads_".$row['bannerid'].".location == 'about:blank' || window.phpads_".$row['bannerid'].".location == '') {\n";
-echo "\t\tphpads_".$row['bannerid'].".location = '".$contenturl."';\n";
-
 
 // Resize window to correct size, determine outer width and height
 echo "\t\tif (window.resizeTo) {\n";
@@ -164,8 +162,6 @@ echo "\t\t\t\tvar outerY = ".$row['height']." - diffY;\n";
 echo "\t\t\t}\n";
 echo "\t\t\tphpads_".$row['bannerid'].".resizeTo(outerX, outerY);\n";
 echo "\t\t}\n";
-
-
 
 if (isset($left) && isset($top))
 {
@@ -189,6 +185,8 @@ if (isset($left) && isset($top))
 	echo "\t\t}\n";
 }
 
+// Set the actual location after resize otherwise we might get 'access denied' errors
+echo "\t\tphpads_".$row['bannerid'].".location = '".$contenturl."';\n";
 
 if (isset($popunder) && $popunder == '1')
 	echo "\t\twindow.focus();\n";
