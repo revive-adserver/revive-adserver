@@ -156,7 +156,7 @@ if (isset($submit))
 	
 	
 	// Auto-target campaign if adviews purchased and expiration set
-	if ($active = 't' && $expire != 'NULL' && $views > 0)
+	if ($active = 't' && $expire != '0000-00-00' && $views > 0)
 	{
 		phpAds_dbQuery("
 			UPDATE ".$phpAds_config['tbl_clients']."
