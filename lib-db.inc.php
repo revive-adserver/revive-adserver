@@ -33,9 +33,8 @@ function phpAds_dbConnect()
     else
         $phpAds_db_link = @mysql_connect ($phpAds_hostname, $phpAds_mysqluser, $phpAds_mysqlpassword);
 	
-	@mysql_select_db ($phpAds_db, $phpAds_db_link);
-	
-	return $phpAds_db_link;
+	if (@mysql_select_db ($phpAds_db, $phpAds_db_link))
+		return $phpAds_db_link;
 }
 
 
