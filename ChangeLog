@@ -301,6 +301,7 @@ CVS			+ Added configuration manager  (Matteo, 2001-11-04)
 			  - 2002-07-01:  URLs inside of <base> tags were mistakenly converted by the automatic adclick tracker  (Niels)
 			  - 2002-07-03:  Fixed invalid regular expression in banner-edit.php on certain configurations  (Niels)
 			  - 2002-07-04:  Fixed another two invalid regular expression in banner-edit.php on certain configurations  (Niels)
+			  - 2002-07-04:  Upgrading from pre-priority configurations required a kickstart of the priority system  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015

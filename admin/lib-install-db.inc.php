@@ -92,9 +92,6 @@ function phpAds_upgradeDatabase ($tabletype = '')
 	// Detect version of needed plugins
 	phpAds_upgradeDetectPluginVersion();
 	
-	// Update banner cache off all banners
-	phpAds_upgradeHTMLCache();
-	
 	return true;
 }
 
@@ -237,22 +234,17 @@ function phpAds_upgradeTable ($name, $structure)
 	// Check Primary
 	if (isset($primary) && is_array($primary) && sizeof($primary) > 0)
 	{
-		$autoincrement = '';
-		
-		// Check if one of the columns is 'auto_increment'
-		while (list($key,) = each($primary))
+		// Check if this column is 'auto_increment'
+		if (sizeof($primary) == 1 && ereg('auto_increment', $availablecolumns[$primary[0]]['Extra']))
 		{
-			if (ereg('auto_increment', $availablecolumns[$primary[$key]]['Extra']))
-				$autoincrement = $primary[$key];
-		}
-		
-		if ($autoincrement != '')
-		{
+			// Get name of column
+			$key = $primary[0];
+			
 			// Remove 'auto_increment' from column
-			$createdefinition = $autoincrement." ".str_replace('AUTO_INCREMENT', '', $columns[$autoincrement]);
+			$createdefinition = $key." ".str_replace('AUTO_INCREMENT', '', $columns[$key]);
 			phpAds_dbQuery("ALTER TABLE ".$name." MODIFY COLUMN ".$createdefinition);
 			
-			$incrementmodified = $autoincrement;
+			$incrementmodified = $key;
 		}
 		
 		// Recreated primary keys
@@ -264,7 +256,7 @@ function phpAds_upgradeTable ($name, $structure)
 	// Check Indexes
 	if (isset($index) && is_array($index) && sizeof($index) > 0)
 	{
-		while (list($key,) = each($index))
+		for (reset($index); $key = key($index);	next($index))
 		{
 			if (!isset($availableindex[$key]) || !is_array($availableindex[$key]))
 			{
@@ -278,7 +270,7 @@ function phpAds_upgradeTable ($name, $structure)
 	// Check Unique Indexes
 	if (isset($unique) && is_array($unique) && sizeof($unique) > 0)
 	{
-		while (list($key,) = each($unique))
+		for (reset($unique); $key = key($unique); next($unique))
 		{
 			if (!isset($availableunique[$key]) || !is_array($availableunique[$key]))
 			{

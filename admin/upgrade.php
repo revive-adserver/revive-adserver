@@ -42,6 +42,7 @@ require ("lib-install-db.inc.php");
 require ("lib-statistics.inc.php");
 require ("lib-storage.inc.php");
 require ("lib-banner.inc.php");
+require ("lib-zones.inc.php");
 
 
 // Turn off database compatibility mode
@@ -246,6 +247,27 @@ if (phpAds_isUser(phpAds_Admin))
 		
 		// Go to the next step
 		echo "<meta http-equiv='refresh' content='0;URL=upgrade.php?step=3'>";
+		exit;
+	}
+	elseif ($step == 3)
+	{
+		// Setup busy indicator
+		phpAds_PageHeader("1");
+		echo "<br><br><img src='images/install-busy.gif' align='absmiddle'>&nbsp;";
+		echo "<span class='install'>".'Rebuilding cache...'."</span>";
+		phpAds_PageFooter();
+		
+		// Update banner cache off all banners
+		phpAds_upgradeHTMLCache();
+		
+		// Rebuild cache of all zones
+		phpAds_RebuildZoneCache();
+		
+		// Send the output to the browser
+		flush();
+		
+		// Go to the next step
+		echo "<meta http-equiv='refresh' content='0;URL=upgrade.php?step=4'>";
 		exit;
 	}
 	else
