@@ -117,10 +117,11 @@ phpAds_AddSettings('checkbox', 'allow_invocation_popup', $strAllowPopups);
 phpAds_AddSettings('end_section', '');
 
 phpAds_AddSettings('start_section', "1.2.5");
-phpAds_AddSettings('checkbox', 'acl', $strUseAcl);
+phpAds_AddSettings('checkbox', 'acl', 
+	array($strUseAcl, array('geotracking_location')));
 phpAds_AddSettings('break', '');
 phpAds_AddSettings('text', 'geotracking_location',
-	array($strGeotrackingLocation, 35, 'text', 0, 'geotracking_location'));
+	array($strGeotrackingLocation, 35, 'text', 0, 'acl'));
 phpAds_AddSettings('end_section', '');
 
 phpAds_AddSettings('start_section', "1.2.2");
