@@ -150,6 +150,9 @@ $GLOBALS['strMonth'] 						= array("January","February","March","April","May","J
 $GLOBALS['strDayShortCuts'] 				= array("Su","Mo","Tu","We","Th","Fr","Sa");
 $GLOBALS['strHour']							= "Hour";
 $GLOBALS['strSeconds']						= "seconds";
+$GLOBALS['strMinutes']						= "minutes";
+$GLOBALS['strHours']						= "hours";
+$GLOBALS['strTimes']						= "times";
 
 
 // Advertiser
@@ -276,6 +279,7 @@ $GLOBALS['strConvertSWF']					= "<br>The Flash file you just uploaded contains h
 									  		  "you just uploaded will be physically altered. <br>Please keep a backup of the ".
 											  "original file. Regardless of in which version this banner was created, the resulting ".
 											  "file will need the Flash 4 player (or higher) to display correctly.<br><br>";
+$GLOBALS['strCompressSWF']					= "Compress SWF file for faster downloading (Flash 6 player required)";
 
 
 // Banner (network)
@@ -303,6 +307,10 @@ $GLOBALS['strUserAgent'] 					= "Browser";
 $GLOBALS['strDomain'] 						= "Domain";
 $GLOBALS['strClientIP'] 					= "Client IP";
 $GLOBALS['strSource'] 						= "Source";
+$GLOBALS['strDeliveryLimitations']			= "Delivery limitations";
+$GLOBALS['strDeliveryCapping']				= "Delivery capping";
+$GLOBALS['strTimeCapping']					= "Once this banner has been delivered once, don't show this banner again to the same user for:";
+$GLOBALS['strImpressionCapping']			= "Do not show this banner to the same user more than:";
 
 
 // Publisher
