@@ -107,6 +107,7 @@ if (phpAds_dbNumRows($idresult) > 0)
 	
 	$lib_history_where     = "(".implode(' OR ', $zoneids).")";
 	$lib_history_params    = array ('affiliateid' => $affiliateid);
+	$lib_history_hourlyurl = "stats-affiliate-daily.php";
 	
 	include ("lib-history.inc.php");
 }

@@ -17,7 +17,6 @@
 // Include required files
 require ("config.php");
 require ("lib-statistics.inc.php");
-require ("lib-expiration.inc.php");
 
 
 // Security check
@@ -31,33 +30,7 @@ phpAds_checkAccess(phpAds_Admin+phpAds_Affiliate);
 
 if (phpAds_isUser(phpAds_Affiliate))
 {
-	if (isset($zoneid) && $zoneid > 0)
-	{
-		$result = phpAds_dbQuery("
-			SELECT
-				affiliateid
-			FROM
-				".$phpAds_config['tbl_zones']."
-			WHERE
-				zoneid = '$zoneid'
-			") or phpAds_sqlDie();
-		$row = phpAds_dbFetchArray($result);
-		
-		if ($row["affiliateid"] == '' || phpAds_getUserID() != $row["affiliateid"])
-		{
-			phpAds_PageHeader("1");
-			phpAds_Die ($strAccessDenied, $strNotAdmin);
-		}
-		else
-		{
-			$affiliateid = phpAds_getUserID();
-		}
-	}
-	else
-	{
-		phpAds_PageHeader("1");
-		phpAds_Die ($strAccessDenied, $strNotAdmin);
-	}
+	$affiliateid = phpAds_getUserID();
 }
 
 
@@ -66,42 +39,89 @@ if (phpAds_isUser(phpAds_Affiliate))
 /* HTML framework                                        */
 /*********************************************************/
 
-if (phpAds_isUser(phpAds_Admin))
+$zoneids = array();
+
+$idresult = phpAds_dbQuery ("
+	SELECT
+		zoneid
+	FROM
+		".$phpAds_config['tbl_zones']."
+	WHERE
+		affiliateid = $affiliateid
+");
+
+while ($row = phpAds_dbFetchArray($idresult))
+{
+	$zoneids[] = "zoneid = ".$row['zoneid'];
+}
+
+
+if ($phpAds_config['compact_stats']) 
 {
 	$res = phpAds_dbQuery("
 		SELECT
-			*
+			DATE_FORMAT(day, '%Y%m%d') as date,
+			DATE_FORMAT(day, '$date_format') as date_formatted
 		FROM
-			".$phpAds_config['tbl_zones']."
+			".$phpAds_config['tbl_adstats']."
 		WHERE
-			affiliateid = ".$affiliateid."
+			(".implode(' OR ', $zoneids).")
+		GROUP BY
+			day
+		ORDER BY
+			day DESC
+		LIMIT 7
 	") or phpAds_sqlDie();
-	
-	while ($row = phpAds_dbFetchArray($res))
-	{
-		phpAds_PageContext (
-			phpAds_buildZoneName ($row['zoneid'], $row['zonename']),
-			"stats-zone-history.php?affiliateid=".$affiliateid."&zoneid=".$row['zoneid'],
-			$zoneid == $row['zoneid']
-		);
-	}
-	
-	phpAds_PageShortcut($strAffiliateProperties, 'affiliate-edit.php?affiliateid='.$affiliateid, 'images/icon-affiliate.gif');	
-	phpAds_PageShortcut($strZoneProperties, 'zone-edit.php?affiliateid='.$affiliateid.'&zoneid='.$zoneid, 'images/icon-zone.gif');	
-	phpAds_PageShortcut($strIncludedBanners, 'zone-include.php?affiliateid='.$affiliateid.'&zoneid='.$zoneid, 'images/icon-zone-linked.gif');	
-	
-	
-	phpAds_PageHeader("2.4.2.1");
-		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
-		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
-		echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br><br><br>";
-		phpAds_ShowSections(array("2.4.2.1","2.4.2.2"));
 }
 else
 {
-	phpAds_PageHeader("1.1.1");
-		echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br><br><br>";
-		phpAds_ShowSections(array("1.1.1", "1.1.2"));
+	$res = phpAds_dbQuery("
+		 SELECT
+			DATE_FORMAT(t_stamp, '%Y%m%d') as date,
+			DATE_FORMAT(t_stamp, '$date_format') as date_formatted
+		 FROM
+			".$phpAds_config['tbl_adviews']."
+		 WHERE
+			(".implode(' OR ', $zoneids).")
+		 GROUP BY
+			date
+		 ORDER BY
+			date DESC
+		 LIMIT 7
+	") or phpAds_sqlDie();
+}
+
+while ($row = phpAds_dbFetchArray($res))
+{
+	phpAds_PageContext (
+		$row['date_formatted'],
+		"stats-affiliate-daily.php?day=".$row['date']."&affiliateid=".$affiliateid,
+		$day == $row['date']
+	);
+}
+
+if (phpAds_isUser(phpAds_Admin))
+{
+	phpAds_PageShortcut($strAffiliateProperties, 'affiliate-edit.php?affiliateid='.$affiliateid, 'images/icon-affiliate.gif');
+	
+	phpAds_PageHeader("2.4.1.1");
+		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
+		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
+		echo "<img src='images/icon-time.gif' align='absmiddle'>&nbsp;<b>".date(str_replace('%', '', $date_format), mktime(0, 0, 0, substr($day, 4, 2), substr($day, 6, 2), substr($day, 0, 4)))."</b><br><br><br>";
+		
+		$sections[] = "2.4.1.1";
+		if (!$phpAds_config['compact_stats']) $sections[] = "2.4.1.2";
+		phpAds_ShowSections($sections);
+}
+
+if (phpAds_isUser(phpAds_Affiliate))
+{
+	phpAds_PageHeader("1.2.1");
+		echo "<img src='images/icon-time.gif' align='absmiddle'>&nbsp;<b>".date(str_replace('%', '', $date_format), mktime(0, 0, 0, substr($day, 4, 2), substr($day, 6, 2), substr($day, 0, 4)))."</b><br><br>";
+		
+		$sections[] = "1.2.1";
+		if (!$phpAds_config['compact_stats']) $sections[] = "1.2.2";
+		phpAds_ShowSections($sections);
 }
 
 
@@ -110,13 +130,9 @@ else
 /* Main code                                             */
 /*********************************************************/
 
-$lib_history_where     = "zoneid = ".$zoneid;
-$lib_history_params    = array ('affiliateid' => $affiliateid,
-								'zoneid' => $zoneid
-						 );
-$lib_history_hourlyurl = "stats-zone-daily.php";
+$lib_hourly_where = "(".implode(' OR ', $zoneids).")";
 
-include ("lib-history.inc.php");
+include ("lib-hourly.inc.php");
 
 
 
