@@ -30,6 +30,7 @@ function phpAds_PageHeader($ID, $extra="")
 	global $phpAds_name, $phpAds_my_header, $phpAds_CharSet;
 	global $strLogout, $strNavigation;
 	global $phpAds_Message, $phpAds_GUIDone;
+	global $strAuthentification;
 	
 	$phpAds_GUIDone = true;
 	
@@ -70,16 +71,20 @@ function phpAds_PageHeader($ID, $extra="")
 			}
 		}
 		
-		list($filename, $title) = each($pages["$ID"]);
-		$sidebar .= "<img src='images/caret-u.gif' width='11' height='7'>&nbsp;";
-		$sidebar .= "$title<br>";
-		$sidebar .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+		if (isset($pages["$ID"]) && is_array($pages["$ID"]))
+		{
+			list($filename, $title) = each($pages["$ID"]);
+			$sidebar .= "<img src='images/caret-u.gif' width='11' height='7'>&nbsp;";
+			$sidebar .= "$title<br>";
+			$sidebar .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+			$pagetitle = $title;
+		}
+		else
+		{
+			$pagetitle = $phpAds_name != '' ? $phpAds_name : 'phpAdsNew';
+		}
 		
 		if ($extra != '') $sidebar .= $extra;
-		
-		
-		// Set Pagetitle
-		$pagetitle = $title;
 		
 		
 		// Build Tabbar
@@ -133,9 +138,10 @@ function phpAds_PageHeader($ID, $extra="")
 	}
 	else
 	{
-		$sidebar = "&nbsp;";
-		$tabbar = "&nbsp;";
-		$pagetitle = "";
+		$sidebar   = "&nbsp;";
+		$tabbar    = "<td bgcolor='#FFFFFF' valign='middle'>&nbsp;&nbsp;<a class='tab-s' href='index.php'>$strAuthentification</a></td>";
+		$tabbar   .= "<td><img src='images/tab-ew.gif' width='10' height='24'></td>";
+		$pagetitle = $phpAds_name != '' ? $phpAds_name : 'phpAdsNew';
 	}
 	
 	
@@ -179,8 +185,14 @@ function phpAds_PageHeader($ID, $extra="")
 	    <tr><? echo $tabbar; ?></tr>
 		</table>
 	</td><td align='right' valign='middle' nowrap>
-		<a class='tab-n' href='logout.php'><?print $strLogout;?></a>
-		<img src='images/logout.gif' width='16' height='16' align='absmiddle'>&nbsp;&nbsp;&nbsp;
+		<?
+		if ($ID != "" && phpAds_isLoggedIn())
+		{
+			echo "<a class='tab-n' href='logout.php'>$strLogout</a> ";
+			echo "<img src='images/logout.gif' width='16' height='16' align='absmiddle'>";
+		}
+		?>
+		&nbsp;&nbsp;&nbsp;
 	</td></tr>
 	</table>
 </td></tr>
@@ -283,8 +295,9 @@ function mysql_die()
     global $phpAds_last_query;
 	global $phpAds_GUIDone;
 	
-	if ($phpAds_GUIDone == false) phpAds_PageHeader(0);
+	if ($phpAds_GUIDone == false) phpAds_PageHeader(-1);
 	
+	echo "<br><br>";
 	echo "<table border='0' cellpadding='1' cellspacing='1' width='100%'><tr><td bgcolor='#FF0000'>";
 		echo "<table border='0' cellpadding='5' cellspacing='0' width='100%'>";
 		echo "<tr bgcolor='#EEEEEE'>";
@@ -314,8 +327,9 @@ function php_die($title="Error", $message="Unkown error")
 {
 	global $phpAds_GUIDone;
 	
-	if ($phpAds_GUIDone == false) phpAds_PageHeader(0);
+	if ($phpAds_GUIDone == false) phpAds_PageHeader(-1);
 	
+	echo "<br><br>";
 	echo "<table border='0' cellpadding='1' cellspacing='1' width='100%'><tr><td bgcolor='#FF0000'>";
 		echo "<table border='0' cellpadding='5' cellspacing='0' width='100%'>";
 		echo "<tr bgcolor='#EEEEEE'>";
