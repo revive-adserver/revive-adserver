@@ -138,7 +138,8 @@ function phpAds_PriorityPredictProfile($campaigns, $banners)
 		$days_running = $now - $days_running + (date('I', $days_running) - date('I', $now)) * 60;
 		$days_running = round ($days_running / (60 * 60 * 24)) - 1;
 	}
-	else
+	
+	if ($days_running < 0)
 		$days_running = 0;
 	
 	// BEGIN REPORTING
@@ -236,6 +237,14 @@ function phpAds_PriorityPredictProfile($campaigns, $banners)
 		$profile = phpAds_PriorityGetHourlyProfile ($days_running, 0);
 	}
 	
+	if (!$days_running)
+	{
+		// BEGIN REPORTING
+		$debuglog .= "There's no data to predict a profile\n";
+		$debuglog .= "-----------------------------------------------------\n\n\n";
+		// END REPORTING
+	}
+
 	
 	
 	// BEGIN REPORTING

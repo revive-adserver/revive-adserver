@@ -81,6 +81,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-09-19:  Changed SCRIPT_NAME to PHP_SELF for CGI compatibility  (Niels, thanks to MacDave)
 			  - 2002-09-20:  Fixed bug which prevent even distribution when plain remote invocation was used  (Niels)
 			  - 2002-09-26:  Fixed bug which caused sql stored banners to be retrieved from browser cache even if modified  (Matteo)
+			  - 2002-10-04:  Fixed a bug in lib-priority, sometimes days running were negative  (Matteo)
 
 
 
