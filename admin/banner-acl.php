@@ -20,6 +20,11 @@ require ("lib-statistics.inc.php");
 require ("lib-zones.inc.php");
 
 
+// Include needed resources
+require ("resources/res-iso639.inc.php");
+require ("resources/res-useragent.inc.php");
+
+
 // Register input variables
 phpAds_registerGlobal ('submit', 'action', 'acl', 'type', 'time', 'cap');
 
@@ -108,7 +113,7 @@ if (isset($action))
 		$acl[$last]['type'] = $type;
 		$acl[$last]['ad']   = 'allow';
 		
-		if ($type == 'time' || $type == 'weekday')
+		if ($type == 'time' || $type == 'weekday' || $type == 'useragent' || $type == 'language')
 			$acl[$last]['data'] = array();
 		else
 			$acl[$last]['data'] = '';
@@ -135,7 +140,33 @@ elseif (isset($submit))
 				if (isset($acl[$key]['data']))
 				{
 					if ($acl[$key]['type'] == 'time' || $acl[$key]['type'] == 'weekday')
+					{
 						$acl[$key]['data'] = implode (',', $acl[$key]['data']);
+					}
+					elseif ($acl[$key]['type'] == 'language')
+					{
+						$acl[$key]['data'] = '('.implode (')|(', $acl[$key]['data']).')';
+					}
+					elseif ($acl[$key]['type'] == 'useragent')
+					{
+						// Collect regular expressions
+						$regs = array();
+						
+						reset ($acl[$key]['data']);
+						while (list($k,$v) = each ($acl[$key]['data']))
+						{
+							reset ($operatingsystems);
+							while (list($tk,$tv) = each ($operatingsystems))
+								if ($tk == $v) $regs[] = $tv;
+							
+							reset ($useragents);
+							while (list($tk,$tv) = each ($useragents))
+								if ($tk == $v) $regs[] = $tv;
+						}
+						
+						// Use addslashes because these values are not yet slashes by registerGlobal
+						$acl[$key]['data'] = addslashes('('.implode (')|(', $regs).')');
+					}
 				}
 				else
 					$acl[$key]['data'] = '';
@@ -170,25 +201,25 @@ elseif (isset($submit))
 				switch ($acl[$key]['type'])
 				{
 					case 'clientip':
-						$expression .= "phpAds_aclCheckClientIP('".$acl[$key]['data']."', '".$acl[$key]['ad']."')";
+						$expression .= "phpAds_aclCheckClientIP(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['ad']."\')";
 						break;
 					case 'useragent':
-						$expression .= "phpAds_aclCheckUseragent('".$acl[$key]['data']."', '".$acl[$key]['ad']."')";
+						$expression .= "phpAds_aclCheckUseragent(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['ad']."\')";
 						break;
 					case 'language':
-						$expression .= "phpAds_aclCheckLanguage('".$acl[$key]['data']."', '".$acl[$key]['ad']."')";
+						$expression .= "phpAds_aclCheckLanguage(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['ad']."\')";
 						break;
 					case 'weekday':
-						$expression .= "phpAds_aclCheckWeekday('".$acl[$key]['data']."', '".$acl[$key]['ad']."')";
+						$expression .= "phpAds_aclCheckWeekday(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['ad']."\')";
 						break;
 					case 'domain':
-						$expression .= "phpAds_aclCheckDomain('".$acl[$key]['data']."', '".$acl[$key]['ad']."')";
+						$expression .= "phpAds_aclCheckDomain(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['ad']."\')";
 						break;
 					case 'source':
-						$expression .= "phpAds_aclCheckSource('".$acl[$key]['data']."', '".$acl[$key]['ad']."', $"."source)";
+						$expression .= "phpAds_aclCheckSource(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['ad']."\', $"."source)";
 						break;
 					case 'time':
-						$expression .= "phpAds_aclCheckTime('".$acl[$key]['data']."', '".$acl[$key]['ad']."')";
+						$expression .= "phpAds_aclCheckTime(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['ad']."\')";
 						break;
 					default:
 						return(0);
@@ -205,7 +236,7 @@ elseif (isset($submit))
 			UPDATE
 				".$phpAds_config['tbl_banners']."
 			SET
-				compiledlimitation='".addslashes($expression)."'
+				compiledlimitation='".$expression."'
 			WHERE
 				bannerid=".$bannerid."
 		") or phpAds_sqlDie();
@@ -365,7 +396,34 @@ if (!isset($acl) && $phpAds_config['acl'])
 		$acl[$row['acl_order']]['ad'] 	= $row['acl_ad'];
 		
 		if ($row['acl_type'] == 'time' || $row['acl_type'] == 'weekday')
+		{
 			$acl[$row['acl_order']]['data'] = explode (',', $row['acl_data']);
+		}
+		elseif ($row['acl_type'] == 'language')
+		{
+			if (ereg("^\(.*\)$", $row['acl_data']))
+				$row['acl_data'] = substr($row['acl_data'], 1, strlen($row['acl_data']) - 2);
+			
+			$acl[$row['acl_order']]['data'] = explode (')|(', $row['acl_data']);
+		}
+		elseif ($row['acl_type'] == 'useragent')
+		{
+			if (ereg("^\(.*\)$", $row['acl_data']))
+				$row['acl_data'] = substr($row['acl_data'], 1, strlen($row['acl_data']) - 2);
+			
+			$keys = explode (')|(', $row['acl_data']);
+			
+			while (list($k,$v) = each($keys))
+			{
+				reset ($operatingsystems);
+				while (list($tk,$tv) = each ($operatingsystems))
+					if ($tv == $v) $acl[$row['acl_order']]['data'][] = $tk;
+				
+				reset ($useragents);
+				while (list($tk,$tv) = each ($useragents))
+					if ($tv == $v) $acl[$row['acl_order']]['data'][] = $tk;
+			}
+		}
 		else
 			$acl[$row['acl_order']]['data'] = addslashes($row['acl_data']);
 	}
@@ -537,6 +595,51 @@ if ($phpAds_config['acl'])
 					if (($i + 1) % 4 == 0) echo "</tr>";
 				}
 				if (($i + 1) % 4 != 0) echo "</tr>";
+				echo "</table>";
+			}
+			elseif ($acl[$key]['type'] == 'language')
+			{
+				if (!isset($acl[$key]['data']))
+					$acl[$key]['data'] = array();
+				
+				echo "<select name='acl[".$key."][data][]' multiple size='6' style='width: 275;'>";
+				
+				while (list($iso,$fullname) = each ($iso639))
+					echo "<option value='$iso'".(in_array ($iso, $acl[$key]['data']) ? ' selected' : '').">".$fullname."</option>";
+				
+				echo "</select>";
+			}
+			elseif ($acl[$key]['type'] == 'useragent')
+			{
+				if (!isset($acl[$key]['data']))
+					$acl[$key]['data'] = array();
+				
+				echo "<table width='350' cellpadding='0' cellspacing='0' border='0'>";
+				$i = 0;
+				
+				reset ($useragents);
+				while (list($ukey, $uvalue) = each ($useragents))
+				{
+					if ($i % 3 == 0) echo "<tr>";
+					echo "<td><input type='checkbox' name='acl[".$key."][data][]' value='".$ukey."'".(in_array ($ukey, $acl[$key]['data']) ? ' CHECKED' : '').">&nbsp;".$ukey."&nbsp;&nbsp;</td>";
+					if (($i + 1) % 3 == 0) echo "</tr>";
+					$i++;
+				}
+				if (($i + 1) % 3 != 0) echo "</tr>";
+				
+				echo "<tr><td colspan='3'><img src='images/break-el.gif' height='1' width='100%' vspace='4'></td></tr>";
+				
+				$i = 0;
+				
+				reset ($operatingsystems);
+				while (list($ukey, $uvalue) = each ($operatingsystems))
+				{
+					if ($i % 3 == 0) echo "<tr>";
+					echo "<td><input type='checkbox' name='acl[".$key."][data][]' value='".$ukey."'".(in_array ($ukey, $acl[$key]['data']) ? ' CHECKED' : '').">&nbsp;".$ukey."&nbsp;&nbsp;</td>";
+					if (($i + 1) % 3 == 0) echo "</tr>";
+					$i++;
+				}
+				if (($i + 1) % 3 != 0) echo "</tr>";
 				echo "</table>";
 			}
 			else
