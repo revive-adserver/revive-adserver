@@ -15,7 +15,7 @@
 
 
 // Meta information
-$translation_readable   = "Fran&ccedil;ois";
+$translation_readable   = "Fran&ccedil;ais";
 $translation_maintainer	= "Vincent Zanotti";
 $translation_contact	= "amidebx@users.sourceforge.net";
 
