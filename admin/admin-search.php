@@ -21,6 +21,19 @@ require ("lib-statistics.inc.php");
 // Security check
 phpAds_checkAccess(phpAds_Admin);
 
+
+// Check Searchselection
+if ($client != true &&
+	$campaign != true &&
+	$banner != true &&
+	$zone != true)
+{
+	$client = true;
+	$campaign = true;
+	$banner = true;
+	$zone = true;
+}
+
 ?>
 
 <html>
@@ -78,25 +91,57 @@ phpAds_checkAccess(phpAds_Admin);
 </tr>
 </table>
 
+<br>
+
+<!-- Search selection -->
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+	<tr><td width='20'>&nbsp;</td><td>
+	
+	<table border='0' cellspacing='0' cellpadding='0'>
+		<form name='searchselection' action='admin-search.php'>
+		<input type='hidden' name='keyword' value='<?php echo $keyword; ?>'>
+		<tr>
+			<td><input type='checkbox' name='client' value='true'<?php echo ($client ? ' checked': ''); ?> onClick='this.form.submit()'>
+				<?php echo $strClients; ?>&nbsp;&nbsp;&nbsp;</td>
+			<td><input type='checkbox' name='campaign' value='true'<?php echo ($campaign ? ' checked': ''); ?> onClick='this.form.submit()'>
+				<?php echo $strCampaign; ?>&nbsp;&nbsp;&nbsp;</td>
+			<td><input type='checkbox' name='banner' value='true'<?php echo ($banner ? ' checked': ''); ?> onClick='this.form.submit()'>
+				<?php echo $strBanners; ?>&nbsp;&nbsp;&nbsp;</td>
+			<td><input type='checkbox' name='zone' value='true'<?php echo ($zone ? ' checked': ''); ?> onClick='this.form.submit()'>
+				<?php echo $strZones; ?>&nbsp;&nbsp;&nbsp;</td>
+		</tr>
+		</form>
+	</table>
+
+	</td><td width='20'>&nbsp;</td></tr>
+</table>
+	
+<!-- Seperator -->
+<img src='images/break-el.gif' height='1' width='100%' vspace='5'>
 <br><br>
 
+<!-- Search Results -->	
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
 <tr><td width='20'>&nbsp;</td><td>
-
+	
 <?php
-	$query_clients = "SELECT * from $phpAds_tbl_clients where clientname LIKE '%" . $keyword . "%' AND parent = 0";
+	$query_clients = "SELECT * FROM $phpAds_tbl_clients WHERE clientname LIKE '%".$keyword."%' AND parent = 0";
   	$res_clients = db_query($query_clients) or mysql_die();
 	
-	$query_campaigns = "SELECT * from $phpAds_tbl_clients where clientname LIKE '%" . $keyword . "%' AND parent > 0";
+	$query_campaigns = "SELECT * FROM $phpAds_tbl_clients WHERE clientname LIKE '%".$keyword."%' AND parent > 0";
   	$res_campaigns = db_query($query_campaigns) or mysql_die();
 	
-	$query_banners = "SELECT * from $phpAds_tbl_banners where alt LIKE '%" . $keyword . "%' OR description LIKE '%" . $keyword . "%'";
+	$query_banners = "SELECT * FROM $phpAds_tbl_banners WHERE keyword LIKE '%".$keyword."%' OR alt LIKE '%".$keyword."%' OR description LIKE '%".$keyword."%'";
   	$res_banners = db_query($query_banners) or mysql_die();
+	
+	$query_zones = "SELECT * FROM $phpAds_tbl_zones WHERE zonename LIKE '%".$keyword."%' OR description LIKE '%".$keyword."%'";
+  	$res_zones = db_query($query_zones) or mysql_die();
 	
 	
 	if (@mysql_num_rows($res_clients) > 0 ||
 		@mysql_num_rows($res_campaigns) > 0 ||
-		@mysql_num_rows($res_banners) > 0)
+		@mysql_num_rows($res_banners) > 0 ||
+		@mysql_num_rows($res_zones) > 0)
 	{
 		echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
 		echo "<tr height='25'>";
@@ -114,7 +159,7 @@ phpAds_checkAccess(phpAds_Admin);
 	$i=0;
 	
 	
-	if (@mysql_num_rows($res_clients) > 0)
+	if ($client && @mysql_num_rows($res_clients) > 0)
 	{
 		while ($row_clients = mysql_fetch_array($res_clients))
 	    {
@@ -235,7 +280,7 @@ phpAds_checkAccess(phpAds_Admin);
 	    }
 	}
 	
-	if (@mysql_num_rows($res_campaigns) > 0)
+	if ($campaign && @mysql_num_rows($res_campaigns) > 0)
 	{
 		while ($row_campaigns = mysql_fetch_array($res_campaigns))
 	    {
@@ -323,7 +368,7 @@ phpAds_checkAccess(phpAds_Admin);
 	    }
 	}
 	
-	if (@mysql_num_rows($res_banners) > 0)
+	if ($banner && @mysql_num_rows($res_banners) > 0)
 	{
 		while ($row_banners = mysql_fetch_array($res_banners))
 	    {
@@ -378,9 +423,47 @@ phpAds_checkAccess(phpAds_Admin);
 	    }
 	}
 	
+	if ($zone && @mysql_num_rows($res_zones) > 0)
+	{
+		while ($row_zones = mysql_fetch_array($res_zones))
+	    {
+			$name = $row_zones['zonename'];
+			$name = phpAds_breakString ($name, '30');
+			
+			if ($i > 0) echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
+			
+	    	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
+			
+			echo "<td height='25'>";
+			echo "&nbsp;&nbsp;";
+			
+			echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
+			echo "<a href='JavaScript:GoOpener(\"zone-edit.php?zoneid=".$row_zones['zoneid']."\")'>".$name."</a>";
+			echo "</td>";
+			
+			echo "<td height='25'>".$row_zones['zoneid']."</td>";
+			
+			// Empty
+			echo "<td>&nbsp;</td>";
+		   	
+			// Empty
+			echo "<td height='25'>";
+			echo "<a href='JavaScript:GoOpener(\"zone-include.php?zoneid=".$row_zones['bannerID']."\")'><img src='images/icon-zone-linked.gif' border='0' align='absmiddle' alt='$strIncludedBanners'>&nbsp;$strIncludedBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+			echo "</td>";
+			
+			// Button 1
+			echo "<td height='25'>";
+			echo "<a href='JavaScript:GoOpener(\"zone-delete.php?zoneid=".$row_zones['bannerID']."\")'><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+			echo "</td></tr>";
+			
+			$i++;
+	    }
+	}
+	
 	if (@mysql_num_rows($res_clients) > 0 ||
 		@mysql_num_rows($res_campaigns) > 0 ||
-		@mysql_num_rows($res_banners) > 0)
+		@mysql_num_rows($res_banners) > 0 ||
+		@mysql_num_rows($res_zones) > 0)
 	{
 		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	}
