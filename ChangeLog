@@ -8,6 +8,8 @@ CVS
 			  - Default banner type was always selected even if editing a banner (Matteo)
 			  - Client language settings are now checked if it is empty (Niels)
 			  - Source parameter works again with remote invocation (Alain Fontaine)
+			  - Context parameter works again (Martin Klerx)
+			  - Hostname logging works again when $phpAds_reverse_lookup is not set and server provides hostname (Matteo)
 
 v 2.0beta3
 			+ Added support for Flash variables (Niels)
