@@ -42,6 +42,7 @@ if ($phpAds_config['log_adviews'] || $phpAds_config['acl'])
 		require (phpAds_path."/libraries/lib-limitations.inc.php");
 }
 
+require	(phpAds_path."/libraries/lib-view-main.inc.php");
 require (phpAds_path."/libraries/lib-cache.inc.php");
 
 
@@ -116,6 +117,9 @@ else
 
 if ($found)
 {
+	// Get the data we need to display the banner
+	$row = array_merge($row, phpAds_getBannerDetails($row['bannerid']));
+
 	// Log this impression
 	if ($phpAds_config['block_adviews'] == 0 ||
 	   ($phpAds_config['block_adviews'] > 0 && 
