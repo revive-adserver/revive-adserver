@@ -104,6 +104,7 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'qmail_patch' =>				array ('type' => 'boolean', 'sql' => true),
 	'updates_frequency' =>			array ('type' => 'integer', 'sql' => true),
 	'updates_last_seen' =>			array ('type' => 'string', 'sql' => true),
+	'updates_timestamp' =>			array ('type' => 'int', 'sql' => true),
 	'config_version' =>				array ('type' => 'string', 'sql' => true)
 );
 
