@@ -106,7 +106,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-03-09:  Added new language file for invocations  (Matteo) 
 			  - 2002-03-12:  Added new way to check if a form has the correct values  (Niels) 
 			  - 2002-03-17:  Added next / prev buttons to the userlog  (Niels) 
-			  - 2002-03-19:  phpadsnew.inc.php can now be included more than once without generating errors (Niels) 
+			  - 2002-03-19:  phpadsnew.inc.php can now be included more than once without generating errors  (Niels) 
 			  - 2002-03-19:  phpAds_config is not automatically globalized in case it is called from a function  (Niels) 
 			  - 2002-03-19:  Updated HTML code to support Flash MX  (Niels) 
 			  - 2002-03-23:  Campaign selection is now default type of linking zones to banners  (Niels) 
@@ -121,6 +121,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-04-01:  Added warning to statistics pages when there are not stats available  (Niels)
 			  - 2002-04-01:  Added Campaign Overview page to the statistics  (Niels)
 			  - 2002-04-01:  Changed hierarchy of the campaign and banner statistic pages  (Niels)
+			  - 2002-04-06:  Added a workaround for IE own bug when loading external JS into a popup  (Niels, Matteo)
 
 
 			+ Misc bugfixes

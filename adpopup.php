@@ -46,7 +46,7 @@ require (phpAds_path."/lib-cache.inc.php");
 /* Java-encodes text                                     */
 /*********************************************************/
 
-function enjavanate ($str, $limit = 60)
+function enjavanateOld ($str, $limit = 60)
 {
 	$str   = str_replace("\r", '', $str);
 	
@@ -62,6 +62,58 @@ function enjavanate ($str, $limit = 60)
 		
 		print "phpadsbanner += '$line';\n";
 	}
+}
+
+function enjavanateCode ($str, $limit = 60)
+{
+	global $windowid;
+
+	$str   = str_replace("\r", '', $str);
+	
+	while (strlen($str) > 0)
+	{
+		$line = substr ($str, 0, $limit);
+		$str  = substr ($str, $limit);
+		
+		while (substr($line, strlen($line)-1, 1) == "\\")
+		{
+			$line .= substr($str, 0, 1);
+			$str = substr($str, 1);
+		}
+		
+		$line = str_replace('\'', "\\'", $line);
+		$line = str_replace("\t", "\\t", $line);
+		$line = str_replace("\n", "\\n", $line);
+		
+		echo "\t\t".$windowid.".document.write('$line');\n";
+	}
+}
+
+function enjavanateBanner ($output, $limit = 60)
+{
+	$str   = str_replace("\r", '', $output['html']);
+	
+	$ret =  "\tvar phpadsbanner = '';\n";
+	
+	while (strlen($str) > 0)
+	{
+		$line = substr ($str, 0, $limit);
+		$str  = substr ($str, $limit);
+
+		$line = str_replace('\'', "\\\\'", $line);
+		$line = str_replace("\t", "\\\\t", $line);
+		$line = str_replace("\n", "\\\\n", $line);
+		
+		$ret .= "\tphpadsbanner += '$line';\n";
+	}
+
+	$ret .= "\n\tdocument.write('<html><head><title>');\n";
+	$ret .= "\tdocument.write('".($output['alt'] ? $output['alt'] : 'Advertisement')."');\n";
+	$ret .= "\tdocument.write('</title></head>');\n";
+	$ret .= "\tdocument.write('<body leftmargin=\"0\" topmargin=\"0\" marginwidth=\"0\" marginheight=\"0\">');\n";
+	$ret .= "\tdocument.write(phpadsbanner);\n";
+
+	return $ret;
 }
 
 
@@ -85,7 +137,6 @@ if (!isset($context)) 	$context = '';
 $output = view_raw ($what, $clientid, $target, $source, $withtext, $context);
 
 header("Content-type: application/x-javascript");
-enjavanate($output['html']);
 
 $windowid = 'phpads_'.$output['bannerid'];
 
@@ -108,17 +159,41 @@ if (!window.<?php echo $windowid; ?>)
 		<?php } ?>
 		
 		<?php echo $windowid; ?>.document.open('text/html', 'replace');
-		<?php echo $windowid; ?>.document.write('<html><head><title>');
-		<?php echo $windowid; ?>.document.write('<?php echo ($output['alt'] ? $output['alt'] : 'Advertisement'); ?>');
-		<?php echo $windowid; ?>.document.write('</title></head>');
-		<?php echo $windowid; ?>.document.write('<body leftmargin=\'0\' topmargin=\'0\' marginwidth=\'0\' marginheight=\'0\'>');
-		<?php echo $windowid; ?>.document.write(phpadsbanner);
-		<?php echo $windowid; ?>.document.write('</body></html>');
+<?php
+		if (ereg('MSIE', $HTTP_USER_AGENT))
+		{
+			echo enjavanateCode("<html><head>")."\n";
+
+			echo enjavanateCode("<script language='JavaScript'>");
+			echo enjavanateCode("function showbanner() {");		
+			echo enjavanateCode(enjavanateBanner($output)); 
+			echo enjavanateCode("}");		
+			echo enjavanateCode("</script>")."\n";
+			
+			echo enjavanateCode("</head>");		
+			echo enjavanateCode("<body onLoad='showbanner()'>");
+		}
+		else
+		{
+			enjavanateOld($output['html']);
+
+			echo enjavanateCode("<html><head><title>");
+			echo enjavanateCode($output['alt'] ? $output['alt'] : 'Advertisement');
+			echo enjavanateCode("</title></head>");
+			echo enjavanateCode("<body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0'>");
+			echo enjavanateCode("'+phpadsbanner+'");
+		}
+		
+		echo enjavanateCode("</body></html>");
+?>
+		
 		<?php echo $windowid; ?>.document.close();
 	}
 	
 	<?php if (isset($popunder) && $popunder == '1') { ?>
 	window.focus();
+	<?php } else {?>
+	<?php echo $windowid; ?>.focus();
 	<?php } ?>
 	
 	<?php if (isset($timeout) && $timeout > 0) { ?>
