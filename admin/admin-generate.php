@@ -42,7 +42,7 @@ function phpAds_GenerateInvocationCode()
 {
 	global $phpAds_config;
 	global $codetype, $what, $clientid, $source, $target;
-	global $withText, $template, $refresh, $uniqueid;
+	global $withtext, $template, $refresh, $uniqueid;
 	global $width, $height;
 	
 	$buffer = '';
@@ -83,8 +83,8 @@ function phpAds_GenerateInvocationCode()
 	// Remote invocation with JavaScript
 	if ($codetype=='adjs')
 	{
-		if (isset($withText) && $withText == '0')
-			$parameters[] = "withText=0";
+		if (isset($withtext) && $withtext == '0')
+			$parameters[] = "withtext=0";
 		
 		$buffer .= "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adjs.php";
 		if (sizeof($parameters) > 0)
@@ -127,8 +127,8 @@ function phpAds_GenerateInvocationCode()
 		
 		
 		// Parameters for remote invocation for Javascript
-		if (isset($withText) && $withText == '0')
-			$parameters['tmp'] = "withText=0";
+		if (isset($withtext) && $withtext == '0')
+			$parameters['tmp'] = "withtext=0";
 		else
 			unset ($parameters['tmp']);
 		
@@ -172,7 +172,7 @@ function phpAds_GenerateInvocationCode()
 		
 		$buffer .= "<"."?php\n";
 		$buffer .= "    require($path);\n";
-		$buffer .= "    view ('$what', $clientid, '$target', '$source', '$withText');\n";
+		$buffer .= "    view ('$what', $clientid, '$target', '$source', '$withtext');\n";
 		$buffer .= "?".">";
 	
 	}
@@ -225,16 +225,16 @@ if ($codetype == 'adview')
 	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'uniqueid' => true);
 
 if ($codetype == 'adjs')
-	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withText' => true);
+	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withtext' => true);
 
 if ($codetype == 'adframe')
 	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'refresh' => true, 'size' => true);
 
 if ($codetype == 'ad')
-	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withText' => true, 'uniqueid' => true, 'refresh' => true, 'size' => true);
+	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withtext' => true, 'uniqueid' => true, 'refresh' => true, 'size' => true);
 
 if ($codetype == 'local')
-	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withText' => true, 'template' => true);
+	$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withtext' => true, 'template' => true);
 
 
 
@@ -303,13 +303,13 @@ if (isset($show['source']) && $show['source'] == true)
 
 
 // WithText
-if (isset($show['withText']) && $show['withText'] == true)
+if (isset($show['withtext']) && $show['withtext'] == true)
 {
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>WithText</td>";
-	echo "<td width='370'><input type='radio' name='withText' value='1'".(isset($withText) && $withText == 1 ? ' checked' : '').">&nbsp;True<br>";
-	echo "<input type='radio' name='withText' value='0'".(!isset($withText) || $withText == 0 ? ' checked' : '').">&nbsp;False</td>";
+	echo "<td width='370'><input type='radio' name='withtext' value='1'".(isset($withtext) && $withtext == 1 ? ' checked' : '').">&nbsp;True<br>";
+	echo "<input type='radio' name='withtext' value='0'".(!isset($withtext) || $withtext == 0 ? ' checked' : '').">&nbsp;False</td>";
 	echo "</tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 }
