@@ -133,11 +133,17 @@ while (list($key,$item) = each($items))
 		Imageline($im,$px,$y-2,$px,$y+$bar_width,$line);
 		
 		// display numbers
-		$str = $value.'/'.$total;
-		ImageString($im,2,($x+(100*$unit))-6*strlen($str),$y+12,$str,$black);
+		ImageString($im,2,($x+(92*$unit))-40,$y+12,$value."/".$total,$black);
 	}
 	$y=$y+($bar_width+20);
 	
+	
+	// IE workaround: Turn off outputbuffering
+	// if zlib compression is turned on
+	if (strpos ($GLOBALS['HTTP_USER_AGENT'], 'MSIE') > 0 &&
+		function_exists('ini_get') &&
+		ini_get ("zlib.output_compression"))
+		ob_end_clean ();
 	
 	// Send the content-type header
 	phpAds_GDContentType();

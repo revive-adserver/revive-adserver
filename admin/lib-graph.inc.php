@@ -108,6 +108,12 @@ for($x = 0;$x<$items_count;$x++)
 	ImageRectangle($im,$x*12+52,120-(int)($count2[$x]*$scale),$x*12+61,120,$linecolor);
 }
 
+// IE workaround: Turn off outputbuffering
+// if zlib compression is turned on
+if (strpos ($GLOBALS['HTTP_USER_AGENT'], 'MSIE') > 0 &&
+	function_exists('ini_get') &&
+	ini_get ("zlib.output_compression"))
+	ob_end_clean ();
 
 
 // Send the content-type header
