@@ -18,7 +18,7 @@
 /* Log a click to the database       					 */
 /*********************************************************/
 
-function phpAds_logClick($bannerid, $zoneid, $host)
+function phpAds_logClick($bannerid, $zoneid, $host, $source="")
 {
 	global $phpAds_config;
 	
@@ -33,7 +33,8 @@ function phpAds_logClick($bannerid, $zoneid, $host)
                 day = now() AND
 				hour = hour(now()) AND
                 bannerid = '$bannerid' AND
-				zoneid = '$zoneid'
+				zoneid = '$zoneid' AND
+		source = '$source'
             ", $phpAds_config['insert_delayed'] ? "LOW_PRIORITY": ""));
 		
         // If row didn't exist.  Create it.
@@ -48,7 +49,8 @@ function phpAds_logClick($bannerid, $zoneid, $host)
                     day = now(),
 					hour = hour(now()),
                     bannerid = '$bannerid',
-					zoneid = '$zoneid'
+					zoneid = '$zoneid',
+		    source = '$source'
                 ", $phpAds_config['insert_delayed'] ? "DELAYED": ""));
         }
         return $result;
@@ -63,7 +65,8 @@ function phpAds_logClick($bannerid, $zoneid, $host)
         SET 
             bannerid = '$bannerid',
 			zoneid = '$zoneid',
-			host = '$host'
+			host = '$host',
+	    source = '$source'
         ", $phpAds_config['insert_delayed'] ? "DELAYED": ""));
 }
 
@@ -73,7 +76,7 @@ function phpAds_logClick($bannerid, $zoneid, $host)
 /* Log a view to the database       					 */
 /*********************************************************/
 
-function phpAds_logView($bannerid, $zoneid, $host)
+function phpAds_logView($bannerid, $zoneid, $host, $source="")
 {
 	global $phpAds_config;
     
@@ -88,7 +91,8 @@ function phpAds_logView($bannerid, $zoneid, $host)
 				day = now() AND
 				hour = hour(now()) AND
                 bannerid = '$bannerid' AND
-                zoneid = '$zoneid'
+                zoneid = '$zoneid' AND
+		source = '$source'
             ", $phpAds_config['insert_delayed'] ? "LOW_PRIORITY": ""));
 		
         // If row didn't exist.  Create it.
@@ -103,7 +107,8 @@ function phpAds_logView($bannerid, $zoneid, $host)
                     day = now(),
 					hour = hour(now()),
                     bannerid = '$bannerid',
-					zoneid = '$zoneid'
+					zoneid = '$zoneid',
+		    source = '$source'
                 ", $phpAds_config['insert_delayed'] ? "DELAYED": ""));
         }
         return $result;
@@ -118,7 +123,8 @@ function phpAds_logView($bannerid, $zoneid, $host)
         SET 
             bannerid = '$bannerid',
             zoneid = '$zoneid',
-            host = '$host'
+            host = '$host',
+	    source = '$source'
         ", $phpAds_config['insert_delayed'] ? "DELAYED": ""));
 }
 

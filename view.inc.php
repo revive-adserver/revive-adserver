@@ -590,7 +590,7 @@ function phpAds_fetchBanner($what, $clientid, $context=0, $source='', $allowhtml
 /* Log an adview for the banner with $bannerid           */
 /*********************************************************/
 
-function phpAds_prepareLog ($bannerid, $clientid, $zoneid)
+function phpAds_prepareLog ($bannerid, $clientid, $zoneid, $source='')
 {
 	global $phpAds_config;
 	global $phpAds_zone_used;
@@ -605,7 +605,7 @@ function phpAds_prepareLog ($bannerid, $clientid, $zoneid)
 	// Check if host is on list of hosts to ignore
 	if($host = phpads_ignore_host())
 	{ 
-		$res = phpAds_logView($bannerid, $zoneid, $host);
+		$res = phpAds_logView($bannerid, $zoneid, $host, $source);
 		phpAds_expire ($clientid, phpAds_Views);
 	}
 }
@@ -752,7 +752,7 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 		if (!$phpAds_config['log_beacon'])
 		{
 			// Log now
-			phpAds_prepareLog($row['bannerid'], $row['clientid'], $row['zoneid']);
+			phpAds_prepareLog($row['bannerid'], $row['clientid'], $row['zoneid'], $source);
 		}
 		else
 		{

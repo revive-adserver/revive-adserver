@@ -72,7 +72,7 @@ if ($bannerid != "DEFAULT")
 	{
 		if ($host = phpads_ignore_host())
 		{
-			phpAds_logClick($bannerid, $zoneid, $host);
+			phpAds_logClick($bannerid, $zoneid, $host, $source);
 			phpAds_expire ($clientid, phpAds_Clicks);
 		}
 	}

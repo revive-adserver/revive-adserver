@@ -141,7 +141,7 @@ if (phpAds_isUser(phpAds_Admin))
 	else
 	{
 		phpAds_PageHeader('2.3');
-		phpAds_ShowSections(array("2.1", "2.4", "2.2", "2.3"));
+		phpAds_ShowSections(array("2.1", "2.4", "2.2", "2.3", "2.5"));
 	}
 }
 

@@ -53,7 +53,7 @@ $row = phpAds_fetchBanner($what, $clientid, 0, $source, false);
 if (is_array($row) && isset($row['bannerid']))
 {
 	// Log this impression
-	phpAds_prepareLog ($row["bannerid"], $row["clientid"], $row["zoneid"]);
+	phpAds_prepareLog ($row["bannerid"], $row["clientid"], $row["zoneid"], $source);
 	
 	
 	// Send P3P Headers
