@@ -199,7 +199,7 @@ function days_left($clientid)
 					
 					if ($row_client["views"] > 0)
 					{
-						$estimated_end = strftime ($date_format, mktime (0, 0, 0, date("m"), date("d") + $days_left, date("Y")));
+						$estimated_end = strftime ($date_format, @mktime (0, 0, 0, date("m"), date("d") + $days_left, date("Y")));
 						$expiration[] = array (
 							"days_left" => $days_left,
 							"date"	  	=> $estimated_end,
@@ -208,7 +208,7 @@ function days_left($clientid)
 					}
 					else
 					{
-						$estimated_end = strftime ($date_format, mktime (0, 0, 0, date("m"), date("d") - $row_views["days_since_last_view"], date("Y")));
+						$estimated_end = strftime ($date_format, @mktime (0, 0, 0, date("m"), date("d") - $row_views["days_since_last_view"], date("Y")));
 						$expiration[] = array (
 							"days_left" => 0 - $row_views["days_since_last_view"],
 							"date"	  	=> $estimated_end,
@@ -269,7 +269,7 @@ function days_left($clientid)
 					
 					if ($row_client["clicks"] > 0)
 					{
-						$estimated_end = strftime ($date_format, mktime (0, 0, 0, date("m"), date("d") + $days_left, date("Y")));
+						$estimated_end = strftime ($date_format, @mktime (0, 0, 0, date("m"), date("d") + $days_left, date("Y")));
 						$expiration[] = array (
 							"days_left" => $days_left,
 							"date"	  	=> $estimated_end,
@@ -278,7 +278,7 @@ function days_left($clientid)
 					}
 					else
 					{
-						$estimated_end = strftime ($date_format, mktime (0, 0, 0, date("m"), date("d") - $row_clicks["days_since_last_view"], date("Y")));
+						$estimated_end = strftime ($date_format, @mktime (0, 0, 0, date("m"), date("d") - $row_clicks["days_since_last_view"], date("Y")));
 						$expiration[] = array (
 							"days_left" => 0 - $row_clicks["days_since_last_view"],
 							"date"	  	=> $estimated_end,
