@@ -416,6 +416,121 @@ function phpAds_getBannerCache($banner)
 	return ($buffer);
 }
 
+function phpAds_compileLimitation ($bannerid = '')
+{
+	global $phpAds_config;
+	
+	if ($bannerid == '')
+	{
+		// Loop through all banners
+		$res = phpAds_dbQuery("
+			SELECT
+				bannerid
+			FROM
+				".$phpAds_config['tbl_banners']."
+		");
+		
+		while ($current = phpAds_dbFetchArray($res))
+			phpAds_compileLimitation ($current['bannerid']);
+	}
+	else
+	{
+		// Compile limitation
+		$res = phpAds_dbQuery("
+			SELECT
+				*
+			FROM
+				".$phpAds_config['tbl_acls']."
+			WHERE
+				bannerid = '".$bannerid."'
+			ORDER BY
+				executionorder
+		") or phpAds_sqlDie();
+		
+		while ($row = phpAds_dbFetchArray ($res))
+		{
+			$acl[$row['executionorder']]['logical'] 	= $row['logical'];
+			$acl[$row['executionorder']]['type'] 		= $row['type'];
+			$acl[$row['executionorder']]['comparison'] 	= $row['comparison'];
+			$acl[$row['executionorder']]['data'] 		= addslashes($row['data']);
+		}
+		
+		
+		$expression = '';
+		$i = 0;
+		
+		if (isset($acl) && count($acl))
+		{
+			reset($acl);
+			while (list ($key,) = each ($acl))
+			{
+				if ($i > 0)
+					$expression .= ' '.$acl[$key]['logical'].' ';
+				
+				switch ($acl[$key]['type'])
+				{
+					case 'clientip':
+						$expression .= "phpAds_aclCheckClientIP(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+						break;
+					case 'browser':
+						$expression .= "phpAds_aclCheckUseragent(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+						break;
+					case 'os':
+						$expression .= "phpAds_aclCheckUseragent(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+						break;
+					case 'useragent':
+						$expression .= "phpAds_aclCheckUseragent(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+						break;
+					case 'language':
+						$expression .= "phpAds_aclCheckLanguage(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+						break;
+					case 'country':
+						$expression .= "phpAds_aclCheckCountry(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+						break;
+					case 'continent':
+						$expression .= "phpAds_aclCheckContinent(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+						break;
+					case 'weekday':
+						$expression .= "phpAds_aclCheckWeekday(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+						break;
+					case 'domain':
+						$expression .= "phpAds_aclCheckDomain(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+						break;
+					case 'source':
+						$expression .= "phpAds_aclCheckSource(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\', $"."source)";
+						break;
+					case 'time':
+						$expression .= "phpAds_aclCheckTime(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+						break;
+					case 'date':
+						$expression .= "phpAds_aclCheckDate(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+						break;
+					default:
+						return(0);
+				}
+				
+				$i++;
+			}
+		}
+		
+		if ($expression == '')
+			$expression = 'true';
+		
+		$res = phpAds_dbQuery("
+			UPDATE
+				".$phpAds_config['tbl_banners']."
+			SET
+				compiledlimitation='".$expression."'
+			WHERE
+				bannerid='".$bannerid."'
+		") or phpAds_sqlDie();
+	}
+}
+
+
+
+
+
 
 function phpAds_AvailableNetworks()
 {

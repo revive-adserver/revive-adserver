@@ -18,6 +18,7 @@
 require ("config.php");
 require ("lib-statistics.inc.php");
 require ("lib-zones.inc.php");
+require ("lib-banner.inc.php");
 
 
 // Include needed resources
@@ -239,74 +240,7 @@ elseif (isset($submit))
 		}
 		
 		// Precompile limitation
-		$expression = '';
-		$i = 0;
-		
-		if (isset($acl) && count($acl))
-		{
-			reset($acl);
-			while (list ($key,) = each ($acl))
-			{
-				if ($i > 0)
-					$expression .= ' '.$acl[$key]['logical'].' ';
-				
-				switch ($acl[$key]['type'])
-				{
-					case 'clientip':
-						$expression .= "phpAds_aclCheckClientIP(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
-						break;
-					case 'browser':
-						$expression .= "phpAds_aclCheckUseragent(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
-						break;
-					case 'os':
-						$expression .= "phpAds_aclCheckUseragent(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
-						break;
-					case 'useragent':
-						$expression .= "phpAds_aclCheckUseragent(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
-						break;
-					case 'language':
-						$expression .= "phpAds_aclCheckLanguage(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
-						break;
-					case 'country':
-						$expression .= "phpAds_aclCheckCountry(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
-						break;
-					case 'continent':
-						$expression .= "phpAds_aclCheckContinent(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
-						break;
-					case 'weekday':
-						$expression .= "phpAds_aclCheckWeekday(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
-						break;
-					case 'domain':
-						$expression .= "phpAds_aclCheckDomain(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
-						break;
-					case 'source':
-						$expression .= "phpAds_aclCheckSource(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\', $"."source)";
-						break;
-					case 'time':
-						$expression .= "phpAds_aclCheckTime(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
-						break;
-					case 'date':
-						$expression .= "phpAds_aclCheckDate(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
-						break;
-					default:
-						return(0);
-				}
-				
-				$i++;
-			}
-		}
-		
-		if ($expression == '')
-			$expression = 'true';
-		
-		$res = phpAds_dbQuery("
-			UPDATE
-				".$phpAds_config['tbl_banners']."
-			SET
-				compiledlimitation='".$expression."'
-			WHERE
-				bannerid='".$bannerid."'
-		") or phpAds_sqlDie();
+		phpAds_compileLimitation ($bannerid);
 	}
 	
 	
