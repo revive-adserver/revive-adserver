@@ -3,6 +3,8 @@ phpAdsNew - ChangeLog
 
 CVS			+ Added a cron replacement for users who don't have access to the cron utility for scheduling the maintenance script  (Niels, 2003-01-14)
 			+ The database is now checked after an update to make sure the update was succesful. If not an error is shown and the can retry to update  (Niels, 2003-01-15)
+			+ phpAdsNew now uses many newly designed icons, also other icons have been updated to match the new icons  (Niels, 2003-02-03)
+			+ Updated some of the user-interface, in particular the error messages and help screens  (Niels, 2003-02-03)
 			
 			+ Misc changes
 			  - 2003-01-12:  Added info about the current version on the Available Updates page  (Niels)
@@ -38,6 +40,7 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-01-24:  The geotargeting cookie is now saved only for the current session, to make sure the location of the visitor is correct after a database update  (Niels)
 			  - 2003-01-24:  When using plain remote invocation the geotargeting cookie wasn't set, now it is  (Niels)
 			  - 2003-01-25:  Hosts that were listed in most 'most recent' and 'top' hosts were not properly shown as hostname  (Niels)
+			  - 2003-02-03:  Fixed Javascript error when no hostsnames needed to be fetched  (Niels)
 			
 
 v 2.0rc2		+ Misc bugfixes
