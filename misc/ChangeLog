@@ -47,6 +47,7 @@ CVS
 			  - 2003-06-29:  After adding a HTML banner, the target of an <area> tag will now also honour the destination frame set on the banner properties page  (Niels)
 			  - 2003-06-29:  If a HTML banner is added without a <a> tag, but with an <iframe>, <object> or <script> tag, phpAdsNew won't add a link around the HTML banner  (Niels)
 			  - 2003-06-29:  Beacon image is now completely hidden, so it won't affect blocks (ie. <table>) before it  (Niels)
+			  - 2003-07-01:  Fixed output buffering/IE bug on generated graphs when ob_gzhandler was set  (Matteo)
 
 
 v 2.0rc3		+ Added a cron replacement for users who don't have access to the cron utility for scheduling the maintenance script  (Niels, 2003-01-14)
