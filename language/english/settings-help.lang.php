@@ -365,7 +365,7 @@ $GLOBALS['phpAds_hlp_pwold'] =
 $GLOBALS['phpAds_hlp_pw'] = 
 $GLOBALS['phpAds_hlp_pw2'] = "
         To change the administrator password, you can need to specify the old
-		password above. Also you need to specify the old password twice, to
+		password above. Also you need to specify the new password twice, to
 		prevent typing errors.
 		";
 		
@@ -449,8 +449,8 @@ $GLOBALS['phpAds_hlp_gui_show_campaign_preview'] = "
 $GLOBALS['phpAds_hlp_gui_show_banner_html'] = "
 		If this option is enabled the actual HTML banner will be shown instead of the HTML code. This 
 		option is disabled by default, because the HTML banners might conflict with the user interface. 
-		If this option is still possible to view the actual HTML banner, by clicking on the <i>Show banner</i>
-		button next to the HTML code.
+		If this option is disabled it is still possible to view the actual HTML banner, by clicking on 
+		the <i>Show banner</i> button next to the HTML code.
 		";
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_preview'] = "
