@@ -117,11 +117,11 @@ function phpAds_RebuildZoneCache ($zoneid = '')
 /* Determine if a banner included in a zone              */
 /*********************************************************/
 
-function phpAds_IsBannerInZone ($bannerid, $zoneid)
+function phpAds_IsBannerInZone ($bannerid, $zoneid, $what = '')
 {
 	global $phpAds_config;
 	
-	if (isset($zoneid) && $zoneid != '')
+	if ($what == '')
 	{
 		$res = phpAds_dbQuery("
 			SELECT
@@ -130,21 +130,21 @@ function phpAds_IsBannerInZone ($bannerid, $zoneid)
 				".$phpAds_config['tbl_zones']."
 			WHERE
 				zoneid = $zoneid
-			") or phpAds_sqlDie();
+		") or phpAds_sqlDie();
 		
-		if (phpAds_dbNumRows($res))
+		if ($zone = phpAds_dbFetchArray($res))
+			$what = $zone['what'];
+	}
+	
+	
+	$what_array = explode(",", $what);
+	
+	for ($k=0; $k < count($what_array); $k++)
+	{
+		if (substr($what_array[$k],0,9) == "bannerid:" && 
+		    substr($what_array[$k],9) == $bannerid)
 		{
-			$zone = phpAds_dbFetchArray($res);
-			$what_array = explode(",", $zone['what']);
-			
-			for ($k=0; $k < count($what_array); $k++)
-			{
-				if (substr($what_array[$k],0,9) == "bannerid:" && 
-				    substr($what_array[$k],9) == $bannerid)
-				{
-					return (true);
-				}
-			}
+			return (true);
 		}
 	}
 	
@@ -157,11 +157,11 @@ function phpAds_IsBannerInZone ($bannerid, $zoneid)
 /* Determine if a campaign included in a zone            */
 /*********************************************************/
 
-function phpAds_IsCampaignInZone ($clientid, $zoneid)
+function phpAds_IsCampaignInZone ($clientid, $zoneid, $what = '')
 {
 	global $phpAds_config;
 	
-	if (isset($zoneid) && $zoneid != '')
+	if ($what == '')
 	{
 		$res = phpAds_dbQuery("
 			SELECT
@@ -170,21 +170,21 @@ function phpAds_IsCampaignInZone ($clientid, $zoneid)
 				".$phpAds_config['tbl_zones']."
 			WHERE
 				zoneid = $zoneid
-			") or phpAds_sqlDie();
+		") or phpAds_sqlDie();
 		
-		if (phpAds_dbNumRows($res))
+		if ($zone = phpAds_dbFetchArray($res))
+			$what = $zone['what'];
+	}
+	
+	
+	$what_array = explode(",", $what);
+	
+	for ($k=0; $k < count($what_array); $k++)
+	{
+		if (substr($what_array[$k],0,9) == "clientid:" && 
+		    substr($what_array[$k],9) == $clientid)
 		{
-			$zone = phpAds_dbFetchArray($res);
-			$what_array = explode(",", $zone['what']);
-			
-			for ($k=0; $k < count($what_array); $k++)
-			{
-				if (substr($what_array[$k],0,9) == "clientid:" && 
-				    substr($what_array[$k],9) == $clientid)
-				{
-					return (true);
-				}
-			}
+			return (true);
 		}
 	}
 	
