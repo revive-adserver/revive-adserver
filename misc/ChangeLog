@@ -4,6 +4,7 @@ phpAdsNew - ChangeLog
 CVS			+ Misc changes
 			  - 2003-01-12:  Added info about the current version on the Available Updates page  (Niels)
 			  - 2003-01-12:  Added flag for Cape Verde  (Niels)
+			  - 2003-01-12:  Added PHP code and variable parsing to HTML banner preview  (Niels)
 			
 
 v 2.0rc2		+ Misc bugfixes
