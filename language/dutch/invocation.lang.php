@@ -63,6 +63,13 @@ $GLOBALS['strPopUpAfterSec']			= "Na";
 $GLOBALS['strAutoCloseAfter']			= "Sluit automatisch na";
 $GLOBALS['strPopUpTop']				= "Begin positie (boven)";
 $GLOBALS['strPopUpLeft']			= "Begin positie (links)";
+$GLOBALS['strWindowOptions']			= "Window opties";
+$GLOBALS['strShowToolbars']			= "Werkbalken";
+$GLOBALS['strShowLocation']			= "Locatiebalk";
+$GLOBALS['strShowMenubar']			= "Menubalk";
+$GLOBALS['strShowStatus']			= "Statusbalk";
+$GLOBALS['strWindowResizable']			= "Aanpassen grootte";
+$GLOBALS['strShowScrollbars']			= "Schuifbalken";
 
 
 // XML-RPC
