@@ -18,6 +18,7 @@
 require ("config.php");
 require ("lib-statistics.inc.php");
 require ("lib-size.inc.php");
+require ("lib-zones.inc.php");
 
 
 // Security check
@@ -265,7 +266,12 @@ else
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 				echo "<img src='images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;";
 				
-				echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
+				if ($zones[$zkey]['delivery'] == phpAds_ZoneBanner)
+					echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
+				elseif ($zones[$zkey]['delivery'] == phpAds_ZoneInterstitial)
+					echo "<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;";
+				elseif ($zones[$zkey]['delivery'] == phpAds_ZonePopup)
+					echo "<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;";
 				
 				echo "<a href='zone-edit.php?affiliateid=".$affiliate['affiliateid']."&zoneid=".$zones[$zkey]['zoneid']."'>".$zones[$zkey]['zonename']."</td>";
 				echo "</td>";

@@ -18,6 +18,7 @@
 require ("config.php");
 require ("lib-statistics.inc.php");
 require ("lib-size.inc.php");
+require ("lib-zones.inc.php");
 
 
 // Security check
@@ -219,8 +220,14 @@ while ($row_zones = phpAds_dbFetchArray($res_zones))
 	if ($i > 0) echo "<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
 	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 	
-	echo "<td height='25'>";
-	echo "&nbsp;&nbsp;<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
+	echo "<td height='25'>&nbsp;&nbsp;";
+	
+	if ($row_zones['delivery'] == phpAds_ZoneBanner)
+		echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
+	elseif ($row_zones['delivery'] == phpAds_ZoneInterstitial)
+		echo "<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;";
+	elseif ($row_zones['delivery'] == phpAds_ZonePopup)
+		echo "<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;";
 	
 	if (phpAds_isUser(phpAds_Admin) || phpAds_isAllowed(phpAds_EditZone))
 		echo "<a href='zone-edit.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'>".$row_zones['zonename']."</a>";

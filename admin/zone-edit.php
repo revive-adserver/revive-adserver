@@ -99,7 +99,8 @@ if (isset($submit))
 				zonename='".$zonename."',
 				description='".$description."',
 				width='".$width."',
-				height='".$height."'
+				height='".$height."',
+				delivery='".$delivery."'
 			WHERE
 				zoneid=".$zoneid."
 			") or phpAds_sqlDie();
@@ -121,7 +122,8 @@ if (isset($submit))
 				zonetype,
 				description,
 				width,
-				height
+				height,
+				delivery
 				)
 			 VALUES (
 			 	'".$affiliateid."',
@@ -129,7 +131,8 @@ if (isset($submit))
 				'".phpAds_ZoneCampaign."',
 				'".$description."',
 				'".$width."',
-				'".$height."'
+				'".$height."',
+				'".$delivery."'
 				)
 			") or phpAds_sqlDie();
 		
@@ -280,6 +283,7 @@ else
 	$zone['description'] 	= '';
 	$zone['width'] 			= '468';
 	$zone['height'] 		= '60';
+	$zone['delivery']		= phpAds_ZoneBanner;
 }
 
 
@@ -305,7 +309,17 @@ echo "<input class='flat' size='35' type='text' name='description' style='width:
 echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strSize."</td><td>";
+echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'><br>".$strZoneType."</td><td><table>";
+echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZoneBanner."'".($zone['delivery'] == phpAds_ZoneBanner ? ' CHECKED' : '').">";
+echo "&nbsp;<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;".$strBannerButtonRectangle."</td></tr>";
+echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZoneInterstitial."'".($zone['delivery'] == phpAds_ZoneInterstitial ? ' CHECKED' : '').">";
+echo "&nbsp;<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;".$strInterstitial."</td></tr>";
+echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZonePopup."'".($zone['delivery'] == phpAds_ZonePopup ? ' CHECKED' : '').">";
+echo "&nbsp;<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;".$strPopup."</td></tr>";
+echo "</table></td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+
+echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'><br>".$strSize."</td><td>";
 
 $exists = phpAds_sizeExists ($zone['width'], $zone['height']);
 
