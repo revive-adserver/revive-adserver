@@ -655,7 +655,7 @@ function phpAds_PriorityCalculate()
 	
 	// Populate campaign statistics
 	$total_requested 	 = 0;
-	$total_weight 		 = 0;
+	$total_campaign_weight 		 = 0;
 	$total_targeted_hits = 0;
 	$total_other_hits 	 = 0;
 	
@@ -688,7 +688,7 @@ function phpAds_PriorityCalculate()
 			$total_other_hits    += $other_hits;
 			
 			if ($bannercount > 0)
-				$total_weight    += $campaigns[$c]['weight'];
+				$total_campaign_weight    += $campaigns[$c]['weight'];
 		}
 		
 		$campaigns[$c]['hits'] = $targeted_hits + $other_hits;
@@ -829,6 +829,8 @@ function phpAds_PriorityCalculate()
 		// BEGIN REPORTING
 		$debuglog .= "\n\n\n";
 		$debuglog .= "Impressions assigned to meet the targets: $totalassigned \n";
+		$debuglog .= "Impressions left over: $available_for_others \n";
+		$debuglog .= "-----------------------------------------------------\n";
 		// END REPORTING
 
 		$no_high_pri = !$totalassigned;
@@ -844,14 +846,9 @@ function phpAds_PriorityCalculate()
 		$no_high_pri = true;
 	}
 
-	// BEGIN REPORTING
-	$debuglog .= "Impressions left over: $available_for_others \n";
-	$debuglog .= "-----------------------------------------------------\n";
-	// END REPORTING
+	$total_weight =  phpAds_PriorityTotalWeight($campaigns, $banners);
 
-	$totalweight =  phpAds_PriorityTotalWeight($campaigns, $banners);
-
-	if ($no_high_pri || $available_for_others < $totalweight)
+	if ($no_high_pri || $available_for_others < $total_weight)
 	{
 		// BEGIN REPORTING
 
@@ -869,7 +866,7 @@ function phpAds_PriorityCalculate()
 		$debuglog .= "-----------------------------------------------------\n";
 		// END REPORTING
 
-		$available_for_others = $totalweight;
+		$available_for_others = $total_weight;
 		$high_pri_boost = true;
 	}
 	else
@@ -887,7 +884,7 @@ function phpAds_PriorityCalculate()
 			
 			
 			if ($available_for_others > 0)
-				$remaining_for_campaign = round ($available_for_others / $total_weight * $campaigns[$c]['weight']);
+				$remaining_for_campaign = round ($available_for_others / $total_campaign_weight * $campaigns[$c]['weight']);
 			else
 				$remaining_for_campaign = 0;
 			
@@ -913,7 +910,7 @@ function phpAds_PriorityCalculate()
 	}
 
 
-	if ($high_pri_boost && !$no_high_pri && $totalweight)
+	if ($high_pri_boost && !$no_high_pri && $total_weight)
 	{
 		// BEGIN REPORTING
 		$debuglog .= "\n\n\n-----------------------------------------------------\n";
@@ -934,10 +931,10 @@ function phpAds_PriorityCalculate()
 					if ($banners[$b]['parent'] == $c)
 					{
 						// BEGIN REPORTING
-						$debuglog .= "- Assigned priority to banner $b: ".$banners[$b]['priority']." * $totalweight = ";
+						$debuglog .= "- Assigned priority to banner $b: ".$banners[$b]['priority']." * $total_weight = ";
 						// END REPORTING
 
-						$banners[$b]['priority'] *= $totalweight;
+						$banners[$b]['priority'] *= $total_weight;
 					
 						// BEGIN REPORTING
 						$debuglog .= $banners[$b]['priority']."\n";
