@@ -1177,31 +1177,57 @@ function phpAds_upgradePasswordMD5 ()
 	if (!isset($phpAds_config['config_version']) ||	$phpAds_config['config_version'] < 200.152)
 	{
 		// Update the advertisers
-		$res = phpAds_dbQuery ("
-			UPDATE
+		$res = phpAds_dbQuery("
+			SELECT
+				clientid,
+				clientpassword
+			FROM
 				".$phpAds_config['tbl_clients']."
-			SET
-				clientpassword = MD5(clientpassword)
 			WHERE
-				clientpassword != ''
-		");
+				parent = 0
+			");
 		
-		// Update the publisher
-		$res = phpAds_dbQuery ("
-			UPDATE
+		while ($row = phpAds_dbFetchArray($res))
+		{
+			if (strlen($row['clientpassword']))
+				phpAds_dbQuery("
+					UPDATE
+						".$phpAds_config['tbl_clients']."
+					SET
+						clientpassword = '".addslashes(md5($row['clientpassword']))."'
+					WHERE
+						clientid = ".$row['clientid']."
+				");
+		}
+
+		// Update the publishers
+		$res = phpAds_dbQuery("
+			SELECT
+				affiliateid,
+				password
+			FROM
 				".$phpAds_config['tbl_affiliates']."
-			SET
-				password = MD5(password)
-			WHERE
-				password != ''
-		");
+			");
 		
+		while ($row = phpAds_dbFetchArray($res))
+		{
+			if (strlen($row['password']))
+				phpAds_dbQuery("
+					UPDATE
+						".$phpAds_config['tbl_affiliates']."
+					SET
+						password = '".addslashes(md5($row['password']))."'
+					WHERE
+						affiliateid = ".$row['affiliateid']."
+				");
+		}
+
 		// Update the administrator
 		$res = phpAds_dbQuery ("
 			UPDATE
 				".$phpAds_config['tbl_config']."
 			SET
-				admin_pw = MD5(admin_pw)
+				admin_pw = '".addslashes(md5($phpAds_config['admin_pw']))."'
 		");
 	}
 }
