@@ -109,7 +109,7 @@ if (phpAds_isUser(phpAds_Admin))
 	$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	$extra .= "<select name='moveto' style='width: 110;'>";
 	
-	$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_affiliates']." WHERE affiliateid != ".$affiliateid) or phpAds_sqlDie();
+	$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_affiliates']." WHERE affiliateid <> '".$affiliateid."'") or phpAds_sqlDie();
 	while ($row = phpAds_dbFetchArray($res))
 		$extra .= "<option value='".$row['affiliateid']."'>".phpAds_buildAffiliateName($row['affiliateid'], $row['name'])."</option>";
 	
