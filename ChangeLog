@@ -41,6 +41,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: Made phpAds_path available to admin files  (Niels) 20011102
 			  - Bugfix: Fixed misc. E_ALL warnings  (Niels) 20011102
 			  - Bugfix: target was replaced in HTML banners, even if the new target was empty  (Niels) 20011109
+			  - Bugfix: Link to ACL page was shown even if they were disabled  (Niels) 20011110
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015

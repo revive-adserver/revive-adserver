@@ -385,8 +385,12 @@ if ($bannerid != '')
 		$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/icon-zoom.gif' align='absmiddle'>&nbsp;<a href=stats-details.php?campaignid=$campaignid&bannerid=$bannerid>$strDetailStats</a><br>";
 		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		
+		$sections = array ("4.1.5.2");
+		if ($phpAds_config['acl']) $sections[] = "4.1.5.3";
+		$sections[] = "4.1.5.4";
+		
 		phpAds_PageHeader("4.1.5.2", $extra);
-		phpAds_ShowSections(array("4.1.5.2", "4.1.5.3", "4.1.5.4"));
+		phpAds_ShowSections($sections);
 	}
 	else
 	{
