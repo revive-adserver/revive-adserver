@@ -35,6 +35,7 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-03-18:  Added extra options to the popup invocation, which allow you to control the settings of the window in which the popup is opened  (Niels)
 			  - 2003-03-19:	 Added support for using an external URL as a HTML banner (just leave the HTML field empty an set a destination URL)  (Niels)
 			  - 2003-03-19:  Added a new variable called {targeturl=} to HTML banners. Usage: {targeturl=}http://www.something.com instead of {targeturl:http://www.something.com}  (Niels)
+			  - 2003-04-01:  Added more debug info to autotargeting process  (Matteo)
 
 			+ Misc bugfixes
 			  - 2003-01-13:  If a zero was used in a random variable (ie. random:10) it wasn't replaced  (Niels)
@@ -78,6 +79,7 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-03-13:  The default target frame for plain remote invocation and iframes is now '_blank', just like local mode and javascript  (Niels)
 			  - 2003-03-13:  If remote invocation for iframes is used, then the target frames in the HTML are rewritten to make sure they are local to the parent frame instead of the iframe  (Niels)
 			  - 2003-03-19:  Clicking on a banner inside the admin interface no longer increases the number of AdClicks for that particular banner  (Niels)
+			  - 2003-04-01:  Autotargeting is now able to make use of the advanced routines  (Matteo)
 			
 
 

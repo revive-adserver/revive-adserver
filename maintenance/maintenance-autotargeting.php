@@ -52,15 +52,21 @@ if (phpAds_dbNumRows($res))
 	$report .= "==================================================\n";
 	$report .= "AUTOTARGETING STARTED\n";
 	$report .= "==================================================\n\n";
-
+	$report .= "--------------------------------------------------\n";
+	$report .= "Smoothing factor calculation ";
+	
+	
 	// Prepare the average view profile
 	$profile = phpAds_AutoTargetingPrepareProfile();
-
+	
 	// Calculate the factor to use on sunday or if it's disabled
 	if (!date('w') || !isset($phpAds_config['autotarget_factor']) || $phpAds_config['autotarget_factor'] == -1)
 	{
-		$phpAds_config['autotarget_factor'] = phpAds_AutoTargetingCaclulateFactor($profile);
-
+		$report .= "started\n";
+		$report .= "--------------------------------------------------\n";
+		
+		$phpAds_config['autotarget_factor'] = phpAds_AutoTargetingCaclulateFactor($profile, $report);
+		
 		// Save factor into db
 		phpAds_dbQuery("
 			UPDATE
@@ -75,13 +81,18 @@ if (phpAds_dbNumRows($res))
 	{
 		// Disable if a null profile was supplied
 		$phpAds_config['autotarget_factor'] = -1;
+		
+		$report .= "skipped: supplied profile is null\n\n";
 	}
-
+	else
+		$report .= "skipped: already set\n\n";
+	
+	
 	$report .= "--------------------------------------------------\n";
 	$report .= "Smoothing factor:               ".sprintf('%.2f', $phpAds_config['autotarget_factor'])."\n";
 	$report .= "Today dow:                      ".phpAds_DowToday."\n";
 	$report .= "Today profile value:            ".$profile[phpAds_DowToday]."\n";
-
+	
 	if ($phpAds_config['autotarget_factor'] != -1)
 	{
 		// Targets should not be fully satisfied if using plain autotargeting
@@ -90,9 +101,9 @@ if (phpAds_dbNumRows($res))
 
 		$report .= "Today smoothed profile value:   ".$profile[phpAds_DowToday]."\n";
 	}
-
+	
 	$report .= "--------------------------------------------------\n\n";
-
+	
 	while ($row = phpAds_dbFetchArray($res))
 	{
 		$target = phpAds_AutoTargetingGetTarget($profile, $row['views'], $row['expire'], $phpAds_config['autotarget_factor']);
@@ -101,7 +112,7 @@ if (phpAds_dbNumRows($res))
 			list($target, $debuglog) = $target;
 		else
 			$debuglog = 'no debug info available';
-
+		
 		phpAds_dbQuery("
 			UPDATE
 				".$phpAds_config['tbl_clients']."
@@ -110,7 +121,7 @@ if (phpAds_dbNumRows($res))
 			WHERE
 				clientid = ".$row['clientid']."
 		");
-
+		
 		$report .= "\n<b>$row[clientname] [id$row[clientid]]:</b> $target $debuglog\n\n";
 	}
 }

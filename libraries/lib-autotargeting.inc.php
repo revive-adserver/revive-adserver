@@ -157,18 +157,18 @@ function phpAds_AutoTargetingPrepareProfile($weeks = 2)
 
 	if ($phpAds_config['compact_stats'])
 	{
-		$begin   = date('Y-m-d', phpAds_makeTimestamp(phpAds_LastMidnight, - (60 * 60 * 24 * 7 * $weeks)));
-		$end   = date('Y-m-d', phpAds_makeTimestamp(phpAds_LastMidnight));
+		$begin   = date('Ymd', phpAds_makeTimestamp(phpAds_LastMidnight, - (60 * 60 * 24 * 7 * $weeks)));
+		$end   = date('Ymd', phpAds_makeTimestamp(phpAds_LastMidnight));
 		
 		$res_views = phpAds_dbQuery("
 			SELECT
 				SUM(views) AS sum_views,
-				DATE_FORMAT(day, 'D') AS dow
+				DATE_FORMAT(day, '%w') AS dow
 			FROM
 				".$phpAds_config['tbl_adstats']."
 			WHERE
-				day >= '$begin' AND
-				day < '$end'
+				day >= $begin AND
+				day < $end
 			GROUP BY
 				dow
 			ORDER BY
@@ -177,18 +177,18 @@ function phpAds_AutoTargetingPrepareProfile($weeks = 2)
 	}
 	else
 	{
-		$begin   = date('Y-m-d H:i:s', phpAds_makeTimestamp(phpAds_LastMidnight, - (60 * 60 * 24 * 7 * $weeks)));
-		$end   = date('Y-m-d H:i:s', phpAds_makeTimestamp(phpAds_LastMidnight));
+		$begin   = date('YmdHis', phpAds_makeTimestamp(phpAds_LastMidnight, - (60 * 60 * 24 * 7 * $weeks)));
+		$end   = date('YmdHis', phpAds_makeTimestamp(phpAds_LastMidnight));
 		
 		$res_views = phpAds_dbQuery("
 			SELECT
 				COUNT(*) AS sum_views,
-				DATE_FORMAT(t_stamp, 'D') AS dow
+				DATE_FORMAT(t_stamp, '%w') AS dow
 			FROM
 				".$phpAds_config['tbl_adviews']."
 			WHERE
-				t_stamp >= '$begin' AND
-				t_stamp < '$end'
+				t_stamp >= $begin AND
+				t_stamp < $end
 			GROUP BY
 				dow
 			ORDER BY
@@ -268,13 +268,18 @@ function phpAds_AutoTargetingActualViews($real_profile, $profile)
 /* Find best smoothing factor to use                     */
 /*********************************************************/
 
-function phpAds_AutoTargetingCaclulateFactor($profile)
+function phpAds_AutoTargetingCaclulateFactor($profile, &$debuglog)
 {
 	global $phpAds_config;
 
+	$debuglog .= "\n";
+	
 	// Use standard routine if the profile is empty
 	if (!phpAds_AutoTargetingProfileSum($profile))
+	{
+		$debuglog .= "Supplied profile is null, using default algorithm\n";
 		return -1;
+	}
 	
 	$target_profile = array(0, 0, 0, 0, 0, 0, 0);
 	$autotarget_campaigns = 0;
@@ -282,6 +287,7 @@ function phpAds_AutoTargetingCaclulateFactor($profile)
 	// Fetch all targeted campaigns and all which need autotargeting
 	$res = phpAds_dbQuery("
 		SELECT
+			clientid,
 			views,
 			UNIX_TIMESTAMP(expire) AS expire,
 			target
@@ -294,12 +300,19 @@ function phpAds_AutoTargetingCaclulateFactor($profile)
 			((expire > NOW() AND views > 0) OR target > 0)
 		");
 
+	$debuglog .= "Targeted campaigns: ". phpAds_dbNumRows($res)."\n";
+	
 	while ($row = phpAds_dbFetchArray($res))
 	{
+		$debuglog .= "\nCAMPAIGN ".$row['clientid']." \n";
+		$debuglog .= "--------------------------------------------------\n";
+
 		if ($row['expire'])
 		{
 			// Expire date set, get remaining days
 			$days = ($row['expire'] - phpAds_LastMidnight) / (double)(60*60*24);
+			
+			$debuglog .= "Days remaining: $days\n";
 			
 			if ($days <= 0)
 				continue;
@@ -309,10 +322,19 @@ function phpAds_AutoTargetingCaclulateFactor($profile)
 				// Bought views set, use standard autotargeting
 				$daily_target = ceil($row['views'] / $days);
 				$autotarget_campaigns++;
+				
+				$debuglog .= "Campaign type: Autotargeting\n";
+				$debuglog .= "Remaining AdViews: ".$row['views']."\n";
+				$debuglog .= "Daily target: ".$daily_target."\n";
 			}
 			elseif ($row['target'])
+			{
 				// Use target field
 				$daily_target = $row['target'];
+				
+				$debuglog .= "Campaign type: Expiring high-pri\n";
+				$debuglog .= "Daily target: ".$daily_target."\n";
+			}
 			else
 				// Skip campaign
 				continue;
@@ -326,12 +348,26 @@ function phpAds_AutoTargetingCaclulateFactor($profile)
 
 			$daily_target = $row['target'];
 
+			$debuglog .= "Daily target: ".$daily_target."\n";
+
 			if ($row['views'])
+			{
+				$debuglog .= "Campaign type: AdView based high-pri\n";
+			
 				// Bought views set, get remaining days using the current target
 				$days = ceil($row['views'] / $daily_target);
+				
+				$debuglog .= "Remaining AdViews: ".$row['views']."\n";
+			}
 			else
+			{
 				// Set target for the whole week
 				$days = 7;
+				
+				$debuglog .= "Campaign type: Default high-pri\n";
+			}
+			
+			$debuglog .= "Days remaining: ".$days."\n";
 		}
 		
 		// Add this campaign to the targets profile
@@ -339,12 +375,16 @@ function phpAds_AutoTargetingCaclulateFactor($profile)
 			$target_profile[$i] += $daily_target;
 	}
 	
+	$debuglog .= "\nAutotargeted campaigns: ".$autotarget_campaigns."\n";
+	$debuglog .= "--------------------------------------------------\n";
+
 	if (!$autotarget_campaigns)
 	{
 		// No autotargeting is needed, we can use default autotargeting safely
+		$debuglog .= "No autotargeting needed, using default algorithm\n";
 		return -1;
 	}
-
+	
 	// Get the daily target
 	$daily_target = phpAds_AutoTargetingProfileSum($target_profile);
 	
@@ -396,6 +436,8 @@ function phpAds_AutoTargetingCaclulateFactor($profile)
 		$best['factor'] = round($factor*100/count($best['factor']))/100;
 	}
 
+	$debuglog .= "\n";
+	
 	return $best['factor'];
 }
 
