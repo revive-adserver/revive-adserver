@@ -205,7 +205,7 @@ $GLOBALS['strActivateNow'] = "Attiva il cliente immediatamente";
 $GLOBALS['strExpirationDate'] = "Data Scadenza";
 $GLOBALS['strActivationDate'] = "Data di Attivazione";
 
-$GLOBALS['strMailClientDeactivated'] = "Il Suo banner e' stato disattivato perch&eacute; ";
+$GLOBALS['strMailClientDeactivated'] = "Il Suo banner e' stato disattivato perché ";
 $GLOBALS['strMailNothingLeft'] = "Se vuoLe continuare ad inserire annunci pubblicitari sul nostro sito puo' contattarci.";
 $GLOBALS['strClientDeactivated'] = "Questo cliente non &egrave; attivo perch&eacute; ";
 $GLOBALS['strBeforeActivate'] = "La data di attivazione non &egrave; stata raggiunta";
@@ -268,28 +268,28 @@ $GLOBALS['strClientStats']				= "Statistiche Clienti";
 $GLOBALS['strErrorOccurred']			= "Errore";
 $GLOBALS['strAdReportSent']				= "Report Pubblicitario inviato";
 
-$GLOBALS['strAutoChangeHTML']			= "Change HTML in order to log AdClicks";
+$GLOBALS['strAutoChangeHTML']			= "Modifica HTML per registrare i click";
 
-$GLOBALS['strZones']					= "Zones";
-$GLOBALS['strAddZone']					= "Create zone";
-$GLOBALS['strModifyZone']				= "Modify zone";
-$GLOBALS['strAddNewZone']				= "Add new zone";
+$GLOBALS['strZones']					= "Zone";
+$GLOBALS['strAddZone']					= "Crea zona";
+$GLOBALS['strModifyZone']				= "Modifica zona";
+$GLOBALS['strAddNewZone']				= "Crea una nuova zona";
 
-$GLOBALS['strOverview']					= "Overview";
-$GLOBALS['strEqualTo']					= "is equal to";
-$GLOBALS['strDifferentFrom']			= "is different from";
-$GLOBALS['strAND']						= "AND";  // logical operator
-$GLOBALS['strOR']						= "OR"; // logical operator
-$GLOBALS['strOnlyDisplayWhen']			= "Only display this banner when:";
+$GLOBALS['strOverview']					= "Riepilogo";
+$GLOBALS['strEqualTo']					= "&egrave; uguale a";
+$GLOBALS['strDifferentFrom']			= "&egrave; diverso da";
+$GLOBALS['strAND']						= "E";  // logical operator
+$GLOBALS['strOR']						= "O"; // logical operator
+$GLOBALS['strOnlyDisplayWhen']			= "Mostra questo banner solo quando:";
 
-$GLOBALS['strStatusText']				= "Status Text";
+$GLOBALS['strStatusText']				= "Testo barra di stato";
 
 $GLOBALS['strConfirmDeleteClient'] 		= "Vuoi veramente cancellare questo cliente?";
-$GLOBALS['strConfirmDeleteCampaign']	= "Do you really want to delete this campaign?";
-$GLOBALS['strConfirmDeleteBanner']		= "Do you really want to delete this banner?";
-$GLOBALS['strConfirmResetStats']		= "Do you really want to reset all stats?";
-$GLOBALS['strConfirmResetCampaignStats']= "Do you really want to reset stats for this campaign?";
-$GLOBALS['strConfirmResetClientStats']	= "Vuoi veramente azzerare le statistiche per questo cliente ?";
-$GLOBALS['strConfirmResetBannerStats']	= "Do you really want to reset stats for this banner?";
+$GLOBALS['strConfirmDeleteCampaign']	= "Vuoi veramente cancellare questa campagna?";
+$GLOBALS['strConfirmDeleteBanner']		= "Vuoi veramente cancellare questo banner?";
+$GLOBALS['strConfirmResetStats']		= "Vuoi veramente azzerare tutte le statistiche?";
+$GLOBALS['strConfirmResetCampaignStats']= "Vuoi veramente azzerare le statistiche di questa campagna?";
+$GLOBALS['strConfirmResetClientStats']	= "Vuoi veramente azzerare le statistiche di questo cliente?";
+$GLOBALS['strConfirmResetBannerStats']	= "Vuoi veramente azzerare le statistiche di questo banner?";
 
 ?>
