@@ -46,10 +46,14 @@ $GLOBALS['strTablesType']				= "Table type";
 $GLOBALS['strInstallWelcome']			= "Welcome to phpAdsNew";
 $GLOBALS['strInstallMessage']			= "Before you can use phpAdsNew it needs to be configured and <br> the database needs to be created. Click <b>Proceed</b> to continue.";
 $GLOBALS['strInstallSuccess']			= "<b>The installation of phpAdsNew is now complete.</b><br><br>In order for phpAdsNew to function correctly you also need
-										   to make sure the maintenance file is run every day. More information about this subject can be found in the documentation.
+										   to make sure the maintenance file is run every hour. More information about this subject can be found in the documentation.
 										   <br><br>Click <b>Proceed</b> to go the configuration page, where you can 
 										   set up more settings. Please do not forget to lock the config.inc.php file when you are finished to prevent security
 										   breaches.";
+$GLOBALS['strUpdateSuccess']			= "<b>The upgrade of phpAdsNew was succesfull.</b><br><br>In order for phpAdsNew to function correctly you also need
+										   to make sure the maintenance file is run every hour (previously this was every day). More information about this subject can be found in the documentation.
+										   <br><br>Click <b>Proceed</b> to go to the administration interface. Please do not forget to lock the config.inc.php file 
+										   to prevent security breaches.";
 $GLOBALS['strInstallNotSuccessful']		= "<b>The installation of phpAdsNew was not succesful</b><br><br>Some portions of the install process could not be completed.
 										   It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the
 										   first step of the install process. If you want to know more on what the error message below means, and how to solve it, 
@@ -67,7 +71,7 @@ $GLOBALS['strNotSamePasswords']			= "Passwords did not match";
 $GLOBALS['strInvalidUserPwd']			= "Invalid username or password";
 
 $GLOBALS['strUpgrade']					= "Upgrade";
-$GLOBALS['strSystemUpToDate']			= "Your system is up to date, no upgrade needed at the moment. <br>Click on <b>Proceed</b> to go to home page.";
+$GLOBALS['strSystemUpToDate']			= "Your system is already up to date, no upgrade is needed at the moment. <br>Click on <b>Proceed</b> to go to home page.";
 $GLOBALS['strSystemNeedsUpgrade']		= "The database structure and configuration file need to be upgraded in order to function correctly. Click <b>Proceed</b> to start the upgrade process. <br>Please be patient, the upgrade can take up to a couple of minutes.";
 $GLOBALS['strSystemUpgradeBusy']		= "System upgrade in progress, please wait...";
 $GLOBALS['strServiceUnavalable']		= "The service is temporarily unavailable. System upgrade in progress";

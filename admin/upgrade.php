@@ -270,6 +270,28 @@ if (phpAds_isUser(phpAds_Admin))
 		echo "<meta http-equiv='refresh' content='0;URL=upgrade.php?step=4'>";
 		exit;
 	}
+	elseif ($step == 4)
+	{
+		phpAds_PageHeader("1");
+		echo "<br><br>";
+		phpAds_ShowBreak();
+		
+		echo "<form name='upgrade' method='post' action='index.php'>";
+		echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
+		echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
+		echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
+		echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
+		echo "<span class='install'>".$strUpdateSuccess."</td></tr></table>";
+		
+		echo "<br><br>";
+		phpAds_ShowBreak();
+		echo "<br>";
+		
+		echo "<table width='100%' border='0' cellpadding='0' cellspacing='0'><tr><td align='right'>";
+		echo "<input type='submit' name='proceed' value='".$strProceed."'>";
+		echo "</td></tr></table>\n\n";
+		echo "</form>";
+	}
 	else
 	{
 		phpAds_PageHeader("1");
