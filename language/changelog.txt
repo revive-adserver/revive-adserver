@@ -12,6 +12,9 @@
 
   ====================================================
 
+  15-10-2002 - settings
+    [+] strWarningDBavailable
+
   14-10-2002 - default
     [+] strHardcodedLinks
     [+] strOverwriteSource

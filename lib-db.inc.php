@@ -37,6 +37,16 @@ if ($phpAds_config['compatibility_mode'])
 
 
 /*********************************************************/
+/* Check if the extension is available                   */
+/*********************************************************/
+
+function phpAds_dbAvailable()
+{
+	return (function_exists('mysql_connect'));
+}
+
+
+/*********************************************************/
 /* Open a connection to the database			         */
 /*********************************************************/
 
