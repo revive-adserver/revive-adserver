@@ -22,6 +22,7 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-02-07:  Added automatic filtering of private IP addresses passed as a proxy header  (Matteo)
 			  - 2003-02-09:  Added warning when weight or target isn't set on campaign properties page  (Niels)
 			  - 2003-02-11:  Added HTTP referer delivery limitation; it's working with local, js and xmlrpc invocations only  (Matteo)
+			  - 2003-02-12:  Iframes, XML-RPC and plain remote invocation are no longer used by default  (Niels)
 
 			+ Misc bugfixes
 			  - 2003-01-13:  If a zero was used in a random variable (ie. random:10) it wasn't replaced  (Niels)
