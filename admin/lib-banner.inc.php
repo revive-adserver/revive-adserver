@@ -290,7 +290,7 @@ function phpAds_getBannerCache($banner)
 	if ($banner['contenttype'] == 'swf')
 	{
 		if ($banner['url'] != '')
-			$buffer = str_replace ('{swf_param}', "clickTAG=".$phpAds_config['url_prefix'].'/adclick.php%3Fbannerid={bannerid}%26amp;zoneid={zoneid}%26amp;source={source}%26amp;dest='.urlencode($banner['url']), $buffer);
+			$buffer = str_replace ('{swf_param}', "clickTAG=".$phpAds_config['url_prefix'].'/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest='.urlencode($banner['url']), $buffer);
 		else
 		{
 			$buffer = str_replace ('{swf_con}{swf_param}', '', $buffer);
