@@ -1,4 +1,4 @@
-<?php // $Revision: 1.14 $
+<?php // $Revision: 1.15 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -208,7 +208,7 @@ $GLOBALS['strInterfaceDefaults']		= "Umgebungsstandard";
 
 $GLOBALS['strStatisticsDefaults'] 		= "Statistiken";
 $GLOBALS['strBeginOfWeek']				= "Beginn der Woche";
-$GLOBALS['strPercentageDecimals']		= "Prozentual";
+$GLOBALS['strPercentageDecimals']		= "Prozentuell";
 
 $GLOBALS['strWeightDefaults']			= "Standard Gewichtung";
 $GLOBALS['strDefaultBannerWeight']		= "Standard Bannergewichtung";
