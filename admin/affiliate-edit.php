@@ -209,6 +209,9 @@ if (isset($submit))
 				affiliateid=".$affiliateid."
 			") or phpAds_sqlDie();
 		
+		$Session['language'] = $language;
+		phpAds_SessionDataStore();
+		
 		header ("Location: zone-index.php?affiliateid=".$affiliateid);
 		exit;
 	}
@@ -347,7 +350,12 @@ if (isset($affiliateid) && $affiliateid != '')
 		$languages = phpAds_AvailableLanguages();
 		
 		while (list($k, $v) = each($languages))
-			echo "<option value='$k'>$v</option>\n";
+		{
+			if (isset($affiliate['language']) && $affiliate['language'] == $k)
+				echo "<option value='$k' selected>$v</option>\n";
+			else
+				echo "<option value='$k'>$v</option>\n";
+		}
 
 		?>
 			</select>

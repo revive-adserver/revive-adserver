@@ -367,8 +367,12 @@ echo "<br><br>";
 		$languages = phpAds_AvailableLanguages();
 		
 		while (list($k, $v) = each($languages))
-			echo "<option value='$k'>$v</option>\n";
-
+		{
+			if (isset($row['language']) && $row['language'] == $k)
+				echo "<option value='$k' selected>$v</option>\n";
+			else
+				echo "<option value='$k'>$v</option>\n";
+		}
 		?>
 			</select>
 		</td>
