@@ -3,12 +3,16 @@ phpAdsNew - ChangeLog
 
 phpAdsNew 2.0.4
 			+ Misc bugfixes
+			  - 2005-03-07:  Non-latin1 alt/status texts on JS invocation were broken due to recent changes  (Matteo)
+
+
+phpAdsNew 2.0.4
+			+ Misc bugfixes
 			  - 2005-02-10:  HTML banners containing script tags were generating JS errors on IE  (Matteo)
 			  - 2005-02-22:  Added missing Retry button when getting fatal errors during install  (Matteo)
 			  - 2005-02-24:  Converted SWF links were lost after updating banner properties - bug #1118544  (Matteo)
 			  - 2005-02-25:  Status text containing quotes was causing JS errors - bug #1150893  (Matteo)
 			  - 2005-02-25:  Rewrote output functions to correctly handle HTML entities in names or descriptions - bug #639011  (Matteo)
-			  - 2005-03-01:  Non-latin1 alt/status texts on JS invocation were broken due to recent changes  (Matteo)
 			  - 2005-03-03:  Added warning when register_log_arrays PHP5 confiugration parameter is disabled  (Matteo)
 			  - 2005-03-03:  Removed default charset, which was breaking browsers' automatic charset recognition (Matteo)
 
