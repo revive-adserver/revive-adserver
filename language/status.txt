@@ -14,8 +14,8 @@ information in the 'Translation' forum on Sourceforge.
 Chinese (gb2312)
 	---------------------------------------------------------
 	Maintained by:	   Vincen Guo (guo9310@yahoo.com.cn)
-	Is up-to-date?	   No
-	Last update:	   12 January 2003
+	Is up-to-date?	   Yes
+	Last update:	   18 January 2003
 	Translated files:  7
 	---------------------------------------------------------
 
@@ -35,7 +35,7 @@ English
 	---------------------------------------------------------
 	Maintained by:	   Niels Leenheer (niels@creatype.nl)
 	Is up-to-date?	   Always
-	Last update:	   13 February 2003
+	Last update:	   18 February 2003
 	Translated files:  7
 	---------------------------------------------------------
 
@@ -75,7 +75,7 @@ Italian
 	---------------------------------------------------------
 	Maintained by:	   Matteo Beccati (matteo@beccati.com)
 	Is up-to-date?	   Yes
-	Last update:	   13 February 2003
+	Last update:	   18 February 2003
 	Translated files:  7 + 3 resource files
 	---------------------------------------------------------
 
