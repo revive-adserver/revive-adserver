@@ -14,7 +14,7 @@ information in the 'Translation' forum on Sourceforge.
 Dutch
 	---------------------------------------------------------
 	Maintained by:	   Niels Leenheer (niels@creatype.nl)
-	Is up-to-date?	   Yes
+	Is up-to-date?	   No
 	Last update:	   09 Oktober 2002
 	Translated files:  7
 	---------------------------------------------------------
@@ -25,7 +25,7 @@ English
 	---------------------------------------------------------
 	Maintained by:	   Niels Leenheer (niels@creatype.nl)
 	Is up-to-date?	   Always
-	Last update:	   14 October 2002
+	Last update:	   17 October 2002
 	Translated files:  7
 	---------------------------------------------------------
 
@@ -34,8 +34,8 @@ English
 French
 	---------------------------------------------------------
 	Maintained by:	   Vincent
-	Is up-to-date?	   Yes
-	Last update:	   09 October 2002
+	Is up-to-date?	   No
+	Last update:	   17 October 2002
 	Translated files:  7
 	---------------------------------------------------------
 

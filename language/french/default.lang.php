@@ -289,6 +289,7 @@ $GLOBALS['strBannerWeight']			= "Poids de la bannière";
 // Banner (swf)
 $GLOBALS['strCheckSWF']				= "Contrôler les liens codés en dur dans le fichier Flash";
 $GLOBALS['strConvertSWFLinks']			= "Convertir les liens Flash";
+$GLOBALS['strHardcodedLinks']			= "Liens codés en dur";
 $GLOBALS['strConvertSWF']			= "<br>Le fichier Flash que vous venez d'envoyer contient des liens codés en dur. ".$phpAds_productname." ne pourra ".
 						  "pas compter les clicks pour ces bannières à moins que vous ne convertissiez ces liens codés en dur. ".
 						  "Vous trouverez ci-dessous une liste de tous les liens présents dans le fichier flash. ".
@@ -299,6 +300,7 @@ $GLOBALS['strConvertSWF']			= "<br>Le fichier Flash que vous venez d'envoyer con
 						  "original. Quelque soit la version de Flash avec laquelle cette bannière a été crée, le fichier résultant ".
 						  "nécessitera le lecteur Flash 4 (ou plus) pour s'afficher correctement.<br><br>";
 $GLOBALS['strCompressSWF']			= "Compressez le fichier SWF pour un téléchargement plus rapide (Lecteur Flash 6 requis)";
+$GLOBALS['strOverwriteSource']			= "Outrepasser le paramètre de source";
 
 
 // Banner (network)

@@ -34,6 +34,7 @@ $GLOBALS['strTableInUse']			= "La base de données que vous avez spécifiée est dé
 $GLOBALS['strMayNotFunction']			= "Avant de continuer, merci de corriger ce problème potentiel::";
 $GLOBALS['strIgnoreWarnings']			= "Ignorer les avertissement";
 $GLOBALS['strWarningPHPversion']		= $phpAds_productname." requiert  PHP 4.0 (ou plus) pour fonctionner correctement. Vous utilisez actuellement {php_version}.";
+$GLOBALS['strWarningDBavailable']               = "La version de PHP que vous utilisez n'a pas le support nécessaire pour se connecter à une base de données ".$phpAds_dbmsname.". Vous devez activer l'extension ".$phpAds_dbmsname." dans PHP avant de pouvoir continuer.";
 $GLOBALS['strWarningRegisterGlobals']		= "La variable de configuration globale PHP <i>register_globals</i> doit être à 'on'.";
 $GLOBALS['strWarningMagicQuotesGPC']		= "La variable de configuration globale PHP <i>magic_quotes_gpc</i> doit être à 'on'.";
 $GLOBALS['strWarningMagicQuotesRuntime']  	= "La variable de configuration globale PHP <i>magic_quotes_runtime</i> doit être à 'off'.";

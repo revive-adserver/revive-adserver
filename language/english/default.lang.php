@@ -107,6 +107,7 @@ $GLOBALS['strFieldContainsErrors']		= "The following fields contain errors:";
 $GLOBALS['strFieldFixBeforeContinue1']		= "Before you can continue you need";
 $GLOBALS['strFieldFixBeforeContinue2']		= "to correct these errors.";
 $GLOBALS['strDelimiter']			= "Delimiter";
+$GLOBALS['strMiscellaneous']		= "Miscellaneous";
 
 
 
@@ -432,6 +433,9 @@ $GLOBALS['strDistribution']			= "Distribution";
 $GLOBALS['strResetStats'] 			= "Reset statistics";
 $GLOBALS['strSourceStats']			= "Source statistics";
 $GLOBALS['strSelectSource']			= "Select the source you want to view:";
+$GLOBALS['strSizeDistribution']		= "Distribution by size";
+$GLOBALS['strCountryDistribution']	= "Distribution by country";
+$GLOBALS['strEffectivity']			= "Effectivity";
 
 
 // Hosts

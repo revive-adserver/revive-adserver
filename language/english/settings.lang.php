@@ -34,7 +34,6 @@ $GLOBALS['strTableInUse']			= "The database which you specified is already used 
 $GLOBALS['strMayNotFunction']			= "Before you continue, please correct these potential problems:";
 $GLOBALS['strIgnoreWarnings']			= "Ignore warnings";
 $GLOBALS['strWarningPHPversion']		= $phpAds_productname." requires PHP 4.0 or higher to function correctly. You are currently using {php_version}.";
-$GLOBALS['strWarningDBavailable']		= "The version of PHP you are using doesn't have support for connecting to a ".$phpAds_dbmsname." database server. You need to enable the PHP ".$phpAds_dbmsname." extension before you can proceed.";
 $GLOBALS['strWarningRegisterGlobals']		= "The PHP configuration variable register_globals needs to be turned on.";
 $GLOBALS['strWarningMagicQuotesGPC']		= "The PHP configuration variable magic_quotes_gpc needs to be turned on.";
 $GLOBALS['strWarningMagicQuotesRuntime']	= "The PHP configuration variable magic_quotes_runtime needs to be turned off.";
@@ -92,9 +91,9 @@ $GLOBALS['strConfigNotWritable']		= "Your config.inc.php file is not writable";
 // Global
 $GLOBALS['strChooseSection']			= "Choose Section";
 $GLOBALS['strDayFullNames'] 			= array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
-$GLOBALS['strEditConfigNotPossible']   		= "It is not possible to edit these settings because the configuration file is locked for security reasons.<br> ".
+$GLOBALS['strEditConfigNotPossible']   		= "It is not possible to edit these settings because the configuration file is locked for security reasons. ".
 										  "If you want to make changes, you need to unlock the config.inc.php file first.";
-$GLOBALS['strEditConfigPossible']		= "It is possible to edit all settings because the configuration file is not locked, but this could lead to security leaks.<br> ".
+$GLOBALS['strEditConfigPossible']		= "It is possible to edit all settings because the configuration file is not locked, but this could lead to security leaks. ".
 										  "If you want to secure your system, you need to lock the config.inc.php file.";
 
 
@@ -128,8 +127,6 @@ $GLOBALS['strAllowInterstitial']		= "Allow Interstitials";
 $GLOBALS['strAllowPopups']			= "Allow Popups";
 
 $GLOBALS['strUseAcl']				= "Use delivery limitations";
-$GLOBALS['strGeotrackingType']			= "Type of geotargeting database";
-$GLOBALS['strGeotrackingLocation'] 		= "Geotargeting database location";
 
 $GLOBALS['strKeywordRetrieval']			= "Keyword retrieval";
 $GLOBALS['strBannerRetrieval']			= "Banner retrieval method";
@@ -194,6 +191,12 @@ $GLOBALS['strLogAdviews']			= "Log AdViews";
 $GLOBALS['strBlockAdviews']			= "Multiple log protection (sec.)";
 $GLOBALS['strLogAdclicks']			= "Log AdClicks";
 $GLOBALS['strBlockAdclicks']			= "Multiple log protection (sec.)";
+
+$GLOBALS['strGeotargeting']			= "Geotargeting";
+$GLOBALS['strGeotrackingType']			= "Type of geotargeting database";
+$GLOBALS['strGeotrackingLocation'] 		= "Geotargeting database location";
+$GLOBALS['strGeoLogStats']			= "Log the country of the visitor in the statistics";
+$GLOBALS['strGeoStoreCookie']		= "Store the result in a cookie for future reference";
 
 $GLOBALS['strEmailWarnings']			= "E-mail warnings";
 $GLOBALS['strAdminEmailHeaders']		= "Mail Headers for the reflection of the sender of the daily ad reports";

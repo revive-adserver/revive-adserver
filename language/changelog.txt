@@ -12,10 +12,21 @@
 
   ====================================================
 
+  16-10-2002 - settings
+    [+] strGeotargeting
+    [+] strGeoLogStats
+    [+] strGeoStoreCookie
+    [u] strEditConfigNotPossible
+    [u] strEditConfigPossible
+
   16-10-2002 - default
     [-] strTopTenHosts
     [+] strTopHosts
     [+] strTopCountries
+    [+] strMiscellaneous
+    [+] strSizeDistribution
+    [+] strCountryDistribution
+    [+] strEffectivity
 
   15-10-2002 - settings
     [+] strWarningDBavailable

@@ -353,11 +353,17 @@ $GLOBALS['phpAds_hlp_admin'] = "
 	Le nom d'utilisateur de l'administrateur: vous pouvez spécifier ici le nom d'utilisateur que
 	vous devez utiliser pour entrer dans l'interface d'administration.";
 
+$GLOBALS['phpAds_hlp_admin_pw'] =
+$GLOBALS['phpAds_hlp_admin_pw2'] = "
+	Veuillez entrer le mot de passe que vous souhaitez utiliser pour vous connecter à l'interfaçe d'administration.
+	Vous devez le taper deux fois afin d'éviter les fautes de frappe.
+";
+		
 $GLOBALS['phpAds_hlp_pwold'] = 
 $GLOBALS['phpAds_hlp_pw'] = 
 $GLOBALS['phpAds_hlp_pw2'] = "
-	Pour changer le mot de passe de l'administrateur, vous devez spécifier l'ancien mot de passe,
-	ainsi que le nouveau mot de passe deux fois, afin de prévenir à toute faute de frappe.
+	Pour changer le mot de passe de l'administrateur, vous devez spécifier l'ancient mot de passe ci-dessus.
+	Vous devez aussi taper le nouveau mot de passe deux fois, afin de prévenir à tout risque d'erreur.
 ";
 
 $GLOBALS['phpAds_hlp_admin_fullname'] = "
