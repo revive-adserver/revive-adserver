@@ -248,7 +248,7 @@ function get_banner($what, $clientID, $context=0, $source='', $allowhtml=true)
 	global $REMOTE_HOST, $REMOTE_ADDR, $HTTP_USER_AGENT, $HTTP_ACCEPT_LANGUAGE;
 	global $phpAds_tbl_banners, $phpAds_tbl_clients, $phpAds_tbl_zones;
 	global $phpAds_random_retrieve, $phpAds_zone_cache_limit, $phpAds_zone_cache;
-	global $phpAds_zone_used;
+	global $phpAds_zone_used, $phpAds_acl;
 	
 	
 	
