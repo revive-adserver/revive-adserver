@@ -314,24 +314,14 @@ if (phpAds_isUser(phpAds_Admin))
 	{
 		// Show error message
 		phpAds_PageHeader("1");
-		echo "<br><br>";
-		phpAds_ShowBreak();
 		
 		echo "<form name='upgrade' method='post' action='upgrade.php'>";
 		echo "<input type='hidden' name='step' value='3'>";
-		echo "<br>";
-		echo "<span class='tab-r'><img src='images/error.gif'>&nbsp;&nbsp;".$strUpdateError."</span><br><br>";
-		echo "<span class='install'>".$strUpdateDatabaseError."</span>";
-		
-		echo "<br><br>";
-		phpAds_ShowBreak();
-		echo "<br>";
-		
-		echo "<table width='100%' border='0' cellpadding='0' cellspacing='0'><tr><td align='right'>";
+		echo "<br><br><div class='errormessage'><img class='errormessage' src='images/errormessage.gif' align='absmiddle'>";
+		echo "<span class='tab-r'>".$strUpdateError."</span><br><br>".$strUpdateDatabaseError."<br><br>";
 		echo "<input type='submit' name='ignore' value='".$strIgnoreErrors."'>&nbsp;&nbsp;";
 		echo "<input type='submit' name='retry' value='".$strRetryUpdate."'>";
-		echo "</td></tr></table>\n\n";
-		echo "</form>";
+		echo "<br><br></div></form>";
 	}
 	elseif ($step == 4)
 	{
