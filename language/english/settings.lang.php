@@ -17,12 +17,17 @@
 // Installer translation strings
 $GLOBALS['strInstall']				= "Install";
 $GLOBALS['strChooseInstallLanguage']		= "Choose language for the installation procedure";
-$GLOBALS['strLanguageSelection']		= "Language Selection";
-$GLOBALS['strDatabaseSettings']			= "Database Settings";
-$GLOBALS['strAdminSettings']			= "Administrator Settings";
-$GLOBALS['strAdvancedSettings']			= "Advanced Settings";
+$GLOBALS['strLanguageSelection']		= "Language selection";
+$GLOBALS['strDatabaseSettings']			= "Database settings";
+$GLOBALS['strAdminSettings']			= "Administrator settings";
+$GLOBALS['strAdvancedSettings']			= "Advanced database settings";
 $GLOBALS['strOtherSettings']			= "Other settings";
-
+$GLOBALS['strLicenseInformation']		= "License information";
+$GLOBALS['strAdministratorAccount']		= "The administrator account";
+$GLOBALS['strDatabasePage']				= "The ".$phpAds_dbmsname." database";
+$GLOBALS['strInstallWarning']			= "Server and integrity check";
+$GLOBALS['strCongratulations']			= "Congratulations!";
+$GLOBALS['strInstallFailed']			= "Installation failed!";
 $GLOBALS['strSpecifyAdmin']				= "Configure the administrator account";
 $GLOBALS['strSpecifyLocaton']			= "Specify the location of ".$phpAds_productname." on the server";
 
@@ -68,6 +73,8 @@ $GLOBALS['strRevCVS']				= "You are trying to install a CVS checkout of ".$phpAd
 $GLOBALS['strInstallWelcome']			= "Welcome to ".$phpAds_productname;
 $GLOBALS['strInstallMessage']			= "Before you can use ".$phpAds_productname." it needs to be configured and <br> the database needs to be created. Click <b>Proceed</b> to continue.";
 $GLOBALS['strInstallMessageCheck']		= $phpAds_productname." has checked the integrity of the files you uploaded to the server and has checked wether the server is capable of running ".$phpAds_productname.". The following item(s) need your attention before you can continue.";
+$GLOBALS['strInstallMessageAdmin']		= "Before you can continue you need to setup the administrator account. You can use this account to log into the administrator interface and manage your inventory and view statistics.";
+$GLOBALS['strInstallMessageDatabase']	= $phpAds_productname." uses a ".$phpAds_dbmsname." database store the inventory and all of the statistics. Before you can continue you need to tell us which server you want to use and which username and password ".$phpAds_productname." needs to use to contact the server. If you do not know which information you should provide here, please contact the administrator of your server.";
 $GLOBALS['strInstallSuccess']			= "<b>The installation of ".$phpAds_productname." is now complete.</b><br><br>In order for ".$phpAds_productname." to function correctly you also need
 						   to make sure the maintenance file is run every hour. More information about this subject can be found in the documentation.
 						   <br><br>Click <b>Proceed</b> to go the configuration page, where you can 
@@ -121,7 +128,7 @@ $GLOBALS['strEditConfigPossible']		= "It is possible to edit all settings becaus
 
 
 // Database
-$GLOBALS['strDatabaseSettings']			= "Database Settings";
+$GLOBALS['strDatabaseSettings']			= "Database settings";
 $GLOBALS['strDatabaseServer']			= "Database server";
 $GLOBALS['strDbLocal']				= "Connect to local server using sockets"; // Pg only
 $GLOBALS['strDbHost']				= "Database hostname";

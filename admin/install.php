@@ -444,11 +444,11 @@ if (phpAds_isUser(phpAds_Admin))
 			echo "<form name='settingsform' method='post' action='install.php'>";
 			echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
 			echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
-			echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
+			echo "<br><span class='tab-s'>".$strLicenseInformation."</span><br>";
 			echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
 			echo "<span class='install'>";
 			
-			echo $phpAds_productname." is a free an open source ad server, distributed under the GPL license. This means you will
+			echo $phpAds_productname." is a free and open source ad server, distributed under the GPL license. This means you will
 				  have some extra rights, that would not have with commericial software, including the right to modify and distribute
 				  copies of your modifications, or even distribute ".$phpAds_productname." verbatim. If you want to use these rights,
 				  you also have some obligations to the original creators of ".$phpAds_productname.". All your rights and obligations
@@ -470,8 +470,8 @@ if (phpAds_isUser(phpAds_Admin))
 			// Preconditions failed
 			echo "<form name='settingsform' method='post' action='install.php'>";
 			echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
-			echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
-			echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
+			echo "<img src='images/install-warning.gif'></td><td width='100%' valign='top'>";
+			echo "<br><span class='tab-s'>".$strInstallWarning."</span><br>";
 			echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
 			echo "<span class='install'>".$strInstallMessageCheck;
 			
@@ -497,13 +497,13 @@ if (phpAds_isUser(phpAds_Admin))
 			
 			
 		case 3:
-			// Language selection
+			// Administrator account
 			echo "<form name='settingsform' method='post' action='install.php' onSubmit='return phpAds_formCheck(this);'>";
 			echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
-			echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
-			echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
+			echo "<img src='images/install-admin.gif'></td><td width='100%' valign='top'>";
+			echo "<br><span class='tab-s'>".$strAdministratorAccount."</span><br>";
 			echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
-			echo "<span class='install'>".$strInstallMessage."</td></tr></table><br><br>";
+			echo "<span class='install'>".$strInstallMessageAdmin."</td></tr></table><br><br>";
 			
 			phpAds_ShowBreak();
 			
@@ -573,10 +573,10 @@ if (phpAds_isUser(phpAds_Admin))
 			// Database settings
 			echo "<form name='settingsform' method='post' action='install.php' onSubmit='return phpAds_formCheck(this);'>";
 			echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
-			echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
-			echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
+			echo "<img src='images/install-database.gif'></td><td width='100%' valign='top'>";
+			echo "<br><span class='tab-s'>".$strDatabasePage."</span><br>";
 			echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
-			echo "<span class='install'>".$strInstallMessage."</td></tr></table><br><br>";
+			echo "<span class='install'>".$strInstallMessageDatabase."</td></tr></table><br><br>";
 			
 			phpAds_ShowBreak();
 			
@@ -661,8 +661,8 @@ if (phpAds_isUser(phpAds_Admin))
 			{
 				echo "<form name='settingsform' method='post' action='settings-index.php'>";
 				echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
-				echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
-				echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
+				echo "<img src='images/install-success.gif'></td><td width='100%' valign='top'>";
+				echo "<br><span class='tab-s'>".$strCongratulations."</span><br>";
 				echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
 				echo "<span class='install'>".$strInstallSuccess."</td></tr></table><br><br>";
 			}
@@ -670,8 +670,8 @@ if (phpAds_isUser(phpAds_Admin))
 			{
 				echo "<form name='settingsform' method='post' action='settings-index.php'>";
 				echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
-				echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
-				echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
+				echo "<img src='images/install-error.gif'></td><td width='100%' valign='top'>";
+				echo "<br><span class='tab-s'>".$strInstallFailed."</span><br>";
 				echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
 				echo "<span class='install'>".$strInstallNotSuccessful."</td></tr></table><br><br>";
 				

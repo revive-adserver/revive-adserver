@@ -50,7 +50,7 @@ English
 	---------------------------------------------------------
 	Maintained by:	   Niels Leenheer (niels@creatype.nl)
 	Is up-to-date?	   Always
-	Last update:	   27 July 2003
+	Last update:	   28 July 2003
 	Translated files:  7
 	---------------------------------------------------------
 
@@ -109,7 +109,7 @@ Indonesian
 Italian
 	---------------------------------------------------------
 	Maintained by:	   Matteo Beccati (matteo@beccati.com)
-	Is up-to-date?	   Yes
+	Is up-to-date?	   No
 	Last update:	   27 July 2003
 	Translated files:  7 + 3 resource files
 	---------------------------------------------------------

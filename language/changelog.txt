@@ -17,6 +17,21 @@
 
   ====================================================
 
+  07-28-2003 - settings
+    [u] strLanguageSelection
+    [u] strDatabaseSettings
+    [u] strAdminSettings
+    [u] strAdvancedSettings
+    [+] strLicenseInformation
+    [+] strAdministratorAccount
+    [+] strDatabasePage
+    [+] strInstallWarning
+    [+] strCongratulations
+    [+] strInstallFailed
+    [+] strInstallMessageAdmin
+    [+] strInstallMessageDatabase
+    [u] strDatabaseSettings
+
   07-27-2003 - settings
     [+] strSpecifyAdmin
     [+] strSpecifyLocation
