@@ -191,7 +191,9 @@ $res = phpAds_dbQuery("
 		z.description as description,
 		z.width as width,
 		z.height as height,
-		z.what as what
+		z.what as what,
+		z.zonetype as zonetype,
+		z.delivery as delivery
 	FROM 
 		".$phpAds_config['tbl_zones']." AS z,
 		".$phpAds_config['tbl_banners']." AS b
@@ -210,6 +212,38 @@ while ($row = phpAds_dbFetchArray($res))
 	{
 		$row['linked'] = (phpAds_IsBannerInZone ($bannerid, $row['zoneid'], $row['what']));
 		$affiliates[$row['affiliateid']]['zones'][$row['zoneid']] = $row;
+	}
+}
+
+
+$res = phpAds_dbQuery("
+	SELECT 
+		zoneid,
+		affiliateid,
+		zonename,
+		description,
+		width,
+		height,
+		what,
+		zonetype,
+		delivery
+	FROM 
+		".$phpAds_config['tbl_zones']."
+	WHERE
+		zonetype = ".phpAds_ZoneCampaign."
+	".phpAds_getZoneListOrder ($listorder, $orderdirection)."
+") or phpAds_sqlDie();
+
+$zone_count = phpAds_dbNumRows($res);
+while ($row = phpAds_dbFetchArray($res))
+{
+	if (isset($affiliates[$row['affiliateid']]))
+	{
+		if (phpAds_IsCampaignInZone ($campaignid, $row['zoneid'], $row['what']))
+		{
+			$row['linked'] = true;
+			$affiliates[$row['affiliateid']]['zones'][$row['zoneid']] = $row;
+		}
 	}
 }
 
@@ -314,13 +348,32 @@ if ($zone_count > 0 && $affiliate_count > 0)
 				echo "<td height='25'>";
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 				
-			    if ($zone['linked'])
-					echo "&nbsp;&nbsp;<input name='includezone[".$zone['zoneid']."]' id='a".$affiliate['affiliateid']."' type='checkbox' value='t' checked ";
+			    if ($zone['zonetype'] == phpAds_ZoneBanners)
+				{
+					if ($zone['linked'])
+						echo "&nbsp;&nbsp;<input name='includezone[".$zone['zoneid']."]' id='a".$affiliate['affiliateid']."' type='checkbox' value='t' checked ";
+					else
+						echo "&nbsp;&nbsp;<input name='includezone[".$zone['zoneid']."]' id='a".$affiliate['affiliateid']."' type='checkbox' value='t' ";
+					
+					echo "onClick='toggleAffiliate(".$affiliate['affiliateid'].");'>&nbsp;&nbsp;";
+				}
 				else
-					echo "&nbsp;&nbsp;<input name='includezone[".$zone['zoneid']."]'id='a".$affiliate['affiliateid']."'  type='checkbox' value='t' ";
+				{
+					if ($zone['linked'])
+						echo "&nbsp;&nbsp;<input name='' id='' type='checkbox' value='t' checked disabled ";
+					else
+						echo "&nbsp;&nbsp;<input name='' id='' type='checkbox' value='t' disabled ";
+					
+					echo ">&nbsp;&nbsp;";
+				}
 				
-				echo "onClick='toggleAffiliate(".$affiliate['affiliateid'].");'>";
-				echo "&nbsp;&nbsp;<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
+				if ($zone['delivery'] == phpAds_ZoneBanner)
+					echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
+				elseif ($zone['delivery'] == phpAds_ZoneInterstitial)
+					echo "<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;";
+				elseif ($zone['delivery'] == phpAds_ZonePopup)
+					echo "<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;";
+				
 				echo "<a href='zone-edit.php?affiliateid=".$affiliate['affiliateid']."&zoneid=".$zone['zoneid']."'>".$zone['zonename']."</a>";
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 				echo "</td>";
