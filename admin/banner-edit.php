@@ -195,6 +195,10 @@ if (isset($submit))
 	if ($url == 'http://')
 		$url = '';
 	
+	// Change directory separator to become Unix-like, otherwise basename
+	// on non-windows platforms could not work as expected
+	$uploaded['name'] = str_replace('\\', '/', $uploaded['name']);
+
 	if (!isset($target))
 		$target = '';
 	
