@@ -53,21 +53,41 @@ if (isset($filename) && $filename != '')
 		// Filename found, dump contents to browser
 		$row = phpAds_dbFetchArray($res);
 		
-		Header ("Last-Modified: ".gmdate('D, d M Y H:i:s', $row['t_stamp']).' GMT');
-		
-		if (isset($contenttype) && $contenttype != '')
+		// Check if the browser sent a If-Modified-Since header and if the image was
+		// modified since that date
+		if (!isset($HTTP_SERVER_VARS['HTTP_IF_MODIFIED_SINCE']) ||
+			$row['t_stamp'] > strtotime($HTTP_SERVER_VARS['HTTP_IF_MODIFIED_SINCE']))
 		{
-			switch ($contenttype)
+			Header ("Last-Modified: ".gmdate('D, d M Y H:i:s', $row['t_stamp']).' GMT');
+			
+			if (isset($contenttype) && $contenttype != '')
 			{
-				case 'swf': Header('Content-type: application/x-shockwave-flash; name='.$filename); break;
-				case 'dcr': Header('Content-type: application/x-director; name='.$filename); break;
-				case 'rpm': Header('Content-type: audio/x-pn-realaudio-plugin; name='.$filename); break;
-				case 'mov': Header('Content-type: video/quicktime; name='.$filename); break;
-				default:	Header('Content-type: image/'.$contenttype.'; name='.$filename); break;
+				switch ($contenttype)
+				{
+					case 'swf': Header('Content-type: application/x-shockwave-flash; name='.$filename); break;
+					case 'dcr': Header('Content-type: application/x-director; name='.$filename); break;
+					case 'rpm': Header('Content-type: audio/x-pn-realaudio-plugin; name='.$filename); break;
+					case 'mov': Header('Content-type: video/quicktime; name='.$filename); break;
+					default:	Header('Content-type: image/'.$contenttype.'; name='.$filename); break;
+				}
+			}
+			
+			echo $row['contents'];
+		}
+		else
+		{
+			// Send "Not Modified" status header
+			if (function_exists('getallheaders'))
+			{
+				// Apache + PHP as module, use HTTP/1.x [status-number]
+				Header ($HTTP_SERVER_VARS['SERVER_PROTOCOL'].' 304 Not Modified');
+			}
+			else
+			{
+				// Others
+				Header ('Status: 304 Not Modified');
 			}
 		}
-		
-		echo $row['contents'];
 	}
 }
 else
