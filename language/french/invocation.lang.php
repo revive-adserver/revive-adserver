@@ -47,7 +47,7 @@ $GLOBALS['strInvocationTemplate'] 		= "Stocker la bannière dans une variable afi
 // Iframe
 $GLOBALS['strIFrameRefreshAfter']		= "Rafraîchir après";
 $GLOBALS['strIframeResizeToBanner']		= "Redimensionner l'iframe à la taille de la bannière";
-$GLOBALS['strIframeMakeTransparent']		= "Make the iframe transparent";
+$GLOBALS['strIframeMakeTransparent']		= "Rendre l'iframe transparente";
 $GLOBALS['strIframeIncludeNetscape4']		= "Inclure l'ilayer compatible Netscape 4";
 
 
@@ -55,10 +55,10 @@ $GLOBALS['strIframeIncludeNetscape4']		= "Inclure l'ilayer compatible Netscape 4
 $GLOBALS['strPopUpStyle']			= "Type de Popup";
 $GLOBALS['strPopUpStylePopUp']			= "Popup Avant-plan";
 $GLOBALS['strPopUpStylePopUnder']		= "Popup Arrière-plan";
-$GLOBALS['strPopUpCreateInstance']		= "Instance when the pop-up is created";
-$GLOBALS['strPopUpImmediately']			= "Immediately";
-$GLOBALS['strPopUpOnClose']			= "When the page is closed";
-$GLOBALS['strPopUpAfterSec']			= "After";
+$GLOBALS['strPopUpCreateInstance']		= "Moment où le popup est crée";
+$GLOBALS['strPopUpImmediately']			= "Immédiatement";
+$GLOBALS['strPopUpOnClose']			= "Lorsque la page est fermée";
+$GLOBALS['strPopUpAfterSec']			= "Après";
 $GLOBALS['strAutoCloseAfter']			= "Fermer automatiquement après";
 $GLOBALS['strPopUpTop']				= "Position initiale (haut)";
 $GLOBALS['strPopUpLeft']			= "Position initiale (gauche)";

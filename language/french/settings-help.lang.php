@@ -214,9 +214,9 @@ $GLOBALS['phpAds_hlp_warn_client'] = "
 ";
 
 $GLOBALS['phpAds_hlp_qmail_patch'] = "
-	Some versions of qmail are affected by a bug, which causes e-mail sent by 
-	".$phpAds_productname." to show the headers inside the body of the e-mail. If you enable 
-	this setting, ".$phpAds_productname." will send e-mail in a qmail compatible format.
+	Certaines versions de qmail sont affectées par un bogue, qui entraîne que le corps du mail envoyé
+	par ".$phpAds_productname." contient les entêtes. Si vous activez ce paramètre, ".$phpAds_productname."
+	enverra ses messages mail dans un format compatible avec qmail.
 ";
 		
 $GLOBALS['phpAds_hlp_warn_limit'] = "

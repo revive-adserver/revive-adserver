@@ -92,9 +92,9 @@ $GLOBALS['strConfigNotWritable']		= "Votre fichier config.inc.php n'est pas insc
 $GLOBALS['strChooseSection']			= "Choisissez une section";
 $GLOBALS['strDayFullNames'] 			= array("Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi");
 $GLOBALS['strEditConfigNotPossible']		= "Il n'est pas possible d'éditer ces réglages, car le fichier de configuration est bloqué pour des raisons de sécurité.<br> ".
-										  "Si vous voulez faire des changements, vous devez d'abord débloquer le fichier config.inc.php.";
+						  "Si vous voulez faire des changements, vous devez d'abord débloquer le fichier config.inc.php.";
 $GLOBALS['strEditConfigPossible']		= "Il est possible d'éditer tous les paramètres, car le fichier de configuration n'est pas bloqué, mais cela peut entraîner des failles de sécurité.<br> ".
-										  "Si vous voulez sécuriser votre système, vous devez bloquer le fichier config.inc.php.";
+						  "Si vous voulez sécuriser votre système, vous devez bloquer le fichier config.inc.php.";
 
 
 
@@ -127,8 +127,8 @@ $GLOBALS['strAllowInterstitial']		= "Autoriser les interstitiels";
 $GLOBALS['strAllowPopups']			= "Autoriser les popups";
 
 $GLOBALS['strUseAcl']				= "Utiliser la limitation de distribution";
-$GLOBALS['strGeotrackingType']			= "Type of geotracking database";
-$GLOBALS['strGeotrackingLocation'] 		= "Geotracking database location";
+$GLOBALS['strGeotrackingType']			= "Type de base de données de suivi géographique";
+$GLOBALS['strGeotrackingLocation'] 		= "Emplacement de la base de données de suivi géographique";
 
 $GLOBALS['strKeywordRetrieval']			= "Sélection des bannières par mots clés";
 $GLOBALS['strBannerRetrieval']			= "Méthode de sélection des bannières";
@@ -207,11 +207,11 @@ $GLOBALS['strIgnoreHosts']			= "Machines à ignorer";
 $GLOBALS['strReverseLookup']			= "Requête DNS inversée";
 $GLOBALS['strProxyLookup']			= "Résoudre les adresses des proxys";
 
-$GLOBALS['strAutoCleanTables']			= "Database pruning";
-$GLOBALS['strAutoCleanStats']			= "Prune statistics";
-$GLOBALS['strAutoCleanUserlog']			= "Prune user log";
-$GLOBALS['strAutoCleanStatsWeeks']		= "Maximum age of statistics <br>(3 weeks minimum)";
-$GLOBALS['strAutoCleanUserlogWeeks']		= "Maximum age of user log <br>(3 weeks minimum)";
+$GLOBALS['strAutoCleanTables']			= "Purger automatiquement la base de données";
+$GLOBALS['strAutoCleanStats']			= "Purger automatiquement les statistiques";
+$GLOBALS['strAutoCleanUserlog']			= "Purger le journal utilisateur";
+$GLOBALS['strAutoCleanStatsWeeks']		= "Age maximum des statistiques <br>(en semaines, au minimum 3)";
+$GLOBALS['strAutoCleanUserlogWeeks']		= "Age maximum des journaux utilisateurs <br>(en semaines, au minimum 3)";
 $GLOBALS['strAutoCleanErr']			= "L'age maximal doit être au moins de 3 semaines";
 $GLOBALS['strAutoCleanVacuum']			= "VACUUM ANALYZE (analyse vapeur) des tables chaque nuit"; // only Pg
 
@@ -241,7 +241,7 @@ $GLOBALS['strAdminCheckNever']			= "Jamais";
 $GLOBALS['strAdminNovice']			= "Les actions de suppression par l'administrateur nécessitent des confirmation par sécurité";
 $GLOBALS['strUserlogEmail']			= "Journaliser tous les messages mail sortants";
 $GLOBALS['strUserlogPriority']			= "Journaliser chaque heure les calculs de priorité";
-$GLOBALS['strUserlogAutoClean']			= "Log automatic cleaning of database";
+$GLOBALS['strUserlogAutoClean']			= "Journaliser les nettoyages automatiques de la base de données";
 
 
 // User interface settings

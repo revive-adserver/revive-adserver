@@ -100,10 +100,10 @@ $GLOBALS['strCollapseAll']			= "Tout réduire";
 $GLOBALS['strShowAll']				= "Tout montrer";
 $GLOBALS['strNoAdminInteface']			= "Service indisponible...";
 $GLOBALS['strFilterBySource']			= "filtrer par source";
-$GLOBALS['strFieldContainsErrors']		= "The following fields contain errors:";
-$GLOBALS['strFieldFixBeforeContinue1']		= "Before you can continue you need";
-$GLOBALS['strFieldFixBeforeContinue2']		= "to correct these errors.";
-
+$GLOBALS['strFieldContainsErrors']		= "Le champ suivant contient des erreurs:";
+$GLOBALS['strFieldFixBeforeContinue1']		= "Avant de pouvoir continuer, vous devez";
+$GLOBALS['strFieldFixBeforeContinue2']		= "corriger ces erreurs.";
+$GLOBALS['strDelimiter']			= "Delimiteur";
 
 
 // Properties
@@ -115,7 +115,7 @@ $GLOBALS['strURL2']				= "URL";
 $GLOBALS['strTarget']				= "Cible";
 $GLOBALS['strLanguage'] 			= "Langue";
 $GLOBALS['strDescription'] 			= "Description";
-$GLOBALS['strID']				 = "ID";
+$GLOBALS['strID']				= "ID";
 
 
 // Login & Permissions
@@ -354,7 +354,7 @@ $GLOBALS['strMakePublisherPublic']		= "Rendre publiques les zones possédées par 
 
 
 // Publisher (properties)
-$GLOBALS['strWebsite']				= "Website";
+$GLOBALS['strWebsite']				= "Site Web";
 $GLOBALS['strAllowAffiliateModifyInfo'] 	= "Permettre à cet éditeur de modifier ses propres paramètres";
 $GLOBALS['strAllowAffiliateModifyZones'] 	= "Permettre à cet éditeur de modifier ses propres zones";
 $GLOBALS['strAllowAffiliateLinkBanners'] 	= "Permettre à cet éditeur de lier des bannières à ses propres zones";
@@ -396,6 +396,9 @@ $GLOBALS['strAppendSettings']			= "Paramètres de préfixation et de suffixation";
 $GLOBALS['strZonePrependHTML']			= "Toujours afficher le code HTML suivant avant les publicités textuelles de cette zone";
 $GLOBALS['strZoneAppendHTML']			= "Toujours afficher le code HTML suivant après les publicités textuelles de cette zone";
 
+// Zone probability
+$GLOBALS['strZoneProbListChain']		= "Toutes les bannières liées à la zone sélectionnée ont une priorité nulle. Le chaînage de zone sera utilisé:";
+$GLOBALS['strZoneProbNullPri']			= "Toutes les bannières liées à cette zone ont une priorité nulle.";
 
 // Linked banners/campaigns
 $GLOBALS['strSelectZoneType']			= "Merci de choisir le type de bannières liées";
@@ -481,6 +484,11 @@ $GLOBALS['strErrorClicks'] 			= "Vous devez indiquer le nombre de clics ou coche
 $GLOBALS['strErrorNegClicks'] 			= "Nombre de clics négatif non autorisé";
 $GLOBALS['strNoMatchesFound']			= "Aucune correspondance n'a été trouvée";
 $GLOBALS['strErrorOccurred']			= "Une erreur est survenue";
+$GLOBALS['strErrorUploadSecurity']		= "Un problème potentiel de sécurité a été détecté. L'envoi a été arrêté!";
+$GLOBALS['strErrorUploadBasedir']		= "Impossible d'accéder au fichier envoyé, probablement à cause de l'activation du mode de sécurité PHP (safemode), ou d'une restriction 'open_basedir'.";
+$GLOBALS['strErrorUploadUnknown']		= "Impossible d'accéder au fichier envoyé, pour une raison inconnue. Veuillez vérifier votre configuration PHP.";
+$GLOBALS['strErrorStoreLocal']			= "Une erreur est survenue lors d'une tentative de sauvegarde de la bannière dans le répertoire local. Cela provient probablement de la mauvaise configuration des paramètres du répertoire local";
+$GLOBALS['strErrorStoreFTP']			= "Une erreur est survenue lors d'une tentative de sauvegarde de la bannière sur le serveur FTP. Cela peut provenir de la non disponibilité du serveur, ou de la mauvaise configuration des paramètres du serveur FTP.";
 
 
 // E-mail
