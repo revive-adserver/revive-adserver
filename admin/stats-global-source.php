@@ -77,17 +77,28 @@ else
 
 if ($span > 0)
 {
-	if (!isset($orderdirection))
-		$orderdirection = '';
-	
-	$res_source=phpAds_dbQuery("
-		SELECT
-			DISTINCT(source)
-		FROM
-			".$phpAds_config['tbl_adviews']."
-		ORDER BY
-			source ".phpAds_getOrderDirection($orderdirection)."
-	") or phpAds_sqlDie();
+	if ($phpAds_config['compact_stats'])
+	{
+		$res_source=phpAds_dbQuery("
+			SELECT
+				DISTINCT(source)
+			FROM
+				".$phpAds_config['tbl_adstats']."
+			ORDER BY
+				source
+		");
+	}
+	else
+	{
+		$res_source=phpAds_dbQuery("
+			SELECT
+				DISTINCT(source)
+			FROM
+				".$phpAds_config['tbl_adviews']."
+			ORDER BY
+				source
+		");
+	}
 	
 	echo "<form name='source_selection'>";
 	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
