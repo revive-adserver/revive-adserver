@@ -30,12 +30,12 @@ phpAds_checkAccess(phpAds_Admin);
 if (isset($zoneid) && $zoneid != '')
 {
 	// Delete banner
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		DELETE FROM
 			$phpAds_tbl_zones
 		WHERE
 			zoneid = $zoneid
-		") or mysql_die();
+		") or phpAds_sqlDie();
 }
 
 Header("Location: zone-index.php");

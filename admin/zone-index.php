@@ -45,13 +45,13 @@ if (isset($message))
 
 // Get clients & campaign and build the tree
 
-$res_zones = db_query("
+$res_zones = phpAds_dbQuery("
 		SELECT 
 			*
 		FROM 
 			".$phpAds_tbl_zones."
 		".phpAds_getZoneListOrder ($listorder, $orderdirection)."
-		") or mysql_die();
+		") or phpAds_sqlDie();
 
 
 echo "<br><br>";
@@ -60,7 +60,7 @@ echo "<br><br>";
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
 
 
-if (@mysql_num_rows($res_zones) > 0)
+if (phpAds_dbNumRows($res_zones) > 0)
 {
 	echo "<tr height='25'>";
 	echo '<td height="25"><b>&nbsp;&nbsp;<a href="'.$PHP_SELF.'?listorder=name">'.$GLOBALS['strName'].'</a>';
@@ -122,7 +122,7 @@ $stats['cachedzones'] = 0;
 $stats['cachetimestamp'] = 0;
 
 $i=0;
-while ($row_zones = mysql_fetch_array($res_zones))
+while ($row_zones = phpAds_dbFetchArray($res_zones))
 {
 	if ($i > 0) echo "<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
 	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
@@ -175,7 +175,7 @@ while ($row_zones = mysql_fetch_array($res_zones))
 	$i++;
 }
 
-if (@mysql_num_rows($res_zones) > 0)
+if (phpAds_dbNumRows($res_zones) > 0)
 {
 	echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 }

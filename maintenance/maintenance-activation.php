@@ -22,7 +22,7 @@
 /* and expiration dates					 				 */
 /*********************************************************/
 
-$res_clients = db_query("
+$res_clients = phpAds_dbQuery("
 	SELECT
 		clientID,
 		clientname,
@@ -37,7 +37,7 @@ $res_clients = db_query("
 	
 	") or die($strLogErrorClients);
 
-while($client = mysql_fetch_array($res_clients))
+while($client = phpAds_dbFetchArray($res_clients))
 {
 	// Process this client
 	print "<br>Processing client ".$client["clientname"]."...<BR>\n";
@@ -51,7 +51,7 @@ while($client = mysql_fetch_array($res_clients))
 	
 	
 	// Send Query
-	$res_campaigns = db_query("
+	$res_campaigns = phpAds_dbQuery("
 		SELECT
 			clientID,
 			clientname,
@@ -69,7 +69,7 @@ while($client = mysql_fetch_array($res_clients))
 		") or die($strLogErrorClients);
 	
 	
-	while($campaign = mysql_fetch_array($res_campaigns))
+	while($campaign = phpAds_dbFetchArray($res_campaigns))
 	{
 		// Process this client
 		print "&nbsp;&nbsp;&nbsp;Processing campaign ".$campaign["clientname"]."...<BR>\n";
@@ -95,7 +95,7 @@ while($client = mysql_fetch_array($res_clients))
 			$client_ID 	 = $campaign['clientID'];
 			
 			print "&nbsp;&nbsp;&nbsp;- Setting activation to $active<br>";
-			$activateresult = db_query("UPDATE $phpAds_tbl_clients SET active='$active' WHERE clientID=$client_ID") or mysql_die ("$strLogErrorDisactivate");
+			$activateresult = phpAds_dbQuery("UPDATE $phpAds_tbl_clients SET active='$active' WHERE clientID=$client_ID") or phpAds_sqlDie ("$strLogErrorDisactivate");
 			
 			if ($active == "false")
 			{
@@ -123,7 +123,7 @@ while($client = mysql_fetch_array($res_clients))
 					$Body .= ".\n\n";
 					
 					
-					$res_banners = db_query("
+					$res_banners = phpAds_dbQuery("
 						SELECT
 							bannerID,
 							URL,
@@ -135,11 +135,11 @@ while($client = mysql_fetch_array($res_clients))
 							clientID = ".$campaign['clientID']."
 						") or die($strLogErrorBanners);
 					
-					if (mysql_num_rows($res_banners) > 0)
+					if (phpAds_dbNumRows($res_banners) > 0)
 					{
 						$Body .= "-------------------------------------------------------\n";
 						
-						while($row_banners = mysql_fetch_array($res_banners))
+						while($row_banners = phpAds_dbFetchArray($res_banners))
 						{
 							$Body .= $strBanner."  ".phpAds_buildBannerName ($row_banners['bannerID'], $row_banners['description'], $row_banners['alt'])."\n";
 							$Body .= "linked to: ".$row_banners['URL']."\n";

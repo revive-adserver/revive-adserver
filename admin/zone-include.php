@@ -47,7 +47,7 @@ if (isset($submit))
 			}
 		}
 		
-		$res = db_query("
+		$res = phpAds_dbQuery("
 			UPDATE
 				$phpAds_tbl_zones
 			SET
@@ -55,7 +55,7 @@ if (isset($submit))
 				zonetype = $zonetype
 			WHERE
 				zoneid=$zoneid
-			") or mysql_die();
+			") or phpAds_sqlDie();
 		
 		// Rebuild Cache
 		phpAds_RebuildZoneCache ($zoneid);
@@ -74,15 +74,15 @@ if (phpAds_isUser(phpAds_Admin))
 {
 	$extra = '';
 	
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
 			$phpAds_tbl_zones
-		") or mysql_die();
+		") or phpAds_sqlDie();
 	
 	$extra = "";
-	while ($row = mysql_fetch_array($res))
+	while ($row = phpAds_dbFetchArray($res))
 	{
 		if ($zoneid == $row['zoneid'])
 			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
@@ -140,7 +140,7 @@ function phpAds_showZoneBanners ($width, $height, $what)
 		ORDER BY
 			bannerID";
 		
-	$res = db_query($query) or mysql_die();
+	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
 	
 	//echo "<span style='width:350; height:250; overflow: scroll; overflow-x:hidden;'>";
 	
@@ -158,7 +158,7 @@ function phpAds_showZoneBanners ($width, $height, $what)
 	$i = 0;
 	$checkedall = true;
 	
-	while ($row = mysql_fetch_array($res))
+	while ($row = phpAds_dbFetchArray($res))
 	{
 		$name = $strUntitled;
 		if (isset($row['alt']) && $row['alt'] != '') $name = $row['alt'];
@@ -294,18 +294,18 @@ function phpAds_showZoneBanners ($width, $height, $what)
 
 if (isset($zoneid) && $zoneid != '')
 {
-	$res = @db_query("
+	$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
 			$phpAds_tbl_zones
 		WHERE
 			zoneid = $zoneid
-		") or mysql_die();
+		") or phpAds_sqlDie();
 	
-	if (@mysql_num_rows($res))
+	if (phpAds_dbNumRows($res))
 	{
-		$zone = @mysql_fetch_array($res);
+		$zone = phpAds_dbFetchArray($res);
 	}
 }
 

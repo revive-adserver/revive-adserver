@@ -32,18 +32,18 @@ phpAds_checkAccess(phpAds_Admin);
 
 if($campaignID == "") $campaignID = 0;
 
-$res = db_query("
+$res = phpAds_dbQuery("
 	SELECT
 		*
 	FROM
 		$phpAds_tbl_clients
 	WHERE
 		parent > 0
-	") or mysql_die();
+	") or phpAds_sqlDie();
 
 $extra = '';
 
-while ($row = mysql_fetch_array($res))
+while ($row = phpAds_dbFetchArray($res))
 {
 	if ($campaignID == $row['clientID'])
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
@@ -105,16 +105,16 @@ if (isset($message))
 
 <?php
 
-$res = db_query("
+$res = phpAds_dbQuery("
 	SELECT
 		*
 	FROM
 		$phpAds_tbl_banners  
 	WHERE
 		clientID = $campaignID
-	") or mysql_die();
+	") or phpAds_sqlDie();
 
-if (mysql_num_rows($res) == 0)
+if (phpAds_dbNumRows($res) == 0)
 {
 	echo "$strNoBanners<br>";
 }
@@ -122,7 +122,7 @@ else
 {
 	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 	
-	while ($row = mysql_fetch_array($res))
+	while ($row = phpAds_dbFetchArray($res))
 	{
 	
 		echo "<tr>";

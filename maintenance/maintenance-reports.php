@@ -35,7 +35,7 @@ require	("../lib-reports.inc.php");
 /*                                                       */
 /*********************************************************/
 
-$res_clients = db_query("
+$res_clients = phpAds_dbQuery("
 	SELECT
 		clientID,
 		report,
@@ -48,7 +48,7 @@ $res_clients = db_query("
 		parent = 0 AND report='true'
 	");
 
-while($client = @mysql_fetch_array($res_clients))
+while($client = phpAds_dbFetchArray($res_clients))
 {
 	// Determine date of interval days ago
 	$intervaldaysago = mktime(0, 0, 0, date('m'), date('d'), date('Y')) - ($client['reportinterval'] * (60 * 60 * 24));

@@ -327,7 +327,7 @@ function phpAds_ShowMessage($message)
 /* Show a the last SQL error and die                      */
 /*********************************************************/
 
-function mysql_die()
+function phpAds_sqlDie()
 {
 	global $strMySQLError;
     global $phpAds_last_query;
@@ -342,7 +342,7 @@ function mysql_die()
 		echo "<td width='20' valign='top'><img src='images/error.gif' hspace='3'></td>";
 		echo "<td valign='top'>";
 		echo "<b>$strMySQLError</b><br>";
-		echo mysql_error()."<br><br>";
+		echo phpAds_dbError()."<br><br>";
 		echo "<b>SQL Query:</b><br>";
 		echo "$phpAds_last_query<br>";
 		echo "</td>";
@@ -361,7 +361,7 @@ function mysql_die()
 /* Display a custom error message and die                */
 /*********************************************************/
 
-function php_die($title="Error", $message="Unkown error")
+function phpAds_Die($title="Error", $message="Unkown error")
 {
 	global $phpAds_GUIDone;
 	

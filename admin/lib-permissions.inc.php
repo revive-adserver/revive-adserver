@@ -88,7 +88,7 @@ function phpAds_checkAccess ($allowed)
 	{
 		// No permission to access this page!
 		phpAds_PageHeader(0);
-		php_die ($strAccessDenied, $strNotAdmin);
+		phpAds_Die ($strAccessDenied, $strNotAdmin);
 	}
 }
 
@@ -173,7 +173,7 @@ function phpAds_Login()
 		}
 		else
 		{
-			$res = db_query("
+			$res = phpAds_dbQuery("
 				SELECT
 					clientID,
 					permissions,
@@ -183,13 +183,13 @@ function phpAds_Login()
 				WHERE
 					clientusername = '$phpAds_username'
 					AND clientpassword = '$phpAds_password'
-				") or mysql_die();
+				") or phpAds_sqlDie();
 				
 			
-			if (mysql_num_rows($res) > 0 && $phpAds_username != "" && $phpAds_password != "")
+			if (phpAds_dbNumRows($res) > 0 && $phpAds_username != "" && $phpAds_password != "")
 			{
 				// User found with correct password
-				$row = mysql_fetch_array($res);
+				$row = phpAds_dbFetchArray($res);
 				
 				return (array ("usertype" 		=> phpAds_Client,
 							   "loggedin" 		=> "true",

@@ -258,14 +258,14 @@ if (isset($show['clientID']) && $show['clientID'] == true)
 	echo "<select name='clientID' style='width:175px;'>";
 		echo "<option value='0'>-</option>";
 	
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
 			$phpAds_tbl_clients
 		");
 		
-		while ($row = mysql_fetch_array($res))
+		while ($row = phpAds_dbFetchArray($res))
 		{
 			echo "<option value='".$row['clientID']."'".($clientID == $row['clientID'] ? ' selected' : '').">";
 			echo phpAds_buildClientName ($row['clientID'], $row['clientname']);

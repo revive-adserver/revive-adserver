@@ -39,33 +39,33 @@ if (phpAds_isUser(phpAds_Client))
 	if (($value == 'false' && phpAds_isAllowed(phpAds_DisableBanner)) || 
 	    ($value == 'true' && phpAds_isAllowed(phpAds_ActivateBanner)))
 	{
-		$result = db_query("
+		$result = phpAds_dbQuery("
 			SELECT
 				clientID
 			FROM
 				$phpAds_tbl_banners
 			WHERE
 				bannerID = $bannerID
-			") or mysql_die();
-		$row = mysql_fetch_array($result);
+			") or phpAds_sqlDie();
+		$row = phpAds_dbFetchArray($result);
 		
 		if ($row["clientID"] == '' || phpAds_clientID() != phpAds_getParentID ($row["clientID"]))
 		{
 			phpAds_PageHeader("1");
-			php_die ($strAccessDenied, $strNotAdmin);
+			phpAds_Die ($strAccessDenied, $strNotAdmin);
 		}
 		else
 		{
 			$campaignID = $row["clientID"];
 			
-			$res = db_query("
+			$res = phpAds_dbQuery("
 				UPDATE
 					$phpAds_tbl_banners
 				SET
 					active = '$value'
 				WHERE
 					bannerID = $bannerID
-				") or mysql_die();
+				") or phpAds_sqlDie();
 			
 			// Rebuild zone cache
 			if ($phpAds_zone_cache)
@@ -77,21 +77,21 @@ if (phpAds_isUser(phpAds_Client))
 	else
 	{
 		phpAds_PageHeader("1");
-		php_die ($strAccessDenied, $strNotAdmin);
+		phpAds_Die ($strAccessDenied, $strNotAdmin);
 	}
 }
 
 
 if (phpAds_isUser(phpAds_Admin))
 {
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		UPDATE
 			$phpAds_tbl_banners
 		SET
 			active = '$value'
 		WHERE
 			bannerID = $bannerID
-		") or mysql_die();
+		") or phpAds_sqlDie();
 	
 	// Rebuild zone cache
 	if ($phpAds_zone_cache)

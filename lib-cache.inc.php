@@ -4,7 +4,7 @@
 /* phpAdsNew 2                                                          */
 /* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* Copyright (c) 2001 by Bjoern Hoehrmann		                        */
 /* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
@@ -14,18 +14,11 @@
 
 
 
-// Include required files
-require ("../config.inc.php");
-require ("../lib-db.inc.php");
-require ("lib-permissions.inc.php");
-
-
-
-/*********************************************************/
-/* Main code                                             */
-/*********************************************************/
-
-phpAds_dbConnect();
-phpAds_Logout();
+$now = gmdate("D, d M Y H:i:s") . " GMT";
+header ("Date: $now");
+header ("Expires: $now");
+header ("Last-Modified: $now");
+header ("Pragma: no-cache");
+header ("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
 
 ?>

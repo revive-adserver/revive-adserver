@@ -114,7 +114,7 @@ for($x = 0;$x<$items_count;$x++)
 phpAds_GDContentType();
 
 // No caching
-require("../nocache.inc.php");
+require("../lib-cache.inc.php");
 
 // Display modified image
 phpAds_GDShowImage($im);

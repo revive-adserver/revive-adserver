@@ -114,22 +114,22 @@ if (isset($submit))
 			'$weight')";
 	
 	
-	$res = db_query($query) or mysql_die();  
+	$res = phpAds_dbQuery($query) or phpAds_sqlDie();  
 	if (isset($move) && $move == 'true')
 	{
 		// We are moving a client to a campaign
 		// Get ID of new campaign
-		$campaignID = @mysql_insert_id($phpAds_db_link);		
+		$campaignID = phpAds_dbInsertID();
 		
 		// Update banners
-		$res = db_query("
+		$res = phpAds_dbQuery("
 			UPDATE
 				$phpAds_tbl_banners
 			SET
 				clientID=$campaignID
 			WHERE
 				clientID=$clientID  
-			") or mysql_die();
+			") or phpAds_sqlDie();
 	}
 	
 	Header("Location: client-index.php?expand=$clientID&message=".urlencode($message));
@@ -149,16 +149,16 @@ if ($campaignID != "")
 	
 	$extra = '';
 	
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
 			$phpAds_tbl_clients
 		WHERE
 			parent != 0  
-		") or mysql_die();
+		") or phpAds_sqlDie();
 		
-	while ($row = mysql_fetch_array($res))
+	while ($row = phpAds_dbFetchArray($res))
 	{
 		if ($campaignID == $row['clientID'])
 			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
@@ -209,7 +209,7 @@ if ($campaignID != "" || (isset($move) && $move == 'true'))
 	if ($campaignID != "") $ID = $campaignID;
 	if (isset($clientID) && $clientID != "") $ID = $clientID;
 	
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		SELECT
 			*,
 			to_days(expire) as expire_day,
@@ -227,9 +227,9 @@ if ($campaignID != "" || (isset($move) && $move == 'true'))
 			$phpAds_tbl_clients
 		WHERE
 			clientID = $ID
-		") or mysql_die();
+		") or phpAds_sqlDie();
 		
-	$row = mysql_fetch_array($res);
+	$row = phpAds_dbFetchArray($res);
 	
 	
 	

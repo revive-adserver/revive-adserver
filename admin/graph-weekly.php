@@ -57,12 +57,12 @@ if ($phpAds_compact_stats) {
     		week DESC
     	LIMIT ".$max_weeks;
     
-    $result = db_query($query) or mysql_die();
+    $result = phpAds_dbQuery($query) or phpAds_sqlDie();
     
     $items = array();
-    $num2 = mysql_num_rows($result);
+    $num2 = phpAds_dbNumRows($result);
     $i=0;
-    while ($row = mysql_fetch_row($result))   
+    while ($row = phpAds_dbFetchRow($result))   
     {
     	$items[$i]=array();
     	$items[$i]['value1'] = $row[0];     // views
@@ -101,14 +101,14 @@ else
     		week DESC
     	LIMIT ".$max_weeks;
                 
-    $result = db_query($query) or mysql_die();
-    $result2 = db_query($query2) or mysql_die();
+    $result = phpAds_dbQuery($query) or phpAds_sqlDie();
+    $result2 = phpAds_dbQuery($query2) or phpAds_sqlDie();
     
     $items = array();
-    $num2 = mysql_num_rows($result2);
-    $row2 = mysql_fetch_row($result2);
+    $num2 = phpAds_dbNumRows($result2);
+    $row2 = phpAds_dbFetchRow($result2);
     $i=0;
-    while ($row = mysql_fetch_row($result))   
+    while ($row = phpAds_dbFetchRow($result))   
     {
     	$items[$i]=array();
     	$items[$i]['value1'] = $row[0];
@@ -118,7 +118,7 @@ else
     	{
     		$items[$i]['value2'] = $row2[0];
     		if ( $i < $num2 - 1 )
-    			$row2 = mysql_fetch_row($result2);
+    			$row2 = phpAds_dbFetchRow($result2);
     	}
     	else
     		$items[$i]['value2'] = 0;

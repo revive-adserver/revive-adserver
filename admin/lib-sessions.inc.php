@@ -24,15 +24,15 @@ function phpAds_SessionDataFetch()
 	
 	if(isset($SessionID) && !empty($SessionID))
 	{
-		$result = @db_query("SELECT SessionData FROM $phpAds_tbl_session WHERE SessionID='$SessionID'" .
-					 	   " AND UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(LastUsed) < 3600") or mysql_die();
+		$result = phpAds_dbQuery("SELECT SessionData FROM $phpAds_tbl_session WHERE SessionID='$SessionID'" .
+					 	   " AND UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(LastUsed) < 3600") or phpAds_sqlDie();
 		
-		if($row = mysql_fetch_array($result))
+		if($row = phpAds_dbFetchArray($result))
 		{
 			$Session = unserialize(stripslashes($row[0]));
 			
 			// Reset LastUsed, prevent from timing out
-			@db_query("UPDATE $phpAds_tbl_session SET LastUsed = NOW() WHERE SessionID = '$SessionID'") or mysql_die();
+			phpAds_dbQuery("UPDATE $phpAds_tbl_session SET LastUsed = NOW() WHERE SessionID = '$SessionID'") or phpAds_sqlDie();
 		}
 	}
 	else
@@ -105,13 +105,13 @@ function phpAds_SessionDataStore()
 	global $SessionID, $Session, $phpAds_tbl_session;
 	
 	if(isset($SessionID))
-		db_query("REPLACE INTO $phpAds_tbl_session VALUES ('$SessionID', '" .
-		AddSlashes(serialize($Session)) . "', null )") or mysql_die();
+		phpAds_dbQuery("REPLACE INTO $phpAds_tbl_session VALUES ('$SessionID', '" .
+		AddSlashes(serialize($Session)) . "', null )") or phpAds_sqlDie();
 	
 	// Randomly purge old sessions
 	srand((double)microtime()*1000000);
 	if(rand(1, 100) == 42)	
-		db_query("DELETE FROM $phpAds_tbl_session WHERE UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(LastUsed) > 43200") or mysql_die();
+		phpAds_dbQuery("DELETE FROM $phpAds_tbl_session WHERE UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(LastUsed) > 43200") or phpAds_sqlDie();
 }
 
 
@@ -125,7 +125,7 @@ function phpAds_SessionDataDestroy()
 	global $SessionID, $Session, $phpAds_tbl_session;
 	
 	// Remove the session data from the database
-	db_query("DELETE FROM $phpAds_tbl_session WHERE SessionID='$SessionID'") or mysql_die();
+	phpAds_dbQuery("DELETE FROM $phpAds_tbl_session WHERE SessionID='$SessionID'") or phpAds_sqlDie();
 	
 	// Kill the cookie containing the session ID
 	SetCookie("SessionID", "");

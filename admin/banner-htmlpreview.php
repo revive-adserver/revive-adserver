@@ -24,20 +24,20 @@ require ("lib-statistics.inc.php");
 /* Main code                                             */
 /*********************************************************/
 
-$res = db_query("
+$res = phpAds_dbQuery("
 	SELECT
 		*
 	FROM
 		$phpAds_tbl_banners
 	WHERE
 		bannerID = $bannerID
-	") or mysql_die();
+	") or phpAds_sqlDie();
 
 
 
 if ($res)
 {
-	$row = @mysql_fetch_array($res);
+	$row = phpAds_dbFetchArray($res);
 	
 	echo "<html><head><title>".phpAds_buildBannerName ($bannerID, $row['description'], $row['alt'])."</title></head>";
 	echo "<body marginheight='0' marginwidth='0' leftmargin='0' topmargin='0'>";

@@ -28,9 +28,9 @@ function phpAds_expire ($clientID, $type=0)
 	global $phpAds_tbl_clients, $phpAds_tbl_banners, $phpAds_warn_limit;
 	
 	// Get client information
-	$campaignresult = db_query("SELECT *, UNIX_TIMESTAMP(expire) as expire_st, UNIX_TIMESTAMP(activate) as activate_st FROM $phpAds_tbl_clients WHERE clientID=$clientID");
+	$campaignresult = phpAds_dbQuery("SELECT *, UNIX_TIMESTAMP(expire) as expire_st, UNIX_TIMESTAMP(activate) as activate_st FROM $phpAds_tbl_clients WHERE clientID=$clientID");
 	
-	if ($campaign = mysql_fetch_array ($campaignresult))
+	if ($campaign = phpAds_dbFetchArray ($campaignresult))
 	{
 		// Decrement views
 		if (($campaign["views"] > 0) and ($type == phpAds_Views))
@@ -41,7 +41,7 @@ function phpAds_expire ($clientID, $type=0)
 			if ($campaign["views"] == $phpAds_warn_limit)
 				phpAds_warningMail ($campaign);
 			
-			db_query("UPDATE $phpAds_tbl_clients SET views=views-1 WHERE clientID=$clientID");
+			phpAds_dbQuery("UPDATE $phpAds_tbl_clients SET views=views-1 WHERE clientID=$clientID");
 		}
 		
 		// Decrement clicks
@@ -49,7 +49,7 @@ function phpAds_expire ($clientID, $type=0)
 		{
 			$campaign["clicks"] = $campaign["clicks"] - 1;
 			
-			db_query("UPDATE $phpAds_tbl_clients SET clicks=clicks-1 WHERE clientID=$clientID");
+			phpAds_dbQuery("UPDATE $phpAds_tbl_clients SET clicks=clicks-1 WHERE clientID=$clientID");
 		}
 		
 		// Check activation status
@@ -66,7 +66,7 @@ function phpAds_expire ($clientID, $type=0)
 		
 		if ($campaign["active"] != $active)
 		{
-			db_query("UPDATE $phpAds_tbl_clients SET active='$active' WHERE clientID=$clientID");
+			phpAds_dbQuery("UPDATE $phpAds_tbl_clients SET active='$active' WHERE clientID=$clientID");
 		}
 		
 		if ($active == 'false')
@@ -93,8 +93,8 @@ function phpAds_warningMail ($campaign)
 	if ($phpAds_warn_admin=='1' || $phpAds_warn_client=='1')
 	{
 		// Get the client which belongs to this campaign
-		$clientresult = db_query("SELECT * FROM $phpAds_tbl_clients WHERE clientID=".$campaign['parent']);
-		if ($client = @mysql_fetch_array($clientresult))
+		$clientresult = phpAds_dbQuery("SELECT * FROM $phpAds_tbl_clients WHERE clientID=".$campaign['parent']);
+		if ($client = phpAds_dbFetchArray($clientresult))
 		{
 			// Load client language strings
 			if (isset($client["language"]) && $client["language"] != "")
@@ -152,8 +152,8 @@ function phpAds_deactivateMail ($campaign)
 	global $phpAds_admin_fullname, $phpAds_admin_email_headers;
 	global $strUntitled, $phpAds_language, $phpAds_path, $phpAds_CharSet;
 	
-	$clientresult = db_query("SELECT * FROM $phpAds_tbl_clients WHERE clientID=".$campaign['parent']);
-	if ($client = @mysql_fetch_array($clientresult))
+	$clientresult = phpAds_dbQuery("SELECT * FROM $phpAds_tbl_clients WHERE clientID=".$campaign['parent']);
+	if ($client = phpAds_dbFetchArray($clientresult))
 	{
 		if ($client["email"] != '' && $client["reportdeactivate"] == 'true')
 		{
@@ -184,7 +184,7 @@ function phpAds_deactivateMail ($campaign)
 			$Body .= ".\n\n";
 			
 			
-			$res_banners = db_query("
+			$res_banners = phpAds_dbQuery("
 				SELECT
 					bannerID,
 					URL,
@@ -196,11 +196,11 @@ function phpAds_deactivateMail ($campaign)
 					clientID = ".$campaign['clientID']."
 				");
 			
-			if (mysql_num_rows($res_banners) > 0)
+			if (phpAds_dbNumRows($res_banners) > 0)
 			{
 				$Body .= "-------------------------------------------------------\n";
 				
-				while($row_banners = mysql_fetch_array($res_banners))
+				while($row_banners = phpAds_dbFetchArray($res_banners))
 				{
 					$name = "[id".$row_banners['bannerID']."] ";
 					

@@ -30,14 +30,14 @@ function phpAds_RebuildZoneCache ($zoneid = '')
 	
 	if ($zoneid == '')
 	{
-		$res_zones = db_query("
+		$res_zones = phpAds_dbQuery("
 			SELECT 
 				*
 			FROM 
 				$phpAds_tbl_zones
-			") or mysql_die();
+			") or phpAds_sqlDie();
 		
-		while ($row_zones = mysql_fetch_array($res_zones))
+		while ($row_zones = phpAds_dbFetchArray($res_zones))
 		{
 			phpAds_RebuildZoneCache ($row_zones['zoneid']);
 		}
@@ -45,11 +45,11 @@ function phpAds_RebuildZoneCache ($zoneid = '')
 	else
 	{
 		// Get zone
-		$zoneres = @db_query("SELECT * FROM $phpAds_tbl_zones WHERE zoneid='$zoneid' ");
+		$zoneres = phpAds_dbQuery("SELECT * FROM $phpAds_tbl_zones WHERE zoneid='$zoneid' ");
 		
-		if (@mysql_num_rows($zoneres) > 0)
+		if (phpAds_dbNumRows($zoneres) > 0)
 		{
-			$zone = mysql_fetch_array($zoneres);
+			$zone = phpAds_dbFetchArray($zoneres);
 			
 			// Set what parameter to zone settings
 			if (isset($zone['what']) && $zone['what'] != '')
@@ -75,12 +75,12 @@ function phpAds_RebuildZoneCache ($zoneid = '')
 			
 			// Get banners
 			$select = phpAds_buildQuery ($what, 1, $precondition);
-			$res    = @db_query($select);
+			$res    = phpAds_dbQuery($select);
 			
 			// Build array for further processing...
 			$rows = array();
 			$weightsum = 0;
-			while ($tmprow = @mysql_fetch_array($res))
+			while ($tmprow = phpAds_dbFetchArray($res))
 			{
 				// weight of 0 disables the banner
 				if ($tmprow['weight'])
@@ -107,7 +107,7 @@ function phpAds_RebuildZoneCache ($zoneid = '')
 			$cachetimestamp = 0;
 		}
 		
-		@db_query("UPDATE $phpAds_tbl_zones SET cachecontents='$cachecontents', cachetimestamp=$cachetimestamp WHERE zoneid='$zoneid' ");
+		phpAds_dbQuery("UPDATE $phpAds_tbl_zones SET cachecontents='$cachecontents', cachetimestamp=$cachetimestamp WHERE zoneid='$zoneid' ");
 	}
 }
 
@@ -123,18 +123,18 @@ function phpAds_IsBannerInZone ($bannerID, $zoneid)
 	
 	if (isset($zoneid) && $zoneid != '')
 	{
-		$res = @db_query("
+		$res = phpAds_dbQuery("
 			SELECT
 				*
 			FROM
 				$phpAds_tbl_zones
 			WHERE
 				zoneid = $zoneid
-			") or mysql_die();
+			") or phpAds_sqlDie();
 		
-		if (@mysql_num_rows($res))
+		if (phpAds_dbNumRows($res))
 		{
-			$zone = @mysql_fetch_array($res);
+			$zone = phpAds_dbFetchArray($res);
 			$what_array = explode(",", $zone['what']);
 			
 			for ($k=0; $k < count($what_array); $k++)
@@ -164,18 +164,18 @@ function phpAds_ToggleBannerInZone ($bannerID, $zoneid)
 	
 	if (isset($zoneid) && $zoneid != '')
 	{
-		$res = @db_query("
+		$res = phpAds_dbQuery("
 			SELECT
 				*
 			FROM
 				$phpAds_tbl_zones
 			WHERE
 				zoneid = $zoneid
-			") or mysql_die();
+			") or phpAds_sqlDie();
 		
-		if (@mysql_num_rows($res))
+		if (phpAds_dbNumRows($res))
 		{
-			$zone = @mysql_fetch_array($res);
+			$zone = phpAds_dbFetchArray($res);
 			$what_array = explode(",", $zone['what']);
 			$available = false;
 			$changed = false;
@@ -205,14 +205,14 @@ function phpAds_ToggleBannerInZone ($bannerID, $zoneid)
 				$zone['what'] = implode (",", $what_array);
 				
 				// Store string back into database
-				$res = @db_query("
+				$res = phpAds_dbQuery("
 					UPDATE
 						$phpAds_tbl_zones
 					SET 
 						what = '".$zone['what']."'
 					WHERE
 						zoneid = $zoneid
-					") or mysql_die();
+					") or phpAds_sqlDie();
 				
 				// Rebuild Cache
 				phpAds_RebuildZoneCache ($zoneid);

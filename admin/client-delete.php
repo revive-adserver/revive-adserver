@@ -18,6 +18,7 @@
 require ("config.php");
 require ("lib-storage.inc.php");
 require ("lib-zones.inc.php");
+require ("lib-statistics.inc.php");
 
 
 // Security check
@@ -32,37 +33,37 @@ phpAds_checkAccess(phpAds_Admin);
 if (isset($clientID) && $clientID != '')
 {
 	// Delete Client
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		DELETE FROM
 			$phpAds_tbl_clients
 		WHERE
 			clientID = $clientID
-		") or mysql_die();
+		") or phpAds_sqlDie();
 	
 	
 	// Loop thourgh each campaign
-	$res_campaign = db_query("
+	$res_campaign = phpAds_dbQuery("
 		SELECT
 			clientID
 		FROM
 			$phpAds_tbl_clients
 		WHERE
 			parent = $clientID
-		") or mysql_die();
+		") or phpAds_sqlDie();
 	
-	while ($row_campaign = mysql_fetch_array($res_campaign))
+	while ($row_campaign = phpAds_dbFetchArray($res_campaign))
 	{
 		// Delete Campaign
-		$res = db_query("
+		$res = phpAds_dbQuery("
 			DELETE FROM
 				$phpAds_tbl_clients
 			WHERE
 				clientID = ".$row_campaign['clientID']."
-			") or mysql_die();
+			") or phpAds_sqlDie();
 		
 		
 		// Loop through each banner
-		$res_banners = db_query("
+		$res_banners = phpAds_dbQuery("
 			SELECT
 				bannerID,
 				format,
@@ -71,9 +72,9 @@ if (isset($clientID) && $clientID != '')
 				$phpAds_tbl_banners
 			WHERE
 				clientID = ".$row_campaign['clientID']."
-			") or mysql_die();
+			") or phpAds_sqlDie();
 		
-		while ($row = mysql_fetch_array($res_banners))
+		while ($row = phpAds_dbFetchArray($res_banners))
 		{
 			// Cleanup webserver stored images for each banner
 			if ($row['format'] == 'web' && $row['banner'] != '')
@@ -81,26 +82,26 @@ if (isset($clientID) && $clientID != '')
 			
 			
 			// Delete Banner ACLs
-			db_query("
+			phpAds_dbQuery("
 				DELETE FROM
 					$phpAds_tbl_acls
 				WHERE
 					bannerID = ".$row['bannerID']."
-				") or mysql_die();
+				") or phpAds_sqlDie();
 			
 			
 			// Delete stats for each banner
-			db_delete_stats($row['bannerID']);
+			phpAds_deleteStats($row['bannerID']);
 		}
 		
 		
 		// Delete Banners
-		db_query("
+		phpAds_dbQuery("
 			DELETE FROM
 				$phpAds_tbl_banners
 			WHERE
 				clientID = ".$row_campaign['clientID']."
-			") or mysql_die();
+			") or phpAds_sqlDie();
 	}
 }
 

@@ -16,8 +16,8 @@
 
 // Include required files
 require ("../config.inc.php");
-require ("../dblib.php");
-require ("../nocache.inc.php");
+require ("../lib-db.inc.php");
+require ("../lib-cache.inc.php");
 require ("../admin/lib-statistics.inc.php");
 
 // Set time limit and ignore user abort
@@ -33,7 +33,7 @@ require("../language/$phpAds_language.inc.php");
 
 
 // Make database connection
-db_connect();
+phpAds_dbConnect();
 
 
 $adminreport = "";

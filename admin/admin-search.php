@@ -139,22 +139,22 @@ if ($compact == '')
 	
 <?php
 	$query_clients = "SELECT * FROM $phpAds_tbl_clients WHERE clientname LIKE '%".$keyword."%' AND parent = 0";
-  	$res_clients = db_query($query_clients) or mysql_die();
+  	$res_clients = phpAds_dbQuery($query_clients) or phpAds_sqlDie();
 	
 	$query_campaigns = "SELECT * FROM $phpAds_tbl_clients WHERE clientname LIKE '%".$keyword."%' AND parent > 0";
-  	$res_campaigns = db_query($query_campaigns) or mysql_die();
+  	$res_campaigns = phpAds_dbQuery($query_campaigns) or phpAds_sqlDie();
 	
 	$query_banners = "SELECT * FROM $phpAds_tbl_banners WHERE keyword LIKE '%".$keyword."%' OR alt LIKE '%".$keyword."%' OR description LIKE '%".$keyword."%'";
-  	$res_banners = db_query($query_banners) or mysql_die();
+  	$res_banners = phpAds_dbQuery($query_banners) or phpAds_sqlDie();
 	
 	$query_zones = "SELECT * FROM $phpAds_tbl_zones WHERE zonename LIKE '%".$keyword."%' OR description LIKE '%".$keyword."%'";
-  	$res_zones = db_query($query_zones) or mysql_die();
+  	$res_zones = phpAds_dbQuery($query_zones) or phpAds_sqlDie();
 	
 	
-	if (@mysql_num_rows($res_clients) > 0 ||
-		@mysql_num_rows($res_campaigns) > 0 ||
-		@mysql_num_rows($res_banners) > 0 ||
-		@mysql_num_rows($res_zones) > 0)
+	if (phpAds_dbNumRows($res_clients) > 0 ||
+		phpAds_dbNumRows($res_campaigns) > 0 ||
+		phpAds_dbNumRows($res_banners) > 0 ||
+		phpAds_dbNumRows($res_zones) > 0)
 	{
 		echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
 		echo "<tr height='25'>";
@@ -172,9 +172,9 @@ if ($compact == '')
 	$i=0;
 	
 	
-	if ($client && @mysql_num_rows($res_clients) > 0)
+	if ($client && phpAds_dbNumRows($res_clients) > 0)
 	{
-		while ($row_clients = mysql_fetch_array($res_clients))
+		while ($row_clients = phpAds_dbFetchArray($res_clients))
 	    {
 			if ($i > 0) echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
 			
@@ -204,9 +204,9 @@ if ($compact == '')
 			if (!$compact)
 			{
 				$query_c_expand = "SELECT * from $phpAds_tbl_clients where parent=".$row_clients['clientID'];
-	  			$res_c_expand = db_query($query_c_expand) or mysql_die();
+	  			$res_c_expand = phpAds_dbQuery($query_c_expand) or phpAds_sqlDie();
 				
-				while ($row_c_expand = mysql_fetch_array($res_c_expand))
+				while ($row_c_expand = phpAds_dbFetchArray($res_c_expand))
 				{
 					echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
 					
@@ -237,9 +237,9 @@ if ($compact == '')
 					
 					
 					$query_b_expand = "SELECT * from $phpAds_tbl_banners where clientID=".$row_c_expand['clientID'];
-		  			$res_b_expand = db_query($query_b_expand) or mysql_die();
+		  			$res_b_expand = phpAds_dbQuery($query_b_expand) or phpAds_sqlDie();
 					
-					while ($row_b_expand = mysql_fetch_array($res_b_expand))
+					while ($row_b_expand = phpAds_dbFetchArray($res_b_expand))
 					{
 						$name = $strUntitled;
 						if (isset($row_b_expand['alt']) && $row_b_expand['alt'] != '') $name = $row_b_expand['alt'];
@@ -295,9 +295,9 @@ if ($compact == '')
 	    }
 	}
 	
-	if ($campaign && @mysql_num_rows($res_campaigns) > 0)
+	if ($campaign && phpAds_dbNumRows($res_campaigns) > 0)
 	{
-		while ($row_campaigns = mysql_fetch_array($res_campaigns))
+		while ($row_campaigns = phpAds_dbFetchArray($res_campaigns))
 	    {
 			if ($i > 0) echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
 			
@@ -328,9 +328,9 @@ if ($compact == '')
 			if (!$compact)
 			{
 				$query_b_expand = "SELECT * from $phpAds_tbl_banners where clientID=".$row_campaigns['clientID'];
-	  			$res_b_expand = db_query($query_b_expand) or mysql_die();
+	  			$res_b_expand = phpAds_dbQuery($query_b_expand) or phpAds_sqlDie();
 				
-				while ($row_b_expand = mysql_fetch_array($res_b_expand))
+				while ($row_b_expand = phpAds_dbFetchArray($res_b_expand))
 				{
 					$name = $strUntitled;
 					if (isset($row_b_expand['alt']) && $row_b_expand['alt'] != '') $name = $row_b_expand['alt'];
@@ -385,9 +385,9 @@ if ($compact == '')
 	    }
 	}
 	
-	if ($banner && @mysql_num_rows($res_banners) > 0)
+	if ($banner && phpAds_dbNumRows($res_banners) > 0)
 	{
-		while ($row_banners = mysql_fetch_array($res_banners))
+		while ($row_banners = phpAds_dbFetchArray($res_banners))
 	    {
 			$name = $strUntitled;
 			if (isset($row_banners['alt']) && $row_banners['alt'] != '') $name = $row_banners['alt'];
@@ -440,9 +440,9 @@ if ($compact == '')
 	    }
 	}
 	
-	if ($zone && @mysql_num_rows($res_zones) > 0)
+	if ($zone && phpAds_dbNumRows($res_zones) > 0)
 	{
-		while ($row_zones = mysql_fetch_array($res_zones))
+		while ($row_zones = phpAds_dbFetchArray($res_zones))
 	    {
 			$name = $row_zones['zonename'];
 			$name = phpAds_breakString ($name, '30');
@@ -477,10 +477,10 @@ if ($compact == '')
 	    }
 	}
 	
-	if (@mysql_num_rows($res_clients) > 0 ||
-		@mysql_num_rows($res_campaigns) > 0 ||
-		@mysql_num_rows($res_banners) > 0 ||
-		@mysql_num_rows($res_zones) > 0)
+	if (phpAds_dbNumRows($res_clients) > 0 ||
+		phpAds_dbNumRows($res_campaigns) > 0 ||
+		phpAds_dbNumRows($res_banners) > 0 ||
+		phpAds_dbNumRows($res_zones) > 0)
 	{
 		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	}

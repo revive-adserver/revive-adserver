@@ -53,16 +53,16 @@ if (isset($submit))
 
 $extra = '';
 
-$res = db_query("
+$res = phpAds_dbQuery("
 	SELECT
 		*
 	FROM
 		$phpAds_tbl_banners
 	WHERE
 		clientID = $campaignID
-") or mysql_die();
+") or phpAds_sqlDie();
 
-while ($row = mysql_fetch_array($res))
+while ($row = phpAds_dbFetchArray($res))
 {
 	if ($bannerID == $row['bannerID'])
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
@@ -124,7 +124,7 @@ echo "<br><br>";
 
 
 
-$res_zones = db_query("
+$res_zones = phpAds_dbQuery("
 		SELECT 
 			$phpAds_tbl_zones.zoneid,
 			$phpAds_tbl_zones.zonename,
@@ -141,7 +141,7 @@ $res_zones = db_query("
 			$phpAds_tbl_zones.zonetype = ".phpAds_ZoneBanners."
 		ORDER BY
 			zoneid
-		") or mysql_die();
+		") or phpAds_sqlDie();
 
 
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
@@ -161,7 +161,7 @@ echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gi
 
 
 $i=0;
-while ($row_zones = mysql_fetch_array($res_zones))
+while ($row_zones = phpAds_dbFetchArray($res_zones))
 {
 	if ($i > 0) echo "<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
 	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
@@ -203,7 +203,7 @@ while ($row_zones = mysql_fetch_array($res_zones))
 	$i++;
 }
 
-if (@mysql_num_rows($res_zones) > 0)
+if (phpAds_dbNumRows($res_zones) > 0)
 {
 	echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 }
@@ -218,7 +218,7 @@ else
 
 echo "</table>";
 
-if (@mysql_num_rows($res_zones) > 0)
+if (phpAds_dbNumRows($res_zones) > 0)
 {
 	echo "<br><br>";
 	echo "<input type='submit' name='submit' value='$strSaveChanges'>";

@@ -42,28 +42,28 @@ if (isset($acl_data) && isset($acl_type) &&
 if (isset($btndel_x))
 {
 	if (!isset($acl_order)) 
-		php_die("hu?", "Where is my acl_order? I've lost my acl_orde! Moooommmeee... I want my acl_order back!");
-	$res = db_query("
+		phpAds_Die("hu?", "Where is my acl_order? I've lost my acl_orde! Moooommmeee... I want my acl_order back!");
+	$res = phpAds_dbQuery("
       			DELETE FROM $phpAds_tbl_acls WHERE
         		bannerID = $bannerID AND acl_order = $acl_order ") or
-		mysql_die();
+		phpAds_sqlDie();
 	
 	// get banner-acl after the deleted one
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		SELECT * FROM $phpAds_tbl_acls WHERE
 		bannerID = $bannerID AND acl_order > $acl_order") or
-		mysql_die();
+		phpAds_sqlDie();
     
 	// decrement every following acl
-	while ($row = mysql_fetch_array($res)) 
+	while ($row = phpAds_dbFetchArray($res)) 
 	{
 		$old_order = $row['acl_order'];
-		$res1 = db_query("
+		$res1 = phpAds_dbQuery("
 			UPDATE $phpAds_tbl_acls SET
 			acl_order = acl_order - 1 WHERE
 			acl_order = $old_order
                AND bannerID = $bannerID
-               ") or mysql_die();
+               ") or phpAds_sqlDie();
 	}
 	
 	header ("Location: banner-acl.php?campaignID=$campaignID&bannerID=$bannerID");
@@ -74,23 +74,23 @@ if (isset($btnsave_x))
 {
 	if ($update)
 	{
-		$res = db_query("
+		$res = phpAds_dbQuery("
 			UPDATE $phpAds_tbl_acls SET
 			acl_type = '$acl_type', acl_data = '$acl_data',
 			acl_ad = '$acl_ad', acl_con = '$acl_con' 
 			where bannerID = $bannerID 
-			AND acl_order = $acl_order") or mysql_die();
+			AND acl_order = $acl_order") or phpAds_sqlDie();
 		
 		header ("Location: banner-acl.php?campaignID=$campaignID&bannerID=$bannerID");
 		exit;
 	} 
 	else
 	{
-		$res = db_query("
+		$res = phpAds_dbQuery("
 			INSERT into $phpAds_tbl_acls SET
 			acl_order = $acl_order, bannerID = $bannerID,
 			acl_type = '$acl_type', acl_data = '$acl_data',
-			acl_ad = '$acl_ad', acl_con = '$acl_con'") or mysql_die();
+			acl_ad = '$acl_ad', acl_con = '$acl_con'") or phpAds_sqlDie();
 		header ("Location: banner-acl.php?campaignID=$campaignID&bannerID=$bannerID");
 		exit;
 	}
@@ -99,29 +99,29 @@ if (isset($btnsave_x))
 if (isset($btnup_x))
 {
 	if ($acl_order < 1)
-		 php_die("oops", $strNoMoveUp);
+		 phpAds_Die("oops", $strNoMoveUp);
 	
        // delete current acl
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		DELETE FROM $phpAds_tbl_acls WHERE
 		bannerID = $bannerID AND acl_order = $acl_order ") or
-		mysql_die();		
+		phpAds_sqlDie();		
 	
 	// increment previous acl
 	$new_acl_order = $acl_order - 1;
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		UPDATE $phpAds_tbl_acls SET
 		acl_order = acl_order + 1 WHERE 
 		acl_order = $new_acl_order 
 		AND bannerID = $bannerID
-		") or mysql_die();	 
+		") or phpAds_sqlDie();	 
 	
 	// insert actual acl with decremented order
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		INSERT into $phpAds_tbl_acls SET
 		acl_order = $new_acl_order, bannerID = $bannerID,
 		acl_type = '$acl_type', acl_data = '$acl_data',
-		acl_ad = '$acl_ad', acl_con = '$acl_con'") or mysql_die();
+		acl_ad = '$acl_ad', acl_con = '$acl_con'") or phpAds_sqlDie();
 	
 	header ("Location: banner-acl.php?campaignID=$campaignID&bannerID=$bannerID");
 	exit;
@@ -129,24 +129,24 @@ if (isset($btnup_x))
 
 if (isset($btndown_x))
 {
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		DELETE FROM $phpAds_tbl_acls WHERE
 		bannerID = $bannerID AND acl_order = $acl_order ") or
-	mysql_die();
+	phpAds_sqlDie();
 	
 	$new_acl_order = $acl_order + 1;
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		UPDATE $phpAds_tbl_acls SET
 		acl_order = acl_order - 1 WHERE 
 		acl_order = $new_acl_order
 		AND bannerID = $bannerID
-		") or mysql_die();
+		") or phpAds_sqlDie();
 	
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		INSERT into $phpAds_tbl_acls SET
 		acl_order = $new_acl_order, bannerID = $bannerID,
 		acl_type = '$acl_type', acl_data = '$acl_data',
-		acl_ad = '$acl_ad', acl_con = '$acl_con'") or mysql_die();
+		acl_ad = '$acl_ad', acl_con = '$acl_con'") or phpAds_sqlDie();
 	
 	header ("Location: banner-acl.php?campaignID=$campaignID&bannerID=$bannerID");
 	exit;
@@ -159,20 +159,20 @@ if (isset($btndown_x))
 /*********************************************************/
 
 if (!isset($bannerID)) 
-	php_die("This page can't be displayed",	"There was no bannerID suppied");
+	phpAds_Die("This page can't be displayed",	"There was no bannerID suppied");
 
 $extra = '';
 
-$res = db_query("
+$res = phpAds_dbQuery("
 	SELECT
 		*
 	FROM
 		$phpAds_tbl_banners
 	WHERE
 		clientID = $campaignID
-") or mysql_die();
+") or phpAds_sqlDie();
 
-while ($row = mysql_fetch_array($res))
+while ($row = phpAds_dbFetchArray($res))
 {
 	if ($bannerID == $row['bannerID'])
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
@@ -234,16 +234,16 @@ echo "<br><br>";
 
 
 // Fetch all ACLs from the database
-$res = db_query("
+$res = phpAds_dbQuery("
 	SELECT
 		*
 	FROM
 		$phpAds_tbl_acls
 	WHERE
 		bannerID = $bannerID ORDER by acl_order
-	") or mysql_die();
+	") or phpAds_sqlDie();
 
-$count = mysql_num_rows ($res);
+$count = phpAds_dbNumRows ($res);
 
 
 
@@ -259,7 +259,7 @@ if ($count > 0)
 	$previous_type = '';
 	
 	// Get next ACL
-	while ($row = mysql_fetch_array ($res))
+	while ($row = phpAds_dbFetchArray ($res))
 	{
 		if ($row['acl_con'] == 'or')
 		{

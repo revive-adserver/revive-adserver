@@ -33,15 +33,15 @@ if (phpAds_isUser(phpAds_Admin))
 {
 	$extra = '';
 	
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
 			$phpAds_tbl_zones
-		") or mysql_die();
+		") or phpAds_sqlDie();
 	
 	$extra = "";
-	while ($row = mysql_fetch_array($res))
+	while ($row = phpAds_dbFetchArray($res))
 	{
 		if ($zoneid == $row['zoneid'])
 			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
@@ -70,11 +70,11 @@ function phpAds_showZoneBanners ($zoneid)
 	global $strCampaignWeight, $strBannerWeight;
 	
 	// Get zone
-	$zoneres = @db_query("SELECT * FROM $phpAds_tbl_zones WHERE zoneid='$zoneid' ");
+	$zoneres = phpAds_dbQuery("SELECT * FROM $phpAds_tbl_zones WHERE zoneid='$zoneid' ");
 	
-	if (@mysql_num_rows($zoneres) > 0)
+	if (phpAds_dbNumRows($zoneres) > 0)
 	{
-		$zone = mysql_fetch_array($zoneres);
+		$zone = phpAds_dbFetchArray($zoneres);
 		
 		// Set what parameter to zone settings
 		if (isset($zone['what']) && $zone['what'] != '')
@@ -86,11 +86,11 @@ function phpAds_showZoneBanners ($zoneid)
 		$what = '';
 	
 	$select = phpAds_buildQuery ($what, 1, '');
-	$res    = @db_query($select);
+	$res    = phpAds_dbQuery($select);
 	
 	$rows = array();
 	$weightsum = 0;
-	while ($tmprow = @mysql_fetch_array($res))
+	while ($tmprow = phpAds_dbFetchArray($res))
 	{
 		// weight of 0 disables the banner
 		if ($tmprow['weight'])
@@ -175,18 +175,18 @@ function phpAds_showZoneBanners ($zoneid)
 
 if (isset($zoneid) && $zoneid != '')
 {
-	$res = @db_query("
+	$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
 			$phpAds_tbl_zones
 		WHERE
 			zoneid = $zoneid
-		") or mysql_die();
+		") or phpAds_sqlDie();
 	
-	if (@mysql_num_rows($res))
+	if (phpAds_dbNumRows($res))
 	{
-		$zone = @mysql_fetch_array($res);
+		$zone = phpAds_dbFetchArray($res);
 	}
 }
 

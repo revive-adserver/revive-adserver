@@ -33,7 +33,7 @@ if (phpAds_isUser(phpAds_Client))
 	if (!phpAds_isAllowed(phpAds_ModifyInfo))
 	{
 		phpAds_PageHeader("2");
-		php_die ($strAccessDenied, $strNotAdmin);
+		phpAds_Die ($strAccessDenied, $strNotAdmin);
 	}
 
 	$clientID = phpAds_clientID();
@@ -59,15 +59,15 @@ if (isset($submit))
 		{
 			if ($clientID == '')
 			{
-				$res = @db_query("SELECT
+				$res = phpAds_dbQuery("SELECT
 								 	*
 							 	  FROM
 								 	$phpAds_tbl_clients
 								  WHERE
 								 	clientusername = '$clientusername'
-								") or mysql_die(); 
+								") or phpAds_sqlDie(); 
 				
-				if (@mysql_num_rows($res) > 0)
+				if (phpAds_dbNumRows($res) > 0)
 				{
 					$error = true;
 					$errormessage = 'duplicateclientname';
@@ -78,16 +78,16 @@ if (isset($submit))
 			}
 			else
 			{
-				$res = @db_query("SELECT
+				$res = phpAds_dbQuery("SELECT
 								 	*
 							 	  FROM
 								 	$phpAds_tbl_clients
 								  WHERE
 								 	clientusername = '$clientusername' AND
 									clientID != '$clientID'
-								") or mysql_die(); 
+								") or phpAds_sqlDie(); 
 				
-				if (@mysql_num_rows($res) > 0 || $phpAds_admin == $clientusername)
+				if (phpAds_dbNumRows($res) > 0 || $phpAds_admin == $clientusername)
 				{
 					$error = true;
 					$errormessage = 'duplicateclientname';
@@ -152,14 +152,14 @@ if (isset($submit))
 				'$clientreportlastdate',
 				'$clientreportdeactivate')";
 		
-		$res = db_query($query) or mysql_die();  
+		$res = phpAds_dbQuery($query) or phpAds_sqlDie();  
 		
 		
 		if ($error == false)
 		{
 			if ($clientID == "null")
 			{
-				$clientID = @mysql_insert_id ($phpAds_db_link);
+				$clientID = phpAds_dbInsertID();
 				Header("Location: campaign-edit.php?clientID=$clientID");
 				exit;
 			}
@@ -172,7 +172,7 @@ if (isset($submit))
 		else
 		{
 			if ($clientID == "null")
-				$clientID = @mysql_insert_id ($phpAds_db_link);
+				$clientID = phpAds_dbInsertID();
 			
 			Header("Location: client-edit.php?clientID=$clientID&errormessage=".urlencode($errormessage));
 			exit;
@@ -190,7 +190,7 @@ if (isset($submit))
 		}
 		
 		$message = $strClientModified;
-		$res = db_query("
+		$res = phpAds_dbQuery("
 			UPDATE 
 				$phpAds_tbl_clients
 			SET
@@ -205,7 +205,7 @@ if (isset($submit))
 				reportdeactivate = '$clientreportdeactivate'
 			WHERE
 				clientID = '$clientID'")
-			or mysql_die();  
+			or phpAds_sqlDie();  
 		
 		$Session['language'] = $clientlanguage;
 		phpAds_SessionDataStore();
@@ -228,17 +228,17 @@ if ($clientID != "")
 	{
 		$extra = '';
 		
-		$res = db_query("
+		$res = phpAds_dbQuery("
 			SELECT
 				*
 			FROM
 				$phpAds_tbl_clients
 			WHERE
 				parent = 0  
-			") or mysql_die();
+			") or phpAds_sqlDie();
 		
 		$extra = "";
-		while ($row = mysql_fetch_array($res))
+		while ($row = phpAds_dbFetchArray($res))
 		{
 			if ($clientID == $row['clientID'])
 				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
@@ -258,15 +258,15 @@ if ($clientID != "")
 		phpAds_PageHeader("2");
 	}
 	
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
 			$phpAds_tbl_clients
 		WHERE
 			clientID = $clientID
-		") or mysql_die();
-	$row = mysql_fetch_array($res);
+		") or phpAds_sqlDie();
+	$row = phpAds_dbFetchArray($res);
 	
 	if (!isset($row["permissions"])) $row["permissions"] = "";
 }

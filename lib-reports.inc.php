@@ -34,7 +34,7 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 	
 	
 	// Get Client information
-	$res_client = db_query("
+	$res_client = phpAds_dbQuery("
 		SELECT
 			clientID,
 			clientname,
@@ -51,9 +51,9 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 			clientID=".$clientID."
 		");
 	
-	if (@mysql_num_rows($res_client) > 0)
+	if (phpAds_dbNumRows($res_client) > 0)
 	{
-		$client = @mysql_fetch_array($res_client);
+		$client = phpAds_dbFetchArray($res_client);
 		
 		// Load client language strings
 		if (isset($client["language"]) && $client["language"] != "")
@@ -67,7 +67,7 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 		
 		// Fetch all campaings belonging to client
 		
-		$res_campaigns = @db_query("
+		$res_campaigns = phpAds_dbQuery("
 			SELECT
 				clientID,
 				clientname,
@@ -85,10 +85,10 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 		
 		") or die($strLogErrorClients);
 		
-		while($campaign = @mysql_fetch_array($res_campaigns))
+		while($campaign = phpAds_dbFetchArray($res_campaigns))
 		{
 			// Fetch all banners belonging to campaign
-			$res_banners = @db_query("
+			$res_banners = phpAds_dbQuery("
 				SELECT
 					bannerID,
 					clientID,
@@ -108,11 +108,11 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 			$log .= "\n".$strCampaign."  ".phpAds_buildClientName ($campaign['clientID'], $campaign['clientname'])."\n";
 			$log .= "=======================================================\n\n";
 			
-			while($row_banners = @mysql_fetch_array($res_banners))
+			while($row_banners = phpAds_dbFetchArray($res_banners))
 			{
-				$adviews = db_total_views($row_banners["bannerID"]);
+				$adviews = phpAds_totalViews($row_banners["bannerID"]);
 		        $client["views_used"] = $adviews;
-				$adclicks = db_total_clicks($row_banners["bannerID"]);
+				$adclicks = phpAds_totalClicks($row_banners["bannerID"]);
 				$campaign["clicks_used"] = $adclicks;
 				
 				if ($adviews > 0 || $adclicks > 0)
@@ -129,7 +129,7 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 						
 						// Fetch all adviews belonging to banner belonging to client, grouped by day
 						if ($phpAds_compact_stats)
-				            $res_adviews = @db_query("
+				            $res_adviews = phpAds_dbQuery("
 				    			SELECT
 				    				SUM(views) as qnt,
 				    				DATE_FORMAT(day, '$date_format') as t_stamp_f,
@@ -147,7 +147,7 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 				    				day DESC
 				    			") or die($strLogErrorViews);
 				        else
-				    		$res_adviews = @db_query("
+				    		$res_adviews = phpAds_dbQuery("
 				    			SELECT
 				    				*,
 				    				count(*) as qnt,
@@ -165,9 +165,9 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 				    				the_day DESC
 				    			") or die($strLogErrorViews);
 				        
-						if (@mysql_num_rows($res_adviews))
+						if (phpAds_dbNumRows($res_adviews))
 						{
-							while($row_adviews = @mysql_fetch_array($res_adviews))
+							while($row_adviews = phpAds_dbFetchArray($res_adviews))
 								$log .= "      $row_adviews[t_stamp_f]:   $row_adviews[qnt]\n";
 							
 							$active_banner_stats = true;
@@ -185,7 +185,7 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 						
 						// Fetch all adclicks belonging to banner belonging to client, grouped by day
 						if ($phpAds_compact_stats)
-				            $res_adclicks = @db_query("
+				            $res_adclicks = phpAds_dbQuery("
 				    			SELECT
 				    				SUM(clicks) as qnt,
 				    				DATE_FORMAT(day, '$date_format') as t_stamp_f,
@@ -202,9 +202,9 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 				    			ORDER BY
 				    				day DESC
 				    			LIMIT 7
-				    			") or die("$strLogErrorClicks ".mysql_error($phpAds_db_link));
+				    			") or die("$strLogErrorClicks ".phpAds_dbError());
 				        else
-				            $res_adclicks = @db_query("
+				            $res_adclicks = phpAds_dbQuery("
 				    			SELECT
 				    				count(*) as qnt,
 				    				DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
@@ -219,11 +219,11 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 				    				the_day
 				    			ORDER BY
 				    				the_day DESC
-				    			") or die("$strLogErrorClicks ".mysql_error($phpAds_db_link));
+				    			") or die("$strLogErrorClicks ".phpAds_dbError());
 						
-						if (@mysql_num_rows($res_adviews))
+						if (phpAds_dbNumRows($res_adviews))
 						{
-							while($row_adclicks = @mysql_fetch_array($res_adclicks))
+							while($row_adclicks = phpAds_dbFetchArray($res_adclicks))
 								$log .= "      $row_adclicks[t_stamp_f]:   $row_adclicks[qnt]\n";
 							
 							$active_banner_stats = true;
@@ -288,7 +288,7 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 			{
 				// Update last run
 				if ($update == true)
-					$res_update = db_query("UPDATE $phpAds_tbl_clients SET reportlastdate=NOW() WHERE clientID=".$client['clientID']);
+					$res_update = phpAds_dbQuery("UPDATE $phpAds_tbl_clients SET reportlastdate=NOW() WHERE clientID=".$client['clientID']);
 				
 				return (true);
 			}

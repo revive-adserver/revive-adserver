@@ -36,16 +36,16 @@ if (phpAds_isUser(phpAds_Client))
 	{
 		$extra = '';
 		
-		$res = db_query("
+		$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
 			$phpAds_tbl_clients
 		WHERE
 			parent = ".$Session["clientID"]."
-		") or mysql_die();
+		") or phpAds_sqlDie();
 		
-		while ($row = mysql_fetch_array($res))
+		while ($row = phpAds_dbFetchArray($res))
 		{
 			if ($campaignID == $row['clientID'])
 				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
@@ -63,7 +63,7 @@ if (phpAds_isUser(phpAds_Client))
 	else
 	{
 		phpAds_PageHeader("1");
-		php_die ($strAccessDenied, $strNotAdmin);	
+		phpAds_Die ($strAccessDenied, $strNotAdmin);	
 	}
 }
 
@@ -71,16 +71,16 @@ if (phpAds_isUser(phpAds_Admin))
 {
 	$extra = '';
 	
-	$res = db_query("
+	$res = phpAds_dbQuery("
 	SELECT
 		*
 	FROM
 		$phpAds_tbl_clients
 	WHERE
 		parent > 0
-	") or mysql_die();
+	") or phpAds_sqlDie();
 	
-	while ($row = mysql_fetch_array($res))
+	while ($row = phpAds_dbFetchArray($res))
 	{
 		if ($campaignID == $row['clientID'])
 			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
@@ -129,7 +129,7 @@ if (!isset($limit) || $limit=='') $limit = '7';
 
 
 // Get bannerID's for this client
-$idresult = db_query (" SELECT
+$idresult = phpAds_dbQuery (" SELECT
 						bannerID
 					  FROM
 					  	$phpAds_tbl_banners
@@ -137,7 +137,7 @@ $idresult = db_query (" SELECT
 						clientID = $campaignID
 					");
 
-while ($row = mysql_fetch_array($idresult))
+while ($row = phpAds_dbFetchArray($idresult))
 {
 	$bannerIDs[] = "bannerID = ".$row['bannerID'];
 }
@@ -145,7 +145,7 @@ while ($row = mysql_fetch_array($idresult))
 
 if ($phpAds_compact_stats) 
 {
-	$result = db_query(" SELECT
+	$result = phpAds_dbQuery(" SELECT
 							*,
 							sum(views) as sum_views,
 							sum(clicks) as sum_clicks,
@@ -159,17 +159,17 @@ if ($phpAds_compact_stats)
 						 ORDER BY
 							day DESC
 						 LIMIT $limit 
-			  ") or mysql_die();
+			  ") or phpAds_sqlDie();
 	
-	//mysql_die();
-	while ($row = mysql_fetch_array($result))
+	//phpAds_sqlDie();
+	while ($row = phpAds_dbFetchArray($result))
 	{
 		$stats[$row['day']] = $row;
 	}
 }
 else
 {
-	$result = db_query(" SELECT
+	$result = phpAds_dbQuery(" SELECT
 							count(*) as views,
 							DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
 							DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
@@ -184,7 +184,7 @@ else
 						 LIMIT $limit 
 			  ");
 	
-	while ($row = mysql_fetch_array($result))
+	while ($row = phpAds_dbFetchArray($result))
 	{
 		$stats[$row['day']]['sum_views'] = $row['views'];
 		$stats[$row['day']]['sum_clicks'] = '0';
@@ -192,7 +192,7 @@ else
 	}
 	
 	
-	$result = db_query(" SELECT
+	$result = phpAds_dbQuery(" SELECT
 							count(*) as clicks,
 							DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
 							DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
@@ -207,7 +207,7 @@ else
 						 LIMIT $limit 
 			  ");
 	
-	while ($row = mysql_fetch_array($result))
+	while ($row = phpAds_dbFetchArray($result))
 	{
 		$stats[$row['day']]['sum_clicks'] = $row['clicks'];
 		$stats[$row['day']]['t_stamp_f'] = $row['t_stamp_f'];

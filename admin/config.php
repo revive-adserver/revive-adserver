@@ -22,11 +22,11 @@ require ("../view.inc.php");
 
 
 // Open the database connection
-$link = db_connect();
+$link = phpAds_dbConnect();
 if (!$link)
 {
 	phpAds_PageHeader('');
-	php_die ("An fatal error occurred", "phpAdsNew can't connect to the database, 
+	phpAds_Die ("An fatal error occurred", "phpAdsNew can't connect to the database, 
 										 please make sure the database is working 
 										 and phpAdsNew is configured correctly");
 }

@@ -36,16 +36,16 @@ if (phpAds_isUser(phpAds_Client))
 	{
 		$extra = '';
 		
-		$res = db_query("
+		$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
 			$phpAds_tbl_clients
 		WHERE
 			parent = ".$Session["clientID"]."
-		") or mysql_die();
+		") or phpAds_sqlDie();
 		
-		while ($row = mysql_fetch_array($res))
+		while ($row = phpAds_dbFetchArray($res))
 		{
 			if ($campaignID == $row['clientID'])
 				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
@@ -63,7 +63,7 @@ if (phpAds_isUser(phpAds_Client))
 	else
 	{
 		phpAds_PageHeader("1");
-		php_die ($strAccessDenied, $strNotAdmin);	
+		phpAds_Die ($strAccessDenied, $strNotAdmin);	
 	}
 }
 
@@ -71,16 +71,16 @@ if (phpAds_isUser(phpAds_Admin))
 {
 	$extra = '';
 	
-	$res = db_query("
+	$res = phpAds_dbQuery("
 	SELECT
 		*
 	FROM
 		$phpAds_tbl_clients
 	WHERE
 		parent > 0
-	") or mysql_die();
+	") or phpAds_sqlDie();
 	
-	while ($row = mysql_fetch_array($res))
+	while ($row = phpAds_dbFetchArray($res))
 	{
 		if ($campaignID == $row['clientID'])
 			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
@@ -143,9 +143,9 @@ if ($phpAds_compact_stats)
 			$phpAds_tbl_banners.bannerID
 		";
 	
-	$res_banners = db_query($res_query) or mysql_die();
+	$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
 	
-	while ($row_banners = mysql_fetch_array($res_banners))
+	while ($row_banners = phpAds_dbFetchArray($res_banners))
 	{
 		$tmp_views[$row_banners['bannerID']] = $row_banners['adviews'];
 		$tmp_clicks[$row_banners['bannerID']] = $row_banners['adclicks'];
@@ -169,9 +169,9 @@ else
 			$phpAds_tbl_banners.bannerID
 		";
 	
-	$res_banners = db_query($res_query) or mysql_die();
+	$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
 	
-	while ($row_banners = mysql_fetch_array($res_banners))
+	while ($row_banners = phpAds_dbFetchArray($res_banners))
 	{
 		$tmp_views[$row_banners['bannerID']] = $row_banners['adviews'];
 		$tmp_clicks[$row_banners['bannerID']] = 0;
@@ -192,9 +192,9 @@ else
 			$phpAds_tbl_banners.bannerID
 		";
 	
-	$res_banners = db_query($res_query) or mysql_die();
+	$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
 	
-	while ($row_banners = mysql_fetch_array($res_banners))
+	while ($row_banners = phpAds_dbFetchArray($res_banners))
 	{
 		$tmp_clicks[$row_banners['bannerID']] = $row_banners['adclicks'];
 	}
@@ -369,8 +369,8 @@ if (count($tmp_order) > 0)
 				bannerID = $bannerID
 			";
 		
-		$res_banners = db_query($res_query) or mysql_die();
-		$row_banners = mysql_fetch_array($res_banners);
+		$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
+		$row_banners = phpAds_dbFetchArray($res_banners);
 		
 		$where .= " bannerID = ".$row_banners['bannerID']." OR";
 		

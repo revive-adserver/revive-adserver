@@ -30,11 +30,11 @@ function adviews_left ($clientID)
 		WHERE 
 			clientID = ".$clientID;
 	
-	$res_client = db_query($client_query);
+	$res_client = phpAds_dbQuery($client_query);
 	
-	if (mysql_num_rows($res_client) == 1)
+	if (phpAds_dbNumRows($res_client) == 1)
 	{
-		$row = mysql_fetch_array($res_client);
+		$row = phpAds_dbFetchArray($res_client);
 		$views = $row['views'];
 		
 		if ($views == -1)
@@ -62,11 +62,11 @@ function adclicks_left ($clientID)
 		WHERE 
 			clientID = ".$clientID;
 	
-	$res_client = db_query($client_query);
+	$res_client = phpAds_dbQuery($client_query);
 	
-	if (mysql_num_rows($res_client) == 1)
+	if (phpAds_dbNumRows($res_client) == 1)
 	{
-		$row = mysql_fetch_array($res_client);
+		$row = phpAds_dbFetchArray($res_client);
 		$clicks = $row['clicks'];
 		
 		if ($clicks == -1)
@@ -130,12 +130,12 @@ function days_left($clientID)
 			$phpAds_tbl_clients
 		WHERE 
 			clientID = ".$clientID;
-	$res_client = db_query($client_query) or mysql_die() ;
+	$res_client = phpAds_dbQuery($client_query) or phpAds_sqlDie() ;
 	
 	
-	if (mysql_num_rows ($res_client) == 1)
+	if (phpAds_dbNumRows ($res_client) == 1)
 	{
-		$row_client = mysql_fetch_array($res_client);
+		$row_client = phpAds_dbFetchArray($res_client);
 		
 		// Check if the expiration date is set
 		if ($row_client['expire'] != '0000-00-00' && $row_client['expire'] != '')
@@ -178,10 +178,10 @@ function days_left($clientID)
 						b.bannerID = v.bannerID";
 			}
 			
-			$res_views = db_query($view_query) or mysql_die();
-			if (mysql_num_rows ($res_views) == 1)
+			$res_views = phpAds_dbQuery($view_query) or phpAds_sqlDie();
+			if (phpAds_dbNumRows ($res_views) == 1)
 			{
-				$row_views = mysql_fetch_array($res_views);
+				$row_views = phpAds_dbFetchArray($res_views);
 				
 				if (!isset($row_views["days_since_start"]) ||
 				    $row_views["days_since_start"] == '' ||
@@ -248,10 +248,10 @@ function days_left($clientID)
 						b.bannerID = c.bannerID";
 			}
 			
-			$res_clicks = db_query($click_query) or mysql_die();
-			if (mysql_num_rows($res_clicks) == 1)
+			$res_clicks = phpAds_dbQuery($click_query) or phpAds_sqlDie();
+			if (phpAds_dbNumRows($res_clicks) == 1)
 			{
-				$row_clicks = mysql_fetch_array($res_clicks);
+				$row_clicks = phpAds_dbFetchArray($res_clicks);
 				
 				if (!isset($row_clicks["days_since_start"]) ||
 				    $row_clicks["days_since_start"] == '' ||

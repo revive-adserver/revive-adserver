@@ -34,20 +34,20 @@ if (phpAds_isUser(phpAds_Client))
 {
 	if (isset($which) && $which > 0)
 	{
-		$result = db_query("
+		$result = phpAds_dbQuery("
 			SELECT
 				clientID
 			FROM
 				$phpAds_tbl_banners
 			WHERE
 				bannerID = $which
-			") or mysql_die();
-		$row = mysql_fetch_array($result);
+			") or phpAds_sqlDie();
+		$row = phpAds_dbFetchArray($result);
 		
 		if ($row['clientID'] == '')
 		{
 			phpAds_PageHeader('1');
-			php_die ($strAccessDenied, $strNotAdmin);
+			phpAds_Die ($strAccessDenied, $strNotAdmin);
 		}
 		else
 		{
@@ -58,21 +58,21 @@ if (phpAds_isUser(phpAds_Client))
 	if (phpAds_clientID() != phpAds_getParentID ($campaignID))
 	{
 		phpAds_PageHeader('1');
-		php_die ($strAccessDenied, $strNotAdmin);
+		phpAds_Die ($strAccessDenied, $strNotAdmin);
 	}
 	else
 	{
-		$res = db_query("
+		$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
 			$phpAds_tbl_clients
 		WHERE
 			parent = ".phpAds_getParentID ($campaignID)."
-		") or mysql_die();
+		") or phpAds_sqlDie();
 		
 		$extra = "";
-		while ($row = mysql_fetch_array($res))
+		while ($row = phpAds_dbFetchArray($res))
 		{
 			if ($campaignID == $row['clientID'])
 				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
@@ -99,17 +99,17 @@ if (phpAds_isUser(phpAds_Admin))
 {
 	if ($campaignID > 0)
 	{
-		$res = db_query("
+		$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
 			$phpAds_tbl_clients
 		WHERE
 			parent > 0
-		") or mysql_die();
+		") or phpAds_sqlDie();
 		
 		$extra = "";
-		while ($row = mysql_fetch_array($res))
+		while ($row = phpAds_dbFetchArray($res))
 		{
 			if ($campaignID == $row['clientID'])
 				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
@@ -164,14 +164,14 @@ else
 	$clientwhere = '';
 
 // Check for banners
-$res = db_query("
+$res = phpAds_dbQuery("
 	SELECT
 		count(*) as count
 	FROM
 		$phpAds_tbl_banners  
 	$clientwhere
-") or mysql_die();
-$row = mysql_fetch_array($res);
+") or phpAds_sqlDie();
+$row = phpAds_dbFetchArray($res);
 
 if ($row['count'] > 0)
 {

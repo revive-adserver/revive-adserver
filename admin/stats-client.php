@@ -43,16 +43,16 @@ $extra = '';
 
 if (phpAds_isUser(phpAds_Admin))
 {
-	$res = db_query("
+	$res = phpAds_dbQuery("
 	SELECT
 		*
 	FROM
 		$phpAds_tbl_clients
 	WHERE
 		parent = 0
-	") or mysql_die();
+	") or phpAds_sqlDie();
 	
-	while ($row = mysql_fetch_array($res))
+	while ($row = phpAds_dbFetchArray($res))
 	{
 		if ($clientID == $row['clientID'])
 			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
@@ -97,7 +97,7 @@ if (!isset($limit) || $limit=='') $limit = '7';
 
 
 // Get bannerID's for this client
-$idresult = db_query (" SELECT
+$idresult = phpAds_dbQuery (" SELECT
 						$phpAds_tbl_banners.bannerID
 					  FROM
 					  	$phpAds_tbl_banners, $phpAds_tbl_clients
@@ -107,16 +107,16 @@ $idresult = db_query (" SELECT
 					");
 
 
-if (@mysql_num_rows($idresult) > 0)
+if (phpAds_dbNumRows($idresult) > 0)
 {
-	while ($row = mysql_fetch_array($idresult))
+	while ($row = phpAds_dbFetchArray($idresult))
 	{
 		$bannerIDs[] = "bannerID = ".$row['bannerID'];
 	}
 	
 	if ($phpAds_compact_stats) 
 	{
-		$result = db_query(" SELECT
+		$result = phpAds_dbQuery(" SELECT
 								*,
 								sum(views) as sum_views,
 								sum(clicks) as sum_clicks,
@@ -130,17 +130,17 @@ if (@mysql_num_rows($idresult) > 0)
 							 ORDER BY
 								day DESC
 							 LIMIT $limit 
-				  ") or mysql_die();
+				  ") or phpAds_sqlDie();
 		
-		//mysql_die();
-		while ($row = mysql_fetch_array($result))
+		//phpAds_sqlDie();
+		while ($row = phpAds_dbFetchArray($result))
 		{
 			$stats[$row['day']] = $row;
 		}
 	}
 	else
 	{
-		$result = db_query(" SELECT
+		$result = phpAds_dbQuery(" SELECT
 								count(*) as views,
 								DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
 								DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
@@ -155,7 +155,7 @@ if (@mysql_num_rows($idresult) > 0)
 							 LIMIT $limit 
 				  ");
 		
-		while ($row = mysql_fetch_array($result))
+		while ($row = phpAds_dbFetchArray($result))
 		{
 			$stats[$row['day']]['sum_views'] = $row['views'];
 			$stats[$row['day']]['sum_clicks'] = '0';
@@ -163,7 +163,7 @@ if (@mysql_num_rows($idresult) > 0)
 		}
 		
 		
-		$result = db_query(" SELECT
+		$result = phpAds_dbQuery(" SELECT
 								count(*) as clicks,
 								DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
 								DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
@@ -178,7 +178,7 @@ if (@mysql_num_rows($idresult) > 0)
 							 LIMIT $limit 
 				  ");
 		
-		while ($row = mysql_fetch_array($result))
+		while ($row = phpAds_dbFetchArray($result))
 		{
 			$stats[$row['day']]['sum_clicks'] = $row['clicks'];
 			$stats[$row['day']]['t_stamp_f'] = $row['t_stamp_f'];

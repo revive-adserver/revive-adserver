@@ -18,6 +18,7 @@
 require ("config.php");
 require ("lib-storage.inc.php");
 require ("lib-zones.inc.php");
+require ("lib-statistics.inc.php");
 
 
 // Security check
@@ -32,38 +33,38 @@ phpAds_checkAccess(phpAds_Admin);
 if (isset($bannerID) && $bannerID != '')
 {
 	// Cleanup webserver stored image
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		SELECT
 			banner, format
 		FROM
 			$phpAds_tbl_banners
 		WHERE
 			bannerID = $bannerID
-		") or mysql_die();
-	if ($row = mysql_fetch_array($res))
+		") or phpAds_sqlDie();
+	if ($row = phpAds_dbFetchArray($res))
 	{
 		if ($row['format'] == 'web' && $row['banner'] != '')
 			phpAds_Cleanup (basename($row['banner']));
 	}
 	
 	// Delete banner
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		DELETE FROM
 			$phpAds_tbl_banners
 		WHERE
 			bannerID = $bannerID
-		") or mysql_die();
+		") or phpAds_sqlDie();
 	
 	// Delete banner ACLs
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		DELETE FROM
 			$phpAds_tbl_acls
 		WHERE
 			bannerID = $bannerID
-		") or mysql_die();
+		") or phpAds_sqlDie();
 	
 	// Delete statistics for this banner
-	db_delete_stats($bannerID);
+	phpAds_deleteStats($bannerID);
 }
 
 // Rebuild zone cache

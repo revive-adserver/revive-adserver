@@ -272,15 +272,15 @@ function stats()
 			clientID = $campaignID
 		";
 	
-	$res = db_query($banner_query) or mysql_die();
+	$res = phpAds_dbQuery($banner_query) or phpAds_sqlDie();
 	
 	// Get the number of banners
-	$countbanners = mysql_num_rows($res);
+	$countbanners = phpAds_dbNumRows($res);
 	
 	if ($countbanners == 1)
 	{
 		// single banner client
-		$where = 'WHERE bannerID='.mysql_result ($res, 0, 0);
+		$where = 'WHERE bannerID='.phpAds_dbResult ($res, 0, 0);
 	}
 	else
 	{
@@ -295,7 +295,7 @@ function stats()
 		$banner_select = array();
 		$i=0;
 		
-		while ($banner_row = mysql_fetch_array ($res))
+		while ($banner_row = phpAds_dbFetchArray ($res))
 		{
 			if ($ids) $ids.= ',';
 				$ids .= $banner_row['bannerID'];
@@ -330,9 +330,9 @@ function stats()
     		$where
 		";
 		
-    	$views_global = db_query($global_view_query) or mysql_die();
-    	list($views_last_day_index, $views_first_day_index) = mysql_fetch_row($views_global);
-    	mysql_free_result($views_global);
+    	$views_global = phpAds_dbQuery($global_view_query) or phpAds_sqlDie();
+    	list($views_last_day_index, $views_first_day_index) = phpAds_dbFetchRow($views_global);
+    	phpAds_dbFreeResult($views_global);
     	
     	$last_day_index = $views_last_day_index;
     	
@@ -356,10 +356,10 @@ function stats()
     		ORDER BY
     			abs_day DESC
     		LIMIT ".$max_weeks*7;
-    	$daily = db_query($daily_query) or mysql_die();
+    	$daily = phpAds_dbQuery($daily_query) or phpAds_sqlDie();
     	
     	$days = array();
-    	while ($row = mysql_fetch_array($daily))
+    	while ($row = phpAds_dbFetchArray($daily))
     	{
     		$i = $row['day_index'];
     		if ( !isset($days[$i]) )
@@ -383,7 +383,7 @@ function stats()
 				$days[$i]['clicks']    = $row['days_total_clicks'];
     	}
     	
-    	mysql_free_result($daily);
+    	phpAds_dbFreeResult($daily);
     }
     else        // ! $phpAds_compact_stats
     {
@@ -397,9 +397,9 @@ function stats()
     		$where
 		";
 		
-    	$views_global = db_query($global_view_query) or mysql_die();
-    	list($views_last_day_index, $views_first_day_index) = mysql_fetch_row($views_global);
-    	mysql_free_result($views_global);
+    	$views_global = phpAds_dbQuery($global_view_query) or phpAds_sqlDie();
+    	list($views_last_day_index, $views_first_day_index) = phpAds_dbFetchRow($views_global);
+    	phpAds_dbFreeResult($views_global);
     	
     	// get clicks global data
     	$global_click_query="
@@ -411,9 +411,9 @@ function stats()
     		$where
 			";
     		// echo $global_click_query;			   
-    	$clicks_global = db_query($global_click_query) or mysql_die();
-    	list($clicks_last_day_index, $clicks_first_day_index) = mysql_fetch_row($clicks_global);
-    	mysql_free_result($clicks_global);
+    	$clicks_global = phpAds_dbQuery($global_click_query) or phpAds_sqlDie();
+    	list($clicks_last_day_index, $clicks_first_day_index) = phpAds_dbFetchRow($clicks_global);
+    	phpAds_dbFreeResult($clicks_global);
     	
     	$last_day_index = max($views_last_day_index,$clicks_last_day_index);
     	
@@ -435,7 +435,7 @@ function stats()
     		ORDER BY
     			abs_day DESC
     		LIMIT ".$max_weeks*7;
-    	$view_daily = db_query($view_query) or mysql_die();
+    	$view_daily = phpAds_dbQuery($view_query) or phpAds_sqlDie();
     	
     	// get clicks daily data
     	$click_query="
@@ -455,13 +455,13 @@ function stats()
     		ORDER BY
     			abs_day DESC
     		LIMIT ".$max_weeks*7;
-    	$click_daily = db_query($click_query) or mysql_die();
+    	$click_daily = phpAds_dbQuery($click_query) or phpAds_sqlDie();
     	
     	// now let's join the daily data in a days array
     	$days = array();
     	
     	// insert view data
-    	while ($row = mysql_fetch_array($view_daily))
+    	while ($row = phpAds_dbFetchArray($view_daily))
     	{
     		$i = $row['day_index'];
     		
@@ -476,7 +476,7 @@ function stats()
     	}
     	
     	// now insert click data
-    	while ($row = mysql_fetch_array($click_daily))
+    	while ($row = phpAds_dbFetchArray($click_daily))
     	{
     		$i = $row['day_index'];
     		if ( !isset($days[$i]) )
@@ -494,8 +494,8 @@ function stats()
 	    		$days[$i]['clicks']    = $row['days_total_clicks'];
     	}
 	    
-    	mysql_free_result($view_daily);
-    	mysql_free_result($click_daily);
+    	phpAds_dbFreeResult($view_daily);
+    	phpAds_dbFreeResult($click_daily);
     }
 	
     

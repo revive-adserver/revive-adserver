@@ -69,7 +69,7 @@ function phpAds_getCampaignArray()
 {
 	global $phpAds_tbl_clients;
 	
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
@@ -78,7 +78,7 @@ function phpAds_getCampaignArray()
 			parent > 0
 		");
 	
-	while ($row = mysql_fetch_array($res))
+	while ($row = phpAds_dbFetchArray($res))
 		$campaignArray[$row['clientID']] = phpAds_buildClientName ($row['clientID'], $row['clientname']);
 	
 	return ($campaignArray);
@@ -88,7 +88,7 @@ function phpAds_getClientArray()
 {
 	global $phpAds_tbl_clients;
 	
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
@@ -97,7 +97,7 @@ function phpAds_getClientArray()
 			parent = 0
 		");
 	
-	while ($row = mysql_fetch_array($res))
+	while ($row = phpAds_dbFetchArray($res))
 		$clientArray[$row['clientID']] = phpAds_buildClientName ($row['clientID'], $row['clientname']);
 	
 	return ($clientArray);

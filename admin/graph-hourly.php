@@ -30,11 +30,10 @@ if (!$phpAds_compact_stats)
 	
     $where=urldecode($where); 
     
-    mysql_select_db($phpAds_db);
     $query="select count(*), DATE_FORMAT(t_stamp, '%k') as hour from $phpAds_tbl_adviews where ($where) GROUP BY hour";
     $query2="select count(*), DATE_FORMAT(t_stamp, '%k') as hour from $phpAds_tbl_adclicks where ($where) GROUP BY hour";
-    $result = db_query($query);
-    $result2 = db_query($query2);
+    $result = phpAds_dbQuery($query);
+    $result2 = phpAds_dbQuery($query2);
     
 	
 	if (isset ($GLOBALS['phpAds_CharSet']) && $GLOBALS['phpAds_CharSet'] != '')
@@ -57,14 +56,14 @@ if (!$phpAds_compact_stats)
     	$items[$i]['text'] = '';
     }
 	
-    while ($row = mysql_fetch_row($result))
+    while ($row = phpAds_dbFetchRow($result))
     {
     	$i=$row[1];
     	$items[$i]['value1'] = $row[0];
     	$items[$i]['text'] = sprintf("%d",$i);
     }
 	
-    while ($row2 = mysql_fetch_row($result2))
+    while ($row2 = phpAds_dbFetchRow($result2))
     {
     	$i=$row2[1];
     	$items[$i]['value2'] = $row2[0];

@@ -16,11 +16,12 @@
 
 // Include required files
 require ("config.inc.php");
-require ("dblib.php");
+require ("lib-db.inc.php");
+require ("lib-log.inc.php");
 require ("lib-expire.inc.php");
 
 // Open a connection to the database
-db_connect();
+phpAds_dbConnect();
 
 
 
@@ -39,7 +40,7 @@ if (!isset($bannerID))
 if ($bannerID != "DEFAULT")
 {
 	// Get target URL and ClientID
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		SELECT
 			url,clientID
 		FROM
@@ -48,8 +49,8 @@ if ($bannerID != "DEFAULT")
 			bannerID = $bannerID
 		") or die();
 		
-	$url 	  = mysql_result($res, 0, 0);
-	$clientID = mysql_result($res, 0, 1);
+	$url 	  = phpAds_dbResult($res, 0, 0);
+	$clientID = phpAds_dbResult($res, 0, 1);
 	
 	
 	// If destination is a parameter don't use
@@ -63,7 +64,7 @@ if ($bannerID != "DEFAULT")
 	{
 		if ($host = phpads_ignore_host())
 		{
-			db_log_click($bannerID, $host);
+			phpAds_logClick($bannerID, $host);
 			phpAds_expire ($clientID, phpAds_Clicks);
 		}
 	}

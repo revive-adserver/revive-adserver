@@ -37,7 +37,7 @@ else
 if ($phpAds_compact_stats) 
 {
     // Get totals from compact stats
-	$result = db_query(
+	$result = phpAds_dbQuery(
 		"SELECT
 			*,
 			views,
@@ -53,10 +53,10 @@ if ($phpAds_compact_stats)
 		");
     
     $stats = array();
-    $num2 = mysql_num_rows($result);
+    $num2 = phpAds_dbNumRows($result);
 	
     $i=0;
-    while ($row = mysql_fetch_array($result))
+    while ($row = phpAds_dbFetchArray($result))
     {
     	$stats[$row['day']]=array();
     	$stats[$row['day']]['views'] 	 = $row['views'];     	// views
@@ -67,7 +67,7 @@ if ($phpAds_compact_stats)
 }
 else
 {
-	$result = db_query(" SELECT
+	$result = phpAds_dbQuery(" SELECT
 							count(*) as views,
 							DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
 							DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
@@ -82,7 +82,7 @@ else
 						 LIMIT $limit 
 			  ");
 	
-	while ($row = mysql_fetch_array($result))
+	while ($row = phpAds_dbFetchArray($result))
 	{
 		$stats[$row['day']]['views'] = $row['views'];
 		$stats[$row['day']]['clicks'] = '0';
@@ -90,7 +90,7 @@ else
 	}
 	
 	
-	$result = db_query(" SELECT
+	$result = phpAds_dbQuery(" SELECT
 							count(*) as clicks,
 							DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
 							DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
@@ -105,7 +105,7 @@ else
 						 LIMIT $limit 
 			  ");
 	
-	while ($row = mysql_fetch_array($result))
+	while ($row = phpAds_dbFetchArray($result))
 	{
 		$stats[$row['day']]['clicks'] = $row['clicks'];
 		$stats[$row['day']]['t_stamp_f'] = $row['t_stamp_f'];

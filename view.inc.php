@@ -15,8 +15,9 @@
 
 
 // Include required files
-require (phpAds_path."/dblib.php");
+require (phpAds_path."/lib-db.inc.php");
 require (phpAds_path."/lib-expire.inc.php");
+require (phpAds_path."/lib-log.inc.php");
 
 // Seed the random number generator
 mt_srand((double) microtime() * 1000000);
@@ -243,7 +244,7 @@ function phpAds_buildQuery ($part, $numberofparts, $precondition)
 /* Get a banner                                          */
 /*********************************************************/
 
-function get_banner($what, $clientID, $context=0, $source='', $allowhtml=true)
+function phpAds_fetchBanner($what, $clientID, $context=0, $source='', $allowhtml=true)
 {
 	global $REMOTE_HOST, $REMOTE_ADDR, $HTTP_USER_AGENT, $HTTP_ACCEPT_LANGUAGE;
 	global $phpAds_tbl_banners, $phpAds_tbl_clients, $phpAds_tbl_zones;
@@ -257,11 +258,11 @@ function get_banner($what, $clientID, $context=0, $source='', $allowhtml=true)
 	{
 		// Get zone
 		$zoneid  = substr($what,5);
-		$zoneres = @db_query("SELECT * FROM $phpAds_tbl_zones WHERE zoneid='$zoneid' OR zonename='$zoneid'");
+		$zoneres = phpAds_dbQuery("SELECT * FROM $phpAds_tbl_zones WHERE zoneid='$zoneid' OR zonename='$zoneid'");
 		
-		if (@mysql_num_rows($zoneres) > 0)
+		if (phpAds_dbNumRows($zoneres) > 0)
 		{
-			$zone = @mysql_fetch_array($zoneres);
+			$zone = phpAds_dbFetchArray($zoneres);
 			
 			// Set what parameter to zone settings
 			if (isset($zone['what']) && $zone['what'] != '')
@@ -298,12 +299,12 @@ function get_banner($what, $clientID, $context=0, $source='', $allowhtml=true)
 			
 			
 			$select = phpAds_buildQuery ($what, 1, $precondition);
-			$res    = @db_query($select);
+			$res    = phpAds_dbQuery($select);
 			
 			// Build array for further processing...
 			$rows = array();
 			$weightsum = 0;
-			while ($tmprow = @mysql_fetch_array($res))
+			while ($tmprow = phpAds_dbFetchArray($res))
 			{
 				// weight of 0 disables the banner
 				if ($tmprow['weight'])
@@ -330,7 +331,7 @@ function get_banner($what, $clientID, $context=0, $source='', $allowhtml=true)
 				
 				$cachecontents = addslashes (serialize (array ($weightsum, $rows)));
 				$cachetimestamp = time();
-				@db_query("UPDATE $phpAds_tbl_zones SET cachecontents='$cachecontents', cachetimestamp=$cachetimestamp WHERE zoneid='$zoneid' ");
+				phpAds_dbQuery("UPDATE $phpAds_tbl_zones SET cachecontents='$cachecontents', cachetimestamp=$cachetimestamp WHERE zoneid='$zoneid' ");
 			}
 		}
 		
@@ -415,28 +416,28 @@ function get_banner($what, $clientID, $context=0, $source='', $allowhtml=true)
 					$seq_select .= " ORDER BY $phpAds_tbl_banners.bannerID LIMIT 1";
 				
 				// First attempt to fetch a banner
-				$res = @db_query($seq_select);
+				$res = phpAds_dbQuery($seq_select);
 				
-				if (@mysql_num_rows($res) == 0)
+				if (phpAds_dbNumRows($res) == 0)
 				{
 					// No banner left, reset all banners in this category to 'unused', try again below
 					
 					// Get all matching banners
-					$updateres = @db_query($select);
-					while ($update_row = @mysql_fetch_array($updateres))
+					$updateres = phpAds_dbQuery($select);
+					while ($update_row = phpAds_dbFetchArray($updateres))
 					{
 						if ($phpAds_random_retrieve == 2)
 						{
 							// Set banner seq to weight
 							$updateweight = $update_row['weight'] * $update_row['clientweight'];
 							$delete_select="UPDATE $phpAds_tbl_banners SET seq='$updateweight' WHERE bannerID='".$update_row['bannerID']."'";
-							@db_query($delete_select);
+							phpAds_dbQuery($delete_select);
 						}
 						else
 						{
 							// Set banner seq to 1
 							$delete_select="UPDATE $phpAds_tbl_banners SET seq=1 WHERE bannerID='".$update_row['bannerID']."'";
-							@db_query($delete_select);
+							phpAds_dbQuery($delete_select);
 						}
 					}
 					
@@ -451,10 +452,10 @@ function get_banner($what, $clientID, $context=0, $source='', $allowhtml=true)
 			}
 			
 			// Attempt to fetch a banner
-			$res = @db_query($select);
+			$res = phpAds_dbQuery($select);
 			if ($res) 
 			{
-				if (@mysql_num_rows($res) > 0)	break;	// Found banners, continue
+				if (phpAds_dbNumRows($res) > 0)	break;	// Found banners, continue
 			}
 			
 			// No banners found in this part, try again with next part
@@ -464,7 +465,7 @@ function get_banner($what, $clientID, $context=0, $source='', $allowhtml=true)
 		// Build array for further processing...
 		$rows = array();
 		$weightsum = 0;
-		while ($tmprow = @mysql_fetch_array($res))
+		while ($tmprow = phpAds_dbFetchArray($res))
 		{
 			// weight of 0 disables the banner
 			if ($tmprow['weight'])
@@ -552,11 +553,11 @@ function get_banner($what, $clientID, $context=0, $source='', $allowhtml=true)
 				
 				if ($phpAds_acl == '1')
 				{
-					if (acl_check($request, $rows[$i]))
+					if (phpAds_aclCheck($request, $rows[$i]))
 						// ACL check passed, found banner!
 						return ($rows[$i]);
 					
-					// Matched, but acl_check failed.
+					// Matched, but phpAds_aclCheck failed.
 					// No more posibilities left, exit!
 					if (sizeof($rows) == 1)
 						return false;
@@ -584,7 +585,7 @@ function get_banner($what, $clientID, $context=0, $source='', $allowhtml=true)
 /* Log an adview for the banner with $bannerID           */
 /*********************************************************/
 
-function log_adview ($bannerID, $clientID)
+function phpAds_prepareLog ($bannerID, $clientID)
 {
 	global $phpAds_log_adviews;
 	global $phpAds_tbl_banners;
@@ -593,7 +594,7 @@ function log_adview ($bannerID, $clientID)
 	
 	// If sequential banner retrieval is used, set banner as "used"
 	if ($phpAds_random_retrieve > 0 && $phpAds_zone_used != true)
-		@db_query("UPDATE $phpAds_tbl_banners SET seq=seq-1 WHERE bannerID='$bannerID'");
+		phpAds_dbQuery("UPDATE $phpAds_tbl_banners SET seq=seq-1 WHERE bannerID='$bannerID'");
 	
 	if(!$phpAds_log_adviews)
 		return(false);
@@ -601,7 +602,7 @@ function log_adview ($bannerID, $clientID)
 	// Check if host is on list of hosts to ignore
 	if($host = phpads_ignore_host())
 	{ 
-		$res = @db_log_view($bannerID, $host);
+		$res = phpAds_logView($bannerID, $host);
 		phpAds_expire ($clientID, phpAds_Views);
 	}
 }
@@ -814,11 +815,10 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 	}
 	
 	// Open database connection
-	db_connect();
+	phpAds_dbConnect();
 	
 	// Get one valid banner
-	$row = get_banner($what, $clientID, $context, $source);
-	
+	$row = phpAds_fetchBanner($what, $clientID, $context, $source);
 	
 	
 	$outputbuffer = "";
@@ -1023,9 +1023,10 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 					$outputbuffer .= '<br><a href=\''.$phpAds_url_prefix.'/adclick.php?bannerID='.$row['bannerID'].'\''.$targettag.$status.'>'.$row['bannertext'].'</a>';
 			}
 			
+			
 			// Log this AdView
 			if (!empty($row['bannerID']))
-				log_adview($row['bannerID'], $row['clientID']);
+				phpAds_prepareLog($row['bannerID'], $row['clientID']);
 		}
 	}
 	else
@@ -1055,7 +1056,7 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 		}
 	}
 	
-	db_close();
+	phpAds_dbClose();
 	
 	return( array('html' => $outputbuffer, 
 				  'bannerID' => $row['bannerID'])

@@ -17,27 +17,27 @@
 // Include required files
 require ("config.inc.php");
 require ("view.inc.php");
-require ("acl.inc.php");
+require ("lib-acl.inc.php");
 
 // Open a connection to the database
-db_connect();
+phpAds_dbConnect();
 
-include ("nocache.inc.php");
+include ("lib-cache.inc.php");
 
 if (isset($bannerID) && !isset($what))
 {
 	// Show banner with bannerID
 	
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
 			$phpAds_tbl_banners  
 		WHERE
 			bannerID = $bannerID
-		") or mysql_die();
+		") or phpAds_sqlDie();
 	
-	if(mysql_num_rows($res) == 0)
+	if(phpAds_dbNumRows($res) == 0)
 	{
 		if ($phpAds_default_banner_url != "")
 		{
@@ -46,7 +46,7 @@ if (isset($bannerID) && !isset($what))
 	}
 	else
 	{
-		$row = mysql_fetch_array($res);
+		$row = phpAds_dbFetchArray($res);
 		if($row["format"] == "url" || $row["format"] == "web")
 		{
 			Header("Location: $row[banner]");
@@ -77,7 +77,7 @@ else
 		$source = '';
 	
 	
-	$row = get_banner($what, $clientID, 0, $source, false);
+	$row = phpAds_fetchBanner($what, $clientID, 0, $source, false);
 	
 	if (is_array($row))
 	{
@@ -165,16 +165,16 @@ else
 					// so if the var $row['banner'] is empty load
 					// the image from the database.
 					
-					$res = db_query("
+					$res = phpAds_dbQuery("
 						SELECT
 							*
 						FROM
 							$phpAds_tbl_banners  
 						WHERE
 							bannerID = ".$row['bannerID']."
-						") or mysql_die();
+						") or phpAds_sqlDie();
 					
-					$row = mysql_fetch_array($res);
+					$row = phpAds_dbFetchArray($res);
 				}
 				
 				if ($row["format"] == "swf")
@@ -189,7 +189,7 @@ else
 				}
 			}
 			
-			log_adview($row["bannerID"], $row["clientID"]);
+			phpAds_prepareLog($row["bannerID"], $row["clientID"]);
 		}
 		else
 		{
@@ -220,6 +220,6 @@ else
 	}
 }
 
-db_close();
+phpAds_dbClose();
 
 ?>

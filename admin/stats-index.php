@@ -35,15 +35,15 @@ if (phpAds_isUser(phpAds_Admin))
 	if ($phpAds_compact_stats)
 	{
 		// Determine left over verbose stats
-		$viewresult = db_query("SELECT COUNT(*) AS cnt FROM $phpAds_tbl_adviews");
-		$viewrow = @mysql_fetch_array($viewresult);
+		$viewresult = phpAds_dbQuery("SELECT COUNT(*) AS cnt FROM $phpAds_tbl_adviews");
+		$viewrow = phpAds_dbFetchArray($viewresult);
 		if (isset($viewrow["cnt"]) && $viewrow["cnt"] != '')
 			$verboseviews = $viewrow["cnt"];
 		else
 			$verboseviews = 0;
 		
-		$clickresult = db_query("SELECT COUNT(*) AS cnt FROM $phpAds_tbl_adclicks");
-		$clickrow = @mysql_fetch_array($viewresult);
+		$clickresult = phpAds_dbQuery("SELECT COUNT(*) AS cnt FROM $phpAds_tbl_adclicks");
+		$clickrow = phpAds_dbFetchArray($viewresult);
 		if (isset($clickrow["cnt"]) && $clickrow["cnt"] != '')
 			$verboseclicks = $clickrow["cnt"];
 		else
@@ -108,17 +108,17 @@ if (phpAds_isUser(phpAds_Client) && $phpAds_client_welcome)
 // Get clients & campaign and build the tree
 if (phpAds_isUser(phpAds_Admin))
 {
-	$res_clients = db_query("
+	$res_clients = phpAds_dbQuery("
 		SELECT 
 			*
 		FROM 
 			".$phpAds_tbl_clients."
 		".phpAds_getListOrder ($listorder, $orderdirection)."
-		") or mysql_die();
+		") or phpAds_sqlDie();
 }
 else
 {
-	$res_clients = db_query("
+	$res_clients = phpAds_dbQuery("
 		SELECT 
 			*
 		FROM 
@@ -127,10 +127,10 @@ else
 			clientID = ".$Session["clientID"]." OR
 			parent = ".$Session["clientID"]."
 		".phpAds_getListOrder ($listorder, $orderdirection)."
-		") or mysql_die();
+		") or phpAds_sqlDie();
 }
 
-while ($row_clients = mysql_fetch_array($res_clients))
+while ($row_clients = phpAds_dbFetchArray($res_clients))
 {
 	if ($row_clients['parent'] == 0)
 	{
@@ -146,7 +146,7 @@ while ($row_clients = mysql_fetch_array($res_clients))
 
 
 // Get the banners for each campaign
-$res_banners = db_query("
+$res_banners = phpAds_dbQuery("
 	SELECT 
 		bannerID,
 		clientID,
@@ -157,9 +157,9 @@ $res_banners = db_query("
 	FROM 
 		".$phpAds_tbl_banners."
 		".phpAds_getBannerListOrder ($listorder, $orderdirection)."
-	") or mysql_die();
+	") or phpAds_sqlDie();
 
-while ($row_banners = mysql_fetch_array($res_banners))
+while ($row_banners = phpAds_dbFetchArray($res_banners))
 {
 	if (isset($campaigns[$row_banners['clientID']]))
 	{
@@ -174,7 +174,7 @@ while ($row_banners = mysql_fetch_array($res_banners))
 // Get the adviews/clicks for each banner
 if ($phpAds_compact_stats == 1)
 {
-	$res_stats = db_query("
+	$res_stats = phpAds_dbQuery("
 		SELECT
 			s.bannerID as bannerID,
 			b.clientID as clientID, 
@@ -187,9 +187,9 @@ if ($phpAds_compact_stats == 1)
 			b.bannerID = s.BannerID
 		GROUP BY
 			s.bannerID
-		") or mysql_die();
+		") or phpAds_sqlDie();
 	
-	while ($row_stats = mysql_fetch_array($res_stats))
+	while ($row_stats = phpAds_dbFetchArray($res_stats))
 	{
 		if (isset($banners[$row_stats['bannerID']]))
 		{
@@ -200,7 +200,7 @@ if ($phpAds_compact_stats == 1)
 }
 else
 {
-	$res_stats = db_query("
+	$res_stats = phpAds_dbQuery("
 		SELECT
 			v.bannerID as bannerID,
 			b.clientID as clientID, 
@@ -212,9 +212,9 @@ else
 			b.bannerID = v.bannerID
 		GROUP BY
 			v.bannerID
-		") or mysql_die();
+		") or phpAds_sqlDie();
 	
-	while ($row_stats = mysql_fetch_array($res_stats))
+	while ($row_stats = phpAds_dbFetchArray($res_stats))
 	{
 		if (isset($banners[$row_stats['bannerID']]))
 		{
@@ -224,7 +224,7 @@ else
 	}
 	
 	
-	$res_stats = db_query("
+	$res_stats = phpAds_dbQuery("
 		SELECT
 			c.bannerID as bannerID,
 			b.clientID as clientID, 
@@ -236,9 +236,9 @@ else
 			b.bannerID = c.bannerID
 		GROUP BY
 			c.bannerID
-		") or mysql_die();
+		") or phpAds_sqlDie();
 	
-	while ($row_stats = mysql_fetch_array($res_stats))
+	while ($row_stats = phpAds_dbFetchArray($res_stats))
 	{
 		if (isset($banners[$row_stats['bannerID']]))
 		{
@@ -562,8 +562,8 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	
 	// stats today
-	$adviews = db_total_views("", "day");
-	$adclicks = db_total_clicks("", "day");
+	$adviews = phpAds_totalViews("", "day");
+	$adclicks = phpAds_totalClicks("", "day");
 	$ctr = phpAds_buildCTR($adviews, $adclicks);
   	echo "<tr><td height='25'>$strToday</td>";
   	echo "<td height='25'>$strViews: <b>$adviews</b></td>";
@@ -573,8 +573,8 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	
 	// stats this week
-	$adviews = db_total_views("", "week");
-	$adclicks = db_total_clicks("", "week");
+	$adviews = phpAds_totalViews("", "week");
+	$adclicks = phpAds_totalClicks("", "week");
 	$ctr = phpAds_buildCTR($adviews, $adclicks);
 	
   	echo "<tr><td height='25'>$strThisWeek</td>";
@@ -585,8 +585,8 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	
 	// stats this month
-	$adviews = db_total_views("", "month");
-	$adclicks = db_total_clicks("", "month");
+	$adviews = phpAds_totalViews("", "month");
+	$adclicks = phpAds_totalClicks("", "month");
 	$ctr = phpAds_buildCTR($adviews, $adclicks);
 	
   	echo "<tr><td height='25'>$strThisMonth</td>";
@@ -597,8 +597,8 @@ if (phpAds_isUser(phpAds_Admin))
   	
   	
 	// overall stats
-	$adviews = db_total_views();
-	$adclicks = db_total_clicks();
+	$adviews = phpAds_totalViews();
+	$adclicks = phpAds_totalClicks();
 	$ctr = phpAds_buildCTR($adviews, $adclicks);
 	
   	echo "<tr><td height='25'>$strOverall</td>";

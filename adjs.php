@@ -17,7 +17,7 @@
 // Include required files
 require("config.inc.php");
 require("view.inc.php");
-require("acl.inc.php");
+require("lib-acl.inc.php");
 
 
 
@@ -48,7 +48,7 @@ function enjavanate ($str, $limit = 60)
 /*********************************************************/
 
 header("Content-type: application/x-javascript");
-require("nocache.inc.php");
+require("lib-cache.inc.php");
 
 if (!isset($what)) 		$what = '';
 if (!isset($clientID)) 	$clientID = 0;

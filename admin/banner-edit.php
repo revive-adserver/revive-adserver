@@ -33,20 +33,20 @@ if (phpAds_isUser(phpAds_Client))
 {
 	if (phpAds_isAllowed(phpAds_ModifyBanner))
 	{
-		$result = db_query("
+		$result = phpAds_dbQuery("
 			SELECT
 				clientID
 			FROM
 				$phpAds_tbl_banners
 			WHERE
 				bannerID = $bannerID
-			") or mysql_die();
-		$row = mysql_fetch_array($result);
+			") or phpAds_sqlDie();
+		$row = phpAds_dbFetchArray($result);
 		
 		if ($row["clientID"] == '' || phpAds_clientID() != phpAds_getParentID ($row["clientID"]))
 		{
 			phpAds_PageHeader("1");
-			php_die ($strAccessDenied, $strNotAdmin);
+			phpAds_Die ($strAccessDenied, $strNotAdmin);
 		}
 		else
 		{
@@ -56,7 +56,7 @@ if (phpAds_isUser(phpAds_Client))
 	else
 	{
 			phpAds_PageHeader("1");
-			php_die ($strAccessDenied, $strNotAdmin);
+			phpAds_Die ($strAccessDenied, $strNotAdmin);
 	}
 }
 
@@ -208,7 +208,7 @@ if (isset($submit))
 				if ($final['banner'] == false)
 				{
 					phpAds_PageHeader("1");
-					php_die ('Error', 'An error occcured while uploading the banner to the ftp server');
+					phpAds_Die ('Error', 'An error occcured while uploading the banner to the ftp server');
 				}
 			}
 			else
@@ -279,7 +279,7 @@ if (isset($submit))
 				$set
 			WHERE
 				bannerID = ".$final['bannerID'];
-		$res = db_query($sql_query) or mysql_die();
+		$res = phpAds_dbQuery($sql_query) or phpAds_sqlDie();
 	}
 	else
 	{
@@ -303,7 +303,7 @@ if (isset($submit))
 				($values_fields)
 			VALUES
 			($values)";
-		$res = db_query($sql_query) or mysql_die();
+		$res = phpAds_dbQuery($sql_query) or phpAds_sqlDie();
 	}
 	
 	
@@ -340,17 +340,17 @@ if ($bannerID != '')
 {
 	$extra = '';
 	
-	$res = db_query("
+	$res = phpAds_dbQuery("
 	SELECT
 		*
 	FROM
 		$phpAds_tbl_banners
 	WHERE
 		clientID = $campaignID
-	") or mysql_die();
+	") or phpAds_sqlDie();
 	
 	$extra = "";	
-	while ($row = mysql_fetch_array($res))
+	while ($row = phpAds_dbFetchArray($res))
 	{
 		if ($bannerID == $row['bannerID'])
 			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
@@ -389,15 +389,15 @@ if ($bannerID != '')
 	}
 	
 	
-	$res = db_query("
+	$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
 			$phpAds_tbl_banners
 		WHERE
 			bannerID = $bannerID
-		") or mysql_die();
-	$row = mysql_fetch_array($res);
+		") or phpAds_sqlDie();
+	$row = phpAds_dbFetchArray($res);
 	
 	if (ereg("gif|png|jpeg|swf", $row["format"]))
 		$type = "mysql";

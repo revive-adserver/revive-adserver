@@ -16,6 +16,7 @@
 
 // Include required files
 require ("config.php");
+require ("lib-statistics.inc.php");
 
 
 // Security check
@@ -31,7 +32,7 @@ phpAds_checkAccess(phpAds_Admin);
 if (isset($bannerID) && $bannerID != '')
 {
     // Delete stats for this banner
-	db_delete_stats($bannerID);
+	phpAds_deleteStats($bannerID);
 	
 	// Return to campaign statistics
 	Header("Location: stats-campaign.php?campaignID=$campaignID");
@@ -42,7 +43,7 @@ if (isset($bannerID) && $bannerID != '')
 elseif (isset($campaignID) && $campaignID != '')
 {
 	// Get all banners for this client
-	$idresult = db_query (" SELECT
+	$idresult = phpAds_dbQuery(" SELECT
 								bannerID
 							  FROM
 							  	$phpAds_tbl_banners
@@ -51,10 +52,10 @@ elseif (isset($campaignID) && $campaignID != '')
 		  				 ");
 	
 	// Loop to all banners for this client
-	while ($row = mysql_fetch_array($idresult))
+	while ($row = phpAds_dbFetchArray($idresult))
 	{
 		// Delete stats for the banner
-		db_delete_stats($row['bannerID']);
+		phpAds_deleteStats($row['bannerID']);
 	}
 	
 	// Return to campaign statistics
@@ -66,7 +67,7 @@ elseif (isset($campaignID) && $campaignID != '')
 elseif (isset($clientID) && $clientID != '')
 {
 	// Get all banners for this client
-	$idresult = db_query (" SELECT
+	$idresult = phpAds_dbQuery(" SELECT
 								$phpAds_tbl_banners.bannerID
 							  FROM
 							  	$phpAds_tbl_banners, $phpAds_tbl_clients
@@ -76,10 +77,10 @@ elseif (isset($clientID) && $clientID != '')
 		  				 ");
 	
 	// Loop to all banners for this client
-	while ($row = mysql_fetch_array($idresult))
+	while ($row = phpAds_dbFetchArray($idresult))
 	{
 		// Delete stats for the banner
-		db_delete_stats($row['bannerID']);
+		phpAds_deleteStats($row['bannerID']);
 	}
 	
 	// Return to campaign statistics
@@ -90,9 +91,9 @@ elseif (isset($clientID) && $clientID != '')
 // All
 elseif (isset($all) && $all == 'true')
 {
-    @db_query("DELETE FROM $phpAds_tbl_adviews") or mysql_die();
-    @db_query("DELETE FROM $phpAds_tbl_adclicks") or mysql_die();
-    @db_query("DELETE FROM $phpAds_tbl_adstats") or mysql_die();
+    phpAds_dbQuery("DELETE FROM $phpAds_tbl_adviews") or phpAds_sqlDie();
+    phpAds_dbQuery("DELETE FROM $phpAds_tbl_adclicks") or phpAds_sqlDie();
+    phpAds_dbQuery("DELETE FROM $phpAds_tbl_adstats") or phpAds_sqlDie();
 	
 	// Return to campaign statistics
 	Header("Location: stats-index.php");

@@ -48,7 +48,7 @@ if (isset($submit))
 	// Edit
 	if (isset($zoneid) && $zoneid != '')
 	{
-		$res = db_query("
+		$res = phpAds_dbQuery("
 			UPDATE
 				".$phpAds_tbl_zones."
 			SET
@@ -58,7 +58,7 @@ if (isset($submit))
 				height='".$height."'
 			WHERE
 				zoneid=".$zoneid."
-			") or mysql_die();
+			") or phpAds_sqlDie();
 		
 		header ("Location: zone-index.php");
 		exit;
@@ -68,7 +68,7 @@ if (isset($submit))
 	// Add
 	else
 	{
-		$res = db_query("
+		$res = phpAds_dbQuery("
 			INSERT INTO
 				".$phpAds_tbl_zones."
 				(
@@ -83,9 +83,9 @@ if (isset($submit))
 				'".$width."',
 				'".$height."'
 				)
-			") or mysql_die();
+			") or phpAds_sqlDie();
 		
-		$zoneid = @mysql_insert_id ($phpAds_db_link);
+		$zoneid = phpAds_dbInsertID();
 		
 		header ("Location: zone-include.php?zoneid=$zoneid");
 		exit;
@@ -103,15 +103,15 @@ if ($zoneid != "")
 	{
 		$extra = '';
 		
-		$res = db_query("
+		$res = phpAds_dbQuery("
 			SELECT
 				*
 			FROM
 				".$phpAds_tbl_zones."
-			") or mysql_die();
+			") or phpAds_sqlDie();
 		
 		$extra = "";
-		while ($row = mysql_fetch_array($res))
+		while ($row = phpAds_dbFetchArray($res))
 		{
 			if ($zoneid == $row['zoneid'])
 				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
@@ -141,18 +141,18 @@ else
 
 if (isset($zoneid) && $zoneid != '')
 {
-	$res = @db_query("
+	$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
 			".$phpAds_tbl_zones."
 		WHERE
 			zoneid = ".$zoneid."
-		") or mysql_die();
+		") or phpAds_sqlDie();
 	
-	if (@mysql_num_rows($res))
+	if (phpAds_dbNumRows($res))
 	{
-		$zone = @mysql_fetch_array($res);
+		$zone = phpAds_dbFetchArray($res);
 	}
 	
 	if ($zone['width'] == -1) $zone['width'] = '*';

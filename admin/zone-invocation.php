@@ -47,18 +47,18 @@ function phpAds_GenerateInvocationCode($zoneid)
 	
 	
 	// Get zone info
-	$res = @db_query("
+	$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
 			$phpAds_tbl_zones
 		WHERE
 			zoneid = $zoneid
-		") or mysql_die();
+		") or phpAds_sqlDie();
 	
-	if (@mysql_num_rows($res))
+	if (phpAds_dbNumRows($res))
 	{
-		$zone = @mysql_fetch_array($res);
+		$zone = phpAds_dbFetchArray($res);
 	}
 	
 	

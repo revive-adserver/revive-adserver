@@ -30,20 +30,20 @@ phpAds_checkAccess(phpAds_Admin+phpAds_Client);
 
 if (phpAds_isUser(phpAds_Client))
 {
-	$result = db_query("
+	$result = phpAds_dbQuery("
 		SELECT
 			clientID
 		FROM
 			$phpAds_tbl_banners
 		WHERE
 			bannerID = $bannerID
-		") or mysql_die();
-	$row = mysql_fetch_array($result);
+		") or phpAds_sqlDie();
+	$row = phpAds_dbFetchArray($result);
 	
 	if ($row["clientID"] == '' || phpAds_clientID() != phpAds_getParentID ($row["clientID"]))
 	{
 		phpAds_PageHeader("1");
-		php_die ($strAccessDenied, $strNotAdmin);
+		phpAds_Die ($strAccessDenied, $strNotAdmin);
 	}
 	else
 	{
@@ -59,7 +59,7 @@ if (phpAds_isUser(phpAds_Client))
 
 $extra = '';
 
-$res = db_query("
+$res = phpAds_dbQuery("
 	 SELECT
 		*,
 		count(*) as qnt,
@@ -73,9 +73,9 @@ $res = db_query("
 	 ORDER BY
 		t_stamp DESC
 	 LIMIT 7
-") or mysql_die();
+") or phpAds_sqlDie();
 
-while ($row = mysql_fetch_array($res))
+while ($row = phpAds_dbFetchArray($res))
 {
 	if ($day == $row['t_stamp_f'])
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
@@ -127,7 +127,7 @@ if (phpAds_isUser(phpAds_Client))
 function showHourlyStats($what)
 {
 	global $phpAds_db, $phpAds_url_prefix;
-	$result = db_query("
+	$result = phpAds_dbQuery("
 		SELECT
 			*,
 			DATE_FORMAT(t_stamp, '".$GLOBALS['time_format']."') as t_stamp_f,
@@ -140,19 +140,19 @@ function showHourlyStats($what)
 			AND DATE_FORMAT(t_stamp, '".$GLOBALS['date_format']."') = '".$GLOBALS['day']."'
 		GROUP BY 
 			hour
-		") or mysql_die();
+		") or phpAds_sqlDie();
 	$max = 0;
 	$total = 0;
-	while ($row = mysql_fetch_array($result))
+	while ($row = phpAds_dbFetchArray($result))
 	{
 		if ($row["qnt"] > $max)
 			$max = $row["qnt"];
 		$total += $row["qnt"];
 	}
-	@mysql_data_seek($result, 0);
+	phpAds_dbSeekRow($result, 0);
 
 	$i = 0;
-	while ($row = mysql_fetch_array($result))
+	while ($row = phpAds_dbFetchArray($result))
 	{
 		$bgcolor="#FFFFFF";
 		$i % 2 ? 0: $bgcolor= "#F6F6F6";
@@ -224,7 +224,7 @@ echo "<br><br>";
   <tr><td height='25' colspan='2'><b><?php print $strTopTenHosts;?></b></td></tr>
   <tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
   <?php
-    	$result = db_query("
+    	$result = phpAds_dbQuery("
         		SELECT
         			*,
         			count(*) as qnt
@@ -238,10 +238,10 @@ echo "<br><br>";
         		ORDER BY
         			qnt DESC
         		LIMIT 10
-        		") or mysql_die();
+        		") or phpAds_sqlDie();
         
         	$i = 0;
-        	while ($row = mysql_fetch_array($result))
+        	while ($row = phpAds_dbFetchArray($result))
         	{
         		$bgcolor="#FFFFFF";
         		$i % 2 ? 0: $bgcolor= "#F6F6F6";

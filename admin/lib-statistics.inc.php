@@ -60,16 +60,16 @@ function phpAds_getClientName ($clientID)
 		}
 		else
 		{
-			$res = db_query("
+			$res = phpAds_dbQuery("
 			SELECT
 				*
 			FROM
 				$phpAds_tbl_clients
 			WHERE
 				clientID = $clientID
-			") or mysql_die();
+			") or phpAds_sqlDie();
 			
-			$row = @mysql_fetch_array($res);
+			$row = phpAds_dbFetchArray($res);
 			
 			$clientCache[$clientID] = $row;
 		}
@@ -199,16 +199,16 @@ function phpAds_getParentID ($clientID)
 	}
 	else
 	{
-		$res = db_query("
+		$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
 			$phpAds_tbl_clients
 		WHERE
 			clientID = $clientID
-		") or mysql_die();
+		") or phpAds_sqlDie();
 		
-		$row = @mysql_fetch_array($res);
+		$row = phpAds_dbFetchArray($res);
 		
 		$clientCache[$clientID] = $row;
 	}
@@ -232,16 +232,16 @@ function phpAds_getParentName ($clientID)
 	}
 	else
 	{
-		$res = db_query("
+		$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
 			$phpAds_tbl_clients
 		WHERE
 			clientID = $clientID
-		") or mysql_die();
+		") or phpAds_sqlDie();
 		
-		$row = @mysql_fetch_array($res);
+		$row = phpAds_dbFetchArray($res);
 		
 		$clientCache[$clientID] = $row;
 	}
@@ -294,16 +294,16 @@ function phpAds_getBannerName ($bannerID, $limit = 30, $id = true)
 	}
 	else
 	{
-		$res = db_query("
+		$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
 			$phpAds_tbl_banners
 		WHERE
 			bannerID = $bannerID
-		") or mysql_die();
+		") or phpAds_sqlDie();
 		
-		$row = @mysql_fetch_array($res);
+		$row = phpAds_dbFetchArray($res);
 		
 		$bannerCache[$bannerID] = $row;
 	}
@@ -342,16 +342,16 @@ function phpAds_getZoneName ($zoneid)
 		}
 		else
 		{
-			$res = db_query("
+			$res = phpAds_dbQuery("
 			SELECT
 				*
 			FROM
 				$phpAds_tbl_zones
 			WHERE
 				zoneid = $zoneid
-			") or mysql_die();
+			") or phpAds_sqlDie();
 			
-			$row = @mysql_fetch_array($res);
+			$row = phpAds_dbFetchArray($res);
 			
 			$zoneCache[$zoneID] = $row;
 		}
@@ -378,16 +378,16 @@ function phpAds_getBannerCode ($bannerID)
 	}
 	else
 	{
-		$res = db_query("
+		$res = phpAds_dbQuery("
 		SELECT
 			*
 		FROM
 			$phpAds_tbl_banners
 		WHERE
 			bannerID = $bannerID
-		") or mysql_die();
+		") or phpAds_sqlDie();
 		
-		$row = @mysql_fetch_array($res);
+		$row = phpAds_dbFetchArray($res);
 		
 		$bannerCache[$bannerID] = $row;
 	}
@@ -531,6 +531,114 @@ function phpAds_buildCTR ($views, $clicks)
 		$ctr="0.00%";
 		
 	return ($ctr);
+}
+
+
+
+/*********************************************************/
+/* Delete statistics							         */
+/*********************************************************/
+
+function phpAds_deleteStats($bannerID)
+{
+    global $phpAds_tbl_adviews, $phpAds_tbl_adclicks, $phpAds_tbl_adstats;
+	
+    phpAds_dbQuery("DELETE FROM $phpAds_tbl_adviews WHERE bannerID = $bannerID") or phpAds_sqlDie();
+    phpAds_dbQuery("DELETE FROM $phpAds_tbl_adclicks WHERE bannerID = $bannerID") or phpAds_sqlDie();
+    phpAds_dbQuery("DELETE FROM $phpAds_tbl_adstats WHERE bannerID = $bannerID") or phpAds_sqlDie();
+}
+
+
+/*********************************************************/
+/* Get overview statistics						         */
+/*********************************************************/
+
+function phpAds_totalStats($table, $column, $bannerID, $timeconstraint="")
+{
+    global $phpAds_tbl_adstats;
+    
+	$ret = 0;
+    $where = "";
+	
+    if (!empty($bannerID)) 
+        $where = "WHERE bannerID = $bannerID";
+    
+	if (!empty($timeconstraint))
+	{
+		if (!empty($bannerID))
+			$where .= " AND ";
+		else
+			$where = "WHERE ";
+		
+		if ($timeconstraint == "month")
+		{
+			$begintime = date ("Ym01000000");
+			$endtime = date ("YmdHis", mktime(0, 0, 0, date("m") + 1, 1, date("Y")));
+			$where .= "t_stamp >= $begintime AND t_stamp < $endtime";
+		}
+		elseif ($timeconstraint == "week")
+		{
+			$begintime = date ("Ymd000000", time() - 518400);
+			$endtime = date ("Ymd000000", time() + 86400);
+			$where .= "t_stamp >= $begintime AND t_stamp < $endtime";
+		}
+		else
+		{
+		    $begintime = date ("Ymd000000");
+			$endtime = date ("Ymd000000", time() + 86400);
+			$where .= "t_stamp >= $begintime AND t_stamp < $endtime";
+		}
+	}
+	
+    $res = phpAds_dbQuery("SELECT count(*) as qnt FROM $table $where") or phpAds_sqlDie();
+    if (phpAds_dbNumRows ($res))
+    { 
+        $row = phpAds_dbFetchArray($res);
+		if (isset($row['qnt'])) $ret += $row['qnt'];
+    }
+	
+    $where = "";
+    if (!empty($bannerID)) 
+        $where = "WHERE bannerID = $bannerID";
+    
+	if (!empty($timeconstraint))
+	{
+		if (!empty($bannerID))
+			$where .= " AND ";
+		else
+			$where = "WHERE ";
+		
+		if ($timeconstraint == "month")
+		{
+			$where .= "MONTH(day) = MONTH(CURDATE())";
+		}
+		elseif ($timeconstraint == "week")
+		{
+			$where .= "WEEK(day) = WEEK(CURDATE()) AND YEAR(day) = YEAR(CURDATE())";
+		}
+		else
+		{
+		    $where .= "day = CURDATE()";
+		}
+	}
+	
+    $res = phpAds_dbQuery("SELECT sum($column) as qnt FROM $phpAds_tbl_adstats $where") or phpAds_sqlDie();
+    if (phpAds_dbNumRows ($res))
+    { 
+        $row = phpAds_dbFetchArray($res);
+        if (isset($row['qnt'])) $ret += $row['qnt'];
+    }
+    return $ret;
+}
+
+function phpAds_totalClicks($bannerID="", $timeconstraint="")
+{
+    return phpAds_totalStats($GLOBALS["phpAds_tbl_adclicks"], "clicks", $bannerID, $timeconstraint);
+}
+
+function phpAds_totalViews($bannerID="", $timeconstraint="")
+{
+    return phpAds_totalStats($GLOBALS["phpAds_tbl_adviews"], "views", $bannerID, $timeconstraint);
 }
 
 ?>
