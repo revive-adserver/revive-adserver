@@ -65,7 +65,12 @@ function phpAds_SettingsWriteFlush()
 		$k_type = $phpAds_settings_information[$k]['type'];
 		
 		if ($k_sql)
-			$sql[] = "$k = '$v'";
+		{
+			if ($k_type == 'boolean')
+				$v = $v ? 't' : 'f';
+			
+			$sql[] = $k." = '".$v."'";
+		}
 		else
 		{
 			if ($k_type == 'boolean')
