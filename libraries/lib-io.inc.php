@@ -180,7 +180,7 @@ function phpAds_packCookies($cache, $session)
 	}
 	
 	// Encode only if necessary
-	if (count($cookies))
+	if (true || count($cookies))
 	{
 		// Serialize cookie array
 		$cookies = serialize($cookies);
@@ -209,7 +209,7 @@ function phpAds_unpackCookies()
 	
 	if (isset($HTTP_COOKIE_VARS['phpAds_cookies']) && is_array($HTTP_COOKIE_VARS['phpAds_cookies']))
 	{
-		for ($i = 1; $i; $i--)
+		for ($i = 1; $i >= 0; $i--)
 		{
 			if (!isset($HTTP_COOKIE_VARS['phpAds_cookies'][$i]) || !$HTTP_COOKIE_VARS['phpAds_cookies'][$i])
 				continue;
@@ -254,7 +254,7 @@ function phpAds_unpackCookies()
 				
 				if (count($str))
 				{
-					// Extract cookies into $c 
+					// Extract cookies into $c following magic_quotes configuration
 					parse_str(join('&', $str), $c);
 					
 					// Merge them with the real cookie and make them available
