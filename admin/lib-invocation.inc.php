@@ -324,7 +324,10 @@ function phpAds_GenerateInvocationCode()
 	
 	// Remote invocation for layers
 	if ($codetype=='adlayer')
-		$buffer = phpAds_generateLayerCode($parameters)."\n";
+	{
+		$buffer  = "<script language='JavaScript' type='text/javascript' src='".$phpAds_config['url_prefix']."/adx.js'></script>\n";
+		$buffer .= phpAds_generateLayerCode($parameters)."\n";
+	}
 	
 	// Remote invocation using XML-RPC
 	if ($codetype=='xmlrpc')

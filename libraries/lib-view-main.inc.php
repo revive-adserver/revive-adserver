@@ -79,9 +79,29 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 		if (isset($row['prepend']))
 			$outputbuffer .= $row['prepend'];
 		
-		
-		// Get HTML cache
-		$outputbuffer .= $row['htmlcache'];
+
+		// Add HTML to the output buffer. If the HTML contains ActiveX code we need
+		// to use a JavaScript workaround because the outcome of the Eolas lawsuit
+		// agains Microsoft. Without these changes the user would get a warning dialogbox.
+		if (!(strpos (strtolower($row['htmlcache']), "<object") === false) &&
+		   (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'MSIE') && !strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Opera')))
+		{
+			if (!defined("phpAds_invocationType") || (phpAds_invocationType != 'adjs' && phpAds_invocationType != 'adlayer'))
+				$outputbuffer .= "<script language='JavaScript' type='text/javascript' src='{url_prefix}/adx.js'></script>";
+			
+			$outputbuffer .= "<script language='JavaScript' type='text/javascript'>\n";
+	 		$outputbuffer .= "<!--\n";
+	 		$outputbuffer .= "var phpads_activex = \"";
+	 		$outputbuffer .= addslashes($row['htmlcache']);
+	 		$outputbuffer .= "\";\n";
+ 			$outputbuffer .= "phpads_deliverActiveX(phpads_activex);\n";
+ 			$outputbuffer .= "//-->\n";
+ 			$outputbuffer .= "</script>";
+		}
+		else
+		{
+			$outputbuffer .= $row['htmlcache'];
+		}
 		
 		
 		// Append
