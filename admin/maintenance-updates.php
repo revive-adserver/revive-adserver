@@ -51,8 +51,14 @@ phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2"));
 
 // Determine environment
 $current  = $strCurrentlyUsing.' '.$phpAds_productname.'&nbsp;'.$phpAds_version_readable.' ';
-$current .= $strRunningOn.' '.str_replace('/', '&nbsp;', ereg_replace(" .*$", '', $HTTP_SERVER_VARS["SERVER_SOFTWARE"])).', ';
-$current .= 'PHP&nbsp;'.phpversion().' '.$strAndPlain.' '.$phpAds_dbmsname;
+$current .= $strRunningOn.' ';
+
+if (isset($HTTP_SERVER_VARS["SERVER_SOFTWARE"]) && strlen(trim($HTTP_SERVER_VARS["SERVER_SOFTWARE"])))
+	$current .= str_replace('/', '&nbsp;', ereg_replace(" .*$", '', $HTTP_SERVER_VARS["SERVER_SOFTWARE"]));
+else
+	$current .= $strUnknown;
+	
+$current .= ', '.'PHP&nbsp;'.phpversion().' '.$strAndPlain.' '.$phpAds_dbmsname;
 
 $res = phpAds_dbQuery("SELECT VERSION() AS version");
 if ($row = phpAds_dbFetchArray($res))
