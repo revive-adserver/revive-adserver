@@ -396,38 +396,36 @@ echo "</td></tr>";
 
 echo "</table>";
 
-?>
-
-<br><br><br><br>
-
-<?php
-	// total number of clients
-	$res_clients 		  = db_query("SELECT count(*) as count FROM $phpAds_tbl_clients WHERE parent = 0") or mysql_die();
-	$res_campaigns 		  = db_query("SELECT count(*) as count FROM $phpAds_tbl_clients WHERE parent > 0") or mysql_die();
-	$res_active_campaigns = db_query("SELECT count(*) as count FROM $phpAds_tbl_clients WHERE parent > 0 AND active='true'");
-	$res_total_banners 	  = db_query("SELECT count(*) as count FROM $phpAds_tbl_banners");
-	$res_active_banners   = db_query("SELECT count(*) as count FROM $phpAds_tbl_banners as b, $phpAds_tbl_clients as c WHERE b.clientID=c.clientID AND c.active='true' AND b.active='true'");
-?>
-
-<table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
-  <tr><td height='25' colspan='3'><b><?php echo $strOverall;?></b></td></tr>
-  <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-  <tr><td height='25'><?php echo $strTotalBanners;?>: <b><?php echo @mysql_result($res_total_banners, 0, "count");?></b></td>
-      <td height='25'><?php echo $strTotalCampaigns;?>: <b><?php echo @mysql_result($res_campaigns, 0, "count");?></b></td>
-      <td height='25'><?php echo $strTotalClients;?>: <b><?php echo @mysql_result($res_clients, 0, "count");?></b></td></tr>
-  <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>
-  <tr><td height='25'><?php echo $strActiveBanners;?>: <b><?php echo @mysql_result($res_active_banners, 0, "count");?></b></td>
-      <td height='25'><?php echo $strActiveCampaigns;?>: <b><?php echo @mysql_result($res_active_campaigns, 0, "count");?></b></td>
-      <td height='25'>&nbsp;</td></tr>
-  <tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-</table>   
-
-<br><br>
 
 
+// total number of clients
+$res_clients 		  = db_query("SELECT count(*) as count FROM $phpAds_tbl_clients WHERE parent = 0") or mysql_die();
+$res_campaigns 		  = db_query("SELECT count(*) as count FROM $phpAds_tbl_clients WHERE parent > 0") or mysql_die();
+$res_active_campaigns = db_query("SELECT count(*) as count FROM $phpAds_tbl_clients WHERE parent > 0 AND active='true'");
+$res_total_banners 	  = db_query("SELECT count(*) as count FROM $phpAds_tbl_banners");
+$res_active_banners   = db_query("SELECT count(*) as count FROM $phpAds_tbl_banners as b, $phpAds_tbl_clients as c WHERE b.clientID=c.clientID AND c.active='true' AND b.active='true'");
 
 
-<?php
+echo "<br><br><br><br>";
+echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
+echo "<tr><td height='25' colspan='3'><b>".$strOverall."</b></td></tr>";
+echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+
+echo "<tr><td height='25'>".$strTotalBanners.": <b>".@mysql_result($res_total_banners, 0, "count")."</b></td>";
+echo "<td height='25'>".$strTotalCampaigns.": <b>".@mysql_result($res_campaigns, 0, "count")."</b></td>";
+echo "<td height='25'>".$strTotalClients.": <b>".@mysql_result($res_clients, 0, "count")."</b></td></tr>";
+
+echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
+
+echo "<tr><td height='25'>".$strActiveBanners.": <b>".@mysql_result($res_active_banners, 0, "count")."</b></td>";
+echo "<td height='25'>".$strActiveCampaigns.": <b>".@mysql_result($res_active_campaigns, 0, "count")."</b></td>";
+echo "<td height='25'>&nbsp;</td></tr>";
+
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "</table>";
+echo "<br><br>";
+
+
 
 /*********************************************************/
 /* HTML framework                                        */
