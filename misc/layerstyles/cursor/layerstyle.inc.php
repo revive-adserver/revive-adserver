@@ -20,13 +20,33 @@ define('phpAds_adLayerLoaded', true);
 
 
 /*********************************************************/
+/* Return misc capabilities                              */
+/*********************************************************/
+
+function phpAds_getLayerLimitations ()
+{
+	$agent = phpAds_getUserAgent();
+	
+	// Still need to do a compatibility test
+	// so it returns true for now
+	$compatible = true;
+	$richmedia  = true;
+	
+	return array (
+		'richmedia'  => $richmedia,
+		'compatible' => $compatible
+	);
+}
+
+
+
+/*********************************************************/
 /* Output JS code for the layer                          */
 /*********************************************************/
 
 function phpAds_putLayerJS ($output, $uniqid)
 {
 ?>
-
 var phpAds_ns6 = document.getElementById && !document.all;
 
 function phpAds_findObj(n, d) { 
@@ -77,6 +97,7 @@ function phpAds_adlayers_place_<?php echo $uniqid; ?>(e)
 	c.visibility = 'visible';
 }
 
+
 if (document.layers)
 {
 	document.captureEvents(Event.MOUSEMOVE);
@@ -102,53 +123,6 @@ function phpAds_getLayerHTML ($output, $uniqid)
 </div>
 ';
 
-}
-
-
-
-/*********************************************************/
-/* Place ad-generator settings                           */
-/*********************************************************/
-
-function phpAds_placeLayerSettings ()
-{
-}
-
-
-
-/*********************************************************/
-/* Place ad-generator settings                           */
-/*********************************************************/
-
-function phpAds_generateLayerCode ($parameters)
-{
-	global $phpAds_config;
-	
-	$parameters[] = 'layerstyle=cursor';
-	
-	$buffer = "<script language='JavaScript' type='text/javascript' src='".$phpAds_config['url_prefix']."/adlayer.php";
-	if (sizeof($parameters) > 0)
-		$buffer .= "?".implode ("&amp;", $parameters);
-	$buffer .= "'></script>";
-	
-	return $buffer;
-}
-
-
-
-/*********************************************************/
-/* Return $show var for generators                       */
-/*********************************************************/
-
-function phpAds_getlayerShowVar ()
-{
-	return array (
-		'what' => true,
-		'clientid' => true,
-		'target' => true,
-		'source' => true,
-		'layerstyle' => true
-	);
 }
 
 ?>
