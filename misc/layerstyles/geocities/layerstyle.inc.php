@@ -156,16 +156,16 @@ function phpAds_getLayerHTML ($output, $uniqid)
 {
 	global $phpAds_config, $target;
 	global $align, $collapsetime, $padding, $closetext;
-
+	
 	if (!isset($padding)) $padding = '2';
-
+	
 	// Calculate layer size (inc. borders)
 	$layer_width = $output['width'] + 4 + $padding*2;
 	$layer_height = $output['height'] + 30 + $padding*2;
-
+	
 	// Create imagepath
 	$imagepath = $phpAds_config['url_prefix'].'/misc/layerstyles/geocities/images/';
-
+	
 	// return HTML code
 	return '
 <div id="phpads_c'.$uniqid.'" style="position:absolute; width:'.$layer_width.'px; height:'.$layer_height.'px; z-index:98; left: 0px; top: 0px; visibility: hidden"> 
@@ -223,11 +223,14 @@ function phpAds_placeLayerSettings ()
 	if (!isset($padding)) $padding = '2';
 	if (!isset($closetext)) $closetext = $GLOBALS['strClose'];
 	
-
-	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+	
+	echo "<tr><td height='30' colspan='3'>&nbsp;</td></tr>";
+	echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
+	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$GLOBALS['strAlignment']."</td><td width='370'>";
-	echo "<select name='align'>";
+	echo "<select name='align' style='width:175px;'>";
 		echo "<option value='left'".($align == 'left' ? ' selected' : '').">".$GLOBALS['strLeft']."</option>";
 		echo "<option value='center'".($align == 'center' ? ' selected' : '').">".$GLOBALS['strCenter']."</option>";
 		echo "<option value='right'".($align == 'right' ? ' selected' : '').">".$GLOBALS['strRight']."</option>";
@@ -235,16 +238,19 @@ function phpAds_placeLayerSettings ()
 	echo "</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-	echo "<tr><td width='30'>&nbsp;</td>";
-	echo "<td width='200'>".$GLOBALS['strAutoCollapseAfter']."</td><td width='370'>";
-		echo "<input class='flat' type='text' name='collapsetime' size='' value='".(isset($collapsetime) ? $collapsetime : '-')."' style='width:175px;'> ".$GLOBALS['strAbbrSeconds']."</td></tr>";
-	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
-	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$GLOBALS['strCloseText']."</td><td width='370'>";
 		echo "<input class='flat' type='text' name='closetext' size='' value='".$closetext."' style='width:175px;'></td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+	
+	echo "<tr><td width='30'>&nbsp;</td>";
+	echo "<td width='200'>".$GLOBALS['strAutoCollapseAfter']."</td><td width='370'>";
+		echo "<input class='flat' type='text' name='collapsetime' size='' value='".(isset($collapsetime) ? $collapsetime : '-')."' style='width:60px;'> ".$GLOBALS['strAbbrSeconds']."</td></tr>";
+	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$GLOBALS['strBannerPadding']."</td><td width='370'>";
 		echo "<input class='flat' type='text' name='padding' size='' value='".(isset($padding) ? $padding : '0')."' style='width:60px;'> pixels</td></tr>";
@@ -265,17 +271,17 @@ function phpAds_generateLayerCode ($parameters)
 	$parameters[] = 'layerstyle=geocities';
 	$parameters[] = 'align='.(isset($align) ? $align : 'right');
 	$parameters[] = 'padding='.(isset($padding) ? (int)$padding : '2');
-
+	
 	if (isset($closetext)) $parameters[] = 'closetext='.urlencode($closetext);
-
+	
 	if (isset($collapsetime) && $collapsetime > 0)
 		$parameters[] = 'collapsetime='.$collapsetime;
 	
-	$buffer = "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adlayer.php";
+	$buffer = "<script language='JavaScript' type='text/javascript' src='".$phpAds_config['url_prefix']."/adlayer.php";
 	if (sizeof($parameters) > 0)
 		$buffer .= "?".implode ("&", $parameters);
 	$buffer .= "'></script>";
-
+	
 	return $buffer;
 }
 
