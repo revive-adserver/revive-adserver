@@ -131,8 +131,12 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-04-09:  Rewrote part of lib-priority to always assign a priority > 0 to low-pri campaigns  (Matteo)
 			  - 2002-04-15:  Added ability to override frame targets even if no target is specified in HTML banner  (Niels)
 			  - 2002-04-19:  Rewritten verbose stats convertor, now available from the maintenance menu  (Niels)
-			  - 2002-04-30:  Added better support for different versions of Flash plugins, phpAdsNew won't ask 
-					 for the latest version of the plugin when the .swf file is created in an older version  (Niels)
+			  - 2002-04-30:  Added better support for different versions of Flash plugins, phpAdsNew won't ask for the latest version of the plugin when the .swf file is created in an older version  (Niels)
+			  - 2002-05-02:  Split zones into three different types: Banner, Interstitial and Popups  (Niels)
+			  - 2002-05-02:  Updated user interface of the bannercode generator  (Niels)
+			  - 2002-05-02:  Resize Iframe option of bannercode generator is hidden when zone is on different server  (Niels)
+			  - 2002-05-02:	 Updated iframe bannercode to include ilayer for Netscape 4 support  (Niels)
+			  - 2002-05-02:  Removed combined remote invocation from bannercode generator because new Javascript and Iframe support are both 100% browser compatible  (Niels)
 
 
 			+ Misc bugfixes
@@ -236,6 +240,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-04-28:  Fixed some remaining E_ALL errors  (Niels)
 			  - 2002-04-02:  Fixed problem which caused HTML to be mangled when target= was part of an URL  (Niels)
 			  - 2002-04-02:  Moving zones now works again  (Niels)
+			  - 2002-04-02:  Multiple simple adlayers on one page now don't interfere with each other anymore  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
