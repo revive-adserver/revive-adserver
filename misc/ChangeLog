@@ -5,6 +5,9 @@ CVS
 			+ Misc changes
 			  - 2005-03-17:  Chenged the way phpAdsNew sends and receives cookies to avoid cookie overpopulation  (Matteo)
 
+			+ Misc bugfixes
+			  - 2005-03-17:  Outgoing e-mails did not comply to RFCs when no charset was set in the language file (Matteo)
+
 
 phpAdsNew 2.0.4-pr2
 			+ Misc bugfixes
