@@ -90,7 +90,10 @@ if (!$phpAds_config['compact_stats'])
         echo "</td><td height='25' bgcolor='".$bgcolor."' nowrap>";
         echo "<span id='host".str_replace('.', '_', $row['host'])."'>".$row['host']."</span>";
         echo "</td><td height='25' bgcolor='".$bgcolor."'>&nbsp;";
-		echo "<img src='images/flags/".($row["country"] != '' ? strtolower($row["country"]) : 'unknown').".gif' width='19' height'11'>&nbsp;".$phpAds_ISO3166[$row["country"]];
+
+		$flag = ($row["country"] == 'A1' || $row["country"] == 'A2') '' : $row["country"];
+		echo "<img src='images/flags/".($flag != '' ? strtolower($flag) : 'unknown').".gif' width='19' height'11'>&nbsp;".($row["country"] != '' ? $phpAds_ISO3166[$row["country"]] : '-');
+		
 		echo "</td><td height='25' bgcolor='".$bgcolor."' align='".$phpAds_TextAlignRight."'>";
 		echo $row["qnt"];
 		echo "&nbsp;&nbsp;</td></tr>";
