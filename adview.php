@@ -155,28 +155,41 @@ if ($found)
 			$row['imageurl'] = str_replace ('{timestamp}', time(), $row['imageurl']);
 			$row['url']      = str_replace ('{timestamp}', time(), $row['url']);
 			
-			// Determine cachebuster
-			if (preg_match ('#\{random(:([1-9])){0,1}\}#i', $row['imageurl'], $matches))
+			
+			// Replace random
+			if (preg_match ('#\{random(:([1-9]+)){0,1}\}#i', $row['imageurl'], $matches))
 			{
-				if ($matches[1] == "")
-					$randomdigits = 8;
+				if ($matches[2])
+					$lastdigits = $matches[2];
 				else
-					$randomdigits = $matches[2];
+					$lastdigits = 8;
 				
-				$randomnumber = sprintf ('%0'.$randomdigits.'d', mt_rand (0, pow (10, $randomdigits) - 1));
-				$row['imageurl'] = str_replace ($matches[0], $randomnumber, $row['imageurl']);
+				$lastrandom = '';
+				
+				for ($r=0; $r<$lastdigits; $r=$r+9)
+					$lastrandom .= (string)mt_rand (111111111, 999999999);
+				
+				$lastrandom  = substr($lastrandom, 0 - $lastdigits);
+				$row['imageurl'] = str_replace ($matches[0], $lastrandom, $row['imageurl']);
 			}
 			
-			if (preg_match ('#\{random(:([1-9])){0,1}\}#i', $row['url'], $matches))
+			if (preg_match ('#\{random(:([1-9]+)){0,1}\}#i', $row['url'], $matches))
 			{
-				if (!isset($randomnumber) || $randomnumber == '')
+				if ($matches[2])
+					$randomdigits = $matches[2];
+				else
+					$randomdigits = 8;
+				
+				if (isset($lastdigits) && $lastdigits == $randomdigits)
+					$randomnumber = $lastrandom;
+				else
 				{
-					if ($matches[1] == "")
-						$randomdigits = 8;
-					else
-						$randomdigits = $matches[2];
+					$randomnumber = '';
 					
-					$randomnumber = sprintf ('%0'.$randomdigits.'d', mt_rand (0, pow (10, $randomdigits) - 1));
+					for ($r=0; $r<$randomdigits; $r=$r+9)
+						$randomnumber .= (string)mt_rand (111111111, 999999999);
+					
+					$randomnumber  = substr($randomnumber, 0 - $randomdigits);
 				}
 				
 				$row['url'] = str_replace ($matches[0], $randomnumber, $row['url']);
