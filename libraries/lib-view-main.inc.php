@@ -41,41 +41,33 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 	
 	$found = false;
 	
+	// Reset followed zone chain
+	$phpAds_followedChain = array();
 	
-	// Open database connection and get a banner
-	if (phpAds_dbConnect())
+	$first = true;
+	
+	while (($first || $what != '') && $found == false)
 	{
-		// Reset followed zone chain
-		$phpAds_followedChain = array();
-		
-		$first = true;
-		
-		while (($first || $what != '') && $found == false)
+		$first = false;
+		if (substr($what,0,5) == 'zone:')
 		{
-			$first = false;
-			if (substr($what,0,5) == 'zone:')
-			{
-				if (!defined('LIBVIEWZONE_INCLUDED'))
-					require (phpAds_path.'/libraries/lib-view-zone.inc.php');
-				
-				$row = phpAds_fetchBannerZone($what, $clientid, $context, $source, $richmedia);
-			}
-			else
-			{
-				if (!defined('LIBVIEWQUERY_INCLUDED'))
-					require (phpAds_path.'/libraries/lib-view-query.inc.php');
-				
-				if (!defined('LIBVIEWDIRECT_INCLUDED'))
-					require (phpAds_path.'/libraries/lib-view-direct.inc.php');
-				
-				$row = phpAds_fetchBannerDirect($what, $clientid, $context, $source, $richmedia);
-			}
+			if (!defined('LIBVIEWZONE_INCLUDED'))
+				require (phpAds_path.'/libraries/lib-view-zone.inc.php');
 			
-			if (is_array ($row))
-				$found = true;
-			else
-				$what  = $row;
+			$row = phpAds_fetchBannerZone($what, $clientid, $context, $source, $richmedia);
 		}
+		else
+		{
+			if (!defined('LIBVIEWDIRECT_INCLUDED'))
+				require (phpAds_path.'/libraries/lib-view-direct.inc.php');
+			
+			$row = phpAds_fetchBannerDirect($what, $clientid, $context, $source, $richmedia);
+		}
+		
+		if (is_array ($row))
+			$found = true;
+		else
+			$what  = $row;
 	}
 	
 	

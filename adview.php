@@ -92,9 +92,6 @@ if (phpAds_dbConnect())
 		}
 		else
 		{
-			if (!defined('LIBVIEWQUERY_INCLUDED'))
-				require (phpAds_path.'/libraries/lib-view-query.inc.php');
-			
 			if (!defined('LIBVIEWDIRECT_INCLUDED'))
 				require (phpAds_path.'/libraries/lib-view-direct.inc.php');
 			
