@@ -441,7 +441,7 @@ else
 	<? } else { ?>
 		<tr><td height='25' colspan='3' bgcolor='#FFFFFF'>
 		<input type='radio' name='bannertype' value='html'<?if ($type == "html") echo " checked";?>>
-		<b><?echo $strURLBanner;?></b></td></tr>
+		<b><?echo $strHTMLBanner;?></b></td></tr>
 	<? } ?>
 	<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
