@@ -183,7 +183,6 @@ phpAds_PageHeader("4.1.3.3", $extra);
 
 <?php
 
-
 $res = phpAds_dbQuery ("
 	SELECT
 		affiliateid,
@@ -194,6 +193,7 @@ $res = phpAds_dbQuery ("
 		affiliateid
 ") or phpAds_sqlDie();
 
+$affiliate_count = phpAds_dbNumRows($res);
 while ($row = phpAds_dbFetchArray($res))
 {
 	$affiliates[$row['affiliateid']] = $row;
@@ -217,6 +217,7 @@ $res = phpAds_dbQuery("
 		affiliateid, zoneid
 ") or phpAds_sqlDie();
 
+$zone_count = phpAds_dbNumRows($res);
 while ($row = phpAds_dbFetchArray($res))
 {
 	if (isset($affiliates[$row['affiliateid']]))
@@ -243,7 +244,7 @@ echo "</tr>";
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 
 
-if (isset($affiliates) || is_array($affilates))
+if ($zone_count > 0 && $affiliate_count > 0)
 {
 	$i=0;
 	for (reset($affiliates); $akey = key($affiliates); next($affiliates))
