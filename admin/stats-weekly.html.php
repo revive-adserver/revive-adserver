@@ -307,9 +307,9 @@ function stats()
 			$i++;
 		}
 		
-> 		if (!$ids)
-> 			$ids = '0';
-> 			
+		if (!$ids)
+			$ids = '0';
+			
 		if ($campaignid > 0) 
 			$where .= $ids.')';
 		
