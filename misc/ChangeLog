@@ -40,6 +40,7 @@ phpAdsNew 2.0.1		+ Misc bugfixes
 			  - 2004-03-02:  Fixed a bug in the Javascript Row selection code, which prevented FireFox users from selecting a country, continent, language or region - bug #905052  (Niels)
 			  - 2004-03-02:  Activate and Expiration date of a campaign was not handled properly in some cases - bug #883697  (Niels)
 			  - 2004-03-08:  Flash hardcoded links converter didn't recognize https:// links - bug #911919  (Matteo, thanks to M.Shumackov)
+			  - 2004-06-18:  Campaign blocking wasn't working in Javascript remote invocation with register_globals off  (Matteo)
 
 phpAdsNew 2.0
 			+ Misc changes
