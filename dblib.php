@@ -20,7 +20,8 @@ function db_query($query, $link = "")
 
     $phpAds_last_query = $query;
 //    echo "$query<br>";
-    return mysql_db_query($phpAds_db, $query);
+    $ret = mysql_db_query($phpAds_db, $query);
+    return $ret;
 }
 
 // log a click to the database
@@ -150,6 +151,8 @@ function db_total_views($bannerID="")
 
 function db_delete_stats($bannerID)
 {
+    global $phpAds_tbl_adviews, $phpAds_tbl_adclicks, $phpAds_tbl_adstats;
+
     db_query("DELETE FROM $phpAds_tbl_adviews WHERE bannerID = $bannerID") or mysql_die();
     db_query("DELETE FROM $phpAds_tbl_adclicks WHERE bannerID = $bannerID") or mysql_die();
     db_query("DELETE FROM $phpAds_tbl_adstats WHERE bannerID = $bannerID") or mysql_die();
