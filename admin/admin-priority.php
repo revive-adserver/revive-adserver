@@ -57,7 +57,7 @@ function phpAds_showBanners ()
 	");
 	
 	$rows = array();
-	$weightsum = 0;
+	$prioritysum = 0;
 	
 	while ($tmprow = phpAds_dbFetchArray($res))
 	{
@@ -96,9 +96,9 @@ function phpAds_showBanners ()
 			echo "&nbsp;&nbsp;";
 			
 			// Banner icon
-			if ($rows[$key]['format'] == 'html')
+			if ($rows[$key]['storagetype'] == 'html')
 				echo "<img src='images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
-			elseif ($rows[$key]['format'] == 'url')
+			elseif ($rows[$key]['storagetype'] == 'url')
 				echo "<img src='images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
 			else
 				echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
@@ -129,8 +129,18 @@ function phpAds_showBanners ()
 /* Main code                                             */
 /*********************************************************/
 
-
 echo "<br>";
+
+
+
+// Extra campaign info
+$res = phpAds_dbQuery("SELECT COUNT(*) AS count, SUM(target) AS sum_target FROM ".$phpAds_config['tbl_clients']." WHERE parent > 0 AND target > 0");
+$campaigns_count = phpAds_dbResult($res, 0, 'count');
+$campaigns_target = phpAds_dbResult($res, 0, 'sum_target');
+
+$res = phpAds_dbQuery("SELECT COUNT(*) AS campaigns FROM ".$phpAds_config['tbl_clients']." WHERE parent > 0 AND weight > 0");
+$campaigns_weight = phpAds_dbResult($res, 0, 'campaigns');
+
 
 // Get the number of days running
 if ($phpAds_config['compact_stats'])
@@ -199,15 +209,6 @@ phpAds_ShowBreak();
 echo "<br><br>";
 phpAds_showBanners();
 echo "<br><br>";
-
-
-// Extra campaign info
-$res = phpAds_dbQuery("SELECT COUNT(*) AS count, SUM(target) AS sum_target FROM ".$phpAds_config['tbl_clients']." WHERE parent > 0 AND target > 0");
-$campaigns_count = phpAds_dbResult($res, 0, 'count');
-$campaigns_target = phpAds_dbResult($res, 0, 'sum_target');
-
-$res = phpAds_dbQuery("SELECT COUNT(*) AS campaigns FROM ".$phpAds_config['tbl_clients']." WHERE parent > 0 AND weight > 0");
-$campaigns_weight = phpAds_dbResult($res, 0, 'campaigns');
 
 
 echo "<br><br>";
