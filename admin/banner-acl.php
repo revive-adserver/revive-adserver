@@ -261,35 +261,32 @@ elseif (isset($submit))
 	}
 	
 	
-	if ($phpAds_config['log_beacon'])
+	// Set time limit
+	if (isset($time))
 	{
-		// Set time limit
-		if (isset($time))
-		{
-			$block = 0;
-			if ($time['second'] != '-') $block += (int)$time['second'];
-			if ($time['minute'] != '-') $block += (int)$time['minute'] * 60;
-			if ($time['hour'] != '-') 	$block += (int)$time['hour'] * 3600;
-		}
-		else
-			$block = 0;
-		
-		// Set capping
-		if (isset($cap) && $cap != '-')
-			$cap = (int)$cap;
-		else
-			$cap = 0;
-		
-		
-		$res = phpAds_dbQuery("
-			UPDATE
-				".$phpAds_config['tbl_banners']."
-			SET
-				block='".$block."', capping='".$cap."'
-			WHERE
-				bannerid='".$bannerid."'
-		") or phpAds_sqlDie();
+		$block = 0;
+		if ($time['second'] != '-') $block += (int)$time['second'];
+		if ($time['minute'] != '-') $block += (int)$time['minute'] * 60;
+		if ($time['hour'] != '-') 	$block += (int)$time['hour'] * 3600;
 	}
+	else
+		$block = 0;
+	
+	// Set capping
+	if (isset($cap) && $cap != '-')
+		$cap = (int)$cap;
+	else
+		$cap = 0;
+	
+	
+	$res = phpAds_dbQuery("
+		UPDATE
+			".$phpAds_config['tbl_banners']."
+		SET
+			block='".$block."', capping='".$cap."'
+		WHERE
+			bannerid='".$bannerid."'
+	") or phpAds_sqlDie();
 	
 	
 	// Rebuild cache
