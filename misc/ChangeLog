@@ -1,6 +1,6 @@
 phpAdsNew - ChangeLog
 
-CVS
+phpAdsNew 2.0
 			+ Misc changes
 			  - 2003-08-19:  Added PHP5 check and warnings during install  (Matteo)
 			  - 2003-08-22:  Optimized in the main stats page and client, campaign, affiliate history  (Matteo)
@@ -23,6 +23,7 @@ CVS
 			  - 2003-09-14:  Fixed E_ALL warnings in lib-history.inc.php  (Niels)
 			  - 2003-09-17:  Fixed E_ALL warning on line 203 of lib-permissions  (Matteo)
 			  - 2003-09-24:  Fixed bug in revision check that caused modified file warnings  (Niels)
+			  - 2003-09-29:  Added missing CSS definitions to RTL-text stylesheet  (Niels)
 
 
 v 2.0rc4.2		+ Misc changes
