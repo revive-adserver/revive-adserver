@@ -1222,32 +1222,44 @@ function phpAds_PriorityGetGaussianProfile($days_running)
 			for ($h=0;$h<24;$h++)
 				$profile[$i][$h] += $j * $tmp[$h];
 		}
-
 		// Apply trend to get back lost impressions
 		for ($h=0;$h<24;$h++)
 			$profile[$i][$h] /= $j_tot;
-
+		
 		$days_running -= 7;
 	}
-
-
+	
+	
 	// Apply normal distribution to last weeks profile
-	if (isset($profile) && count($profile) > 1)
+	if (isset($profile))
 	{
-		$j_tot = 0;
-
-		while (list($k, $v) = each($profile))
+		if (count($profile) > 1)
 		{
-			$j = phpAds_PriorityNormalDistribution($k, 1.5, 1);
-			$j_tot += $j;
+			// More than a week of statistics gathered
+			$j_tot = 0;
 
-			for ($h=0;$h<24;$h++)
-				$result[$h] += $v[$h] * $j;
+			while (list($k, $v) = each($profile))
+			{
+				$j = phpAds_PriorityNormalDistribution($k, 1.5, 1);
+				$j_tot += $j;
+				
+				for ($h=0;$h<24;$h++)
+					$result[$h] += $v[$h] * $j;
+			}
+			
+			// Apply trend to get back lost impressions
+			if ($j_tot)
+			{
+				for ($h=0;$h<24;$h++)
+					$result[$h] /= $j_tot;
+			}
 		}
-
-		// Apply trend to get back lost impressions
-		for ($h=0;$h<24;$h++)
-			$result[$h] /= $j_tot;
+		else
+		{
+			// Only one week of statistics gathered
+			for ($h=0;$h<24;$h++)
+				$result[$h] = $profile[1][$h];
+		}
 	}
 
 	
