@@ -386,6 +386,11 @@ $GLOBALS['strZonePrependHTML']				= "Voeg de volgende HTML code altijd toe voor 
 $GLOBALS['strZoneAppendHTML']				= "Voeg de volgende HTML code altijd toe na de HTML code die getoond wordt door deze zone";
 
 
+// Zone probability
+$GLOBALS['strZoneProbListChain']		= "De banners welke gekoppeld zijn aan deze zone zijn niet actief. De volgende ketting wordt daarom gebruikt:";
+$GLOBALS['strZoneProbNullPri']			= "De banners welke gekoppeld zijn aan deze zone zijn niet actief.";
+
+
 // Linked banners/campaigns
 $GLOBALS['strSelectZoneType']				= "Kies de manier van banners koppelen";
 $GLOBALS['strBannerSelection']				= "Banner selectie";
