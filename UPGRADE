@@ -29,6 +29,12 @@ adclick.php and adview.php, which should describe their function much more clear
 The old files are still available for backwards compatibility, but could be depreciated
 in future versions of phpAdsNew.
 
+IMPORTANT!
+After upgrading you should move all banners without a campaign to a new campaign. You 
+can do this in the admin interface. If you don't move these banners to a new campaign 
+the banner could be deactivated.
+
+
 
 ----------------------
 

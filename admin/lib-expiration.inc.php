@@ -265,7 +265,7 @@ function days_left($clientID)
 				{
 					$days_left = round($row_client["clicks"] / ($row_clicks["total_clicks"] / $row_clicks["days_since_start"]));
 					
-					if ($row_client["views"] > 0)
+					if ($row_client["clicks"] > 0)
 					{
 						$estimated_end = strftime ($date_format, mktime (0, 0, 0, date("m"), date("d") + $days_left, date("Y")));
 						$expiration[] = array (
@@ -295,12 +295,12 @@ function days_left($clientID)
 	
 	if (isset($expiration) && sizeof($expiration) > 0)
 	{
-		$sooner = & $expiration[0];
+		$sooner = $expiration[0];
 		
 		for ($i=0;$i<sizeof($expiration);$i++)
 		{
 			if ($expiration[$i]['days_left'] < $sooner['days_left'])
-				$sooner = & $expiration[$i];
+				$sooner = $expiration[$i];
 		}
 		
 		if ($sooner['days_left'] < 0) $sooner['days_left'] = 0;

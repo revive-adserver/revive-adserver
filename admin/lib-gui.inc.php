@@ -1,5 +1,4 @@
-<?php // $Revision$
-
+<?php // $Revision: 1.10 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
 /* ===========                                                          */
@@ -26,11 +25,12 @@ $phpAds_GUIDone = false;
 
 function phpAds_PageHeader($ID, $extra="")
 {
+	global $phpAds_Message, $phpAds_GUIDone;
 	global $phpAds_nav, $pages;
 	global $phpAds_name, $phpAds_my_header, $phpAds_CharSet;
+	global $phpAds_url_prefix;
 	global $strLogout, $strNavigation;
-	global $phpAds_Message, $phpAds_GUIDone;
-	global $strAuthentification;
+	global $strAuthentification, $strSearch;
 	
 	$phpAds_GUIDone = true;
 	
@@ -135,10 +135,30 @@ function phpAds_PageHeader($ID, $extra="")
 			$tabbar .= "<td><img src='images/tab-ew.gif' width='10' height='24'></td>";
 		else
 			$tabbar .= "<td><img src='images/tab-eb.gif' width='10' height='24'></td>";
+		
+		
+		
+		if (phpAds_isLoggedIn() && phpAds_isUser(phpAds_Admin))
+		{
+			$searchbar  = "<table cellpadding='0' cellspacing='0' border='0' bgcolor='#0066CC' height='24'>";
+			$searchbar .= "<form name='search' action='admin-search.php' target='SearchWindow' onSubmit=\"search_window(document.search.keyword.value,'$phpAds_url_prefix/admin/admin-search.php'); return false;\">";
+			$searchbar .= "<tr height='24'>";
+			$searchbar .= "<td height='24'><img src='images/tab-sb.gif' height='24' width='10'></td>";
+			$searchbar .= "<td class='tab-u'>$strSearch:</td>";
+			$searchbar .= "<td>&nbsp;&nbsp;<input type='text' name='keyword' size='15'>&nbsp;&nbsp;</td>";
+			$searchbar .= "<td><a href=\"javascript:search_window(document.search.keyword.value,'$phpAds_url_prefix/admin/admin-search.php');\"><img src='images/go.gif' border='0'></a></td>";
+			$searchbar .= "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+			$searchbar .= "</tr>";
+			$searchbar .= "</form>";
+			$searchbar .= "</table>";
+		}
+		else
+			$searchbar = "&nbsp;";
 	}
 	else
 	{
 		$sidebar   = "&nbsp;";
+		$searchbar = "&nbsp;";
 		$tabbar    = "<td bgcolor='#FFFFFF' valign='middle'>&nbsp;&nbsp;<a class='tab-s' href='index.php'>$strAuthentification</a></td>";
 		$tabbar   .= "<td><img src='images/tab-ew.gif' width='10' height='24'></td>";
 		$pagetitle = $phpAds_name != '' ? $phpAds_name : 'phpAdsNew';
@@ -164,14 +184,24 @@ function phpAds_PageHeader($ID, $extra="")
 
 <!-- Top -->
 <table width='100%' border='0' cellspacing='0' cellpadding='0'>
-<tr><td colspan='2' height='48' bgcolor='#000063' valign='bottom'>
+<tr>
 <?
  	if ($phpAds_name != "")
+	{
+		echo "<td height='48' bgcolor='#000063' valign='middle'>";
 		echo "<span class='phpAdsNew'>&nbsp;&nbsp;&nbsp;$phpAds_name &nbsp;&nbsp;&nbsp;</span>";
+	}
 	else
-		echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/logo.gif' width='163' height='34' alt='phpAdsNew 2 beta 4'>";
+	{
+		echo "<td height='48' bgcolor='#000063' valign='bottom'>";
+		echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/logo.gif' width='163' height='34' alt='phpAdsNew 2 beta 5'>";
+	}
 ?>
-</td></tr>
+	</td>
+	<td bgcolor='#000063' valign='top' align='right'>
+		<? echo $searchbar; ?>
+	</td>
+</tr>
 
 <!-- Spacer -->
 <tr><td colspan='2' height='6' bgcolor='#000063'><img src='images/spacer.gif' height='1' width='1'></td></tr>
@@ -214,7 +244,6 @@ function phpAds_PageHeader($ID, $extra="")
 			echo "<td width='120' valign='top'><b><font color='#FFFFFF'>$phpAds_Message</font></b></td>";
 			echo "</tr><tr><td colspan='3'><img src='images/spacer.gif' width='160' height='5'></td>";
 			echo "</tr></table>";
-
 		}
 		else
 			echo "&nbsp;";

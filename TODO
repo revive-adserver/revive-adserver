@@ -1,6 +1,20 @@
 phpAds - Todo
 
-Features I'd like to implement:
+Feature which should be implemented 
+in the next release (2.0):
   + Zones
   + Report plugins
+  + Availability
+  + Banner invocation script builder
+  + XML-RPC invocation
+
+Feature which should be implemented
+in the nearby future (2.1/2.2)
+  + Move to PHP4 only?
+  + Use an template system for admin interface
+  + Support for right-left scripts such as arabic
+  + Cookie based sequential banner retrieval
+
+Long term features:
+  - Unknown
   

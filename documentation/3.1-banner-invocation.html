@@ -1,0 +1,66 @@
+<html>
+<head>
+<title>phpAdsNew Documentation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="index.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="30" bgcolor="#FFFFFF"><tr bgcolor="#EFEFEF"><td width="100" class="identification">&nbsp;&nbsp;phpAdsNew</td><td width="600" class="plain"><img src="images/0-home.gif" width="16" height="15" align="ABSMIDDLE">&nbsp;&nbsp;<span class="subtitle"><a href="index.html" class="subtitle">Home</a></span></td><td>&nbsp;</td></tr></table><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;3.1</td><td width="600" class="chapter" height="50">Banner invocation</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="images/0-line-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#FFFFFF"><td width="100">&nbsp;</td><td width="600" class="plain"><p>phpAdsNew gives you four options to include a banner on your site: 
+  local mode, remote invocation, remote invocation for iframes and remote invocation with JavaScript. It is recommended 
+  to use the first method where possible. It is also possible to use a combination of all types of remote invocation.</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="50"><a name="1"></a></td><td width="600" height="50">&nbsp;</td><td height="50">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;3.1.1</td><td width="600" class="section" height="50">Local Mode</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>This is the traditional style of a including a banner within a PHP-powered 
+  website. On every page you want to have a banner, you have to include phpadsnew.inc.php. 
+  This file is in your phpAdsNew installation-directory. Banners are displayed 
+  using the view() function. This function has the following syntax:</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>int view (mixed what [, int clientID [, string target <br>          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[, string source[, bool withText = 0[, array context]]]]); </td></tr></table></td></tr></table><p>The view() function does not work well in template-based websites (for example 
+  phplib or fasttemplate), because the view() function prints the banner directly 
+  to the screen. The banner would appear before the rest of the page is printed. 
+  In order to make phpAdsNew work in template based websites there is a function 
+  that returns both the html code ($array[&quot;html&quot;]) and the banner id 
+  ($array[&quot;bannerID&quot;]) in an array. The function does not print anything 
+  to the screen.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>array view_raw (mixed what [, int clientID [, string target <br>                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[, string source[, bool withText = 0[, array context]]]]); </td></tr></table></td></tr></table><p class="subtitle"><br>An example:</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>&lt;?
+   <br>&nbsp;&nbsp;require(&quot;/usr/local/etc/phpAds/phpadsnew.inc.php&quot;); 
+<br>?&gt; 
+   
+<br><br>&lt;html&gt;<br>&nbsp;&nbsp;&lt;head&gt; 
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;phpAdsNew demo&lt;/title&gt;
+  <br>&nbsp;&nbsp;&lt;/head&gt;
+  <br>&nbsp;&nbsp;&lt;body&gt;
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;?
+      <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;view(&quot;468x60&quot;);
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;?&gt;
+  <br>&nbsp;&nbsp;&lt;/body&gt;
+<br>&lt;/html&gt; </td></tr></table></td></tr></table><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="2"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" bgcolor="#FFFFFF" height="50">&nbsp;&nbsp;3.1.2</td><td width="600" class="section" height="50">Remote Invocation</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>It is also possible to use phpAdsNew on sites that lack PHP-support. Random 
+  or predefined banners can be shown using a standard &lt;img&gt;-construct. 
+  Just like in Local Mode, you can use the &quot;what&quot; argument to select 
+  the banner.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>&lt;a href=&quot;adclick.php&quot;&gt;&lt;img src=&quot;adview.php&quot;&gt;&lt;/a&gt; </td></tr></table></td></tr></table><p>To use multiple banners on a single page, select a unique name for each banner 
+  and assign it to the &quot;n&quot; argument for both &quot;adclick.php&quot; and 
+  &quot;adview.php&quot;. This way phpAdsNew can keep track of which AdView belongs 
+  with which AdClick. You can configure adview.php with the following parameters: 
+  what, clientID and source.</p><p>Remote Invocation does have some limitation, for 
+  example: cookies must be enabled and HTML banners won't work at all. It is recommended to use Remote Invocation as a fallback instead of the main method 
+  of displaying banners.</p><p class="subtitle"><br>Some examples:</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>&lt;a href=&quot;adclick.php?n=ban1&quot;&gt;&lt;img src=&quot;adview.php?what=468x60&amp;n=ban1&quot;&gt;&lt;/a&gt;
+  <br>&nbsp;&nbsp;Show a randomly selected banner of the size 468x60.
+
+<br><br>&lt;a href=&quot;adclick.php?n=top&quot;&gt;&lt;img src=&quot;adview.php?what=main&amp;n=top&quot;&gt;&lt;/a&gt;
+  <br>&nbsp;&nbsp;Show a randomly selected banner from the &quot;main&quot; group with the name &quot;top&quot;.
+
+<br><br>&lt;a href=&quot;adclick.php?n=left&quot;&gt;&lt;img src=&quot;adview.php?what=468x60&amp;n=left&quot;&gt;&lt;/a&gt;
+  <br>&nbsp;&nbsp;Show a randomly selected banner of the size 468x60 with the name &quot;left&quot;. </td></tr></table></td></tr></table><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="3"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;3.1.3</td><td width="600" class="section" height="50">Remote Invocation for iframes</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>It is also possible to use phpAdsNew in combination with iframes. An iframe is 
+  an independent html file inside your main page. There is a big advantage in 
+  using Remote Invocation for iframes, because the banner is resides in an 
+  independent html file your main page will keep loading and the layout will not 
+  wait for the banner even when the banner is not completely finished loading.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>&lt;iframe src='adframe.php?what=468x60' framespacing='0' frameborder='no'&gt;&lt;/iframe&gt;</td></tr></table></td></tr></table><p>The following parameters can be used in combination with Remote Invocation 
+for iframes: what, clientID, target, source, withText and refresh.</p><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="4"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;3.1.4</td><td width="600" class="section" height="50">Remote Invocation with JavaScript</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>This technique allows you to use HTML banners remotely. Just like in Local 
+  Mode, you can use the &quot;what&quot; argument to select the banner. All you 
+  need to do is insert this code:</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>&lt;script language=&quot;JavaScript&quot; src=&quot;adjs.php&quot;&gt;&lt;/script&gt;</td></tr></table></td></tr></table><p>You should also add parameters to adjs.php. The following parameters are compatible with Remote Invocation with JavaScript: what, clientID, target, source and withText.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td><p>&lt;script language=&quot;JavaScript&quot; src=&quot;adjs.php?what=main&amp;target=_blank&quot;&gt;<br>&lt;/script&gt;<br>   &nbsp;&nbsp;This would show a banner from the main group and, when clicked, 
+   <br>&nbsp;&nbsp;a new window would be opened. </p></td></tr></table></td></tr></table><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="5"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;3.1.5</td><td width="600" class="section" height="50">Combining the different types of Remote Invocation</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr><td width="100" bgcolor="#EFEFEF">&nbsp;</td><td width="600" class="plain" bgcolor="#EFEFEF"><p><br>The preferred type of Remote Invocation is the iframes variant. However 
+  iframes aren't supported on all browsers, so it may be needed to use a 
+  combination of different types of Remote invocation.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>&lt;iframe src='adframe.php?what=468x60' framespacing='0' frameborder='no'&gt;<br>&lt;script language='JavaScript&quot; src=&quot;adjs.php?what=468x60'&gt;&lt;/script&gt;<br>&lt;noscript&gt;&lt;a href='adclick.php'&gt;&lt;img src='adview.php?what=468x60'&gt;&lt;/a&gt;&lt;/noscript&gt;<br>&lt;/iframe&gt;</td></tr></table></td></tr></table><p>The example above will try to use iframes when possible, but if the browser 
+  doesn't support iframes it will try to use remote invocation with JavaScript 
+  If the browser doesn't support JavaScript or JavaScript is turned off, the browser 
+  will use normal remote invocation. If you decide to use such a construction please 
+  note you need to specify the parameters for each type of invocation (adframe.php, 
+  adjs.php and adview.php).</p><p>&nbsp;</p></td><td class="plain" bgcolor="#EFEFEF">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75">&nbsp;</td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><p>&nbsp;</p>
+</body>
+</html>

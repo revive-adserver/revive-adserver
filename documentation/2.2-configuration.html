@@ -1,0 +1,113 @@
+<html>
+<head>
+<title>phpAdsNew Documentation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="index.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="30" bgcolor="#FFFFFF"><tr bgcolor="#EFEFEF"><td width="100" class="identification">&nbsp;&nbsp;phpAdsNew</td><td width="600" class="plain"><img src="images/0-home.gif" width="16" height="15" align="ABSMIDDLE">&nbsp;&nbsp;<span class="subtitle"><a href="index.html" class="subtitle">Home</a></span></td><td>&nbsp;</td></tr></table><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;2.2</td><td width="600" class="chapter" height="50">Configuration</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="images/0-line-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#FFFFFF"><td width="100">&nbsp;</td><td width="600" class="plain"><p>Please 
+read first the INSTALL file for installation instructions. If you are upgrading from a previous version of phpAdsNew you should 
+read the UPGRADE file for instructions.<br>In the current release, you have to configure all your information in config.inc.php.</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="50"><a name="1"></a></td><td width="600" height="50">&nbsp;</td><td height="50">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;2.2.1</td><td width="600" class="section" height="50">Database 
+configuration</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>Before 
+you can use phpAdsNew you need to tell phpAdsNew which database to use and which username and password to use.</p><p><span class="subtitle">$phpAds_hostname</span><br>Specify 
+the hostname of the MySQL database server.</p><p><span class="subtitle"><br>$phpAds_mysqluser</span><br>Specify the username 
+which phpAdsNew must use to gain access to the MySQL database server.</p><p><span class="subtitle"><br>$phpAds_mysqlpassword</span><br>Specify 
+the password which phpAdsNew must use to gain access to the MySQL database server.</p><p><span class="subtitle"><br>$phpAds_tbl_adclicks, 
+$phpAds_tbl_adviews, $phpAds_tbl_adstats, $phpAds_tbl_banners<br> $phpAds_tbl_clients, $phpAds_tbl_session, $phpAds_tbl_acls</span><br>If 
+you wish to use different table names, for example to match the existing table names of you project, you can specify the alternative 
+names here. Be aware, the tables you name here must be created; phpAdsNew will not automatically create these tables.</p><p><span class="subtitle"><br>$phpAds_persistent_connections</span><br>If 
+you want to use persistent connections to the database server you must specify &quot;1&quot;, otherwise specify &quot;0&quot;. 
+The use of persistent connection can speed up phpAdsNew considerably, but requires a lot of resources. If phpAdsNew is using 
+too many resources, you should take a look at this setting first. Persistent connections are turned off by default.</p><p><span class="subtitle"><br>$phpAds_insert_delayed</span><br>MySQL 
+locks the table when it is inserting a row. If have many visitors to your site, it could be possible phpAdsNew must wait before 
+inserting a new row, because the database is still locked. When you use insert delayed, you don't have to wait and the row 
+will be inserted at a later time when the table is not in use by any other thread. Another major benefit of using insert delayed 
+is that inserts from many clients are bundled together and written in one block. This is much faster than doing many separate 
+inserts, but could cause data corruption when the database server should crash. This option is turned off by default.</p><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="2"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" bgcolor="#FFFFFF" height="50">&nbsp;&nbsp;2.2.2</td><td width="600" class="section" height="50">phpAdsNew 
+configuration</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>phpAdsNew 
+needs to know a few things about the system you are using in order to function correctly, for example the location of phpAdsNew.</p><p><span class="subtitle"><br>$phpAds_url_prefix</span><br>phpAdsNew 
+needs to know where it is located on the web server in order to work correctly. You must specify the URL to the directory 
+where phpAdsNew is installed, for example: http://www.your-url.com/phpAdsNew</p><p><span class="subtitle"><br>$phpAds_my_header<br> 
+$phpAds_my_footer</span><br>You should put here the path to the header files (e.g.: /home/login/www/header.htm) to have a 
+header and/or footer on each page in the admin interface. You can put either text or html in these files (if you want to use 
+html in one or both of these files do not use tags like &lt;body&gt; or &lt;html&gt;)</p><p><span class="subtitle"><br>$phpAds_language</span><br>Specify 
+the default language phpAdsNew should use. This language will be used as a default for the admin and client interface. Please 
+note: you can set a different language for each client from the admin interface and allow clients to change their language 
+themselves.</p><p>phpAdsNew currently supports these languages:<br> brazilian-portuguese, czech, dutch, english, flemish, 
+french, german, hungarian, italian, polish, romanian, russian-cp1251, russian-koi8r and spanish.</p><p><span class="subtitle"><br>$phpAds_name</span><br>Specify 
+the name you want to use for this application. This string will be displayed on all pages in the admin and client interface.</p><p><span class="subtitle"><br>$phpAds_company_name</span><br>This 
+name is used in the e-mail sent by phpAdsNew.</p><p><br><span class="subtitle">$phpAds_override_GD_imageformat</span><br>phpAdsNew 
+usually detects if the GD library is installed and which image format is supported by the installed version of GD. However 
+it is possible the detection is not accurate or false, some versions of PHP do not allow the detection of the supported image 
+formats. If phpAdsNew fails to auto-detect the right image format you can specify the right image format. Possible values 
+are: none, png, jpeg, gif</p><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="3"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;2.2.3</td><td width="600" class="section" height="50">Statistics 
+and logging</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br><span class="subtitle">$phpAds_compact_stats</span><br>Traditionally 
+phpAdsNew used rather extensive logging, which was very detailed but was also very demanding on the database server. This 
+could be a big problem on sites with a lot of visitors. Since version 1.9 phpAdsNew uses a new kind of statistics, the compact 
+statistics, which is less demanding on the database server, but also less detailed. The compact statistics only logs daily 
+statistics, if you need hourly statistics you can turn the compact statistics off.</p><p><br><span class="subtitle">$phpAds_log_adviews</span><br>Normally 
+all AdViews are logged, if you don't want to gather statistics about AdViews you can turn this off.</p><p><br><span class="subtitle">$phpAds_log_adclicks</span><br>Normally 
+all AdClicks are logged, if you don't want to gather statistics about AdClicks you can turn this off.</p><p><br><span class="subtitle">$phpAds_reverse_lookup</span><br>phpAdsNew 
+logs the IP address of each visitor by default. If you want phpAdsNew to log domain names you should turn this on. Reverse 
+lookup does take some time; it will slow everything down.</p><p><br><span class="subtitle">$phpAds_ignore_hosts</span><br>If 
+you don't want to count clicks and views from certain computer you can add these to this array. If you have enabled reverse 
+lookup you can add both domain names and IP addresses, otherwise you can only use IP addresses. You can also use wildcards 
+(i.e. '*.altavista.com' or '192.168.*').</p><p><br><span class="subtitle">$phpAds_begin_of_week</span><br>For most people 
+a week starts on a Monday, but if you want to start each week on a Sunday you can.</p><p><br><span class="subtitle">$phpAds_percentage_decimals</span><br>Specifies 
+how many decimal places to display on statistics pages.</p><p><br><span class="subtitle">$phpAds_warn_admin</span><br>phpAdsNew 
+can sent you e-mail if a client has only a limited number of clicks or views left. This is turned on by default.</p><p><br><span class="subtitle">$phpAds_warn_client</span><br>phpAdsNew 
+can sent the client e-mail if he has only a limited number of clicks or views left. This is turned on by default.</p><p><br><span class="subtitle">$phpAds_warn_limit</span><br>The 
+limit on which phpAdsNew starts sending warning e-mails. This is 100 by default.</p><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="4"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;2.2.4</td><td width="600" class="section" height="50">Banner 
+retrieval</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br><span class="subtitle">$phpAds_random_retrieve</span><br>phpAdsNew 
+can use four different types of banner retrieval: Random banner retrieval (0, default), Normal sequential banner retrieval 
+(1), Weight based sequential banner retrieval (2) and Full sequential banner retrieval (3).</p><p>For example, you have set 
+4 banners in phpAdsNew and the second banner is weight 2 (rest of the banners is weight 1):</p><p>Random banner retrieval: 
+1312312331231231231232312314121312<br> Normal sequential banner retrieval: 1234 3214 4213 2314 3241<br> Weight based sequential 
+banner retrieval: 12324 43122 31221 21342 42321<br> Full sequential banner retrieval: 1234 1234 1234 1234 1234</p><p><br><span class="subtitle">$phpAds_con_key</span><br>phpAdsNew 
+includes a powerful banner retrieval system. For more information, please read the API section. With this option, you can 
+activate conditional keywords. This is turned on by default.</p><p><br><span class="subtitle">$phpAds_mult_key</span><br>For 
+each banner, you can specify one or more keywords. This option is needed if you want to specify more than one keyword. This 
+is turned on by default.</p><p><span class="subtitle">$phpAds_acl</span><br>If you are not using ACLs you can disable ACL 
+checking with this parameter, this will speed up phpAdsNew. If you have disabled ACLs with this parameter you can't modify 
+ACL settings from the admin interface.</p><p><br><span class="subtitle">$phpads_default_banner_url<br> $phpads_default_banner_target</span><br>If 
+phpAdsNew can't connect to the database server, or can't find any matching banners at all, for example when the database crashed 
+or was deleted, it won't display anything. Some users may want to specify a default banner, which will be displayed in these 
+situations. The default banner specified here will not be logged and won't be used if there are still active banners left 
+in the database. Be aware this default banner should only be used as a failsafe, not as a regular banner. This is turned off 
+by default.</p><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="5"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;2.2.5</td><td width="600" class="section" height="50">Banner 
+storage and types</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr><td width="100" bgcolor="#EFEFEF">&nbsp;</td><td width="600" class="plain" bgcolor="#EFEFEF"><p><br><span class="subtitle">$phpAds_type_sql_allow<br> 
+$phpAds_type_web_allow<br> $phpAds_type_url_allow<br> $phpAds_type_html_allow</span><br>phpAdsNew can use different types 
+of banners and store them in different ways. The first two options are used for local storage of banners. You can use the 
+admin interface to upload a banner and phpAdsNew will store the banner in the SQL database (option 1) or on a web server (option 
+2). You can also use a banner stored on a different web server (option 3) or use html to generate a banner (option 4). You 
+can disable any one of these types by altering these settings. By default all banner types are turned on.</p><p>If you disable 
+a certain banner type while there are still banners available of the this type, phpAdsNew will allow the use of these banners, 
+but will not allow the creation of new banners of this type.</p><p><br><span class="subtitle">$phpAds_type_web_mode</span><br>If 
+you want to use banners stored on the web server, you need to configure this setting. If you want to store the banners in 
+a local directory set this option to 0. If you want to store the banner on an external FTP server set this option to 1. On 
+certain web servers you may want to use the FTP option even on the local web server.</p><p>If you want to use FTP to store 
+banners, PHP must support at least one of three extensions, the FTP extension (best), the CURL extension or URL fopen wrappers.</p><p><br><span class="subtitle">$phpAds_type_web_dir</span><br>Specify 
+the directory where phpAdsNew needs to copy the uploaded banners to. This directory needs to be writable by PHP, this could 
+mean you need to modify the UNIX permissions for this directory (chmod). The directory you specify here needs to be in the 
+web server' document root, the web server must be able to serve the files directly. Do not specify a trailing slash (/). You 
+only need to configure this option if you have set $phpAds_type_web_mode to 0.</p><p><br><span class="subtitle">$phpAds_type_web_ftp</span><br>Specify 
+the FTP server where phpAdsNew needs to copy the uploaded banners to. The directory you specify here needs to be in the web 
+server' document root, the web server must be able to serve the files directly. The URL you specify here can include a username, 
+a password, the server name and the path. </p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>ftp://phpads:1234@ftp.phpads.com/www/ads</td></tr></table></td></tr></table><p>phpAdsNew 
+will try to log in using username &quot;phpads&quot;, password &quot;1234&quot; on the ftp server called &quot;ftp.phpads.com&quot; 
+and will try to upload the banners in the directory &quot;www/ads&quot;. If you don't specify a directory phpAdsNew will upload 
+the banner to the root directory of the FTP server. If you don't specify a username and password phpAdsNew will try to login 
+as an anonymous user with the administrators e-mail address. It is not recommended to store you banners on an FTP server, 
+which can be accessed by anonymous users!!! Do not specify a trailing slash (/). You only need to configure this option if 
+you have set $phpAds_type_web_mode to 1.</p><p><br><span class="subtitle">$phpAds_type_web_url</span><br>If you store banners 
+on a web server, phpAdsNew needs to know which public URL corresponds with the directory you specified above. Do not specify 
+a trailing slash (/). You need to configure this option if you have set $phpAds_type_web_mode to 0 or 1.</p><p>&nbsp;</p></td><td class="plain" bgcolor="#EFEFEF">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="6"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;2.2.6</td><td width="600" class="section" height="50">Administrator 
+configuration</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr><td width="100" bgcolor="#EFEFEF">&nbsp;</td><td width="600" class="plain" bgcolor="#EFEFEF"><p><br><span class="subtitle">$phpAds_admin</span><br>The 
+administrator username, you can specify the username that you can use to log into the administrator interface.</p><p><br><span class="subtitle">$phpAds_admin_pw</span><br>The 
+administrator password, you can specify the password that you can use to log into the administrator interface.</p><p><br><span class="subtitle">$phpAds_admin_fullname</span><br>Specify 
+the administrator's full name. This used when sending statistics via email.</p><p><br><span class="subtitle">$phpAds_admin_email</span><br>The 
+administrator's e-mail address. This is used as from-address when sending statistics via email.</p><p><br><span class="subtitle">$phpAds_admin_email_headers</span><br>You 
+can alter the e-mail headers used by the e-mails which phpAdsNew sends.</p><p>&nbsp;</p></td><td class="plain" bgcolor="#EFEFEF">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75">&nbsp;</td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><p>&nbsp;</p>
+</body>
+</html>

@@ -62,7 +62,7 @@ if ($bannerID != "DEFAULT")
 	{
 		if ($host = phpads_ignore_host())
 		{
-			db_log_click($bannerID, "null", $host);
+			db_log_click($bannerID, $host);
 			phpAds_expire ($clientID, phpAds_Clicks);
 		}
 	}
@@ -73,9 +73,9 @@ if ($bannerID != "DEFAULT")
 	
 	
 	// Cache buster
-	if (eregi ("\{random(:([1-9])){0,1}\}", $url, $matches))
+	if (eregi ('\{random(:([1-9])){0,1}\}', $url, $matches))
 	{
-		if ($cb == "")
+		if (!isset($cb) || $cb == "")
 		{
 			// calculate random number
 			
@@ -88,6 +88,12 @@ if ($bannerID != "DEFAULT")
 		}
 		
 		$url = str_replace ($matches[0], $cb, $url);
+	}
+	
+	// ISMAP click location
+	if (isset($ismap) && $ismap != '')
+	{
+		$url .= $ismap;
 	}
 }
 else

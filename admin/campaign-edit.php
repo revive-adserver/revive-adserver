@@ -119,7 +119,7 @@ if (isset($submit))
 	{
 		// We are moving a client to a campaign
 		// Get ID of new campaign
-		$campaignID = mysql_insert_id();		
+		$campaignID = @mysql_insert_id($phpAds_db_link);		
 		
 		// Update banners
 		$res = db_query("

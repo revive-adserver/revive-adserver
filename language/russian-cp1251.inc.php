@@ -14,7 +14,7 @@
 
 
 // Set character-set
-$GLOBALS['phpAds_CharSet'] = "x-cp1251";
+$GLOBALS['phpAds_CharSet'] = "koi8-r";
 
 
 // Set translation strings
@@ -215,28 +215,47 @@ $GLOBALS['strAfterExpire']				= "была достигнута дата деактивации";
 $GLOBALS['strNoMoreClicks']				= "все приобретенные клики использованы";
 $GLOBALS['strNoMoreViews']				= "все приобретенные просмотры использованы";
 
-$GLOBALS['strBanners'] 					= "Banners";
-$GLOBALS['strCampaigns']				= "Campaigns";
-$GLOBALS['strCampaign']					= "Campaign";
-$GLOBALS['strName']						= "Name";
-$GLOBALS['strBannersWithoutCampaign']	= "Banners without a campaign";
-$GLOBALS['strMoveToNewCampaign']		= "Move to a new campaign";
-$GLOBALS['strCreateNewCampaign']		= "Create new campaign";
-$GLOBALS['strEditCampaign']				= "Edit campaign";
-$GLOBALS['strEdit']						= "Edit";
-$GLOBALS['strCreate']					= "Create";
-$GLOBALS['strUntitled']					= "Untitled";
+$GLOBALS['strBanners'] 					= "Баннеры";
+$GLOBALS['strCampaigns']				= "Кампании";
+$GLOBALS['strCampaign']					= "Кампания";
+$GLOBALS['strName']						= "Имя";
+$GLOBALS['strBannersWithoutCampaign']	= "Баннеры без кампании";
+$GLOBALS['strMoveToNewCampaign']		= "Перейти к новой кампании";
+$GLOBALS['strCreateNewCampaign']		= "Создать новую кампанию";
+$GLOBALS['strEditCampaign']				= "Редактировать кампанию";
+$GLOBALS['strEdit']						= "Редактировать";
+$GLOBALS['strCreate']					= "Создать";
+$GLOBALS['strUntitled']					= "Без названия";
 
-$GLOBALS['strTotalCampaigns'] 			= "Total campaigns";
-$GLOBALS['strActiveCampaigns'] 			= "Active campaigns";
+$GLOBALS['strTotalCampaigns'] 			= "Всего кампаний";
+$GLOBALS['strActiveCampaigns'] 			= "Активных кампаний";
 
-$GLOBALS['strLinkedTo']					= "linked to";
-$GLOBALS['strNoViewLoggedInInterval']   = "No views were logged in the last {interval} days";
-$GLOBALS['strNoClickLoggedInInterval']  = "No clicks were logged in the last {interval} days";
-$GLOBALS['strSendAdvertisingReport']	= "Send an advertising report via e-mail";
-$GLOBALS['strNoDaysBetweenReports']		= "Number of days between reports";
-$GLOBALS['strSendDeactivationWarning']  = "Send a warning when a campaign is deactivated";
+$GLOBALS['strLinkedTo']					= "связано с";
+$GLOBALS['strNoViewLoggedInInterval']   = "Не зарегистрировано просмотров за последние {interval} дней";
+$GLOBALS['strNoClickLoggedInInterval']  = "Не зарегистрировано кликов за последние {interval} дней";
+$GLOBALS['strSendAdvertisingReport']	= "Посылать рекламный отчет по e-mail";
+$GLOBALS['strNoDaysBetweenReports']		= "Количество дней между отчетами";
+$GLOBALS['strSendDeactivationWarning']  = "Посылать предупреждение, когда кампания деактивировануется";
 
-$GLOBALS['strWarnClientTxt']			= "Click or View count is getting below {limit} for your banners. ";
-$GLOBALS['strViewsClicksLow']			= "Ad views/clicks are low";
+$GLOBALS['strWarnClientTxt']			= "Количество нажатий или просмотров для ваших баннеров скоро станет меньше {limit}. ";
+$GLOBALS['strViewsClicksLow']			= "Рекламные просмотры/нажатия подходят к концу";
+
+$GLOBALS['strDays']						= "Дни";
+$GLOBALS['strHistory']					= "История";
+$GLOBALS['strAverage']					= "В среднем";
+$GLOBALS['strDuplicateClientName']		= "Указанное имя пользователя уже существует, пожалуйста введите другое имя.";
+$GLOBALS['strAllowClientDisableBanner'] = "Разрешить этому пользователю деактивировать его баннеры";
+$GLOBALS['strAllowClientActivateBanner'] = "Разрешить этому пользователю активировать его баннеры";
+
+$GLOBALS['strGenerateBannercode']		= "Сгенерировать баннерный код";
+$GLOBALS['strChooseInvocationType']		= "Пожалуйста, выберите тип вызова баннера";
+$GLOBALS['strGenerate']					= "Сгенерировать";
+$GLOBALS['strParameters']				= "Параметры";
+$GLOBALS['strUniqueidentifier']			= "Уникальный идентификатор";
+$GLOBALS['strFrameSize']				= "Размер фрэйма";
+$GLOBALS['strBannercode']				= "Баннерный код";
+
+$GLOBALS['strSearch']					= "Search";
+$GLOBALS['strNoMatchesFound']			= "No matches were found";
+
 ?>

@@ -37,11 +37,17 @@ if (phpAds_isUser(phpAds_Admin))
 		// Determine left over verbose stats
 		$viewresult = db_query("SELECT COUNT(*) AS cnt FROM $phpAds_tbl_adviews");
 		$viewrow = @mysql_fetch_array($viewresult);
-		$verboseviews = $viewrow["cnt"];
+		if (isset($viewrow["cnt"]) && $viewrow["cnt"] != '')
+			$verboseviews = $viewrow["cnt"];
+		else
+			$verboseviews = 0;
 		
 		$clickresult = db_query("SELECT COUNT(*) AS cnt FROM $phpAds_tbl_adclicks");
 		$clickrow = @mysql_fetch_array($viewresult);
-		$verboseclicks = $clickrow["cnt"];
+		if (isset($clickrow["cnt"]) && $clickrow["cnt"] != '')
+			$verboseclicks = $clickrow["cnt"];
+		else
+			$verboseclicks = 0;
 		
 		if ($verboseviews > 0 || $verboseclicks > 0)
 		{
@@ -111,14 +117,15 @@ else
 while ($row_clients = mysql_fetch_array($res_clients))
 {
 	if ($row_clients['parent'] == 0)
-		$clients[$row_clients['clientID']] = $row_clients;
-	else
 	{
 		$clients[$row_clients['clientID']] = $row_clients;
-		$clients[$row_clients['parent']]['campaigns'][$row_clients['clientID']] = & $clients[$row_clients['clientID']];
+		$clients[$row_clients['clientID']]['expand'] = 0;
 	}
-	
-	$clients[$row_clients['clientID']]['expand'] = 0;
+	else
+	{
+		$campaigns[$row_clients['clientID']] = $row_clients;
+		$campaigns[$row_clients['clientID']]['expand'] = 0;
+	}
 }
 
 
@@ -137,11 +144,11 @@ $res_banners = db_query("
 
 while ($row_banners = mysql_fetch_array($res_banners))
 {
-	if (isset($clients[$row_banners['clientID']]))
+	if (isset($campaigns[$row_banners['clientID']]))
 	{
-		$clients[$row_banners['clientID']]['banners'][$row_banners['bannerID']] = $row_banners;
-		$clients[$row_banners['clientID']]['banners'][$row_banners['bannerID']]['clicks'] = 0;
-		$clients[$row_banners['clientID']]['banners'][$row_banners['bannerID']]['views'] = 0;
+		$banners[$row_banners['bannerID']] = $row_banners;
+		$banners[$row_banners['bannerID']]['clicks'] = 0;
+		$banners[$row_banners['bannerID']]['views'] = 0;
 	}
 }
 
@@ -167,10 +174,10 @@ if ($phpAds_compact_stats == 1)
 	
 	while ($row_stats = mysql_fetch_array($res_stats))
 	{
-		if (isset($clients[$row_stats['clientID']]))
+		if (isset($banners[$row_stats['bannerID']]))
 		{
-			$clients[$row_stats['clientID']]['banners'][$row_stats['bannerID']]['clicks'] = $row_stats['clicks'];
-			$clients[$row_stats['clientID']]['banners'][$row_stats['bannerID']]['views'] = $row_stats['views'];
+			$banners[$row_stats['bannerID']]['clicks'] = $row_stats['clicks'];
+			$banners[$row_stats['bannerID']]['views'] = $row_stats['views'];
 		}
 	}
 }
@@ -192,9 +199,10 @@ else
 	
 	while ($row_stats = mysql_fetch_array($res_stats))
 	{
-		if (isset($clients[$row_stats['clientID']]))
+		if (isset($banners[$row_stats['bannerID']]))
 		{
-			$clients[$row_stats['clientID']]['banners'][$row_stats['bannerID']]['views'] = $row_stats['views'];
+			$banners[$row_stats['bannerID']]['views'] = $row_stats['views'];
+			$banners[$row_stats['bannerID']]['clicks'] = 0;
 		}
 	}
 	
@@ -215,66 +223,16 @@ else
 	
 	while ($row_stats = mysql_fetch_array($res_stats))
 	{
-		if (isset($clients[$row_stats['clientID']]))
+		if (isset($banners[$row_stats['bannerID']]))
 		{
-			$clients[$row_stats['clientID']]['banners'][$row_stats['bannerID']]['clicks'] = $row_stats['clicks'];
+			$banners[$row_stats['bannerID']]['clicks'] = $row_stats['clicks'];
 		}
 	}
 }
 
 
 
-
-// Calculate statistics for campaigns
-for (reset($clients);$key=key($clients);next($clients))
-{
-	$campaign = & $clients[$key];
-	
-	if ($campaign['parent'] != 0)
-	{
-		$views = 0;
-		$clicks = 0;
-		if (isset($campaign['banners']) && sizeof ($campaign['banners']) > 0)
-		{
-			$banners = $campaign['banners'];
-			for (reset($banners);$bkey=key($banners);next($banners))
-			{
-				$views += $banners[$bkey]['views'];
-				$clicks += $banners[$bkey]['clicks'];
-			}
-		}
-		
-		$campaign['clicks'] = $clicks;
-		$campaign['views'] = $views;
-	}
-}
-
-
-// Calculate statistics for clients
-for (reset($clients);$key=key($clients);next($clients))
-{
-	$client = & $clients[$key];
-	
-	if ($client['parent'] == 0)
-	{
-		$views = 0;
-		$clicks = 0;
-		if (isset($client['campaigns']) && sizeof ($client['campaigns']) > 0)
-		{
-			$campaigns = $client['campaigns'];
-			for (reset($campaigns);$ckey=key($campaigns);next($campaigns))
-			{
-				$views += $campaigns[$ckey]['views'];
-				$clicks += $campaigns[$ckey]['clicks'];
-			}
-		}
-		
-		$client['clicks'] = $clicks;
-		$client['views'] = $views;
-	}
-}
-
-
+// Expand tree nodes
 
 if (isset($Session["stats_nodes"]) && $Session["stats_nodes"])
 	$node_array = explode (",", $Session["stats_nodes"]);
@@ -290,8 +248,12 @@ for ($i=0; $i < sizeof($node_array);$i++)
 	if (isset($collapse) && $collapse == $node_array[$i])
 		unset ($node_array[$i]);
 	else
+	{
 		if (isset($clients[$node_array[$i]]))
 			$clients[$node_array[$i]]['expand'] = 1;
+		if (isset($campaigns[$node_array[$i]]))
+			$campaigns[$node_array[$i]]['expand'] = 1;
+	}
 }
 
 $Session["stats_nodes"] = implode (",", $node_array);
@@ -300,27 +262,96 @@ phpAds_SessionDataStore();
 
 
 
-
-
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
-
-echo "<tr height='25'>";
-echo "<td height='25'><b>&nbsp;&nbsp;".$GLOBALS['strName']."</b></td>";
-echo "<td height='25'><b>".$GLOBALS['strID']."</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-echo "<td height='25' align='right'><b>".$GLOBALS['strViews']."</b></td>";
-echo "<td height='25' align='right'><b>".$GLOBALS['strClicks']."</b></td>";
-echo "<td height='25' align='right'><b>".$GLOBALS['strCTRShort']."</b>&nbsp;&nbsp;</td>";
-echo "</tr>";
-
-echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-
-$i=0;
-for (reset($clients);$key=key($clients);next($clients))
+// Build Tree
+if (isset($banners) && is_array($banners) && count($banners) > 0)
 {
-	$client = & $clients[$key];
+	// Add banner to campaigns
+	for (reset($banners);$bkey=key($banners);next($banners))
+		$campaigns[$banners[$bkey]['clientID']]['banners'][$bkey] = $banners[$bkey];
 	
-	if ($client['parent'] == 0)
+	unset ($banners);
+}
+
+if (isset($campaigns) && is_array($campaigns) && count($campaigns) > 0)
+{
+	for (reset($campaigns);$ckey=key($campaigns);next($campaigns))
+		$clients[$campaigns[$ckey]['parent']]['campaigns'][$ckey] = $campaigns[$ckey];
+	
+	unset ($campaigns);
+}
+
+
+
+if (isset($clients) && is_array($clients) && count($clients) > 0)
+{
+	// Calculate statistics for clients
+	for (reset($clients);$key=key($clients);next($clients))
 	{
+		$clientviews = 0;
+		$clientclicks = 0;
+		
+		if (isset($clients[$key]['campaigns']) && sizeof ($clients[$key]['campaigns']) > 0)
+		{
+			$campaigns = $clients[$key]['campaigns'];
+			
+			// Calculate statistics for campaigns
+			for (reset($campaigns);$ckey=key($campaigns);next($campaigns))
+			{
+				$campaignviews = 0;
+				$campaignclicks = 0;
+				
+				if (isset($campaigns[$ckey]['banners']) && sizeof ($campaigns[$ckey]['banners']) > 0)
+				{
+					$banners = $campaigns[$ckey]['banners'];
+					for (reset($banners);$bkey=key($banners);next($banners))
+					{
+						$campaignviews += $banners[$bkey]['views'];
+						$campaignclicks += $banners[$bkey]['clicks'];
+					}
+				}
+				
+				$clientviews += $campaignviews;
+				$clientclicks += $campaignclicks;
+				
+				$clients[$key]['campaigns'][$ckey]['views'] = $campaignviews;
+				$clients[$key]['campaigns'][$ckey]['clicks'] = $campaignclicks;
+			}
+		}
+		
+		$clients[$key]['clicks'] = $clientclicks;
+		$clients[$key]['views'] = $clientviews;
+	}
+	
+	unset ($campaigns);
+	unset ($banners);
+}
+
+
+
+
+
+
+
+
+if (isset($clients) && is_array($clients) && count($clients) > 0)
+{
+	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
+	
+	echo "<tr height='25'>";
+	echo "<td height='25'><b>&nbsp;&nbsp;".$GLOBALS['strName']."</b></td>";
+	echo "<td height='25'><b>".$GLOBALS['strID']."</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+	echo "<td height='25' align='right'><b>".$GLOBALS['strViews']."</b></td>";
+	echo "<td height='25' align='right'><b>".$GLOBALS['strClicks']."</b></td>";
+	echo "<td height='25' align='right'><b>".$GLOBALS['strCTRShort']."</b>&nbsp;&nbsp;</td>";
+	echo "</tr>";
+	
+	echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	
+	$i=0;
+	for (reset($clients);$key=key($clients);next($clients))
+	{
+		$client = $clients[$key];
+		
 		echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 		
 		// Icon & name
@@ -333,7 +364,7 @@ for (reset($clients);$key=key($clients);next($clients))
 				echo "&nbsp;<a href='stats-index.php?expand=".$client['clientID']."'><img src='images/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
 		}
 		else
-			echo "&nbsp;<img src='images/spacer' height='16' width='16'>&nbsp;";
+			echo "&nbsp;<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
 			
 		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;";
 		echo $client['clientname'];
@@ -377,7 +408,7 @@ for (reset($clients);$key=key($clients);next($clients))
 						echo "<a href='stats-index.php?expand=".$campaigns[$ckey]['clientID']."'><img src='images/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
 				}
 				else
-					echo "<img src='images/spacer' height='16' width='16'>&nbsp;";
+					echo "<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
 				
 				
 				if ($campaigns[$ckey]['active'] == 'true')
@@ -487,24 +518,22 @@ for (reset($clients);$key=key($clients);next($clients))
 		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 		$i++;
 	}
+	
+	echo "<tr height='25'><td colspan='4' height='25'>";
+	if (phpAds_isUser(phpAds_Admin))
+	{
+		echo "<img src='images/icon-weekly.gif' align='absmiddle'>&nbsp;<a href='stats-weekly.php?campaignID=0'>$strWeeklyStats</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+	}
+	echo "</td></tr>";
+	echo "</table>";
+	
+	
+	echo "<br><br><br><br>";
 }
-
-echo "<tr height='25'><td colspan='4' height='25'>";
-if (phpAds_isUser(phpAds_Admin))
-{
-	echo "<img src='images/icon-weekly.gif' align='absmiddle'>&nbsp;<a href='stats-weekly.php?campaignID=0'>$strWeeklyStats</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-}
-echo "</td></tr>";
-echo "</table>";
-
 ?>
 
 
-
-
 <? if (phpAds_isUser(phpAds_Admin)) { ?>
-
-<br><br><br><br>
 
 <table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
   <tr><td height='25' colspan='4'><b><?echo $strStats;?></b></td></tr>
@@ -514,48 +543,39 @@ echo "</table>";
 	// stats today
 	$adviews = db_total_views("", "day");
 	$adclicks = db_total_clicks("", "day");
-	if ($adviews > 0)
-		$ctr = number_format($adclicks/$adviews*100,2);
-	else
-		$ctr="0.00";
+	$ctr = phpAds_buildCTR($adviews, $adclicks)
 ?>
 
   <tr><td height='25'><?echo $strToday;?></td>
   	  <td height='25'><?echo $strViews;?>: <b><?echo $adviews;?></b></td>
       <td height='25'><?echo $strClicks;?>: <b><?echo $adclicks;?></b></td>
-      <td height='25'><?echo $strCTRShort;?>: <b><?echo $ctr;?>%</b></td></tr>
+      <td height='25'><?echo $strCTRShort;?>: <b><?echo $ctr;?></b></td></tr>
   <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>
 
 <?
 	// stats this week
 	$adviews = db_total_views("", "week");
 	$adclicks = db_total_clicks("", "week");
-	if ($adviews > 0)
-		$ctr = number_format($adclicks/$adviews*100,2);
-	else
-		$ctr="0.00";
+	$ctr = phpAds_buildCTR($adviews, $adclicks)
 ?>
 
   <tr><td height='25'><?echo $strThisWeek;?></td>
    	  <td height='25'><?echo $strViews;?>: <b><?echo $adviews;?></b></td>
       <td height='25'><?echo $strClicks;?>: <b><?echo $adclicks;?></b></td>
-      <td height='25'><?echo $strCTRShort;?>: <b><?echo $ctr;?>%</b></td></tr>
+      <td height='25'><?echo $strCTRShort;?>: <b><?echo $ctr;?></b></td></tr>
   <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>
 
 <?
 	// stats this month
 	$adviews = db_total_views("", "month");
 	$adclicks = db_total_clicks("", "month");
-	if ($adviews > 0)
-		$ctr = number_format($adclicks/$adviews*100,2);
-	else
-		$ctr="0.00";
+	$ctr = phpAds_buildCTR($adviews, $adclicks)
 ?>
 
   <tr><td height='25'><?echo $strThisMonth;?></td>
   	  <td height='25'><?echo $strViews;?>: <b><?echo $adviews;?></b></td>
       <td height='25'><?echo $strClicks;?>: <b><?echo $adclicks;?></b></td>
-      <td height='25'><?echo $strCTRShort;?>: <b><?echo $ctr;?>%</b></td></tr>
+      <td height='25'><?echo $strCTRShort;?>: <b><?echo $ctr;?></b></td></tr>
   <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>
   
   
@@ -563,16 +583,13 @@ echo "</table>";
 	// overall stats
 	$adviews = db_total_views();
 	$adclicks = db_total_clicks();
-	if ($adviews > 0)
-		$ctr = number_format($adclicks/$adviews*100,2);
-	else
-		$ctr="0.00";
+	$ctr = phpAds_buildCTR($adviews, $adclicks)
 ?>
 
   <tr><td height='25'><?echo $strOverall;?></td>
   	  <td height='25'><?echo $strViews;?>: <b><?echo $adviews;?></b></td>
       <td height='25'><?echo $strClicks;?>: <b><?echo $adclicks;?></b></td>
-      <td height='25'><?echo $strCTRShort;?>: <b><?echo $ctr;?>%</b></td></tr>
+      <td height='25'><?echo $strCTRShort;?>: <b><?echo $ctr;?></b></td></tr>
   <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
   
 </table>   

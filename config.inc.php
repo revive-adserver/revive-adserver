@@ -60,6 +60,29 @@ $phpAds_name = "";
 // Company Name
 $phpAds_company_name = "mysite.com";
 
+// Override detected GD imageformat
+// If phpAdsNew fails to auto-detect the right imageformat you
+// can specify the right imageformat. Possible values are: none, png, jpeg, gif
+$phpAds_override_GD_imageformat = "";
+
+
+
+
+
+/*********************************************************/
+/* P3P Privacy Policies                                  */
+/*********************************************************/
+
+// Use P3P Polices
+$phpAds_p3p_policies = true;
+
+// Compact policy
+$phpAds_p3p_compact_policy = "CUR ADM OUR NOR STA NID";
+
+// Policy file location
+// For example:
+// $phpAds_p3p_policy_location = "http://www.your-url.com/w3c/p3p.xml";
+
 
 
 /*********************************************************/
@@ -85,7 +108,7 @@ $phpAds_ignore_hosts = array();   // Example: array("slashdot.org", "microsoft.c
 $phpAds_begin_of_week = "1";
 
 // Precision of showing percentage results
-$phpAds_percentage_decimals = "1";
+$phpAds_percentage_decimals = "2";
 
 // E-mail admin when clicks/views get low? (0=no, 1=yes)
 $phpAds_warn_admin = "1";
@@ -171,7 +194,7 @@ $phpAds_admin_fullname = "Your Name";
 $phpAds_admin_email = "your@email.com";
 
 //Mail Headers for the reflection of the sender of the daily ad reports
-$phpAds_admin_email_headers = "From: $phpAds_admin_email \n";
+$phpAds_admin_email_headers = "From: $phpAds_admin_fullname <$phpAds_admin_email> \n";
 
 
 

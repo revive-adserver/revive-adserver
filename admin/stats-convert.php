@@ -49,9 +49,14 @@ if ($command == 'top')
 	echo "<link rel='stylesheet' href='interface.css'>";
 	echo "</head>";
 	
-	echo "<body bgcolor='#000088'>";
+	echo "<body bgcolor='#000063'>";
 	echo "<table width='100%' height='100%' cellpadding='0' cellspacing='0' border='0'>";
-	echo "<tr><td><span class='phpAdsNew'>&nbsp;$phpAds_name</span></td></tr>";
+	
+	if ($phpAds_name != "")
+		echo "<tr><td valign='middle'><span class='phpAdsNew'>&nbsp;$phpAds_name</span></td></tr>";
+	else
+		echo "<tr><td valign='bottom'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/logo.gif' width='163' height='34' vspace='2'></td></tr>";
+	
 	echo "</table>";
 	echo "</body></html>";
 }
@@ -92,7 +97,7 @@ if ($command == 'start')
 				  new compact format?
 				 ";
 			echo "<br><br>";
-			echo "<a href='stats-convert.php?command=overview'><img src='images/go_blue.gif' border='0'>&nbsp;Start</a>";
+			echo "<a href='stats-convert.php?command=overview'><img src='images/icon-update.gif' border='0' align='absmiddle'>&nbsp;Start</a>";
 		}
 		else
 		{
@@ -123,6 +128,7 @@ if ($command == 'overview')
 		
 		$day = array();
 		
+		// Get views
 		$overviewresult = @db_query("SELECT bannerid, count(*) as count, DATE_FORMAT(t_stamp, '$date_format') as date_f, DATE_FORMAT(t_stamp, '%Y-%m-%d') as date FROM $phpAds_tbl_adviews GROUP BY date, bannerid");
 		while ($overviewrow = @mysql_fetch_array($overviewresult))
 		{
@@ -130,6 +136,7 @@ if ($command == 'overview')
 			$day[$overviewrow['date']][$overviewrow['bannerid']]['date_f'] = $overviewrow['date_f'];
 		}
 		
+		// Get clicks
 		$overviewresult = @db_query("SELECT bannerid, count(*) as count, DATE_FORMAT(t_stamp, '$date_format') as date_f, DATE_FORMAT(t_stamp, '%Y-%m-%d') as date FROM $phpAds_tbl_adclicks GROUP BY date, bannerid");
 		while ($overviewrow = @mysql_fetch_array($overviewresult))
 		{
@@ -137,6 +144,7 @@ if ($command == 'overview')
 			$day[$overviewrow['date']][$overviewrow['bannerid']]['date_f'] = $overviewrow['date_f'];
 		}
 		
+		// Loop through all days
 		for (reset($day);$key=key($day);next($day))
 		{
 			$section_year = substr ($key, 0, 4);
@@ -148,12 +156,14 @@ if ($command == 'overview')
 			
 			$banner = $day[$key];
 			
+			// Loop through all banners within this day
 			for (reset($banner);$bkey=key($banner);next($banner))
 			{
 				$records = 0;
 				if (isset($banner[$bkey]['views'])) $records += $banner[$bkey]['views'];
 				if (isset($banner[$bkey]['clicks'])) $records += $banner[$bkey]['clicks'];
 				
+				// Add this banner/day to the Tasklist
 				phpAds_convertAddTask($begin_stamp, $end_stamp, $records, $bkey);
 			}
 		}
@@ -162,7 +172,7 @@ if ($command == 'overview')
 	
 	
 	// Build HTML Taskscheduler :-)
-	$result = @db_query("SELECT begin_stamp, DATE_FORMAT(begin_stamp, '$date_format') as date_f, sum(records) as sum FROM phpAdsConversionTemp WHERE status='waiting' GROUP BY begin_stamp");
+	$result = @db_query("SELECT begin_stamp, DATE_FORMAT(begin_stamp, '$date_format') as date_f, sum(records) as sum FROM phpadsconversiontemp WHERE status='waiting' GROUP BY begin_stamp");
 	
 	echo "<html><head>";
 	echo "<link rel='stylesheet' href='interface.css'>";
@@ -179,6 +189,7 @@ if ($command == 'overview')
 	echo "</head><body onLoad=\"StartCleanup();\">";
 	echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'>";
 	
+	// Show all tasks
 	while ($task = @mysql_fetch_array($result))
 	{
 		echo "<tr>";
@@ -219,14 +230,18 @@ if ($command == 'convert')
 		ignore_user_abort(1);
 	}
 	
+	// Assume something went wrong until
+	// it is certain everything went alright
 	$error = true;
 	
 	if (isset($id) && $id != '')
 	{
+		// Get a list of waiting tasks for this day
 		$result = @db_query("SELECT * FROM phpadsconversiontemp WHERE begin_stamp='$id' AND status='waiting'");
 		
 		if (@mysql_num_rows($result) > 0)
 		{
+			// Get next task
 			while ($task = @mysql_fetch_array($result))
 			{
 				$views = 0;
@@ -237,36 +252,37 @@ if ($command == 'convert')
 				$bannerID 	= $task['bannerID'];
 				$id		 	= $task['conversionID'];
 				
-				//echo "<br><br>ID:$id BANNERID:$bannerID > $begintime - $endtime <br>";
-				
 				$day = substr($begintime, 0, 4)."-".substr($begintime, 4, 2)."-".substr($begintime, 6, 2);
 				
+				// Get views for this task
 				$countresult = @db_query("SELECT count(*) as count FROM $phpAds_tbl_adviews WHERE bannerID='$bannerID' AND t_stamp >= $begintime AND t_stamp < $endtime");
 				if ($countrow = @mysql_fetch_array($countresult))
 				{
 					$views = $countrow['count'];
 				}
 				
+				// Get clicks for this task
 				$countresult = @db_query("SELECT count(*) as count FROM $phpAds_tbl_adclicks WHERE bannerID='$bannerID' AND t_stamp >= $begintime AND t_stamp < $endtime"); 
 				if ($countrow = @mysql_fetch_array($countresult))
 				{
 					$clicks = $countrow['count'];
 				}
 				
-				//echo "CLICKS=$clicks VIEWS=$views <br>";
-				
+				// Check for clicks or views to convert
 				if ($clicks > 0 || $views > 0)
 				{
+					// Check for existing compact stats for this task
 					$checkresult = @db_query("SELECT count(*) as count FROM $phpAds_tbl_adstats WHERE day='$day' AND bannerID='$bannerID'");
 					$checkrow = @mysql_fetch_array ($checkresult);
 					
 					if (isset($checkrow['count']) && $checkrow['count'] > 0)
 					{
-						//echo "UPDATE $phpAds_tbl_adstats SET clicks=clicks+$clicks, views=views+$views WHERE day='$day' AND bannerID='$bannerID' <br>";
+						// Add clicks / views to existing compact stats
 						$updateresult = @db_query("UPDATE $phpAds_tbl_adstats SET clicks=clicks+$clicks, views=views+$views WHERE day='$day' AND bannerID='$bannerID'");
 						
 						if (@mysql_affected_rows() > 0)
 						{
+							// Everything went alright
 							phpAds_convertSetStatus ($id, 'finished');
 							$error = false;
 						}
@@ -275,11 +291,12 @@ if ($command == 'convert')
 					}
 					else
 					{
-						//echo "INSERT INTO $phpAds_tbl_adstats SET bannerID='$bannerID', day='$day', clicks=$clicks, views=$views <br>";
+						// Insert a new record to the compact stats
 						$updateresult = @db_query("INSERT INTO $phpAds_tbl_adstats SET bannerID='$bannerID', day='$day', clicks=$clicks, views=$views");
 						
 						if (@mysql_affected_rows() > 0)
 						{
+							// Everything went alright
 							phpAds_convertSetStatus ($id, 'finished');
 							$error = false;
 						}
@@ -294,6 +311,7 @@ if ($command == 'convert')
 	
 	if ($error)
 	{
+		// Show X
 		header ("Content-type: image/gif");
 		include ("../nocache.inc.php");
 		$image = @fopen ('images/delete.gif', 'r');
@@ -302,14 +320,13 @@ if ($command == 'convert')
 	}
 	else
 	{
+		// Show V
 		header ("Content-type: image/gif");
 		include ("../nocache.inc.php");
 		$image = @fopen ('images/save.gif', 'r');
 		fpassthru ($image);
 		fclose ($image);
 	}
-	
-	//echo "$error <br>";
 }
 
 
@@ -374,8 +391,6 @@ if ($command == 'cleanup')
 		$error = false;
 	}
 	
-//	echo $error;
-	
 	if ($error)
 	{
 		header ("Content-type: image/gif");
@@ -402,7 +417,7 @@ function phpAds_convertTableExists()
 	
 	while ($tables = @mysql_fetch_row($result)) 
 	{
-    	if ($tables[0] == 'phpadsconversiontemp') 
+    	if (strtolower($tables[0]) == 'phpadsconversiontemp') 
 		{
 			$available = true;
 		}
@@ -425,8 +440,6 @@ function phpAds_convertTableCreate()
 		   PRIMARY KEY (conversionID)
 		)
 	");
-	
-	echo mysql_error();
 }
 
 

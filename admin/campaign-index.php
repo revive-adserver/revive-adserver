@@ -17,6 +17,8 @@
 // Include required files
 require ("config.php");
 require ("lib-statistics.inc.php");
+require ("lib-expiration.inc.php");
+require ("lib-gd.inc.php");
 
 
 // Security check
@@ -208,6 +210,24 @@ else
 	echo "</table>";
 	echo "<br>";
 }
+
+
+
+echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+echo "<tr><td height='25' colspan='2'><b>$strCreditStats</b></td></tr>";
+echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+
+list($desc,$enddate,$daysleft)=days_left($campaignID);
+$adclicksleft = adclicks_left($campaignID);
+$adviewsleft  = adviews_left($campaignID);
+
+echo "<tr><td height='25'>$strViewCredits: <b>$adviewsleft</b></td>";
+echo "<td height='25'>$strClickCredits: <b>$adclicksleft</b></td></tr>";
+echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
+echo "<tr><td height='25' colspan='2'>$desc</td></tr>";
+
+echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "</table>";
 
 
 

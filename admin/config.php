@@ -16,6 +16,7 @@
 
 // Include required files
 require ("../config.inc.php");
+require ("lib-permissions.inc.php");
 require ("lib-gui.inc.php");
 require ("../view.inc.php");
 
@@ -31,12 +32,11 @@ if (!$link)
 }
 
 // Authorize the user and load user specific settings.
-require ("lib-permissions.inc.php");
 phpAds_Start();
 
 
 // Load language strings
-require ("../language/$phpAds_language.inc.php");
+require ("../language/".strtolower($phpAds_language).".inc.php");
 
 
 if (!isset($clientID))   $clientID = '';
@@ -63,7 +63,8 @@ $phpAds_nav = array (
 		  "4.2"				=>  array("campaign-edit.php" => "$strCreateNewCampaign"),
 		  "4.3"				=>	array("campaign-edit.php" => "$strEditCampaign"),
 		  "4.4" 			=> 	array("client-edit.php" => "$strAddClient"),
-		  "4.5" 			=> 	array("client-edit.php" => "$strModifyClient")
+		  "4.5" 			=> 	array("client-edit.php" => "$strModifyClient"),
+		  "4.6" 			=> 	array("admin-generate.php" => "$strGenerateBannercode")
 	),
 
 	"client" => array (

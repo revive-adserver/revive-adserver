@@ -14,16 +14,28 @@
 
 
 
+// MySQL DB Resource
+$phpAds_db_link = '';
+
+
 /*********************************************************/
 /* Open a connection to the database			         */
 /*********************************************************/
 
 function db_connect()
 {
-    if ($GLOBALS["phpAds_persistent_connections"])
-        return @mysql_pconnect($GLOBALS["phpAds_hostname"], $GLOBALS["phpAds_mysqluser"], $GLOBALS["phpAds_mysqlpassword"]);
+	global $phpAds_persistent_connections;
+	global $phpAds_hostname, $phpAds_mysqluser, $phpAds_mysqlpassword, $phpAds_db;
+	global $phpAds_db_link;
+	
+    if ($phpAds_persistent_connections)
+        $phpAds_db_link = @mysql_pconnect ($phpAds_hostname, $phpAds_mysqluser, $phpAds_mysqlpassword);
     else
-        return @mysql_connect($GLOBALS["phpAds_hostname"], $GLOBALS["phpAds_mysqluser"], $GLOBALS["phpAds_mysqlpassword"]);
+        $phpAds_db_link = @mysql_connect ($phpAds_hostname, $phpAds_mysqluser, $phpAds_mysqlpassword);
+	
+	@mysql_select_db ($phpAds_db, $phpAds_db_link);
+	
+	return $phpAds_db_link;
 }
 
 
@@ -34,7 +46,11 @@ function db_connect()
 
 function db_close()
 {
-	//mysql_close();
+	global $phpAds_persistent_connections;
+	global $phpAds_db_link;
+	
+	if (!$phpAds_persistent_connections)
+		@mysql_close ($phpAds_db_link);
 }
 
 
@@ -43,14 +59,13 @@ function db_close()
 /* Execute a query								         */
 /*********************************************************/
 
-function db_query($query, $link = "")
+function db_query($query)
 {
-    global $phpAds_last_query, $phpAds_db;
+    global $phpAds_last_query;
+	global $phpAds_db_link;
 	
     $phpAds_last_query = $query;
-    $ret = mysql_db_query($phpAds_db, $query);
-	
-    return $ret;
+    return @mysql_query ($query, $phpAds_db_link);
 }
 
 

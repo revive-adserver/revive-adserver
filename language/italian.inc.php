@@ -7,6 +7,10 @@
 /* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
+/* Translations by Marco La Ferla                                       */
+/*                 Matteo Beccati                                       */
+/*                 Luca Pescatore                                       */
+/*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
@@ -210,29 +214,48 @@ $GLOBALS['strAfterExpire'] = "La data di scadenza &egrave; stata raggiunta";
 $GLOBALS['strNoMoreClicks'] = "Totale dei Click utilizzati";
 $GLOBALS['strNoMoreViews'] = "Totale dei banner utilizzati";
 
-$GLOBALS['strBanners'] 					= "Banners";
-$GLOBALS['strCampaigns']				= "Campaigns";
-$GLOBALS['strCampaign']					= "Campaign";
-$GLOBALS['strName']						= "Name";
-$GLOBALS['strBannersWithoutCampaign']	= "Banners without a campaign";
-$GLOBALS['strMoveToNewCampaign']		= "Move to a new campaign";
-$GLOBALS['strCreateNewCampaign']		= "Create new campaign";
-$GLOBALS['strEditCampaign']				= "Edit campaign";
-$GLOBALS['strEdit']						= "Edit";
-$GLOBALS['strCreate']					= "Create";
-$GLOBALS['strUntitled']					= "Untitled";
+$GLOBALS['strBanners'] 					= "Banner";
+$GLOBALS['strCampaigns']				= "Campagne";
+$GLOBALS['strCampaign']					= "Campagna";
+$GLOBALS['strModifyCampaign']			= "Modifica campagna";
+$GLOBALS['strName']						= "Nome";
+$GLOBALS['strBannersWithoutCampaign']	= "Banner senza una campagna";
+$GLOBALS['strMoveToNewCampaign']		= "Sposta ad una nuova campagna";
+$GLOBALS['strCreateNewCampaign']		= "Crea una nuova campagna";
+$GLOBALS['strEditCampaign']				= "Modifica campagna";
+$GLOBALS['strEdit']						= "Modifica";
+$GLOBALS['strCreate']					= "Crea";
+$GLOBALS['strUntitled']					= "Senza nome";
 
-$GLOBALS['strTotalCampaigns'] 			= "Total campaigns";
-$GLOBALS['strActiveCampaigns'] 			= "Active campaigns";
+$GLOBALS['strTotalCampaigns'] 			= "Campagne totali";
+$GLOBALS['strActiveCampaigns'] 			= "Campagne attive";
 
-$GLOBALS['strLinkedTo']					= "linked to";
-$GLOBALS['strNoViewLoggedInInterval']   = "No views were logged in the last {interval} days";
-$GLOBALS['strNoClickLoggedInInterval']  = "No clicks were logged in the last {interval} days";
-$GLOBALS['strSendAdvertisingReport']	= "Send an advertising report via e-mail";
-$GLOBALS['strNoDaysBetweenReports']		= "Number of days between reports";
-$GLOBALS['strSendDeactivationWarning']  = "Send a warning when a campaign is deactivated";
+$GLOBALS['strLinkedTo']					= "linkato a";
+$GLOBALS['strNoViewLoggedInInterval']   = "Nessunua visualizzazione registrata negli ultimi {interval} giorni";
+$GLOBALS['strNoClickLoggedInInterval']  = "Nessun click registrato negli ultimi {interval} giorni";
+$GLOBALS['strSendAdvertisingReport']	= "Invia un report via e-mail";
+$GLOBALS['strNoDaysBetweenReports']		= "Intervallo giorni fra i report";
+$GLOBALS['strSendDeactivationWarning']  = "Invia un avvertimento quando una campagna &egrave; terminata";
 
-$GLOBALS['strWarnClientTxt']			= "Click or View count is getting below {limit} for your banners. ";
-$GLOBALS['strViewsClicksLow']			= "Ad views/clicks are low";
+$GLOBALS['strWarnClientTxt']			= "I click o le impression dei tuoi banner sono inferiori a {limit}. ";
+$GLOBALS['strViewsClicksLow']			= "Impression/click sono low";
+
+$GLOBALS['strDays']						= "Giorni";
+$GLOBALS['strHistory']					= "Storico";
+$GLOBALS['strAverage']					= "Media";
+$GLOBALS['strDuplicateClientName']		= "Lo username inserito &egrave; gi&agrave; esistente, sceglierne uno diverso.";
+$GLOBALS['strAllowClientDisableBanner'] = "Consenti all'utente di distattivare i suoi banner";
+$GLOBALS['strAllowClientActivateBanner'] = "Consenti all'utente di attivare i suo banner";
+
+$GLOBALS['strGenerateBannercode']		= "Genera Codice";
+$GLOBALS['strChooseInvocationType']		= "Scegli il tipo di chiamata banner";
+$GLOBALS['strGenerate']					= "Genera";
+$GLOBALS['strParameters']				= "Parametri";
+$GLOBALS['strUniqueidentifier']			= "Unique identifier";
+$GLOBALS['strFrameSize']				= "Frame size";
+$GLOBALS['strBannercode']				= "Codice";
+
+$GLOBALS['strSearch']					= "Ricerca";
+$GLOBALS['strNoMatchesFound']			= "Nessun elemento trovato per la tua ricerca";
+
 ?>
-

@@ -199,14 +199,14 @@ $GLOBALS['strShowClientsInactive']		= "Show clients with inactive banners";
 $GLOBALS['strSize']						= "Size";
 
 $GLOBALS['strMonth'] 					= array("January","February","March","April","May","June","July", "August", "September", "October", "November", "December");
-$GLOBALS['strDontExpire']				= "Don't expire this client on a specific date";
-$GLOBALS['strActivateNow'] 				= "Activate this client immediately";
+$GLOBALS['strDontExpire']				= "Don't expire this campaign on a specific date";
+$GLOBALS['strActivateNow'] 				= "Activate this campaign immediately";
 $GLOBALS['strExpirationDate']			= "Expiration date";
 $GLOBALS['strActivationDate']			= "Activation date";
 
 $GLOBALS['strMailClientDeactivated'] 	= "The following banners have been disabled because";
 $GLOBALS['strMailNothingLeft'] 			= "If you would like to continue advertising on our website, please feel free to contact us.\nWe'd be glad to hear from you.";
-$GLOBALS['strClientDeactivated']		= "This client is currently not active because";
+$GLOBALS['strClientDeactivated']		= "This campaign is currently not active because";
 $GLOBALS['strBeforeActivate']			= "the activation date has not yet been reached";
 $GLOBALS['strAfterExpire']				= "the expiration date has been reached";
 $GLOBALS['strNoMoreClicks']				= "the amount of AdClicks purchased are used";
@@ -238,5 +238,22 @@ $GLOBALS['strSendDeactivationWarning']  = "Send a warning when a campaign is dea
 $GLOBALS['strWarnClientTxt']			= "The Clicks or Views left for your banners are getting below {limit}. \nYour banners will be disabled when there are no Clicks or Views left. ";
 $GLOBALS['strViewsClicksLow']			= "Ad views/clicks are low";
 
+$GLOBALS['strDays']						= "Days";
+$GLOBALS['strHistory']					= "History";
+$GLOBALS['strAverage']					= "Average";
+$GLOBALS['strDuplicateClientName']		= "The username you provided already exists, please enter a different username.";
+$GLOBALS['strAllowClientDisableBanner'] = "Allow this user to de-activate his own banners";
+$GLOBALS['strAllowClientActivateBanner'] = "Allow this user to activate his own banners";
+
+$GLOBALS['strGenerateBannercode']		= "Generate Bannercode";
+$GLOBALS['strChooseInvocationType']		= "Please choose the type of banner invocation";
+$GLOBALS['strGenerate']					= "Generate";
+$GLOBALS['strParameters']				= "Parameters";
+$GLOBALS['strUniqueidentifier']			= "Unique identifier";
+$GLOBALS['strFrameSize']				= "Frame size";
+$GLOBALS['strBannercode']				= "Bannercode";
+
+$GLOBALS['strSearch']					= "Search";
+$GLOBALS['strNoMatchesFound']			= "No matches were found";
 
 ?>

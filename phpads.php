@@ -71,12 +71,26 @@ else
 		$source = '';
 	
 	
-	$row = get_banner($what, $clientID, 0, $source);
+	$row = get_banner($what, $clientID, 0, $source, false);
 	
 	if (is_array($row))
 	{
 		if(!empty($row["bannerID"]))
 		{
+			if ($phpAds_p3p_policies)
+			{
+				$p3p_header = '';
+				
+				if ($phpAds_p3p_policy_location != '')
+					$p3p_header .= " policyref=\"$phpAds_p3p_policy_location\"";
+				
+				if ($phpAds_p3p_compact_policy != '')
+					$p3p_header .= " CP=\"$phpAds_p3p_compact_policy\"";
+				
+				if ($p3p_header != '')
+					header ("P3P: $p3p_header");
+			}
+			
 			$url = parse_url($GLOBALS["phpAds_url_prefix"]);
 			SetCookie("bannerNum", $row["bannerID"], 0, $url["path"]);
 			if(isset($n)) SetCookie("banID[$n]", $row["bannerID"], 0, $url["path"]);
@@ -109,6 +123,20 @@ else
 	}
 	else
 	{
+		if ($phpAds_p3p_policies)
+		{
+			$p3p_header = '';
+			
+			if ($phpAds_p3p_policy_location != '')
+				$p3p_header .= " policyref=\"$phpAds_p3p_policy_location\"";
+			
+			if ($phpAds_p3p_compact_policy != '')
+				$p3p_header .= " CP=\"$phpAds_p3p_compact_policy\"";
+			
+			if ($p3p_header != '')
+				header ("P3P: $p3p_header");
+		}
+		
 		SetCookie("bannerNum", "DEFAULT", 0, $url["path"]);
 		if(isset($n)) SetCookie("banID[$n]", "DEFAULT", 0, $url["path"]);
 		

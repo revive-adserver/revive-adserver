@@ -1,0 +1,47 @@
+<html>
+<head>
+<title>phpAdsNew Documentation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="index.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="30" bgcolor="#FFFFFF"><tr bgcolor="#EFEFEF"><td width="100" class="identification">&nbsp;&nbsp;phpAdsNew</td><td width="600" class="plain"><img src="images/0-home.gif" width="16" height="15" align="ABSMIDDLE">&nbsp;&nbsp;<span class="subtitle"><a href="index.html" class="subtitle">Home</a></span></td><td>&nbsp;</td></tr></table><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;6.1</td><td width="600" class="chapter" height="50">FAQ &amp; Troubleshooting</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="images/0-line-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#FFFFFF"><td width="100" height="50"><a name="1"></a></td><td width="600" height="50">&nbsp;</td><td height="50">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;6.1.1</td><td width="600" class="section" height="50">Frequently Asked Questions</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p> <br><span class="subtitle">What's the difference between compact statistics and verbose statistics?</span><br>Verbose statistics were the only kind of statistics phpAdsNew supported for 
+  a long time, but since version 1.9 phpAdsNew now supports compact statistics 
+  and the compact stats are even used by default. Compact statistics are faster 
+  than verbose stats and take a lot less storage space on the MySQL server. There 
+  is a drawback however, the compact stats are less accurate than the old verbose 
+  stats, there are no hourly overviews for example.</p><p><br><span class="subtitle">How can I speed up phpAdsNew?</span><br>You can speed up phpAdsNew considerably by reducing the functionality. You 
+  could disable multiple keywords and conditional keywords. You could enable 'delayed 
+  inserts' as well, which should increase the speed of statistics logging. Other 
+  things that influence the speed of phpAdsNew are reverse lookup, sequential 
+  banner retrieval and banners stored in MySQL. If you really need to serve massive 
+  amounts of banners you could try using multiple servers. It is possible to store 
+  banners on an external ftp/webserver, use a different server for the MySQL database 
+  and serve the ads from a different server as your webserver. It is even possible 
+  to use multiple servers which all have phpAdsNew and MySQL installed and use 
+  same database which is replicated over all the servers.</p><p><br><span class="subtitle">My MySQL server uses too many resources, what can I do?</span><br>You can reduce the load on the MySQL server by storing banners on the webserver 
+  instead of the MySQL server. It is also possible use 'delayed inserts' which 
+  can be turned on in the configuration file. If phpAdsNew uses persistent connections 
+  to the MySQL server you could try turning this off in the configuration file. 
+  Persistent connections do speed up phpAdsNew, but increase the load on the MySQL 
+  server. <br></p><p><br><span class="subtitle">Can you help me to install phpAdsNew? Can you please implement this feature 
+  I need?</span><br>Maybe. Let us know what you want...</p><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="2"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" bgcolor="#FFFFFF" height="50">&nbsp;&nbsp;6.1.2</td><td width="600" class="section" height="50">Troubleshooting</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br><span class="subtitle">phpAdsNew doesn't display any banners on pages which are the result of a form 
+  being submitted in IE<br></span>This is a known bug in IE 4 and higher. phpAdsNew 1.9 does have a workaround 
+  for this bug, but it only works in remote invocation with JavaScript and local 
+  mode. Normal remote invocation is still affected by this bug. Microsoft is aware 
+  of this bug for some time and IE 6 apparently works fine. If you use normal 
+  remote invocation there is nothing we can do about it.</p><p><br><span class="subtitle">phpAdsNew doesn't display any HTML banners</span><br>HTML banners are only supported if you use remote invocation with JavaScript 
+  of local mode. It is not possible to display HTML banner with normal remote 
+  invocation.</p><p><span class="subtitle"><br>The login doesn't work, it keeps prompting for username/password all over 
+  again or I can't add banners</span><br>Make sure you have enabled magic_quotes_gpc in your PHP configuration.<br>
+  Make sure $phpAds_url_prefix in config.inc.php is exactly the same as it is 
+  on the server (http://www.test.com/phpads is not the same as http://www.test.com/phpAds). 
+  Also make sure it doesn't end with a slash (/).</p><p><br><span class="subtitle">I get the following error: Fatal error: Call to unsupported or undefined function 
+  mysql_(p)connect()</span><br>Your PHP is not configured for MySQL support. If you're on Unix, you need to 
+  recompile PHP --with-mysql. If you're on Windows, you have to enable the MySQL 
+  DLL in your PHP configuration. See the manual, installation section, for more 
+  details.</p><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75">&nbsp;</td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><p>&nbsp;</p>
+</body>
+</html>

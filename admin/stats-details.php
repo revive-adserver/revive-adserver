@@ -17,6 +17,7 @@
 // Include required files
 require ("config.php");
 require ("lib-statistics.inc.php");
+require ("lib-gd.inc.php");
 
 
 // Security check
@@ -114,102 +115,6 @@ if (phpAds_isUser(phpAds_Client))
 
 
 /*********************************************************/
-/* Show detailed statistics                              */
-/*********************************************************/
-
-function showDetailedStats($what, $totalTitle, $avgTitle)
-{
-	global $phpAds_db, $date_format, $phpAds_url_prefix, $pageid, $fncpageid;
-	global $phpAds_compact_stats, $phpAds_tbl_adviews, $phpAds_tbl_adclicks, $phpAds_tbl_adstats;
-
-	if (!$phpAds_compact_stats)
-	{
-		if ($what == "views")
-			$table = $phpAds_tbl_adviews;
-		else
-			$table = $phpAds_tbl_adclicks;
-		
-		$stats_query = " SELECT
-							*,
-							count(*) as qnt,
-							DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f
-				 		 FROM
-							$table
-						 WHERE
-							bannerID = ".$GLOBALS['bannerID']."
-						 GROUP BY
-							t_stamp_f  
-						 ORDER BY
-							t_stamp DESC
-						 LIMIT 7          
-		";
-	}
-	else
-		$stats_query = " SELECT
-							*,
-							$what as qnt,
-							DATE_FORMAT(day, '$date_format') as t_stamp_f
-				 		 FROM
-							$phpAds_tbl_adstats
-						 WHERE
-							bannerID = ".$GLOBALS['bannerID']."
-						 ORDER BY
-							day DESC
-						 LIMIT 7          
-		";
-
-	$result = db_query($stats_query) or mysql_die();
-
-	$max = 0;
-	$total = 0;
-	while ($row = mysql_fetch_array($result))
-	{
-		if ($row["qnt"] > $max) 
-			$max = $row["qnt"];
-		$total += $row["qnt"];
-	}
-	@mysql_data_seek($result, 0);
-	$i = 0;
-	while ($row = mysql_fetch_array($result))
-	{
-		$bgcolor="#FFFFFF";
-		$i % 2 ? 0: $bgcolor= "#F6F6F6";
-		$i++;
-		?>
-		<tr>
-			<td height='25' bgcolor="<?echo $bgcolor;?>">
-				&nbsp;<?echo $row['t_stamp_f'];?>
-			</td>
-			<td height='25' bgcolor="<?echo $bgcolor;?>" align='right'>
-				<b><?echo $row["qnt"];?></b>&nbsp;&nbsp;&nbsp;
-			</td>
-			<td height='25' bgcolor="<?echo $bgcolor;?>">
-				<img src="images/bar.gif" width="<?echo ($row["qnt"]*300)/$max;?>" height="11"><img src="images/bar_off.gif" width="<?echo 300-(($row["qnt"]*300)/$max);?>" height="11">
-			</td>
-			<td height='25' bgcolor="<?echo $bgcolor;?>" align='right'>
-				<?	if (!$phpAds_compact_stats) { ?>
-				<a href="stats-daily.php?day=<?echo urlencode($row["t_stamp_f"]);?>&campaignID=<?echo $GLOBALS["campaignID"];?>&bannerID=<?echo $GLOBALS["bannerID"];?>">[ <?echo $GLOBALS["strDailyStats"];?> ]</a>&nbsp;
-				<? } ?>				
-			</td>
-		</tr>
-  	    <tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-		<?
-	}
-	?>
-	<tr>
-		<td height='60' bgcolor="#FFFFFF" colspan=4>
-			<br>
-			<?echo $totalTitle;?>: <b><?echo $total;?></b><br>
-			<?echo $avgTitle;?>: <b><? printf("%.2f", $total/7);?></b>
-		</td>
-	</tr>
-	<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-	<?
-}
-
-
-
-/*********************************************************/
 /* Main code                                             */
 /*********************************************************/
 
@@ -227,23 +132,206 @@ function showDetailedStats($what, $totalTitle, $avgTitle)
 
 <br><br>
 
-<table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
-  <tr><td height='25' colspan='4'><b><?print $strViews;?></b></td></tr>
-  <tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-  <? showDetailedStats("views", $strTotalViews7Days, $strAvgViews7Days); ?>
-</table>
-
-<br><br>
-
-<table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
-  <tr><td height='25' colspan='4'><b><?print $strClicks;?></b></td></tr>
-  <tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-  <? showDetailedStats("clicks", $strTotalClicks7Days, $strAvgClicks7Days); ?>
-</table>
-
-
-
 <?
+
+if (!isset($limit) || $limit=='') $limit = '7';
+
+if ($phpAds_compact_stats) 
+{
+	$result = db_query(" SELECT
+							*,
+							views,
+							clicks,
+							DATE_FORMAT(day, '$date_format') as t_stamp_f
+				 		 FROM
+							$phpAds_tbl_adstats
+						 WHERE
+							bannerID = $bannerID
+						 ORDER BY
+							day DESC
+						 LIMIT $limit 
+			  ");
+	
+	while ($row = mysql_fetch_array($result))
+	{
+		$stats[$row['day']] = $row;
+	}
+}
+else
+{
+	$result = db_query(" SELECT
+							count(*) as views,
+							DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
+							DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
+				 		 FROM
+							$phpAds_tbl_adviews
+						 WHERE
+							bannerID = $bannerID
+						 GROUP BY
+						    day
+						 ORDER BY
+							day DESC
+						 LIMIT $limit 
+			  ");
+	
+	while ($row = mysql_fetch_array($result))
+	{
+		$stats[$row['day']]['views'] = $row['views'];
+		$stats[$row['day']]['clicks'] = '0';
+		$stats[$row['day']]['t_stamp_f'] = $row['t_stamp_f'];
+	}
+	
+	
+	$result = db_query(" SELECT
+							count(*) as clicks,
+							DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
+							DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
+				 		 FROM
+							$phpAds_tbl_adclicks
+						 WHERE
+							bannerID = $bannerID
+						 GROUP BY
+						    day
+						 ORDER BY
+							day DESC
+						 LIMIT $limit 
+			  ");
+	
+	while ($row = mysql_fetch_array($result))
+	{
+		$stats[$row['day']]['clicks'] = $row['clicks'];
+		$stats[$row['day']]['t_stamp_f'] = $row['t_stamp_f'];
+	}
+}
+
+
+echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+
+echo "<tr bgcolor='#FFFFFF' height='25'>";
+echo "<td align='left' nowrap height='25'><b>$strDays</b></td>";
+echo "<td align='left' nowrap height='25'><b>$strViews</b></td>";
+echo "<td align='left' nowrap height='25'><b>$strClicks</b></td>";
+echo "<td align='left' nowrap height='25'><b>$strCTRShort</b>&nbsp;&nbsp;</td>";
+echo "</tr>";
+
+echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+
+
+$totalviews  = 0;
+$totalclicks = 0;
+
+// for (reset($stats);$key=key($stats);next($stats))	{
+
+$today = time();
+
+for ($d=0;$d<$limit;$d++)
+{
+	$key = date ("Y-m-d", $today - ((60 * 60 * 24) * $d));
+	$text = date (str_replace ("%", "", $date_format), $today - ((60 * 60 * 24) * $d));
+	
+	if (isset($stats[$key]))
+	{
+		$views  = $stats[$key]['views'];
+		$clicks = $stats[$key]['clicks'];
+		$text   = $stats[$key]['t_stamp_f'];
+		$ctr	= phpAds_buildCTR($views, $clicks);
+		
+		$totalviews  += $views;
+		$totalclicks += $clicks;
+		
+		$available = true;
+	}
+	else
+	{
+		$views  = '-';
+		$clicks = '-';
+		$ctr	= '-';
+		$available = false;
+	}
+	
+	$bgcolor="#FFFFFF";
+	$d % 2 ? 0: $bgcolor= "#F6F6F6";
+	
+	echo "<tr>";
+	
+	if (!$phpAds_compact_stats && $available) 
+	{
+		echo "<td height='25' bgcolor='$bgcolor'>&nbsp;";
+		echo "<a href='stats-daily.php?day=".urlencode($text)."&campaignID=".$campaignID."&bannerID=".$bannerID."'>";
+		echo $text."</a></td>";
+	}
+	else
+		echo "<td height='25' bgcolor='$bgcolor'>&nbsp;".$text."</td>";
+	
+	echo "<td height='25' bgcolor='$bgcolor'>".$views."</td>";
+	echo "<td height='25' bgcolor='$bgcolor'>".$clicks."</td>";
+	echo "<td height='25' bgcolor='$bgcolor'>".$ctr."</td>";
+	echo "</tr>";
+	
+	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+}
+
+if ($totalviews > 0 || $totalclicks > 0)
+{
+	echo "<tr>";
+	echo "<td height='25'>&nbsp;</td>";
+	echo "<td height='25'>&nbsp;</td>";
+	echo "<td height='25'>&nbsp;</td>";
+	echo "<td height='25'>&nbsp;</td>";
+	echo "</tr>";
+	
+	echo "<tr>";
+	echo "<td height='25'>&nbsp;<b>$strTotal</b></td>";
+	echo "<td height='25'>".$totalviews."</td>";
+	echo "<td height='25'>".$totalclicks."</td>";
+	echo "<td height='25'>".phpAds_buildCTR($totalviews, $totalclicks)."</td>";
+	echo "</tr>";
+	
+	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	
+	echo "<tr>";
+	echo "<td height='25'>&nbsp;<b>$strAverage</b></td>";
+	echo "<td height='25'>".number_format (($totalviews / $d), $phpAds_percentage_decimals)."</td>";
+	echo "<td height='25'>".number_format (($totalclicks / $d), $phpAds_percentage_decimals)."</td>";
+	echo "<td height='25'>&nbsp;</td>";
+	echo "</tr>";
+	
+	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+}
+
+echo "<tr>";
+echo "<form action='".$GLOBALS['PHP_SELF']."'>";
+echo "<td height='35' colspan='4' align='right'>";
+	echo $strHistory.":&nbsp;&nbsp;";
+	echo "<input type='hidden' name='bannerID' value='$bannerID'>";
+	echo "<input type='hidden' name='campaignID' value='$campaignID'>";
+	echo "<select name='limit' onChange=\"this.form.submit();\">";
+	echo "<option value='7' ".($limit==7?'selected':'').">7 ".$strDays."</option>";
+	echo "<option value='14' ".($limit==14?'selected':'').">14 ".$strDays."</option>";
+	echo "<option value='21' ".($limit==21?'selected':'').">21 ".$strDays."</option>";
+	echo "<option value='28' ".($limit==28?'selected':'').">28 ".$strDays."</option>";
+	echo "</select>&nbsp;";
+	echo "<input type='image' src='images/go_blue.gif' border='0' name='submit'>";
+echo "</td>";
+echo "</form>";
+echo "</tr>";
+
+if ($totalviews > 0 || $totalclicks > 0)
+{
+	if (phpAds_GDImageFormat() != "none") 
+	{
+		echo "<tr><td colspan='4' align='left' bgcolor='#FFFFFF'>";
+		echo "<br><br><img src='graph-details.php?bannerID=$bannerID&campaignID=$campaignID&limit=$limit'><br><br><br>";
+		echo "</td></tr>";
+	}
+	
+	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+}
+
+echo "</table>";
+
+
+
 
 /*********************************************************/
 /* HTML framework                                        */

@@ -49,8 +49,55 @@ if (isset($submit))
 {
 	if (phpAds_isUser(phpAds_Admin))
 	{
-		// If ID is not set, it should be a null-value for the auto_increment
+		$error = false;
+		$errormessage ='';
+		
 		$message = $strClientModified;
+		
+		
+		if (isset($clientusername) && $clientusername != '')
+		{
+			if ($clientID == '')
+			{
+				$res = @db_query("SELECT
+								 	*
+							 	  FROM
+								 	$phpAds_tbl_clients
+								  WHERE
+								 	clientusername = '$clientusername'
+								") or mysql_die(); 
+				
+				if (@mysql_num_rows($res) > 0)
+				{
+					$error = true;
+					$errormessage = 'duplicateclientname';
+					
+					$clientusername = '';
+					$clientpassword = '';
+				}
+			}
+			else
+			{
+				$res = @db_query("SELECT
+								 	*
+							 	  FROM
+								 	$phpAds_tbl_clients
+								  WHERE
+								 	clientusername = '$clientusername' AND
+									clientID != '$clientID'
+								") or mysql_die(); 
+				
+				if (@mysql_num_rows($res) > 0)
+				{
+					$error = true;
+					$errormessage = 'duplicateclientname';
+					
+					$clientusername = '';
+					$clientpassword = '';
+				}
+			}
+		}
+		
 		
 		if (empty($clientID))
 		{
@@ -63,6 +110,8 @@ if (isset($submit))
 		{
 			$permissions += $clientpermissions[$i];
 		}
+		
+		if (!isset($clientreport)) $clientreport = false;
 		
 		if ($clientreportlastdate == '' || $clientreportlastdate == '0000-00-00' || $clientreportprevious != $clientreport)
 		{
@@ -102,15 +151,27 @@ if (isset($submit))
 		
 		$res = db_query($query) or mysql_die();  
 		
-		if ($clientID == "null")
+		
+		if ($error == false)
 		{
-			$clientID = @mysql_insert_id ();
-			Header("Location: campaign-edit.php?clientID=$clientID");
-			exit;
+			if ($clientID == "null")
+			{
+				$clientID = @mysql_insert_id ($phpAds_db_link);
+				Header("Location: campaign-edit.php?clientID=$clientID");
+				exit;
+			}
+			else
+			{
+				Header("Location: client-index.php?message=".urlencode($message));
+				exit;
+			}
 		}
 		else
 		{
-			Header("Location: client-index.php?message=".urlencode($message));
+			if ($clientID == "null")
+				$clientID = @mysql_insert_id ($phpAds_db_link);
+			
+			Header("Location: client-edit.php?clientID=$clientID&errormessage=".urlencode($errormessage));
 			exit;
 		}
 	}
@@ -172,8 +233,8 @@ if ($clientID != "")
 			WHERE
 				parent = 0  
 			") or mysql_die();
-
-		$extra = "";		
+		
+		$extra = "";
 		while ($row = mysql_fetch_array($res))
 		{
 			if ($clientID == $row['clientID'])
@@ -234,7 +295,7 @@ else
 
 
 
-<form name="clientform" method="post" action="<?echo basename($PHP_SELF);?>" onSubmit="return valid(this)">
+<form name="clientform" method="post" action="<?echo basename($PHP_SELF);?>">
 <input type="hidden" name="clientID" value="<?if(isset($clientID)) echo $clientID;?>">
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
@@ -276,13 +337,13 @@ else
 			<select name="clientlanguage">
 		<?
 		echo "<option value='' SELECTED>".$GLOBALS['strDefault']."</option>\n"; 
-
+		
 		$langdir = opendir ("../language/");
 		while ($langfile = readdir ($langdir))
 		{
 			if (ereg ("^([a-zA-Z0-9\-]*)\.inc\.php$", $langfile, $matches))
 			{
-				$languages[] = ucfirst($matches[1]);
+				$languages[] = $matches[1];
 			}
 		}
 		closedir ($langdir);
@@ -291,9 +352,9 @@ else
 		for ($i=0;$i<sizeof($languages);$i++)
 		{
 			if ($row['language'] == $languages[$i])
-				echo "<option value='".$languages[$i]."' SELECTED>".$languages[$i]."</option>\n";
+				echo "<option value='".$languages[$i]."' SELECTED>".ucfirst($languages[$i])."</option>\n";
 			else
-				echo "<option value='".$languages[$i]."'>".$languages[$i]."</option>\n";
+				echo "<option value='".$languages[$i]."'>".ucfirst($languages[$i])."</option>\n";
 		}
 		?>
 			</select>
@@ -352,6 +413,20 @@ else
 	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
+			<?
+				if (isset($errormessage) && $errormessage == 'duplicateclientname')
+				{
+					?>
+	<tr><td width='30'>&nbsp;</td>
+	    <td height='10' colspan='2'><img src='images/error.gif' align='absmiddle'>&nbsp;<font color='#AA0000'><b><? echo $strDuplicateClientName; ?></b></font></td></tr>
+	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
+	<tr>
+		<td><img src='images/spacer.gif' height='1' width='100%'></td>
+		<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
+	</tr>	
+					<?
+				}
+			?>
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td width='200'><?echo $strUsername;?></td>
@@ -359,13 +434,13 @@ else
 		if (phpAds_isUser(phpAds_Admin))
 		{
 			?>
-			<td><input type="text" name="clientusername" size='25' value="<?if(isset($row["clientusername"]))echo $row["clientusername"];?>">
+			<td width='370'><input type="text" name="clientusername" size='25' value="<?if(isset($row["clientusername"]))echo $row["clientusername"];?>">
 			<?
 		}
 		else 
 		{
 			?>
-			<td><?if(isset($row["clientusername"]))echo $row["clientusername"];?>
+			<td width='370'><?if(isset($row["clientusername"]))echo $row["clientusername"];?>
 			<?
 		}
 		?>
@@ -377,7 +452,7 @@ else
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td width='200'><?echo $strPassword;?></td>
-		<td><input type="text" name="clientpassword" size='25' value="<?if(isset($row["clientpassword"]))echo $row["clientpassword"];?>">
+		<td width='370'><input type="text" name="clientpassword" size='25' value="<?if(isset($row["clientpassword"]))echo $row["clientpassword"];?>">
 	</tr>
 	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
 		<?
@@ -399,6 +474,20 @@ else
 		<td colspan='2'>
 			<input type="checkbox" name="clientpermissions[]" value="<?echo phpAds_ModifyBanner; ?>"<?echo (phpAds_ModifyBanner & $row["permissions"]) ? " CHECKED" : ""; ?>>
 			<?echo $GLOBALS['strAllowClientModifyBanner']; ?>
+		</td>
+	</tr>	
+	<tr>
+		<td width='30'>&nbsp;</td>
+		<td colspan='2'>
+			<input type="checkbox" name="clientpermissions[]" value="<?echo phpAds_DisableBanner; ?>"<?echo (phpAds_DisableBanner & $row["permissions"]) ? " CHECKED" : ""; ?>>
+			<?echo $GLOBALS['strAllowClientDisableBanner']; ?>
+		</td>
+	</tr>	
+	<tr>
+		<td width='30'>&nbsp;</td>
+		<td colspan='2'>
+			<input type="checkbox" name="clientpermissions[]" value="<?echo phpAds_ActivateBanner; ?>"<?echo (phpAds_ActivateBanner & $row["permissions"]) ? " CHECKED" : ""; ?>>
+			<?echo $GLOBALS['strAllowClientActivateBanner']; ?>
 		</td>
 	</tr>	
 	<!-- Still working on this (Niels)

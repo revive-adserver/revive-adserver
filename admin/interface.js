@@ -77,3 +77,25 @@ function click_checkbox(oc,oe)
 
 }
 
+
+
+/*********************************************************/
+/* Open Search window                                    */
+/*********************************************************/
+
+function search_window(keyword, where)
+{
+	path = where+'?keyword='+keyword;
+	SearchWindow = window.open("","Search","toolbar=no,location=no,status=no,scrollbars=yes,width=600,height=500,innerheight=50,screenX=100,screenY=100,pageXoffset=100,pageYoffset=100,resizable=yes");          
+
+	if (SearchWindow.frames.length == 0) 
+	{
+		SearchWindow = window.open(path,"Search","toolbar=no,location=no,status=no,scrollbars=yes,width=700,height=600,innerheight=50,screenX=100,screenY=100,pageXoffset=100,pageYoffset=100,resizable=yes");
+	}
+	else
+	{
+		SearchWindow.location.href = path;
+		SearchWindow.focus();
+	}
+}
+

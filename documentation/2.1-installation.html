@@ -1,0 +1,61 @@
+<html>
+<head>
+<title>phpAdsNew Documentation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="index.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="30" bgcolor="#FFFFFF"><tr bgcolor="#EFEFEF"><td width="100" class="identification">&nbsp;&nbsp;phpAdsNew</td><td width="600" class="plain"><img src="images/0-home.gif" width="16" height="15" align="ABSMIDDLE">&nbsp;&nbsp;<span class="subtitle"><a href="index.html" class="subtitle">Home</a></span></td><td>&nbsp;</td></tr></table><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;2.1</td><td width="600" class="chapter" height="50">Installation</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="images/0-line-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#FFFFFF"><td width="100">&nbsp;</td><td width="600" class="plain"><p>You 
+have downloaded phpAdsNew and want to give it a try. This chapter will tell you how to install phpAdsNew correctly and will 
+help with the configuration of PHP and MySQL.</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="50"><a name="1"></a></td><td width="600" height="50">&nbsp;</td><td height="50">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" height="50">&nbsp;&nbsp;2.1.1</td><td width="600" class="section" height="50">Copying 
+phpAdsNew to the web server</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>The 
+first step is to expand the downloaded file to a directory on the web server.<br>If you are using a Windows system you can 
+use a tool like WinZip to expand the tar.gz or .zip file.<br>On a *nix based web server to can use the tar command to expand 
+the tar.gz file.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>tar 
+xvfz phpAdsNew_x.tar.gz</td></tr></table></td></tr></table><p>The next step is to move the directory to the document root 
+of your web server.</p><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="2"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" bgcolor="#FFFFFF" height="50">&nbsp;&nbsp;2.1.2</td><td width="600" class="section" height="50">PHP 
+configuration</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>Before 
+changes the configuration of PHP you need to make sure this is needed, perhaps your installation of PHP is already configured 
+correctly for phpAdsNew to work.<br>You can determine the configuration of PHP by creating a small php file containing the 
+following text:</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>&lt;?php<br>&nbsp;&nbsp;phpinfo();<br>?&gt;</td></tr></table></td></tr></table><p>PHP 
+needs to be configured in a certain way to get phpAdsNew working correctly. You can change the configuration of PHP by editing 
+the php.ini/php3.ini file. If you are using PHP as an Apache module you need to restart the web server before the changes 
+are in effect.</p><p>PHP must be configured to have magic_quote_gpc=on and magic_quotes_runtime=off.</p><p>If you need more 
+information about the configuration of PHP, please read the <a href="http://www.php.net/manual/en/configuration.php" class="list">PHP 
+documentation</a>.</p><p><br><span class="subtitle">.htaccess for PHP 3</span><br>If you can't edit the php3.ini file, for 
+example if you are sharing the server with other users and your ISP doesn't allow this, you could try placing a file called 
+.htaccess in the phpAdsNew directory. <br>The contents of the .htaccess for PHP3 is:<br></p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>php3_magic_quote_gpc=on<br>php3_magic_quotes_runtime=off</td></tr></table></td></tr></table><p><br><span class="subtitle">.htaccess 
+for PHP4</span><br>If you can't edit the php.ini file, for example if you are sharing the server with other users and your 
+ISP doesn't allow this, you could try placing a file called .htaccess in the phpAdsNew directory. <br>The contents of the 
+.htaccess for PHP4 is:<br></p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>php_flag 
+magic_quote_gpc on<br>php_flag magic_quotes_runtime off</td></tr></table></td></tr></table><p><br><span class="subtitle">PHP 
+extensions</span><br>phpAdsNew can work pretty well on a standard PHP installation, but some features depend on the availability 
+of a PHP extension.<br><br>If you want to display graphs in the admin interface you need to install the GD extension. The 
+version of the GD extension is not really important. phpAdsNew will automatically detect which version is installed and will 
+use the right image format.<br><br>If you want to use Web server stored banners in FTP Mode, PHP must be configured to support 
+at least one of the following extensions: the FTP module (best), the CURL module or URL fopen wrappers.</p><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="3"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" bgcolor="#FFFFFF" height="50">&nbsp;&nbsp;2.1.3</td><td width="600" class="section" height="50">Preparing 
+the database</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>Before 
+you can use phpAdsNew you will have to create the database phpAdsNew will need to use. Some ISPs will only allow you to use 
+one database for the whole site; in that case you can simply use this database.</p><p>The next step is to create all the tables. 
+The table descriptions are location in the all.sql file. The easiest way to automatically create the tables is to use a tool 
+like phpMyAdmin to upload the all.sql file to the database server. phpMyAdmin can be downloaded from <a href="http://www.phpwizard.net" class="list">www.phpwizard.net</a>.</p><p>If 
+you want to manually upload the all.sql file to the database server you can use the command line MySQL client.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>mysql 
+-h db-server -u db-user --password db-name &lt; all.sql</td></tr></table></td></tr></table><p><span class="subtitle"><br>Privileges</span><br>MySQL 
+works with a privilege system to increase security. You need to make sure MySQL is configured to allow phpAdsNew to execute 
+SELECT, INSERT, REPLACE, DELETE, CREATE TABLE and DROP TABLE queries. The last two are only needed if you want to convert 
+verbose stats to compact stats.</p><p>More information about MySQL privileges can be found in the <a href="http://www.mysql.com/documentation/mysql/bychapter/manual_Privilege_system.html#Privilege_system" class="list">MySQL 
+manual</a>.</p><br> </td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75"><a name="4"></a></td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr valign="BOTTOM" bgcolor="#FFFFFF"><td width="100" class="identification" bgcolor="#FFFFFF" height="50">&nbsp;&nbsp;2.1.4</td><td width="600" class="section" height="50">Automatic 
+maintenance</td><td class="section" height="50">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td colspan="3"><p><img src="images/0-bar-gray.gif" width="100%" height="16"></p></td></tr><tr bgcolor="#EFEFEF"><td width="100">&nbsp;</td><td width="600" class="plain"><p><br>The 
+file maintenance.php located in the directory maintenance must be run every day. The file maintenance is responsible for emailing 
+reports to clients and deactivating / activating campaigns.</p><p><span class="subtitle"><br>Scheduling on *nix based servers</span><br>If 
+you are using a *nix based servers, such as Linux or BSD you can use the cron daemon to automatically run the maintenance.php 
+file.</p><p>You can add the following line to your crontab. The example below is displayed as two lines, but must be added 
+as one line! Instead of fetch, you can also use wget or lynx -dump to call the maintenance file.</p><table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code"><tr><td>59 
+23 * * * fetch -o - http://www.server.com/phpAdsNew/maintenance/maintenance.php <br>&gt;&gt; /var/log/messages</td></tr></table></td></tr></table><p><span class="subtitle"><br>Scheduling 
+on Windows NT/2000 based servers</span><br>If you are using a Microsoft Windows 2000 based server you can use the 'Scheduled 
+Task' to automatically run the maintenance file. A Windows NT based server can be configured to run a certain task with the 
+at command.</p><p>For more information about scheduled task on Windows based servers, please read the documentation provided 
+by Microsoft.</p><p>&nbsp;</p></td><td class="plain">&nbsp;</td></tr><tr bgcolor="#FFFFFF"><td width="100" height="75">&nbsp;</td><td width="600" height="75">&nbsp;</td><td height="75">&nbsp;</td></tr></table><p>&nbsp;</p>
+</body>
+</html>

@@ -33,6 +33,79 @@ phpAds_PageHeader("3");
 
 
 /*********************************************************/
+/* Get plugins list                                      */
+/*********************************************************/
+
+function phpAds_ReportPluginList($directory)
+{
+	$pluginDir = opendir ($directory);
+	
+	while ($pluginFile = readdir ($pluginDir))
+	{
+		if (ereg ('^([a-zA-Z0-9\-]*)\.plugin\.php$', $pluginFile, $matches))
+		{
+			$plugins[$matches[1]] = phpAds_ReportGetPluginInfo($directory.$pluginFile);
+		}
+	}
+	
+	closedir ($pluginDir);
+	
+	return ($plugins);
+}
+
+function phpAds_ReportGetPluginInfo($filename)
+{
+	include ($filename);
+	return  ($plugin_info_function());
+}
+
+
+
+/*********************************************************/
+/* Functions to get plugin parameters                    */
+/*********************************************************/
+
+function phpAds_getCampaignArray()
+{
+	global $phpAds_tbl_clients;
+	
+	$res = db_query("
+		SELECT
+			*
+		FROM
+			$phpAds_tbl_clients
+		WHERE
+			parent > 0
+		");
+	
+	while ($row = mysql_fetch_array($res))
+		$campaignArray[$row['clientID']] = phpAds_buildClientName ($row['clientID'], $row['clientname']);
+	
+	return ($campaignArray);
+}
+
+function phpAds_getClientArray()
+{
+	global $phpAds_tbl_clients;
+	
+	$res = db_query("
+		SELECT
+			*
+		FROM
+			$phpAds_tbl_clients
+		WHERE
+			parent = 0
+		");
+	
+	while ($row = mysql_fetch_array($res))
+		$clientArray[$row['clientID']] = phpAds_buildClientName ($row['clientID'], $row['clientname']);
+	
+	return ($clientArray);
+}
+
+
+
+/*********************************************************/
 /* Main code                                             */
 /*********************************************************/
 
@@ -65,7 +138,7 @@ echo "</table>";
 
 echo "<br><br>";
 
-$plugin = & $plugins[$selection];
+$plugin = $plugins[$selection];
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
 echo "<tr><td height='25' colspan='3'>";
 
@@ -82,7 +155,7 @@ echo nl2br($plugin['plugin-description']);
 echo "</td></tr>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
-if ($fields = & $plugin['plugin-import'])
+if ($fields = $plugin['plugin-import'])
 {
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
@@ -156,69 +229,6 @@ phpAds_PageFooter();
 
 
 
-/*********************************************************/
-/* Get plugins list                                      */
-/*********************************************************/
 
-function phpAds_ReportPluginList($directory)
-{
-	$pluginDir = opendir ($directory);
-	
-	while ($pluginFile = readdir ($pluginDir))
-	{
-		if (ereg ("^([a-zA-Z0-9\-]*)\.plugin\.php$", $pluginFile, $matches))
-		{
-			$plugins[$matches[1]] = phpAds_ReportGetPluginInfo($directory.$pluginFile);
-		}
-	}
-	
-	closedir ($pluginDir);
-	
-	return ($plugins);
-}
-
-function phpAds_ReportGetPluginInfo($filename)
-{
-	include ($filename);
-	return  ($plugin_info_function());
-}
-
-function phpAds_getCampaignArray()
-{
-	global $phpAds_tbl_clients;
-	
-	$res = db_query("
-		SELECT
-			*
-		FROM
-			$phpAds_tbl_clients
-		WHERE
-			parent > 0
-		");
-	
-	while ($row = mysql_fetch_array($res))
-		$campaignArray[$row['clientID']] = phpAds_buildClientName ($row['clientID'], $row['clientname']);
-	
-	return ($campaignArray);
-}
-
-function phpAds_getClientArray()
-{
-	global $phpAds_tbl_clients;
-	
-	$res = db_query("
-		SELECT
-			*
-		FROM
-			$phpAds_tbl_clients
-		WHERE
-			parent = 0
-		");
-	
-	while ($row = mysql_fetch_array($res))
-		$clientArray[$row['clientID']] = phpAds_buildClientName ($row['clientID'], $row['clientname']);
-	
-	return ($clientArray);
-}
 
 ?>

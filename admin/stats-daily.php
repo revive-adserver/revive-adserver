@@ -82,7 +82,7 @@ while ($row = mysql_fetch_array($res))
 	else
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 	
-	$extra .= "<a href='stats-daily.php?day=".urlencode($row["t_stamp_f"])."&campaignID=$campaignID&bannerID=$bannerID'>">$row['t_stamp_f']."</a>";
+	$extra .= "<a href='stats-daily.php?day=".urlencode($row["t_stamp_f"])."&campaignID=$campaignID&bannerID=$bannerID'>".$row['t_stamp_f']."</a>";
 	$extra .= "<br>"; 
 }
 $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";

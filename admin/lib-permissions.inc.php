@@ -27,6 +27,8 @@ define ("phpAds_Client", 2);
 define ("phpAds_ModifyInfo", 1);
 define ("phpAds_ModifyBanner", 2);
 define ("phpAds_AddBanner", 4);
+define ("phpAds_DisableBanner", 8);
+define ("phpAds_ActivateBanner", 16);
 
 
 
@@ -144,11 +146,19 @@ function phpAds_clientID ()
 function phpAds_Login()
 {
 	global $phpAds_tbl_clients;
-	global $phpAds_username, $phpAds_password;
+	global $phpAds_username, $phpAds_password, $phpAds_cookiecheck;
 	global $strPasswordWrong;
+	global $SessionID;
 	
 	if (phpAds_SuppliedCredentials())
 	{
+		if ($SessionID != $phpAds_cookiecheck)
+		{
+			// Cookiecheck failed
+				$sessionID = phpAds_SessionStart();
+				phpAds_LoginScreen("You need to enable cookies before you can use phpAdsNew", $sessionID);
+		}
+		
 		if (phpAds_isAdmin($phpAds_username, $phpAds_password))
 		{
 			// User is Administrator
@@ -198,8 +208,8 @@ function phpAds_Login()
 				// Password is not correct or user is not known
 				
 				// Set the session ID now, some server do not support setting a cookie during a redirect
-				phpAds_SessionStart();
-				phpAds_LoginScreen($strPasswordWrong);
+				$sessionID = phpAds_SessionStart();
+				phpAds_LoginScreen($strPasswordWrong, $sessionID);
 			}
 		}
 	}
@@ -208,8 +218,8 @@ function phpAds_Login()
 		// User has not supplied credentials yet
 		
 		// Set the session ID now, some server do not support setting a cookie during a redirect
-		phpAds_SessionStart();
-		phpAds_LoginScreen();
+		$sessionID = phpAds_SessionStart();
+		phpAds_LoginScreen('', $sessionID);
 	}
 }
 
@@ -239,13 +249,14 @@ function phpAds_isAdmin($username, $password)
 
 
 
-function phpAds_LoginScreen($message='')
+function phpAds_LoginScreen($message='', $SessionID=0)
 {
 	phpAds_PageHeader(0);
 	if ($message != "") echo "<b>$message</b><br>";
 	?>
-	<form method="post" action="<?echo basename($GLOBALS["PHP_SELF"]); echo $GLOBALS["QUERY_STRING"] != "" ? "?".$GLOBALS["QUERY_STRING"] : "" ;?>" enctype="multipart/form-data">
+	<form method="post" action="<?echo basename($GLOBALS["PHP_SELF"]); echo $GLOBALS["QUERY_STRING"] != "" ? "?".$GLOBALS["QUERY_STRING"] : "" ;?>" >
 	<table>
+		<input type="hidden" name="phpAds_cookiecheck" value="<?echo $SessionID; ?>">
 		<tr>
 			<td><?echo $GLOBALS["strUsername"];?>:</td>
 			<td><input type="text" name="phpAds_username"></td>

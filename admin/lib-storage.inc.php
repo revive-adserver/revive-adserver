@@ -369,7 +369,7 @@ function phpAds_ArrayUniqueName($files, $base, $extension, $c = 0)
 	if ($x < $count)
 	{
 		// File exists
-		$fname = phpAds_ArrayUniqueName(&$files, &$base, &$extension, $c+1);
+		$fname = phpAds_ArrayUniqueName($files, $base, $extension, $c+1);
 	}
 	
 	return $fname;

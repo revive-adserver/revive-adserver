@@ -25,15 +25,15 @@ $phpAds_GDImageFormat = '';
 
 function phpAds_GDImageFormat()
 {
-	global $phpAds_GDImageFormat;
+	global $phpAds_GDImageFormat, $phpAds_override_GD_imageformat;
 	
 	// Determine php version
 	$phpversion = ereg_replace ("([^0-9])", "", phpversion());
 	$phpversion = $phpversion / pow (10, strlen($phpversion) - 1);
 	
-	if ($phpversion >= 4.02)
+	if ($phpversion >= 4.02 || ($phpversion >= 3.018 && $phpversion < 4.0))
 	{ 
-	    // Determine if GD is installed
+		// Determine if GD is installed
 		if (extension_loaded("gd"))
 		{
 			// Use ImageTypes() to dermine image format
@@ -60,10 +60,11 @@ function phpAds_GDImageFormat()
 	else
 	{ 
 	    // Use Function_Exists to determine image format
+		
 	    if (function_exists("imagepng"))
 	        $phpAds_GDImageFormat = "png"; 
 	    
-		    elseif (function_exists("imagejpeg"))
+		elseif (function_exists("imagejpeg"))
 	        $phpAds_GDImageFormat = "jpeg"; 
 	    
 	    elseif (function_exists("imagegif"))
@@ -72,6 +73,11 @@ function phpAds_GDImageFormat()
 	    else
 	        $phpAds_GDImageFormat = "none";
 	}
+	
+	
+	// Override detected GD foramt
+	if (isset($phpAds_override_GD_imageformat) && $phpAds_override_GD_imageformat != '')
+		$phpAds_GDImageFormat = $phpAds_override_GD_imageformat;
 	
 	return ($phpAds_GDImageFormat);
 }

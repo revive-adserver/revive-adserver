@@ -197,14 +197,14 @@ $GLOBALS['strShowClientsInactive']		= "Toon klanten zonder actieve banners";
 $GLOBALS['strSize']						= "Afmetingen";
 
 $GLOBALS['strMonth'] 					= array("Januari","Februari","Maart","April","Mei","Juni","Juli", "Augustus", "September", "Oktober", "November", "December");
-$GLOBALS['strDontExpire']				= "Deze klant niet laten vervallen op een specifieke datum";
-$GLOBALS['strActivateNow'] 				= "Deze klant direct activeren";
+$GLOBALS['strDontExpire']				= "Deze campagne niet laten vervallen op een specifieke datum";
+$GLOBALS['strActivateNow'] 				= "Deze campagne direct activeren";
 $GLOBALS['strExpirationDate']			= "Vervaldatum";
 $GLOBALS['strActivationDate']			= "Activeringsdatum";
 
 $GLOBALS['strMailClientDeactivated'] 	= "Uw banner zijn gedeactiveerd omdat";
 $GLOBALS['strMailNothingLeft'] 			= "Indien u verder wilt adverteren op onze website, neem dan gerust contact met ons op. We horen graag van u.";
-$GLOBALS['strClientDeactivated']		= "Deze klant is momenteel niet actief omdat";
+$GLOBALS['strClientDeactivated']		= "Deze campagne is momenteel niet actief omdat";
 $GLOBALS['strBeforeActivate']			= "de activeringsdatum bereikt is";
 $GLOBALS['strAfterExpire']				= "de vervaldatum bereikt is";
 $GLOBALS['strNoMoreClicks']				= "de gekochte AdClicks gebruikt zijn";
@@ -230,8 +230,27 @@ $GLOBALS['strNoViewLoggedInInterval']   = "Geen AdViews zijn gelogd in de laatst
 $GLOBALS['strNoClickLoggedInInterval']  = "Geen AdClicks zijn gelogd in de laatste {interval} dagen";
 $GLOBALS['strSendAdvertisingReport']	= "Stuur een advertentierapport per e-mail";
 $GLOBALS['strNoDaysBetweenReports']		= "Aantal dagen tussen rapporten";
-$GLOBALS['strSendDeactivationWarning']  = "Stuur een waarschuwing waar de campagne gedeactiveerd wordt";
+$GLOBALS['strSendDeactivationWarning']  = "Stuur een waarschuwing wanneer de campagne gedeactiveerd wordt";
 
 $GLOBALS['strWarnClientTxt']			= "Er zijn minder dan {limit} AdClicks of AdViews over voor uw banners. ";
-$GLOBALS['strViewsClicksLow']			= "AdViews/AdClicks zijn bijna op";
+$GLOBALS['strViewsClicksLow']			= "Uw AdViews/AdClicks zijn bijna volledig gebruikt";
+
+$GLOBALS['strDays']						= "Dagen";
+$GLOBALS['strHistory']					= "Geschiedenis";
+$GLOBALS['strAverage']					= "Gemiddelde";
+$GLOBALS['strDuplicateClientName']		= "De gebruikersnaam die u gekozen heeft bestaat al, kies een andere gebruikersnaam.";
+$GLOBALS['strAllowClientDisableBanner'] = "Deze gebruiker kan zijn eigen banners deactiveren";
+$GLOBALS['strAllowClientActivateBanner'] = "Deze gebruiker kan zijn eigen banners activeren";
+
+$GLOBALS['strGenerateBannercode']		= "Genereer Bannercode";
+$GLOBALS['strChooseInvocationType']		= "Kies het type banner invocatie";
+$GLOBALS['strGenerate']					= "Genereer";
+$GLOBALS['strParameters']				= "Parameters";
+$GLOBALS['strUniqueidentifier']			= "Unieke identificatie";
+$GLOBALS['strFrameSize']				= "Frame grootte";
+$GLOBALS['strBannercode']				= "Bannercode";
+
+$GLOBALS['strSearch']					= "Zoeken";
+$GLOBALS['strNoMatchesFound']			= "Geen objecten gevonden";
+
 ?>

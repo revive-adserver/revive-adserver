@@ -117,7 +117,7 @@ function phpAds_warningMail ($campaign)
 			
 			
 			if ($phpAds_warn_admin == '1')
-				mail($phpAds_admin_email, $Subject, $Body, $phpAds_admin_email_headers);
+				@mail($phpAds_admin_email, $Subject, $Body, $phpAds_admin_email_headers);
 			
 			if ($client["email"] != '')
 			{

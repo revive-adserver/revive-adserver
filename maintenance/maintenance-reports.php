@@ -15,6 +15,16 @@
 
 
 
+/*********************************************************/
+/* PHP3 replacement for substr_count()					 */
+/*********************************************************/
+
+function substr_count2($string,$search)
+{
+	$temp = str_replace($search,$search."a",$string);
+	return strlen($temp)-strlen($string); 
+}
+
 
 
 /*********************************************************/
@@ -49,9 +59,9 @@ $res_clients = db_query("
 	WHERE
 		parent = 0 AND report='true'
 	
-	") or die($strLogErrorClients.'  '.mysql_error());
+	") or die($strLogErrorClients.'  '.@mysql_error($phpAds_db_link));
 
-while($client = mysql_fetch_array($res_clients))
+while($client = @mysql_fetch_array($res_clients))
 {
 	// Process this client
 	print "Processing client ".$client["clientname"]."...<BR>\n";
@@ -87,7 +97,7 @@ while($client = mysql_fetch_array($res_clients))
 		
 		// Fetch all campaings belonging to client
 		
-		$res_campaigns = db_query("
+		$res_campaigns = @db_query("
 			SELECT
 				clientID,
 				clientname,
@@ -105,13 +115,13 @@ while($client = mysql_fetch_array($res_clients))
 		
 		") or die($strLogErrorClients);
 		
-		while($campaign = mysql_fetch_array($res_campaigns))
+		while($campaign = @mysql_fetch_array($res_campaigns))
 		{
 			print "&nbsp;&nbsp;&nbsp;Processing campaign ".$campaign["clientname"]."...<BR>\n";
 			flush();
 			
 			// Fetch all banners belonging to campaign
-			$res_banners = db_query("
+			$res_banners = @db_query("
 				SELECT
 					bannerID,
 					clientID,
@@ -131,7 +141,7 @@ while($client = mysql_fetch_array($res_clients))
 			$log .= "\n".$strCampaign."  ".phpAds_buildClientName ($campaign['clientID'], $campaign['clientname'])."\n";
 			$log .= "=======================================================\n\n";
 			
-			while($row_banners = mysql_fetch_array($res_banners))
+			while($row_banners = @mysql_fetch_array($res_banners))
 			{
 				$adviews = db_total_views($row_banners["bannerID"]);
 		        $client["views_used"] = $adviews;
@@ -155,7 +165,7 @@ while($client = mysql_fetch_array($res_clients))
 						
 						// Fetch all adviews belonging to banner belonging to client, grouped by day
 						if ($phpAds_compact_stats)
-				            $res_adviews = db_query("
+				            $res_adviews = @db_query("
 				    			SELECT
 				    				SUM(views) as qnt,
 				    				DATE_FORMAT(day, '$date_format') as t_stamp_f,
@@ -173,7 +183,7 @@ while($client = mysql_fetch_array($res_clients))
 				    				day DESC
 				    			") or die($strLogErrorViews);
 				        else
-				    		$res_adviews = db_query("
+				    		$res_adviews = @db_query("
 				    			SELECT
 				    				*,
 				    				count(*) as qnt,
@@ -191,9 +201,9 @@ while($client = mysql_fetch_array($res_clients))
 				    				the_day DESC
 				    			") or die($strLogErrorViews);
 				        
-						if (mysql_num_rows($res_adviews))
+						if (@mysql_num_rows($res_adviews))
 						{
-							while($row_adviews = mysql_fetch_array($res_adviews))
+							while($row_adviews = @mysql_fetch_array($res_adviews))
 								$log .= "      $row_adviews[t_stamp_f]:   $row_adviews[qnt]\n";
 							
 							$active_banner_stats = true;
@@ -211,7 +221,7 @@ while($client = mysql_fetch_array($res_clients))
 						
 						// Fetch all adclicks belonging to banner belonging to client, grouped by day
 						if ($phpAds_compact_stats)
-				            $res_adclicks = db_query("
+				            $res_adclicks = @db_query("
 				    			SELECT
 				    				SUM(clicks) as qnt,
 				    				DATE_FORMAT(day, '$date_format') as t_stamp_f,
@@ -228,9 +238,9 @@ while($client = mysql_fetch_array($res_clients))
 				    			ORDER BY
 				    				day DESC
 				    			LIMIT 7
-				    			") or die("$strLogErrorClicks ".mysql_error());
+				    			") or die("$strLogErrorClicks ".mysql_error($phpAds_db_link));
 				        else
-				            $res_adclicks = db_query("
+				            $res_adclicks = @db_query("
 				    			SELECT
 				    				count(*) as qnt,
 				    				DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
@@ -245,11 +255,11 @@ while($client = mysql_fetch_array($res_clients))
 				    				the_day
 				    			ORDER BY
 				    				the_day DESC
-				    			") or die("$strLogErrorClicks ".mysql_error());
+				    			") or die("$strLogErrorClicks ".mysql_error($phpAds_db_link));
 						
-						if (mysql_num_rows($res_adviews))
+						if (@mysql_num_rows($res_adviews))
 						{
-							while($row_adclicks = mysql_fetch_array($res_adclicks))
+							while($row_adclicks = @mysql_fetch_array($res_adclicks))
 								$log .= "      $row_adclicks[t_stamp_f]:   $row_adclicks[qnt]\n";
 							
 							$active_banner_stats = true;
@@ -289,7 +299,7 @@ while($client = mysql_fetch_array($res_clients))
 			$Body	 = str_replace ("{contact}", $client["contact"], $Body);
 			$Body    = str_replace ("{adminfullname}", $phpAds_admin_fullname, $Body);
 			
-			mail ($To, $Subject, $Body, $phpAds_admin_email_headers);
+			@mail ($To, $Subject, $Body, $phpAds_admin_email_headers);
 			unset ($Subject);
 			
 			print "Report sent to ".$client["email"]."...<BR>\n";
@@ -309,18 +319,6 @@ while($client = mysql_fetch_array($res_clients))
 }
 
 echo "$strLogMailSent\n";
-
-
-
-/*********************************************************/
-/* PHP3 replacement for substr_count()					 */
-/*********************************************************/
-
-function substr_count2($string,$search)
-{
-	$temp = str_replace($search,$search."a",$string);
-	return strlen($temp)-strlen($string); 
-}
 
 
 ?>

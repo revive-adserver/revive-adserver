@@ -262,7 +262,9 @@ function phpAds_buildBannerCode ($bannerID, $banner, $active, $format, $width, $
 			$buffer    .= "<td width='80%' valign='top' align='left' style='filter: Alpha(Opacity=50)'>\n";
 			$buffer	   .= $htmlcode;
 			$buffer    .= "\n</td>";
-			$buffer    .= "<td width='20%' valign='top' align='right' nowrap>&nbsp;&nbsp;<a href='banner-htmlpreview.php?bannerID=$bannerID' target='_new'>";
+			$buffer    .= "<td width='20%' valign='top' align='right' nowrap>&nbsp;&nbsp;";
+			$buffer	   .= "<a href='banner-htmlpreview.php?bannerID=$bannerID' target='_new' ";
+			$buffer	   .= "onClick=\"return openWindow('banner-htmlpreview.php?bannerID=$bannerID', '', 'status=no,scrollbars=no,resizable=no,width=$width,height=$height');\">";
 			$buffer    .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;Show banner</a>&nbsp;&nbsp;</td>";
 			$buffer	   .= "</tr></table>";
 		}
@@ -286,8 +288,10 @@ function phpAds_buildBannerCode ($bannerID, $banner, $active, $format, $width, $
 
 function phpAds_buildCTR ($views, $clicks)
 {
+	global $phpAds_percentage_decimals;
+	
 	if ($views > 0)
-		$ctr = number_format($clicks/$views*100,2)."%";
+		$ctr = number_format(($clicks*100)/$views, $phpAds_percentage_decimals)."%";
 	else
 		$ctr="0.00%";
 		

@@ -1,0 +1,11 @@
+.code {  font-family: "Courier New", Courier, mono; font-size: 12px}
+.plain {  font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 20px}
+.section {  font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: #00309C}
+.identification {  font-family: Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bolder; color: #666666}
+.subtitle {  font-family: Arial, Helvetica, sans-serif; font-weight: bold; color: #00309C}
+.list { font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 20px ; color: #00309C}
+a.list { font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 20px ; color: #00309C; text-decoration: none}
+a.subtitle {  font-family: Arial, Helvetica, sans-serif; font-weight: bold; color: #00309C; text-decoration: none}
+a.list:hover { font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 20px ; color: #000066; text-decoration: underline}
+a.subtitle:hover {  font-family: Arial, Helvetica, sans-serif; font-weight: bold; color: #000066; text-decoration: underline}
+.chapter {  font-family: Arial, Helvetica, sans-serif; font-size: 24px; font-weight: normal; color: #00309C}

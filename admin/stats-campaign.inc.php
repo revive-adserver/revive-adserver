@@ -222,6 +222,9 @@ function showHideLayers(obj) {
 
 <?
 
+$totaladviews = 0;
+$totaladclicks = 0;
+
 if (count($tmp_order) > 0)
 {
 	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
@@ -239,8 +242,6 @@ if (count($tmp_order) > 0)
 		echo "</tr>";
 	}
 	
-	$totaladviews = 0;
-	$totaladclicks = 0;
 	$where = "";
 	
 	
@@ -249,7 +250,6 @@ if (count($tmp_order) > 0)
 	{
 	    $adviews  = $tmp_views[$bannerID];
 	    $adclicks = $tmp_clicks[$bannerID];
-	    $adctr    = $tmp_ctr[$bannerID];
 		
 		if ($adclicks != 0 && $view == 'adclicks') continue;	// Don't show banners without adclicks
 		if ($adviews != 0 && $view == 'adviews') continue;	// Don't show banners without adclicks
@@ -345,9 +345,7 @@ if (count($tmp_order) > 0)
 				echo "<td height='25' align='left' nowrap>&nbsp;</td>";
 				echo "<td height='25' align='left' nowrap>$strViews: <b>$adviews</b></td>";
 				echo "<td height='25' align='left' nowrap>$strClicks: <b>$adclicks</b></td>";
-				echo "<td height='25' align='left' nowrap>$strRatio: <b>";
-				printf(" %.2f%%", $adctr);
-				echo "<b></td>";
+				echo "<td height='25' align='left' nowrap>$strRatio: <b>".phpAds_buildCTR($adviews, $adclicks)."<b></td>";
 				echo "</tr>";
 			}
 			else
@@ -366,6 +364,18 @@ if (count($tmp_order) > 0)
 			// Buttons
 			echo "<tr><td colspan='4' height='25' align='right'>";
 			
+			if (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_DisableBanner) && $row_banners['active'] == 'true') // only for the client if allowed
+			{
+				echo "&nbsp;&nbsp;&nbsp;&nbsp;";
+				echo "<img src='images/icon-deactivate.gif' align='absmiddle'>&nbsp;";
+				echo "<a href='banner-activate.php?campaignID=$campaignID&bannerID=".$row_banners['bannerID']."&value=true'>$strDeActivate</a>";
+			}
+			if (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_ActivateBanner) && $row_banners['active'] != 'true') // only for the client if allowed
+			{
+				echo "&nbsp;&nbsp;&nbsp;&nbsp;";
+				echo "<img src='images/icon-activate.gif' align='absmiddle'>&nbsp;";
+				echo "<a href='banner-activate.php?campaignID=$campaignID&bannerID=".$row_banners['bannerID']."&value=false'>$strActivate</a>";
+			}
 			if ($adclicks > 0 || $adviews > 0)
 			{
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -401,7 +411,7 @@ if (count($tmp_order) > 0)
 			echo "<tr bgcolor='$bgcolor'>";
 			
 			echo "<td height='25' width='30' align='left'>&nbsp;";
-			if (!ereg ("Mozilla/4", $HTTP_USER_AGENT) || ereg ("IE", $HTTP_USER_AGENT))
+			if (ereg ("Mozilla/6", $HTTP_USER_AGENT) || ereg ("IE", $HTTP_USER_AGENT))
 				echo "<img name='caret".$row_banners['bannerID']."' src='images/triangle-l.gif' align='absmiddle' onClick=\"showHideLayers('".$row_banners['bannerID']."');\">";
 			echo "</td>";
 			
@@ -470,7 +480,7 @@ if (count($tmp_order) > 0)
 			echo "<td height='1' width='30'><img src='images/spacer.gif' width='1' height='1'></td>";
 			echo "<td colspan='5'>";
 			
-			if (!ereg ("Mozilla/4", $HTTP_USER_AGENT) || ereg ("IE", $HTTP_USER_AGENT))
+			if (ereg ("Mozilla/6", $HTTP_USER_AGENT) || ereg ("IE", $HTTP_USER_AGENT))
 			{
 				echo "<div id='banner".$row_banners['bannerID']."' style='display: none;'>";
 				
@@ -523,6 +533,7 @@ if (count($tmp_order) > 0)
 	echo "</table>";
 	echo "<br><br>";
 }
+
 
 
 

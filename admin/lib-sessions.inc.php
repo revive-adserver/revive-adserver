@@ -36,7 +36,10 @@ function phpAds_SessionDataFetch()
 		}
 	}
 	else
+	{
+		$SessionID = '';
 		return (False);
+	}
 }
 
 
@@ -57,6 +60,8 @@ function phpAds_SessionStart()
 		
 		SetCookie("SessionID", $GLOBALS["SessionID"]);
 	}
+	
+	return $SessionID;
 }
 
 

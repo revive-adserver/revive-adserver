@@ -24,22 +24,10 @@ mt_srand((double)microtime()*1000000);
 
 
 /*********************************************************/
-/* Build the SQL query needed to fetch the banners       */
-/*********************************************************/
-
-function phpAds_buildQuery ($what, $clientID, $context=0, $source="")
-{
-
-
-}
-
-
-
-/*********************************************************/
 /* Get a banner						                     */
 /*********************************************************/
 
-function get_banner($what, $clientID, $context=0, $source="")
+function get_banner($what, $clientID, $context=0, $source="", $allowhtml=true)
 {
 	global $phpAds_db, $REMOTE_HOST, $phpAds_tbl_banners, $REMOTE_ADDR, $HTTP_USER_AGENT, $phpAds_con_key;
 	global $phpAds_random_retrieve, $phpAds_mult_key, $phpAds_tbl_clients;
@@ -102,7 +90,10 @@ function get_banner($what, $clientID, $context=0, $source="")
 				$phpAds_tbl_banners.clientID = $phpAds_tbl_clients.clientID";
 		
 		if($clientID != 0)
-			$select .= " AND $phpAds_tbl_banners.clientID = $clientID ";
+			$select .= " AND ($phpAds_tbl_clients.clientID = $clientID OR $phpAds_tbl_clients.parent = $clientID) ";
+		
+		if($allowhtml == false)
+			$select .= " AND $phpAds_tbl_banners.format != 'html' ";
 		
 		
 		// Rule
@@ -202,11 +193,11 @@ function get_banner($what, $clientID, $context=0, $source="")
 						if($what_array[$k]!="" && $what_array[$k]!=" ")
 						{
 							if ($operator == "OR")
-								$conditions .= "OR $phpAds_tbl_banners.clientID='".trim($what_array[$k])."' ";
+								$conditions .= "OR ($phpAds_tbl_clients.clientID='".trim($what_array[$k])."' OR $phpAds_tbl_clients.parent='".trim($what_array[$k])."') ";
 							elseif ($operator == "AND")
-								$conditions .= "AND $phpAds_tbl_banners.clientID='".trim($what_array[$k])."' ";
+								$conditions .= "AND ($phpAds_tbl_clients.clientID='".trim($what_array[$k])."' OR $phpAds_tbl_clients.parent='".trim($what_array[$k])."') ";
 							else
-								$conditions .= "AND $phpAds_tbl_banners.clientID!='".trim($what_array[$k])."' ";
+								$conditions .= "AND ($phpAds_tbl_clients.clientID!='".trim($what_array[$k])."' AND $phpAds_tbl_clients.parent!='".trim($what_array[$k])."') ";
 						}
 						
 						$onlykeywords = false;
@@ -292,20 +283,27 @@ function get_banner($what, $clientID, $context=0, $source="")
 			if (@mysql_num_rows($res) == 0)
 			{
 				// No banner left, reset all banners in this category to 'unused', try again below
-				if (isset($conditions) && $conditions != "")
-					$del_select = "WHERE $conditions";
-				else
-					$del_select = "";
 				
-				if ($phpAds_random_retrieve == 2)
-					// Weight based sequential retrieval
-					$delete_select="UPDATE $phpAds_tbl_banners SET $phpAds_tbl_banners.seq=$phpAds_tbl_banners.weight ".$del_select;
-				else
-					// Normal sequential retrieval
-					$delete_select="UPDATE $phpAds_tbl_banners SET $phpAds_tbl_banners.seq=1 ".$del_select;
+				// Get all matching banners
+				$updateres = @db_query($select);
+				while ($update_row = @mysql_fetch_array($updateres))
+				{
+					if ($phpAds_random_retrieve == 2)
+					{
+						// Set banner seq to weight
+						$updateweight = $update_row['weight'] * $update_row['clientweight'];
+						$delete_select="UPDATE $phpAds_tbl_banners SET seq='$updateweight' WHERE bannerID='".$update_row['bannerID']."'";
+						@db_query($delete_select);
+					}
+					else
+					{
+						// Set banner seq to 1
+						$delete_select="UPDATE $phpAds_tbl_banners SET seq=1 WHERE bannerID='".$update_row['bannerID']."'";
+						@db_query($delete_select);
+					}
+				}
 				
-				@db_query($delete_select);
-				
+				// Set query to be used next to sequential banner retrieval
 				$select = $seq_select;
 			}
 			else
@@ -363,18 +361,19 @@ function get_banner($what, $clientID, $context=0, $source="")
             {
 				if ($phpAds_acl = '1')
 				{
-					$tmprow=$rows[$i];
-	                if (acl_check($request,$tmprow))
-	                    return ($tmprow);
+	                if (acl_check($request, $rows[$i]))
+	                    return ($rows[$i]);
 	                
-	                // Matched, but acl_check failed.  delete this row and adjust $weightsum
+	                // Matched, but acl_check failed.
+					// No more posibilities left, exit!
 	                if (sizeof($rows) == 1)
 	                    return false;
 					
-	                $weightsum -= $tmprow["weight"];
-	                $rows[$i] = array_pop($rows);
+					// Delete this row and adjust $weightsum
+	                $weightsum -= ($rows[$i]["weight"] * $rows[$i]["clientweight"]);
+					unset($rows[$i]);
 					
-					// break out of the for loop to try again
+					// Break out of the for loop to try again
 	                break;
 				}
 				else
@@ -487,19 +486,21 @@ function view_raw($what, $clientID=0, $target="", $source="", $withtext=0, $cont
 				{
 					while (eregi("{targeturl:([^}]*)}", $html, $regs))
 					{
-						$html = str_replace ($regs[0], "$phpAds_url_prefix/adclick.php?bannerID=".$row['bannerID']."&dest=".urlencode($regs[1]), $html);
+						$html = str_replace ($regs[0], "$phpAds_url_prefix/adclick.php?bannerID=".$row['bannerID']."&dest=".urlencode($regs[1])."&ismap=", $html);
 					}
+					
+					$outputbuffer .= $html;
 				}
 				
-				if(!empty($row["url"])) 
+				elseif(!empty($row["url"])) 
 				{
 					if (strpos ($html, "{targeturl}") > 0)
 					{
-						$outputbuffer .= str_replace ("{targeturl}", "$phpAds_url_prefix/adclick.php?bannerID=".$row['bannerID'], $html);
+						$outputbuffer .= str_replace ("{targeturl}", "$phpAds_url_prefix/adclick.php?bannerID=".$row['bannerID']."&ismap=", $html);
 					}
 					else
 					{
-						$outputbuffer .= "<a href='$phpAds_url_prefix/adclick.php?bannerID=".$row['bannerID']."'".$target.">";
+						$outputbuffer .= "<a href='$phpAds_url_prefix/adclick.php?bannerID=".$row['bannerID']."&ismap='".$target.">";
 		                $outputbuffer .= $html;
 					}
 				} 
@@ -545,7 +546,7 @@ function view_raw($what, $clientID=0, $target="", $source="", $withtext=0, $cont
 							else
 								$quotepos  = 0;
 						}
-							
+						
 						if ($quotepos > 0)
 						{
 							$endquotepos = strpos($lowerbanner, $quotechar, $quotepos+1);
@@ -553,7 +554,8 @@ function view_raw($what, $clientID=0, $target="", $source="", $withtext=0, $cont
 										 substr($html, $prevhrefpos, $hrefpos - $prevhrefpos) . 
 										 $quotechar . "$phpAds_url_prefix/adclick.php?bannerID=" . 
 										 $row['bannerID'] . "&dest=" . 
-										 urlencode(substr($html, $quotepos+1, $endquotepos - $quotepos - 1));
+										 urlencode(substr($html, $quotepos+1, $endquotepos - $quotepos - 1)) .
+										 "&ismap=";
 							
 							$prevhrefpos = $hrefpos + ($endquotepos - $quotepos);
 						} 
@@ -571,7 +573,8 @@ function view_raw($what, $clientID=0, $target="", $source="", $withtext=0, $cont
 										 substr($html, $prevhrefpos, $hrefpos - $prevhrefpos) . 
 										 "\"" . "$phpAds_url_prefix/adclick.php?bannerID=" . 
 										 $row['bannerID'] . "&dest=" . 
-										 urlencode(substr($html, $hrefpos, $endpos - $hrefpos)) . "\"";
+										 urlencode(substr($html, $hrefpos, $endpos - $hrefpos)) .
+										 "&ismap=\"";
 							
 							$prevhrefpos = $hrefpos + ($endpos - $hrefpos);
 						}
@@ -590,7 +593,7 @@ function view_raw($what, $clientID=0, $target="", $source="", $withtext=0, $cont
 				// Banner refered through URL
 				
 				// Determine cachebuster
-				if (eregi ("\{random(:([1-9])){0,1}\}", $row['banner'], $matches))
+				if (eregi ('\{random(:([1-9])){0,1}\}', $row['banner'], $matches))
 				{
 					if ($matches[1] == "")
 						$randomdigits = 8;
@@ -665,6 +668,10 @@ function view_raw($what, $clientID=0, $target="", $source="", $withtext=0, $cont
 			}
 			
 			$outputbuffer .= "<a href='$phpAds_default_banner_target'$target><img src='$phpAds_default_banner_url' border='0'></a>";
+			
+			return( array("html" => $outputbuffer, 
+						  "bannerID" => '')
+				  );
 		}
 	}
 	
