@@ -140,7 +140,7 @@ elseif (isset($submit))
 			DELETE FROM 
 				".$phpAds_config['tbl_acls']." 
 			WHERE 
-				bannerid=".$bannerid."
+				bannerid='".$bannerid."'
 		");
 		
 		// Store limitations
@@ -275,7 +275,7 @@ elseif (isset($submit))
 			SET
 				compiledlimitation='".$expression."'
 			WHERE
-				bannerid=".$bannerid."
+				bannerid='".$bannerid."'
 		") or phpAds_sqlDie();
 	}
 	
@@ -304,7 +304,7 @@ elseif (isset($submit))
 		SET
 			block='".$block."', capping='".$cap."'
 		WHERE
-			bannerid=".$bannerid."
+			bannerid='".$bannerid."'
 	") or phpAds_sqlDie();
 	
 	

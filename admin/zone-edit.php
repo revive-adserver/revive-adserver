@@ -116,7 +116,7 @@ if (isset($submit))
 				".($delivery != phpAds_ZoneText && $delivery != phpAds_ZoneBanner ? ", append = ''" : "")."
 				".($delivery != phpAds_ZoneText ? ", prepend = ''" : "")."
 			WHERE
-				zoneid=".$zoneid."
+				zoneid='".$zoneid."'
 			") or phpAds_sqlDie();
 		
 		

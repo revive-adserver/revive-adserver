@@ -49,7 +49,7 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 		FROM
 			".$phpAds_config['tbl_clients']."
 		WHERE
-			clientid=".$clientid."
+			clientid='".$clientid."'
 		");
 	
 	if (phpAds_dbNumRows($res_client) > 0)

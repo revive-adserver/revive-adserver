@@ -182,9 +182,9 @@ if (isset($submit))
 			UPDATE
 				".$phpAds_config['tbl_banners']."
 			SET
-				clientid=".$campaignid."
+				clientid='".$campaignid."'
 			WHERE
-				clientid=".$clientid."
+				clientid='".$clientid."'
 			") or phpAds_sqlDie();
 	}
 	

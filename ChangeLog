@@ -76,6 +76,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-09-08:  Fixed PHP warning when trying to evaluate a geotracking limitation without a database present  (Niels)
 			  - 2002-09-12:  Client name wasn't shown correctly on generated client reports  (Niels)
 			  - 2002-09-14:  Removed HTML tags from email reports  (Matteo)
+			  - 2002-09-16:  Added other missing single quotes when using ids in queries  (Matteo)
 
 
 
