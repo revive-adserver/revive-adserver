@@ -181,11 +181,23 @@ function db_total_stats($table, $column, $bannerID, $timeconstraint="")
 			$where = "WHERE ";
 		
 		if ($timeconstraint == "month")
-			$where .= "MONTH(t_stamp) = MONTH(CURDATE())";
+		{
+			$begintime = date ("Ym01000000");
+			$endtime = date ("YmdHis", mktime(0, 0, 0, date("m") + 1, 1, date("Y")));
+			$where .= "t_stamp > $begintime AND t_stamp < $endtime";
+		}
 		elseif ($timeconstraint == "week")
-			$where .= "WEEK(t_stamp) = WEEK(CURDATE()) AND YEAR(t_stamp) = YEAR(CURDATE())";
+		{
+			$begintime = date ("Ymd000000", time() - 518400);
+			$endtime = date ("Ymd000000", time() + 86400);
+			$where .= "t_stamp > $begintime AND t_stamp < $endtime";
+		}
 		else
-		    $where .= "DATE_FORMAT(t_stamp, '%Y-%m-%d') = CURDATE()";
+		{
+		    $begintime = date ("Ymd000000");
+			$endtime = date ("Ymd000000", time() + 86400);
+			$where .= "t_stamp > $begintime AND t_stamp < $endtime";
+		}
 	}
 	
     $res = db_query("SELECT count(*) as qnt FROM $table $where") or mysql_die();
@@ -207,11 +219,17 @@ function db_total_stats($table, $column, $bannerID, $timeconstraint="")
 			$where = "WHERE ";
 		
 		if ($timeconstraint == "month")
+		{
 			$where .= "MONTH(day) = MONTH(CURDATE())";
+		}
 		elseif ($timeconstraint == "week")
+		{
 			$where .= "WEEK(day) = WEEK(CURDATE()) AND YEAR(day) = YEAR(CURDATE())";
+		}
 		else
+		{
 		    $where .= "day = CURDATE()";
+		}
 	}
 	
     $res = db_query("SELECT sum($column) as qnt FROM $phpAds_tbl_adstats $where") or mysql_die();
