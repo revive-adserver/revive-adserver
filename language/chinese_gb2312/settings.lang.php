@@ -25,6 +25,8 @@ $GLOBALS['strOtherSettings']			= "其他设置";
 
 $GLOBALS['strWarning']				= "警告";
 $GLOBALS['strFatalError']			= "发生一个致命错误";
+$GLOBALS['strUpdateError']			= "升级过程中发生一个错误";
+$GLOBALS['strUpdateDatabaseError']		= "因为未知错误,数据库结构升级没有成功.建议点击<b>重试升级</b>来尝试修复这些潜在的错误. 如果您确信这些错误不会影响".$phpAds_productname."的功能,您可以点击<b>忽略错误</b>继续.忽略这些错误可能造成很严重的问题,所以不推荐使用!";
 $GLOBALS['strAlreadyInstalled']			= $phpAds_productname."已经安装. 如果您想配置系统,请到 <a href='settings-index.php'>设置界面</a>";
 $GLOBALS['strCouldNotConnectToDB']		= "不能连接数据库,请检查您的设置";
 $GLOBALS['strCreateTableTestFailed']		= "您提供的用户没有权限创建数据库结构,请联系数据库管理员.";
@@ -33,6 +35,8 @@ $GLOBALS['strTablePrefixInvalid']		= "数据表的前缀包含非法字符";
 $GLOBALS['strTableInUse']			= "您提供的数据库已经被".$phpAds_productname."使用,请使用不同的表前缀,或者参考用户手册中系统升级的指导部分.";
 $GLOBALS['strTableWrongType']			= "您安装的".$phpAds_dbmsname."不支持您所选择的数据表类型"; 
 $GLOBALS['strMayNotFunction']			= "进行下一步之前,请改正这些潜在的错误:";
+$GLOBALS['strFixProblemsBefore']		= "在您安装".$phpAds_productname."之前必须改正下面的条目.如果您对错误信息有什么问题,请查看<i>管理员手册</i>,手册可以在您下载的软件压缩包中找到."; 
+$GLOBALS['strFixProblemsAfter']			= "如果您无法改正上面列出的问题,请联系您要安装".$phpAds_productname."的服务器的管理员.此服务器的管理员可能能够帮助您解决这些问题"; 
 $GLOBALS['strIgnoreWarnings']			= "忽略警告";
 $GLOBALS['strWarningDBavailable']		= "您现在使用的PHP版本不支持".$phpAds_dbmsname."数据库.在进行下面的步骤之前,您需要启用PHP对".$phpAds_dbmsname."的支持";
 $GLOBALS['strWarningPHPversion']		= $phpAds_productname."需要PHP 4.0或者更高版本才能正常工作。您现在使用的版本是{php_version}.";
@@ -44,6 +48,8 @@ $GLOBALS['strWarningTrackVars']			= "PHP设置变量track_vars需要打开.";
 $GLOBALS['strWarningPREG']			= "您现在使用的PHP版本不支持PERL兼容模式的正则表达式. 在进行下面的步骤之前,您需要启用PREL正则表达式的支持.";
 $GLOBALS['strConfigLockedDetected']		= $phpAds_productname."检测到您的配置文件<b>config.inc.php</b>不可写<br>请必须修改权限之后才能进行下一步.<br>如果您不知道如何操作请参考文档.";
 $GLOBALS['strCantUpdateDB']  			= "现在不能更新数据库.如果您确认进行,所有已有的广告,报表和客户都会被删除.";
+$GLOBALS['strIgnoreErrors']			= "忽略错误";
+$GLOBALS['strRetryUpdate']			= "重试升级";
 $GLOBALS['strTableNames']			= "数据表名字";
 $GLOBALS['strTablesPrefix']			= "数据表前缀";
 $GLOBALS['strTablesType']			= "数据表类型";
@@ -61,8 +67,6 @@ $GLOBALS['strErrorInstallDbConnect']		= "不能连接到数据库.";
 $GLOBALS['strUrlPrefix']			= "URL前缀";
 
 $GLOBALS['strProceed']				= "下一步 &gt;";
-$GLOBALS['strRepeatPassword']			= "确认密码";
-$GLOBALS['strNotSamePasswords']			= "密码不匹配";
 $GLOBALS['strInvalidUserPwd']			= "错误的用户名或密码";
 
 $GLOBALS['strUpgrade']				= "升级";
@@ -242,10 +246,7 @@ $GLOBALS['strAdministratorSettings']		= "管理员设置";
 
 $GLOBALS['strLoginCredentials']			= "登录信息";
 $GLOBALS['strAdminUsername']			= "管理员名字";
-$GLOBALS['strOldPassword']			= "旧密码";
-$GLOBALS['strNewPassword']			= "新密码";
 $GLOBALS['strInvalidUsername']			= "错误用户名";
-$GLOBALS['strInvalidPassword']			= "错误密码";
 
 $GLOBALS['strBasicInformation']			= "基本信息";
 $GLOBALS['strAdminFullName']			= "管理员全名";
