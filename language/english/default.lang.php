@@ -245,6 +245,8 @@ $GLOBALS['strLowPriority']			= "Show banner in this campaign with low priority.<
 $GLOBALS['strTargetLimitAdviews']		= "Limit the number of AdViews to";
 $GLOBALS['strTargetPerDay']			= "per day.";
 $GLOBALS['strPriorityAutoTargeting']		= "Distribute the remaining AdViews evenly over the remaining number of days. The target number of AdViews will be set accordingly every day.";
+$GLOBALS['strCampaignWarningNoWeight'] = "The priority of this campaign has been set to low, \nbut the weight is set to zero or it has not been \nspecified. This will cause the campaign to be \ndeactivated and it's banners won't be delivered \nuntil the weight has been set to a valid number. \n\nAre you sure you want to continue?";
+$GLOBALS['strCampaignWarningNoTarget'] = "The priority of this campaign has been set to high, \nbut the target number of AdViews are not specified. \nThis will cause the campaign to be deactivated and \nit's banners won't be delivered until a valid target \nnumber of AdViews has been set. \n\nAre you sure you want to continue?";
 
 
 

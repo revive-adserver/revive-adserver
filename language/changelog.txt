@@ -12,6 +12,10 @@
 
   ====================================================
 
+  02-09-2003 - default
+    [+] strCampaignWarningNoWeight
+    [+] strCampaignWarningNoTarget
+
   02-03-2003 - settings
     [u] strConfigLockedDetected
     [+] strFixProblemsBefore

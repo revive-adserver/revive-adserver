@@ -548,7 +548,7 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 $tabindex = 1;
 
 echo "<br><br>";
-echo "<form name='clientform' method='post' action='campaign-edit.php' onSubmit='return phpAds_formCheck(this);'>";
+echo "<form name='clientform' method='post' action='campaign-edit.php' onSubmit='return (phpAds_formCheck(this) && phpAds_priorityCheck(this));'>";
 echo "<input type='hidden' name='campaignid' value='".(isset($campaignid) ? $campaignid : '')."'>";
 echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clientid : '')."'>";
 echo "<input type='hidden' name='expire' value='".(isset($row["expire"]) ? $row["expire"] : '')."'>";
@@ -693,6 +693,17 @@ while ($row = phpAds_dbFetchArray($res))
 	var previous_weight = '';
 	var previous_priority = '';
 
+	function phpAds_priorityCheck(f)
+	{
+		if (f.priority[1].checked && !parseInt(f.targetviews.value))
+			return confirm ('<?php echo str_replace("\n", '\n', addslashes($strCampaignWarningNoTarget)); ?>');
+		
+		if (f.priority[2].checked && !parseInt(f.weight.value))
+			return confirm ('<?php echo str_replace("\n", '\n', addslashes($strCampaignWarningNoWeight)); ?>');
+		
+		return true;
+	}
+	
 	function phpAds_formDateClick (o, value)
 	{
 		day = eval ("document.clientform." + o + "Day.value");
