@@ -236,7 +236,6 @@ function phpAds_showZoneCampaign ($width, $height, $what)
 		$campaigns[$row['clientid']] = $row;
 	}
 	
-	
 	// Fetch all banners which can be linked
 	$query = "
 		SELECT
@@ -377,60 +376,57 @@ function phpAds_showZoneCampaign ($width, $height, $what)
 		{
 			$campaign = $campaigns[$ckey];
 			
-			if (isset($campaign['banners']) && is_array($campaign['banners']) && count($campaign['banners']))
+			if (!$compact || (isset($clientids[$campaign['clientid']]) && $clientids[$campaign['clientid']] == true))
 			{
-				if (!$compact || (isset($clientids[$campaign['clientid']]) && $clientids[$campaign['clientid']] == true))
+				if ($i > 0) echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
+				echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
+				
+				// Begin row
+				echo "<td height='25'>";
+				echo "&nbsp;&nbsp;";
+				
+				if (!$compact)
 				{
-					if ($i > 0) echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
-					echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
-					
-					// Begin row
-					echo "<td height='25'>";
-					echo "&nbsp;&nbsp;";
-					
-					if (!$compact)
-					{
-						// Show checkbox
-						if (isset($clientids[$campaign['clientid']]) && $clientids[$campaign['clientid']] == true)
-							echo "<input type='checkbox' name='clientid[]' value='".$campaign['clientid']."' checked onclick='reviewall();'>"; 
-						else
-						{
-							echo "<input type='checkbox' name='clientid[]' value='".$campaign['clientid']."' onclick='reviewall();'>"; 
-							$checkedall = false;
-						}
-					}
+					// Show checkbox
+					if (isset($clientids[$campaign['clientid']]) && $clientids[$campaign['clientid']] == true)
+						echo "<input type='checkbox' name='clientid[]' value='".$campaign['clientid']."' checked onclick='reviewall();'>"; 
 					else
 					{
-						echo "<a href='zone-include.php?affiliateid=".$GLOBALS['affiliateid']."&zoneid=".$GLOBALS['zoneid']."&campaignid=".$campaign['clientid']."&zonetype=".phpAds_ZoneCampaign."&action=toggle'>";
-						echo "<img src='images/caret-l.gif' border='0' align='absmiddle'></a>";
+						echo "<input type='checkbox' name='clientid[]' value='".$campaign['clientid']."' onclick='reviewall();'>"; 
+						$checkedall = false;
 					}
-					
-					// Space
-					echo "&nbsp;&nbsp;";
-					
-					// Banner icon
-					if ($campaign['active'] == 't')
-						echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;";
-					else
-						echo "<img src='images/icon-campaign-d.gif' align='absmiddle'>&nbsp;";
-					
-					// Name
-					echo "<a href='campaign-edit.php?clientid=".$campaign['parent']."&campaignid=".$campaign['clientid']."'>";
-					echo phpAds_breakString ($campaign['clientname'], '60')."</a>";
-					echo "</td>";
-					
-					// ID
-					echo "<td height='25'>".$campaign['clientid']."</td>";
-					
-					// Edit
-					echo "<td height='25'>";
-					echo str_replace ('{count}', count($campaign['banners']), $strMatchingBanners);
-					echo "</td>";
-					
-					// End row
-					echo "</tr>";
-					$i++;
 				}
+				else
+				{
+					echo "<a href='zone-include.php?affiliateid=".$GLOBALS['affiliateid']."&zoneid=".$GLOBALS['zoneid']."&campaignid=".$campaign['clientid']."&zonetype=".phpAds_ZoneCampaign."&action=toggle'>";
+					echo "<img src='images/caret-l.gif' border='0' align='absmiddle'></a>";
+				}
+				
+				// Space
+				echo "&nbsp;&nbsp;";
+				
+				// Banner icon
+				if ($campaign['active'] == 't')
+					echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;";
+				else
+					echo "<img src='images/icon-campaign-d.gif' align='absmiddle'>&nbsp;";
+				
+				// Name
+				echo "<a href='campaign-edit.php?clientid=".$campaign['parent']."&campaignid=".$campaign['clientid']."'>";
+				echo phpAds_breakString ($campaign['clientname'], '60')."</a>";
+				echo "</td>";
+				
+				// ID
+				echo "<td height='25'>".$campaign['clientid']."</td>";
+				
+				// Edit
+				echo "<td height='25'>";
+				echo str_replace ('{count}', count($campaign['banners']), $strMatchingBanners);
+				echo "</td>";
+				
+				// End row
+				echo "</tr>";
+				$i++;
 			}
 		}
 	}
