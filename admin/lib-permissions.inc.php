@@ -369,7 +369,7 @@ function phpAds_LoginScreen($message='', $SessionID=0)
 				
 		login_focus();
 //-->
-		<?
+		<?php
 		echo "</script>";
 	}
 	else
