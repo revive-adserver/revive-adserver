@@ -29,6 +29,9 @@ $phpAds_config['tbl_config'] = 'phpads_config';
 $phpAds_config['tbl_affiliates'] = 'phpads_affiliates';
 $phpAds_config['tbl_images'] = 'phpads_images';
 
+// Table names' prefix
+$phpAds_config['table_prefix'] = 'phpads_';
+
 // Use persistent connections to the database
 $phpAds_config['persistent_connections'] = false;
 

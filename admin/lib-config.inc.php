@@ -204,8 +204,8 @@ function phpAds_ConfigFileUpdatePrepare ()
 						$regs[2] = ereg_replace('From: .*\n', '', $regs[2]);
 					
 					// Empty name if left to default value
-					if ($regs[1] == 'name' && ($regs[2] == 'phpPgAds' || $regs[2] == 'phpAdsNew'))
-						$regs[2] = '';
+					if ($regs[1] == 'name' && ereg("[\"'](phpPgAds|phpAdsNew)[\"']", $regs[2]))
+						$regs[2] = ' = ""';
 					
 					// Don't trust url prefix, because the update might
 					// occur in a different directory as the original installation
@@ -235,6 +235,39 @@ function phpAds_ConfigFileUpdatePrepare ()
 			}
 		}
 		
+		
+		// Check if we need to guess a table prefix for existing tables
+		if (!isset($phpAds_settings_update_cache['table_prefix']))
+		{
+			if (ereg("^(.*)clients$", $phpAds_settings_update_cache['tbl_clients'], $match))
+			{
+				// Overwrite default table prefix
+				$phpAds_settings_update_cache['table_prefix'] = $match[1];
+			}
+			else
+			{
+				// Not found (translated table name?)
+				// Create a random prefix
+				srand((double)microtime()*1000000);
+				$phpAds_settings_update_cache['table_prefix'] = sprintf('p%05d_', rand(0, 99999));
+			}
+		}
+
+		// Change names according to prefix for newly added tables
+		reset($phpAds_config);
+		while (list($k,)  = each($phpAds_config))
+		{
+			if (substr($k, 0, 4) == 'tbl_')
+			{
+				if (!isset($phpAds_settings_update_cache[$k]))
+				{
+					$phpAds_settings_update_cache[$k] = $phpAds_settings_update_cache['table_prefix'].
+						substr($k, 4);
+				}
+			}
+		}
+		reset($phpAds_config);
+
 		return (true);
 	}
 	else
@@ -246,12 +279,19 @@ function phpAds_ConfigFileUpdatePrepare ()
 function phpAds_ConfigFileUpdateFlush()
 {
 	global $phpAds_settings_update_cache;
+	global $phpAds_settings_information;
 	
 	for (reset($phpAds_settings_update_cache);
 		 $key = key($phpAds_settings_update_cache);
 		 next($phpAds_settings_update_cache))
 	{
-		phpAds_SettingsWriteAdd ($key, $phpAds_settings_update_cache[$key]);
+		switch ($phpAds_settings_information[$key]['type'])
+		{
+			case 'boolean': $value = $phpAds_settings_update_cache[$key] ? 't' : 'f'; break;
+			default: $value = $phpAds_settings_update_cache[$key]; break;
+		}
+		
+		phpAds_SettingsWriteAdd ($key, $value);
 	}
 	
 	// Before we start writing all the settings

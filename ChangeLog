@@ -65,6 +65,8 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Added ability to duplicate webserver stored banners  (Niels) 20011216
 			  - Split banner image to a seperate table for speed up  (Niels) 20011226
 			  - Added cache for HTML generated during delivery  (Niels) 20011226
+			  - Added a file-stored "table_prefix" configuration variable and updated
+			    all occurrencies of the old "tbl_prefix"  (Matteo) 20020117
 
 
 			+ Misc bugfixes
@@ -120,7 +122,12 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: Lib-priority wrongly used prediction when all active high-pri campaigns
 			    are empty (i.e. after creating the first high-pri campaign). The same happened if
 			    all the banners in high-pri campaigns were not active  (Matteo) 20020110
-			  - Bigfix: Priority wasn't rescheduled when changing start/expiration date of campaings  (Matteo) 20020116
+			  - Bugfix: Priority wasn't rescheduled when changing start/expiration date of campaings  (Matteo) 20020116
+			  - Bugfix: Install saved default name for images table in configuration instead of actual name  (Matteo) 20020117
+			  - Bugfix: Upgrades from pre-configmanager releases didn't show the graphical logo  (Matteo) 20020117
+			  - Bugfix: Upgrade process was using default name for missing tables, this could lead to
+			    table sharing between installs using the same database  (Matteo) 20020117
+			  - Bugfix: Replaced "random_retrieve" with "retrieval_method" into help files  (Matteo) 20020117
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015

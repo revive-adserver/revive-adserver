@@ -1,4 +1,4 @@
-<?php // $Revision: 1.7 $
+<?php // $Revision: 1.8 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -48,7 +48,7 @@ $GLOBALS['phpAds_hlp_insert_delayed'] = "
 		be inserted at a later time when the table is not in use by any other thread. 
 		";
 		
-$GLOBALS['phpAds_hlp_tbl_prefix'] = "
+$GLOBALS['phpAds_hlp_table_prefix'] = "
         If the database phpAdsNew is using is shared by mutiple software products, it is wise
 		to add a prefix to names of the tables. If you are using multiple installations of phpAdsNew
 		in the same database, you need to make sure this prefix is unique for all installations.
@@ -172,7 +172,7 @@ $GLOBALS['phpAds_hlp_warn_limit'] = "
         by default.
 		";
 		
-$GLOBALS['phpAds_hlp_random_retrieve'] = "
+$GLOBALS['phpAds_hlp_retrieval_method'] = "
         phpAdsNew can use four different types of banner retrieval: Random banner 
         retrieval (default), Normal sequential banner retrieval, Weight 
         based sequential banner retrieval and Full sequential banner retrieval.

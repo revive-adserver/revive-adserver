@@ -213,7 +213,7 @@ if (phpAds_isUser(phpAds_Admin))
 			}
 			
 			// Check table prefix
-			if (strlen($tbl_prefix) && !eregi("^[a-z][a-z0-9_]*$", $tbl_prefix))
+			if (strlen($table_prefix) && !eregi("^[a-z][a-z0-9_]*$", $table_prefix))
 				$errormessage[2][] = $strTablePrefixInvalid;
 			
 			
@@ -223,21 +223,21 @@ if (phpAds_isUser(phpAds_Admin))
 				$installvars['dbuser'] 		 = $dbuser;
 				$installvars['dbpassword'] 	 = $dbpassword;
 				$installvars['dbname'] 		 = $dbname;
-				$installvars['tbl_prefix'] 	 = $tbl_prefix;
+				$installvars['table_prefix'] 	 = $table_prefix;
 				$installvars['tabletype'] 	 = $tabletype;
 				
 				// Create table names
-				$installvars['tbl_clients']  = $tbl_prefix.'clients';
-				$installvars['tbl_banners']  = $tbl_prefix.'banners';
-				$installvars['tbl_adstats']  = $tbl_prefix.'adstats';
-				$installvars['tbl_adviews']  = $tbl_prefix.'adviews';
-				$installvars['tbl_adclicks'] = $tbl_prefix.'adclicks';
-				$installvars['tbl_acls'] 	 = $tbl_prefix.'acls';
-				$installvars['tbl_session']  = $tbl_prefix.'session';
-				$installvars['tbl_zones'] 	 = $tbl_prefix.'zones';
-				$installvars['tbl_config'] 	 = $tbl_prefix.'config';
-				$installvars['tbl_affiliates'] 	 = $tbl_prefix.'affiliates';
-				$installvars['tbl_images'] 	 = $tbl_prefix.'images';
+				$installvars['tbl_clients']  = $table_prefix.'clients';
+				$installvars['tbl_banners']  = $table_prefix.'banners';
+				$installvars['tbl_adstats']  = $table_prefix.'adstats';
+				$installvars['tbl_adviews']  = $table_prefix.'adviews';
+				$installvars['tbl_adclicks'] = $table_prefix.'adclicks';
+				$installvars['tbl_acls'] 	 = $table_prefix.'acls';
+				$installvars['tbl_session']  = $table_prefix.'session';
+				$installvars['tbl_zones'] 	 = $table_prefix.'zones';
+				$installvars['tbl_config'] 	 = $table_prefix.'config';
+				$installvars['tbl_affiliates'] 	 = $table_prefix.'affiliates';
+				$installvars['tbl_images'] 	 = $table_prefix.'images';
 				
 				// Go to next phase
 				$phase = 3;
@@ -278,7 +278,7 @@ if (phpAds_isUser(phpAds_Admin))
 							phpAds_SettingsWriteAdd('dbuser', $installvars['dbuser']);
 							phpAds_SettingsWriteAdd('dbpassword', $installvars['dbpassword']);
 							phpAds_SettingsWriteAdd('dbname', $installvars['dbname']);
-							phpAds_SettingsWriteAdd('tbl_prefix', $installvars['tbl_prefix']);
+							phpAds_SettingsWriteAdd('table_prefix', $installvars['table_prefix']);
 							
 							phpAds_SettingsWriteAdd('tbl_clients', $installvars['tbl_clients']);
 							phpAds_SettingsWriteAdd('tbl_banners', $installvars['tbl_banners']);
@@ -290,7 +290,10 @@ if (phpAds_isUser(phpAds_Admin))
 							phpAds_SettingsWriteAdd('tbl_zones', $installvars['tbl_zones']);
 							phpAds_SettingsWriteAdd('tbl_config', $installvars['tbl_config']);
 							phpAds_SettingsWriteAdd('tbl_affiliates', $installvars['tbl_affiliates']);
+							phpAds_SettingsWriteAdd('tbl_images', $installvars['tbl_images']);
 							
+							phpAds_SettingsWriteAdd('table_prefix', $installvars['table_prefix']);
+
 							phpAds_SettingsWriteAdd('admin', $admin);
 							phpAds_SettingsWriteAdd('admin_pw', $admin_pw);
 							phpAds_SettingsWriteAdd('url_prefix', $url_prefix);
@@ -398,8 +401,6 @@ if (phpAds_isUser(phpAds_Admin))
 			
 			phpAds_ShowBreak();
 			
-			if (!isset($phpAds_config['tbl_prefix']))
-				$phpAds_config['tbl_prefix'] = "phpads_";
 			$phpAds_config['dbpassword'] = '';
 			
 			phpAds_StartSettings();
@@ -414,7 +415,7 @@ if (phpAds_isUser(phpAds_Admin))
 				phpAds_AddSettings('end_section', '');
 				
 				phpAds_AddSettings('start_section', "0.2.2");
-				phpAds_AddSettings('text', 'tbl_prefix', $strTablesPrefix);
+				phpAds_AddSettings('text', 'table_prefix', $strTablesPrefix);
 				
 				if (phpAds_tableTypesSupported)
 				{
