@@ -639,7 +639,7 @@ function phpAds_PriorityPrepareBanners()
 }
 
 
-function phpAds_PriorityStore($banners)
+function phpAds_PriorityStore($banners, $campaigns = '')
 {
 	global $phpAds_config;
 	
@@ -1124,7 +1124,7 @@ function phpAds_PriorityCalculate()
 
 
 	// Store priority information
-	phpAds_PriorityStore($banners);
+	phpAds_PriorityStore($banners, $campaigns);
 	
 	return ($debuglog);
 }
