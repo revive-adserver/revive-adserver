@@ -70,6 +70,8 @@ CREATE TABLE clients (
    clientusername varchar(64) NOT NULL,
    clientpassword varchar(64) NOT NULL,
    expire date DEFAULT '0000-00-00',
+   permissions mediumint(9),
+   language varchar(64),
    PRIMARY KEY (clientID)
 );
 

@@ -1,27 +1,17 @@
 <?
 // $Id$
 
-if (isset($pageid) && $pageid =="client")
-{
-	Header("Location: ./index.php");
-	exit;
-}
-if (!isset($pageid))
-{
-	$pageid = "admin";
-}
-
 require ("config.php");
-require("kcsm.php");
 
-kc_auth_admin();
+
+phpAds_checkAccess(phpAds_Admin);
+
 
 page_header("$strAdminstration");
 show_nav("1");
 
-unset($Session["clientID"]);
 
-function make_options($description)
+function make_options($description, $onClick="")
 {
 	global $res_clients;
 	@mysql_data_seek($res_clients, 0);
@@ -32,8 +22,12 @@ function make_options($description)
 	{
 		echo "<option value=$row_clients[clientID]>$row_clients[clientname]";
 	}
-	echo "</select></td>";      
-	echo "<td><input type=submit value=\"$GLOBALS[strGo]\"></td>";
+	echo "</select></td>";
+	
+	if ($onClick)
+		echo "<td><input type=submit value=\"$GLOBALS[strGo]\" onClick=\"$onClick\"></td>";
+	else
+		echo "<td><input type=submit value=\"$GLOBALS[strGo]\"></td>";
 	echo "</tr>";
 }
 
@@ -55,7 +49,7 @@ if (isset($message))
 	show_message($message);
 }
 
-echo "<a href=client.php?pageid=$pageid>$strAddClient</a>";
+echo "<a href=client.php>$strAddClient</a>";
 ?>
 <script language="JavaScript">
 <!--
@@ -68,50 +62,42 @@ function confirm_delete()
 }
 //-->
 </script>
-<form action="client.php" method="post">
-	<input type="hidden" name="pageid" value="<? echo ($pageid) ?>">
+
+<br><br>
 <table width="100%">
+
+<form action="client.php" method="post">
 <?
 make_options($strModifyClient);
 ?>
 </form>
 
 <form action="clientdelete.php" method="post" name="client_delete">
-	<input type="hidden" name="pageid" value="<? echo ($pageid) ?>">
 <?
-	@mysql_data_seek($res_clients, 0);
-	echo "<tr>";
-	echo "<td>$strDeleteClient:</td>";
-	echo '<td><select name="clientID">';
-	while ($row_clients = mysql_fetch_array($res_clients))
-	{
-		echo "<option value=$row_clients[clientID]>$row_clients[clientname]";
-	}
-	echo "</select></td>";
-	echo "<td><input type=submit value=\"$GLOBALS[strGo]\" onClick=\"confirm_delete(); return false;\"></td>";
-	echo "</tr>";
+make_options($strDeleteClient, "confirm_delete(); return false;");
 ?>
 </form>
 
 <form action="banner.php" method="post">
- <input type="hidden" name="pageid" value="<? echo ($pageid) ?>">
 <?
 make_options($strBannerAdmin);
 ?>
 </form>
 
 <form action="clientstats.php" method="post">
- <input type="hidden" name="pageid" value="<? echo ($pageid) ?>">
 <?
 make_options($strViewClientStats);
 ?>
 </form>
 
 </table>
+
 <br>
+
 </td></tr>
 </table></td></tr>
 <tr><td>
+
 <table border="0" align="center" bgcolor="#FFFFFF" cellspacing="0" cellpadding="5" width=100%>
 	<tr><td colspan="3" bgcolor="#CCCCCC"><?print $strStats;?></td></tr>
 	<tr>
@@ -126,7 +112,11 @@ make_options($strViewClientStats);
 	</tr>
 	<tr><td colspan="3"><br></td></tr>
 	<tr>
-		<td colspan="3" align=center><form method="post" action="creditstats.php"><input type=hidden name=pageid value=<?print $pageid;?>><input type=Submit value="<?print $strGo;?>"><br><?print $strCreditStats;?></form></td>
+		<td colspan="3" align=center>
+			<form method="post" action="creditstats.php">
+				<input type=Submit value="<?print $strGo;?>"><br><?print $strCreditStats;?>
+			</form>
+		</td>
 	</tr>
 	<tr><td colspan="3"><br><a href="logout.php"><?print $strLogout;?></a></td></tr>
 </table>

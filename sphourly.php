@@ -1,6 +1,5 @@
 <? 
 require ("config.php");
-require("kcsm.php");
 
 // NOTE: None of this works for the compact database format since hours are not tracked
 

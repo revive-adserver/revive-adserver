@@ -1,7 +1,6 @@
-<? // $id$
+<? 
 
-if(!isset($pageid)) $pageid = "";
-$fncpageid = "?pageid=$pageid";
+
 
 // Show navigation
 function show_nav($ID)
@@ -21,9 +20,7 @@ function show_nav($ID)
 			$sectionID .= $sections[$i];
 			list($filename, $title) = each($pages["$sectionID"]);
 			$sectionID .= ".";     
-			if(!isset($fncpageid))
-				$fncpageid = "";
-			echo "<a href=$filename$fncpageid>$title</a> <img src=$GLOBALS[phpAds_url_prefix]/arrow.gif width=8 height=7> ";
+			echo "<a href=$filename>$title</a> <img src=$GLOBALS[phpAds_url_prefix]/arrow.gif width=8 height=7> ";
 		}
 		list($filename, $title) = each($pages["$ID"]);
 		echo "$title<br>";
@@ -44,7 +41,7 @@ function page_header($title = false)
 <html>
 <head>
 <title><?echo $title;?></title>
-<meta name="author" content="Profi Online Service <http://www.profi.it>">
+<meta name="author" content="phpAdsNew <http://sourceforge.net/projects/phpadsnew>">
 <style type="text/css">
 <!--
 body {  font-family: Arial, Helvetica, sans-serif; font-size: 10pt}
@@ -54,13 +51,13 @@ td { font-family: Arial, Helvetica, sans-serif; font-size: 10pt }
 -->
 </style>
 </head>
+<body bgcolor="<?print $phpAds_main_back_color;?>">
 <?
 if (!empty($phpAds_my_header)) 
 {
 	include ($phpAds_my_header);
 }
 ?>
-<body bgcolor="<?print $phpAds_main_back_color;?>">
 <table border="0" cellspacing="0" cellpadding="1" align="center" bgcolor="<?print $phpAds_table_border_color;?>">
 	<tr>
 		<td>

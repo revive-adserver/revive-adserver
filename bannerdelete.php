@@ -1,12 +1,15 @@
 <?
-require ("config.php");
-require("kcsm.php");
 
-kc_auth_admin();
+require ("config.php");
+
+
+phpAds_checkAccess(phpAds_Admin);
+
 
 // Test for $bannerID
 if (!isset($bannerID))
 {
+	page_header("$strBannerAdmin");
 	php_die("hu?", "Where is my ID? I've lost my ID! Moooommmeee... I want my ID back!");
 }
 
@@ -26,5 +29,6 @@ db_query("
 
 db_delete_stats($bannerID);
 
-Header("Location: banner.php$fncpageid&message=".urlencode($strBannerDeleted));
+Header("Location: banner.php?clientID=$clientID&message=".urlencode($strBannerDeleted));
+
 ?>

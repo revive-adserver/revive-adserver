@@ -432,7 +432,6 @@ function stats() // generate weekly statistics
 			</SELECT>
 		</TD>
 		<td>
-			<input type="hidden" name="pageid" value="<? echo $pageid;?>">
 			<input type="hidden" name="clientID" value="<? echo $clientID;?>">
 			<input type="hidden" name="which" value="<? echo $which;?>">
 			<input type=Submit value="<?print $GLOBALS['strGo'];?>">
@@ -461,7 +460,6 @@ function stats() // generate weekly statistics
         </SELECT>
 		</TD>
 		<td>
-			<input type="hidden" name="pageid" value="<? echo $pageid;?>">
 			<input type="hidden" name="clientID" value="<? echo $clientID;?>">
 			<input type="hidden" name="max_weeks" value="<? echo $max_weeks;?>">
 			<input type=Submit value="<?print $GLOBALS['strGo'];?>">

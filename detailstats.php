@@ -1,44 +1,41 @@
 <?
 
-require("config.php");
-require("kcsm.php");
+require ("config.php");
 
-if (!isset($bannerID))
-    $bannerID = $Session["bannerID"];
 
-if($pageid == "client")
+phpAds_checkAccess(phpAds_Admin+phpAds_Client);
+
+
+$result = db_query("
+	SELECT
+		clientID
+	FROM
+		$phpAds_tbl_banners
+	WHERE
+		bannerID = $GLOBALS[bannerID]
+	") or mysql_die();
+$row = mysql_fetch_array($result);
+
+
+if (phpAds_isUser(phpAds_Admin))
 {
-    $result = db_query("
-		SELECT
-			clientID
-		FROM
-			$phpAds_tbl_banners
-		WHERE
-			bannerID = $GLOBALS[bannerID]
-		") or mysql_die();
-	$row = mysql_fetch_array($result);
-	if($row["clientID"] != $Session[clientID])
-	{
-		print($strAccessDenied);    
-		page_footer();
-		exit();
-	}
-
-	page_header();
-	show_nav("2.1");
-
-	include("./detailstats.inc.php");
-	$Session["bannerID"] = $bannerID;
-	page_footer();
-}
-
-if($pageid == "admin")
-{
-	kc_auth_admin();
 	page_header();
 	show_nav("1.4.1");
-	include("./detailstats.inc.php");
-	$Session["bannerID"] = $bannerID;
-	page_footer();
 }
+
+if (phpAds_isUser(phpAds_Client))
+{
+	page_header();
+	show_nav("2.1");
+	
+	if($row["clientID"] != $clientID)
+	{
+		php_die ($strAccessDenied, $strNotAdmin);
+	}
+}
+
+require("./detailstats.inc.php");
+
+page_footer();
+
 ?>

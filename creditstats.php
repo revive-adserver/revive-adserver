@@ -1,7 +1,11 @@
 <?
 
 require ("config.php");
-require("kcsm.php");
+
+
+phpAds_checkAccess(phpAds_Admin);
+
+
 require("expiration.inc.php");
 
 page_header($strStats);
@@ -13,7 +17,7 @@ for ($x=0;$x<26;$x=$x+1)
 	$num_other_clients_query=$num_other_clients_query."clientname NOT LIKE \"".chr($x+65)."%\" AND clientname NOT like \"".chr($x+97)."%\" AND ";
 	$res_num_clients = db_query("SELECT count(clientID) FROM $phpAds_tbl_clients where clientname like \"".chr($x+65)."%\" or clientname like \"".chr($x+97)."%\"") or mysql_die();
 	if ($res_num_clients && MYSQL_RESULT($res_num_clients,0,"count(clientID)") > 0)
-		print "<A HREF=$PHP_SELF?pageid=$pageid&startletter=".chr($x+97).">".chr($x+97)."</A> ";
+		print "<A HREF=$PHP_SELF?startletter=".chr($x+97).">".chr($x+97)."</A> ";
 	else
 		print chr($x+97)." ";
 }
@@ -21,7 +25,7 @@ $num_other_clients_query=substr($num_other_clients_query,0,strlen($num_other_cli
 $num_other_clients_query_complete="SELECT count(clientID) FROM $phpAds_tbl_clients WHERE ".$num_other_clients_query;
 $res_num_other_clients = db_query($num_other_clients_query_complete);
 if ($res_num_other_clients && MYSQL_RESULT($res_num_other_clients,0,"count(clientID)") > 0)
-	print "<A HREF=$PHP_SELF?pageid=$pageid&startletter=other>Other</A>";
+	print "<A HREF=$PHP_SELF?startletter=other>Other</A>";
 else
 	print "Other";
 
@@ -98,7 +102,7 @@ while ($row_clients = mysql_fetch_array($res_clients))
 		if ($row_banners["format"] == "html")
 			print $row_banners["banner"];
 		else
-			print "<img src=\"./viewbanner.php$fncpageid&bannerID=$row_banners[bannerID]\" width=$row_banners[width] height=$row_banners[height]>";
+			print "<img src=\"./viewbanner.php?bannerID=$row_banners[bannerID]\" width=$row_banners[width] height=$row_banners[height]>";
 		?>
 		</td>
 		<td bgcolor="#eeeeee"><?print $strViews;?>: 

@@ -1,31 +1,38 @@
 <?
 
 require ("config.php");
-require("kcsm.php");
 
-kc_auth_admin();
 
-page_header("$strBannerAdmin");   
+phpAds_checkAccess(phpAds_Admin);
+
+
+page_header("$strBannerAdmin");
 show_nav("1.3");
 
-unset($Session["bannerID"]);
+
 if (isset($message))
 	show_message($message);
-if (isset($clientID) && !empty($clientID))
-	$Session["clientID"] = $clientID;
-elseif(!isset($Session["clientID"]) || empty($Session["clientID"]))
-	$Session["clientID"] = 0;
+
+
+if($clientID == "") $clientID = 0;
+
+
 $res = db_query("
 	SELECT
 		*
 	FROM
 		$phpAds_tbl_banners  
 	WHERE
-		clientID = $Session[clientID]
+		clientID = $clientID
 	") or mysql_die();
+
+
 ?>
-	<p><a href="banneradd.php<? echo ($fncpageid) ?>"><?echo $strAddBanner;?></a></p><B><?echo $strClientID;?>: <? echo ($Session["clientID"]) ?></b>
-</b>
+	<p><a href="banneradd.php?clientID=<? echo $clientID; ?>"><?echo $strAddBanner;?></a></p>
+	<b><?echo $strClientID;?>: <? echo $clientID; ?></b>
+
+
+
 <?
 if (mysql_num_rows($res) == 0)
 {
@@ -71,14 +78,10 @@ else
 ?>
 	<tr>
 		<td colspan=4 bgcolor="<?echo $bgcolor;?>" align="Left">
-			<b><?echo $strKeyword;?>:</b> <em>
-			<?echo $row["keyword"];?>
-			</em>
+			<b><?echo $strKeyword;?>:</b> <em><?echo $row["keyword"];?></em>
 		</td>
-                <td colspan=2 bgcolor="<?echo $bgcolor;?>" align="Left">
-			<b><?echo $strWeight;?>:</b> <em>
-			<?echo $row["weight"];?>
-			</em>
+		<td colspan=2 bgcolor="<?echo $bgcolor;?>" align="Left">
+			<b><?echo $strWeight;?>:</b> <em><?echo $row["weight"];?></em>
 		</td>
 	</tr>
 <?
@@ -92,7 +95,7 @@ else
 			<?echo $row["url"];?>&nbsp;
 		</td>
 		<td bgcolor="<?echo $bgcolor;?>">
-			<a href="banneractivate.php<? echo ($fncpageid) ?>&bannerID=<?echo $row["bannerID"];?>&value=<?echo $row["active"];?>">
+			<a href="banneractivate.php?clientID=<?echo $clientID;?>&bannerID=<?echo $row["bannerID"];?>&value=<?echo $row["active"];?>">
 <?
 		if ($row["active"] == "true")
 			echo $strDeActivate;
@@ -102,13 +105,13 @@ else
 			</a>
 		</td>
 		<td bgcolor="<?echo $bgcolor;?>">
-			<a href="bannerdelete.php<? echo ($fncpageid) ?>&bannerID=<?echo $row["bannerID"];?>"><?echo $strDelete;?></a>
+			<a href="bannerdelete.php?clientID=<?echo $clientID;?>&bannerID=<?echo $row["bannerID"];?>"><?echo $strDelete;?></a>
 		</td>
 		<td bgcolor="<?echo $bgcolor;?>">
-			<a href="banneradd.php<? echo ($fncpageid) ?>&bannerID=<?echo $row["bannerID"];?>"><?echo $strModifyBanner;?></a>
+			<a href="banneradd.php?clientID=<?echo $clientID;?>&bannerID=<?echo $row["bannerID"];?>"><?echo $strModifyBanner;?></a>
 		</td>
 		<td bgcolor="<?echo $bgcolor;?>">
-			<a href="banneracl.php<? echo ($fncpageid) ?>&bannerID=<?echo $row["bannerID"];?>"><?echo $strModifyBannerAcl;?></a>
+			<a href="banneracl.php?clientID=<?echo $clientID;?>&bannerID=<?echo $row["bannerID"];?>"><?echo $strModifyBannerAcl;?></a>
 		</td>
 	</tr>
 	<tr>

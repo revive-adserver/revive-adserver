@@ -1,38 +1,38 @@
 <?
 /* weeklystats.php, v1.0 2000/12/29 11:06:00 Martin Braun */
+require ("config.php");
 
-require('config.php');
-require('kcsm.php');
+
+phpAds_checkAccess(phpAds_Admin+phpAds_Client);
+
+
 $result = db_query("
 	SELECT
 		*
 	FROM
-		".$phpAds_tbl_clients."
+		$phpAds_tbl_clients
 	WHERE
-		clientID = ".$Session["clientID"]) or mysql_die();
-
+		clientID = $clientID
+	") or mysql_die();
 $row = mysql_fetch_array($result);
-mysql_free_result($result);
 
-if($pageid  == 'admin')
+
+if (phpAds_isUser(phpAds_Admin))
 {
-	kc_auth_admin();
 	page_header($GLOBALS['strWeeklyStats'].' / '.$row['clientname'] );
 	show_nav('1.4.2');
 }
-else
+
+if (phpAds_isUser(phpAds_Client))
 {
-	if($clientID != $Session['clientID'])
-	{
-		print($strAccessDenied);
-		page_footer();
-		exit();
-	}
 	page_header($GLOBALS['strWeeklyStats'].' / '.$row['clientname']);
 	show_nav('2.2');
+	
+	if($Session["clientID"] != $clientID)
+	{
+		php_die ($strAccessDenied, $strNotAdmin);
+	}
 }
-
-$Session["clientID"] = $clientID;
 
 require('./weeklystats.html.php');
 

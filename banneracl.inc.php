@@ -52,12 +52,12 @@ function acladselect($default)
 
 function showaclrow($row, $total, $update) 
 {
-	global $PHP_SELF, $strSave, $strDelete, $strUp, $strDown, $pageid;
+	global $PHP_SELF, $strSave, $strDelete, $strUp, $strDown, $clientID;
 	?>
 	<TR>
 		<FORM action="<?echo basename($PHP_SELF);?>" method="GET">
 		<TD>
-			<INPUT type="hidden" name="pageid" value="<? echo ($pageid) ?>">
+			<INPUT type="hidden" name="clientID" value="<? echo $clientID; ?>">
 			<INPUT type="hidden" name="bannerID" value="<? print $row['bannerID']; ?>">
 			<INPUT type="hidden" name="acl_order" value="<? print $row['acl_order']; ?>">
 			<INPUT type="hidden" name="update" value="<? print $update; ?>">

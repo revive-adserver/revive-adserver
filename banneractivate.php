@@ -1,13 +1,16 @@
 <?
-require ("config.php");
-require("kcsm.php");
 
-kc_auth_admin();
+require ("config.php");
+
+
+phpAds_checkAccess(phpAds_Admin);
+
 
 if ($value == "true")
 	$value = "false";
 else
 	$value = "true";
+
 $res = db_query("
 	UPDATE
 		$phpAds_tbl_banners
@@ -16,5 +19,7 @@ $res = db_query("
 	WHERE
 		bannerID = $bannerID
 	") or mysql_die();
-Header("Location: banner.php$fncpageid&message=".urlencode($strBannerChanged));
+
+Header("Location: banner.php?clientID=$clientID&message=".urlencode($strBannerChanged));
+
 ?>

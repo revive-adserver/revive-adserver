@@ -1,16 +1,15 @@
 <?
 
 require ("config.php");
-require("kcsm.php");
 
-kc_auth_admin();
+
+phpAds_checkAccess(phpAds_Admin);
+
 
 if (isset($bannerID))
 {
     db_delete_stats($bannerID);
-	Header("Location: clientstats.php$fncpageid");
+	Header("Location: clientstats.php");
 }  
-else
-{
-}
+
 ?>

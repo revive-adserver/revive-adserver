@@ -27,7 +27,7 @@ while ($row_banners = mysql_fetch_array($res_banners))
 		elseif($row_banners["format"] == "url")
 			print "<p><img src=\"$row_banners[banner]\" width=$row_banners[width] height=$row_banners[height]>";
 		else
-			print "<p><img src=\"./viewbanner.php$fncpageid&bannerID=$row_banners[bannerID]\" width=$row_banners[width] height=$row_banners[height]>";
+			print "<p><img src=\"./viewbanner.php?bannerID=$row_banners[bannerID]\" width=$row_banners[width] height=$row_banners[height]>";
 		?>
 		</td>
 	</tr>
@@ -88,17 +88,17 @@ while ($row_banners = mysql_fetch_array($res_banners))
 				<td bgcolor="<?echo $bgcolor;?>">
 				<?
 				if ($adclicks > 0 || $adviews > 0)
-				echo "<a href=\"detailstats.php$fncpageid&bannerID=$row_banners[bannerID]\">$strDetailStats</a>";
+				echo "<a href=\"detailstats.php?clientID=$clientID&bannerID=$row_banners[bannerID]\">$strDetailStats</a>";
 				?>
 				</td>
 				<?
-				if ($Session["username"] == $phpAds_admin && $Session["password"] == $phpAds_admin_pw) // only for the admin
+				if (phpAds_isUser(phpAds_Admin)) // only for the admin
 				{
 					if ($adclicks > 0 || $adviews > 0)
 					{
 						?>
 						<form action="resetstats.php" method="post" name="client_reset">
-						<input type="hidden" name="pageid" value="<? print $pageid; ?>">
+						<input type="hidden" name="clientID" value="<? print $clientID; ?>">
 						<input type="hidden" name="bannerID" value="<? print $row_banners[bannerID]; ?>">
 						<td bgcolor="<?echo $bgcolor;?>">
 						<?print "<input type=submit value=\"$strResetStats\" onClick=\"return confirm('$strConfirm')\">\n";?>
@@ -155,16 +155,17 @@ list($desc,$enddate,$daysleft)=days_left($clientID);
 	<tr>
 		<td bgcolor="<?echo $bgcolor;?>">
 		<?
-		print "<a href=\"client.php$fncpageid&clientID=$clientID\">$strPreferences</a>";
+		if (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_ModifyInfo))
+			print "<a href=\"client.php\">$strPreferences</a>";
 		?>
 		</td>
 		<td bgcolor="<?echo $bgcolor;?>">
-<?
-if ($totaladclicks > 0 || $totaladviews > 0)
-{
-	print "<a href=\"weeklystats.php$fncpageid&clientID=$clientID\">$strWeeklyStats</a>";
-}
-?>
+		<?
+		if ($totaladclicks > 0 || $totaladviews > 0)
+		{
+			print "<a href=\"weeklystats.php?clientID=$clientID\">$strWeeklyStats</a>";
+		}
+		?>
 		</td>
 	</tr>
 </table>

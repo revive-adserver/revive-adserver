@@ -1,12 +1,20 @@
 <?
 
-require("config.php");
-require("kcsm.php");
+require ("config.php");
+
+
+phpAds_checkAccess(phpAds_Admin+phpAds_Client);
+
+
+if (phpAds_isUser(phpAds_Client))
+{
+	$clientID = $Session["clientID"];
+}
+
 
 page_header($strStats);
 show_nav("1.4");
-if (!isset($clientID))
-	$clientID = $Session["clientID"];
+
 $res_banners = db_query("
 	SELECT
 		banner,
@@ -19,7 +27,8 @@ $res_banners = db_query("
 	WHERE
 		clientID = $clientID
 	") or mysql_die() ;
-$Session["clientID"] = $clientID;
+
 require("./stats.inc.php");
+
 page_footer();
 ?>
