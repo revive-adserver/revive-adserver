@@ -166,9 +166,13 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-12-28:  Added workaround for missing HTTP_HOST server variable when using OmniHTTPd  (Niels)
 			  - 2002-12-29:  Removed reference to non-existing manual in the advertiser and publisher welcome text  (Niels)
 			  - 2002-12-30:  Added missing flags for Gibraltar and the ARIPO  (Niels)
-			  - 2002-12-30:  Removed duplicate ISO-3166 code entires for the United Kingdom, only GB is now used  (Niels)
+			  - 2002-12-30:  Removed duplicate ISO-3166 code entries for the United Kingdom, only GB is now used  (Niels)
 			  - 2002-12-31:  Added experimental content-length header to adlog.php to try to prevent logging problems in Opera  (Niels)
 			  - 2002-12-31:  -keyword didn't work when using direct selection  (Niels)
+			  - 2003-01-02:  When saving settings to the database booleans are now typecast  (Niels)
+			  - 2003-01-02:  Resetting the statistics for campaigns and banners are now back  (Niels)
+			  - 2003-01-03:  No stats were shown when all banners were deactivated  (Niels)
+
 
 
 
