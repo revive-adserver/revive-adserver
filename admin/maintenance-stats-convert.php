@@ -75,7 +75,7 @@ function phpAds_getVerbose($base, $count)
 		FROM
 			".$phpAds_config['tbl_adviews']."
 		WHERE
-			t_stamp >= $begin_timestamp AND t_stamp < $end_timestamp
+			t_stamp >= $begin_timestamp AND t_stamp <= $end_timestamp
 		GROUP BY 
 			bannerid, zoneid, source, hour
 	") or phpAds_sqlDie();
@@ -96,7 +96,7 @@ function phpAds_getVerbose($base, $count)
 		FROM
 			".$phpAds_config['tbl_adclicks']."
 		WHERE
-			t_stamp >= $begin_timestamp AND t_stamp < $end_timestamp
+			t_stamp >= $begin_timestamp AND t_stamp <= $end_timestamp
 		GROUP BY 
 			bannerid, zoneid, source, hour
 	") or phpAds_sqlDie();
@@ -179,7 +179,7 @@ function phpAds_deleteVerbose ($base, $count)
 		FROM
 			".$phpAds_config['tbl_adviews']."
 		WHERE
-			t_stamp >= $begin_timestamp AND t_stamp < $end_timestamp
+			t_stamp >= $begin_timestamp AND t_stamp <= $end_timestamp
 	") or phpAds_sqlDie();
 	
 	// Delete clicks
@@ -189,7 +189,7 @@ function phpAds_deleteVerbose ($base, $count)
 		FROM
 			".$phpAds_config['tbl_adclicks']."
 		WHERE
-			t_stamp >= $begin_timestamp AND t_stamp < $end_timestamp
+			t_stamp >= $begin_timestamp AND t_stamp <= $end_timestamp
 	") or phpAds_sqlDie();
 }
 
