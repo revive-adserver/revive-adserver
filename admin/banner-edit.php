@@ -297,6 +297,11 @@ if (isset($submit))
 				// Check if the contenttype has changed, if true change html template
 				$final['htmltemplate'] = phpAds_getBannerTemplate($final['contenttype']);
 			}
+			elseif ($final['contenttype'] == 'swf')
+			{
+				// Check if the contenttype is swf, if true change html template to get rid of any preexisting converted urls
+				$final['htmltemplate'] = phpAds_getBannerTemplate($final['contenttype']);
+			}
 			else
 			{
 				// Use existing html template
@@ -425,6 +430,11 @@ if (isset($submit))
 			elseif ($final['contenttype'] != $current['contenttype'])
 			{
 				// Check if the contenttype has changed, if true change html template
+				$final['htmltemplate'] = phpAds_getBannerTemplate($final['contenttype']);
+			}
+			elseif ($final['contenttype'] == 'swf')
+			{
+				// Check if the contenttype is swf, if true change html template to get rid of any preexisting converted urls
 				$final['htmltemplate'] = phpAds_getBannerTemplate($final['contenttype']);
 			}
 			else

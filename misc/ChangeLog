@@ -36,6 +36,7 @@ phpAdsNew 2.0.1		+ Misc bugfixes
 			  - 2004-01-18:  Fixed wrong strpos syntax during proxy detection - bug #874467  (Matteo)
 			  - 2004-01-18:  Flash hardcoded links conversion checkbox didn't appear when the path had "swf" in it - bug #873195  (Matteo)
 			  - 2004-02-19:  Raised max gui_link_compact_limit value by changing its type to integer  (Matteo)
+			  - 2004-03-02:  Converted URLs were persistant after re-uploading a new Flash banner - bug #887893  (Niels)
 			  
 
 
