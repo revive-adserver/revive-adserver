@@ -307,6 +307,9 @@ function stats()
 			$i++;
 		}
 		
+> 		if (!$ids)
+> 			$ids = '0';
+> 			
 		if ($campaignid > 0) 
 			$where .= $ids.')';
 		
@@ -505,7 +508,7 @@ function stats()
 	
 	
 	if (sizeof($days) < 1)
-		printf("<table border=\"0\"><tr><td>%s</td></tr></table>",$which=0?$GLOBALS["strClientNoStats"]:$GLOBALS["strBannerNoStats"]);
+		printf("<table border=\"0\"><tr><td>%s</td></tr></table>",$which==0?$GLOBALS["strNoStats"]:$GLOBALS["strBannerNoStats"]);
 	else
 	{
 ?>
@@ -578,9 +581,6 @@ function stats()
 	<tr><td height='10' colspan='2'></td></tr>	
 	<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 </table>   
-	<?php
-	}
-	?>
 	
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 	<tr>
@@ -599,7 +599,8 @@ function stats()
 			</td>
 		</form>
 	<?php
-	
+	}
+
 	// display choice of banners
 	if ( $countbanners > 1 )
 	{

@@ -356,7 +356,6 @@ if (count($tmp_order) > 0)
 			
 		$res_query = "
 			SELECT
-				banner,
 				bannerid,
 				width,
 				height,
