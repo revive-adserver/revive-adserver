@@ -49,6 +49,7 @@ CVS
 			  - 2003-06-29:  Beacon image is now completely hidden, so it won't affect blocks (ie. <table>) before it  (Niels)
 			  - 2003-07-01:  Fixed output buffering/IE bug on generated graphs when ob_gzhandler was set  (Matteo)
 			  - 2003-07-03:  Admin password wasn't saved as md5 when upgrading from a pre-configmanager release  (Matteo)
+			  - 2003-07-03:  Generating an invocation code, then switching to XML-RPC invocation would exmpy the code-box  (Matteo)
 
 
 v 2.0rc3		+ Added a cron replacement for users who don't have access to the cron utility for scheduling the maintenance script  (Niels, 2003-01-14)
