@@ -174,8 +174,8 @@ $GLOBALS['strInactiveAdvertisersHidden']	= "annonceur(s) inactif(s) caché(s)";
 
 // Advertisers properties
 $GLOBALS['strContact'] 				= "Contact";
-$GLOBALS['strEMail'] 				= "E-mail";
-$GLOBALS['strSendAdvertisingReport']	= "Envoyer un rapport publicitaire par e-mail";
+$GLOBALS['strEMail'] 				= "Email";
+$GLOBALS['strSendAdvertisingReport']	= "Envoyer un rapport publicitaire par email";
 $GLOBALS['strNoDaysBetweenReports']		= "Nombre de jours entre les rapports";
 $GLOBALS['strSendDeactivationWarning']  	= "Envoyer un avertissement quand la campagne est désactivée";
 $GLOBALS['strAllowClientModifyInfo'] 	= "Permettre à cet annonceur de modifier ses propres paramètres";
@@ -198,7 +198,7 @@ $GLOBALS['strBannersWithoutCampaign']	= "Bannières sans campagne";
 $GLOBALS['strDeleteAllCampaigns']		= "Supprimer toutes les campagnes";
 $GLOBALS['strCampaignStats']			= "Statistiques Campagne";
 $GLOBALS['strCampaignProperties']		= "Propriétés de la campagne";
-$GLOBALS['strCampaignOverview']		= "Aperçu de la campagne";
+$GLOBALS['strCampaignOverview']		= "Aperçu des campagnes";
 $GLOBALS['strCampaignHistory']		= "Historique de la campagne";
 $GLOBALS['strNoCampaigns']			= "Il n'y a actuellement aucune campagne enregistrée.";
 $GLOBALS['strConfirmDeleteAllCampaigns']	= "Voulez vous réellement supprimer toutes les campagnes de cet annonceur ?";
@@ -290,8 +290,8 @@ $GLOBALS['strCompressSWF']			= "Compressez le fichier SWF pour un téléchargement
 
 
 // Banner (network)
-$GLOBALS['strBannerNetwork']			= "Template HTML";
-$GLOBALS['strChooseNetwork']			= "Choisissez le template que vous souhaitez utiliser";
+$GLOBALS['strBannerNetwork']			= "Bannière HTML avec modèle";
+$GLOBALS['strChooseNetwork']			= "Choisissez le modèle que vous souhaitez utiliser";
 $GLOBALS['strMoreInformation']		= "Plus d'informations...";
 $GLOBALS['strRichMedia']			= "Média riche";
 $GLOBALS['strTrackAdClicks']			= "Traquer les clicks";
@@ -351,7 +351,7 @@ $GLOBALS['strAddNewZone']			= "Ajouter une nouvelle zone";
 $GLOBALS['strAddZone']				= "Créer une zone";
 $GLOBALS['strModifyZone']			= "Modifier une zone";
 $GLOBALS['strLinkedZones']			= "Zones liées";
-$GLOBALS['strZoneOverview']			= "Aperçu de la zone";
+$GLOBALS['strZoneOverview']			= "Aperçu des zones";
 $GLOBALS['strZoneProperties']			= "Propriétés de la zone";
 $GLOBALS['strZoneHistory']			= "Historique de la zone";
 $GLOBALS['strNoZones']				= "Il n'y a actuellement aucune zone enregistrée";
