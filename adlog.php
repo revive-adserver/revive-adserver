@@ -33,6 +33,16 @@ if (isset($bannerid) && isset($clientid) && isset($zoneid))
 	phpAds_prepareLog ($bannerid, $clientid, $zoneid);
 }
 
-header ("Location: ".$phpAds_config['url_prefix']."/misc/beacon.gif");
+header ("Content-type: image/gif");
+
+// 1 x 1 gif
+echo chr(0x47).chr(0x49).chr(0x46).chr(0x38).chr(0x37).chr(0x61).chr(0x01).chr(0x00).
+	 chr(0x01).chr(0x00).chr(0x80).chr(0x00).chr(0x00).chr(0x04).chr(0x02).chr(0x04).
+	 chr(0x00).chr(0x00).chr(0x00).chr(0x2C).chr(0x00).chr(0x00).chr(0x00).chr(0x00).
+	 chr(0x01).chr(0x00).chr(0x01).chr(0x00).chr(0x00).chr(0x02).chr(0x02).chr(0x44).
+	 chr(0x01).chr(0x00).chr(0x3B);
+
+
+//header ("Location: ".$phpAds_config['url_prefix']."/misc/beacon.gif");
 
 ?>
