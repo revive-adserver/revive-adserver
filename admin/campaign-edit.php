@@ -54,13 +54,13 @@ if (isset($submit))
 		// set target
 		if (isset($target))
 		{
-			if ($target == '-')
-				$target = 0;
-			elseif ($target == '')
-				$target = 0;
+			if ($targetviews == '-')
+				$targetviews = 0;
+			elseif ($targetviews == '')
+				$targetviews = 0;
 		}
 		else
-			$target = 0;
+			$targetviews = 0;
 		
 		$weight = 0;
 	}
@@ -77,7 +77,7 @@ if (isset($submit))
 		else
 			$weight = 0;
 		
-		$target = 0;
+		$targetviews = 0;
 	}
 	
 	if ($expireSet == 't')
@@ -143,7 +143,7 @@ if (isset($submit))
 			'$activate',
 			'$active',
 			'$weight',
-			'$target')";
+			'$targetviews')";
 	
 	
 	$res = phpAds_dbQuery($query) or phpAds_sqlDie();  
@@ -522,13 +522,13 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 			pri_weight = document.clientform.weight.value;
 			document.clientform.weight.value = '-';
 			
-			if (document.clientform.target.value == '-')
-				document.clientform.target.value = pri_target;
+			if (document.clientform.targetviews.value == '-')
+				document.clientform.targetviews.value = pri_target;
 		}
 		else
 		{
-			pri_target = document.clientform.target.value;
-			document.clientform.target.value = '-';
+			pri_target = document.clientform.targetviews.value;
+			document.clientform.targetviews.value = '-';
 			
 			if (document.clientform.weight.value == '-')
 				document.clientform.weight.value = pri_weight;
@@ -541,7 +541,7 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 			return validate_form('clientname','strName','R',
 								 'views','strViewsPurchased','Ris+NumOR-',
 								 'clicks','strClicksPurchased','Ris+NumOR-',
-								 'target', 'strTarget', 'Ris+Num');
+								 'targetviews', 'strTarget', 'Ris+Num');
 		else	
 			return validate_form('clientname','strName','R',
 								 'views','strViewsPurchased','Ris+NumOR-',
@@ -677,7 +677,7 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 			<?php echo $strHighPriority; ?><br>
 			<img src='images/break-l.gif' height='1' width='100%' vspace='6'><br>
 			<?php echo $strTargetLimitAdviews; ?> 
-			<input class='flat' type="text" name="target" size='7' value="<?php echo isset($row["target"]) ? $row["target"] : '-';?>"> <?php echo $strTargetPerDay; ?><br><br>
+			<input class='flat' type="text" name="targetviews" size='7' value="<?php echo isset($row["target"]) ? $row["target"] : '-';?>"> <?php echo $strTargetPerDay; ?><br><br>
 			</td></tr><tr><td valign='top'>
 			<input type="radio" name="priority" value="f" <?php echo $priority == 'f' ? 'checked' : ''; ?> onClick="click_priority()">			
 			</td><td valign='top'>
