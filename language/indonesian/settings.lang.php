@@ -67,27 +67,15 @@ $GLOBALS['strFunctionInAllDotSqlErr']	= "Can't create a function from 'all.sql'"
 $GLOBALS['strFunctionClickProceed']		= "Would you like to overwrite existing functions?";
 $GLOBALS['strYes']						= "Yes";
 $GLOBALS['strNo']						= "No";
-$GLOBALS['strDatabaseCreated']			= "Database structure successfully created:";
-$GLOBALS['strTableCreated']				= "Table <b>%s</b> successfully created";
-$GLOBALS['strSequenceCreated']			= "Sequence <b>%s</b> successfully created";
-$GLOBALS['strIndexCreated']				= "Index <b>%s</b> successfully created";
-$GLOBALS['strFunctionCreated']			= "Function <b>%s</b> successfully created";
-$GLOBALS['strFunctionReplaced']			= "Function <b>%s</b> successfully replaced";
-$GLOBALS['strUnknownStatementExec']		= "Unknown statement executed";
-$GLOBALS['strAdminPasswordSetup']		= "Admin Password Setup";
 $GLOBALS['strRepeatPassword']			= "Repeat Password";
 $GLOBALS['strNotSamePasswords']			= "Passwords did not match";
 $GLOBALS['strInvalidUserPwd']			= "Invalid username or password";
-$GLOBALS['strInstallCompleted']			= "Installation completed";
-$GLOBALS['strInstallCompleted2']		= "Click <b>Proceed</b> go to configuration page and set up the other settings.";
 
 $GLOBALS['strUpgrade']					= "Upgrade";
 $GLOBALS['strSystemUpToDate']			= "Your system is up to date, no upgrade needed at the moment. <br>Click on <b>Proceed</b> to go to home page.";
 $GLOBALS['strSystemNeedsUpgrade']		= "The database structure and configuration file need to be upgraded in order to function correctly. Click <b>Proceed</b> to start the upgrade process. <br>Please be patient, the upgrade can take up to a couple of minutes.";
 $GLOBALS['strSystemUpgradeBusy']		= "System upgrade in progress, please wait...";
 $GLOBALS['strServiceUnavalable']		= "The service is temporarily unavailable. System upgrade in progress";
-$GLOBALS['strDownloadConfig']			= "Download your <b>config.inc.php</b> and upload it to your server, then click <b>Proceed</b>.";
-$GLOBALS['strDownload']					= "Download";
 
 $GLOBALS['strConfigNotWritable']		= "Your config.inc.php file is not writable";
 

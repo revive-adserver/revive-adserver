@@ -61,33 +61,15 @@ $GLOBALS['strErrorInstallDbConnect']	= "Het was niet mogelijk om een connectie t
 $GLOBALS['strUrlPrefix']				= "Locatie van phpAdsNew";
 
 $GLOBALS['strProceed']					= "Verder &gt;";
-$GLOBALS['strInstallDatabase']			= "Database structuur installatie";
-$GLOBALS['strFunctionAlreadyExists']	= "Functie %s bestaat al";
-$GLOBALS['strFunctionInAllDotSqlErr']	= "Kan geen functies creeren die vermeld staan in het 'all.sql' bestand";
-$GLOBALS['strFunctionClickProceed']		= "Wilt u de bestande functies overschrijven?";
-$GLOBALS['strYes']						= "Ja";
-$GLOBALS['strNo']						= "Nee";
-$GLOBALS['strDatabaseCreated']			= "De database structuur is succesvol aangemaakt:";
-$GLOBALS['strTableCreated']				= "Tabel <b>%s</b> is succesvol aangemaakt";
-$GLOBALS['strSequenceCreated']			= "Sequence <b>%s</b> is succesvol aangemaakt";
-$GLOBALS['strIndexCreated']				= "Index <b>%s</b> is succesvol aangemaakt";
-$GLOBALS['strFunctionCreated']			= "Functie <b>%s</b> is succesvol aangemaakt";
-$GLOBALS['strFunctionReplaced']			= "Functie <b>%s</b> is succesvol vervangen";
-$GLOBALS['strUnknownStatementExec']		= "Onbekende opdracht uitgevoerd";
-$GLOBALS['strAdminPasswordSetup']		= "Beheerder wachtwoord instellingen";
 $GLOBALS['strRepeatPassword']			= "Nogmaals";
 $GLOBALS['strNotSamePasswords']			= "De opgegeven wachtwoorden kwamen niet overeen";
 $GLOBALS['strInvalidUserPwd']			= "Ongeldige gebruikersnaam of wachtwoord";
-$GLOBALS['strInstallCompleted']			= "Installatie succesvol afgesloten";
-$GLOBALS['strInstallCompleted2']		= "Klik op <b>Verder</b> om door te gaan naar de configuratie pagina.";
 
 $GLOBALS['strUpgrade']					= "Upgrade";
 $GLOBALS['strSystemUpToDate']			= "Uw systeem is bijgewerkt, het is momenteel niet nodig om verder bij te werken. <br>Klik op <b>Verder</b> om door te gaan.";
 $GLOBALS['strSystemNeedsUpgrade']		= "Om goed te functioneren moeten de database structuur en het configuratie bestand worden bijgewerkt. Klik op <b>Verder</b> om te beginnen met bijwerken. <br>Het bijwerken kan enige minuten duren.";
 $GLOBALS['strSystemUpgradeBusy']		= "Uw systeem wordt momenteel bijgewerkt, een moment geduld a.u.b...";
 $GLOBALS['strServiceUnavalable']		= "Deze service is momenteel niet beschikbaar. Het systeem wordt bijgewerkt.";
-$GLOBALS['strDownloadConfig']			= "Download your <b>config.inc.php</b> and upload it to your server, then click <b>Proceed</b>.";
-$GLOBALS['strDownload']					= "Download";
 
 $GLOBALS['strConfigNotWritable']		= "Uw config.inc.php is niet te wijzigen";
 

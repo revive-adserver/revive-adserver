@@ -1,4 +1,4 @@
-<?php // $Revision: 1.8 $
+<?php // $Revision: 1.11 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -55,33 +55,15 @@ $GLOBALS['strErrorInstallDbConnect']	= "Es war nicht möglich eine Verbindung mit
 $GLOBALS['strUrlPrefix']				= "URL Vorgabe";
 
 $GLOBALS['strProceed']					= "Fortsetzen &gt;";
-$GLOBALS['strInstallDatabase']			= "Datenbankstruktur Installation";
-$GLOBALS['strFunctionAlreadyExists']	= "Funktion %s existiert bereits";
-$GLOBALS['strFunctionInAllDotSqlErr']	= "Kann keine Funktion aus 'all.sql' erzeugen";
-$GLOBALS['strFunctionClickProceed']		= "Sollen bereits bestehende Funktionen überschrieben werden?";
-$GLOBALS['strYes']						= "Ja";
-$GLOBALS['strNo']						= "Nein";
-$GLOBALS['strDatabaseCreated']			= "Datenbankstruktur erfolgreich erzeugt:";
-$GLOBALS['strTableCreated']				= "Tabelle <b>%s</b> erfolgreich erzeugt";
-$GLOBALS['strSequenceCreated']			= "Sequenz <b>%s</b> erfolgreich erzeugt";
-$GLOBALS['strIndexCreated']				= "Index <b>%s</b> erfolgreich erzeugt";
-$GLOBALS['strFunctionCreated']			= "Funktion <b>%s</b> erfolgreich erzeugt";
-$GLOBALS['strFunctionReplaced']			= "Funktion <b>%s</b> erfolgreich erzeugt";
-$GLOBALS['strUnknownStatementExec']		= "Unbekanntes Statement ausgeführt";
-$GLOBALS['strAdminPasswordSetup']		= "Admin Passwort Setup";
 $GLOBALS['strRepeatPassword']			= "Wiederhole Passwort";
 $GLOBALS['strNotSamePasswords']			= "Passworte sind nicht identisch";
 $GLOBALS['strInvalidUserPwd']			= "Ungültiger Username oder Passwort";
-$GLOBALS['strInstallCompleted']			= "Installation abgeschlossen";
-$GLOBALS['strInstallCompleted2']		= "Klick <b>Fortsetzen</b>, um zur Konfiguration zu gelangen und um die sontigen Einstellungen anzupassen.";
 
 $GLOBALS['strUpgrade']					= "Upgrade/Aktualisierung";
 $GLOBALS['strSystemUpToDate']			= "Das System ist Up-To-Date. Eine Aktualisierung ist derzeit nicht notwendig. <br>Klicken <b>Fortsetzen</b>, um zu Homepage zu gelangen.";
 $GLOBALS['strSystemNeedsUpgrade']		= "Die Datenbankstruktur und die Konfigurationsdatei sollten aktualisiert werden, um die Funktionsfähigkeit zu gewährleisten. Klicke <b>Fortsetzen</b>, um die Aktualisierungsprozess zu beginnen. <br>Bitte etwas Geduld!! Die Aktualisierung kann einige Minuten dauern.";
 $GLOBALS['strSystemUpgradeBusy']		= "Systemaktualisierung läuft, bitte warten...";
 $GLOBALS['strServiceUnavalable']		= "Der Dienst ist zeitweise nicht verfügbar. Systemupgrade läuft...";
-$GLOBALS['strDownloadConfig']			= "Downloade die <b>config.inc.php</b> und uploade sie auf den Server, dann klicke <b>Fortsetzen</b>.";
-$GLOBALS['strDownload']					= "Download";
 
 $GLOBALS['strConfigNotWritable']		= "Die Datei <b>config.inc.php</b> ist nicht beschreibbar";
 
