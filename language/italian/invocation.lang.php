@@ -7,6 +7,8 @@
 /* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
+/* Translations by Matteo Beccati                                       */
+/*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
@@ -18,10 +20,10 @@
 $GLOBALS['strInvocationRemote']			= "Invocazione Remota";
 $GLOBALS['strInvocationJS']				= "Invocazione Remota con Javascript";
 $GLOBALS['strInvocationIframes']		= "Invocazione Remota con iframes";
+$GLOBALS['strInvocationXmlRpc']			= "Invocazione Remota con XML-RPC";
 $GLOBALS['strInvocationCombined']		= "Invocazione Remota Combinata";
 $GLOBALS['strInvocationPopUp']			= "Pop-up";
 $GLOBALS['strInvocationAdLayer']		= "AdLayer";
-$GLOBALS['strInvocationXmlRpc']			= "Invocazione Remota con XML-RPC";
 $GLOBALS['strInvocationLocal']			= "Modo locale";
 
 
@@ -44,10 +46,6 @@ $GLOBALS['strIframeResizeToBanner']		= "Adatta dimensioni IFrame al Banner";
 $GLOBALS['strIframeMakeTransparent']	= "Sfondo IFrame trasparente";
 
 
-// AdLayer
-$GLOBALS['strAdLayerStyle']				= "Stile del Layer";
-
-
 // PopUp
 $GLOBALS['strPopUpStyle']				= "Tipo di Pop-up";
 $GLOBALS['strPopUpStylePopUp']			= "Pop-up";
@@ -58,7 +56,7 @@ $GLOBALS['strPopUpLeft']				= "Positione Iniziale (sinistra)";
 
 
 // XML-RPC
-$GLOBALS['strXmlRpcLanguage']			= "Host Language";
+$GLOBALS['strXmlRpcLanguage']			= "Linguaggio utilizzato";
 
 
 // AdLayer
@@ -83,13 +81,14 @@ $GLOBALS['strBannerPadding']			= "Margini interni";
 $GLOBALS['strHShift']					= "Scostamento orizzontale";
 $GLOBALS['strVShift']					= "Scostamento verticale";
 
+$GLOBALS['strShowCloseButton']			= "Visualizza pulsante di chiusura";
+$GLOBALS['strBackgroundColor']			= "Colore di sfondo";
+$GLOBALS['strBorderColor']				= "Colore del bordo";
 
 
 $GLOBALS['strAdLayerStyleName']			= array(
 	'geocities'		=> "Geocities",
 	'simple'		=> "Semplice"
 );
-
-
 
 ?>

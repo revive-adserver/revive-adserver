@@ -10,7 +10,7 @@
 /* Translations by Marco La Ferla                                       */
 /*                 Matteo Beccati                                       */
 /*                 Luca Pescatore                                       */
-/*                 Francesco Lia                                        */
+/*                 Francesco Lia - total rewrite for 1.15               */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -73,15 +73,15 @@ $GLOBALS['strSave']							= "Salva";
 $GLOBALS['strCancel']						= "Cancella";
 $GLOBALS['strPrevious']						= "Precedente";
 $GLOBALS['strNext']							= "Sucessivo";
-$GLOBALS['strYes']							= "Si";
+$GLOBALS['strYes']							= "S&igrave;";
 $GLOBALS['strNo']							= "No";
 $GLOBALS['strNone']							= "Nessuno";
-$GLOBALS['strCustom']						= "Su Misura";
+$GLOBALS['strCustom']						= "Personalizzato";
 $GLOBALS['strDefault']						= "Default";
 $GLOBALS['strOther']						= "Altro";
 $GLOBALS['strUnknown']						= "Sconosciuto";
 $GLOBALS['strUnlimited']					= "Illimitato";
-$GLOBALS['strUntitled']						= "Senza Titolo";
+$GLOBALS['strUntitled']						= "Senza nome";
 $GLOBALS['strAll']							= "tutto";
 $GLOBALS['strAvg']							= "Med.";
 $GLOBALS['strAverage']						= "Media";
@@ -93,6 +93,7 @@ $GLOBALS['strTo']							= "a";
 $GLOBALS['strLinkedTo']						= "collegato a";
 $GLOBALS['strDaysLeft']						= "Giorni mancanti";
 $GLOBALS['strCheckAllNone']					= "Seleziona tutti / nessuno";
+$GLOBALS['strKiloByte']						= "KB";
 
 
 // Properties
@@ -102,7 +103,7 @@ $GLOBALS['strWidth']						= "Larghezza";
 $GLOBALS['strHeight']						= "Altezza";
 $GLOBALS['strURL2']							= "URL";
 $GLOBALS['strTarget']						= "Limite Visualizzazioni";
-$GLOBALS['strLanguage']						= "Linguaggio";
+$GLOBALS['strLanguage']						= "Lingua";
 $GLOBALS['strDescription']					= "Descrizione";
 $GLOBALS['strID']							= "ID";
 
@@ -132,7 +133,7 @@ $GLOBALS['strViewCredits']					= "Crediti Visualizzazioni";
 $GLOBALS['strClickCredits']					= "Crediti Click";
 
 
-// Time andate related
+// Time and date related
 $GLOBALS['strDate']							= "Data";
 $GLOBALS['strToday']						= "Oggi";
 $GLOBALS['strDay']							= "Giorno";
@@ -144,6 +145,7 @@ $GLOBALS['strMonths']						= "Mesi";
 $GLOBALS['strThisMonth']					= "Questo Mese";
 $GLOBALS['strMonth']						= array("Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre");
 $GLOBALS['strDayShortCuts']					= array("Do","Lu","Ma","Me","Gi","Ve","Sa");
+$GLOBALS['strSeconds']						= "seconds";
 
 
 // Advertiser
@@ -199,29 +201,19 @@ $GLOBALS['strLow']							= "Bassa";
 $GLOBALS['strHigh']							= "Alta";
 $GLOBALS['strExpirationDate']				= "Data Scadenza";
 $GLOBALS['strActivationDate']				= "Data Attivazione";
-$GLOBALS['strViewsPurchased']				= "Visualizzazioni Acquistate";
-$GLOBALS['strClicksPurchased']				= "Click Acquistati";
-$GLOBALS['strCampaignWeight']				= "Peso Campagna";
+$GLOBALS['strViewsPurchased']				= "Visualizzazioni Rimaste";
+$GLOBALS['strClicksPurchased']				= "Click Rimaste";
+$GLOBALS['strCampaignWeight']				= "Peso della Campagna";
 $GLOBALS['strHighPriority']					= "Visualizza i banner in questa campagna con Priorit&agrave; Alta.<br>
-											   Usando questa opzione phpAdsNew prova a distribuire
+											   Usando questa opzione ".$phpAds_productname." prova a distribuire
 											   il numero di Visualizzazioni Scelto durante il corso della giornata.";
 $GLOBALS['strLowPriority']					= "Visualizza i banner in questa campagna con Priorit&agrave; Bassa.<br>
 											   Usando questa opzione i banner sfrutteranno le visualizzazioni
 											   lasciate a disposizione dalla campagna con Importanza Alta.";
 $GLOBALS['strTargetLimitAdviews']			= "Limita il numero di visualizzazioni a";
-$GLOBALS['strTargetPerDay']					= "per giorno.";
-$GLOBALS['strHighPriorityCampaigns']		= "Campagne con Priorit&agrave; Alta";
-$GLOBALS['strAdViewsAssigned']				= "Visualizzazioni assegnate";
-$GLOBALS['strLowPriorityCampaigns']			= "Campagne con Priorit&agrave; Bassa";
-$GLOBALS['strPredictedAdViews']				= "Visualizzazioni previste";
-$GLOBALS['strPriorityDaysRunning']			= "Ci sono {days} giorni di statistiche disponibili su cui phpAdsNew pu&ograve; basare le proprie previsioni. ";
-$GLOBALS['strPriorityBasedLastWeek']		= "La previsione &egrave; basata sui dati della settimana scorsa e di quella attuale. ";
-$GLOBALS['strPriorityBasedLastDays']		= "La previsione &egrave; basata solo sui dati degli ultimi giorni. ";
-$GLOBALS['strPriorityBasedYesterday']		= "La previsione &egrave; basata solo sui dati si ieri. ";
-$GLOBALS['strPriorityNoData']				= "Non ci sono abbastaza dati per fornire una previsione affidabile sul numero di visualizzazioni che il server generer&agrave; oggi. L'assegnamento delle priorit&agrave; sar&agrave; basato solo sulle statistiche generate in tempo reale. ";
-$GLOBALS['strPriorityEnoughAdViews']		= "Dovrebbero esserci abbastanza Visualizzazioni per soddisfare completamente gli obiettivi di tutte le campagne ad alta priorit&agrave;. ";
-$GLOBALS['strPriorityNotEnoughAdViews']		= "Non &egrave; chiaro se oggi ci saranno AdViews abbastanza Visualizzazioni per soddisfare completamente gli obiettivi delle campagne ad alta priorit&agrave;. Perciò tutte le campagne a bassa priorit&agrave; sono state temporaneamente disabilitate. ";
-$GLOBALS['strPriorityAutoTargeting']		= "Sono attive le Visualizzazioni Acquistate e la Data di Scadenza.\nIl limite giornaliero verrà ricalcolato automaticamente.";
+$GLOBALS['strTargetPerDay']					= "al giorno.";
+$GLOBALS['strPriorityAutoTargeting']		= "Distribisci le Visualizzazioni durante il corso delle rimanenti giornate. Il limite giornaliero di Visualizzazioni verr&agrave; calcolato automaticamente.";
+
 
 
 // Banners (General)
@@ -241,10 +233,11 @@ $GLOBALS['strDeactivateAllBanners']			= "Disattiva tutti i Banner";
 $GLOBALS['strBannerOverview']				= "Descrizione Banner";
 $GLOBALS['strBannerProperties']				= "Impostazioni Banner";
 $GLOBALS['strBannerHistory']				= "Storico Banner";
-$GLOBALS['strBannerNoStats']				= "There are no statistics available for this banner";
-$GLOBALS['strConfirmDeleteBanner']			= "Do you really want to delete this banner?";
-$GLOBALS['strConfirmDeleteAllBanners']		= "Do you really want to delete all banner which are owned by this campaign?";
-$GLOBALS['strConfirmResetBannerStats']		= "Do you really want to delete all existing statistics for this banner?";
+$GLOBALS['strBannerNoStats']				= "Non ci sono statistiche disponibili per questo banner";
+$GLOBALS['strNoBanners']					= "Non &egrave; ancora stato creato nessun banner";
+$GLOBALS['strConfirmDeleteBanner']			= "Vuoi veramente cancellare questo banner?";
+$GLOBALS['strConfirmDeleteAllBanners']		= "Vuoi veramente cancellare tutti i banner appartenenti a questa campagna?";
+$GLOBALS['strConfirmResetBannerStats']		= "Vuoi veramente cancellare tutte le statistiche di questo banner?";
 
 
 // Banner (Properties)
@@ -253,8 +246,8 @@ $GLOBALS['strMySQLBanner']					= "Banner Locale (SQL)";
 $GLOBALS['strWebBanner']					= "Banner Locale (su questo Webserver)";
 $GLOBALS['strURLBanner']					= "Banner Esterno";
 $GLOBALS['strHTMLBanner']					= "Banner Html";
-$GLOBALS['strAutoChangeHTML']				= "modifica HTML per attivare il tracciamento dei Click";
-$GLOBALS['strUploadOrKeep']					= "Preferisci mantenere la<br>immagine esistente, o preferisci <br> caricarne un altra?";
+$GLOBALS['strAutoChangeHTML']				= "Modifica HTML per attivare la registrazione dei Click";
+$GLOBALS['strUploadOrKeep']					= "Preferisci mantenere la<br>immagine esistente, o preferisci<br>caricarne un altra?";
 $GLOBALS['strNewBannerFile']				= "Scegli <br>la immagine che vuoi da <br>usare in questo banner<br><br>";
 $GLOBALS['strNewBannerURL']					= "URL Immagine (incl. http://)";
 $GLOBALS['strURL']							= "URL Destinazione (incl. http://)";
@@ -264,13 +257,13 @@ $GLOBALS['strKeyword']						= "Parole Chiave";
 $GLOBALS['strWeight']						= "Importanza";
 $GLOBALS['strAlt']							= "Testro Alternativo";
 $GLOBALS['strStatusText']					= "Testo di Status";
-$GLOBALS['strBannerWeight']					= "Importanza Banner";
+$GLOBALS['strBannerWeight']					= "Peso del Banner";
 
 
 // Banner (swf)
 $GLOBALS['strCheckSWF']						= "Controlla per links codificati dentro il file flash";
 $GLOBALS['strConvertSWFLinks']				= "Converti links Flash";
-$GLOBALS['strConvertSWF']					= "<br>Il file Flash appena caricato contiene urls codificati. phpAdsNew non risulta ".
+$GLOBALS['strConvertSWF']					= "<br>Il file Flash appena caricato contiene urls codificati. ".$phpAds_productname." non risulta ".
 											  "in grado ditracciare il numero di click per questo banner fino a quando non convertirai questi ".
 											  "urls codificati. Di seguito troverai una lista di tutti gli urls presenti nel file flash. ".
 											  "Se vuoi convertire questi urls, semplicemente clicca <b>Converti</b>, altrimenti clicca ".
@@ -278,7 +271,7 @@ $GLOBALS['strConvertSWF']					= "<br>Il file Flash appena caricato contiene urls
 											  "Nota Bene: cliccando <b>Converti</b> il file flash ".
 											  "che hai appena caricato viene modificato fisicamente. <br>Tieni da parte una copia ".
 											  "di backup del file originale. Indipendentemente alla versione di flash utilizzata, il file ".
-											  "risultante necessita di FLASH 4 (o superiore).<br><br>";
+											  "risultante necessita del plug-in Flash 4 (o superiore).<br><br>";
 
 
 // Banner (network)
@@ -297,10 +290,10 @@ $GLOBALS['strNoLimitations']				= "Nessuna limitazione";
 $GLOBALS['strApplyLimitationsTo']			= "Applica limitazioni a";
 $GLOBALS['strEqualTo']						= "risulta uguale a";
 $GLOBALS['strDifferentFrom']				= "risulta differente da";
-$GLOBALS['strAND']							= "AND";								// logical operator
-$GLOBALS['strOR']							= "OR";									// logical operator
+$GLOBALS['strAND']							= "AND";						// logical operator
+$GLOBALS['strOR']							= "OR";							// logical operator
 $GLOBALS['strOnlyDisplayWhen']				= "Mostra questo banner solo quando:";
-$GLOBALS['strWeekDay']						= "Giorno Settimanale";
+$GLOBALS['strWeekDay']						= "Giorno della settimana";
 $GLOBALS['strTime']							= "Ora";
 $GLOBALS['strUserAgent']					= "Browser";
 $GLOBALS['strDomain']						= "Dominio";
@@ -319,7 +312,7 @@ $GLOBALS['strAffiliateOverview']			= "Descrizione Editore";
 $GLOBALS['strAffiliateHistory']				= "Storico Editore";
 $GLOBALS['strZonesWithoutAffiliate']		= "Zone senza Editore";
 $GLOBALS['strMoveToNewAffiliate']			= "Muovi verso un nuovo Editore";
-$GLOBALS['strNoAffiliates']					= "non ci sono attualmente Editori definiti";
+$GLOBALS['strNoAffiliates']					= "Non &egrave; ancora stato creato nessun editore";
 $GLOBALS['strConfirmDeleteAffiliate']		= "Desideri realmente cancellare questo Editore?";
 
 
@@ -345,23 +338,12 @@ $GLOBALS['strNoZones']						= "Non ci sono correntemente zone definite";
 $GLOBALS['strConfirmDeleteZone']			= "Desideri realmente cancellare questa zona?";
 
 
-// Zone (cache)
-$GLOBALS['strZoneCacheOn']					= "Il caching della zona risulta essere attivo";
-$GLOBALS['strZoneCacheOff']					= "Il caching della zona risulta essere disattivo";
-$GLOBALS['strCachedZones']					= "Zone in Cache";
-$GLOBALS['strSizeOfCache']					= "Grandezza della cache";
-$GLOBALS['strAverageAge']					= "Durata media";
-$GLOBALS['strRebuildZoneCache']				= "Ricostruisci la cache della zona";
-$GLOBALS['strKiloByte']						= "KB";
-$GLOBALS['strSeconds']						= "secondi";
-
-
 // Linked banners/campaigns
 $GLOBALS['strSelectZoneType']				= "Scegli la tipologia di collegamento con i banner";
 $GLOBALS['strBannerSelection']				= "Selezione Banner";
 $GLOBALS['strCampaignSelection']			= "Selezione campagna";
 $GLOBALS['strInteractive']					= "Interattivo";
-$GLOBALS['strRawQueryString']				= "Stringa raw di query";
+$GLOBALS['strRawQueryString']				= "Keyword";
 $GLOBALS['strIncludedBanners']				= "Banner Collegati";
 $GLOBALS['strLinkedBannersOverview']		= "Descrizione banner collegati";
 $GLOBALS['strLinkedBannerHistory']			= "Storico Banner collegati";
@@ -377,8 +359,8 @@ $GLOBALS['strSelectCampaignToLink']			= "Seleziona la campagna che vorresti coll
 
 // Statistics
 $GLOBALS['strStats']						= "Statistiche";
-$GLOBALS['strNoStats']						= "There are currently no statistics available";
-$GLOBALS['strConfirmResetStats']			= "Do you really want to delete all existing statistics?";
+$GLOBALS['strNoStats']						= "Non ci sono statistiche disponibili";
+$GLOBALS['strConfirmResetStats']			= "Vuoi veramente cancellare tutte le statistiche?";
 $GLOBALS['strGlobalHistory']				= "Storico Globale";
 $GLOBALS['strDailyHistory']					= "Storico Giornaliero";
 $GLOBALS['strDailyStats']					= "Statistiche Giornaliere";
@@ -395,7 +377,7 @@ $GLOBALS['strSelectSource']					= "Seleziona la sorgente da visualizzare:";
 
 
 // Hosts
-$GLOBALS['strHosts']						= "Hosts";
+$GLOBALS['strHosts']						= "Host";
 $GLOBALS['strTopTenHosts']					= "I migliori 10 hosts richiedenti";
 
 
@@ -467,7 +449,6 @@ $GLOBALS['strNoStatsForCampaign']			= "Non ci sono statistiche disponibili per q
 
 // Priority
 $GLOBALS['strPriority']						= "Priorit&agrave;";
-$GLOBALS['strRecalculatePriority']			= "Ricalcola Priorit&agrave;";
 
 
 // Settings
@@ -475,5 +456,9 @@ $GLOBALS['strSettings']						= "Impostazioni";
 $GLOBALS['strGeneralSettings']				= "Impostazioni Generali";
 $GLOBALS['strMainSettings']					= "Impostazioni principali";
 $GLOBALS['strAdminSettings']				= "Impostazioni di Amministrazioni";
+
+
+// Product Updates
+$GLOBALS['strProductUpdates']				= "Ricerca aggiornamenti";
 
 ?>
