@@ -41,6 +41,16 @@ French
 
 
 
+Hebrew
+	---------------------------------------------------------
+	Maintained by:	   Reuven Mansharoff
+	Is up-to-date?	   Working on it
+	Last update:	   -
+	Translated files:  -
+	---------------------------------------------------------
+
+
+
 Hungarian
 	---------------------------------------------------------
 	Maintained by:	   Medgyesi Zoltán
