@@ -55,11 +55,17 @@ function phpAds_GenerateInvocationCode()
 		$server_same = true;
 	
 	
+	// Always make sure we create non-SSL bannercodes
+	$phpAds_config['url_prefix'] = str_replace ('https://', 'http://', $phpAds_config['url_prefix']);
+	
+	
+	// Clear buffer
 	$buffer = '';
 	
 	$parameters = array();
 	$uniqueid = 'a'.substr(md5(uniqid('')), 0, 7);
 	if (!isset($withText)) $withText = 0;
+	
 	
 	// Set parameters
 	if (isset($what) && $what != '')
@@ -112,7 +118,7 @@ function phpAds_GenerateInvocationCode()
 		$buffer .= "   document.write (\"&amp;exclude=\" + document.phpAds_used);\n";
 		$buffer .= "   document.write (\"'><\" + \"/script>\");\n";
 		$buffer .= "//-->\n";
-		$buffer .= "</script>\n";
+		$buffer .= "</script>";
 		
 		if (isset($parameters['withText']))
 			unset ($parameters['withText']);
@@ -171,29 +177,67 @@ function phpAds_GenerateInvocationCode()
 			isset($width) && $width != '' && $width != '-1' &&
 			isset($height) && $height != '' && $height != '-1')
 		{
-			$buffer .= "<ilayer width='".$width."' height='".$height."'";
-			$buffer .= " clip='0,0,".$width.",".$height."'><layer src='".$phpAds_config['url_prefix']."/adframe.php";
+			$buffer .= "<script language='JavaScript' type='text/javascript'>\n";
+			$buffer .= "<!--\n";
+			$buffer .= "   document.write (\"<nolayer>\");\n";
+			
+			$buffer .= "   document.write (\"<a href='".$phpAds_config['url_prefix']."/adclick.php";
+			$buffer .= "?n=".$uniqueid;
+			$buffer .= "'";
+			if (isset($target) && $target != '')
+				$buffer .= " target='$target'";
+			$buffer .= "><img src='".$phpAds_config['url_prefix']."/adview.php";
 			if (sizeof($parameters) > 0)
 				$buffer .= "?".implode ("&amp;", $parameters);
-			$buffer .= "'></layer></ilayer><nolayer>";
+			$buffer .= "' border='0' alt=''></a>\");\n";
+			
+			$buffer .= "   document.write (\"</nolayer>\");\n";
+			$buffer .= "   document.write (\"<ilayer id='layer".$uniqueid."' visibility='hidden' width='".$width."' height='".$height."'></ilayer>\");\n";
+			$buffer .= "//-->\n";
+			$buffer .= "</script>";
+			
+			$buffer .= "<noscript><a href='".$phpAds_config['url_prefix']."/adclick.php";
+			$buffer .= "?n=".$uniqueid;
+			$buffer .= "'";
+			if (isset($target) && $target != '')
+				$buffer .= " target='$target'";
+			$buffer .= "><img src='".$phpAds_config['url_prefix']."/adview.php";
+			if (sizeof($parameters) > 0)
+				$buffer .= "?".implode ("&amp;", $parameters);
+			$buffer .= "' border='0' alt=''></a></noscript>";
+		}
+		else
+		{
+			$buffer .= "<a href='".$phpAds_config['url_prefix']."/adclick.php";
+			$buffer .= "?n=".$uniqueid;
+			$buffer .= "'";
+			if (isset($target) && $target != '')
+				$buffer .= " target='$target'";
+			$buffer .= "><img src='".$phpAds_config['url_prefix']."/adview.php";
+			if (sizeof($parameters) > 0)
+				$buffer .= "?".implode ("&amp;", $parameters);
+			$buffer .= "' border='0' alt=''></a>";
 		}
 		
-		$buffer .= "<a href='".$phpAds_config['url_prefix']."/adclick.php";
-		$buffer .= "?n=".$uniqueid;
-		$buffer .= "'";
-		if (isset($target) && $target != '')
-			$buffer .= " target='$target'";
-		$buffer .= "><img src='".$phpAds_config['url_prefix']."/adview.php";
-		if (sizeof($parameters) > 0)
-			$buffer .= "?".implode ("&amp;", $parameters);
-		$buffer .= "' border='0' alt=''></a>";
+		$buffer .= "</iframe>\n";
+		
+		if (isset($parameters['n']))
+			unset ($parameters['n']);
 		
 		if (isset($ilayer) && $ilayer == 1 &&
-			isset($width) && $width != '' && 
-			isset($height) && $height != '')
-			$buffer .= "</nolayer>";
-		
-		$buffer .= "</iframe>\n";
+			isset($width) && $width != '' && $width != '-1' &&
+			isset($height) && $height != '' && $height != '-1')
+		{
+			$buffer .= "\n\n";
+			$buffer .= "<!-- Place this part of the code just above the </body> tag -->\n";
+			
+			$buffer .= "<layer src='".$phpAds_config['url_prefix']."/adframe.php";
+			$buffer .= "?n=".$uniqueid;
+			if (sizeof($parameters) > 0)
+				$buffer .= "&amp;".implode ("&amp;", $parameters);
+			
+			$buffer .= "' width='".$width."' height='".$height."' visibility='hidden' onLoad=\"moveToAbsolute(layer".$uniqueid.".pageX,layer".$uniqueid.".pageY);clip.width=468;clip.height=60;visibility='show';\"></layer>";
+		}
 	}
 	
 	// Popup
