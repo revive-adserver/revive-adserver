@@ -3,6 +3,7 @@ phpAdsNew - ChangeLog
 CVS			+ Added configuration manager  (Matteo) 20011104
 			+ Added install and upgrade script  (Matteo and Niels) 20011104
 			+ Added support for different table types, such as InnoDB  (Niels) 20011104
+			+ Added logging for zone statistics  (Niels) 20011118
 
 			+ Misc changes to library and function names
 			  - Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 20011020
@@ -30,6 +31,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Added width and height to the array returned by view_raw()  (Niels) 20011115
 			  - Added backwards compatibility for mixed case parameters  (Niels) 20011115
 			  - Added speed optimalisation, only associate array is used  (Niels) 20011116
+			  - Changed layout of section-tabs  (Niels) 20011118
 
 			+ Misc bugfixes
 			  - Removed extra comma from config.inc  (Matteo) 20011017
