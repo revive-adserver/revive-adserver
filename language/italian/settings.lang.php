@@ -218,7 +218,7 @@ $GLOBALS['strGeotargeting']					= "Targeting geografico";
 $GLOBALS['strGeotrackingType']				= "Tipo di database per il targeting geografico";
 $GLOBALS['strGeotrackingLocation'] 			= "Percorso del database targeting geografico";
 $GLOBALS['strGeotrackingLocationError']		= "Il database per il targeting geografico non &egrave; stato trovato nel percorso specificato";
-$GLOBALS['strGeotrackingLocationNoHTTP']	= "Il percorso specificato non rappresenta un file locale sull'hard disk del server, ma un URL di un file su un server web. Il percorso dovrebbe essere simile a questo: <i>{example}</i>. Il percorso reale dipende da dove &ergave; stato copiato il database.";
+$GLOBALS['strGeotrackingLocationNoHTTP']	= "Il percorso specificato non rappresenta un file locale sull'hard disk del server, ma un URL di un file su un server web. Il percorso dovrebbe essere simile a questo: <i>{example}</i>. Il percorso reale dipende da dove &egrave; stato copiato il database.";
 $GLOBALS['strGeoStoreCookie']				= "Memorizza risultato in un cookie per riutilizzarlo in seguito";
 
 
