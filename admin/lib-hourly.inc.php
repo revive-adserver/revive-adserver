@@ -92,9 +92,9 @@ echo "<br><br>";
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr bgcolor='#FFFFFF' height='25'>";
 echo "<td align='".$phpAds_TextAlignLeft."' nowrap height='25'><b>$strHour</b></td>";
-echo "<td align='".$phpAds_TextAlignLeft."' nowrap height='25'><b>$strViews</b></td>";
-echo "<td align='".$phpAds_TextAlignLeft."' nowrap height='25'><b>$strClicks</b></td>";
-echo "<td align='".$phpAds_TextAlignLeft."' nowrap height='25'><b>$strCTRShort</b>&nbsp;&nbsp;</td>";
+echo "<td align='".$phpAds_TextAlignRight."' width='25%' nowrap height='25'><b>$strViews</b></td>";
+echo "<td align='".$phpAds_TextAlignRight."' width='25%' nowrap height='25'><b>$strClicks</b></td>";
+echo "<td align='".$phpAds_TextAlignRight."' width='25%' nowrap height='25'><b>$strCTRShort</b>&nbsp;&nbsp;</td>";
 echo "</tr>";
 
 echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -114,7 +114,11 @@ for ($i=0; $i<24; $i++)
 	
 	
 	if ($views[$i] || $clicks[$i])
+	{
 		$ctr = phpAds_buildCTR($views[$i], $clicks[$i]);
+		$views[$i] = phpAds_formatNumber($views[$i]);
+		$clicks[$i] = phpAds_formatNumber($clicks[$i]);
+	}
 	else
 	{
 		$ctr = '-';
@@ -124,9 +128,9 @@ for ($i=0; $i<24; $i++)
 	
 	echo "<tr>";
 	echo "<td height='25' bgcolor='$bgcolor'>&nbsp;".$i.":00 - ".$i.":59</td>";
-	echo "<td height='25' bgcolor='$bgcolor'>".$views[$i]."</td>";
-	echo "<td height='25' bgcolor='$bgcolor'>".$clicks[$i]."</td>";
-	echo "<td height='25' bgcolor='$bgcolor'>".$ctr."</td>";
+	echo "<td align='".$phpAds_TextAlignRight."' height='25' bgcolor='$bgcolor'>".$views[$i]."</td>";
+	echo "<td align='".$phpAds_TextAlignRight."' height='25' bgcolor='$bgcolor'>".$clicks[$i]."</td>";
+	echo "<td align='".$phpAds_TextAlignRight."' height='25' bgcolor='$bgcolor'>".$ctr."&nbsp;&nbsp;</td>";
 	echo "</tr>";
 	
 	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -143,18 +147,18 @@ if ($totalviews > 0 || $totalclicks > 0)
 	
 	echo "<tr>";
 	echo "<td height='25'>&nbsp;<b>$strTotal</b></td>";
-	echo "<td height='25'>".$totalviews."</td>";
-	echo "<td height='25'>".$totalclicks."</td>";
-	echo "<td height='25'>".phpAds_buildCTR($totalviews, $totalclicks)."</td>";
+	echo "<td align='".$phpAds_TextAlignRight."' height='25'>".phpAds_formatNumber($totalviews)."</td>";
+	echo "<td align='".$phpAds_TextAlignRight."' height='25'>".phpAds_formatNumber($totalclicks)."</td>";
+	echo "<td align='".$phpAds_TextAlignRight."' height='25'>".phpAds_buildCTR($totalviews, $totalclicks)."&nbsp;&nbsp;</td>";
 	echo "</tr>";
 	
 	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	
 	echo "<tr>";
 	echo "<td height='25'>&nbsp;<b>$strAverage</b></td>";
-	echo "<td height='25'>".number_format (($totalviews / 24), $phpAds_config['percentage_decimals'])."</td>";
-	echo "<td height='25'>".number_format (($totalclicks / 24), $phpAds_config['percentage_decimals'])."</td>";
-	echo "<td height='25'>&nbsp;</td>";
+	echo "<td align='".$phpAds_TextAlignRight."' height='25'>".phpAds_formatNumber($totalviews / 24)."</td>";
+	echo "<td align='".$phpAds_TextAlignRight."' height='25'>".phpAds_formatNumber($totalclicks / 24)."</td>";
+	echo "<td align='".$phpAds_TextAlignRight."' height='25'>&nbsp;</td>";
 	echo "</tr>";
 	
 	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";

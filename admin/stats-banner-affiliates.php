@@ -382,8 +382,8 @@ if ($totalviews > 0 || $totalclicks > 0)
 				echo "</td>";
 				
 				echo "<td height='25'>".$affiliate['affiliateid']."</td>";
-				echo "<td height='25' align='right'>".$affiliate['views']."</td>";
-				echo "<td height='25' align='right'>".$affiliate['clicks']."</td>";
+				echo "<td height='25' align='right'>".phpAds_formatNumber($affiliate['views'])."</td>";
+				echo "<td height='25' align='right'>".phpAds_formatNumber($affiliate['clicks'])."</td>";
 				echo "<td height='25' align='right'>".phpAds_buildCTR($affiliate['views'], $affiliate['clicks'])."&nbsp;&nbsp;</td>";
 				echo "</tr>";
 				
@@ -412,8 +412,8 @@ if ($totalviews > 0 || $totalclicks > 0)
 							echo "</td>";
 							
 							echo "<td height='25'>".$zones[$zkey]['zoneid']."</td>";
-							echo "<td height='25' align='right'>".$zones[$zkey]['views']."</td>";
-							echo "<td height='25' align='right'>".$zones[$zkey]['clicks']."</td>";
+							echo "<td height='25' align='right'>".phpAds_formatNumber($zones[$zkey]['views'])."</td>";
+							echo "<td height='25' align='right'>".phpAds_formatNumber($zones[$zkey]['clicks'])."</td>";
 							echo "<td height='25' align='right'>".phpAds_buildCTR($zones[$zkey]['views'], $zones[$zkey]['clicks'])."&nbsp;&nbsp;</td>";
 							echo "</tr>";
 						}
@@ -432,8 +432,8 @@ if ($totalviews > 0 || $totalclicks > 0)
 		echo "<td height='25'>&nbsp;&nbsp;".$strUnknown."</td>";
 		
 		echo "<td height='25'>-</td>";
-		echo "<td height='25' align='right'>".$manual['views']."</td>";
-		echo "<td height='25' align='right'>".$manual['clicks']."</td>";
+		echo "<td height='25' align='right'>".phpAds_formatNumber($manual['views'])."</td>";
+		echo "<td height='25' align='right'>".phpAds_formatNumber($manual['clicks'])."</td>";
 		echo "<td height='25' align='right'>".phpAds_buildCTR($manual['views'], $manual['clicks'])."&nbsp;&nbsp;</td>";
 		echo "</tr>";
 		
@@ -444,8 +444,8 @@ if ($totalviews > 0 || $totalclicks > 0)
 	// Total
 	echo "<tr height='25'><td height='25'>&nbsp;&nbsp;<b>".$strTotal."</b></td>";
 	echo "<td height='25'>&nbsp;</td>";
-	echo "<td height='25' align='right'>".$totalviews."</td>";
-	echo "<td height='25' align='right'>".$totalclicks."</td>";
+	echo "<td height='25' align='right'>".phpAds_formatNumber($totalviews)."</td>";
+	echo "<td height='25' align='right'>".phpAds_formatNumber($totalclicks)."</td>";
 	echo "<td height='25' align='right'>".phpAds_buildCTR($totalviews, $totalclicks)."&nbsp;&nbsp;</td>";
 	echo "</tr>";
 	

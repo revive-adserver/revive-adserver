@@ -372,10 +372,10 @@ if ($totalviews > 0 || $totalclicks > 0)
 		echo "<td height='25'>".$client['clientid']."</td>";
 		
 		// Button 1
-		echo "<td height='25' align='right'>".$client['views']."</td>";
+		echo "<td height='25' align='right'>".phpAds_formatNumber($client['views'])."</td>";
 		
 		// Empty
-		echo "<td height='25' align='right'>".$client['clicks']."</td>";
+		echo "<td height='25' align='right'>".phpAds_formatNumber($client['clicks'])."</td>";
 		
 		// Button 3
 		echo "<td height='25' align='right'>".phpAds_buildCTR($client['views'], $client['clicks'])."&nbsp;&nbsp;</td>";
@@ -421,10 +421,10 @@ if ($totalviews > 0 || $totalclicks > 0)
 				echo "<td height='25'>".$campaigns[$ckey]['clientid']."</td>";
 				
 				// Button 1
-				echo "<td height='25' align='right'>".$campaigns[$ckey]['views']."</td>";
+				echo "<td height='25' align='right'>".phpAds_formatNumber($campaigns[$ckey]['views'])."</td>";
 				
 				// Button 2
-				echo "<td height='25' align='right'>".$campaigns[$ckey]['clicks']."</td>";
+				echo "<td height='25' align='right'>".phpAds_formatNumber($campaigns[$ckey]['clicks'])."</td>";
 				
 				// Button 3
 				echo "<td height='25' align='right'>".phpAds_buildCTR($campaigns[$ckey]['views'], $campaigns[$ckey]['clicks'])."&nbsp;&nbsp;</td>";
@@ -477,10 +477,10 @@ if ($totalviews > 0 || $totalclicks > 0)
 						echo "<td height='25'>".$banners[$bkey]['bannerid']."</td>";
 						
 						// Empty
-						echo "<td height='25' align='right'>".$banners[$bkey]['views']."</td>";
+						echo "<td height='25' align='right'>".phpAds_formatNumber($banners[$bkey]['views'])."</td>";
 						
 						// Button 2
-						echo "<td height='25' align='right'>".$banners[$bkey]['clicks']."</td>";
+						echo "<td height='25' align='right'>".phpAds_formatNumber($banners[$bkey]['clicks'])."</td>";
 						
 						// Button 1
 						echo "<td height='25' align='right'>".phpAds_buildCTR($banners[$bkey]['views'], $banners[$bkey]['clicks'])."&nbsp;&nbsp;</td>";
@@ -510,8 +510,8 @@ if ($totalviews > 0 || $totalclicks > 0)
 	// Total
 	echo "<tr height='25'><td height='25'>&nbsp;&nbsp;<b>".$strTotal."</b></td>";
 	echo "<td height='25'>&nbsp;</td>";
-	echo "<td height='25' align='right'>".$totalviews."</td>";
-	echo "<td height='25' align='right'>".$totalclicks."</td>";
+	echo "<td height='25' align='right'>".phpAds_formatNumber($totalviews)."</td>";
+	echo "<td height='25' align='right'>".phpAds_formatNumber($totalclicks)."</td>";
 	echo "<td height='25' align='right'>".phpAds_buildCTR($totalviews, $totalclicks)."&nbsp;&nbsp;</td>";
 	echo "</tr>";
 	
@@ -525,8 +525,8 @@ if ($totalviews > 0 || $totalclicks > 0)
 	$adclicks = (int)phpAds_totalClicks("", "day");
 	$ctr = phpAds_buildCTR($adviews, $adclicks);
 		echo "<tr><td height='25' colspan='2'>&nbsp;&nbsp;<b>$strToday</b></td>";
-		echo "<td height='25' align='right'>".$adviews."</td>";
-		echo "<td height='25' align='right'>".$adclicks."</td>";
+		echo "<td height='25' align='right'>".phpAds_formatNumber($adviews)."</td>";
+		echo "<td height='25' align='right'>".phpAds_formatNumber($adclicks)."</td>";
 		echo "<td height='25' align='right'>".$ctr."&nbsp;&nbsp;</td></tr>";
 		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	
@@ -536,8 +536,8 @@ if ($totalviews > 0 || $totalclicks > 0)
 	$adclicks = (int)phpAds_totalClicks("", "week");
 	$ctr = phpAds_buildCTR($adviews, $adclicks);
 		echo "<tr><td height='25' colspan='2'>&nbsp;&nbsp;$strLast7Days</td>";
-		echo "<td height='25' align='right'>".$adviews."</td>";
-		echo "<td height='25' align='right'>".$adclicks."</td>";
+		echo "<td height='25' align='right'>".phpAds_formatNumber($adviews)."</td>";
+		echo "<td height='25' align='right'>".phpAds_formatNumber($adclicks)."</td>";
 		echo "<td height='25' align='right'>".$ctr."&nbsp;&nbsp;</td></tr>";
 		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	
@@ -547,8 +547,8 @@ if ($totalviews > 0 || $totalclicks > 0)
 	$adclicks = (int)phpAds_totalClicks("", "month");
 	$ctr = phpAds_buildCTR($adviews, $adclicks);
 		echo "<tr><td height='25' colspan='2'>&nbsp;&nbsp;$strThisMonth</td>";
-		echo "<td height='25' align='right'>".$adviews."</td>";
-		echo "<td height='25' align='right'>".$adclicks."</td>";
+		echo "<td height='25' align='right'>".phpAds_formatNumber($adviews)."</td>";
+		echo "<td height='25' align='right'>".phpAds_formatNumber($adclicks)."</td>";
 		echo "<td height='25' align='right'>".$ctr."&nbsp;&nbsp;</td></tr>";
 		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	

@@ -386,10 +386,10 @@ if ($totalviews > 0 || $totalclicks > 0)
 		echo "<td height='25'>".$campaigns[$ckey]['clientid']."</td>";
 		
 		// Button 1
-		echo "<td height='25' align='right'>".$campaigns[$ckey]['views']."</td>";
+		echo "<td height='25' align='right'>".phpAds_formatNumber($campaigns[$ckey]['views'])."</td>";
 		
 		// Button 2
-		echo "<td height='25' align='right'>".$campaigns[$ckey]['clicks']."</td>";
+		echo "<td height='25' align='right'>".phpAds_formatNumber($campaigns[$ckey]['clicks'])."</td>";
 		
 		// Button 3
 		echo "<td height='25' align='right'>".phpAds_buildCTR($campaigns[$ckey]['views'], $campaigns[$ckey]['clicks'])."&nbsp;&nbsp;</td>";
@@ -442,10 +442,10 @@ if ($totalviews > 0 || $totalclicks > 0)
 				echo "<td height='25'>".$banners[$bkey]['bannerid']."</td>";
 				
 				// Empty
-				echo "<td height='25' align='right'>".$banners[$bkey]['views']."</td>";
+				echo "<td height='25' align='right'>".phpAds_formatNumber($banners[$bkey]['views'])."</td>";
 				
 				// Button 2
-				echo "<td height='25' align='right'>".$banners[$bkey]['clicks']."</td>";
+				echo "<td height='25' align='right'>".phpAds_formatNumber($banners[$bkey]['clicks'])."</td>";
 				
 				// Button 1
 				echo "<td height='25' align='right'>".phpAds_buildCTR($banners[$bkey]['views'], $banners[$bkey]['clicks'])."&nbsp;&nbsp;</td>";
@@ -459,8 +459,8 @@ if ($totalviews > 0 || $totalclicks > 0)
 	// Total
 	echo "<tr height='25'><td height='25'>&nbsp;&nbsp;<b>".$strTotal."</b></td>";
 	echo "<td height='25'>&nbsp;</td>";
-	echo "<td height='25' align='right'>".$totalviews."</td>";
-	echo "<td height='25' align='right'>".$totalclicks."</td>";
+	echo "<td height='25' align='right'>".phpAds_formatNumber($totalviews)."</td>";
+	echo "<td height='25' align='right'>".phpAds_formatNumber($totalclicks)."</td>";
 	echo "<td height='25' align='right'>".phpAds_buildCTR($totalviews, $totalclicks)."&nbsp;&nbsp;</td>";
 	echo "</tr>";
 	

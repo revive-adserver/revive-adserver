@@ -480,8 +480,8 @@ if (count($order_array) > 0)
 				// Stats
 				echo "<tr bgcolor='$bgcolor'>";
 				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>&nbsp;</td>";
-				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>$strViews: <b>$adviews</b></td>";
-				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>$strClicks: <b>$adclicks</b></td>";
+				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>$strViews: <b>".phpAds_formatNumber($adviews)."</b></td>";
+				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>$strClicks: <b>".phpAds_formatNumber($adclicks)."</b></td>";
 				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>$strCTR: <b>".phpAds_buildCTR($adviews, $adclicks)."<b></td>";
 				echo "</tr>";
 			}
@@ -604,8 +604,8 @@ if (count($order_array) > 0)
 		    if ($adclicks > 0 || $adviews > 0)
 		    {
 				// Stats
-				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>".$adviews."</td>";
-				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>".$adclicks."</td>";
+				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>".phpAds_formatNumber($adviews)."</td>";
+				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>".phpAds_formatNumber($adclicks)."</td>";
 				echo "<td height='25' align='".$phpAds_TextAlignRight."' nowrap>".phpAds_buildCTR($adviews, $adclicks)."&nbsp;&nbsp;</td>";
 			}
 			else
@@ -709,11 +709,11 @@ if (count($order_array) > 0)
 	$adclicksleft = adclicks_left($campaignid);
 	$adviewsleft  = adviews_left($campaignid);
 	
-	echo "<tr><td height='25'>".$strTotalViews.": <b>".$totaladviews."</b></td>";
+	echo "<tr><td height='25'>".$strTotalViews.": <b>".phpAds_formatNumber($totaladviews)."</b></td>";
 	echo "<td height='25'>".$strViewCredits.": <b>".$adviewsleft."</b></td></tr>";
 	echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
 	
-	echo "<tr><td height='25'>".$strTotalClicks.": <b>".$totaladclicks."</b></td>";
+	echo "<tr><td height='25'>".$strTotalClicks.": <b>".phpAds_formatNumber($totaladclicks)."</b></td>";
 	echo "<td height='25'>".$strClickCredits.": <b>".$adclicksleft."</b></td></tr>";
 	echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
 	

@@ -577,12 +577,12 @@ function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 
 function phpAds_buildCTR ($views, $clicks)
 {
-	global $phpAds_config;
+	global $phpAds_config, $phpAds_DecimalPoint, $phpAds_ThousandsSeperator;
 	
 	if ($views > 0)
-		$ctr = number_format(($clicks*100)/$views, $phpAds_config['percentage_decimals'])."%";
+		$ctr = number_format(($clicks*100)/$views, $phpAds_config['percentage_decimals'], $phpAds_DecimalPoint, $phpAds_ThousandsSeperator)."%";
 	else
-		$ctr="0.00%";
+		$ctr="0".$phpAds_DecimalPoint."00%";
 		
 	return ($ctr);
 }
@@ -722,6 +722,13 @@ function phpAds_htmlQuotes ($string)
 	$string = str_replace ("'", '&#039;', $string);
 	
 	return $string;
+}
+
+function phpAds_formatNumber ($number)
+{
+	global $phpAds_ThousandsSeperator;
+	
+	return (number_format($number, 0, '', $phpAds_ThousandsSeperator));
 }
 
 ?>

@@ -193,7 +193,7 @@ if ($totalviews > 0 || $totalclicks > 0)
 	
 	
 	$i=0;
-	for (reset($linkedbanners);$key=key($linkedbanners);next($linkedbanners))
+	while (list($key,) = each($linkedbanners))
 	{
 		$linkedbanner = $linkedbanners[$key];
 		
@@ -211,8 +211,8 @@ if ($totalviews > 0 || $totalclicks > 0)
 		echo "</td>";
 		
 		echo "<td height='25'>".$linkedbanner['bannerid']."</td>";
-		echo "<td height='25' align='right'>".$linkedbanner['views']."</td>";
-		echo "<td height='25' align='right'>".$linkedbanner['clicks']."</td>";
+		echo "<td height='25' align='right'>".phpAds_formatNumber($linkedbanner['views'])."</td>";
+		echo "<td height='25' align='right'>".phpAds_formatNumber($linkedbanner['clicks'])."</td>";
 		echo "<td height='25' align='right'>".phpAds_buildCTR($linkedbanner['views'], $linkedbanner['clicks'])."&nbsp;&nbsp;</td>";
 		echo "</tr>";
 		
@@ -223,8 +223,8 @@ if ($totalviews > 0 || $totalclicks > 0)
 	// Total
 	echo "<tr height='25'><td height='25'>&nbsp;&nbsp;<b>".$strTotal."</b></td>";
 	echo "<td height='25'>&nbsp;</td>";
-	echo "<td height='25' align='right'>".$totalviews."</td>";
-	echo "<td height='25' align='right'>".$totalclicks."</td>";
+	echo "<td height='25' align='right'>".phpAds_formatNumber($totalviews)."</td>";
+	echo "<td height='25' align='right'>".phpAds_formatNumber($totalclicks)."</td>";
 	echo "<td height='25' align='right'>".phpAds_buildCTR($totalviews, $totalclicks)."&nbsp;&nbsp;</td>";
 	echo "</tr>";
 	
