@@ -16,7 +16,7 @@
 
 // This file is included for backwards-compatibility.
 // Please use adjs.php instead.
-include ("adjs.php");
+@require ("adjs.php");
 
 
 ?>

@@ -16,6 +16,6 @@
 
 // This file is included for backwards-compatibility.
 // Please use adview.php instead.
-include ("adview.php");
+@require ("adview.php");
 
 ?>

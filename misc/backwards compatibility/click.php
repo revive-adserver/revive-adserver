@@ -16,6 +16,6 @@
 
 // This file is included for backwards-compatibility.
 // Please use adclick.php instead.
-include ("adclick.php");
+@require ("adclick.php");
 
 ?>

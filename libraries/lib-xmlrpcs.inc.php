@@ -47,6 +47,12 @@
 // OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
+
+// Prevent full path disclosure
+if (!defined('phpAds_path')) die();
+
+
+
 require (phpAds_path."/libraries/lib-xmlrpc.inc.php");
 
 

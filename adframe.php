@@ -101,7 +101,8 @@ echo "<html>\n";
 echo "<head>\n";
 echo "<title>".($banner['alt'] ? $banner['alt'] : 'Advertisement')."</title>\n";
 
-if (isset($refresh) && $refresh != '')
+// Add refresh meta tag if $refresh is set and numeric
+if (isset($refresh) && !preg_match('/[^\d]/', $refresh))
 	echo "<meta http-equiv='refresh' content='".$refresh."'>\n";
 
 if (isset($resize) && $resize == 1)

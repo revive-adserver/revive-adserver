@@ -47,6 +47,10 @@ phpAds_registerGlobal ('bannerid', 'zoneid', 'source', 'timeout');
 /* Main code                                             */
 /*********************************************************/
 
+
+if (!isset($bannerid)) $bannerid = 0;
+
+
 if (isset($zoneid) && $zoneid > 0)
 {
 	if (!defined('LIBVIEWCACHE_INCLUDED'))
@@ -69,7 +73,11 @@ else
 
 
 // Get the data we need to display the banner
-$row = array_merge($row, phpAds_getBannerDetails($row['bannerid']));
+$details = phpAds_getBannerDetails($row['bannerid']);
+
+if (is_array($details))
+	$row = array_merge($row, $details);
+
 $output = phpAds_prepareOutput($row, '_blank', $source, false);
 
 		

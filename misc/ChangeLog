@@ -4,6 +4,8 @@ phpAdsNew - ChangeLog
 phpAdsNew 2.0.4-pr2
 			+ Misc bugfixes
 			  - 2005-03-14:  Texts under banners and text ads were not accepting HTML tags anymore  (Matteo)
+			  - 2005-03-14:  Fixed multiple full path disclosure security threats  (Matteo, thanks to cXIb8O3)
+			  - 2005-03-14:  Fixed cross site scripting vulnerability in adframe.php  (Matteo, thanks to cXIb8O3)
 
 
 phpAdsNew 2.0.4-pr1
