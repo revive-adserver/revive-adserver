@@ -1227,8 +1227,10 @@ if ($storagetype == 'url')
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strNewBannerURL."</td>";
 	echo "<td><input class='flat' size='35' type='text' name='imageurl' style='width:350px;' value='".phpAds_htmlQuotes($row["imageurl"])."'></td></tr>";
-	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+	
+	echo "<tr><td height='30' colspan='3'>&nbsp;</td></tr>";
+	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strURL."</td>";
@@ -1239,8 +1241,10 @@ if ($storagetype == 'url')
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strTarget."</td>";
 	echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' value='".$row["target"]."'></td></tr>";
-	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+	
+	echo "<tr><td height='30' colspan='3'>&nbsp;</td></tr>";
+	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strAlt."</td>";
