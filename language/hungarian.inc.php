@@ -1,9 +1,25 @@
-<?
-// hungarian.inc.php
-// translated by DaVe|D3 <dave@wh.hu> (http://www.wh.hu)
+<?php // $Revision$
 
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* Translations by DaVe|D3 <dave@wh.hu> (http://www.wh.hu)				*/
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
+
+
+// Set character-set
 $GLOBALS['phpAds_CharSet'] = "iso-8859-2";
 
+
+// Set translation strings
 $GLOBALS['strHome'] = "Home";
 $GLOBALS['date_format'] = "%Y/%m/%d";
 $GLOBALS['time_format'] = "%H:%i:%S";
