@@ -115,7 +115,7 @@ function phpAds_showZoneBanners ($zoneid)
 {
 	global $phpAds_config;
 	global $strUntitled, $strName, $strID, $strWeight;
-	global $strCampaignWeight, $strBannerWeight;
+	global $strCampaignWeight, $strBannerWeight, $strProbability;
 	
 	// Get zone
 	$zoneres = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_zones']." WHERE zoneid='$zoneid' ");
@@ -163,11 +163,11 @@ function phpAds_showZoneBanners ($zoneid)
 		// Header
 		echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
 		echo "<tr height='25'>";
-		echo "<td height='25'><b>&nbsp;&nbsp;$strName</b></td>";
-		echo "<td height='25'><b>$strID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>";
-		echo "<td height='25'><b>$strCampaignWeight</b></td>";
-		echo "<td height='25'><b>$strBannerWeight</b></td>";
-		echo "<td height='25'><b>Probability</b></td>";
+		echo "<td height='25'><b>&nbsp;&nbsp;".$strName."</b></td>";
+		echo "<td height='25'><b>".$strID."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>";
+		echo "<td height='25'><b>".$strCampaignWeight."</b></td>";
+		echo "<td height='25'><b>".$strBannerWeight."</b></td>";
+		echo "<td height='25'><b>".$strProbability."</b></td>";
 		echo "</tr>";
 		
 		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
