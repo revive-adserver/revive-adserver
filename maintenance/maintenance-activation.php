@@ -13,6 +13,12 @@
 /************************************************************************/
 
 
+
+// Prevent full path disclosure
+if (!defined('phpAds_path')) die();
+
+
+
 // Include required files
 require	(phpAds_path."/libraries/lib-warnings.inc.php"); 
 
