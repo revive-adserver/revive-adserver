@@ -32,7 +32,15 @@ phpAds_checkAccess(phpAds_Admin+phpAds_Affiliate);
 
 if (phpAds_isUser(phpAds_Affiliate))
 {
-	$affiliateid = phpAds_getUserID();
+	if (phpAds_isAllowed(phpAds_ModifyInfo))
+	{
+		$affiliateid = phpAds_getUserID();
+	}
+	else
+	{
+		phpAds_PageHeader("1");
+		phpAds_Die ($strAccessDenied, $strNotAdmin);
+	}
 }
 
 
@@ -105,6 +113,15 @@ if (isset($submit))
 			}
 		}
 		
+		$permissions = 0;
+		if (isset($affiliatepermissions) && is_array($affiliatepermissions))
+		{
+			for ($i=0;$i<sizeof($affiliatepermissions);$i++)
+			{
+				$permissions += $affiliatepermissions[$i];
+			}
+		}
+		
 		$res = phpAds_dbQuery("
 			REPLACE INTO
 				".$phpAds_config['tbl_affiliates']."
@@ -116,7 +133,8 @@ if (isset($submit))
 				email,
 				language,
 				username,
-				password
+				password,
+				permissions
 				)
 			 VALUES (
 			 	'".$affiliateid."',
@@ -126,7 +144,8 @@ if (isset($submit))
 				'".$email."',
 				'".$language."',
 				'".$username."',
-				'".$password."'
+				'".$password."',
+				'".$permissions."'
 				)
 			") or phpAds_sqlDie();
 		
@@ -366,10 +385,55 @@ if (isset($affiliateid) && $affiliateid != '')
 		<td width='200'><?php echo $strPassword;?></td>
 		<td width='370'><input type="text" name="password" size='25' value="<?php if(isset($affiliate["password"])) echo $affiliate["password"];?>">
 	</tr>
-	<tr><td height='10' colspan='2'>&nbsp;</td></tr>
+	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
+		<?php
+		if (phpAds_isUser(phpAds_Admin))
+		{
+			?>
 	<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+	<tr><td height='10' colspan='3'>&nbsp;</td></tr>
+
+	<tr>
+		<td width='30'>&nbsp;</td>
+		<td colspan='2'>
+			<input type="checkbox" name="affiliatepermissions[]" value="<?php echo phpAds_ModifyInfo; ?>"<?php echo (phpAds_ModifyInfo & $affiliate["permissions"]) ? " CHECKED" : ""; ?>>
+			<?php echo $GLOBALS['strAllowAffiliateModifyInfo']; ?>
+		</td>
+	</tr>
+	<tr>
+		<td width='30'>&nbsp;</td>
+		<td colspan='2'>
+			<input type="checkbox" name="affiliatepermissions[]" value="<?php echo phpAds_EditZone; ?>"<?php echo (phpAds_EditZone & $affiliate["permissions"]) ? " CHECKED" : ""; ?>>
+			<?php echo $GLOBALS['strAllowAffiliateModifyZones']; ?>
+		</td>
+	</tr>	
+	<tr>
+		<td width='30'>&nbsp;</td>
+		<td colspan='2'>
+			<input type="checkbox" name="affiliatepermissions[]" value="<?php echo phpAds_LinkBanners; ?>"<?php echo (phpAds_LinkBanners & $affiliate["permissions"]) ? " CHECKED" : ""; ?>>
+			<?php echo $GLOBALS['strAllowAffiliateLinkBanners']; ?>
+		</td>
+	</tr>	
+	<tr>
+		<td width='30'>&nbsp;</td>
+		<td colspan='2'>
+			<input type="checkbox" name="affiliatepermissions[]" value="<?php echo phpAds_AddZone; ?>"<?php echo (phpAds_AddZone & $affiliate["permissions"]) ? " CHECKED" : ""; ?>>
+			<?php echo $GLOBALS['strAllowAffiliateAddZone']; ?>
+		</td>
+	</tr>	
+	<tr>
+		<td width='30'>&nbsp;</td>
+		<td colspan='2'>
+			<input type="checkbox" name="affiliatepermissions[]" value="<?php echo phpAds_DeleteZone; ?>"<?php echo (phpAds_DeleteZone & $affiliate["permissions"]) ? " CHECKED" : ""; ?>>
+			<?php echo $GLOBALS['strAllowAffiliateDeleteZone']; ?>
+		</td>
+	</tr>	
+			<?php
+		}
+		?>
+	<tr><td height='10' colspan='2'>&nbsp;</td></tr>
 </table>
-		
+
 	
 <br><br>
 

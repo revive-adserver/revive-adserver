@@ -24,13 +24,20 @@ define ("phpAds_Client", 2);
 define ("phpAds_Affiliate", 4);
 
 
-// Define permissions bitwise, so 1, 2, 4, 8, 16, etc.
+// Define client permissions bitwise, so 1, 2, 4, 8, 16, etc.
 define ("phpAds_ModifyInfo", 1);
 define ("phpAds_ModifyBanner", 2);
 define ("phpAds_AddBanner", 4);
 define ("phpAds_DisableBanner", 8);
 define ("phpAds_ActivateBanner", 16);
 
+
+// Define affiliate permissions bitwise, so 1, 2, 4, 8, 16, etc.
+define ("phpAds_ModifyInfo", 1);
+define ("phpAds_LinkBanners", 2);
+define ("phpAds_AddZone", 4);
+define ("phpAds_DeleteZone", 8);
+define ("phpAds_EditZone", 16);
 
 
 /*********************************************************/

@@ -41,7 +41,7 @@ if (isset($zoneid) && $zoneid != '')
 			") or phpAds_sqlDie();
 		$row = phpAds_dbFetchArray($result);
 		
-		if ($row["affiliateid"] == '' || phpAds_getUserID() != $row["affiliateid"])
+		if ($row["affiliateid"] == '' || phpAds_getUserID() != $row["affiliateid"] || !phpAds_isAllowed(phpAds_DeleteZone))
 		{
 			phpAds_PageHeader("1");
 			phpAds_Die ($strAccessDenied, $strNotAdmin);

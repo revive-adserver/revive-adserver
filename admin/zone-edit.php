@@ -44,7 +44,7 @@ if (phpAds_isUser(phpAds_Affiliate))
 			") or phpAds_sqlDie();
 		$row = phpAds_dbFetchArray($result);
 		
-		if ($row["affiliateid"] == '' || phpAds_getUserID() != $row["affiliateid"])
+		if ($row["affiliateid"] == '' || phpAds_getUserID() != $row["affiliateid"] || !phpAds_isAllowed(phpAds_EditZone))
 		{
 			phpAds_PageHeader("1");
 			phpAds_Die ($strAccessDenied, $strNotAdmin);
@@ -56,7 +56,15 @@ if (phpAds_isUser(phpAds_Affiliate))
 	}
 	else
 	{
-		$affiliateid = phpAds_getUserID();
+		if (phpAds_isAllowed(phpAds_AddZone))
+		{
+			$affiliateid = phpAds_getUserID();
+		}
+		else
+		{
+			phpAds_PageHeader("1");
+			phpAds_Die ($strAccessDenied, $strNotAdmin);
+		}
 	}
 }
 
@@ -172,11 +180,16 @@ if ($zoneid != "")
 	}
 	else
 	{
+		$sections[] = "2.1.2";
+		if (phpAds_isAllowed(phpAds_LinkBanners)) $sections[] = "2.1.3";
+		$sections[] = "2.1.4";
+		$sections[] = "2.1.5";
+		
 		phpAds_PageHeader("2.1.2", $extra);
 			echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
 			echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
 			echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br><br><br>";
-			phpAds_ShowSections(array("2.1.2", "2.1.3", "2.1.4", "2.1.5"));
+			phpAds_ShowSections($sections);
 	}
 }
 else

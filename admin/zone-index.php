@@ -72,9 +72,12 @@ if (phpAds_isUser(phpAds_Admin))
 }
 else
 {
+	$sections[] = "2.1";
+	if (phpAds_isAllowed(phpAds_ModifyInfo)) $sections[] = "2.2";
+	
 	phpAds_PageHeader("2.1");
 		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br><br><br>";
-		phpAds_ShowSections(array("2.1", "2.2"));
+		phpAds_ShowSections($sections);
 }
 
 
@@ -182,7 +185,12 @@ while ($row_zones = phpAds_dbFetchArray($res_zones))
 	
 	echo "<td height='25'>";
 	echo "&nbsp;&nbsp;<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
-	echo "<a href='zone-edit.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'>".$row_zones['zonename']."</a>";
+	
+	if (phpAds_isUser(phpAds_Admin) || phpAds_isAllowed(phpAds_EditZone))
+		echo "<a href='zone-edit.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'>".$row_zones['zonename']."</a>";
+	else
+		echo $row_zones['zonename'];
+	
 	echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "</td>";
 	
@@ -214,10 +222,10 @@ while ($row_zones = phpAds_dbFetchArray($res_zones))
 	
 	// Button 1, 2 & 3
 	echo "<td height='25' colspan='3'>";
-	echo "<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'><img src='images/icon-zone-linked.gif' border='0' align='absmiddle' alt='$strIncludedBanners'>&nbsp;$strIncludedBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+	if (phpAds_isUser(phpAds_Admin) || phpAds_isAllowed(phpAds_LinkBanners)) echo "<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'><img src='images/icon-zone-linked.gif' border='0' align='absmiddle' alt='$strIncludedBanners'>&nbsp;$strIncludedBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "<a href='zone-probability.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'><img src='images/icon-zone-probability.gif' border='0' align='absmiddle' alt='$strProbability'>&nbsp;$strProbability</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "<a href='zone-invocation.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'><img src='images/icon-generatecode.gif' border='0' align='absmiddle' alt='$strInvocationcode'>&nbsp;$strInvocationcode</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-	echo "<a href='zone-delete.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'".phpAds_DelConfirm($strConfirmDeleteZone)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+	if (phpAds_isUser(phpAds_Admin) || phpAds_isAllowed(phpAds_DeleteZone)) echo "<a href='zone-delete.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'".phpAds_DelConfirm($strConfirmDeleteZone)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "</td></tr>";
 	
 	$i++;
@@ -228,9 +236,12 @@ if (phpAds_dbNumRows($res_zones) > 0)
 	echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 }
 
-echo "<tr height='25'><td colspan='4' height='25'>";
-echo "<img src='images/icon-zone.gif' border='0' align='absmiddle'>&nbsp;<a href='zone-edit.php?affiliateid=".$affiliateid."'>$strAddNewZone</a>&nbsp;&nbsp;";
-echo "</td></tr>";
+if (phpAds_isUser(phpAds_Admin) || phpAds_isAllowed(phpAds_AddZone))
+{
+	echo "<tr height='25'><td colspan='4' height='25'>";
+	echo "<img src='images/icon-zone.gif' border='0' align='absmiddle'>&nbsp;<a href='zone-edit.php?affiliateid=".$affiliateid."'>$strAddNewZone</a>&nbsp;&nbsp;";
+	echo "</td></tr>";
+}
 
 echo "</table>";
 echo "<br><br>";

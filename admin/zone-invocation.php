@@ -92,11 +92,16 @@ if (phpAds_isUser(phpAds_Admin))
 }
 else
 {
+	if (phpAds_isAllowed(phpAds_EditZone)) $sections[] = "2.1.2";
+	if (phpAds_isAllowed(phpAds_LinkBanners)) $sections[] = "2.1.3";
+	$sections[] = "2.1.4";
+	$sections[] = "2.1.5";
+		
 	phpAds_PageHeader("2.1.5", $extra);
 		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;".phpAds_getAffiliateName($affiliateid);
 		echo "&nbsp;<img src='images/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_getZoneName($zoneid)."</b><br><br><br>";
-		phpAds_ShowSections(array("2.1.2", "2.1.3", "2.1.4", "2.1.5"));
+		phpAds_ShowSections($sections);
 }
 
 
