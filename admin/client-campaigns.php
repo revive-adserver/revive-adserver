@@ -220,7 +220,7 @@ if (isset($campaigns) && is_array($campaigns) && count($campaigns) > 0)
 }
 
 
-echo "<img src='images/icon-campaign.gif' border='0' align='absmiddle'>&nbsp;";
+echo "<img src='images/icon-campaign-new.gif' border='0' align='absmiddle'>&nbsp;";
 echo "<a href='campaign-edit.php?clientid=".$clientid."' accesskey='".$keyAddNew."'>".$strAddCampaign_Key."</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
 
@@ -318,7 +318,7 @@ else
 		// Button 1
 		echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
 		if ($campaigns[$ckey]['expand'] == '1' || !isset($campaigns[$ckey]['banners']))
-			echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['clientid']."'><img src='images/icon-banner-stored.gif' border='0' align='absmiddle' alt='$strCreate'>&nbsp;$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+			echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['clientid']."'><img src='images/icon-banner-new.gif' border='0' align='absmiddle' alt='$strCreate'>&nbsp;$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 		else
 			echo "&nbsp;";
 		echo "</td>";

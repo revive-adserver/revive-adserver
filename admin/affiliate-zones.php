@@ -137,7 +137,7 @@ $res_zones = phpAds_dbQuery("
 
 if (phpAds_isUser(phpAds_Admin) || phpAds_isAllowed(phpAds_AddZone))
 {
-	echo "<img src='images/icon-zone.gif' border='0' align='absmiddle'>&nbsp;";
+	echo "<img src='images/icon-zone-new.gif' border='0' align='absmiddle'>&nbsp;";
 	echo "<a href='zone-edit.php?affiliateid=".$affiliateid."' accesskey='".$keyAddNew."'>".$strAddNewZone_Key."</a>&nbsp;&nbsp;";
 	phpAds_ShowBreak();
 }

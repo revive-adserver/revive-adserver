@@ -234,7 +234,7 @@ if (isset($clients) && is_array($clients) && count($clients) > 0)
 
 
 
-echo "<img src='images/icon-client.gif' border='0' align='absmiddle'>&nbsp;";
+echo "<img src='images/icon-client-new.gif' border='0' align='absmiddle'>&nbsp;";
 echo "<a href='client-edit.php' accesskey='".$keyAddNew."'>".$strAddClient_Key."</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
 
@@ -329,7 +329,7 @@ else
 			// Button 1
 			echo "<td height='25'>";
 			if (($client['count'] == 0 && $client['expand'] == '1') || !isset($client['campaigns']))
-				echo "<a href='campaign-edit.php?clientid=".$client['clientid']."'><img src='images/icon-campaign.gif' border='0' align='absmiddle' alt='$strCreate'>&nbsp;$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+				echo "<a href='campaign-edit.php?clientid=".$client['clientid']."'><img src='images/icon-campaign-new.gif' border='0' align='absmiddle' alt='$strCreate'>&nbsp;$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 			else
 				echo "&nbsp;";
 			echo "</td>";
@@ -387,7 +387,7 @@ else
 					// Button 1
 					echo "<td height='25'>";
 					if ($campaigns[$ckey]['expand'] == '1' || !isset($campaigns[$ckey]['banners']))
-						echo "<a href='banner-edit.php?clientid=".$client['clientid']."&campaignid=".$campaigns[$ckey]['clientid']."'><img src='images/icon-banner-stored.gif' border='0' align='absmiddle' alt='$strCreate'>&nbsp;$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+						echo "<a href='banner-edit.php?clientid=".$client['clientid']."&campaignid=".$campaigns[$ckey]['clientid']."'><img src='images/icon-banner-new.gif' border='0' align='absmiddle' alt='$strCreate'>&nbsp;$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 					else
 						echo "&nbsp;";
 					echo "</td>";

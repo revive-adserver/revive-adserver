@@ -156,7 +156,7 @@ if (isset($zones) && is_array($zones) && count($zones) > 0)
 
 
 
-echo "<img src='images/icon-affiliate.gif' border='0' align='absmiddle'>&nbsp;";
+echo "<img src='images/icon-affiliate-new.gif' border='0' align='absmiddle'>&nbsp;";
 echo "<a href='affiliate-edit.php' accesskey=".$keyAddNew.">".$strAddNewAffiliate_Key."</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
 
@@ -249,7 +249,7 @@ else
 		// Button 1
 		echo "<td height='25'>";
 		if ($affiliate['expand'] == '1' || !isset($affiliate['zones']))
-			echo "<a href='zone-edit.php?affiliateid=".$affiliate['affiliateid']."'><img src='images/icon-zone.gif' border='0' align='absmiddle' alt='$strCreate'>&nbsp;$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+			echo "<a href='zone-edit.php?affiliateid=".$affiliate['affiliateid']."'><img src='images/icon-zone-new.gif' border='0' align='absmiddle' alt='$strCreate'>&nbsp;$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 		else
 			echo "&nbsp;";
 		echo "</td>";
