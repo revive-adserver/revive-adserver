@@ -18,9 +18,10 @@ define ('LIBDBCONFIG_INCLUDED', true);
 
 
 // Current phpAds version
+// Yes folks, this is the final version of 2.0.... 2.0.1 probably coming soon :)
 $phpAds_version = 200.200;
 $phpAds_version_readable = "2.0";
-$phpAds_version_development = false;
+$phpAds_version_development = false;  
 $phpAds_productname = "phpAdsNew";
 $phpAds_producturl = "www.phpadsnew.com";
 $phpAds_dbmsname = "MySQL";
