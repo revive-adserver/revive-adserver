@@ -46,7 +46,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 // OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
+// Disabled automatic loading of library.
+// Niels Leenheer <niels@creatype.nl
+/*
 if (!function_exists('xml_parser_create')) {
 // Win 32 fix. From: "Leo West" <lwest@imaginet.fr>
 	if($WINDIR) {
@@ -55,6 +57,7 @@ if (!function_exists('xml_parser_create')) {
 		dl("xml.so");
 	}
 }
+*/
 
 $xmlrpcI4="i4";
 $xmlrpcInt="int";
