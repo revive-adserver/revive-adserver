@@ -53,25 +53,16 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	while ($row = phpAds_dbFetchArray($res))
 	{
-		if ($clientid == $row['clientid'])
-			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
-		else
-			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
-		
-		$extra .= "<a href='stats-client-history.php?clientid=".$row['clientid']."'>";
-		$extra .= phpAds_buildClientName ($row['clientid'], $row['clientname']);
-		$extra .= "</a>";
-		$extra .= "<br>"; 
+		phpAds_PageContext (
+			phpAds_buildClientName ($row['clientid'], $row['clientname']),
+			"stats-client-history.php?clientid=".$row['clientid'],
+			$clientid == $row['clientid']
+		);
 	}
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	
-	$extra .= "<br><br><br><br><br>";
-	$extra .= "<b>$strShortcuts</b><br>";
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientid=$clientid>$strClientProperties</a><br>";
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+	phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.$clientid, 'images/icon-client.gif');
 	
-	phpAds_PageHeader("2.1.1", $extra);
+	phpAds_PageHeader("2.1.1");
 		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br><br><br>";
 		phpAds_ShowSections(array("2.1.1"));
 }

@@ -486,7 +486,7 @@ if (phpAds_isUser(phpAds_Admin))
 					else
 						echo "<img src='images/icon-campaign-d.gif' align='absmiddle'>&nbsp;";
 					
-					echo "<a href='stats-campaign-banners.php?campaignid=".$campaigns[$ckey]['clientid']."'>".$campaigns[$ckey]['clientname']."</td>";
+					echo "<a href='stats-campaign-history.php?campaignid=".$campaigns[$ckey]['clientid']."'>".$campaigns[$ckey]['clientname']."</td>";
 					echo "</td>";
 					
 					// ID

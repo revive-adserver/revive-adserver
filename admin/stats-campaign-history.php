@@ -33,32 +33,27 @@ if (phpAds_isUser(phpAds_Client))
 {
 	if (phpAds_getUserID() == phpAds_getParentID ($campaignid))
 	{
-		$extra = '';
-		
 		$res = phpAds_dbQuery("
-		SELECT
-			*
-		FROM
-			".$phpAds_config['tbl_clients']."
-		WHERE
-			parent = ".phpAds_getUserID()."
+			SELECT
+				*
+			FROM
+				".$phpAds_config['tbl_clients']."
+			WHERE
+				parent = ".phpAds_getUserID()."
 		") or phpAds_sqlDie();
 		
 		while ($row = phpAds_dbFetchArray($res))
 		{
-			if ($campaignid == $row['clientid'])
-				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
-			else
-				$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
-			
-			$extra .= "<a href=stats-campaign-banners.php?campaignid=".$row['clientid'].">".phpAds_buildClientName ($row['clientid'], $row['clientname'])."</a>";
-			$extra .= "<br>"; 
+			phpAds_PageContext (
+				phpAds_buildClientName ($row['clientid'], $row['clientname']),
+				"stats-campaign-history.php?campaignid=".$row['clientid'],
+				$campaignid == $row['clientid']
+			);
 		}
-		$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 		
-		phpAds_PageHeader("1.1.2", $extra);
+		phpAds_PageHeader("1.1.2");
 			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignid)."</b><br><br><br>";
-			phpAds_ShowSections(array("1.1.1", "1.1.2"));
+			phpAds_ShowSections(array("1.1.2", "1.1.1"));
 	}
 	else
 	{
@@ -69,44 +64,32 @@ if (phpAds_isUser(phpAds_Client))
 
 if (phpAds_isUser(phpAds_Admin))
 {
-	$extra = '';
-	
 	$res = phpAds_dbQuery("
-	SELECT
-		*
-	FROM
-		".$phpAds_config['tbl_clients']."
-	WHERE
-		parent > 0
+		SELECT
+			*
+		FROM
+			".$phpAds_config['tbl_clients']."
+		WHERE
+			parent > 0
 	") or phpAds_sqlDie();
 	
 	while ($row = phpAds_dbFetchArray($res))
 	{
-		if ($campaignid == $row['clientid'])
-			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
-		else
-			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
-		
-		$extra .= "<a href=stats-campaign-history.php?campaignid=".$row['clientid'].">".phpAds_buildClientName ($row['clientid'], $row['clientname'])."</a>";
-		$extra .= "<br>"; 
+		phpAds_PageContext (
+			phpAds_buildClientName ($row['clientid'], $row['clientname']),
+			"stats-campaign-history.php?campaignid=".$row['clientid'],
+			$campaignid == $row['clientid']
+		);
 	}
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	
-	$extra .= "<br><br><br><br><br>";
-	$extra .= "<b>$strShortcuts</b><br>";
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientid=".phpAds_getParentID ($campaignid).">$strClientProperties</a><br>";
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/icon-edit.gif' align='absmiddle'>&nbsp;<a href=campaign-edit.php?campaignid=$campaignid>$strCampaignProperties</a><br>";
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<a href=campaign-index.php?campaignid=$campaignid>$strBannerOverview</a><br>";
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+	phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.phpAds_getParentID($campaignid), 'images/icon-client.gif');
+	phpAds_PageShortcut($strCampaignProperties, 'campaign-edit.php?campaignid='.$campaignid, 'images/icon-campaign.gif');
 	
-	phpAds_PageHeader("2.1.3", $extra);
+	phpAds_PageHeader("2.1.3");
 		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
 		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignid)."</b><br><br><br>";
-		phpAds_ShowSections(array("2.1.2", "2.1.3"));
+		phpAds_ShowSections(array("2.1.3", "2.1.2"));
 }
 
 

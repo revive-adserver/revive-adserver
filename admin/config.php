@@ -105,7 +105,7 @@ $phpAds_nav = array (
 		"2"					=>  array("stats-global-client.php" => $strStats),
  	  	  "2.1"				=>  array("stats-global-client.php" => $strClientsAndCampaigns),
 		    "2.1.1"			=>  array("stats-client-history.php?clientid=$clientid" => $strClientHistory),
-		    "2.1.2"			=> 	array("stats-campaign-banners.php?campaignid=$campaignid" => $strCampaignOverview),
+		    "2.1.2"			=> 	array("stats-campaign-banners.php?campaignid=$campaignid" => $strBannerOverview),
     	      "2.1.2.1" 	=> 	array("stats-banner-history.php?campaignid=$campaignid&bannerid=$bannerid" => $strBannerHistory),
 		        "2.1.2.1.1" => 	array("stats-banner-daily.php?day=$day&campaignid=$campaignid&bannerid=$bannerid" => $strDailyStats),
 		        "2.1.2.1.2" => 	array("stats-banner-daily-hosts.php?day=$day&campaignid=$campaignid&bannerid=$bannerid" => 'Hosts'),
