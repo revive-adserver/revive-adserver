@@ -105,6 +105,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: Fixed webserver stored banner cleanup problem  (Niels) 20011216
 			  - Bugfix: Removed the background color parameter for Flash banner previews  (Niels) 20011218
 			  - Bugfix: Clients couldn't activate banners using the client interface  (Toni Garcia) 20011222
+			  - Bugfix: Calculating priority without campaigns or banners led to php errors  (Matteo) 20011222 
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
