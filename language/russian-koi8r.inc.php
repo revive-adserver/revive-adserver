@@ -311,8 +311,8 @@ $GLOBALS['strKiloByte']					= "KB";
 $GLOBALS['strSeconds']					= "секунд";
 $GLOBALS['strExpired']					= "Устарело";
 
-$GLOBALS['strModifyBannerAcl'] 			= "Display limitations";
-$GLOBALS['strACL'] 						= "Limit";
+$GLOBALS['strModifyBannerAcl'] 			= "Ограниченя показа";
+$GLOBALS['strACL'] 						= "Лимит";
 $GLOBALS['strNoMoveUp'] 				= "Не могу переместить первый ряд выше";
 $GLOBALS['strACLAdd'] 					= "Добавить новое ограничение";
 $GLOBALS['strNoLimitations']			= "Ограничений нет";
