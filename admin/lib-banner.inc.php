@@ -111,8 +111,8 @@ function phpAds_getBannerCache($banner)
 	{
 		if ($banner['autohtml'] == 't' && $phpAds_config['type_html_auto'])
 		{
-			// Automatic replace all target='...' with the {target} parameter
-			$buffer = eregi_replace ("target=['|\"]{0,1}[^'|\"|[:space:]]+['|\"]{0,1}", "target='{target}'", $buffer);
+			// Automatic remove all target='...'
+			$buffer = eregi_replace ("target=['|\"]{0,1}[^'|\"|[:space:]]+['|\"]{0,1}", "", $buffer);
 			
 			// Determine which types are present in the HTML
 			$formpresent = eregi('<form', $buffer);
@@ -127,6 +127,9 @@ function phpAds_getBannerCache($banner)
 									     "<input type='hidden' name='bannerid' value='{bannerid}'>".
 									     "<input type='hidden' name='source' value='{source}'>".
 									     "<input type='hidden' name='zoneid' value='{zoneid}'>", $buffer);
+				
+				// Add target to all URLs
+				$buffer = eregi_replace ("<form ", "<form target='{target}' ", $buffer);
 			}
 			
 			// Process link
@@ -230,6 +233,10 @@ function phpAds_getBannerCache($banner)
 				}
 				
 				$buffer = $newbanner.substr($buffer, $prevhrefpos);
+				
+				
+				// Add target to all URLs
+				$buffer = eregi_replace ("<a ", "<a target='{target}' ", $buffer);
 			}
 			
 			if (!$formpresent && !$linkpresent && $banner['url'] != '')
