@@ -34,7 +34,7 @@ else
 	include('../language/english/settings-help.lang.php');
 }
 
-include_once('lib-config.inc.php');
+include('lib-config.inc.php');
 
 $phpAds_config_locked = !phpAds_isConfigWritable();
 
@@ -328,7 +328,7 @@ function phpAds_settings_select($name, $text, $options, $parent = '', $value = '
 		{
 			echo "<option value='".htmlentities($k)."'".
 				($k == $value ? " selected" : "").">".
-				htmlentities($v)."</option>";
+				$v."</option>";
 		}
 		echo "</select>\n";
 ?>
