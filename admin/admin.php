@@ -1,16 +1,37 @@
-<?
-// $Id$
+<?php // $Revision$
 
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
+
+
+
+// Include required files
 require ("config.php");
 
 
+// Security check
 phpAds_checkAccess(phpAds_Admin);
 
+
+
+/*********************************************************/
+/* HTML framework                                        */
+/*********************************************************/
 
 $extra = '';
 
 if ($phpAds_compact_stats)
 {
+	// Determine left over verbose stats
 	$viewresult = db_query("SELECT COUNT(*) AS cnt FROM $phpAds_tbl_adviews");
 	$viewrow = @mysql_fetch_array($viewresult);
 	$verboseviews = $viewrow["cnt"];
@@ -21,6 +42,7 @@ if ($phpAds_compact_stats)
 	
 	if ($verboseviews > 0 || $verboseclicks > 0)
 	{
+		// Show link to verbose stats convertor
 		$extra = "<br><br>
 				  <table cellspacing='1' cellpadding='0' width='140' bgcolor='#000088'><tr><td>
 				  <table cellspacing='4' bgcolor='#FFFFFF'><tr>
@@ -36,15 +58,20 @@ if ($phpAds_compact_stats)
 	}
 }
 
-
 phpAds_PageHeader("$strAdminstration");
 phpAds_ShowNav("1", $extra);
-
 
 if (isset($message))
 {
 	phpAds_ShowMessage($message);
 }
+
+
+
+/*********************************************************/
+/* Main code                                             */
+/*********************************************************/
+
 ?>
 
 
@@ -241,7 +268,12 @@ function confirm_delete()
 
 
 
-
 <?
+
+/*********************************************************/
+/* HTML framework                                        */
+/*********************************************************/
+
 phpAds_PageFooter();
+
 ?>

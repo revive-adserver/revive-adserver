@@ -1,10 +1,31 @@
-<?
+<?php // $Revision$
 
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by Niels Leenheer                                 */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
+
+
+
+// Include required files
 require ("config.php");
 
+
+// Security check
 phpAds_checkAccess(phpAds_Admin);
 
 
+
+/*********************************************************/
+/* Build frameset                                        */
+/*********************************************************/
 
 if ($command == 'frame')
 {
@@ -15,6 +36,12 @@ if ($command == 'frame')
 	echo "</frameset>";
 	echo "</html>";
 }
+
+
+
+/*********************************************************/
+/* Build header                                          */
+/*********************************************************/
 
 if ($command == 'top')
 {
@@ -28,6 +55,12 @@ if ($command == 'top')
 	echo "</table>";
 	echo "</body></html>";
 }
+
+
+
+/*********************************************************/
+/* Build information and start button                    */
+/*********************************************************/
 
 if ($command == 'start')
 {
@@ -75,6 +108,12 @@ if ($command == 'start')
 	echo "</body></html>";
 }
 
+
+
+/*********************************************************/
+/* Build overview and call to conversion routines        */
+/*********************************************************/
+
 if ($command == 'overview')
 {
 	$day = array();
@@ -112,6 +151,12 @@ if ($command == 'overview')
 	echo "</table>";
 	echo "</body></html>";
 }
+
+
+
+/*********************************************************/
+/* Convert verbose stats to compact stats                */
+/*********************************************************/
 
 if ($command == 'convert')
 {
@@ -193,6 +238,11 @@ if ($command == 'convert')
 	}
 }
 
+
+
+/*********************************************************/
+/* CSS definitions for use in above functions            */
+/*********************************************************/
 
 function phpAds_CSS()
 {

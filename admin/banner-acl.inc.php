@@ -1,4 +1,20 @@
-<?
+<?php // $Revision$
+
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
+
+
+
+// Define variable types
 $acl_types = array(
 		'none'	   => '',
 		'clientip' => $strClientIP,
@@ -14,6 +30,11 @@ $aclad_types = array(
 		'deny'  => $strDeny
 	);
 
+
+
+/*********************************************************/
+/* Generate type selection                               */
+/*********************************************************/
 
 function acltypeselect($default)
 {
@@ -32,6 +53,12 @@ function acltypeselect($default)
 	echo "</select>";
 }
 
+
+
+/*********************************************************/
+/* Generate allow/deny selection                         */
+/*********************************************************/
+
 function acladselect($default)
 {
 	global $aclad_types;
@@ -48,6 +75,12 @@ function acladselect($default)
 	
 	echo "</select>";
 }
+
+
+
+/*********************************************************/
+/* Generate ACL form                                     */
+/*********************************************************/
 
 function showaclrow($row, $total, $update, $count=1) 
 {
@@ -99,4 +132,5 @@ function showaclrow($row, $total, $update, $count=1)
 	<tr><td height='1' colspan='7' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 	<?
 }
+
 ?>

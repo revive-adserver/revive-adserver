@@ -1,18 +1,32 @@
-<?
-/* graph-weekly.php,v 1.0 2000/12/29 11:06:00 martin braun*/
+<?php // $Revision$
 
-/* placed to GNU by martin@braun.cc */
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by Martin Braun <martin@braun.cc>                 */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
 
+
+
+// Include required files
 require ("config.php");
+require ("stats-weekly.inc.php");
+
+
+
+/*********************************************************/
+/* Prepare data for graph                                */
+/*********************************************************/
 
 $where=urldecode($where); 
 
-
-// NOTE: compact stats and verbose stats don't mix in here. It's one or the other.
-
-// get week signs for mySQL queries
-require("stats-weekly.inc.php");
-
+// Get week signs for mySQL queries
 list($php_week_sign, $mysql_week_sign) = GetWeekSigns();
 
 mysql_select_db($GLOBALS["phpAds_db"]);
@@ -20,9 +34,10 @@ mysql_select_db($GLOBALS["phpAds_db"]);
 $text=array(
     'value1' => $GLOBALS['strViews'],
     'value2' => $GLOBALS['strClicks']);
-    
+
+
 if ($phpAds_compact_stats) {
-    // get totals from compact stats
+    // Get totals from compact stats
     $query="
     	SELECT 
     		sum(views), 
@@ -107,6 +122,8 @@ else
     }
 }
 
+// Build the graph
 include('lib-graph.inc.php');
+
 ?>
  

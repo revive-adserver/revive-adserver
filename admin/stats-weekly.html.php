@@ -1,21 +1,47 @@
-<?
-/* stats-weekly.inc.php,v 1.0 2000/12/29 11:06:00 martin braun */
+<?php // $Revision$
 
-/* placed to GNU by martin@braun.cc */
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the Martin Braun <martin@braun.cc>             */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
 
 
-function DayInd($ind)   // adjust day index to specific installation
+
+/*********************************************************/
+/* Adjust day index to specific installation             */
+/*********************************************************/
+
+function DayInd($ind)
 {              
 	$ind += $GLOBALS['phpAds_begin_of_week'];
 	return $ind > 6 ? 0 : $ind;
 }
+
+
+
+/*********************************************************/
+/* Replace zero's with -'s                               */
+/*********************************************************/
 
 function tabecho($value)
 {
 	echo (double)$value>0?$value:'-';
 }
 
-function WeekInit()   // reset week data
+
+
+/*********************************************************/
+/* Reset week data                                       */
+/*********************************************************/
+
+function WeekInit()
 {
 	global $week;
 	$week['num']='';
@@ -29,22 +55,28 @@ function WeekInit()   // reset week data
 	}
 }
 
-function WeekSetDates() // set all missing dates in week
+
+
+/*********************************************************/
+/* Set all missing dates in week                         */
+/*********************************************************/
+
+function WeekSetDates()
 {
 	global $week;
 	global $php_week_sign;
-
+	
 	// find first col with valid date
 	$i=0;
 	while(empty($week['date'][$i])){$i++;}
-
+	
 	// calc timestamp for first row
 	$stamp = $week['unix_time'][$i]-$i*24*60*60;
-
+	
 	// adjust timestamp to country settings if needed
 	if ($i==0 && $GLOBALS['phpAds_begin_of_week']==1) 
 		$stamp -= 7*24*60*60;
-
+	
 	// check all day rows
 	for ($i=0;$i<7;$i++)
 	{
@@ -58,14 +90,20 @@ function WeekSetDates() // set all missing dates in week
 			$week['date'][$i] = strftime($GLOBALS['date_format'],$stamp+$mult*24*60*60); 
 		}
 	}
-
+	
 	// check calendar week for zero value
 	if (strftime($php_week_sign,$stamp) == 0)
 		// replace by last calendar week of elapsed year
 		$week['num']=strftime($php_week_sign."/Y",mktime(0,0,0,12,31,strftime('Y',$stamp)-1));
 }
 
-function WeekStat()  // calculate daily ctr and summary
+
+
+/*********************************************************/
+/* Calculate daily CTR and summary                       */
+/*********************************************************/
+
+function WeekStat()
 {
 	global $week;
 	$weekdays_complete = 0;
@@ -81,21 +119,29 @@ function WeekStat()  // calculate daily ctr and summary
 			$week['days_set']++;
 		}
 		if ($week['clicks'][$i])
-		{ 
+		{
 			$week['clicksum']+=$week['clicks'][$i];
 		}
 		if (empty($week['date'][$i]) && !$weekdays_complete)
-		{ 
+		{
 			WeekSetDates(); // set all missing dates
 			$weekdays_complete=1;
 		}
 	}
+	
 	$week['ctrsum'] = $week['viewsum'] > 0 ? $week['clicksum']/$week['viewsum']*100 : 0;
 }
 
-function WeekFill($day_array, $actweek) // insert actual day in weekly data
+
+
+/*********************************************************/
+/* Insert actual day in weekly data                      */
+/*********************************************************/
+
+function WeekFill($day_array, $actweek)
 {
-	global $week, $php_week_sign;         
+	global $week, $php_week_sign;
+	
 	$week['num'] = $day_array['week_num'];
 	// internally work with sunday = 0
 	$day_of_week = $day_array['day_num'];
@@ -105,19 +151,25 @@ function WeekFill($day_array, $actweek) // insert actual day in weekly data
 	$week['unix_time'][$day_of_week]=$day_array['unix_time'];
 }
 
-function WeekPrint() // html generator for one week
+
+
+/*********************************************************/
+/* HTML generator for one week                           */
+/*********************************************************/
+
+function WeekPrint()
 {
 	global $week;
 	global $phpAds_percentage_decimals;
 	static $j=1;
+	
 	if ( $week['num'] ) // only if already filled (not at first call)
 	{
-
 		// set background color
 		$bgcolor="#FFFFFF";
 		$j % 2 ? 0: $bgcolor = "#F6F6F6";
 		$j++;       
-
+		
 		WeekStat(); // calculate daily ctr and summary  
 		//echo sprintf("      <!-- %s: %s -->\n", $GLOBALS['strWeek'], $week['num'] );
 		?>
@@ -182,18 +234,24 @@ function WeekPrint() // html generator for one week
 	}
 }
 
-function stats() // generate weekly statistics
+
+
+/*********************************************************/
+/* Generate weekly statistics                            */
+/*********************************************************/
+
+function stats()
 {
 	global $phpAds_db, $phpAds_url_prefix;
 	global $phpAds_tbl_color;
 	global $phpAds_begin_of_week;
 	global $phpAds_tbl_adviews, $phpAds_tbl_adclicks, $phpAds_tbl_adstats, $phpAds_tbl_banners;
-    	global $phpAds_compact_stats;
+    global $phpAds_compact_stats;
 	global $clientID, $which;
 	global $max_weeks, $php_week_sign, $mysql_week_sign;
 	global $strDayShortCuts;
 	global $strClientName, $strOverall;
-
+	
 	// get all significant banner-ids to build where-clause
 	$banner_query = "
 		SELECT
@@ -248,8 +306,8 @@ function stats() // generate weekly statistics
 		if ($which != '0')  // there! forget set theory!
 			$where = 'WHERE bannerID='.$which;
 	}
-
-
+	
+	
     // I tried to do this with one section of code and a few internal checks
     // for the stats mode, but the queries were just much too inefficient to share.
     if ($phpAds_compact_stats) 
@@ -269,9 +327,9 @@ function stats() // generate weekly statistics
     	$views_global = db_query($global_view_query) or mysql_die();
     	list($total_clicks, $total_views, $views_last_day_index, $views_first_day_index) = mysql_fetch_row($views_global);
     	mysql_free_result($views_global);
-    
+    	
     	$last_day_index = $views_last_day_index;
-    
+    	
     	// get views & clicks daily data
     	$daily_query="
     		SELECT
@@ -290,7 +348,7 @@ function stats() // generate weekly statistics
     			abs_day DESC
     		LIMIT ".$max_weeks*7;
     	$daily = db_query($daily_query) or mysql_die();
-    
+    	
     	$days = array();
     	while ($row = mysql_fetch_array($daily))
     	{
@@ -307,7 +365,7 @@ function stats() // generate weekly statistics
     		$days[$i]['views']     = $days[$i]['views'] + $row['days_total_views'];
     		$days[$i]['clicks']    = $days[$i]['clicks'] + $row['days_total_clicks'];
     	}
-    
+    	
     	mysql_free_result($daily);
     }
     else        // ! $phpAds_compact_stats
@@ -322,11 +380,11 @@ function stats() // generate weekly statistics
     			$phpAds_tbl_adviews
     		$where
 		";
-
+		
     	$views_global = db_query($global_view_query) or mysql_die();
     	list($total_views, $views_last_day_index, $views_first_day_index) = mysql_fetch_row($views_global);
     	mysql_free_result($views_global);
-    
+    	
     	// get clicks global data
     	$global_click_query="
     		SELECT
@@ -341,9 +399,9 @@ function stats() // generate weekly statistics
     	$clicks_global = db_query($global_click_query) or mysql_die();
     	list($total_clicks, $clicks_last_day_index, $clicks_first_day_index) = mysql_fetch_row($clicks_global);
     	mysql_free_result($clicks_global);
-    
+    	
     	$last_day_index = max($views_last_day_index,$clicks_last_day_index);
-    
+    	
     	// get views daily data
     	$view_query="
     		SELECT
@@ -363,7 +421,7 @@ function stats() // generate weekly statistics
     			abs_day DESC
     		LIMIT ".$max_weeks*7;
     	$view_daily = db_query($view_query) or mysql_die();
-    
+    	
     	// get clicks daily data
     	$click_query="
     		SELECT
@@ -383,10 +441,10 @@ function stats() // generate weekly statistics
     			abs_day DESC
     		LIMIT ".$max_weeks*7;
     	$click_daily = db_query($click_query) or mysql_die();
-    
+    	
     	// now let's join the daily data in a days array
     	$days = array();
-    
+    	
     	// insert view data
     	while ($row = mysql_fetch_array($view_daily))
     	{
@@ -404,7 +462,7 @@ function stats() // generate weekly statistics
     		else
 				$days[$i]['views']     = $days[$i]['views'] + $row['days_total_views'];
     	}
-    
+    	
     	// now insert click data
     	while ($row = mysql_fetch_array($click_daily))
     	{
@@ -579,9 +637,9 @@ function stats() // generate weekly statistics
 
 
 
-// --------------
-// main procedure
-// --------------
+/*********************************************************/
+/* Main code                                             */
+/*********************************************************/
 
 // preset max_weeks
 if (!isset($max_weeks))
@@ -603,11 +661,7 @@ $week['clicksum']=0;
 $week['viewsum']=0;
 $week['days_set']=0;
 
-// Sorry, at this point there is no more access to page headers to place
-// CSS where they usually belong, so we'll try it here (works at 
-// least with NN4 and IE5
-?>
-<?
 stats();
+
 ?>
  

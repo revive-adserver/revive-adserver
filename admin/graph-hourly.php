@@ -1,10 +1,33 @@
-<? 
+<?php // $Revision$
+
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
+
+
+
+// Include required files
 require ("config.php");
 
-// NOTE: None of this works for the compact database format since hours are not tracked
+
+
+/*********************************************************/
+/* Prepare data for graph                                */
+/*********************************************************/
 
 if (!$phpAds_compact_stats) 
 {
+	// NOTE: None of this works for the compact database 
+	// format since hours are not tracked
+	
     $where=urldecode($where); 
     
     mysql_select_db($phpAds_db);
@@ -45,6 +68,8 @@ if (!$phpAds_compact_stats)
     $width=385;   // absolute definition due to width/height declaration in stats.inc.php
     $height=150;  // adapt this if embedding html-document will change
     
-    include("lib-graph.inc.php");
+    // Build the graph
+	include("lib-graph.inc.php");
 }
+
 ?>

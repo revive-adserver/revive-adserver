@@ -1,16 +1,36 @@
-<?
+<?php // $Revision$
 
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by Niels Leenheer                                 */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
+
+
+
+// Include required files
 require ("config.php");
 require ("lib-statistics.inc.php");
 
 
-
+// Security check
 phpAds_checkAccess(phpAds_Admin);
+
+
+
+/*********************************************************/
+/* HTML framework                                        */
+/*********************************************************/
+
 phpAds_PageHeader("$strBannerAdmin");
 
 if($clientID == "") $clientID = 0;
-
-
 
 $res = db_query("
 	SELECT
@@ -42,14 +62,14 @@ $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 
 phpAds_ShowNav("1.3", $extra);
 
-
 if (isset($message))
 	phpAds_ShowMessage($message);
 
 
 
-
-
+/*********************************************************/
+/* Main code                                             */
+/*********************************************************/
 
 $res = db_query("
 	SELECT
@@ -142,5 +162,12 @@ else
 <?
 }
 
+
+
+/*********************************************************/
+/* HTML framework                                        */
+/*********************************************************/
+
 phpAds_PageFooter();
+
 ?>

@@ -1,8 +1,27 @@
-<?
+<?php // $Revision$
+
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
+
+
+
+// Define defaults
 $i = 0;
 
 
-// Get statistics
+
+/*********************************************************/
+/* Get statistics                                        */
+/*********************************************************/
 
 $tmp_views = array();
 $tmp_clicks = array();
@@ -121,8 +140,13 @@ else
 	$tmp_order = $tmp_views;
 }
 
-?>
 
+
+/*********************************************************/
+/* Main code                                             */
+/*********************************************************/
+
+?>
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 	<tr><td height='25' colspan='2'><b><?echo $strClientName.': '.phpAds_getClientName($clientID);?></b></td></tr>

@@ -1,10 +1,32 @@
-<?
+<?php // $Revision$
 
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by Niels Leenheer                                 */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
+
+
+
+// Include required files
 require ("config.php");
 require ("lib-statistics.inc.php");
 
+
+// Security check
 phpAds_checkAccess(phpAds_Admin+phpAds_Client);
 
+
+
+/*********************************************************/
+/* Client interface security                             */
+/*********************************************************/
 
 if (phpAds_isUser(phpAds_Client))
 {
@@ -19,7 +41,11 @@ if (phpAds_isUser(phpAds_Client))
 }
 
 
-// If submit is set, shove the data into the database (well, after some error checking)
+
+/*********************************************************/
+/* Process submitted form                                */
+/*********************************************************/
+
 if (isset($submit))
 { 
 	if (phpAds_isUser(phpAds_Admin))
@@ -157,11 +183,10 @@ if (isset($submit))
 
 
 
+/*********************************************************/
+/* HTML framework                                        */
+/*********************************************************/
 
-
-
-
-// If we find an ID, means that we're in update mode  
 if ($clientID != "")
 {
 	if (phpAds_isUser(phpAds_Admin))
@@ -250,6 +275,11 @@ else
 }
 
 
+
+/*********************************************************/
+/* Main code                                             */
+/*********************************************************/
+
 if ($row["views"] == "")
 	$row["views"] = -1;
 if ($row["clicks"] == "")
@@ -257,9 +287,6 @@ if ($row["clicks"] == "")
 
 if ($days_left == "")
 	$days_left = -1;
-
-
-
 
 function phpAds_showDateEdit($name, $day=0, $month=0, $year=0)
 {
@@ -523,11 +550,13 @@ if (phpAds_isUser(phpAds_Admin))
 		<?
 			echo $strClientDeactivated;
 			
+			$expire_ts = mktime(0, 0, 0, $row["expire_month"], $row["expire_dayofmonth"], $row["expire_year"]);
+			
 			if ($row['clicks'] == 0) echo ", $strNoMoreClicks";
 			if ($row['views'] == 0) echo ", $strNoMoreViews";
 			if (time() < mktime(0, 0, 0, $row["activate_month"], $row["activate_dayofmonth"], $row["activate_year"]))
 				echo ", $strBeforeActivate";
-			if (time() > mktime(0, 0, 0, $row["expire_month"], $row["expire_dayofmonth"], $row["expire_year"]))
+			if (time() > $expire_ts && $expire_ts > 0)
 				echo ", $strAfterExpire";
 			
 			echo ".<br><br>";
@@ -739,9 +768,16 @@ if (phpAds_isUser(phpAds_Admin))
 <br><br>
 		
 <input type="submit" name="submit" value="<?echo $strSaveChanges;?>">
-
 </form>
 
+
+
 <?
+
+/*********************************************************/
+/* HTML framework                                        */
+/*********************************************************/
+
 phpAds_PageFooter();
+
 ?>

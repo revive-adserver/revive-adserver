@@ -1,15 +1,34 @@
-<?
+<?php // $Revision$
 
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
+
+
+
+// Include required files
 require ("config.php");
 require ("lib-statistics.inc.php");
 require ("lib-gd.inc.php");
 require ("stats-weekly.inc.php");
 
+
+// Security check
 phpAds_checkAccess(phpAds_Admin+phpAds_Client);
 
 
 
-
+/*********************************************************/
+/* Client interface security                             */
+/*********************************************************/
 
 if (phpAds_isUser(phpAds_Client))
 {
@@ -38,6 +57,11 @@ if (phpAds_isUser(phpAds_Client))
 	phpAds_ShowNav('2.2');
 }
 
+
+
+/*********************************************************/
+/* HTML framework                                        */
+/*********************************************************/
 
 if (phpAds_isUser(phpAds_Admin))
 {
@@ -81,6 +105,11 @@ if (phpAds_isUser(phpAds_Admin))
 }
 
 
+
+/*********************************************************/
+/* Main code                                             */
+/*********************************************************/
+
 if ($clientID > 0)
 	$clientwhere = "WHERE clientID='$clientID'";
 else
@@ -100,6 +129,12 @@ if ($row[count] > 0)
 {
 	require('./stats-weekly.html.php');
 }
+
+
+
+/*********************************************************/
+/* HTML framework                                        */
+/*********************************************************/
 
 phpAds_PageFooter();
 ?>

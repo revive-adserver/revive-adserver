@@ -1,11 +1,32 @@
-<?
+<?php // $Revision$
 
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
+
+
+
+// Include required files
 require ("config.php");
 require ("lib-statistics.inc.php");
 
+
+// Security check
 phpAds_checkAccess(phpAds_Admin+phpAds_Client);
 
 
+
+/*********************************************************/
+/* Client interface security                             */
+/*********************************************************/
 
 if (phpAds_isUser(phpAds_Admin))
 {
@@ -38,28 +59,33 @@ if (phpAds_isUser(phpAds_Client))
 }
 
 
-	$res = db_query("
-	SELECT
-		*
-	FROM
-		$phpAds_tbl_banners
-	WHERE
-		clientID = $GLOBALS[clientID]
-	") or mysql_die();
+
+/*********************************************************/
+/* HTML framework                                        */
+/*********************************************************/
+
+$res = db_query("
+SELECT
+	*
+FROM
+	$phpAds_tbl_banners
+WHERE
+	clientID = $GLOBALS[clientID]
+") or mysql_die();
+
+while ($row = mysql_fetch_array($res))
+{
+	if ($bannerID == $row[bannerID])
+		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
+	else
+		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 	
-	while ($row = mysql_fetch_array($res))
-	{
-		if ($bannerID == $row[bannerID])
-			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
-		else
-			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
-		
-		$extra .= "<a href='stats-details.php?clientID=$clientID&bannerID=$row[bannerID]'>";
-		$extra .= phpAds_buildBannerName ($row[bannerID], $row[description], $row[alt]);
-		$extra .= "</a>";
-		$extra .= "<br>"; 
-	}
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+	$extra .= "<a href='stats-details.php?clientID=$clientID&bannerID=$row[bannerID]'>";
+	$extra .= phpAds_buildBannerName ($row[bannerID], $row[description], $row[alt]);
+	$extra .= "</a>";
+	$extra .= "<br>"; 
+}
+$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 
 
 if (phpAds_isUser(phpAds_Admin))
@@ -84,10 +110,9 @@ if (phpAds_isUser(phpAds_Client))
 
 
 
-
-
-
-// Main functions
+/*********************************************************/
+/* Show detailed statistics                              */
+/*********************************************************/
 
 function showDetailedStats($what, $totalTitle, $avgTitle)
 {
@@ -180,7 +205,11 @@ function showDetailedStats($what, $totalTitle, $avgTitle)
 }
 
 
-// Page HTML
+
+/*********************************************************/
+/* Main code                                             */
+/*********************************************************/
+
 ?>
 
 <table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
@@ -212,6 +241,11 @@ function showDetailedStats($what, $totalTitle, $avgTitle)
 
 
 <?
-// Footer
+
+/*********************************************************/
+/* HTML framework                                        */
+/*********************************************************/
+
 phpAds_PageFooter();
+
 ?>

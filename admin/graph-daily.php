@@ -1,37 +1,50 @@
-<?php
+<?php // $Revision$
 
-/* This is a special version of this script for phpAdsNew. It's not pretty, I know !/*
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by Steve Maranda <steve_maranda@teluq.uquebec.ca> */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
+/* you must supply to this script 3 parameters :  title,width and data. */
+/* - title is the title of the graph                                    */
+/* - width is the width of the generated graph                          */
+/* - data is used for the values to be displayed                        */
+/*     to split the data you have to use separators "^" and "^^"        */
+/*     -> item_title^value^^                                            */
+/************************************************************************/
+/* call this script directly in the browser or in your html page with   */
+/* the img tag.                                                         */
+/* example 1 :                                                          */
+/* graph-daily.php?title=foo&width=500&data=a^15^^b^20^^                */
+/* example 2 :                                                          */
+/* <html>                                                               */
+/*  ...                                                                 */
+/*  <img src="graph-daily.php?title=foo&width=500&data=a^15^^b^20^^">   */
+/*  ...                                                                 */
+/* </html>                                                              */
+/************************************************************************/
+/* you can use as many data items as you want                           */
+/* you need the GD library in your php module                           */
+/* don't forget to encode you parameters (unicode)                      */
+/************************************************************************/
 
-/**************************************************************************/  
-/* you must supply to this script 3 parameters :  title,width and data.   */  
-/* - title is the title of the graph                                      */  
-/* - width is the width of the generated graph                            */  
-/* - data is used for the values to be displayed                          */  
-/*     to split the data you have to use separators "^" and "^^"          */  
-/*     -> item_title^value^^                                              */  
-/* ---------------------------------------------------------------------- */  
-/* call this script directly in the browser or in your html page with the */  
-/* img tag.                                                               */  
-/* example 1 :                                                            */  
-/* graph-daily.php?title=foo&width=500&data=a^15^^b^20^^                  */  
-/* example 2 :                                                            */  
-/* <html>                                                                 */  
-/*  ...                                                                   */  
-/*  <img src="graph-daily.php?title=foo&width=500&data=a^15^^b^20^^">     */  
-/*  ...                                                                   */  
-/* </html>                                                                */  
-/* ---------------------------------------------------------------------- */  
-/* you can use as many data items as you want                             */  
-/* you need the GD library in your php module                             */  
-/* don't forget to encode you parameters (unicode)                        */  
-/* Steve Maranda steve_maranda@teluq.uquebec.ca                           */  
-/* Have fun !                                                             */  
 
 
-// Include required libs
-require("../nocache.inc.php");
-require("lib-gd.inc.php");
+// Include required files
+require ("../nocache.inc.php");
+require ("lib-gd.inc.php");
 
+
+
+/*********************************************************/
+/* Prepare data for graph                                */
+/*********************************************************/
 
 // Decode data
 $data = urldecode($data);  

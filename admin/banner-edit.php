@@ -1,10 +1,32 @@
-<?
+<?php // $Revision$
 
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by Niels Leenheer                                 */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
+
+
+
+// Include required files
 require ("config.php");
 require ("lib-statistics.inc.php");
 
+
+// Security check
 phpAds_checkAccess(phpAds_Admin+phpAds_Client);
 
+
+
+/*********************************************************/
+/* Client interface security                             */
+/*********************************************************/
 
 if (phpAds_isUser(phpAds_Client))
 {
@@ -32,9 +54,10 @@ if (phpAds_isUser(phpAds_Client))
 
 
 
+/*********************************************************/
+/* Process submitted form                                */
+/*********************************************************/
 
-
-// If the form is being submitted, add a new record to banners
 if (isset($submit))
 {
 	switch($bannertype) 
@@ -170,8 +193,10 @@ if (isset($submit))
 
 
 
+/*********************************************************/
+/* HTML framework                                        */
+/*********************************************************/
 
-// If we find an ID, means that we're in update mode  
 if ($bannerID != '')
 {
 	phpAds_PageHeader("$strModifyBanner");
@@ -242,6 +267,10 @@ else
 
 
 
+/*********************************************************/
+/* Main code                                             */
+/*********************************************************/
+
 // determine if the browser supports DHTML
 
 if (!ereg ("Mozilla/4", $HTTP_USER_AGENT) || ereg ("IE", $HTTP_USER_AGENT))
@@ -249,8 +278,6 @@ if (!ereg ("Mozilla/4", $HTTP_USER_AGENT) || ereg ("IE", $HTTP_USER_AGENT))
 else
 	$dhtml = false;
 ?>
-
-
 
 
 <script language='Javascript'>
@@ -538,5 +565,11 @@ else
 
 	
 <?
+
+/*********************************************************/
+/* HTML framework                                        */
+/*********************************************************/
+
 phpAds_PageFooter();
+
 ?>

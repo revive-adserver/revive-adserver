@@ -1,17 +1,33 @@
-<?
+<?php // $Revision$
 
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2001 by Niels Leenheer                                 */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
+
+
+
+// Include required files
 require ("config.php");
 require ("lib-statistics.inc.php");
 require ("banner-acl.inc.php");
 
 
-
+// Security check
 phpAds_checkAccess(phpAds_Admin);
 
-phpAds_PageHeader("$strModifyBannerAcl");
 
 
-// If the form is being submitted, add a new record to banners
+/*********************************************************/
+/* Process submitted form                                */
+/*********************************************************/
 
 if (isset($btndel_x))
 {
@@ -122,52 +138,57 @@ if (isset($btndown_x))
 
 
 
-// If we find an ID, means that we're in update mode  
+/*********************************************************/
+/* HTML framework                                        */
+/*********************************************************/
+
+phpAds_PageHeader("$strModifyBannerAcl");
+
 if (!isset($bannerID)) 
-{
-	php_die("hu?",
-	"Where is my ID? I've lost my ID! Moooommmeee... I want my ID back!");
-}
+	php_die("This page can't be displayed",	"There was no bannerID suppied");
 
-
-	$res = db_query("
+$res = db_query("
 	SELECT
 		*
 	FROM
 		$phpAds_tbl_banners
 	WHERE
 		clientID = $GLOBALS[clientID]
-	") or mysql_die();
+") or mysql_die();
+
+while ($row = mysql_fetch_array($res))
+{
+	if ($bannerID == $row[bannerID])
+		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
+	else
+		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 	
-	while ($row = mysql_fetch_array($res))
-	{
-		if ($bannerID == $row[bannerID])
-			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
-		else
-			$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
-		
-		$extra .= "<a href='banner-acl.php?clientID=$clientID&bannerID=$row[bannerID]'>";
-		$extra .= phpAds_buildBannerName ($row[bannerID], $row[description], $row[alt]);
-		$extra .= "</a>";
-		$extra .= "<br>"; 
-	}
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+	$extra .= "<a href='banner-acl.php?clientID=$clientID&bannerID=$row[bannerID]'>";
+	$extra .= phpAds_buildBannerName ($row[bannerID], $row[description], $row[alt]);
+	$extra .= "</a>";
+	$extra .= "<br>"; 
+}
+$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 
-	$extra .= "<br><br><br><br><br>";
-	$extra .= "<b>$strShortcuts</b><br>";
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/caret-rs.gif'>&nbsp;<a href=client-edit.php?clientID=$clientID>$strModifyClient</a><br>";
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/caret-rs.gif'>&nbsp;<a href=stats-client.php?clientID=$clientID>$strStats</a><br>";
-	$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/caret-rs.gif'>&nbsp;<a href=stats-details.php?clientID=$clientID&bannerID=$bannerID>$strDetailStats</a><br>";
-	$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/caret-rs.gif'>&nbsp;<a href=stats-weekly.php?clientID=$clientID>$strWeeklyStats</a><br>";
-	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+$extra .= "<br><br><br><br><br>";
+$extra .= "<b>$strShortcuts</b><br>";
+$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+$extra .= "<img src='images/caret-rs.gif'>&nbsp;<a href=client-edit.php?clientID=$clientID>$strModifyClient</a><br>";
+$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
+$extra .= "<img src='images/caret-rs.gif'>&nbsp;<a href=stats-client.php?clientID=$clientID>$strStats</a><br>";
+$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/caret-rs.gif'>&nbsp;<a href=stats-details.php?clientID=$clientID&bannerID=$bannerID>$strDetailStats</a><br>";
+$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/caret-rs.gif'>&nbsp;<a href=stats-weekly.php?clientID=$clientID>$strWeeklyStats</a><br>";
+$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 
-	phpAds_ShowNav("1.3.3", $extra);
+phpAds_ShowNav("1.3.3", $extra);
+
+
+
+/*********************************************************/
+/* Main code                                             */
+/*********************************************************/
+
 ?>
-
-
-
 
 
 <table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
@@ -231,8 +252,16 @@ if ($count > 0)
 
 
 <?	
-// show acl help file
+
+// Show acl help file
 include("../language/banneracl.".$phpAds_language.".inc.php");
 
+
+
+/*********************************************************/
+/* HTML framework                                        */
+/*********************************************************/
+
 phpAds_PageFooter();
+
 ?>
