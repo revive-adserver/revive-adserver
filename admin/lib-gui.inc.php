@@ -34,6 +34,7 @@ function phpAds_PageHeader($ID, $extra="")
 	global $strLogout, $strNavigation;
 	global $strAuthentification, $strSearch;
 	global $phpAds_showHelp;
+	global $phpAds_version_readable;
 	
 	$phpAds_GUIDone = true;
 	$phpAds_NavID   = $ID;
@@ -193,6 +194,7 @@ function phpAds_PageHeader($ID, $extra="")
 	echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>";
 	echo "<tr>";
 	
+	// Branding
  	if ($phpAds_config['name'] != "")
 	{
 		echo "<td height='48' bgcolor='#000063' valign='middle'>";
@@ -201,7 +203,7 @@ function phpAds_PageHeader($ID, $extra="")
 	else
 	{
 		echo "<td height='48' bgcolor='#000063' valign='bottom'>";
-		echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/logo.gif' width='163' height='34' alt='phpAdsNew 2 beta 6.1'>";
+		echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/logo.gif' width='163' height='34' alt='phpAdsNew ".$phpAds_version_readable."'>";
 	}
 	
 	echo "</td><td bgcolor='#000063' valign='top' align='right'>";
@@ -461,6 +463,14 @@ function phpAds_ShowSections($sections)
 	echo "<tr><td width='40'>&nbsp;</td><td>";
 }
 
+function phpAds_ShowBreak()
+{
+	echo "</td></tr>";
+	echo "</table>";
+	echo "<img src='images/break-el.gif' height='1' width='100%' vspace='5'>";
+	echo "<table width='640' border='0' cellspacing='0' cellpadding='0'>";
+	echo "<tr><td width='40'>&nbsp;</td><td>";
+}
 
 
 /*********************************************************/
