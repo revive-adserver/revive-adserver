@@ -23,43 +23,53 @@ require ("acl.inc.php");
 db_connect();
 
 
-if (!$clientID)
-	$clientID=0;
+if (!isset($clientID))
+	$clientID = 0;
 
 
 $row = get_banner($what,$clientID);
 
-if(!empty($row["bannerID"]))
+if (is_array($row))
 {
-	$url = parse_url($GLOBALS["phpAds_url_prefix"]);
-	SetCookie("bannerNum", $row["bannerID"], 0, $url["path"]);
-	if(isset($n)) SetCookie("banID[$n]", $row["bannerID"], 0, $url["path"]);
-	
-	if ($row["format"] == "html")
+	if(!empty($row["bannerID"]))
 	{
-		echo $row["banner"];
-		log_adview($row["bannerID"],$row["clientID"]);
-	}
-	else
-	{
-		if($row["format"] == "url" || $row["format"] == "web")   // bkl
+		$url = parse_url($GLOBALS["phpAds_url_prefix"]);
+		SetCookie("bannerNum", $row["bannerID"], 0, $url["path"]);
+		if(isset($n)) SetCookie("banID[$n]", $row["bannerID"], 0, $url["path"]);
+		
+		if ($row["format"] == "html")
 		{
-			Header("Location: $row[banner]");
-			log_adview($row["bannerID"],$row["clientID"]);
+			echo $row["banner"];
+			log_adview($row["bannerID"], $row["clientID"]);
 		}
 		else
 		{
-			Header("Content-type: image/$row[format]; name=".microtime());
-			echo $row["banner"];
-			log_adview($row["bannerID"],$row["clientID"]);
-		} 
+			if($row["format"] == "url")
+			{
+				Header("Location: $row[banner]");
+				log_adview($row["bannerID"], $row["clientID"]);
+			}
+			else
+			{
+				Header("Content-type: image/$row[format]; name=".microtime());
+				echo $row["banner"];
+				log_adview($row["bannerID"], $row["clientID"]);
+			}
+		}
+	}
+	else
+	{
+		Header( "Content-type: image/$row[format]");
+		echo $row["banner"];
 	}
 }
 else
 {
-	Header( "Content-type: image/$row[format]");
-	echo $row["banner"];
-}  
+	SetCookie("bannerNum", "DEFAULT", 0, $url["path"]);
+	if(isset($n)) SetCookie("banID[$n]", "DEFAULT", 0, $url["path"]);
+	
+	Header ("Location: $phpAds_default_banner_url");
+}
 
 db_close();
 ?>
