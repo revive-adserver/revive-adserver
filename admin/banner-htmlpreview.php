@@ -69,7 +69,7 @@ if ($res)
 		$htmlcode = str_replace ('{timestamp}',	time(), $htmlcode);
 		$htmlcode = str_replace ('%7Btimestamp%7D',	time(), $htmlcode);
 		
-		while (preg_match ('#(%7B|\{)random((%3A|:)([1-9]+)){0,1}(%7D|})#i', $htmlcode, $matches))
+		while (preg_match ('#(%7B|\{)random((%3A|:)([0-9]+)){0,1}(%7D|})#i', $htmlcode, $matches))
 		{
 			if ($matches[4])
 				$randomdigits = $matches[4];

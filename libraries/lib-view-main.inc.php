@@ -136,7 +136,7 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 			$outputbuffer = str_replace ('%7Btimestamp%7D',	time(), $outputbuffer);
 			
 			// Replace random
-			while (preg_match ('#(%7B|\{)random((%3A|:)([1-9]+)){0,1}(%7D|})#i', $outputbuffer, $matches))
+			while (preg_match ('#(%7B|\{)random((%3A|:)([0-9]+)){0,1}(%7D|})#i', $outputbuffer, $matches))
 			{
 				if ($matches[4])
 					$randomdigits = $matches[4];
