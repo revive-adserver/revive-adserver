@@ -8,7 +8,7 @@ CVS			+ Added search capabilities  (Niels and Tobi Schulz)
 			  ftp emulation library provided by TOMO <groove@spencernetwork.org>  (Niels)
 			+ Added native support for flash banners, based on code of the 
 			  phpAdsPlus project by Dandra  (Niels)
-			+ Added a confirmation dialogbox, for deleting and resetting statistics (Helmut)
+			+ Added a confirmation dialogbox, for deleting and resetting statistics (Helmut Wirth)
 
 			+ ACLs
 			  The ACL routines have been rewritten. This is a very big change and possibly
@@ -53,7 +53,12 @@ CVS			+ Added search capabilities  (Niels and Tobi Schulz)
 			  - Added history statistics for campaigns (Niels)
 			  - Added ability to reset stats for a complete client  (Niels)
 			  - Added ability to reset all stats  (Niels)
-			
+
+			+ Language files
+			  - Added Norwegian language files  (Torbjørn Engedal)
+			  - Added Swedish language files  (Patrik Grip-Jansson)
+			  - Added Chinese language files  (Yen-Shuo Su)
+	
 			+ Misc changes
 			  - Changed all occurances of <? to <?php  (Niels)
 			  - Changed most " to ' in view.inc.php for minor speed improvement  (Niels)
@@ -70,7 +75,11 @@ CVS			+ Added search capabilities  (Niels and Tobi Schulz)
 			    raw image data would be present in HTML banner field.
 			  - Fixed bug: unlimited clicks/views checkbox in campaign-edit were
 			    deselected when jumping to clicks/views fields using TAB key (Matteo)
-
+			  - Fixed missing </table> tag in stats-convert.php  (Helmut Wirth)
+			  - Fixed date format in lib-reports.inc.php  (Helmut Wirth)
+			  - Fixed background color in stats-convert.php  (Helmut Wirth)
+			  - Error message when temp table can't be created  (Helmut Wirth)		
+  
 			+ Security fixes
 			  - Fixed login exploit where users could login without authentification  (Niels)
 			  - Fixed upload exploit where users could download files from the server  (Niels)

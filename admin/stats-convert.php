@@ -71,7 +71,7 @@ if ($command == 'start')
 {
 	echo "<html><head>";
 	echo "<link rel='stylesheet' href='interface.css'>";
-	echo "</head><body>";
+	echo "</head><body bgcolor='#FFFFFF' text='#000000'>";
 	echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'>";
 	echo "<tr><td height='25' colspan='3'>&nbsp;</td></tr>";
 	
@@ -125,7 +125,7 @@ if ($command == 'overview')
 	if (!phpAds_convertTableExists())
 	{
 		// Setup a new conversion
-		phpAds_convertTableCreate();
+		phpAds_convertTableCreate() or mysql_die();
 		
 		$day = array();
 		
@@ -187,7 +187,7 @@ if ($command == 'overview')
 		//-->
 		</script>
 	<?php
-	echo "</head><body onLoad=\"StartCleanup();\">";
+	echo "</head><body bgcolor='#FFFFFF' text='#000000' onLoad=\"StartCleanup();\">";
 	echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'>";
 	
 	// Show all tasks
@@ -441,6 +441,8 @@ function phpAds_convertTableCreate()
 		   PRIMARY KEY (conversionID)
 		)
 	");
+	
+	return ($result);
 }
 
 
