@@ -23,7 +23,12 @@ if (!defined('LIBZONES_INCLUDED'))
 
 
 // Define appendtypes
-define ("phpAds_AppendRaw", 0);
+define ("phpAds_AppendNone", 0);
+define ("phpAds_AppendInterstitial", 1);
+define ("phpAds_AppendPopup", 2);
+define ("phpAds_AppendRaw", 3);
+
+define ("phpAds_AppendKeyword", 0);
 define ("phpAds_AppendZone", 1);
 define ("phpAds_AppendBanner", 2);
 
@@ -38,29 +43,50 @@ function phpAds_ParseAppendCode ($append)
 	global $phpAds_config;
 	
 	$ret = array(
-		array('zoneid' => '', 'delivery' => phpAds_ZonePopup),
-		array()
-	);
+				array(
+					'what' => '', 
+					'delivery' => phpAds_AppendPopup,
+					'selection' => phpAds_AppendZone
+				),
+				array()
+			);
+	
 	
 	if (ereg("ad(popup|layer)\.php\?([^'\"]+)['\"]", $append, $match))
 	{
 		if (!empty($match[2]))
 		{
-			$ret[0]['delivery'] = ($match[1] == 'popup') ? phpAds_ZonePopup : phpAds_ZoneInterstitial;
+			$ret[0]['delivery'] = ($match[1] == 'popup') ? phpAds_AppendPopup : phpAds_AppendInterstitial;
 			
 			$append = str_replace('&amp;', '&', $match[2]);
 			
 			if (ereg('[\?\&]?what=zone:([0-9]+)(&|$)', $append, $match))
 			{
-				$ret[0]['zoneid'] = $match[1];
+				$ret[0]['what'] = $match[1];
+				$ret[0]['selection'] = phpAds_AppendZone;
+			}
+			elseif(ereg('[\?\&]?what=([0-9,]+)(&|$)', $append, $match))
+			{
+				$ret[0]['what'] = explode(',', $match[1]);
+				$ret[0]['selection'] = phpAds_AppendBanner;
+			}
+			elseif(ereg('[\?\&]?what=([^&|^$]+)(&|$)', $append, $match))
+			{
+				$ret[0]['what'] = $match[1];
+				$ret[0]['selection'] = phpAds_AppendKeyword;
+			}
+			else
+			{
+				$ret[0]['what'] = '';
+				$ret[0]['selection'] = phpAds_AppendKeyword;
+			}
 				
-				$append = explode('&', $append);
-				while (list(, $v) = each($append))
-				{
-					$v = explode('=', $v);
-					if (count($v) == 2)
-						$ret[1][urldecode($v[0])] = urldecode($v[1]);
-				}
+			$append = explode('&', $append);
+			while (list(, $v) = each($append))
+			{
+				$v = explode('=', $v);
+				if (count($v) == 2)
+					$ret[1][urldecode($v[0])] = urldecode($v[1]);
 			}
 		}
 	}

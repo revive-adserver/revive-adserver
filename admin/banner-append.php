@@ -25,7 +25,7 @@ require ("lib-banner.inc.php");
 
 // Register input variables
 phpAds_registerGlobal ('append', 'submitbutton');
-phpAds_registerGlobal ('appendtype', 'appendid', 'appenddelivery', 'appendsave');
+phpAds_registerGlobal ('appendtype', 'appendtype_previous', 'appendsave', 'appendselection', 'appendwhat');
 
 
 // Security check
@@ -44,19 +44,25 @@ if (isset($submitbutton))
 		// Do not save append until not finished with appending, if present
 		if (isset($appendsave) && $appendsave)
 		{
-			// Determine append type
-			if (!isset($append)) $append = '';
-			if (!isset($appendtype)) $appendtype = phpAds_ZoneAppendZone;
-			if (!isset($appenddelivery)) $appenddelivery = phpAds_ZonePopup;
-			
-			
-			// Generate invocation code
-			if ($appendtype == phpAds_ZoneAppendZone)
+			if ($appendtype == phpAds_AppendNone)
 			{
-				$what = 'zone:'.(isset($appendid) ? $appendid : 0);
+				$append = '';
+			}
+			
+			if ($appendtype == phpAds_AppendPopup ||
+				$appendtype == phpAds_AppendInterstitial)
+			{
+				if ($appendselection == phpAds_AppendBanner)
+					$what = isset($appendwhat[phpAds_AppendBanner]) ? implode (',', $appendwhat[phpAds_AppendBanner]) : '';
+				elseif ($appendselection == phpAds_AppendZone)
+					$what = isset($appendwhat[phpAds_AppendZone]) ? 'zone:'.$appendwhat[phpAds_AppendZone] : 'zone:0';
+				else
+					$what = $appendwhat[phpAds_AppendKeyword];
 				
-				if ($appenddelivery == phpAds_ZonePopup)
+				if ($appendtype == phpAds_AppendPopup)
+				{
 					$codetype = 'popup';
+				}
 				else
 				{
 					$codetype = 'adlayer';
@@ -81,20 +87,18 @@ if (isset($submitbutton))
 				WHERE
 					bannerid='".$bannerid."'
 			") or phpAds_sqlDie();
+			
+			
+			
+			// Rebuild Banner cache
+			phpAds_rebuildBannerCache($bannerid);
+			
+			
+			// Rebuild Cache
+			if (!defined('LIBVIEWCACHE_INCLUDED'))  include (phpAds_path.'/libraries/deliverycache/cache-'.$phpAds_config['delivery_caching'].'.inc.php');
+			
+			phpAds_cacheDelete();
 		}
-		
-		
-		
-		// Rebuild Banner cache
-		phpAds_rebuildBannerCache($bannerid);
-		
-		
-		// Rebuild Cache
-		if (!defined('LIBVIEWCACHE_INCLUDED'))  include (phpAds_path.'/libraries/deliverycache/cache-'.$phpAds_config['delivery_caching'].'.inc.php');
-		
-		phpAds_cacheDelete();
-		
-		
 		
 		// Do not redirect until not finished with zone appending, if present
 		if (!isset($appendsave) || $appendsave)
@@ -247,157 +251,236 @@ if ($banner['storagetype'] != 'txt')
 		$available[$row['delivery']][$row['zoneid']] = phpAds_buildZoneName($row['zoneid'], $row['zonename']);
 	
 	
+	
+	// Get available zones
+	$available_banners = array();
+	
+	
+	// Get campaigns from same advertiser
+	$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE parent = '".$clientid."' AND active = 't'");
+	while ($row = phpAds_dbFetchArray($res))
+		$available_banners[] = "clientid = '".$row['clientid']."'";
+		
+	$available_banners = implode ($available_banners, ' OR ');
+	
+	
+	// Get banners from same advertiser
+	$res = phpAds_dbQuery("SELECT bannerid, clientid, description, alt FROM ".$phpAds_config['tbl_banners']." WHERE ".
+						  "active = 't' AND (".$available_banners.") ORDER BY clientid, bannerid");
+	
+	$available_banners = array();
+	while ($row = phpAds_dbFetchArray($res))
+		$available_banners[$row['bannerid']] = phpAds_buildBannerName($row['bannerid'], $row['description'], $row['alt']);
+	
+	
+	// Determine the candidates for each type
+	$candidates[phpAds_AppendPopup] 	   = count($available[phpAds_ZonePopup]) + count($available_banners);
+	$candidates[phpAds_AppendInterstitial] = count($available[phpAds_ZoneInterstitial]) + count($available_banners);
+	
+	
+	
 	// Determine appendtype
-	if (isset($appendtype)) $banner['appendtype'] = $appendtype;
+	if (!isset($appendtype)) 
+		$appendtype = $banner['appendtype'];
+	
+	if (!isset($appendtype_previous))
+		$appendtype_previous = '';
+		
+	echo "<input type='hidden' name='appendtype_previous' value='".$appendtype."'>";
+	echo "<input type='hidden' name='appendsave' value='1'>";
 	
 	
 	// Appendtype choices
-	echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$GLOBALS['strZoneAppendType']."</td><td>";
+	echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$GLOBALS['strAppendType']."</td><td>";
 	echo "<select name='appendtype' style='width: 200;' onchange='phpAds_formSelectAppendType()' tabindex='".($tabindex++)."'>";
-	echo "<option value='".phpAds_ZoneAppendRaw."'".($banner['appendtype'] == phpAds_ZoneAppendRaw ? ' selected' : '').">".$GLOBALS['strZoneAppendHTMLCode']."</option>";
+	echo "<option value='".phpAds_AppendNone."'".($appendtype == phpAds_AppendNone ? ' selected' : '').">".$GLOBALS['strNone']."</option>";
 	
-	if (count($available[phpAds_ZonePopup]) || count($available[phpAds_ZoneInterstitial]))
-		echo "<option value='".phpAds_ZoneAppendZone."'".($banner['appendtype'] == phpAds_ZoneAppendZone ? ' selected' : '').">".$GLOBALS['strZoneAppendZoneSelection']."</option>";
-	else
-		$banner['appendtype'] = phpAds_ZoneAppendRaw;
+	if ($candidates[phpAds_AppendPopup])
+		echo "<option value='".phpAds_AppendPopup."'".($appendtype == phpAds_AppendPopup ? ' selected' : '').">".$GLOBALS['strPopup']."</option>";
+	
+	if ($candidates[phpAds_AppendInterstitial])
+		echo "<option value='".phpAds_AppendInterstitial."'".($appendtype == phpAds_AppendInterstitial ? ' selected' : '').">".$GLOBALS['strInterstitial']."</option>";
+	
+	echo "<option value='".phpAds_AppendRaw."'".($appendtype == phpAds_AppendRaw ? ' selected' : '').">".$GLOBALS['strAppendHTMLCode']."</option>";
+	
+/*	
+	if ($candidates[phpAds_AppendPopup] + $candidates[phpAds_AppendInterstitial] == 0)
+		$appendtype = phpAds_AppendNone;
+*/	
 	
 	echo "</select></td></tr>";
 	
 	
 	// Line
-	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-	echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
-	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+	if ($appendtype != phpAds_AppendNone)
+	{
+		echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+		echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
+		echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+	}
 	
 	
-	
-	if ($banner['appendtype'] == phpAds_ZoneAppendZone)
+	if ($appendtype == phpAds_AppendPopup ||
+		$appendtype == phpAds_AppendInterstitial)
 	{
 		// Append zones
-		
-		// Read info from invocation code
-		if (!isset($appendid) || empty($appendid))
+		if ($appendtype != $appendtype_previous)
 		{
-			$appendvars = phpAds_ParseAppendCode($banner['append']);
+			// Admin chose a different append type or this is the first
+			// time this page is shown to the admin
 			
-			$appendid 		= $appendvars[0]['zoneid'];
-			$appenddelivery = $appendvars[0]['delivery'];
-			
-			if ($appenddelivery == phpAds_ZonePopup && 
-				!count($available[phpAds_ZonePopup]))
+			if ($appendtype == $banner['appendtype'])
 			{
-				$appenddelivery = phpAds_ZoneInterstitial;
-			}
-			elseif ($appenddelivery == phpAds_ZoneInterstitial && 
-					!count($available[phpAds_ZoneInterstitial]))
-			{
-				$appenddelivery = phpAds_ZonePopup;
-			}
-			else
-			{
-				// Add globals for lib-invocation
+				// Admin chose the original append type, or this is the
+				// first time this page is shown to the admin.
+				// Load all data from the invocation code
+				
+				$appendvars = phpAds_ParseAppendCode($banner['append']);
+				
+				$appendwhat		 = $appendvars[0]['what'];			// id's
+				$appendselection = $appendvars[0]['selection'];		// keyword, banner or zone
+				
 				while (list($k, $v) = each($appendvars[1]))
 				{
 					if ($k != 'n' && $k != 'what')
 						$GLOBALS[$k] = addslashes($v);
 				}
 			}
+			else
+			{
+				// Admin chose a different append type from the original
+				// In this case it is not possible to reuse anything, set to defaults
+				$appendselection = phpAds_AppendZone;
+				$appendwhat      = '';
+			}
+		}
+		else
+		{
+			// Admin changed on of the lower options, reuse all of
+			// info from the submitted form
+			
+			if ($appendselection == phpAds_AppendBanner)
+			{
+				if (isset($appendwhat[$appendselection]))
+					$appendwhat = $appendwhat[$appendselection];
+				else
+					$appendwhat = array();
+			}
+			else
+			{
+				if (isset($appendwhat[$appendselection]))
+					$appendwhat = $appendwhat[$appendselection];
+				else
+					$appendwhat = '';
+			}
 		}
 		
+		
+		$available_zones = ($appendtype == phpAds_AppendPopup) ? $available[phpAds_ZonePopup] : $available[phpAds_ZoneInterstitial];
 		
 		
 		// Header
-		echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$GLOBALS['strZoneAppendSelectZone']."</td><td>";
-		echo "<input type='hidden' name='appendsave' value='1'>";
-		echo "<input type='hidden' name='appendid' value='".$appendid."'>";
-		echo "<table cellpadding='0' cellspacing='0' border='0' width='100%'>";
+		echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$strAppendWhat."</td><td>";
 		
+		echo "<select name='appendselection' onChange=\"phpAds_formSelectBox(this.options[this.selectedIndex].value);\"";
+		echo "tabindex='".($tabindex++)."'>";
 		
-		
-		// Popup
-		echo "<tr><td><input type='radio' name='appenddelivery' value='".phpAds_ZonePopup."'";
-		echo (count($available[phpAds_ZonePopup]) ? ' onClick="phpAds_formSelectAppendDelivery(0)"' : ' DISABLED');
-		echo ($appenddelivery == phpAds_ZonePopup ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;</td><td>";
-		echo $GLOBALS['strPopup'].":</td></tr>";
-		echo "<tr><td>&nbsp;</td><td width='100%'><img src='images/spacer.gif' height='1' width='100%' align='absmiddle' vspace='1'>";
-		
-		if (count($available[phpAds_ZonePopup]))
-			echo "<img src='images/icon-popup.gif' align='top'>";
-		else
-			echo "<img src='images/icon-popup-d.gif' align='top'>";
-		
-		echo "&nbsp;&nbsp;<select name='appendpopup' style='width: 200;' ";
-		echo "onchange='phpAds_formSelectAppendZone(0)'";
-		echo (count($available[phpAds_ZonePopup]) ? '' : ' DISABLED')." tabindex='".($tabindex++)."'>";
-		
-		while (list($k, $v) = each($available[phpAds_ZonePopup]))
+		if (count($available_zones))
 		{
-			if ($appendid == $k)
-				echo "<option value='".$k."' selected>".$v."</option>";
-			else
-				echo "<option value='".$k."'>".$v."</option>";
+			echo "<option value='".phpAds_AppendZone."'".($appendselection == phpAds_AppendZone ? ' SELECTED' : '').">";
+			echo $strAppendZone."</option>";
 		}
 		
-		echo "</select></td></tr>";
-		
-		
-		
-		// Interstitial
-		echo "<tr><td><input type='radio' name='appenddelivery' value='".phpAds_ZoneInterstitial."'";
-		echo (count($available[phpAds_ZoneInterstitial]) ? ' onClick="phpAds_formSelectAppendDelivery(1)"' : ' DISABLED');
-		echo ($appenddelivery == phpAds_ZoneInterstitial ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;</td><td>";
-		echo $GLOBALS['strInterstitial'].":</td></tr>";
-		echo "<tr><td>&nbsp;</td><td width='100%'><img src='images/spacer.gif' height='1' width='100%' align='absmiddle' vspace='1'>";
-		
-		if (count($available[phpAds_ZoneInterstitial]))
-			echo "<img src='images/icon-interstitial.gif' align='top'>";
-		else
-			echo "<img src='images/icon-interstitial-d.gif' align='top'>";
-		
-		echo "&nbsp;&nbsp;<select name='appendinterstitial' style='width: 200;' ";
-		echo "onchange='phpAds_formSelectAppendZone(1)'";
-		echo (count($available[phpAds_ZoneInterstitial]) ? '' : ' DISABLED')." tabindex='".($tabindex++)."'>";
-		
-		while (list($k, $v) = each($available[phpAds_ZoneInterstitial]))
+		if (count($available_banners))
 		{
-			if ($appendid == $k)
-				echo "<option value='".$k."' selected>".$v."</option>";
-			else
-				echo "<option value='".$k."'>".$v."</option>";
+			echo "<option value='".phpAds_AppendBanner."'".($appendselection == phpAds_AppendBanner ? ' SELECTED' : '').">";
+			echo $strAppendBanner."</option>";
 		}
 		
-		echo "</select></td></tr>";
+		echo "<option value='".phpAds_AppendKeyword."'".($appendselection == phpAds_AppendKeyword ? ' SELECTED' : '').">";
+		echo $strAppendKeyword."</option>";
+		echo "</select><br><br>";
 		
 		
 		
+		// Show all banners
+		echo "<div class='box' id='box_".phpAds_AppendBanner."'".($appendselection == phpAds_AppendBanner ? '' : ' style="display: none;"').">";
+		while (list($id,$name) = each ($available_banners))
+		{
+			echo "<div class='boxrow' onMouseOver='boxrow_over(this);' onMouseOut='boxrow_leave(this);' onClick='o=findObj(\"banner_".$id."\"); o.checked = !o.checked;'>";
+			echo "<input onClick='boxrow_nonbubble();' tabindex='".($tabindex++)."' ";
+			echo "type='checkbox' id='banner_".$id."' name='appendwhat[".phpAds_AppendBanner."][]' value='$id'".($appendselection == phpAds_AppendBanner && in_array ($id, $appendwhat) ? ' checked' : '').">";
+			echo "&nbsp;<img src='images/icon-banner-stored.gif'>&nbsp;".$name;
+			echo "</div>";
+		}
+		echo "</div>";
+		
+		
+		// Show all zones
+		echo "<div class='box' id='box_".phpAds_AppendZone."'".($appendselection == phpAds_AppendZone ? '' : ' style="display: none;"').">";
+		
+		if ($appendselection != phpAds_AppendZone || $appendwhat == '')
+		{
+			list($selected,) = each ($available_zones);
+			reset($available_zones);
+		}
+		else
+			$selected = $appendwhat;
+		
+		while (list($id,$name) = each ($available_zones))
+		{
+			echo "<div class='boxrow' onMouseOver='boxrow_over(this);' onMouseOut='boxrow_leave(this);' onClick='o=findObj(\"zone_".$id."\"); if (!o.checked) { o.checked = !o.checked; }'>";
+			echo "<input onClick='boxrow_nonbubble();' tabindex='".($tabindex++)."' ";
+			echo "type='radio' id='zone_".$id."' name='appendwhat[".phpAds_AppendZone."]' value='$id'".($id == $selected ? ' checked' : '').">";
+			
+			if ($appendtype == phpAds_AppendPopup)
+				echo "&nbsp;<img src='images/icon-popup.gif'>";
+			else
+				echo "&nbsp;<img src='images/icon-interstitial.gif'>";
+			
+			echo "&nbsp;".$name;
+			echo "</div>";
+		}
+		echo "</div>";
+		
+		
+		// Show all keywords
+		echo "<div id='box_".phpAds_AppendKeyword."'".($appendselection == phpAds_AppendKeyword ? '' : ' style="display: none;"').">";
+		echo "<textarea class='box' name='appendwhat[".phpAds_AppendKeyword."]' tabindex='".($tabindex++)."'>".($appendselection == phpAds_AppendKeyword ? $appendwhat : '')."</textarea>";
+		echo "</div>";
+		
+		
+		
+		// Line
+		echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+		echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
+		echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+		
+		
+		/*
 		// Line
 		echo "</table></td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 		echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
 		echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 		
-		
-		// It shouldn't be necessary to load zone attributes from db
-		$extra = array('what' => '',
-					   //'width' => $zone['width'],
-					   //'height' => $zone['height'],
-					   'delivery' => $appenddelivery,
-					   //'website' => $affiliate['website'],
-					   'zoneadvanced' => true
-		);
+		*/
 		
 		
 		// Invocation options
-		$codetype = $appenddelivery == 'popup' ? 'popup' : 'adlayer';
+		$extra = array('what' 		  => '',
+					   'delivery' 	  => $appendtype == phpAds_AppendPopup ? phpAds_ZonePopup : phpAds_ZoneInterstitial,
+					   'zoneadvanced' => true
+		);
+		
 		phpAds_placeInvocationForm($extra, true);
 		
 		echo "</td></tr>";
 	}
-	else
+	elseif ($appendtype == phpAds_AppendRaw)
 	{
 		// Regular HTML append
 		echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$strZoneAppend."</td><td>";
-		echo "<input type='hidden' name='appendsave' value='1'>";
-		echo "<textarea name='append' rows='6' cols='55' style='width: 100%;' tabindex='".($tabindex++)."'>".htmlspecialchars($banner['append'])."</textarea>";
+		echo "<textarea name='append' class='code' rows='15' cols='55' tabindex='".($tabindex++)."'>".htmlspecialchars($banner['append'])."</textarea>";
 		echo "</td></tr>";
 	}
 	
@@ -426,49 +509,117 @@ else
 
 <script language='JavaScript'>
 <!--
+	
+	// Set the name of the form
+	formname = 'appendform';
 
+	
 	function phpAds_formSelectAppendType()
 	{
-		if (document.appendform.appendid)
-			document.appendform.appendid.value = '-1';
-		document.appendform.appendsave.value = '0';
-		document.appendform.submit();
+		form = findObj(formname);
+		
+		form.appendsave.value = '0';
+		form.submit();
 	}
 
 	function phpAds_formSelectAppendDelivery(type)
 	{
-		document.appendform.appendid.value = '-1';
-		document.appendform.appendsave.value = '0';
-		document.appendform.submit();
+		form = findObj(formname);
+		
+		form.appendsave.value = '0';
+		form.submit();
 	}
 	
-
-	function phpAds_formSelectAppendZone(type)
-	{
-		var x;
-
-		if (document.appendform.appenddelivery[type] && 
-			!document.appendform.appenddelivery[type].checked)
-		{
-			document.appendform.appendid.value = '-1';
-			document.appendform.appendsave.value = '0';
-			document.appendform.submit();
-		}
-	}
-
 	function phpAds_formSubmit()
 	{
-		if (document.appendform.appenddelivery)
-		{
-			if (document.appendform.appenddelivery[0].checked)
-				x = document.appendform.appendpopup;
-			else
-				x = document.appendform.appendinterstitial;
-			
-			document.appendform.appendid.value = x.options[x.selectedIndex].value;
-		}
+		// Defaults
+		errors = '';
+		
+		// Get the type of append
+		obj = findObj ('appendtype');
+		appendtype = obj.options[obj.selectedIndex].value;
 
+		if (appendtype == <?php echo phpAds_AppendPopup ?> ||
+			appendtype == <?php echo phpAds_AppendInterstitial ?>)
+		{
+			// Get the way banners are appended
+			obj = findObj ('appendselection');
+			appendselection = obj.options[obj.selectedIndex].value;
+			
+			form = findObj(formname);
+
+			// Check if a zone is selected
+			if (appendselection == <?php echo phpAds_AppendZone ?>)
+			{
+				checked = false;
+				
+				for (i=0; i<form.elements.length; i++) 
+				{
+					if (form.elements.item(i).name == 'appendwhat[<?php echo phpAds_AppendZone ?>]' &&
+						form.elements.item(i).checked == true) 
+					{
+						checked = true;
+					}
+				}
+				
+				if (!checked)
+					errors = '<?php echo $strAppendErrorZone ?>';
+			}
+			
+			// Check if one or more banners are selected
+			if (appendselection == <?php echo phpAds_AppendBanner ?>)
+			{
+				checked = false;
+				
+				for (i=0; i<form.elements.length; i++) 
+				{
+					if (form.elements.item(i).name == 'appendwhat[<?php echo phpAds_AppendBanner ?>][]' &&
+						form.elements.item(i).checked == true) 
+					{
+						checked = true;
+					}
+				}
+				
+				if (!checked)
+					errors = '<?php echo $strAppendErrorBanner ?>';
+			}
+			
+			// Check if there are any keywords specified
+			if (appendselection == <?php echo phpAds_AppendKeyword ?>)
+			{
+				obj = findObj('appendwhat[<?php echo phpAds_AppendKeyword ?>]')
+				
+				if (obj.value == '')
+				{
+					errors = '<?php echo $strAppendErrorKeyword ?>';
+				}
+			}
+		}
+		
+		if (errors != '')
+		{
+			alert (errors + "\n");
+			return false;
+		}
+		
 		return true;
+	}
+	
+	function phpAds_formSelectBox(s)
+	{
+	 	// Hide all the boxes
+		hideLayer(findObj('box_<?php echo phpAds_AppendZone ?>'));
+		hideLayer(findObj('box_<?php echo phpAds_AppendBanner ?>'));
+		hideLayer(findObj('box_<?php echo phpAds_AppendKeyword ?>'));
+	 	
+		// Show the selected box
+		showLayer(findObj('box_' + s));
+		
+		if (s == <?php echo phpAds_AppendKeyword ?>)
+		{
+			obj = findObj('appendwhat[<?php echo phpAds_AppendKeyword ?>]')
+			obj.focus();
+		}
 	}
 
 //-->

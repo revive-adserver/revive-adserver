@@ -17,6 +17,20 @@
 
   ====================================================
 
+  05-22-2003 - default
+    [+] strAppendType
+    [+] strAppendHTMLCode
+    [+] strAppendWhat
+    [+] strAppendZone
+    [+] strAppendErrorZone
+    [+] strAppendBanner
+    [+] strAppendErrorBanner
+    [+] strAppendKeyword
+    [+] strAppendErrorKeyword
+    [-] strZoneAppendType
+    [-] strZoneAppendHTMLCode
+    [-] strZoneAppendZoneSelection
+
   05-20-2003 - settings
     [+] strPhpBug20144
 

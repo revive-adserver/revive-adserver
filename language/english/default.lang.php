@@ -422,9 +422,6 @@ $GLOBALS['strZoneAppend']			= "Always append the following HTML code to banners 
 $GLOBALS['strAppendSettings']			= "Append and prepend settings";
 $GLOBALS['strZonePrependHTML']			= "Always prepend the HTML code to text ads displayed by this zone";
 $GLOBALS['strZoneAppendHTML']			= "Always append the HTML code to text ads displayed by this zone";
-$GLOBALS['strZoneAppendType']			= "Append type";
-$GLOBALS['strZoneAppendHTMLCode']		= "HTML code";
-$GLOBALS['strZoneAppendZoneSelection']	= "Popup or interstitial";
 $GLOBALS['strZoneAppendSelectZone']		= "Always append the following popup or intersitial to banners displayed by this zone";
 
 
@@ -451,6 +448,18 @@ $GLOBALS['strNoCampaignsToLink']		= "There are currently no campaigns available 
 $GLOBALS['strNoZonesToLinkToCampaign']  	= "There are no zones available to which this campaign can be linked";
 $GLOBALS['strSelectBannerToLink']		= "Select the banner you would like to link to this zone:";
 $GLOBALS['strSelectCampaignToLink']		= "Select the campaign you would like to link to this zone:";
+
+
+// Append
+$GLOBALS['strAppendType']				= "Append type";
+$GLOBALS['strAppendHTMLCode']			= "HTML code";
+$GLOBALS['strAppendWhat']				= "What do you want to append?";
+$GLOBALS['strAppendZone']				= "Append one specific zone";
+$GLOBALS['strAppendErrorZone']			= "You need to select a zone before you \\ncan continue. Otherwise no banners will \\nbe appended.";
+$GLOBALS['strAppendBanner']				= "Append one or more individual banners";
+$GLOBALS['strAppendErrorBanner']		= "You need to select one or more banners \\nbefore you can continue. Otherwise no \\nbanners will be appended.";
+$GLOBALS['strAppendKeyword']			= "Append banners by using keywords";
+$GLOBALS['strAppendErrorKeyword']		= "You need to specify one or more keywords \\nbefore you can continue. Otherwise no \\nbanners will be appended.";
 
 
 // Statistics

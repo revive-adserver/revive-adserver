@@ -81,6 +81,20 @@ function setTextOfLayer(objName,newText) {
 	}
 }
 
+function showLayer(obj) { 
+	if (obj.style) 
+		obj=obj.style; 
+    
+	obj.display = 'block'
+}
+
+function hideLayer(obj) { 
+	if (obj.style) 
+		obj=obj.style; 
+    
+	obj.display = 'none'
+}
+
 
 /*********************************************************/
 /* Confirm form submit                                   */
