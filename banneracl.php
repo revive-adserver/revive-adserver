@@ -153,6 +153,6 @@ showaclrow($newdata, 0, 0);
 </TABLE>
 <?	
 // show acl help file
-@require("banneracl.".$phpAds_language.".inc.php");	// suppress error if file not found
+@require("language/banneracl.".$phpAds_language.".inc.php");	// suppress error if file not found
 page_footer();
 ?>

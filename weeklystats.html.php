@@ -112,8 +112,8 @@ function WeekPrint() // html generator for one week
    {
    
       // set background color
-      $bgcolor='#F7F7F7';
-      $j % 2 ? 0: $bgcolor = $GLOBALS['phpAds_tbl_color'];
+      $bgcolor=$GLOBALS['phpAds_table_back_color'];
+      $j % 2 ? 0: $bgcolor = $GLOBALS['phpAds_table_back_color_alternative'];
       $j++;       
 
       WeekStat(); // calculate daily ctr and summary  
@@ -375,7 +375,7 @@ function stats() // generate weekly statistics
    for ( $i=0; $i<$countbanners; $i++ )
    {
 ?>   
-          <OPTION VALUE="<? echo $banner_select[$i]['id']; ?>" <? echo $which==$banner_select[$i]['id']?'SELECTED':''; ?>><? echo $banner_select[$i]['name']; ?></OPTION>
+          <OPTION VALUE="<? echo $banner_select[$i]['id']; ?>" <? echo $which==$banner_select[$i]['id']?'SELECTED':''; ?>><? echo $i."-".$banner_select[$i]['name']; ?></OPTION>
 <?
    }
 ?>

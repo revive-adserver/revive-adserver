@@ -1,7 +1,7 @@
 <?
 
 require("config.inc.php");
-require("$phpAds_language.inc.php");
+require("language/$phpAds_language.inc.php");
 require("lib.inc.php");
 
 $pages = array(

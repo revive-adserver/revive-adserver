@@ -28,6 +28,9 @@ while($row_clients = mysql_fetch_array($res_clients))
 	$clients[$i]["views"] = $row_clients["views"];
 	$clients[$i]["days"] = $row_clients["expire_day"]!=-1 ? $row_clients["expire_day"] - $row_clients["cur_date"] : 1;
 	$clients[$i]["active"] = true;
+
+	print "Processing $clients[$i]["clientname"]...<BR>\n";
+	flush();
     
 	// Fetch all banners belonging to client   
 	$res_banners = mysql_db_query($phpAds_db, "
@@ -49,6 +52,9 @@ while($row_clients = mysql_fetch_array($res_clients))
 			$clients[$i]["active"] = false;
        
 		$logs[$i] .= "BannerID: $row_banners[bannerID] [linked to: $row_banners[URL]]\n";
+
+		print "<LI>Processing banner $row_banners[bannerID] [linked to: $row_banners[URL]]...<BR>\n";
+		flush();
 
 		// Total adviews
 		$res_adviews = mysql_db_query($phpAds_db, "
@@ -143,7 +149,7 @@ for($i=0; $i<count($logs); $i++)
 				clientID = $client_ID
 			") or mysql_die ("$strLogErrorDisactivate");
 
-		if ( $email = $clients[i]["email"] )
+		if ( $email = $clients[$i]["email"] )
 		{
         		$strMailSubject2 =  $strMailSubjectDeleted.": ".$client_name;
 			eval("\$body = \"$strMailHeader\n$strMailNothingLeft\n\n$strMailFooter\";");
@@ -151,7 +157,7 @@ for($i=0; $i<count($logs); $i++)
 			unset($strMailSubject2 ) ;
 		}
 
-		if ( $email = $clients[i]["email"] )
+		if ( $email = $clients[$i]["email"] )
 		{
 			eval("\$body = \"$strMailHeader\n$strMailBannerStats\n\n\$logs[$i]\n$strMailFooter\";");
 			$strMailSubject1 =  $strMailSubject.": ".$clients[$i]["clientname"];

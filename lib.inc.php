@@ -1,16 +1,16 @@
 <?
-
 if(!isset($pageid)) $pageid = "";
 $fncpageid = "?pageid=$pageid";
 
 // Show navigation
 function show_nav($ID)
 {
+	global $phpAds_table_back_color;
 	?>
 		</td>
 	</tr>
 	<tr>
-		<td bgcolor="#CCCCCC">
+		<td bgcolor="<?print $phpAds_table_back_color;?>">
 		<?
 		global $pages;
 		$sections = explode(".", $ID);
@@ -37,7 +37,7 @@ function show_nav($ID)
 // some layout functions
 function page_header($title = false)
 {
-	global $pages, $phpAds_name;
+	global $pages, $phpAds_name, $phpAds_main_back_color, $phpAds_table_border_color;
 
 ?>
 <html>
@@ -54,12 +54,12 @@ td { font-family: Arial, Helvetica, sans-serif; font-size: 10pt }
 </style>
 </head>
 
-<body bgcolor="#FFFFFF">
-<table border="0" cellspacing="0" cellpadding="1" align="center" bgcolor="#000099">
+<body bgcolor="<?print $phpAds_main_back_color;?>">
+<table border="0" cellspacing="0" cellpadding="1" align="center" bgcolor="<?print $phpAds_table_border_color;?>">
 	<tr>
 		<td>
-		<table border="0" align="center" bgcolor="#FFFFFF" cellspacing="0" cellpadding="5">
-			<tr bgcolor="#000099"> 
+		<table border="0" align="center" bgcolor="<?print $phpAds_main_back_color;?>" cellspacing="0" cellpadding="5">
+			<tr bgcolor="<?print $phpAds_table_border_color;?>"> 
 				<td align=center><span class="heading"><?echo "$phpAds_name $title";?></span></td>
 			</tr>
 			<tr> 
@@ -84,9 +84,10 @@ function page_footer()
 // Show a messgae
 function show_message($message)
 {
+	global $phpAds_table_back_color;
 	?>
 		<table border="0" align="" width="100%">
-			<tr bgcolor="#CCCCFF"> 
+			<tr bgcolor="<?print $phpAds_table_back_color;?>"> 
 				<td><b><?echo $message;?></b></td>
 			</tr>
 		</table>
@@ -106,9 +107,10 @@ function mysql_die()
 // Display a custom error message and die 
 function php_die($title="Error", $message="Unkown error")
 {
+	global $phpAds_table_back_color;
 	?>
 		<table border="0" align="" width="100%">
-			<tr bgcolor="#CCCCFF"> 
+			<tr bgcolor="<?print $phpAds_table_back_color;?>"> 
 				<td><b><?echo $title;?></b><br><?echo $message;?></td>
 			</tr>
 		</table>
