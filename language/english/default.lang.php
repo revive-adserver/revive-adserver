@@ -302,6 +302,7 @@ $GLOBALS['strACL'] 							= "Delivery";
 $GLOBALS['strACLAdd'] 						= "Add new limitation";
 $GLOBALS['strNoLimitations']				= "No limitations";
 $GLOBALS['strApplyLimitationsTo']			= "Apply limitations to";
+$GLOBALS['strRemoveAllLimitations']			= "Remove all limitations";
 $GLOBALS['strEqualTo']						= "is equal to";
 $GLOBALS['strDifferentFrom']				= "is different from";
 $GLOBALS['strAND']							= "AND";  						// logical operator
