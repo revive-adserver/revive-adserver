@@ -207,6 +207,18 @@ $GLOBALS['strLowPriority']					= "Show banner in this campaign with low priority
 											   aren't used by high priority campaigns.";
 $GLOBALS['strTargetLimitAdviews']			= "Limit the number of AdViews to";
 $GLOBALS['strTargetPerDay']					= "per day.";
+$GLOBALS['strHighPriorityCampaigns']		= "High priority campaigns";
+$GLOBALS['strAdViewsAssigned']				= "AdViews assigned";
+$GLOBALS['strLowPriorityCampaigns']			= "Low priority campaigns";
+$GLOBALS['strPredictedAdViews']				= "Predicted AdViews";
+$GLOBALS['strPriorityDaysRunning']			= "There are currently {days} days worth of statistics available from where phpAdsNew can base its daily prediction on. ";
+$GLOBALS['strPriorityBasedLastWeek']		= "The prediction is based on data from this week and last week. ";
+$GLOBALS['strPriorityBasedLastDays']		= "The prediction is based on data from the last couple of days. ";
+$GLOBALS['strPriorityBasedYesterday']		= "The prediction is based on data from yesterday. ";
+$GLOBALS['strPriorityNoData']				= "There isn't enough data available to make a reliable prediction about the number of impressions this adserver will generate today. Priority assignments will be based on real time statistics only. ";
+$GLOBALS['strPriorityEnoughAdViews']		= "There should be enough AdViews to fully satisfy the target all high priority campaigns. ";
+$GLOBALS['strPriorityNotEnoughAdViews']		= "It isn't clear wether there will be enough AdViews served today to satisfy the target all high priority campaigns. Because of this all low priority campaigns are temporarily disabled. ";
+
 
 
 // Banners (General)
@@ -227,6 +239,7 @@ $GLOBALS['strBannerOverview']				= "Banner overview";
 $GLOBALS['strBannerProperties']				= "Banner properties";
 $GLOBALS['strBannerHistory']				= "Banner history";
 $GLOBALS['strBannerNoStats'] 				= "There are no statistics available for this banner";
+$GLOBALS['strNoBanners']					= "There are currently no banners defined";
 $GLOBALS['strConfirmDeleteBanner']			= "Do you really want to delete this banner?";
 $GLOBALS['strConfirmDeleteAllBanners']		= "Do you really want to delete all banners which are owned by this campaign?";
 $GLOBALS['strConfirmResetBannerStats']		= "Do you really want to delete all existing statistics for this banner?";
