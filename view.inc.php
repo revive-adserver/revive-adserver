@@ -809,7 +809,7 @@ function phpAds_ParseHTMLAutoLog ($html, $bannerid, $zoneid, $url, $target)
 function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $context=0)
 {
 	global $phpAds_config;
-	global $REMOTE_HOST;
+	global $REMOTE_HOST, $HTTP_USER_AGENT;
 	
 	// If $clientid consists of alpha-numeric chars it is
 	// not the clientid, but the target parameter.
@@ -1028,12 +1028,17 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 			{
 				if (!$phpAds_config['log_beacon'])
 					phpAds_prepareLog($row['bannerid'], $row['clientid'], $row['zoneid']);
-				else
+				else //
 				{
 					// Add logging beacon
-					$outputbuffer .= '<layer width=0 height=0>';
-					$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&clientid='.$row['clientid'].'&zoneid='.$row['zoneid'].'&cb='.md5(uniqid('')).'\' width=\'0\' height=\'0\' style=\'width: 0px; height: 0px;\'>';
-					$outputbuffer .= '</ilayer>';
+					if (ereg ("Mozilla/(1|2|3|4)", $HTTP_USER_AGENT) && !ereg("compatible", $HTTP_USER_AGENT))
+					{
+						$outputbuffer .= '<layer id="beacon_'.$row['bannerid'].'" width="0" height="0" border="0" visibility="hide">';
+						$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&clientid='.$row['clientid'].'&zoneid='.$row['zoneid'].'&cb='.md5(uniqid('')).'\' width=\'0\' height=\'0\'>';
+						$outputbuffer .= '</layer>';
+					}
+					else
+						$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&clientid='.$row['clientid'].'&zoneid='.$row['zoneid'].'&cb='.md5(uniqid('')).'\' width=\'0\' height=\'0\' style=\'width: 0px; height: 0px;\'>';
 				}
 			}
 		}
