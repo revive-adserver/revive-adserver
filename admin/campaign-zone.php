@@ -359,9 +359,10 @@ echo "</form>";
 <!--
 	affiliates = new Array();
 <?php
-	for (reset($affiliates); $akey = key($affiliates); next($affiliates))
-		if (isset($affiliates[$akey]['zones']))
-			echo "\taffiliates[".$akey."] = ".count($affiliates[$akey]['zones']).";\n";
+	if (isset($affiliates) && is_array($affiliates) && count($affiliates))
+		for (reset($affiliates); $akey = key($affiliates); next($affiliates))
+			if (isset($affiliates[$akey]['zones']))
+				echo "\taffiliates[".$akey."] = ".count($affiliates[$akey]['zones']).";\n";
 ?>
 	
 	function toggleAffiliate(affiliateid)
