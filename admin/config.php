@@ -75,6 +75,7 @@ $phpAds_nav = array (
 		      "4.1.5.1"		=> 	array("banner-edit.php?campaignID=$campaignID&bannerID=0" => $strAddBanner),
 		      "4.1.5.2"		=> 	array("banner-edit.php?campaignID=$campaignID&bannerID=$bannerID" => $strModifyBanner),
 		      "4.1.5.3"		=> 	array("banner-acl.php?campaignID=$campaignID&bannerID=$bannerID" => $strModifyBannerAcl),
+		      "4.1.5.4"		=> 	array("banner-zone.php?campaignID=$campaignID&bannerID=$bannerID" => $strLinkedZones),
 		  "4.2" 			=> 	array("zone-index.php" => $strZones),
 		    "4.2.1"			=> 	array("zone-edit.php?zoneid=0" => $strAddZone),
 		    "4.2.2"			=> 	array("zone-edit.php?zoneid=$zoneid" => $strModifyZone),
