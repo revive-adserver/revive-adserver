@@ -14,6 +14,8 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			+ Added new invocation type for popups/popunders  (Niels) 20011202
 			+ Added the ability to use beacon images for logging stats  (Niels) 20011202
 			+ Added the ability to change hard-coded urls inside Flash banners  (Niels) 20011218
+			+ Added support for MFAA clickTAG's in Flash files  (Niels) 20020109
+			+ Added support for QuickTime, Real and Shockwave files  (Niels) 20020109
 
 			+ Misc changes to library and function names
 			  - Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 20011020
