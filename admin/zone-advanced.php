@@ -282,7 +282,6 @@ if (phpAds_dbNumRows($res))
 $tabindex = 1;
 
 
-
 if (!isset($chaintype))
 {
 	$chainwhat = '';
@@ -457,12 +456,6 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 		echo "<option value='".phpAds_AppendInterstitial."'".($appendtype == phpAds_AppendInterstitial ? ' selected' : '').">".$GLOBALS['strInterstitial']."</option>";
 	
 	echo "<option value='".phpAds_AppendRaw."'".($appendtype == phpAds_AppendRaw ? ' selected' : '').">".$GLOBALS['strAppendHTMLCode']."</option>";
-	
-/*	
-	if ($candidates[phpAds_AppendPopup] + $candidates[phpAds_AppendInterstitial] == 0)
-		$appendtype = phpAds_AppendNone;
-*/	
-	
 	echo "</select></td></tr>";
 	
 	
@@ -505,17 +498,21 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 			{
 				// Admin chose a different append type from the original
 				// In this case it is not possible to reuse anything, set to defaults
-				if ($candidates[$appendtype] - count($available_banners) > 0)
+				
+				if (count($available_zones))
 				{
-					// Zones available, use zones as default
 					$appendselection = phpAds_AppendZone;
-					$appendwhat  = '';
+					$appendwhat      = '';
+				}
+				elseif (count($available_banners))
+				{
+					$appendselection = phpAds_AppendBanner;
+					$appendwhat      = array();
 				}
 				else
 				{
-					// Zones not available, use banners as default
-					$appendselection = phpAds_AppendBanner;
-					$appendwhat  = array();
+					$appendselection = phpAds_AppendKeyword;
+					$appendwhat      = '';
 				}
 			}
 		}
@@ -621,14 +618,6 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 		echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
 		echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 		
-		
-		/*
-		// Line
-		echo "</table></td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-		echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
-		echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-		
-		*/
 		
 		
 		// Invocation options
