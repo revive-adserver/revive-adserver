@@ -14,11 +14,18 @@
 
 
 
+// Figure out our location
+if (strlen(__FILE__) > strlen(basename(__FILE__)))
+    define ('phpAds_path', substr(__FILE__, 0, strpos(__FILE__, 'maintenance') - 1));
+else
+    define ('phpAds_path', '.');
+
+
 // Include required files
-require ("../config.inc.php");
-require ("../lib-db.inc.php");
-require ("../lib-cache.inc.php");
-require ("../admin/lib-statistics.inc.php");
+require (phpAds_path."/config.inc.php");
+require (phpAds_path."/lib-db.inc.php");
+require (phpAds_path."/lib-cache.inc.php");
+require (phpAds_path."/admin/lib-statistics.inc.php");
 
 // Set time limit and ignore user abort
 if (!get_cfg_var ('safe_mode')) 

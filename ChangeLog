@@ -29,6 +29,9 @@ CVS			+ Misc changes to library and function names
 			  - Destination cookie sometimes had wrong value  (Niels) 20011024
 			  - Fixed duplicate SQL connection in adview.php  (Niels) 20011025
 			  - Bugfix: AdClick history for mailed reports was limited to 7 days  (Niels) 20011026
+			  - Bugfix: Database connection will always be kept open, because
+			    it might be shared with another script  (Niels) 20011102
+			  - Bugfix: phpAds_path problem fixed when using the maintenance script  (Niels) 20011102
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
