@@ -275,7 +275,7 @@ for ($d=0;$d<$limit;$d++)
 }
 
 
-$previous = $start < 7 ? 0 : $start - $limit;
+$previous = $start < $limit ? 0 : $start - $limit;
 $next = $start + $limit;
 
 echo "<tr>";
