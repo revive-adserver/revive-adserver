@@ -41,7 +41,7 @@ $res = db_query("
 		$phpAds_tbl_banners
 	WHERE
 		bannerID = $bannerID
-	") or mysql_die();
+	") or die();
 	
 $url 	  = mysql_result($res, 0, 0);
 $clientID = mysql_result($res, 0, 1);
