@@ -25,7 +25,7 @@ English
 	---------------------------------------------------------
 	Maintained by:	   Niels Leenheer (niels@creatype.nl)
 	Is up-to-date?	   Always
-	Last update:	   23 October 2002
+	Last update:	   29 October 2002
 	Translated files:  7
 	---------------------------------------------------------
 
@@ -35,7 +35,7 @@ French
 	---------------------------------------------------------
 	Maintained by:	   Vincent Zanotti (amidebx@users.sourceforge.net)
 	Is up-to-date?	   No
-	Last update:	   17 October 2002
+	Last update:	   28 October 2002
 	Translated files:  7
 	---------------------------------------------------------
 
@@ -45,7 +45,7 @@ Hebrew
 	---------------------------------------------------------
 	Maintained by:	   Reuven Mansharoff (reuven@act.co.il)
 	Is up-to-date?	   No
-	Last update:	   14 September
+	Last update:	   14 September 2002
 	Translated files:  6
 	---------------------------------------------------------
 
@@ -84,9 +84,9 @@ Polish
 Portuguese 
 	---------------------------------------------------------
 	Maintained by:	   Lopo de Almeida
-	Is up-to-date?	   Working on it
-	Last update:	   -
-	Translated files:  -
+	Is up-to-date?	   No
+	Last update:	   15 October 2002
+	Translated files:  5
 	---------------------------------------------------------
 
 
