@@ -219,7 +219,7 @@ if (phpAds_isUser(phpAds_Admin))
 			
 			if (!count($errormessage))
 			{
-				$installvars['dbhostname'] 	 = $dbhost;
+				$installvars['dbhost'] 	 = $dbhost;
 				$installvars['dbuser'] 		 = $dbuser;
 				$installvars['dbpassword'] 	 = $dbpassword;
 				$installvars['dbname'] 		 = $dbname;
@@ -236,6 +236,7 @@ if (phpAds_isUser(phpAds_Admin))
 				$installvars['tbl_session']  = $tbl_prefix.'session';
 				$installvars['tbl_zones'] 	 = $tbl_prefix.'zones';
 				$installvars['tbl_config'] 	 = $tbl_prefix.'config';
+				$installvars['tbl_affiliates'] 	 = $tbl_prefix.'affiliates';
 				
 				// Go to next phase
 				$phase = 3;
@@ -272,12 +273,11 @@ if (phpAds_isUser(phpAds_Admin))
 							phpAds_SettingsWriteAdd('config_version', $phpAds_version);
 							phpAds_SettingsWriteAdd('language', $installvars['language']);
 							
-							phpAds_SettingsWriteAdd('dbhostname', $installvars['dbhostname']);
+							phpAds_SettingsWriteAdd('dbhost', $installvars['dbhost']);
 							phpAds_SettingsWriteAdd('dbuser', $installvars['dbuser']);
 							phpAds_SettingsWriteAdd('dbpassword', $installvars['dbpassword']);
 							phpAds_SettingsWriteAdd('dbname', $installvars['dbname']);
 							phpAds_SettingsWriteAdd('tbl_prefix', $installvars['tbl_prefix']);
-							phpAds_SettingsWriteAdd('dbhostname', $installvars['dbhostname']);
 							
 							phpAds_SettingsWriteAdd('tbl_clients', $installvars['tbl_clients']);
 							phpAds_SettingsWriteAdd('tbl_banners', $installvars['tbl_banners']);
@@ -288,6 +288,7 @@ if (phpAds_isUser(phpAds_Admin))
 							phpAds_SettingsWriteAdd('tbl_session', $installvars['tbl_session']);
 							phpAds_SettingsWriteAdd('tbl_zones', $installvars['tbl_zones']);
 							phpAds_SettingsWriteAdd('tbl_config', $installvars['tbl_config']);
+							phpAds_SettingsWriteAdd('tbl_affiliates', $installvars['tbl_affiliates']);
 							
 							phpAds_SettingsWriteAdd('admin', $admin);
 							phpAds_SettingsWriteAdd('admin_pw', $admin_pw);
