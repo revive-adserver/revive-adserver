@@ -62,6 +62,32 @@ if (isset($zoneid) && $zoneid != '')
 {
 	if (isset($action) && $action == 'toggle')
 	{
+		// Update zonetype
+		$result = phpAds_dbQuery("
+			SELECT
+				*
+			FROM
+				".$phpAds_config['tbl_zones']."
+			WHERE
+				zoneid = ".$zoneid."
+		") or phpAds_sqlDie();
+		
+		if ($row = phpAds_dbFetchArray($result))
+		{
+			if ($row['zonetype'] != $zonetype)
+			{
+				$res = phpAds_dbQuery("
+					UPDATE
+						".$phpAds_config['tbl_zones']."
+					SET
+						zonetype = ".$zonetype.",
+						what = ''
+					WHERE
+						zoneid = ".$zoneid."
+				") or phpAds_sqlDie();
+			}
+		}
+		
 		if ($zonetype == phpAds_ZoneBanners)
 		{
 			if (isset($bannerid) && $bannerid != '')
@@ -78,14 +104,6 @@ if (isset($zoneid) && $zoneid != '')
 			}
 		}
 		
-		$res = phpAds_dbQuery("
-			UPDATE
-				".$phpAds_config['tbl_zones']."
-			SET
-				zonetype = $zonetype
-			WHERE
-				zoneid=$zoneid
-		") or phpAds_sqlDie();
 		
 		// Rebuild Cache
 		phpAds_RebuildZoneCache ($zoneid);
