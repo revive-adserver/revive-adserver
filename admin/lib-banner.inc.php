@@ -70,22 +70,26 @@ function phpAds_getBannerTemplate($type)
 	}
 	elseif ($type == 'txt')
 	{
-		$buffer  = "<a href='{targeturl}' target='{target}' ";
-		$buffer .= "[status]onMouseOver=\"self.status='{status}'; return true;\" onMouseOut=\"self.status='';return true;\"[/status]>";
-		$buffer .= "{bannertext}";
-		$buffer .= "</a>";
+		$buffer  = "[targeturl]<a href='{targeturl}' target='{target}'";
+		$buffer .= "[status] onMouseOver=\"self.status='{status}'; return true;\" onMouseOut=\"self.status='';return true;\"[/status]>";
+		$buffer .= "[/targeturl]{bannertext}[targeturl]</a>[/targeturl]";
 	}
 	else
 	{
-		$buffer  = "<a href='{targeturl}' target='{target}' ";
-		$buffer .= "[status]onMouseOver=\"self.status='{status}'; return true;\" onMouseOut=\"self.status='';return true;\"[/status]>";
-		$buffer .= "<img src='{imageurl}' width='{width}' height='{height}' alt='{alt}' title='{alt}' border='0'>";
-		$buffer .= "</a>";
+		$buffer  = "[targeturl]<a href='{targeturl}' target='{target}'";
+		$buffer .= "[status] onMouseOver=\"self.status='{status}'; return true;\" onMouseOut=\"self.status='';return true;\"[/status]>";
+		$buffer .= "[/targeturl]<img src='{imageurl}' width='{width}' height='{height}' alt='{alt}' title='{alt}' border='0'";
+		$buffer .= "[nourl][status] onMouseOver=\"self.status='{status}'; return true;\" onMouseOut=\"self.status='';return true;\"";
+		$buffer .= "[/status][/nourl]>[targeturl]</a>[/targeturl]";
 	}
 	
 	// Text below banner
 	if ($type != 'txt')
-		$buffer .= "[bannertext]<br><a href='{targeturl}' target='{target}'>{bannertext}</a>[/bannertext]";
+	{
+		$buffer .= "[bannertext]<br>[targeturl]<a href='{targeturl}' target='{target}'";
+		$buffer .= "[status] onMouseOver=\"self.status='{status}'; return true;\" onMouseOut=\"self.status='';return true;\"[/status]>";
+		$buffer .= "[/targeturl]{bannertext}[targeturl]</a>[/targeturl][/bannertext]";
+	}
 	
 	return ($buffer);
 }
@@ -316,7 +320,7 @@ function phpAds_getBannerCache($banner)
 		$buffer = str_replace ('[/status]', '', $buffer);
 	}
 	else
-		$buffer = eregi_replace ("\[status\](.*)\[\/status\]", '', $buffer);
+		$buffer = preg_replace ("#\[status\](.*)\[\/status\]#iU", '', $buffer);
 	
 	
 	// Set bannertext
@@ -377,9 +381,23 @@ function phpAds_getBannerCache($banner)
 	
 	// Replace targeturl
 	if (isset($banner['url']) && $banner['url'] != '')
+	{
 		$buffer = str_replace ('{targeturl}', '{url_prefix}/adclick.php?bannerid={bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;dest='.urlencode($banner['url']), $buffer);
+		
+		$buffer = str_replace ('[targeturl]', '', $buffer);
+		$buffer = str_replace ('[/targeturl]', '', $buffer);
+		$buffer = preg_replace ("#\[nourl\](.*)\[\/nourl\]#iU", '', $buffer);
+	}
 	else
+	{
 		$buffer = str_replace ('{targeturl}', '', $buffer);
+		
+		$buffer = str_replace ('[nourl]', '', $buffer);
+		$buffer = str_replace ('[/nourl]', '', $buffer);
+		$buffer = preg_replace ("#\[targeturl\](.*)\[\/targeturl\]#iU", '', $buffer);
+	}
+	
+	
 	
 	
 	// Set Player version
