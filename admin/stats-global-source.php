@@ -38,9 +38,15 @@ else
 	phpAds_PageHeader("1");
 }
 
+
+
 /*********************************************************/
 /* Main code                                             */
 /*********************************************************/
+
+if (!isset($orderdirection))
+	$orderdirection = '';
+
 
 $res_source=phpAds_dbQuery("
 	SELECT
@@ -49,7 +55,7 @@ $res_source=phpAds_dbQuery("
 		".$phpAds_config['tbl_adviews']."
 	ORDER BY
 		source ".phpAds_getOrderDirection($orderdirection)."
-	") or phpAds_sqlDie();
+") or phpAds_sqlDie();
 
 ?>
 <script language="JavaScript">
@@ -237,8 +243,8 @@ for ($d=0;$d<$limit;$d++)
 	
 	if (isset($stats[$key]))
 	{
-		$views  = $stats[$key]['sum_views'];
-		$clicks = $stats[$key]['sum_clicks'];
+		$views  = isset($stats[$key]['sum_views']) ? $stats[$key]['sum_views'] : 0;
+		$clicks = isset($stats[$key]['sum_clicks']) ? $stats[$key]['sum_clicks'] : 0;
 		$text   = $stats[$key]['date_formatted'];
 		$ctr	= phpAds_buildCTR($views, $clicks);
 		

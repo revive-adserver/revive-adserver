@@ -259,8 +259,8 @@ if ($period == 'd' || $period == 'm')
 		
 		if (isset($stats[$key]))
 		{
-			$items[$d]['value1'] = $stats[$key]['sum_views'];
-			$items[$d]['value2'] = $stats[$key]['sum_clicks'];
+			$items[$d]['value1'] = isset($stats[$key]['sum_views']) ? $stats[$key]['sum_views'] : 0;
+			$items[$d]['value2'] = isset($stats[$key]['sum_clicks']) ? $stats[$key]['sum_clicks'] : 0;
 			$items[$d]['text']   = $key;
 		}
 		else

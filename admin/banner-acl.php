@@ -53,6 +53,9 @@ $aclcon_types = array(
 
 if (isset($action))
 {
+	if (!isset($acl))
+		$acl = array();
+	
 	if (isset($action['down']))
 	{
 		// Move limitation down
@@ -290,7 +293,7 @@ echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gi
 
 
 // Display all ACLs
-if (count($acl))
+if (isset($acl) && count($acl))
 {
 	$previous_i = 0;
 	$previous_type = '';
@@ -367,9 +370,8 @@ if (count($acl))
 		
 		if ($acl[$key]['type'] == 'weekday')
 		{
-			if (!isset($acl[$key]['data'])) $acl[$key]['data'] = array();
-			
-			$data_array = explode (',', $acl[$key]['data']);
+			if (!isset($acl[$key]['data']))
+				$acl[$key]['data'] = array();
 			
 			echo "<table width='275' cellpadding='0' cellspacing='0' border='0'>";
 			for ($i = 0; $i < 7; $i++)
@@ -383,7 +385,8 @@ if (count($acl))
 		}
 		elseif ($acl[$key]['type'] == 'time')
 		{
-			if (!isset($acl[$key]['data'])) $acl[$key]['data'] = array();
+			if (!isset($acl[$key]['data']))
+				$acl[$key]['data'] = array();
 			
 			echo "<table width='275' cellpadding='0' cellspacing='0' border='0'>";
 			for ($i = 0; $i < 24; $i++)
@@ -405,7 +408,7 @@ if (count($acl))
 	}
 	
 	// Show Footer
-	if ($acl[$key]['type'] != $previous_type && $previous_type != '')
+	if (!isset($acl[$key]['type']) || $acl[$key]['type'] != $previous_type && $previous_type != '')
 		echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 }
 else

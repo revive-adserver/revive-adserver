@@ -338,8 +338,8 @@ if (isset($row['span']))
 			
 			if (isset($stats[$key]))
 			{
-				$views  = $stats[$key]['sum_views'];
-				$clicks = $stats[$key]['sum_clicks'];
+				$views  = isset($stats[$key]['sum_views']) ? $stats[$key]['sum_views'] : 0;
+				$clicks = isset($stats[$key]['sum_clicks']) ? $stats[$key]['sum_clicks'] : 0;
 				$ctr	= phpAds_buildCTR($views, $clicks);
 				
 				$totalviews  += $views;
@@ -514,8 +514,8 @@ if (isset($row['span']))
 				
 				if (isset($stats[$key]))
 				{
-					$views[$i]  = $stats[$key]['sum_views'];
-					$clicks[$i] = $stats[$key]['sum_clicks'];
+					$views[$i]  = isset($stats[$key]['sum_views']) ? $stats[$key]['sum_views'] : 0;
+					$clicks[$i] = isset($stats[$key]['sum_clicks']) ? $stats[$key]['sum_clicks'] : 0;
 					$ctr[$i]	= phpAds_buildCTR($views[$i], $clicks[$i]);
 					
 					$totalweekviews  += $views[$i];

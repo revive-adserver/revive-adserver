@@ -99,11 +99,14 @@ echo "</tr>";
 
 echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 
+$totalviews = 0;
+$totalclicks = 0;
+
 for ($i=0; $i<24; $i++)
 {
 	$bgcolor = ($i % 2 ? "#FFFFFF": "#F6F6F6");
 	
-	if (isset($views[$i]))
+	if (isset($views[$i]) && isset($clicks[$i]))
 	{
 		$ctr = phpAds_buildCTR($views[$i], $clicks[$i]);
 		$totalviews += $views[$i];

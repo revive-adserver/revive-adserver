@@ -533,7 +533,7 @@ function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 				// Determine target
 				if ($row['target'] == '')
 				{
-					if ($target == '') $target = '_blank';  // default
+					if (!isset($target) || $target == '') $target = '_blank';  // default
 				}
 				else
 					$target = $row['target'];
@@ -546,7 +546,7 @@ function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 				$htmlcode = str_replace ('[bannertext]', '', $htmlcode);
 				$htmlcode = str_replace ('[/bannertext]', '', $htmlcode);
 				
-				$buffer .= $htmlcode;
+				$buffer  = $htmlcode;
 				break;
 		}
 		

@@ -66,7 +66,7 @@ phpAds_LoadDbConfig();
 
 
 if (!isset($phpAds_config['config_version']) ||
-	$phpAds_version > $phpAds_config['config_version'] || $has_old_config_inc)
+	$phpAds_version > $phpAds_config['config_version'])
 {
 	// Post configmanager, but not up to date -> update
 	header("Location: upgrade.php");
