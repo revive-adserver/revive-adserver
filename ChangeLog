@@ -92,6 +92,8 @@ CVS			+ Added search capabilities  (Niels and Tobi Schulz)
 			  - fixed HTML problem with long names in $phpAds_name from config also sets searchbox and 
 			    "Logout" in visible position on small browser windows (Stefan) 20011004
 			  - Added meta tag to prevent searchengines from indexing the Admin interface  (Niels) 20011008
+			  - The default weight for newly created campaigns and banners can now be
+                            configured in the config file  (Niels) 20011009
 
 			+ Misc bugfixes
 			  - Fixed quote problem with banner-text, alt and description fields  (Niels)
@@ -107,6 +109,7 @@ CVS			+ Added search capabilities  (Niels and Tobi Schulz)
 			  - Error message when temp table can't be created  (Helmut Wirth)
 			  - Fixed error message on client stats when no banners are available  (Niels)
 			  - Removed PHP_SELF variables, which caused problems with CGI PHP  (Niels)		
+			  - Fixed some errors in the documentation  (Niels) 20011009
   
 			+ Security fixes
 			  - Fixed login exploit where users could login without authentification  (Niels)
