@@ -1,8 +1,9 @@
-<?
+<? // $id:
 
 // it's best if we do this only once per load, not every time we call rand.    
 mt_srand((double)microtime()*1000000);
 
+require("dblib.php");
 
 // Get a banner
 function get_banner($what, $clientID, $context=0, $source="")
@@ -279,7 +280,7 @@ function enjavanate($javascript, $str)
     
     foreach (explode("\n", $str) as $line)
     {
-        $line = str_replace("\r", " ", $line);
+        $line = str_replace("\r", "", $line);
         $line = str_replace("'", "\\'", $line);
         if (!empty($line))
             print "document.writeln('$line');\n";
@@ -300,8 +301,8 @@ function view($what, $clientID=0, $target = "", $source = "", $withtext=0, $cont
 		$clientID = 0;
 	}
 
-	@mysql_pconnect($GLOBALS["phpAds_hostname"], $GLOBALS["phpAds_mysqluser"], $GLOBALS["phpAds_mysqlpassword"]);
-	$row = get_banner($what, $clientID, $context, $source);
+	db_connect();
+    $row = get_banner($what, $clientID, $context, $source);
 
 	if(!empty($row["bannerID"])) 
 	{
@@ -363,6 +364,7 @@ function view($what, $clientID=0, $target = "", $source = "", $withtext=0, $cont
 		if(!empty($row["bannerID"]))
 			log_adview($row["bannerID"],$row["clientID"]);
 	}
+    db_close();
 	return($row["bannerID"]);
 }
 

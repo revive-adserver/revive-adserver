@@ -1,4 +1,4 @@
-<?
+<? // $id:
 
 require("config.inc.php");
 require("view.inc.php");
@@ -7,7 +7,7 @@ require("acl.inc.php");
 if (!$clientID)
 	$clientID=0;
 
-mysql_pconnect($GLOBALS["phpAds_hostname"], $GLOBALS["phpAds_mysqluser"], $GLOBALS["phpAds_mysqlpassword"]);
+db_connect();
 if (eregi("^[[:digit:]]+$", $what))
 	$what = (int)$what;
 $row = get_banner($what,$clientID);
@@ -43,4 +43,6 @@ else
 	Header( "Content-type: image/$row[format]");
 	echo $row["banner"];
 }  
+
+db_close();
 ?>

@@ -1,4 +1,5 @@
-<?
+<? // $id:
+
 if(!isset($pageid)) $pageid = "";
 $fncpageid = "?pageid=$pageid";
 
@@ -121,5 +122,5 @@ exit;
  
 require("view.inc.php");
  
-$link = mysql_pconnect($phpAds_hostname, $phpAds_mysqluser, $phpAds_mysqlpassword);
+$link = db_connect();
 ?>
