@@ -1,19 +1,10 @@
 phpAdsNew - ChangeLog
 
 
-phpAdsNew 2.0.2		+ Misc bugfixes
-			  - 2003-10-07:  Fixed referer delivery limitation when using JavaScript  (Niels)
-			  - 2003-10-08:  Added missing comma to P3P header  (Niels)
-			  - 2003-10-09:  Added support for stats conversion using Mozilla  (Niels)
+phpAdsNew 2.0.2
+			+ Misc changes
 			  - 2003-10-20:  Added post-Eolas ActiveX handling for Flash, QuickTime, Real and Shockwave banners... JS REQUIRED NOW!  (Niels)
-			  - 2003-10-20:  The 'check hardcoded links' checkbox on the 'Add new banner' page is now always visible for Opera and Netscape  (Niels)
-			  - 2003-10-20:  Added phpAds_path to require inside lib-xmlpcs.inc.php  (Niels)
-			  - 2003-10-20:  Deactivated banners are no longer automatically reactivated when editing it's properties  (Niels)
-			  - 2003-10-21:  Increased the length of the target field from 16 to 24 to get better compatibility with RealPlayer  (Niels)
-			  - 2003-10-27:  Fixed PHP5 warning during install  (Niels)
-			  - 2003-10-27:  Delivery cache is now rebuild after editing properties of a zone  (Niels)
 			  - 2003-10-27:  Added initial support for the new format of the MaxMind GeoIP Region edition database  (Niels)
-			  - 2003-10-27:  Added a missing token to the default P3P compact header  (Niels)
 			  - 2003-10-27:  A major rewrite of adpopup.php  (Niels)
 					 - Now compatible with the upcoming IE ActiveX changes
 					 - Improved compatibility with untested browsers such as (hopefully) Safari
@@ -23,15 +14,27 @@ phpAdsNew 2.0.2		+ Misc bugfixes
 					 - Creating a popup with the toolbar visible now works
 					 - Creating a popup that appears 'when the page is closed' now also appears when the window is closed
 			  - 2003-10-27:  The delivery cache is now split into two for a (hopefully) small speed-up  (Niels)
+			  - 2003-11-07:	 Short tags for PHP scripts (<? ?> and <?= ?>) in HTML banners are now allowed when the server allows this for normal PHP scripts  (Niels)
+			  - 2003-12-17:  Added content-length to headers to adview.php and adimage.php when image is used from the database  (Niels, thanks to Osma Ahvenlampi)
+			  - 2003-12-17:	 Improved compatibility of the Simple layer style. Improved support for Opera, Mozilla and IE non-quirks mode.  (Niels)
+
+			+ Misc bugfixes
+				- 2003-10-07:  Fixed referer delivery limitation when using JavaScript  (Niels)
+			  - 2003-10-08:  Added missing comma to P3P header  (Niels)
+			  - 2003-10-09:  Added support for stats conversion using Mozilla  (Niels)
+			  - 2003-10-20:  The 'check hardcoded links' checkbox on the 'Add new banner' page is now always visible for Opera and Netscape  (Niels)
+			  - 2003-10-20:  Added phpAds_path to require inside lib-xmlpcs.inc.php  (Niels)
+			  - 2003-10-20:  Deactivated banners are no longer automatically reactivated when editing it's properties  (Niels)
+			  - 2003-10-21:  Increased the length of the target field from 16 to 24 to get better compatibility with RealPlayer  (Niels)
+			  - 2003-10-27:  Fixed PHP5 warning during install  (Niels)
+			  - 2003-10-27:  Delivery cache is now rebuild after editing properties of a zone  (Niels)
+			  - 2003-10-27:  Added a missing token to the default P3P compact header  (Niels)
 			  - 2003-10-28:  Moving zones to another publisher didn't work on the Advanced and Invocationcode pages  (Niels)
 			  - 2003-11-07:  XML-RPC transfers from server to client are now base64 encoded to prevent XML errors with HTML entities  (Niels)
 			  - 2003-11-07:  Fixed a PHP parsing problem in HTML banners which used multiple <?php ?> sections  (Niels)
-			  - 2003-11-07:	 Short tags for PHP scripts (<? ?> and <?= ?>) in HTML banners are now allowed when the server allows this for normal PHP scripts  (Niels)
 			  - 2003-11-17:	 Fakecron script didn't correctly work on some setups at 08 and 09 AM because of a wrong implicit octal to decimal conversion  (Matteo)
 			  - 2003-11-19:	 Banner upload didn't always work with safe mode and open_basedir restrictions, even when using misc/tmp workaround  (Matteo)
 			  - 2003-12-17:  Fixed a problem where the settings were lost when logging in directly to settings page  (Niels)
-			  - 2003-12-17:  Added content-length to headers to adview.php and adimage.php when image is used from the database  (Niels, thanks to Osma Ahvenlampi)
-			  - 2003-12-17:	 Improved compatibility of the Simple layer style. Improved support for Opera, Mozilla and IE non-quirks mode.  (Niels)
 			  - 2004-01-18:	 Fixed GeoIP module to handle extended country codes (A1, A2, O1) - bug #878910  (Matteo)
 			  - 2004-01-18:  Fixed wrong strpos syntax during proxy detection - bug #874467  (Matteo)
 			  - 2004-01-18:  Flash hardcoded links conversion checkbox didn't appear when the path had "swf" in it - bug #873195  (Matteo)
