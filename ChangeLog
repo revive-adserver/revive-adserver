@@ -7,6 +7,7 @@ CVS
 			+ Misc bugfixes for beta3
 			  - Default banner type was always selected even if editing a banner (Matteo)
 			  - Client language settings are now checked if it is empty (Niels)
+			  - Source parameter works again with remote invocation (Alain Fontaine)
 
 v 2.0beta3
 			+ Added support for Flash variables (Niels)

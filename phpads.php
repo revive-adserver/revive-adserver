@@ -27,7 +27,7 @@ if (!isset($clientID))
 	$clientID = 0;
 
 
-$row = get_banner($what,$clientID);
+$row = get_banner($what, $clientID, 0, $source);
 
 if (is_array($row))
 {
