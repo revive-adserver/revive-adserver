@@ -50,7 +50,7 @@ function phpAds_buildClientName ($clientID, $clientName)
 function phpAds_getClientName ($clientID)
 {
 	global $clientCache, $phpAds_tbl_clients;
-	global $strAddClient;
+	global $strUntitled;
 	
 	if ($clientID != '' && $clientID != 0)
 	{
@@ -77,7 +77,7 @@ function phpAds_getClientName ($clientID)
 		return (phpAds_BuildClientName ($clientID, $row['clientname']));
 	}
 	else
-		return ($strAddClient);
+		return ($strUntitled);
 }
 
 
