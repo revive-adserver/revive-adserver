@@ -19,7 +19,7 @@ define ('LIBVIEWCACHE_INCLUDED', true);
 
 define ('phpAds_shmopID', 0xff3);
 define ('phpAds_shmopIndexSize', 4096);
-define ('phpAds_shmopSegmentSize', 32768);
+define ('phpAds_shmopSegmentSize', 65536);
 
 
 function phpAds_cacheFetch ($name)
