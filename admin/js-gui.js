@@ -73,9 +73,12 @@ function openWindow(theURL,winName,features) {
 }
 
 function setTextOfLayer(objName,newText) {
-  if ((obj=findObj(objName))!=null) with (obj)
-    if (document.layers) {document.write(unescape(newText)); document.close();}
-    else innerHTML = unescape(newText);
+	while (obj = document.getElementById(objName)) {
+		with (obj)
+			if (document.layers) {document.write(unescape(newText)); document.close();}
+			else innerHTML = unescape(newText);
+		obj.id = '';
+	}
 }
 
 
