@@ -14,193 +14,94 @@
 
 
 
+// Define constants
+define ("phpAds_Clicks", 1);
+define ("phpAds_Views", 2);
+
+
+
 /*********************************************************/
-/* Log a click to the database       					 */
+/* Check the expiration of a client				         */
 /*********************************************************/
 
-function phpAds_logClick($bannerid, $zoneid, $host, $source="")
+function phpAds_logExpire ($clientid, $type=0)
 {
 	global $phpAds_config;
 	
-    if ($phpAds_config['compact_stats'])
-    {
-        $result = phpAds_dbQuery(sprintf("
-            UPDATE %s
-                ".$phpAds_config['tbl_adstats']."
-            SET
-                clicks=clicks+1
-            WHERE
-                day = now() AND
-				hour = hour(now()) AND
-                bannerid = '$bannerid' AND
-				zoneid = '$zoneid' AND
-		source = '$source'
-            ", $phpAds_config['insert_delayed'] ? "LOW_PRIORITY": ""));
-		
-        // If row didn't exist.  Create it.
-        if (phpAds_dbAffectedRows() == 0) 
-        {
-            $result = phpAds_dbQuery(sprintf("
-                INSERT %s INTO 
-                    ".$phpAds_config['tbl_adstats']."
-                SET
-                    clicks = 1,
-                    views = 0,
-                    day = now(),
-					hour = hour(now()),
-                    bannerid = '$bannerid',
-					zoneid = '$zoneid',
-		    source = '$source'
-                ", $phpAds_config['insert_delayed'] ? "DELAYED": ""));
-        }
-        return $result;
-    }
-    
-    // else
-    
-    return phpAds_dbQuery(sprintf("
-        INSERT %s
-        INTO
-            ".$phpAds_config['tbl_adclicks']."
-        SET 
-            bannerid = '$bannerid',
-			zoneid = '$zoneid',
-			host = '$host',
-	    source = '$source'
-        ", $phpAds_config['insert_delayed'] ? "DELAYED": ""));
-}
-
-
-
-/*********************************************************/
-/* Log a view to the database       					 */
-/*********************************************************/
-
-function phpAds_logView($bannerid, $zoneid, $host, $source="")
-{
-	global $phpAds_config;
-    
-    if ($phpAds_config['compact_stats'])
-    {
-        $result = phpAds_dbQuery(sprintf("
-            UPDATE %s
-                ".$phpAds_config['tbl_adstats']."
-            SET
-                views=views+1
-            WHERE
-				day = now() AND
-				hour = hour(now()) AND
-                bannerid = '$bannerid' AND
-                zoneid = '$zoneid' AND
-		source = '$source'
-            ", $phpAds_config['insert_delayed'] ? "LOW_PRIORITY": ""));
-		
-        // If row didn't exist.  Create it.
-        if (phpAds_dbAffectedRows() == 0) 
-        {
-            $result = phpAds_dbQuery(sprintf("
-                INSERT %s INTO 
-                    ".$phpAds_config['tbl_adstats']."
-                SET
-                    clicks = 0,
-                    views = 1,
-                    day = now(),
-					hour = hour(now()),
-                    bannerid = '$bannerid',
-					zoneid = '$zoneid',
-		    source = '$source'
-                ", $phpAds_config['insert_delayed'] ? "DELAYED": ""));
-        }
-        return $result;
-    }
-    
-    // else
-    
-    return phpAds_dbQuery(sprintf("
-        INSERT %s
-        INTO
-            ".$phpAds_config['tbl_adviews']."
-        SET 
-            bannerid = '$bannerid',
-            zoneid = '$zoneid',
-            host = '$host',
-	    source = '$source'
-        ", $phpAds_config['insert_delayed'] ? "DELAYED": ""));
-}
-
-
-
-/*********************************************************/
-/* Get the host of the client                            */
-/*********************************************************/
-
-function phpAds_getClientInformation()
-{
-	global $phpAds_config;
+	// Get campaign information
+	$campaignresult = phpAds_dbQuery(
+		"SELECT *, UNIX_TIMESTAMP(expire) AS expire_st, UNIX_TIMESTAMP(activate) AS activate_st FROM ".
+		$phpAds_config['tbl_clients']." WHERE clientid = '".$clientid."'");
 	
 	
-	// Get host address and host name
-	$addr = isset ($GLOBALS['REMOTE_ADDR']) ? $GLOBALS['REMOTE_ADDR'] : '';
-	$host = isset ($GLOBALS['REMOTE_HOST']) ? $GLOBALS['REMOTE_HOST'] : '';
-	
-	// Lookup host name if needed
-	if ($host == '' && $phpAds_config['reverse_lookup'])
-		$host = @gethostbyaddr ($addr);
-	elseif ($host == '')
-		$host = $addr;
-	
-	if ($phpAds_config['proxy_lookup'])
+	if ($campaign = phpAds_dbFetchArray ($campaignresult))
 	{
-		// Check for proxyserver
-		$proxy = false;
-		if (isset ($GLOBALS['HTTP_VIA']) && $GLOBALS['HTTP_VIA'] != '') $proxy = true;
-		if (is_int (strpos ('proxy',   $host))) $proxy = true;
-		if (is_int (strpos ('cache',   $host))) $proxy = true;
-		if (is_int (strpos ('inktomi', $host))) $proxy = true;
-		
-		if ($proxy)
+		// Decrement views
+		if ($type == phpAds_Views && $campaign['views'] > 0)
 		{
-			// Overwrite host address if a suitable header is found
-			if (isset($GLOBALS['HTTP_FORWARDED']) && 		$GLOBALS['HTTP_FORWARDED'] != '') 		$client = $GLOBALS['HTTP_FORWARDED'];
-			if (isset($GLOBALS['HTTP_FORWARDED_FOR']) &&	$GLOBALS['HTTP_FORWARDED_FOR'] != '') 	$client = $GLOBALS['HTTP_FORWARDED_FOR'];
-			if (isset($GLOBALS['HTTP_X_FORWARDED']) &&		$GLOBALS['HTTP_X_FORWARDED'] != '') 	$client = $GLOBALS['HTTP_X_FORWARDED'];
-			if (isset($GLOBALS['HTTP_X_FORWARDED_FOR']) &&	$GLOBALS['HTTP_X_FORWARDED_FOR'] != '')	$client = $GLOBALS['HTTP_X_FORWARDED_FOR'];
-			if (isset($GLOBALS['HTTP_CLIENT_IP']) &&		$GLOBALS['HTTP_CLIENT_IP'] != '') 		$client = $GLOBALS['HTTP_CLIENT_IP'];
+			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET views = views - 1 WHERE clientid = '".$clientid."'");
+			$campaign['views']--;
 			
-			// Get last item from list
-			$clientArray = explode (',', $client);
-			$client = trim($clientArray[sizeof($clientArray) - 1]);
-			
-			if ($client != 'unknown')
+			// Mail warning - preset is reached
+			if ($campaign['views'] == $phpAds_config['warn_limit'] &&
+			   ($phpAds_config['warn_admin'] || $phpAds_config['warn_client']))
 			{
-				$addr = $client;
+				// Include warning library
+				if (!defined('LIBWARNING_INCLUDED'))
+					require (phpAds_path.'/lib-warning.inc.php');
 				
-				// Perform reverse lookup if needed
-				if ($phpAds_config['reverse_lookup'])
-					$host = @gethostbyaddr ($addr);
-				else
-					$host = $addr;
+				phpAds_warningMail ($campaign);
 			}
 		}
+		
+		
+		// Decrement clicks
+		if ($type == phpAds_Clicks && $campaign['clicks'] > 0)
+		{
+			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET clicks = clicks - 1 WHERE clientid='".$clientid."'");
+			$campaign['clicks']--;
+		}
+		
+		
+		// Check activation status
+		$active = "t";
+		
+		if (($campaign["clicks"] == 0) ||
+			($campaign["views"] == 0) ||
+			(time() < $campaign["activate_st"]) || 
+			(time() > $campaign["expire_st"] && $campaign["expire_st"] != 0))
+			$active = "f";
+		
+		if ($campaign["active"] != $active)
+			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET active='".$active."' WHERE clientid='".$clientid."'");
+		
+		// Send deactivation warning
+		if ($active == 'f')
+		{
+			// Include warning library
+			if (!defined('LIBWARNING_INCLUDED'))
+				require (phpAds_path.'/lib-warning.inc.php');
+			
+			phpAds_deactivateMail ($campaign);
+		}
 	}
-	
-	return (array ($addr, $host));
 }
+
 
 
 /*********************************************************/
 /* Check if host has to be ignored                       */
 /*********************************************************/
 
-function phpads_ignore_host()
+function phpads_logCheckHost()
 {
 	global $phpAds_config;
 	global $REMOTE_HOST, $REMOTE_ADDR;
 	
-	list ($addr, $host) = phpAds_getClientInformation();
-	$found=0;
+	$found = 0;
 	
 	reset($phpAds_config['ignore_hosts']);
+	
 	while (($found == 0) && (list (, $h) = each($phpAds_config['ignore_hosts'])))
 	{
 		if (ereg("^([0-9]{1,3}\.){1,3}([0-9]{1,3}|\*)$", $h))
@@ -208,7 +109,7 @@ function phpads_ignore_host()
 			// It's an IP address, evenually with a wildcard, so I create a regexp
 			$h = str_replace(".", '\.', str_replace("*$", "", "^".$h."$"));
 			
-			if (ereg($h, $addr))
+			if (ereg($h, $REMOTE_ADDR))
 				$found = 1;
 		}
 		elseif (eregi("^(\*\.)?([a-z0-9-]+\.)*[a-z0-9-]+$", $h))
@@ -216,15 +117,102 @@ function phpads_ignore_host()
 			// It's an host name, evenually with a wildcard, so I create a regexp
 			$h = str_replace(".", '\.', str_replace("^*", "", "^".$h."$"));
 						
-			if (eregi($h, $host))
+			if (eregi($h, $REMOTE_HOST))
 				$found = 1;
 		}
-		elseif (eregi("$host|$addr", $h)) // This check is backwards compatibile
+		elseif (eregi($REMOTE_HOST."|".$REMOTE_ADDR, $h)) // This check is backwards compatibile
 				$found = 1;
 	}
 	
 	// Returns hostname or IP address if OK, false if host is ignored
-	return $found ? false : (empty($host) ? $addr : $host);
+	if ($found)
+		return false;
+	else
+		return $phpAds_config['reverse_lookup'] ? $REMOTE_HOST : $REMOTE_ADDR;
+}
+
+
+
+/*********************************************************/
+/* Log an impression                                     */
+/*********************************************************/
+
+function phpAds_logImpression ($bannerid, $clientid, $zoneid, $source)
+{
+	global $phpAds_config;
+	
+	// Check if host is on list of hosts to ignore
+	if ($host = phpads_logCheckHost())
+	{
+		if ($phpAds_config['compact_stats'])
+	    {
+	        $result = phpAds_dbQuery(
+				"UPDATE ".($phpAds_config['insert_delayed'] ? 'LOW_PRIORITY' : '')." ".
+				$phpAds_config['tbl_adstats']." SET views = views + 1 WHERE day = NOW() 
+				AND hour = HOUR(NOW()) AND bannerid = '$bannerid' AND zoneid = '$zoneid' 
+				AND source = '$source' ");
+			
+       		if (phpAds_dbAffectedRows() == 0) 
+       		{
+           		$result = phpAds_dbQuery(
+					"INSERT ".($phpAds_config['insert_delayed'] ? 'DELAYED' : '')." INTO ".
+                   	$phpAds_config['tbl_adstats']." SET clicks = 0, views = 1, day = NOW(),
+					hour = HOUR(NOW()), bannerid = '$bannerid', zoneid = '$zoneid', 
+					source = '$source' ");
+       		}
+   		}
+		else
+   		{
+   			$result = phpAds_dbQuery(
+				"INSERT ".($phpAds_config['insert_delayed'] ? 'DELAYED' : '')." INTO ".
+				$phpAds_config['tbl_adviews']." SET bannerid = '$bannerid', 
+				zoneid = '$zoneid', host = '$host', source = '$source' ");
+		}
+		
+		phpAds_logExpire ($clientid, phpAds_Views);
+	}
+}
+
+
+
+/*********************************************************/
+/* Log an click                                          */
+/*********************************************************/
+
+function phpAds_logClick($bannerid, $clientid, $zoneid, $source)
+{
+	global $phpAds_config;
+	
+	
+	if ($host = phpads_logCheckHost())
+	{
+   		if ($phpAds_config['compact_stats'])
+	    {
+    	    $result = phpAds_dbQuery(
+				"UPDATE ".($phpAds_config['insert_delayed'] ? 'LOW_PRIORITY' : '')." ".
+				$phpAds_config['tbl_adstats']." SET clicks = clicks + 1 WHERE day = NOW() AND
+				hour = HOUR(NOW()) AND bannerid = '$bannerid' AND zoneid = '$zoneid' AND
+				source = '$source' ");
+			
+	        if (phpAds_dbAffectedRows() == 0) 
+        	{
+            	$result = phpAds_dbQuery(
+					"INSERT ".($phpAds_config['insert_delayed'] ? 'DELAYED' : '')." INTO ".
+					$phpAds_config['tbl_adstats']." SET clicks = 1, views = 0, day = NOW(),
+					hour = HOUR(NOW()), bannerid = '$bannerid', zoneid = '$zoneid',
+					source = '$source' ");
+	        }
+    	}
+		else
+		{
+    		$result = phpAds_dbQuery(
+				"INSERT ".($phpAds_config['insert_delayed'] ? 'DELAYED' : '')." INTO ".
+				$phpAds_config['tbl_adclicks']." SET bannerid = '$bannerid', zoneid = '$zoneid',
+				host = '$host', source = '$source' ");
+		}
+		
+		phpAds_logExpire ($clientid, phpAds_Clicks);
+	}
 }
 
 ?>
