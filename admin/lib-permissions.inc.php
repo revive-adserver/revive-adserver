@@ -194,7 +194,7 @@ function phpAds_Login()
 				") or phpAds_sqlDie();
 			
 			
-			if (phpAds_dbNumRows($res) > 0 && $phpAds_username != "" && $phpAds_password != "")
+			if (phpAds_dbNumRows($res) > 0 && trim($phpAds_username) != "" && trim($phpAds_password) != "")
 			{
 				// User found with correct password
 				$row = phpAds_dbFetchArray($res);
@@ -222,7 +222,7 @@ function phpAds_Login()
 						AND password = '$phpAds_password'
 					");
 				
-				if ($res && phpAds_dbNumRows($res) > 0 && $phpAds_username != "" && $phpAds_password != "")
+				if ($res && phpAds_dbNumRows($res) > 0 && trim($phpAds_username) != "" && trim($phpAds_password) != "")
 				{
 					// User found with correct password
 					$row = phpAds_dbFetchArray($res);
