@@ -258,7 +258,7 @@ if (isset($submit))
 				while (list ($key, $val) = each ($alink))
 					if (substr($val, 0, 7) == 'http://' && strlen($val) > 7)
 					{
-						$final['htmltemplate'] = eregi_replace ("alink".$key."={targeturl:[^}]+}", "alink".$key."={targeturl:".$val."}", $final['htmltemplate']);
+						$final['htmltemplate'] = eregi_replace ("alink".$key."=\{targeturl:[^\}]+\}", "alink".$key."={targeturl:".$val."}", $final['htmltemplate']);
 						if (isset($alink_chosen) && $alink_chosen == $key) $final['url'] = $val;
 					}
 			}
@@ -373,7 +373,7 @@ if (isset($submit))
 				while (list ($key, $val) = each ($alink))
 					if (substr($val, 0, 7) == 'http://' && strlen($val) > 7)
 					{
-						$final['htmltemplate'] = eregi_replace ("alink".$key."={targeturl:[^}]+}", "alink".$key."={targeturl:".$val."}", $final['htmltemplate']);
+						$final['htmltemplate'] = eregi_replace ("alink".$key."=\{targeturl:[^\}]+\}", "alink".$key."={targeturl:".$val."}", $final['htmltemplate']);
 						if (isset($alink_chosen) && $alink_chosen == $key) $final['url'] = $val;
 					}
 			}
