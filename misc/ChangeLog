@@ -2,7 +2,8 @@ phpAdsNew - ChangeLog
 
 
 CVS			+ Added a cron replacement for users who don't have access to the cron utility for scheduling the maintenance script  (Niels, 2003-01-14)
-
+			+ The database is now checked after an update to make sure the update was succesful. If not an error is shown and the can retry to update  (Niels, 2003-01-15)
+			
 			+ Misc changes
 			  - 2003-01-12:  Added info about the current version on the Available Updates page  (Niels)
 			  - 2003-01-12:  Added flag for Cape Verde  (Niels)
@@ -14,8 +15,9 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-01-13:  If a zero was used in a random variable (ie. random:10) it wasn't replaced  (Niels)
 			  - 2003-01-13:  If a random or timestamp variable was used in the destination URL of a HTML banner it wasn't replaced  (Niels)
 			  - 2003-01-13:  Random variable replacement larger than 9 wasn't working at all for external banners when using plain remote invocation  (Niels)
-			  - 2003-01-14:  Konqueror browser detection in adlayer wasn't based on a very outdated useragent, now fixed  (Niels)
+			  - 2003-01-14:  Konqueror browser detection in adlayer wasn based on a very outdated useragent, now fixed  (Niels)
 			  - 2003-01-14:  If register_globals was turned on and cookies were favored by variable_order, the value of a cookie overwrote a GET or POST variable with the same name  (Niels)
+			  - 2003-01-14:  Priority wasn't recalculated during an update due to a typo  (Niels)
 			
 
 v 2.0rc2		+ Misc bugfixes
