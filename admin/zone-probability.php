@@ -162,7 +162,7 @@ function phpAds_showZoneBanners ($zoneid)
 		if (isset($zone['what']) && $zone['what'] != '')
 			$what = $zone['what'];
 		else
-			$what = '';
+			$what = 'default';
 	}
 	else
 		$what = '';
@@ -254,28 +254,10 @@ function phpAds_showZoneBanners ($zoneid)
 
 if (isset($zoneid) && $zoneid != '')
 {
-	$res = phpAds_dbQuery("
-		SELECT
-			*
-		FROM
-			".$phpAds_config['tbl_zones']."
-		WHERE
-			zoneid = $zoneid
-		") or phpAds_sqlDie();
-	
-	if (phpAds_dbNumRows($res))
-	{
-		$zone = phpAds_dbFetchArray($res);
-	}
+	echo "<br><br>";
+	phpAds_showZoneBanners($zoneid);
+	echo "<br><br>";
 }
-
-
-
-echo "<br><br>";
-
-phpAds_showZoneBanners($zoneid);
-
-echo "<br><br>";
 
 
 
