@@ -25,6 +25,7 @@ if (isset($submit))
 		$views=-1;
 	if (strtolower($unlimitedclicks)=="on")
 		$clicks=-1;
+
 	if (strtolower($unlimiteddays_left)=="on")
 		$expire = '0000-00-00';
 	else
@@ -57,7 +58,7 @@ if (isset($submit))
 			'$clicks',
 			'$clientusername',
 			'$clientpassword',
-			\"$expire\")")
+			$expire)")
 		or mysql_die();  
 	Header("Location: admin.php$fncpageid&message=".urlencode($message));
 	exit;
@@ -105,7 +106,7 @@ if (strlen($days_left)==0)
 	{
 		if (eval(document.clientform.unlimitedviews.checked) == true)
 		{
-			document.clientform.views.value=$GLOBALS['strUnlimited'].'-->';
+			document.clientform.views.value="<?print $GLOBALS['strUnlimited'];?>-->";
 		} else
 		{
 			document.clientform.views.value="";
@@ -116,7 +117,7 @@ if (strlen($days_left)==0)
 	{
 		if (eval(document.clientform.unlimitedclicks.checked) == true)
 		{
-			document.clientform.clicks.value=$GLOBALS['strUnlimited'].'-->';
+			document.clientform.clicks.value="<?print $GLOBALS['strUnlimited'];?>-->";
 		} else
 		{
 			document.clientform.clicks.value="";
@@ -127,17 +128,59 @@ if (strlen($days_left)==0)
 	{
 		if (eval(document.clientform.unlimiteddays_left.checked) == true)
 		{
-			document.clientform.days_left.value=$GLOBALS['strUnlimited'].'-->';
+			document.clientform.days_left.value="<?print $GLOBALS['strUnlimited'];?>-->";
 		} else
 		{
 			document.clientform.days_left.value="";
 			document.clientform.days_left.focus();
 		}
 	}
+	function valid(form)
+	{
+		var views=parseInt(form.views.value);
+		if (!views)
+		{
+			if (eval(form.unlimitedviews.checked) == false)
+			{
+				alert("You must enter the number of views or select the unlimited box !");
+				return false;
+			}
+		} else if (views < 0)
+		{
+			alert("Negative views are not allowed");
+			return false;
+		}
+		var clicks=parseInt(form.clicks.value);
+		if (!clicks)
+		{
+			if (eval(form.unlimitedclicks.checked) == false)
+			{
+				alert("You must enter the number of clicks or select the unlimited box !");
+				return false;
+			}
+		} else if (clicks < 0)
+		{
+			alert("Negative clicks are not allowed");
+			return false;
+		}
+		var days_left=parseInt(form.days_left.value);
+		if (!days_left)
+		{
+			if (eval(form.unlimiteddays_left.checked) == false)
+			{
+				alert("You must enter the number of days or select the unlimited box !");
+				return false;
+			}
+		} else if (days_left < 0)
+		{
+			alert("Negative days are not allowed");
+			return false;
+		}
+	}
 //-->
 </script>
 
-<form name="clientform" method="post" action="<?echo basename($PHP_SELF);?>">
+<form name="clientform" method="post" action="<?echo basename($PHP_SELF);?>" onSubmit="return valid(this)">
 <input type="hidden" name="clientID" value="<?if(IsSet($clientID)) echo $clientID;?>">
 <table>
 	<tr>

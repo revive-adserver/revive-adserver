@@ -3,16 +3,14 @@
 
 require('config.php');
 require('kcsm.php');
-
-$result = mysql_db_query($phpAds_db, '
+$result = mysql_db_query($phpAds_db, "
 	SELECT
 		*
 	FROM
-		$phpAds_tbl_clients
+		".$phpAds_tbl_clients."
 	WHERE
-		clientID = '.$Session['clientID']
-	) or mysql_die();
-			
+		clientID = ".$Session["clientID"]) or mysql_die();
+
 $row = mysql_fetch_array($result);
 mysql_free_result($result);
 

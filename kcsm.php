@@ -101,7 +101,7 @@ function kc_end()
 			AddSlashes(serialize($Session)) . "', null )") or mysql_die();
 	srand((double)microtime()*1000000);
 	if(rand(1, 100) == 42)	// (randomly) purge old sessions
-		$foo = mysql_db_query($GLOBALS[phpAds_db], "DELETE FROM $phpAds_tbl_session WHERE UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(LastUsed) > 43200'") or mysql_die();
+		$foo = mysql_db_query($GLOBALS["phpAds_db"], "DELETE FROM $phpAds_tbl_session WHERE UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(LastUsed) > 43200") or mysql_die();
 }
 
 function kc_abandon()
