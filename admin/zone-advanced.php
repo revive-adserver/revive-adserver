@@ -85,7 +85,7 @@ if (isset($submitbutton))
 	if (isset($zoneid) && $zoneid != '')
 	{
 		$sqlupdate = array();
-
+		
 		// Determine chain
 		if ($chaintype == '1' && $chainzone != '')
 			$chain = 'zone:'.$chainzone;
@@ -95,10 +95,10 @@ if (isset($submitbutton))
 			$chain = '';
 		
 		$sqlupdate[] = "chain='".$chain."'";
-
+		
 		if (!isset($prepend)) $prepend = '';
 		$sqlupdate[] = "prepend='".$prepend."'";
-
+		
 		// Do not save append until not finished with zone appending, if present
 		if (isset($appendsave) && $appendsave)
 		{
@@ -118,10 +118,10 @@ if (isset($submitbutton))
 					if (!isset($layerstyle)) $layerstyle = 'geocities';
 					include ('../misc/layerstyles/'.$layerstyle.'/invocation.inc.php');
 				}
-
+				
 				$append = addslashes(phpAds_GenerateInvocationCode());
 			}
-
+			
 			$sqlupdate[] = "append='".$append."'";
 			$sqlupdate[] = "appendtype='".$appendtype."'";
 		}
@@ -134,6 +134,13 @@ if (isset($submitbutton))
 			WHERE
 				zoneid='".$zoneid."'
 			") or phpAds_sqlDie();
+		
+		
+		// Rebuild Cache
+		if (!defined('LIBVIEWCACHE_INCLUDED'))  include (phpAds_path.'/lib-view-cache-'.$phpAds_config['delivery_caching'].'.inc.php');
+		
+		phpAds_cacheDelete('zone:'.$zoneid);
+		
 		
 		// Do not redirect until not finished with zone appending, if present
 		if (!isset($appendsave) || $appendsave)
