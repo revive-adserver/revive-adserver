@@ -495,7 +495,7 @@ if (count($order_array) > 0)
 			echo "<tr bgcolor='$bgcolor'>";
 			echo "<td height='25' align='".$phpAds_TextAlignLeft."' nowrap>&nbsp;&nbsp;&nbsp;&nbsp;</td>";
 		   	echo "<td colspan='3' align='".$phpAds_TextAlignLeft."'>";
-			echo phpAds_buildBannerCode ($row_banners['bannerid']);
+			echo phpAds_buildBannerCode ($row_banners['bannerid'], true);
 			echo "</td></tr>";
 			echo "<tr><td height='10' colspan='4' bgcolor='$bgcolor'>&nbsp;</td></tr>";
 		  	
@@ -654,7 +654,7 @@ if (count($order_array) > 0)
 				echo "<tr><td height='1'><img src='images/break-l.gif' height='1' width='100%' vspace='0'></tr><td>";
 				echo "<tr><td height='10'>&nbsp;</tr><td>";
 				echo "<tr><td>";
-					echo phpAds_buildBannerCode ($row_banners['bannerid']);
+					echo phpAds_buildBannerCode ($row_banners['bannerid'], true);
 				echo "</tr><td>";
 				echo "<tr><td height='10'>&nbsp;</tr><td>";
 				echo "<tr><td height='1'><img src='images/break-l.gif' height='1' width='100%' vspace='0'></tr><td>";

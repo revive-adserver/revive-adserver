@@ -213,8 +213,6 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0)
 	echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='5'>";
 	echo "&nbsp;&nbsp;".$strNoBanners;
 	echo "</td></tr>";
-	
-	echo "<td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
 }
 else
 {
@@ -222,6 +220,8 @@ else
 	
 	for (reset($banners);$bkey=key($banners);next($banners))
 	{
+		if ($i > 0) echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
+		
 		// Icon & name
 		$name = $strUntitled;
 		if (isset($banners[$bkey]['alt']) && $banners[$bkey]['alt'] != '') $name = $banners[$bkey]['alt'];
@@ -233,12 +233,15 @@ else
 		echo "&nbsp;";
 		
 		
-		if ($banners[$bkey]['expand'] == '1')
-			echo "<a href='campaign-index.php?clientid=".$clientid."&campaignid=".$campaignid."&collapse=".$banners[$bkey]['bannerid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
+		if (!$phpAds_config['gui_show_campaign_preview'])
+		{
+			if ($banners[$bkey]['expand'] == '1')
+				echo "<a href='campaign-index.php?clientid=".$clientid."&campaignid=".$campaignid."&collapse=".$banners[$bkey]['bannerid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
+			else
+				echo "<a href='campaign-index.php?clientid=".$clientid."&campaignid=".$campaignid."&expand=".$banners[$bkey]['bannerid']."'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
+		}
 		else
-			echo "<a href='campaign-index.php?clientid=".$clientid."&campaignid=".$campaignid."&expand=".$banners[$bkey]['bannerid']."'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
-		
-		
+			echo "&nbsp;";
 		
 		if ($banners[$bkey]['active'] == 't')
 		{
@@ -306,35 +309,47 @@ else
 		echo "</td></tr>";
 		
 		
-		if ($banners[$bkey]['expand'] == 1)
+		// Extra banner info
+		if ($phpAds_config['gui_show_banner_info'])
 		{
-			echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td colspan='5'>";
-		   	echo "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-			echo phpAds_buildBannerCode ($banners[$bkey]['bannerid'])."<br><br>";
-			echo "</td></tr>";
+			echo "<tr height='1'>";
+			echo "<td ".($i%2==0?"bgcolor='#F6F6F6'":"")."><img src='images/spacer.gif' width='1' height='1'></td>";
+			echo "<td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
+			echo "</tr>";
+			
+			echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td colspan='1'>&nbsp;</td><td colspan='4'>";
+			echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'>";
+			
+			echo "<tr height='25'><td colspan='2'>".($banners[$bkey]['url'] != '' ? $banners[$bkey]['url'] : '-')."</td></tr>";
+			echo "<tr height='15'><td colspan='2'>".$strKeyword.": ".($banners[$bkey]['keyword'] != '' ? $banners[$bkey]['keyword'] : '-')."</td></tr>";
+			echo "<tr height='25'><td width='50%'>".$strSize.": ".$banners[$bkey]['width']." x ".$banners[$bkey]['height']."</td>";
+			echo "<td width='50%'>".$strWeight.": ".$banners[$bkey]['weight']."</td></tr>";
+			
+			echo "</table><br></td></tr>";
 		}
 		
 		
-		// Divider
-		echo "<tr height='1'>";
-		echo "<td ".($i%2==0?"bgcolor='#F6F6F6'":"")."><img src='images/spacer.gif' width='1' height='1'></td>";
-		echo "<td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
-		echo "</tr>";
+		// Banner preview
+		if ($banners[$bkey]['expand'] == 1 || $phpAds_config['gui_show_campaign_preview'])
+		{
+			if (!$phpAds_config['gui_show_banner_info'])
+			{
+				echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td colspan='1'>&nbsp;</td><td colspan='4'>";
+			}
+			
+			echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td colspan='5'>";
+			echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>";
+		   	echo "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+			echo "<td width='100%'>".phpAds_buildBannerCode ($banners[$bkey]['bannerid'], true)."</td>";
+			echo "</tr></table><br><br>";
+			echo "</td></tr>";
+		}
 		
-		echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td colspan='1'>&nbsp;</td><td colspan='4'>";
-		echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'>";
-		
-		echo "<tr height='25'><td colspan='2'>".($banners[$bkey]['url'] != '' ? $banners[$bkey]['url'] : '-')."</td></tr>";
-		echo "<tr height='15'><td colspan='2'>".$strKeyword.": ".($banners[$bkey]['keyword'] != '' ? $banners[$bkey]['keyword'] : '-')."</td></tr>";
-		echo "<tr height='25'><td width='50%'>".$strSize.": ".$banners[$bkey]['width']." x ".$banners[$bkey]['height']."</td>";
-		echo "<td width='50%'>".$strWeight.": ".$banners[$bkey]['weight']."</td></tr>";
-		
-		echo "</table></td></tr>";
-		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 		$i++;
 	}
 }
 
+echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 echo "<tr height='25'><td colspan='5' height='25'>";
 
 if (count($banners))
@@ -368,6 +383,7 @@ echo "<tr><td height='25' colspan='2'>$desc</td></tr>";
 
 echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 echo "</table>";
+echo "<br><br>";
 
 
 

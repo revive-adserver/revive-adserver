@@ -448,11 +448,12 @@ function phpAds_getAffiliateName ($affiliateid)
 /* Build the HTML needed to display a banner             */
 /*********************************************************/
 
-function phpAds_buildBannerCode ($bannerid)
+function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 {
 	global $strShowBanner, $strLogin;
 	global $phpAds_config;
 	global $phpAds_TextAlignLeft, $phpAds_TextAlignRight;
+	
 	
 	$res = phpAds_dbQuery ("
 		SELECT
@@ -465,76 +466,104 @@ function phpAds_buildBannerCode ($bannerid)
 	
 	$row = phpAds_dbFetchArray($res);
 	
-	if ($row['active'] == "f")
-		echo "<div style='filter: Alpha(Opacity=50)'>";
 	
-	
-	switch ($row['storagetype'])
+	if ($fullpreview || $phpAds_config['gui_show_banner_preview'])
 	{
-		case 'html':
-			$htmlcode 	= str_replace ("\n", '', stripslashes ($row['htmltemplate']));
-			$htmlcode   = strlen($htmlcode) > 500 ? substr ($htmlcode, 0, 500)."..." : $htmlcode;
-			$htmlcode	= chunk_split ($htmlcode, 65, "\n");
-			$htmlcode   = str_replace("\n", "<br>\n", htmlspecialchars ($htmlcode));
-			
-			$buffer		= "<table width='100%' border='0' cellspacing='0' cellpadding='0'><tr>";
-			$buffer    .= "<td width='80%' valign='top' align='".$phpAds_TextAlignLeft."'>\n";
-			$buffer	   .= $htmlcode;
-			$buffer    .= "\n</td>";
-			$buffer    .= "<td width='20%' valign='top' align='".$phpAds_TextAlignRight."' nowrap>&nbsp;&nbsp;";
-			$buffer	   .= "<a href='banner-htmlpreview.php?bannerid=$bannerid' target='_new' ";
-			$buffer	   .= "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=".$bannerid."', '', 'status=no,scrollbars=no,resizable=no,width=".($row['width']+64).",height=".($row['bannertext'] ? $row['height']+80 : $row['height']+64)."');\">";
-			$buffer    .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strShowBanner."</a>&nbsp;&nbsp;</td>";
-			$buffer	   .= "</tr></table>";
-			break;
+		if ($row['active'] == "f")
+			echo "<div style='filter: Alpha(Opacity=50)'>";
 		
-		case 'network':
-			if (ereg("\[title\]([^\[]*)\[\/title\]", $row['htmltemplate'], $matches))
-				$title = $matches[1];
-			
-			if (ereg("\[logo\](.*)\[\/logo\]", $row['htmltemplate'], $matches))
-				$logo = $matches[1];
-			
-			if (ereg("\[login\](.*)\[\/login\]", $row['htmltemplate'], $matches))
-				$login = $matches[1];
-			
-			$buffer  = "<img src='images/break-l.gif' height='1' width='468' vspace='6'>";
-			$buffer .= "<table width='468' cellpadding='0' cellspacing='0' border='0'><tr>";
-			$buffer .= "<td valign='bottom'><img src='networks/logos/".$logo."'>&nbsp;&nbsp;&nbsp;</td>";
-			$buffer .= "<td valign='bottom' align='".$phpAds_TextAlignRight."'><br><b>".$title."</b>&nbsp;&nbsp;&nbsp;<a href='".$login."' target='_blank'>";
-			$buffer .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0' vspace='2'> ".$strLogin."</a></td>";
-			$buffer .= "</tr></table>";
-			$buffer .= "<img src='images/break-l.gif' height='1' width='468' vspace='6'>";
-			break;
 		
-		default:
-			$htmlcode = $row['htmlcache'];
+		switch ($row['storagetype'])
+		{
+			case 'html':
+				if ($phpAds_config['gui_show_banner_html'])
+				{
+					$htmlcode = $row['htmlcache'];
+					$htmlcode = str_replace ('{bannerid}', $bannerid, $htmlcode);
+					$htmlcode = str_replace ('{zoneid}', '', $htmlcode);
+					$htmlcode = str_replace ('{source}', '', $htmlcode);
+					$htmlcode = str_replace ('{target}', $target, $htmlcode);
+					$htmlcode = str_replace ('[bannertext]', '', $htmlcode);
+					$htmlcode = str_replace ('[/bannertext]', '', $htmlcode);
+					
+					$buffer =  $htmlcode;
+				}
+				else
+				{
+					$htmlcode 	= str_replace ("\n", '', stripslashes ($row['htmltemplate']));
+					$htmlcode   = strlen($htmlcode) > 500 ? substr ($htmlcode, 0, 500)."..." : $htmlcode;
+					$htmlcode	= chunk_split ($htmlcode, 65, "\n");
+					$htmlcode   = str_replace("\n", "<br>\n", htmlspecialchars ($htmlcode));
+					
+					$buffer     = "<img src='images/break-el.gif' height='1' width='100%' vspace='5'><br>";
+					$buffer	   .= "<table border='0' cellspacing='0' cellpadding='0'><tr>";
+					$buffer    .= "<td width='80%' valign='top' align='".$phpAds_TextAlignLeft."'>\n";
+					$buffer	   .= $htmlcode;
+					$buffer    .= "\n</td>";
+					$buffer    .= "<td width='20%' valign='top' align='".$phpAds_TextAlignLeft."' nowrap>&nbsp;&nbsp;";
+					$buffer	   .= "<a href='banner-htmlpreview.php?bannerid=$bannerid' target='_new' ";
+					$buffer	   .= "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=".$bannerid."', '', 'status=no,scrollbars=no,resizable=no,width=".($row['width']+64).",height=".($row['bannertext'] ? $row['height']+80 : $row['height']+64)."');\">";
+					$buffer    .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strShowBanner."</a>&nbsp;&nbsp;</td>";
+					$buffer	   .= "</tr></table>";
+				}
+				break;
 			
-			// Determine target
-			if ($row['target'] == '')
-			{
-				if ($target == '') $target = '_blank';  // default
-			}
-			else
-				$target = $row['target'];
+			case 'network':
+				if (ereg("\[title\]([^\[]*)\[\/title\]", $row['htmltemplate'], $matches))
+					$title = $matches[1];
+				
+				if (ereg("\[logo\](.*)\[\/logo\]", $row['htmltemplate'], $matches))
+					$logo = $matches[1];
+				
+				if (ereg("\[login\](.*)\[\/login\]", $row['htmltemplate'], $matches))
+					$login = $matches[1];
+				
+				$buffer  = "<img src='images/break-l.gif' height='1' width='468' vspace='6'>";
+				$buffer .= "<table width='468' cellpadding='0' cellspacing='0' border='0'><tr>";
+				$buffer .= "<td valign='bottom'><img src='networks/logos/".$logo."'>&nbsp;&nbsp;&nbsp;</td>";
+				$buffer .= "<td valign='bottom' align='".$phpAds_TextAlignRight."'><br><b>".$title."</b>&nbsp;&nbsp;&nbsp;<a href='".$login."' target='_blank'>";
+				$buffer .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0' vspace='2'> ".$strLogin."</a></td>";
+				$buffer .= "</tr></table>";
+				$buffer .= "<img src='images/break-l.gif' height='1' width='468' vspace='6'>";
+				break;
 			
-			// Set basic variables
-			$htmlcode = str_replace ('{bannerid}', $row['bannerid'], $htmlcode);
-			$htmlcode = str_replace ('{zoneid}', '', $htmlcode);
-			$htmlcode = str_replace ('{target}', $target, $htmlcode);
-			$htmlcode = str_replace ('[bannertext]', '', $htmlcode);
-			$htmlcode = str_replace ('[/bannertext]', '', $htmlcode);
-			
-			$buffer .= $htmlcode;
-			break;
+			default:
+				$htmlcode = $row['htmlcache'];
+				
+				// Determine target
+				if ($row['target'] == '')
+				{
+					if ($target == '') $target = '_blank';  // default
+				}
+				else
+					$target = $row['target'];
+				
+				// Set basic variables
+				$htmlcode = str_replace ('{bannerid}', $row['bannerid'], $htmlcode);
+				$htmlcode = str_replace ('{zoneid}', '', $htmlcode);
+				$htmlcode = str_replace ('{source}', '', $htmlcode);
+				$htmlcode = str_replace ('{target}', $target, $htmlcode);
+				$htmlcode = str_replace ('[bannertext]', '', $htmlcode);
+				$htmlcode = str_replace ('[/bannertext]', '', $htmlcode);
+				
+				$buffer .= $htmlcode;
+				break;
+		}
+		
+		
+		if ($row['active'] == "f")
+			echo "</div>";
+		
+		//if (!$bannertext == "")
+		//	$buffer .= "<br>".$bannertext;
 	}
-	
-	
-	if ($row['active'] == "f")
-		echo "</div>";
-	
-	//if (!$bannertext == "")
-	//	$buffer .= "<br>".$bannertext;
+	else
+	{
+		$buffer     = "<img src='images/break-el.gif' height='1' width='100%' vspace='5'><br>";
+		$buffer	   .= "<a href='banner-htmlpreview.php?bannerid=$bannerid' target='_new' ";
+		$buffer	   .= "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=".$bannerid."', '', 'status=no,scrollbars=no,resizable=no,width=".($row['width']+64).",height=".($row['bannertext'] ? $row['height']+80 : $row['height']+64)."');\">";
+		$buffer    .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strShowBanner."</a>&nbsp;&nbsp;";
+	}
 	
 	return ($buffer);
 }

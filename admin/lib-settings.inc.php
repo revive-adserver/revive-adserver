@@ -65,8 +65,9 @@ $phpAds_settings_sections = array(
 	"2.2.1"		=> $strGeneralSettings,
 	"2.2.2"		=> $strClientInterface,
 	"2.3"		=> $strInterfaceDefaults,
-	"2.3.1"		=> $strStatisticsDefaults,
-	"2.3.2"		=> $strWeightDefaults
+	"2.3.1"		=> $strInventory,
+	"2.3.2"		=> $strStatisticsDefaults,
+	"2.3.3"		=> $strWeightDefaults
 );
 
 $phpAds_settings_cache = array();

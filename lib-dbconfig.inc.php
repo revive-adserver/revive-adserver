@@ -15,8 +15,8 @@
 
 
 // Current phpAds version
-$phpAds_version = 200.079;
-$phpAds_version_readable = "2 dev 25022002";
+$phpAds_version = 200.082;
+$phpAds_version_readable = "2 dev 03032002";
 
 $GLOBALS['phpAds_settings_information'] = array(
 	'dbhost' => 					array ('type' => 'string', 	'sql' => false),
@@ -95,6 +95,11 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'content_gzip_compression' =>	array ('type' => 'boolean', 'sql' => true),
 	'userlog_email' =>				array ('type' => 'boolean', 'sql' => true),
 	'userlog_priority' =>			array ('type' => 'boolean', 'sql' => true),
+	'gui_show_campaign_info' =>		array ('type' => 'boolean', 'sql' => true),
+	'gui_show_campaign_preview' =>	array ('type' => 'boolean', 'sql' => true),
+	'gui_show_banner_info' =>		array ('type' => 'boolean', 'sql' => true),
+	'gui_show_banner_preview' =>	array ('type' => 'boolean', 'sql' => true),
+	'gui_show_banner_html' =>		array ('type' => 'boolean', 'sql' => true),
 	'config_version' =>				array ('type' => 'string', 'sql' => true)//,
 //	'pg_timezone' =>				array ('type' => 'string', 'sql' => true)
 );

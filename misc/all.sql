@@ -236,6 +236,11 @@ CREATE TABLE phpads_config (
    content_gzip_compression enum('t','f') DEFAULT 'f',
    userlog_email enum('t','f') DEFAULT 't',
    userlog_priority enum('t','f') DEFAULT 't',
+   gui_show_campaign_info enum('t','f') DEFAULT 't',
+   gui_show_campaign_preview enum('t','f') DEFAULT 'f',
+   gui_show_banner_info enum('t','f') DEFAULT 't',
+   gui_show_banner_preview enum('t','f') DEFAULT 't',
+   gui_show_banner_html enum('t','f') DEFAULT 'f',
    PRIMARY KEY (configid)
 );
 

@@ -579,7 +579,7 @@ function phpAds_ShowSections($sections)
 
 function phpAds_ShowBreak()
 {
-	echo "</td></tr>";
+	echo "</td><td width='40'>&nbsp;</td></tr>";
 	echo "</table>";
 	echo "<img src='images/break-el.gif' height='1' width='100%' vspace='5'>";
 	echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>";
