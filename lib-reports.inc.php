@@ -125,7 +125,7 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 					
 					if ($adviews > 0)
 					{
-						$log .= "$strViews ($strTotal):    $adviews\n";
+						$log .= $strViews." (".$strTotal."):    ".$adviews."\n";
 						
 						// Fetch all adviews belonging to banner belonging to client, grouped by day
 						if ($phpAds_config['compact_stats'])
@@ -168,11 +168,11 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 						if (phpAds_dbNumRows($res_adviews))
 						{
 							$total = 0;
-
+							
 							while($row_adviews = phpAds_dbFetchArray($res_adviews))
 							{
-								$log .= "      $row_adviews[t_stamp_f]:   $row_adviews[qnt]\n";
-								$total += $row_adclicks['qnt'];
+								$log .= "      ".$row_adviews['t_stamp_f'].":   ".$row_adviews['qnt']."\n";
+								$total += $row_adviews['qnt'];
 							}
 							
 							$log .= $strTotalThisPeriod.": ".$total."\n";
@@ -187,7 +187,7 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 					if ($adclicks > 0)
 					{
 						// Total adclicks
-				        $log .= "\n$strClicks ($strTotal):   $adclicks\n";
+				        $log .= "\n".$strClicks." (".$strTotal."):   ".$adclicks."\n";
 						
 						// Fetch all adclicks belonging to banner belonging to client, grouped by day
 						if ($phpAds_config['compact_stats'])
@@ -229,10 +229,10 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 						if (phpAds_dbNumRows($res_adviews))
 						{
 							$total = 0;
-
+							
 							while($row_adclicks = phpAds_dbFetchArray($res_adclicks))
 							{
-								$log .= "      $row_adclicks[t_stamp_f]:   $row_adclicks[qnt]\n";
+								$log .= "      ".$row_adclicks['t_stamp_f'].":   ".$row_adclicks['qnt']."\n";
 								$total += $row_adclicks['qnt'];
 							}
 							
