@@ -5,6 +5,7 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			+ The database is now checked after an update to make sure the update was succesful. If not an error is shown and the can retry to update  (Niels, 2003-01-15)
 			+ phpAdsNew now uses many newly designed icons, also other icons have been updated to match the new icons  (Niels, 2003-02-03)
 			+ Updated some of the user-interface, in particular the error messages and help screens  (Niels, 2003-02-03)
+			+ It is now possible to append popups and interstitials to individual banners  (Niels, 2003-02-12)
 			
 			+ Misc changes
 			  - 2003-01-12:  Added info about the current version on the Available Updates page  (Niels)
@@ -50,6 +51,8 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-02-11:  Fixed incompatibilites with register_globals off into xmlrpc invocation class  (Matteo)
 			  - 2003-02-12:  Campaigns are now visibly deactivated when it's weight is zero and the target is also zero  (Niels)
 			  - 2003-02-12:  On the Linked banners page the buttons to change the view now don't revert back to the original link type when the type was changed manually  (Niels)
+			  - 2003-02-12:  The total weight of all banners and campaigns wasn't correctly calculated during priority calculation  (Niels)
+			  - 2003-02-12:  If a banners campaign wasn't linked to a zone and no zones which can be linked to a banner were available, the banners linked zone page didn't show an error message  (Niels)
 			
 
 v 2.0rc2		+ Misc bugfixes
