@@ -23,13 +23,16 @@ $GLOBALS['phpAds_TextDirection']			= "ltr";
 $GLOBALS['phpAds_TextAlignRight']			= "right";
 $GLOBALS['phpAds_TextAlignLeft']			= "left";
 
+$GLOBALS['phpAds_DecimalPoint']				= ',';
+$GLOBALS['phpAds_ThousandsSeperator']		= '.';
+
 
 // Date & time configuration
 $GLOBALS['date_format']						= "%d/%m/%Y";
 $GLOBALS['time_format']						= "%H:%i:%S";
 $GLOBALS['minute_format']					= "%H:%M";
 $GLOBALS['month_format']					= "%m/%Y";
-$GLOBALS['day_format']						= "%d/%m";
+$GLOBALS['day_format']						= "%m/%d";
 $GLOBALS['week_format']						= "%W/%Y";
 $GLOBALS['weekiso_format']					= "%V/%G";
 
@@ -148,7 +151,10 @@ $GLOBALS['strMonths']						= "Mesi";
 $GLOBALS['strThisMonth']					= "Questo Mese";
 $GLOBALS['strMonth']						= array("Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre");
 $GLOBALS['strDayShortCuts']					= array("Do","Lu","Ma","Me","Gi","Ve","Sa");
-$GLOBALS['strSeconds']						= "seconds";
+$GLOBALS['strSeconds']						= "secondi";
+$GLOBALS['strMinutes']						= "minuti";
+$GLOBALS['strHours']						= "ore";
+$GLOBALS['strTimes']						= "volte";
 
 
 // Advertiser
@@ -275,6 +281,7 @@ $GLOBALS['strConvertSWF']					= "<br>Il file Flash appena caricato contiene urls
 											  "che hai appena caricato viene modificato fisicamente. <br>Tieni da parte una copia ".
 											  "di backup del file originale. Indipendentemente alla versione di flash utilizzata, il file ".
 											  "risultante necessita del plug-in Flash 4 (o superiore).<br><br>";
+$GLOBALS['strCompressSWF']					= "Comprimi il file SWF per uno scaricamento pi&ugrave; veloce (plug-in Flash 6 necessario)";
 
 
 // Banner (network)
@@ -302,6 +309,10 @@ $GLOBALS['strUserAgent']					= "Browser";
 $GLOBALS['strDomain']						= "Dominio";
 $GLOBALS['strClientIP']						= "IP Client";
 $GLOBALS['strSource']						= "Sorgente";
+$GLOBALS['strDeliveryLimitations']			= "Limitazioni consegna";
+$GLOBALS['strDeliveryCapping']				= "Limitazioni numero consegne";
+$GLOBALS['strTimeCapping']					= "Una volta consegnato il banner, non mostrarlo allo stesso utente per:";
+$GLOBALS['strImpressionCapping']			= "Non mostrare il banner allo stesso utente pi&ugrave; di:";
 
 
 // Publisher
@@ -364,7 +375,7 @@ $GLOBALS['strRawQueryString']				= "Keyword";
 $GLOBALS['strIncludedBanners']				= "Banner collegati";
 $GLOBALS['strLinkedBannersOverview']		= "Descrizione banner collegati";
 $GLOBALS['strLinkedBannerHistory']			= "Storico banner collegati";
-$GLOBALS['strNoZonesToLink']				= "Non ci sono zone disponibili a cui questo banner possa essere collegati";
+$GLOBALS['strNoZonesToLink']				= "Non ci sono zone disponibili a cui questo banner possa essere collegato";
 $GLOBALS['strNoBannersToLink']				= "Non ci sono banner disponibili che possano essere collegati a questa zona";
 $GLOBALS['strNoLinkedBanners']				= "Non ci sono banner disponibili che siano collegati a questa zona";
 $GLOBALS['strMatchingBanners']				= "{count} banner corrispondenti";
