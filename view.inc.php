@@ -859,12 +859,6 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 				// HTML banner
 				$html = stripslashes($row['banner']);
 				
-				if ($phpAds_type_html_php == true)
-					$html = phpAds_ParseHTMLExpressions ($html);
-				
-				if ($phpAds_type_html_auto == true && $row['autohtml'] == 'true')
-					$html = phpAds_ParseHTMLAutoLog ($html, $row['bannerID'], $row['url'], $target);
-				
 				// Replace standard variables
 				$html = str_replace ('{timestamp}',	time(), $html);
 				$html = str_replace ('{bannerid}', 	$row['bannerID'], $html);
@@ -900,6 +894,13 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 					$lastrandom = $randomnumber;
 				}
 				
+				if ($phpAds_type_html_auto == true && $row['autohtml'] == 'true')
+				{
+					if ($phpAds_type_html_php == true)
+						$html = phpAds_ParseHTMLExpressions ($html);
+					
+					$html = phpAds_ParseHTMLAutoLog ($html, $row['bannerID'], $row['url'], $target);
+				}
 				
 				$outputbuffer = $html;
 			}

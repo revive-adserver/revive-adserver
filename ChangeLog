@@ -1,5 +1,10 @@
 phpAdsNew - ChangeLog
 
+CVS			+ Minor speed improvements in view.inc.php  (Niels) 20011015
+			+ Misc bugfixes
+			  - Fixed pass by reference warnings in lib-ftp.inc.php  (Niels) 20011015
+
+
 v 2.0beta6		+ Added search capabilities  (Niels and Tobi Schulz)
 			+ Added expiration details to campaign index  (Niels)
 			+ Added the ablity to get the IP adress of users behind a proxy server  (Niels & Mesut Tunga)
