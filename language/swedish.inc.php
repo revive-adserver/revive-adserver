@@ -292,5 +292,8 @@ $GLOBALS['strConfirmResetClientStats']	= "Vill du verkligen nollställa statistik
 $GLOBALS['strConfirmResetBannerStats']	= "Vill du verkligen nollställa statistiken för den här bannern?";
 
 $GLOBALS['strClientsAndCampaigns']		= "Clients & Campaigns";
+$GLOBALS['strCampaignOverview']			= "Campaign overview";
+$GLOBALS['strReports']					= "Reports";
+$GLOBALS['strShowBanner']				= "Show banner";
 
 ?>
