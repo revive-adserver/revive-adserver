@@ -30,8 +30,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			+ Added misc. maintenance options to the admin interface  (Niels, 2002-04-08)
 			+ Added the ability to check for newer versions of phpAdsNew  (Matteo, 2002-04-11)
 			+ Added the ability to change the target frame for each banner  (Niels, 2002-04-14)
-			+ Added new style JavaScript invocation, with the ability 
-			  to prevent one banner from being displayed twice on one page  (Niels, 2002-04-30)
+			+ Added new style JavaScript invocation, with the ability to prevent one banner from being displayed twice on one page  (Niels, 2002-04-30)
 
 			+ Misc changes to library and function names
 			  - 2001-10-20:  Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 
@@ -137,6 +136,9 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-05-02:  Resize Iframe option of bannercode generator is hidden when zone is on different server  (Niels)
 			  - 2002-05-02:	 Updated iframe bannercode to include ilayer for Netscape 4 support  (Niels)
 			  - 2002-05-02:  Removed combined remote invocation from bannercode generator because new Javascript and Iframe support are both 100% browser compatible  (Niels)
+			  - 2002-05-03:  Added configuration settings to hide invocation types from the users  (Niels)
+			  - 2002-05-04:  Added extra option to local mode invocation generator for preventing a banner to be displayed twice on one page  (Niels)
+			  - 2002-05-04:  Added option to local mode invocation generator for generating view_raw() based template compatible code  (Niels)
 
 
 			+ Misc bugfixes
@@ -246,6 +248,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-04-04:	 If no banners are linked to a zone, the update of linked banners is now saved  (Niels)
 			  - 2002-04-04:	 When using keyword selection for linking banners the update is now saved  (Niels)
 			  - 2002-04-04:	 Zone probability showed all banners when nothing was selected  (Niels)
+			  - 2002-04-05:  Added workaround for broken images in IE when zlib.output_compression was turned on  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
