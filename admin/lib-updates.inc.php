@@ -55,7 +55,7 @@ function phpAds_checkForUpdates($already_seen = 0)
 	));
 
 	// Send XML-RPC request message
-	if($response = $client->send($msg))
+	if($response = $client->send($msg, 10))
 	{
 		// XML-RPC server found, now checking for errors
 		if (!$response->faultCode())
