@@ -94,26 +94,27 @@ phpAds_SettingsSelection("invocation");
 /*********************************************************/
 
 // Determine delivery cache methods
-$delivery_cache_methods['db'] = 'Database';
+$delivery_cache_methods['none'] = $strNone;
+$delivery_cache_methods['db'] = $strCacheDatabase;
 
 if ($fp = @fopen(phpAds_path.'/cache/available', 'wb'))
 {
 	@fclose($fp);
 	@unlink(phpAds_path.'/cache/available');
 	
-	$delivery_cache_methods['file'] = 'Files';
+	$delivery_cache_methods['file'] = $strCacheFiles;
 }
 
 if (function_exists('shmop_open'))
-	$delivery_cache_methods['shm'] = 'Shared memory (shmop)';
+	$delivery_cache_methods['shm'] = $strCacheShmop;
 
 
 
 
 phpAds_StartSettings();
-phpAds_AddSettings('start_section', "1.2.2");
+phpAds_AddSettings('start_section', "1.2.1");
 phpAds_AddSettings('select', 'delivery_caching',
-	array('Delivery cache type', $delivery_cache_methods));
+	array($strCacheType, $delivery_cache_methods));
 phpAds_AddSettings('break', '');
 phpAds_AddSettings('checkbox', 'acl', $strUseAcl);
 phpAds_AddSettings('break', '');
@@ -121,7 +122,7 @@ phpAds_AddSettings('checkbox', 'con_key', $strUseConditionalKeys);
 phpAds_AddSettings('checkbox', 'mult_key', $strUseMultipleKeys);
 phpAds_AddSettings('end_section', '');
 
-phpAds_AddSettings('start_section', "1.2.1");
+phpAds_AddSettings('start_section', "1.2.2");
 phpAds_AddSettings('checkbox', 'allow_invocation_plain', $strAllowRemoteInvocation);
 phpAds_AddSettings('checkbox', 'allow_invocation_js', $strAllowRemoteJavascript);
 phpAds_AddSettings('checkbox', 'allow_invocation_frame', $strAllowRemoteFrames);
@@ -133,7 +134,7 @@ phpAds_AddSettings('break', '');
 phpAds_AddSettings('checkbox', 'allow_invocation_popup', $strAllowPopups);
 phpAds_AddSettings('end_section', '');
 
-phpAds_AddSettings('start_section', "1.2.4");
+phpAds_AddSettings('start_section', "1.2.3");
 phpAds_AddSettings('checkbox', 'p3p_policies',
 	array($strUseP3P, array('p3p_compact_policy', 'p3p_policy_location')));
 phpAds_AddSettings('break', '');

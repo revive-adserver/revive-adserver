@@ -127,16 +127,21 @@ $GLOBALS['strAllowLocalmode']			= "Allow Local mode";
 $GLOBALS['strAllowInterstitial']		= "Allow Interstitials";
 $GLOBALS['strAllowPopups']			= "Allow Popups";
 
-$GLOBALS['strUseAcl']				= "Use delivery limitations";
+$GLOBALS['strUseAcl']				= "Evaluate delivery limitations during delivery";
 
+$GLOBALS['strDeliverySettings']			= "Delivery settings";
+$GLOBALS['strCacheType']				= "Delivery cache type";
+$GLOBALS['strCacheFiles']				= "Files";
+$GLOBALS['strCacheDatabase']			= "Database";
+$GLOBALS['strCacheShmop']				= "Shared memory (shmop)";
 $GLOBALS['strKeywordRetrieval']			= "Keyword retrieval";
 $GLOBALS['strBannerRetrieval']			= "Banner retrieval method";
 $GLOBALS['strRetrieveRandom']			= "Random banner retrieval (default)";
 $GLOBALS['strRetrieveNormalSeq']		= "Normal sequental banner retrieval";
 $GLOBALS['strWeightSeq']			= "Weight based sequential banner retrieval";
 $GLOBALS['strFullSeq']				= "Full sequential banner retrieval";
-$GLOBALS['strUseConditionalKeys']		= "Use conditional keywords";
-$GLOBALS['strUseMultipleKeys']			= "Use multiple keywords";
+$GLOBALS['strUseConditionalKeys']		= "Allow logical operators when using direct selection";
+$GLOBALS['strUseMultipleKeys']			= "Allow multiple keywords when using direct selection";
 
 $GLOBALS['strZonesSettings']			= "Zone retrieval";
 $GLOBALS['strZoneCache']			= "Cache zones, this should speed things up when using zones";
@@ -146,7 +151,7 @@ $GLOBALS['strZoneCacheLimitErr']		= "Time between cache updates should be a posi
 $GLOBALS['strP3PSettings']			= "P3P Privacy Policies";
 $GLOBALS['strUseP3P']				= "Use P3P Policies";
 $GLOBALS['strP3PCompactPolicy']			= "P3P Compact Policy";
-$GLOBALS['strP3PPolicyLocation']		= "P3P Policy Location";
+$GLOBALS['strP3PPolicyLocation']		= "P3P Policy Location"; 
 
 
 
