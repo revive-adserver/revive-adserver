@@ -21,9 +21,9 @@ function phpAds_getBannerTemplate($type)
 		$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
 		$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
 		$buffer .= "swflash.cab#version=5,0,0,0' width='{width}' height='{height}'>";
-		$buffer .= "<param name='movie' value='{filename}{swf_con}{swf_param}'>";
+		$buffer .= "<param name='movie' value='{imageurl}{swf_con}{swf_param}'>";
 		$buffer .= "<param name='quality' value='high'>";
-		$buffer .= "<embed src='{filename}{swf_con}{swf_param}' quality=high ";
+		$buffer .= "<embed src='{imageurl}{swf_con}{swf_param}' quality=high ";
 		$buffer .= "width='{width}' height='{height}' type='application/x-shockwave-flash' ";
 		$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>";
 		$buffer .= "</object>";
@@ -32,7 +32,7 @@ function phpAds_getBannerTemplate($type)
 	{
 		$buffer  = "<a href='{targeturl}' target='{target}' ";
 		$buffer .= "[status]onMouseOver=\"self.status='{status}'; return true;\" onMouseOut=\"self.status='';return true;\"[/status]>";
-		$buffer .= "<img src='{filename}' width='{width}' height='{height}' alt='{alt}' title='{alt}' border='0'>";
+		$buffer .= "<img src='{imageurl}' width='{width}' height='{height}' alt='{alt}' title='{alt}' border='0'>";
 		$buffer .= "</a>";
 	}
 	
@@ -226,13 +226,10 @@ function phpAds_getBannerCache($banner)
 		$buffer = eregi_replace ("\[bannertext\](.*)\[\/bannertext\]", '', $buffer);
 	
 	
-	// Set filename
-	switch ($banner['storagetype'])
-	{
-		case 'sql':	$buffer = str_replace ('{filename}', $phpAds_config['url_prefix'].'/adview.php?bannerid={bannerid}', $buffer); break;
-		case 'web':	$buffer = str_replace ('{filename}', $phpAds_config['type_web_url'].'/'.$banner['filename'], $buffer); break;
-		case 'url':	$buffer = str_replace ('{filename}', $banner['filename'], $buffer); break;
-	}
+	
+	// Set imageurl
+	if ($banner['storagetype'] == 'sql' || $banner['storagetype'] == 'web' || $banner['storagetype'] == 'url')
+		$buffer = str_replace ('{imageurl}', $banner['imageurl'], $buffer);
 	
 	
 	// Set flash variables
