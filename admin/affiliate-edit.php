@@ -67,11 +67,11 @@ if (isset($submit))
 				FROM
 					".$phpAds_config['tbl_clients']."
 				WHERE
-					clientusername = '$username'
+					LOWER(clientusername) = '".strtolower($username)."'
 			") or phpAds_sqlDie(); 
 			
 			$duplicateclient = (phpAds_dbNumRows($res) > 0);
-			$duplicateadmin  = ($phpAds_config['admin'] == $username);
+			$duplicateadmin  = (strtolower($phpAds_config['admin']) == strtolower($username));
 			
 			if ($affiliateid == '')
 			{
@@ -81,7 +81,7 @@ if (isset($submit))
 					FROM
 						".$phpAds_config['tbl_affiliates']."
 					WHERE
-						username = '$username'
+						LOWER(username) = '".strtolower($username)."'
 				") or phpAds_sqlDie(); 
 				
 				if (phpAds_dbNumRows($res) > 0 || $duplicateclient || $duplicateadmin)
@@ -101,7 +101,7 @@ if (isset($submit))
 					FROM
 						".$phpAds_config['tbl_affiliates']."
 					WHERE
-						username = '$username' AND
+						LOWER(username) = '".strtolower($username)."' AND
 						affiliateid != '$affiliateid'
 					") or phpAds_sqlDie(); 
 				
