@@ -1,6 +1,11 @@
 phpAdsNew - ChangeLog
 
 
+CVS
+			+ Misc changes
+			  - 2005-03-17:  Chenged the way phpAdsNew sends and receives cookies to avoid cookie overpopulation  (Matteo)
+
+
 phpAdsNew 2.0.4-pr2
 			+ Misc bugfixes
 			  - 2005-03-14:  Texts under banners and text ads were not accepting HTML tags anymore  (Matteo)

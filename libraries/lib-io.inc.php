@@ -15,6 +15,14 @@
 
 
 /*********************************************************/
+/* Main code                                             */
+/*********************************************************/
+
+phpAds_unpackCookies();
+
+
+
+/*********************************************************/
 /* Register globals                                      */
 /*********************************************************/
 
@@ -73,9 +81,9 @@ function phpAds_setCookie ($name, $value, $expire = 0)
 {
 	global $phpAds_cookieCache;
 	
-	if (!isset($phpAds_cookieCache)) $phpAds_cookieCache = array();
+	if (!isset($phpAds_cookieCache)) $phpAds_cookieCache = array(array(), array());
 	
-	$phpAds_cookieCache[] = array ($name, $value, $expire);
+	$phpAds_cookieCache[$expire ? 1 : 0][] = array ($name, $value, $expire);
 }
 
 
@@ -86,8 +94,30 @@ function phpAds_setCookie ($name, $value, $expire = 0)
 
 function phpAds_flushCookie ()
 {
-	global $phpAds_config, $phpAds_cookieCache;
-	
+	global $HTTP_COOKIE_VARS, $phpAds_config, $phpAds_cookieCache;
+
+/*	I didn't enable this, as it's useless IMHO
+
+	// Remove old style cookies
+	foreach ($HTTP_COOKIE_VARS as $k => $v)
+	{
+		if (strpos($k, 'phpAds_') === 0)
+		{
+			if (is_array($v))
+			{
+				// Remove array cookies
+				foreach (array_keys($v) as $kk)
+					setcookie($k.'['.$kk.']', '', time() - 86400, '/');
+			}
+			else
+			{
+				// Remove scalar cookies
+				setcookie($k, '', time() - 86400, '/');
+			}
+		}
+	}
+*/
+
 	if (isset($phpAds_cookieCache))
 	{
 		// Send P3P headers
@@ -109,18 +139,124 @@ function phpAds_flushCookie ()
 				header ("P3P: $p3p_header");
 		}
 		
-		// Get path
-		$url_prefix = parse_url($phpAds_config['url_prefix']);
+		// Send session cookies
+		if (isset($phpAds_cookieCache[0]))
+			phpAds_packCookies($phpAds_cookieCache[0], true);
 		
-		// Set cookies
-		while (list($k,$v) = each ($phpAds_cookieCache))
-		{
-			list ($name, $value, $expire) = $v;
-			setcookie ($name, $value, $expire, '/');
-		}
-		
+		// Send long term cookies
+		if (isset($phpAds_cookieCache[1]))
+			phpAds_packCookies($phpAds_cookieCache[1], false);
+				
 		// Clear cache
-		$phpAds_cookieCache = array();
+		$phpAds_cookieCache = array(array(), array());
+	}
+}
+
+
+
+/*********************************************************/
+/* Pack/unpack cookies                                   */
+/*********************************************************/
+
+function phpAds_packCookies($cache, $session)
+{
+	global $phpAds_config;
+	
+	// Get path
+	$url = parse_url($phpAds_config['url_prefix']);
+	
+	// Merge all cookies into one, to prevent reaching cookie limit
+	$cookies = array();
+	
+	// Store cookies into an array
+	foreach ($cache as $v)
+	{
+		list ($name, $value, $expire) = $v;
+		
+		$cookies[$name] = array('v' => $value);
+		
+		if (!$session)
+			$cookies[$name]['e'] = $expire;
+	}
+			
+	// Serialize cookie array
+	$cookies = serialize($cookies);
+	
+	// Compress and base64 encode it to save space/bandwidth and to allow more cookies
+	if (extension_loaded('zlib'))
+		$cookies = base64_encode(gzdeflate($cookies));
+
+	if ($session)
+		setcookie('phpAds_cookies[0]', $cookies, 0, $url['path']); //, $url['host']);	
+	else
+		setcookie('phpAds_cookies[1]', $cookies, time() + 86400 * 365 * 5, $url['path']); //, $url['host']);
+}
+
+function phpAds_unpackCookies()
+{
+	global $HTTP_COOKIE_VARS, $phpAds_cookieCache;
+	
+	if (!isset($phpAds_cookieCache)) $phpAds_cookieCache = array(array(), array());
+	
+	if (isset($HTTP_COOKIE_VARS['phpAds_cookies']) && is_array($HTTP_COOKIE_VARS['phpAds_cookies']))
+	{
+		for ($i = 1; $i; $i--)
+		{
+			if (!isset($HTTP_COOKIE_VARS['phpAds_cookies'][$i]))
+				continue;
+			
+			$c = $HTTP_COOKIE_VARS['phpAds_cookies'][$i];
+				
+			if (extension_loaded('zlib'))
+			{
+				// Decode and decompress if needed
+				$c = @gzinflate(@base64_decode($c));
+			}
+			else
+			{
+				// Remove backslashes if needed
+				if (ini_get('magic_quotes_gpc'))
+					$c = stripslashes($c);
+			}
+	
+			if (($c = @unserialize($c)) && is_array($c))
+			{
+				// Cookies were stored in the correct way
+				$now = time();
+				$str = array();
+				
+				// Create a query-string with cookies
+				foreach ($c as $k => $v)
+				{
+					if (isset($v['v']) && (!$i || isset($v['e'])))
+					{
+						// Check for session cookies or not expired ones
+						if (!$i || $v['e'] > $now)
+						{
+							// Cookie not expired, append it
+							$str[] = $k.'='.urlencode($v['v']);
+							
+							// Add cookie to the cach, so that it won't be lost
+							// in case we need to store other cookies
+							$phpAds_cookieCache[$i][] = array ($k, $v['v'], isset($v['e']) ? $v['e'] : 0);
+						}
+					}
+				}
+				
+				if (count($str))
+				{
+					// Extract cookies into $c 
+					parse_str(join('&', $str), $c);
+					
+					// Merge them with the real cookie and make them available
+					$c += $HTTP_COOKIE_VARS;
+					$HTTP_COOKIE_VARS = $c;
+					
+					// Update the superglobal too, just in case it is used for debug
+					$_COOKIE = $c;
+				}
+			}
+		}
 	}
 }
 
