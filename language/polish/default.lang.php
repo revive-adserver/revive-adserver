@@ -4,8 +4,10 @@
 /* phpAdsNew 2                                                          */
 /* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2001 by the phpAdsNew developers                       */
-/* http://sourceforge.net/projects/phpadsnew                            */
+/* Copyright (c) 2000-2002 by the phpAdsNew developers                  */
+/* For more information visit: http://www.phpadsnew.com                 */
+/*                                                                      */
+/*                                                                      */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -14,422 +16,497 @@
 
 
 // Set text direction and characterset
-$GLOBALS['phpAds_TextDirection']  = "ltr";
-$GLOBALS['phpAds_TextAlignRight'] = "right";
-$GLOBALS['phpAds_TextAlignLeft']  = "left";
-$GLOBALS['phpAds_CharSet'] 		  = "iso-8859-2";
+$GLOBALS['phpAds_TextDirection']  			= "ltr";
+$GLOBALS['phpAds_TextAlignRight'] 			= "right";
+$GLOBALS['phpAds_TextAlignLeft']  			= "left";
+
+$GLOBALS['phpAds_DecimalPoint']				= ',';
+$GLOBALS['phpAds_ThousandsSeperator']		= '.';
 
 
-// Set translation strings
-$GLOBALS['strHome'] = "Strona G³ówna";
-$GLOBALS['date_format'] = "%d/%m/%Y";
-$GLOBALS['time_format'] = "%H:%i:%S";
-$GLOBALS['strMySQLError'] = "MySQl-B³±d:";
-$GLOBALS['strAdminstration'] = "Administacja";
-$GLOBALS['strAddClient'] = "Dodaj nowego klienta";
-$GLOBALS['strModifyClient'] = "Modyfikuj klienta";
-$GLOBALS['strDeleteClient'] = "Usuñ klienta";
-$GLOBALS['strViewClientStats'] = "Statystyki";
-$GLOBALS['strClientName'] = "Klient";
-$GLOBALS['strContact'] = "Osoba Kontaktowa";
-$GLOBALS['strEMail'] = "E-mail";
-$GLOBALS['strViews'] = "Wy¶wietlenia";
-$GLOBALS['strClicks'] = "Klikniêcia";
-$GLOBALS['strTotalViews'] = "Wszystkich wy¶wietleñ";
-$GLOBALS['strTotalClicks'] = "Wszystkich klikniêæ";
-$GLOBALS['strCTR'] = "Ratio Klikniêæ";
-$GLOBALS['strTotalClients'] = "Wszystkich klientów";
-$GLOBALS['strActiveClients'] = "Aktywnych klientów";
-$GLOBALS['strActiveBanners'] = "Aktywnych bannerów";
-$GLOBALS['strLogout'] = "Wyloguj";
-$GLOBALS['strCreditStats'] = "Statystyki Kredytów";
-$GLOBALS['strViewCredits'] = "Kredyty Wy¶wietleñ";   
-$GLOBALS['strClickCredits'] = "Kredyty Klikniêæ";
-$GLOBALS['strPrevious'] = "Poprzedni";
-$GLOBALS['strNext'] = "Nastêpny";
-$GLOBALS['strNone'] = "Brak";
-$GLOBALS['strViewsPurchased'] = "Op³aconych wy¶wietleñ";
-$GLOBALS['strClicksPurchased'] = "Op³aconych klikniêæ";
-$GLOBALS['strDaysPurchased'] = "Op³aconych dni";
-$GLOBALS['strHTML'] = "HTML";
-$GLOBALS['strAddSep'] = "Wype³nij ALBO pola powy¿ej ALBO pole poni¿ej!";
-$GLOBALS['strTextBelow'] = "Tekst poni¿ej obrazka";
-$GLOBALS['strSubmit'] = "Wy¶lij banner";
-$GLOBALS['strUsername'] = "Identyfikator";
-$GLOBALS['strPassword'] = "Has³o";
-$GLOBALS['strBannerAdmin'] = "Admiministacja bannerem dla";
-$GLOBALS['strNoBanners'] = "Brak bannerów";
-$GLOBALS['strBanner'] = "Banner";
-$GLOBALS['strCurrentBanner'] = "Aktualny banner";
-$GLOBALS['strDelete'] = "Usuñ";
-$GLOBALS['strAddBanner'] = "Dodaj nowy banner";
-$GLOBALS['strModifyBanner'] = "Modyfikuj banner";
-$GLOBALS['strURL'] = "Odno¶nik bannera (dodaj http://)";
-$GLOBALS['strKeyword'] = "S³owo Kluczowe";
-$GLOBALS['strWeight'] = "Waga";
-$GLOBALS['strAlt'] = "Tekst zastêpczy (Alt)";
-$GLOBALS['strAccessDenied'] = "Dostêp zabroniony";
-$GLOBALS['strPasswordWrong'] = "Has³o nie jest poprawne";
-$GLOBALS['strNotAdmin'] = "Mo¿esz nie mieæ odpowiednich uprawnieñ";
-$GLOBALS['strClientAdded'] = "Klient zosta³ dodany.";
-$GLOBALS['strClientModified'] = "Klient zosta³ zmodyfikowany.";
-$GLOBALS['strClientDeleted'] = "Klient zosta³ usuniêty. ";
-$GLOBALS['strBannerAdmin'] = "Administracja systemem wymiany bannerów.";
-$GLOBALS['strBannerAdded'] = "Banner zosta³ dodany.";
-$GLOBALS['strBannerModified'] = "Banner zosta³ zmodyfikowany.";
-$GLOBALS['strBannerDeleted'] = "Banner zosta³ skasowany. ";
-$GLOBALS['strBannerChanged'] = "Banner zosta³ zmieniony";
-$GLOBALS['strStats'] = "Statystyki";
-$GLOBALS['strDailyStats'] = "Statystyki dzienne";
-$GLOBALS['strDetailStats'] = "Dok³adne statystyki";
-$GLOBALS['strCreditStats'] = "Statystyki kredytów";
-$GLOBALS['strActive'] = "aktywny";
-$GLOBALS['strActivate'] = "Aktywacja";
-$GLOBALS['strDeActivate'] = "De-aktywacja";
-$GLOBALS['strAuthentification'] = "Autoryzacja";
-$GLOBALS['strGo'] = "Id¼";
-$GLOBALS['strLinkedTo'] = "Po³±czony do";
-$GLOBALS['strBannerID'] = "ID Bannera";
-$GLOBALS['strClientID'] = "ID klienta";
-$GLOBALS['strMailSubject'] = "Raport systemu bannerów";
-$GLOBALS['strMailSubjectDeleted'] = "Deaktywowane Bannery";
-$GLOBALS['strMailHeader'] = "Drogi(a) {contact},\n";
-$GLOBALS['strMailBannerStats'] = "Poni¿ej znajduje siê statystyka dla {clientname}:";
-$GLOBALS['strMailFooter'] = "Z pozdrowieniami,\n   {adminfullname}";
-$GLOBALS['strLogMailSent'] = "[Wymiana Bannerów] Statystyki zosta³y pomy¶lnie wys³ane.";
-$GLOBALS['strLogErrorClients'] = "[Wymiana Bannerów] Wyst±pi³ b³±d w czasie wyszukiwania klienta w bazie.";
-$GLOBALS['strLogErrorBanners'] = "[Wymiana Bannerów] Wyst±pi³ b³±d w czasie wyszukiwania bannera w bazie.";
-$GLOBALS['strLogErrorViews'] = "[Wymiana Bannerów] Wyst±pi³ b³±d w czasie odczytu statystyk wy¶wietleñ z bazy.";
-$GLOBALS['strLogErrorClicks'] = "[Wymiana Bannerów] Wyst±pi³ b³±d w czasie odczytu statystyk klikniêæ z bazy.";
-$GLOBALS['strLogErrorDisactivate'] = "[Wymiana Bannerów] Wyst±pi³ b³±d w czasie próby wy³±czenia bannera.";
-$GLOBALS['strRatio'] = "Ratio Klikniêæ";
-$GLOBALS['strChooseBanner'] = "Proszê wybraæ typ bannera.";
-$GLOBALS['strMySQLBanner'] = "Banner zosta³ dopisany do bazy";
-$GLOBALS['strWebBanner'] = "Banner przechowywany na serwerze";
-$GLOBALS['strURLBanner'] = "Banner wczytany przy pomocy linka";
-$GLOBALS['strHTMLBanner'] = "Banner HTML";
-$GLOBALS['strNewBannerFile'] = "Nowy plik bannera";
-$GLOBALS['strNewBannerURL'] = "Adres bannera (dodaj http://)";
-$GLOBALS['strWidth'] = "Szeroko¶æ";
-$GLOBALS['strHeight'] = "Wysoko¶æ";
-$GLOBALS['strTotalViews7Days'] = "Wszystkich Wy¶wietleñ przez ostatnich 7 dni";
-$GLOBALS['strTotalClicks7Days'] = "Wszystkich Klikniêæ przez ostatnich 7 dni";
-$GLOBALS['strAvgViews7Days'] = "¦rednio Wy¶wietleñ przez ostatnich 7 dni";
-$GLOBALS['strAvgClicks7Days'] = "¦rednio Klikniêæ przez ostatnich 7 dni";
-$GLOBALS['strTopTenHosts'] = "Najczê¶ciej pobieraj±ce hosty";
-$GLOBALS['strClientIP'] = "IP Klienta";
-$GLOBALS['strUserAgent'] = "Nazwa przegl±darki";
-$GLOBALS['strWeekDay'] = "Dzieñ tygodnia (0 - 6)";
-$GLOBALS['strDomain'] = "Domena (bez kropki)";
-$GLOBALS['strSource'] = "¬ród³o";
-$GLOBALS['strTime'] = "Czas";
-$GLOBALS['strAllow'] = "Zezwól";
-$GLOBALS['strDeny'] = "Zabroñ";
-$GLOBALS['strResetStats'] = "Resetuj Statystyki";
-$GLOBALS['strExpiration'] = "Wyga¶niêcie";
-$GLOBALS['strNoExpiration'] = "Nie ustalono daty wyga¶niêcia";
-$GLOBALS['strDaysLeft'] = "Pozosta³o dni";
-$GLOBALS['strEstimated'] = "Szacowane wyga¶niêcie";
-$GLOBALS['strConfirm'] = "Czy jeste¶ pewien?";
-$GLOBALS['strBannerNoStats'] = "Brak statystyk dla tego bannera!";
-$GLOBALS['strWeek'] = "Tydzieñ";
-$GLOBALS['strWeeklyStats'] = "Stat. tygodniowe";
-$GLOBALS['strWeekDay'] = "Dzieñ tygodnia";
-$GLOBALS['strDate'] = "Data";
-$GLOBALS['strCTRShort'] = "CTR";
-$GLOBALS['strDayShortCuts'] = array("Ni","Pn","Wt","¦r","Cz","Pt","Sb");
-$GLOBALS['strShowWeeks'] = "Maks. tygodni do wy¶wietlenia";
-$GLOBALS['strAll'] = "wszystkie";
-$GLOBALS['strAvg'] = "¦r.";
-$GLOBALS['strHourly'] = "Wy¶wietleñ/Klikniêæ na godzinê";
-$GLOBALS['strTotal'] = "Ca³o¶æ";
-$GLOBALS['strUnlimited'] = "Nielimitowane";
-$GLOBALS['strUp'] = "Góra";
-$GLOBALS['strDown'] = "Dó³";
-$GLOBALS['strSave'] = "Zapisz";
-$GLOBALS['strSaved'] = "zosta³ zapisany!";
-$GLOBALS['strDeleted'] = "zosta³ usuniêty!";  
-$GLOBALS['strMovedUp'] = "zosta³ przesuniêty w górê";
-$GLOBALS['strMovedDown'] = "zosta³ przesuniêty w dó³";
-$GLOBALS['strUpdated'] = "zosta³ zaktualizowany";
-$GLOBALS['strLogin'] = "Logowanie";
-$GLOBALS['strPreferences'] = "Preferencje";
-$GLOBALS['strAllowClientModifyInfo'] = "Zezwól u¿ytkownikowi na modyfikacjê informacji o sobie";
-$GLOBALS['strAllowClientModifyBanner'] = "Zezwól u¿ytkownikowi ma modyfikacjê w³asnych bannerów";
-$GLOBALS['strAllowClientAddBanner'] = "Zezwól u¿ytkownikowi na dodawanie w³asnych bannerów";
-$GLOBALS['strLanguage'] = "Jêzyk";
-$GLOBALS['strDefault'] = "Domy¶lny";
-$GLOBALS['strErrorViews'] = "Musisz wpisaæ liczbê wy¶wietleñ albo wybraæ opcjê nielimitowane!";
-$GLOBALS['strErrorNegViews'] = "Negatywne warto¶ci wy¶wietleñ nie s± dozwolone";
-$GLOBALS['strErrorClicks'] =  "Musisz wpisaæ liczbê klikniêæ albo wybraæ opcjê nielimitowane!";
-$GLOBALS['strErrorNegClicks'] = "Negatywne warto¶ci klikniêæ nie s± dozwolone";
-$GLOBALS['strErrorDays'] = "Musisz wpisaæ liczbê dni albo wybraæ opcjê nielimitowane!";
-$GLOBALS['strErrorNegDays'] = "Negatywne warto¶ci dni nie s± dozwolone";
-$GLOBALS['strTrackerImage'] = "Obraz trackera:";
+// Date & time configuration
+$GLOBALS['date_format']						= "%d/%m/%Y";
+$GLOBALS['time_format']						= "%H:%i:%S";
+$GLOBALS['minute_format']					= "%H:%M";
+$GLOBALS['month_format']					= "%m/%Y";
+$GLOBALS['day_format']						= "%d/%m";
+$GLOBALS['week_format']						= "%W/%Y";
+$GLOBALS['weekiso_format']					= "%V/%G";
 
-// New strings for version 2
-$GLOBALS['strNavigation'] 				= "Nawigacja";
-$GLOBALS['strShortcuts'] 				= "Skróty";
-$GLOBALS['strDescription'] 				= "Opis";
-$GLOBALS['strClients'] 					= "Klienci";
-$GLOBALS['strID']				 		= "ID";
-$GLOBALS['strOverall'] 					= "Ca³o¶æ";
-$GLOBALS['strTotalBanners'] 			= "Wszystkich bannerów";
-$GLOBALS['strToday'] 					= "Dzisiaj";
-$GLOBALS['strThisWeek'] 				= "Ten tydzieñ";
-$GLOBALS['strThisMonth'] 				= "Ten miesi±c";
-$GLOBALS['strBasicInformation'] 		= "Podstawowe informacje";
-$GLOBALS['strContractInformation'] 		= "Informacje o kontrakcie";
-$GLOBALS['strLoginInformation'] 		= "Informacje o logowaniu";
-$GLOBALS['strPermissions'] 				= "Zezwolenia";
-$GLOBALS['strGeneralSettings']			= "Ustawienia g³ówne";
-$GLOBALS['strSaveChanges']			 	= "Zapisz Zmiany";
-$GLOBALS['strCompact']					= "Zwiêz³e";
-$GLOBALS['strVerbose']					= "Szczegó³owe";
-$GLOBALS['strOrderBy']					= "sortuj wg.";
-$GLOBALS['strShowAllBanners']	 		= "Poka¿ wszystkie bannery";
-$GLOBALS['strShowBannersNoAdClicks']	= "Poka¿ bannery bez Klikniêæ";
-$GLOBALS['strShowBannersNoAdViews']	= "Poka¿ bannery bez Wy¶wietleñ";
-$GLOBALS['strShowAllClients'] 			= "Poka¿ wszystkich klientów";
-$GLOBALS['strShowClientsActive'] 		= "Poka¿ klientów z aktywnymi bannerami";
-$GLOBALS['strShowClientsInactive']		= "Poka¿ klientów z nieaktywnymi bannerami";
-$GLOBALS['strSize']						= "Rozmiar";
 
-$GLOBALS['strMonth'] 					= array("Styczeñ","Luty","Marzec","Kwiecieñ","Maj","Czerwiec","Lipiec", "Sierpieñ", "Wrzesieñ", "Pa¼dziernik", "Listopad", "Grudzieñ");
-$GLOBALS['strDontExpire']				= "Bez daty koñcowej";
-$GLOBALS['strActivateNow'] 				= "Aktywuj tego klienta natychmiast";
-$GLOBALS['strExpirationDate']			= "Data wyga¶niêcia";
-$GLOBALS['strActivationDate']			= "Data aktywacji";
 
-$GLOBALS['strMailClientDeactivated'] 	= "Twoje bannery zosta³y wy³±czone poniewa¿";
-$GLOBALS['strMailNothingLeft'] 			= "Je¶li chcia³by¶ kontynuowaæ reklamê na naszej stronie, prosimy o kontakt. Bêdzie nam mi³o us³yszeæ od Ciebie.";
-$GLOBALS['strClientDeactivated']		= "Ten klient nie jest obecnie aktywny poniewa¿";
-$GLOBALS['strBeforeActivate']			= "data aktywacji nie zosta³a osi±gniêta";
-$GLOBALS['strAfterExpire']				= "data wyga¶niêcia zosta³a osi±gniêta";
-$GLOBALS['strNoMoreClicks']				= "liczba zakupionych Klikniêæ zosta³a wykorzystana";
-$GLOBALS['strNoMoreViews']				= "liczba zakupionych Wy¶wietleñ zosta³a wykorzystana";
+/*********************************************************/
+/* Translations                                          */
+/*********************************************************/
 
-$GLOBALS['strBanners'] 					= "Bannery";
-$GLOBALS['strCampaigns']				= "Kampanie";
-$GLOBALS['strCampaign']					= "Kampania";
-$GLOBALS['strModifyCampaign']			= "Modyfikuj kampaniê";
-$GLOBALS['strName']						= "Nazwa";
-$GLOBALS['strBannersWithoutCampaign']	= "Bannery bez kampanii";
-$GLOBALS['strMoveToNewCampaign']		= "Przesuñ do nowej kampanii";
-$GLOBALS['strCreateNewCampaign']		= "Utwórz now± kampaniê";
-$GLOBALS['strEditCampaign']				= "Edytuj kampaniê";
-$GLOBALS['strEdit']						= "Edytuj";
-$GLOBALS['strCreate']					= "Utwórz";
-$GLOBALS['strUntitled']					= "Bez tytu³u";
+$GLOBALS['strHome'] 						= "G³ówna";
+$GLOBALS['strHelp']							= "Pomoc";
+$GLOBALS['strNavigation'] 					= "Nawigacja";
+$GLOBALS['strShortcuts'] 					= "Skróty";
+$GLOBALS['strAdminstration'] 				= "Administracja";
+$GLOBALS['strMaintenance']					= "Utrzymanie";
+$GLOBALS['strProbability']					= "Prawdopodobieñstwo";
+$GLOBALS['strInvocationcode']				= "Kod Inwokacji";
+$GLOBALS['strBasicInformation'] 			= "Podstawowe Informacje";
+$GLOBALS['strContractInformation'] 			= "Informacje kontraktowe";
+$GLOBALS['strLoginInformation'] 			= "Dane logowania";
+$GLOBALS['strOverview']						= "Przegl±d";
+$GLOBALS['strSearch']						= "Szukaj";
+$GLOBALS['strHistory']						= "Historia";
+$GLOBALS['strPreferences'] 					= "Preferencje";
+$GLOBALS['strDetails']						= "Szczegó³y";
+$GLOBALS['strCompact']						= "Skrócone";
+$GLOBALS['strVerbose']						= "Rozszerzone";
+$GLOBALS['strUser']							= "U¿ytkownik";
+$GLOBALS['strEdit']							= "Edycja";
+$GLOBALS['strCreate']						= "Utwórz";
+$GLOBALS['strDuplicate']					= "Duplikuj";
+$GLOBALS['strMoveTo']						= "Przenie¶ do";
+$GLOBALS['strDelete'] 						= "Usuñ";
+$GLOBALS['strActivate']						= "Aktywuj";
+$GLOBALS['strDeActivate'] 					= "Deaktywuj";
+$GLOBALS['strConvert']						= "Konwertuj";
+$GLOBALS['strRefresh']						= "Od¶wie¿";
+$GLOBALS['strSaveChanges']		 			= "Zapisz Zmiany";
+$GLOBALS['strUp'] 							= "Góra";
+$GLOBALS['strDown'] 						= "Dó³";
+$GLOBALS['strSave'] 						= "Zapisz";
+$GLOBALS['strCancel']						= "Anuluj";
+$GLOBALS['strPrevious'] 					= "Poprzedni";
+$GLOBALS['strNext'] 						= "Nastêpny";
+$GLOBALS['strYes']							= "Tak";
+$GLOBALS['strNo']							= "Nie";
+$GLOBALS['strNone'] 						= "Brak";
+$GLOBALS['strCustom']						= "W³asne";
+$GLOBALS['strDefault'] 						= "Domy¶lne";
+$GLOBALS['strOther']						= "Inne";
+$GLOBALS['strUnknown']						= "Nieznane";
+$GLOBALS['strUnlimited'] 					= "Nieograniczone";
+$GLOBALS['strUntitled']						= "Bez tyty³u";
+$GLOBALS['strAll'] 							= "wszystkie";
+$GLOBALS['strAvg'] 							= "¦r.";
+$GLOBALS['strAverage']						= "¦rednio";
+$GLOBALS['strOverall'] 						= "Ogó³em";
+$GLOBALS['strTotal'] 						= "Wszystkie";
+$GLOBALS['strActive'] 						= "aktywne";
+$GLOBALS['strFrom']							= "Od";
+$GLOBALS['strTo']							= "do";
+$GLOBALS['strLinkedTo'] 					= "po³±czony z";
+$GLOBALS['strDaysLeft'] 					= "Zosta³o dni";
+$GLOBALS['strCheckAllNone']					= "Zaznacz wszystkie / ¿aden";
+$GLOBALS['strKiloByte']						= "KB";
+$GLOBALS['strExpandAll']					= "Rozszerz wszystkie";
+$GLOBALS['strCollapseAll']					= "Zamknij wszystkie";
+$GLOBALS['strShowAll']						= "Poka¿ Wszystkie";
+$GLOBALS['strNoAdminInteface']				= "Us³uga niedostêpna...";
+$GLOBALS['strFilterBySource']				= "filtruj wed³ug ¼ród³a";
 
-$GLOBALS['strTotalCampaigns'] 			= "Wszystkich kampanii";
-$GLOBALS['strActiveCampaigns'] 			= "Aktywnych kampanii";
 
-$GLOBALS['strLinkedTo']					= "powi±zany z";
-$GLOBALS['strSendAdvertisingReport']	= "Wysy³aj raporty reklamowe przez e-mail";
-$GLOBALS['strNoDaysBetweenReports']		= "Liczba dni miêdzy raportami";
-$GLOBALS['strSendDeactivationWarning']  = "Wysy³aj ostrze¿enie gdy kampania jest deaktywowana";
+// Properties
+$GLOBALS['strName']							= "Nazwa";
+$GLOBALS['strSize']							= "Rozmiar";
+$GLOBALS['strWidth'] 						= "Szeroko¶æ";
+$GLOBALS['strHeight'] 						= "Wysoko¶æ";
+$GLOBALS['strURL2']							= "URL";
+$GLOBALS['strTarget']						= "Cel";
+$GLOBALS['strLanguage'] 					= "Jêzyk";
+$GLOBALS['strDescription'] 					= "Opis";
+$GLOBALS['strID']				 			= "ID";
 
-$GLOBALS['strWarnClientTxt']			= "Liczba Klikniêæ lub Wy¶wietleñ osi±gnê³a poziom poni¿ej {limit} dla Twoich bannerów. ";
-$GLOBALS['strViewsClicksLow']			= "Liczba Wy¶wietleñ/Klikniêæ jest niska";
 
-$GLOBALS['strDays']						= "Dni";
-$GLOBALS['strHistory']					= "Historia";
-$GLOBALS['strAverage']					= "¦rednio";
-$GLOBALS['strDuplicateClientName']		= "Nazwa u¿ytkownika, któr± poda³e¶ ju¿ istnieje, wpisz inn±.";
-$GLOBALS['strAllowClientDisableBanner'] = "Zezwól u¿ytkownikowi deaktywowaæ swoje bannery";
-$GLOBALS['strAllowClientActivateBanner'] = "Zezwól u¿ytkownikowi aktywowaæ swoje bannery";
+// Login & Permissions
+$GLOBALS['strAuthentification'] 			= "Autoryzacja";
+$GLOBALS['strWelcomeTo']					= "Witamy w";
+$GLOBALS['strEnterUsername']				= "Wpisz nazwê u¿ytkownika i has³o aby siê zalogowaæ";
+$GLOBALS['strLogin'] 						= "Logowanie";
+$GLOBALS['strLogout'] 						= "Wyloguj";
+$GLOBALS['strUsername'] 					= "Nazwa";
+$GLOBALS['strPassword']						= "Has³o";
+$GLOBALS['strAccessDenied']					= "Dostêp zabroniony";
+$GLOBALS['strPasswordWrong']				= "Has³o jest nieprawid³owe";
+$GLOBALS['strNotAdmin']						= "Mo¿esz nie mieæ odpowiednich uprawnieñ";
+$GLOBALS['strDuplicateClientName']			= "Nazwa u¿ytkownika, któr± wpisa³e¶, ju¿ istnieje; podaj inn±.";
 
-$GLOBALS['strGenerateBannercode']		= "Generuj Kod Bannera";
-$GLOBALS['strChooseInvocationType']		= "Wybierz typ pobierania bannera";
-$GLOBALS['strGenerate']					= "Generuj";
-$GLOBALS['strParameters']				= "Parametry";
-$GLOBALS['strUniqueidentifier']			= "Unikalny identyfikator";
-$GLOBALS['strFrameSize']				= "Rozmiar ramki";
-$GLOBALS['strBannercode']				= "Kod Bannera";
 
-$GLOBALS['strSearch']					= "Szukaj";
-$GLOBALS['strNoMatchesFound']			= "Nie znaleziono pasuj±cych danych";
+// General advertising
+$GLOBALS['strViews'] 						= "Ods³on";
+$GLOBALS['strClicks']						= "Klikniêæ";
+$GLOBALS['strCTRShort'] 					= "CTR";
+$GLOBALS['strCTR'] 							= "Ratio Klikniêæ";
+$GLOBALS['strTotalViews'] 					= "Wszystkich Ods³on";
+$GLOBALS['strTotalClicks'] 					= "Wszystkich Klikniêæ";
+$GLOBALS['strViewCredits'] 					= "Kredyty Ods³on";
+$GLOBALS['strClickCredits'] 				= "Kredyty Klikniêæ";
 
-$GLOBALS['strNoViewLoggedInInterval']   = "Nie zarejestrowano wy¶wietleñ w czasie objêtym raportem";
-$GLOBALS['strNoClickLoggedInInterval']  = "Nie zarejestrowano klikniêæ w czasie objêtym raportem";
-$GLOBALS['strMailReportPeriod']			= "Ten raport zawiera statystyki od {startdate} do {enddate}.";
-$GLOBALS['strMailReportPeriodAll']		= "Ten raport zawiera wszystkie statystyki do {enddate}.";
-$GLOBALS['strNoStatsForCampaign'] 		= "Nie ma statystyk dla tej kampanii";
-$GLOBALS['strFrom']						= "Od";
-$GLOBALS['strTo']						= "do";
-$GLOBALS['strMaintenance']				= "Zarz±dzanie";
-$GLOBALS['strCampaignStats']			= "Statystyki kampanii";
-$GLOBALS['strClientStats']				= "Statystyki klienta";
-$GLOBALS['strErrorOccurred']			= "Wyst±pi³ b³±d";
-$GLOBALS['strAdReportSent']				= "Wys³ano raport reklamowy";
 
-$GLOBALS['strAutoChangeHTML']			= "Zmeñ HTML aby rejestrowaæ Klikniêcia";
+// Time and date related
+$GLOBALS['strDate'] 						= "Data";
+$GLOBALS['strToday'] 						= "Dzisiaj";
+$GLOBALS['strDay']							= "Dzieñ";
+$GLOBALS['strDays']							= "Dni";
+$GLOBALS['strLast7Days']					= "Ostatnie 7 dni";
+$GLOBALS['strWeek'] 						= "Tydzieñ";
+$GLOBALS['strWeeks']						= "Tygodnie";
+$GLOBALS['strMonths']						= "Miesi±ce";
+$GLOBALS['strThisMonth'] 					= "Ten miesi±c";
+$GLOBALS['strMonth'] 						= array("Styczeñ","Luty","Marzec","Kwiecieñ","Maj","Czerwiec","Lipiec", "Sierpieñ", "Wrzesieñ", "Pa¼dziernik", "Listopad", "Grudzieñ");
+$GLOBALS['strDayShortCuts'] 				= array("Ni","Po","Wt","¦r","Cz","Pt","So");
+$GLOBALS['strHour']							= "Godzina";
+$GLOBALS['strSeconds']						= "sekund";
+$GLOBALS['strMinutes']						= "minut";
+$GLOBALS['strHours']						= "godzin";
+$GLOBALS['strTimes']						= "razy";
 
-$GLOBALS['strZones']					= "Strefy";
-$GLOBALS['strAddZone']					= "Utwórz strefê";
-$GLOBALS['strModifyZone']				= "Modyfikuj strefê";
-$GLOBALS['strAddNewZone']				= "Dodaj now± strefê";
 
-$GLOBALS['strOverview']					= "Przegl±d";
-$GLOBALS['strEqualTo']					= "jest równy";
-$GLOBALS['strDifferentFrom']			= "jest ró¿ny od";
-$GLOBALS['strAND']						= "I";  // logical operator
-$GLOBALS['strOR']						= "LUB"; // logical operator
-$GLOBALS['strOnlyDisplayWhen']			= "Wy¶wietlaj ten banner tylko, gdy:";
+// Advertiser
+$GLOBALS['strClient']						= "Reklamodawca";
+$GLOBALS['strClients'] 						= "Reklamodawcy";
+$GLOBALS['strClientsAndCampaigns']			= "Reklamodawcy i Kampanie";
+$GLOBALS['strAddClient'] 					= "Dodaj reklamodawcê";
+$GLOBALS['strTotalClients'] 				= "Wszystkich reklamodawców";
+$GLOBALS['strClientProperties']				= "W³a¶ciwo¶ci reklamodawcy";
+$GLOBALS['strClientHistory']				= "Historia reklamodawcy";
+$GLOBALS['strNoClients']					= "Nie ma obecnie ¿adnych reklamodawców";
+$GLOBALS['strConfirmDeleteClient'] 			= "Czy na pewno chcesz usun±æ tego reklamodawcê?";
+$GLOBALS['strConfirmResetClientStats']		= "Czy na pewno chcesz usun±æ wszystkie statystyki dla tego reklamodawcy?";
+$GLOBALS['strHideInactiveAdvertisers']		= "Ukryj nieaktywnych reklamodawców";
+$GLOBALS['strInactiveAdvertisersHidden']	= "nieaktywni reklamodawcy s± ukryci";
 
-$GLOBALS['strStatusText']				= "Tekst Statusu";
 
-$GLOBALS['strConfirmDeleteClient'] 		= "Czy na pewno chcesz usun±æ tego klienta?";
-$GLOBALS['strConfirmDeleteCampaign']	= "Czy na pewno chcesz usun±æ t± kampaniê?";
-$GLOBALS['strConfirmDeleteBanner']		= "Czy na pewno chcesz usun±æ ten banner?";
-$GLOBALS['strConfirmDeleteZone']		= "Do you really want to delete this zone?";
-$GLOBALS['strConfirmDeleteAffiliate']	= "Do you really want to delete this affiliate?";
+// Advertisers properties
+$GLOBALS['strContact'] 						= "Kontakt";
+$GLOBALS['strEMail'] 						= "E-mail";
+$GLOBALS['strSendAdvertisingReport']		= "Wy¶lij raport reklamowy przez e-mail";
+$GLOBALS['strNoDaysBetweenReports']			= "Liczba dni miêdzy wysy³kami raportów";
+$GLOBALS['strSendDeactivationWarning']  	= "Wy¶lij ostrze¿enie kiedy kampania jest deaktywowana";
+$GLOBALS['strAllowClientModifyInfo'] 		= "Zezwól temu u¿ytkownikowi na modyfikacjê w³asnych ustawieñ";
+$GLOBALS['strAllowClientModifyBanner'] 		= "Zezwól temu u¿ytkownikowi na modyfikacjê w³asnych bannerów";
+$GLOBALS['strAllowClientAddBanner'] 		= "Zezwól temu u¿ytkownikowi na dodawanie w³asnych bannerów";
+$GLOBALS['strAllowClientDisableBanner'] 	= "Zezwól temu u¿ytkownikowi na deaktywowanie w³asnych bannerów";
+$GLOBALS['strAllowClientActivateBanner'] 	= "Zezwól temu u¿ytkownikowi na aktywowanie w³asnych bannerów";
 
-$GLOBALS['strConfirmResetStats']		= "Czy na pewno chcesz zresetowaæ wszystkie statystyki?";
-$GLOBALS['strConfirmResetCampaignStats']= "Czy na pewno chcesz zresetowaæ statystyki dla tej kampanii?";
-$GLOBALS['strConfirmResetClientStats']	= "Czy na pewno chcesz zresetowaæ statystyki dla tego klienta?";
-$GLOBALS['strConfirmResetBannerStats']	= "Czy na pewno chcesz zresetowaæ statystyki dla tego bannera?";
 
-$GLOBALS['strClientsAndCampaigns']		= "Klienci i Kampanie";
-$GLOBALS['strCampaignOverview']			= "Przegl±d kampanii";
-$GLOBALS['strReports']					= "Raporty";
-$GLOBALS['strShowBanner']				= "Poka¿ banner";
+// Campaign
+$GLOBALS['strCampaign']						= "Kampania";
+$GLOBALS['strCampaigns']					= "Kampanie";
+$GLOBALS['strTotalCampaigns'] 				= "Wszystkich kampanii";
+$GLOBALS['strActiveCampaigns'] 				= "Aktywne kampanie";
+$GLOBALS['strAddCampaign'] 					= "Dodaj kampaniê";
+$GLOBALS['strCreateNewCampaign']			= "Utwórz kampaniê";
+$GLOBALS['strModifyCampaign']				= "Zmieñ kampaniê";
+$GLOBALS['strMoveToNewCampaign']			= "Przenie¶ do nowej kampanii";
+$GLOBALS['strBannersWithoutCampaign']		= "Bannery bez kampanii";
+$GLOBALS['strDeleteAllCampaigns']			= "Usuñ wszystkie kampanie";
+$GLOBALS['strCampaignStats']				= "Statystyki kampanii";
+$GLOBALS['strCampaignProperties']			= "W³a¶ciwo¶ci kampanii";
+$GLOBALS['strCampaignOverview']				= "Przegl±d kampanii";
+$GLOBALS['strCampaignHistory']				= "Historia kampanii";
+$GLOBALS['strNoCampaigns']					= "Nie ma obecnie zdefiniowanych kampanii";
+$GLOBALS['strConfirmDeleteAllCampaigns']	= "Czy na pewno chcesz usun±æ wszystkie kampanie tego u¿ytkownika?";
+$GLOBALS['strConfirmDeleteCampaign']		= "Czy na pewno chcesz usun±æ t± kampaniê?";
+$GLOBALS['strHideInactiveCampaigns']		= "Ukryj nieaktywne kampanie";
+$GLOBALS['strInactiveCampaignsHidden']		= "nieaktywne kampanie ukryte";
 
-$GLOBALS['strIncludedBanners']			= "Powi±zane bannery";
-$GLOBALS['strProbability']				= "Prawdopodobieñstwo";
-$GLOBALS['strInvocationcode']			= "Kod inwokacji";
-$GLOBALS['strSelectZoneType']			= "Wybierz typ powi±zanych bannerów";
-$GLOBALS['strBannerSelection']			= "Wybór bannerów";
-$GLOBALS['strInteractive']				= "Interaktywny";
-$GLOBALS['strRawQueryString']			= "¦cie¿ka zapytania";
 
-$GLOBALS['strBannerWeight']				= "Waga bannera";
-$GLOBALS['strCampaignWeight']			= "Waga kampanii";
+// Campaign properties
+$GLOBALS['strDontExpire']					= "Kampania nie koñczy siê o okre¶lonej dacie";
+$GLOBALS['strActivateNow'] 					= "Aktywuj t± kampaniê natychmiast";
+$GLOBALS['strLow']							= "Niski";
+$GLOBALS['strHigh']							= "Wysoki";
+$GLOBALS['strExpirationDate']				= "Data zakoñczenia";
+$GLOBALS['strActivationDate']				= "Data aktywacji";
+$GLOBALS['strViewsPurchased'] 				= "Pozosta³o Ods³on";
+$GLOBALS['strClicksPurchased'] 				= "Pozosta³o Klikniêæ";
+$GLOBALS['strCampaignWeight']				= "Campaign weight";
+$GLOBALS['strHighPriority']					= "Wy¶wietlaj bannery z tej kampanii z wysokim priorytetem.<br>
+											   Je¶li skorzystasz z tej opcji phpAdsNew spróbuje rozdzieliæ liczbê 
+											   Ods³on równomiernie w ci±gu dnia.";
+$GLOBALS['strLowPriority']					= "Wy¶wietlaj bannery z tej kampanii z niskim priorytetem.<br>
+											   Ta kampania wykorzysta liczbê Ods³on pozosta³± po 
+											   wy¶wietleniu kampanii o wysokich priorytetach.";
+$GLOBALS['strTargetLimitAdviews']			= "Organicz liczbê Ods³on do";
+$GLOBALS['strTargetPerDay']					= "dziennie.";
+$GLOBALS['strPriorityAutoTargeting']		= "Rozdziel pozosta³± liczbê Ods³on równomiernie przez pozosta³± liczbê dni. Docelowa liczba Ods³on bêdzie ustawiana odpowiednio ka¿dego dnia.";
 
-$GLOBALS['strZoneCacheOn']				= "Przechowywanie stref jest w³±czone";
-$GLOBALS['strZoneCacheOff']				= "Przechowywanie stref jest wy³±czone";
-$GLOBALS['strCachedZones']				= "Przechowywane strefy";
-$GLOBALS['strSizeOfCache']				= "Rozmiar cache'u";
-$GLOBALS['strAverageAge']				= "¦redni wiek";
-$GLOBALS['strRebuildZoneCache']			= "Odtwórz cache stref";
-$GLOBALS['strKiloByte']					= "KB";
-$GLOBALS['strSeconds']					= "sekund";
-$GLOBALS['strExpired']					= "Wygas³";
 
-$GLOBALS['strModifyBannerAcl'] 			= "Wy¶wietl ograniczenia";
-$GLOBALS['strACL'] 						= "Ograniczenia";
-$GLOBALS['strNoMoveUp'] 				= "Nie mo¿na przesun¹æ w górê pierwszego rzêdu";
-$GLOBALS['strACLAdd'] 					= "Dodaj nowe ograniczenie";
-$GLOBALS['strNoLimitations']			= "Brak ograniczeñ";
 
-$GLOBALS['strLinkedZones']				= "Linked Zones";
-$GLOBALS['strNoZonesToLink']			= "There are no zones available to which this banner can be linked";
-$GLOBALS['strNoZones']					= "There are currently no zones defined";
-$GLOBALS['strNoClients']				= "There are currently no clients defined";
-$GLOBALS['strNoStats']					= "There are currently no statistics available";
-$GLOBALS['strNoAffiliates']				= "There are currently no affiliates defined";
+// Banners (General)
+$GLOBALS['strBanner'] 						= "Banner";
+$GLOBALS['strBanners'] 						= "Bannery";
+$GLOBALS['strAddBanner'] 					= "Dodaj banner";
+$GLOBALS['strModifyBanner'] 				= "Zmieñ banner";
+$GLOBALS['strActiveBanners'] 				= "Aktywne bannery";
+$GLOBALS['strTotalBanners'] 				= "Wszystkich bannerów";
+$GLOBALS['strShowBanner']					= "Poka¿ banner";
+$GLOBALS['strShowAllBanners']	 			= "Poka¿ wszystkie bannery";
+$GLOBALS['strShowBannersNoAdClicks']		= "Poka¿ bannery bez klikniêæ";
+$GLOBALS['strShowBannersNoAdViews']			= "Poka¿ bannery bez ods³on";
+$GLOBALS['strDeleteAllBanners']	 			= "Usuñ wszystkie bannery";
+$GLOBALS['strActivateAllBanners']			= "Aktywuj wszystkie bannery";
+$GLOBALS['strDeactivateAllBanners']			= "Deaktywuj wszystkie bannery";
+$GLOBALS['strBannerOverview']				= "Przegl±d bannerów";
+$GLOBALS['strBannerProperties']				= "W³a¶ciwo¶ci bannera";
+$GLOBALS['strBannerHistory']				= "Historia bannera";
+$GLOBALS['strBannerNoStats'] 				= "Nie ma ¿adnych statystyk dla tego bannera";
+$GLOBALS['strNoBanners']					= "Nie ma obecnie zdefiniowanych bannerów";
+$GLOBALS['strConfirmDeleteBanner']			= "Czy na pewno chcesz usun±æ ten banner?";
+$GLOBALS['strConfirmDeleteAllBanners']		= "Czy na pewno chcesz usun±æ wszystkie bannery nale¿±ce do tej kampanii?";
+$GLOBALS['strConfirmResetBannerStats']		= "Czy na pewno chcesz usun±æ wszystkie istniej±ce statystyki dla tego bannera?";
+$GLOBALS['strShowParentCampaigns']			= "Poka¿ nadrzêdne kampanie";
+$GLOBALS['strHideParentCampaigns']			= "Ukryj nadrzêdne kampanie";
+$GLOBALS['strHideInactiveBanners']			= "Ukryj nieaktywne bannery";
+$GLOBALS['strInactiveBannersHidden']		= "nieaktywne bannery s± ukryte";
 
-$GLOBALS['strCustom']					= "Custom";
 
-$GLOBALS['strSettings'] 				= "Settings";
 
-$GLOBALS['strAffiliates']				= "Affiliates";
-$GLOBALS['strAffiliatesAndZones']		= "Affiliates & Zones";
-$GLOBALS['strAddAffiliate']				= "Create affiliate";
-$GLOBALS['strModifyAffiliate']			= "Modify affiliate";
-$GLOBALS['strAddNewAffiliate']			= "Add new affiliate";
+// Banner (Properties)
+$GLOBALS['strChooseBanner'] 				= "Wybierz typ bannera";
+$GLOBALS['strMySQLBanner'] 					= "Banner lokalny (SQL)";
+$GLOBALS['strWebBanner'] 					= "Banner lokalny (Webserver)";
+$GLOBALS['strURLBanner'] 					= "Banner zewnêtrzny";
+$GLOBALS['strHTMLBanner'] 					= "Banner HTML";
+$GLOBALS['strTextBanner'] 					= "Reklama tekstowa";
+$GLOBALS['strAutoChangeHTML']				= "Zmodyfikuj HTML aby umo¿liwiæ ¶ledenie Klikniêæ";
+$GLOBALS['strUploadOrKeep']					= "Czy chcesz zatrzymaæ <br>istniej±cy obraz, czy chcesz <br>dodaæ inny?";
+$GLOBALS['strNewBannerFile'] 				= "Wybierz obraz, który chcesz <br>u¿yc dla tego bannera<br><br>";
+$GLOBALS['strNewBannerURL'] 				= "Adres URL obrazu (dodaj http://)";
+$GLOBALS['strURL'] 							= "Docelowy URL (dodaj http://)";
+$GLOBALS['strHTML'] 						= "HTML";
+$GLOBALS['strTextBelow'] 					= "Tekst pod bannerem";
+$GLOBALS['strKeyword'] 						= "S³owa kluczowe";
+$GLOBALS['strWeight'] 						= "Waga";
+$GLOBALS['strAlt'] 							= "Tekst Alt";
+$GLOBALS['strStatusText']					= "Tekst paska statustu";
+$GLOBALS['strBannerWeight']					= "Waga bannera";
 
-$GLOBALS['strCheckAllNone']				= "Check all / none";
 
-$GLOBALS['strAllowAffiliateModifyInfo'] = "Allow this user to modify his own affiliate information";
-$GLOBALS['strAllowAffiliateModifyZones'] = "Allow this user to modify his own zones";
-$GLOBALS['strAllowAffiliateLinkBanners'] = "Allow this user to link banners to his own zones";
-$GLOBALS['strAllowAffiliateAddZone'] = "Allow this user to define new zones";
-$GLOBALS['strAllowAffiliateDeleteZone'] = "Allow this user to delete existing zones";
+// Banner (swf)
+$GLOBALS['strCheckSWF']						= "Sprawd¼ wpisanê w animacjê Flasha odno¶niki";
+$GLOBALS['strConvertSWFLinks']				= "Konweruj odno¶niki w amimacji Flasha";
+$GLOBALS['strConvertSWF']					= "<br>Animacja Flash, któr± w³a¶nie wys³a³e¶ zawiera wpisane odno¶niki. phpAdsNew nie bêdzie ".
+											  "móg³ ¶ledziæ liczby Klikniêæ dla tego bannera, chyba ¿e odno¶niki te zostan± ".
+											  "skonwertowane. Poni¿ej znajdziesz listê wszystkich odno¶ników z tej animacji. ".
+											  "Je¶li zechcesz który¶ z nich skonwertowaæ, kliknij <b>Konwertuje</b>, w przeciwnym ".
+											  "razie kliknij <b>Anuluj</b>.<br><br>".
+											  "Uwaga: Je¶li klikniesz <b>Konwertuj</b> plik animacji, ".
+									  		  "który w³a¶nie wys³a³e¶ zostanie fizycznie zmodyfikowany. <br>Powiniene¶ wykonaæ kopiê zapasow± ".
+											  "oryginalnej wersji. Niezale¿nie od tego, w jakiej wersji Flasha zosta³ wykonany banner, ".
+											  "plik wynikowy bêdzie wymaga³ Flasha w wersji 4 lub wy¿szej do poprawnego wy¶wietlenia.<br><br>";
+$GLOBALS['strCompressSWF']					= "Kompresuj plik SWF dla szybszego ¶ci±gania (Wymagany Flash 6)";
 
-$GLOBALS['strPriority']					= "Priority";
-$GLOBALS['strHighPriority']				= "Show banners in this campaign with high priority.<br>
-										   If you use this option phpAdsNew will try to distribute the 
-										   number of AdViews evenly over the course of the day.";
-$GLOBALS['strLowPriority']				= "Show banner in this campaign with low priority.<br>
-										   This campaign is used to show the left over AdViews which 
-										   aren't used by high priority campaigns.";
-$GLOBALS['strTargetLimitAdviews']		= "Limit the number of AdViews to";
-$GLOBALS['strTargetPerDay']				= "per day.";
-$GLOBALS['strRecalculatePriority']		= "Recalculate priority";
 
-$GLOBALS['strProperties']				= "Properties";
-$GLOBALS['strAffiliateProperties']		= "Affiliate properties";
-$GLOBALS['strBannerOverview']			= "Banner overview";
-$GLOBALS['strBannerProperties']			= "Banner properties";
-$GLOBALS['strCampaignProperties']		= "Campaign properties";
-$GLOBALS['strClientProperties']			= "Client properties";
-$GLOBALS['strZoneOverview']				= "Zone overview";
-$GLOBALS['strZoneProperties']			= "Zone properties";
-$GLOBALS['strAffiliateOverview']		= "Affiliate overview";
-$GLOBALS['strLinkedBannersOverview']	= "Linked banners overview";
+// Banner (network)
+$GLOBALS['strBannerNetwork']				= "Szablon HTML";
+$GLOBALS['strChooseNetwork']				= "Wybierz szablon, który chcesz wykorzystaæ";
+$GLOBALS['strMoreInformation']				= "Wiêcej informacji...";
+$GLOBALS['strRichMedia']					= "Richmedia";
+$GLOBALS['strTrackAdClicks']				= "¦led¼ Klikniêcia";
 
-$GLOBALS['strGlobalHistory']			= "Global history";
-$GLOBALS['strBannerHistory']			= "Banner history";
-$GLOBALS['strCampaignHistory']			= "Campaign history";
-$GLOBALS['strClientHistory']			= "Client history";
-$GLOBALS['strAffiliateHistory']			= "Affiliate history";
-$GLOBALS['strZoneHistory']				= "Zone history";
-$GLOBALS['strLinkedBannerHistory']		= "Linked banner history";
 
-$GLOBALS['strMoveTo']					= "Move to";
-$GLOBALS['strDuplicate']				= "Duplicate";
+// Display limitations
+$GLOBALS['strModifyBannerAcl'] 				= "Opcje dostarczania";
+$GLOBALS['strACL'] 							= "Dostarczanie";
+$GLOBALS['strACLAdd'] 						= "Dodaj nowe ograniczenie";
+$GLOBALS['strNoLimitations']				= "Bez ograniczeñ";
+$GLOBALS['strApplyLimitationsTo']			= "Zastosuj ograniczenia do";
+$GLOBALS['strRemoveAllLimitations']			= "Usuñ wszystkie ograniczenia";
+$GLOBALS['strEqualTo']						= "jest równy";
+$GLOBALS['strDifferentFrom']				= "jest inny ni¿";
+$GLOBALS['strAND']							= "I";  						// logical operator
+$GLOBALS['strOR']							= "LUB"; 						// logical operator
+$GLOBALS['strOnlyDisplayWhen']				= "Wy¶wietlaj ten banner tylko kiedy:";
+$GLOBALS['strWeekDay'] 						= "Dzieñ tygodnia";
+$GLOBALS['strTime'] 						= "Czas";
+$GLOBALS['strUserAgent'] 					= "Przegl±darka";
+$GLOBALS['strDomain'] 						= "Domena";
+$GLOBALS['strClientIP'] 					= "Adres IP";
+$GLOBALS['strSource'] 						= "¬ród³o";
+$GLOBALS['strDeliveryLimitations']			= "Ograniczenia dostarczania";
+$GLOBALS['strDeliveryCapping']				= "Odstêpy dostarczania";
+$GLOBALS['strTimeCapping']					= "Kiedy ten banner zostanie wy¶wietlony raz, nie pokazuj go ponownie temu samemu u¿ytkownikowi przez:";
+$GLOBALS['strImpressionCapping']			= "Nie pokazuj tego bannera temu samemu u¿ytkownikowi wiêcej ni¿:";
 
-$GLOBALS['strMainSettings']				= "Main settings";
-$GLOBALS['strAdminSettings']			= "Administration settings";
 
-$GLOBALS['strApplyLimitationsTo']		= "Apply limitations to";
-$GLOBALS['strWholeCampaign']			= "Whole campaign";
-$GLOBALS['strZonesWithoutAffiliate']	= "Zones without affiliate";
-$GLOBALS['strMoveToNewAffiliate']		= "Move to new affiliate";
+// Publisher
+$GLOBALS['strAffiliate']					= "Wydawca";
+$GLOBALS['strAffiliates']					= "Wydawcy";
+$GLOBALS['strAffiliatesAndZones']			= "Wydawcy i Strefy";
+$GLOBALS['strAddNewAffiliate']				= "Dodaj wydawcê";
+$GLOBALS['strAddAffiliate']					= "Utwórz wydawcê";
+$GLOBALS['strAffiliateProperties']			= "W³a¶ciwo¶ci wydawcy";
+$GLOBALS['strAffiliateOverview']			= "Przegl±d wydawcy";
+$GLOBALS['strAffiliateHistory']				= "Historia wydawcy";
+$GLOBALS['strZonesWithoutAffiliate']		= "Strefy bez wydawcy";
+$GLOBALS['strMoveToNewAffiliate']			= "Przenie¶ do nowego wydawcy";
+$GLOBALS['strNoAffiliates']					= "Nie ma obecnie okre¶lonych wydawców";
+$GLOBALS['strConfirmDeleteAffiliate']		= "Czy na pewno chcesz usun±æ tego wydawcê?";
+$GLOBALS['strMakePublisherPublic']			= "Uczyñ strefy nale¿±ce do tego wydawcy publicznie dostêpne";
 
-$GLOBALS['strNoBannersToLink']			= "There are currently no banners available which can be linked to this zone";
-$GLOBALS['strNoLinkedBanners']			= "There are no banners available which are linked to this zone";
 
-$GLOBALS['strAdviewsLimit']				= "AdViews limit";
+// Publisher (properties)
+$GLOBALS['strAllowAffiliateModifyInfo'] 	= "Zezwól temu u¿ytkownikowi na modyfikacjê w³asnych ustawieñ";
+$GLOBALS['strAllowAffiliateModifyZones'] 	= "Zezwól temu u¿ytkownikowi na modyfikacjê w³asnych stref";
+$GLOBALS['strAllowAffiliateLinkBanners'] 	= "Zezwól temu u¿ytkownikowi na ³±czenie bannerów z w³asnymi strefami";
+$GLOBALS['strAllowAffiliateAddZone'] 		= "Zezwól temu u¿ytkownikowi na definiowanie nowych stref";
+$GLOBALS['strAllowAffiliateDeleteZone'] 	= "Zezwól temu u¿ytkownikowi na usuwanie istniej±cych stref";
 
-$GLOBALS['strTotalThisPeriod']			= "Total this period";
-$GLOBALS['strAverageThisPeriod']		= "Average this period";
-$GLOBALS['strLast7Days']				= "Last 7 days";
-$GLOBALS['strDistribution']				= "Distribution";
-$GLOBALS['strOther']					= "Other";
-$GLOBALS['strUnknown']					= "Unknown";
 
-$GLOBALS['strWelcomeTo']				= "Welcome to";
-$GLOBALS['strEnterUsername']			= "Enter your username and password to log in";
+// Zone
+$GLOBALS['strZone']							= "Strefa";
+$GLOBALS['strZones']						= "Strefy";
+$GLOBALS['strAddNewZone']					= "Dodaj strefê";
+$GLOBALS['strAddZone']						= "Utwórz strefê";
+$GLOBALS['strModifyZone']					= "Zmieñ strefê";
+$GLOBALS['strLinkedZones']					= "Przy³±czone strefy";
+$GLOBALS['strZoneOverview']					= "Przegl±d strefy";
+$GLOBALS['strZoneProperties']				= "W³a¶ciwo¶ci strefy";
+$GLOBALS['strZoneHistory']					= "Historia strefy";
+$GLOBALS['strNoZones']						= "Nie ma obecnie zdefiniowanych stref";
+$GLOBALS['strConfirmDeleteZone']			= "Czy na pewno chcesz usun±æ t± strefê?";
+$GLOBALS['strZoneType']						= "Typ strefy";
+$GLOBALS['strBannerButtonRectangle']		= "Banner, Button czy Prostok±t";
+$GLOBALS['strInterstitial']					= "Interstitial czy Floating DHTML";
+$GLOBALS['strPopup']						= "Popup";
+$GLOBALS['strTextAdZone']					= "Odno¶nik tekstowy";
+$GLOBALS['strShowMatchingBanners']			= "Poka¿ pasuj±ce bannery";
+$GLOBALS['strHideMatchingBanners']			= "Ukryj pasuj±ce bannery";
 
-$GLOBALS['strBannerNetwork']			= "Banner network";
-$GLOBALS['strMoreInformation']			= "More information...";
-$GLOBALS['strChooseNetwork']			= "Choose the banner network you want to use";
-$GLOBALS['strRichMedia']				= "Richmedia";
-$GLOBALS['strTrackAdClicks']			= "Track AdClicks";
-$GLOBALS['strYes']						= "Yes";
-$GLOBALS['strNo']						= "No";
-$GLOBALS['strUploadOrKeep']				= "Do you wish to keep your <br>existing image, or do you <br>want to upload another?";
-$GLOBALS['strCheckSWF']					= "Check for hard-coded links inside the Flash file";
-$GLOBALS['strURL2']						= "URL";
-$GLOBALS['strTarget']					= "Target";
-$GLOBALS['strConvert']					= "Convert";
-$GLOBALS['strCancel']					= "Cancel";
 
-$GLOBALS['strConvertSWFLinks']			= "Convert Flash links";
-$GLOBALS['strConvertSWF']				= "<br>The Flash file you just uploaded contains hard-coded urls. phpAdsNew won't be ".
-										  "able to track the number of AdClicks for this banner unless you convert these ".
-										  "hard-coded urls. Below you will find a list of all urls inside the Flash file. ".
-										  "If you want to convert the urls, simply click <b>Convert</b>, otherwise click ".
-										  "<b>Cancel</b>.<br><br>".
-										  "Please note: if you click <b>Convert</b> the Flash file ".
-									  	  "you just uploaded will be physically altered. <br>Please keep a backup of the ".
-										  "original file. Regardless of in which version this banner was created, the resulting ".
-										  "file will need the Flash 4 player (or higher) to display correctly.<br><br>";
+// Advanced zone settings
+$GLOBALS['strAdvanced']						= "Zaawansowane";
+$GLOBALS['strChains']						= "£añcuchy";
+$GLOBALS['strChainSettings']				= "Ustawienia ³±ñcucha";
+$GLOBALS['strZoneNoDelivery']				= "Je¶li ¿aden banner z tej strefy <br>nie mo¿e byæ dostarczony, spróbuj...";
+$GLOBALS['strZoneStopDelivery']				= "Zaprzestañ dostarczania i nie pokazuj bannera";
+$GLOBALS['strZoneOtherZone']				= "Wy¶wietl zamiast tego wybran± strefê";
+$GLOBALS['strZoneUseKeywords']				= "Wybierz banner u¿ywaj±c poni¿szych s³ów kluczowych";
+$GLOBALS['strZoneAppend']					= "Zawsza dodawaj poni¿szy kod inwokacji dla popup lub interstitial Always do bannerów wy¶wietlanych przez t± strefê";
+$GLOBALS['strAppendSettings']				= "Ustawienia dodawania";
+$GLOBALS['strZonePrependHTML']				= "Zawsze dodawaj ten kod HTML przed odno¶nikami tekstowymi wy¶wietlanymi przez t± strefê";
+$GLOBALS['strZoneAppendHTML']				= "Zawsze dodawaj ten kod HTML po odno¶nikach tekstowych wy¶wietlanych przez t± strefê";
 
-$GLOBALS['strSourceStats']				= "Source Stats";
-$GLOBALS['strSelectSource']				= "Select the source you want to view:";
+
+// Linked banners/campaigns
+$GLOBALS['strSelectZoneType']				= "Wybierz typ przy³±czania bannerów";
+$GLOBALS['strBannerSelection']				= "Wybór bannera";
+$GLOBALS['strCampaignSelection']			= "Wybór kampanii";
+$GLOBALS['strInteractive']					= "Interaktywny";
+$GLOBALS['strRawQueryString']				= "S³owo kluczowe";
+$GLOBALS['strIncludedBanners']				= "Przy³±czone bannery";
+$GLOBALS['strLinkedBannersOverview']		= "Przegl±d przy³±czonych bannerów";
+$GLOBALS['strLinkedBannerHistory']			= "Historia przy³±czonych bannerów";
+$GLOBALS['strNoZonesToLink']				= "Nie ma ¿adnych stref, do których ten banner móg³by zostaæ przy³±czony";
+$GLOBALS['strNoBannersToLink']				= "Nie ma obecnie bannerów, które mog³yby zostaæ przy³±czone do tej strefy";
+$GLOBALS['strNoLinkedBanners']				= "Nie ma ¿adnych bannerów przy³±czonych do tej strefy";
+$GLOBALS['strMatchingBanners']				= "{count} pasuj±cych bannerów";
+$GLOBALS['strNoCampaignsToLink']			= "Nie ma obecnie kampanii, które mo¿na przy³±czyæ do tej strefy";
+$GLOBALS['strNoZonesToLinkToCampaign']  	= "Nie ma obecnie stref, do których ta kampania mog³aby zostaæ przy³±czona";
+$GLOBALS['strSelectBannerToLink']			= "Wybierz banner, który chcesz przy³±czyæ do tej strefy:";
+$GLOBALS['strSelectCampaignToLink']			= "Wybierz kampaniê, któr± chcesz przy³±czyæ do tej strefy:";
+
+
+// Statistics
+$GLOBALS['strStats'] 						= "Statystyki";
+$GLOBALS['strNoStats']						= "Nie ma obecnie ¿adnych statystyk";
+$GLOBALS['strConfirmResetStats']			= "Czy na pewno chcesz usun±æ wszystkie statystyki?";
+$GLOBALS['strGlobalHistory']				= "Globalna historia";
+$GLOBALS['strDailyHistory']					= "Dzienna historia";
+$GLOBALS['strDailyStats'] 					= "Dzienne statystyki";
+$GLOBALS['strWeeklyHistory']				= "Tygodniowa historia";
+$GLOBALS['strMonthlyHistory']				= "Miesiêczna historia";
+$GLOBALS['strCreditStats'] 					= "Statystyki kredytów";
+$GLOBALS['strDetailStats'] 					= "Szczegó³owe statystyki";
+$GLOBALS['strTotalThisPeriod']				= "Ogó³em dla tego okresu";
+$GLOBALS['strAverageThisPeriod']			= "¦rednio dla tego okresu";
+$GLOBALS['strDistribution']					= "Dystrybucja";
+$GLOBALS['strResetStats'] 					= "Resetuj statystyki";
+$GLOBALS['strSourceStats']					= "Statystyki ¼ród³a";
+$GLOBALS['strSelectSource']					= "Wybierz ¼ród³o, które chcesz zobaczyæ:";
+
+
+// Hosts
+$GLOBALS['strHosts']						= "Hosty";
+$GLOBALS['strTopTenHosts'] 					= "Najczê¶ciej pobieraj±ce hosty";
+
+
+// Expiration
+$GLOBALS['strExpired']						= "Zakoñczony";
+$GLOBALS['strExpiration'] 					= "Zakoñczenie";
+$GLOBALS['strNoExpiration'] 				= "Bez daty zakoñczenia";
+$GLOBALS['strEstimated'] 					= "Szacowane zakoñczenie";
+
+
+// Reports
+$GLOBALS['strReports']						= "Raporty";
+$GLOBALS['strSelectReport']					= "Wybierz raport, który chcesz utworzyæ";
+
+
+// Userlog
+$GLOBALS['strUserLog']						= "Log u¿ytkownika";
+$GLOBALS['strUserLogDetails']				= "Szczegó³y logu u¿ytkownika";
+$GLOBALS['strDeleteLog']					= "Usuñ log";
+$GLOBALS['strAction']						= "Dzia³anie";
+$GLOBALS['strNoActionsLogged']				= "¯adne dzia³ania nie s± zalogowane";
+
+
+// Code generation
+$GLOBALS['strGenerateBannercode']			= "Generuj Kod Bannera";
+$GLOBALS['strChooseInvocationType']			= "Wybierz typ inwokacji bannera";
+$GLOBALS['strGenerate']						= "Generuj";
+$GLOBALS['strParameters']					= "Parametry";
+$GLOBALS['strFrameSize']					= "Rozmiar ramki";
+$GLOBALS['strBannercode']					= "Kod bannera";
+
+
+// Errors
+$GLOBALS['strMySQLError'] 					= "B³±d SQL:";
+$GLOBALS['strLogErrorClients'] 				= "[phpAds] Wyst±pi³ b³±d podczas próby pobrania reklamodawców z bazy danych.";
+$GLOBALS['strLogErrorBanners'] 				= "[phpAds] Wyst±pi³ b³±d podczas próby pobrania bannerów z bazy danych.";
+$GLOBALS['strLogErrorViews'] 				= "[phpAds] Wyst±pi³ b³±d podczas próby pobrania Ods³on z bazy danych.";
+$GLOBALS['strLogErrorClicks'] 				= "[phpAds] Wyst±pi³ b³±d podczas próby pobrania Klikniêæ z bazy danych.";
+$GLOBALS['strErrorViews'] 					= "Musisz wpisaæ liczbê Ods³on lub zaznaczyæ pole Bez ograniczeñ!";
+$GLOBALS['strErrorNegViews'] 				= "Ujemne liczby Ods³on nie s± dozwolone";
+$GLOBALS['strErrorClicks'] 					= "Musisz wpisaæ liczbê Klikniêæ lub zaznaczyæ pole Bez ograniczeñ!";
+$GLOBALS['strErrorNegClicks'] 				= "Ujemne liczby klikniêæ nie s± dozwolone";
+$GLOBALS['strNoMatchesFound']				= "Nie znaleziono pasuj±cych";
+$GLOBALS['strErrorOccurred']				= "Wyst±pi³ b³±d";
+
+
+// E-mail
+$GLOBALS['strMailSubject'] 					= "Raport dla reklamodawcy";
+$GLOBALS['strAdReportSent']					= "Raport dla reklamodawcy wys³any";
+$GLOBALS['strMailSubjectDeleted'] 			= "Deaktytowane bannery";
+$GLOBALS['strMailHeader'] 					= "Drogi {contact},\n";
+$GLOBALS['strMailBannerStats'] 				= "Poni¿ej znajdziesz statystyki bannerów dla {clientname}:";
+$GLOBALS['strMailFooter'] 					= "Z Powa¿aniem,\n   {adminfullname}";
+$GLOBALS['strMailClientDeactivated'] 		= "Poni¿sze bannery zosta³y deaktywowane poniewa¿";
+$GLOBALS['strMailNothingLeft'] 				= "Je¶li chcieliby Pañstwo kontynuowaæ reklamê na naszej stronie, prosimy o kontakt.\nZ przyjemno¶ci± udzielimy dalszych informacji.";
+$GLOBALS['strClientDeactivated']			= "Ta kampania jest obecnie nieaktywna poniewa¿";
+$GLOBALS['strBeforeActivate']				= "data aktywacji nie zosta³a osi±gniêta";
+$GLOBALS['strAfterExpire']					= "data zakoñczenia zosta³a osi±gniêta";
+$GLOBALS['strNoMoreClicks']					= "wszystkie Klikniêcia zosta³y wykorzystane";
+$GLOBALS['strNoMoreViews']					= "wszystkie Ods³ony zosta³y wykorzystane";
+$GLOBALS['strWarnClientTxt']				= "Liczba Klikniêæ lub Ods³on dla pozosta³ych dla Pañstwa bannerów schodzi poni¿ej granicy {limit}. \nKiedy liczba Klikniêæ lub Ods³on zostanie wykorzystana, bannery zostan± deaktywowane. ";
+$GLOBALS['strViewsClicksLow']				= "Liczba Klikniêæ/Ods³on jest prawie wykorzystana";
+$GLOBALS['strNoViewLoggedInInterval']   	= "Nie zarejestrowano ¿adnych Ods³on w czasie objêtym tym raportem";
+$GLOBALS['strNoClickLoggedInInterval']  	= "Nie zarejestrowano ¿adnych Klikniêæ w czasie objêtym tym raportem";
+$GLOBALS['strMailReportPeriod']				= "Ten raport zawiera statystyki od {startdate} do {enddate}.";
+$GLOBALS['strMailReportPeriodAll']			= "Ten raport zawiera wszystkie statystyki a¿ do {enddate}.";
+$GLOBALS['strNoStatsForCampaign'] 			= "Nie ma ¿adnych statystyk dla tej kampanii";
+
+
+// Priority
+$GLOBALS['strPriority']						= "Priorytet";
+
+
+// Settings
+$GLOBALS['strSettings'] 					= "Ustawienia";
+$GLOBALS['strGeneralSettings']				= "Ustawienia ogólne";
+$GLOBALS['strMainSettings']					= "Ustawienia g³ówne";
+$GLOBALS['strAdminSettings']				= "Ustawienia administracji";
+
+
+// Product Updates
+$GLOBALS['strProductUpdates']				= "Aktualizacje produktu";
 
 ?>
