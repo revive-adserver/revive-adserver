@@ -69,6 +69,32 @@ a:hover {
 
 
 
+/* Error message & help */
+
+div.errormessage {
+	background-color: #FFFFE1;
+	border: 1px dashed #CFCFCF;
+	margin-top: 8px;
+	margin-bottom: 16px;
+	padding: 6px 6px 6px 32px;
+}
+
+img.errormessage {
+	margin-left: -24px;
+}
+
+div#helpLayer {
+	background-color: #FFFFE1;
+	border-top: 1px dashed #CFCFCF;
+	padding: 8px 8px 8px 28px;
+}
+
+img#helpIcon {
+	margin-left: -20px;
+}
+
+
+
 /* Form elements */
 
 select.flat, textarea.flat, input.flat, 
