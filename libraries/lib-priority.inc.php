@@ -1090,7 +1090,13 @@ function phpAds_PriorityCalculate()
 				$banners[$b]['priority'] = round($banners[$b]['priority'] / $softener);
 
 				if (!$banners[$b]['priority'])
+				{
 					$banners[$b]['priority'] = 1;
+
+					// BEGIN REPORTING
+					$debuglog .= '0, rounding up to ';
+					// END REPORTING
+				}
 
 				// BEGIN REPORTING
 				$debuglog .= $banners[$b]['priority']."\n";
