@@ -21,6 +21,7 @@ Long term features:
   + Move to PHP4 only
   + Rewrite of database structure
   + Database abstraction layer
+  + Database manufacturer independent
   + New user/authorisation manager
   + LDAP authorisation support
   + Unknown
