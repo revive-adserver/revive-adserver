@@ -99,7 +99,7 @@ $GLOBALS['strExpandAll']			= "Tout développer";
 $GLOBALS['strCollapseAll']			= "Tout réduire";
 $GLOBALS['strShowAll']				= "Tout montrer";
 $GLOBALS['strNoAdminInteface']		= "Service indisponible...";
-$GLOBALS['strFilterBySource']				= "filter by source";
+$GLOBALS['strFilterBySource']			= "filtrer par source";
 
 
 // Properties
@@ -118,8 +118,8 @@ $GLOBALS['strID']				 	= "ID";
 $GLOBALS['strAuthentification'] 		= "Authentification";
 $GLOBALS['strWelcomeTo']			= "Bienvenue sur";
 $GLOBALS['strEnterUsername']			= "Entrez votre nom d'utilisateur et votre mot de passe pour vous connecter.";
-$GLOBALS['strEnterBoth']					= "Please enter both your username and password";
-$GLOBALS['strEnableCookies']				= "You need to enable cookies before you can use ".$phpAds_productname;
+$GLOBALS['strEnterBoth']			= "Veuillez entrer votre nom d'utilisateur et votre mot de passe";
+$GLOBALS['strEnableCookies']			= "Vous devez activer les cookies sur votre navigateur avant de pouvoir utiliser ".$phpAds_productname;
 $GLOBALS['strLogin'] 				= "Connexion";
 $GLOBALS['strLogout'] 				= "Déconnexion";
 $GLOBALS['strUsername'] 			= "Nom d'utilisateur";
@@ -255,10 +255,10 @@ $GLOBALS['strNoBanners']			= "Il n'y a actuellement aucune bannière enregistrée.
 $GLOBALS['strConfirmDeleteBanner']		= "Voulez vous vraiment effacer cette bannière ?";
 $GLOBALS['strConfirmDeleteAllBanners']	= "Voulez vous vraiment effacer toutes les bannières de cette campagne ?";
 $GLOBALS['strConfirmResetBannerStats']	= "Voulez vous vraiment effacer toutes les statistiques de cette bannière ?";
-$GLOBALS['strShowParentCampaigns']			= "Show parent campaigns";
-$GLOBALS['strHideParentCampaigns']			= "Hide parent campaigns";
-$GLOBALS['strHideInactiveBanners']			= "Hide inactive banners";
-$GLOBALS['strInactiveBannersHidden']		= "inactive banner(s) hidden";
+$GLOBALS['strShowParentCampaigns']		= "Montrer les campagnes parentes";
+$GLOBALS['strHideParentCampaigns']		= "Cacher les campagnes parentes";
+$GLOBALS['strHideInactiveBanners']		= "Cacher les bannières inactives";
+$GLOBALS['strInactiveBannersHidden']	= "bannière(s) inactive(s) cachée(s)";
 
 
 // Banner (Properties)
@@ -267,7 +267,7 @@ $GLOBALS['strMySQLBanner'] 			= "Bannière locale (SQL)";
 $GLOBALS['strWebBanner'] 			= "Bannière locale (Serveur Web)";
 $GLOBALS['strURLBanner'] 			= "Bannière externe";
 $GLOBALS['strHTMLBanner'] 			= "Bannière HTML";
-$GLOBALS['strTextBanner'] 					= "Text ad";
+$GLOBALS['strTextBanner'] 			= "Publicité textuelle";
 $GLOBALS['strAutoChangeHTML']			= "Changer le HTML pour pouvoir compter les clics";
 $GLOBALS['strUploadOrKeep']			= "Voulez vous garder l'image <br> existante, ou bien souhaitez <br> vous en uploader une autre ?";
 $GLOBALS['strNewBannerFile'] 			= "Veuillez sélectionner l'image que <br> vous souhaitez utiliser<br><br>";
@@ -319,14 +319,14 @@ $GLOBALS['strOR']					= "OU"; 						// logical operator
 $GLOBALS['strOnlyDisplayWhen']		= "Afficher uniquement ce bandeau quand :";
 $GLOBALS['strWeekDay'] 				= "Le jour de la semaine";
 $GLOBALS['strTime'] 				= "L'heure";
-$GLOBALS['strUserAgent'] 			= "Useragent";
+$GLOBALS['strUserAgent'] 			= "L'agent utilisateur";
 $GLOBALS['strDomain'] 				= "Le domaine";
 $GLOBALS['strClientIP'] 			= "L'IP du visiteur";
 $GLOBALS['strSource'] 				= "La source";
-$GLOBALS['strBrowser'] 						= "Le navigateur";
-$GLOBALS['strOS'] 							= "OS";
-$GLOBALS['strCountry'] 						= "Country";
-$GLOBALS['strContinent'] 					= "Continent";
+$GLOBALS['strBrowser'] 				= "Le navigateur";
+$GLOBALS['strOS'] 				= "Le système d'exploitation";
+$GLOBALS['strCountry'] 				= "Le pays";
+$GLOBALS['strContinent'] 			= "Le continent";
 $GLOBALS['strDeliveryLimitations']		= "Limites de distribution";
 $GLOBALS['strDeliveryCapping']		= "Limites de répétition";
 $GLOBALS['strTimeCapping']			= "Une fois que cette bannière a été affichée, ne plus la réafficher à cet utilisateur pendant:";
@@ -346,7 +346,7 @@ $GLOBALS['strZonesWithoutAffiliate']	= "Zones sans éditeurs";
 $GLOBALS['strMoveToNewAffiliate']		= "Déplacer vers un nouvel éditeur";
 $GLOBALS['strNoAffiliates']			= "Il n'y a actuellement aucun éditeur enregistré.";
 $GLOBALS['strConfirmDeleteAffiliate']	= "Voulez vous vraiment effacer cet éditeur ?";
-$GLOBALS['strMakePublisherPublic']			= "Rendre publiques les zones possédées par cet éditeur";
+$GLOBALS['strMakePublisherPublic']		= "Rendre publiques les zones possédées par cet éditeur";
 
 
 // Publisher (properties)
@@ -373,13 +373,13 @@ $GLOBALS['strZoneType']				= "Type de zone";
 $GLOBALS['strBannerButtonRectangle']	= "Bannière, Bouton ou Rectangle";
 $GLOBALS['strInterstitial']			= "Interstitiel, ou DHTML flottant";
 $GLOBALS['strPopup']				= "Popup";
-$GLOBALS['strTextAdZone']					= "Text ad";
-$GLOBALS['strShowMatchingBanners']			= "Show matching banners";
-$GLOBALS['strHideMatchingBanners']			= "Hide matching banners";
+$GLOBALS['strTextAdZone']			= "Publicité textuelle";
+$GLOBALS['strShowMatchingBanners']		= "Montrer les bannières correspondantes";
+$GLOBALS['strHideMatchingBanners']		= "Cacher les bannières correspondantes";
 
 
 // Advanced zone settings
-$GLOBALS['strAdvanced']						= "Advanced";
+$GLOBALS['strAdvanced']				= "Avancé";
 $GLOBALS['strChains']				= "Chaînes";
 $GLOBALS['strChainSettings']			= "Paramètres de la chaîne";
 $GLOBALS['strZoneNoDelivery']			= "Si aucune bannière de cette zone ne peut être délivrée, essayer de...";
@@ -387,9 +387,9 @@ $GLOBALS['strZoneStopDelivery']		= "Arrêter la distribution, et ne montrer aucun
 $GLOBALS['strZoneOtherZone']			= "Montrer la zone sélectionnée à la place";
 $GLOBALS['strZoneUseKeywords']		= "Sélectionnez une bannière en utilisant les mots clés spécifiés ci-dessous";
 $GLOBALS['strZoneAppend']			= "Toujours faire suivre le code d'invocation des bannières de cette zone par le popup ou l'interstitiel ci-contre";
-$GLOBALS['strAppendSettings']				= "Append and prepend settings";
-$GLOBALS['strZonePrependHTML']				= "Always prepend the HTML code to text ads displayed by this zone";
-$GLOBALS['strZoneAppendHTML']				= "Always append the HTML code to text ads displayed by this zone";
+$GLOBALS['strAppendSettings']			= "Paramètres de préfixation et de suffixation";
+$GLOBALS['strZonePrependHTML']		= "Toujours afficher le code HTML suivant avant les publicités textuelles de cette zone";
+$GLOBALS['strZoneAppendHTML']			= "Toujours afficher le code HTML suivant après les publicités textuelles de cette zone";
 
 
 // Linked banners/campaigns

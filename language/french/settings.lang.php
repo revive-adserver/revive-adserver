@@ -127,7 +127,7 @@ $GLOBALS['strAllowInterstitial']		= "Autoriser les interstitiels";
 $GLOBALS['strAllowPopups']			= "Autoriser les popups";
 
 $GLOBALS['strUseAcl']				= "Utiliser la limitation de distribution";
-$GLOBALS['strGeotrackingLocation'] 		= "IP2Country geotracking<br> database location";
+$GLOBALS['strGeotrackingLocation'] 		= "Emplacement de la base de données <br>IP2Country de traçage géographique";
 
 $GLOBALS['strKeywordRetrieval']		= "Sélection des bannières par mots clés";
 $GLOBALS['strBannerRetrieval']		= "Méthode de sélection des bannières";
@@ -158,7 +158,7 @@ $GLOBALS['strTypeSqlAllow']			= "Autoriser les bannières locales (SQL)";
 $GLOBALS['strTypeWebAllow']			= "Autoriser les bannières locales (Serveur Web)";
 $GLOBALS['strTypeUrlAllow']			= "Autoriser les bannières externes";
 $GLOBALS['strTypeHtmlAllow']			= "Autoriser les bannières HTML";
-$GLOBALS['strTypeTxtAllow']				= "Allow Text ads";
+$GLOBALS['strTypeTxtAllow']			= "Autoriser les publicités textuelles";
 
 $GLOBALS['strTypeWebSettings']		= "Configuration des bannières locales (Serveur Web)";
 $GLOBALS['strTypeWebMode']			= "Méthode de stockage";
@@ -206,11 +206,11 @@ $GLOBALS['strIgnoreHosts']			= "Machines à ignorer";
 $GLOBALS['strReverseLookup']			= "Requête DNS inversée";
 $GLOBALS['strProxyLookup']			= "Résoudre les adresses des proxys";
 
-$GLOBALS['strAutoCleanTables']			= "Auto clean database";
-$GLOBALS['strAutoCleanEnable']			= "Enable auto clean";
-$GLOBALS['strAutoCleanWeeks']			= "Statistics and user log max age (weeks)";
-$GLOBALS['strAutoCleanErr']				= "Max age must be at least 2 weeks";
-$GLOBALS['strAutoCleanVacuum']			= "VACUUM ANALYZE tables every night"; // only Pg
+$GLOBALS['strAutoCleanTables']		= "Nettoyer automatiquement la base de données";
+$GLOBALS['strAutoCleanEnable']		= "Activer l'auto-nettoyage";
+$GLOBALS['strAutoCleanWeeks']			= "Age maximum des journaux utilisateurs et des statistiques (en semaines)";
+$GLOBALS['strAutoCleanErr']			= "L'age maximal doit être au moins de 2 semaines";
+$GLOBALS['strAutoCleanVacuum']		= "VACUUM ANALYZE (analyse vapeur) des tables chaque nuit"; // only Pg
 
 
 // Administrator settings
@@ -266,9 +266,9 @@ $GLOBALS['strShowCampaignPreview']		= "Montrer un aperçu de toutes les bannières
 $GLOBALS['strShowBannerHTML']			= "Montrer la bannière actuelle, plutôt que du code HTML brut pour l'aperçu des bannières HTML";
 $GLOBALS['strShowBannerPreview']		= "Montrer l'aperçu de la bannière au sommet des pages qui concernent les bannières";
 $GLOBALS['strHideInactive']			= "Cacher les éléments inactifs dans toutes les pages d'aperçus";
-$GLOBALS['strGUIShowMatchingBanners']	= "Show matching banners on the <i>Linked banner</i> pages";
-$GLOBALS['strGUIShowParentCampaigns']	= "Show parent campaigns on the <i>Linked banner</i> pages";
-$GLOBALS['strGUILinkCompactLimit']		= "Hide non-linked campaigns or banners on the <i>Linked banner</i> pages when there are more than";
+$GLOBALS['strGUIShowMatchingBanners']	= "Montrer les bannières correspondantes sur les pages <i>Bannières liées</i>";
+$GLOBALS['strGUIShowParentCampaigns']	= "Montrer les campagnes parentes sur les pages <i>Bannières liées</i>";
+$GLOBALS['strGUILinkCompactLimit']		= "Cacher les bannières et les campagnes non liées sur les pages <i>Bannières liées</i> quand il y a plus de";
 
 $GLOBALS['strStatisticsDefaults'] 		= "Statistiques";
 $GLOBALS['strBeginOfWeek']			= "Premier jour de la semaine";
