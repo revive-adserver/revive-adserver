@@ -318,7 +318,7 @@ else
 					// Button 1
 					echo "<td height='25'>";
 					if ($campaigns[$ckey]['expand'] == '1' || !isset($campaigns[$ckey]['banners']))
-						echo "<a href='banner-edit.php?campaignid=".$campaigns[$ckey]['clientid']."'><img src='images/icon-banner-stored.gif' border='0' align='absmiddle' alt='$strEdit'>&nbsp;$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+						echo "<a href='banner-edit.php?campaignid=".$campaigns[$ckey]['clientid']."'><img src='images/icon-banner-stored.gif' border='0' align='absmiddle' alt='$strCreate'>&nbsp;$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 					else
 						echo "&nbsp;";
 					echo "</td>";
