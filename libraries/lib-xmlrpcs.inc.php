@@ -47,7 +47,7 @@
 // OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-require ("libraries/lib-xmlrpc.inc.php");
+require (phpAds_path."/libraries/lib-xmlrpc.inc.php");
 
 
 // listMethods: either a string, or nothing
