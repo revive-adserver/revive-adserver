@@ -192,10 +192,13 @@ for ($p=0; $p<24; $p++)
 	$estimated_hits += $profile[$p];
 }
 
-if ($estimated_hits > $campaigns_target)
-	echo $strPriorityEnoughAdViews;
-else
-	echo $strPriorityNotEnoughAdViews;
+if ($campaigns_target)
+{
+	if ($estimated_hits > $campaigns_target)
+		echo $strPriorityEnoughAdViews;
+	else
+		echo $strPriorityNotEnoughAdViews;
+}
 
 
 // Show recalculate button

@@ -48,7 +48,7 @@ function phpAds_PriorityGetImpressions($days, $offset)
 			AND t_stamp <= ".$end."
 		";
 	}
-	
+
 	$res = phpAds_dbQuery($query);
 	
 	return (phpAds_dbResult($res, 0, 'sum_views'));
@@ -103,13 +103,13 @@ function phpAds_PriorityGetHourlyProfile($days, $offset)
 	return ($profile);
 }
 
-function phpAds_PriorityPredictProfile($campaigns, $banners, $profile)
+function phpAds_PriorityPredictProfile($campaigns, $banners)
 {
 	global $phpAds_config;
 	global $debug, $debuglog;
 	
 	
-	
+
 	$profile_correction_executed = false;
 	
 	// Get the number of days running
@@ -132,6 +132,10 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, $profile)
 	else
 		$days_running = 0;
 	
+	// BEGIN REPORTING
+	$debuglog .= "-----------------------------------------------------\n";
+	$debuglog .= "Number of days running: $days_running\n";
+	// END REPORTING
 	
 	if ($days_running >= 8)
 	{
@@ -147,6 +151,13 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, $profile)
 		// get total impressions last {$use_days} days last week
 		$impressions_last_week = phpAds_PriorityGetImpressions ($use_days, 7);
 		
+		// BEGIN REPORTING
+		$debuglog .= "Using data from data from this week and last week\n";
+		$debuglog .= "Days fetched: $use_days\n";
+		$debuglog .= "Impressions up to this week: ".$impressions_this_week."\n";
+		$debuglog .= "Impressions up to last week: ".$impressions_last_week."\n";
+		// END REPORTING
+
 		if ($impressions_last_week > 0)
 		{
 			// determine trend
@@ -158,16 +169,33 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, $profile)
 			// apply trend
 			for ($i=0;$i<count($profile);$i++)
 				$profile[$i] = (int)round ($profile[$i] * $trend);
+
+			// BEGIN REPORTING
+			$debuglog .= sprintf("Trend: %.4f\n", $trend);
+			// END REPORTING
 		}
 		else
 		{
 			// no stats for last week, fall back to looking only at yesterday
 			$days_running = 1;
+
+			// BEGIN REPORTING
+			$debuglog .= "No stats up to last week: days running set to 1\n";
+			// END REPORTING
 		}
+
+		// BEGIN REPORTING
+		$debuglog .= "-----------------------------------------------------\n\n\n";
+		// END REPORTING
 	}
 	
 	if ($days_running >= 2 && $days_running < 8)
 	{
+		// BEGIN REPORTING
+		$debuglog .= "Using data from data from the last couple of days\n";
+		$debuglog .= "-----------------------------------------------------\n\n\n";
+		// END REPORTING
+
 		// get last couple of days
 		$profile = phpAds_PriorityGetHourlyProfile ($days_running, 0);
 		
@@ -178,6 +206,11 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, $profile)
 	
 	if ($days_running == 1)
 	{
+		// BEGIN REPORTING
+		$debuglog .= "Using data from data from yesterday\n";
+		$debuglog .= "-----------------------------------------------------\n\n\n";
+		// END REPORTING
+
 		// get yesterday
 		$profile = phpAds_PriorityGetHourlyProfile ($days_running, 0);
 	}
@@ -299,10 +332,18 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, $profile)
 						
 						if ($deviance > 2.25)
 						{
+							// BEGIN REPORTING
+							$debuglog .= sprintf("Got deviance %.4f at %02d:00\n", $deviance, $i);
+							// END REPORTING
 							$k = $i > 1 ? $i - 1 : $i;
 							
-							while ($k && $deviance_profile[$k] > $deviance)
+							while ($k && phpAds_PriorityGetDeviance($k, $profile, $real_profile) > $deviance)
+							{
+								// BEGIN REPORTING
+								$debuglog .= sprintf("Got greater deviance (%.4f) at %02d:00\n", $deviance, $k);
+								// END REPORTING
 								$k--;
+							}
 							
 							$deviance = (phpAds_PriorityGetDeviance($k, $profile, $real_profile) +
 								phpAds_PriorityGetDeviance($k == phpAds_CurrentHour ? $k : $k+1, $profile, $real_profile)) / 2;
@@ -381,14 +422,19 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, $profile)
 			else
 				$adjustment = 1;
 			
-			
 			// BEGIN REPORTING
 			$debuglog .= "Real impressions up till now: $real_up_till_now \n";
-			$debuglog .= "Adjustment: $adjustment\n";
-			$debuglog .= "Adjusted predicted impressions today: $real_today\n";
-			$debuglog .= "Adjusted predicted impressions left today: $real_left_today\n";
-			$debuglog .= "-----------------------------------------------------\n";
 			// END REPORTING
+			
+			if ($predicted_up_till_now)
+			{
+				// BEGIN REPORTING
+				$debuglog .= "Adjustment: $adjustment\n";
+				$debuglog .= "Adjusted predicted impressions today: $real_today\n";
+				$debuglog .= "Adjusted predicted impressions left today: $real_left_today\n";
+				$debuglog .= "-----------------------------------------------------\n";
+				// END REPORTING
+			}
 			
 			if ($adjustment > 0)
 			{
@@ -405,9 +451,8 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, $profile)
 			}
 			elseif (!$profile_correction_executed) // ??????
 			{
-				for ($i=0;$i<24;$i++)
-					if ($i<phpAds_CurrentHour)
-						$profile[$i] = (int)$real_profile[$i];
+				for ($i=0;$i<phpAds_CurrentHour;$i++)
+					$profile[$i] = (int)$real_profile[$i];
 			}
 		}
 	}
@@ -422,7 +467,7 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, $profile)
 			for ($i=0;$i<24;$i++)
 			{
 				if ($i<phpAds_CurrentHour)
-					$profile[$i] =  isset($real_profile[$i]) ? $real_profile[$i] : 0;
+					$profile[$i] = isset($real_profile[$i]) ? $real_profile[$i] : 0;
 				else
 					$profile[$i] = (int)round($predicted_left_today / $hours_left_today);
 			}
@@ -453,10 +498,10 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, $profile)
 	for (reset($campaigns);$c=key($campaigns);next($campaigns))
 		$total_target += $campaigns[$c]['target'];
 	
-	if ($total_profile == 0 || $total_target == 0)
+	if ($total_profile == 0)
 	{
 		// No data available, profile is completely zero
-		// No targeting needed, create a profile to match campaign weights only
+		// create a profile to match campaign weights only
 		
 		$total_campaign_weight = 0;
 		for (reset($campaigns);$c=key($campaigns);next($campaigns))
@@ -500,7 +545,7 @@ function phpAds_PriorityPrepareCampaigns()
 	global $phpAds_config;
 	
 	$campaigns = array();
-	
+
 	$query = "
 		SELECT DISTINCT
 			c.clientid AS clientid,
@@ -523,7 +568,7 @@ function phpAds_PriorityPrepareCampaigns()
 	{
 		$campaigns[$row['clientid']] = $row;
 	}
-	
+
 	return $campaigns;
 }
 
@@ -625,8 +670,6 @@ function phpAds_PriorityCalculate()
 	$campaigns = phpAds_PriorityPrepareCampaigns();
 	$profile   = array();
 	
-	list($profile, $profile_correction_executed) = phpAds_PriorityPredictProfile($campaigns, $banners, $profile);
-	
 	// Determine period
 	$maxperiod = 24;
 	$period = phpAds_CurrentHour;
@@ -672,143 +715,159 @@ function phpAds_PriorityCalculate()
 		$campaigns[$c]['hits'] = $targeted_hits + $other_hits;
 	}
 	
-	
-	
-	// Determine estimated number of hits
-	$corrected_hits = 0;
-	$estimated_hits = 0;
-	for ($p=0; $p<24; $p++)
+	if ($total_targeted_hits)
 	{
-		$corrected_hits += $profile_correction_executed && $p < phpAds_CurrentHour ? $profile[$p] : 0;
-		$estimated_hits += $profile[$p];
-	}
-	
-	
-	// Apply correction to other hits
-	if ($profile_correction_executed)
-	{
-		// BEGIN REPORTING
-		$debuglog .= "\n\nRemoved ".($total_targeted_hits+$total_other_hits-$corrected_hits)." hits for spurious values compensation\n\n";
-		// END REPORTING
+		// High pri campaigns present, run profiling
+		list($profile, $profile_correction_executed) = phpAds_PriorityPredictProfile($campaigns, $banners);
 		
-		$total_other_hits = $corrected_hits - $total_targeted_hits;
-	}
-	
-	$total_hits 		  = $total_targeted_hits + $total_other_hits;
-	$estimated_remaining  = $estimated_hits - $total_hits;
-	$requested_remaining  = $total_requested - $total_targeted_hits;
-	
-	
-	if ($estimated_remaining > $requested_remaining)
-	{
-		$available_for_targeting = $requested_remaining;
-		$available_for_others    = $estimated_remaining - $requested_remaining;
-	}
-	else
-	{
-		$available_for_targeting = $estimated_remaining;
-		$available_for_others    = 0;
-	}
-	
-	// BEGIN REPORTING
-	$debuglog .= "\n\n\n";
-	$debuglog .= "Estimated number of impressions today: $estimated_hits \n";
-	$debuglog .= "Estimated number of impressions remaining: $estimated_remaining \n";
-	$debuglog .= "-----------------------------------------------------\n";
-	$debuglog .= "Total number of requested impressions: $total_requested \n";
-	$debuglog .= "Number of requested impressions satisfied: $total_targeted_hits \n";
-	$debuglog .= "Number of requested impressions remaining: $requested_remaining \n";
-	$debuglog .= "-----------------------------------------------------\n\n\n";
-	$debuglog .= "Impressions available to meet the targets: $available_for_targeting \n";
-	$debuglog .= "Impressions left over: $available_for_others \n";
-	$debuglog .= "-----------------------------------------------------\n";
-	// END REPORTING
-	
-	$totalassigned = 0;
-	
-	for (reset($campaigns);$c=key($campaigns);next($campaigns))
-	{
-		if ($campaigns[$c]['target'] > 0)
+		
+		// Determine estimated number of hits
+		$corrected_hits = 0;
+		$estimated_hits = 0;
+		for ($p=0; $p<24; $p++)
+		{
+			$corrected_hits += $profile_correction_executed && $p < phpAds_CurrentHour ? $profile[$p] : 0;
+			$estimated_hits += $profile[$p];
+		}
+		
+		// Apply correction to other hits
+		if ($profile_correction_executed)
 		{
 			// BEGIN REPORTING
-			$debuglog .= "\n\n\nCAMPAIGN $c \n";
-			$debuglog .= "-----------------------------------------------------\n";
+			$debuglog .= "\n\n";
+			$debuglog .= "Removed ".($total_targeted_hits+$total_other_hits-$corrected_hits)." hits added during peak compensation\n";
 			// END REPORTING
 			
-			
-			// Hits assigned  = 
-			$remaining_for_campaign 	= $campaigns[$c]['target'] - $campaigns[$c]['hits'];
-			
-			// Determine expected hits uptil period
-			if (!isset($profile[$period]) || $profile[$period] == 0)
-			{
-				$expected_hits_this_period  = round($campaigns[$c]['target'] / $maxperiod * ($period));
-			}
-			else
-			{
-				$total_profile = 0;
-				for ($p=0;$p<$maxperiod;$p++)
-					$total_profile += $profile[$p];
-				
-				$profile_uptil_now = 0;
-				for ($p=0;$p<phpAds_CurrentHour;$p++)
-					$profile_uptil_now += $profile[$p];
-				
-				$expected_hits_this_period = round ($profile_uptil_now / $total_profile * $campaigns[$c]['target']);
-			}
-			
-			// BEGIN REPORTING
-			$debuglog .= "Remaining for campaign: $remaining_for_campaign \n";
-			$debuglog .= "Real impressions up till now: ".$campaigns[$c]['hits']." \n";
-			$debuglog .= "Expected impressions up till now: $expected_hits_this_period \n";
-			// END REPORTING
-			
-			if ($period > 0)
-				$extra_to_assign = $expected_hits_this_period - $campaigns[$c]['hits'];
-			else
-				$extra_to_assign = 0;
-			
-			$extra_to_assign  		 = $extra_to_assign * ($maxperiod - $period);
-			$remaining_for_campaign += $extra_to_assign;
-			
-			if ($remaining_for_campaign < 0)
-				$remaining_for_campaign = 0;
-			
-			// BEGIN REPORTING
-			$debuglog .= "Compensate by: $extra_to_assign \n";
-			$debuglog .= "Priority for whole campaign: $remaining_for_campaign \n";
-			// END REPORTING
-			
-			$totalassigned 			+= $remaining_for_campaign;
-			
-			$total_banner_weight     = 0;
-			for (reset($banners);$b=key($banners);next($banners))
-				if ($banners[$b]['parent'] == $c)
-					$total_banner_weight += $banners[$b]['weight'];
-			
-			for (reset($banners);$b=key($banners);next($banners))
-				if ($banners[$b]['parent'] == $c)
-				{
-					$banners[$b]['priority'] = round ($remaining_for_campaign / $total_banner_weight * $banners[$b]['weight']);
-					
-					// BEGIN REPORTING
-					$debuglog .= "- Priority of banner $b: ".$banners[$b]['priority']." \n";
-					// END REPORTING
-				}
+			$total_other_hits = $corrected_hits - $total_targeted_hits;
 		}
+		
+		$total_hits 		  = $total_targeted_hits + $total_other_hits;
+		$estimated_remaining  = $estimated_hits - $total_hits;
+		$requested_remaining  = $total_requested - $total_targeted_hits;
+		
+		
+		if ($estimated_remaining > $requested_remaining)
+		{
+			$available_for_targeting = $requested_remaining;
+			$available_for_others    = $estimated_remaining - $requested_remaining;
+		}
+		else
+		{
+			$available_for_targeting = $estimated_remaining;
+			$available_for_others    = 0;
+		}
+		
+		// BEGIN REPORTING
+		$debuglog .= "\n\n";
+		$debuglog .= "Estimated number of impressions today: $estimated_hits \n";
+		$debuglog .= "Estimated number of impressions remaining: $estimated_remaining \n";
+		$debuglog .= "-----------------------------------------------------\n";
+		$debuglog .= "Total number of requested impressions: $total_requested \n";
+		$debuglog .= "Number of requested impressions satisfied: $total_targeted_hits \n";
+		$debuglog .= "Number of requested impressions remaining: $requested_remaining \n";
+		$debuglog .= "-----------------------------------------------------\n\n\n";
+		$debuglog .= "Impressions available to meet the targets: $available_for_targeting \n";
+		$debuglog .= "Impressions left over: $available_for_others \n";
+		$debuglog .= "-----------------------------------------------------\n";
+		// END REPORTING
+		
+		$totalassigned = 0;
+		
+		for (reset($campaigns);$c=key($campaigns);next($campaigns))
+		{
+			if ($campaigns[$c]['target'] > 0)
+			{
+				// BEGIN REPORTING
+				$debuglog .= "\n\n\nCAMPAIGN $c \n";
+				$debuglog .= "-----------------------------------------------------\n";
+				// END REPORTING
+				
+				
+				// Hits assigned  = 
+				$remaining_for_campaign 	= $campaigns[$c]['target'] - $campaigns[$c]['hits'];
+				
+				// Determine expected hits uptil period
+				if (!isset($profile[$period]) || $profile[$period] == 0)
+				{
+					$expected_hits_this_period  = round($campaigns[$c]['target'] / $maxperiod * ($period));
+				}
+				else
+				{
+					$total_profile = 0;
+					for ($p=0;$p<$maxperiod;$p++)
+						$total_profile += $profile[$p];
+					
+					$profile_uptil_now = 0;
+					for ($p=0;$p<phpAds_CurrentHour;$p++)
+						$profile_uptil_now += $profile[$p];
+					
+					$expected_hits_this_period = round ($profile_uptil_now / $total_profile * $campaigns[$c]['target']);
+				}
+				
+				// BEGIN REPORTING
+				$debuglog .= "Remaining for campaign: $remaining_for_campaign \n";
+				$debuglog .= "Real impressions up till now: ".$campaigns[$c]['hits']." \n";
+				$debuglog .= "Expected impressions up till now: $expected_hits_this_period \n";
+				// END REPORTING
+				
+				if ($period > 0)
+					$extra_to_assign = $expected_hits_this_period - $campaigns[$c]['hits'];
+				else
+					$extra_to_assign = 0;
+				
+				$extra_to_assign  		 = $extra_to_assign * ($maxperiod - $period);
+				$remaining_for_campaign += $extra_to_assign;
+				
+				if ($remaining_for_campaign < 0)
+					$remaining_for_campaign = 0;
+				
+				// BEGIN REPORTING
+				$debuglog .= "Compensate by: $extra_to_assign \n";
+				$debuglog .= "Priority for whole campaign: $remaining_for_campaign \n";
+				// END REPORTING
+				
+				$totalassigned 			+= $remaining_for_campaign;
+				
+				$total_banner_weight     = 0;
+				for (reset($banners);$b=key($banners);next($banners))
+					if ($banners[$b]['parent'] == $c)
+						$total_banner_weight += $banners[$b]['weight'];
+				
+				for (reset($banners);$b=key($banners);next($banners))
+					if ($banners[$b]['parent'] == $c)
+					{
+						$banners[$b]['priority'] = round ($remaining_for_campaign / $total_banner_weight * $banners[$b]['weight']);
+						
+						// BEGIN REPORTING
+						$debuglog .= "- Priority of banner $b: ".$banners[$b]['priority']." \n";
+						// END REPORTING
+					}
+			}
+		}
+		
+		//$available_for_others = $estimated_remaining - $totalassigned;
+		
+		
+		// BEGIN REPORTING
+		$debuglog .= "\n\n\n";
+		$debuglog .= "Impressions assigned to meet the targets: $totalassigned \n";
+		// END REPORTING
+	}	
+	else
+	{
+		// BEGIN REPORTING
+		$debuglog .= "-----------------------------------------------------\n";
+		$debuglog .= "No targeding needed, skipping profile prediction.\n";
+		// END REPORTING
+		
+		$available_for_others = $total_weight;
 	}
-	
-	//$available_for_others = $estimated_remaining - $totalassigned;
-	
-	
-	// BEGIN REPORTING
-	$debuglog .= "\n\n\n";
-	$debuglog .= "Impressions assigned to meet the targets: $totalassigned \n";
+		
+		// BEGIN REPORTING
 	$debuglog .= "Impressions left over: $available_for_others \n";
 	$debuglog .= "-----------------------------------------------------\n";
 	// END REPORTING
-	
-	
+
 	for (reset($campaigns);$c=key($campaigns);next($campaigns))
 	{
 		if ($campaigns[$c]['target'] == 0)
