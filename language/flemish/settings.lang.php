@@ -15,163 +15,227 @@
 
 
 // Installer translation strings
-$GLOBALS['strInstall']					= "Install";
-$GLOBALS['strChooseInstallLanguage']	= "Choose language for the installation procedure";
-$GLOBALS['strLanguageSelection']		= "Language Selection";
-$GLOBALS['strDatabaseSettings']			= "Database Settings";
-$GLOBALS['strAdminSettings']			= "Administrator Settings";
-$GLOBALS['strAdvancedSettings']			= "Advanced Settings";
-$GLOBALS['strOtherSettings']			= "Other settings";
+$GLOBALS['strInstall']					= "Installatie";
+$GLOBALS['strChooseInstallLanguage']	= "Kies een taal voor de installatie procedure";
+$GLOBALS['strLanguageSelection']		= "Taal selectie";
+$GLOBALS['strDatabaseSettings']			= "Database instellingen";
+$GLOBALS['strAdminSettings']			= "Beheer instellingen";
+$GLOBALS['strAdvancedSettings']			= "Geavanceerde instellingen";
+$GLOBALS['strOtherSettings']			= "Andere instellingen";
 
-$GLOBALS['strWarning']					= "Warning";
-$GLOBALS['strFatalError']				= "A fatal error occurred";
-$GLOBALS['strAlreadyInstalled']			= "phpAdsNew is already installed on this system. If you want to configure it go to <a href='settings-index.php'>settings interface</a>";
-$GLOBALS['strCouldNotConnectToDB']		= "Could not connect to database, please recheck the settings you specified";
-$GLOBALS['strCreateTableTestFailed']	= "The user you specified doesn't have permission to create or update the database structure, please contact the database administrator.";
-$GLOBALS['strUpdateTableTestFailed']	= "The user you specified doesn't have permission to update the database structure, please contact the database administrator.";
+$GLOBALS['strWarning']					= "Waarschuwing";
+$GLOBALS['strFatalError']				= "Er is een fout opgetreden";
+$GLOBALS['strAlreadyInstalled']			= "phpAdsNew is reeds geinstalleerd op dit systeem. Indien u het systeem verder wilt configureren ga dan naar de <a href='settings-index.php'>instellingen</a>";
+$GLOBALS['strCouldNotConnectToDB']		= "Er kon geen connectie opgebouwd worden met de database, controleer a.u.b. de door u opgegeven instellingen";
+$GLOBALS['strCreateTableTestFailed']	= "De gebruiker die u heeft opgegeven heeft geen toestemming om de database aan te maken of te wijzigen, neem a.u.b. contact op met de beheerder van de database.";
+$GLOBALS['strUpdateTableTestFailed']	= "De gebruiker die u heeft opgegeven heeft geen toestemming om de database structuur te wijzigen, neem a.u.b. contact op met de beheerder van de database.";
 $GLOBALS['strTablePrefixInvalid']		= "Table prefix contains invalid characters";
-$GLOBALS['strMayNotFunction']			= "Before you continue, please correct these potential problems:";
+$GLOBALS['strMayNotFunction']			= "Voor dat uw verder gaat, corrigeer a.u.b. de volgende problemen:";
 $GLOBALS['strIgnoreWarnings']			= "Ignore warnings";
-$GLOBALS['strWarningPHPversion']		= "phpAdsNew requires PHP 3.0.8 or higher to function correctly. You are currently using {php_version}.";
-$GLOBALS['strWarningRegisterGlobals']	= "The PHP configuration variable register_globals needs to be turned on.";
-$GLOBALS['strWarningMagicQuotesGPC']	= "The PHP configuration variable magic_quote_gpc needs to be turned on.";
-$GLOBALS['strWarningMagicQuotesRuntime']= "The PHP configuration variable magic_quotes_runtime needs to be turned off.";
-$GLOBALS['strConfigLockedDetected']		= "phpAdsNew has detected that your <b>config.inc.php</b> file is not writeable by the server.<br> You can't proceed until you change permissions on the file. <br>Read the supplied documentation if you don't know how to do that.";
-$GLOBALS['strCantUpdateDB']  			= "It is currently not possible to update the database. If you decide to proceed, all existing banners, statistics and clients will be deleted.";
-$GLOBALS['strTableNames']				= "Table Names";
-$GLOBALS['strTablesPrefix']				= "Table names prefix";
-$GLOBALS['strTablesType']				= "Table type";
+$GLOBALS['strWarningPHPversion']		= "phpAdsNew heeft minimaal PHP 3.0.8 nodig om te functioneren. U gebruik momenteel versie {php_version}.";
+$GLOBALS['strWarningRegisterGlobals']	= "De PHP instelling register_globals moet aan staan.";
+$GLOBALS['strWarningMagicQuotesGPC']	= "De PHP instelling magic_quote_gpc moet aan staan.";
+$GLOBALS['strWarningMagicQuotesRuntime']= "De PHP instelling magic_quotes_runtime moet uit staan.";
+$GLOBALS['strConfigLockedDetected']		= "phpAdsNew heeft gedetecteerd dat uw <b>config.inc.php</b> bestand niet beschrijfbaar is door de server.<br> U kunt niet verder gaan tot u de bestands permissies gewijzigd heeft. <br>Raadpleeg de begevoegde documentatie indien u niet weet hoe u dit kunt doen.";
+$GLOBALS['strCantUpdateDB']  			= "Het is momenteel nog niet mogelijk om de database up te daten. Indien u beslist om door te gaan worden alle bestaande banners, statistieken and klanten verwijderd.";
+$GLOBALS['strTableNames']				= "Tabelnamen";
+$GLOBALS['strTablesPrefix']				= "Tabelnaam voorvoegsel";
+$GLOBALS['strTablesType']				= "Tabeltype";
 
-$GLOBALS['strInstallWelcome']			= "Welcome to phpAdsNew";
-$GLOBALS['strInstallMessage']			= "Before you can use phpAdsNew it needs to be configured and <br> the database needs to be created. Click <b>Proceed</b> to continue.";
-$GLOBALS['strInstallSuccess']			= "<b>The installation of phpAdsNew is now complete.</b><br><br>In order for phpAdsNew to function correctly you also need
-										   to make sure the maintenance file is run every day. More information about this subject can be found in the documentation.
-										   <br><br>Click <b>Proceed</b> to go the configuration page, where you can 
-										   set up more settings. Please do not forget to lock the config.inc.php file when you are finished to prevent security
-										   breaches.";
-$GLOBALS['strInstallNotSuccessful']		= "<b>The installation of phpAdsNew was not succesful</b><br><br>Some portions of the install process could not be completed.
-										   It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the
-										   first step of the install process. If you want to know more on what the error message below means, and how to solve it, 
-										   please consult the supplied documentation.";
-$GLOBALS['strErrorOccured']				= "The following error occured:";
-$GLOBALS['strErrorInstallDatabase']		= "The database structure could not be created.";
-$GLOBALS['strErrorInstallConfig']		= "The configuration file or database could not be updated.";
-$GLOBALS['strErrorInstallDbConnect']	= "It was not possible to open a connection to the database.";
+$GLOBALS['strInstallWelcome']			= "Welkom bij phpAdsNew";
+$GLOBALS['strInstallMessage']			= "Voordat u phpAdsNew kunt gebruiken moet het eerst geconfigureerd <br> worden, tevens moet de database aangemaakt worden. Klik op <b>Verder</b> om door te gaan.";
+$GLOBALS['strInstallSuccess']			= "<b>De installatie van phpAdsNew is nu compleet.</b><br><br>Om goed te functioneren moet de onderhouds bestand elke dag
+										   gedraaid worden. Meer informatie over dit onderwerp kunt u vinden in de documentatie.
+										   <br><br>Klik op <b>Verder</b> om door te gaan naar de configuratie pagina, waar u nog meer
+										   items kunt instellen. Vergeet a.u.b. niet de permissies van het config.inc.php bestand weer terug te zetten, omdat dit
+										   potentiele veiligheid problemen kan veroorzaken.";
+$GLOBALS['strInstallNotSuccessful']		= "<b>De installatie van phpAdsNew was niet succesvol</b><br><br>Sommige onderdelen van het installatie proces konden niet succesvol.
+										   afgesloten worden. Het is mogelijk dat deze problemen slechts tijdelijk zijn, in dat geval kunt u op <b>Verder</b> klikken en opnieuw
+										   beginnen met de installatie. Indien u meer wilt weten over de foutmeldingen die hieronder vermeld staan, raadpleeg dan de 
+										   bijgesloten documentatie.";
+$GLOBALS['strErrorOccured']				= "De volgende fouten zijn opgetreden:";
+$GLOBALS['strErrorInstallDatabase']		= "De database kon niet worden aangemaakt.";
+$GLOBALS['strErrorInstallConfig']		= "Het configuratie bestand kont niet worden bijgewerkt.";
+$GLOBALS['strErrorInstallDbConnect']	= "Het was niet mogelijk om een connectie te openen met de database.";
 
-$GLOBALS['strUrlPrefix']				= "URL Prefix";
+$GLOBALS['strUrlPrefix']				= "Locatie van phpAdsNew";
 
-$GLOBALS['strProceed']					= "Proceed &gt;";
-$GLOBALS['strInstallDatabase']			= "Database structure installation";
-$GLOBALS['strFunctionAlreadyExists']	= "Function %s already exists";
-$GLOBALS['strFunctionInAllDotSqlErr']	= "Can't create a function from 'all.sql'";
-$GLOBALS['strFunctionClickProceed']		= "Would you like to overwrite existing functions?";
-$GLOBALS['strYes']						= "Yes";
-$GLOBALS['strNo']						= "No";
-$GLOBALS['strRepeatPassword']			= "Repeat Password";
-$GLOBALS['strNotSamePasswords']			= "Passwords did not match";
-$GLOBALS['strInvalidUserPwd']			= "Invalid username or password";
+$GLOBALS['strProceed']					= "Verder &gt;";
+$GLOBALS['strRepeatPassword']			= "Nogmaals";
+$GLOBALS['strNotSamePasswords']			= "De opgegeven wachtwoorden kwamen niet overeen";
+$GLOBALS['strInvalidUserPwd']			= "Ongeldige gebruikersnaam of wachtwoord";
 
 $GLOBALS['strUpgrade']					= "Upgrade";
-$GLOBALS['strSystemUpToDate']			= "Your system is up to date, no upgrade needed at the moment. <br>Click on <b>Proceed</b> to go to home page.";
-$GLOBALS['strSystemNeedsUpgrade']		= "The database structure and configuration file need to be upgraded in order to function correctly. Click <b>Proceed</b> to start the upgrade process. <br>Please be patient, the upgrade can take up to a couple of minutes.";
-$GLOBALS['strSystemUpgradeBusy']		= "System upgrade in progress, please wait...";
-$GLOBALS['strServiceUnavalable']		= "The service is temporarily unavailable. System upgrade in progress";
+$GLOBALS['strSystemUpToDate']			= "Uw systeem is bijgewerkt, het is momenteel niet nodig om verder bij te werken. <br>Klik op <b>Verder</b> om door te gaan.";
+$GLOBALS['strSystemNeedsUpgrade']		= "Om goed te functioneren moeten de database structuur en het configuratie bestand worden bijgewerkt. Klik op <b>Verder</b> om te beginnen met bijwerken. <br>Het bijwerken kan enige minuten duren.";
+$GLOBALS['strSystemUpgradeBusy']		= "Uw systeem wordt momenteel bijgewerkt, een moment geduld a.u.b...";
+$GLOBALS['strServiceUnavalable']		= "Deze service is momenteel niet beschikbaar. Het systeem wordt bijgewerkt.";
 
-$GLOBALS['strConfigNotWritable']		= "Your config.inc.php file is not writable";
+$GLOBALS['strConfigNotWritable']		= "Uw config.inc.php is niet te wijzigen";
 
-// Settings translation strings
-$GLOBALS['strChooseSection']			= "Choose Section";
 
-$GLOBALS['strDbHost']					= "Database hostname";
-$GLOBALS['strDbUser']					= "Database username";
-$GLOBALS['strDbPassword']				= "Database password";
-$GLOBALS['strDbName']					= "Database name";
-$GLOBALS['strPersistentConnections']	= "Use persistent connections";
-$GLOBALS['strInsertDelayed']			= "Use delayed inserts";
-$GLOBALS['strCompatibilityMode']		= "Use database compatibility mode";
-$GLOBALS['strCantConnectToDb']			= "Can't connect to database";
 
-$GLOBALS['strAdminUsername']			= "Admin's username";
-$GLOBALS['strAdminFullName']			= "Admin's full name";
-$GLOBALS['strAdminEmail']				= "Admin's email address";
+
+
+/*********************************************************/
+/* Configuration translations                            */
+/*********************************************************/
+
+// Global
+$GLOBALS['strChooseSection']			= "Kies sectie";
+$GLOBALS['strDayFullNames'] 			= array("zondag","maandag","dinsdag","woensdag","donderdag","vrijdag","zaterdag");
+$GLOBALS['strEditConfigNotPossible']    = "Het is niet mogelijk om deze instellingen te wijzigen, omdat het configuratiebestand vanwege veiligheidsredenen op slot staat. ".
+										  "Indien u veranderingen wilt maken dient u eerst het bestand config.inc.php schrijfbaar maken.";
+$GLOBALS['strEditConfigPossible']		= "Het is mogelijk om alle instellingen te wijzigen, omdat het configuratiebestand niet op slot staat, maar dit zou kunnen lijden tot een veiligheidslek. ".
+										  "Indien u uw systeem wilt behouden voor eventuele veiligheidsproblemen, dan moet u het bestand config.inc.php op slot zetten.";
+
+
+
+// Database
+$GLOBALS['strDatabaseSettings']			= "Database instellingen";
+$GLOBALS['strDatabaseServer']			= "Database server";
+$GLOBALS['strDbHost']					= "Database adres";
+$GLOBALS['strDbUser']					= "Database gebruikersnaam";
+$GLOBALS['strDbPassword']				= "Database wachtwoord";
+$GLOBALS['strDbName']					= "Database naam";
+
+$GLOBALS['strDatabaseOptimalisations']	= "Database optimalisaties";
+$GLOBALS['strPersistentConnections']	= "Gebruik 'persistent connections'";
+$GLOBALS['strInsertDelayed']			= "Gebruik 'delayed inserts'";
+$GLOBALS['strCompatibilityMode']		= "Gebruik database compatibiliteits mode";
+$GLOBALS['strCantConnectToDb']			= "Kan geen connectie maken met de database";
+
+
+
+// Invocation and Delivery
+$GLOBALS['strInvocationAndDelivery']	= "Aanroep en aflevering instellingen";
+
+$GLOBALS['strKeywordRetrieval']			= "Sleutelwoord selectie";
+$GLOBALS['strBannerRetrieval']			= "Banner selectie methode";
+$GLOBALS['strRetrieveRandom']			= "Willekeurige banner selectie (standaard)";
+$GLOBALS['strRetrieveNormalSeq']		= "Normale sequentieele banner selectie";
+$GLOBALS['strWeightSeq']				= "Op gewicht gebaseerde sequentieele banner selectie";
+$GLOBALS['strFullSeq']					= "Volledige sequentieele banner selectie";
+$GLOBALS['strUseConditionalKeys']		= "Gebruik conditionele sleutelwoorden";
+$GLOBALS['strUseMultipleKeys']			= "Gebruik meerdere sleutelwoorden";
+$GLOBALS['strUseAcl']					= "Gebruik beperkingen";
+
+$GLOBALS['strZonesSettings']			= "Zone selectie";
+$GLOBALS['strZoneCache']				= "Cache zones, dit zou het gebruik moeten versnellen wanneer gebruik gemaakt word van zones";
+$GLOBALS['strZoneCacheLimit']			= "Tijd tussen het updaten van de cache (in seconden)";
+$GLOBALS['strZoneCacheLimitErr']		= "De tijd tussen het updaten van de cache moet een positief getal zijn";
+
+$GLOBALS['strP3PSettings']				= "P3P Privacy Policies";
+$GLOBALS['strUseP3P']					= "Gebruik P3P Policies";
+$GLOBALS['strP3PCompactPolicy']			= "P3P Compacte Policy";
+$GLOBALS['strP3PPolicyLocation']		= "P3P Policy Locatie";
+
+
+
+// Banner Settings
+$GLOBALS['strBannerSettings']			= "Banner instellingen";
+
+$GLOBALS['strTypeHtmlSettings']			= "HTML banner opties";
+$GLOBALS['strTypeHtmlAuto']				= "Verander HTML automatisch om het loggen van AdClicks te forceren";
+$GLOBALS['strTypeHtmlPhp']				= "Sta het gebruik van PHP code toe binnen in HTML banners.";
+
+$GLOBALS['strTypeWebSettings']			= "Web banner instellingen";
+$GLOBALS['strTypeWebMode']				= "Opslag methode";
+$GLOBALS['strTypeWebModeLocal']			= "Lokaal (opgeslagen in een lokale map)";
+$GLOBALS['strTypeWebModeFtp']			= "FTP (opgeslagen op een externe FTP server)";
+$GLOBALS['strTypeWebDir']				= "Lokale map";
+$GLOBALS['strTypeWebFtp']				= "FTP server";
+$GLOBALS['strTypeWebUrl']				= "Publieke URL van de lokale map of FTP server";
+
+$GLOBALS['strDefaultBanners']			= "Standaard banner";
+$GLOBALS['strDefaultBannerUrl']			= "Standaard banner afbeelding";
+$GLOBALS['strDefaultBannerTarget']		= "Standaard banner doellocatie";
+
+
+
+// Statistics Settings
+$GLOBALS['strStatisticsSettings']		= "Statistieken Instellingen";
+
+$GLOBALS['strStatisticsFormat']			= "Statistieken formaat";
+$GLOBALS['strLogBeacon']				= "Gebruik beacons om Adviews te loggen";
+$GLOBALS['strCompactStats']				= "Gebruik compacte statistieken";
+$GLOBALS['strLogAdviews']				= "Log AdViews";
+$GLOBALS['strLogAdclicks']				= "Log AdClicks";
+
+$GLOBALS['strEmailWarnings']			= "Waarschuwingen per email";
 $GLOBALS['strAdminEmailHeaders']		= "Mail Headers for the reflection of the sender of the daily ad reports";
-$GLOBALS['strAdminNovice']				= "Admin's delete actions need confirmation for safety";
-$GLOBALS['strOldPassword']				= "Old Password";
-$GLOBALS['strNewPassword']				= "New Password";
-$GLOBALS['strInvalidUsername']			= "Invalid username";
-$GLOBALS['strInvalidPassword']			= "Invalid password";
+$GLOBALS['strWarnLimit']				= "Waarschuwings limiet";
+$GLOBALS['strWarnLimitErr']				= "Waarschuwings limiet moet een positief nummer zijn";
+$GLOBALS['strWarnAdmin']				= "Waarschuw de beheerder";
+$GLOBALS['strWarnClient']				= "Waarschuw de klant";
 
-$GLOBALS['strGuiSettings']				= "User Interface Configuration";
+$GLOBALS['strRemoteHosts']				= "Remote hosts";
+$GLOBALS['strIgnoreHosts']				= "Negeer hosts";
+$GLOBALS['strReverseLookup']			= "Reverse DNS Lookup";
+$GLOBALS['strProxyLookup']				= "Proxy Lookup";
+
+
+
+// Administrator settings
+$GLOBALS['strAdministratorSettings']	= "Beheerder instellingen";
+
+$GLOBALS['strLoginCredentials']			= "Inlog gegevens";
+$GLOBALS['strAdminUsername']			= "Gebruikersnaam van de beheerder";
+$GLOBALS['strOldPassword']				= "Oud wachtwoord";
+$GLOBALS['strNewPassword']				= "Nieuw wachtwoord";
+$GLOBALS['strInvalidUsername']			= "Ongeldige gebruikersnaam";
+$GLOBALS['strInvalidPassword']			= "Ongeldig wachtwoord";
+
+$GLOBALS['strBasicInformation']			= "Basis informatie";
+$GLOBALS['strAdminFullName']			= "Volledige naam van de beheerder";
+$GLOBALS['strAdminEmail']				= "E-mail adres van de beheerder";
+$GLOBALS['strCompanyName']				= "Bedrijfsnaam";
+
+$GLOBALS['strAdminNovice']				= "Toon een waarschuwing wanneer er items verwijderd worden";
+
+
+
+// User interface settings
+$GLOBALS['strGuiSettings']				= "Gebruikersinterface instellingen";
+
+$GLOBALS['strGeneralSettings']			= "Algemene instellingen";
+$GLOBALS['strAppName']					= "Applicatienaam";
 $GLOBALS['strMyHeader']					= "My Header";
 $GLOBALS['strMyFooter']					= "My Footer";
-$GLOBALS['strTableBorderColor']			= "Table Border Color";
-$GLOBALS['strTableBackColor']			= "Table Back Color";
-$GLOBALS['strTableBackColorAlt']		= "Table Back Color (Alternative)";
-$GLOBALS['strMainBackColor']			= "Main Back Color";
-$GLOBALS['strAppName']					= "Application Name";
-$GLOBALS['strCompanyName']				= "Company Name";
+
+$GLOBALS['strClientInterface']			= "Klant interface";
+$GLOBALS['strClientWelcomeEnabled']		= "Toon een welkomstbericht";
+$GLOBALS['strClientWelcomeText']		= "Welkomstbericht<br>(HTML is toegestaan)";
+
+
+
+// Interface defaults
+$GLOBALS['strInterfaceDefaults']		= "Interface standaardwaarden";
+
+$GLOBALS['strStatisticsDefaults'] 		= "Statistieken";
+$GLOBALS['strBeginOfWeek']				= "Begin van de week";
+$GLOBALS['strPercentageDecimals']		= "Nauwkeurigheid van percentages";
+
+$GLOBALS['strWeightDefaults']			= "Standaard gewicht";
+$GLOBALS['strDefaultBannerWeight']		= "Standaard banner gewicht";
+$GLOBALS['strDefaultCampaignWeight']	= "Standaard campagne gewicht";
+$GLOBALS['strDefaultBannerWErr']		= "Standaard banner gewicht moet een positief getal zijn";
+$GLOBALS['strDefaultCampaignWErr']		= "Standaard campagne gewicht moet een positief getal zijn";
+
+$GLOBALS['strAllowedBannerTypes']		= "Toegestane banner types";
+$GLOBALS['strTypeSqlAllow']				= "Sta banners opgeslagen in de SQL database toe";
+$GLOBALS['strTypeWebAllow']				= "Sta banners opgeslagen op een webserver toe";
+$GLOBALS['strTypeUrlAllow']				= "Sta URL banners toe";
+$GLOBALS['strTypeHtmlAllow']			= "Sta HTML banners toe";
+
+
+
+// Not used at the moment
+$GLOBALS['strTableBorderColor']			= "Tabel rand kleur";
+$GLOBALS['strTableBackColor']			= "Table achtergrond kleur";
+$GLOBALS['strTableBackColorAlt']		= "Table achtergrond kleur (alternatief)";
+$GLOBALS['strMainBackColor']			= "Globale achtergrond kleur";
 $GLOBALS['strOverrideGD']				= "Override GD Imageformat";
-$GLOBALS['strTimeZone']					= "Time Zone";
-
-$GLOBALS['strDayFullNames'] = array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
-
-$GLOBALS['strIgnoreHosts']				= "Ignore Hosts";
-$GLOBALS['strWarnLimit']				= "Warn Limit";
-$GLOBALS['strWarnLimitErr']				= "Warn Limit should be a positive integer";
-$GLOBALS['strBeginOfWeek']				= "Begin of Week";
-$GLOBALS['strPercentageDecimals']		= "Percentage Decimals";
-$GLOBALS['strCompactStats']				= "Use Compact Stats";
-$GLOBALS['strLogAdviews']				= "Log Adviews";
-$GLOBALS['strLogAdclicks']				= "Log Adclicks";
-$GLOBALS['strReverseLookup']			= "Reverse DNS Lookup";
-$GLOBALS['strWarnAdmin']				= "Warn Admin";
-$GLOBALS['strWarnClient']				= "Warn Client";
-
-$GLOBALS['strAllowedBannerTypes']		= "Allowed banner types";
-$GLOBALS['strTypeSqlAllow']				= "Allow SQL stored banners";
-$GLOBALS['strTypeWebAllow']				= "Allow Webserver stored banners";
-$GLOBALS['strTypeUrlAllow']				= "Allow URL banners";
-$GLOBALS['strTypeHtmlAllow']			= "Allow HTML banners";
-$GLOBALS['strTypeWebSettings']			= "Web banners configuration";
-$GLOBALS['strTypeWebMode']				= "Storing method";
-$GLOBALS['strTypeWebModeLocal']			= "Local mode (stored in a local directory)";
-$GLOBALS['strTypeWebModeFtp']			= "FTP mode (stored on a external FTP server)";
-$GLOBALS['strTypeWebDir']				= "Local mode Web banner directory";
-$GLOBALS['strTypeWebFtp']				= "FTP mode Web banner server";
-$GLOBALS['strTypeWebUrl']				= "Public URL of local directory / FTP server";
-$GLOBALS['strTypeHtmlSettings']			= "HTML banners configuration";
-$GLOBALS['strTypeHtmlAuto']				= "Automatically change HTML banners in order to force click logging";
-$GLOBALS['strTypeHtmlPhp']				= "Allow PHP expressions to be executed from within a HTML banner";
-
-$GLOBALS['strBannerRetrieval']			= "Banner retrieval method";
-$GLOBALS['strRetrieveRandom']			= "Random banner retrieval (default)";
-$GLOBALS['strRetrieveNormalSeq']		= "Normal sequental banner retrieval";
-$GLOBALS['strWeightSeq']				= "Weight based sequential banner retrieval";
-$GLOBALS['strFullSeq']					= "Full sequential banner retrieval";
-$GLOBALS['strDefaultBannerUrl']			= "Default Banner URL";
-$GLOBALS['strDefaultBannerTarget']		= "Default Banner Target";
-$GLOBALS['strUseConditionalKeys']		= "Use conditional keywords";
-$GLOBALS['strUseMultipleKeys']			= "Use multiple keywords";
-$GLOBALS['strUseAcl']					= "Use display limitations";
-
-$GLOBALS['strZonesSettings']			= "Zones Settings";
-$GLOBALS['strZoneCache']				= "Cache zones, this should speed things up when using zones";
-$GLOBALS['strZoneCacheLimit']			= "Time between cache updates (in seconds)";
-$GLOBALS['strZoneCacheLimitErr']		= "Time between cache updates should be a positive integer";
-
-$GLOBALS['strP3PSettings']				= "P3P Settings";
-$GLOBALS['strUseP3P']					= "Use P3P Policies";
-$GLOBALS['strP3PCompactPolicy']			= "P3P Compact Policy";
-$GLOBALS['strP3PPolicyLocation']		= "P3P Policy Location";
-
-$GLOBALS['strClientWelcomeMessage']		= "Client Welcome Message";
-$GLOBALS['strClientWelcomeEnabled']		= "Enable client welcome message";
-$GLOBALS['strClientWelcomeText']		= "Client Welcome text<br>(HTML tags allowed)";
-
-$GLOBALS['strDefaultBannerWeight']		= "Default banner weight";
-$GLOBALS['strDefaultCampaignWeight']	= "Default campaign weight";
-
-$GLOBALS['strDefaultBannerWErr']		= "Default banner weight should be a positive integer";
-$GLOBALS['strDefaultCampaignWErr']		= "Default campaign weight should be a positive integer";
+$GLOBALS['strTimeZone']					= "Tijdzone";
 
 ?>

@@ -1,4 +1,4 @@
-<?php // $Revision: 1.4 $
+<?php // $Revision: 1.11 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -61,12 +61,6 @@ $GLOBALS['strErrorInstallDbConnect']	= "It was not possible to open a connection
 $GLOBALS['strUrlPrefix']				= "URL Prefix";
 
 $GLOBALS['strProceed']					= "Proceed &gt;";
-$GLOBALS['strInstallDatabase']			= "Database structure installation";
-$GLOBALS['strFunctionAlreadyExists']	= "Function %s already exists";
-$GLOBALS['strFunctionInAllDotSqlErr']	= "Can't create a function from 'all.sql'";
-$GLOBALS['strFunctionClickProceed']		= "Would you like to overwrite existing functions?";
-$GLOBALS['strYes']						= "Yes";
-$GLOBALS['strNo']						= "No";
 $GLOBALS['strRepeatPassword']			= "Repeat Password";
 $GLOBALS['strNotSamePasswords']			= "Passwords did not match";
 $GLOBALS['strInvalidUserPwd']			= "Invalid username or password";
@@ -79,59 +73,72 @@ $GLOBALS['strServiceUnavalable']		= "The service is temporarily unavailable. Sys
 
 $GLOBALS['strConfigNotWritable']		= "Your config.inc.php file is not writable";
 
-// Settings translation strings
-$GLOBALS['strChooseSection']			= "Choose Section";
 
+
+
+
+/*********************************************************/
+/* Configuration translations                            */
+/*********************************************************/
+
+// Global
+$GLOBALS['strChooseSection']			= "Choose Section";
+$GLOBALS['strDayFullNames'] 			= array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
+$GLOBALS['strEditConfigNotPossible']    = "It is not possible to edit these settings because the configuration file is locked for security reasons. ".
+										  "If you want to make changes, you need to unlock the config.inc.php file first.";
+$GLOBALS['strEditConfigPossible']		= "It is possible to edit all settings because the configuration file is not locked, but this could lead to security leaks. ".
+										  "If you want to secure your system, you need to lock the config.inc.php file.";
+
+
+
+// Database
+$GLOBALS['strDatabaseSettings']			= "Database Settings";
+$GLOBALS['strDatabaseServer']			= "Database server";
 $GLOBALS['strDbHost']					= "Database hostname";
 $GLOBALS['strDbUser']					= "Database username";
 $GLOBALS['strDbPassword']				= "Database password";
 $GLOBALS['strDbName']					= "Database name";
+
+$GLOBALS['strDatabaseOptimalisations']	= "Database optimalisations";
 $GLOBALS['strPersistentConnections']	= "Use persistent connections";
 $GLOBALS['strInsertDelayed']			= "Use delayed inserts";
 $GLOBALS['strCompatibilityMode']		= "Use database compatibility mode";
 $GLOBALS['strCantConnectToDb']			= "Can't connect to database";
 
-$GLOBALS['strAdminUsername']			= "Admin's username";
-$GLOBALS['strAdminFullName']			= "Admin's full name";
-$GLOBALS['strAdminEmail']				= "Admin's email address";
-$GLOBALS['strAdminEmailHeaders']		= "Mail Headers for the reflection of the sender of the daily ad reports";
-$GLOBALS['strAdminNovice']				= "Admin's delete actions need confirmation for safety";
-$GLOBALS['strOldPassword']				= "Old Password";
-$GLOBALS['strNewPassword']				= "New Password";
-$GLOBALS['strInvalidUsername']			= "Invalid username";
-$GLOBALS['strInvalidPassword']			= "Invalid password";
 
-$GLOBALS['strGuiSettings']				= "User Interface Configuration";
-$GLOBALS['strMyHeader']					= "My Header";
-$GLOBALS['strMyFooter']					= "My Footer";
-$GLOBALS['strTableBorderColor']			= "Table Border Color";
-$GLOBALS['strTableBackColor']			= "Table Back Color";
-$GLOBALS['strTableBackColorAlt']		= "Table Back Color (Alternative)";
-$GLOBALS['strMainBackColor']			= "Main Back Color";
-$GLOBALS['strAppName']					= "Application Name";
-$GLOBALS['strCompanyName']				= "Company Name";
-$GLOBALS['strOverrideGD']				= "Override GD Imageformat";
-$GLOBALS['strTimeZone']					= "Time Zone";
 
-$GLOBALS['strDayFullNames'] = array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
+// Invocation and Delivery
+$GLOBALS['strInvocationAndDelivery']	= "Invocation and delivery settings";
 
-$GLOBALS['strIgnoreHosts']				= "Ignore Hosts";
-$GLOBALS['strWarnLimit']				= "Warn Limit";
-$GLOBALS['strWarnLimitErr']				= "Warn Limit should be a positive integer";
-$GLOBALS['strBeginOfWeek']				= "Begin of Week";
-$GLOBALS['strPercentageDecimals']		= "Percentage Decimals";
-$GLOBALS['strCompactStats']				= "Use Compact Stats";
-$GLOBALS['strLogAdviews']				= "Log Adviews";
-$GLOBALS['strLogAdclicks']				= "Log Adclicks";
-$GLOBALS['strReverseLookup']			= "Reverse DNS Lookup";
-$GLOBALS['strWarnAdmin']				= "Warn Admin";
-$GLOBALS['strWarnClient']				= "Warn Client";
+$GLOBALS['strKeywordRetrieval']			= "Keyword retrieval";
+$GLOBALS['strBannerRetrieval']			= "Banner retrieval method";
+$GLOBALS['strRetrieveRandom']			= "Random banner retrieval (default)";
+$GLOBALS['strRetrieveNormalSeq']		= "Normal sequental banner retrieval";
+$GLOBALS['strWeightSeq']				= "Weight based sequential banner retrieval";
+$GLOBALS['strFullSeq']					= "Full sequential banner retrieval";
+$GLOBALS['strUseConditionalKeys']		= "Use conditional keywords";
+$GLOBALS['strUseMultipleKeys']			= "Use multiple keywords";
+$GLOBALS['strUseAcl']					= "Use display limitations";
 
-$GLOBALS['strAllowedBannerTypes']		= "Allowed banner types";
-$GLOBALS['strTypeSqlAllow']				= "Allow SQL stored banners";
-$GLOBALS['strTypeWebAllow']				= "Allow Webserver stored banners";
-$GLOBALS['strTypeUrlAllow']				= "Allow URL banners";
-$GLOBALS['strTypeHtmlAllow']			= "Allow HTML banners";
+$GLOBALS['strZonesSettings']			= "Zone retrieval";
+$GLOBALS['strZoneCache']				= "Cache zones, this should speed things up when using zones";
+$GLOBALS['strZoneCacheLimit']			= "Time between cache updates (in seconds)";
+$GLOBALS['strZoneCacheLimitErr']		= "Time between cache updates should be a positive integer";
+
+$GLOBALS['strP3PSettings']				= "P3P Privacy Policies";
+$GLOBALS['strUseP3P']					= "Use P3P Policies";
+$GLOBALS['strP3PCompactPolicy']			= "P3P Compact Policie";
+$GLOBALS['strP3PPolicyLocation']		= "P3P Policy Location";
+
+
+
+// Banner Settings
+$GLOBALS['strBannerSettings']			= "Banner settings";
+
+$GLOBALS['strTypeHtmlSettings']			= "HTML banner options";
+$GLOBALS['strTypeHtmlAuto']				= "Automatically change HTML banners in order to force click logging";
+$GLOBALS['strTypeHtmlPhp']				= "Allow PHP expressions to be executed from within a HTML banner";
+
 $GLOBALS['strTypeWebSettings']			= "Web banners configuration";
 $GLOBALS['strTypeWebMode']				= "Storing method";
 $GLOBALS['strTypeWebModeLocal']			= "Local mode (stored in a local directory)";
@@ -139,39 +146,96 @@ $GLOBALS['strTypeWebModeFtp']			= "FTP mode (stored on a external FTP server)";
 $GLOBALS['strTypeWebDir']				= "Local mode Web banner directory";
 $GLOBALS['strTypeWebFtp']				= "FTP mode Web banner server";
 $GLOBALS['strTypeWebUrl']				= "Public URL of local directory / FTP server";
-$GLOBALS['strTypeHtmlSettings']			= "HTML banners configuration";
-$GLOBALS['strTypeHtmlAuto']				= "Automatically change HTML banners in order to force click logging";
-$GLOBALS['strTypeHtmlPhp']				= "Allow PHP expressions to be executed from within a HTML banner";
 
-$GLOBALS['strBannerRetrieval']			= "Banner retrieval method";
-$GLOBALS['strRetrieveRandom']			= "Random banner retrieval (default)";
-$GLOBALS['strRetrieveNormalSeq']		= "Normal sequental banner retrieval";
-$GLOBALS['strWeightSeq']				= "Weight based sequential banner retrieval";
-$GLOBALS['strFullSeq']					= "Full sequential banner retrieval";
+$GLOBALS['strDefaultBanners']			= "Default banners";
 $GLOBALS['strDefaultBannerUrl']			= "Default Banner URL";
 $GLOBALS['strDefaultBannerTarget']		= "Default Banner Target";
-$GLOBALS['strUseConditionalKeys']		= "Use conditional keywords";
-$GLOBALS['strUseMultipleKeys']			= "Use multiple keywords";
-$GLOBALS['strUseAcl']					= "Use display limitations";
 
-$GLOBALS['strZonesSettings']			= "Zones Settings";
-$GLOBALS['strZoneCache']				= "Cache zones, this should speed things up when using zones";
-$GLOBALS['strZoneCacheLimit']			= "Time between cache updates (in seconds)";
-$GLOBALS['strZoneCacheLimitErr']		= "Time between cache updates should be a positive integer";
 
-$GLOBALS['strP3PSettings']				= "P3P Settings";
-$GLOBALS['strUseP3P']					= "Use P3P Policies";
-$GLOBALS['strP3PCompactPolicy']			= "P3P Compact Policy";
-$GLOBALS['strP3PPolicyLocation']		= "P3P Policy Location";
 
-$GLOBALS['strClientWelcomeMessage']		= "Client Welcome Message";
+// Statistics Settings
+$GLOBALS['strStatisticsSettings']		= "Statistics Settings";
+
+$GLOBALS['strStatisticsFormat']			= "Statistics format";
+$GLOBALS['strLogBeacon']				= "Use beacons to log Adviews";
+$GLOBALS['strCompactStats']				= "Use Compact Stats";
+$GLOBALS['strLogAdviews']				= "Log Adviews";
+$GLOBALS['strLogAdclicks']				= "Log Adclicks";
+
+$GLOBALS['strEmailWarnings']			= "E-mail warnings";
+$GLOBALS['strAdminEmailHeaders']		= "Mail Headers for the reflection of the sender of the daily ad reports";
+$GLOBALS['strWarnLimit']				= "Warn Limit";
+$GLOBALS['strWarnLimitErr']				= "Warn Limit should be a positive integer";
+$GLOBALS['strWarnAdmin']				= "Warn Admin";
+$GLOBALS['strWarnClient']				= "Warn Client";
+
+$GLOBALS['strRemoteHosts']				= "Remote hosts";
+$GLOBALS['strIgnoreHosts']				= "Ignore Hosts";
+$GLOBALS['strReverseLookup']			= "Reverse DNS Lookup";
+$GLOBALS['strProxyLookup']				= "Proxy Lookup";
+
+
+
+// Administrator settings
+$GLOBALS['strAdministratorSettings']	= "Administrator settings";
+
+$GLOBALS['strLoginCredentials']			= "Login credentials";
+$GLOBALS['strAdminUsername']			= "Admin's username";
+$GLOBALS['strOldPassword']				= "Old Password";
+$GLOBALS['strNewPassword']				= "New Password";
+$GLOBALS['strInvalidUsername']			= "Invalid username";
+$GLOBALS['strInvalidPassword']			= "Invalid password";
+
+$GLOBALS['strBasicInformation']			= "Basic information";
+$GLOBALS['strAdminFullName']			= "Admin's full name";
+$GLOBALS['strAdminEmail']				= "Admin's email address";
+$GLOBALS['strCompanyName']				= "Company Name";
+
+$GLOBALS['strAdminNovice']				= "Admin's delete actions need confirmation for safety";
+
+
+
+// User interface settings
+$GLOBALS['strGuiSettings']				= "User Interface Configuration";
+
+$GLOBALS['strGeneralSettings']			= "General settings";
+$GLOBALS['strAppName']					= "Application Name";
+$GLOBALS['strMyHeader']					= "My Header";
+$GLOBALS['strMyFooter']					= "My Footer";
+
+$GLOBALS['strClientInterface']			= "Client interface";
 $GLOBALS['strClientWelcomeEnabled']		= "Enable client welcome message";
 $GLOBALS['strClientWelcomeText']		= "Client Welcome text<br>(HTML tags allowed)";
 
+
+
+// Interface defaults
+$GLOBALS['strInterfaceDefaults']		= "Interface defaults";
+
+$GLOBALS['strStatisticsDefaults'] 		= "Statistics";
+$GLOBALS['strBeginOfWeek']				= "Begin of Week";
+$GLOBALS['strPercentageDecimals']		= "Percentage Decimals";
+
+$GLOBALS['strWeightDefaults']			= "Default weight";
 $GLOBALS['strDefaultBannerWeight']		= "Default banner weight";
 $GLOBALS['strDefaultCampaignWeight']	= "Default campaign weight";
-
 $GLOBALS['strDefaultBannerWErr']		= "Default banner weight should be a positive integer";
 $GLOBALS['strDefaultCampaignWErr']		= "Default campaign weight should be a positive integer";
+
+$GLOBALS['strAllowedBannerTypes']		= "Allowed banner types";
+$GLOBALS['strTypeSqlAllow']				= "Allow SQL stored banners";
+$GLOBALS['strTypeWebAllow']				= "Allow Webserver stored banners";
+$GLOBALS['strTypeUrlAllow']				= "Allow URL banners";
+$GLOBALS['strTypeHtmlAllow']			= "Allow HTML banners";
+
+
+
+// Not used at the moment
+$GLOBALS['strTableBorderColor']			= "Table Border Color";
+$GLOBALS['strTableBackColor']			= "Table Back Color";
+$GLOBALS['strTableBackColorAlt']		= "Table Back Color (Alternative)";
+$GLOBALS['strMainBackColor']			= "Main Back Color";
+$GLOBALS['strOverrideGD']				= "Override GD Imageformat";
+$GLOBALS['strTimeZone']					= "Time Zone";
 
 ?>
