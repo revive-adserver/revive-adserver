@@ -131,7 +131,7 @@ $phpAds_config['con_key'] = true;
 $phpAds_config['mult_key'] = true;
 
 // Use display limitations?
-$phpAds_config['acl'] = false;
+$phpAds_config['acl'] = true;
 
 // Default banner, it is show when phpAdsNew can't connect to the database or
 // there are absolutely no banner to display. The banner is not logged.
