@@ -178,7 +178,7 @@ function <?php echo $windowid; ?>_pop(e)
 {
 	if (!window.<?php echo $windowid; ?>)
 	{
-		var <?php echo $windowid; ?> =  window.open('', '<?php echo $windowid; ?>', 'height=<?php echo $output['height']; ?>,width=<?php echo $output['width']; ?>,toolbars=no,location=no,menubar=no,status=no,resizable=no,scrollbars=no');
+		<?php echo $windowid; ?> =  window.open('', '<?php echo $windowid; ?>', 'height=<?php echo $output['height']; ?>,width=<?php echo $output['width']; ?>,toolbars=no,location=no,menubar=no,status=no,resizable=no,scrollbars=no');
 		
 		if (!<?php echo $windowid; ?>.document.title || <?php echo $windowid; ?>.document.title == '')
 		{
