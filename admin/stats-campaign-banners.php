@@ -647,9 +647,23 @@ if (count($order_array) > 0)
 				if (phpAds_isUser(phpAds_Admin))
 				{
 					echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row_banners['bannerid']."'>";
-					echo "<img src='images/icon-edit.gif' align='absmiddle' border='0'>&nbsp;$strBannerProperties</a>";
+					echo "<img src='images/icon-edit.gif' align='absmiddle' border='0'>&nbsp;".$strBannerProperties."</a>";
 					echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 				}
+				
+				if (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_DisableBanner) && $row_banners['active'] == 't') // only for the client if allowed
+				{
+					echo "<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row_banners['bannerid']."&value=t'>";
+					echo "<img src='images/icon-deactivate.gif' align='absmiddle' border='0'>&nbsp;".$strDeActivate."</a>";
+					echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+				}
+				if (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_ActivateBanner) && $row_banners['active'] != 't') // only for the client if allowed
+				{
+					echo "<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row_banners['bannerid']."&value=f'>";
+					echo "<img src='images/icon-activate.gif' align='absmiddle' border='0'>&nbsp;".$strActivate."</a>";
+					echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+				}
+				
 				echo "</tr><td>";
 				echo "</table>";
 				
