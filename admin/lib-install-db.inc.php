@@ -495,6 +495,8 @@ function phpAds_upgradeSplitBanners ()
 	// Check if splitting is needed
 	if (!isset($phpAds_config['config_version']) ||	$phpAds_config['config_version'] < 200.070)
 	{
+		$banners = array();
+		
 		// Fetch all banners
 		$res = phpAds_dbQuery ("SELECT * FROM ".$phpAds_config['tbl_banners']);
 		
@@ -642,6 +644,8 @@ function phpAds_upgradeDetectPluginVersion ()
 	// Check if plugin detection is needed
 	if (!isset($phpAds_config['config_version']) ||	$phpAds_config['config_version'] < 200.089)
 	{
+		$banners = array();
+		
 		// Fetch all banners
 		$res = phpAds_dbQuery ("SELECT * FROM ".$phpAds_config['tbl_banners']);
 		

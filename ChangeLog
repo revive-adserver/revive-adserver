@@ -276,6 +276,8 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-05-30:  Added compatibility with JavaScript 1.1, Netscape 3 and IE 5 for Mac to JavaScript invocation  (Niels)
 			  - 2002-06-03:  Publisher checkboxes now work correctly again on banner-zone.php when zones linked to campaigns are present  (Niels)
 			  - 2002-06-04:  Zones were not shown on the banner-zone.php page when no compatible campaign zones were available  (Niels)
+			  - 2002-06-04:  Moved path detection behind include of config file to prevent warnings during upgrade  (Niels)
+			  - 2002-06-04:  Fixed E_ALL errors in database upgrade script when no banners were present during the upgrade  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
