@@ -262,7 +262,7 @@ function phpAds_PageHeader($ID, $extra="")
 		
 		
 		
-		if (phpAds_isLoggedIn() && phpAds_isUser(phpAds_Admin) && !defined('phpAds_installing'))
+		if (phpAds_isLoggedIn() && phpAds_isUser(phpAds_Admin) && !defined('phpAds_installing') && !defined('phpAds_updating'))
 		{
 			$searchbar  = "<table cellpadding='0' cellspacing='0' border='0' bgcolor='#0066CC' height='24'>";
 			$searchbar .= "<form name='search' action='admin-search.php' target='SearchWindow' onSubmit=\"search_window(document.search.keyword.value,'".$phpAds_config['url_prefix']."/admin/admin-search.php'); return false;\">";

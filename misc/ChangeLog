@@ -2,6 +2,7 @@ phpAdsNew - ChangeLog
 
 CVS
 			+ Misc changes
+			  - 2003-07-29:  Created new artwork for the installer  (Niels)
 			  - 2003-07-27:  Reordered the install pages  (Niels)
 			  - 2003-07-27:  Added integrity check of the files to the installer and updater  (Niels)
                           - 2003-07-27:  Added a check to see if the cache dir is writable to the updater  (Niels)
@@ -14,6 +15,7 @@ CVS
 			  - 2003-07-23:  Added missing style definitions for banner append to the css file  (Niels)
 			  - 2003-07-27:  Fixed Javascript error during form submit on zone-advanced page when using text ads  (Niels)
 			  - 2003-07-27:  Appended HTML to a text ad zone wasn't saved at all  (Niels)
+			  - 2003-07-29:  The search box is no longer visible during an upgrade  (Niels)
 
 
 v 2.0rc4.1		+ Misc bugfixes
