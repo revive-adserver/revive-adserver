@@ -62,13 +62,13 @@ function phpAds_dbConnect()
 	global $phpAds_db_link;
 	
 	// Add port to connect, if needed
-	if (!isset($phpAds_config['dbport'])) $phpAds_config['dbport'] = 3306;
-	$host = $phpAds_config['dbport'] != 3306 ? $phpAds_config['dbhost'].':'.$phpAds_config['dbport'] : $phpAds_config['dbhost'];
+	if (!isset($phpAds_config['dbport'])) 
+		$phpAds_config['dbport'] = 3306;
 
     if ($phpAds_config['persistent_connections'])
-        $phpAds_db_link = @mysql_pconnect ($host, $phpAds_config['dbuser'], $phpAds_config['dbpassword']);
+        $phpAds_db_link = @mysql_pconnect ($phpAds_config['dbhost'].':'.$phpAds_config['dbport'], $phpAds_config['dbuser'], $phpAds_config['dbpassword']);
     else
-        $phpAds_db_link = @mysql_connect ($host, $phpAds_config['dbuser'], $phpAds_config['dbpassword']);
+        $phpAds_db_link = @mysql_connect ($phpAds_config['dbhost'].':'.$phpAds_config['dbport'], $phpAds_config['dbuser'], $phpAds_config['dbpassword']);
 	
 	if ($phpAds_config['compatibility_mode'])
 		return $phpAds_db_link;
@@ -100,6 +100,10 @@ function phpAds_dbQuery($query)
 {
     global $phpAds_last_query;
 	global $phpAds_db_link;
+	
+	// Connect to the database, if needed
+	if (!$phpAds_db_link &&	!phpAds_dbConnect())
+		return false;
 	
     $phpAds_last_query = $query;
     return @mysql_query ($query, $phpAds_db_link);
