@@ -286,7 +286,7 @@ elseif (isset($submit))
 	
 	phpAds_cacheDelete();
 	
-	Header ('Location: banner-zone.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid);
+	Header ('Location: banner-append.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid);
 }
 
 
