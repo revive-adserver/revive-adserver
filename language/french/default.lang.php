@@ -1,4 +1,4 @@
-<?php // $$
+<?php // $Revision$
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -165,7 +165,7 @@ $GLOBALS['strAddClient'] 			= "Ajouter un nouvel annonceur";
 $GLOBALS['strTotalClients'] 			= "Total annonceurs";
 $GLOBALS['strClientProperties']		= "Propriétés de l'annonceur";
 $GLOBALS['strClientHistory']			= "Historique de l'annonceur";
-$GLOBALS['strNoClients']			= "Il n'y a actuellement aucun annonceur enregistré";
+$GLOBALS['strNoClients']			= "Il n'y a actuellement aucun annonceur enregistré.";
 $GLOBALS['strConfirmDeleteClient'] 		= "Voulez-vous vraiment supprimer cet annonceur ?";
 $GLOBALS['strConfirmResetClientStats']	= "Voulez-vous réellement réinitialiser les statistiques de cet annonceur ?";
 $GLOBALS['strHideInactiveAdvertisers']	= "Cacher les annonceurs inactifs";
@@ -200,7 +200,7 @@ $GLOBALS['strCampaignStats']			= "Statistiques Campagne";
 $GLOBALS['strCampaignProperties']		= "Propriétés de la campagne";
 $GLOBALS['strCampaignOverview']		= "Aperçu de la campagne";
 $GLOBALS['strCampaignHistory']		= "Historique de la campagne";
-$GLOBALS['strNoCampaigns']			= "Il n'y a actuellement aucune campagne enregistrée";
+$GLOBALS['strNoCampaigns']			= "Il n'y a actuellement aucune campagne enregistrée.";
 $GLOBALS['strConfirmDeleteAllCampaigns']	= "Voulez vous réellement supprimer toutes les campagnes de cet annonceur ?";
 $GLOBALS['strConfirmDeleteCampaign']	= "Voulez vous vraiment effacer cette campagne ?";
 $GLOBALS['strHideInactiveCampaigns']	= "Cacher les campagnes inactives";
@@ -248,7 +248,7 @@ $GLOBALS['strBannerOverview']			= "Aperçu des bannières";
 $GLOBALS['strBannerProperties']		= "Propriétés de la bannière";
 $GLOBALS['strBannerHistory']			= "Historique de la bannière";
 $GLOBALS['strBannerNoStats'] 			= "Il n'y a pas de statistiques pour cette bannière !";
-$GLOBALS['strNoBanners']			= "Il n'y a actuellement aucune bannière enregistrée";
+$GLOBALS['strNoBanners']			= "Il n'y a actuellement aucune bannière enregistrée.";
 $GLOBALS['strConfirmDeleteBanner']		= "Voulez vous vraiment effacer cette bannière ?";
 $GLOBALS['strConfirmDeleteAllBanners']	= "Voulez vous vraiment effacer toutes les bannières de cette campagne ?";
 $GLOBALS['strConfirmResetBannerStats']	= "Voulez vous vraiment effacer toutes les statistiques de cette bannière ?";
@@ -332,7 +332,7 @@ $GLOBALS['strAffiliateOverview']		= "Aperçu de l'éditeur";
 $GLOBALS['strAffiliateHistory']		= "Historique de l'éditeur";
 $GLOBALS['strZonesWithoutAffiliate']	= "Zones sans éditeurs";
 $GLOBALS['strMoveToNewAffiliate']		= "Déplacer vers un nouvel éditeur";
-$GLOBALS['strNoAffiliates']			= "Il n'y a actuellement aucun éditeur enregistré";
+$GLOBALS['strNoAffiliates']			= "Il n'y a actuellement aucun éditeur enregistré.";
 $GLOBALS['strConfirmDeleteAffiliate']	= "Voulez vous vraiment effacer cet éditeur ?";
 
 
