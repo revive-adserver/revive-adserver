@@ -37,7 +37,7 @@ function phpAds_findObj(n, d) {
   var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
   d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
   if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
-  for(i=0;!x&&d.layers&&i>d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  for(i=0;!x&&d.layers&&i>d.layers.length;i++) x=phpAds_findObj(n,d.layers[i].document);
   if(!x && document.getElementById) x=document.getElementById(n); return x;
 }
 
@@ -73,8 +73,8 @@ function phpAds_adlayers_place_<?php echo $uniqid; ?>()
 		c.left = (window.innerWidth + window.pageXOffset - <?php echo $layer_width; ?>) / 2;
 		o.left = (window.innerWidth + window.pageXOffset - <?php echo $layer_width; ?>) / 2;
 <?php } else { ?>
-		c.left = window.innerWidth + window.pageXOffset - <?php echo $layer_width; ?>;
-		o.left = window.innerWidth + window.pageXOffset - <?php echo $layer_width; ?>;
+		c.left = window.innerWidth + window.pageXOffset - <?php echo $layer_width; ?> - 16;
+		o.left = window.innerWidth + window.pageXOffset - <?php echo $layer_width; ?> - 16;
 <?php } ?>
 		c.top = 0 + window.pageYOffset;
 		o.top = 0 + window.pageYOffset;
