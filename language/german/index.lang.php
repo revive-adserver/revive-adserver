@@ -1,4 +1,4 @@
-<?php // $Revision: 2.0.0.0.49.1 $
+<?php // $Revision: 1.1.2.1 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -17,6 +17,6 @@
 // Meta information
 $translation_readable   = "Deutsch";
 $translation_maintainer	= "Rayner Jankowski";
-$translation_contact	= "infoi@Werbeplatzvermarktung.de";
+$translation_contact	= "info@Werbeplatzvermarktung.de";
 
 ?>

@@ -68,7 +68,7 @@ French
 
 German
 	---------------------------------------------------------
-	Maintained by:	   Rayner Jankowski (infoi@Werbeplatzvermarktung.de)
+	Maintained by:	   Rayner Jankowski (info@Werbeplatzvermarktung.de)
 	Is up-to-date?	   Yes
 	Last update:	   3 April 2003
 	Translated files:  7
