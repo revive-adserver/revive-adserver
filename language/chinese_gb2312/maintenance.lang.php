@@ -44,6 +44,7 @@ $GLOBALS['strRebuildDeliveryCache']		= "重建发送缓存区";
 $GLOBALS['strDeliveryCacheExplaination']	= "发送缓存区可以提高广告的发放速度.发送缓存区包含连接到此版位的所有广告的一个副本,当广告实际发放给用户的时候减少了一些数据库的查询.此缓存区通常在一个版位或者版位的一个广告改动的时候重建,它可能会过期.所以缓存区会每个小时自动重建一次,但您也可以手工重建.";
 $GLOBALS['strDeliveryCacheSharedMem']		= "现在使用共享内存来存放发送缓存区.";
 $GLOBALS['strDeliveryCacheDatabase']		= "现在使用数据库来存放发送缓存区.";
+$GLOBALS['strDeliveryCacheFiles']		= "现在使用您服务器上的多个文件来存放发送缓存区.";
 
 
 // Storage
@@ -75,9 +76,12 @@ $GLOBALS['strSecurityUpdate']			= "<b>强烈推荐您尽快安装此次更新，因为包含了一些
 
 $GLOBALS['strNotAbleToCheck']			= "<b>因为您的服务器XML扩展功能不能使用,".$phpAds_productname."无法检查是否有新的版本可以使用.</b>";
 
-$GLOBALS['strForUpdatesLookOnWebsite']		= "您现在运行的是".$phpAds_productname." ".$phpAds_version_readable.".如果您想知道是否有新的版本可用,请访问我们的网站.";
+$GLOBALS['strForUpdatesLookOnWebsite']		= "如果您想知道是否有新的版本可用,请访问我们的网站.";
 
 $GLOBALS['strClickToVisitWebsite']		= "请点击这里来访问我们的网站.";
+$GLOBALS['strCurrentlyUsing']			= "您现在使用的是";
+$GLOBALS['strRunningOn']			= "运行在";
+$GLOBALS['strAndPlain']				= "和";
 
 
 // Stats conversion

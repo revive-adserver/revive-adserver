@@ -93,6 +93,7 @@ $GLOBALS['strEditConfigPossible']		= "ÏÖÔÚ¿ÉÒÔĞŞ¸ÄËùÓĞÅäÖÃ,ÒòÎªÅäÖÃÎÄ¼şÃ»ÓĞËø¶¨,
 // Database
 $GLOBALS['strDatabaseSettings']			= "Êı¾İ¿âÉèÖÃ";
 $GLOBALS['strDatabaseServer']			= "Êı¾İ¿âÉèÖÃ";
+$GLOBALS['strDbLocal']				= "Ê¹ÓÃÌ×½Ó×ÖÁ¬½Ó±¾µØ·şÎñÆ÷"; //Pg×¨ÓÃ
 $GLOBALS['strDbHost']				= "Êı¾İ¿âÖ÷»ú";
 $GLOBALS['strDbPort']				= "Êı¾İ¿â¶Ë¿ÚºÅ";
 $GLOBALS['strDbUser']				= "Êı¾İ¿âÓÃ»§Ãû";
@@ -194,6 +195,7 @@ $GLOBALS['strProxyLookup']			= "Èç¹û·ÃÎÊÕßÊ¹ÓÃÁË´úÀí,²éÑ¯ÕæÊµIPµØÖ·";
 $GLOBALS['strGeotargeting']			= "µØÓò";
 $GLOBALS['strGeotrackingType']			= "µØÓòÊı¾İ¿âÀàĞÍ";
 $GLOBALS['strGeotrackingLocation'] 		= "µØÓòÊı¾İ¿âÎ»ÖÃ";
+$GLOBALS['strGeotrackingLocationError'] 	= "ÔÚÄúÖ¸¶¨µÄÎ»ÖÃÃ»ÓĞÕÒµ½µØÓòÊı¾İ¿âÎ»ÖÃ";
 $GLOBALS['strGeoStoreCookie']			= "±£´æ½á¹ûµ½cookieÖĞ¹©ÒÔºó²Î¿¼";
 
 
@@ -219,11 +221,11 @@ $GLOBALS['strBlockAdclicks']			= "Èç¹û·ÃÎÊÕßÒÑ¾­µã»÷ÁË¹ã¸æ,²»¼ÇÂ¼Í¬Ò»¹ã¸æµã»÷Êıµ
 
 
 $GLOBALS['strEmailWarnings']			= "µç×ÓÓÊ¼ş¾¯¸æ";
-$GLOBALS['strAdminEmailHeaders']		= "ÏÔÊ¾Ã¿ÈÕ±¨±í·¢ËÍÕßµÄÓÊ¼şÍ·";
-$GLOBALS['strWarnLimit']			= "¾¯¸æÏŞÖÆ";
+$GLOBALS['strAdminEmailHeaders']		= $phpAds_productname."·¢ËÍµÄÃ¿Ò»·âµç×ÓÓÊ¼ş¶¼¼ÓÉÏ´ËÓÊ¼şÍ·";
+$GLOBALS['strWarnLimit']			= "µ±·ÃÎÊÊı´æÁ¿Ğ¡ÓÚ´ËÖ¸¶¨ÊıÊ±·¢ËÍÒ»¸ö¾¯¸æĞÅÏ¢";
 $GLOBALS['strWarnLimitErr']			= "¾¯¸æÏŞÖÆ±ØĞëÊÇÒ»¸öÕıÕûÊı";
-$GLOBALS['strWarnAdmin']			= "¾¯¸æ¹ÜÀíÔ±";
-$GLOBALS['strWarnClient']			= "¾¯¸æ¿Í»§";
+$GLOBALS['strWarnAdmin']			= "Ã¿´Îµ±Ò»¸öÏîÄ¿¿ì¹ıÆÚµÄÊ±ºò¸ø¹ÜÀíÔ±·¢ËÍÒ»¸ö¾¯¸æĞÅÏ¢";
+$GLOBALS['strWarnClient']			= "Ã¿´Îµ±Ò»¸öÏîÄ¿¿ì¹ıÆÚµÄÊ±ºò¸ø¿Í»§·¢ËÍÒ»¸ö¾¯¸æĞÅÏ¢";
 $GLOBALS['strQmailPatch']			= "ÆôÓÃqmail²¹¶¡";
 
 $GLOBALS['strAutoCleanTables']			= "×Ô¶¯ÇåÀíÊı¾İ¿â";
@@ -268,8 +270,10 @@ $GLOBALS['strGuiSettings']			= "ÓÃ»§½çÃæÉèÖÃ";
 
 $GLOBALS['strGeneralSettings']			= "Ò»°ãÉèÖÃ";
 $GLOBALS['strAppName']				= "³ÌĞòÃû×Ö";
-$GLOBALS['strMyHeader']				= "Ò³Ãæ¶¥²¿";
-$GLOBALS['strMyFooter']				= "Ò³Ãæµ×²¿";
+$GLOBALS['strMyHeader']				= "Ò³Ãæ¶¥²¿ÎÄ¼şËùÔÚÎ»ÖÃ";
+$GLOBALS['strMyHeaderError']			= "ÔÚÄúÖ¸¶¨µÄÎ»ÖÃÃ»ÓĞÕÒµ½Ò³Ãæ¶¥²¿ÎÄ¼şËùÔÚÎ»ÖÃ";
+$GLOBALS['strMyFooter']				= "Ò³Ãæµ×²¿ÎÄ¼şËùÔÚÎ»ÖÃ";
+$GLOBALS['strMyFooterError']			= "ÔÚÄúÖ¸¶¨µÄÎ»ÖÃÃ»ÓĞÕÒµ½Ò³Ãæµ×²¿ÎÄ¼şËùÔÚÎ»ÖÃ";
 $GLOBALS['strGzipContentCompression']		= "Ê¹ÓÃGZIPÄÚÈİÑ¹Ëõ";
 
 $GLOBALS['strClientInterface']			= "¿Í»§½çÃæ";

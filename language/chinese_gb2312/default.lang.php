@@ -22,7 +22,6 @@
 $GLOBALS['phpAds_TextDirection']  		= "ltr";
 $GLOBALS['phpAds_TextAlignRight'] 		= "right";
 $GLOBALS['phpAds_TextAlignLeft']  		= "left";
-$GLOBALS['phpAds_CharSet'] 				= "gb2312";
 
 $GLOBALS['phpAds_DecimalPoint']			= ',';
 $GLOBALS['phpAds_ThousandsSeperator']		= '.';
@@ -48,7 +47,7 @@ $GLOBALS['strHelp']				= "°ïÖú";
 $GLOBALS['strNavigation'] 			= "Ñ¡Ïî";
 $GLOBALS['strShortcuts'] 			= "½İ¾¶";
 $GLOBALS['strAdminstration'] 			= "ÏµÍ³¹ÜÀí";
-$GLOBALS['strMaintenance']			= "Î¬»¤";
+$GLOBALS['strMaintenance']			= "ÏµÍ³Î¬»¤";
 $GLOBALS['strProbability']			= "·ÃÎÊ±ÈÀı";
 $GLOBALS['strInvocationcode']			= "²úÉúÍøÒ³Ô­Ê¼Âë";
 $GLOBALS['strBasicInformation'] 		= "»ù±¾×ÊÁÏ";
@@ -175,7 +174,7 @@ $GLOBALS['strTimes']				= "Ê±¼ä";
 // Advertiser
 $GLOBALS['strClient']				= "¿Í»§";
 $GLOBALS['strClients'] 				= "¿Í»§";
-$GLOBALS['strClientsAndCampaigns']		= "¿Í»§ & ÏîÄ¿";
+$GLOBALS['strClientsAndCampaigns']		= "¿Í»§&ÏîÄ¿";
 $GLOBALS['strAddClient'] 			= "ĞÂÔö¿Í»§";
 $GLOBALS['strAddClient_Key'] 			= "<u>n</u>ĞÂÔö¿Í»§";
 $GLOBALS['strTotalClients'] 			= "¿Í»§×ÜÊı";
@@ -191,8 +190,8 @@ $GLOBALS['strInactiveAdvertisersHidden']	= "Í£ÓÃµÄ¿Í»§ÒÑ¾­Òş²Ø";
 // Advertisers properties
 $GLOBALS['strContact'] 				= "ÁªÏµÈË";
 $GLOBALS['strEMail'] 				= "µç×ÓÓÊ¼şĞÅÏä";
-$GLOBALS['strSendAdvertisingReport']		= "Ê¹ÓÃµç×ÓÓÊ¼ş´«ËÍ¹ã¸æĞ§Òæ±¨±í";
-$GLOBALS['strNoDaysBetweenReports']		= "¹ã¸æĞ§Òæ±¨±í¼ÄËÍ¼ä¸ôÌìÊı";
+$GLOBALS['strSendAdvertisingReport']		= "Ê¹ÓÃµç×ÓÓÊ¼ş´«ËÍ¹ã¸æ±¨±í";
+$GLOBALS['strNoDaysBetweenReports']		= "¹ã¸æ±¨±í¼ÄËÍ¼ä¸ôÌìÊı";
 $GLOBALS['strSendDeactivationWarning']		= "µ±¹ã¸æÏîÄ¿±»Í£ÓÃÊ±·¢ËÍ¾¯¸æµç×ÓÓÊ¼ş";
 $GLOBALS['strAllowClientModifyInfo'] 		= "ÔÊĞí¸ÃÊ¹ÓÃÕß¸ü¶¯¿Í»§»ù±¾×ÊÁÏ";
 $GLOBALS['strAllowClientModifyBanner'] 		= "ÔÊĞí¸ÃÊ¹ÓÃÕß¸ü¶¯¹ã¸æÄÚÈİ";
@@ -219,7 +218,8 @@ $GLOBALS['strCampaignOverview']			= "ÏîÄ¿×ÜÀÀ";
 $GLOBALS['strCampaignHistory']			= "ÏîÄ¿ÀúÊ·";
 $GLOBALS['strNoCampaigns']			= "ÏÖÔÚÃ»ÓĞÈÎºÎÏîÄ¿´æÔÚ";
 $GLOBALS['strConfirmDeleteAllCampaigns']	= "ÊÇ·ñÈ·¶¨ÒªÉ¾³ı´Ë¿Í»§µÄËùÓĞÏîÄ¿?";
-$GLOBALS['strConfirmDeleteCampaign']		= "ÊÇ·ñÈ·¶¨ÒªÉ¾³ı´ËÏîÄ¿£";
+$GLOBALS['strConfirmDeleteCampaign']		= "ÊÇ·ñÈ·¶¨ÒªÉ¾³ı´ËÏîÄ¿?";
+$GLOBALS['strConfirmResetCampaignStats']	= "ÊÇ·ñÈ·¶¨ÒªÉ¾³ı´ËÏîÄ¿µÄËùÓĞÍ³¼ÆÊı¾İ?";
 $GLOBALS['strHideInactiveCampaigns']		= "Òş²ØÍ£ÓÃµÄÏîÄ¿";
 $GLOBALS['strInactiveCampaignsHidden']		= "Í£ÓÃµÄÏîÄ¿ÒÑ¾­Òş²Ø";
 
@@ -346,7 +346,7 @@ $GLOBALS['strImpressionCapping']		= "´Ë¹ã¸æ¶ÔÍ¬Ò»ÓÃ»§ÏÔÊ¾²»³¬¹ı£º";
 // Publisher
 $GLOBALS['strAffiliate']			= "·¢²¼Õß";
 $GLOBALS['strAffiliates']			= "·¢²¼Õß";
-$GLOBALS['strAffiliatesAndZones']		= "·¢²¼Õß & °æÎ»";
+$GLOBALS['strAffiliatesAndZones']		= "·¢²¼Õß&°æÎ»";
 $GLOBALS['strAddNewAffiliate']			= "Ôö¼ÓĞÂ·¢²¼Õß";
 $GLOBALS['strAddNewAffiliate_Key']		= "<u>n</u>Ôö¼ÓĞÂ·¢²¼Õß";
 $GLOBALS['strAddAffiliate']			= "´´½¨·¢²¼Õß";
@@ -478,7 +478,7 @@ $GLOBALS['strEstimated'] 			= "¹À¼ÆÊ§Ğ§ÈÕÆÚ";
 
 
 // Reports
-$GLOBALS['strReports']				= "¹ã¸æĞ§Òæ±¨±í";
+$GLOBALS['strReports']				= "¹ã¸æ±¨±í";
 $GLOBALS['strSelectReport']			= "ÇëÑ¡ÔñÄúÏë²úÉúµÄ±¨±í";
 
 
@@ -520,7 +520,7 @@ $GLOBALS['strErrorStoreFTP']			= "ÔÚ°Ñ¹ã¸æÍ¨¹ıFTP·şÎñÆ÷ÉÏ´«µÄÊ±ºò·¢ÉúÁËÒ»¸ö´íÎó.
 
 // E-mail
 $GLOBALS['strMailSubject'] 			= "¹ã¸æ±¨±í";
-$GLOBALS['strAdReportSent']			= "¹ã¸æĞ§Òæ±¨±íÒÑ¼ÄËÍÍê³É";
+$GLOBALS['strAdReportSent']			= "¹ã¸æ±¨±íÒÑ¼ÄËÍÍê³É";
 $GLOBALS['strMailSubjectDeleted']		= "ÒÑÍ£ÓÃ¹ã¸æ";
 $GLOBALS['strMailHeader'] 			= "Ç×°®µÄ{contact},\n";
 $GLOBALS['strMailBannerStats'] 			= "ÒÔÏÂÎª¿Í»§{clientname}µÄ¹ã¸æÍ³¼ÆÊı¾İ:";
@@ -546,7 +546,7 @@ $GLOBALS['strPriority']				= "ÓÅÏÈÈ¨";
 
 
 // Settings
-$GLOBALS['strSettings'] 			= "ÉèÖÃ";
+$GLOBALS['strSettings'] 			= "ÏµÍ³ÉèÖÃ";
 $GLOBALS['strGeneralSettings']			= "Ò»°ãÉèÖÃ";
 $GLOBALS['strMainSettings']			= "Ö÷ÒªÉèÖÃ";
 $GLOBALS['strAdminSettings']			= "¹ÜÀíÔ±ÉèÖÃ";
