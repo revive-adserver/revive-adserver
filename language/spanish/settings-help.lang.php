@@ -4,8 +4,8 @@
 /* phpAdsNew 2                                                          */
 /* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2001 by the phpAdsNew developers                       */
-/* http://sourceforge.net/projects/phpadsnew                            */
+/* Copyright (c) 2000-2002 by the phpAdsNew developers                  */
+/* For more information visit: http://www.phpadsnew.com                 */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -16,313 +16,436 @@
 
 // Settings help translation strings
 $GLOBALS['phpAds_hlp_dbhost'] = "
-        Specify the hostname of the MySQL database server.
+        Especifique el nombre del host donde se encuentra la base de datos de ".$phpAds_dbmsname.".
 		";
 		
 $GLOBALS['phpAds_hlp_dbuser'] = "
-        Specify the username which phpAdsNew must use to gain access to the MySQL database server.
+        Especifique el nombre de usuario con el cual ".$phpAds_productname." acceder&aacute; a la base de datos ".$phpAds_dbmsname.".
 		";
 		
 $GLOBALS['phpAds_hlp_dbpassword'] = "
-        Specify the password which phpAdsNew must use to gain access to the MySQL database server.
+        Especifique el password que usar&aacute; ".$phpAds_productname." para acceder a la base de datos ".$phpAds_dbmsname.".
 		";
 		
 $GLOBALS['phpAds_hlp_dbname'] = "
-        Specify the name of the database where phpAdsNew must store its data.
+        Especifique el nombre de la base de datos donde ".$phpAds_productname." debe ingresar los datos.
 		";
 		
 $GLOBALS['phpAds_hlp_persistent_connections'] = "
-        The use of persistent connection can speed up phpAdsNew considerably 
-		and may even decrease the load on the server. There is a drawback however, on sites with 
-		a lot of visitors the load on the server can increase and become larger then when using normal 
-		connections. Whether you should use regular connections or persistant connections depends on the 
-		number of visitors and the hardware your are using. If phpAdsNew is using too many resources, 
-		you should take a look at this setting first.
+	El uso de conexiones persistentes puede acelerar el uso de ".$phpAds_productname." considerablemente
+	y posiblemente decremente la carga en el server. Sin embargo hay un inconveniente\; en sitios en los cuales
+	hay gran cantidad de visitantes, la carga en el servidor puede incrementar usando conexiones normales.
+	Ud. deber&aacute; decidir que tipo de conexi&oacute;n usar dependiendo de la cantidad de visitanes y el hardware que Ud. use.
+	Si ".$phpAds_productname." est&aacute; usando demasiados recursos, deber&aacute; revisar esta configuraci&oacute;n primero.
 		";
 		
 $GLOBALS['phpAds_hlp_insert_delayed'] = "
-        MySQL locks the table when it is inserting data. If have many visitors to your site, 
-		it could be possible phpAdsNew must wait before inserting a new row, because the database 
-		is still locked. When you use insert delayed, you don't have to wait and the row will 
-		be inserted at a later time when the table is not in use by any other thread. 
+        ".$phpAds_dbmsname." bloquea la tabla mientras est&aacute; insertando datos. Si Ud. tiene muchos visitantes en su sitio, 
+		es posible que ".$phpAds_productname." deba esperar antes de insertar un nuevo registro, ya que la base de datos
+		se encuentra bloqueada. Cuando Ud. usa inserci&oacute;n demorada, Ud. no debe esperar y el registro ser&aacute; insertado
+		luego cuando la tabla no est&eacute; siendo usada.
+		";
+		
+$GLOBALS['phpAds_hlp_compatibility_mode'] = "
+        Si est&aacute; teniendo dificultades integrando ".$phpAds_productname." con otro producto de un tercero, tal vez le ayude habilitar
+		el modo de compatibilidad de base de datos. Si est&aacute; usando el modo de invocaci&oacute;n local y la compatibilidad de base de datos
+		se encuentra activada en ".$phpAds_productname." debe dejar el estado de conexi&oacute;n de la base de datos exactamente como se
+		encontraba antes de correr ".$phpAds_productname.".
+		Esta opci&oacute;n es un tanto mas lenta y por lo tanto deshabilitada por default.
 		";
 		
 $GLOBALS['phpAds_hlp_table_prefix'] = "
-        If the database phpAdsNew is using is shared by mutiple software products, it is wise
-		to add a prefix to names of the tables. If you are using multiple installations of phpAdsNew
-		in the same database, you need to make sure this prefix is unique for all installations.
+        Si la base de datos ".$phpAds_productname." es usada o compartida por multiples softwares, es aconsejable agregar un prefijo al nombre de las tablas.
+		Si est&aacute; usando multiples instalaciones de ".$phpAds_productname."
+		en la misma base de datos, deber&aacute; asegurarse que este prefijo sea &uacute;nico para todas las instalaciones.
 		";
 		
 $GLOBALS['phpAds_hlp_tabletype'] = "
-        MySQL supports multiple table types. Each type of table has unique properties and some
-		can speed up phpAdsNew considerable. MyISAM is the default table type and is available
-		in all installations of MySQL. Other table types may not be available on your server
+        ".$phpAds_dbmsname." soporta multiples tipos de tablas. Cada tipo de tabla tiene una propiedades &uacute;nicas y algunas pueden acelerar ".$phpAds_productname."
+		considerablemente. MyISAM es el tipo predeterminado y se encuentra disponible en todas las instalaciones de ".$phpAds_dbmsname.". 
+		Otro tipo de tablas tal vez no se encuentren disponibles en su servidor.
 		";
 		
 $GLOBALS['phpAds_hlp_url_prefix'] = "
-        phpAdsNew needs to know where it is located on the web server in order 
-        to work correctly. You must specify the URL to the directory where phpAdsNew 
-        is installed, for example: http://www.your-url.com/phpAdsNew.
+        ".$phpAds_productname." necesita saber donde se encuentra ubicado en el web server para 
+        funcionar correctamente. Debe especificar la URL hacia el directorio donde ".$phpAds_productname."
+        se encuentra instalado, por ejemplo: http://www.su-sitio.com/".$phpAds_productname.".
 		";
 		
 $GLOBALS['phpAds_hlp_my_header'] =
 $GLOBALS['phpAds_hlp_my_footer'] = "
-        You should put here the path to the header files (e.g.: /home/login/www/header.htm) 
-        to have a header and/or footer on each page in the admin interface. You 
-        can put either text or html in these files (if you want to use html in 
-        one or both of these files do not use tags like <body> or <html>).
+        Aqu&iacute; debe ingresar la direcci&oacute;n hacia el archivo de encabeazdo (ej.: /home/login/www/encabezado.htm)
+        para usar un encabezado y/o pie de p&aacute;gina en cada p&aacute;gina de la interface de administraci&oacute;n.
+        Puede usar texto o c&oacute;digo HTML en estos archivos (si va a utilizar HTML en uno o en ambos
+        archivos no use los tags &lt;body> o &lt;html>).
+		";
+		
+$GLOBALS['phpAds_hlp_content_gzip_compression'] = "
+		Habilitando la compresi&oacute;n de contenido GZIP obtendr&aacute; un gran decrecimiento en el env&iacute;o de datos
+		al navegador cada vez que abra una p&aacute;gina de la interfaz de administraci&oacute;n.
+		Para habilitar esta caracter&iacute;stica debe tener al menos PHP 4.0.5 con la extensi&oacute;n GZIP instalada.
 		";
 		
 $GLOBALS['phpAds_hlp_language'] = "
-        Specify the default language phpAdsNew should use. This language will 
-        be used as a default for the admin and client interface. Please note: 
-        you can set a different language for each client from the admin interface 
-        and allow clients to change their language themselves.
+        Especifique el idioma predeterminado para ".$phpAds_productname.". Este idioma ser&aacute;
+        usado com predeterminado para la interfaz de administraci&oacute;n y de anunciantes. Note que
+        puede asignar un idioma diferente para cada anunciante en la interfaz de administraci&oacute;n
+        y puede permitir que ellos mismos cambien su idioma.
 		";
 		
 $GLOBALS['phpAds_hlp_name'] = "
-        Specify the name you want to use for this application. This string will 
-        be displayed on all pages in the admin and client interface. If you leave 
-        this setting empty (default) a logo of phpAdsNew will be displayed instead.
+        Especifique el nombre que desea usar para esta aplicaci&oacute;n. El nombre se mostrar&aacute;
+        en todas las p&aacute;ginas en la interface de administraci&oacute;n y del anunciante. Si deja esta opci&oacute;n
+        incompleta, aparecer&aacute; un logo de ".$phpAds_productname." en su lugar.
 		";
 		
 $GLOBALS['phpAds_hlp_company_name'] = "
-        This name is used in the e-mail sent by phpAdsNew.
+        Este nombre ser&aacute; usado en los mails enviados por ".$phpAds_productname.".
 		";
 		
 $GLOBALS['phpAds_hlp_override_gd_imageformat'] = "
-        phpAdsNew usually detects if the GD library is installed and which image 
-        format is supported by the installed version of GD. However it is possible 
-        the detection is not accurate or false, some versions of PHP do not allow 
-        the detection of the supported image formats. If phpAdsNew fails to auto-detect 
-        the right image format you can specify the right image format. Possible 
-        values are: none, png, jpeg, gif.
+        ".$phpAds_productname." detecta normalmente si la librer&iacute;a GS se encuentra instalada y que
+        formato de imagenes soporta la versi&oacute;n instalada. Tambi&eacute;n es posible
+        que la detecci&oacute;n autom&aacute;tica falle, ya que algunas versiones de PHP no soportan
+        la autodetecci&oacute;n. Si ".$phpAds_productname." falla, puede ingresar lso formatos de imagenes soportados
+        manualmente. Los valroes posibles son: none, png, jpeg, gif.
 		";
 		
 $GLOBALS['phpAds_hlp_p3p_policies'] = "
-        If you want to enable phpAdsNew' P3P Privacy Policies you must turn this 
-        option on. 
+        Si desea habilitar las Pol&iacute;ticas de Privacidad P3P de ".$phpAds_productname."'
+        debe habilitar esta opci&oacute;n.
 		";
 		
 $GLOBALS['phpAds_hlp_p3p_compact_policy'] = "
-        The compact policy which is sent together with cookies. The default setting 
-        is: 'CUR ADM OUR NOR STA NID', which will allow Internet Explorer 6 to 
-        accept the cookies used by phpAdsNew. If you want you can alter these 
-        settings to match your own privacy statement.
-		";
+        Pol&iacute;ticas compactas enviadas junto a las cookies. La configuraci&oacute;n predeterminada
+        es: 'CUR ADM OUR NOR STA NID', que permitir&aacute; al Internet Explorer 6 aceptar
+        las cookies usadas por ".$phpAds_productname.". Puede alterar esta configuraci&oacute;n si lo desea.
+        ";
 		
 $GLOBALS['phpAds_hlp_p3p_policy_location'] = "
-        If you want to use a full privacy policy, you can specify the location 
-        of the policy.
+        Si desea usar las Pol&iacute;ticas de Privacidad completas, puede especificar la
+        ubicaci&oacute;n ed las mismas.
+		";
+		
+$GLOBALS['phpAds_hlp_log_beacon'] = "
+		Los Beacons son peque&ntilde;as imagenes insertadas en la p&aacute;gina donde se
+		muestra el banner. Si habilita esta opci&oacute;n en ".$phpAds_productname." usar&aacute; los beacon
+        para contar el n&uacute;mero de impresiones recibidas por el banner. En cambio, si deshabilita esta opci&oacute;n,
+        las impresiones ser&aacute;n contadas durante el env&iacute;o del banner. Este m&eacute;todo no es del todo preciso,
+		ya que no todos los banners enviados son vistos en pantalla.
 		";
 		
 $GLOBALS['phpAds_hlp_compact_stats'] = "
-        Traditionally phpAdsNew used rather extensive logging, which was very 
-        detailed but was also very demanding on the database server. This could 
-        be a big problem on sites with a lot of visitors. To overcome this problem
-		phpAdsNew also supports a new kind of statistics, the compact statistics, 
-		which is less demanding on the database server, but also less detailed. 
-		The compact statistics only logs daily statistics, if you need hourly statistics 
-		you can turn the compact statistics off.
+        Tradicionalmente ".$phpAds_productname." usaba el m&eacute;todo de logueo extendido, el cual
+        era muy detallado, pero era muy demandante para el servidor de bases de datos. Esto puede
+        ser un gran problema en sitios con una gran cantidad de visitantes.
+        Para resolver este problema	".$phpAds_productname." soporta una nueva clase de estad&iacute;sticas.
+        Las estad&iacute;sticas compactas, son menos demandantes aunque tambi&eacute;n menos detalladas. Si necesita un
+        detalle por hora deber&aacute; deshabilitar la opci&oacute;n de estad&iacute;sticas compactas.
 		";
 		
 $GLOBALS['phpAds_hlp_log_adviews'] = "
-        Normally all AdViews are logged, if you don't want to gather statistics 
-        about AdViews you can turn this off.
+        Normalmente todas las impresiones son logueadas. Si no desea obtener estad&iacute;sticas de
+        las impresiones puede deshabilitar esta opci&oacute;n.
+		";
+		
+$GLOBALS['phpAds_hlp_block_adviews'] = "
+		Si un visitante actualiza la p&aacute;gina una Impresi&oacute;n es logueada por ".$phpAds_productname." cada vez.
+		Esta opci&oacute;n es utilizada para asegurarse de que se loguear&aacute; &uacute;nicamente una Impresi&oacute;n por visitante
+		por una cantidad de segundos especificados. Por ejemplo: si en esta opci&oacute;n indica 60 segundos,
+        por mas que un mismo usuario actualize la misma p&aacute;gina 5 veces en 60 segundos solo se loguear&aacute; una impresi&oacute;n.
+        Esta opci&oacute;n solo funcionar&aacute; si est&aacute; habilitada la opci&oacute;n <i>USar beacons para loguear Impresiones</i> y
+        si el navegador acepta cookies.
 		";
 		
 $GLOBALS['phpAds_hlp_log_adclicks'] = "
-        Normally all AdClicks are logged, if you don't want to gather statistics 
-        about AdClicks you can turn this off.
+        Normalmente todos los Clicks son logueados. Si no desea obtener estad&iacute;sticas de
+        Clicks puede deshabilitar esta opci&oacute;n.
+		";
+		
+$GLOBALS['phpAds_hlp_block_adclicks'] = "
+		Si un visitante clickea multiples veces un banner, un Click es logueada por ".$phpAds_productname." cada vez.
+		Esta opci&oacute;n es utilizada para asegurarse de que se loguear&aacute; &uacute;nicamente un Banner por visitante
+		por una cantidad de segundos especificados. Por ejemplo: si en esta opci&oacute;n indica 60 segundos,
+        por mas que un mismo usuario clickee multiples veces en un banner en 60 segundos solo se loguear&aacute; un Click.
+        Esta opci&oacute;n solo funcionar&aacute; si el navegador acepta cookies.
 		";
 		
 $GLOBALS['phpAds_hlp_reverse_lookup'] = "
-        phpAdsNew logs the IP address of each visitor by default. If you want 
-        phpAdsNew to log domain names you should turn this on. Reverse lookup 
-        does take some time; it will slow everything down.
+        ".$phpAds_productname." loguea la IP de cada visitante. Si desea que
+        ".$phpAds_productname." loguee los nombres de dominios, habilite esta opci&oacute;n. Reverse lookup
+        toma alg&uacute;n tiempo, por lo tanto har&aacute; el sistema m&aacute;s lento.
+		";
+		
+$GLOBALS['phpAds_hlp_proxy_lookup'] = "
+		Algunos usuarios usan un servidor proxy para conectarse a internet. En este caso
+		".$phpAds_productname." loguear&aacute; la IP o el nombre de host del servidor proxy
+		en lugar del del usuario. Si habilita esta opci&oacute;n ".$phpAds_productname." intentar&aacute;
+		hallar la IP o el host del usuario detr&aacute;s del servidor proxy.
+		De no ser posible hallar la IP o el host exacto del usuario, se loguear&aacute; la del servidor proxy
+		en su lugar. habilitar esta opci&oacute;n har&aacute; mas lento elproceso de logueo.
 		";
 		
 $GLOBALS['phpAds_hlp_ignore_hosts'] = "
-        If you don't want to count clicks and views from certain computer you 
-        can add these to this array. If you have enabled reverse lookup you can 
-        add both domain names and IP addresses, otherwise you can only use IP 
-        addresses. You can also use wildcards (i.e. '*.altavista.com' or '192.168.*').
+        Si no desea contar los Clicks o Impresiones de determinados dominios o IPs
+        puede agregarlos a esta lista. Si tiene habilitado <i>Reverse Lookup</i>
+        puede agregar nombres de dominios o IPs, o bien solamente IPs.
+        Puede usar comodines (por ejemplo: '*.altavista.com' or '192.168.*').
 		";
 		
 $GLOBALS['phpAds_hlp_begin_of_week'] = "
-        For most people a week starts on a Monday, but if you want to start each 
-        week on a Sunday you can.
+        Para la mayor&iacute;a de las personas la semana empieza el Lunes, pero si desea especificar que la semana
+        comience los Domingos, puede hacerlo.
 		";
 		
 $GLOBALS['phpAds_hlp_percentage_decimals'] = "
-        Specifies how many decimal places to display on statistics pages.
+        Especifica cuantos decimales usar en las p&aacute;ginas de estad&iacute;sticas.
 		";
 		
 $GLOBALS['phpAds_hlp_warn_admin'] = "
-        phpAdsNew can sent you e-mail if a client has only a limited number of 
-        clicks or views left. This is turned on by default.
+        ".$phpAds_productname." puede enviarle un e-mail si una campa&ntilde;a tiene solo un n&uacute;mero limitado
+        de Clicks o Impresiones disponibles. Esta opci&oacute;n se encuentra habilitada por defecto.
 		";
 		
 $GLOBALS['phpAds_hlp_warn_client'] = "
-        phpAdsNew can sent the client e-mail if he has only a limited number of 
-        clicks or views left. This is turned on by default.
+        ".$phpAds_productname." puede enviarle un e-mail a un anunciante si una campa&ntilde;a tiene solo un n&uacute;mero limitado
+        de Clicks o Impresiones disponibles. Esta opci&oacute;n se encuentra habilitada por defecto.
+        ";
+		
+$GLOBALS['phpAds_hlp_qmail_patch'] = "
+		Algunas versiones de qmail se ven afectadas por un bug que dejan ver los encabezados
+        del e-mail en el cuerpo del mensaje.
+        Si habilita esta opci&oacute;n, ".$phpAds_productname." enviar&aacute; los e-mails en formato compatible para
+		qmail.
 		";
 		
 $GLOBALS['phpAds_hlp_warn_limit'] = "
-        The limit on which phpAdsNew starts sending warning e-mails. This is 100 
-        by default.
+        El l&iacute;mite en el cual ".$phpAds_productname." comienza a enviar e-mails de advertencia.
+        El valor predeterminado es 100.
 		";
 		
-$GLOBALS['phpAds_hlp_retrieval_method'] = "
-        phpAdsNew can use four different types of banner retrieval: Random banner 
-        retrieval (default), Normal sequential banner retrieval, Weight 
-        based sequential banner retrieval and Full sequential banner retrieval.
-      	If you are using Zones, phpAdsNew will always use random banner retrieval 
-        and this setting will be ignored.
+$GLOBALS['phpAds_hlp_allow_invocation_plain'] = 
+$GLOBALS['phpAds_hlp_allow_invocation_js'] = 
+$GLOBALS['phpAds_hlp_allow_invocation_frame'] = 
+$GLOBALS['phpAds_hlp_allow_invocation_xmlrpc'] = 
+$GLOBALS['phpAds_hlp_allow_invocation_local'] = 
+$GLOBALS['phpAds_hlp_allow_invocation_interstitial'] = 
+$GLOBALS['phpAds_hlp_allow_invocation_popup'] = "
+		Estas opciones le permiten controlas que tipos de invocaci&oacute;n est&aacute;n permitidos.
+		Si uno de estos tipos es deshabilitado, no se encontrar&aacute; disponible
+		en el Generador de C&oacute;digos de Banners. Importante: Los m&eacute;todos de invocaci&oacute;n
+		seugir&aacute;n funcionando aunque se deshabilite alguna opci&oacute;n, pero no estar&aacute; disponible en el Generador.
 		";
 		
 $GLOBALS['phpAds_hlp_con_key'] = "
-        phpAdsNew includes a powerful banner retrieval system. For more information, 
-        please read the API section. With this option, you can activate conditional 
-        keywords. This is turned on by default.
+        ".$phpAds_productname." incluye un poderoso sistema de recuperaci&oacute;n de palabras claves usando
+        selecci&oacute;n directa. para mayor informaci&oacute;n, por favor lea la Guia de Usuarios. Con esta opci&oacute;n, puede
+		activar palabras claves condicionales. Esta opci&oacute;n est&aacute; habilitada por defecto.
 		";
 		
 $GLOBALS['phpAds_hlp_mult_key'] = "
-        For each banner, you can specify one or more keywords. This option is 
-        needed if you want to specify more than one keyword. This is turned on 
-        by default.
+        Si usa selecci&oacute;n directa para mostrar banners, puede especificar una o mas palabras claves
+		para cada banner. Esta opci&oacute;n debe estar habilitada si desea utiliazr mas de una palabra clave.
+        Esta opci&oacute;n se encuentra habilitada por defecto.
 		";
 		
 $GLOBALS['phpAds_hlp_acl'] = "
-        If you are not using display limitations you can disable ACL checking with this parameter, 
-        this will speed up phpAdsNew.
+        Si no est&aacute; usando limitaciones de env&iacute;o puede deshabilitar esta opci&oacute;n con este par&aacute;metro.
+        Esto acelerar&aacute; un poco mas a ".$phpAds_productname.".
 		";
 		
 $GLOBALS['phpAds_hlp_default_banner_url'] = 
 $GLOBALS['phpAds_hlp_default_banner_target'] = "
-        If phpAdsNew can't connect to the database server, or can't find any matching 
-        banners at all, for example when the database crashed or was deleted, 
-        it won't display anything. Some users may want to specify a default banner, 
-        which will be displayed in these situations. The default banner specified 
-        here will not be logged and won't be used if there are still active banners 
-        left in the database. This is turned off by default.
+        Si ".$phpAds_productname." no puede conectarse con el servidor de bases de datos, o no puede encontrar
+        ningun banner, (por ejemplo cuando la base de datos colisiona o es borrada)
+        no se mostrar&aacute; nada. Algunos usuarios querr&aacute;n usar un banner por defecto en estos casos.
+        El banner predeterminado no ser&aacute; logueado y no ser&aacute; usado si hay otros banners para mostrar
+        en la base de datos. Esta opci&oacute;n se encuentra deshabilitada por defecto.
 		";
 		
 $GLOBALS['phpAds_hlp_zone_cache'] = "
-        If you are using zones this setting allows phpAdsNew to store the banner 
-        information inside a cache which will be used later on. The will speed 
-        up phpAdsNew a bit, because instead of retrieving the zone information 
-        and retrieving the banner information and selecting the right banner, 
-        phpAdsNew only needs to load the cache. This feature is turned on by default.
+        Si est&aacute; usando zonas, esta opci&oacute;n le perimte a ".$phpAds_productname." almacenar la informaci&oacute;n de
+        los banners en un cache que ser&aacute; usado mas tarde. Esto incrementar&aacute; la velocidad de ".$phpAds_productname.",
+         ya que en lugar de consultar la informaci&oacute;n de la zona cada vez que se debe enviar un banner,
+         ".$phpAds_productname." solo necesita utilizar el cache almacenado. Esta opci&oacute;n se encuentra habilitada
+        por defecto.
 		";
 		
 $GLOBALS['phpAds_hlp_zone_cache_limit'] = "
-        If you are using cached zones, the information inside the cache can become 
-        outdated. Once in a while phpAdsNew needs to rebuild the cache, so new 
-        banners will be included in the cache. This setting lets you decide when 
-        a cached zone will be reloaded, by specifing the maximum lifetime of the 
-        cached zone. For example: if you set this setting to 600, the cache will 
-        be rebuild if the cached zone is older than 10 minutes (600 seconds).
+        Si utiliza Cache de Zonas, la informaci&oacute;n del cache puede desactualizarse.
+         De vez en cuando ".$phpAds_productname." debe reconstruir el cache, para que sean
+        agregados los nuevos banners al cache. Esta opci&oacute;n le permite decidir cada cuanto
+        deben reconstruirse los caches de zonas especificando en cuanto tiempo vence el cache
 		";
 		
 $GLOBALS['phpAds_hlp_type_sql_allow'] = 
 $GLOBALS['phpAds_hlp_type_web_allow'] = 
 $GLOBALS['phpAds_hlp_type_url_allow'] = 
-$GLOBALS['phpAds_hlp_type_html_allow'] = "
-        phpAdsNew can use different types of banners and store them in different 
-        ways. The first two options are used for local storage of banners. You 
-        can use the admin interface to upload a banner and phpAdsNew will store 
-        the banner in the SQL database (option 1) or on a web server (option 2). 
-        You can also use a banner stored on a different web server (option 3) 
-        or use html to generate a banner (option 4). You can disable any one of 
-        these types by altering these settings. By default all banner types are 
-        turned on.
-      	If you disable a certain banner type while there are still banners available 
-        of the this type, phpAdsNew will allow the use of these banners, but will 
-        not allow the creation of new banners of this type.
+$GLOBALS['phpAds_hlp_type_html_allow'] = 
+$GLOBALS['phpAds_hlp_type_txt_allow'] = "
+        ".$phpAds_productname." puede utilizar diferentes tipos de banners y almacenarlos de
+        diferentes maneras. Las primeras dos opciones se utilizan para el almacenamiento local de banners.
+        Puede utilizar la interface de administrador para subir un banner y ".$phpAds_productname." lo alacenar&aacute;
+        en la base de datos SQL o en el servidor web. Tambi&eacute;n puede utilizar un banner almacenado en un servidor web
+        o usar HTML para generar un banner.
 		";
 		
 $GLOBALS['phpAds_hlp_type_web_mode'] = "
-        If you want to use banners stored on the web server, you need to configure 
-        this setting. If you want to store the banners in a local directory set 
-        this option to 0. If you want to store the banner on an external FTP server 
-        set this option to 1. On certain web servers you may want to use the FTP 
-        option even on the local web server.
+        Si desea usar banners almacenados en el servidor web, debe establecer
+        esta opci&oacute;n. Si desea almacenar lso banners en un directorio local establezca esta opci&oacute;n como
+        <i>Directorio Local</i>. Si desea almacenar el banner en un servidor FTP externo
+        establezca esta opci&oacute;n como <i>Servidor FTP Externo</i>.
 		";
 		
 $GLOBALS['phpAds_hlp_type_web_dir'] = "
-        Specify the directory where phpAdsNew needs to copy the uploaded banners 
-        to. This directory needs to be writable by PHP, this could mean you need 
-        to modify the UNIX permissions for this directory (chmod). The directory 
-        you specify here needs to be in the web server' document root, the web 
-        server must be able to serve the files directly. Do not specify a trailing 
-        slash (/). You only need to configure this option if you have set the store
-		method to 'Local mode'.
+        Especifique el directorio donde ".$phpAds_productname." debe copiar los banners subidos.
+         Este directorio debe tener permisos de escritura para PHP. El directorio especificado
+        debe estar disponible para el servidor web. No ingrese una barra invertida (/) al final. Debe configurar
+        esta opci&oacute;n solamente si ha especificado el m&eacute;todo de almacenamiento como <i>Directorio Local</i>.
 		";
 		
-$GLOBALS['phpAds_hlp_type_web_ftp'] = "
-        Specify the FTP server where phpAdsNew needs to copy the uploaded banners 
-        to. The directory you specify here needs to be in the web server' document 
-        root, the web server must be able to serve the files directly. The URL 
-        you specify here can include a username, a password, the server name and 
-        the path. 
+$GLOBALS['phpAds_hlp_type_web_ftp_host'] = "
+		Si establece el m&eacute;todo de almacenamiento como <i>Servidor FTP Externo</i> debe
+		especificar la IP o nombre de dominio del servidor FTP donde ".$phpAds_productname." copiar&aacute;
+		los banners.
 		";
       
+$GLOBALS['phpAds_hlp_type_web_ftp_path'] = "
+        Si establece el m&eacute;todo de almacenamiento como <i>Servidor FTP Externo</i> debe
+		especificar el directorio en el servidor FTP donde ".$phpAds_productname." copiar&aacute;
+		los banners.
+		";
+
+$GLOBALS['phpAds_hlp_type_web_ftp_user'] = "
+        Si establece el m&eacute;todo de almacenamiento como <i>Servidor FTP Externo</i> debe
+		especificar el nombre de usuario que ".$phpAds_productname." utilizar&aacute; para conectarse al servidor FTP
+		";
+
+$GLOBALS['phpAds_hlp_type_web_ftp_password'] = "
+        Si establece el m&eacute;todo de almacenamiento como <i>Servidor FTP Externo</i> debe
+		especificar el password que ".$phpAds_productname." utilizar&aacute; para conectarse al servidor FTP
+		";
+
 $GLOBALS['phpAds_hlp_type_web_url'] = "
-        If you store banners on a web server, phpAdsNew needs to know which public 
-        URL corresponds with the directory you specified above. Do not specify 
-        a trailing slash (/).
+        Si almacena los banners en un servidor web, ".$phpads_productname." necesita conocer la
+        URL p&uacute;blica correspondiente con el directorio especificado anteriormente.
+        No ingrese una barra invertida (/) al final.
 		";
 		
 $GLOBALS['phpAds_hlp_type_html_auto'] = "
-        If this option is turned on phpAdsNew will automatically alter HTML banners 
-        in order to allow the clicks to be logged. However even if this option 
-        is turned it will be possible to disable this feature on a per banner 
-        basis. 
+        Si esta opci&oacute;n est&aacute; habilitada, ".$phpAds_productname." alterar&aacute; autom&aacute;ticamente los banners
+        HTML para permitir el logueo de clicks. Sin embargo, aunque esta opci&oacute;n est&eacute; habilitada
+        puede ser posible deshabilitarla en una BASE POR BANNER.
 		";
 		
 $GLOBALS['phpAds_hlp_type_html_php'] = "
-        It is possible to let phpAdsNew execute PHP code embedded inside HTML 
-        banners. This feature is turned off by default.
+        Es posible permitir a ".$phpAds_productname." ejecutar c&oacute;digo PHP insertado en banners HTML. Esta
+        opci&oacute;n se encuentra deshabilitada por defecto.
 		";
 		
 $GLOBALS['phpAds_hlp_admin'] = "
-        The administrator username, you can specify the username that you can 
-        use to log into the administrator interface.
+        Nombre de usuario del Administrador. Puede especificar el nombre de usuario del Administrador
+        para loguearse en lainterface de administraci&oacute;n.
 		";
 		
-$GLOBALS['phpAds_hlp_admin_pw'] = "
-        The administrator password, you can specify the password that you can 
-        use to log into the administrator interface.
+$GLOBALS['phpAds_hlp_pwold'] = 
+$GLOBALS['phpAds_hlp_pw'] = 
+$GLOBALS['phpAds_hlp_pw2'] = "
+        Para cambiar el password del administrador, deber&aacute; ingresar el password anterior. Y luego
+        ingresar el nuevo password dos veces para prevenir errores de tipeo.
 		";
 		
 $GLOBALS['phpAds_hlp_admin_fullname'] = "
-        Specify the administrator's full name. This used when sending statistics 
+        Ingrese el nombre completo del Administrador. Es usado para el env&iacute;o de estad&iacute;sticas
         via email.
 		";
 		
 $GLOBALS['phpAds_hlp_admin_email'] = "
-        The administrator's e-mail address. This is used as from-address when 
-        sending statistics via email.
+        E-Mail del Administrador. Es usado como direcci&oacute;n de remitente para el env&iacute;o
+        de estad&iacute;sticas via email.
 		";
 		
 $GLOBALS['phpAds_hlp_admin_email_headers'] = "
-        You can alter the e-mail headers used by the e-mails which phpAdsNew sends.
+        Puede alterar los encabezados de los e-mails enviados por ".$phpAds_productname.".
 		";
 		
 $GLOBALS['phpAds_hlp_admin_novice'] = "
-        If you want to recieve a warning before deleting clients, campaigns or 
-        banners; set this option to true.
+        Si desea recibir una advertencia antes de borrar anunciantes, campa&ntilde;as o banners,
+        marque esta opci&oacute;n.
 		";
 		
 $GLOBALS['phpAds_hlp_client_welcome'] = 
 $GLOBALS['phpAds_hlp_client_welcome_msg'] = "
-       If you turn this feature on a welcome message will be displayed on the 
-        first page a client will see after loggin in. You can personalize this 
-        message by editing the 'welcome.html' file location in the 'admin/templates' 
-        directory. Things you might want to include are for example: Your company 
-        name, contact information, your company logo, a link a page with advertising 
-        rates, etc..
+       Si activa esta opci&oacute;n se mostrar&aacute; un mensaje de bienvenida en la
+        primera p&aacute;gina que ver&aacute; el anunciante luego de loguearse. Puede personalizar este mensaje
+        editando el archivo 'welcome.html' ubicado en el directorio 'admin/templates'. Quiz&aacute;s quiera
+        incluir datos como : Nombre de la Compa&ntilde;&iacute;a, Informaci&oacute;n de Contacto, Logo de la Compa&ntilde;&iacute;a, etc..
+		";
+		
+$GLOBALS['phpAds_hlp_updates_frequency'] = "
+        Si desea buscar nuevas versiones de ".$phpAds_productname." puede habilitar esta opci&oacute;n.
+        Es posible especificar el intervalo en que ".$phpAds_productname." se conecta al server de
+        actualizaciones. Si se encuentra una nueva versi&oacute;n, aparecer&aacute; un cuadro de di&aacute;logo con la
+        informaci&oacute;n de la actualizaci&oacute;n.
+		";
+		
+$GLOBALS['phpAds_hlp_userlog_email'] = "
+        Si desea mantener una copia de todos los e-mails enviados por ".$phpAds_productname." puede
+        activar esta opci&oacute;n. Los mensajes de e-mail ser&aacute;n almacenados en el userlog.
+		";
+		
+$GLOBALS['phpAds_hlp_userlog_priority'] = "
+        Para asegurarse que el c&aacute;lculo de prioridades funcione correctamente, puede guardar
+        un reporte de los calulos de cada hora.
+		";
+		
+$GLOBALS['phpAds_hlp_default_banner_weight'] = "
+        Si desea utilizar un n&uacute;mero de peso de banner mayor por defecto, insertelo aqu&iacute;.
+        Esta opci&oacute;n es 1 por defecto..
+		";
+		
+$GLOBALS['phpAds_hlp_default_campaign_weight'] = "
+        Si desea utilizar un n&uacute;mero de peso de campa&ntilde;a mayor por defecto, insertelo aqu&iacute;.
+        Esta opci&oacute;n es 1 por defecto..
+		";
+		
+$GLOBALS['phpAds_hlp_gui_show_campaign_info'] = "
+        Si esta opci&oacute;n se encuentra habilitada, se mostrar&aacute; informaci&oacute;n extra sobre cada campa&ntilde;a en
+        la p&aacute;gina <i>Resumen de Capa&ntilde;a</i>. La informaci&oacute;n extra incluye el n&uacute;mero de Impresiones restantes,
+        el n&uacute;mero de Clicks restantes, la fecha de activaci&oacute;n, la fecha de expiraci&oacute;n y la configuraci&oacute;n de
+        prioridades.
+		";
+		
+$GLOBALS['phpAds_hlp_gui_show_banner_info'] = "
+        Si esta opci&oacute;n se encuentra habilitada, se mostrar&aacute; informaci&oacute;n extra sobre cada banner en
+        la p&aacute;gina <i>Resumen de Banner</i>. La informaci&oacute;n extra incluye la URL de destino, palabras claves y
+        tama&ntilde;o y peso del banner.
+		";
+		
+$GLOBALS['phpAds_hlp_gui_show_campaign_preview'] = "
+        Si esta opci&oacute;n se encuentra habilitada, se mostrar&aacute; una vista previa del banner en la p&aacute;gina
+        <i>Resumen de Banner</i>. Si esta opci&oacute;n se encuentra deshabilitada a&uacute;n es posible obtener una vista previa
+        de cada banner clickeando en el tri&aacute;ngulo contiguo a cada banner en la p&aacute;gina <i>Resumen de Banner</i>.
+		";
+		
+$GLOBALS['phpAds_hlp_gui_show_banner_html'] = "
+        Si esta opci&oacute;n se encuentra habilitada se ver&aacute; el banner HTML en lugar del c&oacute;digo HTML.
+        Esta opci&oacute;n se encuentra habilitada por defecto.
+        Si esta opci&oacute;n se encuentra deshabilitada a&uacute;n es posible obtener una vista previa
+        de cada banner clickeando en el bot&oacute;n <i>Mostrar Banner</i>.
+		";
+		
+$GLOBALS['phpAds_hlp_gui_show_banner_preview'] = "
+        Si esta opci&oacute;n se encuentra habilitada, se mostrar&aacute; una vista previa al principio de las
+        p&aacute;ginas <i>Propiedades de Banner</i>, <i>Opciones de Entrega</i> y <i>Zonas Relacionadas</i>.
+        Si esta opci&oacute;n se encuentra deshabilitada a&uacute;n es posible obtener una vista previa
+        de cada banner clickeando en el bot&oacute;n <i>Mostrar Banner</i>.
+		";
+		
+$GLOBALS['phpAds_hlp_gui_hide_inactive'] = "
+        Si esta opci&oacute;n se encuentra habilitada, todos los banners inactivos, campa&ntilde;as y anunciantes ser&aacute;n ocultados
+        en las p&aacute;ginas <i>Anunciantes & Campa&ntilde;as</i> y <i>Resumen de Campa&ntilde;a</i>. Si esta opci&oacute;n se encuentra
+        habilitada a&uacute;n es posible ver los items ocultos clickeando en el bot&oacute;n <i>Ver todo</i> al final de la p&aacute;gina.
 		";
 		
 ?>
