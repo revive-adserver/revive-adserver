@@ -95,6 +95,86 @@ while ($row = phpAds_dbFetchArray($result))
 
 
 /*********************************************************/
+/* Get statistics for today                              */
+/*********************************************************/
+
+$clientids = array();
+
+$result = phpAds_dbQuery("
+	SELECT
+		clientid
+	FROM
+		".$phpAds_config['tbl_clients']."
+	WHERE
+		parent > 0 AND
+		target > 0
+	");
+
+while ($row = phpAds_dbFetchArray($result))
+	$clientids[] = $row['clientid'];
+
+if (count($clientids))
+{
+	$clientids = join(', ', $clientids);
+
+	if ($phpAds_config['compact_stats']) 
+	{
+		// Get stats for selected period
+		$day = date('Ymd');
+		
+		$result = phpAds_dbQuery("
+			SELECT
+				sum(views) AS sum_views,
+				DATE_FORMAT(day, '".$formatted."') AS date
+			FROM
+				".$phpAds_config['tbl_adstats'].",
+				".$phpAds_config['tbl_banners']."
+			WHERE
+				".$phpAds_config['tbl_adstats'].".bannerid = ".$phpAds_config['tbl_banners'].".bannerid AND
+				day = $day AND
+				clientid IN ($clientids)
+				".(isset($lib_targetstats_where) ? 'AND '.$lib_targetstats_where : '')."
+			GROUP BY
+				date
+		");
+
+		while ($row = phpAds_dbFetchArray($result))
+		{
+			$stats[$row['date']]['sum_views'] = $row['sum_views'];
+			$totals['views'] += $row['sum_views'];
+		}
+	}
+	else
+	{
+		// Get stats for selected period
+		$begin = date('Ymd000000');
+		$end   = date('Ymd235959');
+		
+		$result = phpAds_dbQuery("
+			SELECT
+				COUNT(*) AS sum_views,
+				DATE_FORMAT(t_stamp, '".$formatted."') AS date
+			FROM
+				".$phpAds_config['tbl_adviews'].",
+				".$phpAds_config['tbl_banners']."
+			WHERE
+				".$phpAds_config['tbl_adviews'].".bannerid = ".$phpAds_config['tbl_banners'].".bannerid AND
+				t_stamp >= $begin AND t_stamp <= $end AND
+				clientid IN ($clientids)
+				".(isset($lib_targetstats_where) ? 'AND '.$lib_targetstats_where : '')."
+			GROUP BY
+				date
+		") or phpAds_sqlDie();
+		
+		while ($row = phpAds_dbFetchArray($result))
+		{
+			$stats[$row['date']]['sum_views'] = $row['sum_views'];
+			$totals['views'] += $row['sum_views'];
+		}
+	}
+}
+
+/*********************************************************/
 /* Prepare data for graph                                */
 /*********************************************************/
 
