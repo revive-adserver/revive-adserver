@@ -89,7 +89,7 @@ if (count($tmp_clicks) > 0)
 	while (list ($key,) = each ($tmp_clicks)) 
 	{
 		if ($tmp_clicks[$key] != 0 && $tmp_views[$key] != 0)
-			$tmp_ctr[$key] = 100 / $tmp_views[$key] / $tmp_clicks[$key];
+			$tmp_ctr[$key] = 100 * $tmp_clicks[$key] / $tmp_views[$key];
 		else
 			$tmp_ctr[$key] = 0;
 	}
