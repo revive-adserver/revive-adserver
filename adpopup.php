@@ -71,9 +71,10 @@ if (!isset($context)) 	$context = '';
 
 // Get the banner
 $output = view_raw ($what, $clientid, $target, $source, $withtext, $context);
+
 enjavanate($output['html']);
 
-$windowid = 'phpads_'.md5(uniqid(''));
+$windowid = 'phpads_'.$output['bannerid'];
 
 
 
@@ -83,25 +84,31 @@ $windowid = 'phpads_'.md5(uniqid(''));
 
 ?>
 
-var <?php echo $windowid; ?> =  window.open('', '<?php echo $windowid; ?>', 'height=<?php echo $output['height']; ?>,width=<?php echo $output['width']; ?>,toolbars=no,location=no,menubar=no,status=no,resizable=no,scrollbars=no');
-
-<?php if(isset($left) && isset($top)) { ?>
-<?php echo $windowid; ?>.moveTo (<?php echo $left; ?>,<?php echo $top; ?>);
-<?php } ?>
-
-<?php echo $windowid; ?>.document.open('text/html', 'replace');
-<?php echo $windowid; ?>.document.write('<html><head><title>');
-<?php echo $windowid; ?>.document.write('<?php echo ($output['alt'] ? $output['alt'] : 'Advertisement'); ?>');
-<?php echo $windowid; ?>.document.write('</title></head>');
-<?php echo $windowid; ?>.document.write('<body leftmargin=\'0\' topmargin=\'0\' marginwidth=\'0\' marginheight=\'0\'>');
-<?php echo $windowid; ?>.document.write(phpadsbanner);
-<?php echo $windowid; ?>.document.write('</body></html>');
-<?php echo $windowid; ?>.document.close();
-
-<?php if (isset($popunder) && $popunder == 'true') { ?>
-window.focus();
-<?php } ?>
-
-<?php if (isset($timeout) && $timeout > 0) { ?>
-window.setTimeout("<?php echo $windowid; ?>.close()", <?php echo $timeout * 1000; ?>);
-<?php } ?>
+if (!window.<?php echo $windowid; ?>)
+{
+	var <?php echo $windowid; ?> =  window.open('', '<?php echo $windowid; ?>', 'height=<?php echo $output['height']; ?>,width=<?php echo $output['width']; ?>,toolbars=no,location=no,menubar=no,status=no,resizable=no,scrollbars=no');
+	
+	if (!<?php echo $windowid; ?>.document.title || <?php echo $windowid; ?>.document.title == '')
+	{
+		<?php if(isset($left) && isset($top)) { ?>
+		<?php echo $windowid; ?>.moveTo (<?php echo $left; ?>,<?php echo $top; ?>);
+		<?php } ?>
+		
+		<?php echo $windowid; ?>.document.open('text/html', 'replace');
+		<?php echo $windowid; ?>.document.write('<html><head><title>');
+		<?php echo $windowid; ?>.document.write('<?php echo ($output['alt'] ? $output['alt'] : 'Advertisement'); ?>');
+		<?php echo $windowid; ?>.document.write('</title></head>');
+		<?php echo $windowid; ?>.document.write('<body leftmargin=\'0\' topmargin=\'0\' marginwidth=\'0\' marginheight=\'0\'>');
+		<?php echo $windowid; ?>.document.write(phpadsbanner);
+		<?php echo $windowid; ?>.document.write('</body></html>');
+		<?php echo $windowid; ?>.document.close();
+	}
+	
+	<?php if (isset($popunder) && $popunder == 'true') { ?>
+	window.focus();
+	<?php } ?>
+	
+	<?php if (isset($timeout) && $timeout > 0) { ?>
+	window.setTimeout("<?php echo $windowid; ?>.close()", <?php echo $timeout * 1000; ?>);
+	<?php } ?>
+}
