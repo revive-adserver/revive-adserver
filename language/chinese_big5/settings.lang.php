@@ -25,6 +25,8 @@ $GLOBALS['strOtherSettings']			= "其他設定";
 
 $GLOBALS['strWarning']				= "警告";
 $GLOBALS['strFatalError']			= "發生一個致命錯誤";
+$GLOBALS['strUpdateError']			= "升級過程中發生一個錯誤";
+$GLOBALS['strUpdateDatabaseError']		= "因為未知錯誤,資料庫結構升級沒有成功.建議點擊<b>重試升級</b>來嘗試修復這些潛在的錯誤. 如果您確信這些錯誤不會影響".$phpAds_productname."的功能,您可以點擊<b>忽略錯誤</b>繼續.忽略這些錯誤可能造成很嚴重的問題,所以不推薦使用!";
 $GLOBALS['strAlreadyInstalled']			= $phpAds_productname."已經安裝. 如果您想配置系統,請到 <a href='settings-index.php'>設定界面</a>";
 $GLOBALS['strCouldNotConnectToDB']		= "不能連接資料庫,請檢查您的設定";
 $GLOBALS['strCreateTableTestFailed']		= "您提供的用戶沒有權限創建資料庫結構,請聯係資料庫管理員.";
@@ -33,6 +35,8 @@ $GLOBALS['strTablePrefixInvalid']		= "數據表的前綴包含非法字符";
 $GLOBALS['strTableInUse']			= "您提供的資料庫已經被".$phpAds_productname."使用,請使用不同的表前綴,或者參考用戶手冊中系統升級的指導部份.";
 $GLOBALS['strTableWrongType']			= "您安裝的".$phpAds_dbmsname."不支持您所選擇的數據表類型"; 
 $GLOBALS['strMayNotFunction']			= "進行下一步之前,請改正這些潛在的錯誤:";
+$GLOBALS['strFixProblemsBefore']		= "在您安裝".$phpAds_productname."之前必須改正下面的條目.如果您對錯誤信息有什麼問題,請查看<i>管理員手冊</i>,手冊可以在您下載的軟件壓縮包中找到."; 
+$GLOBALS['strFixProblemsAfter']			= "如果您無法改正上面列出的問題,請聯繫您要安裝".$phpAds_productname."的伺服器的管理員.此伺服器的管理員可能能夠幫助您解決這些問題"; 
 $GLOBALS['strIgnoreWarnings']			= "忽略警告";
 $GLOBALS['strWarningDBavailable']		= "您現在使用的PHP版本不支持".$phpAds_dbmsname."資料庫.在進行下面的步驟之前,您需要啟用PHP對".$phpAds_dbmsname."的支持";
 $GLOBALS['strWarningPHPversion']		= $phpAds_productname."需要PHP 4.0或者更高版本才能正常工作。您現在使用的版本是{php_version}.";
@@ -44,6 +48,8 @@ $GLOBALS['strWarningTrackVars']			= "PHP設定變量track_vars需要打開.";
 $GLOBALS['strWarningPREG']			= "您現在使用的PHP版本不支持PERL兼容模式的正則表達式. 在進行下面的步驟之前,您需要啟用PREL正則表達式的支持.";
 $GLOBALS['strConfigLockedDetected']		= $phpAds_productname."檢測到您的配置文件<b>config.inc.php</b>不可寫<br>請必須修改權限之後才能進行下一步.<br>如果您不知道如何操作請參考文檔.";
 $GLOBALS['strCantUpdateDB']  			= "現在不能更新資料庫.如果您確認進行,所有已有的廣告,報表和客戶都會被刪除.";
+$GLOBALS['strIgnoreErrors']			= "忽略錯誤";
+$GLOBALS['strRetryUpdate']			= "重試升級";
 $GLOBALS['strTableNames']			= "數據表名字";
 $GLOBALS['strTablesPrefix']			= "數據表前綴";
 $GLOBALS['strTablesType']			= "數據表類型";
@@ -61,8 +67,6 @@ $GLOBALS['strErrorInstallDbConnect']		= "不能連接到資料庫.";
 $GLOBALS['strUrlPrefix']			= "URL前綴";
 
 $GLOBALS['strProceed']				= "下一步 &gt;";
-$GLOBALS['strRepeatPassword']			= "確認密碼";
-$GLOBALS['strNotSamePasswords']			= "密碼不匹配";
 $GLOBALS['strInvalidUserPwd']			= "錯誤的用戶名或密碼";
 
 $GLOBALS['strUpgrade']				= "升級";
@@ -73,6 +77,8 @@ $GLOBALS['strSystemRebuildingCache']		= "重建緩存區中，請稍候...";
 $GLOBALS['strServiceUnavalable']		= "服務暫時不可用,系統升級中...";
 
 $GLOBALS['strConfigNotWritable']		= "您的配置文件config.inc.php不可寫";
+$GLOBALS['strPhpBug20144']				= "您的PHP版本受到一個<a href='http://bugs.php.net/bug.php?id=20114' target='_blank'>bug</a>的影響,".$phpAds_productname."不能正常工作.
+						所以安裝".$phpAds_productname."之前必須把PHP升級到4.3.0+.";
 
 
 
@@ -93,8 +99,9 @@ $GLOBALS['strEditConfigPossible']		= "現在可以修改所有配置,因為配置文件沒有鎖定,
 // Database
 $GLOBALS['strDatabaseSettings']			= "資料庫設定";
 $GLOBALS['strDatabaseServer']			= "資料庫設定";
+$GLOBALS['strDbLocal']				= "使用套接字連接本地伺服器"; //Pg專用
 $GLOBALS['strDbHost']				= "資料庫主機";
-$GLOBALS['strDbPort']				= "資料庫端口號";
+$GLOBALS['strDbPort']				= "資料庫連接埠";
 $GLOBALS['strDbUser']				= "資料庫用戶名";
 $GLOBALS['strDbPassword']			= "資料庫密碼";
 $GLOBALS['strDbName']				= "資料庫名字";
@@ -194,6 +201,8 @@ $GLOBALS['strProxyLookup']			= "如果訪問者使用了代理,查詢真實IP地址";
 $GLOBALS['strGeotargeting']			= "地域";
 $GLOBALS['strGeotrackingType']			= "地域資料庫類型";
 $GLOBALS['strGeotrackingLocation'] 		= "地域資料庫位置";
+$GLOBALS['strGeotrackingLocationError'] 	= "在您指定的位置沒有找到地域資料庫位置";
+$GLOBALS['strGeotrackingLocationNoHTTP'] 	= "您指定的位置並不是此伺服器硬盤上的本地目錄,而是一個指向網頁伺服器上的某個文件的URL.這個位置應該像這樣: <i>{example}</i>.實際的位置要看存放此資料庫的位置.";
 $GLOBALS['strGeoStoreCookie']			= "保存結果到cookie中供以後參考";
 
 
@@ -218,8 +227,9 @@ $GLOBALS['strBlockAdviews']			= "如果訪問者已經訪問了廣告,不記錄同一廣告訪問數的
 $GLOBALS['strBlockAdclicks']			= "如果訪問者已經點擊了廣告,不記錄同一廣告點擊數的時間間隔";
 
 
+$GLOBALS['strPreventLogging']			= "禁止記錄日誌";
 $GLOBALS['strEmailWarnings']			= "電子郵件警告";
-$GLOBALS['strAdminEmailHeaders']		= "顯示每日報表發送者的郵件頭";
+$GLOBALS['strAdminEmailHeaders']		= $phpAds_productname."發送的每一封電子郵件都加上此郵件頭";
 $GLOBALS['strWarnLimit']			= "警告限制";
 $GLOBALS['strWarnLimitErr']			= "警告限制必須是一個正整數";
 $GLOBALS['strWarnAdmin']			= "警告管理員";
@@ -240,10 +250,7 @@ $GLOBALS['strAdministratorSettings']		= "管理員設定";
 
 $GLOBALS['strLoginCredentials']			= "登錄信息";
 $GLOBALS['strAdminUsername']			= "管理員名字";
-$GLOBALS['strOldPassword']			= "舊密碼";
-$GLOBALS['strNewPassword']			= "新密碼";
 $GLOBALS['strInvalidUsername']			= "錯誤用戶名";
-$GLOBALS['strInvalidPassword']			= "錯誤密碼";
 
 $GLOBALS['strBasicInformation']			= "基本信息";
 $GLOBALS['strAdminFullName']			= "管理員全名";
@@ -269,7 +276,9 @@ $GLOBALS['strGuiSettings']			= "用戶界面設定";
 $GLOBALS['strGeneralSettings']			= "一般設定";
 $GLOBALS['strAppName']				= "程序名字";
 $GLOBALS['strMyHeader']				= "頁面頂部";
+$GLOBALS['strMyHeaderError']			= "在您指定的位置沒有找到頁面頂部文件所在位置";
 $GLOBALS['strMyFooter']				= "頁面底部";
+$GLOBALS['strMyFooterError']			= "在您指定的位置沒有找到頁面底部文件所在位置";
 $GLOBALS['strGzipContentCompression']		= "使用GZIP內容壓縮";
 
 $GLOBALS['strClientInterface']			= "客戶界面";

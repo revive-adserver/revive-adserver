@@ -111,6 +111,7 @@ $GLOBALS['strFieldFixBeforeContinue1']		= "在進行下一步之前必須";
 $GLOBALS['strFieldFixBeforeContinue2']		= "改正錯誤";
 $GLOBALS['strDelimiter']			= "分隔符";
 $GLOBALS['strMiscellaneous']			= "雜項";
+$GLOBALS['strUseQuotes']			= "使用引號";
 
 
 
@@ -140,6 +141,12 @@ $GLOBALS['strAccessDenied']			= "無權訪問";
 $GLOBALS['strPasswordWrong']			= "密碼錯誤";
 $GLOBALS['strNotAdmin']				= "您的權限等級不足";
 $GLOBALS['strDuplicateClientName']		= "您所選用的使用者代碼已經有人使用了，請更換其他的使用者代碼。";
+$GLOBALS['strInvalidPassword']                  = "新密碼不合法,請使用別的密碼.";
+$GLOBALS['strNotSamePasswords']                 = "您兩次輸入的密碼不匹配";
+$GLOBALS['strRepeatPassword']                   = "確認密碼";
+$GLOBALS['strOldPassword']                      = "舊密碼";
+$GLOBALS['strNewPassword']                      = "新密碼";
+
 
 
 // General advertising
@@ -220,6 +227,7 @@ $GLOBALS['strCampaignHistory']			= "項目歷史";
 $GLOBALS['strNoCampaigns']			= "現在沒有任何項目存在";
 $GLOBALS['strConfirmDeleteAllCampaigns']	= "是否確定要刪除此客戶的所有項目?";
 $GLOBALS['strConfirmDeleteCampaign']		= "是否確定要刪除此項目?";
+$GLOBALS['strConfirmResetCampaignStats']	= "是否確定要刪除此項目的所有統計數據?";
 $GLOBALS['strHideInactiveCampaigns']		= "隱藏停用的項目";
 $GLOBALS['strInactiveCampaignsHidden']		= "停用的項目已經隱藏";
 
@@ -239,6 +247,8 @@ $GLOBALS['strLowPriority']			= "此項目的廣告具有低優先權。<br>此項目將使用除了高
 $GLOBALS['strTargetLimitAdviews']		= "限制廣告訪問數到";
 $GLOBALS['strTargetPerDay']			= "每天";
 $GLOBALS['strPriorityAutoTargeting']		= "把剩餘的廣告數平均分配到剩餘的日期。目標廣告訪問數將因此每天重新設定。";
+$GLOBALS['strCampaignWarningNoWeight']		= "此項目的優先權已經設為低,\n但是比重設置為零或者沒有指定.\n這可能引起項目被設為無效,\n在比重設置為一個有效數值之前項目的廣告將不能被發送. \n\n是否確認繼續?";
+$GLOBALS['strCampaignWarningNoTarget']		= "此項目的優先權已經設為高,\n但是廣告訪問數的目標值沒有指定.\n這可能引起項目被設為無效,\n在廣告訪問數的目標值設置為一個有效數值之前項目的廣告將不能被發送. \n\n是否確認繼續?";
 
 
 
@@ -269,6 +279,8 @@ $GLOBALS['strShowParentCampaigns']		= "顯示上層項目";
 $GLOBALS['strHideParentCampaigns']		= "隱藏上層項目";
 $GLOBALS['strHideInactiveBanners']		= "隱藏停用的廣告";
 $GLOBALS['strInactiveBannersHidden']		= "停用的廣告已經隱藏";
+$GLOBALS['strAppendOthers']			= "附加其它";
+$GLOBALS['strAppendTextAdNotPossible']		= "不能為文字廣告附加其它廣告";
 
 
 
@@ -324,6 +336,8 @@ $GLOBALS['strLaterThan']			= "晚於";
 $GLOBALS['strLaterThanOrEqual']			= "晚於或等於";
 $GLOBALS['strEarlierThan']			= "早於";
 $GLOBALS['strEarlierThanOrEqual']		= "早於或等於";
+$GLOBALS['strContains']				= "包含";
+$GLOBALS['strNotContains']			= "不包含";
 $GLOBALS['strAND']				= "AND";  						// logical operator
 $GLOBALS['strOR']				= "OR"; 						// logical operator
 $GLOBALS['strOnlyDisplayWhen']			= "當下列條件成立時才顯示廣告﹕";
@@ -337,6 +351,8 @@ $GLOBALS['strBrowser'] 				= "瀏覽";
 $GLOBALS['strOS'] 				= "操作系統";
 $GLOBALS['strCountry'] 				= "國家";
 $GLOBALS['strContinent'] 			= "洲";
+$GLOBALS['strUSState'] 				= "美國";
+$GLOBALS['strReferer'] 				= "參考頁面";
 $GLOBALS['strDeliveryLimitations']		= "發送限制";
 $GLOBALS['strDeliveryCapping']			= "發送封頂";
 $GLOBALS['strTimeCapping']			= "此廣告顯示一次之後，對同一用戶不再顯示的時間間隔:";
@@ -403,9 +419,6 @@ $GLOBALS['strZoneAppend']			= "此版面所顯示的廣告上總是添加下面的HTML代碼";
 $GLOBALS['strAppendSettings']			= "添加和預先設定";
 $GLOBALS['strZonePrependHTML']			= "此版面所顯示的文字廣告上預先加上HTML代碼";
 $GLOBALS['strZoneAppendHTML']			= "此版面所顯示的文字廣告上附加上HTML代碼";
-$GLOBALS['strZoneAppendType']			= "附加方式";
-$GLOBALS['strZoneAppendHTMLCode']		= "HTML代碼";
-$GLOBALS['strZoneAppendZoneSelection']		= "彈出式或者空隙調用代碼";
 $GLOBALS['strZoneAppendSelectZone']		= "總是在此版位的廣告上附加下面的彈出式或者空隙調用代碼";
 
 
@@ -432,6 +445,18 @@ $GLOBALS['strNoCampaignsToLink']		= "目前沒有項目可以和此版位連接";
 $GLOBALS['strNoZonesToLinkToCampaign']  	= "目前沒有版位可以和此項目連結";
 $GLOBALS['strSelectBannerToLink']		= "請您選擇要連接到此版位的廣告:";
 $GLOBALS['strSelectCampaignToLink']		= "請您選擇要連接到此版位的項目:";
+
+
+// Append
+$GLOBALS['strAppendType']				= "附加方式";
+$GLOBALS['strAppendHTMLCode']			= "HTML代碼";
+$GLOBALS['strAppendWhat']				= "您想附加什麼?";
+$GLOBALS['strAppendZone']				= "附加一個指定的版位";
+$GLOBALS['strAppendErrorZone']			= "您需要選擇一個版位才能繼續\\n.否則不能附加廣告.";
+$GLOBALS['strAppendBanner']				= "附加一個或多個單獨的廣告";
+$GLOBALS['strAppendErrorBanner']		= "您需要選擇一個或多個廣告才能繼續\\n,否則不能附加廣告.";
+$GLOBALS['strAppendKeyword']			= "使用關鍵字來附加廣告";
+$GLOBALS['strAppendErrorKeyword']		= "您需要指定一個或多個關鍵字才能繼續\\n,否則不能附加廣告.";
 
 
 // Statistics
@@ -497,6 +522,7 @@ $GLOBALS['strGenerate']				= "產生";
 $GLOBALS['strParameters']			= "參數設定";
 $GLOBALS['strFrameSize']			= "分頁尺寸";
 $GLOBALS['strBannercode']			= "廣告原始碼";
+$GLOBALS['strOptional']				= "選擇項";
 
 
 // Errors
@@ -516,6 +542,15 @@ $GLOBALS['strErrorUploadBasedir']		= "可能是因為php的安全模式設定或者open_basedi
 $GLOBALS['strErrorUploadUnknown']		= "因為一個未知錯誤,不能訪問上載的文件,請檢查您的php設定";
 $GLOBALS['strErrorStoreLocal']			= "在把廣告保存到本地目錄的時候發生了一個錯誤.這可能因為本地目錄權限的錯誤設定";
 $GLOBALS['strErrorStoreFTP']			= "在把廣告通過FTP伺服器上傳的時候發生了一個錯誤.這可能因為伺服器不能用或者FTP伺服器的錯誤設定";
+$GLOBALS['strErrorDBPlain']			= "檢測到資料庫的一個錯誤";
+$GLOBALS['strErrorDBSerious']			= "檢測到資料庫的一個嚴重問題";
+$GLOBALS['strErrorDBNoDataPlain']		= "因為資料庫的一個錯誤,".$phpAds_productname."不能獲取和存儲數據.";
+$GLOBALS['strErrorDBNoDataSerious']		= "因為資料庫的一個嚴重問題,".$phpAds_productname."不能獲取和存儲數據.";
+$GLOBALS['strErrorDBCorrupt']			= "數據表可能崩潰,需要修復.需要更多關於修復崩潰數據表的信息請查看<i>管理員手冊</i>中<i>故障修復</i>一章";
+$GLOBALS['strErrorDBContact']			= "請聯繫此伺服器的管理員,通知他這個問題.";
+$GLOBALS['strErrorDBSubmitBug']			= "如果此問題反覆發生,可能是".$phpAds_productname."中的一個Bug所引起.請把下面的信息報告給".$phpAds_productname."的創建者.並且盡可能詳細地描述引起此錯誤的操作過程.";
+$GLOBALS['strMaintenanceNotActive']		= "維護腳本在最近24小時中沒有運行,\n腳本必須每個小時運行一次,\n".$phpAds_productname."才能正常工作.\n\n請查看管理員手冊來獲取更多關於配置維護腳本的信息.";
+
 
 
 // E-mail
@@ -532,6 +567,7 @@ $GLOBALS['strBeforeActivate']			= "廣告啟用日期未到";
 $GLOBALS['strAfterExpire']			= "廣告失效日期已到";
 $GLOBALS['strNoMoreClicks']			= "已達點擊數購買量";
 $GLOBALS['strNoMoreViews']			= "已達訪問數購買量";
+$GLOBALS['strWeightIsNull']			= "此權重設置為零";
 $GLOBALS['strWarnClientTxt']			= "您的廣告訪問數或點擊數存量已剩下 {limit}次。\n當訪問數或點擊數存量已用盡時，您的廣告將會自動停用.";
 $GLOBALS['strViewsClicksLow']			= "廣告訪問數或點擊數存量過低";
 $GLOBALS['strNoViewLoggedInInterval']  		= "本報告的統計期間中沒有任何的訪問動作";

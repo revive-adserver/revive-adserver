@@ -20,7 +20,7 @@ Chinese (big5)
 	---------------------------------------------------------
 	Maintained by:	   Home Chen (service@mychat.to)
 	Is up-to-date?	   No
-	Last update:	   18 March 2003
+	Last update:	   9 June 2003
 	Translated files:  7
 	---------------------------------------------------------
 

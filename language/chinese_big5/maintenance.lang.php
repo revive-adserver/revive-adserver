@@ -44,6 +44,7 @@ $GLOBALS['strRebuildDeliveryCache']		= "重建發送緩存區";
 $GLOBALS['strDeliveryCacheExplaination']	= "發送緩存區可以提高廣告的發放速度.發送緩存區包含連接到此版位的所有廣告的一個副本,當廣告實際發放給用戶的時候減少了一些資料庫的查詢.此緩存區通常在一個版位或者版位的一個廣告改動的時候重建,它可能會過期.所以緩存區會每個小時自動重建一次,但您也可以手工重建.";
 $GLOBALS['strDeliveryCacheSharedMem']		= "現在使用共享內存來存放發送緩存區.";
 $GLOBALS['strDeliveryCacheDatabase']		= "現在使用資料庫來存放發送緩存區.";
+$GLOBALS['strDeliveryCacheFiles']		= "現在使用您伺服器上的多個文件來存放發送緩存區.";
 
 
 // Storage
@@ -78,6 +79,9 @@ $GLOBALS['strNotAbleToCheck']			= "<b>因為您的伺服器XML擴展功能不能使用,".$phpAd
 $GLOBALS['strForUpdatesLookOnWebsite']		= "您現在運行的是".$phpAds_productname." ".$phpAds_version_readable.".如果您想知道是否有新的版本可用,請訪問我們的網站.";
 
 $GLOBALS['strClickToVisitWebsite']		= "請點擊這裡來訪問我們的網站.";
+$GLOBALS['strCurrentlyUsing']			= "您現在使用的是";
+$GLOBALS['strRunningOn']			= "運行在";
+$GLOBALS['strAndPlain']				= "和";
 
 
 // Stats conversion
