@@ -71,7 +71,7 @@ function stats($what, $totalTitle, $avgTitle)
 			</td>
 			<td bgcolor="<?echo $bgcolor;?>">
 				<?	if (!$phpAds_compact_stats) { ?>
-				<a href="dailystats.php<?echo ($fncpageid)?>&day=<?echo urlencode($row["t_stamp_f"]);?>&bannerID=<?echo $GLOBALS["bannerID"];?>"><?echo $GLOBALS["strDailyStats"];?></a>
+				<a href="dailystats.php?day=<?echo urlencode($row["t_stamp_f"]);?>&clientID=<?echo $GLOBALS["clientID"];?>&bannerID=<?echo $GLOBALS["bannerID"];?>"><?echo $GLOBALS["strDailyStats"];?></a>
 				<? } ?>				
 			</td>
 		</tr>
