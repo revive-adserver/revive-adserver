@@ -102,4 +102,36 @@ $GLOBALS['strSecurityUpdate']				= "
 	vulnerabile ad alcuni attacchi e probabilmente non &egrave; sicura. Per maggiori
 	informazioni sull'aggiornamento leggere la documentazione incluse nei file qui sotto. 
 ";
+
+
+// Stats conversion
+$GLOBALS['strConverting']					= "Conversione";
+$GLOBALS['strConvertingStats']				= "Conversione statistiche...";
+$GLOBALS['strConvertStats']					= "Converti statistiche";
+$GLOBALS['strConvertAdViews']				= "Visualizzazioni convertite,";
+$GLOBALS['strConvertAdClicks']				= "Click convertiti...";
+$GLOBALS['strConvertNothing']				= "Niente da convertire...";
+$GLOBALS['strConvertFinished']				= "Operazione terminata...";
+
+$GLOBALS['strConvertExplaination']			= "
+	Stai utilizzando il formato compatto delle statistiche, ma ci sono ancora alcune <br>
+	statistiche nel formato dettagliato. Finch&eacute; le statistiche dettagliare non <br>
+	saranno convertite nel formato compatto, esse non verranno utilizzate.  <br>
+	Prima di convertire le statistiche, esegui un backup del database!  <br>
+	Vuoi convertire le statistiche dettagliate nel nuovo formato compatto? <br>
+";
+
+$GLOBALS['strConvertingExplaination']		= "
+	Tutte le statistiche dettagliate verranno ora convertite nel formato compatto. <br>
+	La durata del processo dipende dal numero di visualizzazioni registrate, e potr&agrave; <br>
+	durare alcuni minuti. Attendi il completamento della conversione prima di visitare <br>
+	altre pagine. Qui sotto vedrai il registro delle modifiche fatte al database. <br>
+";
+
+$GLOBALS['strConvertFinishedExplaination']  = "
+	La conversione delle restanti statistiche dettagliate &egrave; stata completata <br>
+	con successo e 	i dati sono nuovamente disponibili. Qui sotto vedrai il registro
+	delle modifiche fatte al database. <br>
+";
+
 ?>

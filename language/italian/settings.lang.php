@@ -95,15 +95,14 @@ $GLOBALS['strEditConfigPossible']		= "Puoi modificare tutte le impostazioni dato
 
 
 // Database
-$GLOBALS['strDatabaseSettings']			= "Impostazione database";
-
+$GLOBALS['strDatabaseSettings']			= "Impostazioni database";
 $GLOBALS['strDatabaseServer']			= "Database server";
 $GLOBALS['strDbHost']					= "Hostname database";
 $GLOBALS['strDbUser']					= "Username database";
 $GLOBALS['strDbPassword']				= "Password database";
 $GLOBALS['strDbName']					= "Nome database";
 
-$GLOBALS['strDatabaseOptimalisations']	= "Ottimizzazioni Database";
+$GLOBALS['strDatabaseOptimalisations']	= "Ottimizzazioni database";
 $GLOBALS['strPersistentConnections']	= "Utilizza connessioni persistenti";
 $GLOBALS['strInsertDelayed']			= "Utilizza inserimenti in differita";
 $GLOBALS['strCompatibilityMode']		= "Attiva compatibilit&agrave; con server MySQL 3.22";
@@ -113,6 +112,15 @@ $GLOBALS['strCantConnectToDb']			= "Impossibile connettersi al database";
 
 // Invocation and Delivery
 $GLOBALS['strInvocationAndDelivery']	= "Impostazioni di invocazione e fornitura banner";
+
+$GLOBALS['strAllowedInvocationTypes']	= "Tipi di invocazione consentiti";
+$GLOBALS['strAllowRemoteInvocation']	= "Consenti invocazione remota";
+$GLOBALS['strAllowRemoteJavascript']	= "Consenti invocazione remota con JavaScript";
+$GLOBALS['strAllowRemoteFrames']		= "Consenti invocazione remota con Frame";
+$GLOBALS['strAllowRemoteXMLRPC']		= "Consenti invocazione remota XML-RPC";
+$GLOBALS['strAllowLocalmode']			= "Consenti modo locale";
+$GLOBALS['strAllowInterstitial']		= "Consenti Interstiziali";
+$GLOBALS['strAllowPopups']				= "Consenti Popup";
 
 $GLOBALS['strKeywordRetrieval']			= "Abilita l'uso di keyword";
 $GLOBALS['strBannerRetrieval']			= "Metodo di scelta del banner";
@@ -137,7 +145,7 @@ $GLOBALS['strP3PPolicyLocation']		= "Indirizzo della policy P3P completa";
 
 
 // Banner Settings
-$GLOBALS['strBannerSettings']			= "Impostazione Banner";
+$GLOBALS['strBannerSettings']			= "Impostazioni banner";
 
 $GLOBALS['strAllowedBannerTypes']		= "Tipi di banner consentiti";
 $GLOBALS['strTypeSqlAllow']				= "Consenti banner locali (SQL)";
@@ -168,9 +176,9 @@ $GLOBALS['strTypeHtmlPhp']				= "Consenti l'esecuzione di espressioni PHP all'in
 
 
 // Statistics Settings
-$GLOBALS['strStatisticsSettings']		= "Impostazioni Statistiche";
+$GLOBALS['strStatisticsSettings']		= "Impostazioni statistiche";
 
-$GLOBALS['strStatisticsFormat']			= "Formato Statistiche";
+$GLOBALS['strStatisticsFormat']			= "Formato statistiche";
 $GLOBALS['strLogBeacon']				= "Usa i beacon per registrare le Visualizzazioni";
 $GLOBALS['strCompactStats']				= "Utilizza il formato delle statistiche compatto";
 $GLOBALS['strLogAdviews']				= "Registra visualizzazioni";
@@ -186,7 +194,7 @@ $GLOBALS['strWarnAdmin']				= "Avvisa l'amministratore";
 $GLOBALS['strWarnClient']				= "Avvisa i clienti";
 $GLOBALS['strQmailPatch']				= "Abilita patch per qmail";
 
-$GLOBALS['strRemoteHosts']				= "Host Remoti";
+$GLOBALS['strRemoteHosts']				= "Host remoti";
 $GLOBALS['strIgnoreHosts']				= "Host da ignorare nelle statistiche";
 $GLOBALS['strReverseLookup']			= "Risolvi nomi di dominio";
 $GLOBALS['strProxyLookup']				= "Risolvi indirizzi che utilizzano un server proxy";
@@ -194,9 +202,9 @@ $GLOBALS['strProxyLookup']				= "Risolvi indirizzi che utilizzano un server prox
 
 
 // Administrator settings
-$GLOBALS['strAdministratorSettings']	= "Impostazioni Amministratore";
+$GLOBALS['strAdministratorSettings']	= "Impostazioni amministratore";
 
-$GLOBALS['strLoginCredentials']			= "Credenziali di Login";
+$GLOBALS['strLoginCredentials']			= "Credenziali di login";
 $GLOBALS['strAdminUsername']			= "Username";
 $GLOBALS['strOldPassword']				= "Vecchia password";
 $GLOBALS['strNewPassword']				= "Nuova password";
@@ -222,27 +230,27 @@ $GLOBALS['strUserlogPriority']			= "Registra i calcoli eseguiti ogni ora nell'as
 
 
 // User interface settings
-$GLOBALS['strGuiSettings']				= "Configurazione Interfaccia Utente";
+$GLOBALS['strGuiSettings']				= "Configurazione interfaccia utente";
 
-$GLOBALS['strGeneralSettings']			= "Impostazioni Generali";
+$GLOBALS['strGeneralSettings']			= "Impostazioni generali";
 $GLOBALS['strAppName']					= "Intestazione programma";
 $GLOBALS['strMyHeader']					= "File da includere come intestazione";
 $GLOBALS['strMyFooter']					= "File da includere a pi&eacute; di pagina";
 $GLOBALS['strGzipContentCompression']	= "Utilizza la compressione GZIP";
 
-$GLOBALS['strClientInterface']			= "Interfaccia Inserzionista";
+$GLOBALS['strClientInterface']			= "Interfaccia inserzionista";
 $GLOBALS['strClientWelcomeEnabled']		= "Attiva messaggio di benvenuto";
 $GLOBALS['strClientWelcomeText']		= "Testo del messaggio<br>(tag HTML consentite)";
 
 
 
 // Interface defaults
-$GLOBALS['strInterfaceDefaults']		= "Default di Interfaccia";
+$GLOBALS['strInterfaceDefaults']		= "Default di interfaccia";
 
 $GLOBALS['strInventory']				= "Inventario";
 $GLOBALS['strShowCampaignInfo']			= "Mostra informazioni aggiuntive nella pagina <i>Descrizione Campagne</i>";
-$GLOBALS['strShowBannerInfo']			= "Mostra informazioni aggiuntive nella pagina <i>Descrizione Banner</i> page";
-$GLOBALS['strShowCampaignPreview']		= "Mostra anteprima dei banner nella pagina<i>Descrizione Banner</i> page";
+$GLOBALS['strShowBannerInfo']			= "Mostra informazioni aggiuntive nella pagina <i>Descrizione Banner</i>";
+$GLOBALS['strShowCampaignPreview']		= "Mostra anteprima dei banner nella pagina <i>Descrizione Banner</i>";
 $GLOBALS['strShowBannerHTML']			= "Mostra il banner invece del codice HTML nell'anteprima dei banner HTML";
 $GLOBALS['strShowBannerPreview']		= "Mostra anteprima nella parte superiore della pagina nelle pagine dei banner";
 
@@ -250,7 +258,7 @@ $GLOBALS['strStatisticsDefaults']		= "Statistiche";
 $GLOBALS['strBeginOfWeek']				= "Primo giorno della settimana";
 $GLOBALS['strPercentageDecimals']		= "Numero decimali nelle percentuali";
 
-$GLOBALS['strWeightDefaults']			= "Peso di Default";
+$GLOBALS['strWeightDefaults']			= "Peso di default";
 $GLOBALS['strDefaultBannerWeight']		= "Peso di default dei banner";
 $GLOBALS['strDefaultCampaignWeight']	= "Peso di default delle campagne";
 $GLOBALS['strDefaultBannerWErr']		= "Il peso di default dei banner deve essere un intero positivo";
@@ -264,7 +272,6 @@ $GLOBALS['strTableBackColor']			= "Colore di sfondo delle tabelle";
 $GLOBALS['strTableBackColorAlt']		= "Colore di sfondo delle tabelle (Alternativo)";
 $GLOBALS['strMainBackColor']			= "Colore di sfondo delle pagine";
 $GLOBALS['strOverrideGD']				= "Utilizza formato GD personalizzato";
-$GLOBALS['strTimeZone']					= "Fuso Orario";
+$GLOBALS['strTimeZone']					= "Fuso orario";
 
-?>
 ?>

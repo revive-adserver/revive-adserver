@@ -17,14 +17,18 @@
 
 
 // Invocation Types
-$GLOBALS['strInvocationRemote']			= "Invocazione Remota";
-$GLOBALS['strInvocationJS']				= "Invocazione Remota con Javascript";
-$GLOBALS['strInvocationIframes']		= "Invocazione Remota con iframes";
-$GLOBALS['strInvocationXmlRpc']			= "Invocazione Remota con XML-RPC";
-$GLOBALS['strInvocationCombined']		= "Invocazione Remota Combinata";
-$GLOBALS['strInvocationPopUp']			= "Pop-up";
-$GLOBALS['strInvocationAdLayer']		= "AdLayer";
+$GLOBALS['strInvocationRemote']			= "Invocazione remota";
+$GLOBALS['strInvocationJS']				= "Invocazione remota con Javascript";
+$GLOBALS['strInvocationIframes']		= "Invocazione remota con iframes";
+$GLOBALS['strInvocationXmlRpc']			= "Invocazione remota con XML-RPC";
+$GLOBALS['strInvocationCombined']		= "Invocazione remota Combinata";
+$GLOBALS['strInvocationPopUp']			= "Popup";
+$GLOBALS['strInvocationAdLayer']		= "Interstiziale";
 $GLOBALS['strInvocationLocal']			= "Modo locale";
+
+
+// Other
+$GLOBALS['strCopyToClipboard']			= "Copia negli appunti";
 
 
 // Measures
@@ -33,11 +37,13 @@ $GLOBALS['strAbbrSeconds']				= "sec";
 
 
 // Common Invocation Parameters
-$GLOBALS['strInvocationWhat']			= "Parametro What";
-$GLOBALS['strInvocationClientID']		= "Inserzionista o Campagna";
-$GLOBALS['strInvocationTarget']			= "Destinazione (Target HTML)";
+$GLOBALS['strInvocationWhat']			= "Selezione banner";
+$GLOBALS['strInvocationClientID']		= "Inserzionista o campagna";
+$GLOBALS['strInvocationTarget']			= "Frame destinazione";
 $GLOBALS['strInvocationSource']			= "Sorgente";
 $GLOBALS['strInvocationWithText']		= "Link testuale sotto il Banner";
+$GLOBALS['strInvocationDontShowAgain']	= "Non mostrare banner duplicati nella stessa pagina";
+$GLOBALS['strInvocationTemplate'] 		= "Assegna il banner a una variabile per utilizzarla in un template";
 
 
 // Iframe
@@ -60,21 +66,21 @@ $GLOBALS['strXmlRpcLanguage']			= "Linguaggio utilizzato";
 
 
 // AdLayer
-$GLOBALS['strAdLayerStyle']				= "Stile del Layer";
+$GLOBALS['strAdLayerStyle']				= "Stile";
 
 $GLOBALS['strAlignment']				= "Allinemento";
-$GLOBALS['strHAlignment']				= "Allinemento Orizzontale";
+$GLOBALS['strHAlignment']				= "Allinemento orizzontale";
 $GLOBALS['strLeft']						= "Sinistra";
 $GLOBALS['strCenter']					= "Centrato";
 $GLOBALS['strRight']					= "Destra";
 
-$GLOBALS['strVAlignment']				= "Allinemento Verticale";
+$GLOBALS['strVAlignment']				= "Allinemento verticale";
 $GLOBALS['strTop']						= "Alto";
 $GLOBALS['strMiddle']					= "Centrato";
 $GLOBALS['strBottom']					= "Basso";
 
 $GLOBALS['strAutoCollapseAfter']		= "Riduci automaticamente dopo";
-$GLOBALS['strCloseText']				= "Testo di Chiusura";
+$GLOBALS['strCloseText']				= "Testo di chiusura";
 $GLOBALS['strClose']					= "[Chiudi]";
 $GLOBALS['strBannerPadding']			= "Margini interni";
 
