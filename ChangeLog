@@ -61,6 +61,8 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Added prev/next buttons to the statistics  (Niels) 20011215
 			  - Priority is recalculated when a users changes a banner or campaign  (Niels) 20011216
 			  - Added ability to duplicate webserver stored banners  (Niels) 20011216
+			  - Split banner image to a seperate table for speed up  (Niels) 20011226
+			  - Added cache for HTML generated during delivery  (Niels) 20011226
 
 
 			+ Misc bugfixes
@@ -106,6 +108,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: Removed the background color parameter for Flash banner previews  (Niels) 20011218
 			  - Bugfix: Clients couldn't activate banners using the client interface  (Toni Garcia) 20011222
 			  - Bugfix: Calculating priority without campaigns or banners led to php errors  (Matteo) 20011222 
+			  - Bugfix: Misc fixes to priority calculation without high priority banners  (Niels) 20011231
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
