@@ -69,7 +69,7 @@ function phpAds_geoip_getGeo($addr, $db)
 		
 		// Get continent code
 		@include_once (phpAds_path.'/libraries/resources/res-continent.inc.php');
-		$continent = $phpAds_continent[$country];
+		$continent = isset($phpAds_continent[$country]) ? $phpAds_continent[$country] : '';
 		
 		return (array (
 			'country' => $country,
