@@ -1,6 +1,6 @@
 phpAdsNew - ChangeLog
 
-v 2.0beta
+v 2.0beta3
 			+ Added support for Flash variables (Niels)
 			+ Added support for timestamp variable (Niels)
 			+ Added support for single quotes in HTML banners (Niels)

@@ -1,3 +1,11 @@
+phpAdsNew 2 beta 2 -> phpadsNew 2 beta 3
+
+There are no big changes between beta 2 and beta 3 and no changes are needed to
+the database structure. Beta 3 is mainly a bugfix release and does not introduce
+many new features.
+
+----------------------
+
 phpAdsNew 2 beta 1 -> phpadsNew 2 beta 2
 
 Three columns were added to the client table in order to keep track of active
