@@ -492,7 +492,7 @@ function phpAds_buildBannerCode ($bannerid, $banner, $active, $format, $width, $
 			$htmlcode 	= stripslashes ($banner);
 			$htmlcode   = strlen($htmlcode) > 500 ? substr ($htmlcode, 0, 500)."..." : $htmlcode;
 			$htmlcode	= chunk_split ($htmlcode, 65, "\n");
-			$htmlcode	= str_replace("\n", "<br>\n", htmlspecialchars ($htmlcode));
+			$htmlcode   = str_replace("\n", "<br>\n", htmlspecialchars ($htmlcode));
 			
 			$buffer		= "<table width='100%' border='0' cellspacing='0' cellpadding='0'><tr>";
 			$buffer    .= "<td width='80%' valign='top' align='left'>\n";
@@ -655,15 +655,21 @@ function phpAds_totalStats($table, $column, $bannerid, $timeconstraint="")
 			
 			if ($timeconstraint == "month")
 			{
-				$where .= "MONTH(day) = MONTH(CURDATE())";
+				$begin = date('Ymd', mktime(0, 0, 0, date('m'), 1, date('Y')));
+				$end   = date('Ymd', mktime(0, 0, 0, date('m') + 1, 1, date('Y')));
+				$where .= "day >= $begin AND day < $end";
 			}
 			elseif ($timeconstraint == "week")
 			{
-				$where .= "WEEK(day) = WEEK(CURDATE()) AND YEAR(day) = YEAR(CURDATE())";
+				$begin = date('Ymd', mktime(0, 0, 0, date('m'), date('d') + 1, date('Y')));
+				$end   = date('Ymd', mktime(0, 0, 0, date('m'), date('d') - 6, date('Y')));
+				$where .= "day >= $begin AND day < $end";
 			}
 			else
 			{
-			    $where .= "day = CURDATE()";
+				$begin = date('Ymd', mktime(0, 0, 0, date('m'), date('d'), date('Y')));
+			    
+				$where .= "day = $begin";
 			}
 		}
 		
@@ -693,21 +699,21 @@ function phpAds_totalStats($table, $column, $bannerid, $timeconstraint="")
 			
 			if ($timeconstraint == "month")
 			{
-				$begintime = date ("Ym01000000");
-				$endtime = date ("YmdHis", mktime(0, 0, 0, date("m") + 1, 1, date("Y")));
-				$where .= "t_stamp >= $begintime AND t_stamp < $endtime";
+				$begin = date('YmdHis', mktime(0, 0, 0, date('m'), 1, date('Y')));
+				$end   = date('YmdHis', mktime(0, 0, 0, date('m') + 1, 1, date('Y')));
+				$where .= "t_stamp >= $begin AND t_stamp < $end";
 			}
 			elseif ($timeconstraint == "week")
 			{
-				$begintime = date ("Ymd000000", time() - 518400);
-				$endtime = date ("Ymd000000", time() + 86400);
-				$where .= "t_stamp >= $begintime AND t_stamp < $endtime";
+				$begin = date('YmdHis', mktime(0, 0, 0, date('m'), date('d') + 1, date('Y')));
+				$end   = date('YmdHis', mktime(0, 0, 0, date('m'), date('d') - 6, date('Y')));
+				$where .= "t_stamp >= $begin AND t_stamp < $end";
 			}
 			else
 			{
-			    $begintime = date ("Ymd000000");
-				$endtime = date ("Ymd000000", time() + 86400);
-				$where .= "t_stamp >= $begintime AND t_stamp < $endtime";
+				$begin = date('YmdHis', mktime(0, 0, 0, date('m'), date('d'), date('Y')));
+				$end   = date('YmdHis', mktime(0, 0, 0, date('m'), date('d') + 1, date('Y')));
+				$where .= "t_stamp >= $begin AND t_stamp < $end";
 			}
 		}
 		

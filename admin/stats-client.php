@@ -69,13 +69,12 @@ if (phpAds_isUser(phpAds_Admin))
 	$extra .= "<br><br><br><br><br>";
 	$extra .= "<b>$strShortcuts</b><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
-	$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientid=$clientid>$strModifyClient</a><br>";
+	$extra .= "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<a href=client-edit.php?clientid=$clientid>$strClientProperties</a><br>";
 	$extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 	
 	phpAds_PageHeader("2.1.1", $extra);
-	phpAds_ShowSections(array("2.1.1"));
-	
-	echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b>";
+		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br><br><br>";
+		phpAds_ShowSections(array("2.1.1"));
 }
 
 if (phpAds_isUser(phpAds_Client))
@@ -84,8 +83,6 @@ if (phpAds_isUser(phpAds_Client))
 	phpAds_ShowSections(array("1.1", "1.2"));
 }
 
-echo "<br><br>";
-echo "<br><br>";
 echo "<br><br>";
 
 
@@ -118,72 +115,80 @@ if (phpAds_dbNumRows($idresult) > 0)
 	
 	if ($phpAds_config['compact_stats']) 
 	{
-		$result = phpAds_dbQuery(" SELECT
-								*,
-								sum(views) as sum_views,
-								sum(clicks) as sum_clicks,
-								DATE_FORMAT(day, '$date_format') as t_stamp_f
-					 		 FROM
-								".$phpAds_config['tbl_adstats']."
-							 WHERE
-								(".implode(' OR ', $bannerids).")
-							 GROUP BY
-							 	day
-							 ORDER BY
-								day DESC
-							 LIMIT $limit 
-				  ") or phpAds_sqlDie();
+		$begin = date('Ymd', mktime(0, 0, 0, date('m'), date('d') - $limit + 1, date('Y')));
+		$end   = date('Ymd', mktime(0, 0, 0, date('m'), date('d') + 1, date('Y')));
 		
-		//phpAds_sqlDie();
+		$result = phpAds_dbQuery("
+			SELECT
+				sum(views) AS sum_views,
+				sum(clicks) AS sum_clicks,
+				DATE_FORMAT(day, '$date_format') AS date_formatted,
+				DATE_FORMAT(day, '%Y%m%d') AS date
+			FROM
+				".$phpAds_config['tbl_adstats']."
+			WHERE
+				(".implode(' OR ', $bannerids).") AND
+				day >= $begin AND day < $end
+			GROUP BY
+				day
+			LIMIT 
+				$limit
+		");
+		
 		while ($row = phpAds_dbFetchArray($result))
 		{
-			$stats[$row['day']] = $row;
+			$stats[$row['date']] = $row;
 		}
 	}
 	else
 	{
-		$result = phpAds_dbQuery(" SELECT
-								count(*) as views,
-								DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
-								DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
-					 		 FROM
-								".$phpAds_config['tbl_adviews']."
-							 WHERE
-								(".implode(' OR ', $bannerids).")
-							 GROUP BY
-							    day
-							 ORDER BY
-								day DESC
-							 LIMIT $limit 
-				  ");
+		$begin = date('YmdHis', mktime(0, 0, 0, date('m'), date('d') - $limit + 1, date('Y')));
+		$end   = date('YmdHis', mktime(0, 0, 0, date('m'), date('d') + 1, date('Y')));
+		
+		$result = phpAds_dbQuery("
+			SELECT
+				COUNT(*) AS sum_views,
+				DATE_FORMAT(t_stamp, '$date_format') AS date_formatted,
+				DATE_FORMAT(t_stamp, '%Y%m%d') AS date
+			FROM
+				".$phpAds_config['tbl_adviews']."
+			WHERE
+				(".implode(' OR ', $bannerids).") AND
+				t_stamp >= $begin AND t_stamp < $end
+			GROUP BY
+				date
+			LIMIT 
+				$limit
+		");
 		
 		while ($row = phpAds_dbFetchArray($result))
 		{
-			$stats[$row['day']]['sum_views'] = $row['views'];
-			$stats[$row['day']]['sum_clicks'] = '0';
-			$stats[$row['day']]['t_stamp_f'] = $row['t_stamp_f'];
+			$stats[$row['date']]['sum_views'] = $row['sum_views'];
+			$stats[$row['date']]['sum_clicks'] = '0';
+			$stats[$row['date']]['date_formatted'] = $row['date_formatted'];
 		}
 		
 		
-		$result = phpAds_dbQuery(" SELECT
-								count(*) as clicks,
-								DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f,
-								DATE_FORMAT(t_stamp, '%Y-%m-%d') as day
-					 		 FROM
-								".$phpAds_config['tbl_adclicks']."
-							 WHERE
-								(".implode(' OR ', $bannerids).")
-							 GROUP BY
-							    day
-							 ORDER BY
-								day DESC
-							 LIMIT $limit 
-				  ");
+		$result = phpAds_dbQuery("
+			SELECT
+				COUNT(*) AS sum_clicks,
+				DATE_FORMAT(t_stamp, '$date_format') AS date_formatted,
+				DATE_FORMAT(t_stamp, '%Y%m%d') AS date
+			FROM
+				".$phpAds_config['tbl_adclicks']."
+			WHERE
+				(".implode(' OR ', $bannerids).") AND
+				t_stamp >= $begin AND t_stamp < $end
+			GROUP BY
+				date
+			LIMIT 
+				$limit
+		");
 		
 		while ($row = phpAds_dbFetchArray($result))
 		{
-			$stats[$row['day']]['sum_clicks'] = $row['clicks'];
-			$stats[$row['day']]['t_stamp_f'] = $row['t_stamp_f'];
+			$stats[$row['date']]['sum_clicks'] = $row['sum_clicks'];
+			$stats[$row['date']]['date_formatted'] = $row['date_formatted'];
 		}
 	}
 }
@@ -203,20 +208,18 @@ echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gi
 $totalviews  = 0;
 $totalclicks = 0;
 
-// for (reset($stats);$key=key($stats);next($stats))	{
-
 $today = time();
 
 for ($d=0;$d<$limit;$d++)
 {
-	$key = date ("Y-m-d", $today - ((60 * 60 * 24) * $d));
+	$key = date ("Ymd", $today - ((60 * 60 * 24) * $d));
 	$text = date (str_replace ("%", "", $date_format), $today - ((60 * 60 * 24) * $d));
 	
 	if (isset($stats[$key]))
 	{
 		$views  = $stats[$key]['sum_views'];
 		$clicks = $stats[$key]['sum_clicks'];
-		$text   = $stats[$key]['t_stamp_f'];
+		$text   = $stats[$key]['date_formatted'];
 		$ctr	= phpAds_buildCTR($views, $clicks);
 		
 		$totalviews  += $views;
@@ -291,17 +294,19 @@ echo "</td>";
 echo "</form>";
 echo "</tr>";
 
+/*
 if ($totalviews > 0 || $totalclicks > 0)
 {
 	if (phpAds_GDImageFormat() != "none") 
 	{
-		//echo "<tr><td colspan='4' align='left' bgcolor='#FFFFFF'>";
-		//echo "<br><br><img src='graph-details.php?bannerid=$bannerid&campaignid=$campaignid&limit=$limit'><br><br><br>";
-		//echo "</td></tr>";
+		echo "<tr><td colspan='4' align='left' bgcolor='#FFFFFF'>";
+		echo "<br><br><img src='graph-details.php?bannerid=$bannerid&campaignid=$campaignid&limit=$limit'><br><br><br>";
+		echo "</td></tr>";
 	}
 	
-	//echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 }
+*/
 
 echo "</table>";
 

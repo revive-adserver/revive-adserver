@@ -63,12 +63,12 @@ if ($phpAds_config['compact_stats'])
 {
 	$res = phpAds_dbQuery("
 		SELECT
-			DATE_FORMAT(day, '$date_format') as t_stamp_f
+			DATE_FORMAT(day, '%Y%m%d') as date,
+			DATE_FORMAT(day, '$date_format') as date_formatted
 		FROM
 			".$phpAds_config['tbl_adstats']."
 		WHERE
-			bannerid = $bannerid AND
-			hour >= 0
+			bannerid = $bannerid
 		GROUP BY
 			day
 		ORDER BY
@@ -80,29 +80,28 @@ else
 {
 	$res = phpAds_dbQuery("
 		 SELECT
-			*,
-			count(*) as qnt,
-			DATE_FORMAT(t_stamp, '$date_format') as t_stamp_f
+			DATE_FORMAT(t_stamp, '%Y%m%d') as date,
+			DATE_FORMAT(t_stamp, '$date_format') as date_formatted
 		 FROM
 			".$phpAds_config['tbl_adviews']."
 		 WHERE
 			bannerid = $bannerid
 		 GROUP BY
-			t_stamp_f
+			date
 		 ORDER BY
-			t_stamp DESC
+			date DESC
 		 LIMIT 7
 	") or phpAds_sqlDie();
 }
 
 while ($row = phpAds_dbFetchArray($res))
 {
-	if ($day == $row['t_stamp_f'])
+	if ($day == $row['date'])
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-1.gif'>&nbsp;";
 	else
 		$extra .= "&nbsp;&nbsp;&nbsp;<img src='images/box-0.gif'>&nbsp;";
 	
-	$extra .= "<a href='stats-daily.php?day=".urlencode($row["t_stamp_f"])."&campaignid=$campaignid&bannerid=$bannerid'>".$row['t_stamp_f']."</a>";
+	$extra .= "<a href='stats-daily.php?day=".$row['date']."&campaignid=$campaignid&bannerid=$bannerid'>".$row['date_formatted']."</a>";
 	$extra .= "<br>"; 
 }
 
@@ -150,13 +149,13 @@ if ($phpAds_config['compact_stats'])
 	$result = phpAds_dbQuery("
 		SELECT
 			hour,
-			sum(views) as views,
-			sum(clicks) as clicks
+			SUM(views) AS views,
+			SUM(clicks) AS clicks
 		FROM
 			".$phpAds_config['tbl_adstats']."
 		WHERE
 			bannerid = ".$bannerid."
-			AND DATE_FORMAT(day, '".$date_format."') = '".$day."'
+			AND day = ".$day."
 		GROUP BY 
 			hour
 	") or phpAds_sqlDie();
@@ -170,17 +169,18 @@ if ($phpAds_config['compact_stats'])
 }
 else
 {
+	$begin = date('YmdHis', mktime(0, 0, 0, substr($day, 4, 2), substr($day, 6, 2), substr($day, 0, 4)));
+	$end   = date('YmdHis', mktime(0, 0, 0, substr($day, 4, 2), substr($day, 6, 2) + 1, substr($day, 0, 4)));
+	
 	$result = phpAds_dbQuery("
 		SELECT
-			*,
-			DATE_FORMAT(t_stamp, '".$GLOBALS['time_format']."') as t_stamp_f,
-			DATE_FORMAT(t_stamp, '%H') as hour,
-			count(*) as qnt
+			HOUR(t_stamp) AS hour,
+			COUNT(*) AS qnt
 		FROM
 			".$phpAds_config['tbl_adviews']."
 		WHERE
 			bannerid = ".$bannerid." AND 
-			DATE_FORMAT(t_stamp, '".$GLOBALS['date_format']."') = '".$GLOBALS['day']."'
+			t_stamp >= $begin AND t_stamp < $end
 		GROUP BY 
 			hour
 	") or phpAds_sqlDie();
@@ -194,15 +194,13 @@ else
 	
 	$result = phpAds_dbQuery("
 		SELECT
-			*,
-			DATE_FORMAT(t_stamp, '".$GLOBALS['time_format']."') as t_stamp_f,
-			DATE_FORMAT(t_stamp, '%H') as hour,
-			count(*) as qnt
+			HOUR(t_stamp) AS hour,
+			COUNT(*) AS qnt
 		FROM
 			".$phpAds_config['tbl_adclicks']."
 		WHERE
-			bannerid = $GLOBALS[bannerid]
-			AND DATE_FORMAT(t_stamp, '".$GLOBALS['date_format']."') = '".$GLOBALS['day']."'
+			bannerid = ".$bannerid." AND 
+			t_stamp >= $begin AND t_stamp < $end
 		GROUP BY 
 			hour
 	") or phpAds_sqlDie();
@@ -328,13 +326,13 @@ echo "</table>";
   <?php
     	$result = phpAds_dbQuery("
         		SELECT
-        			*,
-        			count(*) as qnt
+        			host,
+        			COUNT(*) AS qnt
         		FROM
         			".$phpAds_config['tbl_adviews']."
         		WHERE
-        			bannerid = $bannerid
-        			AND DATE_FORMAT(t_stamp, '$date_format') = '$day'
+        			bannerid = $bannerid AND
+					t_stamp >= $begin AND t_stamp < $end
         		GROUP BY
         			host
         		ORDER BY
@@ -364,7 +362,7 @@ echo "</table>";
     ?>
 </table>
 
-
+<br><br>
 
 <?php
 
