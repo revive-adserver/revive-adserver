@@ -52,6 +52,14 @@ body
 	margin-bottom: 0px; 
 }
 
+.install 		
+{ 
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 11px;
+	line-height: 18px;
+	color: #000066; 
+}
+
 table 		
 { 
 	font-family: Verdana, Arial, Helvetica, sans-serif; 
@@ -99,6 +107,8 @@ select,textarea,input
 .tab-g { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: #666666; text-decoration: none;}
 .tab-g:hover { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: #666666; text-decoration: underline;}
 
+.tab-r { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: #CC0000; text-decoration: none;}
+.tab-r:hover { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: #CC0000; text-decoration: underline;}
 .tab-n { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; font-weight: bold; color: #FFFFFF; text-decoration: none;}
 .tab-n:hover { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; font-weight: bold; color: #FFFFFF; text-decoration: underline;}
 
