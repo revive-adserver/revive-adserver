@@ -42,20 +42,44 @@ if (!isset($context)) 	$context = '';
 
 
 // Get the banner
+$banner = view_raw ($what, $clientid, $target, $source, $withtext, $context);
+
+// Build HTML
 echo "<html>\n";
+echo "<head>\n";
+echo "<title>".($banner['alt'] ? $banner['alt'] : 'Advertisement')."</title>\n";
 
 if (isset($refresh) && $refresh != '')
-{
-	echo "<head>\n";
 	echo "<meta http-equiv='refresh' content='".$refresh."'>\n";
-	echo "</head>\n";
+
+if (isset($resize) && $resize == 1)
+{
+	echo "<script language='JavaScript'>\n";
+	echo "<!--\n";
+	echo "\tfunction phpads_adjustframe(frame) {\n";
+	echo "\t\tif (document.all) {\n";
+    echo "\t\t\tparent.document.all[frame.name].width = ".$banner['width'].";\n";
+    echo "\t\t\tparent.document.all[frame.name].height = ".$banner['height'].";\n";
+  	echo "\t\t}\n";
+  	echo "\t\telse if (document.getElementById) {\n";
+    echo "\t\t\tparent.document.getElementById(frame.name).width = ".$banner['width'].";\n";
+    echo "\t\t\tparent.document.getElementById(frame.name).height = ".$banner['height'].";\n";
+  	echo "\t\t}\n";
+	echo "\t}\n";
+	echo "// -->\n";
+	echo "</script>\n";
 }
 
-echo "<body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0'>\n";
+echo "</head>\n";
 
-view ($what, $clientid, $target, $source, $withtext, $context);
+if (isset($resize) && $resize == 1)
+	echo "<body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0' style='background-color:transparent' onload=\"phpads_adjustframe(window);\">\n";
+else
+	echo "<body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0' style='background-color:transparent'>\n";
 
+echo $banner['html'];
 echo "\n</body>\n";
+
 echo "</html>\n";
 
 ?> 
