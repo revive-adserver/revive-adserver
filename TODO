@@ -15,6 +15,7 @@ in the nearby future (2.1/2.2)
   + Use an template system for admin interface
   + Support for right-left scripts such as arabic
   + Cookie based sequential banner retrieval
+    (won't work with cookies! better SessionID or so)
   + installation and update scripting
 
 Long term features:
