@@ -20,7 +20,7 @@ $plugin_info_function		= "Plugin_GlobalhistoryInfo";
 // Public info function
 function Plugin_GlobalhistoryInfo()
 {
-	global $strGlobalHistory;
+	global $strGlobalHistory, $strPluginGlobal, $strDelimiter;
 	
 	$plugininfo = array (
 		"plugin-name"			=> $strGlobalHistory,
