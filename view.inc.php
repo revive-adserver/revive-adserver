@@ -1,18 +1,50 @@
-<? // $id:
+<?php
 
-// it's best if we do this only once per load, not every time we call rand.    
-mt_srand((double)microtime()*1000000);
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/* $Name$ $Revision$													*/
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
 
+
+
+// Include required files
 require ("$phpAds_path/dblib.php"); 
 require ("$phpAds_path/lib-expire.inc.php");
 
+// Seed the random number generator
+mt_srand((double)microtime()*1000000);
 
 
-// Get a banner
+
+/*********************************************************/
+/* Build the SQL query needed to fetch the banners       */
+/*********************************************************/
+
+function phpAds_buildQuery ($what, $clientID, $context=0, $source="")
+{
+
+
+}
+
+
+
+/*********************************************************/
+/* Get a banner						                     */
+/*********************************************************/
+
 function get_banner($what, $clientID, $context=0, $source="")
 {
 	global $phpAds_db, $REMOTE_HOST, $phpAds_tbl_banners, $REMOTE_ADDR, $HTTP_USER_AGENT, $phpAds_con_key;
 	global $phpAds_random_retrieve, $phpAds_mult_key, $phpAds_tbl_clients;
+	
 	$where = "";
 	if($context == 0)
 		$context = array();
@@ -28,22 +60,22 @@ function get_banner($what, $clientID, $context=0, $source="")
 			}
 		}
 	}
-
+	
 	$where_exclusive = !empty($exclusive) ? implode(" AND ", $exclusive): "";
 	$where_inclusive = !empty($inclusive) ? implode(" OR ", $inclusive): "";
-
+	
 	$where = sprintf("$where_inclusive %s $where_exclusive", (!empty($where_inclusive) && !empty($where_exclusive)) ? "AND": "");
-
+	
 	$where = trim($where);
 	if(!empty($where))
 		$where .= " AND ";
-
-
-
+	
+	
+	
 	// separate parts
 	$what_parts = explode ("|",$what);	
-
-
+	
+	
 	for ($wpc=0;$wpc<sizeof($what_parts);$wpc++)	// build a query and execute for each part
 	{
 		$select = "
@@ -327,7 +359,12 @@ function get_banner($what, $clientID, $context=0, $source="")
     }
 }
 
-// Mail warning - preset is reached
+
+
+/*********************************************************/
+/* Mail warning - preset is reached						 */
+/*********************************************************/
+
 function warn_mail($warn)
 {
 	global $phpAds_url_prefix, $phpAds_warn_limit, $phpAds_company_name, $phpAds_warn_admin, $phpAds_warn_client;
@@ -346,7 +383,12 @@ function warn_mail($warn)
 	}
 }
 
-// Log an adview for the banner with $bannerID
+
+
+/*********************************************************/
+/* Log an adview for the banner with $bannerID			 */
+/*********************************************************/
+
 function log_adview($bannerID,$clientID)
 {
 	global $phpAds_log_adviews, $phpAds_ignore_hosts, $phpAds_reverse_lookup, $phpAds_insert_delayed;
@@ -380,7 +422,12 @@ function log_adview($bannerID,$clientID)
 	}
 }
 
-// Java-encodes text for use with (remote) javascript tags
+
+
+/*********************************************************/
+/* Java-encodes text									 */
+/*********************************************************/
+
 function enjavanate($str)
 {
 	$lines = explode("\n", $str);
@@ -402,6 +449,11 @@ function enjavanate($str)
 	}
 }
 
+
+
+/*********************************************************/
+/* Create the HTML needed to display the banner			 */
+/*********************************************************/
 
 function view_raw($what, $clientID=0, $target="", $source="", $withtext=0, $context=0)
 {
@@ -552,10 +604,11 @@ function view_raw($what, $clientID=0, $target="", $source="", $withtext=0, $cont
 		  );
 }
 
-function view_t($what, $target="")
-{
-	view ($what, $target, 1);
-}
+
+
+/*********************************************************/
+/* Display a banner										 */
+/*********************************************************/
 
 function view($what, $clientID=0, $target="", $source="", $withtext=0, $context=0)
 {
@@ -564,12 +617,25 @@ function view($what, $clientID=0, $target="", $source="", $withtext=0, $context=
 	return($output["bannerID"]);
 }
 
+
+
+/*********************************************************/
+/* Create the Javascript to display a banner			 */
+/*********************************************************/
+
 function view_js($what, $clientID=0, $target="", $source="", $withtext=0, $context=0)
 {
 	$output = view_raw($what, $clientID, "$target", "$source", $withtext, $context);
 	
 	enjavanate($output["html"]);
 	return($output["bannerID"]);
+}
+
+
+
+function view_t($what, $target="")
+{
+	view ($what, $target, 1);
 }
 
 ?>

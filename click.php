@@ -1,17 +1,40 @@
-<?
+<?php
 
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/* $Name$ $Revision$													*/
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
+
+
+
+// Include required files
 require ("config.inc.php");
 require ("dblib.php");
 require ("lib-expire.inc.php");
 
+// Open a connection to the database
 db_connect();
 
-if(!isset($bannerID))
+
+
+
+// Fetch BannerID
+if (!isset($bannerID))
 {
 	if(isset($bannerNum) && !empty($bannerNum)) $bannerID = $bannerNum;
 	if(isset($n) && is_array($banID)) $bannerID = $banID[$n];
 }
 
+
+// Get target URL and ClientID
 $res = db_query("
 	SELECT
 		url,clientID
@@ -20,12 +43,15 @@ $res = db_query("
 	WHERE
 		bannerID = $bannerID
 	") or mysql_die();
-$url = mysql_result($res,0 ,0);
-$clientID=mysql_result($res,0,1);
+	
+$url 	  = mysql_result($res, 0, 0);
+$clientID = mysql_result($res, 0, 1);
 
-if($phpAds_log_adclicks)
+
+// Log clicks
+if ($phpAds_log_adclicks)
 {
-	if($phpAds_reverse_lookup)
+	if ($phpAds_reverse_lookup)
 		$host = isset($REMOTE_HOST) ? $REMOTE_HOST : @gethostbyaddr($REMOTE_ADDR);
 	else
 		$host = $REMOTE_ADDR;
@@ -63,5 +89,7 @@ if (eregi ("\{random(:([1-9])){0,1}\}", $url, $matches))
 }
 
 
+// Redirect
 Header("Location: $url");
+
 ?>

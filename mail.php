@@ -1,5 +1,21 @@
-<?
+<?php
 
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/* $Name$ $Revision$													*/
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
+
+
+
+// Include required files
 require("config.inc.php");
 require("dblib.php");
 require("nocache.inc.php");
@@ -7,12 +23,31 @@ require("nocache.inc.php");
 // Load language strings
 require("language/$phpAds_language.inc.php");
 
-
-if (!get_cfg_var ('safe_mode'))
+// Set time limit and ignore user abort
+if (!get_cfg_var ('safe_mode')) 
 {
 	set_time_limit (300);
 	ignore_user_abort(1);
 }
+
+
+
+/*********************************************************/
+/* PHP3 replacement for substr_count()					 */
+/*********************************************************/
+
+function substr_count2($string,$search)
+{
+	$temp = str_replace($search,$search."a",$string);
+	return strlen($temp)-strlen($string); 
+}
+
+
+
+/*********************************************************/
+/* Mail clients and check for activation  				 */
+/* and expiration dates					 				 */
+/*********************************************************/
 
 
 // Make database connection
@@ -41,15 +76,6 @@ $res_clients = db_query("
 $i = 0;
 $logs = array();
 $clients = array();
-
-
-// PHP3 replacement for substr_count()
-// quick hack found at www.php.net by webmaster@lynucs.com
-function substr_count2($string,$search) { 
-$temp = str_replace($search,$search."a",$string); 
-return strlen($temp)-strlen($string); 
-}
-
 
 while($client = mysql_fetch_array($res_clients))
 {
@@ -229,5 +255,7 @@ while($client = mysql_fetch_array($res_clients))
 	$i++;
 }
 
-echo "$strLogMailSent\n";  
+echo "$strLogMailSent\n";
+
+
 ?>

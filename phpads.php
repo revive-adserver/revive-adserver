@@ -1,15 +1,33 @@
-<? // $id$
+<?php
 
-require("config.inc.php");
-require("view.inc.php");
-require("acl.inc.php");
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/* $Name$ $Revision$													*/
+/*                                                                      */
+/* Copyright (c) 2001 by the phpAdsNew developers                       */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
+
+
+
+// Include required files
+require ("config.inc.php");
+require ("view.inc.php");
+require ("acl.inc.php");
+
+// Open a connection to the database
+db_connect();
+
 
 if (!$clientID)
 	$clientID=0;
 
-db_connect();
-if (eregi("^[[:digit:]]+$", $what))
-	$what = (int)$what;
+
 $row = get_banner($what,$clientID);
 
 if(!empty($row["bannerID"]))
@@ -17,7 +35,7 @@ if(!empty($row["bannerID"]))
 	$url = parse_url($GLOBALS["phpAds_url_prefix"]);
 	SetCookie("bannerNum", $row["bannerID"], 0, $url["path"]);
 	if(isset($n)) SetCookie("banID[$n]", $row["bannerID"], 0, $url["path"]);
-
+	
 	if ($row["format"] == "html")
 	{
 		echo $row["banner"];

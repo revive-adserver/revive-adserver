@@ -1,4 +1,23 @@
-<?// $Id$
+<?php
+
+/************************************************************************/
+/* phpAdsNew 2                                                          */
+/* ===========                                                          */
+/* $Name$ $Revision$													*/
+/*                                                                      */
+/* Copyright (c) 2001 by Phil Hord				                        */
+/* http://sourceforge.net/projects/phpadsnew                            */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
+
+
+
+/*********************************************************/
+/* Open a connection to the database			         */
+/*********************************************************/
 
 function db_connect()
 {
@@ -8,28 +27,44 @@ function db_connect()
         return @mysql_connect($GLOBALS["phpAds_hostname"], $GLOBALS["phpAds_mysqluser"], $GLOBALS["phpAds_mysqlpassword"]);
 }
 
+
+
+/*********************************************************/
+/* Close the connection to the database			         */
+/*********************************************************/
+
 function db_close()
 {
-//    mysql_close();
+	//mysql_close();
 }
 
+
+
+/*********************************************************/
+/* Execute a query								         */
+/*********************************************************/
 
 function db_query($query, $link = "")
 {
     global $phpAds_last_query, $phpAds_db;
-
+	
     $phpAds_last_query = $query;
-//    echo "$query<br>";
     $ret = mysql_db_query($phpAds_db, $query);
+	
     return $ret;
 }
 
-// log a click to the database
+
+
+/*********************************************************/
+/* Log a click to the database       					 */
+/*********************************************************/
+
 function db_log_click($bannerID, $host)
 {
     global $phpAds_compact_stats, $phpAds_tbl_adstats, $phpAds_insert_delayed;
     global $phpAds_tbl_adclicks;
-
+	
     if ($phpAds_compact_stats)
     {
         $result = @db_query(sprintf("
@@ -41,7 +76,7 @@ function db_log_click($bannerID, $host)
                 bannerID = '$bannerID' &&
                 day = now()
             ", $phpAds_insert_delayed ? "LOW_PRIORITY": "")) or mysql_die();
-
+		
         // If row didn't exist.  Create it.
         if (mysql_affected_rows() == 0) 
         {
@@ -71,7 +106,12 @@ function db_log_click($bannerID, $host)
         )", $phpAds_insert_delayed ? "DELAYED": "")) or mysql_die();
 }
 
-// log a view to the database
+
+
+/*********************************************************/
+/* Log a view to the database       					 */
+/*********************************************************/
+
 function db_log_view($bannerID, $host)
 {
     global $phpAds_compact_stats, $phpAds_tbl_adstats, $phpAds_insert_delayed;
@@ -88,7 +128,7 @@ function db_log_view($bannerID, $host)
                 bannerID = '$bannerID' &&
                 day = now()
             ", $phpAds_insert_delayed ? "LOW_PRIORITY": "")) or mysql_die();
-
+		
         // If row didn't exist.  Create it.
         if (mysql_affected_rows() == 0) 
         {
@@ -118,12 +158,16 @@ function db_log_view($bannerID, $host)
         )", $phpAds_insert_delayed ? "DELAYED": "")) or mysql_die();
 }
 
+
+
+/*********************************************************/
+/* Get overview statistics						         */
+/*********************************************************/
+
 function db_total_stats($table, $column, $bannerID, $timeconstraint="")
 {
     global $phpAds_tbl_adstats;
     
-//    echo "table=$table, column=$column<br>";
-
     $where = "";
     if (!empty($bannerID)) 
         $where = "WHERE bannerID = $bannerID";
@@ -149,7 +193,7 @@ function db_total_stats($table, $column, $bannerID, $timeconstraint="")
         $row = mysql_fetch_array($res);
         $ret = $row["qnt"];
     }
-
+	
     $where = "";
     if (!empty($bannerID)) 
         $where = "WHERE bannerID = $bannerID";
@@ -168,7 +212,7 @@ function db_total_stats($table, $column, $bannerID, $timeconstraint="")
 		else
 		    $where .= "day = CURDATE()";
 	}
-
+	
     $res = db_query("SELECT sum($column) as qnt FROM $phpAds_tbl_adstats $where") or mysql_die();
     if (mysql_num_rows ($res))
     { 
@@ -188,12 +232,19 @@ function db_total_views($bannerID="", $timeconstraint="")
     return db_total_stats($GLOBALS["phpAds_tbl_adviews"], "views", $bannerID, $timeconstraint);
 }
 
+
+
+/*********************************************************/
+/* Delete statistics							         */
+/*********************************************************/
+
 function db_delete_stats($bannerID)
 {
     global $phpAds_tbl_adviews, $phpAds_tbl_adclicks, $phpAds_tbl_adstats;
-
+	
     db_query("DELETE FROM $phpAds_tbl_adviews WHERE bannerID = $bannerID") or mysql_die();
     db_query("DELETE FROM $phpAds_tbl_adclicks WHERE bannerID = $bannerID") or mysql_die();
     db_query("DELETE FROM $phpAds_tbl_adstats WHERE bannerID = $bannerID") or mysql_die();
 }
+
 ?>
