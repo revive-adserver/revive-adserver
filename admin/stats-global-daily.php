@@ -20,7 +20,7 @@ require ("lib-statistics.inc.php");
 
 
 // Security check
-phpAds_checkAccess(phpAds_Admin+phpAds_Client);
+phpAds_checkAccess(phpAds_Admin);
 
 
 
@@ -28,15 +28,51 @@ phpAds_checkAccess(phpAds_Admin+phpAds_Client);
 /* HTML framework                                        */
 /*********************************************************/
 
-if (phpAds_isUser(phpAds_Admin))
+if ($phpAds_config['compact_stats']) 
 {
-	phpAds_PageHeader("2.2");
-	phpAds_ShowSections(array("2.1", "2.4", "2.3", "2.2"));
+	$res = phpAds_dbQuery("
+		SELECT
+			DATE_FORMAT(day, '%Y%m%d') as date,
+			DATE_FORMAT(day, '$date_format') as date_formatted
+		FROM
+			".$phpAds_config['tbl_adstats']."
+		GROUP BY
+			day
+		ORDER BY
+			day DESC
+		LIMIT 7
+	") or phpAds_sqlDie();
 }
 else
 {
-	phpAds_PageHeader("1");
+	$res = phpAds_dbQuery("
+		 SELECT
+			DATE_FORMAT(t_stamp, '%Y%m%d') as date,
+			DATE_FORMAT(t_stamp, '$date_format') as date_formatted
+		 FROM
+			".$phpAds_config['tbl_adviews']."
+		 GROUP BY
+			date
+		 ORDER BY
+			date DESC
+		 LIMIT 7
+	") or phpAds_sqlDie();
 }
+
+while ($row = phpAds_dbFetchArray($res))
+{
+	phpAds_PageContext (
+		$row['date_formatted'],
+		"stats-global-daily.php?day=".$row['date'],
+		$day == $row['date']
+	);
+}
+
+phpAds_PageHeader("2.2.1");
+	
+	$sections[] = "2.2.1";
+	if (!$phpAds_config['compact_stats']) $sections[] = "2.2.2";
+	phpAds_ShowSections($sections);
 
 
 
@@ -44,9 +80,7 @@ else
 /* Main code                                             */
 /*********************************************************/
 
-$lib_history_hourlyurl = "stats-global-daily.php";
-
-include ("lib-history.inc.php");
+include ("lib-hourly.inc.php");
 
 
 
@@ -57,3 +91,4 @@ include ("lib-history.inc.php");
 phpAds_PageFooter();
 
 ?>
+

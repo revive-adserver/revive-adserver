@@ -129,6 +129,7 @@ if (phpAds_dbNumRows($idresult) > 0)
 	
 	$lib_history_where     = "(".implode(' OR ', $bannerids).")";
 	$lib_history_params    = array ('clientid' => $clientid, 'campaignid' => $campaignid);
+	$lib_history_hourlyurl = "stats-campaign-daily.php";
 	
 	include ("lib-history.inc.php");
 }
