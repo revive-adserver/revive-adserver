@@ -18,7 +18,7 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr valign="BOTTOM" bgcolor="#FFFFFF">
     <td width="100" class="identification" height="50">&nbsp;&nbsp;5.5</td>
-    <td width="600" class="chapter" height="50">ACLs</td>
+    <td width="600" class="chapter" height="50">Display Limitations</td>
     <td class="section" height="50">&nbsp;</td>
   </tr>
   <tr bgcolor="#FFFFFF">
@@ -29,15 +29,14 @@
   <tr bgcolor="#FFFFFF">
     <td width="100">&nbsp;</td>
     <td width="600" class="plain"> 
-      <p>ACLs are used by phpAdsNew to set additional requirements that must be 
-        met, before the banner will be displayed. These requirements differ very 
-        much from the requirements, such as keywords, which are specified at banner 
-        invocation. ACLs are configured from the Admin interface. It is possible 
-        to specify multiple conditions per banner and it is even possible to use 
-        logical operators to create very specific situation in which de banner 
-        must be displayed. In case you are wondering ACL stands for Access Condition 
-        List.</p>
-      <p>The following conditions can be used: Client IP, Domain, User agent, 
+      <p>Display limitations are used by phpAdsNew to set additional requirements 
+        that must be met, before the banner will be displayed. These requirements 
+        differ very much from the requirements, such as keywords, which are specified 
+        at banner invocation. Display limitations are configured from the Admin 
+        interface. It is possible to specify multiple limitations per banner and 
+        it is even possible to use logical operators to create very specific situations 
+        in which de banner must be displayed.</p>
+      <p>The following limitations can be used: Client IP, Domain, User agent, 
         Language, Weekday, Time and Source.</p>
     </td>
     <td class="plain">&nbsp;</td>
@@ -63,9 +62,9 @@
     <td width="100" bgcolor="#EFEFEF">&nbsp;</td>
     <td width="600" class="plain"> 
       <p><br>
-        Each condition can be set to 'is equal to' the user specified value or 
+        Each limitation can be set to 'is equal to' the user specified value or 
         'is different from' the user specified value. If the current value of 
-        the condition and the user specified value meets the comparison it will 
+        the limitation and the user specified value meets the comparison it will 
         evaluate to true. The banner will only be shown in all conditions evaluate 
         to true.<BR>
       </p>
@@ -94,10 +93,11 @@
     <td width="100" bgcolor="#EFEFEF">&nbsp;</td>
     <td width="600" class="plain"> 
       <p><br>
-        It is possible to use logical operator to create very complex ACLs. If 
-        you use multiple conditions you can set a logical operator between each 
-        condition. An logical operator can be either an OR operator or a AND operator. 
-      </p>
+        It is possible to use logical operator to create very complex situation 
+        in which the banner is displayed. <br>
+        If you use multiple conditions you can set a logical operator between 
+        each limitation. An logical operator can be either an OR operator or a 
+        AND operator. </p>
       <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
         <tr> 
           <td> 
@@ -117,20 +117,21 @@
         </tr>
       </table>
       <p><br>
-        OR operators have precedence over AND operators. This means all OR operators 
+        OR operators have precedence over AND operators. This means all AND operators 
         will be evaluated first. The resulting expression will only consist of 
-        AND operators, which all must be true. The banner will only be shown if 
-        the complete ACL evaluates to true, however this doesn't have to mean 
-        every condition must be true.</p>
+        OR operators, only one of the parts left need to evaluate to true in order 
+        for the total result to be true. The banner will only be shown if the 
+        result of all limitations evaluates to true, however this doesn't have 
+        to mean every limitation must be true.</p>
       <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
         <tr>
           <td>
             <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
               <tr>
-                <td>true AND false OR true AND true OR false<br>
-                  true AND (false OR true) AND (true OR false)<br>
-                  true AND (true) AND (true)<br>
-                  true</td>
+                <td>false AND false OR true AND true OR false<br>
+                  (false AND false) OR (true AND true) OR false<br>
+                  false OR true OR false<br>
+                  true </td>
               </tr>
             </table>
           </td>
@@ -142,9 +143,9 @@
           <td>
             <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
               <tr>
-                <td>true OR false AND true OR true AND false<br>
-                  (true OR false) AND (true OR true) AND false<br>
-                  (true) AND (true) AND false<br>
+                <td>false OR false AND true OR true AND false<br>
+                  false OR (false AND true) OR (true AND false)<br>
+                  false OR false OR false<br>
                   false</td>
               </tr>
             </table>
@@ -156,10 +157,69 @@
         If you want show a banner only during the business week during the evening, 
         and during the weekend:</p>
       <p>Weekday is equal to mo, th, we, tu, vr<br>
-        AND time is equal to 18:00, 19:00, 20:00, 21:00, 22:00, 23:00<br>
+        AND Time is equal to 18:00, 19:00, 20:00, 21:00, 22:00, 23:00<br>
         OR Weekday is equal to sa, su</p>
-      <p>&nbsp;</p>
-    </td>
+      <p>Let's take a closer look:</p>
+      <p>The first line (Weekday is equal to mo, th, we, tu, vr) only evaluates 
+        to true on monday to friday<br>
+        The second line (Time is equal to 18.00 ...) only evaluates to true on 
+        evenings.<br>
+        The third line only evalutes to true during the weekend.<br>
+        <br>
+        Lets assume it is Wednesday, 21.00 hours, the banner should be displayed:<br>
+      </p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
+              <tr> 
+                <td>true AND true OR false<br>
+                  (true AND true) OR false<br>
+                  true OR false<br>
+                  true</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <p><br>
+        Now lets assume it is Wednesday, 14.00 hours, the banner should not be 
+        displayed: <br>
+      </p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
+              <tr> 
+                <td>true AND false OR false<br>
+                  (true AND false) OR false<br>
+                  false OR false<br>
+                  false</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <p><br>
+        And finally Saturday, 13.00 hours, the banner should be displayed:<br>
+      </p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
+              <tr> 
+                <td>false AND false OR true<br>
+                  (false AND false) OR true<br>
+                  false OR true<br>
+                  true</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <p><br>
+      </p>
+      </td>
     <td class="plain">&nbsp;</td>
   </tr>
   <tr bgcolor="#FFFFFF"> 
@@ -219,16 +279,16 @@
     <td width="100" bgcolor="#EFEFEF">&nbsp;</td>
     <td width="600" class="plain"> 
       <p><br>
-        This condition type could be used for providing different types of banner 
+        This limitation type could be used for providing different types of banner 
         for different nationalities. Most users do not only have an unique IP 
         address assigned to them when they connect to the internet, but also a 
         domain-name. The domain name usually is a human-readable version of the 
         IP address, and usually includes the country suffix. For example: the 
         user domain could look like: ipc3797d8d.dial.wxs.nl or ppp211-104-59-62.dialup.zonnet.nl 
         or e156107.upc-e.chello.nl or&#133;&#133;&#133;.</p>
-      <p>The Domain conditon can match a specific portion of the users domain. 
-        If you specify .nl as the condition, you can deny or allow all users who 
-        are online in The Netherlands.</p>
+      <p>The Domain limitation can match a specific portion of the users domain. 
+        If you specify .nl as the limitation, you can deny or allow all users 
+        who are online in The Netherlands.</p>
       <p>How can this be useful? If you own a website which targets different 
         countries and a client want to show his banner in only one specific country, 
         you could allow this banner to be displayed only from that specific country. 
@@ -260,26 +320,26 @@
     <td width="100" bgcolor="#EFEFEF">&nbsp;</td>
     <td width="600" class="plain"> 
       <p><br>
-        The Domain condition can be quite effective of targeting a specific banner 
-        in a specific geographical region. The Language condition is a refinement 
-        of the condition mentioned above. Every browser provides phpAdsNew with 
+        The Domain limitation can be quite effective of targeting a specific banner 
+        in a specific geographical region. The Language limitation is a refinement 
+        of the limitation mentioned above. Every browser provides phpAdsNew with 
         information about the default language of the browser. For example a browser 
         in Germany will tell phpAdsNew that the default language of that specific 
-        browser is German. Of course you could use the Domain condition to get 
+        browser is German. Of course you could use the Domain limitation to get 
         the same information, but that doesn't apply in all cases. The Language 
-        condition must be equal to or different from a specific code, identifying 
+        limitation must be equal to or different from a specific code, identifying 
         the desired language. A list of possible language codes is provided in 
         <a href="6.2-language-codes.html" class="list">Chapter 6.2</a></p>
       <p>For example: Belgium, a small country in Western-Europe is bi-lingual. 
         In some parts of Belgium people speak Dutch, in other parts people speak 
         French. If you operate a website in Belgium, or another country which 
         is bi-lingual, it isn't possible to determine which language is spoken 
-        by your visitors by using Domain condition, since both languages are spoken 
-        in the same country. However if you use Language condition you could target 
-        a banner for a specific language.</p>
-      <p>The Dutch version of the banner could only displayed be when the condition 
+        by your visitors by using Domain limitation, since both languages are 
+        spoken in the same country. However if you use Language limitation you 
+        could target a banner for a specific language.</p>
+      <p>The Dutch version of the banner could only displayed be when the limitation 
         is equal to nl-be, and the French version of the banner could only be 
-        displayed when the condition is equal to fr-be.</p>
+        displayed when the limitation is equal to fr-be.</p>
       <p>Language code usual consist of only 2 characters, in the example above, 
         the language code is appended by a country code as well. This is because 
         the language 'Dutch' isn't only spoken in Belgium, but also in the Netherlands. 
@@ -288,9 +348,9 @@
         could just specify the language code fr. If you want to target only French 
         speaking users in Belgium, you will have to specify the language code 
         and the country code, in this case fr-be.</p>
-      <p>It is possible to specify multiple language inside your browser, but 
+      <p>It is possible to specify multiple languages inside your browser, but 
         phpAdsNew will only take the default language into account. If you configure 
-        a banner to show only when the language condition is equal to de (German), 
+        a banner to show only when the language limitation is equal to de (German), 
         it won't show the banner if the default language is different from German, 
         even if you specified German as a secondary language.</p>
       <p>&nbsp;</p>
@@ -323,7 +383,7 @@
         User agent to prevent specific banner to be displayed on specific browsers. 
         For example if you have an HTML banner which uses Internet Explorer specific 
         DHMTL you don't want it to be shown on Netscape browsers.<br>
-        You could use the User agent condition to prevent it from being shown 
+        You could use the User agent limitation to prevent it from being shown 
         in browsers other than Internet Explorer.</p>
       <p>You must specify a POSIX 1003.2 compliant regular expression, which must 
         match the browser specified User agent. More information about POSIX regular 
@@ -359,7 +419,7 @@
     <td width="600" class="plain"> 
       <p><br>
         If you want to display a banner only on specific day you can use the Weekday 
-        condition to set on which day of the week you want to display the banner. 
+        limitation to set on which day of the week you want to display the banner. 
         You can select multiple days at the same time. For example if you want 
         to display a banner only on Saturday and Sunday, you can simply select 
         these two days.</p>
@@ -388,7 +448,7 @@
     <td width="100" bgcolor="#EFEFEF">&nbsp;</td>
     <td width="600" class="plain"> 
       <p><br>
-        You can use the time as a condition whether the banner should be displayed 
+        You can use the time as a limitation whether the banner should be displayed 
         or not. You can select multiple hours at the same time. If you want the 
         banner to be shown only during office hours, you can simply select all 
         hours which fall within this period. It is only possible to make a distinction 
@@ -420,7 +480,7 @@
     <td width="100" bgcolor="#EFEFEF">&nbsp;</td>
     <td width="600" class="plain"> 
       <p><br>
-        This condition is linked to the source parameter of the banner invocation. 
+        This limitation is linked to the source parameter of the banner invocation. 
         You can specify any keyword during invocation and check whether the banner 
         should be shown. This feature can be useful to show a banner only on a 
         specific page or section of your website. It is also possible to create 
@@ -430,7 +490,7 @@
         a banner by using the admin interface.</p>
       <p><span class="subtitle">For example:</span><br>
         If you specify 'frontpage' as the source parameter during banner invocation 
-        and set the condition of a banner also to 'frontpage' the banner will 
+        and set the limitation of a banner also to 'frontpage' the banner will 
         only be shown on the frontpage. </p>
       <p>&nbsp;</p>
       </td>
