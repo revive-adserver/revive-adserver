@@ -37,7 +37,7 @@ if (isset($submit))
 		mysql_db_query($phpAds_db, "UPDATE $phpAds_tbl_banners SET active='$active' WHERE clientID='$clientID'");
 	}
 
-	$clientID=$Session[clientID];
+	$clientID=$Session["clientID"];
 	$res = mysql_db_query($phpAds_db, "
 		REPLACE INTO
 			$phpAds_tbl_clients(clientID,
