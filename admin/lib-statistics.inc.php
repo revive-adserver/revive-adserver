@@ -732,6 +732,9 @@ function phpAds_formatNumber ($number)
 {
 	global $phpAds_ThousandsSeperator;
 	
+	if (!strcmp($number, '-'))
+		return '-';
+	
 	return (number_format($number, 0, '', $phpAds_ThousandsSeperator));
 }
 
