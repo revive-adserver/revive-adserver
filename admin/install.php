@@ -104,8 +104,16 @@ $phpAds_cookiecheck = $SessionID = 'install';
 
 
 // Fake authorize the user and load user specific settings.
-$phpAds_username = isset($phpAds_config['admin']) ? $phpAds_config['admin'] : '';
-$phpAds_password = isset($phpAds_config['admin_pw']) ? $phpAds_config['admin_pw'] : '';
+if (!isset($phpAds_config['admin']))
+	$phpAds_username = $phpAds_config['admin'] = '';
+else
+	$phpAds_username = $phpAds_config['admin'];
+
+if (!isset($phpAds_config['admin_pw']))
+	$phpAds_password = $phpAds_config['admin_pw'] = '';
+else
+	$phpAds_password = $phpAds_config['admin_pw'];
+
 phpAds_Start();
 
 
