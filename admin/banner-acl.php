@@ -66,7 +66,8 @@ if (isset($btndel_x))
                ") or mysql_die();
 	}
 	
-	phpAds_ShowMessage("$strACL $strDeleted");
+	header ("Location: banner-acl.php?campaignID=$campaignID&bannerID=$bannerID");
+	exit;
 }
 
 if (isset($btnsave_x))
@@ -80,7 +81,8 @@ if (isset($btnsave_x))
 			where bannerID = $bannerID 
 			AND acl_order = $acl_order") or mysql_die();
 		
-		phpAds_ShowMessage("$strACL $strUpdated");
+		header ("Location: banner-acl.php?campaignID=$campaignID&bannerID=$bannerID");
+		exit;
 	} 
 	else
 	{
@@ -89,7 +91,8 @@ if (isset($btnsave_x))
 			acl_order = $acl_order, bannerID = $bannerID,
 			acl_type = '$acl_type', acl_data = '$acl_data',
 			acl_ad = '$acl_ad', acl_con = '$acl_con'") or mysql_die();
-		phpAds_ShowMessage("$strACL $strSaved");
+		header ("Location: banner-acl.php?campaignID=$campaignID&bannerID=$bannerID");
+		exit;
 	}
 }
 
@@ -120,7 +123,8 @@ if (isset($btnup_x))
 		acl_type = '$acl_type', acl_data = '$acl_data',
 		acl_ad = '$acl_ad', acl_con = '$acl_con'") or mysql_die();
 	
-	phpAds_ShowMessage("$strACL $strMovedUp");
+	header ("Location: banner-acl.php?campaignID=$campaignID&bannerID=$bannerID");
+	exit;
 }
 
 if (isset($btndown_x))
@@ -144,7 +148,8 @@ if (isset($btndown_x))
 		acl_type = '$acl_type', acl_data = '$acl_data',
 		acl_ad = '$acl_ad', acl_con = '$acl_con'") or mysql_die();
 	
-	phpAds_ShowMessage("$strACL $strMovedDown");
+	header ("Location: banner-acl.php?campaignID=$campaignID&bannerID=$bannerID");
+	exit;
 }
 
 
@@ -241,14 +246,15 @@ $res = db_query("
 $count = mysql_num_rows ($res);
 
 
+
+// Show header
+echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+echo "<tr><td height='25' colspan='4'><b>".$strOnlyDisplayWhen."</b></td></tr>";
+echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+
 // Display all ACLs
 if ($count > 0)
 {
-	// Show header
-	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-	echo "<tr><td height='25' colspan='4'><b>".$strOnlyDisplayWhen."</b></td></tr>";
-	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-	
 	$i = 0;
 	$previous_type = '';
 	
@@ -274,27 +280,36 @@ if ($count > 0)
 	{
 		echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	}
-	
-	echo "</table>";
+}
+else
+{
+	echo "<tr><td height='24' colspan='4' bgcolor='#F6F6F6'>&nbsp;&nbsp;$strNoLimitations</td></tr>";
+	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 }
 
+echo "<form action='".basename($PHP_SELF)."' method='get'>";
+echo "<input type='hidden' name='campaignID' value='".$campaignID."'>";
+echo "<input type='hidden' name='bannerID' value='".$bannerID."'>";
+echo "<input type='hidden' name='update' value='".$update."'>";
+echo "<input type='hidden' name='acl_order' value='".$count."'>";
+echo "<input type='hidden' name='acl_con' value='and'>&nbsp;";
+echo "<input type='hidden' name='acl_type' value='allow'>&nbsp;";
 
-// Show new ACL form
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-echo "<tr><td height='35' colspan='7'>&nbsp;</td></tr>";
-echo "<tr><td height='25' colspan='7'><b>".$strACLAdd."</b></td></tr>";
-echo "<tr><td height='1' colspan='7' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "<tr height='30'><td colspan='4' align='right'>";
+	echo $strACLAdd;
+	echo "&nbsp;&nbsp;";
+	phpAds_ACLTypeSelect ('clientip');
+	echo "&nbsp;&nbsp;";
+	echo "<input type='image' name='btnsave' src='images/go_blue.gif' border='0' align='absmiddle' alt='$strSave'>";
+echo "</td></tr>";
 
-$newdata['acl_order'] = $count;
-$newdata['bannerID'] = $bannerID;
-phpAds_ShowRow ($newdata, 0, 0, 0);
-
+echo "</form>";
 echo "</table>";
 echo "<br><br>";
 
 
 // Show Acl help file
-include("../language/banneracl.".$phpAds_language.".inc.php");
+//include("../language/banneracl.".$phpAds_language.".inc.php");
 
 
 
