@@ -219,6 +219,7 @@ $GLOBALS['strCampaignHistory']			= "Campaign history";
 $GLOBALS['strNoCampaigns']			= "There are currently no campaigns defined";
 $GLOBALS['strConfirmDeleteAllCampaigns']	= "Do you really want to delete all campaigns owned by this advertiser?";
 $GLOBALS['strConfirmDeleteCampaign']		= "Do you really want to delete this campaign?";
+$GLOBALS['strConfirmResetCampaignStats']		= "Do you really want to delete all existing statistics for this campaign?";
 $GLOBALS['strHideInactiveCampaigns']		= "Hide inactive campaigns";
 $GLOBALS['strInactiveCampaignsHidden']		= "inactive campaign(s) hidden";
 

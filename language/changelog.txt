@@ -12,6 +12,9 @@
 
   ====================================================
 
+  01-03-2003 - default
+    [+] strConfirmResetCampaignStats
+
   12-27-2002 - maintenance
     [+] strDeliveryCacheFiles
 
