@@ -631,7 +631,8 @@ function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 		}
 		
 		// Remove appended HTML for the preview
-		$buffer = str_replace ($row['append'], '', $buffer);
+		if (strlen($row['append']))
+			$buffer = str_replace ($row['append'], '', $buffer);
 		
 		
 		if ($row['active'] == "f")
