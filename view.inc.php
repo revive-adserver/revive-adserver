@@ -405,14 +405,14 @@ function view_t($what, $target = "")
 
 function view($what, $clientID=0, $target = "", $source = "", $withtext=0, $context=0)
 {
-	$output = view_raw("$what", "$clientID", "$target", "$source", "$withtext", "$context");
+	$output = view_raw("$what", $clientID, "$target", "$source", "$withtext", "$context");
 	print($output["html"]);
 	return($output["bannerID"]);
 }
 
 function view_js($what, $clientID=0, $target = "", $source = "", $withtext=0, $context=0)
 {
-	$output = view_raw("$what", "$clientID", "$target", "$source", "$withtext", "$context");
+	$output = view_raw("$what", $clientID, "$target", "$source", "$withtext", "$context");
 	
 	enjavanate($output["html"]);
 	return($output["bannerID"]);
