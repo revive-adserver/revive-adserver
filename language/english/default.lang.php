@@ -63,6 +63,7 @@ $GLOBALS['strDelete'] 						= "Delete";
 $GLOBALS['strActivate']						= "Activate";
 $GLOBALS['strDeActivate'] 					= "Deactivate";
 $GLOBALS['strConvert']						= "Convert";
+$GLOBALS['strRefresh']						= "Refresh";
 $GLOBALS['strSaveChanges']		 			= "Save Changes";
 $GLOBALS['strUp'] 							= "Up";
 $GLOBALS['strDown'] 						= "Down";
@@ -273,8 +274,8 @@ $GLOBALS['strConvertSWF']					= "<br>The Flash file you just uploaded contains h
 
 
 // Banner (network)
-$GLOBALS['strBannerNetwork']				= "Banner network";
-$GLOBALS['strChooseNetwork']				= "Choose the banner network you want to use";
+$GLOBALS['strBannerNetwork']				= "HTML template";
+$GLOBALS['strChooseNetwork']				= "Choose the template you want to use";
 $GLOBALS['strMoreInformation']				= "More information...";
 $GLOBALS['strRichMedia']					= "Richmedia";
 $GLOBALS['strTrackAdClicks']				= "Track AdClicks";
@@ -334,6 +335,10 @@ $GLOBALS['strZoneProperties']				= "Zone properties";
 $GLOBALS['strZoneHistory']					= "Zone history";
 $GLOBALS['strNoZones']						= "There are currently no zones defined";
 $GLOBALS['strConfirmDeleteZone']			= "Do you really want to delete this zone?";
+$GLOBALS['strZoneType']						= "Zone type";
+$GLOBALS['strBannerButtonRectangle']		= "Banner, Button or Rectangle";
+$GLOBALS['strInterstitial']					= "Interstitial";
+$GLOBALS['strPopup']						= "Popup";
 
 
 // Linked banners/campaigns
