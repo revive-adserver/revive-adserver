@@ -51,7 +51,8 @@ if ($phpAds_compact_stats)
 				  You have enabled the compact statistics, but your old statistics are still 
 				  in verbose format. Do you want to convert your verbose statistics to the 
 				  new compact format?<br><br>
-				  <a href='stats-convert.php?command=frame' target='_new'><img src='images/go_blue.gif' border='0'>&nbsp;Convert</a>
+				  <a href='stats-convert.php?command=frame' target='_new' onClick=\"return openWindow('stats-convert.php?command=frame','','status=yes,scrollbars=yes,resizable=yes,width=400,height=500');\">
+				  <img src='images/go_blue.gif' border='0'>&nbsp;Convert</a>
 				  </td>
 				  </tr></table>
 				  </td></tr></table>";
@@ -143,19 +144,19 @@ echo "</table>";
 
 <?
 	// total number of clients
-	$res_clients = db_query("SELECT * FROM $phpAds_tbl_clients ORDER BY clientname") or mysql_die();
-	$res_active_clients = db_query("SELECT count(clientID) from $phpAds_tbl_clients WHERE views <> 0 or clicks <> 0");
-	$res_total_banners = db_query("SELECT count(bannerID) from $phpAds_tbl_banners");
-	$res_active_banners = db_query("SELECT count(bannerID) from $phpAds_tbl_banners where active='true'");
+	$res_clients 		= db_query("SELECT count(*) as count FROM $phpAds_tbl_clients") or mysql_die();
+	$res_active_clients = db_query("SELECT count(*) as count FROM $phpAds_tbl_clients WHERE active='true'");
+	$res_total_banners 	= db_query("SELECT count(*) as count FROM $phpAds_tbl_banners");
+	$res_active_banners = db_query("SELECT count(*) as count FROM $phpAds_tbl_banners as b, $phpAds_tbl_clients as c WHERE b.clientID=c.clientID AND c.active='true' AND b.active='true'");
 ?>
 
 <table width='100%' border="0" align="center" cellspacing="0" cellpadding="0">
   <tr><td height='25' colspan='4'><b><?echo $strOverall;?></b></td></tr>
   <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-  <tr><td height='25'><?echo $strTotalClients;?>: <b><?echo @mysql_numrows($res_clients);?></b></td>
-      <td height='25'><?echo $strActiveClients;?>: <b><?echo @mysql_result($res_active_clients, 0, "count(clientID)");?></b></td>
-      <td height='25'><?echo $strTotalBanners;?>: <b><?echo @mysql_result($res_total_banners, 0, "count(bannerID)");?></b></td>
-      <td height='25'><?echo $strActiveBanners;?>: <b><?echo @mysql_result ($res_active_banners, 0, "count(bannerID)");?></b></td></tr>
+  <tr><td height='25'><?echo $strTotalClients;?>: <b><?echo @mysql_result($res_clients, 0, "count");?></b></td>
+      <td height='25'><?echo $strActiveClients;?>: <b><?echo @mysql_result($res_active_clients, 0, "count");?></b></td>
+      <td height='25'><?echo $strTotalBanners;?>: <b><?echo @mysql_result($res_total_banners, 0, "count");?></b></td>
+      <td height='25'><?echo $strActiveBanners;?>: <b><?echo @mysql_result ($res_active_banners, 0, "count");?></b></td></tr>
   <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 
 </table>   
@@ -168,7 +169,7 @@ echo "</table>";
   <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
 
 <?
-	// total number of clients
+	// stats today
 	$adviews = db_total_views("", "day");
 	$adclicks = db_total_clicks("", "day");
 	if ($adviews > 0)
@@ -184,7 +185,7 @@ echo "</table>";
   <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>
 
 <?
-	// total number of clients
+	// stats this week
 	$adviews = db_total_views("", "week");
 	$adclicks = db_total_clicks("", "week");
 	if ($adviews > 0)
@@ -200,7 +201,7 @@ echo "</table>";
   <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>
 
 <?
-	// total number of clients
+	// stats this month
 	$adviews = db_total_views("", "month");
 	$adclicks = db_total_clicks("", "month");
 	if ($adviews > 0)
@@ -217,7 +218,7 @@ echo "</table>";
   
   
 <?
-	// total number of clients
+	// overall stats
 	$adviews = db_total_views();
 	$adclicks = db_total_clicks();
 	if ($adviews > 0)
