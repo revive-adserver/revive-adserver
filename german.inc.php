@@ -108,5 +108,6 @@ $strAllow = "Erlauben";
 $strDeny = "Verweigern";
 $strResetStats = "Reset Statistics";
 $strConfirmResetStats = "Do you really want to reset stats for this client ?";
+$strConfirm = "Are you sure ?";
 
 ?>

@@ -108,5 +108,6 @@ $strAllow = "Toestaan";
 $strDeny = "Weigeren";
 $strResetStats = "Wis Statistieken";
 $strConfirmResetStats = "Wil u echt de statistieken wissen voor deze klant ?";
+$strConfirm = "Bent u zeker ?";
 
 ?>

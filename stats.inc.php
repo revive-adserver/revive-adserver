@@ -111,7 +111,7 @@ while ($row_banners = mysql_fetch_array($res_banners))
            <input type="hidden" name="pageid" value="<? print $pageid; ?>">
            <input type="hidden" name="bannerID" value="<? print $row_banners[bannerID]; ?>">
            <td bgcolor="<?echo $bgcolor;?>">
-           <?print "<input type=submit value=\"$strResetStats\" onClick=\"return confirm('Are you sure?')\">\n";?>
+           <?print "<input type=submit value=\"$strResetStats\" onClick=\"return confirm('$strConfirm')\">\n";?>
            </td>
            </form>
        <?

@@ -113,5 +113,6 @@ $strConfirmResetStats = "Do you really want to reset stats for this client ?";
 $strExpiration = "Expiration";
 $strDaysLeft = "Days left";
 $strEstimated = "Estimated expiration";
+$strConfirm = "Are you sure ?";
 
 ?>

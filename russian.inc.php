@@ -109,5 +109,6 @@ $strTime = "Time";
 $strAllow = "Доступ открыт для";
 $strDeny = "Доступ закрыт для";
 $strConfirmResetStats = "Do you really want to reset stats for this client ?";
+$strConfirm = "Are you sure ?";
 
 ?>
