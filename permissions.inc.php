@@ -200,7 +200,7 @@ require ("sessions.inc.php");
 		
 		if ($message != "") echo "<b>$message</b><br>";
 		?>
-		<form method="post" action="<?echo basename($GLOBALS["PHP_SELF"]);?>" enctype="multipart/form-data">
+		<form method="post" action="<?echo basename($GLOBALS["PHP_SELF"]); echo $GLOBALS["QUERY_STRING"] != "" ? "?".$GLOBALS["QUERY_STRING"] : "" ;?>" enctype="multipart/form-data">
 		<table>
 			<tr>
 				<td><?echo $GLOBALS["strUsername"];?>:</td>
