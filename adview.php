@@ -139,8 +139,8 @@ if ($found)
 	// Set capping
 	if ($row['capping'] != '' && $row['capping'] != '0')
 	{
-		if (isset($phpAds_capAd) && isset($phpAds_capAd[$row['bannerid']]))
-			$newcap = $phpAds_capAd[$row['bannerid']] + 1;
+		if (isset($HTTP_COOKIE_VARS['phpAds_capAd']) && isset($HTTP_COOKIE_VARS['phpAds_capAd'][$row['bannerid']]))
+			$newcap = $HTTP_COOKIE_VARS['phpAds_capAd'][$row['bannerid']] + 1;
 		else
 			$newcap = 1;
 		
