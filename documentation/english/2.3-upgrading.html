@@ -22,7 +22,7 @@
   </tr>
   <tr bgcolor="#EFEFEF">
     <td width="100">&nbsp;</td>
-    <td width="600" class="plain">
+    <td width="600" class="plain"> 
       <p><br>
         A number of people requested a change in the database structure. From 
         this version and on, all table names will be prefixed with phpads_ by 
@@ -30,16 +30,30 @@
         created by other products. If you are upgrading from a previous version, 
         it is not needed to change the names of existing tables, as long as you 
         specify the correct names in de config.inc.php file.</p>
+      <p>One column of the banners table was changed, in order to support flash 
+        banners:</p>
+      <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
+        <tr> 
+          <td> 
+            <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
+              <tr> 
+                <td>ALTER TABLE banners MODIFY COLUMN format enum('gif','jpeg','png','html','url','web','swf') 
+                  DEFAULT 'gif' NOT NULL;</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
       <p>Two columns were added to the clients table. The status column is used 
         for changing the browser statusbar. The autohtml column is used for preventing 
         phpAdsNew from changing HTML banners in order to automatically log clicks.</p>
       <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
-        <tr>
-          <td>
+        <tr> 
+          <td> 
             <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
-              <tr>
-                <td>ALTER TABLE clients ADD COLUMN status varchar(255) NOT NULL;<br>
-                  ALTER TABLE clients ADD COLUMN autohtml enum('true','false') 
+              <tr> 
+                <td>ALTER TABLE banners ADD COLUMN status varchar(255) NOT NULL;<br>
+                  ALTER TABLE banners ADD COLUMN autohtml enum('true','false') 
                   <br>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
                   DEFAULT 'true' NOT NULL;</td>
@@ -48,10 +62,14 @@
           </td>
         </tr>
       </table>
-      
-      <p>One column was added to the acls table, another column was changed. The 
+      <p></p>
+      <p><b><br>
+        The ACL routines have been rewritten. This is a very big change and possibly 
+        a change from previous behavoir. It is needed to check existing ACLs after 
+        upgrading!!!</b><br>
+        One column was added to the acls table, another column was changed. The 
         acl_con column is used to store logical operators. The acl_type column 
-        was change in order to allow a new kind of ACL, the accept-language header 
+        was changed in order to allow a new kind of ACL, the accept-language header 
         ACL.</p>
       <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
         <tr> 
@@ -67,7 +85,8 @@
           </td>
         </tr>
       </table>
-      <p>A new table was added for storing zone information:<br>
+      <p><br>
+        A new table was added for storing zone information:<br>
       </p>
       <table width="600" border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC" class="code">
         <tr> 
@@ -75,17 +94,18 @@
             <table width="100%" border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF" class="code">
               <tr> 
                 <td>CREATE TABLE phpads_zones (<br>
-                  &nbsp;&nbsp;zoneid mediumint(9) NOT NULL AUTO_INCREMENT,<br>
-                  &nbsp;&nbsp;zonename varchar(255) NOT NULL,<br>
-                  &nbsp;&nbsp;zonetype smallint(6) DEFAULT '0' NOT NULL,<br>
-                  &nbsp;&nbsp;what blob NOT NULL,<br>
-                  &nbsp;&nbsp;width smallint(6) DEFAULT '0' NOT NULL,<br>
-                  &nbsp;&nbsp;height smallint(6) DEFAULT '0' NOT NULL,<br>
-                  &nbsp;&nbsp;retrieval enum('random','cookie') DEFAULT 'random' 
-                  NOT NULL,<br>
-                  &nbsp;&nbsp;cachecontents blob,<br>
-                  &nbsp;&nbsp;cachetimestamp int DEFAULT '0' NOT NULL,<br>
-                  &nbsp;&nbsp;PRIMARY KEY (zoneid)<br>
+                  &nbsp;&nbsp;&nbsp;zoneid mediumint(9) NOT NULL AUTO_INCREMENT,<br>
+                  &nbsp;&nbsp;&nbsp;zonename varchar(255) NOT NULL,<br>
+                  &nbsp;&nbsp;&nbsp;description varchar(255) NOT NULL,<br>
+                  &nbsp;&nbsp;&nbsp;zonetype smallint(6) DEFAULT '0' NOT NULL,<br>
+                  &nbsp;&nbsp;&nbsp;what blob NOT NULL,<br>
+                  &nbsp;&nbsp;&nbsp;width smallint(6) DEFAULT '0' NOT NULL,<br>
+                  &nbsp;&nbsp;&nbsp;height smallint(6) DEFAULT '0' NOT NULL,<br>
+                  &nbsp;&nbsp;&nbsp;retrieval enum('random','cookie') DEFAULT 
+                  'random' NOT NULL,<br>
+                  &nbsp;&nbsp;&nbsp;cachecontents blob,<br>
+                  &nbsp;&nbsp;&nbsp;cachetimestamp int DEFAULT '0' NOT NULL,<br>
+                  &nbsp;&nbsp;&nbsp;PRIMARY KEY (zoneid)<br>
                   );</td>
               </tr>
             </table>

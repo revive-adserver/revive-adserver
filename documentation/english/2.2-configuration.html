@@ -28,12 +28,11 @@
   </tr>
   <tr bgcolor="#FFFFFF">
     <td width="100">&nbsp;</td>
-    <td width="600" class="plain">
-      <p>Please read first the INSTALL file for installation instructions. If 
-        you are upgrading from a previous version of phpAdsNew you should read 
-        the UPGRADE file for instructions.<br>
-        In the current release, you have to configure all your information in 
-        config.inc.php.</p>
+    <td width="600" class="plain"> 
+      <p>phpAdsNew can be configured by editing one specific configuration file. 
+        The configuration file should be located inside the main directory of 
+        phpAdsNew and is named 'config.inc.php'.<br>
+        All changes to this file take effect immediately after saving the file.</p>
     </td>
     <td class="plain">&nbsp;</td>
   </tr>
@@ -317,6 +316,8 @@
         Normal sequential banner retrieval: 1234 3214 4213 2314 3241<br>
         Weight based sequential banner retrieval: 12324 43122 31221 21342 42321<br>
         Full sequential banner retrieval: 1234 1234 1234 1234 1234</p>
+      <p>If you are using Zones, phpAdsNew will always use random banner retrieval 
+        and this setting will be ignored.</p>
       <p><br>
         <span class="subtitle">$phpAds_con_key</span><br>
         phpAdsNew includes a powerful banner retrieval system. For more information, 
@@ -353,11 +354,15 @@
         <span class="subtitle">$phpAds_zone_cache_limit</span><br>
         If you are using cached zones, the information inside the cache can become 
         outdated. Once in a while phpAdsNew needs to rebuild the cache, so new 
-        banners will be included and deleted banners will be removed from the 
-        cache. The setting let you decide when a cached zone will be reloaded, 
-        by specifing the maximum lifetime of the cached zone. For example: if 
-        you set this setting to 600, the cache will be rebuild if the cached zone 
-        is older than 10 minutes (600 seconds).</p>
+        banners will be included in the cache. This setting lets you decide when 
+        a cached zone will be reloaded, by specifing the maximum lifetime of the 
+        cached zone. For example: if you set this setting to 600, the cache will 
+        be rebuild if the cached zone is older than 10 minutes (600 seconds).</p>
+      <p>The all zone caches will be automatically rebuild when a banner is deleted 
+        or deactivated from the admin interface. Also changes to the zone settings 
+        will result in a rebuild of the zone cache.<br>
+        If you want to manually rebuild the zone cache you can do so in the Admin 
+        Interface.</p>
       <p>&nbsp;</p>
     </td>
     <td class="plain">&nbsp;</td>
@@ -504,6 +509,10 @@
       <p><br>
         <span class="subtitle">$phpAds_admin_email_headers</span><br>
         You can alter the e-mail headers used by the e-mails which phpAdsNew sends.</p>
+      <p><span class="subtitle"><br>
+        $phpAds_admin_novice</span><br>
+        If you want to recieve a warning before deleting clients, campaigns or 
+        banners; set this option to true.</p>
       <p>&nbsp;</p>
     </td>
     <td class="plain" bgcolor="#EFEFEF">&nbsp;</td>
