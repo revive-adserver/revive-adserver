@@ -100,6 +100,10 @@ $GLOBALS['strCollapseAll']			= "Tout réduire";
 $GLOBALS['strShowAll']				= "Tout montrer";
 $GLOBALS['strNoAdminInteface']		= "Service indisponible...";
 $GLOBALS['strFilterBySource']			= "filtrer par source";
+$GLOBALS['strFieldContainsErrors']			= "The following fields contain errors:";
+$GLOBALS['strFieldFixBeforeContinue1']		= "Before you can continue you need";
+$GLOBALS['strFieldFixBeforeContinue2']		= "to correct these errors.";
+
 
 
 // Properties
@@ -350,6 +354,7 @@ $GLOBALS['strMakePublisherPublic']		= "Rendre publiques les zones possédées par 
 
 
 // Publisher (properties)
+$GLOBALS['strWebsite']						= "Website";
 $GLOBALS['strAllowAffiliateModifyInfo'] 	= "Permettre à cet éditeur de modifier ses propres paramètres";
 $GLOBALS['strAllowAffiliateModifyZones'] 	= "Permettre à cet éditeur de modifier ses propres zones";
 $GLOBALS['strAllowAffiliateLinkBanners'] 	= "Permettre à cet éditeur de lier des bannières à ses propres zones";

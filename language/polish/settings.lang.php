@@ -206,10 +206,12 @@ $GLOBALS['strIgnoreHosts']				= "Ignoruj Hosty";
 $GLOBALS['strReverseLookup']			= "Wsteczne Wyszukiwanie DNS";
 $GLOBALS['strProxyLookup']				= "Wyszukiwanie Proxy";
 
-$GLOBALS['strAutoCleanTables']			= "Automatycznie Czyszczenie Bazy Danych";
-$GLOBALS['strAutoCleanEnable']			= "W³±cz auytomatyczne czyszczenie";
-$GLOBALS['strAutoCleanWeeks']			= "Maksymalny wiek statystyk i logu u¿ytkownika (tygodni)";
-$GLOBALS['strAutoCleanErr']				= "Maksymalny wiek musi mieæ przynajmniej 2 tygodnie";
+$GLOBALS['strAutoCleanTables']			= "Database pruning";
+$GLOBALS['strAutoCleanStats']			= "Prune statistics";
+$GLOBALS['strAutoCleanUserlog']			= "Prune user log";
+$GLOBALS['strAutoCleanStatsWeeks']		= "Maximum age of statistics <br>(3 weeks minimum)";
+$GLOBALS['strAutoCleanUserlogWeeks']	= "Maximum age of user log <br>(3 weeks minimum)";
+$GLOBALS['strAutoCleanErr']				= "Maximum age must be at least 3 weeks";
 $GLOBALS['strAutoCleanVacuum']			= "ANALIZA VACUUM tabel co noc"; // only Pg
 
 

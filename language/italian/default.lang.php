@@ -103,6 +103,10 @@ $GLOBALS['strCollapseAll']					= "Chiudi tutti";
 $GLOBALS['strShowAll']						= "Mostra tutto";
 $GLOBALS['strNoAdminInteface']				= "Servizio non disponibile...";
 $GLOBALS['strFilterBySource']				= "filtra per sorgente";
+$GLOBALS['strFieldContainsErrors']			= "The following fields contain errors:";
+$GLOBALS['strFieldFixBeforeContinue1']		= "Before you can continue you need";
+$GLOBALS['strFieldFixBeforeContinue2']		= "to correct these errors.";
+
 
 
 // Properties
@@ -353,6 +357,7 @@ $GLOBALS['strMakePublisherPublic']			= "Rendi pubblicamente disponibili le zone 
 
 
 // Publisher (properties)
+$GLOBALS['strWebsite']						= "Website";
 $GLOBALS['strAllowAffiliateModifyInfo']		= "Permetti a questo utente di modificare le proprie impostazioni";
 $GLOBALS['strAllowAffiliateModifyZones']	= "Permetti a questo utente di modificare le proprie zone";
 $GLOBALS['strAllowAffiliateLinkBanners']	= "Permetti a questo utente di collegare i banner alle proprie zone";

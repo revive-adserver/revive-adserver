@@ -206,10 +206,12 @@ $GLOBALS['strIgnoreHosts']				= "Ignore Hosts";
 $GLOBALS['strReverseLookup']			= "Reverse DNS Lookup";
 $GLOBALS['strProxyLookup']				= "Proxy Lookup";
 
-$GLOBALS['strAutoCleanTables']			= "Auto clean database";
-$GLOBALS['strAutoCleanEnable']			= "Enable auto clean";
-$GLOBALS['strAutoCleanWeeks']			= "Statistics and user log max age (weeks)";
-$GLOBALS['strAutoCleanErr']				= "Max age must be at least 2 weeks";
+$GLOBALS['strAutoCleanTables']			= "Database pruning";
+$GLOBALS['strAutoCleanStats']			= "Prune statistics";
+$GLOBALS['strAutoCleanUserlog']			= "Prune user log";
+$GLOBALS['strAutoCleanStatsWeeks']		= "Maximum age of statistics <br>(3 weeks minimum)";
+$GLOBALS['strAutoCleanUserlogWeeks']	= "Maximum age of user log <br>(3 weeks minimum)";
+$GLOBALS['strAutoCleanErr']				= "Maximum age must be at least 3 weeks";
 $GLOBALS['strAutoCleanVacuum']			= "VACUUM ANALYZE tables every night"; // only Pg
 
 

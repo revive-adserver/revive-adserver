@@ -102,6 +102,10 @@ $GLOBALS['strCollapseAll']					= "קפל הכל";
 $GLOBALS['strShowAll']						= "Show All";
 $GLOBALS['strNoAdminInteface']				= "השירות אינו פיל...";
 $GLOBALS['strFilterBySource']				= "סנן לפי מקור";
+$GLOBALS['strFieldContainsErrors']			= "The following fields contain errors:";
+$GLOBALS['strFieldFixBeforeContinue1']		= "Before you can continue you need";
+$GLOBALS['strFieldFixBeforeContinue2']		= "to correct these errors.";
+
 
 
 // Properties
@@ -340,6 +344,7 @@ $GLOBALS['strMakePublisherPublic']			= "אפשר לאזורים השייכים למפיץ זה להיות זמינ
 
 
 // Publisher (properties)
+$GLOBALS['strWebsite']						= "Website";
 $GLOBALS['strAllowAffiliateModifyInfo'] 	= "אפשר למשתמש זה לשנות את קביעותיו";
 $GLOBALS['strAllowAffiliateModifyZones'] 	= "אפשר למשתמש זה לשנות אזורים";
 $GLOBALS['strAllowAffiliateLinkBanners'] 	= "אפשר למשתמש זה לקשר באנרים לאזורים שלו";

@@ -100,6 +100,10 @@ $GLOBALS['strCollapseAll']					= "Collapse all";
 $GLOBALS['strShowAll']						= "Show All";
 $GLOBALS['strNoAdminInteface']				= "Service unavailable...";
 $GLOBALS['strFilterBySource']				= "filter by source";
+$GLOBALS['strFieldContainsErrors']			= "The following fields contain errors:";
+$GLOBALS['strFieldFixBeforeContinue1']		= "Before you can continue you need";
+$GLOBALS['strFieldFixBeforeContinue2']		= "to correct these errors.";
+
 
 
 // Properties
@@ -350,6 +354,7 @@ $GLOBALS['strMakePublisherPublic']			= "Make the zones owned by this publisher p
 
 
 // Publisher (properties)
+$GLOBALS['strWebsite']						= "Website";
 $GLOBALS['strAllowAffiliateModifyInfo'] 	= "Allow this user to modify his own settings";
 $GLOBALS['strAllowAffiliateModifyZones'] 	= "Allow this user to modify his own zones";
 $GLOBALS['strAllowAffiliateLinkBanners'] 	= "Allow this user to link banners to his own zones";

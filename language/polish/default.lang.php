@@ -100,6 +100,10 @@ $GLOBALS['strCollapseAll']					= "Zamknij wszystkie";
 $GLOBALS['strShowAll']						= "Poka¿ Wszystkie";
 $GLOBALS['strNoAdminInteface']				= "Us³uga niedostêpna...";
 $GLOBALS['strFilterBySource']				= "filtruj wed³ug ¼ród³a";
+$GLOBALS['strFieldContainsErrors']			= "The following fields contain errors:";
+$GLOBALS['strFieldFixBeforeContinue1']		= "Before you can continue you need";
+$GLOBALS['strFieldFixBeforeContinue2']		= "to correct these errors.";
+
 
 
 // Properties
@@ -350,6 +354,7 @@ $GLOBALS['strMakePublisherPublic']			= "Uczyñ strefy nale¿±ce do tego wydawcy pu
 
 
 // Publisher (properties)
+$GLOBALS['strWebsite']						= "Website";
 $GLOBALS['strAllowAffiliateModifyInfo'] 	= "Zezwól temu u¿ytkownikowi na modyfikacjê w³asnych ustawieñ";
 $GLOBALS['strAllowAffiliateModifyZones'] 	= "Zezwól temu u¿ytkownikowi na modyfikacjê w³asnych stref";
 $GLOBALS['strAllowAffiliateLinkBanners'] 	= "Zezwól temu u¿ytkownikowi na ³±czenie bannerów z w³asnymi strefami";

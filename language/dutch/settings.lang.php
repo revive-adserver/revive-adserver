@@ -206,10 +206,12 @@ $GLOBALS['strIgnoreHosts']			= "Negeer hosts";
 $GLOBALS['strReverseLookup']			= "Reverse DNS Lookup";
 $GLOBALS['strProxyLookup']			= "Proxy Lookup";
 
-$GLOBALS['strAutoCleanTables']			= "Automatische database opschoning";
-$GLOBALS['strAutoCleanEnable']			= "Schoon de database automatisch op";
-$GLOBALS['strAutoCleanWeeks']			= "Maximale leeftijd statistieken en gebruikerlog (weken)";
-$GLOBALS['strAutoCleanErr']			= "De maximale leeftijd moet minstens twee weken zijn";
+$GLOBALS['strAutoCleanTables']			= "Database opschoning";
+$GLOBALS['strAutoCleanStats']			= "Schoon statistieken op";
+$GLOBALS['strAutoCleanUserlog']			= "Schoon gebruikerslog op";
+$GLOBALS['strAutoCleanStatsWeeks']		= "Maximale leeftijd statistieken <br>(minimaal 3 weken)";
+$GLOBALS['strAutoCleanUserlogWeeks']	= "Maximale leeftijd gebruikerslog <br>(minimaal 3 weken)";
+$GLOBALS['strAutoCleanErr']				= "De maximale leeftijd moet minstens drie weken zijn";
 $GLOBALS['strAutoCleanVacuum']			= "VACUUM ANALYZE tabellen elke nacht"; // only Pg
 
 

@@ -100,6 +100,10 @@ $GLOBALS['strCollapseAll']				= "Alles inklappen";
 $GLOBALS['strShowAll']					= "Toon alles";
 $GLOBALS['strNoAdminInteface']				= "Deze dienst is momenteel niet beschikbaar...";
 $GLOBALS['strFilterBySource']				= "filter op bron";
+$GLOBALS['strFieldContainsErrors']			= "De volgende velden bevatten fouten:";
+$GLOBALS['strFieldFixBeforeContinue1']		= "Voordat u verder kunt gaan dient u";
+$GLOBALS['strFieldFixBeforeContinue2']		= "deze fouten te corrigeren.";
+
 
 
 // Properties
@@ -350,6 +354,7 @@ $GLOBALS['strMakePublisherPublic']			= "Maak de zones die eigendom zijn van de u
 
 
 // Publisher (properties)
+$GLOBALS['strWebsite']						= "Website";
 $GLOBALS['strAllowAffiliateModifyInfo'] 		= "Deze gebruiker kan zijn eigen affiliate informatie wijzigen";
 $GLOBALS['strAllowAffiliateModifyZones'] 		= "Deze gebruiker kan zijn eigen zones wijzigen";
 $GLOBALS['strAllowAffiliateLinkBanners'] 		= "Deze gebruiker kan banners koppelen aan zijn eigen zones";
