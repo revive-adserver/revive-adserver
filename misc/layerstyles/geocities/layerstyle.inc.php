@@ -271,7 +271,7 @@ function phpAds_generateLayerCode ($parameters)
 	if (isset($collapsetime) && $collapsetime > 0)
 		$parameters[] = 'collapsetime='.$collapsetime;
 	
-	$buffer .= "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adlayer.php";
+	$buffer = "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adlayer.php";
 	if (sizeof($parameters) > 0)
 		$buffer .= "?".implode ("&", $parameters);
 	$buffer .= "'></script>";

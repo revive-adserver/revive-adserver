@@ -270,7 +270,7 @@ function phpAds_generateLayerCode ($parameters)
 	if (isset($shiftv))
 		$parameters[] = 'shiftv='.$shiftv;
 	
-	$buffer .= "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adlayer.php";
+	$buffer = "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adlayer.php";
 	if (sizeof($parameters) > 0)
 		$buffer .= "?".implode ("&", $parameters);
 	$buffer .= "'></script>";
