@@ -17,6 +17,17 @@
 
   ====================================================
 
+  10-28-2003 - invocation
+    [-] strPopUpTop
+    [-] strPopUpLeft
+    [+] strPopupInitialHPos
+    [+] strPopupInitialVPos
+    [+] strPopupFromLeft
+    [+] strPopupFromRight
+    [+] strPopupFromTop
+    [+] strPopupFromBottom
+    [+] strCentered
+
   10-13-2003 - settings
     [+] strAdminCheckDevBuilds
 

@@ -61,15 +61,20 @@ $GLOBALS['strPopUpImmediately']			= "Immediately";
 $GLOBALS['strPopUpOnClose']			= "When the page is closed";
 $GLOBALS['strPopUpAfterSec']			= "After";
 $GLOBALS['strAutoCloseAfter']			= "Automatically close after";
-$GLOBALS['strPopUpTop']				= "Initial position (top)";
-$GLOBALS['strPopUpLeft']			= "Initial position (left)";
-$GLOBALS['strWindowOptions']		= "Window options";
+$GLOBALS['strWindowOptions']			= "Window options";
 $GLOBALS['strShowToolbars']			= "Toolbars";
 $GLOBALS['strShowLocation']			= "Location";
 $GLOBALS['strShowMenubar']			= "Menubar";
 $GLOBALS['strShowStatus']			= "Status";
-$GLOBALS['strWindowResizable']		= "Resizable";
-$GLOBALS['strShowScrollbars']		= "Scrollbars";
+$GLOBALS['strWindowResizable']			= "Resizable";
+$GLOBALS['strShowScrollbars']			= "Scrollbars";
+$GLOBALS['strPopupInitialHPos']			= "Initial horizontal position";
+$GLOBALS['strPopupInitialVPos']			= "Initial vertical position";
+$GLOBALS['strPopupFromLeft']			= "from the left side of the screen";
+$GLOBALS['strPopupFromRight']			= "from the right side of the screen";
+$GLOBALS['strPopupFromTop']			= "from the top of the screen";
+$GLOBALS['strPopupFromBottom']			= "from the bottom of the screen";
+$GLOBALS['strPopupCentered']			= "Centered";
 
 
 // XML-RPC

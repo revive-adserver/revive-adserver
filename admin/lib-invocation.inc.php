@@ -19,7 +19,8 @@ phpAds_registerGlobal ('codetype', 'what', 'acid', 'source', 'target', 'withText
 					   'uniqueid', 'width', 'height', 'website', 'ilayer', 'popunder', 'left', 'top', 'timeout',
 					   'transparent', 'resize', 'block', 'raw', 'hostlanguage', 'submitbutton', 'generate',
 					   'layerstyle', 'delay', 'delay_type', 'blockcampaign', 'toolbars', 'location', 'menubar',
-					   'status', 'resizable', 'scrollbars');
+					   'status', 'resizable', 'scrollbars', 'hpostype', 'hposleft', 'hposright', 'vpostype',
+					   'vpostop', 'vposbottom');
 
 // Load translations
 @require ("../language/english/invocation.lang.php");
@@ -42,6 +43,7 @@ function phpAds_GenerateInvocationCode()
 	global $popunder, $left, $top, $timeout, $delay, $delay_type;
 	global $transparent, $resize, $block, $blockcampaign, $raw;
 	global $hostlanguage, $toolbars, $location, $menubar, $status;
+	global $hpostype, $hposleft, $hposright, $vpostype, $vpostop, $vposbottom;
 	global $resizable, $scrollbars;
 	
 	// Check if affiliate is on the same server
@@ -280,11 +282,36 @@ function phpAds_GenerateInvocationCode()
 		if (isset($popunder) && $popunder == '1')
 			$parameters['popunder'] = "popunder=1";
 		
-		if (isset($left) && $left != '' && $left != '-')
-			$parameters['left'] = "left=".$left;
+		if (isset($vpostype)) {
+			if ($vpostype == 'bottom' && isset($vposbottom) && $vposbottom != '-')
+			{
+				$parameters['top'] = 'top=-'.$vposbottom;
+			}
+			elseif ($vpostype == 'top' && isset($vpostop) && $vpostop != '-')
+			{
+				$parameters['top'] = 'top='.$vpostop;	
+			}
+			elseif ($vpostype == 'center')
+			{
+				$parameters['top'] = 'top=center';	
+			}
+		}
 		
-		if (isset($top) && $top != '' && $top != '-')
-			$parameters['top'] = "top=".$top;
+		if (isset($hpostype)) {
+			if ($hpostype == 'right' && isset($hposright) && $hposright != '-')
+			{
+				$parameters['left'] = 'left=-'.$hposright;
+			}
+			elseif ($hpostype == 'left' && isset($hposleft) && $hposleft != '-')
+			{
+				$parameters['left'] = 'left='.$hposleft;	
+			}
+			elseif ($hpostype == 'center')
+			{
+				$parameters['left'] = 'left=center';	
+			}
+		}
+
 		
 		if (isset($timeout) && $timeout != '' && $timeout != '-')
 			$parameters['timeout'] = "timeout=".$timeout;
@@ -422,6 +449,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	global $transparent, $resize, $block, $blockcampaign, $raw;
 	global $hostlanguage, $toolbars, $location, $menubar, $status;
 	global $layerstyle, $resizable, $scrollbars;
+	global $hpostype, $hposleft, $hposright, $vpostype, $vpostop, $vposbottom;
 	global $tabindex;
 	
 	
@@ -853,13 +881,68 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		// absolute
 		if (isset($show['absolute']) && $show['absolute'] == true)
 		{
+			if (isset($left) && $left != '')
+			{
+				if ($left == 'center')
+				{
+					$hpostype = 'center';
+				}
+				elseif ($left < 0)
+				{
+					$hpostype = 'right';
+					$hposright = 0 - (int)$left;
+				}
+				else
+				{
+					$hpostype = 'left';
+					$hposleft = (int)$left;
+				}
+			}
+			
+			if (isset($top) && $top != '')
+			{
+				if ($top == 'center')
+				{
+					$vpostype = 'center';
+				}
+				elseif ($top < 0)
+				{
+					$vpostype = 'bottom';
+					$vposbottom = 0 - (int)$top;
+				}
+				else
+				{
+					$vpostype = 'top';
+					$vpostop = (int)$top;
+				}
+			}
+			
 			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 			echo "<tr><td width='30'>&nbsp;</td>";
-			echo "<td width='200'>".$GLOBALS['strPopUpTop']."</td><td width='370'>";
-				echo "<input class='flat' type='text' name='top' size='' value='".(isset($top) ? $top : '-')."' style='width:50px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
+			echo "<td width='200'>".$GLOBALS['strPopupInitialHPos']."</td>";
+			echo "<td width='370'><input type='radio' name='hpostype' value='left'".
+				 (!isset($hpostype) || ($hpostype != 'right' && $hpostype != 'center') ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;";
+			echo "<input class='flat' type='text' name='hposleft' size='' value='".(isset($hposleft) ? $hposleft : '-')."' style='width:50px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrPixels'].'&nbsp;'.$GLOBALS['strPopupFromLeft'].'<br>';
+			echo "<input type='radio' name='hpostype' value='right'".
+				 (isset($hpostype) && $hpostype == 'right' ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;";
+			echo "<input class='flat' type='text' name='hposright' size='' value='".(isset($hposright) ? $hposright : '-')."' style='width:50px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrPixels'].'&nbsp;'.$GLOBALS['strPopupFromRight'].'<br>';
+			echo "<input type='radio' name='hpostype' value='center'".
+				 (isset($hpostype) && $hpostype == 'center' ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;".$GLOBALS['strPopupCentered']."</td>";
+			echo "</tr>";
+			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+
+			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 			echo "<tr><td width='30'>&nbsp;</td>";
-			echo "<td width='200'>".$GLOBALS['strPopUpLeft']."</td><td width='370'>";
-				echo "<input class='flat' type='text' name='left' size='' value='".(isset($left) ? $left : '-')."' style='width:50px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
+			echo "<td width='200'>".$GLOBALS['strPopupInitialVPos']."</td>";
+			echo "<td width='370'><input type='radio' name='vpostype' value='top'".
+				 (!isset($vpostype) || ($vpostype != 'bottom' && $vpostype != 'center') ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;";
+			echo "<input class='flat' type='text' name='vpostop' size='' value='".(isset($vpostop) ? $vpostop : '-')."' style='width:50px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrPixels'].'&nbsp;'.$GLOBALS['strPopupFromTop'].'<br>';
+			echo "<input type='radio' name='vpostype' value='bottom'".
+				 (isset($vpostype) && $vpostype == 'bottom' ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;";
+			echo "<input class='flat' type='text' name='vposbottom' size='' value='".(isset($vposbottom) ? $vposbottom : '-')."' style='width:50px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrPixels'].'&nbsp;'.$GLOBALS['strPopupFromBottom'].'<br>';
+			echo "<input type='radio' name='vpostype' value='center'".
+				 (isset($vpostype) && $vpostype == 'center' ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;".$GLOBALS['strPopupCentered']."</td>";
+			echo "</tr>";
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 		}
 		
