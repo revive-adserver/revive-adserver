@@ -293,7 +293,7 @@ $GLOBALS['strReports']					= "Report";
 $GLOBALS['strShowBanner']				= "Visualizza Banner";
 
 $GLOBALS['strIncludedBanners']			= "Banner Collegati";
-$GLOBALS['strProbability']				= "Probabilita'";
+$GLOBALS['strProbability']				= "Probabilit&agrave;";
 $GLOBALS['strInvocationcode']			= "Codice di Chiamata";
 $GLOBALS['strSelectZoneType']			= "Seleziona il tipo di banner linkato";
 $GLOBALS['strBannerSelection']			= "Selezione Banner";
@@ -303,11 +303,11 @@ $GLOBALS['strRawQueryString']			= "Stringa di chiamata";
 $GLOBALS['strBannerWeight']				= "Pesantezza banner";
 $GLOBALS['strCampaignWeight']			= "Pesantezza campagna";
 
-$GLOBALS['strZoneCacheOn']				= "La cache della zona e' attiva";
-$GLOBALS['strZoneCacheOff']				= "La cache della zona e' disattiva";
+$GLOBALS['strZoneCacheOn']				= "La cache della zona &egrave; attiva";
+$GLOBALS['strZoneCacheOff']				= "La cache della zona &egrave; disattivata";
 $GLOBALS['strCachedZones']				= "Zone in Cache";
 $GLOBALS['strSizeOfCache']				= "Dimensione della cache";
-$GLOBALS['strAverageAge']				= "Eta' Media";
+$GLOBALS['strAverageAge']				= "Et&agrave; Media";
 $GLOBALS['strRebuildZoneCache']			= "Ricrea la cache";
 $GLOBALS['strKiloByte']					= "KB";
 $GLOBALS['strSeconds']					= "secondi";
@@ -321,12 +321,12 @@ $GLOBALS['strNoLimitations']			= "Nessuna Limitazione";
 
 $GLOBALS['strLinkedZones']				= "Zone Collegate";
 $GLOBALS['strNoZonesToLink']			= "Non sono presenti zone da linkare a questo banner";
-$GLOBALS['strNoZones']					= "There are currently no zones defined";
-$GLOBALS['strNoClients']				= "There are currently no clients defined";
-$GLOBALS['strNoStats']					= "There are currently no statistics available";
+$GLOBALS['strNoZones']					= "Non &egrave; stata creata nessuna zona";
+$GLOBALS['strNoClients']				= "Non &egrave; stato creato nessun cliente";
+$GLOBALS['strNoStats']					= "Non ci sono statistiche disponibili";
 
 $GLOBALS['strCustom']					= "Personalizzato";
 
-$GLOBALS['strSettings'] 				= "Settings";
+$GLOBALS['strSettings'] 				= "Impostazioni";
 
 ?>
