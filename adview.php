@@ -201,21 +201,39 @@ if ($found)
 		case 'sql':
 			$cookie['dest'] = $row['url'];
 			
-			// Load the banner from the database
-			$res = phpAds_dbQuery("
-				SELECT
-					contents
-				FROM
-					".$phpAds_config['tbl_images']."
-				WHERE
-					filename = '".$row['filename']."'
-			");
-			
-			if ($image = phpAds_dbFetchArray($res))
+			if (ereg ("Mozilla/(1|2|3|4)", $GLOBALS['HTTP_USER_AGENT']) && !ereg("compatible", $GLOBALS['HTTP_USER_AGENT']))
 			{
+				// Workaround for Netscape 4 problem
+				// with animated GIFs. Redirect to
+				// adimage to prevent banner changing
+				// at the end of each animation loop
+				
 				setcookie ("phpAds_banner[".$n."]", serialize($cookie), 0, $url["path"]);
-				header 	  ('Content-type: image/'.$row['contenttype'].'; name='.md5(microtime()).'.'.$row['contenttype']);
-				echo $image['contents'];
+				header 	  ("Location: ".$row['imageurl']);
+			}
+			else
+			{
+				// Workaround for IE 4-5.5 problem
+				// Load the banner from the database
+				// and show the image directly to prevent
+				// broken images when shown during a
+				// form submit
+				
+				$res = phpAds_dbQuery("
+					SELECT
+						contents
+					FROM
+						".$phpAds_config['tbl_images']."
+					WHERE
+						filename = '".$row['filename']."'
+				");
+				
+				if ($image = phpAds_dbFetchArray($res))
+				{
+					setcookie ("phpAds_banner[".$n."]", serialize($cookie), 0, $url["path"]);
+					header 	  ('Content-type: image/'.$row['contenttype'].'; name='.md5(microtime()).'.'.$row['contenttype']);
+					echo $image['contents'];
+				}
 			}
 			
 			break;
