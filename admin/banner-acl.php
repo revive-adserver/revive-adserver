@@ -42,7 +42,7 @@ $acl_types['clientip']	= $strClientIP;
 $acl_types['domain']	= $strDomain;
 $acl_types['language']	= $strLanguage;
 
-if ($phpAds_config['geotracking_location'] != '')
+if ($phpAds_config['geotracking_type'] != 0)
 {
 	$acl_types['country']	= $strCountry;
 	$acl_types['continent']	= $strContinent;

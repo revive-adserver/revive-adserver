@@ -124,7 +124,7 @@ phpAds_AddSettings('checkbox', 'acl',
 	array($strUseAcl, array('geotracking_location','geotracking_type')));
 phpAds_AddSettings('break', '');
 phpAds_AddSettings('select', 'geotracking_type',
-	array($strGeotrackingType, array($strNone, 'IP2Country')));
+	array($strGeotrackingType, array($strNone, 'IP2Country', 'GeoIP', 'mod_geoip')));
 phpAds_AddSettings('break', '');
 phpAds_AddSettings('text', 'geotracking_location',
 	array($strGeotrackingLocation, 35, 'text', 0, 'acl'));

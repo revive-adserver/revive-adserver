@@ -26,6 +26,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-09-02:  Added seperate pruning of the database for the userlog  (Niels)
 			  - 2002-09-07:  Added delay and exit-console support to pop-ups  (Niels)
 			  - 2002-09-08:  Added support for different types of Geotracking databases  (Niels)
+			  - 2002-09-09:  Added support for the GeoIP geotracking database  (Vitaliy Fuks)
 
 			+ Misc bugfixes
 			  - 2002-07-25:  On some systems history pages showed '-0' instead of simply '-' (Matteo)

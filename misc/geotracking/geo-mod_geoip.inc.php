@@ -15,26 +15,12 @@
 
 function phpAds_countryCodeByAddr($addr)
 {
-	global $phpAds_config;
+	// $addr parameter is ignored and is here for API consistency only
 	
-	if ($phpAds_config['geotracking_location'] == '')
-		return false;
+	$result = @apache_note('GEOIP_COUNTRY_CODE');
 	
-	$zz 	= explode('.', $addr);
-	$offset = (($zz[0]<<16)+($zz[1]<<8)+$zz[2])*2;
-	
-	// Lookup IP in database
-	if ($fp = @fopen($phpAds_config['geotracking_location'], 'r'))
-	{
-		fseek($fp, $offset, SEEK_SET);
-		$result = fread($fp, 2);
-		fclose($fp);
-		
-		if ($result == "\0\0")
-			return (false);
-		else
-			return ($result);
-	}
+	if ($result != '' && $result != '--')
+		return ($result);
 	else
 		return (false);
 }

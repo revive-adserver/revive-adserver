@@ -138,12 +138,14 @@ $phpAds_config['con_key'] = true;
 // Use multiple keywords for banners in banner table?
 $phpAds_config['mult_key'] = true;
 
-// Use display limitations?
+// Use delivery limitations?
 $phpAds_config['acl'] = true;
 
-// Type of Geotracking database
+// Type of geotracking database
 // 0 = None
 // 1 = IP2Country
+// 2 = GeoIP
+// 3 = mod_geoip
 $phpAds_config['geotracking_type'] = 0;
 
 // Location of the geotracking database
