@@ -1,12 +1,12 @@
 phpAdsNew - ChangeLog
 
-CVS			+ Added configuration manager  (Matteo, 2001/11/04)
-			+ Added install and upgrade script  (Matteo and Niels, 2001/11/04)
-			+ Added support for different table types, such as InnoDB  (Niels, 2001/11/04)
-			+ Added logging for zone statistics  (Niels, 2001/11/18)
-			+ Added support for affiliates  (Niels, 2001/11/19)
-			+ Added logging of hourly statistics for compact stats  (Niels, 2001/11/21)
-			+ Added affiliate statistics  (Niels, 2001/11/25)
+CVS			+ Added configuration manager  (Matteo, 2001-11-04)
+			+ Added install and upgrade script  (Matteo and Niels, 2001-11-04)
+			+ Added support for different table types, such as InnoDB  (Niels, 2001-11-04)
+			+ Added logging for zone statistics  (Niels, 2001-11-18)
+			+ Added support for affiliates  (Niels, 2001-11-19)
+			+ Added logging of hourly statistics for compact stats  (Niels, 2001-11-21)
+			+ Added affiliate statistics  (Niels, 2001-11-25)
 			+ Added target based priority  (Niels and Matteo, 2001-11-25)
 			+ Added moving of banners, campaigns and zones  (Niels, 2001-12-01)
 			+ Added duplication of banners (Niels, thanks to Kelly Cochran, 2001-12-01)
@@ -158,6 +158,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-06-05:  Added language specific separator for thousands and decimals  (Niels)
 			  - 2002-06-05:  Changed the alignment of most columns in the statistics to the right, for better readability  (Niels)
 			  - 2002-06-07:  Added total of the period in email reports  (Matteo)
+			  - 2002-06-12:	 Added check for MySQL user privileges before upgrading  (Niels)
 
 
 			+ Misc bugfixes

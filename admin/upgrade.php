@@ -138,10 +138,40 @@ if (phpAds_isUser(phpAds_Admin))
 	if (!isset($step))
 		$step = 1;
 	
-	// Repeat proceed request if config still not writeable
-	if ($step == 2 && !phpAds_isConfigWritable())
-		$step = 1;
 	
+	// Check privileges and writability of config file
+	if ($step == 1 || $step == 2)
+	{
+		$checkconfig = phpAds_isConfigWritable();
+		
+		
+		// Drop test table if one exists
+		phpAds_dbQuery ("DROP TABLE phpads_tmp_dbpriviligecheck");
+		
+		// Try to create a new table
+		phpAds_dbQuery ("CREATE TABLE phpads_tmp_dbpriviligecheck (tmp int)");
+		
+		// Check if phpAdsNew can create tables
+		if (phpAds_dbAffectedRows() >= 0)
+		{
+			phpAds_dbQuery ("ALTER TABLE phpads_tmp_dbpriviligecheck MODIFY COLUMN tmp int");
+			
+			if (phpAds_dbAffectedRows() >= 0)
+				$checkprivileges = true;
+			else
+				$checkprivileges = false;
+			
+			// Passed all test, now drop the test table
+			phpAds_dbQuery ("DROP TABLE phpads_tmp_dbpriviligecheck");
+		}
+		else
+			$checkprivileges = false;
+		
+		
+		// Repeat proceed request if config still not writeable
+		if ($checkconfig != true || $checkprivileges != true)
+			$step = 1;
+	}
 	
 	if ($upgrade && $step == 1)
 	{
@@ -160,13 +190,24 @@ if (phpAds_isUser(phpAds_Admin))
 		echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
 		echo "<span class='install'>".$message."</td></tr></table>";
 		
-		if (!phpAds_isConfigWritable())
+		if ($checkconfig != true || $checkprivileges != true)
 		{
 			echo "<br><br>";
 			echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>";
 			echo "<tr><td><img src='images/error.gif'>&nbsp;&nbsp;</td>";
 			echo "<td width='100%'><span class='tab-r'>".$strMayNotFunction."</span></td></tr>";
-			echo "<tr><td>&nbsp;</td><td><span class='install'>".$strConfigLockedDetected."</span></td></tr>";
+			echo "<tr><td>&nbsp;</td><td><span class='install'>";
+			
+			if ($checkconfig != true)
+				echo $strConfigLockedDetected;
+			
+			if ($checkconfig != true && $checkprivileges != true)
+				echo "<br><br>";
+			
+			if ($checkprivileges != true)
+				echo $strUpdateTableTestFailed;
+			
+			echo "</span></td></tr>";
 			echo "</table>";
 		}
 		
