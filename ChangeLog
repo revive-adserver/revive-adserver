@@ -59,6 +59,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - The first field of the login interface is now automatically focused (Jules Sotheby) 20011214
 			  - Added prev/next buttons to the statistics  (Niels) 20011215
 			  - Priority is recalculated when a users changes a banner or campaign  (Niels) 20011216
+			  - Added ability to duplicate webserver stored banners  (Niels) 20011216
 
 
 			+ Misc bugfixes
@@ -100,6 +101,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: HTML entities in translations were not supported into settings SELECTS/OPTIONS  (Matteo) 20011205
 			  - Bugfix: Ignored hosts were logged when using two or more banners whitin local invocation  (Matteo) 20011209
 			  - Bugfix: Removed form validation problem when adding switching a campaign to targeted mode  (Matteo) 20011211
+			  - Bugfix: Fixed webserver stored banner cleanup problem  (Niels) 20011216
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
