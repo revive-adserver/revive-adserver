@@ -283,7 +283,8 @@ else
 		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br><br><br>";
 		phpAds_ShowSections(array("4.1.1"));
 	
-	$row["permissions"] 		= "";
+	$row["clientname"]			= $strDefault;
+	$row["permissions"] 		= '';
 	$row["reportdeactivate"] 	= 't';
 	$row["report"] 				= 't';
 	$row["reportinterval"] 		= 7;
