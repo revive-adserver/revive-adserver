@@ -65,6 +65,10 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		phpAds_SettingsWriteAdd('log_adviews', $log_adviews);
 	if (isset($log_adclicks))
 		phpAds_SettingsWriteAdd('log_adclicks', $log_adclicks);
+	if (isset($block_adviews))
+		phpAds_SettingsWriteAdd('block_adviews', $block_adviews);
+	if (isset($block_adclicks))
+		phpAds_SettingsWriteAdd('block_adclicks', $block_adclicks);
 	if (isset($reverse_lookup))
 		phpAds_SettingsWriteAdd('reverse_lookup', $reverse_lookup);
 	if (isset($proxy_lookup))
@@ -107,10 +111,15 @@ $phpAds_config['ignore_hosts'] = join("\n", $phpAds_config['ignore_hosts']);
 phpAds_StartSettings();
 phpAds_AddSettings('start_section', "1.4.1");
 phpAds_AddSettings('checkbox', 'log_beacon', $strLogBeacon);
-phpAds_AddSettings('break', '');
 phpAds_AddSettings('checkbox', 'compact_stats', $strCompactStats);
+phpAds_AddSettings('break', '');
 phpAds_AddSettings('checkbox', 'log_adviews', $strLogAdviews);
 phpAds_AddSettings('checkbox', 'log_adclicks', $strLogAdclicks);
+phpAds_AddSettings('break', '');
+phpAds_AddSettings('text', 'block_adviews',
+	array("Time between AdViews (sec.)", 12));
+phpAds_AddSettings('text', 'block_adclicks',
+	array("Time between AdClicks (sec.)", 12));
 phpAds_AddSettings('end_section', '');
 
 $extra = phpAds_AddSettings('start_section', "1.4.2");
