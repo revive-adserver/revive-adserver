@@ -262,6 +262,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-05-05:  Added workaround for broken images in IE when zlib.output_compression was turned on  (Niels)
 			  - 2002-05-07:  Fixed errors when upgrading from a no longer support language  (Niels)
 			  - 2002-05-07:  When try to find a global banner during direct selection only banners with only the global keyword were found  (Niels)
+			  - 2002-05-10:  Disabled GZIP output compression during upgrade as it could prevent wait-page rendering  (Matteo)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015

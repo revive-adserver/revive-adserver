@@ -64,6 +64,10 @@ else
 }
 
 
+// Disable GZIP compression
+$phpAds_config['gzip_compression'] = false;
+
+
 // First thing to do is clear the $Session variable to
 // prevent users from pretending to be logged in.
 unset($Session);
