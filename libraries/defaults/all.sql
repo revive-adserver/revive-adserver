@@ -76,7 +76,7 @@ CREATE TABLE phpads_adclicks (
    t_stamp timestamp(14),
    host varchar(255) NOT NULL,
    source varchar(50) NOT NULL,
-   country varchar(2) NOT NULL,
+   country char(2) NOT NULL,
    KEY bannerid_date (bannerid,t_stamp),
    KEY date (t_stamp)
 );
@@ -92,7 +92,7 @@ CREATE TABLE phpads_adviews (
    t_stamp timestamp(14),
    host varchar(255) NOT NULL,
    source varchar(50) NOT NULL,
-   country varchar(2) NOT NULL,
+   country char(2) NOT NULL,
    KEY bannerid_date (bannerid,t_stamp),
    KEY date (t_stamp)
 );
@@ -190,7 +190,7 @@ CREATE TABLE phpads_session (
 CREATE TABLE phpads_acls (
    bannerid mediumint(9) DEFAULT '0' NOT NULL,
    logical set('and','or') NOT NULL,
-   type char(16) DEFAULT '' NOT NULL,
+   type varchar(16) NOT NULL,
    comparison char(2) DEFAULT '==' NOT NULL,
    data text NOT NULL,
    executionorder int(10) unsigned DEFAULT '0' NOT NULL,
@@ -220,7 +220,7 @@ CREATE TABLE phpads_adstats (
 -- Table structure for table 'phpads_targetstats'
 
 CREATE TABLE phpads_targetstats (
-   day date NOT NULL,
+   day date DEFAULT '0000-00-00' NOT NULL,
    clientid smallint(6) DEFAULT '0' NOT NULL,
    target int(11) DEFAULT '0' NOT NULL,
    views int(11) DEFAULT '0' NOT NULL,
@@ -292,11 +292,11 @@ CREATE TABLE phpads_config (
    allow_invocation_interstitial enum('t','f') DEFAULT 't',
    allow_invocation_popup enum('t','f') DEFAULT 't',
    auto_clean_tables enum('t','f') DEFAULT 'f',
-   auto_clean_tables_interval tinyint(2) DEFAULT 5,
+   auto_clean_tables_interval tinyint(2) DEFAULT '5',
    auto_clean_userlog enum('t','f') DEFAULT 'f',
-   auto_clean_userlog_interval tinyint(2) DEFAULT 5,
+   auto_clean_userlog_interval tinyint(2) DEFAULT '5',
    auto_clean_tables_vacuum enum('t','f') DEFAULT 't',
-   autotarget_factor float DEFAULT -1,
+   autotarget_factor float DEFAULT '-1',
    PRIMARY KEY (configid)
 );
 
