@@ -11,17 +11,18 @@ phpAdsNew - Readme
 
 
     Copyright (C) 2000-2001 
-	Wim Godden 	<wim@godden.net>
-	Phil Hord 	<phil@phord.com>
-	Niels Leenheer 	<niels@creatype.nl>
-	Cedric Fontaine <cfontaine@spidmail.net>
-	Michael Harvey 	<mike@ve-studio.com>
-	Matteo Beccati  <ciaccia@writeme.com>
+	Wim Godden 	   <wim@godden.net>
+	Phil Hord 	   <phil@phord.com>
+	Niels Leenheer 	   <niels@creatype.nl>
+	Cedric Fontaine    <cfontaine@spidmail.net>
+	Michael Harvey 	   <mike@ve-studio.com>
+	Matteo Beccati     <ciaccia@writeme.com>
+	Stefan Morgenroth  <dandra@users.sourceforge.net>
 
 
     Documentation:
-	Niels Leenheer 	<niels@creatype.nl>
-	Niels Schoot 	<nschoot@users.sourceforge.net>
+	Niels Leenheer 	   <niels@creatype.nl>
+	Niels Schoot 	   <nschoot@users.sourceforge.net>
 
 
     Based on phpAds created by Tobias Ratschiller <tobias@dnet.it>
@@ -51,7 +52,7 @@ phpAdsNew - Readme
     take a look at phpPgAds, which is a port of phpAdsNew to PostgreSQL,
     made by Matteo Beccati. phpPgAds requires PHP4.
     The phpPgAds project can be found at: 
-    http://www.greatbridge.org/project/phppgads
+    http://sourceforge.net/projects/phppgads/
        
          
   Summary:
@@ -59,9 +60,10 @@ phpAdsNew - Readme
     Currently it can
     - manage multiple campaigns per client
     - manage multiple banners (any size) per campaign
+    - Order banners in different zones
     - view daily, weekly, overall and summary statistics
     - send statistics to clients via email
-    - use HTML (Rich media), GIF, JPEG and PNG-banners
+    - use HTML (Rich media), GIF, JPEG, PNG and Flash banners
     - use banners stored on an external server (linked) or
       store banner through the admin interface in the 
       MySQL server or on a ftp server.
@@ -70,8 +72,8 @@ phpAdsNew - Readme
     - supports multiple keywords for groups of banners
     - supports conditional keywords
     - activate and deactivate single banners
-    - show banners based on filters: user-agent, day-of-week, IP masks, domain, source page, time
-    - Perform client/banner weighing
+    - show banners based on filters: user-agent, accept-language, day-of-week, IP masks, domain, source page, time
+    - Perform campaign/banner weighing
     - Target banner clicks to frames
     - Use different types of random or sequential banner retrieval
  
