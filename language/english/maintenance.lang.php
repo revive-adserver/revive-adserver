@@ -101,4 +101,36 @@ $GLOBALS['strSecurityUpdate']				= "
 	about upgrading please read the documentation which is included in the files below.
 ";
 
+
+// Stats conversion
+$GLOBALS['strConverting']					= "Converting";
+$GLOBALS['strConvertingStats']				= "Converting statistics...";
+$GLOBALS['strConvertStats']					= "Convert statistics";
+$GLOBALS['strConvertAdViews']				= "AdViews converted,";
+$GLOBALS['strConvertAdClicks']				= "AdClicks converted...";
+$GLOBALS['strConvertNothing']				= "Nothing to convert...";
+$GLOBALS['strConvertFinished']				= "Finished...";
+
+$GLOBALS['strConvertExplaination']			= "
+	You are currently using the compact format to store your statistics, but there are <br>
+	still some statistics in verbose format. As long as the verbose statistics aren't  <br>
+	converted to compact format they will not be used while viewing these pages.  <br>
+	Before converting your statistics, make a backup of the database!  <br>
+	Do you want to convert your verbose statistics to the new compact format? <br>
+";
+
+$GLOBALS['strConvertingExplaination']		= "
+	All remaining verbose statistics are now being converted to the compact format. <br>
+	Depending on how many impressions are stored in verbose format this may take a  <br>
+	couple of minutes. Please wait until the conversion is finished before you visit other <br>
+	pages. Below you will see a log of all modification made to the database. <br>
+";
+
+$GLOBALS['strConvertFinishedExplaination']  = "
+	The conversion of the remaining verbose statistics was succesful and the data <br>
+	should now be usable again. Below you will see a log of all modification made <br>
+	to the database.<br>
+";
+
+
 ?>
