@@ -136,18 +136,18 @@ if (phpAds_isUser(phpAds_Admin))
 	{
 		case 0:
 			// Determine the PHP version
-			$phpversion = ereg_replace ("([^0-9])", "", phpversion());
-			$phpversion = $phpversion / pow (10, strlen($phpversion) - 1);
+			ereg ("^([0-9]{1})\.([0-9]{1})\.([0-9]{1,2})", phpversion(), $matches);
+			$phpversion = sprintf ("%01d%01d%02d", $matches[1], $matches[2], $matches[3]);
 			
 			// Store fatal errors
 			$fatal = array();
 			
 			// Check PHP version
-			if ($phpversion < 3.08)
+			if ($phpversion < 3008)
 				$fatal[] = str_replace ('{php_version}', phpversion(), $strWarningPHPversion);
 			
-			// Config variables can only be check with php 4
-			if ($phpversion > 4.0)
+			// Config variables can only be checked with php 4
+			if ($phpversion >= 4000)
 			{
 				// Check register_globals
 				if (ini_get ('register_globals') != true)
