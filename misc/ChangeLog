@@ -63,6 +63,7 @@ CVS			+ Added a cron replacement for users who don't have access to the cron uti
 			  - 2003-02-21:  The currently appended zone wasn't selected in the dropdown menu by default on the zones 'Advanced' page and the banners 'Append' page  (Niels)
 			  - 2003-02-21:  Priority calculations resulted in division by zero error if high priority campaigns were present  (Niels)
 			  - 2003-02-21:  Closing a simple interstitial now doesn't stop other events anymore  (Niels, thanks to Herbert L. Riede)
+			  - 2003-02-27:  Monthly target stats were showing 'today' views instead of current month adviews  (Matteo)
 			
 
 
