@@ -263,7 +263,7 @@ function stats() // generate weekly statistics
     			MIN(TO_DAYS(day))
     		FROM
     			$phpAds_tbl_adstats
-    		$where;
+    		$where
 		";
 		
     	$views_global = db_query($global_view_query) or mysql_die();

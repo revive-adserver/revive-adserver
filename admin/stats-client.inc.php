@@ -4,6 +4,11 @@ $i = 0;
 
 // Get statistics
 
+$tmp_views = array();
+$tmp_clicks = array();
+$tmp_alt = array();
+$tmp_crt = array();
+
 if ($phpAds_compact_stats)
 {
 	$res_query = "
@@ -28,6 +33,7 @@ if ($phpAds_compact_stats)
 		$tmp_views[$row_banners[bannerID]] = $row_banners[adviews];
 		$tmp_clicks[$row_banners[bannerID]] = $row_banners[adclicks];
 		$tmp_alt[$row_banners[bannerID]] = strtolower($row_banners[alt]);
+		$tmp_ctr[$row_banners[bannerID]] = 0;
 	}
 }
 else
@@ -51,7 +57,9 @@ else
 	while ($row_banners = mysql_fetch_array($res_banners))
 	{
 		$tmp_views[$row_banners[bannerID]] = $row_banners[adviews];
+		$tmp_clicks[$row_banners[bannerID]] = 0;
 		$tmp_alt[$row_banners[bannerID]] = strtolower($row_banners[alt]);
+		$tmp_ctr[$row_banners[bannerID]] = 0;
 	}
 	
 	$res_query = "
@@ -90,22 +98,22 @@ if (count($tmp_clicks) > 0)
 
 if ($order == "adviews")
 {
-	arsort ($tmp_views, SORT_NUMERIC);
+	if (count($tmp_views) > 0) arsort ($tmp_views, SORT_NUMERIC);
 	$tmp_order = $tmp_views;
 }
 elseif ($order == "adclicks")
 {
-	arsort ($tmp_clicks, SORT_NUMERIC);
+	if (count($tmp_clicks) > 0) arsort ($tmp_clicks, SORT_NUMERIC);
 	$tmp_order = $tmp_clicks;
 }
 elseif ($order == "ctr")
 {
-	arsort ($tmp_ctr, SORT_NUMERIC);
+	if (count($tmp_ctr) > 0) arsort ($tmp_ctr, SORT_NUMERIC);
 	$tmp_order = $tmp_ctr;
 }
 elseif ($order == "alt")
 {
-	asort ($tmp_alt, SORT_STRING);
+	if (count($tmp_alt) > 0) asort ($tmp_alt, SORT_STRING);
 	$tmp_order = $tmp_alt;
 }
 else
