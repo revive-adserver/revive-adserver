@@ -88,11 +88,8 @@ $phpAds_config['reverse_lookup'] = false;
 $phpAds_config['proxy_lookup'] = false;
 
 // Type of geotracking database
-// 0 = None
-// 1 = IP2Country
-// 2 = GeoIP
-// 3 = mod_geoip
-$phpAds_config['geotracking_type'] = 0;
+// Possible options: geoip, ip2country, mod_geoip or an empty string
+$phpAds_config['geotracking_type'] = '';
 
 // Location of the geotracking database
 $phpAds_config['geotracking_location'] = '';
