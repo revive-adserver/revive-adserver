@@ -47,7 +47,7 @@ CREATE TABLE phpads_adclicks (
    zoneid mediumint(9) DEFAULT '0' NOT NULL,
    t_stamp timestamp(14),
    host varchar(255) NOT NULL,
-   source varchar(20) NOT NULL DEFAULT '',
+   source varchar(20) DEFAULT '' NOT NULL,
    KEY bannerid_date (bannerid,t_stamp),
    KEY date (t_stamp)
 );
@@ -62,7 +62,7 @@ CREATE TABLE phpads_adviews (
    zoneid mediumint(9) DEFAULT '0' NOT NULL,
    t_stamp timestamp(14),
    host varchar(255) NOT NULL,
-   source varchar(20) NOT NULL DEFAULT '',
+   source varchar(20) DEFAULT '' NOT NULL,
    KEY bannerid_date (bannerid,t_stamp),
    KEY date (t_stamp)
 );
@@ -175,6 +175,7 @@ CREATE TABLE phpads_adstats (
   hour tinyint(4) DEFAULT '0' NOT NULL,
   bannerid smallint(6) DEFAULT '0' NOT NULL,
   zoneid smallint(6) DEFAULT '0' NOT NULL,
+  source varchar(20) DEFAULT '' NOT NULL,
   PRIMARY KEY (day,hour,bannerid,zoneid),
   KEY bannerid_day (bannerid,day)
 );
