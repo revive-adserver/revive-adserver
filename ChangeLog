@@ -241,6 +241,8 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-04-02:  Fixed problem which caused HTML to be mangled when target= was part of an URL  (Niels)
 			  - 2002-04-02:  Moving zones now works again  (Niels)
 			  - 2002-04-02:  Multiple simple adlayers on one page now don't interfere with each other anymore  (Niels)
+			  - 2002-04-02:  HTML banners were displayed without slashes  (Niels)
+			  - 2002-04-02:  Upgrade script forgot to remove unneeded slashes from HTML banners  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
