@@ -319,7 +319,12 @@ function phpAds_showZoneCampaign ($width, $height, $what, $delivery)
 	") or phpAds_sqlDie();
 	
 	while ($row = phpAds_dbFetchArray($res))
+	{
 		$campaigns[$row['clientid']] = $row;
+		
+		if ($row['weight'] == 0 && $row['target'] == 0)
+			$campaigns[$row['clientid']]['active'] = 'f';
+	}
 	
 	$compact = (phpAds_dbNumRows($res) > $phpAds_config['gui_link_compact_limit']);
 	
@@ -645,13 +650,13 @@ function phpAds_showZoneCampaign ($width, $height, $what, $delivery)
 		if ($hideinactive == true)
 		{
 			echo "&nbsp;&nbsp;<img src='images/icon-activate.gif' align='absmiddle' border='0'>";
-			echo "&nbsp;<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid."&hideinactive=0'>".$strShowAll."</a>";
+			echo "&nbsp;<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid."&zonetype=".phpAds_ZoneCampaign."&hideinactive=0'>".$strShowAll."</a>";
 			echo "&nbsp;&nbsp;|&nbsp;&nbsp;".$inactivehidden." ".$strInactiveCampaignsHidden;
 		}
 		else
 		{
 			echo "&nbsp;&nbsp;<img src='images/icon-hideinactivate.gif' align='absmiddle' border='0'>";
-			echo "&nbsp;<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid."&hideinactive=1'>".$strHideInactiveCampaigns."</a>";
+			echo "&nbsp;<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid."&zonetype=".phpAds_ZoneCampaign."&hideinactive=1'>".$strHideInactiveCampaigns."</a>";
 		}
 	}
 	
@@ -660,12 +665,12 @@ function phpAds_showZoneCampaign ($width, $height, $what, $delivery)
 	if ($showbanners == true)
 	{
 		echo "&nbsp;&nbsp;<img src='images/icon-banner-stored-d.gif' align='absmiddle' border='0'>";
-		echo "&nbsp;<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid."&showbanners=0'>".$strHideMatchingBanners."</a>";
+		echo "&nbsp;<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid."&zonetype=".phpAds_ZoneCampaign."&showbanners=0'>".$strHideMatchingBanners."</a>";
 	}
 	else
 	{
 		echo "&nbsp;&nbsp;<img src='images/icon-banner-stored.gif' align='absmiddle' border='0'>";
-		echo "&nbsp;<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid."&showbanners=1'>".$strShowMatchingBanners."</a>";
+		echo "&nbsp;<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid."&zonetype=".phpAds_ZoneCampaign."&showbanners=1'>".$strShowMatchingBanners."</a>";
 	}
 	
 	echo "&nbsp;&nbsp;</td></tr>";
@@ -754,6 +759,9 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype, $delivery)
 	while ($row = phpAds_dbFetchArray($res))
 	{
 		$campaigns[$row['clientid']] = $row;
+		
+		if ($row['weight'] == 0 && $row['target'] == 0)
+			$campaigns[$row['clientid']]['active'] = 'f';
 	}
 	
 	
@@ -1170,13 +1178,13 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype, $delivery)
 		if ($hideinactive == true)
 		{
 			echo "&nbsp;&nbsp;<img src='images/icon-activate.gif' align='absmiddle' border='0'>";
-			echo "&nbsp;<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid."&hideinactive=0'>".$strShowAll."</a>";
+			echo "&nbsp;<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid."&zonetype=".phpAds_ZoneBanners."&hideinactive=0'>".$strShowAll."</a>";
 			echo "&nbsp;&nbsp;|&nbsp;&nbsp;".$inactivehidden." ".$strInactiveBannersHidden;
 		}
 		else
 		{
 			echo "&nbsp;&nbsp;<img src='images/icon-hideinactivate.gif' align='absmiddle' border='0'>";
-			echo "&nbsp;<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid."&hideinactive=1'>".$strHideInactiveBanners."</a>";
+			echo "&nbsp;<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid."&zonetype=".phpAds_ZoneBanners."&hideinactive=1'>".$strHideInactiveBanners."</a>";
 		}
 	}
 	
@@ -1185,12 +1193,12 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype, $delivery)
 	if ($showcampaigns == true)
 	{
 		echo "&nbsp;&nbsp;<img src='images/icon-campaign-d.gif' align='absmiddle' border='0'>";
-		echo "&nbsp;<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid."&showcampaigns=0'>".$strHideParentCampaigns."</a>";
+		echo "&nbsp;<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid."&zonetype=".phpAds_ZoneBanners."&showcampaigns=0'>".$strHideParentCampaigns."</a>";
 	}
 	else
 	{
 		echo "&nbsp;&nbsp;<img src='images/icon-campaign.gif' align='absmiddle' border='0'>";
-		echo "&nbsp;<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid."&showcampaigns=1'>".$strShowParentCampaigns."</a>";
+		echo "&nbsp;<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$zoneid."&zonetype=".phpAds_ZoneBanners."&showcampaigns=1'>".$strShowParentCampaigns."</a>";
 	}
 	
 	echo "&nbsp;&nbsp;</td></tr>";

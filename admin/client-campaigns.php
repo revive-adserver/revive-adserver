@@ -129,6 +129,9 @@ while ($row_clients = phpAds_dbFetchArray($res_clients))
 	$campaigns[$row_clients['clientid']] = $row_clients;
 	$campaigns[$row_clients['clientid']]['expand'] = 0;
 	$campaigns[$row_clients['clientid']]['count'] = 0;
+	
+	if ($row_clients['weight'] == 0 && $row_clients['target'] == 0)
+		$campaigns[$row_clients['clientid']]['active'] = 'f';
 }
 
 
