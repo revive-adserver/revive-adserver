@@ -27,9 +27,9 @@ $res_campaigns = phpAds_dbQuery("
 	FROM
 		".$phpAds_config['tbl_clients']."
 	WHERE
-		parent IS NOT NULL AND
-		active AND
-		expire IS NOT NULL AND
+		parent > 0 AND
+		active = 't' AND
+		expire != '0000-00-00' AND
 		views > 0 AND
 		weight = 0
 	ORDER BY
