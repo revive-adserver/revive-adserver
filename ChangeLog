@@ -272,7 +272,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-05-11:  Removed newline from the last line of misc files  (Niels)
 			  - 2002-05-14:  Added missing parent column in maintenance-activation.php  (Niels)
 			  - 2002-05-14:  Fixed possible duplicate include of lib-dbconfig.php during maintenance  (Niels)
-			  - 2002-05-27:  Lib-priority was using the wrong weekday when predicting profile  (Matteo)
+			  - 2002-05-29:  Lib-priority was using the wrong weekday when predicting profile  (Matteo)
 			  - 2002-05-30:  Added compatibility with JavaScript 1.1, Netscape 3 and IE 5 for Mac to JavaScript invocation  (Niels)
 			  - 2002-06-03:  Publisher checkboxes now work correctly again on banner-zone.php when zones linked to campaigns are present  (Niels)
 
