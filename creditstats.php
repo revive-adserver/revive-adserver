@@ -96,7 +96,7 @@ while ($row_clients = mysql_fetch_array($res_clients))
 		<td colspan="2" bgcolor="#eeeeee">
 		<?
 		if ($row_banners["format"] == "html")
-			print htmlspecialchars(stripslashes($row_banners["banner"]));
+			print $row_banners["banner"];
 		else
 			print "<img src=\"./viewbanner.php$fncpageid&bannerID=$row_banners[bannerID]\" width=$row_banners[width] height=$row_banners[height]>";
 		?>
