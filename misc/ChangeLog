@@ -8,6 +8,7 @@ CVS
 			  - 2003-09-10:  Added optional check for dev-builds in currently available product updates  (Matteo)
 			  - 2003-09-11:  Added a flag which states if the release is to be considered stable or a development build  (Matteo)
 			  - 2003-09-11:  Added automatic enabling of dev-builds product updates when upgrading to a dev-build  (Matteo)
+			  - 2003-09-14:  Optimised queries and added date filter to the 'campaign overview', 'Publishers & zones', 'Zone overview' & 'Linked banners overview' pages  (Niels)
 
 			+ Misc bugfixes
 			  - 2003-08-08:  Adviews email warning limit wasn't correctly saved (Matteo)
@@ -16,6 +17,7 @@ CVS
 			  - 2003-09-13:  Fixed E_ALL problems with hardcoded sources in banner-edit.php  (Niels)
 			  - 2003-09-13:  Disabled logging of clicks for Flash banners in the admin interface - bug #794495  (Niels)
 			  - 2003-09-13:  Direct selection could not retrieve the stored delivery cache, resulting in a full query everytime  (Niels)
+			  - 2003-09-14:  Fixed E_ALL warnings in lib-history.inc.php  (Niels)
 
 
 v 2.0rc4.2		+ Misc changes
