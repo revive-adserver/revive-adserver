@@ -394,7 +394,7 @@ else
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td width='200'><?echo $strNewBannerURL;?></td>
-		<td><input size="35" type="text" name="url_banner" style="width:350px;" value="<?if (isset($type) && $type == "url") echo $row["url"];?>"></td>
+		<td><input size="35" type="text" name="url_banner" style="width:350px;" value="<?if (isset($type) && $type == "url") echo $row["banner"];?>"></td>
 	</tr>
 	<tr>
 		<td><img src='images/spacer.gif' height='1' width='100%'></td>
@@ -403,7 +403,7 @@ else
 	<tr>
 		<td width='30'>&nbsp;</td>
 		<td width='200'><?echo $strURL;?></td>
-		<td><input size="35" type="text" name="url_url" style="width:350px;" value="<?if (isset($type) && $type == "url") echo $row["banner"];?>"></td>
+		<td><input size="35" type="text" name="url_url" style="width:350px;" value="<?if (isset($type) && $type == "url") echo $row["url"];?>"></td>
 	</tr>
 	<tr>
 		<td><img src='images/spacer.gif' height='1' width='100%'></td>
