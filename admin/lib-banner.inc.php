@@ -330,8 +330,8 @@ function phpAds_getBannerCache($banner)
 					// build an iframe with the right width and height to show the
 					// destination URL
 					
-					$buffer = "<iframe width='".$banner['width']."' height='".$banner['height']."' framespacing='0' frameborder='no' src='".$banner['url']."'>";
-					$buffer = "</iframe>";
+					$buffer  = "<iframe width='".$banner['width']."' height='".$banner['height']."' framespacing='0' frameborder='no' src='".$banner['url']."'>";
+					$buffer .= "</iframe>";
 				}
 			}
 		}
