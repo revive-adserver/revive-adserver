@@ -128,6 +128,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-04-06:  Added a workaround for IE own bug when loading external JS into a popup  (Niels, Matteo)
 			  - 2002-04-09:  Rewrote part of lib-priority to always assign a priority > 0 to low-pri campaigns  (Matteo)
 			  - 2002-04-15:  Added ability to override frame targets even if no target is specified in HTML banner  (Niels)
+			  - 2002-04-19:  Rewritten verbose stats convertor, now available from the maintenance menu  (Niels)
 
 
 			+ Misc bugfixes
