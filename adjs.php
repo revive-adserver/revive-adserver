@@ -56,6 +56,9 @@ function enjavanate ($str, $limit = 60)
 header("Content-type: application/x-javascript");
 require("lib-cache.inc.php");
 
+if (isset($clientID) && !isset($clientid))	$clientid = $clientID;
+if (isset($withtext) && !isset($withText))  $withtext = $withText;
+
 if (!isset($what)) 		$what = '';
 if (!isset($clientid)) 	$clientid = 0;
 if (!isset($target)) 	$target = '';
@@ -64,7 +67,7 @@ if (!isset($withText)) 	$withText = '';
 if (!isset($context)) 	$context = '';
 
 // Get the banner
-$output = view_raw ($what, $clientid, $target, $source, $withText, $context);
+$output = view_raw ($what, $clientid, $target, $source, $withtext, $context);
 enjavanate($output['html']);
 
 ?>

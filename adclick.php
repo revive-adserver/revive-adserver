@@ -24,6 +24,7 @@ require ("lib-expire.inc.php");
 phpAds_dbConnect();
 
 
+if (isset($bannerID) && !isset($bannerid))	$bannerid = $bannerID;
 
 
 // Fetch BannerID

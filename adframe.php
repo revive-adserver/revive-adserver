@@ -30,11 +30,14 @@ require	("view.inc.php");
 require("lib-cache.inc.php");
 
 
+if (isset($clientID) && !isset($clientid))	$clientid = $clientID;
+if (isset($withtext) && !isset($withText))  $withtext = $withText;
+
 if (!isset($what)) 		$what = '';
 if (!isset($clientid)) 	$clientid = 0;
 if (!isset($target)) 	$target = '_top';
 if (!isset($source)) 	$source = '';
-if (!isset($withText)) 	$withText = '';
+if (!isset($withtext)) 	$withtext = '';
 if (!isset($context)) 	$context = '';
 
 
@@ -50,7 +53,7 @@ if (isset($refresh) && $refresh != '')
 
 echo "<body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0'>\n";
 
-view("$what",$clientid,"$target","$source","$withText","$context");
+view ($what, $clientid, $target, $source, $withtext, $context);
 
 echo "\n</body>\n";
 echo "</html>\n";

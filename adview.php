@@ -33,6 +33,9 @@ include ("lib-cache.inc.php");
 phpAds_dbConnect();
 
 
+if (isset($clientID) && !isset($clientid))	$clientid = $clientID;
+if (isset($bannerID) && !isset($bannerid))	$bannerid = $bannerID;
+
 if (isset($bannerid) && !isset($what))
 {
 	$res = phpAds_dbQuery("
