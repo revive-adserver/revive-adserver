@@ -168,6 +168,7 @@ function phpAds_SWFInfo($buffer)
 		$result++;
 		
 		if (strtolower(substr($buffer, $result + 3, 7)) == 'http://' ||
+			strtolower(substr($buffer, $result + 3, 8)) == 'https://' ||
 		    strtolower(substr($buffer, $result + 3, 11)) == 'javascript:')
 		{
 			$parameter_length = ord(substr($buffer, $result + 1, 1));
