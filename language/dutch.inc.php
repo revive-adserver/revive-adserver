@@ -152,9 +152,34 @@ $GLOBALS[strErrorClicks] =  "U moet het aantal AdClicks invullen of het vakje 'O
 $GLOBALS[strErrorNegClicks] = "Negatieve AdClicks zijn niet toegestaan";
 $GLOBALS[strErrorDays] = "U moet het aantal advertentiedagen invullen of het vakje 'Onbegrensd' aankruisen!";
 $GLOBALS[strErrorNegDays] = "Negatieve dagen zijn niet toegestaan";
-
 $GLOBALS[strTrackerImage] = "Tracker image:";
 
+// New strings for version 2
+$GLOBALS[strNavigation] 			= "Navigation";
+$GLOBALS[strShortcuts] 				= "Shortcuts";
+$GLOBALS[strDescription] 			= "Description";
+$GLOBALS[strClients] 				= "Clients";
+$GLOBALS[strID]				 		= "ID";
+$GLOBALS[strOverall] 				= "Overall";
+$GLOBALS[strTotalBanners] 			= "Total banners";
+$GLOBALS[strToday] 					= "Today";
+$GLOBALS[strThisWeek] 				= "This week";
+$GLOBALS[strThisMonth] 				= "This month";
+$GLOBALS[strBasicInformation] 		= "Basic information";
+$GLOBALS[strContractInformation] 	= "Contract information";
+$GLOBALS[strLoginInformation] 		= "Login information";
+$GLOBALS[strPermissions] 			= "Permissions";
+$GLOBALS[strGeneralSettings]		= "General settings";
+$GLOBALS[strSaveChanges]		 	= "Save Changes";
+$GLOBALS[strCompact]				= "Compact";
+$GLOBALS[strVerbose]				= "Verbose";
+$GLOBALS[strOrderBy]				= "order by";
+$GLOBALS[strShowAllBanners]	 		= "Show all banners";
+$GLOBALS[strShowBannersNoAdClicks]	= "Show banners without AdClicks";
+$GLOBALS[strShowBannersNoAdViews]	= "Show banners without AdViews";
+$GLOBALS[strShowAllClients] 		= "Show all clients";
+$GLOBALS[strShowClientsActive] 		= "Show clients with active banners";
+$GLOBALS[strShowClientsInactive]	= "Show clients with inactive banners";
 
 
 ?>
