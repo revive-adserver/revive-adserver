@@ -66,7 +66,7 @@ if (!isset($n)) $n = 'default';
 
 // Remove referer, to be sure it doesn't cause problems with limitations
 if (isset($HTTP_SERVER_VARS['HTTP_REFERER'])) unset($HTTP_SERVER_VARS['HTTP_REFERER']);
-if (isset($HTTP_REFERER) unset($HTTP_REFERER);
+if (isset($HTTP_REFERER)) unset($HTTP_REFERER);
 
 
 if (phpAds_dbConnect())
