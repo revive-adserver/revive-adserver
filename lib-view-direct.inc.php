@@ -17,10 +17,6 @@
 define ('LIBVIEWDIRECT_INCLUDED', true);
 
 
-// Seed the random number generator
-mt_srand((double) microtime() * 1000000);
-
-
 /*********************************************************/
 /* Get a banner                                          */
 /*********************************************************/
