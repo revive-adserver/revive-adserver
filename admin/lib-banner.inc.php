@@ -322,20 +322,24 @@ function phpAds_getBannerCache($banner)
 function phpAds_AvailableNetworks()
 {
 	$networks = array();
-	$networkdir = opendir(phpAds_path."/admin/networks/");
 	
-	while ($networkfile = readdir($networkdir))
-		if (!is_dir(phpAds_path."/admin/networks/".$networkfile))
-			if (eregi("^([a-z0-9 -]+)\.html$", $networkfile, $fmatches))
-			{
-				$networkinfo = @fread(@fopen(phpAds_path."/admin/networks/".$networkfile, "rb"), @filesize(phpAds_path."/admin/networks/".$networkfile));
-				
-				if (ereg("\[title\]([^\[]*)\[\/title\]", $networkinfo, $tmatches))
-					$networks[$fmatches[1]] = $tmatches[1];
-			}
-	
-	closedir($networkdir);
-	asort($networks, SORT_STRING);
+	if (@file_exists(phpAds_path."/admin/networks/"))
+	{
+		$networkdir = @opendir(phpAds_path."/admin/networks/");
+		
+		while ($networkfile = @readdir($networkdir))
+			if (!@is_dir(phpAds_path."/admin/networks/".$networkfile))
+				if (eregi("^([a-z0-9 -]+)\.html$", $networkfile, $fmatches))
+				{
+					$networkinfo = @fread(@fopen(phpAds_path."/admin/networks/".$networkfile, "rb"), @filesize(phpAds_path."/admin/networks/".$networkfile));
+					
+					if (ereg("\[title\]([^\[]*)\[\/title\]", $networkinfo, $tmatches))
+						$networks[$fmatches[1]] = $tmatches[1];
+				}
+		
+		@closedir($networkdir);
+		asort($networks, SORT_STRING);
+	}
 	
 	return $networks;
 }

@@ -806,34 +806,42 @@ if (!isset($bannerid) || $bannerid == '')
 	
 	if ($storagetype == "network")
 	{
-		echo "<form action='banner-edit.php' method='POST' enctype='multipart/form-data'>";
-		echo "<input type='hidden' name='clientid' value='".$clientid."'>";
-		echo "<input type='hidden' name='campaignid' value='".$campaignid."'>";
-		echo "<input type='hidden' name='bannerid' value='".$bannerid."'>";
-		echo "<input type='hidden' name='storagetype' value='".$storagetype."'>";
-		
-		echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-		echo "<tr><td height='25' colspan='3'><b>".$strChooseNetwork."</b></td></tr>";
-		echo "<tr><td height='25'>";
-		echo "<select name='network' onChange='this.form.submit();'>";
-		
 		$networks = phpAds_AvailableNetworks();
 		
-		if (!isset($network) || $network == '')
+		if (count($networks))
 		{
-			reset ($networks);
-			$network = key($networks);
+			if (!isset($network) || $network == '')
+			{
+				reset ($networks);
+				$network = key($networks);
+			}
+			
+			echo "<form action='banner-edit.php' method='POST' enctype='multipart/form-data'>";
+			echo "<input type='hidden' name='clientid' value='".$clientid."'>";
+			echo "<input type='hidden' name='campaignid' value='".$campaignid."'>";
+			echo "<input type='hidden' name='bannerid' value='".$bannerid."'>";
+			echo "<input type='hidden' name='storagetype' value='".$storagetype."'>";
+			
+			echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+			echo "<tr><td height='25' colspan='3'><b>".$strChooseNetwork."</b></td></tr>";
+			echo "<tr><td height='25'>";
+			echo "<select name='network' onChange='this.form.submit();'>";
+			
+			for (reset($networks);$key=key($networks);next($networks))
+			{
+				echo "<option value='".$key."'".($network == $key ? ' selected' : '').">".$networks[$key]."</option>";
+			}
+			
+			echo "</select>";
+			echo "</td></tr></table>";
+			phpAds_ShowBreak();
+			echo "</form>";
 		}
-		
-		for (reset($networks);$key=key($networks);next($networks))
+		else
 		{
-			echo "<option value='".$key."'".($network == $key ? ' selected' : '').">".$networks[$key]."</option>";
+			phpAds_PageFooter();
+			exit;
 		}
-		
-		echo "</select>";
-		echo "</td></tr></table>";
-		phpAds_ShowBreak();
-		echo "</form>";
 	}
 }
 
