@@ -72,7 +72,8 @@ a:hover {
 /* Form elements */
 
 select.flat, textarea.flat, input.flat, 
-select.error, textarea.error, input.error { 
+select.error, textarea.error, input.error,
+textarea.code { 
 	border-style: solid;
 	border-top-width: 1px; 
 	border-right-width: 1px; 
@@ -80,12 +81,19 @@ select.error, textarea.error, input.error {
 	border-left-width: 1px;
 }
 
-select.flat, textarea.flat, input.flat { 
+select.flat, textarea.flat, input.flat,
+textarea.code { 
 	border-color : #888888;
 }
 
 select.error, textarea.error, input.error { 
 	border-color : #990000;
+}
+
+textarea.code {
+	font-family: "Lucida Console", "Courier New", Courier, monospace;
+	font-size: 12px; 
+	line-height: 15px; 
 }
 
 
