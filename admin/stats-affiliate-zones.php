@@ -18,6 +18,7 @@
 require ("config.php");
 require ("lib-statistics.inc.php");
 require ("lib-size.inc.php");
+require ("lib-zones.inc.php");
 
 
 // Security check
@@ -118,7 +119,7 @@ else
 // Get the zones for each affiliate
 $res_zones = phpAds_dbQuery("
 	SELECT 
-		zoneid, affiliateid, zonename, what
+		zoneid, affiliateid, zonename, what, delivery
 	FROM 
 		".$phpAds_config['tbl_zones']."
 	WHERE
@@ -222,7 +223,8 @@ else
 if (isset($expand) && $expand != '')
 	$node_array[] = $expand;
 
-for ($i=0; $i < sizeof($node_array);$i++)
+$node_array_size = sizeof($node_array);
+for ($i=0; $i < $node_array_size;$i++)
 {
 	if (isset($collapse) && $collapse == $node_array[$i])
 		unset ($node_array[$i]);
@@ -339,15 +341,21 @@ else
 		echo "<td height='25'>";
 		if (isset($zone['banners']))
 		{
-			if ($zone['expand'] == '1')
+			if (isset($zone['expand']) && $zone['expand'] == '1')
 				echo "&nbsp;<a href='stats-affiliate-zones.php?affiliateid=".$affiliateid."&collapse=".$zone['zoneid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
 			else
 				echo "&nbsp;<a href='stats-affiliate-zones.php?affiliateid=".$affiliateid."&expand=".$zone['zoneid']."'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
 		}
 		else
 			echo "&nbsp;<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
-			
-		echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
+		
+		if ($zone['delivery'] == phpAds_ZoneBanner)
+			echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
+		elseif ($zone['delivery'] == phpAds_ZoneInterstitial)
+			echo "<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;";
+		elseif ($zone['delivery'] == phpAds_ZonePopup)
+			echo "<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;";
+		
 		echo "<a href='stats-zone-history.php?affiliateid=".$zone['affiliateid']."&zoneid=".$zone['zoneid']."'>".$zone['zonename']."</a>";
 		echo "</td>";
 		
@@ -359,7 +367,7 @@ else
 		
 		
 		
-		if (isset($zone['banners']) && sizeof ($zone['banners']) > 0 && $zone['expand'] == '1')
+		if (isset($zone['banners']) && sizeof ($zone['banners']) > 0 && isset($zone['expand']) && $zone['expand'] == '1')
 		{
 			$banners = $zone['banners'];
 			
