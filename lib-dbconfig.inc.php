@@ -18,7 +18,7 @@
 $phpAds_version = 200.076;
 $phpAds_version_readable = "2 dev 29012002";
 
-$phpAds_settings_information = array(
+$GLOBALS['phpAds_settings_information'] = array(
 	'dbhost' => 					array ('type' => 'string', 	'sql' => false),
 	'dbuser' => 					array ('type' => 'string', 	'sql' => false),
 	'dbpassword' => 				array ('type' => 'string', 	'sql' => false),
@@ -132,7 +132,7 @@ function phpAds_LoadDbConfig()
 			}
 		}
 	}
-
+	
 	return false;
 }
 
