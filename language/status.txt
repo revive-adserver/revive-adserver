@@ -93,9 +93,9 @@ Portuguese
 Russian
 	---------------------------------------------------------
 	Maintained by:	   Michael Bravo
-	Is up-to-date?	   Working on it
-	Last update:	   -
-	Translated files:  -
+	Is up-to-date?	   Yes
+	Last update:	   20 October 2002
+	Translated files:  8
 	---------------------------------------------------------
 
 

@@ -23,7 +23,7 @@ $GLOBALS['phpAds_CharSet'] = "koi8-r";
 // Set translation strings
 $GLOBALS['strHome'] = "Главная страница";
 $GLOBALS['date_format'] = "%d/%m/%Y";
-$GLOBALS['time_format'] = "%H:%i:%S";
+$GLOBALS['time_format'] = "%H:%M:%S";
 $GLOBALS['strMySQLError'] = "Ошибка MySQL:";
 $GLOBALS['strAdminstration'] = "Администрирование";
 $GLOBALS['strAddClient'] = "Добавить клиента";
@@ -116,7 +116,6 @@ $GLOBALS['strTotalViews7Days'] = "Всего показов за неделю";
 $GLOBALS['strTotalClicks7Days'] = "Всего кликов за неделю";
 $GLOBALS['strAvgViews7Days'] = "В среднем показов за неделю";
 $GLOBALS['strAvgClicks7Days'] = "В среднем кликов за неделю";
-$GLOBALS['strTopTenHosts'] = "Top ten адресов просматривавших баннеры";
 $GLOBALS['strClientIP'] = "IP клиента";
 $GLOBALS['strUserAgent'] = "regexp строки User-agent";
 $GLOBALS['strWeekDay'] = "День недели (0 - 6) ((с воскресенья))";
@@ -169,7 +168,7 @@ $GLOBALS['strTrackerImage'] = "Картинка слежения:";
 
 // New strings for version 2
 $GLOBALS['strNavigation'] 				= "Навигация";
-$GLOBALS['strShortcuts'] 				= "Shortcuts";
+$GLOBALS['strShortcuts'] 				= "Сокращения";
 $GLOBALS['strDescription'] 				= "Описание";
 $GLOBALS['strClients'] 					= "Клиенты";
 $GLOBALS['strID']				 		= "ID";
@@ -419,6 +418,7 @@ $GLOBALS['strConvert']					= "Преобразовать";
 $GLOBALS['strCancel']					= "Отменить";
 
 $GLOBALS['strConvertSWFLinks']			= "Преобразовать Flash-линки";
+$GLOBALS['strHardcodedLinks']                   = "Жёстко закодированные ссылки";
 $GLOBALS['strConvertSWF']				= "<br>Flash-файл, который вы только что загрузили, содержит жестко закодированные URL-ы. phpAdsNew не сможет ".
 										  "отслеживать клики для этого баннера, если вы не преобразуете эти ".
 										  "линки. Ниже вы найдете список всех URL внутри этого Flash-файла. ".
@@ -429,7 +429,35 @@ $GLOBALS['strConvertSWF']				= "<br>Flash-файл, который вы только что загрузили,
 										  "исходного файла. Вне зависимости от того, какой версией Flash был создан этот баннер, получившийся ".
 										  "файл потребует Flash 4 (или старше) проигрыватель для корректного отображения.<br><br>";
 
+$GLOBALS['strCompressSWF']                      = "Сжать SWF-файл для ускорения загрузки (требует установки Flash 6 плагина)";
+$GLOBALS['strOverwriteSource']          = "Перезаписать параметр источника";
+
 $GLOBALS['strSourceStats']				= "Статистика по источнику";
 $GLOBALS['strSelectSource']				= "Выберите источник, который вы хотите просмотреть:";
+$GLOBALS['strSizeDistribution']         = "Распределение по размеру";
+$GLOBALS['strCountryDistribution']      = "Распределение по стране";
+$GLOBALS['strEffectivity']                      = "Эффективность";
+
+
+$GLOBALS['strDelimiter']                        = "Разделитель";
+$GLOBALS['strMiscellaneous']            = "Разное";
+
+
+$GLOBALS['strErrorUploadSecurity']              = "Обнаружена возможная проблема с безопасностью, загрузка остановлена!";
+$GLOBALS['strErrorUploadBasedir']               = "Загруженный файл недоступен, вероятно, в результате действия safe_mode или ограничений open_basedir";
+$GLOBALS['strErrorUploadUnknown']               = "Не могу получить доступ к загруженному файлу по неизвестной причине. Пожалуйста, проверьте настройки PHP!";
+$GLOBALS['strErrorStoreLocal']                  = "Во время попытки сохранения баннера в локальном каталоге произошла ошибка. Вероятно, это результат неверного указания пути к локальному каталогу";
+$GLOBALS['strErrorStoreFTP']                    = "Во время попытки загрузки баннера на FTP-сервер произошла ошибка. Это может быть из-за того, что сервер недоступен, или из-за неправильной настройки его параметров";
+
+// Zone probability
+$GLOBALS['strZoneProbListChain']                = "Все баннеры, связанные с выбранной зоной, имеют нулевой приоритет. Цепь вызова зон, которая будет использована:";
+$GLOBALS['strZoneProbNullPri']                  = "Все баннеры, связанные с этой зоной, имеют нулевой приоритет";
+
+// Hosts
+$GLOBALS['strHosts']                            = "Хосты";
+$GLOBALS['strTopHosts']                         = "Лучшие хосты";
+$GLOBALS['strTopCountries']             = "Лучшие страны";
+$GLOBALS['strRecentHosts']                      = "Недавно просматривавшие хосты";
+
 
 ?>
