@@ -133,7 +133,7 @@ function enjavanateBanner ($output, $limit = 60)
 
 phpAds_registerGlobal ('what', 'clientid', 'clientID', 'context',
 					   'target', 'source', 'withtext', 'withText',
-					   'left', 'top', 'popunder', 'timeout');
+					   'left', 'top', 'popunder', 'timeout', 'delay');
 
 
 
@@ -172,58 +172,81 @@ $windowid = 'phpads_'.$output['bannerid'];
 
 ?>
 
-if (!window.<?php echo $windowid; ?>)
+
+function <?php echo $windowid; ?>_pop(e)
 {
-	var <?php echo $windowid; ?> =  window.open('', '<?php echo $windowid; ?>', 'height=<?php echo $output['height']; ?>,width=<?php echo $output['width']; ?>,toolbars=no,location=no,menubar=no,status=no,resizable=no,scrollbars=no');
-	
-	if (!<?php echo $windowid; ?>.document.title || <?php echo $windowid; ?>.document.title == '')
+	if (!window.<?php echo $windowid; ?>)
 	{
-		<?php if(isset($left) && isset($top)) { ?>
-		<?php echo $windowid; ?>.moveTo (<?php echo $left; ?>,<?php echo $top; ?>);
+		var <?php echo $windowid; ?> =  window.open('', '<?php echo $windowid; ?>', 'height=<?php echo $output['height']; ?>,width=<?php echo $output['width']; ?>,toolbars=no,location=no,menubar=no,status=no,resizable=no,scrollbars=no');
+		
+		if (!<?php echo $windowid; ?>.document.title || <?php echo $windowid; ?>.document.title == '')
+		{
+			<?php if(isset($left) && isset($top)) { ?>
+			<?php echo $windowid; ?>.moveTo (<?php echo $left; ?>,<?php echo $top; ?>);
+			<?php } ?>
+			
+			<?php echo $windowid; ?>.document.open('text/html', 'replace');
+	<?php
+			if (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'MSIE') && !strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Opera'))
+			{
+				echo enjavanateCode("<html><head>")."\n";
+				
+				echo enjavanateCode("<script language='JavaScript'>");
+				echo enjavanateCode("function showbanner() {");		
+				echo enjavanateCode(enjavanateBanner($output)); 
+				echo enjavanateCode("}");		
+				echo enjavanateCode("</script>")."\n";
+				
+				echo enjavanateCode("</head>");		
+				echo enjavanateCode("<body onLoad='showbanner()'>");
+			}
+			else
+			{
+				enjavanateOld($output['html']);
+				
+				echo enjavanateCode("<html><head><title>");
+				echo enjavanateCode($output['alt'] ? $output['alt'] : 'Advertisement');
+				echo enjavanateCode("</title></head>");
+				echo enjavanateCode("<body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0'>");
+	?>
+			<?php echo $windowid; ?>.document.write(phpadsbanner);
+	<?php
+			}
+			
+			echo enjavanateCode("</body></html>");
+	?>
+			
+			<?php echo $windowid; ?>.document.close();
+		}
+
+		<?php if (isset($popunder) && $popunder == '1') { ?>
+	window.focus();
+		<?php } else {?>
+	<?php echo $windowid; ?>.focus();
 		<?php } ?>
-		
-		<?php echo $windowid; ?>.document.open('text/html', 'replace');
-<?php
-		if (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'MSIE') && !strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Opera'))
-		{
-			echo enjavanateCode("<html><head>")."\n";
-			
-			echo enjavanateCode("<script language='JavaScript'>");
-			echo enjavanateCode("function showbanner() {");		
-			echo enjavanateCode(enjavanateBanner($output)); 
-			echo enjavanateCode("}");		
-			echo enjavanateCode("</script>")."\n";
-			
-			echo enjavanateCode("</head>");		
-			echo enjavanateCode("<body onLoad='showbanner()'>");
-		}
-		else
-		{
-			enjavanateOld($output['html']);
-			
-			echo enjavanateCode("<html><head><title>");
-			echo enjavanateCode($output['alt'] ? $output['alt'] : 'Advertisement');
-			echo enjavanateCode("</title></head>");
-			echo enjavanateCode("<body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0'>");
-?>
-		<?php echo $windowid; ?>.document.write(phpadsbanner);
-<?php
-		}
-		
-		echo enjavanateCode("</body></html>");
-?>
-		
-		<?php echo $windowid; ?>.document.close();
+	
+		<?php if (isset($timeout) && $timeout > 0) { ?>
+	window.setTimeout("<?php echo $windowid; ?>.close()", <?php echo $timeout * 1000; ?>);
+		<?php } ?>
+	
 	}
-
-	<?php if (isset($popunder) && $popunder == '1') { ?>
-window.focus();
-	<?php } else {?>
-<?php echo $windowid; ?>.focus();
-	<?php } ?>
-
-	<?php if (isset($timeout) && $timeout > 0) { ?>
-window.setTimeout("<?php echo $windowid; ?>.close()", <?php echo $timeout * 1000; ?>);
-	<?php } ?>
-
+	
+	return true;
 }
+
+<?php if (isset($delay) && $delay == 'exit') { ?>
+
+if (window.captureEvents && Event.UNLOAD) 
+	window.captureEvents (Event.UNLOAD);
+
+window.onunload = <?php echo $windowid; ?>_pop;
+
+<?php } elseif (isset($delay) && $delay > 0) { ?>
+
+window.setTimeout("phpAds_pop<?php echo $windowid; ?>();", <?php echo $delay * 1000; ?>);
+
+<?php } else {?>
+
+phpAds_pop<?php echo $windowid; ?>();
+
+<?php } ?>
