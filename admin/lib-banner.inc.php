@@ -242,7 +242,7 @@ function phpAds_getBannerCache($banner)
 		
 		if (strpos ($buffer, "{targeturl:") > 0)
 		{
-			while (eregi("{targeturl:([^}]*)}", $buffer, $regs))
+			while (eregi("\{targeturl:([^\}]*)\}", $buffer, $regs))
 			{
 				$buffer = str_replace ($regs[0], $phpAds_config['url_prefix'].'/adclick.php?bannerid={bannerid}&zoneid={zoneid}&source={source}&dest='.urlencode($regs[1]).'&ismap=', $buffer);
 			}
@@ -299,7 +299,7 @@ function phpAds_getBannerCache($banner)
 		}
 		
 		// Replace targeturl:
-		while (eregi("{targeturl:([^}]*)}", $buffer, $matches))
+		while (eregi("\{targeturl:([^\}]*)\}", $buffer, $matches))
 		{
 			$buffer = str_replace ($matches[0],
 								   $phpAds_config['url_prefix'].'/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest='.urlencode($matches[1]),
