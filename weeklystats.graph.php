@@ -4,7 +4,6 @@
 /* placed to GNU by martin@braun.cc */
                                  
 require ("config.php");
-require("kcsm.php");
                             
 $where=urldecode($where); 
 
