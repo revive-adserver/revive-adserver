@@ -60,32 +60,41 @@ if (!isset($HTTP_SERVER_VARS['REMOTE_HOST']) || $HTTP_SERVER_VARS['REMOTE_HOST']
 
 
 // Geotracking
-if (isset($HTTP_COOKIE_VARS['phpAds_geoInfo']))
-	$phpAds_CountryLookup = $HTTP_COOKIE_VARS['phpAds_geoInfo'];
-
-if ($phpAds_config['geotracking_stats'])
+if ($phpAds_config['geotracking_type'] != '')
 {
-	// Determine country
-	if (!isset($phpAds_CountryLookup))
+	if (isset($HTTP_COOKIE_VARS['phpAds_geoInfo']))
 	{
-		switch ($phpAds_config['geotracking_type'])
+		// Use cookie if available
+		$phpAds_geoRaw = explode('|', $HTTP_COOKIE_VARS['phpAds_geoInfo']);
+		
+		if (count($phpAds_geoRaw) == 3)
 		{
-			case 1:	@include_once (phpAds_path."/libraries/geotargeting/geo-ip2country.inc.php");
-					$phpAds_CountryLookup = phpAds_countryCodeByAddr($HTTP_SERVER_VARS['REMOTE_ADDR']);
-					break;
-				
-			case 2:	@include_once (phpAds_path."/libraries/geotargeting/geo-geoip.inc.php");
-					$phpAds_CountryLookup = phpAds_countryCodeByAddr($HTTP_SERVER_VARS['REMOTE_ADDR']);
-					break;
-				
-			case 3:	@include_once (phpAds_path."/libraries/geotargeting/geo-mod_geoip.inc.php");
-					$phpAds_CountryLookup = phpAds_countryCodeByAddr($HTTP_SERVER_VARS['REMOTE_ADDR']);
-					break;
-				
-			default: $phpAds_CountryLookup = false;
+			$phpAds_geo['country']   = $phpAds_geoRaw[0] != '' ? $phpAds_geoRaw[0] : false;
+			$phpAds_geo['continent'] = $phpAds_geoRaw[1] != '' ? $phpAds_geoRaw[1] : false;
+			$phpAds_geo['region']    = $phpAds_geoRaw[2] != '' ? $phpAds_geoRaw[2] : false;
 		}
 	}
+	
+	if (!isset($phpAds_geo))
+	{
+		// Determine from IP
+		$phpAds_geoPlugin = phpAds_path."/libraries/geotargeting/geo-".$phpAds_config['geotracking_type'].".inc.php";
+		
+		if (@file_exists($phpAds_geoPlugin))
+		{
+			@include_once ($phpAds_geoPlugin);
+			eval ('$'.'phpAds_geo = phpAds_'.$phpAds_geoPluginID.'_getGeo("'.
+				  $HTTP_SERVER_VARS['REMOTE_ADDR'].'", "'.
+				  addslashes($phpAds_config['geotracking_location']).'");');
+		}
+		else
+			$phpAds_geo = false;
+	}
 }
+else
+	$phpAds_geo = false;
+
+
 
 // Translate an IP address into a 32 bit integer
 function phpAds_ipAddrToInt($ip)
@@ -101,7 +110,7 @@ function phpAds_matchSubnet($ip, $net, $mask)
 {
 	if (!is_integer($ip)) $ip = phpAds_ipAddrToInt($ip);
 	$net = phpAds_ipAddrToInt($net);
-
+	
 	if (!$ip || !$net)
 		return false;
 	
@@ -125,7 +134,7 @@ function phpAds_matchSubnet($ip, $net, $mask)
 function phpAds_PrivateSubnet($ip)
 {
 	$ip = phpAds_ipAddrToInt($ip);
-
+	
 	if (!$ip) return false;
 	
 	return (phpAds_matchSubnet($ip, '10.0.0.0', 8) || 

@@ -107,6 +107,11 @@ if (phpAds_dbConnect())
 			$what  = $row;
 	}
 }
+else
+{
+	$found = false;
+}
+
 
 if ($found)
 {
@@ -143,10 +148,12 @@ if ($found)
 	}
 	
 	
-	// Set geo cookies
-	if ($phpAds_config['geotracking_type'] != 0 && $phpAds_config['geotracking_cookie'])
-		if (!isset($HTTP_COOKIE_VARS['phpAds_geoInfo']))
-			phpAds_setCookie ("phpAds_geoInfo", $phpAds_CountryLookup ? $phpAds_CountryLookup : '', 0);
+	if ($phpAds_config['geotracking_type'] != '' && $phpAds_config['geotracking_cookie'])
+		if (!isset($HTTP_COOKIE_VARS['phpAds_geoInfo']) && $phpAds_geo)
+			phpAds_setCookie ("phpAds_geoInfo", 
+				($phpAds_geo['country'] ? $phpAds_geo['country'] : '').'|'.
+			   	($phpAds_geo['continent'] ? $phpAds_geo['continent'] : '').'|'.
+				($phpAds_geo['region'] ? $phpAds_geo['region'] : ''), 0);
 	
 	
 	// Send bannerid headers

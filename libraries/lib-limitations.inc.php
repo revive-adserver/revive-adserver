@@ -245,39 +245,17 @@ function phpAds_aclCheckDate($data, $ad)
 
 function phpAds_aclCheckCountry($data, $ad)
 {
-	global $HTTP_SERVER_VARS, $phpAds_CountryLookup, $phpAds_config;
+	global $phpAds_geo;
 	
-	// Geotracking not enabled, return true
-	if ($phpAds_config['geotracking_type'] == 0)
-		return (true);
-	
-	if (!isset($phpAds_CountryLookup))
+	if ($phpAds_geo && $phpAds_geo['country'])
 	{
-		switch ($phpAds_config['geotracking_type'])
-		{
-			case 1:	@include_once (phpAds_path."/libraries/geotargeting/geo-ip2country.inc.php");
-					$phpAds_CountryLookup = phpAds_countryCodeByAddr($HTTP_SERVER_VARS['REMOTE_ADDR']);
-					break;
-				
-			case 2:	@include_once (phpAds_path."/libraries/geotargeting/geo-geoip.inc.php");
-					$phpAds_CountryLookup = phpAds_countryCodeByAddr($HTTP_SERVER_VARS['REMOTE_ADDR']);
-					break;
-				
-			case 3:	@include_once (phpAds_path."/libraries/geotargeting/geo-mod_geoip.inc.php");
-					$phpAds_CountryLookup = phpAds_countryCodeByAddr($HTTP_SERVER_VARS['REMOTE_ADDR']);
-					break;
-				
-			default: $phpAds_CountryLookup = false;
-		}
+		// Evaluate country code
+		$expression = ($data == $phpAds_geo['country'] || in_array ($phpAds_geo['country'], explode(',', $data)));
+		$operator   = $ad == '==';
+		return ($expression == $operator);
 	}
-	
-	// Allow if no info is available
-	if ($phpAds_CountryLookup == false)	return (true);
-	
-	// Evaluate country code
-	$expression = ($data == $phpAds_CountryLookup || in_array ($phpAds_CountryLookup, explode(',', $data)));
-	$operator   = $ad == '==';
-	return ($expression == $operator);
+	else
+		return true;
 }
 
 
@@ -288,46 +266,17 @@ function phpAds_aclCheckCountry($data, $ad)
 
 function phpAds_aclCheckContinent($data, $ad)
 {
-	global $HTTP_SERVER_VARS, $phpAds_CountryLookup, $phpAds_ContinentLookup, $phpAds_config;
+	global $phpAds_geo;
 	
-	// Geotracking not enabled, return true
-	if ($phpAds_config['geotracking_type'] == 0)
-		return (true);
-	
-	if (!isset($phpAds_ContinentLookup))
+	if ($phpAds_geo && $phpAds_geo['continent'])
 	{
-		if (!isset($phpAds_CountryLookup))
-		{
-			switch ($phpAds_config['geotracking_type'])
-			{
-				case 1:	@include_once (phpAds_path."/libraries/geotargeting/geo-ip2country.inc.php");
-						$phpAds_CountryLookup = phpAds_countryCodeByAddr($HTTP_SERVER_VARS['REMOTE_ADDR']);
-						break;
-					
-				case 2:	@include_once (phpAds_path."/libraries/geotargeting/geo-geoip.inc.php");
-						$phpAds_CountryLookup = phpAds_countryCodeByAddr($HTTP_SERVER_VARS['REMOTE_ADDR']);
-						break;
-					
-				case 3:	@include_once (phpAds_path."/libraries/geotargeting/geo-mod_geoip.inc.php");
-						$phpAds_CountryLookup = phpAds_countryCodeByAddr($HTTP_SERVER_VARS['REMOTE_ADDR']);
-						break;
-					
-				default: $phpAds_CountryLookup = false;
-			}
-		}
-		
-		// Allow if no info is available
-		if ($phpAds_CountryLookup == false)	return (true);
-		
-		// Get continent code
-		@include_once (phpAds_path.'/libraries/resources/res-continent.inc.php');
-		$phpAds_ContinentLookup = $phpAds_continent[$phpAds_CountryLookup];
+		// Evaluate continent code
+		$expression = ($data == $phpAds_geo['continent'] || in_array ($phpAds_geo['continent'], explode(',', $data)));
+		$operator   = $ad == '==';
+		return ($expression == $operator);
 	}
-	
-	// Evaluate continent code
-	$expression = ($data == $phpAds_ContinentLookup || in_array ($phpAds_ContinentLookup, explode(',', $data)));
-	$operator   = $ad == '==';
-	return ($expression == $operator);
+	else
+		return true;
 }
 
 
@@ -339,10 +288,10 @@ function phpAds_aclCheckContinent($data, $ad)
 function phpAds_aclCheckReferer($data, $ad)
 {
 	global $HTTP_SERVER_VARS;
-
+	
 	if ($data == '')
 		return (true);
-
+	
 	$referer = isset($HTTP_SERVER_VARS['HTTP_REFERER']) ? strtolower($HTTP_SERVER_VARS['HTTP_REFERER']) : '';
 	$expression = strpos($referer, strtolower($data));
 	$expression = is_int($expression);

@@ -15,49 +15,29 @@
 /************************************************************************/
 
 
-function phpAds_geoIpSeekCountry($gi, $offset, $ipnum, $depth)
+
+/* PUBLIC FUNCTIONS */
+
+$phpAds_geoPluginID = 'geoip';
+
+function phpAds_geoip_getInfo()
 {
-	if ($depth < 0)
-		return (false);
-	
-	if (fseek($gi, 6 * $offset, SEEK_SET) != 0) return (false);
-	$buf = fread($gi,6);
-	
-	$x = array(0,0);
-	for ($i = 0; $i < 2; ++$i)
-		for ($j = 0; $j < 3; ++$j)
-			$x[$i] += ord($buf[($i*3)+$j]) << ($j * 8);
-	
-	if ($ipnum & (1 << $depth))
-	{
-		if ($x[1] >= $GLOBALS['phpAds_geoIp_Country_Begin'])
-			return $x[1] - $GLOBALS['phpAds_geoIp_Country_Begin'];
-		
-		return phpAds_geoIpSeekCountry($gi, $x[1], $ipnum, $depth - 1);
-	}
-	else
-	{
-		if ($x[0] >= $GLOBALS['phpAds_geoIp_Country_Begin'])
-			return $x[0] - $GLOBALS['phpAds_geoIp_Country_Begin'];
-		
-		return phpAds_geoIpSeekCountry($gi, $x[0], $ipnum, $depth - 1);
-	}
+	return (array (
+		'name'	    => 'MaxMind GeoIP',
+		'db'	    => true,
+		'country'   => true,
+		'continent' => true,
+		'region'    => false
+	));
 }
 
-
-/*********************************************************/
-/* Returns country code for given address using GeoIP db */
-/*********************************************************/
-
-function phpAds_countryCodeByAddr($addr)
+function phpAds_geoip_getGeo($addr, $db)
 {
-	global $phpAds_config, $phpAds_geoIp_Country_Begin;
-	
-	if ($phpAds_config['geotracking_location'] == '')
+	if ($db == '')
 		return false;
 	
-	$phpAds_geoIp_Country_Begin = 16776960;
-	$phpAds_geoIp_Country_Codes = array(
+	$countrybegin = 16776960;
+	$countrycodes = array(
 		false, 'AP', 'EU', 'AD', 'AE', 'AF', 'AG', 'AI', 'AL', 'AM', 'AN', 'AO', 'AQ',
 		'AR', 'AS', 'AT', 'AU', 'AW', 'AZ', 'BA', 'BB', 'BD', 'BE', 'BF', 'BG', 'BH',
 		'BI', 'BJ', 'BM', 'BN', 'BO', 'BR', 'BS', 'BT', 'BV', 'BW', 'BY', 'BZ', 'CA',
@@ -81,10 +61,55 @@ function phpAds_countryCodeByAddr($addr)
 	
 	$ipnum = ip2long($addr);
 	
-	if ($gi = @fopen($phpAds_config['geotracking_location'], 'rb'))
-		return ($phpAds_geoIp_Country_Codes[phpAds_geoIpSeekCountry($gi, 0, $ipnum, 31)]);
+	if ($gi = fopen($db, 'rb'))
+	{
+		$country = $countrycodes[phpAds_geoip_seekCountry($gi, 0, $ipnum, 31, $countrybegin)];
+		
+		// Get continent code
+		@include_once (phpAds_path.'/libraries/resources/res-continent.inc.php');
+		$continent = $phpAds_continent[$country];
+		
+		return (array (
+			'country' => $country,
+			'continent' => $continent,
+			'region' => false
+		));
+	}
 	else
 		return (false);
+}
+
+
+
+/* PRIVATE FUNCTIONS */
+
+function phpAds_geoip_seekCountry($gi, $offset, $ipnum, $depth, $countrybegin)
+{
+	if ($depth < 0)
+		return (false);
+	
+	if (fseek($gi, 6 * $offset, SEEK_SET) != 0) return (false);
+	$buf = fread($gi,6);
+	
+	$x = array(0,0);
+	for ($i = 0; $i < 2; ++$i)
+		for ($j = 0; $j < 3; ++$j)
+			$x[$i] += ord($buf[($i*3)+$j]) << ($j * 8);
+	
+	if ($ipnum & (1 << $depth))
+	{
+		if ($x[1] >= $countrybegin)
+			return $x[1] - $countrybegin;
+		
+		return phpAds_geoip_seekCountry($gi, $x[1], $ipnum, $depth - 1, $countrybegin);
+	}
+	else
+	{
+		if ($x[0] >= $countrybegin)
+			return $x[0] - $countrybegin;
+		
+		return phpAds_geoip_seekCountry($gi, $x[0], $ipnum, $depth - 1, $countrybegin);
+	}
 }
 
 ?>

@@ -44,10 +44,21 @@ $type_list['clientip']	= $strClientIP;
 $type_list['domain']	= $strDomain;
 $type_list['language']	= $strLanguage;
 
-if ($phpAds_config['geotracking_type'] != 0)
+// Get geotargeting info
+if ($phpAds_config['geotracking_type'] != '')
 {
-	$type_list['country']	= $strCountry;
-	$type_list['continent']	= $strContinent;
+	$phpAds_geoPlugin = phpAds_path."/libraries/geotargeting/geo-".$phpAds_config['geotracking_type'].".inc.php";
+	
+	if (@file_exists($phpAds_geoPlugin))
+	{
+		@include_once ($phpAds_geoPlugin);
+		
+		eval ('$'.'info = phpAds_'.$phpAds_geoPluginID.'_getInfo();');
+		
+		if ($info['country']) $type_list['country']	= $strCountry;
+		if ($info['region']) $type_list['region'] == $strUSState;
+		if ($info['continent']) $type_list['continent']	= $strContinent;
+	}
 }
 
 $type_list['browser']   = $strBrowser;

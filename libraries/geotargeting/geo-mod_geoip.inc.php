@@ -13,14 +13,40 @@
 /************************************************************************/
 
 
-function phpAds_countryCodeByAddr($addr)
+/* PUBLIC FUNCTIONS */
+
+$phpAds_geoPluginID = 'mod_geoip';
+
+function phpAds_mod_geoip_getInfo()
 {
-	// $addr parameter is ignored and is here for API consistency only
+	return (array (
+		'name'	    => 'MaxMind GeoIP (mod)',
+		'db'	    => false,
+		'country'   => true,
+		'continent' => true,
+		'region'	=> false
+	));
+}
+
+
+function phpAds_mod_geoip_getGeo($addr, $db)
+{
+	// $addr and $db parameter is ignored and is here for API consistency only
 	
-	$result = @apache_note('GEOIP_COUNTRY_CODE');
+	$country = @apache_note('GEOIP_COUNTRY_CODE');
 	
-	if ($result != '' && $result != '--')
-		return ($result);
+	if ($country != '' && $country != '--')
+	{
+		// Get continent code
+		@include_once (phpAds_path.'/libraries/resources/res-continent.inc.php');
+		$continent = $phpAds_continent[$country];
+		
+		return (array (
+			'country' => $country,
+			'continent' => $continent,
+			'region' => false
+		));
+	}
 	else
 		return (false);
 }

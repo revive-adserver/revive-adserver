@@ -61,7 +61,7 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'con_key' =>					array ('type' => 'boolean', 'sql' => false),
 	'mult_key' =>	 				array ('type' => 'boolean', 'sql' => false),
 	'acl' =>  						array ('type' => 'boolean', 'sql' => false),
-	'geotracking_type' => 			array ('type' => 'integer', 'sql' => false),
+	'geotracking_type' => 			array ('type' => 'string',  'sql' => false),
 	'geotracking_location' => 		array ('type' => 'string',  'sql' => false),
 	'geotracking_stats' =>			array ('type' => 'boolean', 'sql' => false),
 	'geotracking_cookie' =>			array ('type' => 'boolean', 'sql' => false),

@@ -35,7 +35,11 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 	phpAds_SettingsWriteAdd('reverse_lookup', isset($reverse_lookup));
 	phpAds_SettingsWriteAdd('proxy_lookup', isset($proxy_lookup));
 	
-	if (isset($geotracking_type)) phpAds_SettingsWriteAdd('geotracking_type', $geotracking_type);
+	if (isset($geotracking_type)) 
+	{
+		if ($geotracking_type == '0') $geotracking_type = '';
+		phpAds_SettingsWriteAdd('geotracking_type', $geotracking_type);
+	}
 	phpAds_SettingsWriteAdd('geotracking_cookie', isset($geotracking_cookie));
 	
 	
@@ -76,6 +80,43 @@ phpAds_SettingsSelection("host");
 /* Cache settings fields and get help HTML Code          */
 /*********************************************************/
 
+// Prepare geotargeting options
+$geo_plugins = array();
+
+$geo_plugin_dir = opendir(phpAds_path.'/libraries/geotargeting/');
+while ($geo_plugin = readdir($geo_plugin_dir))
+{
+	if (preg_match('|geo-.*\.inc\.php|i', $geo_plugin) &&
+		file_exists(phpAds_path.'/libraries/geotargeting/'.$geo_plugin))
+	{
+		@include_once (phpAds_path.'/libraries/geotargeting/'.$geo_plugin);
+		
+		eval("$"."geo_plugin_info = phpAds_".$phpAds_geoPluginID."_getInfo();");
+		$geo_plugins_info[$phpAds_geoPluginID] = $geo_plugin_info;
+		$geo_plugins[$phpAds_geoPluginID] = $geo_plugin_info['name'];
+	}
+}
+
+closedir($geo_plugin_dir);
+asort($geo_plugins, SORT_STRING);
+
+
+$i = 1;
+$geo_plugins_sorted = array($strNone);
+$geo_plugins_db = 'geotracking_type!=0';
+
+while (list($k, $v) = each ($geo_plugins))
+{
+	$geo_plugins_sorted[$k] = $v;
+	
+	if (!$geo_plugins_info[$k]['db'])
+		$geo_plugins_db .= ' && geotracking_type!='.$i;
+	
+	$i++;
+}
+
+
+
 
 $settings = array (
 
@@ -104,7 +145,7 @@ array (
 			'type' 	  => 'select', 
 			'name' 	  => 'geotracking_type',
 			'text' 	  => $strGeotrackingType,
-			'items'   => array($strNone, 'IP2Country', 'MaxMind GeoIP', 'MaxMind GeoIP (mod_geoip)')
+			'items'   => $geo_plugins_sorted
 		),
 		array (
 			'type'    => 'break'
@@ -114,7 +155,7 @@ array (
 			'name' 	  => 'geotracking_location',
 			'text' 	  => $strGeotrackingLocation,
 			'size'	  => 35,
-			'depends' => 'geotracking_type>0 && geotracking_type!=3'
+			'depends' => $geo_plugins_db
 		),
 		array (
 			'type'    => 'break'
