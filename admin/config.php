@@ -80,6 +80,17 @@ if (!isset($phpAds_config['config_version']) ||
 
 
 
+// Check for SLL requirements
+if ($phpAds_config['ui_forcessl'] && 
+	$HTTP_SERVER_VARS['SERVER_PORT'] != 443)
+{
+	header ('Location: https://'.$HTTP_SERVER_VARS['SERVER_NAME'].$HTTP_SERVER_VARS['PHP_SELF']);
+	exit;
+}
+
+// Adjust url_prefix if SLL is used
+if ($HTTP_SERVER_VARS['SERVER_PORT'] == 443)
+	$phpAds_config['url_prefix'] = str_replace ('http://', 'https://', $phpAds_config['url_prefix']);
 
 
 

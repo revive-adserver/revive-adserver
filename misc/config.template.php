@@ -55,6 +55,9 @@ $phpAds_config['url_prefix'] = 'http://www.your-url.com/phpAdsNew';
 // Is the admin interface enabled
 $phpAds_config['ui_enabled'] = true;
 
+// Only allow access to the admin interface if SSL is used
+$phpAds_config['ui_forcessl'] = false;
+
 
 
 /*********************************************************/
