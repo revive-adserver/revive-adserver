@@ -87,7 +87,7 @@ $GLOBALS['strUpdateServerDown']				= "
 ";
 
 $GLOBALS['strNoNewVersionAvailable']		= "
-	La tua versione di ".$phpAds_productname." &agrave; aggiornata. Non ci sono aggironamenti disponibili.
+	La tua versione di ".$phpAds_productname." &agrave; aggiornata. Non ci sono aggiornamenti disponibili.
 ";
 
 $GLOBALS['strNewVersionAvailable']			= "
