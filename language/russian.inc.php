@@ -138,5 +138,6 @@ $strACL = "ACL";
 $strNoMoveUp = "Can't move up first row";
 $strACLAdd = "Add new $strACL";
 $strACLExist = "Existing $strACL:";
+$strLogin = "Login";
 
 ?>

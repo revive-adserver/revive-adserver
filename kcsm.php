@@ -48,7 +48,7 @@ function kc_login()
 		</tr>
 		<tr>
 			<td></td>
-			<td><input type="submit" VALUE="Login"></td>
+			<td><input type="submit" VALUE="<? echo $GLOBALS['strLogin']; ?>"></td>
 		</tr>
 	</table>
 	</form>

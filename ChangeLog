@@ -1,5 +1,7 @@
 phpAdsNew - ChangeLog
  v 1.8.1 - 01/02/2001
+			+ Added Login as a string (Fabian Rodriguez and me)
+			+ Bugfix: parse error in mail.php (me)
 			+ Bugfix: division by 0 in stats.inc.php (Phil)
 			+ All language files now have a seperate directory (me)
 			+ Added customizable colours to config.inc.php (me)

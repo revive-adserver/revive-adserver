@@ -137,5 +137,6 @@ $strACL = "Zugriffsregel";
 $strNoMoveUp = "Erste Zeile kann nicht vorgesetzt werden";
 $strACLAdd = "Neue Regel hinzuf|gen:";
 $strACLExist = "Bestehende Regeln:";
+$strLogin = "Login";
 
 ?>
