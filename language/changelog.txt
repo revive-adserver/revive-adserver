@@ -20,8 +20,23 @@
   
   10-11-2002 - settings
     [+] strWarningPREG
+    [+] strHostAndGeo
+    [+] strRemoteHost
+    [+] strLogHostnameOrIP
+    [+] strLogIPOnly
+    [+] strLogIP
     [u] strUpdateSuccess
     [u] strSystemNeedsUpgrade
+    [u] strReverseLookup
+    [u] strProxyLookup
+    [u] strCompactStats
+    [u] strLogAdviews
+    [u] strLogAdclicks
+    [u] strLogSource
+    [u] strLogBeacon
+    [u] strIgnoreHosts
+    [u] strBlockAdviews
+    [u] strBlockAdclicks
 
   06-11-2002 - settings
     [+] strWarningTrackVars

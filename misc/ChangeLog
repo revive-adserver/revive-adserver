@@ -48,6 +48,10 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-11-10:  Added a new delivery limitations for dates  (Niels)
 			  - 2002-11-10:  Changed the way the language, country and continent limitations are shown  (Niels)
 			  - 2002-11-10:  Moved all the posix regular expressions in the delivery engine to PERL compatible regular expressions for a minor speed improvement  (Niels)
+			  - 2002-11-10:  Added option to turn off logging of the source parameter  (Niels)
+                          - 2002-11-10:  Added option to turn off logging of the visitors hostname  (Niels)
+                          - 2002-11-10:  Added option to log the IP address only, even if the hostname is available  (Niels)
+                          - 2002-11-10:  Moved Geotargeting and Remote host settings to a seperate page  (Niels)
 
 			+ Misc bugfixes
 			  - 2002-07-25:  On some systems history pages showed '-0' instead of simply '-' (Matteo)

@@ -189,42 +189,54 @@ $GLOBALS['strTypeHtmlPhp']			= "Allow PHP expressions to be executed from within
 
 
 
+// Host information and Geotargeting
+$GLOBALS['strHostAndGeo']				= "Host information and Geotargeting";
+
+$GLOBALS['strRemoteHost']				= "Remote host";
+$GLOBALS['strReverseLookup']			= "Try to determine the hostname of the visitor if it is not supplied by the server";
+$GLOBALS['strProxyLookup']				= "Try to determine the real IP address of the visitor if he is using a proxy server";
+
+$GLOBALS['strGeotargeting']				= "Geotargeting";
+$GLOBALS['strGeotrackingType']			= "Type of geotargeting database";
+$GLOBALS['strGeotrackingLocation'] 		= "Geotargeting database location";
+$GLOBALS['strGeoStoreCookie']			= "Store the result in a cookie for future reference";
+
+
+
 // Statistics Settings
 $GLOBALS['strStatisticsSettings']		= "Statistics Settings";
 
 $GLOBALS['strStatisticsFormat']			= "Statistics format";
-$GLOBALS['strLogBeacon']			= "Use beacons to log AdViews";
-$GLOBALS['strCompactStats']			= "Use Compact Stats";
-$GLOBALS['strLogAdviews']			= "Log AdViews";
-$GLOBALS['strBlockAdviews']			= "Multiple log protection (sec.)";
-$GLOBALS['strLogAdclicks']			= "Log AdClicks";
-$GLOBALS['strBlockAdclicks']			= "Multiple log protection (sec.)";
+$GLOBALS['strCompactStats']				= "Statistics format";
+$GLOBALS['strLogAdviews']				= "Log an AdView everytime a banner is delivered";
+$GLOBALS['strLogAdclicks']				= "Log an AdClick everytime a visitor clicks on a banner";
+$GLOBALS['strLogSource']				= "Log the source parameter specified during invocation";
+$GLOBALS['strGeoLogStats']				= "Log the country of the visitor in the statistics";
+$GLOBALS['strLogHostnameOrIP']			= "Log the hostname or IP address of the visitor";
+$GLOBALS['strLogIPOnly']				= "Only log the IP address of the visitor even if the hostname is known";
+$GLOBALS['strLogIP']					= "Log the IP address of the visitor";
+$GLOBALS['strLogBeacon']				= "Use a small beacon image to log AdViews to ensure only delivered banners are logged";
 
-$GLOBALS['strGeotargeting']			= "Geotargeting";
-$GLOBALS['strGeotrackingType']			= "Type of geotargeting database";
-$GLOBALS['strGeotrackingLocation'] 		= "Geotargeting database location";
-$GLOBALS['strGeoLogStats']			= "Log the country of the visitor in the statistics";
-$GLOBALS['strGeoStoreCookie']		= "Store the result in a cookie for future reference";
+$GLOBALS['strRemoteHosts']				= "Remote hosts";
+$GLOBALS['strIgnoreHosts']				= "Don't store statistics for visitors using one of the following IP addresses or hostnames";
+$GLOBALS['strBlockAdviews']				= "Don't log AdViews if the visitor already seen the same banner within the specified number of seconds";
+$GLOBALS['strBlockAdclicks']			= "Don't log AdClicks if the visitor already clicked on the same banner within the specified number of seconds";
+
 
 $GLOBALS['strEmailWarnings']			= "E-mail warnings";
 $GLOBALS['strAdminEmailHeaders']		= "Mail Headers for the reflection of the sender of the daily ad reports";
-$GLOBALS['strWarnLimit']			= "Warn Limit";
-$GLOBALS['strWarnLimitErr']			= "Warn Limit should be a positive integer";
-$GLOBALS['strWarnAdmin']			= "Warn Admin";
-$GLOBALS['strWarnClient']			= "Warn Advertiser";
-$GLOBALS['strQmailPatch']			= "Enable qmail patch";
-
-$GLOBALS['strRemoteHosts']			= "Remote hosts";
-$GLOBALS['strIgnoreHosts']			= "Ignore Hosts";
-$GLOBALS['strReverseLookup']			= "Reverse DNS Lookup";
-$GLOBALS['strProxyLookup']			= "Proxy Lookup";
+$GLOBALS['strWarnLimit']				= "Warn Limit";
+$GLOBALS['strWarnLimitErr']				= "Warn Limit should be a positive integer";
+$GLOBALS['strWarnAdmin']				= "Warn Admin";
+$GLOBALS['strWarnClient']				= "Warn Advertiser";
+$GLOBALS['strQmailPatch']				= "Enable qmail patch";
 
 $GLOBALS['strAutoCleanTables']			= "Database pruning";
 $GLOBALS['strAutoCleanStats']			= "Prune statistics";
 $GLOBALS['strAutoCleanUserlog']			= "Prune user log";
 $GLOBALS['strAutoCleanStatsWeeks']		= "Maximum age of statistics <br>(3 weeks minimum)";
-$GLOBALS['strAutoCleanUserlogWeeks']		= "Maximum age of user log <br>(3 weeks minimum)";
-$GLOBALS['strAutoCleanErr']			= "Maximum age must be at least 3 weeks";
+$GLOBALS['strAutoCleanUserlogWeeks']	= "Maximum age of user log <br>(3 weeks minimum)";
+$GLOBALS['strAutoCleanErr']				= "Maximum age must be at least 3 weeks";
 $GLOBALS['strAutoCleanVacuum']			= "VACUUM ANALYZE tables every night"; // only Pg
 
 
