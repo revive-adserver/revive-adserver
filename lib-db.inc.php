@@ -99,7 +99,7 @@ function phpAds_dbNumRows($res)
 
 function phpAds_dbFetchArray($res)
 {
-	return @mysql_fetch_array($res);
+	return @mysql_fetch_array($res, MYSQL_ASSOC);
 }
 
 

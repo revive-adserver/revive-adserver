@@ -29,6 +29,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			    when the database connection is shared with another product or script  (Niels) 20011111
 			  - Added width and height to the array returned by view_raw()  (Niels) 20011115
 			  - Added backwards compatibility for mixed case parameters  (Niels) 20011115
+			  - Added speed optimalisation, only associate array is used  (Niels) 20011116
 
 			+ Misc bugfixes
 			  - Removed extra comma from config.inc  (Matteo) 20011017
@@ -47,6 +48,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: target was replaced in HTML banners, even if the new target was empty  (Niels) 20011109
 			  - Bugfix: Link to ACL page was shown even if they were disabled  (Niels) 20011110
 			  - Bugfix: Removed extra return at the end of the banner-edit.php file  (Niels) 20011110
+			  - Bugfix: Zonecache still included banners  (Niels) 20011116
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
