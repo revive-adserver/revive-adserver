@@ -110,6 +110,7 @@ $strAllow = "Доступ открыт для";
 $strDeny = "Доступ закрыт для";
 $strConfirmResetStats = "Do you really want to reset stats for this client ?";
 $strExpiration = "Expiration";
+$strNoExpiration = "No expiration date set";
 $strDaysLeft = "Days left";
 $strEstimated = "Estimated expiration";
 $strConfirm = "Are you sure ?";

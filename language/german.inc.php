@@ -111,6 +111,7 @@ $strDeny = "Verweigern";
 $strResetStats = "Statistik zur&uuml;cksetzen";
 $strConfirmResetStats = "Wollen Sie wirklich die Statistik dieses Kunden zur&uuml;cksetzen ?";
 $strExpiration = "Ablaufdatum";
+$strNoExpiration = "No expiration date set";
 $strDaysLeft = "verbleibende Tage";
 $strEstimated = "Gesch&auml;tztes Ablaufdatum";
 $strConfirm = "Sind Sie sicher ?";

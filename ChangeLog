@@ -1,7 +1,8 @@
 phpAdsNew - ChangeLog
-
-v 1.9.2 - 08/03/2001
+			+ Added the no stats for this banner message in the client stats (Cedric)
+			+ Translate No expiration date set also (Cedric)
 			+ Bugfix: weekly stats didn't work correctly with multiple banners client (Cedric thanks to Niels)
+v 1.9.2 - 08/03/2001
 			+ Removed config2.inc.php (Phil)
 			+ Bugfix: removed hourly graph for compact statistics (Niels)
 			+ Bugfix: client statistics is working again, no more SQL errors (Niels)

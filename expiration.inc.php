@@ -26,7 +26,7 @@ function days_left($clientID)
     global $phpAds_tbl_adstats, $phpAds_compact_stats;
 
 	// uses the following language settings:
-	global $strExpiration, $strDaysLeft, $strEstimated;
+	global $strExpiration, $strNoExpiration, $strDaysLeft, $strEstimated;
 
 	// preset return values
 	$estimated_end = "-";
@@ -162,7 +162,7 @@ function days_left($clientID)
 	$days_left = $days_left>0?$days_left:0;
 	if (my_substr_count($rawexpire,"0")==8)
 	{
-		$ret_val[] = $strExpiration.": No expiration date set";
+		$ret_val[] = $strExpiration.": ".$strNoExpiration;
 	} else
 	{
 		if ( $absolute )

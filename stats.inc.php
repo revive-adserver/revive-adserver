@@ -31,87 +31,101 @@ while ($row_banners = mysql_fetch_array($res_banners))
 		?>
 		</td>
 	</tr>
-	<tr>
-		<td bgcolor="#eeeeee" width="90%">
 		<?
 		    $adviews = db_total_views($row_banners["bannerID"]);
-    		print "$strViews:";
-		?>
-		</td>
-		<td bgcolor="<?echo $bgcolor;?>" width="10%"><b>
-		<?
-		print $adviews;
-		$totaladviews += $adviews;
-		?>
-		</b>
-		</td>
-	</tr>
-	<tr>
-		<td bgcolor="#eeeeee" width="90%">
-		<?
 		    $adclicks = db_total_clicks($row_banners["bannerID"]);
-    		print "$strClicks:";
-		?>
-		</td>
-		<td bgcolor="<?echo $bgcolor;?>" width="10%"><b>
-		<?
-    		print $adclicks;
-    		$totaladclicks += $adclicks;
-		?>
-		</b>
-		</td>
-	</tr>
-	<tr>
-		<td bgcolor="#eeeeee" width="90%">
-		<?
-		print "$strRatio:";
-		?>
-		</td>
-		<td bgcolor="<?echo $bgcolor;?>" width="10%"><b>
-		<?
-		if ($adclicks != 0 && $adviews != 0)
-		{
-			$percent = 100 / ($adviews/$adclicks);
-			printf(" %.2f%%", $percent);
-		}
-		else
-			print "0.00%";
-		?>
-		</b>
-		</td>
-	</tr>      
-	<tr>
-		<td bgcolor="<?echo $bgcolor;?>">
-		<?
-		if ($adclicks > 0 || $adviews > 0)
-			echo "<a href=\"detailstats.php$fncpageid&bannerID=$row_banners[bannerID]\">$strDetailStats</a>";
-		?>
-		</td>
-		<?
-		if ($Session["username"] == $phpAds_admin && $Session["password"] == $phpAds_admin_pw) // only for the admin
-		{
-			if ($adclicks > 0 || $adviews > 0)
-			{
-				?>
-				<form action="resetstats.php" method="post" name="client_reset">
-				<input type="hidden" name="pageid" value="<? print $pageid; ?>">
-				<input type="hidden" name="bannerID" value="<? print $row_banners[bannerID]; ?>">
-				<td bgcolor="<?echo $bgcolor;?>">
-				<?print "<input type=submit value=\"$strResetStats\" onClick=\"return confirm('$strConfirm')\">\n";?>
-				</td>
-				</form>
+    		    if ($adclicks > 0 || $adviews > 0)
+    		    { 
+    			?>
+    			<tr>
+				<td bgcolor="#eeeeee" width="90%">
 				<?
-			}
-		}
-		else
-		{	
+    				print "$strViews:";
+				?>
+				</td>
+				<td bgcolor="<?echo $bgcolor;?>" width="10%"><b>
+				<?
+				print $adviews;
+				$totaladviews += $adviews;
+				?>
+				</b>
+				</td>
+			</tr>
+			<tr>
+				<td bgcolor="#eeeeee" width="90%">
+				<?
+    				print "$strClicks:";
+				?>
+				</td>
+				<td bgcolor="<?echo $bgcolor;?>" width="10%"><b>
+				<?
+    				print $adclicks;
+    				$totaladclicks += $adclicks;
+				?>
+				</b>
+				</td>
+			</tr>
+			<tr>
+				<td bgcolor="#eeeeee" width="90%">
+				<?
+				print "$strRatio:";
+				?>
+				</td>
+				<td bgcolor="<?echo $bgcolor;?>" width="10%"><b>
+				<?
+				if ($adclicks != 0 && $adviews != 0)
+				{
+					$percent = 100 / ($adviews/$adclicks);
+					printf(" %.2f%%", $percent);
+				}
+				else
+				print "0.00%";
+				?>
+				</b>
+				</td>
+			</tr>      
+			<tr>
+				<td bgcolor="<?echo $bgcolor;?>">
+				<?
+				if ($adclicks > 0 || $adviews > 0)
+				echo "<a href=\"detailstats.php$fncpageid&bannerID=$row_banners[bannerID]\">$strDetailStats</a>";
+				?>
+				</td>
+				<?
+				if ($Session["username"] == $phpAds_admin && $Session["password"] == $phpAds_admin_pw) // only for the admin
+				{
+					if ($adclicks > 0 || $adviews > 0)
+					{
+						?>
+						<form action="resetstats.php" method="post" name="client_reset">
+						<input type="hidden" name="pageid" value="<? print $pageid; ?>">
+						<input type="hidden" name="bannerID" value="<? print $row_banners[bannerID]; ?>">
+						<td bgcolor="<?echo $bgcolor;?>">
+						<?print "<input type=submit value=\"$strResetStats\" onClick=\"return confirm('$strConfirm')\">\n";?>
+						</td>
+						</form>
+						<?
+					}
+				}
+				else
+				{	
+					?>
+						<td bgcolor="<?echo $bgcolor;?>">&nbsp;</td>
+					<?
+				}
+				?>
+			</tr>
+			<? 
+		}else{
+			?> 
+			<td bgcolor="#F7F7F7" colspan="2"> 
+			<b><font color="#FF0000"><? 
+			print "$strBannerNoStats";
 			?>
-				<td bgcolor="<?echo $bgcolor;?>">&nbsp;</td>
+			<b></font> 
+			</td> 
 			<?
-		}
-		?>
-	</tr>
-	<?
+		} 
 }
 ?>
 	<tr>
@@ -147,4 +161,4 @@ if ($totaladclicks > 0 || $totaladviews > 0)
 </table>
 </td></tr>
 </table>
-<a href=logout.php>Logout</a>
+<a href=logout.php><? print"$strLogout";?></a>

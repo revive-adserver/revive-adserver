@@ -109,6 +109,7 @@ $strDeny = "Weigeren";
 $strResetStats = "Wis Statistieken";
 $strConfirmResetStats = "Wil u echt de statistieken wissen voor deze klant ?";
 $strExpiration = "Vervalling";
+$strNoExpiration = "No expiration date set";
 $strDaysLeft = "Dagen te gaan";
 $strEstimated = "Geschatte vervaldag";
 $strConfirm = "Bent u zeker ?";

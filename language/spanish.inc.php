@@ -109,6 +109,7 @@ $strDeny = "Negado";
 $strResetStats = "Poner las estadísticas en ceros";
 $strConfirmResetStats = "De verdad quiere poner en ceros las estadísticas de este cliente ?";
 $strExpiration = "Expiración";
+$strNoExpiration = "No expiration date set";
 $strDaysLeft = "Días restantes";
 $strEstimated = "Tiempo restante estimado";
 $strConfirm = "Seguro ?";
