@@ -1,4 +1,4 @@
-<? // $id:
+<? // $id$
 
 if(!isset($pageid)) $pageid = "";
 $fncpageid = "?pageid=$pageid";
@@ -59,7 +59,7 @@ td { font-family: Arial, Helvetica, sans-serif; font-size: 10pt }
 <table border="0" cellspacing="0" cellpadding="1" align="center" bgcolor="<?print $phpAds_table_border_color;?>">
 	<tr>
 		<td>
-		<table border="0" align="center" bgcolor="<?print $phpAds_main_back_color;?>" cellspacing="0" cellpadding="5">
+		<table border="0" width="100%" align="center" bgcolor="<?print $phpAds_main_back_color;?>" cellspacing="0" cellpadding="5">
 			<tr bgcolor="<?print $phpAds_table_border_color;?>"> 
 				<td align=center><span class="heading"><?echo "$phpAds_name $title";?></span></td>
 			</tr>
@@ -99,7 +99,9 @@ function show_message($message)
 function mysql_die()
 {
 	global $strMySQLError;
-	echo "$strMySQLError: <br>";
+    global $phpAds_last_query;
+
+	echo "$strMySQLError: <br>$phpAds_last_query<br>";
 	echo mysql_error();
 	page_footer();
 	exit;

@@ -34,11 +34,11 @@ if (isset($submit))
 	if($clicks>0 OR $views>0 OR $clicks==-1 OR $views==-1)
 	{
 		$active="true";
-		mysql_db_query($phpAds_db, "UPDATE $phpAds_tbl_banners SET active='$active' WHERE clientID='$clientID'");
+		db_query("UPDATE $phpAds_tbl_banners SET active='$active' WHERE clientID='$clientID'");
 	}
 
 	$clientID=$Session["clientID"];
-	$res = mysql_db_query($phpAds_db, "
+	$res = db_query("
 		REPLACE INTO
 			$phpAds_tbl_clients(clientID,
 			clientname,
@@ -70,7 +70,7 @@ page_header("$phpAds_name");
 if (isset($clientID))
 {
 	show_nav("1.2");
-	$res = mysql_db_query($phpAds_db, "
+	$res = db_query("
 		SELECT
 			*,
 			to_days(expire) as expire_day,

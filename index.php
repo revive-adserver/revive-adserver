@@ -18,9 +18,11 @@ if(!isset($clientID) && $Session["username"] == $phpAds_admin && $Session["passw
 	exit;
 }
 
+echo "<!-- $Session[username]/$username, $Session[password]/$password -->\n";
+
 page_header();
 show_nav("2");
-$res_banners = mysql_db_query($phpAds_db, "
+$res_banners = db_query("
 	SELECT
 		banner,
 		bannerID,

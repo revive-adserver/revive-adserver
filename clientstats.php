@@ -7,7 +7,7 @@ page_header($strStats);
 show_nav("1.4");
 if (!isset($clientID))
 	$clientID = $Session["clientID"];
-$res_banners = mysql_db_query($phpAds_db, "
+$res_banners = db_query("
 	SELECT
 		banner,
 		bannerID,

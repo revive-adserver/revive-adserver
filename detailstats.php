@@ -8,7 +8,7 @@ if (!isset($bannerID))
 
 if($pageid == "client")
 {
-    $result = mysql_db_query($phpAds_db, "
+    $result = db_query("
 		SELECT
 			clientID
 		FROM

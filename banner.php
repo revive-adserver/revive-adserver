@@ -15,7 +15,7 @@ if (isset($clientID) && !empty($clientID))
 	$Session["clientID"] = $clientID;
 elseif(!isset($Session["clientID"]) || empty($Session["clientID"]))
 	$Session["clientID"] = 0;
-$res = mysql_db_query($phpAds_db, "
+$res = db_query("
 	SELECT
 		*
 	FROM

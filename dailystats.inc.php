@@ -3,7 +3,7 @@
 function stats($what)
 {
 	global $phpAds_db, $phpAds_url_prefix;
-	$result = mysql_db_query($phpAds_db, "
+	$result = db_query("
 		SELECT
 			*,
 			DATE_FORMAT(t_stamp, '$GLOBALS[time_format]') as t_stamp_f,
@@ -63,7 +63,7 @@ function stats($what)
 		?>
 	<tr><td colspan=3 bgcolor='#FFFFFF'><b><?print($strTopTenHosts);?>:</b></td></tr>
 	<?
-	$result = mysql_db_query($phpAds_db, "
+	$result = db_query("
 		SELECT
 			*,
 			count(*) as qnt

@@ -44,7 +44,7 @@ function days_left($clientID)
 			$phpAds_tbl_clients
 		WHERE 
 			clientID = ".$clientID;
-	$res_client = mysql_db_query($phpAds_db, $client_query) or mysql_die() ;
+	$res_client = db_query($client_query) or mysql_die() ;
 	if ( mysql_num_rows($res_client)==1)
 	{
 		$row_client = mysql_fetch_array($res_client);
@@ -74,7 +74,7 @@ function days_left($clientID)
 					AND
 					b.bannerID = v.bannerID";
 
-			$res_views = mysql_db_query($phpAds_db, $view_query) or mysql_die() ;
+			$res_views = db_query($view_query) or mysql_die() ;
 			if ( mysql_num_rows($res_views)==1 )
 			{
 				$row_views = mysql_fetch_array($res_views);
@@ -100,7 +100,7 @@ function days_left($clientID)
 							b.clientID = $clientID
 							AND
 							b.bannerID = c.bannerID";
-					$res_clicks = mysql_db_query($phpAds_db, $click_query) or mysql_die() ;
+					$res_clicks = db_query($click_query) or mysql_die() ;
 					if ( mysql_num_rows($res_clicks)==1)
 					{
 						$row_clicks = mysql_fetch_array($res_clicks);

@@ -7,8 +7,8 @@ $where=urldecode($where);
 mysql_select_db($phpAds_db);
 $query="select count(*), DATE_FORMAT(t_stamp, '%k') as hour from $phpAds_tbl_adviews where ($where) GROUP BY hour";
 $query2="select count(*), DATE_FORMAT(t_stamp, '%k') as hour from $phpAds_tbl_adclicks where ($where) GROUP BY hour";
-$result = mysql_query($query);
-$result2 = mysql_query($query2);
+$result = db_query(($query);
+$result2 = db_query(($query2);
 
 $text=array(
 	"value1" => $GLOBALS['strViews'],

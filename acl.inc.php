@@ -3,7 +3,7 @@ function acl_check($request, $row) {
 	global $phpAds_tbl_acls;
 	global $phpAds_db;
 	$bannerID = $row['bannerID'];
-	if (($res = mysql_db_query($phpAds_db, "SELECT * FROM $phpAds_tbl_acls
+	if (($res = db_query("SELECT * FROM $phpAds_tbl_acls
 		WHERE bannerID = $bannerID ORDER by acl_order")) == 0){ 
 		return(0);
 	}
@@ -13,12 +13,10 @@ function acl_check($request, $row) {
 				$result = acl_check_clientip($request, $aclrow);
 				break;
 			case 'useragent':
-				$result = acl_check_useragent($request,
-								$aclrow);
+				$result = acl_check_useragent($request, $aclrow);
 				break;
 			case 'weekday':
-				$result = acl_check_weekday($request,
-								$aclrow);
+				$result = acl_check_weekday($request, $aclrow);
 				break;
 			case 'domain':
 				$result = acl_check_domain($request, $aclrow);
@@ -42,7 +40,7 @@ function acl_check($request, $row) {
 function acl_check_weekday($request, $aclrow) {
 	$data = $aclrow['acl_data'];
 	$day = $request['weekday'];
-	if ($day == $data) {
+	if ($data == "*" || $day == $data) {
 		switch ($aclrow['acl_ad']) {
 			case 'allow':
 				return(1);
@@ -59,7 +57,7 @@ function acl_check_weekday($request, $aclrow) {
 function acl_check_useragent($request, $aclrow) {
 	$data = $aclrow['acl_data'];
 	$agent = $request['user_agent'];
-	if (eregi($data, $agent)) {
+	if ($data == "*" || eregi($data, $agent)) {
 		switch ($aclrow['acl_ad']) {
 			case 'allow':
 				return(1);
@@ -82,7 +80,7 @@ function acl_check_clientip($request, $aclrow) {
 	$pmask = pack('C4', $mask[0], $mask[1], $mask[2], $mask[3]);
 	$host = explode('.', $host);
 	$phost = pack('C4', $host[0], $host[1], $host[2], $host[3]);
-	if (($phost & $pmask) == $pnet) {
+	if ($data == "*" || ($phost & $pmask) == $pnet) {
 		switch ($aclrow['acl_ad']) {
 			case 'allow':
 				return(1);
@@ -102,12 +100,12 @@ function acl_check_domain($request, $aclrow) {
 	if ($host == $ip)
 	{
 		return(-1);
-	} else
+	} 
+    else
 	{
-		$pos = strrpos($host,".");
-		$domain = substr($host,$pos+1);
-		if (strtolower($domain) == strtolower($data))
-		{
+		$domain = substr($host,-(strlen($data)+1));
+		if ($data == "*" || strtolower($domain) == strtolower(".$data"))
+        {
 			switch ($aclrow['acl_ad']) {
 				case 'allow':
 					return(1);
@@ -117,14 +115,14 @@ function acl_check_domain($request, $aclrow) {
 					return(-1);
 			}
 		}
-		return(0);
+		return(-1);
 	}
 }
 
 function acl_check_source($request, $aclrow) {
 	$data = $aclrow['acl_data'];
 	$source = $request['source'];
-	if (strtolower($source) == strtolower($data))
+	if ($data == "*" || strtolower($source) == strtolower($data))
 	{
 		switch ($aclrow['acl_ad']) {
 			case 'allow':
@@ -135,13 +133,13 @@ function acl_check_source($request, $aclrow) {
 				return(-1);
 		}
 	}
-	return(0);
+	return(-1);
 }
 
 function acl_check_time($request, $aclrow) {
 	$data = $aclrow['acl_data'];
 	$time = $request['time'];
-	if ($time == $data) {
+	if ($data == "*" || $time == $data) {
 		switch ($aclrow['acl_ad']) {
 			case 'allow':
 				return(1);

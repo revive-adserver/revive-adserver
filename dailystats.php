@@ -11,7 +11,7 @@ if($pageid  == "admin") //Allen 7/26/99 - allenb@home-networking.org
 
 if($pageid  == "client")
 {
-	$result = mysql_db_query($phpAds_db, "
+	$result = db_query("
 		SELECT
 			clientID
 		FROM

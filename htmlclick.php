@@ -4,12 +4,12 @@ require("config.php");
 
 if($phpAds_log_adclicks)
 {
-	$getclientID=mysql_db_query($GLOBALS["phpAds_db"], "SELECT clientID FROM $phpAds_tbl_banners WHERE bannerID='$bannerID'");
+	$getclientID=db_query("SELECT clientID FROM $phpAds_tbl_banners WHERE bannerID='$bannerID'");
 	if($gotclientID=mysql_fetch_array($getclientID))
 	{
 		$clientID=$gotclientID["clientID"];
 	}
-	$currentclick=mysql_db_query($GLOBALS["phpAds_db"], "SELECT * FROM $phpAds_tbl_clients WHERE clientID='$clientID' and clicks > 0");
+	$currentclick=db_query("SELECT * FROM $phpAds_tbl_clients WHERE clientID='$clientID' and clicks > 0");
 	if($clickcount=mysql_fetch_array($currentclick))
 	{
 		$clickcount["clicks"]=$clickcount["clicks"]-1;
@@ -17,10 +17,10 @@ if($phpAds_log_adclicks)
 		if($clickcount["clicks"]==$phpAds_warn_limit)
 			warn_mail($clickcount);
 
-		mysql_db_query($GLOBALS["phpAds_db"], "UPDATE $phpAds_tbl_clients SET clicks='$clickcount[clicks]' WHERE clientID='$clientID'");
+		db_query("UPDATE $phpAds_tbl_clients SET clicks='$clickcount[clicks]' WHERE clientID='$clientID'");
 		// Check click count and de-activate banner if needed
 		if($clickcount["views"]==0 && $clickcount["clicks"]==0)
-			mysql_db_query($GLOBALS["phpAds_db"], "UPDATE $phpAds_tbl_banners SET active='false' WHERE clientID='$clientID'");
+			db_query("UPDATE $phpAds_tbl_banners SET active='false' WHERE clientID='$clientID'");
 	}
 
 	if($phpAds_reverse_lookup)
@@ -37,7 +37,7 @@ if($phpAds_log_adclicks)
 
 	if ($found == 0)
 	{
-		$res = @mysql_db_query($phpAds_db, sprintf("
+		$res = @db_query(sprintf("
 			INSERT %s
 			INTO
 				$phpAds_tbl_adclicks

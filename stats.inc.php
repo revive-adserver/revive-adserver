@@ -31,7 +31,7 @@ while ($row_banners = mysql_fetch_array($res_banners))
 	<tr>
 		<td bgcolor="#eeeeee" width="90%">
 		<?
-		$res_adviews = mysql_db_query($phpAds_db, "
+		$res_adviews = db_query("
 			SELECT
 				count(*) as qnt
 			FROM
@@ -54,7 +54,7 @@ while ($row_banners = mysql_fetch_array($res_banners))
 	<tr>
 		<td bgcolor="#eeeeee" width="90%">
 		<?
-		$res_adclicks = mysql_db_query($phpAds_db, "
+		$res_adclicks = db_query("
 			SELECT
 				count(*) as qnt
 			FROM

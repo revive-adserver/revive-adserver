@@ -6,7 +6,7 @@ require ("config.php");
 if(!isset($bannerID))
 	php_die("hu?", "Where is my ID? I've lost my ID! Moooommmeee... I want my ID back!");
 
-$res = mysql_db_query($phpAds_db, "
+$res = db_query("
 	SELECT
 		*
 	FROM

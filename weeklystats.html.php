@@ -200,7 +200,7 @@ function stats() // generate weekly statistics
 			'.$phpAds_tbl_banners.'
 		WHERE 
 			clientID = '.$clientID;
-	$res = mysql_db_query($phpAds_db, $banner_query) or mysql_die();
+	$res = db_query($banner_query) or mysql_die();
 
 	$countbanners = mysql_num_rows($res);
 	if ( $countbanners == 1 )   // single banner client
@@ -237,7 +237,7 @@ function stats() // generate weekly statistics
 		WHERE '.
 			$where;
 	// echo $global_view_query;			   
-	$views_global = mysql_db_query($phpAds_db, $global_view_query) or mysql_die();
+	$views_global = db_query($global_view_query) or mysql_die();
 	list($total_views, $views_last_day_index, $views_first_day_index) = mysql_fetch_row($views_global);
 	mysql_free_result($views_global);
 
@@ -252,7 +252,7 @@ function stats() // generate weekly statistics
 		WHERE '.
 			$where;
 		// echo $global_click_query;			   
-	$clicks_global = mysql_db_query($phpAds_db, $global_click_query) or mysql_die();
+	$clicks_global = db_query($global_click_query) or mysql_die();
 	list($total_clicks, $clicks_last_day_index, $clicks_first_day_index) = mysql_fetch_row($clicks_global);
 	mysql_free_result($clicks_global);
 
@@ -277,7 +277,7 @@ function stats() // generate weekly statistics
 		ORDER BY
 			abs_day DESC
 		LIMIT '.$max_weeks*7;
-	$view_daily = mysql_db_query($phpAds_db, $view_query) or mysql_die();
+	$view_daily = db_query($view_query) or mysql_die();
 
 	// get clicks daily data
 	$click_query="
@@ -298,7 +298,7 @@ function stats() // generate weekly statistics
 		ORDER BY
 			abs_day DESC
 		LIMIT ".$max_weeks*7;
-	$click_daily = mysql_db_query($phpAds_db, $click_query) or mysql_die();
+	$click_daily = db_query($click_query) or mysql_die();
 
 	// now let's join the daily data in a days array
 	$days = array();

@@ -11,7 +11,7 @@ print "<CENTER>Client name begins with : ";
 for ($x=0;$x<26;$x=$x+1)
 {
 	$num_other_clients_query=$num_other_clients_query."clientname NOT LIKE \"".chr($x+65)."%\" AND clientname NOT like \"".chr($x+97)."%\" AND ";
-	$res_num_clients = mysql_db_query($phpAds_db, "SELECT count(clientID) FROM $phpAds_tbl_clients where clientname like \"".chr($x+65)."%\" or clientname like \"".chr($x+97)."%\"") or mysql_die();
+	$res_num_clients = db_query("SELECT count(clientID) FROM $phpAds_tbl_clients where clientname like \"".chr($x+65)."%\" or clientname like \"".chr($x+97)."%\"") or mysql_die();
 	if ($res_num_clients && MYSQL_RESULT($res_num_clients,0,"count(clientID)") > 0)
 		print "<A HREF=$PHP_SELF?pageid=$pageid&startletter=".chr($x+97).">".chr($x+97)."</A> ";
 	else
@@ -19,7 +19,7 @@ for ($x=0;$x<26;$x=$x+1)
 }
 $num_other_clients_query=substr($num_other_clients_query,0,strlen($num_other_clients_query)-4);
 $num_other_clients_query_complete="SELECT count(clientID) FROM $phpAds_tbl_clients WHERE ".$num_other_clients_query;
-$res_num_other_clients = mysql_db_query($phpAds_db, $num_other_clients_query_complete);
+$res_num_other_clients = db_query($num_other_clients_query_complete);
 if ($res_num_other_clients && MYSQL_RESULT($res_num_other_clients,0,"count(clientID)") > 0)
 	print "<A HREF=$PHP_SELF?pageid=$pageid&startletter=other>Other</A>";
 else
@@ -53,7 +53,7 @@ if (isset($startletter) && strlen($startletter)>0)
 $client_query=$client_query."
 	ORDER BY
 		clientID";
-$res_clients = mysql_db_query($phpAds_db, $client_query) or mysql_die() ;
+$res_clients = db_query($client_query) or mysql_die() ;
 
 ?>
 <table width="100%" cellpadding=3 cellspacing=1 border=0>
@@ -75,7 +75,7 @@ while ($row_clients = mysql_fetch_array($res_clients))
 		</td>
 	</tr>
 	<?
-	$res_banners = mysql_db_query($phpAds_db, "
+	$res_banners = db_query("
 		SELECT
 			bannerID,
 			banner,
@@ -103,7 +103,7 @@ while ($row_clients = mysql_fetch_array($res_clients))
 		</td>
 		<td bgcolor="#eeeeee"><?print $strViews;?>: 
 		<?
-		$res_adviews = mysql_db_query($phpAds_db, "
+		$res_adviews = db_query("
 			SELECT
 				count(bannerID)
 			FROM
@@ -117,7 +117,7 @@ while ($row_clients = mysql_fetch_array($res_clients))
 		</td>
 		<td bgcolor="#eeeeee"><?print $strClicks;?>:
 		<?
-		$res_adclicks = mysql_db_query($phpAds_db, "
+		$res_adclicks = db_query("
 			SELECT
 				count(bannerID)
 			FROM

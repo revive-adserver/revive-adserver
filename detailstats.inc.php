@@ -3,7 +3,7 @@
 function stats($what, $totalTitle, $avgTitle)
 {
 	global $phpAds_db, $date_format, $phpAds_url_prefix,$pageid,$fncpageid;
-	$result = mysql_db_query($phpAds_db, "
+	$result = db_query("
 		SELECT
 			*,
 			count(*) as qnt,

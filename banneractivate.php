@@ -8,7 +8,7 @@ if ($value == "true")
 	$value = "false";
 else
 	$value = "true";
-$res = mysql_db_query($phpAds_db, "
+$res = db_query("
 	UPDATE
 		$phpAds_tbl_banners
 	SET

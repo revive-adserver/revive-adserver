@@ -1,4 +1,4 @@
-<? // $id:
+<? // $id$
 
 require("config.inc.php");
 require("view.inc.php");

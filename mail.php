@@ -2,7 +2,7 @@
 require ("config.php");
 require("nocache.inc.php");
 
-$res_clients = mysql_db_query($phpAds_db, "
+$res_clients = db_query("
 	SELECT
 		clientID,
 		clientname,
@@ -35,7 +35,7 @@ while($row_clients = mysql_fetch_array($res_clients))
 	flush();
     
 	// Fetch all banners belonging to client   
-	$res_banners = mysql_db_query($phpAds_db, "
+	$res_banners = db_query("
 		SELECT
 			bannerID,
 			clientID,
@@ -59,7 +59,7 @@ while($row_clients = mysql_fetch_array($res_clients))
 		flush();
 
 		// Total adviews
-		$res_adviews = mysql_db_query($phpAds_db, "
+		$res_adviews = db_query("
 			SELECT
 				count(*) as qnt
 			FROM
@@ -72,7 +72,7 @@ while($row_clients = mysql_fetch_array($res_clients))
 		$logs[$i] .= " $strViews: $row_adviews[qnt] total\n";
 
 		// Fetch all adviews belonging to banner belonging to client, grouped by day
-		$res_adviews = mysql_db_query($phpAds_db, "
+		$res_adviews = db_query("
 			SELECT
 				*,
 				count(*) as qnt,
@@ -93,7 +93,7 @@ while($row_clients = mysql_fetch_array($res_clients))
 			$logs[$i] .= "  $row_adviews[t_stamp_f]: $row_adviews[qnt]\n";
         
 		// Total adclicks
-		$res_adclicks = mysql_db_query($phpAds_db, "
+		$res_adclicks = db_query("
 			SELECT
 				count(*) as qnt
 			FROM
@@ -107,7 +107,7 @@ while($row_clients = mysql_fetch_array($res_clients))
 		$logs[$i] .= " $strClicks: $row_adclicks[qnt] total\n";                  
 
 		// Fetch all adclicks belonging to banner belonging to client, grouped by day
-		$res_adclicks = mysql_db_query($phpAds_db, "
+		$res_adclicks = db_query("
 			SELECT
 				*,
 				count(*) as qnt,
@@ -142,7 +142,7 @@ for($i=0; $i<count($logs); $i++)
 		$client_name = $clients[$i]["clientname"];
 		unset ($client_ID);
 		$client_ID = $clients[$i]['clientID'];
-		$result = mysql_db_query($phpAds_db,"
+		$result = db_query("
 			UPDATE
 				$phpAds_tbl_banners
 			SET

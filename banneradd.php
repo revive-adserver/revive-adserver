@@ -1,4 +1,5 @@
 <?
+/* $Id$ */
 
 require ("config.php");
 require("kcsm.php");
@@ -101,7 +102,7 @@ if (isset($submit))
 				($values_fields)
 			VALUES
 			($values)";
-		$res = mysql_db_query($phpAds_db, $sql_query) or mysql_die();     
+		$res = db_query($sql_query) or mysql_die();     
 	}
 	else 
 	{ // UPDATE
@@ -122,10 +123,20 @@ if (isset($submit))
 				$set
 			WHERE
 				bannerID = $final[bannerID]";
-		$res = mysql_db_query($phpAds_db, $sql_query) or mysql_die();     
+		$res = db_query($sql_query) or mysql_die();     
 	}
 	unset($Session["bannerID"]); 
+   
+   if ($return == "stats") {
+      Header("Location: clientstats.php$fncpageid&message=".urlencode($message));
+   }
+   elseif ($return == "close") {
+      echo "<html><head></head><body onload=\"window.close()\"></body></html>";
+   }
+   else {
 	Header("Location: banner.php$fncpageid&message=".urlencode($message));
+   }
+   
 	exit;
 }
 page_header("$strBannerAdmin");
@@ -133,7 +144,7 @@ page_header("$strBannerAdmin");
 if (isset($bannerID))
 {
 	show_nav("1.3.2");
-	$res = mysql_db_query($phpAds_db, "
+	$res = db_query("
 		SELECT
 			*
 		FROM
@@ -151,9 +162,45 @@ else
 {
 	show_nav("1.3.1");   
 }
+
+// determine if we're running IE 
+$isiepos = strpos($HTTP_USER_AGENT,"MSIE"); 
+$isie = ( $isiepos>0 ? substr($HTTP_USER_AGENT,$isiepos+5,3) : 0 ); 
+
 ?>
 
+<? if ($isie) { ?>
+
+    <SCRIPT>
+    function show(n)
+    {
+        ss="none"; sh="none"; su="none";
+        if (n==1) {
+          ss="";
+        } else if (n==2) {
+          su="";
+        } else {
+          sh="";
+        }
+        mysqlForm.style.display=ss; 
+        htmlForm.style.display=sh; 
+        urlForm.style.display=su; 
+    }
+    
+    </SCRIPT>
+    
+    <SCRIPT FOR=window EVENT=onload LANGUAGE="JScript">
+      <?php
+        if (!isset($type) || $type == "mysql") echo "  show(1);\n";
+        if (isset($type) && $type == "url") echo "  show(2);\n";
+        if (isset($type) && $type == "html") echo "  show(3);\n";
+      ?>
+    </SCRIPT>
+    
+<? } ?>
+
 <form action="<?echo basename($PHP_SELF);?>" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="return" value="<? echo ($return) ?>">
 	<input type="hidden" name="pageid" value="<? echo ($pageid) ?>">
 	<table width="100%" cellspacing="0" cellpadding="1" bgcolor="#000099">
 	<?
@@ -171,22 +218,38 @@ else
 			<font color="#FFFFFF"><b><?echo $strChooseBanner;?></b></font>
 			<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#FFFFFF">
 				<tr>
-					<td>
-					<table>
-							<tr>
-								<td colspan=2 bgcolor="#000099" align=CENTER> <font color="#FFFFFF"><b> 
-               							<input type="radio" name="bannertype" value="mysql"<?if (isset($type) && $type == "mysql") echo " checked";if (!isset($type)) echo "checked"?>>
+				<td colspan=2 bgcolor="#000099">
+                    <table border=0 width="100%" cellspacing=0 cellpadding=0>
+                        <tr>
+                              <td bgcolor="#000099" align=CENTER> <font color="#FFFFFF"><b> 
+                                <input type="radio" name="bannertype" value="mysql"<?if (isset($type) && $type == "mysql") echo " checked";if (!isset($type)) echo " checked"?> onclick="show(1)">
 								<?echo $strMySQLBanner;?></b></font></td>
+<? if ($isie) { ?>
+                              <td bgcolor="#000099" align=CENTER> <font color="#FFFFFF"><b> 
+                                <input type="radio" name="bannertype" value="url"<?if (isset($type) && $type == "url") echo " checked";?> onclick="show(2)">
+                                <?echo $strURLBanner;?></b></font></td>
+                              <td bgcolor="#000099" align=CENTER> <font color="#FFFFFF"><b> 
+                                <input type="radio" name="bannertype" value="html"<?if (isset($type) && $type == "html") echo " checked";?> onclick="show(3)">
+                                <?echo $strHTMLBanner;?></b></font></td>
+<? } ?>
+                        </tr>
+                      </table>
 							</tr>
 							<tr>
+                      <td> 
+<? if ($isie) { ?>
+                      <div id="mysqlForm" <?if (isset($type) && $type != "mysql") echo 'style="display:none"'; ?> >
+<? } ?>
+                        <table>
+                          <tr> 
 								<td><?echo $strNewBannerFile;?></td>
 								<td><input type="file" name="mysql_banner"></td>
-							</tr>
-							<tr>
+						  </tr>
+						  <tr>
 								<td><?echo $strURL;?>:</td>
-								<td><input size="40" type="text" name="mysql_url" value="<?if (isset($type) && $type == "mysql") echo $row["url"];?>"></td>
-							</tr>
-							<tr>
+                                <td><input size="40" type="text" name="mysql_url" value="<?if (isset($type) && $type == "mysql") echo $row["url"];?>"></td>
+                          </tr>
+                          <tr> 
 								<td><?echo $strAlt;?>:</td>
 								<td><input size="40" type="text" name="mysql_alt" value="<?if (isset($type) && $type == "mysql") echo $row["alt"];?>"></td>
 							</tr>
@@ -194,11 +257,19 @@ else
 								<td><?echo $strTextBelow;?>:</td>
 								<td><input size="40" type="text" name="mysql_bannertext" value="<?if (isset($type) && $type == "mysql") echo $row["bannertext"];?>"></td>
 							</tr>
-							<tr>
+                            <tr>
+<? if (!$isie) { ?>
 								<td colspan=2 bgcolor="#000099" align=CENTER> <font color="#FFFFFF"><b> 
 								<input type="radio" name="bannertype" value="url"<?if (isset($type) && $type == "url") echo " checked";?>>
 								<?echo $strURLBanner;?></b></font></td>
-							</tr>
+<? } ?>
+                          </tr>
+                        </table>
+<? if ($isie) { ?>
+                      </div>
+                      <div id="urlForm" <?if (!isset($type) || $type != "url") echo 'style="display:none"'; ?> >
+<? } ?>
+                        <table>
 							<tr>
 								<td height="32"><?echo $strNewBannerURL;?>:</td>
 								<td height="32"><input size="40" type="text" name="url_banner" value="<?if (isset($type) && $type == "url") echo $row["banner"];?>"></td>
@@ -223,11 +294,19 @@ else
 								<td><?echo $strTextBelow;?>:</td>
 								<td><input size="40" type="text" name="url_bannertext" value="<?if (isset($type) && $type == "url") echo $row["bannertext"];?>"></td>
 							</tr>
-							<tr>
+                          <tr> 
+<? if (!$isie) { ?>
 								<td colspan=2 bgcolor="#000099" align=CENTER> <font color="#FFFFFF"><b> 
 								<input type="radio" name="bannertype" value="html"<?if (isset($type) && $type == "html") echo " checked";?>>
 								<?echo $strHTMLBanner;?></b></font></td>
-							</tr>
+<? } ?>
+                          </tr>
+                        </table>
+<? if ($isie) { ?>
+                      </div>
+                      <div id="htmlForm" <?if (!isset($type) || $type != "html") echo 'style="display:none"'; ?> >
+<? } ?>
+                        <table>
 							<tr>
 								<td><?echo $strHTML;?>:</td>
 								<td><textarea cols="40" rows="5" name="html_banner"><?if (isset($type) && $type == "html") echo $row["banner"];?></textarea></td>
@@ -237,6 +316,9 @@ else
 								<td><input size="40" type="text" name="html_url" value="<?if (isset($type) && $type == "html") echo $row["url"];?>"></td>
 							</tr>
 					</table>
+<? if ($isie) { ?>
+                       </div>
+<? } ?>
 					</td>
 				</tr>
 			</table>
@@ -246,12 +328,12 @@ else
 
 	<table cellpadding=0 cellspacing=0 width="100%">
 		<tr> 
-			<td><?echo $strKeyword;?>:</td>
-			<td><input size="40" type="text" name="keyword" value="<?if(isset($row["keyword"]))echo $row["keyword"];?>"></td>
+            <td><?echo $strKeyword;?>:</td>
+            <td><input size="40" type="text" name="keyword" value="<?if(isset($row["keyword"]))echo $row["keyword"];?>"></td>
 		</tr>
 		<tr>
 			<td><?echo $strWeight;?>:</td>
-			<td><input size="40" type="text" name="weight" value="<?if(isset($row["weight"])){echo $row["weight"];}else{print "1";}?>"></td>
+			<td><input size="6" type="text" name="weight" value="<?if(isset($row["weight"])){echo $row["weight"];}else{print "1";}?>"></td>
 		</tr>
 		<tr> 
 			<td><?echo $strSubmit;?>:</td>

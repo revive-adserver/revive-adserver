@@ -49,6 +49,7 @@ CREATE TABLE banners (
    weight tinyint(4) default '1' NOT NULL,
    seq tinyint(4) default '0' NOT NULL,
    target varchar(8) default '' NOT NULL,
+   description varchar(255) DEFAULT '' NOT NULL,
    PRIMARY KEY (bannerID)
 );
 

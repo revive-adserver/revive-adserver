@@ -3,7 +3,7 @@
 
 require('config.php');
 require('kcsm.php');
-$result = mysql_db_query($phpAds_db, "
+$result = db_query("
 	SELECT
 		*
 	FROM

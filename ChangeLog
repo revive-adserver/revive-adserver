@@ -1,4 +1,15 @@
 phpAdsNew - ChangeLog
+                        + Several bugfixes
+                        + Changed banneradd.php layout for IE ONLY (with javascript and <DIV>s)
+                        + Added db_query() function to assist debugging mysql errors
+                        + Added description field database for future use
+                        + Fixed some language text bugs
+                        + Added/corrected some ACL help text
+                        + Fixed ACL DOMAIN FILTER bug
+                        + Added ACL "*" feature for default DENY
+                        + Added persistent connections OPTION
+                        + Fixed gd.php to determine graphics capabilities for php 4.04 (Niels Leenheer)
+                        + Div by zero error in expiration.inc.php
  v 1.8.1 - 01/02/2001
 			+ Added Login as a string (Fabian Rodriguez and me)
 			+ Bugfix: parse error in mail.php (me)

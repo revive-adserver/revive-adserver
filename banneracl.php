@@ -20,12 +20,12 @@ if (isset($submit))
 	{
 		if (!isset($acl_order)) 
 			php_die("hu?", "Where is my acl_order? I've lost my acl_orde! Moooommmeee... I want my acl_order back!");
-		$res = mysql_db_query($phpAds_db, "
+		$res = db_query("
        			DELETE FROM $phpAds_tbl_acls WHERE
          		bannerID = $bannerID AND acl_order = $acl_order ") or
 			mysql_die();
 		// get banner-acl after the deleted one
-		$res = mysql_db_query($phpAds_db, "
+		$res = db_query("
 			SELECT * FROM $phpAds_tbl_acls WHERE
 			bannerID = $bannerID AND acl_order > $acl_order") or
 			mysql_die();
@@ -33,7 +33,7 @@ if (isset($submit))
 		while ($row = mysql_fetch_array($res)) 
 		{
 			$old_order = $row['acl_order'];
-			$res1 = mysql_db_query($phpAds_db, "
+			$res1 = db_query("
 				UPDATE $phpAds_tbl_acls SET
 				acl_order = acl_order - 1 WHERE
 				acl_order = $old_order
@@ -46,7 +46,7 @@ if (isset($submit))
 	{
 		if ($update) 
 		{
-			$res = mysql_db_query($phpAds_db, "
+			$res = db_query("
 				UPDATE $phpAds_tbl_acls SET
 				acl_type = '$acl_type', acl_data = '$acl_data',
 				acl_ad = '$acl_ad' where bannerID = $bannerID 
@@ -55,7 +55,7 @@ if (isset($submit))
 		} 
 		else 
 		{
-			$res = mysql_db_query($phpAds_db, "
+			$res = db_query("
 				INSERT into $phpAds_tbl_acls SET
 				acl_order = $acl_order, bannerID = $bannerID,
 				acl_type = '$acl_type', acl_data = '$acl_data',
@@ -68,20 +68,20 @@ if (isset($submit))
 		if ($acl_order < 1) 
 			 php_die("oops", $strNoMoveUp);
         // delete current acl
-		$res = mysql_db_query($phpAds_db, "
+		$res = db_query("
 			DELETE FROM $phpAds_tbl_acls WHERE
 			bannerID = $bannerID AND acl_order = $acl_order ") or
 			mysql_die();		
 		// increment previous acl
 		$new_acl_order = $acl_order - 1;
-		$res = mysql_db_query($phpAds_db, "
+		$res = db_query("
 			UPDATE $phpAds_tbl_acls SET
 			acl_order = acl_order + 1 WHERE 
 			acl_order = $new_acl_order 
 			AND bannerID = $bannerID
 			") or mysql_die();	 
 		// insert actual acl with decremented order
-		$res = mysql_db_query($phpAds_db, "
+		$res = db_query("
 			INSERT into $phpAds_tbl_acls SET
 			acl_order = $new_acl_order, bannerID = $bannerID,
 			acl_type = '$acl_type', acl_data = '$acl_data',
@@ -90,18 +90,18 @@ if (isset($submit))
 	}
 	if ($submit == $strDown) 
 	{
-		$res = mysql_db_query($phpAds_db, "
+		$res = db_query("
 			DELETE FROM $phpAds_tbl_acls WHERE
 			bannerID = $bannerID AND acl_order = $acl_order ") or
 		mysql_die();
 		$new_acl_order = $acl_order + 1;
-		$res = mysql_db_query($phpAds_db, "
+		$res = db_query("
 			UPDATE $phpAds_tbl_acls SET
 			acl_order = acl_order - 1 WHERE 
 			acl_order = $new_acl_order
 			AND bannerID = $bannerID
 			") or mysql_die();
-		$res = mysql_db_query($phpAds_db, "
+		$res = db_query("
 			INSERT into $phpAds_tbl_acls SET
 			acl_order = $new_acl_order, bannerID = $bannerID,
 			acl_type = '$acl_type', acl_data = '$acl_data',
@@ -117,7 +117,7 @@ if (!isset($bannerID))
 }
 
 show_nav("1.3.3");
-$res = mysql_db_query($phpAds_db, "
+$res = db_query("
 	SELECT
 		*
 	FROM
@@ -153,6 +153,6 @@ showaclrow($newdata, 0, 0);
 </TABLE>
 <?	
 // show acl help file
-@require("language/banneracl.".$phpAds_language.".inc.php");	// suppress error if file not found
+include("language/banneracl.".$phpAds_language.".inc.php");
 page_footer();
 ?>

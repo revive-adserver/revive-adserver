@@ -131,17 +131,17 @@ function get_banner($what, $clientID, $context=0, $source="")
 	if($phpAds_random_retrieve == "1") // Test to see if there are any banners left in that category
 	{
 		$testselect ="$select AND seq!='1'";
-		$testres = @mysql_db_query($phpAds_db, $testselect);
+		$testres = @db_query($testselect);
 		if(!$testrow = @mysql_fetch_array($testres)) // If no banners left then reset all banners in that category to "unused"
 		{
 			$del_select=strstr($select,'WHERE');
 			$delete_select="UPDATE $phpAds_tbl_banners SET seq='' ".$del_select;
-			mysql_db_query($phpAds_db, $delete_select);
+			db_query($delete_select);
 		}
 		$select .=" AND seq!='1'";
 	}
 
-	$res = @mysql_db_query($phpAds_db, $select);
+	$res = @db_query($select);
 	if(!$res)
 		return(false);
 
@@ -221,7 +221,7 @@ function log_adview($bannerID,$clientID)
 	global $phpAds_admin_email, $phpAds_admin_email_headers, $phpAds_url_prefix, $strWarnAdminTxt, $strWarnClientTxt;
 
 	// set banner as "used"
-	mysql_db_query($GLOBALS["phpAds_db"], "Update $phpAds_tbl_banners SET seq='1' WHERE bannerID='$bannerID'");
+	db_query("Update $phpAds_tbl_banners SET seq='1' WHERE bannerID='$bannerID'");
 
 
 	if(!$phpAds_log_adviews)
@@ -243,7 +243,7 @@ function log_adview($bannerID,$clientID)
 
 	if($found == 0)
 	{ 
-		$res = @mysql_db_query($GLOBALS["phpAds_db"], sprintf("
+		$res = @db_query(sprintf("
 			INSERT %s INTO
 				$phpAds_tbl_adviews
 			VALUES (
@@ -253,7 +253,7 @@ function log_adview($bannerID,$clientID)
 			)", $phpAds_insert_delayed ? "DELAYED": "")); 
 
 		// Decrement views
-		$currentview=mysql_db_query($GLOBALS["phpAds_db"], "SELECT * FROM $phpAds_tbl_clients WHERE clientID=$clientID and views > 0");
+		$currentview=db_query("SELECT * FROM $phpAds_tbl_clients WHERE clientID=$clientID and views > 0");
 		if($viewcount=mysql_fetch_array($currentview))
 		{
 			$viewcount["views"]=$viewcount["views"]-1;
@@ -261,10 +261,10 @@ function log_adview($bannerID,$clientID)
 			// Mail warning - preset is reached
 			if($viewcount["views"]==$phpAds_warn_limit)
 				warn_mail($viewcount);
-			mysql_db_query($GLOBALS["phpAds_db"], "UPDATE $phpAds_tbl_clients SET views=$viewcount[views] WHERE clientID=$clientID");
+			db_query("UPDATE $phpAds_tbl_clients SET views=$viewcount[views] WHERE clientID=$clientID");
 			// Check view count and de-activate banner if needed
 			if($viewcount["views"]==0 && $viewcount["clicks"]==0)
-				mysql_db_query($GLOBALS["phpAds_db"], "UPDATE $phpAds_tbl_banners SET active='false' WHERE clientID=$clientID");
+				db_query("UPDATE $phpAds_tbl_banners SET active='false' WHERE clientID=$clientID");
 		}
 	}
 }

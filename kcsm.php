@@ -1,6 +1,6 @@
 <?php
 
-/* $Id */
+// $Id$
 
 /*	Kyle Cordes's Session Management for PHP3
 	"KCSM"
@@ -19,7 +19,7 @@ function kc_login()
 		return(true);
 	if (isset($username) && isset($password) && !strstr($PHP_SELF, "admin"))
 	{
-		$res = mysql_db_query($phpAds_db, "
+		$res = db_query("
 			SELECT
 				clientID
 			FROM
@@ -67,7 +67,7 @@ function kc_start()
 	// automagically takes over this session.
 	if(isset($SessionID) && !empty($SessionID))
 	{
-		$result = mysql_db_query($GLOBALS["phpAds_db"], "SELECT SessionData FROM $phpAds_tbl_session WHERE SessionID='$SessionID'" .
+		$result = db_query("SELECT SessionData FROM $phpAds_tbl_session WHERE SessionID='$SessionID'" .
 			" AND UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(LastUsed) < 3600") or mysql_die();
 		if($row = mysql_fetch_array($result))
 		{
@@ -97,18 +97,18 @@ function kc_end()
 	global $SessionID, $Session, $phpAds_tbl_session;
 
 	if(isset($SessionID))
-		$foo = mysql_db_query($GLOBALS["phpAds_db"], "REPLACE INTO $phpAds_tbl_session VALUES ('$SessionID', '" .
+		$foo = db_query("REPLACE INTO $phpAds_tbl_session VALUES ('$SessionID', '" .
 			AddSlashes(serialize($Session)) . "', null )") or mysql_die();
 	srand((double)microtime()*1000000);
 	if(rand(1, 100) == 42)	// (randomly) purge old sessions
-		$foo = mysql_db_query($GLOBALS["phpAds_db"], "DELETE FROM $phpAds_tbl_session WHERE UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(LastUsed) > 43200") or mysql_die();
+		$foo = db_query("DELETE FROM $phpAds_tbl_session WHERE UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(LastUsed) > 43200") or mysql_die();
 }
 
 function kc_abandon()
 {
 	global $SessionID, $Session, $phpAds_tbl_session;
 
-	$foo = mysql_db_query($GLOBALS["phpAds_db"], "DELETE FROM $phpAds_tbl_session WHERE SessionID='$SessionID'") or mysql_die();
+	$foo = db_query("DELETE FROM $phpAds_tbl_session WHERE SessionID='$SessionID'") or mysql_die();
 
 	$url = parse_url($GLOBALS["phpAds_url_prefix"]);
 	SetCookie("SessionID", "", 0, $url["path"]);
