@@ -15,7 +15,7 @@
 
 
 // Current phpAds version
-$phpAds_version = 200.084;
+$phpAds_version = 200.085;
 $phpAds_version_readable = "2 dev 17032002";
 
 $GLOBALS['phpAds_settings_information'] = array(

@@ -39,7 +39,7 @@ CREATE TABLE phpads_affiliates (
 CREATE TABLE phpads_zones (
    zoneid mediumint(9) NOT NULL AUTO_INCREMENT,
    affiliateid mediumint(9),
-   zonename varchar(255) NOT NULL,
+   zonename varchar(245) NOT NULL,
    description varchar(255) NOT NULL,
    zonetype smallint(6) DEFAULT '0' NOT NULL,
    what blob NOT NULL,

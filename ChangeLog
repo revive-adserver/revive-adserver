@@ -200,6 +200,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: Database compatibility mode problems fixed  (Niels) 20020319
 			  - Bugfix: phpads_images table is now correctly create with the InnoDB table type  (Niels) 20020319
 			  - Bugfix: Monthly history now also works with compact stats  (Niels) 20020321
+			  - Bugfix: Changed zonename field size to 245, increasing compatibility with MySQL 3.22.x  (Matteo) 20020322
 			  
 
 
