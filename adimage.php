@@ -45,7 +45,7 @@ if (isset($filename) && $filename != '')
 		// Filename not found, show default banner
 		if ($phpAds_config['default_banner_url'] != "")
 		{
-			Header("Location: ".$phpAds_config['default_banner_url']);
+			header("Location: ".$phpAds_config['default_banner_url']);
 		}
 	}
 	else
@@ -58,20 +58,21 @@ if (isset($filename) && $filename != '')
 		if (!isset($HTTP_SERVER_VARS['HTTP_IF_MODIFIED_SINCE']) ||
 			$row['t_stamp'] > strtotime($HTTP_SERVER_VARS['HTTP_IF_MODIFIED_SINCE']))
 		{
-			Header ("Last-Modified: ".gmdate('D, d M Y H:i:s', $row['t_stamp']).' GMT');
+			header ("Last-Modified: ".gmdate('D, d M Y H:i:s', $row['t_stamp']).' GMT');
 			
 			if (isset($contenttype) && $contenttype != '')
 			{
 				switch ($contenttype)
 				{
-					case 'swf': Header('Content-type: application/x-shockwave-flash; name='.$filename); break;
-					case 'dcr': Header('Content-type: application/x-director; name='.$filename); break;
-					case 'rpm': Header('Content-type: audio/x-pn-realaudio-plugin; name='.$filename); break;
-					case 'mov': Header('Content-type: video/quicktime; name='.$filename); break;
-					default:	Header('Content-type: image/'.$contenttype.'; name='.$filename); break;
+					case 'swf': header('Content-type: application/x-shockwave-flash; name='.$filename); break;
+					case 'dcr': header('Content-type: application/x-director; name='.$filename); break;
+					case 'rpm': header('Content-type: audio/x-pn-realaudio-plugin; name='.$filename); break;
+					case 'mov': header('Content-type: video/quicktime; name='.$filename); break;
+					default:	header('Content-type: image/'.$contenttype.'; name='.$filename); break;
 				}
 			}
 			
+			header ('Content-Length: '.strlen($image['contents']));
 			echo $row['contents'];
 		}
 		else
@@ -80,12 +81,12 @@ if (isset($filename) && $filename != '')
 			if (php_sapi_name() == 'cgi')
 			{
 				// PHP as CGI, use Status: [status-number]
-				Header ('Status: 304 Not Modified');
+				header ('Status: 304 Not Modified');
 			}
 			else
 			{
 				// PHP as module, use HTTP/1.x [status-number]
-				Header ($HTTP_SERVER_VARS['SERVER_PROTOCOL'].' 304 Not Modified');
+				header ($HTTP_SERVER_VARS['SERVER_PROTOCOL'].' 304 Not Modified');
 			}
 		}
 	}
@@ -96,7 +97,7 @@ else
 	
 	if ($phpAds_config['default_banner_url'] != "")
 	{
-		Header("Location: ".$phpAds_config['default_banner_url']);
+		header("Location: ".$phpAds_config['default_banner_url']);
 	}
 }
 
