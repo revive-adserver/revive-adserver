@@ -329,7 +329,7 @@ else
 			echo "&nbsp;<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
 			
 		echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
-		echo "<a href='stats-zone.php?affiliateid=".$zone['affiliateid']."&zoneid=".$zone['zoneid']."'>".$zone['zonename']."</a>";
+		echo "<a href='stats-zone-history.php?affiliateid=".$zone['affiliateid']."&zoneid=".$zone['zoneid']."'>".$zone['zonename']."</a>";
 		echo "</td>";
 		
 		echo "<td height='25'>".$zone['affiliateid']."</td>";

@@ -112,6 +112,8 @@ $phpAds_nav = array (
 	      "2.3"		 		=> 	array("stats-weekly.php?campaignid=0" => $strWeeklyStats),
 	      "2.4"		 		=> 	array("stats-affiliates.php" => $strAffiliatesAndZones),
 		    "2.4.1"			=>  array("stats-affiliate-zones.php?affiliateid=$affiliateid" => $strZones),
+		      "2.4.1.1"		=>  array("stats-zone-history.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strHistory),
+		        "2.4.1.1.1"	=>  array("stats-zone-banner.php?affiliateid=$affiliateid&zoneid=$zoneid&bannerid=$bannerid" => $strHistory),
 		    "2.4.2"			=>  array("stats-affiliate-history.php?affiliateid=$affiliateid" => $strHistory),
 		"3"					=>  array("report-index.php" => $strReports),
 		"4"					=>	array("client-index.php" => $strAdminstration),
@@ -156,6 +158,8 @@ $phpAds_nav = array (
 	"affiliate" => array (
 		"1"					=>  array("stats-affiliate-zones.php?affiliateid=$affiliateid" => $strHome),
 		  "1.1"				=>  array("stats-affiliate-zones.php?affiliateid=$affiliateid" => $strZones),
+		    "1.1.1"  		=>  array("stats-zone-history.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strHistory),
+		      "1.1.1.1"		=>  array("stats-zone-banner.php?affiliateid=$affiliateid&zoneid=$zoneid&bannerid=$bannerid" => $strHistory),
 		  "1.2"				=>  array("stats-affiliate-history.php?affiliateid=$affiliateid" => $strHistory),
 	    "2" 				=> 	array("zone-index.php?affiliateid=$affiliateid" => $strAdminstration),
 	      "2.1" 			=> 	array("zone-index.php?affiliateid=$affiliateid" => $strZones),
