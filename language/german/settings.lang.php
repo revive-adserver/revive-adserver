@@ -1,4 +1,4 @@
-<?php // $Revision: 1.19.2.3 $
+<?php // $Revision: 1.19.2.5 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -218,7 +218,7 @@ $GLOBALS['strGeotrackingType'] = "Datenbanktypen fur Geotargeting ";
 $GLOBALS['strGeotrackingLocation'] = "Standort der Datenbank fur Geotargeting";
 $GLOBALS['strGeotrackingLocationError'] = "Keine Datenbank fur Geotargeting an der genannten Adresse gefunden";
 $GLOBALS['strGeotrackingLocationNoHTTP'] = "Die von Ihnen angegebene Adresse ist <b>kein</b> lokales Verzeichnis auf dem Rechner (der Festplatte) des Servers. Es ist die URL einer WEB-Datei. Die richtige Schreibweise fur ein lokales Verzeichnis sollte ahnlich aussehen wie:<br><i>{example}</i>.<BR> 
-Um Geotargeting nutzen zu konnen, mu? korrekt angegeben werden, wohin die Datenbank kopiert wurde. ";
+Um Geotargeting nutzen zu konnen, muﬂ korrekt angegeben werden, wohin die Datenbank kopiert wurde. ";
 $GLOBALS['strGeoStoreCookie'] = "Speichern des Ergebnisses in einem Cookie zur spateren Nutzung";
 
 
