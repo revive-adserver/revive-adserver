@@ -115,7 +115,7 @@ function phpAds_warningMail ($campaign)
 				$Headers .= "Content-Type: text/plain; charset=".$phpAds_CharSet."\r\n"; 
 			
 			$Headers .= "To: ".$client['contact']." <".$client['email'].">\r\n";
-			$Headers .= "From: <".$phpAds_admin_email.">\r\n";
+			$Headers .= "From: <".$phpAds_config['admin_email'].">\r\n";
 			if (!empty($phpAds_config['admin_email_headers']))
 				$Headers .= $phpAds_config['admin_email_headers']."\r\n";
 			
@@ -176,7 +176,7 @@ function phpAds_deactivateMail ($campaign)
 				$Headers .= "Content-Type: text/plain; charset=".$phpAds_CharSet."\r\n"; 
 			
 			$Headers .= "To: ".$client['contact']." <".$client['email'].">\r\n";
-			$Headers .= "From: <".$phpAds_admin_email.">\r\n";
+			$Headers .= "From: <".$phpAds_config['admin_email'].">\r\n";
 			if (!empty($phpAds_config['admin_email_headers']))
 				$Headers .= $phpAds_config['admin_email_headers']."\r\n";
 			
