@@ -281,7 +281,7 @@ function phpAds_aclCheckCountry($data, $ad)
 		$offset = (($zz[0]<<16)+($zz[1]<<8)+$zz[2])*2;
 		
 		// Lookup IP in database
-		if ($fp = fopen($phpAds_config['geotracking_location'], 'r'))
+		if ($fp = @fopen($phpAds_config['geotracking_location'], 'r'))
 		{
 			fseek($fp, $offset, SEEK_SET);
 			$phpAds_CountryLookup = fread($fp, 2);
@@ -318,7 +318,7 @@ function phpAds_aclCheckContinent($data, $ad)
 			$offset = (($zz[0]<<16)+($zz[1]<<8)+$zz[2])*2;
 			
 			// Lookup IP in database
-			if ($fp = fopen($phpAds_config['geotracking_location'], 'r'))
+			if ($fp = @fopen($phpAds_config['geotracking_location'], 'r'))
 			{
 				fseek($fp, $offset, SEEK_SET);
 				$phpAds_CountryLookup = fread($fp, 2);
