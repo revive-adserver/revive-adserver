@@ -90,7 +90,6 @@ phpAds_AddSettings('checkbox', 'gui_hide_inactive', $strHideInactive);
 phpAds_AddSettings('end_section', '');
 
 
-phpAds_StartSettings();
 phpAds_AddSettings('start_section', "2.3.2");
 phpAds_AddSettings('select', 'begin_of_week',
 	array($strBeginOfWeek, array($strDayFullNames[0], $strDayFullNames[1])));
