@@ -7,6 +7,9 @@
 /* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
+/* Translation by Rachim Tamsjadi. Please send corrections              */
+/* to tamsjadi@icqmail.com                                              */
+/*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
@@ -15,64 +18,64 @@
 
 
 // Installer translation strings
-$GLOBALS['strInstall']					= "Install";
-$GLOBALS['strChooseInstallLanguage']	= "Choose language for the installation procedure";
-$GLOBALS['strLanguageSelection']		= "Language Selection";
-$GLOBALS['strDatabaseSettings']			= "Database Settings";
-$GLOBALS['strAdminSettings']			= "Administrator Settings";
-$GLOBALS['strAdvancedSettings']			= "Advanced Settings";
-$GLOBALS['strOtherSettings']			= "Other settings";
+$GLOBALS['strInstall']				= "Instalasi";
+$GLOBALS['strChooseInstallLanguage']		= "Silakan pilih bahasanya prosedur instalasi program";
+$GLOBALS['strLanguageSelection']		= "Pilihan bahasa";
+$GLOBALS['strDatabaseSettings']			= "Setingan Database";
+$GLOBALS['strAdminSettings']			= "Setingan Administrator";
+$GLOBALS['strAdvancedSettings']			= "Setingan tingkat lanjutan";
+$GLOBALS['strOtherSettings']			= "Setingan lain-lain";
 
-$GLOBALS['strWarning']					= "Warning";
-$GLOBALS['strFatalError']				= "A fatal error occurred";
-$GLOBALS['strAlreadyInstalled']			= "phpAdsNew is already installed on this system. If you want to configure it go to <a href='settings-index.php'>settings interface</a>";
-$GLOBALS['strCouldNotConnectToDB']		= "Could not connect to database, please recheck the settings you specified";
-$GLOBALS['strCreateTableTestFailed']	= "The user you specified doesn't have permission to create or update the database structure, please contact the database administrator.";
-$GLOBALS['strUpdateTableTestFailed']	= "The user you specified doesn't have permission to update the database structure, please contact the database administrator.";
-$GLOBALS['strTablePrefixInvalid']		= "Table prefix contains invalid characters";
-$GLOBALS['strTableInUse']				= "The database which you specified is already used for phpAdsNew, please use a different table prefix, or read the manual for upgrading instructions.";
-$GLOBALS['strMayNotFunction']			= "Before you continue, please correct these potential problems:";
-$GLOBALS['strIgnoreWarnings']			= "Ignore warnings";
-$GLOBALS['strWarningPHPversion']		= "phpAdsNew requires PHP 3.0.8 or higher to function correctly. You are currently using {php_version}.";
-$GLOBALS['strWarningRegisterGlobals']	= "The PHP configuration variable register_globals needs to be turned on.";
-$GLOBALS['strWarningMagicQuotesGPC']	= "The PHP configuration variable magic_quotes_gpc needs to be turned on.";
-$GLOBALS['strWarningMagicQuotesRuntime']= "The PHP configuration variable magic_quotes_runtime needs to be turned off.";
-$GLOBALS['strConfigLockedDetected']		= "phpAdsNew has detected that your <b>config.inc.php</b> file is not writeable by the server.<br> You can't proceed until you change permissions on the file. <br>Read the supplied documentation if you don't know how to do that.";
-$GLOBALS['strCantUpdateDB']  			= "It is currently not possible to update the database. If you decide to proceed, all existing banners, statistics and clients will be deleted.";
-$GLOBALS['strTableNames']				= "Table Names";
-$GLOBALS['strTablesPrefix']				= "Table names prefix";
-$GLOBALS['strTablesType']				= "Table type";
+$GLOBALS['strWarning']				= "Peringatan";
+$GLOBALS['strFatalError']			= "Telah terjadi fatal error";
+$GLOBALS['strAlreadyInstalled']			= "phpAdsNew sudah terinstal di sistem ini. Bila Anda ingin konfigurasikan phpAdsNew silakan buka <a href='settings-index.php'>settings interface</a>";
+$GLOBALS['strCouldNotConnectToDB']		= "Gagal dalam koneksi ke database. Silakan recheck setingan yang Anda telah spesifikasikan";
+$GLOBALS['strCreateTableTestFailed']		= "User yang Anda pilih tidak miliki izin untuk create atau update struktur database. Silakan hubungi database administrator.";
+$GLOBALS['strUpdateTableTestFailed']		= "User yang Anda pilih tidak miliki izin untuk update struktur database. Silakan hubungi database administrator.";
+$GLOBALS['strTablePrefixInvalid']		= "Table prefix mengandung karakter invalid";
+$GLOBALS['strTableInUse']			= "Database yang Anda pilih telah dipakai untuk phpAdsNew. Silakan pilih table prefix lain atau baca buku panduan untuk instruksi upgrade.";
+$GLOBALS['strMayNotFunction']			= "Sebelum Anda lanjut silakan koreksi masalah potensional sebagai berikut:";
+$GLOBALS['strIgnoreWarnings']			= "Abaikan Peringatan";
+$GLOBALS['strWarningPHPversion']		= "Untuk berfungsi dengan baik phpAdsNew mendasarkan PHP 3.0.8 atau versi lebih tinggi. Versi PHP dalam sistem Anda adalah {php_version}.";
+$GLOBALS['strWarningRegisterGlobals']		= "Variable register_globals dalam konfigurasi PHP perlu diubah ke On.";
+$GLOBALS['strWarningMagicQuotesGPC']		= "Variable magic_quotes_gpc dalam konfigurasi PHP perlu diubah ke On.";
+$GLOBALS['strWarningMagicQuotesRuntime']	= "Variable magic_quotes_runtime dalam konfigurasi PHP perlu diubah ke Off.";
+$GLOBALS['strConfigLockedDetected']		= "phpAdsNew telah mendedeksi bahwa file <b>config.inc.php</b> di sistem Anda tidak bisa ditulis oleh server.<br> Untuk lanjutkan instalasi permission dari file tersebut perlu diubah terlebih dahulu. <br>Silakan baca dokumentasi yang dilampirkan bila Anda tidak tahu caranya.";
+$GLOBALS['strCantUpdateDB']  			= "Database pada saat ini tidak bisa di-update. Bila instalasi dilanjut seluruh banner, statistik dan Client akan terhapus.";
+$GLOBALS['strTableNames']			= "Table Names";
+$GLOBALS['strTablesPrefix']			= "Table names prefix";
+$GLOBALS['strTablesType']			= "Table type";
 
-$GLOBALS['strInstallWelcome']			= "Welcome to phpAdsNew";
-$GLOBALS['strInstallMessage']			= "Before you can use phpAdsNew it needs to be configured and <br> the database needs to be created. Click <b>Proceed</b> to continue.";
-$GLOBALS['strInstallSuccess']			= "<b>The installation of phpAdsNew is now complete.</b><br><br>In order for phpAdsNew to function correctly you also need
-										   to make sure the maintenance file is run every day. More information about this subject can be found in the documentation.
-										   <br><br>Click <b>Proceed</b> to go the configuration page, where you can 
-										   set up more settings. Please do not forget to lock the config.inc.php file when you are finished to prevent security
-										   breaches.";
-$GLOBALS['strInstallNotSuccessful']		= "<b>The installation of phpAdsNew was not succesful</b><br><br>Some portions of the install process could not be completed.
-										   It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the
-										   first step of the install process. If you want to know more on what the error message below means, and how to solve it, 
-										   please consult the supplied documentation.";
-$GLOBALS['strErrorOccured']				= "The following error occured:";
-$GLOBALS['strErrorInstallDatabase']		= "The database structure could not be created.";
-$GLOBALS['strErrorInstallConfig']		= "The configuration file or database could not be updated.";
-$GLOBALS['strErrorInstallDbConnect']	= "It was not possible to open a connection to the database.";
+$GLOBALS['strInstallWelcome']			= "Selamat Datang di phpAdsNew";
+$GLOBALS['strInstallMessage']			= "Sebelum phpAdsNew bisa berfungsi dengan baik program perlu dikonfigurasi dan <br> sebuah database perlu dibuat. Klik <b>Lanjut</b> untuk lanjut.";
+$GLOBALS['strInstallSuccess']			= "<b>Instalasi program phpAdsNew sudah selesai.</b><br><br>Untuk menjamin program phpAdsNew tetap berfungsi dengan baik silakan periksa kembali
+										   supaya file maintenance dijalankan pada setiap hari. Informasi lebih lanjut tentang hal ini bisa diketemukan dalam dokumentasi.
+										   <br><br>Klik <b>Lanjut</b> untuk lanjut ke halaman konfigurasi dan setingan yang lebih luas. Jangan lupa kunci kembali file konfigurasi config.inc.php setelah Anda selesai untuk menghindar terjadinya kelemahan pada sistem pengamanan program.";
 
-$GLOBALS['strUrlPrefix']				= "URL Prefix";
 
-$GLOBALS['strProceed']					= "Proceed &gt;";
-$GLOBALS['strRepeatPassword']			= "Repeat Password";
-$GLOBALS['strNotSamePasswords']			= "Passwords did not match";
-$GLOBALS['strInvalidUserPwd']			= "Invalid username or password";
+$GLOBALS['strInstallNotSuccessful']		= "<b>Instalasi program phpAdsNew tidak selesai dengan sukses.</b><br><br>Ada bagian dalam proses instalasi yang tidak komplit.
+										   Ada kemungkinan bahwa masalah ini hanya timbul dalam waktu terbatas. Bila begitu silakan klik <b>Lanjut</b> untuk kembali ke
+										   tingkat pertama pada proses instalasi. Bila diperlukan informasi lebih lanjut tentang error message dibawah ini dan cara untuk mengatasinya 
+										   silakan belajari dokumentasi yang disediakan.";
+$GLOBALS['strErrorOccured']			= "Telah terjadi Error sebagai berikut:";
+$GLOBALS['strErrorInstallDatabase']		= "Struktur database tidak bisa dibangun.";
+$GLOBALS['strErrorInstallConfig']		= "File konfigurasi atau database tidak bisa di-update.";
+$GLOBALS['strErrorInstallDbConnect']		= "Gagal membuka koneksi ke database.";
 
-$GLOBALS['strUpgrade']					= "Upgrade";
-$GLOBALS['strSystemUpToDate']			= "Your system is up to date, no upgrade needed at the moment. <br>Click on <b>Proceed</b> to go to home page.";
-$GLOBALS['strSystemNeedsUpgrade']		= "The database structure and configuration file need to be upgraded in order to function correctly. Click <b>Proceed</b> to start the upgrade process. <br>Please be patient, the upgrade can take up to a couple of minutes.";
-$GLOBALS['strSystemUpgradeBusy']		= "System upgrade in progress, please wait...";
-$GLOBALS['strServiceUnavalable']		= "The service is temporarily unavailable. System upgrade in progress";
+$GLOBALS['strUrlPrefix']			= "Prefix URL";
 
-$GLOBALS['strConfigNotWritable']		= "Your config.inc.php file is not writable";
+$GLOBALS['strProceed']				= "Lanjut &gt;";
+$GLOBALS['strRepeatPassword']			= "Ulangi Kata Sandi";
+$GLOBALS['strNotSamePasswords']			= "Kata Sandi tidak sama";
+$GLOBALS['strInvalidUserPwd']			= "Username atau Kata Sandi salah ";
+
+$GLOBALS['strUpgrade']				= "Upgrade";
+$GLOBALS['strSystemUpToDate']			= "Sistem Anda sudah up to date dan untuk sementara waktu tidak perlu di-update. <br>Klik <b>Lanjut</b> untuk lanjut ke homepage.";
+$GLOBALS['strSystemNeedsUpgrade']		= "Struktur database dan file konfigurasi perlu di-upgrade untuk berfungsi semestinya. Klik <b>Lanjut</b> untuk mulai proses upgrade. <br>Mohon kesabaran, proses upgrade bisa berlanjut berberapa menit.";
+$GLOBALS['strSystemUpgradeBusy']		= "Upgrade sistem dalam proses, silakan tunggu...";
+$GLOBALS['strServiceUnavalable']		= "Fungsi ini untuk sementara tidak dapat digunakan. Upgrade sistem dalam proses";
+
+$GLOBALS['strConfigNotWritable']		= "File config.inc.php tidak bisa ditulis";
 
 
 
@@ -83,151 +86,167 @@ $GLOBALS['strConfigNotWritable']		= "Your config.inc.php file is not writable";
 /*********************************************************/
 
 // Global
-$GLOBALS['strChooseSection']			= "Choose Section";
-$GLOBALS['strDayFullNames'] 			= array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
-$GLOBALS['strEditConfigNotPossible']    = "It is not possible to edit these settings because the configuration file is locked for security reasons. ".
-										  "If you want to make changes, you need to unlock the config.inc.php file first.";
-$GLOBALS['strEditConfigPossible']		= "It is possible to edit all settings because the configuration file is not locked, but this could lead to security leaks. ".
-										  "If you want to secure your system, you need to lock the config.inc.php file.";
+$GLOBALS['strChooseSection']			= "Pilih Bagian";
+$GLOBALS['strDayFullNames'] 			= array("Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu");
+$GLOBALS['strEditConfigNotPossible']    	= "Gagal meng-edit setingan ini dikarenakan file konfigurasi dikunci guna menjaga keamanan sistem. ".
+										  "Untuk perubahan file config.inc.php perlu di un-lock terlebih dahulu.";
+$GLOBALS['strEditConfigPossible']		= "File konfigurasi terbuka untuk di-edit sehubungan file tersebut pada saat ini tidak dikunci. Ingat bahwa hal ini bisa menimbulkan kecerobohan dalam keamanan sistem. ".
+										  "Bila Anda ingin mengamankan sistem, silakan kunci kembali file config.inc.php";
 
 
 
 // Database
-$GLOBALS['strDatabaseSettings']			= "Database Settings";
-$GLOBALS['strDatabaseServer']			= "Database server";
-$GLOBALS['strDbHost']					= "Database hostname";
-$GLOBALS['strDbUser']					= "Database username";
-$GLOBALS['strDbPassword']				= "Database password";
-$GLOBALS['strDbName']					= "Database name";
+$GLOBALS['strDatabaseSettings']			= "Setingan dari Database";
+$GLOBALS['strDatabaseServer']			= "Server dari Database";
+$GLOBALS['strDbHost']				= "Hostname dari Database";
+$GLOBALS['strDbUser']				= "Username dari Database";
+$GLOBALS['strDbPassword']			= "Password dari Database";
+$GLOBALS['strDbName']				= "Nama dari Database";
 
-$GLOBALS['strDatabaseOptimalisations']	= "Database optimalisations";
-$GLOBALS['strPersistentConnections']	= "Use persistent connections";
-$GLOBALS['strInsertDelayed']			= "Use delayed inserts";
-$GLOBALS['strCompatibilityMode']		= "Use database compatibility mode";
-$GLOBALS['strCantConnectToDb']			= "Can't connect to database";
+$GLOBALS['strDatabaseOptimalisations']		= "Optimalisasi Database";
+$GLOBALS['strPersistentConnections']		= "Gunakan koneksi persistent";
+$GLOBALS['strInsertDelayed']			= "Gunakan delayed inserts";
+$GLOBALS['strCompatibilityMode']		= "Gunakan database compatibility mode";
+$GLOBALS['strCantConnectToDb']			= "Tidak bisa konekt ke database";
 
 
 
 // Invocation and Delivery
-$GLOBALS['strInvocationAndDelivery']	= "Invocation and delivery settings";
+$GLOBALS['strInvocationAndDelivery']		= "Setingan Invocation dan Delivery";
 
-$GLOBALS['strKeywordRetrieval']			= "Keyword retrieval";
-$GLOBALS['strBannerRetrieval']			= "Banner retrieval method";
-$GLOBALS['strRetrieveRandom']			= "Random banner retrieval (default)";
-$GLOBALS['strRetrieveNormalSeq']		= "Normal sequental banner retrieval";
-$GLOBALS['strWeightSeq']				= "Weight based sequential banner retrieval";
-$GLOBALS['strFullSeq']					= "Full sequential banner retrieval";
-$GLOBALS['strUseConditionalKeys']		= "Use conditional keywords";
-$GLOBALS['strUseMultipleKeys']			= "Use multiple keywords";
-$GLOBALS['strUseAcl']					= "Use display limitations";
+$GLOBALS['strKeywordRetrieval']			= "Retrieval Keyword";
+$GLOBALS['strBannerRetrieval']			= "Metode retrieval banner";
+$GLOBALS['strRetrieveRandom']			= "Retrieval banner secara random (default)";
+$GLOBALS['strRetrieveNormalSeq']		= "Retrieval banner secara Normal sequental";
+$GLOBALS['strWeightSeq']			= "Retrieval banner secara Weight based sequential";
+$GLOBALS['strFullSeq']				= "Retrieval banner secara Full sequential";
+$GLOBALS['strUseConditionalKeys']		= "Gunakan conditional keywords";
+$GLOBALS['strUseMultipleKeys']			= "Gunakan multiple keywords";
+$GLOBALS['strUseAcl']				= "Gunakan display limitations";
 
-$GLOBALS['strZonesSettings']			= "Zone retrieval";
-$GLOBALS['strZoneCache']				= "Cache zones, this should speed things up when using zones";
-$GLOBALS['strZoneCacheLimit']			= "Time between cache updates (in seconds)";
-$GLOBALS['strZoneCacheLimitErr']		= "Time between cache updates should be a positive integer";
+$GLOBALS['strZonesSettings']			= "Retrieval Zona";
+$GLOBALS['strZoneCache']			= "Zona Cache, fungsi ini dipakai untuk memperlancar proses jika fungsi zona digunakan";
+$GLOBALS['strZoneCacheLimit']			= "Waktu meng-update cache (dalam detik)";
+$GLOBALS['strZoneCacheLimitErr']		= "Waktu antara cache updates, perlu angka positive integer";
 
-$GLOBALS['strP3PSettings']				= "P3P Privacy Policies";
-$GLOBALS['strUseP3P']					= "Use P3P Policies";
-$GLOBALS['strP3PCompactPolicy']			= "P3P Compact Policie";
-$GLOBALS['strP3PPolicyLocation']		= "P3P Policy Location";
+$GLOBALS['strP3PSettings']			= "Gunakan P3P Privacy Policies";
+$GLOBALS['strUseP3P']				= "Gunakan P3P Policies";
+$GLOBALS['strP3PCompactPolicy']			= "Gunakan P3P Compact Policy";
+$GLOBALS['strP3PPolicyLocation']		= "Gunakan P3P Policy Location";
 
 
 
 // Banner Settings
-$GLOBALS['strBannerSettings']			= "Banner settings";
+$GLOBALS['strBannerSettings']			= "Setingan Banner";
 
-$GLOBALS['strTypeHtmlSettings']			= "HTML banner options";
-$GLOBALS['strTypeHtmlAuto']				= "Automatically change HTML banners in order to force click logging";
-$GLOBALS['strTypeHtmlPhp']				= "Allow PHP expressions to be executed from within a HTML banner";
+$GLOBALS['strAllowedBannerTypes']		= "Tipe banner yang diperbolekan";
+$GLOBALS['strTypeSqlAllow']			= "Izinkan banner yang disimpan dalam database SQL";
+$GLOBALS['strTypeWebAllow']			= "Izinkan banner yang disimpan pada Webserver";
+$GLOBALS['strTypeUrlAllow']			= "Izinkan URL banner";
+$GLOBALS['strTypeHtmlAllow']			= "Izinkan HTML banner";
 
-$GLOBALS['strTypeWebSettings']			= "Web banners configuration";
-$GLOBALS['strTypeWebMode']				= "Storing method";
-$GLOBALS['strTypeWebModeLocal']			= "Local mode (stored in a local directory)";
-$GLOBALS['strTypeWebModeFtp']			= "FTP mode (stored on a external FTP server)";
-$GLOBALS['strTypeWebDir']				= "Local mode Web banner directory";
-$GLOBALS['strTypeWebFtp']				= "FTP mode Web banner server";
-$GLOBALS['strTypeWebUrl']				= "Public URL of local directory / FTP server";
+$GLOBALS['strTypeWebSettings']			= "Konfigurasi Web banner";
+$GLOBALS['strTypeWebMode']			= "Metode Penyimpanan";
+$GLOBALS['strTypeWebModeLocal']			= "Local mode (disimpan dalam direktori lokal)";
+$GLOBALS['strTypeWebModeFtp']			= "FTP mode (disimpan pada external FTP server)";
+$GLOBALS['strTypeWebDir']			= "Direktori Local mode Web banner";
+$GLOBALS['strTypeWebFtp']			= "FTP mode Web banner server";
+$GLOBALS['strTypeWebUrl']			= "URL publik di direktori lokal / FTP server";
+$GLOBALS['strTypeFTPHost']			= "FTP Host";
+$GLOBALS['strTypeFTPDirectory']			= "Host directory";
+$GLOBALS['strTypeFTPUsername']			= "Login";
+$GLOBALS['strTypeFTPPassword']			= "Password";
 
-$GLOBALS['strDefaultBanners']			= "Default banners";
+$GLOBALS['strDefaultBanners']			= "Banner Default";
 $GLOBALS['strDefaultBannerUrl']			= "Default Banner URL";
 $GLOBALS['strDefaultBannerTarget']		= "Default Banner Target";
+
+$GLOBALS['strTypeHtmlSettings']			= "HTML banner options";
+$GLOBALS['strTypeHtmlAuto']			= "Automatically change HTML banners in order to force click logging";
+$GLOBALS['strTypeHtmlPhp']			= "Izinkan PHP expressions dieksekusi dalam banner HTML";
 
 
 
 // Statistics Settings
-$GLOBALS['strStatisticsSettings']		= "Statistics Settings";
+$GLOBALS['strStatisticsSettings']		= "Setingan Statistik";
 
-$GLOBALS['strStatisticsFormat']			= "Statistics format";
-$GLOBALS['strLogBeacon']				= "Use beacons to log Adviews";
-$GLOBALS['strCompactStats']				= "Use Compact Stats";
-$GLOBALS['strLogAdviews']				= "Log Adviews";
-$GLOBALS['strLogAdclicks']				= "Log Adclicks";
+$GLOBALS['strStatisticsFormat']			= "Format Statistik";
+$GLOBALS['strLogBeacon']			= "Gunakan beacons untuk me-log Adviews";
+$GLOBALS['strCompactStats']			= "Gunakan Compact Stats";
+$GLOBALS['strLogAdviews']			= "Log Adviews";
+$GLOBALS['strBlockAdviews']			= "Multiple log protection (sec.)";
+$GLOBALS['strLogAdclicks']			= "Log Adclicks";
+$GLOBALS['strBlockAdclicks']			= "Multiple log protection (sec.)";
 
-$GLOBALS['strEmailWarnings']			= "E-mail warnings";
-$GLOBALS['strAdminEmailHeaders']		= "Mail Headers for the reflection of the sender of the daily ad reports";
-$GLOBALS['strWarnLimit']				= "Warn Limit";
-$GLOBALS['strWarnLimitErr']				= "Warn Limit should be a positive integer";
-$GLOBALS['strWarnAdmin']				= "Warn Admin";
-$GLOBALS['strWarnClient']				= "Warn Client";
+$GLOBALS['strEmailWarnings']			= "Warning E-mail";
+$GLOBALS['strAdminEmailHeaders']		= "Mail Header untuk mengidentifikasikan laporan harian dari server pengirim";
+$GLOBALS['strWarnLimit']			= "Warn Limit";
+$GLOBALS['strWarnLimitErr']			= "Warn Limit harus angka positive integer";
+$GLOBALS['strWarnAdmin']			= "Warn Admin";
+$GLOBALS['strWarnClient']			= "Warn Client";
+$GLOBALS['strQmailPatch']			= "Enable qmail patch";
 
-$GLOBALS['strRemoteHosts']				= "Remote hosts";
-$GLOBALS['strIgnoreHosts']				= "Ignore Hosts";
+$GLOBALS['strRemoteHosts']			= "Remote hosts";
+$GLOBALS['strIgnoreHosts']			= "Ignore Hosts";
 $GLOBALS['strReverseLookup']			= "Reverse DNS Lookup";
-$GLOBALS['strProxyLookup']				= "Proxy Lookup";
+$GLOBALS['strProxyLookup']			= "Proxy Lookup";
 
 
 
 // Administrator settings
-$GLOBALS['strAdministratorSettings']	= "Administrator settings";
+$GLOBALS['strAdministratorSettings']		= "Setingan Administrator";
 
-$GLOBALS['strLoginCredentials']			= "Login credentials";
-$GLOBALS['strAdminUsername']			= "Admin's username";
-$GLOBALS['strOldPassword']				= "Old Password";
-$GLOBALS['strNewPassword']				= "New Password";
-$GLOBALS['strInvalidUsername']			= "Invalid username";
-$GLOBALS['strInvalidPassword']			= "Invalid password";
+$GLOBALS['strLoginCredentials']			= "Data umum untuk Login";
+$GLOBALS['strAdminUsername']			= "Username dari Admin";
+$GLOBALS['strOldPassword']			= "Kata Sandi lama";
+$GLOBALS['strNewPassword']			= "Kata Sandi baru";
+$GLOBALS['strInvalidUsername']			= "Username tidak berlaku";
+$GLOBALS['strInvalidPassword']			= "Kata Sandi tidak berlaku";
 
-$GLOBALS['strBasicInformation']			= "Basic information";
-$GLOBALS['strAdminFullName']			= "Admin's full name";
-$GLOBALS['strAdminEmail']				= "Admin's email address";
-$GLOBALS['strCompanyName']				= "Company Name";
+$GLOBALS['strBasicInformation']			= "Informasi dasar";
+$GLOBALS['strAdminFullName']			= "Nama lengkap Admin";
+$GLOBALS['strAdminEmail']			= "Alamat e-mail Admin";
+$GLOBALS['strCompanyName']			= "Nama perusahaan";
 
-$GLOBALS['strAdminNovice']				= "Admin's delete actions need confirmation for safety";
-
+$GLOBALS['strAdminNovice']			= "Pemakaian tombol Delete oleh Admin perlu konfirmasi demi keamanan";
+$GLOBALS['strUserlogEmail']			= "Log all outgoing email messages";
+$GLOBALS['strUserlogPriority']			= "Log hourly priority calculations";
 
 
 // User interface settings
-$GLOBALS['strGuiSettings']				= "User Interface Configuration";
+$GLOBALS['strGuiSettings']			= "Interface Konfigurasi bagi User";
 
-$GLOBALS['strGeneralSettings']			= "General settings";
-$GLOBALS['strAppName']					= "Application Name";
-$GLOBALS['strMyHeader']					= "My Header";
-$GLOBALS['strMyFooter']					= "My Footer";
+$GLOBALS['strGeneralSettings']			= "Setingan Umum";
+$GLOBALS['strAppName']				= "Nama Aplikasi";
+$GLOBALS['strMyHeader']				= "Header kami";
+$GLOBALS['strMyFooter']				= "Footer kami";
+$GLOBALS['strGzipContentCompression']		= "Use GZIP content compression";
 
-$GLOBALS['strClientInterface']			= "Client interface";
-$GLOBALS['strClientWelcomeEnabled']		= "Enable client welcome message";
-$GLOBALS['strClientWelcomeText']		= "Client Welcome text<br>(HTML tags allowed)";
+$GLOBALS['strClientInterface']			= "Interface Client";
+$GLOBALS['strClientWelcomeEnabled']		= "Aktifkan Client welcome message";
+$GLOBALS['strClientWelcomeText']		= "Client Welcome text<br>(HTML tags diizinkan)";
 
 
 
 // Interface defaults
-$GLOBALS['strInterfaceDefaults']		= "Interface defaults";
+$GLOBALS['strInterfaceDefaults']		= "Defaults dari Interface";
 
-$GLOBALS['strStatisticsDefaults'] 		= "Statistics";
-$GLOBALS['strBeginOfWeek']				= "Begin of Week";
-$GLOBALS['strPercentageDecimals']		= "Percentage Decimals";
+$GLOBALS['strInventory']			= "Inventory";
+$GLOBALS['strShowCampaignInfo']			= "Show extra campaign info on <i>Campaign overview</i> page";
+$GLOBALS['strShowBannerInfo']			= "Show extra banner info on <i>Banner overview</i> page";
+$GLOBALS['strShowCampaignPreview']		= "Show preview of all banners on <i>Banner overview</i> page";
+$GLOBALS['strShowBannerHTML']			= "Show actual banner instead of plain HTML code for HTML banner preview";
+$GLOBALS['strShowBannerPreview']		= "Show banner preview at the top of pages which deals with banners";
+
+$GLOBALS['strStatisticsDefaults'] 		= "Statistik";
+$GLOBALS['strBeginOfWeek']			= "Awal dari minggu";
+$GLOBALS['strPercentageDecimals']		= "Desimal Persentase";
 
 $GLOBALS['strWeightDefaults']			= "Default weight";
 $GLOBALS['strDefaultBannerWeight']		= "Default banner weight";
-$GLOBALS['strDefaultCampaignWeight']	= "Default campaign weight";
-$GLOBALS['strDefaultBannerWErr']		= "Default banner weight should be a positive integer";
-$GLOBALS['strDefaultCampaignWErr']		= "Default campaign weight should be a positive integer";
-
-$GLOBALS['strAllowedBannerTypes']		= "Allowed banner types";
-$GLOBALS['strTypeSqlAllow']				= "Allow SQL stored banners";
-$GLOBALS['strTypeWebAllow']				= "Allow Webserver stored banners";
-$GLOBALS['strTypeUrlAllow']				= "Allow URL banners";
-$GLOBALS['strTypeHtmlAllow']			= "Allow HTML banners";
+$GLOBALS['strDefaultCampaignWeight']		= "Default campaign weight";
+$GLOBALS['strDefaultBannerWErr']		= "Default banner weight perlu angka positive integer";
+$GLOBALS['strDefaultCampaignWErr']		= "Default campaign weight perlu angka positive integer";
 
 
 
@@ -236,7 +255,7 @@ $GLOBALS['strTableBorderColor']			= "Table Border Color";
 $GLOBALS['strTableBackColor']			= "Table Back Color";
 $GLOBALS['strTableBackColorAlt']		= "Table Back Color (Alternative)";
 $GLOBALS['strMainBackColor']			= "Main Back Color";
-$GLOBALS['strOverrideGD']				= "Override GD Imageformat";
-$GLOBALS['strTimeZone']					= "Time Zone";
+$GLOBALS['strOverrideGD']			= "Override GD Imageformat";
+$GLOBALS['strTimeZone']				= "Zona Waktu";
 
 ?>

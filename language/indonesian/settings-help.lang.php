@@ -7,6 +7,9 @@
 /* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
+/* Translation by Rachim Tamsjadi. Please send corrections              */
+/* to tamsjadi@icqmail.com                                              */
+/*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
@@ -16,146 +19,148 @@
 
 // Settings help translation strings
 $GLOBALS['phpAds_hlp_dbhost'] = "
-        Specify the hostname of the MySQL database server.
+        Tentukan hostname dari MySQL database server.
 		";
 		
 $GLOBALS['phpAds_hlp_dbuser'] = "
-        Specify the username which phpAdsNew must use to gain access to the MySQL database server.
+        Tentukan username untuk dipakai oleh phpAdsNew untuk akses MySQL database server.
 		";
 		
 $GLOBALS['phpAds_hlp_dbpassword'] = "
-        Specify the password which phpAdsNew must use to gain access to the MySQL database server.
+        Tentukan kata sandi yang dipakai oleh program phpAdsNew untuk mengakses MySQL database server.
 		";
 		
 $GLOBALS['phpAds_hlp_dbname'] = "
-        Specify the name of the database where phpAdsNew must store its data.
+        Tentukan nama database yang dipakai oleh phpAdsNew untuk menyimpan datanya.
 		";
 		
 $GLOBALS['phpAds_hlp_persistent_connections'] = "
-        The use of persistent connection can speed up phpAdsNew considerably 
-		and may even decrease the load on the server. There is a drawback however, on sites with 
-		a lot of visitors the load on the server can increase and become larger then when using normal 
-		connections. Whether you should use regular connections or persistant connections depends on the 
-		number of visitors and the hardware your are using. If phpAdsNew is using too many resources, 
-		you should take a look at this setting first.
+        Pemakaian koneksi persistent bisa menambah kecepatan kerja pada program phpAdsNew 
+		sampai dengan efek meringankan daya load pada server. Ada kelemahannya, iaitu pada site yang 
+		banyak dikunjungi oleh tamu daya load pada server bisa bertambah dan menbengkak dibandingkan dengan 
+		stelan konfigurasi koneksi normal. Keputusan untuk memakai koneksi normal atau koneksi persistant tergantung 
+		pada jumlah tamu pada site Anda dan perangkat keras yang digunakan untuk server. Bila phpAdsNew menyerap 
+		tenaga server secara berkelebihan periksa setingan ini.
 		";
 		
 $GLOBALS['phpAds_hlp_insert_delayed'] = "
-        MySQL locks the table when it is inserting data. If have many visitors to your site, 
-		it could be possible phpAdsNew must wait before inserting a new row, because the database 
-		is still locked. When you use insert delayed, you don't have to wait and the row will 
-		be inserted at a later time when the table is not in use by any other thread. 
+        MySQL mengunci table selama proses penambahan data. Bila banyak tamu kunjungi site ada kemungkinan bisa 
+		terjadi, phpAdsNew harus menunggu sebelum menambah baris baru pada table sehubungan database 
+		masih terkunci. Bila insert delayed dipakai tidak terjadi hambatan tunggu dan baris tersebut akan 
+		ditambah kepada table pada waktu sistem tidak dipakai oleh thread lain. 
 		";
 		
 $GLOBALS['phpAds_hlp_table_prefix'] = "
-        If the database phpAdsNew is using is shared by mutiple software products, it is wise
-		to add a prefix to names of the tables. If you are using multiple installations of phpAdsNew
-		in the same database, you need to make sure this prefix is unique for all installations.
+        Jika database yang dipakai oleh phpAdsNew digunakan secara paralel dengan produk software yang lain keputusan pintar
+		adalah menambah sebuah prefix kepada nama seluruh table. Jika lebih dari satu instalasi proram phpAdsNew dipakai
+		dalam database yang sama perlu diperhatikan bahwa seluruh prefix untuk setiap instalasi harus unik.
 		";
 		
 $GLOBALS['phpAds_hlp_tabletype'] = "
-        MySQL supports multiple table types. Each type of table has unique properties and some
-		can speed up phpAdsNew considerable. MyISAM is the default table type and is available
-		in all installations of MySQL. Other table types may not be available on your server
+        MySQL support bermacam tipe table. Setiap tipe table mempunyai khas yang unik dan ada berberapa
+		yang mampu mempercepat kinerja kerja program phpAdsNew. MyISAM adalah tipe table default yang tersedia
+		pada semua instalasi database MySQL. Tipe table lain dari MyISAM dengan kemungkinan besar tidak tersedia pada server Anda.
 		";
 		
 $GLOBALS['phpAds_hlp_url_prefix'] = "
-        phpAdsNew needs to know where it is located on the web server in order 
-        to work correctly. You must specify the URL to the directory where phpAdsNew 
-        is installed, for example: http://www.your-url.com/phpAdsNew.
+        Untuk berfungsi dengan baik phpAdsNew perlu dibertahui dimana filenya tersimpan
+        pada webserver. Silakan spesifikasikan URL direktori instalasi phpAdsNew,  
+        seb. contoh: http://www.url-anda.com/phpAdsNew.
 		";
 		
 $GLOBALS['phpAds_hlp_my_header'] =
 $GLOBALS['phpAds_hlp_my_footer'] = "
-        You should put here the path to the header files (e.g.: /home/login/www/header.htm) 
-        to have a header and/or footer on each page in the admin interface. You 
-        can put either text or html in these files (if you want to use html in 
-        one or both of these files do not use tags like <body> or <html>).
+        Silakan isi disini path yang menunjuk kepada header files (e.g.: /home/login/www/header.htm) 
+        untuk miliki sebuah header dan/atau footer di setiap halaman pada interface Admin. 
+        Silakan pilih jenis text atau html (jika Anda menginginkan kode html dalam 
+        salah satu atau dalam kedua file, jangan mengunakan tags seperti <body> atau <html>).
 		";
 		
 $GLOBALS['phpAds_hlp_language'] = "
-        Specify the default language phpAdsNew should use. This language will 
-        be used as a default for the admin and client interface. Please note: 
-        you can set a different language for each client from the admin interface 
-        and allow clients to change their language themselves.
+        Silakan tentukan disini bahasa awal yang dipakai oleh program phpAdsNew. Bahasa yang ditentukan
+        disini akan dipakai sebagai bahasa awal pada interface Admin dan interface client. Perhatian: 
+        Diperbolehkan untuk pakai bahasa yang berbeda untuk setiap Client diatur oleh interface Admin 
+        dan memperbolehkan Client untuk memilih sendiri bahasa yang ditampilkan pada interface.
 		";
 		
 $GLOBALS['phpAds_hlp_name'] = "
-        Specify the name you want to use for this application. This string will 
-        be displayed on all pages in the admin and client interface. If you leave 
-        this setting empty (default) a logo of phpAdsNew will be displayed instead.
+        Silakan tentukan sendiri nama yang dipakai untuk aplikasi ini. String yang dipakai 
+        disini akan ditampilkan pada semua halaman di interface Admin dan interface Client. 
+        Jika dikosongkan (default) logo program phpAdsNew akan tertampil pada layar.
 		";
 		
 $GLOBALS['phpAds_hlp_company_name'] = "
-        This name is used in the e-mail sent by phpAdsNew.
+        Nama yang dipakai disini akan tertampil pada e-mail yang dikirim secara otomatis 
+	oleh program phpAdsNew.
 		";
 		
 $GLOBALS['phpAds_hlp_override_gd_imageformat'] = "
-        phpAdsNew usually detects if the GD library is installed and which image 
-        format is supported by the installed version of GD. However it is possible 
-        the detection is not accurate or false, some versions of PHP do not allow 
-        the detection of the supported image formats. If phpAdsNew fails to auto-detect 
-        the right image format you can specify the right image format. Possible 
-        values are: none, png, jpeg, gif.
+        Biasanya terdeteksi sendiri oleh program phpAdsNew apakah GD library terinstal pada 
+        server dan image format mana yang disuport oleh versi GD yang terinstal. Bagimanapun juga 
+        tidak lepas dari kemungkinan terjadi deteksi yang tidak akurat atau salah. Ada juga versi 
+        PHP yang tidak izinkan autodeteksi image format. Bila program phpAdsNew gagal autodeteksi 
+        image format yang akur, silakan tentukan image format secara manual. Format yang didukung 
+        adalah: none, png, jpeg atau gif.
 		";
 		
 $GLOBALS['phpAds_hlp_p3p_policies'] = "
-        If you want to enable phpAdsNew' P3P Privacy Policies you must turn this 
-        option on. 
+        Bila fungsi phpAdsNew' P3P Privacy Policies perlu diaktifkan silakan 
+        pilih tanda On. 
 		";
 		
 $GLOBALS['phpAds_hlp_p3p_compact_policy'] = "
-        The compact policy which is sent together with cookies. The default setting 
-        is: 'CUR ADM OUR NOR STA NID', which will allow Internet Explorer 6 to 
-        accept the cookies used by phpAdsNew. If you want you can alter these 
-        settings to match your own privacy statement.
+        Policy Compact yang dikirim bersama dengan Cookie. Setingan default
+        adalah: 'CUR ADM OUR NOR STA NID'. Setingan ini mengizinkan Internet Explorer 6 
+        untuk terima Cookies yang digunakan oleh phpAdsNew. Bila Anda berminat silakan 
+        ubah setingan disini sesuai dengan privacy statement perusahaan Anda.
 		";
 		
 $GLOBALS['phpAds_hlp_p3p_policy_location'] = "
-        If you want to use a full privacy policy, you can specify the location 
-        of the policy.
+        Bila full privacy policy diinginkan silakan tentukan lokasi 
+        dari policy tersebut.
 		";
 		
 $GLOBALS['phpAds_hlp_compact_stats'] = "
-        Traditionally phpAdsNew used rather extensive logging, which was very 
-        detailed but was also very demanding on the database server. This could 
-        be a big problem on sites with a lot of visitors. To overcome this problem
-		phpAdsNew also supports a new kind of statistics, the compact statistics, 
-		which is less demanding on the database server, but also less detailed. 
-		The compact statistics only logs daily statistics, if you need hourly statistics 
-		you can turn the compact statistics off.
+        Secara tradisional phpAdsNew mengunakan logging yang extensive dengan tingkat detail 
+        yang sangat tinggi tetapi sistem ini memang membutuhukan banyak tenaga dari database server.
+        Hal ini mampu untuk menjadi masalah bagi site dengan jumlah kunjungan tamu yang tinggi.
+	Untuk mengatasi masalah ini phpAdsNew support tipe statistik yang baru, iaitu Compact Statistics. 
+	Tipe ini juga lebih hemat pada database server tetapi disisi lainnya juga kurang dalam segi detail. 
+	Tipe Compact Statistics hanya me-log statistik secara harian. Bila statistik dengan interval 60 menit 
+	yang diperlukan, silakan ubah stelan Compact Statistics ke posisi Off.
 		";
 		
 $GLOBALS['phpAds_hlp_log_adviews'] = "
-        Normally all AdViews are logged, if you don't want to gather statistics 
-        about AdViews you can turn this off.
+        Biasanya setiap AdView di-log. Bila statistik tentang AdView tidak diinginkan 
+        silakan ubah stelan ini ke posisi Off.
 		";
 		
 $GLOBALS['phpAds_hlp_log_adclicks'] = "
-        Normally all AdClicks are logged, if you don't want to gather statistics 
-        about AdClicks you can turn this off.
-		";
+        Biasanya setiap AdClick di-log. Bila statistik tentang AdClick tidak diinginkan 
+        silakan ubah stelan ini ke posisi Off.
+        	";
 		
 $GLOBALS['phpAds_hlp_reverse_lookup'] = "
-        phpAdsNew logs the IP address of each visitor by default. If you want 
-        phpAdsNew to log domain names you should turn this on. Reverse lookup 
-        does take some time; it will slow everything down.
+        Program phpAdsNew me-log alamat IP dari setiap pengunjung secara default. Bila logging 
+        domain names diinginkan silakan ubah stelan ini ke posisi On. Reverse lookup 
+        perlu waktu; stelan ini mempengaruh kinerja kerja sistem.
 		";
 		
 $GLOBALS['phpAds_hlp_ignore_hosts'] = "
-        If you don't want to count clicks and views from certain computer you 
-        can add these to this array. If you have enabled reverse lookup you can 
-        add both domain names and IP addresses, otherwise you can only use IP 
-        addresses. You can also use wildcards (i.e. '*.altavista.com' or '192.168.*').
+        Bila Counting dari seluruh Clicks dan Views dari computer tertentu tidak diinginkan 
+        silakan tambah computer tersebut kedalam array disini. Bila fungsi Reverse Lookup aktif 
+        nama domain dan alamat IP diperbolehkan untuk diisi.  Bila fungsi Reverse Lookup tidak aktif 
+        hanya alamat IP yang diperbolehkan untuk diisi disini. Silakan gunakan Wildcards
+	(seperti '*.pintunet.com' or '192.168.*').
 		";
 		
 $GLOBALS['phpAds_hlp_begin_of_week'] = "
-        For most people a week starts on a Monday, but if you want to start each 
-        week on a Sunday you can.
+        Pada umumnya awal minggu dianggap mulai pada setiap hari senin tetapi bila
+        awal minggu perlu ditentukan pada hari minggu silakan gunakan stelan ini.
 		";
 		
 $GLOBALS['phpAds_hlp_percentage_decimals'] = "
-        Specifies how many decimal places to display on statistics pages.
+        Pilihan jumlah angka desimal yang ditampilkan pada halaman statistik.
 		";
 		
 $GLOBALS['phpAds_hlp_warn_admin'] = "
@@ -164,165 +169,173 @@ $GLOBALS['phpAds_hlp_warn_admin'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_warn_client'] = "
-        phpAdsNew can sent the client e-mail if he has only a limited number of 
-        clicks or views left. This is turned on by default.
+        Program phpAdsNew mengirim e-mail kepada Client secara otomatis bila
+        jumlah Clicks atau Views yang tertinggal mendekati Kosong.
+	Fungsi ini dalam stelan On sebagai default.
 		";
 		
 $GLOBALS['phpAds_hlp_warn_limit'] = "
-        The limit on which phpAdsNew starts sending warning e-mails. This is 100 
-        by default.
+        Limit yang ditentukan mulai kapan program phpAdsNew mengirim e-mail
+        peringatan kepada Client. Default adalah 100.
 		";
 		
 $GLOBALS['phpAds_hlp_retrieval_method'] = "
-        phpAdsNew can use four different types of banner retrieval: Random banner 
+        Program phpAdsNew bisa mengunakan empat tipe untuk retrieval banner: Random banner 
         retrieval (default), Normal sequential banner retrieval, Weight 
-        based sequential banner retrieval and Full sequential banner retrieval.
-      	If you are using Zones, phpAdsNew will always use random banner retrieval 
-        and this setting will be ignored.
+        based sequential banner retrieval dan Full sequential banner retrieval.
+      	Bila Anda mengunakan Zona, program phpAdsNew akan mengunakan sistem 
+        random banner retrieval dan setingan disini dilewatkan.
 		";
 		
 $GLOBALS['phpAds_hlp_con_key'] = "
-        phpAdsNew includes a powerful banner retrieval system. For more information, 
-        please read the API section. With this option, you can activate conditional 
-        keywords. This is turned on by default.
+        Program phpAdsNew mengunakan sebuah banner retrieval system yang sangat changgih.
+        Untuk informasi lebih lanjut silakan baca bagian API pada dokumentasi. Dengan
+	stelan ini fungsi Conditional Keywords diaktifkan.
+	Fungsi ini aktif sebagai default.
 		";
 		
 $GLOBALS['phpAds_hlp_mult_key'] = "
-        For each banner, you can specify one or more keywords. This option is 
-        needed if you want to specify more than one keyword. This is turned on 
-        by default.
+        Untuk setiap banner diperbolehkan untuk menentukan lebih dari satu Keyword.
+        Stelan ini diperlukan bila lebih dari satu keyword digunakan.
+        Fungsi ini aktif sebagai default.
 		";
 		
 $GLOBALS['phpAds_hlp_acl'] = "
-        If you are not using display limitations you can disable ACL checking with this parameter, 
-        this will speed up phpAdsNew.
+        Bila tidak ada limitasi dalam cara penampilan silakan disable 
+        ACL Checking dengan parameter ini. Stelan ini mempengaruh kecepatan
+	program phpAdsNew.
 		";
 		
 $GLOBALS['phpAds_hlp_default_banner_url'] = 
 $GLOBALS['phpAds_hlp_default_banner_target'] = "
-        If phpAdsNew can't connect to the database server, or can't find any matching 
-        banners at all, for example when the database crashed or was deleted, 
-        it won't display anything. Some users may want to specify a default banner, 
-        which will be displayed in these situations. The default banner specified 
-        here will not be logged and won't be used if there are still active banners 
-        left in the database. This is turned off by default.
+        Bila program phpAdsNew tidak sukses membangun koneksi ke database server,
+	atau bila tidak diketemukan banner yang sesuai, seandainya setelah terjadi
+	Crash atau penghapusan data pada database, tampilan pada halaman akan kosong.
+	Berberapa User ingin menampilkan banner default jika hal tersebut terjadi. 
+        Banner default yang ditentukan disini tidak tercatat dalam Log dan tidak
+	ditampilkan jika masih ada banner lain yang aktif dalam database.
+	Fungsi ini tidak aktif sebagai default.
 		";
 		
 $GLOBALS['phpAds_hlp_zone_cache'] = "
-        If you are using zones this setting allows phpAdsNew to store the banner 
-        information inside a cache which will be used later on. The will speed 
-        up phpAdsNew a bit, because instead of retrieving the zone information 
-        and retrieving the banner information and selecting the right banner, 
-        phpAdsNew only needs to load the cache. This feature is turned on by default.
+        Bila Anda ingin mengunakan fungsi Zona, setting ini beri izin kepada program phpAdsNew
+	untuk simpan Banner Information dalam Cache guna siap dipakai setiap waktu. 
+        Fungsi ini akan mempengaruhi kecepatan program phpAdsNew secara positif,
+	soalnya tidak perlu lagi mencari Zone Information dan mengakses Banner Information 
+        untuk pada akhirnya memilih banner yang diperlukan. Program phpAdsNew tinggal
+	perlu mengisi kembali Cache. Fungsi ini aktif sebagai default.
 		";
 		
 $GLOBALS['phpAds_hlp_zone_cache_limit'] = "
-        If you are using cached zones, the information inside the cache can become 
-        outdated. Once in a while phpAdsNew needs to rebuild the cache, so new 
-        banners will be included in the cache. This setting lets you decide when 
-        a cached zone will be reloaded, by specifing the maximum lifetime of the 
-        cached zone. For example: if you set this setting to 600, the cache will 
-        be rebuild if the cached zone is older than 10 minutes (600 seconds).
+        Bila Anda mengunakan Cached Zones, informasi dalam cache bisa kelewat kadaluarsa. 
+        Dalam jangka waktu ke waktu program phpAdsNew perlu bangun kembali isi
+        dari cache, guna untuk mengubah dan mengupdate isi dari cache tersebut. Setingan
+        ini menentukan waktu untuk reload zona yang bersangkutan kedalam cache dengan
+	mengisi jangka waktu maksimal dari Cached Zone tersebut. Contoh: Bila setting ini
+	ditetapkan pada 600, isi cache akan di-rebuild jika Cached Zone lebih tua dari
+	10 menit (600 detik).
 		";
 		
 $GLOBALS['phpAds_hlp_type_sql_allow'] = 
 $GLOBALS['phpAds_hlp_type_web_allow'] = 
 $GLOBALS['phpAds_hlp_type_url_allow'] = 
 $GLOBALS['phpAds_hlp_type_html_allow'] = "
-        phpAdsNew can use different types of banners and store them in different 
-        ways. The first two options are used for local storage of banners. You 
-        can use the admin interface to upload a banner and phpAdsNew will store 
-        the banner in the SQL database (option 1) or on a web server (option 2). 
-        You can also use a banner stored on a different web server (option 3) 
-        or use html to generate a banner (option 4). You can disable any one of 
-        these types by altering these settings. By default all banner types are 
-        turned on.
-      	If you disable a certain banner type while there are still banners available 
-        of the this type, phpAdsNew will allow the use of these banners, but will 
-        not allow the creation of new banners of this type.
+        Program phpAdsNew bisa mengunakan tipe banner yang berbeda dan simpan 
+        banner tersebut dengan cara yang berbeda. Pilihan kedua pertama digunakan
+	untuk simpan banner di lokasi lokal. Silakan gunakan Interface Admin 
+        untuk upload banner dan program phpAdsNew akan simpan banner dalam 
+        database MySQL (pilihan 1) atau di webserver (pilihan 2). 
+        Banner yang disimpan pada webserver lain siap dipakai begitupula (pilihan 3) 
+        atau silakan mengunakan kode html untuk generate sebuah banner (pilihan 4).
+	Seluruh tipe tersebut mudah di-nonaktifkan dengan ubah settingan yang bersangkutan.
+        Sebagai default semua tipe banner berada dalam posisi aktif.
+      	Bila tipe banner tertentu di-nonaktifkan sedangkan masih ada tipe banner sejenis
+        dalam antrian, program phpAdsNew akan beri izin untuk tampilkan banner tersebut.
+        Izin untuk membuat banner baru dari tipe banner ini tidak diberikan.
 		";
 		
 $GLOBALS['phpAds_hlp_type_web_mode'] = "
-        If you want to use banners stored on the web server, you need to configure 
-        this setting. If you want to store the banners in a local directory set 
-        this option to 0. If you want to store the banner on an external FTP server 
-        set this option to 1. On certain web servers you may want to use the FTP 
-        option even on the local web server.
+        Bila Anda ingin mengunakan banner yang tersimpan pada webserver,
+        Anda perlu perhatikan settingan ini. Untuk simpan banner pada
+	direktori lokal, silakan set pilihan ini ke posisi 0. Jika Anda ingin
+	simpan banner pada external FTP server, silakan set pilihan ini ke posisi 1.
+	Ada webserver tertentu yang mengizinkan pengunaan pilihan FTP, meskipun 
+        webserver yang bersangkutan berada dalam jaringan lokal.
 		";
 		
 $GLOBALS['phpAds_hlp_type_web_dir'] = "
-        Specify the directory where phpAdsNew needs to copy the uploaded banners 
-        to. This directory needs to be writable by PHP, this could mean you need 
-        to modify the UNIX permissions for this directory (chmod). The directory 
-        you specify here needs to be in the web server' document root, the web 
-        server must be able to serve the files directly. Do not specify a trailing 
-        slash (/). You only need to configure this option if you have set the store
-		method to 'Local mode'.
+        Sebutkan nama direktori dan tempat sebagai direktori Upload banner. 
+        Direktori yang dipilih harus memiliki write-access untuk PHP. Hal ini
+        biasanya diatasi dengan ubah permission pada UNIX/Linux dan untuk direktori
+        yang bersangkutan (chmod). Direktori yang ditunjuk disini perlu berada
+	dalam posisi document root webserver. Webserver harus bebas untuk melayani
+	files secara langsung. Jangan gunakan slash (/) dibelakang. Pilihan ini
+	hanya perlu diperhatikan jika metode penyimpanan ditetapkan pada posisi
+	'Local Mode'.
 		";
 		
 $GLOBALS['phpAds_hlp_type_web_ftp'] = "
-        Specify the FTP server where phpAdsNew needs to copy the uploaded banners 
-        to. The directory you specify here needs to be in the web server' document 
-        root, the web server must be able to serve the files directly. The URL 
-        you specify here can include a username, a password, the server name and 
-        the path. 
+        Sebutkan nama dan alamat FTP server yang digunakan oleh program
+	phpAdsNew sebagai penyimpanan banner yang diupload. Direktori yang
+	ditunjuk disini perlu berada dalam posisi document root webserver.
+	Webserver harus mempunyai hak bebas untuk melayani files secara
+	langsung. Alamat URL yang dipakai disini bebas mengandung Username,
+	Kata Sandi, nama server dan path. 
 		";
       
 $GLOBALS['phpAds_hlp_type_web_url'] = "
-        If you store banners on a web server, phpAdsNew needs to know which public 
-        URL corresponds with the directory you specified above. Do not specify 
-        a trailing slash (/).
+        Bila Anda ingin simpan banner di sebuah webserver program phpAdsNew
+	perlu informasi tentang URL publik mana yang berkorespondensi dengan 
+        direktori yang ditentukan diatas ini. Jangan gunakan slash (/) dibelakang.
 		";
 		
 $GLOBALS['phpAds_hlp_type_html_auto'] = "
-        If this option is turned on phpAdsNew will automatically alter HTML banners 
-        in order to allow the clicks to be logged. However even if this option 
-        is turned it will be possible to disable this feature on a per banner 
-        basis. 
+        Jika pilihan ini aktif phpAdsNew akan mengolah banner HTML secara aktif guna 
+        mengizinkan seluruh Clicks di-log oleh program. Dengan aktifkan pilihan ini 
+        cara perhitungan Clicks bedasarkan basis per banner tetap bisa di nonaktifkan. 
 		";
 		
 $GLOBALS['phpAds_hlp_type_html_php'] = "
-        It is possible to let phpAdsNew execute PHP code embedded inside HTML 
-        banners. This feature is turned off by default.
+        Beri izin kepada program phpAdsNew untuk eksekusi kode PHP yang berada dalam
+	banner HTML. Fungsi ini tidak aktif sebagai default.
 		";
 		
 $GLOBALS['phpAds_hlp_admin'] = "
-        The administrator username, you can specify the username that you can 
-        use to log into the administrator interface.
+        Username Administrator;  silakan terapkan username yang dipakai sewaktu 
+        login ke interface administrator.
 		";
 		
 $GLOBALS['phpAds_hlp_admin_pw'] = "
-        The administrator password, you can specify the password that you can 
-        use to log into the administrator interface.
+        Kata Sandi Administrator; silakan pilih kata sandi untuk dipakai
+	sewaktu login lewat interface administrator.
 		";
 		
 $GLOBALS['phpAds_hlp_admin_fullname'] = "
-        Specify the administrator's full name. This used when sending statistics 
-        via email.
+        Nama lengkap dari Administrator sistem ini. Data ini diperlukan untuk mengirim
+	data statistik lewat e-mail.
 		";
 		
 $GLOBALS['phpAds_hlp_admin_email'] = "
-        The administrator's e-mail address. This is used as from-address when 
-        sending statistics via email.
+        Alamat e-mail dari Administrator. Data ini diperlukan untuk mengirim
+	data statistik lewat e-mail.
 		";
 		
 $GLOBALS['phpAds_hlp_admin_email_headers'] = "
-        You can alter the e-mail headers used by the e-mails which phpAdsNew sends.
+        Fungsi ini untuk manipulasi header dari e-mail yang dikirim oleh phpAdsNew.
 		";
 		
 $GLOBALS['phpAds_hlp_admin_novice'] = "
-        If you want to recieve a warning before deleting clients, campaigns or 
-        banners; set this option to true.
+        Bila Anda ingin terima Peringatan sebelum Client, Kampanye atau Banner
+	dihapus terapkan pilihan ini di posisi True.
 		";
 		
 $GLOBALS['phpAds_hlp_client_welcome'] = 
 $GLOBALS['phpAds_hlp_client_welcome_msg'] = "
-       If you turn this feature on a welcome message will be displayed on the 
-        first page a client will see after loggin in. You can personalize this 
-        message by editing the 'welcome.html' file location in the 'admin/templates' 
-        directory. Things you might want to include are for example: Your company 
-        name, contact information, your company logo, a link a page with advertising 
-        rates, etc..
+       Bila fungsi ini aktif halaman pertama setelah Login yang akan tertampil pada
+	Client adalah sebuah Welcome Message. Silakan ubah kabar tersebut dengan
+	mengedit file 'welcome.html' dalam direktori 'admin/templates'. 
+        Data untuk diisi sebagai contoh: nama perusahaan Anda, Informasi Relasi,
+	lambang perusahaan, sebuah Link, sebuah halaman dengan tarif beriklan dll.
 		";
 		
 ?>

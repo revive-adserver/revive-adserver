@@ -7,7 +7,8 @@
 /* Copyright (c) 2001 by the phpAdsNew developers                       */
 /* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
-/* Translation by Rachim Tamsjadi (rtamsjadi@gmx.net), rev.1            */
+/* Translation by Rachim Tamsjadi. Please send corrections              */
+/* to tamsjadi@icqmail.com                                              */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -16,421 +17,467 @@
 
 
 // Set text direction and characterset
-$GLOBALS['phpAds_TextDirection']  = "ltr";
-$GLOBALS['phpAds_TextAlignRight'] = "right";
-$GLOBALS['phpAds_TextAlignLeft']  = "left";
+$GLOBALS['phpAds_TextDirection']  				= "ltr";
+$GLOBALS['phpAds_TextAlignRight'] 				= "right";
+$GLOBALS['phpAds_TextAlignLeft']  				= "left";
 
 
-// Set translation strings
-$GLOBALS['strHome'] = "Home";
-$GLOBALS['date_format'] = "%d.%m.%Y";
-$GLOBALS['time_format'] = "%H:%i:%S";
-$GLOBALS['strMySQLError'] = "MySQL-Error:";
-$GLOBALS['strAdminstration'] = "Administrasi";
-$GLOBALS['strAddClient'] = "Tambah Client baru";
-$GLOBALS['strModifyClient'] = "Ubah data Client";
-$GLOBALS['strDeleteClient'] = "Hapus Client";
-$GLOBALS['strViewClientStats'] = "Lihat statistik Client";
-$GLOBALS['strClientName'] = "Client";
-$GLOBALS['strContact'] = "Alamat";
-$GLOBALS['strEMail'] = "E-Mail";
-$GLOBALS['strViews'] = "AdViews";
-$GLOBALS['strClicks'] = "AdKlik";
-$GLOBALS['strTotalViews'] = "Jumlah AdViews";
-$GLOBALS['strTotalClicks'] = "Jumlah AdKlik";
-$GLOBALS['strCTR'] = "Ratio Click-Through (CTR)";
-$GLOBALS['strTotalClients'] = "Jumlah Client";
-$GLOBALS['strActiveClients'] = "Client yang aktif";
-$GLOBALS['strActiveBanners'] = "Banner yang aktif";
-$GLOBALS['strLogout'] = "Keluar";
-$GLOBALS['strCreditStats'] = "Kredit statistik";
-$GLOBALS['strViewCredits'] = "Saldo AdView";
-$GLOBALS['strClickCredits'] = "Saldo AdKlik";
-$GLOBALS['strPrevious'] = "Sebelumnya";
-$GLOBALS['strNext'] = "Berikutnya";
-$GLOBALS['strNone'] = "Kosong";
-$GLOBALS['strViewsPurchased'] = "AdViews yang dibeli";
-$GLOBALS['strClicksPurchased'] = "AdKlik yang dibeli";
-$GLOBALS['strDaysPurchased'] = "AdDays (hari) yang dibeli";
-$GLOBALS['strHTML'] = "HTML";
-$GLOBALS['strAddSep'] = "Silakan isi salah satu kotak diatas ATAU dibawah!";
-$GLOBALS['strTextBelow'] = "Nama Gambar";
-$GLOBALS['strSubmit'] = "Menyelesaikan";
-$GLOBALS['strUsername'] = "Nama User";
-$GLOBALS['strPassword'] = "Kata Sandi";
-$GLOBALS['strBannerAdmin'] = "Administrasi Banner untuk";
-$GLOBALS['strNoBanners'] = "Banner tidak ditemukan";
-$GLOBALS['strBanner'] = "Banner";
-$GLOBALS['strCurrentBanner'] = "Banner yang sedang ditampil";
-$GLOBALS['strDelete'] = "Hapus Banner";
-$GLOBALS['strAddBanner'] = "Tambah Banner baru";
-$GLOBALS['strModifyBanner'] = "Edit Banner";
-$GLOBALS['strURL'] = "Link ke URL (ketik http://)";
-$GLOBALS['strKeyword'] = "Kata kunci (keyword)";
-$GLOBALS['strWeight'] = "Bobot (Weight)";
-$GLOBALS['strAlt'] = "Alt-Text";
-$GLOBALS['strAccessDenied'] = "Akses ditolak";
-$GLOBALS['strPasswordWrong'] = "Kata Sandi salah";
-$GLOBALS['strNotAdmin'] = "Hak akses Anda tidak cukup.";
-$GLOBALS['strClientAdded'] = "Client telah ditambah.";
-$GLOBALS['strClientModified'] = "Client telah diubah.";
-$GLOBALS['strClientDeleted'] = "Client telah dihapus.";
-$GLOBALS['strBannerAdmin'] = "Administrasi Banner";
-$GLOBALS['strBannerAdded'] = "Banner telah ditambah.";
-$GLOBALS['strBannerModified'] = "Banner telah diubah";
-$GLOBALS['strBannerDeleted'] = "Banner telah dihapus";
-$GLOBALS['strBannerChanged'] = "Banner telah diganti";
-$GLOBALS['strStats'] = "Statistik";
-$GLOBALS['strDailyStats'] = "Statistik Harian";
-$GLOBALS['strDetailStats'] = "Statistik secara detail";
-$GLOBALS['strCreditStats'] = "Kredit Statistik";
-$GLOBALS['strActive'] = "aktif";
-$GLOBALS['strActivate'] = "Di aktifkan";
-$GLOBALS['strDeActivate'] = "Di deaktifkan";
-$GLOBALS['strAuthentification'] = "Autentifikasi";
-$GLOBALS['strGo'] = "Ok";
-$GLOBALS['strLinkedTo'] = "Klik-URL";
-$GLOBALS['strBannerID'] = "Banner-ID";
-$GLOBALS['strClientID'] = "Client-ID";
-$GLOBALS['strMailSubject'] = "Rekapitulasi kampanye iklan";
-$GLOBALS['strMailSubjectDeleted'] = "Banner yang tidak akif";
-$GLOBALS['strMailHeader'] = "Dengan Hormat, {contact},\n\n";
-$GLOBALS['strMailBannerStats'] = "Dengan e-mail ini kami mengirim data statistik Banner kepada Bpk./Ibu {Clientname}:";
-$GLOBALS['strMailFooter'] = "Hormat kami\n\n   {adminfullname}";
-$GLOBALS['strLogMailSent'] = "[phpAds] Pengiriman data statistik telah berhasil.";
-$GLOBALS['strLogErrorClients'] = "[phpAds] Error pada saat mengambil data Client dari database.";
-$GLOBALS['strLogErrorBanners'] = "[phpAds] Error pada saat mengambil data Banner dari database.";
-$GLOBALS['strLogErrorViews'] = "[phpAds] Error pada saat mengambil data AdViews dari database";
-$GLOBALS['strLogErrorClicks'] = "[phpAds] Error pada saat mengambil data AdKlik dari database";
-$GLOBALS['strLogErrorDisactivate'] = "[phpAds] Error pada saat deakivasi Banner.";
-$GLOBALS['strRatio'] = "Ratio Click-Through (CTR)";
-$GLOBALS['strChooseBanner'] = "Silakan pilih tipe Banner.";
-$GLOBALS['strMySQLBanner'] = "Banner tersimpan di database MySQL";
-$GLOBALS['strWebBanner'] = "Banner tersimpan di webserver";
-$GLOBALS['strURLBanner'] = "Banner dihubungkan (di-link) lewat URL";
-$GLOBALS['strHTMLBanner'] = "Banner-HTML";
-$GLOBALS['strNewBannerFile'] = "File Banner baru";
-$GLOBALS['strNewBannerURL'] = "URL Banner baru (ketik http://)";
-$GLOBALS['strWidth'] = "Lebar";
-$GLOBALS['strHeight'] = "Tinggi";
-$GLOBALS['strTotalViews7Days'] = "Jumlah AdViews dalam jangka waktu 7 hari terakhir";
-$GLOBALS['strTotalClicks7Days'] = "Jumlah AdKlik dalam jangka waktu 7 hari terakhir";
-$GLOBALS['strAvgViews7Days'] = "AdViews setiap hari (rata-rata 7 hari terakhir)";
-$GLOBALS['strAvgClicks7Days'] = "AdKlik setiap hari (rata-rata 7 hari terakhir)";
-$GLOBALS['strTopTenHosts'] = "Ranking Top 10 di antara IP Pengunjung";
-$GLOBALS['strClientIP'] = "Nomor IP Pengunjung";
-$GLOBALS['strUserAgent'] = "RegExp untuk Browser";
-$GLOBALS['strWeekDay'] = "Hari (0 - 6)";
-$GLOBALS['strDomain'] = "Domain (tanpa titik)";
-$GLOBALS['strSource'] = "Sumber";
-$GLOBALS['strTime'] = "Waktu";
-$GLOBALS['strAllow'] = "Izinkan";
-$GLOBALS['strDeny'] = "Tolak";
-$GLOBALS['strResetStats'] = "Reset Statistik";
-$GLOBALS['strExpiration'] = "Kadaluarsa";
-$GLOBALS['strNoExpiration'] = "Tanggal kadaluarsa tidak ditentukan";
-$GLOBALS['strDaysLeft'] = "Sisa hari";
-$GLOBALS['strEstimated'] = "Perkiraan tanggal kadaluarsa";
-$GLOBALS['strConfirm'] = "Apakah Anda yakin?";
-$GLOBALS['strBannerNoStats'] = "Data statistik untuk Banner ini tidak ditemukan!";
-$GLOBALS['strWeek'] = "Minggu ke";
-$GLOBALS['strWeeklyStats'] = "Statistik Mingguan";
-$GLOBALS['strWeekDay'] = "Hari";
-$GLOBALS['strDate'] = "Tanggal";
-$GLOBALS['strCTRShort'] = "CTR";
-$GLOBALS['strDayShortCuts'] = array("Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu");
-$GLOBALS['strShowWeeks'] = "Jumlah minggu yang ditampilkan";
-$GLOBALS['strAll'] = "Seluruh";
-$GLOBALS['strAvg'] = "Rata-Rata";
-$GLOBALS['strHourly'] = "Views/Klik per jam";
-$GLOBALS['strTotal'] = "Jumlah";
-$GLOBALS['strUnlimited'] = "Tidak terbatas";
-$GLOBALS['strUp'] = "Keatas";
-$GLOBALS['strDown'] = "Kebawah";
-$GLOBALS['strSave'] = "Simpan";
-$GLOBALS['strSaved'] = "telah tersimpan!";
-$GLOBALS['strDeleted'] = "telah dihapus!";
-$GLOBALS['strMovedUp'] = "telah dipindahkan keatas";
-$GLOBALS['strMovedDown'] = "telah dipindahkan kebawah";
-$GLOBALS['strUpdated'] = "telah di-update";
-$GLOBALS['strLogin'] = "Login";
-$GLOBALS['strPreferences'] = "Preferensi";
-$GLOBALS['strAllowClientModifyInfo'] = "Beri izin kepada User ini untuk merubah Profile";
-$GLOBALS['strAllowClientModifyBanner'] = "Beri izin kepada User ini untuk merubah Banner";
-$GLOBALS['strAllowClientAddBanner'] = "Beri izin kepada User ini untuk menambah Banner";
-$GLOBALS['strLanguage'] = "Bahasa";
-$GLOBALS['strDefault'] = "Default";
-$GLOBALS['strErrorViews'] = "Silakan isi kotak Jumlah AdViews atau pilih Unlimited!";
-$GLOBALS['strErrorNegViews'] = "Jumlah AdViews dengan angka negatif tidak diperbolehkan";
-$GLOBALS['strErrorClicks'] =  "Silakan isi kotak Jumlah AdKlik atau pilih Unlimited!";
-$GLOBALS['strErrorNegClicks'] = "Jumlah AdViews dengan angka negatif tidak diperbolehkan";
-$GLOBALS['strErrorDays'] = "Silakan isi kotak Jumlah Hari atau pilih Unlimited!";
-$GLOBALS['strErrorNegDays'] = "Jumlah Hari dengan angka negatif tidak diperbolehkan";
-$GLOBALS['strTrackerImage'] = "Tracker Image:";
+// Date & time configuration
+$GLOBALS['date_format'] 					= "%d.%m.%Y";
+$GLOBALS['time_format'] 					= "%H:%i:%S";
+$GLOBALS['minute_format']					= "%H:%M";
+$GLOBALS['month_format']					= "%m.%Y";
+$GLOBALS['day_format']						= "%d.%m";
+$GLOBALS['week_format']						= "%W/%Y";
+$GLOBALS['weekiso_format']					= "%V/%G";
 
-// New strings for version 2
-$GLOBALS['strNavigation'] = "Navigasi";
-$GLOBALS['strShortcuts'] = "Jalur Singkat";
-$GLOBALS['strDescription'] = "Uraian";
-$GLOBALS['strClients'] = "Client";
-$GLOBALS['strID'] = "ID";
-$GLOBALS['strOverall'] = "Keseluruan";
-$GLOBALS['strTotalBanners']= "Jumlah Banner";
-$GLOBALS['strToday'] = "Hari ini";
-$GLOBALS['strThisWeek'] = "Minggu ini";
-$GLOBALS['strThisMonth'] = "Bulan ini";
-$GLOBALS['strBasicInformation'] = "Informasi Dasar";
-$GLOBALS['strContractInformation'] = "Informasi Kontrak";
-$GLOBALS['strLoginInformation'] = "Informasi Login";
-$GLOBALS['strPermissions'] = "Hak akses";
-$GLOBALS['strGeneralSettings'] = "Setting Umum";
-$GLOBALS['strSaveChanges'] = "Simpan Perubahan";
-$GLOBALS['strCompact'] = "Secara Kompak";
-$GLOBALS['strVerbose'] = "Secara Detail";
-$GLOBALS['strOrderBy'] = "Diurut berdasarkan";
-$GLOBALS['strShowAllBanners'] = "Lihat semua Banner";
-$GLOBALS['strShowBannersNoAdClicks'] = "Lihat Banner tanpa Adklik";
-$GLOBALS['strShowBannersNoAdViews'] = "Lihat Banner tanpa  AdViews";
-$GLOBALS['strShowAllClients'] = "Lihat semua Client";
-$GLOBALS['strShowClientsActive'] = "Lihat Client dengan Banner aktif";
-$GLOBALS['strShowClientsInactive'] = "Lihat Client dengan Banner tidak aktif";
-$GLOBALS['strSize'] = "Ukuran";
 
-$GLOBALS['strMonth'] = array("Januari", "Februari", "Maret", "April", "Mai", "Juni", "Juli", "Augustus", "September", "Oktober", "Nopember", "Desember");
-$GLOBALS['strDontExpire'] = "Kampanye tanpa batas waktu";
-$GLOBALS['strActivateNow'] = "Langsung aktifkan Kampanye ini";
-$GLOBALS['strExpirationDate'] = "Tanggal Kadaluarsa";
-$GLOBALS['strActivationDate'] = "Tanggal Aktivasi";
 
-$GLOBALS['strMailClientDeactivated'] = "Banner dibawah ini deaktif sehubungan";
-$GLOBALS['strMailNothingLeft'] = "Bila Anda berniat untuk tetap beriklan dengan kami jangan ragu untuk hubungi kami.";
-$GLOBALS['strClientDeactivated'] = "Kampanye ini tidak aktif sehubungan";
-$GLOBALS['strBeforeActivate'] = "tanggal aktivasi belum tercapai";
-$GLOBALS['strAfterExpire'] = "tanggal kadaluarsa telah tercapai";
-$GLOBALS['strNoMoreClicks'] = "jumlah AdKlik yang dibeli telah tercapai";
-$GLOBALS['strNoMoreViews'] = "jumlah AdViews yang dibeli telah tercapai";
+/*********************************************************/
+/* Translations                                          */
+/*********************************************************/
 
-$GLOBALS['strBanners'] = "Banner";
-$GLOBALS['strCampaigns'] = "Kampanye";
-$GLOBALS['strCampaign']	= "Kampanye";
-$GLOBALS['strModifyCampaign']			= "Modify campaign";
-$GLOBALS['strName'] = "Nama";
-$GLOBALS['strBannersWithoutCampaign'] = "Banner tanpa Kampanye";
-$GLOBALS['strMoveToNewCampaign'] = "Pindah ke Kampanye baru";
-$GLOBALS['strCreateNewCampaign'] = "Start kampanye baru";
-$GLOBALS['strEditCampaign'] = "Edit Kampanye";
-$GLOBALS['strEdit'] = "Edit";
-$GLOBALS['strCreate'] = "Start baru";
-$GLOBALS['strUntitled']	= "Belum memilik nama";
+$GLOBALS['strHome']						= "Home";
+$GLOBALS['strHelp']						= "Help";
+$GLOBALS['strNavigation'] 					= "Navigasi";
+$GLOBALS['strShortcuts'] 					= "Jalur Singkat";
+$GLOBALS['strAdminstration'] 					= "Administrasi";
+$GLOBALS['strMaintenance'] 					= "Pemeliharaan";
+$GLOBALS['strProbability'] 					= "Kemungkinan";
+$GLOBALS['strInvocationcode'] 					= "Kode Invokasi";
+$GLOBALS['strBasicInformation'] 				= "Informasi Dasar";
+$GLOBALS['strContractInformation'] 				= "Informasi Kontrak";
+$GLOBALS['strLoginInformation'] 				= "Informasi Login";
+$GLOBALS['strOverview']						= "Pandangan Luas";
+$GLOBALS['strSearch'] 						= "Cari";
+$GLOBALS['strHistory']						= "Perkembangan";
+$GLOBALS['strPreferences'] 					= "Preferensi";
+$GLOBALS['strDetails']						= "Details";
+$GLOBALS['strCompact'] 						= "Secara Kompak";
+$GLOBALS['strVerbose'] 						= "Secara Detail";
+$GLOBALS['strUser']						= "User";
+$GLOBALS['strEdit'] 						= "Edit";
+$GLOBALS['strCreate'] 						= "Start baru";
+$GLOBALS['strDuplicate']					= "Melipatkan dua";
+$GLOBALS['strMoveTo']						= "Pindahkan ke";
+$GLOBALS['strDelete'] 						= "Hapus Banner";
+$GLOBALS['strActivate']						= "Di aktifkan";
+$GLOBALS['strDeActivate'] 					= "Di deaktifkan";
+$GLOBALS['strConvert']						= "Ubah";
+$GLOBALS['strSaveChanges'] 					= "Simpan Perubahan";
+$GLOBALS['strUp'] 						= "Keatas";
+$GLOBALS['strDown'] 						= "Kebawah";
+$GLOBALS['strSave'] 						= "Simpan";
+$GLOBALS['strCancel']						= "Batal";
+$GLOBALS['strPrevious'] 					= "Sebelumnya";
+$GLOBALS['strNext'] 						= "Berikutnya";
+$GLOBALS['strYes']						= "Ya";
+$GLOBALS['strNo']						= "Tidak";
+$GLOBALS['strNone'] 						= "Kosong";
+$GLOBALS['strCustom'] 						= "Selera";
+$GLOBALS['strDefault'] 						= "Default";
+$GLOBALS['strOther']						= "Lain";
+$GLOBALS['strUnknown']						= "Tidak dikenal";
+$GLOBALS['strUnlimited'] 					= "Tidak terbatas";
+$GLOBALS['strUntitled']						= "Belum memilik nama";
+$GLOBALS['strAll'] 						= "Seluruh";
+$GLOBALS['strAvg'] 						= "Rata-Rata";
+$GLOBALS['strAverage']						= "Rata-Rata";
+$GLOBALS['strOverall'] 						= "Keseluruan";
+$GLOBALS['strTotal'] 						= "Jumlah";
+$GLOBALS['strActive']						= "aktif";
+$GLOBALS['strFrom'] 						= "Dari";
+$GLOBALS['strTo'] 						= "s/d.";
+$GLOBALS['strLinkedTo'] 					= "Klik-URL";
+$GLOBALS['strDaysLeft'] 					= "Sisa hari";
+$GLOBALS['strCheckAllNone'] 					= "Check semua / tidak";
 
-$GLOBALS['strTotalCampaigns'] = "Jumlah Kampanye";
-$GLOBALS['strActiveCampaigns'] = "Kampanye yang aktif";
 
-$GLOBALS['strLinkedTo']	= "di-link ke";
-$GLOBALS['strSendAdvertisingReport'] = "Kirim laporan perkembangan lewat e-mail";
-$GLOBALS['strNoDaysBetweenReports'] = "Jumlah hari antara laporan";
-$GLOBALS['strSendDeactivationWarning'] = "Kirim peringatan bila Kampanye di deaktifkan";
-
-$GLOBALS['strWarnClientTxt'] = "Jumlah Adklik atau Adviews dari banner Anda mendekati {limit}. \nBanner Anda akan di deaktifkan bila paket Adklik atau Adviews sudah habis. ";
-$GLOBALS['strViewsClicksLow'] = "Jumlah Adklik atau AdViews hampir habis";
-
-$GLOBALS['strDays'] = "Hari";
-$GLOBALS['strHistory']	= "Perkembangan";
-$GLOBALS['strAverage']	= "Rata-Rata";
-$GLOBALS['strDuplicateClientName'] = "Nama User yang dipilih sudah ada pada database. Silakan pilih nama User lain.";
-$GLOBALS['strAllowClientDisableBanner'] = "Beri izin kepada User untuk deaktifkan Banner";
-$GLOBALS['strAllowClientActivateBanner'] = "Beri izin kepada User untuk aktifkan Banner";
-
-$GLOBALS['strGenerateBannercode'] = "Memprogram kode banner";
-$GLOBALS['strChooseInvocationType'] = "Silakan pilih cara penampilan banner";
-$GLOBALS['strGenerate']	= "Generate";
-$GLOBALS['strParameters'] = "Parameter";
-$GLOBALS['strUniqueidentifier']	= "Tanda identifikasi unik";
-$GLOBALS['strFrameSize'] = "Ukuran Frame";
-$GLOBALS['strBannercode'] = "Kode banner";
-
-$GLOBALS['strSearch'] = "Cari";
-$GLOBALS['strNoMatchesFound'] = "Kecocokan tidak ditemukan";
-
-$GLOBALS['strNoViewLoggedInInterval'] = "Tidak ada AdViews yang tercatat dalam batas jangka waktu laporan ini ";
-$GLOBALS['strNoClickLoggedInInterval'] = "Tidak ada AdKlik yang tercatat dalam batas jangka waktu laporan ini ";
-$GLOBALS['strMailReportPeriod']	= "Laporan ini berisi statistik dari tanggal {startdate} s/d. tanggal {enddate}.";
-$GLOBALS['strMailReportPeriodAll'] = "Laporan ini berisi statistik s/d. tanggal {enddate}.";
-$GLOBALS['strNoStatsForCampaign'] = "Statistik untuk kampanye ini tidak tersedia";
-$GLOBALS['strFrom'] = "Dari";
-$GLOBALS['strTo'] = "s/d.";
-$GLOBALS['strMaintenance'] = "Pemeliharaan";
-$GLOBALS['strCampaignStats'] = "Statistik Kampanye";
-$GLOBALS['strClientStats'] = "Statistik Client";
-$GLOBALS['strErrorOccurred'] = "Telah terjadi kesalahan (Error)";
-$GLOBALS['strAdReportSent'] = "Laporan periklanan telah dikirim";
-
-$GLOBALS['strAutoChangeHTML'] = "Tik untuk ubah HTML agar AdKlik di-log";
-
-$GLOBALS['strZones'] = "Zona";
-$GLOBALS['strAddZone']	= "Tambah Zona";
-$GLOBALS['strModifyZone'] = "Ubah Zona";
-$GLOBALS['strAddNewZone'] = "Tambah Zona baru";
-
-$GLOBALS['strOverview']	= "Pandangan Luas";
-$GLOBALS['strEqualTo'] = "sama dengan";
-$GLOBALS['strDifferentFrom'] = "lain dibandingkan dengan";
-$GLOBALS['strAND'] = "AND";  // logical operator
-$GLOBALS['strOR'] = "OR"; // logical operator
-$GLOBALS['strOnlyDisplayWhen']	= "Banner ini hanya di tampilkan bila:";
-
-$GLOBALS['strStatusText'] = "Status Text";
-
-$GLOBALS['strConfirmDeleteClient'] = "Hapus Client ini?";
-$GLOBALS['strConfirmDeleteCampaign'] = "Apakah benar hapus kampanye ini?";
-$GLOBALS['strConfirmDeleteBanner'] = "Apakah benar hapus banner ini??";
-$GLOBALS['strConfirmDeleteZone']		= "Do you really want to delete this zone?";
-$GLOBALS['strConfirmDeleteAffiliate']	= "Do you really want to delete this affiliate?";
-
-$GLOBALS['strConfirmResetStats'] = "Statistik untuk Client ini benar di-reset kembali?";
-$GLOBALS['strConfirmResetCampaignStats'] = "Statistik untuk kampanye ini benar di-reset kembali?";
-$GLOBALS['strConfirmResetClientStats'] = "Statistik untuk Client ini benar di-reset kembali?";
-$GLOBALS['strConfirmResetBannerStats'] = "Statistik untuk banner ini benar di-reset kembali?";
-
-$GLOBALS['strClientsAndCampaigns'] = "Client & Kampanye";
-$GLOBALS['strCampaignOverview']	= "Pandangan Kampanye";
-$GLOBALS['strReports'] = "Laporan";
-$GLOBALS['strShowBanner'] = "Lihat banner";
-
-$GLOBALS['strIncludedBanners'] = "Banner yang di-link";
-$GLOBALS['strProbability'] = "Kemungkinan";
-$GLOBALS['strInvocationcode'] = "Kode Invokasi";
-$GLOBALS['strSelectZoneType'] = "Silakan pilih tipe banner untuk di-link";
-$GLOBALS['strBannerSelection'] = "Pilihan banner";
-$GLOBALS['strInteractive'] = "Interaktif";
-$GLOBALS['strRawQueryString'] = "Raw querystring";
-
-$GLOBALS['strBannerWeight'] = "Bobot Banner";
-$GLOBALS['strCampaignWeight'] = "Bobot Kampanye";
-
-$GLOBALS['strZoneCacheOn'] = "Zona Caching diaktifkan";
-$GLOBALS['strZoneCacheOff'] = "Zona Caching tidak aktif";
-$GLOBALS['strCachedZones'] = "Zona yang di-cache";
-$GLOBALS['strSizeOfCache'] = "Ukuran cache";
-$GLOBALS['strAverageAge'] = "Rata-Rata masa aktif";
-$GLOBALS['strRebuildZoneCache']	= "Membangun kembali zona cache";
-$GLOBALS['strKiloByte']	= "KB";
-$GLOBALS['strSeconds'] = "detik";
-$GLOBALS['strExpired'] = "Telah kadaluarsa";
-
-$GLOBALS['strModifyBannerAcl'] = "Lihat batas Penampilan";
-$GLOBALS['strACL'] = "Batas-Batas Penampilan";
-$GLOBALS['strNoMoveUp'] = "Tidak bisa pindah ke baris diatas.";
-$GLOBALS['strACLAdd'] = "Tambah batas penampilan";
-$GLOBALS['strNoLimitations'] = "Tanpa batas penampilan";
-
-$GLOBALS['strLinkedZones'] = "Zona yang di-link";
-$GLOBALS['strNoZonesToLink'] = "Zona untuk me-link banner ini tidak tersedia";
-$GLOBALS['strNoZones']					= "There are currently no zones defined";
-$GLOBALS['strNoClients']				= "There are currently no clients defined";
-$GLOBALS['strNoStats']					= "There are currently no statistics available";
-$GLOBALS['strNoAffiliates']				= "There are currently no affiliates defined";
-
-$GLOBALS['strCustom'] = "Selera";
-
-$GLOBALS['strSettings'] 				= "Settings";
-
-$GLOBALS['strAffiliates']				= "Affiliates";
-$GLOBALS['strAffiliatesAndZones']		= "Affiliates & Zones";
-$GLOBALS['strAddAffiliate']				= "Create affiliate";
-$GLOBALS['strModifyAffiliate']			= "Modify affiliate";
-$GLOBALS['strAddNewAffiliate']			= "Add new affiliate";
-
-$GLOBALS['strCheckAllNone']				= "Check all / none";
-
-$GLOBALS['strAllowAffiliateModifyInfo'] = "Allow this user to modify his own affiliate information";
-$GLOBALS['strAllowAffiliateModifyZones'] = "Allow this user to modify his own zones";
-$GLOBALS['strAllowAffiliateLinkBanners'] = "Allow this user to link banners to his own zones";
-$GLOBALS['strAllowAffiliateAddZone'] = "Allow this user to define new zones";
-$GLOBALS['strAllowAffiliateDeleteZone'] = "Allow this user to delete existing zones";
-
-$GLOBALS['strPriority']					= "Priority";
-$GLOBALS['strHighPriority']				= "Show banners in this campaign with high priority.<br>
-										   If you use this option phpAdsNew will try to distribute the 
-										   number of AdViews evenly over the course of the day.";
-$GLOBALS['strLowPriority']				= "Show banner in this campaign with low priority.<br>
-										   This campaign is used to show the left over AdViews which 
-										   aren't used by high priority campaigns.";
-$GLOBALS['strTargetLimitAdviews']		= "Limit the number of AdViews to";
-$GLOBALS['strTargetPerDay']				= "per day.";
-$GLOBALS['strRecalculatePriority']		= "Recalculate priority";
-
-$GLOBALS['strProperties']				= "Properties";
-$GLOBALS['strAffiliateProperties']		= "Affiliate properties";
-$GLOBALS['strBannerOverview']			= "Banner overview";
-$GLOBALS['strBannerProperties']			= "Banner properties";
-$GLOBALS['strCampaignProperties']		= "Campaign properties";
-$GLOBALS['strClientProperties']			= "Client properties";
-$GLOBALS['strZoneOverview']				= "Zone overview";
-$GLOBALS['strZoneProperties']			= "Zone properties";
-$GLOBALS['strAffiliateOverview']		= "Affiliate overview";
-$GLOBALS['strLinkedBannersOverview']	= "Linked banners overview";
-
-$GLOBALS['strGlobalHistory']			= "Global history";
-$GLOBALS['strBannerHistory']			= "Banner history";
-$GLOBALS['strCampaignHistory']			= "Campaign history";
-$GLOBALS['strClientHistory']			= "Client history";
-$GLOBALS['strAffiliateHistory']			= "Affiliate history";
-$GLOBALS['strZoneHistory']				= "Zone history";
-$GLOBALS['strLinkedBannerHistory']		= "Linked banner history";
-
-$GLOBALS['strMoveTo']					= "Move to";
-$GLOBALS['strDuplicate']				= "Duplicate";
-
-$GLOBALS['strMainSettings']				= "Main settings";
-$GLOBALS['strAdminSettings']			= "Administration settings";
-
-$GLOBALS['strApplyLimitationsTo']		= "Apply limitations to";
-$GLOBALS['strWholeCampaign']			= "Whole campaign";
-$GLOBALS['strZonesWithoutAffiliate']	= "Zones without affiliate";
-$GLOBALS['strMoveToNewAffiliate']		= "Move to new affiliate";
-
-$GLOBALS['strNoBannersToLink']			= "There are currently no banners available which can be linked to this zone";
-$GLOBALS['strNoLinkedBanners']			= "There are no banners available which are linked to this zone";
-
-$GLOBALS['strAdviewsLimit']				= "AdViews limit";
-
-$GLOBALS['strTotalThisPeriod']			= "Total this period";
-$GLOBALS['strAverageThisPeriod']		= "Average this period";
-$GLOBALS['strLast7Days']				= "Last 7 days";
-$GLOBALS['strDistribution']				= "Distribution";
-$GLOBALS['strOther']					= "Other";
-$GLOBALS['strUnknown']					= "Unknown";
-
-$GLOBALS['strWelcomeTo']				= "Welcome to";
-$GLOBALS['strEnterUsername']			= "Enter your username and password to log in";
-
-$GLOBALS['strBannerNetwork']			= "Banner network";
-$GLOBALS['strMoreInformation']			= "More information...";
-$GLOBALS['strChooseNetwork']			= "Choose the banner network you want to use";
-$GLOBALS['strRichMedia']				= "Richmedia";
-$GLOBALS['strTrackAdClicks']			= "Track AdClicks";
-$GLOBALS['strYes']						= "Yes";
-$GLOBALS['strNo']						= "No";
-$GLOBALS['strUploadOrKeep']				= "Do you wish to keep your <br>existing image, or do you <br>want to upload another?";
-$GLOBALS['strCheckSWF']					= "Check for hard-coded links inside the Flash file";
+// Properties
+$GLOBALS['strName'] 						= "Nama";
+$GLOBALS['strSize'] 						= "Ukuran";
+$GLOBALS['strWidth']						= "Lebar";
+$GLOBALS['strHeight'] 						= "Tinggi";
 $GLOBALS['strURL2']						= "URL";
-$GLOBALS['strTarget']					= "Target";
-$GLOBALS['strConvert']					= "Convert";
-$GLOBALS['strCancel']					= "Cancel";
+$GLOBALS['strTarget']						= "Target";
+$GLOBALS['strLanguage'] 					= "Bahasa";
+$GLOBALS['strDescription'] 					= "Uraian";
+$GLOBALS['strID'] 						= "ID";
 
-$GLOBALS['strConvertSWFLinks']			= "Convert Flash links";
-$GLOBALS['strConvertSWF']				= "<br>The Flash file you just uploaded contains hard-coded urls. phpAdsNew won't be ".
-										  "able to track the number of AdClicks for this banner unless you convert these ".
-										  "hard-coded urls. Below you will find a list of all urls inside the Flash file. ".
-										  "If you want to convert the urls, simply click <b>Convert</b>, otherwise click ".
-										  "<b>Cancel</b>.<br><br>".
-										  "Please note: if you click <b>Convert</b> the Flash file ".
-									  	  "you just uploaded will be physically altered. <br>Please keep a backup of the ".
-										  "original file. Regardless of in which version this banner was created, the resulting ".
-										  "file will need the Flash 4 player (or higher) to display correctly.<br><br>";
 
-$GLOBALS['strSourceStats']				= "Source Stats";
-$GLOBALS['strSelectSource']				= "Select the source you want to view:";
+// Login & Permissions
+$GLOBALS['strAuthentification'] 				= "Autentifikasi";
+$GLOBALS['strWelcomeTo']					= "Selamat Datang di";
+$GLOBALS['strEnterUsername']					= "Ketik nama user dan kata sandi Anda untuk login";
+$GLOBALS['strLogin'] 						= "Login";
+$GLOBALS['strLogout'] 						= "Keluar";
+$GLOBALS['strUsername'] 					= "Nama User";
+$GLOBALS['strPassword'] 					= "Kata Sandi";
+$GLOBALS['strAccessDenied'] 					= "Akses ditolak";
+$GLOBALS['strPasswordWrong'] 					= "Kata Sandi salah";
+$GLOBALS['strNotAdmin'] 					= "Hak akses Anda tidak cukup.";
+$GLOBALS['strDuplicateClientName'] 				= "Nama User yang dipilih sudah ada pada database. Silakan pilih nama User lain.";
+
+
+// General advertising
+$GLOBALS['strViews'] 						= "AdViews";
+$GLOBALS['strClicks'] 						= "AdKlik";
+$GLOBALS['strCTRShort'] 					= "CTR";
+$GLOBALS['strCTR'] 						= "Ratio Click-Through (CTR)";
+$GLOBALS['strTotalViews']					= "Jumlah AdViews";
+$GLOBALS['strTotalClicks'] 					= "Jumlah AdKlik";
+$GLOBALS['strViewCredits'] 					= "Saldo AdView";
+$GLOBALS['strClickCredits'] 					= "Saldo AdKlik";
+
+
+// Time and date related
+$GLOBALS['strDate'] 						= "Tanggal";
+$GLOBALS['strToday'] 						= "Hari ini";
+$GLOBALS['strDay']						= "Day";
+$GLOBALS['strDays'] 						= "Hari";
+$GLOBALS['strLast7Days']					= "7 hari terakhir";
+$GLOBALS['strWeek'] 						= "Minggu ke";
+$GLOBALS['strWeeks']						= "Weeks";
+$GLOBALS['strMonths']						= "Months";
+$GLOBALS['strThisMonth']					= "Bulan ini";
+$GLOBALS['strMonth'] 						= array("Januari", "Februari", "Maret", "April", "Mai", "Juni", "Juli", "Augustus", "September", "Oktober", "Nopember", "Desember");
+$GLOBALS['strDayShortCuts'] 					= array("Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu");
+
+
+// Advertiser
+$GLOBALS['strClient']						= "Advertiser";
+$GLOBALS['strClients'] 						= "Client";
+$GLOBALS['strClientsAndCampaigns'] 				= "Client & Kampanye";
+$GLOBALS['strAddClient'] 					= "Tambah Client baru";
+$GLOBALS['strTotalClients'] 					= "Jumlah Client";
+$GLOBALS['strClientProperties']					= "Properties Client";
+$GLOBALS['strClientHistory']					= "Sejarah Client";
+$GLOBALS['strNoClients'] 					= "Client belum didefinisikan";
+$GLOBALS['strConfirmDeleteClient'] 				= "Hapus Client ini?";
+$GLOBALS['strConfirmResetClientStats'] 				= "Statistik untuk Client ini benar di-reset kembali?";
+
+
+// Advertisers properties
+$GLOBALS['strContact'] 						= "Alamat";
+$GLOBALS['strEMail'] 						= "E-Mail";
+$GLOBALS['strSendAdvertisingReport'] 				= "Kirim laporan perkembangan lewat e-mail";
+$GLOBALS['strNoDaysBetweenReports'] 				= "Jumlah hari antara laporan";
+$GLOBALS['strSendDeactivationWarning'] 				= "Kirim peringatan bila Kampanye di deaktifkan";
+$GLOBALS['strAllowClientModifyInfo'] 				= "Beri izin kepada User ini untuk merubah Profile";
+$GLOBALS['strAllowClientModifyBanner'] 				= "Beri izin kepada User ini untuk merubah Banner";
+$GLOBALS['strAllowClientAddBanner'] 				= "Beri izin kepada User ini untuk menambah Banner";
+$GLOBALS['strAllowClientDisableBanner'] 			= "Beri izin kepada User untuk deaktifkan Banner";
+$GLOBALS['strAllowClientActivateBanner'] 			= "Beri izin kepada User untuk aktifkan Banner";
+
+
+// Campaign
+$GLOBALS['strCampaign']						= "Kampanye";
+$GLOBALS['strCampaigns'] 					= "Kampanye";
+$GLOBALS['strTotalCampaigns'] 					= "Jumlah Kampanye";
+$GLOBALS['strActiveCampaigns'] 					= "Kampanye yang aktif";
+$GLOBALS['strAddCampaign'] 					= "Add new campaign";
+$GLOBALS['strCreateNewCampaign']				= "Start kampanye baru";
+$GLOBALS['strModifyCampaign']					= "Modify campaign";
+$GLOBALS['strMoveToNewCampaign'] 				= "Pindah ke Kampanye baru";
+$GLOBALS['strBannersWithoutCampaign'] 				= "Banner tanpa Kampanye";
+$GLOBALS['strDeleteAllCampaigns']				= "Delete all campaigns";
+$GLOBALS['strCampaignStats'] 					= "Statistik Kampanye";
+$GLOBALS['strCampaignProperties']				= "Properties Kampanye";
+$GLOBALS['strCampaignOverview']					= "Pandangan Kampanye";
+$GLOBALS['strCampaignHistory']					= "Sejarah Kampanye";
+$GLOBALS['strNoCampaigns']					= "There are currently no campaigns defined";
+$GLOBALS['strConfirmDeleteAllCampaigns']			= "Do you really want to delete all campaigns owned by this advertiser?";
+$GLOBALS['strConfirmDeleteCampaign'] 				= "Apakah benar hapus kampanye ini?";
+
+
+// Campaign properties
+$GLOBALS['strDontExpire']					= "Kampanye tanpa batas waktu";
+$GLOBALS['strActivateNow'] 					= "Langsung aktifkan Kampanye ini";
+$GLOBALS['strLow']						= "Low";
+$GLOBALS['strHigh']						= "High";
+$GLOBALS['strExpirationDate']					= "Tanggal Kadaluarsa";
+$GLOBALS['strActivationDate'] 					= "Tanggal Aktivasi";
+$GLOBALS['strViewsPurchased'] 					= "AdViews yang dibeli";
+$GLOBALS['strClicksPurchased'] 					= "AdKlik yang dibeli";
+$GLOBALS['strCampaignWeight'] 					= "Bobot Kampanye";
+$GLOBALS['strHighPriority'] 					= "Lihat banner dengan prioritas tinggi dalam kampanye ini.<br>
+								   Jika Anda gunakan pilihan ini phpAdsNew akan mendistribusikan 
+								   jumlah Adviews secara rata sepanjang hari.";
+$GLOBALS['strLowPriority'] 					= "Lihat banner dengan prioritas rendah dalam kampanye ini.<br>
+								   Kampanye ini digunakan untuk munculkan sisa Adviews 
+								   yang tidak terpakai oleh kampanye dengan prioritas tinggi.";
+$GLOBALS['strTargetLimitAdviews'] 				= "Batasi jumlah AdViews ke";
+$GLOBALS['strTargetPerDay'] 					= "per hari.";
+$GLOBALS['strHighPriorityCampaigns']				= "High priority campaigns";
+$GLOBALS['strAdViewsAssigned']					= "AdViews assigned";
+$GLOBALS['strLowPriorityCampaigns']				= "Low priority campaigns";
+$GLOBALS['strPredictedAdViews']					= "Predicted AdViews";
+$GLOBALS['strPriorityDaysRunning']				= "There are currently {days} days worth of statistics available from where phpAdsNew can base its daily prediction on. ";
+$GLOBALS['strPriorityBasedLastWeek']				= "The prediction is based on data from this week and last week. ";
+$GLOBALS['strPriorityBasedLastDays']				= "The prediction is based on data from the last couple of days. ";
+$GLOBALS['strPriorityBasedYesterday']				= "The prediction is based on data from yesterday. ";
+$GLOBALS['strPriorityNoData']					= "There isn't enough data available to make a reliable prediction about the number of impressions this adserver will generate today. Priority assignments will be based on real time statistics only. ";
+$GLOBALS['strPriorityEnoughAdViews']				= "There should be enough AdViews to fully satisfy the target all high priority campaigns. ";
+$GLOBALS['strPriorityNotEnoughAdViews']				= "It isn't clear wether there will be enough AdViews served today to satisfy the target all high priority campaigns. Because of this all low priority campaigns are temporarily disabled. ";
+$GLOBALS['strPriorityAutoTargeting']				= "Distribute the remaining AdViews evenly over the remaining number of days. The target number of AdViews will be set accordingly every day.";
+
+
+
+// Banners (General)
+$GLOBALS['strBanner'] 						= "Banner";
+$GLOBALS['strBanners'] 						= "Banner";
+$GLOBALS['strAddBanner'] 					= "Tambah Banner baru";
+$GLOBALS['strModifyBanner'] 					= "Modify banner";
+$GLOBALS['strActiveBanners'] 					= "Banner yang aktif";
+$GLOBALS['strTotalBanners']					= "Jumlah Banner";
+$GLOBALS['strShowBanner'] 					= "Lihat banner";
+$GLOBALS['strShowAllBanners'] 					= "Lihat semua Banner";
+$GLOBALS['strShowBannersNoAdClicks'] 				= "Lihat Banner tanpa Adklik";
+$GLOBALS['strShowBannersNoAdViews'] 				= "Lihat Banner tanpa  AdViews";
+$GLOBALS['strDeleteAllBanners']	 				= "Delete all banners";
+$GLOBALS['strActivateAllBanners']				= "Activate all banners";
+$GLOBALS['strDeactivateAllBanners']				= "Deactivate all banners";
+$GLOBALS['strBannerOverview']					= "Pandangan Luas Banner";
+$GLOBALS['strBannerProperties']					= "Properties Banner";
+$GLOBALS['strBannerHistory']					= "Sejarah Banner";
+$GLOBALS['strBannerNoStats'] 					= "Data statistik untuk Banner ini tidak ditemukan!";
+$GLOBALS['strNoBanners'] 					= "Banner tidak ditemukan";
+$GLOBALS['strConfirmDeleteBanner'] 				= "Apakah benar hapus banner ini??";
+$GLOBALS['strConfirmDeleteAllBanners']				= "Do you really want to delete all banners which are owned by this campaign?";
+$GLOBALS['strConfirmResetBannerStats'] 				= "Statistik untuk banner ini benar di-reset kembali?";
+
+
+// Banner (Properties)
+$GLOBALS['strChooseBanner'] 					= "Silakan pilih tipe Banner.";
+$GLOBALS['strMySQLBanner'] 					= "Banner tersimpan di database MySQL";
+$GLOBALS['strWebBanner'] 					= "Banner tersimpan di webserver";
+$GLOBALS['strURLBanner'] 					= "Banner dihubungkan (di-link) lewat URL";
+$GLOBALS['strHTMLBanner'] 					= "Banner-HTML";
+$GLOBALS['strAutoChangeHTML'] 					= "Tik untuk ubah HTML agar AdKlik di-log";
+$GLOBALS['strUploadOrKeep']					= "Apakah Anda ingin pertahankan <br>grafik yang ada, atau Anda <br>ingin upload grafik yang baru?";
+$GLOBALS['strNewBannerFile'] 					= "File Banner baru";
+$GLOBALS['strNewBannerURL'] 					= "URL Banner baru (ketik http://)";
+$GLOBALS['strURL'] 						= "Link ke URL (ketik http://)";
+$GLOBALS['strHTML'] 						= "HTML";
+$GLOBALS['strTextBelow'] 					= "Nama Gambar";
+$GLOBALS['strKeyword'] 						= "Kata kunci (keyword)";
+$GLOBALS['strWeight'] 						= "Bobot (Weight)";
+$GLOBALS['strAlt'] 						= "Alt-Text";
+$GLOBALS['strStatusText'] 					= "Status Text";
+$GLOBALS['strBannerWeight'] 					= "Bobot Banner";
+
+
+// Banner (swf)
+$GLOBALS['strCheckSWF']						= "Periksa keberadaan hard-coded links dalam Flash file";
+$GLOBALS['strConvertSWFLinks']					= "Ubah Flash links";
+$GLOBALS['strConvertSWF']					= "<br>Flash file yang Anda telah upload berisi hard-coded urls. phpAdsNew tidak akan ".
+								  "bisa ketemu jumlahnya AdClicks untuk banner ini sebelum Anda ubah hard-coded urls ".
+								  "tersebut. Dibawah ini terdaftar seluruh URL yang ada dalam Flash file yang telah di-upload. ".
+								  "Jika Anda ingin ubah URL yang bersangkutan klik saja <b>Ubah</b>, bila tidak klik ".
+								  "<b>Cancel</b>.<br><br>".
+								  "Perhatian: Setelah Anda klik <b>Ubah</b> Flash file ".
+							  	  "yang telah Anda upload akan diubah secara langsung.  <br>Mohon simpan backup dari ".
+								  "Flash file aslinya sebelum lanjut. File yang dihasilkan setelah perubahan ".
+								  "akan butuhkan Flash 4 player (atau versi diatasnya) untuk menampilkan dengan benar.<br><br>";
+
+
+// Banner (network)
+$GLOBALS['strBannerNetwork']					= "Banner Network";
+$GLOBALS['strChooseNetwork']					= "Pilih Banner Network untuk dipakai";
+$GLOBALS['strMoreInformation']					= "Informasi tambahan...";
+$GLOBALS['strRichMedia']					= "Richmedia";
+$GLOBALS['strTrackAdClicks']					= "Jejak AdClicks";
+
+
+// Banner (cache)
+$GLOBALS['strRebuildBannerCache']				= "Rebuild banner cache";
+
+
+// Display limitations
+$GLOBALS['strModifyBannerAcl'] 					= "Lihat batas Penampilan";
+$GLOBALS['strACL'] 						= "Batas-Batas Penampilan";
+$GLOBALS['strACLAdd'] 						= "Tambah batas penampilan";
+$GLOBALS['strNoLimitations'] 					= "Tanpa batas penampilan";
+$GLOBALS['strApplyLimitationsTo']				= "Mengunakan restriksi terhadap";
+$GLOBALS['strEqualTo'] 						= "sama dengan";
+$GLOBALS['strDifferentFrom'] 					= "lain dibandingkan dengan";
+$GLOBALS['strAND'] 						= "AND";  // logical operator
+$GLOBALS['strOR'] 						= "OR"; // logical operator
+$GLOBALS['strOnlyDisplayWhen']					= "Banner ini hanya di tampilkan bila:";
+$GLOBALS['strWeekDay'] 						= "Hari";
+$GLOBALS['strTime'] 						= "Waktu";
+$GLOBALS['strUserAgent'] 					= "Browser";
+$GLOBALS['strDomain'] 						= "Domain (tanpa titik)";
+$GLOBALS['strClientIP'] 					= "Nomor IP Pengunjung";
+$GLOBALS['strSource'] 						= "Sumber";
+
+
+// Publisher
+$GLOBALS['strAffiliate']					= "Publisher";
+$GLOBALS['strAffiliates'] 					= "Afiliasi";
+$GLOBALS['strAffiliatesAndZones'] 				= "Afiliasi & Zona";
+$GLOBALS['strAddNewAffiliate']					= "Tambah afiliasi baru";
+$GLOBALS['strAddAffiliate'] 					= "Buka afiliasi baru";
+$GLOBALS['strAffiliateProperties'] 				= "Afiliasikan Properties";
+$GLOBALS['strAffiliateOverview']				= "Pandangan Luas Afiliasi";
+$GLOBALS['strAffiliateHistory']					= "Sejarah Afiliasi";
+$GLOBALS['strZonesWithoutAffiliate']				= "Zona tanpa Afiliasi";
+$GLOBALS['strMoveToNewAffiliate']				= "Pindahkan ke Afiliasi baru";
+$GLOBALS['strNoAffiliates'] 					= "Afiliasi belum didefinisikan";
+$GLOBALS['strConfirmDeleteAffiliate']				= "Do you really want to delete this affiliate?";
+
+
+// Affiliates (properties)
+$GLOBALS['strAllowAffiliateModifyInfo'] 			= "Beri izin kepada user ini untuk ubah informasi tentang afiliasi yang dimiliki";
+$GLOBALS['strAllowAffiliateModifyZones'] 			= "Beri izin kepada user ini untuk ubah zona yang dimiliki";
+$GLOBALS['strAllowAffiliateLinkBanners'] 			= "Beri izin kepada user ini untuk  me-link banner ke zona yang dimiliki";
+$GLOBALS['strAllowAffiliateAddZone'] 				= "Beri izin kepada user ini untuk membuka zona baru";
+$GLOBALS['strAllowAffiliateDeleteZone'] 			= "Beri izin kepada user ini untuk menghapus zona yang ada";
+
+
+// Zone
+$GLOBALS['strZone']						= "Zone";
+$GLOBALS['strZones']						= "Zona";
+$GLOBALS['strAddNewZone'] 					= "Tambah Zona baru";
+$GLOBALS['strAddZone']						= "Tambah Zona";
+$GLOBALS['strModifyZone'] 					= "Ubah Zona";
+$GLOBALS['strLinkedZones'] 					= "Zona yang di-link";
+$GLOBALS['strZoneOverview']					= "Pandangan Luas Zona";
+$GLOBALS['strZoneProperties']					= "Properties Zona";
+$GLOBALS['strZoneHistory']					= "Sejarah Zona";
+$GLOBALS['strNoZones'] 						= "Zona belum didefinisikan";
+$GLOBALS['strConfirmDeleteZone']				= "Do you really want to delete this zone?";
+
+
+// Zone (cache)
+$GLOBALS['strZoneCacheOn']					= "Zona Caching diaktifkan";
+$GLOBALS['strZoneCacheOff']					= "Zona Caching tidak aktif";
+$GLOBALS['strCachedZones'] 					= "Zona yang di-cache";
+$GLOBALS['strSizeOfCache'] 					= "Ukuran cache";
+$GLOBALS['strAverageAge'] 					= "Rata-Rata masa aktif";
+$GLOBALS['strRebuildZoneCache']					= "Membangun kembali zona cache";
+$GLOBALS['strKiloByte']						= "KB";
+$GLOBALS['strSeconds'] 						= "detik";
+
+
+// Linked banners/campaigns
+$GLOBALS['strSelectZoneType'] 					= "Silakan pilih tipe banner untuk di-link";
+$GLOBALS['strBannerSelection'] 					= "Pilihan banner";
+$GLOBALS['strCampaignSelection']				= "Campaign selection";
+$GLOBALS['strInteractive'] 					= "Interaktif";
+$GLOBALS['strRawQueryString']					= "Keyword";
+$GLOBALS['strIncludedBanners'] 					= "Banner yang di-link";
+$GLOBALS['strLinkedBannersOverview']				= "Pandangan Luas Linked Banners";
+$GLOBALS['strLinkedBannerHistory']				= "Sejarah Linked Banner";
+$GLOBALS['strNoZonesToLink'] 					= "Zona untuk me-link banner ini tidak tersedia";
+$GLOBALS['strNoBannersToLink']					= "Tidak ada banner yang bisa di-link kepada zona ini";
+$GLOBALS['strNoLinkedBanners']					= "Tidak ada banner yang di-link kepada zona ini";
+$GLOBALS['strMatchingBanners']					= "{count} matching banners";
+$GLOBALS['strNoCampaignsToLink']				= "There are currently no campaigns available which can be linked to this zone";
+$GLOBALS['strNoZonesToLinkToCampaign']  			= "There are no zones available to which this campaign can be linked";
+$GLOBALS['strSelectBannerToLink']				= "Select the banner you would like to link to this zone:";
+$GLOBALS['strSelectCampaignToLink']				= "Select the campaign you would like to link to this zone:";
+
+
+// Statistics
+$GLOBALS['strStats'] 						= "Statistik";
+$GLOBALS['strNoStats'] 						= "Pada saat ini belum ada Statistik";
+$GLOBALS['strConfirmResetStats'] 				= "Statistik untuk Client ini benar di-reset kembali?";
+$GLOBALS['strGlobalHistory']					= "Sejarah Global";
+$GLOBALS['strDailyHistory']					= "Daily history";
+$GLOBALS['strDailyStats']					= "Statistik Harian";
+$GLOBALS['strWeeklyHistory']					= "Weekly history";
+$GLOBALS['strMonthlyHistory']					= "Monthly history";
+$GLOBALS['strCreditStats'] 					= "Kredit statistik";
+$GLOBALS['strDetailStats'] 					= "Statistik secara detail";
+$GLOBALS['strTotalThisPeriod']					= "Jumlah keseluruhan dalam periode ini";
+$GLOBALS['strAverageThisPeriod']				= "Rata-Rata dalam periode ini";
+$GLOBALS['strDistribution']					= "Distribusi";
+$GLOBALS['strResetStats'] 					= "Reset Statistik";
+$GLOBALS['strSourceStats']					= "Statistik Dasar";
+$GLOBALS['strSelectSource']					= "Silakan pilih sumber untuk ditampilkan:";
+
+
+// Hosts
+$GLOBALS['strHosts']						= "Hosts";
+$GLOBALS['strTopTenHosts'] 					= "Ranking Top 10 di antara IP Pengunjung";
+
+
+// Expiration
+$GLOBALS['strExpired'] 						= "Telah kadaluarsa";
+$GLOBALS['strExpiration'] 					= "Kadaluarsa";
+$GLOBALS['strNoExpiration'] 					= "Tanggal kadaluarsa tidak ditentukan";
+$GLOBALS['strEstimated'] 					= "Perkiraan tanggal kadaluarsa";
+
+
+// Reports
+$GLOBALS['strReports'] 						= "Laporan";
+$GLOBALS['strSelectReport']					= "Select the report you want to generate";
+
+
+// Userlog
+$GLOBALS['strUserLog']						= "User log";
+$GLOBALS['strUserLogDetails']					= "User log details";
+$GLOBALS['strDeleteLog']					= "Delete log";
+$GLOBALS['strAction']						= "Action";
+$GLOBALS['strNoActionsLogged']					= "No actions are logged";
+
+
+// Code generation
+$GLOBALS['strGenerateBannercode'] 				= "Memprogram kode banner";
+$GLOBALS['strChooseInvocationType'] 				= "Silakan pilih cara penampilan banner";
+$GLOBALS['strGenerate']						= "Generate";
+$GLOBALS['strParameters'] 					= "Parameter";
+$GLOBALS['strFrameSize'] 					= "Ukuran Frame";
+$GLOBALS['strBannercode'] 					= "Kode banner";
+
+
+// Errors
+$GLOBALS['strMySQLError'] 					= "SQL Error:";
+$GLOBALS['strLogErrorClients'] 					= "[phpAds] Error pada saat mengambil data Client dari database.";
+$GLOBALS['strLogErrorBanners'] 					= "[phpAds] Error pada saat mengambil data Banner dari database.";
+$GLOBALS['strLogErrorViews'] 					= "[phpAds] Error pada saat mengambil data AdViews dari database";
+$GLOBALS['strLogErrorClicks'] 					= "[phpAds] Error pada saat mengambil data AdKlik dari database";
+$GLOBALS['strErrorViews'] 					= "Silakan isi kotak Jumlah AdViews atau pilih Unlimited!";
+$GLOBALS['strErrorNegViews'] 					= "Jumlah AdViews dengan angka negatif tidak diperbolehkan";
+$GLOBALS['strErrorClicks'] 					= "Silakan isi kotak Jumlah AdKlik atau pilih Unlimited!";
+$GLOBALS['strErrorNegClicks'] 					= "Jumlah AdViews dengan angka negatif tidak diperbolehkan";
+$GLOBALS['strNoMatchesFound'] 					= "Kecocokan tidak ditemukan";
+$GLOBALS['strErrorOccurred'] 					= "Telah terjadi kesalahan (Error)";
+
+
+// E-mail
+$GLOBALS['strMailSubject'] 					= "Rekapitulasi kampanye iklan";
+$GLOBALS['strAdReportSent'] 					= "Laporan periklanan telah dikirim";
+$GLOBALS['strMailSubjectDeleted'] 				= "Banner yang tidak akif";
+$GLOBALS['strMailHeader'] 					= "Dengan Hormat, {contact},\n\n";
+$GLOBALS['strMailBannerStats']					= "Dengan e-mail ini kami mengirim data statistik Banner kepada Bpk./Ibu {Clientname}:";
+$GLOBALS['strMailFooter'] 					= "Hormat kami\n\n   {adminfullname}";
+$GLOBALS['strMailClientDeactivated'] 				= "Banner dibawah ini deaktif sehubungan";
+$GLOBALS['strMailNothingLeft'] 					= "Bila Anda berniat untuk tetap beriklan dengan kami jangan ragu untuk hubungi kami.";
+$GLOBALS['strClientDeactivated'] 				= "Kampanye ini tidak aktif sehubungan";
+$GLOBALS['strBeforeActivate'] 					= "tanggal aktivasi belum tercapai";
+$GLOBALS['strAfterExpire'] 					= "tanggal kadaluarsa telah tercapai";
+$GLOBALS['strNoMoreClicks'] 					= "jumlah AdKlik yang dibeli telah tercapai";
+$GLOBALS['strNoMoreViews'] 					= "jumlah AdViews yang dibeli telah tercapai";
+$GLOBALS['strWarnClientTxt'] 					= "Jumlah Adklik atau Adviews dari banner Anda mendekati {limit}. \nBanner Anda akan di deaktifkan bila paket Adklik atau Adviews sudah habis. ";
+$GLOBALS['strViewsClicksLow'] 					= "Jumlah Adklik atau AdViews hampir habis";
+$GLOBALS['strNoViewLoggedInInterval'] 				= "Tidak ada AdViews yang tercatat dalam batas jangka waktu laporan ini ";
+$GLOBALS['strNoClickLoggedInInterval'] 				= "Tidak ada AdKlik yang tercatat dalam batas jangka waktu laporan ini ";
+$GLOBALS['strMailReportPeriod']					= "Laporan ini berisi statistik dari tanggal {startdate} s/d. tanggal {enddate}.";
+$GLOBALS['strMailReportPeriodAll'] 				= "Laporan ini berisi statistik s/d. tanggal {enddate}.";
+$GLOBALS['strNoStatsForCampaign'] 				= "Statistik untuk kampanye ini tidak tersedia";
+
+
+// Priority
+$GLOBALS['strPriority']						= "Prioritas";
+$GLOBALS['strRecalculatePriority'] 				= "Kalkulasi ulang prioritas";
+
+
+// Settings
+$GLOBALS['strSettings'] 					= "Setingan";
+$GLOBALS['strGeneralSettings'] 					= "Setting Umum";
+$GLOBALS['strMainSettings']					= "Setingan Utama";
+$GLOBALS['strAdminSettings']					= "Setingan Administrasi";
 
 ?>
