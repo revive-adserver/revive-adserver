@@ -1020,7 +1020,7 @@ if (!isset($bannerid) || $bannerid == '')
 		// Show SWF Layer
 		if (swflayer)
 		{
-			if (filename.indexOf('swf') + 3 == filename.length)
+			if (filename.match(/\.swf$/i))
 				swflayer.style.display = '';
 			else
 				swflayer.style.display = 'none';
