@@ -1,7 +1,6 @@
 <?
 // dutch doc file for Banner ACL administration
 ?>
-<HR SIZE="1">
 <BR>
 <table border="0" width="100%">
 	<TR>
