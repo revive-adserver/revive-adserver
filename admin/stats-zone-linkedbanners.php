@@ -20,8 +20,16 @@ require ("lib-statistics.inc.php");
 require ("lib-size.inc.php");
 
 
+// Register input variables
+phpAds_registerGlobal ('expand', 'collapse', 'listorder', 'orderdirection', 'period', 'period_range');
+
+
 // Security check
 phpAds_checkAccess(phpAds_Admin+phpAds_Affiliate);
+
+
+// Set default values
+$tabindex = 1;
 
 
 
@@ -32,6 +40,36 @@ phpAds_checkAccess(phpAds_Admin+phpAds_Affiliate);
 if (phpAds_isUser(phpAds_Affiliate))
 {
 	$affiliateid = phpAds_getUserID();
+}
+
+
+
+/*********************************************************/
+/* Get preferences                                       */
+/*********************************************************/
+
+if (!isset($period))
+{
+	if (isset($Session['prefs']['stats-zone-linkedbanners.php']['period']))
+		$period = $Session['prefs']['stats-zone-linkedbanners.php']['period'];
+	else
+		$period = '';
+}
+
+
+if (!isset($period_range))
+{
+	if (isset($Session['prefs']['stats-zone-linkedbanners.php']['period_range']))
+		$period_range = $Session['prefs']['stats-zone-linkedbanners.php']['period_range'];
+	else
+		$period_range = array (
+			'start_day' => 0,
+			'start_month' => 0,
+			'start_year' => 0,
+			'end_day' => 0,
+			'end_month' => 0,
+			'end_year' => 0
+		);
 }
 
 
@@ -101,6 +139,87 @@ if ($row_zone = phpAds_dbFetchArray($res_stats))
 {
 	$zone = $row_zone;
 	
+
+	// Check period range
+	if ($period_range['start_month'] == 0 || $period_range['start_day'] == 0 || $period_range['start_year'] == 0)
+	{
+		$period_begin = 0;
+		$period_range['start_day'] = $period_range['start_month'] = $period_range['start_year'] = 0;
+	}
+	else
+		$period_begin = mktime(0, 0, 0, $period_range['start_month'], $period_range['start_day'], $period_range['start_year']);
+	
+	
+	if ($period_range['end_month'] == 0 || $period_range['end_day'] == 0 || $period_range['end_year'] == 0)
+	{
+		$period_end = mktime(0, 0, 0, date('m'), date('d') + 1, date('Y'));
+		$period_range['end_day'] = $period_range['end_month'] = $period_range['end_year'] = 0;
+	}
+	else
+		$period_end = mktime(0, 0, 0, $period_range['end_month'], $period_range['end_day'], $period_range['end_year']);
+	
+	
+	
+	if (!$phpAds_config['compact_stats'])
+	{
+		switch ($period)
+		{
+			case 'r':	$limit 		    	= " AND t_stamp >= ".date('YmdHis', $period_begin)." AND t_stamp < ".date('YmdHis', $period_end);
+						break;
+					
+			case 'y':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d') - 1, date('Y'));	
+						$timestamp_end		= mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+						$limit 		    	= " AND t_stamp >= ".date('YmdHis', $timestamp_begin)." AND t_stamp < ".date('YmdHis', $timestamp_end);
+						break;
+					
+			case 't':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+						$limit 				= " AND t_stamp >= ".date('YmdHis', $timestamp_begin);
+						break;
+					
+			case 'w':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d') - 6, date('Y'));
+						$limit 				= " AND t_stamp >= ".date('YmdHis', $timestamp_begin);
+						break;
+					
+			case 'm':	$timestamp_begin	= mktime(0, 0, 0, date('m'), 1, date('Y'));
+						$limit 				= " AND t_stamp >= ".date('YmdHis', $timestamp_begin);
+						break;
+					
+			default:	$limit = '';
+						$period = '';
+						break;
+		}
+	}
+	else
+	{
+		switch ($period)
+		{
+			case 'r':	$limit 		    	= " AND day >= ".date('Ymd', $period_begin)." AND day < ".date('Ymd', $period_end);
+						break;
+					
+			case 'y':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d') - 1, date('Y'));
+						$timestamp_end		= mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+						$limit 				= " AND day >= ".date('Ymd', $timestamp_begin)." AND day < ".date('Ymd', $timestamp_end);
+						break;
+					
+			case 't':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+						$limit 				= " AND day >= ".date('Ymd', $timestamp_begin);
+						break;
+					
+			case 'w':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d') - 6, date('Y'));
+						$limit 				= " AND day >= ".date('Ymd', $timestamp_begin);
+						break;
+					
+			case 'm':	$timestamp_begin	= mktime(0, 0, 0, date('m'), 1, date('Y'));
+						$limit 				= " AND day >= ".date('Ymd', $timestamp_begin);
+						break;
+					
+			default:	$limit = '';
+						$period = '';
+						break;
+		}
+	}
+
+
 	// Get the adviews/clicks for each banner
 	if ($phpAds_config['compact_stats'])
 	{
@@ -112,7 +231,7 @@ if ($row_zone = phpAds_dbFetchArray($res_stats))
 			FROM 
 				".$phpAds_config['tbl_adstats']."
 			WHERE
-				zoneid = '".$zoneid."'
+				zoneid = '".$zoneid."'".$limit."
 			GROUP BY
 				zoneid, bannerid
 		");
@@ -137,7 +256,7 @@ if ($row_zone = phpAds_dbFetchArray($res_stats))
 			FROM 
 				".$phpAds_config['tbl_adviews']."
 			WHERE
-				zoneid = '".$zoneid."'
+				zoneid = '".$zoneid."'".$limit."
 			GROUP BY
 				zoneid, bannerid
 		");
@@ -160,7 +279,7 @@ if ($row_zone = phpAds_dbFetchArray($res_stats))
 			FROM 
 				".$phpAds_config['tbl_adclicks']."
 			WHERE
-				zoneid = '".$zoneid."'
+				zoneid = '".$zoneid."'".$limit."
 			GROUP BY
 				zoneid, bannerid
 		");
@@ -174,6 +293,77 @@ if ($row_zone = phpAds_dbFetchArray($res_stats))
 		}
 	}
 }
+
+
+echo "<form action='".$HTTP_SERVER_VARS['PHP_SELF']."'>";
+echo "<input type='hidden' name='affiliateid' value='".$affiliateid."'>";
+echo "<input type='hidden' name='zoneid' value='".$zoneid."'>";
+
+echo "<select name='period' onChange='this.form.submit();' accesskey='".$keyList."' tabindex='".($tabindex++)."'>";
+	echo "<option value=''".($period == '' ? ' selected' : '').">".$strCollectedAll."</option>";
+	echo "<option value='' disabled>-----------------------------------------</option>";
+	echo "<option value='t'".($period == 't' ? ' selected' : '').">".$strCollectedToday."</option>";
+	echo "<option value='y'".($period == 'y' ? ' selected' : '').">".$strCollectedYesterday."</option>";
+	echo "<option value='w'".($period == 'w' ? ' selected' : '').">".$strCollected7Days."</option>";
+	echo "<option value='m'".($period == 'm' ? ' selected' : '').">".$strCollectedMonth."</option>";
+	echo "<option value='' disabled>-----------------------------------------</option>";
+	echo "<option value='r'".($period == 'r' ? ' selected' : '').">".$strCollectedRange."</option>";
+echo "</select>";
+
+
+if ($period == 'r')
+{
+	phpAds_ShowBreak();
+	echo $strFrom."&nbsp;&nbsp;";
+	
+	// Starting date
+	echo "<select name='period_range[start_day]'>\n";
+	echo "<option value='0'".($period_range['start_day'] == 0 ? ' selected' : '').">-</option>\n";
+	for ($i=1;$i<=31;$i++)
+		echo "<option value='$i'".($i == $period_range['start_day'] ? ' selected' : '').">$i</option>\n";
+	echo "</select>&nbsp;\n";
+	
+	echo "<select name='period_range[start_month]'>\n";
+	echo "<option value='0'".($period_range['start_month'] == 0 ? ' selected' : '').">-</option>\n";
+	for ($i=1;$i<=12;$i++)
+		echo "<option value='$i'".($i == $period_range['start_month'] ? ' selected' : '').">".$strMonth[$i-1]."</option>\n";
+	echo "</select>&nbsp;\n";
+	
+	echo "<select name='period_range[start_year]'>\n";
+	echo "<option value='0'".($period_range['start_year'] == 0 ? ' selected' : '').">-</option>\n";
+	for ($i=date('Y')-4;$i<=date('Y');$i++)
+		echo "<option value='$i'".($i == $period_range['start_year'] ? ' selected' : '').">$i</option>\n";
+	echo "</select>\n";	
+	
+	// To
+	echo "&nbsp;$strTo&nbsp;&nbsp;";
+	
+	// End date
+	echo "<select name='period_range[end_day]'>\n";
+	echo "<option value='0'".($period_range['end_day'] == 0 ? ' selected' : '').">-</option>\n";
+	for ($i=1;$i<=31;$i++)
+		echo "<option value='$i'".($i == $period_range['end_day'] ? ' selected' : '').">$i</option>\n";
+	echo "</select>&nbsp;\n";
+	
+	echo "<select name='period_range[end_month]'>\n";
+	echo "<option value='0'".($period_range['end_month'] == 0 ? ' selected' : '').">-</option>\n";
+	for ($i=1;$i<=12;$i++)
+		echo "<option value='$i'".($i == $period_range['end_month'] ? ' selected' : '').">".$strMonth[$i-1]."</option>\n";
+	echo "</select>&nbsp;\n";
+	
+	echo "<select name='period_range[end_year]'>\n";
+	echo "<option value='0'".($period_range['end_year'] == 0 ? ' selected' : '').">-</option>\n";
+	for ($i=date('Y')-4;$i<=date('Y');$i++)
+		echo "<option value='$i'".($i == $period_range['end_year'] ? ' selected' : '').">$i</option>\n";
+	echo "</select>\n";	
+	
+	echo "&nbsp;";
+	echo "<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif'>";
+}
+
+phpAds_ShowBreak();
+echo "</form>";
+
 
 
 if ($totalviews > 0 || $totalclicks > 0)
@@ -236,6 +426,17 @@ else
 	echo "<br><div class='errormessage'><img class='errormessage' src='images/info.gif' width='16' height='16' border='0' align='absmiddle'>";
 	echo $strNoStats.'</div>';
 }
+
+
+
+/*********************************************************/
+/* Store preferences                                     */
+/*********************************************************/
+
+$Session['prefs']['stats-zone-linkedbanners.php']['period'] = $period;
+$Session['prefs']['stats-zone-linkedbanners.php']['period_range'] = $period_range;
+
+phpAds_SessionDataStore();
 
 
 
