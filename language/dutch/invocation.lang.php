@@ -16,7 +16,7 @@
 
 // Invocation Types
 $GLOBALS['strInvocationRemote']			= "Remote Invocation";
-$GLOBALS['strInvocationJS']			= "Remote Invocation voor Javascript";
+$GLOBALS['strInvocationJS']				= "Remote Invocation voor Javascript";
 $GLOBALS['strInvocationIframes']		= "Remote Invocation voor iframes";
 $GLOBALS['strInvocationXmlRpc']			= "Remote Invocation voor XML-RPC";
 $GLOBALS['strInvocationCombined']		= "Gecombineerde Remote Invocation";
@@ -30,8 +30,8 @@ $GLOBALS['strCopyToClipboard']			= "Kopieer naar klembord";
 
 
 // Measures
-$GLOBALS['strAbbrPixels']			= "px";
-$GLOBALS['strAbbrSeconds']			= "sec";
+$GLOBALS['strAbbrPixels']				= "px";
+$GLOBALS['strAbbrSeconds']				= "sec";
 
 
 // Common Invocation Parameters
@@ -40,24 +40,24 @@ $GLOBALS['strInvocationClientID']		= "Adverteerder of campagne";
 $GLOBALS['strInvocationTarget']			= "Doel frame";
 $GLOBALS['strInvocationSource']			= "Bron";
 $GLOBALS['strInvocationWithText']		= "Toon text";
-$GLOBALS['strInvocationDontShowAgain']		= "Toon deze banner niet nog eens op dezelfde pagina";
+$GLOBALS['strInvocationDontShowAgain']	= "Toon deze banner niet nog eens op dezelfde pagina";
 $GLOBALS['strInvocationTemplate'] 		= "Sla de banner op in een variable welke gebruikt van worden in een sjabloon";
 
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter']		= "Ververs na";
 $GLOBALS['strIframeResizeToBanner']		= "Pas de groote van iframe aan de banner";
-$GLOBALS['strIframeMakeTransparent']		= "Maak de iframe transparant";
-$GLOBALS['strIframeIncludeNetscape4']		= "Voeg Netscape 4 compatible ilayer toe";
+$GLOBALS['strIframeMakeTransparent']	= "Maak de iframe transparant";
+$GLOBALS['strIframeIncludeNetscape4']	= "Voeg Netscape 4 compatible ilayer toe";
 
 
 // PopUp
-$GLOBALS['strPopUpStyle']			= "Pop-up type";
+$GLOBALS['strPopUpStyle']				= "Pop-up type";
 $GLOBALS['strPopUpStylePopUp']			= "Pop-up";
 $GLOBALS['strPopUpStylePopUnder']		= "Pop-under";
 $GLOBALS['strAutoCloseAfter']			= "Sluit automatisch na";
-$GLOBALS['strPopUpTop']				= "Begin positie (boven)";
-$GLOBALS['strPopUpLeft']			= "Begin positie (links)";
+$GLOBALS['strPopUpTop']					= "Begin positie (boven)";
+$GLOBALS['strPopUpLeft']				= "Begin positie (links)";
 
 
 // XML-RPC
@@ -65,35 +65,49 @@ $GLOBALS['strXmlRpcLanguage']			= "Scripttaal";
 
 
 // AdLayer
-$GLOBALS['strAdLayerStyle']			= "Layer stijl";
+$GLOBALS['strAdLayerStyle']				= "Layer stijl";
 
-$GLOBALS['strAlignment']			= "Uitlijning";
-$GLOBALS['strHAlignment']			= "Horizontaal uitlijnen";
-$GLOBALS['strLeft']				= "Links";
-$GLOBALS['strCenter']				= "Centreer";
-$GLOBALS['strRight']				= "Rechts";
+$GLOBALS['strAlignment']				= "Uitlijning";
+$GLOBALS['strHAlignment']				= "Horizontaal uitlijnen";
+$GLOBALS['strLeft']						= "Links";
+$GLOBALS['strCenter']					= "Centreer";
+$GLOBALS['strRight']					= "Rechts";
 
-$GLOBALS['strVAlignment']			= "Verticaal uitlijnen";
-$GLOBALS['strTop']				= "Boven";
-$GLOBALS['strMiddle']				= "Midden";
-$GLOBALS['strBottom']				= "Onder";
+$GLOBALS['strVAlignment']				= "Verticaal uitlijnen";
+$GLOBALS['strTop']						= "Boven";
+$GLOBALS['strMiddle']					= "Midden";
+$GLOBALS['strBottom']					= "Onder";
 
 $GLOBALS['strAutoCollapseAfter']		= "Automatisch inklappen na";
-$GLOBALS['strCloseText']			= "Sluit tekst";
-$GLOBALS['strClose']				= "[Sluit]";
+$GLOBALS['strCloseText']				= "Sluit tekst";
+$GLOBALS['strClose']					= "[Sluit]";
 $GLOBALS['strBannerPadding']			= "Banner afstand";
 
-$GLOBALS['strHShift']				= "Horizontaal verplaatsen";
-$GLOBALS['strVShift']				= "Vertikaal verplaatsen";
+$GLOBALS['strHShift']					= "Horizontaal verplaatsen";
+$GLOBALS['strVShift']					= "Vertikaal verplaatsen";
 
 $GLOBALS['strShowCloseButton']			= "Toon sluit knop";
 $GLOBALS['strBackgroundColor']			= "Achtergrond kleur";
-$GLOBALS['strBorderColor']			= "Rand kleur";
+$GLOBALS['strBorderColor']				= "Rand kleur";
+
+$GLOBALS['strDirection']				= "Richting";
+$GLOBALS['strLeftToRight']				= "Van links naar rechts";
+$GLOBALS['strRightToLeft']				= "Van rechts naar links";
+$GLOBALS['strLooping']					= "Herhalend";
+$GLOBALS['strAlwaysActive']				= "Altijd actief";
+$GLOBALS['strSpeed']					= "Snelheid";
+$GLOBALS['strPause']					= "Pauze";
+$GLOBALS['strLimited']					= "Gelimiteerd";
+$GLOBALS['strLeftMargin']				= "Linker marge";
+$GLOBALS['strRightMargin']				= "Rechter marge";
+$GLOBALS['strTransparentBackground']	= "Transparante achtergrond";
 
 
 $GLOBALS['strAdLayerStyleName']			= array(
 	'geocities'		=> "Geocities",
-	'simple'		=> "Simpel"
+	'simple'		=> "Simpel",
+	'cursor'		=> "Muiscursor",
+	'floater'		=> "Floater"
 );
 
 ?>
