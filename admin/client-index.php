@@ -49,7 +49,7 @@ if (phpAds_isUser(phpAds_Admin))
 			*
 		FROM 
 			".$phpAds_tbl_clients."
-		".phpAds_getListOrder ($listorder)."
+		".phpAds_getListOrder ($listorder, $orderdirection)."
 		") or mysql_die();
 }
 else
@@ -62,7 +62,7 @@ else
 		WHERE
 			clientID = ".$Session["clientID"]." OR
 			parent = ".$Session["clientID"]."
-		".phpAds_getListOrder ($listorder)."
+		".phpAds_getListOrder ($listorder, $orderdirection)."
 		") or mysql_die();
 }
 
@@ -94,7 +94,7 @@ $res_banners = db_query("
 		active
 	FROM 
 		".$phpAds_tbl_banners."
-		".phpAds_getBannerListOrder ($listorder)."
+		".phpAds_getBannerListOrder ($listorder, $orderdirection)."
 	") or mysql_die();
 
 while ($row_banners = mysql_fetch_array($res_banners))
@@ -175,8 +175,38 @@ echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 if (isset($clients) && is_array($clients) && count($clients) > 0)
 {
 	echo "<tr height='25'>";
-	echo '<td height="25"><b>&nbsp;&nbsp;<a href="'.$PHP_SELF.'?listorder=name">'.$GLOBALS['strName'].'</a></b></td>';
-	echo '<td height="25"><b><a href="'.$PHP_SELF.'?listorder=id">'.$GLOBALS['strID'].'</a></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>';
+	echo '<td height="25"><b>&nbsp;&nbsp;<a href="'.$PHP_SELF.'?listorder=name">'.$GLOBALS['strName'].'</a>';
+	if (($listorder == "name") || ($listorder == ""))
+	{
+		if  (($orderdirection == "") || ($orderdirection == "down"))
+		{
+			echo '<a href="'.$PHP_SELF.'?listorder=name&orderdirection=up">';
+			echo '<img src="images/triangle-d.gif" border="0" alt="" title="">';
+		}
+		else
+		{
+			echo '<a href="'.$PHP_SELF.'?listorder=name&orderdirection=down">';
+			echo '<img src="images/triangle-u.gif" border="0" alt="" title="">';
+		}
+		echo '</a>';
+	}
+	echo '</b></td>';
+	echo '<td height="25"><b><a href="'.$PHP_SELF.'?listorder=id">'.$GLOBALS['strID'].'</a>';
+	if ($listorder == "id")
+	{
+		if  (($orderdirection == "") || ($orderdirection == "down"))
+		{
+			echo '<a href="'.$PHP_SELF.'?listorder=id&orderdirection=up">';
+			echo '<img src="images/triangle-d.gif" border="0" alt="" title="">';
+		}
+		else
+		{
+			echo '<a href="'.$PHP_SELF.'?listorder=id&orderdirection=down">';
+			echo '<img src="images/triangle-u.gif" border="0" alt="" title="">';
+		}
+		echo '</a>';
+	}
+	echo '</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>';
 	echo "<td height='25'>&nbsp;</td>";
 	echo "<td height='25'>&nbsp;</td>";
 	echo "<td height='25'>&nbsp;</td>";

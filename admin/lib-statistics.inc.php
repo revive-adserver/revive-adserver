@@ -82,10 +82,10 @@ function phpAds_getClientName ($clientID)
 
 
 /*********************************************************/
-/* Get order status                                      */
+/* Get list order status                                      */
 /*********************************************************/
 // Order for $phpAds_tbl_clients
-function phpAds_getListOrder ($ListOrder)
+function phpAds_getListOrder ($ListOrder, $OrderDirection)
 {
 	switch ($ListOrder)
 	{
@@ -98,11 +98,25 @@ function phpAds_getListOrder ($ListOrder)
 		default:
 			$sqlTableOrder = 'ORDER BY clientname';
 	}
+	switch ($OrderDirection)
+	{
+		case 'down':
+			$sqlTableOrder .= ' ';
+			$sqlTableOrder .= 'ASC';
+			break;
+		case 'up':
+			$sqlTableOrder .= ' ';
+			$sqlTableOrder .= 'DESC';
+			break;
+		default:
+			$sqlTableOrder .= ' ';
+			$sqlTableOrder .= 'ASC';
+	}
 	return ($sqlTableOrder);
 }
 
 // Order for $phpAds_tbl_banners
-function phpAds_getBannerListOrder ($ListOrder)
+function phpAds_getBannerListOrder ($ListOrder, $OrderDirection)
 {
 	switch ($ListOrder)
 	{
@@ -115,11 +129,25 @@ function phpAds_getBannerListOrder ($ListOrder)
 		default:
 			$sqlTableOrder = 'ORDER BY description';
 	}
+	switch ($OrderDirection)
+	{
+		case 'down':
+			$sqlTableOrder .= ' ';
+			$sqlTableOrder .= 'ASC';
+			break;
+		case 'up':
+			$sqlTableOrder .= ' ';
+			$sqlTableOrder .= 'DESC';
+			break;
+		default:
+			$sqlTableOrder .= ' ';
+			$sqlTableOrder .= 'ASC';
+	}
 	return ($sqlTableOrder);
 }
 
 // Order for $phpAds_tbl_banners
-function phpAds_getZoneListOrder ($ListOrder)
+function phpAds_getZoneListOrder ($ListOrder, $OrderDirection)
 {
 	switch ($ListOrder)
 	{
@@ -131,6 +159,20 @@ function phpAds_getZoneListOrder ($ListOrder)
 			break;
 		default:
 			$sqlTableOrder = 'ORDER BY zonename';
+	}
+	switch ($OrderDirection)
+	{
+		case 'down':
+			$sqlTableOrder .= ' ';
+			$sqlTableOrder .= 'ASC';
+			break;
+		case 'up':
+			$sqlTableOrder .= ' ';
+			$sqlTableOrder .= 'DESC';
+			break;
+		default:
+			$sqlTableOrder .= ' ';
+			$sqlTableOrder .= 'ASC';
 	}
 	return ($sqlTableOrder);
 }
