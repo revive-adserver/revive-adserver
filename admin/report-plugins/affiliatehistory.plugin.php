@@ -154,7 +154,7 @@ function Plugin_AffiliatehistoryExecute($affiliateid, $delimiter="t", $quotes=""
 		}
 	}
 	
-	echo $quotes.$strAffiliate.": ".strip_tags(phpAds_getAffiliateName ($affiliateid)).$quotes."\n\n";
+	echo $quotes.$strAffiliate.": ".strip_tags(phpAds_getAffiliateName ($affiliateid, false)).$quotes."\n\n";
 	echo $quotes.$strDay.$quotes.$delimiter.$quotes.$strViews.$quotes.$delimiter;
 	echo $quotes.$strClicks.$quotes.$delimiter.$quotes.$strCTRShort.$quotes."\n";
 	

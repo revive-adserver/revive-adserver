@@ -38,9 +38,14 @@ function phpAds_breakString ($str, $maxLen, $append = "...")
 /* Build the client name from ID and name                */
 /*********************************************************/
 
-function phpAds_buildClientName ($clientid, $clientName)
+function phpAds_buildClientName ($clientid, $name, $html = true)
 {
-	return ("<span dir='".$GLOBALS['phpAds_TextDirection']."'>[id$clientid]</span> ".$clientName);
+	if ($html)
+		$name = "<span dir='".$GLOBALS['phpAds_TextDirection']."'>[id$clientid]</span> ".htmlspecialchars($name);
+	else
+		$name = "[id$clientid] ".$name;
+	
+	return $name;
 }
 
 
@@ -48,7 +53,7 @@ function phpAds_buildClientName ($clientid, $clientName)
 /* Fetch the client name from the database               */
 /*********************************************************/
 
-function phpAds_getClientName ($clientid)
+function phpAds_getClientName ($clientid, $html = true)
 {
 	global $phpAds_config;
 	global $clientCache;
@@ -76,7 +81,7 @@ function phpAds_getClientName ($clientid)
 			$clientCache[$clientid] = $row;
 		}
 		
-		return (phpAds_BuildClientName ($clientid, $row['clientname']));
+		return (phpAds_BuildClientName ($clientid, $row['clientname'], $html));
 	}
 	else
 		return ($strUntitled);
@@ -249,7 +254,7 @@ function phpAds_getParentID ($clientid)
 /* Fetch the name of the parent of a campaign            */
 /*********************************************************/
 
-function phpAds_getParentName ($clientid)
+function phpAds_getParentName ($clientid, $html = true)
 {
 	global $phpAds_config;
 	global $clientCache;
@@ -274,7 +279,7 @@ function phpAds_getParentName ($clientid)
 		$clientCache[$clientid] = $row;
 	}
 	
-	return (phpAds_getClientName ($row['parent']));
+	return (phpAds_getClientName ($row['parent'], $html));
 }
 
 
@@ -283,26 +288,36 @@ function phpAds_getParentName ($clientid)
 /* Build the banner name from ID, Description and Alt    */
 /*********************************************************/
 
-function phpAds_buildBannerName ($bannerid, $description = '', $alt = '', $limit = 30)
+function phpAds_buildBannerName ($bannerid, $description = '', $alt = '', $limit = 0, $html = true)
 {
 	global $strUntitled;
+	
+	if (!$limit) $limit = 30;
 	
 	$name = '';
 	
 	if ($description != "")
 		$name .= $description;
 	elseif ($alt != "")
-		$name .= $alt;
+		// Un-HTML-entitizize ALT field
+		$name .= phpAds_UnHTMLentities($alt);
 	else
 		$name .= $strUntitled;
-	
 	
 	if (strlen($name) > $limit)
 		$name = phpAds_breakString ($name, $limit);
 	
-	if ($bannerid != '')
-		$name = "<span dir='".$GLOBALS['phpAds_TextDirection']."'>[id$bannerid]</span> ".$name;
+	if ($html)
+		$name = htmlspecialchars($name);
 	
+	if ($bannerid != '')
+	{
+		if ($html)
+			$name = "<span dir='".$GLOBALS['phpAds_TextDirection']."'>[id$bannerid]</span> ".$name;
+		else
+			$name = "[id$bannerid] ".$name;
+	}
+		
 	return ($name);
 }
 
@@ -312,10 +327,12 @@ function phpAds_buildBannerName ($bannerid, $description = '', $alt = '', $limit
 /* Fetch the banner name from the database               */
 /*********************************************************/
 
-function phpAds_getBannerName ($bannerid, $limit = 30, $id = true)
+function phpAds_getBannerName ($bannerid, $limit = 0, $id = true, $html = true)
 {
 	global $phpAds_config;
 	global $bannerCache;
+
+	if (!$limit) $limit = 30;
 	
 	if (isset($bannerCache[$bannerid]) && is_array($bannerCache[$bannerid]))
 	{
@@ -338,9 +355,9 @@ function phpAds_getBannerName ($bannerid, $limit = 30, $id = true)
 	}
 	
 	if ($id)
-		return (phpAds_buildBannerName ($bannerid, $row['description'], $row['alt'], $limit));
+		return phpAds_buildBannerName ($bannerid, $row['description'], $row['alt'], $limit, $html);
 	else
-		return (phpAds_buildBannerName ('', $row['description'], $row['alt'], $limit));
+		return phpAds_buildBannerName ('', $row['description'], $row['alt'], $limit, $html);
 }
 
 
@@ -348,9 +365,14 @@ function phpAds_getBannerName ($bannerid, $limit = 30, $id = true)
 /* Build the zone name from ID and name                  */
 /*********************************************************/
 
-function phpAds_buildZoneName ($zoneid, $zonename)
+function phpAds_buildZoneName ($zoneid, $name, $html = true)
 {
-	return ("<span dir='".$GLOBALS['phpAds_TextDirection']."'>[id$zoneid]</span> $zonename");
+	if ($html)
+		$name = "<span dir='".$GLOBALS['phpAds_TextDirection']."'>[id$zoneid]</span> ".htmlspecialchars($name);
+	else
+		$name = "[id$zoneid] ".$name;
+	
+	return $name;
 }
 
 
@@ -358,7 +380,7 @@ function phpAds_buildZoneName ($zoneid, $zonename)
 /* Fetch the zone name from the database                 */
 /*********************************************************/
 
-function phpAds_getZoneName ($zoneid)
+function phpAds_getZoneName ($zoneid, $html = true)
 {
 	global $phpAds_config;
 	global $zoneCache;
@@ -386,10 +408,10 @@ function phpAds_getZoneName ($zoneid)
 			$zoneCache[$zoneid] = $row;
 		}
 		
-		return (phpAds_BuildZoneName ($zoneid, $row['zonename']));
+		return phpAds_BuildZoneName ($zoneid, $row['zonename'], $html);
 	}
 	else
-		return ($strUntitled);
+		return $strUntitled;
 }
 
 
@@ -398,9 +420,14 @@ function phpAds_getZoneName ($zoneid)
 /* Build the affiliate name from ID and name             */
 /*********************************************************/
 
-function phpAds_buildAffiliateName ($affiliateid, $name)
+function phpAds_buildAffiliateName ($affiliateid, $name, $html = true)
 {
-	return ("<span dir='".$GLOBALS['phpAds_TextDirection']."'>[id$affiliateid]</span> $name");
+	if ($html)
+		$name = "<span dir='".$GLOBALS['phpAds_TextDirection']."'>[id$affiliateid]</span> ".htmlspecialchars($name);
+	else
+		$name = "[id$affiliateid] ".$name;
+	
+	return $name;
 }
 
 
@@ -409,7 +436,7 @@ function phpAds_buildAffiliateName ($affiliateid, $name)
 /* Fetch the affiliate name from the database            */
 /*********************************************************/
 
-function phpAds_getAffiliateName ($affiliateid)
+function phpAds_getAffiliateName ($affiliateid, $html = true)
 {
 	global $phpAds_config;
 	global $affiliateCache;
@@ -437,10 +464,10 @@ function phpAds_getAffiliateName ($affiliateid)
 			$affiliateCache[$affiliateid] = $row;
 		}
 		
-		return (phpAds_BuildAffiliateName ($affiliateid, $row['name']));
+		return phpAds_BuildAffiliateName ($affiliateid, $row['name'], $html);
 	}
 	else
-		return ($strUntitled);
+		return $strUntitled;
 }
 
 
@@ -829,14 +856,22 @@ function phpAds_totalViews($bannerid="", $timeconstraint="")
     return phpAds_totalStats($phpAds_config['tbl_adviews'], "views", $bannerid, $timeconstraint);
 }
 
-function phpAds_htmlQuotes ($string)
+function phpAds_htmlQuotes ($string, $all_quotes = true)
 {
 	$string = stripslashes ($string);
-	$string = str_replace ('"', '&quot;', $string);
-	$string = str_replace ("'", '&#039;', $string);
+	$string = htmlspecialchars($string, $all_quotes ? ENT_QUOTES : ENT_COMPAT);
 	
 	return $string;
 }
+
+function phpAds_UnHTMLentities ($str)  
+{
+	$trans_tbl = get_html_translation_table (HTML_ENTITIES);
+	$trans_tbl = array_flip ($trans_tbl);
+	$return = strtr ($str, $trans_tbl);
+	
+	return (preg_replace('/\&\#([0-9]+)\;/me', "chr('\\1')", $return));
+} 
 
 function phpAds_formatNumber ($number)
 {

@@ -136,7 +136,7 @@ function Plugin_ZonehistoryExecute($zoneid, $delimiter=",", $quotes="")
 		}
 	}
 	
-	echo $quotes.$strZone.": ".strip_tags(phpAds_getZoneName ($zoneid)).$quotes."\n\n";
+	echo $quotes.$strZone.": ".strip_tags(phpAds_getZoneName ($zoneid, false)).$quotes."\n\n";
 	echo $quotes.$strDay.$quotes.$delimiter.$quotes.$strViews.$quotes;
 	echo $delimiter.$quotes.$strClicks.$quotes.$delimiter.$quotes.$strCTRShort.$quotes."\n";
 	

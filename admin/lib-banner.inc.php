@@ -339,6 +339,9 @@ function phpAds_getBannerCache($banner)
 	// Set status text
 	if (isset($banner['status']) && $banner['status'] != '')
 	{
+		// Add HTML entities, leaving single quotes as-is
+		$banner['status'] = htmlspecialchars($banner['status']);
+		
 		$buffer = str_replace ('{status}', $banner['status'], $buffer);
 		$buffer = str_replace ('[status]', '', $buffer);
 		$buffer = str_replace ('[/status]', '', $buffer);
@@ -601,16 +604,6 @@ function phpAds_compileLimitation ($bannerid = '')
 		") or phpAds_sqlDie();
 	}
 }
-
-
-function phpAds_UnHTMLentities ($str)  
-{
-	$trans_tbl = get_html_translation_table (HTML_ENTITIES);
-  $trans_tbl = array_flip ($trans_tbl);
-  $return = strtr ($str, $trans_tbl);
-  
-	return (preg_replace('/\&\#([0-9]+)\;/me', "chr('\\1')", $return));
-} 
 
 
 

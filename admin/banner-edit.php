@@ -320,31 +320,38 @@ if (isset($submit))
 			$final['target'] 	  = $target;
 			$final['storagetype'] = $storagetype;
 			
-			
 			// Update existing hard-coded links
 			if (isset($alink) && is_array($alink) && count($alink))
 			{
+				// Prepare the parameters
+				$parameters_complete = array();
+
+				// Prepare targets
+				if (!isset($atar) || !is_array($atar))
+					$atar = array();
+				
 				while (list ($key, $val) = each ($alink))
 				{
 					if (substr($val, 0, 7) == 'http://' && strlen($val) > 7)
 					{
-						if (isset($alink_chosen) && $alink_chosen == $key) $final['url'] = $val;
+						if (!isset($atar[$key]))
+							$atar[$key] = '';
+
+						if (isset($alink_chosen) && $alink_chosen == $key)
+						{
+							$final['url'] = $val;
+							$final['target'] = $atar[$key];
+						}
 						
 						if (isset($asource[$key]) && $asource[$key] != '')
 							$val .= '|source:'.$asource[$key];
-						
-						$final['htmltemplate'] = eregi_replace ("alink".$key."=\{targeturl:[^\}]+\}", "alink".$key."={targeturl:".$val."}", $final['htmltemplate']);
+
+						$parameters_complete[] = 'alink'.$key.'={targeturl:'.$val.'}&atar'.$key.'='.$atar[$key];
 					}
 				}
-				
-				if (isset($atar) && is_array($atar) && count ($atar))
-				{
-					while (list ($key, $val) = each ($atar))
-					{
-						$final['htmltemplate'] = eregi_replace ("atar".$key."=[^'&]*", "atar".$key."=".$val, $final['htmltemplate']);
-						if (isset($alink_chosen) && $alink_chosen == $key) $final['target'] = $val;
-					}
-				}
+
+				$parameter = implode ('&', $parameters_complete);
+				$final['htmltemplate'] = str_replace ('{swf_param}', $parameter, $final['htmltemplate']);
 			}
 			
 			
@@ -460,27 +467,35 @@ if (isset($submit))
 			// Update existing hard-coded links
 			if (isset($alink) && is_array($alink) && count($alink))
 			{
+				// Prepare the parameters
+				$parameters_complete = array();
+
+				// Prepare targets
+				if (!isset($atar) || !is_array($atar))
+					$atar = array();
+				
 				while (list ($key, $val) = each ($alink))
 				{
 					if (substr($val, 0, 7) == 'http://' && strlen($val) > 7)
 					{
-						if (isset($alink_chosen) && $alink_chosen == $key) $final['url'] = $val;
+						if (!isset($atar[$key]))
+							$atar[$key] = '';
+
+						if (isset($alink_chosen) && $alink_chosen == $key)
+						{
+							$final['url'] = $val;
+							$final['target'] = $atar[$key];
+						}
 						
 						if (isset($asource[$key]) && $asource[$key] != '')
 							$val .= '|source:'.$asource[$key];
-						
-						$final['htmltemplate'] = eregi_replace ("alink".$key."=\{targeturl:[^\}]+\}", "alink".$key."={targeturl:".$val."}", $final['htmltemplate']);
+
+						$parameters_complete[] = 'alink'.$key.'={targeturl:'.$val.'}&atar'.$key.'='.$atar[$key];
 					}
 				}
-				
-				if (isset($atar) && is_array($atar) && count ($atar))
-				{
-					while (list ($key, $val) = each ($atar))
-					{
-						$final['htmltemplate'] = eregi_replace ("atar".$key."=[^'&]*", "atar".$key."=".$val, $final['htmltemplate']);
-						if (isset($alink_chosen) && $alink_chosen == $key) $final['target'] = $val;
-					}
-				}
+
+				$parameter = implode ('&', $parameters_complete);
+				$final['htmltemplate'] = str_replace ('{swf_param}', $parameter, $final['htmltemplate']);
 			}
 			
 			

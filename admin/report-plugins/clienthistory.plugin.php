@@ -156,7 +156,7 @@ function Plugin_ClienthistoryExecute($clientid, $delimiter=",", $quotes="")
 		}
 	}
 	
-	echo $quotes.$strClient.": ".strip_tags(phpAds_getClientName ($clientid)).$quotes."\n\n";
+	echo $quotes.$strClient.": ".phpAds_getClientName ($clientid, false).$quotes."\n\n";
 	echo $quotes.$strDay.$quotes.$delimiter.$quotes.$strViews.$quotes;
 	echo $delimiter.$quotes.$strClicks.$quotes.$delimiter.$quotes.$strCTRShort.$quotes."\n";
 	

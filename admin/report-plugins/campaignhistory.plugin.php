@@ -154,7 +154,7 @@ function Plugin_CampaignhistoryExecute($campaignid, $delimiter="t", $quotes="")
 		}
 	}
 	
-	echo $quotes.$strCampaign.": ".strip_tags(phpAds_getClientName ($campaignid)).$quotes."\n\n";
+	echo $quotes.$strCampaign.": ".phpAds_getClientName ($campaignid, false).$quotes."\n\n";
 	echo $quotes.$strDay.$quotes.$delimiter.$quotes.$strViews.$quotes.$delimiter;
 	echo $quotes.$strClicks.$quotes.$delimiter.$quotes.$strCTRShort.$quotes."\n";
 	
