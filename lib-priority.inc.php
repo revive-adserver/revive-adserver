@@ -197,7 +197,7 @@ function phpAds_PriorityPredictProfile($campaigns, $banners)
 	
 	
 	
-	//
+	// Adjust profile with real data
 	if (isset($profile))
 	{
 		if (date('H') > 0)
@@ -216,7 +216,10 @@ function phpAds_PriorityPredictProfile($campaigns, $banners)
 			// Adjust prediction for today
 			if ($predicted_up_till_now > 0)
 			{
-				$deviance = $real_up_till_now / $predicted_up_till_now;
+				$importance = date('H') / 24;
+				$deviance   = $real_up_till_now / $predicted_up_till_now;
+				$deviance   = (($deviance - 1) / $importance) + 1;
+				
 				$real_today = round($predicted_today * $deviance);
 			}
 			else
