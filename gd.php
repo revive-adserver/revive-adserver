@@ -18,6 +18,10 @@ if ($phpversion >= 4.02) {
     else 
         $gdimageformat = "none"; 
 
+} elseif ($phpversion >= 4) { 
+// No way to determine image format 
+$gdimageformat = "gif"; // assume gif? 
+
 } else { 
     // Use Function_Exists to determine image format 
     if (function_exists("imagepng")) 
