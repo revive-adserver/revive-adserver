@@ -447,7 +447,7 @@ echo "&nbsp;<a href='client-campaigns.php?clientid=".$clientid."&expand=none' ac
 echo "</td>";
 echo "</tr>";
 
-if (count($campaigns))
+if (isset($campaigns) && count($campaigns))
 {
 	echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
 	echo "<tr height='25'>";

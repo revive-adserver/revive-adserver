@@ -35,6 +35,9 @@ $phpAds_config['tbl_targetstats'] = 'tbl_targetstats';
 // Database table name prefix
 $phpAds_config['table_prefix'] = 'phpads_';
 
+// Database table type
+$phpAds_config['table_type'] = 'MYISAM';
+
 // Use persistent connections to the database
 $phpAds_config['persistent_connections'] = false;
 
@@ -95,7 +98,7 @@ $phpAds_config['geotracking_cookie'] = false;
 /*********************************************************/
 
 // Use compact or verbose statistics
-$phpAds_config['compact_stats'] = false;
+$phpAds_config['compact_stats'] = true;
 
 // Enabled logging of adviews?
 $phpAds_config['log_adviews'] = true;
@@ -104,13 +107,13 @@ $phpAds_config['log_adviews'] = true;
 $phpAds_config['log_adclicks'] = true;
 
 // Log the source parameter
-$phpAds_config['log_source'] = false;
+$phpAds_config['log_source'] = true;
 
 // Log the hostname or IP address
-$phpAds_config['log_hostname'] = false;
+$phpAds_config['log_hostname'] = true;
 
 // Log only the IP address even if a hostname is available
-$phpAds_config['log_iponly'] = false;
+$phpAds_config['log_iponly'] = true;
 
 // Use beacons to log adviews
 $phpAds_config['log_beacon'] = true;

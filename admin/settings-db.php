@@ -144,7 +144,7 @@ array (
 			'type'    => 'checkbox',
 			'name'    => 'insert_delayed',
 			'text'	  => $strInsertDelayed,
-			'visible' => $phpAds_productname == 'phpAdsNew'
+			'visible' => $phpAds_productname == 'phpAdsNew' && $phpAds_config['table_type'] == 'MYISAM'
 		),
 		array (
 			'type'    => 'checkbox',

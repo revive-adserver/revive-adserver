@@ -4,9 +4,9 @@
     An ad server and banner management system written in PHP
 
 
-    Version 2 dev 29102002
+    Version 2 RC 1
     ------------------------------------------------------------------------
-    THIS IS A EXPERIMENTAL DEVELOPMENT BUILD AND MAY NOT BE 
+    THIS IS A RELEASE CANDIDATE AND MAY NOT BE 
     STABLE ENOUGH FOR USE IN A PRODUCTION ENVIRONMENT.
     THE USE OF THIS SOFTWARE IS COMPLETELY AT YOUR OWN RISK!
 
@@ -68,13 +68,12 @@
 
     Requirements: 
     ------------------------------------------------------------------------
-    PHP 4.0 or higher 	 (4.2.0 recommended)
+    PHP 4.0 or higher 	 (4.2.3 recommended)
     MySQL 3.22 or higher (3.23 with InnoDB recommended)
 
     If you want to run phpAdsNew on a PostgreSQL server you should
     take a look at phpPgAds, which is a port of phpAdsNew to PostgreSQL,
-    made by Matteo Beccati. phpPgAds requires PHP4.
-    The phpPgAds project can be found at: 
+    made by Matteo Beccati. The phpPgAds project can be found at: 
     http://sourceforge.net/projects/phppgads/
        
          

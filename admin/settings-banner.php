@@ -50,8 +50,15 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		phpAds_SettingsWriteAdd('type_web_mode', $type_web_mode);
 	if (isset($type_web_url))
 		phpAds_SettingsWriteAdd('type_web_url', $type_web_url);
-	if (isset($type_web_dir))
-		phpAds_SettingsWriteAdd('type_web_dir', $type_web_dir);
+	
+	
+	if (isset($type_web_dir) && !empty($type_web_dir))
+	{
+		if (@file_exists($type_web_dir))
+			phpAds_SettingsWriteAdd('type_web_dir', $type_web_dir);
+		else
+			$errormessage[2][] = $strTypeDirError;
+	}
 	
 	if (isset($type_web_ftp_host) && !empty($type_web_ftp_host))
 	{
@@ -80,15 +87,15 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 					phpAds_SettingsWriteAdd('type_web_ftp', $type_web_ftp);
 				}
 				else
-					$errormessage[2][] = "The host directory does not exist";
+					$errormessage[2][] = $strTypeFTPErrorDir;
 			}
 			else
-				$errormessage[2][] = "Could not connect to the FTP server, the login or password are not correct";
+				$errormessage[2][] = $strTypeFTPErrorConnect;
 			
 			@ftp_quit($ftpsock);
 		}
 		else
-			$errormessage[2][] = "The hostname of the FTP server is not correct";
+			$errormessage[2][] = $strTypeFTPErrorHost;
 	}
 	
 	phpAds_SettingsWriteAdd('type_html_auto', isset($type_html_auto));

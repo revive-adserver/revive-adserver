@@ -91,9 +91,10 @@ if ($fp = @fopen(phpAds_path.'/cache/available', 'wb'))
 }
 
 if (function_exists('shmop_open'))
-	$delivery_cache_methods['shm'] = $strCacheShmop;
+	$delivery_cache_methods['shm'] = $strCacheShmop." (".$strExperimental.")";
 
-
+if (function_exists('shm_attach'))
+	$delivery_cache_methods['sysvshm'] = $strCacheSysvshm." (".$strExperimental.")"; 
 
 
 $settings = array (

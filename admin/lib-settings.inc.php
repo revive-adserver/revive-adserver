@@ -120,6 +120,10 @@ function phpAds_SettingsHelp($name)
 function phpAds_ShowSettings ($data, $errors = array())
 {
 	global $phpAds_config, $HTTP_SERVER_VARS;
+	global $tabindex;
+	
+	// Initialize tabindex (if not already done)
+	if(!isset($tabindex)) $tabindex = 1;
 	
 	// Determine if config file is writable
 	$phpAds_config_locked = !phpAds_isConfigWritable();

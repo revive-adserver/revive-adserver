@@ -127,7 +127,7 @@ if (isset($submit))
 			$active = "f";
 	
 	
-	$new_campaign = $camapignid == 'null';
+	$new_campaign = $campaignid == 'null';
 	
 	$query = "
 		REPLACE INTO

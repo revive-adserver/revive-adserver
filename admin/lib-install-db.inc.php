@@ -97,7 +97,7 @@ function phpAds_upgradeDatabase ($tabletype = '')
 	
 	// Upgrade append type to zones when possible
 	phpAds_upgradeDisplayLimitations();
-
+	
 	// Create target stats form userlog
 	phpAds_upgradeTargetStats();
 	
@@ -367,31 +367,38 @@ function phpAds_dropTable ($name)
 
 function phpAds_getTableTypes ()
 {
-	// Assume MySQL always supports MyISAM table types
-	
-	/* 
-	$types['MYISAM'] = 'MyISAM';
-	
-	$res = phpAds_dbQuery("SHOW VARIABLES");
-	while ($row = phpAds_dbFetchRow($res))
-	{
-		if ($row[0] == 'have_bdb' && $row[1] == 'YES')
-			$types['BDB'] = 'Berkeley DB';
-		
-		if ($row[0] == 'have_gemini' && $row[1] == 'YES')
-			$types['GEMINI'] = 'NuSphere Gemini';
-		
-		if ($row[0] == 'have_innodb' && $row[1] == 'YES')
-			$types['INNODB'] = 'InnoDB';
-	}
-	*/
-	
 	$types['MYISAM'] = 'MyISAM';
 	$types['BDB'] = 'Berkeley DB';
 	$types['GEMINI'] = 'NuSphere Gemini';
 	$types['INNODB'] = 'InnoDB';
 	
 	return $types;
+}
+
+function phpAds_checkTableType ($type)
+{
+	// Assume MySQL always supports MyISAM table types
+	if ($type == 'MYISAM')
+	{
+		return true;
+	}
+	else
+	{
+		$res = phpAds_dbQuery("SHOW VARIABLES");
+		while ($row = phpAds_dbFetchRow($res))
+		{
+			if ($type == 'BDB' && $row[0] == 'have_bdb' && $row[1] == 'YES')
+				return true;
+			
+			if ($type == 'GEMINI' && $row[0] == 'have_gemini' && $row[1] == 'YES')
+				return true;
+			
+			if ($type == 'INNODB' && $row[0] == 'have_innodb' && $row[1] == 'YES')
+				return true;
+		}
+	}
+	
+	return false;
 }
 
 

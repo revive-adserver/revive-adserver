@@ -61,6 +61,9 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-12-03:  Added optional localization for ISO3166, ISO639 and continent resource files  (Matteo)
 			  - 2002-12-10:  Added a warning mesage into zone-probability.php when using circular zone chains and all zones are empty  (Matteo)
 			  - 2002-12-15:  The install script now also uses the rewritten settings library  (Niels)
+			  - 2002-12-15:  Added experimental support for sysvshm shared memory to the delivery cache plugins  (Thomas Seifert)
+			  - 2002-12-16:  The table type selected during the installation is now stored in the configuration file  (Niels)
+			  - 2002-12-16:  Added an extra check to see if the local directory exist when setting up local banners stored on the webserver  (Niels)
 
 			+ Misc bugfixes
 			  - 2002-07-25:  On some systems history pages showed '-0' instead of simply '-' (Matteo)
@@ -151,6 +154,11 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-12-14:  Fixed crash when saving the default settings on IIS when using PHP as CGI  (Niels)
 			  - 2002-12-15:  Fixed multiple E_ALL errors in admin-search.php  (Niels)
 			  - 2002-12-15:  Javascript form checking didn't work if a required field didn't have particular type  (Niels)
+			  - 2002-12-16:  The install script now checks wether the selected table type is really supported by the MySQL server  (Niels)
+			  - 2002-12-16:  Upgrading now created tables in the same table type as selected during the original installation  (Niels)
+			  - 2002-12-16:  Delayed inserts are now disabled if a table type other than MyISAM is used  (Niels)
+			  - 2002-12-17:  Fixed E_ALL error in lib-gui.inc.php when the database wasn't configured or running  (Niels)
+			  - 2002-12-17:  Fixed typo in error message when the database wasn't configured or running  (Niels)
 
 
 

@@ -31,6 +31,7 @@ $GLOBALS['strCreateTableTestFailed']		= "The user you specified doesn't have per
 $GLOBALS['strUpdateTableTestFailed']		= "The user you specified doesn't have permission to update the database structure, please contact the database administrator.";
 $GLOBALS['strTablePrefixInvalid']		= "Table prefix contains invalid characters";
 $GLOBALS['strTableInUse']			= "The database which you specified is already used for ".$phpAds_productname.", please use a different table prefix, or read the manual for upgrading instructions.";
+$GLOBALS['strTableWrongType']		= "The table type you selected isn't supported by your installation of ".$phpAds_dbmsname;
 $GLOBALS['strMayNotFunction']			= "Before you continue, please correct these potential problems:";
 $GLOBALS['strIgnoreWarnings']			= "Ignore warnings";
 $GLOBALS['strWarningDBavailable']		= "The version of PHP you are using doesn't have support for connecting to a ".$phpAds_dbmsname." database server. You need to enable the PHP ".$phpAds_dbmsname." extension before you can proceed.";
@@ -135,7 +136,9 @@ $GLOBALS['strDeliverySettings']			= "Delivery settings";
 $GLOBALS['strCacheType']				= "Delivery cache type";
 $GLOBALS['strCacheFiles']				= "Files";
 $GLOBALS['strCacheDatabase']			= "Database";
-$GLOBALS['strCacheShmop']				= "Shared memory (shmop)";
+$GLOBALS['strCacheShmop']				= "Shared memory/Shmop";
+$GLOBALS['strCacheSysvshm']				= "Shared memory/Sysvshm";
+$GLOBALS['strExperimental']				= "Experimental";
 $GLOBALS['strKeywordRetrieval']			= "Keyword retrieval";
 $GLOBALS['strBannerRetrieval']			= "Banner retrieval method";
 $GLOBALS['strRetrieveRandom']			= "Random banner retrieval (default)";
@@ -178,6 +181,12 @@ $GLOBALS['strTypeFTPHost']			= "FTP Host";
 $GLOBALS['strTypeFTPDirectory']			= "Host directory";
 $GLOBALS['strTypeFTPUsername']			= "Login";
 $GLOBALS['strTypeFTPPassword']			= "Password";
+$GLOBALS['strTypeFTPErrorDir']			= "The host directory does not exist";
+$GLOBALS['strTypeFTPErrorConnect']		= "Could not connect to the FTP server, the login or password are not correct";
+$GLOBALS['strTypeFTPErrorHost']			= "The hostname of the FTP server is not correct";
+$GLOBALS['strTypeDirError']				= "The local directory does not exist";
+
+
 
 $GLOBALS['strDefaultBanners']			= "Default banners";
 $GLOBALS['strDefaultBannerUrl']			= "Default image URL";

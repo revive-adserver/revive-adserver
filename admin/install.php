@@ -32,7 +32,7 @@ require ("../config.inc.php");
 // Register input variables
 require ("../libraries/lib-io.inc.php");
 phpAds_registerGlobal ('installvars', 'language', 'phase', 'dbhost', 'dbuser', 'dbpassword', 'dbname', 'table_prefix', 
-					   'tabletype', 'admin', 'admin_pw', 'admin_pw2', 'url_prefix');
+					   'table_type', 'admin', 'admin_pw', 'admin_pw2', 'url_prefix');
 
 
 // Set URL prefix
@@ -229,6 +229,10 @@ if (phpAds_isUser(phpAds_Admin))
 					phpAds_dbQuery ("DROP TABLE phpads_tmp_dbpriviligecheck");
 				else
 					$errormessage[0][] = $strCreateTableTestFailed;
+				
+				// Check table type
+				if (phpAds_tableTypesSupported && !phpAds_checkTableType($table_type))
+					$errormessage[1][] = $strTableWrongType
 			}
 			
 			// Check table prefix
@@ -243,7 +247,7 @@ if (phpAds_isUser(phpAds_Admin))
 				$installvars['dbpassword'] 	 = $dbpassword;
 				$installvars['dbname'] 		 = $dbname;
 				$installvars['table_prefix'] = $table_prefix;
-				$installvars['tabletype'] 	 = $tabletype;
+				$installvars['table_type'] 	 = $table_type;
 				
 				// Create table names
 				$phpAds_config['tbl_clients'] 	 = $installvars['tbl_clients']    = $table_prefix.'clients';
@@ -297,7 +301,7 @@ if (phpAds_isUser(phpAds_Admin))
 					// Connect
 					if (phpAds_dbConnect())
 					{
-						if (phpAds_createDatabase($phpAds_config['tabletype']))
+						if (phpAds_createDatabase($phpAds_config['table_type']))
 						{
 							// Insert basic settings into database and config file
 							phpAds_SettingsWriteAdd('config_version', $phpAds_version);
@@ -308,6 +312,7 @@ if (phpAds_isUser(phpAds_Admin))
 							phpAds_SettingsWriteAdd('dbpassword', $installvars['dbpassword']);
 							phpAds_SettingsWriteAdd('dbname', $installvars['dbname']);
 							phpAds_SettingsWriteAdd('table_prefix', $installvars['table_prefix']);
+							phpAds_SettingsWriteAdd('table_type', $installvars['table_type']);
 							
 							phpAds_SettingsWriteAdd('tbl_clients', $installvars['tbl_clients']);
 							phpAds_SettingsWriteAdd('tbl_banners', $installvars['tbl_banners']);
@@ -323,8 +328,6 @@ if (phpAds_isUser(phpAds_Admin))
 							phpAds_SettingsWriteAdd('tbl_userlog', $installvars['tbl_userlog']);
 							phpAds_SettingsWriteAdd('tbl_cache', $installvars['tbl_cache']);
 							phpAds_SettingsWriteAdd('tbl_targetstats', $installvars['tbl_targetstats']);
-							
-							phpAds_SettingsWriteAdd('table_prefix', $installvars['table_prefix']);
 							
 							phpAds_SettingsWriteAdd('admin', $admin);
 							phpAds_SettingsWriteAdd('admin_pw', $admin_pw);
@@ -495,7 +498,7 @@ if (phpAds_isUser(phpAds_Admin))
 						),
 						array (
 							'type' 	  => 'select', 
-							'name' 	  => 'tabletype',
+							'name' 	  => 'table_type',
 							'text' 	  => $strTablesType,
 							'items'   => phpAds_getTableTypes(),
 							'visible' => phpAds_tableTypesSupported

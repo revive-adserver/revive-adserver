@@ -12,6 +12,18 @@
 
   ====================================================
 
+  12-16-2002 - settings
+    [+] strTableWrongType
+    [+] strTypeFTPErrorDir
+    [+] strTypeFTPErrorConnect
+    [+] strTypeFTPErrorHost
+    [+] strTypeDirError
+
+  12-15-2002 - settings
+    [u] strCacheShmop
+    [+] strCacheSysvshm
+    [+] strExperimental
+
   12-10-2002 - default
     [+] strZoneProbListChainLoop
 

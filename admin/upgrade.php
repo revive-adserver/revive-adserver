@@ -269,11 +269,14 @@ if (phpAds_isUser(phpAds_Admin))
 		// Send the output to the browser
 		flush();
 		
+		// Determine table type
+		$table_type = isset($phpAds_config['table_type']) ? $phpAds_config['table_type'] : '';
+		
 		// Upgrade database
 		if (phpAds_databaseUpgradeSupported)
-			$result = phpAds_upgradeDatabase();
+			$result = phpAds_upgradeDatabase($table_type);
 		else
-			$result = phpAds_createDatabase();
+			$result = phpAds_createDatabase($table_type);
 		
 		// Update config_version and write settings
 		phpAds_SettingsWriteAdd('config_version', $phpAds_version);
