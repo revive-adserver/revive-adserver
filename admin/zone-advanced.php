@@ -258,7 +258,7 @@ echo "&nbsp;&nbsp;<select name='chainzone' style='width: 200;' onchange='phpAds_
 	
 	// Get list of public publishers
 	$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_affiliates']." WHERE ".
-						  "public = 't' OR affiliateid = '".$affiliateid."'");
+						  "publiczones = 't' OR affiliateid = '".$affiliateid."'");
 	
 	while ($row = phpAds_dbFetchArray($res))
 		$available[] = "affiliateid = '".$row['affiliateid']."'";

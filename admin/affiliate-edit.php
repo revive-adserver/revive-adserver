@@ -138,7 +138,7 @@ if (isset($submit))
 				username,
 				password,
 				permissions,
-				public
+				publiczones
 				)
 			 VALUES (
 			 	'".$affiliateid."',
@@ -150,7 +150,7 @@ if (isset($submit))
 				'".$username."',
 				'".$password."',
 				'".$permissions."',
-				'".$public."'
+				'".$publiczones."'
 				)
 			") or phpAds_sqlDie();
 		
@@ -297,7 +297,7 @@ else
 	$affiliate['website'] 		= 'http://';
 	$affiliate['contact'] 		= '';
 	$affiliate['email'] 		= '';
-	$affiliate['public']		= 'f';
+	$affiliate['publiczones']	= 'f';
 	
 	$affiliate['username'] 		= '';
 	$affiliate['password'] 		= '';
@@ -357,7 +357,7 @@ echo "</select></td></tr><tr><td><img src='images/spacer.gif' height='1' width='
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-echo "<input type='checkbox' name='public' value='t'".($affiliate['public'] == 't' ? ' CHECKED' : '').">&nbsp;";
+echo "<input type='checkbox' name='publiczones' value='t'".($affiliate['publiczones'] == 't' ? ' CHECKED' : '').">&nbsp;";
 echo $strMakePublisherPublic;
 echo "</td></tr>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
