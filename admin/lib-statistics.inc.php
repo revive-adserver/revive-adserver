@@ -181,7 +181,7 @@ function phpAds_buildBannerName ($bannerID, $description = '', $alt = '', $limit
 /* Fetch the banner name from the database               */
 /*********************************************************/
 
-function phpAds_getBannerName ($bannerID)
+function phpAds_getBannerName ($bannerID, $limit = 30, $id = true)
 {
 	global $bannerCache, $phpAds_tbl_banners;
 	
@@ -205,7 +205,10 @@ function phpAds_getBannerName ($bannerID)
 		$bannerCache[$bannerID] = $row;
 	}
 	
-	return (phpAds_buildBannerName ($bannerID, $row['description'], $row['alt']));
+	if ($id)
+		return (phpAds_buildBannerName ($bannerID, $row['description'], $row['alt'], $limit));
+	else
+		return (phpAds_buildBannerName ('', $row['description'], $row['alt'], $limit));
 }
 
 
@@ -226,7 +229,7 @@ function phpAds_buildZoneName ($zoneid, $zonename)
 function phpAds_getZoneName ($zoneid)
 {
 	global $zoneCache, $phpAds_tbl_zones;
-	global $strAddZone;
+	global $strUntitled;
 	
 	if ($zoneid != '' && $zoneid != 0)
 	{
@@ -253,7 +256,7 @@ function phpAds_getZoneName ($zoneid)
 		return (phpAds_BuildZoneName ($zoneid, $row['zonename']));
 	}
 	else
-		return ($strAddZone);
+		return ($strUntitled);
 }
 
 
