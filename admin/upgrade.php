@@ -459,6 +459,11 @@ if (phpAds_isUser(phpAds_Admin))
 		// Update config_version and write settings
 		phpAds_SettingsWriteAdd('config_version', $phpAds_version);
 		phpAds_SettingsWriteAdd('language', $phpAds_config['language']);
+		
+		// Force update check on dev builds if currently upgrading to a dev-build.
+		if ($phpAds_version_development)
+			phpAds_SettingsWriteAdd('updates_dev_builds', true);
+		
 		phpAds_ConfigFileUpdateFlush();
 		
 		phpAds_PageHeader("1");
