@@ -26,10 +26,14 @@ if (phpAds_isUser(phpAds_Client))
 		") or mysql_die();
 	$row = mysql_fetch_array($result);
 	
-	if($row["clientID"] != $clientID)
+	if($row["clientID"] != phpAds_clientID())
 	{
 		phpAds_ShowNav("2.1");
 		php_die ($strAccessDenied, $strNotAdmin);
+	}
+	else
+	{
+		$clientID = phpAds_clientID();
 	}
 }
 

@@ -95,6 +95,11 @@ require ("lib-sessions.inc.php");
 	}
 
 
+	function phpAds_clientID ()
+	{
+		global $Session;
+		return ($Session[clientID]);
+	}
 
 
 
