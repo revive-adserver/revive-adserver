@@ -13,7 +13,7 @@
 /************************************************************************/
 
 
-$debug = true;
+$debug = false;
 $debuglog = '';
 
 define('phpAds_CurrentHour', date('H'));
