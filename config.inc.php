@@ -191,6 +191,7 @@ $phpAds_type_html_auto	= true;
 $phpAds_type_html_php	= false;
 
 
+
 /*********************************************************/
 /* Administrator configuration                           */
 /*********************************************************/
@@ -207,16 +208,15 @@ $phpAds_admin_fullname = "Your Name";
 // Admin's email address (used to set the FROM-address when sending email)
 $phpAds_admin_email = "your@email.com";
 
-//Mail Headers for the reflection of the sender of the daily ad reports
+// Mail Headers for the reflection of the sender of the daily ad reports
 $phpAds_admin_email_headers = "From: $phpAds_admin_fullname <$phpAds_admin_email> \n";
 
 // Admin´s delete actions need confirmation for safety
 $phpAds_admin_novice = true;
 
-
-
-
-
+// Show client welcome message
+// To alter the message you can edit the file 'admin/templates/welcome.html
+$phpAds_client_welcome = true;
 
 
 
