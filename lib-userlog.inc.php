@@ -26,6 +26,7 @@ define ("phpAds_actionPublisherReportMailed", 1);
 define ("phpAds_actionWarningMailed", 2);
 define ("phpAds_actionDeactivationMailed", 3);
 define ("phpAds_actionPriorityCalculation", 10);
+define ("phpAds_actionPriorityAutoTargeting", 11);
 define ("phpAds_actionDeactiveCampaign", 20);
 define ("phpAds_actionActiveCampaign", 21);
 

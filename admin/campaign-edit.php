@@ -154,6 +154,20 @@ if (isset($submit))
 	if ($campaignid == "null")
 		$campaignid = phpAds_dbInsertID();
 	
+
+	// Auto-target campaign if adviews purchased and expiration set
+	if ($active = 't' && $expire != 'NULL' && $views > 0)
+		phpAds_dbQuery("
+			UPDATE ".$phpAds_config['tbl_clients']."
+			SET
+				target = ".
+					ceil($views/(((mktime(0, 0, 0, $expireMonth, $expireDay, $expireYear) -
+					mktime(0, 0, 0, date('m'), date('d'), date('Y'))) / (double)(60*60*24))))."
+			WHERE
+				clientid = ".$campaignid
+		);
+
+	
 	if (isset($move) && $move == 't')
 	{
 		// We are moving a client to a campaign
