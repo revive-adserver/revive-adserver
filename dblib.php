@@ -304,7 +304,7 @@ function phpads_ignore_host()
 	}
 	
 	// Returns hostname or IP address if OK, false if host is ignored
-	return $found ? false : $host;
+	return $found ? false : (empty($host) ? $REMOTE_ADDR : $host);
 }
 
 ?>
