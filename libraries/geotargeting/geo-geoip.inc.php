@@ -4,7 +4,7 @@
 /* phpAdsNew 2                                                          */
 /* ===========                                                          */
 /*                                                                      */
-/* Portions Copyright (c) 2000-2002 by the phpAdsNew developers         */
+/* Portions Copyright (c) 2000-2003 by the phpAdsNew developers         */
 /* For more information visit: http://www.phpadsnew.com                 */
 /*                                                                      */
 /* Adapted from software created by Jim Winstead <jimw@apache.org>      */

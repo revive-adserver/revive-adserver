@@ -1,10 +1,10 @@
-<?php // $Revision: 2.5.2.11 $
+<?php // $Revision: 1.1.2.1 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
 /* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2000-2002 by the phpAdsNew developers                  */
+/* Copyright (c) 2000-2003 by the phpAdsNew developers                  */
 /* For more information visit: http://www.phpadsnew.com                 */
 /*                                                                      */
 /*                                                                      */
