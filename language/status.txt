@@ -64,8 +64,8 @@ Hungarian
 Italian
 	---------------------------------------------------------
 	Maintained by:	   Matteo Beccati (matteo@beccati.com)
-	Is up-to-date?	   No
-	Last update:	   06 November 2002
+	Is up-to-date?	   Yes
+	Last update:	   12 November 2002
 	Translated files:  7
 	---------------------------------------------------------
 
