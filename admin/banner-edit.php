@@ -331,7 +331,7 @@ if (isset($submit))
 				{
 					while (list ($key, $val) = each ($atar))
 					{
-						$final['htmltemplate'] = eregi_replace ("atar".$key."=[^'&]+", "atar".$key."=".$val, $final['htmltemplate']);
+						$final['htmltemplate'] = eregi_replace ("atar".$key."=[^'&]*", "atar".$key."=".$val, $final['htmltemplate']);
 						if (isset($alink_chosen) && $alink_chosen == $key) $final['target'] = $val;
 					}
 				}
@@ -462,7 +462,7 @@ if (isset($submit))
 				{
 					while (list ($key, $val) = each ($atar))
 					{
-						$final['htmltemplate'] = eregi_replace ("atar".$key."=[^'&]+", "atar".$key."=".$val, $final['htmltemplate']);
+						$final['htmltemplate'] = eregi_replace ("atar".$key."=[^'&]*", "atar".$key."=".$val, $final['htmltemplate']);
 						if (isset($alink_chosen) && $alink_chosen == $key) $final['target'] = $val;
 					}
 				}
@@ -855,7 +855,7 @@ if ($bannerid != '')
 				$buffer = str_replace ($regs[0], '', $buffer);
 			}
 			
-			while (eregi("atar([0-9]+)=([^'&]+)", $buffer, $regs))
+			while (eregi("atar([0-9]+)=([^'&]*)", $buffer, $regs))
 			{
 				$hardcoded_targets[$regs[1]] = $regs[2];
 				$buffer = str_replace ($regs[0], '', $buffer);
@@ -1109,7 +1109,7 @@ if ($storagetype == 'sql')
 		
 		echo "<tr><td width='30'>&nbsp;</td>";
 		echo "<td width='200'>".$strTarget."</td>";
-		echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' dir='ltr' value='".$row["target"]."' tabindex='".($tabindex++)."'></td></tr>";
+		echo "<td><input class='flat' size='16' type='text' name='target' style='width:150px;' dir='ltr' value='".$row["target"]."' tabindex='".($tabindex++)."'></td></tr>";
 	}
 	else
 	{
@@ -1264,7 +1264,7 @@ if ($storagetype == 'web')
 		
 		echo "<tr><td width='30'>&nbsp;</td>";
 		echo "<td width='200'>".$strTarget."</td>";
-		echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' dir='ltr' value='".$row["target"]."' tabindex='".($tabindex++)."'></td></tr>";
+		echo "<td><input class='flat' size='16' type='text' name='target' style='width:150px;' dir='ltr' value='".$row["target"]."' tabindex='".($tabindex++)."'></td></tr>";
 	}
 	else
 	{
@@ -1368,7 +1368,7 @@ if ($storagetype == 'url')
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strTarget."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' dir='ltr' value='".$row["target"]."' tabindex='".($tabindex++)."'></td></tr>";
+	echo "<td><input class='flat' size='16' type='text' name='target' style='width:150px;' dir='ltr' value='".$row["target"]."' tabindex='".($tabindex++)."'></td></tr>";
 	
 	echo "<tr><td height='30' colspan='3'>&nbsp;</td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -1464,7 +1464,7 @@ if ($storagetype == 'txt')
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strTarget."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' dir='ltr' value='".$row["target"]."' tabindex='".($tabindex++)."'></td></tr>";
+	echo "<td><input class='flat' size='16' type='text' name='target' style='width:150px;' dir='ltr' value='".$row["target"]."' tabindex='".($tabindex++)."'></td></tr>";
 	
 	echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
