@@ -91,11 +91,11 @@ else
 	show_nav("1.1");   
 }
 
-if (strlen($row["views"])==0)
+if (empty($row["views"]))
 	$row["views"]=-1;
-if (strlen($row["clicks"])==0)
+if (empty($row["clicks"]))
 	$row["clicks"]=-1;
-if (strlen($days_left)==0)
+if (empty($days_left))
 	$days_left=-1;
 
 ?>
