@@ -20,15 +20,23 @@ $GLOBALS['strChooseInstallLanguage']		= 'Choisissez la langue pour la procédure 
 $GLOBALS['strLanguageSelection']		= 'Sélection de la langue';
 $GLOBALS['strDatabaseSettings']			= 'Paramètres de la base de données';
 $GLOBALS['strAdminSettings']			= 'Paramètres de l\'administrateur';
-$GLOBALS['strAdvancedSettings']			= 'Paramètres avancés';
+$GLOBALS['strAdvancedSettings']			= 'Paramètres avancés de la base de données';
 $GLOBALS['strOtherSettings']			= 'Autres paramètres';
+$GLOBALS['strLicenseInformation']		= 'Informations de licence';
+$GLOBALS['strAdministratorAccount']		= 'Compte administrateur';
+$GLOBALS['strDatabasePage']			= 'Base de données '.$phpAds_dbmsname;
+$GLOBALS['strInstallWarning']			= 'Contrôle du serveur et de l\'intégrité';
+$GLOBALS['strCongratulations']			= 'Félicitations !';
+$GLOBALS['strInstallFailed']			= 'L\'installation a échoué !';
+$GLOBALS['strSpecifyAdmin']			= 'Configurer le compte administrateur';
+$GLOBALS['strSpecifyLocaton']			= 'Indiquer l\'emplacement de '.$phpAds_productname.' sur le serveur';
 
 $GLOBALS['strWarning']				= 'Alerte';
 $GLOBALS['strFatalError']			= 'Une erreur fatale est survenue';
 $GLOBALS['strUpdateError']			= 'Une erreur est survenue en tentant de mettre à jour '. $phpAds_productname;
 $GLOBALS['strUpdateDatabaseError']		= 'Une erreur non identifiée étant survenue, la structure de la base de données n\'a pas pu être mise à jour. Il est recommandé de cliquer sur <b>Retenter la mise à jour</b>, afin d\'essayer de corriger ces problèmes potentiels; néanmoins, si vous êtes sur que ces erreurs ne vont pas affecter la bonne marche de '.$phpAds_productname.', vous pouvez cliquer sur <b>Ignorer les erreurs</b> et continuer. Ignorer ces erreurs peut entrainer de graves problèmes !';
 $GLOBALS['strAlreadyInstalled']			= $phpAds_productname.' est déjà installé sur ce système. Si vous souhaitez le configurer :<a href=\'settings-index.php\'>Paramètres de '.$phpAds_productname.'</a>.';
-$GLOBALS['strCouldNotConnectToDB']		= $phpAds_productname.' ne peut se connecter à la base de donnée. Veuillez vérifier les paramètres que vous avez entrés.';
+$GLOBALS['strCouldNotConnectToDB']		= $phpAds_productname.' ne peut se connecter à la base de donnée. Veuillez vérifier les paramètres que vous avez entrés. Assurez vous aussi que la base existes. '.$phpAds_productname.' ne créera pas la base pour vous, et donc vous devez la créer avant de commencer l\'installation.';
 $GLOBALS['strCreateTableTestFailed']		= 'L\'utilisateur que vous avez spécifié n\'a pas la permission de créer ou de mettre à jour la structure de la base de données. Veuillez contacter l\'administrateur de la base.';
 $GLOBALS['strUpdateTableTestFailed']		= 'L\'utilisateur que vous avez spécifié n\'a pas la permission de mettre à jour la structure de la base de données. Veuillez contacter l\'administrateur de la base.';
 $GLOBALS['strTablePrefixInvalid']		= 'Le préfixe des tables contient des caractères invalides';
@@ -38,15 +46,18 @@ $GLOBALS['strMayNotFunction']			= 'Avant de continuer, vous devriez corriger ce 
 $GLOBALS['strFixProblemsBefore']		= 'Le(s) chose(s) suivante(s) doivent être corrigée(s) avant que vous ne puissiez installer '.$phpAds_productname.'. Si vous avez des questions à propos de ce message d\'erreur, lisez le <i>Guide de l\'administrateur</i> (Administrator guide, en anglais), qui est fourni avec l\'archive que vous avez téléchargée.';
 $GLOBALS['strFixProblemsAfter']			= 'Si vous ne pouvez pas corriger les problèmes ci-dessus, veuillez contacter l\'adminitrateur du serveur sur lequel vous tentez d\'installer '.$phpAds_productname.'. Il devrait être capable de vous aider.';
 $GLOBALS['strIgnoreWarnings']			= 'Ignorer les avertissement';
-$GLOBALS['strWarningPHPversion']		= $phpAds_productname.' requiert  PHP 4.0 (ou plus) pour fonctionner correctement. Vous utilisez actuellement {php_version}.';
 $GLOBALS['strWarningDBavailable']               = 'La version de PHP que vous utilisez n\'a pas le support nécessaire pour se connecter à une base de données '.$phpAds_dbmsname.'. Vous devez activer l\'extension '.$phpAds_dbmsname.' de PHP avant de pouvoir continuer.';
+$GLOBALS['strWarningPHPversion']		= $phpAds_productname.' requiert PHP 4.0.3 (ou plus) pour fonctionner correctement. Vous utilisez actuellement {php_version}.';
+$GLOBALS['strWarningPHP5beta']			= 'Vous tentez d\'installez '.$phpAds_productname.' sur un serveur avec une des première version de test de PHP 5. Ces versions ne sont pas prévues pour un environnement de production, et contiennent habituellement des bugs. Il n\'est pas recommandé de faire fonctionner '.$phpAds_productname.' sur PHP5, si ce n\'est à des fins de test.';
 $GLOBALS['strWarningRegisterGlobals']		= 'La variable de configuration globale PHP <i>register_globals</i> doit être activée.';
 $GLOBALS['strWarningMagicQuotesGPC']		= 'La variable de configuration globale PHP <i>magic_quotes_gpc</i> doit être activée.';
 $GLOBALS['strWarningMagicQuotesRuntime']  	= 'La variable de configuration globale PHP <i>magic_quotes_runtime</i> doit être désactivée.';
+$GLOBALS['strWarningMagicQuotesSybase']		= 'La variable de configuration globale PHP <i>magic_quotes_sybase</i> doit être désactivée.';
 $GLOBALS['strWarningFileUploads']		= 'La variable de configuration globale PHP <i>file_uploads</i> doit être activée.';
 $GLOBALS['strWarningTrackVars']			= 'La variable de configuration globale PHP <i>track_vars</i> doit être activée.';
 $GLOBALS['strWarningPREG']			= 'La version de PHP que vous utilisez ne dispose pas des PCRE (Expression rationnelles compatibles Perl). Vous devez activer l\'extension PCRE avant de pouvoir continuer.';
 $GLOBALS['strConfigLockedDetected']		= $phpAds_productname.' ne peut pas écrire sur le fichier <b>config.inc.php</b>.<br> Vous devez accorder avoir les privilèges d\'écriture sur ce fichier. <br>Veuillez lire la documentation fournie pour plus d\'informations.';
+$GLOBALS['strCacheLockedDetected']		= 'Vous utilisez le cache de distribution par fichier, et '.$phpAds_productname.' a detecté que le répertoire de <b>cache</b> n\'est pas écrivable par le serveur. Vous ne pouvez pas continuer tant que vous n\'aurez pas changé les permissions du répertoire. Lisez la documentation fournie pour plus d\'informations.';
 $GLOBALS['strCantUpdateDB']  			= 'Il n\'est pas possible de mettre à jour la base de données. Si vous décidez de continuer, toutes les bannières existantes, les statistiques, et les annonceurs seront perdus.';
 $GLOBALS['strIgnoreErrors']			= 'Ignorer les erreurs';
 $GLOBALS['strRetryUpdate']			= 'Retenter la mise à jour';
@@ -54,8 +65,16 @@ $GLOBALS['strTableNames']			= 'Nom de la base';
 $GLOBALS['strTablesPrefix']			= 'Préfixe des noms des tables';
 $GLOBALS['strTablesType']			= 'Type de table';
 
+$GLOBALS['strRevCorrupt']			= 'Le fichier <b>{filename}</b> est corrompu ou a été modifié. Si vous n\'avez pas modifié le fichier, merci d\'en uploader une copie neuve. Si vous avez modifié le fichier, merci d\'ignorer cet avertissement.';
+$GLOBALS['strRevTooOld']			= 'Le fichier <b>{filename}</b> est plus vieux que ce qu\'il devrait pour être utilisé par cette version de '.$phpAds_productname.'. Veuillez uploader une copie neuve du fichier sur le serveur.';
+$GLOBALS['strRevMissing']			= 'Le fichier <b>{filename}</b> n\'a pas pu être vérifié, car il était absent. Veuillez en uploader une copie neuve sur le serveur.';
+$GLOBALS['strRevCVS']				= 'Vous essayer d\'installer un ckeckout du CVS de '.$phpAds_productname.'. Ceci n\'est pas une version officielle, et pourrait être instable, voir même non-fonctionnel. Etes vous sur de vouloir continuer ?';
+
 $GLOBALS['strInstallWelcome']			= 'Bienvenue sur '.$phpAds_productname;
 $GLOBALS['strInstallMessage']			= 'Avant de pouvoir utiliser '.$phpAds_productname.', il est nécessaire de le configurer, et la base de données doit être crée. Cliquez sur <b>Continuer</b> pour poursuivre.';
+$GLOBALS['strInstallMessageCheck']		= $phpAds_productname.' a vérifié l\'intégrité des fichiers que vous avez uploadés sur le serveur, et a vérifié que le serveur était capable de faire marcher '.$phpAds_productname.'. Les élèments suivant doivent être pris en compte avant de pouvoir continuer.';
+$GLOBALS['strInstallMessageAdmin']		= 'Avant de continuer, vous devez régler le compte administrateur. Vous pourrez ensuite utiliser ce compte pour vous connecter à l\'interfaçe d\'administration, configurer la distribution, et voir les statistiques.';
+$GLOBALS['strInstallMessageDatabase']		= $phpAds_productname.' utilise une base de données '.$phpAds_dbmsname.' pour stocker vos publicités ainsi que les statistiques. Avant de continuer, vous devez indiquer quel serveur vous souhaitez utiliser, ainsi que le nom d\'utilisateur et le mot de passe que ".$phpAds_productname." utilisera pour se connecter à la base de données.  Si vous ne savez pas quoi répondre, vous devriez contacter l\'administrateur de votre serveur.';
 $GLOBALS['strInstallSuccess']			= '<b>L\'installation de '.$phpAds_productname.' est maintenant terminée.</b><br><br>Afin que '.$phpAds_productname.' fonctionne '
 						 .'correctement, vous devez aussi faire en sorte que le fichier de maintenance soit exécuté chaque heure. Vous trouverez plus '
 						 .' d\'informations sur ce sujet dans la documentation.<br><br>Cliquez sur <b>Continuer</b> pour accéder à l\'interfaçe de '
@@ -91,13 +110,11 @@ $GLOBALS['strServiceUnavalable']		= 'Le service est temporairement indisponible.
 $GLOBALS['strConfigNotWritable']		= $phpAds_productname.' ne peut écrire dans le fichier config.inc.php';
 $GLOBALS['strPhpBug20144']			= 'Votre version de PHP est affecté par un <a href="http://bugs.php.net/bug.php?id=20114" target="_blank">bogue</a> qui ne permet pas à '.$phpAds_productname.' de fonctionner correctement.
 							La mise à jour vers PHP 4.3.0 (ou plus) doit être réalisée avant de pouvoir installer '.$phpAds_productname.'.';
-
-
-
-
-
-
-
+$GLOBALS['strPhpBug24652']			= 'Vous tentez d\'installez '.$phpAds_productname.' sur un serveur avec une des première version de test de PHP 5.
+	Ces versions ne sont pas prévues pour un environnement de production, et contiennent habituellement des bugs.
+	Un de ces bugs empeche '.$phpAds_productname.' de fonctionner correctement.
+	Ce <a href="http://bugs.php.net/bug.php?id=24652" target="_blank">bug</a> est déjà résolu
+	et la version finale de PHP5 n\'est pas affectée.';
 
 
 
@@ -116,7 +133,7 @@ $GLOBALS['strEditConfigPossible']		= 'Il est possible d\'éditer tous les paramèt
 
 
 // Database
-$GLOBALS['strDatabaseSettings']			= 'Base de données '.$phpAds_dbmsname;
+//$GLOBALS['strDatabaseSettings']			= 'Base de données '.$phpAds_dbmsname;
 $GLOBALS['strDatabaseServer']			= 'Serveur base de données';
 $GLOBALS['strDbLocal']				= 'Se connecter au serveur local en utilisant les sockets'; // Pg only
 $GLOBALS['strDbHost']				= 'Adresse du serveur SQL';
@@ -221,6 +238,7 @@ $GLOBALS['strGeotargeting']			= 'Géolocalisation';
 $GLOBALS['strGeotrackingType']			= 'Type de base de données de géolocalisation';
 $GLOBALS['strGeotrackingLocation']		= 'Emplacement de la base de données de géolocalisation';
 $GLOBALS['strGeotrackingLocationError']		= 'La base de géolocalisation n\'a pas été trouvée à l\'emplacement spécifié';
+$GLOBALS['strGeotrackingLocationNoHTTP']	= 'L\'emplacement que vous avez fourni n\'est pas un répertoire local du disque dur, mais une URL d\'un fichier sur un serveur Web. L\'emplacement devrait ressembler à ça: <i>{example}</i>. L\'emplacement actuel dépend de l\'endroit où est copié la base de données.';
 $GLOBALS['strGeoStoreCookie']			= 'Stocker le résultat de la localisation géographique dans un cookie, et s\'y réfenrencer pas la suite.';
 
 
@@ -269,8 +287,8 @@ $GLOBALS['strAdminUsername']			= 'Nom d\'utilisateur de l\'administrateur';
 $GLOBALS['strInvalidUsername']			= 'Nom d\'utilisateur invalide';
 
 $GLOBALS['strBasicInformation']			= 'Informations de base';
-$GLOBALS['strAdminFullName']			= 'Nom complet de l\'administrateur';
-$GLOBALS['strAdminEmail']			= 'Adresse email de l\'administrateur';
+$GLOBALS['strAdminFullName']			= 'Nom complet';
+$GLOBALS['strAdminEmail']			= 'Adresse email';
 $GLOBALS['strCompanyName']			= 'Nom de l\'organisation';
 
 $GLOBALS['strAdminCheckUpdates']		= 'Surveiller les mises à jour';

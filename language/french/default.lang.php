@@ -107,10 +107,6 @@ $GLOBALS['strFieldFixBeforeContinue1']		= 'Avant de pouvoir continuer, vous deve
 $GLOBALS['strFieldFixBeforeContinue2']		= 'corriger ces erreurs.';
 $GLOBALS['strDelimiter']			= 'Delimiteur';
 $GLOBALS['strMiscellaneous']			= 'Divers';
-$GLOBALS['strCollectedAll']			= 'Toutes les statistiques';
-$GLOBALS['strCollectedToday']			= 'Seulement les statistiques d\'aujourd\'hui';
-$GLOBALS['strCollected7Days']			= 'Seulement les statistiques des derniers 7 jours';
-$GLOBALS['strCollectedMonth']			= 'Seulement les statistiques de ce mois';
 $GLOBALS['strUseQuotes']			= 'Utiliser les guillemets';
 
 // Properties
@@ -486,6 +482,13 @@ $GLOBALS['strTargetModifiedDay']		= 'Les objectifs ayant été modifiés durant la 
 $GLOBALS['strTargetModifiedWeek']		= 'Les objectifs ayant été modifiés durant la semaine, les prévisions pourraient ne pas être fiables.';
 $GLOBALS['strTargetModifiedMonth']		= 'Les objectifs ayant été modifiés durant le mois, les prévisions pourraient ne pas être fiables.';
 $GLOBALS['strNoTargetStats']			= 'Aucune statistique n\'est disponible pour les prévisions et les objectifs.';
+$GLOBALS['strCollectedAll']			= 'Toutes les statistiques';
+$GLOBALS['strCollectedToday']			= 'Seulement les statistiques d\'aujourd\'hui';
+$GLOBALS['strCollected7Days']			= 'Seulement les statistiques des derniers 7 jours';
+$GLOBALS['strCollectedMonth']			= 'Seulement les statistiques de ce mois';
+$GLOBALS['strCollectedYesterday']		= 'Seulement les statistiques d\'hier';
+$GLOBALS['strCollectedRange']			= 'Sélectionnez un intervalle de date';
+
 
 // Hosts
 $GLOBALS['strHosts']				= 'Hôtes';
