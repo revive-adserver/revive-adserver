@@ -89,12 +89,14 @@ var <?php echo $windowid; ?> =  window.open('', '<?php echo $windowid; ?>', 'hei
 <?php echo $windowid; ?>.moveTo (<?php echo $left; ?>,<?php echo $top; ?>);
 <?php } ?>
 
+<?php echo $windowid; ?>.document.open('text/html', 'replace');
 <?php echo $windowid; ?>.document.write('<html><head><title>');
 <?php echo $windowid; ?>.document.write('<?php echo ($output['alt'] ? $output['alt'] : 'Advertisement'); ?>');
 <?php echo $windowid; ?>.document.write('</title></head>');
 <?php echo $windowid; ?>.document.write('<body leftmargin=\'0\' topmargin=\'0\' marginwidth=\'0\' marginheight=\'0\'>');
 <?php echo $windowid; ?>.document.write(phpadsbanner);
 <?php echo $windowid; ?>.document.write('</body></html>');
+<?php echo $windowid; ?>.document.close();
 
 <?php if (isset($popunder) && $popunder == 'true') { ?>
 window.focus();
