@@ -18,6 +18,7 @@
 require ("config.php");
 require ("lib-storage.inc.php");
 require ("lib-zones.inc.php");
+require ("lib-statistics.inc.php");
 require ("../lib-priority.inc.php");
 
 
