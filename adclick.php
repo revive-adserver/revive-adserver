@@ -37,6 +37,10 @@ if (!isset($bannerid))
 	// Get destination
 	if(isset($destNum) && !empty($destNum)) $dest = $destNum;
 	if(isset($n) && is_array($destID)) $dest = $destID[$n];
+	
+	// Get zone
+	if(isset($zoneNum) && !empty($zoneNum)) $zoneid = $zoneNum;
+	if(isset($n) && is_array($zoneID)) $zoneid = $zoneID[$n];
 }
 
 if ($bannerid != "DEFAULT")
@@ -60,13 +64,15 @@ if ($bannerid != "DEFAULT")
 	if (isset($dest) && $dest != '')
 		$url = $dest;
 	
+	// If zoneid is not set, log it as a regular banner
+	if (!isset($zoneid)) $zoneid = 0;
 	
 	// Log clicks
 	if ($phpAds_config['log_adclicks'])
 	{
 		if ($host = phpads_ignore_host())
 		{
-			phpAds_logClick($bannerid, $host);
+			phpAds_logClick($bannerid, $zoneid, $host);
 			phpAds_expire ($clientid, phpAds_Clicks);
 		}
 	}
@@ -77,6 +83,7 @@ if ($bannerid != "DEFAULT")
 		for (reset ($HTTP_GET_VARS); $key = key($HTTP_GET_VARS); next($HTTP_GET_VARS))
 		{
 			if ($key != 'bannerid' &&
+				$key != 'zoneid' &&
 				$key != 'dest' &&
 				$key != 'ismap' &&
 				$key != 'n' &&
@@ -88,6 +95,7 @@ if ($bannerid != "DEFAULT")
 		for (reset ($HTTP_POST_VARS); $key = key($HTTP_POST_VARS); next($HTTP_POST_VARS))
 		{
 			if ($key != 'bannerid' &&
+				$key != 'zoneid' &&
 				$key != 'dest' &&
 				$key != 'ismap' &&
 				$key != 'n' &&

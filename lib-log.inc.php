@@ -18,7 +18,7 @@
 /* Log a click to the database       					 */
 /*********************************************************/
 
-function phpAds_logClick($bannerid, $host)
+function phpAds_logClick($bannerid, $zoneid, $host)
 {
 	global $phpAds_config;
 	
@@ -31,6 +31,7 @@ function phpAds_logClick($bannerid, $host)
                 clicks=clicks+1
             WHERE
                 bannerid = '$bannerid' &&
+				zoneid = '$zoneid' &&
                 day = now()
             ", $phpAds_config['insert_delayed'] ? "LOW_PRIORITY": ""));
 		
@@ -44,7 +45,8 @@ function phpAds_logClick($bannerid, $host)
                     clicks=1,
                     views=0,
                     day = now(),
-                    bannerid = '$bannerid'
+                    bannerid = '$bannerid',
+					zoneid = '$zoneid'
                 ", $phpAds_config['insert_delayed'] ? "DELAYED": ""));
         }
         return $result;
@@ -56,11 +58,11 @@ function phpAds_logClick($bannerid, $host)
         INSERT %s
         INTO
             ".$phpAds_config['tbl_adclicks']."
-        VALUES (
-            '$bannerid',
-            null,
-            '$host'
-        )", $phpAds_config['insert_delayed'] ? "DELAYED": ""));
+        SET 
+            bannerid = '$bannerid',
+			zoneid = '$zoneid',
+			host = '$host'
+        ", $phpAds_config['insert_delayed'] ? "DELAYED": ""));
 }
 
 
@@ -69,7 +71,7 @@ function phpAds_logClick($bannerid, $host)
 /* Log a view to the database       					 */
 /*********************************************************/
 
-function phpAds_logView($bannerid, $host)
+function phpAds_logView($bannerid, $zoneid, $host)
 {
 	global $phpAds_config;
     
@@ -82,7 +84,8 @@ function phpAds_logView($bannerid, $host)
                 views=views+1
             WHERE
                 bannerid = '$bannerid' &&
-                day = now()
+                zoneid = '$zoneid' &&
+				day = now()
             ", $phpAds_config['insert_delayed'] ? "LOW_PRIORITY": ""));
 		
         // If row didn't exist.  Create it.
@@ -95,7 +98,8 @@ function phpAds_logView($bannerid, $host)
                     clicks=0,
                     views=1,
                     day=now(),
-                    bannerid = '$bannerid'
+                    bannerid = '$bannerid',
+					zoneid = '$zoneid'
                 ", $phpAds_config['insert_delayed'] ? "DELAYED": ""));
         }
         return $result;
@@ -107,20 +111,12 @@ function phpAds_logView($bannerid, $host)
         INSERT %s
         INTO
             ".$phpAds_config['tbl_adviews']."
-        VALUES (
-            '$bannerid',
-            null,
-            '$host'
-        )", $phpAds_config['insert_delayed'] ? "DELAYED": ""));
+        SET 
+            bannerid = '$bannerid',
+            zoneid = '$zoneid',
+            host = '$host'
+        ", $phpAds_config['insert_delayed'] ? "DELAYED": ""));
 }
-
-
-
-
-
-
-
-
 
 
 

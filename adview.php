@@ -93,6 +93,10 @@ else
 	{
 		if(!empty($row["bannerid"]))
 		{
+			// Log this impression
+			phpAds_prepareLog ($row["bannerid"], $row["clientid"], $row["zoneid"]);
+			
+			// Send P3P Headers
 			if ($phpAds_config['p3p_policies'])
 			{
 				$p3p_header = '';
@@ -112,13 +116,14 @@ else
 			SetCookie("bannerNum", $row["bannerid"], 0, $url["path"]);
 			if(isset($n)) SetCookie("banID[$n]", $row["bannerid"], 0, $url["path"]);
 			
-			
-			if ($row["format"] == "html")
+			if ($row['zoneid'] != 0)
 			{
-				// HTML -> print the banner
-				echo $row["banner"];
+				SetCookie("zoneNum", $row["zoneid"], 0, $url["path"]);
+				if(isset($n)) SetCookie("zoneID[$n]", $row["zoneid"], 0, $url["path"]);
 			}
-			elseif ($row["format"] == "url")
+			
+			
+			if ($row["format"] == "url")
 			{
 				// URL
 				
@@ -209,8 +214,6 @@ else
 					echo $row["banner"];
 				}
 			}
-			
-			phpAds_prepareLog($row["bannerid"], $row["clientid"]);
 		}
 		else
 		{
