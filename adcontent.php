@@ -75,9 +75,10 @@ else
 // Get the data we need to display the banner
 $details = phpAds_getBannerDetails($row['bannerid']);
 
-if (is_array($details))
-	$row = array_merge($row, $details);
+// Exit if no banner was found
+if (!is_array($details)) die();
 
+$row = array_merge($row, $details);
 $output = phpAds_prepareOutput($row, '_blank', $source, false);
 
 		
