@@ -20,7 +20,7 @@ require ("lib-statistics.inc.php");
 
 
 // Register input variables
-phpAds_registerGlobal ('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection');
+phpAds_registerGlobal ('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection', 'period');
 
 
 // Security check
@@ -126,6 +126,51 @@ while ($row_clients = phpAds_dbFetchArray($res_clients))
 }
 
 
+
+if (!$phpAds_config['compact_stats'])
+{
+	switch ($period)
+	{
+		case 't':	$timestamp	= mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+					$limit 		= " AND t_stamp >= ".date('YmdHis', $timestamp);
+					break;
+				
+		case 'w':	$timestamp	= mktime(0, 0, 0, date('m'), date('d') - 6, date('Y'));
+					$limit 		= " AND t_stamp >= ".date('YmdHis', $timestamp);
+					break;
+				
+		case 'm':	$timestamp	= mktime(0, 0, 0, date('m'), 1, date('Y'));
+					$limit 		= " AND t_stamp >= ".date('YmdHis', $timestamp);
+					break;
+				
+		default:	$limit = '';
+					$period = '';
+					break;
+	}
+}
+else
+{
+	switch ($period)
+	{
+		case 't':	$timestamp	= mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+					$limit 		= " AND day >= ".date('Ymd', $timestamp);
+					break;
+				
+		case 'w':	$timestamp	= mktime(0, 0, 0, date('m'), date('d') - 6, date('Y'));
+					$limit 		= " AND day >= ".date('Ymd', $timestamp);
+					break;
+				
+		case 'm':	$timestamp	= mktime(0, 0, 0, date('m'), 1, date('Y'));
+					$limit 		= " AND day >= ".date('Ymd', $timestamp);
+					break;
+				
+		default:	$limit = '';
+					$period = '';
+					break;
+	}
+}
+
+
 // Get the banners for each campaign
 $res_banners = phpAds_dbQuery("
 	SELECT 
@@ -154,82 +199,56 @@ while ($row_banners = phpAds_dbFetchArray($res_banners))
 		$banners[$row_banners['bannerid']]['views'] = 0;
 		$campaigns[$row_banners['clientid']]['count']++;
 	}
-}
-
-
-
-// Get the adviews/clicks for each banner
-if ($phpAds_config['compact_stats'])
-{
-	$res_stats = phpAds_dbQuery("
-		SELECT
-			s.bannerid as bannerid,
-			b.clientid as clientid,
-			sum(s.views) as views,
-			sum(s.clicks) as clicks
-		FROM 
-			".$phpAds_config['tbl_adstats']." as s,
-			".$phpAds_config['tbl_banners']." as b
-		WHERE
-			b.bannerid = s.bannerid
-		GROUP BY
-			s.bannerid
-		") or phpAds_sqlDie();
 	
-	while ($row_stats = phpAds_dbFetchArray($res_stats))
+	
+	if (!$phpAds_config['compact_stats'])
 	{
-		if (isset($banners[$row_stats['bannerid']]))
+		$res_stats = phpAds_dbQuery("
+			SELECT
+				count(*) as views
+			FROM 
+				".$phpAds_config['tbl_adviews']."
+			WHERE
+				bannerid = ".$row_banners['bannerid'].$limit."
+			") or phpAds_sqlDie();
+		
+		if ($row_stats = phpAds_dbFetchArray($res_stats))
 		{
-			$banners[$row_stats['bannerid']]['clicks'] = $row_stats['clicks'];
-			$banners[$row_stats['bannerid']]['views'] = $row_stats['views'];
+			$banners[$row_banners['bannerid']]['views'] = $row_stats['views'];
+			$banners[$row_banners['bannerid']]['clicks'] = 0;
+		}
+		
+		
+		$res_stats = phpAds_dbQuery("
+			SELECT
+				count(*) as clicks
+			FROM 
+				".$phpAds_config['tbl_adclicks']."
+			WHERE
+				bannerid = ".$row_banners['bannerid'].$limit."
+			") or phpAds_sqlDie();
+		
+		if ($row_stats = phpAds_dbFetchArray($res_stats))
+		{
+			$banners[$row_banners['bannerid']]['clicks'] = $row_stats['clicks'];
 		}
 	}
-}
-else
-{
-	$res_stats = phpAds_dbQuery("
-		SELECT
-			v.bannerid as bannerid,
-			b.clientid as clientid,
-			count(v.bannerid) as views
-		FROM 
-			".$phpAds_config['tbl_adviews']." as v,
-			".$phpAds_config['tbl_banners']." as b
-		WHERE
-			b.bannerid = v.bannerid
-		GROUP BY
-			v.bannerid
-		") or phpAds_sqlDie();
-	
-	while ($row_stats = phpAds_dbFetchArray($res_stats))
+	else
 	{
-		if (isset($banners[$row_stats['bannerid']]))
+		$res_stats = phpAds_dbQuery("
+			SELECT
+				sum(views) as views,
+				sum(clicks) as clicks
+			FROM 
+				".$phpAds_config['tbl_adstats']."
+			WHERE
+				bannerid = ".$row_banners['bannerid'].$limit."
+			") or phpAds_sqlDie();
+		
+		if ($row_stats = phpAds_dbFetchArray($res_stats))
 		{
-			$banners[$row_stats['bannerid']]['views'] = $row_stats['views'];
-			$banners[$row_stats['bannerid']]['clicks'] = 0;
-		}
-	}
-	
-	
-	$res_stats = phpAds_dbQuery("
-		SELECT
-			c.bannerid as bannerid,
-			b.clientid as clientid,
-			count(c.bannerid) as clicks
-		FROM 
-			".$phpAds_config['tbl_adclicks']." as c,
-			".$phpAds_config['tbl_banners']." as b
-		WHERE
-			b.bannerid = c.bannerid
-		GROUP BY
-			c.bannerid
-		") or phpAds_sqlDie();
-	
-	while ($row_stats = phpAds_dbFetchArray($res_stats))
-	{
-		if (isset($banners[$row_stats['bannerid']]))
-		{
-			$banners[$row_stats['bannerid']]['clicks'] = $row_stats['clicks'];
+			$banners[$row_banners['bannerid']]['clicks'] = $row_stats['clicks'];
+			$banners[$row_banners['bannerid']]['views'] = $row_stats['views'];
 		}
 	}
 }
@@ -370,6 +389,26 @@ if (isset($clients) && is_array($clients) && count($clients) > 0)
 	unset ($campaigns);
 	unset ($banners);
 }
+
+
+
+
+echo "<form action='".$HTTP_SERVER_VARS['PHP_SELF']."'>";
+
+echo "<select name='period' onChange='this.form.submit();' accesskey='".$keyList."' tabindex='".($tabindex++)."'>";
+	echo "<option value=''".($period == '' ? ' selected' : '').">".'All collected statistics'."</option>";
+	echo "<option value='t'".($period == 't' ? ' selected' : '').">".'Statistics for today only'."</option>";
+	echo "<option value='w'".($period == 'w' ? ' selected' : '').">".'Statistics for the last 7 days only'."</option>";
+	echo "<option value='m'".($period == 'm' ? ' selected' : '').">".'Statistics for this month only'."</option>";
+echo "</select>";
+
+phpAds_ShowBreak();
+echo "</form>";
+
+
+
+
+
 
 if ($clientshidden > 0 || $totalviews > 0 || $totalclicks > 0)
 {
@@ -617,6 +656,8 @@ if ($clientshidden > 0 || $totalviews > 0 || $totalclicks > 0)
 	echo "</td></tr>";
 	
 	
+	/*
+	
 	// Spacer
 	echo "<tr><td colspan='5' height='40'>&nbsp;</td></tr>";
 	
@@ -654,12 +695,14 @@ if ($clientshidden > 0 || $totalviews > 0 || $totalclicks > 0)
 		echo "<td height='25' align='".$phpAds_TextAlignRight."'>".$ctr."&nbsp;&nbsp;</td></tr>";
 		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	
+	*/
+	
 	echo "</table>";
 	echo "<br><br>";
 }
 else
 {
-	echo "<br><div class='errormessage'><img class='errormessage' src='images/info.gif' width='16' height='16' border='0' align='absmiddle'>";
+	echo "<br><br><div class='errormessage'><img class='errormessage' src='images/info.gif' width='16' height='16' border='0' align='absmiddle'>";
 	echo $strNoStats.'</div>';
 }
 
