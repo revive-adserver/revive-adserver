@@ -187,6 +187,7 @@ function phpAds_showZoneBanners ($width, $height, $what)
 	global $phpAds_config;
 	global $strName, $strID, $strUntitled;
 	global $strEdit, $strCheckAllNone;
+	global $strNoBannersToLink;
 	
 	
 	$what_array = explode(",",$what);
@@ -233,69 +234,76 @@ function phpAds_showZoneBanners ($width, $height, $what)
 	$i = 0;
 	$checkedall = true;
 	
-	while ($row = phpAds_dbFetchArray($res))
+	if (phpAds_dbNumRows($res) == 0)
 	{
-		$name = $strUntitled;
-		if (isset($row['alt']) && $row['alt'] != '') $name = $row['alt'];
-		if (isset($row['description']) && $row['description'] != '') $name = $row['description'];
+		echo "<tr bgcolor='#F6F6F6'><td colspan='3' height='25'>&nbsp;&nbsp;".$strNoBannersToLink."</td></tr>";
+	}
+	else
+	{
+		while ($row = phpAds_dbFetchArray($res))
+		{
+			$name = $strUntitled;
+			if (isset($row['alt']) && $row['alt'] != '') $name = $row['alt'];
+			if (isset($row['description']) && $row['description'] != '') $name = $row['description'];
+				
+			$name = phpAds_breakString ($name, '60');
 			
-		$name = phpAds_breakString ($name, '60');
-		
-		if ($i > 0) echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
-		
-	    echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
-		
-		// Begin row
-		echo "<td height='25'>";
-		echo "&nbsp;&nbsp;";
-		
-		// Show checkbox
-		if (isset($bannerids[$row['bannerid']]) && $bannerids[$row['bannerid']] == true)
-			echo "<input type='checkbox' name='bannerid[]' value='".$row['bannerid']."' checked onclick='reviewall();'>"; 
-		else
-		{
-			echo "<input type='checkbox' name='bannerid[]' value='".$row['bannerid']."' onclick='reviewall();'>"; 
-			$checkedall = false;
-		}
-		
-		// Space
-		echo "&nbsp;&nbsp;";
-		
-		// Banner icon
-		if ($row['active'] == 't')
-		{
-			if ($row['format'] == 'html')
-				echo "<img src='images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
-			elseif ($row['format'] == 'url')
-				echo "<img src='images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
+			if ($i > 0) echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
+			
+		    echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
+			
+			// Begin row
+			echo "<td height='25'>";
+			echo "&nbsp;&nbsp;";
+			
+			// Show checkbox
+			if (isset($bannerids[$row['bannerid']]) && $bannerids[$row['bannerid']] == true)
+				echo "<input type='checkbox' name='bannerid[]' value='".$row['bannerid']."' checked onclick='reviewall();'>"; 
 			else
-				echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
-		}
-		else
-		{
-			if ($row['format'] == 'html')
-				echo "<img src='images/icon-banner-html-d.gif' align='absmiddle'>&nbsp;";
-			elseif ($row['format'] == 'url')
-				echo "<img src='images/icon-banner-url-d.gif' align='absmiddle'>&nbsp;";
+			{
+				echo "<input type='checkbox' name='bannerid[]' value='".$row['bannerid']."' onclick='reviewall();'>"; 
+				$checkedall = false;
+			}
+			
+			// Space
+			echo "&nbsp;&nbsp;";
+			
+			// Banner icon
+			if ($row['active'] == 't')
+			{
+				if ($row['format'] == 'html')
+					echo "<img src='images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
+				elseif ($row['format'] == 'url')
+					echo "<img src='images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
+				else
+					echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
+			}
 			else
-				echo "<img src='images/icon-banner-stored-d.gif' align='absmiddle'>&nbsp;";
+			{
+				if ($row['format'] == 'html')
+					echo "<img src='images/icon-banner-html-d.gif' align='absmiddle'>&nbsp;";
+				elseif ($row['format'] == 'url')
+					echo "<img src='images/icon-banner-url-d.gif' align='absmiddle'>&nbsp;";
+				else
+					echo "<img src='images/icon-banner-stored-d.gif' align='absmiddle'>&nbsp;";
+			}
+			
+			// Name
+			echo $name;
+			echo "</td>";
+			
+			// ID
+			echo "<td height='25'>".$row['bannerid']."</td>";
+			
+			// Edit
+			echo "<td height='25'>";
+			echo "<a href='banner-edit.php?bannerid=".$row['bannerid']."&campaignid=".$row['clientid']."'><img src='images/icon-edit.gif' border='0' align='absmiddle' alt='$strEdit'>&nbsp;$strEdit</a>&nbsp;&nbsp;";
+			echo "</td>";
+			
+			// End row
+			echo "</tr>";
+			$i++;
 		}
-		
-		// Name
-		echo $name;
-		echo "</td>";
-		
-		// ID
-		echo "<td height='25'>".$row['bannerid']."</td>";
-		
-		// Edit
-		echo "<td height='25'>";
-		echo "<a href='banner-edit.php?bannerid=".$row['bannerid']."&campaignid=".$row['clientid']."'><img src='images/icon-edit.gif' border='0' align='absmiddle' alt='$strEdit'>&nbsp;$strEdit</a>&nbsp;&nbsp;";
-		echo "</td>";
-		
-		// End row
-		echo "</tr>";
-		$i++;
 	}
 	
 	// Footer
