@@ -34,6 +34,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Added backwards compatibility for mixed case parameters  (Niels) 20011115
 			  - Added speed optimalisation, only associate array is used  (Niels) 20011116
 			  - Changed layout of section-tabs  (Niels) 20011118
+			  - Added names in from and to headers when sending e-mails   (Matteo) 20011122
 
 			+ Misc bugfixes
 			  - Removed extra comma from config.inc  (Matteo) 20011017
@@ -61,6 +62,8 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			    statistics type, instead of using both compact and verbose  (Niels) 20011121
 			  - Bugfix: Logging didn't work correctly because affected rows 
 			    function did not return the correct value  (Niels) 20011121
+			  - Bugfix: E-mails were sent twice when using qmail as SMTP server   (Matteo) 20011122
+			  - Bugfix: Removed extra \r\n at the end of e-mail headers   (Matteo) 20011122
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
