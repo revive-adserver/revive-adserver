@@ -4,8 +4,8 @@
 /* phpAdsNew 2                                                          */
 /* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2001 by the phpAdsNew developers                       */
-/* http://sourceforge.net/projects/phpadsnew                            */
+/* Copyright (c) 2000-2002 by the phpAdsNew developers                  */
+/* For more information visit: http://www.phpadsnew.com                 */
 /*                                                                      */
 /* Translations by Marco La Ferla                                       */
 /*                 Matteo Beccati                                       */
@@ -255,6 +255,11 @@ $GLOBALS['strNoBanners']					= "Non &egrave; ancora stato creato nessun banner";
 $GLOBALS['strConfirmDeleteBanner']			= "Vuoi veramente cancellare questo banner?";
 $GLOBALS['strConfirmDeleteAllBanners']		= "Vuoi veramente cancellare tutti i banner appartenenti a questa campagna?";
 $GLOBALS['strConfirmResetBannerStats']		= "Vuoi veramente cancellare tutte le statistiche di questo banner?";
+$GLOBALS['strShowParentCampaigns']			= "Mostra campagne";
+$GLOBALS['strHideParentCampaigns']			= "Nascondi campagne";
+$GLOBALS['strHideInactiveBanners']			= "Nascondi banner inattivi";
+$GLOBALS['strInactiveBannersHidden']		= "banner inattivi nascosti";
+
 
 
 // Banner (Properties)
@@ -366,6 +371,8 @@ $GLOBALS['strBannerButtonRectangle']		= "Banner, Pulsante o Rettangolo";
 $GLOBALS['strInterstitial']					= "Interstiziale o DHTML floating";
 $GLOBALS['strPopup']						= "Popup";
 $GLOBALS['strTextAdZone']					= "Banner testuale";
+$GLOBALS['strShowMatchingBanners']			= "Mostra banner corrispondenti";
+$GLOBALS['strHideMatchingBanners']			= "Nascondi banner corrispondenti";
 
 
 // Advanced zone settings

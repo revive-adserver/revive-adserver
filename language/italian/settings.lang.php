@@ -4,8 +4,8 @@
 /* phpAdsNew 2                                                          */
 /* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2001 by the phpAdsNew developers                       */
-/* http://sourceforge.net/projects/phpadsnew                            */
+/* Copyright (c) 2000-2002 by the phpAdsNew developers                  */
+/* For more information visit: http://www.phpadsnew.com                 */
 /*                                                                      */
 /* Translation Revision 1.15: Francesco Lia                             */
 /*                                                                      */
@@ -180,6 +180,11 @@ $GLOBALS['strTypeHtmlSettings']			= "Configurazione banner HTML";
 $GLOBALS['strTypeHtmlAuto']				= "Modifica automaticamente i banner HTML per poter registrare i click";
 $GLOBALS['strTypeHtmlPhp']				= "Consenti l'esecuzione di espressioni PHP all'interno dei banner HTML";
 
+$GLOBALS['strAutoCleanTables']			= "Pulizia automatica del database";
+$GLOBALS['strAutoCleanEnable']			= "Abilita pulizia automatica";
+$GLOBALS['strAutoCleanWeeks']			= "Et&agrave; massima statistiche e registro eventi (settimane)";
+$GLOBALS['strAutoCleanErr']				= "L'et&agrave; massima deve essere di almeno 2 settimane";
+$GLOBALS['strAutoCleanVacuum']			= "Esegui VACUUM ANALYZE sulle tabelle ogni notte"; // only Pg
 
 
 // Statistics Settings
@@ -206,11 +211,6 @@ $GLOBALS['strIgnoreHosts']				= "Host da ignorare nelle statistiche";
 $GLOBALS['strReverseLookup']			= "Risolvi nomi di dominio";
 $GLOBALS['strProxyLookup']				= "Risolvi indirizzi che utilizzano un server proxy";
 
-$GLOBALS['strAutoCleanTables']			= "Pulizia automatica del database";
-$GLOBALS['strAutoCleanEnable']			= "Abilita pulizia automatica";
-$GLOBALS['strAutoCleanWeeks']			= "Et&agrave; massima statistiche e registro eventi (settimane)";
-$GLOBALS['strAutoCleanErr']				= "L'et&agrave; massima deve essere di almeno 2 settimane";
-$GLOBALS['strAutoCleanVacuum']			= "Esegui VACUUM ANALYZE sulle tabelle ogni notte"; // only Pg
 
 
 // Administrator settings
@@ -266,11 +266,15 @@ $GLOBALS['strShowBannerInfo']			= "Mostra informazioni aggiuntive nella pagina <
 $GLOBALS['strShowCampaignPreview']		= "Mostra anteprima dei banner nella pagina <i>Descrizione Banner</i>";
 $GLOBALS['strShowBannerHTML']			= "Mostra il banner invece del codice HTML nell'anteprima dei banner HTML";
 $GLOBALS['strShowBannerPreview']		= "Mostra anteprima nella parte superiore della pagina nelle pagine dei banner";
+$GLOBALS['strHideInactive']				= "Nascondi entit&agrave; inattive in tutte le pagine riassuntive";
+$GLOBALS['strGUIShowMatchingBanners']	= "Mostra banner corrispondenti nella pagina <i>Banner collegati</i>";
+$GLOBALS['strGUIShowParentCampaigns']	= "Mostra campagne nella pagina <i>Banner collegati</i>";
+$GLOBALS['strGUILinkCompactLimit']		= "Nascondi campagne o banner non collegati nella pagina <i>Banner collegati</i> quando ce ne sono pi&ugrave; di";
+
 
 $GLOBALS['strStatisticsDefaults']		= "Statistiche";
 $GLOBALS['strBeginOfWeek']				= "Primo giorno della settimana";
 $GLOBALS['strPercentageDecimals']		= "Numero decimali nelle percentuali";
-$GLOBALS['strHideInactive']				= "Nascondi entit&agrave; inattive in tutte le pagine riassuntive";
 
 $GLOBALS['strWeightDefaults']			= "Peso di default";
 $GLOBALS['strDefaultBannerWeight']		= "Peso di default dei banner";
