@@ -75,72 +75,75 @@ function Plugin_ClienthistoryExecute($clientid, $delimiter=",", $quotes="")
 	
 	while ($row = phpAds_dbFetchArray($idresult))
 	{
-		$bannerids[] = "bannerid = ".$row['bannerid'];
+		$bannerids[] = $row['bannerid'];
 	}
 	
 	
-	if ($phpAds_config['compact_stats'])
+	if (count($bannerids))
 	{
-		$res_query = "
-			SELECT
-				DATE_FORMAT(day, '".$date_format."') as day,
-				SUM(views) AS adviews,
-				SUM(clicks) AS adclicks
-			FROM
-				".$phpAds_config['tbl_adstats']."
-			WHERE
-				(".implode(' OR ', $bannerids).")
-			GROUP BY
-				day
-		";
-		
-		$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
-		
-		while ($row_banners = phpAds_dbFetchArray($res_banners))
+		if ($phpAds_config['compact_stats'])
 		{
-			$stats [$row_banners['day']]['views'] = $row_banners['adviews'];
-			$stats [$row_banners['day']]['clicks'] = $row_banners['adclicks'];
+			$res_query = "
+				SELECT
+					DATE_FORMAT(day, '".$date_format."') as day,
+					SUM(views) AS adviews,
+					SUM(clicks) AS adclicks
+				FROM
+					".$phpAds_config['tbl_adstats']."
+				WHERE
+					bannerid IN (".implode(', ', $bannerids).")
+				GROUP BY
+					day
+			";
+			
+			$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
+			
+			while ($row_banners = phpAds_dbFetchArray($res_banners))
+			{
+				$stats [$row_banners['day']]['views'] = $row_banners['adviews'];
+				$stats [$row_banners['day']]['clicks'] = $row_banners['adclicks'];
+			}
 		}
-	}
-	else
-	{
-		$res_query = "
-			SELECT
-				DATE_FORMAT(t_stamp, '".$date_format."') as day,
-				count(bannerid) as adviews
-			FROM
-				".$phpAds_config['tbl_adviews']."
-			WHERE
-				(".implode(' OR ', $bannerids).")
-			GROUP BY
-				day
-		";
-		
-		$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
-		
-		while ($row_banners = phpAds_dbFetchArray($res_banners))
+		else
 		{
-			$stats [$row_banners['day']]['views'] = $row_banners['adviews'];
-			$stats [$row_banners['day']]['clicks'] = 0;
-		}
-		
-		$res_query = "
-			SELECT
-				DATE_FORMAT(t_stamp, '".$date_format."') as day,
-				count(bannerid) as adclicks
-			FROM
-				".$phpAds_config['tbl_adclicks']."
-			WHERE
-				(".implode(' OR ', $bannerids).")
-			GROUP BY
-				day
-		";
-		
-		$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
-		
-		while ($row_banners = phpAds_dbFetchArray($res_banners))
-		{
-			$stats [$row_banners['day']]['clicks'] = $row_banners['adclicks'];
+			$res_query = "
+				SELECT
+					DATE_FORMAT(t_stamp, '".$date_format."') as day,
+					count(bannerid) as adviews
+				FROM
+					".$phpAds_config['tbl_adviews']."
+				WHERE
+					bannerid IN (".implode(', ', $bannerids).")
+				GROUP BY
+					day
+			";
+			
+			$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
+			
+			while ($row_banners = phpAds_dbFetchArray($res_banners))
+			{
+				$stats [$row_banners['day']]['views'] = $row_banners['adviews'];
+				$stats [$row_banners['day']]['clicks'] = 0;
+			}
+			
+			$res_query = "
+				SELECT
+					DATE_FORMAT(t_stamp, '".$date_format."') as day,
+					count(bannerid) as adclicks
+				FROM
+					".$phpAds_config['tbl_adclicks']."
+				WHERE
+					bannerid IN (".implode(', ', $bannerids).")
+				GROUP BY
+					day
+			";
+			
+			$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
+			
+			while ($row_banners = phpAds_dbFetchArray($res_banners))
+			{
+				$stats [$row_banners['day']]['clicks'] = $row_banners['adclicks'];
+			}
 		}
 	}
 	
