@@ -1,0 +1,55 @@
+phpAdsNew 1.4.x or 1.5.x -> phpAdsNew 1.6
+
+phpAdsNew 1.6 has a slightly modified acl table. You are advised to either reinstall your tables or make these changes
+manually :
+alter table acls change acl_type acl_type enum('clientip','useragent','weekday','domain','source','time') not null default 'clientip';
+
+
+
+
+-----------------------
+
+
+phpAds - 1.4.0 -> phpAdsNew 1.5
+
+phpAdsNew is not 100% compatible with phpAds. You are advised to upgrade to phpAds 1.4.0 before attempting to upgrade to
+phpAdsNew 1.5.
+The view() call is not compatible with phpAds. It now has a different 4th parameter. Anyone using the withtext or context
+parameters should add an empty parameter in between.
+New fields have been added in the current tables. You are advised to make these changes :
+mysql> alter table banners add column weight tinyint(4) default '1' NOT NULL;
+mysql> alter table banners add column seq tinyint(4) default '0' NOT NULL;
+mysql> alter table banners add column target varchar(8) default '' NOT NULL;
+The best way to upgrade the php files is to completely erase your previous phpAds directory (as always, keep a backup until
+the new version works fine) and untar the current release. You will notice files have changed extensions from php3 to php, so
+make sure your webserver understands the php-extension as either php3 or php4 files. Don't forget to edit your new
+config.inc.php because there are quite some changes !
+
+
+
+-------------------------------------------------------------------
+
+phpAds - 1.3.0 -> 1.4.0
+
+Version 1.4.0 is not 100% compatible to version 1.3.0.
+
+The syntax of the view() call in local mode is downwards compatible. 
+With remote invocation, a new argument ("n") was introduced to allow
+multiple remote banners. The syntax with remote invocation remains 
+downwards compatible to 1.3.0, though.
+
+New tables and new fields in existing tables have been introduced. It
+is recommended to reinstall the tables completely, and to add your
+banners from scratch. 
+
+If you want to preserve your old banners, you may be able to do the
+necessary changes manually:
+The table clients has one new field, which you'll need to add manually:
+   expire date DEFAULT '0000-00-00'
+The table acls is new. Please don't go this path on a production 
+environment without further testing.
+
+----------------------------------------------------------------------
+Attention:
+Updates, Upgrades, and changes should never be performed in a 
+production environment without careful testing on a staging server.

@@ -1,0 +1,77 @@
+phpAdsNew - Readme
+
+  PHP Banner Management System
+
+  Version 1.6.1
+  http://www.sourceforge.net/projects/phpAdsNew/
+
+    Copyright (C) 1999-2000 Tobias Ratschiller <tobias@dnet.it>
+    Copyright (C) 2000 Michael Harvey <mike@ve-studio.com>
+    Copyright (C) 2000 Wim Godden <wimg@geocities.com>
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+  Requirements: 
+    PHP3 3.0.8+ (100% PHP4-ready !)
+    MySQL
+                
+  Summary:
+    phpAds is a banner management and tracking system written in PHP3.
+    Currently it can
+    - manage multiple banners (any size) per client
+    - view daily, overall and summary statistics
+    - send statistics to clients via email
+    - use HTML, GIF, JPEG and PNG-banners
+    - show random, pre-defined or HTML/image banners
+    - supports multiple keywords for groups of banners
+    - supports conditional keywords
+    - activate and deactivate single banners
+    - show banners based on filters: user-agent, day-of-week, IP masks, domain, source page
+    - Perform banner weighing
+    - Target banner clicks to frames
+    - Use random or sequential banner retrieval
+  
+  Download:
+    You can get the newest version at http://www.sourceforge.net/projects/phpAdsNew/.
+
+  Credits:
+    - Kyle Cordes <Kyle@kylecordes.com>: session management library
+    - Weston Bustraan <weston@infinityteldata.net>: support for keywords
+    - Jörg Legarth: support for fetching banners belonging to a specific 
+      client
+    - Brian <brian@cooltext.com>: support for remote banners (referenced 
+      via URL)
+    - Robert Allen <zircote@excite.com>: single directory setup and some 
+      other hacks
+    - Ben Schumacher <bs@cyalchemy.com>: admin and remote invocation fixes,
+      support on the mailing list.
+    - Leonid Igolnik - LiM <lim@israel.net>: support for access control lists.
+    - Philip Gabbert <pgabbert@exactis.com>: support for expiring banners
+      by date.
+    - Ralf Eggert <ralf@in-greece.de>: update of German translations
+    - Occasional bugfixes and support: Manuel Lemos, Boaz Yahav, Roy Nasser,     
+      Mark Maggalet, Ben Schumacher.
+
+    And all the rest who helped.
+
+  Installation:
+    Please see the INSTALL file.
+  
+  Mailing List:
+    Questions about phpAdsNew should be directed to the mailing list. More
+    information about it can be found on phpAdsNew's homepage. Bug reports
+    and questions related to the develpment of phpAdsNew are also welcome
+    on the list.
+    Please read Documentation.html before you ask questions!

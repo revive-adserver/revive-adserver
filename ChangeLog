@@ -1,0 +1,134 @@
+phpAdsNew - ChangeLog
+ v 1.6.3 - 11/30/2000  + Bugfix: banners no longer set to inactive at wrong moments
+ v 1.6.2 - 11/28/2000  + Added 'Reset Statistics' for banners
+                       + Added Dutch/Flemish language file
+                       + Bugfix: some minor bugs
+ v 1.6.1 - 11/26/2000  + Updated all language files to include new variables (untranslated)
+                       + Replaced some English expressions by variables
+ v 1.6.0 - 11/25/2000  + Added client listing with credit stats (experimental)
+                       + Added time ACL (experimental)
+                       + Logging of HTMl banner clicks (experimental)
+                       + Added admin and client directories again
+                       + Updated German translation errors (Ralf Eggert)
+                       + Bugfix: phpAds should work under PHP 3.0.7
+                       + Bugfix: banner with 0 impressions left no longer shown
+                       + Added extra statistics
+                       + Setting unlimited number of views/clicks/days is now possible
+                       + Bugfix: banner no longer deactivated at wrong times
+                       + Bugfix: banner count decreases correctly
+                       + Fixed several typos in the comments
+                       + Added Russian language file
+                       + Bugfix: added 2 files to acls table
+ v 1.5.1 - 11/19/2000  + Bugfix: admin.php had an error when no adviews had been logged
+ v 1.5.0 - 11/18/2000  + Stats now generate a PNG-image instead of GIF-image (GD doesn't support GIF anymore)
+                       + Rewrote weighting system
+                       + Bugfix: Domain ACL works fine now
+                       + Bugfix: Source ACL works fine now
+                       + Bugfix: Empty banner problem fixed
+                       + Added logout link for increased security and client testing
+                       + Default weight set to 1
+                       + Bugfix: works fine under PHP 4.0.3 (earlier versions not tested)
+                       + Bugfix: cookie problem fixed
+                       + Added average Click-Through Ratio for all ads
+                       + Some cosmetic changes
+ v 1.4.10 - 09/17/2000 + Bugfix: Error shown in some odd cases
+                       + Documentation updates
+ v 1.4.9 - 09/14/2000  + First version of phpAdsNew, starting from phpAds 1.4.0.
+                       + Added support for multiple keywords
+                       + Added support for conditional keywords
+                       + Added support for sequential banner retrieval
+                       + Added page frame targeting
+                       + Added banner decrementing and low views/clicks warning e-mail
+                       + Added banner weighing
+                       + Added domain ACL
+                       + Added source ACL
+
+ v 1.4.0 - 05/01/2000  + Bugfix: Clients were able to look at other clients'
+                         statistics.
+                       + Bugfix: HTML banners weren't counted properly.
+                       + Bugfix: link targets didn't work with HTML banners.
+                       + Bugfix: there might have been problems with some
+                         statistics if no hits were recorded for a certain 
+                         hour.        
+                       + Added support for Access Control Lists:
+                         IP matching, User Agent matching, restricting banners
+                         to certain week days.
+                       + Added support for date-expiring banners.
+                       + Fixed bugs in remote invocation and admin.
+                       + Added support for INSERT DELAYED in logging.
+                       + Bugfix: Cookies weren't set correctly on Windows.
+                       + Added support for multiple remote banners.
+                       + Bugfix: Stats were sent to deactivated customers.
+ v 1.3.0 - 12/12/1999  + Added the possibility to exclude hosts from logging.
+                       + Made view() return the bannerID.
+                       + Killed a lot of warnings.
+                       + Added a new argument, context, to view(), allowing
+                         to exclude banners from the search or limit the
+                         search to specified banners.
+                       + Added better daily statistics.
+                       + Added warning before deleting a client.
+                       + Added graphical statistics showing overall hourly
+                         average.
+                       + Added the possibility to turn off reverse DNS
+                         lookups.
+                       + Fixed some problems with clients' login.
+ v 1.2.0 - 09/26/1999  + Miscellaneous bugfixes.
+                       + Changed the display of the ratio to use percents.
+                       + Added the possibility to use multiple keywords in 
+                         view().
+                       + Made table names configurable.
+                       + Better and graphically nicer statistics.
+ v 1.1.0 - 08/22/1999  + Changed phpAds to have all files in a single directory,
+                         thus avoiding the need of altering PHP's include_path.
+                       + Bugfix: mail.php3 messed up the statistics if more than
+                         one client existed.
+                       + Added support for banners stored on an another server
+                         (ie. referenced by URL).
+                       + Bugfix: Administration could mess up things when using
+                         remote invocation.
+ v 1.0.0 - 07/25/1999  + Added support for a line of text appearing below banners.
+                       + Added support for keywords/banner groups.
+                       + Added support to select banners belonging to a specific
+                         client.
+                       + Cleaned up user interface.
+                       + Bugfix: Content-Type was set to image/jpg instead of
+                         image/jpeg.
+                       + Bugfix: Some fixes related to PHP4.
+                       + Bugfix: Clients with the same username as the admin
+                         were able to login to /admin even if the password was
+                         different.
+                       + Better documentation.
+ v 0.9.4 - 03/18/1999  + Addded the possibility to modify existing banners.
+                       + Bugfix: Content-type wasn't correct when sending GIF
+                         or PNG-banners.
+                       + Changed the method how banners are displayed slightly.
+                         It's no longer necessary to have include_path set in the
+                         directory where the HTML files reside.
+                       + Bugfix: Changed the way old sessions are purged a bit as
+                         it didn't work correctly.
+                       + Addded support for link targets to the view() function.  
+                       + Added support for remote invocation via <img>- and
+                         <iframe>-tags.
+                       + Added preliminary support for fail-safe banners.
+ v 0.9.3 - 03/10/1999  + Changed mt_rand() to rand() in kcms.php3 for better
+                         downward-compatiblity.
+                       + Changed the way the session data is retrieved from the
+                         database for better compatibility with MySQL. 3.21.x.
+                       + Bugfix: viewbanner.php3 had a stripslashes where it 
+                         wasn't needed.
+                       + Improved navigation.
+                       + Some changes to the file layout.
+                       + Bugfix: When only one banner was matched by the criteria
+                         specified by view(), a warning was displayed.
+                       + Outsourced the view() function to a separate file
+                         ("view.inc.php3") to avoid global namespace pollution.
+ v 0.9.2 - 03/06/1999  + Bugfix: The remote hostname wasn't showed correctly in
+                         the daily statistics.
+                       + Added more tweaks to the INSTALL file.
+                       + Some minor improvements and bugfixes.
+ v 0.9.1 - 03/02/1999  + Bugfix: adding a banner didn't work correctly when no
+                         banner was in the inventory.
+                       + Bugfix: The whole stuff didn't work with files outside
+                         the phpAds-tree. Corrected.
+                       + Added this ChangeLog.
+ v 0.9.0 - 03/01/1999  + Inital beta release

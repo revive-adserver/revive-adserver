@@ -1,0 +1,274 @@
+<html>
+<head>
+<title>phpAdsNew Documentation</title>
+<style type="text/css">
+<!--
+body {  font-family: Arial, Helvetica, sans-serif; font-size: 10pt}
+table { font-family: Arial, Helvetica, sans-serif; font-size: 10pt }
+td { font-family: Arial, Helvetica, sans-serif; font-size: 10pt }
+.heading { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14pt; font-weight: bold; color: white; margin-bottom: 0px;}
+h2 {  font-family: Verdana, Arial, Helvetica, sans-serif; color: #000099; font-size: 14pt}
+h3 {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellspacing="0" cellpadding="1" align="center" bgcolor="#000099">
+  <tr>
+    <td>
+      <table border="0" align="center" bgcolor="#FFFFFF" cellspacing="0" cellpadding="5">
+        <tr bgcolor="#000099"> 
+          <td><span class="heading">phpAdsNew - Administrator's Guide</span></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p><b>phpAdsNew is a banner management and tracking system written in 
+              PHP.<br>
+              </b>Homepage: <a href="http://www.sourceforge.net/projects/phpAdsNew/">http://www.sourceforge.net/projects/phpAdsNew/</a></p>
+            <h2>General Information</h2>
+            <p>Please read the INSTALL file for installation instructions.</p>
+            <p>phpAds is split into three parts:</p>
+            <ol>
+              <li>An administration interface, accessible through http://&lt;yourdomain&gt;/&lt;PathToPhpAdsNew&gt;/admin/</li>
+              <li>A web interface for your clients, accessible through http://&lt;yourdomain&gt;/&lt;PathToPhpAdsNew&gt;/client/</li>
+              <li>A backend, which handles banner display and logging and sends 
+                statistics to your clients via email</li>
+            </ol>
+            <h2>The Admin Interface</h2>
+            <p>Through this web based control center, you can manage your clients 
+              and their banners. It also allows to view statistics for individual 
+              clients.</p>
+            <h3>Access Control Lists</h3>
+            <p>In the banner administration section, you can access a page named 
+              <i>Modify banner ACL</i>. This allows you to set up Access Control 
+              Lists - filters defining the circumstances when the banner should 
+              be shown. Currently, the following filters are available:</p>
+            <table border="1">
+              <tr> 
+                <th>Title</th>
+                <th>Argument</th>
+                <th>Description</th>
+              </tr>
+              <tr> 
+                <td>Client IP</td>
+                <td>IP net/mask: ip.ip.ip.ip/mask.mask.mask.mask, for example 
+                  127.0.0.1/255.255.255.0</td>
+                <td>Display banner only for a specific IP region.</td>
+              </tr>
+              <tr> 
+                <td>User agent regexp</td>
+                <td>Regular expression matching a user agent, for example ^Mozilla/4.? 
+                </td>
+                <td>Display banner only for certain browsers.</td>
+              </tr>
+              <tr> 
+                <td>Weekday (0-6)</td>
+                <td>Day of the week, from 0 = Sunday to 6 = Saturday</td>
+                <td>Display banner only on a specific day of the week.</td>
+              </tr>
+              <tr>
+                <td>Domain</td>
+                <td>2-3 letter combination of domain suffix</td>
+                <td>Displays banner only to certain domain.</td>
+              </tr>
+              <tr>
+                <td>Source</td>
+                <td>Name of source page</td>
+                <td>Displays banner only on certain pages.</td>
+              </tr>
+            </table>
+            <p>For example, if you want to display this banner only on weekends, 
+              you would add two ACL entries:</p>
+            <ul>
+              <li>Weekday (0-6), argument 6 (for Saturday)</li>
+              <li>Weekday (0-6), argument 0 (for Sunday)</li>
+            </ul>
+            <h2>The Client Interface</h2>
+            <p>Usually, you'll give the URL of the client interface to your clients 
+              so that they can track the adviews/adclicks of their banners. As 
+              you can associate a username/password with each client, a client 
+              is only able to view information belonging to her banners.</p>
+            <h2>The Backend</h2>
+            <p>As an administrator you need to familiarize yourself with phpAdsNew's
+              backend structure. phpAdsNew gives you two options to include a banner 
+              on your site: local mode and remote invocation. It is recommended 
+              to use the first method where possible. </p>
+            <h3>Local Mode</h3>
+            <p>This is the traditional style of a including a banner within a PHP3-powered 
+              website. On every page you want to have a banner, you have to include 
+              config.inc.php, view.inc.php and acl.inc.php. These files are 
+              in your phpAdsNew-installation-directory. Banner are displayed using 
+              the view()-function. This function has the following syntax: </p>
+            <h3>int view (mixed what [, int clientID [, string target [, string source [, bool 
+              withText = 0[, array context]]]]); </h3>
+            <ul>
+              <li> The argument &quot;<b>what</b>&quot; is currently one of the 
+                following: 
+                <ul>
+                  <li>[int]: Display the banner with this <b>bannerID</b>. Example: 
+                    view(1); </li>
+                  <li>&quot;[width]x[height]: Display a randomly selected banner 
+                    with this <b>width/height</b>. Example: view(&quot;468x60&quot;);</li>
+                  <li>&quot;html&quot;: Display a randomly selected <b>HTML-banner</b> 
+                  </li>
+                  <li>&quot;[keyword]&quot;: Display a randomly selected banner 
+                    with this <b>keyword</b> associated to it. Example: view(&quot;maingroup&quot;);<br>
+                    Note: Banners with the special keyword &quot;<b>global</b>&quot; 
+                    associated to them, are also considered when using this syntax.<br>
+                    Multiple keywords are possible using conditional statements. Some examples :<br>
+                    key1,key2,key3 (Meaning key1 OR key2 OR key3)<br>
+                    key1,+key2,-key3 (Meaning key1 AND key2 AND NOT key3)<br>
+                    Some rules :<br>
+                    <ul>
+                    <li>The swithes are "+" (meaning AND) and "-" (meaning NOT).
+                    <li>The first keyword <b>must not</b> have a switch, the rest may.
+                    <li>Do not put a space between the switch and the keyword.
+                    <li>If the "+" or "_" switch is used then that keyword must be in the banner's list for the banner to show. For remote invocation you have to use "_".
+                    <li>If the "-" switch is used then that keyword must not be in the banner's list for the banner to show.
+                    <li>If no switch is used then that keyword is considered as OR.
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li>The optional argument <b>clientID</b> allows you to retrieve 
+                only banners by a specific client. Specify &quot;&quot; to view 
+                banners from all clients (in case you need the third or fourth 
+                argument, else don't specify it at all). <br>
+                Example: view(&quot;468x60&quot;, 1).</li>
+              <li>The optional argument &quot;<b>target</b>&quot; allows you to 
+                specify a frame target (may be one of &quot;[framename]&quot;, 
+                &quot;_blank&quot;, &quot;_parent&quot; and &quot;_top&quot;). 
+                <br>
+                Example: view(&quot;maingroup&quot;, 0, &quot;_blank&quot;);</li>
+              <li>The optional argument &quot;<b>source</b>&quot; allows you to specify
+                the name of the current page (for example : "main page" or "subpage1").
+                Source ACL can then use this name to allow or deny banner displays on
+                that page.
+              <li>The optional argument withText allows you to show a banner with 
+                its associated line of text below it (for example, &quot;Suport 
+                our sponsor&quot; is a common line of text). <br>
+                Example: view(&quot;maingroup&quot;, 0, &quot;&quot;, 1);</li>
+              <li>The optional argument &quot;<b>context</b>&quot; is an array 
+                specifying banners to limit the search to or/and banners to be 
+                excluded from the search. It is an array containing as many associative 
+                arrays as you want. The key of the entries must either be &quot;==&quot; 
+                to denote a banner to which the search is limited to or &quot;!=&quot; 
+                to denote a banner to be excluded from the search. The value of 
+                an entry is a banner ID. For example, to show the same randomly 
+                selected banner on the top and bottom of a page, you could use 
+                the following:<font face="Courier New, Courier, mono"><br>
+                <br>
+                // Top of the page:<br>
+                $id = view(&quot;main&quot;, 5); </font> 
+                <p><font face="Courier New, Courier, mono">// Bottom of the page<br>
+                  $arr = array(<br>
+                  </font><font face="Courier New, Courier, mono"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array(&quot;==&quot; 
+                  =&gt; $id)<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+                  view(&quot;main&quot;, 0, &quot;&quot;, &quot;&quot;, 0, $arr);<br>
+                  </font>To make sure that the page does <i>not</i> the same banner 
+                  two times, you could use this:<br>
+                  <font face="Courier New, Courier, mono">// Top of the page:<br>
+                  $id = view(&quot;main&quot;, 5); </font> </p>
+              </li>
+              <li> 
+                <p><font face="Courier New, Courier, mono">// Bottom of the page<br>
+                  $arr = array(<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array(&quot;!=&quot; 
+                  =&gt; $id)<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+                  view(&quot;main&quot;, 0, &quot;&quot;, &quot;&quot;, 0, $arr); </font><br>
+                </p>
+              </li>
+            </ul>
+            <p><b>Some examples:</b></p>
+            <ul>
+              <li>view(1); - Displays the banner with the bannerID of 1.</li>
+              <li>view(&quot;html&quot;); - Displays a randomly selected HTML 
+                banner </li>
+              <li>view(&quot;468x60&quot;, 0, &quot;_blank&quot;); - Displays 
+                a randomly selected banner with a width of 468 pixels and a height 
+                of 60 pixels. If user clicks on it, the target destination will 
+                be opened in a new window.</li>
+              <li>view(&quot;Websites/Business/New_Media/&quot;); - Displays a 
+                randomly selected banner from the group &quot;Websites/Business/New_Media/&quot; 
+                (in other words: with that keyword).</li>
+              <li>view(&quot;&quot;, 0, &quot;_blank&quot;, &quot;Main&quot;); -
+                Displays a randomly selected banner which does not have a Deny for
+                Source ACL on &quot;Main&quot;</li>
+            </ul>
+            <p>A sample HTML file could look like this:<br>
+            </p>
+            <pre>&lt;?
+ require("/usr/local/etc/phpAds/config.inc.php"); 
+ require("/usr/local/etc/phpAds/view.inc.php"); 
+ require("/usr/local/etc/phpAds/acl.inc.php"); 
+?&gt; 
+  
+&lt;html&gt;
+    &lt;head&gt; 
+      &lt;title&gt;phpAdsNew demo&lt;/title&gt;
+    &lt;/head&gt;
+  &lt;body&gt;
+    &lt;?
+      view("468x60");
+    ?&gt;
+  &lt;/body&gt;
+&lt;/html&gt; 
+             </pre>
+            <h3>Remote Invocation</h3>
+            <p>It is also possible to use phpAdsNew on sites which lack PHP-support. 
+              Random or pre-defined banners can be shown using a standard &lt;img&gt;-construct. 
+              Just like in Local Mode, you can use the &quot;what&quot; argument 
+              to select the banner.<br>
+            </p>
+            <p>To use multiple banners on a single page, select a unique name 
+              for each banner and assign it to the &quot;n&quot; argument for 
+              both &quot;click.php&quot; and &quot;phpads.php&quot;. 
+            <p> 
+            <p><b>Examples: </b></p>
+            <ul>
+              <li>&lt;a href="click.php"&gt;&lt;img src="phpads.php?what=468x60&amp;n=ban1"&gt;&lt;/a&gt; 
+                - Show a randomly selected banner of the size 468x60.</li>
+              <li>&lt;a href="click.php?n=top"&gt;&lt;img src="phpads.php?what=main&amp;n=top"&gt;&lt;/a&gt; 
+                - Show a randomly selected banner from the &quot;main&quot; group 
+                with the name &quot;top&quot;.</li>
+              <li>&lt;a href="click.php?n=left"&gt;&lt;img src="phpads.php?what=468x60&amp;n=left"&gt;&lt;/a&gt; 
+                - Show a randomly selected banner of the size 468x60 with the 
+                name &quot;left&quot;.</li>
+            </ul>
+            <h3>The mail.php File</h3>
+            <p>This file is responsible for sending statistics to your clients 
+              (via email) and for disabling banners which have no adviews left. 
+              You should execute it daily, for example from Cron. For more instructions, 
+              please refer to INSTALL.</p>
+            <h2>FAQ - Frequently Asked Questions</h2>
+            <h3>The login doesn't work, it keeps prompting for username/password 
+              all over again.<br>
+              or I can't add banners.</h3>
+            <p>Make sure you have enabled magic_quotes_gpc in your PHP configuration.</p>
+            <h3>I get the following error: Fatal error: Call to unsupported or 
+              undefined function mysql_pconnect().</h3>
+            <p>Your PHP is not configured for MySQL support. If you're on Unix, 
+              you need to recompile PHp --with-mysql. If you're on Windows, you 
+              have to enable the MySQL DLL in your PHP configuration. See the 
+              manual, installation section, for more details.</p>
+            <h3>Can you help me to install phpAdsNew? Can you please implement this 
+              feature I need?</h3>
+            <p>Maybe. Let us know what you want...</p>
+          </td>
+        </tr>
+        <tr> 
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>
+ 
