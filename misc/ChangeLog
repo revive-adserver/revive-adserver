@@ -1,7 +1,7 @@
 phpAdsNew - ChangeLog
 
 CVS
-			+ Misc changes
+v 2.0rc4		+ Misc changes
 			  - 2003-04-13:  Added support for paths in direct selection query string  (Niels)
  			  - 2003-04-13:  Beacon image is now enclosed in a hidden layer to prevent unneeded linewraps after tables and other html tags  (Niels)
 			  - 2003-04-16:  Added transparent background and no-border support to simple interstitial layerstyle  (Matteo)
@@ -12,6 +12,7 @@ CVS
 			  - 2003-06-09:  The views and clicks remaining fields on the Campaign properties page now allow bigger values  (Niels)
 			  - 2003-06-15:  Added cachebuster to the JavaScript invocation  (Niels)
 			  - 2003-06-19:  Added redirection to index pages when required entity id variables (clientid, campaignid, etc.) are missing  (Matteo)
+			  - 2003-07-08:	 Added support for the Region Edition database to the MaxMind geotargeting Apache module plugin  (Niels, thanks to TJ)
 			
 
 			+ Misc bugfixes
@@ -50,6 +51,8 @@ CVS
 			  - 2003-07-01:  Fixed output buffering/IE bug on generated graphs when ob_gzhandler was set  (Matteo)
 			  - 2003-07-03:  Admin password wasn't saved as md5 when upgrading from a pre-configmanager release  (Matteo)
 			  - 2003-07-03:  Generating an invocation code, then switching to XML-RPC invocation would empty the code-box  (Matteo)
+			  - 2003-07-08:  Fixed bug in MaxMind GeoIP Region plugin which caused a fatal error when country wasn't detected for some reason  (Niels)
+			  - 2003-07-08:  Referer delivery limitation did not work with JavaScript invocation  (Niels)
 
 
 v 2.0rc3		+ Added a cron replacement for users who don't have access to the cron utility for scheduling the maintenance script  (Niels, 2003-01-14)
