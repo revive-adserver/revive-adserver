@@ -389,6 +389,11 @@ $GLOBALS['strZonePrependHTML']			= "Always prepend the HTML code to text ads dis
 $GLOBALS['strZoneAppendHTML']			= "Always append the HTML code to text ads displayed by this zone";
 
 
+// Zone probability
+$GLOBALS['strZoneProbListChain']		= "All the banners linked to the selected zone have null priority. This is the zone chain that will be followed:";
+$GLOBALS['strZoneProbNullPri']			= "All banners linked to this zone have null priority";
+
+
 // Linked banners/campaigns
 $GLOBALS['strSelectZoneType']			= "Please choose the type of linking banners";
 $GLOBALS['strBannerSelection']			= "Banner selection";

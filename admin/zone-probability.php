@@ -151,7 +151,7 @@ function phpAds_showZoneBanners ($zoneid)
 	global $phpAds_config, $phpAds_TextDirection;
 	global $strUntitled, $strName, $strID, $strWeight;
 	global $strCampaignWeight, $strBannerWeight, $strProbability;
-	global $strRawQueryString;
+	global $strRawQueryString, $strZoneProbListChain, $strZoneProbNullPri;
 	
 	$zonechain = array();
 	$what = '';
@@ -253,17 +253,16 @@ function phpAds_showZoneBanners ($zoneid)
 			// Zone Chain
 			echo "<br><table width='100% border='0' align='center' cellspacing='0' cellpadding='0'>";
 			echo "<tr><td valign='top'><img src='images/info.gif' align='absmiddle'>&nbsp;</td>";
-			echo "<td width='100%'><b>" . 'All the banners linked to the selected zone have null priority. This is the zone chain that will be followed:';
-			echo "</b></td></tr></table>";
-			echo "<br><br>";
+			echo "<td width='100%'><b>".$strZoneProbListChain."</b></td></tr>";
+			echo "</table><br><br>";
 			while (list(, $z) = each($zonechain))
 			{
 				echo "<nobr><img src='images/icon-zone-d.gif' align='absmiddle'>&nbsp;".phpAds_buildZoneName($z['zoneid'], $z['zonename']);
 				echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'></nobr> ";
 			}
 
-			if ($zoneid)
-				echo "<nobr><img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_buildZoneName($zoneid, $zone['zonename'])."</b></nobr><br>";
+			if (isset($zone['zoneid']))
+				echo "<nobr><img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>".phpAds_buildZoneName($zone['zoneid'], $zone['zonename'])."</b></nobr><br>";
 			else
 				echo "<nobr><img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strRawQueryString'].":</b> ".htmlentities($zone['what'])."</nobr><br>";
 				
@@ -318,7 +317,7 @@ function phpAds_showZoneBanners ($zoneid)
 		if (!$i)
 		{
 			echo "<tr height='25' bgcolor='#F6F6F6'>";
-			echo "<td colspan='3'>&nbsp;&nbsp;". 'All banners linked to this zone have null priority' . "</td>";
+			echo "<td colspan='3'>&nbsp;&nbsp;".$strZoneProbNullPri."</td>";
 			echo "</tr>";
 		}
 		

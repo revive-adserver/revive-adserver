@@ -12,6 +12,10 @@
 
   ====================================================
 
+  08-10-2002 - default
+    [+] strZoneProbListChain
+    [+] strZoneProbNullPri
+  
   15-09-2002 - default
     [+] strDelimiter
     [+] strErrorUploadSecurity

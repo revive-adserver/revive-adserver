@@ -389,6 +389,11 @@ $GLOBALS['strZonePrependHTML']				= "Codice HTML da utilizzare come prefisso per
 $GLOBALS['strZoneAppendHTML']				= "Codice HTML da utilizzare come suffisso per i banner testuali visualizzati in questa zona";
 
 
+// Zone probability
+$GLOBALS['strZoneProbListChain']			= "Tutti i banner collegati alla zona selezionata hanno priorit&agrave; nulla. Questa &egrave; la catena di zone che verr&agrave; seguita:";
+$GLOBALS['strZoneProbNullPri']				= "Tutti i banner collegati alla zona selezionata hanno priorit&agrave; nulla";
+
+
 // Linked banners/campaigns
 $GLOBALS['strSelectZoneType']				= "Scegli la tipologia di collegamento con i banner";
 $GLOBALS['strBannerSelection']				= "Selezione banner";
