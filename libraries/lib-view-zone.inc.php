@@ -141,12 +141,12 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 			list ($key, $value) = each($context[$i]);
 			{
 				$type = 'bannerid';
-				$value = explode(':', $value);
+				$valueArray = explode(':', $value);
 				
-				if (count($value) == 1)
-					list($value) = $value;
+				if (count($valueArray) == 1)
+					list($value) = $valueArray;
 				else
-					list($type, $value) = $value;
+					list($type, $value) = $valueArray;
 				
 				if ($type == 'bannerid')
 				{

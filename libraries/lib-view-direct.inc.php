@@ -97,12 +97,12 @@ function phpAds_fetchBannerDirect($remaining, $clientid = 0, $context = 0, $sour
 			list ($key, $value) = each($context[$i]);
 			{
 				$type = 'bannerid';
-				$value = explode(':', $value);
+				$valueArray = explode(':', $value);
 				
-				if (count($value) == 1)
-					list($value) = $value;
+				if (count($valueArray) == 1)
+					list($value) = $valueArray;
 				else
-					list($type, $value) = $value;
+					list($type, $value) = $valueArray;
 				
 				if ($type == 'bannerid')
 				{
