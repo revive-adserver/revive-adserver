@@ -167,6 +167,20 @@ phpAds_PageHeader("4.1.3.4.4", $extra);
 /* Main code                                             */
 /*********************************************************/
 
+// Get banner info
+$res = phpAds_dbQuery ("
+	SELECT
+		*
+	FROM
+		".$phpAds_config['tbl_banners']."
+	WHERE
+		bannerid = ".$bannerid."
+") or phpAds_sqlDie();
+
+$banner = phpAds_dbFetchArray($res);
+
+
+// Get affiliates
 $res = phpAds_dbQuery ("
 	SELECT
 		affiliateid,
@@ -185,68 +199,142 @@ while ($row = phpAds_dbFetchArray($res))
 }
 
 
-$res = phpAds_dbQuery("
-	SELECT 
-		z.zoneid as zoneid,
-		z.affiliateid as affiliateid,
-		z.zonename as zonename,
-		z.description as description,
-		z.width as width,
-		z.height as height,
-		z.what as what,
-		z.zonetype as zonetype,
-		z.delivery as delivery
-	FROM 
-		".$phpAds_config['tbl_zones']." AS z,
-		".$phpAds_config['tbl_banners']." AS b
-	WHERE
-		b.bannerid = $bannerid AND
-		(z.width = b.width OR z.width = -1) AND
-		(z.height = b.height OR z.height = -1) AND
-		z.zonetype = ".phpAds_ZoneBanners."
-	".phpAds_getZoneListOrder ($listorder, $orderdirection)."
-") or phpAds_sqlDie();
-
-$zone_count = phpAds_dbNumRows($res);
-while ($row = phpAds_dbFetchArray($res))
+if ($banner['contenttype'] == 'txt')
 {
-	if (isset($affiliates[$row['affiliateid']]))
+	// Get banner zones
+	$res = phpAds_dbQuery("
+		SELECT 
+			zoneid,
+			affiliateid,
+			zonename,
+			description,
+			width,
+			height,
+			what,
+			zonetype,
+			delivery
+		FROM 
+			".$phpAds_config['tbl_zones']."
+		WHERE
+			delivery = ".phpAds_ZoneText." AND
+			zonetype = ".phpAds_ZoneBanners."
+		".phpAds_getZoneListOrder ($listorder, $orderdirection)."
+	") or phpAds_sqlDie();
+	
+	$zone_count = phpAds_dbNumRows($res);
+	while ($row = phpAds_dbFetchArray($res))
 	{
-		$row['linked'] = (phpAds_IsBannerInZone ($bannerid, $row['zoneid'], $row['what']));
-		$affiliates[$row['affiliateid']]['zones'][$row['zoneid']] = $row;
-		$affiliates[$row['affiliateid']]['ZoneBanners']++;
+		if (isset($affiliates[$row['affiliateid']]))
+		{
+			$row['linked'] = (phpAds_IsBannerInZone ($bannerid, $row['zoneid'], $row['what']));
+			$affiliates[$row['affiliateid']]['zones'][$row['zoneid']] = $row;
+			$affiliates[$row['affiliateid']]['ZoneBanners']++;
+		}
+	}
+	
+	
+	// Get campaign zones
+	$res = phpAds_dbQuery("
+		SELECT 
+			zoneid,
+			affiliateid,
+			zonename,
+			description,
+			width,
+			height,
+			what,
+			zonetype,
+			delivery
+		FROM 
+			".$phpAds_config['tbl_zones']."
+		WHERE
+			delivery = ".phpAds_ZoneText." AND
+			zonetype = ".phpAds_ZoneCampaign."
+		".phpAds_getZoneListOrder ($listorder, $orderdirection)."
+	") or phpAds_sqlDie();
+	
+	$zone_count += phpAds_dbNumRows($res);
+	while ($row = phpAds_dbFetchArray($res))
+	{
+		if (isset($affiliates[$row['affiliateid']]))
+		{
+			if (phpAds_IsCampaignInZone ($campaignid, $row['zoneid'], $row['what']))
+			{
+				$row['linked'] = true;
+				$affiliates[$row['affiliateid']]['zones'][$row['zoneid']] = $row;
+				$affiliates[$row['affiliateid']]['ZoneCampaigns']++;
+			}
+		}
 	}
 }
-
-
-$res = phpAds_dbQuery("
-	SELECT 
-		zoneid,
-		affiliateid,
-		zonename,
-		description,
-		width,
-		height,
-		what,
-		zonetype,
-		delivery
-	FROM 
-		".$phpAds_config['tbl_zones']."
-	WHERE
-		zonetype = ".phpAds_ZoneCampaign."
-	".phpAds_getZoneListOrder ($listorder, $orderdirection)."
-") or phpAds_sqlDie();
-
-$zone_count += phpAds_dbNumRows($res);
-while ($row = phpAds_dbFetchArray($res))
+else
 {
-	if (isset($affiliates[$row['affiliateid']]))
+	// Get banner zones
+	$res = phpAds_dbQuery("
+		SELECT 
+			z.zoneid as zoneid,
+			z.affiliateid as affiliateid,
+			z.zonename as zonename,
+			z.description as description,
+			z.width as width,
+			z.height as height,
+			z.what as what,
+			z.zonetype as zonetype,
+			z.delivery as delivery
+		FROM 
+			".$phpAds_config['tbl_zones']." AS z,
+			".$phpAds_config['tbl_banners']." AS b
+		WHERE
+			b.bannerid = $bannerid AND
+			(z.width = b.width OR z.width = -1) AND
+			(z.height = b.height OR z.height = -1) AND
+			z.zonetype = ".phpAds_ZoneBanners." AND
+			z.delivery != ".phpAds_ZoneText."
+		".phpAds_getZoneListOrder ($listorder, $orderdirection)."
+	") or phpAds_sqlDie();
+	
+	$zone_count = phpAds_dbNumRows($res);
+	while ($row = phpAds_dbFetchArray($res))
 	{
-		if (phpAds_IsCampaignInZone ($campaignid, $row['zoneid'], $row['what']))
+		if (isset($affiliates[$row['affiliateid']]))
 		{
-			$row['linked'] = true;
+			$row['linked'] = (phpAds_IsBannerInZone ($bannerid, $row['zoneid'], $row['what']));
 			$affiliates[$row['affiliateid']]['zones'][$row['zoneid']] = $row;
-			$affiliates[$row['affiliateid']]['ZoneCampaigns']++;
+			$affiliates[$row['affiliateid']]['ZoneBanners']++;
+		}
+	}
+	
+	
+	// Get campaign zones
+	$res = phpAds_dbQuery("
+		SELECT 
+			zoneid,
+			affiliateid,
+			zonename,
+			description,
+			width,
+			height,
+			what,
+			zonetype,
+			delivery
+		FROM 
+			".$phpAds_config['tbl_zones']."
+		WHERE
+			zonetype = ".phpAds_ZoneCampaign."
+		".phpAds_getZoneListOrder ($listorder, $orderdirection)."
+	") or phpAds_sqlDie();
+	
+	$zone_count += phpAds_dbNumRows($res);
+	while ($row = phpAds_dbFetchArray($res))
+	{
+		if (isset($affiliates[$row['affiliateid']]))
+		{
+			if (phpAds_IsCampaignInZone ($campaignid, $row['zoneid'], $row['what']))
+			{
+				$row['linked'] = true;
+				$affiliates[$row['affiliateid']]['zones'][$row['zoneid']] = $row;
+				$affiliates[$row['affiliateid']]['ZoneCampaigns']++;
+			}
 		}
 	}
 }
@@ -388,6 +476,8 @@ if ($zone_count > 0 && $affiliate_count > 0)
 					echo "<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;";
 				elseif ($zone['delivery'] == phpAds_ZonePopup)
 					echo "<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;";
+				elseif ($zone['delivery'] == phpAds_ZoneText)
+					echo "<img src='images/icon-textzone.gif' align='absmiddle'>&nbsp;";
 				
 				echo "<a href='zone-edit.php?affiliateid=".$affiliate['affiliateid']."&zoneid=".$zone['zoneid']."'>".$zone['zonename']."</a>";
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";

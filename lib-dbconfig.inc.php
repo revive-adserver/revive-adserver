@@ -18,8 +18,8 @@ define ('LIBDBCONFIG_INCLUDED', true);
 
 
 // Current phpAds version
-$phpAds_version = 200.100;
-$phpAds_version_readable = "2 beta 7";
+$phpAds_version = 200.103;
+$phpAds_version_readable = "2 beta 7.1";
 $phpAds_productname = "phpAdsNew";
 
 $GLOBALS['phpAds_settings_information'] = array(
@@ -85,6 +85,7 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'type_web_allow' =>				array ('type' => 'boolean', 'sql' => true),
 	'type_url_allow' =>				array ('type' => 'boolean', 'sql' => true),
 	'type_html_allow' =>			array ('type' => 'boolean', 'sql' => true),
+	'type_txt_allow' =>				array ('type' => 'boolean', 'sql' => true),
 	'type_web_mode' =>				array ('type' => 'integer', 'sql' => true),
 	'type_web_dir' =>				array ('type' => 'string', 'sql' => true),
 	'type_web_ftp' =>				array ('type' => 'string', 'sql' => true),

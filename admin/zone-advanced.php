@@ -86,6 +86,7 @@ if (isset($submit))
 		else
 			$chain = '';
 		
+		if (!isset($prepend)) $prepend = '';
 		if (!isset($append)) $append = '';
 		
 		$res = phpAds_dbQuery("
@@ -93,6 +94,7 @@ if (isset($submit))
 				".$phpAds_config['tbl_zones']."
 			SET
 				chain='".$chain."',
+				prepend='".$prepend."',
 				append='".$append."'
 			WHERE
 				zoneid=".$zoneid."
@@ -300,6 +302,29 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 echo "</table>";
+
+
+if ($zone['delivery'] == phpAds_ZoneText)
+{
+	echo "<br><br><br>";
+	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+	echo "<tr><td height='25' colspan='3'><b>".$strAppendSettings."</b></td></tr>";
+	echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+	
+	echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$strZonePrependHTML."</td><td>";
+	echo "<textarea name='prepend' rows='6' cols='55' style='width: 100%;'>".htmlspecialchars($zone['prepend'])."</textarea>";
+	echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+	
+	echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$strZoneAppendHTML."</td><td>";
+	echo "<textarea name='append' rows='6' cols='55' style='width: 100%;'>".htmlspecialchars($zone['append'])."</textarea>";
+	echo "</td></tr>";
+	
+	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+	echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	echo "</table>";
+}
 
 echo "<br><br>";
 echo "<input type='submit' name='submit' value='".$strSaveChanges."'>";

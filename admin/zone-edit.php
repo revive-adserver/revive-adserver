@@ -78,14 +78,22 @@ if (isset($submit))
 {
 	if (isset($description)) $description = addslashes ($description);
 	
-	if ($sizetype == 'custom')
+	if ($delivery == phpAds_ZoneText)
 	{
-		if (isset($width) && $width == '*') $width = -1;
-		if (isset($height) && $height == '*') $height = -1;
+		$width = 0;
+		$height = 0;
 	}
 	else
 	{
-		list ($width, $height) = explode ('x', $size);
+		if ($sizetype == 'custom')
+		{
+			if (isset($width) && $width == '*') $width = -1;
+			if (isset($height) && $height == '*') $height = -1;
+		}
+		else
+		{
+			list ($width, $height) = explode ('x', $size);
+		}
 	}
 	
 	
@@ -101,6 +109,8 @@ if (isset($submit))
 				width='".$width."',
 				height='".$height."',
 				delivery='".$delivery."'
+				".($delivery != phpAds_ZoneText && $delivery != phpAds_ZoneBanner ? ", append = ''" : "")."
+				".($delivery != phpAds_ZoneText ? ", prepend = ''" : "")."
 			WHERE
 				zoneid=".$zoneid."
 			") or phpAds_sqlDie();
@@ -324,22 +334,38 @@ echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'><br>".$strZoneType."</td><td><table>";
-echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZoneBanner."'".($zone['delivery'] == phpAds_ZoneBanner ? ' CHECKED' : '').">";
+echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZoneBanner."'".($zone['delivery'] == phpAds_ZoneBanner ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();'>";
 echo "&nbsp;<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;".$strBannerButtonRectangle."</td></tr>";
 
 if ($phpAds_config['allow_invocation_interstitial'] || $zone['delivery'] == phpAds_ZoneInterstitial) 
 {
-	echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZoneInterstitial."'".($zone['delivery'] == phpAds_ZoneInterstitial ? ' CHECKED' : '').">";
+	echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZoneInterstitial."'".($zone['delivery'] == phpAds_ZoneInterstitial ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();'>";
 	echo "&nbsp;<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;".$strInterstitial."</td></tr>";
 }
 
 if ($phpAds_config['allow_invocation_popup'] || $zone['delivery'] == phpAds_ZonePopup) 
 {
-	echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZonePopup."'".($zone['delivery'] == phpAds_ZonePopup ? ' CHECKED' : '').">";
+	echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZonePopup."'".($zone['delivery'] == phpAds_ZonePopup ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();'>";
 	echo "&nbsp;<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;".$strPopup."</td></tr>";
 }
 
-echo "</table></td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZoneText."'".($zone['delivery'] == phpAds_ZoneText ? ' CHECKED' : '')." onClick='phpAds_formDisableSize();'>";
+echo "&nbsp;<img src='images/icon-textzone.gif' align='absmiddle'>&nbsp;".$strTextAdZone."</td></tr>";
+
+
+echo "</table></td></tr>";
+
+
+if ($zone['delivery'] == phpAds_ZoneText)
+{
+	$sizedisabled = ' disabled';
+	$zone['width'] = '*';
+	$zone['height'] = '*';
+}
+else
+	$sizedisabled = '';
+
+echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'><br>".$strSize."</td><td>";
@@ -347,8 +373,8 @@ echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'><br>".$strSize.
 $exists = phpAds_sizeExists ($zone['width'], $zone['height']);
 
 echo "<table><tr><td>";
-echo "<input type='radio' name='sizetype' value='default'".($exists ? ' CHECKED' : '').">&nbsp;";
-echo "<select name='size' onchange='phpAds_formSelectSize(this)'>"; 
+echo "<input type='radio' name='sizetype' value='default'".($exists ? ' CHECKED' : '').$sizedisabled.">&nbsp;";
+echo "<select name='size' onchange='phpAds_formSelectSize(this)'".$sizedisabled.">"; 
 
 for (reset($phpAds_BannerSize);$key=key($phpAds_BannerSize);next($phpAds_BannerSize))
 {
@@ -364,13 +390,15 @@ echo "</select>";
 
 echo "</td></tr><tr><td>";
 
-echo "<input type='radio' name='sizetype' value='custom'".(!$exists ? ' CHECKED' : '')." onclick='phpAds_formEditSize()'>&nbsp;";
-echo $strWidth.": <input class='flat' size='5' type='text' name='width' value='".(isset($zone["width"]) ? $zone["width"] : '')."' onkeydown='phpAds_formEditSize()' onBlur='phpAds_formUpdate(this);'>";
+echo "<input type='radio' name='sizetype' value='custom'".(!$exists ? ' CHECKED' : '').$sizedisabled." onclick='phpAds_formEditSize()'>&nbsp;";
+echo $strWidth.": <input class='flat' size='5' type='text' name='width' value='".(isset($zone["width"]) ? $zone["width"] : '')."'".$sizedisabled." onkeydown='phpAds_formEditSize()' onBlur='phpAds_formUpdate(this);'>";
 echo "&nbsp;&nbsp;&nbsp;";
-echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".(isset($zone["height"]) ? $zone["height"] : '')."' onkeydown='phpAds_formEditSize()' onBlur='phpAds_formUpdate(this);'>";
+echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".(isset($zone["height"]) ? $zone["height"] : '')."'".$sizedisabled." onkeydown='phpAds_formEditSize()' onBlur='phpAds_formUpdate(this);'>";
 echo "</td></tr></table>";
+echo "</td></tr>";
 
-echo "</td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+
+echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 echo "</table>";
 
@@ -434,8 +462,25 @@ while ($row = phpAds_dbFetchArray($res))
 		document.zoneform.sizetype[0].checked = false;
 		document.zoneform.sizetype[1].checked = true;
 		document.zoneform.size.selectedIndex = document.zoneform.size.options.length - 1;
-	}		
+	}
+	
+	function phpAds_formDisableSize()
+	{
+		document.zoneform.sizetype[0].disabled = true;
+		document.zoneform.sizetype[1].disabled = true;
+		document.zoneform.width.disabled = true;
+		document.zoneform.height.disabled = true;
+		document.zoneform.size.disabled = true;
+	}
 
+	function phpAds_formEnableSize()
+	{
+		document.zoneform.sizetype[0].disabled = false;
+		document.zoneform.sizetype[1].disabled = false;
+		document.zoneform.width.disabled = false;
+		document.zoneform.height.disabled = false;
+		document.zoneform.size.disabled = false;
+	}
 //-->
 </script>
 

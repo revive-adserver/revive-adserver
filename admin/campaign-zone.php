@@ -318,6 +318,8 @@ if ($zone_count > 0 && $affiliate_count > 0)
 					echo "<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;";
 				elseif ($zone['delivery'] == phpAds_ZonePopup)
 					echo "<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;";
+				elseif ($zone['delivery'] == phpAds_ZoneText)
+					echo "<img src='images/icon-textzone.gif' align='absmiddle'>&nbsp;";
 				
 				echo "<a href='zone-edit.php?affiliateid=".$affiliate['affiliateid']."&zoneid=".$zone['zoneid']."'>".$zone['zonename']."</a>";
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";

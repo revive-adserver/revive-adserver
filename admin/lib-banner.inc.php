@@ -68,6 +68,13 @@ function phpAds_getBannerTemplate($type)
 		$buffer .= "width='{width}' height='{height}' pluginspace='http://www.apple.com/quicktime/download/'></embed>";
 		$buffer .= "</object>";
 	}
+	elseif ($type == 'txt')
+	{
+		$buffer  = "<a href='{targeturl}' target='{target}' ";
+		$buffer .= "[status]onMouseOver=\"self.status='{status}'; return true;\" onMouseOut=\"self.status='';return true;\"[/status]>";
+		$buffer .= "{bannertext}";
+		$buffer .= "</a>";
+	}
 	else
 	{
 		$buffer  = "<a href='{targeturl}' target='{target}' ";
@@ -77,7 +84,8 @@ function phpAds_getBannerTemplate($type)
 	}
 	
 	// Text below banner
-	$buffer .= "[bannertext]<br><a href='{targeturl}' target='{target}'>{bannertext}</a>[/bannertext]";
+	if ($type != 'txt')
+		$buffer .= "[bannertext]<br><a href='{targeturl}' target='{target}'>{bannertext}</a>[/bannertext]";
 	
 	return ($buffer);
 }
@@ -302,8 +310,10 @@ function phpAds_getBannerCache($banner)
 	if (isset($banner['bannertext']) && $banner['bannertext'] != '')
 		$buffer = str_replace ('{bannertext}', $banner['bannertext'], $buffer);
 	else
+	{
+		$buffer = str_replace ('{bannertext}', '', $buffer);
 		$buffer = eregi_replace ("\[bannertext\](.*)\[\/bannertext\]", '', $buffer);
-	
+	}
 	
 	
 	// Set imageurl

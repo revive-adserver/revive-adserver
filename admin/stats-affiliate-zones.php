@@ -355,6 +355,8 @@ else
 			echo "<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;";
 		elseif ($zone['delivery'] == phpAds_ZonePopup)
 			echo "<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;";
+		elseif ($zone['delivery'] == phpAds_ZoneText)
+			echo "<img src='images/icon-textzone.gif' align='absmiddle'>&nbsp;";
 		
 		echo "<a href='stats-zone-history.php?affiliateid=".$zone['affiliateid']."&zoneid=".$zone['zoneid']."'>".$zone['zonename']."</a>";
 		echo "</td>";

@@ -430,32 +430,24 @@ if (count($order_array) > 0)
 			if ($row_banners['active'] == 't')
 			{
 				if ($row_banners['storagetype'] == 'html')
-				{
 					echo "<img src='images/icon-banner-html.gif' align='absmiddle'>";
-				}
+				elseif ($row_banners['storagetype'] == 'txt')
+					echo "<img src='images/icon-banner-text.gif' align='absmiddle'>";
 				elseif ($row_banners['storagetype'] == 'url')
-				{
 					echo "<img src='images/icon-banner-url.gif' align='absmiddle'>";
-				}
 				else
-				{
 					echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>";
-				}
 			}
 			else
 			{
 				if ($row_banners['storagetype'] == 'html')
-				{
 					echo "<img src='images/icon-banner-html-d.gif' align='absmiddle'>";
-				}
+				elseif ($row_banners['storagetype'] == 'txt')
+					echo "<img src='images/icon-banner-text-d.gif' align='absmiddle'>";
 				elseif ($row_banners['storagetype'] == 'url')
-				{
 					echo "<img src='images/icon-banner-url-d.gif' align='absmiddle'>";
-				}
 				else
-				{
 					echo "<img src='images/icon-banner-stored-d.gif' align='absmiddle'>";
-				}
 			}
 			
 			echo "&nbsp;<b>".phpAds_buildBannerName ($row_banners['bannerid'], $row_banners['description'], $row_banners['alt'])."</b>";
@@ -559,32 +551,24 @@ if (count($order_array) > 0)
 			if ($row_banners['active'] == 't')
 			{
 				if ($row_banners['storagetype'] == 'html')
-				{
 					echo "<img src='images/icon-banner-html.gif' align='absmiddle'>";
-				}
+				elseif ($row_banners['storagetype'] == 'txt')
+					echo "<img src='images/icon-banner-text.gif' align='absmiddle'>";
 				elseif ($row_banners['storagetype'] == 'url')
-				{
 					echo "<img src='images/icon-banner-url.gif' align='absmiddle'>";
-				}
 				else
-				{
 					echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>";
-				}
 			}
 			else
 			{
 				if ($row_banners['storagetype'] == 'html')
-				{
 					echo "<img src='images/icon-banner-html-d.gif' align='absmiddle'>";
-				}
+				elseif ($row_banners['storagetype'] == 'txt')
+					echo "<img src='images/icon-banner-text-d.gif' align='absmiddle'>";
 				elseif ($row_banners['storagetype'] == 'url')
-				{
 					echo "<img src='images/icon-banner-url-d.gif' align='absmiddle'>";
-				}
 				else
-				{
 					echo "<img src='images/icon-banner-stored-d.gif' align='absmiddle'>";
-				}
 			}
 			
 			echo "&nbsp;";

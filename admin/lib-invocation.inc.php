@@ -338,6 +338,16 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		if (is_array($extra) && $server_same == false && 
 		   ($extra['width'] == '-1' || $extra['height'] == '-1')) $allowed['adframe'] = false;
 		
+		if (is_array($extra) && $extra['delivery'] == phpAds_ZoneText)
+		{
+			// Only allow Javascript and Localmode
+			// when using text ads
+			$allowed['adlayer'] =
+			$allowed['popup'] =
+			$allowed['adframe'] =
+			$allowed['adview'] = false;
+		}
+		
 		if (!isset($codetype) || $allowed[$codetype] == false)
 		{
 			while (list($k,$v) = each($allowed))

@@ -270,32 +270,24 @@ else
 		if ($banners[$bkey]['active'] == 't')
 		{
 			if ($banners[$bkey]['storagetype'] == 'html')
-			{
 				echo "<img src='images/icon-banner-html.gif' align='absmiddle'>";
-			}
+			elseif ($banners[$bkey]['storagetype'] == 'txt')
+				echo "<img src='images/icon-banner-text.gif' align='absmiddle'>";
 			elseif ($banners[$bkey]['storagetype'] == 'url')
-			{
 				echo "<img src='images/icon-banner-url.gif' align='absmiddle'>";
-			}
 			else
-			{
 				echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>";
-			}
 		}
 		else
 		{
 			if ($banners[$bkey]['storagetype'] == 'html')
-			{
 				echo "<img src='images/icon-banner-html-d.gif' align='absmiddle'>";
-			}
+			elseif ($banners[$bkey]['storagetype'] == 'txt')
+				echo "<img src='images/icon-banner-text-d.gif' align='absmiddle'>";
 			elseif ($banners[$bkey]['storagetype'] == 'url')
-			{
 				echo "<img src='images/icon-banner-url-d.gif' align='absmiddle'>";
-			}
 			else
-			{
 				echo "<img src='images/icon-banner-stored-d.gif' align='absmiddle'>";
-			}
 		}
 		
 		echo "&nbsp;<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bkey."'>".$name."</td>";
@@ -343,7 +335,12 @@ else
 			
 			echo "<tr height='25'><td colspan='2'>".($banners[$bkey]['url'] != '' ? $banners[$bkey]['url'] : '-')."</td></tr>";
 			echo "<tr height='15'><td colspan='2'>".$strKeyword.": ".($banners[$bkey]['keyword'] != '' ? $banners[$bkey]['keyword'] : '-')."</td></tr>";
-			echo "<tr height='25'><td width='50%'>".$strSize.": ".$banners[$bkey]['width']." x ".$banners[$bkey]['height']."</td>";
+			
+			if ($banners[$bkey]['storagetype'] == 'txt')
+				echo "<tr height='25'><td width='50%'>".$strSize.": -</td>";
+			else
+				echo "<tr height='25'><td width='50%'>".$strSize.": ".$banners[$bkey]['width']." x ".$banners[$bkey]['height']."</td>";
+			
 			echo "<td width='50%'>".$strWeight.": ".$banners[$bkey]['weight']."</td></tr>";
 			
 			echo "</table><br></td></tr>";

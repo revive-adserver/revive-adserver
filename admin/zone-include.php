@@ -250,7 +250,7 @@ else
 /* Main code                                             */
 /*********************************************************/
 
-function phpAds_showZoneCampaign ($width, $height, $what)
+function phpAds_showZoneCampaign ($width, $height, $what, $delivery)
 {
 	global $phpAds_config;
 	global $strName, $strID, $strDescription;
@@ -296,12 +296,19 @@ function phpAds_showZoneCampaign ($width, $height, $what)
 			".$phpAds_config['tbl_banners']."
 		";
 	
-	if ($width != -1 && $height != -1)
-		$query .= "WHERE width = $width AND height = $height";
-	elseif ($width != -1)
-		$query .= "WHERE width = $width";
-	elseif ($height != -1)
-		$query .= "WHERE height = $height";
+	if ($delivery != phpAds_ZoneText)
+	{
+		if ($width != -1 && $height != -1)
+			$query .= "WHERE width = $width AND height = $height";
+		elseif ($width != -1)
+			$query .= "WHERE width = $width";
+		elseif ($height != -1)
+			$query .= "WHERE height = $height";
+	}
+	else
+	{
+		$query .= "WHERE contenttype = 'txt'";
+	}
 	
 	$query .= "
 		ORDER BY
@@ -502,7 +509,7 @@ function phpAds_showZoneCampaign ($width, $height, $what)
 
 
 
-function phpAds_showZoneBanners ($width, $height, $what, $zonetype)
+function phpAds_showZoneBanners ($width, $height, $what, $zonetype, $delivery)
 {
 	global $phpAds_config;
 	global $strName, $strID, $strUntitled, $strDescription;
@@ -588,12 +595,19 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype)
 			".$phpAds_config['tbl_banners']."
 		";
 	
-	if ($width != -1 && $height != -1)
-		$query .= "WHERE width = $width AND height = $height";
-	elseif ($width != -1)
-		$query .= "WHERE width = $width";
-	elseif ($height != -1)
-		$query .= "WHERE height = $height";
+	if ($delivery != phpAds_ZoneText)
+	{
+		if ($width != -1 && $height != -1)
+			$query .= "WHERE width = $width AND height = $height";
+		elseif ($width != -1)
+			$query .= "WHERE width = $width";
+		elseif ($height != -1)
+			$query .= "WHERE height = $height";
+	}
+	else
+	{
+		$query .= "WHERE contenttype = 'txt'";
+	}
 	
 	$query .= "
 		ORDER BY
@@ -718,12 +732,19 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype)
 						clientid = ".$GLOBALS['campaignid']."
 				";
 				
-				if ($width != -1 && $height != -1)
-					$query .= "AND width = $width AND height = $height";
-				elseif ($width != -1)
-					$query .= "AND width = $width";
-				elseif ($height != -1)
-					$query .= "AND height = $height";
+				if ($delivery != phpAds_ZoneText)
+				{
+					if ($width != -1 && $height != -1)
+						$query .= "AND width = $width AND height = $height";
+					elseif ($width != -1)
+						$query .= "AND width = $width";
+					elseif ($height != -1)
+						$query .= "AND height = $height";
+				}
+				else
+				{
+					$query .= "WHERE contenttype = 'txt'";
+				}
 				
 				$query .= "
 					ORDER BY
@@ -828,6 +849,8 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype)
 								echo "<img src='images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
 							elseif ($banner['storagetype'] == 'url')
 								echo "<img src='images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
+							elseif ($banner['storagetype'] == 'txt')
+								echo "<img src='images/icon-banner-text.gif' align='absmiddle'>&nbsp;";
 							else
 								echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
 						}
@@ -837,6 +860,8 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype)
 								echo "<img src='images/icon-banner-html-d.gif' align='absmiddle'>&nbsp;";
 							elseif ($banner['storagetype'] == 'url')
 								echo "<img src='images/icon-banner-url-d.gif' align='absmiddle'>&nbsp;";
+							elseif ($banner['storagetype'] == 'txt')
+								echo "<img src='images/icon-banner-text-d.gif' align='absmiddle'>&nbsp;";
 							else
 								echo "<img src='images/icon-banner-stored-d.gif' align='absmiddle'>&nbsp;";
 						}
@@ -992,12 +1017,12 @@ echo "<br>";
 
 if ($zonetype == phpAds_ZoneCampaign)
 {
-	phpAds_showZoneCampaign($zone["width"], $zone["height"], $zone["what"]);
+	phpAds_showZoneCampaign($zone["width"], $zone["height"], $zone["what"], $zone['delivery']);
 }
 
 if ($zonetype == phpAds_ZoneBanners)
 {
-	phpAds_showZoneBanners($zone["width"], $zone["height"], $zone["what"], $zone["zonetype"]);
+	phpAds_showZoneBanners($zone["width"], $zone["height"], $zone["what"], $zone["zonetype"], $zone['delivery']);
 }
 
 if ($zonetype == phpAds_ZoneRaw)

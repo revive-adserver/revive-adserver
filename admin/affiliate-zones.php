@@ -230,6 +230,8 @@ while ($row_zones = phpAds_dbFetchArray($res_zones))
 			echo "<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;";
 		elseif ($row_zones['delivery'] == phpAds_ZonePopup)
 			echo "<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;";
+		elseif ($row_zones['delivery'] == phpAds_ZoneText)
+			echo "<img src='images/icon-textzone.gif' align='absmiddle'>&nbsp;";
 	}
 	else
 	{
@@ -239,6 +241,8 @@ while ($row_zones = phpAds_dbFetchArray($res_zones))
 			echo "<img src='images/icon-interstitial-d.gif' align='absmiddle'>&nbsp;";
 		elseif ($row_zones['delivery'] == phpAds_ZonePopup)
 			echo "<img src='images/icon-popup-d.gif' align='absmiddle'>&nbsp;";
+		elseif ($row_zones['delivery'] == phpAds_ZoneText)
+			echo "<img src='images/icon-textzone-d.gif' align='absmiddle'>&nbsp;";
 	}
 	
 	if (phpAds_isUser(phpAds_Admin) || phpAds_isAllowed(phpAds_EditZone))
@@ -253,10 +257,18 @@ while ($row_zones = phpAds_dbFetchArray($res_zones))
 	echo "<td height='25'>".$row_zones['zoneid']."</td>";
 	
 	// Size
-	if ($row_zones['width'] == -1) $row_zones['width'] = '*';
-	if ($row_zones['height'] == -1) $row_zones['height'] = '*';
+	if ($row_zones['delivery'] == phpAds_ZoneText)
+	{
+		echo "<td height='25'>".$strCustom." (".$strTextAdZone.")</td>";
+	}
+	else
+	{
+		if ($row_zones['width'] == -1) $row_zones['width'] = '*';
+		if ($row_zones['height'] == -1) $row_zones['height'] = '*';
+		
+		echo "<td height='25'>".phpAds_getBannerSize($row_zones['width'], $row_zones['height'])."</td>";
+	}
 	
-	echo "<td height='25'>".phpAds_getBannerSize($row_zones['width'], $row_zones['height'])."</td>";
 	echo "<td>&nbsp;</td>";
 	echo "</tr>";
 	

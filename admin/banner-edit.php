@@ -487,6 +487,38 @@ if (isset($submit))
 			
 			break;
 		
+		case 'txt';
+			$final['filename']	  = '';
+			$final['imageurl'] 	  = '';
+			$final['alt'] 		  = '';
+			$final['width'] 	  = 0;
+			$final['height'] 	  = 0;
+			
+			$final['bannertext']  = phpAds_htmlQuotes($bannertext);
+			$final['url'] 		  = $url;
+			$final['target'] 	  = $target;
+			$final['status']  	  = $status;
+			$final['contenttype'] = 'txt';
+			$final['storagetype'] = $storagetype;
+			
+			
+			if (!isset($bannerid) || $bannerid == '0' || $bannerid == '')
+			{
+				// New banner set html template
+				$final['htmltemplate'] = phpAds_getBannerTemplate($final['contenttype']);
+			}
+			else
+			{
+				// Use existing html template
+				$final['htmltemplate'] = stripslashes($current['htmltemplate']);
+			}
+			
+			// Update bannercache
+			$final['htmlcache']   = addslashes (phpAds_getBannerCache($final));
+			$final['htmltemplate']= addslashes ($final['htmltemplate']);
+			
+			break;
+		
 		case 'network';
 			$final['filename']	  = '';
 			$final['imageurl'] 	  = '';
@@ -800,12 +832,14 @@ $show_sql  	  = $phpAds_config['type_sql_allow'];
 $show_web  	  = $phpAds_config['type_web_allow'];
 $show_url  	  = $phpAds_config['type_url_allow'];
 $show_html 	  = $phpAds_config['type_html_allow'];
-$show_network = true;
+$show_txt 	  = $phpAds_config['type_txt_allow'];
+$show_network = false;
 
 if (isset($storagetype) && $storagetype == "sql") 	   $show_sql     = true;
 if (isset($storagetype) && $storagetype == "web")      $show_web     = true;
 if (isset($storagetype) && $storagetype == "url")      $show_url     = true;
 if (isset($storagetype) && $storagetype == "html")     $show_html    = true;
+if (isset($storagetype) && $storagetype == "txt")      $show_txt     = true;
 if (isset($storagetype) && $storagetype == "network")  $show_network = true;
 
 // If adding a new banner or used storing type is disabled
@@ -814,6 +848,7 @@ if (isset($storagetype) && $storagetype == "network")  $show_network = true;
 if (!isset($storagetype))
 {
 	if ($show_network) $storagetype = "network"; 
+	if ($show_txt)     $storagetype = "txt"; 
 	if ($show_html)    $storagetype = "html"; 
 	if ($show_url)     $storagetype = "url"; 
 	if ($show_web)     $storagetype = "web"; 
@@ -837,6 +872,7 @@ if (!isset($bannerid) || $bannerid == '')
 	if ($show_web) 	   echo "<option value='web'".($storagetype == "web" ? ' selected' : '').">".$strWebBanner."</option>";
 	if ($show_url) 	   echo "<option value='url'".($storagetype == "url" ? ' selected' : '').">".$strURLBanner."</option>";
 	if ($show_html)    echo "<option value='html'".($storagetype == "html" ? ' selected' : '').">".$strHTMLBanner."</option>";
+	if ($show_txt)     echo "<option value='txt'".($storagetype == "txt" ? ' selected' : '').">".$strTextBanner."</option>";
 	if ($show_network) echo "<option value='network'".($storagetype == "network" ? ' selected' : '').">".$strBannerNetwork."</option>";
 	
 	echo "</select>";
@@ -1314,6 +1350,44 @@ if ($storagetype == 'html')
 	echo "</table>";
 }
 
+if ($storagetype == 'txt')
+{
+	echo "<br><br>";
+	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#F6F6F6'>";
+	echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><img src='images/icon-banner-text.gif' align='absmiddle'>&nbsp;<b>".$strTextBanner."</b></td></tr>";
+	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+	
+	echo "<tr><td width='30'>&nbsp;</td>";
+	echo "<td colspan='2'><textarea class='code' cols='45' rows='10' name='bannertext' wrap='off' style='width:550px; ";
+	echo "'>".$row['bannertext']."</textarea></td></tr>";
+	
+	echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
+	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+	
+	echo "<tr><td width='30'>&nbsp;</td>";
+	echo "<td width='200'>".$strURL."</td>";
+	echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' value='".phpAds_htmlQuotes($row["url"])."'></td></tr>";
+	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+	
+	echo "<tr><td width='30'>&nbsp;</td>";
+	echo "<td width='200'>".$strTarget."</td>";
+	echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' value='".$row["target"]."'></td></tr>";
+	
+	echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
+	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+	
+	echo "<tr><td width='30'>&nbsp;</td>";
+	echo "<td width='200'>".$strStatusText."</td>";
+	echo "<td><input class='flat' size='35' type='text' name='status' style='width:350px;' value='".phpAds_htmlQuotes($row["status"])."'></td></tr>";
+	
+	echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
+	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	echo "</table>";
+}
 
 if ($storagetype == 'network')
 {

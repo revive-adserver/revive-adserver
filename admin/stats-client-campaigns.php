@@ -460,6 +460,8 @@ if ($totalviews > 0 || $totalclicks > 0)
 				{
 					if ($banners[$bkey]['storagetype'] == 'html')
 						echo "<img src='images/icon-banner-html.gif' align='absmiddle'>";
+					elseif ($banners[$bkey]['storagetype'] == 'txt')
+						echo "<img src='images/icon-banner-text.gif' align='absmiddle'>";
 					elseif ($banners[$bkey]['storagetype'] == 'url')
 						echo "<img src='images/icon-banner-url.gif' align='absmiddle'>";
 					else
@@ -469,6 +471,8 @@ if ($totalviews > 0 || $totalclicks > 0)
 				{
 					if ($banners[$bkey]['storagetype'] == 'html')
 						echo "<img src='images/icon-banner-html-d.gif' align='absmiddle'>";
+					elseif ($banners[$bkey]['storagetype'] == 'txt')
+						echo "<img src='images/icon-banner-text-d.gif' align='absmiddle'>";
 					elseif ($banners[$bkey]['storagetype'] == 'url')
 						echo "<img src='images/icon-banner-url-d.gif' align='absmiddle'>";
 					else

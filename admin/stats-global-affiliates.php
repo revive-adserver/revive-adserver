@@ -353,6 +353,8 @@ if ($totalviews > 0 || $totalclicks > 0)
 					echo "<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;";
 				elseif ($zones[$zkey]['delivery'] == phpAds_ZonePopup)
 					echo "<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;";
+				elseif ($zones[$zkey]['delivery'] == phpAds_ZoneText)
+					echo "<img src='images/icon-textzone.gif' align='absmiddle'>&nbsp;";
 				
 				echo "<a href='stats-zone-history.php?affiliateid=".$affiliate['affiliateid']."&zoneid=".$zones[$zkey]['zoneid']."'>".$zones[$zkey]['zonename']."</td>";
 				echo "</td>";

@@ -288,7 +288,8 @@ $GLOBALS['phpAds_hlp_zone_cache_limit'] = "
 $GLOBALS['phpAds_hlp_type_sql_allow'] = 
 $GLOBALS['phpAds_hlp_type_web_allow'] = 
 $GLOBALS['phpAds_hlp_type_url_allow'] = 
-$GLOBALS['phpAds_hlp_type_html_allow'] = "
+$GLOBALS['phpAds_hlp_type_html_allow'] = 
+$GLOBALS['phpAds_hlp_type_txt_allow'] = "
         phpAdsNew can use different types of banners and store them in different 
         ways. The first two options are used for local storage of banners. You 
         can use the admin interface to upload a banner and phpAdsNew will store 

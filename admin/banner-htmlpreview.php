@@ -64,9 +64,14 @@ if ($res)
 		echo phpAds_buildBannerCode ($row['bannerid'], true);
 	
 	echo "</td><td width='32'>&nbsp;</td></tr>";
-	echo "<tr height='32'><td width='32'><img src='images/cropmark-bl.gif' width='32' height='32'></td>";
-	echo "<td>&nbsp;&nbsp;&nbsp;width: ".$row['width']."&nbsp;&nbsp;height: ".$row['height']."&nbsp".($row['bannertext'] ? '+ text&nbsp;' : '')."</td><td width='32'>";
-	echo "<img src='images/cropmark-br.gif' width='32' height='32'></td></tr>";
+	echo "<tr height='32'><td width='32'><img src='images/cropmark-bl.gif' width='32' height='32'></td><td>";
+	
+	if ($row['contenttype'] == 'txt')
+		echo "&nbsp;";
+	else
+		echo "&nbsp;&nbsp;&nbsp;width: ".$row['width']."&nbsp;&nbsp;height: ".$row['height']."&nbsp".($row['bannertext'] ? '+ text&nbsp;' : '');
+	
+	echo "</td><td width='32'><img src='images/cropmark-br.gif' width='32' height='32'></td></tr>";
 	echo "</table>";
 	
 	echo "</body></html>";

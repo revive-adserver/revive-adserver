@@ -287,6 +287,8 @@ else
 						echo "<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;";
 					elseif ($zones[$zkey]['delivery'] == phpAds_ZonePopup)
 						echo "<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;";
+					elseif ($zones[$zkey]['delivery'] == phpAds_ZoneText)
+						echo "<img src='images/icon-textzone.gif' align='absmiddle'>&nbsp;";
 				}
 				else
 				{
@@ -296,6 +298,8 @@ else
 						echo "<img src='images/icon-interstitial-d.gif' align='absmiddle'>&nbsp;";
 					elseif ($zones[$zkey]['delivery'] == phpAds_ZonePopup)
 						echo "<img src='images/icon-popup-d.gif' align='absmiddle'>&nbsp;";
+					elseif ($zones[$zkey]['delivery'] == phpAds_ZoneText)
+						echo "<img src='images/icon-textzone-d.gif' align='absmiddle'>&nbsp;";
 				}
 				
 				echo "<a href='zone-edit.php?affiliateid=".$affiliate['affiliateid']."&zoneid=".$zones[$zkey]['zoneid']."'>".$zones[$zkey]['zonename']."</td>";

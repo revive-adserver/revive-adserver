@@ -260,6 +260,7 @@ $GLOBALS['strMySQLBanner'] 					= "Local banner (SQL)";
 $GLOBALS['strWebBanner'] 					= "Local banner (Webserver)";
 $GLOBALS['strURLBanner'] 					= "External banner";
 $GLOBALS['strHTMLBanner'] 					= "HTML banner";
+$GLOBALS['strTextBanner'] 					= "Text ad";
 $GLOBALS['strAutoChangeHTML']				= "Alter HTML to enable tracking of AdClicks";
 $GLOBALS['strUploadOrKeep']					= "Do you wish to keep your <br>existing image, or do you <br>want to upload another?";
 $GLOBALS['strNewBannerFile'] 				= "Select the image you want <br>to use for this banner<br><br>";
@@ -361,9 +362,11 @@ $GLOBALS['strZoneType']						= "Zone type";
 $GLOBALS['strBannerButtonRectangle']		= "Banner, Button or Rectangle";
 $GLOBALS['strInterstitial']					= "Interstitial or Floating DHTML";
 $GLOBALS['strPopup']						= "Popup";
+$GLOBALS['strTextAdZone']					= "Text ad";
 
 
 // Advanced zone settings
+$GLOBALS['strAdvanced']						= "Advanced";
 $GLOBALS['strChains']						= "Chains";
 $GLOBALS['strChainSettings']				= "Chain settings";
 $GLOBALS['strZoneNoDelivery']				= "If no banners from this zone <br>can be delivered, try to...";
@@ -371,6 +374,9 @@ $GLOBALS['strZoneStopDelivery']				= "Stop delivery and don't show a banner";
 $GLOBALS['strZoneOtherZone']				= "Display the selected zone instead";
 $GLOBALS['strZoneUseKeywords']				= "Select a banner using the keywords entered below";
 $GLOBALS['strZoneAppend']					= "Always append the following popup or interstitial invocation code to banners displayed by this zone";
+$GLOBALS['strAppendSettings']				= "Append and prepend settings";
+$GLOBALS['strZonePrependHTML']				= "Always prepend the HTML code to text ads displayed by this zone";
+$GLOBALS['strZoneAppendHTML']				= "Always append the HTML code to text ads displayed by this zone";
 
 
 // Linked banners/campaigns

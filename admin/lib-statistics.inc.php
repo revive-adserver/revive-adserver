@@ -564,9 +564,20 @@ function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 	}
 	else
 	{
+		if ($row['contenttype'] == 'txt')
+		{
+			$width	= 300;
+			$height = 200;
+		}
+		else
+		{
+			$width  = $row['width'] + 64;
+			$height = $row['bannertext'] ? $row['height'] + 90 : $row['height'] + 64;
+		}
+		
 		$buffer     = "<img src='images/break-el.gif' height='1' width='100%' vspace='5'><br>";
 		$buffer	   .= "<a href='banner-htmlpreview.php?bannerid=$bannerid' target='_new' ";
-		$buffer	   .= "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=".$bannerid."', '', 'status=no,scrollbars=no,resizable=no,width=".($row['width']+64).",height=".($row['bannertext'] ? $row['height']+80 : $row['height']+64)."');\">";
+		$buffer	   .= "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=".$bannerid."', '', 'status=no,scrollbars=no,resizable=no,width=".$width.",height=".$height."');\">";
 		$buffer    .= "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strShowBanner."</a>&nbsp;&nbsp;";
 	}
 	

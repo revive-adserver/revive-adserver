@@ -50,6 +50,7 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 			return ($remaining);
 		
 		$zoneid = $zone['zoneid'];
+		$prepend = $zone['prepend'];
 		$append = $zone['append'];
 	}
 	else
@@ -207,6 +208,7 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 						{
 							$rows[$i]['zoneid'] = $zoneid;
 							$rows[$i]['append'] = $append;
+							$rows[$i]['prepend'] = $prepend;
 							return ($rows[$i]);
 						}
 						
@@ -223,6 +225,7 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 						// Don't check ACLs, found banner!
 						$rows[$i]['zoneid'] = $zoneid;
 						$rows[$i]['append'] = $append;
+						$rows[$i]['prepend'] = $prepend;
 						return ($rows[$i]);
 					}
 				}

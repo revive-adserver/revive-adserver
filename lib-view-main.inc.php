@@ -76,8 +76,18 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 	
 	if ($found)
 	{
+		$outputbuffer = '';
+		
+		// Prepend
+		if (isset($row['prepend']))
+			$outputbuffer .= $row['prepend'];
+		
 		// Get HTML cache
-		$outputbuffer = $row['htmlcache'];
+		$outputbuffer .= $row['htmlcache'];
+		
+		// Append
+		if (isset($row['append']))
+			$outputbuffer .= $row['append'];
 		
 		
 		// Determine target
@@ -198,11 +208,6 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 					$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&amp;clientid='.$row['clientid'].'&amp;zoneid='.$row['zoneid'].'&amp;source='.$source.'&amp;block='.$row['block'].'&amp;capping='.$row['capping'].'&amp;cb='.md5(uniqid('')).'\' width=\'0\' height=\'0\' alt=\'\' style=\'width: 0px; height: 0px;\'>';
 			}
 		}
-		
-		
-		// Append
-		if (isset($row['append']))
-			$outputbuffer .= $row['append'];
 		
 		
 		// Return banner
