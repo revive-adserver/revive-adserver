@@ -288,6 +288,10 @@ $GLOBALS['strRichMedia']				= "Richmedia";
 $GLOBALS['strTrackAdClicks']				= "Volg AdClicks";
 
 
+// Banner (cache)
+$GLOBALS['strRebuildBannerCache']			= "Banner cache opnieuw aanmaken";
+
+
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] 				= "Beperkingen";
 $GLOBALS['strACL'] 					= "Beperkingen";
