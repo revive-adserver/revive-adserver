@@ -412,7 +412,7 @@ echo "<select name='zonetype' onChange='this.form.submit();'>";
 	//echo "<option value='".phpAds_ZoneInteractive."'".(($zonetype == phpAds_ZoneInteractive) ? " selected" : "").">".$strInteractive."</option>";
 	echo "<option value='".phpAds_ZoneRaw."'".(($zonetype == phpAds_ZoneRaw) ? " selected" : "").">".$strRawQueryString."</option>";
 echo "</select>";
-echo "&nbsp;<a href='javascript:document.zonetypes.submit();'><img src='images/go_blue.gif' border='0'></a>";
+echo "&nbsp;<input type='image' src='images/go_blue.gif' border='0'>";
 
 echo "</td></tr>";
 echo "</table>";
