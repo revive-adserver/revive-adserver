@@ -27,6 +27,9 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			+ Added campaign auto-targeting when expiration set and adviews purchased  (Matteo, 2002-03-09)
 			+ Added the ability to change converted hard coded links inside Flash files  (Niels, 2002-03-14)
 			+ Added support for converting hard-coded urls in compressed Flash MX files  (Niels, 2002-03-21)
+			+ Added misc. maintenance options to the admin interface  (Niels, 2002-04-08)
+			+ Added the ability to check for newer versions of phpAdsNew  (Matteo, 2002-04-11)
+			+ Added the ability to change the target frame for each banner  (Niels, 2002-04-14)
 
 			+ Misc changes to library and function names
 			  - 2001-10-20:  Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 
@@ -42,6 +45,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-02-06:  view.inc.php is now split into multiple libraries, so only code actually needed is included to achieve a big improvement in performance  (Niels) 
 			  - 2002-03-07:  Moved invocation code into lib-invocation.inc.php  (Matteo) 
 			  - 2002-04-01:	 Renamed campaign-index and zone-index  (Niels)
+			  - 2002-04-11:  Added a product string to lib-dbconfig, for easier porting  (Niels)
 
 			+ Misc changes
 			  - 2001-10-20:  Moved some functions around to make sure no unneeded functions were included during invocation.  (Niels) 
@@ -216,6 +220,8 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-04-01:  Fixed misc. E_ALL warnings  (Niels)
 			  - 2002-04-02:  Source statistics now work properly for compact statistics  (Niels)
 			  - 2002-04-08:  The popup was being opened even when no banner was fetched  (Matteo)
+			  - 2002-04-14:  Mixing zones and direct selection with the view() function is now possible  (Niels)
+			  - 2002-04-14:  Adlayer is now IE, Mozilla and Opera compatible  (Matteo & Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
