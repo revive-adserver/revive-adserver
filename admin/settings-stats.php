@@ -49,6 +49,8 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		phpAds_SettingsWriteAdd('admin_email_headers', $admin_email_headers);
 	}
 	
+	if (isset($log_beacon))
+		phpAds_SettingsWriteAdd('log_beacon', $log_beacon);
 	if (isset($compact_stats))
 		phpAds_SettingsWriteAdd('compact_stats', $compact_stats);
 	if (isset($log_adviews))
@@ -96,6 +98,8 @@ $phpAds_config['ignore_hosts'] = join("\n", $phpAds_config['ignore_hosts']);
 
 phpAds_StartSettings();
 phpAds_AddSettings('start_section', "1.4.1");
+phpAds_AddSettings('checkbox', 'log_beacon', $strLogBeacon);
+phpAds_AddSettings('break', '');
 phpAds_AddSettings('checkbox', 'compact_stats', $strCompactStats);
 phpAds_AddSettings('checkbox', 'log_adviews', $strLogAdviews);
 phpAds_AddSettings('checkbox', 'log_adclicks', $strLogAdclicks);

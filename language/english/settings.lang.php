@@ -114,6 +114,7 @@ $GLOBALS['strWarnLimit']				= "Warn Limit";
 $GLOBALS['strWarnLimitErr']				= "Warn Limit should be a positive integer";
 $GLOBALS['strBeginOfWeek']				= "Begin of Week";
 $GLOBALS['strPercentageDecimals']		= "Percentage Decimals";
+$GLOBALS['strLogBeacon']				= "Use beacons to log Adviews";
 $GLOBALS['strCompactStats']				= "Use Compact Stats";
 $GLOBALS['strLogAdviews']				= "Log Adviews";
 $GLOBALS['strLogAdclicks']				= "Log Adclicks";
