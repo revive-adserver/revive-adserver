@@ -270,7 +270,7 @@ function phpAds_PageHeader($ID, $extra="")
 </td>
 
 <!-- Main contents -->
-<td valign="top">
+<td valign="top" width='100%'>
 	<table width="640" border="0" cellspacing="0" cellpadding="0">
     <tr><td width="40" height="20">&nbsp;</td><td height="20">&nbsp;</td></tr>
     <tr><td width="20">&nbsp;</td><td>
