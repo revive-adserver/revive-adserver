@@ -85,9 +85,9 @@ $GLOBALS['strConfigNotWritable']		= "Your config.inc.php file is not writable";
 // Global
 $GLOBALS['strChooseSection']			= "Choose Section";
 $GLOBALS['strDayFullNames'] 			= array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
-$GLOBALS['strEditConfigNotPossible']    = "It is not possible to edit these settings because the configuration file is locked for security reasons. ".
+$GLOBALS['strEditConfigNotPossible']    = "It is not possible to edit these settings because the configuration file is locked for security reasons.<br> ".
 										  "If you want to make changes, you need to unlock the config.inc.php file first.";
-$GLOBALS['strEditConfigPossible']		= "It is possible to edit all settings because the configuration file is not locked, but this could lead to security leaks. ".
+$GLOBALS['strEditConfigPossible']		= "It is possible to edit all settings because the configuration file is not locked, but this could lead to security leaks.<br> ".
 										  "If you want to secure your system, you need to lock the config.inc.php file.";
 
 
@@ -136,9 +136,11 @@ $GLOBALS['strP3PPolicyLocation']		= "P3P Policy Location";
 // Banner Settings
 $GLOBALS['strBannerSettings']			= "Banner settings";
 
-$GLOBALS['strTypeHtmlSettings']			= "HTML banner options";
-$GLOBALS['strTypeHtmlAuto']				= "Automatically change HTML banners in order to force click logging";
-$GLOBALS['strTypeHtmlPhp']				= "Allow PHP expressions to be executed from within a HTML banner";
+$GLOBALS['strAllowedBannerTypes']		= "Allowed banner types";
+$GLOBALS['strTypeSqlAllow']				= "Allow local banners (SQL)";
+$GLOBALS['strTypeWebAllow']				= "Allow local banners (Webserver)";
+$GLOBALS['strTypeUrlAllow']				= "Allow external banners";
+$GLOBALS['strTypeHtmlAllow']			= "Allow HTML banners";
 
 $GLOBALS['strTypeWebSettings']			= "Local banner (Webserver) configuration";
 $GLOBALS['strTypeWebMode']				= "Storing method";
@@ -152,11 +154,13 @@ $GLOBALS['strTypeFTPDirectory']			= "Host directory";
 $GLOBALS['strTypeFTPUsername']			= "Login";
 $GLOBALS['strTypeFTPPassword']			= "Password";
 
-
-
 $GLOBALS['strDefaultBanners']			= "Default banners";
-$GLOBALS['strDefaultBannerUrl']			= "Default Banner URL";
-$GLOBALS['strDefaultBannerTarget']		= "Default Banner Target";
+$GLOBALS['strDefaultBannerUrl']			= "Default image URL";
+$GLOBALS['strDefaultBannerTarget']		= "Default destination URL";
+
+$GLOBALS['strTypeHtmlSettings']			= "HTML banner options";
+$GLOBALS['strTypeHtmlAuto']				= "Automatically alter HTML banners in order to force click tracking";
+$GLOBALS['strTypeHtmlPhp']				= "Allow PHP expressions to be executed from within a HTML banner";
 
 
 
@@ -223,6 +227,13 @@ $GLOBALS['strClientWelcomeText']		= "Welcome text<br>(HTML tags allowed)";
 // Interface defaults
 $GLOBALS['strInterfaceDefaults']		= "Interface defaults";
 
+$GLOBALS['strInventory']				= "Inventory";
+$GLOBALS['strShowCampaignInfo']			= "Show extra campaign info on <i>Campaign overview</i> page";
+$GLOBALS['strShowBannerInfo']			= "Show extra banner info on <i>Banner overview</i> page";
+$GLOBALS['strShowCampaignPreview']		= "Show preview of all banners on <i>Banner overview</i> page";
+$GLOBALS['strShowBannerHTML']			= "Show actual banner instead of plain HTML code for HTML banner preview";
+$GLOBALS['strShowBannerPreview']		= "Show banner preview at the top of pages which deals with banners";
+
 $GLOBALS['strStatisticsDefaults'] 		= "Statistics";
 $GLOBALS['strBeginOfWeek']				= "Begin of Week";
 $GLOBALS['strPercentageDecimals']		= "Percentage Decimals";
@@ -232,12 +243,6 @@ $GLOBALS['strDefaultBannerWeight']		= "Default banner weight";
 $GLOBALS['strDefaultCampaignWeight']	= "Default campaign weight";
 $GLOBALS['strDefaultBannerWErr']		= "Default banner weight should be a positive integer";
 $GLOBALS['strDefaultCampaignWErr']		= "Default campaign weight should be a positive integer";
-
-$GLOBALS['strAllowedBannerTypes']		= "Allowed banner types";
-$GLOBALS['strTypeSqlAllow']				= "Allow local banners (SQL)";
-$GLOBALS['strTypeWebAllow']				= "Allow local banners (Webserver)";
-$GLOBALS['strTypeUrlAllow']				= "Allow external banners";
-$GLOBALS['strTypeHtmlAllow']			= "Allow HTML banners";
 
 
 
