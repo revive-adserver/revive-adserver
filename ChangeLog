@@ -106,6 +106,9 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-10-23:  Added a check for product updates to make sure the XML extension is available  (Niels)
 			  - 2002-10-27:  In some cases the delivery cache was not rebuild after priority calculations  (Niels)
 			  - 2002-10-27:  Fixed an E_ALL warning in the priority library  (Niels)
+			  - 2002-10-27:  lib-view-query wasn't included in zone-probability causing an error  (Niels)
+			  - 2002-10-27:  Zone cache is not rebuild after changing chains or append settings  (Niels)
+			  - 2002-10-27:  The 'Show banner' button caused an error on the 'Linked banners' page  (Niels)
 
 
 v 2.0beta7		+ Added configuration manager  (Matteo, 2001-11-04)
