@@ -61,7 +61,8 @@
 		else
 			$Session[$key] = $value;
 		
-		register_shutdown_function("phpAds_SessionDataStore");
+		phpAds_SessionDataStore();
+		//register_shutdown_function("phpAds_SessionDataStore");
 	}
 
 
