@@ -18,6 +18,7 @@
 require ("config.php");
 require ("lib-statistics.inc.php");
 require ("lib-invocation.inc.php");
+require ("lib-zones.inc.php");
 
 
 // Security check

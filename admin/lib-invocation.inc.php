@@ -35,15 +35,26 @@ function phpAds_GenerateInvocationCode()
 	global $phpAds_config;
 	global $codetype, $what, $clientid, $source, $target;
 	global $withText, $template, $refresh, $uniqueid;
-	global $width, $height;
+	global $width, $height, $website;
 	global $popunder, $left, $top, $timeout;
 	global $transparent, $resize, $block;
 	global $hostlanguage;
 	
+	
+	// Check if affiliate is on the same server
+	if (isset($website) && $website != '')
+	{
+		$server_phpads   = parse_url($phpAds_config['url_prefix']);
+		$server_affilate = parse_url($website);
+		$server_same 	 = ($server_phpads['host'] == $server_affilate['host']);
+	}
+	else
+		$server_same = true;
+	
+	
 	$buffer = '';
+	
 	$parameters = array();
-	
-	
 	$uniqueid = substr(md5(uniqid('')), 0, 8);
 	if (!isset($withText)) $withText = 0;
 	
@@ -89,18 +100,10 @@ function phpAds_GenerateInvocationCode()
 			$parameters['block'] = "block=1";
 		
 		
-		/*
-		$buffer .= "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adjs.php";
-		$buffer .= "?n=".$uniqueid;
-		if (sizeof($parameters) > 0)
-			$buffer .= "&".implode ("&", $parameters);
-		$buffer .= "'></script>";
-		*/
-		
 		$buffer .= "<script language='JavaScript1.2' type='text/javascript'>\n";
 		$buffer .= "<!--\n";
 		$buffer .= "   var phpAds_used; if (phpAds_used == undefined) phpAds_used = new Array();\n";
-		$buffer .= "   document.write (\"<\" + \"script language='JavaScript' src='\");\n";
+		$buffer .= "   document.write (\"<\" + \"script language='JavaScript' type='text/javascript' src='\");\n";
 		$buffer .= "   document.write (\"".$phpAds_config['url_prefix']."/adjs.php?n=".$uniqueid."\");\n";
 		if (sizeof($parameters) > 0)
 			$buffer .= "   document.write (\"&".implode ("&", $parameters)."\");\n";
@@ -143,13 +146,14 @@ function phpAds_GenerateInvocationCode()
 		if (sizeof($parameters) > 0)
 			$buffer .= "&".implode ("&", $parameters);
 		$buffer .= "' framespacing='0' frameborder='no' scrolling='no'";
-		if (isset($width) & $width != '')
+		if (isset($width) && $width != '' && $width != '-1')
 			$buffer .= " width='".$width."'";
-		if (isset($height) & $height != '')
+		if (isset($height) && $height != '' && $height != '-1')
 			$buffer .= " height='".$height."'";
-		if (isset($transparent) & $transparent == '1')
+		if (isset($transparent) && $transparent == '1')
 			$buffer .= " allowtransparency='true'";
 		$buffer .= ">";
+		
 		
 		if (isset($refresh) && $refresh != '')
 			unset ($parameters['refresh']);
@@ -159,6 +163,17 @@ function phpAds_GenerateInvocationCode()
 		
 		if (isset($uniqueid) && $uniqueid != '')
 			$parameters['n'] = "n=".$uniqueid;	
+		
+		
+		if (isset($width) && $width != '' && $width != '-1' &&
+			isset($height) && $height != '' && $height != '-1')
+		{
+			$buffer .= "<ilayer width='".$width."' height='".$height."'";
+			$buffer .= " clip='0,0,".$width.",".$height."'><layer src='".$phpAds_config['url_prefix']."/adframe.php";
+			if (sizeof($parameters) > 0)
+				$buffer .= "?".implode ("&", $parameters);
+			$buffer .= "'></layer></ilayer><nolayer>";
+		}
 		
 		$buffer .= "<a href='".$phpAds_config['url_prefix']."/adclick.php";
 		$buffer .= "?n=".$uniqueid;
@@ -170,68 +185,10 @@ function phpAds_GenerateInvocationCode()
 			$buffer .= "?".implode ("&", $parameters);
 		$buffer .= "' border='0'></a>";
 		
+		if (isset($width) && $width != '' && isset($height) && $height != '')
+			$buffer .= "</nolayer>";
+		
 		$buffer .= "</iframe>\n";
-	}
-	
-	// Combined remote invocation
-	if ($codetype=='ad')
-	{
-		// Parameters for remote invocation for javascript
-		if (isset($withText) && $withText == '0')
-			$parameters['withtext'] = "withText=0";
-		
-		$buffer .= "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adjs.php";
-		$buffer .= "?n=".$uniqueid;
-		if (sizeof($parameters) > 0)
-			$buffer .= "&".implode ("&", $parameters);
-		$buffer .= "'></script>";
-		
-		if (isset($parameters['withtext']))
-			unset ($parameters['withtext']);
-		
-		
-		
-		$buffer .= "<noscript>";
-		
-		// Parameters for remote invocation for iframes
-		if (isset($resize) && $resize != '')
-			$parameters['resize'] = "resize=".$resize;
-		
-		$buffer .= "<iframe id='".$uniqueid."' name='".$uniqueid."' src='".$phpAds_config['url_prefix']."/adframe.php";
-		$buffer .= "?n=".$uniqueid;
-		if (sizeof($parameters) > 0)
-			$buffer .= "&".implode ("&", $parameters);
-		$buffer .= "' framespacing='0' frameborder='no' scrolling='no'";
-		if (isset($width) & $width != '')
-			$buffer .= " width='".$width."'";
-		if (isset($height) & $height != '')
-			$buffer .= " height='".$height."'";
-		if (isset($transparent) & $transparent == '1')
-			$buffer .= " allowtransparency='true'";
-		$buffer .= ">";
-		
-		if (isset($parameters['resize']))
-			unset ($parameters['resize']);
-		
-		
-		
-		// Parameters for remote invocation
-		if (isset($uniqueid) && $uniqueid != '')
-			$parameters[] = "n=".$uniqueid;	
-		
-		$buffer .= "<a href='".$phpAds_config['url_prefix']."/adclick.php";
-		$buffer .= "?n=".$uniqueid;
-		$buffer .= "'";
-		if (isset($target) && $target != '')
-			$buffer .= " target='$target'";
-		$buffer .= "><img src='".$phpAds_config['url_prefix']."/adview.php";
-		if (sizeof($parameters) > 0)
-			$buffer .= "?".implode ("&", $parameters);
-		$buffer .= "' border='0'></a>";		
-		
-		$buffer .= "</iframe>";
-		
-		$buffer .= "</noscript>\n";
 	}
 	
 	// Popup
@@ -249,7 +206,7 @@ function phpAds_GenerateInvocationCode()
 		if (isset($timeout) && $timeout != '' && $timeout != '-')
 			$parameters['timeout'] = "timeout=".$timeout;
 		
-		$buffer .= "<script language='JavaScript' src='".$phpAds_config['url_prefix']."/adpopup.php";
+		$buffer .= "<script language='JavaScript' type='text/javascript' src='".$phpAds_config['url_prefix']."/adpopup.php";
 		$buffer .= "?n=".$uniqueid;
 		if (sizeof($parameters) > 0)
 			$buffer .= "&".implode ("&", $parameters);
@@ -320,36 +277,111 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	global $layerstyle;
 	
 	
+	
+	// Check if affiliate is on the same server
+	if ($extra != '' && $extra['website'])
+	{
+		$server_phpads   = parse_url($phpAds_config['url_prefix']);
+		$server_affilate = parse_url($extra['website']);
+		$server_same 	 = ($server_phpads['host'] == $server_affilate['host']);
+	}
+	else
+		$server_same = true;
+	
+	
+	
 	echo "<form name='generate' action='".$PHP_SELF."' method='POST'>\n";
+	
+	// Invocation type selection
+	if ($extra == '' || $extra['delivery'] != phpAds_ZoneInterstitial && $extra['delivery'] != phpAds_ZonePopup)
+	{
+		echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+		echo "<tr><td height='25' colspan='3'><b>".$GLOBALS['strChooseInvocationType']."</b></td></tr>";
+		echo "<tr><td height='35'>";
+		echo "<select name='codetype' onChange=\"this.form.submit()\">";
+		
+		echo "<option value='adview'".($codetype == 'adview' ? ' selected' : '').">".$GLOBALS['strInvocationRemote']."</option>";
+		echo "<option value='adjs'".($codetype == 'adjs' ? ' selected' : '').">".$GLOBALS['strInvocationJS']."</option>";
+		
+		if ($extra == '' || $server_same == true || $extra['width'] != '-1' && $extra['height'] != '-1')
+			echo "<option value='adframe'".($codetype == 'adframe' ? ' selected' : '').">".$GLOBALS['strInvocationIframes']."</option>";
+		
+		echo "<option value='xmlrpc'".($codetype == 'xmlrpc' ? ' selected' : '').">".$GLOBALS['strInvocationXmlRpc']."</option>";
+		
+		if ($extra == '')
+		{
+			echo "<option value='popup'".($codetype == 'popup' ? ' selected' : '').">".$GLOBALS['strInvocationPopUp']."</option>";
+			echo "<option value='adlayer'".($codetype == 'adlayer' ? ' selected' : '').">".$GLOBALS['strInvocationAdLayer']."</option>";
+		}
+		
+		// Only show this if affiliate is on the same server
+		if ($server_same)
+		{
+			echo "<option value='local'".($codetype == 'local' ? ' selected' : '').">".$GLOBALS['strInvocationLocal']."</option>";
+		}
+		
+		echo "</select>";
+		echo "&nbsp;<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0'>";
+		echo "</td></tr></table>";
+		
+		phpAds_ShowBreak();
+		echo "<br>";
+	}
+	else
+	{
+		if ($extra['delivery'] == phpAds_ZoneInterstitial)
+			$codetype = 'adlayer';
+		
+		if ($extra['delivery'] == phpAds_ZonePopup)
+			$codetype = 'popup';
+	}
+	
+	
 	
 	if (!isset($codetype)) $codetype = 'local';
 	
-	// Invocation type selection
-	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-	echo "<tr><td height='25' colspan='3'><b>".$GLOBALS['strChooseInvocationType']."</b></td></tr>";
-	echo "<tr><td height='35'>";
-		echo "<select name='codetype' onChange=\"this.form.submit()\">";
-		echo "<option value='adview'".($codetype == 'adview' ? ' selected' : '').">".$GLOBALS['strInvocationRemote']."</option>";
-		echo "<option value='adjs'".($codetype == 'adjs' ? ' selected' : '').">".$GLOBALS['strInvocationJS']."</option>";
-		echo "<option value='adframe'".($codetype == 'adframe' ? ' selected' : '').">".$GLOBALS['strInvocationIframes']."</option>";
-		echo "<option value='xmlrpc'".($codetype == 'xmlrpc' ? ' selected' : '').">".$GLOBALS['strInvocationXmlRpc']."</option>";
-		echo "<option value='ad'".($codetype == 'ad' ? ' selected' : '').">".$GLOBALS['strInvocationCombined']."</option>";
-		echo "<option value='popup'".($codetype == 'popup' ? ' selected' : '').">".$GLOBALS['strInvocationPopUp']."</option>";
-		echo "<option value='adlayer'".($codetype == 'adlayer' ? ' selected' : '').">".$GLOBALS['strInvocationAdLayer']."</option>";
-		if (phpAds_isUser(phpAds_Admin)) echo "<option value='local'".($codetype == 'local' ? ' selected' : '').">".$GLOBALS['strInvocationLocal']."</option>";
-		echo "</select>";
-		echo "&nbsp;<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0'>";
-	echo "</td></tr></table>";
+	if ($codetype == 'adlayer')
+	{
+		if (!isset($layerstyle)) $layerstyle = 'geocities';
+		include ('../misc/layerstyles/'.$layerstyle.'/layerstyle.inc.php');
+	}
 	
-	phpAds_ShowBreak();
-	echo "<br><br>";
+	
+	
+	// Code
+	if (isset($submitbutton) || isset($generate) && $generate)
+	{
+		echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+		echo "<tr><td height='25'><img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strBannercode']."</b></td>";
+		
+		// Show clipboard button only on IE
+		if (strpos ($GLOBALS['HTTP_USER_AGENT'], 'MSIE') > 0 &&
+			strpos ($GLOBALS['HTTP_USER_AGENT'], 'Opera') < 1)
+		{
+			echo "<td height='25' align='right'><img src='images/icon-clipboard.gif' align='absmiddle'>&nbsp;";
+			echo "<a href='javascript:phpAds_CopyClipboard(\"bannercode\");'>".'Copy to clipboard'."</a></td></tr>";
+		}
+		else
+			echo "<td>&nbsp;</td>";
+		
+		echo "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+		echo "<tr><td colspan='2'><textarea name='bannercode' class='code-gray' rows='6' cols='55' style='width:100%;' readonly>".htmlspecialchars(phpAds_GenerateInvocationCode())."</textarea></td></tr>";
+		echo "</table><br>";
+		phpAds_ShowBreak();
+		echo "<br>";
+		
+		$generated = true;
+	}
+	else
+		$generated = false;
+	
 	
 	
 	// Header
 	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-	echo "<tr><td height='25' colspan='3'><b>".$GLOBALS['strParameters']."</b></td></tr>";
+	echo "<tr><td height='25' colspan='3'><img src='images/icon-overview.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strParameters']."</b></td></tr>";
 	echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-	echo "<tr".($zone_invocation? '' : " bgcolor='#F6F6F6'")."><td height='10' colspan='3'>&nbsp;</td></tr>";
+	echo "<tr".($zone_invocation ? '' : " bgcolor='#F6F6F6'")."><td height='10' colspan='3'>&nbsp;</td></tr>";
 	
 	
 	
@@ -369,13 +401,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'absolute' => true, 'popunder' => true, 'timeout' => true);
 	
 	if ($codetype == 'adlayer')
-	{
-		if (!isset($layerstyle)) $layerstyle = 'geocities';
-		
-		include ('../misc/layerstyles/'.$layerstyle.'/layerstyle.inc.php');
-	
 		$show = phpAds_getLayerShowVar();
-	}
 	
 	if ($codetype == 'xmlrpc')
 		$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withText' => true, 'template' => true, 'hostlanguage' => true);
@@ -429,7 +455,6 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	// Target
 	if (isset($show['target']) && $show['target'] == true)
 	{
-	//	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 		echo "<tr><td width='30'>&nbsp;</td>";
 		echo "<td width='200'>".$GLOBALS['strInvocationTarget']."</td><td width='370'>";
 			echo "<input class='flat' type='text' name='target' size='' value='".(isset($target) ? $target : '')."' style='width:175px;'></td></tr>";
@@ -488,13 +513,20 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	// Resize
 	if (isset($show['resize']) && $show['resize'] == true)
 	{
-		echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-		echo "<tr><td width='30'>&nbsp;</td>";
-		echo "<td width='200'>".$GLOBALS['strIframeResizeToBanner']."</td>";
-		echo "<td width='370'><input type='radio' name='resize' value='1'".(isset($resize) && $resize == 1 ? ' checked' : '').">&nbsp;Yes<br>";
-		echo "<input type='radio' name='resize' value='0'".(!isset($resize) || $resize == 0 ? ' checked' : '').">&nbsp;No</td>";
-		echo "</tr>";
-		echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+		// Only show this if affiliate is on the same server
+		if ($server_same)
+		{
+			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+			echo "<tr><td width='30'>&nbsp;</td>";
+			echo "<td width='200'>".$GLOBALS['strIframeResizeToBanner']."</td>";
+			echo "<td width='370'><input type='radio' name='resize' value='1'".(isset($resize) && $resize == 1 ? ' checked' : '').">&nbsp;Yes<br>";
+			echo "<input type='radio' name='resize' value='0'".(!isset($resize) || $resize == 0 ? ' checked' : '').">&nbsp;No</td>";
+			echo "</tr>";
+			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+		}
+		else
+			echo "<input type='hidden' name='resize' value='0'>";
+		
 	}
 	
 	
@@ -543,17 +575,17 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			}
 		}
 		closedir($stylesdir);
-	
+		
 		asort($layerstyles, SORT_STRING);
 		
 		echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 		echo "<tr><td width='30'>&nbsp;</td>";
 		echo "<td width='200'>".$GLOBALS['strAdLayerStyle']."</td><td width='370'>";
 		echo "<select name='layerstyle' onChange='this.form.submit()' style='width:175px;'>";
-	
+		
 		while (list($k, $v) = each($layerstyles))
 			echo "<option value='$k'".($layerstyle == $k ? ' selected' : '').">$v</option>";
-	
+		
 		echo "</select>";
 		echo "</td></tr>";
 		echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
@@ -567,11 +599,11 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		echo "<tr><td width='30'>&nbsp;</td>";
 		echo "<td width='200'>".$GLOBALS['strPopUpStyle']."</td>";
 		echo "<td width='370'><input type='radio' name='popunder' value='0'".
-			(!isset($popunder) || $popunder != '1' ? ' checked' : '').">&nbsp;".
-			$GLOBALS['strPopUpStylePopUp']."<br>";
+			 (!isset($popunder) || $popunder != '1' ? ' checked' : '').">&nbsp;".
+			 "<img src='images/icon-popup-over.gif' align='absmiddle'>&nbsp;".$GLOBALS['strPopUpStylePopUp']."<br>";
 		echo "<input type='radio' name='popunder' value='1'".
-			(isset($popunder) && $popunder == '1' ? ' checked' : '').">&nbsp;".
-			$GLOBALS['strPopUpStylePopUnder']."</td>";
+			 (isset($popunder) && $popunder == '1' ? ' checked' : '').">&nbsp;".
+			 "<img src='images/icon-popup-under.gif' align='absmiddle'>&nbsp;".$GLOBALS['strPopUpStylePopUnder']."</td>";
 		echo "</tr>";
 		echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	}
@@ -623,23 +655,6 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 		echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 	}
 	
-	
-	if (isset($submitbutton) || isset($generate) && $generate)
-	{
-		echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-		echo "<tr><td width='30'>&nbsp;</td>";
-		echo "<td width='560' colspan='2'>";
-		echo "<br><br><img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strBannercode'].":</b><br><br>";
-		
-		echo "<textarea class='code' rows='16' cols='55' style='width:560px;'>".htmlspecialchars(phpAds_GenerateInvocationCode())."</textarea>";
-		echo "</td></tr>";
-	
-		$generated = true;
-	}
-	else
-		$generated = false;
-	
-	
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 	echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	
@@ -654,7 +669,11 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<input type='hidden' value='$v' name='$k'>";
 	}
 	
-	echo "<input type='submit' value='".$GLOBALS['strGenerate']."' name='submitbutton'>";
+	if ($generated)
+		echo "<input type='submit' value='".$GLOBALS['strRefresh']."' name='submitbutton'>";
+	else
+		echo "<input type='submit' value='".$GLOBALS['strGenerate']."' name='submitbutton'>";
+	
 	echo "</form>";
 	echo "<br><br>";
 }

@@ -187,3 +187,11 @@ function phpAds_formCheck(f)
 	return (noerrors);
 }
 
+function phpAds_CopyClipboard(obj)
+{
+	obj = findObj(obj);
+	
+	if (obj) {
+		window.clipboardData.setData('Text', obj.value);
+	}
+}

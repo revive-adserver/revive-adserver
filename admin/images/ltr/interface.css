@@ -90,12 +90,20 @@ select.error, textarea.error, input.error {
 	border-color : #990000;
 }
 
-textarea.code {
+textarea.code, textarea.code-gray {
 	font-family: "Lucida Console", "Courier New", Courier, monospace;
 	font-size: 12px; 
 	line-height: 15px; 
 }
 
+textarea.code-gray {
+	border-style: solid;
+	border-top-width: 0px; 
+	border-right-width: 0px; 
+	border-bottom-width: 0px; 
+	border-left-width: 0px;
+	color: #808080;
+}
 
 /* Custom */
 
@@ -115,3 +123,4 @@ textarea.code {
 	line-height: 18px;
 	color: #000066; 
 }
+

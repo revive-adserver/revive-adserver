@@ -18,6 +18,7 @@
 require ("config.php");
 require ("lib-statistics.inc.php");
 require ("lib-invocation.inc.php");
+require ("lib-zones.inc.php");
 
 
 // Security check
@@ -157,16 +158,32 @@ if (phpAds_dbNumRows($res))
 {
 	$zone = phpAds_dbFetchArray($res);
 	
-	$extra = array('affiliateid' => $affiliateid, 
-				   'zoneid' => $zoneid,
-				   'what' => 'zone:'.$zoneid,
-				   'width' => $zone['width'],
-				   'height' => $zone['height']
-	);
 	
-	phpAds_placeInvocationForm($extra, true);
+	$res = phpAds_dbQuery("
+		SELECT
+			*
+		FROM
+			".$phpAds_config['tbl_affiliates']."
+		WHERE
+			affiliateid = ".$zone['affiliateid']."
+		") or phpAds_sqlDie();
+	
+	if (phpAds_dbNumRows($res))
+	{
+		$affiliate = phpAds_dbFetchArray($res);
+		
+		$extra = array('affiliateid' => $affiliateid, 
+					   'zoneid' => $zoneid,
+					   'what' => 'zone:'.$zoneid,
+					   'width' => $zone['width'],
+					   'height' => $zone['height'],
+					   'delivery' => $zone['delivery'],
+					   'website' => $affiliate['website']
+		);
+		
+		phpAds_placeInvocationForm($extra, true);
+	}
 }
-
 
 /*********************************************************/
 /* HTML framework                                        */
