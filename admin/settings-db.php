@@ -19,7 +19,7 @@ include ("lib-settings.inc.php");
 
 
 // Register input variables
-phpAds_registerGlobal ('dbhost', 'dbuser', 'dbpassword', 'dbname', 
+phpAds_registerGlobal ('dbhost', 'dbport', 'dbuser', 'dbpassword', 'dbname', 
 					   'persistent_connections', 'insert_delayed', 
 					   'compatibility_mode', 'auto_clean_tables_vacuum');
 
