@@ -209,14 +209,12 @@ if ($bannerid != '')
 	}
 	else
 	{
-		phpAds_PageHeader("1.1.1.3");
-			echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
-			echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
+		phpAds_PageHeader("1.2.2.3");
 			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($campaignid);
 			echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 			echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br><br>";
 			echo phpAds_buildBannerCode($bannerid)."<br><br><br><br>";
-			phpAds_ShowSections(array("1.1.1.3"));
+			phpAds_ShowSections(array("1.2.2.3"));
 	}
 	
 	
