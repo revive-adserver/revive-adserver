@@ -23,6 +23,9 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			+ Added support for linking zones to campaigns  (Niels) 20020214
 			+ Added support to block logging for a specific time after a banner 
 			  is displayed or was clicked on  (Niels) 20020217
+			+ Added linking of zones to campaigns  (Niels) 20020220
+			+ Added a new method of linking banners for sites with many banners  (Niels) 20020220
+		  	+ Added campaign overview page for advertisers  (Niels) 20020224
 
 			+ Misc changes to library and function names
 			  - Renamed nocache.inc.php to lib-cache.inc.php  (Niels) 20011020
@@ -90,6 +93,15 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Added general library for sending email  (Niels) 20020211
 			  - Moved deactivation warning to a seperate library  (Niels) 20020211
 			  - Added support for GZIP content encoding of the admin interface  (Niels) 20020211
+			  - Changed behavoir of the 'Save Changes' button  (Niels) 20020218
+			  - Removed 'banner retrieval method' settings  (Niels) 20020218
+			  - Renamed Clients to Advertisers and Affiliates to Publishers  (Niels) 20020222
+			  - Cleaned up the language files  (Niels) 20020222
+			  - Added missing shortcuts for publisher pages  (Niels) 20020223
+			  - Added ability to delete all campaigns of a client  (Niels) 20020224
+			  - Added ability to activate/deactivate all banners of a campaign  (Niels) 20020224
+			  - Added <img> invocation to <iframe> invocation type for browser compatibility  (Niels) 20020224
+			  - Added ability to delete all banners of a campaign  (Niels) 20020225
 
 
 			+ Misc bugfixes
@@ -160,6 +172,8 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Bugfix: Fixed re-appeared bug when not collapsing the latest expanded item
 			    in stats-global-affiliates.php  (Matteo) 20020218
 			  - Bugfix: Fixed bug when resolving was made by http server and reverse_lookup off  (Matteo) 20020218
+			  - Bugfix: Increased the size of the zone cache  (Niels) 20020224
+			  - Bugfix: Moving a banner or campaign to an nonexisting parent no longer results in an empty page  (Niels) 20020224
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
