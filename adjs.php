@@ -79,7 +79,7 @@ function enjavanate ($str, $limit = 60)
 
 phpAds_registerGlobal ('what', 'clientid', 'clientID', 'context',
 					   'target', 'source', 'withtext', 'withText',
-					   'exclude', 'block');
+					   'exclude', 'block', 'referer');
 
 
 
