@@ -8,7 +8,7 @@ CVS			+ Added support for zones  (Niels)
 			+ Removed cURL and fopen-wrapper support for storing banners, added a 
 			  ftp emulation library provided by TOMO <groove@spencernetwork.org>  (Niels)
 			+ Added native support for flash banners, based on code of the 
-			  phpAdsPlus project by Dandra  (Niels)
+			  phpAdsPlus project by Stefan aka. dandra  (Niels)
 			+ Added a confirmation dialogbox, for deleting and resetting statistics (Helmut Wirth)
 			+ Added welcome message to the client interface, which can be modified
                           to include personal contact information for example  (Niels)
@@ -76,6 +76,8 @@ CVS			+ Added support for zones  (Niels)
 			  - Moved JS code from view.inc.php to adjs.php file  (Niels)
 			  - Removed clients from stats-index.php for client interface, now only
 			    shows a list of campaigns  (Niels)
+			  - Added title-tag for <img> in view.inc.php for support of HTML4/XHTML1
+			    gives on mouse over popup text in >IE5 and Mozilla 0.9/Netscape 6 (Stefan) 20011003
 
 			+ Misc bugfixes
 			  - Fixed quote problem with banner-text, alt and description fields  (Niels)
