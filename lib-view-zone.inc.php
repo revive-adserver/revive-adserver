@@ -141,7 +141,7 @@ function phpAds_fetchBanner($what, $clientid, $context = 0, $source = '', $richm
 		
 		for ($i=0; $i<$maxindex; $i++)
 		{
-			if ($rows[$i] != NULL)
+			if (is_array($rows[$i]))
 			{
 				$low = $high;
 				$high += $rows[$i]['priority'];
@@ -172,13 +172,9 @@ function phpAds_fetchBanner($what, $clientid, $context = 0, $source = '', $richm
 					if ($postconditionSucces == false)
 					{
 						// Failed one of the postconditions
-						// No more posibilities left, exit!
-						if (sizeof($rows) == 1)
-							return false;
-						
 						// Delete this row and adjust $prioritysum
 						$prioritysum -= $rows[$i]['priority'];
-						$rows[$i] = NULL;
+						$rows[$i] = '';
 						
 						// Break out of the for loop to try again
 						break;
@@ -197,13 +193,9 @@ function phpAds_fetchBanner($what, $clientid, $context = 0, $source = '', $richm
 						}
 						
 						// Matched, but phpAds_aclCheck failed.
-						// No more posibilities left, exit!
-						if (sizeof($rows) == 1)
-							return false;
-						
 						// Delete this row and adjust $prioritysum
 						$prioritysum -= $rows[$i]['priority'];
-						$rows[$i] = NULL;
+						$rows[$i] = '';
 						
 						// Break out of the for loop to try again
 						break;
@@ -218,6 +210,8 @@ function phpAds_fetchBanner($what, $clientid, $context = 0, $source = '', $richm
 			}
 		}
 	}
+	
+	return false;
 }
 
 
