@@ -16,6 +16,7 @@
 
 // Include required files
 require ("config.php");
+require ("lib-statistics.inc.php");
 require ("lib-banner.inc.php");
 
 
