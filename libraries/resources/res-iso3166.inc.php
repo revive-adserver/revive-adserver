@@ -259,4 +259,10 @@ $phpAds_ISO3166['YU'] = "Yugoslavia";
 $phpAds_ISO3166['ZM'] = "Zambia";
 $phpAds_ISO3166['ZW'] = "Zimbabwe";
 
+
+
+// Load localized strings
+if (file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/res-iso3166.lang.php'))
+	@include(phpAds_path.'/language/'.$phpAds_config['language'].'/res-iso3166.lang.php');
+
 ?>

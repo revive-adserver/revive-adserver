@@ -75,4 +75,10 @@ $phpAds_ISO639['tr'] = 'Turkish';
 $phpAds_ISO639['uk'] = 'Ukrainian'; 
 $phpAds_ISO639['bs'] = 'Bosnian';
 
+
+
+// Load localized strings
+if (file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/res-iso639.lang.php'))
+	@include(phpAds_path.'/language/'.$phpAds_config['language'].'/res-iso639.lang.php');
+
 ?>
