@@ -18,8 +18,8 @@ define ('LIBDBCONFIG_INCLUDED', true);
 
 
 // Current phpAds version
-$phpAds_version = 200.118;
-$phpAds_version_readable = "2 dev 28102002";
+$phpAds_version = 200.119;
+$phpAds_version_readable = "2 dev 29102002";
 $phpAds_productname = "phpAdsNew";
 $phpAds_producturl = "www.phpadsnew.com";
 $phpAds_dbmsname = "MySQL";
