@@ -96,6 +96,16 @@ Hungarian
 
 
 
+Indonesian
+	---------------------------------------------------------
+	Maintained by:	   Rachim Tamsjadi (tamsjadi@icqmail.com)
+	Is up-to-date?	   Yes
+	Last update:	   11 April 2003
+	Translated files:  7
+	---------------------------------------------------------
+
+
+
 Italian
 	---------------------------------------------------------
 	Maintained by:	   Matteo Beccati (matteo@beccati.com)
