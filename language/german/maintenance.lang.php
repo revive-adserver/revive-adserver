@@ -29,15 +29,15 @@ $GLOBALS['strPriorityBasedLastDays']		= "Die Prognose basiert auf den Daten der 
 $GLOBALS['strPriorityBasedYesterday']		= "Die Prognose basiert auf den Daten von gestern. ";
 $GLOBALS['strPriorityNoData']			= "Für eine zuverlässige Prognose über die heute mögliche Anzahl von AdViews stehen für nicht ausreichend Daten zur Verfügung.  Die Festlegung der Prioritäten wird daher nur auf in Echtzeit erstellte Statistiken gestützt sein. ";
 $GLOBALS['strPriorityEnoughAdViews']		= "Es werden ausreichend AdViews zur Verfügung stehen, um die Kampagnen mit hoher Priorität bedienen zu können. ";
-$GLOBALS['strPriorityNotEnoughAdViews']		= "Es ist ungewiß, ob ausreichend AdViews zur Verfügung stehen werden, um die Anforderungen durch Kampagnen mit hoher Priorität befriedigen zu können.";
+$GLOBALS['strPriorityNotEnoughAdViews']		= "Es ist ungewi&szlig;, ob ausreichend AdViews zur Verfügung stehen werden, um die Anforderungen durch Kampagnen mit hoher Priorität befriedigen zu können.";
 
 
 // Banner cache
 $GLOBALS['strRebuildBannerCache']		= "Bannercache erneuern";
 $GLOBALS['strBannerCacheExplaination']		= "
 	Im Bannercache werden Kopien der HTML-Codes, die für die Bannerdarstellung notwendig sind, vorgehalten. Durch den Bannercache wird die Auslieferung beschleunigt,
-	denn der HTML-Code muß nicht bei jeder Auslieferung neu generiert werden. Weil im 
-Bannercache die URL als Direktadressierung, verknüpft mit dem Standort von ".$phpAds_productname." nebst dem Banner vorliegt, muß der Bannercache aktualisiert werden, wenn sein
+	denn der HTML-Code mu&szlig; nicht bei jeder Auslieferung neu generiert werden. Weil im 
+Bannercache die URL als Direktadressierung, verknüpft mit dem Standort von ".$phpAds_productname." nebst dem Banner vorliegt, mu&szlig; der Bannercache aktualisiert werden, wenn sein
 	Standort verschoben wird.";
 
 
@@ -46,7 +46,7 @@ $GLOBALS['strCache']			= "Cache für Bannerauslieferung";
 $GLOBALS['strAge']				= "Alter";
 $GLOBALS['strRebuildDeliveryCache']			= "Cache wird erneuert";
 $GLOBALS['strDeliveryCacheExplaination']		= "
-	Der Cache für Bannerauslieferung wird zur Beschleunigung der Bannerauslieferung benötigt. Im Cache sind Kopien von jedem Banner, der mit der Zone verbunden (verlinkt) ist. Dadurch, das die aktuellen Banner im Cache vorgehalten sind,  wird eine Reihe von Datenbankabfragen gespart. Der Cache wird jedesmal bei Änderungen der Zone oder dem verknüpften Banner erneuert. Um dennoch Überalterung vorzubeugen, wird der Cache stündlich automatisch erneuert. Der Vorgang kann zusätzlich manuell angestoßen werden.";
+	Der Cache für Bannerauslieferung wird zur Beschleunigung der Bannerauslieferung benötigt. Im Cache sind Kopien von jedem Banner, der mit der Zone verbunden (verlinkt) ist. Dadurch, das die aktuellen Banner im Cache vorgehalten sind,  wird eine Reihe von Datenbankabfragen gespart. Der Cache wird jedesmal bei Änderungen der Zone oder dem verknüpften Banner erneuert. Um dennoch Überalterung vorzubeugen, wird der Cache stündlich automatisch erneuert. Der Vorgang kann zusätzlich manuell angesto&szlig;en werden.";
 $GLOBALS['strDeliveryCacheSharedMem']		= "
 	Der gemeinsam genutzte Speicher wird vom Cache für Bannerauslieferung benutzt.";
 $GLOBALS['strDeliveryCacheDatabase']		= "

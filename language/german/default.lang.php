@@ -120,7 +120,7 @@ $GLOBALS['strUseQuotes']			= "Verwende Quoten";
 
 // Properties
 $GLOBALS['strName']					= "Name";
-$GLOBALS['strSize']					= "Größe";
+$GLOBALS['strSize']					= "Grö&szlig;e";
 $GLOBALS['strWidth'] 				= "Breite";
 $GLOBALS['strHeight'] 				= "Höhe";
 $GLOBALS['strURL2']					= "URL";
@@ -186,7 +186,7 @@ $GLOBALS['strTimes']				= "mal";
 // Advertiser
 $GLOBALS['strClient']				= "Inserent";
 $GLOBALS['strClients'] 				= "Inserenten";
-$GLOBALS['strClientsAndCampaigns']	= "Inserenten & Kampagnen";
+$GLOBALS['strClientsAndCampaigns']	= "Inserenten &amp; Kampagnen";
 $GLOBALS['strAddClient'] 			= "Neuen Inserenten hinzufügen";
 $GLOBALS['strAddClient_Key'] 		= "<u>N</u>euen Inserenten hinzufügen";
 $GLOBALS['strTotalClients'] 		= "Summe Inserenten";
@@ -246,11 +246,11 @@ $GLOBALS['strActivationDate']		= "Aktivierungsdatum";
 $GLOBALS['strViewsPurchased'] 		= "Guthaben AdViews";
 $GLOBALS['strClicksPurchased'] 		= "Guthaben AdClicks";
 $GLOBALS['strCampaignWeight']		= "Gewichtung der Kampagne";
-$GLOBALS['strHighPriority']			= "Anzeige von Bannern aus dieser Kampagne mit hoher Priorität.<br>Bei Auswahl dieser Option wird ".$phpAds_productname." zunächst vorrangig diese Banner und über den Tag gleichmäßig verteilt ausliefern.";
+$GLOBALS['strHighPriority']			= "Anzeige von Bannern aus dieser Kampagne mit hoher Priorität.<br>Bei Auswahl dieser Option wird ".$phpAds_productname." zunächst vorrangig diese Banner und über den Tag gleichmä&szlig;ig verteilt ausliefern.";
 $GLOBALS['strLowPriority']			= " Anzeige von Bannern aus dieser Kampagne mit geringer Priorität.<br>Diese Kampagne nutzt die überzählingen, nicht von Kampagnen mit höherer Priorität benötigten AdViews.";
 $GLOBALS['strTargetLimitAdViews']	= "Begrenzung der AdViews auf";
 $GLOBALS['strTargetPerDay']			= "pro Tag.";
-$GLOBALS['strPriorityAutoTargeting']	= "Gleichmäßiges Verteilen der verbleibenden AdViews über die verbleibenden Tage. Täglich erfolgt eine Neuberechnung.";
+$GLOBALS['strPriorityAutoTargeting']	= "Gleichmä&szlig;iges Verteilen der verbleibenden AdViews über die verbleibenden Tage. Täglich erfolgt eine Neuberechnung.";
 $GLOBALS['strCampaignWarningNoWeight']	= "Die Priorität der Kampagne ist niedrig gesetzt. \nAber die Gewichtung ist 0 (Null)oder sie ist \nnicht definiert. Dadurch wird diese Kampagne inaktiv \nbleiben. Banner werden nicht ausgeliefert bis\neine gültige Gewichtung eingegeben wurde. \n\nWollen Sie fortfahren?";
 
 $GLOBALS['strCampaignWarningNoTarget']	= "Die Priorität dieser Kampagne ist hoch gesetzt. \nAber die Anzahl der AdViews sind nicht angegeben. \nDadurch wird die Kampagne inaktiv bleiben. \nBanner werden nicht ausgeliefert, bis eine\ngültige Eingabe über die Höhe \der AdViews eingegeben wurde. \n\n Wollen Sie fortfahren?";
@@ -313,8 +313,8 @@ $GLOBALS['strCheckSWF']				= "Prüfung nach direktem Link (hard-coded) innerhalb 
 $GLOBALS['strConvertSWFLinks']		= "direkten Flash-Link konvertieren";
 $GLOBALS['strHardcodedLinks']		= "direkter Link (hard-coded)";
 $GLOBALS['strConvertSWF']			= "<br>
-In der gerade geladenen Flash-Datei befinden sich direkte URL-Links (hard-coded). Direkte URL-Links können von ".$phpAds_productname." nicht aufgezeichnet werden. Sie müssen hierfür entsprechend konvertiert werden. Nachfolgend finden Sie eine Auflistung aller URL-Links innerhalb der Flash-Datei. Für die Konvertierung dieser URL-Links muß <i><b>Konvertieren</i></b> gedrückt werden. Mit <i><b>Abbrechen</i></b> wird der Vorgang ohne Veränderung beendet.<br><br>
-Bitte beachten Sie, daß die Flash-Datei nach <i><b>Konvertieren</i></b> im Programmcode verändert ist. Erstellen Sie vorab eine Sicherungskopie. Unabhängig der verwendeten Flash-Version benötigt die neu erstellte Flash-Datei für eine korrekte Darstellung Flash 4 oder höher.<br><br>";
+In der gerade geladenen Flash-Datei befinden sich direkte URL-Links (hard-coded). Direkte URL-Links können von ".$phpAds_productname." nicht aufgezeichnet werden. Sie müssen hierfür entsprechend konvertiert werden. Nachfolgend finden Sie eine Auflistung aller URL-Links innerhalb der Flash-Datei. Für die Konvertierung dieser URL-Links mu&szlig; <i><b>Konvertieren</i></b> gedrückt werden. Mit <i><b>Abbrechen</i></b> wird der Vorgang ohne Veränderung beendet.<br><br>
+Bitte beachten Sie, da&szlig; die Flash-Datei nach <i><b>Konvertieren</i></b> im Programmcode verändert ist. Erstellen Sie vorab eine Sicherungskopie. Unabhängig der verwendeten Flash-Version benötigt die neu erstellte Flash-Datei für eine korrekte Darstellung Flash 4 oder höher.<br><br>";
 $GLOBALS['strCompressSWF']			= "Komprimieren der SWF-Datei für eine schnellere Übertragung zum Browser (Flash 6 wird benötigt)";
 $GLOBALS['strOverwriteSource']		= "Überschreiben der Parameter im Quelltext";
 
@@ -367,7 +367,7 @@ $GLOBALS['strImpressionCapping']	= "Dieses Banner einem Besucher nicht mehrmals 
 // Publisher
 $GLOBALS['strAffiliate']				= "Verleger";
 $GLOBALS['strAffiliates']				= " Verleger ";
-$GLOBALS['strAffiliatesAndZones']		= " Verleger & Zonen";
+$GLOBALS['strAffiliatesAndZones']		= " Verleger &amp; Zonen";
 $GLOBALS['strAddNewAffiliate']			= " Neuen Verleger hinzufügen";
 $GLOBALS['strAddNewAffiliate_Key']		= " <u>N</u>euen Verleger hinzufügen";
 $GLOBALS['strAddAffiliate']				= " Verleger erstellen";
@@ -461,11 +461,11 @@ $GLOBALS['strAppendType']				= " Type (Anhang)";
 $GLOBALS['strAppendHTMLCode']			= "HTML-Code";
 $GLOBALS['strAppendWhat']				= "Was soll angehängt werden?";
 $GLOBALS['strAppendZone']				= "Eine spezielle Zone anhängen";
-$GLOBALS['strAppendErrorZone']			= "Es muß eine Zone ausgewählt werden, \\n um fortfahren zu können.. Andernfalls wird kein Banner \\n angehängt.";
+$GLOBALS['strAppendErrorZone']			= "Es mu&szlig; eine Zone ausgewählt werden, \\n um fortfahren zu können.. Andernfalls wird kein Banner \\n angehängt.";
 $GLOBALS['strAppendBanner']				= "Anhängen eines oder mehrere Banner";
-$GLOBALS['strAppendErrorBanner']		= "Es muß ein oder mehrere Banner bestimmt werden \\num fortfahren zu können. Andernfalls wird kein Banner \\n angehängt.";
+$GLOBALS['strAppendErrorBanner']		= "Es mu&szlig; ein oder mehrere Banner bestimmt werden \\num fortfahren zu können. Andernfalls wird kein Banner \\n angehängt.";
 $GLOBALS['strAppendKeyword']			= "Banner anhängen aufgrund Schlüsselworte";
-$GLOBALS['strAppendErrorKeyword']		= "Es muß mindestens ein Schlüsselwort definiert werden\\num fortfahren zu können. Andernfalls wird kein Banner \\n angehängt.";
+$GLOBALS['strAppendErrorKeyword']		= "Es mu&szlig; mindestens ein Schlüsselwort definiert werden\\num fortfahren zu können. Andernfalls wird kein Banner \\n angehängt.";
 
 
 
@@ -489,7 +489,7 @@ $GLOBALS['strDistribution']			= "Verteilung";
 $GLOBALS['strResetStats'] 			= "Statistiken zurücksetzen";
 $GLOBALS['strSourceStats']			= "Quellstatistiken";
 $GLOBALS['strSelectSource']			= "Auswahl der Quelle, die angezeigt werden soll:";
-$GLOBALS['strSizeDistribution']		= "Verteilung nach Größe";
+$GLOBALS['strSizeDistribution']		= "Verteilung nach Grö&szlig;e";
 $GLOBALS['strCountryDistribution']	= "Verteilung nach Land";
 $GLOBALS['strEffectivity']			= "Effektivität";
 $GLOBALS['strTargetStats']			= "Soll-/Ist-Vergleich";
@@ -535,7 +535,7 @@ $GLOBALS['strGenerateBannercode']		= "Bannercode erstellen";
 $GLOBALS['strChooseInvocationType']		= "Bitte wählen Sie für die Banner die Auslieferungsart";
 $GLOBALS['strGenerate']				= "Generiere";
 $GLOBALS['strParameters']			= "Parameter";
-$GLOBALS['strFrameSize']			= "Rahmengröße";
+$GLOBALS['strFrameSize']			= "Rahmengrö&szlig;e";
 $GLOBALS['strBannercode']			= "Bannercode";
 $GLOBALS['strOptional']				= "optional";
 
@@ -561,10 +561,10 @@ $GLOBALS['strErrorDBPlain']			= "Beim Zugriff auf die Datenbank ist ein Fehler a
 $GLOBALS['strErrorDBSerious']		= "Ein schwerwiegendes Problem mit der Datenbank wurde erkannt";
 $GLOBALS['strErrorDBNoDataPlain']	= "Aufgrund eines Fehlers mit der Datenbank konnte ".$phpAds_productname." weder aus der Datenbank lesen noch in sie schreiben. ";
 $GLOBALS['strErrorDBNoDataSerious']	= "Aufgrund eines schweren Problems mit der Datenbank konnte ".$phpAds_productname." keine Daten suchen";
-$GLOBALS['strErrorDBCorrupt']		= "Die Datenbanktabelle ist wahrscheinlich zerstört und muß wiederhergestellt werden. Informationen über die Wiederherstellung zerstörter Tabellen finden sich im Handbuch.";
+$GLOBALS['strErrorDBCorrupt']		= "Die Datenbanktabelle ist wahrscheinlich zerstört und mu&szlig; wiederhergestellt werden. Informationen über die Wiederherstellung zerstörter Tabellen finden sich im Handbuch.";
 $GLOBALS['strErrorDBContact']		= "Bitte nehmen Sie Kontakt mit dem Systemverwalter Ihres Servers auf und schildern Sie ihm das Problem. Nur er kann helfen.";
 $GLOBALS['strErrorDBSubmitBug']		= "Wenn das Problem wiederholt auftritt, kann es ein Fehler in ".$phpAds_productname." sein. Bitte protokollieren Sie die Fehlermeldung uns senden sie diese an die Programmierer von ".$phpAds_productname.". Bitte beschreiben Sie alle Aktivitäten, die zu diesem Fehler führten.";
-$GLOBALS['strMaintenanceNotActive']	= "Das Wartungsprogramm lief während der letzen 24 Stunden nicht. \\nDamit ".$phpAds_productname." korrekt arbeiten kann, muß das Wartungsprogramm stündlich \\naufgerufen werden. \\n\\nIm Handbuch finden sich weitere Informationen \\nzur Konfiguration des Wartungsprogrammes.";
+$GLOBALS['strMaintenanceNotActive']	= "Das Wartungsprogramm lief während der letzen 24 Stunden nicht. \\nDamit ".$phpAds_productname." korrekt arbeiten kann, mu&szlig; das Wartungsprogramm stündlich \\naufgerufen werden. \\n\\nIm Handbuch finden sich weitere Informationen \\nzur Konfiguration des Wartungsprogrammes.";
 
 
 

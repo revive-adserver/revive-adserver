@@ -29,7 +29,7 @@ $GLOBALS['phpAds_hlp_dbuser'] = "
 		";
 		
 $GLOBALS['phpAds_hlp_dbpassword'] = "
-Geben Sie das Passwort für die <b>Datenbank</b> an. Mit diesem Passwort kann ".$phpAds_productname." auf den Datenbankserver von ".$phpAds_dbmsname." zugreifen. 
+Geben Sie das Kennwort für die <b>Datenbank</b> an. Mit diesem Kennwort kann ".$phpAds_productname." auf den Datenbankserver von ".$phpAds_dbmsname." zugreifen. 
 		";
 
 $GLOBALS['phpAds_hlp_dbname'] = "
@@ -285,7 +285,7 @@ $GLOBALS['phpAds_hlp_type_web_ftp_user'] = "
 		";
       
 $GLOBALS['phpAds_hlp_type_web_ftp_password'] = "
-		Für das Speicherungsverfahren  <i> Externer FTP-Server</i> wird zum Benutzername ein gültiges Passwort benötigt.
+		Für das Speicherungsverfahren  <i> Externer FTP-Server</i> wird zum Benutzername ein gültiges Kennwort benötigt.
 		";
       
 $GLOBALS['phpAds_hlp_type_web_url'] = "
@@ -309,13 +309,13 @@ $GLOBALS['phpAds_hlp_admin'] = "
 		
 $GLOBALS['phpAds_hlp_admin_pw'] =
 $GLOBALS['phpAds_hlp_admin_pw2'] = "
-	Bitte geben Sie ein Passwort für den Administrator ein. Die Passworteingabe muß durch erneute Eingabe bestätigt werden.
+	Bitte geben Sie ein Kennwort für den Administrator ein. Die Kennworteingabe muß durch erneute Eingabe bestätigt werden.
 		";
 		
 $GLOBALS['phpAds_hlp_pwold'] = 
 $GLOBALS['phpAds_hlp_pw'] = 
 $GLOBALS['phpAds_hlp_pw2'] = "
-	Um das Passwort des Administrators zu ändern, muß zunächst das alte Passwort eingegeben werden. Das neue Passwort ist zweimal einzugeben.
+	Um das Kennwort des Administrators zu ändern, muß zunächst das alte Kennwort eingegeben werden. Das neue Kennwort ist zweimal einzugeben.
 		";
 		
 $GLOBALS['phpAds_hlp_admin_fullname'] = "

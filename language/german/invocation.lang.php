@@ -47,7 +47,7 @@ $GLOBALS['strInvocationTemplate'] 		= "Um Templates nutzen zu können, Banner in 
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter']		= "Erneuern (refresh) nach ";
-$GLOBALS['strIframeResizeToBanner']		= "Iframe an die Bannergröße anpassen";
+$GLOBALS['strIframeResizeToBanner']		= "Iframe an die Bannergrö&szlig;e anpassen";
 $GLOBALS['strIframeMakeTransparent']		= "Iframe transparent darstellen";
 $GLOBALS['strIframeIncludeNetscape4']		= "Netscape 4 kompatiblen ilayer (zusätzlich)";
 
@@ -60,7 +60,7 @@ $GLOBALS['strPopUpCreateInstance']		= "Zeitpunkt zu dem das PopUp erscheinen wir
 $GLOBALS['strPopUpImmediately']		= "Sofort";
 $GLOBALS['strPopUpOnClose']			= "Wenn die Seite geschlossen wird";
 $GLOBALS['strPopUpAfterSec']			= "Nach";
-$GLOBALS['strAutoCloseAfter']			= "Schließt automatisch nach";
+$GLOBALS['strAutoCloseAfter']			= "Schlie&szlig;t automatisch nach";
 $GLOBALS['strPopUpTop']			= "Startposition (oben)";
 $GLOBALS['strPopUpLeft']			= "Startposition (links)";
 $GLOBALS['strWindowOptions']			= "Window-Optionen";
@@ -68,7 +68,7 @@ $GLOBALS['strShowToolbars']			= "Werkzeugleiste";
 $GLOBALS['strShowLocation']			= "Standortleiste";
 $GLOBALS['strShowMenubar']			= "Menüleiste";
 $GLOBALS['strShowStatus']			= "Statusleiste";
-$GLOBALS['strWindowResizable']		= "Größe anpassen";
+$GLOBALS['strWindowResizable']		= "Grö&szlig;e anpassen";
 $GLOBALS['strShowScrollbars']			= "Scroll-Leiste";
 
 
@@ -91,8 +91,8 @@ $GLOBALS['strMiddle']				= "Mitte";
 $GLOBALS['strBottom']				= "Unten";
 
 $GLOBALS['strAutoCollapseAfter']		= "Automatisch einklappen nach";
-$GLOBALS['strCloseText']			= "Schließtext";
-$GLOBALS['strClose']				= "[Schließen]";
+$GLOBALS['strCloseText']			= "Schlie&szlig;text";
+$GLOBALS['strClose']				= "[Schlie&szlig;en]";
 $GLOBALS['strBannerPadding']			= "Banner ausfüllen";
 
 $GLOBALS['strHShift']				= "Horizontal verschieben";
