@@ -1,4 +1,6 @@
 phpAdsNew - ChangeLog
+			+ Additional translations (Niels, thanks to zemog)
+			+ BugFix: empty what argument now works correctly agin (Niels)
 			+ BugFix: made some database queries atomic in order to make logging more stable (Niels)
 			+ BugFix: deactivating banners when AdView limit is reached now works again (Niels)
 			+ Moved client settings error messages to language files (Niels thanks to regiepub)
