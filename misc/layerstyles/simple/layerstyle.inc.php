@@ -212,9 +212,9 @@ function phpAds_placeLayerSettings ()
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$GLOBALS['strVAlignment']."</td><td width='370'>";
 	echo "<select name='valign' style='width:175px;'>";
-		echo "<option value='top'".($align == 'top' ? ' selected' : '').">".$GLOBALS['strTop']."</option>";
-		echo "<option value='middle'".($align == 'middle' ? ' selected' : '').">".$GLOBALS['strMiddle']."</option>";
-		echo "<option value='bottom'".($align == 'bottom' ? ' selected' : '').">".$GLOBALS['strBottom']."</option>";
+		echo "<option value='top'".($valign == 'top' ? ' selected' : '').">".$GLOBALS['strTop']."</option>";
+		echo "<option value='middle'".($valign == 'middle' ? ' selected' : '').">".$GLOBALS['strMiddle']."</option>";
+		echo "<option value='bottom'".($valign == 'bottom' ? ' selected' : '').">".$GLOBALS['strBottom']."</option>";
 	echo "</select>";
 	echo "</td></tr>";
 	echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
