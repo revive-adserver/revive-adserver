@@ -18,7 +18,7 @@ define ('LIBDBCONFIG_INCLUDED', true);
 
 
 // Current phpAds version
-$phpAds_version = 200.103;
+$phpAds_version = 200.104;
 $phpAds_version_readable = "2 beta 7.1";
 $phpAds_productname = "phpAdsNew";
 $phpAds_dbmsname = "MySQL";
@@ -107,7 +107,10 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'gui_show_banner_info' =>		array ('type' => 'boolean', 'sql' => true),
 	'gui_show_banner_preview' =>	array ('type' => 'boolean', 'sql' => true),
 	'gui_show_banner_html' =>		array ('type' => 'boolean', 'sql' => true),
+	'gui_show_matching' =>			array ('type' => 'boolean', 'sql' => true),
+	'gui_show_parents' =>			array ('type' => 'boolean', 'sql' => true),
 	'gui_hide_inactive' =>			array ('type' => 'boolean', 'sql' => true),
+	'gui_link_compact_limit' =>		array ('type' => 'int', 'sql' => true),
 	'qmail_patch' =>				array ('type' => 'boolean', 'sql' => true),
 	'updates_frequency' =>			array ('type' => 'integer', 'sql' => true),
 	'updates_last_seen' =>			array ('type' => 'string', 'sql' => true),

@@ -39,6 +39,12 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		phpAds_SettingsWriteAdd('gui_show_banner_preview', $gui_show_banner_preview);
 	if (isset($gui_hide_inactive))
 		phpAds_SettingsWriteAdd('gui_hide_inactive', $gui_hide_inactive);
+	if (isset($gui_show_matching))
+		phpAds_SettingsWriteAdd('gui_show_matching', $gui_show_matching);
+	if (isset($gui_show_parents))
+		phpAds_SettingsWriteAdd('gui_show_parents', $gui_show_parents);
+	if (isset($gui_link_compact_limit))
+		phpAds_SettingsWriteAdd('gui_link_compact_limit', $gui_link_compact_limit);
 	
 	if (isset($begin_of_week))
 		phpAds_SettingsWriteAdd('begin_of_week', $begin_of_week);
@@ -87,6 +93,12 @@ phpAds_AddSettings('checkbox', 'gui_show_banner_html', $strShowBannerHTML);
 phpAds_AddSettings('checkbox', 'gui_show_banner_preview', $strShowBannerPreview);
 phpAds_AddSettings('break', '');
 phpAds_AddSettings('checkbox', 'gui_hide_inactive', $strHideInactive);
+phpAds_AddSettings('break', '');
+phpAds_AddSettings('checkbox', 'gui_show_matching', $strGUIShowMatchingBanners);
+phpAds_AddSettings('checkbox', 'gui_show_parents', $strGUIShowParentCampaigns);
+phpAds_AddSettings('break', '');
+phpAds_AddSettings('text', 'gui_link_compact_limit',
+	array($strGUILinkCompactLimit, 12));
 phpAds_AddSettings('end_section', '');
 
 

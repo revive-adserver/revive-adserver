@@ -252,6 +252,11 @@ $GLOBALS['strNoBanners']					= "There are currently no banners defined";
 $GLOBALS['strConfirmDeleteBanner']			= "Do you really want to delete this banner?";
 $GLOBALS['strConfirmDeleteAllBanners']		= "Do you really want to delete all banners which are owned by this campaign?";
 $GLOBALS['strConfirmResetBannerStats']		= "Do you really want to delete all existing statistics for this banner?";
+$GLOBALS['strShowParentCampaigns']			= "Show parent campaigns";
+$GLOBALS['strHideParentCampaigns']			= "Hide parent campaigns";
+$GLOBALS['strHideInactiveBanners']			= "Hide inactive banners";
+$GLOBALS['strInactiveBannersHidden']		= "inactive banner(s) hidden";
+
 
 
 // Banner (Properties)
@@ -363,6 +368,8 @@ $GLOBALS['strBannerButtonRectangle']		= "Banner, Button or Rectangle";
 $GLOBALS['strInterstitial']					= "Interstitial or Floating DHTML";
 $GLOBALS['strPopup']						= "Popup";
 $GLOBALS['strTextAdZone']					= "Text ad";
+$GLOBALS['strShowMatchingBanners']			= "Show matching banners";
+$GLOBALS['strHideMatchingBanners']			= "Hide matching banners";
 
 
 // Advanced zone settings

@@ -258,6 +258,10 @@ $GLOBALS['strShowCampaignPreview']		= "Show preview of all banners on <i>Banner 
 $GLOBALS['strShowBannerHTML']			= "Show actual banner instead of plain HTML code for HTML banner preview";
 $GLOBALS['strShowBannerPreview']		= "Show banner preview at the top of pages which deals with banners";
 $GLOBALS['strHideInactive']				= "Hide inactive items from all overview pages";
+$GLOBALS['strGUIShowMatchingBanners']	= "Show matching banners on the <i>Linked banner</i> pages";
+$GLOBALS['strGUIShowParentCampaigns']	= "Show parent campaigns on the <i>Linked banner</i> pages";
+$GLOBALS['strGUILinkCompactLimit']		= "Hide non-linked campaigns or banners on the <i>Linked banner</i> pages when there are more than";
+
 
 $GLOBALS['strStatisticsDefaults'] 		= "Statistics";
 $GLOBALS['strBeginOfWeek']				= "Begin of Week";
