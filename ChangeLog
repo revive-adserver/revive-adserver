@@ -3,12 +3,18 @@ phpAdsNew - ChangeLog
 CVS
 			+ Misc changes
 			  - 2002-07-26:  Added daily and hosts pages for affiliates and zones (Matteo)
+			  - 2002-07-28:  Added publisher name to the default name of new zones  (Niels)
+			  - 2002-07-28:  Added advertiser name to the default name of new campaigns  (Niels)
+			  - 2002-07-28:  Added indicator for zones without any linked banners  (Niels)
+			  - 2002-07-29:  Added source filtering to all history pages  (Niels)
 
 			+ Misc bugfixes
 			  - 2002-07-25:  On some systems history pages showed '-0' instead of simply '-' (Matteo)
 			  - 2002-07-26:  stats-affiliate-zones.php was displaying affiliateid instead of zoneid  (Matteo)
 			  - 2002-07-26:  The size of a FTP stored banner wasn't displayed in banner-edit.php  (Matteo)
 			  - 2002-07-27:  When upgrading from a release without priority system, no banner was shown; added priority recalculation to the upgrade process if needed  (Matteo)
+
+
 
 v 2.0beta7		+ Added configuration manager  (Matteo, 2001-11-04)
 			+ Added install and upgrade script  (Matteo and Niels, 2001-11-04)
