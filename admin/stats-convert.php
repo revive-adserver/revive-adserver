@@ -281,7 +281,7 @@ if ($command == 'convert')
 						// Add clicks / views to existing compact stats
 						$updateresult = phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_adstats']." SET clicks=clicks+$clicks, views=views+$views WHERE day='$day' AND bannerid='$bannerid'");
 						
-						if (phpAds_dbAffectedRows($updateresult) > 0)
+						if (phpAds_dbAffectedRows() > 0)
 						{
 							// Everything went alright
 							phpAds_convertSetStatus ($id, 'finished');
@@ -295,7 +295,7 @@ if ($command == 'convert')
 						// Insert a new record to the compact stats
 						$updateresult = phpAds_dbQuery("INSERT INTO ".$phpAds_config['tbl_adstats']." SET bannerid='$bannerid', day='$day', clicks=$clicks, views=$views");
 						
-						if (phpAds_dbAffectedRows($updateresult) > 0)
+						if (phpAds_dbAffectedRows() > 0)
 						{
 							// Everything went alright
 							phpAds_convertSetStatus ($id, 'finished');
