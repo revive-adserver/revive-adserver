@@ -26,6 +26,8 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 {
 	global $phpAds_config;
 	
+	$outputbuffer = '';
+	
 	
 	// Include the need sub-libraries
 	if (substr($what,0,5) == 'zone:')
@@ -59,8 +61,8 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 	
 	// Get one valid banner
 	$row = phpAds_fetchBanner($what, $clientid, $context, $source);
-	
-	
+
+
 	if (is_array($row) && $row['bannerid'] != '')
 	{
 		// Get HTML cache
