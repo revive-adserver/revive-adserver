@@ -25,7 +25,7 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 	global $strMailSubject, $strMailHeader, $strMailBannerStats, $strMailFooter, $strMailReportPeriod;
 	global $strLogErrorClients, $strLogErrorBanners, $strLogErrorViews, $strNoStatsForCampaign;
 	global $strLogErrorClicks, $strNoClickLoggedInInterval, $strNoViewLoggedInInterval;
-	global $strCampaign, $strBanner, $strLinkedTo, $strViews, $strClicks;
+	global $strCampaign, $strBanner, $strLinkedTo, $strViews, $strClicks, $phpAds_CharSet;
 	
 	
 	// Convert timestamps to SQL format
@@ -257,8 +257,15 @@ function phpAds_SendMaintenanceReport ($clientID, $first_unixtimestamp, $last_un
 		{
 			$Subject  = $strMailSubject.": ".$client["clientname"];
 			$To		  = $client['email'];
-			$Headers  = "To: ".$client['contact']." <".$client['email'].">\n";
-			$Headers .= $phpAds_admin_email_headers;
+			
+			$Headers = "Content-Transfer-Encoding: 8bit\n";
+			
+			if (isset($phpAds_CharSet))
+				$Headers .= "Content-Type: text/plain; charset=".$phpAds_CharSet."\n"; 
+			
+			$Headers .= "To: ".$client['contact']." <".$client['email'].">\n";
+			$Headers .= $phpAds_admin_email_headers."\n";
+			
 			
 			$Body    = "$strMailHeader\n";
 			$Body   .= "$strMailBannerStats\n";

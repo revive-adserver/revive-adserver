@@ -103,7 +103,15 @@ while($client = mysql_fetch_array($res_clients))
 				if ($client["email"] != '' && $client["reportdeactivate"] == 'true')
 				{
 					$Subject = $strMailSubjectDeleted.": ".$campaign["clientname"];
-	        		$To		 = $client["contact"]." <".$client["email"].">";
+	        		$To		  = $client['email'];
+					
+					$Headers = "Content-Transfer-Encoding: 8bit\n";
+					
+					if (isset($phpAds_CharSet))
+						$Headers .= "Content-Type: text/plain; charset=".$phpAds_CharSet."\n"; 
+					
+					$Headers .= "To: ".$client['contact']." <".$client['email'].">\n";
+					$Headers .= $phpAds_admin_email_headers."\n";
 					
 					$Body = "$strMailHeader\n";
 					$Body .= $strMailClientDeactivated;
@@ -147,11 +155,18 @@ while($client = mysql_fetch_array($res_clients))
 					$Body  = str_replace ("{contact}", $client["contact"], $Body);
 					$Body  = str_replace ("{adminfullname}", $phpAds_admin_fullname, $Body);
 					
-					mail ($To, $Subject, $Body, $phpAds_admin_email_headers);
-					unset ($Subject) ;
+					if (@mail ($To, $Subject, $Body, $Headers))
+					{
+						print "&nbsp;&nbsp;&nbsp;- Report sent to ".$client["email"]."...<BR>\n";
+						flush();
+					}
+					else
+					{
+						print "&nbsp;&nbsp;&nbsp;- An error occured while mailing ".$client["email"]."...<BR>\n";
+						flush();
+					}
 					
-					print "&nbsp;&nbsp;&nbsp;- Report sent to ".$client["email"]."...<BR>\n";
-					flush();
+					unset ($Subject) ;
 				}
 			}
 		}

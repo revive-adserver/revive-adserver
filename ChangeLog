@@ -42,6 +42,7 @@ CVS			+ Added search capabilities  (Niels and Tobi Schulz)
 			    and which caused problems with a one day interval  (Niels)
 			  - Changed mail headers as a workaround for Win32 SMTP extension bug  (Niels)
 			  - Added ability to force a report from being sent from the Admin interface  (Niels)
+			  - Added charset header to all mailed reports  (Niels) 20011007
 
 			+ HTML banners
 			  - Automatic changing of HTML in order to log clicks can be disabled globally  (Niels)

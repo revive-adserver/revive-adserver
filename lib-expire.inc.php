@@ -88,7 +88,7 @@ function phpAds_warningMail ($campaign)
 	global $phpAds_warn_limit, $phpAds_warn_admin, $phpAds_warn_client;
 	global $phpAds_admin_email, $phpAds_admin_email_headers, $phpAds_admin_fullname;
 	global $strViewsClicksLow, $strMailHeader, $strWarnClientTxt, $strMailNothingLeft, $strMailFooter;
-	global $phpAds_tbl_clients, $phpAds_language, $phpAds_path;
+	global $phpAds_tbl_clients, $phpAds_language, $phpAds_path, $phpAds_CharSet;
 	
 	if ($phpAds_warn_admin=='1' || $phpAds_warn_client=='1')
 	{
@@ -104,6 +104,15 @@ function phpAds_warningMail ($campaign)
 			
 			
 			$Subject = $strViewsClicksLow.": ".$campaign["clientname"];
+			$To		  = $client['email'];
+			
+			$Headers = "Content-Transfer-Encoding: 8bit\n";
+			
+			if (isset($phpAds_CharSet))
+				$Headers .= "Content-Type: text/plain; charset=".$phpAds_CharSet."\n"; 
+			
+			$Headers .= "To: ".$client['contact']." <".$client['email'].">\n";
+			$Headers .= $phpAds_admin_email_headers."\n";
 			
 			$Body    = "$strMailHeader\n";
 			$Body 	.= "$strWarnClientTxt\n";
@@ -117,14 +126,12 @@ function phpAds_warningMail ($campaign)
 			
 			
 			if ($phpAds_warn_admin == '1')
-				@mail($phpAds_admin_email, $Subject, $Body, $phpAds_admin_email_headers);
+				@mail($phpAds_admin_email, $Subject, $Body, $Headers);
 			
 			if ($client["email"] != '')
 			{
-				$To = $client["contact"]." <".$client["email"].">";
-				
 				if ($phpAds_warn_client == '1')
-					@mail($To, $Subject, $Body, $phpAds_admin_email_headers);
+					@mail($To, $Subject, $Body, $Headers);
 			}
 		}
 	}
@@ -143,7 +150,7 @@ function phpAds_deactivateMail ($campaign)
 	global $strNoMoreClicks, $strNoMoreViews, $strBeforeActivate, $strAfterExpire;
 	global $strBanner, $strMailNothingLeft, $strMailFooter;
 	global $phpAds_admin_fullname, $phpAds_admin_email_headers;
-	global $strUntitled, $phpAds_language, $phpAds_path;
+	global $strUntitled, $phpAds_language, $phpAds_path, $phpAds_CharSet;
 	
 	$clientresult = db_query("SELECT * FROM $phpAds_tbl_clients WHERE clientID=".$campaign['parent']);
 	if ($client = @mysql_fetch_array($clientresult))
@@ -157,9 +164,17 @@ function phpAds_deactivateMail ($campaign)
 				include ("$phpAds_path/language/$phpAds_language.inc.php");		
 			
 			$Subject = $strMailSubjectDeleted.": ".$campaign["clientname"];
-	   		$To		 = $client["contact"]." <".$client["email"].">";
+			$To		  = $client['email'];
 			
-			$Body = "$strMailHeader\n";
+			$Headers = "Content-Transfer-Encoding: 8bit\n";
+			
+			if (isset($phpAds_CharSet))
+				$Headers .= "Content-Type: text/plain; charset=".$phpAds_CharSet."\n"; 
+			
+			$Headers .= "To: ".$client['contact']." <".$client['email'].">\n";
+			$Headers .= $phpAds_admin_email_headers."\n";
+			
+			$Body  = $strMailHeader."\n";
 			$Body .= $strMailClientDeactivated;
 			if ($campaign['clicks'] == 0) 			$Body .= ", $strNoMoreClicks";
 			if ($campaign['views'] == 0) 			$Body .= ", $strNoMoreViews";
@@ -210,7 +225,7 @@ function phpAds_deactivateMail ($campaign)
 			$Body  = str_replace ("{contact}", $client["contact"], $Body);
 			$Body  = str_replace ("{adminfullname}", $phpAds_admin_fullname, $Body);
 			
-			@mail ($To, $Subject, $Body, $phpAds_admin_email_headers);
+			@mail ($To, $Subject, $Body, $Headers);
 			unset ($Subject) ;
 		}
 	}
