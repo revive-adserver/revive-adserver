@@ -14,24 +14,9 @@
 
 
 
-// Include required files
-require("config.inc.php");
-require("view.inc.php");
-require("acl.inc.php");
+// This file is included for backwards-compatibility.
+// Please use adjs.php instead.
+include ("adjs.php");
 
-
-// Set header information
-header("Content-type: application/x-javascript");
-require("nocache.inc.php");
-
-if (!isset($what)) 		$what = '';
-if (!isset($clientID)) 	$clientID = 0;
-if (!isset($target)) 	$target = '';
-if (!isset($source)) 	$source = '';
-if (!isset($withText)) 	$withText = '';
-if (!isset($context)) 	$context = '';
-
-// Get the banner
-view_js("$what",$clientID,"$target","$source","$withText","$context");
 
 ?>
