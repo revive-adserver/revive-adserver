@@ -956,6 +956,12 @@ if ($storagetype == 'sql')
 			default:	 echo "<img src='images/icon-banner-stored.gif' align='absmiddle'> ".$row['filename']; break;
 		}
 		
+		$size = phpAds_ImageSize($storagetype, $row['filename']);
+		if (round($size / 1024) == 0)
+			echo " <i>(".$size." bytes)</i>";
+		else
+			echo " <i>(".round($size / 1024)." Kb)</i>";
+		
 		echo "</td></tr>";
 		echo "<tr valign='top'><td><input type='radio' name='replaceimage' value='t'></td><td>&nbsp;<input class='flat' size='26' type='file' name='upload' style='width:250px;' onChange='selectFile(this);'>";
 		
@@ -1093,6 +1099,12 @@ if ($storagetype == 'web')
 			case 'mov':  echo "<img src='images/icon-filetype-mov.gif' align='absmiddle'> ".$row['filename']; break;
 			default:	 echo "<img src='images/icon-banner-stored.gif' align='absmiddle'> ".$row['filename']; break;
 		}
+		
+		$size = phpAds_ImageSize($storagetype, $row['filename']);
+		if (round($size / 1024) == 0)
+			echo " <i>(".$size." bytes)</i>";
+		else
+			echo " <i>(".round($size / 1024)." Kb)</i>";
 		
 		echo "</td></tr>";
 		echo "<tr valign='top'><td><input type='radio' name='replaceimage' value='t'></td><td>&nbsp;<input class='flat' size='26' type='file' name='upload' style='width:250px;' onChange='selectFile(this);'>";

@@ -161,6 +161,7 @@ CVS			+ Added configuration manager  (Matteo, 2001-11-04)
 			  - 2002-06-05:  Changed the alignment of most columns in the statistics to the right, for better readability  (Niels)
 			  - 2002-06-07:  Added total of the period in email reports  (Matteo)
 			  - 2002-06-12:	 Added check for MySQL user privileges before upgrading  (Niels)
+			  - 2002-07-06:  Added display of file size to banner properties  (Niels)
 
 
 			+ Misc bugfixes
@@ -304,6 +305,8 @@ CVS			+ Added configuration manager  (Matteo, 2001-11-04)
 			  - 2002-07-04:  Upgrading from pre-priority configurations required a kickstart of the priority system  (Niels)
 			  - 2002-07-04:  When using a domain display limitation the country suffix of domain only worked without a dot before it, now works with or without  (Niels)
 			  - 2002-07-05:  url_prefix is now not present anymore in the cache, but added during delivery  (Niels)
+			  - 2002-07-05:  Impressions were not logged when ignore_hosts was set to array('') instead of array()  (Wim Godden)
+			  - 2002-07-05:  Fixed problem with writing empty array's to the config file during upgrading  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015

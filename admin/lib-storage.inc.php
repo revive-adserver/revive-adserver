@@ -249,6 +249,64 @@ function phpAds_ImageDelete ($storagetype, $name)
 }
 
 
+/*********************************************************/
+/* Get size of the file                                  */
+/*********************************************************/
+
+function phpAds_ImageSize ($storagetype, $name)
+{
+	global $phpAds_config;
+	
+	// Strip existing path
+	$name = basename($name);
+	
+	if ($storagetype == 'web')
+	{
+		if ($phpAds_config['type_web_mode'] == 0)
+		{
+			// Local mode
+			$result = @filesize($phpAds_config['type_web_dir']."/".$name);
+		}
+		else
+		{
+			// FTP mode
+			$server = parse_url($phpAds_config['type_web_ftp']);
+			if ($server['path'] != "" && substr($server['path'], 0, 1) == "/") $server['path'] = substr ($server['path'], 1);
+			
+			if ($server['scheme'] == 'ftp')
+			{
+				$result = phpAds_FTPSize ($server, $name);
+			}
+		}
+	}
+	
+	if ($storagetype == 'sql')
+	{
+		$res = phpAds_dbQuery ("
+			SELECT
+				contents
+			FROM
+				".$phpAds_config['tbl_images']."
+			WHERE
+				filename = '".$name."'
+		");
+		
+		if ($row = phpAds_dbFetchArray($res))
+		{
+			$result = strlen($row['contents']);
+		}
+	}
+	
+	if (isset($result) && $result != '')
+	{
+		return ($result);
+	}
+	else
+	{
+		return false;
+	}
+}
+
 
 
 /*********************************************************/
@@ -485,6 +543,32 @@ function phpAds_FTPDelete ($server, $name)
 		@ftp_quit($conn_id);
 	}
 }
+
+
+function phpAds_FTPSize ($server, $name)
+{
+	global $phpAds_config;
+	
+	$conn_id = @ftp_connect($server['host']);
+	
+	if ($server['pass'] && $server['user'])
+		$login = @ftp_login ($conn_id, $server['user'], $server['pass']);
+	else
+		$login = @ftp_login ($conn_id, "anonymous", $phpAds_config['admin_email']);
+	
+	if (($conn_id) || ($login))
+	{
+		if ($server['path'] != "") @ftp_chdir ($conn_id, $server['path']);
+		
+		$result = @ftp_size ($name);
+		
+		@fclose($tempfile);
+		@ftp_quit($conn_id);
+	}
+	
+	if (isset($result)) return ($result);
+}
+
 
 function phpAds_FTPUniqueName ($conn_id, $path, $name)
 {
