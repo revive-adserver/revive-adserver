@@ -103,6 +103,20 @@ $GLOBALS['strSecurityUpdate']				= "
 	het bijwerken van uw versie kunt het beste de documentatie lezen, welke bijgeleverd is bij de nieuwe versie.
 ";
 
+$GLOBALS['strNotAbleToCheck']			= "
+	<b>Omdat de XML extentie niet aanwezig is op uw server, kan ".$phpAds_productname." niet controleren of
+	er een nieuwere versie beschikbaar is.</b>
+";
+
+$GLOBALS['strForUpdatesLookOnWebsite']	= "
+	U gebruikt momenteen ".$phpAds_productname." ".$phpAds_version_readable.". 
+	Indien u wilt weten of er een nieuwere versie beschikbaar is, kijk dan op onze website.
+";
+
+$GLOBALS['strClickToVisitWebsite']		= "
+	Klik hier om onze website te bezoeken
+";
+
 
 // Stats conversion
 $GLOBALS['strConverting']				= "Bezig met converteren...";

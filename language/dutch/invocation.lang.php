@@ -106,6 +106,11 @@ $GLOBALS['strLeftMargin']			= "Linker marge";
 $GLOBALS['strRightMargin']			= "Rechter marge";
 $GLOBALS['strTransparentBackground']		= "Transparante achtergrond";
 
+$GLOBALS['strSmoothMovement']		= "Elasticiteit";
+$GLOBALS['strHideNotMoving']		= "Verberg de banner wanneer de muiscursor niet beweegt";
+$GLOBALS['strHideDelay']			= "Tijd voordat de banner verborgen wordt";
+$GLOBALS['strHideTransparancy']		= "Transparantie van de verborgen banner";
+
 
 $GLOBALS['strAdLayerStyleName']	= array(
 	'geocities'		=> "Geocities",

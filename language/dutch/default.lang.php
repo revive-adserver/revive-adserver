@@ -20,13 +20,13 @@ $GLOBALS['phpAds_TextDirection']  			= "ltr";
 $GLOBALS['phpAds_TextAlignRight'] 			= "right";
 $GLOBALS['phpAds_TextAlignLeft']  			= "left";
 
-$GLOBALS['phpAds_DecimalPoint']				= '.';
-$GLOBALS['phpAds_ThousandsSeperator']			= ',';
+$GLOBALS['phpAds_DecimalPoint']				= ',';
+$GLOBALS['phpAds_ThousandsSeperator']			= '.';
 
 
 // Date & time configuration
 $GLOBALS['date_format'] 				= "%d-%m-%Y";
-$GLOBALS['time_format'] 				= "%H:%i:%S";
+$GLOBALS['time_format'] 				= "%H:%M:%S";
 $GLOBALS['minute_format']				= "%H:%M";
 $GLOBALS['month_format']				= "%m-%Y";
 $GLOBALS['day_format']					= "%m-%d";
@@ -51,7 +51,7 @@ $GLOBALS['strBasicInformation'] 			= "Standaard informatie";
 $GLOBALS['strContractInformation'] 			= "Contract informatie";
 $GLOBALS['strLoginInformation'] 			= "Inlog gegevens";
 $GLOBALS['strOverview']					= "Overzicht";
-$GLOBALS['strSearch']					= "Zoeken";
+$GLOBALS['strSearch']					= "<u>Z</u>oeken";
 $GLOBALS['strHistory']					= "Geschiedenis";
 $GLOBALS['strPreferences'] 				= "Voorkeuren";
 $GLOBALS['strDetails']					= "Details";
@@ -73,7 +73,9 @@ $GLOBALS['strDown'] 					= "Omlaag";
 $GLOBALS['strSave'] 					= "Bewaren";
 $GLOBALS['strCancel']					= "Annuleer";
 $GLOBALS['strPrevious'] 				= "Vorige";
+$GLOBALS['strPrevious_Key'] 			= "Vo<u>r</u>ige";
 $GLOBALS['strNext'] 					= "Volgende";
+$GLOBALS['strNext_Key'] 				= "Vol<u>g</u>ende";
 $GLOBALS['strYes']					= "Ja";
 $GLOBALS['strNo']					= "Nee";
 $GLOBALS['strNone'] 					= "Geen";
@@ -95,8 +97,8 @@ $GLOBALS['strLinkedTo'] 				= "gelinked met";
 $GLOBALS['strDaysLeft'] 				= "Dagen te gaan";
 $GLOBALS['strCheckAllNone']				= "Selecteer alle / geen";
 $GLOBALS['strKiloByte']					= "KB";
-$GLOBALS['strExpandAll']				= "Alles uitklappen";
-$GLOBALS['strCollapseAll']				= "Alles inklappen";
+$GLOBALS['strExpandAll']				= "Alles <u>u</u>itklappen";
+$GLOBALS['strCollapseAll']				= "Alles <u>i</u>nklappen";
 $GLOBALS['strShowAll']					= "Toon alles";
 $GLOBALS['strNoAdminInteface']				= "Deze dienst is momenteel niet beschikbaar...";
 $GLOBALS['strFilterBySource']				= "filter op bron";
@@ -104,7 +106,7 @@ $GLOBALS['strFieldContainsErrors']			= "De volgende velden bevatten fouten:";
 $GLOBALS['strFieldFixBeforeContinue1']			= "Voordat u verder kunt gaan dient u";
 $GLOBALS['strFieldFixBeforeContinue2']			= "deze fouten te corrigeren.";
 $GLOBALS['strDelimiter']				= "Scheidingsteken";
-
+$GLOBALS['strMiscellaneous']		= "Overig";
 
 
 // Properties
@@ -170,6 +172,7 @@ $GLOBALS['strClient'] 					= "Adverteerder";
 $GLOBALS['strClients'] 					= "Adverteerders";
 $GLOBALS['strClientsAndCampaigns']			= "Adverteerders & Campagnes";
 $GLOBALS['strAddClient'] 				= "Voeg een adverteerder toe";
+$GLOBALS['strAddClient_Key'] 		= "<u>V</u>oeg een adverteerder toe";
 $GLOBALS['strTotalClients'] 				= "Totaal aantal adverteerders";
 $GLOBALS['strClientProperties']				= "Adverteerder eigenschappen";
 $GLOBALS['strClientHistory']				= "Adverteerder geschiedenis";
@@ -199,6 +202,7 @@ $GLOBALS['strCampaigns']				= "Campagnes";
 $GLOBALS['strTotalCampaigns'] 				= "Totaal aantal campagnes";
 $GLOBALS['strActiveCampaigns'] 				= "Actieve campagnes";
 $GLOBALS['strAddCampaign'] 				= "Voeg een campagne toe";
+$GLOBALS['strAddCampaign_Key'] 		= "<u>V</u>oeg een campagne toe";
 $GLOBALS['strCreateNewCampaign']			= "Maak nieuwe campagne";
 $GLOBALS['strModifyCampaign']				= "Wijzig campagne";
 $GLOBALS['strMoveToNewCampaign']			= "Verplaats naar een nieuwe campagne";
@@ -237,6 +241,7 @@ $GLOBALS['strPriorityAutoTargeting']			= "Gekochte AdViews en vervaldatum zijn i
 $GLOBALS['strBanner'] 					= "Banner";
 $GLOBALS['strBanners'] 					= "Banners";
 $GLOBALS['strAddBanner'] 				= "Voeg een banner toe";
+$GLOBALS['strAddBanner_Key'] 			= "<u>V</u>oeg een banner toe";
 $GLOBALS['strModifyBanner'] 				= "Wijzig banner";
 $GLOBALS['strActiveBanners'] 				= "Actieve banners";
 $GLOBALS['strTotalBanners'] 				= "Totaal banners";
@@ -285,9 +290,11 @@ $GLOBALS['strBannerWeight']				= "Banner gewicht";
 
 // Banner (swf)
 $GLOBALS['strCheckSWF']					= "Controleer op vaste links in het Flash bestand";
+$GLOBALS['strHardcodedLinks']			= "Vaste links";
 $GLOBALS['strConvertSWFLinks']				= "Converteer Flash links";
 $GLOBALS['strConvertSWF']				= "<br>Het Flash bestand dat u zojuist upgeload heeft bevat vaste links. Pas als deze vaste links geconverteerd zijn zal ".$phpAds_productname." AdClicks kunnen volgen voor deze banner. Hieronder vindt u een lijst met alle links welke in het Flash bestand aanwezig zijn. Indien u de links wilt converteren, klik dan op <b>Converteer</b>, klik anders op <b>Annuleer</b>.<br><br>Notitie: Als u klikt op <b>Converteer</b> zal het Flash bestand welke u zojuist geupload heeft veranderd worden. <br>Bewaar het orginele bestand goed. Ongeacht in welke versie de banner gemaakt is, het geconverteerde bestand zal alleen goed te zien zijn met de Flash 4 player (of hoger).<br><br>";
 $GLOBALS['strCompressSWF']				= "Comprimeer SWF bestand voor versneld downloaden (Flash 6 speler verplicht)";
+$GLOBALS['strOverwriteSource']		= "Overschrijft de bron parameter";
 
 
 // Banner (network)
@@ -302,6 +309,7 @@ $GLOBALS['strTrackAdClicks']				= "Volg AdClicks";
 $GLOBALS['strModifyBannerAcl'] 				= "Leveringsopties";
 $GLOBALS['strACL'] 					= "Levering";
 $GLOBALS['strACLAdd'] 					= "Voeg nieuwe beperking toe";
+$GLOBALS['strACLAdd_Key'] 				= "<u>V</u>oeg nieuwe beperking toe";
 $GLOBALS['strNoLimitations']				= "Geen beperkingen";
 $GLOBALS['strApplyLimitationsTo']			= "Pas beperking toe op";
 $GLOBALS['strRemoveAllLimitations']			= "Verwijder alle beperkingen";
@@ -331,6 +339,7 @@ $GLOBALS['strAffiliate']				= "Uitgever";
 $GLOBALS['strAffiliates']				= "Uitgevers";
 $GLOBALS['strAffiliatesAndZones']			= "Uitgevers & Zones";
 $GLOBALS['strAddNewAffiliate']				= "Voeg een uitgever toe";
+$GLOBALS['strAddNewAffiliate_Key']			= "<u>V</u>oeg een uitgever toe";
 $GLOBALS['strAddAffiliate']				= "Maak uitgever";
 $GLOBALS['strAffiliateProperties']			= "Uitgever eigenschappen";
 $GLOBALS['strAffiliateOverview']			= "Uitgever overzicht";
@@ -355,6 +364,7 @@ $GLOBALS['strAllowAffiliateDeleteZone'] 		= "Deze gebruiker kan bestaande zones 
 $GLOBALS['strZone']					= "Zone";
 $GLOBALS['strZones']					= "Zones";
 $GLOBALS['strAddNewZone']				= "Voeg een zone toe";
+$GLOBALS['strAddNewZone_Key']			= "<u>V</u>oeg een zone toe";
 $GLOBALS['strAddZone']					= "Maak zone";
 $GLOBALS['strModifyZone']				= "Wijzig zone";
 $GLOBALS['strLinkedZones']				= "Gekoppelde zones";
@@ -427,12 +437,16 @@ $GLOBALS['strDistribution']				= "Verdeling";
 $GLOBALS['strResetStats'] 				= "Wis Statistieken";
 $GLOBALS['strSourceStats']				= "Bron statistieken";
 $GLOBALS['strSelectSource']				= "Selecteer de bron die u wilt bekijken:";
+$GLOBALS['strSizeDistribution']		= "Distributie op grootte";
+$GLOBALS['strCountryDistribution']	= "Distributie op land";
+$GLOBALS['strEffectivity']			= "Effectiviteit";
 
 
 // Hosts
-$GLOBALS['strHosts']					= "Hosts";
-$GLOBALS['strTopTenHosts'] 				= "Top tien hosts";
-
+$GLOBALS['strHosts']					= "Bezoekers";
+$GLOBALS['strTopHosts'] 			= "Meest actieve bezoekers";
+$GLOBALS['strTopCountries'] 		= "Meest active landen";
+$GLOBALS['strRecentHosts'] 			= "Meest recente bezoekers";
 
 // Expiration
 $GLOBALS['strExpired']					= "Vervallen";
@@ -518,5 +532,32 @@ $GLOBALS['strAdminSettings']				= "Administratie instellingen";
 
 // Product Updates
 $GLOBALS['strProductUpdates']				= "Nieuwe versies";
+
+
+
+
+/*********************************************************/
+/* Keyboard shortcut assignments                         */
+/*********************************************************/
+
+
+// Reserved keys
+// Do not change these unless absolutely needed
+$GLOBALS['keyHome']			= 'h';
+$GLOBALS['keyUp']			= 'o';
+$GLOBALS['keyNextItem']		= '.';
+$GLOBALS['keyPreviousItem']	= ',';
+$GLOBALS['keyList']			= 'l';
+
+
+// Other keys
+// Please make sure you underline the key you
+// used in the string in default.lang.php
+$GLOBALS['keySearch']		= 'z';
+$GLOBALS['keyCollapseAll']	= 'u';
+$GLOBALS['keyExpandAll']	= 'i';
+$GLOBALS['keyAddNew']		= 'v';
+$GLOBALS['keyNext']			= 'g';
+$GLOBALS['keyPrevious']		= 'r';
 
 ?>

@@ -34,6 +34,7 @@ $GLOBALS['strTableInUse']			= "De database welke u opgegeven heeft is al ingebru
 $GLOBALS['strMayNotFunction']			= "Voor dat uw verder gaat, corrigeer a.u.b. de volgende problemen:";
 $GLOBALS['strIgnoreWarnings']			= "Negeer waarschuwingen";
 $GLOBALS['strWarningPHPversion']		= $phpAds_productname." heeft minimaal PHP 4.0 nodig om te functioneren. U gebruik momenteel versie {php_version}.";
+$GLOBALS['strWarningDBavailable']		= "De versie van PHP welke u gebruikt heeft geen ondersteuning voor connecties met een ".$phpAds_dbmsname." database server. U dient de PHP ".$phpAds_dbmsname." extentie te installeren voordat u verder kunt gaan.";
 $GLOBALS['strWarningRegisterGlobals']		= "De PHP instelling register_globals moet aan staan.";
 $GLOBALS['strWarningMagicQuotesGPC']		= "De PHP instelling magic_quotes_gpc moet aan staan.";
 $GLOBALS['strWarningMagicQuotesRuntime']	= "De PHP instelling magic_quotes_runtime moet uit staan.";
@@ -127,8 +128,6 @@ $GLOBALS['strAllowInterstitial']		= "Gebruik Interstitials";
 $GLOBALS['strAllowPopups']			= "Gebruik Popups";
 
 $GLOBALS['strUseAcl']				= "Gebruik leveringsbeperkingen";
-$GLOBALS['strGeotrackingType']			= "Geotargeting database type";
-$GLOBALS['strGeotrackingLocation'] 		= "Geotargeting database locatie";
 
 $GLOBALS['strKeywordRetrieval']			= "Sleutelwoord selectie";
 $GLOBALS['strBannerRetrieval']			= "Banner selectie methode";
@@ -193,6 +192,12 @@ $GLOBALS['strLogAdviews']			= "Log AdViews";
 $GLOBALS['strBlockAdviews']			= "Log protectie (sec.)";
 $GLOBALS['strLogAdclicks']			= "Log AdClicks";
 $GLOBALS['strBlockAdclicks']			= "Log protectie (sec.)";
+
+$GLOBALS['strGeotargeting']			= "Geotargeting";
+$GLOBALS['strGeotrackingType']			= "Geotargeting database type";
+$GLOBALS['strGeotrackingLocation'] 		= "Geotargeting database locatie";
+$GLOBALS['strGeoLogStats']			= "Log het land van herkomst van de bezoeker";
+$GLOBALS['strGeoStoreCookie']		= "Sla het resultaat op in een cookie voor hergebruik";
 
 $GLOBALS['strEmailWarnings']			= "Waarschuwingen per email";
 $GLOBALS['strAdminEmailHeaders']		= "Headers voor gebruik in te verzenden email";

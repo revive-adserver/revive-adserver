@@ -373,6 +373,13 @@ $GLOBALS['phpAds_hlp_admin'] = "
 	gebruikersnaam krijgt u toegang tot de administratie interface.
 ";
 		
+$GLOBALS['phpAds_hlp_admin_pw'] =
+$GLOBALS['phpAds_hlp_admin_pw2'] = "
+	Vul hier het wachtwoord at u wilt gebruiken om toegang te krijgen tot
+	de administratie interface. U dient het wachtwoord twee maal in te vullen
+	om typefouten te voorkomen.
+";
+		
 $GLOBALS['phpAds_hlp_pwold'] = 
 $GLOBALS['phpAds_hlp_pw'] = 
 $GLOBALS['phpAds_hlp_pw2'] = "
