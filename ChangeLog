@@ -314,6 +314,7 @@ CVS			+ Added configuration manager  (Matteo, 2001-11-04)
 			  - 2002-07-07:  'No upgrade needed' message is now displayed directly  (Niels)
 			  - 2002-07-08:  Selected language was not used in the second install screen  (Matteo)
 			  - 2002-07-09:  Fixed error message on Advertisers & Campaigns and Publishers & Zones when expanding all items when no items were present  (Niels)
+			  - 2002-07-13:  If status text contained quotes during cache rebuild they caused javascript errors during delivery  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015
