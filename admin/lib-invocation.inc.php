@@ -785,7 +785,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<tr><td width='30'>&nbsp;</td>";
 			echo "<td width='200'>".$GLOBALS['strPopUpCreateInstance']."</td>";
 			echo "<td width='370'><input type='radio' name='delay_type' value='none'".
-				 (!isset($delay_type) || ($delay_type != 'exit' && $delay_time != 'seconds') ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;".$GLOBALS['strPopUpImmediately']."<br>";
+				 (!isset($delay_type) || ($delay_type != 'exit' && $delay_type != 'seconds') ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;".$GLOBALS['strPopUpImmediately']."<br>";
 			echo "<input type='radio' name='delay_type' value='exit'".
 				 (isset($delay_type) && $delay_type == 'exit' ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;".$GLOBALS['strPopUpOnClose']."<br>";
 			echo "<input type='radio' name='delay_type' value='seconds'".
