@@ -313,9 +313,9 @@ if (isset($submit))
 			}
 			
 			// Set remaining properties
-			$final['alt'] 		  = phpAds_htmlQuotes($alt);
+			$final['alt'] 		  = phpAds_htmlQuotes(stripslashes($alt));
 			$final['status']	  = $status;
-			$final['bannertext']  = phpAds_htmlQuotes($bannertext);
+			$final['bannertext']  = $bannertext;
 			$final['url'] 		  = $url;
 			$final['target'] 	  = $target;
 			$final['storagetype'] = $storagetype;
@@ -456,9 +456,9 @@ if (isset($submit))
 			
 			
 			// Set remaining properties
-			$final['alt'] 		  = phpAds_htmlQuotes($alt);
+			$final['alt'] 		  = phpAds_htmlQuotes(stripslashes($alt));
 			$final['status']	  = $status;
-			$final['bannertext']  = phpAds_htmlQuotes($bannertext);
+			$final['bannertext']  = $bannertext;
 			$final['url'] 		  = $url;
 			$final['target'] 	  = $target;
 			$final['storagetype'] = $storagetype;
@@ -551,9 +551,9 @@ if (isset($submit))
 			
 			
 			// Set remaining properties
-			$final['alt'] 		  = phpAds_htmlQuotes($alt);
+			$final['alt'] 		  = phpAds_htmlQuotes(stripslashes($alt));
 			$final['status'] 	  = $status;
-			$final['bannertext']  = phpAds_htmlQuotes($bannertext);
+			$final['bannertext']  = $bannertext;
 			$final['url'] 		  = $url;
 			$final['target'] 	  = $target;
 			$final['storagetype'] = $storagetype;
@@ -592,7 +592,7 @@ if (isset($submit))
 			$final['width'] 	  = 0;
 			$final['height'] 	  = 0;
 			
-			$final['bannertext']  = phpAds_htmlQuotes($bannertext);
+			$final['bannertext']  = $bannertext;
 			$final['url'] 		  = $url;
 			$final['target'] 	  = $target;
 			$final['status']  	  = $status;
@@ -1219,7 +1219,7 @@ if ($storagetype == 'sql')
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strTextBelow."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='bannertext' style='width:350px;' value='".$row["bannertext"]."' tabindex='".($tabindex++)."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='bannertext' style='width:350px;' value='".phpAds_htmlQuotes($row["bannertext"])."' tabindex='".($tabindex++)."'></td></tr>";
 	
 	if (isset($bannerid) && $bannerid != '')
 	{
@@ -1380,7 +1380,7 @@ if ($storagetype == 'web')
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strTextBelow."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='bannertext' style='width:350px;' value='".$row["bannertext"]."' tabindex='".($tabindex++)."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='bannertext' style='width:350px;' value='".phpAds_htmlQuotes($row["bannertext"])."' tabindex='".($tabindex++)."'></td></tr>";
 	
 	if (isset($bannerid) && $bannerid != '')
 	{
@@ -1441,7 +1441,7 @@ if ($storagetype == 'url')
 	
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strTextBelow."</td>";
-	echo "<td><input class='flat' size='35' type='text' name='bannertext' style='width:350px;' value='".$row["bannertext"]."' tabindex='".($tabindex++)."'></td></tr>";
+	echo "<td><input class='flat' size='35' type='text' name='bannertext' style='width:350px;' value='".phpAds_htmlQuotes($row["bannertext"])."' tabindex='".($tabindex++)."'></td></tr>";
 	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	

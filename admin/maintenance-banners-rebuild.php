@@ -49,6 +49,7 @@ while ($current = phpAds_dbFetchArray($res))
 	// Add slashes to status to prevent javascript errors
 	// NOTE: not needed in banner-edit because of magic_quotes_gpc
 	$current['status'] = addslashes($current['status']);
+	$current['bannertext'] = addslashes($current['bannertext']);
 	
 	
 	// Rebuild cache

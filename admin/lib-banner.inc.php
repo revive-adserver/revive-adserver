@@ -352,7 +352,7 @@ function phpAds_getBannerCache($banner)
 	
 	// Set bannertext
 	if (isset($banner['bannertext']) && $banner['bannertext'] != '')
-		$buffer = str_replace ('{bannertext}', $banner['bannertext'], $buffer);
+		$buffer = str_replace ('{bannertext}', stripslashes($banner['bannertext']), $buffer);
 	else
 	{
 		$buffer = str_replace ('{bannertext}', '', $buffer);

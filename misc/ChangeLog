@@ -1,6 +1,11 @@
 phpAdsNew - ChangeLog
 
 
+phpAdsNew 2.0.4-pr2
+			+ Misc bugfixes
+			  - 2005-03-14:  Texts under banners and text ads were not accepting HTML tags anymore  (Matteo)
+
+
 phpAdsNew 2.0.4-pr1
 			+ Misc bugfixes
 			  - 2005-03-07:  Non-latin1 alt/status texts on JS invocation were broken due to recent changes  (Matteo)

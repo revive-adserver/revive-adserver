@@ -858,8 +858,8 @@ function phpAds_totalViews($bannerid="", $timeconstraint="")
 
 function phpAds_htmlQuotes ($string, $all_quotes = true)
 {
-	$string = stripslashes ($string);
 	$string = htmlspecialchars($string, $all_quotes ? ENT_QUOTES : ENT_COMPAT);
+	$string = str_replace('\\', '&#'.ord('\\'), $string);
 	
 	return $string;
 }
