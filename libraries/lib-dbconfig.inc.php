@@ -18,7 +18,7 @@ define ('LIBDBCONFIG_INCLUDED', true);
 
 
 // Current phpAds version
-$phpAds_version = 200.125;
+$phpAds_version = 200.130;
 $phpAds_version_readable = "2 dev 10112002";
 $phpAds_productname = "phpAdsNew";
 $phpAds_producturl = "www.phpadsnew.com";
@@ -41,6 +41,7 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'tbl_images' =>					array ('type' => 'string', 	'sql' => false),
 	'tbl_userlog' =>				array ('type' => 'string', 	'sql' => false),
 	'tbl_cache' =>					array ('type' => 'string', 	'sql' => false),
+	'tbl_targetstats' => 			array ('type' => 'string', 	'sql' => false),
 	'tbl_config' => 				array ('type' => 'string', 	'sql' => false),
 	'table_prefix' =>				array ('type' => 'string', 	'sql' => false),
 	'persistent_connections' =>		array ('type' => 'boolean', 'sql' => false),
@@ -136,6 +137,7 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'auto_clean_userlog' =>			array ('type' => 'boolean', 'sql' => true),
 	'auto_clean_userlog_interval' =>  array ('type' => 'integer', 'sql' => true),
 //	'auto_clean_tables_vacuum' =>	array ('type' => 'boolean', 'sql' => true),
+	'autotarget_factor' =>			array ('type' => 'double', 'sql' => true),
 	'config_version' =>				array ('type' => 'string', 'sql' => true)
 );
 

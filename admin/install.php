@@ -267,6 +267,7 @@ if (phpAds_isUser(phpAds_Admin))
 				$phpAds_config['tbl_images'] 	 = $installvars['tbl_images'] 	  = $table_prefix.'images';
 				$phpAds_config['tbl_userlog'] 	 = $installvars['tbl_userlog'] 	  = $table_prefix.'userlog';
 				$phpAds_config['tbl_cache'] 	 = $installvars['tbl_cache'] 	  = $table_prefix.'cache';
+				$phpAds_config['tbl_targetstats'] = $installvars['tbl_targetstats'] = $table_prefix.'targetstats';
 				
 				if (phpAds_checkDatabase())
 				{
@@ -329,6 +330,7 @@ if (phpAds_isUser(phpAds_Admin))
 							phpAds_SettingsWriteAdd('tbl_images', $installvars['tbl_images']);
 							phpAds_SettingsWriteAdd('tbl_userlog', $installvars['tbl_userlog']);
 							phpAds_SettingsWriteAdd('tbl_cache', $installvars['tbl_cache']);
+							phpAds_SettingsWriteAdd('tbl_targetstats', $installvars['tbl_targetstats']);
 							
 							phpAds_SettingsWriteAdd('table_prefix', $installvars['table_prefix']);
 							

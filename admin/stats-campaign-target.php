@@ -21,7 +21,7 @@ require ("lib-expiration.inc.php");
 
 
 // Register input variables
-phpAds_registerGlobal ('period', 'start', 'limit', 'source');
+phpAds_registerGlobal ('period', 'start', 'limit');
 
 
 // Security check
@@ -62,12 +62,12 @@ if (phpAds_isUser(phpAds_Client))
 		{
 			phpAds_PageContext (
 				phpAds_buildClientName ($row['clientid'], $row['clientname']),
-				"stats-campaign-history.php?clientid=".$clientid."&campaignid=".$row['clientid'],
+				"stats-campaign-target.php?clientid=".$clientid."&campaignid=".$row['clientid'],
 				$campaignid == $row['clientid']
 			);
 		}
 		
-		phpAds_PageHeader("1.2.1");
+		phpAds_PageHeader("1.2.3");
 			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignid)."</b><br><br><br>";
 			phpAds_ShowSections(array("1.2.1", "1.2.2", "1.2.3"));
 	}
@@ -94,7 +94,7 @@ if (phpAds_isUser(phpAds_Admin))
 	{
 		phpAds_PageContext (
 			phpAds_buildClientName ($row['clientid'], $row['clientname']),
-			"stats-campaign-history.php?clientid=".$clientid."&campaignid=".$row['clientid'],
+			"stats-campaign-target.php?clientid=".$clientid."&campaignid=".$row['clientid'],
 			$campaignid == $row['clientid']
 		);
 	}
@@ -102,7 +102,7 @@ if (phpAds_isUser(phpAds_Admin))
 	phpAds_PageShortcut($strClientProperties, 'client-edit.php?clientid='.$clientid, 'images/icon-client.gif');
 	phpAds_PageShortcut($strCampaignProperties, 'campaign-edit.php?clientid='.$clientid.'&campaignid='.$campaignid, 'images/icon-campaign.gif');
 	
-	phpAds_PageHeader("2.1.2.1");
+	phpAds_PageHeader("2.1.2.3");
 		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".phpAds_getParentName($campaignid);
 		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
 		echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($campaignid)."</b><br><br><br>";
@@ -115,34 +115,10 @@ if (phpAds_isUser(phpAds_Admin))
 /* Main code                                             */
 /*********************************************************/
 
-$idresult = phpAds_dbQuery ("
-	SELECT
-		bannerid
-	FROM
-		".$phpAds_config['tbl_banners']."
-	WHERE
-		clientid = '$campaignid'
-");
-
-if (phpAds_dbNumRows($idresult) > 0)
-{
-	while ($row = phpAds_dbFetchArray($idresult))
-	{
-		$bannerids[] = "bannerid = ".$row['bannerid'];
-	}
+	$lib_targetstats_params    = array ('clientid' => $clientid, 'campaignid' => $campaignid);
+	$lib_targetstats_where			= "clientid = '".$campaignid."'";
 	
-	$lib_history_where     = "(".implode(' OR ', $bannerids).")";
-	$lib_history_params    = array ('clientid' => $clientid, 'campaignid' => $campaignid);
-	$lib_history_hourlyurl = "stats-campaign-daily.php";
-	
-	include ("lib-history.inc.php");
-}
-else
-{
-	echo "<br><img src='images/info.gif' align='absmiddle'>&nbsp;";
-	echo "<b>".$strNoStats."</b>";
-	phpAds_ShowBreak();
-}
+	include ("lib-targetstats.inc.php");
 
 
 /*********************************************************/

@@ -137,6 +137,7 @@ $phpAds_nav = array (
 		          "2.1.2.2.1.1"		=> 	array("stats-banner-daily.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid&day=$day" => $strDailyStats),
 		          "2.1.2.2.1.2"		=> 	array("stats-banner-daily-hosts.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid&day=$day" => $strHosts),
     	        "2.1.2.2.2" 		=> 	array("stats-banner-affiliates.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid" => $strDistribution),
+    	      "2.1.2.3"		 		=> 	array("stats-campaign-target.php?clientid=$clientid&campaignid=$campaignid" => $strTargetStats),
 		  "2.2"						=>  array("stats-global-history.php" => $strGlobalHistory),
 		    "2.2.1"					=> 	array("stats-global-daily.php?day=$day" => $strDailyStats),
 		    "2.2.2"					=> 	array("stats-global-daily-hosts.php?day=$day" => $strHosts),
@@ -200,6 +201,7 @@ $phpAds_nav = array (
 		        "1.2.2.1.2"			=> 	array("stats-banner-daily-hosts.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid&day=$day" => $strHosts),
 		      "1.2.2.2"				=> 	array("banner-edit.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid" => $strBannerProperties),
 			  "1.2.2.3"				=>  array("banner-swf.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid" => $strConvertSWFLinks),
+    	    "1.2.3"					=> 	array("stats-campaign-target.php?clientid=$clientid&campaignid=$campaignid" => $strTargetStats),
 		"3"							=>  array("report-index.php" => $strReports)
 	),
 

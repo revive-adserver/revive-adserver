@@ -452,6 +452,13 @@ $GLOBALS['strSelectSource']			= "Select the source you want to view:";
 $GLOBALS['strSizeDistribution']		= "Distribution by size";
 $GLOBALS['strCountryDistribution']	= "Distribution by country";
 $GLOBALS['strEffectivity']			= "Effectivity";
+$GLOBALS['strTargetStats']			= "Targeting statistics";
+$GLOBALS['strCampaignTarget']		= "Target";
+$GLOBALS['strTargetRatio']			= "Target Ratio";
+$GLOBALS['strTargetModifiedDay']	= "Targets were modified during the day, targeting could be not accurate";
+$GLOBALS['strTargetModifiedWeek']	= "Targets were modified during the week, targeting could be not accurate";
+$GLOBALS['strTargetModifiedMonth']	= "Targets were modified during the month, targeting could be not accurate";
+$GLOBALS['strNoTargetStats']		= "There are currently no statistics about targeting available";
 
 
 // Hosts

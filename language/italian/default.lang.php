@@ -452,6 +452,13 @@ $GLOBALS['strSelectSource']					= "Seleziona la sorgente da visualizzare:";
 $GLOBALS['strSizeDistribution']				= "Distribuzione per dimensioni";
 $GLOBALS['strCountryDistribution']			= "Distribuzione per stato";
 $GLOBALS['strEffectivity']					= "Efficacia";
+$GLOBALS['strTargetStats']					= "Statistiche target di visualizzazioni";
+$GLOBALS['strCampaignTarget']				= "Target";
+$GLOBALS['strTargetRatio']					= "Rapporto";
+$GLOBALS['strTargetModifiedDay']			= "I target sono stati modificati durante il giorno, il targeting pu&ograve; essere impreciso";
+$GLOBALS['strTargetModifiedWeek']			= "I target sono stati modificati durante la settimana, il targeting pu&ograve; essere impreciso";
+$GLOBALS['strTargetModifiedMonth']			= "I target sono stati modificati durante il mese, il targeting pu&ograve; essere impreciso";
+$GLOBALS['strNoTargetStats']				= "Non ci sono statistiche sul targeting disponibili";
 
 
 // Hosts

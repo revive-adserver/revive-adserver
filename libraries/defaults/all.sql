@@ -217,6 +217,19 @@ CREATE TABLE phpads_adstats (
 
 
 
+-- Table structure for table 'phpads_targetstats'
+
+CREATE TABLE phpads_targetstats (
+   day date NOT NULL,
+   clientid smallint(6) DEFAULT '0' NOT NULL,
+   target int(11) DEFAULT '0' NOT NULL,
+   views int(11) DEFAULT '0' NOT NULL,
+   modified tinyint(4) DEFAULT '0' NOT NULL,
+   PRIMARY KEY (day,clientid)
+);
+
+
+
 -- Table structure for table 'phpads_config'
 
 
@@ -283,6 +296,7 @@ CREATE TABLE phpads_config (
    auto_clean_userlog enum('t','f') DEFAULT 'f',
    auto_clean_userlog_interval tinyint(2) DEFAULT 5,
    auto_clean_tables_vacuum enum('t','f') DEFAULT 't',
+   autotarget_factor float DEFAULT -1,
    PRIMARY KEY (configid)
 );
 

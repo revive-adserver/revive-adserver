@@ -13,6 +13,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			+ Added the ability to log the geotargeting data in the statistics if 'verbose stats' are used  (Niels, 2002-10-17)
 			+ Added keyboard shortcuts for some functions and navigation and changed the tab order for most pages  (Niels, 2002-10-23)
 			+ Added experimental support for storing delivery caches in shared memory instead of the database  (Niels, 2002-10-27)
+			+ Added campaign targeting stats  (Matteo, 2002-11-28)
 
 			+ Misc changes
 			  - 2002-07-26:  Added daily and hosts pages for affiliates and zones (Matteo)
@@ -55,6 +56,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-11-22:  Added support for direct selection delivery cache, which was previously only available for zones  (Niels)
                           - 2002-11-22:  Added support for using a campaingid in the context parameter to prevent the same campaign being shown multiple times on the same page  (Niels)
                           - 2002-11-26:  Changed sorting order of maintenance-priority. Now it's sorted by decreasing priority  (Matteo)
+			  - 2002-11-28:  Rewritten autotargeting routine to increase or decrease daily target using the actual stats  (Matteo)
 
 			+ Misc bugfixes
 			  - 2002-07-25:  On some systems history pages showed '-0' instead of simply '-' (Matteo)

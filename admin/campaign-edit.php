@@ -22,7 +22,7 @@ require ("lib-statistics.inc.php");
 // Register input variables
 phpAds_registerGlobal ('move', 'submit', 'clientname', 'views', 'clicks', 'unlimitedviews', 'unlimitedclicks', 'priority', 
 					   'targetviews', 'weight', 'expire', 'expireSet', 'expireDay', 'expireMonth', 'expireYear', 'activateSet', 
-					   'activateDay', 'activateMonth', 'activateYear');
+					   'activateDay', 'activateMonth', 'activateYear', 'target_old');
 
 
 // Security check
@@ -163,12 +163,13 @@ if (isset($submit))
 	// Auto-target campaign if adviews purchased and expiration set
 	if ($active == 't' && $expire != '0000-00-00' && $views > 0)
 	{
+		$targetviews = ceil($views/(((mktime(0, 0, 0, $expireMonth, $expireDay, $expireYear) -
+					mktime(0, 0, 0, date('m'), date('d'), date('Y'))) / (double)(60*60*24))));
+		
 		phpAds_dbQuery("
 			UPDATE ".$phpAds_config['tbl_clients']."
 			SET
-				target = ".
-					ceil($views/(((mktime(0, 0, 0, $expireMonth, $expireDay, $expireYear) -
-					mktime(0, 0, 0, date('m'), date('d'), date('Y'))) / (double)(60*60*24))))."
+				target = ".$targetviews."
 			WHERE
 				clientid = ".$campaignid
 		);
@@ -188,6 +189,29 @@ if (isset($submit))
 			") or phpAds_sqlDie();
 	}
 	
+	
+	// Update targetstats
+	if ($targetviews != $target_old)
+	{
+		$res = phpAds_dbQuery("
+			UPDATE
+				".$phpAds_config['tbl_targetstats']."
+			SET
+				target = '".$targetviews."',
+				modified = 1
+			WHERE
+				clientid = '".$campaignid."' AND
+				day = ".date('Ymd')."
+			");
+
+		if (!phpAds_dbAffectedRows($res))
+			phpAds_dbQuery("
+				INSERT INTO ".$phpAds_config['tbl_targetstats']."
+					(day, clientid, target, modified)
+				VALUES
+					(".date('Ymd').", '".$campaignid."', '".$targetviews."', 1)
+				");
+	}
 	
 	require ("../libraries/lib-priority.inc.php");
 	phpAds_PriorityCalculate ();
@@ -503,6 +527,7 @@ echo "<input type='hidden' name='campaignid' value='".(isset($campaignid) ? $cam
 echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clientid : '')."'>";
 echo "<input type='hidden' name='expire' value='".(isset($row["expire"]) ? $row["expire"] : '')."'>";
 echo "<input type='hidden' name='move' value='".(isset($move) ? $move : '')."'>";
+echo "<input type='hidden' name='target_old' value='".(isset($row['target']) ? $row['target'] : 0)."'>";
 
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25' colspan='3'><b>".$strBasicInformation."</b></td></tr>";

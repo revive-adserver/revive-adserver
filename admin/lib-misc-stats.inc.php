@@ -46,12 +46,17 @@ echo "<select name='type' onChange='this.form.submit();' accesskey='".$keyList."
 echo "<option value='s'".($type == 's' ? ' selected' : '').">".$strSizeDistribution."</option>";
 if (!$phpAds_config['compact_stats'] && $phpAds_config['geotracking_stats']) 
 	echo "<option value='c'".($type == 'c' ? ' selected' : '').">".$strCountryDistribution."</option>";
+echo "<option value='t'".($type == 't' ? ' selected' : '').">".$strTargetStats."</option>";
 
-echo "</select>&nbsp;&nbsp;<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0' name='submit'>&nbsp;";
+echo "</select>&nbsp;&nbsp;";
 
-phpAds_ShowBreak();
-echo "</form>";
-echo "<br><br>";
+if ($type != 't')
+{
+	// Don't close form tag
+	echo "<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0' name='submit'>&nbsp;";	phpAds_ShowBreak();
+	echo "</form>";
+	echo "<br><br>";
+}
 
 
 if ($type == 's')
@@ -414,6 +419,17 @@ if ($type == 'c')
 	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";	
 	
 	echo "</table>";
+}
+
+
+if ($type == 't')
+{
+	$lib_targetstats_where			= "clientid > 0";
+	unset($params);
+	$lib_targetstats_params['type']	= 't';
+	$lib_targetstats_misc_stats	= true;
+	
+	include ("lib-targetstats.inc.php");
 }
 
 

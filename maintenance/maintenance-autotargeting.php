@@ -14,43 +14,105 @@
 
 
 
+// Include required files
+require	(phpAds_path."/libraries/lib-autotargeting.inc.php"); 
+
+
+// Set defaults
 $report = '';
 
 
-$res_campaigns = phpAds_dbQuery("
+// Save views into targetstats table
+phpAds_TargetStatsSaveViews();
+
+
+// Get campaigns that need autotargeting
+$res = phpAds_dbQuery("
 	SELECT
 		clientid,
 		clientname,
-		DATE_FORMAT(expire, '%Y-%m-%d') AS expire,
-		target,
-		views
+		views,
+		UNIX_TIMESTAMP(expire) AS expire
 	FROM
 		".$phpAds_config['tbl_clients']."
 	WHERE
 		parent > 0 AND
-		active = 't' AND
-		expire != '0000-00-00' AND
+		active AND
+		expire > NOW() AND
 		views > 0 AND
 		weight = 0
 	ORDER BY
 		clientid
-	") or die($strLogErrorClients);
+	");
 
-while ($row = phpAds_dbFetchArray($res_campaigns))
+
+if (phpAds_dbNumRows($res))
 {
-	$target = ceil($row['views']/(((strtotime($row['expire']) -
-		mktime(0, 0, 0, date('m'), date('d'), date('Y'))) / (double)(60*60*24))));
-	
-	phpAds_dbQuery("
-		UPDATE
-			".$phpAds_config['tbl_clients']."
-		SET
-			target = ".$target."
-		WHERE
-			clientid = ".$row['clientid']
-	);
-	
-	$report .= "$row[clientname] [id$row[clientid]]: $target ($row[target])\n";
+	// Autotargeting needed
+	$report .= "==================================================\n";
+	$report .= "AUTOTARGETING STARTED\n";
+	$report .= "==================================================\n\n";
+
+	// Prepare the average view profile
+	$profile = phpAds_AutoTargetingPrepareProfile();
+
+	// Calculate the factor to use on sunday or if it's disabled
+	if (!date('w') || !isset($phpAds_config['autotarget_factor']) || $phpAds_config['autotarget_factor'] == -1)
+	{
+		$phpAds_config['autotarget_factor'] = phpAds_AutoTargetingCaclulateFactor($profile);
+
+		// Save factor into db
+		phpAds_dbQuery("
+			UPDATE
+				".$phpAds_config['tbl_config']."
+			SET
+				autotarget_factor = ".$phpAds_config['autotarget_factor']."
+			WHERE
+				configid = 0
+			");
+	}
+	elseif (!phpAds_AutoTargetingProfileSum($profile))
+	{
+		// Disable if a null profile was supplied
+		$phpAds_config['autotarget_factor'] = -1;
+	}
+
+	$report .= "--------------------------------------------------\n";
+	$report .= "Smoothing factor:               ".sprintf('%.2f', $phpAds_config['autotarget_factor'])."\n";
+	$report .= "Today dow:                      ".phpAds_DowToday."\n";
+	$report .= "Today profile value:            ".$profile[phpAds_DowToday]."\n";
+
+	if ($phpAds_config['autotarget_factor'] != -1)
+	{
+		// Targets should not be fully satisfied if using plain autotargeting
+		// Smoothing the view profile for later use
+		$profile = phpAds_AutoTargetingSmoothProfile($profile, $phpAds_config['autotarget_factor']);
+
+		$report .= "Today smoothed profile value:   ".$profile[phpAds_DowToday]."\n";
+	}
+
+	$report .= "--------------------------------------------------\n\n";
+
+	while ($row = phpAds_dbFetchArray($res))
+	{
+		$target = phpAds_AutoTargetingGetTarget($profile, $row['views'], $row['expire'], $phpAds_config['autotarget_factor']);
+		
+		if (is_array($target))
+			list($target, $debuglog) = $target;
+		else
+			$debuglog = 'no debug info available';
+
+		phpAds_dbQuery("
+			UPDATE
+				".$phpAds_config['tbl_clients']."
+			SET
+				target = ".$target."
+			WHERE
+				clientid = ".$row['clientid']."
+		");
+
+		$report .= "\n<b>$row[clientname] [id$row[clientid]]:</b> $target $debuglog\n\n";
+	}
 }
 
 if ($report != '' && $phpAds_config['userlog_priority'])

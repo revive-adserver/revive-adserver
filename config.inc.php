@@ -30,6 +30,7 @@ $phpAds_config['tbl_affiliates'] = 'phpads_affiliates';
 $phpAds_config['tbl_images'] = 'phpads_images';
 $phpAds_config['tbl_userlog'] = 'phpads_userlog';
 $phpAds_config['tbl_cache'] = 'phpads_cache';
+$phpAds_config['tbl_targetstats'] = 'tbl_targetstats';
 
 // Database table name prefix
 $phpAds_config['table_prefix'] = 'phpads_';

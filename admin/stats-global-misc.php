@@ -20,7 +20,7 @@ require ("lib-statistics.inc.php");
 
 
 // Register input variables
-phpAds_registerGlobal ('type');
+phpAds_registerGlobal ('type', 'period', 'start', 'limit');
 
 
 // Security check

@@ -97,6 +97,9 @@ function phpAds_upgradeDatabase ($tabletype = '')
 	
 	// Upgrade append type to zones when possible
 	phpAds_upgradeDisplayLimitations();
+
+	// Create target stats form userlog
+	phpAds_upgradeTargetStats();
 	
 	
 	return true;
@@ -860,6 +863,183 @@ function phpAds_upgradeDisplayLimitations()
 		phpAds_dbQuery("ALTER TABLE ".$phpAds_config['tbl_acls']." DROP COLUMN acl_data");
 		phpAds_dbQuery("ALTER TABLE ".$phpAds_config['tbl_acls']." DROP COLUMN acl_ad");
 		phpAds_dbQuery("ALTER TABLE ".$phpAds_config['tbl_acls']." DROP COLUMN acl_order");
+	}
+}
+
+function phpAds_upgradeTargetStats ()
+{
+	global $phpAds_config;
+
+	if (!isset($phpAds_config['config_version']) ||	$phpAds_config['config_version'] < 200.130)
+	{
+		$res = phpAds_dbQuery("
+			SELECT
+				timestamp,
+				details
+			FROM
+				".$phpAds_config['tbl_userlog']."
+			WHERE
+				action = 11
+			ORDER BY
+				timestamp
+			");
+
+		while ($row = phpAds_dbFetchArray($res))
+		{
+			while (ereg('\[id([0-9]+)\]: ([0-9]+)', $row['details'], $match))
+			{
+				$day = date('Y-m-d', $row['timestamp']);
+				if (!isset($start))
+					$start = $row['timestamp'];
+				
+				$autotargets[$day][$match[1]]['target'] = $match[2];
+			
+				$row['details'] = str_replace($match[0], '', $row['details']);
+			}
+		}
+
+		if (!isset($start))
+			// No autotargeting logs, exit
+			return;
+		
+		$t_stamp = mktime(0, 0, 0, date('m', $start), date('d', $start), date('Y', $start));
+		$t_stamp_now = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+
+		while ($t_stamp < $t_stamp_now)
+		{
+			$day	= date('Ymd', $t_stamp);
+			$begin	= $day.'000000';
+			$end	= $day.'235959';
+
+			$campaigns = array();
+
+			if (isset($autotargets[$day]))
+			{
+				while (list($campaignid, ) = each($autotargets[$day]))
+				{
+					$campaigns[] = $campaignid;
+
+					if ($phpAds_config['compact_stats'])
+					{
+						$res_views = phpAds_dbQuery("
+							SELECT
+								SUM(views) AS sum_views
+							FROM
+								".$phpAds_config['tbl_adstats']." AS v,
+								".$phpAds_config['tbl_banners']." AS b
+							WHERE
+								v.day = ".$day." AND
+								b.bannerid = v.bannerid AND
+								b.clientid = ".$campaignid."
+							");
+					}
+					else
+					{
+						$res_views = phpAds_dbQuery("
+							SELECT
+								COUNT(*) AS sum_views
+							FROM
+								".$phpAds_config['tbl_adviews']." AS v,
+								".$phpAds_config['tbl_banners']." AS b
+							WHERE
+								v.t_stamp >= ".$begin." AND
+								v.t_stamp <= ".$end." AND
+								b.bannerid = v.bannerid AND
+								b.clientid = ".$campaignid."
+							");
+					}
+					
+					if ($views = phpAds_dbResult($res_views, 0, 0))
+						$autotargets[$day][$campaignid]['views'] = $views;
+				}
+			}
+			
+			if (count($campaigns))
+			{
+				if ($phpAds_config['compact_stats'])
+				{
+					$res_views = phpAds_dbQuery("
+						SELECT
+							SUM(views) AS sum_views
+						FROM
+							".$phpAds_config['tbl_adstats']." AS v,
+							".$phpAds_config['tbl_banners']." AS b
+						WHERE
+							v.day = ".$day." AND
+							b.bannerid = v.bannerid AND
+							b.clientid NOT IN (".join(', ', $campaigns).")
+						");
+				}
+				else
+				{
+					$res_views = phpAds_dbQuery("
+						SELECT
+							COUNT(*) AS sum_views
+						FROM
+							".$phpAds_config['tbl_adviews']." AS v,
+							".$phpAds_config['tbl_banners']." AS b
+						WHERE
+							v.t_stamp >= ".$begin." AND
+							v.t_stamp <= ".$end." AND
+							b.bannerid = v.bannerid AND
+							b.clientid NOT IN (".join(', ', $campaigns).")
+						");
+				}
+			}
+			else
+			{
+				if ($phpAds_config['compact_stats'])
+				{
+					$res_views = phpAds_dbQuery("
+						SELECT
+							SUM(views) AS sum_views
+						FROM
+							".$phpAds_config['tbl_adstats']." AS v
+						WHERE
+							v.day = ".$day."
+						");
+				}
+				else
+				{
+					$res_views = phpAds_dbQuery("
+						SELECT
+							COUNT(*) AS sum_views
+						FROM
+							".$phpAds_config['tbl_adviews']." AS v
+						WHERE
+							v.t_stamp >= ".$begin." AND
+							v.t_stamp <= ".$end."
+						");
+				}
+			}
+			
+			$views = phpAds_dbResult($res_views, 0, 0);
+			$autotargets[$day][0]['views'] = $views ? $views : 0;
+
+			$t_stamp = phpAds_makeTimestamp($t_stamp, 60*60*24);
+		}
+		
+		for (reset($autotargets);$day=key($autotargets);next($autotargets))
+		{
+			reset($autotargets[$day]);
+			while (list($campaignid, $value) = each($autotargets[$day]))
+			{
+				phpAds_dbQuery("
+					INSERT INTO
+						".$phpAds_config['tbl_targetstats']." (
+							day,
+							clientid,
+							target,
+							views
+						) VALUES (
+							'".$day."',
+							".$campaignid.",
+							".(isset($value['target']) ? (int)$value['target'] : 0).",
+							".(isset($value['views']) ? (int)$value['views'] : 0)."
+						)
+					");
+			}
+		}
 	}
 }
 

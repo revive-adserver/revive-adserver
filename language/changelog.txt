@@ -12,6 +12,15 @@
 
   ====================================================
 
+  11-28-2002 - default
+    [+] strTargetStats
+    [+] strCampaignTarget
+    [+] strTargetRatio
+    [+] strTargetModifiedDay
+    [+] strTargetModifiedWeek
+    [+] strTargetModifiedMonth
+    [+] strNoTargetStats
+
   10-22-2002 - invocation
     [+] strInvocationDontShowAgainCampaign
 

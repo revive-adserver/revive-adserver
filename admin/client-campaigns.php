@@ -411,7 +411,7 @@ else
 			echo "<tr height='25'><td width='50%'>".$strPriority.": ".($campaigns[$ckey]['target'] > 0 ? $strHigh : $strLow)."</td>";
 			
 			if ($campaigns[$ckey]['target'] > 0)
-				echo "<td width='50%'>".$strTarget.": ".$campaigns[$ckey]['target']."</td></tr>";
+				echo "<td width='50%'>".$strCampaignTarget.": ".$campaigns[$ckey]['target']."</td></tr>";
 			else
 				echo "<td width='50%'>".$strWeight.": ".$campaigns[$ckey]['weight']."</td></tr>";
 			

@@ -200,8 +200,6 @@ phpAds_AddSettings('checkbox', 'qmail_patch', $strQmailPatch);
 phpAds_AddSettings('end_section', '');
 
 phpAds_AddSettings('start_section', "1.4.5");
-//phpAds_AddSettings('checkbox', 'auto_clean_tables_vacuum', $strAutoCleanVacuum);
-
 phpAds_AddSettings('checkbox', 'auto_clean_tables',
 	array($strAutoCleanStats, array('auto_clean_tables_interval')));
 phpAds_AddSettings('break', '');
