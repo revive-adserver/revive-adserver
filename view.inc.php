@@ -209,7 +209,7 @@ function phpAds_buildQuery ($part, $numberofparts, $precondition)
 						" OR $phpAds_tbl_banners.keyword LIKE '$part_array[$k] %'".
 						" OR $phpAds_tbl_banners.keyword LIKE '% $part_array[$k]'".
 						" OR $phpAds_tbl_banners.keyword LIKE '$part_array[$k]')";
-					
+						
 						if ($operator == 'OR')
 							$conditions .= "OR $mult_key_match ";
 						elseif ($operator == 'AND')
@@ -261,7 +261,7 @@ function get_banner($what, $clientID, $context=0, $source='', $allowhtml=true)
 		
 		if (@mysql_num_rows($zoneres) > 0)
 		{
-			$zone = mysql_fetch_array($zoneres);
+			$zone = @mysql_fetch_array($zoneres);
 			
 			// Set what parameter to zone settings
 			if (isset($zone['what']) && $zone['what'] != '')
@@ -654,9 +654,13 @@ function phpAds_ParseHTMLAutoLog ($html, $bannerID, $url, $target)
 	// Automatic replace all target='...' with the specified one
 	$html = eregi_replace ("target=['|\"]{0,1}[^'|\"|[:space:]]+['|\"]{0,1}", "target='".$target."'", $html);
 	
+	// Determine which types are present in the HTML
+	$formpresent = eregi('<form', $html);
+	$linkpresent = eregi('<a', $html);
 	
-	// Check if a form is present in the HTML
-	if (eregi('<form', $html))
+	
+	// Process form
+	if ($formpresent)
 	{
 		// Add hidden field to forms
 		$html = eregi_replace ("(<form([^>]*)action=['|\"]{0,1})([^'|\"|[:space:]]+)(['|\"]{0,1}([^>]*)>)", 
@@ -666,8 +670,8 @@ function phpAds_ParseHTMLAutoLog ($html, $bannerID, $url, $target)
 	}
 	
 	
-	// Check if links are present in the HTML
-	if (eregi('<a', $html))
+	// Process link
+	if ($linkpresent)
 	{
 		// Replace all links with adclick.php
 		
@@ -769,7 +773,7 @@ function phpAds_ParseHTMLAutoLog ($html, $bannerID, $url, $target)
 		$html = $newbanner.substr($html, $prevhrefpos);
 	}
 	
-	if (!eregi('<form', $html) && !eregi('<a', $html) && $url != '')
+	if (!$formpresent && !$linkpresent && $url != '')
 	{
 		if (strstr($target, '+'))
 		{
@@ -924,7 +928,7 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 					$randomstring = "";
 				}
 				
-				if (eregi("swf$", $row['banner']))
+				if (strtolower(substr($row['banner'], -3)) == 'swf')
 				{
 					$outputbuffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
 					$outputbuffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
@@ -952,7 +956,7 @@ function view_raw($what, $clientID=0, $target='', $source='', $withtext=0, $cont
 			{
 				// Banner stored on webserver
 				
-				if (eregi("swf$", $row['banner']))
+				if (strtolower(substr($row['banner'], -3)) == 'swf')
 				{
 					$outputbuffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
 					$outputbuffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
