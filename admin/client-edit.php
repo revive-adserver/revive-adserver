@@ -532,11 +532,11 @@ if (phpAds_isUser(phpAds_Admin))
 		</td>
 	</tr>	
 	-->
-	<tr><td height='10' colspan='2'>&nbsp;</td></tr>
-</table>
 			<?
 		}
 		?>
+	<tr><td height='10' colspan='2'>&nbsp;</td></tr>
+</table>
 		
 <br><br>
 		
