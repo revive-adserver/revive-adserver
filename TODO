@@ -1,4 +1,4 @@
-phpAds - Todo
+phpAds(New) - Todo
 
 Feature which should be implemented 
 in the next release (2.0):
@@ -10,10 +10,12 @@ in the next release (2.0):
 
 Feature which should be implemented
 in the nearby future (2.1/2.2)
-  + Move to PHP4 only?
+  + Move to PHP4 only? Mybe checking PHP version for 
+    concerning expansion or reduction of functions
   + Use an template system for admin interface
   + Support for right-left scripts such as arabic
   + Cookie based sequential banner retrieval
+  + installation and update scripting
 
 Long term features:
   - Unknown
