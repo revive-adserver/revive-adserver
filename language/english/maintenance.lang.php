@@ -71,7 +71,34 @@ $GLOBALS['strStatisticsExplaination']		= "
 
 
 // Product Updates
-$GLOBALS['strSearchingUpdates']				= "Searching for newer versions of phpAdsNew.<br>Please wait...";
+$GLOBALS['strSearchingUpdates']				= "Looking for updates. Please wait...";
+$GLOBALS['strAvailableUpdates']				= "Available updates";
+$GLOBALS['strDownloadZip']					= "Download (.zip)";
+$GLOBALS['strDownloadGZip']					= "Download (.tar.gz)";
 
+$GLOBALS['strUpdateAlert']					= "A new version of ".$phpAds_productname." is available.                 \\n\\nDo you want to get more information \\nabout this update?";
+$GLOBALS['strUpdateAlertSecurity']			= "A new version of ".$phpAds_productname." is available.                 \\n\\nIt is highly recommended to upgrade \\nas soon as possible, because this \\nversion contains one or more security fixes.";
+
+$GLOBALS['strUpdateServerDown']				= "
+    Due to an unknown reason it isn't possible to retrieve <br>
+	information about possible updates. Please try again later.
+";
+
+$GLOBALS['strNoNewVersionAvailable']		= "
+	Your version of ".$phpAds_productname." is up-to-date. There are currently no updates available.
+";
+
+$GLOBALS['strNewVersionAvailable']			= "
+	<b>A new version of ".$phpAds_productname." is available.</b><br> It is recommended to install this update,
+	because it may fix some currently existing problems and will add new features. For more information
+	about upgrading please read the documentation which is included in the files below.
+";
+
+$GLOBALS['strSecurityUpdate']				= "
+	<b>It is highly recommended to install this update as soon as possible, because it contains a number
+	of security fixes.</b> The version of ".$phpAds_productname." which you are currently using might 
+	be vulnerable to certain attacks and is probably not secure. For more information
+	about upgrading please read the documentation which is included in the files below.
+";
 
 ?>

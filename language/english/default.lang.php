@@ -456,6 +456,6 @@ $GLOBALS['strAdminSettings']				= "Administration settings";
 
 
 // Product Updates
-$GLOBALS['strProductUpdates']				= "Product Updates";
+$GLOBALS['strProductUpdates']				= "Product updates";
 
 ?>
