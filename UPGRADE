@@ -1,3 +1,14 @@
+phpAdsNew 2 beta 1 -> phpadsNew 2 beta 2
+
+Two columns were added to the client table in order to keep track of active
+clients and client weight. You can add these table to an existing installation
+of phpAdsNew 2 beta 1 by using the below queries:
+
+MODIFY TABLE clients ADD COLUMN active enum('true','false') NOT NULL;
+MODIFY TABLE clients ADD COLUMN weight tinyint(4) default '1' NOT NULL;
+
+----------------------
+
 phpAdsNew 1.9.x -> phpAdsNew 2 beta 1
 
 Two new columns were added to the client table in order to allow permissions
