@@ -295,14 +295,18 @@ function phpAds_PageHeader($ID, $extra="")
 	
 	if ($ID != "" && phpAds_isLoggedIn() && !defined('phpAds_installing'))
 	{
-		echo "<a class='tab-n' href='http://www.phpadsnew.com/manual/User guide.pdf' target='_blank'";
-		echo "onClick=\"openWindow('http://www.phpadsnew.com/manual/User guide.pdf','',";
-		echo "'status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;\">$strHelp</a> ";
-		echo "<a href='http://www.phpadsnew.com/manual/User guide.pdf' target='_blank'";
-		echo "onClick=\"openWindow('http://www.phpadsnew.com/manual/User guide.pdf','',";
-		echo "'status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;\">";
-		echo "<img src='images/help.gif' width='16' height='16' align='absmiddle' border='0'></a>";
-		echo "&nbsp;&nbsp;&nbsp;";
+		if (phpAds_isUser(phpAds_Admin))
+		{
+			echo "<a class='tab-n' href='../documentation/user-guide.pdf' target='_blank'";
+			echo "onClick=\"openWindow('../documentation/user-guide.pdf','',";
+			echo "'status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;\">$strHelp</a> ";
+			echo "<a href='../documentation/user-guide.pdf' target='_blank'";
+			echo "onClick=\"openWindow('../documentation/user-guide.pdf','',";
+			echo "'status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;\">";
+			echo "<img src='images/help.gif' width='16' height='16' align='absmiddle' border='0'></a>";
+			echo "&nbsp;&nbsp;&nbsp;";
+		}
+		
 		echo "<a class='tab-n' href='logout.php'>$strLogout</a> ";
 		echo "<a href='logout.php'><img src='images/logout.gif' width='16' height='16' align='absmiddle' border='0'></a>";
 	}
