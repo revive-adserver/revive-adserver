@@ -106,6 +106,7 @@ $GLOBALS['strFilterBySource']			= "filter by source";
 $GLOBALS['strFieldContainsErrors']		= "The following fields contain errors:";
 $GLOBALS['strFieldFixBeforeContinue1']		= "Before you can continue you need";
 $GLOBALS['strFieldFixBeforeContinue2']		= "to correct these errors.";
+$GLOBALS['strDelimiter']			= "Delimiter";
 
 
 
@@ -472,6 +473,11 @@ $GLOBALS['strErrorClicks'] 			= "You must enter the number of clicks or select t
 $GLOBALS['strErrorNegClicks'] 			= "Negative clicks are not allowed";
 $GLOBALS['strNoMatchesFound']			= "No matches were found";
 $GLOBALS['strErrorOccurred']			= "An error occurred";
+$GLOBALS['strErrorUploadSecurity']		= "Detected a possible security problem, upload halted!";
+$GLOBALS['strErrorUploadBasedir']		= "Could not access uploaded file, probably due to safemode or open_basedir restrictions";
+$GLOBALS['strErrorUploadUnknown']		= "Could not access uploaded file, due to an unknown reason. Please check your PHP configuration";
+$GLOBALS['strErrorStoreLocal']			= "An error occcured while trying to save the banner in the local directory. This is probably the result of a misconfiguration of the local directory path settings";
+$GLOBALS['strErrorStoreFTP']			= "An error occcured while trying to upload the banner to the FTP server. This could be because the server is not available, or because of a misconfiguration of the FTP server settings";
 
 
 // E-mail

@@ -122,7 +122,7 @@ if (isset($submit))
 		{
 			// Don't use file in case of exploit
 			phpAds_PageHeader("1");
-			phpAds_Die ('Error', 'Detected a possible security problem, upload halted!');
+			phpAds_Die ('Error', $strErrorUploadSecurity);
 		}
 		else
 		{
@@ -167,7 +167,7 @@ if (isset($submit))
 				if ($upload_error)
 				{
 					phpAds_PageHeader("1");
-					phpAds_Die ('Error', 'Could not access uploaded file, probably due to safemode or open_basedir restrictions');
+					phpAds_Die ('Error', $strErrorUploadBasedir);
 				}
 				
 				
@@ -179,7 +179,7 @@ if (isset($submit))
 			else
 			{
 				phpAds_PageHeader("1");
-				phpAds_Die ('Error', 'Could not access uploaded file, due to an unknown reason. Please check your PHP configuration');
+				phpAds_Die ('Error', $strErrorUploadUnknown);
 			}
 		}
 		
@@ -386,7 +386,11 @@ if (isset($submit))
 				if ($final['filename'] == false)
 				{
 					phpAds_PageHeader("1");
-					phpAds_Die ('Error', 'An error occcured while uploading the banner to the ftp server');
+					
+					if ($phpAds_config['type_web_mode'] == 0)
+						phpAds_Die ('Error', $strErrorStoreLocal);
+					else
+						phpAds_Die ('Error', $strErrorStoreFTP);
 				}
 				
 				
