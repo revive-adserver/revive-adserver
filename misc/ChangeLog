@@ -10,6 +10,7 @@ CVS
 			  - 2005-02-05:  Fixed problems with settings pages not displayed when using russian-cp1251 translation  (Matteo, thanks to Pawel Golovin)
 			  - 2005-02-05:  Added default charset (iso-8859-1) into english/default.lang.php that is always included (Matteo)
 			  - 2005-02-05:  Added proper header encoding for outgoing e-mails, according to RFC 2047 - bug #1037033  (Matteo)
+			  - 2005-02-05:  Language limitation was only checking against the first language accepted - bug #1098001  (Matteo)
 
 
 
