@@ -9,7 +9,7 @@ CVS
 			  - 2003-07-11:  Some configuration variables were not correctly set, causing E_ALL notices  (Matteo)
 			  - 2003-07-11:  Fixed E_ALL notices in admin-search.php  (Matteo)
 			  - 2003-07-11:  Fixed E_ALL notices in local and iframe remote invocation when no banner was return by the delivery engine  (Matteo)
-			  - 2003-07-11:  Available languages scan was also searching outside the language dir, giving errors when open_basedir restriction was set   (Matteo)
+			  - 2003-07-12:  Available languages scan was also searching outside the language dir, giving errors when open_basedir restriction was set   (Matteo)
 
 
 v 2.0rc4		+ Misc changes
