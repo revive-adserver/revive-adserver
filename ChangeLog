@@ -71,6 +71,7 @@ CVS			+ Added configuration manager  (Matteo) 20011104
 			  - Table orderdirection and listorder are now stored inside the session  (Niels) 20020127
 			  - Campaign statistics table now uses the same interface for sorting  (Niels) 20020127
 			  - Misc changes to the GUI of banner generators and banner linking  (Niels) 20020127
+			  - Added preliminary support for right-to-left languages  (Noor Dawod, Niels) 20020127
 
 
 			+ Misc bugfixes
