@@ -1,5 +1,6 @@
 phpAdsNew - ChangeLog
- v 1.6.4 - 12/06/2000  + Bugfix: fixed a problem with creditstats showing wrong number of clicks
+ v 1.6.4 - 12/06/2000  + Bugfix: images without links patch applied (thanks wesku)
+                       + Bugfix: fixed a problem with creditstats showing wrong number of clicks
                        + Bugfix: clients can get expire date again
                        + Bugfix: typo in admin.php
                        + Bugfix: several bugs have been fixed

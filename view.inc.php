@@ -376,8 +376,15 @@ function view($what, $clientID=0, $target = "", $source = "", $withtext=0, $cont
         else
         {
 
-            echo "<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target><img src=\"$GLOBALS[phpAds_url_prefix]/viewbanner.php?bannerID=$row[bannerID]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0></a>";
-    
+            if (empty($row["url"]))
+            {
+                echo "<img src=\"$GLOBALS[phpAds_url_prefix]/viewbanner.php?bannerID=$row[bannerID]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0>";
+            }
+            else
+            {
+                echo "<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target><img src=\"$GLOBALS[phpAds_url_prefix]/viewbanner.php?bannerID=$row[bannerID]\" width=$row[width] height=$row[height] alt=\"$row[alt]\" border=0></a>";
+            }
+
             if($withtext && !empty($row["bannertext"]))
             {
                 echo "<BR>\n<a href=\"$GLOBALS[phpAds_url_prefix]/click.php?bannerID=$row[bannerID]\"$target>".$row["bannertext"]."</a>";
