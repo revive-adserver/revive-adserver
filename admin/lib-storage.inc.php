@@ -269,8 +269,15 @@ function phpAds_SqlUniqueName ($name)
 	}
 	else
 	{
+		if (eregi("^(.*)_([0-9]+)$", $base, $matches))
+		{
+			$base = $matches[1];
+			$i = $matches[2];
+		}
+		else
+			$i = 1;
+		
 		$found = false;
-		$i = 1;
 		
 		while ($found == false)
 		{
@@ -300,14 +307,23 @@ function phpAds_LocalUniqueName ($name)
 	$extension = substr($name, strrpos($name, ".") + 1);
 	$base	   = substr($name, 0, strrpos($name, "."));
 	
+	
 	if (@file_exists($phpAds_config['type_web_dir']."/".$base.".".$extension) == false)
 	{
 		return ($base.".".$extension);
 	}
 	else
 	{
+		if (eregi("^(.*)_([0-9]+)$", $base, $matches))
+		{
+			$base = $matches[1];
+			$i = $matches[2];
+		}
+		else
+			$i = 1;
+		
 		$found = false;
-		$i = 1;
+		
 		
 		while ($found == false)
 		{
@@ -488,8 +504,15 @@ function phpAds_FTPUniqueName ($conn_id, $path, $name)
 	}
 	else
 	{
+		if (eregi("^(.*)_([0-9]+)$", $base, $matches))
+		{
+			$base = $matches[1];
+			$i = $matches[2];
+		}
+		else
+			$i = 1;
+		
 		$found = false;
-		$i = 1;
 		
 		while ($found == false)
 		{
