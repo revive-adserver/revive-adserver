@@ -229,7 +229,7 @@ array (
 		array (
 			'type'    => 'checkbox',
 			'name'    => 'updates_dev_builds',
-			'text'	  => 'Prompt for newly released development versions'
+			'text'	  => $strAdminCheckDevBuilds
 		),
 		array (
 			'type'    => 'break'

@@ -303,6 +303,7 @@ $GLOBALS['strAdminCheckDaily']			= "Daily";
 $GLOBALS['strAdminCheckWeekly']			= "Weekly";
 $GLOBALS['strAdminCheckMonthly']		= "Monthly";
 $GLOBALS['strAdminCheckNever']			= "Never";
+$GLOBALS['strAdminCheckDevBuilds']		= "Prompt for newly released development versions";
 
 $GLOBALS['strAdminNovice']			= "Admin's delete actions need confirmation for safety";
 $GLOBALS['strUserlogEmail']			= "Log all outgoing email messages";

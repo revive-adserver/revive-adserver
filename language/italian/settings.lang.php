@@ -304,6 +304,7 @@ $GLOBALS['strAdminCheckDaily']				= "Una volta al giorno";
 $GLOBALS['strAdminCheckWeekly']				= "Una volta alla settimana";
 $GLOBALS['strAdminCheckMonthly']			= "Una volta al mese";
 $GLOBALS['strAdminCheckNever']				= "Non controllare";
+$GLOBALS['strAdminCheckDevBuilds']			= "Mostra aggiornamenti a versioni di sviluppo";
 
 $GLOBALS['strAdminNovice']					= "Richiedi conferma nelle operazioni di cancellazione dell'amministratore";
 $GLOBALS['strUserlogEmail']					= "Registra tutte le email in uscita";
