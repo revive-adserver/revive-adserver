@@ -200,7 +200,7 @@ function phpAds_checkIds()
 	}
 	
 	// *-edit and *-index pages doesn't need ids when adding new item, lowering requirements
-	if ($part[1] == 'edit' || $part[1] == 'index')
+	if (isset($part[1]) && ($part[1] == 'edit' || $part[1] == 'index'))
 	{
 		if ($part[0] == 'client')
 			$part[0] = '';

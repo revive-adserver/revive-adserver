@@ -9,6 +9,7 @@ CVS
 			  - 2003-09-11:  Added a flag which states if the release is to be considered stable or a development build  (Matteo)
 			  - 2003-09-11:  Added automatic enabling of dev-builds product updates when upgrading to a dev-build  (Matteo)
 			  - 2003-09-14:  Optimised queries and added date filter to the 'campaign overview', 'Publishers & zones', 'Zone overview' & 'Linked banners overview' pages  (Niels)
+			  - 2003-09-17:  Fixed E_ALL warning on line 203 of lib-permissions  (Matteo)
 
 			+ Misc bugfixes
 			  - 2003-08-08:  Adviews email warning limit wasn't correctly saved (Matteo)
