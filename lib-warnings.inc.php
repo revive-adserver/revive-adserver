@@ -35,8 +35,11 @@ function phpAds_warningMail ($campaign)
 		if ($client = phpAds_dbFetchArray($clientresult))
 		{
 			// Load config from the database
-			include (phpAds_path.'/lib-dbconfig.inc.php');
-			phpAds_LoadDbConfig();
+			if (!defined('LIBDBCONFIG_INCLUDED'))
+			{
+				include (phpAds_path.'/lib-dbconfig.inc.php');
+				phpAds_LoadDbConfig();
+			}
 			
 			
 			// Load client language strings
@@ -95,8 +98,11 @@ function phpAds_deactivateMail ($campaign)
 		if ($client["email"] != '' && $client["reportdeactivate"] == 't')
 		{
 			// Load config from the database
-			include (phpAds_path.'/lib-dbconfig.inc.php');
-			phpAds_LoadDbConfig();
+			if (!defined('LIBDBCONFIG_INCLUDED'))
+			{
+				include (phpAds_path.'/lib-dbconfig.inc.php');
+				phpAds_LoadDbConfig();
+			}
 			
 			
 			// Load client language strings

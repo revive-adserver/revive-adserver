@@ -13,6 +13,9 @@
 /************************************************************************/
 
 
+// Set define to prevent duplicate include
+define ('LIBDBCONFIG_INCLUDED', true);
+
 
 // Current phpAds version
 $phpAds_version = 200.091;
