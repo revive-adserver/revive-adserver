@@ -55,15 +55,12 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 	}
 	
 	
-	// Open database connection
-	phpAds_dbConnect();
+	// Open database connection and get a banner
+	if (phpAds_dbConnect())
+		$row = phpAds_fetchBanner($what, $clientid, $context, $source);
 	
 	
-	// Get one valid banner
-	$row = phpAds_fetchBanner($what, $clientid, $context, $source);
-
-
-	if (is_array($row) && $row['bannerid'] != '')
+	if (isset($row) && is_array($row) && $row['bannerid'] != '')
 	{
 		// Get HTML cache
 		$outputbuffer = $row['htmlcache'];
@@ -184,6 +181,16 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 					$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&clientid='.$row['clientid'].'&zoneid='.$row['zoneid'].'&source='.$source.'&cb='.md5(uniqid('')).'\' width=\'0\' height=\'0\' style=\'width: 0px; height: 0px;\'>';
 			}
 		}
+		
+		// Return banner
+		return( array('html' => $outputbuffer, 
+					  'bannerid' => $row['bannerid'],
+					  'alt' => $row['alt'],
+					  'width' => $row['width'],
+					  'height' => $row['height'],
+					  'url' => $row['url'],
+					  'clientid' => $row['clientid'])
+			  );
 	}
 	else
 	{
@@ -198,22 +205,12 @@ function view_raw($what, $clientid=0, $target='', $source='', $withtext=0, $cont
 			// Show default banner
 			$outputbuffer = '<a href=\''.$phpAds_config['default_banner_target'].'\' target=\''.$target.'\'><img src=\''.$phpAds_config['default_banner_url'].'\' border=\'0\'></a>';
 			
+			// Return banner
 			return( array('html' => $outputbuffer, 
 						  'bannerid' => '')
 				  );
 		}
 	}
-	
-	phpAds_dbClose();
-	
-	return( array('html' => $outputbuffer, 
-				  'bannerid' => $row['bannerid'],
-				  'alt' => $row['alt'],
-				  'width' => $row['width'],
-				  'height' => $row['height'],
-				  'url' => $row['url'],
-				  'clientid' => $row['clientid'])
-		  );
 }
 
 
