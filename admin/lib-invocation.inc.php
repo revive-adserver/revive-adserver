@@ -18,7 +18,7 @@
 phpAds_registerGlobal ('codetype', 'what', 'clientid', 'source', 'target', 'withText', 'template', 'refresh',
 					   'uniqueid', 'width', 'height', 'website', 'ilayer', 'popunder', 'left', 'top', 'timeout',
 					   'transparent', 'resize', 'block', 'raw', 'hostlanguage', 'submitbutton', 'generate',
-					   'layerstyle');
+					   'layerstyle', 'delay', 'delay_type');
 
 
 // Load translations
@@ -39,7 +39,7 @@ function phpAds_GenerateInvocationCode()
 	global $codetype, $what, $clientid, $source, $target;
 	global $withText, $template, $refresh, $uniqueid;
 	global $width, $height, $website, $ilayer;
-	global $popunder, $left, $top, $timeout;
+	global $popunder, $left, $top, $timeout, $delay, $delay_type;
 	global $transparent, $resize, $block, $raw;
 	global $hostlanguage;
 	
@@ -255,6 +255,14 @@ function phpAds_GenerateInvocationCode()
 		if (isset($timeout) && $timeout != '' && $timeout != '-')
 			$parameters['timeout'] = "timeout=".$timeout;
 		
+		if (isset($delay_type))
+		{
+			if ($delay_type == 'seconds' && isset($delay) && $delay != '' && $delay != '-')
+				$parameters['delay'] = "delay=".$delay;
+			elseif ($delay_type == 'exit')
+				$parameters['delay'] = "delay=exit";
+		}
+		
 		$buffer .= "<script language='JavaScript' type='text/javascript' src='".$phpAds_config['url_prefix']."/adpopup.php";
 		$buffer .= "?n=".$uniqueid;
 		if (sizeof($parameters) > 0)
@@ -345,7 +353,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	global $codetype, $what, $clientid, $source, $target;
 	global $withText, $template, $refresh, $uniqueid;
 	global $width, $height, $ilayer;
-	global $popunder, $left, $top, $timeout;
+	global $popunder, $left, $top, $timeout, $delay, $delay_type;
 	global $transparent, $resize, $block, $raw;
 	global $hostlanguage;
 	global $layerstyle;
@@ -499,7 +507,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'withText' => true, 'size' => true, 'resize' => true, 'transparent' => true);
 		
 		if ($codetype == 'popup')
-			$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'absolute' => true, 'popunder' => true, 'timeout' => true);
+			$show = array ('what' => true, 'clientid' => true, 'target' => true, 'source' => true, 'absolute' => true, 'popunder' => true, 'timeout' => true, 'delay' => true);
 		
 		if ($codetype == 'adlayer')
 			$show = phpAds_getLayerShowVar();
@@ -731,6 +739,24 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<input type='radio' name='popunder' value='1'".
 				 (isset($popunder) && $popunder == '1' ? ' checked' : '').">&nbsp;".
 				 "<img src='images/icon-popup-under.gif' align='absmiddle'>&nbsp;".$GLOBALS['strPopUpStylePopUnder']."</td>";
+			echo "</tr>";
+			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+		}
+		
+		
+		// delay
+		if (isset($show['delay']) && $show['delay'] == true)
+		{
+			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+			echo "<tr><td width='30'>&nbsp;</td>";
+			echo "<td width='200'>".$GLOBALS['strPopUpCreateInstance']."</td>";
+			echo "<td width='370'><input type='radio' name='delay_type' value='none'".
+				 (!isset($delay_type) || ($delay_type != 'exit' && $delay_time != 'seconds') ? ' checked' : '').">&nbsp;".$GLOBALS['strPopUpImmediately']."<br>";
+			echo "<input type='radio' name='delay_type' value='exit'".
+				 (isset($delay_type) && $delay_type == 'exit' ? ' checked' : '').">&nbsp;".$GLOBALS['strPopUpOnClose']."<br>";
+			echo "<input type='radio' name='delay_type' value='seconds'".
+				 (isset($delay_type) && $delay_type == 'seconds' ? ' checked' : '').">&nbsp;".$GLOBALS['strPopUpAfterSec']."&nbsp;".
+				 "<input class='flat' type='text' name='delay' size='' value='".(isset($delay) ? $delay : '-')."' style='width:50px;'> ".$GLOBALS['strAbbrSeconds']."</td>";
 			echo "</tr>";
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 		}
