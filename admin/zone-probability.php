@@ -205,7 +205,10 @@ function phpAds_showZoneBanners ($zoneid)
 			$zone = array('what' => $what);
 		}
 		
+		// Include bannertext in query
+		$select = str_replace ('SELECT', 'SELECT '.$phpAds_config['tbl_banners'].'.bannertext as bannertext,', $select);
 		
+		// Execute query
 		$res = phpAds_dbQuery($select);
 		
 		$rows = array();
