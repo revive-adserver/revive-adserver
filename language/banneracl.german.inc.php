@@ -1,67 +1,69 @@
 <?
-// english doc file for Banner ACL administration
+// banneracl.german.inc.php
+// fixed by silicon (silicon@ins.at)
+// german doc file for Banner ACL administration
 ?>
 <HR SIZE="1">
 <BR>
 <table border="0" width="100%">
-	<TR>
-		<TD bgcolor="#CCCCCC">
-			<table width="100%" cellspacing="1" cellpadding="5">
-				<tr> 
-					<td bgcolor="#FFFFFF"><b>Title</b></td>
-					<td bgcolor="#FFFFFF"><b>Argument</b></td>
-					<td bgcolor="#FFFFFF"><b>Description</B.</td>
-				</tr>
-				<tr> 
-					<td bgcolor="#FFFFFF">Client IP</td>
-					<td bgcolor="#FFFFFF">IP net/mask: ip.ip.ip.ip/mask.mask.mask.mask, for example 127.0.0.1/255.255.255.0</td>
-					<td bgcolor="#FFFFFF">Display banner only for a specific IP region.</td>
-				</tr>
-				<tr> 
-					<td bgcolor="#FFFFFF">User agent regexp</td>
-					<td bgcolor="#FFFFFF">Regular expression matching a user agent, for example ^Mozilla/4.? </td>
-		 			<td bgcolor="#FFFFFF">Display banner only for certain browsers.</td>
-				</tr>
-				<tr> 
-					<td bgcolor="#FFFFFF">Weekday (0-6)</td>
-					<td bgcolor="#FFFFFF">Day of the week, from 0 = Sunday to 6 = Saturday</td>
-					<td bgcolor="#FFFFFF">Display banner only on a specific day of the week.</td>
-				</tr>
-				<tr>
-					<td bgcolor="#FFFFFF">Domain</td>
-					<td bgcolor="#FFFFFF">Domain suffix (eg. .jp, .edu, or google.com)</td>
-					<td bgcolor="#FFFFFF">Displays banner only to certain domain.</td>
-				</tr>
-				<tr>
-					<td bgcolor="#FFFFFF">Source</td>
-					<td bgcolor="#FFFFFF">Name of source page</td>
-					<td bgcolor="#FFFFFF">Displays banner only on certain pages.</td>
-				</tr>
-                <tr> 
-                    <td bgcolor="#FFFFFF">Time (0-23)</td>
-                    <td bgcolor="#FFFFFF">Hour of the day, from 0 = midnight to 23 = 11:00 pm</td>
-                    <td bgcolor="#FFFFFF">Display banner only on a specific hour of the day.</td>
+    <TR>
+        <TD bgcolor="#CCCCCC">
+            <table width="100%" cellspacing="1" cellpadding="5">
+                <tr>
+                    <td bgcolor="#FFFFFF"><b>Regel</b></td>
+                    <td bgcolor="#FFFFFF"><b>Optionen</b></td>
+                    <td bgcolor="#FFFFFF"><b>Beschreibung</B.</td>
                 </tr>
-			</table>
-		</TD>
-	</TR>
+                <tr>
+                    <td bgcolor="#FFFFFF">Client IP</td>
+                    <td bgcolor="#FFFFFF">IP net/mask: ip.ip.ip.ip/mask.mask.mask.mask, z.B. 127.0.0.1/255.255.255.0</td>
+                    <td bgcolor="#FFFFFF">Banner nur in einer bestimmten IP-Region anzeigen.</td>
+                </tr>
+                <tr>
+                    <td bgcolor="#FFFFFF">RegExp f&uuml;r Browser</td>
+                    <td bgcolor="#FFFFFF">Regular expression bestimmt Browser, z.B. ^Mozilla/4.? </td>
+                    <td bgcolor="#FFFFFF">Banner nur bei bestimmten Browsern zeigen.</td>
+                </tr>
+                <tr>
+                    <td bgcolor="#FFFFFF">Wochentag (0-6)</td>
+                    <td bgcolor="#FFFFFF">Wochentag, von 0 (= Sonntag) bis 6 (= Samstag)</td>
+                    <td bgcolor="#FFFFFF">Banner nur an bestimmten Wochentagen zeigen.</td>
+                </tr>
+                <tr>
+                    <td bgcolor="#FFFFFF">Domain</td>
+                    <td bgcolor="#FFFFFF">Domain-Endung (zB. .at, .edu, oder google.com)</td>
+                    <td bgcolor="#FFFFFF">Banner nur an Benutzer bestimmter Domains zeigen.</td>
+                </tr>
+                <tr>
+                    <td bgcolor="#FFFFFF">Quelle</td>
+                    <td bgcolor="#FFFFFF">Name der Quellseite</td>
+                    <td bgcolor="#FFFFFF">Banner nur auf bestimmten Seiten zeigen.</td>
+                </tr>
+        <tr>
+            <td bgcolor="#FFFFFF">Time (0-23)</td>
+            <td bgcolor="#FFFFFF">Stunde, von 0 (= mitternacht) bis 23 (= 23:00)</td>
+            <td bgcolor="#FFFFFF">Banner nur zu bestimmten Stunden zeigen.</td>
+        </tr>
+            </table>
+        </TD>
+    </TR>
 </table>
-<p>For example, if you want to display this banner only on weekends, you would add two ACL entries:</p>
+<p>Wenn Sie zum Beispiel ein Banner nur an Wochenenden zeigen wollen geben Sie die folgenden beiden ACL-Werte ein:</p>
 <ul>
-	<li>Weekday (0-6), <? echo $strAllow; ?>, argument 6 (for Saturday)</li>
-	<li>Weekday (0-6), <? echo $strAllow; ?>, argument 0 (for Sunday)</li>
-    <li>Weekday (0-6), <? echo $strDeny; ?>, argument * (for any day)</li>
+    <li>Wochentag (0-6), <? echo $strAllow; ?>, Option 6 (f&uuml;r Samstag)</li>
+    <li>Wochentag (0-6), <? echo $strAllow; ?>, Option 0 (f&uuml;r Sonntag)</li>
+    <li>Wochentag (0-6), <? echo $strDeny; ?>, Option * (f&uuml;r jeden Tag)</li>
 </ul>
-Note that the last entry need not have been &quot;Weekday&quot;.  Any <? echo $strDeny; ?> *
-ACL would suffice to deny any ad if an associated <? echo $strAllow; ?> had not already been matched.
+Anmerkung: der letzte Eintrag muss nicht unbedingt ein &quot;Wochentag&quot; Wert sein.  Jede <? echo $strDeny; ?> *
+ACL reicht aus um das Banner zu blocken, wenn kein zugeordnetes <? echo $strAllow; ?> Argument zutrifft.
 
-<p>To show the banner between 5pm and 8pm:</p>
+<p>Um ein Banner zwischen 17:00 und 20:00 zu zeigen:</p>
 <ul>
-    <li>Time, <? echo $strAllow; ?>, argument 17</li>  (5:00pm - 5:59pm)
-    <li>Time, <? echo $strAllow; ?>, argument 18</li>  (6:00pm - 6:59pm)
-	<li>Time, <? echo $strAllow; ?>, argument 19</li>  (7:00pm - 7:59pm)
-    <li>Time, <? echo $strDeny; ?>, argument * (for any time)</li>
+    <li>Time, <? echo $strAllow; ?>, Option 17</li>  (17:00 - 17:59)
+    <li>Time, <? echo $strAllow; ?>, Option 18</li>  (18:00 - 18:59)
+    <li>Time, <? echo $strAllow; ?>, Option 19</li>  (19:00pm - 19:59pm)
+    <li>Time, <? echo $strDeny; ?>, Option * (f&uuml;r jede Zeit)</li>
 </ul>
 <?
-// EOF english doc file for Banner ACL administration
+// EOF german doc file for Banner ACL administration
 ?>
