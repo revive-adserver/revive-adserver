@@ -53,14 +53,12 @@ $GLOBALS['strSubmit'] = "Incluir anúncio";
 $GLOBALS['strUsername'] = "Usuário";
 $GLOBALS['strPassword'] = "Senha";
 $GLOBALS['strBannerAdmin'] = "Administração de Banners para";
-$GLOBALS['strBannerAdminAcl'] = "Controle de Acesso (ACL) de Banners para";
 $GLOBALS['strNoBanners'] = "Nenhum banner encontrado";
 $GLOBALS['strBanner'] = "Banner";
 $GLOBALS['strCurrentBanner'] = "Banner atual";
 $GLOBALS['strDelete'] = "Deletar";
 $GLOBALS['strAddBanner'] = "Adicionar novo banner";
 $GLOBALS['strModifyBanner'] = "Modificar banner";
-$GLOBALS['strModifyBannerAcl'] = "Modificar Controle de Acesso do banner";
 $GLOBALS['strURL'] = "Linkado à URL (incluir http://)";
 $GLOBALS['strKeyword'] = "Palavras-chave";
 $GLOBALS['strWeight'] = "Peso";
@@ -149,10 +147,6 @@ $GLOBALS['strDeleted'] = "foi deletado!";
 $GLOBALS['strMovedUp'] = "foi movido pra cima";
 $GLOBALS['strMovedDown'] = "foi movido pra baixo";
 $GLOBALS['strUpdated'] = "foi atualizado";
-$GLOBALS['strACL'] = "LCA";
-$GLOBALS['strNoMoveUp'] = "Impossível mover acima da primeira linha";
-$GLOBALS['strACLAdd'] = "Adicionar novo ".$GLOBALS['strACL'];
-$GLOBALS['strACLExist'] = "Existente ".$GLOBALS['strACL'].":";
 $GLOBALS['strLogin'] = "Login";
 $GLOBALS['strPreferences'] = "Preferências";
 $GLOBALS['strAllowClientModifyInfo'] = "Permitir que este usuário modifique estas informações";
@@ -309,5 +303,11 @@ $GLOBALS['strRebuildZoneCache']			= "Rebuild zone cache";
 $GLOBALS['strKiloByte']					= "KB";
 $GLOBALS['strSeconds']					= "seconds";
 $GLOBALS['strExpired']					= "Expired";
+
+$GLOBALS['strModifyBannerAcl'] 			= "Display limitations";
+$GLOBALS['strACL'] 						= "Limit";
+$GLOBALS['strNoMoveUp'] 				= "Impossível mover acima da primeira linha";
+$GLOBALS['strACLAdd'] 					= "Add new limitation";
+$GLOBALS['strNoLimitations']			= "No limitations";
 
 ?>

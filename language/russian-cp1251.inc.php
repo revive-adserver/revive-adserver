@@ -55,7 +55,6 @@ $GLOBALS['strSubmit'] = "Загрузить баннер";
 $GLOBALS['strUsername'] = "Логин";
 $GLOBALS['strPassword'] = "Пароль";
 $GLOBALS['strBannerAdmin'] = "Администрируем баннеры для";
-$GLOBALS['strBannerAdminAcl'] = "Контроль таргетинга для";
 $GLOBALS['strNoBanners'] = "Нет баннеров";
 $GLOBALS['strBanner'] = "Баннер";
 $GLOBALS['strCurrentBanner'] = "Текущий баннер";
@@ -152,10 +151,6 @@ $GLOBALS['strDeleted'] = "был удален!";
 $GLOBALS['strMovedUp'] = "был перемещен выше";
 $GLOBALS['strMovedDown'] = "был перемещен ниже";
 $GLOBALS['strUpdated'] = "был обновлен";
-$GLOBALS['strACL'] = "ACL";
-$GLOBALS['strNoMoveUp'] = "Не могу переместить первый ряд выше";
-$GLOBALS['strACLAdd'] = "Добавить новый ".$GLOBALS["strACL"];
-$GLOBALS['strACLExist'] = "Существующий ".$GLOBALS["strACL"].":";
 $GLOBALS['strLogin'] = "Login";
 $GLOBALS['strPreferences'] = "Предпочтения";
 $GLOBALS['strAllowClientModifyInfo'] = "Разрешить этому пользователю редактировать собственные клиентские данные";
@@ -316,5 +311,11 @@ $GLOBALS['strRebuildZoneCache']			= "Построить кэш зон заново";
 $GLOBALS['strKiloByte']					= "KB";
 $GLOBALS['strSeconds']					= "секунд";
 $GLOBALS['strExpired']					= "Устарело";
+
+$GLOBALS['strModifyBannerAcl'] 			= "Display limitations";
+$GLOBALS['strACL'] 						= "Limit";
+$GLOBALS['strNoMoveUp'] 				= "Не могу переместить первый ряд выше";
+$GLOBALS['strACLAdd'] 					= "Add new limitation";
+$GLOBALS['strNoLimitations']			= "No limitations";
 
 ?>

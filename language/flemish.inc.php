@@ -51,7 +51,6 @@ $GLOBALS['strSubmit'] = "Stuur banner op";
 $GLOBALS['strUsername'] = "Gebruikersnaam";
 $GLOBALS['strPassword'] = "Paswoord";
 $GLOBALS['strBannerAdmin'] = "Banneradminstratie voor";
-$GLOBALS['strBannerAdminAcl'] = "Banner ACL adminstratie voor";
 $GLOBALS['strNoBanners'] = "Geen banners gevonden";
 $GLOBALS['strBanner'] = "Banner";
 $GLOBALS['strCurrentBanner'] = "Huidige banner";
@@ -148,10 +147,6 @@ $GLOBALS['strDeleted'] = "is verwijderd !";
 $GLOBALS['strMovedUp'] = "is omhoog geplaatst";
 $GLOBALS['strMovedDown'] = "is omlaag geplaatst";
 $GLOBALS['strUpdated'] = "is gewijzigd";
-$GLOBALS['strACL'] = "ACL";
-$GLOBALS['strNoMoveUp'] = "Kan de eerste rij niet omhoog plaatsen";
-$GLOBALS['strACLAdd'] = "Voeg nieuwe ".$GLOBALS['strACL']." toe";
-$GLOBALS['strACLExist'] = "Bestaande ".$GLOBALS['strACL'].":";
 $GLOBALS['strLogin'] = "Inloggen";
 $GLOBALS['strPreferences'] = "Instellingen";
 $GLOBALS['strAllowClientModifyInfo'] = "Deze klant kan zijn eigen instelling wijzigen";
@@ -312,5 +307,11 @@ $GLOBALS['strRebuildZoneCache']			= "Zone cache opnieuw aanmaken";
 $GLOBALS['strKiloByte']					= "KB";
 $GLOBALS['strSeconds']					= "seconden";
 $GLOBALS['strExpired']					= "Vervallen";
+
+$GLOBALS['strModifyBannerAcl'] 			= "Beperkingen";
+$GLOBALS['strACL'] 						= "Beperk";
+$GLOBALS['strNoMoveUp'] 				= "Kan de eerste rij niet omhoog plaatsen";
+$GLOBALS['strACLAdd'] 					= "Voeg nieuwe beperking toe";
+$GLOBALS['strNoLimitations']			= "Geen beperkingen";
 
 ?>

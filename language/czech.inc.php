@@ -55,14 +55,12 @@ $GLOBALS['strSubmit'] = "Poslat";
 $GLOBALS['strUsername'] = "Už. Jméno";
 $GLOBALS['strPassword'] = "Heslo";
 $GLOBALS['strBannerAdmin'] = "Administrace bannerù pro";
-$GLOBALS['strBannerAdminAcl'] = "Banner ACL adminstration for";
 $GLOBALS['strNoBanners'] = "Žádné bannery";
 $GLOBALS['strBanner'] = "Banner";
 $GLOBALS['strCurrentBanner'] = "Souèasný banner";
 $GLOBALS['strDelete'] = "Smazat";
 $GLOBALS['strAddBanner'] = "Pøidat nový banner";
 $GLOBALS['strModifyBanner'] = "Zmìnit banner";
-$GLOBALS['strModifyBannerAcl'] = "Modify banner ACL";
 $GLOBALS['strURL'] = "Odkazuje na URL (vèetnì http://)";
 $GLOBALS['strKeyword'] = "Klíèové slovo";
 $GLOBALS['strWeight'] = "Weight";
@@ -151,10 +149,6 @@ $GLOBALS['strDeleted'] = "was deleted!";
 $GLOBALS['strMovedUp'] = "was moved up";
 $GLOBALS['strMovedDown'] = "was moved down";
 $GLOBALS['strUpdated'] = "was updated";
-$GLOBALS['strACL'] = "ACL";
-$GLOBALS['strNoMoveUp'] = "Can't move up first row";
-$GLOBALS['strACLAdd'] = "Add new ".$GLOBALS['strACL'];
-$GLOBALS['strACLExist'] = "Existing ".$GLOBALS['strACL'].":";
 $GLOBALS['strLogin'] = "Login";
 $GLOBALS['strPreferences'] = "Preferences";
 $GLOBALS['strAllowClientModifyInfo'] = "Allow this user to modify his own client information";
@@ -315,5 +309,11 @@ $GLOBALS['strRebuildZoneCache']			= "Rebuild zone cache";
 $GLOBALS['strKiloByte']					= "KB";
 $GLOBALS['strSeconds']					= "seconds";
 $GLOBALS['strExpired']					= "Expired";
+
+$GLOBALS['strModifyBannerAcl'] 			= "Display limitations";
+$GLOBALS['strACL'] 						= "Limit";
+$GLOBALS['strNoMoveUp'] 				= "Can't move up first row";
+$GLOBALS['strACLAdd'] 					= "Add new limitation";
+$GLOBALS['strNoLimitations']			= "No limitations";
 
 ?>

@@ -51,14 +51,12 @@ $GLOBALS['strSubmit'] = "Trimitere banner";
 $GLOBALS['strUsername'] = "Utilizator";
 $GLOBALS['strPassword'] = "Parola";
 $GLOBALS['strBannerAdmin'] = "Banner administration for";
-$GLOBALS['strBannerAdminAcl'] = "Banner ACL administration for";
 $GLOBALS['strNoBanners'] = "Nu au fost gasite bannere";
 $GLOBALS['strBanner'] = "Banner";
 $GLOBALS['strCurrentBanner'] = "Banner curent";
 $GLOBALS['strDelete'] = "Stergere";
 $GLOBALS['strAddBanner'] = "Adaugare banner nou";
 $GLOBALS['strModifyBanner'] = "Modificare banner";
-$GLOBALS['strModifyBannerAcl'] = "Modificare restrictii banner";
 $GLOBALS['strURL'] = "Link catre (incl. http://)";
 $GLOBALS['strKeyword'] = "Cuvant cheie";
 $GLOBALS['strWeight'] = "Pondere";
@@ -149,10 +147,6 @@ $GLOBALS['strDeleted'] = "a fost sters!";
 $GLOBALS['strMovedUp'] = "a fost mutat mai sus";
 $GLOBALS['strMovedDown'] = "a fost mutat mai jos";
 $GLOBALS['strUpdated'] = "a fost actualizat";
-$GLOBALS['strACL'] = "ACL";
-$GLOBALS['strNoMoveUp'] = "Primul rand nu poate fi mutat mai sus";
-$GLOBALS['strACLAdd'] = "Adaugare ".$GLOBALS["strACL"];
-$GLOBALS['strACLExist'] = $GLOBALS["strACL"]."-uri existente:";
 $GLOBALS['strLogin'] = "Login";
 $GLOBALS['strPreferences'] = "Preferinte";
 $GLOBALS['strAllowClientModifyInfo'] = "Acest client are dreptul sa-si modifice setarile";
@@ -313,5 +307,11 @@ $GLOBALS['strRebuildZoneCache']			= "Rebuild zone cache";
 $GLOBALS['strKiloByte']					= "KB";
 $GLOBALS['strSeconds']					= "seconds";
 $GLOBALS['strExpired']					= "Expired";
+
+$GLOBALS['strModifyBannerAcl'] 			= "Display limitations";
+$GLOBALS['strACL'] 						= "Limit";
+$GLOBALS['strNoMoveUp'] 				= "Primul rand nu poate fi mutat mai sus";
+$GLOBALS['strACLAdd'] 					= "Add new limitation";
+$GLOBALS['strNoLimitations']			= "No limitations";
 
 ?>

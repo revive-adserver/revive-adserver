@@ -53,14 +53,12 @@ $GLOBALS['strSubmit'] = "Skicka in annons";
 $GLOBALS['strUsername'] = "Användarnamn";
 $GLOBALS['strPassword'] = "Lösenord";
 $GLOBALS['strBannerAdmin'] = "Banner-administration för";
-$GLOBALS['strBannerAdminAcl'] = "Banner-ACL-administration för";
 $GLOBALS['strNoBanners'] = "Hittade inga bannrarn";
 $GLOBALS['strBanner'] = "Banner";
 $GLOBALS['strCurrentBanner'] = "Nuvarande banner";
 $GLOBALS['strDelete'] = "Radera";
 $GLOBALS['strAddBanner'] = "Lägg till ny banner";
 $GLOBALS['strModifyBanner'] = "Ändra banner";
-$GLOBALS['strModifyBannerAcl'] = "Ändra banner-ACL";
 $GLOBALS['strURL'] = "Länkad till URL (med http://)";
 $GLOBALS['strKeyword'] = "Sökord";
 $GLOBALS['strWeight'] = "Vikt";
@@ -151,10 +149,6 @@ $GLOBALS['strDeleted'] = "raderades!";
 $GLOBALS['strMovedUp'] = "flyttades upp";
 $GLOBALS['strMovedDown'] = "flyttades ner";
 $GLOBALS['strUpdated'] = "uppdaterades";
-$GLOBALS['strACL'] = "ACL";
-$GLOBALS['strNoMoveUp'] = "Första raden kan inte flyttas upp";
-$GLOBALS['strACLAdd'] = "Lägg till ny ".$GLOBALS["strACL"];
-$GLOBALS['strACLExist'] = "Nuvarande ".$GLOBALS["strACL"].":";
 $GLOBALS['strLogin'] = "Logga in";
 $GLOBALS['strPreferences'] = "Inställningar";
 $GLOBALS['strAllowClientModifyInfo'] = "Ska denna användare tillåtas att ändra sin egen klientinformation";
@@ -316,5 +310,11 @@ $GLOBALS['strRebuildZoneCache']			= "Rebuild zone cache";
 $GLOBALS['strKiloByte']					= "KB";
 $GLOBALS['strSeconds']					= "seconds";
 $GLOBALS['strExpired']					= "Expired";
+
+$GLOBALS['strModifyBannerAcl'] 			= "Display limitations";
+$GLOBALS['strACL'] 						= "Limit";
+$GLOBALS['strNoMoveUp'] 				= "Första raden kan inte flyttas upp";
+$GLOBALS['strACLAdd'] 					= "Add new limitation";
+$GLOBALS['strNoLimitations']			= "No limitations";
 
 ?>

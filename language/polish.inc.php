@@ -316,4 +316,5 @@ $GLOBALS['strACL'] 						= "Ograniczenia";
 $GLOBALS['strNoMoveUp'] 				= "Nie mo¿na przesun¹æ w górê pierwszego rzêdu";
 $GLOBALS['strACLAdd'] 					= "Dodaj nowe ograniczenie";
 $GLOBALS['strNoLimitations']			= "Brak ograniczeñ";
+
 ?>

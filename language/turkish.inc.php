@@ -53,14 +53,12 @@ $GLOBALS['strSubmit'] = "Kaydet";
 $GLOBALS['strUsername'] = "Kullanýcý Adý";
 $GLOBALS['strPassword'] = "Þifre";
 $GLOBALS['strBannerAdmin'] = "Reklam Yönetimi: ";
-$GLOBALS['strBannerAdminAcl'] = "Reklam ACL Yönetimi: ";
 $GLOBALS['strNoBanners'] = "Hiç reklam yok";
 $GLOBALS['strBanner'] = "Reklam";
 $GLOBALS['strCurrentBanner'] = "Geçerli Reklam";
 $GLOBALS['strDelete'] = "Sil";
 $GLOBALS['strAddBanner'] = "Yeni Reklam Ekle";
 $GLOBALS['strModifyBanner'] = "Reklam Düzenle";
-$GLOBALS['strModifyBannerAcl'] = "Reklamer ACL Düzenle";
 $GLOBALS['strURL'] = "Müþteri Adresi (http:// ekleyiniz)";
 $GLOBALS['strKeyword'] = "Anahtar Kelimeler";
 $GLOBALS['strWeight'] = "Aðýrlýk";
@@ -152,10 +150,6 @@ $GLOBALS['strDeleted'] = "silindi!";
 $GLOBALS['strMovedUp'] = "üste alýndý";
 $GLOBALS['strMovedDown'] = "alta alyýdý";
 $GLOBALS['strUpdated'] = "güncellendi";
-$GLOBALS['strACL'] = "ACL";
-$GLOBALS['strNoMoveUp'] = "Ýlk satýrý üste alamazsýnýz";
-$GLOBALS['strACLAdd'] = "Yeni ".$GLOBALS["strACL"]." ekle";
-$GLOBALS['strACLExist'] = "Geçerli ".$GLOBALS["strACL"].":";
 $GLOBALS['strLogin'] = "Giriþ";
 $GLOBALS['strPreferences'] = "Özellikler";
 $GLOBALS['strAllowClientModifyInfo'] = "Müþteri bilgilerini düzenleyebilsin";
@@ -320,5 +314,11 @@ $GLOBALS['strRebuildZoneCache']			= "Bölge Kayýtlarýný Yenile";
 $GLOBALS['strKiloByte']					= "KB";
 $GLOBALS['strSeconds']					= "saniye";
 $GLOBALS['strExpired']					= "Bitti";
+
+$GLOBALS['strModifyBannerAcl'] 			= "Display limitations";
+$GLOBALS['strACL'] 						= "Limit";
+$GLOBALS['strNoMoveUp'] 				= "Ýlk satýrý üste alamazsýnýz";
+$GLOBALS['strACLAdd'] 					= "Add new limitation";
+$GLOBALS['strNoLimitations']			= "No limitations";
 
 ?>

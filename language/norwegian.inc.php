@@ -51,7 +51,6 @@ $GLOBALS['strSubmit'] = "Lagre banner";
 $GLOBALS['strUsername'] = "Brukernavn";
 $GLOBALS['strPassword'] = "Passord";
 $GLOBALS['strBannerAdmin'] = "Banner administrasjon for";
-$GLOBALS['strBannerAdminAcl'] = "Banner ACL administrasjon for";
 $GLOBALS['strNoBanners'] = "Ingen bannere funnet";
 $GLOBALS['strBanner'] = "Banner";
 $GLOBALS['strCurrentBanner'] = "Gjeldende banner";
@@ -149,10 +148,6 @@ $GLOBALS['strDeleted'] = "ble slettet!";
 $GLOBALS['strMovedUp'] = "ble flyttet opp";
 $GLOBALS['strMovedDown'] = "ble flyttet ned";
 $GLOBALS['strUpdated'] = "ble oppdatert";
-$GLOBALS['strACL'] = "ACL";
-$GLOBALS['strNoMoveUp'] = "Kan ikke flyttet til første rad";
-$GLOBALS['strACLAdd'] = "Legg til ny ".$GLOBALS["strACL"];
-$GLOBALS['strACLExist'] = "Eksisterende ".$GLOBALS["strACL"].":";
 $GLOBALS['strLogin'] = "Logg inn";
 $GLOBALS['strPreferences'] = "Egenskapger";
 $GLOBALS['strAllowClientModifyInfo'] = "Tillat denne brukeren å endre sin egen klientinformasjon";
@@ -314,5 +309,11 @@ $GLOBALS['strRebuildZoneCache']			= "Gjenopprett sone cache/buffer";
 $GLOBALS['strKiloByte']					= "KB";
 $GLOBALS['strSeconds']					= "sekunder";
 $GLOBALS['strExpired']					= "Utløpt";
+
+$GLOBALS['strModifyBannerAcl'] 			= "Display limitations";
+$GLOBALS['strACL'] 						= "Limit";
+$GLOBALS['strNoMoveUp'] 				= "Kan ikke flyttet til første rad";
+$GLOBALS['strACLAdd'] 					= "Add new limitation";
+$GLOBALS['strNoLimitations']			= "No limitations";
 
 ?>

@@ -53,7 +53,6 @@ $GLOBALS['strSubmit'] = "Incluir an&uacute;ncio";
 $GLOBALS['strUsername'] = "Utilizador";
 $GLOBALS['strPassword'] = "Senha";
 $GLOBALS['strBannerAdmin'] = "Administra&ccedil;&atilde;o de An&uacute;ncios para";
-$GLOBALS['strBannerAdminAcl'] = "Controle de Acesso (ACL) de An&uacute;ncios para";
 $GLOBALS['strNoBanners'] = "Nenhum an&uacute;ncio encontrado";
 $GLOBALS['strBanner'] = "An&uacute;ncio";
 $GLOBALS['strCurrentBanner'] = "An&uacute;ncio actual";
@@ -151,10 +150,6 @@ $GLOBALS['strDeleted'] = "foi removido!";
 $GLOBALS['strMovedUp'] = "foi movido para cima";
 $GLOBALS['strMovedDown'] = "foi movido para baixo";
 $GLOBALS['strUpdated'] = "foi actualizado";
-$GLOBALS['strACL'] = "LCA";
-$GLOBALS['strNoMoveUp'] = "Imposs&iacute;vel mover acima da primeira linha";
-$GLOBALS['strACLAdd'] = "Adicionar novo ".$GLOBALS['strACL'];
-$GLOBALS['strACLExist'] = $GLOBALS['strACL']." existente:";
 $GLOBALS['strLogin'] = "Confirmar Acesso";
 $GLOBALS['strPreferences'] = "Prefer&ecirc;ncias";
 $GLOBALS['strAllowClientModifyInfo'] = "Permitir que este utilizador modifique estas informa&ccedil;&otilde;es";
@@ -316,5 +311,11 @@ $GLOBALS['strRebuildZoneCache']          = "Reconstruir zona de pr&eacute;-carre
 $GLOBALS['strKiloByte']                  = "KB";
 $GLOBALS['strSeconds']                   = "segundos";
 $GLOBALS['strExpired']                   = "Expirou";
+
+$GLOBALS['strModifyBannerAcl'] 			= "Display limitations";
+$GLOBALS['strACL'] 						= "Limit";
+$GLOBALS['strNoMoveUp'] 				= "Imposs&iacute;vel mover acima da primeira linha";
+$GLOBALS['strACLAdd'] 					= "Add new limitation";
+$GLOBALS['strNoLimitations']			= "No limitations";
 
 ?>

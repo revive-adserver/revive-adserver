@@ -51,7 +51,6 @@ $GLOBALS['strSubmit'] = "Valider la publicité";
 $GLOBALS['strUsername'] = "Nom d'utilisateur";
 $GLOBALS['strPassword'] = "Mot de passe";
 $GLOBALS['strBannerAdmin'] = "Administration de bandeaux pour";
-$GLOBALS['strBannerAdminAcl'] = "Administration des contrôles d'accès pour";
 $GLOBALS['strNoBanners'] = "Pas de bandeaux trouvés";
 $GLOBALS['strBanner'] = "Bandeau";
 $GLOBALS['strCurrentBanner'] = "Bandeau courant";
@@ -149,10 +148,6 @@ $GLOBALS['strDeleted'] = "effacé!";
 $GLOBALS['strMovedUp'] = "remonté!";
 $GLOBALS['strMovedDown'] = "descendu";
 $GLOBALS['strUpdated'] = "mis à jour";
-$GLOBALS['strACL'] = "règle d'affichage";
-$GLOBALS['strNoMoveUp'] = "ne pas monter la première ligne";
-$GLOBALS['strACLAdd'] = "Ajouter une nouvelle ".$GLOBALS['strACL'];
-$GLOBALS['strACLExist'] = $GLOBALS['strACL']." existante:";
 $GLOBALS['strLogin'] = "Login";
 $GLOBALS['strPreferences'] = "Préférences";
 $GLOBALS['strAllowClientModifyInfo'] = "Permettre à cet utilisateur de modifier ses propres paramètres";
@@ -313,5 +308,11 @@ $GLOBALS['strRebuildZoneCache']			= "Rebuild zone cache";
 $GLOBALS['strKiloByte']					= "KB";
 $GLOBALS['strSeconds']					= "seconds";
 $GLOBALS['strExpired']					= "Expired";
+
+$GLOBALS['strModifyBannerAcl'] 			= "Display limitations";
+$GLOBALS['strACL'] 						= "Limit";
+$GLOBALS['strNoMoveUp'] 				= "ne pas monter la première ligne";
+$GLOBALS['strACLAdd'] 					= "Add new limitation";
+$GLOBALS['strNoLimitations']			= "No limitations";
 
 ?>

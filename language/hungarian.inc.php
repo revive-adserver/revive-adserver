@@ -57,7 +57,6 @@ $GLOBALS['strSubmit'] = "Hírdetés elküldése";
 $GLOBALS['strUsername'] = "Usernév";
 $GLOBALS['strPassword'] = "Jelszó";
 $GLOBALS['strBannerAdmin'] = "Banner adminisztráció: ";
-$GLOBALS['strBannerAdminAcl'] = "Banner ACL adminisztráció:";
 
 $GLOBALS['strNoBanners'] = "Nem találtam bannert!";
 $GLOBALS['strBanner'] = "Banner";
@@ -156,10 +155,6 @@ $GLOBALS['strDeleted'] = "törölve!";
 $GLOBALS['strMovedUp'] = "felmozdítva";
 $GLOBALS['strMovedDown'] = "lemozdítva";
 $GLOBALS['strUpdated'] = "frissítve";
-$GLOBALS['strACL'] = "ACL";
-$GLOBALS['strNoMoveUp'] = "Nem lehet az elsõ sort felmozdítani";
-$GLOBALS['strACLAdd'] = "Új ".$GLOBALS['strACL']." hozzáadása";
-$GLOBALS['strACLExist'] = "Létezõ ".$GLOBALS['strACL'].":";
 $GLOBALS['strLogin'] = "Login";
 $GLOBALS['strPreferences'] = "Preferences";
 $GLOBALS['strAllowClientModifyInfo'] = "Allow this user to modify his own client information";
@@ -320,5 +315,11 @@ $GLOBALS['strRebuildZoneCache']			= "Rebuild zone cache";
 $GLOBALS['strKiloByte']					= "KB";
 $GLOBALS['strSeconds']					= "seconds";
 $GLOBALS['strExpired']					= "Expired";
+
+$GLOBALS['strModifyBannerAcl'] 			= "Display limitations";
+$GLOBALS['strACL'] 						= "Limit";
+$GLOBALS['strNoMoveUp'] 				= "Nem lehet az elsõ sort felmozdítani";
+$GLOBALS['strACLAdd'] 					= "Add new limitation";
+$GLOBALS['strNoLimitations']			= "No limitations";
 
 ?>

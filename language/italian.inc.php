@@ -56,7 +56,6 @@ $GLOBALS['strSubmit'] = "Invia Banner";
 $GLOBALS['strUsername'] = "Nome Utente";
 $GLOBALS['strPassword'] = "Parola chiave";
 $GLOBALS['strBannerAdmin'] = "Amministrazione Banner per ";
-$GLOBALS['strBannerAdminAcl'] = "Amministrazione ACL per";
 $GLOBALS['strNoBanners'] = "Nessun banner trovato";
 $GLOBALS['strBanner'] = "Banner";
 $GLOBALS['strCurrentBanner'] = "Banner attuale";
@@ -152,10 +151,6 @@ $GLOBALS['strDeleted'] = "eliminato!";
 $GLOBALS['strMovedUp'] = "- priorit&agrave; aumentata";
 $GLOBALS['strMovedDown'] = "- priorit&agrave; diminuita";
 $GLOBALS['strUpdated'] = "aggiornato";
-$GLOBALS['strACL'] = "ACL";
-$GLOBALS['strNoMoveUp'] = "Non posso muoverlo alla prima riga";
-$GLOBALS['strACLAdd'] = "Inserisci ".$GLOBALS['strACL'];
-$GLOBALS['strACLExist'] = "".$GLOBALS['strACL']." Esistenti :";
 $GLOBALS['strLogin'] = "Login";
 $GLOBALS['strPreferences'] = "Preferenze";
 $GLOBALS['strAllowClientModifyInfo'] = "Permette di modificare le informazioni del cliente";
@@ -317,5 +312,11 @@ $GLOBALS['strRebuildZoneCache']			= "Ricrea la cache";
 $GLOBALS['strKiloByte']					= "KB";
 $GLOBALS['strSeconds']					= "secondi";
 $GLOBALS['strExpired']					= "Scaduto";
+
+$GLOBALS['strModifyBannerAcl'] 			= "Display limitations";
+$GLOBALS['strACL'] 						= "Limit";
+$GLOBALS['strNoMoveUp'] 				= "Non posso muoverlo alla prima riga";
+$GLOBALS['strACLAdd'] 					= "Add new limitation";
+$GLOBALS['strNoLimitations']			= "No limitations";
 
 ?>

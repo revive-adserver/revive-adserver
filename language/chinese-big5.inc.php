@@ -56,14 +56,12 @@ $GLOBALS['strSubmit'] = "儲存廣告";
 $GLOBALS['strUsername'] = "使用者代號";
 $GLOBALS['strPassword'] = "使用者密碼";
 $GLOBALS['strBannerAdmin'] = "廣告管理權";
-$GLOBALS['strBannerAdminAcl'] = "廣告推播條件管理權";
 $GLOBALS['strNoBanners'] = "目前無廣告";
 $GLOBALS['strBanner'] = "廣告";
 $GLOBALS['strCurrentBanner'] = "目前廣告";
 $GLOBALS['strDelete'] = "移除";
 $GLOBALS['strAddBanner'] = "新增廣告";
 $GLOBALS['strModifyBanner'] = "編輯廣告內容";
-$GLOBALS['strModifyBannerAcl'] = "編輯廣告推播條件";
 $GLOBALS['strURL'] = "廣告連結網址 (包含 http://)";
 $GLOBALS['strKeyword'] = "關鍵字";
 $GLOBALS['strWeight'] = "專案比重";
@@ -152,10 +150,6 @@ $GLOBALS['strDeleted'] = "已成功\移除!";
 $GLOBALS['strMovedUp'] = "已往上移";
 $GLOBALS['strMovedDown'] = "已往下移";
 $GLOBALS['strUpdated'] = "已成功\更新";
-$GLOBALS['strACL'] = "推播條件";
-$GLOBALS['strNoMoveUp'] = "無法將第一筆資料往上移";
-$GLOBALS['strACLAdd'] = "新增".$GLOBALS["strACL"];
-$GLOBALS['strACLExist'] = "重複".$GLOBALS["strACL"].":";
 $GLOBALS['strLogin'] = "登入";
 $GLOBALS['strPreferences'] = "喜好設定";
 $GLOBALS['strAllowClientModifyInfo'] = "允許該使用者更動客戶基本資料";
@@ -317,5 +311,11 @@ $GLOBALS['strRebuildZoneCache']			= "重建版位快取暫存空間";
 $GLOBALS['strKiloByte']					= "KB";
 $GLOBALS['strSeconds']					= "秒";
 $GLOBALS['strExpired']					= "已失效";
+
+$GLOBALS['strModifyBannerAcl'] 			= "Display limitations";
+$GLOBALS['strACL'] 						= "Limit";
+$GLOBALS['strNoMoveUp'] 				= "無法將第一筆資料往上移";
+$GLOBALS['strACLAdd'] 					= "Add new limitation";
+$GLOBALS['strNoLimitations']			= "No limitations";
 
 ?>
