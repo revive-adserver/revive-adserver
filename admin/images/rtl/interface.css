@@ -105,6 +105,22 @@ textarea.code-gray {
 	color: #808080;
 }
 
+div.box {
+	height:100px; 
+	width:275px; 
+	background-color: #FFFFFF;
+	overflow: auto; 
+	border: 2px inset;
+}
+
+div.boxrow {
+	cursor: pointer; 
+	cursor: hand; 
+	border-bottom: 1px #DDDDDD solid;
+}
+
+
+
 /* Custom */
 
 .phpAdsNew { 

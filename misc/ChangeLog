@@ -129,6 +129,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-11-10:  Delivery cache is now updated when limitations are applied to other banners  (Niels)
 			  - 2002-11-19:  Fixed JS error appeaing after manually closing an autoclosing popup  (Matteo)
 			  - 2002-11-22:  'Yes' and 'No' strings in the invocation generator are now using the translation files  (Niels)
+			  - 2002-11-22:  Added missing css-styles for banner-acl.php  (Matteo)
 
 
 v 2.0beta7		+ Added configuration manager  (Matteo, 2001-11-04)
