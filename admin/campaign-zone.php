@@ -36,8 +36,8 @@ if (isset($submit))
 	{
 		for (reset($previouszone);$key=key($previouszone);next($previouszone))
 		{
-			if (($previouszone[$key] == 't' && $includezone[$key] != 't') or
-			    ($previouszone[$key] != 't' && $includezone[$key] == 't'))
+			if (($previouszone[$key] == 't' && (!isset($includezone[$key]) || $includezone[$key] != 't')) ||
+			    ($previouszone[$key] != 't' && (isset($includezone[$key]) && $includezone[$key] == 't')))
 			{
 				phpAds_ToggleCampaignInZone ($campaignid, $key);
 			}

@@ -243,12 +243,12 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, $profile)
 	$debuglog .= "-----------------------------------------------------\n";
 	
 	for ($i=0;$i<12;$i++)
-		$debuglog .= (int)($real_profile[$i] + 0)."  ";
+		$debuglog .= (isset($real_profile[$i]) ? $real_profile[$i] : 0)."  ";
 	
 	$debuglog .= "\n";
 	
 	for ($i=12;$i<24;$i++)
-		$debuglog .= (int)($real_profile[$i] + 0)."  ";
+		$debuglog .= (isset($real_profile[$i]) ? $real_profile[$i] : 0)."  ";
 	
 	$debuglog .= "\n\n\n";
 	// END REPORTING
@@ -435,9 +435,9 @@ function phpAds_PriorityPredictProfile($campaigns, $banners, $profile)
 			for ($i=0;$i<24;$i++)
 			{
 				if ($i<phpAds_CurrentHour)
-					$profile[$i] = (int)$real_profile[$i];
+					$profile[$i] = isset($real_profile[$i]) ? $real_profile[$i] : 0;
 				else
-					$profile[$i] = (int)round($total_target / 24);
+					$profile[$i] = isset($total_target) ? (int)round($total_target / 24) : 0;
 			}
 		}
 	}
@@ -607,7 +607,7 @@ function phpAds_PriorityStore($banners)
 	{
 		$query = "
 			UPDATE ".$phpAds_config['tbl_banners']."
-			SET priority = ".$banners[$b]['priority']."
+			SET priority = ".(isset($banners[$b]['priority']) ? $banners[$b]['priority'] : 0)."
 			WHERE bannerid = ".$banners[$b]['bannerid']."
 		";
 		
@@ -659,7 +659,7 @@ function phpAds_PriorityCalculate()
 			for (reset($banners);$b=key($banners);next($banners))
 				if ($banners[$b]['parent'] == $c)
 				{
-					$other_hits += $banners[$b]['hits'];
+					$other_hits += isset($banners[$b]['hits']) ? $banners[$b]['hits'] : 0;
 					$bannercount++;
 				}
 			

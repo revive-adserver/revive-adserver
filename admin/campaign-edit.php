@@ -44,9 +44,9 @@ if (isset($submit))
 		$clicks = 0;
 	
 	// set unlimited
-	if (strtolower ($unlimitedviews) == "on")
+	if (isset($unlimitedviews) && strtolower ($unlimitedviews) == "on")
 		$views = -1;
-	if (strtolower ($unlimitedclicks) == "on")
+	if (isset($unlimitedclicks) && strtolower ($unlimitedclicks) == "on")
 		$clicks = -1;
 	
 	
