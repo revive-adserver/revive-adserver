@@ -54,40 +54,44 @@ if (!isset($bannerID))   $bannerID = '';
 // Setup navigation
 $phpAds_nav = array (
 	"admin"	=> array (
-		"2"					=>  array("stats-index.php" => "$strStats"),
-		  "2.1"				=> 	array("stats-campaign.php?campaignID=$campaignID" => "$strCampaignStats"),
-    	    "2.1.1" 		=> 	array("stats-details.php?campaignID=$campaignID&bannerID=$bannerID" => "$strDetailStats"),
-		      "2.1.1.1" 	=> 	array("stats-daily.php" => "$strDailyStats"),
-		    "2.1.2" 		=> 	array("stats-weekly.php?campaignID=$campaignID" => "$strWeeklyStats"),
-		  "2.2"		 		=> 	array("stats-details.php?campaignID=$campaignID&bannerID=$bannerID" => "$strDetailStats"),
-		  "2.3"		 		=> 	array("stats-weekly.php?campaignID=0" => "$strWeeklyStats"),
-		  "2.4"				=>  array("stats-client.php?clientID=$clientID" => "$strClientStats"),
+		"2"					=>  array("stats-index.php" => $strStats),
+ 	  	  "2.1"				=>  array("stats-index.php" => $strClientsAndCampaigns),
+		    "2.1.1"			=>  array("stats-client.php?clientID=$clientID" => $strClientStats),
+		    "2.1.2"			=> 	array("stats-campaign.php?campaignID=$campaignID" => $strCampaignStats),
+    	      "2.1.2.1" 	=> 	array("stats-details.php?campaignID=$campaignID&bannerID=$bannerID" => $strDetailStats),
+		        "2.1.2.1.1" => 	array("stats-daily.php" => $strDailyStats),
+		    "2.1.3"		 	=> 	array("stats-campaign-history.php?campaignID=$campaignID" => $strHistory),
+	        "2.1.4" 		=> 	array("stats-weekly.php?campaignID=$campaignID" => $strWeeklyStats),
+		  "2.2"				=>  array("stats-history.php" => $strHistory),
+	      "2.3"		 		=> 	array("stats-weekly.php?campaignID=0" => $strWeeklyStats),
 		"3"					=>  array("report-index.php" => "Reports"),
-		"4"					=>	array("client-index.php" => "$strAdminstration"),
-		  "4.1" 			=> 	array("campaign-index.php?campaignID=$campaignID" => "$strBanners"),
-		    "4.1.1"			=> 	array("banner-edit.php" => "$strAddBanner"),
-		    "4.1.2"			=> 	array("banner-edit.php" => "$strModifyBanner"),
-		    "4.1.3"			=> 	array("banner-acl.php" => "$strModifyBannerAcl"),
-		  "4.2"				=>  array("campaign-edit.php" => "$strCreateNewCampaign"),
-		  "4.3"				=>	array("campaign-edit.php" => "$strEditCampaign"),
-		  "4.4" 			=> 	array("client-edit.php" => "$strAddClient"),
-		  "4.5" 			=> 	array("client-edit.php" => "$strModifyClient"),
-		  "4.6" 			=> 	array("admin-generate.php" => "$strGenerateBannercode")
+		"4"					=>	array("client-index.php" => $strAdminstration),
+		  "4.1"				=>	array("client-index.php" => $strClientsAndCampaigns),
+		    "4.1.1"			=> 	array("client-edit.php" => $strAddClient),
+		    "4.1.2"			=> 	array("client-edit.php" => $strModifyClient),
+		    "4.1.3"			=>  array("campaign-edit.php" => $strCreateNewCampaign),
+		    "4.1.4"			=>	array("campaign-edit.php?campaignID=$campaignID" => $strModifyCampaign),
+		    "4.1.5"			=> 	array("campaign-index.php?campaignID=$campaignID" => $strCampaignOverview),
+		      "4.1.5.1"		=> 	array("banner-edit.php" => $strAddBanner),
+		      "4.1.5.2"		=> 	array("banner-edit.php?campaignID=$campaignID&bannerID=$bannerID" => $strModifyBanner),
+		      "4.1.5.3"		=> 	array("banner-acl.php?campaignID=$campaignID&bannerID=$bannerID" => $strModifyBannerAcl),
+		  "4.2" 			=> 	array("zone-index.php" => $strZones),
+		  "4.3" 			=> 	array("admin-generate.php" => $strGenerateBannercode)
 	),
 
 	"client" => array (
-		"1"					=>  array("index.php" => "$strHome"),
-		  "1.1"				=> 	array("stats-campaign.php?campaignID=$campaignID" => "$strCampaignStats"),
-		  	"1.1.1"			=> 	array("stats-details.php?campaignID=$campaignID&bannerID=$bannerID" => "$strDetailStats"),
-		      "1.1.1.1"		=> 	array("stats-daily.php" => "$strDailyStats"),
-		  	"1.1.2"			=> 	array("stats-weekly.php" => "$strWeeklyStats"),
-		    "1.1.3"			=> 	array("banner-edit.php?campaignID=$campaignID&bannerID=$bannerID" => "$strModifyBanner"),
-		  "1.2"				=>  array("stats-client.php" => "$strClientStats")
+		"1"					=>  array("index.php" => $strHome),
+		  "1.1"				=> 	array("stats-campaign.php?campaignID=$campaignID" => $strCampaignStats),
+		  	"1.1.1"			=> 	array("stats-details.php?campaignID=$campaignID&bannerID=$bannerID" => $strDetailStats),
+		      "1.1.1.1"		=> 	array("stats-daily.php" => $strDailyStats),
+		  	"1.1.2"			=> 	array("stats-weekly.php" => $strWeeklyStats),
+		    "1.1.3"			=> 	array("banner-edit.php?campaignID=$campaignID&bannerID=$bannerID" => $strModifyBanner),
+		  "1.2"				=>  array("stats-client.php" => $strClientStats)
 	)
 );
 
 if (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_ModifyInfo))
-	$phpAds_nav["client"]["2"] =  array("client-edit.php" => "$strPreferences");
+	$phpAds_nav["client"]["2"] =  array("client-edit.php" => $strPreferences);
 
 
 ?>
