@@ -22,10 +22,10 @@ phpAds_registerGlobal ('codetype', 'what', 'acid', 'source', 'target', 'withText
 					   'status', 'resizable', 'scrollbars');
 
 // Load translations
-if (file_exists("../language/".strtolower($phpAds_config['language'])."/invocation.lang.php"))
-	require ("../language/".strtolower($phpAds_config['language'])."/invocation.lang.php");
-else
-	require ("../language/english/invocation.lang.php");
+@require ("../language/english/invocation.lang.php");
+if ($phpAds_config['language'] != 'english' && file_exists("../language/".strtolower($phpAds_config['language'])."/invocation.lang.php"))
+	@require ("../language/".strtolower($phpAds_config['language'])."/invocation.lang.php");
+	
 
 
 
