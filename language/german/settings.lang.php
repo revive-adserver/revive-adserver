@@ -1,4 +1,4 @@
-<?php // $Revision: 1.12 $
+<?php // $Revision: 1.13 $
 
 /************************************************************************/
 /* phpAdsNew 2                                                          */
@@ -79,23 +79,21 @@ $GLOBALS['strConfigNotWritable']		= "Die Datei <b>config.inc.php</b> ist nicht b
 
 $GLOBALS['strChooseSection']			= "Abschnitt schließen";
 $GLOBALS['strDayFullNames'] 			= array("Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Sonnabend");
-$GLOBALS['strEditConfigNotPossible']    = "It is not possible to edit these settings because the configuration file is locked for security reasons. ".
-										  "If you want to make changes, you need to unlock the config.inc.php file first.";
-$GLOBALS['strEditConfigPossible']		= "It is possible to edit all settings because the configuration file is not locked, but this could lead to security leaks. ".
-										  "If you want to secure your system, you need to lock the config.inc.php file.";
+$GLOBALS['strEditConfigNotPossible']    = "Es ist nicht möglich diese Einstellungen zu bearbeiten, weil die Konfigurationsdatei aus Sicherheitsgründen gesperrt/schreibgeschützt wurde. "."Wenn Veränderungen gemacht werden sollen, dann muß der Schreibschutz der Datei config.inc.php vorher aufgehoben werden.";
+$GLOBALS['strEditConfigPossible']		= "Es ist möglich, die Einstellung zu bearbeiten, da die Konfigurationsdatei nicht gesperrt/schreibgeschützt ist, allerdings könnten sich dadurch Sicherheitslöcher öffnen. "."Wenn das System abgesichert werden soll, so muß die Datei config.inc.php gesperrt/schreibgeschützt werden.";
 
 
 
 // Database
 $GLOBALS['strDatabaseSettings']			= "Datenbankeinstellungen";
 
-$GLOBALS['strDatabaseServer']			= "Database server";
+$GLOBALS['strDatabaseServer']			= "Datenbank Server";
 $GLOBALS['strDbHost']					= "Datenbank Hostname";
 $GLOBALS['strDbUser']					= "Datenbank Username";
 $GLOBALS['strDbPassword']				= "Datenbank Passwort";
 $GLOBALS['strDbName']					= "Datenbankname";
 
-$GLOBALS['strDatabaseOptimalisations']	= "Database optimalisations";
+$GLOBALS['strDatabaseOptimalisations']	= "Datenbankoptimierung";
 $GLOBALS['strPersistentConnections']	= "Ständige Dantenbankverbindung nutzen (persistent)";
 $GLOBALS['strInsertDelayed']			= "Verzögerte Inserts (Einfügungen) nutzen";
 $GLOBALS['strCompatibilityMode']		= "Nutze Datenbank Kompatibilitäts Mode";
@@ -104,9 +102,9 @@ $GLOBALS['strCantConnectToDb']			= "Es kann keine Verbindung zur Datenbank aufge
 
 
 // Invocation and Delivery
-$GLOBALS['strInvocationAndDelivery']	= "Invocation and delivery settings";
+$GLOBALS['strInvocationAndDelivery']	= "Einfüge- und Verteilungseinstellungen";
 
-$GLOBALS['strKeywordRetrieval']			= "Keyword retrieval";
+$GLOBALS['strKeywordRetrieval']			= "Schlüsselwort erhalten";
 $GLOBALS['strBannerRetrieval']			= "Banner Einblendungsmethode";
 $GLOBALS['strRetrieveRandom']			= "Zufällige Bannereinblendung (Standard)";
 $GLOBALS['strRetrieveNormalSeq']		= "Normal sequentielle Bannereinblendung";
@@ -124,12 +122,12 @@ $GLOBALS['strZoneCacheLimitErr']		= "Zeit zwischen Cache Updates sollte eine pos
 $GLOBALS['strP3PSettings']				= "P3P Einstellungen";
 $GLOBALS['strUseP3P']					= "Nutze P3P Policies";
 $GLOBALS['strP3PCompactPolicy']			= "P3P Compact Policy";
-$GLOBALS['strP3PPolicyLocation']		= "P3P Policy Location";
+$GLOBALS['strP3PPolicyLocation']		= "P3P Policy Ort";
 
 
 
 // Banner Settings
-$GLOBALS['strBannerSettings']			= "Banner settings";
+$GLOBALS['strBannerSettings']			= "Bannereinstellungen";
 
 $GLOBALS['strTypeHtmlSettings']			= "HTML-Banner Konfiguration";
 $GLOBALS['strTypeHtmlAuto']				= "Automatisch HTML-Banner anpassen, um ein Adclick Loggen zu ermöglichen";
@@ -143,29 +141,29 @@ $GLOBALS['strTypeWebDir']				= "Local Mode Webbanner Verzeichnis";
 $GLOBALS['strTypeWebFtp']				= "FTP Mode Webbanner Server";
 $GLOBALS['strTypeWebUrl']				= "Öffentliche URL des lokalen Verzeichnisses / FTP-Servers";
 
-$GLOBALS['strDefaultBanners']			= "Default banners";
+$GLOBALS['strDefaultBanners']			= "Standard Banner";
 $GLOBALS['strDefaultBannerUrl']			= "Standard Banner-URL";
 $GLOBALS['strDefaultBannerTarget']		= "Standard Banner Klick-Ziel";
 
 
 
 // Statistics Settings
-$GLOBALS['strStatisticsSettings']		= "Statistics Settings";
+$GLOBALS['strStatisticsSettings']		= "Statistikeinstellungen";
 
-$GLOBALS['strStatisticsFormat']			= "Statistics format";
-$GLOBALS['strLogBeacon']				= "Use beacons to log Adviews";
+$GLOBALS['strStatisticsFormat']			= "Statistik Format";
+$GLOBALS['strLogBeacon']				= "Nutze &gt;beacons&lt; (Pixel), um AdViews zu loggen";
 $GLOBALS['strCompactStats']				= "Nutze kompakte Statistik";
-$GLOBALS['strLogAdviews']				= "Log Adviews";
-$GLOBALS['strLogAdclicks']				= "Log Adclicks";
+$GLOBALS['strLogAdviews']				= "Log AdViews";
+$GLOBALS['strLogAdclicks']				= "Log AdClicks";
 
-$GLOBALS['strEmailWarnings']			= "E-mail warnings";
+$GLOBALS['strEmailWarnings']			= "E-Mail Warnungen";
 $GLOBALS['strAdminEmailHeaders']		= "Mailkopf zur Wiedergabe des Senders der täglichen Werbeberichte";
 $GLOBALS['strWarnLimit']				= "Limitwarnung";
 $GLOBALS['strWarnLimitErr']				= "Limitwarnung sollte eine positive ganze Zahl sein";
 $GLOBALS['strWarnAdmin']				= "Adminwarnung";
-$GLOBALS['strWarnClient']				= "Clientwarnung";
+$GLOBALS['strWarnClient']				= "Kundenwarnung";
 
-$GLOBALS['strRemoteHosts']				= "Remote hosts";
+$GLOBALS['strRemoteHosts']				= "Remote Hosts";
 $GLOBALS['strIgnoreHosts']				= "Ignoriere Hosts";
 $GLOBALS['strReverseLookup']			= "Reverse DNS Lookup";
 $GLOBALS['strProxyLookup']				= "Proxy Lookup";
@@ -173,46 +171,46 @@ $GLOBALS['strProxyLookup']				= "Proxy Lookup";
 
 
 // Administrator settings
-$GLOBALS['strAdministratorSettings']	= "Administrator settings";
+$GLOBALS['strAdministratorSettings']	= "Administratoreinstellungen";
 
-$GLOBALS['strLoginCredentials']			= "Login credentials";
+$GLOBALS['strLoginCredentials']			= "Login Beglaubigungen";
 $GLOBALS['strAdminUsername']			= "Admins Username";
 $GLOBALS['strOldPassword']				= "Altes Passwort";
 $GLOBALS['strNewPassword']				= "Neues Passwort";
 $GLOBALS['strInvalidUsername']			= "Ungültiger Username";
 $GLOBALS['strInvalidPassword']			= "Ungültiges Passwort";
 
-$GLOBALS['strBasicInformation']			= "Basic information";
+$GLOBALS['strBasicInformation']			= "Basis Information";
 $GLOBALS['strAdminFullName']			= "Admins voller Vor-,Nachname";
 $GLOBALS['strAdminEmail']				= "Admins E-Mail Adresse";
 $GLOBALS['strCompanyName']				= "Unternehmensname";
 
-$GLOBALS['strAdminNovice']				= "Des Admins Löschvorgänge benötigen zur Sicherheit eine Bestätigung";
+$GLOBALS['strAdminNovice']				= "Die Admin Löschvorgänge benötigen zur Sicherheit eine Bestätigung";
 
 
 
 // User interface settings
 $GLOBALS['strGuiSettings']				= "User Interface Konfiguration";
 
-$GLOBALS['strGeneralSettings']			= "General settings";
+$GLOBALS['strGeneralSettings']			= "Haupteinstellungen";
 $GLOBALS['strAppName']					= "Applikationsname";
 $GLOBALS['strMyHeader']					= "Mein Header";
 $GLOBALS['strMyFooter']					= "Mein Footer";
 
-$GLOBALS['strClientInterface']			= "Client interface";
-$GLOBALS['strClientWelcomeEnabled']		= "Aktiviere Client Willkommen Nachricht";
-$GLOBALS['strClientWelcomeText']		= "Client Willkommen Text<br>(HTML-Tags erlaubt)";
+$GLOBALS['strClientInterface']			= "Kundenumgebung";
+$GLOBALS['strClientWelcomeEnabled']		= "Aktiviere Kunden Willkommen Nachricht";
+$GLOBALS['strClientWelcomeText']		= "Kunden Willkommen Text<br>(HTML-Tags erlaubt)";
 
 
 
 // Interface defaults
-$GLOBALS['strInterfaceDefaults']		= "Interface defaults";
+$GLOBALS['strInterfaceDefaults']		= "Umgebungsstandard";
 
-$GLOBALS['strStatisticsDefaults'] 		= "Statistics";
+$GLOBALS['strStatisticsDefaults'] 		= "Statistiken";
 $GLOBALS['strBeginOfWeek']				= "Beginn der Woche";
-$GLOBALS['strPercentageDecimals']		= "Percentage Decimals";
+$GLOBALS['strPercentageDecimals']		= "Prozentual";
 
-$GLOBALS['strWeightDefaults']			= "Default weight";
+$GLOBALS['strWeightDefaults']			= "Standard Gewichtung";
 $GLOBALS['strDefaultBannerWeight']		= "Standard Bannergewichtung";
 $GLOBALS['strDefaultCampaignWeight']	= "Standard Kampagnengewichtung";
 $GLOBALS['strDefaultBannerWErr']		= "Standard Bannergewichtung sollte eine positive ganze Zahl sein";
