@@ -464,13 +464,13 @@ if (count($tmp_order) > 0)
 			{
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;";
 				echo "<img src='images/icon-deactivate.gif' align='absmiddle'>&nbsp;";
-				echo "<a href='banner-activate.php?campaignid=$campaignid&bannerid=".$row_banners['bannerid']."&value=true'>$strDeActivate</a>";
+				echo "<a href='banner-activate.php?campaignid=$campaignid&bannerid=".$row_banners['bannerid']."&value=t'>$strDeActivate</a>";
 			}
 			if (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_ActivateBanner) && $row_banners['active'] != 't') // only for the client if allowed
 			{
 				echo "&nbsp;&nbsp;&nbsp;&nbsp;";
 				echo "<img src='images/icon-activate.gif' align='absmiddle'>&nbsp;";
-				echo "<a href='banner-activate.php?campaignid=$campaignid&bannerid=".$row_banners['bannerid']."&value=false'>$strActivate</a>";
+				echo "<a href='banner-activate.php?campaignid=$campaignid&bannerid=".$row_banners['bannerid']."&value=f'>$strActivate</a>";
 			}
 			if ($adclicks > 0 || $adviews > 0)
 			{
