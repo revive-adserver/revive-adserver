@@ -18,7 +18,7 @@ define ('LIBDBCONFIG_INCLUDED', true);
 
 
 // Current phpAds version
-$phpAds_version = 200.104;
+$phpAds_version = 200.105;
 $phpAds_version_readable = "2 beta 7.1";
 $phpAds_productname = "phpAdsNew";
 $phpAds_dbmsname = "MySQL";
@@ -102,6 +102,7 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'content_gzip_compression' =>	array ('type' => 'boolean', 'sql' => true),
 	'userlog_email' =>				array ('type' => 'boolean', 'sql' => true),
 	'userlog_priority' =>			array ('type' => 'boolean', 'sql' => true),
+	'userlog_autoclean' =>			array ('type' => 'boolean', 'sql' => true),
 	'gui_show_campaign_info' =>		array ('type' => 'boolean', 'sql' => true),
 	'gui_show_campaign_preview' =>	array ('type' => 'boolean', 'sql' => true),
 	'gui_show_banner_info' =>		array ('type' => 'boolean', 'sql' => true),
@@ -122,6 +123,9 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'allow_invocation_local' =>		array ('type' => 'boolean', 'sql' => true),
 	'allow_invocation_interstitial' =>	array ('type' => 'boolean', 'sql' => true),
 	'allow_invocation_popup' =>		array ('type' => 'boolean', 'sql' => true),
+	'auto_clean_tables' =>			array ('type' => 'boolean', 'sql' => true),
+	'auto_clean_tables_interval' =>	array ('type' => 'integer', 'sql' => true),
+//	'auto_clean_tables_vacuum' =>	array ('type' => 'boolean', 'sql' => true),
 	'config_version' =>				array ('type' => 'string', 'sql' => true)
 );
 

@@ -245,6 +245,7 @@ CREATE TABLE phpads_config (
    content_gzip_compression enum('t','f') DEFAULT 'f',
    userlog_email enum('t','f') DEFAULT 't',
    userlog_priority enum('t','f') DEFAULT 't',
+   userlog_autoclean enum('t','f') DEFAULT 't',
    gui_show_campaign_info enum('t','f') DEFAULT 't',
    gui_show_campaign_preview enum('t','f') DEFAULT 'f',
    gui_show_banner_info enum('t','f') DEFAULT 't',
@@ -265,6 +266,9 @@ CREATE TABLE phpads_config (
    allow_invocation_local enum('t','f') DEFAULT 't',
    allow_invocation_interstitial enum('t','f') DEFAULT 't',
    allow_invocation_popup enum('t','f') DEFAULT 't',
+   auto_clean_tables enum('t','f') DEFAULT 'f',
+   auto_clean_tables_interval tinyint(2) DEFAULT 5,
+   auto_clean_tables_vacuum enum('t','f') DEFAULT 't',
    PRIMARY KEY (configid)
 );
 

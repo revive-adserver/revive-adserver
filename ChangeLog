@@ -4,6 +4,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			+ Added the ability to preview banners on the Linked Banners page  (Niels, 2002-08-01)
 			+ Added the ability to show which banners match when using campaigns to link zones to banners  (Niels, 2002-08-01)
 			+ Added the ability to show the parent campaigns when using banners to link zones to banners  (Niels, 2002-08-01)
+			+ Added the ability to auto clean old statistics and userlog entries  (Matteo, 2002-08-02)
 
 			+ Misc changes
 			  - 2002-07-26:  Added daily and hosts pages for affiliates and zones (Matteo)

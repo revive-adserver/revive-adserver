@@ -60,6 +60,7 @@ if (date('H') == 0)
 	include ("maintenance-reports.php");
 	include ("maintenance-activation.php");
 	include ("maintenance-autotargeting.php");
+	include ("maintenance-cleantables.php");
 }
 
 include ("maintenance-priority.php");

@@ -74,6 +74,8 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 		phpAds_SettingsWriteAdd('userlog_email', $userlog_email);
 	if (isset($userlog_priority))
 		phpAds_SettingsWriteAdd('userlog_priority', $userlog_priority);
+	if (isset($userlog_autoclean))
+		phpAds_SettingsWriteAdd('userlog_autoclean', $userlog_autoclean);
 	
 	if (!count($errormessage))
 	{
@@ -147,6 +149,7 @@ phpAds_AddSettings('checkbox', 'admin_novice', $strAdminNovice);
 phpAds_AddSettings('break', '');
 phpAds_AddSettings('checkbox', 'userlog_email', $strUserlogEmail);
 phpAds_AddSettings('checkbox', 'userlog_priority', $strUserlogPriority);
+phpAds_AddSettings('checkbox', 'userlog_autoclean', $strUserlogAutoClean);
 phpAds_AddSettings('end_section', '');
 phpAds_EndSettings();
 

@@ -80,6 +80,17 @@ if (isset($HTTP_POST_VARS) && count($HTTP_POST_VARS))
 	if (isset($qmail_patch))
 		phpAds_SettingsWriteAdd('qmail_patch', $qmail_patch);
 	
+	if (isset($auto_clean_tables))
+		phpAds_SettingsWriteAdd('auto_clean_tables', $auto_clean_tables);
+
+	if (isset($auto_clean_tables_interval))
+	{
+		if (!is_numeric($auto_clean_tables_interval) || $auto_clean_tables_interval <= 2)
+			$errormessage[4][] = $strAutoCleanErr ;
+		else
+			phpAds_SettingsWriteAdd('auto_clean_tables_interval', $auto_clean_tables_interval);
+	}
+
 	if (!count($errormessage))
 	{
 		if (phpAds_SettingsWriteFlush())
@@ -128,7 +139,7 @@ phpAds_AddSettings('text', 'block_adclicks',
 	array($strBlockAdclicks, 12, 'text', 5, 'log_adclicks'));
 phpAds_AddSettings('end_section', '');
 
-$extra = phpAds_AddSettings('start_section', "1.4.2");
+phpAds_AddSettings('start_section', "1.4.2");
 phpAds_AddSettings('text', 'admin_email_headers',
 	array($strAdminEmailHeaders, 35, 'textarea', 5));
 phpAds_AddSettings('break', '');
@@ -148,6 +159,15 @@ phpAds_AddSettings('break', '');
 phpAds_AddSettings('checkbox', 'reverse_lookup', $strReverseLookup);
 phpAds_AddSettings('break', '');
 phpAds_AddSettings('checkbox', 'proxy_lookup', $strProxyLookup);
+phpAds_AddSettings('end_section', '');
+
+phpAds_AddSettings('start_section', "1.4.4");
+//phpAds_AddSettings('checkbox', 'auto_clean_tables_vacuum', $strAutoCleanVacuum);
+phpAds_AddSettings('checkbox', 'auto_clean_tables',
+	array($strAutoCleanEnable, array('auto_clean_tables_interval')));
+phpAds_AddSettings('break', '');
+phpAds_AddSettings('text', 'auto_clean_tables_interval',
+	array($strAutoCleanWeeks, 25, 'text', 1, 'auto_clean_tables'));
 phpAds_AddSettings('end_section', '');
 phpAds_EndSettings();
 

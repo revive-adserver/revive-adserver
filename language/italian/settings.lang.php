@@ -206,6 +206,11 @@ $GLOBALS['strIgnoreHosts']				= "Host da ignorare nelle statistiche";
 $GLOBALS['strReverseLookup']			= "Risolvi nomi di dominio";
 $GLOBALS['strProxyLookup']				= "Risolvi indirizzi che utilizzano un server proxy";
 
+$GLOBALS['strAutoCleanTables']			= "Pulizia automatica del database";
+$GLOBALS['strAutoCleanEnable']			= "Abilita pulizia automatica";
+$GLOBALS['strAutoCleanWeeks']			= "Et&agrave; massima statistiche e registro eventi (settimane)";
+$GLOBALS['strAutoCleanErr']				= "L'et&agrave; massima deve essere di almeno 2 settimane";
+$GLOBALS['strAutoCleanVacuum']			= "Esegui VACUUM ANALYZE sulle tabelle ogni notte"; // only Pg
 
 
 // Administrator settings
@@ -234,6 +239,7 @@ $GLOBALS['strAdminCheckNever']			= "Non controllare";
 
 $GLOBALS['strUserlogEmail']				= "Registra tutte le email in uscita";
 $GLOBALS['strUserlogPriority']			= "Registra i calcoli eseguiti ogni ora nell'assegnamento delle priorit&agrave;";
+$GLOBALS['strUserlogAutoClean']			= "Registra la pulizia automatica del database";
 
 
 // User interface settings

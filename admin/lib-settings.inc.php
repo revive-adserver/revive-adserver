@@ -57,6 +57,7 @@ $phpAds_settings_sections = array(
 	"1.4.1"		=> $strStatisticsFormat,
 	"1.4.2"		=> $strEmailWarnings,
 	"1.4.3"		=> $strRemoteHosts,
+	"1.4.4"		=> $strAutoCleanTables,
 	"2"			=> $strAdminSettings,
 	"2.1"		=> $strAdministratorSettings,
 	"2.1.1"		=> $strLoginCredentials,
