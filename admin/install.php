@@ -25,6 +25,30 @@ else
     define ('phpAds_path', '..');
 
 
+
+include (phpAds_path."/libraries/lib-dbconfig.inc.php");
+include (phpAds_path."/libraries/lib-revisions.inc.php");
+
+if (!count($HTTP_POST_VARS) && !count($HTTP_GET_VARS))
+{
+	// Before we do anything else we need to check the integerity of the uploaded files
+	if ($result = phpAds_revisionCheck())
+	{
+		list ($rev_direct, $rev_fatal, $rev_message) = $result;
+		
+		if ($rev_direct)
+		{
+			// (no need for translation, because language file is not loaded yet)
+			echo "<strong>The installer detected some problems which need to be fixed before you can continue:</strong><br>";
+			echo '<ul><li>'.implode('<li>', $rev_message).'</ul>';
+			exit;
+		}
+	}
+}
+
+
+
+
 // Include config file
 require ("../config.inc.php");
 
@@ -32,7 +56,7 @@ require ("../config.inc.php");
 // Register input variables
 require ("../libraries/lib-io.inc.php");
 phpAds_registerGlobal ('installvars', 'language', 'phase', 'dbhost', 'dbport', 'dbuser', 'dbpassword', 'dbname', 'table_prefix', 
-					   'table_type', 'admin', 'admin_pw', 'admin_pw2', 'url_prefix', 'arraybugcheck');
+					   'table_type', 'admin', 'admin_pw', 'admin_pw2', 'url_prefix', 'arraybugcheck', 'ignore');
 
 
 // Set URL prefix
@@ -70,7 +94,6 @@ else
 
 // Include other required files
 require ("../libraries/lib-db.inc.php");
-require ("../libraries/lib-dbconfig.inc.php");
 require ("lib-install-db.inc.php");
 require ("lib-permissions.inc.php");
 require ("lib-gui.inc.php");
@@ -124,6 +147,7 @@ $phpAds_nav = array (
 );
 
 
+
 // Security check
 phpAds_checkAccess(phpAds_Admin);
 
@@ -154,28 +178,22 @@ if (phpAds_isUser(phpAds_Admin))
 			// Store fatal errors
 			$fatal = array();
 			
-			// Check PHP version < 4.0.1
-			if ($phpversion < 4001)
+			// Check PHP version < 4.0.3
+			if ($phpversion < 4003)
 				$fatal[] = str_replace ('{php_version}', phpversion(), $strWarningPHPversion);
 			
 			// Check database extention
 			if (!phpAds_dbAvailable())
 				$fatal[] = $strWarningDBavailable;
 			
-			// Config variables can only be checked with php 4
-			if ($phpversion >= 4000)
-			{
-				// Check file_uploads
-				if (ini_get ('file_uploads') != true)
-					  $fatal[] = $strWarningFileUploads;
+			// Check file_uploads
+			if (ini_get ('file_uploads') != true)
+				  $fatal[] = $strWarningFileUploads;
 				
-				// Check track_vars
-				if ($phpversion < 4003 &&
-					ini_get ('track_vars') != true)
-					$fatal[] = $strWarningTrackVars;
-			}
-			
-			
+			// Check magic_quotes_sybase
+			if (ini_get ('magic_quotes_sybase') != false)
+				$fatal[] = $strWarningMagicQuotesSybase;
+		
 			// Check for PREG extention
 			if (!function_exists('preg_match'))
 				$fatal[] = $strWarningPREG;
@@ -186,7 +204,12 @@ if (phpAds_isUser(phpAds_Admin))
 				$fatal[] = $strConfigLockedDetected;
 			
 			
-			if (count($fatal) > 0)
+			// Check the integerity of the uploaded files
+			if ($result = phpAds_revisionCheck())
+				list ($rev_direct, $rev_fatal, $rev_message) = $result;
+			
+			
+			if (count($fatal) > 0 || (isset($rev_direct) && !isset($ignore)))
 				$phase = 2;
 			else
 				$phase = 3;
@@ -196,13 +219,28 @@ if (phpAds_isUser(phpAds_Admin))
 			
 		case 3:
 			// Set language
-			$installvars['language'] = $language;
+			$admin = trim($admin);
+			
+			if (!strlen($admin) || !strlen($admin_pw))
+				$errormessage[0][] = $strInvalidUserPwd;
+			
+			if (strlen($admin_pw) && $admin_pw != $admin_pw2)
+				$errormessage[0][] = $strNotSamePasswords;
+
+			if (!isset($errormessage) || !count($errormessage))
+			{
+				$installvars['admin'] 		 = $admin;
+				$installvars['admin_pw'] 	 = md5($admin_pw);
+				$installvars['url_prefix']   = $url_prefix;
+				$installvars['language'] 	 = $language;
+			}
+			
 			
 			// Check for PHP bug #20144
 			if (!(isset($arraybugcheck) && is_array($arraybugcheck) && strlen($arraybugcheck[0]) == 4))
 			{
 				$fatal[] = $strPhpBug20144;
-				$phase = 6;
+				$phase = 5;
 				break;
 			}
 
@@ -282,88 +320,63 @@ if (phpAds_isUser(phpAds_Admin))
 				}
 				else
 				{
-					// Go to next phase
+					if (phpAds_isConfigWritable())
+					{
+						// Connect
+						if (phpAds_dbConnect())
+						{
+							if (phpAds_createDatabase($phpAds_config['table_type']))
+							{
+								// Insert basic settings into database and config file
+								phpAds_SettingsWriteAdd('config_version', $phpAds_version);
+								phpAds_SettingsWriteAdd('language', $installvars['language']);
+								
+								phpAds_SettingsWriteAdd('dbhost', $installvars['dbhost']);
+								phpAds_SettingsWriteAdd('dbport', $installvars['dbport']);
+								phpAds_SettingsWriteAdd('dbuser', $installvars['dbuser']);
+								phpAds_SettingsWriteAdd('dbpassword', $installvars['dbpassword']);
+								phpAds_SettingsWriteAdd('dbname', $installvars['dbname']);
+								phpAds_SettingsWriteAdd('table_prefix', $installvars['table_prefix']);
+								phpAds_SettingsWriteAdd('table_type', $installvars['table_type']);
+								
+								phpAds_SettingsWriteAdd('tbl_clients', $installvars['tbl_clients']);
+								phpAds_SettingsWriteAdd('tbl_banners', $installvars['tbl_banners']);
+								phpAds_SettingsWriteAdd('tbl_adstats', $installvars['tbl_adstats']);
+								phpAds_SettingsWriteAdd('tbl_adviews', $installvars['tbl_adviews']);
+								phpAds_SettingsWriteAdd('tbl_adclicks', $installvars['tbl_adclicks']);
+								phpAds_SettingsWriteAdd('tbl_acls', $installvars['tbl_acls']);
+								phpAds_SettingsWriteAdd('tbl_session', $installvars['tbl_session']);
+								phpAds_SettingsWriteAdd('tbl_zones', $installvars['tbl_zones']);
+								phpAds_SettingsWriteAdd('tbl_config', $installvars['tbl_config']);
+								phpAds_SettingsWriteAdd('tbl_affiliates', $installvars['tbl_affiliates']);
+								phpAds_SettingsWriteAdd('tbl_images', $installvars['tbl_images']);
+								phpAds_SettingsWriteAdd('tbl_userlog', $installvars['tbl_userlog']);
+								phpAds_SettingsWriteAdd('tbl_cache', $installvars['tbl_cache']);
+								phpAds_SettingsWriteAdd('tbl_targetstats', $installvars['tbl_targetstats']);
+								
+								phpAds_SettingsWriteAdd('admin', $installvars['admin']);
+								phpAds_SettingsWriteAdd('admin_pw', $installvars['admin_pw']);
+								phpAds_SettingsWriteAdd('url_prefix', $installvars['url_prefix']);
+								
+								phpAds_ConfigFileClear();
+								
+								if (!phpAds_SettingsWriteFlush())
+									$fatal[] = $strErrorInstallConfig;
+							}
+							else
+								$fatal[] = $strErrorInstallDatabase;
+						}
+						else
+							$fatal[] = $strErrorInstallDbConnect;
+					}
+					else
+						$fatal[] = $strConfigLockedDetected;
+											
 					$phase = 5;
 				}
 			}
 			
 			break;
-			
-			
-		case 5:
-			// Setup username / password check
-			$admin = trim($admin);
-			
-			if (!strlen($admin) || !strlen($admin_pw))
-				$errormessage[0][] = $strInvalidUserPwd;
-			
-			if (strlen($admin_pw) && $admin_pw != $admin_pw2)
-				$errormessage[0][] = $strNotSamePasswords;
-			
-			
-			if (!isset($errormessage) || !count($errormessage))
-			{
-				$installvars['admin'] 		 = $admin;
-				$installvars['admin_pw'] 	 = md5($admin_pw);
-				$installvars['url_prefix']   = $url_prefix;
-				
-				if (phpAds_isConfigWritable())
-				{
-					// Connect
-					if (phpAds_dbConnect())
-					{
-						if (phpAds_createDatabase($phpAds_config['table_type']))
-						{
-							// Insert basic settings into database and config file
-							phpAds_SettingsWriteAdd('config_version', $phpAds_version);
-							phpAds_SettingsWriteAdd('language', $installvars['language']);
-							
-							phpAds_SettingsWriteAdd('dbhost', $installvars['dbhost']);
-							phpAds_SettingsWriteAdd('dbport', $installvars['dbport']);
-							phpAds_SettingsWriteAdd('dbuser', $installvars['dbuser']);
-							phpAds_SettingsWriteAdd('dbpassword', $installvars['dbpassword']);
-							phpAds_SettingsWriteAdd('dbname', $installvars['dbname']);
-							phpAds_SettingsWriteAdd('table_prefix', $installvars['table_prefix']);
-							phpAds_SettingsWriteAdd('table_type', $installvars['table_type']);
-							
-							phpAds_SettingsWriteAdd('tbl_clients', $installvars['tbl_clients']);
-							phpAds_SettingsWriteAdd('tbl_banners', $installvars['tbl_banners']);
-							phpAds_SettingsWriteAdd('tbl_adstats', $installvars['tbl_adstats']);
-							phpAds_SettingsWriteAdd('tbl_adviews', $installvars['tbl_adviews']);
-							phpAds_SettingsWriteAdd('tbl_adclicks', $installvars['tbl_adclicks']);
-							phpAds_SettingsWriteAdd('tbl_acls', $installvars['tbl_acls']);
-							phpAds_SettingsWriteAdd('tbl_session', $installvars['tbl_session']);
-							phpAds_SettingsWriteAdd('tbl_zones', $installvars['tbl_zones']);
-							phpAds_SettingsWriteAdd('tbl_config', $installvars['tbl_config']);
-							phpAds_SettingsWriteAdd('tbl_affiliates', $installvars['tbl_affiliates']);
-							phpAds_SettingsWriteAdd('tbl_images', $installvars['tbl_images']);
-							phpAds_SettingsWriteAdd('tbl_userlog', $installvars['tbl_userlog']);
-							phpAds_SettingsWriteAdd('tbl_cache', $installvars['tbl_cache']);
-							phpAds_SettingsWriteAdd('tbl_targetstats', $installvars['tbl_targetstats']);
-							
-							phpAds_SettingsWriteAdd('admin', $installvars['admin']);
-							phpAds_SettingsWriteAdd('admin_pw', $installvars['admin_pw']);
-							phpAds_SettingsWriteAdd('url_prefix', $installvars['url_prefix']);
-							
-							phpAds_ConfigFileClear();
-							
-							if (!phpAds_SettingsWriteFlush())
-								$fatal[] = $strErrorInstallConfig;
-						}
-						else
-							$fatal[] = $strErrorInstallDatabase;
-					}
-					else
-						$fatal[] = $strErrorInstallDbConnect;
-				}
-				else
-					$fatal[] = $strConfigLockedDetected;
-				
-				$phase = 6;
-			}
-			
-			break;
-			
 			
 		default:
 			break;
@@ -389,6 +402,8 @@ if (phpAds_isUser(phpAds_Admin))
 	phpAds_ShowBreak();
 	
 	
+	$displayed_phase = $phase;
+	$next_phase 	 = $phase;
 	
 	switch($phase)
 	{
@@ -420,7 +435,7 @@ if (phpAds_isUser(phpAds_Admin))
 			echo "</span>";
 			echo "</td></tr></table>";
 			
-			$phase++;
+			$next_phase++;
 			break;
 			
 
@@ -447,7 +462,7 @@ if (phpAds_isUser(phpAds_Admin))
 			echo "</span>";
 			echo "</td></tr></table>";
 			
-			$phase++;
+			$next_phase++;
 			break;
 			
 
@@ -458,15 +473,20 @@ if (phpAds_isUser(phpAds_Admin))
 			echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
 			echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
 			echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
-			echo "<span class='install'>".$strInstallMessage;
+			echo "<span class='install'>".$strInstallMessageCheck;
 			
-			if (count($fatal))
+			if (count($fatal) || isset($rev_direct))
 			{
 				echo "<br><br><div class='errormessage'><img class='errormessage' src='images/errormessage.gif' align='absmiddle'>";
 				echo "<span class='tab-r'>".$strMayNotFunction."</span><br><br>".$strFixProblemsBefore."<ul>";
 				
-				for ($r=0;$r<count($fatal);$r++)
-					echo "<li>".$fatal[$r]."</li>";
+				if (count($fatal))
+					for ($r=0;$r<count($fatal);$r++)
+						echo "<li>".$fatal[$r]."</li>";
+					
+				if (isset($rev_direct))
+					for ($r=0;$r<count($rev_message);$r++)
+						echo "<li>".$rev_message[$r]."</li>";
 				
 				echo "</ul>".$strFixProblemsAfter."<br><br></div>";
 			}
@@ -489,16 +509,61 @@ if (phpAds_isUser(phpAds_Admin))
 			
 			phpAds_ShowSettings(array (
 				array (
-					'text' 	  => $strChooseInstallLanguage,
+					'text' 	  => $strSpecifyAdmin,
 					'items'	  => array (
+						array (
+							'type' 	  => 'text', 
+							'name' 	  => 'admin',
+							'text' 	  => $strUsername,
+							'size'	  => 25,
+							'req'	  => true
+						),
+						array (
+							'type'    => 'break'
+						),
+						array (
+							'type' 	  => 'password', 
+							'name' 	  => 'admin_pw',
+							'text' 	  => $strNewPassword,
+							'size'	  => 25,
+							'req'	  => true
+						),
+						array (
+							'type'    => 'break'
+						),
+						array (
+							'type' 	  => 'password', 
+							'name' 	  => 'admin_pw2',
+							'text' 	  => $strRepeatPassword,
+							'size'	  => 25,
+							'check'	  => 'compare:admin_pw',
+							'req'	  => true
+						),
+						array (
+							'type'    => 'break'
+						),
 						array (
 							'type' 	  => 'select', 
 							'name' 	  => 'language',
 							'text' 	  => $strLanguage,
 							'items'   => phpAds_AvailableLanguages()
 						)
+						
 					)
-				)
+				),
+				array (
+					'text' 	  => $strSpecifyLocaton,
+					'items'	  => array (
+						array (
+							'type' 	  => 'text', 
+							'name' 	  => 'url_prefix',
+							'text' 	  => $strUrlPrefix,
+							'size'	  => 35,
+							'check'	  => 'url',
+							'req'	  => true
+						)
+					)
+				)				
 			), $errormessage);
 			
 			break;
@@ -592,71 +657,6 @@ if (phpAds_isUser(phpAds_Admin))
 			
 		case 5:
 			// Admin settings
-			echo "<form name='settingsform' method='post' action='install.php' onSubmit='return phpAds_formCheck(this);'>";
-			echo "<br><br><table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'>";
-			echo "<img src='images/install-welcome.gif'></td><td width='100%' valign='top'>";
-			echo "<br><span class='tab-s'>".$strInstallWelcome." ".$phpAds_version_readable."</span><br>";
-			echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
-			echo "<span class='install'>".$strInstallMessage."</td></tr></table><br><br>";
-			
-			$phpAds_config['admin_pw'] = '';
-			
-			phpAds_ShowBreak();
-			
-			phpAds_ShowSettings(array (
-				array (
-					'text' 	  => $strAdminSettings,
-					'items'	  => array (
-						array (
-							'type' 	  => 'text', 
-							'name' 	  => 'admin',
-							'text' 	  => $strUsername,
-							'size'	  => 25,
-							'req'	  => true
-						),
-						array (
-							'type'    => 'break'
-						),
-						array (
-							'type' 	  => 'password', 
-							'name' 	  => 'admin_pw',
-							'text' 	  => $strNewPassword,
-							'size'	  => 25,
-							'req'	  => true
-						),
-						array (
-							'type'    => 'break'
-						),
-						array (
-							'type' 	  => 'password', 
-							'name' 	  => 'admin_pw2',
-							'text' 	  => $strRepeatPassword,
-							'size'	  => 25,
-							'check'	  => 'compare:admin_pw',
-							'req'	  => true
-						)
-					)
-				),
-				array (
-					'text' 	  => $strOtherSettings,
-					'items'	  => array (
-						array (
-							'type' 	  => 'text', 
-							'name' 	  => 'url_prefix',
-							'text' 	  => $strUrlPrefix,
-							'size'	  => 35,
-							'check'	  => 'url',
-							'req'	  => true
-						)
-					)
-				)
-			), $errormessage);
-			
-			break;
-			
-			
-		case 6:
-			// Admin settings
 			if (!isset($fatal) || !count($fatal))
 			{
 				echo "<form name='settingsform' method='post' action='settings-index.php'>";
@@ -697,16 +697,36 @@ if (phpAds_isUser(phpAds_Admin))
 	phpAds_ShowBreak();
 	echo "<br>";
 	
+
+	// Determine the text of the button
+	$btn = $strProceed;											// Default to Proceed
+	if (isset($fatal) && count($fatal)) $btn = '';				// Configuration errors -> allow a retry
+	if (isset($rev_message) && $displayed_phase == 2)
+	{
+		if ($rev_fatal)
+			$btn = '';											// Fatal integrety error -> do not show
+		else
+			if (!isset($fatal) || !count($fatal))				// Unless configuration error
+				$btn = $GLOBALS['strIgnoreWarnings'];			// Integrety warning -> ignore
+	}
+
 	
-	echo "<table width='100%' border='0' cellpadding='0' cellspacing='0'><tr><td align='right'>";
-	echo "<input type='submit' name='proceed' value='".$strProceed."'>";
-	echo "</td></tr></table>\n\n";
+	if ($btn != '')
+	{
+		if ($btn == $GLOBALS['strIgnoreWarnings'])
+			echo "<input type='hidden' name='ignore' value='true'>";
+		
+		echo "<table width='100%' border='0' cellpadding='0' cellspacing='0'><tr><td align='right'>";
+		echo "<input type='submit' name='proceed' value='".$btn."'>";
+		echo "</td></tr></table>\n\n";
+	}
+	
 	
 	if (isset($installvars) && count($installvars))
 		for (reset($installvars); $key=key($installvars); next($installvars))
 			echo "<input type='hidden' name='installvars[".$key."]' value='".$installvars[$key]."'>\n";
 	
-	echo "<input type='hidden' name='phase' value='".$phase."'>\n";
+	echo "<input type='hidden' name='phase' value='".$next_phase."'>\n";
 	
 	// Check for PHP bug #20144
 	echo "<input type='hidden' name='arraybugcheck[0]' value='xxxx'>\n";

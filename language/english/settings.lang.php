@@ -23,6 +23,10 @@ $GLOBALS['strAdminSettings']			= "Administrator Settings";
 $GLOBALS['strAdvancedSettings']			= "Advanced Settings";
 $GLOBALS['strOtherSettings']			= "Other settings";
 
+$GLOBALS['strSpecifyAdmin']				= "Configure the administrator account";
+$GLOBALS['strSpecifyLocaton']			= "Specify the location of ".$phpAds_productname." on the server";
+
+
 $GLOBALS['strWarning']				= "Warning";
 $GLOBALS['strFatalError']			= "A fatal error occurred";
 $GLOBALS['strUpdateError']			= "An error occured while updating";
@@ -39,14 +43,16 @@ $GLOBALS['strFixProblemsBefore']		= "The following item(s) need to be corrected 
 $GLOBALS['strFixProblemsAfter']			= "If you are not able to correct the problems listed above, please contact the administrator of the server you are trying to install ".$phpAds_productname." on. The administrator of the server may be able to help you.";
 $GLOBALS['strIgnoreWarnings']			= "Ignore warnings";
 $GLOBALS['strWarningDBavailable']		= "The version of PHP you are using doesn't have support for connecting to a ".$phpAds_dbmsname." database server. You need to enable the PHP ".$phpAds_dbmsname." extension before you can proceed.";
-$GLOBALS['strWarningPHPversion']		= $phpAds_productname." requires PHP 4.0 or higher to function correctly. You are currently using {php_version}.";
+$GLOBALS['strWarningPHPversion']		= $phpAds_productname." requires PHP 4.0.3 or higher to function correctly. You are currently using {php_version}.";
 $GLOBALS['strWarningRegisterGlobals']		= "The PHP configuration variable register_globals needs to be turned on.";
 $GLOBALS['strWarningMagicQuotesGPC']		= "The PHP configuration variable magic_quotes_gpc needs to be turned on.";
 $GLOBALS['strWarningMagicQuotesRuntime']	= "The PHP configuration variable magic_quotes_runtime needs to be turned off.";
+$GLOBALS['strWarningMagicQuotesSybase']	= "The PHP configuration variable magic_quotes_sybase needs to be turned off.";
 $GLOBALS['strWarningFileUploads']		= "The PHP configuration variable file_uploads needs to be turned on.";
 $GLOBALS['strWarningTrackVars']			= "The PHP configuration variable track_vars needs to be turned on.";
 $GLOBALS['strWarningPREG']				= "The version of PHP you are using doesn't have support for PERL compatible regular expressions. You need to enable the PREG extension before you can proceed.";
 $GLOBALS['strConfigLockedDetected']		= $phpAds_productname." has detected that your <b>config.inc.php</b> file is not writeable by the server. You can't proceed until you change permissions on the file. Read the supplied documentation if you don't know how to do that.";
+$GLOBALS['strCacheLockedDetected']		= "You are using Files delivery caching and ".$phpAds_productname." has detected that the <b>cache</b> directory is not writeable by the server. You can't proceed until you change permissions of the folder. Read the supplied documentation if you don't know how to do that.";
 $GLOBALS['strCantUpdateDB']  			= "It is currently not possible to update the database. If you decide to proceed, all existing banners, statistics and advertisers will be deleted.";
 $GLOBALS['strIgnoreErrors']			= "Ignore errors";
 $GLOBALS['strRetryUpdate']			= "Retry updating";
@@ -54,8 +60,14 @@ $GLOBALS['strTableNames']			= "Table Names";
 $GLOBALS['strTablesPrefix']			= "Table names prefix";
 $GLOBALS['strTablesType']			= "Table type";
 
+$GLOBALS['strRevCorrupt']			= "The file <b>{filename}</b> is corrupt or has been modified. If you did not modify this file, please try to upload a new copy of this file to your server. If you modified this file yourself, you can safely ignore this warning.";
+$GLOBALS['strRevTooOld']			= "The file <b>{filename}</b> is older than the one that is supposed to be used with this version of ".$phpAds_productname.". Please try to upload a new copy of this file to the server.";
+$GLOBALS['strRevMissing']			= "The file <b>{filename}</b> could not be checked because it is missing. Please try to upload a new copy of this file to the server.";
+$GLOBALS['strRevCVS']				= "You are trying to install a CVS checkout of ".$phpAds_productname.". This is not an official release and may be unstable or even non-functional. Are you sure you want to continue?";
+
 $GLOBALS['strInstallWelcome']			= "Welcome to ".$phpAds_productname;
 $GLOBALS['strInstallMessage']			= "Before you can use ".$phpAds_productname." it needs to be configured and <br> the database needs to be created. Click <b>Proceed</b> to continue.";
+$GLOBALS['strInstallMessageCheck']		= $phpAds_productname." has checked the integrity of the files you uploaded to the server and has checked wether the server is capable of running ".$phpAds_productname.". The following item(s) need your attention before you can continue.";
 $GLOBALS['strInstallSuccess']			= "<b>The installation of ".$phpAds_productname." is now complete.</b><br><br>In order for ".$phpAds_productname." to function correctly you also need
 						   to make sure the maintenance file is run every hour. More information about this subject can be found in the documentation.
 						   <br><br>Click <b>Proceed</b> to go the configuration page, where you can 

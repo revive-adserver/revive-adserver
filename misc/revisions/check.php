@@ -23,7 +23,8 @@ if ($result = phpAds_revisionCheck())
 	else
 		echo "<strong>Warning:</strong><br>";
 	
-	echo nl2br($message);
+	
+	echo '<ul><li>'.implode('<li>', $message).'</ul>';
 }
 else
 {

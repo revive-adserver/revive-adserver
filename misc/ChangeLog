@@ -1,6 +1,13 @@
 phpAdsNew - ChangeLog
 
 CVS
+			+ Misc changes
+			  - 2003-07-27:  Reordered the install pages  (Niels)
+			  - 2003-07-27:  Added integrity check of the files to the installer and updater  (Niels)
+                          - 2003-07-27:  Added a check to see if the cache dir is writable to the updater  (Niels)
+			  - 2003-07-27:  Added a check to see if magic_quotes_sybase is turned off to the installer and updater  (Niels)
+			  - 2003-07-27:  Raised the minumum required version of PHP to 4.0.3  (Niels)
+
 			+ Misc bugfixes
 			  - 2003-07-17:  Report were created without delimiters/quotes with register globals off  (Matteo)
 			  - 2003-07-20:  Added exceptions to bannerid requirement for banner-activate and banner-delete  (Niels)

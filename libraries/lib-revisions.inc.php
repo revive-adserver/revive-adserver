@@ -13,6 +13,11 @@
 /************************************************************************/
 
 
+
+/*********************************************************/
+/* Compare two revisions                                 */
+/*********************************************************/
+
 function phpAds_revisionCompare ($first, $second)
 {
 	// Check for the obvious... is it the same?
@@ -52,18 +57,25 @@ function phpAds_revisionCompare ($first, $second)
 }
 
 
+
+/*********************************************************/
+/* Check if the current files are modified or corrupt    */
+/*********************************************************/
+
 function phpAds_revisionCheck ()
 {
-	$message = '';
+	global $phpAds_version;
+	
 	$fatal   = false;
 	$error   = false;
 	$files   = array();
+	$message = array();
+	$errors  = array();
 	
 	// Open revision file
 	if ($revfile = fopen(phpAds_path.'/libraries/defaults/revisions.txt', 'r'))
 	{
 		// Determine the version of phpAdsNew
-		include (phpAds_path.'/libraries/lib-dbconfig.inc.php');
 		$version = fgets($revfile, 4096);
 		
 		if ($version == $phpAds_version)
@@ -81,7 +93,6 @@ function phpAds_revisionCheck ()
 					{
 						list($current_rev, $current_md5) = phpAds_revisionGet (phpAds_path.$filename);
 		
-						// echo $filename." - ".$md5." - ".$current_md5."<br>";
 						if (trim($current_md5) != trim($md5))
 						{
 							// File changed, check revision!
@@ -91,12 +102,20 @@ function phpAds_revisionCheck ()
 							{
 								case  1:	break;  // File has been patched with a newer revision... that's allowed!
 
-								case  0:	$message .= "The file '".$filename."' is corrupt or has been modified\n"; 
-											$files[]  = $filename;
+								case  0:	if (isset($GLOBALS['strRevCorrupt']))
+												$message[] = str_replace('{filename}', $filename, $GLOBALS['strRevCorrupt']);
+											else	
+												$message[] = "The file '".$filename."' is corrupt or has been modified. If you did not modify this file, please try to upload a new copy of this file to your server. If you modified this file yourself, you can safely ignore this warning."; 
+											
+											$files[] = $filename;
 											break;
 
-								case -1:	$message .= "The file '".$filename."' is older than the one distributed by phpAdsNew\n"; 
-											$files[]  = $filename;
+								case -1:	if (isset($GLOBALS['strRevTooOld']))
+												$message[] = str_replace('{filename}', $filename, $GLOBALS['strRevTooOld']);
+											else	
+												$message[] = "The file '".$filename."' is older than the one that is supposed to be used with this version of phpAdsNew. Please try to upload a new copy of this file to the server."; 
+											
+											$files[] = $filename;
 											$fatal = true; 
 											break;
 							}
@@ -108,7 +127,11 @@ function phpAds_revisionCheck ()
 					}
 					else
 					{
-						$message .= "The file '".$filename." could not be checked because it is missing\n";
+						if (isset($GLOBALS['strRevMissing']))
+							$message[] = str_replace('{filename}', $filename, $GLOBALS['strRevMissing']);
+						else	
+							$message[] = "The file '".$filename." could not be checked because it is missing. Please try to upload a new copy of this file to the server.";
+						
 						$files[]  = $filename;
 						$fatal = true;
 					}
@@ -117,17 +140,43 @@ function phpAds_revisionCheck ()
 		}
 		else
 		{
-			// Revfile does not match version
-			$message = 'The integrity of your phpAdsNew installation could not be checked because the file that contains the information does not match the version you are trying to install.';
-			$error = true;
+			if ($version == 'CVS')
+			{
+				// CVS checkout: do not check anything, but display a warning
+				if (isset($GLOBALS['strRevCVS']))
+					$message[] = $GLOBALS['strRevCVS'];
+				else	
+					$message[] = 'You are trying to install a CVS checkout of phpAdsNew. This is not an official release and may be unstable or even non-functional. Are you sure you want to continue?';			
+			}
+			else
+			{
+				// Revfile does not match version (no need for translation, because language file is not loaded yet)
+				$errors[] = 'The integrity of your phpAdsNew installation could not be checked because the file that contains the information does not match the version you are trying to install.';
+				$error = true;
+			}
 		}
 		
 		fclose ($revfile);
 	}
 	else
 	{
-		// Revfile does not match version
-		$message = 'The integrity of your phpAdsNew installation could not be checked because the file that contains the information could not be opened.';
+		// Revfile does not match version (no need for translation, because language file is not loaded yet)
+		$errors[] = 'The integrity of your phpAdsNew installation could not be checked because the file that contains the information could not be opened.';
+		$error = true;
+	}
+	
+	
+	// Check for the availability of the english language files...
+	if (!file_exists(phpAds_path.'/language/english/default.lang.php') ||
+		!file_exists(phpAds_path.'/language/english/index.lang.php') ||
+		!file_exists(phpAds_path.'/language/english/invocation.lang.php') ||
+		!file_exists(phpAds_path.'/language/english/maintenance.lang.php') ||
+		!file_exists(phpAds_path.'/language/english/report.lang.php') ||
+		!file_exists(phpAds_path.'/language/english/settings-help.lang.php') ||
+		!file_exists(phpAds_path.'/language/english/settings.lang.php') ||
+		!file_exists(phpAds_path.'/language/english/userlog.lang.php'))
+	{
+		$errors[] = 'Some of the english language files are missing. Perhaps you deleted these files because you do not want to use english as the default language. phpAdsNew requires that the english language files are present at all times even if you use a different default language.';
 		$error = true;
 	}
 	
@@ -135,14 +184,17 @@ function phpAds_revisionCheck ()
 	if ($error)
 	{
 		// An error occured, show error immediately and stop!
-		return array(true, true, $message);
+		return array(true, true, $errors);
 	}
 	else
 	{
-		if ($message != '')
+		if (count($message))
 		{
 			// Files needed for installation or update
-			$needed = array ('/admin/update.php', '/admin/install.php', '/libraries/lib-revisions.inc.php');
+			$needed = array ('/admin/upgrade.php', '/admin/install.php', '/libraries/lib-revisions.inc.php',
+							 '/libraries/lib-io.inc.php', '/libraries/lib-dbconfig.inc.php', '/libraries/lib-db.inc.php',
+							 '/admin/lib-install-db.inc.php', '/admin/lib-permissions.inc.php', '/admin/lib-gui.inc.php',
+							 '/admin/lib-settings.inc.php');
 			
 			$direct = false;
 			
@@ -161,13 +213,19 @@ function phpAds_revisionCheck ()
 }
 
 
+
+/*********************************************************/
+/* Create a new file containing revision info            */
+/*********************************************************/
+
 function phpAds_revisionCreate()
 {
+	global $phpAds_version;
+
 	// Create a new file to store all revisions
 	if ($revfile = fopen(phpAds_path.'/libraries/defaults/revisions.txt', 'w'))
 	{
 		// Determine the version of phpAdsNew
-		include (phpAds_path.'/libraries/lib-dbconfig.inc.php');
 		fwrite ($revfile, $phpAds_version."\n");
 	
 		// Open lowest level directory
@@ -182,6 +240,11 @@ function phpAds_revisionCreate()
 		return false;
 }
 
+
+
+/*********************************************************/
+/* Get the revision of a file                            */
+/*********************************************************/
 
 function phpAds_revisionGet ($filename)
 {
@@ -204,6 +267,11 @@ function phpAds_revisionGet ($filename)
 		return false;
 }
 
+
+
+/*********************************************************/
+/* Get the revision of a complete directory tree         */
+/*********************************************************/
 
 function phpAds_revisionScan ($revfile, $path)
 {

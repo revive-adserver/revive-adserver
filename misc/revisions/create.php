@@ -7,8 +7,8 @@ else
     define ('phpAds_path', '../..');
 
 
+include (phpAds_path."/libraries/lib-dbconfig.inc.php");
 include (phpAds_path."/libraries/lib-revisions.inc.php");
-
 
 // Starting scan
 echo "Starting scan at ".phpAds_path."<br>";

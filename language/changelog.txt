@@ -17,6 +17,18 @@
 
   ====================================================
 
+  07-27-2003 - settings
+    [+] strSpecifyAdmin
+    [+] strSpecifyLocation
+    [u] strWarningPHPversion
+    [+] strWarningMagicQuotesSybase
+    [+] strCacheLockedDetected
+    [+] strRevCorrupt
+    [+] strRevTooOld
+    [+] strRevMissing
+    [+] strRevCVS
+    [+] strInstallMessageCheck
+
   06-09-2003 - settings
     [+] strGeotrackingLocationNoHTTP
     [u] strCouldNotConnectToDB

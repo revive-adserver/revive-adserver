@@ -26,6 +26,29 @@ else
     define ('phpAds_path', '..');
 
 
+
+include (phpAds_path."/libraries/lib-dbconfig.inc.php");
+include (phpAds_path."/libraries/lib-revisions.inc.php");
+
+if (!count($HTTP_POST_VARS) && !count($HTTP_GET_VARS))
+{
+	// Before we do anything else we need to check the integerity of the uploaded files
+	if ($result = phpAds_revisionCheck())
+	{
+		list ($rev_direct, $rev_fatal, $rev_message) = $result;
+		
+		if ($rev_direct)
+		{
+			// (no need for translation, because language file is not loaded yet)
+			echo "<strong>The installer detected some problems which need to be fixed before you can continue:</strong><br>";
+			echo '<ul><li>'.implode('<li>', $rev_message).'</ul>';
+			exit;
+		}
+	}
+}
+
+
+
 // Include default settings
 require (phpAds_path.'/libraries/defaults/config.template.php');
 
@@ -38,7 +61,6 @@ phpAds_registerGlobal ('step', 'ignore', 'retry');
 // Include config edit library
 require ("lib-config.inc.php");
 include ("../libraries/lib-db.inc.php");
-include ("../libraries/lib-dbconfig.inc.php");
 
 
 // Read the config file and overwrite default values
@@ -54,10 +76,6 @@ require ("lib-permissions.inc.php");
 require ("lib-gui.inc.php");
 require ("lib-languages.inc.php");
 require ("lib-install-db.inc.php");
-require ("lib-statistics.inc.php");
-require ("lib-storage.inc.php");
-require ("lib-banner.inc.php");
-require ("lib-zones.inc.php");
 
 
 // Turn off database compatibility mode
@@ -172,24 +190,17 @@ if (phpAds_isUser(phpAds_Admin))
 		$fatal = array();
 		
 		
-		// Check PHP version < 4.0.1
-		if ($phpversion < 4001)
+		// Check PHP version < 4.0.3
+		if ($phpversion < 4003)
 			$fatal[] = str_replace ('{php_version}', phpversion(), $strWarningPHPversion);
 		
+		// Check file_uploads
+		if (ini_get ('file_uploads') != true)
+			$fatal[] = $strWarningFileUploads;
 		
-		// Config variables can only be checked with php 4
-		if ($phpversion >= 4000)
-		{
-			// Check file_uploads
-			if (ini_get ('file_uploads') != true)
-				  $fatal[] = $strWarningFileUploads;
-			
-			// Check track_vars
-			if ($phpversion < 4003 &&
-				ini_get ('track_vars') != true)
-				$fatal[] = $strWarningTrackVars;
-		}
-		
+		// Check magic_quotes_sybase
+		if (ini_get ('magic_quotes_sybase') != false)
+			$fatal[] = $strWarningMagicQuotesSybase;
 		
 		// Check for PREG extention
 		if (!function_exists('preg_match'))
@@ -199,6 +210,21 @@ if (phpAds_isUser(phpAds_Admin))
 		// Check if config file is writable
 		if (!phpAds_isConfigWritable())
 			$fatal[] = $strConfigLockedDetected;
+		
+		
+		// Check if the cache dir is writable, if needed
+		if (isset($phpAds_config['delivery_caching']) && $phpAds_config['delivery_caching'] == 'file')
+		{
+			if ($fp = @fopen(phpAds_path.'/cache/available', 'wb'))
+			{
+				@fclose($fp);
+				@unlink(phpAds_path.'/cache/available');
+			}
+			else
+			{
+				$fatal[] = $strCacheLockedDetected;
+			}
+		}
 		
 		
 		// Drop test table if one exists
@@ -221,9 +247,14 @@ if (phpAds_isUser(phpAds_Admin))
 		else
 			$fatal[] = $strUpdateTableTestFailed;
 		
+
+		// Check the integerity of the uploaded files
+		if ($result = phpAds_revisionCheck())
+			list ($rev_direct, $rev_fatal, $rev_message) = $result;
+
 		
 		// Repeat proceed request if config still not writeable
-		if (count($fatal))
+		if (count($fatal) || (isset($rev_direct) && !isset($ignore)))
 			$step = 1;
 	}
 	
@@ -244,13 +275,17 @@ if (phpAds_isUser(phpAds_Admin))
 		echo "<img src='images/break-el.gif' width='100%' height='1' vspace='8'>";
 		echo "<span class='install'>".$message;
 		
-		if (count($fatal))
+		if (count($fatal) || isset($rev_direct))
 		{
 			echo "<br><br><div class='errormessage'><img class='errormessage' src='images/errormessage.gif' align='absmiddle'>";
 			echo "<span class='tab-r'>".$strMayNotFunction."</span><br><br>".$strFixProblemsBefore."<ul>";
 			
 			for ($r=0;$r<count($fatal);$r++)
 				echo "<li>".$fatal[$r]."</li>";
+			
+			if (isset($rev_direct))
+				for ($r=0;$r<count($rev_message);$r++)
+					echo "<li>".$rev_message[$r]."</li>";			
 			
 			echo "</ul>".$strFixProblemsAfter."<br><br></div>";
 		}
@@ -260,15 +295,39 @@ if (phpAds_isUser(phpAds_Admin))
 		phpAds_ShowBreak();
 		echo "<br>";
 		
-		echo "<table width='100%' border='0' cellpadding='0' cellspacing='0'><tr><td align='right'>";
-		echo "<input type='submit' name='proceed' value='".$strProceed."'>";
-		echo "</td></tr></table>\n\n";
 		
+		// Determine the text of the button
+		$btn = $strProceed;											// Default to Proceed
+		if (isset($fatal) && count($fatal)) $btn = '';				// Configuration errors -> allow a retry
+		if (isset($rev_message))
+		{
+			if ($rev_fatal)
+				$btn = '';											// Fatal integrety error -> do not show
+			else
+				if (!isset($fatal) || !count($fatal))				// Unless configuration error
+					$btn = $GLOBALS['strIgnoreWarnings'];			// Integrety warning -> ignore
+		}
+		
+		if ($btn != '')
+		{
+			if ($btn == $GLOBALS['strIgnoreWarnings'])
+				echo "<input type='hidden' name='ignore' value='true'>";
+		
+			echo "<table width='100%' border='0' cellpadding='0' cellspacing='0'><tr><td align='right'>";
+			echo "<input type='submit' name='proceed' value='".$btn."'>";
+			echo "</td></tr></table>\n\n";
+		}
+
 		echo "<input type='hidden' name='step' value='2'>";
 		echo "</form>";
 	}
 	elseif ($upgrade && $step == 2)
 	{
+		require ("lib-statistics.inc.php");
+		require ("lib-storage.inc.php");
+		require ("lib-banner.inc.php");
+		require ("lib-zones.inc.php");
+
 		// Setup busy indicator
 		phpAds_PageHeader("1");
 		echo "<br><br><img src='images/install-busy.gif' align='absmiddle'>&nbsp;";
@@ -325,6 +384,11 @@ if (phpAds_isUser(phpAds_Admin))
 	}
 	elseif ($step == 4)
 	{
+		require ("lib-statistics.inc.php");
+		require ("lib-storage.inc.php");
+		require ("lib-banner.inc.php");
+		require ("lib-zones.inc.php");
+
 		// Setup busy indicator
 		phpAds_PageHeader("1");
 		echo "<br><br><img src='images/install-busy.gif' align='absmiddle'>&nbsp;";
@@ -342,6 +406,11 @@ if (phpAds_isUser(phpAds_Admin))
 	}
 	elseif ($step == 5)
 	{
+		require ("lib-statistics.inc.php");
+		require ("lib-storage.inc.php");
+		require ("lib-banner.inc.php");
+		require ("lib-zones.inc.php");
+
 		// Setup busy indicator
 		phpAds_PageHeader("1");
 		echo "<br><br><img src='images/install-busy.gif' align='absmiddle'>&nbsp;";
