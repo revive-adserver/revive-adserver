@@ -173,15 +173,18 @@ if (phpAds_isUser(phpAds_Admin))
 		
 		case 2:
 			// Determine the PHP version
-			ereg ("^([0-9]{1})\.([0-9]{1})\.([0-9]{1,2})", phpversion(), $matches);
+			ereg ("^([0-9]{1})\.([0-9]{1})\.([0-9]{1,2})(.*)$", phpversion(), $matches);
 			$phpversion = sprintf ("%01d%01d%02d", $matches[1], $matches[2], $matches[3]);
 			
-			// Store fatal errors
-			$fatal = array();
+			// Store fatal and non-fatal errors
+			$fatal	= array();
+			$warn	= array();
 			
 			// Check PHP version < 4.0.3
 			if ($phpversion < 4003)
 				$fatal[] = str_replace ('{php_version}', phpversion(), $strWarningPHPversion);
+			elseif ($phpversion == 5000 && isset($matches[4]) && $matches[4])
+				$warn[] = $strWarningPHP5beta;
 			
 			// Check database extention
 			if (!phpAds_dbAvailable())
@@ -210,7 +213,7 @@ if (phpAds_isUser(phpAds_Admin))
 				list ($rev_direct, $rev_fatal, $rev_message) = $result;
 			
 			
-			if (count($fatal) > 0 || (isset($rev_direct) && !isset($ignore)))
+			if (count($fatal) > 0 || count($warn) > 0 || (isset($rev_direct) && !isset($ignore)))
 				$phase = 2;
 			else
 				$phase = 3;
@@ -241,11 +244,21 @@ if (phpAds_isUser(phpAds_Admin))
 			
 			
 			// Check for PHP bug #20144
-			if (!(isset($arraybugcheck) && is_array($arraybugcheck) && strlen($arraybugcheck[0]) == 4))
+			if (!(isset($arraybugcheck) && is_array($arraybugcheck) && isset($arraybugcheck[0]) && strlen($arraybugcheck[0]) == 4))
 			{
-				$fatal[] = $strPhpBug20144;
-				$phase = 5;
-				break;
+				if (preg_match('/^5/', phpversion()))
+				{
+					// PHP5 beta1 bug (#24652) which is different, but makes php get in there...
+					$fatal[] = $strPhpBug24652;
+					$phase = 5;
+					break;
+				}
+				else
+				{
+					$fatal[] = $strPhpBug20144;
+					$phase = 5;
+					break;
+				}
 			}
 
 			// Go to next phase
@@ -491,7 +504,11 @@ if (phpAds_isUser(phpAds_Admin))
 				if (count($fatal))
 					for ($r=0;$r<count($fatal);$r++)
 						echo "<li>".$fatal[$r]."</li>";
-					
+				
+				if (count($warn))
+					for ($r=0;$r<count($warn);$r++)
+						echo "<li>".$warn[$r]."</li>";
+				
 				if (isset($rev_direct))
 					for ($r=0;$r<count($rev_message);$r++)
 						echo "<li>".$rev_message[$r]."</li>";

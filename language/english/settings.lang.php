@@ -49,6 +49,7 @@ $GLOBALS['strFixProblemsAfter']			= "If you are not able to correct the problems
 $GLOBALS['strIgnoreWarnings']			= "Ignore warnings";
 $GLOBALS['strWarningDBavailable']		= "The version of PHP you are using doesn't have support for connecting to a ".$phpAds_dbmsname." database server. You need to enable the PHP ".$phpAds_dbmsname." extension before you can proceed.";
 $GLOBALS['strWarningPHPversion']		= $phpAds_productname." requires PHP 4.0.3 or higher to function correctly. You are currently using {php_version}.";
+$GLOBALS['strWarningPHP5beta']			= "You trying to install ".$phpAds_productname." on a server running an early test version of PHP 5. These versions are not indended for production use and usually contain bugs. It is not recommended to run ".$phpAds_productname." on PHP 5, except for testing purposes.";
 $GLOBALS['strWarningRegisterGlobals']		= "The PHP configuration variable register_globals needs to be turned on.";
 $GLOBALS['strWarningMagicQuotesGPC']		= "The PHP configuration variable magic_quotes_gpc needs to be turned on.";
 $GLOBALS['strWarningMagicQuotesRuntime']	= "The PHP configuration variable magic_quotes_runtime needs to be turned off.";
@@ -108,6 +109,11 @@ $GLOBALS['strServiceUnavalable']		= "The service is temporarily unavailable. Sys
 $GLOBALS['strConfigNotWritable']		= "Your config.inc.php file is not writable";
 $GLOBALS['strPhpBug20144']				= "Your PHP version is affected by a <a href='http://bugs.php.net/bug.php?id=20114' target='_blank'>bug</a> which will prevent ".$phpAds_productname." from running correctly.
 							Upgrading to PHP 4.3.0+ is required before installing ".$phpAds_productname.".";
+$GLOBALS['strPhpBug24652']				= "You trying to install ".$phpAds_productname." on a server running an early test version of PHP 5.
+										   These versions are not indended for production use and usually contain bugs.
+										   One of these bugs prevents ".$phpAds_productname." from running correctly.
+										   This <a href='http://bugs.php.net/bug.php?id=24652' target='_blank'>bug</a> is already fixed
+										   and the final version of PHP 5 is not affected by this bug.";
 
 
 
