@@ -8,7 +8,7 @@
 /* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
 /* Translation by Rachim Tamsjadi. Please send corrections              */
-/* to tamsjadi@icqmail.com                                              */
+/* to tamsjadi@icqmail.com    020402                                    */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -153,15 +153,15 @@ $GLOBALS['strTypeWebDir']			= "Direktori Local mode Web banner";
 $GLOBALS['strTypeWebFtp']			= "FTP mode Web banner server";
 $GLOBALS['strTypeWebUrl']			= "URL publik di direktori lokal / FTP server";
 $GLOBALS['strTypeFTPHost']			= "FTP Host";
-$GLOBALS['strTypeFTPDirectory']			= "Host directory";
+$GLOBALS['strTypeFTPDirectory']			= "Direktori Host";
 $GLOBALS['strTypeFTPUsername']			= "Login";
-$GLOBALS['strTypeFTPPassword']			= "Password";
+$GLOBALS['strTypeFTPPassword']			= "Kata Sandi";
 
 $GLOBALS['strDefaultBanners']			= "Banner Default";
 $GLOBALS['strDefaultBannerUrl']			= "URL Banner Default";
 $GLOBALS['strDefaultBannerTarget']		= "Target Banner Default";
 
-$GLOBALS['strTypeHtmlSettings']			= "HTML banner options";
+$GLOBALS['strTypeHtmlSettings']			= "Setingan HTML banner";
 $GLOBALS['strTypeHtmlAuto']			= "Ubah HTML banner secara otomatis untik memaksa click logging";
 $GLOBALS['strTypeHtmlPhp']			= "Izinkan PHP expressions dieksekusi dalam banner HTML";
 
@@ -174,9 +174,9 @@ $GLOBALS['strStatisticsFormat']			= "Format Statistik";
 $GLOBALS['strLogBeacon']			= "Gunakan beacons untuk logging Adviews";
 $GLOBALS['strCompactStats']			= "Gunakan Compact Stats";
 $GLOBALS['strLogAdviews']			= "Log Adviews";
-$GLOBALS['strBlockAdviews']			= "Multiple log protection (sec.)";
+$GLOBALS['strBlockAdviews']			= "Proteksi multiple log (sec.)";
 $GLOBALS['strLogAdclicks']			= "Log Adclicks";
-$GLOBALS['strBlockAdclicks']			= "Multiple log protection (sec.)";
+$GLOBALS['strBlockAdclicks']			= "Proteksi multiple log (sec.)";
 
 $GLOBALS['strEmailWarnings']			= "E-mail Peringatan";
 $GLOBALS['strAdminEmailHeaders']		= "Mail Header untuk mengidentifikasi laporan harian dari server pengirim";
@@ -184,7 +184,7 @@ $GLOBALS['strWarnLimit']			= "Warn Limit";
 $GLOBALS['strWarnLimitErr']			= "Warn Limit harus angka positive integer";
 $GLOBALS['strWarnAdmin']			= "Warn Admin";
 $GLOBALS['strWarnClient']			= "Warn Client";
-$GLOBALS['strQmailPatch']			= "Enable qmail patch";
+$GLOBALS['strQmailPatch']			= "Izinkan qmail patch";
 
 $GLOBALS['strRemoteHosts']			= "Remote hosts";
 $GLOBALS['strIgnoreHosts']			= "Ignore Hosts";
@@ -209,8 +209,8 @@ $GLOBALS['strAdminEmail']			= "Alamat e-mail Admin";
 $GLOBALS['strCompanyName']			= "Nama perusahaan";
 
 $GLOBALS['strAdminNovice']			= "Demi keamanan pemakaian tombol Delete oleh Admin perlu rekonfirmasi";
-$GLOBALS['strUserlogEmail']			= "Log all outgoing email messages";
-$GLOBALS['strUserlogPriority']			= "Log hourly priority calculations";
+$GLOBALS['strUserlogEmail']			= "Me-log seluruh e-mail yang terkirim";
+$GLOBALS['strUserlogPriority']			= "Me-log prioritas kalkulasi pada setiap jam";
 
 
 // User interface settings
@@ -220,7 +220,7 @@ $GLOBALS['strGeneralSettings']			= "Setingan Umum";
 $GLOBALS['strAppName']				= "Nama Aplikasi";
 $GLOBALS['strMyHeader']				= "Header kami";
 $GLOBALS['strMyFooter']				= "Footer kami";
-$GLOBALS['strGzipContentCompression']		= "Use GZIP content compression";
+$GLOBALS['strGzipContentCompression']		= "Gunakan kompresi GZIP";
 
 $GLOBALS['strClientInterface']			= "Interface Client";
 $GLOBALS['strClientWelcomeEnabled']		= "Aktifkan Welcome Message untuk Client";
@@ -231,30 +231,30 @@ $GLOBALS['strClientWelcomeText']		= "Client Welcome text<br>(HTML tags diizinkan
 // Interface defaults
 $GLOBALS['strInterfaceDefaults']		= "Defaults dari Interface";
 
-$GLOBALS['strInventory']			= "Inventory";
-$GLOBALS['strShowCampaignInfo']			= "Show extra campaign info on <i>Campaign overview</i> page";
-$GLOBALS['strShowBannerInfo']			= "Show extra banner info on <i>Banner overview</i> page";
-$GLOBALS['strShowCampaignPreview']		= "Show preview of all banners on <i>Banner overview</i> page";
-$GLOBALS['strShowBannerHTML']			= "Show actual banner instead of plain HTML code for HTML banner preview";
-$GLOBALS['strShowBannerPreview']		= "Show banner preview at the top of pages which deals with banners";
+$GLOBALS['strInventory']			= "Inventaris";
+$GLOBALS['strShowCampaignInfo']			= "Tampilkan kampanye khusus di halaman <i>Pandangan Kampanye</i> ";
+$GLOBALS['strShowBannerInfo']			= "Tampilkan informasi lebih lanjut tentang banner di halaman <i>Pandangan Banner</i> ";
+$GLOBALS['strShowCampaignPreview']		= "Tampilkan preview dari seluruh banner di halaman <i>Pandangan Banner</i> ";
+$GLOBALS['strShowBannerHTML']			= "Tampilkan banner tetapi bukan kode HTML untuk preview HTML banner";
+$GLOBALS['strShowBannerPreview']		= "Tampilkan preview banner di seluruh halaman yang ditujukan sebagai halaman tampilan banner";
 
 $GLOBALS['strStatisticsDefaults'] 		= "Statistik";
 $GLOBALS['strBeginOfWeek']			= "Awal dari minggu";
 $GLOBALS['strPercentageDecimals']		= "Desimal Persentase";
 
-$GLOBALS['strWeightDefaults']			= "Default weight";
-$GLOBALS['strDefaultBannerWeight']		= "Default banner weight";
-$GLOBALS['strDefaultCampaignWeight']		= "Default campaign weight";
-$GLOBALS['strDefaultBannerWErr']		= "Default banner weight perlu angka positive integer";
-$GLOBALS['strDefaultCampaignWErr']		= "Default campaign weight perlu angka positive integer";
+$GLOBALS['strWeightDefaults']			= "Bobot default";
+$GLOBALS['strDefaultBannerWeight']		= "Bobot default banner";
+$GLOBALS['strDefaultCampaignWeight']		= "Bobot default kampanye";
+$GLOBALS['strDefaultBannerWErr']		= "Bobot default banner perlu angka positive integer";
+$GLOBALS['strDefaultCampaignWErr']		= "Bobot default kampanye perlu angka positive integer";
 
 
 
 // Not used at the moment
-$GLOBALS['strTableBorderColor']			= "Table Border Color";
-$GLOBALS['strTableBackColor']			= "Table Back Color";
-$GLOBALS['strTableBackColorAlt']		= "Table Back Color (Alternative)";
-$GLOBALS['strMainBackColor']			= "Main Back Color";
+$GLOBALS['strTableBorderColor']			= "Warna batas tabel";
+$GLOBALS['strTableBackColor']			= "Warna tabel";
+$GLOBALS['strTableBackColorAlt']		= "Warna tabel (Alternatif)";
+$GLOBALS['strMainBackColor']			= "Warna utama tabel";
 $GLOBALS['strOverrideGD']			= "Override GD Imageformat";
 $GLOBALS['strTimeZone']				= "Zona Waktu";
 

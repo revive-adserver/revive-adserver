@@ -8,7 +8,7 @@
 /* http://sourceforge.net/projects/phpadsnew                            */
 /*                                                                      */
 /* Translation by Rachim Tamsjadi. Please send corrections              */
-/* to tamsjadi@icqmail.com                                              */
+/* to tamsjadi@icqmail.com     020402                                   */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -38,7 +38,7 @@ $GLOBALS['weekiso_format']					= "%V/%G";
 /*********************************************************/
 
 $GLOBALS['strHome']						= "Home";
-$GLOBALS['strHelp']						= "Help";
+$GLOBALS['strHelp']						= "Pertolongan";
 $GLOBALS['strNavigation'] 					= "Navigasi";
 $GLOBALS['strShortcuts'] 					= "Jalur Singkat";
 $GLOBALS['strAdminstration'] 					= "Administrasi";
@@ -137,8 +137,8 @@ $GLOBALS['strDay']						= "Day";
 $GLOBALS['strDays'] 						= "Hari";
 $GLOBALS['strLast7Days']					= "7 hari terakhir";
 $GLOBALS['strWeek'] 						= "Minggu ke";
-$GLOBALS['strWeeks']						= "Weeks";
-$GLOBALS['strMonths']						= "Months";
+$GLOBALS['strWeeks']						= "Minggu";
+$GLOBALS['strMonths']						= "Bulan";
 $GLOBALS['strThisMonth']					= "Bulan ini";
 $GLOBALS['strMonth'] 						= array("Januari", "Februari", "Maret", "April", "Mai", "Juni", "Juli", "Augustus", "September", "Oktober", "Nopember", "Desember");
 $GLOBALS['strDayShortCuts'] 					= array("Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu");
@@ -175,26 +175,26 @@ $GLOBALS['strCampaign']						= "Kampanye";
 $GLOBALS['strCampaigns'] 					= "Kampanye";
 $GLOBALS['strTotalCampaigns'] 					= "Jumlah Kampanye";
 $GLOBALS['strActiveCampaigns'] 					= "Kampanye yang aktif";
-$GLOBALS['strAddCampaign'] 					= "Add new campaign";
+$GLOBALS['strAddCampaign'] 					= "Tambah Kampanye baru";
 $GLOBALS['strCreateNewCampaign']				= "Start kampanye baru";
 $GLOBALS['strModifyCampaign']					= "Ubah Kampanye";
 $GLOBALS['strMoveToNewCampaign'] 				= "Pindah ke Kampanye baru";
 $GLOBALS['strBannersWithoutCampaign'] 				= "Banner tanpa Kampanye";
-$GLOBALS['strDeleteAllCampaigns']				= "Delete all campaigns";
+$GLOBALS['strDeleteAllCampaigns']				= "Hapus semua Kampanye";
 $GLOBALS['strCampaignStats'] 					= "Statistik Kampanye";
 $GLOBALS['strCampaignProperties']				= "Properties Kampanye";
 $GLOBALS['strCampaignOverview']					= "Pandangan Kampanye";
 $GLOBALS['strCampaignHistory']					= "Sejarah Kampanye";
-$GLOBALS['strNoCampaigns']					= "There are currently no campaigns defined";
-$GLOBALS['strConfirmDeleteAllCampaigns']			= "Do you really want to delete all campaigns owned by this advertiser?";
+$GLOBALS['strNoCampaigns']					= "Tidak ada kampanye ditentukan";
+$GLOBALS['strConfirmDeleteAllCampaigns']			= "Apakah seluruh kampanye yang dimiliki oleh Advertiser ini dihapus?";
 $GLOBALS['strConfirmDeleteCampaign'] 				= "Benar hapus kampanye ini?";
 
 
 // Campaign properties
 $GLOBALS['strDontExpire']					= "Kampanye tanpa batas waktu";
 $GLOBALS['strActivateNow'] 					= "Segera aktifkan Kampanye ini";
-$GLOBALS['strLow']						= "Low";
-$GLOBALS['strHigh']						= "High";
+$GLOBALS['strLow']						= "Rendah";
+$GLOBALS['strHigh']						= "Tinggi";
 $GLOBALS['strExpirationDate']					= "Tanggal Kadaluarsa";
 $GLOBALS['strActivationDate'] 					= "Tanggal Aktivasi";
 $GLOBALS['strViewsPurchased'] 					= "AdViews yang dibeli";
@@ -208,18 +208,18 @@ $GLOBALS['strLowPriority'] 					= "Tampilkan banner dengan prioritas rendah dala
 								   yang tidak terpakai oleh kampanye dengan prioritas tinggi.";
 $GLOBALS['strTargetLimitAdviews'] 				= "Batasi jumlah AdViews ke";
 $GLOBALS['strTargetPerDay'] 					= "per hari.";
-$GLOBALS['strHighPriorityCampaigns']				= "High priority campaigns";
-$GLOBALS['strAdViewsAssigned']					= "AdViews assigned";
-$GLOBALS['strLowPriorityCampaigns']				= "Low priority campaigns";
-$GLOBALS['strPredictedAdViews']					= "Predicted AdViews";
-$GLOBALS['strPriorityDaysRunning']				= "There are currently {days} days worth of statistics available from where phpAdsNew can base its daily prediction on. ";
-$GLOBALS['strPriorityBasedLastWeek']				= "The prediction is based on data from this week and last week. ";
-$GLOBALS['strPriorityBasedLastDays']				= "The prediction is based on data from the last couple of days. ";
-$GLOBALS['strPriorityBasedYesterday']				= "The prediction is based on data from yesterday. ";
-$GLOBALS['strPriorityNoData']					= "There isn't enough data available to make a reliable prediction about the number of impressions this adserver will generate today. Priority assignments will be based on real time statistics only. ";
-$GLOBALS['strPriorityEnoughAdViews']				= "There should be enough AdViews to fully satisfy the target all high priority campaigns. ";
-$GLOBALS['strPriorityNotEnoughAdViews']				= "It isn't clear wether there will be enough AdViews served today to satisfy the target all high priority campaigns. Because of this all low priority campaigns are temporarily disabled. ";
-$GLOBALS['strPriorityAutoTargeting']				= "Distribute the remaining AdViews evenly over the remaining number of days. The target number of AdViews will be set accordingly every day.";
+$GLOBALS['strHighPriorityCampaigns']				= "Kampanye dengan prioritas tinggi";
+$GLOBALS['strAdViewsAssigned']					= "AdViews yang dihubungkan";
+$GLOBALS['strLowPriorityCampaigns']				= "Kampanye dengan prioritas rendah";
+$GLOBALS['strPredictedAdViews']					= "Jumlah AdViews yang diprediksikan";
+$GLOBALS['strPriorityDaysRunning']				= "Untuk sementara waktu masih tersedia {days} hari sebagai dasar perhitungan prediksi AdViews bagi program phpAdsNew. ";
+$GLOBALS['strPriorityBasedLastWeek']				= "Prediksi ini didasarkan data dari minggu ini dan data dari minggu terakhir. ";
+$GLOBALS['strPriorityBasedLastDays']				= "Prediksi ini didasarkan data dari berberapa hari terakhir. ";
+$GLOBALS['strPriorityBasedYesterday']				= "Prediksi ini didasarkan data dari hari kemarin. ";
+$GLOBALS['strPriorityNoData']					= "Tidak tersedia cukup data untuk membuat prediksi yang akur tentang jumlah impresi yang akan di-generate oleh Adserver pada hari ini. Penentuan prioritas akan didasarkan statistik nyata (real time) saja. ";
+$GLOBALS['strPriorityEnoughAdViews']				= "Jumlah AdViews yang tersedia sudah cukup untuk mencapai target dari seluruh kampanye dengan prioritas tinggi. ";
+$GLOBALS['strPriorityNotEnoughAdViews']				= "Belum tentu apakah jumlah AdViews pada hari ini akan mecukupi target dari seluruh kampanye dengan prioritas tinggi. Sehubungan dengal hal tersebut, seluruh kampanye dengan prioritas rendah untuk sementara waktu dihentikan. ";
+$GLOBALS['strPriorityAutoTargeting']				= "Bagikan secara rata sisa AdViews sesuai dengan waktu yang tertinggal. Sisa AdViews akan dibagi rata untuk setiap hari yang tertinggal.";
 
 
 
@@ -234,16 +234,16 @@ $GLOBALS['strShowBanner'] 					= "Lihat banner";
 $GLOBALS['strShowAllBanners'] 					= "Tampil semua Banner";
 $GLOBALS['strShowBannersNoAdClicks'] 				= "Tampil Banner tanpa Adklik";
 $GLOBALS['strShowBannersNoAdViews'] 				= "Tampil Banner tanpa AdViews";
-$GLOBALS['strDeleteAllBanners']	 				= "Delete all banners";
-$GLOBALS['strActivateAllBanners']				= "Activate all banners";
-$GLOBALS['strDeactivateAllBanners']				= "Deactivate all banners";
+$GLOBALS['strDeleteAllBanners']	 				= "Hapus semua banner";
+$GLOBALS['strActivateAllBanners']				= "Aktifasi semua banner";
+$GLOBALS['strDeactivateAllBanners']				= "Deaktifasi semua banner";
 $GLOBALS['strBannerOverview']					= "Pandangan Luas Banner";
 $GLOBALS['strBannerProperties']					= "Properties Banner";
 $GLOBALS['strBannerHistory']					= "Sejarah Banner";
 $GLOBALS['strBannerNoStats'] 					= "Data statistik untuk Banner ini tidak ditemukan!";
 $GLOBALS['strNoBanners'] 					= "Banner tidak ditemukan";
 $GLOBALS['strConfirmDeleteBanner'] 				= "Benar hapus banner ini?";
-$GLOBALS['strConfirmDeleteAllBanners']				= "Do you really want to delete all banners which are owned by this campaign?";
+$GLOBALS['strConfirmDeleteAllBanners']				= "Apakah benar hapus semua banner yang dimiliki kampanye ini?";
 $GLOBALS['strConfirmResetBannerStats'] 				= "Reset kembali Statistik untik banner ini?";
 
 
@@ -290,7 +290,7 @@ $GLOBALS['strTrackAdClicks']					= "Jejak AdKlik";
 
 
 // Banner (cache)
-$GLOBALS['strRebuildBannerCache']				= "Rebuild banner cache";
+$GLOBALS['strRebuildBannerCache']				= "Bangun kembali banner cache";
 
 
 // Display limitations
@@ -324,7 +324,7 @@ $GLOBALS['strAffiliateHistory']					= "Sejarah Afiliasi";
 $GLOBALS['strZonesWithoutAffiliate']				= "Zona tanpa Afiliasi";
 $GLOBALS['strMoveToNewAffiliate']				= "Pindahkan ke Afiliasi baru";
 $GLOBALS['strNoAffiliates'] 					= "Afiliasi belum didefinisikan";
-$GLOBALS['strConfirmDeleteAffiliate']				= "Do you really want to delete this publisher?";
+$GLOBALS['strConfirmDeleteAffiliate']				= "Apakah Publisher ini benar dihapus?";
 
 
 // Affiliates (properties)
@@ -365,18 +365,18 @@ $GLOBALS['strSelectZoneType'] 					= "Silakan pilih tipe banner untuk di-link";
 $GLOBALS['strBannerSelection'] 					= "Pilihan banner";
 $GLOBALS['strCampaignSelection']				= "Campaign selection";
 $GLOBALS['strInteractive'] 					= "Interaktif";
-$GLOBALS['strRawQueryString']					= "Keyword";
+$GLOBALS['strRawQueryString']					= "Kata kunci";
 $GLOBALS['strIncludedBanners'] 					= "Banner yang di-link";
 $GLOBALS['strLinkedBannersOverview']				= "Pandangan Luas Linked Banners";
 $GLOBALS['strLinkedBannerHistory']				= "Sejarah Linked Banner";
 $GLOBALS['strNoZonesToLink'] 					= "Zona untuk me-link banner ini tidak tersedia";
 $GLOBALS['strNoBannersToLink']					= "Tidak ada banner untuk di-link kepada zona ini";
 $GLOBALS['strNoLinkedBanners']					= "Tidak ada banner di-link kepada zona ini";
-$GLOBALS['strMatchingBanners']					= "{count} matching banners";
-$GLOBALS['strNoCampaignsToLink']				= "There are currently no campaigns available which can be linked to this zone";
-$GLOBALS['strNoZonesToLinkToCampaign']  			= "There are no zones available to which this campaign can be linked";
-$GLOBALS['strSelectBannerToLink']				= "Select the banner you would like to link to this zone:";
-$GLOBALS['strSelectCampaignToLink']				= "Select the campaign you would like to link to this zone:";
+$GLOBALS['strMatchingBanners']					= "{count} banner yang sesuai";
+$GLOBALS['strNoCampaignsToLink']				= "Pada saat ini tidak tersedia kampanye untuk di-link kepada Zona ini";
+$GLOBALS['strNoZonesToLinkToCampaign']  			= "Tidak tersedia Zona untuk me-link kampanye ini";
+$GLOBALS['strSelectBannerToLink']				= "Silakan pilih banner untuk di-link ke Zona ini:";
+$GLOBALS['strSelectCampaignToLink']				= "Silakan pilih kampanye untuk di-link kepada Zona ini:";
 
 
 // Statistics
@@ -386,8 +386,8 @@ $GLOBALS['strConfirmResetStats'] 				= "Reset kembali Statistik untuk Client ini
 $GLOBALS['strGlobalHistory']					= "Sejarah Global";
 $GLOBALS['strDailyHistory']					= "Daily history";
 $GLOBALS['strDailyStats']					= "Statistik Harian";
-$GLOBALS['strWeeklyHistory']					= "Weekly history";
-$GLOBALS['strMonthlyHistory']					= "Monthly history";
+$GLOBALS['strWeeklyHistory']					= "Perkembangan mingguan";
+$GLOBALS['strMonthlyHistory']					= "Perkembangan bulanan";
 $GLOBALS['strCreditStats'] 					= "Kredit Statistik";
 $GLOBALS['strDetailStats'] 					= "Statistik secara detail";
 $GLOBALS['strTotalThisPeriod']					= "Jumlah keseluruhan dalam periode ini";
@@ -412,15 +412,15 @@ $GLOBALS['strEstimated'] 					= "Perkiraan tanggal kadaluarsa";
 
 // Reports
 $GLOBALS['strReports'] 						= "Laporan";
-$GLOBALS['strSelectReport']					= "Select the report you want to generate";
+$GLOBALS['strSelectReport']					= "Silakan pilih laporan untuk di-generate";
 
 
 // Userlog
 $GLOBALS['strUserLog']						= "User log";
 $GLOBALS['strUserLogDetails']					= "User log details";
-$GLOBALS['strDeleteLog']					= "Delete log";
-$GLOBALS['strAction']						= "Action";
-$GLOBALS['strNoActionsLogged']					= "No actions are logged";
+$GLOBALS['strDeleteLog']					= "Hapus log";
+$GLOBALS['strAction']						= "Aksi";
+$GLOBALS['strNoActionsLogged']					= "Tidak ada aksi yang di-log";
 
 
 // Code generation
