@@ -617,7 +617,7 @@ if (isset($row['span']) && $row['span'] > 0)
 			// CTR
 			echo "<tr>";
 			echo "<td height='25' bgcolor='$bgcolor'>&nbsp;</td>";
-			echo "<td height='25' bgcolor='$bgcolor'>&nbsp;".$strClicks."</td>";
+			echo "<td height='25' bgcolor='$bgcolor'>&nbsp;".$strCTRShort."</td>";
 			
 			for ($i = 0; $i < 7; $i++)
 				echo "<td align='".$phpAds_TextAlignRight."' nowrap  height='25' bgcolor='$bgcolor'>".$ctr[$i]."&nbsp;</td>";
