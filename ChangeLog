@@ -281,6 +281,7 @@ CVS			+ Added configuration manager  (Matteo, 2001/11/04)
 			  - 2002-06-05:  Priority calculation wrongly counted impressions  (Niels, Matteo)
 			  - 2002-06-05:  Stats converter didn't convert views/click made on 23:59:59 and/or 00:59:59  (Matteo)
 			  - 2002-06-05:  Fixed banner reload when using Animated GIFs inside Netscape 4  (Niels)
+			  - 2002-06-05:  Advertiser stats graphs were shown on campaign history pages  (Niels)
 
 
 v 2.0beta6.1		+ Minor speed improvements in view.inc.php  (Niels) 20011015

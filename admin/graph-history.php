@@ -33,6 +33,25 @@ if ($bannerid != '')
 	}
 }
 
+// Campaignid
+elseif ($campaignid != '')
+{
+	$idresult = phpAds_dbQuery ("
+		SELECT
+			bannerid
+		FROM
+			".$phpAds_config['tbl_banners']."
+		WHERE
+			clientid = $campaignid
+	");
+	
+	if (phpAds_dbNumRows($idresult) > 0)
+		while ($row = phpAds_dbFetchArray($idresult))
+			$bannerids[] = "bannerid = ".$row['bannerid'];
+	
+	$where[] = "(".implode(' OR ', $bannerids).")";
+}
+
 // Clientid
 elseif ($clientid != '')
 {
@@ -45,25 +64,6 @@ elseif ($clientid != '')
 		WHERE
 			c.parent = $clientid AND
 			c.clientid = b.clientid
-	");
-	
-	if (phpAds_dbNumRows($idresult) > 0)
-		while ($row = phpAds_dbFetchArray($idresult))
-			$bannerids[] = "bannerid = ".$row['bannerid'];
-	
-	$where[] = "(".implode(' OR ', $bannerids).")";
-}
-
-// Campaignid
-elseif ($campaignid != '')
-{
-	$idresult = phpAds_dbQuery ("
-		SELECT
-			bannerid
-		FROM
-			".$phpAds_config['tbl_banners']."
-		WHERE
-			clientid = $campaignid
 	");
 	
 	if (phpAds_dbNumRows($idresult) > 0)
