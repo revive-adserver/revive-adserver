@@ -88,8 +88,9 @@ phpAds_checkAccess(phpAds_Admin+phpAds_Client);
 
 
 
-
-
+// Check for the need to upgrade
+$upgrade = !isset($phpAds_config['config_version']) ||
+	$phpAds_version > $phpAds_config['config_version'];
 
 
 
@@ -99,7 +100,7 @@ phpAds_checkAccess(phpAds_Admin+phpAds_Client);
 
 if (phpAds_isUser(phpAds_Client))
 {
-	if (empty($upgrade))
+	if (!$upgrade)
 	{
 		header("Location: index.php");
 	}
@@ -122,7 +123,7 @@ if (phpAds_isUser(phpAds_Admin))
 		$step = 1;
 	
 	
-	if ($step == 1)
+	if ($upgrade && $step == 1)
 	{
 		// Print a proceed request if an upgrade is needed
 		phpAds_PageHeader("1");
@@ -143,7 +144,7 @@ if (phpAds_isUser(phpAds_Admin))
 		echo "<input type='submit' name='proceed' value='$strProceed'>";
 		echo "</form>";
 	}
-	elseif ($step == 2)
+	elseif ($upgrade && $step == 2)
 	{
 		// Upgrade database
 		if (phpAds_databaseUpgradeSupported)
