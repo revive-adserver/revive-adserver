@@ -40,6 +40,7 @@ $GLOBALS['strWarningMagicQuotesGPC']		= "The PHP configuration variable magic_qu
 $GLOBALS['strWarningMagicQuotesRuntime']	= "The PHP configuration variable magic_quotes_runtime needs to be turned off.";
 $GLOBALS['strWarningFileUploads']		= "The PHP configuration variable file_uploads needs to be turned on.";
 $GLOBALS['strWarningTrackVars']			= "The PHP configuration variable track_vars needs to be turned on.";
+$GLOBALS['strWarningPREG']				= "The version of PHP you are using doesn't have support for PERL compatible regular expressions. You need to enable the PREG extension before you can proceed.";
 $GLOBALS['strConfigLockedDetected']		= $phpAds_productname." has detected that your <b>config.inc.php</b> file is not writeable by the server.<br> You can't proceed until you change permissions on the file. <br>Read the supplied documentation if you don't know how to do that.";
 $GLOBALS['strCantUpdateDB']  			= "It is currently not possible to update the database. If you decide to proceed, all existing banners, statistics and advertisers will be deleted.";
 $GLOBALS['strTableNames']			= "Table Names";
@@ -53,7 +54,7 @@ $GLOBALS['strInstallSuccess']			= "<b>The installation of ".$phpAds_productname.
 						   <br><br>Click <b>Proceed</b> to go the configuration page, where you can 
 						   set up more settings. Please do not forget to lock the config.inc.php file when you are finished to prevent security
 						   breaches.";
-$GLOBALS['strUpdateSuccess']			= "<b>The upgrade of ".$phpAds_productname." was succesfull.</b><br><br>In order for ".$phpAds_productname." to function correctly you also need
+$GLOBALS['strUpdateSuccess']			= "<b>The upgrade of ".$phpAds_productname." was succesful.</b><br><br>In order for ".$phpAds_productname." to function correctly you also need
 						   to make sure the maintenance file is run every hour (previously this was every day). More information about this subject can be found in the documentation.
 						   <br><br>Click <b>Proceed</b> to go to the administration interface. Please do not forget to lock the config.inc.php file 
 						   to prevent security breaches.";
@@ -75,7 +76,7 @@ $GLOBALS['strInvalidUserPwd']			= "Invalid username or password";
 
 $GLOBALS['strUpgrade']				= "Upgrade";
 $GLOBALS['strSystemUpToDate']			= "Your system is already up to date, no upgrade is needed at the moment. <br>Click on <b>Proceed</b> to go to home page.";
-$GLOBALS['strSystemNeedsUpgrade']		= "The database structure and configuration file need to be upgraded in order to function correctly. Click <b>Proceed</b> to start the upgrade process. <br>Please be patient, the upgrade can take up to a couple of minutes.";
+$GLOBALS['strSystemNeedsUpgrade']		= "The database structure and configuration file need to be upgraded in order to function correctly. Click <b>Proceed</b> to start the upgrade process. <br><br>Depending on which version you are upgrading from and how many statistics are already stored in the database, this process can cause high load on your database server. Please be patient, the upgrade can take up to a couple of minutes.";
 $GLOBALS['strSystemUpgradeBusy']		= "System upgrade in progress, please wait...";
 $GLOBALS['strSystemRebuildingCache']		= "Rebuilding cache, please wait...";
 $GLOBALS['strServiceUnavalable']		= "The service is temporarily unavailable. System upgrade in progress";

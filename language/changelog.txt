@@ -12,6 +12,17 @@
 
   ====================================================
 
+  10-11-2002 - default
+    [+] strLaterThan
+    [+] strLaterThanOrEqual
+    [+] strEarlierThan
+    [+] strEarlierThanOrEqual
+  
+  10-11-2002 - settings
+    [+] strWarningPREG
+    [u] strUpdateSuccess
+    [u] strSystemNeedsUpgrade
+
   06-11-2002 - settings
     [+] strWarningTrackVars
 

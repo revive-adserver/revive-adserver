@@ -44,6 +44,10 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-10-17:  Added a list of 'most requesting countries' to the 'Hosts' pages  (Niels)
 			  - 2002-10-28:  Moved a lot of library files around to new locations  (Niels)
 			  - 2002-10-29:  Moved even more library files to a new location  (Niels)
+			  - 2002-11-10:  Updated the table structure of the delivery limitations, making it more flexible  (Niels)
+			  - 2002-11-10:  Added a new delivery limitations for dates  (Niels)
+			  - 2002-11-10:  Changed the way the language, country and continent limitations are shown  (Niels)
+			  - 2002-11-10:  Moved all the posix regular expressions in the delivery engine to PERL compatible regular expressions for a minor speed improvement  (Niels)
 
 			+ Misc bugfixes
 			  - 2002-07-25:  On some systems history pages showed '-0' instead of simply '-' (Matteo)
@@ -113,6 +117,9 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-10-27:  The 'Show banner' button caused an error on the 'Linked banners' page  (Niels)
 			  - 2002-10-28:  Fixed settings help layer and layerstyles to be Konqueror compatible  (Matteo)
 			  - 2002-10-29:  Fixed a couple of register_global bugs, which caused E_ALL errors  (Niels)
+			  - 2002-11-02:  Fixed E_ALL warnings and division by zero error in lib-misc-stats  (Niels)
+ 			  - 2002-11-02:  Language strings weren't included at the right moment in the install script causing E_ALL warnings  (Niels)
+ 			  - 2002-11-02:  Added the correct time string in all language files  (Niels)
 
 
 v 2.0beta7		+ Added configuration manager  (Matteo, 2001-11-04)
