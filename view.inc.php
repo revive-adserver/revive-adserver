@@ -289,19 +289,21 @@ function log_adview($bannerID,$clientID)
 	if($found == 0)
 	{ 
 		$res = @db_log_view($bannerID, $host);
-
+		
 		// Decrement views
 		$currentview=db_query("SELECT * FROM $phpAds_tbl_clients WHERE clientID=$clientID and views > 0");
 		if($viewcount=mysql_fetch_array($currentview))
 		{
 			$viewcount["views"]=$viewcount["views"]-1;
-
+			
 			// Mail warning - preset is reached
 			if($viewcount["views"]==$phpAds_warn_limit)
 				warn_mail($viewcount);
-			db_query("UPDATE $phpAds_tbl_clients SET views=$viewcount[views] WHERE clientID=$clientID");
+			
+			db_query("UPDATE $phpAds_tbl_clients SET views=views-1 WHERE clientID=$clientID");
+			
 			// Check view count and de-activate banner if needed
-			if($viewcount["views"]==0 && $viewcount["clicks"]==0)
+			if($viewcount["views"]==0)
 				db_query("UPDATE $phpAds_tbl_banners SET active='false' WHERE clientID=$clientID");
 		}
 	}
