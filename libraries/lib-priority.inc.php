@@ -644,6 +644,9 @@ function phpAds_PriorityStore($banners, $campaigns = '')
 {
 	global $phpAds_config;
 	
+	if (!is_array($campaigns))
+		$campaigns = array();
+
 	// Reset existing priorities
 	$query = "
 		UPDATE ".$phpAds_config['tbl_banners']."
