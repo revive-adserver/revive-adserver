@@ -411,6 +411,7 @@ $GLOBALS['strZoneAppendSelectZone']		= "Always append the following popup or int
 // Zone probability
 $GLOBALS['strZoneProbListChain']		= "All the banners linked to the selected zone have null priority. This is the zone chain that will be followed:";
 $GLOBALS['strZoneProbNullPri']			= "All banners linked to this zone have null priority";
+$GLOBALS['strZoneProbListChainLoop']	= "Following the zone chain would cause a circular loop. Delivery for this zone is halted";
 
 
 // Linked banners/campaigns

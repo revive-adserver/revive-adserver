@@ -25,7 +25,7 @@ English
 	---------------------------------------------------------
 	Maintained by:	   Niels Leenheer (niels@creatype.nl)
 	Is up-to-date?	   Always
-	Last update:	   28 November 2002
+	Last update:	   10 December 2002
 	Translated files:  7
 	---------------------------------------------------------
 
@@ -65,7 +65,7 @@ Italian
 	---------------------------------------------------------
 	Maintained by:	   Matteo Beccati (matteo@beccati.com)
 	Is up-to-date?	   Yes
-	Last update:	   03 December 2002
+	Last update:	   10 December 2002
 	Translated files:  7 + 3 resource files
 	---------------------------------------------------------
 

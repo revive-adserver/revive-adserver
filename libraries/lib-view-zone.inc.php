@@ -24,12 +24,18 @@ define ('LIBVIEWZONE_INCLUDED', true);
 function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '', $richmedia = true)
 {
 	global $phpAds_config, $HTTP_COOKIE_VARS;
-	
+	global $phpAds_followedChain;
 	
 	// Get first part, store second part
 	$what = strtok($remaining, '|');
 	$remaining = strtok ('');
 	$zoneid  = substr($what,5);
+	
+	// Check if zone was already evaluated in the chain
+	if (in_array($zoneid, $phpAds_followedChain))
+		return ($remaining);
+	else
+		$phpAds_followedChain[] = $zoneid;
 	
 	
 	// Get cache

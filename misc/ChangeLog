@@ -59,6 +59,7 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-11-28:  Rewritten autotargeting routine to increase or decrease daily target using the actual stats  (Matteo)
 			  - 2002-12-01:  Rewritten the settings library to allow more complex dependancies and Javascript input checking  (Niels)
 			  - 2002-12-03:  Added optional localization for ISO3166, ISO639 and continent resource files  (Matteo)
+			  - 2002-12-10:  Added a warning mesage into zone-probability.php when using circular zone chains and all zones are empty  (Matteo)
 
 			+ Misc bugfixes
 			  - 2002-07-25:  On some systems history pages showed '-0' instead of simply '-' (Matteo)
@@ -144,6 +145,10 @@ CVS			+ Added the ability to serve and manage text ads  (Niels, 2002-07-29)
 			  - 2002-12-09:  Aligned text to the right in the daily graph to prevent numbers from being cut off  (Niels)
 			  - 2002-12-09:  Removed <span> from reports  (Niels)
 			  - 2002-12-09:  Added second scale to history graphs to make AdClicks visible  (Niels)
+			  - 2002-12-09:  Aligned text to the right in the daily graph to prevent numbers from being cut off  (Niels)
+			  - 2002-12-09:  Removed <span> from reports  (Niels)
+			  - 2002-12-09:  Added second scale to history graphs to make AdClicks visible  (Niels)
+			  - 2002-12-10:  Fixed infinite loop during invocation when using circular zone chains and all zones are empty  (Matteo)
 
 
 

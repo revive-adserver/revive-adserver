@@ -44,12 +44,14 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 	// Open database connection and get a banner
 	if (phpAds_dbConnect())
 	{
+		// Reset followed zone chain
+		$phpAds_followedChain = array();
+		
 		$first = true;
 		
 		while (($first || $what != '') && $found == false)
 		{
 			$first = false;
-			
 			if (substr($what,0,5) == 'zone:')
 			{
 				if (!defined('LIBVIEWZONE_INCLUDED'))
