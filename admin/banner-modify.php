@@ -18,6 +18,7 @@
 require ("config.php");
 require ("lib-storage.inc.php");
 require ("lib-zones.inc.php");
+require ("../lib-priority.inc.php");
 
 
 // Security check
@@ -39,6 +40,9 @@ if (isset($bannerid) && $bannerid != '')
 		// Rebuild zone cache
 		if ($phpAds_config['zone_cache'])
 			phpAds_RebuildZoneCache ();
+		
+		// Rebuild priorities
+		phpAds_PriorityCalculate ();
 		
 		Header ("Location: ".$returnurl."?campaignid=".$moveto."&bannerid=".$bannerid);
 	}
@@ -174,6 +178,9 @@ if (isset($bannerid) && $bannerid != '')
 		// Rebuild zone cache
 		if ($phpAds_config['zone_cache'])
 			phpAds_RebuildZoneCache ();
+		
+		// Rebuild priorities
+		phpAds_PriorityCalculate ();
 		
 		Header ("Location: ".$returnurl."?campaignid=".$campaignid."&bannerid=".$new_bannerid);
 	}

@@ -164,6 +164,13 @@ if (isset($submit))
 			") or phpAds_sqlDie();
 	}
 	
+	if ($weight != $previousweight)
+	{
+		require ("../lib-priority.inc.php");
+		phpAds_PriorityCalculate ();
+	}
+	
+	
 	Header("Location: client-index.php?expand=$clientid&message=".urlencode($message));
 	exit;
 }
@@ -678,6 +685,7 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 			<img src='images/break-l.gif' height='1' width='100%' vspace='6'><br>
 			<?php echo $strCampaignWeight; ?>: 
 			<input type="text" name="weight" size='7' value="<?php echo isset($row["weight"]) ? $row["weight"] : $phpAds_config['default_campaign_weight'];?>">
+			<input type="hidden" name="previousweight" value="<?php echo isset($row["weight"]) ? $row["weight"] : '';?>">
 			</td></tr></table>
 		</td>
 	</tr>

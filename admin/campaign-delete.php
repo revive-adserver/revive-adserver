@@ -19,6 +19,7 @@ require ("config.php");
 require ("lib-storage.inc.php");
 require ("lib-zones.inc.php");
 require ("lib-statistics.inc.php");
+require ("../lib-priority.inc.php");
 
 
 // Security check
@@ -86,6 +87,9 @@ if (isset($campaignid) && $campaignid != '')
 // Rebuild zone cache
 if ($phpAds_config['zone_cache'])
 	phpAds_RebuildZoneCache ();
+
+// Rebuild priorities
+phpAds_PriorityCalculate ();
 
 header("Location: ".$returnurl);
 

@@ -18,6 +18,7 @@
 require ("config.php");
 require ("lib-statistics.inc.php");
 require ("lib-zones.inc.php");
+require ("../lib-priority.inc.php");
 
 
 // Security check
@@ -71,6 +72,9 @@ if (phpAds_isUser(phpAds_Client))
 			if ($phpAds_config['zone_cache'])
 				phpAds_RebuildZoneCache ();
 			
+			// Rebuild priorities
+			phpAds_PriorityCalculate ();
+			
 			Header("Location: stats-campaign.php?campaignid=$campaignid&message=".urlencode($strBannerChanged));
 		}
 	}
@@ -96,6 +100,9 @@ if (phpAds_isUser(phpAds_Admin))
 	// Rebuild zone cache
 	if ($phpAds_config['zone_cache'])
 		phpAds_RebuildZoneCache ();
+	
+	// Rebuild priorities
+	phpAds_PriorityCalculate ();
 	
 	Header("Location: campaign-index.php?campaignid=$campaignid&message=".urlencode($strBannerChanged));
 }
