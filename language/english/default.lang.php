@@ -360,6 +360,7 @@ $GLOBALS['strClientProperties']			= "Client properties";
 $GLOBALS['strZoneOverview']				= "Zone overview";
 $GLOBALS['strZoneProperties']			= "Zone properties";
 $GLOBALS['strAffiliateOverview']		= "Affiliate overview";
+$GLOBALS['strLinkedBannersOverview']	= "Linked banners overview";
 
 $GLOBALS['strGlobalHistory']			= "Global history";
 $GLOBALS['strBannerHistory']			= "Banner history";
@@ -381,7 +382,15 @@ $GLOBALS['strZonesWithoutAffiliate']	= "Zones without affiliate";
 $GLOBALS['strMoveToNewAffiliate']		= "Move to new affiliate";
 
 $GLOBALS['strNoBannersToLink']			= "There are currently no banners available which can be linked to this zone";
+$GLOBALS['strNoLinkedBanners']			= "There are no banners available which are linked to this zone";
 
 $GLOBALS['strAdviewsLimit']				= "AdViews limit";
+
+$GLOBALS['strTotalThisPeriod']			= "Total this period";
+$GLOBALS['strAverageThisPeriod']		= "Average this period";
+$GLOBALS['strLast7Days']				= "Last 7 days";
+$GLOBALS['strDistribution']				= "Distribution";
+$GLOBALS['strOther']					= "Other";
+$GLOBALS['strUnknown']					= "Unknown";
 
 ?>
