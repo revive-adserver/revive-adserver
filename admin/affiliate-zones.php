@@ -222,12 +222,24 @@ while ($row_zones = phpAds_dbFetchArray($res_zones))
 	
 	echo "<td height='25'>&nbsp;&nbsp;";
 	
-	if ($row_zones['delivery'] == phpAds_ZoneBanner)
-		echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
-	elseif ($row_zones['delivery'] == phpAds_ZoneInterstitial)
-		echo "<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;";
-	elseif ($row_zones['delivery'] == phpAds_ZonePopup)
-		echo "<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;";
+	if ($row_zones['what'] != '')
+	{
+		if ($row_zones['delivery'] == phpAds_ZoneBanner)
+			echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
+		elseif ($row_zones['delivery'] == phpAds_ZoneInterstitial)
+			echo "<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;";
+		elseif ($row_zones['delivery'] == phpAds_ZonePopup)
+			echo "<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;";
+	}
+	else
+	{
+		if ($row_zones['delivery'] == phpAds_ZoneBanner)
+			echo "<img src='images/icon-zone-d.gif' align='absmiddle'>&nbsp;";
+		elseif ($row_zones['delivery'] == phpAds_ZoneInterstitial)
+			echo "<img src='images/icon-interstitial-d.gif' align='absmiddle'>&nbsp;";
+		elseif ($row_zones['delivery'] == phpAds_ZonePopup)
+			echo "<img src='images/icon-popup-d.gif' align='absmiddle'>&nbsp;";
+	}
 	
 	if (phpAds_isUser(phpAds_Admin) || phpAds_isAllowed(phpAds_EditZone))
 		echo "<a href='zone-edit.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'>".$row_zones['zonename']."</a>";
