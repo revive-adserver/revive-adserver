@@ -11,15 +11,15 @@ include (phpAds_path."/libraries/lib-dbconfig.inc.php");
 include (phpAds_path."/libraries/lib-revisions.inc.php");
 
 // Starting scan
-echo "Starting scan at ".phpAds_path."<br>";
+echo "Starting scan at ".phpAds_path."<br>\n";
 
 if (phpAds_revisionCreate())
 {
-	echo "Revision file succesfully created!<br>";
+	echo "Revision file succesfully created!<br>\n";
 }
 else
 {
-	echo "<strong>Error:</strong> Failed to create a new revision file<br>";
+	echo "<strong>Error:</strong> Failed to create a new revision file<br>\n";
 }
 
 
