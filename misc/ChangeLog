@@ -9,6 +9,7 @@ CVS
 			  - 2005-03-17:  Outgoing e-mails did not comply to RFCs when no charset was set in the language file  (Matteo)
 			  - 2005-03-31:  Moving local SQL stored banners to web stored was broking delivery until cache wasn't rebuilt  (Matteo)
 			  - 2005-04-05:  Enhanced new cookie handling to better deal with concurrent access, which previously didn't correctly work  (Matteo)
+			  - 2005-04-16:  Added workaround to make maintenance working if the cronjob is started a few seconds before the scheduled time  (Matteo)
 
 
 phpAdsNew 2.0.4-pr2

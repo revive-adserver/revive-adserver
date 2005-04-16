@@ -54,6 +54,16 @@ if ($phpAds_config['language'] != 'english' && file_exists(phpAds_path.'/languag
 phpAds_userlogSetUser (phpAds_userMaintenance);
 
 
+// Sometimes cron jobs could start before the exact minute they were set,
+// especially if many are scheduled at the same time (e.g. midnight)
+//
+// Wait a few seconds if needed, to ensure all goes well, otherwise
+// maintenance won't work as it should
+
+if (date('i') == 59 && date('s') >= 45)
+	sleep(60 - date('s'));
+
+
 // Update the timestamp
 $res = phpAds_dbQuery ("
 	UPDATE
