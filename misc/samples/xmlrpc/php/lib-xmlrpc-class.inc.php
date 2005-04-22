@@ -104,6 +104,9 @@ class phpAds_XmlRpc
 			$xmlcontext
 		));
 
+		// Reset $output cache
+		$this->output = '';
+
 		// Send XML-RPC request message
 		if($response = $this->client->send($msg))
 		{
@@ -121,12 +124,12 @@ class phpAds_XmlRpc
 
 	function view($what, $clientid=0, $target='', $source='', $withtext=0, $context=0, $richmedia = true)
 	{
-		$this->view_raw($what, $clientid, $target, $source, $withtext, $context, $richmedia);
+		$output = $this->view_raw($what, $clientid, $target, $source, $withtext, $context, $richmedia);
 		
-		if ($this->output)
+		if ($output)
 		{
-			echo $this->output['html'];
-			return $this->output['bannerid'];
+			echo $output['html'];
+			return $output['bannerid'];
 		}
 		else
 			return false;
