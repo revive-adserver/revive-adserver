@@ -10,6 +10,8 @@ CVS
 			  - 2005-03-31:  Moving local SQL stored banners to web stored was broking delivery until cache wasn't rebuilt  (Matteo)
 			  - 2005-04-05:  Enhanced new cookie handling to better deal with concurrent access, which previously didn't correctly work  (Matteo)
 			  - 2005-04-16:  Added workaround to make maintenance working if the cronjob is started a few seconds before the scheduled time  (Matteo)
+			  - 2005-04-22:  Example XML-RPC invocation class could return cached banners under some circumstances - bug #1174890  (Matteo, thanks to Colin Viebrock)
+			  - 2005-04-22:  Fixed possibly uninitialized variable in lib-remotehost - bug #1187931  (Matteo)
 
 
 phpAdsNew 2.0.4-pr2
