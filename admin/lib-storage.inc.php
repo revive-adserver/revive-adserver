@@ -537,12 +537,14 @@ function phpAds_FTPRetrieve ($server, $name)
 		$tempfile = @tmpfile();
 		
 		// Download file to the temporary file
-		if (@ftp_fget ($conn_id, $tempfile, $name, FTP_BINARY))
+		if ($tempfile && @ftp_fget ($conn_id, $tempfile, $name, FTP_BINARY))
 		{
 			// Go to the beginning of the temporary file
-			$size = @ftell($tempfile);
-			@rewind ($tempfile);
-			$result = fread ($tempfile, $size);
+			rewind ($tempfile);
+			
+			$result = '';
+			while (!feof($tempfile))
+				$result .= fread ($tempfile, 8192);
 		}
 		
 		@fclose($tempfile);

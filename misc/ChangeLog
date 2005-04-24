@@ -14,7 +14,8 @@ CVS
 			  - 2005-04-22:  Fixed possibly uninitialized variable in lib-remotehost - bug #1187931  (Matteo)
 			  - 2005-04-24:  Additional ranges ("last month", "this year" and "last year") are now available when showing statistics  (Matteo, thanks to Colin Viebrock)
 			  - 2005-04-24:  FTP stored banners parameters weren't correctly stored as urlencoded - bug #1170590 (Matteo)
-
+			  - 2005-04-24:  Flash hardcoded link converter didn't work with PHP 4.3.5+ and FTP stored banners, due to a PHP behaviour change - bug #1170584 (Matteo)
+ 
 
 phpAdsNew 2.0.4-pr2
 			+ Misc bugfixes
