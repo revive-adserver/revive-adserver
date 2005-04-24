@@ -13,6 +13,7 @@ CVS
 			  - 2005-04-22:  Example XML-RPC invocation class could return cached banners under some circumstances - bug #1174890  (Matteo, thanks to Colin Viebrock)
 			  - 2005-04-22:  Fixed possibly uninitialized variable in lib-remotehost - bug #1187931  (Matteo)
 			  - 2005-04-24:  Additional ranges ("last month", "this year" and "last year") are now available when showing statistics  (Matteo, thanks to Colin Viebrock)
+			  - 2005-04-24:  FTP stored banners parameters weren't correctly stored as urlencoded - bug #1170590 (Matteo)
 
 
 phpAdsNew 2.0.4-pr2

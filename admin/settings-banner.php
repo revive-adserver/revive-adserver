@@ -87,8 +87,9 @@ if (isset($save_settings) && $save_settings != '')
 				{
 					if (empty($type_web_ftp_path) || @ftp_chdir($ftpsock, $type_web_ftp_path))
 					{
-						$type_web_ftp = 'ftp://'.$type_web_ftp_user.
-							':'.$type_web_ftp_password.'@'.$type_web_ftp_host.'/'.$type_web_ftp_path;
+						$type_web_ftp = 'ftp://'.urlencode($type_web_ftp_user).
+							':'.urlencode($type_web_ftp_password).'@'.$type_web_ftp_host.
+							'/'.urlencode($type_web_ftp_path);
 						
 						phpAds_SettingsWriteAdd('type_web_ftp', $type_web_ftp);
 					}
@@ -141,8 +142,13 @@ if (!empty($phpAds_config['type_web_ftp']))
 {
 	if ($ftpserver = @parse_url($phpAds_config['type_web_ftp']))
 	{
-		$ftpserver['path'] = ereg_replace('^/', '', $ftpserver['path']);
-		$ftpserver['path'] = ereg_replace('/$', '', $ftpserver['path']);
+		// Decode URL parts
+		$ftpserver['user'] = urldecode($ftpserver['user']);
+		$ftpserver['pass'] = urldecode($ftpserver['pass']);
+		$ftpserver['path'] = urldecode($ftpserver['path']);
+
+		$ftpserver['path'] = preg_replace('#^/#', '', $ftpserver['path']);
+		$ftpserver['path'] = preg_replace('#/$#', '', $ftpserver['path']);
 		
 		$phpAds_config['type_web_ftp_host'] = $ftpserver['host'].(isset($ftpserver['port']) && $ftpserver['port'] != '' ? ':'.$ftpserver['port'] : '');
 		$phpAds_config['type_web_ftp_user'] = $ftpserver['user'];

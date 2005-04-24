@@ -56,6 +56,12 @@ function phpAds_ImageStore ($storagetype, $name, $buffer, $overwrite = false)
 		{
 			// FTP mode
 			$server = parse_url($phpAds_config['type_web_ftp']);
+			
+			// Decode URL parts
+			$server['user'] = urldecode($server['user']);
+			$server['pass'] = urldecode($server['pass']);
+			$server['path'] = urldecode($server['path']);
+			
 			if ($server['path'] != "" && substr($server['path'], 0, 1) == "/") $server['path'] = substr ($server['path'], 1);
 			
 			if ($server['scheme'] == 'ftp')
@@ -122,6 +128,12 @@ function phpAds_ImageDuplicate ($storagetype, $name)
 		{
 			// FTP mode
 			$server = parse_url($phpAds_config['type_web_ftp']);
+			
+			// Decode URL parts
+			$server['user'] = urldecode($server['user']);
+			$server['pass'] = urldecode($server['pass']);
+			$server['path'] = urldecode($server['path']);
+			
 			if ($server['path'] != "" && substr($server['path'], 0, 1) == "/") $server['path'] = substr ($server['path'], 1);
 			
 			if ($server['scheme'] == 'ftp')
@@ -171,6 +183,12 @@ function phpAds_ImageRetrieve ($storagetype, $name)
 		{
 			// FTP mode
 			$server = parse_url($phpAds_config['type_web_ftp']);
+			
+			// Decode URL parts
+			$server['user'] = urldecode($server['user']);
+			$server['pass'] = urldecode($server['pass']);
+			$server['path'] = urldecode($server['path']);
+			
 			if ($server['path'] != "" && substr($server['path'], 0, 1) == "/") $server['path'] = substr ($server['path'], 1);
 			
 			if ($server['scheme'] == 'ftp')
@@ -229,6 +247,12 @@ function phpAds_ImageDelete ($storagetype, $name)
 		{
 			// FTP mode
 			$server = parse_url($phpAds_config['type_web_ftp']);
+			
+			// Decode URL parts
+			$server['user'] = urldecode($server['user']);
+			$server['pass'] = urldecode($server['pass']);
+			$server['path'] = urldecode($server['path']);
+			
 			if ($server['path'] != "" && substr($server['path'], 0, 1) == "/") $server['path'] = substr ($server['path'], 1);
 			
 			if ($server['scheme'] == 'ftp')
@@ -272,6 +296,12 @@ function phpAds_ImageSize ($storagetype, $name)
 		{
 			// FTP mode
 			$server = parse_url($phpAds_config['type_web_ftp']);
+			
+			// Decode URL parts
+			$server['user'] = urldecode($server['user']);
+			$server['pass'] = urldecode($server['pass']);
+			$server['path'] = urldecode($server['path']);
+			
 			if ($server['path'] != "" && substr($server['path'], 0, 1) == "/") $server['path'] = substr ($server['path'], 1);
 			
 			if ($server['scheme'] == 'ftp')
