@@ -489,6 +489,9 @@ $GLOBALS['strCollectedAll']			= "All collected statistics";
 $GLOBALS['strCollectedToday']		= "Statistics for today only";
 $GLOBALS['strCollected7Days']		= "Statistics for the last 7 days only";
 $GLOBALS['strCollectedMonth']		= "Statistics for this month only";
+$GLOBALS['strCollectedLastMonth']	= "Statistics for last month only";
+$GLOBALS['strCollectedYear']		= "Statistics for this year only";
+$GLOBALS['strCollectedLastYear']	= "Statistics for last year only";
 $GLOBALS['strCollectedYesterday']	= "Statistics for yesterday only";
 $GLOBALS['strCollectedRange']		= "Select a date range";
 
