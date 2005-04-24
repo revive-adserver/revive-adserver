@@ -488,6 +488,9 @@ $GLOBALS['strCollectedAll']					= "Tutte le statistiche raccolte";
 $GLOBALS['strCollectedToday']				= "Statistiche di oggi";
 $GLOBALS['strCollected7Days']				= "Statistiche degli ultimi 7 giorni";
 $GLOBALS['strCollectedMonth']				= "Statistiche del mese corrente";
+$GLOBALS['strCollectedLastMonth']			= "Statistiche del mese scorso";
+$GLOBALS['strCollectedYear']				= "Statistiche di quest'anno";
+$GLOBALS['strCollectedLastYear']			= "Statistiche dell'anno scorso";
 $GLOBALS['strCollectedYesterday']			= "Statistiche di ieri";
 $GLOBALS['strCollectedRange']				= "Statistiche per intervallo di date";
 

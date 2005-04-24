@@ -17,6 +17,11 @@
 
   ====================================================
 
+  04-24-2005 - settings
+    [+] strCollectedLastMonth
+    [+] strCollectedYear
+    [+] strCollectedLastYear
+
   02-22-2005 - settings
     [+] strRetry
 
