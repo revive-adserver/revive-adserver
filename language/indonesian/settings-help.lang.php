@@ -255,7 +255,7 @@ $GLOBALS['phpAds_hlp_auto_clean_userlog_interval'] = "
 		minggu yang telah ditentukan pada kotak	dibawah ini.
 		";
 		
-GLOBALS['phpAds_hlp_geotracking_type'] = "
+$GLOBALS['phpAds_hlp_geotracking_type'] = "
 	<i>Geotargeting</i> mengizinkan ".$phpAds_productname." untuk mengubah alamat IP dari pengunjung ke 
 		informasi geografis. Bedasarkan informasi ini Anda bisa menentukan batas penyampaian atau 
 		menyimpan informasi guna untuk melihat negara yang mana yang memperoleh <i>Impressions</i> 

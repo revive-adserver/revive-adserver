@@ -48,7 +48,7 @@ $GLOBALS['strTablesPrefix']			= "Tablo isim önadlarý";
 $GLOBALS['strTablesType']			= "Tablo tipleri";
 
 $GLOBALS['strInstallWelcome']			= "Hoþgeldiniz ".$phpAds_productname;
-$GLOBALS['strInstallMessage']			= .$phpAds_productname." programý kullnmaya baþlamadan önce ayarlanmasý ve <br> veritabanýnýn oluþturulmasý gerekiyor. Devam etmek için <b>Ýlerleye</b> týklayýnyz.";
+$GLOBALS['strInstallMessage']			= $phpAds_productname." programý kullnmaya baþlamadan önce ayarlanmasý ve <br> veritabanýnýn oluþturulmasý gerekiyor. Devam etmek için <b>Ýlerleye</b> týklayýnyz.";
 $GLOBALS['strInstallSuccess']			= "<b>".$phpAds_productname." kurulumu tamamlandý.</b><br><br>".$phpAds_productname." programýnýn düzgün çalýþmasý için bakým programýnýn
 						   her saat çalýþmasý gerekmektedir. Bu konuyla ilgili detaylý bilgiyi dökümanlarda bulabilirsiniz.
 						   <br><br>Ayarlama sayfasýna gitmek için <b>Ýleri</b>yi týklayýnýz. <br>

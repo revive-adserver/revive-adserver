@@ -208,8 +208,8 @@ $GLOBALS['phpAds_hlp_auto_clean_userlog_interval'] = "
 		例如,如果您設置為5個星期,那麼5個星期之前的用戶記錄將被自動刪除.
 		";
 		
-$GLOBALS['phpAds_hlp_geotracking_type'] = "
-		Geotargeting允許".$phpAds_productname."把訪問者的IP地址轉換成地理信息.
+$GLOBALS['phpAds_hlp_geotracking_type'] = substr("
+		Geotargeting允許 ", 0, -1).$phpAds_productname."把訪問者的IP地址轉換成地理信息.
 		您可以在此信息的基礎上設置發送限制,或者您可以保存此信息來查看
 		哪個國家有最多的廣告發送和點擊率.
 		如果您想啟用geotargeting,您需要選擇您現有的資料庫類型.
