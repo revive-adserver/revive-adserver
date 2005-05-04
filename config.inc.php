@@ -38,7 +38,7 @@ $phpAds_config['tbl_affiliates'] = 'phpads_affiliates';
 $phpAds_config['tbl_images'] = 'phpads_images';
 $phpAds_config['tbl_userlog'] = 'phpads_userlog';
 $phpAds_config['tbl_cache'] = 'phpads_cache';
-$phpAds_config['tbl_targetstats'] = 'tbl_targetstats';
+$phpAds_config['tbl_targetstats'] = 'phpads_targetstats';
 
 // Database table name prefix
 $phpAds_config['table_prefix'] = 'phpads_';
@@ -99,6 +99,9 @@ $phpAds_config['geotracking_stats'] = false;
 
 // Store the result in a cookie for future reference (only in combination with beacon logging)
 $phpAds_config['geotracking_cookie'] = false;
+
+// Plug-in configuration
+$phpAds_config['geotracking_conf'] = '';
 
 
 

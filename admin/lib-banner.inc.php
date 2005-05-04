@@ -565,6 +565,27 @@ function phpAds_compileLimitation ($bannerid = '')
 					case 'region':
 						$expression .= "phpAds_aclCheckRegion(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
 						break;
+					case 'city':
+						$expression .= "phpAds_aclCheckCity(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+						break;
+					case 'postal_code':
+						$expression .= "phpAds_aclCheckPostalCode(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+						break;
+					case 'dma_code':
+						$expression .= "phpAds_aclCheckDmaCode(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+						break;
+					case 'area_code':
+						$expression .= "phpAds_aclCheckAreaCode(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+						break;
+					case 'organization':
+						$expression .= "phpAds_aclCheckOrganization(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+						break;
+					case 'isp':
+						$expression .= "phpAds_aclCheckIsp(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+						break;
+					case 'netspeed':
+						$expression .= "phpAds_aclCheckNetspeed(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+						break;
 					case 'weekday':
 						$expression .= "phpAds_aclCheckWeekday(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
 						break;
@@ -584,6 +605,12 @@ function phpAds_compileLimitation ($bannerid = '')
 						$expression .= "phpAds_aclCheckReferer(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
 						break;
 					default:
+						if (strpos($acl[$key]['type'], 'fips_code') === 0)
+						{
+							$expression .= "phpAds_aclCheckFipsCode(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+							break;
+						}
+						
 						return(0);
 				}
 				

@@ -235,6 +235,11 @@ function phpAds_unpackCookies()
 {
 	global $HTTP_COOKIE_VARS, $phpAds_cookieOldCache;
 	
+	// These are incremental cookies
+	$incremental_cookies = array(
+			'phpAds_newCap' => array('var' => 'phpAds_capAd', 'type' => 'p', 'expiry' => time() + 31536000)
+		);
+	
 	if (!isset($phpAds_cookieOldCache)) $phpAds_cookieOldCache = array('s' => array(), 'p' => array());
 	
 	if (isset($HTTP_COOKIE_VARS['phpAds_cookies']) && is_array($HTTP_COOKIE_VARS['phpAds_cookies']))
@@ -277,9 +282,14 @@ function phpAds_unpackCookies()
 							// Cookie not expired, append it
 							$str[] = urlencode($k).'='.urlencode($v['v']);
 							
-							// Add cookie to the cach, so that it won't be lost
+							// Add cookie to the cache, so that it won't be lost
 							// in case we need to store other cookies
-							array_push($phpAds_cookieOldCache[$session ? 's' : 'p'], array ($k, $v['v'], isset($v['e']) ? $v['e'] : 0));
+							foreach (array_keys($incremental_cookies) as $ki)
+							{
+								// Skip incremental cookies
+								if (!preg_match('#^'.$ki.'\[.*\]$#', $k))
+									array_push($phpAds_cookieOldCache[$session ? 's' : 'p'], array ($k, $v['v'], isset($v['e']) ? $v['e'] : 0));
+							}
 						}
 					}
 				}
@@ -294,10 +304,33 @@ function phpAds_unpackCookies()
 			// Merge them with the real cookie and make them available
 			$c += $HTTP_COOKIE_VARS;
 			$HTTP_COOKIE_VARS = $c;
-			
-			// Update the superglobal too, just in case it is used for debug
-			$_COOKIE = $c;
 		}
+		
+		// Handle incremental cookies
+		foreach ($incremental_cookies as $src => $v)
+		{
+			$var	= $v['var'];
+			$expiry	= $v['expiry'];
+			$type	= $v['type'];
+
+			if (isset($HTTP_COOKIE_VARS[$src]) && is_array($HTTP_COOKIE_VARS[$src]))
+			{
+				foreach ($HTTP_COOKIE_VARS[$src] as $k => $v)
+				{
+					if (isset($HTTP_COOKIE_VARS[$var][$v]))
+						$HTTP_COOKIE_VARS[$var][$v]++;
+					else
+						$HTTP_COOKIE_VARS[$var][$v] = 1;
+					
+					phpAds_setCookie($var.'['.$v.']', $HTTP_COOKIE_VARS[$var][$v], $expiry);
+				}
+				
+				unset($HTTP_COOKIE_VARS[$src]);
+			}
+		}
+		
+		// Update the superglobal too, just in case it is used for debug
+		$_COOKIE = $HTTP_COOKIE_VARS;
 	}
 }
 

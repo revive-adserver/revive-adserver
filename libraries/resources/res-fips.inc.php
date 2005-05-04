@@ -15,7 +15,7 @@
 
 // This is by no means a complete list of all FIPS codes, but rather
 // an unofficial list used by MaxMind GeoIP. If you have corrections or
-// additions to this list, please send them to niels@creatype.nl
+// additions to this list, please send them to developers AT phpadsnew.com
 
 $phpAds_FIPS['AD']['02'] = "Canillo";
 $phpAds_FIPS['AD']['03'] = "Encamp";

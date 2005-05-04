@@ -332,14 +332,16 @@ function phpAds_ConfigFileUpdatePrepare ()
 
 function phpAds_ConfigFileUpdateFlush()
 {
-	global $phpAds_settings_update_cache;
+	global $phpAds_settings_update_cache, $phpAds_settings_write_cache;
 	global $phpAds_settings_information;
 	
 	for (reset($phpAds_settings_update_cache);
 		 $key = key($phpAds_settings_update_cache);
 		 next($phpAds_settings_update_cache))
 	{
-		phpAds_SettingsWriteAdd ($key, $phpAds_settings_update_cache[$key]);
+		// Write old settings if they haven't been override
+		if (!isset($phpAds_settings_write_cache[$key]))
+			phpAds_SettingsWriteAdd ($key, $phpAds_settings_update_cache[$key]);
 	}
 	
 	// Before we start writing all the settings

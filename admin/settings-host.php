@@ -37,26 +37,55 @@ if (isset($save_settings) && $save_settings != '')
 	
 	if (isset($geotracking_type)) 
 	{
-		if ($geotracking_type == '0') $geotracking_type = '';
-		phpAds_SettingsWriteAdd('geotracking_type', $geotracking_type);
-	}
-	phpAds_SettingsWriteAdd('geotracking_cookie', isset($geotracking_cookie));
-	
-	
-	if (isset($geotracking_location))
-	{
-		if (substr($geotracking_location, 0, 7) == 'http://')
+		if ($geotracking_type == '0')
+			$geotracking_type = '';
+		
+		if ($geotracking_type)
 		{
-			$errormessage[1][] = str_replace('{example}', $HTTP_SERVER_VARS['DOCUMENT_ROOT'].'/Geo.dat', $strGeotrackingLocationNoHTTP);
+			if (!file_exists(phpAds_path.'/libraries/geotargeting/geo-'.$geotracking_type.'.inc.php'))
+				$errormessage[1][] = 'Unsupported database type';
+			else
+			{
+				phpAds_SettingsWriteAdd('geotracking_type', $geotracking_type);
+
+				if (isset($geotracking_location))
+				{
+					if (substr($geotracking_location, 0, 7) == 'http://')
+					{
+						$errormessage[1][] = str_replace('{example}', $HTTP_SERVER_VARS['DOCUMENT_ROOT'].'/Geo.dat', $strGeotrackingLocationNoHTTP);
+					}
+					elseif (!file_exists($geotracking_location))
+						$errormessage[1][] = $strGeotrackingLocationError;
+					else
+					{
+						@include_once (phpAds_path.'/libraries/geotargeting/geo-'.$geotracking_type.'.inc.php');
+						
+						if (function_exists('phpAds_'.$geotracking_type.'_getConf'))
+							$info = call_user_func('phpAds_'.$geotracking_type.'_getConf', $geotracking_location);
+						else
+							$info = '';
+						
+						phpAds_SettingsWriteAdd('geotracking_location', $geotracking_location);
+						phpAds_SettingsWriteAdd('geotracking_conf', $info);
+					}
+				}
+				else
+				{
+					phpAds_SettingsWriteAdd('geotracking_type', '');
+					phpAds_SettingsWriteAdd('geotracking_location', '');
+					phpAds_SettingsWriteAdd('geotracking_conf', '');
+				}
+			}
 		}
 		else
 		{
-			if (file_exists($geotracking_location) || $geotracking_location == '')
-				phpAds_SettingsWriteAdd('geotracking_location', $geotracking_location);
-			else
-				$errormessage[1][] = $strGeotrackingLocationError;
+			phpAds_SettingsWriteAdd('geotracking_type', '');
+			phpAds_SettingsWriteAdd('geotracking_location', '');
+			phpAds_SettingsWriteAdd('geotracking_conf', '');
 		}
 	}
+
+	phpAds_SettingsWriteAdd('geotracking_cookie', isset($geotracking_cookie));
 	
 	
 	
@@ -96,9 +125,10 @@ while ($geo_plugin = readdir($geo_plugin_dir))
 	if (preg_match('|geo-.*\.inc\.php|i', $geo_plugin) &&
 		file_exists(phpAds_path.'/libraries/geotargeting/'.$geo_plugin))
 	{
-		@include_once (phpAds_path.'/libraries/geotargeting/'.$geo_plugin);
+		include_once (phpAds_path.'/libraries/geotargeting/'.$geo_plugin);
 		
 		eval("$"."geo_plugin_info = phpAds_".$phpAds_geoPluginID."_getInfo();");
+
 		$geo_plugins_info[$phpAds_geoPluginID] = $geo_plugin_info;
 		$geo_plugins[$phpAds_geoPluginID] = $geo_plugin_info['name'];
 	}

@@ -18,8 +18,8 @@ define ('LIBDBCONFIG_INCLUDED', true);
 
 
 // Current phpAds version
-$phpAds_version = 200.242;
-$phpAds_version_readable = "2.0.4-pr2";
+$phpAds_version = 200.245;
+$phpAds_version_readable = "2.0.5-dev";
 $phpAds_version_development = false;  
 $phpAds_productname = "phpAdsNew";
 $phpAds_producturl = "www.phpadsnew.com";
@@ -66,6 +66,7 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'geotracking_location' => 		array ('type' => 'string',  'sql' => false),
 	'geotracking_stats' =>			array ('type' => 'boolean', 'sql' => false),
 	'geotracking_cookie' =>			array ('type' => 'boolean', 'sql' => false),
+	'geotracking_conf' =>			array ('type' => 'string',	'sql' => false),
 	'compact_stats' =>				array ('type' => 'boolean', 'sql' => false),
 	'log_beacon' =>					array ('type' => 'boolean', 'sql' => false),
 	'log_adviews' =>				array ('type' => 'boolean', 'sql' => false),

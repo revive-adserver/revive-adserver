@@ -15,7 +15,7 @@
 
 // This is by no means a complete list of all iso3166 codes, but rather
 // an unofficial list used by most browsers. If you have corrections or
-// additions to this list, please send them to niels@creatype.nl
+// additions to this list, please send them to developers AT phpadsnew.com
 
 $phpAds_ISO3166['AF'] = "Afghanistan";
 $phpAds_ISO3166['AL'] = "Albania";
@@ -258,6 +258,7 @@ $phpAds_ISO3166['EH'] = "Western Sahara";
 $phpAds_ISO3166['YE'] = "Yemen";
 $phpAds_ISO3166['YU'] = "Yugoslavia";
 $phpAds_ISO3166['ZM'] = "Zambia";
+$phpAds_ISO3166['ZR'] = "Zaire";
 $phpAds_ISO3166['ZW'] = "Zimbabwe";
 
 

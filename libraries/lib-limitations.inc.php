@@ -321,6 +321,174 @@ function phpAds_aclCheckRegion($data, $ad)
 
 
 /*********************************************************/
+/* Check if the FIPS code ACL is valid                   */
+/*********************************************************/
+
+function phpAds_aclCheckFipsCode($data, $ad)
+{
+	global $phpAds_geo;
+	
+	if ($phpAds_geo && $phpAds_geo['country'] && $phpAds_geo['fips_code'])
+	{
+		// Evaluate region code
+		$expression = ($data == $phpAds_geo['country'].$phpAds_geo['fips_code'] || in_array ($phpAds_geo['country'].$phpAds_geo['fips_code'], explode(',', $data)));
+		$operator   = $ad == '==';
+		return ($expression == $operator);
+	}
+	else
+		return ($ad != '==');
+}
+
+
+
+/*********************************************************/
+/* Check if the city ACL is valid                        */
+/*********************************************************/
+
+function phpAds_aclCheckCity($data, $ad)
+{
+	global $phpAds_geo;
+	
+	if ($phpAds_geo && $phpAds_geo['city'])
+	{
+		$data = strtolower($data);
+		$expression = strpos(strtolower($phpAds_geo['city']), $data) !== false;
+		$operator   = $ad == '==';
+		return ($expression == $operator);
+	}
+	else
+		return ($ad != '==');
+}
+
+
+
+/*********************************************************/
+/* Check if the postal code ACL is valid                 */
+/*********************************************************/
+
+function phpAds_aclCheckPostalCode($data, $ad)
+{
+	global $phpAds_geo;
+	
+	if ($phpAds_geo && $phpAds_geo['postal_code'])
+	{
+		$data = strtolower($data);
+		$expression = strpos(strtolower($phpAds_geo['postal_code']), $data) !== false;
+		$operator   = $ad == '==';
+		return ($expression == $operator);
+	}
+	else
+		return ($ad != '==');
+}
+
+
+
+/*********************************************************/
+/* Check if the DMA Code ACL is valid                    */
+/*********************************************************/
+
+function phpAds_aclCheckDmaCode($data, $ad)
+{
+	global $phpAds_geo;
+		
+	if ($phpAds_geo && $phpAds_geo['dma_code'])
+	{
+		// Evaluate DMA code
+		$expression = ($data == $phpAds_geo['dma_code'] || in_array ($phpAds_geo['dma_code'], explode(',', $data)));
+		$operator   = $ad == '==';
+		return ($expression == $operator);
+	}
+	else
+		return ($ad != '==');
+}
+
+
+
+/*********************************************************/
+/* Check if the area code ACL is valid                   */
+/*********************************************************/
+
+function phpAds_aclCheckAreaCode($data, $ad)
+{
+	global $phpAds_geo;
+	
+	if ($phpAds_geo && $phpAds_geo['area_code'])
+	{
+		$data = strtolower($data);
+		$expression = strpos(strtolower($phpAds_geo['area_code']), $data) !== false;
+		$operator   = $ad == '==';
+		return ($expression == $operator);
+	}
+	else
+		return ($ad != '==');
+}
+
+
+
+/*********************************************************/
+/* Check if the organization ACL is valid                */
+/*********************************************************/
+
+function phpAds_aclCheckOrganization($data, $ad)
+{
+	global $phpAds_geo;
+	
+	if ($phpAds_geo && $phpAds_geo['organization'])
+	{
+		$data = strtolower($data);
+		$expression = strpos(strtolower($phpAds_geo['organization']), $data) !== false;
+		$operator   = $ad == '==';
+		return ($expression == $operator);
+	}
+	else
+		return ($ad != '==');
+}
+
+
+
+/*********************************************************/
+/* Check if the ISP ACL is valid                         */
+/*********************************************************/
+
+function phpAds_aclCheckIsp($data, $ad)
+{
+	global $phpAds_geo;
+	
+	if ($phpAds_geo && $phpAds_geo['isp'])
+	{
+		$data = strtolower($data);
+		$expression = strpos(strtolower($phpAds_geo['isp']), $data) !== false;
+		$operator   = $ad == '==';
+		return ($expression == $operator);
+	}
+	else
+		return ($ad != '==');
+}
+
+
+
+/*********************************************************/
+/* Check if the netspeed ACL is valid                    */
+/*********************************************************/
+
+function phpAds_aclCheckNetspeed($data, $ad)
+{
+	global $phpAds_geo;
+	
+	if ($phpAds_geo && $phpAds_geo['netspeed'] !== false)
+	{
+		// Evaluate netspeed code
+		$expression = ($data == $phpAds_geo['netspeed'] || in_array ($phpAds_geo['netspeed'], explode(',', $data)));
+		$operator   = $ad == '==';
+		return ($expression == $operator);
+	}
+	else
+		return ($ad != '==');
+}
+
+
+
+/*********************************************************/
 /* Check if the Referer ACL is valid                     */
 /*********************************************************/
 

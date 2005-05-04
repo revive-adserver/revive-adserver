@@ -69,11 +69,23 @@ if ($phpAds_config['geotracking_type'] != '')
 		// Use cookie if available
 		$phpAds_geoRaw = explode('|', $HTTP_COOKIE_VARS['phpAds_geoInfo']);
 		
-		if (count($phpAds_geoRaw) == 3)
+		if (count($phpAds_geoRaw) == 13)
 		{
-			$phpAds_geo['country']   = $phpAds_geoRaw[0] != '' ? $phpAds_geoRaw[0] : false;
-			$phpAds_geo['continent'] = $phpAds_geoRaw[1] != '' ? $phpAds_geoRaw[1] : false;
-			$phpAds_geo['region']    = $phpAds_geoRaw[2] != '' ? $phpAds_geoRaw[2] : false;
+			$phpAds_geo = array(
+					'country'		=> $phpAds_geoRaw[0] != '' ? $phpAds_geoRaw[0] : false,
+					'continent'		=> $phpAds_geoRaw[1] != '' ? $phpAds_geoRaw[1] : false,
+					'region'		=> $phpAds_geoRaw[2] != '' ? $phpAds_geoRaw[2] : false,
+					'fips'			=> $phpAds_geoRaw[3] != '' ? $phpAds_geoRaw[3] : false,
+					'city'			=> $phpAds_geoRaw[4] != '' ? $phpAds_geoRaw[4] : false,
+					'postal_code'	=> $phpAds_geoRaw[5] != '' ? $phpAds_geoRaw[5] : false,
+					'latitude'		=> $phpAds_geoRaw[6] != '' ? $phpAds_geoRaw[6] : false,
+					'longitude'		=> $phpAds_geoRaw[7] != '' ? $phpAds_geoRaw[7] : false,
+					'dma_code'		=> $phpAds_geoRaw[8] != '' ? $phpAds_geoRaw[8] : false,
+					'area_code'		=> $phpAds_geoRaw[9] != '' ? $phpAds_geoRaw[9] : false,
+					'organization'	=> $phpAds_geoRaw[10] != '' ? $phpAds_geoRaw[10] : false,
+					'isp'			=> $phpAds_geoRaw[11] != '' ? $phpAds_geoRaw[11] : false,
+					'netspeed'		=> $phpAds_geoRaw[12] != '' ? $phpAds_geoRaw[12] : false
+				);
 		}
 	}
 	
@@ -84,7 +96,7 @@ if ($phpAds_config['geotracking_type'] != '')
 		
 		if (@file_exists($phpAds_geoPlugin))
 		{
-			@include_once ($phpAds_geoPlugin);
+			include_once ($phpAds_geoPlugin);
 			eval ('$'.'phpAds_geo = phpAds_'.$phpAds_geoPluginID.'_getGeo("'.
 				  $HTTP_SERVER_VARS['REMOTE_ADDR'].'", "'.
 				  addslashes($phpAds_config['geotracking_location']).'");');
@@ -98,20 +110,14 @@ else
 
 
 
-// Translate an IP address into a 32 bit integer
-function phpAds_ipAddrToInt($ip)
-{
-	if (!preg_match('/^([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$/', trim($ip), $match))
-		return 0;
-	
-	return (intval($match[1]) << 24) | (intval($match[2]) << 16) | (intval($match[3]) << 8) | intval($match[4]);
-}
+/*********************************************************/
+/* Match an IP address against a subnet                  */
+/*********************************************************/
 
-// Match an IP address against a subnet
 function phpAds_matchSubnet($ip, $net, $mask)
 {
-	if (!is_integer($ip)) $ip = phpAds_ipAddrToInt($ip);
-	$net = phpAds_ipAddrToInt($net);
+	if (!is_integer($ip)) $ip = ip2long($ip);
+	$net = ip2long($net);
 	
 	if (!$ip || !$net)
 		return false;
@@ -127,15 +133,21 @@ function phpAds_matchSubnet($ip, $net, $mask)
 		else
 			$mask = ~((1 << (32 - $mask)) - 1);
 	}
-	elseif (!($mask = phpAds_ipAddrToInt($mask)))
+	elseif (!($mask = ip2long($mask)))
 		return false;
 	
 	return ($ip & $mask) == ($net & $mask) ? true : false;
 }
 
+
+
+/*********************************************************/
+/* Check if an IP address is not publicly routable       */
+/*********************************************************/
+
 function phpAds_PrivateSubnet($ip)
 {
-	$ip = phpAds_ipAddrToInt($ip);
+	$ip = ip2long($ip);
 	
 	if (!$ip) return false;
 	

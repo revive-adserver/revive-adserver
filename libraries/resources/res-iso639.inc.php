@@ -15,7 +15,7 @@
 
 // This is by no means a complete list of all iso639-1 codes, but rather
 // an unofficial list used by most browsers. If you have corrections or
-// additions to this list, please send them to niels@creatype.nl
+// additions to this list, please send them to developers AT phpadsnew.com
 
 $phpAds_ISO639['af'] = 'Afrikaans';
 $phpAds_ISO639['sq'] = 'Albanian';

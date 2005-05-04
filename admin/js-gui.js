@@ -261,6 +261,21 @@ function boxrow_nonbubble(e)
 		e.cancelBubble = true; 
 }
 
+function cascadebox_change(o)
+{
+	var sel = o.options[o.selectedIndex].value;
+	var baseid = o.id + '_';
+	var matchid = baseid + (sel ? sel + '_' : '');
+	var obj = document.body.getElementsByTagName("DIV");
+	
+	for (var i=0; i < obj.length; i++)
+	{
+		if (obj[i].id.indexOf(baseid) == 0)
+		{
+			obj[i].style.display = obj[i].id.indexOf(matchid) == 0 ? '' : 'none';
+		}
+	}
+}
 
 
 /*********************************************************/

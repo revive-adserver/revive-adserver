@@ -71,7 +71,7 @@ $phpAds_continent['SC'] = $phpAds_continent['SL'] = $phpAds_continent['SO'] =
 $phpAds_continent['ZA'] = $phpAds_continent['SD'] = $phpAds_continent['SZ'] = 
 $phpAds_continent['TZ'] = $phpAds_continent['TG'] = $phpAds_continent['TN'] = 
 $phpAds_continent['UG'] = $phpAds_continent['EH'] = $phpAds_continent['ZM'] = 
-$phpAds_continent['ZW'] = 'AF'; 
+$phpAds_continent['ZR'] = $phpAds_continent['ZW'] = 'AF'; 
 
 $phpAds_cont_name['OC'] = 'Australia/Oceania';
 $phpAds_continent['AS'] = $phpAds_continent['AU'] = $phpAds_continent['CC'] = 
@@ -119,5 +119,7 @@ $phpAds_continent['AQ'] = 'AQ';
 // Load localized strings
 if (file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/res-continent.lang.php'))
 	@include(phpAds_path.'/language/'.$phpAds_config['language'].'/res-continent.lang.php');
+
+asort($phpAds_cont_name);
 
 ?>

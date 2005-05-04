@@ -67,27 +67,12 @@ if (isset($bannerid) && isset($clientid) && isset($zoneid))
 	}
 	
 	
-	if (isset($block) && $block != '' && $block != '0')
-		phpAds_setCookie ("phpAds_blockAd[".$bannerid."]", time() + $block, time() + $block + 43200);
-	
-	
-	if (isset($capping) && $capping != '' && $capping != '0')
-	{
-		if (isset($HTTP_COOKIE_VARS['phpAds_capAd'][$bannerid]))
-			$newcap = $HTTP_COOKIE_VARS['phpAds_capAd'][$bannerid] + 1;
-		else
-			$newcap = 1;
-		
-		phpAds_setCookie ("phpAds_capAd[".$bannerid."]", $newcap, time() + 31536000);
-	}
-	
-	if ($phpAds_config['geotracking_type'] != '' && $phpAds_config['geotracking_cookie'])
-		if (!isset($HTTP_COOKIE_VARS['phpAds_geoInfo']) && $phpAds_geo)
-			phpAds_setCookie ("phpAds_geoInfo", 
-				($phpAds_geo['country'] ? $phpAds_geo['country'] : '').'|'.
-			   	($phpAds_geo['continent'] ? $phpAds_geo['continent'] : '').'|'.
-				($phpAds_geo['region'] ? $phpAds_geo['region'] : ''), 0);
-	
+	// Set delivery cookies
+	phpAds_setDeliveryCookies(array(
+			'bannerid'	=> $bannerid,
+			'block'		=> isset($block) ? $block : 0,
+			'capping'	=> isset($capping) ? $capping : 0
+		));	
 	
 	phpAds_flushCookie ();
 }

@@ -33,7 +33,7 @@ $phpAds_config['tbl_affiliates'] = 'phpads_affiliates';
 $phpAds_config['tbl_images'] = 'phpads_images';
 $phpAds_config['tbl_userlog'] = 'phpads_userlog';
 $phpAds_config['tbl_cache'] = 'phpads_cache';
-$phpAds_config['tbl_targetstats'] = 'tbl_targetstats';
+$phpAds_config['tbl_targetstats'] = 'phpads_targetstats';
 
 // Database table name prefix
 $phpAds_config['table_prefix'] = 'phpads_';
@@ -79,7 +79,6 @@ $phpAds_config['reverse_lookup'] = false;
 $phpAds_config['proxy_lookup'] = false;
 
 // Type of geotracking database
-// Possible options: geoip, ip2country, mod_geoip or an empty string
 $phpAds_config['geotracking_type'] = '';
 
 // Location of the geotracking database
@@ -90,6 +89,9 @@ $phpAds_config['geotracking_stats'] = false;
 
 // Store the result in a cookie for future reference (only in combination with beacon logging)
 $phpAds_config['geotracking_cookie'] = false;
+
+// Plug-in configuration
+$phpAds_config['geotracking_conf'] = '';
 
 
 

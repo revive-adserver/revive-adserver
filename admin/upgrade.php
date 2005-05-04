@@ -467,6 +467,25 @@ if (phpAds_isUser(phpAds_Admin))
 		if ($phpAds_version_development)
 			phpAds_SettingsWriteAdd('updates_dev_builds', true);
 		
+		// Upgrade Geotargeting plugins
+		if ($phpAds_config['config_version'] < 200.245 && $phpAds_config['geotracking_type'])
+		{
+			if (strpos($phpAds_config['geotracking_type'], 'geoip') === 0)
+			{
+				$phpAds_config['geotracking_type'] = 'geoip';
+				phpAds_SettingsWriteAdd('geotracking_type', 'geoip');
+			}
+				
+			include(phpAds_path.'/libraries/geotargeting/geo-'.$phpAds_config['geotracking_type'].'.inc.php');
+						
+			if (function_exists('phpAds_'.$phpAds_geoPluginID.'_getConf'))
+				$geoconf = call_user_func('phpAds_'.$phpAds_geoPluginID.'_getConf', $phpAds_config['geotracking_location']);
+			else
+				$geoconf = '';
+			
+			phpAds_SettingsWriteAdd('geotracking_conf', $geoconf);
+		}
+				
 		phpAds_ConfigFileUpdateFlush();
 		
 		phpAds_PageHeader("1");

@@ -15,7 +15,7 @@
 
 // This is by no means a complete list of all iso3166-2 codes, but rather
 // an unofficial list used by MaxMind GeoIP. If you have corrections or
-// additions to this list, please send them to niels@creatype.nl
+// additions to this list, please send them to developers AT phpadsnew.com
 
 $phpAds_ISO3166_2['US']['AL'] = "Alabama";
 $phpAds_ISO3166_2['US']['AK'] = "Alaska";

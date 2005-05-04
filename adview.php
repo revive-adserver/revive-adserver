@@ -136,29 +136,8 @@ if ($found)
 	}
 	
 	
-	// Block
-	if ($row['block'] != '' && $row['block'] != '0')
-		phpAds_setCookie ("phpAds_blockAd[".$row['bannerid']."]", time() + $row['block'], time() + $row['block'] + 43200);
-	
-	
-	// Set capping
-	if ($row['capping'] != '' && $row['capping'] != '0')
-	{
-		if (isset($HTTP_COOKIE_VARS['phpAds_capAd']) && isset($HTTP_COOKIE_VARS['phpAds_capAd'][$row['bannerid']]))
-			$newcap = $HTTP_COOKIE_VARS['phpAds_capAd'][$row['bannerid']] + 1;
-		else
-			$newcap = 1;
-		
-		phpAds_setCookie ("phpAds_capAd[".$row['bannerid']."]", $newcap, time() + 31536000);
-	}
-	
-	
-	if ($phpAds_config['geotracking_type'] != '' && $phpAds_config['geotracking_cookie'])
-		if (!isset($HTTP_COOKIE_VARS['phpAds_geoInfo']) && $phpAds_geo)
-			phpAds_setCookie ("phpAds_geoInfo", 
-				($phpAds_geo['country'] ? $phpAds_geo['country'] : '').'|'.
-			   	($phpAds_geo['continent'] ? $phpAds_geo['continent'] : '').'|'.
-				($phpAds_geo['region'] ? $phpAds_geo['region'] : ''), 0);
+	// Set delivery cookies
+	phpAds_setDeliveryCookies($row);	
 	
 	
 	// Send bannerid headers

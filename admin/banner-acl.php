@@ -25,6 +25,9 @@ require ("lib-banner.inc.php");
 require (phpAds_path."/libraries/resources/res-iso639.inc.php");
 require (phpAds_path."/libraries/resources/res-iso3166.inc.php");
 require (phpAds_path."/libraries/resources/res-iso3166-2.inc.php");
+require (phpAds_path."/libraries/resources/res-fips.inc.php");
+require (phpAds_path."/libraries/resources/res-dmacodes.inc.php");
+require (phpAds_path."/libraries/resources/res-netspeeds.inc.php");
 require (phpAds_path."/libraries/resources/res-useragent.inc.php");
 require (phpAds_path."/libraries/resources/res-continent.inc.php");
 
@@ -35,7 +38,6 @@ phpAds_registerGlobal ('submit', 'action', 'acl', 'type', 'time', 'cap');
 
 // Security check
 phpAds_checkAccess(phpAds_Admin);
-
 
 // Define variable types
 $type_list['weekday']   = $strWeekDay;
@@ -54,11 +56,29 @@ if ($phpAds_config['geotracking_type'] != '')
 	{
 		@include_once ($phpAds_geoPlugin);
 		
-		eval ('$'.'info = phpAds_'.$phpAds_geoPluginID.'_getInfo();');
+		$info = call_user_func('phpAds_'.$phpAds_geoPluginID.'_getInfo', $phpAds_config['geotracking_location']);
 		
+		if ($info['continent']) $type_list['continent']	= $strContinent;
 		if ($info['country']) $type_list['country']	= $strCountry;
 		if ($info['region']) $type_list['region'] = $strUSState;
-		if ($info['continent']) $type_list['continent']	= $strContinent;
+		if ($info['fips_code'])
+		{
+			foreach ($phpAds_cont_name as $k => $v)
+			{
+				// Skip Antartica
+				if ($k == 'AQ')
+					continue;
+					
+				$type_list['fips_code_'.$k] = "Region ($v)";
+			}
+		}
+		if ($info['city']) $type_list['city'] = 'City';
+		if ($info['postal_code']) $type_list['postal_code'] = 'Postal code';
+		if ($info['dma_code']) $type_list['dma_code'] = 'DMA code';
+		if ($info['area_code']) $type_list['area_code'] = 'Area code';
+		if ($info['organization']) $type_list['organization'] = 'Organization';
+		if ($info['isp']) $type_list['isp'] = 'ISP';
+		if ($info['netspeed']) $type_list['netspeed'] = 'Net Speed';
 	}
 }
 
@@ -84,7 +104,7 @@ $comparison_date = array (
 	'<=' => $strEarlierThanOrEqual
 );
 
-$comparison_referer = array (
+$comparison_substr = array (
 	'==' => $strContains,
 	'!=' => $strNotContains,
 );
@@ -155,7 +175,8 @@ if (isset($action))
 		
 		
 		if ($type == 'time' || $type == 'weekday' || $type == 'browser' || $type == 'os' ||
-			$type == 'country' || $type == 'continent' || $type == 'region' || $type == 'language')
+			$type == 'country' || $type == 'continent' || $type == 'region' || $type == 'language' ||
+			strpos($type, 'fips_code') === 0 || $type == 'dma_code' || $type == 'netspeed')
 		{
 			$acl[$last]['data'] = array();
 		}
@@ -191,9 +212,13 @@ elseif (isset($submit))
 			{
 				if (isset($acl[$key]['data']))
 				{
+					if (strpos($acl[$key]['type'], 'fips_code') === 0)
+						$acl[$key]['type'] = 'fips_code';
+					
 					if ($acl[$key]['type'] == 'time' || $acl[$key]['type'] == 'weekday' || 
 						$acl[$key]['type'] == 'country' || $acl[$key]['type'] == 'continent' || 
-						$acl[$key]['type'] == 'region')
+						$acl[$key]['type'] == 'region' || $acl[$key]['type'] == 'fips_code' ||
+						$acl[$key]['type'] == 'dma_code' || $acl[$key]['type'] == 'netspeed')
 					{
 						$acl[$key]['data'] = implode (',', $acl[$key]['data']);
 					}
@@ -412,8 +437,16 @@ if (!isset($acl) && $phpAds_config['acl'])
 			executionorder
 	") or phpAds_sqlDie();
 	
+	$type_errors = false;
 	while ($row = phpAds_dbFetchArray ($res))
 	{
+		// Drop invalid ACLs
+		if (!isset($type_list[$row['type']]) && !($row['type'] == 'fips_code' && isset($type_list['fips_code_EU'])))
+		{
+			$type_errors = true;
+			continue;
+		}
+		
 		$acl[$row['executionorder']]['logical'] 	= $row['logical'];
 		$acl[$row['executionorder']]['type'] 		= $row['type'];
 		$acl[$row['executionorder']]['comparison'] 	= $row['comparison'];
@@ -421,9 +454,20 @@ if (!isset($acl) && $phpAds_config['acl'])
 		// Misc lists
 		if ($row['type'] == 'time' || $row['type'] == 'weekday' || 
 			$row['type'] == 'country' || $row['type'] == 'continent' || 
-			$row['type'] == 'region')
+			$row['type'] == 'region' || $row['type'] == 'fips_code' ||
+			$row['type'] == 'dma_code' || $row['type'] == 'netspeed')
 		{
 			$acl[$row['executionorder']]['data'] = explode (',', $row['data']);
+
+			if ($row['type'] == 'fips_code')
+			{
+				if (count($acl[$row['executionorder']]['data']))
+					$continent = $phpAds_continent[substr(current($acl[$row['executionorder']]['data']), 0, 2)];
+				else
+					$continent = current($phpAds_continent);
+				
+				$acl[$row['executionorder']]['type'] .= '_'.$continent;
+			}
 		}
 		
 		// Languages
@@ -533,7 +577,13 @@ if ($cap == 0) $cap = '-';
 
 $tabindex = 1;
 
-
+if (isset($type_errors) && $type_errors)
+{
+	// Message
+	echo "<br>";
+	echo "<div class='errormessage'><img class='errormessage' src='images/info.gif' align='absmiddle'>";
+	echo 'At least one delivery limitation was dropped because currently not applicable'."</div><br>";
+}
 
 // Begin form
 echo "<form action='banner-acl.php' method='post'>";
@@ -605,8 +655,11 @@ if ($phpAds_config['acl'])
 			
 			if ($acl[$key]['type'] == 'date')
 				$comparison_list = $comparison_date;
-			elseif ($acl[$key]['type'] == 'referer')
-				$comparison_list = $comparison_referer;
+			elseif ($acl[$key]['type'] == 'referer' || $acl[$key]['type'] == 'city' ||
+					$acl[$key]['type'] == 'postal_code' || $acl[$key]['type'] == 'area_code' ||
+					$acl[$key]['type'] == 'organization' || $acl[$key]['type'] == 'isp'
+				)
+				$comparison_list = $comparison_substr;
 			else
 				$comparison_list = $comparison_default;
 			
@@ -706,7 +759,7 @@ if ($phpAds_config['acl'])
 				
 				echo "<div class='box'>";
 				
-				while (list($iso,$fullname) = each ($phpAds_ISO639))
+				foreach ($phpAds_ISO639 as $iso => $fullname)
 				{
 					echo "<div class='boxrow'><input tabindex='".($tabindex++)."' ";
 					echo "type='checkbox' id='check_".$key."_".$iso."' name='acl[".$key."][data][]' value='$iso'".(in_array ($iso, $acl[$key]['data']) ? ' checked' : '')." align='middle'>".$fullname;
@@ -723,7 +776,7 @@ if ($phpAds_config['acl'])
 				
 				echo "<div class='box'>";
 				
-				while (list($iso,$fullname) = each ($phpAds_ISO3166))
+				foreach ($phpAds_ISO3166 as $iso => $fullname)
 				{
 					echo "<div class='boxrow'><input tabindex='".($tabindex++)."' ";
 					echo "type='checkbox' id='c_".$key."_".$iso."' name='acl[".$key."][data][]' value='$iso'".(in_array ($iso, $acl[$key]['data']) ? ' checked' : '').">".$fullname;
@@ -739,7 +792,7 @@ if ($phpAds_config['acl'])
 				
 				echo "<div class='box'>";
 				
-				while (list($iso,$fullname) = each ($phpAds_cont_name))
+				foreach ($phpAds_cont_name as $iso => $fullname)
 				{
 					echo "<div class='boxrow'><input tabindex='".($tabindex++)."' ";
 					echo "type='checkbox' id='check_".$key."_".$iso."' name='acl[".$key."][data][]' value='$iso'".(in_array ($iso, $acl[$key]['data']) ? ' checked' : '')." align='middle'>".$fullname;
@@ -755,7 +808,7 @@ if ($phpAds_config['acl'])
 				
 				echo "<div class='box'>";
 				
-				while (list($country, $regions) = each ($phpAds_ISO3166_2))
+				foreach ($phpAds_ISO3166_2 as $country => $regions)
 				{
 					echo "<div class='boxtitle'>&nbsp;".$phpAds_ISO3166[$country]."</div>";
 					
@@ -765,6 +818,81 @@ if ($phpAds_config['acl'])
 						echo "type='checkbox' id='check_".$key."_".$country.$code."' name='acl[".$key."][data][]' value='".$country.$code."'".(in_array ($country.$code, $acl[$key]['data']) ? ' checked' : '')." align='middle'>".$fullname;
 						echo "</div>";
 					}
+				}
+				
+				echo "</div>";
+			}
+			elseif (preg_match('/^fips_code_(.*)$/', $acl[$key]['type'], $m))
+			{
+				$cont = $m[1];
+				
+				if (!isset($acl[$key]['data']))
+					$acl[$key]['data'] = array();
+
+				echo "<b>Show:&nbsp;</b><select id='fips_".$key."' onChange='cascadebox_change(this)'>";
+				echo "<option value=''>".'All countries'."</option>";
+				echo "<option disabled>".'----------------'."</option>";
+				
+				foreach (array_keys($phpAds_FIPS) as $country)
+				{
+					if ($phpAds_continent[$country] != $cont)
+						continue;
+					
+					echo "<option value='".$country."'>".$phpAds_ISO3166[$country]."</option>";
+				}
+					
+				echo "</select><br>";
+				
+				echo "<div class='box' style='height: 200px'>\n";
+				
+				foreach ($phpAds_FIPS as $country => $fips_codes)
+				{
+					if ($phpAds_continent[$country] != $cont)
+						continue;
+					
+					echo "<div class='boxtitle' id='fips_".$key."_".$country."_title'>&nbsp;".$phpAds_ISO3166[$country]."</div>";
+					
+					$i = 0;
+					while (list($code,$fullname) = each ($fips_codes))
+					{
+						echo "<div class='boxrow' id='fips_".$key."_".$country."_".($i++)."'><input tabindex='".($tabindex++)."' ";
+						echo "type='checkbox' id='check_".$key."_".$country.$code."' name='acl[".$key."][data][]' value='".$country.$code."'".(in_array ($country.$code, $acl[$key]['data']) ? ' checked' : '')." align='middle'>".$fullname;
+						echo "</div>\n";
+					}
+				}
+				
+				echo "</div>";
+
+			}
+			elseif ($acl[$key]['type'] == 'dma_code')
+			{
+				if (!isset($acl[$key]['data']))
+					$acl[$key]['data'] = array();
+				
+				echo "<div class='box'>";
+				
+				foreach ($phpAds_DmaCodes as $dma => $fullname)
+				{
+					echo "<div class='boxrow'><input tabindex='".($tabindex++)."' ";
+					echo "type='checkbox' id='check_".$key."_".$dma."' name='acl[".$key."][data][]' value='$dma'".(in_array ($dma, $acl[$key]['data']) ? ' checked' : '')." align='middle'>".$dma.' - '.$fullname;
+					echo "</div>";
+				}
+				
+				echo "</div>";
+			}
+			elseif ($acl[$key]['type'] == 'netspeed')
+			{
+				if (!isset($acl[$key]['data']))
+					$acl[$key]['data'] = array();
+				
+				
+				echo "<div class='box'>";
+				
+				foreach ($phpAds_Netspeeds as $netspeed => $fullname)
+				{
+					echo "<div class='boxrow'><input tabindex='".($tabindex++)."' ";
+					echo "type='checkbox' id='c_".$key."_".$netspeed."' name='acl[".$key."][data][]' value='$netspeed'".(in_array ($netspeed, $acl[$key]['data']) ? ' checked' : '').">".$fullname;
+					echo "</div>";
 				}
 				
 				echo "</div>";
