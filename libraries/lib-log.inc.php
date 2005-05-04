@@ -252,4 +252,30 @@ function phpAds_logClick($bannerid, $clientid, $zoneid, $source)
 	}
 }
 
+
+
+/*********************************************************/
+/* Set block/cap/geotargeting cookies                    */
+/*********************************************************/
+
+function phpAds_setDeliveryCookies($row)
+{
+	global $HTTP_COOKIE_VARS, $phpAds_config, $phpAds_geo;
+	
+	// Block
+	if ($row['block'] != '' && $row['block'] != '0')
+		phpAds_setCookie ("phpAds_blockAd[".$row['bannerid']."]", time() + $row['block'], time() + $row['block'] + 43200);
+	
+	
+	// Set capping
+	if ($row['capping'] != '' && $row['capping'] != '0')
+		phpAds_setCookie ("phpAds_newCap[".md5(uniqid('', true))."]", $row['bannerid'], time() + 31536000);
+
+
+	// Cache geotargeting info
+	if ($phpAds_config['geotracking_type'] != '' && $phpAds_config['geotracking_cookie'])
+		if (!isset($HTTP_COOKIE_VARS['phpAds_geoInfo']) && isset($phpAds_geo))
+			phpAds_setCookie ("phpAds_geoInfo", join('|', $phpAds_geo), time() + 900);
+}
+
 ?>

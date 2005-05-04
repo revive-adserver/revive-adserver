@@ -96,28 +96,6 @@ function phpAds_flushCookie ()
 {
 	global $HTTP_COOKIE_VARS, $phpAds_config, $phpAds_cookieCache, $phpAds_cookieOldCache;
 
-/*	I didn't enable this, as it's useless IMHO
-
-	// Remove old style cookies
-	foreach ($HTTP_COOKIE_VARS as $k => $v)
-	{
-		if (strpos($k, 'phpAds_') === 0)
-		{
-			if (is_array($v))
-			{
-				// Remove array cookies
-				foreach (array_keys($v) as $kk)
-					setcookie($k.'['.$kk.']', '', time() - 86400, '/');
-			}
-			else
-			{
-				// Remove scalar cookies
-				setcookie($k, '', time() - 86400, '/');
-			}
-		}
-	}
-*/
-
 	if (isset($phpAds_cookieCache) || isset($phpAds_cookieOldCache))
 	{
 		// Send P3P headers
@@ -156,9 +134,9 @@ function phpAds_flushCookie ()
 			phpAds_packCookies($phpAds_cookieOldCache['p'], false);
 
 		// Remove old temporary cookies
-		if (isset($HTTP_COOKIE_VARS['phpAds_cookies']) && is_array($HTTP_COOKIE_VARS['phpAds_cookies']))
+		if (isset($HTTP_COOKIE_VARS['pA_c']) && is_array($HTTP_COOKIE_VARS['pA_c']))
 		{
-			foreach (array_keys($HTTP_COOKIE_VARS['phpAds_cookies']) as $k)
+			foreach (array_keys($HTTP_COOKIE_VARS['pA_c']) as $k)
 			{
 				if (!strlen($k))
 					continue;
@@ -168,9 +146,9 @@ function phpAds_flushCookie ()
 				if ($k != 's' && $k != 'p')
 				{
 					if ($session)
-						setcookie('phpAds_cookies['.$k.']', '');
+						setcookie('pA_c['.$k.']', '');
 					else
-						setcookie('phpAds_cookies['.$k.']', '', time() + 86400 * 365 * 5, '/');
+						setcookie('pA_c['.$k.']', '', time() + 86400 * 365 * 5, '/');
 				}
 			}
 		}
@@ -221,14 +199,14 @@ function phpAds_packCookies($cache, $session, $tmp = false)
 	}
 	
 	if ($tmp)
-		$tmp = str_pad(join('', array_reverse(explode(' ', substr(microtime(), 2)))), 23, '0', STR_PAD_LEFT).substr(md5(uniqid('', 1)), 0, 8);
+		$tmp = substr(join('', array_reverse(explode(' ', substr(microtime(), 2)))), -14, 11).substr(md5(uniqid('', 1)), 0, 4);
 	else
 		$tmp = '';
 	
 	if ($session)
-		setcookie('phpAds_cookies[s'.$tmp.']', $cookies);
+		setcookie('pA_c[s'.$tmp.']', $cookies);
 	else
-		setcookie('phpAds_cookies[p'.$tmp.']', $cookies, time() + 86400 * 365 * 5, '/');
+		setcookie('pA_c[p'.$tmp.']', $cookies, time() + 86400 * 365 * 5, '/');
 }
 
 function phpAds_unpackCookies()
@@ -242,16 +220,16 @@ function phpAds_unpackCookies()
 	
 	if (!isset($phpAds_cookieOldCache)) $phpAds_cookieOldCache = array('s' => array(), 'p' => array());
 	
-	if (isset($HTTP_COOKIE_VARS['phpAds_cookies']) && is_array($HTTP_COOKIE_VARS['phpAds_cookies']))
+	if (isset($HTTP_COOKIE_VARS['pA_c']) && is_array($HTTP_COOKIE_VARS['pA_c']))
 	{
-		ksort($HTTP_COOKIE_VARS['phpAds_cookies']);
+		ksort($HTTP_COOKIE_VARS['pA_c']);
 		
 		$now = time();
 		$str = array();
 		
-		foreach ($HTTP_COOKIE_VARS['phpAds_cookies'] as $i => $c)
+		foreach ($HTTP_COOKIE_VARS['pA_c'] as $i => $c)
 		{
-			if (!preg_match('/^[sp](?:[a-f0-9]{31})?$/', $i))
+			if (!preg_match('/^[sp](?:[a-f0-9]{15})?$/', $i))
 				continue;
 			
 			$session = $i{0} == 's';
