@@ -237,7 +237,7 @@ function phpAds_packCookies($cache, $session, $tmp = false)
 
 function phpAds_unpackCookies()
 {
-	global $HTTP_COOKIE_VARS, $phpAds_cookieOldCache;
+	global $HTTP_COOKIE_VARS, $phpAds_cookieOldCache, $phpAds_config;
 	
 	// These are incremental cookies
 	$incremental_cookies = array(
