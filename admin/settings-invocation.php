@@ -22,7 +22,7 @@ include ("lib-settings.inc.php");
 phpAds_registerGlobal ('save_settings', 'allow_invocation_plain', 'allow_invocation_js', 'allow_invocation_frame', 
 					   'allow_invocation_xmlrpc', 'allow_invocation_local', 'allow_invocation_interstitial', 
 					   'allow_invocation_popup', 'con_key', 'mult_key', 'acl', 'delivery_caching', 
-					   'p3p_policies', 'p3p_compact_policy', 'p3p_policy_location');
+					   'p3p_policies', 'p3p_compact_policy', 'p3p_policy_location', 'pack_cookies');
 
 
 // Security check
@@ -50,6 +50,20 @@ if (isset($save_settings) && $save_settings != '')
 	phpAds_SettingsWriteAdd('p3p_policies', isset($p3p_policies));
 	if (isset($p3p_compact_policy)) phpAds_SettingsWriteAdd('p3p_compact_policy', $p3p_compact_policy);
 	if (isset($p3p_policy_location)) phpAds_SettingsWriteAdd('p3p_policy_location', $p3p_policy_location);
+	
+	phpAds_SettingsWriteAdd('pack_cookies', isset($pack_cookies));
+	
+	if ($phpAds_config['pack_cookies'] != isset($pack_cookies))
+	{
+		// Recreate cookie cache
+		unset($phpAds_cookieCache);
+		unset($phpAds_cookieOldCache);
+		
+		// Send session ID using the selected method
+		$phpAds_config['pack_cookies'] = isset($pack_cookies);
+		phpAds_setCookie ('sessionID', $HTTP_COOKIE_VARS['sessionID']);
+		phpAds_flushCookie ();
+	}
 	
 	if (!count($errormessage))
 	{
@@ -205,6 +219,16 @@ array (
 			'size'	  => 35,
 			'depends' => 'p3p_policies==true',
 			'check'   => 'url'
+		)
+	)
+),
+array (
+	'text' 	  => 'Cookie settings',
+	'items'	  => array (
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'pack_cookies',
+			'text'	  => 'Pack cookies to avoid cookie overpopulation'
 		)
 	)
 ));

@@ -7,6 +7,7 @@ CVS
 			  - 2005-05-04:  Added incremental cookies to avoid the same cookie being wrongly overwritten during high concurrency  (Matteo)
 			  - 2005-05-04:  Added city, worldwide region, organization, ISP, netspeed, postal-, DMA- area code delivery limitations  (Matteo)
 			  - 2005-05-04:  Rewrote MaxMind GeoIP plugin to support all the available database types and newly added delivery limitations  (Matteo)
+			  - 2005-05-04:  Added an option to choose between the standard and the recently added way to handle cookies for better backwards compatibility  (Matteo)
 
 			+ Misc bugfixes
 			  - 2005-03-17:  Outgoing e-mails did not comply to RFCs when no charset was set in the language file  (Matteo)

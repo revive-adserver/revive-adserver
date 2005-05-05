@@ -150,6 +150,9 @@ $phpAds_config['warn_client'] = true;
 // Minimum clicks/views before warning e-mail is sent
 $phpAds_config['warn_limit'] = 100; 
 
+// Use packed cookies
+$phpAds_config['pack_cookies'] = true; 
+
 
 
 /*********************************************************/
