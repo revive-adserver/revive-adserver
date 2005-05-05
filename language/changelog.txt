@@ -17,7 +17,27 @@
 
   ====================================================
 
-  04-24-2005 - settings
+  05-05-2005 - default
+    [-] strUSState
+    [+] strUSCAState
+    [+] strFIPSRegion
+    [+] strCity
+    [+] strPostalCode
+    [+] strDMACode
+    [+] strAreaCode
+    [+] strOrganization
+    [+] strISP
+    [+] strNetSpeed
+    [+] strLimitationDropped
+    [+] strShowCountry
+    [+] strShowAllCountries
+
+  05-05-2005 - settings
+    [+] strGeotrackingUnsupportedDB
+    [+] strCookieSettings
+    [+] strPackCookies
+
+  04-24-2005 - default
     [+] strCollectedLastMonth
     [+] strCollectedYear
     [+] strCollectedLastYear

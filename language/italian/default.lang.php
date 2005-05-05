@@ -349,12 +349,23 @@ $GLOBALS['strBrowser'] 						= "Browser";
 $GLOBALS['strOS'] 							= "Sistema operativo";
 $GLOBALS['strCountry'] 						= "Stato";
 $GLOBALS['strContinent'] 					= "Continente";
-$GLOBALS['strUSState']						= "Stato (USA)";
+$GLOBALS['strUSCAState']					= "Stato (USA/Canada)";
+$GLOBALS['strFIPSRegion']					= "Regione (%s)";
+$GLOBALS['strCity']							= "Citt&agrave;";
+$GLOBALS['strPostalCode']					= "Codice postale";
+$GLOBALS['strDMACode']						= "Codice DMA";
+$GLOBALS['strAreaCode']						= "Codice area";
+$GLOBALS['strOrganization']					= "Organizzazione";
+$GLOBALS['strISP']							= "Provider (ISP)";
+$GLOBALS['strNetSpeed']						= "Velocità di collegamento";
 $GLOBALS['strReferer'] 						= "Pagina di provenienza";
 $GLOBALS['strDeliveryLimitations']			= "Limitazioni consegna";
 $GLOBALS['strDeliveryCapping']				= "Limitazioni numero consegne";
 $GLOBALS['strTimeCapping']					= "Una volta consegnato il banner, non mostrarlo allo stesso utente per:";
 $GLOBALS['strImpressionCapping']			= "Non mostrare il banner allo stesso utente pi&ugrave; di:";
+$GLOBALS['strLimitationDropped']			= "&Egrave; stata eliminata una limitazione di consegna poich&eacute; attualmente non applicabile";
+$GLOBALS['strShowCountry']					= "Mostra";
+$GLOBALS['strShowAllCountries']				= "Tutti gli stati";
 
 
 // Publisher

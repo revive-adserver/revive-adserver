@@ -223,12 +223,12 @@ array (
 	)
 ),
 array (
-	'text' 	  => 'Cookie settings',
+	'text' 	  => $strCookieSettings,
 	'items'	  => array (
 		array (
 			'type'    => 'checkbox',
 			'name'    => 'pack_cookies',
-			'text'	  => 'Pack cookies to avoid cookie overpopulation'
+			'text'	  => $strPackCookies
 		)
 	)
 ));

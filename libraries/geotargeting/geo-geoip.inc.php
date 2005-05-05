@@ -169,7 +169,6 @@ function phpAds_geoip_get_info($fp)
 
 	/* default to GeoIP Country Edition */
 	$databaseType = $GEOIP_COUNTRY_EDITION;
-	$databaseSegments = 0;
 	$record_length = $STANDARD_RECORD_LENGTH;
 	fseek($fp, -3, SEEK_END);
 	
@@ -234,7 +233,11 @@ function phpAds_geoip_get_info($fp)
 		$databaseSegments = $COUNTRY_BEGIN;
 	}
 	
-	$db = $databaseType;
+	if (!isset($databaseSegments))
+	{
+		// There was an error: db not supported?
+		return false;
+	}
 	
 	return array(
 		'plugin_conf'	=> array(
@@ -243,19 +246,19 @@ function phpAds_geoip_get_info($fp)
 			'record_length'		=> $record_length
 		),
 		'capabilities'	=> array(
-			'country'		=> in_array($db, array($GEOIP_COUNTRY_EDITION, $GEOIP_REGION_EDITION_REV0, $GEOIP_REGION_EDITION_REV1, $GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
-			'continent'		=> in_array($db, array($GEOIP_COUNTRY_EDITION, $GEOIP_REGION_EDITION_REV0, $GEOIP_REGION_EDITION_REV1, $GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
-			'region'		=> in_array($db, array($GEOIP_REGION_EDITION_REV0, $GEOIP_REGION_EDITION_REV1, $GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
-			'fips_code'		=> in_array($db, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
-			'city'			=> in_array($db, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
-			'postal_code'	=> in_array($db, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
-			'latitude'		=> in_array($db, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
-			'longitude'		=> in_array($db, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
-			'dma_code'		=> in_array($db, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
-			'area_code'		=> in_array($db, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
-			'organization'	=> $db == $GEOIP_ORG_EDITION,
-			'isp'			=> $db == $GEOIP_ISP_EDITION,
-			'netspeed'		=> $db == $GEOIP_NETSPEED_EDITION
+			'country'		=> in_array($databaseType, array($GEOIP_COUNTRY_EDITION, $GEOIP_REGION_EDITION_REV0, $GEOIP_REGION_EDITION_REV1, $GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
+			'continent'		=> in_array($databaseType, array($GEOIP_COUNTRY_EDITION, $GEOIP_REGION_EDITION_REV0, $GEOIP_REGION_EDITION_REV1, $GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
+			'region'		=> in_array($databaseType, array($GEOIP_REGION_EDITION_REV0, $GEOIP_REGION_EDITION_REV1, $GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
+			'fips_code'		=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
+			'city'			=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
+			'postal_code'	=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
+			'latitude'		=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
+			'longitude'		=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
+			'dma_code'		=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
+			'area_code'		=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
+			'organization'	=> $databaseType == $GEOIP_ORG_EDITION,
+			'isp'			=> $databaseType == $GEOIP_ISP_EDITION,
+			'netspeed'		=> $databaseType == $GEOIP_NETSPEED_EDITION
 		)
 	);
 }

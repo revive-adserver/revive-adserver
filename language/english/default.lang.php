@@ -350,12 +350,23 @@ $GLOBALS['strBrowser'] 					= "Browser";
 $GLOBALS['strOS'] 						= "OS";
 $GLOBALS['strCountry'] 					= "Country";
 $GLOBALS['strContinent'] 				= "Continent";
-$GLOBALS['strUSState']					= "US State";
+$GLOBALS['strUSCAState']				= "US/CA state";
+$GLOBALS['strFIPSRegion']				= "Region (%s)";
+$GLOBALS['strCity']						= "City";
+$GLOBALS['strPostalCode']				= "Postal code";
+$GLOBALS['strDMACode']					= "DMA code";
+$GLOBALS['strAreaCode']					= "Area code";
+$GLOBALS['strOrganization']				= "Organization";
+$GLOBALS['strISP']						= "ISP";
+$GLOBALS['strNetSpeed']					= "Net speed";
 $GLOBALS['strReferer'] 					= "Referring page";
 $GLOBALS['strDeliveryLimitations']		= "Delivery limitations";
 $GLOBALS['strDeliveryCapping']			= "Delivery capping";
 $GLOBALS['strTimeCapping']				= "Once this banner has been delivered once, don't show this banner again to the same user for:";
 $GLOBALS['strImpressionCapping']		= "Do not show this banner to the same user more than:";
+$GLOBALS['strLimitationDropped']		= "At least one delivery limitation was dropped because currently not applicable";
+$GLOBALS['strShowCountry']				= "Show";
+$GLOBALS['strShowAllCountries']			= "All countries";
 
 
 // Publisher

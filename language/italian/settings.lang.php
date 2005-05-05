@@ -231,6 +231,9 @@ $GLOBALS['strTypeHtmlSettings']				= "Configurazione banner HTML";
 $GLOBALS['strTypeHtmlAuto']					= "Modifica automaticamente i banner HTML per poter registrare i click";
 $GLOBALS['strTypeHtmlPhp']					= "Consenti l'esecuzione di espressioni PHP all'interno dei banner HTML";
 
+$GLOBALS['strCookieSettings']				= "Impostazione cookie";
+$GLOBALS['strPackCookies']					= "Compatta cookie per evitare un'eccedenza di cookie";
+
 
 
 // Host information and Geotargeting
@@ -245,6 +248,7 @@ $GLOBALS['strGeotrackingType']				= "Tipo di database per il targeting geografic
 $GLOBALS['strGeotrackingLocation'] 			= "Percorso del database targeting geografico";
 $GLOBALS['strGeotrackingLocationError']		= "Il database per il targeting geografico non &egrave; stato trovato nel percorso specificato";
 $GLOBALS['strGeotrackingLocationNoHTTP']	= "Il percorso specificato non rappresenta un file locale sull'hard disk del server, ma un URL di un file su un server web. Il percorso dovrebbe essere simile a questo: <i>{example}</i>. Il percorso reale dipende da dove &egrave; stato copiato il database.";
+$GLOBALS['strGeotrackingUnsupportedDB'] 	= "Il database selezionato non è supportato da questo plug-in";
 $GLOBALS['strGeoStoreCookie']				= "Memorizza risultato in un cookie per riutilizzarlo in seguito";
 
 

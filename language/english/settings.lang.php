@@ -220,8 +220,6 @@ $GLOBALS['strTypeFTPErrorConnect']		= "Could not connect to the FTP server, the 
 $GLOBALS['strTypeFTPErrorHost']			= "The hostname of the FTP server is not correct";
 $GLOBALS['strTypeDirError']				= "The local directory does not exist";
 
-
-
 $GLOBALS['strDefaultBanners']			= "Default banners";
 $GLOBALS['strDefaultBannerUrl']			= "Default image URL";
 $GLOBALS['strDefaultBannerTarget']		= "Default destination URL";
@@ -229,6 +227,9 @@ $GLOBALS['strDefaultBannerTarget']		= "Default destination URL";
 $GLOBALS['strTypeHtmlSettings']			= "HTML banner options";
 $GLOBALS['strTypeHtmlAuto']			= "Automatically alter HTML banners in order to force click tracking";
 $GLOBALS['strTypeHtmlPhp']			= "Allow PHP expressions to be executed from within a HTML banner";
+
+$GLOBALS['strCookieSettings']			= "Cookie settings";
+$GLOBALS['strPackCookies']				= "Pack cookies to avoid cookie overpopulation";
 
 
 
@@ -244,6 +245,7 @@ $GLOBALS['strGeotrackingType']			= "Type of geotargeting database";
 $GLOBALS['strGeotrackingLocation'] 		= "Geotargeting database location";
 $GLOBALS['strGeotrackingLocationError'] = "The geotargeting database does not exist in the location you specified";
 $GLOBALS['strGeotrackingLocationNoHTTP']	= "The location you supplied is not a local directory on the hard drive of the server, but an URL to a file on a webserver. The location should look similar to this: <i>{example}</i>. The actual location depends on where you copied the database.";
+$GLOBALS['strGeotrackingUnsupportedDB'] = "The geotargeting database supplied is not supported by this plug-in";
 $GLOBALS['strGeoStoreCookie']			= "Store the result in a cookie for future reference";
 
 

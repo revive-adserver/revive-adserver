@@ -43,7 +43,7 @@ if (isset($save_settings) && $save_settings != '')
 		if ($geotracking_type)
 		{
 			if (!file_exists(phpAds_path.'/libraries/geotargeting/geo-'.$geotracking_type.'.inc.php'))
-				$errormessage[1][] = 'Unsupported database type';
+				$errormessage[1][] = 'Unsupported plug-in';
 			else
 			{
 				phpAds_SettingsWriteAdd('geotracking_type', $geotracking_type);
@@ -61,7 +61,12 @@ if (isset($save_settings) && $save_settings != '')
 						@include_once (phpAds_path.'/libraries/geotargeting/geo-'.$geotracking_type.'.inc.php');
 						
 						if (function_exists('phpAds_'.$geotracking_type.'_getConf'))
+						{
 							$info = call_user_func('phpAds_'.$geotracking_type.'_getConf', $geotracking_location);
+							
+							if ($info === false)
+								$errormessage[1] = $strGeotrackingUnsupportedDB;
+						}
 						else
 							$info = '';
 						

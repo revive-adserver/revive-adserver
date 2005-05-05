@@ -48,9 +48,9 @@ Dutch
 
 English
 	---------------------------------------------------------
-	Maintained by:	   Niels Leenheer (niels at phpadsnew dot com)
+	Maintained by:	   phpAdsNew developers (developers at phpadsnew dot com)
 	Is up-to-date?	   Always
-	Last update:	   24 April 2005
+	Last update:	   05 May 2005
 	Translated files:  7
 	---------------------------------------------------------
 
@@ -61,7 +61,7 @@ French
 	Maintained by:	   Vincent Zanotti (amidebx at users.sourceforge dot net)
 	Is up-to-date?	   No
 	Last update:	   26 September 2003
-	Translated files:  7 + 3 resource files
+	Translated files:  7 + 4 resource files
 	---------------------------------------------------------
 
 
@@ -71,7 +71,7 @@ German
 	Maintained by:	   Rayner Jankowski (info at Werbeplatzvermarktung dot de)
 	Is up-to-date?	   No
 	Last update:	   19 Agoust 2003
-	Translated files:  7
+	Translated files:  7 + 4 resource files
 	---------------------------------------------------------
 
 
@@ -110,7 +110,7 @@ Italian
 	---------------------------------------------------------
 	Maintained by:	   Matteo Beccati (matteo at phpadsnew dot com)
 	Is up-to-date?	   Yes
-	Last update:	   24 April 2005
+	Last update:	   05 May 2005
 	Translated files:  7 + 3 resource files
 	---------------------------------------------------------
 

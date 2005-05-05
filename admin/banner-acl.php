@@ -69,16 +69,16 @@ if ($phpAds_config['geotracking_type'] != '')
 				if ($k == 'AQ')
 					continue;
 					
-				$type_list['fips_code_'.$k] = "Region ($v)";
+				$type_list['fips_code_'.$k] = sprintf($strFIPSRegion, $v);
 			}
 		}
-		if ($info['city']) $type_list['city'] = 'City';
-		if ($info['postal_code']) $type_list['postal_code'] = 'Postal code';
-		if ($info['dma_code']) $type_list['dma_code'] = 'DMA code';
-		if ($info['area_code']) $type_list['area_code'] = 'Area code';
-		if ($info['organization']) $type_list['organization'] = 'Organization';
-		if ($info['isp']) $type_list['isp'] = 'ISP';
-		if ($info['netspeed']) $type_list['netspeed'] = 'Net Speed';
+		if ($info['city']) $type_list['city'] = $strCity;
+		if ($info['postal_code']) $type_list['postal_code'] = $strPostalCode;
+		if ($info['dma_code']) $type_list['dma_code'] = $strDMACode;
+		if ($info['area_code']) $type_list['area_code'] = $strAreaCode;
+		if ($info['organization']) $type_list['organization'] = $strOrganization;
+		if ($info['isp']) $type_list['isp'] = $strISP;
+		if ($info['netspeed']) $type_list['netspeed'] = $strNetSpeed;
 	}
 }
 
@@ -582,7 +582,7 @@ if (isset($type_errors) && $type_errors)
 	// Message
 	echo "<br>";
 	echo "<div class='errormessage'><img class='errormessage' src='images/info.gif' align='absmiddle'>";
-	echo 'At least one delivery limitation was dropped because currently not applicable'."</div><br>";
+	echo $strLimitationDropped."</div><br>";
 }
 
 // Begin form
@@ -829,8 +829,8 @@ if ($phpAds_config['acl'])
 				if (!isset($acl[$key]['data']))
 					$acl[$key]['data'] = array();
 
-				echo "<b>Show:&nbsp;</b><select id='fips_".$key."' onChange='cascadebox_change(this)'>";
-				echo "<option value=''>".'All countries'."</option>";
+				echo "<b>".$strShowCountry."&nbsp;</b><select id='fips_".$key."' onChange='cascadebox_change(this)'>";
+				echo "<option value=''>".$strShowAllCountries."</option>";
 				echo "<option disabled>".'----------------'."</option>";
 				
 				foreach (array_keys($phpAds_FIPS) as $country)
