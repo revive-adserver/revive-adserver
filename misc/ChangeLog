@@ -20,6 +20,7 @@ CVS
 			  - 2005-04-24:  FTP stored banners parameters weren't correctly stored as urlencoded - bug #1170590  (Matteo)
 			  - 2005-04-24:  Flash hardcoded link converter didn't work with PHP 4.3.5+ and FTP stored banners, due to a PHP behaviour change - bug #1170584  (Matteo)
 			  - 2005-05-04:  Old settings weren't correctly overwritten during upgrade when necessary  (Matteo)
+			  - 2005-05-06:  Merged organization and ISP delivery limitations because the database has the same format  (Matteo)
  
 
 phpAdsNew 2.0.4-pr2

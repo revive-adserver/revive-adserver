@@ -426,38 +426,17 @@ function phpAds_aclCheckAreaCode($data, $ad)
 
 
 /*********************************************************/
-/* Check if the organization ACL is valid                */
+/* Check if the org/isp ACL is valid                     */
 /*********************************************************/
 
-function phpAds_aclCheckOrganization($data, $ad)
+function phpAds_aclCheckOrgISP($data, $ad)
 {
 	global $phpAds_geo;
 	
-	if ($phpAds_geo && $phpAds_geo['organization'])
+	if ($phpAds_geo && $phpAds_geo['org_isp'])
 	{
 		$data = strtolower($data);
-		$expression = strpos(strtolower($phpAds_geo['organization']), $data) !== false;
-		$operator   = $ad == '==';
-		return ($expression == $operator);
-	}
-	else
-		return ($ad != '==');
-}
-
-
-
-/*********************************************************/
-/* Check if the ISP ACL is valid                         */
-/*********************************************************/
-
-function phpAds_aclCheckIsp($data, $ad)
-{
-	global $phpAds_geo;
-	
-	if ($phpAds_geo && $phpAds_geo['isp'])
-	{
-		$data = strtolower($data);
-		$expression = strpos(strtolower($phpAds_geo['isp']), $data) !== false;
+		$expression = strpos(strtolower($phpAds_geo['org_isp']), $data) !== false;
 		$operator   = $ad == '==';
 		return ($expression == $operator);
 	}

@@ -81,8 +81,7 @@ function phpAds_geoip_getGeo($addr, $db)
 			$longitude,
 			$dma_code,
 			$area_code,
-			$organization,
-			$isp,
+			$org_isp,
 			$netspeed
 		) = $res;
 		
@@ -106,8 +105,7 @@ function phpAds_geoip_getGeo($addr, $db)
 			'longitude'		=> $longitude,
 			'dma_code'		=> $dma_code,
 			'area_code'		=> $area_code,
-			'organization'	=> $organization,
-			'isp'			=> $isp,
+			'org_isp'		=> $org_isp,
 			'netspeed'		=> $netspeed
 		));
 	}
@@ -256,8 +254,7 @@ function phpAds_geoip_get_info($fp)
 			'longitude'		=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
 			'dma_code'		=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
 			'area_code'		=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
-			'organization'	=> $databaseType == $GEOIP_ORG_EDITION,
-			'isp'			=> $databaseType == $GEOIP_ISP_EDITION,
+			'org_isp'		=> in_array($databaseType, array($GEOIP_ORG_EDITION, $GEOIP_ISP_EDITION)),
 			'netspeed'		=> $databaseType == $GEOIP_NETSPEED_EDITION
 		)
 	);
@@ -394,8 +391,7 @@ function phpAds_geoip_seek($fp, $ipnum)
 	$longitude		= false;
 	$dma_code		= false;
 	$area_code		= false;
-	$organization	= false;
-	$isp			= false;
+	$org_isp		= false;
 	$netspeed		= false;
 	$proxy			= false;
 	
@@ -465,8 +461,8 @@ function phpAds_geoip_seek($fp, $ipnum)
 			
 			switch ($databaseType)
 			{
-				case $GEOIP_ORG_EDITION:	$var = 'organization'; break;
-				case $GEOIP_ISP_EDITION:	$var = 'isp'; break;
+				case $GEOIP_ORG_EDITION:
+				case $GEOIP_ISP_EDITION:	$var = 'org_isp'; break;
 				case $GEOIP_ASNUM_EDITION:	$var = 'asnum'; break;
 			}
 			
@@ -553,8 +549,7 @@ function phpAds_geoip_seek($fp, $ipnum)
 		$longitude,
 		$dma_code,
 		$area_code,
-		$organization,
-		$isp,
+		$org_isp,
 		$netspeed
 	);
 }

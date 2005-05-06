@@ -21,11 +21,20 @@ $phpAds_geoPluginID = 'ip2country';
 function phpAds_ip2country_getInfo()
 {
 	return (array (
-		'name'	    => 'IP2Country',
-		'db'	    => true,
-		'country'   => true,
-		'continent' => true,
-		'region'    => false
+		'name'			=> 'IP2Country',
+		'db'			=> true,
+		'country'		=> true,
+		'continent'		=> true,
+		'region'		=> false,
+		'fips'			=> false,
+		'city'			=> false,
+		'postal_code'	=> false,
+		'latitude'		=> false,
+		'longitude'		=> false,
+		'dma_code'		=> false,
+		'area_code'		=> false,
+		'org_isp'		=> false,
+		'netspeed'		=> false
 	));
 }
 

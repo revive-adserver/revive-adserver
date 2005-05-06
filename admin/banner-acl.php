@@ -76,8 +76,7 @@ if ($phpAds_config['geotracking_type'] != '')
 		if ($info['postal_code']) $type_list['postal_code'] = $strPostalCode;
 		if ($info['dma_code']) $type_list['dma_code'] = $strDMACode;
 		if ($info['area_code']) $type_list['area_code'] = $strAreaCode;
-		if ($info['organization']) $type_list['organization'] = $strOrganization;
-		if ($info['isp']) $type_list['isp'] = $strISP;
+		if ($info['org_isp']) $type_list['org_isp'] = $strOrgISP;
 		if ($info['netspeed']) $type_list['netspeed'] = $strNetSpeed;
 	}
 }
@@ -657,7 +656,7 @@ if ($phpAds_config['acl'])
 				$comparison_list = $comparison_date;
 			elseif ($acl[$key]['type'] == 'referer' || $acl[$key]['type'] == 'city' ||
 					$acl[$key]['type'] == 'postal_code' || $acl[$key]['type'] == 'area_code' ||
-					$acl[$key]['type'] == 'organization' || $acl[$key]['type'] == 'isp'
+					$acl[$key]['type'] == 'org_isp'
 				)
 				$comparison_list = $comparison_substr;
 			else

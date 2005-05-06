@@ -577,11 +577,8 @@ function phpAds_compileLimitation ($bannerid = '')
 					case 'area_code':
 						$expression .= "phpAds_aclCheckAreaCode(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
 						break;
-					case 'organization':
-						$expression .= "phpAds_aclCheckOrganization(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
-						break;
-					case 'isp':
-						$expression .= "phpAds_aclCheckIsp(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+					case 'org_isp':
+						$expression .= "phpAds_aclCheckOrgISP(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
 						break;
 					case 'netspeed':
 						$expression .= "phpAds_aclCheckNetspeed(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";

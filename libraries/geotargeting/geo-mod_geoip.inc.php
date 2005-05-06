@@ -22,11 +22,21 @@ function phpAds_mod_geoip_getInfo()
 	global $HTTP_SERVER_VARS;
 
 	return (array (
-		'name'	    => 'MaxMind GeoIP (mod)',
-		'db'	    => false,
-		'country'   => true,
-		'continent' => true,
-		'region'	=> isset($HTTP_SERVER_VARS['GEOIP_REGION'])
+		'name'			=> 'MaxMind GeoIP (mod)',
+		'db'			=> false,
+		'country'		=> true,
+		'continent'		=> true,
+		'region'		=> isset($HTTP_SERVER_VARS['GEOIP_REGION'])
+		'region'		=> false,
+		'fips'			=> false,
+		'city'			=> false,
+		'postal_code'	=> false,
+		'latitude'		=> false,
+		'longitude'		=> false,
+		'dma_code'		=> false,
+		'area_code'		=> false,
+		'org_isp'		=> false,
+		'netspeed'		=> false
 	));
 }
 

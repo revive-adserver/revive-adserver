@@ -69,7 +69,7 @@ if ($phpAds_config['geotracking_type'] != '')
 		// Use cookie if available
 		$phpAds_geoRaw = explode('|', $HTTP_COOKIE_VARS['phpAds_geoInfo']);
 		
-		if (count($phpAds_geoRaw) == 13)
+		if (count($phpAds_geoRaw) == 12)
 		{
 			$phpAds_geo = array(
 					'country'		=> $phpAds_geoRaw[0] != '' ? $phpAds_geoRaw[0] : false,
@@ -82,9 +82,8 @@ if ($phpAds_config['geotracking_type'] != '')
 					'longitude'		=> $phpAds_geoRaw[7] != '' ? $phpAds_geoRaw[7] : false,
 					'dma_code'		=> $phpAds_geoRaw[8] != '' ? $phpAds_geoRaw[8] : false,
 					'area_code'		=> $phpAds_geoRaw[9] != '' ? $phpAds_geoRaw[9] : false,
-					'organization'	=> $phpAds_geoRaw[10] != '' ? $phpAds_geoRaw[10] : false,
-					'isp'			=> $phpAds_geoRaw[11] != '' ? $phpAds_geoRaw[11] : false,
-					'netspeed'		=> $phpAds_geoRaw[12] != '' ? $phpAds_geoRaw[12] : false
+					'org_isp'		=> $phpAds_geoRaw[10] != '' ? $phpAds_geoRaw[10] : false,
+					'netspeed'		=> $phpAds_geoRaw[11] != '' ? $phpAds_geoRaw[11] : false
 				);
 		}
 	}
