@@ -301,7 +301,10 @@ if (phpAds_isUser(phpAds_Admin))
 		
 		// Determine the text of the button
 		$btn = $strProceed;											// Default to Proceed
-		if (isset($fatal) && count($fatal)) $btn = '';				// Configuration errors -> allow a retry
+		
+		if (isset($fatal) && count($fatal))
+			$btn = $GLOBALS['strRetry'];							// Configuration errors -> allow a retry
+		
 		if (isset($rev_message))
 		{
 			if ($rev_fatal)
