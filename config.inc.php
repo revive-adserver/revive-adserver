@@ -151,7 +151,7 @@ $phpAds_config['warn_client'] = true;
 $phpAds_config['warn_limit'] = 100; 
 
 // Use packed cookies
-$phpAds_config['pack_cookies'] = true; 
+$phpAds_config['pack_cookies'] = false; 
 
 
 
