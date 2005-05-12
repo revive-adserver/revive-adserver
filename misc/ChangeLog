@@ -8,7 +8,6 @@ CVS
 			  - 2005-05-04:  Added city, worldwide region, organization, ISP, netspeed, postal-, DMA- area code delivery limitations  (Matteo)
 			  - 2005-05-04:  Rewrote MaxMind GeoIP plugin to support all the available database types and newly added delivery limitations  (Matteo)
 			  - 2005-05-04:  Added an option to choose between the standard and the recently added way to handle cookies for better backwards compatibility  (Matteo)
-			  - 2005-05-12:  Javascript remote invocation didn't correctly deal with multibyte encodings  (Matteo)
 
 			+ Misc bugfixes
 			  - 2005-03-17:  Outgoing e-mails did not comply to RFCs when no charset was set in the language file  (Matteo)
@@ -22,6 +21,8 @@ CVS
 			  - 2005-04-24:  Flash hardcoded link converter didn't work with PHP 4.3.5+ and FTP stored banners, due to a PHP behaviour change - bug #1170584  (Matteo)
 			  - 2005-05-04:  Old settings weren't correctly overwritten during upgrade when necessary  (Matteo)
 			  - 2005-05-06:  Merged organization and ISP delivery limitations because the database has the same format  (Matteo)
+			  - 2005-05-12:  Javascript remote invocation didn't correctly deal with multibyte encodings  (Matteo)
+			  - 2005-05-12:  Added missing Retry button when getting fatal errors during upgrade  (Matteo)
  
 
 phpAdsNew 2.0.4-pr2
