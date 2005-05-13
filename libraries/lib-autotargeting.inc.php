@@ -129,7 +129,7 @@ function phpAds_AutoTargetingPrepareProfile($weeks = 2)
 	// Get the number of days running
 	if ($phpAds_config['compact_stats'])
 	{
-		$res = phpAds_dbQuery("SELECT UNIX_TIMESTAMP(MIN(day)) AS days_running FROM ".$phpAds_config['tbl_adstats']." WHERE day > 0 AND hour > 0 ORDER BY day LIMIT 1");
+		$res = phpAds_dbQuery("SELECT UNIX_TIMESTAMP(MIN(day)) AS days_running FROM ".$phpAds_config['tbl_adstats']);
 		$days_running = phpAds_dbResult($res, 0, 'days_running');
 	}
 	else

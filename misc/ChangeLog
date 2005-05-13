@@ -1,6 +1,11 @@
 phpAdsNew - ChangeLog
 
 
+CVS
+			+ Misc bugfixes
+			  - 2005-05-13:  Optimized days running check during priority and autotargeting calculations  (Matteo, thanks to joce)
+
+
 phpAdsNew 2.0.5 RC1
 			+ Misc changes
 			  - 2005-03-17:  Changed the way phpAdsNew sends and receives cookies to avoid cookie overpopulation  (Matteo)
