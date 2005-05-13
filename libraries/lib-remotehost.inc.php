@@ -75,7 +75,7 @@ if ($phpAds_config['geotracking_type'] != '')
 					'country'		=> $phpAds_geoRaw[0] != '' ? $phpAds_geoRaw[0] : false,
 					'continent'		=> $phpAds_geoRaw[1] != '' ? $phpAds_geoRaw[1] : false,
 					'region'		=> $phpAds_geoRaw[2] != '' ? $phpAds_geoRaw[2] : false,
-					'fips'			=> $phpAds_geoRaw[3] != '' ? $phpAds_geoRaw[3] : false,
+					'fips_code'		=> $phpAds_geoRaw[3] != '' ? $phpAds_geoRaw[3] : false,
 					'city'			=> $phpAds_geoRaw[4] != '' ? $phpAds_geoRaw[4] : false,
 					'postal_code'	=> $phpAds_geoRaw[5] != '' ? $phpAds_geoRaw[5] : false,
 					'latitude'		=> $phpAds_geoRaw[6] != '' ? $phpAds_geoRaw[6] : false,

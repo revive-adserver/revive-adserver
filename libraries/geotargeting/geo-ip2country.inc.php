@@ -26,7 +26,7 @@ function phpAds_ip2country_getInfo()
 		'country'		=> true,
 		'continent'		=> true,
 		'region'		=> false,
-		'fips'			=> false,
+		'fips_code'		=> false,
 		'city'			=> false,
 		'postal_code'	=> false,
 		'latitude'		=> false,

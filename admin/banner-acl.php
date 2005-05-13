@@ -61,7 +61,7 @@ if ($phpAds_config['geotracking_type'] != '')
 		if ($info['continent']) $type_list['continent']	= $strContinent;
 		if ($info['country']) $type_list['country']	= $strCountry;
 		if ($info['region']) $type_list['region'] = $strUSState;
-		if ($info['fips_code'])
+		if ($info['fips'])
 		{
 			foreach ($phpAds_cont_name as $k => $v)
 			{
@@ -69,7 +69,7 @@ if ($phpAds_config['geotracking_type'] != '')
 				if ($k == 'AQ')
 					continue;
 					
-				$type_list['fips_code_'.$k] = sprintf($strFIPSRegion, $v);
+				$type_list['fips_'.$k] = sprintf($strFIPSRegion, $v);
 			}
 		}
 		if ($info['city']) $type_list['city'] = $strCity;
@@ -175,7 +175,7 @@ if (isset($action))
 		
 		if ($type == 'time' || $type == 'weekday' || $type == 'browser' || $type == 'os' ||
 			$type == 'country' || $type == 'continent' || $type == 'region' || $type == 'language' ||
-			strpos($type, 'fips_code') === 0 || $type == 'dma_code' || $type == 'netspeed')
+			strpos($type, 'fips') === 0 || $type == 'dma_code' || $type == 'netspeed')
 		{
 			$acl[$last]['data'] = array();
 		}
@@ -211,7 +211,7 @@ elseif (isset($submit))
 			{
 				if (isset($acl[$key]['data']))
 				{
-					if (strpos($acl[$key]['type'], 'fips_code') === 0)
+					if (strpos($acl[$key]['type'], 'fips') === 0)
 						$acl[$key]['type'] = 'fips_code';
 					
 					if ($acl[$key]['type'] == 'time' || $acl[$key]['type'] == 'weekday' || 

@@ -98,7 +98,7 @@ function phpAds_geoip_getGeo($addr, $db)
 			'country'		=> $country,
 			'continent'		=> $continent,
 			'region'		=> $region,
-			'fips'			=> $fips_code,
+			'fips_code'		=> $fips_code,
 			'city'			=> $city,
 			'postal_code'	=> $postal_code,
 			'latitude'		=> $latitude,
@@ -444,7 +444,6 @@ function phpAds_geoip_seek($fp, $ipnum)
 		} else {
 			/* Not US or Canada */
 			$country = $countrycodes[floor(($seek_region - $WORLD_OFFSET) / $FIPS_RANGE)];
-			$fips_code = sprintf("%02d", ($seek_region - $WORLD_OFFSET) % $FIPS_RANGE);
 		}
 	}
 	elseif ($databaseType == $GEOIP_ORG_EDITION ||

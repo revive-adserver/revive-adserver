@@ -27,7 +27,7 @@ function phpAds_mod_geoip_getInfo()
 		'country'		=> true,
 		'continent'		=> true,
 		'region'		=> isset($HTTP_SERVER_VARS['GEOIP_REGION']),
-		'fips'			=> false,
+		'fips_code'		=> false,
 		'city'			=> false,
 		'postal_code'	=> false,
 		'latitude'		=> false,
