@@ -130,9 +130,9 @@ function phpAds_flushCookie ()
 		if (!$phpAds_config['pack_cookies'])
 		{
 			// Use standard cookies
-			// Set cookies
 			while (list($k,$v) = each ($phpAds_cookieCache))
 			{
+				// Set cookies
 				list ($name, $value, $expire) = $v;
 				setcookie ($name, $value, $expire, '/');
 			}
