@@ -269,16 +269,22 @@ elseif (isset($submit))
 				
 				
 				phpAds_dbQuery ("
-					INSERT INTO
-						".$phpAds_config['tbl_acls']."
-					SET
-						bannerid  	   = '".$bannerid."',
-						logical   	   = '".$acl[$key]['logical']."',
-						type  	  	   = '".$acl[$key]['type']."',
-						data  	  	   = '".$acl[$key]['data']."',
-						comparison     = '".$acl[$key]['comparison']."',
-						executionorder = '".$key."'
-				");
+					INSERT INTO ".$phpAds_config['tbl_acls']." (
+						bannerid,
+						logical,
+						type,
+						data,
+						comparison,
+						executionorder
+					) VALUES (
+						'".$bannerid."',
+						'".$acl[$key]['logical']."',
+						'".$acl[$key]['type']."',
+						'".$acl[$key]['data']."',
+						'".$acl[$key]['comparison']."',
+						'".$key."'
+					)
+				") or phpAds_sqlDie();
 			}
 		}
 		
