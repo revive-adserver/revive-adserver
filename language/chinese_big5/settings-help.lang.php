@@ -213,8 +213,8 @@ $GLOBALS['phpAds_hlp_geotracking_type'] = substr("
 		您可以在此信息的基礎上設置發送限制,或者您可以保存此信息來查看
 		哪個國家有最多的廣告發送和點擊率.
 		如果您想啟用geotargeting,您需要選擇您現有的資料庫類型.
-		".$phpAds_productname."現在支持<a href='http://hop.clickbank.net/?phpadsnew/ip2country' target='_blank'>IP2Country</a> 
-		和 <a href='http://www.maxmind.com/?rId=phpadsnew' target='_blank'>GeoIP</a> 資料庫.
+		".$phpAds_productname."現在支持IP2Country 
+		和 <a href='http://www.maxmind.com/?rId=phpadsnew2' target='_blank'>GeoIP</a> 資料庫.
 		";
 		
 $GLOBALS['phpAds_hlp_geotracking_location'] = "

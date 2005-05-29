@@ -256,8 +256,8 @@ $GLOBALS['phpAds_hlp_geotracking_type'] = "
 	geografische informatie. Op basis van deze informatie kun u leverings beperkingen instellen of de
 	informatie opslaan bij de statistieken, zodat u kunt zien welk land de meeste impressies genereerd.
 	Indien u deze optie wilt gebruiken heeft u een database nodig en dient u het juiste type database uit deze 
-	lijst te selecteren. ".$phpAds_productname." ondersteunt momenteel de <a href='http://hop.clickbank.net/?phpadsnew/ip2country' target='_blank'>IP2Country</a> 
-	en de <a href='http://www.maxmind.com/?rId=phpadsnew' target='_blank'>GeoIP</a> database.
+	lijst te selecteren. ".$phpAds_productname." ondersteunt momenteel de IP2Country 
+	en de <a href='http://www.maxmind.com/?rId=phpadsnew2' target='_blank'>GeoIP</a> database.
 ";
 		
 $GLOBALS['phpAds_hlp_geotracking_location'] = "

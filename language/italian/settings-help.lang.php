@@ -255,8 +255,8 @@ $GLOBALS['phpAds_hlp_geotracking_type'] = "
 		sar&agrave; possibile vedere quale nazione genera pi&ugrave; Visualizzazioni o Click.
 		Per abilitare il tracking geografico &egrave; necessario selezionare il dipo di database di cui
 		si &egrave; in possesso. Al momento ".$phpAds_productname." supporta i database
-		<a href='http://hop.clickbank.net/?phpadsnew/ip2country' target='_blank'>IP2Country</a> 
-		e <a href='http://www.maxmind.com/?rId=phpadsnew' target='_blank'>GeoIP</a>.
+		IP2Country 
+		e <a href='http://www.maxmind.com/?rId=phpadsnew2' target='_blank'>GeoIP</a>.
 		";
 		
 $GLOBALS['phpAds_hlp_geotracking_location'] = "

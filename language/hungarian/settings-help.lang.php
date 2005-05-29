@@ -265,8 +265,8 @@ $GLOBALS['phpAds_hlp_geotracking_type'] = "
 		továbbítás korlátozását, vagy eltárolhatja ezt az információt, így megtekintheti, hogy
 		mely ország generálja a legtöbb letöltést vagy kattintást. Ha engedélyezni akarja a
 		geotargetinget, akkor ki kell választania, hogy mely adatbázis típusokkal rendelkezik.
-		A ".$phpAds_productname." jelenleg az <a href='http://hop.clickbank.net/?phpadsnew/ip2country' target='_blank'>IP2Country</a>
-		és a <a href='http://www.maxmind.com/?rId=phpadsnew' target='_blank'>GeoIP</a> adatbázisokat
+		A ".$phpAds_productname." jelenleg az IP2Country
+		és a <a href='http://www.maxmind.com/?rId=phpadsnew2' target='_blank'>GeoIP</a> adatbázisokat
 		támogatja.
 		";
 		

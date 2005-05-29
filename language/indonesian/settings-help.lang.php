@@ -261,8 +261,8 @@ $GLOBALS['phpAds_hlp_geotracking_type'] = "
 		menyimpan informasi guna untuk melihat negara yang mana yang memperoleh <i>Impressions</i> 
 		atau <i>Click-trus</i> paling banyak. Bila Anda aktifkan <i>Geotargeting</i> Anda perlu 
 		pilih jenis database yang digunakan. ".$phpAds_productname." pada saat ini mendukung database 
-		<a href='http://hop.clickbank.net/?phpadsnew/ip2country' target='_blank'>IP2Country</a> 
-		atau <a href='http://www.maxmind.com/?rId=phpadsnew' target='_blank'>GeoIP</a>.	
+		IP2Country 
+		atau <a href='http://www.maxmind.com/?rId=phpadsnew2' target='_blank'>GeoIP</a>.	
 		";
 		
 $GLOBALS['phpAds_hlp_geotracking_location'] = "

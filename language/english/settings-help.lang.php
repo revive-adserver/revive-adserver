@@ -245,8 +245,8 @@ $GLOBALS['phpAds_hlp_geotracking_type'] = "
 		information. Based on this information you can set delivery limitations or you could store
 		this information to see which country is generation the most impressions or click-thrus.
 		If you want to enable geotargeting you need to choose which type of database you have.
-		".$phpAds_productname." currently supports the <a href='http://hop.clickbank.net/?phpadsnew/ip2country' target='_blank'>IP2Country</a> 
-		and <a href='http://www.maxmind.com/?rId=phpadsnew' target='_blank'>GeoIP</a> database.
+		".$phpAds_productname." currently supports the IP2Country 
+		and <a href='http://www.maxmind.com/?rId=phpadsnew2' target='_blank'>GeoIP</a> database.
 		";
 		
 $GLOBALS['phpAds_hlp_geotracking_location'] = "

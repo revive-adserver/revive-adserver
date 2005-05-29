@@ -184,7 +184,7 @@ $GLOBALS['phpAds_hlp_auto_clean_userlog_interval'] = "
 
 $GLOBALS['phpAds_hlp_geotracking_type'] = "
 		Über Geotargeting wird anhand der IP-Adresse der Standort bzw. die Herkunft des Besuchers ermittelt. Ermittelt wird das Land. Nützlich ist das, wenn mehrsprachige Banner oder Banner in mehreren Sprachen ausgeliefert werden können. Die Auslieferung eines Banners kann auf bestimmte Herkunftsländer (der Besucher) eingeschränkt oder nach Länderkategorien ausgewertet werden.<br>
-Für Geotargeting wird eine spezielle Datenbank benötigt. ".$phpAds_productname." unterstützt die Datenbanken von  <a href='http://hop.clickbank.net/?phpadsnew/ip2country' target='_blank'>IP2Country</a> und <a href='http://www.maxmind.com/?rId=phpadsnew' target='_blank'>GeoIP</a>.
+Für Geotargeting wird eine spezielle Datenbank benötigt. ".$phpAds_productname." unterstützt die Datenbanken von  IP2Country und <a href='http://www.maxmind.com/?rId=phpadsnew2' target='_blank'>GeoIP</a>.
 		";
 		
 $GLOBALS['phpAds_hlp_geotracking_location'] = "

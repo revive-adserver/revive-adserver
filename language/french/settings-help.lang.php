@@ -223,7 +223,7 @@ $GLOBALS['phpAds_hlp_geotracking_type'] = '
 	Grâce à cette information, vous pouvez régler une limitation de distribution, ou vous pouvez journaliser cette information pour
 	voir quel pays génère le plus d\'affichages ou de clics. Si vous voulez activer la géolocalisation, vous devez indiquer quel type de base vous avez.
 	'.$phpAds_productname.' supporte actuellement les bases <a href="http://hop.clickbank.net/?phpadsnew/ip2country" target="_blank">IP2Country</a>
-	et <a href="http://www.maxmind.com/?rId=phpadsnew" target="_blank">GeoIP</a>.
+	et <a href="http://www.maxmind.com/?rId=phpadsnew2" target="_blank">GeoIP</a>.
 ';
 		
 $GLOBALS['phpAds_hlp_geotracking_location'] = '

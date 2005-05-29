@@ -318,9 +318,9 @@ $GLOBALS['phpAds_hlp_auto_clean_userlog_interval'] = "
 
 $GLOBALS['phpAds_hlp_geotracking_type'] = "
 
-		ניתוב גיאוגרפי של ".$phpAds_productname." להפוך את כתובת ה-IP של המבקר למידע גיאוגרפי. בהתבסס על מידע זה ניתן לקבוע הגבלות בארנים או לאגור מידע מעקב מאיזו מדינה מתקבלת חשיפה מוגברת או הקלקות. אם ברצנוך לאפשר זאת, יש לבחור באיזה סוג של מאגר נתונים להשתמש. ".$phpAds_productname." תומכת כעת במאגרי הנתונים של <a href='http://hop.clickbank.net/?phpadsnew/ip2country' target='_blank'>IP2Country</a> 
+		ניתוב גיאוגרפי של ".$phpAds_productname." להפוך את כתובת ה-IP של המבקר למידע גיאוגרפי. בהתבסס על מידע זה ניתן לקבוע הגבלות בארנים או לאגור מידע מעקב מאיזו מדינה מתקבלת חשיפה מוגברת או הקלקות. אם ברצנוך לאפשר זאת, יש לבחור באיזה סוג של מאגר נתונים להשתמש. ".$phpAds_productname." תומכת כעת במאגרי הנתונים של IP2Country 
 
-		ו-<a href='http://www.maxmind.com/?rId=phpadsnew' target='_blank'>GeoIP</a>.
+		ו-<a href='http://www.maxmind.com/?rId=phpadsnew2' target='_blank'>GeoIP</a>.
 
 		";
 
