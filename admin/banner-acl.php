@@ -60,7 +60,7 @@ if ($phpAds_config['geotracking_type'] != '')
 		
 		if ($info['continent']) $type_list['continent']	= $strContinent;
 		if ($info['country']) $type_list['country']	= $strCountry;
-		if ($info['region']) $type_list['region'] = $strUSState;
+		if ($info['region']) $type_list['region'] = $strUSCAState;
 		if ($info['fips'])
 		{
 			foreach ($phpAds_cont_name as $k => $v)
