@@ -20,7 +20,7 @@
 
 $phpAds_IAB['IAB Full Banner (468 x 60)'] 		 	= array ('width' => 468, 'height' => 60);
 $phpAds_IAB['IAB Half Banner (234 x 60)'] 		   	= array ('width' => 234, 'height' => 60);
-$phpAds_IAB['IAB Leader Board (728 x 90) *']    	= array ('width' => 728, 'height' => 90);
+$phpAds_IAB['IAB Leaderboard (728 x 90) *']		  	= array ('width' => 728, 'height' => 90);
 $phpAds_IAB['IAB Micro Bar (88 x 31)'] 		   		= array ('width' => 88,  'height' => 31);
 $phpAds_IAB['IAB Button 1 (120 x 90)'] 		   		= array ('width' => 120, 'height' => 90);
 $phpAds_IAB['IAB Button 2 (120 x 60)'] 		   		= array ('width' => 120, 'height' => 60);
@@ -33,5 +33,6 @@ $phpAds_IAB['IAB Vertical Rectangle (240 x 400)'] 	= array ('width' => 240, 'hei
 $phpAds_IAB['IAB Square Pop-up (250 x 250)'] 	   	= array ('width' => 250, 'height' => 250);
 $phpAds_IAB['IAB Skyscraper (120 x 600)'] 		   	= array ('width' => 120, 'height' => 600);
 $phpAds_IAB['IAB Wide Skyscraper (160 x 600) *']    = array ('width' => 160, 'height' => 600);
+$phpAds_IAB['IAB Half Page Ad (300 x 600)'] 	   	= array ('width' => 300, 'height' => 600);
 
 ?>

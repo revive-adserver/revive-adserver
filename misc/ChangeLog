@@ -2,6 +2,9 @@ phpAdsNew - ChangeLog
 
 
 CVS
+			+ Misc changes
+			  - 2005-06-06:  Added Half Page 300 x 600 IAB standard banner size  (Matteo)
+
 			+ Misc bugfixes
 			  - 2005-05-13:  Optimized days running check during priority and autotargeting calculations  (Matteo, thanks to joce)
 
