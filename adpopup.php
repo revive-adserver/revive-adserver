@@ -130,7 +130,7 @@ if (!$found)
 		
 	
 $contenturl  = $phpAds_config['url_prefix']."/adcontent.php?bannerid=".$row['bannerid'];
-$contenturl .= "&zone=".$row['zoneid'];
+$contenturl .= "&zoneid=".$row['zoneid'];
 $contenturl .= "&source=".urlencode($source)."&timeout=".$timeout;
 	
 	
