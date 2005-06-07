@@ -301,6 +301,7 @@ $GLOBALS['strWeight']						= "Importanza";
 $GLOBALS['strAlt']							= "Testro alternativo";
 $GLOBALS['strStatusText']					= "Testo di status";
 $GLOBALS['strBannerWeight']					= "Peso del banner";
+$GLOBALS['strSwfTransparency']				= "Sfondo trasparente (solo Flash)";
 
 
 // Banner (swf)

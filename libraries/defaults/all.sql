@@ -145,6 +145,7 @@ CREATE TABLE phpads_banners (
    append blob NOT NULL,
    appendtype tinyint(4) DEFAULT '0' NOT NULL,
    bannertype tinyint(4) DEFAULT '0' NOT NULL,
+   transparent enum('t','f') DEFAULT 'f' NOT NULL,
    PRIMARY KEY (bannerid)
 );
 

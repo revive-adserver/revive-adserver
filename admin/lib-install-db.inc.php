@@ -149,6 +149,9 @@ function phpAds_upgradeData ()
 	
 	// Update the password to MD5 hashes
 	phpAds_upgradePasswordMD5();
+	
+	// Update the password to MD5 hashes
+	phpAds_upgradeTransparentSWF();
 }
 
 
@@ -1229,6 +1232,21 @@ function phpAds_upgradePasswordMD5 ()
 			SET
 				admin_pw = '".addslashes(md5($phpAds_config['admin_pw']))."'
 		");
+	}
+}
+
+function phpAds_upgradeTransparentSWF()
+{
+	global $phpAds_config;
+	
+	if (!isset($phpAds_config['config_version']) ||	$phpAds_config['config_version'] < 200.248)
+	{
+		// Update custom SWF templates which have wmode=transparent
+		phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_banners']." SET transparent = 't' WHERE contenttype = 'swf' AND htmltemplate LIKE '%wmode%'");
+		
+		// Update HTML tenplate for SWF banners
+		phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_banners']." SET htmltemplate = '".
+			addslashes(phpAds_getBannerTemplate('swf'))."' WHERE contenttype = 'swf'");
 	}
 }
 

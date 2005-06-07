@@ -22,7 +22,9 @@ function phpAds_getBannerTemplate($type)
 		$buffer .= "swflash.cab#version={pluginversion:4,0,0,0}' width='{width}' height='{height}'>";
 		$buffer .= "<param name='movie' value='{imageurl}{swf_con}{swf_param}'>";
 		$buffer .= "<param name='quality' value='high'>";
-		$buffer .= "<embed src='{imageurl}{swf_con}{swf_param}' quality=high ";
+		$buffer .= "[transparent]<param name='wmode' value='transparent'>";
+		$buffer .= "[/transparent]<embed src='{imageurl}{swf_con}{swf_param}' quality=high ";
+		$buffer .= "[transparent]wmode='transparent' [/transparent]";
 		$buffer .= "width='{width}' height='{height}' type='application/x-shockwave-flash' ";
 		$buffer .= "pluginspace='http://www.macromedia.com/go/getflashplayer'></embed>";
 		$buffer .= "</object>";
@@ -375,6 +377,11 @@ function phpAds_getBannerCache($banner)
 			$buffer = str_replace ('{swf_con}{swf_param}', '', $buffer);
 			$buffer = str_replace ('{swf_param}', '', $buffer);
 		}
+		
+		if (isset($banner['transparent']) && $banner['transparent'] == 't')
+			$buffer = preg_replace ('#\[/?transparent\]#', '', $buffer);
+		else
+			$buffer = preg_replace ('#\[transparent\].*?\[/transparent\]#', '', $buffer);
 		
 		switch ($banner['storagetype'])
 		{

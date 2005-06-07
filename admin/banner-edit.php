@@ -26,7 +26,7 @@ require ("lib-zones.inc.php");
 // Register input variables
 phpAds_registerGlobal ('storagetype', 'network', 'replaceimage', 'upload', 'checkswf', 'url', 'target', 'alink', 
 					   'atar', 'alink_chosen', 'alt', 'status', 'bannertext', 'width', 'height', 'imageurl', 'banner', 
-					   'autohtml', 'keyword', 'description', 'weight', 'submit', 'asource');
+					   'autohtml', 'keyword', 'description', 'weight', 'submit', 'asource', 'transparent');
 
 
 // Security check
@@ -354,6 +354,10 @@ if (isset($submit))
 				$final['htmltemplate'] = str_replace ('{swf_param}', $parameter, $final['htmltemplate']);
 			}
 			
+					
+			// Handle SWF transparent background
+			if ($final['contenttype'] == 'swf')
+				$final['transparent'] = isset($transparent) && $transparent ? 't' : 'f';
 			
 			// Update bannercache
 			$final['htmlcache']   = addslashes(phpAds_getBannerCache($final));
@@ -502,6 +506,10 @@ if (isset($submit))
 			// Update bannercache
 			$final['htmlcache']   = addslashes(phpAds_getBannerCache($final));
 			$final['htmltemplate']= addslashes($final['htmltemplate']);
+					
+			// Handle SWF transparent background
+			if ($final['contenttype'] == 'swf')
+				$final['transparent'] = isset($transparent) && $transparent ? 't' : 'f';
 			
 			break;
 		
@@ -650,6 +658,10 @@ if (isset($submit))
 	$final['appendtype'] = isset($final['appendtype']) ? addslashes($final['appendtype']) : '';
 	$final['append'] = isset($final['append']) ? addslashes($final['append']) : '';
 	
+	// Set default non-transparent background
+	if (!isset($final['transparent']))
+		$final['transparent'] = 'f';
+	
 	
 	if (phpAds_isUser(phpAds_Admin)) 
 	{
@@ -664,7 +676,6 @@ if (isset($submit))
 		$final['description'] = $description;
 		$final['weight'] = $weight;
 	}
-	
 	
 	// Construct appropiate SQL query
 	// If bannerid==null, then this is an INSERT, else it's an UPDATE
@@ -1049,7 +1060,7 @@ if (!isset($bannerid) || $bannerid == '')
 		// Show SWF Layer
 		if (swflayer)
 		{
-			if (filename.match(/\.swf$/i))
+			if (filename.match(/\.swf$/i))		
 				swflayer.style.display = '';
 			else
 				swflayer.style.display = 'none';
@@ -1136,7 +1147,7 @@ if ($storagetype == 'sql')
 			echo "<td><input class='flat' size='26' type='file' name='upload' style='width:350px;' tabindex='".($tabindex++)."'><br>";
 			echo "<input type='checkbox' name='checkswf' value='t' checked tabindex='".($tabindex++)."'>&nbsp;".$strCheckSWF;
 		}
-		
+
 		echo "<br><br></td></tr>";
 		echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 		echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
@@ -1201,7 +1212,7 @@ if ($storagetype == 'sql')
 		echo "<input type='hidden' name='url' value='".$row['url']."'>";
 	}
 	
-	echo "<tr><td height='30' colspan='3'>&nbsp;</td></tr>";
+	echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 	
@@ -1220,7 +1231,7 @@ if ($storagetype == 'sql')
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strTextBelow."</td>";
 	echo "<td><input class='flat' size='35' type='text' name='bannertext' style='width:350px;' value='".phpAds_htmlQuotes($row["bannertext"])."' tabindex='".($tabindex++)."'></td></tr>";
-	
+		
 	if (isset($bannerid) && $bannerid != '')
 	{
 		echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
@@ -1232,6 +1243,18 @@ if ($storagetype == 'sql')
 		echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' tabindex='".($tabindex++)."'></td></tr>";
 	}
 	
+	if (!isset($bannerid) || (isset($row['contenttype']) && $row['contenttype'] == 'swf'))
+	{
+		echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+		echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+		echo "<tr><td width='30'>&nbsp;</td>";
+		echo "<td width='200'>".$strSwfTransparency."</td>";
+		echo "<td><select name='transparent' tabindex='".($tabindex++)."'>";
+			echo "<option value='1'".($row['transparent'] == 't' ? ' selected' : '').">".$strYes."</option>";
+			echo "<option value='0'".($row['transparent'] != 't' ? ' selected' : '').">".$strNo."</option>";
+		echo "</select></td></tr>";
+	}
+
 	echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	echo "</table>";
@@ -1365,7 +1388,7 @@ if ($storagetype == 'web')
 	echo "<tr><td height='30' colspan='3'>&nbsp;</td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-	
+
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strAlt."</td>";
 	echo "<td><input class='flat' size='35' type='text' name='alt' style='width:350px;' value='".$row["alt"]."' tabindex='".($tabindex++)."'></td></tr>";
@@ -1391,6 +1414,18 @@ if ($storagetype == 'web')
 		echo "<td width='200'>".$strSize."</td>";
 		echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."' tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
 		echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' tabindex='".($tabindex++)."'></td></tr>";
+	}
+	
+	if (!isset($bannerid) || (isset($row['contenttype']) && $row['contenttype'] == 'swf'))
+	{
+		echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+		echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+		echo "<tr><td width='30'>&nbsp;</td>";
+		echo "<td width='200'>".$strSwfTransparency."</td>";
+		echo "<td><select name='transparent' tabindex='".($tabindex++)."'>";
+			echo "<option value='1'".($row['transparent'] == 't' ? ' selected' : '').">".$strYes."</option>";
+			echo "<option value='0'".($row['transparent'] != 't' ? ' selected' : '').">".$strNo."</option>";
+		echo "</select></td></tr>";
 	}
 	
 	echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
