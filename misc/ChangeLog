@@ -8,6 +8,7 @@ CVS
 			+ Misc bugfixes
 			  - 2005-05-13:  Optimized days running check during priority and autotargeting calculations  (Matteo, thanks to joce)
 			  - 2005-06-06:  Zoneid parameter wasn't correctly handled by the pop-up code - bug #1214452  (Matteo, thanks to Brainiac)
+			  - 2005-06-07:  New unified plugin wasn't working with GeoIP region v115 databases and canadian IPs  (Matteo, thanks to Thomas J Mather)
 
 
 phpAdsNew 2.0.5 RC1
