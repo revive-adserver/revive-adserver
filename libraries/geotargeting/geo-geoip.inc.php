@@ -436,10 +436,10 @@ function phpAds_geoip_seek($fp, $ipnum)
 			$country = 'US';
 			$region = chr(floor(($seek_region - $US_OFFSET) / 26) + 65).chr(($seek_region - $US_OFFSET) % 26 + 65);
 		}
-		elseif (seek_region < WORLD_OFFSET)
+		elseif (seek_region < $WORLD_OFFSET)
 		{
 			/* Canada Province */
-			$country = 'US';
+			$country = 'CA';
 			$region = chr(floor(($seek_region - $CANADA_OFFSET) / 26) + 65).chr(($seek_region - $CANADA_OFFSET) % 26 + 65);
 		} else {
 			/* Not US or Canada */
