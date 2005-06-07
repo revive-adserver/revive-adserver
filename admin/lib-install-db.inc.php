@@ -150,7 +150,7 @@ function phpAds_upgradeData ()
 	// Update the password to MD5 hashes
 	phpAds_upgradePasswordMD5();
 	
-	// Update the password to MD5 hashes
+	// Update template of SWF banners
 	phpAds_upgradeTransparentSWF();
 }
 
