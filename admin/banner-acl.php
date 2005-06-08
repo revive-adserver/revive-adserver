@@ -61,7 +61,7 @@ if ($phpAds_config['geotracking_type'] != '')
 		if ($info['continent']) $type_list['continent']	= $strContinent;
 		if ($info['country']) $type_list['country']	= $strCountry;
 		if ($info['region']) $type_list['region'] = $strUSCAState;
-		if ($info['fips'])
+		if ($info['fips_code'])
 		{
 			foreach ($phpAds_cont_name as $k => $v)
 			{
@@ -69,7 +69,7 @@ if ($phpAds_config['geotracking_type'] != '')
 				if ($k == 'AQ')
 					continue;
 					
-				$type_list['fips_'.$k] = sprintf($strFIPSRegion, $v);
+				$type_list['fips_code_'.$k] = sprintf($strFIPSRegion, $v);
 			}
 		}
 		if ($info['city']) $type_list['city'] = $strCity;
@@ -175,7 +175,7 @@ if (isset($action))
 		
 		if ($type == 'time' || $type == 'weekday' || $type == 'browser' || $type == 'os' ||
 			$type == 'country' || $type == 'continent' || $type == 'region' || $type == 'language' ||
-			strpos($type, 'fips') === 0 || $type == 'dma_code' || $type == 'netspeed')
+			strpos($type, 'fips_code') === 0 || $type == 'dma_code' || $type == 'netspeed')
 		{
 			$acl[$last]['data'] = array();
 		}
@@ -211,7 +211,7 @@ elseif (isset($submit))
 			{
 				if (isset($acl[$key]['data']))
 				{
-					if (strpos($acl[$key]['type'], 'fips') === 0)
+					if (strpos($acl[$key]['type'], 'fips_code') === 0)
 						$acl[$key]['type'] = 'fips_code';
 					
 					if ($acl[$key]['type'] == 'time' || $acl[$key]['type'] == 'weekday' || 
@@ -834,7 +834,7 @@ if ($phpAds_config['acl'])
 				if (!isset($acl[$key]['data']))
 					$acl[$key]['data'] = array();
 
-				echo "<b>".$strShowCountry."&nbsp;</b><select id='fips_".$key."' onChange='cascadebox_change(this)'>";
+				echo "<b>".$strShowCountry."&nbsp;</b><select id='fips_code_".$key."' onChange='cascadebox_change(this)'>";
 				echo "<option value=''>".$strShowAllCountries."</option>";
 				echo "<option disabled>".'----------------'."</option>";
 				
@@ -855,12 +855,12 @@ if ($phpAds_config['acl'])
 					if ($phpAds_continent[$country] != $cont)
 						continue;
 					
-					echo "<div class='boxtitle' id='fips_".$key."_".$country."_title'>&nbsp;".$phpAds_ISO3166[$country]."</div>";
+					echo "<div class='boxtitle' id='fips_code_".$key."_".$country."_title'>&nbsp;".$phpAds_ISO3166[$country]."</div>";
 					
 					$i = 0;
 					while (list($code,$fullname) = each ($fips_codes))
 					{
-						echo "<div class='boxrow' id='fips_".$key."_".$country."_".($i++)."'><input tabindex='".($tabindex++)."' ";
+						echo "<div class='boxrow' id='fips_code_".$key."_".$country."_".($i++)."'><input tabindex='".($tabindex++)."' ";
 						echo "type='checkbox' id='check_".$key."_".$country.$code."' name='acl[".$key."][data][]' value='".$country.$code."'".(in_array ($country.$code, $acl[$key]['data']) ? ' checked' : '')." align='middle'>".$fullname;
 						echo "</div>\n";
 					}
