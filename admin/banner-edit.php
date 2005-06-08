@@ -1243,7 +1243,7 @@ if ($storagetype == 'sql')
 		echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' tabindex='".($tabindex++)."'></td></tr>";
 	}
 	
-	if (!isset($bannerid) || (isset($row['contenttype']) && $row['contenttype'] == 'swf'))
+	if (!isset($row['contenttype']) && $row['contenttype'] == 'swf')
 	{
 		echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 		echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
@@ -1416,7 +1416,7 @@ if ($storagetype == 'web')
 		echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' tabindex='".($tabindex++)."'></td></tr>";
 	}
 	
-	if (!isset($bannerid) || (isset($row['contenttype']) && $row['contenttype'] == 'swf'))
+	if (!isset($row['contenttype']) && $row['contenttype'] == 'swf')
 	{
 		echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 		echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
