@@ -273,4 +273,25 @@ $phpAds_ISO3166['O1'] = "Other";
 if (file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/res-iso3166.lang.php'))
 	@include(phpAds_path.'/language/'.$phpAds_config['language'].'/res-iso3166.lang.php');
 
+
+phpAds_ISO3166_sort();
+
+
+
+// Private function
+
+function phpAds_ISO3166_sort()
+{
+	global $phpAds_ISO3166;
+	
+	asort($phpAds_ISO3166);
+	
+	foreach (array('A1', 'A2', 'O1') as $k)
+	{
+		$tmp = $phpAds_ISO3166[$k];
+		unset($phpAds_ISO3166[$k]);
+		$phpAds_ISO3166[$k] = $tmp;
+	}
+}
+
 ?>

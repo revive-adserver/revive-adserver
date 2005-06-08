@@ -92,4 +92,19 @@ $phpAds_ISO3166_2['CA']['YT'] = "Yukon Territories";
 if (file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/res-iso3166-2.lang.php'))
 	@include(phpAds_path.'/language/'.$phpAds_config['language'].'/res-iso3166-2.lang.php');
 
+
+phpAds_ISO3166_2_sort();
+
+
+
+// Private function
+
+function phpAds_ISO3166_2_sort()
+{
+	global $phpAds_ISO3166_2;
+	
+	foreach (array_keys($phpAds_ISO3166_2) as $k)
+		asort($phpAds_ISO3166_2[$k]);
+}
+
 ?>

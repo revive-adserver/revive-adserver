@@ -590,6 +590,7 @@ if (isset($type_errors) && $type_errors)
 	echo $strLimitationDropped."</div><br>";
 }
 
+
 // Begin form
 echo "<form action='banner-acl.php' method='post'>";
 echo "<input type='hidden' name='clientid' value='".$clientid."'>";
@@ -778,7 +779,6 @@ if ($phpAds_config['acl'])
 				if (!isset($acl[$key]['data']))
 					$acl[$key]['data'] = array();
 				
-				
 				echo "<div class='box'>";
 				
 				foreach ($phpAds_ISO3166 as $iso => $fullname)
@@ -838,12 +838,12 @@ if ($phpAds_config['acl'])
 				echo "<option value=''>".$strShowAllCountries."</option>";
 				echo "<option disabled>".'----------------'."</option>";
 				
-				foreach (array_keys($phpAds_FIPS) as $country)
+				foreach ($phpAds_ISO3166 as $country => $country_name)
 				{
-					if ($phpAds_continent[$country] != $cont)
+					if (!isset($phpAds_FIPS[$country]) || $phpAds_continent[$country] != $cont)
 						continue;
 					
-					echo "<option value='".$country."'>".$phpAds_ISO3166[$country]."</option>";
+					echo "<option value='".$country."'>".$country_name."</option>";
 				}
 					
 				echo "</select><br>";
