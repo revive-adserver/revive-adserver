@@ -302,6 +302,7 @@ $GLOBALS['strAdminCheckDaily']		= "Täglich";
 $GLOBALS['strAdminCheckWeekly']		= "Wöchentlich";
 $GLOBALS['strAdminCheckMonthly']		= "Monatlich";
 $GLOBALS['strAdminCheckNever']		= "Nie"; 
+$GLOBALS['strAdminCheckDevBuilds']		= "Nach neuen Entwickler-Versionen fragen";
 
 $GLOBALS['strAdminNovice']			= "Löschvorgänge im Admin-Bereich nur mit Sicherheitsbestätigung";
 $GLOBALS['strUserlogEmail']			= "Alle ausgehende eMails protokollieren ";
