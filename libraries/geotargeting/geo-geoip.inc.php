@@ -275,6 +275,9 @@ function phpAds_geoip_seek($fp, $ipnum)
 		if (is_array($conf))
 			extract($conf);
 	}
+
+	if ($record_length <= 0)
+		return false;
 		
 	$countrycodes = array(
 		false, 'AP', 'EU', 'AD', 'AE', 'AF', 'AG', 'AI', 'AL', 'AM', 'AN', 'AO', 'AQ',
