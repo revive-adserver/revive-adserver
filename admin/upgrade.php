@@ -56,11 +56,6 @@ if (!count($HTTP_POST_VARS) && !count($HTTP_GET_VARS))
 require (phpAds_path.'/libraries/defaults/config.template.php');
 
 
-// Register input variables
-require ("../libraries/lib-io.inc.php");
-phpAds_registerGlobal ('step', 'ignore', 'retry');
-
-
 // Include config edit library
 require ("lib-config.inc.php");
 include ("../libraries/lib-db.inc.php");
@@ -69,6 +64,14 @@ include ("../libraries/lib-db.inc.php");
 // Read the config file and overwrite default values
 phpAds_ConfigFileUpdatePrepare();
 phpAds_ConfigFileUpdateExport();
+
+
+// Register input variables
+//
+// Moved here because we need to know if pack cookies is enabled or not
+//
+require ("../libraries/lib-io.inc.php");
+phpAds_registerGlobal ('step', 'ignore', 'retry');
 
 
 // Exclude loading of js-form.php
@@ -478,8 +481,11 @@ if (phpAds_isUser(phpAds_Admin))
 				$phpAds_config['geotracking_type'] = 'geoip';
 				phpAds_SettingsWriteAdd('geotracking_type', 'geoip');
 			}
-				
-			include(phpAds_path.'/libraries/geotargeting/geo-'.$phpAds_config['geotracking_type'].'.inc.php');
+		}
+		
+		if ($phpAds_config['geotracking_type'])
+		{
+			@include(phpAds_path.'/libraries/geotargeting/geo-'.$phpAds_config['geotracking_type'].'.inc.php');
 						
 			if (function_exists('phpAds_'.$phpAds_geoPluginID.'_getConf'))
 				$geoconf = call_user_func('phpAds_'.$phpAds_geoPluginID.'_getConf', $phpAds_config['geotracking_location']);

@@ -1,6 +1,13 @@
 phpAdsNew - ChangeLog
 
 
+CVS
+			+ Misc bugfixes
+			  - 2005-06-12:  Fixed PHP errors during invocation when the GeoIP configuration data wasn't correctly saved  (Matteo)
+			  - 2005-06-13:  Upgrade from 2.0.5-rc1 wasn't working if pack cookies was enabled  (Matteo)
+			  - 2005-06-13:  Geotargeting plug-in configuration is now recreated during upgrade  (Matteo)
+
+
 phpAdsNew 2.0.5 RC2
 			+ Misc changes
 			  - 2005-06-06:  Added Half Page 300 x 600 IAB standard banner size  (Matteo)
