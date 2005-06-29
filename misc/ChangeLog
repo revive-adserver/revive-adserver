@@ -1,6 +1,10 @@
 phpAdsNew - ChangeLog
 
 
+phpAdsNew 2.0.5
+			+ Misc bugfixes
+			  - 2005-05-13:  Fixed Edd Dumbill's XML-RPC library vulnerability backporting the PEAR package fixes  (Matteo, thanks to Stefan Esser and the PEAR XML_RPC team)
+
 phpAdsNew 2.0.5 RC2
 			+ Misc changes
 			  - 2005-06-06:  Added Half Page 300 x 600 IAB standard banner size  (Matteo)
