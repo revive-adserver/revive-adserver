@@ -174,7 +174,7 @@ function xmlrpc_se($parser, $name, $attrs) {
 		$_xh[$parser]['qt']=0;
 	  break;
 	case "NAME":
-	  $_xh[$parser]['st'].="'"; $_xh[$parser]['ac']="";
+	  $_xh[$parser]['st'].='"'; $_xh[$parser]['ac']="";
 	  break;
 	case "FAULT":
 	  $_xh[$parser]['isf']=1;
@@ -239,7 +239,7 @@ function xmlrpc_ee($parser, $name) {
 	  $_xh[$parser]['cm']--;
 	  break;
 	case "NAME":
-	  $_xh[$parser]['st'].= $_xh[$parser]['ac'] . "' => ";
+	  $_xh[$parser]['st'].= $_xh[$parser]['ac'] . '" => ';
 	  break;
 	case "BOOLEAN":
 		// special case here: we translate boolean 1 or 0 into PHP
@@ -260,7 +260,7 @@ function xmlrpc_ee($parser, $name) {
 			// we use double quotes rather than single so backslashification works OK
 			$_xh[$parser]['st'].="\"". $_xh[$parser]['ac'] . "\""; 
 		} else if ($_xh[$parser]['qt']==2) {
-			$_xh[$parser]['st'].="base64_decode('". $_xh[$parser]['ac'] . "')"; 
+			$_xh[$parser]['st'].='base64_decode("'. $_xh[$parser]['ac'] . '")'; 
 		} else if ($name=="BOOLEAN") {
 			$_xh[$parser]['st'].=$_xh[$parser]['ac'];
 		} else {
