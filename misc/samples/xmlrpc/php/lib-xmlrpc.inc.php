@@ -14,8 +14,9 @@
 /* XML-RPC client code                                   */
 /*********************************************************/
 
-
-
+// Copyright (c) 1999,2000,2001 Edd Dumbill.
+// All rights reserved.
+//
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions
 // are met:
@@ -45,7 +46,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 // OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
+// Disabled automatic loading of library.
+// Niels Leenheer <niels@creatype.nl
+/*
 if (!function_exists('xml_parser_create')) {
 // Win 32 fix. From: "Leo West" <lwest@imaginet.fr>
 	if($WINDIR) {
@@ -54,6 +57,7 @@ if (!function_exists('xml_parser_create')) {
 		dl("xml.so");
 	}
 }
+*/
 
 $xmlrpcI4="i4";
 $xmlrpcInt="int";
@@ -170,7 +174,7 @@ function xmlrpc_se($parser, $name, $attrs) {
 		$_xh[$parser]['qt']=0;
 	  break;
 	case "NAME":
-	  $_xh[$parser]['st'].="'"; $_xh[$parser]['ac']="";
+	  $_xh[$parser]['st'].='"'; $_xh[$parser]['ac']="";
 	  break;
 	case "FAULT":
 	  $_xh[$parser]['isf']=1;
@@ -235,7 +239,7 @@ function xmlrpc_ee($parser, $name) {
 	  $_xh[$parser]['cm']--;
 	  break;
 	case "NAME":
-	  $_xh[$parser]['st'].= $_xh[$parser]['ac'] . "' => ";
+	  $_xh[$parser]['st'].= $_xh[$parser]['ac'] . '" => ';
 	  break;
 	case "BOOLEAN":
 		// special case here: we translate boolean 1 or 0 into PHP
@@ -256,7 +260,7 @@ function xmlrpc_ee($parser, $name) {
 			// we use double quotes rather than single so backslashification works OK
 			$_xh[$parser]['st'].="\"". $_xh[$parser]['ac'] . "\""; 
 		} else if ($_xh[$parser]['qt']==2) {
-			$_xh[$parser]['st'].="base64_decode('". $_xh[$parser]['ac'] . "')"; 
+			$_xh[$parser]['st'].='base64_decode("'. $_xh[$parser]['ac'] . '")'; 
 		} else if ($name=="BOOLEAN") {
 			$_xh[$parser]['st'].=$_xh[$parser]['ac'];
 		} else {
@@ -1069,6 +1073,7 @@ function phpAds_xmlrpcEncode($php_val) {
    global $xmlrpcArray;
    global $xmlrpcStruct;
    global $xmlrpcBoolean;
+   global $xmlrpcBase64;
 
    $type = gettype($php_val);
    $xmlrpc_val = new xmlrpcval;
@@ -1089,7 +1094,7 @@ function phpAds_xmlrpcEncode($php_val) {
          $xmlrpc_val->addScalar($php_val, $xmlrpcDouble);
          break;
       case "string":
-         $xmlrpc_val->addScalar($php_val, $xmlrpcString);
+         $xmlrpc_val->addScalar($php_val, $xmlrpcBase64); //$xmlrpcString);
          break;
 // <G_Giunta_2001-02-29>
 // Add support for encoding/decoding of booleans, since they are supported in PHP
