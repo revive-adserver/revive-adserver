@@ -1,6 +1,11 @@
 phpAdsNew - ChangeLog
 
 
+CVS
+			+ Misc bugfixes
+			  - 2005-07-06:  The new cookie handling was overwriting $_COOKIES when not necessary, causing troubles e.g. with vBullettin logout  (Matteo)
+
+
 phpAdsNew 2.0.5
 			+ Misc bugfixes
 			  - 2005-06-12:  Fixed PHP errors during invocation when the GeoIP configuration data wasn't correctly saved  (Matteo)

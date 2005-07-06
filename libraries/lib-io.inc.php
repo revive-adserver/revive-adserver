@@ -338,7 +338,8 @@ function phpAds_unpackCookies()
 	}
 	
 	// Update the superglobal too, just in case it is used for debug
-	$_COOKIE = $HTTP_COOKIE_VARS;
+	if (isset($HTTP_COOKIE_VARS) && is_array($HTTP_COOKIE_VARS))
+		$_COOKIE = $HTTP_COOKIE_VARS;
 }
 
 ?>
