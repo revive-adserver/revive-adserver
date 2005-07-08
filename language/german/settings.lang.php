@@ -43,7 +43,7 @@ $GLOBALS['strTablePrefixInvalid']		= "Ungültiges Vorzeichen (Präfix) im Tabellen
 $GLOBALS['strTableInUse']			= "Die genannte Datenbank wird bereits von ".$phpAds_productname.", genutzt. Verwenden Sie einen anderen Präfix oder lesen Sie im Handbuch die Hinweise für ein Upgrade.";
 $GLOBALS['strTableWrongType']		= "Der gewählte Tabellentype wird bei der Installation von ".$phpAds_dbmsname." nicht unterstützt";
 $GLOBALS['strMayNotFunction']			= "Folgende Probleme sind zu beheben, um fortzufahren";
-$GLOBALS['strFixProblemsBefore']		= "Folgende Teile müssen korrigiert werden, bevor der Installationsprozeß von ".$phpAds_productname." fortgesetzt werden kann. Informationen über Fehlermeldungen finden sich im Handbuch.";
+$GLOBALS['strFixProblemsBefore']		= "Folgende Elemente müssen korrigiert werden, bevor der Installationsprozeß von ".$phpAds_productname." fortgesetzt werden kann. Informationen über Fehlermeldungen finden sich im Handbuch.";
 $GLOBALS['strFixProblemsAfter']			= "Sollten Sie die oben aufgeführten Fehler nicht selbst heben können, nehmen Sie Kontakt mit der Systemadministration Ihres Servers auf. Diese wird Ihnen weiterhelfen können.";
 $GLOBALS['strIgnoreWarnings']			= "Ignoriere Warnungen";
 $GLOBALS['strWarningDBavailable']		= "Die eingesetzte PHP-Version unterstützt nicht die Verbindung zum ".$phpAds_dbmsname." Datenbankserver. Die PHP- ".$phpAds_dbmsname."-Erweiterung wird benötigt.";
@@ -82,7 +82,7 @@ $GLOBALS['strInstallMessageAdmin']		= " Bevor die Installation fortgesetzt werde
 $GLOBALS['strInstallMessageDatabase']	= $phpAds_productname." verwendet eine ".$phpAds_dbmsname."-Datenbank. Bevor die Installation fortgesetzt werden kann, ist die Angabe des Datenbank-Servers sowie Benutzername und Kennwort für die Datenbank notwendig. Diese Angaben werden für den Zugriff auf die Datenbank benötigt. Ggf. hat der Systemadministrator die Informationen.";
 $GLOBALS['strInstallSuccess']			= "<b>die Installation von ".$phpAds_productname." war erfolgreich.</b><br><br>Damit ".$phpAds_productname." korrekt arbeitet, muß sichergestellt sein, daß das Wartungsmodul (maintenance.php) stündlich aktiviert wird. Nähere Informationen finden sich im Handbuch. <br><br>
 Für weitere Einstellungen auf der Konfigurationsseite drücken Sie  <b>Weiter</b>. 
-<BR>
+<br>
 Der Schreibschutz der Datei <i>config.inc.php</i> sollte aus Sicherheitsgründen wieder gesetzt werden, sobald die Installation beendet ist.";
 $GLOBALS['strUpdateSuccess']		= "<b>Das Update von ".$phpAds_productname." war erfolgreich.</b><br><br>
 Damit ".$phpAds_productname." korrekt arbeitet, muß sichergestellt sein, daß das Wartungsmodul (maintenance.php) stündlich aktiviert wird. Nähere Informationen finden sich im Handbuch. <br><br>
@@ -176,7 +176,7 @@ $GLOBALS['strRetrieveRandom']			= "Zufallsbasierte Bannerselektion (Voreinstellu
 $GLOBALS['strRetrieveNormalSeq']		= "Sequentielle Bannerselektion";
 $GLOBALS['strWeightSeq']			= "Gewichtungsabhängige Bannerselektion ";
 $GLOBALS['strFullSeq']				= " Streng sequentielle Bannerselektion ";
-$GLOBALS['strUseConditionalKeys']		= "Logische Operatoren bei Direktauswahl zulässig ";
+$GLOBALS['strUseConditionalKeys']		= "Logische Operatoren bei Direktauswahl zulassen";
 $GLOBALS['strUseMultipleKeys']			= "Mehrere Schlüsselwörter je Banner für die Direkauswahl ";
 
 $GLOBALS['strZonesSettings']			= "Selektion über Zonen";
@@ -228,7 +228,8 @@ $GLOBALS['strTypeHtmlSettings']		= "Optionen für HTML-Banner";
 $GLOBALS['strTypeHtmlAuto']			= "HTML-Code zum Aufzeichnen der AdClicks modifizieren";
 $GLOBALS['strTypeHtmlPhp']			= "Ausführbarer PHP-Code ist in HTML-Banner zugelassen ";
 
-
+$GLOBALS['strCookieSettings']			= "Cookie Einstellungen";
+$GLOBALS['strPackCookies']				= "Cookies komprimieren, um max. Cookieanzahl zu begrenzen";
 
 // Host information and Geotargeting
 $GLOBALS['strHostAndGeo']			= "Geotargeting (Hostinformation und Standortbestimmung) der Besucher";
@@ -302,12 +303,12 @@ $GLOBALS['strAdminCheckDaily']		= "Täglich";
 $GLOBALS['strAdminCheckWeekly']		= "Wöchentlich";
 $GLOBALS['strAdminCheckMonthly']		= "Monatlich";
 $GLOBALS['strAdminCheckNever']		= "Nie"; 
-$GLOBALS['strAdminCheckDevBuilds']		= "Nach neuen Entwickler-Versionen fragen";
+$GLOBALS['strAdminCheckDevBuilds']		= "Nach neuen Entwickler-Versionen suchen";
 
 $GLOBALS['strAdminNovice']			= "Löschvorgänge im Admin-Bereich nur mit Sicherheitsbestätigung";
 $GLOBALS['strUserlogEmail']			= "Alle ausgehende eMails protokollieren ";
-$GLOBALS['strUserlogPriority']			= "Stündliche Rekalkulation der Prioritäten wird protokolliert";
-$GLOBALS['strUserlogAutoClean']		= "Protokollieren des Säuberns der Datenbank";
+$GLOBALS['strUserlogPriority']			= "Stündliche Rekalkulation der Prioritäten protokollieren";
+$GLOBALS['strUserlogAutoClean']		= "Säubern der Datenbank protokollieren";
 
 
 // User interface settings
@@ -336,7 +337,7 @@ $GLOBALS['strShowBannerInfo']			= "Anzeigen zusätzlicher Bannerinformationen auf
 $GLOBALS['strShowCampaignPreview']		= "Vorschau aller Banner auf der Seite  <i>Übersicht Banner </i>";
 $GLOBALS['strShowBannerHTML']			= "Anzeige des Banners anstelle des HTML-Codes bei Vorschau von HTML-Bannern ";
 $GLOBALS['strShowBannerPreview']		= "Bannervorschau oben auf allen Seiten mit dem Bezug zum Banner ";
-$GLOBALS['strHideInactive']			= "Verbergen inaktive Teile auf den Übersichtsseiten";
+$GLOBALS['strHideInactive']			= "Inaktive Elemente auf den Übersichtsseiten verbergen";
 $GLOBALS['strGUIShowMatchingBanners']		= "Anzeige der zugehörenden Banner auf der Seite <i>Verknüpfte Banner</i>";
 $GLOBALS['strGUIShowParentCampaigns']		= "Anzeige der zugehörenden Kampagnen auf der Seite <i>Veknüpfte Banner</i>";
 $GLOBALS['strGUILinkCompactLimit']		= "Verbergen nicht verknüpfter Banner, sofern es mehr sind als ";
@@ -360,6 +361,6 @@ $GLOBALS['strTableBackColor']			= "Table Back Color";
 $GLOBALS['strTableBackColorAlt']		= "Table Back Color (Alternative)";
 $GLOBALS['strMainBackColor']			= "Main Back Color";
 $GLOBALS['strOverrideGD']			= "Override GD Imageformat";
-$GLOBALS['strTimeZone']			= "Time Zone";
+$GLOBALS['strTimeZone']			= "Zeitzone";
 
 ?>
