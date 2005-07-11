@@ -35,13 +35,11 @@ if ($phpAds_config['log_adviews'] || $phpAds_config['acl'])
 {
 	require (phpAds_path."/libraries/lib-remotehost.inc.php");
 	
-	if ($phpAds_config['log_adviews'])
-		require (phpAds_path."/libraries/lib-log.inc.php");
-	
 	if ($phpAds_config['acl'])
 		require (phpAds_path."/libraries/lib-limitations.inc.php");
 }
 
+require (phpAds_path."/libraries/lib-log.inc.php");
 require	(phpAds_path."/libraries/lib-view-main.inc.php");
 require (phpAds_path."/libraries/lib-cache.inc.php");
 
