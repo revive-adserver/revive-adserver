@@ -319,13 +319,13 @@ if (phpAds_isUser(phpAds_Admin))
 			
 			if (!isset($errormessage) || !count($errormessage))
 			{
-				$installvars['dbhost'] 	 	 = $dbhost;
-				$installvars['dbport'] 	 	 = $dbport;
-				$installvars['dbuser'] 		 = $dbuser;
-				$installvars['dbpassword'] 	 = $dbpassword;
-				$installvars['dbname'] 		 = $dbname;
-				$installvars['table_prefix'] = $table_prefix;
-				$installvars['table_type'] 	 = $table_type;
+				$installvars['dbhost'] 	 	 = $phpAds_config['dbhost'];
+				$installvars['dbport'] 	 	 = $phpAds_config['dbport'];
+				$installvars['dbuser'] 		 = $phpAds_config['dbuser'];
+				$installvars['dbpassword'] 	 = $phpAds_config['dbpassword'];
+				$installvars['dbname'] 		 = $phpAds_config['dbname'];
+				$installvars['table_prefix'] = $phpAds_config['table_prefix'];
+				$installvars['table_type'] 	 = $phpAds_config['table_type'];
 				
 				// Create table names
 				$phpAds_config['tbl_clients'] 	 = $installvars['tbl_clients']    = $table_prefix.'clients';
