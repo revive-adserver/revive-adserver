@@ -286,9 +286,9 @@ if (phpAds_isUser(phpAds_Admin))
 			
 			$phpAds_config['compatibility_mode'] = false;
 			$phpAds_config['dbhost'] 	 		 = $dbhost;
-			$phpAds_config['dbport'] 	 		 = $dbport;
+			$phpAds_config['dbport'] 	 		 = isset($dbport) && $dbport ? $dbport : 3306;
 			$phpAds_config['dbuser'] 	 		 = $dbuser;
-			$phpAds_config['dbpassword'] 		 = $dbpassword;
+			$phpAds_config['dbpassword'] 		 = isset($dbpassword) ? $dbpassword : '';
 			$phpAds_config['dbname'] 	 		 = $dbname;
 			
 			
