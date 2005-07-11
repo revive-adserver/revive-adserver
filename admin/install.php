@@ -668,8 +668,7 @@ if (phpAds_isUser(phpAds_Admin))
 						array (
 							'type' 	  => 'text', 
 							'name' 	  => 'dbport',
-							'text' 	  => $strDbPort,
-							'req'	  => true
+							'text' 	  => $strDbPort
 						),
 						array (
 							'type'    => 'break'
@@ -686,8 +685,7 @@ if (phpAds_isUser(phpAds_Admin))
 						array (
 							'type' 	  => 'password', 
 							'name' 	  => 'dbpassword',
-							'text' 	  => $strDbPassword,
-							'req'	  => true
+							'text' 	  => $strDbPassword
 						),
 						array (
 							'type'    => 'break'
