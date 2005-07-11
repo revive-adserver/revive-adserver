@@ -712,7 +712,7 @@ function phpAds_upgradeSplitBanners ()
 					// Store the file
 					$banners[$i]['filename']	 = 'banner_'.$banners[$i]['bannerid'].'.'.$banners[$i]['contenttype'];
 					$banners[$i]['filename'] 	 = phpAds_ImageStore($banners[$i]['storagetype'], $banners[$i]['filename'], $banners[$i]['banner']);
-					$banners[$i]['imageurl']	 = $phpAds_config['url_prefix'].'/adimage.php?filename='.$banners[$i]['filename']."&contenttype=".$banners[$i]['contenttype'];
+					$banners[$i]['imageurl']	 = $phpAds_config['url_prefix'].'/adimage.php?filename='.$banners[$i]['filename']."&amp;contenttype=".$banners[$i]['contenttype'];
 					
 					$banners[$i]['htmltemplate'] = phpAds_getBannerTemplate($banners[$i]['contenttype']);
 					$banners[$i]['htmlcache']    = addslashes(phpAds_getBannerCache($banners[$i]));
@@ -886,7 +886,7 @@ function phpAds_upgradeHTMLCache ()
 	{
 		// Rebuild filename
 		if ($current['storagetype'] == 'sql')
-			$current['imageurl'] = "{url_prefix}/adimage.php?filename=".$current['filename']."&contenttype=".$current['contenttype'];
+			$current['imageurl'] = "{url_prefix}/adimage.php?filename=".$current['filename']."&amp;contenttype=".$current['contenttype'];
 		
 		if ($current['storagetype'] == 'web')
 			$current['imageurl'] = $phpAds_config['type_web_url'].'/'.$current['filename'];
