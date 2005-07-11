@@ -2,6 +2,10 @@ phpAdsNew - ChangeLog
 
 
 CVS
+			+ Misc changes
+			  - 2005-07-11:  Database password is now not mandatory during install, making easier using phpAdsNew on test installs  (Matteo)
+			  - 2005-07-11:  Added capability to connect to MySQL using an explicitly named socket  (Matteo)
+
 			+ Misc bugfixes
 			  - 2005-07-06:  The new cookie handling was overwriting $_COOKIES when not necessary, causing troubles e.g. with vBullettin logout - bug #1231476  (Matteo)
 			  - 2005-07-11:  An unescaped "&" was present in the bannercode when using local invocation and SQL stored banners - bug #1235074  (Matteo)
