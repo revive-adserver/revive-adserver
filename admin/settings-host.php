@@ -48,13 +48,16 @@ if (isset($save_settings) && $save_settings != '')
 			{
 				phpAds_SettingsWriteAdd('geotracking_type', $geotracking_type);
 
+				if ($no_location = ($geotracking_type == 'mod_geoip'))
+					$geotracking_location = '';
+
 				if (isset($geotracking_location))
 				{
 					if (substr($geotracking_location, 0, 7) == 'http://')
 					{
 						$errormessage[1][] = str_replace('{example}', $HTTP_SERVER_VARS['DOCUMENT_ROOT'].'/Geo.dat', $strGeotrackingLocationNoHTTP);
 					}
-					elseif (!file_exists($geotracking_location))
+					elseif (!$no_location && !file_exists($geotracking_location))
 						$errormessage[1][] = $strGeotrackingLocationError;
 					else
 					{
