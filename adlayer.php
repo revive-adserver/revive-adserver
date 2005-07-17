@@ -51,7 +51,7 @@ require (phpAds_path."/libraries/lib-cache.inc.php");
 /* Java-encodes text                                     */
 /*********************************************************/
 
-function enjavanate ($str, $limit = 60)
+function enjavanate ($str, $limit = 0)
 {
 	$str   = str_replace("\r", '', $str);
 	
@@ -59,14 +59,18 @@ function enjavanate ($str, $limit = 60)
 	
 	while (strlen($str) > 0)
 	{
-		$line = substr ($str, 0, $limit);
-		$str  = substr ($str, $limit);
+		if ($limit)
+		{
+			$line = substr ($str, 0, $limit);
+			$str  = substr ($str, $limit);
+		}
+		else
+		{
+			$line = $str;
+			$str  = '';
+		}
 		
-		$line = str_replace('\\', "\\\\", $line);
-		$line = str_replace('\'', "\\'", $line);
-		$line = str_replace("\r", '', $line);
-		$line = str_replace("\n", "\\n", $line);
-		$line = str_replace("\t", "\\t", $line);
+		$line = addcslashes($line, "\0..\37'\\");
 		$line = str_replace('<', "<'+'", $line);
 		
 		print "phpadsbanner += '$line';\n";
@@ -175,7 +179,9 @@ if (!isset($context)) $context = '';
 if (isset($HTTP_SERVER_VARS['HTTP_REFERER'])) unset($HTTP_SERVER_VARS['HTTP_REFERER']);
 if (isset($HTTP_REFERER)) unset($HTTP_REFERER);
 
-if (!isset($layerstyle) || empty($layerstyle)) $layerstyle = 'geocities';
+// Sanitize layerstyle variable
+if (!isset($layerstyle) || empty($layerstyle) || preg_match('/[^a-z0-9_-]/i', $layerstyle))
+	$layerstyle = 'geocities';
 
 
 // Include layerstyle

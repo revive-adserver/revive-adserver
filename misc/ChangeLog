@@ -11,6 +11,7 @@ CVS
 			  - 2005-07-11:  An unescaped "&" was present in the bannercode when using local invocation and SQL stored banners - bug #1235074  (Matteo)
 			  - 2005-07-11:  Fixed problems when selecting mod_geoip geotracking plug-in in host settings - bug #1235843  (Matteo)
 			  - 2005-07-11:  Plain remote invocation wasn't correclty working when adviews logging was disabled  (Matteo)
+			  - 2005-07-17:  Fixed local file inclusion security issues - bug #1239473  (Matteo)
 
 
 phpAdsNew 2.0.5
