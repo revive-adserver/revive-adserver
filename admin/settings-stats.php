@@ -62,10 +62,10 @@ if (isset($save_settings) && $save_settings != '')
 			phpAds_settingsWriteAdd('ignore_hosts', array());
 	}
 	
-	if (isset($block_adviews))
-		phpAds_SettingsWriteAdd('block_adviews', $block_adviews);
-	if (isset($block_adclicks))
-		phpAds_SettingsWriteAdd('block_adclicks', $block_adclicks);
+	if (isset($block_adviews) && $block_adviews >= 0)
+		phpAds_SettingsWriteAdd('block_adviews', (int)$block_adviews);
+	if (isset($block_adclicks) && $block_adclicks >= 0)
+		phpAds_SettingsWriteAdd('block_adclicks', (int)$block_adclicks);
 	
 	
 	
