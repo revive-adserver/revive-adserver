@@ -1,7 +1,7 @@
 phpAdsNew - ChangeLog
 
 
-CVS
+phpAdsNew 2.0.6
 			+ Misc changes
 			  - 2005-07-11:  Database password is now not mandatory during install, making easier using phpAdsNew on test installs  (Matteo)
 			  - 2005-07-11:  Added capability to connect to MySQL using an explicitly named socket  (Matteo)
