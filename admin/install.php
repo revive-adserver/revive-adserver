@@ -324,8 +324,8 @@ if (phpAds_isUser(phpAds_Admin))
 				$installvars['dbuser'] 		 = $phpAds_config['dbuser'];
 				$installvars['dbpassword'] 	 = $phpAds_config['dbpassword'];
 				$installvars['dbname'] 		 = $phpAds_config['dbname'];
-				$installvars['table_prefix'] = $phpAds_config['table_prefix'];
-				$installvars['table_type'] 	 = $phpAds_config['table_type'];
+				$installvars['table_prefix'] = $table_prefix;
+				$installvars['table_type'] 	 = $table_type;
 				
 				// Create table names
 				$phpAds_config['tbl_clients'] 	 = $installvars['tbl_clients']    = $table_prefix.'clients';
