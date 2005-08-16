@@ -1,5 +1,5 @@
 
-    phpAdsNew 2.0.5
+    phpAdsNew 2.0.6
     ------------------------------------------------------------------------
 
     phpAdsNew is an open-source ad server, with an integrated banner management 
@@ -67,7 +67,7 @@
 
     Requirements: 
     ------------------------------------------------------------------------
-    PHP 4.0.3 or higher (4.3.3 recommended)
+    PHP 4.0.4 or higher (4.3.9+ recommended)
     MySQL 3.23.3 or higher (InnoDB recommended)
 
     phpAdsNew is currently not tested against PHP 5 and definately not

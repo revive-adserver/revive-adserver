@@ -55,26 +55,20 @@ function phpAds_xmlrpcView ($msg)
 	global $xmlrpcerruser;
 
 	$view_params = array();
-	$view_arrays = array();
-
-	$params = array(
-		array('name' => 'remote_info',	'scalar' => false,	'type' => 'struct'),
-		array('name' => 'what',			'scalar' => true,	'type' => 'string'),
-		array('name' => 'clientid',		'scalar' => true,	'type' => 'int'),
-		array('name' => 'target',		'scalar' => true,	'type' => 'string'),
-		array('name' => 'source',		'scalar' => true,	'type' => 'string'),
-		array('name' => 'withtext',		'scalar' => true,	'type' => 'boolean'),
-		array('name' => 'context',		'scalar' => false)
-	);
 
 	// Parse parameters
 	for ($i = 0; $i < $msg->getNumParams(); $i++)
 	{
 		$p = $msg->getParam($i);
 		
-		if ($params[$i]['name'] == 'remote_info')
+		if ($i)
 		{
-			// Remote information supplied be XML-RPC client
+			// Put the decoded value the view arg array
+			$view_params[] = phpAds_xmlrpcDecode($p);
+		}
+		else
+		{
+			// First parameter: Remote information supplied be XML-RPC client
 			$p = phpAds_xmlrpcDecode($p);
 
 			if (!isset($p['remote_addr']))
@@ -103,32 +97,10 @@ function phpAds_xmlrpcView ($msg)
 				}
 			}
 		}
-		elseif ($p->kindOf() == 'scalar')
-		{						 
-			// Scalar parameter - put the right value in view arg queue
-
-			$p = $p->scalarval();
-
-			switch ($params[$i]['type'])
-			{
-				case 'int':		$view_params[] = $p; break;
-				case 'boolean':	$view_params[] = $p ? 'true' : 'false'; break;
-				default:		$view_params[] = "'".addcslashes($p, "\0..\37'")."'"; break;
-			}
-		}
-		else
-		{
-			// Non-scalar parameter - put the decoded value in a temp array
-			// for the view arg queue
-
-			$view_arrays[] = phpAds_xmlrpcDecode($p);
-			$view_params[] = '$view_arrays['.(count($view_arrays)-1).']';
-		}
 	}
-	
 
 	// Call view with supplied parameters
-	eval('$output = view_raw('.join(', ', $view_params).');');
+	$output = call_user_func_array('view_raw', $view_params);
 
 	// What parameter should be always set
 	if (!is_array($output))
