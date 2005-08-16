@@ -13,6 +13,8 @@ CVS
 			  - 2005-07-11:  Plain remote invocation wasn't correclty working when adviews logging was disabled  (Matteo)
 			  - 2005-07-17:  Fixed local file inclusion security issues - bug #1239473  (Matteo)
 			  - 2005-08-05:  Submitting blank block_adviews/clicks in statistics settings was causing an error into config.inc.php - bug #1249803  (Matteo)
+			  - 2005-08-16:  Fixed SQL injection vulnerability in lib-view-direct.inc.php  (Matteo, thanks to Pine Digital Security)
+			  - 2005-08-16:  Fixed another XML-RPC vulnerability by upgrading the bundled xmlrpc library  (Matteo, thanks to Stefan Esser)
 
 
 phpAdsNew 2.0.5
