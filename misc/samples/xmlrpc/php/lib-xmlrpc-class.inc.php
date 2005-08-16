@@ -64,8 +64,6 @@ class phpAds_XmlRpc
 		
 		// Create client object
 		$this->client=new xmlrpc_client($path."/adxmlrpc.php", $host, $port);
-	
-		$this->client->setDebug(1);
 
 		// Collect remote host information for the adserver
 		$this->remote_info = array();
