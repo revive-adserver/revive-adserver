@@ -26,6 +26,7 @@ $phpAds_producturl = "www.phpadsnew.com";
 $phpAds_dbmsname = "MySQL";
 
 $GLOBALS['phpAds_settings_information'] = array(
+	'dblocal' => 					array ('type' => 'boolean', 'sql' => false),
 	'dbhost' => 					array ('type' => 'string', 	'sql' => false),
 	'dbport' => 					array ('type' => 'integer', 'sql' => false),
 	'dbuser' => 					array ('type' => 'string', 	'sql' => false),

@@ -19,7 +19,7 @@ include ("lib-settings.inc.php");
 
 
 // Register input variables
-phpAds_registerGlobal ('save_settings', 'dbhost', 'dbport', 'dbuser', 'dbpassword', 'dbname', 
+phpAds_registerGlobal ('save_settings', 'dblocal', 'dbhost', 'dbport', 'dbuser', 'dbpassword', 'dbname', 
 					   'persistent_connections', 'insert_delayed', 
 					   'compatibility_mode', 'auto_clean_tables_vacuum');
 
@@ -36,16 +36,21 @@ if (isset($save_settings) && $save_settings != '')
 	if (isset($dbpassword) && ereg('^\*+$', $dbpassword))
 		$dbpassword = $phpAds_config['dbpassword'];
 	
+	// Add starting ":" to host if not present
+	if (isset($dblocal) && !ereg('^:', $dbhost))
+		$dbhost = ':'.$dbhost;
+	
 	if (isset($dbhost) && isset($dbuser) && isset($dbpassword) && isset($dbname))
 	{
 		phpAds_dbClose();
 		
 		unset($phpAds_db_link);
 		
+		$phpAds_config['dblocal'] = isset($dblocal);
 		$phpAds_config['dbhost'] = $dbhost;
-		$phpAds_config['dbport'] = $dbport;
+		$phpAds_config['dbport'] = isset($dbport) && $dbport ? $dbport : 3306;;
 		$phpAds_config['dbuser'] = $dbuser;
-		$phpAds_config['dbpassword'] = $dbpassword;
+		$phpAds_config['dbpassword'] = isset($dbpassword) ? $dbpassword : '';
 		$phpAds_config['dbname'] = $dbname;
 		$phpAds_config['persistent_connections'] = isset($persistent_connections) ? true : false;
 		
@@ -53,11 +58,11 @@ if (isset($save_settings) && $save_settings != '')
 			$errormessage[0][] = $strCantConnectToDb;
 		else
 		{
-			phpAds_SettingsWriteAdd('dbname', $dbhost);
-			phpAds_SettingsWriteAdd('dbport', $dbport);
-			phpAds_SettingsWriteAdd('dbuser', $dbuser);
-			phpAds_SettingsWriteAdd('dbpassword', $dbpassword);
-			phpAds_SettingsWriteAdd('dbname', $dbname);
+			phpAds_SettingsWriteAdd('dblocal', $phpAds_config['dbhost']);
+			phpAds_SettingsWriteAdd('dbname', $phpAds_config['dbhost']);
+			phpAds_SettingsWriteAdd('dbport', $phpAds_config['dbport']);
+			phpAds_SettingsWriteAdd('dbuser', $phpAds_config['dbuser']);
+			phpAds_SettingsWriteAdd('dbpassword', $phpAds_config['dbpassword']);
 			
 			phpAds_SettingsWriteAdd('persistent_connections', isset($persistent_connections));
 		}
@@ -100,6 +105,12 @@ array (
 	'text' 	  => $strDatabaseServer,
 	'items'	  => array (
 		array (
+			'type' 	  => 'checkbox', 
+			'name' 	  => 'dblocal',
+			'text' 	  => $strDbLocal,
+			'req'	  => true
+		),
+		array (
 			'type' 	  => 'text', 
 			'name' 	  => 'dbhost',
 			'text' 	  => $strDbHost,
@@ -112,7 +123,8 @@ array (
 			'type' 	  => 'text', 
 			'name' 	  => 'dbport',
 			'text' 	  => $strDbPort,
-			'req'	  => true
+			'req'	  => true,
+			'depends' => 'dblocal==false'
 		),
 		array (
 			'type'    => 'break'

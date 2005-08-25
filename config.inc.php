@@ -9,6 +9,9 @@
 /* Database configuration                                */
 /*********************************************************/
 
+// Database local connection using sockets
+$phpAds_config['dblocal'] = false;
+
 // Database hostname
 $phpAds_config['dbhost'] = 'localhost';
 

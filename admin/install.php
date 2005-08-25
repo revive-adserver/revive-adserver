@@ -67,7 +67,7 @@ require ("../config.inc.php");
 
 // Register input variables
 require ("../libraries/lib-io.inc.php");
-phpAds_registerGlobal ('installvars', 'language', 'phase', 'dbhost', 'dbport', 'dbuser', 'dbpassword', 'dbname', 'table_prefix', 
+phpAds_registerGlobal ('installvars', 'language', 'phase', 'dblocal', 'dbhost', 'dbport', 'dbuser', 'dbpassword', 'dbname', 'table_prefix', 
 					   'table_type', 'admin', 'admin_pw', 'admin_pw2', 'url_prefix', 'arraybugcheck', 'ignore', 'admin_fullname',
 					   'company_name', 'admin_email');
 
@@ -283,8 +283,13 @@ if (phpAds_isUser(phpAds_Admin))
 			if (isset($dbpassword) && ereg('^\*+$', $dbpassword))
 				$dbpassword = $phpAds_config['dbpassword'];
 			
+			// Add starting ":" to host if not present
+			if (isset($dblocal) && !ereg('^:', $dbhost))
+				$dbhost = ':'.$dbhost;
+			
 			
 			$phpAds_config['compatibility_mode'] = false;
+			$phpAds_config['dblocal'] 	 		 = isset($dblocal);
 			$phpAds_config['dbhost'] 	 		 = $dbhost;
 			$phpAds_config['dbport'] 	 		 = isset($dbport) && $dbport ? $dbport : 3306;
 			$phpAds_config['dbuser'] 	 		 = $dbuser;
@@ -319,6 +324,7 @@ if (phpAds_isUser(phpAds_Admin))
 			
 			if (!isset($errormessage) || !count($errormessage))
 			{
+				$installvars['dblocal']	 	 = $phpAds_config['dblocal'];
 				$installvars['dbhost'] 	 	 = $phpAds_config['dbhost'];
 				$installvars['dbport'] 	 	 = $phpAds_config['dbport'];
 				$installvars['dbuser'] 		 = $phpAds_config['dbuser'];
@@ -359,6 +365,7 @@ if (phpAds_isUser(phpAds_Admin))
 								// Insert basic settings into database and config file
 								phpAds_SettingsWriteAdd('config_version', $phpAds_version);
 								
+								phpAds_SettingsWriteAdd('dblocal', $installvars['dbhost']);
 								phpAds_SettingsWriteAdd('dbhost', $installvars['dbhost']);
 								phpAds_SettingsWriteAdd('dbport', $installvars['dbport']);
 								phpAds_SettingsWriteAdd('dbuser', $installvars['dbuser']);
@@ -657,6 +664,12 @@ if (phpAds_isUser(phpAds_Admin))
 					'text' 	  => $strDatabaseSettings,
 					'items'	  => array (
 						array (
+							'type' 	  => 'checkbox', 
+							'name' 	  => 'dblocal',
+							'text' 	  => $strDbLocal,
+							'req'	  => true
+						),
+						array (
 							'type' 	  => 'text', 
 							'name' 	  => 'dbhost',
 							'text' 	  => $strDbHost,
@@ -668,7 +681,8 @@ if (phpAds_isUser(phpAds_Admin))
 						array (
 							'type' 	  => 'text', 
 							'name' 	  => 'dbport',
-							'text' 	  => $strDbPort
+							'text' 	  => $strDbPort,
+							'depends' => 'dblocal==false'
 						),
 						array (
 							'type'    => 'break'

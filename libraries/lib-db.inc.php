@@ -67,7 +67,7 @@ function phpAds_dbConnect()
 
 	$host = $phpAds_config['dbhost'];
 	
-	if ($phpAds_config['dbport'] != 3306)
+	if (!$phpAds_config['dblocal'])
 		$host .= ':'.$phpAds_config['dbport'];
 
     if ($phpAds_config['persistent_connections'])
