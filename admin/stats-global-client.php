@@ -183,38 +183,38 @@ if (!$phpAds_config['compact_stats'])
 {
 	switch ($period)
 	{
-		case 'r':	$limit 		    	= " AND t_stamp >= ".date('YmdHis', $period_begin)." AND t_stamp < ".date('YmdHis', $period_end);
+		case 'r':	$limit 		    	= "t_stamp >= ".date('YmdHis', $period_begin)." AND t_stamp < ".date('YmdHis', $period_end);
 					break;
 				
 		case 'y':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d') - 1, date('Y'));	
 					$timestamp_end		= mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-					$limit 		    	= " AND t_stamp >= ".date('YmdHis', $timestamp_begin)." AND t_stamp < ".date('YmdHis', $timestamp_end);
+					$limit 		    	= "t_stamp >= ".date('YmdHis', $timestamp_begin)." AND t_stamp < ".date('YmdHis', $timestamp_end);
 					break;
 				
 		case 't':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-					$limit 				= " AND t_stamp >= ".date('YmdHis', $timestamp_begin);
+					$limit 				= "t_stamp >= ".date('YmdHis', $timestamp_begin);
 					break;
 				
 		case 'w':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d') - 6, date('Y'));
-					$limit 				= " AND t_stamp >= ".date('YmdHis', $timestamp_begin);
+					$limit 				= "t_stamp >= ".date('YmdHis', $timestamp_begin);
 					break;
 				
 		case 'm':	$timestamp_begin	= mktime(0, 0, 0, date('m'), 1, date('Y'));
-					$limit 				= " AND t_stamp >= ".date('YmdHis', $timestamp_begin);
+					$limit 				= "t_stamp >= ".date('YmdHis', $timestamp_begin);
 					break;
 				
 		case 'l':	$timestamp_begin	= mktime(0, 0, 0, date('m')-1, 1, date('Y'));
 					$timestamp_end		= mktime(0, 0, 0, date('m'), 0, date('Y'));
-					$limit 		    	= " AND t_stamp >= ".date('YmdHis', $timestamp_begin)." AND t_stamp < ".date('YmdHis', $timestamp_end);
+					$limit 		    	= "t_stamp >= ".date('YmdHis', $timestamp_begin)." AND t_stamp < ".date('YmdHis', $timestamp_end);
 					break;
 				
 		case 'z':	$timestamp_begin	= mktime(0, 0, 0, 1, 1, date('Y'));
-					$limit 				= " AND t_stamp >= ".date('YmdHis', $timestamp_begin);
+					$limit 				= "t_stamp >= ".date('YmdHis', $timestamp_begin);
 					break;
 
 		case 'x':	$timestamp_begin	= mktime(0, 0, 0, 1, 1, date('Y')-1);
 					$timestamp_end		= mktime(0, 0, 0, 1, 0, date('Y'));
-					$limit 		    	= " AND t_stamp >= ".date('YmdHis', $timestamp_begin)." AND t_stamp < ".date('YmdHis', $timestamp_end);
+					$limit 		    	= "t_stamp >= ".date('YmdHis', $timestamp_begin)." AND t_stamp < ".date('YmdHis', $timestamp_end);
 					break;
 				
 		default:	$limit = '';
@@ -226,39 +226,39 @@ else
 {
 	switch ($period)
 	{
-		case 'r':	$limit 		    	= " AND day >= ".date('Ymd', $period_begin)." AND day < ".date('Ymd', $period_end);
+		case 'r':	$limit 		    	= "day >= ".date('Ymd', $period_begin)." AND day < ".date('Ymd', $period_end);
 					break;
 				
 		case 'y':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d') - 1, date('Y'));
 					$timestamp_end		= mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-					$limit 				= " AND day >= ".date('Ymd', $timestamp_begin)." AND day < ".date('Ymd', $timestamp_end);
+					$limit 				= "day >= ".date('Ymd', $timestamp_begin)." AND day < ".date('Ymd', $timestamp_end);
 					break;
 				
 		case 't':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-					$limit 				= " AND day >= ".date('Ymd', $timestamp_begin);
+					$limit 				= "day >= ".date('Ymd', $timestamp_begin);
 					break;
 				
 		case 'w':	$timestamp_begin	= mktime(0, 0, 0, date('m'), date('d') - 6, date('Y'));
-					$limit 				= " AND day >= ".date('Ymd', $timestamp_begin);
+					$limit 				= "day >= ".date('Ymd', $timestamp_begin);
 					break;
 				
 		case 'm':	$timestamp_begin	= mktime(0, 0, 0, date('m'), 1, date('Y'));
-					$limit 				= " AND day >= ".date('Ymd', $timestamp_begin);
+					$limit 				= "day >= ".date('Ymd', $timestamp_begin);
 					break;
 				
 
 		case 'l':	$timestamp_begin	= mktime(0, 0, 0, date('m')-1, 1, date('Y'));
 					$timestamp_end		= mktime(0, 0, 0, date('m'), 0, date('Y'));
-					$limit 				= " AND day >= ".date('Ymd', $timestamp_begin)." AND day < ".date('Ymd', $timestamp_end);
+					$limit 				= "day >= ".date('Ymd', $timestamp_begin)." AND day < ".date('Ymd', $timestamp_end);
 					break;
 				
 		case 'z':	$timestamp_begin	= mktime(0, 0, 0, 1, 1, date('Y'));
-					$limit 				= " AND day >= ".date('Ymd', $timestamp_begin);
+					$limit 				= "day >= ".date('Ymd', $timestamp_begin);
 					break;
 
 		case 'x':	$timestamp_begin	= mktime(0, 0, 0, 1, 1, date('Y')-1);
 					$timestamp_end		= mktime(0, 0, 0, 1, 0, date('Y'));
-					$limit 				= " AND day >= ".date('Ymd', $timestamp_begin)." AND day < ".date('Ymd', $timestamp_end);
+					$limit 				= "day >= ".date('Ymd', $timestamp_begin)." AND day < ".date('Ymd', $timestamp_end);
 					break;
 				
 		default:	$limit = '';
@@ -302,6 +302,9 @@ while ($row_banners = phpAds_dbFetchArray($res_banners))
 
 if (count($bannerids))
 {
+	// Create WHERE clause
+	$where = $limit ? "WHERE ".$limit : '';
+
 	if (!$phpAds_config['compact_stats'])
 	{
 		$res_stats = phpAds_dbQuery("
@@ -310,8 +313,7 @@ if (count($bannerids))
 				count(*) as views
 			FROM 
 				".$phpAds_config['tbl_adviews']."
-			WHERE
-				bannerid IN (".join(', ', $bannerids).")".$limit."
+			".$where."
 			GROUP BY
 				bannerid
 			") or phpAds_sqlDie();
@@ -329,8 +331,7 @@ if (count($bannerids))
 				count(*) as clicks
 			FROM 
 				".$phpAds_config['tbl_adclicks']."
-			WHERE
-				bannerid IN (".join(', ', $bannerids).")".$limit."
+			".$where."
 			GROUP BY
 				bannerid
 			") or phpAds_sqlDie();
@@ -349,8 +350,7 @@ if (count($bannerids))
 				sum(clicks) as clicks
 			FROM 
 				".$phpAds_config['tbl_adstats']."
-			WHERE
-				bannerid IN (".join(', ', $bannerids).")".$limit."
+			".$where."
 			GROUP BY
 				bannerid
 			") or phpAds_sqlDie();

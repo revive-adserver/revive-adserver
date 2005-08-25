@@ -1,6 +1,11 @@
 phpAdsNew - ChangeLog
 
 
+CVS
+			+ Misc bugfixes
+			  - 2005-08-25:  Fixed bug which prevented stats-global-clients from working when there were many banners - bug #1267218  (Matteo)
+
+
 phpAdsNew 2.0.6
 			+ Misc changes
 			  - 2005-07-11:  Database password is now not mandatory during install, making easier using phpAdsNew on test installs  (Matteo)
