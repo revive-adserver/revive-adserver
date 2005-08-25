@@ -670,6 +670,9 @@ if (phpAds_isUser(phpAds_Admin))
 							'req'	  => true
 						),
 						array (
+							'type'    => 'break'
+						),
+						array (
 							'type' 	  => 'text', 
 							'name' 	  => 'dbhost',
 							'text' 	  => $strDbHost,

@@ -111,6 +111,9 @@ array (
 			'req'	  => true
 		),
 		array (
+			'type'    => 'break'
+		),
+		array (
 			'type' 	  => 'text', 
 			'name' 	  => 'dbhost',
 			'text' 	  => $strDbHost,
