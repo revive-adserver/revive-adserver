@@ -880,7 +880,7 @@ function phpAds_PriorityCalculate()
 					
 					$total_next_hours = 0;
 					for ($p = $period; $p < $period + $fix_in_no_hours; $p++)
-						$total_next_hours = isset($profile[$p]) ? $profile[$p] : 0;
+						$total_next_hours += isset($profile[$p]) ? $profile[$p] : 0;
 					
 					if ($avg_impressions_per_hour = $total_next_hours / $fix_in_no_hours)
 					{

@@ -4,6 +4,7 @@ phpAdsNew - ChangeLog
 CVS
 			+ Misc bugfixes
 			  - 2005-08-25:  Fixed bug which prevented stats-global-clients from working when there were many banners - bug #1267218  (Matteo)
+			  - 2005-09-09:  Fixed bug on calculations made during prority compensation (Matteo, thanks to mibus)
 
 
 phpAdsNew 2.0.6
