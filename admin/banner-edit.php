@@ -187,6 +187,10 @@ if (isset($submit))
 		// Remove temporary file
 		if (@file_exists($uploaded['tmp_name']))
 			@unlink ($uploaded['tmp_name']);
+
+		// Change directory separator to become Unix-like, otherwise basename
+		// on non-windows platforms could not work as expected
+		$uploaded['name'] = str_replace('\\', '/', $uploaded['name']);
 	}
 	
 	
@@ -195,10 +199,6 @@ if (isset($submit))
 	if ($url == 'http://')
 		$url = '';
 	
-	// Change directory separator to become Unix-like, otherwise basename
-	// on non-windows platforms could not work as expected
-	$uploaded['name'] = str_replace('\\', '/', $uploaded['name']);
-
 	if (!isset($target))
 		$target = '';
 	
