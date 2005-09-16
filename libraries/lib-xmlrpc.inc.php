@@ -814,7 +814,8 @@ if (!function_exists('xml_parser_create')) {
 				if ($_xh[$parser]['vt']=='value')
 				{
 					$_xh[$parser]['value']=$_xh[$parser]['ac'];
-					$_xh[$parser]['vt']=$xmlrpcString;
+					$_xh[$parser]['vt']=$$xmlrpc_val->addScalar($php_val, $xmlrpcString);
+;
 				}
 				/*if (strlen($_xh[$parser]['ac'])>0 &&
 					$_xh[$parser]['vt']==$xmlrpcString)
@@ -2136,7 +2137,7 @@ if (!function_exists('xml_parser_create')) {
 				$xmlrpc_val->addScalar($php_val, $xmlrpcDouble);
 				break;
 			case 'string':
-				$xmlrpc_val->addScalar($php_val, $xmlrpcString);
+				$xmlrpc_val->addScalar($php_val, $xmlrpcBase64); //$xmlrpcString);
 				break;
 				// <G_Giunta_2001-02-29>
 				// Add support for encoding/decoding of booleans, since they are supported in PHP
@@ -2188,7 +2189,7 @@ if (!function_exists('xml_parser_create')) {
 					$xmlrpc_val->addScalar($php_val, $xmlrpcDouble);
 					break;
 				case 'string':
-					$xmlrpc_val->addScalar($php_val, $xmlrpcString);
+					$xmlrpc_val->addScalar($php_val, $xmlrpcBase64); //$xmlrpcString);
 					break;
 					// <G_Giunta_2001-02-29>
 					// Add support for encoding/decoding of booleans, since they are supported in PHP

@@ -2136,7 +2136,7 @@ if (!function_exists('xml_parser_create')) {
 				$xmlrpc_val->addScalar($php_val, $xmlrpcDouble);
 				break;
 			case 'string':
-				$xmlrpc_val->addScalar($php_val, $xmlrpcString);
+				$xmlrpc_val->addScalar($php_val, $xmlrpcBase64); //$xmlrpcString);
 				break;
 				// <G_Giunta_2001-02-29>
 				// Add support for encoding/decoding of booleans, since they are supported in PHP
@@ -2188,7 +2188,7 @@ if (!function_exists('xml_parser_create')) {
 					$xmlrpc_val->addScalar($php_val, $xmlrpcDouble);
 					break;
 				case 'string':
-					$xmlrpc_val->addScalar($php_val, $xmlrpcString);
+					$xmlrpc_val->addScalar($php_val, $xmlrpcBase64); //$xmlrpcString);
 					break;
 					// <G_Giunta_2001-02-29>
 					// Add support for encoding/decoding of booleans, since they are supported in PHP
