@@ -365,7 +365,7 @@ if (phpAds_isUser(phpAds_Admin))
 								// Insert basic settings into database and config file
 								phpAds_SettingsWriteAdd('config_version', $phpAds_version);
 								
-								phpAds_SettingsWriteAdd('dblocal', $installvars['dbhost']);
+								phpAds_SettingsWriteAdd('dblocal', $installvars['dblocal']);
 								phpAds_SettingsWriteAdd('dbhost', $installvars['dbhost']);
 								phpAds_SettingsWriteAdd('dbport', $installvars['dbport']);
 								phpAds_SettingsWriteAdd('dbuser', $installvars['dbuser']);
