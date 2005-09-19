@@ -2,6 +2,9 @@ phpAdsNew - ChangeLog
 
 
 CVS
+			+ Misc changes
+			  - 2005-07-11:  Added new database setting to allow connection to the database using sockets  (Matteo)
+
 			+ Misc bugfixes
 			  - 2005-08-25:  Fixed bug which prevented stats-global-clients from working when there were many banners - bug #1267218  (Matteo)
 			  - 2005-09-09:  Fixed bug on calculations made during prority compensation (Matteo, thanks to mibus)
