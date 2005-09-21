@@ -2114,6 +2114,7 @@ if (!function_exists('xml_parser_create')) {
 		global $xmlrpcArray;
 		global $xmlrpcStruct;
 		global $xmlrpcBoolean;
+		global $xmlrpcBase64;
 
 		$type = gettype($php_val);
 		$xmlrpc_val = new xmlrpcval;
@@ -2166,6 +2167,7 @@ if (!function_exists('xml_parser_create')) {
 			global $xmlrpcArray;
 			global $xmlrpcStruct;
 			global $xmlrpcBoolean;
+			global $xmlrpcBase64;
 
 			$type = gettype($php_val);
 			$xmlrpc_val = new xmlrpcval;
