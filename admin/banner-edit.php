@@ -346,11 +346,11 @@ if (isset($submit))
 						if (isset($asource[$key]) && $asource[$key] != '')
 							$val .= '|source:'.$asource[$key];
 
-						$parameters_complete[] = 'alink'.$key.'={targeturl:'.$val.'}&atar'.$key.'='.$atar[$key];
+						$parameters_complete[] = 'alink'.$key.'={targeturl:'.$val.'}&amp;atar'.$key.'='.$atar[$key];
 					}
 				}
 
-				$parameter = implode ('&', $parameters_complete);
+				$parameter = implode ('&amp;', $parameters_complete);
 				$final['htmltemplate'] = str_replace ('{swf_param}', $parameter, $final['htmltemplate']);
 			}
 			
@@ -494,11 +494,11 @@ if (isset($submit))
 						if (isset($asource[$key]) && $asource[$key] != '')
 							$val .= '|source:'.$asource[$key];
 
-						$parameters_complete[] = 'alink'.$key.'={targeturl:'.$val.'}&atar'.$key.'='.$atar[$key];
+						$parameters_complete[] = 'alink'.$key.'={targeturl:'.$val.'}&amp;atar'.$key.'='.$atar[$key];
 					}
 				}
 
-				$parameter = implode ('&', $parameters_complete);
+				$parameter = implode ('&amp;', $parameters_complete);
 				$final['htmltemplate'] = str_replace ('{swf_param}', $parameter, $final['htmltemplate']);
 			}
 			

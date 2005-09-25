@@ -17,11 +17,12 @@
 // Define SWF tags
 define ('swf_tag_identify', 		 chr(0x46).chr(0x57).chr(0x53));
 define ('swf_tag_compressed', 		 chr(0x43).chr(0x57).chr(0x53));
-define ('swf_tag_geturl',   		 chr(0x00).chr(0x83));
+define ('swf_tag_geturl',   		 chr(0x83));
 define ('swf_tag_null',     		 chr(0x00));
 define ('swf_tag_actionpush', 		 chr(0x96));
 define ('swf_tag_actiongetvariable', chr(0x1C));
 define ('swf_tag_actiongeturl2', 	 chr(0x9A).chr(0x01));
+define ('swf_tag_actiongetmember', 	 chr(0x4E));
 
 
 // Define preferences
@@ -112,6 +113,31 @@ function phpAds_SWFDecompress($buffer)
 
 
 /*********************************************************/
+/* Upgrade version of a Flash file                       */
+/*********************************************************/
+
+function phpAds_SWFUpgrade($buffer)
+{
+	$version = ord(substr($buffer, 3, 1));
+	
+	if ($version < 5)
+	{
+		 $version = 5;
+		
+		$output = substr ($buffer, 0, 3);
+		$output .= chr($version);
+		$output .= substr ($buffer, 4, 4);
+		$output .= substr ($buffer, 8);
+		
+		return ($output);
+	}
+	else
+		return ($buffer);
+}
+
+
+
+/*********************************************************/
 /* Get the dimensions of the Flash banner                */
 /*********************************************************/
 
@@ -135,8 +161,8 @@ function phpAds_SWFDimensions($buffer)
 	$bits   = phpAds_SWFBits ($buffer, 64, 5);
 	
 	// Get rect
-	$width  = (int)(phpAds_SWFBits ($buffer, 69 + $bits, $bits) - phpAds_SWFBits ($buffer, 69, $bits)) / 20;
-	$height = (int)(phpAds_SWFBits ($buffer, 69 + (3 * $bits), $bits) - phpAds_SWFBits ($buffer, 69 + (2 * $bits), $bits)) / 20;
+	$width  = (int)((phpAds_SWFBits ($buffer, 69 + $bits, $bits) - phpAds_SWFBits ($buffer, 69, $bits)) / 20);
+	$height = (int)((phpAds_SWFBits ($buffer, 69 + (3 * $bits), $bits) - phpAds_SWFBits ($buffer, 69 + (2 * $bits), $bits)) / 20);
 	
 	
 	return (
@@ -153,67 +179,64 @@ function phpAds_SWFDimensions($buffer)
 function phpAds_SWFInfo($buffer)
 {
 	global $swf_variable, $swf_target_var;
-	
-	
+		
 	// Decompress if file is a Flash MX compressed file
 	if (phpAds_SWFCompressed($buffer))
 		$buffer = phpAds_SWFDecompress($buffer);
 	
 	$parameters = array();
-	$pos = 0;
 	$linkcount = 1;
 	
-	while ($result = strpos($buffer, swf_tag_geturl, $pos))
+	while (preg_match('/								# begin
+							(?<=\x00)					# match if preceded by a swf_tag_null
+							(?:
+								\x83						# match a swf_tag_geturl
+								..							# match a UI16  (combined length)
+								(
+									(?:https?:\/\/|javascript:).+?		# match the url
+								)
+								\x00						# match a swf_tag_null
+								(
+									.*?						# match the target
+								)
+								\x00						# match a swf_tag_null
+							|							# or
+								\x96						# match a swf_tag_actionpush
+								..							# match a U16 word (length)
+								\x00						# match a swf_tag_null
+								(
+									(?:https?:\/\/|javascript:).+?		# match the url
+								)
+								\x00						# match a swf_tag_null
+								\x96						# match a swf_tag_actionpush
+								..							# match a UI16 (length)
+								\x00						# match a swf_tag_null
+								(
+									.*?						# match the target
+								)
+								\x00						# match a swf_tag_null
+								\x9A\x01					# match a swf_tag_geturl2
+							)
+						/sx', $buffer, $m))
 	{
-		$result++;
-		
-		if (strtolower(substr($buffer, $result + 3, 7)) == 'http://' ||
-			strtolower(substr($buffer, $result + 3, 8)) == 'https://' ||
-		    strtolower(substr($buffer, $result + 3, 11)) == 'javascript:')
+		if ($m[0]{0} == chr(0x83))
 		{
-			$parameter_length = ord(substr($buffer, $result + 1, 1));
-			$parameter_total  = substr($buffer, $result + 3, $parameter_length);
-			$parameter_split  = strpos($parameter_total, swf_tag_null);
-			$parameter_url    = substr($parameter_total, 0, $parameter_split);
-			$parameter_target = substr($parameter_total, $parameter_split + 1, strlen($parameter_total) - $parameter_split - 2);
-			
-			$replacement = swf_tag_actionpush.
-						     chr(strlen($swf_variable.$linkcount)+2).
-						     swf_tag_null.
-						   swf_tag_null.
-						     $swf_variable.
-						     $linkcount.
-						   swf_tag_null.
-						   
-						   swf_tag_actiongetvariable.
-						   
-						   swf_tag_actionpush.
-						     chr(strlen($swf_target_var.$linkcount)+2).
-						     swf_tag_null.
-						   swf_tag_null.
-						     $swf_target_var.
-						     $linkcount.
-						   swf_tag_null.
-						   
-						   swf_tag_actiongetvariable.
-						   
-						   swf_tag_actiongeturl2;
-			
-			if (strlen($replacement) > $parameter_length + 3)
-			{
-				break;
-			}
-			else
-			{
-				$parameters[$linkcount] = array(
-					$result, $parameter_url, $parameter_target
-				);
-			}
-			
-			$linkcount++;
+			$parameter_url = $m[1];
+			$parameter_target = $m[2];
 		}
+		else
+		{
+			$parameter_url = $m[3];
+			$parameter_target = $m[4];
+		}
+
+		$parameters[$linkcount] = array(
+			$parameter_url, $parameter_target
+		);
 		
-		$pos = $result;
+		$buffer = str_replace($m[0], '', $buffer);
+		
+		$linkcount++;
 	}
 	
 	if (count($parameters))
@@ -238,84 +261,150 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 	
 	
 	$parameters = array();
-	$pos = 0;
 	$linkcount = 1;
 	$allowedcount = 1;
+	$final = $buffer;
 	
-	while ($result = strpos($buffer, swf_tag_geturl, $pos))
+	$tag_preg = '';
+	for ($i = 0; $i < 64; $i++)
+		$tag_preg .= sprintf('\\x%02X', 0x80 | $i);
+	
+	while (preg_match('/								# begin
+							^
+							(
+							.+?							# match anything from the start
+							\x00						# match a swf_tag_null
+							)
+							(
+								\x83						# match a swf_tag_geturl
+								..							# match a UI16  (combined length)
+								(
+									(?:https?:\/\/|javascript:).+?		# match the url
+								)
+								\x00						# match a swf_tag_null
+								(
+									.*?						# match the target
+								)
+								\x00						# match a swf_tag_null
+							|							# or
+								\x96						# match a swf_tag_actionpush
+								..							# match a U16 word (length)
+								\x00						# match a swf_tag_null
+								(
+									(?:https?:\/\/|javascript:).+?		# match the url
+								)
+								\x00						# match a swf_tag_null
+								\x96						# match a swf_tag_actionpush
+								..							# match a UI16 (length)
+								\x00						# match a swf_tag_null
+								(
+									.*?						# match the target
+								)
+								\x00						# match a swf_tag_null
+								\x9A\x01					# match a swf_tag_geturl2
+							)
+						/sx', $buffer, $m))
 	{
-		$result++;
-		
-		if (strtolower(substr($buffer, $result + 3, 7)) == 'http://' ||
-		    strtolower(substr($buffer, $result + 3, 11)) == 'javascript:')
+		$geturl_part = $m[2];
+
+		if (!preg_match('/^.*?(....)([\x06\x08][\xBF'.$tag_preg.'])/s', strrev($m[1]), $m))
+			die('Error!!');
+
+		foreach ($m as $k => $v)
+			$m[$k] = strrev($v);
+
+		$original = $replacement = $m[0].$geturl_part;
+		$object_tag = $m[2];
+		if ($object_tag{0} == chr(0xBF))
 		{
-			$parameter_length = ord(substr($buffer, $result + 1, 1));
-			$parameter_total  = substr($buffer, $result + 3, $parameter_length);
-			$parameter_split  = strpos($parameter_total, swf_tag_null);
-			$parameter_url    = substr($parameter_total, 0, $parameter_split);
-			$parameter_target = substr($parameter_total, $parameter_split + 1, strlen($parameter_total) - $parameter_split - 2);
+			$object_extended = true;
+			$object_len = current(unpack('V', $m[1]));
+		}
+		else
+		{
+			$object_extended = false;
+			$object_len = ord($object_tag{0}) & 0x3F;
+		}
+
+		$geturl2_part = swf_tag_actionpush.
+							chr(strlen('_root')+2).
+							swf_tag_null.
+						swf_tag_null.
+							'_root'.
+						swf_tag_null.
+	
+						swf_tag_actiongetvariable.
+	
+						swf_tag_actionpush.
+							chr(strlen($swf_variable.$linkcount)+2).
+							swf_tag_null.
+						swf_tag_null.
+							$swf_variable.
+							$linkcount.
+						swf_tag_null.
+	
+						swf_tag_actiongetmember.
+	
+						swf_tag_actionpush.
+							chr(strlen('_root')+2).
+							swf_tag_null.
+						swf_tag_null.
+							'_root'.
+						swf_tag_null.
+	
+						swf_tag_actiongetvariable.
+	
+						swf_tag_actionpush.
+							chr(strlen($swf_target_var.$linkcount)+2).
+							swf_tag_null.
+						swf_tag_null.
+							$swf_target_var.
+							$linkcount.
+						swf_tag_null.
+	
+						swf_tag_actiongetmember.
+	
+						swf_tag_actiongeturl2;
+	
+		$replacement = str_replace($geturl_part, $geturl2_part, $replacement);	
+	
+		$object_len2 = $object_len + strlen($geturl2_part) - strlen($geturl_part);
+	
+		$replacement = substr($replacement, $object_extended ? 6 : 2);
+		
+		
+		if ($object_len2 < 0x3F)
+			$replacement = chr(0x80 | $object_len2).$object_tag{1}.$replacement;
+		else
+			$replacement = chr(0xBF).$object_tag{1}.pack('V', $object_len2).$replacement;
+
+		// Is this link allowed to be converted?
+		if (in_array($allowedcount, $allowed))
+		{
+			// Convert
+			$final = str_replace($original, $replacement, $final);
+
+			// Fix file size
+			$file_size = current(unpack('V', substr($final, 4, 4))) + strlen($replacement) - strlen($original);
+			$final = substr($final, 0, 4).pack('V', $file_size).substr($final, 8);
+
+			$parameters[$linkcount] = $allowedcount;
 			
-			$replacement = swf_tag_actionpush.
-						     chr(strlen($swf_variable.$linkcount)+2).
-						     swf_tag_null.
-						   swf_tag_null.
-						     $swf_variable.
-						     $linkcount.
-						   swf_tag_null.
-						   
-						   swf_tag_actiongetvariable.
-						   
-						   swf_tag_actionpush.
-						     chr(strlen($swf_target_var.$linkcount)+2).
-						     swf_tag_null.
-						   swf_tag_null.
-						     $swf_target_var.
-						     $linkcount.
-						   swf_tag_null.
-						   
-						   swf_tag_actiongetvariable.
-						   
-						   swf_tag_actiongeturl2;
-			
-			if (strlen($replacement) > $parameter_length + 3)
-			{
-				break;
-			}
-			elseif (strlen($replacement) < $parameter_length + 3)
-			{
-				$padding = $parameter_length + 3 - strlen($replacement);
-				
-				for ($i=0;$i<$padding;$i++)
-				{
-					$replacement .= swf_tag_null;
-				}
-			}
-			
-			// Is this link allowed to be converted?
-			if (in_array($allowedcount, $allowed))
-			{
-				// Convert
-				$replacement = substr($buffer, 0, $result).
-							   $replacement.
-							   substr($buffer, $result + strlen($replacement), strlen($buffer) - ($result + strlen($replacement)));
-			   	
-				$buffer = $replacement;
-				$parameters[$linkcount] = $allowedcount;
-				
-				$linkcount++;
-			}
-			
-			$allowedcount++;
+			$linkcount++;
 		}
 		
-		$pos = $result;
+		$allowedcount++;
+	
+		$buffer = str_replace($original, '', $buffer);
 	}
 	
 	
 	if ($compress == true)
-		$buffer = phpAds_SWFCompress($buffer);
+		$final = phpAds_SWFCompress($final);
+	else
+		$final = phpAds_SWFUpgrade($final);		
 	
-	return (array($buffer, $parameters));
+	return (array($final, $parameters));
 }
 
 ?>

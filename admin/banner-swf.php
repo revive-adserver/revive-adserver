@@ -92,7 +92,7 @@ if (isset($convert))
 	
 	if ($row['storagetype'] == 'sql' || $row['storagetype'] == 'web')
 		$swf_file = phpAds_ImageRetrieve ($row['storagetype'], $row['filename']);
-	
+		
 	if ($swf_file)
 	{
 		if (phpAds_SWFVersion($swf_file) >= 3 &&
@@ -111,12 +111,14 @@ if (isset($convert))
 			
 			if ($result != $swf_file)
 			{
+				// Reload template to be sure it can be updated
+				$row['htmltemplate'] = phpAds_getBannerTemplate('swf');
+				
 				if (count($parameters) > 0)
 				{
 					// Set default link
 					$row['url']    = $overwrite_link[$chosen_link];
 					$row['target'] = $overwrite_target[$chosen_link];
-					
 					
 					// Prepare the parameters
 					$parameters_complete = array();
@@ -126,24 +128,24 @@ if (isset($convert))
 						if (isset($overwrite_source) && $overwrite_source[$val] != '')
 							$overwrite_link[$val] .= '|source:'.$overwrite_source[$val];
 						
-						$parameters_complete[] = 'alink'.$key.'={targeturl:'.$overwrite_link[$val].'}&atar'.$key.'='.$overwrite_target[$val];
+						$parameters_complete[] = 'alink'.$key.'={targeturl:'.$overwrite_link[$val].'}&amp;atar'.$key.'='.$overwrite_target[$val];
 					}
-					
-					$parameter = implode ('&', $parameters_complete);
+
+					$parameter = implode ('&amp;', $parameters_complete);
 					$row['htmltemplate'] = str_replace ('{swf_param}', $parameter, $row['htmltemplate']);
 				}
 				
 				$row['pluginversion'] = phpAds_SWFVersion($result);
 				$row['htmlcache']     = addslashes (phpAds_getBannerCache($row));
 				$row['htmltemplate']  = addslashes ($row['htmltemplate']);
-				
+
 				// Store the HTML Template
 				$res = phpAds_dbQuery ("
 					UPDATE ".$phpAds_config['tbl_banners']." 
 					SET url='".$row['url']."', target='".$row['target']."', pluginversion='".$row['pluginversion']."', 
 						htmltemplate='".$row['htmltemplate']."', htmlcache='".$row['htmlcache']."'
 					WHERE bannerid = '".$bannerid."'
-				");
+				") or die(phpAds_dbError());
 				
 				// Store the banner
 				phpAds_ImageStore ($row['storagetype'], $row['filename'], $result, true);
@@ -304,7 +306,7 @@ if ($result)
 	$i=0;
 	while (list($key, $val) = each($result))
 	{
-		list ($offset, $url, $target) = $val;
+		list ($url, $target) = $val;
 		
 		if ($i > 0)
 		{
@@ -345,7 +347,7 @@ if ($result)
 	echo "</table>";
 	echo "<br><br>";
 	
-	echo "<input type='submit' name='cancel' value='".$strCancel."'>&nbsp;&nbsp;";
+	echo "<input type='button' name='cancel' value='".$strCancel."' onClick='location.href=\"banner-swf.php\"'>&nbsp;&nbsp;";
 	echo "<input type='submit' name='convert' value='".$strConvert."'>";
 	
 	if (function_exists('gzcompress'))
