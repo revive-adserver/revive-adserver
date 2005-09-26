@@ -265,10 +265,6 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 	$allowedcount = 1;
 	$final = $buffer;
 	
-	$tag_preg = '';
-	for ($i = 0; $i < 64; $i++)
-		$tag_preg .= sprintf('\\x%02X', 0x80 | $i);
-	
 	while (preg_match('/								# begin
 							^
 							(
@@ -307,7 +303,7 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 	{
 		$geturl_part = $m[2];
 
-		if (!preg_match('/^.*?(....)([\x06\x08][\xBF'.$tag_preg.'])/s', strrev($m[1]), $m))
+		if (!preg_match('/^.*?(....)([\x06\x08][\x80-\xBF])/s', strrev($m[1]), $m))
 			die('Error!!');
 
 		foreach ($m as $k => $v)

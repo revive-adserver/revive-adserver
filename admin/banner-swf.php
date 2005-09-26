@@ -352,7 +352,7 @@ if ($result)
 	
 	if (function_exists('gzcompress'))
 	{
-		echo "&nbsp;&nbsp;<input type='checkbox' name='compress' value='true'".($compressed ? ' checked' : '').($version >= 6 && $compressed ? ' disabled' : '').">";
+		echo "&nbsp;&nbsp;<input type='checkbox' name='compress' value='true'".($compressed ? ' checked' : '').($version >= 6 && $compressed ? ' readonly' : '').">";
 		echo "&nbsp;".$strCompressSWF;
 	}
 	
