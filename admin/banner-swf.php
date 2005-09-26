@@ -98,12 +98,19 @@ if (isset($convert))
 		if (phpAds_SWFVersion($swf_file) >= 3 &&
 			phpAds_SWFInfo($swf_file))
 		{
-			// Compress the converted file
-			if (isset($compress)) 
+			if (phpAds_SWFVersion($swf_file) >= 6 && phpAds_SWFCompressed($swf_file))
+			{
 				$compress = true;
+			}
 			else
-				$compress = false;
-			
+			{
+				// Compress the converted file
+				if (isset($compress)) 
+					$compress = true;
+				else
+					$compress = false;
+			}
+						
 			if (!isset($convert_links))
 				$convert_links = array();
 			
@@ -352,7 +359,7 @@ if ($result)
 	
 	if (function_exists('gzcompress'))
 	{
-		echo "&nbsp;&nbsp;<input type='checkbox' name='compress' value='true'".($compressed ? ' checked' : '').($version >= 6 && $compressed ? ' readonly' : '').">";
+		echo "&nbsp;&nbsp;<input type='checkbox' name='compress' value='true'".($compressed ? ' checked' : '').($version >= 6 && $compressed ? ' disabled' : '').">";
 		echo "&nbsp;".$strCompressSWF;
 	}
 	

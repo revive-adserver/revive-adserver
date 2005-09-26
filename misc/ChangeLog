@@ -4,11 +4,12 @@ phpAdsNew - ChangeLog
 CVS
 			+ Misc changes
 			  - 2005-08-25:  Added new database setting to allow connection to the database using sockets  (Matteo)
-			  - 2005-09-11:  Rewrote the swf hardcoded link converter, which results in wider compatibility  (Matteo)
+			  - 2005-09-25:  Rewrote the swf hardcoded link converter, which results in wider compatibility  (Matteo)
 
 			+ Misc bugfixes
 			  - 2005-08-25:  Fixed bug which prevented stats-global-clients from working when there were many banners - bug #1267218  (Matteo)
 			  - 2005-09-09:  Fixed bug on calculations made during prority compensation (Matteo, thanks to mibus)
+			  - 2005-09-26:  Compressed flash banners with version >= 6 were always saved as not compressed after the conversion (Matteo)
 
 
 phpAdsNew 2.0.6
