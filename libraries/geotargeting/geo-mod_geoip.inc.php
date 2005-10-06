@@ -15,7 +15,7 @@
 
 /* PUBLIC FUNCTIONS */
 
-$phpAds_geoPluginID = 'mod_geoip';
+$GLOBALS['phpAds_geoPluginID'] = 'mod_geoip';
 
 function phpAds_mod_geoip_getInfo()
 {
@@ -37,6 +37,14 @@ function phpAds_mod_geoip_getInfo()
 		'org_isp'		=> false,
 		'netspeed'		=> false
 	));
+}
+
+
+function phpAds_mod_geoip_getFingerprint()
+{
+	global $phpAds_geoPluginID;
+
+	return $phpAds_geoPluginID;
 }
 
 

@@ -273,9 +273,13 @@ function phpAds_setDeliveryCookies($row)
 
 
 	// Cache geotargeting info
-	if ($phpAds_config['geotracking_type'] != '' && $phpAds_config['geotracking_cookie'])
-		if (!isset($HTTP_COOKIE_VARS['phpAds_geoInfo']) && isset($phpAds_geo))
+	if ($phpAds_config['geotracking_type'] != '')
+	{
+		if ($phpAds_config['geotracking_cookie'] && isset($phpAds_geo))
 			phpAds_setCookie ("phpAds_geoInfo", join('|', $phpAds_geo), time() + 900);
+		elseif (isset($HTTP_COOKIE_VARS['phpAds_geoInfo']))
+			phpAds_setCookie ("phpAds_geoInfo", '', time() - 900);
+	}
 }
 
 ?>

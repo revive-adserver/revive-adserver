@@ -16,7 +16,7 @@
 
 /* PUBLIC FUNCTIONS */
 
-$phpAds_geoPluginID = 'ip2country';
+$GLOBALS['phpAds_geoPluginID'] = 'ip2country';
 
 function phpAds_ip2country_getInfo()
 {
@@ -37,6 +37,15 @@ function phpAds_ip2country_getInfo()
 		'netspeed'		=> false
 	));
 }
+
+
+function phpAds_ip2country_getFingerprint()
+{
+	global $phpAds_geoPluginID;
+
+	return $phpAds_geoPluginID;
+}
+
 
 function phpAds_ip2country_getGeo($addr, $db)
 {

@@ -15,8 +15,27 @@
 
 
 // Check for proxyserver
-if ($phpAds_config['proxy_lookup'])
+phpAds_proxyLookup();
+
+// Reverse lookup
+phpAds_reverseLookup();
+
+// Geotargeting lookup
+$phpAds_geo = phpAds_geoLookup();
+
+
+
+/*********************************************************/
+/* Do the proxy lookup                                   */
+/*********************************************************/
+
+function phpAds_proxyLookup()
 {
+	global $phpAds_config, $HTTP_SERVER_VARS;
+	
+	if (!$phpAds_config['proxy_lookup'])
+		return;
+	
 	$proxy = false;
 	if (isset ($HTTP_SERVER_VARS['HTTP_VIA']) && $HTTP_SERVER_VARS['HTTP_VIA'] != '') $proxy = true;
 	
@@ -51,62 +70,89 @@ if ($phpAds_config['proxy_lookup'])
 }
 
 
-// Reverse lookup
-if (!isset($HTTP_SERVER_VARS['REMOTE_HOST']) || $HTTP_SERVER_VARS['REMOTE_HOST'] == '')
+
+/*********************************************************/
+/* Do the reverse lookup                                 */
+/*********************************************************/
+
+function phpAds_reverseLookup()
 {
-	if ($phpAds_config['reverse_lookup'])
-		$HTTP_SERVER_VARS['REMOTE_HOST'] = @gethostbyaddr ($HTTP_SERVER_VARS['REMOTE_ADDR']);
-	else
-		$HTTP_SERVER_VARS['REMOTE_HOST'] = $HTTP_SERVER_VARS['REMOTE_ADDR'];
+	global $phpAds_config, $HTTP_SERVER_VARS;
+	
+	if (!isset($HTTP_SERVER_VARS['REMOTE_HOST']) || $HTTP_SERVER_VARS['REMOTE_HOST'] == '')
+	{
+		if ($phpAds_config['reverse_lookup'])
+			$HTTP_SERVER_VARS['REMOTE_HOST'] = @gethostbyaddr ($HTTP_SERVER_VARS['REMOTE_ADDR']);
+		else
+			$HTTP_SERVER_VARS['REMOTE_HOST'] = $HTTP_SERVER_VARS['REMOTE_ADDR'];
+	}
 }
 
 
-// Geotracking
-if ($phpAds_config['geotracking_type'] != '')
+
+/*********************************************************/
+/* Do the geotargeting lookup                            */
+/*********************************************************/
+
+function phpAds_geoLookup()
 {
-	if (isset($HTTP_COOKIE_VARS['phpAds_geoInfo']))
+	global $HTTP_SERVER_VARS, $HTTP_COOKIE_VARS;
+	global $phpAds_config, $phpAds_geoPluginID;
+	
+	if (!$phpAds_config['geotracking_type'])
+		return;
+	
+	// Load plugin
+	$phpAds_geoPlugin = phpAds_path."/libraries/geotargeting/geo-".$phpAds_config['geotracking_type'].".inc.php";
+	if (@file_exists($phpAds_geoPlugin))
 	{
-		// Use cookie if available
-		$phpAds_geoRaw = explode('|', $HTTP_COOKIE_VARS['phpAds_geoInfo']);
+		include_once ($phpAds_geoPlugin);
 		
-		if (count($phpAds_geoRaw) == 12)
+		if (isset($HTTP_COOKIE_VARS['phpAds_geoInfo']))
 		{
-			$phpAds_geo = array(
-					'country'		=> $phpAds_geoRaw[0] != '' ? $phpAds_geoRaw[0] : false,
-					'continent'		=> $phpAds_geoRaw[1] != '' ? $phpAds_geoRaw[1] : false,
-					'region'		=> $phpAds_geoRaw[2] != '' ? $phpAds_geoRaw[2] : false,
-					'fips_code'		=> $phpAds_geoRaw[3] != '' ? $phpAds_geoRaw[3] : false,
-					'city'			=> $phpAds_geoRaw[4] != '' ? $phpAds_geoRaw[4] : false,
-					'postal_code'	=> $phpAds_geoRaw[5] != '' ? $phpAds_geoRaw[5] : false,
-					'latitude'		=> $phpAds_geoRaw[6] != '' ? $phpAds_geoRaw[6] : false,
-					'longitude'		=> $phpAds_geoRaw[7] != '' ? $phpAds_geoRaw[7] : false,
-					'dma_code'		=> $phpAds_geoRaw[8] != '' ? $phpAds_geoRaw[8] : false,
-					'area_code'		=> $phpAds_geoRaw[9] != '' ? $phpAds_geoRaw[9] : false,
-					'org_isp'		=> $phpAds_geoRaw[10] != '' ? $phpAds_geoRaw[10] : false,
-					'netspeed'		=> $phpAds_geoRaw[11] != '' ? $phpAds_geoRaw[11] : false
-				);
+			// Use cookie if available
+			$geoinfo = explode('|', $HTTP_COOKIE_VARS['phpAds_geoInfo']);
+			
+			if (count($geoinfo) == 13)
+			{
+				$geoinfo = array(
+						'country'		=> $geoinfo[0] != '' ?	$geoinfo[0] :	false,
+						'continent'		=> $geoinfo[1] != '' ?	$geoinfo[1] :	false,
+						'region'		=> $geoinfo[2] != '' ?	$geoinfo[2] :	false,
+						'fips_code'		=> $geoinfo[3] != '' ?	$geoinfo[3] :	false,
+						'city'			=> $geoinfo[4] != '' ?	$geoinfo[4] :	false,
+						'postal_code'	=> $geoinfo[5] != '' ?	$geoinfo[5] :	false,
+						'latitude'		=> $geoinfo[6] != '' ?	$geoinfo[6] :	false,
+						'longitude'		=> $geoinfo[7] != '' ?	$geoinfo[7] :	false,
+						'dma_code'		=> $geoinfo[8] != '' ?	$geoinfo[8] :	false,
+						'area_code'		=> $geoinfo[9] != '' ?	$geoinfo[9] :	false,
+						'org_isp'		=> $geoinfo[10] != '' ? $geoinfo[10] :	false,
+						'netspeed'		=> $geoinfo[11] != '' ? $geoinfo[11] :	false,
+						'fingerprint'	=> $geoinfo[12] != '' ? $geoinfo[12] :	false
+					);
+				
+				// Check cookie validity
+				$fingerprint = call_user_func('phpAds_'.$phpAds_geoPluginID.'_getFingerprint');
+				
+				if ($geoinfo['fingerprint'] == $fingerprint)
+					return $geoinfo;
+			}
 		}
+	
+		// No cookie or invalid cookie
+		$geoinfo =  call_user_func('phpAds_'.$phpAds_geoPluginID.'_getGeo',
+				$HTTP_SERVER_VARS['REMOTE_ADDR'],
+				$phpAds_config['geotracking_location']
+			);
+		
+		// Add fingerprint
+		$geoinfo['fingerprint'] = call_user_func('phpAds_'.$phpAds_geoPluginID.'_getFingerprint');
+		
+		return $geoinfo;
 	}
 	
-	if (!isset($phpAds_geo))
-	{
-		// Determine from IP
-		$phpAds_geoPlugin = phpAds_path."/libraries/geotargeting/geo-".$phpAds_config['geotracking_type'].".inc.php";
-		
-		if (@file_exists($phpAds_geoPlugin))
-		{
-			include_once ($phpAds_geoPlugin);
-			eval ('$'.'phpAds_geo = phpAds_'.$phpAds_geoPluginID.'_getGeo("'.
-				  $HTTP_SERVER_VARS['REMOTE_ADDR'].'", "'.
-				  addslashes($phpAds_config['geotracking_location']).'");');
-		}
-		else
-			$phpAds_geo = false;
-	}
+	return false;
 }
-else
-	$phpAds_geo = false;
-
 
 
 /*********************************************************/

@@ -17,7 +17,7 @@
 
 /* PUBLIC FUNCTIONS */
 
-$phpAds_geoPluginID = 'geoip';
+$GLOBALS['phpAds_geoPluginID'] = 'geoip';
 
 function phpAds_geoip_getInfo($db = false)
 {
@@ -50,6 +50,24 @@ function phpAds_geoip_getConf($db)
 		$ret = serialize($info['plugin_conf']);
 		
 		@fclose($fp);
+	}
+
+	return $ret;
+}
+
+
+function phpAds_geoip_getFingerprint()
+{
+	global $phpAds_geoPluginID, $phpAds_config;
+	
+	$ret = $phpAds_geoPluginID;
+	
+	if (isset($phpAds_config['geotracking_conf']) && $phpAds_config['geotracking_conf'])
+	{
+		$conf = @unserialize($phpAds_config['geotracking_conf']);
+		
+		if (isset($conf['databaseType']))
+			$ret .= '.'.$conf['databaseType'];
 	}
 
 	return $ret;
