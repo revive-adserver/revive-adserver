@@ -462,7 +462,7 @@ if (!isset($acl) && $phpAds_config['acl'])
 			$row['type'] == 'region' || $row['type'] == 'fips_code' ||
 			$row['type'] == 'dma_code' || $row['type'] == 'netspeed')
 		{
-			$acl[$row['executionorder']]['data'] = explode (',', $row['data']);
+			$acl[$row['executionorder']]['data'] = strlen($row['data']) ? explode (',', $row['data']) : array();
 
 			if ($row['type'] == 'fips_code')
 			{

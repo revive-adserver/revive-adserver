@@ -290,11 +290,18 @@ function phpAds_geoip_seek($fp, $ipnum)
 	if ($phpAds_config['geotracking_conf'])
 	{
 		$conf = @unserialize($phpAds_config['geotracking_conf']);
+	
+	if (is_array($conf))
+		extract($conf);
+	}
+	else
+	{
+		$conf = phpAds_geoip_get_info($fp);
 		if (is_array($conf))
-			extract($conf);
+			extract($conf['plugin_info']);
 	}
 
-	if ($record_length <= 0)
+	if (!isset($record_length) || $record_length <= 0)
 		return false;
 		
 	$countrycodes = array(
