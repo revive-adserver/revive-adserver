@@ -483,6 +483,7 @@ if (phpAds_isUser(phpAds_Admin))
 			}
 		}
 		
+		// Recreate geotargeting configuration
 		if ($phpAds_config['geotracking_type'])
 		{
 			@include(phpAds_path.'/libraries/geotargeting/geo-'.$phpAds_config['geotracking_type'].'.inc.php');
@@ -494,7 +495,13 @@ if (phpAds_isUser(phpAds_Admin))
 			
 			phpAds_SettingsWriteAdd('geotracking_conf', $geoconf);
 		}
-				
+		
+		// Local socket connection do db
+		if ($phpAds_config['config_version'] < 200.261 && $phpAds_config['dbhost']{0} == ':')
+		{
+			phpAds_SettingsWriteAdd('dblocal', true);
+		}
+
 		phpAds_ConfigFileUpdateFlush();
 		
 		phpAds_PageHeader("1");
