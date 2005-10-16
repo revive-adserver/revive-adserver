@@ -814,8 +814,7 @@ if (!function_exists('xml_parser_create')) {
 				if ($_xh[$parser]['vt']=='value')
 				{
 					$_xh[$parser]['value']=$_xh[$parser]['ac'];
-					$_xh[$parser]['vt']=$$xmlrpc_val->addScalar($php_val, $xmlrpcString);
-;
+					$_xh[$parser]['vt']=$xmlrpcString;
 				}
 				/*if (strlen($_xh[$parser]['ac'])>0 &&
 					$_xh[$parser]['vt']==$xmlrpcString)
