@@ -287,13 +287,12 @@ function phpAds_geoip_seek($fp, $ipnum)
 	// Default variables
 	extract(phpAds_geoip_get_defaults());
 	
+	$conf = false;
 	if ($phpAds_config['geotracking_conf'])
-	{
 		$conf = @unserialize($phpAds_config['geotracking_conf']);
 	
 	if (is_array($conf))
 		extract($conf);
-	}
 	else
 	{
 		$conf = phpAds_geoip_get_info($fp);
@@ -464,7 +463,7 @@ function phpAds_geoip_seek($fp, $ipnum)
 			$country = 'US';
 			$region = chr(floor(($seek_region - $US_OFFSET) / 26) + 65).chr(($seek_region - $US_OFFSET) % 26 + 65);
 		}
-		elseif (seek_region < $WORLD_OFFSET)
+		elseif ($seek_region < $WORLD_OFFSET)
 		{
 			/* Canada Province */
 			$country = 'CA';

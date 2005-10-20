@@ -11,6 +11,7 @@ CVS
 			  - 2005-09-09:  Fixed bug on calculations made during prority compensation (Matteo, thanks to mibus)
 			  - 2005-09-26:  Compressed flash banners with version >= 6 were always saved as not compressed after the conversion (Matteo)
 			  - 2005-10-16:  Geotargeting wasn't correctly working under some circumstances (Matteo)
+			  - 2005-10-20:  GeoIP region for somewhat reason was broken in the last release (Matteo)
 
 
 phpAdsNew 2.0.6
