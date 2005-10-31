@@ -57,7 +57,7 @@ function phpAds_SessionStart()
 	{
 		// Start a new session
 		$Session = array();
-		$HTTP_COOKIE_VARS['sessionID'] = uniqid('phpads', 1);
+		$HTTP_COOKIE_VARS['sessionID'] = md5(uniqid('phpads', 1));
 		
 		phpAds_setCookie ('sessionID', $HTTP_COOKIE_VARS['sessionID']);
 		phpAds_flushCookie ();
