@@ -5,7 +5,7 @@ CVS
 			+ Misc changes
 			  - 2005-08-25:  Added new database setting to allow connection to the database using sockets  (Matteo)
 			  - 2005-09-25:  Rewrote the swf hardcoded link converter, which results in wider compatibility  (Matteo)
-			  - 2005-11-06:  Added workaround to guarantee compatibility with PHP 4.4.1 (bug #35067, fixed in 4.4.2)  (Matteo)
+			  - 2005-11-05:  Added workaround to guarantee compatibility with PHP 4.4.1 (bug #35067, fixed in 4.4.2)  (Matteo)
 
 			+ Misc bugfixes
 			  - 2005-08-25:  Fixed bug which prevented stats-global-clients from working when there were many banners - bug #1267218  (Matteo)
