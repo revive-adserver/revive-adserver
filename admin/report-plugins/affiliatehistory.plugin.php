@@ -163,7 +163,7 @@ function Plugin_AffiliatehistoryExecute($affiliateid, $delimiter="t", $quotes=""
 	
 	if (isset($stats) && is_array($stats))
 	{
-		for (reset($stats);$key=key($stats);next($stats))
+		foreach (array_keys($stats) as $key)
 		{
 			$row = array();
 			

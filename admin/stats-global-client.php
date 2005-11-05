@@ -456,7 +456,7 @@ $totalclicks = 0;
 if (isset($clients) && is_array($clients) && count($clients) > 0)
 {
 	// Calculate statistics for clients
-	for (reset($clients);$key=key($clients);next($clients))
+	foreach (array_keys($clients) as $key)
 	{
 		$clientviews = 0;
 		$clientclicks = 0;
@@ -466,7 +466,7 @@ if (isset($clients) && is_array($clients) && count($clients) > 0)
 			$campaigns = $clients[$key]['campaigns'];
 			
 			// Calculate statistics for campaigns
-			for (reset($campaigns);$ckey=key($campaigns);next($campaigns))
+			foreach (array_keys($campaigns) as $ckey)
 			{
 				$campaignviews = 0;
 				$campaignclicks = 0;
@@ -474,7 +474,7 @@ if (isset($clients) && is_array($clients) && count($clients) > 0)
 				if (isset($campaigns[$ckey]['banners']) && sizeof ($campaigns[$ckey]['banners']) > 0)
 				{
 					$banners = $campaigns[$ckey]['banners'];
-					for (reset($banners);$bkey=key($banners);next($banners))
+					foreach (array_keys($banners) as $bkey)
 					{
 						$campaignviews += $banners[$bkey]['views'];
 						$campaignclicks += $banners[$bkey]['clicks'];
@@ -625,7 +625,7 @@ if ($clientshidden > 0 || $totalviews > 0 || $totalclicks > 0)
 	
 	
 	$i=0;
-	for (reset($clients);$key=key($clients);next($clients))
+	foreach (array_keys($clients) as $key)
 	{
 		$client = $clients[$key];
 		
@@ -665,7 +665,7 @@ if ($clientshidden > 0 || $totalviews > 0 || $totalclicks > 0)
 		{
 			$campaigns = $client['campaigns'];
 			
-			for (reset($campaigns);$ckey=key($campaigns);next($campaigns))
+			foreach (array_keys($campaigns) as $ckey)
 			{
 				// Divider
 				echo "<tr height='1'>";
@@ -713,7 +713,7 @@ if ($clientshidden > 0 || $totalviews > 0 || $totalclicks > 0)
 				if ($campaigns[$ckey]['expand'] == '1' && isset($campaigns[$ckey]['banners']))
 				{
 					$banners = $campaigns[$ckey]['banners'];
-					for (reset($banners);$bkey=key($banners);next($banners))
+					foreach (array_keys($banners) as $bkey)
 					{
 						$name = $strUntitled;
 						if (isset($banners[$bkey]['alt']) && $banners[$bkey]['alt'] != '') $name = $banners[$bkey]['alt'];

@@ -28,7 +28,7 @@ if (!isset($period) || $period == '')
 
 if (isset($lib_history_params))
 {
-	for (reset($lib_history_params); $key = key($lib_history_params); next($lib_history_params))
+	foreach (array_keys($lib_history_params) as $key)
 	{
 		$params[] = $key.'='.$lib_history_params[$key];
 	}
@@ -379,7 +379,7 @@ if (isset($row['span']) && $row['span'] > 0)
 	echo "<form action='".$HTTP_SERVER_VARS['PHP_SELF']."'>";
 	
 	if (isset($lib_history_params))
-		for (reset($lib_history_params); $key = key($lib_history_params); next($lib_history_params))
+		foreach (array_keys($lib_history_params) as $key)
 			echo "<input type='hidden' name='".$key."' value='".$lib_history_params[$key]."'>";
 	
 	echo "<select name='period' onChange='this.form.submit();' accesskey='".$keyList."' tabindex='".($tabindex++)."'>";

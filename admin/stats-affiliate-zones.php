@@ -373,7 +373,7 @@ if (isset($zones) && is_array($zones) && count($zones) > 0)
 	$totalclicks = 0;
 	
 	// Calculate statistics for affiliates
-	for (reset($zones);$key=key($zones);next($zones))
+	foreach (array_keys($zones) as $key)
 	{
 		$zoneviews = 0;
 		$zoneclicks = 0;
@@ -534,7 +534,7 @@ if (!isset($zones) || !is_array($zones) || count($zones) == 0)
 else
 {
 	$i=0;
-	for (reset($zones);$key=key($zones);next($zones))
+	foreach (array_keys($zones) as $key)
 	{
 		$zone = $zones[$key];
 		

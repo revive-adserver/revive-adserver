@@ -40,9 +40,7 @@ function phpAds_checkDatabaseExists ()
 	
 	$result = false;
 	
-	for (reset($dbstructure);
-		$key = key($dbstructure);
-		next($dbstructure))
+	foreach (array_keys($dbstructure) as $key)
 	{
 		if (is_array($availabletables) && in_array ($key, $availabletables))
 		{
@@ -71,9 +69,7 @@ function phpAds_checkDatabaseValid ()
 	while ($row = phpAds_dbFetchRow($res))
 		$availabletables[] = $row[0];
 	
-	for (reset($dbstructure);
-		$key = key($dbstructure);
-		next($dbstructure))
+	foreach (array_keys($dbstructure) as $key)
 	{
 		if (is_array($availabletables) && in_array ($key, $availabletables))
 		{
@@ -104,9 +100,7 @@ function phpAds_upgradeDatabase ($tabletype = '')
 	while ($row = phpAds_dbFetchRow($res))
 		$availabletables[] = $row[0];
 	
-	for (reset($dbstructure);
-		$key = key($dbstructure);
-		next($dbstructure))
+	foreach (array_keys($dbstructure) as $key)
 	{
 		if (is_array($availabletables) && in_array ($key, $availabletables))
 		{
@@ -170,9 +164,7 @@ function phpAds_createDatabase ($tabletype = '')
 	while ($row = phpAds_dbFetchRow($res))
 		$availabletables[] = $row[0];
 	
-	for (reset($dbstructure);
-		$key = key($dbstructure);
-		next($dbstructure))
+	foreach (array_keys($dbstructure) as $key)
 	{
 		if (is_array($availabletables) && in_array ($key, $availabletables))
 		{
@@ -211,7 +203,7 @@ function phpAds_checkTable ($name, $structure)
 	
 	
 	// Check columns
-	for (reset($columns); $key = key($columns);	next($columns))
+	foreach (array_keys($columns) as $key)
 		if (!(isset($availablecolumns[$key]) && is_array($availablecolumns[$key])))
 			$result = false;
 	
@@ -276,13 +268,13 @@ function phpAds_upgradeTable ($name, $structure)
 	
 	// Delete not needed unique indexes
 	if (isset($availableunique) && is_array($availableunique))
-		for (reset($availableunique); $key = key($availableunique); next($availableunique))
+		foreach (array_keys($availableunique) as $key)
 			if (!isset($unique[$key]) || !is_array($unique[$key]) || sizeof($unique[$key]) == 0)
 				phpAds_dbQuery("ALTER TABLE ".$name." DROP INDEX ".$key);
 	
 	// Delete not needed indexes
 	if (isset($availableindex) && is_array($availableindex))
-		for (reset($availableindex); $key = key($availableindex); next($availableindex))
+		foreach (array_keys($availableindex) as $key)
 			if (!isset($index[$key]) || !is_array($index[$key]) || sizeof($index[$key]) == 0)
 				phpAds_dbQuery("ALTER TABLE ".$name." DROP INDEX ".$key);
 	
@@ -316,7 +308,7 @@ function phpAds_upgradeTable ($name, $structure)
 	
 	
 	// Check columns
-	for (reset($columns); $key = key($columns);	next($columns))
+	foreach (array_keys($columns) as $key)
 	{
 		$createdefinition = $key." ".$columns[$key];
 		
@@ -404,7 +396,7 @@ function phpAds_upgradeTable ($name, $structure)
 	// Check Indexes
 	if (isset($index) && is_array($index) && sizeof($index) > 0)
 	{
-		for (reset($index); $key = key($index);	next($index))
+		foreach (array_keys($index) as $key)
 		{
 			if (!isset($availableindex[$key]) || !is_array($availableindex[$key]))
 			{
@@ -418,7 +410,7 @@ function phpAds_upgradeTable ($name, $structure)
 	// Check Unique Indexes
 	if (isset($unique) && is_array($unique) && sizeof($unique) > 0)
 	{
-		for (reset($unique); $key = key($unique); next($unique))
+		foreach (array_keys($unique) as $key)
 		{
 			if (!isset($availableunique[$key]) || !is_array($availableunique[$key]))
 			{
@@ -454,7 +446,7 @@ function phpAds_createTable ($name, $structure, $tabletype = '')
 	$createdefinitions = array();
 	
 	// Add columns
-	for (reset($columns); $key = key($columns);	next($columns))
+	foreach (array_keys($columns) as $key)
 		$createdefinitions[] = $key." ".$columns[$key];
 	
 	if (isset($primary) && is_array($primary))
@@ -462,13 +454,13 @@ function phpAds_createTable ($name, $structure, $tabletype = '')
 	
 	if (isset($index) && is_array($index))
 	{
-		for (reset($index);$key=key($index);next($index))
+		foreach (array_keys($index) as $key)
 			$createdefinitions[] = "KEY $key (".implode(",", $index[$key]).")";
 	}
 	
 	if (isset($unique) && is_array($unique))
 	{
-		for (reset($unique);$key=key($unique);next($unique))
+		foreach (array_keys($unique) as $key)
 			$createdefinitions[] = "UNIQUE $key (".implode(",", $unique[$key]).")";
 	}
 	
@@ -1149,7 +1141,7 @@ function phpAds_upgradeTargetStats ()
 			$t_stamp = phpAds_makeTimestamp($t_stamp, 60*60*24);
 		}
 		
-		for (reset($autotargets);$day=key($autotargets);next($autotargets))
+		foreach (array_keys($autotargets) as $day)
 		{
 			reset($autotargets[$day]);
 			while (list($campaignid, $value) = each($autotargets[$day]))

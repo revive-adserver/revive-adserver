@@ -131,19 +131,19 @@ function phpAds_storeCompact ($base, $count, $stats)
 	$day = date('Ymd', $base + ($count * 60 * 60 * 24));
 	
 	
-	for (reset($stats); $bannerid = key($stats); next($stats))
+	foreach (array_keys($stats) as $bannerid)
 	{
 		$stats_b = $stats[$bannerid];
 		
-		for (reset($stats_b); $zoneid = key($stats_b); next($stats_b))
+		foreach (array_keys($stats_b) as $zoneid)
 		{
 			$stats_z = $stats_b[$zoneid];
 			
-			for (reset($stats_z); $hour = key($stats_z); next($stats_z))
+			foreach (array_keys($stats_z) as $hour)
 			{
 				$stats_h = $stats_z[$hour];
 				
-				for (reset($stats_h); $source = key($stats_h); next($stats_h))
+				foreach (array_keys($stats_h) as $source)
 				{
 					$stats_s = $stats_h[$source];
 					

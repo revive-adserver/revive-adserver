@@ -1023,7 +1023,7 @@ if (!isset($bannerid) || $bannerid == '')
 			echo "<tr><td height='25'>";
 			echo "<select name='network' onChange='this.form.submit();'>";
 			
-			for (reset($networks);$key=key($networks);next($networks))
+			foreach (array_keys($networks) as $key)
 			{
 				echo "<option value='".$key."'".($network == $key ? ' selected' : '').">".$networks[$key]."</option>";
 			}

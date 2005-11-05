@@ -201,7 +201,7 @@ if (!isset($selection) || $selection == '')
 	$selection = key($plugins);
 }
 
-for (reset($plugins);$key=key($plugins);next($plugins))
+foreach (array_keys($plugins) as $key)
 {
 	echo "<option value='".$key."' ".($selection==$key?"selected":"").">".$plugins[$key]['plugin-name']."</option>";
 }
@@ -241,7 +241,7 @@ if ($fields = $plugin['plugin-import'])
 	
 	$enabled = true;
 	
-	for (reset($fields);$key=key($fields);next($fields))
+	foreach (array_keys($fields) as $key)
 	{
 		// Text field
 		if ($fields[$key]['type'] == 'edit')
@@ -304,7 +304,7 @@ if ($fields = $plugin['plugin-import'])
 			$campaignArray = phpAds_getCampaignArray();
 			
 			if (count($campaignArray))
-				for (reset($campaignArray);$ckey=key($campaignArray);next($campaignArray))
+				foreach (array_keys($campaignArray) as $ckey)
 					echo "<option value='".$ckey."'>".$campaignArray[$ckey]."</option>";
 			else
 			{
@@ -334,7 +334,7 @@ if ($fields = $plugin['plugin-import'])
 				$clientArray = phpAds_getClientArray();
 				
 				if (count($clientArray))
-					for (reset($clientArray);$ckey=key($clientArray);next($clientArray))
+					foreach (array_keys($clientArray) as $ckey)
 						echo "<option value='".$ckey."'>".$clientArray[$ckey]."</option>";
 				else
 				{
@@ -365,7 +365,7 @@ if ($fields = $plugin['plugin-import'])
 				$affiliateArray = phpAds_getAffiliateArray();
 				
 				if (count($affiliateArray))
-					for (reset($affiliateArray);$ckey=key($affiliateArray);next($affiliateArray))
+					foreach (array_keys($affiliateArray) as $ckey)
 						echo "<option value='".$ckey."'>".$affiliateArray[$ckey]."</option>";
 				else
 				{
@@ -390,7 +390,7 @@ if ($fields = $plugin['plugin-import'])
 			$zoneArray = phpAds_getZoneArray();
 			
 			if (count($zoneArray))
-				for (reset($zoneArray);$ckey=key($zoneArray);next($zoneArray))
+				foreach (array_keys($zoneArray) as $ckey)
 					echo "<option value='".$ckey."'>".$zoneArray[$ckey]."</option>";
 			else
 			{

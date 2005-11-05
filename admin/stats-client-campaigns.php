@@ -462,7 +462,7 @@ $totalclicks = 0;
 if (isset($campaigns) && is_array($campaigns) && sizeof ($campaigns) > 0)
 {
 	// Calculate statistics for campaigns
-	for (reset($campaigns);$ckey=key($campaigns);next($campaigns))
+	foreach (array_keys($campaigns) as $ckey)
 	{
 		$campaignviews = 0;
 		$campaignclicks = 0;
@@ -470,7 +470,7 @@ if (isset($campaigns) && is_array($campaigns) && sizeof ($campaigns) > 0)
 		if (isset($campaigns[$ckey]['banners']) && sizeof ($campaigns[$ckey]['banners']) > 0)
 		{
 			$banners = $campaigns[$ckey]['banners'];
-			for (reset($banners);$bkey=key($banners);next($banners))
+			foreach (array_keys($banners) as $bkey)
 			{
 				$campaignviews += $banners[$bkey]['views'];
 				$campaignclicks += $banners[$bkey]['clicks'];
@@ -609,7 +609,7 @@ if ($campaignshidden > 0 || $totalviews > 0 || $totalclicks > 0)
 	echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	
 	$i=0;
-	for (reset($campaigns);$ckey=key($campaigns);next($campaigns))
+	foreach (array_keys($campaigns) as $ckey)
 	{
 		// Icon & name
 		echo "<tr height='25' ".($i % 2 == 0 ? "bgcolor='#F6F6F6'" : "")."><td height='25'>";
@@ -651,7 +651,7 @@ if ($campaignshidden > 0 || $totalviews > 0 || $totalclicks > 0)
 		if ($campaigns[$ckey]['expand'] == '1' && isset($campaigns[$ckey]['banners']))
 		{
 			$banners = $campaigns[$ckey]['banners'];
-			for (reset($banners);$bkey=key($banners);next($banners))
+			foreach (array_keys($banners) as $bkey)
 			{
 				$name = $strUntitled;
 				if (isset($banners[$bkey]['alt']) && $banners[$bkey]['alt'] != '') $name = $banners[$bkey]['alt'];

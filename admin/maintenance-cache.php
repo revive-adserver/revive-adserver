@@ -66,7 +66,7 @@ function phpAds_showCache ()
 		
 		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 		
-		for (reset($rows);$key=key($rows);next($rows))
+		foreach (array_keys($rows) as $key)
 		{
 			$type = strtok($key, "=");
 			$what = strtok("&");

@@ -245,11 +245,11 @@ else
 if (count($banners))
 {
 	// Calculate CTR
-	for (reset($banners); $key = key($banners); next($banners))
+	foreach (array_keys($banners) as $key)
 		$banners[$key]['ctr'] = phpAds_buildCTR ($banners[$key]['adviews'], $banners[$key]['adclicks']);
 	
 	// Build order array
-	for (reset($banners); $key = key($banners); next($banners))
+	foreach (array_keys($banners) as $key)
 	{
 		$order_array[$key] = $banners[$key][$listorder];
 	}

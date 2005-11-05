@@ -299,7 +299,7 @@ if (!isset($clients) || !is_array($clients) || count($clients) == 0)
 else
 {
 	$i=0;
-	for (reset($clients);$key=key($clients);next($clients))
+	foreach (array_keys($clients) as $key)
 	{
 		$client = $clients[$key];
 		
@@ -350,7 +350,7 @@ else
 			{
 				$campaigns = $client['campaigns'];
 				
-				for (reset($campaigns);$ckey=key($campaigns);next($campaigns))
+				foreach (array_keys($campaigns) as $ckey)
 				{
 					// Divider
 					echo "<tr height='1'>";
@@ -407,7 +407,7 @@ else
 					if ($campaigns[$ckey]['expand'] == '1' && isset($campaigns[$ckey]['banners']))
 					{
 						$banners = $campaigns[$ckey]['banners'];
-						for (reset($banners);$bkey=key($banners);next($banners))
+						foreach (array_keys($banners) as $bkey)
 						{
 							$name = $strUntitled;
 							if (isset($banners[$bkey]['alt']) && $banners[$bkey]['alt'] != '') $name = $banners[$bkey]['alt'];

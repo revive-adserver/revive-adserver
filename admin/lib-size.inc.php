@@ -29,7 +29,7 @@ function phpAds_getBannerSize ($width, $height)
 	
 	$result = $strCustom." ($width x $height)";
 	
-	for (reset($phpAds_IAB);$key=key($phpAds_IAB);next($phpAds_IAB))
+	foreach (array_keys($phpAds_IAB) as $key)
 	{
 		if ($phpAds_IAB[$key]['width'] == $width &&
 			$phpAds_IAB[$key]['height'] == $height)
@@ -53,7 +53,7 @@ function phpAds_sizeExists ($width, $height)
 	
 	$result = false;
 	
-	for (reset($phpAds_IAB);$key=key($phpAds_IAB);next($phpAds_IAB))
+	foreach (array_keys($phpAds_IAB) as $key)
 	{
 		if ($phpAds_IAB[$key]['width'] == $width &&
 			$phpAds_IAB[$key]['height'] == $height)

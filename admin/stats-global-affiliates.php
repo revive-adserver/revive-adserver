@@ -322,7 +322,7 @@ if (isset($expand) && $expand != '')
 	switch ($expand)
 	{
 		case 'all' :	$node_array   = array();
-						if (isset($affiliates)) for (reset($affiliates);$key=key($affiliates);next($affiliates))	$node_array[] = $key;
+						if (isset($affiliates)) foreach (array_keys($affiliates) as $key)	$node_array[] = $key;
 						break;
 						
 		case 'none':	$node_array   = array();
@@ -351,7 +351,7 @@ for ($i=0; $i < $node_array_size;$i++)
 if (isset($zones) && is_array($zones) && count($zones) > 0)
 {
 	// Add zone to affiliate
-	for (reset($zones);$zkey=key($zones);next($zones))
+	foreach (array_keys($zones) as $zkey)
 		$affiliates[$zones[$zkey]['affiliateid']]['zones'][$zkey] = $zones[$zkey];
 	
 	unset ($zones);
@@ -363,7 +363,7 @@ $totalclicks = 0;
 if (isset($affiliates) && is_array($affiliates) && count($affiliates) > 0)
 {
 	// Calculate statistics for affiliates
-	for (reset($affiliates);$key=key($affiliates);next($affiliates))
+	foreach (array_keys($affiliates) as $key)
 	{
 		$affiliatesviews = 0;
 		$affiliatesclicks = 0;
@@ -373,7 +373,7 @@ if (isset($affiliates) && is_array($affiliates) && count($affiliates) > 0)
 			$zones = $affiliates[$key]['zones'];
 			
 			// Calculate statistics for zones
-			for (reset($zones);$zkey=key($zones);next($zones))
+			foreach (array_keys($zones) as $zkey)
 			{
 				$affiliatesviews += $zones[$zkey]['views'];
 				$affiliatesclicks += $zones[$zkey]['clicks'];
@@ -515,7 +515,7 @@ if ($totalviews > 0 || $totalclicks > 0)
 	
 	
 	$i=0;
-	for (reset($affiliates);$key=key($affiliates);next($affiliates))
+	foreach (array_keys($affiliates) as $key)
 	{
 		$affiliate = $affiliates[$key];
 		
@@ -549,7 +549,7 @@ if ($totalviews > 0 || $totalclicks > 0)
 		{
 			$zones = $affiliate['zones'];
 			
-			for (reset($zones);$zkey=key($zones);next($zones))
+			foreach (array_keys($zones) as $zkey)
 			{
 				// Divider
 				echo "<tr height='1'>";

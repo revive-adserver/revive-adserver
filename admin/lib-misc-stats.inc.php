@@ -18,7 +18,7 @@ if (!isset($type) || $type == '')
 
 if (isset($lib_misc_params))
 {
-	for (reset($lib_misc_params); $key = key($lib_misc_params); next($lib_misc_params))
+	foreach (array_keys($lib_misc_params) as $key)
 	{
 		$params[] = $key.'='.$lib_misc_params[$key];
 	}
@@ -39,7 +39,7 @@ $tabindex = 1;
 echo "<form action='".$HTTP_SERVER_VARS['PHP_SELF']."'>";
 
 if (isset($lib_misc_params))
-	for (reset($lib_misc_params); $key = key($lib_misc_params); next($lib_misc_params))
+	foreach (array_keys($lib_misc_params) as $key)
 		echo "<input type='hidden' name='".$key."' value='".$lib_misc_params[$key]."'>";
 
 echo "<select name='type' onChange='this.form.submit();' accesskey='".$keyList."' tabindex='".($tabindex++)."'>";

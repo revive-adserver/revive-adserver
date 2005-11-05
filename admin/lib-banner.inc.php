@@ -665,7 +665,7 @@ function phpAds_AvailableNetworks()
 
 function phpAds_setNetworkInfo($networkinfo, $vars)
 {
-	for (reset($vars); $key=key($vars); next($vars))
+	foreach (array_keys($vars) as $key)
 	{
 		if (ereg("\[value:".$key."\]([^\[]*)\[\/value\]", $networkinfo, $matches))
 		{

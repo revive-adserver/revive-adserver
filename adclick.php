@@ -140,7 +140,7 @@ if (phpAds_dbConnect())
 		
 		// Get vars
 		if (isset($HTTP_GET_VARS))
-			for (reset ($HTTP_GET_VARS); $key = key($HTTP_GET_VARS); next($HTTP_GET_VARS))
+			foreach (array_keys($HTTP_GET_VARS) as $key)
 			{
 				if ($key != 'bannerid' &&
 					$key != 'zoneid' &&
@@ -154,7 +154,7 @@ if (phpAds_dbConnect())
 			}
 		
 		if (isset($HTTP_POST_VARS))
-			for (reset ($HTTP_POST_VARS); $key = key($HTTP_POST_VARS); next($HTTP_POST_VARS))
+			foreach (array_keys($HTTP_POST_VARS) as $key)
 			{
 				if ($key != 'bannerid' &&
 					$key != 'zoneid' &&

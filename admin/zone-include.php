@@ -464,7 +464,7 @@ function phpAds_showZoneCampaign ($width, $height, $what, $delivery)
 	}
 	else
 	{
-		for (reset($campaigns); $ckey = key($campaigns); next($campaigns))
+		foreach (array_keys($campaigns) as $ckey)
 		{
 			$campaign = $campaigns[$ckey];
 			
@@ -964,7 +964,7 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype, $delivery)
 	}
 	else
 	{
-		for (reset($campaigns); $ckey = key($campaigns); next($campaigns))
+		foreach (array_keys($campaigns) as $ckey)
 		{
 			$campaign = $campaigns[$ckey];
 			
@@ -973,7 +973,7 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype, $delivery)
 				$banners = $campaign['banners'];
 				
 				$activebanners = 0;
-				for (reset($banners); $bkey = key($banners); next($banners))
+				foreach (array_keys($banners) as $bkey)
 				{
 					$banner = $banners[$bkey];
 					
@@ -1022,7 +1022,7 @@ function phpAds_showZoneBanners ($width, $height, $what, $zonetype, $delivery)
 					echo "<td>&nbsp;</td></tr>";
 				}
 				
-				for (reset($banners); $bkey = key($banners); next($banners))
+				foreach (array_keys($banners) as $bkey)
 				{
 					$banner = $banners[$bkey];
 					

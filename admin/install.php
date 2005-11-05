@@ -85,7 +85,7 @@ $phpAds_config['url_prefix'] = strtolower(eregi_replace("^([a-z]+)/.*$", "\\1://
 
 // Overwrite settings with install vars
 if (isset($installvars) && is_array($installvars))
-	for (reset($installvars); $key=key($installvars); next($installvars))
+	foreach (array_keys($installvars) as $key)
 		$phpAds_config[$key] = $installvars[$key];
 
 
@@ -813,7 +813,7 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	
 	if (isset($installvars) && count($installvars))
-		for (reset($installvars); $key=key($installvars); next($installvars))
+		foreach (array_keys($installvars) as $key)
 			echo "<input type='hidden' name='installvars[".$key."]' value='".$installvars[$key]."'>\n";
 	
 	echo "<input type='hidden' name='phase' value='".$next_phase."'>\n";

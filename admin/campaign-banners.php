@@ -159,7 +159,7 @@ if (isset($expand) && $expand != '')
 	switch ($expand)
 	{
 		case 'all' :	$node_array   = array();
-						if (isset($banners)) for (reset($banners);$key=key($banners);next($banners))	$node_array[] = $key;
+						if (isset($banners)) foreach (array_keys($banners) as $key)	$node_array[] = $key;
 						break;
 						
 		case 'none':	$node_array   = array();
@@ -246,7 +246,7 @@ else
 {
 	$i=0;
 	
-	for (reset($banners);$bkey=key($banners);next($banners))
+	foreach (array_keys($banners) as $bkey)
 	{
 		if ($i > 0) echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
 		

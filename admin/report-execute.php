@@ -39,7 +39,7 @@ if (isset($plugin) && $plugin != '')
 		$plugin_import 			 = $plugininfo["plugin-import"];
 		$plugin_variables		 = array();
 		
-		for (reset($plugin_import);$key=key($plugin_import);next($plugin_import))
+		foreach (array_keys($plugin_import) as $key)
 		{
 			// Register needed plugin variables
 			phpAds_registerGlobal ($key);

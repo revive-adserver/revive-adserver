@@ -419,7 +419,7 @@ echo "<table><tr><td>";
 echo "<input type='radio' name='sizetype' value='default'".($exists ? ' CHECKED' : '').$sizedisabled." tabindex='".($tabindex++)."'>&nbsp;";
 echo "<select name='size' onchange='phpAds_formSelectSize(this)'".$sizedisabled." tabindex='".($tabindex++)."'>"; 
 
-for (reset($phpAds_IAB);$key=key($phpAds_IAB);next($phpAds_IAB))
+foreach (array_keys($phpAds_IAB) as $key)
 {
 	if ($phpAds_IAB[$key]['width'] == $zone['width'] &&
 		$phpAds_IAB[$key]['height'] == $zone['height'])

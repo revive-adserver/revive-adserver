@@ -81,7 +81,7 @@ function phpAds_SessionDataRegister($key, $value='')
 	
 	if (is_array($key) && $value=='')
 	{
-		for (reset($key);$name=key($key);next($key))
+		foreach (array_keys($key) as $name)
 		{
 			$Session[$name] = $key[$name];
 		}

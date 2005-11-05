@@ -53,7 +53,7 @@ if (isset($submit))
 		$previouszone[$row['zoneid']] = (phpAds_IsCampaignInZone ($campaignid, $row['zoneid'], $row['what']));
 	
 	
-	for (reset($previouszone);$key=key($previouszone);next($previouszone))
+	foreach (array_keys($previouszone) as $key)
 	{
 		if (($previouszone[$key] == true && (!isset($includezone[$key]) || $includezone[$key] != 't')) ||
 		    ($previouszone[$key] != true && (isset($includezone[$key]) && $includezone[$key] == 't')))
@@ -264,7 +264,7 @@ echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gi
 if ($zone_count > 0 && $affiliate_count > 0)
 {
 	$i=0;
-	for (reset($affiliates); $akey = key($affiliates); next($affiliates))
+	foreach (array_keys($affiliates) as $akey)
 	{
 		$affiliate = $affiliates[$akey];
 		
@@ -277,7 +277,7 @@ if ($zone_count > 0 && $affiliate_count > 0)
 			echo "<td height='25'>";
 			
 			$zoneslinked = 0;
-			for (reset($zones); $zkey = key($zones); next($zones))
+			foreach (array_keys($zones) as $zkey)
 				if ($zones[$zkey]['linked']) $zoneslinked++;
 			
 			if (count($zones) == $zoneslinked)
@@ -299,7 +299,7 @@ if ($zone_count > 0 && $affiliate_count > 0)
 			echo "</tr>";
 			
 			
-			for (reset($zones); $zkey = key($zones); next($zones))
+			foreach (array_keys($zones) as $zkey)
 			{
 				$zone = $zones[$zkey];
 				
@@ -376,7 +376,7 @@ echo "</form>";
 	affiliates = new Array();
 <?php
 	if (isset($affiliates) && is_array($affiliates) && count($affiliates))
-		for (reset($affiliates); $akey = key($affiliates); next($affiliates))
+		foreach (array_keys($affiliates) as $akey)
 			if (isset($affiliates[$akey]['zones']))
 				echo "\taffiliates[".$akey."] = ".count($affiliates[$akey]['zones']).";\n";
 ?>

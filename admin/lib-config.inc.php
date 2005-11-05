@@ -335,9 +335,7 @@ function phpAds_ConfigFileUpdateFlush()
 	global $phpAds_settings_update_cache, $phpAds_settings_write_cache;
 	global $phpAds_settings_information;
 	
-	for (reset($phpAds_settings_update_cache);
-		 $key = key($phpAds_settings_update_cache);
-		 next($phpAds_settings_update_cache))
+	foreach (array_keys($phpAds_settings_update_cache) as $key)
 	{
 		// Write old settings if they haven't been override
 		if (!isset($phpAds_settings_write_cache[$key]))
@@ -361,9 +359,7 @@ function phpAds_ConfigFileUpdateExport()
 	global $phpAds_config;
 	global $phpAds_settings_update_cache;
 	
-	for (reset($phpAds_settings_update_cache);
-		 $key = key($phpAds_settings_update_cache);
-		 next($phpAds_settings_update_cache))
+	foreach (array_keys($phpAds_settings_update_cache) as $key)
 	{
 		// Overwrite existing values
 		$phpAds_config[$key] = $phpAds_settings_update_cache[$key];

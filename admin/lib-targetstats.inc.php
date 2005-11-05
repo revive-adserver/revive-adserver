@@ -71,7 +71,7 @@ if (!isset($period) || $period == '')
 
 if (isset($lib_targetstats_params))
 {
-	for (reset($lib_targetstats_params); $key = key($lib_targetstats_params); next($lib_targetstats_params))
+	foreach (array_keys($lib_targetstats_params) as $key)
 	{
 		$params[] = $key.'='.$lib_targetstats_params[$key];
 	}
@@ -311,7 +311,7 @@ if (isset($row['span']) && $row['span'] > 0)
 		echo "<form action='".$HTTP_SERVER_VARS['PHP_SELF']."'>";
 	
 	if (isset($lib_targetstats_params))
-		for (reset($lib_targetstats_params); $key = key($lib_targetstats_params); next($lib_targetstats_params))
+		foreach (array_keys($lib_targetstats_params) as $key)
 		{
 			if (!(isset($lib_targetstats_misc_stats) && $lib_targetstats_misc_stats) && $key != 'type')
 				echo "<input type='hidden' name='".$key."' value='".$lib_targetstats_params[$key]."'>";

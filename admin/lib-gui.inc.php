@@ -225,7 +225,7 @@ function phpAds_PageHeader($ID, $extra="")
 		$i = 0;
 		$lastselected = false;
 		
-		for (reset($pages);$key=key($pages);next($pages))
+		foreach (array_keys($pages) as $key)
 		{
 			if (strpos($key, ".") == 0)
 			{

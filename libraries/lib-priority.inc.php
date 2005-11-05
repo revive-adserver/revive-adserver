@@ -509,7 +509,7 @@ function phpAds_PriorityPredictProfile($campaigns, $banners)
 	
 	// Calculate total impressions target
 	$total_target = 0;
-	for (reset($campaigns);$c=key($campaigns);next($campaigns))
+	foreach (array_keys($campaigns) as $c)
 		$total_target += $campaigns[$c]['target'];
 	
 	if ($total_profile == 0)
@@ -656,7 +656,7 @@ function phpAds_PriorityStore($banners, $campaigns = '')
 	$res = phpAds_dbQuery($query);
 	
 	// Set correct priority
-	for (reset($banners);$b=key($banners);next($banners))
+	foreach (array_keys($banners) as $b)
 	{
 		$query = "
 			UPDATE ".$phpAds_config['tbl_banners']."
@@ -670,7 +670,7 @@ function phpAds_PriorityStore($banners, $campaigns = '')
 	// Update targetstats at midnight
 	if (phpAds_CurrentHour == 0)
 	{
-		for (reset($campaigns);$c=key($campaigns);next($campaigns))
+		foreach (array_keys($campaigns) as $c)
 		{
 			if ($campaigns[$c]['target'])
 				phpAds_dbQuery("
@@ -703,14 +703,14 @@ function phpAds_PriorityCalculate()
 	$total_targeted_hits = 0;
 	$total_other_hits 	 = 0;
 	
-	for (reset($campaigns);$c=key($campaigns);next($campaigns))
+	foreach (array_keys($campaigns) as $c)
 	{
 		$targeted_hits = 0;
 		$other_hits    = 0;
 		
 		if ($campaigns[$c]['target'] > 0)
 		{
-			for (reset($banners);$b=key($banners);next($banners))
+			foreach (array_keys($banners) as $b)
 				if ($banners[$b]['parent'] == $c)
 					$targeted_hits += isset($banners[$b]['hits']) ? $banners[$b]['hits'] : 0;
 			
@@ -721,7 +721,7 @@ function phpAds_PriorityCalculate()
 		{
 			$bannercount = 0;
 			
-			for (reset($banners);$b=key($banners);next($banners))
+			foreach (array_keys($banners) as $b)
 				if ($banners[$b]['parent'] == $c)
 				{
 					$other_hits += isset($banners[$b]['hits']) ? $banners[$b]['hits'] : 0;
@@ -797,7 +797,7 @@ function phpAds_PriorityCalculate()
 		
 		$totalassigned = 0;
 		
-		for (reset($campaigns);$c=key($campaigns);next($campaigns))
+		foreach (array_keys($campaigns) as $c)
 		{
 			if ($campaigns[$c]['target'] > 0)
 			{
@@ -915,11 +915,11 @@ function phpAds_PriorityCalculate()
 				$totalassigned 			+= $remaining_for_campaign;
 				
 				$total_banner_weight     = 0;
-				for (reset($banners);$b=key($banners);next($banners))
+				foreach (array_keys($banners) as $b)
 					if ($banners[$b]['parent'] == $c)
 						$total_banner_weight += $banners[$b]['weight'];
 				
-				for (reset($banners);$b=key($banners);next($banners))
+				foreach (array_keys($banners) as $b)
 					if ($banners[$b]['parent'] == $c)
 					{
 						$banners[$b]['priority'] = round ($remaining_for_campaign / $total_banner_weight * $banners[$b]['weight']);
@@ -993,81 +993,86 @@ function phpAds_PriorityCalculate()
 	$debuglog .= "-----------------------------------------------------\n";
 	// END REPORTING
 
-	for (reset($campaigns);$c=key($campaigns);)
+	$loop_ok = false;
+	
+	while (!$loop_ok)
 	{
-		if ($campaigns[$c]['target'] == 0)
+		foreach (array_keys($campaigns) as $c)
 		{
-			// BEGIN REPORTING
-			$debuglog .= "\n\n\nLOW-PRI CAMPAIGN $c \n";
-			$debuglog .= "-----------------------------------------------------\n";
-			// END REPORTING
-			
-			
-			if ($available_for_others > 0)
-				$remaining_for_campaign = round ($available_for_others / $total_campaign_weight * $campaigns[$c]['weight']);
-			else
-				$remaining_for_campaign = 0;
-			
-			// BEGIN REPORTING
-			$debuglog .= "Remaining for campaign: $remaining_for_campaign \n";
-			// END REPORTING
-			
-			$total_banner_weight = 0;
-			for (reset($banners);$b=key($banners);next($banners))
-				if ($banners[$b]['parent'] == $c)
-					$total_banner_weight += $banners[$b]['weight'];
-			
-			for (reset($banners);$b=key($banners);next($banners))
-				if ($banners[$b]['parent'] == $c)
-				{
-					$banners[$b]['priority'] = round ($remaining_for_campaign / $total_banner_weight * $banners[$b]['weight']);
-					
-					if (!$banners[$b]['priority'])
-					{
-						// BEGIN REPORTING
-						$debuglog .= "- Banner $b had a null priority.\n";
-						// END REPORTING
-
-						$zero_pri = true;
-						break;
-					}
-				
-					$banner_priorities[] = $banners[$b]['priority'];
-					
-					// BEGIN REPORTING
-					$debuglog .= "- Assigned priority to banner $b: ".$banners[$b]['priority']." \n";
-					// END REPORTING
-				}
-		}
-
-		if ($zero_pri)
-		{
-			if (!$available_for_others)
+			if ($campaigns[$c]['target'] == 0)
 			{
-				// It should never get here, but avoid an endless loop to be safe...
+				// BEGIN REPORTING
+				$debuglog .= "\n\n\nLOW-PRI CAMPAIGN $c \n";
+				$debuglog .= "-----------------------------------------------------\n";
+				// END REPORTING
+				
+				
+				if ($available_for_others > 0)
+					$remaining_for_campaign = round ($available_for_others / $total_campaign_weight * $campaigns[$c]['weight']);
+				else
+					$remaining_for_campaign = 0;
+				
+				// BEGIN REPORTING
+				$debuglog .= "Remaining for campaign: $remaining_for_campaign \n";
+				// END REPORTING
+				
+				$total_banner_weight = 0;
+				foreach (array_keys($banners) as $b)
+					if ($banners[$b]['parent'] == $c)
+						$total_banner_weight += $banners[$b]['weight'];
+				
+				foreach (array_keys($banners) as $b)
+					if ($banners[$b]['parent'] == $c)
+					{
+						$banners[$b]['priority'] = round ($remaining_for_campaign / $total_banner_weight * $banners[$b]['weight']);
+						
+						if (!$banners[$b]['priority'])
+						{
+							// BEGIN REPORTING
+							$debuglog .= "- Banner $b had a null priority.\n";
+							// END REPORTING
+	
+							$zero_pri = true;
+							break;
+						}
+					
+						$banner_priorities[] = $banners[$b]['priority'];
+						
+						// BEGIN REPORTING
+						$debuglog .= "- Assigned priority to banner $b: ".$banners[$b]['priority']." \n";
+						// END REPORTING
+					}
+			}
+	
+			if ($zero_pri)
+			{
+				if (!$available_for_others)
+				{
+					// It should never get here, but avoid an endless loop to be safe...
+					break;
+				}
+	
+				// Restart low-pri assignment, increasing available impressions
+				$zero_pri = false;
+				$banner_priorities = array();
+				
+				$available_for_others *= 2;
+				$high_pri_boost *= 2;
+	
+				// BEGIN REPORTING
+				$debuglog .= "\n\n\n-----------------------------------------------------\n";
+				$debuglog .= "Restarting...\n";
+				$debuglog .= "-----------------------------------------------------\n";
+				$debuglog .= "\n\n\nImpressions left over: $available_for_others \n";
+				$debuglog .= "-----------------------------------------------------\n";
+				// END REPORTING
+	
+				// Restart loop
 				break;
 			}
-
-			// Restart low-pri assignment, increasing available impressions
-			$zero_pri = false;
-			$banner_priorities = array();
-			
-			$available_for_others *= 2;
-			$high_pri_boost *= 2;
-
-			// BEGIN REPORTING
-			$debuglog .= "\n\n\n-----------------------------------------------------\n";
-			$debuglog .= "Restarting...\n";
-			$debuglog .= "-----------------------------------------------------\n";
-			$debuglog .= "\n\n\nImpressions left over: $available_for_others \n";
-			$debuglog .= "-----------------------------------------------------\n";
-			// END REPORTING
-
-			reset($campaigns);
-			continue;
 		}
-
-		next($campaigns);
+		
+		$loop_ok = true;
 	}
 			
 	if ($high_pri_boost > 1 && !$no_high_pri && $total_weight)
@@ -1097,7 +1102,7 @@ function phpAds_PriorityCalculate()
 			// END REPORTING
 		}
 		
-		for (reset($campaigns);$c=key($campaigns);next($campaigns))
+		foreach (array_keys($campaigns) as $c)
 		{
 			if ($campaigns[$c]['target'] > 0)
 			{
@@ -1106,7 +1111,7 @@ function phpAds_PriorityCalculate()
 				$debuglog .= "-----------------------------------------------------\n";
 				// END REPORTING
 
-				for (reset($banners);$b=key($banners);next($banners))
+				foreach (array_keys($banners) as $b)
 					if ($banners[$b]['parent'] == $c)
 					{
 						// BEGIN REPORTING
@@ -1127,7 +1132,7 @@ function phpAds_PriorityCalculate()
 				$debuglog .= "-----------------------------------------------------\n";
 				// END REPORTING
 
-				for (reset($banners);$b=key($banners);next($banners))
+				foreach (array_keys($banners) as $b)
 					if ($banners[$b]['parent'] == $c)
 					{
 						// BEGIN REPORTING
@@ -1147,7 +1152,7 @@ function phpAds_PriorityCalculate()
 
 
 	$priority_sum = 0;
-	for(reset($banners);$b=current($banners);next($banners))
+	foreach ($banners as $b)
 		$priority_sum += $b['priority'];
 	
 	if ($priority_sum)
@@ -1163,7 +1168,7 @@ function phpAds_PriorityCalculate()
 			$debuglog .= "OVERFLOW SOFTENER ENABLED\n";
 			$debuglog .= "-----------------------------------------------------\n\n\n\n";
 			
-			for(reset($banners);$b=key($banners);next($banners))
+			foreach (array_keys($banners) as $b)
 			{
 				// BEGIN REPORTING
 				$debuglog .= "- Assigned priority to banner $b: ".$banners[$b]['priority']." / $softener = ";
@@ -1251,7 +1256,7 @@ function phpAds_PriorityTotalWeight($campaigns, $banners)
 	$pr  = array();
 	
 	// Get total campaign weight
-	for (reset($campaigns);$c=key($campaigns);next($campaigns))
+	foreach (array_keys($campaigns) as $c)
 	{
 		$tcw += $campaigns[$c]['weight'];
 		$tbw[$c] = 0;
@@ -1263,12 +1268,12 @@ function phpAds_PriorityTotalWeight($campaigns, $banners)
 	
 	
 	// Get total banner weight for each campaign
-	for (reset($banners);$b=key($banners);next($banners))
+	foreach (array_keys($banners) as $b)
 		if (isset($campaigns[$banners[$b]['parent']]) && $campaigns[$banners[$b]['parent']]['active'] == 't')
 			$tbw[$banners[$b]['parent']] += $banners[$b]['weight'];
 	
 	// Determine probability or low priority campaigns
-	for (reset($banners);$b=key($banners);next($banners))
+	foreach (array_keys($banners) as $b)
 		if (isset($campaigns[$banners[$b]['parent']]) && $campaigns[$banners[$b]['parent']]['active'] == 't' && $campaigns[$banners[$b]['parent']]['weight'] > 0)
 			$pr[] = ($campaigns[$banners[$b]['parent']]['weight'] / $tcw / $tbw[$banners[$b]['parent']]) * $banners[$b]['weight'];
 	
