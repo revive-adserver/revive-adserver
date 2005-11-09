@@ -50,8 +50,12 @@ phpAds_registerGlobal ('width', 'data');
 /* Prepare data for graph                                */
 /*********************************************************/
 
+// Prevent errors
+if (!isset($width) || $width <= 0)
+	exit;
+
 // Decode data
-$data = urldecode($data);  
+$data = isset($data) ? urldecode($data) : '';  
 
 // Start positions of graph  
 $x = 27;  
