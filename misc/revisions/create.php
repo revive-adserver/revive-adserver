@@ -11,7 +11,7 @@ include (phpAds_path."/libraries/lib-dbconfig.inc.php");
 include (phpAds_path."/libraries/lib-revisions.inc.php");
 
 // Starting scan
-echo "Starting scan at ".phpAds_path."<br>\n";
+echo "Starting scan<br>\n";
 
 if (phpAds_revisionCreate())
 {

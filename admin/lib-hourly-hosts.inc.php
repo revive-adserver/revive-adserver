@@ -14,6 +14,11 @@
 
 
 
+// Prevent full path disclosure
+if (!defined('phpAds_path')) die();
+
+
+
 /*********************************************************/
 /* Resolve ip to domainname                              */
 /*********************************************************/

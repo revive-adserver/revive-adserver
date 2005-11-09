@@ -10,6 +10,12 @@
 
 
 
+// Avoid redeclaring function if the extension is loaded
+if (extension_loaded('ftp'))
+	return true;
+
+
+
 $ftp_debug = FALSE;
 $ftp_umask = 0022;
 $ftp_timeout = 30;

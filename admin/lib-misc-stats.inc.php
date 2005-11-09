@@ -13,6 +13,12 @@
 /************************************************************************/
 
 
+
+// Prevent full path disclosure
+if (!defined('phpAds_path')) die();
+
+
+
 if (!isset($type) || $type == '')
 	$type = 's';
 

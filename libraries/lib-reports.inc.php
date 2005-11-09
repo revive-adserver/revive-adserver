@@ -13,6 +13,12 @@
 /************************************************************************/
 
 
+
+// Prevent full path disclosure
+if (!defined('phpAds_path')) die();
+
+
+
 if (!defined('LIBMAIL_INCLUDED'))
 	require (phpAds_path.'/libraries/lib-mail.inc.php');
 

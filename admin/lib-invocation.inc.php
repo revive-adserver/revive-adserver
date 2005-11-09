@@ -14,6 +14,11 @@
 
 
 
+// Prevent full path disclosure
+if (!defined('phpAds_path')) die();
+
+
+
 // Register input variables
 phpAds_registerGlobal ('codetype', 'what', 'acid', 'source', 'target', 'withText', 'template', 'refresh',
 					   'uniqueid', 'width', 'height', 'website', 'ilayer', 'popunder', 'left', 'top', 'timeout',

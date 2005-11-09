@@ -14,6 +14,10 @@
 
 
 
+// Prevent full path disclosure
+if (!defined('phpAds_path')) die();
+
+
 
 /*********************************************************/
 /* Show hourly statistics                                */

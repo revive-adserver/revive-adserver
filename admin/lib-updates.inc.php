@@ -14,6 +14,11 @@
 
 
 
+// Prevent full path disclosure
+if (!defined('phpAds_path')) die();
+
+
+
 // Set define to prevent duplicate include
 define ('LIBUPDATES_INCLUDED', true);
 

@@ -14,6 +14,11 @@
 
 
 
+// Prevent full path disclosure
+if (!defined('phpAds_path')) die();
+
+
+
 // Include required files
 if (!defined('phpAds_installing'))
 {

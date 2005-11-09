@@ -13,8 +13,14 @@
 /************************************************************************/
 
 
+
+// Prevent full path disclosure
+if (!defined('phpAds_path')) die();
+
+
+
 // Include required files
-require ('lib-gd.inc.php');
+require (phpAds_path.'/libraries/lib-gd.inc.php');
 
 
 if (!isset($source))

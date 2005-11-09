@@ -14,6 +14,11 @@
 
 
 
+// Prevent full path disclosure
+if (!defined('phpAds_path')) die();
+
+
+
 // Define constant used to place code generator
 define('phpAds_adLayerLoaded', true);
 
