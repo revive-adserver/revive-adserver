@@ -53,7 +53,7 @@ function phpAds_SessionStart()
 {
 	global $HTTP_COOKIE_VARS, $Session;
 	
-	if (!isset($HTTP_COOKIE_VARS['sessionID']) || $HTTP_COOKIE_VARS['sessionID'] == '')
+	if (isset($HTTP_COOKIE_VARS['sessionID']) && preg_match('/^[0-9a-f]+$/D', $HTTP_COOKIE_VARS['sessionID']))
 	{
 		// Start a new session
 		$Session = array();
@@ -108,7 +108,7 @@ function phpAds_SessionDataStore()
 	global $phpAds_config;
 	global $HTTP_COOKIE_VARS, $Session;
 	
-	if (isset($HTTP_COOKIE_VARS['sessionID']) && $HTTP_COOKIE_VARS['sessionID'] != '')
+	if (isset($HTTP_COOKIE_VARS['sessionID']) && preg_match('/^[0-9a-f]+$/D', $HTTP_COOKIE_VARS['sessionID']))
 	{
 		phpAds_dbQuery("REPLACE INTO ".$phpAds_config['tbl_session']." VALUES ('".$HTTP_COOKIE_VARS['sessionID']."', '" .
 					   addslashes(serialize($Session)) . "', null )");
@@ -131,8 +131,11 @@ function phpAds_SessionDataDestroy()
 	global $phpAds_config;
 	global $HTTP_COOKIE_VARS, $Session;
 	
-	// Remove the session data from the database
-	phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_session']." WHERE sessionid='".$HTTP_COOKIE_VARS['sessionID']."'");
+	if (isset($HTTP_COOKIE_VARS['sessionID']) && preg_match('/^[0-9a-f]+$/D', $HTTP_COOKIE_VARS['sessionID']))
+	{
+		// Remove the session data from the database
+		phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_session']." WHERE sessionid='".$HTTP_COOKIE_VARS['sessionID']."'");
+	}
 	
 	// Kill the cookie containing the session ID
 	phpAds_setCookie ('sessionID', '');
