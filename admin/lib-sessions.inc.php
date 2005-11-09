@@ -1,7 +1,7 @@
 <?php // $Revision$
 
 /************************************************************************/
-/* phpAdsNew 2                                                          */
+[/* phpAdsNew 2                                                          */
 /* ===========                                                          */
 /*                                                                      */
 /* Copyright (c) 2000-2005 by the phpAdsNew developers                  */
@@ -23,7 +23,7 @@ function phpAds_SessionDataFetch()
 	global $phpAds_config;
 	global $HTTP_COOKIE_VARS, $Session;
 	
-	if (isset($HTTP_COOKIE_VARS['sessionID']) && $HTTP_COOKIE_VARS['sessionID'] != '')
+	if (isset($HTTP_COOKIE_VARS['sessionID']) && preg_match('/^[0-9a-f]+$/D', $HTTP_COOKIE_VARS['sessionID']))
 	{
 		$result = phpAds_dbQuery("SELECT sessiondata FROM ".$phpAds_config['tbl_session']." WHERE sessionid='".$HTTP_COOKIE_VARS['sessionID']."'" .
 					 	         " AND UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(lastused) < 3600");
