@@ -12,6 +12,7 @@ else
     define ('phpAds_path', '../..');
 
 
+include (phpAds_path."/libraries/lib-dbconfig.inc.php");
 include (phpAds_path."/libraries/lib-revisions.inc.php");
 
 
@@ -35,7 +36,5 @@ else
 {
 	echo "All files are okay!\n";
 }
-
-echo "\n";
 
 ?>
