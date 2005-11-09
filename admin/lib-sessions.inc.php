@@ -1,7 +1,7 @@
 <?php // $Revision$
 
 /************************************************************************/
-[/* phpAdsNew 2                                                          */
+/* phpAdsNew 2                                                          */
 /* ===========                                                          */
 /*                                                                      */
 /* Copyright (c) 2000-2005 by the phpAdsNew developers                  */
