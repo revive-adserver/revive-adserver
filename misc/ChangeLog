@@ -1,7 +1,7 @@
 phpAdsNew - ChangeLog
 
 
-CVS
+phpAdsNew 2.0.7
 			+ Misc changes
 			  - 2005-08-25:  Added new database setting to allow connection to the database using sockets  (Matteo)
 			  - 2005-09-25:  Rewrote the swf hardcoded link converter, which results in wider compatibility  (Matteo)
@@ -14,6 +14,8 @@ CVS
 			  - 2005-10-16:  Geotargeting wasn't correctly working under some circumstances (Matteo)
 			  - 2005-10-20:  GeoIP region for somewhat reason was broken in the last release (Matteo)
 			  - 2005-10-31:  Fixed potential incobatibility with mod_security which could block PAN sessionid cookie  (Matteo)
+			  - 2005-11-09:  Fixed SQL injection vulnerability with magic_quotes off in lib-session.inc.php  (Matteo)
+			  - 2005-11-09:  Fixed multiple full path discolsure vulnerabilities  (Matteo)
 
 
 phpAdsNew 2.0.6
