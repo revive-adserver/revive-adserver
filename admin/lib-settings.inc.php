@@ -14,11 +14,6 @@
 
 
 
-// Prevent full path disclosure
-if (!defined('phpAds_path')) die();
-
-
-
 // Include required files
 if (!defined('phpAds_installing'))
 {
@@ -29,6 +24,10 @@ if (!defined('phpAds_installing'))
 	if ($phpAds_config['language'] != 'english' && file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/settings.lang.php'))
 		@include (phpAds_path.'/language/'.$phpAds_config['language'].'/settings.lang.php');
 }
+
+
+// Prevent full path disclosure
+if (!defined('phpAds_path')) die();
 
 
 // Load settings help language strings in desired language, if present

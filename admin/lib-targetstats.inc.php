@@ -20,7 +20,7 @@ if (!defined('phpAds_path')) die();
 
 
 // Include required files
-require (phpAds_path.'/libraries/lib-gd.inc.php');
+require (phpAds_path.'/admin/lib-gd.inc.php');
 
 
 
