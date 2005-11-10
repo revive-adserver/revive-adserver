@@ -25,7 +25,7 @@ function phpAds_SessionDataFetch()
 	
 	if (isset($HTTP_COOKIE_VARS['sessionID']) && preg_match('/^[0-9a-f]+$/D', $HTTP_COOKIE_VARS['sessionID']))
 	{
-		$result = phpAds_dbQuery("SELECT sessiondata FROM ".$phpAds_config['tbl_session']." WHERE sessionid='".$HTTP_COOKIE_VARS['sessionID']."'" .
+		$result = phpAds_dbQuery("SELECT sessiondata FROM ".$phpAds_config['tbl_session']." WHERE sessionid='".addslashes($HTTP_COOKIE_VARS['sessionID'])."'" .
 					 	         " AND UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(lastused) < 3600");
 		
 		if ($row = phpAds_dbFetchArray($result))
@@ -33,7 +33,7 @@ function phpAds_SessionDataFetch()
 			$Session = unserialize(stripslashes($row['sessiondata']));
 			
 			// Reset LastUsed, prevent from timing out
-			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_session']." SET lastused = NOW() WHERE sessionid = '".$HTTP_COOKIE_VARS['sessionID']."'");
+			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_session']." SET lastused = NOW() WHERE sessionid = '".addslashes($HTTP_COOKIE_VARS['sessionID'])."'");
 		}
 	}
 	else
@@ -110,7 +110,7 @@ function phpAds_SessionDataStore()
 	
 	if (isset($HTTP_COOKIE_VARS['sessionID']) && preg_match('/^[0-9a-f]+$/D', $HTTP_COOKIE_VARS['sessionID']))
 	{
-		phpAds_dbQuery("REPLACE INTO ".$phpAds_config['tbl_session']." VALUES ('".$HTTP_COOKIE_VARS['sessionID']."', '" .
+		phpAds_dbQuery("REPLACE INTO ".$phpAds_config['tbl_session']." VALUES ('".addslashes($HTTP_COOKIE_VARS['sessionID'])."', '" .
 					   addslashes(serialize($Session)) . "', null )");
 	}
 	
@@ -134,7 +134,7 @@ function phpAds_SessionDataDestroy()
 	if (isset($HTTP_COOKIE_VARS['sessionID']) && preg_match('/^[0-9a-f]+$/D', $HTTP_COOKIE_VARS['sessionID']))
 	{
 		// Remove the session data from the database
-		phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_session']." WHERE sessionid='".$HTTP_COOKIE_VARS['sessionID']."'");
+		phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_session']." WHERE sessionid='".addslashes($HTTP_COOKIE_VARS['sessionID'])."'");
 	}
 	
 	// Kill the cookie containing the session ID
