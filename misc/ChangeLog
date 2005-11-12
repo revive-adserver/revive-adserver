@@ -16,6 +16,7 @@ phpAdsNew 2.0.7
 			  - 2005-10-31:  Fixed potential incobatibility with mod_security which could block PAN sessionid cookie  (Matteo)
 			  - 2005-11-09:  Fixed SQL injection vulnerability with magic_quotes off in lib-session.inc.php  (Matteo)
 			  - 2005-11-09:  Fixed multiple full path discolsure vulnerabilities  (Matteo)
+			  - 2005-11-12:  FIxed problems with session caused by the recent changes  (Matteo)
 
 
 phpAdsNew 2.0.6
