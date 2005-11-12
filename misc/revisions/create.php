@@ -17,16 +17,19 @@ include (phpAds_path."/libraries/lib-dbconfig.inc.php");
 include (phpAds_path."/libraries/lib-revisions.inc.php");
 
 // Starting scan
-echo "Starting scan<br>\n";
+echo "Starting scan\n";
 
 if (phpAds_revisionCreate())
 {
 	echo "Revision file succesfully created!\n";
+
+	die(0);
 }
 else
 {
 	echo "<strong>Error:</strong> Failed to create a new revision file\n";
-}
 
+	die(1);
+}
 
 ?>
