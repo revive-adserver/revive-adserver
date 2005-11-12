@@ -53,7 +53,7 @@ function phpAds_SessionStart()
 {
 	global $HTTP_COOKIE_VARS, $Session;
 	
-	if (isset($HTTP_COOKIE_VARS['sessionID']) && preg_match('/^[0-9a-f]+$/D', $HTTP_COOKIE_VARS['sessionID']))
+	if (!isset($HTTP_COOKIE_VARS['sessionID']) || !preg_match('/^[0-9a-f]+$/D', $HTTP_COOKIE_VARS['sessionID']))
 	{
 		// Start a new session
 		$Session = array();
