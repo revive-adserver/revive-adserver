@@ -76,6 +76,7 @@ if (!function_exists('xml_parser_create')) {
 		global $xmlrpcStruct;
 
 		global $xmlrpcTypes;
+		global $xmlrpc_valid_parents;
 		global $xmlEntities;
 		global $xmlrpcerr;
 		global $xmlrpcstr;
