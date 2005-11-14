@@ -144,8 +144,7 @@ array (
 		array (
 			'type' 	  => 'password', 
 			'name' 	  => 'dbpassword',
-			'text' 	  => $strDbPassword,
-			'req'	  => true
+			'text' 	  => $strDbPassword
 		),
 		array (
 			'type'    => 'break'
