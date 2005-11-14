@@ -54,7 +54,12 @@ if (isset($bannerid) && $bannerid != '')
 		// Get new clientid
 		$clientid = phpAds_getParentID ($moveto);
 		
-		Header ("Location: ".$returnurl."?clientid=".$clientid."&campaignid=".$moveto."&bannerid=".$bannerid);
+		if (strpos($returnurl, "\r\n") === false)
+		{
+			$url = stripslashes($returnurl);
+		
+			header ("Location: ".$returnurl."?clientid=".$clientid."&campaignid=".$moveto."&bannerid=".$bannerid);
+		}
 	}
 	elseif (isset($applyto_x) && $applyto != '')
 	{
@@ -131,7 +136,13 @@ if (isset($bannerid) && $bannerid != '')
 		
 		phpAds_cacheDelete();
 		
-		Header ("Location: ".$returnurl."?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$applyto);
+		// Prevent HTTP response splitting
+		if (strpos($returnurl, "\r\n") === false)
+		{
+			$url = stripslashes($returnurl);
+		
+			header ("Location: ".$returnurl."?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$applyto);
+		}
 	}
 	elseif (isset($duplicate) && $duplicate == 'true')
 	{
@@ -230,12 +241,23 @@ if (isset($bannerid) && $bannerid != '')
 		
 		phpAds_cacheDelete();
 		
+		// Prevent HTTP response splitting
+		if (strpos($returnurl, "\r\n") === false)
+		{
+			$url = stripslashes($returnurl);
 		
-		Header ("Location: ".$returnurl."?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$new_bannerid);
+			header ("Location: ".$returnurl."?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$new_bannerid);
+		}
 	}
 	else
 	{
-		Header ("Location: ".$returnurl."?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bannerid);
+		// Prevent HTTP response splitting
+		if (strpos($returnurl, "\r\n") === false)
+		{
+			$url = stripslashes($returnurl);
+			
+			header ("Location: ".$returnurl."?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bannerid);
+		}
 	}
 }
 

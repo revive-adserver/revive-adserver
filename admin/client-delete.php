@@ -125,6 +125,12 @@ phpAds_cacheDelete();
 if (!isset($returnurl) && $returnurl == '')
 	$returnurl = 'client-index.php';
 
-header("Location: ".$returnurl);
+// Prevent HTTP response splitting
+if (strpos($returnurl, "\r\n") === false)
+{
+	$url = stripslashes($returnurl);
+
+	header("Location: ".$returnurl);
+}
 
 ?>

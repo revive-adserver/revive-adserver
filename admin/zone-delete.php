@@ -100,6 +100,12 @@ if (isset($zoneid) && $zoneid != '')
 if (!isset($returnurl) && $returnurl == '')
 	$returnurl = 'affiliate-zones.php';
 
-Header("Location: ".$returnurl."?affiliateid=$affiliateid");
+// Prevent HTTP response splitting
+if (strpos($returnurl, "\r\n") === false)
+{
+	$url = stripslashes($returnurl);
+
+	header("Location: ".$returnurl."?affiliateid=$affiliateid");
+}
 
 ?>

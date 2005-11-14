@@ -111,6 +111,12 @@ phpAds_cacheDelete();
 if (!isset($returnurl) && $returnurl == '')
 	$returnurl = 'campaign-banners.php';
 
-Header("Location: ".$returnurl."?clientid=".$clientid."&campaignid=".$campaignid);
+// Prevent HTTP response splitting
+if (strpos($returnurl, "\r\n") === false)
+{
+	$url = stripslashes($returnurl);
+
+	header("Location: ".$returnurl."?clientid=".$clientid."&campaignid=".$campaignid);
+}
 
 ?>

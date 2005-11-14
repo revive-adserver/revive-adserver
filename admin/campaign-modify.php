@@ -48,6 +48,12 @@ if (isset($campaignid) && $campaignid != '')
 	}
 }
 
-Header ("Location: ".$returnurl."?clientid=".$moveto."&campaignid=".$campaignid);
+// Prevent HTTP response splitting
+if (strpos($returnurl, "\r\n") === false)
+{
+	$url = stripslashes($returnurl);
+
+	header ("Location: ".$returnurl."?clientid=".$moveto."&campaignid=".$campaignid);
+}
 
 ?>

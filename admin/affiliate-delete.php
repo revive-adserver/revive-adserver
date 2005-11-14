@@ -101,6 +101,12 @@ if (isset($affiliateid) && $affiliateid != '')
 if (!isset($returnurl) && $returnurl == '')
 	$returnurl = 'affiliate-index.php';
 
-Header("Location: ".$returnurl);
+// Prevent HTTP response splitting
+if (strpos($returnurl, "\r\n") === false)
+{
+	$url = stripslashes($returnurl);
+
+	header("Location: ".$returnurl);
+}
 
 ?>

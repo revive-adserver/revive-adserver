@@ -209,8 +209,8 @@ if ($phpAds_config['default_banner_target'] != '')
 	header ("Location: ".$phpAds_config['default_banner_target']);
 else
 {
-	// No URL found, redirect to the original page
-	if (isset($HTTP_SERVER_VARS['HTTP_REFERER']))
+	// No URL found, redirect to the original page, preventing HTTP response splitting
+	if (isset($HTTP_SERVER_VARS['HTTP_REFERER']) && strpos($HTTP_SERVER_VARS['HTTP_REFERER'], "\r\n") === false)
 		header ("Location: ".$HTTP_SERVER_VARS['HTTP_REFERER']);
 }
 

@@ -39,9 +39,15 @@ if (isset($zoneid) && $zoneid != '')
 	{
 		// Move the zone
 		$res = phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_zones']." SET affiliateid = '".$moveto."' WHERE zoneid = '".$zoneid."'") or phpAds_sqlDie();
+
+		// Prevent HTTP response splitting
+		if (strpos($returnurl, "\r\n") === false)
+		{
+			$url = stripslashes($returnurl);
 		
-		Header ("Location: ".$returnurl."?affiliateid=".$moveto."&zoneid=".$zoneid);
-		exit;
+			header ("Location: ".$returnurl."?affiliateid=".$moveto."&zoneid=".$zoneid);
+			exit;
+		}
 	}
 	elseif (isset($duplicate) && $duplicate == 'true')
 	{
@@ -110,6 +116,12 @@ if (isset($zoneid) && $zoneid != '')
 	}
 }
 
-Header ("Location: ".$returnurl."?affiliateid=".$affiliateid."&zoneid=".$zoneid);
+// Prevent HTTP response splitting
+if (strpos($returnurl, "\r\n") === false)
+{
+	$url = stripslashes($returnurl);
+
+	header ("Location: ".$returnurl."?affiliateid=".$affiliateid."&zoneid=".$zoneid);
+}
 
 ?>
