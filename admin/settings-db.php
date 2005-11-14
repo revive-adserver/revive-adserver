@@ -48,7 +48,7 @@ if (isset($save_settings) && $save_settings != '')
 		
 		$phpAds_config['dblocal'] = isset($dblocal);
 		$phpAds_config['dbhost'] = $dbhost;
-		$phpAds_config['dbport'] = isset($dbport) && $dbport ? $dbport : 3306;;
+		$phpAds_config['dbport'] = isset($dbport) && $dbport ? $dbport : 3306;
 		$phpAds_config['dbuser'] = $dbuser;
 		$phpAds_config['dbpassword'] = isset($dbpassword) ? $dbpassword : '';
 		$phpAds_config['dbname'] = $dbname;
@@ -58,10 +58,11 @@ if (isset($save_settings) && $save_settings != '')
 			$errormessage[0][] = $strCantConnectToDb;
 		else
 		{
-			phpAds_SettingsWriteAdd('dblocal', $phpAds_config['dbhost']);
-			phpAds_SettingsWriteAdd('dbname', $phpAds_config['dbhost']);
+			phpAds_SettingsWriteAdd('dblocal', $phpAds_config['dblocal']);
+			phpAds_SettingsWriteAdd('dbhost', $phpAds_config['dbhost']);
 			phpAds_SettingsWriteAdd('dbport', $phpAds_config['dbport']);
 			phpAds_SettingsWriteAdd('dbuser', $phpAds_config['dbuser']);
+			phpAds_SettingsWriteAdd('dbname', $phpAds_config['dbname']);
 			phpAds_SettingsWriteAdd('dbpassword', $phpAds_config['dbpassword']);
 			
 			phpAds_SettingsWriteAdd('persistent_connections', isset($persistent_connections));
@@ -126,7 +127,7 @@ array (
 			'type' 	  => 'text', 
 			'name' 	  => 'dbport',
 			'text' 	  => $strDbPort,
-			'req'	  => true,
+			'req'	  => false,
 			'depends' => 'dblocal==false'
 		),
 		array (
