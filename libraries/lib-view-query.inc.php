@@ -32,6 +32,7 @@ function phpAds_buildQuery ($part, $lastpart, $precondition)
 				".$phpAds_config['tbl_banners'].".clientid as clientid,
 				".$phpAds_config['tbl_banners'].".priority as priority,
 				".$phpAds_config['tbl_banners'].".contenttype as contenttype,
+				".$phpAds_config['tbl_banners'].".storagetype as storagetype,
 				".$phpAds_config['tbl_banners'].".width as width,
 				".$phpAds_config['tbl_banners'].".height as height,
 				".$phpAds_config['tbl_banners'].".block as block,
