@@ -24,8 +24,8 @@ require ("lib-append.inc.php");
 
 
 // Register input variables
-phpAds_registerGlobal ('chaintype', 'chainzone', 'chainwhat', 'append', 'prepend', 'submitbutton', 'textad');
-phpAds_registerGlobal ('appendtype', 'appendtype_previous', 'appendsave', 'appendselection', 'appendwhat');
+phpAds_registerGlobal ('chaintype', 'chainzone', 'chainwhat', 'append', 'prepend', 'submitbutton', 'textad',
+					   'appendtype', 'appendtype_previous', 'appendsave', 'appendselection', 'appendwhat');
 
 
 // Security check
@@ -227,8 +227,8 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	
 	$extra  = "<form action='zone-modify.php'>";
-	$extra .= "<input type='hidden' name='zoneid' value='$zoneid'>";
 	$extra .= "<input type='hidden' name='affiliateid' value='$affiliateid'>";
+	$extra .= "<input type='hidden' name='zoneid' value='$zoneid'>";
 	$extra .= "<input type='hidden' name='returnurl' value='zone-advanced.php'>";
 	$extra .= "<br><br>";
 	$extra .= "<b>$strModifyZone</b><br>";
