@@ -314,7 +314,8 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 		if ($object_tag{0} == chr(0xBF))
 		{
 			$object_extended = true;
-			$object_len = current(unpack('V', $m[1]));
+			$object_len = unpack('V', $m[1]);
+			$object_len = current($object_len);
 		}
 		else
 		{
@@ -360,7 +361,9 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 	
 						swf_tag_actiongetmember.
 	
-						swf_tag_actiongeturl2;
+						swf_tag_actiongeturl2.
+
+						swf_tag_null;
 	
 		$replacement = str_replace($geturl_part, $geturl2_part, $replacement);	
 	
@@ -381,7 +384,9 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 			$final = str_replace($original, $replacement, $final);
 
 			// Fix file size
-			$file_size = current(unpack('V', substr($final, 4, 4))) + strlen($replacement) - strlen($original);
+			$file_size = unpack('V', substr($final, 4, 4));
+			$file_size = current($file_size) + strlen($replacement) - strlen($original);
+
 			$final = substr($final, 0, 4).pack('V', $file_size).substr($final, 8);
 
 			$parameters[$linkcount] = $allowedcount;

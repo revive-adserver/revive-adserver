@@ -5,6 +5,7 @@ CVS
 
 			+ Misc bugfixes
 			  - 2005-11-20:  Views and clicks for non exiisting banners were wrongly assigned to an unnamed hidden campaign  (Matteo, thanks to C. Viebrock)
+			  - 2005-11-20:  Fixed some incompatibilities in SWF converter because of a missing NULL byte  (Matteo)
 
 
 phpAdsNew 2.0.7
