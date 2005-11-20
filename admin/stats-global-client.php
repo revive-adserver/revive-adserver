@@ -320,8 +320,11 @@ if (count($bannerids))
 		
 		while ($row_stats = phpAds_dbFetchArray($res_stats))
 		{
-			$banners[$row_stats['bannerid']]['views'] = $row_stats['views'];
-			$banners[$row_stats['bannerid']]['clicks'] = 0;
+			if (isset($banners[$row_stats['bannerid']]))
+			{
+				$banners[$row_stats['bannerid']]['views'] = $row_stats['views'];
+				$banners[$row_stats['bannerid']]['clicks'] = 0;
+			}
 		}
 		
 		
@@ -338,7 +341,10 @@ if (count($bannerids))
 		
 		while ($row_stats = phpAds_dbFetchArray($res_stats))
 		{
-			$banners[$row_stats['bannerid']]['clicks'] = $row_stats['clicks'];
+			if (isset($banners[$row_stats['bannerid']]))
+			{
+				$banners[$row_stats['bannerid']]['clicks'] = $row_stats['clicks'];
+			}
 		}
 	}
 	else
@@ -357,8 +363,11 @@ if (count($bannerids))
 		
 		while ($row_stats = phpAds_dbFetchArray($res_stats))
 		{
-			$banners[$row_stats['bannerid']]['clicks'] = $row_stats['clicks'];
-			$banners[$row_stats['bannerid']]['views'] = $row_stats['views'];
+			if (isset($banners[$row_stats['bannerid']]))
+			{
+				$banners[$row_stats['bannerid']]['clicks'] = $row_stats['clicks'];
+				$banners[$row_stats['bannerid']]['views'] = $row_stats['views'];
+			}
 		}
 	}
 }

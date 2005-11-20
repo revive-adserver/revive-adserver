@@ -209,9 +209,9 @@ while ($row_banners = phpAds_dbFetchArray($res_banners))
 		$banners[$row_banners['bannerid']]['clicks'] = 0;
 		$banners[$row_banners['bannerid']]['views'] = 0;
 		$campaigns[$row_banners['clientid']]['count']++;
+		
+		$bannerids[] = $row_banners['bannerid'];
 	}
-	
-	$bannerids[] = $row_banners['bannerid'];
 }
 
 
