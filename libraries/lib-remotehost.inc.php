@@ -21,7 +21,8 @@ phpAds_proxyLookup();
 phpAds_reverseLookup();
 
 // Geotargeting lookup
-$phpAds_geo = phpAds_geoLookup();
+// Use global var in case the script is called from a function
+$GLOBALS['phpAds_geo'] = phpAds_geoLookup();
 
 
 
