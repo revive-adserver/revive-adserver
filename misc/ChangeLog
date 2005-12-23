@@ -7,6 +7,7 @@ CVS
 			  - 2005-11-20:  Views and clicks for non exiisting banners were wrongly assigned to an unnamed hidden campaign  (Matteo, thanks to C. Viebrock)
 			  - 2005-11-20:  Fixed some incompatibilities in SWF converter because of a missing NULL byte  (Matteo)
 			  - 2005-12-07:  Geotargeting wasn't correctly working when using local invocation inside a PHP function  (Matteo, thanks to Daniel Kraft)
+			  - 2005-12-23:  Fixed possible HTML injection and XSS vulnerability in lib-history.inc.php - bug #1386287  (Matteo)
 
 
 phpAdsNew 2.0.7
