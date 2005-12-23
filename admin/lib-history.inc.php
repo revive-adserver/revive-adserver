@@ -412,7 +412,7 @@ if (isset($row['span']) && $row['span'] > 0)
 			if ($value == '') 
 				$readable = $strDefault;
 			else
-				$readable = ucfirst($value);
+				$readable = htmlentities(ucfirst($value));
 			
 			echo "<option value='".$value."'".($source == $value ? ' selected' : '').">".$readable."</option>";
 		}
