@@ -182,7 +182,7 @@ function phpAds_prepareOutput($row, $target, $source, $withtext)
 	// Add HTML to the output buffer. If the HTML contains ActiveX code we need
 	// to use a JavaScript workaround because the outcome of the Eolas lawsuit
 	// agains Microsoft. Without these changes the user would get a warning dialogbox.
-	if (!(strpos (strtolower($row['htmlcache']), "<object") === false) &&
+	if (!(strpos (strtolower($row['htmlcache']), "<object") === false) && isset($HTTP_SERVER_VARS['HTTP_USER_AGENT']) &&
 	   (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'MSIE') && !strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Opera')))
 	{
 		if (!defined("phpAds_invocationType") || (phpAds_invocationType != 'adjs' && phpAds_invocationType != 'adlayer'))
