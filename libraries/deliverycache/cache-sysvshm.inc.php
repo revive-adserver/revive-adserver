@@ -33,7 +33,7 @@ function phpAds_cacheFetch ($name)
 		
 		if ($size > 0) {
 			// Read the structure
-			$structure = shm_get_var ($shm_id, 1);
+			$structure = shm_get_var ($shm_id, 0);
 			shm_detach ($shm_id);
 			
 			if (isset($structure[$name])) {
