@@ -460,7 +460,7 @@ function phpAds_LoginScreen($message='', $sessionID=0)
 		echo "<br>";
 		
 		echo "<form name='login' method='post' onSubmit='return login_md5(this);' action='".basename($HTTP_SERVER_VARS['PHP_SELF']);
-		echo (isset($HTTP_SERVER_VARS['QUERY_STRING']) && $HTTP_SERVER_VARS['QUERY_STRING'] != '' ? '?'.$HTTP_SERVER_VARS['QUERY_STRING'] : '')."'>";
+		echo (isset($HTTP_SERVER_VARS['QUERY_STRING']) && $HTTP_SERVER_VARS['QUERY_STRING'] != '' ? '?'.htmlentities($HTTP_SERVER_VARS['QUERY_STRING']) : '')."'>";
 		echo "<input type='hidden' name='phpAds_cookiecheck' value='".$HTTP_COOKIE_VARS['sessionID']."'>";
 		echo "<input type='hidden' name='phpAds_md5' value=''>";
 		echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>";

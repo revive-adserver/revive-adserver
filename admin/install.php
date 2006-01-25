@@ -308,6 +308,7 @@ if (phpAds_isUser(phpAds_Admin))
 				phpAds_dbQuery ("CREATE TABLE phpads_tmp_dbpriviligecheck (tmp int)");
 				
 				if (phpAds_dbAffectedRows() >= 0)
+
 					phpAds_dbQuery ("DROP TABLE phpads_tmp_dbpriviligecheck");
 				else
 					$errormessage[0][] = $strCreateTableTestFailed;
@@ -332,6 +333,9 @@ if (phpAds_isUser(phpAds_Admin))
 				$installvars['dbname'] 		 = $phpAds_config['dbname'];
 				$installvars['table_prefix'] = $table_prefix;
 				$installvars['table_type'] 	 = $table_type;
+
+				// Enable MySQL 4 compatibility mode when possible
+				$installvars['mysql4_compatibility'] = (bool)phpAds_dbQuery("SET SESSION sql_mode='MYSQL4");
 				
 				// Create table names
 				$phpAds_config['tbl_clients'] 	 = $installvars['tbl_clients']    = $table_prefix.'clients';
@@ -373,7 +377,9 @@ if (phpAds_isUser(phpAds_Admin))
 								phpAds_SettingsWriteAdd('dbname', $installvars['dbname']);
 								phpAds_SettingsWriteAdd('table_prefix', $installvars['table_prefix']);
 								phpAds_SettingsWriteAdd('table_type', $installvars['table_type']);
-								
+
+								phpAds_SettingsWriteAdd('mysql4_compatibility', $installvars['mysql4_compatibility']);
+
 								phpAds_SettingsWriteAdd('tbl_clients', $installvars['tbl_clients']);
 								phpAds_SettingsWriteAdd('tbl_banners', $installvars['tbl_banners']);
 								phpAds_SettingsWriteAdd('tbl_adstats', $installvars['tbl_adstats']);

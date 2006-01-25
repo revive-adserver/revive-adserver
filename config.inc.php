@@ -59,6 +59,10 @@ $phpAds_config['insert_delayed'] = false;
 // won't disturb an available database connection
 $phpAds_config['compatibility_mode'] = false;
 
+// Use SET SESSION to set MySQL 4 compatibility mode
+// to avoid problems with ANSI or STRICT modes available in 4.1.1+ and 5.0+
+$phpAds_config['mysql4_compatibility'] = false;
+
 
 
 /*********************************************************/

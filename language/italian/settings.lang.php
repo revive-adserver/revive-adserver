@@ -151,6 +151,7 @@ $GLOBALS['strDatabaseOptimalisations']		= "Ottimizzazioni database";
 $GLOBALS['strPersistentConnections']		= "Utilizza connessioni persistenti";
 $GLOBALS['strInsertDelayed']				= "Utilizza inserimenti in differita";
 $GLOBALS['strCompatibilityMode']			= "Attiva compatibilit&agrave; con server MySQL 3.22";
+$GLOBALS['strMysql4Compatibility']			= "Utilizza emulazione modalit&agrave; SQL di MySQL 4";
 $GLOBALS['strCantConnectToDb']				= "Impossibile connettersi al database";
 
 

@@ -501,6 +501,12 @@ if (phpAds_isUser(phpAds_Admin))
 		{
 			phpAds_SettingsWriteAdd('dblocal', true);
 		}
+		
+		// MySQL 4 compatibility mode
+		if ($phpAds_config['config_version'] < 200.281)
+		{
+			phpAds_SettingsWriteAdd('mysql4_compatibility', phpAds_dbQuery("SET SESSION sql_mode='MYSQL4"));
+		}
 
 		phpAds_ConfigFileUpdateFlush();
 		

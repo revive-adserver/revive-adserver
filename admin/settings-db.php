@@ -21,7 +21,8 @@ include ("lib-settings.inc.php");
 // Register input variables
 phpAds_registerGlobal ('save_settings', 'dblocal', 'dbhost', 'dbport', 'dbuser', 'dbpassword', 'dbname', 
 					   'persistent_connections', 'insert_delayed', 
-					   'compatibility_mode', 'auto_clean_tables_vacuum');
+					   'compatibility_mode', 'auto_clean_tables_vacuum',
+					   'mysql4_compatibility');
 
 
 // Security check
@@ -71,6 +72,7 @@ if (isset($save_settings) && $save_settings != '')
 	
 	phpAds_SettingsWriteAdd('insert_delayed', isset($insert_delayed));
 	phpAds_SettingsWriteAdd('compatibility_mode', isset($compatibility_mode));
+	phpAds_SettingsWriteAdd('mysql4_compatibility', isset($mysql4_compatibility));
 	
 	
 	if (!count($errormessage))
@@ -177,6 +179,12 @@ array (
 			'name'    => 'compatibility_mode',
 			'text'	  => $strCompatibilityMode,
 			'visible' => $phpAds_productname == 'phpAdsNew'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'mysql4_compatibility',
+			'text'	  => $strMysql4Compatibility,
+			'visible' => $phpAds_productname == 'phpAdsNew' && phpAds_dbQuery("SET SESSION sql_mode='MYSQL4"))
 		),
 		array (
 			'type'    => 'checkbox',

@@ -17,6 +17,9 @@
 
   ====================================================
 
+  24-01-2006 - settings
+    [+] strMysql4Compatibility
+
   06-07-2005 - default
     [+] strSwfTranparent
 
