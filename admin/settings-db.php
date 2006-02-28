@@ -184,7 +184,7 @@ array (
 			'type'    => 'checkbox',
 			'name'    => 'mysql4_compatibility',
 			'text'	  => $strMysql4Compatibility,
-			'visible' => $phpAds_productname == 'phpAdsNew' && phpAds_dbQuery("SET SESSION sql_mode='MYSQL4"))
+			'visible' => $phpAds_productname == 'phpAdsNew' && phpAds_dbQuery("SET SESSION sql_mode='MYSQL4")
 		),
 		array (
 			'type'    => 'checkbox',
