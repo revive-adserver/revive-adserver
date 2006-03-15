@@ -335,7 +335,7 @@ if (phpAds_isUser(phpAds_Admin))
 				$installvars['table_type'] 	 = $table_type;
 
 				// Enable MySQL 4 compatibility mode when possible
-				$installvars['mysql4_compatibility'] = (bool)phpAds_dbQuery("SET SESSION sql_mode='MYSQL4");
+				$installvars['mysql4_compatibility'] = (bool)phpAds_dbQuery("SET SESSION sql_mode='MYSQL40'");
 				
 				// Create table names
 				$phpAds_config['tbl_clients'] 	 = $installvars['tbl_clients']    = $table_prefix.'clients';

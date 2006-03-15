@@ -148,7 +148,7 @@ $GLOBALS['strDatabaseOptimalisations']		= "Database optimalisations";
 $GLOBALS['strPersistentConnections']		= "Use persistent connections";
 $GLOBALS['strInsertDelayed']			= "Use delayed inserts";
 $GLOBALS['strCompatibilityMode']		= "Use database compatibility mode";
-$GLOBALS['strMysql4Compatibility']		= "Use MySQL 4 SQL mode emulation";
+$GLOBALS['strMysql4Compatibility']		= "Use MySQL 4 SQL mode to ensure that phpAdsNew will correctly work";
 $GLOBALS['strCantConnectToDb']			= "Can't connect to database";
 
 

@@ -76,7 +76,7 @@ function phpAds_dbConnect()
         $phpAds_db_link = @mysql_connect ($host, $phpAds_config['dbuser'], $phpAds_config['dbpassword']);
 	
 	if ($phpAds_config['mysql4_compatibility'])
-		phpAds_dbQuery("SET SESSION sql_mode='MYSQL4'");
+		phpAds_dbQuery("SET SESSION sql_mode='MYSQL40'");
 
 	if ($phpAds_config['compatibility_mode'])
 		return $phpAds_db_link;

@@ -13,6 +13,7 @@ CVS
 			  - 2006-01-22:  Fixed possible HTML injection and XSS vulnerability in the login form  (Matteo, thanks to V. Khera)
 			  - 2006-01-23:  Fixed problems in adview.php and lib-view-main.inc.php when no user agent was supplied - bugs #1404174/#1406092  (Matteo)
 			  - 2006-01-23:  Fixed a bug in the SYSVSHM delivery cache module which prevented it from correctly working - bug #1388635  (Matteo)
+			  - 2006-03-13:  MySQL 5 compatibility mode wasn't correctly activated during install or upgrade  (Matteo)
 
 
 phpAdsNew 2.0.7
