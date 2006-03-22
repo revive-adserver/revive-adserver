@@ -14,6 +14,7 @@ CVS
 			  - 2006-01-23:  Fixed problems in adview.php and lib-view-main.inc.php when no user agent was supplied - bugs #1404174/#1406092  (Matteo)
 			  - 2006-01-23:  Fixed a bug in the SYSVSHM delivery cache module which prevented it from correctly working - bug #1388635  (Matteo)
 			  - 2006-03-13:  MySQL 5 compatibility mode wasn't correctly activated during install or upgrade  (Matteo)
+			  - 2006-03-22:  Duplicating SQL stored banners wasn't duplicating the image - bug #1450612  (Matteo, thanks to B. Franz)
 
 
 phpAdsNew 2.0.7

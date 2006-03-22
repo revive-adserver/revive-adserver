@@ -16,6 +16,7 @@
 
 // Include required files
 require ("config.php");
+require ("lib-banner.inc.php");
 require ("lib-storage.inc.php");
 require ("lib-zones.inc.php");
 require ("lib-statistics.inc.php");
@@ -165,8 +166,23 @@ if (isset($bannerid) && $bannerid != '')
 			
 			// Duplicate stored banner
 			if ($row['storagetype'] == 'web' || $row['storagetype'] == 'sql')
+			{
 				$row['filename'] = phpAds_ImageDuplicate ($row['storagetype'], $row['filename']);
 			
+				if ($row['storagetype'] == 'sql')
+				{
+					// SQL-stored banner
+					$row['imageurl']  = '{url_prefix}/adimage.php?filename='.$row['filename'].
+						'&amp;contenttype='.$row['contenttype'];
+				}
+				else
+				{
+					// Web-stored banner
+					$row['imageurl']  = $phpAds_config['type_web_url'] . '/' . $row['filename'];
+				}
+			
+				$row['htmlcache'] = phpAds_getBannerCache($row);
+			}	
 			
 			// Clone banner
 	   		$values_fields = '';
