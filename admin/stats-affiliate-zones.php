@@ -214,7 +214,7 @@ if (!$phpAds_config['compact_stats'])
 					break;
 				
 		case 'l':	$timestamp_begin	= mktime(0, 0, 0, date('m')-1, 1, date('Y'));
-					$timestamp_end		= mktime(0, 0, 0, date('m'), 0, date('Y'));
+					$timestamp_end		= mktime(0, 0, 0, date('m'), 1, date('Y'));
 					$limit 		    	= " AND t_stamp >= ".date('YmdHis', $timestamp_begin)." AND t_stamp < ".date('YmdHis', $timestamp_end);
 					break;
 				
@@ -223,7 +223,7 @@ if (!$phpAds_config['compact_stats'])
 					break;
 
 		case 'x':	$timestamp_begin	= mktime(0, 0, 0, 1, 1, date('Y')-1);
-					$timestamp_end		= mktime(0, 0, 0, 1, 0, date('Y'));
+					$timestamp_end		= mktime(0, 0, 0, 1, 1, date('Y'));
 					$limit 		    	= " AND t_stamp >= ".date('YmdHis', $timestamp_begin)." AND t_stamp < ".date('YmdHis', $timestamp_end);
 					break;
 				
@@ -257,7 +257,7 @@ else
 					break;
 				
 		case 'l':	$timestamp_begin	= mktime(0, 0, 0, date('m')-1, 1, date('Y'));
-					$timestamp_end		= mktime(0, 0, 0, date('m'), 0, date('Y'));
+					$timestamp_end		= mktime(0, 0, 0, date('m'), 1, date('Y'));
 					$limit 				= " AND day >= ".date('Ymd', $timestamp_begin)." AND day < ".date('Ymd', $timestamp_end);
 					break;
 				
@@ -266,7 +266,7 @@ else
 					break;
 
 		case 'x':	$timestamp_begin	= mktime(0, 0, 0, 1, 1, date('Y')-1);
-					$timestamp_end		= mktime(0, 0, 0, 1, 0, date('Y'));
+					$timestamp_end		= mktime(0, 0, 0, 1, 1, date('Y'));
 					$limit 				= " AND day >= ".date('Ymd', $timestamp_begin)." AND day < ".date('Ymd', $timestamp_end);
 					break;
 

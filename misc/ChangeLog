@@ -15,6 +15,7 @@ CVS
 			  - 2006-01-23:  Fixed a bug in the SYSVSHM delivery cache module which prevented it from correctly working - bug #1388635  (Matteo)
 			  - 2006-03-13:  MySQL 5 compatibility mode wasn't correctly activated during install or upgrade  (Matteo)
 			  - 2006-03-22:  Duplicating SQL stored banners wasn't duplicating the image - bug #1450612  (Matteo, thanks to B. Franz)
+			  - 2006-03-22:  Last month/year selections didn't include the last day of the period in the stats screens - bug 1441150  (Matteo)
 
 
 phpAdsNew 2.0.7
