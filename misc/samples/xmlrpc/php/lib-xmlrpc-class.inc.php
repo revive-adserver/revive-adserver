@@ -19,7 +19,7 @@ require ('lib-xmlrpc.inc.php');
 
 
 // Create array to pass needed HTTP headers via XML-RPC
-$phpAds_remoteInfo = array(
+$GLOBALS['phpAds_remoteInfo'] = array(
 	// Headers used for logging/ACLs
 	'remote_addr' =>		'REMOTE_ADDR',
 	'remote_host' =>		'REMOTE_HOST',
