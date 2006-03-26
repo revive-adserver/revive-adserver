@@ -20,7 +20,7 @@
 
 
     - Documentation written and maintained by:
-      Niels Leenheer
+      Niels Leenheer, Matteo Beccati
 
     - Based on phpAdsNew 1 created by:
       Wim Godden, Phil Hord, Niels Leenheer, 
@@ -63,11 +63,17 @@
     to your version of the file, but you are not obligated to do so.  If 
     you do not wish to do so, delete this exception statement from your version.
 
+    In addition, as a special exception, Niels Leenheer and Matteo Beccati give
+    permission to include the documentation files distributed with the Creative 
+    Commons Attribution-NonCommercial-ShareAlike 2.5 license. You must obey to
+    this licence if you wish to modify the documentation files or distribute
+    them with or without bundling them to the product source code.
+
 
 
     Requirements: 
     ------------------------------------------------------------------------
-    PHP 4.0.4 or higher (4.3.11+ or 5.0.4+ recommended)
+    PHP 4.0.4 or higher (4.4.2+ or 5.0.4+ recommended)
     MySQL 3.23.3 or higher (4.0+ and InnoDB recommended)
 
     phpAdsNew is compatible with the official PHP 5 releases, however it will
