@@ -4,6 +4,7 @@ phpAdsNew - ChangeLog
 phpAdsNew 2.0.8
 			+ Misc changes
 			  - 2006-01-24:  Added support for MySQL 4.1+ and 5+ running ANSI or strict modes, by explicitly setting the SQL mode  (Matteo)
+			  - 2006-03-26:  Updated documentation licence and added PDF bookmarks for easier navigation (Niels, Matteo)
 
 			+ Misc bugfixes
 			  - 2005-11-20:  Views and clicks for non exiisting banners were wrongly assigned to an unnamed hidden campaign  (Matteo, thanks to C. Viebrock)
