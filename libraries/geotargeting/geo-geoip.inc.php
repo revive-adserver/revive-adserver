@@ -4,7 +4,7 @@
 /* phpAdsNew 2                                                          */
 /* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2000-2005 by the phpAdsNew developers                  */
+/* Copyright (c) 2000-2006 by the phpAdsNew developers                  */
 /* For more information visit: http://www.phpadsnew.com                 */
 /*                                                                      */
 /* Based on MaxMind GeoIP C API - Copyright (C) 2003 MaxMind LLC        */
