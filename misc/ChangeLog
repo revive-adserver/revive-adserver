@@ -1,7 +1,7 @@
 phpAdsNew - ChangeLog
 
 
-CVS
+phpAdsNew 2.0.8
 			+ Misc changes
 			  - 2006-01-24:  Added support for MySQL 4.1+ and 5+ running ANSI or strict modes, by explicitly setting the SQL mode  (Matteo)
 
