@@ -49,6 +49,10 @@ function phpAds_ImageStore ($storagetype, $name, $buffer, $overwrite = false)
 				@fwrite ($fp, $buffer);
 				@fclose ($fp);
 				
+				// Add read permissions to group and others: this is especially
+				// required when using suPHP
+				@chmod($phpAds_config['type_web_dir']."/".$name, 0644);
+				
 				$stored_url = $name;
 			}
 		}

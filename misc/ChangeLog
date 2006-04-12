@@ -1,6 +1,11 @@
 phpAdsNew - ChangeLog
 
 
+CVS
+			+ Misc bugfixes
+			  - 2006-04-12:  Fixed problem with local stored banners not readable by Apache user when using suPHP - bug #1467830  (Matteo)
+
+
 phpAdsNew 2.0.8
 			+ Misc changes
 			  - 2006-01-24:  Added support for MySQL 4.1+ and 5+ running ANSI or strict modes, by explicitly setting the SQL mode  (Matteo)
