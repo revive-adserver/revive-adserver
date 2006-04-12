@@ -148,7 +148,7 @@ else
 		
 		echo "<br><br>";
 		echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
-		echo "<tr height='25'><td height='25'>&nbsp;&nbsp;<b>".$strAvailableUpdates."</b></td></tr>";
+		echo "<tr height='25'><td height='25' colspan='4'>&nbsp;&nbsp;<b>".$strAvailableUpdates."</b></td></tr>";
 		
 		echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 		echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' valign='top' nowrap>";
