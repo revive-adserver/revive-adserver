@@ -4,6 +4,7 @@ phpAdsNew - ChangeLog
 CVS
 			+ Misc bugfixes
 			  - 2006-04-12:  Fixed problem with local stored banners not readable by Apache user when using suPHP - bug #1467830  (Matteo)
+			  - 2006-04-21:  Fixed problem with GeoIP configuration not correctly loaded under some circumstances - bug #1473612  (Matteo)
 
 
 phpAdsNew 2.0.8

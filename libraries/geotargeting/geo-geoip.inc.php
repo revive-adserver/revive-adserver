@@ -297,7 +297,7 @@ function phpAds_geoip_seek($fp, $ipnum)
 	{
 		$conf = phpAds_geoip_get_info($fp);
 		if (is_array($conf))
-			extract($conf['plugin_info']);
+			extract($conf['plugin_conf']);
 	}
 
 	if (!isset($record_length) || $record_length <= 0)
