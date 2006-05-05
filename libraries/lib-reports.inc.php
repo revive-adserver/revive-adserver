@@ -153,7 +153,7 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 								day
 							ORDER BY
 								day DESC
-							") or die($strLogErrorViews);
+							") or die("$strLogErrorViews ".phpAds_dbError());
 					else
 						$res_adviews = phpAds_dbQuery("
 							SELECT
@@ -171,7 +171,7 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 								the_day
 							ORDER BY
 								the_day DESC
-							") or die($strLogErrorViews);
+							") or die("$strLogErrorViews ".phpAds_dbError());
 					
 					if (phpAds_dbNumRows($res_adviews))
 					{
