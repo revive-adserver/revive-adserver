@@ -170,9 +170,10 @@ function phpAds_ConfigFileUpdatePrepare ()
 					// occur in a different directory as the original installation
 					if ($regs[1] == 'url_prefix' && isset($HTTP_SERVER_VARS['HTTP_HOST']))
 					{
-						$regs[2] = ' = \''.strtolower(eregi_replace("^([a-z]+)/.*$", "\\1://",
-							       $HTTP_SERVER_VARS['SERVER_PROTOCOL'])).$HTTP_SERVER_VARS['HTTP_HOST'].
-								   ereg_replace("/admin/upgrade.php(\?.*)?$", "", $HTTP_SERVER_VARS['PHP_SELF']).'\'';
+						$regs[2] = ' = \''.
+							'http'.(empty($HTTP_SERVER_VARS['HTTPS']) ? '' : 's').'://'.
+							$HTTP_SERVER_VARS['HTTP_HOST'].
+							ereg_replace("/admin/upgrade.php(\?.*)?$", "", $HTTP_SERVER_VARS['PHP_SELF']).'\'';
 					}
 					
 					@eval ("$"."value ".$regs[2].";");
