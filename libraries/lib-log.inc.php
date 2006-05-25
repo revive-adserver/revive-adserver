@@ -188,7 +188,7 @@ function phpAds_logImpression ($bannerid, $clientid, $zoneid, $source)
    		}
 		else
    		{
-			$log_country = $phpAds_config['geotracking_stats'] && $phpAds_geo && $phpAds_geo['country'] ? $phpAds_geo['country'] : '';
+			$log_country = $phpAds_config['geotracking_stats'] && isset($phpAds_geo['country']) && $phpAds_geo['country'] ? $phpAds_geo['country'] : '';
 			$log_host    = $phpAds_config['log_hostname'] ? $HTTP_SERVER_VARS['REMOTE_HOST'] : '';
 			$log_host    = $phpAds_config['log_iponly'] ? $HTTP_SERVER_VARS['REMOTE_ADDR'] : $log_host;
 			
