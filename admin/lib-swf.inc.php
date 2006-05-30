@@ -21,7 +21,7 @@ define ('swf_tag_geturl',   		 chr(0x83));
 define ('swf_tag_null',     		 chr(0x00));
 define ('swf_tag_actionpush', 		 chr(0x96));
 define ('swf_tag_actiongetvariable', chr(0x1C));
-define ('swf_tag_actiongeturl2', 	 chr(0x9A).chr(0x01));
+define ('swf_tag_actiongeturl2', 	 chr(0x9A).chr(0x01).chr(0x00));
 define ('swf_tag_actiongetmember', 	 chr(0x4E));
 
 
@@ -301,27 +301,46 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 							)
 						/sx', $buffer, $m))
 	{
-		$geturl_part = $m[2];
-
-		if (!preg_match('/^.*?(....)([\x06\x08][\x80-\xBF])/s', strrev($m[1]), $m))
-			die('Error!!');
-
-		foreach ($m as $k => $v)
-			$m[$k] = strrev($v);
-
-		$original = $replacement = $m[0].$geturl_part;
-		$object_tag = $m[2];
-		if ($object_tag{0} == chr(0xBF))
+		$geturl_part	= $m[2];
+		$previous_part	= $m[1];
+		
+		$allowed_types = array(12, 26, 34); // DoAction, PlaceObject2, DefineButton2
+		$original = '';
+		for ($len = 2; $len < strlen($previous_part); $len++)
 		{
-			$object_extended = true;
-			$object_len = unpack('V', $m[1]);
-			$object_len = current($object_len);
+			$recordheader = substr($previous_part, -$len);
+			$object_tag = substr($recordheader, 0, 2);
+			$expected_len = strlen($geturl_part) + $len;
+			
+			$tag_type = (ord($object_tag{1}) << 2 | (ord($object_tag{0}) & ~0x3F) >> 6) & 0xFF;
+			
+			if (!in_array($tag_type, $allowed_types))
+				continue;
+			
+			// Check for long RECORDHEADER
+			if ($len > 6 && (ord($object_tag{0}) & 0x3F) == 0x3F)
+			{
+				$object_extended = true;
+				$object_len = unpack('V', substr($recordheader, 2, 4));
+				$object_len = current($object_len);
+				$expected_len -= 6;
+			}
+			else
+			{
+				$object_extended = false;
+				$object_len = ord($object_tag{0}) & 0x3F;
+				$expected_len -= 2;
+			}
+			
+			if ($object_len >= $expected_len)
+			{
+				$original = $replacement = $recordheader.$geturl_part;
+				break;
+			}
 		}
-		else
-		{
-			$object_extended = false;
-			$object_len = ord($object_tag{0}) & 0x3F;
-		}
+
+		if (!strlen($original))
+			die("Error: unsupported tag");
 
 		$geturl2_part = swf_tag_actionpush.
 							chr(strlen('_root')+2).
@@ -364,18 +383,38 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 						swf_tag_actiongeturl2.
 
 						swf_tag_null;
-	
-		$replacement = str_replace($geturl_part, $geturl2_part, $replacement);	
-	
+		
+		
+		// Same as preg_match('/(\x9B(..).*?)(..)$/s', $previous_part, $m) which wasn't enough ungreedy
+		// ActionDefineFunction2 + header len (UI16) + function name & params + body len (UI16)
+		if (preg_match('/^(..)(.*?(..)\x9B)/s', strrev($previous_part), $m))
+		{
+			foreach ($m as $k => $v)
+				$m[$k] = strrev($v);
+
+			$fheader_len = unpack('v', $m[3]);
+			$fheader_len = current($fheader_len);
+			$fbody_len = unpack('v', $m[1]);
+			$fbody_len = current($fbody_len);
+			if ($fheader_len == strlen($m[2]) - 1)
+			{
+				// getURL is inside an ActionDefineFunction
+				$fbody_len += strlen($geturl2_part) - strlen($geturl_part);
+				$geturl_part	= $m[0].$geturl_part;
+				$geturl2_part	= $m[2].pack('v', $fbody_len).$geturl2_part;
+			}
+		}
+		
+		$replacement = str_replace($geturl_part, $geturl2_part, $replacement);
+		
 		$object_len2 = $object_len + strlen($geturl2_part) - strlen($geturl_part);
 	
 		$replacement = substr($replacement, $object_extended ? 6 : 2);
 		
-		
 		if ($object_len2 < 0x3F)
 			$replacement = chr(0x80 | $object_len2).$object_tag{1}.$replacement;
 		else
-			$replacement = chr(0xBF).$object_tag{1}.pack('V', $object_len2).$replacement;
+			$replacement = chr(ord($object_tag{0}) | 0x3F).$object_tag{1}.pack('V', $object_len2).$replacement;
 
 		// Is this link allowed to be converted?
 		if (in_array($allowedcount, $allowed))
@@ -407,5 +446,19 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 	
 	return (array($final, $parameters));
 }
+
+function hex_dump($str)
+{
+	for ($i=0; $i<strlen($str);$i++)
+	{
+		if ($i && !($i % 4))
+			echo " ";
+
+		printf('%02X', ord(substr($str, $i, 1)));
+	}
+	
+	echo "\n";
+}
+
 
 ?>

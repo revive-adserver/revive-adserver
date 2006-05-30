@@ -7,6 +7,7 @@ CVS
 			  - 2006-04-21:  Fixed problem with GeoIP configuration not correctly loaded under some circumstances - bug #1473612  (Matteo)
 			  - 2006-05-05:  Continent delivery limitation wasn't correctly working when using GeoIP unified plugin  (Matteo)
 			  - 2006-05-08:  HTTPS protocol wasn't correctly detected during install or upgrade  (Matteo)
+			  - 2006-05-30:  Improved SWF converter compatibility with GetURL calls inside ActionScript functions  (Matteo)
 
 
 phpAdsNew 2.0.8
