@@ -18,21 +18,23 @@ function phpAds_getBannerTemplate($type)
 	if ($type == 'swf')
 	{
 		$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
-		$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/";
+		$buffer .= "codebase='http://fpdownload.adobe.com/pub/shockwave/cabs/flash/";
 		$buffer .= "swflash.cab#version={pluginversion:4,0,0,0}' width='{width}' height='{height}'>";
 		$buffer .= "<param name='movie' value='{imageurl}{swf_con}{swf_param}'>";
 		$buffer .= "<param name='quality' value='high'>";
+		$buffer .= "<param name='allowScriptAccess' value='always'>";
 		$buffer .= "[transparent]<param name='wmode' value='transparent'>";
 		$buffer .= "[/transparent]<embed src='{imageurl}{swf_con}{swf_param}' quality=high ";
 		$buffer .= "[transparent]wmode='transparent' [/transparent]";
 		$buffer .= "width='{width}' height='{height}' type='application/x-shockwave-flash' ";
-		$buffer .= "pluginspace='http://www.macromedia.com/go/getflashplayer'></embed>";
+		$buffer .= "pluginspace='http://www.adobe.com/go/getflashplayer' ";
+		$buffer .= "allowScriptAccess='always'></embed>";
 		$buffer .= "</object>";
 	}
 	elseif ($type == 'dcr')
 	{
 		$buffer  = "<object classid='clsid:166B1BCA-3F9C-11CF-8075-444553540000' ";
-		$buffer .= "codebase='http://download.macromedia.com/pub/shockwave/cabs/director/";
+		$buffer .= "codebase='http://fpdownload.adobe.com/pub/shockwave/cabs/director/";
 		$buffer .= "swdir85r321.cab#version={pluginversion:8,5,0,321}' width='{width}' height='{height}'>";
 		$buffer .= "<param name='src' value='{imageurl}'>";
 		$buffer .= "<param name='swStretchStyle' value='fill'>";
@@ -44,7 +46,7 @@ function phpAds_getBannerTemplate($type)
  		$buffer .= "<embed src='{imageurl}' quality=high ";
 		$buffer .= "width='{width}' height='{height}' type='application/x-director' ";
 		$buffer .= "bgColor='#FFFFFF' progress='false' logo=false' swRemote=\"swSaveEnabled='false' swVolume='false' swRestart='true' swPausePlay='true' swFastForward='true' swContextMenu='true'\" swStretchStyle=fill ";
-		$buffer .= "pluginspace='http://www.macromedia.com/shockwave/download/'></embed>";
+		$buffer .= "pluginspace='http://www.adobe.com/shockwave/download/'></embed>";
 		$buffer .= "</object>";
 	}
 	elseif ($type == 'rpm')
