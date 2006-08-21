@@ -3,7 +3,7 @@ phpAdsNew - ChangeLog
 
 CVS
 			+ Misc changes
-			  - 2006-08-21:  Added maintenance task to upgrade the geotargeting database configuration, useful when upgrading the database. The feature is enabled only if the config file is writable (Matteo)
+			  - 2006-08-21:  Added maintenance task to upgrade the GeoIP database configuration, useful when upgrading the database in place. The feature is enabled only if the config file is writable (Matteo)
 
 			+ Misc bugfixes
 			  - 2006-04-12:  Fixed problem with local stored banners not readable by Apache user when using suPHP - bug #1467830  (Matteo)
@@ -12,6 +12,7 @@ CVS
 			  - 2006-05-08:  HTTPS protocol wasn't correctly detected during install or upgrade  (Matteo)
 			  - 2006-05-30:  Improved SWF converter compatibility with GetURL calls inside ActionScript functions  (Matteo)
 			  - 2006-08-21:  Banner delivery wasn't working when the GeoIP database was upgraded in place (Matteo)
+			  - 2006-08-21:  Removed unneeded stripslashes from session library, which could cause future problems (Matteo)
 
 
 phpAdsNew 2.0.8
