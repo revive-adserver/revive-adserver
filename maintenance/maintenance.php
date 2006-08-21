@@ -74,12 +74,12 @@ $res = phpAds_dbQuery ("
 
 
 // Run different maintenance tasks
-
 if (date('H') == 0)
 {
 	include ("maintenance-reports.php");
 	include ("maintenance-activation.php");
 	include ("maintenance-autotargeting.php");
+	include ("maintenance-geotargeting.php");
 	include ("maintenance-cleantables.php");
 }
 

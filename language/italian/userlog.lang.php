@@ -31,7 +31,8 @@ $GLOBALS['strUserlog'] = array (
 	phpAds_actionPriorityAutoTargeting		=> "Limiti giornalieri ricalcolati",
 	phpAds_actionDeactiveCampaign			=> "Campagna {id} disattivata",
 	phpAds_actionActiveCampaign				=> "Campagna {id} attivata",
-	phpAds_actionAutoClean					=> "Pulizia automatica del database"
+	phpAds_actionAutoClean					=> "Pulizia automatica del database",
+	phpAds_actionGeotargeting				=> "Aggiornamento configurazione geotargeting"
 );
 
 ?>

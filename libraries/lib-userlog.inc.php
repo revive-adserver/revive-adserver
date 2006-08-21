@@ -30,6 +30,7 @@ define ("phpAds_actionPriorityAutoTargeting", 11);
 define ("phpAds_actionDeactiveCampaign", 20);
 define ("phpAds_actionActiveCampaign", 21);
 define ("phpAds_actionAutoClean", 30);
+define ("phpAds_actionGeotargeting", 40);
 
 
 $GLOBAL['phpAds_Usertype'] = 0;

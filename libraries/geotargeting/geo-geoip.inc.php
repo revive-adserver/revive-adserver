@@ -47,6 +47,8 @@ function phpAds_geoip_getConf($db)
 	{
 		$info = phpAds_geoip_get_info($fp);
 		
+		$info['plugin_conf']['databaseTimestamp'] = filemtime($db);
+		
 		$ret = serialize($info['plugin_conf']);
 		
 		@fclose($fp);
@@ -76,10 +78,24 @@ function phpAds_geoip_getFingerprint()
 
 function phpAds_geoip_getGeo($addr, $db)
 {
+	global $phpAds_config;
+	
 	if ($db == '')
 		return false;
 	
 	$ipnum = ip2long($addr);
+	
+	if ($phpAds_config['geotracking_conf'])
+	{
+		if ($conf = @unserialize($phpAds_config['geotracking_conf']))
+		{
+			if (isset($conf['databaseTimestamp']) && $conf['databaseTimestamp'] != @filemtime($db))
+			{
+				// The timestamp of the database file has changed, reset configuration
+				$phpAds_config['geotracking_conf'] = '';
+			}
+		}
+	}
 	
 	if ($fp = @fopen($db, "rb"))
 	{
