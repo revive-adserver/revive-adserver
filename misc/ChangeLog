@@ -14,6 +14,7 @@ CVS
 			  - 2006-05-30:  Improved SWF converter compatibility with GetURL calls inside ActionScript functions  (Matteo)
 			  - 2006-08-21:  Banner delivery wasn't working when the GeoIP database was upgraded in place (Matteo)
 			  - 2006-08-21:  Removed unneeded stripslashes from session library, which could cause future problems (Matteo)
+			  - 2006-08-30:  Banner priority was sometimes set to 0 for many banners - bug #1513910 (Matteo, thanks to Franz G. Fischer)
 
 
 phpAdsNew 2.0.8

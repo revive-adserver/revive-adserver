@@ -997,6 +997,8 @@ function phpAds_PriorityCalculate()
 	
 	while (!$loop_ok)
 	{
+		$loop_ok = true;
+		
 		foreach (array_keys($campaigns) as $c)
 		{
 			if ($campaigns[$c]['target'] == 0)
@@ -1068,11 +1070,10 @@ function phpAds_PriorityCalculate()
 				// END REPORTING
 	
 				// Restart loop
+				$loop_ok = false;
 				break;
 			}
 		}
-		
-		$loop_ok = true;
 	}
 			
 	if ($high_pri_boost > 1 && !$no_high_pri && $total_weight)
