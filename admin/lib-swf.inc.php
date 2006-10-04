@@ -21,7 +21,7 @@ define ('swf_tag_geturl',   		 chr(0x83));
 define ('swf_tag_null',     		 chr(0x00));
 define ('swf_tag_actionpush', 		 chr(0x96));
 define ('swf_tag_actiongetvariable', chr(0x1C));
-define ('swf_tag_actiongeturl2', 	 chr(0x9A).chr(0x01).chr(0x00));
+define ('swf_tag_actiongeturl2', 	 chr(0x9A).chr(0x01));
 define ('swf_tag_actiongetmember', 	 chr(0x4E));
 
 
@@ -382,26 +382,23 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 	
 						swf_tag_actiongeturl2.
 
+						swf_tag_null.
+
 						swf_tag_null;
 		
 		
-		// Same as preg_match('/(\x9B(..).*?)(..)$/s', $previous_part, $m) which wasn't enough ungreedy
-		// ActionDefineFunction2 + header len (UI16) + function name & params + body len (UI16)
-		if (preg_match('/^(..)(.*?(..)\x9B)/s', strrev($previous_part), $m))
+		if (preg_match('/(\x9B(..).*?)(..)$/s', $previous_part, $m))
 		{
-			foreach ($m as $k => $v)
-				$m[$k] = strrev($v);
-
-			$fheader_len = unpack('v', $m[3]);
+			$fheader_len = unpack('v', $m[2]);
 			$fheader_len = current($fheader_len);
-			$fbody_len = unpack('v', $m[1]);
+			$fbody_len = unpack('v', $m[3]);
 			$fbody_len = current($fbody_len);
-			if ($fheader_len == strlen($m[2]) - 1)
+			if ($fheader_len == strlen($m[1]) - 1)
 			{
 				// getURL is inside an ActionDefineFunction
 				$fbody_len += strlen($geturl2_part) - strlen($geturl_part);
 				$geturl_part	= $m[0].$geturl_part;
-				$geturl2_part	= $m[2].pack('v', $fbody_len).$geturl2_part;
+				$geturl2_part	= $m[1].pack('v', $fbody_len).$geturl2_part;
 			}
 		}
 		
@@ -450,12 +447,7 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 function hex_dump($str)
 {
 	for ($i=0; $i<strlen($str);$i++)
-	{
-		if ($i && !($i % 4))
-			echo " ";
-
 		printf('%02X', ord(substr($str, $i, 1)));
-	}
 	
 	echo "\n";
 }
