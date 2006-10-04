@@ -186,39 +186,42 @@ while ($row_campaigns = phpAds_dbFetchArray($res_campaigns))
 	$campaigns[$row_campaigns['clientid']]['expand'] = 0;
 	$campaigns[$row_campaigns['clientid']]['count'] = 0;
 	
-	$campaignsids[] = $row_campaigns['clientid'];
+	$campaignids[] = $row_campaigns['clientid'];
 }
 
-
-// Get the banners for each campaign
-$res_banners = phpAds_dbQuery("
-	SELECT 
-		bannerid,
-		clientid,
-		alt,
-		description,
-		active,
-		storagetype
-	FROM 
-		".$phpAds_config['tbl_banners']."
-	WHERE
-		clientid IN (".join(', ', $campaignids).")
-		".phpAds_getBannerListOrder ($listorder, $orderdirection)."
-	") or phpAds_sqlDie();
-
-while ($row_banners = phpAds_dbFetchArray($res_banners))
+$banners = array();
+$bannerids = array();
+if (count($campaignids))
 {
-	if (isset($campaigns[$row_banners['clientid']]))
+	// Get the banners for each campaign
+	$res_banners = phpAds_dbQuery("
+		SELECT 
+			bannerid,
+			clientid,
+			alt,
+			description,
+			active,
+			storagetype
+		FROM 
+			".$phpAds_config['tbl_banners']."
+		WHERE
+			clientid IN (".join(', ', $campaignids).")
+			".phpAds_getBannerListOrder ($listorder, $orderdirection)."
+		") or phpAds_sqlDie();
+	
+	while ($row_banners = phpAds_dbFetchArray($res_banners))
 	{
-		$banners[$row_banners['bannerid']] = $row_banners;
-		$banners[$row_banners['bannerid']]['clicks'] = 0;
-		$banners[$row_banners['bannerid']]['views'] = 0;
-		$campaigns[$row_banners['clientid']]['count']++;
-		
-		$bannerids[] = $row_banners['bannerid'];
+		if (isset($campaigns[$row_banners['clientid']]))
+		{
+			$banners[$row_banners['bannerid']] = $row_banners;
+			$banners[$row_banners['bannerid']]['clicks'] = 0;
+			$banners[$row_banners['bannerid']]['views'] = 0;
+			$campaigns[$row_banners['clientid']]['count']++;
+			
+			$bannerids[] = $row_banners['bannerid'];
+		}
 	}
 }
-
 
 
 
