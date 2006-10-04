@@ -179,11 +179,14 @@ $res_campaigns = phpAds_dbQuery("
 	".phpAds_getListOrder ($listorder, $orderdirection)."
 ") or phpAds_sqlDie();
 
+$campaignids = array();
 while ($row_campaigns = phpAds_dbFetchArray($res_campaigns))
 {
 	$campaigns[$row_campaigns['clientid']] = $row_campaigns;
 	$campaigns[$row_campaigns['clientid']]['expand'] = 0;
 	$campaigns[$row_campaigns['clientid']]['count'] = 0;
+	
+	$campaignsids[] = $row_campaigns['clientid'];
 }
 
 
@@ -198,6 +201,8 @@ $res_banners = phpAds_dbQuery("
 		storagetype
 	FROM 
 		".$phpAds_config['tbl_banners']."
+	WHERE
+		clientid IN (".join(', ', $campaignids).")
 		".phpAds_getBannerListOrder ($listorder, $orderdirection)."
 	") or phpAds_sqlDie();
 

@@ -15,6 +15,7 @@ CVS
 			  - 2006-08-21:  Banner delivery wasn't working when the GeoIP database was upgraded in place (Matteo)
 			  - 2006-08-21:  Removed unneeded stripslashes from session library, which could cause future problems (Matteo)
 			  - 2006-08-30:  Banner priority was sometimes set to 0 for many banners - bug #1513910 (Matteo, thanks to Franz G. Fischer)
+			  - 2006-10-04:  Speeded up stats-client-campaigns which was wrongly scanning all banners instead that only the ones from the needed campaign - bug #1533245 (Matteo, thanks to Benjamin Franz)
 
 
 phpAdsNew 2.0.8
