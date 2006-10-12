@@ -17,6 +17,7 @@ CVS
 			  - 2006-08-30:  Banner priority was sometimes set to 0 for many banners - bug #1513910 (Matteo, thanks to Franz G. Fischer)
 			  - 2006-10-04:  Speeded up stats-client-campaigns which was wrongly scanning all banners instead that only the ones from the needed campaign - bug #1533245 (Matteo, thanks to Benjamin Franz)
 			  - 2006-10-04:  Fixed latest SWF compatibility improvements (Matteo)
+			  - 2006-10-12:  Rewrote interstitials color pickers to be cross-browser compatible - bug #939739 (Matteo)
 
 
 phpAdsNew 2.0.8
