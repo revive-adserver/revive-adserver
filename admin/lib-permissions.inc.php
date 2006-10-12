@@ -422,8 +422,7 @@ function phpAds_SuppliedCredentials()
 	global $HTTP_POST_VARS;
 	
 	return (isset($HTTP_POST_VARS['phpAds_username']) &&
-		    isset($HTTP_POST_VARS['phpAds_password']) &&
-			isset($HTTP_POST_VARS['phpAds_md5']));
+		    isset($HTTP_POST_VARS['phpAds_password']));
 }
 
 
