@@ -306,6 +306,8 @@ function phpAds_PageHeader($ID, $extra="")
 	header ('Cache-Control: private, max-age=0, no-cache');
 		
 	// Head
+	echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">';
 	echo "<html".($phpAds_TextDirection != 'ltr' ? " dir='".$phpAds_TextDirection."'" : '').">\n";
 	echo "\t<head>\n";
 	echo "\t\t<title>".$pagetitle."</title>\n";

@@ -164,7 +164,6 @@ div.boxtitle {
 
 div.boxrow {
 	cursor: pointer; 
-	cursor: hand; 
 	border-bottom: 1px #DDDDDD solid;
 	padding-top: 2px;
 	padding-bottom: 2px;
@@ -178,6 +177,31 @@ div.boxrow input {
 	vertical-align: middle;
 }
 
+
+/* Color picker */
+
+.colorpicker {
+	border: 1px solid #666666;
+	width: 256px;
+}
+.colorpicker span {
+	cursor: crosshair;
+	display: block;
+	float: left;
+	width: 1px;
+	height: 7px;
+	/* IE hack */
+	font-size: 1px;
+}
+.colorpicker div {
+	clear: both;
+}
+.colorpicker div.sep {
+	background-color: #666666;
+	height: 1px;
+	/* IE hack */
+	font-size: 1px;
+}
 
 
 /* Custom */

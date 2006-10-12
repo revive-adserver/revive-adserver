@@ -459,10 +459,9 @@ function phpAds_LoginScreen($message='', $sessionID=0)
 		phpAds_ShowBreak();
 		echo "<br>";
 		
-		echo "<form name='login' method='post' onSubmit='return login_md5(this);' action='".basename($HTTP_SERVER_VARS['PHP_SELF']);
+		echo "<form name='login' method='post' action='".basename($HTTP_SERVER_VARS['PHP_SELF']);
 		echo (isset($HTTP_SERVER_VARS['QUERY_STRING']) && $HTTP_SERVER_VARS['QUERY_STRING'] != '' ? '?'.htmlentities($HTTP_SERVER_VARS['QUERY_STRING']) : '')."'>";
 		echo "<input type='hidden' name='phpAds_cookiecheck' value='".$HTTP_COOKIE_VARS['sessionID']."'>";
-		echo "<input type='hidden' name='phpAds_md5' value=''>";
 		echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>";
 		echo "<td width='80' valign='bottom'><img src='images/login-welcome.gif'>&nbsp;&nbsp;</td>";
 		echo "<td width='100%' valign='bottom'>";
@@ -489,25 +488,6 @@ function phpAds_LoginScreen($message='', $sessionID=0)
 		echo "</form>";
 		
 		phpAds_ShowBreak();
-		
-		echo "<script language='JavaScript' src='md5.js'></script>";
-		echo "<script language='JavaScript'>";
-		?>
-<!--
-		function login_md5(o) {
-			if (o.phpAds_password.value != '')
-			{
-				o.phpAds_md5.value = MD5(o.phpAds_password.value);
-				o.phpAds_password.value = '';
-			}
-			
-			return true;
-		}
-				
-		login_focus();
-//-->
-		<?php
-		echo "</script>";
 	}
 	else
 	{
