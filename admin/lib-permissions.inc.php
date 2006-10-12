@@ -288,21 +288,16 @@ function phpAds_Login()
 		// Trim spaces from input
 		$username  = trim($HTTP_POST_VARS['phpAds_username']);
 		$password  = trim($HTTP_POST_VARS['phpAds_password']);
-		$md5digest = trim($HTTP_POST_VARS['phpAds_md5']);
 		
 		// Add slashes to input if needed
 		if (!ini_get ('magic_quotes_gpc'))
 		{
 			$username  = addslashes($username);
 			$password  = addslashes($password);
-			$md5digest = addslashes($md5digest);
 		}
 		
 		// Convert plain text password to md5 digest
-		if ($md5digest == '' && $password != '')
-		{
-			$md5digest = md5($password);
-		}
+		$md5digest = md5($password);
 		
 		// Exit if not both username and password are given
 		if ($md5digest == '' ||	$md5digest == md5('') || $username  == '')
