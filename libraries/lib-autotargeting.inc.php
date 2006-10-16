@@ -30,14 +30,16 @@ if (!defined('phpAds_DowToday'))
 /* Calculate the target views for today                  */
 /*********************************************************/
 
-function phpAds_AutoTargetingGetTarget($profile, $views, $expire, $factor)
+function phpAds_AutoTargetingGetTarget($profile, $views, $expire, $factor, $already_served = 0)
 {
 	$days = round(($expire - phpAds_LastMidnight) / (double)(60*60*24));
 	$daily_target = ceil($views / $days);
 	
 	if ($days == 1)
-		// Quite easy... use remaining views as last day target
-		return array($views, '(last day, using remaining views)');
+	{
+		// Use remaining views as last day target, making sure that we take into account already served views
+		return array($views + $already_served, '(last day, using remaining views)');
+	}
 	
 	if ($days <= 0)
 		// Campaign expired

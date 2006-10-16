@@ -19,6 +19,7 @@ CVS
 			  - 2006-10-04:  Speeded up stats-client-campaigns which was wrongly scanning all banners instead that only the ones from the needed campaign - bug #1533245 (Matteo, thanks to Benjamin Franz)
 			  - 2006-10-04:  Fixed latest SWF compatibility improvements (Matteo)
 			  - 2006-10-12:  Rewrote interstitials color pickers to be cross-browser compatible - bug #939739 (Matteo)
+			  - 2006-10-16:  Changing remaining adviews for an autotarget campaign during the last day made the campaign underdelivering - bug #1574142 (Matteo)
 
 
 phpAdsNew 2.0.8
