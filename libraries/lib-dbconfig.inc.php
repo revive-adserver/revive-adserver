@@ -18,8 +18,8 @@ define ('LIBDBCONFIG_INCLUDED', true);
 
 
 // Current phpAds version
-$phpAds_version = 200.283;
-$phpAds_version_readable = "2.0.8";
+$phpAds_version = 200.285;
+$phpAds_version_readable = "2.0.9-beta1";
 $phpAds_version_development = true;  
 
 $phpAds_productname = "phpAdsNew";
@@ -81,6 +81,7 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'warn_admin' =>					array ('type' => 'boolean', 'sql' => false),
 	'warn_client' => 				array ('type' => 'boolean', 'sql' => false),
 	'warn_limit' =>					array ('type' => 'integer', 'sql' => false),
+	'warn_limit_days' =>			array ('type' => 'integer', 'sql' => false),
 	'proxy_lookup' =>				array ('type' => 'boolean', 'sql' => false),
 	'ui_enabled' =>					array ('type' => 'boolean', 'sql' => false),
 	'ui_forcessl' =>				array ('type' => 'boolean', 'sql' => false),

@@ -20,7 +20,7 @@ include ("lib-settings.inc.php");
 
 // Register input variables
 phpAds_registerGlobal ('save_settings', 'ignore_hosts', 'warn_limit', 'admin_email_headers', 'log_beacon', 'compact_stats', 'log_adviews', 
-					   'log_adclicks', 'block_adviews', 'block_adclicks', 'warn_admin', 'warn_client', 'warn_limit',
+					   'log_adclicks', 'block_adviews', 'block_adclicks', 'warn_admin', 'warn_client', 'warn_limit', 'warn_limit_days',
 					   'qmail_patch', 'auto_clean_tables', 'auto_clean_userlog', 'auto_clean_tables_interval', 
 					   'auto_clean_userlog_interval', 'geotracking_stats', 'log_hostname', 'log_source', 'log_iponly');
 
@@ -78,6 +78,14 @@ if (isset($save_settings) && $save_settings != '')
 			$errormessage[2][] = $strWarnLimitErr;
 		else
 			phpAds_SettingsWriteAdd('warn_limit', $warn_limit);
+	}
+	
+	if (isset($warn_limit_days))
+	{
+		if (!is_numeric($warn_limit_days) || $warn_limit_days <= 0)
+			$errormessage[2][] = $strWarnLimitDaysErr;
+		else
+			phpAds_SettingsWriteAdd('warn_limit_days', $warn_limit_days);
 	}
 	
 	if (isset($admin_email_headers))
@@ -270,6 +278,18 @@ array (
 			'size'    => 12,
 			'depends' => 'warn_client==true || warn_admin==true',
 			'check'	  => 'number+20',
+			'req'	  => true
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type' 	  => 'text', 
+			'name' 	  => 'warn_limit_days',
+			'text' 	  => $strWarnLimitDays,
+			'size'    => 12,
+			'depends' => 'warn_client==true || warn_admin==true',
+			'check'	  => 'number+',
 			'req'	  => true
 		),
 		array (

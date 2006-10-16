@@ -18,6 +18,10 @@
 if (!defined('phpAds_path')) die();
 
 
+// Defaults
+if (!defined('phpAds_LastMidnight'))
+	define('phpAds_LastMidnight', mktime(0, 0, 0, date('m'), date('d'), date('Y')));
+
 
 // Include required files
 require	(phpAds_path."/libraries/lib-warnings.inc.php"); 
@@ -96,6 +100,14 @@ while($client = phpAds_dbFetchArray($res_clients))
 			}
 			
 			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET active='$active' WHERE clientid=".$campaign['clientid']);
+		}
+		
+		if ($active == "t" && ($phpAds_config['warn_admin'] || $phpAds_config['warn_client']))
+		{
+			$days_left = round(($campaign["expire_st"] - phpAds_LastMidnight) / (60*60*24));
+			
+			if ($days_left == $phpAds_config['warn_limit_days'])
+				phpAds_warningMail ($campaign, $campaign["expire_st"]);
 		}
 	}
 }

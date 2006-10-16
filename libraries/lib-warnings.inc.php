@@ -21,11 +21,12 @@ define ('LIBWARNING_INCLUDED', true);
 /* Mail warning - preset is reached						 */
 /*********************************************************/
 
-function phpAds_warningMail ($campaign)
+function phpAds_warningMail ($campaign, $expiry_date = 0)
 {
 	global $phpAds_config;
 	global $strViewsClicksLow, $strMailHeader, $strWarnClientTxt;
 	global $strMailNothingLeft, $strMailFooter;
+	global $strCampaignExpiring, $strWarnClientDaysTxt;
 	
 	
 	if ($phpAds_config['warn_admin'] || $phpAds_config['warn_client'])
@@ -50,10 +51,13 @@ function phpAds_warningMail ($campaign)
 			
 			
 			// Build email
-			$Subject = $strViewsClicksLow.": ".$campaign["clientname"];
+			if ($expiry_date)
+				$Subject = $strCampaignExpiring.": ".$campaign["clientname"];
+			else
+				$Subject = $strViewsClicksLow.": ".$campaign["clientname"];
 			
 			$Body    = "$strMailHeader\n";
-			$Body 	.= "$strWarnClientTxt\n";
+			$Body 	.= $expiry_date ? "$strWarnClientDaysTxt\n" : "$strWarnClientTxt\n";
 			$Body 	.= "$strMailNothingLeft\n\n";
 			$Body   .= "$strMailFooter";
 			
@@ -61,6 +65,7 @@ function phpAds_warningMail ($campaign)
 			$Body	 = str_replace ("{contact}", $client["contact"], $Body);
 			$Body    = str_replace ("{adminfullname}", $phpAds_config['admin_fullname'], $Body);
 			$Body    = str_replace ("{limit}", $phpAds_config['warn_limit'], $Body);
+			$Body    = str_replace ("{date}", strftime($GLOBALS['date_format'], $expiry_date), $Body);
 			
 			
 			// Send email
