@@ -474,6 +474,14 @@ function phpAds_LoginScreen($message='', $sessionID=0)
 		echo "</form>";
 		
 		phpAds_ShowBreak();
+		
+		echo "<script language='JavaScript'>";
+		?>
+<!--
+		login_focus();
+//-->
+		<?php
+		echo "</script>";
 	}
 	else
 	{
