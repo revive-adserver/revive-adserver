@@ -21,7 +21,7 @@ function phpAds_cacheFetch ($name)
 {
 	global $phpAds_config;
 	
-	$cacheres = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_cache']." WHERE cacheid='".$name."'");
+	$cacheres = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_cache']." WHERE cacheid = '".$name."'");
 	
 	if ($cacherow = phpAds_dbFetchArray($cacheres))
 		return unserialize($cacherow['content']);
@@ -35,10 +35,10 @@ function phpAds_cacheStore ($name, $cache)
 	
 	$cache = addslashes(serialize($cache));
 	
-	$result = phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_cache']." SET content='".$cache."' WHERE cacheid='".$name."'");
+	$result = phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_cache']." SET content = '".$cache."' WHERE cacheid = '".$name."'");
 	
     if (phpAds_dbAffectedRows() == 0) 
-    	$result = phpAds_dbQuery("INSERT INTO ".$phpAds_config['tbl_cache']." (cacheid, content) VALUES ('".$name."', '".$cache."'");
+    	$result = phpAds_dbQuery("INSERT INTO ".$phpAds_config['tbl_cache']." (cacheid, content) VALUES ('".$name."', '".$cache."')");
 }
 
 function phpAds_cacheDelete ($name='')
@@ -48,7 +48,7 @@ function phpAds_cacheDelete ($name='')
 	if ($name == '')
 		$result = phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_cache']);
 	else
-		$result = phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_cache']." WHERE cacheid='".$name."'");
+		$result = phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_cache']." WHERE cacheid = '".$name."'");
 }
 
 
