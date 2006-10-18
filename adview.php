@@ -68,7 +68,7 @@ if (!isset($source)) $source = '';
 if (!isset($n)) $n = 'default';
 
 // Remove referer, to be sure it doesn't cause problems with limitations
-if (isset($HTTP_SERVER_VARS['HTTP_REFERER'])) unset($HTTP_SERVER_VARS['HTTP_REFERER']);
+if (isset($_SERVER['HTTP_REFERER'])) unset($_SERVER['HTTP_REFERER']);
 if (isset($HTTP_REFERER)) unset($HTTP_REFERER);
 
 
@@ -121,8 +121,8 @@ if ($found)
 	// Log this impression
 	if ($phpAds_config['block_adviews'] == 0 ||
 	   ($phpAds_config['block_adviews'] > 0 && 
-	   (!isset($HTTP_COOKIE_VARS['phpAds_blockView'][$row['bannerid']]) ||
-	   	$HTTP_COOKIE_VARS['phpAds_blockView'][$row['bannerid']] <= time())))
+	   (!isset($_COOKIE['phpAds_blockView'][$row['bannerid']]) ||
+	   	$_COOKIE['phpAds_blockView'][$row['bannerid']] <= time())))
 	{
 		if ($phpAds_config['log_adviews'])
 			phpAds_logImpression ($row['bannerid'], $row['clientid'], $row['zoneid'], $source);
@@ -222,9 +222,9 @@ if ($found)
 		case 'sql':
 			$cookie['dest'] = $row['url'];
 			
-			if (isset($HTTP_SERVER_VARS['HTTP_USER_AGENT']))
+			if (isset($_SERVER['HTTP_USER_AGENT']))
 			{
-				if (preg_match ("#Mozilla/(1|2|3|4)#", $HTTP_SERVER_VARS['HTTP_USER_AGENT']) && !preg_match("#compatible#", $HTTP_SERVER_VARS['HTTP_USER_AGENT']))
+				if (preg_match ("#Mozilla/(1|2|3|4)#", $_SERVER['HTTP_USER_AGENT']) && !preg_match("#compatible#", $_SERVER['HTTP_USER_AGENT']))
 				{
 					// Workaround for Netscape 4 problem
 					// with animated GIFs. Redirect to
@@ -234,7 +234,7 @@ if ($found)
 					phpAds_setCookie ("phpAds_banner[".$n."]", serialize($cookie), 0);
 					phpAds_flushCookie ();
 					
-					if ($HTTP_SERVER_VARS['SERVER_PORT'] == 443) $phpAds_config['url_prefix'] = str_replace ('http://', 'https://', $phpAds_config['url_prefix']);
+					if ($_SERVER['SERVER_PORT'] == 443) $phpAds_config['url_prefix'] = str_replace ('http://', 'https://', $phpAds_config['url_prefix']);
 					header ("Location: ".str_replace('{url_prefix}', $phpAds_config['url_prefix'], $row['imageurl']));
 				}
 				else

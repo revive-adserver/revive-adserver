@@ -1135,7 +1135,7 @@ if ($storagetype == 'sql')
 		echo "<tr><td width='30'>&nbsp;</td>";
 		echo "<td width='200' valign='top'>".$strNewBannerFile."</td>";
 		
-		if (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'MSIE') && !strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Opera'))
+		if (strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE') && !strstr($_SERVER['HTTP_USER_AGENT'], 'Opera'))
 		{
 			echo "<td><input class='flat' size='26' type='file' name='upload' style='width:350px;' onChange='selectFile(this);' tabindex='".($tabindex++)."'>";
 			echo "<div id='swflayer' style='display:none;'>";
@@ -1311,7 +1311,7 @@ if ($storagetype == 'web')
 		echo "<td width='200' valign='top'>".$strNewBannerFile."</td>";
 		
 		
-		if (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'MSIE') && !strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Opera'))
+		if (strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE') && !strstr($_SERVER['HTTP_USER_AGENT'], 'Opera'))
 		{
 			echo "<td><input class='flat' size='26' type='file' name='upload' style='width:350px;' onChange='selectFile(this);' tabindex='".($tabindex++)."'>";
 			echo "<div id='swflayer' style='display:none;'>";

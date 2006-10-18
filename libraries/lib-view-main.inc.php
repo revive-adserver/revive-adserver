@@ -24,7 +24,7 @@ mt_srand(floor((isset($n) && strlen($n) > 5 ? hexdec($n[0].$n[2].$n[3].$n[4].$n[
 
 function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 0, $context = 0, $richmedia = true)
 {
-	global $phpAds_config, $HTTP_SERVER_VARS;
+	global $phpAds_config;
 	global $phpAds_followedChain;
 	
 	
@@ -170,7 +170,7 @@ function phpAds_getBannerDetails ($bannerid)
 
 function phpAds_prepareOutput($row, $target, $source, $withtext)
 {
-	global $phpAds_config, $HTTP_SERVER_VARS;
+	global $phpAds_config;
 	
 	$outputbuffer = '';
 		
@@ -182,8 +182,8 @@ function phpAds_prepareOutput($row, $target, $source, $withtext)
 	// Add HTML to the output buffer. If the HTML contains ActiveX code we need
 	// to use a JavaScript workaround because the outcome of the Eolas lawsuit
 	// agains Microsoft. Without these changes the user would get a warning dialogbox.
-	if (!(strpos (strtolower($row['htmlcache']), "<object") === false) && isset($HTTP_SERVER_VARS['HTTP_USER_AGENT']) &&
-	   (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'MSIE') && !strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Opera')))
+	if (!(strpos (strtolower($row['htmlcache']), "<object") === false) && isset($_SERVER['HTTP_USER_AGENT']) &&
+	   (strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE') && !strstr($_SERVER['HTTP_USER_AGENT'], 'Opera')))
 	{
 		if (!defined("phpAds_invocationType") || (phpAds_invocationType != 'adjs' && phpAds_invocationType != 'adlayer'))
 			$outputbuffer .= "<script language='JavaScript' type='text/javascript' src='{url_prefix}/adx.js'></script>";
@@ -228,7 +228,7 @@ function phpAds_prepareOutput($row, $target, $source, $withtext)
 	$outputbuffer = str_replace ('{source}', $source, $outputbuffer);
 		
 	// If SSL is used, make sure to use the https:// protocol
-	if ($HTTP_SERVER_VARS['SERVER_PORT'] == 443) $phpAds_config['url_prefix'] = str_replace ('http://', 'https://', $phpAds_config['url_prefix']);
+	if ($_SERVER['SERVER_PORT'] == 443) $phpAds_config['url_prefix'] = str_replace ('http://', 'https://', $phpAds_config['url_prefix']);
 		
 	// Replace url_prefix with the domain name that is actually used
 		
@@ -242,21 +242,21 @@ function phpAds_prepareOutput($row, $target, $source, $withtext)
 	/* mode on a different (virtual) server, so do not even try.              */
 	/**************************************************************************/
 	
-	if (isset($HTTP_SERVER_VARS['HTTP_HOST']))
+	if (isset($_SERVER['HTTP_HOST']))
 	{
 		if (preg_match('#//[^/]+:[0-9]+/#', $phpAds_config['url_prefix']))
 		{
 			// The port was set using url_prefix, make sure this port
 			// is used and not the port used by HTTP_HOST
-			if (strpos($HTTP_SERVER_VARS['HTTP_HOST'], ':') > 0)
-				list($real_host,) = explode(':', $HTTP_SERVER_VARS['HTTP_HOST']);
+			if (strpos($_SERVER['HTTP_HOST'], ':') > 0)
+				list($real_host,) = explode(':', $_SERVER['HTTP_HOST']);
 			else
-				$real_host = $HTTP_SERVER_VARS['HTTP_HOST'];
+				$real_host = $_SERVER['HTTP_HOST'];
 		
 			$phpAds_config['url_prefix'] = preg_replace ('#//[^/]+:([0-9]+)/#', '//'.$real_host.':\\1/', $phpAds_config['url_prefix']);			
 		}
 		else
-			$phpAds_config['url_prefix'] = preg_replace ('#//[^/]+/#', '//'.$HTTP_SERVER_VARS['HTTP_HOST'].'/', $phpAds_config['url_prefix']);		
+			$phpAds_config['url_prefix'] = preg_replace ('#//[^/]+/#', '//'.$_SERVER['HTTP_HOST'].'/', $phpAds_config['url_prefix']);		
 	}
 	
 	$outputbuffer = str_replace ('{url_prefix}', $phpAds_config['url_prefix'], $outputbuffer);
@@ -351,7 +351,7 @@ function phpAds_prepareOutput($row, $target, $source, $withtext)
 		
 		
 	// Add beacon image for logging and setting cookies
-	if (isset($HTTP_SERVER_VARS['HTTP_USER_AGENT']) && preg_match("#Mozilla/(1|2|3|4)#", $HTTP_SERVER_VARS['HTTP_USER_AGENT']) && !preg_match("#compatible#", $HTTP_SERVER_VARS['HTTP_USER_AGENT']))
+	if (isset($_SERVER['HTTP_USER_AGENT']) && preg_match("#Mozilla/(1|2|3|4)#", $_SERVER['HTTP_USER_AGENT']) && !preg_match("#compatible#", $_SERVER['HTTP_USER_AGENT']))
 	{
 		$outputbuffer .= '<layer id="beacon_'.$row['bannerid'].'" width="0" height="0" border="0" visibility="hide">';
 		$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&amp;clientid='.$row['clientid'].'&amp;zoneid='.$row['zoneid'].'&amp;source='.$source.'&amp;block='.$row['block'].'&amp;capping='.$row['capping'].'&amp;cb='.md5(uniqid('', 1)).'\' width=\'0\' height=\'0\' alt=\'\'>';

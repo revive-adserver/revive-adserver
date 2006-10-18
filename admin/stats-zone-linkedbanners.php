@@ -349,7 +349,7 @@ if ($row_zone = phpAds_dbFetchArray($res_stats))
 }
 
 
-echo "<form action='".$HTTP_SERVER_VARS['PHP_SELF']."'>";
+echo "<form action='".$_SERVER['PHP_SELF']."'>";
 echo "<input type='hidden' name='affiliateid' value='".$affiliateid."'>";
 echo "<input type='hidden' name='zoneid' value='".$zoneid."'>";
 

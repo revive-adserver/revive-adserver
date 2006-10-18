@@ -53,8 +53,8 @@ phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2"));
 $current  = $strCurrentlyUsing.' '.$phpAds_productname.'&nbsp;'.$phpAds_version_readable.' ';
 $current .= $strRunningOn.' ';
 
-if (isset($HTTP_SERVER_VARS["SERVER_SOFTWARE"]) && strlen(trim($HTTP_SERVER_VARS["SERVER_SOFTWARE"])))
-	$current .= str_replace('/', '&nbsp;', ereg_replace(" .*$", '', $HTTP_SERVER_VARS["SERVER_SOFTWARE"]));
+if (isset($_SERVER["SERVER_SOFTWARE"]) && strlen(trim($_SERVER["SERVER_SOFTWARE"])))
+	$current .= str_replace('/', '&nbsp;', ereg_replace(" .*$", '', $_SERVER["SERVER_SOFTWARE"]));
 else
 	$current .= $strUnknown;
 	

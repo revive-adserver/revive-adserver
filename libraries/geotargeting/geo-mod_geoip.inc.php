@@ -19,14 +19,12 @@ $GLOBALS['phpAds_geoPluginID'] = 'mod_geoip';
 
 function phpAds_mod_geoip_getInfo()
 {
-	global $HTTP_SERVER_VARS;
-
 	return (array (
 		'name'			=> 'MaxMind GeoIP (mod)',
 		'db'			=> false,
 		'country'		=> true,
 		'continent'		=> true,
-		'region'		=> isset($HTTP_SERVER_VARS['GEOIP_REGION']),
+		'region'		=> isset($_SERVER['GEOIP_REGION']),
 		'fips_code'		=> false,
 		'city'			=> false,
 		'postal_code'	=> false,
@@ -52,15 +50,13 @@ function phpAds_mod_geoip_getGeo($addr, $db)
 {
 	// $addr and $db parameter is ignored and is here for API consistency only
 	
-	global $HTTP_SERVER_VARS;
-	
-	if (isset($HTTP_SERVER_VARS['GEOIP_COUNTRY_CODE']))
-		$country = $HTTP_SERVER_VARS['GEOIP_COUNTRY_CODE'];
+	if (isset($_SERVER['GEOIP_COUNTRY_CODE']))
+		$country = $_SERVER['GEOIP_COUNTRY_CODE'];
 	else
 		$country = '';
 	
-	if (isset($HTTP_SERVER_VARS['GEOIP_REGION']))
-		$region = $HTTP_SERVER_VARS['GEOIP_REGION'];	
+	if (isset($_SERVER['GEOIP_REGION']))
+		$region = $_SERVER['GEOIP_REGION'];	
 	else
 		$region = false;
 	

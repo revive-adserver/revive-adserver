@@ -29,7 +29,7 @@ else
 include (phpAds_path."/libraries/lib-dbconfig.inc.php");
 include (phpAds_path."/libraries/lib-revisions.inc.php");
 
-if (!count($HTTP_POST_VARS) && !count($HTTP_GET_VARS))
+if (!count($_POST) && !count($_GET))
 {
 	// Disable magic_quotes_runtime, otherwise we might get false 'changed files' warnings
 	set_magic_quotes_runtime(0);
@@ -46,15 +46,6 @@ if (!count($HTTP_POST_VARS) && !count($HTTP_GET_VARS))
 			echo '<ul><li>'.implode('<li>', $rev_message).'</ul>';
 			exit;
 		}
-	}
-
-	if (function_exists('version_compare') && version_compare(phpversion(), '5.0.0') >= 0 &&
-		!ini_get('register_long_arrays'))
-	{
-		// (no need for translation, because language file is not loaded yet)
-		echo "<strong>The installer detected some problems which need to be fixed before you can continue:</strong><br>";
-		echo '<ul><li>The PHP configuration variable register_long_arrays needs to be turned on.</ul>';
-		exit;
 	}
 }
 
@@ -73,15 +64,15 @@ phpAds_registerGlobal ('installvars', 'language', 'phase', 'dblocal', 'dbhost', 
 
 
 // Set URL prefix
-if (isset($HTTP_SERVER_VARS['HTTP_HOST']))
-	$host = $HTTP_SERVER_VARS['HTTP_HOST'];
+if (isset($_SERVER['HTTP_HOST']))
+	$host = $_SERVER['HTTP_HOST'];
 else
-	$host = $HTTP_SERVER_VARS['SERVER_NAME'];
+	$host = $_SERVER['SERVER_NAME'];
 
 $phpAds_config['url_prefix'] = 
-	'http'.(empty($HTTP_SERVER_VARS['HTTPS']) ? '' : 's').'://'.
+	'http'.(empty($_SERVER['HTTPS']) ? '' : 's').'://'.
 	$host.
-	ereg_replace("/admin/install.php(\?.*)?$", "", $HTTP_SERVER_VARS['PHP_SELF']);
+	ereg_replace("/admin/install.php(\?.*)?$", "", $_SERVER['PHP_SELF']);
 
 
 // Overwrite settings with install vars

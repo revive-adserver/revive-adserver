@@ -55,8 +55,8 @@ if (isset($filename) && $filename != '')
 		
 		// Check if the browser sent a If-Modified-Since header and if the image was
 		// modified since that date
-		if (!isset($HTTP_SERVER_VARS['HTTP_IF_MODIFIED_SINCE']) ||
-			$row['t_stamp'] > strtotime($HTTP_SERVER_VARS['HTTP_IF_MODIFIED_SINCE']))
+		if (!isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ||
+			$row['t_stamp'] > strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']))
 		{
 			header ("Last-Modified: ".gmdate('D, d M Y H:i:s', $row['t_stamp']).' GMT');
 			
@@ -86,7 +86,7 @@ if (isset($filename) && $filename != '')
 			else
 			{
 				// PHP as module, use HTTP/1.x [status-number]
-				header ($HTTP_SERVER_VARS['SERVER_PROTOCOL'].' 304 Not Modified');
+				header ($_SERVER['SERVER_PROTOCOL'].' 304 Not Modified');
 			}
 		}
 	}

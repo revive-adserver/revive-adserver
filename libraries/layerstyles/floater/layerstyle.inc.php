@@ -51,7 +51,7 @@ function phpAds_getLayerLimitations ()
 function phpAds_putLayerJS ($output, $uniqid)
 {
 	global $ltr, $loop, $speed, $pause, $shiftv;
-	global $limited, $lmargin, $rmargin, $HTTP_SERVER_VARS;
+	global $limited, $lmargin, $rmargin;
 	
 	// Register input variables
 	phpAds_registerGlobal ('ltr', 'loop', 'speed', 'pause',
@@ -178,7 +178,7 @@ function phpAds_floater_grow_<?php echo $uniqid; ?>()
 <?php
 	}
 	
-	if (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Opera 6'))
+	if (strstr($_SERVER['HTTP_USER_AGENT'], 'Opera 6'))
 	{
 ?>
 	mr = mr - w; ml = ml + w;

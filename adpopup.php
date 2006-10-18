@@ -84,7 +84,7 @@ if (!isset($scrollbars)) $scrollbars = 0;
 
 
 // Remove referer, to be sure it doesn't cause problems with limitations
-if (isset($HTTP_SERVER_VARS['HTTP_REFERER'])) unset($HTTP_SERVER_VARS['HTTP_REFERER']);
+if (isset($_SERVER['HTTP_REFERER'])) unset($_SERVER['HTTP_REFERER']);
 if (isset($HTTP_REFERER)) unset($HTTP_REFERER);
 
 

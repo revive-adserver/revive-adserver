@@ -549,7 +549,7 @@ function phpAds_replaceVariablesInBannerCode ($htmlcode)
 function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 {
 	global $strShowBanner, $strLogin;
-	global $phpAds_config, $HTTP_SERVER_VARS;
+	global $phpAds_config;
 	global $phpAds_TextAlignLeft, $phpAds_TextAlignRight;
 	
 	
@@ -663,7 +663,7 @@ function phpAds_buildBannerCode ($bannerid, $fullpreview = false)
 		// agains Microsoft. Without these changes the user would get a warning dialogbox.
 		if ($fullpreview &&
 			!(strpos (strtolower($row['htmlcache']), "<object") === false) &&
-	   		(strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'MSIE') && !strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Opera')))
+	   		(strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE') && !strstr($_SERVER['HTTP_USER_AGENT'], 'Opera')))
 		{
 			$activexbuffer  = "<script language='JavaScript' type='text/javascript' src='{url_prefix}/adx.js'></script>";
 			$activexbuffer .= "<script language='JavaScript' type='text/javascript'>\n";

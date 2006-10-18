@@ -401,7 +401,7 @@ if (isset($zones) && is_array($zones) && count($zones) > 0)
 }
 
 
-echo "<form action='".$HTTP_SERVER_VARS['PHP_SELF']."'>";
+echo "<form action='".$_SERVER['PHP_SELF']."'>";
 echo "<input type='hidden' name='affiliateid' value='".$affiliateid."'>";
 
 echo "<select name='period' onChange='this.form.submit();' accesskey='".$keyList."' tabindex='".($tabindex++)."'>";

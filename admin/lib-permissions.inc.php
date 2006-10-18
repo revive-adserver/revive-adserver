@@ -158,8 +158,6 @@ function phpAds_getUserID ()
 function phpAds_checkIds()
 {
 	global $clientid, $campaignid, $bannerid, $affiliateid, $zoneid, $userlogid, $day;
-	global $HTTP_SERVER_VARS;
-	
 	
 	// I also put it there to avoid problems during the check on client/affiliate interface
 	if (phpAds_isUser(phpAds_Client))
@@ -176,7 +174,7 @@ function phpAds_checkIds()
 	if (!isset($userlogid))   $userlogid = '';
 	if (!isset($day))		  $day = '';
 	
-	$part = explode('-', str_replace('.php', '-', basename($HTTP_SERVER_VARS['SCRIPT_NAME'])));
+	$part = explode('-', str_replace('.php', '-', basename($_SERVER['SCRIPT_NAME'])));
 
 	if ($stats = ($part[0] == 'stats' ? 1 : 0))
 	{
@@ -280,14 +278,11 @@ function phpAds_Login()
 	global $phpAds_config;
 	global $strPasswordWrong, $strEnableCookies, $strEnterBoth;
 	
-	global $HTTP_COOKIE_VARS;
-	global $HTTP_POST_VARS;
-	
 	if (phpAds_SuppliedCredentials())
 	{
 		// Trim spaces from input
-		$username  = trim($HTTP_POST_VARS['phpAds_username']);
-		$password  = trim($HTTP_POST_VARS['phpAds_password']);
+		$username  = trim($_POST['phpAds_username']);
+		$password  = trim($_POST['phpAds_password']);
 		
 		// Add slashes to input if needed
 		if (!ini_get ('magic_quotes_gpc'))
@@ -302,15 +297,15 @@ function phpAds_Login()
 		// Exit if not both username and password are given
 		if ($md5digest == '' ||	$md5digest == md5('') || $username  == '')
 		{
-			$HTTP_COOKIE_VARS['sessionID'] = phpAds_SessionStart();
-			phpAds_LoginScreen($strEnterBoth, $HTTP_COOKIE_VARS['sessionID']);
+			$_COOKIE['sessionID'] = phpAds_SessionStart();
+			phpAds_LoginScreen($strEnterBoth, $_COOKIE['sessionID']);
 		}
 		
 		// Exit if cookies are disabled
-		if ($HTTP_COOKIE_VARS['sessionID'] != $HTTP_POST_VARS['phpAds_cookiecheck'])
+		if ($_COOKIE['sessionID'] != $_POST['phpAds_cookiecheck'])
 		{
-			$HTTP_COOKIE_VARS['sessionID'] = phpAds_SessionStart();
-			phpAds_LoginScreen($strEnableCookies, $HTTP_COOKIE_VARS['sessionID']);
+			$_COOKIE['sessionID'] = phpAds_SessionStart();
+			phpAds_LoginScreen($strEnableCookies, $_COOKIE['sessionID']);
 		}
 		
 		
@@ -385,8 +380,8 @@ function phpAds_Login()
 					// Password is not correct or user is not known
 					
 					// Set the session ID now, some server do not support setting a cookie during a redirect
-					$HTTP_COOKIE_VARS['sessionID'] = phpAds_SessionStart();
-					phpAds_LoginScreen($strPasswordWrong, $HTTP_COOKIE_VARS['sessionID']);
+					$_COOKIE['sessionID'] = phpAds_SessionStart();
+					phpAds_LoginScreen($strPasswordWrong, $_COOKIE['sessionID']);
 				}
 			}
 		}
@@ -405,8 +400,8 @@ function phpAds_Login()
 		}
 		
 		// Set the session ID now, some server do not support setting a cookie during a redirect
-		$HTTP_COOKIE_VARS['sessionID'] = phpAds_SessionStart();
-		phpAds_LoginScreen('', $HTTP_COOKIE_VARS['sessionID']);
+		$_COOKIE['sessionID'] = phpAds_SessionStart();
+		phpAds_LoginScreen('', $_COOKIE['sessionID']);
 	}
 }
 
@@ -419,10 +414,8 @@ function phpAds_IsLoggedIn()
 
 function phpAds_SuppliedCredentials()
 {
-	global $HTTP_POST_VARS;
-	
-	return (isset($HTTP_POST_VARS['phpAds_username']) &&
-		    isset($HTTP_POST_VARS['phpAds_password']));
+	return (isset($_POST['phpAds_username']) &&
+		    isset($_POST['phpAds_password']));
 }
 
 
@@ -441,7 +434,6 @@ function phpAds_isAdmin($username, $md5)
 
 function phpAds_LoginScreen($message='', $sessionID=0)
 {
-	global $HTTP_COOKIE_VARS, $HTTP_SERVER_VARS;
 	global $phpAds_config, $phpAds_productname;
 	global $strUsername, $strPassword, $strLogin, $strWelcomeTo, $strEnterUsername, $strNoAdminInteface;
 	
@@ -453,9 +445,9 @@ function phpAds_LoginScreen($message='', $sessionID=0)
 		phpAds_ShowBreak();
 		echo "<br>";
 		
-		echo "<form name='login' method='post' action='".basename($HTTP_SERVER_VARS['PHP_SELF']);
-		echo (isset($HTTP_SERVER_VARS['QUERY_STRING']) && $HTTP_SERVER_VARS['QUERY_STRING'] != '' ? '?'.htmlentities($HTTP_SERVER_VARS['QUERY_STRING']) : '')."'>";
-		echo "<input type='hidden' name='phpAds_cookiecheck' value='".$HTTP_COOKIE_VARS['sessionID']."'>";
+		echo "<form name='login' method='post' action='".basename($_SERVER['PHP_SELF']);
+		echo (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] != '' ? '?'.htmlentities($_SERVER['QUERY_STRING']) : '')."'>";
+		echo "<input type='hidden' name='phpAds_cookiecheck' value='".$_COOKIE['sessionID']."'>";
 		echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>";
 		echo "<td width='80' valign='bottom'><img src='images/login-welcome.gif'>&nbsp;&nbsp;</td>";
 		echo "<td width='100%' valign='bottom'>";

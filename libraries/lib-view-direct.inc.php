@@ -23,7 +23,7 @@ define ('LIBVIEWDIRECT_INCLUDED', true);
 
 function phpAds_fetchBannerDirect($remaining, $clientid = 0, $context = 0, $source = '', $richmedia = true)
 {
-	global $phpAds_config, $HTTP_COOKIE_VARS;
+	global $phpAds_config;
 	
 	// Get first part, store second part
 	$what = strtok($remaining, '|');
@@ -202,15 +202,15 @@ function phpAds_fetchBannerDirect($remaining, $clientid = 0, $context = 0, $sour
 					// Blocked
 					if ($postconditionSucces == true &&
 						$rows[$i]['block'] > 0 &&
-						isset($HTTP_COOKIE_VARS['phpAds_blockAd'][$rows[$i]['bannerid']]) &&
-						$HTTP_COOKIE_VARS['phpAds_blockAd'][$rows[$i]['bannerid']] > time())
+						isset($_COOKIE['phpAds_blockAd'][$rows[$i]['bannerid']]) &&
+						$_COOKIE['phpAds_blockAd'][$rows[$i]['bannerid']] > time())
 						$postconditionSucces = false;
 					
 					// Capped
 					if ($postconditionSucces == true &&
 						$rows[$i]['capping'] > 0 &&
-						isset($HTTP_COOKIE_VARS['phpAds_capAd'][$rows[$i]['bannerid']]) &&
-						$HTTP_COOKIE_VARS['phpAds_capAd'][$rows[$i]['bannerid']] >= $rows[$i]['capping'])
+						isset($_COOKIE['phpAds_capAd'][$rows[$i]['bannerid']]) &&
+						$_COOKIE['phpAds_capAd'][$rows[$i]['bannerid']] >= $rows[$i]['capping'])
 						$postconditionSucces = false;
 					
 					

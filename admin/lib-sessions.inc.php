@@ -21,11 +21,11 @@
 function phpAds_SessionDataFetch()
 {
 	global $phpAds_config;
-	global $HTTP_COOKIE_VARS, $Session;
+	global $Session;
 	
-	if (isset($HTTP_COOKIE_VARS['sessionID']) && preg_match('/^[0-9a-f]+$/D', $HTTP_COOKIE_VARS['sessionID']))
+	if (isset($_COOKIE['sessionID']) && preg_match('/^[0-9a-f]+$/D', $_COOKIE['sessionID']))
 	{
-		$result = phpAds_dbQuery("SELECT sessiondata FROM ".$phpAds_config['tbl_session']." WHERE sessionid='".addslashes($HTTP_COOKIE_VARS['sessionID'])."'" .
+		$result = phpAds_dbQuery("SELECT sessiondata FROM ".$phpAds_config['tbl_session']." WHERE sessionid='".addslashes($_COOKIE['sessionID'])."'" .
 					 	         " AND UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(lastused) < 3600");
 		
 		if ($row = phpAds_dbFetchArray($result))
@@ -33,12 +33,12 @@ function phpAds_SessionDataFetch()
 			$Session = unserialize($row['sessiondata']);
 			
 			// Reset LastUsed, prevent from timing out
-			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_session']." SET lastused = NOW() WHERE sessionid = '".addslashes($HTTP_COOKIE_VARS['sessionID'])."'");
+			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_session']." SET lastused = NOW() WHERE sessionid = '".addslashes($_COOKIE['sessionID'])."'");
 		}
 	}
 	else
 	{
-		$HTTP_COOKIE_VARS['sessionID'] = '';
+		$_COOKIE['sessionID'] = '';
 		return (False);
 	}
 }
@@ -51,19 +51,19 @@ function phpAds_SessionDataFetch()
 
 function phpAds_SessionStart()
 {
-	global $HTTP_COOKIE_VARS, $Session;
+	global $Session;
 	
-	if (!isset($HTTP_COOKIE_VARS['sessionID']) || !preg_match('/^[0-9a-f]+$/D', $HTTP_COOKIE_VARS['sessionID']))
+	if (!isset($_COOKIE['sessionID']) || !preg_match('/^[0-9a-f]+$/D', $_COOKIE['sessionID']))
 	{
 		// Start a new session
 		$Session = array();
-		$HTTP_COOKIE_VARS['sessionID'] = md5(uniqid('phpads', 1));
+		$_COOKIE['sessionID'] = md5(uniqid('phpads', 1));
 		
-		phpAds_setCookie ('sessionID', $HTTP_COOKIE_VARS['sessionID']);
+		phpAds_setCookie ('sessionID', $_COOKIE['sessionID']);
 		phpAds_flushCookie ();
 	}
 	
-	return $HTTP_COOKIE_VARS['sessionID'];
+	return $_COOKIE['sessionID'];
 }
 
 
@@ -106,11 +106,11 @@ function phpAds_SessionDataRegister($key, $value='')
 function phpAds_SessionDataStore()
 {
 	global $phpAds_config;
-	global $HTTP_COOKIE_VARS, $Session;
+	global $Session;
 	
-	if (isset($HTTP_COOKIE_VARS['sessionID']) && preg_match('/^[0-9a-f]+$/D', $HTTP_COOKIE_VARS['sessionID']))
+	if (isset($_COOKIE['sessionID']) && preg_match('/^[0-9a-f]+$/D', $_COOKIE['sessionID']))
 	{
-		phpAds_dbQuery("REPLACE INTO ".$phpAds_config['tbl_session']." VALUES ('".addslashes($HTTP_COOKIE_VARS['sessionID'])."', '" .
+		phpAds_dbQuery("REPLACE INTO ".$phpAds_config['tbl_session']." VALUES ('".addslashes($_COOKIE['sessionID'])."', '" .
 					   addslashes(serialize($Session)) . "', null )");
 	}
 	
@@ -129,12 +129,12 @@ function phpAds_SessionDataStore()
 function phpAds_SessionDataDestroy()
 {
 	global $phpAds_config;
-	global $HTTP_COOKIE_VARS, $Session;
+	global $Session;
 	
-	if (isset($HTTP_COOKIE_VARS['sessionID']) && preg_match('/^[0-9a-f]+$/D', $HTTP_COOKIE_VARS['sessionID']))
+	if (isset($_COOKIE['sessionID']) && preg_match('/^[0-9a-f]+$/D', $_COOKIE['sessionID']))
 	{
 		// Remove the session data from the database
-		phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_session']." WHERE sessionid='".addslashes($HTTP_COOKIE_VARS['sessionID'])."'");
+		phpAds_dbQuery("DELETE FROM ".$phpAds_config['tbl_session']." WHERE sessionid='".addslashes($_COOKIE['sessionID'])."'");
 	}
 	
 	// Kill the cookie containing the session ID
@@ -145,8 +145,8 @@ function phpAds_SessionDataDestroy()
 	$Session = "";
 	unset($Session);
 	
-	$HTTP_COOKIE_VARS['sessionID'] = "";
-	unset($HTTP_COOKIE_VARS['sessionID']);
+	$_COOKIE['sessionID'] = "";
+	unset($_COOKIE['sessionID']);
 }
 
 ?>

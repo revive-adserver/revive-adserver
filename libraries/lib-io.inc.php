@@ -28,13 +28,11 @@ phpAds_unpackCookies();
 
 function phpAds_registerGlobal ()
 {
-	global $HTTP_GET_VARS, $HTTP_POST_VARS;
-	
 	$args = func_get_args();
 	while (list(,$key) = each ($args))
 	{
-		if (isset($HTTP_GET_VARS[$key])) $value = $HTTP_GET_VARS[$key];
-		if (isset($HTTP_POST_VARS[$key])) $value = $HTTP_POST_VARS[$key];
+		if (isset($_GET[$key])) $value = $_GET[$key];
+		if (isset($_POST[$key])) $value = $_POST[$key];
 		
 		if (isset($value))
 		{
@@ -104,7 +102,7 @@ function phpAds_setCookie ($name, $value, $expire = 0)
 
 function phpAds_flushCookie ()
 {
-	global $HTTP_COOKIE_VARS, $phpAds_config, $phpAds_cookieCache, $phpAds_cookieOldCache;
+	global $phpAds_config, $phpAds_cookieCache, $phpAds_cookieOldCache;
 
 	if (isset($phpAds_cookieCache) || isset($phpAds_cookieOldCache))
 	{
@@ -160,9 +158,9 @@ function phpAds_flushCookie ()
 			phpAds_packCookies($phpAds_cookieOldCache['p'], false);
 
 		// Remove old temporary cookies
-		if (isset($HTTP_COOKIE_VARS['pA_c']) && is_array($HTTP_COOKIE_VARS['pA_c']))
+		if (isset($_COOKIE['pA_c']) && is_array($_COOKIE['pA_c']))
 		{
-			foreach (array_keys($HTTP_COOKIE_VARS['pA_c']) as $k)
+			foreach (array_keys($_COOKIE['pA_c']) as $k)
 			{
 				if (!strlen($k))
 					continue;
@@ -237,7 +235,7 @@ function phpAds_packCookies($cache, $session, $tmp = false)
 
 function phpAds_unpackCookies()
 {
-	global $HTTP_COOKIE_VARS, $phpAds_cookieOldCache, $phpAds_config;
+	global $phpAds_cookieOldCache, $phpAds_config;
 	
 	// These are incremental cookies
 	$incremental_cookies = array(
@@ -248,14 +246,14 @@ function phpAds_unpackCookies()
 	{	
 		if (!isset($phpAds_cookieOldCache)) $phpAds_cookieOldCache = array('s' => array(), 'p' => array());
 		
-		if (isset($HTTP_COOKIE_VARS['pA_c']) && is_array($HTTP_COOKIE_VARS['pA_c']))
+		if (isset($_COOKIE['pA_c']) && is_array($_COOKIE['pA_c']))
 		{
-			ksort($HTTP_COOKIE_VARS['pA_c']);
+			ksort($_COOKIE['pA_c']);
 			
 			$now = time();
 			$str = array();
 			
-			foreach ($HTTP_COOKIE_VARS['pA_c'] as $i => $c)
+			foreach ($_COOKIE['pA_c'] as $i => $c)
 			{
 				if (!preg_match('/^[sp](?:[a-f0-9]{15})?$/', $i))
 					continue;
@@ -308,8 +306,8 @@ function phpAds_unpackCookies()
 				parse_str(join('&', $str), $c);
 				
 				// Merge them with the real cookie and make them available
-				$c += $HTTP_COOKIE_VARS;
-				$HTTP_COOKIE_VARS = $c;
+				$c += $_COOKIE;
+				$_COOKIE = $c;
 			}
 		}
 	}
@@ -321,25 +319,21 @@ function phpAds_unpackCookies()
 		$expiry	= $v['expiry'];
 		$type	= $v['type'];
 
-		if (isset($HTTP_COOKIE_VARS[$src]) && is_array($HTTP_COOKIE_VARS[$src]))
+		if (isset($_COOKIE[$src]) && is_array($_COOKIE[$src]))
 		{
-			foreach ($HTTP_COOKIE_VARS[$src] as $k => $v)
+			foreach ($_COOKIE[$src] as $k => $v)
 			{
-				if (isset($HTTP_COOKIE_VARS[$var][$v]))
-					$HTTP_COOKIE_VARS[$var][$v]++;
+				if (isset($_COOKIE[$var][$v]))
+					$_COOKIE[$var][$v]++;
 				else
-					$HTTP_COOKIE_VARS[$var][$v] = 1;
+					$_COOKIE[$var][$v] = 1;
 				
-				phpAds_setCookie($var.'['.$v.']', $HTTP_COOKIE_VARS[$var][$v], $expiry);
+				phpAds_setCookie($var.'['.$v.']', $_COOKIE[$var][$v], $expiry);
 			}
 			
-			unset($HTTP_COOKIE_VARS[$src]);
+			unset($_COOKIE[$src]);
 		}
 	}
-	
-	// Update the superglobal too, just in case it is used for debug
-	if (isset($HTTP_COOKIE_VARS) && is_array($HTTP_COOKIE_VARS))
-		$_COOKIE = $HTTP_COOKIE_VARS;
 }
 
 ?>

@@ -51,8 +51,8 @@ if (isset($bannerid) && isset($clientid) && isset($zoneid))
 	
 	if ($phpAds_config['block_adviews'] == 0 ||
 	   ($phpAds_config['block_adviews'] > 0 && 
-	   (!isset($HTTP_COOKIE_VARS['phpAds_blockView'][$bannerid]) ||
-	   	$HTTP_COOKIE_VARS['phpAds_blockView'][$bannerid] <= time())))
+	   (!isset($_COOKIE['phpAds_blockView'][$bannerid]) ||
+	   	$_COOKIE['phpAds_blockView'][$bannerid] <= time())))
 	{
 		if ($phpAds_config['log_beacon'] && $phpAds_config['log_adviews'])
 		{

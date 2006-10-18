@@ -61,7 +61,7 @@ if (isset($save_settings) && $save_settings != '')
 		
 		// Send session ID using the selected method
 		$phpAds_config['pack_cookies'] = isset($pack_cookies);
-		phpAds_setCookie ('sessionID', $HTTP_COOKIE_VARS['sessionID']);
+		phpAds_setCookie ('sessionID', $_COOKIE['sessionID']);
 		phpAds_flushCookie ();
 	}
 	

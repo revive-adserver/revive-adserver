@@ -445,7 +445,7 @@ function phpAds_GenerateInvocationCode()
 
 function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 {
-	global $phpAds_config, $phpAds_TextDirection, $HTTP_SERVER_VARS;
+	global $phpAds_config, $phpAds_TextDirection;
 	global $submitbutton, $generate;
 	global $codetype, $what, $acid, $source, $target;
 	global $withText, $template, $refresh, $uniqueid;
@@ -474,7 +474,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	
 	// Hide when integrated in zone-advanced.php
 	if (!is_array($extra) || !isset($extra['zoneadvanced']) || !$extra['zoneadvanced'])
-		echo "<form name='generate' action='".$HTTP_SERVER_VARS['PHP_SELF']."' method='POST'>\n";
+		echo "<form name='generate' action='".$_SERVER['PHP_SELF']."' method='POST'>\n";
 	
 	// Invocation type selection
 	if (!is_array($extra) || (isset($extra['delivery']) && $extra['delivery'] != phpAds_ZoneInterstitial && $extra['delivery'] != phpAds_ZonePopup))
@@ -565,8 +565,8 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<tr><td height='25'><img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strBannercode']."</b></td>";
 			
 			// Show clipboard button only on IE
-			if (strpos ($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'MSIE') > 0 &&
-				strpos ($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Opera') < 1)
+			if (strpos ($_SERVER['HTTP_USER_AGENT'], 'MSIE') > 0 &&
+				strpos ($_SERVER['HTTP_USER_AGENT'], 'Opera') < 1)
 			{
 				echo "<td height='25' align='right'><img src='images/icon-clipboard.gif' align='absmiddle'>&nbsp;";
 				echo "<a href='javascript:phpAds_CopyClipboard(\"bannercode\");'>".$GLOBALS['strCopyToClipboard']."</a></td></tr>";

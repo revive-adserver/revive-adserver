@@ -24,9 +24,9 @@ if (!defined("phpAds_path"))
 
 // Load language strings
 @include (phpAds_path.'/language/english/default.lang.php');
-if ($HTTP_GET_VARS['language'] != 'english' && preg_match('/^[a-z0-9_-]+$/', $HTTP_GET_VARS['language']) &&
-	file_exists(phpAds_path.'/language/'.$HTTP_GET_VARS['language'].'/default.lang.php'))
-	@include (phpAds_path.'/language/'.$HTTP_GET_VARS['language'].'/default.lang.php');
+if ($_GET['language'] != 'english' && preg_match('/^[a-z0-9_-]+$/', $_GET['language']) &&
+	file_exists(phpAds_path.'/language/'.$_GET['language'].'/default.lang.php'))
+	@include (phpAds_path.'/language/'.$_GET['language'].'/default.lang.php');
 
 // Send content-type header
 header("Content-type: application/x-javascript");

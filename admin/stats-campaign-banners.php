@@ -550,7 +550,7 @@ if (count($order_array) > 0)
 			echo "<tr bgcolor='$bgcolor'>";
 			
 			echo "<td height='25' width='30' align='".$phpAds_TextAlignLeft."'>&nbsp;";
-			if (ereg ("Mozilla/6", $HTTP_SERVER_VARS['HTTP_USER_AGENT']) || ereg ("IE", $HTTP_SERVER_VARS['HTTP_USER_AGENT']))
+			if (ereg ("Mozilla/6", $_SERVER['HTTP_USER_AGENT']) || ereg ("IE", $_SERVER['HTTP_USER_AGENT']))
 				echo "<img name='caret".$row_banners['bannerid']."' src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' onClick=\"showHideLayers('".$row_banners['bannerid']."');\">";
 			echo "</td>";
 			
@@ -615,7 +615,7 @@ if (count($order_array) > 0)
 			echo "<td height='1' width='30'><img src='images/spacer.gif' width='1' height='1'></td>";
 			echo "<td colspan='5'>";
 			
-			if (ereg ("Mozilla/6", $HTTP_SERVER_VARS['HTTP_USER_AGENT']) || ereg ("IE", $HTTP_SERVER_VARS['HTTP_USER_AGENT']))
+			if (ereg ("Mozilla/6", $_SERVER['HTTP_USER_AGENT']) || ereg ("IE", $_SERVER['HTTP_USER_AGENT']))
 			{
 				echo "<div id='banner".$row_banners['bannerid']."' style='display: none;'>";
 				

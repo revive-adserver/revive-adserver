@@ -55,7 +55,7 @@ if (isset($save_settings) && $save_settings != '')
 				{
 					if (substr($geotracking_location, 0, 7) == 'http://')
 					{
-						$errormessage[1][] = str_replace('{example}', $HTTP_SERVER_VARS['DOCUMENT_ROOT'].'/Geo.dat', $strGeotrackingLocationNoHTTP);
+						$errormessage[1][] = str_replace('{example}', $_SERVER['DOCUMENT_ROOT'].'/Geo.dat', $strGeotrackingLocationNoHTTP);
 					}
 					elseif (!$no_location && !file_exists($geotracking_location))
 						$errormessage[1][] = $strGeotrackingLocationError;

@@ -42,7 +42,7 @@ else
 
 $tabindex = 1;
 
-echo "<form action='".$HTTP_SERVER_VARS['PHP_SELF']."'>";
+echo "<form action='".$_SERVER['PHP_SELF']."'>";
 
 if (isset($lib_misc_params))
 	foreach (array_keys($lib_misc_params) as $key)

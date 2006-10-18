@@ -143,7 +143,7 @@ function phpAds_ConfigFileUpdatePrepare ()
 {
 	global $phpAds_configFilepath;
 	global $phpAds_settings_information, $phpAds_settings_update_cache;
-	global $phpAds_config, $HTTP_SERVER_VARS;
+	global $phpAds_config;
 	
 	if ($confighandle = @fopen($phpAds_configFilepath,'r'))
 	{
@@ -168,12 +168,12 @@ function phpAds_ConfigFileUpdatePrepare ()
 					
 					// Don't trust url prefix, because the update might
 					// occur in a different directory as the original installation
-					if ($regs[1] == 'url_prefix' && isset($HTTP_SERVER_VARS['HTTP_HOST']))
+					if ($regs[1] == 'url_prefix' && isset($_SERVER['HTTP_HOST']))
 					{
 						$regs[2] = ' = \''.
-							'http'.(empty($HTTP_SERVER_VARS['HTTPS']) ? '' : 's').'://'.
-							$HTTP_SERVER_VARS['HTTP_HOST'].
-							ereg_replace("/admin/upgrade.php(\?.*)?$", "", $HTTP_SERVER_VARS['PHP_SELF']).'\'';
+							'http'.(empty($_SERVER['HTTPS']) ? '' : 's').'://'.
+							$_SERVER['HTTP_HOST'].
+							ereg_replace("/admin/upgrade.php(\?.*)?$", "", $_SERVER['PHP_SELF']).'\'';
 					}
 					
 					@eval ("$"."value ".$regs[2].";");
@@ -248,11 +248,11 @@ function phpAds_ConfigFileUpdatePrepare ()
 					
 					// Don't trust url prefix, because the update might
 					// occur in a different directory as the original installation
-					if ($regs[1] == 'url_prefix' && isset($HTTP_SERVER_VARS['HTTP_HOST']))
+					if ($regs[1] == 'url_prefix' && isset($_SERVER['HTTP_HOST']))
 					{
 						$regs[2] = ' = \''.strtolower(eregi_replace("^([a-z]+)/.*$", "\\1://",
-							       $HTTP_SERVER_VARS['SERVER_PROTOCOL'])).$HTTP_SERVER_VARS['HTTP_HOST'].
-								   ereg_replace("/admin/upgrade.php(\?.*)?$", "", $HTTP_SERVER_VARS['REQUEST_URI']).'\'';
+							       $_SERVER['SERVER_PROTOCOL'])).$_SERVER['HTTP_HOST'].
+								   ereg_replace("/admin/upgrade.php(\?.*)?$", "", $_SERVER['REQUEST_URI']).'\'';
 					}
 					
 					// Parse variables inside assignments

@@ -32,7 +32,7 @@ if (!defined('PHPADSNEW_INCLUDED'))
 
 	// Globalize settings and IO
 	// (just in case phpadsnew.inc.php is called from a function)
-	global $phpAds_config, $HTTP_SERVER_VARS;
+	global $phpAds_config;
 	
 	
 	// Include required files

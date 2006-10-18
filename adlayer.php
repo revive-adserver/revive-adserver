@@ -87,9 +87,7 @@ function enjavanate ($str, $limit = 0)
 
 function phpAds_getUserAgent()
 {
-	global $HTTP_SERVER_VARS;
-	
-	if (preg_match('#MSIE ([0-9].[0-9]{1,2})(.*Opera ([0-9].[0-9]{1,2}))?#', $HTTP_SERVER_VARS['HTTP_USER_AGENT'], $log_version))
+	if (preg_match('#MSIE ([0-9].[0-9]{1,2})(.*Opera ([0-9].[0-9]{1,2}))?#', $_SERVER['HTTP_USER_AGENT'], $log_version))
 	{
 		if (isset($log_version[3]))
 		{
@@ -102,22 +100,22 @@ function phpAds_getUserAgent()
 			$agent = 'IE';
 		}
 	}
-	elseif (preg_match('#Opera ([0-9].[0-9]{1,2})#', $HTTP_SERVER_VARS['HTTP_USER_AGENT'], $log_version))
+	elseif (preg_match('#Opera ([0-9].[0-9]{1,2})#', $_SERVER['HTTP_USER_AGENT'], $log_version))
 	{
 		$ver = $log_version[1];
 		$agent = 'Opera';
 	}
-	elseif (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Safari') && preg_match('#Safari/([0-9]{1,3})#', $HTTP_SERVER_VARS['HTTP_USER_AGENT'], $log_version))
+	elseif (strstr($_SERVER['HTTP_USER_AGENT'], 'Safari') && preg_match('#Safari/([0-9]{1,3})#', $_SERVER['HTTP_USER_AGENT'], $log_version))
 	{
 		$ver = $log_version[1];
 		$agent = 'Safari';
 	}
-	elseif (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Konqueror') && preg_match('#Konqueror/([0-9])#', $HTTP_SERVER_VARS['HTTP_USER_AGENT'], $log_version))
+	elseif (strstr($_SERVER['HTTP_USER_AGENT'], 'Konqueror') && preg_match('#Konqueror/([0-9])#', $_SERVER['HTTP_USER_AGENT'], $log_version))
 	{
 		$ver = $log_version[1];
 		$agent = 'Konqueror';
 	}
-	elseif (preg_match('#Mozilla/([0-9].[0-9]{1,2})#', $HTTP_SERVER_VARS['HTTP_USER_AGENT'], $log_version))
+	elseif (preg_match('#Mozilla/([0-9].[0-9]{1,2})#', $_SERVER['HTTP_USER_AGENT'], $log_version))
 	{
 		$ver = $log_version[1];
 		$agent = 'Mozilla';
@@ -128,13 +126,13 @@ function phpAds_getUserAgent()
 		$agent = 'Other';
 	}
 	
-	if (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Win'))
+	if (strstr($_SERVER['HTTP_USER_AGENT'], 'Win'))
 		$platform = 'Win';
-	else if (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Mac'))
+	else if (strstr($_SERVER['HTTP_USER_AGENT'], 'Mac'))
 		$platform = 'Mac';
-	else if (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Linux'))
+	else if (strstr($_SERVER['HTTP_USER_AGENT'], 'Linux'))
 		$platform = 'Linux';
-	else if (strstr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'Unix'))
+	else if (strstr($_SERVER['HTTP_USER_AGENT'], 'Unix'))
 		$platform = 'Unix';
 	else
 		$platform = 'Other';
@@ -176,7 +174,7 @@ if (!isset($withtext)) $withtext = '';
 if (!isset($context)) $context = '';
 
 // Remove referer, to be sure it doesn't cause problems with limitations
-if (isset($HTTP_SERVER_VARS['HTTP_REFERER'])) unset($HTTP_SERVER_VARS['HTTP_REFERER']);
+if (isset($_SERVER['HTTP_REFERER'])) unset($_SERVER['HTTP_REFERER']);
 if (isset($HTTP_REFERER)) unset($HTTP_REFERER);
 
 // Sanitize layerstyle variable

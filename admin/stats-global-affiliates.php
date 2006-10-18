@@ -392,7 +392,7 @@ if (isset($affiliates) && is_array($affiliates) && count($affiliates) > 0)
 
 
 
-echo "<form action='".$HTTP_SERVER_VARS['PHP_SELF']."'>";
+echo "<form action='".$_SERVER['PHP_SELF']."'>";
 
 echo "<select name='period' onChange='this.form.submit();' accesskey='".$keyList."' tabindex='".($tabindex++)."'>";
 	echo "<option value=''".($period == '' ? ' selected' : '').">".$strCollectedAll."</option>";

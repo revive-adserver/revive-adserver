@@ -430,7 +430,7 @@ function phpAds_PageHeader($ID, $extra="")
 
 function phpAds_PageFooter()
 {
-	global $phpAds_config, $HTTP_SERVER_VARS;
+	global $phpAds_config;
 	global $Session, $phpAds_showHelp, $phpAds_helpDefault, $strMaintenanceNotActive;
 	global $phpAds_TextDirection, $phpAds_TextAlignLeft, $phpAds_TextAlignRight;
 	
@@ -464,7 +464,7 @@ function phpAds_PageFooter()
 	echo "\n\n";
 	
 	
-	if (!ereg("/(index|maintenance-updates|install|upgrade)\.php$", $HTTP_SERVER_VARS['PHP_SELF']))
+	if (!ereg("/(index|maintenance-updates|install|upgrade)\.php$", $_SERVER['PHP_SELF']))
 	{
 		// Add Product Update redirector
 		if (phpAds_isUser(phpAds_Admin) &&
@@ -607,7 +607,7 @@ function phpAds_ShowBreak()
 function phpAds_sqlDie()
 {
 	global $phpAds_dbmsname, $phpAds_version_readable, $phpAds_version, $phpAds_productname;
-    global $phpAds_last_query, $HTTP_SERVER_VARS;
+    global $phpAds_last_query;
 	
 	
 	$error = phpAds_dbError();
@@ -660,7 +660,7 @@ function phpAds_sqlDie()
 			$message .= "<br><br><table cellpadding='0' cellspacing='0' border='0'>";
 			$message .= "<tr><td valign='top' nowrap><b>Version:</b>&nbsp;&nbsp;&nbsp;</td><td>".$phpAds_productname." ".$phpAds_version_readable." (".$phpAds_version.")</td></tr>";
 			$message .= "<tr><td>&nbsp;</td><td>PHP ".phpversion()." / ".$phpAds_dbmsname." ".phpAds_dbResult(phpAds_dbQuery('SELECT VERSION()'), 0, 0)."</td></tr>";
-			$message .= "<tr><td valign='top' nowrap><b>Page:</b></td><td>".$HTTP_SERVER_VARS['PHP_SELF']."</td></tr>";
+			$message .= "<tr><td valign='top' nowrap><b>Page:</b></td><td>".$_SERVER['PHP_SELF']."</td></tr>";
 			$message .= "<tr><td valign='top' nowrap><b>Error:</b></td><td>".$error."</td></tr>";
 			$message .= "<tr><td valign='top' nowrap><b>Query:</b></td><td>".$last_query."</td></tr>";
 			$message .= "</table>";

@@ -314,7 +314,7 @@ if (isset($row['span']) && $row['span'] > 0)
 	/*********************************************************/
 	
 	if (!isset($lib_targetstats_misc_stats) || !$lib_targetstats_misc_stats)
-		echo "<form action='".$HTTP_SERVER_VARS['PHP_SELF']."'>";
+		echo "<form action='".$_SERVER['PHP_SELF']."'>";
 	
 	if (isset($lib_targetstats_params))
 		foreach (array_keys($lib_targetstats_params) as $key)
@@ -438,9 +438,9 @@ if (isset($row['span']) && $row['span'] > 0)
 			for ($i = 0; $i < count($limits); $i++)
 			{
 				if ($limit == $limits[$i])
-					echo "<a href='".$HTTP_SERVER_VARS['PHP_SELF'].$params."period=".$period."&start=".$start."&limit=".$limits[$i]."'><u>".$limits[$i]."</u></a>";
+					echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&start=".$start."&limit=".$limits[$i]."'><u>".$limits[$i]."</u></a>";
 				else
-					echo "<a href='".$HTTP_SERVER_VARS['PHP_SELF'].$params."period=".$period."&start=".$start."&limit=".$limits[$i]."'>".$limits[$i]."</a>";
+					echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&start=".$start."&limit=".$limits[$i]."'>".$limits[$i]."</a>";
 				
 				if ($i < count($limits) - 1) echo "&nbsp;|&nbsp;";
 			}
@@ -448,14 +448,14 @@ if (isset($row['span']) && $row['span'] > 0)
 		echo "<td height='35' colspan='3' align='".$phpAds_TextAlignRight."'>";
 			if ($start > 0)
 			{
-				echo "<a href='".$HTTP_SERVER_VARS['PHP_SELF'].$params."period=".$period."&limit=".$limit."&start=".$previous."' accesskey='".$keyPrevious."'>";
+				echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&limit=".$limit."&start=".$previous."' accesskey='".$keyPrevious."'>";
 				echo "<img src='images/arrow-l.gif' border='0' align='absmiddle'>".$strPrevious_Key."</a>";
 			}
 			if ($timestamp > $span)
 			{
 				if ($start > 0) echo "&nbsp;|&nbsp;";
 				
-				echo "<a href='".$HTTP_SERVER_VARS['PHP_SELF'].$params."period=".$period."&limit=".$limit."&start=".$next."' accesskey='".$keyNext."'>";
+				echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&limit=".$limit."&start=".$next."' accesskey='".$keyNext."'>";
 				echo $strNext_Key."<img src='images/arrow-r.gif' border='0' align='absmiddle'></a>";
 			}
 		echo "</td>";
@@ -707,9 +707,9 @@ if (isset($row['span']) && $row['span'] > 0)
 			for ($i = 0; $i < count($limits); $i++)
 			{
 				if ($limit == $limits[$i])
-					echo "<a href='".$HTTP_SERVER_VARS['PHP_SELF'].$params."period=".$period."&start=".$start."&limit=".$limits[$i]."'><u>".$limits[$i]."</u></a>";
+					echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&start=".$start."&limit=".$limits[$i]."'><u>".$limits[$i]."</u></a>";
 				else
-					echo "<a href='".$HTTP_SERVER_VARS['PHP_SELF'].$params."period=".$period."&start=".$start."&limit=".$limits[$i]."'>".$limits[$i]."</a>";
+					echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&start=".$start."&limit=".$limits[$i]."'>".$limits[$i]."</a>";
 				
 				if ($i < count($limits) - 1) echo "&nbsp;|&nbsp;";
 			}
@@ -717,14 +717,14 @@ if (isset($row['span']) && $row['span'] > 0)
 		echo "<td height='35' colspan='9' align='".$phpAds_TextAlignRight."'>";
 			if ($start > 0)
 			{
-				echo "<a href='".$HTTP_SERVER_VARS['PHP_SELF'].$params."period=".$period."&limit=".$limit."&start=".$previous."'>";
+				echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&limit=".$limit."&start=".$previous."'>";
 				echo "<img src='images/arrow-l.gif' border='0' align='absmiddle'>".$strPrevious."</a>";
 			}
 			if ($day_timestamp > $span)
 			{
 				if ($start > 0) echo "&nbsp;|&nbsp;";
 				
-				echo "<a href='".$HTTP_SERVER_VARS['PHP_SELF'].$params."period=".$period."&limit=".$limit."&start=".$next."'>";
+				echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&limit=".$limit."&start=".$next."'>";
 				echo $strNext."<img src='images/arrow-r.gif' border='0' align='absmiddle'></a>";
 			}
 		echo "</td>";

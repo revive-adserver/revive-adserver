@@ -130,8 +130,7 @@ function phpAds_logExpire ($clientid, $type=0)
 function phpads_logCheckHost()
 {
 	global $phpAds_config;
-	global $HTTP_SERVER_VARS;
-	
+
 	if (count($phpAds_config['ignore_hosts']))
 	{
 		$hosts = "#(".implode ('|',$phpAds_config['ignore_hosts']).")$#i";
@@ -141,15 +140,15 @@ function phpads_logCheckHost()
 			$hosts = str_replace (".", '\.', $hosts);
 			$hosts = str_replace ("*", '[^.]+', $hosts);
 			
-			if (preg_match($hosts, $HTTP_SERVER_VARS['REMOTE_ADDR']))
+			if (preg_match($hosts, $_SERVER['REMOTE_ADDR']))
 				return false;
 			
-			if (preg_match($hosts, $HTTP_SERVER_VARS['REMOTE_HOST']))
+			if (preg_match($hosts, $_SERVER['REMOTE_HOST']))
 				return false;
 		}
 	}
 	
-	return true; //$HTTP_SERVER_VARS['REMOTE_HOST'];
+	return true; //$_SERVER['REMOTE_HOST'];
 }
 
 
@@ -160,7 +159,7 @@ function phpads_logCheckHost()
 
 function phpAds_logImpression ($bannerid, $clientid, $zoneid, $source)
 {
-	global $HTTP_SERVER_VARS, $phpAds_config, $phpAds_geo;
+	global $phpAds_config, $phpAds_geo;
 	
 	
 	// Check if host is on list of hosts to ignore
@@ -189,8 +188,8 @@ function phpAds_logImpression ($bannerid, $clientid, $zoneid, $source)
 		else
    		{
 			$log_country = $phpAds_config['geotracking_stats'] && isset($phpAds_geo['country']) && $phpAds_geo['country'] ? $phpAds_geo['country'] : '';
-			$log_host    = $phpAds_config['log_hostname'] ? $HTTP_SERVER_VARS['REMOTE_HOST'] : '';
-			$log_host    = $phpAds_config['log_iponly'] ? $HTTP_SERVER_VARS['REMOTE_ADDR'] : $log_host;
+			$log_host    = $phpAds_config['log_hostname'] ? $_SERVER['REMOTE_HOST'] : '';
+			$log_host    = $phpAds_config['log_iponly'] ? $_SERVER['REMOTE_ADDR'] : $log_host;
 			
    			$result = phpAds_dbQuery(
 				"INSERT ".($phpAds_config['insert_delayed'] ? 'DELAYED' : '')." INTO ".
@@ -211,7 +210,7 @@ function phpAds_logImpression ($bannerid, $clientid, $zoneid, $source)
 
 function phpAds_logClick($bannerid, $clientid, $zoneid, $source)
 {
-	global $HTTP_SERVER_VARS, $phpAds_config, $phpAds_geo;
+	global $phpAds_config, $phpAds_geo;
 	
 	
 	if ($host = phpads_logCheckHost())
@@ -239,8 +238,8 @@ function phpAds_logClick($bannerid, $clientid, $zoneid, $source)
 		else
 		{
 			$log_country = $phpAds_config['geotracking_stats'] && $phpAds_geo && $phpAds_geo['country'] ? $phpAds_geo['country'] : '';
-			$log_host    = $phpAds_config['log_hostname'] ? $HTTP_SERVER_VARS['REMOTE_HOST'] : '';
-			$log_host    = $phpAds_config['log_iponly'] ? $HTTP_SERVER_VARS['REMOTE_ADDR'] : $log_host;
+			$log_host    = $phpAds_config['log_hostname'] ? $_SERVER['REMOTE_HOST'] : '';
+			$log_host    = $phpAds_config['log_iponly'] ? $_SERVER['REMOTE_ADDR'] : $log_host;
 			
     		$result = phpAds_dbQuery(
 				"INSERT ".($phpAds_config['insert_delayed'] ? 'DELAYED' : '')." INTO ".
@@ -260,7 +259,7 @@ function phpAds_logClick($bannerid, $clientid, $zoneid, $source)
 
 function phpAds_setDeliveryCookies($row)
 {
-	global $HTTP_COOKIE_VARS, $phpAds_config, $phpAds_geo;
+	global $phpAds_config, $phpAds_geo;
 	
 	// Block
 	if ($row['block'] != '' && $row['block'] != '0')
@@ -277,7 +276,7 @@ function phpAds_setDeliveryCookies($row)
 	{
 		if ($phpAds_config['geotracking_cookie'] && isset($phpAds_geo))
 			phpAds_setCookie ("phpAds_geoInfo", join('|', $phpAds_geo), time() + 900);
-		elseif (isset($HTTP_COOKIE_VARS['phpAds_geoInfo']))
+		elseif (isset($_COOKIE['phpAds_geoInfo']))
 			phpAds_setCookie ("phpAds_geoInfo", '', time() - 900);
 	}
 }

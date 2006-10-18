@@ -496,7 +496,7 @@ if (isset($campaigns) && is_array($campaigns) && sizeof ($campaigns) > 0)
 }
 
 
-echo "<form action='".$HTTP_SERVER_VARS['PHP_SELF']."'>";
+echo "<form action='".$_SERVER['PHP_SELF']."'>";
 echo "<input type='hidden' name='clientid' value='".$clientid."'>";
 
 echo "<select name='period' onChange='this.form.submit();' accesskey='".$keyList."' tabindex='".($tabindex++)."'>";

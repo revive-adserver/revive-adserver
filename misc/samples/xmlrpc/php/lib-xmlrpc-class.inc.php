@@ -56,7 +56,7 @@ class phpAds_XmlRpc
 
 	function connect($host, $path, $port = 80)
 	{
-		global $phpAds_remoteInfo, $HTTP_SERVER_VARS;
+		global $phpAds_remoteInfo;
 		
 		// Correct trailing slashes
 		if (strlen($path))
@@ -69,8 +69,8 @@ class phpAds_XmlRpc
 		$this->remote_info = array();
 		while (list($k, $v) = each($phpAds_remoteInfo))
 		{
-			if (isset($HTTP_SERVER_VARS[$v]))
-				$this->remote_info[$k] = $HTTP_SERVER_VARS[$v];
+			if (isset($_SERVER[$v]))
+				$this->remote_info[$k] = $_SERVER[$v];
 		}	
 		
 		// Encode remote host information into a XML-RPC struct

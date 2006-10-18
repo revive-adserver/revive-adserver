@@ -58,10 +58,10 @@ if (!isset($bannerid))
  	// Bannerid and destination not known, try to get
 	// values from the phpAds_banner cookie.
 	
-	if (isset($HTTP_COOKIE_VARS['phpAds_banner'][$n]) && 
-		$HTTP_COOKIE_VARS['phpAds_banner'][$n] != 'DEFAULT')
+	if (isset($_COOKIE['phpAds_banner'][$n]) && 
+		$_COOKIE['phpAds_banner'][$n] != 'DEFAULT')
 	{
-		$cookie = unserialize (stripslashes($HTTP_COOKIE_VARS['phpAds_banner'][$n]));
+		$cookie = unserialize (stripslashes($_COOKIE['phpAds_banner'][$n]));
 		
 		if (isset($cookie['bannerid'])) 
 			$bannerid = addslashes($cookie['bannerid']);
@@ -121,8 +121,8 @@ if (phpAds_dbConnect())
 		{
 			if ($phpAds_config['block_adclicks'] == 0 ||
 			   ($phpAds_config['block_adclicks'] > 0 && 
-			   (!isset($HTTP_COOKIE_VARS['phpAds_blockClick'][$bannerid]) ||
-			   $HTTP_COOKIE_VARS['phpAds_blockClick'][$bannerid] <= time())))
+			   (!isset($_COOKIE['phpAds_blockClick'][$bannerid]) ||
+			   $_COOKIE['phpAds_blockClick'][$bannerid] <= time())))
 			{
 				if ($phpAds_config['log_adclicks'])
 					phpAds_logClick($bannerid, $clientid, $zoneid, $source);
@@ -139,8 +139,8 @@ if (phpAds_dbConnect())
 		
 		
 		// Get vars
-		if (isset($HTTP_GET_VARS))
-			foreach (array_keys($HTTP_GET_VARS) as $key)
+		if (isset($_GET))
+			foreach (array_keys($_GET) as $key)
 			{
 				if ($key != 'bannerid' &&
 					$key != 'zoneid' &&
@@ -150,11 +150,11 @@ if (phpAds_dbConnect())
 					$key != 'log' &&
 					$key != 'n' &&
 					$key != 'cb')
-					$vars[] = $key.'='.$HTTP_GET_VARS[$key];
+					$vars[] = $key.'='.$_GET[$key];
 			}
 		
-		if (isset($HTTP_POST_VARS))
-			foreach (array_keys($HTTP_POST_VARS) as $key)
+		if (isset($_POST))
+			foreach (array_keys($_POST) as $key)
 			{
 				if ($key != 'bannerid' &&
 					$key != 'zoneid' &&
@@ -164,7 +164,7 @@ if (phpAds_dbConnect())
 					$key != 'log' &&
 					$key != 'n' &&
 					$key != 'cb')
-					$vars[] = $key.'='.$HTTP_POST_VARS[$key];
+					$vars[] = $key.'='.$_POST[$key];
 			}
 		
 		if (isset($vars) && is_array($vars) && sizeof($vars) > 0)
@@ -177,8 +177,8 @@ if (phpAds_dbConnect())
 		
 		
 		// Referer
-		if (isset($HTTP_SERVER_VARS['HTTP_REFERER']))
-			$url = str_replace ("{referer}", urlencode($HTTP_SERVER_VARS['HTTP_REFERER']), $url);
+		if (isset($_SERVER['HTTP_REFERER']))
+			$url = str_replace ("{referer}", urlencode($_SERVER['HTTP_REFERER']), $url);
 		else
 			$url = str_replace ("{referer}", '', $url);
 		
@@ -195,8 +195,8 @@ if (phpAds_dbConnect())
 		else
 		{
 			// No URL found, redirect to the original page
-			if (isset($HTTP_SERVER_VARS['HTTP_REFERER']))
-				header ("Location: ".$HTTP_SERVER_VARS['HTTP_REFERER']);
+			if (isset($_SERVER['HTTP_REFERER']))
+				header ("Location: ".$_SERVER['HTTP_REFERER']);
 		}
 		
 		exit;
@@ -210,8 +210,8 @@ if ($phpAds_config['default_banner_target'] != '')
 else
 {
 	// No URL found, redirect to the original page, preventing HTTP response splitting
-	if (isset($HTTP_SERVER_VARS['HTTP_REFERER']) && strpos($HTTP_SERVER_VARS['HTTP_REFERER'], "\r\n") === false)
-		header ("Location: ".$HTTP_SERVER_VARS['HTTP_REFERER']);
+	if (isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], "\r\n") === false)
+		header ("Location: ".$_SERVER['HTTP_REFERER']);
 }
 
 ?>

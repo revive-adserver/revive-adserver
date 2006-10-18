@@ -61,12 +61,10 @@ function phpAds_aclCheckWeekday($data, $ad)
 
 function phpAds_aclCheckUseragent($data, $ad)
 {
-	global $HTTP_SERVER_VARS;
-	
 	if ($data == '')
 		return (true);
 	
-	$agent = $HTTP_SERVER_VARS['HTTP_USER_AGENT'];
+	$agent = $_SERVER['HTTP_USER_AGENT'];
 	
 	$expression = ($data == "*" || preg_match('#'.$data.'#', $agent));
 	$operator   = $ad == '==';
@@ -81,12 +79,10 @@ function phpAds_aclCheckUseragent($data, $ad)
 
 function phpAds_aclCheckClientip($data, $ad)
 {
-	global $HTTP_SERVER_VARS;
-	
 	if ($data == '')
 		return (true);
 	
-	$host = $HTTP_SERVER_VARS['REMOTE_ADDR'];
+	$host = $_SERVER['REMOTE_ADDR'];
 	
 	if (!strpos($data, '/'))
 	{
@@ -132,12 +128,10 @@ function phpAds_aclCheckClientip($data, $ad)
 
 function phpAds_aclCheckDomain($data, $ad)
 {
-	global $HTTP_SERVER_VARS;
-	
 	if ($data == '')
 		return (true);
 	
-	$host = $HTTP_SERVER_VARS['REMOTE_HOST'];
+	$host = $_SERVER['REMOTE_HOST'];
 	
 	$domain 	= substr($host,-(strlen($data)));
 	$expression = ($data == "*" || strtolower($domain) == strtolower($data)) ;
@@ -153,12 +147,10 @@ function phpAds_aclCheckDomain($data, $ad)
 
 function phpAds_aclCheckLanguage($data, $ad)
 {
-	global $HTTP_SERVER_VARS;
-	
 	if ($data == '')
 		return (true);
 	
-	$source = isset($HTTP_SERVER_VARS['HTTP_ACCEPT_LANGUAGE']) ? $HTTP_SERVER_VARS['HTTP_ACCEPT_LANGUAGE'] : '';
+	$source = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
 	
 	// Split languages list, removing quality values
 	$source = preg_split('/, */', preg_replace('/;q=[0-9.]+/', '', $source));
@@ -473,12 +465,10 @@ function phpAds_aclCheckNetspeed($data, $ad)
 
 function phpAds_aclCheckReferer($data, $ad)
 {
-	global $HTTP_SERVER_VARS;
-	
 	if ($data == '')
 		return (true);
 	
-	$referer = isset($HTTP_SERVER_VARS['HTTP_REFERER']) ? strtolower($HTTP_SERVER_VARS['HTTP_REFERER']) : '';
+	$referer = isset($_SERVER['HTTP_REFERER']) ? strtolower($_SERVER['HTTP_REFERER']) : '';
 	$expression = strpos($referer, strtolower($data));
 	$expression = is_int($expression);
 	$operator   = $ad == '==';

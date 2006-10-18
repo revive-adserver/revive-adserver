@@ -194,7 +194,7 @@ array (
 			'type'    => 'checkbox',
 			'name'    => 'log_hostname',
 			'text'	  => $strLogHostnameOrIP,
-			'visible' => isset($HTTP_SERVER_VARS['REMOTE_HOST']) || $phpAds_config['reverse_lookup'],
+			'visible' => isset($_SERVER['REMOTE_HOST']) || $phpAds_config['reverse_lookup'],
 			'depends' => '(log_adclicks==true || log_adviews==true) && compact_stats==0'
 		),
 		array (
@@ -202,14 +202,14 @@ array (
 			'name'    => 'log_iponly',
 			'text'	  => $strLogIPOnly,
 			'indent'  => true,
-			'visible' => isset($HTTP_SERVER_VARS['REMOTE_HOST']) || $phpAds_config['reverse_lookup'],
+			'visible' => isset($_SERVER['REMOTE_HOST']) || $phpAds_config['reverse_lookup'],
 			'depends' => '(log_adclicks==true || log_adviews==true) && compact_stats==0 && log_hostname==true'
 		),
 		array (
 			'type'    => 'checkbox',
 			'name'    => 'log_hostname',
 			'text'	  => $strLogIP,
-			'visible' => !isset($HTTP_SERVER_VARS['REMOTE_HOST']) && !$phpAds_config['reverse_lookup'],
+			'visible' => !isset($_SERVER['REMOTE_HOST']) && !$phpAds_config['reverse_lookup'],
 			'depends' => '(log_adclicks==true || log_adviews==true) && compact_stats==0'
 		),
 		array (

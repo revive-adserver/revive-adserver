@@ -30,7 +30,7 @@ else
 include (phpAds_path."/libraries/lib-dbconfig.inc.php");
 include (phpAds_path."/libraries/lib-revisions.inc.php");
 
-if (!count($HTTP_POST_VARS) && !count($HTTP_GET_VARS))
+if (!count($_POST) && !count($_GET))
 {
 	// Disable magic_quotes_runtime, otherwise we might get false 'changed files' warnings
 	set_magic_quotes_runtime(0);

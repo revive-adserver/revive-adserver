@@ -10,11 +10,11 @@ if (isset($lastrun) && $lastrun != date('G'))
 		@fclose ($fp);
 		
 		// Call maintenance
-		if ($fp = @fsockopen ($HTTP_SERVER_VARS['HTTP_HOST'], 80, $errno, $errstr, 3))
+		if ($fp = @fsockopen ($_SERVER['HTTP_HOST'], 80, $errno, $errstr, 3))
 		{
-			$location = str_replace('/misc/fakecron/fakecron.php', '/maintenance/maintenance.php', $HTTP_SERVER_VARS['REQUEST_URI']);
+			$location = str_replace('/misc/fakecron/fakecron.php', '/maintenance/maintenance.php', $_SERVER['REQUEST_URI']);
 		    
-			@fputs ($fp, "HEAD ".$location." HTTP/1.0\r\nHost: ".$HTTP_SERVER_VARS['HTTP_HOST']."\r\n\r\n");
+			@fputs ($fp, "HEAD ".$location." HTTP/1.0\r\nHost: ".$_SERVER['HTTP_HOST']."\r\n\r\n");
 		    @fclose ($fp);
 	    }
 	}

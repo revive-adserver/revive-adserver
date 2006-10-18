@@ -32,19 +32,19 @@ $GLOBALS['phpAds_geo'] = phpAds_geoLookup();
 
 function phpAds_proxyLookup()
 {
-	global $phpAds_config, $HTTP_SERVER_VARS;
+	global $phpAds_config;
 	
 	if (!$phpAds_config['proxy_lookup'])
 		return;
 	
 	$proxy = false;
-	if (isset ($HTTP_SERVER_VARS['HTTP_VIA']) && $HTTP_SERVER_VARS['HTTP_VIA'] != '') $proxy = true;
+	if (isset ($_SERVER['HTTP_VIA']) && $_SERVER['HTTP_VIA'] != '') $proxy = true;
 	
-	if (isset ($HTTP_SERVER_VARS['REMOTE_HOST']))
+	if (isset ($_SERVER['REMOTE_HOST']))
 	{
-		if (is_int (strpos ($HTTP_SERVER_VARS['REMOTE_HOST'], 'proxy')))	$proxy = true;
-		if (is_int (strpos ($HTTP_SERVER_VARS['REMOTE_HOST'], 'cache')))	$proxy = true;
-		if (is_int (strpos ($HTTP_SERVER_VARS['REMOTE_HOST'], 'inktomi')))	$proxy = true;
+		if (is_int (strpos ($_SERVER['REMOTE_HOST'], 'proxy')))	$proxy = true;
+		if (is_int (strpos ($_SERVER['REMOTE_HOST'], 'cache')))	$proxy = true;
+		if (is_int (strpos ($_SERVER['REMOTE_HOST'], 'inktomi')))	$proxy = true;
 	}
 	
 	if ($proxy)
@@ -52,11 +52,11 @@ function phpAds_proxyLookup()
 		$IP = '';
 
 		// Overwrite host address if a suitable header is found
-		if (isset($HTTP_SERVER_VARS['HTTP_FORWARDED']) && 		$HTTP_SERVER_VARS['HTTP_FORWARDED'] != '') 		 $IP = $HTTP_SERVER_VARS['HTTP_FORWARDED'];
-		if (isset($HTTP_SERVER_VARS['HTTP_FORWARDED_FOR']) &&	$HTTP_SERVER_VARS['HTTP_FORWARDED_FOR'] != '') 	 $IP = $HTTP_SERVER_VARS['HTTP_FORWARDED_FOR'];
-		if (isset($HTTP_SERVER_VARS['HTTP_X_FORWARDED']) &&		$HTTP_SERVER_VARS['HTTP_X_FORWARDED'] != '') 	 $IP = $HTTP_SERVER_VARS['HTTP_X_FORWARDED'];
-		if (isset($HTTP_SERVER_VARS['HTTP_X_FORWARDED_FOR']) &&	$HTTP_SERVER_VARS['HTTP_X_FORWARDED_FOR'] != '') $IP = $HTTP_SERVER_VARS['HTTP_X_FORWARDED_FOR'];
-		if (isset($HTTP_SERVER_VARS['HTTP_CLIENT_IP']) &&		$HTTP_SERVER_VARS['HTTP_CLIENT_IP'] != '') 		 $IP = $HTTP_SERVER_VARS['HTTP_CLIENT_IP'];
+		if (isset($_SERVER['HTTP_FORWARDED']) && 		$_SERVER['HTTP_FORWARDED'] != '') 		 $IP = $_SERVER['HTTP_FORWARDED'];
+		if (isset($_SERVER['HTTP_FORWARDED_FOR']) &&	$_SERVER['HTTP_FORWARDED_FOR'] != '') 	 $IP = $_SERVER['HTTP_FORWARDED_FOR'];
+		if (isset($_SERVER['HTTP_X_FORWARDED']) &&		$_SERVER['HTTP_X_FORWARDED'] != '') 	 $IP = $_SERVER['HTTP_X_FORWARDED'];
+		if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) &&	$_SERVER['HTTP_X_FORWARDED_FOR'] != '') $IP = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		if (isset($_SERVER['HTTP_CLIENT_IP']) &&		$_SERVER['HTTP_CLIENT_IP'] != '') 		 $IP = $_SERVER['HTTP_CLIENT_IP'];
 		
 		// Get last item from list
 		$IP = explode (',', $IP);
@@ -64,8 +64,8 @@ function phpAds_proxyLookup()
 		
 		if ($IP && $IP != 'unknown' && !phpAds_PrivateSubnet($IP))
 		{
-			$HTTP_SERVER_VARS['REMOTE_ADDR'] = $IP;
-			$HTTP_SERVER_VARS['REMOTE_HOST'] = '';
+			$_SERVER['REMOTE_ADDR'] = $IP;
+			$_SERVER['REMOTE_HOST'] = '';
 		}
 	}
 }
@@ -78,14 +78,14 @@ function phpAds_proxyLookup()
 
 function phpAds_reverseLookup()
 {
-	global $phpAds_config, $HTTP_SERVER_VARS;
+	global $phpAds_config;
 	
-	if (!isset($HTTP_SERVER_VARS['REMOTE_HOST']) || $HTTP_SERVER_VARS['REMOTE_HOST'] == '')
+	if (!isset($_SERVER['REMOTE_HOST']) || $_SERVER['REMOTE_HOST'] == '')
 	{
 		if ($phpAds_config['reverse_lookup'])
-			$HTTP_SERVER_VARS['REMOTE_HOST'] = @gethostbyaddr ($HTTP_SERVER_VARS['REMOTE_ADDR']);
+			$_SERVER['REMOTE_HOST'] = @gethostbyaddr ($_SERVER['REMOTE_ADDR']);
 		else
-			$HTTP_SERVER_VARS['REMOTE_HOST'] = $HTTP_SERVER_VARS['REMOTE_ADDR'];
+			$_SERVER['REMOTE_HOST'] = $_SERVER['REMOTE_ADDR'];
 	}
 }
 
@@ -97,7 +97,6 @@ function phpAds_reverseLookup()
 
 function phpAds_geoLookup()
 {
-	global $HTTP_SERVER_VARS, $HTTP_COOKIE_VARS;
 	global $phpAds_config, $phpAds_geoPluginID;
 	
 	if (!$phpAds_config['geotracking_type'])
@@ -109,10 +108,10 @@ function phpAds_geoLookup()
 	{
 		include_once ($phpAds_geoPlugin);
 		
-		if (isset($HTTP_COOKIE_VARS['phpAds_geoInfo']))
+		if (isset($_COOKIE['phpAds_geoInfo']))
 		{
 			// Use cookie if available
-			$geoinfo = explode('|', $HTTP_COOKIE_VARS['phpAds_geoInfo']);
+			$geoinfo = explode('|', $_COOKIE['phpAds_geoInfo']);
 			
 			if (count($geoinfo) == 13)
 			{
@@ -142,7 +141,7 @@ function phpAds_geoLookup()
 	
 		// No cookie or invalid cookie
 		$geoinfo =  call_user_func('phpAds_'.$phpAds_geoPluginID.'_getGeo',
-				$HTTP_SERVER_VARS['REMOTE_ADDR'],
+				$_SERVER['REMOTE_ADDR'],
 				$phpAds_config['geotracking_location']
 			);
 		

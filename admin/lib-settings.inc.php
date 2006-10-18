@@ -123,7 +123,7 @@ function phpAds_SettingsHelp($name)
 
 function phpAds_ShowSettings ($data, $errors = array())
 {
-	global $phpAds_config, $HTTP_SERVER_VARS;
+	global $phpAds_config;
 	global $tabindex;
 	
 	// Initialize tabindex (if not already done)
@@ -137,7 +137,7 @@ function phpAds_ShowSettings ($data, $errors = array())
 	{
 		$image = $phpAds_config_locked ? 'closed' : 'open';
 		
-		echo "<form name='settingsform' method='post' action='".$HTTP_SERVER_VARS['PHP_SELF']."' onSubmit='return phpAds_formCheck(this);'>";
+		echo "<form name='settingsform' method='post' action='".$_SERVER['PHP_SELF']."' onSubmit='return phpAds_formCheck(this);'>";
 		echo "<br><div class='errormessage'><img class='errormessage' src='images/padlock-".$image.".gif' width='16' height='16' border='0' align='absmiddle'>";
 		echo $phpAds_config_locked ? $GLOBALS['strEditConfigNotPossible'] : $GLOBALS['strEditConfigPossible'];
 		echo "</div>";
