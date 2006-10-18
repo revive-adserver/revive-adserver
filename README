@@ -73,7 +73,7 @@
 
     Requirements: 
     ------------------------------------------------------------------------
-    PHP 4.0.4 or higher (4.4.2+ or 5.0.4+ recommended)
+    PHP 4.1.0 or higher (4.4.2+ or 5.0.4+ recommended)
     MySQL 3.23.3 or higher (4.0+ and InnoDB recommended)
 
     phpAdsNew is compatible with the official PHP 5 releases.
