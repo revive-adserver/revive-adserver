@@ -648,23 +648,34 @@ function phpAds_PriorityStore($banners, $campaigns = '')
 		$campaigns = array();
 
 	// Reset existing priorities
-	$query = "
+	phpAds_dbQuery("
 		UPDATE ".$phpAds_config['tbl_banners']."
 		SET priority = 0
-	";
+	");
 	
-	$res = phpAds_dbQuery($query);
-	
-	// Set correct priority
+	// Group bannerids by priority
+	$priorities = array();
 	foreach (array_keys($banners) as $b)
 	{
-		$query = "
-			UPDATE ".$phpAds_config['tbl_banners']."
-			SET priority = ".(isset($banners[$b]['priority']) ? $banners[$b]['priority'] : 0)."
-			WHERE bannerid = ".$banners[$b]['bannerid']."
-		";
+		$pri = isset($banners[$b]['priority']) ? $banners[$b]['priority'] : 0;
 		
-		$res = phpAds_dbQuery($query);
+		if (!isset($priorities[$pri]))
+			$priorities[$pri] = array();
+
+		$priorities[$pri][] = $banners[$b]['bannerid'];
+	}
+	
+	// Set correct priority
+	foreach ($priorities as $pri => $bannerids)
+	{
+		phpAds_dbQuery("
+			UPDATE
+				".$phpAds_config['tbl_banners']."
+			SET
+				priority = ".$pri."
+			WHERE
+				bannerid IN (".implode(",", $bannerids).")
+		");
 	}
 	
 	// Update targetstats at midnight

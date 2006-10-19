@@ -4,10 +4,10 @@ phpAdsNew - ChangeLog
 CVS
 			+ Misc changes
 			  - 2006-08-21:  Added maintenance task to upgrade the GeoIP database configuration, useful when upgrading the database in place. The feature is enabled only if the config file is writable (Matteo)
-			  - 2006-08-21:  Upgraded SWF banner code template to use the new Adobe.com URLs and the new Flash 9 allowScriptAccess param to allow banners opening new windows (Matteo)
-			  - 2006-10-12:  Removed MD5 JS login authentications to allow use of password managers - bug #1571177 (Matteo)
-			  - 2006-10-16:  Added warning mail for campaigns expiring on a date, rather than having only warnings for low advies/clicks (Matteo)
-			  - 2006-10-18:  Upgraded the code to use superglobal variables instead of HTTP_*_VARS, increasing compatibility with register_long_arrays disabled (Matteo)
+			  - 2006-08-21:  Upgraded SWF banner code template to use the new Adobe.com URLs and the new Flash 9 allowScriptAccess param to allow banners opening new windows  (Matteo)
+			  - 2006-10-12:  Removed MD5 JS login authentications to allow use of password managers - bug #1571177  (Matteo)
+			  - 2006-10-16:  Added warning mail for campaigns expiring on a date, rather than having only warnings for low advies/clicks  (Matteo)
+			  - 2006-10-18:  Upgraded the code to use superglobal variables instead of HTTP_*_VARS, increasing compatibility with register_long_arrays disabled  (Matteo)
 
 			+ Misc bugfixes
 			  - 2006-04-12:  Fixed problem with local stored banners not readable by Apache user when using suPHP - bug #1467830  (Matteo)
@@ -15,19 +15,20 @@ CVS
 			  - 2006-05-05:  Continent delivery limitation wasn't correctly working when using GeoIP unified plugin  (Matteo)
 			  - 2006-05-08:  HTTPS protocol wasn't correctly detected during install or upgrade  (Matteo)
 			  - 2006-05-30:  Improved SWF converter compatibility with GetURL calls inside ActionScript functions  (Matteo)
-			  - 2006-08-21:  Banner delivery wasn't working when the GeoIP database was upgraded in place (Matteo)
-			  - 2006-08-21:  Removed unneeded stripslashes from session library, which could cause future problems (Matteo)
-			  - 2006-08-30:  Banner priority was sometimes set to 0 for many banners - bug #1513910 (Matteo, thanks to Franz G. Fischer)
-			  - 2006-10-04:  Speeded up stats-client-campaigns which was wrongly scanning all banners instead that only the ones from the needed campaign - bug #1533245 (Matteo, thanks to Benjamin Franz)
-			  - 2006-10-04:  Fixed latest SWF compatibility improvements (Matteo)
-			  - 2006-10-12:  Rewrote interstitials color pickers to be cross-browser compatible - bug #939739 (Matteo)
+			  - 2006-08-21:  Banner delivery wasn't working when the GeoIP database was upgraded in place  (Matteo)
+			  - 2006-08-21:  Removed unneeded stripslashes from session library, which could cause future problems  (Matteo)
+			  - 2006-08-30:  Banner priority was sometimes set to 0 for many banners - bug #1513910  (Matteo, thanks to Franz G. Fischer)
+			  - 2006-10-04:  Speeded up stats-client-campaigns which was wrongly scanning all banners instead that only the ones from the needed campaign - bug #1533245  (Matteo, thanks to Benjamin Franz)
+			  - 2006-10-04:  Fixed latest SWF compatibility improvements  (Matteo)
+			  - 2006-10-12:  Rewrote interstitials color pickers to be cross-browser compatible - bug #939739  (Matteo)
 			  - 2006-10-16:  Changing remaining adviews for an autotarget campaign during the last day made the campaign underdelivering - bug #1574142 (Matteo)
+			  - 2006-10-19:  Enhanced banner priority storage method to run much faster under some circumstances - bug #1579833  (Matteo, thanks to forum user 'Rich')
 
 
 phpAdsNew 2.0.8
 			+ Misc changes
 			  - 2006-01-24:  Added support for MySQL 4.1+ and 5+ running ANSI or strict modes, by explicitly setting the SQL mode  (Matteo)
-			  - 2006-03-26:  Updated documentation licence and added PDF bookmarks for easier navigation (Niels, Matteo)
+			  - 2006-03-26:  Updated documentation licence and added PDF bookmarks for easier navigation  (Niels, Matteo)
 
 			+ Misc bugfixes
 			  - 2005-11-20:  Views and clicks for non exiisting banners were wrongly assigned to an unnamed hidden campaign  (Matteo, thanks to C. Viebrock)
