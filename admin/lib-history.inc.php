@@ -27,7 +27,10 @@ if (!isset($source))
 	$source = '-';
 
 if ($source != '-')
+{
 	$lib_history_source = "source = '".$source."'";
+	$source = stripslashes($source);
+}
 
 if (!isset($period) || $period == '')
 	$period = 'd';
@@ -412,9 +415,9 @@ if (isset($row['span']) && $row['span'] > 0)
 			if ($value == '') 
 				$readable = $strDefault;
 			else
-				$readable = htmlentities(ucfirst($value));
+				$readable = htmlspecialchars(ucfirst($value), ENT_QUOTES);
 			
-			echo "<option value='".$value."'".($source == $value ? ' selected' : '').">".$readable."</option>";
+			echo "<option value='".htmlspecialchars($value, ENT_QUOTES)."'".($source == $value ? ' selected' : '').">".$readable."</option>";
 		}
 		echo "</select>";
 	}
@@ -522,9 +525,9 @@ if (isset($row['span']) && $row['span'] > 0)
 			for ($i = 0; $i < count($limits); $i++)
 			{
 				if ($limit == $limits[$i])
-					echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&start=".$start."&limit=".$limits[$i]."&source=".$source."'><u>".$limits[$i]."</u></a>";
+					echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&start=".$start."&limit=".$limits[$i]."&source=".htmlspecialchars($source, ENT_QUOTES)."'><u>".$limits[$i]."</u></a>";
 				else
-					echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&start=".$start."&limit=".$limits[$i]."&source=".$source."'>".$limits[$i]."</a>";
+					echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&start=".$start."&limit=".$limits[$i]."&source=".htmlspecialchars($source, ENT_QUOTES)."'>".$limits[$i]."</a>";
 				
 				if ($i < count($limits) - 1) echo "&nbsp;|&nbsp;";
 			}
@@ -532,14 +535,14 @@ if (isset($row['span']) && $row['span'] > 0)
 		echo "<td height='35' colspan='3' align='".$phpAds_TextAlignRight."'>";
 			if ($start > 0)
 			{
-				echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&limit=".$limit."&start=".$previous."&source=".$source."' accesskey='".$keyPrevious."'>";
+				echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&limit=".$limit."&start=".$previous."&source=".htmlspecialchars($source, ENT_QUOTES)."' accesskey='".$keyPrevious."'>";
 				echo "<img src='images/arrow-l.gif' border='0' align='absmiddle'>".$strPrevious_Key."</a>";
 			}
 			if ($timestamp > $span)
 			{
 				if ($start > 0) echo "&nbsp;|&nbsp;";
 				
-				echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&limit=".$limit."&start=".$next."&source=".$source."' accesskey='".$keyNext."'>";
+				echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&limit=".$limit."&start=".$next."&source=".htmlspecialchars($source, ENT_QUOTES)."' accesskey='".$keyNext."'>";
 				echo $strNext_Key."<img src='images/arrow-r.gif' border='0' align='absmiddle'></a>";
 			}
 		echo "</td>";
@@ -770,9 +773,9 @@ if (isset($row['span']) && $row['span'] > 0)
 			for ($i = 0; $i < count($limits); $i++)
 			{
 				if ($limit == $limits[$i])
-					echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&start=".$start."&limit=".$limits[$i]."&source=".$source."'><u>".$limits[$i]."</u></a>";
+					echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&start=".$start."&limit=".$limits[$i]."&source=".htmlspecialchars($source, ENT_QUOTES)."'><u>".$limits[$i]."</u></a>";
 				else
-					echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&start=".$start."&limit=".$limits[$i]."&source=".$source."'>".$limits[$i]."</a>";
+					echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&start=".$start."&limit=".$limits[$i]."&source=".htmlspecialchars($source, ENT_QUOTES)."'>".$limits[$i]."</a>";
 				
 				if ($i < count($limits) - 1) echo "&nbsp;|&nbsp;";
 			}
@@ -780,14 +783,14 @@ if (isset($row['span']) && $row['span'] > 0)
 		echo "<td height='35' colspan='9' align='".$phpAds_TextAlignRight."'>";
 			if ($start > 0)
 			{
-				echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&limit=".$limit."&start=".$previous."&source=".$source."'>";
+				echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&limit=".$limit."&start=".$previous."&source=".htmlspecialchars($source, ENT_QUOTES)."'>";
 				echo "<img src='images/arrow-l.gif' border='0' align='absmiddle'>".$strPrevious."</a>";
 			}
 			if ($day_timestamp > $span)
 			{
 				if ($start > 0) echo "&nbsp;|&nbsp;";
 				
-				echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&limit=".$limit."&start=".$next."&source=".$source."'>";
+				echo "<a href='".$_SERVER['PHP_SELF'].$params."period=".$period."&limit=".$limit."&start=".$next."&source=".htmlspecialchars($source, ENT_QUOTES)."'>";
 				echo $strNext."<img src='images/arrow-r.gif' border='0' align='absmiddle'></a>";
 			}
 		echo "</td>";
@@ -853,7 +856,7 @@ if (isset($row['span']) && $row['span'] > 0)
 		echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 		echo "<tr><td height='20' colspan='1'>&nbsp;</td></tr>";
 		echo "<tr><td bgcolor='#FFFFFF' colspan='1'>";
-		echo "<img src='graph-history.php".$params."period=".$period."&start=".$start."&limit=".$limit."&source=".$source."' border='0'>";
+		echo "<img src='graph-history.php".$params."period=".$period."&start=".$start."&limit=".$limit."&source=".htmlspecialchars($source, ENT_QUOTES)."' border='0'>";
 		echo "</td></tr><tr><td height='10' colspan='1'>&nbsp;</td></tr>";
 		echo "<tr><td height='1' colspan='1' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 		echo "</table>";
