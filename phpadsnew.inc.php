@@ -39,7 +39,6 @@ if (!defined('PHPADSNEW_INCLUDED'))
 	// Globalize settings
 	// (just in case phpadsnew.inc.php is called from a function)
 	global $phpAds_config;
-	global $phpAds_context;
 	
 	// Include required files
 	require	(phpAds_path."/config.inc.php"); 
