@@ -23,7 +23,7 @@ CVS
 			  - 2006-10-12:  Rewrote interstitials color pickers to be cross-browser compatible - bug #939739  (Matteo)
 			  - 2006-10-16:  Changing remaining adviews for an autotarget campaign during the last day made the campaign underdelivering - bug #1574142 (Matteo)
 			  - 2006-10-19:  Enhanced banner priority storage method to run much faster under some circumstances - bug #1579833  (Matteo, thanks to forum user 'Rich')
-			  - 2006-10-26:  Fixed "do not show the same banner" functions when local mode invocation is placed inside a function - bug #1573957  (Matteo)
+			  - 2006-10-26:  Fixed features using the context parameter when local mode invocation is placed inside a function - bug #1573957  (Matteo)
 
 
 phpAdsNew 2.0.8-pr1
