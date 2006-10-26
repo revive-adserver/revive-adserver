@@ -13,6 +13,13 @@
 /************************************************************************/
 
 
+
+// Globalize context
+// (just in case phpadsnew.inc.php is called from a function)
+global $phpAds_context;
+
+
+
 if (!defined('PHPADSNEW_INCLUDED'))
 {
 	// Figure out our location
@@ -29,11 +36,10 @@ if (!defined('PHPADSNEW_INCLUDED'))
 	// Set invocation type
 	define ('phpAds_invocationType', 'local');
 
-
-	// Globalize settings and IO
+	// Globalize settings
 	// (just in case phpadsnew.inc.php is called from a function)
 	global $phpAds_config;
-	
+	global $phpAds_context;
 	
 	// Include required files
 	require	(phpAds_path."/config.inc.php"); 
