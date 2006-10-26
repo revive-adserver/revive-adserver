@@ -19,24 +19,14 @@ if (!defined('phpAds_path')) die();
 
 
 
-// Recreate geotargeting configuration
-if ($phpAds_config['geotracking_type'] && phpAds_isConfigWritable())
+if ($phpAds_config['updates_enabled'])
 {
-	include(phpAds_path.'/libraries/geotargeting/geo-'.$phpAds_config['geotracking_type'].'.inc.php');
-				
-	if (function_exists('phpAds_'.$phpAds_geoPluginID.'_getConf'))
-		$geoconf = call_user_func('phpAds_'.$phpAds_geoPluginID.'_getConf', $phpAds_config['geotracking_location']);
-	else
-		$geoconf = '';
+	include(phpAds_path.'/libraries/lib-liveupdate.inc.php');
+
+	$res = phpAds_checkForUpdates(0, true);
 	
-	if ($geoconf != $phpAds_config['geotracking_conf'])
-	{
-		phpAds_SettingsWriteAdd('geotracking_conf', $geoconf);
-	
-		phpAds_SettingsWriteFlush();
-		
-		phpAds_userlogAdd (phpAds_actionGeotargeting, 0);
-	}
+	if ($res[0] != 0 && $res[0] != 800)
+		phpAds_userlogAdd (phpAds_actionLiveUpdate, "LiveUpdate error ($res[0]): $res[1]");
 }
 
 

@@ -184,8 +184,8 @@ if (phpAds_isUser(phpAds_Admin))
 			$fatal	= array();
 			$warn	= array();
 			
-			// Check PHP version < 4.0.3
-			if ($phpversion < 4003)
+			// Check PHP version < 4.1.0
+			if ($phpversion < 4100)
 				$fatal[] = str_replace ('{php_version}', phpversion(), $strWarningPHPversion);
 			elseif ($phpversion == 5000 && isset($matches[4]) && $matches[4])
 				$warn[] = $strWarningPHP5beta;
@@ -360,6 +360,8 @@ if (phpAds_isUser(phpAds_Admin))
 							{
 								// Insert basic settings into database and config file
 								phpAds_SettingsWriteAdd('config_version', $phpAds_version);
+
+								phpAds_SettingsWriteAdd('instance_id', sha1(uniqid('', true)));
 								
 								phpAds_SettingsWriteAdd('dblocal', $installvars['dblocal']);
 								phpAds_SettingsWriteAdd('dbhost', $installvars['dbhost']);

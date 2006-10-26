@@ -18,7 +18,7 @@
 require ("config.php");
 require ("lib-maintenance.inc.php");
 
-if (!defined('LIBUPDATES_INCLUDED'))	require ("lib-updates.inc.php");
+if (!defined('LIBUPDATES_INCLUDED'))	require ("../libraries/lib-liveupdate.inc.php");
 
 
 // Security check
@@ -126,6 +126,14 @@ else
 	}
 	elseif (is_array($maint_update[1]))
 	{
+		// Save the last available config_version as last_seen
+		phpAds_dbQuery("
+			UPDATE
+				".$phpAds_config['tbl_config']."
+			SET
+				updates_last_seen = '".addslashes($maint_update[1]['config_version'])."'
+		");
+		
 		echo "<table border='0' cellspacing='0' cellpadding='0'><tr><td width='24' valign='top'>";
 		
 		if ($maint_update[1]['security_fix'] == 1)
@@ -154,7 +162,7 @@ else
 		echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' valign='top' nowrap>";
 		
 		echo "<br>&nbsp;&nbsp;<img src='images/icon-setup.gif' align='absmiddle'>&nbsp;";
-		echo $phpAds_productname." ".$maint_update[1]['config_readable']."</td>";
+		echo $maint_update[1]['product_name']." ".$maint_update[1]['config_readable']."</td>";
 		
 		echo "<td width='32'>&nbsp;</td>";
 		echo "<td><br>".$maint_update[1]['description']."<br><br>";

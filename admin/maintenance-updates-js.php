@@ -18,8 +18,6 @@
 require ("config.php");
 require ("lib-maintenance.inc.php");
 
-$update_check = false;
-
 
 /*********************************************************/
 /* Main code                                             */
@@ -28,28 +26,35 @@ $update_check = false;
 // Check for product updates when the admin logs in
 if (phpAds_isUser(phpAds_Admin))
 {
-	// Check accordingly to user preferences
-	switch ($phpAds_config['updates_frequency'])
-	{
-		case -1:	$update_check = false; break;
-		case 0: 	$update_check = true; break;
-		default: 	$update_check = ($phpAds_config['updates_timestamp'] +
-						$phpAds_config['updates_frequency']*60*60*24) <= time();
-					break;
-	}
+	$update_check = false;
 	
-	if ($update_check)
+	// Check accordingly to user preferences
+	if ($phpAds_config['updates_enabled'])
 	{
-		include('lib-updates.inc.php');
-		$update_check = phpAds_checkForUpdates($phpAds_config['updates_last_seen']);
+		include('../libraries/lib-liveupdate.inc.php');
 		
-		if ($update_check[0])
+		if ($phpAds_config['updates_cache'])
+			$update_check = unserialize($phpAds_config['updates_cache']);
+		
+		if (!is_array($update_check) || $update_check['config_version'] <= $phpAds_config['updates_last_seen'])
 			$update_check = false;
+		else
+		{
+			// Make sure that the alert doesn't display everytime
+			phpAds_dbQuery("
+				UPDATE
+					".$phpAds_config['tbl_config']."
+				SET
+					updates_last_seen = '".addslashes($update_check['config_version'])."'
+			");
+		
+			// Format like the XML-RPC response
+			$update_check = array(0, $update_check);
+		}
 	}
 	
 	phpAds_SessionDataRegister('update_check', $update_check);
 	phpAds_SessionDataStore();
-	
 	
 	// Add Product Update redirector
 	if ($update_check)

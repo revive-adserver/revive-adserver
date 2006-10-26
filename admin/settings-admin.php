@@ -21,7 +21,7 @@ include ("lib-languages.inc.php");
 
 // Register input variables
 phpAds_registerGlobal ('save_settings', 'admin', 'pwold', 'pw', 'pw2', 'admin_fullname', 'admin_email',
-					   'company_name', 'language', 'updates_frequency', 'updates_dev_builds',
+					   'company_name', 'language', 'updates_enabled', 'updates_dev_builds',
 					   'admin_novice', 'userlog_email', 'userlog_priority', 'userlog_autoclean');
 
 
@@ -73,10 +73,6 @@ if (isset($save_settings) && $save_settings != '')
 	
 	if (isset($language))
 		phpAds_SettingsWriteAdd('language', $language);
-	if (isset($updates_frequency))
-		phpAds_SettingsWriteAdd('updates_frequency', $updates_frequency);
-
-	phpAds_SettingsWriteAdd('updates_dev_builds', isset($updates_dev_builds));
 	
 	phpAds_SettingsWriteAdd('admin_novice', isset($admin_novice));
 	
@@ -84,6 +80,9 @@ if (isset($save_settings) && $save_settings != '')
 	phpAds_SettingsWriteAdd('userlog_email', isset($userlog_email));
 	phpAds_SettingsWriteAdd('userlog_priority', isset($userlog_priority));
 	phpAds_SettingsWriteAdd('userlog_autoclean', isset($userlog_autoclean));
+		
+	phpAds_SettingsWriteAdd('updates_enabled', isset($updates_enabled));
+	phpAds_SettingsWriteAdd('updates_dev_builds', isset($updates_dev_builds));
 	
 	
 	if (!count($errormessage))
@@ -212,29 +211,6 @@ array (
 			'type'    => 'break'
 		),
 		array (
-			'type' 	  => 'select', 
-			'name' 	  => 'updates_frequency',
-			'text' 	  => $strAdminCheckUpdates,
-			'items'   => array (
-				'0'  => $strAdminCheckEveryLogin,
-				'1'  => $strAdminCheckDaily,
-				'7'  => $strAdminCheckWeekly,
-				'30' => $strAdminCheckMonthly,
-				'-1' => $strAdminCheckNever
-			)
-		),
-		array (
-			'type'    => 'break'
-		),
-		array (
-			'type'    => 'checkbox',
-			'name'    => 'updates_dev_builds',
-			'text'	  => $strAdminCheckDevBuilds
-		),
-		array (
-			'type'    => 'break'
-		),
-		array (
 			'type'    => 'checkbox',
 			'name'    => 'admin_novice',
 			'text'	  => $strAdminNovice
@@ -256,6 +232,22 @@ array (
 			'type'    => 'checkbox',
 			'name'    => 'userlog_autoclean',
 			'text'	  => $strUserlogAutoClean
+		)
+	)
+),
+array (
+	'text' 	  => "LiveUpdate",
+	'items'	  => array (
+		array (
+			'type' 	  => 'checkbox', 
+			'name' 	  => 'updates_enabled',
+			'text' 	  => "Check for daily software updates during maintenance",
+				
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'updates_dev_builds',
+			'text'	  => $strAdminCheckDevBuilds
 		)
 	)
 ));

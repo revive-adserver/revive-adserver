@@ -38,6 +38,7 @@ require (phpAds_path."/libraries/lib-mail.inc.php");
 require (phpAds_path."/libraries/lib-userlog.inc.php");
 require (phpAds_path."/libraries/lib-cache.inc.php");
 require (phpAds_path."/admin/lib-statistics.inc.php");
+require	(phpAds_path."/admin/lib-config.inc.php"); 
 
 
 
@@ -81,6 +82,7 @@ if (date('H') == 0)
 	include ("maintenance-autotargeting.php");
 	include ("maintenance-geotargeting.php");
 	include ("maintenance-cleantables.php");
+	include ("maintenance-liveupdate.php");
 }
 
 include ("maintenance-priority.php");

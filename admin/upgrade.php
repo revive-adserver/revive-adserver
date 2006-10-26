@@ -507,6 +507,12 @@ if (phpAds_isUser(phpAds_Admin))
 		{
 			phpAds_SettingsWriteAdd('mysql4_compatibility', phpAds_dbQuery("SET SESSION sql_mode='MYSQL40'"));
 		}
+		
+		// Instance ID
+		if ($phpAds_config['config_version'] < 200.287)
+		{
+			phpAds_SettingsWriteAdd('instance_id', sha1(uniqid('', true)));
+		}
 
 		phpAds_ConfigFileUpdateFlush();
 		

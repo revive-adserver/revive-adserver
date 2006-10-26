@@ -33,8 +33,8 @@ require (phpAds_path.'/libraries/lib-xmlrpc.inc.php');
 /*********************************************************/
 
 $phpAds_updatesServer = array(
-	'host'	 => 'www.phpadsnew.com',
-	'script' => '/update/xmlrpc.php',
+	'host'	 => 'updates.openads.org',
+	'script' => '/xmlrpc.php',
 	'port'	 => 80
 );
 
@@ -44,7 +44,7 @@ $phpAds_updatesServer = array(
 /* Check for updates via XML-RPC                         */
 /*********************************************************/
 
-function phpAds_checkForUpdates($already_seen = 0)
+function phpAds_checkForUpdates($already_seen = 0, $send_sw_data = false)
 {
 	global $phpAds_config, $phpAds_updatesServer;
 	global $xmlrpcerruser;
@@ -52,13 +52,41 @@ function phpAds_checkForUpdates($already_seen = 0)
 	// Create client object
 	$client = new xmlrpc_client($phpAds_updatesServer['script'],
 		$phpAds_updatesServer['host'], $phpAds_updatesServer['port']);
-	
-	// Create XML-RPC request message
-	$msg = new xmlrpcmsg("updateAdsNew.check", array(
+		
+	$params = array(
+		new xmlrpcval($GLOBALS['phpAds_productname'], "string"),
 		new xmlrpcval($phpAds_config['config_version'], "string"),
 		new xmlrpcval($already_seen, "string"),
-		new xmlrpcval($phpAds_config['updates_dev_builds'] ? 'dev' : '', "string")
-	));
+		new xmlrpcval($phpAds_config['updates_dev_builds'] ? 'dev' : '', "string"),
+		new xmlrpcval($phpAds_config['instance_id'], "string")
+	);
+	
+	if ($send_sw_data)
+	{
+		// Prepare software data
+		$params[] = phpAds_xmlrpcEncode(array(
+			'os_type'					=> php_uname('s'),
+			'os_version'				=> php_uname('r'),
+			
+			'webserver_type'			=> isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^(.*?)/.*$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
+			'webserver_version'			=> isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^.*?/(.*?)(?: .*)?$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
+
+			'db_type'					=> $GLOBALS['phpAds_dbmsname'],
+			'db_version'				=> phpAds_dbResult(phpAds_dbQuery("SELECT VERSION()"), 0, 0),
+			
+			'php_version'				=> phpversion(),
+			'php_sapi'					=> ucfirst(php_sapi_name()),
+			'php_extensions'			=> get_loaded_extensions(),
+			'php_register_globals'		=> (bool)ini_get('register_globals'),
+			'php_magic_quotes_gpc'		=> (bool)ini_get('magic_quotes_gpc'),
+			'php_safe_mode'				=> (bool)ini_get('safe_mode'),
+			'php_open_basedir'			=> (bool)strlen(ini_get('open_basedir')),
+			'php_upload_tmp_readable'	=> (bool)is_readable(ini_get('upload_tmp_dir').DIRECTORY_SEPARATOR),
+		));
+	}
+	
+	// Create XML-RPC request message
+	$msg = new xmlrpcmsg("openAds.LiveUpdate", $params);
 
 	// Send XML-RPC request message
 	if($response = $client->send($msg, 10))
@@ -68,13 +96,17 @@ function phpAds_checkForUpdates($already_seen = 0)
 		{
 			$ret = array(0, phpAds_xmlrpcDecode($response->value()));
 			
-			phpAds_dbQuery("
-				UPDATE
-					".$phpAds_config['tbl_config']."
-				SET
-					updates_last_seen = '".$ret[1]['config_version']."',
-					updates_timestamp = ".time()."
-			");
+			// Save to cache only when additional data was sent
+			if ($send_sw_data)
+			{
+				phpAds_dbQuery("
+					UPDATE
+						".$phpAds_config['tbl_config']."
+					SET
+						updates_cache = '".addslashes(serialize($ret[1]))."',
+						updates_timestamp = ".time()."
+				");
+			}
 		}
 		else
 			$ret = array($response->faultCode(), $response->faultString());

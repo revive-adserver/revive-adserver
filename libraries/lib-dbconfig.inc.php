@@ -18,7 +18,7 @@ define ('LIBDBCONFIG_INCLUDED', true);
 
 
 // Current phpAds version
-$phpAds_version = 200.286;
+$phpAds_version = 200.290;
 $phpAds_version_readable = "2.0.9-beta1";
 $phpAds_version_development = true;  
 
@@ -89,6 +89,7 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'log_hostname' =>				array ('type' => 'boolean', 'sql' => false),
 	'log_iponly' =>					array ('type' => 'boolean', 'sql' => false),
 	'pack_cookies' =>				array ('type' => 'boolean', 'sql' => false),
+	'instance_id' =>				array ('type' => 'string',  'sql' => false),
 	
 	'my_header' =>					array ('type' => 'string', 'sql' => true),
 	'my_footer' =>					array ('type' => 'string', 'sql' => true),
@@ -131,9 +132,10 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'gui_hide_inactive' =>			array ('type' => 'boolean', 'sql' => true),
 	'gui_link_compact_limit' =>		array ('type' => 'integer', 'sql' => true),
 	'qmail_patch' =>				array ('type' => 'boolean', 'sql' => true),
-	'updates_frequency' =>			array ('type' => 'integer', 'sql' => true),
-	'updates_last_seen' =>			array ('type' => 'string', 'sql' => true),
+	'updates_enabled' =>			array ('type' => 'boolean', 'sql' => true),
+	'updates_cache' =>				array ('type' => 'string',	'sql' => true),
 	'updates_timestamp' =>			array ('type' => 'integer', 'sql' => true),
+	'updates_last_seen' =>			array ('type' => 'string',	'sql' => true),
 	'updates_dev_builds' =>			array ('type' => 'boolean', 'sql' => true),
 	'allow_invocation_plain' =>		array ('type' => 'boolean', 'sql' => true),
 	'allow_invocation_js' =>		array ('type' => 'boolean', 'sql' => true),
