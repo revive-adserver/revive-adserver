@@ -59,14 +59,14 @@ if (phpAds_isUser(phpAds_Admin))
 	// Add Product Update redirector
 	if ($update_check)
 	{
-		Header("Content-Type: application/x-javascript");
+		header("Content-Type: application/x-javascript");
 		
-		if ($Session['update_check'][1]['security_fix'])
-			echo "\t\t\talert('".$strUpdateAlertSecurity."');\n";
+		if ($update_check[1]['security_fix'])
+			echo "alert('".$strUpdateAlertSecurity."');\n";
 		else
-			echo "\t\t\tif (confirm('".$strUpdateAlert."'))\n\t";
+			echo "if (confirm('".$strUpdateAlert."'))\n\t";
 		
-		echo "\t\tdocument.location.replace('maintenance-updates.php');\n";
+		echo "document.location.replace('maintenance-updates.php');\n";
 	}
 }
 

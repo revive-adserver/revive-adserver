@@ -70,12 +70,10 @@ if (isset($save_settings) && $save_settings != '')
 	if (isset($company_name))
 		phpAds_SettingsWriteAdd('company_name', $company_name);
 	
-	
 	if (isset($language))
 		phpAds_SettingsWriteAdd('language', $language);
 	
 	phpAds_SettingsWriteAdd('admin_novice', isset($admin_novice));
-	
 	
 	phpAds_SettingsWriteAdd('userlog_email', isset($userlog_email));
 	phpAds_SettingsWriteAdd('userlog_priority', isset($userlog_priority));
