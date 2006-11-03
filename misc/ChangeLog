@@ -26,6 +26,7 @@ CVS
 			  - 2006-10-19:  Enhanced banner priority storage method to run much faster under some circumstances - bug #1579833  (Matteo, thanks to forum user 'Rich')
 			  - 2006-10-26:  Fixed features using the context parameter when local mode invocation is placed inside a function - bug #1573957  (Matteo)
 			  - 2006-11-03:  Saving changes on some settings screens didn't work if config.inc.php was not writable  (Matteo)
+			  - 2006-11-03:  Adding a webserver stored SWF banner enabling transparency didn't make the background transparent - bug #1589518  (Matteo)
 
 
 phpAdsNew 2.0.8-pr1

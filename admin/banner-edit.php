@@ -502,14 +502,14 @@ if (isset($submit))
 				$final['htmltemplate'] = str_replace ('{swf_param}', $parameter, $final['htmltemplate']);
 			}
 			
-			
-			// Update bannercache
-			$final['htmlcache']   = addslashes(phpAds_getBannerCache($final));
-			$final['htmltemplate']= addslashes($final['htmltemplate']);
 					
 			// Handle SWF transparent background
 			if ($final['contenttype'] == 'swf')
 				$final['transparent'] = isset($transparent) && $transparent ? 't' : 'f';
+			
+			// Update bannercache
+			$final['htmlcache']   = addslashes(phpAds_getBannerCache($final));
+			$final['htmltemplate']= addslashes($final['htmltemplate']);
 			
 			break;
 		
