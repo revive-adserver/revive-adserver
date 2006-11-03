@@ -87,24 +87,24 @@ function phpAds_SettingsWriteFlush()
 	if (count($sql))
 	{
 		$query = "UPDATE ".$phpAds_config['tbl_config']." SET ".join(", ", $sql);
-		$res = @phpAds_dbQuery($query);
+		$res = phpAds_dbQuery($query);
 		
-		if (@phpAds_dbAffectedRows() < 1)
+		if (phpAds_dbAffectedRows() < 1)
 		{
 			$query = "INSERT INTO ".$phpAds_config['tbl_config']." SET ".join(", ", $sql);
-			@phpAds_dbQuery($query);
+			phpAds_dbQuery($query);
 		}
 	}
-	
+
 	if (count($config_inc))
 	{
-		if (!phpAds_ConfigFilePrepare())
-			return false;
-		
-		while(list(, $v) = each($config_inc))
-			phpAds_ConfigFileSet($v[0], $v[1], $v[2]);
-		
-		return phpAds_ConfigFileFlush();
+		if (phpAds_ConfigFilePrepare())
+		{
+			while(list(, $v) = each($config_inc))
+				phpAds_ConfigFileSet($v[0], $v[1], $v[2]);
+			
+			return phpAds_ConfigFileFlush();
+		}
 	}
 	
 	return true;
