@@ -314,10 +314,22 @@ function phpAds_upgradeTable ($name, $structure)
 		
 		if (isset($availablecolumns[$key]) && is_array($availablecolumns[$key]))
 		{
+			// Remove implicit current_timestamp as default for timestamp columns
+			if ($availablecolumns[$key]['Type'] == 'timestamp' && $availablecolumns[$key]['Default'] == 'CURRENT_TIMESTAMP')
+				$availablecolumns[$key]['Default'] = '';
+				
 			// Column exists, check if it need updating
 			$check = $availablecolumns[$key]['Type'];
-			if ($availablecolumns[$key]['Default'] != '') $check .= " DEFAULT '".$availablecolumns[$key]['Default']."'";
-			if ($availablecolumns[$key]['Null'] != 'YES') $check .= " NOT NULL";
+			if ($availablecolumns[$key]['Default'] != '')
+				$check .= " DEFAULT '".$availablecolumns[$key]['Default']."'";
+			if ($availablecolumns[$key]['Null'] != 'YES')
+			{
+				// Add default empty string if there is one in the create definition
+				if (ereg("DEFAULT '' NOT NULL", $columns[$key]))
+					$check .= " DEFAULT ''";
+				
+				$check .= " NOT NULL";
+			}
 			if (ereg('auto_increment', $availablecolumns[$key]['Extra'])) $check .= " AUTO_INCREMENT";
 			
 			if ($check != $columns[$key])

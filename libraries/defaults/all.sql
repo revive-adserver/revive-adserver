@@ -73,7 +73,7 @@ CREATE TABLE phpads_zones (
 CREATE TABLE phpads_adclicks (
    bannerid mediumint(9) DEFAULT '0' NOT NULL,
    zoneid mediumint(9) DEFAULT '0' NOT NULL,
-   t_stamp timestamp(14),
+   t_stamp timestamp,
    host varchar(255) NOT NULL,
    source varchar(50) NOT NULL,
    country char(2) NOT NULL,
@@ -90,7 +90,7 @@ CREATE TABLE phpads_adclicks (
 CREATE TABLE phpads_adviews (
    bannerid mediumint(9) DEFAULT '0' NOT NULL,
    zoneid mediumint(9) DEFAULT '0' NOT NULL,
-   t_stamp timestamp(14),
+   t_stamp timestamp,
    host varchar(255) NOT NULL,
    source varchar(50) NOT NULL,
    country char(2) NOT NULL,
@@ -107,7 +107,7 @@ CREATE TABLE phpads_adviews (
 CREATE TABLE phpads_images (
    filename varchar(128) NOT NULL,
    contents mediumblob NOT NULL,
-   t_stamp timestamp(14),
+   t_stamp timestamp,
    PRIMARY KEY (filename)
 );
 
@@ -185,7 +185,7 @@ CREATE TABLE phpads_clients (
 CREATE TABLE phpads_session (
    sessionid varchar(32) NOT NULL,
    sessiondata blob NOT NULL,
-   lastused timestamp(14),
+   lastused timestamp,
    PRIMARY KEY (sessionid)
 );
 
