@@ -8,7 +8,7 @@ CVS
 			  - 2006-10-12:  Removed MD5 JS login authentications to allow use of password managers - bug #1571177  (Matteo)
 			  - 2006-10-16:  Added warning mail for campaigns expiring on a date, rather than having only warnings for low advies/clicks  (Matteo)
 			  - 2006-10-18:  Upgraded the code to use superglobal variables instead of HTTP_*_VARS, increasing compatibility with register_long_arrays disabled  (Matteo)
-			  - 2006-10-26:  Revamped the upgrades check adding compatibility with the new Openads LiveUpdate service  (Matteo)
+			  - 2006-10-26:  Revamped the upgrades check adding compatibility with the new Openads Sync service  (Matteo)
 
 			+ Misc bugfixes
 			  - 2006-04-12:  Fixed problem with local stored banners not readable by Apache user when using suPHP - bug #1467830  (Matteo)

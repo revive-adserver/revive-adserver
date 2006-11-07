@@ -33,7 +33,7 @@ require (phpAds_path.'/libraries/lib-xmlrpc.inc.php');
 /*********************************************************/
 
 $phpAds_updatesServer = array(
-	'host'	 => 'updates.openads.org',
+	'host'	 => 'sync.openads.org',
 	'script' => '/xmlrpc.php',
 	'port'	 => 80
 );
@@ -44,7 +44,7 @@ $phpAds_updatesServer = array(
 /* Check for updates via XML-RPC                         */
 /*********************************************************/
 
-function phpAds_checkForUpdates($already_seen = 0, $send_sw_data = false)
+function phpAds_checkForUpdates($already_seen = 0, $send_sw_data = true)
 {
 	global $phpAds_config, $phpAds_updatesServer;
 	global $xmlrpcerruser;

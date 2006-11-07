@@ -31,7 +31,7 @@ if (phpAds_isUser(phpAds_Admin))
 	// Check accordingly to user preferences
 	if ($phpAds_config['updates_enabled'])
 	{
-		include('../libraries/lib-liveupdate.inc.php');
+		include('../libraries/lib-openadssync.inc.php');
 		
 		if ($phpAds_config['updates_cache'])
 			$update_check = unserialize($phpAds_config['updates_cache']);

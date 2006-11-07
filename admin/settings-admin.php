@@ -234,18 +234,21 @@ array (
 	)
 ),
 array (
-	'text' 	  => "LiveUpdate",
+	'text' 	  => "Openads Sync",
 	'items'	  => array (
 		array (
 			'type' 	  => 'checkbox', 
 			'name' 	  => 'updates_enabled',
-			'text' 	  => "Check for daily software updates during maintenance",
-				
+			'text' 	  => $strAdminCheckUpdates,
+		),
+		array (
+			'type'    => 'break'
 		),
 		array (
 			'type'    => 'checkbox',
 			'name'    => 'updates_dev_builds',
-			'text'	  => $strAdminCheckDevBuilds
+			'text'	  => $strAdminCheckDevBuilds,
+			'depends' => 'updates_enabled==true',
 		)
 	)
 ));

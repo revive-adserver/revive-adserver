@@ -19,7 +19,7 @@ require ("config.php");
 require ("lib-maintenance.inc.php");
 
 if (!defined('LIBUPDATES_INCLUDED'))
-	require ("../libraries/lib-liveupdate.inc.php");
+	require ("../libraries/lib-openadssync.inc.php");
 
 
 // Security check
