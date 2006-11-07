@@ -219,8 +219,6 @@ $phpAds_config['type_html_php'] = false;
 /* phpAdsNew self configuration code - don't change      */
 /*********************************************************/
 
-$phpAds_config['instance_id'] = '';
-
 define('phpAds_installed', true);
 
 // Disable magic_quotes_runtime

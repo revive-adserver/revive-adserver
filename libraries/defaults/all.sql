@@ -243,6 +243,7 @@ CREATE TABLE phpads_targetstats (
 CREATE TABLE phpads_config (
    configid tinyint(2) DEFAULT '0' NOT NULL,
    config_version decimal(7,3) DEFAULT '0.000' NOT NULL,
+   instance_id varchar(64) DEFAULT '' NOT NULL,
    table_border_color varchar(7) DEFAULT '#000099' NOT NULL,
    table_back_color varchar(7) DEFAULT '#CCCCCC' NOT NULL,
    table_back_color_alternative varchar(7) DEFAULT '#F7F7F7' NOT NULL,

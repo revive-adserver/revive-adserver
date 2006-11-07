@@ -1,7 +1,7 @@
 phpAdsNew - ChangeLog
 
 
-CVS
+phpAdsNew 2.0.9
 			+ Misc changes
 			  - 2006-08-21:  Added maintenance task to upgrade the GeoIP database configuration, useful when upgrading the database in place. The feature is enabled only if the config file is writable (Matteo)
 			  - 2006-08-21:  Upgraded SWF banner code template to use the new Adobe.com URLs and the new Flash 9 allowScriptAccess param to allow banners opening new windows  (Matteo)
