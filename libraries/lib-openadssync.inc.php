@@ -86,7 +86,7 @@ function phpAds_checkForUpdates($already_seen = 0, $send_sw_data = true)
 	}
 	
 	// Create XML-RPC request message
-	$msg = new xmlrpcmsg("openAds.LiveUpdate", $params);
+	$msg = new xmlrpcmsg("openAds.sync", $params);
 
 	// Send XML-RPC request message
 	if($response = $client->send($msg, 10))
