@@ -1,6 +1,11 @@
 phpAdsNew - ChangeLog
 
 
+CVS
+			+ Misc bugfixes
+			  - 2006-11-09:  Fixed reports compatibility with recent PHP versions - bug #1593451  (Matteo)
+
+
 phpAdsNew 2.0.9
 			+ Misc changes
 			  - 2006-08-21:  Added maintenance task to upgrade the GeoIP database configuration, useful when upgrading the database in place. The feature is enabled only if the config file is writable (Matteo)

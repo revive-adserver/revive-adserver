@@ -60,7 +60,8 @@ function Plugin_CampaignhistoryExecute($campaignid, $delimiter="t", $quotes="")
 	if ($quotes == '1')		$quotes = "'";
 	if ($quotes == '2')		$quotes = '"';
 	
-	header ("Content-type: application/csv\nContent-Disposition: inline; filename=\"campaignhistory.csv\"");
+	header("Content-type: application/csv");
+	header("Content-Disposition: inline; filename=\"publisherhistory.csv\"");
 	
 	$idresult = phpAds_dbQuery ("
 		SELECT

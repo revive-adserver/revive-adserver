@@ -60,7 +60,8 @@ function Plugin_ZonehistoryExecute($zoneid, $delimiter=",", $quotes="")
 	if ($quotes == '1')		$quotes = "'";
 	if ($quotes == '2')		$quotes = '"';
 	
-	header ("Content-type: application/csv\nContent-Disposition: inline; filename=\"zonehistory.csv\"");
+	header("Content-type: application/csv");
+	header("Content-Disposition: inline; filename=\"publisherhistory.csv\"");
 	
 	if ($phpAds_config['compact_stats'])
 	{
