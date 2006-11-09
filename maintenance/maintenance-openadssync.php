@@ -21,12 +21,12 @@ if (!defined('phpAds_path')) die();
 
 if ($phpAds_config['updates_enabled'])
 {
-	include(phpAds_path.'/libraries/lib-liveupdate.inc.php');
+	include(phpAds_path.'/libraries/lib-openadssync.inc.php');
 
 	$res = phpAds_checkForUpdates(0, true);
 	
 	if ($res[0] != 0 && $res[0] != 800)
-		phpAds_userlogAdd (phpAds_actionLiveUpdate, "LiveUpdate error ($res[0]): $res[1]");
+		phpAds_userlogAdd (phpAds_actionOpenadsSync, "Openads Sync error ($res[0]): $res[1]");
 }
 
 

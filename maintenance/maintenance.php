@@ -82,7 +82,7 @@ if (date('H') == 0)
 	include ("maintenance-autotargeting.php");
 	include ("maintenance-geotargeting.php");
 	include ("maintenance-cleantables.php");
-	include ("maintenance-liveupdate.php");
+	include ("maintenance-openadssync.php");
 }
 
 include ("maintenance-priority.php");
