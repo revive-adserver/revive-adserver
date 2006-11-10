@@ -511,7 +511,7 @@ if (phpAds_isUser(phpAds_Admin))
 		// Instance ID
 		if ($phpAds_config['config_version'] < 200.287 || empty($phpAds_config['instance_id']))
 		{
-			phpAds_SettingsWriteAdd('instance_id', sha1(uniqid('', true)));
+			phpAds_SettingsWriteAdd('instance_id', phpAds_ConfigGenerateId());
 		}
 
 		phpAds_ConfigFileUpdateFlush();

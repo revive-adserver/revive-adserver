@@ -369,6 +369,22 @@ function phpAds_ConfigFileUpdateExport()
 
 
 
+/*********************************************************/
+/* Public: Generate Unique ID                            */
+/*********************************************************/
+
+function phpAds_ConfigGenerateId ()
+{
+	$uniqid = uniqid('', true);
+	
+	if (function_exists('sha1'))
+		return sha1($uniqid);
+	else
+		return substr(md5($uniqid).md5($uniqid), 0, 40);
+}
+
+
+
 
 
 

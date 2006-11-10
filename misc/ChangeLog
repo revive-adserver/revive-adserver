@@ -5,6 +5,7 @@ CVS
 			+ Misc bugfixes
 			  - 2006-11-09:  Fixed reports compatibility with recent PHP versions - bug #1593451  (Matteo)
 			  - 2006-11-10:  The left menu dropdown to move entities could grow bigger than the menu size  (Matteo)
+			  - 2006-11-10:  Added back compatibility with PHP 4.1.x and 4.2.x  (Matteo)
 
 
 phpAdsNew 2.0.9
