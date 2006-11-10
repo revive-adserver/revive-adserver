@@ -388,7 +388,7 @@ $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 $extra .= "<img src='images/icon-move-banner.gif' align='absmiddle'>&nbsp;$strMoveTo<br>";
 $extra .= "<img src='images/spacer.gif' height='1' width='160' vspace='2'><br>";
 $extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-$extra .= "<select name='moveto' style='width: 110;'>";
+$extra .= "<select name='moveto' style='width: 110px'>";
 
 $res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE parent != 0 AND clientid != '".$campaignid."'") or phpAds_sqlDie();
 while ($row = phpAds_dbFetchArray($res))
@@ -399,7 +399,7 @@ $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br>";
 $extra .= "<img src='images/icon-duplicate-acl.gif' align='absmiddle'>&nbsp;$strApplyLimitationsTo<br>";
 $extra .= "<img src='images/spacer.gif' height='1' width='160' vspace='2'><br>";
 $extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-$extra .= "<select name='applyto' style='width: 110;'>";
+$extra .= "<select name='applyto' style='width: 110px'>";
 
 $res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_banners']." WHERE bannerid != '".$bannerid."' AND clientid = '".$campaignid."'") or phpAds_sqlDie();
 while ($row = phpAds_dbFetchArray($res))

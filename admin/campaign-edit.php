@@ -345,7 +345,7 @@ if ($campaignid != "")
 	$extra .= "<img src='images/icon-move-campaign.gif' align='absmiddle'>&nbsp;$strMoveTo<br>";
 	$extra .= "<img src='images/spacer.gif' height='1' width='160' vspace='2'><br>";
 	$extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-	$extra .= "<select name='moveto' style='width: 110;'>";
+	$extra .= "<select name='moveto' style='width: 110px'>";
 	
 	$res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_clients']." WHERE parent = 0 AND clientid != ".phpAds_getParentID ($campaignid)) or phpAds_sqlDie();
 	while ($row = phpAds_dbFetchArray($res))
