@@ -1,6 +1,11 @@
 phpAdsNew - ChangeLog
 
 
+CVS
+			+ Misc bugfixes
+			  - 2006-11-14:  Campaign-edit wasn't correctly working with MySQL 3.x anymore  (Matteo)
+
+
 phpAdsNew 2.0.9-pr1
 			+ Misc bugfixes
 			  - 2006-11-09:  Fixed reports compatibility with recent PHP versions - bug #1593451  (Matteo)

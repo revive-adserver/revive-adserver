@@ -193,12 +193,12 @@ if (isset($submit))
 		// Get served adviews for today
 		if ($phpAds_config['compact_stats'])
 		{
-			$res = phpAds_dbQuery("SELECT SUM(s.views) FROM ".$phpAds_config['tbl_adstats']." s JOIN ".$phpAds_config['tbl_banners']." b ON (b.bannerid = s.bannerid) WHERE day = '".date('Y-m-d')."' AND b.clientid = '".$campaignid."'") or phpAds_sqlDie();
+			$res = phpAds_dbQuery("SELECT SUM(s.views) FROM ".$phpAds_config['tbl_adstats']." s INNER JOIN ".$phpAds_config['tbl_banners']." b ON (b.bannerid = s.bannerid) WHERE day = '".date('Y-m-d')."' AND b.clientid = '".$campaignid."'") or phpAds_sqlDie();
 			$already_served = phpAds_dbResult($res, 0, 0);
 		}
 		else
 		{
-			$res = phpAds_dbQuery("SELECT COUNT(*) FROM ".$phpAds_config['tbl_adviews']." s JOIN ".$phpAds_config['tbl_banners']." b ON (b.bannerid = s.bannerid) WHERE t_stamp >= ".date('Ymd')."000000 AND b.clientid = '".$campaignid."'") or phpAds_sqlDie();
+			$res = phpAds_dbQuery("SELECT COUNT(*) FROM ".$phpAds_config['tbl_adviews']." s INNER JOIN ".$phpAds_config['tbl_banners']." b ON (b.bannerid = s.bannerid) WHERE t_stamp >= ".date('Ymd')."000000 AND b.clientid = '".$campaignid."'") or phpAds_sqlDie();
 			$already_served = phpAds_dbResult($res, 0, 0);
 		}
 		
