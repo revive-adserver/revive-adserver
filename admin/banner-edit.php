@@ -83,11 +83,11 @@ if (isset($submit))
 	
 	
 	// Get information about uploaded file
-	if (isset($HTTP_POST_FILES['upload']))
+	if (isset($_FILES['upload']))
 	{
-		if ($HTTP_POST_FILES['upload']['name'] != '' &&
-			$HTTP_POST_FILES['upload']['tmp_name'] != 'none')
-			$uploaded = $HTTP_POST_FILES['upload'];
+		if ($_FILES['upload']['name'] != '' &&
+			$_FILES['upload']['tmp_name'] != 'none')
+			$uploaded = $_FILES['upload'];
 	}
 	
 	
