@@ -80,18 +80,18 @@ function phpAds_xmlrpcView ($msg)
 				switch ($k)
 				{
 					case 'remote_addr':
-						$GLOBALS['HTTP_SERVER_VARS']['REMOTE_ADDR'] =
+						$_SERVER['REMOTE_ADDR'] =
 						$GLOBALS['REMOTE_ADDR'] = $v;
 						break;
 
 					case 'remote_host':
-						$GLOBALS['HTTP_SERVER_VARS']['REMOTE_HOST'] =
+						$_SERVER['REMOTE_HOST'] =
 						$GLOBALS['REMOTE_HOST'] = $v;
 						break;
 
 					default:
 						$varname = 'HTTP_'.strtoupper($k);
-						$GLOBALS['HTTP_SERVER_VARS'][$varname] =
+						$_SERVER[$varname] =
 						$GLOBALS[$varname] = $v;
 						break;
 				}
