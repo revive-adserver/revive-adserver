@@ -8,6 +8,7 @@ CVS
 			  - 2006-11-21:  HTTP headers were not correctly passed to limitations when using XML-RPC invocation - bug #1598616  (Matteo)
 			  - 2006-11-22:  Turkish language wasn't present in the dropdown list - bug #1600531  (Matteo)
 			  - 2006-12-14:  Added missing continent mappings - bug #1602265  (Matteo)
+			  - 2006-12-14:  Advertisers weren't able to change their own passwords with regster_globals off - bug #1613935  (Matteo)
 
 
 phpAdsNew 2.0.9-pr1

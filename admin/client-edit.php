@@ -23,7 +23,7 @@ require ("lib-languages.inc.php");
 // Register input variables
 phpAds_registerGlobal ('errormessage', 'clientname', 'contact', 'email', 'clientlanguage', 'clientreportlastdate', 
 					   'clientreportprevious', 'clientreportdeactivate', 'clientreport', 'clientreportinterval', 
-					   'clientusername', 'clientpassword', 'clientpermissions', 'submit');
+					   'clientusername', 'clientpassword', 'clientpermissions', 'pw', 'pw2', 'pwold', 'submit');
 
 
 // Security check
