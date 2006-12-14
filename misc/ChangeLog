@@ -7,6 +7,7 @@ CVS
 			  - 2006-11-16:  Fixed file uploading with PHP5 and register_long_arrays disabled  (Matteo)
 			  - 2006-11-21:  HTTP headers were not correctly passed to limitations when using XML-RPC invocation - bug #1598616  (Matteo)
 			  - 2006-11-22:  Turkish language wasn't present in the dropdown list - bug #1600531  (Matteo)
+			  - 2006-12-14:  Added missing continent mappings - bug #1602265  (Matteo)
 
 
 phpAdsNew 2.0.9-pr1

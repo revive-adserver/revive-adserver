@@ -29,7 +29,8 @@ $phpAds_continent['PK'] = $phpAds_continent['QA'] = $phpAds_continent['SA'] =
 $phpAds_continent['SG'] = $phpAds_continent['LK'] = $phpAds_continent['SY'] = 
 $phpAds_continent['TW'] = $phpAds_continent['TJ'] = $phpAds_continent['TH'] = 
 $phpAds_continent['TR'] = $phpAds_continent['TM'] = $phpAds_continent['AE'] = 
-$phpAds_continent['UZ'] = $phpAds_continent['VN'] = $phpAds_continent['YE'] = 'AS'; 
+$phpAds_continent['UZ'] = $phpAds_continent['VN'] = $phpAds_continent['YE'] =
+$phpAds_continent['AP'] = $phpAds_continent['PS'] = 'AS'; 
 
 $phpAds_cont_name['EU'] = 'Europe';
 $phpAds_continent['AL'] = $phpAds_continent['AD'] = $phpAds_continent['AM'] = 
@@ -113,6 +114,9 @@ $phpAds_continent['UM'] = 'NA';
 
 $phpAds_cont_name['AQ'] = 'Antartica';
 $phpAds_continent['AQ'] = 'AQ'; 
+
+$phpAds_cont_name['UN'] = 'Unknown';
+$phpAds_continent['A1'] = $phpAds_continent['A2'] = 'UN'; 
 
 
 

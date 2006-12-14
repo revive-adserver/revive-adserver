@@ -21,5 +21,6 @@ $phpAds_cont_name['CA'] = 'Caraibi';
 $phpAds_cont_name['SA'] = 'America del Sud';
 $phpAds_cont_name['NA'] = 'America del Nord';
 $phpAds_cont_name['AQ'] = 'Antartide';
+$phpAds_cont_name['UN'] = 'Sconosciuto';
 
 ?>
