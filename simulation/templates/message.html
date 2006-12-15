@@ -1,0 +1,5 @@
+<div>
+<?php if (isset($error)) { $mstyle="color:red;font-weight:bold"; $dstyle="background-color:pink"; } ?>
+<h2 style="<?php echo $mstyle; ?>"> <?php echo $message; ?><br /> </h2>
+</div>
+<div style="<?php echo $dstyle; ?>"> <pre> <?php echo $data; ?> </pre> </div>

@@ -1,0 +1,71 @@
++---------------------------------------------------------------------------+
+| Max Media Manager v0.3                                                    |
+| =================                                                         |
+|                                                                           |
+| Copyright (c) 2003-2006 m3 Media Services Limited                         |
+| For contact details, see: http://www.m3.net/                              |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+
+Please see http://trac.openads.org/ for the latest known bugs. The following
+is a list of the major features that aren't in Max, as opposed to bugs that
+have been found.
+
++---------------------------------------------------------------------------+
+
+- Max v0.3 is undergoing major surgery to keywords. If you use keywords,
+  it is NOT advisable to use this build, as support is incomplete.
+
+  (Basically, keywords are becoming categories, which will have
+  similar behaviour to keywords. Some additional features will include
+  being able to select from one or more categories -- much like
+  selecting zones -- and the ability to see the volume of impressions
+  for a given category before linking an ad to the category. In
+  addition, there will be full support for SQL-like queries when using
+  direct selection.  What this means is that parentheses are handled
+  in addition to other direct selection criteria, and some of the
+  syntax is changed to be more 'industry standard'.  Full documentation
+  on direct selection will arrive when the new category support is
+  complete.)
+
+- Incomplete DAL (Data Access Layer) API for the user interface. Porting
+  to other databases is welcome, but please discuss your porting ideas
+  and efforts on the forums to ensure that effort isn't duplicated, and
+  to help fit your porting in with our future plans for the DAL.
+
+- Preferences don't cascade.
+
+  (If the admin user sets preferences, and then creates an agency, the
+  agency gets the admin user's preferences. However, if the admin user
+  then changes preferences, and the agency has not set their own
+  preference, they agency should get the new admin preference. They
+  dont.)
+
+- The version of PEAR::Config used in Max has been patched, but the
+  patch has not yet been accepted by the maintainers yet. As a result,
+  the version of PEAR::Config should not be updated.
+
+- The version of PEAR::Cache_Lite used in Max has been patched, but the
+  patch has not yet been accepted by the maintainers yet. As a result,
+  the version of PEAR::Cache_Lite should not be updated.
+
+- The version of PEAR::DB used in Max has been patched, but the
+  patch has not yet been accepted by the maintainers yet. As a result,
+  updates to PEAR::DB could be unstable, although the issue has only
+  been replicated in a development environment.
+
+- The test suite won't completely work in PHP 5, due to the way mock
+  objects work in Simpltest.

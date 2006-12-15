@@ -1,0 +1,402 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>TestLinkBannerToZone</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">TestLinkBannerToZone</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/tests/setup.php?scenario=just_installed</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>username</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Settings</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Agency Management</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Add new agency</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name</td>
+	<td>Example Agency</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>contact</td>
+	<td>Eddie Agencycontact</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>email</td>
+	<td>eddie@agency.example.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>username</td>
+	<td>agency</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>agency</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>agencypermissions[]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>username</td>
+	<td>agency</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>agency</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Inventory</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Publishers & Zones</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Add new publisher</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name</td>
+	<td>Example Publisher</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>mnemonic</td>
+	<td>publisher</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>website</td>
+	<td>http://www.publisher.example.com/</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>contact</td>
+	<td>Fred Example</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>email</td>
+	<td>fred@example.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>username</td>
+	<td>publisher</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>publisher</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>affiliatepermissions_16</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>affiliatepermissions_4</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>affiliatepermissions_8</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>document.affiliateform.elements['affiliatepermissions[]'][4]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>document.affiliateform.elements['affiliatepermissions[]'][5]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>document.affiliateform.elements['affiliatepermissions[]'][6]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>* - Zone properties</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>zonename</td>
+	<td>Example Zone</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>size</td>
+	<td>label=IAB Full Banner (468 x 60)</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Inventory</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Advertisers & Campaigns</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Add new advertiser</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>clientname</td>
+	<td>Example Advertiser</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>comments</td>
+	<td>This advertiser was made as part of an automated functionality test.<br /><br />It should never show up in a real system.</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>contact</td>
+	<td>Mr Example</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>email</td>
+	<td>advertiser@example.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>clientusername</td>
+	<td>advertiser</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>clientpassword</td>
+	<td>advertiser</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>document.clientform.elements['clientpermissions[]'][1]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>document.clientform.elements['clientpermissions[]'][3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>* - Add new campaign</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>campaignname</td>
+	<td>Example Campaign</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Banner overview</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Add new banner</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectAndWait</td>
+	<td>type</td>
+	<td>label=HTML banner</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>width</td>
+	<td>468</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>height</td>
+	<td>60</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>banner</td>
+	<td>This is an example HTML banner to test basic workflow.</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>url</td>
+	<td>http://www.example.com/click-target</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>description</td>
+	<td>Example Banner</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Linked zones</td>
+	<td></td>
+</tr>
+<!--Link "Example Banner" to "Example Zone"-->
+<!--TODO: Find a better name for this-->
+<tr>
+	<td>click</td>
+	<td>a1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Inventory</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Publishers & Zones</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Example Publisher</td>
+	<td></td>
+</tr>
+<!--TODO: Ensure we click on the zone overview link for the right publisher-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Zone overview</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Linked banners</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>id=linked-banners</td>
+	<td>*Example Banner*</td>
+</tr>
+<tr>
+	<td>verifyNotText</td>
+	<td>id=linked-campaigns</td>
+	<td>*Example Campaign*</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/tests/teardown.php</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

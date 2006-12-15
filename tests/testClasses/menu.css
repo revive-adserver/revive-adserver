@@ -1,0 +1,35 @@
+<style type="text/css">
+    body { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px;}
+    pre  { background-color: lightgray; }
+    .fail         { padding-left: 50px; color: red;}
+    .missingTest  { padding-left: 50px; color: #AAAAAA;}
+    .pass         { padding-left: 50px; color: green; }
+    .header       { font-size: 20px;
+                              font-weight: bold;
+                              color: #333333;
+                              width:100%;
+                              border-top: 1px solid #CCCCCC;}
+    .class       { font-size: 14px;
+                              font-weight: bold;
+                              color: #333333;
+                              padding-left: 25px;
+                            }
+                            
+    .method    { font-size: 13px;
+                              font-weight: normal;
+                              color: #333333;
+                              padding-left: 50px;
+                }
+    
+    .exception {
+                 font-size: 13px;
+                font-weight: bold;
+                color: #000000;
+                }
+      
+    .message { }
+
+     a { color :#333333; text-decoration:none; }
+     
+     a:hover { text-decoration: underline}
+</style>

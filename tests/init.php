@@ -1,0 +1,57 @@
+<?php
+
+/*
++---------------------------------------------------------------------------+
+| Max Media Manager v0.3                                                    |
+| =================                                                         |
+|                                                                           |
+| Copyright (c) 2003-2006 m3 Media Services Limited                         |
+| For contact details, see: http://www.m3.net/                              |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: init.php 6300 2006-12-14 11:15:05Z monique.szpak@m3.net $
+*/
+
+/**
+ * @package    Max
+ * @subpackage TestSuite
+ * @author     Andrew Hill <andrew@m3.net>
+ */
+
+define('TEST_ENVIRONMENT_RUNNING', true);
+require_once '../init-parse.php';
+require_once '../constants.php';
+setupConstants();
+require_once 'PEAR.php';
+
+/**
+ * The environment initialisation function for the Max testing environment.
+ */
+function init()
+{
+    // Disable notices, but enable warnings
+    error_reporting(E_ALL ^ E_NOTICE);
+    // Always include the configuration file
+    include_once MAX_PATH . '/tests/config.php';
+}
+
+// Run the init() function
+init();
+
+// Set $conf
+$conf = $GLOBALS['_MAX']['CONF'];
+
+?>

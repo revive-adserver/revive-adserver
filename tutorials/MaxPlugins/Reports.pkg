@@ -1,0 +1,14 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>Reports</refname>
+  <refpurpose>Describes how the Reports Plugins work</refpurpose>
+ </refnamediv>
+ <para>
+  This is the documentation for the Max Media Manager Reports Plugin API.
+  If you're interested writing a report plugin for Max, this document will
+  explain how to do it!
+ </para>
+ <para>
+  To be written...
+ </para>
+</refentry>

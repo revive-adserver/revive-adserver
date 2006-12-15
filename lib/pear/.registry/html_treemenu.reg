@@ -1,0 +1,65 @@
+a:13:{s:8:"provides";a:0:{}s:8:"filelist";a:46:{s:12:"TreeMenu.php";a:3:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:53:"/home/andrew/code/max/v0.3/lib/pear/HTML/TreeMenu.php";}s:11:"TreeMenu.js";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:30:"/tmp/HTML_TreeMenu/TreeMenu.js";}s:17:"images/branch.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:36:"/tmp/HTML_TreeMenu/images/branch.gif";}s:23:"images/branchbottom.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:42:"/tmp/HTML_TreeMenu/images/branchbottom.gif";}s:20:"images/branchtop.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:39:"/tmp/HTML_TreeMenu/images/branchtop.gif";}s:17:"images/folder.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:36:"/tmp/HTML_TreeMenu/images/folder.gif";}s:26:"images/folder-expanded.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:45:"/tmp/HTML_TreeMenu/images/folder-expanded.gif";}s:15:"images/line.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:34:"/tmp/HTML_TreeMenu/images/line.gif";}s:21:"images/linebottom.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:40:"/tmp/HTML_TreeMenu/images/linebottom.gif";}s:16:"images/minus.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:35:"/tmp/HTML_TreeMenu/images/minus.gif";}s:22:"images/minusbottom.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:41:"/tmp/HTML_TreeMenu/images/minusbottom.gif";}s:19:"images/minustop.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:38:"/tmp/HTML_TreeMenu/images/minustop.gif";}s:15:"images/plus.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:34:"/tmp/HTML_TreeMenu/images/plus.gif";}s:21:"images/plusbottom.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:40:"/tmp/HTML_TreeMenu/images/plusbottom.gif";}s:18:"images/plustop.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:37:"/tmp/HTML_TreeMenu/images/plustop.gif";}s:20:"imagesAlt/branch.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:39:"/tmp/HTML_TreeMenu/imagesAlt/branch.gif";}s:26:"imagesAlt/branchbottom.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:45:"/tmp/HTML_TreeMenu/imagesAlt/branchbottom.gif";}s:23:"imagesAlt/branchtop.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:42:"/tmp/HTML_TreeMenu/imagesAlt/branchtop.gif";}s:20:"imagesAlt/folder.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:39:"/tmp/HTML_TreeMenu/imagesAlt/folder.gif";}s:29:"imagesAlt/folder-expanded.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:48:"/tmp/HTML_TreeMenu/imagesAlt/folder-expanded.gif";}s:18:"imagesAlt/line.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:37:"/tmp/HTML_TreeMenu/imagesAlt/line.gif";}s:24:"imagesAlt/linebottom.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:43:"/tmp/HTML_TreeMenu/imagesAlt/linebottom.gif";}s:19:"imagesAlt/minus.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:38:"/tmp/HTML_TreeMenu/imagesAlt/minus.gif";}s:25:"imagesAlt/minusbottom.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:44:"/tmp/HTML_TreeMenu/imagesAlt/minusbottom.gif";}s:22:"imagesAlt/minustop.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:41:"/tmp/HTML_TreeMenu/imagesAlt/minustop.gif";}s:18:"imagesAlt/plus.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:37:"/tmp/HTML_TreeMenu/imagesAlt/plus.gif";}s:24:"imagesAlt/plusbottom.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:43:"/tmp/HTML_TreeMenu/imagesAlt/plusbottom.gif";}s:21:"imagesAlt/plustop.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:40:"/tmp/HTML_TreeMenu/imagesAlt/plustop.gif";}s:21:"imagesAlt2/branch.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:40:"/tmp/HTML_TreeMenu/imagesAlt2/branch.gif";}s:27:"imagesAlt2/branchbottom.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:46:"/tmp/HTML_TreeMenu/imagesAlt2/branchbottom.gif";}s:24:"imagesAlt2/branchtop.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:43:"/tmp/HTML_TreeMenu/imagesAlt2/branchtop.gif";}s:21:"imagesAlt2/folder.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:40:"/tmp/HTML_TreeMenu/imagesAlt2/folder.gif";}s:30:"imagesAlt2/folder-expanded.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:49:"/tmp/HTML_TreeMenu/imagesAlt2/folder-expanded.gif";}s:19:"imagesAlt2/line.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:38:"/tmp/HTML_TreeMenu/imagesAlt2/line.gif";}s:25:"imagesAlt2/linebottom.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:44:"/tmp/HTML_TreeMenu/imagesAlt2/linebottom.gif";}s:20:"imagesAlt2/minus.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:39:"/tmp/HTML_TreeMenu/imagesAlt2/minus.gif";}s:26:"imagesAlt2/minusbottom.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:45:"/tmp/HTML_TreeMenu/imagesAlt2/minusbottom.gif";}s:23:"imagesAlt2/minustop.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:42:"/tmp/HTML_TreeMenu/imagesAlt2/minustop.gif";}s:19:"imagesAlt2/plus.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:38:"/tmp/HTML_TreeMenu/imagesAlt2/plus.gif";}s:25:"imagesAlt2/plusbottom.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:44:"/tmp/HTML_TreeMenu/imagesAlt2/plusbottom.gif";}s:22:"imagesAlt2/plustop.gif";a:3:{s:4:"role";s:4:"data";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:41:"/tmp/HTML_TreeMenu/imagesAlt2/plustop.gif";}s:16:"docs/example.php";a:3:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:57:"/home/andrew/code/max/v0.3/lib/pear/HTML/docs/example.php";}s:15:"docs/map_fs.php";a:3:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:56:"/home/andrew/code/max/v0.3/lib/pear/HTML/docs/map_fs.php";}s:22:"docs/HTML_TreeMenu.doc";a:3:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:41:"/tmp/HTML_TreeMenu/docs/HTML_TreeMenu.doc";}s:22:"docs/HTML_TreeMenu.pdf";a:3:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:4:"HTML";s:12:"installed_as";s:41:"/tmp/HTML_TreeMenu/docs/HTML_TreeMenu.pdf";}s:7:"dirtree";a:7:{s:40:"/home/andrew/code/max/v0.3/lib/pear/HTML";b:1;s:18:"/tmp/HTML_TreeMenu";b:1;s:25:"/tmp/HTML_TreeMenu/images";b:1;s:28:"/tmp/HTML_TreeMenu/imagesAlt";b:1;s:29:"/tmp/HTML_TreeMenu/imagesAlt2";b:1;s:45:"/home/andrew/code/max/v0.3/lib/pear/HTML/docs";b:1;s:23:"/tmp/HTML_TreeMenu/docs";b:1;}}s:7:"package";s:13:"HTML_TreeMenu";s:7:"summary";s:37:"Provides an api to create a HTML tree";s:11:"description";s:531:"PHP Based api creates a tree structure using a couple of
+small PHP classes. This can then be converted to javascript
+using the printMenu() method. The tree is  dynamic in
+IE 4 or higher, NN6/Mozilla and Opera 7, and maintains state
+(the collapsed/expanded status of the branches) by using cookies.
+Other browsers display the tree fully expanded. Each node can
+have an optional link and icon. New API in 1.1 with many changes
+(see CVS for changelog) and new features, of which most came
+from Chip Chapin (http://www.chipchapin.com).";s:11:"maintainers";a:1:{i:0;a:4:{s:6:"handle";s:7:"richard";s:4:"name";s:13:"Richard Heyes";s:5:"email";s:15:"richard@php.net";s:4:"role";s:4:"lead";}}s:7:"version";s:5:"1.2.0";s:12:"release_date";s:10:"2005-03-02";s:15:"release_license";s:3:"BSD";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:18:"Various bug fixes.";s:9:"changelog";a:15:{i:0;a:4:{s:7:"version";s:5:"1.1.9";s:12:"release_date";s:10:"2003-12-20";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:68:"Fix expanded image when nodes are expanded by default
+            
+
+";}i:1;a:4:{s:7:"version";s:5:"1.1.8";s:12:"release_date";s:10:"2003-12-20";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:45:"Fix javascript detection issue
+            
+
+";}i:2;a:4:{s:7:"version";s:5:"1.1.7";s:12:"release_date";s:10:"2003-11-26";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:42:"Bug fix in maxDepth feature
+            
+
+";}i:3;a:4:{s:7:"version";s:5:"1.1.6";s:12:"release_date";s:10:"2003-04-02";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:178:"o Auto escapes ' in node text
+o New maxDepth option HTML_TreeMenu_DHTML presentation class. 
+  All nodes past this number of indentations are rendered as siblings. 
+           
+
+";}i:4;a:4:{s:7:"version";s:5:"1.1.5";s:12:"release_date";s:10:"2003-04-02";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:61:"Updated browser detection to allow for Opera 7
+            
+
+";}i:5;a:4:{s:7:"version";s:5:"1.1.4";s:12:"release_date";s:10:"2003-02-21";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:140:"Added a createFromXML() method for creating
+treeMenu structures from XML. This feature
+depends on the PEAR::XML_Tree package.
+            
+
+";}i:6;a:4:{s:7:"version";s:5:"1.1.3";s:12:"release_date";s:10:"2003-02-20";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:276:"Added expanded icon support. Added documentation in Word
+and PDF formats. Moved structure import code to its own
+static method createFromStructure(), and added support
+for my own Tree class (http://phpguru.org/tree.html) as
+well as Wolfram Kriesings Tree class.
+            
+
+";}i:7;a:4:{s:7:"version";s:5:"1.1.2";s:12:"release_date";s:10:"2002-11-30";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:35:"Updated example file
+            
+
+";}i:8;a:4:{s:7:"version";s:5:"1.1.1";s:12:"release_date";s:10:"2002-11-30";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:143:"Added event support, and moved various options from the TreeMenu class to
+the presentation classes. Added presentation base class.
+          
+
+";}i:9;a:5:{s:7:"version";s:5:"1.1.0";s:12:"release_date";s:10:"2002-11-10";s:15:"release_license";s:3:"BSD";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:38:"Many changes. See CVS for changelog
+
+
+";}i:10;a:5:{s:7:"version";s:5:"1.0.4";s:12:"release_date";s:10:"2002-07-27";s:15:"release_license";s:3:"BSD";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:16:"License change
+
+";}i:11;a:5:{s:7:"version";s:5:"1.0.3";s:12:"release_date";s:10:"2002-07-05";s:15:"release_license";s:3:"PHP";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:59:"Bugfixes:
+  o Persistence fixes
+  o Reference/copy fixes
+
+
+";}i:12;a:5:{s:7:"version";s:5:"1.0.2";s:12:"release_date";s:10:"2002-06-30";s:15:"release_license";s:3:"PHP";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:344:"Change to use document.write() instead of layers and innerHTML for much speed increase.
+Change to use onmousedown instead of onclick for cleaner more defined clicks.
+Added the ability to define whether to use client side persistence.
+Added the ability to define whether a node is dynamic
+Added the ability to define whether a node is expanded
+
+";}i:13;a:5:{s:7:"version";s:5:"1.0.1";s:12:"release_date";s:10:"2002-06-19";s:15:"release_license";s:3:"PHP";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:35:"Added support for Mozilla and NN6
+
+";}i:14;a:5:{s:7:"version";s:3:"1.0";s:12:"release_date";s:10:"2002-06-15";s:15:"release_license";s:3:"PHP";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:17:"Initial release
+
+";}}s:13:"_lastmodified";i:1114007905;}

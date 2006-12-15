@@ -1,0 +1,67 @@
+a:14:{s:8:"provides";a:0:{}s:8:"filelist";a:8:{s:10:"Writer.php";a:3:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:18:"Spreadsheet/Excel/";s:12:"installed_as";s:64:"/home/andrew/code/max/v0.3/lib/pear/Spreadsheet/Excel/Writer.php";}s:21:"Writer/BIFFwriter.php";a:3:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:18:"Spreadsheet/Excel/";s:12:"installed_as";s:75:"/home/andrew/code/max/v0.3/lib/pear/Spreadsheet/Excel/Writer/BIFFwriter.php";}s:19:"Writer/Workbook.php";a:3:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:18:"Spreadsheet/Excel/";s:12:"installed_as";s:73:"/home/andrew/code/max/v0.3/lib/pear/Spreadsheet/Excel/Writer/Workbook.php";}s:17:"Writer/Format.php";a:3:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:18:"Spreadsheet/Excel/";s:12:"installed_as";s:71:"/home/andrew/code/max/v0.3/lib/pear/Spreadsheet/Excel/Writer/Format.php";}s:20:"Writer/Worksheet.php";a:3:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:18:"Spreadsheet/Excel/";s:12:"installed_as";s:74:"/home/andrew/code/max/v0.3/lib/pear/Spreadsheet/Excel/Writer/Worksheet.php";}s:17:"Writer/Parser.php";a:3:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:18:"Spreadsheet/Excel/";s:12:"installed_as";s:71:"/home/andrew/code/max/v0.3/lib/pear/Spreadsheet/Excel/Writer/Parser.php";}s:20:"Writer/Validator.php";a:3:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:18:"Spreadsheet/Excel/";s:12:"installed_as";s:74:"/home/andrew/code/max/v0.3/lib/pear/Spreadsheet/Excel/Writer/Validator.php";}s:7:"dirtree";a:3:{s:53:"/home/andrew/code/max/v0.3/lib/pear/Spreadsheet/Excel";b:1;s:47:"/home/andrew/code/max/v0.3/lib/pear/Spreadsheet";b:1;s:60:"/home/andrew/code/max/v0.3/lib/pear/Spreadsheet/Excel/Writer";b:1;}}s:7:"package";s:24:"Spreadsheet_Excel_Writer";s:7:"summary";s:41:"Package for generating Excel spreadsheets";s:11:"description";s:384:"Spreadsheet_Excel_Writer was born as a porting of the Spreadsheet::WriteExcel Perl module to PHP. 
+It allows writing of Excel spreadsheets without the need for COM objects.
+It supports formulas, images (BMP) and all kinds of formatting for text and cells.
+It currently supports the BIFF5 format (Excel 5.0), so functionality appeared in the latest Excel versions is not yet available.";s:11:"maintainers";a:2:{i:0;a:4:{s:6:"handle";s:7:"xnoguer";s:4:"name";s:13:"Xavier Noguer";s:5:"email";s:15:"xnoguer@php.net";s:4:"role";s:4:"lead";}i:1;a:4:{s:6:"handle";s:7:"tuupola";s:4:"name";s:12:"Mika Tuupola";s:5:"email";s:22:"tuupola@appelsiini.net";s:4:"role";s:9:"developer";}}s:7:"version";s:3:"0.8";s:12:"release_date";s:10:"2004-06-22";s:15:"release_license";s:4:"LGPL";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:339:"New features:
+ - added hideScreenGridlines() (Paul Osman)
+Bug fixes:
+ - Fixed SST table (long strings) (Bernd Jaenichen)
+ - Fixed bug #1218, SST table (boucher dot stephane at free dot fr)
+ - Fixed bug #781, insertBitmap ignores row height
+ - Fixed bug #578, setVPageBreaks doesn't handle multiple value arrays (natel at tocquigny dot com)";s:12:"release_deps";a:1:{i:1;a:4:{s:4:"type";s:3:"pkg";s:3:"rel";s:2:"ge";s:7:"version";s:3:"0.5";s:4:"name";s:3:"OLE";}}s:9:"changelog";a:6:{i:0;a:4:{s:7:"version";s:3:"0.2";s:12:"release_date";s:10:"2003-03-17";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:349:"-added several formatting methods: setTextRotation(), setStrikeOut(), 
+setOutLine(), setShadow(), setScript().
+-fixed bug in Workbook::sheets() (Björn Schotte).
+-fixed range for references in formulas (Edward).
+-added support for external references in formulas.
+-added support for comparisons in formulas.
+-added support for strings in formulas.
+
+
+";}i:1;a:3:{s:7:"version";s:3:"0.3";s:12:"release_date";s:10:"2003-05-02";s:13:"release_notes";s:475:"New features:
+ -added support for row ranges (JT Hughes)
+ -added method method Format::setUnLocked() (Ajit Dixit)
+ -added Worksheet::writeRow() and Worksheet::writeCol()
+Bug fixes:
+ -fixed problem with unparenthesized expresions in formulas (Brent Laminack)
+ -fixed problems with non ISO-8859-1 characters (KUBO Atsuhiro)
+ -fixed swapping of columns in formulas (JT Hughes)
+ -fixed assorted bugs in tokenizing formulas (JT Hughes)
+ -fixed Worksheet::activate() (JT Hughes)
+
+
+";}i:2;a:3:{s:7:"version";s:3:"0.4";s:12:"release_date";s:10:"2003-08-21";s:13:"release_notes";s:472:"New features:
+ -using OLE package (>= 0.3) to generate files bigger than 7MB
+ -changed setFgColor() and setBgColor()'s behavior to something more intuitive.
+Bug fixes:
+ -fixed bug #25133, lowercase cell references (jkwiat03 at hotmail dot com)
+ -fixed Bug #23730, worksheet names containing spaces in formulas (Robin Ericsson)
+ -fixed Bug #24147, formulas ended in '0' (paul at classical dot com)
+ -fixed swapping of arguments in variable arguments functions (JT Hughes)
+
+";}i:3;a:3:{s:7:"version";s:3:"0.5";s:12:"release_date";s:10:"2003-10-01";s:13:"release_notes";s:320:"New features:
+ -added rowcolToCell() utility method for easy writing of formula's cell references (JT Hughes).
+ -added Worksheet::setOutline() method (Herman Kuiper)
+ -added Format::setFontFamily() method (Donnie Miller)
+Bug fixes:
+ -fixed bug #21, cyrillic characters in sheet references (arhip at goldentele dot com)
+
+";}i:4;a:3:{s:7:"version";s:3:"0.6";s:12:"release_date";s:10:"2003-11-15";s:13:"release_notes";s:607:"New features:
+ - allow semicolon as argument separator (Axel Pratzner)
+ - added experimental Excel97 generation. You can test it with setVersion():
+   Beware! this method will be deprecated in a future release (when
+   Excel97 becomes the default). It is only available for testing
+   purposes. Use it at your own risk.
+ - strings longer than 255 bytes are now available using the experimental
+   Excel97 generation. But not all Excel97 features are available yet!
+Bug fixes:
+ - Fixed bug #225, error in writeUrl() (jamesn at tocquigny dot com)
+ - Fixed bug #59, retval undefined for writeRow() (Bertrand)
+
+";}i:5;a:3:{s:7:"version";s:3:"0.7";s:12:"release_date";s:10:"2004-02-27";s:13:"release_notes";s:324:"New features:
+ - allow setting temp dir other than default using setTempDir() (using OLE 5.0 for this).
+ - added setMerge() for merging (only for experimental Excel97 generation)
+ - added setCountry() method.
+ - added setLocked() method.
+Bug fixes:
+ - Fixed bug #415, typo in BIFF8 code (papercrane at reversefold dot com)
+
+";}}s:13:"_lastmodified";i:1110977730;}

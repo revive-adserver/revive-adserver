@@ -1,0 +1,149 @@
+<?php
+
+/*
++---------------------------------------------------------------------------+
+| Max Media Manager v0.3                                                    |
+| =================                                                         |
+|                                                                           |
+| Copyright (c) 2003-2006 m3 Media Services Limited                         |
+| For contact details, see: http://www.m3.net/                              |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: lib-sessions.inc.php 6231 2006-12-08 12:59:10Z roh@m3.net $
+*/
+
+// Required files
+require_once MAX_PATH . '/lib/max/other/lib-db.inc.php';
+require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
+require_once MAX_PATH . '/lib/max/Delivery/cookie.php';
+require_once MAX_PATH . '/lib/max/Dal/Admin/Session.php';
+
+/**
+ * Fetch sessiondata from the database
+ * 
+ * This implementation uses the $_COOKIE superglobal to find session identifier.
+ * @return void
+ * 
+ * @todo Move to a domain-layer class library.
+ */
+function phpAds_SessionDataFetch()
+{
+    global $session;
+    $dal = new MAX_Dal_Admin_Session();
+	$session_id = $_COOKIE['sessionID'];
+    
+    // Guard clause: Can't fetch a session without an ID
+	if (!$session_id) {
+        return;
+    }
+    
+    $serialized_session = $dal->getSerializedSession($session_id);
+    $loaded_session = unserialize($serialized_session);
+	if (!$loaded_session) {
+        // XXX: Consider raising an error
+        return;
+    }
+	$session = $loaded_session;
+    $dal->refreshSession($session_id);
+}
+
+/*-------------------------------------------------------*/
+/* Create a new sessionid                                */
+/*-------------------------------------------------------*/
+
+function phpAds_SessionStart()
+{
+	global $session;
+	if (!isset($_COOKIE['sessionID']) || $_COOKIE['sessionID'] == '') {
+		// Start a new session
+		$session = array();
+		$_COOKIE['sessionID'] = uniqid('phpads', 1);
+		MAX_cookieSet('sessionID', $_COOKIE['sessionID']);
+		MAX_cookieFlush();
+	}
+	return $_COOKIE['sessionID'];
+}
+
+/*-------------------------------------------------------*/
+/* Register the data in the session array                */
+/*-------------------------------------------------------*/
+
+function phpAds_SessionDataRegister($key, $value='')
+{
+    $conf = $GLOBALS['_MAX']['CONF'];
+	global $session;
+	if ($conf['max']['installed']) {
+		phpAds_SessionStart();
+	}
+	if (is_array($key) && $value=='') {
+		foreach (array_keys($key) as $name) {
+			$session[$name] = $key[$name];
+		}
+	} else {
+		$session[$key] = $value;
+	}
+	phpAds_SessionDataStore();
+}
+
+/**
+ * Store the session array in the database
+ */
+function phpAds_SessionDataStore()
+{
+    $dal = new MAX_Dal_Admin_Session();
+    $conf = $GLOBALS['_MAX']['CONF'];
+    global $session;
+    if (isset($_COOKIE['sessionID']) && $_COOKIE['sessionID'] != '') {
+        $session_id = $_COOKIE['sessionID'];
+        $serialized_session_data = serialize($session); 
+        $dal->storeSerializedSession($serialized_session_data, $session_id);
+    }
+    // Randomly purge old sessions
+    // XXX: Why is this random?
+    // XXX: Shouldn't this be done by a daemon, or at least at logout time? 
+    srand((double)microtime()*1000000);
+    if(rand(1, 100) == 42) {
+        $dal->pruneOldSessions();
+    }
+}
+
+
+/**
+ * Destroy the current session
+ * 
+ * @todo Determine how much of these steps are unnecessary, and remove them.
+ */
+function phpAds_SessionDataDestroy()
+{
+    $dal = new MAX_Dal_Admin_Session();
+    
+	global $session;
+	// Remove the session data from the database
+    $dal->deleteSession($_COOKIE['sessionID']);
+	// Kill the cookie containing the session ID
+	MAX_cookieSet('sessionID', '');
+	MAX_cookieFlush();	
+	// Clear all local session data and the session ID
+	$session = "";
+	unset($session);
+	$_COOKIE['sessionID'] = "";
+	unset($_COOKIE['sessionID']);
+}
+
+?>

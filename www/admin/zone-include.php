@@ -1,0 +1,264 @@
+<?php
+
+/*
++---------------------------------------------------------------------------+
+| Max Media Manager v0.3                                                    |
+| =================                                                         |
+|                                                                           |
+| Copyright (c) 2003-2006 m3 Media Services Limited                         |
+| For contact details, see: http://www.m3.net/                              |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: zone-include.php 4346 2006-03-06 16:43:19Z andrew@m3.net $
+*/
+
+// Require the initialisation file
+require_once '../../init.php';
+
+// Required files
+require_once MAX_PATH . '/www/admin/config.php';
+require_once MAX_PATH . '/lib/max/other/common.php';;
+require_once MAX_PATH . '/lib/max/other/html.php';
+require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
+require_once MAX_PATH . '/lib/max/Admin_DA.php';
+    
+    // Security check
+    phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+
+    // Get input parameters
+    $pref =& $GLOBALS['_MAX']['PREF'];
+    $publisherId    = MAX_getValue('affiliateid');
+    $zoneId         = MAX_getValue('zoneid');
+    $advertiserId   = MAX_getValue('clientid');
+    $placementId    = MAX_getValue('campaignid');
+    $adId           = MAX_getValue('bannerid');
+    $action         = MAX_getValue('action');
+    $aCurrent       = MAX_getValue('includebanner');
+    $hideInactive   = MAX_getStoredValue('hideinactive', ($pref['gui_hide_inactive'] == 't'));
+    $listorder      = MAX_getStoredValue('listorder', 'name');
+    $orderdirection = MAX_getStoredValue('orderdirection', 'up');
+    $selection      = MAX_getValue('selection');
+    $showMatchingAds = MAX_getStoredValue('showbanners', ($pref['gui_show_matching'] == 't'));
+    $showParentPlacements = MAX_getStoredValue('showcampaigns', ($pref['gui_show_parents'] == 't'));
+    $submit         = MAX_getValue('submit');
+    $view           = MAX_getStoredValue('view', 'placement');
+    
+    $aZone = Admin_DA::getZone($zoneId);
+    
+    if ($aZone['type'] == MAX_ZoneEmail) {
+        $view = 'ad';
+    }
+    
+    // Initialise some parameters
+    $pageName = basename($_SERVER['PHP_SELF']);
+    $tabIndex = 1;
+    $agencyId = phpAds_getAgencyID();
+    $aEntities = array('affiliateid' => $publisherId, 'zoneid' => $zoneId);
+    
+    // Parameter check
+    if (!MAX_checkZone($publisherId, $zoneId)) {
+        // TODO:  Change the code below to be standard...
+        phpAds_PageHeader('2');
+        phpAds_Die ($strAccessDenied, $strNotAdmin);
+    }
+
+    if (isset($action)) {
+        $result = true;
+        if ($action == 'set' && $view == 'placement' && !empty($placementId)) {
+            $aLinkedPlacements = Admin_DA::getPlacementZones(array('zone_id' => $zoneId), false, 'placement_id');
+            if (!isset($aLinkedPlacements[$placementId])) {
+                Admin_DA::addPlacementZone(array('zone_id' => $zoneId, 'placement_id' => $placementId));
+            }
+            
+            MAX_addLinkedAdsToZone($zoneId, $placementId);
+            
+        } elseif ($action == 'set' && $view == 'ad' && !empty($adId)) {
+            $aLinkedAds = Admin_DA::getAdZones(array('zone_id' => $zoneId), false, 'ad_id');
+            if (!isset($aLinkedAds[$adId])) {
+                $result = Admin_DA::addAdZone(array('zone_id' => $zoneId, 'ad_id' => $adId));
+            }
+        } elseif ($action == 'remove' && !empty($placementId) && empty($adId)) {
+            Admin_DA::deletePlacementZones(array('zone_id' => $zoneId, 'placement_id' => $placementId));
+        } elseif ($action == 'remove' && !empty($adId) && empty($placementId)) {
+            Admin_DA::deleteAdZones(array('zone_id' => $zoneId, 'ad_id' => $adId));
+        }
+        if (!PEAR::isError($result)) {
+            Header("Location: zone-include.php?affiliateid=$publisherId&zoneid=$zoneId");
+            exit;
+        }
+    }
+    
+    if (isset($submit)) {
+        switch ($view) {
+            case 'placement' :
+                $aPrevious = Admin_DA::getPlacementZones(array('zone_id' => $zoneId));
+                $key = 'placement_id';
+                break;
+            case 'ad' :
+                $aPrevious = Admin_DA::getAdZones(array('zone_id' => $zoneId));
+                $key = 'ad_id';
+                break;
+        }
+        
+        // First, remove any placements/adverts that should be deleted.
+        if (!empty($aPrevious)) {
+            foreach ($aPrevious as $aZoneAssoc) {
+                $id = $aZoneAssoc[$key];
+                if (empty($aCurrent[$id])) {
+                    // The user has removed this zone link
+                    $aParameters = array('zone_id' => $zoneId, $key => $id);
+                    if ($view == 'placement') {
+                        Admin_DA::deletePlacementZones($aParameters);
+                    } else {
+                        Admin_DA::deleteAdZones($aParameters);
+                    }
+                } else {
+                    // Remove this key, because it is already there and does not need to be added again.
+                    unset($aCurrent[$id]);
+                }
+            }
+        }
+        
+        $addResult = true;
+        if (!empty($aCurrent)) {
+            foreach ($aCurrent as $id => $value) {
+                $aVariables = array('zone_id' => $zoneId, $key => $id);
+                if ($view == 'placement') {
+                    $addResult = Admin_DA::addPlacementZone($aVariables);
+                } else {
+                    $addResult = Admin_DA::addAdZone($aVariables);
+                }
+            }
+        }
+        
+        if (!$addResult) {
+            Header("Location: zone-include.php?affiliateid=$publisherId&zoneid=$zoneId");
+            exit;
+        }
+        // Move on to the next page
+        Header("Location: zone-probability.php?affiliateid=$publisherId&zoneid=$zoneId");
+        exit;
+    }
+    // Display initial parameters...
+    $tabIndex = 1;
+
+    $aOtherPublishers = Admin_DA::getPublishers(array('agency_id' => $agencyId));
+    $aOtherZones = Admin_DA::getZones(array('publisher_id' => $publisherId));
+    MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $aEntities);
+    
+    if (!empty($action) && PEAR::isError($result)) {
+        // Message
+        echo "<br>";
+        echo "<div class='errormessage'><img class='errormessage' src='images/errormessage.gif' align='absmiddle'>";
+        echo "<span class='tab-r'>Cannot link this banner</span><br><br>It was not possible to link this banner to this zone because: <br />" . $result->message . "</div><br>";
+    }
+    
+    MAX_displayPlacementAdSelectionViewForm($publisherId, $zoneId, $view, $pageName, $tabIndex, $aOtherZones);
+    
+    $aParams = MAX_getLinkedAdParams($zoneId);
+    if ($view == 'placement') {
+        $aDirectLinkedAds = Admin_DA::getAdZones(array('zone_id' => $zoneId), true, 'ad_id');
+        $aOtherAdvertisers = Admin_DA::getAdvertisers($aParams + array('agency_id' => $agencyId), false);
+        $aOtherPlacements = !empty($advertiserId) ? Admin_DA::getPlacements($aParams + array('advertiser_id' => $advertiserId), false) : null;
+        $aZonesPlacements = Admin_DA::getPlacementZones(array('zone_id' => $zoneId), true, 'placement_id');
+        MAX_displayZoneEntitySelection('placement', $aOtherAdvertisers, $aOtherPlacements, null, $advertiserId, $placementId, $adId, $publisherId, $zoneId, $GLOBALS['strSelectCampaignToLink'], $pageName, $tabIndex);
+        if (!empty($aZonesPlacements)) {
+        	$aParams = array('placement_id' => implode(',', array_keys($aZonesPlacements)));
+        	$aParams += MAX_getLinkedAdParams($zoneId);
+        } else {
+            $aParams = null;
+        }
+        MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideInactive, $showMatchingAds, $pageName, $tabIndex, $aDirectLinkedAds);
+    } elseif ($view == 'ad') {
+        $aOtherAdvertisers = Admin_DA::getAdvertisers($aParams + array('agency_id' => $agencyId), false);
+        $aOtherPlacements = !empty($advertiserId) ? Admin_DA::getPlacements($aParams + array('advertiser_id' => $advertiserId), false) : null;
+        $aOtherAds = !empty($placementId) ? Admin_DA::getAds($aParams + array('placement_id' => $placementId), false) : null;
+        $aAdsZones = Admin_DA::getAdZones(array('zone_id' => $zoneId), true, 'ad_id');
+        MAX_displayZoneEntitySelection('ad', $aOtherAdvertisers, $aOtherPlacements, $aOtherAds, $advertiserId, $placementId, $adId, $publisherId, $zoneId, $GLOBALS['strSelectBannerToLink'], $pageName, $tabIndex);
+        $aParams = !empty($aAdsZones) ? array('ad_id' => implode(',', array_keys($aAdsZones))) : null;
+        MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideInactive, $showParentPlacements, $pageName, $tabIndex);
+    }
+?>
+    
+    <script language='Javascript'>
+    <!--
+        function toggleall()
+        {
+            allchecked = false;
+            
+            for (var i=0; i<document.zonetypeselection.elements.length; i++)
+            {
+                if (document.zonetypeselection.elements[i].name == 'bannerid[]' ||
+                    document.zonetypeselection.elements[i].name == 'campaignid[]')
+                {
+                    if (document.zonetypeselection.elements[i].checked == false)
+                    {
+                        allchecked = true;
+                    }
+                }
+            }
+            
+            for (var i=0; i<document.zonetypeselection.elements.length; i++)
+            {
+                if (document.zonetypeselection.elements[i].name == 'bannerid[]' ||
+                    document.zonetypeselection.elements[i].name == 'campaignid[]')
+                {
+                    document.zonetypeselection.elements[i].checked = allchecked;
+                }
+            }
+        }
+        
+        function reviewall()
+        {
+            allchecked = true;
+            
+            for (var i=0; i<document.zonetypeselection.elements.length; i++)
+            {
+                if (document.zonetypeselection.elements[i].name == 'bannerid[]' ||
+                    document.zonetypeselection.elements[i].name == 'campaignid[]')
+                {
+                    if (document.zonetypeselection.elements[i].checked == false)
+                    {
+                        allchecked = false;
+                    }
+                }
+            }
+            
+                    
+            document.zonetypeselection.checkall.checked = allchecked;
+        }    
+    //-->
+    </script>
+    
+    <?php
+    
+    $session['prefs'][$pageName]['hideinactive'] = $hideInactive;
+    $session['prefs'][$pageName]['showbanners'] = $showMatchingAds;
+    $session['prefs'][$pageName]['showcampaigns'] = $showParentPlacements;
+    $session['prefs'][$pageName]['listorder'] = $listorder;
+    $session['prefs'][$pageName]['orderdirection'] = $orderdirection;
+    if ($aOtherZones[$zoneId]['type'] != MAX_ZoneEmail) {
+        $session['prefs'][$pageName]['view'] = $view;
+    }
+    
+    phpAds_SessionDataStore();
+    
+    phpAds_PageFooter();
+
+?>

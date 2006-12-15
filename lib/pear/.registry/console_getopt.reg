@@ -1,0 +1,12 @@
+a:13:{s:8:"provides";a:5:{s:20:"class;Console_Getopt";a:3:{s:4:"type";s:5:"class";s:4:"name";s:14:"Console_Getopt";s:8:"explicit";b:1;}s:32:"function;Console_Getopt::getopt2";a:3:{s:4:"type";s:8:"function";s:4:"name";s:23:"Console_Getopt::getopt2";s:8:"explicit";b:1;}s:31:"function;Console_Getopt::getopt";a:3:{s:4:"type";s:8:"function";s:4:"name";s:22:"Console_Getopt::getopt";s:8:"explicit";b:1;}s:33:"function;Console_Getopt::doGetopt";a:3:{s:4:"type";s:8:"function";s:4:"name";s:24:"Console_Getopt::doGetopt";s:8:"explicit";b:1;}s:36:"function;Console_Getopt::readPHPArgv";a:3:{s:4:"type";s:8:"function";s:4:"name";s:27:"Console_Getopt::readPHPArgv";s:8:"explicit";b:1;}}s:8:"filelist";a:2:{s:18:"Console/Getopt.php";a:3:{s:4:"role";s:3:"php";s:6:"md5sum";s:32:"add0781a1cae0b3daf5e8521b8a954cc";s:12:"installed_as";s:54:"/home/andrew/code/max/v0.3/lib/pear/Console/Getopt.php";}s:7:"dirtree";a:1:{s:43:"/home/andrew/code/max/v0.3/lib/pear/Console";b:1;}}s:7:"package";s:14:"Console_Getopt";s:7:"summary";s:26:"Command-line option parser";s:11:"description";s:80:"This is a PHP implementation of "getopt" supporting both
+short and long options.";s:11:"maintainers";a:2:{i:0;a:4:{s:6:"handle";s:6:"andrei";s:4:"name";s:15:"Andrei Zmievski";s:5:"email";s:14:"andrei@php.net";s:4:"role";s:4:"lead";}i:1;a:4:{s:6:"handle";s:3:"ssb";s:4:"name";s:11:"Stig Bakken";s:5:"email";s:12:"stig@php.net";s:4:"role";s:9:"developer";}}s:7:"version";s:3:"1.2";s:12:"release_date";s:10:"2003-12-11";s:15:"release_license";s:11:"PHP License";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:69:"Fix to preserve BC with 1.0 and allow correct behaviour for new users";s:9:"changelog";a:4:{i:0;a:4:{s:7:"version";s:3:"1.0";s:12:"release_date";s:10:"2002-09-13";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:16:"Stable release
+
+";}i:1;a:4:{s:7:"version";s:4:"0.11";s:12:"release_date";s:10:"2002-05-26";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:96:"POSIX getopt compatibility fix: treat first element of args
+       array as command name
+     
+
+";}i:2;a:4:{s:7:"version";s:4:"0.10";s:12:"release_date";s:10:"2002-05-12";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:15:"Packaging fix
+
+";}i:3;a:4:{s:7:"version";s:3:"0.9";s:12:"release_date";s:10:"2002-05-12";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:17:"Initial release
+
+";}}s:13:"_lastmodified";i:1110977578;}

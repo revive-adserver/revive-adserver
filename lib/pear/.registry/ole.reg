@@ -1,0 +1,18 @@
+a:13:{s:8:"provides";a:0:{}s:8:"filelist";a:5:{s:7:"OLE.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"e5b6afd48dc9c66cb97dc473688ec450";s:12:"installed_as";s:43:"/home/andrew/code/max/v0.3/lib/pear/OLE.php";}s:7:"PPS.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:3:"OLE";s:6:"md5sum";s:32:"fa6a698cae86e12813fbe750155c9252";s:12:"installed_as";s:47:"/home/andrew/code/max/v0.3/lib/pear/OLE/PPS.php";}s:12:"PPS/Root.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:3:"OLE";s:6:"md5sum";s:32:"689141fcd1fd079bbe986f43b872adf0";s:12:"installed_as";s:52:"/home/andrew/code/max/v0.3/lib/pear/OLE/PPS/Root.php";}s:12:"PPS/File.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:3:"OLE";s:6:"md5sum";s:32:"ee9070b149e11818d950ed47fdc53650";s:12:"installed_as";s:52:"/home/andrew/code/max/v0.3/lib/pear/OLE/PPS/File.php";}s:7:"dirtree";a:3:{s:35:"/home/andrew/code/max/v0.3/lib/pear";b:1;s:39:"/home/andrew/code/max/v0.3/lib/pear/OLE";b:1;s:43:"/home/andrew/code/max/v0.3/lib/pear/OLE/PPS";b:1;}}s:7:"package";s:3:"OLE";s:7:"summary";s:46:"Package for reading and writing OLE containers";s:11:"description";s:260:"This package allows reading and writing of OLE (Object Linking and Embedding) files, the format used as container for Excel, Word and other MS file formats.
+ Documentation for the OLE format can be found at: http://user.cs.tu-berlin.de/~schwartz/pmh/guide.html";s:11:"maintainers";a:1:{i:0;a:4:{s:6:"handle";s:7:"xnoguer";s:4:"name";s:13:"Xavier Noguer";s:5:"email";s:15:"xnoguer@php.net";s:4:"role";s:4:"lead";}}s:7:"version";s:3:"0.5";s:12:"release_date";s:10:"2003-12-14";s:15:"release_license";s:3:"PHP";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:485:"- BC break!!! OLE/OLE.php file moved to OLE.php to comply with PEAR
+  standards. You will have to change your require('OLE/OLE.php')'s
+  for require('OLE.php')'s
+- If you are using Spreadsheet_Excel_Writer, do not upgrade to this
+  version yet. A new version of Spreadsheet_Excel_Writer will be
+  released soon so the BC break won't affect you.
+- allowing setting of temp dir for OLE_PPS_File and OLE_PPS_Root objects
+- fixed problem when reading files (not reading the whole OLE tree)";s:9:"changelog";a:3:{i:0;a:4:{s:7:"version";s:3:"0.4";s:12:"release_date";s:10:"2003-09-25";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:130:"-deleting tmp files (Herman Kuiper).
+-fixed hardcoded tmp dir (Herman Kuiper).
+-fixed pass by reference warning (Herman Kuiper).
+
+";}i:1;a:4:{s:7:"version";s:3:"0.3";s:12:"release_date";s:10:"2003-08-21";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:76:"-added OLE_PPS_File::init() initialization method.
+-better error handling.
+
+";}i:2;a:4:{s:7:"version";s:5:"0.2.1";s:12:"release_date";s:10:"2003-05-12";s:13:"release_state";s:5:"alpha";s:13:"release_notes";s:20:"Fixing install dir
+
+";}}s:13:"_lastmodified";i:1110977701;}

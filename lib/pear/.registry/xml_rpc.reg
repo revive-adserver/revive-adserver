@@ -1,0 +1,108 @@
+a:13:{s:8:"provides";a:0:{}s:8:"filelist";a:6:{s:7:"RPC.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:3:"XML";s:12:"replacements";a:1:{i:0;a:3:{s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";s:4:"type";s:12:"package-info";}}s:12:"installed_as";s:47:"/home/andrew/code/max/v0.3/lib/pear/XML/RPC.php";}s:10:"Server.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:7:"XML/RPC";s:12:"replacements";a:1:{i:0;a:3:{s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";s:4:"type";s:12:"package-info";}}s:12:"installed_as";s:54:"/home/andrew/code/max/v0.3/lib/pear/XML/RPC/Server.php";}s:8:"Dump.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:7:"XML/RPC";s:12:"replacements";a:1:{i:0;a:3:{s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";s:4:"type";s:12:"package-info";}}s:12:"installed_as";s:52:"/home/andrew/code/max/v0.3/lib/pear/XML/RPC/Dump.php";}s:19:"tests/protoport.php";a:3:{s:4:"role";s:4:"test";s:12:"replacements";a:1:{i:0;a:3:{s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";s:4:"type";s:12:"package-info";}}s:12:"installed_as";s:32:"/tmp/XML_RPC/tests/protoport.php";}s:19:"tests/test_Dump.php";a:3:{s:4:"role";s:4:"test";s:12:"replacements";a:1:{i:0;a:3:{s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";s:4:"type";s:12:"package-info";}}s:12:"installed_as";s:32:"/tmp/XML_RPC/tests/test_Dump.php";}s:7:"dirtree";a:3:{s:39:"/home/andrew/code/max/v0.3/lib/pear/XML";b:1;s:43:"/home/andrew/code/max/v0.3/lib/pear/XML/RPC";b:1;s:18:"/tmp/XML_RPC/tests";b:1;}}s:7:"package";s:7:"XML_RPC";s:7:"summary";s:42:"PHP implementation of the XML-RPC protocol";s:11:"description";s:123:"A PEAR-ified version of Useful Inc's XML-RPC for PHP.
+
+It has support for HTTP/HTTPS transport, proxies and authentication.";s:11:"maintainers";a:2:{i:0;a:4:{s:6:"handle";s:3:"ssb";s:4:"name";s:11:"Stig Bakken";s:5:"email";s:12:"stig@php.net";s:4:"role";s:4:"lead";}i:1;a:4:{s:6:"handle";s:7:"danielc";s:4:"name";s:16:"Daniel Convissor";s:5:"email";s:15:"danielc@php.net";s:4:"role";s:4:"lead";}}s:7:"version";s:5:"1.4.0";s:12:"release_date";s:10:"2005-08-14";s:15:"release_license";s:11:"PHP License";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:171:"* MAJOR SECURITY FIX: eliminate use of eval().
+* Using socket_get_status() because stream_get_meta_data() was introduced in 4.3.0, but we need to support 4.2.0.  Bug 4805.";s:9:"changelog";a:22:{i:0;a:4:{s:7:"version";s:5:"1.3.3";s:12:"release_date";s:10:"2005-07-15";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:226:"* Eliminate memory leak by resetting $XML_RPC_xh each time parseResponse() is called.  Bug 4780.
+* Using socket_set_timeout() because stream_set_timeout() was introduced in 4.3.0, but we need to support 4.2.0.  Bug 4805.
+    
+";}i:1;a:4:{s:7:"version";s:5:"1.3.2";s:12:"release_date";s:10:"2005-07-07";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:590:"* Eliminate path disclosure vulnerabilities by suppressing error messages when eval()'ing.
+* Eliminate path disclosure vulnerability by catching bogus parameters submitted to XML_RPC_Value::serializeval().
+* In XML_RPC_Server::service(), only call createServerPayload() and createServerHeaders() if necessary.  Fixes compatibility issue introduced in Release 1.3.0RC1 for users who set the $serviceNow parameter of XML_RPC_Server() to 0.  Bug 4757.
+* Change "var $errstring" to "var $errstr".  Bug 4582.  Was put into CVS version 1.75 of RPC.php but didn't make it into RELEASE_1_3_1.
+    
+";}i:2;a:4:{s:7:"version";s:5:"1.3.1";s:12:"release_date";s:10:"2005-06-29";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:48:"* Security fix. Update highly recommended!
+    
+";}i:3;a:4:{s:7:"version";s:5:"1.3.0";s:12:"release_date";s:10:"2005-06-13";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:70:"* Stable release.  See earlier releases for changes since 1.2.2.
+    
+";}i:4;a:4:{s:7:"version";s:8:"1.3.0RC3";s:12:"release_date";s:10:"2005-05-10";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:730:"* When verifying requests against function signatures, if the number of parameters don't match, provide an appropriate message.  NOTE: this resolves a path disclosure vulnerability.  (Refines the changes made in the last commit.)  Bug 4231.
+* XML_RPC_Message::getParam() now returns an XML_RPC_Response object upon error.  Changed from Release 1.3.0RC2.
+* Add the XML_RPC_Value::isValue() method. For testing if an item is an XML_RPC_Value object.
+* If XML_RPC_Client::send() is given an incorrect $msg parameter, raise an error with the new XML_RPC_ERROR_PROGRAMMING code and return 0.
+* Improve cross-platform operation by using PEAR::loadExtension() instead of dl().
+* Use <br /> instead of <br> in XML_RPC_Value::dump().
+    
+";}i:5;a:4:{s:7:"version";s:8:"1.3.0RC2";s:12:"release_date";s:10:"2005-05-05";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:389:"* If XML_RPC_Message::getParam() is given an incorrect parameter, raise an error with the new XML_RPC_ERROR_INCORRECT_PARAMS code and return FALSE.
+* Handle improper requests to XML_RPC_Server::verifySignature().  Bug 4231.
+* Try to allow HTTP 100 responses if followed by a 200 response.  Bug 4116.
+* Help Delphi users by making RPCMETHODNAME an alias for METHODNAME.  Request 4205.
+    
+";}i:6;a:4:{s:7:"version";s:8:"1.3.0RC1";s:12:"release_date";s:10:"2005-04-07";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:824:"* Improve timeout handling for situations where connection to server is made but no response is not received in time. Accomplished via stream_set_timeout().  Request 3963.
+* Add Fault Code 6: "The requested method didn't return an XML_RPC_Response object."  Request 4032.
+* Add the createServerPayload() and createServerHeaders() methods and the $server_payload and $server_headers properties.  Request 3121.
+* As in earlier versions, if the $serviceNow parameter to XML_RPC_Server() is 0, no data will be returned, but now the new $server_payload and $server_headers properties will be set.
+* Convert the parser handle to an integer before using it as an index for $XML_RPC_xh[$parser].  Reduces E_STRICT notices.  Bug 3782.
+* Add createHeaders() method and $headers property to XML_RPC_Client to make testing easier.
+    
+";}i:7;a:4:{s:7:"version";s:5:"1.2.2";s:12:"release_date";s:10:"2005-03-07";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:128:"* When using a proxy, add the protocol to the Request-URI, making it an "absoluteURI" as per the HTTP 1.0 spec.  Bug 3679.
+    
+";}i:8;a:4:{s:7:"version";s:5:"1.2.1";s:12:"release_date";s:10:"2005-03-01";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:71:"* Add isset() check before examining the dispatch map.  Bug 3658.
+    
+";}i:9;a:4:{s:7:"version";s:5:"1.2.0";s:12:"release_date";s:10:"2005-02-27";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:166:"* Provide the "stable" release.
+* Add package2.xml for compatibility with PEAR 1.4.0.
+* For changes since 1.1.0, see the changelogs for the various RC releases.
+    
+";}i:10;a:4:{s:7:"version";s:8:"1.2.0RC7";s:12:"release_date";s:10:"2005-02-22";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:352:"* Add the setSendEncoding() method and $send_encoding
+  property to XML_RPC_Message.  Request 3537.
+* Allow class methods to be mapped using either syntax:
+     'function' => 'hello::sayHello',
+     or
+     'function' => array('hello', 'sayhello'),
+  Bug 3363.
+* Use 8192 instead of 32768 for bytes in fread()
+  in parseResponseFile().  Bug 3340.
+    
+";}i:11;a:4:{s:7:"version";s:8:"1.2.0RC6";s:12:"release_date";s:10:"2005-01-25";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:77:"* Don't put the protocol in the Host field of the POST data.  (danielc)
+    
+";}i:12;a:4:{s:7:"version";s:8:"1.2.0RC5";s:12:"release_date";s:10:"2005-01-24";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:97:"* If $port is 443 but a protocol isn't specified in $server, assume ssl:// is the protocol.
+    
+";}i:13;a:4:{s:7:"version";s:8:"1.2.0RC4";s:12:"release_date";s:10:"2005-01-24";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:394:"* When a connection attempt fails, have the method return 0.  (danielc)
+* Move the protocol/port checking/switching and the property settings from sendPayloadHTTP10() to the XML_RPC_Client constructor.  (danielc)
+* Add tests for setting the client properties.  (danielc)
+* Remove $GLOBALS['XML_RPC_twoslash'] since it's not used.  (danielc)
+* Bundle the tests with the package.  (danielc)
+    
+";}i:14;a:4:{s:7:"version";s:8:"1.2.0RC3";s:12:"release_date";s:10:"2005-01-19";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:35:"* ssl uses port 443, not 445.
+    
+";}i:15;a:4:{s:7:"version";s:8:"1.2.0RC2";s:12:"release_date";s:10:"2005-01-11";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:168:"* Handle ssl:// in the $server string.  (danielc)
+* Also default to port 445 for ssl:// requests as well.  (danielc)
+* Enhance debugging in the server.  (danielc)
+    
+";}i:16;a:4:{s:7:"version";s:8:"1.2.0RC1";s:12:"release_date";s:10:"2004-12-30";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:1193:"* Make things work with SSL.  Bug 2489.  (nkukard lbsd net)
+* Allow array function callbacks (Matt Kane)
+* Some minor speed-ups (Matt Kane)
+* Add Dump.php to the package (Christian Weiske)
+* Replace all line endings with \r\n.  Had only done replacements on \n.  Bug 2521.  (danielc)
+* Silence fsockopen() errors.  Bug 1714.  (danielc)
+* Encode empty arrays as an array. Bug 1493.  (danielc)
+* Eliminate undefined index notice when submitting empty arrays to XML_RPC_Encode().  Bug 1819.  (danielc)
+* Speed up check for enumerated arrays in XML_RPC_Encode().  (danielc)
+* Prepend "XML_RPC_" to ERROR_NON_NUMERIC_FOUND, eliminating problem when eval()'ing error messages.  (danielc)
+* Use XML_RPC_Base::raiseError() instead of PEAR::raiseError() in XML_RPC_ee() because PEAR.php is lazy loaded.  (danielc)
+* Allow raiseError() to be called statically.  (danielc)
+* Stop double escaping of character entities.  Bug 987.  (danielc)
+  NOTICE: the following have been removed:
+    * XML_RPC_dh()
+    * $GLOBALS['XML_RPC_entities']
+    * XML_RPC_entity_decode()
+    * XML_RPC_lookup_entity()
+* Determine the XML's encoding via the encoding attribute in the XML declaration.  Bug 52.  (danielc)
+    
+";}i:17;a:4:{s:7:"version";s:5:"1.1.0";s:12:"release_date";s:10:"2004-03-15";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:523:"* Added support for sequential arrays to XML_RPC_encode() (mroch)
+* Cleaned up new XML_RPC_encode() changes a bit (mroch, pierre)
+* Remove "require_once 'PEAR.php'", include only when needed to raise an error
+* Replace echo and error_log() with raiseError() (mroch)
+* Make all classes extend XML_RPC_Base, which will handle common functions  (mroch)
+* be tolerant of junk after methodResponse (Luca Mariano, mroch)
+* Silent notice even in the error log (pierre)
+* fix include of shared xml extension on win32 (pierre)
+    
+";}i:18;a:4:{s:7:"version";s:5:"1.0.4";s:12:"release_date";s:10:"2002-10-02";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:74:"* added HTTP proxy authorization support (thanks to Arnaud Limbourg)
+    
+";}i:19;a:4:{s:7:"version";s:5:"1.0.3";s:12:"release_date";s:10:"2002-05-19";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:57:"* fix bug when parsing responses with boolean types
+    
+";}i:20;a:4:{s:7:"version";s:5:"1.0.2";s:12:"release_date";s:10:"2002-04-16";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:54:"* E_ALL fixes
+* fix HTTP response header parsing
+    
+";}i:21;a:4:{s:7:"version";s:5:"1.0.1";s:12:"release_date";s:10:"2001-09-25";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:138:"This is a PEAR-ified version of Useful Inc's 1.0.1 release.
+Includes an urgent security fix identified by Dan Libby <dan@libby.com>.
+    
+";}}s:13:"_lastmodified";i:1124706997;}

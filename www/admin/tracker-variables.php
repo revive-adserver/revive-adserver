@@ -1,0 +1,874 @@
+<?php
+
+/*
++---------------------------------------------------------------------------+
+| Max Media Manager v0.3                                                    |
+| =================                                                         |
+|                                                                           |
+| Copyright (c) 2003-2006 m3 Media Services Limited                         |
+| For contact details, see: http://www.m3.net/                              |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: tracker-variables.php 6005 2006-11-17 15:48:13Z andrew@m3.net $
+*/
+
+// Require the initialisation file
+require_once '../../init.php';
+
+// Required files
+require_once MAX_PATH . '/www/admin/config.php';
+require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
+
+// Security check
+phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
+
+// Register input variables
+phpAds_registerGlobal (
+    'action',
+    'variablemethod'
+);
+
+
+/*-------------------------------------------------------*/
+/* Affiliate interface security                          */
+/*-------------------------------------------------------*/
+
+if (phpAds_isUser(phpAds_Agency))
+{
+    $query = "SELECT c.clientid as clientid".
+        " FROM ".$conf['table']['prefix'].$conf['table']['clients']." AS c".
+        ",".$conf['table']['prefix'].$conf['table']['trackers']." AS t".
+        " WHERE t.clientid=c.clientid".
+        " AND c.clientid='".$clientid."'".
+        " AND t.trackerid='".$trackerid."'".
+        " AND c.agencyid=".phpAds_getUserID();
+
+    $res = phpAds_dbQuery($query)
+        or phpAds_sqlDie();
+
+    if (phpAds_dbNumRows($res) == 0)
+    {
+        phpAds_PageHeader("1");
+        phpAds_Die ($strAccessDenied, $strNotAdmin);
+    }
+}
+
+
+
+/*-------------------------------------------------------*/
+/* HTML framework                                        */
+/*-------------------------------------------------------*/
+
+if (!isset($variables))
+    if (isset($session['prefs']['tracker-variables.php']['variables']) && $session['prefs']['tracker-variables.php']['trackerid']==$trackerid)
+        $variables = $session['prefs']['tracker-variables.php']['variables'];
+
+
+
+if (isset($trackerid) && $trackerid != '')
+{
+    // Get publisher list
+    $res = phpAds_dbQuery("
+        SELECT
+            p.affiliateid AS publisher_id,
+            p.name AS name
+        FROM
+            ".$conf['table']['prefix'].$conf['table']['ad_zone_assoc']." aza JOIN
+            ".$conf['table']['prefix'].$conf['table']['zones']." z ON (aza.zone_id = z.zoneid) JOIN
+            ".$conf['table']['prefix'].$conf['table']['affiliates']." p USING (affiliateid) JOIN
+            ".$conf['table']['prefix'].$conf['table']['banners']." b ON (aza.ad_id = b.bannerid) JOIN
+            ".$conf['table']['prefix'].$conf['table']['campaigns_trackers']." ct USING (campaignid)
+        WHERE
+            ct.trackerid = '".$trackerid."'
+        GROUP BY
+            publisher_id,
+            name
+        ORDER BY
+            name
+    ") or phpAds_sqlDie();
+    $publishers = array();
+    while ($row = phpAds_dbFetchArray($res)) {
+        $publishers[$row['publisher_id']] = strip_tags(phpAds_BuildAffiliateName($row['publisher_id'], $row['name']));
+    }
+
+    if (!isset($variablemethod)) {        
+        // get variable method
+        $tracker_result = phpAds_dbQuery(
+            "SELECT
+                variablemethod
+             FROM
+                ".$conf['table']['prefix'].$conf['table']['trackers']."
+            WHERE trackerid='".$trackerid."'"
+        ) or phpAds_sqlDie();
+        
+        $variablemethod = phpAds_dbResult($tracker_result, 0, 0);
+    }
+    
+    if (!isset($variables))
+    {
+        // get variables from db
+        $variables_result = phpAds_dbQuery(
+            "SELECT
+                *
+             FROM
+                ".$conf['table']['prefix'].$conf['table']['variables']."
+            WHERE trackerid='".$trackerid."'"
+        ) or phpAds_sqlDie();
+
+        while ($vars = phpAds_dbFetchArray($variables_result))
+        {
+            // Remove assignment
+            $vars['variablecode'] = addslashes(trim(preg_replace('/^.+?=/', '', $vars['variablecode'])));
+
+            $vars['publisher_visible'] = array();
+            $vars['publisher_hidden']  = array();
+            
+            $variables[$vars['variableid']] = $vars;
+        }
+        
+        // get publisher visibility from db
+        $publishers_result = phpAds_dbQuery(
+            "SELECT
+                vp.*
+             FROM
+                ".$conf['table']['prefix'].$conf['table']['variables']." v JOIN
+                ".$conf['table']['prefix'].$conf['table']['variable_publisher']." vp ON (v.variableid = vp.variable_id)
+            WHERE trackerid='".$trackerid."'"
+        ) or phpAds_sqlDie();
+        
+        while ($pubs = phpAds_dbFetchArray($publishers_result))
+        {
+            if ($pubs['visible'] && $variables[$pubs['variable_id']]['hidden'] == 't') {
+                $variables[$pubs['variable_id']]['publisher_visible'][] = $pubs['publisher_id'];
+            } elseif (!$pubs['visible'] && $variables[$pubs['variable_id']]['hidden'] != 't') {
+                $variables[$pubs['variable_id']]['publisher_hidden'][] = $pubs['publisher_id'];
+            }
+        }
+        
+        // Remove keys
+        $variables = array_values($variables);
+    }
+    else
+    {
+        // Get values on the form
+        for ($f=0; $f < sizeof($variables)+1; $f++)
+        if (isset($_POST['name'.$f]))
+        {
+            $variables[$f]['name'] = $_POST['name'.$f];
+            $variables[$f]['description'] = $_POST['description'.$f];
+            $variables[$f]['datatype'] = $_POST['datatype'.$f];
+            $variables[$f]['purpose'] = $_POST['purpose'.$f];
+            $variables[$f]['reject_if_empty'] = $_POST['reject_if_empty'.$f];
+            $variables[$f]['is_unique'] = $_POST['is_unique'.$f];
+            // Set window delays
+            $uniqueWindowSeconds = 0;
+            if (!empty($_POST['uniquewindow'.$f]))
+            {
+                $uniqueWindow = $_POST['uniquewindow'.$f];
+                if ($uniqueWindow['second'] != '-')  $uniqueWindowSeconds += (int)$uniqueWindow['second'];
+                if ($uniqueWindow['minute'] != '-')  $uniqueWindowSeconds += (int)$uniqueWindow['minute'] * 60;
+                if ($uniqueWindow['hour'] != '-')      $uniqueWindowSeconds += (int)$uniqueWindow['hour'] * 60*60;
+                if ($uniqueWindow['day'] != '-')      $uniqueWindowSeconds += (int)$uniqueWindow['day'] * 60*60*24;
+            }
+            $variables[$f]['unique_window'] = $uniqueWindowSeconds;
+            $variables[$f]['variablecode'] = $_POST['variablecode'.$f];
+            
+            $variables[$f]['publisher_visible'] = array();
+            $variables[$f]['publisher_hidden']  = array();
+            
+            switch ($_POST['visibility'.$f]) {
+                case 'all':
+                    $variables[$f]['hidden'] = 't';
+                    break;
+                case 'none':
+                    $variables[$f]['hidden'] = 'f';
+                    break;
+                default:
+                    $variables[$f]['hidden'] = $_POST['p_default'.$f] ? 'f' : 't';
+                    if ($_POST['p_default'.$f]) {
+                        $variables[$f]['publisher_hidden']  = isset($_POST['p_hide'.$f]) && is_array($_POST['p_hide'.$f]) ? $_POST['p_hide'.$f] : array();
+                    } else {
+                        $variables[$f]['publisher_visible'] = isset($_POST['p_show'.$f]) && is_array($_POST['p_show'.$f]) ? $_POST['p_show'.$f] : array();
+                    }
+            }
+        }
+    }
+
+    // insert a new variable
+    if (isset($action['new']))
+            $variables[] = array(
+                'publisher_visible' => array(),
+                'publisher_hidden' => array(),
+            );
+
+
+    // has user clicked on save changes?
+    if (isset($action['save']))
+    {
+        // save variablemethod
+        $tracker_update = phpAds_dbQuery(
+            "UPDATE
+                ".$conf['table']['prefix'].$conf['table']['trackers']."
+            SET
+                variablemethod = '".$variablemethod."'
+            WHERE
+                trackerid='".$trackerid."'"
+        ) or phpAds_sqlDie(); 
+
+        $isUniqueAlreadyExists = false;
+        foreach($variables as $k => $v)
+        {
+            // Set purpose to NULL when generic was chosen
+            if (!empty($v['purpose'])) {
+                $v['purpose'] = "'".$v['purpose']."'";
+            } else {
+                $v['purpose'] = "NULL";
+            }
+            
+            if ($v['is_unique'] !== null) {
+                if($isUniqueAlreadyExists) {
+                    $variables[$k]['is_unique'] = $v['is_unique'] = 0;
+                } else {
+                    $variables[$k]['is_unique'] = $v['is_unique'] = 1;
+                }
+                $isUniqueAlreadyExists = true;
+            }
+
+            switch ($variablemethod) {
+                case 'js':
+                    $v['variablecode'] = "var {$v['name']} = \\'%%".strtoupper($v['name'])."_VALUE%%\\'"; break;
+                case 'dom':
+                    $v['variablecode'] = ''; break;
+                case 'custom':
+                    $v['variablecode'] = "var {$v['name']} = \\'".$v['variablecode']."\\'"; break;
+                default:
+                    $v['variablecode'] = "var {$v['name']} = escape(\\'%%".strtoupper($v['name'])."_VALUE%%\\')"; break;
+            }
+
+            // Always delete variable_publisher entries 
+            if (isset($v['variableid'])) {
+                phpAds_dbQuery( 
+                    "DELETE 
+                        FROM ".$conf['table']['prefix'].$conf['table']['variable_publisher']." 
+                    WHERE 
+                        variable_id = ".$v['variableid'] 
+                ) or phpAds_sqlDie(); 
+            }
+
+            if (isset($v['variableid']) && isset($v['delete'])) {
+                // delete variables from db
+                $variables_update = phpAds_dbQuery(
+                    "DELETE
+                        FROM ".$conf['table']['prefix'].$conf['table']['variables']."
+                    WHERE
+                        variableid=".$v['variableid']."
+                    LIMIT 1 "
+                ) or phpAds_sqlDie();
+            } elseif (isset($v['variableid']) && !isset($v['delete'])) {
+                // update variable info
+                $variables_update = phpAds_dbQuery(
+                    "UPDATE
+                        ".$conf['table']['prefix'].$conf['table']['variables']."
+                     SET
+                        name            = '".$v['name']."',
+                        description     = '".$v['description']."',
+                        datatype        = '".$v['datatype']."',
+                        purpose         = ".$v['purpose'].",
+                        reject_if_empty = '".$v['reject_if_empty']."',
+                        is_unique       = '".$v['is_unique']."',
+                        unique_window   = '".$v['unique_window']."',
+                        variablecode    = '".$v['variablecode']."',
+                        hidden          = '".$v['hidden']."',
+                        updated = '".date('Y-m-d H:i:s')."'
+                    WHERE
+                        variableid=".$v['variableid']
+                ) or phpAds_sqlDie();
+            } else {
+                $variables_insert = phpAds_dbQuery(
+                    "INSERT INTO ".$conf['table']['prefix'].$conf['table']['variables']."
+                        (trackerid,
+                         name,
+                         description,
+                         datatype,
+                         purpose,
+                         reject_if_empty,
+                         is_unique,
+                         unique_window,
+                         variablecode,
+                         hidden,
+                         updated)
+                    VALUES
+                        (".$trackerid.",
+                        '".$v['name']."',
+                        '".$v['description']."',
+                        '".$v['datatype']."',
+                        ".$v['purpose'].",
+                        '".$v['reject_if_empty']."',
+                        '".$v['is_unique']."',
+                        '".$v['unique_window']."',
+                        '".$v['variablecode']."',
+                        '".$v['hidden']."',
+                        '".date('Y-m-d H:i:s')."'
+                        )"
+                ) or phpAds_sqlDie();
+                
+                // Get newly created variable id
+                $v['variableid'] = phpAds_dbInsertId();
+            }
+            
+            // Update variable_publisher entries
+            $variable_publisher = array();
+            if (is_array($v['publisher_visible'])) {
+                foreach ($v['publisher_visible'] as $p) {
+                    $variable_publisher[$p] = 1;
+                }
+            }
+            if (is_array($v['publisher_hidden'])) {
+                foreach ($v['publisher_hidden'] as $p) {
+                    $variable_publisher[$p] = 0;
+                }
+            }
+
+            foreach ($variable_publisher as $publisher_id => $visible) {
+                phpAds_dbQuery(
+                    "INSERT INTO ".$conf['table']['prefix'].$conf['table']['variable_publisher']."
+                        (variable_id, publisher_id, visible)
+                    VALUES
+                        (".$v['variableid'].", ".$publisher_id.", ".$visible.")"
+                ) or phpAds_sqlDie();
+            }
+
+        }
+
+        // unset variables!
+        unset    ($session['prefs']['tracker-variables.php']);
+        phpAds_SessionDataStore();
+
+        // Rebuild cache
+        // require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
+        // phpAds_CacheDelete('what=tracker:' . $trackerid);
+
+        // redirect to the next page
+        header     ("Location: tracker-append.php?clientid=".$clientid."&trackerid=".$trackerid);
+        exit;
+
+    }
+
+}
+
+// Get other trackers
+$res = phpAds_dbQuery(
+    "SELECT *".
+    " FROM ".$conf['table']['prefix'].$conf['table']['trackers'].
+    " WHERE clientid='".$clientid."'".
+    phpAds_getTrackerListOrder ($navorder, $navdirection)
+);
+
+while ($row = phpAds_dbFetchArray($res)) {
+    phpAds_PageContext (
+        phpAds_buildName ($row['trackerid'], $row['trackername']),
+        "tracker-variables.php?clientid=".$clientid."&trackerid=".$row['trackerid'],
+        $trackerid == $row['trackerid']
+    );
+}
+
+if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
+{
+    phpAds_PageShortcut($strClientProperties, 'advertiser-edit.php?clientid='.$clientid, 'images/icon-advertiser.gif');
+
+    $extra  = "\t\t\t\t<form action='tracker-modify.php'>"."\n";
+    $extra .= "\t\t\t\t<input type='hidden' name='trackerid' value='$trackerid'>"."\n";
+    $extra .= "\t\t\t\t<input type='hidden' name='clientid' value='$clientid'>"."\n";
+    $extra .= "\t\t\t\t<input type='hidden' name='returnurl' value='tracker-variables.php'>"."\n";
+    $extra .= "\t\t\t\t<br /><br />"."\n";
+    $extra .= "\t\t\t\t<b>$strModifyTracker</b><br />"."\n";
+    $extra .= "\t\t\t\t<img src='images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
+    $extra .= "\t\t\t\t<img src='images/icon-duplicate-tracker.gif' align='absmiddle'>&nbsp;<a href='tracker-modify.php?clientid=".$clientid."&trackerid=".$trackerid."&duplicate=true&returnurl=tracker-campaigns.php'>$strDuplicate</a><br />"."\n";
+    $extra .= "\t\t\t\t<img src='images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
+    $extra .= "\t\t\t\t<img src='images/icon-move-tracker.gif' align='absmiddle'>&nbsp;$strMoveTo<br />"."\n";
+    $extra .= "\t\t\t\t<img src='images/spacer.gif' height='1' width='160' vspace='2'><br />"."\n";
+    $extra .= "\t\t\t\t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"."\n";
+    $extra .= "\t\t\t\t<select name='moveto' style='width: 110;'>"."\n";
+
+    if (phpAds_isUser(phpAds_Admin)) {
+        $query = "SELECT clientid,clientname".
+            " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
+            " WHERE clientid != '".$clientid."'";
+    } elseif (phpAds_isUser(phpAds_Agency)) {
+        $query = "SELECT clientid,clientname".
+        " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
+        " WHERE clientid != '".$clientid."'".
+        " AND agencyid=".phpAds_getUserID();
+    }
+    $res = phpAds_dbQuery($query)
+        or phpAds_sqlDie();
+
+    while ($row = phpAds_dbFetchArray($res)) {
+        $extra .= "\t\t\t\t\t<option value='".$row['clientid']."'>".phpAds_buildName($row['clientid'], $row['clientname'])."</option>\n";
+    }
+
+    $extra .= "\t\t\t\t</select>&nbsp;\n";
+    $extra .= "\t\t\t\t<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif'><br />\n";
+    $extra .= "\t\t\t\t<img src='images/break.gif' height='1' width='160' vspace='4'><br />\n";
+    $extra .= "\t\t\t\t<img src='images/icon-recycle.gif' align='absmiddle'>\n";
+    $extra .= "\t\t\t\t<a href='tracker-delete.php?clientid=$clientid&trackerid=$trackerid&returnurl=advertiser-trackers.php'".phpAds_DelConfirm($strConfirmDeleteTracker).">$strDelete</a><br />\n";
+    $extra .= "\t\t\t\t</form>\n";
+
+    //phpAds_PageHeader("4.1.4.5");
+    phpAds_PageHeader("4.1.4.5", $extra);
+    echo "\t\t\t\t<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($clientid)."\n";
+    echo "\t\t\t\t<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>\n";
+    echo "\t\t\t\t<img src='images/icon-tracker.gif' align='absmiddle'>\n";
+    echo "\t\t\t\t<b>".phpAds_getTrackerName($trackerid)."</b><br /><br /><br />\n";
+    phpAds_ShowSections(array("4.1.4.2", "4.1.4.3", "4.1.4.5", "4.1.4.6", "4.1.4.4"));
+}
+
+
+//Start
+
+
+if (isset($trackerid) && $trackerid != '')
+{
+            echo "<form action='".$_SERVER['PHP_SELF']."?clientid=$clientid&trackerid=$trackerid' method='post' onsubmit='return m3_hideShowSubmit()'>\n";
+                echo "<input type='hidden' name='submit' value='true'>";
+                echo "<input type='image' name='dummy' src='images/spacer.gif' border='0' width='1' height='1'>\n";
+                echo "<br /><br />\n";
+
+                echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>"."\n";
+                echo "<tr><td height='25' colspan='3'><b>".$strTrackingSettings."</b></td></tr>"."\n";
+                echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>"."\n";
+                echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
+                
+                echo "<tr>"."\n";
+                echo "\t"."<td width='30'>&nbsp;</td>"."\n";
+                echo "\t"."<td width='200'>".$strTrackerType."</td>"."\n";
+                echo "\t"."<td><select name='variablemethod' tabindex='".($tabindex++)."' onchange=\"m3_updateVariableMethod()\">";
+                echo "<option value='js'".($variablemethod == 'js' ? ' selected' : '').">".$strTrackerTypeJS."</option>";
+                echo "<option value='default'".($variablemethod == 'default' ? ' selected' : '').">".$strTrackerTypeDefault."</option>";
+                echo "<option value='dom'".($variablemethod == 'dom' ? ' selected' : '').">".$strTrackerTypeDOM."</option>";
+                echo "<option value='custom'".($variablemethod == 'custom' ? ' selected' : '').">".$strTrackerTypeCustom."</option>";
+                echo "</select></td>"."\n";
+                echo "</tr>"."\n";
+                echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
+                echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>"."\n";
+                echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
+                echo "</table>";
+
+                echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>\n";
+                    echo "<tr><td height='25' colspan='4' bgcolor='#FFFFFF'><b>".$strVariables."</b></td></tr>\n";
+                    echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>\n";
+
+        if ($variables)
+        {
+
+            if (isset($action['del']))
+            {
+                $key = array_keys($action['del']);
+                $variables[$key[0]]['delete']= true;
+            }
+
+                    foreach ($variables as $k=>$v)
+                    {
+                        if (!isset($v['delete']))
+                        {
+
+                            // variable area
+                            echo "<tr><td height='25' colspan='4' bgcolor='#F6F6F6'>&nbsp;&nbsp;".$strTrackFollowingVars."</td></tr>\n";
+                            echo "<tr><td colspan='4'><img src='images/break-el.gif' width='100%' height='1'></td></tr>\n";
+                            echo "<tr><td colspan='4' bgcolor='#F6F6F6'><br /></td></tr>\n";
+                            echo "<tr height='35' bgcolor='#F6F6F6' valign='top'>\n";
+                                echo "<td width='100'></td>\n";
+                                echo "<td width='130'><img src='images/icon-acl.gif' align='absmiddle'>&nbsp;Variable</td>\n";
+                                echo "<td>\n";
+                                    echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>\n";
+                                        echo "<tr>\n";
+                                            echo "<td>".$strVariableName."</td>\n";
+                                            echo "<td><input class='flat' type='text' name='name".$k."' value='".$v['name']."'></td>\n";
+                                        echo "</tr>\n";
+                                        echo "<tr><td colspan='2'>&nbsp;</td></tr>\n";
+                                        echo "<tr>\n";
+                                            echo "<td width='200'>".$strVariableDescription."</td>\n";
+                                            echo "<td><input class='flat' type='text' name='description".$k."' value='".$v['description']."'></td>\n";
+                                        echo "</tr>\n";
+                                        echo "<tr><td colspan='2'>&nbsp;</td></tr>\n";
+                                        echo "<tr>\n";
+                                            echo "<td>".$strVariableDataType."</td>\n";
+                                            echo "<td><select name='datatype".$k."'>\n";
+                                            echo "<option ".($v['datatype'] =='string'  ? 'selected ' : '')."value='string'>".$strString."</option>\n";
+                                            echo "<option ".($v['datatype'] =='numeric' ? 'selected ' : '')."value='numeric'>".$strNumber."</option>\n";
+                                            echo "<option ".($v['datatype'] =='date' ? 'selected ' : '')."value='date'>".$strDate."</option>\n";
+                                            echo "</select></td>\n";
+                                        echo "</tr>\n";
+                                        echo "<tr><td colspan='2'>&nbsp;</td></tr>\n";
+                                        echo "<tr>\n";
+                                            echo "<td>".$strVariablePurpose."</td>\n";
+                                            echo "<td><select name='purpose".$k."'>\n";
+                                            echo "<option ".(!$v['purpose'] ? 'selected ' : '')."value=''>".$strGeneric."</option>\n";
+                                            echo "<option ".($v['purpose'] == 'basket_value'  ? 'selected ' : '')."value='basket_value'>".$strBasketValue."</option>\n";
+                                            echo "<option ".($v['purpose'] == 'num_items' ? 'selected ' : '')."value='num_items'>".$strNumItems."</option>\n";
+                                            echo "<option ".($v['purpose'] == 'post_code' ? 'selected ' : '')."value='post_code'>".$strPostcode."</option>\n";
+                                            echo "</select></td>\n";
+                                        echo "</tr>\n";
+                                        echo "<tr><td colspan='2'>&nbsp;</td></tr>\n";
+                                        echo "<tr>\n";
+                                            echo "<td>".$strVariableRejectEmpty."</td>\n";
+                                            echo "<td>\n";
+                                                $checked = ($v['reject_if_empty']) ? 'checked' : '';
+                                                echo "<input type='checkbox' name='reject_if_empty".$k."' value='1' $checked>";
+                                            echo "</td>\n";
+                                        echo "</tr>\n";
+                                        echo "<tr><td colspan='2'>&nbsp;</td></tr>\n";
+                                        echo "<tr>\n";
+                                            echo "<td>".$strVariableIsUnique."</td>\n";
+                                            echo "<td>\n";
+                                                $checked = ($v['is_unique']) ? 'checked' : '';
+                                                $uniqueCheckboxId = 'uniqueCheckbox'.$k;
+
+                                                $seconds_left = $v['unique_window'];
+                                                $uniqueWindow['day'] = floor($seconds_left / (60*60*24));
+                                                $seconds_left = $seconds_left % (60*60*24);
+                                                $uniqueWindow['hour'] = floor($seconds_left / (60*60));
+                                                $seconds_left = $seconds_left % (60*60);
+                                                $uniqueWindow['minute'] = floor($seconds_left / (60));
+                                                $seconds_left = $seconds_left % (60);
+                                                $uniqueWindow['second'] = $seconds_left;
+
+                                                echo "<table cellpadding='0' cellspacing='0'><tr><td align='left'>";
+                                                echo "<input type='checkbox' id='$uniqueCheckboxId' onClick='m3_setRadioCheckbox(this, \"is_unique\")' name='is_unique".$k."' value='1' $checked>";
+
+                                                echo '</td><td>';
+
+                                                echo "<div id='uniqueWindow$k' style='visibility: hidden;'>";
+                                                echo "&nbsp;&nbsp;&nbsp;&nbsp;$strUniqueWindow&nbsp;&nbsp;";
+                                                echo "<input id='uniquewindowday$k' class='flat' type='text' size='3' name='uniquewindow{$k}[day]' value='".$uniqueWindow['day']."' onKeyUp=\"m3_formLimitUpdate($k);\"'> ".$strDays." &nbsp;&nbsp;";
+                                                echo "<input id='uniquewindowhour$k' class='flat' type='text' size='3' name='uniquewindow{$k}[hour]' value='".$uniqueWindow['hour']."' onKeyUp=\"m3_formLimitUpdate($k);\"'> ".$strHours." &nbsp;&nbsp;";
+                                                echo "<input id='uniquewindowminute$k' class='flat' type='text' size='3' name='uniquewindow{$k}[minute]' value='".$uniqueWindow['minute']."' onKeyUp=\"m3_formLimitUpdate($k);\"'> ".$strMinutes." &nbsp;&nbsp;";
+                                                echo "<input id='uniquewindowsecond$k' class='flat' type='text' size='3' name='uniquewindow{$k}[second]' value='".$uniqueWindow['second']."' onBlur=\"m3_formLimitBlur($k);\" onKeyUp=\"m3_formLimitUpdate($k);\"'> ".$strSeconds;
+                                                echo '</div>';
+
+                                                echo '</td></tr></table>';
+
+                                                if($checked) {
+                                                    $onLoadUniqueJs = "\nm3_setRadioCheckbox(document.getElementById('$uniqueCheckboxId'), \"is_unique\");";
+                                                }
+                                                $onLoadUniqueJs .= "\nm3_formLimitUpdate($k);";
+
+                                            echo "</td>\n";
+                                        echo "</tr>\n";
+                                        echo "<tr><td colspan='2'>&nbsp;</td></tr>\n";
+                                        echo "<tr>\n";
+                                            echo "<td>". 'Variable hidden to' ."</td>\n";
+                                            echo "<td><select name='visibility".$k."' id='visibility".$k."' onchange='m3_updateVisibility()'>\n";
+                                            echo "<option ".($v['hidden'] != 't' && !count($v['publisher_hidden']) ? 'selected ' : '')."value='none'>". 'No publishers' ."</option>\n";
+                                            echo "<option ".(count($v['publisher_visible']) || count($v['publisher_hidden']) ? 'selected ' : '')."value='some'>". 'Some publishers' ."</option>\n";
+                                            echo "<option ".($v['hidden'] == 't' && !count($v['publisher_visible'])  ? 'selected ' : '')."value='all'>". 'All publishers' ."</option>\n";
+                                            echo "</select></td>\n";
+                                        echo "</tr>\n";
+                                        echo "<tr class='customvisibility".$k."'><td colspan='2'>&nbsp;</td></tr>\n";
+                                        echo "<tr class='customvisibility".$k."' valign='top'>\n";
+                                            echo "<td>&nbsp;</td><td><table cellpadding='0' cellspacing='0' width='100%'><tr valign='top' align='left'>";
+                                            echo "<td width='50%'><input name='p_default".$k."' type='radio' value='0' ".(count($v['publisher_visible']) || !count($v['publisher_hidden']) ? 'checked ' : '')."/> \n";
+                                            echo "Hide:<br /><select name='p_hide".$k."[]' id='p_hide".$k."' style='width: 90%' onchange='m3_hideShowMove(this, 1)' size='5' multiple='multiple'>\n";
+                                            if ($v['hidden'] == 't') {
+                                                $diff = array_diff(array_keys($publishers), $v['publisher_visible']);
+                                            } elseif (!count($v['publisher_hidden'])) {
+                                                $diff = array_keys($publishers);
+                                            } else {
+                                                $diff = $v['publisher_hidden'];
+                                            }
+                                            foreach ($diff as $p) {
+                                                if (isset($publishers[$p])) {
+                                                    echo "<option value='".$p."'>".$publishers[$p]."</option>\n";
+                                                }
+                                            }
+                                            echo "</select><br /><input type='button' value='&gt;&gt;&gt;' onclick='m3_hideShowMoveAll(".$k.", 1)' /></td>\n";
+                                            echo "<td width='50%'><input name='p_default".$k."' type='radio' value='1' ".(count($v['publisher_hidden']) ? 'checked ' : '')."/> \n";
+                                            echo "Show:<br /><select name='p_show".$k."[]' id='p_show".$k."' style='width: 90%' onchange='m3_hideShowMove(this, 0)' size='5' multiple='multiple'>\n";
+                                            if ($v['hidden'] != 't') {
+                                                if (!count($v['publisher_hidden'])) {
+                                                    $diff = array();
+                                                } else {
+                                                    $diff = array_diff(array_keys($publishers), $v['publisher_hidden']);
+                                                }
+                                            } else {
+                                                $diff = $v['publisher_visible'];
+                                            }
+                                            foreach ($diff as $p) {
+                                                if (isset($publishers[$p])) {
+                                                    echo "<option value='".$p."'>".$publishers[$p]."</option>\n";
+                                                }
+                                            }
+                                            echo "</select><input type='button' value='&lt;&lt;&lt;' onclick='m3_hideShowMoveAll(".$k.", 0)' /></td>";
+                                            echo "</td></tr></table></td>\n";
+                                        echo "</tr>\n";
+                                        echo "<tr class='jscode'><td colspan='2'>&nbsp;</td></tr>\n";
+                                        echo "<tr class='jscode' valign='top'>\n";
+                                            echo "<td>".$strVariableCode."</td>\n";
+                                            echo "<td><table cellpadding='0' cellspacing='0'><tr valign='top'><td>variable&nbsp;=&nbsp;</td><td><textarea name='variablecode".$k."' rows='3' cols='40'>".htmlentities(stripslashes($v['variablecode']))."</textarea></td></tr></table></td>\n";
+                                        echo "</tr>\n";
+                                    echo "</table>\n";
+                                echo"</td>\n";
+                                echo "<td align='right'><input type='image' name='action[del][".$k."]' src='images/icon-recycle.gif' border='0' align='absmiddle' alt='Delete'>&nbsp;&nbsp;</td>";
+                            echo "</tr>";
+                            echo "<tr bgcolor='#F6F6F6'>\n";
+                                echo "<td>&nbsp;</td>\n";
+                                echo "<td>&nbsp;</td>\n";
+                                echo "<td colspan='2'></td>\n";
+                            echo "</tr>\n";
+                            echo "<tr>";
+                                echo "<td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
+                            echo "</tr>";
+
+                        }
+
+                    }
+
+                    echo "<tr>";
+                        echo "<td colspan='4'><img src='images/spacer.gif' width='1' height='10' /></td>";
+                    echo "</tr>";
+
+                    echo "<tr>";
+                        echo "<td colspan='4' align='right'>";
+                            echo "<img src='images/icon-acl-add.gif' align='absmiddle'>&nbsp;&nbsp;".$strAddVariable."&nbsp;&nbsp;";
+                            echo "<input type='image' name='action[new]' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0' align='absmiddle' alt='$strSave'>";
+                        echo "</td>";
+                    echo "</tr>";
+                    echo "<tr>";
+                        echo "<td colspan='4'><img src='images/spacer.gif' width='1' height='10' /></td>\n";
+                    echo "</tr>";
+                    echo "<tr>";
+                        echo "<td colspan='4'>";
+                            echo "<input type='submit' name='action[save]' value='Save Changes' tabindex='15'>\n";
+                        echo "</td>";
+                    echo "</tr>";
+                echo "</form>";
+
+
+            echo "</table>";
+
+        }
+        else
+        {
+            echo "<tr><td height='25' colspan='4' bgcolor='#F6F6F6'>&nbsp;&nbsp;".$strNoVarsToTrack."</td></tr>\n";
+            echo "<tr><td colspan='4'><img src='images/break-el.gif' width='100%' height='1'></td></tr>\n";
+
+                    echo "<tr>";
+                        echo "<td colspan='4'><img src='images/spacer.gif' width='1' height='10' /></td>";
+                    echo "</tr>";
+
+                    echo "<tr>";
+                        echo "<td colspan='4' align='right'>";
+                            echo "<img src='images/icon-acl-add.gif' align='absmiddle'>&nbsp;&nbsp;".$strAddVariable."&nbsp;&nbsp;";
+                            echo "<input type='image' name='action[new]' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0' align='absmiddle' alt='$strSave'>";
+                        echo "</td>";
+                    echo "</tr>";
+                    echo "<tr>";
+                        echo "<td colspan='4'><img src='images/spacer.gif' width='1' height='10' /></td>\n";
+                    echo "</tr>";
+                    echo "<tr>";
+                        echo "<td colspan='4'>";
+                            echo "<input type='submit' name='action[save]' value='Save Changes' tabindex='15'>\n";
+                        echo "</td>";
+                    echo "</tr>";
+                echo "</form>";
+
+
+            echo "</table>";
+        }
+
+}
+/*-------------------------------------------------------*/
+/* Store preferences                                     */
+/*-------------------------------------------------------*/
+
+$session['prefs']['tracker-variables.php']['variables'] = $variables;
+$session['prefs']['tracker-variables.php']['trackerid'] = $trackerid;
+
+
+phpAds_SessionDataStore();
+
+?>
+
+<script language='JavaScript'>
+<!--
+
+    function m3_setRadioCheckbox(field, groupName)
+    {
+        if (document.forms && document.getElementsByTagName)
+        {
+            var fields = eval('field.form.getElementsByTagName("input");');
+
+            for (i=0; i < fields.length; i++)
+            {
+                if (fields[i].getAttribute("type").toLowerCase() == "checkbox"
+                    && fields[i].name.indexOf(groupName) != -1) {
+                    var v = fields[i].name.substring(9);
+                    if(fields[i].name != field.name) {
+                        fields[i].checked = false;
+                        m3_setWindowVisibility('uniqueWindow' + v, false);
+                    } else {
+                        m3_setWindowVisibility('uniqueWindow' + v, field.checked);
+                    }
+                }
+            }
+        }
+    }
+
+    function m3_setWindowVisibility(elementName, visibility) {
+        if(visibility) {
+            visible = 'visible';
+        } else {
+            visible = 'hidden';
+        }
+        element = document.getElementById(elementName);
+        if(element) {
+            element.style.visibility = visible;
+        }
+    }
+
+    function m3_formLimitBlur(key)
+    {
+        uniquewindowday    = document.getElementById('uniquewindowday' + key);
+        uniquewindowhour   = document.getElementById('uniquewindowhour' + key);
+        uniquewindowminute = document.getElementById('uniquewindowminute' + key);
+        uniquewindowsecond = document.getElementById('uniquewindowsecond' + key);
+
+        if (uniquewindowday.value == '') uniquewindowday.value = '0';
+        if (uniquewindowhour.value == '') uniquewindowhour.value = '0';
+        if (uniquewindowminute.value == '') uniquewindowminute.value = '0';
+        if (uniquewindowsecond.value == '') uniquewindowsecond.value = '0';
+
+        m3_formLimitUpdate(key);
+    }
+
+    function m3_formLimitUpdate(key)
+    {
+        uniquewindowday    = document.getElementById('uniquewindowday' + key);
+        uniquewindowhour   = document.getElementById('uniquewindowhour' + key);
+        uniquewindowminute = document.getElementById('uniquewindowminute' + key);
+        uniquewindowsecond = document.getElementById('uniquewindowsecond' + key);
+
+        // Set -
+        if (uniquewindowhour.value == '-' && uniquewindowday.value != '-') uniquewindowhour.value = '0';
+        if (uniquewindowminute.value == '-' && uniquewindowhour.value != '-') uniquewindowminute.value = '0';
+        if (uniquewindowsecond.value == '-' && uniquewindowminute.value != '-') uniquewindowsecond.value = '0';
+
+        // Set 0
+        if (uniquewindowday.value == '0') uniquewindowday.value = '-';
+        if (uniquewindowday.value == '-' && uniquewindowhour.value == '0') uniquewindowhour.value = '-';
+        if (uniquewindowhour.value == '-' && uniquewindowminute.value == '0') uniquewindowminute.value = '-';
+        if (uniquewindowminute.value == '-' && uniquewindowsecond.value == '0') uniquewindowsecond.value = '-';
+    }
+
+    //m3_formLimitUpdate(document.clientform);
+
+    function m3_updateVariableMethod()
+    {
+        var s = findObj('variablemethod');
+        var display = s.selectedIndex == s.options.length - 1 ? '' : 'none'
+        
+        var trs = document.getElementsByTagName('TR');
+        for (var i = 0; i < trs.length; i++) {
+            if (trs[i].className == 'jscode') {
+                trs[i].style.display = display;
+            }
+        }
+    }
+    
+    m3_updateVariableMethod();
+
+    function m3_updateVisibility()
+    {
+        var s = document.getElementsByTagName('SELECT');
+        for (var i = 0; i < s.length; i++) {
+            if (s[i].id.match(/^visibility/)) {
+                var id = s[i].id.replace(/^[^0-9]+/, '');
+                var display = s[i].selectedIndex == 1 ? '' : 'none';
+
+                var trs = document.getElementsByTagName('TR');
+                for (var j = 0; j < trs.length; j++) {
+                    if (trs[j].className == 'customvisibility' + id) {
+                        trs[j].style.display = display;
+                    }
+                }
+            }
+        }
+    }
+    
+    m3_updateVisibility();
+
+    function m3_hideShowMove(o, s)
+    {
+        var id = o.id.replace(/^[^0-9]+/, '');
+        var p = document.getElementById((s ? 'p_show' : 'p_hide') + id);
+        
+        var sel = o.selectedIndex;
+        
+        if (sel >= 0) {
+            p.appendChild(o.options[sel]);
+            o.selectedIndex = -1;
+            p.selectedIndex = -1;
+            o.blur();
+            p.blur();
+        }
+    }
+
+    function m3_hideShowMoveAll(id, s)
+    {
+        var o = document.getElementById((s ? 'p_hide' : 'p_show') + id);
+        var p = document.getElementById((s ? 'p_show' : 'p_hide') + id);
+        
+        for (var i = o.options.length - 1; i >= 0; i--) {
+            p.appendChild(o.options[i]);
+        }
+        
+        o.selectedIndex = -1;
+        p.selectedIndex = -1;
+        o.blur();
+        p.blur();
+    }
+
+    function m3_hideShowSubmit()
+    {
+        var s = document.getElementsByTagName('SELECT');
+        for (var i = 0; i < s.length; i++) {
+            if (s[i].id.match(/^p_(show|hide)/)) {
+                for (var j = 0; j < s[i].options.length; j++) {
+                    var c = document.createElement('INPUT');
+                    c.type = 'hidden';
+                    c.name = s[i].name;
+                    c.value = s[i].options[j].value;
+                    s[i].parentNode.appendChild(c);
+                }
+            }
+        }
+        
+        return true;
+    }
+
+    <?php echo $onLoadUniqueJs; ?>
+
+//-->
+</script>
+
+<?php
+
+phpAds_PageFooter();
+
+?>

@@ -1,0 +1,821 @@
+<?php
+/*
++---------------------------------------------------------------------------+
+| Max Media Manager v0.3                                                    |
+| =================                                                         |
+|                                                                           |
+| Copyright (c) 2003-2006 m3 Media Services Limited                         |
+| For contact details, see: http://www.m3.net/                              |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: common.php 6108 2006-11-24 11:34:58Z andrew@m3.net $
+*/
+
+
+require_once MAX_PATH . '/lib/max/Admin_DA.php';
+require_once MAX_PATH . '/lib/max/other/lib-acl.inc.php';
+
+    // +---------------------------------------+
+    // | generic permission checks             |
+    // |                                       |
+    // | filtering by user type                |
+    // +---------------------------------------+
+
+
+function MAX_checkAd($advertiserId, $placementId, $adId)
+{
+    $allowed = false;
+    if (is_numeric($advertiserId) && is_numeric($placementId) && is_numeric($adId)) {
+        if (phpAds_isUser(phpAds_Admin)) {
+
+            //  determine if there are 1 or more ads
+            $allowed = (count(
+                Admin_DA::getAds(
+                    array(
+                        'advertiser_id' => $advertiserId,
+                        'placement_id' => $placementId,
+                        'ad_id' => $adId))));
+        } elseif (phpAds_isUser(phpAds_Agency)) {
+
+            //  determine if there are 1 or more ads
+            $allowed = (count(
+                Admin_DA::getAds(
+                    array(
+                        'agency_id' => phpAds_getAgencyID(),
+                        'advertiser_id' => $advertiserId,
+                        'placement_id' => $placementId,
+                        'ad_id' => $adId))));
+        } elseif (phpAds_isUser(phpAds_Client)) {
+            $allowed = ($advertiserId == phpAds_getUserID())
+                        && count(Admin_DA::getAds(
+                            array(  'advertiser_id' => $advertiserId,
+                                    'placement_id' => $placementId,
+                                    'ad_id' => $adId)));
+        }
+    }
+    return $allowed;
+}
+
+function MAX_checkAdvertiser($advertiserId)
+{
+    $allowed = false;
+    if (is_numeric($advertiserId) && $advertiserId > 0) {
+        if (phpAds_isUser(phpAds_Admin)) {
+            $allowed = count(Admin_DA::getAdvertisers(array('advertiser_id' => $advertiserId)));
+        } elseif (phpAds_isUser(phpAds_Agency)) {
+            $allowed = count(Admin_DA::getAdvertisers(
+                array(  'agency_id' => phpAds_getAgencyID(),
+                        'advertiser_id' => $advertiserId)));
+        } elseif (phpAds_isUser(phpAds_Client)) {
+            $allowed = ($advertiserId == phpAds_getUserID())
+                        && count(Admin_DA::getAdvertisers(array('advertiser_id' => $advertiserId)));
+        }
+    }
+    return $allowed;
+}
+
+function MAX_checkAgency($agencyId)
+{
+    $allowed = false;
+    if (is_numeric($agencyId)) {
+        if (phpAds_isUser(phpAds_Admin)) {
+            $allowed = count(Admin_DA::getAgencies(array('agency_id' => $agencyId)));
+        } elseif (phpAds_isUser(phpAds_Agency)) {
+            $allowed = ($agencyId == phpAds_getUserId())
+                        && count(Admin_DA::getAgencies(array('agency_id' => $agencyId)));
+        } elseif (phpAds_isUser(phpAds_Client)) {
+            $allowed = ($agencyId == phpAds_getAgencyID())
+                        && count(Admin_DA::getAgencies(array('agency_id' => $agencyId)));
+        }
+    }
+    return $allowed;
+}
+
+function MAX_checkPublisher($publisherId)
+{
+    $allowed = false;
+    if (is_numeric($publisherId)) {
+        if (phpAds_isUser(phpAds_Admin)) {
+            $allowed = count(Admin_DA::getPublishers(array('publisher_id' => $publisherId)));
+        } elseif (phpAds_isUser(phpAds_Agency)) {
+            $allowed = count(Admin_DA::getPublishers(
+                array(  'agency_id' => phpAds_getAgencyID(),
+                        'publisher_id' => $publisherId)));
+        } elseif (phpAds_isUser(phpAds_Affiliate)) {
+            $allowed = ($publisherId == phpAds_getUserID())
+                        && count(Admin_DA::getPublishers(array('publisher_id' => $publisherId)));
+        }
+    }
+    return $allowed;
+}
+
+function MAX_checkPlacement($advertiserId, $placementId)
+{
+    $allowed = false;
+    if (is_numeric($advertiserId) && is_numeric($placementId)) {
+        if (phpAds_isUser(phpAds_Admin)) {
+            $allowed = count(Admin_DA::getPlacements(
+                array(  'advertiser_id' => $advertiserId,
+                        'placement_id' => $placementId)));
+        } elseif (phpAds_isUser(phpAds_Agency)) {
+            $allowed = count(Admin_DA::getPlacements(
+                array(  'agency_id' => phpAds_getAgencyID(),
+                        'advertiser_id' => $advertiserId,
+                        'placement_id' => $placementId)));
+        } elseif (phpAds_isUser(phpAds_Client)) {
+            $allowed = ($advertiserId == phpAds_getUserID())
+                        && count(Admin_DA::getPlacements(
+                array(  'advertiser_id' => $advertiserId,
+                        'placement_id' => $placementId)));
+        }
+    }
+    return $allowed;
+}
+
+function MAX_checkTracker($advertiserId, $trackerId)
+{
+    $allowed = false;
+    if (is_numeric($advertiserId) && is_numeric($trackerId)) {
+        if (phpAds_isUser(phpAds_Admin)) {
+            $allowed = count(Admin_DA::getTrackers(
+                array(  'advertiser_id' => $advertiserId,
+                        'tracker_id' => $trackerId)));
+        } elseif (phpAds_isUser(phpAds_Agency)) {
+            $allowed = count(Admin_DA::getTrackers(
+                array(  'agency_id' => phpAds_getAgencyID(),
+                        'advertiser_id' => $advertiserId,
+                        'tracker_id' => $trackerId)));
+        } elseif (phpAds_isUser(phpAds_Client)) {
+            $allowed = ($advertiserId == phpAds_getUserID())
+                        && count(Admin_DA::getTrackers(
+                array(  'advertiser_id' => $advertiserId,
+                        'tracker_id' => $trackerId)));
+        }
+    }
+    return $allowed;
+}
+
+function MAX_checkZone($publisherId, $zoneId)
+{
+    $allowed = false;
+    if (is_numeric($publisherId) && is_numeric($zoneId)) {
+        if (phpAds_isUser(phpAds_Admin)) {
+            $allowed = count(Admin_DA::getZones(
+                array(  'publisher_id' => $publisherId,
+                        'zone_id' => $zoneId)));
+        } elseif (phpAds_isUser(phpAds_Agency)) {
+            $allowed = count(Admin_DA::getZones(
+                array(  'agency_id' => phpAds_getAgencyID(),
+                        'publisher_id' => $publisherId,
+                        'zone_id' => $zoneId)));
+        } elseif (phpAds_isUser(phpAds_Affiliate)) {
+            $allowed = ($publisherId == phpAds_getUserID())
+                        && count(Admin_DA::getZones(
+                array(  'publisher_id' => $publisherId,
+                        'zone_id' => $zoneId)));
+        }
+    }
+    return $allowed;
+}
+
+function MAX_checkAdZoneValid($aZone, $aAd)
+{
+    $valid = true;
+    if ($aZone['width'] > -1 && $aZone['width'] != $aAd['width']) {
+        $valid = false;
+    } elseif ($aZone['height'] > -1 && $aZone['height'] != $aAd['height']) {
+        $valid = false;
+    } elseif ($aAd['type'] == 'txt' && $aZone['type'] != phpAds_ZoneText) {
+        $valid = false;
+    } elseif ($aZone['type'] == phpAds_ZoneText && $aAd['type'] != 'txt') {
+        $valid = false;
+    }
+    return $valid;
+}
+
+function MAX_checkChannel($agencyId, $channelId)
+{
+    $allowed = false;
+    if (is_numeric($agencyId) && is_numeric($channelId)) {
+        if (phpAds_isUser(phpAds_Admin)) {
+            $allowed = count(Admin_DA::getChannels(
+                array( 'channel_id' => $channelId,
+                       'channel_type' => 'admin')));
+        } elseif (phpAds_isUser(phpAds_Agency)) {
+            $allowed = count(Admin_DA::getChannels(
+                array(  'agency_id' => $agencyId,
+                        'channel_id' => $channelId)));
+        } elseif (phpAds_isUser(phpAds_Affiliate)) {
+            $allowed = false;
+        }
+    }
+    return $allowed;
+}
+function MAX_getPlacementName($aPlacement, $length = null)
+{
+    if (!empty($aPlacement)) {
+        if ((phpAds_isUser(phpAds_Publisher) || phpAds_isUser(phpAds_Advertiser)) && $aPlacement['anonymous'] == 't') {
+            $name = $GLOBALS['strHiddenCampaign'] . ' ' . $aPlacement['placement_id'];
+        } else {
+            $name = empty($aPlacement['name']) ? $GLOBALS['strUntitled'] : $aPlacement['name'];
+        }
+    } else {
+        $name = '';
+    }
+
+    if (is_numeric($length) && sizeof($name) > $length) {
+        $name = substr($name, 0, $length);
+    }
+
+    return $name;
+}
+function MAX_getAdName($description, $alt = null, $length = null, $anonymous = false, $id = null)
+{
+    $name = $GLOBALS['strUntitled'];
+    if (!empty($alt)) $name = $alt;
+    if (!empty($description)) $name = $description;
+    if ((phpAds_isUser(phpAds_Publisher) || phpAds_isUser(phpAds_Advertiser)) && $anonymous) {
+        $name = $GLOBALS['strHiddenAd'];
+        if (!empty($id)) {
+            $name = $name . ' ' . $id;
+        }
+    }
+
+    if (is_numeric($length) && sizeof($name) > $length) {
+        $name = substr($name, 0, $length);
+    }
+
+    return $name;
+}
+function MAX_getZoneName($zoneName, $length = null, $anonymous = false, $id = null)
+{
+    $name = $GLOBALS['strUntitled'];
+    if (!empty($zoneName)) $name = $zoneName;
+    if (phpAds_isUser(phpAds_Advertiser) && $anonymous) {
+        $name = $GLOBALS['strHiddenZone'];
+        if (!empty($id)) {
+            $name = $name . ' ' . $id;
+        }
+    }
+
+    if (is_numeric($length) && sizeof($name) > $length) {
+        $name = substr($name, 0, $length);
+    }
+
+    return $name;
+}
+function MAX_getPublisherName($publisherName, $length = null, $anonymous = false, $id = null)
+{
+    $name = $GLOBALS['strUntitled'];
+    if (!empty($publisherName)) $name = $publisherName;
+    if (phpAds_isUser(phpAds_Advertiser) && $anonymous) {
+        $name = $GLOBALS['strHiddenPublisher'];
+        if (!empty($id)) {
+            $name = $name . ' ' . $id;
+        }
+    }
+
+    if (is_numeric($length) && sizeof($name) > $length) {
+        $name = substr($name, 0, $length);
+    }
+
+    return $name;
+}
+function MAX_getTrackerName($trackerName, $length = null, $anonymous = false, $id = null)
+{
+    $name = $GLOBALS['strUntitled'];
+    if (!empty($trackerName)) $name = $trackerName;
+    if (phpAds_isUser(phpAds_Publisher) && $anonymous) {
+        $name = $GLOBALS['strHiddenTracker'];
+        if (!empty($id)) {
+            $name = $name . ' ' . $id;
+        }
+    }
+
+    if (is_numeric($length) && sizeof($name) > $length) {
+        $name = substr($name, 0, $length);
+    }
+
+    return $name;
+}
+function MAX_getAdvertiserName($advertiserName, $length = null, $anonymous = false, $id = null)
+{
+    $name = $GLOBALS['strUntitled'];
+    if (!empty($advertiserName)) $name = $advertiserName;
+    if (phpAds_isUser(phpAds_Publisher) && $anonymous) {
+        $name = $GLOBALS['strHiddenAdvertiser'];
+        if (!empty($id)) {
+            $name = $name . ' ' . $id;
+        }
+    }
+
+    if (is_numeric($length) && sizeof($name) > $length) {
+        $name = substr($name, 0, $length);
+    }
+
+    return $name;
+}
+function MAX_getBannerName($description, $alt)
+{
+    global $strUntitled;
+
+    $name = $strUntitled;
+    if (!empty($alt)) $name = $alt;
+    if (!empty($description)) $name = $description;
+    $name = phpAds_breakString ($name, '30');
+
+    return $name;
+}
+
+
+    // +---------------------------------------+
+    // | $_REQUEST methods                     |
+    // |                                       |
+    // | and handling magic quotes             |
+    // +---------------------------------------+
+function MAX_getValue($key, $default = null)
+{
+    $value = $default;
+    if (isset($_REQUEST[$key])) {
+        $value = $_REQUEST[$key];
+        if (!get_magic_quotes_gpc()) {
+            MAX_addslashes($value);
+        }
+    }
+
+    return $value;
+}
+
+function MAX_getStoredValue($key, $default, $pageName=null)
+{
+    global $session, $pgName;
+    if(isset($pgName)) {
+        $pageName = $pgName;
+    } else {
+        $pageName = basename($_SERVER['PHP_SELF']);
+    }
+
+    $value = $default;
+    if (isset($_REQUEST[$key])) {
+        $value = $_REQUEST[$key];
+        if (!get_magic_quotes_gpc()) MAX_addslashes($value);
+    } elseif (isset($session['prefs']['GLOBALS'][$key])) {
+        $value = $session['prefs']['GLOBALS'][$key];
+    } elseif (isset($session['prefs'][$pageName][$key])) {
+        $value = $session['prefs'][$pageName][$key];
+    }
+
+    return $value;
+}
+
+
+function MAX_changeStoredValue($key, $value)
+{
+    global $session;
+    $pageName = basename($_SERVER['PHP_SELF']);
+
+    if (isset($_REQUEST[$key])) {
+        $_REQUEST[$key] = $value;
+    }
+    if (isset($_GET[$key])) {
+        $_GET[$key] = $value;
+    }
+    if (isset($_POST[$key])) {
+        $_POST[$key] = $value;
+    }
+    if (isset($session['prefs']['GLOBALS'][$key])) {
+        $session['prefs']['GLOBALS'][$key] = $value;
+    }
+    if (isset($session['prefs'][$pageName][$key])) {
+        $session['prefs'][$pageName][$key] = $value;
+    }
+
+    return true;
+}
+
+
+
+function MAX_addslashes(&$item)
+{
+    if (isset($item)) {
+        if (is_array($item)) {
+            array_walk($item, 'MAX_addslashes');
+        } else {
+            $item = addslashes($item);
+        }
+    }
+}
+
+    // +---------------------------------------+
+    // | array utilties                        |
+    // +---------------------------------------+
+
+// this is never called
+function MAX_arrayMergeRecursive(&$a, &$b)
+{
+    $keys = array_keys($a);
+    foreach ($keys as $key) {
+        if (isset($b[$key])) {
+            if (is_array($a[$key]) && is_array($b[$key])) {
+                //????????? the 'merge' fn not only is not a PHP fn, it's not defined anywhere, go figure ...
+                merge($a[$key], $b[$key]);
+            } else {
+                $a[$key] = $b[$key];
+            }
+        }
+    }
+    $keys = array_keys($b);
+    foreach ($keys as $key) {
+        if (!isset($a[$key])) {
+            $a[$key] = $b[$key];
+        }
+    }
+}
+
+function MAX_getStoredArray($key, $default)
+{
+    global $session;
+    $pageName = basename($_SERVER['PHP_SELF']);
+
+    $value = $default;
+    if (isset($_REQUEST[$key])) {
+        $value = explode(',',$_REQUEST[$key]);
+        if (!get_magic_quotes_gpc()) {
+            MAX_addslashes($value);
+        }
+    } elseif (isset($session['prefs'][$pageName][$key])) {
+        $value = explode(',',$session['prefs'][$pageName][$key]);
+    }
+    return $value;
+}
+
+    // +---------------------------------------+
+    // | tree node state handling              |
+    // +---------------------------------------+
+function MAX_adjustNodes(&$aNodes, $expand, $collapse)
+{
+    if (!empty($expand)) {
+        if ($expand != 'all') {
+            if ($expand == 'none') {
+                $aNodes = array();
+            }
+            elseif (!in_array($expand, $aNodes)) {
+                $aNodes[] = $expand;
+            }
+        }
+    }
+
+    if (!empty($collapse) && in_array($collapse, $aNodes) ) {
+        unset($aNodes[array_search($collapse, $aNodes)]);
+    }
+}
+
+/**
+ * Determine if a node is expanded or not.
+ *
+ * @param integer $id
+ * @param string $expand
+ * @param array $aNodes
+ * @param string $prefix
+ * @return boolean
+ */
+function MAX_isExpanded($id, $expand, &$aNodes, $prefix)
+{
+    $isExpanded = false;
+    if ($expand == 'all') {
+        $isExpanded = true;
+        if (!in_array($prefix . $id, $aNodes)) {
+            $aNodes[] = $prefix . $id;
+        }
+    } elseif ($expand != 'none' && in_array($prefix . $id, $aNodes)) {
+        $isExpanded = true;
+    }
+
+    return $isExpanded;
+}
+
+    // +---------------------------------------+
+    // | adjustments                           |
+    // +---------------------------------------+
+function MAX_addDefaultPlacementZones($adId, $placementId)
+{
+    $aAdZones = Admin_DA::getAdZones(array('ad_id' => $adId), true, 'zone_id');
+    $aPlacementZones = Admin_DA::getPlacementZones(array('placement_id' => $placementId), true, 'zone_id');
+    if (!empty($aPlacementZones)) {
+        foreach ($aPlacementZones as $zoneId => $aPlacementZone) {
+            if (!isset($aAdZones[$zoneId])) {
+                Admin_DA::addAdZone(array('ad_id' => $adId, 'zone_id' => $zoneId));
+            }
+        }
+    }
+}
+// For a given ad id, make sure that zones have correct size/type.  Otherwise, unlink ads from the zone...
+function MAX_adjustAdZones($adId)
+{
+    $aAdZones = Admin_DA::getAdZones(array('ad_id' => $adId), true, 'zone_id');
+    if (!empty($aAdZones)) {
+        $aAd = Admin_DA::getAd($adId);
+        $aZones = Admin_DA::getZones(array('zone_id' => implode(',', array_keys($aAdZones))), true);
+        // get zones linked to this campaign
+        $aPlacementZones = Admin_DA::getPlacementZones(array('placement_id' => $aAd['placement_id']), true, 'zone_id');
+        foreach ($aZones as $zoneId => $aZone) {
+            if (!MAX_checkAdZoneValid($aZone, $aAd)) {
+                Admin_DA::deleteAdZones(array('zone_id' => $zoneId, 'ad_id' => $adId));
+            } else {
+                // if ad's campaign is linked to this zone, link ad to zone
+                if (isset($aPlacementZones[$zoneId])) {
+                    Admin_DA::addAdZone(array('zone_id' => $zoneId, 'ad_id' => $adId));
+                }
+            }
+        }
+    }
+}
+
+function MAX_adjustZoneAds($zoneId)
+{
+    $aAdZones = Admin_DA::getAdZones(array('zone_id' => $zoneId), true, 'ad_id');
+    if (!empty($aAdZones)) {
+        $aZone = Admin_DA::getZone($zoneId);
+        $aAds = Admin_DA::getAds(array('ad_id' => implode(',', array_keys($aAdZones))));
+        foreach ($aAds as $adId => $aAd) {
+            if (!MAX_checkAdZoneValid($aZone, $aAd)) {
+                Admin_DA::deleteAdZones(array('zone_id' => $zoneId, 'ad_id' => $adId));
+            }
+        }
+    }
+}
+
+function MAX_addLinkedAdsToZone($zoneId, $placementId)
+{
+    $aParams = MAX_getLinkedAdParams($zoneId);
+    $aParams['placement_id'] = $placementId;
+
+    $aAds = Admin_DA::getAds($aParams);
+    //  FIXME
+    $aLinkedAds = Admin_DA::getAdZones(array('zone_id' => $zoneId), false, 'ad_id');
+    foreach ($aAds as $adId => $aAd) {
+        if (!isset($aLinkedAds[$adId])) {
+            $ret = Admin_DA::addAdZone(array('zone_id' => $zoneId, 'ad_id' => $adId));
+        }
+    }
+    if (PEAR::isError($ret)) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+// Get ad limitation parameters
+function MAX_getLinkedAdParams($zoneId)
+{
+    $aParams = array();
+    $aZone = Admin_DA::getZone($zoneId);
+    if ($aZone['type'] == phpAds_ZoneText) {
+        $aParams['ad_type'] = 'txt';
+    } else {
+        if ($aZone['width'] > -1) {
+            $aParams['ad_width'] = $aZone['width'];
+        }
+        if ($aZone['height'] > -1) {
+            $aParams['ad_height'] = $aZone['height'];
+        }
+    }
+    return $aParams;
+}
+
+    // +---------------------------------------+
+    // | file handling                         |
+    // +---------------------------------------+
+function MAX_removeFile($adId)
+{
+    $aAd =  Admin_DA::getAd($adId);
+#    $aAd = MAX_getEntity('ad', $adId);
+    _removeFile($aAd);
+}
+
+function MAX_removeFiles($aParams)
+{
+    $aAds =  Admin_DA::getAds($aParams);
+    foreach ($aAds as $aAd) {
+        _removeFile($aAd);
+    }
+}
+
+function _removeFile($aAd)
+{
+    $conf = $GLOBALS['_MAX']['CONF'];
+    $pref = $GLOBALS['_MAX']['PREF'];
+    if (!empty($aAd['filename'])) {
+        if ($aAd['type'] == 'web') {
+            if ($phpAds_config['type_web_mode'] == 0) {
+                $fileName = "{$phpAds_config['type_web_dir']}/{$aAd['filename']}";
+                if (@file_exists($fileName)) {
+                    @unlink ($fileName);
+                }
+            } else {
+                // FTP mode
+                $server = parse_url($phpAds_config['type_web_ftp']);
+                if ($server['path'] != '' && substr($server['path'], 0, 1) == '/') {
+                    $server['path'] = substr ($server['path'], 1);
+                }
+                if ($server['scheme'] == 'ftp') {
+                    $conn_id = @ftp_connect($server['host']);
+                    if ($server['pass'] && $server['user'])
+                    $login = @ftp_login ($conn_id, $server['user'], $server['pass']);
+                    else
+                    $login = @ftp_login ($conn_id, 'anonymous', $pref['admin_email']);
+                    if (($conn_id) || ($login)) {
+                        if ($server['path'] != '')
+                        @ftp_chdir ($conn_id, $server['path']);
+                        if (@ftp_size ($conn_id, $aAd['filename']) > 0) {
+                            @ftp_delete ($conn_id, $aAd['filename']);
+                        }
+                        @ftp_quit($conn_id);
+                    }
+                }
+            }
+        } elseif ($aAd['type'] == 'sql') {
+            Admin_DA::deleteImage($aAd['filename']);
+        }
+    }
+}
+
+    // +---------------------------------------+
+    // | Duplication functions                 |
+    // +---------------------------------------+
+
+function MAX_duplicatePlacement($placementId, $advertiserId) {
+    $conf = $GLOBALS['_MAX']['CONF'];
+    // Copy campaign details
+    $res = phpAds_dbQuery("
+        INSERT INTO {$conf['table']['prefix']}{$conf['table']['campaigns']} (
+            campaignname,
+            clientid,
+            views,
+            clicks,
+            conversions,
+            expire,
+            activate,
+            active,
+            priority,
+            weight,
+            target_impression,
+            target_click,
+            target_conversion,
+            anonymous,
+            companion,
+            comments,
+            revenue,
+            revenue_type,
+            updated
+        ) SELECT
+            CONCAT('Copy of ', campaignname),
+            $advertiserId,
+            views,
+            clicks,
+            conversions,
+            expire,
+            activate,
+            active,
+            priority,
+            weight,
+            target_impression,
+            target_click,
+            target_conversion,
+            anonymous,
+            companion,
+            comments,
+            revenue,
+            revenue_type,
+            '".date('Y-m-d H:i:s')."'
+          FROM {$conf['table']['prefix']}{$conf['table']['campaigns']}
+          WHERE
+            campaignid = {$placementId}
+    ");
+    $newPlacementId = phpAds_dbInsertID();
+
+    // Duplicate placement-zone-associations (Do this before duplicating banners to ensure an exact copy of ad-zone-assocs
+    MAX_duplicatePlacementZones($placementId, $newPlacementId);
+
+    // Duplicate placement-tracker-associations
+    $res = phpAds_dbQuery("
+        INSERT INTO
+            {$conf['table']['prefix']}{$conf['table']['campaigns_trackers']}
+             (campaignid,
+              trackerid,
+              status,
+              viewwindow,
+              clickwindow)
+            SELECT
+                {$newPlacementId},
+                 trackerid,
+                 status,
+                 viewwindow,
+                 clickwindow
+             FROM
+                 {$conf['table']['prefix']}{$conf['table']['campaigns_trackers']}
+             WHERE campaignid = {$placementId}
+    ");
+
+    // Duplicate banners
+    $res = phpAds_dbQuery("SELECT bannerid FROM {$conf['table']['prefix']}{$conf['table']['banners']} WHERE campaignid = {$placementId}");
+    while ($row = phpAds_dbFetchArray($res)) {
+        $newBannerId = MAX_duplicateAd($row['bannerid'], $newPlacementId);
+    }
+
+    return $newPlacementId;
+}
+
+function MAX_duplicateAd($adId, $placementId) {
+    $conf = $GLOBALS['_MAX']['CONF'];
+
+    // Duplicate the banner
+    $res = phpAds_dbQuery("
+        SELECT
+            *
+        FROM
+            {$conf['table']['prefix']}{$conf['table']['banners']}
+        WHERE
+            bannerid = '{$adId}'
+    ") or phpAds_sqlDie();
+
+    if ($row = phpAds_dbFetchArray($res)) {
+        // Remove bannerid
+        unset($row['bannerid']);
+        if ($row['campaignid'] == $placementId) {
+            $row['description'] = 'Copy of ' . $row['description'];
+        }
+
+        // Duplicate stored banner
+        if ($row['storagetype'] == 'web' || $row['storagetype'] == 'sql') {
+            $row['filename'] = phpAds_ImageDuplicate($row['storagetype'], $row['filename']);
+        } elseif ($row['type'] == 'web' || $row['type'] == 'sql') {
+            $row['filename'] = phpAds_ImageDuplicate($row['type'], $row['filename']);
+        }
+
+        // Clone banner
+        $values_fields = '';
+        $values = '';
+
+        $row['updated'] = date('Y-m-d H:i:s');
+        $row['campaignid'] = $placementId;
+
+        while (list($name, $value) = each($row)) {
+            $values_fields .= "$name, ";
+            $values .= "'".addslashes($value)."', ";
+        }
+
+        $values_fields = ereg_replace(", $", "", $values_fields);
+        $values = ereg_replace(", $", "", $values);
+
+        $res = phpAds_dbQuery("
+            INSERT INTO
+                {$conf['table']['prefix']}{$conf['table']['banners']}
+                ($values_fields)
+            VALUES
+                ($values)
+       ") or phpAds_sqlDie();
+
+        $new_adId = phpAds_dbInsertID();
+
+        // Copy ACLs and capping
+        MAX_AclCopy(basename($_SERVER['PHP_SELF']), $adId, $new_adId);
+
+        // Duplicate and ad-zone associations
+        MAX_duplicateAdZones($adId, $new_adId);
+    }
+    return $new_adId;
+}
+
+function MAX_duplicateAdZones($fromAdId, $toAdId) {
+    $aAdZones = Admin_DA::getAdZones(array('ad_id' => $fromAdId), true, 'zone_id');
+    if (!empty($aAdZones)) {
+        foreach ($aAdZones as $zoneId => $adId) {
+            Admin_DA::addAdZone(array('ad_id' => $toAdId, 'zone_id' => $zoneId));
+        }
+    }
+}
+
+function MAX_duplicatePlacementZones($fromPlacementId, $toPlacementId) {
+    $pAdZones = Admin_DA::getPlacementZones(array('placement_id' => $fromPlacementId), true, 'zone_id');
+    if (!empty($pAdZones)) {
+        foreach ($pAdZones as $zoneId => $placementId) {
+            Admin_DA::addPlacementZone(array('placement_id' => $toPlacementId, 'zone_id' => $zoneId));
+        }
+    }
+}
+
+?>

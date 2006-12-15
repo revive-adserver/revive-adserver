@@ -1,0 +1,139 @@
++---------------------------------------------------------------------------+
+| Max Media Manager v0.3                                                    |
+| =================                                                         |
+|                                                                           |
+| Copyright (c) 2003-2006 m3 Media Services Limited                         |
+| For contact details, see: http://www.m3.net/                              |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+
+
+
+Upgrading Past Data from Max v0.1 or phpAdsNew
+==============================================
+
+When upgrading from phpAdsNew or Max v0.1 to Max v0.3, the database structure
+is signigicantly different from before. The changes take far too long for even
+a moderate-sized database to convert. As a result, you will not have any past
+data after upgrading to Max v0.3. (Note that if you are upgrading from Max
+v0.2, you will not need to upgrade your past data.) If you would like to
+import your past data into your Max v0.3 installation, please run the
+following SQL code in your Max database using the MySQL client. Note that you
+may need to chage the table prefixes from "max_" to suit your installation.
+
+
+INSERT INTO
+    max_data_raw_ad_click
+    (
+        viewer_id,
+        date_time,
+        ad_id,
+        creative_id,
+        zone_id,
+        host_name,
+        country,
+        page
+    )
+SELECT
+    userid AS viewer_id,
+    t_stamp AS date_time,
+    bannerid AS ad_id,
+    '0' AS creative_id,
+    zoneid AS zone_id,
+    host AS host_name,
+    country AS country,
+    source AS page
+FROM
+    max_adclicks;
+
+INSERT INTO
+    max_data_raw_ad_impression
+    (
+        viewer_id,
+        date_time,
+        ad_id,
+        creative_id,
+        zone_id,
+        host_name,
+        country,
+        page
+    )
+SELECT
+    userid AS viewer_id,
+    t_stamp AS date_time,
+    bannerid AS ad_id,
+    '0' AS creative_id,
+    zoneid AS zone_id,
+    host AS host_name,
+    country AS country,
+    source AS page
+FROM
+    max_adviews;
+
+INSERT INTO
+    max_data_raw_tracker_impression
+    (
+        data_raw_tracker_impression_id,
+        server_raw_tracker_impression_id,
+        server_raw_ip,
+        viewer_id,
+        date_time,
+        tracker_id,
+        host_name,
+        country
+    )
+SELECT
+    conversionid AS data_raw_tracker_impression_id,
+    local_conversionid AS server_raw_tracker_impression_id,
+    dbserver_ip AS server_ip,
+    userid AS viewer_id,
+    t_stamp AS date_time,
+    trackerid AS tracker_id,
+    host AS host_name,
+    country AS country
+FROM
+    max_adconversions;
+
+INSERT INTO
+    max_data_summary_ad_hourly
+    (
+        day,
+        hour,
+        ad_id,
+        creative_id,
+        zone_id,
+        impressions,
+        clicks,
+        conversions
+    )
+SELECT
+    day,
+    hour,
+    bannerid,
+    '0' AS creative_id,
+    zoneid,
+    views,
+    clicks,
+    conversions
+FROM
+    max_adstats;
+
+
+
+
+Once you have run the above SQL code, and confirmed that all your old data is
+safely in your Max v0.3 installation, you can safely drop the adviews,
+adclicks, adconversions and adstats tables.

@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en_GB" xml:lang="en_GB">
+ <head>
+  <title>Tests for Date Check</title>
+  <script language="javascript" type="text/javascript" src="../../../../lib/jsunit/app/jsUnitCore.js"></script>
+  <script language="javascript" type="text/javascript" src="../../../../lib/selenium/jsmock/mock.js"></script>
+  <script language="javascript" type="text/javascript" src="../datecheck.js"></script>
+ </head>
+ <body>
+  <script language="javascript" type="text/javascript">
+    function testRegularDateIsValid()
+    {
+		assertTrue("A simple date", isValidDate(2001, 01, 01));
+		assertTrue("Januray 31st", isValidDate(2001, 01, 31));
+	}
+
+    function testFeb31()
+    {
+        assertFalse("There is no February 31st, ever.", isValidDate(2001, 02, 31));
+    }
+
+    function testLeapDay()
+    {
+    	assertTrue("There was a leap day in 2004", isValidDate(2004, 2, 29));
+    	assertFalse("There was no leap day in 2005", isValidDate(2005, 2, 29));
+    }
+
+    function testInvalidData()
+    {
+    	assertFalse("Empty dates are invalid", isValidDate());
+    	assertFalse("A dash for the year is invalid", isValidDate("-", 1, 1));
+    	assertFalse("A dash for the month is invalid", isValidDate(2005, "-", 1));
+    	assertFalse("A dash for the day is invalid", isValidDate(2005, 1, "-"));
+    }
+
+    function testValidityOfStrings()
+    {
+    	assertTrue("The calendar components can be passed in as strings", isValidDate("2005", "1", "1"));
+    }
+
+    function testBefore_Simple()
+    {
+    	var monday = newDateFromNumbers(2001, 1, 1);
+    	var tuesday = newDateFromNumbers(2001, 1, 2);
+        assertTrue("Monday is before Tuesday", isDateBefore(monday, tuesday));
+        assertFalse("Tuesday is not before Monday", isDateBefore(tuesday, monday));
+    }
+
+    function testBefore_Month()
+    {
+    	var jan31, feb01;
+    	jan31 = newDateFromNumbers(2001, 1, 31);
+    	feb01 = newDateFromNumbers(2001, 2, 1);
+    	assertTrue("Jan 31 is before Feb 01", isDateBefore(jan31, feb01));
+    }
+
+    function test_newDateFromNamedFields()
+    {
+    	var form = new Mock();
+    	var popsicleDay = new Mock;
+    	var popsicleMonth = new Mock;
+    	var popsicleYear = new Mock;
+    	var date;
+
+    	popsicleDay.expectsProperty("value").returns(27);
+    	popsicleMonth.expectsProperty("value").returns(3);
+    	popsicleYear.expectsProperty("value").returns(2005);
+
+    	form.expects("getElementsByName", "popsicleDay").returns(new Array(popsicleDay));
+    	form.expects("getElementsByName", "popsicleMonth").returns(new Array(popsicleMonth));
+    	form.expects("getElementsByName", "popsicleYear").returns(new Array(popsicleYear));
+
+    	date = newDateFromNamedFields(form, "popsicle");
+
+    	assertEquals("The date should match", 27, date.getDate());
+    	assertEquals(3 - 1, date.getMonth());
+    	assertEquals(2005, date.getFullYear());
+
+    	form.verify();
+    }
+
+  </script>
+  <p>This page is contains test cases in Javascript, and is
+  not meant to be viewed directly.</p>
+  <p>Please use the <a href="../../../../lib/jsunit/testRunner.html">JsUnit test runner</a> to view the results.</p>
+ </body>
+</html>

@@ -1,0 +1,69 @@
+<?php
+
+/*
++---------------------------------------------------------------------------+
+| Max Media Manager v0.3                                                    |
+| =================                                                         |
+|                                                                           |
+| Copyright (c) 2003-2006 m3 Media Services Limited                         |
+| For contact details, see: http://www.m3.net/                              |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: Areacode.plugin.php 6305 2006-12-14 14:35:30Z andrew@m3.net $
+*/
+
+require_once MAX_PATH . '/plugins/deliveryLimitations/DeliveryLimitations.php';
+
+/**
+ * A Geo delivery limitation plugin, for filtering delivery of ads on the
+ * basis of the viewer's area code (US only).
+ *
+ * Works with:
+ * A valid numeric area code.
+ *
+ * Valid comparison operators:
+ * ==, !=, =~, !=, =x, !x
+ *
+ * @package    MaxPlugin
+ * @subpackage DeliveryLimitations
+ * @author     Andrew Hill <andrew@m3.net>
+ * @author     Chris Nutting <chris@m3.net>
+ * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
+ */
+class Plugins_DeliveryLimitations_Geo_Areacode extends Plugins_DeliveryLimitations
+{
+
+    function Plugins_DeliveryLimitations_Geo_Areacode()
+    {
+        $this->Plugins_DeliveryLimitations();
+        $this->columnName = 'geo_area_code';
+        $this->nameEnglish = 'US Area code';
+    }
+
+    /**
+     * Return if this plugin is available in the current context
+     *
+     * @return boolean
+     */
+    function isAllowed()
+    {
+        return ((isset($GLOBALS['_MAX']['GEO_DATA']['areacode']))
+            || $GLOBALS['_MAX']['CONF']['geotargeting']['showUnavailable']);
+    }
+
+}
+
+?>

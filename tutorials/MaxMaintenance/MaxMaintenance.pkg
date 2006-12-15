@@ -1,0 +1,69 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>Maintenance</refname>
+  <refpurpose>Describes how the Maintenance Engine works</refpurpose>
+ </refnamediv>
+ <para>
+  The complete Maintenance Engine process consists of the following steps:
+  <orderedlist>
+   <listitem>{@tutorial MaxMaintenance/StatisticsAdServer.pkg The Maintenance
+   Statistics Engine process for the AdServer module}.</listitem>
+   <listitem>{@tutorial MaxMaintenance/StatisticsTracker.pkg The Maintenance
+   Statistics Engine process for the Tracker module}.</listitem>
+   <listitem>A number of undocumented once-per-day processes that are left over
+   from PAN (e.g. reports, campaign optimisation).</listitem>
+   <listitem>{@tutorial MaxMaintenance/PriorityAdServer.pkg The Maintenance
+   Priority Engine process for the AdServer module}.</listitem>
+  </orderedlist>
+ </para>
+ <refsect1 id="{@id oi}">
+  <title>About Operation Intervals</title>
+  <para>
+   An important part of understanding the Maintenance Engine process is grasping
+   the concept of an operation interval.
+  </para>
+  <para>
+   While Max Media Manager presents statistics in an hour-by-hour format in the
+   web based user interface, and by default updates these statistics and the
+   advertisement priorities each and every hour, some users do not require these
+   statistics and the advertisement priorities to be updated every hour.
+   Alternatively, some users need the advertisement priorities to be updated
+   <emphasis>more</emphasis> often than once an hour.
+  </para>
+  <para>
+   The <emphasis>operation interval</emphasis> of Max is the measure of how often
+   the Maintenance process is (or, rather, is supposed to be) run. For most users, the
+   operation interval will be 60 minutes. However, some users may choose to run
+   the Maintenance process more, or less, often. However, the operation interval
+   <emphasis>must</emphasis> be a factor (i.e, 1, 2, 3, 4, 5, 6, 10, 12, 15, 20,
+   or 30) or a multiple (i.e. 60, 120, 180, ... 10080) of 60 minutes. The maximum
+   operation interval is 10080 minutes, equivalent to running the Maintenance
+   Engine process once a week.
+  </para>
+  <para>
+   If the operation interval is 60 minutes, then each time the Maintenance Engine 
+   process is run, the hourly statistics in the Max user interface will be updated,
+   as will the advertisement priorities.
+  </para>
+  <para>
+   Similarly, if the operation interval is more than 60 minutes, then each time the
+   Maintenance Engine process is run, the hourly statistics in the Max user interface
+   will be updated, as will the advertisement priorities. Obviously, though, because
+   the Maintenance Engine process is not being run each hour, then the hourly
+   statistics and advertisement priorities are <emphasis>not</emphasis> updated each
+   hour.
+  </para>
+  <para>
+   If the operation interval is less than 60 minutes, then each time the Maintenance
+   Engine process is run, the advertisement priorities will be updated. However, the
+   hourly statistics in the Max user interface will <emphasis>not</emphasis> be updated
+   each time - they will only be updated at the end of the hour.
+  </para>
+  <para>
+   <emphasis>Note: In order for the above to work, the operation interval value
+   must be correctly set in the Maintenance configuration file, and your cronjob
+   or task must be set up correctly to run the Maintenance Engine process at the 
+   correct operation interval.</emphasis>
+  </para>
+ </refsect1>
+</refentry>

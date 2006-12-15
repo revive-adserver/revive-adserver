@@ -1,0 +1,795 @@
+<?php
+
+/*
++---------------------------------------------------------------------------+
+| Max Media Manager v0.3                                                    |
+| =================                                                         |
+|                                                                           |
+| Copyright (c) 2003-2006 m3 Media Services Limited                         |
+| For contact details, see: http://www.m3.net/                              |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+require_once MAX_PATH . '/lib/max/DB.php';
+require_once MAX_PATH . '/lib/max/SqlBuilder.php';
+require_once MAX_PATH . '/lib/max/Table/Core.php';
+require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
+require_once MAX_PATH . '/lib/max/Delivery/common.php';
+require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
+require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
+require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer.php';
+require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
+
+/**
+ * A class for simulating maintenance/delivery scenarios
+ *
+ * @package
+ * @subpackage
+ * @author
+ */
+class SimulationScenario
+{
+    var $sourceFile = '';
+
+    var $requestFile = '';
+    var $requestData = '';
+
+    var $totalDelivery = 0;
+    var $totalRequests = 0;
+
+    var $aDelivered = array();
+    var $aFailed = array();
+
+    var $scenarioConfig = '';
+
+    var $tablePrefix = '';
+    var $oServiceLocator;
+    var $oCoreTables;
+    var $oDBH;
+
+    var $loadCommonData = false;
+
+    /**
+     * The constructor method.
+     */
+    function SimulationScenario()
+    {
+
+    }
+
+    /**
+     * initialisation
+     *
+     * load the 'requestset' config file
+     * do not load the dataset yet - allow child scenario to choose
+     *
+     * @param string $filename - name of scenario's dataset and config
+     * @param string $dbname database name
+     */
+    function init($filename)
+    {
+
+        $GLOBALS['_MAX']['CONF']['database'] = $GLOBALS['_MAX']['CONF']['simdb'];
+        $GLOBALS['_MAX']['CONF']['table']['prefix']    = '';
+
+//        $GLOBALS['_MAX']['CONF']['simdb']['name'] = $dbname;
+//        $GLOBALS['_MAX']['CONF']['database']  = $GLOBALS['_MAX']['CONF']['simdb'];
+
+        // assign the inputs
+        $this->sourceFile = FOLDER_DATA.'/'.$filename.'.sql';
+        $this->requestFile = FOLDER_DATA.'/'.$filename.'.php';
+        // load the request data
+        $this->loadRequestset();
+
+        // tweak some conf vals
+        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = '';
+        $_COOKIE = $HTTP_COOKIE_VARS = array();
+
+        //start with a clean set of tables
+        MAX_Table_Core::destroy();
+        $this->oCoreTables = MAX_Table_Core::singleton();
+
+        // set up some services
+        $this->oServiceLocator = &ServiceLocator::instance();
+        $this->oServiceLocator->register('MAX_TABLES', $tables);
+
+        // MAX_TABLES instance registers MAX_DB
+        $this->oDBH = &$this->oServiceLocator->get('MAX_DB');
+
+        // load some commom data if required
+        // commonly a root user record
+        if ($this->loadCommonData)
+        {
+            $this->loadDataset(FOLDER_DATA.'/common.sql');
+        }
+
+        // fake the date/time
+        $this->setDateTime();
+    }
+
+    /**
+     * create a new set of max tables
+     * this is called by the child class
+     * it might not want them!
+     *
+     */
+    function newTables()
+    {
+        if ($this->oDBH)
+        {
+            $this->oCoreTables->dropAllTables();
+            $this->oCoreTables->createAllTables();
+        }
+        else
+        {
+            $this->reportResult(false, 'could not create new tables, invalid db object', $this->oDBH);
+        }
+    }
+
+    /**
+     * execute a set of ad requests
+     *
+     * @param int $iteration : the id of the current iteration (*hour*)
+     */
+    function makeRequests($iteration)
+    {
+        $aIteration = $this->scenarioConfig['aIterations'][$iteration];
+        $requestObjs = count($aIteration['request_objects']);
+
+        $this->printHeading('Starting requests; date: ' . $this->_getDateTimeString(), 3);
+
+        $k = 0;
+        for($i=1;$i<=$aIteration['max_requests'];$i++)
+        {
+            if ($aIteration['shuffle_requests'])
+            {
+                $k = rand(1, $requestObjs);
+            }
+            else
+            {
+                $k = ($k==$requestObjs ? 1 : $k+1 );
+            }
+
+            $this->_init_delivery();
+
+            // turn on output buffering
+            ob_start();
+
+            // actually make the request
+            $result = $this->_makeRequest($aIteration['request_objects'][$k]);
+
+            // if an ad has been served
+            if ($result && is_array($result) && array_key_exists('bannerid',$result))
+            {
+                //var_dump($result);
+                // is a beacon present in the html
+                $URL = $this->_getBeaconURL($result['bannerid'], $result['html']);
+
+                // make the logging beacon request
+                $this->_logBeacon($URL);
+            }
+
+            // turn off output buffering
+            ob_end_clean();
+
+            // manipulate user cookies that are required by delivery engine
+            $this->_simulateCookies();
+
+            // log what happened in this iteration
+            $this->_recordDelivery($iteration, $result['bannerid']);
+        }
+
+        // add up the delivery stats for this interval and store to data_summary_ad_zone table
+        $this->_summariseInterval($iteration, $i-1);
+
+        $this->printHeading('End requests; date: ' . $this->_getDateTimeString(), 3);
+
+        // increment the fake date/time by an hour
+        $this->_incDateTimeByOneHour();
+    }
+
+    /**
+     * execute bits of init_delivery.php that we need
+     */
+    function _init_delivery()
+    {
+        // initialises vars, increments capping cookies, sets time
+        //require '../init-delivery.php';
+
+        // Set common delivery parameters in the global scope
+        MAX_commonInitVariables();
+        // tweak the time set in MAX_commonInitVariables
+        $GLOBALS['_MAX']['NOW'] = $this->_getDateTimestamp();
+
+        // Unpack the packed capping cookies
+        MAX_cookieUnpackCapping();
+        /**
+        before REAL ad selection and beacon logging starts
+        cookies will be read and cap val incremented
+        simulation will not be able to read them
+        so need to manually manipulate them
+        discard the _MAX cookies
+        normally done in UnpackCapping func by *unsetting* the cookie
+        **/
+        foreach ($_COOKIE AS $k => $v)
+        {
+            if (substr($k, 0, 1)=='_')
+            {
+                unset($_COOKIE[$k]);
+            }
+        }
+        // clear the cookie cache
+        //var_dump($GLOBALS['_MAX']['COOKIE']['CACHE']);
+        $GLOBALS['_MAX']['COOKIE']['CACHE'] = '';
+    }
+
+    /**
+     * after REAL ad selection and beacon logging
+     * cookies will have been sent
+     * simulation will not be able to read them
+     * and doesn't send them properly anyway
+     * so
+     * need to manually manipulate the global cookies array
+     *
+     */
+    function _simulateCookies()
+    {
+        //var_dump($_COOKIE);
+        // ok, user is not a new viewer any more
+        unset($GLOBALS['_MAX']['COOKIE']['newViewerId']);
+
+        // capping cookies would normally be created as
+        // _MAXCAP => array(adId=>intval)
+        // but because they are not sent for real
+        // they get saved as "_MAXCAP[1]" => intval
+        // need _MAXCAP array (and MAXCAP array ?)
+        // _MAXCAP array will be unpacked
+        // before next request and used to
+        // increment MAXCAP array
+        foreach ($_COOKIE AS $k => $v)
+        {
+            if (substr($k, 0, 1)=='_')
+            {
+                if (substr($k, strlen($k)-1, 1)==']')
+                {
+                    $idx  = substr($k, strpos($k, '[')+1, 1);
+                    $name = substr($k, 1, strpos($k, '[')-1);
+                    if (!array_key_exists($name, $_COOKIE))
+                    {
+                        $_COOKIE[$name] = array();
+                    }
+                    if (!array_key_exists($idx, $_COOKIE[$name]))
+                    {
+                        $_COOKIE[$name][$idx] = 0;
+                    }
+                    $_COOKIE['_'.$name][$idx] = $v;
+                }
+            }
+        }
+    }
+    /**
+     * make a request via adSelect function
+     *
+     * @param string $what
+     * @return array of ad info
+     */
+    function _makeRequest($oRequest)
+    {
+        return MAX_adSelect(
+                            $oRequest->what,
+                            $oRequest->target,
+                            $oRequest->source,
+                            $oRequest->withText,
+                            $oRequest->context,
+                            $oRequest->richMedia,
+                            $oRequest->ct0,
+                            $oRequest->loc,
+                            $oRequest->referer
+                           );
+    }
+
+    /**
+     * find a logging beacon url
+     *
+     * @param int $bannerId - if null then delivery failed
+     * @package string $html
+     */
+    function _getBeaconURL($bannerId, $html)
+    {
+        $beaconUrl = '';
+        if ($bannerId)
+        {
+            $pattern    = "<img src=\'http:\/\/\/lg.php\?(?P<bURL>[\w\W\s]+)'[\w\W\s]+>";
+       		$i	= preg_match_all('/'.$pattern.'/U', $html, $aMatch);
+       		if ($i)
+       		{
+                $beaconURL  = $aMatch['bURL'][0];
+       		}
+        }
+        return $beaconURL;
+    }
+
+    /**
+     * merge the url params with global $_REQUEST
+     * call the lg.php script
+     *
+     * @param int $bannerId - if null then delivery failed
+     * @package string $html
+     */
+    function _logBeacon($beaconURL)
+    {
+        if ($beaconURL)
+        {
+            $requestSave    = $_REQUEST;
+            $getSave        = $_GET;
+            $_GET           = array();
+            $request        = MAX_querystringParseStr($beaconURL, &$aRequest, '&amp;');
+            $_REQUEST       = $aRequest;
+            chdir(MAX_PATH . '/www/delivery');
+            include('./lg.php');
+            chdir(MAX_PATH . '/simulation');
+            $_REQUEST       = $requestSave;
+            $_GET           = $getSave;
+   		}
+   		else
+   		{
+            MAX_cookieFlush();
+   		}
+    }
+
+    /**
+     * increment the success or failure values in arrays
+     * increment the totalDelivery value
+     * increment the totalRequests value
+     *
+     * @param int $iteration
+     * @param int $bannerId - if null then delivery failed
+     */
+    function _recordDelivery($iteration, $bannerId)
+    {
+        //create the delivered success/failure array keys for current iteration
+		if (! array_key_exists($iteration,$this->aDelivered))
+		{
+		    $this->aDelivered[$iteration] = array();
+		}
+		if (! array_key_exists($iteration,$this->aFailed))
+		{
+    		$this->aFailed[$iteration]  = array();
+		}
+        if ($bannerId)
+        {
+            $array = &$this->aDelivered;
+            $this->totalDelivery++;
+        }
+        else
+        {
+            $array = &$this->aFailed;
+    		$bannerId = 0;
+        }
+	    if (!array_key_exists($bannerId,$array[$iteration]))
+	    {
+	        $array[$iteration][$bannerId] = 0;
+	    }
+        $array[$iteration][$bannerId]++;
+        $this->totalRequests++;
+    }
+
+    /**
+     *
+     * add up the delivery stats for this interval
+     * store to data_summary_ad_zone table
+     *
+     * @param int $hour
+     * @param int $requests
+     */
+    function _summariseInterval($interval, $requests)
+    {
+       //$this->printHeading('summary hourly insert: '. $interval);
+       $date = $this->_getDateTimeString();
+       if (count($this->aFailed[$interval])>0)
+       {
+            $this->reportResult(false, 'delivery ', $this->aFailed[$interval][0]);
+       }
+       if (count($this->aDelivered[$interval])==0)
+       {
+            $this->printMessage('nothing delivered');
+            return ;
+       }
+       $table = $this->tablePrefix.$GLOBALS['_MAX']['CONF']['table']['data_summary_ad_hourly'];
+
+       foreach($this->aDelivered[$interval] as $bannerid => $impressions)
+       {
+           // need to get/put zone id?
+            $aValues = array(
+                              'day' => $date,
+                              'hour' => $interval,
+                              'ad_id' => $bannerid,
+                              //'creative_id' => ,
+                              //'zone_id' => ,
+                              'requests' => $requests,
+                              'impressions' => $impressions,
+                              //'clicks' => ,
+                              //'conversions' => ,
+                              //'total_basket_value' => ,
+                              //'total_num_items' => ,
+                              //'total_revenue' => ,
+                              //'total_cost' => ,
+                              //'updated'
+                            );
+            $aTable = array($table=>$table);
+            $date = $aValues['day'];
+            $result = SqlBuilder::_insert($aTable, $aValues);
+       }
+       $query = "SELECT * FROM {$table}
+               WHERE  day='{$date}' AND hour='{$interval}'";
+       $this->printResult($query, 'data_summary_ad_hourly');
+    }
+
+    /**
+     * execute the Priority engine tasks
+     */
+    function runPriority()
+    {
+        $this->printHeading('Starting updatePriorities; date: ' . $this->_getDateTimeString(), 3);
+        $oMaintenancePriority = new MAX_Maintenance_Priority_AdServer();
+        $oMaintenancePriority->updatePriorities();
+        $this->printPriorities();
+        $this->printHeading('End updatePriorities; date: ' . $this->_getDateTimeString(), 3);
+    }
+
+    /**
+     * tweak the date
+     *
+     * @param int $hour
+     * @param string $day
+     */
+    function setDateTime($hour=0, $day='2000-01-01')
+    {
+        $date = $day.' '.str_pad($hour, 2, '0', STR_PAD_LEFT).':00:00';
+        $this->oServiceLocator->register('now', new Date($date));
+    }
+
+    /**
+     * get the fake date/time
+     * initialise if not set
+     *
+     * @return oDate : object of Date
+     */
+    function _getDateTimeString()
+    {
+        $oDate = $this->oServiceLocator->get('now');
+        if (!is_a($oDate,'Date'))
+        {
+            $this->setDateTime();
+            $oDate = $this->oServiceLocator->get('now');
+        }
+        return $oDate->getDate();
+    }
+
+    /**
+     * get the fake date/time as Unix timestamp
+     *
+     * @return int : Unix timestamp
+     */
+    function _getDateTimestamp()
+    {
+        $oDate = $this->oServiceLocator->get('now');
+        return mktime($oDate->hour, $oDate->minute, $oDate->second, $oDate->month, $oDate->day, $oDate->year);
+    }
+
+    /**
+     * increment the fake date/time by 1 hour
+     */
+    function _incDateTimeByOneHour()
+    {
+        $oSpan = new Date_Span();
+        $oSpan->hour = 1;
+        $oDate = $this->oServiceLocator->get('now');
+        $oDate->addSpan($oSpan);
+        $this->oServiceLocator->register('now', $oDate);
+    }
+
+    /**
+     * read the scenario config file
+     *
+     */
+    function loadRequestset()
+    {
+        if (file_exists($this->requestFile))
+        {
+            require_once($this->requestFile);
+            $this->scenarioConfig = $GLOBALS['_MAX']['CONF']['sim'];
+        }
+        else
+        {
+            $this->reportResult(false, 'exists file', getcwd().'/'.$this->requestFile);
+            exit();
+        }
+    }
+
+    /**
+     * read a .sql file
+     * parse into individual queries
+     * execute the queries
+     */
+    function loadDataset($sourceFile="")
+    {
+        if (empty($sourceFile))
+        {
+            $sourceFile = $this->sourceFile;
+        }
+
+        if (file_exists($sourceFile))
+        {
+            $sourceData = file_get_contents($sourceFile);
+
+            if ($sourceData)
+            {
+                $patternDrop     = '/(DROP TABLE IF EXISTS [\w\W\s]+;)/U';
+                $patternCreate   = '/(CREATE TABLE IF NOT EXISTS [\w\W\s]+;)/U';
+                $patternInsert   = '/(INSERT INTO [\w\W\s]+\);)/U';
+                $patternTruncate = '/(TRUNCATE TABLE [\W\w\s]+;)/U';
+                $patternUpdate   = '/(UPDATE [\w\W\s]+;)/U';
+                $find            = '/TABLE[\s]+`([\w]+)`/U';
+                $replace         = 'TABLE `';
+
+        		$aQueries = $this->parseSQL($patternDrop, $sourceData);
+//        		$aQueries = $this->insertPrefix($aQueries, $find, $replace);
+        		$this->executeQuery($aQueries);
+
+        		$aQueries = $this->parseSQL($patternCreate, $sourceData);
+//        		$aQueries = $this->insertPrefix($aQueries, $find, $replace);
+        		$this->executeQuery($aQueries);
+
+        		$aQueries = $this->parseSQL($patternTruncate, $sourceData);
+//        		$aQueries = $this->insertPrefix($aQueries, $find, $replace);
+        		$this->executeQuery($aQueries);
+
+        		$aQueries = $this->parseSQL($patternUpdate, $sourceData);
+//        		$find            = '/UPDATE[\s]+`([\w]+)`/U';
+//        		$replace         = 'UPDATE `';
+//        		$aQueries = $this->insertPrefix($aQueries, $find, $replace);
+        		$this->executeQuery($aQueries);
+
+        		$aQueries = $this->parseSQL($patternInsert, $sourceData);
+//        		$find            = '/INTO[\s]+`([\w]+)`/U';
+//        		$replace         = 'INTO `';
+//        		$aQueries = $this->insertPrefix($aQueries, $find, $replace);
+        		$this->executeQuery($aQueries);
+
+            }
+            else
+            {
+                $this->reportResult(false, 'reading file', getcwd().'/'.$sourceFile);
+                exit();
+            }
+        }
+        else
+        {
+            $this->reportResult(false, 'opening file', getcwd().'/'.$sourceFile);
+            exit();
+        }
+    }
+
+    /**
+     * put like queries into an array
+     *
+     * @param string $pattern
+     * @param string $data
+     * @return array of sql queries
+     */
+    function parseSQL($pattern, $data)
+    {
+        $aQueries   = array();
+        $i	= preg_match_all($pattern, $data, $aTmp);
+        if ($i)
+        {
+            foreach ($aTmp[0] as $k => $v)
+            {
+                array_push($aQueries, $v);
+            }
+        }
+		return $aQueries;
+    }
+
+    /**
+     * insert the table prefix into the dataset sql
+     *
+     * now that all scenarios are run from a sim db no need to use prefixes
+     * source db prefixes are stripped when scenario is saved
+     *
+     * @param string $aQueries
+     * @param string $find
+     * @param string $replace
+     * @return array of sql queries
+     */
+//    function insertPrefix($aQueries, $find, $replace)
+//    {
+//        $aResult = array();
+//        if ($i)
+//        {
+//            foreach ($aQueries[0] as $k => $v)
+//            {
+//                $v = preg_replace($find, $replace.$this->tablePrefix.'$1`',$v);
+//                array_push($aResult, $v);
+//            }
+//        }
+//        return $aResult;
+//    }
+
+    /**
+     * execute an array of sql queries
+     *
+     * @param array $aQueries
+     */
+    function executeQuery($aQueries)
+    {
+        foreach ($aQueries as $k => $query)
+        {
+            $result = $this->oDBH->query($query);
+            if (!$result)
+            {
+                $this->reportResult($result, 'execution failed', $query);
+                exit();
+            }
+        }
+	}
+
+	function printResult($query, $title)
+	{
+        $this->printTable($this->oDBH->query($query), $title);
+    }
+    /**
+     * print out any pre-run summary info you want
+     */
+    function printPrecis()
+    {
+//        global $is_simulation;
+//        $this->printMessage('is_simulation:'.$is_simulation);
+        $this->printMessage($this->scenarioConfig['precis']);
+        $this->printWorkingData();
+        $this->printPriorities();
+        $this->printHeading('Data loaded, starting simulation...', 3);
+    }
+
+    /**
+     * print out the working data
+     *
+     */
+    function printWorkingData()
+    {
+
+        $query = "SELECT z.*, b.*, cam.*, cli.*, aff.* FROM {$this->tablePrefix}ad_zone_assoc AS aza
+                JOIN {$this->tablePrefix}zones AS z ON z.zoneid=aza.zone_id
+                JOIN {$this->tablePrefix}banners AS b ON b.bannerid=aza.ad_id
+                LEFT JOIN {$this->tablePrefix}affiliates AS aff ON aff.affiliateid = z.affiliateid
+                LEFT JOIN {$this->tablePrefix}campaigns AS cam ON cam.campaignid=b.campaignid
+                LEFT JOIN {$this->tablePrefix}clients AS cli ON cli.clientid = cam.clientid
+                ORDER BY aza.ad_id";
+        $this->printResult($query, 'campaigns');
+    }
+
+    /**
+     * print out the working data
+     *
+     */
+    function printPriorities()
+    {
+
+        $query = "SELECT aza.*, z.*, b.* FROM {$this->tablePrefix}ad_zone_assoc AS aza
+                JOIN {$this->tablePrefix}zones AS z ON z.zoneid=aza.zone_id
+                JOIN {$this->tablePrefix}banners AS b ON b.bannerid=aza.ad_id
+                ORDER BY aza.ad_id";
+        $this->printResult($query, 'priorities');
+    }
+
+    /**
+     * print out any post-run summary info you want
+     */
+    function printPostSummary()
+    {
+        $this->printHeading('Simulation complete, printing summary...', 3);
+        $this->printHeading('Total Requests: '.$this->totalRequests, 4);
+        $this->printHeading('Total Delivery: '.$this->totalDelivery, 4);
+        $this->printHeading('Total Percentage: '.(round(($this->totalDelivery/$this->totalRequests)*100,2)), 4);
+    }
+
+    /**
+     * print out some summary data
+     *
+     */
+    function printSummaryData()
+    {
+//        $query = "SELECT * FROM `{$this->tablePrefix}data_summary_zone_impression_history`";
+//        $this->printResult($query, 'data_summary_zone_impression_history');
+    }
+
+/**
+ * reporting funcs
+ *
+ */
+    function reportResult($result, $msg, $var='')
+    {
+        if ($result)
+        {
+            $this->printMessage('success: '.$msg, $var);
+        }
+        else
+        {
+            $this->printError('failed: '.$msg, $var);
+        }
+    }
+
+    function printMessage($message, $data='')
+    {
+        include MAX_PATH.'/simulation/templates/message.html';
+    }
+
+    function printHeading($msg='', $size=5)
+    {
+        if ($msg)
+        {
+           echo "<h{$size}>".$msg."</h{$size}>";
+        }
+    }
+
+    function printError($message, $data='')
+    {
+        $error   = true;
+        include MAX_PATH.'/simulation/templates/message.html';
+    }
+
+    function printTable($dbRes, $title='')
+    {
+        $printth = true;
+        $i = 0;
+        include MAX_PATH.'/simulation/templates/table_simulation.html';
+//        if ($title)
+//        {
+//            $this->printMessage('<h5>'.$title.'<t5>', false);
+//        }
+//        $this->printMessage('<table style="border: 1px solid;">', false);
+//        $printth = true;
+//        $i = 0;
+//        while ($tmp = mysql_fetch_assoc($dbRes->result))
+//        {
+//            $style=($i ? "background-color: #FFFFFF;" : "background-color: #EEE;");
+//            if ($printth)
+//            {
+//                $this->printMessage('<tr style="'.$style.'">', false);
+//                foreach ($tmp AS $k => $v)
+//                {
+//                    $this->printMessage('<th>'.$k.'</th>', false);
+//                }
+//                $this->printMessage('</tr>', false);
+//                reset($tmp);
+//                $printth = false;
+//                $i = ($i ? 0 : 1);
+//                $style=($i ? "background-color: #FFFFFF;" : "background-color: #EEE;");
+//            }
+//            $this->printMessage('<tr style="'.$style.'">', false);
+//            foreach ($tmp AS $k => $v)
+//            {
+//                $this->printMessage('<td>'.$v.'</td>', false);
+//            }
+//            $this->printMessage('</tr>', false);
+//            $i = ($i ? 0 : 1);
+//        }
+//        $this->printMessage('</table>', false);
+    }
+}
+?>

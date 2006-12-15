@@ -1,0 +1,16 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>Max Media Manager v0.3 API</refname>
+ </refnamediv>
+ <para>
+  This is the documentation for the Max Media Manager v0.3 API. If you're interested
+  in patching/extending Max, or you just want to know more about how Max works, this
+  is the place for you to look.
+ </para>
+ <para>
+  Please note that as much of Max's code is original or extended phpAdsNew code, there
+  will be many functions in the API that are not currently documented. As Max is slowly
+  re-written to incorporate new features, these functions will be documented in the
+  code, and thus added to the API documentation. Please be patient!
+ </para>
+</refentry>

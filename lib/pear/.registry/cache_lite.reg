@@ -1,0 +1,101 @@
+a:16:{s:8:"provides";a:0:{}s:8:"filelist";a:15:{s:14:"docs/technical";a:3:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:5:"Cache";s:12:"installed_as";s:49:"/usr/local/lib/php/docs/Cache_Lite/docs/technical";}s:13:"docs/examples";a:3:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:5:"Cache";s:12:"installed_as";s:48:"/usr/local/lib/php/docs/Cache_Lite/docs/examples";}s:14:"tests/test.php";a:3:{s:4:"role";s:4:"test";s:14:"baseinstalldir";s:5:"Cache";s:12:"installed_as";s:48:"/usr/php5/lib/php/test/Cache_Lite/tests/test.php";}s:15:"tests/test2.php";a:3:{s:4:"role";s:4:"test";s:14:"baseinstalldir";s:5:"Cache";s:12:"installed_as";s:49:"/usr/php5/lib/php/test/Cache_Lite/tests/test2.php";}s:15:"tests/test3.php";a:3:{s:4:"role";s:4:"test";s:14:"baseinstalldir";s:5:"Cache";s:12:"installed_as";s:49:"/usr/php5/lib/php/test/Cache_Lite/tests/test3.php";}s:15:"tests/bench.php";a:3:{s:4:"role";s:4:"test";s:14:"baseinstalldir";s:5:"Cache";s:12:"installed_as";s:49:"/usr/php5/lib/php/test/Cache_Lite/tests/bench.php";}s:16:"tests/bench2.php";a:3:{s:4:"role";s:4:"test";s:14:"baseinstalldir";s:5:"Cache";s:12:"installed_as";s:50:"/usr/php5/lib/php/test/Cache_Lite/tests/bench2.php";}s:16:"tests/bench3.php";a:3:{s:4:"role";s:4:"test";s:14:"baseinstalldir";s:5:"Cache";s:12:"installed_as";s:50:"/usr/php5/lib/php/test/Cache_Lite/tests/bench3.php";}s:12:"tests/readme";a:3:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:5:"Cache";s:12:"installed_as";s:47:"/usr/local/lib/php/docs/Cache_Lite/tests/readme";}s:15:"Lite/Output.php";a:3:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:5:"Cache";s:12:"installed_as";s:54:"/var/www/html/max/trunk/lib/pear/Cache/Lite/Output.php";}s:17:"Lite/Function.php";a:3:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:5:"Cache";s:12:"installed_as";s:56:"/var/www/html/max/trunk/lib/pear/Cache/Lite/Function.php";}s:13:"Lite/File.php";a:3:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:5:"Cache";s:12:"installed_as";s:52:"/var/www/html/max/trunk/lib/pear/Cache/Lite/File.php";}s:8:"Lite.php";a:3:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:5:"Cache";s:12:"installed_as";s:47:"/var/www/html/max/trunk/lib/pear/Cache/Lite.php";}s:7:"LICENSE";a:3:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:5:"Cache";s:12:"installed_as";s:42:"/usr/local/lib/php/docs/Cache_Lite/LICENSE";}s:4:"TODO";a:3:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:5:"Cache";s:12:"installed_as";s:39:"/usr/local/lib/php/docs/Cache_Lite/TODO";}}s:10:"xsdversion";s:3:"1.0";s:7:"package";s:10:"Cache_Lite";s:7:"summary";s:33:"Fast and Safe little cache system";s:11:"description";s:150:"This package is a little cache system optimized for file containers. It is fast and safe (because it uses file locking and/or anti-corruption tests).
+";s:11:"maintainers";a:1:{i:0;a:4:{s:6:"handle";s:3:"fab";s:4:"name";s:12:"Fabien MARTY";s:5:"email";s:11:"fab@php.net";s:4:"role";s:4:"lead";}}s:7:"version";s:5:"1.5.2";s:12:"release_date";s:10:"2005-07-18";s:15:"release_license";s:4:"lgpl";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:61:"Bug Fixed :
+- a "package.xml" problem (a file was forgotten)
+";s:9:"changelog";a:16:{i:0;a:5:{s:7:"version";s:5:"1.5.1";s:12:"release_date";s:10:"2005-07-10";s:15:"release_license";s:4:"lgpl";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:85:"Changes :
+- juste a little more docs since 1.5.0 (beta)
+- the state in "stable" now
+
+";}i:1;a:5:{s:7:"version";s:5:"1.5.0";s:12:"release_date";s:10:"2005-06-18";s:15:"release_license";s:4:"lgpl";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:571:"New features :
+- add of a doNotTestCacheValidity in Output (like in Lite.php)
+- request #4502 : better control on cache cleaning condition (thanks to 
+vincent lascaux); introduce the idea of a user callback for the 
+cleaning process
+- new Cache_Lite_File module (for a cache controlled by a master file, 
+very usefull for templates or config caching)
+Bug fixed :
+- avoid a potential error message if cache doesn't exist
+- bug #4236 : fread PHP warning on zero length read (because of the change
+of fread() behaviour in PHP) (thanks to rick dot overman at gmail dot com)
+
+";}i:2;a:5:{s:7:"version";s:5:"1.4.1";s:12:"release_date";s:10:"2005-03-01";s:15:"release_license";s:4:"lgpl";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:216:"Bug fixed :
+- problem of non-ISO-8859-1 characters in package.xml (bug #3621)
+- problem of the returning value in clean() method (integer and not void)
+  (thanks to Demian Turner (demian (at) phpkitchen (dot) com))
+
+";}i:3;a:5:{s:7:"version";s:5:"1.4.0";s:12:"release_date";s:10:"2005-01-21";s:15:"release_license";s:4:"lgpl";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:55:"Changes :
+- juste a little more docs since 1.4.0beta1
+
+";}i:4;a:5:{s:7:"version";s:10:"1.4.0beta1";s:12:"release_date";s:10:"2004-12-11";s:15:"release_license";s:4:"lgpl";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:334:"New features :
+- hashed cache directory structure with the choice of the level (thanks to Mike Benoit (ipso at snappymail dot ca))
+- new options for cleaning the cache ("not in group", "too old"...) (thanks to dontilooksweetandinnocent@ambience.ru)
+- automatic cleaning of too old cache files based on a customisable "random method"
+
+";}i:5;a:5:{s:7:"version";s:5:"1.3.1";s:12:"release_date";s:10:"2004-08-16";s:15:"release_license";s:4:"lgpl";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:247:"Bug fixed :
+- problem with clean() method with memoryCaching activated (thanks to Bojan Mihelac (bmihelac at mihelac dot org))
+- remove() method didn't deal with memoryCaching
+- bug fix #1758, thanks to Dave (djpenton at cs dot mu dot oz dot au)
+
+";}i:6;a:5:{s:7:"version";s:3:"1.3";s:12:"release_date";s:10:"2004-02-07";s:15:"release_license";s:4:"lgpl";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:307:"Changes :
+- Add a warning in examples file because of http://pear.php.net/bugs/bug.php?id=660
+Bug fixed :
+- little warning fix in Cache_Lite_Function (fab)
+- little bug fix in lastModified() method (thanks to Yavor Shahpasov)
+- fix http://pear.php.net/bugs/bug.php?id=513 (thanks to alan@aardwolfweb.com) 
+
+";}i:7;a:5:{s:7:"version";s:3:"1.2";s:12:"release_date";s:10:"2003-10-25";s:15:"release_license";s:4:"lgpl";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:702:"Changes :
+- Rewrite of Cache_Lite constructor (thanks to Brian E. Lozier) 
+New Features :
+- Add of lastModified() method (for Cache_Lite hackers) (thanks to Harry Fuecks)
+- Introduce automatic serialization (false in default) (thanks to Dan Wilson)
+- Add of an url for a cache_lite tutorial (english (thanks to paj) and french)
+Bug fixed :
+- Change the Cache_Lite::raiseError calls in $this->raiseError (thanks to Holger Willenborg)
+- Set the default group for remove, since get and save both have it set (thanks to jellybob)
+- Little fix for caching binary data under Windows (thanks to Simeon Franklin)
+- little fix with fileNameProtection set to false (not the default (big thank to Harry Fuecks))
+
+";}i:8;a:5:{s:7:"version";s:3:"1.1";s:12:"release_date";s:10:"2003-02-23";s:15:"release_license";s:4:"lgpl";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:667:"Changes :
+- Move to usage of call_user_func_array() and call_user_func() as call_user_method() is depreciated (thanks to Sterling Hughes) 
+New Features :
+- Introduce memoryCaching (idea of Mike Benoit)
+- Add of a file name protection option (can be faster if set to off) (thanks to Brian Webb for the idea)
+Bug fixed :
+- Little fix : cache was inefficient if the output is only 0 (thanks to Brian Webb)
+- notice fix (thanks to Lorenzo Alberton, Pierre-Alain Joye and Jon Parise)
+- Little fix to avoid file names problems with an exotic group name (thanks to Brian Webb)
+- Fix a possible bug when resave a cache file after a succesfull get (thanks to Michael Caplan)
+
+";}i:9;a:5:{s:7:"version";s:5:"1.0.1";s:12:"release_date";s:10:"2002-11-12";s:15:"release_license";s:4:"lgpl";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:64:"Bug fixed :
+- clean() bug with group (Thanks to Ondrej Jombik)
+
+";}i:10;a:5:{s:7:"version";s:3:"1.0";s:12:"release_date";s:10:"2002-11-11";s:15:"release_license";s:4:"lgpl";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:180:"This is the first stable release of Cache_Lite. There is no big change since the
+0.4 beta release but two months of tests !
+Changes :
+- fix magic_q issue (Thanks to Moshe Doron) 
+
+";}i:11;a:5:{s:7:"version";s:3:"0.4";s:12:"release_date";s:10:"2002-09-25";s:15:"release_license";s:4:"lgpl";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:266:"New features :
+- Add setLifeTime() method to change the cache lifetime dynamicaly
+Changes :
+- changes in the directory layout and in file names to (better) respect PEAR standards
+  => incompatibility with 0.3 version even there is no incompatible change in the API
+
+";}i:12;a:5:{s:7:"version";s:3:"0.3";s:12:"release_date";s:10:"2002-08-31";s:15:"release_license";s:4:"lgpl";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:400:"New features :
+- Add '$doNotTestCacheValidity' optional parameter for the get() method
+Changes :
+- raiseError() method becomes public
+- swap of two lines in _write() method (Thanks to Jean-Francois BUSTARRET)
+Bugs fixed :
+- remove blank spaces at the end of the class (Thanks to Jean-Francois BUSTARRET)
+- E_NOTICEs problems and maybe a minor bug of errors management (Thanks to Sebastian BERGMANN)
+
+";}i:13;a:5:{s:7:"version";s:5:"0.2.0";s:12:"release_date";s:10:"2002-08-10";s:15:"release_license";s:4:"lgpl";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:287:"New features :
+- Adding Cache_Lite_Function (to cache the result and output of functions/methods)
+Bugs fixed :
+- In a few cases of cache corruption, it was possible to get some warnings (but the output was correct)
+- Cache_Lite_Output require_once (to load Cache_Lite) wasn't correct  
+
+";}i:14;a:5:{s:7:"version";s:5:"0.1.1";s:12:"release_date";s:10:"2002-08-08";s:15:"release_license";s:4:"lgpl";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:24:"A little packaging fix
+
+";}i:15;a:5:{s:7:"version";s:3:"0.1";s:12:"release_date";s:10:"2002-08-08";s:15:"release_license";s:4:"lgpl";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:28:"This is the first release.
+
+";}}s:12:"_lastversion";s:5:"1.4.1";s:7:"dirtree";a:6:{s:39:"/usr/local/lib/php/docs/Cache_Lite/docs";b:1;s:39:"/usr/php5/lib/php/test/Cache_Lite/tests";b:1;s:40:"/usr/local/lib/php/docs/Cache_Lite/tests";b:1;s:43:"/var/www/html/max/trunk/lib/pear/Cache/Lite";b:1;s:38:"/var/www/html/max/trunk/lib/pear/Cache";b:1;s:34:"/usr/local/lib/php/docs/Cache_Lite";b:1;}s:13:"_lastmodified";i:1121793783;}
