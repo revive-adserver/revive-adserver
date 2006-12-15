@@ -18,7 +18,7 @@
 // |                                                                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: Build.php,v 1.9 2004/01/08 17:33:13 sniper Exp $
+// $Id$
 
 require_once "PEAR/Command/Common.php";
 require_once "PEAR/Builder.php";

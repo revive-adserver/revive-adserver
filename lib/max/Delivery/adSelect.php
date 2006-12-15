@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: ad.php 5324 2006-08-18 10:03:43Z chris@m3.net $
+$Id$
 */
 
 /**

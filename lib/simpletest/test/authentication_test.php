@@ -1,5 +1,5 @@
 <?php
-    // $Id: authentication_test.php,v 1.8 2004/09/24 22:55:10 lastcraft Exp $
+    // $Id$
     require_once(dirname(__FILE__) . '/../authentication.php');
     require_once(dirname(__FILE__) . '/../http.php');
     Mock::generate('SimpleHttpRequest');

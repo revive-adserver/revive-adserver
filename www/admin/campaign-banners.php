@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: campaign-banners.php 5734 2006-10-16 13:09:13Z james.easterby@m3.net $
+$Id$
 */
 
 // Require the initialisation file

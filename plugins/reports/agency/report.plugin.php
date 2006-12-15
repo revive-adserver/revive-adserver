@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: campaignhistory.plugin.php 746 2004-10-07 09:37:35Z andrew $
+$Id$
 */
 
 

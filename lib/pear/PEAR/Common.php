@@ -17,7 +17,7 @@
 // |          Tomas V.V.Cox <cox@idecnet.com>                             |
 // +----------------------------------------------------------------------+
 //
-// $Id: Common.php,v 1.126.2.2 2004/12/27 07:04:19 cellog Exp $
+// $Id$
 
 require_once 'PEAR.php';
 require_once 'Archive/Tar.php';

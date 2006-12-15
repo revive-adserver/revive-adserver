@@ -12,7 +12,7 @@
 // | license@php.net so we can mail you a copy immediately.                 |
 // +------------------------------------------------------------------------+
 //
-// $Id: Timer.php,v 1.13 2005/05/24 13:42:06 toggg Exp $
+// $Id$
 //
 
 require_once 'PEAR.php';

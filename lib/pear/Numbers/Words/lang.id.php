@@ -17,7 +17,7 @@
 // | Authors: Ernas M. Jamil <ernasm@samba.co.id>, Arif Rifai Dwiyanto    |
 // +----------------------------------------------------------------------+
 //
-// $Id: lang.id.php,v 1.1 2004/09/02 11:07:59 makler Exp $
+// $Id$
 //
 // Numbers_Words class extension to spell numbers in Indonesian language.
 //

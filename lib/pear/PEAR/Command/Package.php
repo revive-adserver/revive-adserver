@@ -18,7 +18,7 @@
 // |          Greg Beaver <cellog@php.net>                                |
 // +----------------------------------------------------------------------+
 //
-// $Id: Package.php,v 1.61.2.7 2005/02/17 17:47:55 cellog Exp $
+// $Id$
 
 require_once 'PEAR/Common.php';
 require_once 'PEAR/Command/Common.php';

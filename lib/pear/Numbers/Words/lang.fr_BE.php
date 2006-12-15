@@ -17,7 +17,7 @@
 // |          Philippe Bajoit <phil@lebutch.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: lang.fr_BE.php,v 1.1 2005/01/11 14:30:34 makler Exp $
+// $Id$
 
 /**
  * Include needed files

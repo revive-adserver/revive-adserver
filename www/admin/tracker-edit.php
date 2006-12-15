@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: tracker-edit.php 5096 2006-07-05 16:30:37Z matteo@beccati.com $
+$Id$
 */
 
 // Require the initialisation file

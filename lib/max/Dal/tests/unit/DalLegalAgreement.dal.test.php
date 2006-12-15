@@ -21,7 +21,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: DalLegalAgreement.dal.test.php 6222 2006-12-06 18:44:54Z roh@m3.net $
+$Id$
 */
 
 /**
@@ -31,7 +31,7 @@ $Id: DalLegalAgreement.dal.test.php 6222 2006-12-06 18:44:54Z roh@m3.net $
  * @subpackage TestSuite
  * @since 0.3.22 - Apr 13, 2006
  * @copyright 2006 M3 Media Services
- * @version $Id: DalLegalAgreement.dal.test.php 6222 2006-12-06 18:44:54Z roh@m3.net $
+ * @version $Id$
  */
 
 require_once MAX_PATH . '/lib/max/Dal/LegalAgreement.php';

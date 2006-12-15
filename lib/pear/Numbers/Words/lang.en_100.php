@@ -17,7 +17,7 @@
 // | Authors: Piotr Klaban <makler@man.torun.pl>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: lang.en_100.php,v 1.2 2004/09/02 11:07:59 makler Exp $
+// $Id$
 //
 // Numbers_Words class extension to spell numbers in Donald Knuth system, in English language.
 //

@@ -16,7 +16,7 @@
 // | Authors:  nobody <nobody@localhost>                                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: Factory.php,v 1.9 2005/05/14 03:06:00 alan_k Exp $
+// $Id$
 //
 //  Factory tools for managing groups of HTML_Elements
 //

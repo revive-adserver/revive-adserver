@@ -16,7 +16,7 @@
 // | Authors: Stig Sæther Bakken <ssb@php.net>                            |
 // +----------------------------------------------------------------------+
 //
-// $Id: Builder.php,v 1.16.2.4 2005/03/28 16:21:11 cellog Exp $
+// $Id$
 
 require_once 'PEAR/Common.php';
 

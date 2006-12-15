@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: index.php 5791 2006-10-25 11:51:30Z arlen $
+$Id$
 */
 
 // Require the initialisation file

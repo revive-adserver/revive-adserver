@@ -17,7 +17,7 @@
 // | Authors: Hadar Porat                                                 |
 // +----------------------------------------------------------------------+
 //
-// $Id: lang.he.php,v 1.2 2005/02/28 13:35:31 makler Exp $
+// $Id$
 //
 // Numbers_Words class extension to spell numbers in Hebrew language.
 //

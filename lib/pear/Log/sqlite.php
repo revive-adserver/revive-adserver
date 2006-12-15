@@ -16,7 +16,7 @@
 // | Authors: Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
 //
-// $Id: sqlite.php,v 1.3 2004/01/19 08:02:40 jon Exp $
+// $Id$
 
 /**
  * The Log_sqlite class is a concrete implementation of the Log::

@@ -21,7 +21,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: LegalAgreement.php 5631 2006-10-09 18:21:43Z andrew@m3.net $
+$Id$
 */
 
 /**
@@ -33,7 +33,7 @@ $Id: LegalAgreement.php 5631 2006-10-09 18:21:43Z andrew@m3.net $
  *
  * @since 0.3.22 - Apr 13, 2006
  * @copyright 2006 M3 Media Services
- * @version $Id: LegalAgreement.php 5631 2006-10-09 18:21:43Z andrew@m3.net $
+ * @version $Id$
  */
 
 require_once MAX_PATH . '/lib/Max.php';

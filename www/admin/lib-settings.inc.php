@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: lib-settings.inc.php 5810 2006-10-30 10:24:10Z james.easterby@m3.net $
+$Id$
 */
 
 // Require the initialisation file

@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: report-execute.php 4399 2006-03-09 18:02:58Z andrew@m3.net $
+$Id$
 */
 
 // Require the initialisation file

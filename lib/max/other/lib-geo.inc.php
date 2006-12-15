@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: lib-db.inc.php 5631 2006-10-09 18:21:43Z andrew@m3.net $
+$Id$
 */
 
 define('GEO_MIN_LATTITUDE', -89.9999);

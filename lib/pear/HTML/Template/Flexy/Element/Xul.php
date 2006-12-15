@@ -16,7 +16,7 @@
 // | Author: Alan Knowles <alan@akbkhome.com>                             |
 // +----------------------------------------------------------------------+
 //
-// $Id: Xul.php,v 1.4 2004/08/17 03:50:27 alan_k Exp $
+// $Id$
 
 /**
  * Extension HTML Element builder and render to provide features for Xul

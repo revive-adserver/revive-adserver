@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: Maintenance.mtc.test.php 5590 2006-10-06 10:32:40Z andrew@m3.net $
+$Id$
 */
 
 require_once MAX_PATH . '/lib/max/Maintenance.php';

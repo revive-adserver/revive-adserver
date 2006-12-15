@@ -9,7 +9,7 @@
 | Copyright (c) 2003-2006 m3 Media Services Limited                         |
 | For contact details, see: http://www.m3.net/                              |
 +---------------------------------------------------------------------------+
-$Id: summariseData.php 178 2006-03-14 17:43:49Z james.easterby@m3.net $
+$Id$
 */
 
 /*

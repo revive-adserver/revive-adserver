@@ -1,5 +1,5 @@
 <?php
-    // $Id: browser_test.php,v 1.100 2005/02/22 02:53:49 lastcraft Exp $
+    // $Id$
     
     require_once(dirname(__FILE__) . '/../browser.php');
     require_once(dirname(__FILE__) . '/../user_agent.php');

@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               | 
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: EnhancedReport.php 6108 2006-11-24 11:34:58Z andrew@m3.net $
+$Id$
 */
 
 /**
@@ -32,7 +32,7 @@ $Id: EnhancedReport.php 6108 2006-11-24 11:34:58Z andrew@m3.net $
  *
  * @since 0.3.19 - Feb 28, 2006
  * @copyright 2006 M3 Media Services
- * @version $Id: EnhancedReport.php 6108 2006-11-24 11:34:58Z andrew@m3.net $
+ * @version $Id$
  */
 
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';

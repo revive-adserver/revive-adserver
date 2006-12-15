@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: StatsController.php 6093 2006-11-23 14:42:10Z dawid@arlenmedia.com $
+$Id$
 */
 
 require_once MAX_PATH . '/lib/max/Dal/Admin.php';

@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: DB.dal.test.php 6222 2006-12-06 18:44:54Z roh@m3.net $
+$Id$
 */
 
 require_once MAX_PATH . '/lib/Max.php';

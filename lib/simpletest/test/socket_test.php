@@ -1,5 +1,5 @@
 <?php
-    // $Id: socket_test.php,v 1.16 2004/09/24 22:55:19 lastcraft Exp $
+    // $Id$
     
     require_once(dirname(__FILE__) . '/../socket.php');
     

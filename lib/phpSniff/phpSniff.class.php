@@ -17,7 +17,7 @@
 *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *
 *  @author Roger Raymond <epsilon7@users.sourceforge.net>
-*  @version $Id: phpSniff.class.php,v 1.22 2004/04/27 00:55:49 epsilon7 Exp $
+*  @version $Id$
 *  @copyright Copyright &copy; 2002-2004 Roger Raymond
 *  @package phpSniff
 *  @license http://opensource.org/licenses/lgpl-license.php GNU Lesser General Public License

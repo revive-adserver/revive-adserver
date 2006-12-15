@@ -25,7 +25,7 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id: PNG.php,v 1.3 2005/08/24 20:37:34 nosey Exp $
+ * @version    CVS: $Id$
  * @link       http://pear.php.net/pepr/pepr-proposal-show.php?id=212
  */
  

@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: MaintenanceForecastingAdServer.mtf.test.php 6289 2006-12-13 14:00:43Z andrew@m3.net $
+$Id$
 */
 
 require_once MAX_PATH . '/lib/max/DB.php';

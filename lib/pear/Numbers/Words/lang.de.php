@@ -17,7 +17,7 @@
 // | Authors: Piotr Klaban <makler@man.torun.pl>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: lang.de.php,v 1.3 2004/09/30 07:44:33 makler Exp $
+// $Id$
 //
 // Numbers_Words class extension to spell numbers in German language.
 //

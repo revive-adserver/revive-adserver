@@ -1,5 +1,5 @@
 <?php
-    // $Id: form_test.php,v 1.12 2005/02/22 02:17:06 lastcraft Exp $
+    // $Id$
     
     require_once(dirname(__FILE__) . '/../form.php');
     require_once(dirname(__FILE__) . '/../encoding.php');

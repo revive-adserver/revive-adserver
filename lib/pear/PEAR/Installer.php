@@ -18,7 +18,7 @@
 // |          Martin Jansen <mj@php.net>                                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: Installer.php,v 1.150.2.2 2005/02/17 17:47:55 cellog Exp $
+// $Id$
 
 require_once 'PEAR/Downloader.php';
 

@@ -16,7 +16,7 @@
 // | Authors: Kouber Saparev <kouber@php.net>                             |
 // +----------------------------------------------------------------------+
 //
-// $Id: lang.fr.php,v 1.4 2004/10/22 18:22:52 kouber Exp $
+// $Id$
 
 /**
  * Include needed files

@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: tracker-campaigns.php 5536 2006-10-04 09:14:36Z chris@m3.net $
+$Id$
 */
 
 // Require the initialisation file

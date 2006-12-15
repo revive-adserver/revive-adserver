@@ -1,5 +1,5 @@
 <?php
-    // $Id: adapter_test.php,v 1.7 2005/01/13 01:31:57 lastcraft Exp $
+    // $Id$
     
     class SameTestClass {
     }

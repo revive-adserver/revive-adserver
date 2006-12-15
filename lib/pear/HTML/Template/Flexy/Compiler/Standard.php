@@ -16,7 +16,7 @@
 // | Authors: Alan Knowles <alan@akbkhome.com>                            |
 // +----------------------------------------------------------------------+
 //
-// $Id: Standard.php,v 1.43 2005/02/08 05:35:27 alan_k Exp $
+// $Id$
 //
 //  Base Compiler Class
 //  Standard 'Original Flavour' Flexy compiler

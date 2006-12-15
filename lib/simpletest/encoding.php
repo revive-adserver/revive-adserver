@@ -3,7 +3,7 @@
      *	base include file for SimpleTest
      *	@package	SimpleTest
      *	@subpackage	WebTester
-     *	@version	$Id: encoding.php,v 1.6 2005/01/02 23:43:23 lastcraft Exp $
+     *	@version	$Id$
      */
 
     /**

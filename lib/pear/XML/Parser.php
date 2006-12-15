@@ -18,7 +18,7 @@
 // |         Stephan Schmidt <schst@php-tools.net>                        |
 // +----------------------------------------------------------------------+
 //
-// $Id: Parser.php,v 1.25 2005/03/25 17:13:10 schst Exp $
+// $Id$
 
 /**
  * XML Parser class.

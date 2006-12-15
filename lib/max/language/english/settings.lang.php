@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: settings.lang.php 6206 2006-12-04 19:23:23Z chris@m3.net $
+$Id$
 */
 
 /**

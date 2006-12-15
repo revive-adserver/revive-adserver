@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: md5.js 4564 2006-04-04 08:21:10Z andrew@m3.net $
+$Id$
 */
 
 /*
@@ -44,7 +44,7 @@ $Id: md5.js 4564 2006-04-04 08:21:10Z andrew@m3.net $
  * Of course, this soft is provided "as is" without express or implied
  * warranty of any kind.
  *
- * $Id: md5.js 4564 2006-04-04 08:21:10Z andrew@m3.net $
+ * $Id$
  *
  */
 

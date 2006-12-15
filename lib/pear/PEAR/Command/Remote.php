@@ -17,7 +17,7 @@
 // |                                                                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: Remote.php,v 1.39 2004/04/03 15:56:00 cellog Exp $
+// $Id$
 
 require_once 'PEAR/Command/Common.php';
 require_once 'PEAR/Common.php';

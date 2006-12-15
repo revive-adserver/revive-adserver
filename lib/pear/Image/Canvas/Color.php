@@ -16,7 +16,7 @@
 // | Author: Stefan Neufeind <pear.neufeind@speedpartner.de>              |
 // +----------------------------------------------------------------------+
 //
-// $Id: Color.php,v 1.3 2005/09/14 17:25:46 nosey Exp $
+// $Id$
 
 /**
 * Class for color-handling

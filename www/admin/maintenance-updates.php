@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: maintenance-updates.php 6089 2006-11-23 14:10:48Z matteo@beccati.com $
+$Id$
 */
 
 // Require the initialisation file

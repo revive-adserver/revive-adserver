@@ -19,7 +19,7 @@
  * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
  * @copyright  2003-2005 Wolfram Kriesing, Paolo Panto, Lorenzo Alberton
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Query.php,v 1.57 2005/02/27 19:13:19 quipo Exp $
+ * @version    CVS: $Id$
  * @link       http://pear.php.net/package/DB_QueryTool
  */
 

@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: MaintenanceCommon.dal.test.php 5662 2006-10-11 09:51:48Z andrew@m3.net $
+$Id$
 */
 
 require_once MAX_PATH . '/lib/max/Dal/Statistics.php';

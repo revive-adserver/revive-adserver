@@ -17,7 +17,7 @@
 // |          Pierre-Alain Joye <pajoye@php.net>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: Date.php,v 1.28 2004/05/16 13:11:07 pajoye Exp $
+// $Id$
 
 /**@#+
  * Include supporting classes

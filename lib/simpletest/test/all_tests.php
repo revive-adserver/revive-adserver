@@ -1,5 +1,5 @@
 <?php
-    // $Id: all_tests.php,v 1.20 2005/02/05 04:51:31 lastcraft Exp $
+    // $Id$
     define('TEST', __FILE__);
     require_once('../unit_tester.php');
     require_once('../shell_tester.php');

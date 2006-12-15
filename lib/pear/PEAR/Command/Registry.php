@@ -17,7 +17,7 @@
 // |                                                                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: Registry.php,v 1.36 2004/01/08 17:33:13 sniper Exp $
+// $Id$
 
 require_once 'PEAR/Command/Common.php';
 require_once 'PEAR/Registry.php';

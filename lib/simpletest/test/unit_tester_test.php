@@ -1,5 +1,5 @@
 <?php
-    // $Id: unit_tester_test.php,v 1.3 2005/02/18 22:40:58 lastcraft Exp $
+    // $Id$
     
     class TestOfUnitTester extends UnitTestCase {
         

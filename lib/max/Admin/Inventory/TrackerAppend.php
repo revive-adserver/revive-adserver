@@ -21,7 +21,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: LegalAgreement.php 4736 2006-04-24 14:26:57Z matteo@beccati.com $
+$Id$
 */
 
 require_once MAX_PATH . '/lib/Max.php';

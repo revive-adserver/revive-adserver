@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: Domain.delivery.php 6260 2006-12-12 10:33:21Z andrzej.swedrzynski@m3.net $
+$Id$
 */
 
 /**

@@ -33,7 +33,7 @@
 // |         Harald Radi <harald.radi@nme.at>                              |
 // +-----------------------------------------------------------------------+
 //
-// $Id: example.php,v 1.14 2005/03/02 02:16:51 richard Exp $
+// $Id$
 //error_reporting(E_ALL | E_STRICT);
     //require_once('HTML/TreeMenu.php');
     require_once('../TreeMenu.php');

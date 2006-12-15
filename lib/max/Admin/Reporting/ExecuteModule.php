@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: ExecuteModule.php 5637 2006-10-09 19:38:18Z scott@m3.net $
+$Id$
 */
 
 // Include required files

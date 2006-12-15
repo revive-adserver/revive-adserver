@@ -17,7 +17,7 @@
  * @author     Roman Dostovalov, Com-tec-so S.A.<roman.dostovalov@ctco.lv>
  * @copyright  2004-2005 Roman Dostovalov
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Object.php,v 1.3 2005/02/25 16:38:28 quipo Exp $
+ * @version    CVS: $Id$
  * @link       http://pear.php.net/package/DB_QueryTool
  */
 

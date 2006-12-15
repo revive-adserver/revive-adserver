@@ -1,5 +1,5 @@
 <?php
-    // $Id: acceptance_test.php,v 1.42 2005/02/22 02:17:06 lastcraft Exp $
+    // $Id$
     require_once(dirname(__FILE__) . '/../options.php');
     require_once(dirname(__FILE__) . '/../browser.php');
     require_once(dirname(__FILE__) . '/../web_tester.php');

@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: english.php 4416 2006-03-13 11:41:28Z andrew@m3.net $
+$Id$
 */
 
 $words = array(

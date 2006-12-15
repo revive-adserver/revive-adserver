@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: TestRunner.php 6229 2006-12-07 16:33:39Z roh@m3.net $
+$Id$
 */
 
 require_once MAX_PATH . '/tests/testClasses/TestFiles.php';

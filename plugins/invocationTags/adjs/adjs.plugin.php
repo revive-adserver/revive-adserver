@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: adjs.plugin.php 6205 2006-12-04 19:16:21Z chris@m3.net $
+$Id$
 */
 
 /**

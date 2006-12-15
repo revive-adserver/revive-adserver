@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: english.php 4834 2006-05-15 16:01:47Z matteo@beccati.com $
+$Id$
 */
 
 $conf = $GLOBALS['_MAX']['CONF'];

@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: GetRequiredAdImpressionsType1.php 5901 2006-11-09 12:42:52Z andrew@m3.net $
+$Id$
 */
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';

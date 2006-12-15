@@ -1,5 +1,5 @@
 <?php
-    // $Id: frames_test.php,v 1.28 2004/11/30 05:34:00 lastcraft Exp $
+    // $Id$
     
     require_once(dirname(__FILE__) . '/../tag.php');
     require_once(dirname(__FILE__) . '/../page.php');

@@ -23,7 +23,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: maintenance.php 1055 2004-11-30 15:52:35Z andrew $
+$Id$
 */
 
 /**

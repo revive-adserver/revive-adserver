@@ -16,7 +16,7 @@
 // | Authors:  Alan Knowles <alan@akbkhome>                               |
 // +----------------------------------------------------------------------+
 //
-// $Id: Method.php,v 1.14 2003/12/10 02:36:26 alan_k Exp $
+// $Id$
 //
  /**
 * Class to handle method calls

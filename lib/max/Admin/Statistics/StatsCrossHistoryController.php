@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: StatsDailyController.php 4843 2006-05-17 14:34:59Z matteo@beccati.com $
+$Id$
 */
 
 require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsHistoryController.php';

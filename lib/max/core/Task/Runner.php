@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: Runner.php 3428 2005-07-04 15:58:31Z andrew $
+$Id$
 */
 
 require_once MAX_PATH . '/lib/max/core/Task.php';

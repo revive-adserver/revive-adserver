@@ -16,7 +16,7 @@
 // | Author: Stig Bakken <ssb@php.net>                                    |
 // +----------------------------------------------------------------------+
 //
-// $Id: Config.php,v 1.52 2004/01/08 17:33:12 sniper Exp $
+// $Id$
 
 require_once 'PEAR.php';
 require_once 'System.php';

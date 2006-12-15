@@ -12,7 +12,7 @@
 // | license@php.net so we can mail you a copy immediately.               |
 // +----------------------------------------------------------------------+
 //
-// $Id: Profiler.php,v 1.15 2005/05/03 13:29:57 toggg Exp $
+// $Id$
 //
 
 require_once 'PEAR.php';

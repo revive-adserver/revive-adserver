@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: res-iso639.inc.php 5631 2006-10-09 18:21:43Z andrew@m3.net $
+$Id$
 */
 
 // This is by no means a complete list of all iso639-1 codes, but rather

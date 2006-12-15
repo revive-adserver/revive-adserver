@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: ChannelTargetTwoAds_nohistory.php 6300 2006-12-14 11:15:05Z monique.szpak@m3.net $
+$Id$
 */
 
 require_once MAX_PATH . '/simulation/SimulationScenario.php';

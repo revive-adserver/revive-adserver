@@ -24,7 +24,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: lib-capping.inc.php 5805 2006-10-27 10:56:56Z andrzej.swedrzynski@m3.net $
+$Id$
 */
 phpAds_registerGlobal ('cap', 'session_capping', 'time');
 

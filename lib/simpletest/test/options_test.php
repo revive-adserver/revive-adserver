@@ -1,5 +1,5 @@
 <?php
-    // $Id: options_test.php,v 1.9 2005/01/13 01:31:57 lastcraft Exp $
+    // $Id$
     
     require_once(dirname(__FILE__) . '/../options.php');
     

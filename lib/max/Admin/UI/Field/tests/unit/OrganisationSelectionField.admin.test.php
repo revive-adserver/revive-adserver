@@ -4,7 +4,7 @@
  *
  * @since 0.3.22 - Apr 5, 2006
  * @copyright 2006 M3 Media Services
- * @version $Id: OrganisationSelectionField.admin.test.php 4631 2006-04-06 15:17:42Z roh@m3.net $
+ * @version $Id$
  */
 
 require_once MAX_PATH . '/lib/max/Admin/UI/FieldFactory.php';

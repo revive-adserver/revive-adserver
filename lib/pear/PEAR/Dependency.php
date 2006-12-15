@@ -17,7 +17,7 @@
 // |          Stig Bakken <ssb@php.net>                                   |
 // +----------------------------------------------------------------------+
 //
-// $Id: Dependency.php,v 1.36.4.1 2004/12/27 07:04:19 cellog Exp $
+// $Id$
 
 require_once "PEAR.php";
 

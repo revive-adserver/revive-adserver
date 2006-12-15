@@ -15,7 +15,7 @@
 // | Authors: Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
 //
-// $Id: IniFile.php,v 1.15 2004/10/19 00:57:59 ryansking Exp $
+// $Id$
 
 /**
 * Config parser for PHP .ini files

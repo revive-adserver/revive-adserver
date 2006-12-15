@@ -1,5 +1,5 @@
 <?php
-    // $Id: tag_test.php,v 1.52 2005/02/10 02:44:24 lastcraft Exp $
+    // $Id$
     
     require_once(dirname(__FILE__) . '/../tag.php');
     

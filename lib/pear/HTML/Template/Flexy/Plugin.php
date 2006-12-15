@@ -16,7 +16,7 @@
 // | Authors:  nobody <nobody@localhost>                                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: Plugin.php,v 1.10 2005/05/14 03:44:26 alan_k Exp $
+// $Id$
 //
 // Plugin API provides support for  < ? = $this->plugin(".....",.....); ? >
 //  or {this.plugin(#xxxxx#,#xxxx#):h}

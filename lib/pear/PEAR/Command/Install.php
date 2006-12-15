@@ -16,7 +16,7 @@
 // | Author: Stig Sæther Bakken <ssb@php.net>                             |
 // +----------------------------------------------------------------------+
 //
-// $Id: Install.php,v 1.53.2.1 2004/10/19 04:08:42 cellog Exp $
+// $Id$
 
 require_once "PEAR/Command/Common.php";
 require_once "PEAR/Installer.php";

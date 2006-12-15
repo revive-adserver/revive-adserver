@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: affiliate-preview.php 4858 2006-05-22 09:07:11Z chris@m3.net $
+$Id$
 */
 
 // This is a page that will allow a publisher to view a page with all their zones

@@ -1,6 +1,6 @@
 /*-- 
 
- $Id: JDOM_license.txt,v 1.1 2003/07/24 04:31:23 edwardhieatt Exp $
+ $Id$
 
  Copyright (C) 2000-2003 Jason Hunter & Brett McLaughlin.
  All rights reserved.

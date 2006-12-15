@@ -16,7 +16,7 @@
 // | Author: Stig Sæther Bakken <ssb@php.net>                             |
 // +----------------------------------------------------------------------+
 //
-// $Id: Common.php,v 1.24 2004/01/08 17:33:13 sniper Exp $
+// $Id$
 
 require_once "PEAR.php";
 

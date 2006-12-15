@@ -18,7 +18,7 @@
 // |          Laurent Laville <pear@laurent-laville.org>                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: Color.php,v 1.13 2004/05/06 06:15:25 sebastian Exp $
+// $Id$
 
 /**
 *    Color

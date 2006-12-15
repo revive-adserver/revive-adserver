@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: ZoneScopeField.admin.test.php 6270 2006-12-12 15:23:56Z roh@m3.net $
+$Id$
 */
 
 require_once MAX_PATH . '/lib/max/Admin/UI/Field.php';

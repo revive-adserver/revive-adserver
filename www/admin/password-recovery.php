@@ -4,7 +4,7 @@
  *
  * @since 0.3.22 - Apr 11, 2006
  * @copyright 2006 M3 Media Services
- * @version $Id: legal-agreement.php 4736 2006-04-24 14:26:57Z matteo@beccati.com $
+ * @version $Id$
  */
 
 // Define a constant to avoid displaying the login screen

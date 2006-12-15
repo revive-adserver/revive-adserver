@@ -1,5 +1,5 @@
 <?php
-    // $Id: web_tester_test.php,v 1.10 2004/11/30 05:34:00 lastcraft Exp $
+    // $Id$
     
     class TestOfFieldExpectation extends UnitTestCase {
         

@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: demoDataFill.php 5079 2006-06-30 06:29:20Z matteo@beccati.com $
+$Id$
 */
 
     define('phpAds_path', dirname(__FILE__));

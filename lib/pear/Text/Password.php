@@ -18,7 +18,7 @@
  * @author     Olivier Vanhoucke <olivier@php.net>
  * @copyright  2004-2005 Martin Jansen, Olivier Vanhoucke
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Password.php,v 1.16 2005/08/21 19:47:53 mj Exp $
+ * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Text_Password
  */
 

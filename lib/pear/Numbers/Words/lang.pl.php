@@ -17,7 +17,7 @@
 // | Authors: Piotr Klaban <makler@man.torun.pl>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: lang.pl.php,v 1.3 2005/02/28 13:22:51 makler Exp $
+// $Id$
 //
 // Numbers_Words class extension to spell numbers in Polish.
 //

@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: StatisticsTrackerTaskDeleteOldData.mts.test.php 4388 2006-03-09 13:31:34Z andrew@m3.net $
+$Id$
 */
 
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/Tracker/Task/DeleteOldData.php';

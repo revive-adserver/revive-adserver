@@ -18,7 +18,7 @@
 // |          Andrey Demenev <demenev@on-line.jar.ru>                     |
 // +----------------------------------------------------------------------+
 //
-// $Id: lang.ru.php,v 1.1 2004/09/02 11:07:59 makler Exp $
+// $Id$
 //
 // Numbers_Words class extension to spell numbers in Russian language.
 //

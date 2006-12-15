@@ -24,7 +24,7 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id: Values.php,v 1.2 2005/10/05 20:51:21 nosey Exp $
+ * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
 

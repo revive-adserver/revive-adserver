@@ -1,5 +1,5 @@
 <?php
-    // $Id: real_sites_test.php,v 1.16 2004/12/05 21:12:33 lastcraft Exp $
+    // $Id$
     
     require_once(dirname(__FILE__) . '/../web_tester.php');
 

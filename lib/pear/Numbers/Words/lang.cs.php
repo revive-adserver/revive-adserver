@@ -17,7 +17,7 @@
 // | Authors: Petr 'PePa' Pavel <petr.pavel@pepa.info>                    |
 // +----------------------------------------------------------------------+
 //
-// $Id: lang.cs.php,v 1.1 2005/02/28 13:22:51 makler Exp $
+// $Id$
 //
 // Numbers_Words class extension to spell numbers in Czech language.
 //

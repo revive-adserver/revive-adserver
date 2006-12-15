@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: TextField.php 4568 2006-04-04 12:40:13Z roh@m3.net $
+$Id$
 */
 
 require_once MAX_PATH . '/lib/max/Admin/UI/Field.php';

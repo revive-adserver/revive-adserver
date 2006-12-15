@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: adviewnocookies.plugin.php 2507 2005-04-12 13:10:56Z radek $
+$Id$
 */
 
 /**

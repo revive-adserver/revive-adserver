@@ -18,7 +18,7 @@
 // |          Martin Jansen <mj@php.net>                                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: Downloader.php,v 1.17.2.1 2004/10/22 22:54:03 cellog Exp $
+// $Id$
 
 require_once 'PEAR/Common.php';
 require_once 'PEAR/Registry.php';

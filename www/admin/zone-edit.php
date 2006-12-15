@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: zone-edit.php 5884 2006-11-08 13:48:31Z dawid@arlenmedia.com $
+$Id$
 */
 
 // Require the initialisation file

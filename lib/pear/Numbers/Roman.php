@@ -16,7 +16,7 @@
 // | Authors :  David Costa <gurugeek@php.net>                            |
 // |            Sterling Hughes <sterling@php.net>                        |
 // +----------------------------------------------------------------------+
-// $Id: Roman.php,v 1.14 2004/04/28 13:13:08 danielc Exp $
+// $Id$
 
 // {{{ Numbers_Roman
 

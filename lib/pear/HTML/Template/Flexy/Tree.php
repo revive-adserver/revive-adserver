@@ -16,7 +16,7 @@
 // | Authors:  Alan Knowles <alan@akbkhome.com>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: Tree.php,v 1.5 2005/01/31 06:57:44 alan_k Exp $
+// $Id$
 //
 // The Html Tree Component of Flexy
 // Designed to be used on it's own

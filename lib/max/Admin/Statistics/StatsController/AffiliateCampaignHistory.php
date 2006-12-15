@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: AffiliateHistory.php 4735 2006-04-24 13:36:06Z matteo@beccati.com $
+$Id$
 */
 
 require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsCrossHistoryController.php';

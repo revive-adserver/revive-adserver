@@ -16,7 +16,7 @@
 // | Authors:  Alan Knowles <alan@akbkhome>                               |
 // +----------------------------------------------------------------------+
 //
-// $Id: Token.php,v 1.51 2005/05/14 03:44:26 alan_k Exp $
+// $Id$
 //
 //  This is the master Token file for The New Token driver Engine.
 //  All the Token output, and building routines are in here.

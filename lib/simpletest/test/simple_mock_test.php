@@ -1,5 +1,5 @@
 <?php
-    // $Id: simple_mock_test.php,v 1.41 2005/01/23 22:20:52 lastcraft Exp $
+    // $Id$
     
     require_once(dirname(__FILE__) . '/../expectation.php');
     

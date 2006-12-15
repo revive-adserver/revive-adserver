@@ -4,7 +4,7 @@
  *
  * @since 0.3.22 - Apr 13, 2006
  * @copyright 2006 M3 Media Services
- * @version $Id: LegalAgreement.admin.test.php 4735 2006-04-24 13:36:06Z matteo@beccati.com $
+ * @version $Id$
  */
 
 require_once MAX_PATH . '/lib/max/Admin/LegalAgreement.php';

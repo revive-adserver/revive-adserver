@@ -16,7 +16,7 @@
 // | Author: Adam Daniel <adaniel1@eesus.jnj.com>                         |
 // +----------------------------------------------------------------------+
 //
-// $Id: Common.php,v 1.8 2003/06/19 18:52:50 mansion Exp $
+// $Id$
 
 /**
  * Base class for all HTML classes

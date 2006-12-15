@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: PriorityAdServerForecastZoneImpressions.mtpdb.test.php 6195 2006-12-04 14:57:08Z andrew@m3.net $
+$Id$
 */
 
 define('WEEKS', 2);

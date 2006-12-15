@@ -17,7 +17,7 @@
 // | Authors: Piotr Klaban <makler@man.torun.pl>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: lang.en_GB.php,v 1.2 2004/09/02 11:07:59 makler Exp $
+// $Id$
 //
 // Numbers_Words class extension to spell numbers in British English language.
 //

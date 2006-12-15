@@ -17,7 +17,7 @@
 // | Based on HTML_Common by: Adam Daniel <adaniel1@eesus.jnj.com>        |
 // +----------------------------------------------------------------------+
 //
-// $Id: Element.php,v 1.36 2005/05/18 06:05:12 alan_k Exp $
+// $Id$
 
 /**
  * Lightweight HTML Element builder and render

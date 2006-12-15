@@ -3,7 +3,7 @@
      *	base include file for SimpleTest
      *	@package	SimpleTest
      *	@subpackage	UnitTester
-     *	@version	$Id: errors.php,v 1.13 2005/01/08 03:48:39 lastcraft Exp $
+     *	@version	$Id$
      */
     /** @ignore - PHP5 compatibility fix. */
     if (! defined('E_STRICT')) {

@@ -17,7 +17,7 @@
 // |                                                                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: Autoloader.php,v 1.11 2004/02/27 02:21:29 cellog Exp $
+// $Id$
 
 if (!extension_loaded("overload")) {
     // die hard without ext/overload

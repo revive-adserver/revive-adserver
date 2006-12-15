@@ -16,7 +16,7 @@
 // | Author: Chuck Hagenbuch <chuck@horde.org>                            |
 // +----------------------------------------------------------------------+
 //
-// $Id: Mail.php,v 1.12 2005/08/22 01:19:27 jon Exp $
+// $Id$
 
 require_once 'PEAR.php';
 

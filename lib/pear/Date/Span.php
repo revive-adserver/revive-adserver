@@ -16,7 +16,7 @@
 // | Author: Leandro Lucarella <llucax@php.net>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: Span.php,v 1.4 2003/04/30 03:56:26 llucax Exp $
+// $Id$
 //
 
 require_once 'Date.php';

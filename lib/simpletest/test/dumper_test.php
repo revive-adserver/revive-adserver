@@ -1,5 +1,5 @@
 <?php
-    // $Id: dumper_test.php,v 1.4 2004/09/24 22:55:10 lastcraft Exp $
+    // $Id$
 
     class DumperDummy {
     }

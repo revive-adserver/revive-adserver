@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: lib-misc-stats.inc.php 4406 2006-03-10 10:31:49Z andrew@m3.net $
+$Id$
 */
 
 require_once MAX_PATH . '/lib/max/Plugin.php';

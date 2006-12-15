@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: lib-zones.inc.php 5638 2006-10-09 19:41:48Z scott@m3.net $
+$Id$
 */
 
 // Set define to prevent duplicate include

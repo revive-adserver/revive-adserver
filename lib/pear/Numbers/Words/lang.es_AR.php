@@ -17,7 +17,7 @@
 // | Authors: Martin Marrese  <mmare@mecon.gov.ar>                        |
 // | Based On: lang_es.php  -  Xavier Noguer                              |
 // +----------------------------------------------------------------------+
-// $Id: lang.es_AR.php,v 1.2 2005/02/28 13:22:51 makler Exp $
+// $Id$
 //
 // Numbers_Words class extension to spell numbers in Argentinian Spanish 
 // 

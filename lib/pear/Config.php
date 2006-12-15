@@ -15,7 +15,7 @@
 // | Author: Bertrand Mansion <bmansion@mamasam.com>                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: Config.php,v 1.20 2004/06/04 09:40:16 mansion Exp $
+// $Id$
 
 require_once('PEAR.php');
 require_once('Config/Container.php');

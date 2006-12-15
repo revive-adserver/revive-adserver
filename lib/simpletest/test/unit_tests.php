@@ -1,5 +1,5 @@
 <?php
-    // $Id: unit_tests.php,v 1.47 2005/02/05 04:51:31 lastcraft Exp $
+    // $Id$
     if (! defined('TEST')) {
         define('TEST', __FILE__);
     }

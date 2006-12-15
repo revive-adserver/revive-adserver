@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: stats.php 4624 2006-06-021 14:37:29Z dawid@arlenmedia.com $
+$Id$
 */
 
 // Require the initialisation file

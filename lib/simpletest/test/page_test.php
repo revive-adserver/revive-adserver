@@ -1,5 +1,5 @@
 <?php
-    // $Id: page_test.php,v 1.74 2005/01/03 03:41:14 lastcraft Exp $
+    // $Id$
     
     require_once(dirname(__FILE__) . '/../http.php');
     require_once(dirname(__FILE__) . '/../page.php');

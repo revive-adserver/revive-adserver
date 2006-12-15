@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: lib-graph.inc.php 5698 2006-10-12 16:16:22Z chris@m3.net $
+$Id$
 */
 
 // Required files

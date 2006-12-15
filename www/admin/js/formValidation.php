@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: formValidation.php 5559 2006-10-05 12:10:39Z arlen $
+$Id$
 */
 
 /**

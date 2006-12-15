@@ -17,7 +17,7 @@
 // |          Nils Homp (Hungarian version)                               |
 // +----------------------------------------------------------------------+
 //
-// $Id: lang.hu_HU.php,v 1.3 2005/02/28 13:22:51 makler Exp $
+// $Id$
 //
 // Numbers_Words class extension to spell numbers in Hungarian language.
 // NOTE: toCurrency() was not localized and is from the en_US class.

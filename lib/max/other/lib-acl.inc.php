@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: banner-acl.php 3848 2005-11-03 09:39:41Z chris@m3.net $
+$Id$
 */
 
 require_once(MAX_PATH . '/lib/max/other/lib-db.inc.php');

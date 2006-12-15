@@ -1,5 +1,5 @@
 <?php
-    // $Id: expectation_test.php,v 1.19 2005/01/13 01:31:57 lastcraft Exp $
+    // $Id$
     require_once(dirname(__FILE__).DIRECTORY_SEPARATOR . '../expectation.php');
 
     class TestOfEquality extends UnitTestCase {

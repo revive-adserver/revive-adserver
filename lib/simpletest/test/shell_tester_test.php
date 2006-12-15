@@ -1,5 +1,5 @@
 <?php
-    // $Id: shell_tester_test.php,v 1.5 2004/09/24 22:55:18 lastcraft Exp $
+    // $Id$
 
     Mock::generate('SimpleShell');
     

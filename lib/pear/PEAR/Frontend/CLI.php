@@ -16,7 +16,7 @@
   | Author: Stig Sæther Bakken <ssb@php.net>                             |
   +----------------------------------------------------------------------+
 
-  $Id: CLI.php,v 1.41 2004/02/17 05:49:16 ssb Exp $
+  $Id$
 */
 
 require_once "PEAR.php";

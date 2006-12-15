@@ -17,7 +17,7 @@
 // | Authors: Jesper Veggerby <pear.nosey@veggerby.dk>                    |
 // +----------------------------------------------------------------------+
 //
-// $Id: lang.dk.php,v 1.1 2004/09/21 06:42:11 makler Exp $
+// $Id$
 //
 // Numbers_Words class extension to spell numbers in Danish language.
 //

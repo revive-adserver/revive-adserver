@@ -18,7 +18,7 @@
 // |          Tomas V.V.Cox <cox@idecnet.com>                           |
 // +--------------------------------------------------------------------+
 //
-// $Id: PEAR.php,v 1.82.2.7 2005/08/17 22:01:58 cellog Exp $
+// $Id$
 //
 
 define('PEAR_ERROR_RETURN',     1);

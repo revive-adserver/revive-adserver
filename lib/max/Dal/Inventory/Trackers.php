@@ -21,7 +21,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: LegalAgreement.php 4735 2006-04-24 13:36:06Z matteo@beccati.com $
+$Id$
 */
 
 require_once MAX_PATH.'/lib/max/Dal/Common.php';
@@ -32,7 +32,7 @@ require_once MAX_PATH.'/lib/max/Dal/Common.php';
  * @package MaxDal
  * @since 0.3.22 - Apr 13, 2006
  * @copyright 2006 M3 Media Services
- * @version $Id: LegalAgreement.php 4735 2006-04-24 13:36:06Z matteo@beccati.com $
+ * @version $Id$
  */
 
 class MAX_Dal_Inventory_Trackers extends MAX_Dal_Common

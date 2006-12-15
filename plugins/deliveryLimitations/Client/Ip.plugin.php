@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: Ip.plugin.php 6144 2006-11-29 17:44:36Z andrew@m3.net $
+$Id$
 */
 
 require_once MAX_PATH . '/plugins/deliveryLimitations/DeliveryLimitations.php';

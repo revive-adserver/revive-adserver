@@ -11,7 +11,7 @@
 * Technical choices are described in the 'docs/technical' file
 *
 * @package Cache_Lite
-* @version $Id: File.php,v 1.1 2005/06/18 19:36:13 fab Exp $
+* @version $Id$
 * @author Fabien MARTY <fab@php.net>
 */
  

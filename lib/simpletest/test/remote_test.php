@@ -1,5 +1,5 @@
 <?php
-    // $Id: remote_test.php,v 1.4 2004/04/07 19:12:13 lastcraft Exp $
+    // $Id$
     require_once('../remote.php');
     require_once('../reporter.php');
     

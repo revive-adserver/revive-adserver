@@ -20,7 +20,7 @@
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1997-2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: odbc.php,v 1.78 2005/02/28 01:42:17 danielc Exp $
+ * @version    CVS: $Id$
  * @link       http://pear.php.net/package/DB
  */
 

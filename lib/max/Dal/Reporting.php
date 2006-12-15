@@ -21,7 +21,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: Admin.php 4057 2006-01-12 16:21:59Z roh@m3.net $
+$Id$
 */
 
 require_once MAX_PATH.'/lib/max/Dal/Common.php';

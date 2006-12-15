@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: banner-zone.php 5059 2006-06-23 16:04:08Z chris@m3.net $
+$Id$
 */
 
 // Require the initialisation file
