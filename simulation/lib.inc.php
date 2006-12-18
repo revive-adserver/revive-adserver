@@ -553,4 +553,44 @@ function strip_prefix($source, $prefix='')
 }
 
 
+function profile_adSelect($adSelect=null, $dump = FALSE)
+{
+    static $profile;
+
+    if ($dump) {
+        $temp = $profile;
+        $profile = array();
+        return $temp;
+    }
+    $profile[] = array('ad'=>$adSelect, 'time'=>microtime_float());
+}
+
+function microtime_float()
+{
+//   list($usec, $sec) = explode(" ", microtime());
+//   return ((float)$usec + (float)$sec);
+   return array_sum(explode(' ',microtime()));
+}
+
+function show_profile()
+{
+    // Display the data stored in the profiler
+    $aProfileRaw = profile_adSelect('', true);
+
+    foreach ($aProfileRaw AS $i => $v)
+    {
+        $aProfile[$i]['bannerid'] = 0;
+        if ($v['ad'] && is_array($v['ad']) && array_key_exists('bannerid',$v['ad']))
+        {
+            $aProfile[$i]['bannerid'] = $v['ad']['bannerid'];
+        }
+        if (!isset($prev))
+        {
+            $prev = $v['time'];
+        }
+        $aProfile[$i]['lapsed'] =  sprintf("%.11f",$v['time'] - $prev);
+    }
+    include TPL_PATH.'/table_profile.html';
+}
+
 ?>

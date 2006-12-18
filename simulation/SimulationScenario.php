@@ -63,6 +63,8 @@ class SimulationScenario
 
     var $loadCommonData = false;
 
+    var $profileOn = true;
+
     /**
      * The constructor method.
      */
@@ -82,12 +84,8 @@ class SimulationScenario
      */
     function init($filename)
     {
-
         $GLOBALS['_MAX']['CONF']['database'] = $GLOBALS['_MAX']['CONF']['simdb'];
         $GLOBALS['_MAX']['CONF']['table']['prefix']    = '';
-
-//        $GLOBALS['_MAX']['CONF']['simdb']['name'] = $dbname;
-//        $GLOBALS['_MAX']['CONF']['database']  = $GLOBALS['_MAX']['CONF']['simdb'];
 
         // assign the inputs
         $this->sourceFile = FOLDER_DATA.'/'.$filename.'.sql';
@@ -155,6 +153,7 @@ class SimulationScenario
         $k = 0;
         for($i=1;$i<=$aIteration['max_requests'];$i++)
         {
+
             if ($aIteration['shuffle_requests'])
             {
                 $k = rand(1, $requestObjs);
@@ -191,6 +190,10 @@ class SimulationScenario
 
             // log what happened in this iteration
             $this->_recordDelivery($iteration, $result['bannerid']);
+        }
+        if ($this->profileOn)
+        {
+            show_profile();
         }
 
         // add up the delivery stats for this interval and store to data_summary_ad_zone table
@@ -289,7 +292,7 @@ class SimulationScenario
      */
     function _makeRequest($oRequest)
     {
-        return MAX_adSelect(
+        $adSelect = MAX_adSelect(
                             $oRequest->what,
                             $oRequest->target,
                             $oRequest->source,
@@ -300,6 +303,11 @@ class SimulationScenario
                             $oRequest->loc,
                             $oRequest->referer
                            );
+        if ($this->profileOn)
+        {
+            profile_adSelect($adSelect);
+        }
+        return $adSelect;
     }
 
     /**
@@ -409,7 +417,7 @@ class SimulationScenario
             $this->printMessage('nothing delivered');
             return ;
        }
-       $table = $this->tablePrefix.$GLOBALS['_MAX']['CONF']['table']['data_summary_ad_hourly'];
+       $table = $GLOBALS['_MAX']['CONF']['table']['data_summary_ad_hourly'];
 
        foreach($this->aDelivered[$interval] as $bannerid => $impressions)
        {
@@ -716,6 +724,12 @@ class SimulationScenario
     {
 //        $query = "SELECT * FROM `{$this->tablePrefix}data_summary_zone_impression_history`";
 //        $this->printResult($query, 'data_summary_zone_impression_history');
+       $table = $GLOBALS['_MAX']['CONF']['table']['data_summary_ad_hourly'];
+       $query = "SELECT ad_id, SUM( impressions ) AS impressions
+                FROM {$table} GROUP BY ad_id ORDER BY ad_id";
+       $this->printResult($query, '');
+       $query = "SELECT * FROM {$table}";
+       $this->printResult($query, $table);
     }
 
 /**

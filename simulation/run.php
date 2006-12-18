@@ -52,6 +52,7 @@ $dir  = $_GET['dir'];
 $simClass = basename($file, '.php');
 require_once $dir.'/'.$file;
 $obj = new $simClass();
+$obj->profileOn = $conf['simdb']['profile'];
 $obj->run();
 
 $execSecs = get_execution_time($start);
