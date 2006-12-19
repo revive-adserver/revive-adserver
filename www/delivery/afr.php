@@ -68,7 +68,7 @@ if (isset($banner['contenttype']) && $banner['contenttype'] == 'swf') {
 }
 
 // Add refresh meta tag if $refresh is set and numeric
-if (isset($refresh) && is_int($refresh) && $refresh > 0) {
+if (isset($refresh) && is_numeric($refresh) && $refresh > 0) {
     $dest = MAX_commonGetDeliveryUrl() . substr($_SERVER['REQUEST_URI'], 1);
     parse_str($_SERVER['QUERY_STRING'], $qs);
     $dest .= (!array_key_exists('loc', $qs)) ? "&loc=" . urlencode($loc) : '';
