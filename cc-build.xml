@@ -26,7 +26,7 @@
 		</sequential>
 	</macrodef>
 
-	<property name="svnBaseURL" value="https://svn.openads.org/svn/max_0.x/0.3"/>
+	<property name="svnBaseURL" value="https://svn.openads.org/openads/branches/max/trunk"/>
 
 	<target name="init">
 		<fail unless="label" message="Need to have 'label' defined"/>
