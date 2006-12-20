@@ -64,6 +64,7 @@ class SimulationScenario
     var $loadCommonData = false;
 
     var $profileOn = true;
+    var $aProfile = array();
 
     /**
      * The constructor method.
@@ -193,7 +194,7 @@ class SimulationScenario
         }
         if ($this->profileOn)
         {
-            show_profile();
+            $this->show_profile();
         }
 
         // add up the delivery stats for this interval and store to data_summary_ad_zone table
@@ -287,11 +288,15 @@ class SimulationScenario
     /**
      * make a request via adSelect function
      *
-     * @param string $what
+     * @param stdClass object $oRequest
      * @return array of ad info
      */
     function _makeRequest($oRequest)
     {
+        if ($this->profileOn)
+        {
+            $start = microtime_float();
+        }
         $adSelect = MAX_adSelect(
                             $oRequest->what,
                             $oRequest->target,
@@ -305,7 +310,8 @@ class SimulationScenario
                            );
         if ($this->profileOn)
         {
-            profile_adSelect($adSelect);
+            $this->aProfile[] = array('bannerid'=>$adSelect['bannerid'],
+                                    'lapsed'=>sprintf("%.11f",microtime_float() - $start));
         }
         return $adSelect;
     }
@@ -318,11 +324,11 @@ class SimulationScenario
      */
     function _getBeaconURL($bannerId, $html)
     {
-        $beaconUrl = '';
+        $beaconURL = '';
         if ($bannerId)
         {
-            $pattern    = "<img src=\'http:\/\/\/lg.php\?(?P<bURL>[\w\W\s]+)'[\w\W\s]+>";
-       		$i	= preg_match_all('/'.$pattern.'/U', $html, $aMatch);
+            $pattern   = "<img src=\'http:\/\/[\w\W\s]+\/lg.php\?(?P<bURL>[\&\;\=\w]+)";
+       		$i         = preg_match_all('/'.$pattern.'/', $html, $aMatch);
        		if ($i)
        		{
                 $beaconURL  = $aMatch['bURL'][0];
@@ -512,6 +518,16 @@ class SimulationScenario
     }
 
     /**
+     * display the request profile information
+     */
+    function show_profile()
+    {
+        $aProfile = $this->aProfile;
+        $this->aProfile = array();
+        include TPL_PATH.'/table_profile.html';
+    }
+
+    /**
      * read the scenario config file
      *
      */
@@ -689,6 +705,8 @@ class SimulationScenario
                 LEFT JOIN {$this->tablePrefix}clients AS cli ON cli.clientid = cam.clientid
                 ORDER BY aza.ad_id";
         $this->printResult($query, 'campaigns');
+        $query = "SELECT * FROM {$this->tablePrefix}channel";
+        $this->printResult($query, 'channels');
     }
 
     /**
@@ -722,8 +740,6 @@ class SimulationScenario
      */
     function printSummaryData()
     {
-//        $query = "SELECT * FROM `{$this->tablePrefix}data_summary_zone_impression_history`";
-//        $this->printResult($query, 'data_summary_zone_impression_history');
        $table = $GLOBALS['_MAX']['CONF']['table']['data_summary_ad_hourly'];
        $query = "SELECT ad_id, SUM( impressions ) AS impressions
                 FROM {$table} GROUP BY ad_id ORDER BY ad_id";
@@ -772,38 +788,6 @@ class SimulationScenario
         $printth = true;
         $i = 0;
         include MAX_PATH.'/simulation/templates/table_simulation.html';
-//        if ($title)
-//        {
-//            $this->printMessage('<h5>'.$title.'<t5>', false);
-//        }
-//        $this->printMessage('<table style="border: 1px solid;">', false);
-//        $printth = true;
-//        $i = 0;
-//        while ($tmp = mysql_fetch_assoc($dbRes->result))
-//        {
-//            $style=($i ? "background-color: #FFFFFF;" : "background-color: #EEE;");
-//            if ($printth)
-//            {
-//                $this->printMessage('<tr style="'.$style.'">', false);
-//                foreach ($tmp AS $k => $v)
-//                {
-//                    $this->printMessage('<th>'.$k.'</th>', false);
-//                }
-//                $this->printMessage('</tr>', false);
-//                reset($tmp);
-//                $printth = false;
-//                $i = ($i ? 0 : 1);
-//                $style=($i ? "background-color: #FFFFFF;" : "background-color: #EEE;");
-//            }
-//            $this->printMessage('<tr style="'.$style.'">', false);
-//            foreach ($tmp AS $k => $v)
-//            {
-//                $this->printMessage('<td>'.$v.'</td>', false);
-//            }
-//            $this->printMessage('</tr>', false);
-//            $i = ($i ? 0 : 1);
-//        }
-//        $this->printMessage('</table>', false);
     }
 }
 ?>
