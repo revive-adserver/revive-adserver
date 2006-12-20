@@ -197,6 +197,7 @@ CREATE TABLE IF NOT EXISTS channel (
   acl_plugins TEXT DEFAULT '',
   active SMALLINT(1),
   comments TEXT DEFAULT NULL,
+  updated DATETIME NOT NULL,
   acls_updated datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (channelid)
 );
