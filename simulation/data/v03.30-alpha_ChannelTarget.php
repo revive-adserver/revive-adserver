@@ -50,6 +50,9 @@ $precis=    '<h1>Scenario Simulation: ChannelTarget_nohistory</h1>'
             .'-- distribution=100(per day)<br />'
             .'-- priority starts at 0<br />'
             .'-- no impression history<br />'
+            .'-- variable request sets<br />'
+            .'-- first iteration will fail owing to pageurl limitation<br />'
+            .'-- 30 successful deliveries expected<br />'
             .'-- iterations: '.$iterations.'<br />'
             .print_r($oRequest, true);
 
