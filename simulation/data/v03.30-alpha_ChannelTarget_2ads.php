@@ -39,6 +39,10 @@ $GLOBALS['_MAX']['CONF']['sim']['precis']       = $precis;
 $GLOBALS['_MAX']['CONF']['sim']['iterations']   = $iterations;
 $GLOBALS['_MAX']['CONF']['sim']['oRequest']     = $oRequest;
 $GLOBALS['_MAX']['CONF']['sim']['aIterations']  = $aIterations;
-//$GLOBALS['loc'] = 'www.example.com';
+
+// despite the request param loc being set
+// the page url channeled ad is not selected
+// unless the global loc is set
+$GLOBALS['loc'] = 'www.example.com';
 
 ?>
