@@ -2024,6 +2024,171 @@ class MAX_Admin_Upgrade
         return $oPlugin;
     }
 
+    /**
+     * return the currently installed database schema version
+     *
+     * @return string version
+     */
+    function getVersionSchema()
+    {
+        PEAR::pushErrorHandling(null);
+        $data = $this->dbh->tableInfo($this->conf['table']['prefix'].'application_variable');
+        PEAR::popErrorHandling();
+        if (PEAR::isError($data)) {
+            // Could not find the application variables table
+            return false;
+        } else {
+            $query = "
+                SELECT
+                    value AS max_version
+                FROM
+                    {$this->conf['table']['prefix']}application_variable
+                WHERE
+                    name = 'max_version'
+                ";
+            $row = $this->dbh->getRow($query);
+            if (!PEAR::isError($row)) {
+                return $row['max_version'];
+            }
+        }
+        return false;
+    }
+
+    /**
+     * return the currently installed code version
+     *
+     * @return string version
+     */
+    function getVersionConstant()
+    {
+        if (defined('MAX_VERSION_READABLE'))
+        {
+            return MAX_VERSION_READABLE;
+        }
+        return false;
+    }
+
+    /**
+     * A method to return the name of the required upgrade function
+     * to the necessary database format.
+     *
+     * @return array Array of errors encountered during upgrade
+     */
+    function getUpgradeFunction()
+    {
+        if (isset($this->upgradeFrom)) {
+            if ($this->_compareVersions('v0.2.0-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.2.0-alpha
+                return array("version"=>"v0.2.0-alpha", "function"=>"_upgradeToTwoZeroAlpha");
+            }
+            if ($this->_compareVersions('v0.2.1-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.2.1-alpha
+                return array("version"=>"v0.2.1-alpha", "function"=>"_upgradeToTwoOneAlpha");
+            }
+            if ($this->_compareVersions('v0.2.3-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.2.3-alpha
+                return array( "version"=>"v0.2.3-alpha", "function"=>"_upgradeToTwoThreeAlpha");
+            }
+            if ($this->_compareVersions('v0.2.4-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.2.4-alpha
+                return array( "version"=>"v0.2.4-alpha", "function"=>"_upgradeToTwoFourAlpha");
+            }
+            if ($this->_compareVersions('v0.3.00-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.00-alpha
+                return array( "version"=>"v0.3.00-alpha", "function"=>"_upgradeToThreeZeroAlpha");
+            }
+            if ($this->_compareVersions('v0.3.02-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.02-alpha
+                return array( "version"=>"v0.3.02-alpha", "function"=>"_upgradeToThreeTwoAlpha");
+            }
+            if ($this->_compareVersions('v0.3.04-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.04-alpha
+                return array( "version"=>"v0.3.04-alpha", "function"=>"_upgradeToThreeFourAlpha");
+            }
+            if ($this->_compareVersions('v0.3.05-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.05-alpha
+                return array( "version"=>"v0.3.05-alpha", "function"=>"_upgradeToThreeFiveAlpha");
+            }
+            if ($this->_compareVersions('v0.3.09-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.09-alpha
+                return array( "version"=>"v0.3.09-alpha", "function"=>"_upgradeToThreeNineAlpha");
+            }
+            if ($this->_compareVersions('v0.3.10-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.10-alpha
+                return array( "version"=>"v0.3.10-alpha", "function"=>"_upgradeToThreeTenAlpha");
+            }
+            if ($this->_compareVersions('v0.3.11-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.11-alpha
+                return array( "version"=>"v0.3.11-alpha", "function"=>"_upgradeToThreeElevenAlpha");
+            }
+            if ($this->_compareVersions('v0.3.13-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.13-alpha
+                return array( "version"=>"v0.3.13-alpha", "function"=>"_upgradeToThreeThirteenAlpha");
+            }
+            if ($this->_compareVersions('v0.3.15-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.15-alpha
+                return array( "version"=>"v0.3.15-alpha", "function"=>"_upgradeToThreeFifteenAlpha");
+            }
+            if ($this->_compareVersions('v0.3.16-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.16-alpha
+                return array( "version"=>"v0.3.16-alpha", "function"=>"_upgradeToThreeSixteenAlpha");
+            }
+            if ($this->_compareVersions('v0.3.17-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.17-alpha
+                return array( "version"=>"v0.3.17-alpha", "function"=>"_upgradeToThreeSeventeenAlpha");
+            }
+            if ($this->_compareVersions('v0.3.19-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.19-alpha
+                return array( "version"=>"v0.3.19-alpha", "function"=>"_upgradeToThreeNineteenAlpha");
+            }
+            if ($this->_compareVersions('v0.3.21-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.21-alpha
+                return array( "version"=>"v0.3.21-alpha", "function"=>"_upgradeToThreeTwentyOneAlpha");
+            }
+            if ($this->_compareVersions('v0.3.22-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.22-alpha
+                return array( "version"=>"v0.3.22-alpha", "function"=>"_upgradeToThreeTwentyTwoAlpha");
+            }
+            if ($this->_compareVersions('v0.3.23-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.23-alpha
+                return array( "version"=>"v0.3.23-alpha", "function"=>"_upgradeToThreeTwentyThreeAlpha");
+            }
+            if ($this->_compareVersions('v0.3.24-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.24-alpha
+                return array( "version"=>"v0.3.24-alpha", "function"=>"_upgradeToThreeTwentyFourAlpha");
+            }
+            if ($this->_compareVersions('v0.3.25-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.25-alpha
+                return array( "version"=>"v0.3.25-alpha", "function"=>"_upgradeToThreeTwentyFiveAlpha");
+            }
+            if ($this->_compareVersions('v0.3.26-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.26-alpha
+                return array( "version"=>"v0.3.26-alpha", "function"=>"_upgradeToThreeTwentySixAlpha");
+            }
+            if ($this->_compareVersions('v0.3.27-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.27-alpha
+                return array( "version"=>"v0.3.27-alpha", "function"=>"_upgradeToThreeTwentySevenAlpha");
+            }
+            if ($this->_compareVersions('v0.3.28-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.28-alpha
+                return array( "version"=>"v0.3.28-alpha", "function"=>"_upgradeToThreeTwentyEightAlpha");
+            }
+            if ($this->_compareVersions('v0.3.29-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.29-alpha
+                return array( "version"=>"v0.3.29-alpha", "function"=>"_upgradeToThreeTwentyNineAlpha");
+            }
+            if ($this->_compareVersions('v0.3.30-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.30-alpha
+                return array( "version"=>"v0.3.30-alpha", "function"=>"_upgradeToThreeThirtyAlpha");
+            }
+            if ($this->_compareVersions('v0.3.31-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.31-alpha
+                return array( "version"=>"v0.3.31-alpha", "function"=>"_upgradeToThreeThirtyOneAlpha");
+            }
+        }
+        return array("version"=>"", "function"=>"");
+    }
+
 }
 
 ?>

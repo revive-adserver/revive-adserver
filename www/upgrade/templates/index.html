@@ -1,0 +1,31 @@
+<?php
+    phpAds_PageHeader('0');
+?>
+    <table style="width:500px;cellpadding:15px;cellspacing:15px;border:1px solid;text-align:center">
+    <th>Your Schema Version</th><th>This Schema Version</th></tr>
+    <tr><td><?php echo $verSchema ?></td><td><?php echo $verCode ?></td></tr>
+    </table>
+<?php
+    if ($upgradeRequired)
+    {
+?>
+    <h2>SCHEMA UPGRADE REQUIRED</h2>
+    <p>You should backup your database before proceeding</p>
+    <form method="POST" action="index.php" >
+    <input type="hidden" name="version" value="<?php echo $upgradeVersion ?>" />
+    <input type="hidden" name="function" value="<?php echo $upgradeFunction ?>" />
+    <button type="submit" value="upgrade" name="upgrade"><?php echo 'Upgrade to '.$upgradeVersion ?></button>
+    </form>
+<?php
+    }
+    else
+    {
+?>
+    <h2>SCHEMA IS UP TO DATE</h2>
+    <h2>NO UPGRADE REQUIRED</h2>
+<?php
+    }
+    phpAds_PageFooter();
+?>
+
+
