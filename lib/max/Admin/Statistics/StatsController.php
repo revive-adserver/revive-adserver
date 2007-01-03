@@ -164,7 +164,7 @@ class StatsController
         // Sort columns
         uksort($this->columns, array($this, '_columnSort'));
 
-        $this->totals = $this->emptyRow;
+        $this->total = $this->emptyRow;
 
         if (empty($GLOBALS['tabindex'])) {
             $GLOBALS['tabindex'] = 1;
