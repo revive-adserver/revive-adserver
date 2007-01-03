@@ -32,7 +32,7 @@ require (phpAds_path.'/libraries/lib-xmlrpc.inc.php');
 /* XML-RPC server settings                               */
 /*********************************************************/
 
-$phpAds_updatesServer = array(
+$GLOBALS['phpAds_updatesServer'] = array(
 	'host'	 => 'sync.openads.org',
 	'script' => '/xmlrpc.php',
 	'port'	 => 80

@@ -82,6 +82,9 @@ $phpAds_config['ui_enabled'] = true;
 // Only allow access to the admin interface if SSL is used
 $phpAds_config['ui_forcessl'] = false;
 
+// Run maintenance during delivery if the cron job isn't correctly set
+$phpAds_config['auto_maintenance'] = true;
+
 
 
 /*********************************************************/

@@ -19,6 +19,7 @@ define ("phpAds_userMaintenance", 2);
 define ("phpAds_userAdministrator", 3);
 define ("phpAds_userAdvertiser", 4);
 define ("phpAds_userPublisher", 5);
+define ("phpAds_userAutoMaintenance", 6);
 
 // Define actions
 define ("phpAds_actionAdvertiserReportMailed", 0);

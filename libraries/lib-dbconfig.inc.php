@@ -18,9 +18,9 @@ define ('LIBDBCONFIG_INCLUDED', true);
 
 
 // Current phpAds version
-$phpAds_version = 200.293;
-$phpAds_version_readable = "2.0.9-pr1";
-$phpAds_version_development = false;  
+$phpAds_version = 200.294;
+$phpAds_version_readable = "2.0.10-dev";
+$phpAds_version_development = true;  
 
 $phpAds_productname = "phpAdsNew";
 $phpAds_producturl = "www.phpadsnew.com";
@@ -89,6 +89,7 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'log_hostname' =>				array ('type' => 'boolean', 'sql' => false),
 	'log_iponly' =>					array ('type' => 'boolean', 'sql' => false),
 	'pack_cookies' =>				array ('type' => 'boolean', 'sql' => false),
+	'auto_maintenance' =>			array ('type' => 'boolean', 'sql' => false),
 	
 	'my_header' =>					array ('type' => 'string', 'sql' => true),
 	'my_footer' =>					array ('type' => 'string', 'sql' => true),

@@ -204,7 +204,7 @@ if ($found)
 			phpAds_setCookie ("phpAds_banner[".$n."]", serialize($cookie), 0);
 			phpAds_flushCookie ();
 			
-			header 	  ("Location: ".$row['imageurl']);
+			header("Location: ".$row['imageurl']);
 			break;
 		
 		
@@ -215,7 +215,7 @@ if ($found)
 			phpAds_setCookie ("phpAds_banner[".$n."]", serialize($cookie), 0);
 			phpAds_flushCookie ();
 			
-			header 	  ("Location: ".$row['imageurl']);
+			header("Location: ".$row['imageurl']);
 			break;
 		
 		
@@ -233,6 +233,10 @@ if ($found)
 					
 					phpAds_setCookie ("phpAds_banner[".$n."]", serialize($cookie), 0);
 					phpAds_flushCookie ();
+					
+					// Perform auto maintenance!
+					require (phpAds_path.'/libraries/lib-automaintenance.inc.php');
+					phpAds_performAutoMaintenance();
 					
 					if ($_SERVER['SERVER_PORT'] == 443) $phpAds_config['url_prefix'] = str_replace ('http://', 'https://', $phpAds_config['url_prefix']);
 					header ("Location: ".str_replace('{url_prefix}', $phpAds_config['url_prefix'], $row['imageurl']));
@@ -281,7 +285,8 @@ else
 		// Show 1x1 Gif, to ensure not broken image icon
 		// is shown.
 		
-		header 	 ("Content-Type: image/gif");
+		header("Content-Type: image/gif");
+		header("Content-Length: 43");
 		
 		echo chr(0x47).chr(0x49).chr(0x46).chr(0x38).chr(0x39).chr(0x61).chr(0x01).chr(0x00).
 		     chr(0x01).chr(0x00).chr(0x80).chr(0x00).chr(0x00).chr(0x04).chr(0x02).chr(0x04).
@@ -292,6 +297,11 @@ else
 	}
 }
 
-phpAds_dbClose();
+if ($phpAds_config['auto_maintenance'])
+{
+	// Perform auto maintenance!
+	require (phpAds_path.'/libraries/lib-automaintenance.inc.php');
+	phpAds_performAutoMaintenance();
+}
 
 ?>

@@ -135,4 +135,11 @@ echo "\n</body>\n";
 
 echo "</html>\n";
 
+if ($phpAds_config['auto_maintenance'])
+{
+	// Perform auto maintenance!
+	require (phpAds_path.'/libraries/lib-automaintenance.inc.php');
+	phpAds_performAutoMaintenance();
+}
+
 ?>

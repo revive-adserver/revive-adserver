@@ -102,9 +102,10 @@ while ($row = phpAds_dbFetchArray($res))
 	echo "<td height='25'>";
 	switch ($row['usertype'])
 	{
-		case phpAds_userDeliveryEngine:	echo "<img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;".$strDeliveryEngine; break;
-		case phpAds_userMaintenance:	echo "<img src='images/icon-time.gif' align='absmiddle'>&nbsp;".$strMaintenance; break;
-		case phpAds_userAdministrator:	echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".$strAdministrator; break;
+		case phpAds_userDeliveryEngine:		echo "<img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;".$strDeliveryEngine; break;
+		case phpAds_userMaintenance:		echo "<img src='images/icon-time.gif' align='absmiddle'>&nbsp;".$strMaintenance; break;
+		case phpAds_userAdministrator:		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".$strAdministrator; break;
+		case phpAds_userAutoMaintenance:	echo "<img src='images/warning.gif' align='absmiddle'>&nbsp;".'Automatic maintenance'; break;
 	}
 	echo "</td>";
 	

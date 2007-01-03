@@ -13,12 +13,15 @@
 /************************************************************************/
 
 
+// Set define to prevent duplicate include
+define ('LIBADMINSTATISTICS_INCLUDED', true);
+
 
 // Define defaults
-$clientCache = array();
-$bannerCache = array();
-$zoneCache = array();
-$affiliateCache = array();
+$GLOBALS['clientCache'] = array();
+$GLOBALS['bannerCache'] = array();
+$GLOBALS['zoneCache'] = array();
+$GLOBALS['affiliateCache'] = array();
 
 
 

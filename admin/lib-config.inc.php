@@ -14,10 +14,20 @@
 
 
 
-$phpAds_settings_write_cache = array();
-$phpAds_settings_update_cache = array();
+// Prevent full path disclosure
+if (!defined('phpAds_path')) die();
 
-$phpAds_configFilepath = phpAds_path.'/config.inc.php';
+
+
+// Set define to prevent duplicate include
+define ('LIBADMINCONFIG_INCLUDED', true);
+
+
+// Define defaults
+$GLOBALS['phpAds_settings_write_cache'] = array();
+$GLOBALS['phpAds_settings_update_cache'] = array();
+
+$GLOBALS['phpAds_configFilepath'] = phpAds_path.'/config.inc.php';
 
 
 

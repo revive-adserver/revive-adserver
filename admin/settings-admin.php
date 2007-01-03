@@ -22,7 +22,8 @@ include ("lib-languages.inc.php");
 // Register input variables
 phpAds_registerGlobal ('save_settings', 'admin', 'pwold', 'pw', 'pw2', 'admin_fullname', 'admin_email',
 					   'company_name', 'language', 'updates_enabled', 'updates_dev_builds',
-					   'admin_novice', 'userlog_email', 'userlog_priority', 'userlog_autoclean');
+					   'admin_novice', 'userlog_email', 'userlog_priority', 'userlog_autoclean',
+					   'auto_maintenance');
 
 
 // Security check
@@ -82,6 +83,7 @@ if (isset($save_settings) && $save_settings != '')
 	phpAds_SettingsWriteAdd('updates_enabled', isset($updates_enabled));
 	phpAds_SettingsWriteAdd('updates_dev_builds', isset($updates_dev_builds));
 	
+	phpAds_SettingsWriteAdd('auto_maintenance', isset($auto_maintenance));
 	
 	if (!count($errormessage))
 	{
@@ -230,6 +232,14 @@ array (
 			'type'    => 'checkbox',
 			'name'    => 'userlog_autoclean',
 			'text'	  => $strUserlogAutoClean
+		),
+		array (
+			'type'    => 'break'
+		),
+		array (
+			'type'    => 'checkbox',
+			'name'    => 'auto_maintenance',
+			'text'	  => "Automatically perform maintenance during delivery if scheduled maintenance is not correctly set up"
 		)
 	)
 ),
