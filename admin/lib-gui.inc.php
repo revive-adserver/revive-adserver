@@ -469,7 +469,7 @@ function phpAds_PageFooter()
 		// Add Product Update redirector
 		if (phpAds_isUser(phpAds_Admin) &&
 			function_exists('xml_parser_create') &&
-			!isset($Session['update_check']))
+			!isset($Session['maint_update']))
 		{
 			echo "\t<script language='JavaScript' src='maintenance-updates-js.php'></script>\n";
 		}

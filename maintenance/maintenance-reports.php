@@ -68,7 +68,7 @@ while($client = phpAds_dbFetchArray($res_clients))
 		$last_unixtimestamp   = mktime(0, 0, 0, date('m'), date('d'), date('Y')) - 1;
 		$first_unixtimestamp  = $client['reportlastdate_t'];
 		
-		// Sent report
+		// Send report
 		phpAds_SendMaintenanceReport ($client['clientid'], $first_unixtimestamp, $last_unixtimestamp, true);
 	}
 }

@@ -37,11 +37,16 @@ function phpAds_performAutoMaintenance()
 	// Load config from the db
 	phpAds_LoadDbConfig();
 	
-	$last_run = floor($phpAds_config['maintenance_timestamp'] / 3600) * 3600;
+	$last_run = $phpAds_config['maintenance_timestamp'];
 	
-	if (time() >= $last_run + 75 * 60)
+	// Make sure that negative values don't break the script
+	if ($last_run > 0)
+		$last_run = strtotime(date('Y-m-d H:00:05', $last_run));
+	
+	if (time() >= $last_run + 3600)
 	{
-		// Maintenance wasn't run in the last 1:15
+		// Maintenance wasn't run in the last hour, with an additional 5 minutes bonus time
+		// just in case maintenance doesn't run at minute 0
 		$lock_name = addslashes('pan.'.$phpAds_config['instance_id']);
 		
 		if (phpAds_dbResult(phpAds_dbQuery("SELECT GET_LOCK('{$lock_name}', 0)"), 0, 0))

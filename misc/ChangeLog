@@ -12,6 +12,8 @@ CVS
 			  - 2006-11-22:  Turkish language wasn't present in the dropdown list - bug #1600531  (Matteo)
 			  - 2006-12-14:  Added missing continent mappings - bug #1602265  (Matteo)
 			  - 2006-12-14:  Advertisers weren't able to change their own passwords with regster_globals off - bug #1613935  (Matteo)
+			  - 2007-01-04:  Prompt to upgrade wasn't shown if maintenance wasn't correctly running  (Matteo)
+			  - 2007-01-04:  Midnight maintenance caould have been skipped when scheduled maintenance wasn't running hourly  (Matteo)
 
 
 phpAdsNew 2.0.9-pr1

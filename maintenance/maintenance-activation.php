@@ -45,7 +45,7 @@ $res_clients = phpAds_dbQuery("
 	WHERE
 		parent = 0
 	
-	") or die($strLogErrorClients);
+	") or die($GLOBALS['strLogErrorClients']);
 
 while($client = phpAds_dbFetchArray($res_clients))
 {
@@ -73,7 +73,7 @@ while($client = phpAds_dbFetchArray($res_clients))
 			".$phpAds_config['tbl_clients']."
 		WHERE
 			parent = ".$client['clientid']."
-		") or die($strLogErrorClients);
+		") or die($GLOBALS['strLogErrorClients']);
 	
 	
 	while($campaign = phpAds_dbFetchArray($res_campaigns))

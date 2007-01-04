@@ -96,20 +96,25 @@ function phpAds_checkForUpdates($already_seen = 0, $send_sw_data = true)
 		{
 			$ret = array(0, phpAds_xmlrpcDecode($response->value()));
 			
-			// Save to cache only when additional data was sent
-			if ($send_sw_data)
-			{
-				phpAds_dbQuery("
-					UPDATE
-						".$phpAds_config['tbl_config']."
-					SET
-						updates_cache = '".addslashes(serialize($ret[1]))."',
-						updates_timestamp = ".time()."
-				");
-			}
+			// Prepare cache
+			$cache = $ret[1];
 		}
 		else
+		{
 			$ret = array($response->faultCode(), $response->faultString());
+			
+			// Prepare cache
+			$cache = false;
+		}
+
+		// Save to cache
+		phpAds_dbQuery("
+			UPDATE
+				".$phpAds_config['tbl_config']."
+			SET
+				updates_cache = '".addslashes(serialize($cache))."',
+				updates_timestamp = ".time()."
+		");
 		
 		return $ret;
 	}

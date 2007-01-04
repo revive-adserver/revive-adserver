@@ -271,7 +271,7 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 				$log .= $current_log;
 			}
 		}
-		
+			
 		
 		// E-mail Stats to active clients
 		if ($client["email"] != '' && $active_campaigns == true)
@@ -297,19 +297,18 @@ function phpAds_SendMaintenanceReport ($clientid, $first_unixtimestamp, $last_un
 			
 			if ($phpAds_config['userlog_email']) 
 				phpAds_userlogAdd (phpAds_actionAdvertiserReportMailed, $client['clientid'], $Subject."\n\n".$Body);
-			
-			if (phpAds_sendMail ($client['email'], $client['contact'], $Subject, $Body))
-			{
-				// Update last run
-				if ($update == true)
-					$res_update = phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET reportlastdate=NOW() WHERE clientid=".$client['clientid']);
 				
-				return (true);
-			}
+			phpAds_sendMail ($client['email'], $client['contact'], $Subject, $Body);
+
+			// Update last run
+			if ($update == true)
+				$res_update = phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET reportlastdate=NOW() WHERE clientid=".$client['clientid']);
+			
+			return true;
 		}
 	}
 	
-	return (false);
+	return false;
 }
 
 ?>

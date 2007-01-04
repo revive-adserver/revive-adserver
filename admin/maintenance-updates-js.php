@@ -35,9 +35,19 @@ if (phpAds_isUser(phpAds_Admin))
 		
 		if ($phpAds_config['updates_cache'])
 			$update_check = unserialize($phpAds_config['updates_cache']);
+
+		
+		// If cache timestamp not set or older than 24hrs, re-sync
+		if (isset($phpAds_config['updates_timestamp']) && $phpAds_config['updates_timestamp'] + 86400 < time())
+		{
+			$res = phpAds_checkForUpdates();
+			
+			if ($res[0] == 0)
+				$update_check = $res[1];
+		}
 		
 		if (!is_array($update_check) || $update_check['config_version'] <= $phpAds_config['updates_last_seen'])
-			$update_check = false;
+			$update_check = array(800, false);
 		else
 		{
 			// Make sure that the alert doesn't display everytime
@@ -53,11 +63,11 @@ if (phpAds_isUser(phpAds_Admin))
 		}
 	}
 	
-	phpAds_SessionDataRegister('update_check', $update_check);
+	phpAds_SessionDataRegister('maint_update', $update_check);
 	phpAds_SessionDataStore();
 	
 	// Add Product Update redirector
-	if ($update_check)
+	if ($update_check[0] == 0)
 	{
 		header("Content-Type: application/x-javascript");
 		
