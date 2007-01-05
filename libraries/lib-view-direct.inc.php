@@ -155,11 +155,19 @@ function phpAds_fetchBannerDirect($remaining, $clientid = 0, $context = 0, $sour
 	
 	$maxindex = sizeof($rows);
 	
+	// Create campaign mapping
+	$campaign_mapping = array();
+	for ($i=0; $i<$maxindex; $i++)
+		$campaign_mapping[$rows[$i]['clientid']][] = $i;
+
+	// Use a multiplier to make sure we don't have rounding problems afterwards
+	$multiplier = 1000;
+	
 	while ($prioritysum && sizeof($rows))
 	{
 		$low = 0;
 		$high = 0;
-		$ranweight = ($prioritysum > 1) ? mt_rand(0, $prioritysum - 1) : 0;
+		$ranweight = ($prioritysum > 1) ? mt_rand(0, $prioritysum * $multiplier - 1) : 0;
 		
 		for ($i=0; $i<$maxindex; $i++)
 		{
@@ -170,87 +178,95 @@ function phpAds_fetchBannerDirect($remaining, $clientid = 0, $context = 0, $sour
 				
 				if ($high > $ranweight && $low <= $ranweight)
 				{
-					$postconditionSucces = true;
+					$postconditionSuccess = true;
 					
 					// Excludelist banners
 					if (isset($excludeBannerID[$rows[$i]['bannerid']]))
-						$postconditionSucces = false;
+						$postconditionSuccess = false;
 					
 					// Excludelist campaigns
-					if ($postconditionSucces == true &&
+					if ($postconditionSuccess == true &&
 						isset($excludeCampaignID[$rows[$i]['clientid']]))
-						$postconditionSucces = false;
+						$postconditionSuccess = false;
 					
 					// Includelist banners
-					if ($postconditionSucces == true &&
+					if ($postconditionSuccess == true &&
 						sizeof($includeBannerID) &&
 					    !isset ($includeBannerID[$rows[$i]['bannerid']]))
-						$postconditionSucces = false;
+						$postconditionSuccess = false;
 					
 					// Includelist campaigns
-					if ($postconditionSucces == true &&
+					if ($postconditionSuccess == true &&
 						sizeof($includeCampaignID) &&
 					    !isset ($includeCampaignID[$rows[$i]['clientid']]))
-						$postconditionSucces = false;
+						$postconditionSuccess = false;
 					
 					// HTML or Flash banners
-					if ($postconditionSucces == true &&
+					if ($postconditionSuccess == true &&
 					    $richmedia == false &&
 					    ($rows[$i]['contenttype'] != 'jpeg' && $rows[$i]['contenttype'] != 'gif' && $rows[$i]['contenttype'] != 'png'))
-						$postconditionSucces = false;
+						$postconditionSuccess = false;
 					
 					// Blocked
-					if ($postconditionSucces == true &&
+					if ($postconditionSuccess == true &&
 						$rows[$i]['block'] > 0 &&
 						isset($_COOKIE['phpAds_blockAd'][$rows[$i]['bannerid']]) &&
 						$_COOKIE['phpAds_blockAd'][$rows[$i]['bannerid']] > time())
-						$postconditionSucces = false;
+						$postconditionSuccess = false;
 					
 					// Capped
-					if ($postconditionSucces == true &&
+					if ($postconditionSuccess == true &&
 						$rows[$i]['capping'] > 0 &&
 						isset($_COOKIE['phpAds_capAd'][$rows[$i]['bannerid']]) &&
 						$_COOKIE['phpAds_capAd'][$rows[$i]['bannerid']] >= $rows[$i]['capping'])
-						$postconditionSucces = false;
+						$postconditionSuccess = false;
+					
+					// ACLs
+					if ($postconditionSuccess == true &&
+						$phpAds_config['acl'] &&
+						!phpAds_aclCheck($rows[$i], $source))
+						$postconditionSuccess = false;
 					
 					
-					if ($postconditionSucces == false)
+					if ($postconditionSuccess == false)
 					{
 						// Failed one of the postconditions
-						// Delete this row and adjust $prioritysum
-						$prioritysum -= $rows[$i]['priority'];
+						// Delete this row
+						$bannerpriority = $rows[$i]['priority'];
+						$campaignid = $rows[$i]['clientid'];
 						$rows[$i] = '';
 						
-						// Break out of the for loop to try again
-						break;
-					}
-					
-					// Banner was not on exclude list
-					// and was on include list (if one existed)
-					// Now continue with ACL check
-					
-					if ($phpAds_config['acl'])
-					{
-						if (phpAds_aclCheck($rows[$i], $source))
+						// Assign lost priority to the other banners in the same campaign
+						// Start getting the sum of all priorities
+						$campaingprioritysum = 0;
+						foreach ($campaign_mapping[$campaignid] as $ii)
 						{
-							$rows[$i]['zoneid'] = 0;
-							return ($rows[$i]);
+							if (is_array($rows[$ii]) && $rows[$ii]['priority'])
+								$campaingprioritysum += $rows[$ii]['priority'];
 						}
 						
-						// Matched, but phpAds_aclCheck failed.
-						// Delete this row and adjust $prioritysum
-						$prioritysum -= $rows[$i]['priority'];
-						$rows[$i] = '';
-						
+						if ($campaingprioritysum)
+						{
+							// Distribute the priority in a weighted manner
+							foreach ($campaign_mapping[$campaignid] as $ii)
+							{
+								if (is_array($rows[$ii]) && $rows[$ii]['priority'])
+									$rows[$ii]['priority'] += $bannerpriority * $rows[$ii]['priority'] / $campaingprioritysum;
+							}
+						}
+						else
+						{
+							// No other banners from the same campaign, discard priority
+							$prioritysum -= $bannerpriority;
+						}
+									
 						// Break out of the for loop to try again
 						break;
 					}
-					else
-					{
-						// Don't check ACLs, found banner!
-						$rows[$i]['zoneid'] = 0;
-						return ($rows[$i]);
-					}
+
+					// Found banner!
+					$rows[$i]['zoneid'] = 0;
+					return $rows[$i];
 				}
 			}
 		}
