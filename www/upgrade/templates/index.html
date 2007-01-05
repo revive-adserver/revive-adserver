@@ -2,7 +2,7 @@
     phpAds_PageHeader('0');
 ?>
     <table style="width:500px;cellpadding:15px;cellspacing:15px;border:1px solid;text-align:center">
-    <th>Your Schema Version</th><th>This Schema Version</th></tr>
+    <th>Your Schema Version</th><th>Your Application Version</th></tr>
     <tr><td><?php echo $verSchema ?></td><td><?php echo $verCode ?></td></tr>
     </table>
 <?php
@@ -14,7 +14,7 @@
     <form method="POST" action="index.php" >
     <input type="hidden" name="version" value="<?php echo $upgradeVersion ?>" />
     <input type="hidden" name="function" value="<?php echo $upgradeFunction ?>" />
-    <button type="submit" value="upgrade" name="upgrade"><?php echo 'Upgrade to '.$upgradeVersion ?></button>
+    <button type="submit" value="upgrade" name="upgrade"><?php echo ($upgradeVersion ? 'Upgrade to '.$upgradeVersion : 'Upgrade'); ?></button>
     </form>
 <?php
     }

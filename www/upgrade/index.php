@@ -94,13 +94,22 @@ function initUpgrade($display=true)
     $upgrade = new MAX_Admin_Upgrade();
     $verCode = $upgrade->getVersionConstant();
     $verSchema = $upgrade->getVersionSchema();
-    // need a way to return the currently required schema version
-    $upgradeRequired = $upgrade->previousVersionExists($verCode);
-    $upgradeRequired = false;
-    $aUpgrade = $upgrade->getUpgradeFunction();
-    if ($aUpgrade['version'])
+    if (!$verSchema)
     {
-        $upgradeRequired = true;
+        $verSchema = 'v0.2.0-alpha';
+        $upgrade->upgradeFrom = 'v0.1.16-beta';
+        $upgrade->upgradeTo = 'v0.2.0-alpha';
+        $upgrade->setInstalledVersion();
+        $upgrade->_upgradeInstalledVersion();
+    }
+    else
+    {
+        $upgradeRequired = $upgrade->previousVersionExists($verCode);
+    }
+    $aUpgrade = $upgrade->getUpgradeFunction();
+    $upgradeRequired = ($aUpgrade['version'] ? true : false);
+    if ($upgradeRequired)
+    {
         $upgradeVersion = $aUpgrade['version'];
         $upgradeFunction = $aUpgrade['function'];
     }
