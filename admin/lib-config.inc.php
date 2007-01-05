@@ -181,7 +181,7 @@ function phpAds_ConfigFileUpdatePrepare ()
 					if ($regs[1] == 'url_prefix' && isset($_SERVER['HTTP_HOST']))
 					{
 						$regs[2] = ' = \''.
-							'http'.(empty($_SERVER['HTTPS']) ? '' : 's').'://'.
+							'http'.(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 's' : '').'://'.
 							$_SERVER['HTTP_HOST'].
 							ereg_replace("/admin/upgrade.php(\?.*)?$", "", $_SERVER['PHP_SELF']).'\'';
 					}

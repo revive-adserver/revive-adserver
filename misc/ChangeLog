@@ -15,6 +15,7 @@ CVS
 			  - 2007-01-04:  Prompt to upgrade wasn't shown if maintenance wasn't correctly running  (Matteo)
 			  - 2007-01-04:  Midnight maintenance caould have been skipped when scheduled maintenance wasn't running hourly  (Matteo)
 			  - 2007-01-05:  Richmedia banners were showed inside DHTML banners only when using Windows - bug #1622422  (Matteo)
+			  - 2007-01-05:  Install and upgrade were always detecting HTTPS during install/upgrade on IIS6, breaking the whole application when not using HTTPS - bug #1616963  (Matteo)
 
 
 phpAdsNew 2.0.9-pr1

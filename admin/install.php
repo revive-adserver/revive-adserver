@@ -70,7 +70,7 @@ else
 	$host = $_SERVER['SERVER_NAME'];
 
 $phpAds_config['url_prefix'] = 
-	'http'.(empty($_SERVER['HTTPS']) ? '' : 's').'://'.
+	'http'.(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 's' : '').'://'.
 	$host.
 	ereg_replace("/admin/install.php(\?.*)?$", "", $_SERVER['PHP_SELF']);
 
