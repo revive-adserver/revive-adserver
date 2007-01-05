@@ -29,10 +29,12 @@ function phpAds_getLayerLimitations ()
 	
 	$compatible = $agent['agent'] == 'IE' && $agent['version'] < 5.0 ||
 				  $agent['agent'] == 'Mozilla' && $agent['version'] < 5.0 ||
-				  $agent['agent'] == 'Opera' && $agent['version'] < 5.0 
+				  $agent['agent'] == 'Opera' && $agent['version'] < 5.0 ||
+				  $agent['agent'] == 'Konqueror' && $agent['version'] < 5.0 ||
+				  $agent['agent'] == 'Safari' && $agent['version'] < 5.0
 				  ? false : true;
 				  
-	$richmedia  = $agent['platform'] == 'Win' ? true : false;
+	$richmedia  = $compatible && !($agent['agent'] == 'IE' && $agent['platform'] == 'Mac');
 	
 	return array (
 		'richmedia'  => $richmedia,

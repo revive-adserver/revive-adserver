@@ -100,7 +100,7 @@ function phpAds_getUserAgent()
 			$agent = 'IE';
 		}
 	}
-	elseif (preg_match('#Opera ([0-9].[0-9]{1,2})#', $_SERVER['HTTP_USER_AGENT'], $log_version))
+	elseif (preg_match('#Opera[/ ]([0-9].[0-9]{1,2})#', $_SERVER['HTTP_USER_AGENT'], $log_version))
 	{
 		$ver = $log_version[1];
 		$agent = 'Opera';
