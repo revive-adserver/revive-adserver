@@ -1,0 +1,225 @@
+
+/* Basic layout */
+
+body 		
+{ 
+   background-position: top right;
+   background-repeat: repeat-y;
+   margin: 0px 0px 0px 0px;
+}
+
+
+
+/* Fonts */
+
+body, table, td, select, textarea, input  { 
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 12px; 
+}
+
+a { 
+	color: #003399; 
+	text-decoration: none; 
+}
+
+a:hover { 
+	text-decoration: underline; 
+}
+
+
+
+/* Tabs */
+
+.tab-s, .tab-u, .tab-g, .tab-r {
+	font-size: 14px;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.tab-s:hover, .tab-u:hover, .tab-g:hover, .tab-r:hover {
+	text-decoration: underline;
+}
+
+.tab-s {
+	color: #0066CC;
+}
+
+.tab-u {
+	color: #FFFFFF;
+}
+
+.tab-g {
+	color: #666666;
+}
+
+.tab-r {
+	color: #CC0000;
+}
+
+.tab-n {
+	color: #FFFFFF;
+	font-size: 11px;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.tab-n:hover {
+	text-decoration: underline;
+}
+
+
+/* Error message & help */
+
+div.errormessage {
+	background-color: #FFFFE1;
+	border: 1px dashed #CFCFCF;
+	margin-top: 8px;
+	margin-bottom: 16px;
+	padding: 6px 6px 6px 32px;
+	line-height: 18px;
+}
+
+div.errormessage td {
+	line-height: 18px;
+}
+
+img.errormessage {
+	margin-left: -24px;
+}
+
+div#helpLayer {
+	background-color: #FFFFE1;
+	border-top: 1px dashed #CFCFCF;
+	padding: 8px 8px 8px 28px;
+}
+
+img#helpIcon {
+	margin-left: -20px;
+}
+
+
+
+/* Form elements */
+
+select.flat, textarea.flat, input.flat, 
+select.error, textarea.error, input.error,
+textarea.code { 
+	border-style: solid;
+	border-top-width: 1px; 
+	border-right-width: 1px; 
+	border-bottom-width: 1px; 
+	border-left-width: 1px;
+}
+
+select.flat, textarea.flat, input.flat,
+textarea.code { 
+	border-color : #888888;
+}
+
+select.error, textarea.error, input.error { 
+	border-color : #990000;
+}
+
+textarea.code, textarea.code-gray {
+	font-family: "Lucida Console", "Courier New", Courier, monospace;
+	font-size: 12px; 
+	line-height: 15px; 
+}
+
+textarea.code-gray {
+	border-style: solid;
+	border-top-width: 0px; 
+	border-right-width: 0px; 
+	border-bottom-width: 0px; 
+	border-left-width: 0px;
+	color: #808080;
+}
+
+div.box {
+	height:100px; 
+	width:275px; 
+	background-color: #FFFFFF;
+	border: 1px solid #7F9DB9;
+
+	overflow: auto; 
+	overflow-x: hidden;
+	overflow-y: scroll;
+
+	margin-top: 1px;
+	margin-bottom: 1px;
+}
+
+textarea.box {
+	margin-top: -1px;
+	height:100px;
+	width:275px;
+}
+
+div.boxrow {
+	cursor: pointer; 
+	border-bottom: 1px #DDDDDD solid;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+div.boxrow img {
+	vertical-align: middle;
+}
+
+div.boxrow input {
+	vertical-align: middle;
+}
+
+
+/* Color picker */
+
+.colorpicker {
+	border: 1px solid #666666;
+	width: 256px;
+}
+.colorpicker span {
+	cursor: crosshair;
+	display: block;
+	float: left;
+	width: 1px;
+	height: 7px;
+	/* IE hack */
+	font-size: 1px;
+}
+.colorpicker div {
+	clear: both;
+}
+.colorpicker div.sep {
+	background-color: #666666;
+	height: 1px;
+	/* IE hack */
+	font-size: 1px;
+}
+
+
+/* Custom */
+
+.phpAdsNew { 
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 24px; 
+	font-style: italic; 
+	font-weight: bold; 
+	color: #FFFFFF; 
+}
+
+.nav { 
+	color: #003399; 
+}
+
+.install { 
+	line-height: 18px;
+	color: #000066; 
+}
+
+td.cellenabled {
+	color: #000000;
+}
+
+td.celldisabled {
+	color: #888888;
+}

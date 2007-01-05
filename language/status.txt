@@ -1,0 +1,176 @@
+
+=================================================================
+               phpAdsNew Banner Management System
+=================================================================
+
+
+STATUS OF TRANSLATIONS
+=================================================================
+
+This file contains a list of the translation maintainers.
+If you have suggestions or spotted some typos in one of
+the translations, you can contact the maintainer for your
+language directly. If the maintainer for your language 
+doesn't have a e-mail address listed, you can post the
+information in the 'Translation' forum on Sourceforge.
+
+
+
+Chinese (big5)
+	---------------------------------------------------------
+	Maintained by:	   Home Chen (service at mychat dot to)
+	Is up-to-date?	   No
+	Last update:	   9 June 2003
+	Translated files:  7
+	---------------------------------------------------------
+
+
+
+Chinese (gb2312)
+	---------------------------------------------------------
+	Maintained by:	   Vincen Guo (guo9310 at yahoo.com dot cn)
+	Is up-to-date?	   No
+	Last update:	   19 August 2003
+	Translated files:  7
+	---------------------------------------------------------
+
+
+
+Dutch
+	---------------------------------------------------------
+	Maintained by:	   Niels Leenheer (niels at phpadsnew dot com)
+	Is up-to-date?	   No
+	Last update:	   29 September 2003
+	Translated files:  7
+	---------------------------------------------------------
+
+
+
+English
+	---------------------------------------------------------
+	Maintained by:	   phpAdsNew developers (developers at phpadsnew dot com)
+	Is up-to-date?	   Always
+	Last update:	   16 October 2006
+	Translated files:  7
+	---------------------------------------------------------
+
+
+
+French
+	---------------------------------------------------------
+	Maintained by:	   Vincent Zanotti (amidebx at users.sourceforge dot net)
+	Is up-to-date?	   No
+	Last update:	   26 September 2003
+	Translated files:  7 + 4 resource files
+	---------------------------------------------------------
+
+
+
+German
+	---------------------------------------------------------
+	Maintained by:	   Rayner Jankowski (info at Werbeplatzvermarktung dot de)
+	Is up-to-date?	   No
+	Last update:	   19 Agoust 2003
+	Translated files:  7 + 4 resource files
+	---------------------------------------------------------
+
+
+
+Hebrew
+	---------------------------------------------------------
+	Maintained by:	   Reuven Mansharoff (reuven at act.co dot il)
+	Is up-to-date?	   No
+	Last update:	   28 September 2003
+	Translated files:  7
+	---------------------------------------------------------
+
+
+
+Hungarian
+	---------------------------------------------------------
+	Maintained by:	   Jozsef Tamas Herczeg
+	Is up-to-date?	   No
+	Last update:	   28 April 2003
+	Translated files:  7
+	---------------------------------------------------------
+
+
+
+Indonesian
+	---------------------------------------------------------
+	Maintained by:	   Rachim Tamsjadi (tamsjadi at icqmail dot com)
+	Is up-to-date?	   No
+	Last update:	   29 September 2003
+	Translated files:  7
+	---------------------------------------------------------
+
+
+
+Italian
+	---------------------------------------------------------
+	Maintained by:	   Matteo Beccati (matteo at phpadsnew dot com)
+	Is up-to-date?	   Yes
+	Last update:	   16 October 2006
+	Translated files:  7 + 4 resource files
+	---------------------------------------------------------
+
+
+
+Korean
+	---------------------------------------------------------
+	Maintained by:	   Dong Hoon Han (Trax Han) (traxacun at unitel.co dot kr)
+	Is up-to-date?	   No
+	Last update:	   11 November 2002
+	Translated files:  7
+	---------------------------------------------------------
+
+
+
+Polish
+	---------------------------------------------------------
+	Maintained by:	   Michael Paluchowski
+	Is up-to-date?	   No
+	Last update:	   17 April 2003
+	Translated files:  7
+	---------------------------------------------------------
+
+
+
+Portuguese 
+	---------------------------------------------------------
+	Maintained by:	   Lopo de Almeida
+	Is up-to-date?	   No
+	Last update:	   15 October 2002
+	Translated files:  5
+	---------------------------------------------------------
+
+
+Russian
+	---------------------------------------------------------
+	Maintained by:	   Michael Bravo
+	Is up-to-date?	   No
+	Last update:	   04 November 2002
+	Translated files:  7
+	---------------------------------------------------------
+
+
+
+Spanish
+	---------------------------------------------------------
+	Maintained by:	   SeBoRaiD (me2 at seboraid.com dot ar)
+	Is up-to-date?	   No
+	Last update:	   02 October 2002
+	Translated files:  7
+	---------------------------------------------------------
+
+
+
+Turkish
+	---------------------------------------------------------
+	Maintained by:	   Bunyamin VICIL (bunyamin at yapayzeka dot net) 
+			   Metin AKTAS (metin at yapayzeka dot net)
+	Is up-to-date?	   No
+	Last update:	   03 March 2003
+	Translated files:  7
+	---------------------------------------------------------
+
