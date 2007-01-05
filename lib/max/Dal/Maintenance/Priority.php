@@ -1389,7 +1389,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
             WHERE
-                (zone_id = " . implode(' OR zone_id = ', $aZoneIds) . ")
+                zone_id IN (" . implode(', ', $aZoneIds) . ")
                 AND operation_interval = {$conf['maintenance']['operationInterval']}
                 AND " . $dateConstraints . "
             GROUP BY
@@ -1462,9 +1462,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
             WHERE
-                (zone_id = ";
-        $query .= implode(' OR zone_id = ', $aZoneIds);
-        $query .= ")
+                zone_id IN (" . implode(', ', $aZoneIds) . ")
                 AND operation_interval = {$conf['maintenance']['operationInterval']}
                 AND interval_start >= '" . $startDate->format('%Y-%m-%d %H:%M:%S') . "'
                 AND interval_start <= '" . $endDate->format('%Y-%m-%d %H:%M:%S') . "'";

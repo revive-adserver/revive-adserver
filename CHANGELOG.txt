@@ -26,6 +26,8 @@
 +---------------------------+
 | Release Max v0.3.32-alpha |
 +---------------------------+
+
+2007-01-05  DAL         Feature     Fixed #10 - Improved DAL to use IN format SQL for performance (Andrew)
 2006-12-19  Delivery    Bug         Fixed #1 - Iframe refresh was not working
 
 /**
@@ -33,7 +35,7 @@
  *       Any ticket references below this point are held at:
  *       - https://museum.openads.org/trac/openads/
  */
- 
+
 2006-12-04  Delivery    Feature     Fixed #1017 - Allow fl.js file to be specified by full URL (Chris)
 2006-12-04  Admin       Bug         Fixed #1016 - Duplicate document.context line in JS invocation (Chris)
 
