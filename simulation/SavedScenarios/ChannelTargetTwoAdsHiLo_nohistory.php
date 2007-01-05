@@ -49,6 +49,7 @@ class ChannelTargetTwoAdsHiLo_nohistory extends SimulationScenario
     {
         $this->newTables();
         $this->loadDataset();
+        $this->loadCommonData();
         $this->printPrecis();
 
         for($i=1;$i<=$this->scenarioConfig['iterations'];$i++)
@@ -56,7 +57,7 @@ class ChannelTargetTwoAdsHiLo_nohistory extends SimulationScenario
             $this->makeRequests($i);
             $this->runPriority();
         }
-
+        $this->runMaintenance();
         $this->printPostSummary();
         $this->printSummaryData();
     }

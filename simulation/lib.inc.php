@@ -400,6 +400,10 @@ function save_scenario($basename, $conf)
 
     $versname = $conf['simdb']['version'].'_'.$basename;
     $sql = get_sql_truncate().strip_prefix(get_sql_insert($dbh, $conf), $conf['table']['prefix']);
+
+    $maintenance_startdate  = date('Y-m-d h:i:s', strtotime("+1 hour" ,strtotime($conf['startdate'])));
+    $sql.="INSERT INTO `log_maintenance_statistics` (`log_maintenance_statistics_id`, `start_run`, `end_run`, `duration`, `adserver_run_type`, `search_run_type`, `tracker_run_type`, `updated_to`) VALUES (1, '$maintenance_startdate', '$maintenance_startdate', 0, 2, NULL, NULL, '$maintenance_startdate');";
+
     $sql.= ($conf['scenario']['resetpriority'] ? "UPDATE `ad_zone_assoc` SET priority=0;\n" : '');
     sim_write_file('/'.FOLDER_DATA, $versname.'.sql', $sql);
 

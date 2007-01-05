@@ -32,6 +32,7 @@ require_once MAX_PATH . '/lib/max/Delivery/common.php';
 require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer.php';
+require_once MAX_PATH . '/lib/max/Maintenance/Statistics.php';
 require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
 
 /**
@@ -61,7 +62,7 @@ class SimulationScenario
     var $oCoreTables;
     var $oDBH;
 
-    var $loadCommonData = false;
+    var $loadCommonData = true;
 
     var $profileOn = true;
     var $aProfile = array();
@@ -108,13 +109,6 @@ class SimulationScenario
 
         // MAX_TABLES instance registers MAX_DB
         $this->oDBH = &$this->oServiceLocator->get('MAX_DB');
-
-        // load some commom data if required
-        // commonly a root user record
-        if ($this->loadCommonData)
-        {
-            $this->loadDataset(FOLDER_DATA.'/common.sql');
-        }
 
         // fake the date/time
         $this->setDateTime();
@@ -190,7 +184,7 @@ class SimulationScenario
             $this->_simulateCookies();
 
             // log what happened in this iteration
-            $this->_recordDelivery($iteration, $result['bannerid']);
+            $this->_recordDelivery($iteration, $result['bannerid'], $aIteration['request_objects'][$k]->what);
         }
         if ($this->profileOn)
         {
@@ -373,8 +367,16 @@ class SimulationScenario
      * @param int $iteration
      * @param int $bannerId - if null then delivery failed
      */
-    function _recordDelivery($iteration, $bannerId)
+    function _recordDelivery($iteration, $bannerId, $what='')
     {
+        $creativeid = 0;
+        $campaignid = 0;
+        $zone = 0;
+        if ($what)
+        {
+            $entity = substr($what, 0, strpos($what, ':'));
+            $id     = substr($what, strpos($what, ':')+1);
+        }
         //create the delivered success/failure array keys for current iteration
 		if (! array_key_exists($iteration,$this->aDelivered))
 		{
@@ -396,9 +398,17 @@ class SimulationScenario
         }
 	    if (!array_key_exists($bannerId,$array[$iteration]))
 	    {
-	        $array[$iteration][$bannerId] = 0;
+	        $array[$iteration][$bannerId] = array(
+	                                               'impressions'=>0,
+	                                               'creativeid'=>0,
+	                                               'campaignid'=>0,	                       	                                               'zone'=>0,
+	                                               );
 	    }
-        $array[$iteration][$bannerId]++;
+        $array[$iteration][$bannerId]['impressions']++;
+        if (isset($entity))
+        {
+            $array[$iteration][$bannerId][$entity] = $id;
+        }
         $this->totalRequests++;
     }
 
@@ -425,17 +435,16 @@ class SimulationScenario
        }
        $table = $GLOBALS['_MAX']['CONF']['table']['data_summary_ad_hourly'];
 
-       foreach($this->aDelivered[$interval] as $bannerid => $impressions)
+       foreach($this->aDelivered[$interval] as $bannerid => $array)
        {
-           // need to get/put zone id?
             $aValues = array(
                               'day' => $date,
                               'hour' => $interval,
                               'ad_id' => $bannerid,
-                              //'creative_id' => ,
-                              //'zone_id' => ,
+                              'creative_id' => $array['creativeid'],
+                              'zone_id' => $array['zone'],
                               'requests' => $requests,
-                              'impressions' => $impressions,
+                              'impressions' => $array['impressions'],
                               //'clicks' => ,
                               //'conversions' => ,
                               //'total_basket_value' => ,
@@ -463,6 +472,16 @@ class SimulationScenario
         $oMaintenancePriority->updatePriorities();
         $this->printPriorities();
         $this->printHeading('End updatePriorities; date: ' . $this->_getDateTimeString(), 3);
+    }
+
+    /**
+     * execute the Maintenance engine tasks
+     */
+    function runMaintenance()
+    {
+//        $this->printHeading('Starting Maintenance Statistics; date: ' . $this->_getDateTimeString(), 3);
+//        MAX_Maintenance_Statistics::run();
+//        $this->printHeading('End Maintenance Statistics; date: ' . $this->_getDateTimeString(), 3);
     }
 
     /**
@@ -567,9 +586,10 @@ class SimulationScenario
                 $patternCreate   = '/(CREATE TABLE IF NOT EXISTS [\w\W\s]+;)/U';
                 $patternInsert   = '/(INSERT INTO [\w\W\s]+\);)/U';
                 $patternTruncate = '/(TRUNCATE TABLE [\W\w\s]+;)/U';
-                $patternUpdate   = '/(UPDATE [\w\W\s]+;)/U';
-                $find            = '/TABLE[\s]+`([\w]+)`/U';
-                $replace         = 'TABLE `';
+                $patternAlter    = '/(UPDATE [\w\W\s]+;)/U';
+                $patternUpdate   = '/(ALTER TABLE [\w\W\s]+;)/U';
+//                $find            = '/TABLE[\s]+`([\w]+)`/U';
+//                $replace         = 'TABLE `';
 
         		$aQueries = $this->parseSQL($patternDrop, $sourceData);
 //        		$aQueries = $this->insertPrefix($aQueries, $find, $replace);
@@ -581,6 +601,9 @@ class SimulationScenario
 
         		$aQueries = $this->parseSQL($patternTruncate, $sourceData);
 //        		$aQueries = $this->insertPrefix($aQueries, $find, $replace);
+        		$this->executeQuery($aQueries);
+
+        		$aQueries = $this->parseSQL($patternAlter, $sourceData);
         		$this->executeQuery($aQueries);
 
         		$aQueries = $this->parseSQL($patternUpdate, $sourceData);
@@ -607,6 +630,16 @@ class SimulationScenario
             $this->reportResult(false, 'opening file', getcwd().'/'.$sourceFile);
             exit();
         }
+    }
+
+    function loadCommonData()
+    {
+        // load some commom data if required
+        // commonly a root user record
+//        if ($this->loadCommonData)
+//        {
+            $this->loadDataset(FOLDER_DATA.'/common.sql');
+//        }
     }
 
     /**
@@ -729,6 +762,7 @@ class SimulationScenario
     function printPostSummary()
     {
         $this->printHeading('Simulation complete, printing summary...', 3);
+//        $this->printSummaryData();
         $this->printHeading('Total Requests: '.$this->totalRequests, 4);
         $this->printHeading('Total Delivery: '.$this->totalDelivery, 4);
         $this->printHeading('Total Percentage: '.(round(($this->totalDelivery/$this->totalRequests)*100,2)), 4);
@@ -756,11 +790,11 @@ class SimulationScenario
     {
         if ($result)
         {
-            $this->printMessage('success: '.$msg, $var);
+            $this->printMessage('success: '.$msg, print_r($var,true));
         }
         else
         {
-            $this->printError('failed: '.$msg, $var);
+            $this->printError('failed: '.$msg, print_r($var,true));
         }
     }
 

@@ -38,6 +38,14 @@ $Id$
 require_once 'init.php';
 require_once SIM_PATH.'/lib.inc.php';
 
+// simulation fakes an arrival installation in case target system has them installed
+// maintenance will detect that arrivals are installed and attempt plugin maintenance
+// tables are created in the common.sql
+// faking the conf vars here
+$GLOBALS['_MAX']['CONF']['table']['data_raw_ad_arrival']='data_raw_ad_arrival';
+$GLOBALS['_MAX']['CONF']['table']['data_intermediate_ad_arrival']='data_intermediate_ad_arrival';
+$GLOBALS['_MAX']['CONF']['table']['data_summary_ad_arrival_hourly']='data_summary_ad_arrival_hourly';
+
 $start = microtime();
 
 // Set longer time out

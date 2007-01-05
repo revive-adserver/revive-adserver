@@ -16,13 +16,36 @@
 -- banner 2: priority lvl=low / no limitations
 -- initial priority = 0
 
+TRUNCATE TABLE `data_intermediate_ad`;
+TRUNCATE TABLE `data_intermediate_ad_connection`;
+TRUNCATE TABLE `data_intermediate_ad_variable_value`;
+TRUNCATE TABLE `data_raw_ad_click`;
+TRUNCATE TABLE `data_raw_ad_impression`;
+TRUNCATE TABLE `data_raw_ad_request`;
+TRUNCATE TABLE `data_raw_tracker_click`;
+TRUNCATE TABLE `data_raw_tracker_impression`;
+TRUNCATE TABLE `data_raw_tracker_variable_value`;
 TRUNCATE TABLE `data_summary_ad_hourly`;
 TRUNCATE TABLE `data_summary_ad_zone_assoc`;
+TRUNCATE TABLE `data_summary_channel_daily`;
+TRUNCATE TABLE `data_summary_zone_country_daily`;
+TRUNCATE TABLE `data_summary_zone_country_forecast`;
+TRUNCATE TABLE `data_summary_zone_country_monthly`;
+TRUNCATE TABLE `data_summary_zone_domain_page_daily`;
+TRUNCATE TABLE `data_summary_zone_domain_page_forecast`;
+TRUNCATE TABLE `data_summary_zone_domain_page_monthly`;
 TRUNCATE TABLE `data_summary_zone_impression_history`;
+TRUNCATE TABLE `data_summary_zone_site_keyword_daily`;
+TRUNCATE TABLE `data_summary_zone_site_keyword_forecast`;
+TRUNCATE TABLE `data_summary_zone_site_keyword_monthly`;
+TRUNCATE TABLE `data_summary_zone_source_daily`;
+TRUNCATE TABLE `data_summary_zone_source_forecast`;
+TRUNCATE TABLE `data_summary_zone_source_monthly`;
+TRUNCATE TABLE `log_maintenance_forecasting`;
 TRUNCATE TABLE `log_maintenance_priority`;
 TRUNCATE TABLE `log_maintenance_statistics`;
-TRUNCATE TABLE `log_maintenance_forecasting`;
 
+INSERT INTO `log_maintenance_statistics` (`log_maintenance_statistics_id`, `start_run`, `end_run`, `duration`, `adserver_run_type`, `search_run_type`, `tracker_run_type`, `updated_to`) VALUES (1, '2000-01-01 01:01:00', '2000-01-01 01:00:00', 0, 2, NULL, NULL, '2000-01-01 01:00:00');
 
 TRUNCATE TABLE `ad_zone_assoc`;
 INSERT INTO `ad_zone_assoc` (`ad_zone_assoc_id`, `zone_id`, `ad_id`, `priority`, `link_type`) VALUES (1, 0, 1, 0, 0),(2, 0, 2, 0, 0),(3, 1, 2, 0, 1),(4, 1, 1, 0, 1);

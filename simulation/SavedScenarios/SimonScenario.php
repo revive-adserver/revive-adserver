@@ -49,6 +49,7 @@ class SimonScenario extends SimulationScenario
     {
         $this->newTables();
         $this->loadDataset();
+        $this->loadCommonData();
         $this->printPrecis();
         for($i=1;$i<=$this->scenarioConfig['iterations'];$i++)
         {
@@ -57,7 +58,7 @@ class SimonScenario extends SimulationScenario
             $this->runPriority();
             $this->printHeading('Ended iteration: '. $i, 3);
         }
-
+        $this->runMaintenance();
         $this->printPostSummary();
         $this->printSummaryData();
     }
