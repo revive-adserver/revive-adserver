@@ -586,8 +586,8 @@ class SimulationScenario
                 $patternCreate   = '/(CREATE TABLE IF NOT EXISTS [\w\W\s]+;)/U';
                 $patternInsert   = '/(INSERT INTO [\w\W\s]+\);)/U';
                 $patternTruncate = '/(TRUNCATE TABLE [\W\w\s]+;)/U';
-                $patternAlter    = '/(UPDATE [\w\W\s]+;)/U';
-                $patternUpdate   = '/(ALTER TABLE [\w\W\s]+;)/U';
+                $patternUpdate   = '/(UPDATE [\w\W\s]+;)/U';
+                $patternAlter    = '/(ALTER TABLE [\w\W\s]+;)/U';
 //                $find            = '/TABLE[\s]+`([\w]+)`/U';
 //                $replace         = 'TABLE `';
 
@@ -606,18 +606,17 @@ class SimulationScenario
         		$aQueries = $this->parseSQL($patternAlter, $sourceData);
         		$this->executeQuery($aQueries);
 
-        		$aQueries = $this->parseSQL($patternUpdate, $sourceData);
-//        		$find            = '/UPDATE[\s]+`([\w]+)`/U';
-//        		$replace         = 'UPDATE `';
-//        		$aQueries = $this->insertPrefix($aQueries, $find, $replace);
-        		$this->executeQuery($aQueries);
-
         		$aQueries = $this->parseSQL($patternInsert, $sourceData);
 //        		$find            = '/INTO[\s]+`([\w]+)`/U';
 //        		$replace         = 'INTO `';
 //        		$aQueries = $this->insertPrefix($aQueries, $find, $replace);
         		$this->executeQuery($aQueries);
 
+        		$aQueries = $this->parseSQL($patternUpdate, $sourceData);
+//        		$find            = '/UPDATE[\s]+`([\w]+)`/U';
+//        		$replace         = 'UPDATE `';
+//        		$aQueries = $this->insertPrefix($aQueries, $find, $replace);
+        		$this->executeQuery($aQueries);
             }
             else
             {

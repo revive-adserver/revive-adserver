@@ -49,8 +49,8 @@ class <#basename> extends SimulationScenario
     function run()
     {
         $this->newTables();
-        $this->loadDataset();
         $this->loadCommonData();
+        $this->loadDataset();
         $this->printPrecis();
         for($i=1;$i<=$this->scenarioConfig['iterations'];$i++)
         {
