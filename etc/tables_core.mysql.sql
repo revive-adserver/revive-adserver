@@ -591,7 +591,8 @@ CREATE TABLE IF NOT EXISTS data_summary_zone_impression_history (
   forecast_impressions INTEGER UNSIGNED NULL,
   actual_impressions INTEGER UNSIGNED NULL,
   PRIMARY KEY (data_summary_zone_impression_history_id),
-  INDEX data_summary_zone_impression_history_operation_interval_id (operation_interval_id)
+  INDEX data_summary_zone_impression_history_operation_interval_id (operation_interval_id),
+  INDEX data_summary_zone_impression_history_zone_id (zone_id)
 );
 
 CREATE TABLE IF NOT EXISTS data_summary_zone_domain_page_daily (

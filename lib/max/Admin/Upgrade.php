@@ -239,6 +239,10 @@ class MAX_Admin_Upgrade
                 // Upgrade to v0.3.31-alpha
                 $this->_upgradeToThreeThirtyOneAlpha();
             }
+            if ($this->_compareVersions('v0.3.32-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.32-alpha
+                $this->_upgradeToThreeThirtyTwoAlpha();
+            }
         } else {
             // Perfom *all* possible upgrade actions, in order
             $this->_upgradeEarly();                   // Upgrade to v0.1.16-beta
@@ -269,6 +273,7 @@ class MAX_Admin_Upgrade
             $this->_upgradeToThreeTwentyNineAlpha();  // Upgrade to v0.3.29-alpha
             $this->_upgradeToThreeThirtyAlpha();      // Upgrade to v0.3.30-alpha
             $this->_upgradeToThreeThirtyOneAlpha();   // Upgrade to v0.3.31-alpha
+            $this->_upgradeToThreeThirtyTwoAlpha();   // Upgrade to v0.3.32-alpha
         }
         if (count($this->errors) == 0) {
             // Always upgrade the installed version number
@@ -365,6 +370,19 @@ class MAX_Admin_Upgrade
     function _upgradeInstalledVersion()
     {
         $query = "UPDATE {$this->conf['table']['prefix']}application_variable SET value = '{$this->upgradeTo}' WHERE name = 'max_version'";
+        $this->_runQuery($query);
+    }
+
+    /**
+     * A private method to upgrade the database from the v0.3.31-alpha
+     * format to the v0.3.32-alpha format.
+     *
+     * @access private
+     */
+    function _upgradeToThreeThirtyTwoAlpha()
+    {
+        // Add extra index to the data_summary_zone_impression_history table
+        $query = "CREATE INDEX data_summary_zone_impression_history_zone_id ON {$this->conf['table']['prefix']}data_summary_zone_impression_history (zone_id)";
         $this->_runQuery($query);
     }
 
