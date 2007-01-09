@@ -163,6 +163,11 @@ class SimulationScenario
 
             $this->_init_delivery();
 
+            // these params somehow end up as globals rather than passed through as params
+            // so set them up here
+            $GLOBALS['loc'] = $aIteration['request_objects'][$k]->loc;
+            $GLOBALS['_MAX']['LIMITATION_DATA']['HTTP_REFERER'] = $aIteration['request_objects'][$k]->referer;
+
             // turn on output buffering
             ob_start();
 
@@ -829,5 +834,36 @@ class SimulationScenario
         $i = 0;
         include MAX_PATH.'/simulation/templates/table_simulation.html';
     }
+}
+
+/**
+ * small class that defines a request
+ *
+ */
+class SimulationRequest
+{
+    var $what      = "";
+    var $target    = "";
+    var $source    = "";
+    var $withText  = "";
+    var $context   = "";
+    var $richMedia = "";
+    var $ct0       = "";
+    var $referer   = "";
+    var $loc       = "";
+
+    function SimulationRequest($what='', $target='', $source='',$referer='',$loc='',$ct0='',$withText=false, $context='',$richMedia=true)
+    {
+        $this->what      = $what;
+        $this->target    = $target;
+        $this->source    = $source;
+        $this->withText  = $withText;
+        $this->context   = $context;
+        $this->richMedia = $richMedia;
+        $this->ct0       = $ct0;
+        $this->referer   = $referer;
+        $this->loc       = $loc;
+    }
+
 }
 ?>

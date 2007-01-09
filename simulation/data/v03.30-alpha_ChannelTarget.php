@@ -9,7 +9,6 @@ $oRequest->withText = false;
 $oRequest->context = 0;
 $oRequest->richMedia = true;
 $oRequest->ct0 = '';
-$oRequest->loc = '';
 $oRequest->referer = '';
 
 // bannerid 2 has pageUrl limitation
@@ -21,7 +20,7 @@ $oRequest->referer = '';
 
 // the whole of the first iteration will fail delivery
 // owing to the pageUrl limitation
-$oRequest->source = 'http://www.nowhere.com';
+$oRequest->loc = 'http://www.nowhere.com';
 
 $aIterations[1]['request_objects'][1] = $oRequest;
 $aIterations[1]['shuffle_requests'] = false;
@@ -29,7 +28,7 @@ $aIterations[1]['max_requests'] =10;
 
 // the last 2 iterations will deliver
 // because the source is a valid pageUrl
-$oRequest->source = 'http://www.example.com';
+$oRequest->loc = 'http://www.example.com';
 
 $aIterations[2]['request_objects'][1] = $oRequest;
 $aIterations[2]['shuffle_requests'] = false;

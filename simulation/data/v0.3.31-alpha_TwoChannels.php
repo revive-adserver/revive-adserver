@@ -1,27 +1,26 @@
 <?php
 
-$oRequest = new stdClass();
-
-$oRequest->what      = "zone:1";
-$oRequest->target    = "";
-$oRequest->source    = "";
-$oRequest->withText  = "false";
-$oRequest->context   = "";
-$oRequest->richMedia = "true";
-$oRequest->ct0       = "";
-$oRequest->loc       = "www.example.com";
-$oRequest->referer   = "http://www.refer.com";
-
-$aIterations[1]['request_objects'][1]   = $oRequest;
+$aIterations[1]['request_objects'][1]   = new SimulationRequest('zone:1','','',"http://www.refer.com","http://www.example.com");
 $aIterations[1]['shuffle_requests']     = false;
 $aIterations[1]['max_requests']         = "10";
 
-$iterations = "2";
+$aIterations[2]['request_objects'][1]   = new SimulationRequest('zone:1','','',"http://www.refer.com","");
+$aIterations[2]['shuffle_requests']     = false;
+$aIterations[2]['max_requests']         = "10";
 
-for($i=2;$i<($iterations+1);$i++)
-{
-    $aIterations[$i] = $aIterations[1];
-}
+$aIterations[3]['request_objects'][1]   = new SimulationRequest('zone:1','','',"http://www.refer.com","http://www.example.com");
+$aIterations[3]['shuffle_requests']     = false;
+$aIterations[3]['max_requests']         = "10";
+
+$aIterations[4]['request_objects'][1]   = new SimulationRequest('zone:1','','',"http://www.refer.com","http://www.example.com");
+$aIterations[4]['shuffle_requests']     = false;
+$aIterations[4]['max_requests']         = "10";
+
+$aIterations[5]['request_objects'][1]   = new SimulationRequest('zone:1','','',"http://www.refer.com","http://www.example.com");
+$aIterations[5]['shuffle_requests']     = false;
+$aIterations[5]['max_requests']         = "10";
+
+$iterations = "5";
 
 $precis=    '<pre>'."Two Channel Limitations:
 1=PageURL
@@ -30,16 +29,14 @@ $precis=    '<pre>'."Two Channel Limitations:
 $precis.=    '-- from database: '."max03trunk".'<br />'
             .'-- max version: '."v0.3.31-alpha".'<br />'
             .'-- iterations: '.$iterations.'<br />'
-            .'-- startdate: '."2000-01-01 00:00:00".'<br />'
+            .'-- startdate: '."2007-01-09 13:00:00".'<br />'
             .print_r($oRequest, true);
 
 $GLOBALS['_MAX']['CONF']['sim']['precis']       = $precis;
 $GLOBALS['_MAX']['CONF']['sim']['iterations']   = $iterations;
 $GLOBALS['_MAX']['CONF']['sim']['oRequest']     = $oRequest;
 $GLOBALS['_MAX']['CONF']['sim']['aIterations']  = $aIterations;
-$GLOBALS['_MAX']['CONF']['sim']['startdate']    = "2000-01-01 00:00:00";
-$GLOBALS['_MAX']['CONF']['sim']['startday']     = "2000-01-01";
-$GLOBALS['_MAX']['CONF']['sim']['starthour']    = "0";
-$GLOBALS['loc'] = $oRequest->loc;
-$GLOBALS['_MAX']['LIMITATION_DATA']['HTTP_REFERER'] = $oRequest->referer;
+$GLOBALS['_MAX']['CONF']['sim']['startdate']    = "2007-01-09 13:00:00";
+$GLOBALS['_MAX']['CONF']['sim']['startday']     = "2007-01-09";
+$GLOBALS['_MAX']['CONF']['sim']['starthour']    = "13";
 ?>

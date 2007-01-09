@@ -1,18 +1,15 @@
 <?php
 
-$oRequest = new stdClass();
-
-$oRequest->what      = conf[request][what];
-$oRequest->target    = conf[request][target];
-$oRequest->source    = conf[request][source];
-$oRequest->withText  = conf[request][withText];
-$oRequest->context   = conf[request][context];
-$oRequest->richMedia = conf[request][richMedia];
-$oRequest->ct0       = conf[request][ct0];
-$oRequest->loc       = conf[request][loc];
-$oRequest->referer   = conf[request][referer];
-
-$aIterations[1]['request_objects'][1]   = $oRequest;
+$aIterations[1]['request_objects'][1]   = new SimulationRequest(
+                                            conf[request][what],
+                                            conf[request][target],
+                                            conf[request][source],
+                                            conf[request][referer],
+                                            conf[request][loc],
+                                            conf[request][ct0],
+                                            conf[request][withText],
+                                            conf[request][context],
+                                            conf[request][richMedia]);
 $aIterations[1]['shuffle_requests']     = false;
 $aIterations[1]['max_requests']         = conf[request][maxrequests];
 

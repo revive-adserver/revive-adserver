@@ -36,7 +36,6 @@ require_once MAX_PATH . '/simulation/SimulationScenario.php';
  */
 class TwoChannels extends SimulationScenario
 {
-
     /**
      * The constructor method.
      */
