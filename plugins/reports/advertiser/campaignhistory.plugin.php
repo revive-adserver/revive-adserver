@@ -35,9 +35,10 @@ $Id$
  * @author     Radek Maciaszek <radek@m3.net>
  */
 
-require_once MAX_PATH . '/plugins/reports/Reports.php';
+//require_once MAX_PATH . '/plugins/reports/Reports.php';
+require_once MAX_PATH . '/plugins/reports/proprietary/EnhancedReport.php';
 
-class Plugins_Reports_Advertiser_Campaignhistory extends Plugins_Reports {
+class Plugins_Reports_Advertiser_Campaignhistory extends EnhancedReport {
 
     // Public info function
     function info()
@@ -121,7 +122,6 @@ class Plugins_Reports_Advertiser_Campaignhistory extends Plugins_Reports {
     /*-------------------------------------------------------*/
     /* Private plugin function                               */
     /*-------------------------------------------------------*/
-
     function execute($campaignid, $start, $end, $delimiter=",")
     {
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -158,7 +158,6 @@ class Plugins_Reports_Advertiser_Campaignhistory extends Plugins_Reports {
                         ORDER BY
                             DATE_FORMAT(day, '%Y%m%d')
     				";
-
     	$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
 
     	while ($row_banners = phpAds_dbFetchArray($res_banners))
@@ -214,6 +213,160 @@ class Plugins_Reports_Advertiser_Campaignhistory extends Plugins_Reports {
     		 $delimiter.
     		 str_replace(',','.',phpAds_buildCTR ($totalclicks, $totalconversions)).
     		 "\n";
+    }
+
+// new execute method that uses Excel workbook object
+// speculative work, awaiting analysis and decision on this report
+
+    function execute_NEW($campaignid, $start, $end, $delimiter=",")
+    {
+        $_REQUEST['breakdown']      = 'day';
+        $_REQUEST['campaignid']     = $campaignid;
+        $_REQUEST['period_preset']  = 'specific';
+        $_REQUEST['period_start']   = date('Y-m-d', strtotime($start));
+        $_REQUEST['period_end']     = date('Y-m-d', strtotime($end));
+        $this->output($campaignid, $this->getStatsController('campaign-history'), $delimiter);
+    }
+
+    function output($campaignid, $statsController)
+    {
+        // mask campaign name if anonymous campaign
+        $campaign_details = Admin_DA::getPlacement($campaignid);
+        $start  = $statsController->aDates['day_begin'];
+        $end    = $statsController->aDates['day_end'];
+
+        global $strCampaign;
+
+        $reportName = $strCampaign." History ".strip_tags(MAX_getPlacementName($campaign_details))." ".$start." - ".$end;
+
+        require_once 'Spreadsheet/Excel/Writer.php';
+
+        $workbook = new Spreadsheet_Excel_Writer();
+
+        $columnHeader =& $workbook->addFormat();
+        $columnHeader->setBold();
+        $columnHeader->setSize(12);
+        //$columnHeader->setBgColor('gray');
+        //$columnHeader->setAlign('center');
+
+//        $formatInteger = &$workbook->addFormat();
+//        $formatInteger->setNumFormat($GLOBALS['excel_integer_formatting']);
+//
+//        $formatDecimalPercentage =& $workbook->addFormat();
+//        $formatDecimalPercentage->setNumFormat(getPercentageDecimalFormat());
+
+        $workbook->send($reportName . '.xls');
+
+        $worksheet =& $workbook->addWorksheet(substr($reportName,0,30));
+
+        $row = 0;
+        // Report "not structural" data
+        $worksheet->write($row,0, $strCampaign.' History:', $columnHeader);
+        $worksheet->write($row,1, 'Daily', $columnHeader);
+        $worksheet->write(++$row,0, 'Name:', $columnHeader);
+        $worksheet->write($row,1, strip_tags(MAX_getPlacementName($campaign_details)), $columnHeader);
+        $worksheet->write(++$row,0, 'Period:', $columnHeader);
+        $worksheet->write($row,1, $start." - ".$end, $columnHeader);
+
+
+        list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($statsController);
+        $row++;
+        $row++;
+        $col = 0;
+		foreach ($aHeaders as $k=>$v)
+		{
+            $worksheet->write($row,$col,$k);
+		    $col++;
+		    $sumKey = array_search($k,$statsController->columns);
+		    $sumVal = $statsController->total[$sumKey];
+		    $aSumColumns[$sumKey] = $sumVal;
+		}
+		foreach ($aData as $aRow)
+		{
+            $row++;
+            $col = 0;
+    		foreach ($aRow as $k=>$v)
+    		{
+                $worksheet->write($row,$col,$v);
+		        $col++;
+    		}
+		}
+        $row++;
+        $row++;
+        $col = 0;
+		foreach ($aHeaders as $k=>$v)
+		{
+		    if ($col>0)
+		    {
+                $worksheet->write($row,$col,$k);
+		    }
+		    $col++;
+		}
+        $row++;
+        $col = 0;
+        $aSumColumns[0]='Totals';
+		foreach ($aSumColumns as $k=>$v)
+		{
+            $worksheet->write($row,$col,$v);
+	        $col++;
+		}
+        $workbook->close();
+    }
+
+    /**
+     * Return section headers and data from a statsController instance
+     *
+     * @param string statsController type
+     * @return array An array containing headers (key 0) and data (key 1)
+     */
+    function getStatsController($controller_type)
+    {
+        require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsControllerFactory.php';
+        return StatsControllerFactory::newStatsController($controller_type, array(
+            'skipFormatting' => true,
+            'disablePager'   => true
+        ));
+    }
+
+    /**
+     * Return section headers and data from a statsController instance
+     *
+     * @param string statsController type
+     * @return array An array containing headers (key 0) and data (key 1)
+     */
+    function getHeadersAndDataFromStatsController(&$statsController)
+    {
+        $stats = $statsController->exportArray();
+
+        $aHeaders = array();
+        foreach ($stats['headers'] as $k => $v) {
+            switch ($stats['formats'][$k]) {
+                case 'default':
+                    $aHeaders[$v] = 'numeric';
+                    break;
+                case 'currency':
+                    $aHeaders[$v] = 'decimal';
+                    break;
+                case 'percent':
+                case 'date':
+                case 'time':
+                    $aHeaders[$v] = $stats['formats'][$k];
+                    break;
+                case 'text':
+                default:
+                    $aHeaders[$v] = 'text';
+                    break;
+            }
+        }
+
+        $aData = array();
+        foreach ($stats['data'] as $i => $row)
+        {
+            foreach ($row as $k => $v) {
+                $aData[$i][] = $stats['formats'][$k] == 'datetime' ? $this->_report_writer->convertToDate($v) : $v;
+            }
+        }
+        return array($aHeaders, $aData);
     }
 
 }
