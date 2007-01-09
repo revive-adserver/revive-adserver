@@ -479,7 +479,7 @@ function phpAds_PageFooter()
 		{
 			if ($phpAds_config['maintenance_timestamp'] < time() - (60 * 60 * 24))
 			{
-				if ($phpAds_config['maintenance_timestamp'] > 0)
+				if ($phpAds_config['maintenance_timestamp'] > 0 && !isset($Session['maint_not_running_warning']))
 				{
 					// The maintenance script hasn't run in the 
 					// last 24 hours, warn the user
@@ -488,16 +488,9 @@ function phpAds_PageFooter()
 					echo "\talert('".$strMaintenanceNotActive."');\n";
 					echo "//-->\n";
 					echo "</script>";
+					
+					phpAds_SessionDataRegister('maint_not_running_warning', true);
 				}
-				
-				// Update the timestamp to make sure the warning 
-				// is shown only once every 24 hours
-				$res = phpAds_dbQuery ("
-					UPDATE
-						".$phpAds_config['tbl_config']."
-					SET
-						maintenance_timestamp = '".time()."'
-				");
 			}
 		}
 	}
