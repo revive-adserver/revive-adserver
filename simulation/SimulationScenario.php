@@ -67,6 +67,9 @@ class SimulationScenario
     var $profileOn = true;
     var $aProfile = array();
 
+    var $adSelectCallback;
+    var $aVarDump;
+
     /**
      * The constructor method.
      */
@@ -302,6 +305,10 @@ class SimulationScenario
                             $oRequest->loc,
                             $oRequest->referer
                            );
+        if ($this->adSelectCallback)
+        {
+            call_user_method($this->adSelectCallback, $this);
+        }
         if ($this->profileOn)
         {
             $this->aProfile[] = array('bannerid'=>$adSelect['bannerid'],
