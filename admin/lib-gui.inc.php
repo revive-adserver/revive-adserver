@@ -336,16 +336,34 @@ function phpAds_PageHeader($ID, $extra="")
  	echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>";
 	echo "<tr>";
 	
+	// Auto-brand via sync.openads.org
+	// @todo: use https if needed
+	$logo_url = 'p='.urlencode($GLOBALS['phpAds_productname']);
+	$logo_url .= '&v='.urlencode($GLOBALS['phpAds_version']);
+	$logo_url .= '&i='.urlencode($GLOBALS['phpAds_config']['instance_id']);
+	
 	if (isset($phpAds_config['name']) && $phpAds_config['name'] != '')
 	{
+		// Show remote logo only to admin
+		if (phpAds_isUser(phpAds_Admin))
+			$logo_url = 'http://sync.openads.org/logo.php?'.base64_encode($logo_url.'&c=1');
+		else
+			$logo_url = 'images/logo-s.gif';
+		
 		echo "<td height='48' bgcolor='#000063' valign='middle'>";
-		echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/logo-s.gif' width='36' height='34' align='absmiddle'>";
+		echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='{$logo_url}&c=1' align='absmiddle'>";
 		echo "<span class='phpAdsNew'>".$phpAds_config['name']."</span>";
 	}
 	else
 	{
+		// Show remote logo only to admin
+		if (phpAds_isUser(phpAds_Admin))
+			$logo_url = 'http://sync.openads.org/logo.php?'.base64_encode($logo_url);
+		else
+			$logo_url = 'images/logo.gif';
+		
 		echo "<td height='48' bgcolor='#000063' valign='bottom'>";
-		echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/logo.gif' width='163' height='34'>";
+		echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='{$logo_url}'>";
 	}
 	
 	echo "</td><td bgcolor='#000063' valign='top' align='".$phpAds_TextAlignRight."'>";
