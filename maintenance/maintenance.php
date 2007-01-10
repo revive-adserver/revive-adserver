@@ -51,6 +51,15 @@ if (date('i') == 59 && date('s') >= 45)
 
 
 // Finally run maintenance
-phpAds_performMaintenance();
+if (phpAds_performMaintenance())
+{
+	// Update the timestamp
+	$res = phpAds_dbQuery ("
+		UPDATE
+			".$phpAds_config['tbl_config']."
+		SET
+			maintenance_cron_timestamp = '".time()."'
+	");
+}
 
 ?>

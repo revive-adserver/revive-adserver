@@ -24,7 +24,7 @@ function phpAds_MaintenanceSelection($section)
 {
 	global $phpAds_config;
 	global $phpAds_TextDirection;
-	global $strChooseSection, $strPriority, $strCache, $strBanners, $strStats, $strStorage;
+	global $strChooseSection, $strPriority, $strCache, $strBanners, $strStats, $strStorage, $strMaintenance;
 	
 	
 	if ($phpAds_config['compact_stats'])
@@ -62,6 +62,7 @@ function maintenance_goto_section()
 	echo "<b>".$strChooseSection.":&nbsp;</b>";
     echo "<select name='section' onChange='maintenance_goto_section();'>";
 	
+	echo "<option value='maintenance'".($section == 'maintenance' ? ' selected' : '').">".$strMaintenance."</option>";
 	echo "<option value='banners'".($section == 'banners' ? ' selected' : '').">".$strBanners."</option>";
 	echo "<option value='priority'".($section == 'priority' ? ' selected' : '').">".$strPriority."</option>";
 	

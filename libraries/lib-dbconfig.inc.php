@@ -18,7 +18,7 @@ define ('LIBDBCONFIG_INCLUDED', true);
 
 
 // Current phpAds version
-$phpAds_version = 200.294;
+$phpAds_version = 200.295;
 $phpAds_version_readable = "2.0.10-dev";
 $phpAds_version_development = true;  
 
@@ -152,7 +152,8 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'autotarget_factor' =>			array ('type' => 'double', 'sql' => true),
 	'config_version' =>				array ('type' => 'string', 'sql' => true),
 	'instance_id' =>				array ('type' => 'string',  'sql' => true),
-	'maintenance_timestamp' =>		array ('type' => 'integer', 'sql' => true)
+	'maintenance_timestamp' =>		array ('type' => 'integer', 'sql' => true),
+	'maintenance_cron_timestamp' =>	array ('type' => 'integer', 'sql' => true)
 );
 
 

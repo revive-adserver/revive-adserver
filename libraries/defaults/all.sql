@@ -308,6 +308,7 @@ CREATE TABLE phpads_config (
    auto_clean_tables_vacuum enum('t','f') DEFAULT 't' NOT NULL,
    autotarget_factor float DEFAULT '-1' NOT NULL,
    maintenance_timestamp int(11) DEFAULT '0' NOT NULL,
+   maintenance_cron_timestamp int(11) DEFAULT '0' NOT NULL,
    PRIMARY KEY (configid)
 );
 

@@ -29,9 +29,9 @@ function phpAds_performMaintenance()
 	global $phpAds_config;
 	
 	// Aquire lock to ensure that maintenance runs only once
-	$lock_name = addslashes('pan.'.$phpAds_config['instance_id']);
-	if (phpAds_dbResult(phpAds_dbQuery("SELECT GET_LOCK('{$lock_name}', 0)"), 0, 0))
+	if ($lock = phpAds_maintenanceGetLock())
 	{
+	echo 'here';
 		// Set time limit and ignore user abort
 		if (!get_cfg_var ('safe_mode')) 
 		{
@@ -82,7 +82,34 @@ function phpAds_performMaintenance()
 		phpAds_cacheDelete();
 		
 		// Release lock
-		phpAds_dbQuery("SELECT RELEASE_LOCK('{$lock_name}')");
+		phpAds_maintenanceReleaseLock($lock);
+		
+		return true;
+	}
+	
+	return false;
+}
+
+function phpAds_maintenanceGetLock()
+{
+	$lock = array(
+		'type' => 'db',
+		'id' => addslashes('pan.'.$GLOBALS['phpAds_config']['instance_id'])
+	);
+	
+	if (phpAds_dbResult(phpAds_dbQuery("SELECT GET_LOCK('{$lock['id']}', 0)"), 0, 0))
+		return $lock;
+	
+	return false;
+}
+
+function phpAds_maintenanceReleaseLock($lock)
+{
+	switch ($lock['type'])
+	{
+		case 'db':
+			phpAds_dbQuery("DO RELEASE('{$lock['id']}')");
+			break;
 	}
 }
 

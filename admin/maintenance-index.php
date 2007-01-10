@@ -15,7 +15,7 @@
 
 
 // Redirect to admin settings page
-header("Location: maintenance-priority.php");
+header("Location: maintenance-maintenance.php");
 exit;
 
 ?>

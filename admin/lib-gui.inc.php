@@ -507,19 +507,20 @@ function phpAds_PageFooter()
 		// Check if the maintenance script is running
 		if (phpAds_isUser(phpAds_Admin))
 		{
-			if ($phpAds_config['maintenance_timestamp'] < time() - (60 * 60 * 24))
+			if (!isset($Session['maint_not_running_warning']) && $phpAds_config['maintenance_timestamp'] < time() - (60 * 60 * 24))
 			{
-				if ($phpAds_config['maintenance_timestamp'] > 0 && !isset($Session['maint_not_running_warning']))
+				if ($phpAds_config['maintenance_timestamp'] > 0)
 				{
+					phpAds_SessionDataRegister('maint_not_running_warning', true);
+					
 					// The maintenance script hasn't run in the 
 					// last 24 hours, warn the user
 					echo "<script language='JavaScript'>\n";
 					echo "<!--//\n";
 					echo "\talert('".$strMaintenanceNotActive."');\n";
+					echo "\tlocation.replace('maintenance-maintenance.php');\n";
 					echo "//-->\n";
 					echo "</script>";
-					
-					phpAds_SessionDataRegister('maint_not_running_warning', true);
 				}
 			}
 		}
