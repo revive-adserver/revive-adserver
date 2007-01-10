@@ -344,38 +344,45 @@ function phpAds_PageHeader($ID, $extra="")
 	
 	if (isset($phpAds_config['name']) && $phpAds_config['name'] != '')
 	{
-		// Show remote logo only to admin
-		if (phpAds_isUser(phpAds_Admin))
-		{
-			$logo_url = 'http://sync.openads.org/logo.php?'.base64_encode($logo_url.'&c=1');
-			$logo_spacer = '&nbsp;&nbsp;&nbsp;&nbsp;';
-		}
+		// Show remote logo only to admin and if updates are enabled
+		if (phpAds_isUser(phpAds_Admin) && $phpAds_config['updates_enabled'])
+			$logo_url = 'http://syn.openads.org/logo.php?'.base64_encode($logo_url.'&c=1');
 		else
-		{
-			$logo_url = 'images/logo-s.gif';
-			$logo_spacer = '&nbsp;&nbsp;&nbsp;&nbsp;';
-		}
+			$logo_url = '';
 		
 		echo "<td height='48' bgcolor='#000063' valign='middle'>";
-		echo "{$logo_spacer}<img src='{$logo_url}' align='top'>";
+		echo "<div id='logo_local'>";
+		echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/logo-s.gif' align='top'>";
 		echo "<span class='phpAdsNew'>".$phpAds_config['name']."</span>";
+		echo "</div>";
+		if ($logo_url)
+		{
+			// Make sure that remote logo isn't displayed if not correctly loaded
+			echo "<div id='logo_remote' style='display: none'>";
+			echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='{$logo_url}' align='top' onload='swapLogos()'>";
+			echo "<span class='phpAdsNew'>".$phpAds_config['name']."</span>";
+			echo "</div>";
+		}
 	}
 	else
 	{
-		// Show remote logo only to admin
-		if (phpAds_isUser(phpAds_Admin))
-		{
-			$logo_url = 'http://sync.openads.org/logo.php?'.base64_encode($logo_url);
-			$logo_spacer = '';
-		}
+		// Show remote logo only to admin and if updates are enabled
+		if (phpAds_isUser(phpAds_Admin) && $phpAds_config['updates_enabled'])
+			$logo_url = 'http://syn.openads.org/logo.php?'.base64_encode($logo_url);
 		else
-		{
-			$logo_url = 'images/logo.gif';
-			$logo_spacer = '&nbsp;&nbsp;&nbsp;&nbsp;';
-		}
+			$logo_url = '';
 		
 		echo "<td height='48' bgcolor='#000063' valign='bottom'>";
-		echo "{$logo_spacer}<img src='{$logo_url}'>";
+		echo "<div id='logo_local'>";
+		echo "<img src='images/logo.gif'>";
+		echo "</div>";
+		if ($logo_url)
+		{
+			// Make sure that remote logo isn't displayed if not correctly loaded
+			echo "<div id='logo_remote' style='display: none'>";
+			echo "<img src='{$logo_url}' onload='swapLogos()'>";
+			echo "</div>";
+		}
 	}
 	
 	echo "</td><td bgcolor='#000063' valign='top' align='".$phpAds_TextAlignRight."'>";

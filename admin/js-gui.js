@@ -95,6 +95,14 @@ function hideLayer(obj) {
 	obj.display = 'none'
 }
 
+function swapLogos() {
+	var l1 = findObj('logo_local');
+	var l2 = findObj('logo_remote');
+	
+	hideLayer(l1);
+	showLayer(l2);
+}
+
 
 /*********************************************************/
 /* Confirm form submit                                   */
