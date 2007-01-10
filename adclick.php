@@ -40,7 +40,8 @@ if ($phpAds_config['log_adclicks'])
 /*********************************************************/
 
 phpAds_registerGlobal ('bannerid', 'bannerID', 'n', 'log',
-					   'zoneid', 'source', 'dest', 'ismap');
+					   'zoneid', 'source', 'dest', 'ismap',
+					   'trackonly');
 
 
 
@@ -109,7 +110,6 @@ if (phpAds_dbConnect())
 			if (preg_match('#^https?://#', $dest) && strpos($dest, "\r\n") === false)
 				$url = stripslashes($dest);
 		}
-
 		
 		// If zoneid is not set, log it as a regular banner
 		if (!isset($zoneid)) $zoneid = 0;
@@ -148,6 +148,7 @@ if (phpAds_dbConnect())
 					$key != 'dest' &&
 					$key != 'ismap' &&
 					$key != 'log' &&
+					$key != 'trackonly' &&
 					$key != 'n' &&
 					$key != 'cb')
 					$vars[] = $key.'='.$_GET[$key];
@@ -162,6 +163,7 @@ if (phpAds_dbConnect())
 					$key != 'dest' &&
 					$key != 'ismap' &&
 					$key != 'log' &&
+					$key != 'trackonly' &&
 					$key != 'n' &&
 					$key != 'cb')
 					$vars[] = $key.'='.$_POST[$key];
@@ -188,6 +190,13 @@ if (phpAds_dbConnect())
 			$url .= $ismap;
 		}
 		
+
+
+		// If track-only do not redirect
+		if (isset($trackonly) && $trackonly)
+		{
+			exit;
+		}
 		
 		// Redirect
 		if ($url != '')

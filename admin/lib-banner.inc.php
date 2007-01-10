@@ -293,6 +293,13 @@ function phpAds_getBannerCache($banner)
 					if (!eregi('<script', $buffer) && !eregi('<object', $buffer) && !eregi('<iframe', $buffer))
 						$buffer = "<a href='{url_prefix}/adclick.php?bannerid={bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;ismap=' target='{target}'>".$buffer."</a>";
 				}
+
+				// Check for Google AdSense banners
+				if (preg_match('/<script.*?src=".*?googlesyndication\.com/is', $buffer))
+				{
+					// Add workaround to count clicks
+					$buffer .= "<script language='JavaScript' type='text/javascript' src='{url_prefix}/adg.js'></script>";
+				}
 			}
 			else
 			{
