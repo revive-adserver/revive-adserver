@@ -346,24 +346,36 @@ function phpAds_PageHeader($ID, $extra="")
 	{
 		// Show remote logo only to admin
 		if (phpAds_isUser(phpAds_Admin))
+		{
 			$logo_url = 'http://sync.openads.org/logo.php?'.base64_encode($logo_url.'&c=1');
+			$logo_spacer = '&nbsp;&nbsp;&nbsp;&nbsp;';
+		}
 		else
+		{
 			$logo_url = 'images/logo-s.gif';
+			$logo_spacer = '&nbsp;&nbsp;&nbsp;&nbsp;';
+		}
 		
 		echo "<td height='48' bgcolor='#000063' valign='middle'>";
-		echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='{$logo_url}&c=1' align='absmiddle'>";
+		echo "{$logo_spacer}<img src='{$logo_url}' align='top'>";
 		echo "<span class='phpAdsNew'>".$phpAds_config['name']."</span>";
 	}
 	else
 	{
 		// Show remote logo only to admin
 		if (phpAds_isUser(phpAds_Admin))
+		{
 			$logo_url = 'http://sync.openads.org/logo.php?'.base64_encode($logo_url);
+			$logo_spacer = '';
+		}
 		else
+		{
 			$logo_url = 'images/logo.gif';
+			$logo_spacer = '&nbsp;&nbsp;&nbsp;&nbsp;';
+		}
 		
 		echo "<td height='48' bgcolor='#000063' valign='bottom'>";
-		echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='{$logo_url}'>";
+		echo "{$logo_spacer}<img src='{$logo_url}'>";
 	}
 	
 	echo "</td><td bgcolor='#000063' valign='top' align='".$phpAds_TextAlignRight."'>";
