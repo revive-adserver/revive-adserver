@@ -381,13 +381,28 @@ class MAX_Admin_Upgrade
      */
     function _upgradeToThreeThirtyTwoAlpha()
     {
+        // Add new fields for storing connection channel_ids
+        $cols = array(
+            'data_raw_ad_request'       => array('column'=>'channel_ids','after'=>'channel'),
+            'data_raw_ad_impression'    => array('column'=>'channel_ids','after'=>'channel'),
+            'data_raw_ad_click'         => array('column'=>'channel_ids','after'=>'channel'),
+            'data_raw_tracker_click'    => array('column'=>'channel_ids','after'=>'channel'),
+            'data_raw_tracker_impression'  => array('column'=>'channel_ids','after'=>'channel'),
+            'data_intermediate_ad_connection' => array('column'=>'connection_channel_ids','after'=>'connection_channel'),
+            'data_intermediate_ad_connection' => array('column'=>'tracker_channel_ids','after'=>'connection_channel'),
+        );
+        $queries = array();
+        foreach ($cols as $k => $v) {
+            $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}{$k} ADD COLUMN {$v}['column'] VARCHAR(64) AFTER {$v}['after']";
+        }
+        $this->_runQueries($queries);
+
         // Add extra index to the data_summary_zone_impression_history table
         $query = "CREATE INDEX data_summary_zone_impression_history_zone_id ON {$this->conf['table']['prefix']}data_summary_zone_impression_history (zone_id)";
         $this->_runQuery($query);
     }
 
-    /**
-     * A private method to upgrade the database from the v0.3.30-alpha
+     /** A private method to upgrade the database from the v0.3.30-alpha
      * format to the v0.3.31-alpha format.
      *
      * @access private
@@ -2202,6 +2217,10 @@ class MAX_Admin_Upgrade
             if ($this->_compareVersions('v0.3.31-alpha', $this->upgradeFrom)) {
                 // Upgrade to v0.3.31-alpha
                 return array( "version"=>"v0.3.31-alpha", "function"=>"_upgradeToThreeThirtyOneAlpha");
+            }
+            if ($this->_compareVersions('v0.3.32-alpha', $this->upgradeFrom)) {
+                // Upgrade to v0.3.32-alpha
+                return array( "version"=>"v0.3.32-alpha", "function"=>"_upgradeToThreeThirtyTwoAlpha");
             }
         }
         return array("version"=>"", "function"=>"");

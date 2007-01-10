@@ -46,9 +46,9 @@ function MAX_checkSite_Channel($limitation, $op, $aParams = array())
 	if (empty($limitation)) {
 		return true;
 	}
-	
+
 	$aLimitations = MAX_cacheGetChannelLimitations($limitation);
-	
+
     // Include required deliveryLimitation files...
     if(strlen($aLimitations['acl_plugins'])) {
         $acl_plugins = explode(',', $aLimitations['acl_plugins']);
@@ -61,6 +61,8 @@ function MAX_checkSite_Channel($limitation, $op, $aParams = array())
     if (!empty($aLimitations['compiledlimitation'])) {
         @eval('$result = ('.$aLimitations['compiledlimitation'].');');
     }
+    //MAX_record_Channel($limitation, $result);
+    $GLOBALS['_MAX']['CHANNELS'].= ($result ? MAX_DELIVERY_MULTIPLE_DELIMITER.$limitation : '');
     return $result;
 }
 

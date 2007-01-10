@@ -81,6 +81,20 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
         $tables->createTable('userlog');
         $tables->createTable('variables');
         $tables->createTable('zones');
+        $tables->createTable('channel');
+        $tables->createTable('acls');
+        $tables->createTable('acls_channel');
+/*
+currently plugins such as arrivals are not tested at all
+this test will fail if arrivals are installed
+as stats will need arrival tables along with changes to core tables
+it is possible to create the arrivals tables
+but it is not possible to update the core tables yet
+the solution at the moment is to remove the plugins/maintenance/arrivals folder and ignore the testing of arrivals
+        $tables->init(MAX_PATH . '/etc/tables_core_arrivals.' . $conf['database']['type'] . '.sql');
+        $tables->createTable('data_raw_ad_arrival'); // in case arrivals is installed
+*/
+
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Maintenance/data/TestOfMaintenanceStatisticsAdServer.php';
         // Insert the test data
@@ -93,6 +107,10 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
         $result = $dbh->query(ADSERVER_FULL_TEST_TRACKER_IMPRESSIONS);
         $result = $dbh->query(ADSERVER_FULL_TEST_TRACKERS);
         $result = $dbh->query(ADSERVER_FULL_TEST_ZONES);
+        $result = $dbh->query(ADSERVER_FULL_TEST_CHANNELS);
+        $result = $dbh->query(ADSERVER_FULL_TEST_CHANNELS_ACLS);
+        $result = $dbh->query(ADSERVER_FULL_TEST_CHANNELS_ACLS_CHANNEL);
+        $result = $dbh->query(ADSERVER_FULL_TEST_CHANNELS_BANNER);
         // Set up the config as desired for testing
         $conf['maintenance']['operationInterval'] = 60;
         $conf['maintenance']['compactStats'] = false;

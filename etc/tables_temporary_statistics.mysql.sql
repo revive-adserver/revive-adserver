@@ -122,6 +122,7 @@ CREATE TEMPORARY TABLE IF NOT EXISTS tmp_ad_connection (
   connection_creative_id INTEGER UNSIGNED NULL,
   connection_zone_id INTEGER UNSIGNED NULL,
   connection_channel VARCHAR(51) NULL,
+  connection_channel_ids VARCHAR(64) NULL,
   connection_language VARCHAR(32) NULL,
   connection_ip_address VARCHAR(16) NULL,
   connection_host_name TEXT NULL,

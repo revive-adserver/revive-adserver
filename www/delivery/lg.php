@@ -58,6 +58,8 @@ $arrZoneCapping['block'] = _getArrRequestConfVariable('blockZone');
 $arrZoneCapping['capping'] = _getArrRequestConfVariable('capZone');
 $arrZoneCapping['session_capping'] = _getArrRequestConfVariable('sessionCapZone');
 
+$GLOBALS['_MAX']['CHANNELS'] = str_replace($conf['delivery']['ctDelimiter'],$conf['delivery']['chDelimiter'],$_REQUEST['channel_ids']);
+
 // FIXME-Andrzej: Refactor these capping things using proper arrays of indices!!!
 
 for ($i=0;$i<count($adId);$i++) {

@@ -140,7 +140,7 @@ class Delivery_TestOfLog extends UnitTestCase
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
         $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
         $this->assertEqual(count($geotargeting), 0);
-        $this->assertEqual(count($zoneInfo), 0);
+        $this->assertEqual(count($zoneInfo), 1);
         $this->assertEqual(count($userAgentInfo), 0);
         $this->assertEqual($maxHttps, 0);
         // Enable reverse lookups
@@ -160,7 +160,7 @@ class Delivery_TestOfLog extends UnitTestCase
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
         $this->assertEqual($_SERVER['REMOTE_HOST'], gethostbyaddr($_SERVER['REMOTE_ADDR']));
         $this->assertEqual(count($geotargeting), 0);
-        $this->assertEqual(count($zoneInfo), 0);
+        $this->assertEqual(count($zoneInfo), 1);
         $this->assertEqual(count($userAgentInfo), 0);
         $this->assertEqual($maxHttps, 0);
         // Enable geotargeting
@@ -197,7 +197,7 @@ class Delivery_TestOfLog extends UnitTestCase
         $this->assertEqual($geotargeting['organisation'], 'Foo');
         $this->assertEqual($geotargeting['isp'], 'Bar');
         $this->assertEqual($geotargeting['netspeed'], 'Unknown');
-        $this->assertEqual(count($zoneInfo), 0);
+        $this->assertEqual(count($zoneInfo), 1);
         $this->assertEqual(count($userAgentInfo), 0);
         $this->assertEqual($maxHttps, 0);
         // Set a passed in referer location
@@ -225,10 +225,13 @@ class Delivery_TestOfLog extends UnitTestCase
         $this->assertEqual($zoneInfo['host'], 'www.example.com');
         $this->assertEqual($zoneInfo['path'], '/test.html');
         $this->assertNull($zoneInfo['query']);
+        $this->assertNull($zoneInfo['channel_ids']);
         $this->assertEqual(count($userAgentInfo), 0);
         $this->assertEqual($maxHttps, 0);
         // Set a passed in referer location
         $_GET['loc'] = 'http://www.example.com/test.html';
+        // Set an array of channel ids
+        $GLOBALS['_MAX']['CHANNELS'] = '|1|2|3|';
         // Test
         unset($geotargeting);
         unset($zoneInfo);
@@ -252,6 +255,7 @@ class Delivery_TestOfLog extends UnitTestCase
         $this->assertEqual($zoneInfo['host'], 'www.example.com');
         $this->assertEqual($zoneInfo['path'], '/test.html');
         $this->assertNull($zoneInfo['query']);
+        $this->assertEqual($zoneInfo['channel_ids'], '|1|2|3|');
         $this->assertEqual(count($userAgentInfo), 0);
         $this->assertEqual($maxHttps, 0);
         // Test
@@ -260,10 +264,10 @@ class Delivery_TestOfLog extends UnitTestCase
         unset($userAgentInfo);
         unset($_GET['loc']);
         $maxHttps = '';
-        
+
         // Set a normal referer
         $_SERVER['HTTP_REFERER'] = 'https://example.com/test.php?foo=bar';
-        
+
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
         $this->assertEqual($_SERVER['REMOTE_HOST'], gethostbyaddr($_SERVER['REMOTE_ADDR']));
         $this->assertEqual($geotargeting['country_code'], 'US');
@@ -345,8 +349,7 @@ class Delivery_TestOfLog extends UnitTestCase
         $this->assertEqual($userAgentInfo['os'], '2k');
         $this->assertEqual($userAgentInfo['long_name'], 'msie');
         $this->assertEqual($userAgentInfo['browser'], 'ie');
-        $this->assertEqual($maxHttps, 1);
-    }
+        $this->assertEqual($maxHttps, 1);    }
 
     /**
      * Test the _insertRawData function.

@@ -277,7 +277,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
         $tmpTableName = 'tmp_ad_' . $type;
         $countColumnName = $type . 's';
         // Check the start and end dates
-        if (!MAX_OperationInterval::checkIntervalDates($oStart, $oEnd, $conf['maintenance']['operationInterval'])) {
+         if (!MAX_OperationInterval::checkIntervalDates($oStart, $oEnd, $conf['maintenance']['operationInterval'])) {
             return 0;
         }
         // Get the start and end dates of the operation interval ID
@@ -495,6 +495,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                     connection_creative_id,
                     connection_zone_id,
                     connection_channel,
+                    connection_channel_ids,
                     connection_language,
                     connection_ip_address,
                     connection_host_name,
@@ -528,6 +529,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 drat.creative_id AS connection_creative_id,
                 drat.zone_id AS connection_zone_id,
                 drat.channel AS connection_channel,
+                drat.channel_ids AS connection_channel_ids,
                 drat.language AS connection_language,
                 drat.ip_address AS connection_ip_address,
                 drat.host_name AS connection_host_name,
@@ -997,6 +999,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                     zone_id,
                     tracker_channel,
                     connection_channel,
+                    tracker_channel_ids,
+                    connection_channel_ids,
                     tracker_language,
                     connection_language,
                     tracker_ip_address,
@@ -1042,6 +1046,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 tac.connection_zone_id AS zone_id,
                 drti.channel AS tracker_channel,
                 tac.connection_channel AS connection_channel,
+                drti.channel_ids AS tracker_channel_ids,
+                tac.connection_channel_ids AS connection_channel_ids,
                 drti.language AS tracker_language,
                 tac.connection_language AS connection_language,
                 drti.ip_address AS tracker_ip_address,
@@ -1967,7 +1973,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                                     ad_id,
                                     creative_id
                             ");
-                            
+
                             foreach ($res as $row) {
                                 $this->dbh->query("
                                     UPDATE
@@ -1981,7 +1987,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                                         AND hour = ".$row['hour']."
                                         AND ad_id = ".$row['ad_id']."
                                         AND creative_id = ".$row['creative_id']);
-                            }                            
+                            }
                         }
 
                         break;
@@ -2001,7 +2007,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                                     AND day <= '".$oEndDate->format('%Y-%m-%d')."'
                                     AND hour >= ".$oStartDate->format('%H')."
                                     AND hour <= ".$oEndDate->format('%H'));
-                                    
+
                             $res = $this->dbh->getAll("
                                 SELECT
                                     DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d') AS day,
@@ -2053,7 +2059,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                     return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                 }
             }
-            
+
             // Update technology cost information
             $query = '';
             $setInfo = true;

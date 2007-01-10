@@ -336,6 +336,7 @@ function _prepareLogInfo()
     if (!empty($zoneInfo['scheme'])) {
         $zoneInfo['scheme'] = ($zoneInfo['scheme'] == 'https') ? 1 : 0;
     }
+    $zoneInfo['channel_ids'] = $GLOBALS['_MAX']['CHANNELS'];
     // Get the operating system and browser type, if required
     if ($conf['logging']['sniff'] && isset($GLOBALS['_MAX']['CLIENT'])) {
         $userAgentInfo = array(

@@ -137,79 +137,79 @@ define('ADSERVER_FULL_TEST_CLIENTS', "INSERT INTO
 
 define('ADSERVER_FULL_TEST_AD_IMPRESSIONS', "INSERT INTO
         max_data_raw_ad_impression
-    ( `viewer_id` , `viewer_session_id` , `date_time` , `ad_id` , `creative_id` , `zone_id` , `channel` , `language` , `ip_address` , `host_name` , `country` , `https` , `domain` , `page` , `query` , `referer` , `search_term` , `user_agent` , `os` , `browser` , `max_https` )
+    ( `viewer_id` , `viewer_session_id` , `date_time` , `ad_id` , `creative_id` , `zone_id` , `channel` , `channel_ids` , `language` , `ip_address` , `host_name` , `country` , `https` , `domain` , `page` , `query` , `referer` , `search_term` , `user_agent` , `os` , `browser` , `max_https` )
     VALUES
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',2,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',6,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:50',4,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:50',3,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:51',5,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',6,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',1,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',3,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:53',1,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:53',3,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:54',5,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:54',3,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:55',1,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:55',6,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',5,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',3,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',1,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',6,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',5,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',3,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:58',1,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:58',6,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:59',2,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:59',6,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',4,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',3,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',4,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',3,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',5,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',6,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0)");
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',2,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',6,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:50',4,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:50',3,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:51',5,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',6,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',1,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',3,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:53',1,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:53',3,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:54',5,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:54',3,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:55',1,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:55',6,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',5,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',3,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',1,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',6,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',5,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',3,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:58',1,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:58',6,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:59',2,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:59',6,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',4,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',3,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',4,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',3,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',5,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',6,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0)");
 
 define('ADSERVER_FULL_TEST_AD_REQUESTS', "INSERT INTO
         max_data_raw_ad_request
-    ( `viewer_id` , `viewer_session_id` , `date_time` , `ad_id` , `creative_id` , `zone_id` , `channel` , `language` , `ip_address` , `host_name` , `country` , `https` , `domain` , `page` , `query` , `referer` , `search_term` , `user_agent` , `os` , `browser` , `max_https` )
+    ( `viewer_id` , `viewer_session_id` , `date_time` , `ad_id` , `creative_id` , `zone_id` , `channel` , `channel_ids` ,  `language` , `ip_address` , `host_name` , `country` , `https` , `domain` , `page` , `query` , `referer` , `search_term` , `user_agent` , `os` , `browser` , `max_https` )
     VALUES
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',2,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',6,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:50',4,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:50',3,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:51',5,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:51',6,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',1,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',3,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:53',1,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:53',3,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:54',5,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:54',3,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:55',1,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:55',6,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',5,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',3,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',1,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',6,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',5,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',3,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:58',1,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:58',6,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:59',2,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:59',6,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',4,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',3,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',4,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',3,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',5,0,1,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
-        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',6,0,2,'','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0)");
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',2,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',6,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:50',4,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:50',3,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:51',5,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:51',6,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',1,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',3,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:53',1,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:53',3,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:54',5,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:54',3,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:55',1,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:55',6,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',5,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',3,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',1,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',6,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',5,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',3,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:58',1,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:58',6,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:59',2,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:59',6,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',4,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',3,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',4,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',3,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',5,0,1,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0),
+        ('7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',6,0,2,'','|1|2|','en-us,en;q=0.5','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0)");
 
 define('ADSERVER_FULL_TEST_TRACKER_IMPRESSIONS', "INSERT INTO
         max_data_raw_tracker_impression
-    ( server_raw_tracker_impression_id , server_raw_ip , viewer_id , viewer_session_id , date_time , tracker_id , channel , language , ip_address , host_name , country , https , domain , page , query , referer , search_term , user_agent , os , browser , max_https )
+    ( server_raw_tracker_impression_id , server_raw_ip , viewer_id , viewer_session_id , date_time , tracker_id , channel , channel_ids , language , ip_address , host_name , country , https , domain , page , query , referer , search_term , user_agent , os , browser , max_https )
     VALUES
-        (1,'singleDB','7030ec9e03911a66006cba951848e454','','2004-11-26 12:10:42',1,NULL,'en-us,en;q=0.5',
+        (1,'singleDB','7030ec9e03911a66006cba951848e454','','2004-11-26 12:10:42',1,NULL,'|3|4|','en-us,en;q=0.5',
          '127.0.0.1','','',0,'localhost','/test.html','','','',
          'Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0)");
 
@@ -242,5 +242,90 @@ define('ADSERVER_FULL_TEST_ZONES', "INSERT INTO
     VALUES
         (1,1,'Test Publisher 1 - Default','',0,3,'',-1,-1,'','','','',0,'f',0),
         (2,2,'Test Publisher 2 - Default','',0,3,'',-1,-1,'','','','',0,'f',0)");
+
+define('ADSERVER_FULL_TEST_CHANNELS', "INSERT INTO
+        max_channel (
+                        channelid,
+                        agencyid,
+                        affiliateid,
+                        name,
+                        description,
+                        compiledlimitation,
+                        acl_plugins,
+                        active,
+                        comments,
+                        updated,
+                        acls_updated
+                    )
+        VALUES
+            (1,0,1,'Test Channel - Page Url','','MAX_checkSite_Pageurl(\'example\', \'=~\')','Site:Pageurl',1,'','0000-00-00 00:00:00','2007-01-08 12:09:17'),
+            (2,0,1,'Test Channel - Referrer','Test Channel - referrer = www.referrer.com','MAX_checkSite_Referingpage(\'refer.com\', \'=~\')','Site:Referingpage',1,'','0000-00-00 00:00:00','2007-01-08 12:32:27');");
+
+define('ADSERVER_FULL_TEST_CHANNELS_ACLS', "INSERT INTO
+        max_acls (
+                    bannerid,
+                    logical,
+                    type,
+                    comparison,
+                    data,
+                    executionorder
+                  )
+        VALUES
+            (7,'and','Site:Channel','==','1',0),
+            (7,'and','Site:Channel','==','2',1);");
+
+define('ADSERVER_FULL_TEST_CHANNELS_ACLS_CHANNEL', "INSERT INTO
+        max_acls_channel (
+                            channelid,
+                            logical,
+                            type,
+                            comparison,
+                            data,
+                            executionorder
+                          )
+       VALUES
+            (1,'and','Site:Pageurl','=~','example',0),
+            (2,'and','Site:Referingpage','=~','refer.com',0);");
+
+define('ADSERVER_FULL_TEST_CHANNELS_BANNER', "INSERT INTO
+        max_banners
+        (
+            bannerid,
+            campaignid,
+            active,
+            contenttype,
+            pluginversion,
+            storagetype,
+            filename,
+            imageurl,
+            htmltemplate,
+            htmlcache,
+            width,
+            height,
+            weight,
+            seq,
+            target,
+            url,
+            alt,
+            status,
+            bannertext,
+            description,
+            autohtml,
+            adserver,
+            block,
+            capping,
+            session_capping,
+            compiledlimitation,
+            acl_plugins,
+            append,
+            appendtype,
+            bannertype,
+            alt_filename,
+            alt_imageurl,
+            alt_contenttype
+        )
+    VALUES
+        (7,6,'t','',0,'html','','','<h3>Test Banner 7</h3>','<h3>Test Banner 7</h3>',0,0,1,0,'',
+         'http://example.com/','','','','Banner 7','t','',0,0,0,'(MAX_checkSite_Channel(\'1\', \'==\')) and (MAX_checkSite_Channel(\'2\', \'==\'))','Site:Channel','',0,0,'','','')");
 
 ?>

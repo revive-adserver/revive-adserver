@@ -29,12 +29,12 @@ $Id$
  * @package    MaxDelivery
  * @subpackage ad
  * @author     Chris Nutting <chris@m3.net>
- * 
+ *
  * This library contains the functions to select and generate the HTML for an ad
- * 
+ *
  * The code below makes several references to an "ad-array", this is /almost/ an ad-object, and implements
  * the following interface.
- * 
+ *
  * Array
  *   (
  *       [ad_id] => 123
@@ -45,30 +45,30 @@ $Id$
  *       [contenttype] => swf
  *       [pluginversion] => 6
  *       [filename] => banner_468x60.swf
- *       [imageurl] => 
- *       [htmltemplate] => 
- *       [htmlcache] => 
+ *       [imageurl] =>
+ *       [htmltemplate] =>
+ *       [htmlcache] =>
  *       [width] => 468
  *       [height] => 60
  *       [weight] => 1
  *       [seq] => 0
  *       [target] => _blank
  *       [url] => http://www.example.net/landing_page/
- *       [alt] => 
- *       [status] => 
- *       [bannertext] => 
+ *       [alt] =>
+ *       [status] =>
+ *       [bannertext] =>
  *       [autohtml] => f
- *       [adserver] => 
+ *       [adserver] =>
  *       [block] => 0
  *       [capping] => 0
  *       [session_capping] => 0
- *       [compiledlimitation] => 
- *       [acl_plugins] => 
- *       [append] => 
+ *       [compiledlimitation] =>
+ *       [acl_plugins] =>
+ *       [append] =>
  *       [appendtype] => 0
  *       [bannertype] => 0
  *       [alt_filename] => backup_banner_468x60.gif
- *       [alt_imageurl] => 
+ *       [alt_imageurl] =>
  *       [alt_contenttype] => gif
  *       [campaign_priority] => 5
  *       [campaign_weight] => 0
@@ -78,8 +78,8 @@ $Id$
  *       [bannerid] => 123
  *       [storagetype] => web
  *       [campaignid] => 4
- *       [zone_companion] => 
- *       [prepend] => 
+ *       [zone_companion] =>
+ *       [prepend] =>
  *   )
  *
  */
@@ -99,10 +99,10 @@ $Id$
  * @param boolean $richMedia    Does this invocation method allow for serving 3rd party/html ads
  * @param string  $loc          The "current page" URL
  * @param string  $referer      The "referring page" URL
- * @param array   $context      The context of this ad selection 
+ * @param array   $context      The context of this ad selection
  *                              - used for companion positioning
- *                              - and excluding banner/campaigns from this ad-call 
- * 
+ *                              - and excluding banner/campaigns from this ad-call
+ *
  * @return string   The HTML to display this ad
  */
 function MAX_adRender($aBanner, $zoneId=0, $source='', $target='', $ct0='', $withText=false, $logClick=true, $logView=true, $richMedia=true, $loc='', $referer='', $context = array())
@@ -178,7 +178,7 @@ function MAX_adRender($aBanner, $zoneId=0, $source='', $target='', $ct0='', $wit
             $replace[] = strpos($arrivals[1][$i], '?') === false ? $arrivals[1][$i].'?'.$arrivalClick : $arrivals[1][$i].'&amp;'.$arrivalClick;
         }
     }
-    
+
     preg_match_all('#{(.*?)}#', $code, $macros);
     for ($i=0;$i<count($macros[1]);$i++) {
         if (!in_array($macros[0][$i], $search) && isset($_REQUEST[$macros[1][$i]])) {
@@ -206,7 +206,7 @@ function MAX_adRender($aBanner, $zoneId=0, $source='', $target='', $ct0='', $wit
  * @param string  $loc          The "current page" URL
  * @param string  $referer      The "referring page" URL
  * @param boolean $useAppend    Should any appended code appended to the banner be output?
- * 
+ *
  * @return string               The HTML to display this ad
  */
 function _adRenderImage($aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc, $referer, $useAppend=true)
@@ -259,7 +259,7 @@ function _adRenderImage($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
  *                              also - 3rd party callback logging should not be logged at view time)
  * @param string  $loc          The "current page" URL
  * @param string  $referer      The "referring page" URL
- * 
+ *
  * @return string               The HTML to display this ad
  */
 function _adRenderFlash($aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $loc, $referer)
@@ -315,7 +315,7 @@ function _adRenderFlash($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
  *                              also - 3rd party callback logging should not be logged at view time)
  * @param string  $loc          The "current page" URL
  * @param string  $referer      The "referring page" URL
- * 
+ *
  * @return string               The HTML to display this ad
  */
 function _adRenderQuicktime($aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $loc, $referer)
@@ -372,7 +372,7 @@ function _adRenderQuicktime($aBanner, $zoneId=0, $source='', $ct0='', $withText=
  * @param boolean $useAlt       Should the backup file be used for this code
  * @param string  $loc          The "current page" URL
  * @param string  $referer      The "referring page" URL
- * 
+ *
  * @return string               The HTML to display this ad
  */
 function _adRenderHtml($aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $loc, $referer)
@@ -434,7 +434,7 @@ function _adRenderHtml($aBanner, $zoneId=0, $source='', $ct0='', $withText=false
  * @param boolean $useAlt       Should the backup file be used for this code
  * @param string  $loc          The "current page" URL
  * @param string  $referer      The "referring page" URL
- * 
+ *
  * @return string               The HTML to display this ad
  */
 function _adRenderText($aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $loc, $referer)
@@ -463,7 +463,7 @@ function _adRenderText($aBanner, $zoneId=0, $source='', $ct0='', $withText=false
 
 /**
  * This function generates the code to show a "real" ad (e.g. RPM (RealMedia))
- * 
+ *
  * @todo  I believe this function is never called - if so, then this function can be removed
  *
  * @param array   $aBanner      The ad-array for the ad to render code for
@@ -476,7 +476,7 @@ function _adRenderText($aBanner, $zoneId=0, $source='', $ct0='', $withText=false
  *                              also - 3rd party callback logging should not be logged at view time)
  * @param string  $loc          The "current page" URL
  * @param string  $referer      The "referring page" URL
- * 
+ *
  * @return string               The HTML to display this ad
  */
 function _adRenderReal($aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $loc, $referer)
@@ -594,7 +594,7 @@ function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $r
             $aBanner['sessionCapZone'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['sessionCapZone'];
         }
     }
-    
+
     $url = MAX_commonGetDeliveryUrl($conf['file']['log']);
     $url .= "?bannerid=" . $aBanner['ad_id'];
     $url .= $amp . "campaignid=" . $aBanner['placement_id'];
@@ -603,17 +603,19 @@ function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $r
     $url .= $amp . "block=" . $aBanner['block'];
     $url .= $amp . "capping=" . $aBanner['capping'];
     $url .= $amp . "session_capping=" . $aBanner['session_capping'];
-    
+
+    $url .= $amp . "channel_ids=" . str_replace(MAX_DELIVERY_MULTIPLE_DELIMITER,$conf['delivery']['ctDelimiter'],$GLOBALS['_MAX']['CHANNELS']);
+
     // FIXME-Andrzej: Refactor it to make use of our array (have to change
     // variables above related to banner capping)
     $url .= $amp . $conf['var']['blockZone'] . "=" . $aBanner['blockZone'];
     $url .= $amp . $conf['var']['capZone'] . "=" . $aBanner['capZone'];
     $url .= $amp . $conf['var']['sessionCapZone'] . "=" . $aBanner['sessionCapZone'];
-    
+
     $url .= $amp . "loc=" . urlencode($loc);
     $url .= $amp . "referer=" . urlencode($referer);
     $url .= $amp . "cb={random}";
-    
+
     return $url;
 }
 
@@ -625,7 +627,7 @@ function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $r
  * @param string  $source       The "source" parameter passed into the adcall
  * @param string  $loc          The "current page" URL
  * @param string  $referer      The "referring page" URL
- * 
+ *
  * @return string   The HTML to show the 1x1 logging beacon
  */
 function _adRenderImageBeacon($aBanner, $zoneId = 0, $source = '', $loc = '', $referer = '')
@@ -657,7 +659,7 @@ function _adRenderImageBeacon($aBanner, $zoneId = 0, $source = '', $loc = '', $r
  * @param string  $ct0          The 3rd party click tracking URL to redirect to after logging
  * @param bookean $logClick     Should this click be logged (clicks in admin should not be logged)
  * @param boolean $overrideDest Should the URL from the banner override a passed in destination?
- * 
+ *
  * @return string The params string
  */
 function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClick=true, $overrideDest=false)
@@ -667,7 +669,7 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
     if (isset($aBanner['ad_id']) && empty($aBanner['bannerid'])) {
         $aBanner['bannerid'] = $aBanner['ad_id'];
     }
-    
+
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // If there is a Max->Max internal redirect, log both zones information
@@ -678,7 +680,7 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
             $zoneId .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['zoneid'];
         }
     }
-    
+
     $maxparams = '';
     if (!empty($aBanner['url']) || $overrideDest) {
         // There is a link
@@ -707,7 +709,7 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
  * @param string  $ct0          The 3rd party click tracking URL to redirect to after logging
  * @param bookean $logClick     Should this click be logged (clicks in admin should not be logged)
  * @param boolean $overrideDest Should the URL from the banner override a passed in destination?
- * 
+ *
  * @return string The click URL
  */
 function _adRenderBuildClickUrl($aBanner, $zoneId=0, $source='', $ct0='', $logClick=true, $overrideDest=false)

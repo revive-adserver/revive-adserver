@@ -38,7 +38,7 @@ $Id$
  *
  * @param array $row The row from the delivery engine Dal for this ad
  * @param string $source Optional The value passed in to the ad-call via the "source" parameter
- * 
+ *
  * @return boolean True if the ACL passes, false otherwise
  */
 function MAX_limitationsCheckAcl($row, $source = '')
@@ -55,13 +55,21 @@ function MAX_limitationsCheckAcl($row, $source = '')
                 require_once(MAX_PATH . "/plugins/deliveryLimitations/{$package}/{$name}.delivery.php");
             }
         }
+        $GLOBALS['_MAX']['CHANNELS'] = '';
         @eval('$result = (' . $row['compiledlimitation'] . ');');
+        if (!$result)
+        {
+            unset($GLOBALS['_MAX']['CHANNELS']);
+        }
+        else
+        {
+            $GLOBALS['_MAX']['CHANNELS'] .= MAX_DELIVERY_MULTIPLE_DELIMITER;
+        }
         return $result;
     } else {
         return true;
     }
 }
-
 
 /**
  * This function checks if the user has cookies enabled in his/her browser.
@@ -85,7 +93,7 @@ function _areCookiesDisabled($filterActive = true)
  * @param string $capType Either 'Ad' or 'Zone'.
  * @param int $id The ID of the banner being checked.
  * @param int $block The number of seconds that must pass before this ad can be seen again.
- * 
+ *
  * @return boolean True if the ad IS blocked (and so can't be shown) false if the ad is not blocked
  *                 and so can be shown.
  * @see MAX_limitationsIsAdBlocked
@@ -96,7 +104,7 @@ function MAX_limitationsIsBlocked($capType, $id, $block)
     if (_areCookiesDisabled($block > 0)) {
         return true;
     }
-    
+
     $conf = $GLOBALS['_MAX']['CONF'];
     $timeLastSeen = $_COOKIE[$conf['var']['block' . $capType]][$id];
     return $block > 0 && isset($timeLastSeen) && (($timeLastSeen + $block) > MAX_commonGetTimeNow());
@@ -121,11 +129,11 @@ function MAX_limitationsIsExceeded($id, $capModel, $maxViews)
 
 /**
  * The basic function to check capping of various elements (eg. 'Ad's or 'Zone's).
- * 
+ *
  * @param int $id Id of the element to check.
  * @param int $capping Maximum number of displays for a single user.
  * @param int $session_capping Maximum number of displays in a single session.
- * 
+ *
  * @return boolean True - This ad has already been seen the maximum number of times
  *                 False - This ad can be seen
  */
@@ -134,7 +142,7 @@ function MAX_limitationsIsCapped($capType, $id, $capping, $session_capping)
     if (_areCookiesDisabled(($capping > 0) || ($session_capping > 0))) {
         return true;
     }
-    
+
     return MAX_limitationsIsExceeded($id, 'cap' . $capType, $capping) ||
     	MAX_limitationsIsExceeded($id, 'sessionCap' . $capType, $session_capping);
 }
@@ -144,11 +152,11 @@ function MAX_limitationsIsCapped($capType, $id, $capping, $session_capping)
  * This function first checks to see if a viewerId is present
  *   This is so that we don't show blocked ads to a user who won't let us set cookies
  * Then it checks if there is a "last seen" timestamp for this ad present, if so it compares
- * that against the current time, and only 
+ * that against the current time, and only
  *
  * @param int $bannerid The ID of the banner being checked
  * @param int $block The number of seconds that must pass before this ad can be seen again
- * 
+ *
  * @return boolean True if the ad IS blocked (and so can't be shown) false if the ad is not blocked
  *                 and so can be shown.
  */
@@ -160,13 +168,13 @@ function MAX_limitationsIsAdBlocked($bannerid, $block)
 /**
  * This function first checks to see if a viewerId is present
  *   This is so that we don't show capped ads to a user who won't let us set cookies
- * Then it checks if there is a "number of times seen" count for this ad present, 
+ * Then it checks if there is a "number of times seen" count for this ad present,
  *   if so it compares that against the maximum times to show this ad
  *
  * @param int $bannerid
  * @param int $capping
  * @param int $session_capping
- * 
+ *
  * @return boolean True - This ad has already been seen the maximum number of times
  *                 False - This ad can be seen
  */
@@ -181,7 +189,7 @@ function MAX_limitationsIsAdCapped($bannerid, $capping, $session_capping = 0)
  * Always returns true if a user does not allow cookies.
  * Otherwise checks if the zone have not been displayed for the
  * amount of time passed in the parameter.
- * 
+ *
  * @param int $zoneId The ID of the zone to check
  * @param int $block The number of seconds that must pass before this zone can be seen again
  * @return boolean True if the zone IS blocked (and so can't be shown) false if the ad is not blocked
@@ -198,11 +206,11 @@ function MAX_limitationsIsZoneBlocked($zoneId, $block)
  * Always returns true if a user does not allow cookies.
  * Otherwise it checks if there is a "number of times seen" count for this zone present.
  * If so, it compares that against the maximum times to show this zone.
- * 
+ *
  * @param int $zoneId
  * @param int $capping
  * @param int $session_capping
- * 
+ *
  * @return boolean True - This ad has already been seen the maximum number of times
  *                 False - This ad can be seen
  */

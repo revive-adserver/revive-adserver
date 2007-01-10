@@ -84,7 +84,7 @@ function MAX_Dal_Delivery_connect($database = 'database') {
 function MAX_Dal_Delivery_query($query, $database = 'database') {
     // Connect to the database if necessary
     $dbName = ($database == 'rawDatabase') ? 'RAW_DB_LINK' : 'ADMIN_DB_LINK';
-    
+
     if (empty($GLOBALS['_MAX'][$dbName])) {
         $GLOBALS['_MAX'][$dbName] = MAX_Dal_Delivery_connect($database);
     }
@@ -122,7 +122,7 @@ function MAX_Dal_Delivery_insertId($database = 'database')
  */
 function MAX_Dal_Delivery_getZoneInfo($zoneid) {
     $conf = $GLOBALS['_MAX']['CONF'];
-    
+
     $rZoneInfo = MAX_Dal_Delivery_query("
     SELECT
         z.zoneid AS zone_id,
@@ -154,12 +154,12 @@ function MAX_Dal_Delivery_getZoneInfo($zoneid) {
       AND
         p.agencyid = a.agencyid
     ");
-    
+
     if (!is_resource($rZoneInfo)) {
         return false;
     }
     $aZoneInfo = mysql_fetch_assoc($rZoneInfo);
-    
+
     if (empty($aZoneInfo['default_banner_url'])) {
         // Agency has no default banner, so overwrite with admin's
         $rAdminDefault = MAX_Dal_Delivery_query("
@@ -197,7 +197,7 @@ function MAX_Dal_Delivery_getZoneInfo($zoneid) {
 function MAX_Dal_Delivery_getZoneLinkedAds($zoneid) {
     $conf = $GLOBALS['_MAX']['CONF'];
     $aRows = MAX_Dal_Delivery_getZoneInfo($zoneid);
-    
+
     $aRows['xAds']  = array();
     $aRows['cAds']  = array();
     $aRows['clAds'] = array();
@@ -206,7 +206,7 @@ function MAX_Dal_Delivery_getZoneLinkedAds($zoneid) {
     $aRows['count_active'] = 0;
     $aRows['zone_companion'] = false;
     $aRows['count_active'] = 0;
-    
+
     $totals = array(
         'xAds'  => 0,
         'cAds'  => 0,
@@ -214,7 +214,7 @@ function MAX_Dal_Delivery_getZoneLinkedAds($zoneid) {
         'ads'   => 0,
         'lAds'  => 0
     );
-    
+
     $query = "
         SELECT
             d.bannerid AS ad_id,
@@ -269,9 +269,9 @@ function MAX_Dal_Delivery_getZoneLinkedAds($zoneid) {
           AND
             c.active = 't'
     ";
-    
+
     $rAds = MAX_Dal_Delivery_query($query);
-    
+
     if (!is_resource($rAds)) {
         if (defined('CACHE_LITE_FUNCTION_ERROR')) {
             return CACHE_LITE_FUNCTION_ERROR;
@@ -304,13 +304,13 @@ function MAX_Dal_Delivery_getZoneLinkedAds($zoneid) {
                 // Store a low priority companion ad
                 $aRows['zone_companion'][] = $aAd['placement_id'];
                 $aRows['clAds'][$aAd['ad_id']] = $aAd;
-                $totals['clAds'] += $aAd['priority'];    
+                $totals['clAds'] += $aAd['priority'];
             } else {
                 // Sore a paid priority companion ad
                 $aRows['zone_companion'][] = $aAd['placement_id'];
                 $aRows['cAds'][$aAd['ad_id']] = $aAd;
             }
-            
+
         }
     }
     // If there are paid ads, sort by priority, and set the total to 1,
@@ -348,7 +348,7 @@ function MAX_Dal_Delivery_getZoneLinkedAds($zoneid) {
  */
 function MAX_Dal_Delivery_getLinkedAds($search) {
     $conf = $GLOBALS['_MAX']['CONF'];
-    
+
     // Deal with categories
     $where1 = preg_replace('/cat:(\w+)/', "cat.name='$1'", $search);
     // Deal with sizes
@@ -359,7 +359,7 @@ function MAX_Dal_Delivery_getLinkedAds($search) {
     $where4 = preg_replace('/(placement_id|placementid|campaignid):(\d+)/', 'd.campaignid=$2', $where3);
     // Deal with width, height
     $where = preg_replace('/(width|height):(\d+)/', 'd.$1=$2', $where4);
-    
+
     $aColumns = array(
         'd.bannerid AS ad_id',
         'd.campaignid AS placement_id',
@@ -401,15 +401,15 @@ function MAX_Dal_Delivery_getLinkedAds($search) {
         $conf['table']['prefix'].$conf['table']['campaigns'] . ' AS m',
         $conf['table']['prefix'].$conf['table']['ad_zone_assoc'] . ' AS az'
     );
-    
+
     if ($where1 != $search) {
         $aTables[] = $conf['table']['prefix'].$conf['table']['ad_category_assoc'] . ' AS ac';
         $aTables[] = $conf['table']['prefix'].$conf['table']['category'] . ' AS cat';
         $where = 'd.bannerid=ac.ad_id AND ac.category_id=cat.category_id AND ' . $where;
     }
-    
+
     $columns = implode(",\n    ", $aColumns);
-    $tables = implode(",\n    ", $aTables);    
+    $tables = implode(",\n    ", $aTables);
     $where = "
     d.bannerid=az.ad_id
   AND az.zone_id=0
@@ -417,11 +417,11 @@ function MAX_Dal_Delivery_getLinkedAds($search) {
   AND m.active='t'
   AND d.active='t'
   AND {$where}";
-    
+
     $query = "SELECT\n    " . $columns . "\nFROM\n    " . $tables . "\nWHERE " . $where;
-    
+
     $rAds = MAX_Dal_Delivery_query($query);
-    
+
     if (!is_resource($rAds)) {
         if (defined('CACHE_LITE_FUNCTION_ERROR')) {
             return CACHE_LITE_FUNCTION_ERROR;
@@ -460,7 +460,7 @@ function MAX_Dal_Delivery_getLinkedAds($search) {
  */
 function MAX_Dal_Delivery_getAd($ad_id) {
     $conf = $GLOBALS['_MAX']['CONF'];
-    
+
     $rAd = MAX_Dal_Delivery_query("
         SELECT
         d.bannerid AS ad_id,
@@ -520,7 +520,7 @@ function MAX_Dal_Delivery_getAd($ad_id) {
  */
 function MAX_Dal_Delivery_getChannelLimitations($channelid) {
     $conf = $GLOBALS['_MAX']['CONF'];
-    
+
     $rLimitation = MAX_Dal_Delivery_query("
     SELECT
             acl_plugins,compiledlimitation
@@ -637,7 +637,7 @@ function MAX_Dal_Delivery_getTrackerVariables($trackerid)
             $output[$aRow['variable_id']] = $aRow;
         }
         return $output;
-    }    
+    }
 }
 
 /**
@@ -670,7 +670,7 @@ function MAX_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zone
     }
     // Log the raw data
     $dateFunc = !empty($conf['logging']['logInUTC']) ? 'gmdate' : 'date';
-    MAX_Dal_Delivery_query("
+    $result = MAX_Dal_Delivery_query("
         INSERT INTO
             $table
             (
@@ -681,6 +681,7 @@ function MAX_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zone
                 creative_id,
                 zone_id,
                 channel,
+                channel_ids,
                 language,
                 ip_address,
                 host_name,
@@ -715,6 +716,7 @@ function MAX_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zone
                 '$creativeId',
                 '$zoneId',
                 '".MAX_commonDecrypt($_GET['source'])."',
+                '{$zoneInfo['channel_ids']}',
                 '{$_SERVER['HTTP_ACCEPT_LANGUAGE']}',
                 '{$_SERVER['REMOTE_ADDR']}',
                 '{$_SERVER['REMOTE_HOST']}',
@@ -740,6 +742,7 @@ function MAX_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zone
                 '{$geotargeting['netspeed']}',
                 '{$geotargeting['continent']}'
     )", 'rawDatabase');
+    return $result;
 }
 
 /**
@@ -782,6 +785,7 @@ function MAX_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp
             date_time,
             tracker_id,
             channel,
+            channel_ids,
             language,
             ip_address,
             host_name,
@@ -815,6 +819,7 @@ function MAX_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp
             '".$dateFunc('Y-m-d H:i:s')."',
             '$trackerId',
             '".MAX_commonDecrypt($_GET['source'])."',
+            '{$zoneInfo['channel_ids']}',
             '{$_SERVER['HTTP_ACCEPT_LANGUAGE']}',
             '{$_SERVER['REMOTE_ADDR']}',
             '{$_SERVER['REMOTE_HOST']}',
@@ -879,7 +884,7 @@ function MAX_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpress
                 value
             )
         VALUES " . implode(',', $aRows);
-    
+
     MAX_Dal_Delivery_query($query, 'rawDatabase');
 }
 
