@@ -35,9 +35,10 @@ $Id$
 
 require_once 'init-delivery-parse.php';
 require_once 'constants.php';
+setupConstants();
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
 
-setupConstants();
+
 
 // Set $conf
 $conf = $GLOBALS['_MAX']['CONF'];
