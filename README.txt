@@ -1,25 +1,26 @@
 
-    phpAdsNew 2.0.9-pr1
+    Openads 2.0.10
     ------------------------------------------------------------------------
 
-    phpAdsNew is an open-source ad server, with an integrated banner management 
-    interface and tracking system for gathering statistics. With phpAdsNew you 
+    Openads is an open-source ad server, with an integrated banner management 
+    interface and tracking system for gathering statistics. With Openads you 
     can easily rotate paid banners and your own in-house advertisements. You can 
     even integrate banners from third party advertising companies.
 
 
     
-    Copyright (c) 2000-2006
+    Copyright (c) 2000-2007
     ------------------------------------------------------------------------
 
-	Niels Leenheer 	   <niels at phpadsnew dot com>
-	Matteo Beccati     <matteo at phpadsnew dot com>
-	
-	Noor Dawod         <noor at comrax dot com>
-	Stefan Morgenroth  <dandra at users.sourceforge dot net>
+	Matteo Beccati     <matteo dot beccati at openads dot org>
+	Scott Switzer      <scott dot switzer at openads dot org>
 
 
-    - Documentation written and maintained by:
+    - Based on phpAdsNew 2 created by:
+      Niels Leenheer, Matteo Beccati,
+      Noor Dawod, Stefan Morgenroth
+
+    - phpAdsNew 2 documentation was written by:
       Niels Leenheer, Matteo Beccati
 
     - Based on phpAdsNew 1 created by:
@@ -76,12 +77,11 @@
     PHP 4.1.0 or higher (4.4.2+ or 5.0.4+ recommended)
     MySQL 3.23.3 or higher (4.0+ and InnoDB recommended)
 
-    phpAdsNew is compatible with the official PHP 5 releases.
+    Openads is compatible with the official PHP 5 releases.
 
-    If you want to run phpAdsNew on a PostgreSQL server you should
-    take a look at phpPgAds, which is a port of phpAdsNew to PostgreSQL,
-    made by Matteo Beccati. The phpPgAds project can be found at: 
-    http://www.phppgads.com
+    If you want to run Openads on a PostgreSQL server you should
+    take a look at Openads 2.0 for PostgreSQL, also available at
+    http://www.openads.org
        
          
 
@@ -98,6 +98,7 @@
     Niels Schoot <nschoot at users.sourceforge dot net>,
     Martin Braun <martin at braun dot cc>,
     Vivian Girel, René Friedrich <rene.friedrich at web dot de>
+    Jim Rutherford <jim dot rutherford at gmail dot com>
     and many more.
 
     XML-RPC library:
@@ -114,11 +115,11 @@
 
     Support:
     ------------------------------------------------------------------------
-    Questions about phpAdsNew should be directed to the forums. More
-    information about it can be found on phpAdsNew's homepage. Bug reports
-    and questions related to the develpment of phpAdsNew are also welcome
+    Questions about Openads should be directed to the forums. More
+    information about it can be found on Openads's homepage. Bug reports
+    and questions related to the develpment of Openads are also welcome
     on the site. Please read the manual before you ask questions!
 
-    http://www.phpadsnew.com
+    http://www.openads.org
     
 

@@ -22,8 +22,8 @@ $phpAds_version = 200.296;
 $phpAds_version_readable = "2.0.10-beta1";
 $phpAds_version_development = false;  
 
-$phpAds_productname = "phpAdsNew";
-$phpAds_producturl = "www.phpadsnew.com";
+$phpAds_productname = "Openads";
+$phpAds_producturl = "www.openads.org";
 $phpAds_dbmsname = "MySQL";
 
 $GLOBALS['phpAds_settings_information'] = array(
