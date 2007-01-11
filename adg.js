@@ -8,17 +8,15 @@ function phpAds_adSenseLog(obj)
 	{
 		var t = obj.parentNode.innerHTML;
 
-		var path = t.match(/src="([^"]*)adlog.php/i);
-		var bannerId = t.match(/bannerid=([0-9]+)/);
-		var zoneId = t.match(/zoneid=([0-9]+)/);
+		var params = t.match(/<!-- openads=([^ ]*) bannerid=([^ ]*) zoneid=([^ ]*) source=([^ ]*) -->/);
 		
-		if (path && bannerId && zoneId)
+		if (params)
 		{
 			var cb = new String (Math.random());
 			cb = cb.substring(2,11);
 			
 			var i = new Image();
-			i.src = path[1] + 'adclick.php?bannerid=' + bannerId[1] + '&zoneid=' + zoneId[1] + '&trackonly=1&cb=' + cb;
+			i.src = params[1] + '/adclick.php?bannerid=' + params[2] + '&zoneid=' + params[3] + '&source=' + params[4] + '&trackonly=1&cb=' + cb;
 		}
 	}
 }
