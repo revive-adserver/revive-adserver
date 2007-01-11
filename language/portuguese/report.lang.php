@@ -1,11 +1,11 @@
 <?php // $Revision$
 
 /************************************************************************/
-/* phpAdsNew 2                                                          */
+/* Openads 2.0                                                          */
 /* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2000-2006 by the phpAdsNew developers                  */
-/* For more information visit: http://www.phpadsnew.com                 */
+/* Copyright (c) 2000-2007 by the Openads developers                    */
+/* For more information visit: http://www.openads.org                   */
 /*                                                                      */
 /* Portuguese translation Lopo Lencastre de Almeida  www.humaneasy.com  */
 /*                                                                      */

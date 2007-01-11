@@ -1,11 +1,11 @@
 <?php // $Revision$
 //*LINHA 81 - REMOVER ISTO
 /****************************************************************************/
-/* phpAdsNew 2                                                              */
-/* ===========                                                              */
-/*                                                                          */
-/* Copyright (c) 2000-2006 by the phpAdsNew developers                      */
-/* For more information visit: http://www.phpadsnew.com                     */
+/* Openads 2.0                                                          */
+/* ===========                                                          */
+/*                                                                      */
+/* Copyright (c) 2000-2007 by the Openads developers                    */
+/* For more information visit: http://www.openads.org                   */
 /*                                                                          */
 /*Translated to Brazilian_portuguese by: Luiz Alberto de Moraes - purasorte */
 /*For any comments/suggestions: purasorte@yahoo.com.br                      */
