@@ -31,7 +31,6 @@ function phpAds_performMaintenance()
 	// Aquire lock to ensure that maintenance runs only once
 	if ($lock = phpAds_maintenanceGetLock())
 	{
-	echo 'here';
 		// Set time limit and ignore user abort
 		if (!get_cfg_var ('safe_mode')) 
 		{
