@@ -1,4 +1,6 @@
 phpAdsNew - Installation
 
-Information about installing phpAdsNew is provided in the
-'Administrator guide' located in the 'documentation' directory.
+Information about installing phpAdsNew is provided in
+the online guide:
+
+http://docs.openads.org/openads-2.0-guide/index.html

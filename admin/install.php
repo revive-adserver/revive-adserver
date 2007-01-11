@@ -468,8 +468,8 @@ if (phpAds_isUser(phpAds_Admin))
 			
 			echo "<p>The manual is included in every download of ".$phpAds_productname." and can be found in the <em>misc/documentation</em>
 				  directory. For information about installing, updating and configuring ".$phpAds_productname.", please read the
-				  <a href='../misc/documentation/administrator-guide.pdf' target='_blank'>Administrator guide</a>. For information
-				  about managing your inventory and placing banners on your website, please read the <a href='../misc/documentation/user-guide.pdf' 
+				  <a href='http://docs.openads.org/openads-2.0-guide/index.html' target='_blank'>Administrator guide</a>. For information
+				  about managing your inventory and placing banners on your website, please read the <a href='http://docs.openads.org/openads-2.0-guide/index.html' 
 				  target='_blank'>User guide</a>. To view both guides you need Adobe Acrobat, which can be downloaded for free from 
 				  <a href='http://www.adobe.com/products/acrobat/readstep2.html' target='_blank'>Adobe</a>.</p>";
 			

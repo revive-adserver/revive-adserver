@@ -7,6 +7,7 @@ SVN
 			  - 2007-01-09:  Added remote logo in the admin interface so that logo is automatically updated in case of name changes  (Matteo)
 			  - 2007-01-10:  Added new Settings / Maintenance screen with status and information about scheduled and automatic maintenance  (Matteo)
 			  - 2007-01-10:  Added support for click tracking Google AdSense banners when using IE or Firefox  (Matteo)
+			  - 2007-01-10:  Removed PDF documentation and added links to on-line docs available at http:/docs.openads.org  (Matteo)
 
 			+ Misc bugfixes
 			  - 2006-11-14:  Campaign-edit wasn't correctly working with MySQL 3.x anymore  (Matteo)
