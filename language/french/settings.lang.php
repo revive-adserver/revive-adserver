@@ -68,7 +68,7 @@ $GLOBALS['strTablesType']			= 'Type de table';
 $GLOBALS['strRevCorrupt']			= 'Le fichier <b>{filename}</b> est corrompu ou a été modifié. Si vous n\'avez pas modifié le fichier, merci d\'en uploader une copie neuve. Si vous avez modifié le fichier, merci d\'ignorer cet avertissement.';
 $GLOBALS['strRevTooOld']			= 'Le fichier <b>{filename}</b> est plus vieux que ce qu\'il devrait pour être utilisé par cette version de '.$phpAds_productname.'. Veuillez uploader une copie neuve du fichier sur le serveur.';
 $GLOBALS['strRevMissing']			= 'Le fichier <b>{filename}</b> n\'a pas pu être vérifié, car il était absent. Veuillez en uploader une copie neuve sur le serveur.';
-$GLOBALS['strRevCVS']				= 'Vous essayer d\'installer un ckeckout du CVS de '.$phpAds_productname.'. Ceci n\'est pas une version officielle, et pourrait être instable, voir même non-fonctionnel. Etes vous sur de vouloir continuer ?';
+$GLOBALS['strRevSVN']				= 'Vous essayer d\'installer un ckeckout du SVN de '.$phpAds_productname.'. Ceci n\'est pas une version officielle, et pourrait être instable, voir même non-fonctionnel. Etes vous sur de vouloir continuer ?';
 
 $GLOBALS['strInstallWelcome']			= 'Bienvenue sur '.$phpAds_productname;
 $GLOBALS['strInstallMessage']			= 'Avant de pouvoir utiliser '.$phpAds_productname.', il est nécessaire de le configurer, et la base de données doit être crée. Cliquez sur <b>Continuer</b> pour poursuivre.';

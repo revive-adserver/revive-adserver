@@ -70,7 +70,7 @@ $GLOBALS['strTablesType']			= "Table type";
 $GLOBALS['strRevCorrupt']			= "The file <b>{filename}</b> is corrupt or has been modified. If you did not modify this file, please try to upload a new copy of this file to your server. If you modified this file yourself, you can safely ignore this warning.";
 $GLOBALS['strRevTooOld']			= "The file <b>{filename}</b> is older than the one that is supposed to be used with this version of ".$phpAds_productname.". Please try to upload a new copy of this file to the server.";
 $GLOBALS['strRevMissing']			= "The file <b>{filename}</b> could not be checked because it is missing. Please try to upload a new copy of this file to the server.";
-$GLOBALS['strRevCVS']				= "You are trying to install a CVS checkout of ".$phpAds_productname.". This is not an official release and may be unstable or even non-functional. Are you sure you want to continue?";
+$GLOBALS['strRevSVN']				= "You are trying to install a SVN checkout of ".$phpAds_productname.". This is not an official release and may be unstable or even non-functional. Are you sure you want to continue?";
 
 $GLOBALS['strInstallWelcome']			= "Welcome to ".$phpAds_productname;
 $GLOBALS['strInstallMessage']			= "Before you can use ".$phpAds_productname." it needs to be configured and <br> the database needs to be created. Click <b>Proceed</b> to continue.";

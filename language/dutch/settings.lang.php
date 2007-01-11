@@ -68,7 +68,7 @@ $GLOBALS['strTablesType']			= "Tabeltype";
 $GLOBALS['strRevCorrupt']			= "Het bestand <b>{filename}</b> is corrupt of is gewijzigd. Heeft u dit bestand zelf niet gewijzigd, vervang het bestand dan met een schone kopie. Heeft u dit bestand wel zelf gewijzigd, dan kunt u deze waarschuwing negeren.";
 $GLOBALS['strRevTooOld']			= "Het bestand <b>{filename}</b> is ouder dan welke bij deze versie van ".$phpAds_productname." meegeleverd wordt. Probeer een schone kopie van dit bestand op de server te plaatsen.";
 $GLOBALS['strRevMissing']			= "Het bestand <b>{filename}</b> kon niet gecontroleerd worden omdat het niet gevonden kon worden. Probeer een schone kopie van dit bestand op de server te plaatsen.";
-$GLOBALS['strRevCVS']				= "U probeert een CVS versie van ".$phpAds_productname." te installeren. Dit is niet een officiele versie en kan mogelijk onstabiel zijn, of zelfs helemaal niet functioneren. Weet u zeker dat u verder wilt gaan?";
+$GLOBALS['strRevSVN']				= "U probeert een SVN versie van ".$phpAds_productname." te installeren. Dit is niet een officiele versie en kan mogelijk onstabiel zijn, of zelfs helemaal niet functioneren. Weet u zeker dat u verder wilt gaan?";
 
 $GLOBALS['strInstallWelcome']			= "Welkom bij ".$phpAds_productname."";
 $GLOBALS['strInstallMessage']			= "Voordat u ".$phpAds_productname." kunt gebruiken moet het eerst geconfigureerd <br> worden, tevens moet de database aangemaakt worden. Klik op <b>Verder</b> om door te gaan.";

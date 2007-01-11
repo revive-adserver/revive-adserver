@@ -17,6 +17,10 @@
 
   ====================================================
 
+  11-01-2007 - default
+    [-] strRevCVS
+    [+] strRevSVN
+
   16-10-2006 - default
     [+] strWarnClientDaysTxt
     [+] strCampaignExpiring

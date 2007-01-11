@@ -346,7 +346,7 @@ function phpAds_PageHeader($ID, $extra="")
 	{
 		// Show remote logo only to admin and if updates are enabled
 		if (phpAds_isUser(phpAds_Admin) && $phpAds_config['updates_enabled'])
-			$logo_url = 'http://syn.openads.org/logo.php?'.base64_encode($logo_url.'&c=1');
+			$logo_url = 'http://sync.openads.org/logo.php?'.base64_encode($logo_url.'&c=1');
 		else
 			$logo_url = '';
 		
@@ -368,7 +368,7 @@ function phpAds_PageHeader($ID, $extra="")
 	{
 		// Show remote logo only to admin and if updates are enabled
 		if (phpAds_isUser(phpAds_Admin) && $phpAds_config['updates_enabled'])
-			$logo_url = 'http://syn.openads.org/logo.php?'.base64_encode($logo_url);
+			$logo_url = 'http://sync.openads.org/logo.php?'.base64_encode($logo_url);
 		else
 			$logo_url = '';
 		

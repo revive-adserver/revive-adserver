@@ -72,7 +72,7 @@ $GLOBALS['strTablesType']					= "Tipo di tabelle";
 $GLOBALS['strRevCorrupt']					= "Il file <b>{filename}</b> &egrave; corrotto o &egrave; stato modificato. Se non hai modificato il file, prova ad eseguire nuovamente l'upload del file sul server. Se hai modificato volutamente il file, puoi ignorare questo avvertimento.";
 $GLOBALS['strRevTooOld']					= "Il file <b>{filename}</b> &egrave; pi&ugrave; vecchio di quello che dovrebbe essere utilizzato con questa versione di ".$phpAds_productname.". Prova ad eseguire nuovamente l'upload del file sul server.";
 $GLOBALS['strRevMissing']					= "Il file <b>{filename}</b> non pu&ograve; essere controllato poich&eacute; non &egrave; presente sul server. Prova ad eseguire nuovamente l'upload del file sul server.";
-$GLOBALS['strRevCVS']						= "Stai installando una copia prelevata via CVS di ".$phpAds_productname.". Questa non &egrave; una versione ufficiale e potrebbe essere instabile o addirittura non funzionante. Sei sicuro di voler continuare?";
+$GLOBALS['strRevSVN']						= "Stai installando una copia prelevata via SVN di ".$phpAds_productname.". Questa non &egrave; una versione ufficiale e potrebbe essere instabile o addirittura non funzionante. Sei sicuro di voler continuare?";
 
 $GLOBALS['strInstallWelcome']				= "Benvenuto in ".$phpAds_productname;
 $GLOBALS['strInstallMessage']				= "Prima di utilizzare ".$phpAds_productname." &egrave; necessario configurarlo e <br> il database deve essere creato. Clicca su <b>Procedi</b> per continuare.";

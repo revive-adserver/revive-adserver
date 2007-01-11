@@ -74,7 +74,7 @@ $GLOBALS['strPhpBug24652']			= "Sie versuchen ".$phpAds_productname." auf einem 
 										   und die finale Version von PHP 5 wird von diesem Fehler nicht betroffen sein.";
 $GLOBALS['strRevTooOld']			= "Die Datei <b>{filename}</b> ist älter als die für diese Version von ".$phpAds_productname." vorgesehene. Es ist angeraten, diese Datei noch einmal auf den Server hochzuladen. ";
 $GLOBALS['strRevMissing']			= "Die Datei <b>{filename}</b> ist nicht vorhanden und kann nicht überprüft werden. Es ist angeraten, diese Datei noch einmal auf den Server hochzuladen. ";
-$GLOBALS['strRevCVS']				= "Sie installieren eine noch nicht vollständig überprüfte und getestete Version <i>(CVS checkout of</i> von ".$phpAds_productname.". Soll diese möglicherweise instabile Version installiert werden? ";
+$GLOBALS['strRevSVN']				= "Sie installieren eine noch nicht vollständig überprüfte und getestete Version <i>(SVN checkout of</i> von ".$phpAds_productname.". Soll diese möglicherweise instabile Version installiert werden? ";
 $GLOBALS['strInstallWelcome']			= "Willkommen bei ".$phpAds_productname;
 $GLOBALS['strInstallMessage']			= "Bevor ".$phpAds_productname." genutzt werden kann, müssen die Einstellungen konfiguriert  <br> sowie die Datenbank geschaffen (create) werden. Drücken Sie <b>Weiter</b> , um fortzufahren.";
 $GLOBALS['strInstallMessageCheck']		= $phpAds_productname." überprüfte die Integrität der geladenen Dateien und ob ".$phpAds_productname." lauffähig sein wird. Folgende Punkte müssen überprüft werden, bevor die Installation fortgesetzt werden kann.";

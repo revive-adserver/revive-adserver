@@ -140,13 +140,13 @@ function phpAds_revisionCheck ()
 		}
 		else
 		{
-			if ($version == 'CVS')
+			if ($version == 'SVN' || $version == 'CVS')
 			{
-				// CVS checkout: do not check anything, but display a warning
-				if (isset($GLOBALS['strRevCVS']))
-					$message[] = $GLOBALS['strRevCVS'];
+				// SVN checkout: do not check anything, but display a warning
+				if (isset($GLOBALS['strRevSVN']))
+					$message[] = $GLOBALS['strRevSVN'];
 				else	
-					$message[] = 'You are trying to install a CVS checkout of '.$phpAds_productname.'. This is not an official release and may be unstable or even non-functional. Are you sure you want to continue?';			
+					$message[] = 'You are trying to install a SVN checkout of '.$phpAds_productname.'. This is not an official release and may be unstable or even non-functional. Are you sure you want to continue?';			
 			}
 			else
 			{
@@ -251,7 +251,7 @@ function phpAds_revisionGet ($filename)
 	// Read the file
 	$content = @implode ('', file ($filename));
 
-	// Determine revision, matching both Revision and Id CVS tags
+	// Determine revision, matching both Revision and Id SVN tags
 	if (preg_match('/\$(Revision:|Id: .*?,v) ([0-9]+(\.[0-9]+)+).*?\$/', $content, $matches))
 	{
 		// Remove newlines and linefeeds
@@ -281,7 +281,7 @@ function phpAds_revisionScan ($revfile, $path)
 		{
 			if (is_dir($path.$file))
 			{ 
-				if ($file != '.' && $file != '..' && $file != 'CVS' && $file != 'language')
+				if ($file != '.' && $file != '..' && $file != '.svn' && $file != 'language')
 				{
 					phpAds_revisionScan ($revfile, $path.$file.'/');
 				}

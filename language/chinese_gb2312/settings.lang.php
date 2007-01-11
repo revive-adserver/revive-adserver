@@ -68,7 +68,7 @@ $GLOBALS['strTablesType']			= "数据表类型";
 $GLOBALS['strRevCorrupt']			= "文件<b>{filename}</b>已经损坏或者被修改过.如果您并没有修改过此文件,请把此文件重新上传一次.如果您修改过此文件,您可以安全的忽略此警告.";
 $GLOBALS['strRevTooOld']			= "文件<b>{filename}</b>比此版本的".$phpAds_productname."使用的文件要旧.请把此文件重新上传一次.";
 $GLOBALS['strRevMissing']			= "文件<b>{filename}</b>因为丢失所以检测不到.请把此文件重新上传一次.";
-$GLOBALS['strRevCVS']				= "您现在正在安装CVS版本的".$phpAds_productname.".这并不是一个正式发行的版本,可能不稳定甚至不工作.您确信想要继续?";
+$GLOBALS['strRevSVN']				= "您现在正在安装SVN版本的".$phpAds_productname.".这并不是一个正式发行的版本,可能不稳定甚至不工作.您确信想要继续?";
 
 $GLOBALS['strInstallWelcome']			= "欢迎使用".$phpAds_productname;
 $GLOBALS['strInstallMessage']			= "在您使用".$phpAds_productname."之前,需要配置系统和<br>创建数据库.按<b>下一步</b>继续.";
