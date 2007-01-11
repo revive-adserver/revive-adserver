@@ -393,7 +393,7 @@ class MAX_Admin_Upgrade
         );
         $queries = array();
         foreach ($cols as $k => $v) {
-            $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}{$k} ADD COLUMN {$v}['column'] VARCHAR(64) AFTER {$v}['after']";
+            $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}{$k} ADD COLUMN {$v['column']} VARCHAR(64) AFTER {$v['after']}";
         }
         $this->_runQueries($queries);
 
