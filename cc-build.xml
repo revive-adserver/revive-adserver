@@ -42,7 +42,7 @@
 	</target>
 
 	<target name="build" depends="init">
-		<ant antfile="build.xml" dir="${basedir}" output="build.log" target="full-build" />
+		<ant antfile="build.xml" dir="${basedir}" output="build.log" target="simpletest" />
 	</target>
 
 	<target name="tag" depends="init">

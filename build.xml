@@ -5,7 +5,7 @@
     <property name="max.base_dir" value="${user.dir}" />
     <property name="max.build_dir" value="${max.base_dir}/build" />
     <property name="max.test_admin_host" value="www-tests" />
-    <property name="max.php_cli_executable" value="php" />
+    <property name="max.php_cli_executable" value="php4" />
 	<macrodef name="report-on-simpletest-results">
 		<attribute name="basename" />
 		<sequential>
