@@ -336,11 +336,11 @@ function phpAds_PageHeader($ID, $extra="")
  	echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>";
 	echo "<tr>";
 	
-	// Auto-brand via sync.openads.org
-	// @todo: use https if needed
-	$logo_url = 'http://sync.openads.org/logo.php';
-	$logo_url .= '?p='.urlencode($GLOBALS['phpAds_productname']);
-	$logo_url .= '&v='.urlencode($GLOBALS['phpAds_version']);
+	// Remote logo
+	$logo_url = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://';
+	$logo_url .= 'media.openads.org/logo/';
+	$logo_url .= str_replace(' ', '_', $GLOBALS['phpAds_productname']);
+	$logo_url .= '-'.$GLOBALS['phpAds_version_readable'];
 	
 	if (isset($phpAds_config['name']) && $phpAds_config['name'] != '')
 	{
@@ -348,7 +348,7 @@ function phpAds_PageHeader($ID, $extra="")
 		if (!phpAds_isUser(phpAds_Admin) || !$phpAds_config['updates_enabled'])
 			$logo_url = '';
 		else
-			$logo_url .= '&c=1';
+			$logo_url .= '-c';
 		
 		echo "<td height='48' bgcolor='#000063' valign='middle'>";
 		echo "<div id='logo_local'>";
@@ -359,7 +359,7 @@ function phpAds_PageHeader($ID, $extra="")
 		{
 			// Make sure that remote logo isn't displayed if not correctly loaded
 			echo "<div id='logo_remote' style='display: none'>";
-			echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='{$logo_url}' align='top' onload='swapLogos()'>";
+			echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='{$logo_url}.gif' align='top' onload='swapLogos()'>";
 			echo "<span class='phpAdsNew'>".$phpAds_config['name']."</span>";
 			echo "</div>";
 		}
@@ -378,7 +378,7 @@ function phpAds_PageHeader($ID, $extra="")
 		{
 			// Make sure that remote logo isn't displayed if not correctly loaded
 			echo "<div id='logo_remote' style='display: none'>";
-			echo "<img src='{$logo_url}' onload='swapLogos()'>";
+			echo "<img src='{$logo_url}.gif' onload='swapLogos()'>";
 			echo "</div>";
 		}
 	}
