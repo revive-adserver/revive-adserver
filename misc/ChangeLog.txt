@@ -7,7 +7,7 @@ SVN
 			  - 2007-01-09:  Added remote logo in the admin interface so that logo is automatically updated in case of name changes  (Matteo)
 			  - 2007-01-10:  Added new Settings / Maintenance screen with status and information about scheduled and automatic maintenance  (Matteo)
 			  - 2007-01-10:  Added support for click tracking Google AdSense banners when using IE or Firefox  (Matteo)
-			  - 2007-01-10:  Removed PDF documentation and added links to on-line docs available at http:/docs.openads.org  (Matteo)
+			  - 2007-01-11:  Removed PDF documentation and added links to on-line docs available at http:/docs.openads.org  (Matteo)
 
 			+ Misc bugfixes
 			  - 2006-11-14:  Campaign-edit wasn't correctly working with MySQL 3.x anymore  (Matteo)
@@ -21,6 +21,7 @@ SVN
 			  - 2007-01-05:  Richmedia banners were showed inside DHTML banners only when using Windows - bug #1622422  (Matteo)
 			  - 2007-01-05:  Install and upgrade were always detecting HTTPS on IIS6, breaking the whole application when not using HTTPS - bug #1616963  (Matteo)
 			  - 2007-01-05:  Banners not matching delivery limitations were decreasing their campaign overall priority - bug #1605728  (Matteo)
+			  - 2007-01-12:  A non-existing advertiser could appear at the end of the list in the global stats pages  (Matteo)
 
 
 phpAdsNew 2.0.9-pr1

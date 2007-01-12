@@ -408,7 +408,7 @@ if (isset($banners) && is_array($banners) && count($banners) > 0)
 	// Add banner to campaigns
 	reset ($banners);
 	while (list ($bkey, $banner) = each ($banners))
-		if ($hideinactive == false || $banner['active'] == 't')
+		if (!empty($banner['clientid']) && ($hideinactive == false || $banner['active'] == 't'))
 			$campaigns[$banner['clientid']]['banners'][$bkey] = $banner;
 	
 	unset ($banners);
