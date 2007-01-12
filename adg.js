@@ -23,8 +23,8 @@ function phpAds_adSenseLog(obj)
 
 function phpAds_adSenseGetMouse(e)
 {
-	phpAds_adSensePx = e.pageX;
-	phpAds_adSensePy = e.clientY;
+	phpAds_adSensePx = e.pageX + document.body.scrollLeft;
+	phpAds_adSensePy = e.clientY + document.body.scrollTop;
 }
 
 function phpAds_adSenseFindX(obj)
@@ -53,15 +53,25 @@ function phpAds_adSenseFindY(obj)
 function phpAds_adSensePageExit(e)
 {
 	var ad = document.getElementsByTagName("iframe");
+
+	if (typeof phpAds_adSensePx == 'undefined' && ad.length == 1)
+	{
+		if (document.body.innerHTML.match(/<!-- openads=/))
+			phpAds_adSenseLog(ad[0]);
+		return;
+	}
+
 	for (var i = 0; i < ad.length; i++)
 	{
+		if (el[i].src.indexOf('googlesyndication.com') > -1)
+
 		var adLeft = phpAds_adSenseFindX(ad[i]);
 		var adTop = phpAds_adSenseFindY(ad[i]);
 		var adRight = parseInt(adLeft) + parseInt(ad[i].width) + 15;
 		var adBottom = parseInt(adTop) + parseInt(ad[i].height) + 10;
 		var inFrameX = (phpAds_adSensePx > (adLeft - 10) && phpAds_adSensePx < adRight);
 		var inFrameY = (phpAds_adSensePy > (adTop - 10) && phpAds_adSensePy < adBottom);
-		
+
 		if (inFrameY && inFrameX)
 			phpAds_adSenseLog(ad[i]);
 	}
