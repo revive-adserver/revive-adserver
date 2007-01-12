@@ -604,7 +604,7 @@ function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $r
     $url .= $amp . "capping=" . $aBanner['capping'];
     $url .= $amp . "session_capping=" . $aBanner['session_capping'];
 
-    $url .= $amp . "channel_ids=" . str_replace(MAX_DELIVERY_MULTIPLE_DELIMITER,$conf['delivery']['ctDelimiter'],$GLOBALS['_MAX']['CHANNELS']);
+    $url .= $amp . "channel_ids=" . str_replace(MAX_DELIVERY_MULTIPLE_DELIMITER,$conf['delivery']['chDelimiter'],$GLOBALS['_MAX']['CHANNELS']);
 
     // FIXME-Andrzej: Refactor it to make use of our array (have to change
     // variables above related to banner capping)
@@ -695,7 +695,9 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
         // If the passed in a ct0= value that is not a valid URL (simple checking), then ignore it
         $ct0 = (empty($ct0) || strtolower(substr($ct0, 0, 4)) != 'http') ? '' : $ct0;
         $aBanner['contenttype'] == "swf" ? $maxdest = '' : $maxdest = "{$del}maxdest={$ct0}{$dest}";
-        $maxparams = "{$delnum}{$bannerId}{$del}zoneid={$zoneId}{$source}{$log}{$random}{$maxdest}";
+        $channelIds .= ($GLOBALS['_MAX']['CHANNELS'] ? $del. "channel_ids=" . str_replace(MAX_DELIVERY_MULTIPLE_DELIMITER,$conf['delivery']['chDelimiter'],$GLOBALS['_MAX']['CHANNELS']) :'');
+        $maxparams = "{$delnum}{$bannerId}{$del}zoneid={$zoneId}{$channelIds}{$source}{$log}{$random}{$maxdest}";
+// hmmm... 2__bannerid=1__zoneid=1__cb={random}__maxdest=__channel_ids=__1__1__
     }
     return $maxparams;
 }
