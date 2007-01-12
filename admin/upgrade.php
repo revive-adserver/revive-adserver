@@ -514,6 +514,12 @@ if (phpAds_isUser(phpAds_Admin))
 			phpAds_SettingsWriteAdd('instance_id', phpAds_ConfigGenerateId());
 		}
 
+		// Duplicate maintenance timestamp
+		if ($phpAds_config['config_version'] < 200.299)
+		{
+			phpAds_SettingsWriteAdd('maintenance_cron_timestamp', $phpAds_config['maintenance_timestamp']);
+		}
+
 		phpAds_ConfigFileUpdateFlush();
 		
 		phpAds_PageHeader("1");
