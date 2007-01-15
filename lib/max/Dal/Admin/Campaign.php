@@ -164,12 +164,10 @@ class MAX_Dal_Admin_Campaign extends MAX_Dal_Common
     function _rekeyCampaignsArray($flat_campaign_data)
     {
         $campaigns = array();
-        foreach ($flat_campaign_data as $row_campaigns) {
-            $campaigns[$row_campaigns['campaignid']]['campaignid']      = $row_campaigns['campaignid'];
-            $campaigns[$row_campaigns['campaignid']]['campaignname']    = $row_campaigns['campaignname'];
-            $campaigns[$row_campaigns['campaignid']]['clientid']        = $row_campaigns['clientid'];
-            $campaigns[$row_campaigns['campaignid']]['active']          = $row_campaigns['active'];
-            $campaigns[$row_campaigns['campaignid']]['expand']          = FALSE;
+        foreach ($flat_campaign_data as $row_campaign) {
+            $campaigns[$row_campaign['campaignid']] = $row_campaign;
+            $campaigns[$row_campaigns['campaignid']]['expand'] = false;
+            unset($campaigns[$row_campaign['campaignid']]['campaignid']);
         }
         return $campaigns;
     }
