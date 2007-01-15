@@ -501,7 +501,7 @@ if (phpAds_isUser(phpAds_Admin))
 				  in the ".$phpAds_productname." directory and at the end of the Administrator guide.";
 			
 			echo "<p><textarea class='code' style='width: 100%; height: 200px;' wrap='off' readonly>";
-			include ("../LICENSE");
+			readfile ("../LICENSE.txt");
 			echo "</textarea></p>";
 			
 			echo "</span>";
