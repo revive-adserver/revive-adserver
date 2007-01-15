@@ -17,6 +17,9 @@
 
   ====================================================
 
+  15-01-2007 - settings
+    [+] strCacheDirLockedDetected
+
   11-01-2007 - default
     [-] strRevCVS
     [+] strRevSVN

@@ -61,6 +61,7 @@ $GLOBALS['strWarningTrackVars']				= "La variabile di configurazione del PHP tra
 $GLOBALS['strWarningPREG']					= "La versione di PHP utilizzata non ha il supporto alle espressioni regolari PERL-compatibili. &Egrave; necessario abilitare l'estensione PREG prima di procedere.";
 $GLOBALS['strConfigLockedDetected']			= "Il file <b>config.inc.php</b> non pu&ograve; essere sovrascritto dal server. Non è possiblie procedere finch&eacute; non vengono modificati i permessi sul file. Puoi leggere sul manuale di ".$phpAds_productname." come fare.";
 $GLOBALS['strCacheLockedDetected']			= "La cache di consegna &egrave; impostata in modalit&agrave; 'File' e ".$phpAds_productname." ha riscontrato che il server web non &egrave; in grado di scrivere nella directory <b>cache</b>. Non sar&agrave; possibile procedere finch&eacute; non verranno modificati i permessi della cartella. Puoi leggere sul manuale di ".$phpAds_productname." come fare.";
+$GLOBALS['strCacheDirLockedDetected']		= "Il server web non &egrave; in grado di scrivere nella directory <b>cache</b>. Non sar&agrave; possibile procedere finch&eacute; non verranno modificati i permessi della cartella. Puoi leggere sul manuale di ".$phpAds_productname." come fare.";
 $GLOBALS['strCantUpdateDB']					= "Non &egrave; possibile aggiornare il database. Se decidi di procedere, tutti i banner, le statistiche e i clienti saranno cancellati.";
 $GLOBALS['strIgnoreErrors']					= "Ignora errori";
 $GLOBALS['strRetry']						= "Riprova";

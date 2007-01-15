@@ -50,7 +50,7 @@ English
 	---------------------------------------------------------
 	Maintained by:	   phpAdsNew developers (developers at phpadsnew dot com)
 	Is up-to-date?	   Always
-	Last update:	   11 January 2007
+	Last update:	   15 January 2007
 	Translated files:  7
 	---------------------------------------------------------
 
@@ -110,7 +110,7 @@ Italian
 	---------------------------------------------------------
 	Maintained by:	   Matteo Beccati (matteo at phpadsnew dot com)
 	Is up-to-date?	   Yes
-	Last update:	   11 January 2007
+	Last update:	   15 January 2007
 	Translated files:  7 + 4 resource files
 	---------------------------------------------------------
 
