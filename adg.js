@@ -1,4 +1,4 @@
-var phpAds_adSenseDeliveryDone = false;
+var phpAds_adSenseDeliveryDone;
 var phpAds_adSensePx;
 var phpAds_adSensePy;
 
@@ -79,7 +79,7 @@ function phpAds_adSensePageExit(e)
 
 function phpAds_adSenseInit()
 {
-	if (document.all && !window.opera)
+	if (document.all)
 	{ 
 		//ie
 		var el = document.getElementsByTagName("iframe");
@@ -105,7 +105,7 @@ function phpAds_adSenseInit()
 
 function phpAds_adSenseDelivery()
 {
-	if (phpAds_adSenseDeliveryDone)
+	if (typeof phpAds_adSenseDeliveryDone != 'undefined' && phpAds_adSenseDeliveryDone)
 		return;
 	
 	phpAds_adSenseDeliveryDone = true;
