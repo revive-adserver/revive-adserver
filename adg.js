@@ -79,7 +79,7 @@ function phpAds_adSensePageExit(e)
 
 function phpAds_adSenseInit()
 {
-	if (document.all)
+	if (document.all && typeof window.opera == 'undefined')
 	{ 
 		//ie
 		var el = document.getElementsByTagName("iframe");
@@ -97,8 +97,8 @@ function phpAds_adSenseInit()
 	}
 	else
 	{ 
-		// firefox
-		window.addEventListener('beforeunload', phpAds_adSensePageExit, false);
+		// firefox + opera
+		window.addEventListener('unload', phpAds_adSensePageExit, false);
 		window.addEventListener('mousemove', phpAds_adSenseGetMouse, true);
 	}
 }

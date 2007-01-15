@@ -8,6 +8,7 @@ Openads 2.0.10
 			  - 2007-01-10:  Added new Settings / Maintenance screen with status and information about scheduled and automatic maintenance  (Matteo)
 			  - 2007-01-10:  Added support for click tracking Google AdSense banners when using IE or Firefox  (Matteo)
 			  - 2007-01-11:  Removed PDF documentation and added links to on-line docs available at http:/docs.openads.org  (Matteo)
+			  - 2007-01-15:  Added Opera compatibility to the Google AdSense click tracking code  (Arlen Coupland)
 
 			+ Misc bugfixes
 			  - 2006-11-14:  Campaign-edit wasn't correctly working with MySQL 3.x anymore  (Matteo)
