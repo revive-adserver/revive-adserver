@@ -22,7 +22,7 @@ $GLOBALS['phpAds_hlp_dbhost'] = '
 $GLOBALS['phpAds_hlp_dbport'] = '
         Spécifiez le numéro du port de la base de données '.$phpAds_dbmsname.' à laquelle '.$phpAds_productname.' doit se connecter. Le port par défaut
         pour une base de données ".$phpAds_dbmsname." est <i>'.
-		($phpAds_productname == 'phpAdsNew' ? '3306' : '5432').'</i>.
+		($phpAds_dbmsname == 'MySQL' ? '3306' : '5432').'</i>.
 ';
 
 $GLOBALS['phpAds_hlp_dbuser'] = '

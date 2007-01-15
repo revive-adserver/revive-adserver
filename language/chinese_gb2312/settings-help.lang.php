@@ -22,7 +22,7 @@ $GLOBALS['phpAds_hlp_dbhost'] = "
 $GLOBALS['phpAds_hlp_dbport'] = "
         请指定您要连接的".$phpAds_dbmsname."数据库服务器的端口号. 
 		".$phpAds_dbmsname."服务器的缺省端口号是<i>".
-		($phpAds_productname == 'phpAdsNew' ? '3306' : '5432')."</i>.
+		($phpAds_dbmsname == 'MySQL' ? '3306' : '5432')."</i>.
 		";
 		
 $GLOBALS['phpAds_hlp_dbuser'] = "

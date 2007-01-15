@@ -30,7 +30,7 @@ $GLOBALS['phpAds_hlp_dbport'] = "
 
         ציין את מספר המבוא (port) של בסיס הנתונים ".$phpAds_dbmsname." שאליו אתה מנסה להתחבר. ברירת המחדל של מאגר ".$phpAds_dbmsname." היא <i>".
 
-		($phpAds_productname == 'phpAdsNew' ? '3306' : '5432')."</i>.
+		($phpAds_dbmsname == 'MySQL' ? '3306' : '5432')."</i>.
 
 		";
 

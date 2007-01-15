@@ -172,25 +172,25 @@ array (
 			'type'    => 'checkbox',
 			'name'    => 'insert_delayed',
 			'text'	  => $strInsertDelayed,
-			'visible' => $phpAds_productname == 'phpAdsNew' && $phpAds_config['table_type'] == 'MYISAM'
+			'visible' => $phpAds_dbmsname == 'MySQL' && $phpAds_config['table_type'] == 'MYISAM'
 		),
 		array (
 			'type'    => 'checkbox',
 			'name'    => 'compatibility_mode',
 			'text'	  => $strCompatibilityMode,
-			'visible' => $phpAds_productname == 'phpAdsNew'
+			'visible' => $phpAds_dbmsname == 'MySQL'
 		),
 		array (
 			'type'    => 'checkbox',
 			'name'    => 'mysql4_compatibility',
 			'text'	  => $strMysql4Compatibility,
-			'visible' => $phpAds_productname == 'phpAdsNew' && phpAds_dbQuery("SET SESSION sql_mode='MYSQL40'")
+			'visible' => $phpAds_dbmsname == 'MySQL' && phpAds_dbQuery("SET SESSION sql_mode='MYSQL40'")
 		),
 		array (
 			'type'    => 'checkbox',
 			'name'    => 'auto_clean_tables_vacuum',
 			'text'	  => $strAutoCleanVacuum,
-			'visible' => $phpAds_productname == 'phpPgAds'
+			'visible' => $phpAds_dbmsname == 'PostgreSQL'
 		)
 	)
 ));

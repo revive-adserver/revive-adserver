@@ -22,7 +22,7 @@ $GLOBALS['phpAds_hlp_dbhost'] = "
 $GLOBALS['phpAds_hlp_dbport'] = "
         Vul hier het poortnummer in van de ".$phpAds_dbmsname." database server waarmee een connectie gemaakt moet
 		worden. Het standaard poortnummer voor een ".$phpAds_dbmsname." database is <i>".
-		($phpAds_productname == 'phpAdsNew' ? '3306' : '5432')."</i>.
+		($phpAds_dbmsname == 'MySQL' ? '3306' : '5432')."</i>.
 		";
 		
 $GLOBALS['phpAds_hlp_dbuser'] = "

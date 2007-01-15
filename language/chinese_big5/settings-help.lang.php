@@ -22,7 +22,7 @@ $GLOBALS['phpAds_hlp_dbhost'] = "
 $GLOBALS['phpAds_hlp_dbport'] = "
         請指定您要連接的".$phpAds_dbmsname."資料庫伺服器的連接埠. 
 		".$phpAds_dbmsname."伺服器的內定連接埠是<i>".
-		($phpAds_productname == 'phpAdsNew' ? '3306' : '5432')."</i>.
+		($phpAds_dbmsname == 'MySQL' ? '3306' : '5432')."</i>.
 		";
 		
 $GLOBALS['phpAds_hlp_dbuser'] = "

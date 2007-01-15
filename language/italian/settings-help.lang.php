@@ -22,7 +22,7 @@ $GLOBALS['phpAds_hlp_dbhost'] = "
 $GLOBALS['phpAds_hlp_dbport'] = "
         Specifica il numero della porta del server ".$phpAds_dbmsname." al quale ".$phpAds_productname." si deve
 		connettere. La porta di default di ".$phpAds_dbmsname." &egrave; la <i>".
-		($phpAds_productname == 'phpAdsNew' ? '3306' : '5432')."</i>.
+		($phpAds_dbmsname == 'MySQL' ? '3306' : '5432')."</i>.
 		";
 		
 $GLOBALS['phpAds_hlp_dbuser'] = "
