@@ -60,10 +60,14 @@ if (phpAds_isUser(phpAds_Admin))
 		
 			// Format like the XML-RPC response
 			$update_check = array(0, $update_check);
+
+			// Register data inside a session var, so it doesn't need to be re-downloaded
+			phpAds_SessionDataRegister('maint_update', $update_check);
+			phpAds_SessionDataStore();
 		}
 	}
 	
-	phpAds_SessionDataRegister('maint_update', $update_check);
+	phpAds_SessionDataRegister('maint_update_js', true);
 	phpAds_SessionDataStore();
 	
 	// Add Product Update redirector

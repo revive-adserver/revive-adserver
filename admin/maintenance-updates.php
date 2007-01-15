@@ -31,15 +31,6 @@ phpAds_checkAccess(phpAds_Admin);
 /* HTML framework                                        */
 /*********************************************************/
 
-// Check for previously downloaded info
-if (isset($Session['update_check']) && $Session['update_check'])
-{
-	phpAds_SessionDataRegister('maint_update', $Session['update_check']);
-	phpAds_SessionDataRegister('update_check', false);
-	
-	phpAds_SessionDataStore();
-}
-
 phpAds_PageHeader("5.4");
 phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2"));
 
