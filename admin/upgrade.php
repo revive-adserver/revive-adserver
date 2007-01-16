@@ -196,9 +196,11 @@ if (phpAds_isUser(phpAds_Admin))
 		$fatal = array();
 		
 		
-		// Check PHP version < 4.0.3
-		if ($phpversion < 4003)
+		// Check PHP version < 4.1.0
+		if ($phpversion < 4100)
 			$fatal[] = str_replace ('{php_version}', phpversion(), $strWarningPHPversion);
+		elseif ($phpversion == 5000 && isset($matches[4]) && $matches[4])
+			$warn[] = $strWarningPHP5beta;
 		
 		// Check file_uploads
 		if (ini_get ('file_uploads') != true)
