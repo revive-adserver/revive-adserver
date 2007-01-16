@@ -320,6 +320,8 @@ $GLOBALS['strUserlogEmail']					= "Registra tutte le email in uscita";
 $GLOBALS['strUserlogPriority']				= "Registra i calcoli eseguiti ogni ora nell'assegnamento delle priorit&agrave;";
 $GLOBALS['strUserlogAutoClean']				= "Registra la pulizia automatica del database";
 
+$GLOBALS['strEnableAutoMaintenance']		= "Abilita manutenzione automatica durante la consegna dei banner se la manutenzione programmata non &egrave; impostata";
+
 
 // User interface settings
 $GLOBALS['strGuiSettings']					= "Configurazione interfaccia utente";

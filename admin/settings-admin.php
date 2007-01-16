@@ -239,7 +239,7 @@ array (
 		array (
 			'type'    => 'checkbox',
 			'name'    => 'auto_maintenance',
-			'text'	  => "Automatically perform maintenance during delivery if scheduled maintenance is not correctly set up"
+			'text'	  => $strEnableAutoMaintenance
 		)
 	)
 ),

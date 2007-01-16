@@ -18,6 +18,7 @@
 $GLOBALS['strDeliveryEngine']				= "Delivery Engine";
 $GLOBALS['strMaintenance']					= "Maintenance";
 $GLOBALS['strAdministrator']				= "Administrator";
+$GLOBALS['strAutoMaintenance']				= "Automatic maintenance";
 
 
 $GLOBALS['strUserlog'] = array (

@@ -17,6 +17,12 @@
 
   ====================================================
 
+  16-01-2007 - settings
+    [+] strEnableAutoMaintenance
+
+  16-01-2007 - userlog
+    [+] strAutoMaintenance
+
   15-01-2007 - settings
     [+] strCacheDirLockedDetected
 

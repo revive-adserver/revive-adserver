@@ -17,9 +17,10 @@
 
 // Set translation strings
 
-$GLOBALS['strDeliveryEngine']				= "Motore di Distribuzione";
+$GLOBALS['strDeliveryEngine']				= "Motore di consenga";
 $GLOBALS['strMaintenance']					= "Manutenzione";
 $GLOBALS['strAdministrator']				= "Amministratore";
+$GLOBALS['strAutoMaintenance']				= "Manutenzione automatica";
 
 
 $GLOBALS['strUserlog'] = array (

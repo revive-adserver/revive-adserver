@@ -317,6 +317,8 @@ $GLOBALS['strUserlogEmail']			= "Log all outgoing email messages";
 $GLOBALS['strUserlogPriority']			= "Log hourly priority calculations";
 $GLOBALS['strUserlogAutoClean']			= "Log automatic cleaning of database";
 
+$GLOBALS['strEnableAutoMaintenance']	= "Automatically perform maintenance during delivery if scheduled maintenance is not set up";
+
 
 // User interface settings
 $GLOBALS['strGuiSettings']			= "User Interface Configuration";
