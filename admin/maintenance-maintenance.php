@@ -53,7 +53,7 @@ if (time() >= $last_cron_run + 3600)
 {
 	// Scheduled maintenance wasn't run in the last hour
 	
-	echo "<b>Scheduled maintenance hasn't run in the past hour. This means that you probably didn't correctly set it up.</b>"."<br><br>";
+	echo "<b>Scheduled maintenance hasn't run in the past hour. This may mean that you have not set it up correctly.</b>"."<br><br>";
 
 	$last_run = $phpAds_config['maintenance_timestamp'];
 	
@@ -66,11 +66,10 @@ if (time() >= $last_cron_run + 3600)
 		// Automatic maintenance wasn't run in the last hour
 		
 		if ($phpAds_config['auto_maintenance'])
-			echo "Automatic maintenance is enabled, but there is something which prevents it to get triggered. ".$phpAds_productname." needs to deliver
-				banners to be able to trigger automatic maintenance and guarantee that maintenance is correctly run.";
+			echo "Automatic maintenance is enabled, but it has not been triggered. Note that automatic maintenance is triggered only when Openads delivers banners.";
 		else
-			echo "Also, automatic maintenance is disabled, so ".$phpAds_productname." cannot guarantee that maintenance is run.
-				You should enable it if you do not plan to run scheduled maintenance but want to make sure that ".$phpAds_productname." works correctly.";
+			echo "Also, automatic maintenance is disabled, so when ".$phpAds_productname." delivers banners, maintenance is not triggered.
+				  If you do not plan to run scheduled maintenance, you must enable automatic maintenance to ensure that ".$phpAds_productname." works correctly.";
 	}
 	else
 	{
