@@ -457,23 +457,23 @@ if (phpAds_isUser(phpAds_Admin))
 			echo "<span class='install'>";
 
 			echo "We have tried to make the installation of ".$phpAds_productname." as easy as possible, but
-				  keep in mind that setting up an ad server is not trivial. If you haven't read the manual at
+				  keep in mind that setting up an ad server is not trivial. If you haven't read the documentation at
 				  this point, we <strong>strongly recommend</strong> that you do so before you proceed with the installation. The
-				  manual will help you avoid potential problems in the future and will guide you through the following steps.";
+				  docuemtnation will help you avoid potential problems in the future and will guide you through the following steps.";
 					
 			echo "<p><b>If you are trying to upgrade an existing installation of ".$phpAds_productname." you probably did not follow the
-				  instructions given in the manual. If you continue, ".$phpAds_productname." will try to do a clean install and all your
-					existing settings, inventory and statistics will be lost. If you want to upgrade an existing installation, please close this
-					window, read the manual and follow the instructions carefully.</b></p>";  
+				  instructions given in the documentation. If you continue, ".$phpAds_productname." will try to do a clean install and all your
+				  existing settings, inventory and statistics will be lost. If you want to upgrade an existing installation, please close this
+				  window, read the <a href='http://docs.openads.org/openads-2.0-guide/upgrading.html' target='_blank'>documentation on upgrading</a>
+				  and follow the instructions carefully.</b></p>";  
 			
-			echo "<p>The Openads manual can be found at <em>http://docs.openads.org</em>. Please view the
-				  <a href='http://docs.openads.org/openads-2.0-guide/index.html' target='_blank'><b>Openads 2.0 guide</b></a> for information about
-				  installing, updating, and configuring ".$phpAds_productname.". You can also find information on managing inventory and
-				  delivering banners to websites.</p>";
+			echo "<p>Comprehensive <a href='http://docs.openads.org/openads-2.0-guide/index.html' target='_blank'>documentation</a> is provided on
+			      the Openads website it includes information about the installation and upgrade process as advice for managing your inventory
+				  and placing banners on your website.</p>";
 			
-			echo "<p>If you still have questions <strong>after reading the manual</strong>, do not hesitate to use our forum. 
-				  But please keep in mind that we, the developers, provide this service for free and in our own free time. We might not
-				  be able to respond to you questions immediately.</p>";
+			echo "<p>If you still have questions after reading the documentation, visit the
+				  <a href='http://www.openads.org/support/overview.html' target='_blank'>support</a> section of our website and the
+				  <a href='http://forum.openads.org/' target='_blank'>community forum</a>.</p>";
 				  
 			echo "</span>";
 			echo "</td></tr></table>";
