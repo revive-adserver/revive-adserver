@@ -74,11 +74,11 @@ if (time() >= $last_cron_run + 3600)
 	else
 	{
 		if ($phpAds_config['auto_maintenance'])
-			echo "Automatic maintenance is enabled, and it seems that ".$phpAds_productname." is correctly triggering it.
-				For best performance it is advised to set up scheduled maintenance.";
+			echo "Automatic maintenance is enabled and will trigger maintenance every hour.
+				  For best performance it is advised to set up scheduled maintenance.";
 		else
-			echo "Automatic maintenance is disabled too but a maintenance task has recently run.
-				You should enable it if you do not plan to run scheduled maintenance but want to make sure that ".$phpAds_productname." works correctly.";
+			echo "Automatic maintenance is disabled too but a maintenance task has recently run. To make sure that ".$phpAds_productname." works correctly you should either
+				  set up scheduled maintenance or enable auto maintenance. ";
 	}
 }
 else
