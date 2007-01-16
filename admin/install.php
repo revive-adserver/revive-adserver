@@ -466,12 +466,10 @@ if (phpAds_isUser(phpAds_Admin))
 					existing settings, inventory and statistics will be lost. If you want to upgrade an existing installation, please close this
 					window, read the manual and follow the instructions carefully.</b></p>";  
 			
-			echo "<p>The manual is included in every download of ".$phpAds_productname." and can be found in the <em>misc/documentation</em>
-				  directory. For information about installing, updating and configuring ".$phpAds_productname.", please read the
-				  <a href='http://docs.openads.org/openads-2.0-guide/index.html' target='_blank'>Administrator guide</a>. For information
-				  about managing your inventory and placing banners on your website, please read the <a href='http://docs.openads.org/openads-2.0-guide/index.html' 
-				  target='_blank'>User guide</a>. To view both guides you need Adobe Acrobat, which can be downloaded for free from 
-				  <a href='http://www.adobe.com/products/acrobat/readstep2.html' target='_blank'>Adobe</a>.</p>";
+			echo "<p>The Openads manual can be found at <em>http://docs.openads.org</em>. Please view the
+				  <a href='http://docs.openads.org/openads-2.0-guide/index.html' target='_blank'><b>Openads 2.0 guide</b></a> for information about
+				  installing, updating, and configuring ".$phpAds_productname.". You can also find information on managing inventory and
+				  delivering banners to websites.</p>";
 			
 			echo "<p>If you still have questions <strong>after reading the manual</strong>, do not hesitate to use our forum. 
 				  But please keep in mind that we, the developers, provide this service for free and in our own free time. We might not
