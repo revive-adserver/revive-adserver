@@ -25,7 +25,7 @@ phpAds_registerGlobal ('codetype', 'what', 'acid', 'source', 'target', 'withText
 					   'transparent', 'resize', 'block', 'raw', 'hostlanguage', 'submitbutton', 'generate',
 					   'layerstyle', 'delay', 'delay_type', 'blockcampaign', 'toolbars', 'location', 'menubar',
 					   'status', 'resizable', 'scrollbars', 'hpostype', 'hposleft', 'hposright', 'vpostype',
-					   'vpostop', 'vposbottom');
+					   'vpostop', 'vposbottom', 'iframetracking');
 
 // Load translations
 @require ("../language/english/invocation.lang.php");
@@ -49,7 +49,7 @@ function phpAds_GenerateInvocationCode()
 	global $transparent, $resize, $block, $blockcampaign, $raw;
 	global $hostlanguage, $toolbars, $location, $menubar, $status;
 	global $hpostype, $hposleft, $hposright, $vpostype, $vpostop, $vposbottom;
-	global $resizable, $scrollbars;
+	global $resizable, $scrollbars, $iframetracking;
 	
 	// Check if affiliate is on the same server
 	if (isset($website) && $website != '')
@@ -256,6 +256,9 @@ function phpAds_GenerateInvocationCode()
 		
 		$buffer .= "</iframe>\n";
 		
+		if (isset($iframetracking) && $iframetracking == 1)
+			$buffer .= "<script language='JavaScript' type='text/javascript' src='".$phpAds_config['url_prefix']."/adg.js'></script>";
+		
 		if (isset($parameters['n']))
 			unset ($parameters['n']);
 		
@@ -455,6 +458,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 	global $hostlanguage, $toolbars, $location, $menubar, $status;
 	global $layerstyle, $resizable, $scrollbars;
 	global $hpostype, $hposleft, $hposright, $vpostype, $vpostop, $vposbottom;
+	global $iframetracking;
 	global $tabindex;
 	
 	
@@ -607,7 +611,7 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			$show = array ('what' => true, 'acid' => true, 'block' => true, 'target' => true, 'source' => true, 'withText' => true, 'blockcampaign' => true);
 		
 		if ($codetype == 'adframe')
-			$show = array ('what' => true, 'acid' => true, 'target' => true, 'source' => true, 'refresh' => true, 'size' => true, 'resize' => true, 'transparent' => true, 'ilayer' => true);
+			$show = array ('what' => true, 'acid' => true, 'target' => true, 'source' => true, 'refresh' => true, 'size' => true, 'resize' => true, 'transparent' => true, 'ilayer' => true, 'iframetracking' => true);
 		
 		if ($codetype == 'ad')
 			$show = array ('what' => true, 'acid' => true, 'target' => true, 'source' => true, 'withText' => true, 'size' => true, 'resize' => true, 'transparent' => true);
@@ -768,6 +772,19 @@ function phpAds_placeInvocationForm($extra = '', $zone_invocation = false)
 			echo "<td width='200'>".$GLOBALS['strIframeIncludeNetscape4']."</td>";
 			echo "<td width='370'><input type='radio' name='ilayer' value='1'".(isset($ilayer) && $ilayer == 1 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br>";
 			echo "<input type='radio' name='ilayer' value='0'".(!isset($ilayer) || $ilayer == 0 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;".$GLOBALS['strNo']."</td>";
+			echo "</tr>";
+			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+		}
+		
+		
+		// Google AdSense click tracking
+		if (isset($show['iframetracking']) && $show['iframetracking'] == true)
+		{
+			echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+			echo "<tr><td width='30'>&nbsp;</td>";
+			echo "<td width='200'>". 'Include code to track Google AdSense clicks' ."</td>";
+			echo "<td width='370'><input type='radio' name='iframetracking' value='1'".(!isset($iframetracking) || $iframetracking == 1 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br>";
+			echo "<input type='radio' name='iframetracking' value='0'".(isset($iframetracking) && $iframetracking == 0 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;".$GLOBALS['strNo']."</td>";
 			echo "</tr>";
 			echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
 		}

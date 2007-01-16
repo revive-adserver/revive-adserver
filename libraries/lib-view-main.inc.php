@@ -372,6 +372,7 @@ function phpAds_prepareOutput($row, $target, $source, $withtext)
 				  'width' => $row['width'],
 				  'height' => $row['height'],
 				  'url' => $row['url'],
+				  'zoneid' => $row['zoneid'],
 				  'clientid' => $row['clientid'],
 				  'campaignid' => $row['clientid'])
 	);

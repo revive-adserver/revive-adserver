@@ -2,29 +2,63 @@ var phpAds_adSenseDeliveryDone;
 var phpAds_adSensePx;
 var phpAds_adSensePy;
 
+function phpAds_adSenseClick(path, params)
+{
+	var cb = new String (Math.random());
+	cb = cb.substring(2,11);
+
+	var i = new Image();
+	i.src = path + '/adclick.php?' + params + '&trackonly=1&cb=' + cb;
+}
+
 function phpAds_adSenseLog(obj)
 {
-	if (typeof obj.parentNode != 'undefined')
+	var params;
+	
+	if (params = obj.src.match(/^(.*)\/adframe\.php\?n=([a-z0-9]+)/i))
+	{
+		phpAds_adSenseClick(params[1], 'n=' + params[2]);
+	}
+	else if (typeof obj.parentNode != 'undefined')
 	{
 		var t = obj.parentNode.innerHTML;
 
-		var params = t.match(/<!-- openads=([^ ]*) bannerid=([^ ]*) zoneid=([^ ]*) source=([^ ]*) -->/);
-		
-		if (params)
+		if (params = t.match(/\/\* openads=([^ ]*) bannerid=([^ ]*) zoneid=([^ ]*) source=([^ ]*) \*\//))
 		{
-			var cb = new String (Math.random());
-			cb = cb.substring(2,11);
-			
-			var i = new Image();
-			i.src = params[1] + '/adclick.php?bannerid=' + params[2] + '&zoneid=' + params[3] + '&source=' + params[4] + '&trackonly=1&cb=' + cb;
-		}
+			phpAds_adSenseClick(params[1], 'bannerid=' + params[2] + '&zoneid=' + params[3] + '&source=' + params[4]);
+		} 
 	}
 }
 
 function phpAds_adSenseGetMouse(e)
 {
-	phpAds_adSensePx = e.pageX + document.body.scrollLeft;
-	phpAds_adSensePy = e.clientY + document.body.scrollTop;
+	// Adapted from http://www.howtocreate.co.uk/tutorials/javascript/eventinfo
+	if (typeof e.pageX  == 'number')
+	{
+		//most browsers
+		phpAds_adSensePx = e.pageX;
+		phpAds_adSensePy = e.pageY;
+	}
+	else if (typeof e.clientX  == 'number')
+	{
+		//Internet Explorer and older browsers
+		//other browsers provide this, but follow the pageX/Y branch
+		phpAds_adSensePx = e.clientX;
+		phpAds_adSensePy = e.clientY;
+		
+		if (document.body && (document.body.scrollLeft || document.body.scrollTop))
+		{
+			//IE 4, 5 & 6 (in non-standards compliant mode)
+			phpAds_adSensePx += document.body.scrollLeft;
+			phpAds_adSensePy += document.body.scrollTop;
+		}
+		else if (document.documentElement && (document.documentElement.scrollLeft || document.documentElement.scrollTop ))
+		{
+			//IE 6 (in standards compliant mode)
+			phpAds_adSensePx += document.documentElement.scrollLeft;
+			phpAds_adSensePy += document.documentElement.scrollTop;
+		}
+	}
 }
 
 function phpAds_adSenseFindX(obj)
@@ -54,17 +88,11 @@ function phpAds_adSensePageExit(e)
 {
 	var ad = document.getElementsByTagName("iframe");
 
-	if (typeof phpAds_adSensePx == 'undefined' && ad.length == 1)
-	{
-		if (document.body.innerHTML.match(/<!-- openads=/))
-			phpAds_adSenseLog(ad[0]);
+	if (typeof phpAds_adSensePx == 'undefined')
 		return;
-	}
-
+	
 	for (var i = 0; i < ad.length; i++)
 	{
-		if (el[i].src.indexOf('googlesyndication.com') > -1)
-
 		var adLeft = phpAds_adSenseFindX(ad[i]);
 		var adTop = phpAds_adSenseFindY(ad[i]);
 		var adRight = parseInt(adLeft) + parseInt(ad[i].width) + 15;
@@ -72,8 +100,13 @@ function phpAds_adSensePageExit(e)
 		var inFrameX = (phpAds_adSensePx > (adLeft - 10) && phpAds_adSensePx < adRight);
 		var inFrameY = (phpAds_adSensePy > (adTop - 10) && phpAds_adSensePy < adBottom);
 
+		//alert(phpAds_adSensePx + ',' + phpAds_adSensePy + ' ' + adLeft + ':' + adRight + 'x' + adTop + ':' + adBottom);
+
 		if (inFrameY && inFrameX)
-			phpAds_adSenseLog(ad[i]);
+		{
+			if (ad[i].src.indexOf('googlesyndication.com') > -1 || ad[i].src.indexOf('adframe.php?n=') > -1)
+				phpAds_adSenseLog(ad[i]);
+		}
 	}
 }
 
@@ -95,9 +128,9 @@ function phpAds_adSenseInit()
 			}
 		}
 	}
-	else
+	else if (typeof window.addEventListener != 'undefined')
 	{ 
-		// firefox + opera
+		// other browsers
 		window.addEventListener('unload', phpAds_adSensePageExit, false);
 		window.addEventListener('mousemove', phpAds_adSenseGetMouse, true);
 	}
@@ -107,7 +140,7 @@ function phpAds_adSenseDelivery()
 {
 	if (typeof phpAds_adSenseDeliveryDone != 'undefined' && phpAds_adSenseDeliveryDone)
 		return;
-	
+		
 	phpAds_adSenseDeliveryDone = true;
 
 	if(typeof window.addEventListener != 'undefined')

@@ -298,10 +298,13 @@ function phpAds_getBannerCache($banner)
 				if (preg_match('/<script.*?src=".*?googlesyndication\.com/is', $buffer))
 				{
 					// Add workaround to count clicks
-					$buffer = "<span>".$buffer;
-					$buffer .= "<script language='JavaScript' type='text/javascript' src='{url_prefix}/adg.js'></script>";
-					$buffer .= "<!-- openads={url_prefix} bannerid={bannerid} zoneid={zoneid} source={source} -->";
-					$buffer .= "</span>";
+					$buffer = "<span>".
+							  "<script language='JavaScript' type='text/javascript'><!--\n".
+							  "/* openads={url_prefix} bannerid={bannerid} zoneid={zoneid} source={source} */\n".
+							  "//--></script>".
+							  $buffer.
+							  "<script language='JavaScript' type='text/javascript' src='{url_prefix}/adg.js'></script>".
+							  "</span>";
 				}
 			}
 			else

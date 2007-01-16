@@ -53,7 +53,7 @@ require (phpAds_path."/libraries/lib-cache.inc.php");
 
 phpAds_registerGlobal ('what', 'clientid', 'clientID', 'context',
 					   'target', 'source', 'withtext', 'withText',
-					   'refresh', 'resize', 'rewrite');
+					   'refresh', 'resize', 'rewrite', 'n');
 
 
 
@@ -71,6 +71,7 @@ if (!isset($source)) 	$source = '';
 if (!isset($withtext)) 	$withtext = '';
 if (!isset($context)) 	$context = '';
 if (!isset($rewrite))	$rewrite = 1;
+if (!isset($n))			$n = 'default';
 
 // Remove referer, to be sure it doesn't cause problems with limitations
 if (isset($_SERVER['HTTP_REFERER'])) unset($_SERVER['HTTP_REFERER']);
@@ -95,6 +96,35 @@ if (isset($rewrite) && $rewrite == 1)
 	$banner['html'] = preg_replace('#target\s*=\s*([\'"])_self\1#i', "target='_parent'", $banner['html']);
 }
 
+// Cookie tracking
+if (strlen($n))
+{
+	if (preg_match('/<script.*?src=".*?googlesyndication\.com/is', $banner['html']))
+	{
+		// Track Google Adsense using a cookie
+		
+		// Send bannerid headers
+		$cookie = array();
+		$cookie['bannerid'] = $banner["bannerid"];
+		
+		// Send zoneid headers
+		if ($banner['zoneid'] != 0)
+			$cookie['zoneid'] = $banner['zoneid'];
+		
+		// Send source headers
+		if (isset($source) && $source != '')
+			$cookie['source'] = $source;
+	
+		phpAds_setCookie ("phpAds_banner[".$n."]", serialize($cookie), 0);
+		phpAds_flushCookie ();
+	}
+	elseif (!empty($_COOKIE["phpAds_banner[".$n."]"]))
+	{
+		// Drop Google Adsense tracking
+		phpAds_setCookie ("phpAds_banner[".$n."]", '', 0);
+		phpAds_flushCookie ();
+	}
+}
 
 // Build HTML
 echo "<html>\n";
