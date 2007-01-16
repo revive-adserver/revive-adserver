@@ -66,19 +66,21 @@ if (time() >= $last_cron_run + 3600)
 		// Automatic maintenance wasn't run in the last hour
 		
 		if ($phpAds_config['auto_maintenance'])
-			echo "Automatic maintenance is enabled, but it has not been triggered. Note that automatic maintenance is triggered only when Openads delivers banners.";
+			echo "Automatic maintenance is enabled, but it has not been triggered. Note that automatic maintenance is triggered only when Openads delivers banners.
+				  For best performance it is advised to set up <a href='http://docs.openads.org/openads-2.0-guide/automatic-maintenance.html' target='_blank'>scheduled maintenance</a>.";
 		else
 			echo "Also, automatic maintenance is disabled, so when ".$phpAds_productname." delivers banners, maintenance is not triggered.
-				  If you do not plan to run scheduled maintenance, you must enable automatic maintenance to ensure that ".$phpAds_productname." works correctly.";
+				  If you do not plan to run <a href='http://docs.openads.org/openads-2.0-guide/automatic-maintenance.html' target='_blank'>scheduled maintenance</a>,
+				  you must <a href='settings-admin.php?auto_maintenance=t'>enable auto maintenance</a> to ensure that ".$phpAds_productname." works correctly.";
 	}
 	else
 	{
 		if ($phpAds_config['auto_maintenance'])
 			echo "Automatic maintenance is enabled and will trigger maintenance every hour.
-				  For best performance it is advised to set up scheduled maintenance.";
+				  For best performance it is advised to set up <a href='http://docs.openads.org/openads-2.0-guide/automatic-maintenance.html' target='_blank'>scheduled maintenance</a>.";
 		else
 			echo "Automatic maintenance is disabled too but a maintenance task has recently run. To make sure that ".$phpAds_productname." works correctly you should either
-				  set up scheduled maintenance or enable auto maintenance. ";
+				  set up <a href='http://docs.openads.org/openads-2.0-guide/automatic-maintenance.html' target='_blank'>scheduled maintenance</a> or <a href='settings-admin.php?auto_maintenance=t'>enable auto maintenance</a>. ";
 	}
 }
 else
@@ -86,7 +88,7 @@ else
 	echo "<b>Scheduled maintenance seems to be correctly running.</b>"."<br><br>";
 	
 	if ($phpAds_config['auto_maintenance'])
-		echo "Automatic maintenance is enabled. For best performance it is advised to disable automatic maintenance.";
+		echo "Automatic maintenance is enabled. For best performance it is advised to <a href='settings-admin.php?auto_maintenance=f'>disable automatic maintenance</a>.";
 	else
 		echo "Automatic maintenance is disabled.";
 }
