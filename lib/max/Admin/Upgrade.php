@@ -400,6 +400,13 @@ class MAX_Admin_Upgrade
         // Add extra index to the data_summary_zone_impression_history table
         $query = "CREATE INDEX data_summary_zone_impression_history_zone_id ON {$this->conf['table']['prefix']}data_summary_zone_impression_history (zone_id)";
         $this->_runQuery($query);
+
+        // Extend the campaigns table with capping columns
+        $queries = array();
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}campaigns ADD block INT(11) NOT NULL DEFAULT '0'";
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}campaigns ADD capping INT(11) NOT NULL DEFAULT '0'";
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}campaigns ADD session_capping INT(11) NOT NULL DEFAULT '0'";
+        $this->_runQueries($queries);
     }
 
      /** A private method to upgrade the database from the v0.3.30-alpha

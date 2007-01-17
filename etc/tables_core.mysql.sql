@@ -165,6 +165,9 @@ CREATE TABLE IF NOT EXISTS campaigns (
   revenue DECIMAL(10,4) DEFAULT NULL,
   revenue_type SMALLINT DEFAULT NULL,
   updated DATETIME NOT NULL,
+  block INT(11) NOT NULL DEFAULT '0',
+  capping INT(11) NOT NULL DEFAULT '0',
+  session_capping INT(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (campaignid),
   INDEX clientid (clientid)
 );
