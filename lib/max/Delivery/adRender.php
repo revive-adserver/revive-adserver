@@ -152,7 +152,9 @@ function MAX_adRender($aBanner, $zoneId=0, $source='', $target='', $ct0='', $wit
     $cookie_random = $random;
     // Get the click URL
     $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, urlencode($ct0), $logClick, true);
-    $urlPrefix = MAX_commonGetDeliveryUrl($conf['file']['click']);
+	// Get URL prefix, stripping the traling slash
+    $urlPrefix = substr(MAX_commonGetDeliveryUrl(), 0, -1);
+
     $code = str_replace('{clickurl}', $clickUrl, $code);  // This step needs to be done separately because {clickurl} can contain {random}...
     if (strpos($code, '{logurl}') !== false) {
         $logUrl = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
