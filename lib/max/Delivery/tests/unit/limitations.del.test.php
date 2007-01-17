@@ -1,5 +1,30 @@
 <?php
 
+/*
++---------------------------------------------------------------------------+
+| Max Media Manager v0.3                                                    |
+| =================                                                         |
+|                                                                           |
+| Copyright (c) 2003-2006 m3 Media Services Limited                         |
+| For contact details, see: http://www.m3.net/                              |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
 require_once MAX_PATH . '/lib/max/Delivery/limitations.php';
 
@@ -8,8 +33,7 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.php';
  *
  * @package    MaxDelivery
  * @subpackage TestSuite
- * @author
- *
+ * @author     Monique Szpak <monique.szpak@openads.org>
  */
 class test_DeliveryLimitations extends UnitTestCase
 {
@@ -37,14 +61,7 @@ class test_DeliveryLimitations extends UnitTestCase
     }
 
     /**
-     * This function checks the "compiledlimitation" of an ad and returns
-     *   true - This limitation passed (so the ad can be shown)
-     *   false - One or more of the delivery limitations failed, so this ad cannot be shown
-     *
-     * @param array $row The row from the delivery engine Dal for this ad
-     * @param string $source Optional The value passed in to the ad-call via the "source" parameter
-     *
-     * @return boolean True if the ACL passes, false otherwise
+     * A method test the MAX_limitationsCheckAcl function.
      */
     function test_MAX_limitationsCheckAcl()
     {
@@ -80,16 +97,7 @@ class test_DeliveryLimitations extends UnitTestCase
     }
 
     /**
-     * This function first checks to see if a viewerId is present
-     *   This is so that we don't show blocked ads to a user who won't let us set cookies
-     * Then it checks if there is a "last seen" timestamp for this ad present, if so it compares
-     * that against the current time, and only
-     *
-     * @param integer $bannerid The ID of the banner being checked
-     * @param integer $block The number of seconds that must pass before this ad can be seen again
-     *
-     * @return boolean True if the ad IS blocked (and so can't be shown) false if the ad is not blocked
-     *                 and so can be shown.
+     * A method to test the MAX_limitationsIsAdBlocked function.
      */
     function test_MAX_limitationsIsAdBlocked()
     {
@@ -111,7 +119,7 @@ class test_DeliveryLimitations extends UnitTestCase
         $return     = MAX_limitationsIsAdBlocked($bannerid, $block);
         $this->assertTrue($return);
 
-        // Test 3 - 30 second block and "lastSeen" set to 60seconds ago
+        // Test 3 - 30 second block and "lastSeen" set to 60 seconds ago
         $bannerid   = 123;
         $block      = 30;
         $_COOKIE[$conf['var']['blockAd']][$bannerid] = time()-60;
@@ -127,19 +135,8 @@ class test_DeliveryLimitations extends UnitTestCase
         $this->assertTrue($return);
     }
 
-
     /**
-     * This function first checks to see if a viewerId is present
-     *   This is so that we don't show capped ads to a user who won't let us set cookies
-     * Then it checks if there is a "number of times seen" count for this ad present,
-     *   if so it compares that against the maximum times to show this ad
-     *
-     * @param integer $bannerid
-     * @param integer $capping
-     * @param integer $session_capping
-     *
-     * @return boolean True - This ad has already been seen the maximum number of times
-     *                 False - This ad can be seen
+     * A method to test the MAX_limitationsIsAdCapped function.
      */
     function test_MAX_limitationsIsAdCapped()
     {
@@ -206,7 +203,9 @@ class test_DeliveryLimitations extends UnitTestCase
         $this->assertTrue($return);
     }
 
-
+    /**
+     * A method to test the MAX_limitationsIsZoneBlocked function.
+     */
     function test_MAX_limitationsIsZoneBlocked()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -231,6 +230,7 @@ class test_DeliveryLimitations extends UnitTestCase
         $_COOKIE[$conf['var']['blockZone']][$zoneId] = time()-60;
         $this->assertTrue(MAX_limitationsIsZoneBlocked($zoneId, 30));
     }
+
 }
 
 ?>
