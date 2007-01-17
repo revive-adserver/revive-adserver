@@ -61,14 +61,14 @@ class Plugins_ExcelReports extends EnhancedReport
      */
     function openExcelReport($oStartDate, $oEndDate)
     {
-        $reportName = 'm3 ' . $this->_name . ' from ' . $oStartDate->format('%Y-%b-%d') . ' to ' . $oEndDate->format('%Y-%b-%d') . '.xls';
+        $reportName = $this->_name . ' from ' . $oStartDate->format('%Y-%b-%d') . ' to ' . $oEndDate->format('%Y-%b-%d') . '.xls';
         $this->_report_writer->openWithFilename($reportName);
     }
     function openExcelReportWithDaySpan($oDaySpan)
     {
         $startDate = !empty($oDaySpan) ? date('Y-M-d', strtotime($oDaySpan->getStartDateString())): 'Beginning';
         $endDate = !empty($oDaySpan) ? date('Y-M-d', strtotime($oDaySpan->getEndDateString())): date('Y-M-d');
-        $reportName = 'm3 ' . $this->_name . ' from ' . $startDate . ' to ' . $endDate . '.xls';
+        $reportName = $this->_name . ' from ' . $startDate . ' to ' . $endDate . '.xls';
         $this->_report_writer->openWithFilename($reportName);
     }
     function closeExcelReport()

@@ -87,7 +87,7 @@ function createReportFilename($reportName, $startDate, $endDate) {
     $startDate = $aStartDate[2].'-'.$aStartDate[1].'-'.$aStartDate[0];
     $endDate = $aEndDate[2].'-'.$aEndDate[1].'-'.$aEndDate[0];
 
-    return 'm3 ' . $reportName . ' from ' . date('Y-M-d', strtotime($startDate)) . ' to ' . date('Y-M-d', strtotime($endDate)) . '.xls';
+    return $reportName . ' from ' . date('Y-M-d', strtotime($startDate)) . ' to ' . date('Y-M-d', strtotime($endDate)) . '.xls';
 }
 
 /*-----------------------------------------------------*/
