@@ -133,18 +133,56 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
             Admin_DA::getChannels(array('agency_id' => $this->agencyid, 'channel_type' => 'publisher'), true)
         );
 
+        /**
+         * @todo This code is a temporary workaround to de-duplicate the channel list
+         *       this should be factored into the DAL, so that the correct channels are returned
+         *       ideally the three calls above should be factored down to a single call requesting all available channels...
+         */
+        $deDupedChannels = array();
+        $foundChannelIds = array();
+        foreach ($channels as $channel) {
+            if (!in_array($channel['channel_id'], $foundChannelIds)) {
+                $deDupedChannels[] = $channel;
+            }
+            $foundChannelIds[] = $channel['channel_id'];
+        }
+        $channels = $deDupedChannels;
+        
+        // Sort the list, and move selected items to the top of the list
+        usort($channels, '_sortByChannelName');
+        foreach ($channels as $index => $channel) {
+            if (in_array($channel['channel_id'], $this->data)) {
+                $selectedChannels[$index] = $channel;
+                unset($channels[$index]);
+            }
+        }
+        $channels = $selectedChannels + $channels;
         echo "<div class='box'>";
         foreach ($channels as $row) {
             if (!empty($row['publisher_id']) && !in_array($row['publisher_id'], $affiliates)) {
                 continue;
             }
-            echo "<div class='boxrow'>";
-            echo "<input tabindex='".($tabindex++)."' ";
-            echo "type='checkbox' id='c_{$this->executionorder}_{$row['channel_id']}' name='acl[{$this->executionorder}][data][]' value='{$row['channel_id']}'".(in_array($row['channel_id'], $this->data) ? ' checked="checked"' : '').">{$row['name']}</div>";
+            if (empty($row['publisher_id'])) {
+                $editUrl = "channel-acl.php?agencyid={$this->agencyid}&channelid={$row['channel_id']}";
+            } else {
+                $editUrl = "channel-acl.php?affiliateid={$row['publisher_id']}&channelid={$row['channel_id']}";
+            }
+            echo "
+                <div class='boxrow'>
+                    <input 
+                        tabindex='".($tabindex++)."' 
+                        type='checkbox' 
+                        id='c_{$this->executionorder}_{$row['channel_id']}' 
+                        name='acl[{$this->executionorder}][data][]'
+                        value='{$row['channel_id']}'".(in_array($row['channel_id'], $this->data) ? ' checked="checked"' : '')."
+                    />
+                    {$row['name']}
+                    <a href='{$editUrl}' target='_blank'><img src='images/{$GLOBALS['phpAds_TextDirection']}/go_blue.gif' border='0' align='absmiddle' alt='{$GLOBALS['strView']}'></a>
+                </div>";
         }
         echo "</div>";
     }
-
+    
     /**
      * Returns the compiledlimitation string for this limitation
      *
@@ -230,4 +268,11 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
     }
 }
 
+function _sortByChannelName($a, $b) {
+    $a['name'] = strtolower($a['name']);
+    $b['name'] = strtolower($b['name']);
+    
+    if ($a['name'] == $b['name']) return 0;
+    return strcmp($a['name'], $b['name']);
+}
 ?>

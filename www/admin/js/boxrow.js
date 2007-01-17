@@ -103,7 +103,10 @@ function boxrow_click(e)
     } else {
         o = e.target;
     }
-
+    if (o.tagName == 'IMG') {
+        return;
+    }
+    
     // Find the DIV
     while (o.tagName != "DIV") {
         o = o.parentNode;
