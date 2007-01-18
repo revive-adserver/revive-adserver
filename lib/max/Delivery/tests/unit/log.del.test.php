@@ -158,6 +158,8 @@ class Delivery_TestOfLog extends UnitTestCase
         $conf['ignoreHosts'] = array('23.23.23.23', gethostbyaddr($_SERVER['REMOTE_ADDR']));
         // Test
         $this->assertFalse(_viewersHostOkayToLog());
+        // Reset the configuration
+        TestEnv::restoreConfig();
     }
 
     /**
@@ -182,6 +184,8 @@ class Delivery_TestOfLog extends UnitTestCase
         unset($_SERVER['HTTP_REFERER']);
         // Unset the user agent
         unset($_SERVER['HTTP_USER_AGENT']);
+        // Unset the $GLOBALS['_MAX']['CHANNELS'] array
+        unset($GLOBALS['_MAX']['CHANNELS']);
         // Set a non-SSL port
         $_SERVER['SERVER_PORT'] = 80;
         // Ensure initialisation data preparation is done
@@ -406,7 +410,11 @@ class Delivery_TestOfLog extends UnitTestCase
         $this->assertEqual($userAgentInfo['os'], '2k');
         $this->assertEqual($userAgentInfo['long_name'], 'msie');
         $this->assertEqual($userAgentInfo['browser'], 'ie');
-        $this->assertEqual($maxHttps, 1);    }
+        $this->assertEqual($maxHttps, 1);
+
+        // Reset the configuration
+        TestEnv::restoreConfig();
+    }
 
     /**
      * A method to test the MAX_Delivery_log_getArrRequestVariable() function.
@@ -455,6 +463,9 @@ class Delivery_TestOfLog extends UnitTestCase
         $this->assertEqual(count($aReturn), 2);
         $this->assertEqual($aReturn[0], 1);
         $this->assertEqual($aReturn[1], 5);
+
+        // Reset the configuration
+        TestEnv::restoreConfig();
     }
 
     /**
