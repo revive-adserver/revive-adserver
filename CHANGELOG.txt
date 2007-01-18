@@ -32,14 +32,6 @@
 2007-01-15  Admin       Bug         Fixed #2 - All advertisers are shown as inactive (Chris)
 2007-01-09  Maintenance Feature     Fixed #11 - Changes to database schema to improve MPE performance (Andrew)
 2007-01-05  DAL         Feature     Fixed #10 - Improved DAL to use IN format SQL for performance (Andrew)
-2006-12-19  Delivery    Bug         Fixed #1 - Iframe refresh was not working
-
-/**
- * NOTE: The svn repositry was moved to a new server at this point
- *       Any ticket references below this point are held at:
- *       - https://museum.openads.org/trac/openads/
- */
-
 2006-12-04  Delivery    Feature     Fixed #1017 - Allow fl.js file to be specified by full URL (Chris)
 2006-12-04  Admin       Bug         Fixed #1016 - Duplicate document.context line in JS invocation (Chris)
 
@@ -53,6 +45,14 @@
 +---------------------------+
 | Release Max v0.3.31-alpha |
 +---------------------------+
+
+2006-12-19  Delivery    Bug         Fixed #1 - Iframe refresh was not working
+
+/**
+ * NOTE: The svn repositry was moved to a new server at this point
+ *       Any ticket references below this point are held at:
+ *       - https://museum.openads.org/trac/openads/
+ */
 
 2006-11-24  Admin       Feature     Fixed #936 - Created the first version of the Channel Availability
                                     report (Andrew)
