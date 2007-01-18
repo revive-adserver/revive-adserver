@@ -540,9 +540,9 @@ $GLOBALS['strOrg']                         = "Organisation Name";
 $GLOBALS['strIsp']                         = "ISP Name";
 $GLOBALS['strNetspeed']                      = "Internet Connection Speed";
 $GLOBALS['strReferer']                     = "Referring page";
-$GLOBALS['strDeliveryLimitations']        = "Delivery limitations";
+$GLOBALS['strDeliveryLimitations']        = "Delivery Limitations";
 
-$GLOBALS['strDeliveryCapping']            = "Delivery capping";
+$GLOBALS['strDeliveryCapping']            = "Delivery Capping";
 
 $GLOBALS['strCappingBanner'] = array();
 $GLOBALS['strCappingBanner']['title'] = $GLOBALS['strDeliveryCapping'];

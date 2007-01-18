@@ -103,15 +103,26 @@ function _replaceTrailingZerosWithDash(&$time)
  *
  * @param int $tabindex Current $tabindex in the page.
  * @param array $arrTexts The internationalized texts to be used.
- * @param array $cappedObject The data of an object to be capped.
+ * @param array $cappedObject An array of the capping information.
  * @param string $type Optional index name type. If not null, one of
  *                     "Ad", "Campaign" or "Zone".
+ * @param array $aExtraDisplay Optional array of four or five indexes. The first
+ *                             index is "title" and is the title of the display
+ *                             of the extra information, the second is "titleLink"
+ *                             and is the URL to go to edit these extra items,
+ *                             the third is index is "arrTexts", and is a second
+ *                             array of internationalized tests to be used; the fourth
+ *                             index is "cappedObject" and is a second array of
+ *                             capping information; the fifth (optional) index
+ *                             is "type", and is an optional index name for the
+ *                             "cappedObject" array.
  * @return int An incremented value of $tabindex.
  */
-function _echoDeliveryCappingHtml($tabindex, $arrTexts, $cappedObject, $type = null)
+function _echoDeliveryCappingHtml($tabindex, $arrTexts, $cappedObject, $type = null, $aExtraDisplay)
 {
     global $time, $cap, $session_capping;
 
+    // Extract the capping information to put into the form
     if (is_null($type)) {
         if (!isset($time)) {
         	$time = _getTimeFromSec($cappedObject['block']);
@@ -126,41 +137,150 @@ function _echoDeliveryCappingHtml($tabindex, $arrTexts, $cappedObject, $type = n
         $session_capping = (isset($session_capping)) ? $session_capping : $cappedObject['session_cap_' . strtolower($type)];
     }
 
+    // Is there extra non-editable capping info to display?
+    $showExtra = false;
+    if ((!empty($aExtraDisplay)) && (!empty($aExtraDisplay['arrTexts'])) && (!empty($aExtraDisplay['cappedObject']))) {
+        $showExtra = true;
+        if (is_null($aExtraDisplay['type'])) {
+        	$extra_time = _getTimeFromSec($aExtraDisplay['cappedObject']['block']);
+            $extra_cap = $aExtraDisplay['cappedObject']['capping'];
+            $extra_session_capping = $aExtraDisplay['cappedObject']['session_capping'];
+        } else {
+        	$extra_time = _getTimeFromSec($aExtraDisplay['cappedObject']['block_' . strtolower($aExtraDisplay['type'])]);
+            $extra_cap = $aExtraDisplay['cappedObject']['cap_' . strtolower($aExtraDisplay['type'])];
+            $extra_session_capping = $aExtraDisplay['cappedObject']['session_cap_' . strtolower($aExtraDisplay['type'])];
+        }
+    }
+
     _replaceTrailingZerosWithDash($time);
     if ($cap == 0) $cap = '-';
     if ($session_capping == 0) $session_capping = '-';
 
+    if ($showExtra) {
+        _replaceTrailingZerosWithDash($extra_time);
+        if ($extra_cap == 0) $extra_cap = '-';
+        if ($extra_session_capping == 0) $extra_session_capping = '-';
+        if ($extra_time['hour'] == '-' && $extra_time['minute'] == '-' && $extra_time['second'] == '-' && $extra_cap == '-' && $extra_session_capping == '-') {
+            $showExtra = false;
+        }
+    }
+
     echo "
-    <tr><td height='25' colspan='3' bgcolor='#FFFFFF'><b>{$arrTexts['title']}</b></td></tr>
-    <tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-    <tr><td height='10' colspan='3'>&nbsp;</td></tr>
+    <tr>
+      <td height='25' colspan='3' bgcolor='#FFFFFF'>
+        <b>{$arrTexts['title']}</b>
+      </td>";
+
+    if ($showExtra) {
+        if (!empty($aExtraDisplay['title'])) {
+            echo "
+      <td height='25' colspan='3' bgcolor='#FFFFFF'>
+        <b>";
+            if (!empty($aExtraDisplay['titleLink'])) {
+                echo "<a href=\"{$aExtraDisplay['titleLink']}\">";
+            }
+            echo "
+        {$aExtraDisplay['title']} {$arrTexts['title']}
+            ";
+            if (!empty($aExtraDisplay['titleLink'])) {
+                echo "</a>";
+            }
+            echo "
+        </b>
+      </td>";
+        }
+    }
+
+    echo "
+    </tr>
+    <tr><td height='1' colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+    <tr><td height='10' colspan='6'>&nbsp;</td></tr>
 
     <tr>
       <td width='30'>&nbsp;</td>
       <td width='200'>{$arrTexts['time']}</td>
       <td valign='top'>
         <input id='timehour' class='flat' type='text' size='3' name='time[hour]' value='{$time['hour']}' onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strHours']}&nbsp;&nbsp;
-    <input id='timeminute' class='flat' type='text' size='3' name='time[minute]' value='{$time['minute']}' onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strMinutes']}&nbsp;&nbsp;
-    <input id='timesecond' class='flat' type='text' size='3' name='time[second]' value='{$time['second']}' onBlur=\"phpAds_formLimitBlur(this);\" onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strSeconds']}&nbsp;&nbsp;
-      </td>
+        <input id='timeminute' class='flat' type='text' size='3' name='time[minute]' value='{$time['minute']}' onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strMinutes']}&nbsp;&nbsp;
+        <input id='timesecond' class='flat' type='text' size='3' name='time[second]' value='{$time['second']}' onBlur=\"phpAds_formLimitBlur(this);\" onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strSeconds']}&nbsp;&nbsp;
+      </td>";
+
+    if ($showExtra) {
+        echo "
+      <td width='30'>&nbsp;</td>
+      <td width='200'>{$aExtraDisplay['arrTexts']['time']}</td>
+      <td valign='top'>
+        <input id='extratimehour' class='flat' type='text' size='3' name='extra_time[hour]' value='{$extra_time['hour']}' disabled;\"'> {$GLOBALS['strHours']}&nbsp;&nbsp;
+        <input id='extratimeminute' class='flat' type='text' size='3' name='extra_time[minute]' value='{$extra_time['minute']}' disabled;\"'> {$GLOBALS['strMinutes']}&nbsp;&nbsp;
+        <input id='extratimesecond' class='flat' type='text' size='3' name='extra_time[second]' value='{$extra_time['second']}' disabled;\";\"'> {$GLOBALS['strSeconds']}&nbsp;&nbsp;
+      </td>";
+    }
+
+    echo "
     </tr>
-    <tr><td><img src='images/spacer.gif' height='1' width='100%'></td>
-    <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>
-
-    <tr><td width='30'>&nbsp;</td>
-    <td width='200'>{$arrTexts['user']}</td>
-    <td valign='top'>
-    <input class='flat' type='text' size='3' name='cap' value='{$cap}' onBlur=\"phpAds_formCapBlur(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strTimes']}
-    </td></tr>
 
     <tr><td><img src='images/spacer.gif' height='1' width='100%'></td>
-    <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>
+    <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>";
 
-    <tr><td width='30'>&nbsp;</td>
-    <td width='200'>{$arrTexts['session']}</td>
-    <td valign='top'>
-    <input class='flat' type='text' size='3' name='session_capping' value='{$session_capping}' onBlur=\"phpAds_formCapBlur(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strTimes']}
-    </td></tr>
+    if ($showExtra) {
+        echo "
+    <td><img src='images/spacer.gif' height='1' width='100%'></td>
+    <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>";
+    }
+
+    echo "
+    </tr>
+
+    <tr>
+      <td width='30'>&nbsp;</td>
+      <td width='200'>{$arrTexts['user']}</td>
+      <td valign='top'>
+        <input class='flat' type='text' size='3' name='cap' value='{$cap}' onBlur=\"phpAds_formCapBlur(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strTimes']}
+      </td>";
+
+    if ($showExtra) {
+        echo "
+      <td width='30'>&nbsp;</td>
+      <td width='200'>{$arrTexts['user']}</td>
+      <td valign='top'>
+        <input class='flat' type='text' size='3' name='extra_cap' value='{$extra_cap}' disabled;\"'> {$GLOBALS['strTimes']}
+      </td>";
+    }
+
+    echo "
+    </tr>
+
+    <tr><td><img src='images/spacer.gif' height='1' width='100%'></td>
+    <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>";
+
+    if ($showExtra) {
+        echo "
+    <td><img src='images/spacer.gif' height='1' width='100%'></td>
+    <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>";
+    }
+
+    echo "
+    </tr>
+
+    <tr>
+      <td width='30'>&nbsp;</td>
+      <td width='200'>{$arrTexts['session']}</td>
+      <td valign='top'>
+        <input class='flat' type='text' size='3' name='session_capping' value='{$session_capping}' onBlur=\"phpAds_formCapBlur(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strTimes']}
+      </td>";
+
+
+    if ($showExtra) {
+        echo "
+      <td width='30'>&nbsp;</td>
+      <td width='200'>{$arrTexts['session']}</td>
+      <td valign='top'>
+        <input class='flat' type='text' size='3' name='extra_session_capping' value='{$extra_session_capping}' disabled;\"'> {$GLOBALS['strTimes']}
+      </td>";
+    }
+
+    echo "
+    </tr>
 
     <tr><td height='10' colspan='3'>&nbsp;</td></tr>
     ";

@@ -129,10 +129,18 @@ MAX_displayAcls($acl, $aParams);
 echo "
 <table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#FFFFFF'>";
 
-$tabindex = _echoDeliveryCappingHtml($tabindex, $GLOBALS['strCappingBanner'], $aBanner, 'Ad');
+$aParams = array(
+    'title' => $GLOBALS['strCampaign'],
+    'titleLink' => "campaign-edit.php?clientid=$clientid&campaignid=$campaignid",
+    'arrTexts' => $GLOBALS['strCappingCampaign'],
+    'cappedObject' => $aBanner,
+    'type' => 'Campaign'
+);
+
+$tabindex = _echoDeliveryCappingHtml($tabindex, $GLOBALS['strCappingBanner'], $aBanner, 'Ad', $aParams);
 
 echo "
-<tr><td height='1' colspan='3' bgcolor='#888888'>
+<tr><td height='1' colspan='6' bgcolor='#888888'>
 <img src='images/break.gif' height='1' width='100%'></td></tr>
 
 </table>

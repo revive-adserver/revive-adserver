@@ -27,6 +27,7 @@
 | Release Max v0.3.32-alpha |
 +---------------------------+
 
+2007-01-18  General     Feature     Fixed #26 - Added campaign capping (Andrew)
 2007-01-17  Delivery    Bug         Fixed #38 - {url_prefix} replacement broken (Matteo)
 2007-01-17  Admin       Feature     Fixed #36, refs #37 - Some improvements to the channel ACL plugin (Chris)
 2007-01-15  Admin       Bug         Fixed #2 - All advertisers are shown as inactive (Chris)
