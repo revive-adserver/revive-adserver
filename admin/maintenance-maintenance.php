@@ -67,20 +67,20 @@ if (time() >= $last_cron_run + 3600)
 		
 		if ($phpAds_config['auto_maintenance'])
 			echo "Automatic maintenance is enabled, but it has not been triggered. Note that automatic maintenance is triggered only when Openads delivers banners.
-				  For best performance it is advised to set up <a href='http://docs.openads.org/openads-2.0-guide/automatic-maintenance.html' target='_blank'>scheduled maintenance</a>.";
+				  For best performance it is advised to set up <a href='http://docs.openads.org/openads-2.0-guide/maintenance.html' target='_blank'>scheduled maintenance</a>.";
 		else
 			echo "Also, automatic maintenance is disabled, so when ".$phpAds_productname." delivers banners, maintenance is not triggered.
-				  If you do not plan to run <a href='http://docs.openads.org/openads-2.0-guide/automatic-maintenance.html' target='_blank'>scheduled maintenance</a>,
+				  If you do not plan to run <a href='http://docs.openads.org/openads-2.0-guide/maintenance.html' target='_blank'>scheduled maintenance</a>,
 				  you must <a href='settings-admin.php?auto_maintenance=t'>enable auto maintenance</a> to ensure that ".$phpAds_productname." works correctly.";
 	}
 	else
 	{
 		if ($phpAds_config['auto_maintenance'])
 			echo "Automatic maintenance is enabled and will trigger maintenance every hour.
-				  For best performance it is advised to set up <a href='http://docs.openads.org/openads-2.0-guide/automatic-maintenance.html' target='_blank'>scheduled maintenance</a>.";
+				  For best performance it is advised to set up <a href='http://docs.openads.org/openads-2.0-guide/maintenance.html' target='_blank'>scheduled maintenance</a>.";
 		else
 			echo "Automatic maintenance is disabled too but a maintenance task has recently run. To make sure that ".$phpAds_productname." works correctly you should either
-				  set up <a href='http://docs.openads.org/openads-2.0-guide/automatic-maintenance.html' target='_blank'>scheduled maintenance</a> or <a href='settings-admin.php?auto_maintenance=t'>enable auto maintenance</a>. ";
+				  set up <a href='http://docs.openads.org/openads-2.0-guide/maintenance.html' target='_blank'>scheduled maintenance</a> or <a href='settings-admin.php?auto_maintenance=t'>enable auto maintenance</a>. ";
 	}
 }
 else
