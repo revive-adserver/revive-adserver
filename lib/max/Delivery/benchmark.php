@@ -36,7 +36,6 @@ $Id$
 
 /**
  * If benchmarking is enabled, then start the benchmark
- *
  */
 function MAX_benchmarkStart()
 {
@@ -52,7 +51,6 @@ function MAX_benchmarkStart()
 /**
  * If benchmarking is enabled, then stop the benchmark
  * and log the results
- * 
  */
 function MAX_benchmarkStop()
 {
@@ -61,7 +59,7 @@ function MAX_benchmarkStop()
         require_once MAX_PATH . '/lib/max/Delivery/log.php';
         $timer = $GLOBALS['timer'];
         $timer->stop();
-        MAX_logBenchmark(basename($_SERVER['PHP_SELF']), $_SERVER['QUERY_STRING'], $timer->timeElapsed());
+        MAX_Delivery_log_logBenchmark(basename($_SERVER['PHP_SELF']), $_SERVER['QUERY_STRING'], $timer->timeElapsed());
     }
 }
 

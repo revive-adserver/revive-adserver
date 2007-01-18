@@ -34,13 +34,13 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Admin/Invocation.php';
-require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
-require_once MAX_PATH . '/www/admin/lib-size.inc.php';
-require_once MAX_PATH . '/www/admin/lib-append.inc.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/max/other/capping/lib-capping.inc.php';
+require_once MAX_PATH . '/www/admin/config.php';
+require_once MAX_PATH . '/www/admin/lib-append.inc.php';
+require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
+require_once MAX_PATH . '/www/admin/lib-size.inc.php';
+require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 
 // Register input variables
 phpAds_registerGlobal (
@@ -188,7 +188,7 @@ if (isset($submitbutton))
         if (isset($forceappend)) {
             $sqlupdate[] = "forceappend = '$forceappend'";
         }
-        
+
         $inventory_forecast_type = 0;
         if (isset($inventory_forecast_type_page_url)) $inventory_forecast_type += $inventory_forecast_type_page_url;
         if (isset($inventory_forecast_type_country)) $inventory_forecast_type += $inventory_forecast_type_country;
@@ -199,11 +199,11 @@ if (isset($submitbutton))
         }
 
 		_initCappingVariables();
-		
+
 		$sqlupdate[] = "block = '$block'";
 		$sqlupdate[] = "capping = '$cap'";
 		$sqlupdate[] = "session_capping = '$session_capping'";
-        
+
         $res = phpAds_dbQuery("
             UPDATE
                 ".$conf['table']['prefix'].$conf['table']['zones']."

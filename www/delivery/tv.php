@@ -36,7 +36,7 @@ if (!empty($_GET['server_raw_tracker_impression_id']) && !empty($_GET['trackerid
     $serverRawIp                  = $_GET['server_raw_ip'];
     $trackerId                    = $_GET['trackerid'];
     $variables = MAX_cacheGetTrackerVariables($trackerId);
-    MAX_logVariableValues($variables, $trackerId, $serverRawTrackerImpressionId, $serverRawIp);
+    MAX_Delivery_log_logVariableValues($variables, $trackerId, $serverRawTrackerImpressionId, $serverRawIp);
 }
 
 // stop benchmarking

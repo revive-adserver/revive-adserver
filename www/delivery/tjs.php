@@ -48,7 +48,7 @@ header("Content-type: application/x-javascript");
 // Log the tracker impression
 $logVars = false;
 if ($conf['logging']['trackerImpressions']) {
-    $conversionInfo = MAX_logTrackerImpression($userid, $trackerid);
+    $conversionInfo = MAX_Delivery_log_logTrackerImpression($userid, $trackerid);
     // Generate code required to send variable values to the {$conf['file']['conversionvars']} script
     if (isset($inherit)) {
         $variablesScript = MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo, $inherit);

@@ -44,10 +44,10 @@ $userid = MAX_cookieGetUniqueViewerID(false);
 
 // Log the tracker impression
 if ($conf['logging']['trackerImpressions']) {
-	$conversionInfo = MAX_logTrackerImpression($userid, $trackerid);
+	$conversionInfo = MAX_Delivery_log_logTrackerImpression($userid, $trackerid);
 	if (isset($conversionInfo['server_raw_tracker_impression_id'])) {
 	    // Store tracker impression variable values
-	    MAX_logVariableValues(MAX_cacheGetTrackerVariables($trackerid), $trackerid, $conversionInfo['server_raw_tracker_impression_id'], $conversionInfo['server_raw_ip']);
+	    MAX_Delivery_log_logVariableValues(MAX_cacheGetTrackerVariables($trackerid), $trackerid, $conversionInfo['server_raw_tracker_impression_id'], $conversionInfo['server_raw_ip']);
 	}
 }
 MAX_cookieFlush();

@@ -59,7 +59,7 @@ if ($limitations['compatible']) {
 	if (!$output) {
         if ($conf['debug']['benchmark']) {
             $timer->stop();
-            MAX_logBenchmark(basename($_SERVER['PHP_SELF']), $_SERVER['QUERY_STRING'], $timer->timeElapsed(), 'No ad displayed');
+            MAX_Delivery_log_logBenchmark(basename($_SERVER['PHP_SELF']), $_SERVER['QUERY_STRING'], $timer->timeElapsed(), 'No ad displayed');
         }
 	    exit;
 	}

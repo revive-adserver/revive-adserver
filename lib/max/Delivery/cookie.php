@@ -31,7 +31,6 @@ $Id$
  * @author     Chris Nutting <chris@m3.net>
  */
 
-
 /**
  * Set a cookie in the global cookie cache
  *
@@ -42,7 +41,7 @@ $Id$
  */
 function MAX_cookieSet($name, $value, $expire = 0)
 {
-    $cookieCache =& $GLOBALS['_MAX']['COOKIE']['CACHE'];
+    $cookieCache = &$GLOBALS['_MAX']['COOKIE']['CACHE'];
     if (!isset($cookieCache)) {
         $cookieCache = array();
     }
@@ -107,12 +106,15 @@ function MAX_cookieFlush()
             continue;
         }
         switch ($cookieName) {
-            case $conf['var']['blockAd']        : $expire = _getTimeThirtyDaysFromNow(); break;
-            case $conf['var']['capAd']          : $expire = _getTimeYearFromNow(); break;
-            case $conf['var']['sessionCapAd']   : $expire = 0; break;
-            case $conf['var']['blockZone']      : $expire = _getTimeThirtyDaysFromNow(); break;
-            case $conf['var']['capZone']        : $expire = _getTimeYearFromNow(); break;
-            case $conf['var']['sessionCapZone'] : $expire = 0; break;
+            case $conf['var']['blockAd']            : $expire = _getTimeThirtyDaysFromNow(); break;
+            case $conf['var']['capAd']              : $expire = _getTimeYearFromNow(); break;
+            case $conf['var']['sessionCapAd']       : $expire = 0; break;
+            case $conf['var']['blockCampaign']      : $expire = _getTimeThirtyDaysFromNow(); break;
+            case $conf['var']['capCampaign']        : $expire = _getTimeYearFromNow(); break;
+            case $conf['var']['sessionCapCampaign'] : $expire = 0; break;
+            case $conf['var']['blockZone']          : $expire = _getTimeThirtyDaysFromNow(); break;
+            case $conf['var']['capZone']            : $expire = _getTimeYearFromNow(); break;
+            case $conf['var']['sessionCapZone']     : $expire = 0; break;
         }
         if (!empty($_COOKIE[$cookieName]) && is_array($_COOKIE[$cookieName])) {
             $data = array();
@@ -124,18 +126,15 @@ function MAX_cookieFlush()
     }
 }
 
-
 function _getTimeThirtyDaysFromNow()
 {
 	return MAX_commonGetTimeNow() + 30*24*60*60;
 }
 
-
 function _getTimeYearFromNow() //Chris: See comment above
 {
 	return MAX_commonGetTimeNow() + 365*24*60*60;
 }
-
 
 /**
  * This function unpacks the serialized array used for capping
@@ -174,7 +173,7 @@ function MAX_cookieUnpackCapping()
                         $_COOKIE[$cookieName][$adId] = $cookie;
                     }
                 }
-                //FIXME-Andrzej: temporary cookies do not get deleted
+                // FIXME-Andrzej: temporary cookies do not get deleted
                 // Delete the temporary capping cookie
                 MAX_cookieSet("_{$cookieName}[{$adId}]", "0", 1);
                 // Work around a bug in IE where the cookie name is sometimes URL-encoded
@@ -184,13 +183,29 @@ function MAX_cookieUnpackCapping()
     }
 }
 
-
+/**
+ * A function to return if a cookie name is a "blocking" cookie name
+ * (i.e. the ad blocking, campaign blocking or zone blocking cookie
+ * name defined in the configuration file).
+ *
+ * @param string $cookieName The name of the cookie (e.g. "MAXBLOCK").
+ * @return boolean True if $cookieName is one of the blocking cookie
+ *                 names, false otherwise.
+ */
 function _isBlockCookie($cookieName)
 {
 	$conf = $GLOBALS['_MAX']['CONF'];
-	return $cookieName == $conf['var']['blockAd'] || $cookieName == $conf['var']['blockZone'];
+	if ($cookieName == $conf['var']['blockAd']) {
+	    return true;
+	}
+	if ($cookieName == $conf['var']['blockCampaign']) {
+	    return true;
+	}
+	if ($cookieName == $conf['var']['blockZone']) {
+	    return true;
+	}
+	return false;
 }
-
 
 /**
  * This function gets the unique user ID (creating if necessary)
@@ -250,61 +265,41 @@ function MAX_cookieSendP3PHeaders() {
 }
 
 /**
- * This function sets any capping cookies that are required for this impression
+ * A function to set any capping cookies (ie. block, cap or sessionCap) that are required
+ * for an ad, a campaign or a zone.
  *
- * @param int $adId The ID of the ad to set this capping cookie for
- * @param int $block The number of seconds to prevent this ad from showing
- * @param int $capping The total number of times a viewer can see this creative
- * @param int $session_capping The number of times per session that a viewer can see this creative
+ * @param string $type The type of capping to set, one of "Ad", "Campaign" or "Zone".
+ * @param integer $id The ID of the ad, campaign or zone that the capping cookies are for.
+ * @param integer $block The number of seconds to block the ad, campaign or zone.
+ * @param integer $cap The total number of times a viewer can see an ad, an ad from the
+ *                     campaign, or an ad in a zone.
+ * @param integer $sessionCap The number of times per session that a viewer can see an
+ *                            ad, an ad from the campaign, or an ad in a zone.
  */
-function MAX_cookieSetCapping($id, $capType, $block = 0, $capping = 0, $session_capping = 0)
+function MAX_Delivery_cookie_setCapping($type, $id, $block = 0, $cap = 0, $sessionCap = 0)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-
-    if ($block) {
+    if ($block > 0) {
+        // This blocking cookie is limited to 30 days
         $expire = _getTimeThirtyDaysFromNow();
+        // Store a cookie using the current time so that the system knows when
+        // the last time this viewer saw this ad, an ad in this campaign or an
+        // ad in this zone
         $timeLastSeen = MAX_commonGetTimeNow();
-        MAX_cookieSet("_{$conf['var']['block' . $capType]}[{$id}]", $timeLastSeen, $expire);
+        MAX_cookieSet("_{$conf['var']['block' . $type]}[{$id}]", $timeLastSeen, $expire);
     }
-    if ($capping) {
-        // Set capping cookies to be "permanent"
+    if ($cap > 0) {
+        // This capping cookie requires a "permanent" expiration time
         $expire = MAX_commonGetTimeNow() + $conf['cookie']['permCookieSeconds'];
-
         // The unpack capping cookies function deals with imcrementing the counter
-        MAX_cookieSet("_{$conf['var']['cap' . $capType]}[{$id}]", 1, $expire);
+        MAX_cookieSet("_{$conf['var']['cap' . $type]}[{$id}]", 1, $expire);
     }
-    if ($session_capping) {
+    if ($sessionCap > 0) {
         // The unpack capping cookies function deals with imcrementing the counter
         // The expiry is set to 0 to make a session cookie
-        MAX_cookieSet("_{$conf['var']['sessionCap' . $capType]}[{$id}]", 1, 0);
+        MAX_cookieSet("_{$conf['var']['sessionCap' . $type]}[{$id}]", 1, 0);
     }
 }
-
-/**
- * @param string $id
- * @param int $block
- * @param int $capping
- * @param int $session_capping
- * @see MAX_cookieSetCapping
- */
-function MAX_cookieSetZoneCapping($id, $block, $capping, $session_capping)
-{
-	MAX_cookieSetCapping($id, 'Zone', $block, $capping, $session_capping);
-}
-
-
-/**
- * @param string $id
- * @param int $block
- * @param int $capping
- * @param int $session_capping
- * @see MAX_cookieSetCapping
- */
-function MAX_cookieSetBannerCapping($id, $block, $capping, $session_capping)
-{
-	MAX_cookieSetCapping($id, 'Ad', $block, $capping, $session_capping);
-}
-
 
 /**
  * Function to generate the P3P header string

@@ -332,6 +332,9 @@ function MAX_commonInitVariables()
         $conf['var']['blockAd'],
         $conf['var']['capAd'],
         $conf['var']['sessionCapAd'],
+        $conf['var']['blockCampaign'],
+        $conf['var']['capCampaign'],
+        $conf['var']['sessionCapCampaign'],
         $conf['var']['blockZone'],
         $conf['var']['capZone'],
         $conf['var']['sessionCapZone']);

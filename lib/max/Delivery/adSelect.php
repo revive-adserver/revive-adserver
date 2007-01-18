@@ -173,7 +173,7 @@ function MAX_adSelect($what, $target = '', $source = '', $withtext = 0, $context
         if (is_array($row) && empty($row['default'])) {
             // Log the ad request
             if ($conf['logging']['adRequests']) {
-                MAX_logAdRequest($userid, $row['bannerid'], null, $row['zoneid']);
+                MAX_Delivery_log_logAdRequest($userid, $row['bannerid'], null, $row['zoneid']);
             }
             if ($row['adserver'] == 'max' && preg_match("#{$conf['webpath']['delivery']}.*zoneid=([0-9]+)#", $row['htmltemplate'], $matches) && !stristr($row['htmltemplate'], $conf['file']['popup'])) {
                 // The ad selected was a Max HTML ad on the same server... do internal redirecty stuff
@@ -357,9 +357,9 @@ function _adSelectZone($zoneId, $context = array(), $source = '', $richMedia = t
 					$aLinkedAd['storagetype'] = $aLinkedAd['type'];
 					$aLinkedAd['campaignid'] = $aLinkedAd['placement_id'];
 					$aLinkedAd['zone_companion'] = $aZoneLinkedAds['zone_companion'];
-					$aLinkedAd['blockZone'] = $aZoneLinkedAds['blockZone'];
-					$aLinkedAd['capZone'] = $aZoneLinkedAds['capZone'];
-					$aLinkedAd['sessionCapZone'] = $aZoneLinkedAds['sessionCapZone'];
+					$aLinkedAd['block_zone'] = $aZoneLinkedAds['block_zone'];
+					$aLinkedAd['cap_zone'] = $aZoneLinkedAds['cap_zone'];
+					$aLinkedAd['session_cap_zone'] = $aZoneLinkedAds['session_cap_zone'];
 
 					if (!$appendedThisZone) {
 	                    $aLinkedAd['append'] .= $aZoneLinkedAds['append'] . $g_append;
@@ -510,7 +510,7 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
 					             !($aLinkedAd['type'] == 'url' && $aLinkedAd['contenttype'] == '')
 					         ) {
 					    $postconditionSuccess = false;
-					} elseif (MAX_limitationsIsAdForbidden($adId, $aLinkedAd)) {
+					} elseif (MAX_limitationsIsAdForbidden($adId, $aLinkedAd['campaign_id'], $aLinkedAd)) {
 						$postconditionSuccess = false;
 					} elseif ($_SERVER['SERVER_PORT'] == 443 && $aLinkedAd['type'] == 'html' && ($aLinkedAd['adserver'] != 'max' || preg_match("#src\s?=\s?['\"]http:#", $aLinkedAd['htmlcache']))) {
 					    // HTML Banners that contain 'http:' on SSL

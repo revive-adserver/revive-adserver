@@ -37,7 +37,7 @@ require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 // No Caching
 MAX_commonSetNoCacheHeaders();
 
-//Register any script specific input variables
+// Register any script specific input variables
 MAX_commonRegisterGlobals('n');
 if (!isset($n)) $n = 'default';
 
@@ -67,7 +67,7 @@ if (!empty($row['html'])) {
     // but this type of ad doesn't work with beacons, so the impression must
     // be logged here
     if ($conf['logging']['adImpressions']) {
-        MAX_logAdImpression($userid, $row['bannerid'], null, $zoneid);
+        MAX_Delivery_log_logAdImpression($userid, $row['bannerid'], null, $zoneid);
     }
     // Redirect to the banner
     MAX_cookieSet($conf['var']['vars'] . "[$n]", serialize($cookie));

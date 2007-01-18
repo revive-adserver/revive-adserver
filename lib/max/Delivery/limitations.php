@@ -29,6 +29,7 @@ $Id$
  * @package    MaxDelivery
  * @subpackage limitations
  * @author     Chris Nutting <chris@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
 
 /**
@@ -38,7 +39,6 @@ $Id$
  *
  * @param array $row The row from the delivery engine Dal for this ad
  * @param string $source Optional The value passed in to the ad-call via the "source" parameter
- *
  * @return boolean True if the ACL passes, false otherwise
  */
 function MAX_limitationsCheckAcl($row, $source = '')
@@ -72,181 +72,220 @@ function MAX_limitationsCheckAcl($row, $source = '')
 }
 
 /**
- * This function checks if the user has cookies enabled in his/her browser.
- * This function works only if MAX_cookieGetUniqueViewerID() has been
- * already called. The function always returns false if this is first
- * visit of the user to the system.
+ * A function to test if an ad may or may not be delivered, based on that ad's
+ * ad blocking, ad capping, campaign blocking and campaign capping rules.
  *
- * @param boolean $filterActive Can only return true if this
- *                parameter is set to true.
+ * Returns true if the ad is blocked or capped (and hence cannot be delivered),
+ * false otherwise (in which case the ad can be delivered).
+ *
+ * Always returns true if the viewer does not allow cookies to be set, so that
+ * blocking and capping cannot be circumvented by disabling cookies.
+ *
+ * @param integer $adId The ID of the ad to check.
+ * @param integer $campaignId The ID of the campaign to check.
+ * @param array $aCapping An array with the values of 'block_ad', 'cap_ad',
+ *                        'session_cap_ad', 'block_campaign', 'cap_campaign' and
+ *                        'session_cap_campaign' defined.
+ * @return boolean True if the ad is blocked or capped, false otherwise.
+ */
+function MAX_limitationsIsAdForbidden($adId, $campaignId, $aCapping)
+{
+	return (_limitationsIsAdBlocked($adId, $aCapping['block_ad']) ||
+	   _limitationsIsAdCapped($adId, $aCapping['cap_ad'], $aCapping['session_cap_ad']) ||
+	   _limitationsIsCampaignBlocked($campaignId, $aCapping['block_campaign']) ||
+	   _limitationsIsCampaignCapped($campaignId, $aCapping['cap_campaign'], $aCapping['session_cap_campaign']));
+}
+
+/**
+ * A function to test if ads in a zone may or may not be delivered, based on that zone's
+ * zone blocking and zone capping rules.
+ *
+ * Returns true if a zone is blocked or capped (and hence an ad from the zone cannot be
+ * delivered), false otherwise (in which case the ads from the zone can be delivered).
+ *
+ * Always returns true if the viewer does not allow cookies to be set, so that
+ * blocking and capping cannot be circumvented by disabling cookies.
+ *
+ * @param integer $zoneId The ID of the zone to check.
+ * @param array $aCapping An array with the values of 'block_zone', 'cap_zone' and
+ *                        'session_cap_zone' defined.
+ * @return boolean True if the zone is blocked or capped, false otherwise.
+ */
+function MAX_limitationsIsZoneForbidden($zoneId, $aCapping)
+{
+    return (_limitationsIsZoneBlocked($zoneId, $aCapping['block_zone']) ||
+       _limitationsIsZoneCapped($zoneId, $aCapping['cap_zone'], $aCapping['session_cap_zone']));
+}
+
+/**
+ * A "private" function to test if an ad is blocked as a result of an ad block limitation.
+ *
+ * @access private
+ * @param integer $adId The ID of the ad to check.
+ * @param integer $block The number of seconds the ad is to be blocked for after it is shown
+ *                       to a viewer.
+ * @return boolean True if the ad is blocked, false otherwise.
+ */
+function _limitationsIsAdBlocked($adId, $block)
+{
+	return _limitationsIsBlocked('Ad', $adId, $block);
+}
+
+/**
+ * A "private" function to test if an ad is blocked as a result of a campaign block limitation.
+ *
+ * @access private
+ * @param integer $adId The ID of the campaign to check.
+ * @param integer $block The number of seconds the ad is to be blocked for after it is shown
+ *                       to a viewer.
+ * @return boolean True if the ad is blocked, false otherwise.
+ */
+function _limitationsIsCampaignBlocked($campaignId, $block)
+{
+	return _limitationsIsBlocked('Campaign', $campaignId, $block);
+}
+
+/**
+ * A "private" function to test if a zone is blocked as a result of a zone block limitation.
+ *
+ * @access private
+ * @param integer $zoneId The ID of the zone to check.
+ * @param integer $block The number of seconds the zone is to be blocked for after it is shown
+ *                       to a viewer.
+ * @return boolean True if the zone is blocked, false otherwise.
+ */
+function _limitationsIsZoneBlocked($zoneId, $block)
+{
+	return _limitationsIsBlocked('Zone', $zoneId, $block);
+}
+
+/**
+ * A "private" function to test if an ad is capped as a result of an ad capping or
+ * ad session capping limitation.
+ *
+ * @access private
+ * @param integer $adId The ID of the ad to check.
+ * @param integer $cap The total number of times the ad is to be shown to a viewer.
+ * @param integer $sessionCap Optional total number of times the ad is to be shown
+ *                            to a viewer in a session.
+ * @return boolean True if the ad is capped, false otherwise.
+ */
+function _limitationsIsAdCapped($adId, $cap, $sessionCap = 0)
+{
+	return _limitationsIsCapped('Ad', $adId, $cap, $sessionCap);
+}
+
+/**
+ * A "private" function to test if an ad is capped as a result of a campaign capping or
+ * ad session capping limitation.
+ *
+ * @access private
+ * @param integer $adId The ID of the campaign to check.
+ * @param integer $cap The total number of times the ad is to be shown to a viewer.
+ * @param integer $sessionCap Optional total number of times the ad is to be shown
+ *                            to a viewer in a session.
+ * @return boolean True if the ad is capped, false otherwise.
+ */
+function _limitationsIsCampaignCapped($campaignId, $cap, $sessionCap = 0)
+{
+	return _limitationsIsCapped('Campaign', $campaignId, $cap, $sessionCap);
+}
+
+/**
+ * A "private" function to test if a zone is capped as a result of a zone capping or
+ * zone session capping limitation.
+ *
+ * @access private
+ * @param integer $zoneId The ID of the zone to check.
+ * @param integer $cap The total number of times the zone is to be shown to a viewer.
+ * @param integer $sessionCap Optional total number of times the zone is to be shown
+ *                            to a viewer in a session.
+ * @return boolean True if the zone is capped, false otherwise.
+ */
+function _limitationsIsZoneCapped($zoneId, $cap, $sessionCap = 0)
+{
+	return _limitationsIsCapped('Zone', $zoneId, $cap, $sessionCap);
+}
+
+/**
+ * A "private" function to test to see if a block limitation for an ad or zone item needs
+ * to be enforced.
+ *
+ * @access private
+ * @param string $type The block limitation type - one of "Ad", "Campaign" or "Zone".
+ * @param integer $id The ID of the ad, campaign or zone to check.
+ * @param integer $block The number of seconds the ad or zone is to be blocked for after it is
+ *                       shown to a viewer.
+ * @return boolean True if the ad or zone is blocked, false otherwise.
+ */
+function _limitationsIsBlocked($type, $id, $block)
+{
+    // Always return true (blocked) if cookies have been disabled by the viewer
+    if (_areCookiesDisabled($block > 0)) {
+        return true;
+    }
+    // Get the block cookie name from the configuration file
+    $conf = $GLOBALS['_MAX']['CONF'];
+    $cookieName = $conf['var']['block' . $type];
+    // When was the item last seen by the viewer?
+    $timeLastSeen = $_COOKIE[$cookieName][$id];
+    // Return if the item is blocked, or not
+    return ($block > 0) && isset($timeLastSeen) && (($timeLastSeen + $block) > MAX_commonGetTimeNow());
+}
+
+/**
+ * A "private" function to test to see if a capping limitation for an ad or zone item needs
+ * to be enforced.
+ *
+ * @access private
+ * @param string $type The capping limitation type - one of "Ad", "Campaign" or "Zone".
+ * @param integer $id The ID of the ad, campaign or zone to check.
+ * @param integer $cap The total number of times an ad or an ad from a zone is to be shown
+ *                     to a viewer.
+ * @param integer $sessionCap Optional total number of times an ad or an ad from a zone is
+ *                            to be shown to a viewer in a session.
+ * @return boolean True if the ad or zone is capped, false otherwise.
+ */
+function _limitationsIsCapped($type, $id, $cap, $sessionCap)
+{
+    // Always return true (capped) if cookies have been disabled by the viewer
+    if (_areCookiesDisabled(($cap > 0) || ($sessionCap > 0))) {
+        return true;
+    }
+    // Get the capping cookie name from the configuration file
+    $conf = $GLOBALS['_MAX']['CONF'];
+    $cookieName = $conf['var']['cap' . $type];
+    // How many times (total) has the item been by the viewer?
+    $totalImpressions = $_COOKIE[$cookieName][$id];
+    // Get the session capping cookie name from the configuration file
+    $conf = $GLOBALS['_MAX']['CONF'];
+    $cookieName = $conf['var']['sessionCap' . $type];
+    // How many times (session) has the item been by the viewer?
+    $sessionImpressions = $_COOKIE[$cookieName][$id];
+    // Return if the item is capped, or not
+    return ((($cap > 0) && isset($totalImpressions) && ($totalImpressions >= $cap)) ||
+        (($sessionCap > 0) && isset($sessionImpressions) && ($sessionImpressions >= $sessionCap)));
+}
+
+/**
+ * A "private" function to test is the viewer has cookies disabled.
+ *
+ * Works by testing to see if the MAX_cookieGetUniqueViewerID() function
+ * has been able to set a cookie, or not.
+ *
+ * It is a pre-condition of this function that the MAX_cookieGetUniqueViewerID()
+ * function have already been called, as this function does not attempt to
+ * call the MAX_cookieGetUniqueViewerID() if no cookie exists because the
+ * function was not called.
+ *
+ * @access private
+ * @param boolean $filterActive Function always returns true when set to true.
  * @return boolean True if the user has cookies disabled, false otherwise.
  */
 function _areCookiesDisabled($filterActive = true)
 {
     // Since MAX_cookieGetUniqueViewerID() has to have been called by this point
     return !empty($GLOBALS['_MAX']['COOKIE']['newViewerId']) && $filterActive;
-}
-
-
-/**
- * The basic function for checking if a given element (ad or zone) is blocked.
- * @param string $capType Either 'Ad' or 'Zone'.
- * @param int $id The ID of the banner being checked.
- * @param int $block The number of seconds that must pass before this ad can be seen again.
- *
- * @return boolean True if the ad IS blocked (and so can't be shown) false if the ad is not blocked
- *                 and so can be shown.
- * @see MAX_limitationsIsAdBlocked
- * @see MAX_limitationsIsZoneBlocked
- */
-function MAX_limitationsIsBlocked($capType, $id, $block)
-{
-    if (_areCookiesDisabled($block > 0)) {
-        return true;
-    }
-
-    $conf = $GLOBALS['_MAX']['CONF'];
-    $timeLastSeen = $_COOKIE[$conf['var']['block' . $capType]][$id];
-    return $block > 0 && isset($timeLastSeen) && (($timeLastSeen + $block) > MAX_commonGetTimeNow());
-}
-
-
-/**
- * Checks whether cap conditions for the element have been fulfilled.
- *
- * @param string $id Id of the element to check.
- * @param string $capModel Either 'cap' or 'sessionCap' followed by either 'Ad' or 'Zone'.
- * @param int $maxViews Maximum number of views allowed
- * @return boolean True if and only if the banner must not be displayed.
- */
-function MAX_limitationsIsExceeded($id, $capModel, $maxViews)
-{
-	$conf = $GLOBALS['_MAX']['CONF'];
-	$cViews = $_COOKIE[$conf['var'][$capModel]][$id];
-    return ($maxViews > 0) && (isset($cViews) && ($cViews >= $maxViews));
-}
-
-
-/**
- * The basic function to check capping of various elements (eg. 'Ad's or 'Zone's).
- *
- * @param int $id Id of the element to check.
- * @param int $capping Maximum number of displays for a single user.
- * @param int $session_capping Maximum number of displays in a single session.
- *
- * @return boolean True - This ad has already been seen the maximum number of times
- *                 False - This ad can be seen
- */
-function MAX_limitationsIsCapped($capType, $id, $capping, $session_capping)
-{
-    if (_areCookiesDisabled(($capping > 0) || ($session_capping > 0))) {
-        return true;
-    }
-
-    return MAX_limitationsIsExceeded($id, 'cap' . $capType, $capping) ||
-    	MAX_limitationsIsExceeded($id, 'sessionCap' . $capType, $session_capping);
-}
-
-
-/**
- * This function first checks to see if a viewerId is present
- *   This is so that we don't show blocked ads to a user who won't let us set cookies
- * Then it checks if there is a "last seen" timestamp for this ad present, if so it compares
- * that against the current time, and only
- *
- * @param int $bannerid The ID of the banner being checked
- * @param int $block The number of seconds that must pass before this ad can be seen again
- *
- * @return boolean True if the ad IS blocked (and so can't be shown) false if the ad is not blocked
- *                 and so can be shown.
- */
-function MAX_limitationsIsAdBlocked($bannerid, $block)
-{
-	return MAX_limitationsIsBlocked('Ad', $bannerid, $block);
-}
-
-/**
- * This function first checks to see if a viewerId is present
- *   This is so that we don't show capped ads to a user who won't let us set cookies
- * Then it checks if there is a "number of times seen" count for this ad present,
- *   if so it compares that against the maximum times to show this ad
- *
- * @param int $bannerid
- * @param int $capping
- * @param int $session_capping
- *
- * @return boolean True - This ad has already been seen the maximum number of times
- *                 False - This ad can be seen
- */
-function MAX_limitationsIsAdCapped($bannerid, $capping, $session_capping = 0)
-{
-	return MAX_limitationsIsCapped('Ad', $bannerid, $capping, $session_capping);
-}
-
-
-/**
- * Returns true if zone is blocked to view, false otherwise.
- * Always returns true if a user does not allow cookies.
- * Otherwise checks if the zone have not been displayed for the
- * amount of time passed in the parameter.
- *
- * @param int $zoneId The ID of the zone to check
- * @param int $block The number of seconds that must pass before this zone can be seen again
- * @return boolean True if the zone IS blocked (and so can't be shown) false if the ad is not blocked
- *                 and so can be shown.
- */
-function MAX_limitationsIsZoneBlocked($zoneId, $block)
-{
-	return MAX_limitationsIsBlocked('Zone', $zoneId, $block);
-}
-
-
-/**
- * Returns true if zone is blocked to view, false otherwise.
- * Always returns true if a user does not allow cookies.
- * Otherwise it checks if there is a "number of times seen" count for this zone present.
- * If so, it compares that against the maximum times to show this zone.
- *
- * @param int $zoneId
- * @param int $capping
- * @param int $session_capping
- *
- * @return boolean True - This ad has already been seen the maximum number of times
- *                 False - This ad can be seen
- */
-function MAX_limitationsIsZoneCapped($zoneId, $capping, $session_capping = 0)
-{
-	return MAX_limitationsIsCapped('Zone', $zoneId, $capping, $session_capping);
-}
-
-
-/**
- * Returns true if a zone is blocked or capped, false otherwise.
- * Always returns true if the user does not allow cookies.
- *
- * @param int $zoneId Id of the zone to check.
- * @param array $zoneCapping Array with the values of 'blockZone', 'capZone' and 'sessionCapZone' defined.
- * @return boolean True if the zone is forbidden, false if it can be shown to the user.
- */
-function MAX_limitationsIsZoneForbidden($zoneId, $zoneCapping)
-{
-	return MAX_limitationsIsZoneBlocked($zoneId, $zoneCapping['blockZone'])
-		|| MAX_limitationsIsZoneCapped($zoneId, $zoneCapping['capZone'], $zoneCapping['sessionCapZone']);
-}
-
-
-/**
- * Returns true if a banner is blocked or capped, false otherwise.
- * Always returns true if the user does not allow cookies.
- *
- * @param int $bannerid Id of the banner to check.
- * @param array $arrCapping Array with the values of 'block', 'capping' and 'session_capping' defined.
- * @return boolean True if the banner is forbidden, false if it can be shown to the user.
- */
-function MAX_limitationsIsAdForbidden($bannerId, $arrCapping)
-{
-	return MAX_limitationsIsAdBlocked($bannerId, $arrCapping['block'])
-		|| MAX_limitationsIsAdCapped($bannerId, $arrCapping['capping'], $arrCapping['session_capping']);
 }
 
 ?>

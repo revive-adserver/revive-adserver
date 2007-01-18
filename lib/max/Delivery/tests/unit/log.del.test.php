@@ -34,9 +34,6 @@ require_once MAX_PATH . '/lib/max/Delivery/remotehost.php';
  * @package    MaxDelivery
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
- *
- * @TODO Incomplete - needs DAL sorted out, so that simple creation/dropping
- *       of tables in the test database can be achieved.
  */
 class Delivery_TestOfLog extends UnitTestCase
 {
@@ -50,7 +47,67 @@ class Delivery_TestOfLog extends UnitTestCase
     }
 
     /**
-     * Test the _viewersHostOkayToLog function.
+     * A method to test the MAX_Delivery_log_logAdRequest() function.
+     *
+     * @TODO Not implemented.
+     */
+    function test_MAX_Delivery_log_logAdRequest()
+    {
+
+    }
+
+    /**
+     * A method to test the MAX_Delivery_log_logAdImpression() function.
+     *
+     * @TODO Not implemented.
+     */
+    function test_MAX_Delivery_log_logAdImpression()
+    {
+
+    }
+
+    /**
+     * A method to test the MAX_Delivery_log_logAdClick() function.
+     *
+     * @TODO Not implemented.
+     */
+    function test_MAX_Delivery_log_logAdClick()
+    {
+
+    }
+
+    /**
+     * A method to test the MAX_Delivery_log_logTrackerImpression() function.
+     *
+     * @TODO Not implemented.
+     */
+    function test_MAX_Delivery_log_logTrackerImpression()
+    {
+
+    }
+
+    /**
+     * A method to test the MAX_Delivery_log_logVariableValues() function.
+     *
+     * @TODO Not implemented.
+     */
+    function test_MAX_Delivery_log_logVariableValues()
+    {
+
+    }
+
+    /**
+     * A method to test the MAX_Delivery_log_logBenchmark() function.
+     *
+     * @TODO Not implemented.
+     */
+    function test_MAX_Delivery_log_logBenchmark()
+    {
+
+    }
+
+    /**
+     * A method to test the _viewersHostOkayToLog() function.
      */
     function test_viewersHostOkayToLog()
     {
@@ -104,7 +161,7 @@ class Delivery_TestOfLog extends UnitTestCase
     }
 
     /**
-     * Test the _prepareLogInfo function.
+     * A method to test the _prepareLogInfo() function.
      */
     function test_prepareLogInfo()
     {
@@ -352,67 +409,96 @@ class Delivery_TestOfLog extends UnitTestCase
         $this->assertEqual($maxHttps, 1);    }
 
     /**
-     * Test the _insertRawData function.
+     * A method to test the MAX_Delivery_log_getArrRequestVariable() function.
+     *
+     * Requirements:
+     * Test 1: Test with a bad config name, and ensure an empty array is returned.
+     * Test 2: Test with no request value defined, and ensure an empty array is
+     *         returned.
+     * Test 3: Test with a request value defined, and ensure an array of that
+     *         value is returned.
+     * Test 4: Test with a "multiple item" request value defined, and ensure an
+     *         array of the values is returned.
      */
-    function test_insertRawData()
+    function test_MAX_Delivery_log_getArrRequestVariable()
     {
+        // Test 1
+        $aReturn = MAX_Delivery_log_getArrRequestVariable('foo');
+        $this->assertTrue(is_array($aReturn));
+        $this->assertTrue(empty($aReturn));
 
+        // Test 2
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf['var']['viewerId'] = 'MAXID';
+        unset($_REQUEST['MAXID']);
+        $aReturn = MAX_Delivery_log_getArrRequestVariable('viewerId');
+        $this->assertTrue(is_array($aReturn));
+        $this->assertTrue(empty($aReturn));
+
+        // Test 3
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf['var']['viewerId'] = 'MAXID';
+        $_REQUEST['MAXID'] = 1;
+        $aReturn = MAX_Delivery_log_getArrRequestVariable('viewerId');
+        $this->assertTrue(is_array($aReturn));
+        $this->assertFalse(empty($aReturn));
+        $this->assertEqual(count($aReturn), 1);
+        $this->assertEqual($aReturn[0], 1);
+
+        // Test 3
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf['var']['viewerId'] = 'MAXID';
+        $_REQUEST['MAXID'] = 1 . MAX_DELIVERY_MULTIPLE_DELIMITER . 5;
+        $aReturn = MAX_Delivery_log_getArrRequestVariable('viewerId');
+        $this->assertTrue(is_array($aReturn));
+        $this->assertFalse(empty($aReturn));
+        $this->assertEqual(count($aReturn), 2);
+        $this->assertEqual($aReturn[0], 1);
+        $this->assertEqual($aReturn[1], 5);
     }
 
     /**
-     * Test the MAX_logAdRequest function.
+     * A method to test the MAX_Delivery_log_ensureIntegerSet() function.
+     *
+     * Requirements:
+     * Test 1: Test using something that is not an array, and ensure that
+     *         array and value are set.
+     * Test 2: Test with an array and nothing set, and ensure that value
+     *         is set.
+     * Test 3: Test with an array and integer set, and ensure nothing changed.
+     * Test 4: Test with an array and string set, and ensure string converted.
      */
-    function testMAX_logAdRequest()
+    function test_MAX_Delivery_log_ensureIntegerSet()
     {
+        // Test 1
+        $aArray = 'string';
+        MAX_Delivery_log_ensureIntegerSet($aArray, 5);
+        $this->assertTrue(is_array($aArray));
+        $this->assertEqual(count($aArray), 1);
+        $this->assertEqual($aArray[5], 0);
 
-    }
+        // Test 2
+        $aArray = array();
+        MAX_Delivery_log_ensureIntegerSet($aArray, 5);
+        $this->assertTrue(is_array($aArray));
+        $this->assertEqual(count($aArray), 1);
+        $this->assertEqual($aArray[5], 0);
 
-    /**
-     * Test the MAX_logAdImpression function.
-     */
-    function testMAX_logAdImpression()
-    {
+        // Test 3
+        $aArray = array();
+        $aArray[5] = 10;
+        MAX_Delivery_log_ensureIntegerSet($aArray, 5);
+        $this->assertTrue(is_array($aArray));
+        $this->assertEqual(count($aArray), 1);
+        $this->assertEqual($aArray[5], 10);
 
-    }
-
-    /**
-     * Test the MAX_logAdClick function.
-     */
-    function testMAX_logAdClick()
-    {
-
-    }
-
-    /**
-     * Test the MAX_logTrackerImpression function.
-     */
-    function testMAX_logTrackerImpression()
-    {
-
-    }
-
-    /**
-     * Test the MAX_logVariableValues function.
-     */
-    function testMAX_logVariableValues()
-    {
-
-    }
-
-    /**
-     * Test the MAX_logTrackerClick function.
-     */
-    function testMAX_logTrackerClick()
-    {
-
-    }
-
-    /**
-     * Test the MAX_logBenchmark function.
-     */
-    function testMAX_logBenchmark()
-    {
-
+        // Test 4
+        $aArray = array();
+        $aArray[5] = 'string';
+        MAX_Delivery_log_ensureIntegerSet($aArray, 5);
+        $this->assertTrue(is_array($aArray));
+        $this->assertEqual(count($aArray), 1);
+        $this->assertEqual($aArray[5], 0);
     }
 
 }

@@ -26,11 +26,23 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
-phpAds_registerGlobal ('cap', 'session_capping', 'time');
 
+// Required files
+require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
+
+phpAds_registerGlobal('cap', 'session_capping', 'time');
+
+/**
+ * A function to initialise capping variables for ad, campaign or zone capping.
+ *
+ * After running, the global variables $block is set with the number of seconds
+ * to prevent delivery again for, while $cap and $session_capping are set to
+ * either 0 for no capping, or number number of times to cap the item to.
+ */
 function _initCappingVariables() {
-    global $cap, $session_capping, $time, $block;
-    
+
+    global $time, $block, $cap, $session_capping;
+
     // Initialize $block variable with time
     if (isset($time)) {
     	$block = 0;
@@ -40,21 +52,20 @@ function _initCappingVariables() {
     } else {
     	$block = 0;
     }
-    
+
     // Initialize capping variables
     if (isset($cap) && $cap != '-') {
     	$cap = (int)$cap;
     } else {
     	$cap = 0;
     }
-    
+
     if (isset($session_capping) && $session_capping != '-') {
     	$session_capping = (int)$session_capping;
     } else {
     	$session_capping = 0;
     }
 }
-
 
 /**
  * Breaks down a duration specified in seconds to hours, minutes and seconds.
@@ -77,14 +88,12 @@ function _getTimeFromSec($secDuration)
     return $time;
 }
 
-
 function _replaceTrailingZerosWithDash(&$time)
 {
 	if ($time['hour'] == 0 && $time['minute'] == 0 && $time['second'] == 0) $time['second'] = '-';
 	if ($time['hour'] == 0 && $time['minute'] == 0) $time['minute'] = '-';
 	if ($time['hour'] == 0) $time['hour'] = '-';
 }
-
 
 /**
  * Gets values from $cappedObject and uses them to output HTML form with
@@ -98,23 +107,23 @@ function _replaceTrailingZerosWithDash(&$time)
 function _echoDeliveryCappingHtml($tabindex, $arrTexts, $cappedObject)
 {
     global $time, $cap, $session_capping;
-    
+
     $cap = (isset($cap)) ? $cap : $cappedObject['capping'];
     $session_capping = (isset($session_capping)) ? $session_capping : $cappedObject['session_capping'];
-    
+
     if (!isset($time)) {
     	$time = _getTimeFromSec($cappedObject['block']);
     }
-    
+
     _replaceTrailingZerosWithDash($time);
     if ($cap == 0) $cap = '-';
     if ($session_capping == 0) $session_capping = '-';
-    
+
     echo "
     <tr><td height='25' colspan='3' bgcolor='#FFFFFF'><b>{$arrTexts['title']}</b></td></tr>
     <tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
     <tr><td height='10' colspan='3'>&nbsp;</td></tr>
-    
+
     <tr>
       <td width='30'>&nbsp;</td>
       <td width='200'>{$arrTexts['time']}</td>
@@ -126,28 +135,27 @@ function _echoDeliveryCappingHtml($tabindex, $arrTexts, $cappedObject)
     </tr>
     <tr><td><img src='images/spacer.gif' height='1' width='100%'></td>
     <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>
-    
+
     <tr><td width='30'>&nbsp;</td>
     <td width='200'>{$arrTexts['user']}</td>
     <td valign='top'>
     <input class='flat' type='text' size='3' name='cap' value='{$cap}' onBlur=\"phpAds_formCapBlur(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strTimes']}
     </td></tr>
-    
+
     <tr><td><img src='images/spacer.gif' height='1' width='100%'></td>
     <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>
-    
+
     <tr><td width='30'>&nbsp;</td>
     <td width='200'>{$arrTexts['session']}</td>
     <td valign='top'>
     <input class='flat' type='text' size='3' name='session_capping' value='{$session_capping}' onBlur=\"phpAds_formCapBlur(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strTimes']}
     </td></tr>
-    
+
     <tr><td height='10' colspan='3'>&nbsp;</td></tr>
     ";
 
     return $tabindex;
 }
-
 
 function _echoDeliveryCappingJs()
 {
@@ -188,4 +196,5 @@ echo "
 //-->
 </script>";
 }
+
 ?>

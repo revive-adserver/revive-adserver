@@ -70,7 +70,7 @@ for ($i=0;$i<count($adId);$i++) {
 
     if (($adId[$i] > 0) && ($conf['logging']['adClicks']) && !(isset($_GET['log']) && ($_GET['log'] == 'no'))) {
         $GLOBALS['_MAX']['CHANNELS'] = str_replace($conf['delivery']['chDelimiter'],MAX_DELIVERY_MULTIPLE_DELIMITER,$_REQUEST['channel_ids']);
-        MAX_logAdClick($viewerId, $adId[$i], $creativeId[$i], $zoneId[$i]);
+        MAX_Delivery_log_logAdClick($viewerId, $adId[$i], $creativeId[$i], $zoneId[$i]);
     }
 }
 

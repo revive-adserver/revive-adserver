@@ -28,54 +28,66 @@ $Id$
 /**
  * @package    MaxDelivery
  * @author     Scott Switzer <scott@switzer.org>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
 
+// Require the initialisation file
 require_once '../../init-delivery.php';
 
 // Required files
 require_once MAX_PATH . '/lib/max/Delivery/log.php';
+require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
 
-// Prevent beacon from being cached by browsers
+// Prevent the logging beacon from being cached by browsers
 MAX_commonSetNoCacheHeaders();
 
-// Remove any special characters
+// Remove any special characters from the request variables
 MAX_commonRemoveSpecialChars($_REQUEST);
 
-$conf = $GLOBALS['_MAX']['CONF'];
+// Get the viewer ID, and the ad, campaign, creative and zone variables to be logged
+// from the request variables
+$viewerId     = MAX_cookieGetUniqueViewerID();
+$aAdIds       = MAX_Delivery_log_getArrRequestVariable('adId');
+$aCampaignIds = MAX_Delivery_log_getArrRequestVariable('campaignId');
+$aCreativeIds = MAX_Delivery_log_getArrRequestVariable('creativeId');
+$aZoneIds     = MAX_Delivery_log_getArrRequestVariable('zoneId');
 
-// Get the variables
-$viewerId   = MAX_cookieGetUniqueViewerID();
-$adId       = _getArrRequestConfVariable('adId');
-$zoneId     = _getArrRequestConfVariable('zoneId');
-$creativeId = _getArrRequestConfVariable('creativeId');
+// Get any ad, campaign and zone capping information from the request variables
+$aCapAd['block']                 = MAX_Delivery_log_getArrRequestVariable('blockAd');
+$aCapAd['capping']               = MAX_Delivery_log_getArrRequestVariable('capAd');
+$aCapAd['session_capping']       = MAX_Delivery_log_getArrRequestVariable('sessionCapAd');
+$aCapCampaign['block']           = MAX_Delivery_log_getArrRequestVariable('blockCampaign');
+$aCapCampaign['capping']         = MAX_Delivery_log_getArrRequestVariable('capCampaign');
+$aCapCampaign['session_capping'] = MAX_Delivery_log_getArrRequestVariable('sessionCapCampaign');
+$aCapZone['block']               = MAX_Delivery_log_getArrRequestVariable('blockZone');
+$aCapZone['capping']             = MAX_Delivery_log_getArrRequestVariable('capZone');
+$aCapZone['session_capping']     = MAX_Delivery_log_getArrRequestVariable('sessionCapZone');
 
-// Get any capping information from the request array
-$arrAdCapping['block']           = _getArrRequestVariable('block');
-$arrAdCapping['capping']         = _getArrRequestVariable('capping');
-$arrAdCapping['session_capping'] = _getArrRequestVariable('session_capping');
+$GLOBALS['_MAX']['CHANNELS'] = str_replace(
+    $GLOBALS['_MAX']['CONF']['delivery']['chDelimiter'],
+    MAX_DELIVERY_MULTIPLE_DELIMITER,
+    $_REQUEST['channel_ids']
+);
 
-$arrZoneCapping['block'] = _getArrRequestConfVariable('blockZone');
-$arrZoneCapping['capping'] = _getArrRequestConfVariable('capZone');
-$arrZoneCapping['session_capping'] = _getArrRequestConfVariable('sessionCapZone');
-
-$GLOBALS['_MAX']['CHANNELS'] = str_replace($conf['delivery']['chDelimiter'],MAX_DELIVERY_MULTIPLE_DELIMITER,$_REQUEST['channel_ids']);
-
-// FIXME-Andrzej: Refactor these capping things using proper arrays of indices!!!
-
-for ($i=0;$i<count($adId);$i++) {
-    $adId[$i] = _getIValueFromArr($adId, $i);
-    $zoneId[$i] = _getIValueFromArr($zoneId, $i);
-    $creativeId[$i] = _getIValueFromArr($creativeId, $i);
-
-    if ($adId[$i] > 0) {
-        if ($conf['logging']['adImpressions']) {
-            MAX_logAdImpression($viewerId, $adId[$i], $creativeId[$i], $zoneId[$i]);
+// Loop over the ads to be logged (there may be more than one due to internal re-directs)
+// and log each ad, and then set any capping cookies required
+for ($index = 0; $index < count($aAdIds); $index++) {
+    // Ensure that each ad to be logged has capaign, creative and zone
+    // values set, and that all values are integers
+    MAX_Delivery_log_ensureIntegerSet($aAdIds, $index);
+    MAX_Delivery_log_ensureIntegerSet($aCampaignIds, $index);
+    MAX_Delivery_log_ensureIntegerSet($aCreativeIds, $index);
+    MAX_Delivery_log_ensureIntegerSet($aZoneIds, $index);
+    if ($aAdIds[$index] > 0) {
+        // Log the ad impression, if required
+        if ($GLOBALS['_MAX']['CONF']['logging']['adImpressions']) {
+            MAX_Delivery_log_logAdImpression($viewerId, $aAdIds[$index], $aCreativeIds[$index], $aZoneIds[$index]);
         }
-
-        _setAdLimitations($adId[$i], $arrAdCapping, $i);
-
-        if ($zoneId[$i] != 0) {
-            _setZoneLimitations($zoneId[$i], $arrZoneCapping, $i);
+        // Set the capping cookies, if required
+        MAX_Delivery_log_setAdLimitations($index, $aAdIds, $aCapAd);
+        MAX_Delivery_log_setCampaignLimitations($index, $aCampaignIds, $aCapCampaign);
+        if ($aZoneIds[$index] != 0) {
+            MAX_Delivery_log_setZoneLimitations($index, $aZoneIds, $aCapZone);
         }
     }
 }
@@ -83,14 +95,14 @@ for ($i=0;$i<count($adId);$i++) {
 MAX_cookieFlush();
 MAX_querystringConvertParams();
 
-if (!empty($_REQUEST[$conf['var']['dest']])) {
-    MAX_header("Location: {$_REQUEST[$conf['var']['dest']]}");
+if (!empty($_REQUEST[$GLOBALS['_MAX']['CONF']['var']['dest']])) {
+    MAX_header("Location: {$_REQUEST[$GLOBALS['_MAX']['CONF']['var']['dest']]}");
 } else {
     // Display a 1x1 pixel gif
     MAX_commonDisplay1x1();
 }
+
 // Stop benchmarking
 MAX_benchmarkStop();
-
 
 ?>

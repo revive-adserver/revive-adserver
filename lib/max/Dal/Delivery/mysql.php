@@ -138,9 +138,9 @@ function MAX_Dal_Delivery_getZoneInfo($zoneid) {
         z.appendtype AS appendtype,
         z.forceappend AS forceappend,
         z.inventory_forecast_type AS inventory_forecast_type,
-        z.block AS blockZone,
-        z.capping AS capZone,
-        z.session_capping AS sessionCapZone,
+        z.block AS block_zone,
+        z.capping AS cap_zone,
+        z.session_capping AS session_cap_zone,
         p.default_banner_url AS default_banner_url,
         p.default_banner_destination AS default_banner_dest
     FROM
@@ -195,6 +195,7 @@ function MAX_Dal_Delivery_getZoneInfo($zoneid) {
  *                    weight
  */
 function MAX_Dal_Delivery_getZoneLinkedAds($zoneid) {
+
     $conf = $GLOBALS['_MAX']['CONF'];
     $aRows = MAX_Dal_Delivery_getZoneInfo($zoneid);
 
@@ -239,9 +240,9 @@ function MAX_Dal_Delivery_getZoneLinkedAds($zoneid) {
             d.bannertext AS bannertext,
             d.autohtml AS autohtml,
             d.adserver AS adserver,
-            d.block AS block,
-            d.capping AS capping,
-            d.session_capping AS session_capping,
+            d.block AS block_ad,
+            d.capping AS cap_ad,
+            d.session_capping AS session_cap_ad,
             d.compiledlimitation AS compiledlimitation,
             d.acl_plugins AS acl_plugins,
             d.append AS append,
@@ -250,10 +251,14 @@ function MAX_Dal_Delivery_getZoneLinkedAds($zoneid) {
             d.alt_filename AS alt_filename,
             d.alt_imageurl AS alt_imageurl,
             d.alt_contenttype AS alt_contenttype,
+            az.priority AS priority,
+            c.campaignid AS campaign_id,
             c.priority AS campaign_priority,
             c.weight AS campaign_weight,
             c.companion AS campaign_companion,
-            az.priority AS priority
+            c.block AS block_campaign,
+            c.capping AS cap_campaign,
+            c.session_capping AS session_cap_campaign
         FROM
             {$conf['table']['prefix']}{$conf['table']['banners']} AS d,
             {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']} AS az,
@@ -383,9 +388,9 @@ function MAX_Dal_Delivery_getLinkedAds($search) {
         'd.bannertext AS bannertext',
         'd.autohtml AS autohtml',
         'd.adserver AS adserver',
-        'd.block AS block',
-        'd.capping AS capping',
-        'd.session_capping AS session_capping',
+        'd.block AS block_ad',
+        'd.capping AS cap_ad',
+        'd.session_capping AS session_cap_ad',
         'd.compiledlimitation AS compiledlimitation',
         'd.append AS append',
         'd.appendtype AS appendtype',
@@ -393,8 +398,12 @@ function MAX_Dal_Delivery_getLinkedAds($search) {
         'd.alt_filename AS alt_filename',
         'd.alt_imageurl AS alt_imageurl',
         'd.alt_contenttype AS alt_contenttype',
+        'az.priority AS priority',
+        'm.campaignid AS campaign_id',
         'm.weight AS campaign_weight',
-        'az.priority AS priority'
+        'm.block AS block_campaign',
+        'm.capping AS cap_campaign',
+        'm.session_capping AS session_cap_campaign'
     );
     $aTables = array(
         $conf['table']['prefix'].$conf['table']['banners'] . ' AS d',
@@ -485,20 +494,27 @@ function MAX_Dal_Delivery_getAd($ad_id) {
         d.bannertext AS bannertext,
         d.autohtml AS autohtml,
         d.adserver AS adserver,
-        d.block AS block,
-        d.capping AS capping,
-        d.session_capping AS session_capping,
+        d.block AS block_ad,
+        d.capping AS cap_ad,
+        d.session_capping AS session_cap_ad,
         d.compiledlimitation AS compiledlimitation,
         d.append AS append,
         d.appendtype AS appendtype,
         d.bannertype AS bannertype,
         d.alt_filename AS alt_filename,
         d.alt_imageurl AS alt_imageurl,
-        d.alt_contenttype AS alt_contenttype
+        d.alt_contenttype AS alt_contenttype,
+        c.campaignid AS campaign_id,
+        c.block AS block_campaign,
+        c.capping AS cap_campaign,
+        c.session_capping AS session_cap_campaign
     FROM
-        {$conf['table']['prefix']}{$conf['table']['banners']} AS d
+        {$conf['table']['prefix']}{$conf['table']['banners']} AS d,
+        {$conf['table']['prefix']}{$conf['table']['campaigns']} AS c
     WHERE
         d.bannerid={$ad_id}
+        AND
+        d.campaignid = c.campaignid
     ");
     if (!is_resource($rAd)) {
         if (defined('CACHE_LITE_FUNCTION_ERROR')) {

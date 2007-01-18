@@ -73,7 +73,7 @@ if (isset($zoneid)) { $row['zoneid'] = $zoneid; }
 if (!$row['bannerid']) {
 	if ($conf['debug']['benchmark'] == 'true') {
         $timer->stop();
-        MAX_logBenchmark(basename($_SERVER['PHP_SELF']), $_SERVER['QUERY_STRING'], $timer->timeElapsed(), 'Window not opened');
+        MAX_Delivery_log_logBenchmark(basename($_SERVER['PHP_SELF']), $_SERVER['QUERY_STRING'], $timer->timeElapsed(), 'Window not opened');
     }
     exit;
 }

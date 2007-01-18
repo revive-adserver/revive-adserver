@@ -45,7 +45,7 @@ require_once MAX_PATH . '/lib/max/Dal/Delivery.php';
  * @param integer $creativeId The creative ID (doesn't exist yet, use null).
  * @param integer $zoneId The zone ID.
  */
-function MAX_logAdRequest($viewerId, $adId, $creativeId, $zoneId)
+function MAX_Delivery_log_logAdRequest($viewerId, $adId, $creativeId, $zoneId)
 {
     if (_viewersHostOkayToLog()) {
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -74,7 +74,7 @@ function MAX_logAdRequest($viewerId, $adId, $creativeId, $zoneId)
  * @param integer $creativeId The creative ID (doesn't exist yet, use null).
  * @param integer $zoneId The zone ID.
  */
-function MAX_logAdImpression($viewerId, $adId, $creativeId, $zoneId)
+function MAX_Delivery_log_logAdImpression($viewerId, $adId, $creativeId, $zoneId)
 {
     if (_viewersHostOkayToLog()) {
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -103,7 +103,7 @@ function MAX_logAdImpression($viewerId, $adId, $creativeId, $zoneId)
  * @param integer $creativeId The creative ID (doesn't exist yet, use null).
  * @param integer $zoneId The zone ID.
  */
-function MAX_logAdClick($viewerId, $adId, $creativeId, $zoneId)
+function MAX_Delivery_log_logAdClick($viewerId, $adId, $creativeId, $zoneId)
 {
     if (_viewersHostOkayToLog()) {
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -137,7 +137,7 @@ function MAX_logAdClick($viewerId, $adId, $creativeId, $zoneId)
  *               and the server_raw_ip values, if the tracker impression
  *               was inserted, false otherwise.
  */
-function MAX_logTrackerImpression($viewerId, $trackerId)
+function MAX_Delivery_log_logTrackerImpression($viewerId, $trackerId)
 {
     if (_viewersHostOkayToLog()) {
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -181,7 +181,7 @@ function MAX_logTrackerImpression($viewerId, $trackerId)
  *                            if Max is not running in multiple database server
  *                            mode.
  */
-function MAX_logVariableValues($variables, $trackerId, $serverRawTrackerImpressionId, $serverRawIp)
+function MAX_Delivery_log_logVariableValues($variables, $trackerId, $serverRawTrackerImpressionId, $serverRawIp)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     // Get the variable information, including the Variable ID
@@ -223,35 +223,6 @@ function MAX_logVariableValues($variables, $trackerId, $serverRawTrackerImpressi
 }
 
 /**
- * A function to log a tracker click.
- *
- * @deprecated v0.3.27  I believe this function is not used and has never been used.
- *
- * @param integer $viewerId The viewer ID (was userid).
- * @param integer $trackerId The tracker ID.
- */
-function MAX_logTrackerClick($viewerId, $trackerId)
-{
-    if (_viewersHostOkayToLog()) {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-        $table = $conf['table']['prefix'] . $conf['table']['data_raw_tracker_click'];
-        MAX_Dal_Delivery_Include();
-        MAX_Dal_Delivery_logAction(
-            $table,
-            $viewerId,
-            $adId,
-            $creativeId,
-            $zoneId,
-            $geotargeting,
-            $zoneInfo,
-            $userAgentInfo,
-            $maxHttps
-        );
-    }
-}
-
-/**
  * A function to log benchmarking data to the debug file.
  *
  * A file called "debug.log" is created in the /var directory, if it
@@ -262,7 +233,7 @@ function MAX_logTrackerClick($viewerId, $trackerId)
  * @param double $benchmark The elapsed time of the benchmark.
  * @param string $extra Any extra information to be logged.
  */
-function MAX_logBenchmark($page, $queryString, $benchmark, $extra = '') {
+function MAX_Delivery_log_logBenchmark($page, $queryString, $benchmark, $extra = '') {
     if (_viewersHostOkayToLog()) {
         $memoryUsage = MAX_benchmarkGetMemoryUsage();
         $message = date("d/m/Y|H:i:s") . '|' . $memoryUsage . '|' . $page . '|' .
@@ -274,8 +245,8 @@ function MAX_logBenchmark($page, $queryString, $benchmark, $extra = '') {
 }
 
 /**
- * A function to check if the information to be logged should be logged
- * or ignored, on the basis of the viewer's IP address or hostname.
+ * A "private" function to check if the information to be logged should be
+ * logged or ignored, on the basis of the viewer's IP address or hostname.
  *
  * @return boolean True if the information should be logged, or false if the
  *                 IP address or host name is in the list of hosts for which
@@ -356,102 +327,122 @@ function _prepareLogInfo()
 }
 
 /**
- * Returns a request variable exploded to an array or empty array
- * if there is no request variable with the specified name.
- * @param string Name of the variable.
- * @return array Request variable exploded to an array
- */
-function _getArrRequestVariable($name)
-{
-	return isset($_REQUEST[$name]) ? explode(MAX_DELIVERY_MULTIPLE_DELIMITER, $_REQUEST[$name]) : array();
-}
-
-
-/**
- * Checks the request string for variables indicating named after a cookie.
- * If the value for the cookie is given in the request string then it returns
- * the value as an array. Otherwise, returns an empty array.
- * @param string Name of the variable in the configuration file.
- * @return array Value of the cookie in the form of array.
- */
-function _getArrRequestConfVariable($name)
-{
-	return _getArrRequestVariable($GLOBALS['_MAX']['CONF']['var'][$name]);
-}
-
-/**
- * Returns an integer value from an array or 0 if
- * the array is empty.
- * @param array $arr
- * @param object $idx
- * @return int
- */
-function _getIValueFromArr($arr, $idx)
-{
-	return empty($arr) ? 0 : intval($arr[$idx]);
-}
-
-
-/**
- * Returns an integer value from double-dimensional array or 0 if
- * the value is empty.
- * @param array $arr
- * @param object $idxFirst
- * @param object $idxSecond
- * @return int
- */
-function _getIValueFromArrArr($arr, $idxFirst, $idxSecond)
-{
-	return _getIValueFromArr($arr[$idxFirst], $idxSecond);
-}
-
-
-/**
- * Reads limitation values from the array and set a proper cookies
- * according to values found.
+ * A function to return request variables, where the request variable name is
+ * extracted from the configuration file settings, and the request variable
+ * value is exploded into an array of items on the constant
+ * MAX_DELIVERY_MULTIPLE_DELIMITER.
  *
- * @param string $capType Either 'Ad' or 'Zone'.
- * @param int $id Id of the element to set limitations for.
- * @param array $arrArrCapValues 2D array to get values from.
- * @param int $idx Second index of the array to look for values.
- * @see MAX_cookieSetCapping
+ * Returns an empty array if there is no request variable by the specified
+ * name.
+ *
+ * @param string The name of the variable as defined in the configuration
+ *               file's [var] section.
+ * @return array The request variable exploded to an array, or an empty
+ *               array if the request variable requested is not defined.
  */
-function _setLimitations($capType, $id, $arrArrCapValues, $idx)
+function MAX_Delivery_log_getArrRequestVariable($name)
 {
-    $block = _getIValueFromArrArr($arrArrCapValues, 'block', $idx);
-    $capping = _getIValueFromArrArr($arrArrCapValues, 'capping', $idx);
-    $sessionCapping = _getIValueFromArrArr($arrArrCapValues, 'session_capping', $idx);
-
-    MAX_cookieSetCapping($id, $capType, $block, $capping, $sessionCapping);
+    $varName = $GLOBALS['_MAX']['CONF']['var'][$name];
+	return isset($_REQUEST[$varName]) ? explode(MAX_DELIVERY_MULTIPLE_DELIMITER, $_REQUEST[$varName]) : array();
 }
-
 
 /**
- * Reads limitation values from the array and set a proper cookies
- * according to values found.
+ * A function to ensure that a given index in an array is set, and is an
+ * integer value.
  *
- * @param int $adId
- * @param array $arrArrCapValues
- * @param int $idx
- * @see _setLimitations
+ * @param array A reference to the array to ensure the integer value
+ *              is set in.
+ * @param integer $index The array index value to test & set, if required.
  */
-function _setAdLimitations($adId, $arrArrCapValues, $idx)
+function MAX_Delivery_log_ensureIntegerSet(&$aArray, $index)
 {
-    _setLimitations('Ad', $adId, $arrArrCapValues, $idx);
+    if (!is_array($aArray)) {
+        $aArray = array();
+    }
+	if (empty($aArray[$index])) {
+	    $aArray[$index] = 0;
+	} else {
+	    if (!is_integer($aArray[$index])) {
+	       $aArray[$index] = intval($aArray[$index]);
+	    }
+	}
 }
-
 
 /**
- * Reads limitation values from the array and set a proper cookies
- * according to values found.
+ * A function to set any ad capping cookies required for an ad.
  *
- * @param int $zoneId
- * @param array $arrArrCapValues
- * @param int $idx
- * @see _setLimitations
+ * @param integer $index The index to the ad and ad limitation arrays
+ *                       that corresponds with the ad to set capping
+ *                       cookies for.
+ * @param array $aAds An array of ad IDs, indexed by $index.
+ * @param array $aCaps An array of arrays, indexed by the strings
+ *                     "block", "capping" and "session_capping", then
+ *                     indexed by $index, containing the cap values.
  */
-function _setZoneLimitations($zoneId, $arrArrCapValues, $idx)
+function MAX_Delivery_log_setAdLimitations($index, $aAds, $aCaps)
 {
-    _setLimitations('Zone', $zoneId, $arrArrCapValues, $idx);
+    _setLimitations('Ad', $index, $aAds, $aCaps);
 }
+
+/**
+ * A function to set any campaign capping cookies required for an ad.
+ *
+ * @param integer $index The index to the campaign and campaign limitation
+ *                       arrays that corresponds with the ad to set capping
+ *                       cookies for.
+ * @param array $aCampaigns An array of campaign IDs, indexed by $index.
+ * @param array $aCaps An array of arrays, indexed by the strings
+ *                     "block", "capping" and "session_capping", then
+ *                     indexed by $index, containing the cap values.
+ */
+function MAX_Delivery_log_setCampaignLimitations($index, $aCampaigns, $aCaps)
+{
+    _setLimitations('Campaign', $index, $aCampaigns, $aCaps);
+}
+
+/**
+ * A function to set any zone capping cookies required for a zone.
+ *
+ * @param integer $index The index to the zone and zone limitation
+ *                       arrays that corresponds with the zone to set capping
+ *                       cookies for.
+ * @param array $aZones An array of zone IDs, indexed by $index.
+ * @param array $aCaps An array of arrays, indexed by the strings
+ *                     "block", "capping" and "session_capping", then
+ *                     indexed by $index, containing the cap values.
+ */
+function MAX_Delivery_log_setZoneLimitations($index, $aZones, $aCaps)
+{
+    _setLimitations('Zone', $index, $aZones, $aCaps);
+}
+
+/**
+ * A "private" function to set delivery blocking and/or capping cookies.
+ *
+ * @param string $type The type of blocking/capping cookies to set. One of
+ *                     'Ad', 'Campaign' or 'Zone'.
+ * @param integer $index The index to the item and item limitation
+ *                       arrays that corresponds with the item to set capping
+ *                       cookies for.
+ * @param array $aItems An array of item IDs, indexed by $index.
+ * @param array $aCaps An array of arrays, indexed by the strings
+ *                     "block", "capping" and "session_capping", then
+ *                     indexed by $index, containing the cap values.
+ */
+function _setLimitations($type, $index, $aItems, $aCaps)
+{
+    // Ensure that the capping values for this item are set
+    MAX_Delivery_log_ensureIntegerSet($aCaps['block'], $index);
+    MAX_Delivery_log_ensureIntegerSet($aCaps['capping'], $index);
+    MAX_Delivery_log_ensureIntegerSet($aCaps['session_capping'], $index);
+    // Set the capping cookies
+    MAX_Delivery_cookie_setCapping(
+        $type,
+        $aItems[$index],
+        $aCaps['block'][$index],
+        $aCaps['capping'][$index],
+        $aCaps['session_capping'][$index]
+    );
+}
+
 ?>

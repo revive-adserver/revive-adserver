@@ -588,36 +588,35 @@ function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $r
             $aBanner['ad_id'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['ad_id'];
             $aBanner['placement_id'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['placement_id'];
             $zoneId .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['zoneid'];
-            $aBanner['block'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['block'];
-            $aBanner['capping'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['capping'];
-            $aBanner['session_capping'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['session_capping'];
-            $aBanner['blockZone'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['blockZone'];
-            $aBanner['capZone'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['capZone'];
-            $aBanner['sessionCapZone'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['sessionCapZone'];
+            $aBanner['block_ad'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['block_ad'];
+            $aBanner['cap_ad'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['cap_ad'];
+            $aBanner['session_cap_ad'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['session_cap_ad'];
+            $aBanner['block_campaign'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['block_campaign'];
+            $aBanner['cap_campaign'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['cap_campaign'];
+            $aBanner['session_cap_campaign'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['session_cap_campaign'];
+            $aBanner['block_zone'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['block_zone'];
+            $aBanner['cap_zone'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['cap_zone'];
+            $aBanner['session_cap_zone'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['session_cap_zone'];
         }
     }
-
     $url = MAX_commonGetDeliveryUrl($conf['file']['log']);
     $url .= "?bannerid=" . $aBanner['ad_id'];
     $url .= $amp . "campaignid=" . $aBanner['placement_id'];
     $url .= $amp . "zoneid=" . $zoneId;
-    $url .= $amp . "source=" . $source;
-    $url .= $amp . "block=" . $aBanner['block'];
-    $url .= $amp . "capping=" . $aBanner['capping'];
-    $url .= $amp . "session_capping=" . $aBanner['session_capping'];
-
+    if (!empty($source)) $url .= $amp . "source=" . $source;
     $url .= $amp . "channel_ids=" . str_replace(MAX_DELIVERY_MULTIPLE_DELIMITER,$conf['delivery']['chDelimiter'],$GLOBALS['_MAX']['CHANNELS']);
-
-    // FIXME-Andrzej: Refactor it to make use of our array (have to change
-    // variables above related to banner capping)
-    $url .= $amp . $conf['var']['blockZone'] . "=" . $aBanner['blockZone'];
-    $url .= $amp . $conf['var']['capZone'] . "=" . $aBanner['capZone'];
-    $url .= $amp . $conf['var']['sessionCapZone'] . "=" . $aBanner['sessionCapZone'];
-
-    $url .= $amp . "loc=" . urlencode($loc);
-    $url .= $amp . "referer=" . urlencode($referer);
+    if (!empty($aBanner['block_ad'])) $url .= $amp . $conf['var']['blockAd'] . "=" . $aBanner['block_ad'];
+    if (!empty($aBanner['cap_ad'])) $url .= $amp . $conf['var']['capAd'] . "=" . $aBanner['cap_ad'];
+    if (!empty($aBanner['session_cap_ad'])) $url .= $amp . $conf['var']['sessionCapAd'] . "=" . $aBanner['session_cap_ad'];
+    if (!empty($aBanner['block_campaign'])) $url .= $amp . $conf['var']['blockCampaign'] . "=" . $aBanner['block_campaign'];
+    if (!empty($aBanner['cap_campaign'])) $url .= $amp . $conf['var']['capCampaign'] . "=" . $aBanner['cap_campaign'];
+    if (!empty($aBanner['session_cap_campaign'])) $url .= $amp . $conf['var']['sessionCapCampaign'] . "=" . $aBanner['session_cap_campaign'];
+    if (!empty($aBanner['block_zone'])) $url .= $amp . $conf['var']['blockZone'] . "=" . $aBanner['block_zone'];
+    if (!empty($aBanner['cap_zone'])) $url .= $amp . $conf['var']['capZone'] . "=" . $aBanner['cap_zone'];
+    if (!empty($aBanner['session_cap_zone'])) $url .= $amp . $conf['var']['sessionCapZone'] . "=" . $aBanner['session_cap_zone'];
+    if (!empty($loc)) $url .= $amp . "loc=" . urlencode($loc);
+    if (!empty($referer)) $url .= $amp . "referer=" . urlencode($referer);
     $url .= $amp . "cb={random}";
-
     return $url;
 }
 
