@@ -106,7 +106,7 @@ if (!isset($keyword))
     
     <table width='100%' border='0' cellspacing='0' cellpadding='0'>
         <form name='searchselection' action='admin-search.php'>
-        <input type='hidden' name='keyword' value='<?php echo $keyword; ?>'>
+        <input type='hidden' name='keyword' value='<?php echo htmlspecialchars($keyword); ?>'>
         <tr>
             <td nowrap><input type='checkbox' name='client' value='t'<?php echo ($client ? ' checked': ''); ?> onClick='this.form.submit()'>
                 <?php echo $strClients; ?>&nbsp;&nbsp;&nbsp;</td>
