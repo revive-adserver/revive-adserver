@@ -343,7 +343,7 @@ function _prepareLogInfo()
 function MAX_Delivery_log_getArrRequestVariable($name)
 {
     $varName = $GLOBALS['_MAX']['CONF']['var'][$name];
-	return isset($_REQUEST[$varName]) ? explode(MAX_DELIVERY_MULTIPLE_DELIMITER, $_REQUEST[$varName]) : array();
+    return isset($_REQUEST[$varName]) ? explode(MAX_DELIVERY_MULTIPLE_DELIMITER, $_REQUEST[$varName]) : array();
 }
 
 /**
@@ -359,13 +359,13 @@ function MAX_Delivery_log_ensureIntegerSet(&$aArray, $index)
     if (!is_array($aArray)) {
         $aArray = array();
     }
-	if (empty($aArray[$index])) {
-	    $aArray[$index] = 0;
-	} else {
-	    if (!is_integer($aArray[$index])) {
-	       $aArray[$index] = intval($aArray[$index]);
-	    }
-	}
+    if (empty($aArray[$index])) {
+        $aArray[$index] = 0;
+    } else {
+        if (!is_integer($aArray[$index])) {
+           $aArray[$index] = intval($aArray[$index]);
+        }
+    }
 }
 
 /**
