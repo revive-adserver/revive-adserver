@@ -148,6 +148,7 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
         }
         $channels = $deDupedChannels;
         
+        $selectedChannels = array();
         // Sort the list, and move selected items to the top of the list
         usort($channels, '_sortByChannelName');
         foreach ($channels as $index => $channel) {
