@@ -350,8 +350,8 @@ function MAX_Delivery_log_getArrRequestVariable($name)
  * A function to ensure that a given index in an array is set, and is an
  * integer value.
  *
- * @param array A reference to the array to ensure the integer value
- *              is set in.
+ * @param array $aArray A reference to the array to ensure the integer
+ *                      value is set in.
  * @param integer $index The array index value to test & set, if required.
  */
 function MAX_Delivery_log_ensureIntegerSet(&$aArray, $index)
