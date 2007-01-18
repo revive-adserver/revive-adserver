@@ -30,6 +30,8 @@
  * @author     Monique Szpak <monique@m3.net>
  */
 
+$conf = $GLOBALS['_MAX']['CONF'];
+
 $zoneId		=	0;
 $source		=	'';
 $ct0		=	'';
@@ -43,41 +45,48 @@ $referer	= 	'http://some.referrer.com/';
 $useAppend  =   true;
 
 $aBanner = array (
-            'ad_id' => 7,
-            'placement_id' => 2,
-            'active' => 't',
-            'name' => 'Blue - Capped 1 per min',
-            'type' => 'web',
-            'contenttype' => 'gif',
-            'pluginversion' => 0,
-            'filename' => 'm3_test_468x60_blue.gif',
-            'imageurl' => '',
-            'htmltemplate' => '',
-            'htmlcache' => '',
-            'width' => 468,
-            'height' => 60,
-            'weight' => 1,
-            'seq' => 0,
-            'target' => '_blank',
-            'url' => 'http://www.m3.net',
-            'alt' => '',
-            'status' => '',
-            'bannertext' => '',
-            'autohtml' => 'f',
-            'adserver' => '',
-            'block' => 60,
-            'capping' => 0,
-            'session_capping' => 0,
-            'compiledlimitation' => 'true',
-            'append' => '',
-            'appendtype' => 0,
-            'bannertype' => 0,
-            'alt_filename' => '',
-            'alt_imageurl' => '',
-            'alt_contenttype' => ''
-            );
+    'ad_id' => 7,
+    'placement_id' => 2,
+    'active' => 't',
+    'name' => 'Blue - Capped 1 per min',
+    'type' => 'web',
+    'contenttype' => 'gif',
+    'pluginversion' => 0,
+    'filename' => 'm3_test_468x60_blue.gif',
+    'imageurl' => '',
+    'htmltemplate' => '',
+    'htmlcache' => '',
+    'width' => 468,
+    'height' => 60,
+    'weight' => 1,
+    'seq' => 0,
+    'target' => '_blank',
+    'url' => 'http://www.m3.net',
+    'alt' => '',
+    'status' => '',
+    'bannertext' => '',
+    'autohtml' => 'f',
+    'adserver' => '',
+    'block_ad' => 60,
+    'cap_ad' => 0,
+    'session_cap_ad' => 0,
+    'compiledlimitation' => 'true',
+    'append' => '',
+    'appendtype' => 0,
+    'bannertype' => 0,
+    'alt_filename' => '',
+    'alt_imageurl' => '',
+    'alt_contenttype' => ''
+);
 
+$expect = "<a href='http://" . $GLOBALS['_MAX']['CONF']['webpath']['delivery'] .
+    "/ck.php?maxparams=2__bannerid=7__zoneid=0__cb={random}__maxdest=http://www.m3.net' target='{target}'>" .
+    "<img src='http://" . $GLOBALS['_MAX']['CONF']['webpath']['images'] .
+    "/m3_test_468x60_blue.gif' width='468' height='60' alt='' title='' border='0'></a>" .
+    "<div id='beacon_7' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'>" .
+    "<img src='http://" . $GLOBALS['_MAX']['CONF']['webpath']['delivery'] .
+    "/lg.php?bannerid=7&amp;campaignid=2&amp;zoneid=0&amp;channel_ids=&amp;{$conf['var']['blockAd']}=60&amp;" .
+    "referer=http%3A%2F%2Fsome.referrer.com%2F&amp;cb={random}' width='0' height='0' alt='' " .
+    "style='width: 0px; height: 0px;'></div>";
 
-$expect     = "<a href='http://".$GLOBALS['_MAX']['CONF']['webpath']['delivery']."/ck.php?maxparams=2__bannerid=7__zoneid=0__cb={random}__maxdest=http://www.m3.net' target='{target}'><img src='http://".$GLOBALS['_MAX']['CONF']['webpath']['images']."/m3_test_468x60_blue.gif' width='468' height='60' alt='' title='' border='0'></a><div id='beacon_7' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'><img src='http://".$GLOBALS['_MAX']['CONF']['webpath']['delivery']."/lg.php?bannerid=7&amp;campaignid=2&amp;zoneid=0&amp;source=&amp;block=60&amp;capping=0&amp;session_capping=0&amp;channel_ids=&amp;MAXZBLOCK=&amp;MAXZCAP=&amp;MAXSZCAP=&amp;loc=0&amp;referer=http%3A%2F%2Fsome.referrer.com%2F&amp;cb={random}' width='0' height='0' alt='' style='width: 0px; height: 0px;'></div>";
-//$sPattern   = "http(s)?:\/\/".$GLOBALS['_MAX']['CONF']['webpath']['delivery']."/\/lg.php\?bannerid=&amp;campaignid=&amp;zoneid=0&amp;source=&amp;block=&amp;capping=&amp;session_capping=&amp;loc=&amp;referer=0&amp;cb=\{random}";
 ?>
