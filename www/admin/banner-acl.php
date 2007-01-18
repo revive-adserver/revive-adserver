@@ -43,7 +43,6 @@ require_once MAX_PATH . '/lib/max/other/capping/lib-capping.inc.php';
 // Register input variables
 phpAds_registerGlobal ('acl', 'action', 'submit');
 
-
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);
 $tabindex = 1;
@@ -64,37 +63,38 @@ if (!empty($action)) {
     _initCappingVariables();
 
 	// If the capping/blocking values have been changed - update the values
-	if (($aBannerPrev['block'] <> $block) || ($aBannerPrev['capping'] <> $cap) || ($aBannerPrev['session_capping'] <> $session_capping)) {
+	if (($aBannerPrev['block_ad'] <> $block) || ($aBannerPrev['cap_ad'] <> $cap) || ($aBannerPrev['session_cap_ad'] <> $session_capping)) {
 	    $values = array();
 	    $acls_updated = false;
 	    $now = date('Y-m-d H:i:s');
-        
-	    if ($aBannerPrev['block'] <> $block) {
+
+	    if ($aBannerPrev['block_ad'] <> $block) {
 	        $values[] = "block={$block}";
 	        $acls_updated = ($block == 0) ? true : $acls_updated;
 	    }
-	    if ($aBannerPrev['capping'] <> $cap) {
+	    if ($aBannerPrev['cap_ad'] <> $cap) {
 	        $values[] = "capping={$cap}";
 	        $acls_updated = ($cap == 0) ? true : $acls_updated;
 	    }
-	    if ($aBannerPrev['session_capping'] <> $session_capping) {
+	    if ($aBannerPrev['session_cap_ad'] <> $session_capping) {
 	        $values[] = "session_capping={$session_capping}";
 	        $acls_updated = ($session_capping == 0) ? true : $acls_updated;
 	    }
 	    if ($acls_updated) {
 	        $values[] = "acls_updated='{$now}'";
 	    }
-	    
+
 	    if (!empty($values)) {
 	        $values[] = "updated='{$now}'";
-	        $res = phpAds_dbQuery("
+	        $query = "
 	           UPDATE
 	               {$conf['table']['prefix']}{$conf['table']['banners']}
                SET
                    " . implode(', ', $values) . "
                WHERE
                    bannerid = {$bannerid}
-            ") or phpAds_sqlDie();
+            ";
+	        $res = phpAds_dbQuery($query) or phpAds_sqlDie();
 	    }
 	}
     header("Location: banner-zone.php?clientid={$clientid}&campaignid={$campaignid}&bannerid={$bannerid}");
@@ -129,7 +129,7 @@ MAX_displayAcls($acl, $aParams);
 echo "
 <table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#FFFFFF'>";
 
-$tabindex = _echoDeliveryCappingHtml($tabindex, $GLOBALS['strCappingBanner'], $aBanner);
+$tabindex = _echoDeliveryCappingHtml($tabindex, $GLOBALS['strCappingBanner'], $aBanner, 'Ad');
 
 echo "
 <tr><td height='1' colspan='3' bgcolor='#888888'>

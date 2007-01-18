@@ -97,22 +97,33 @@ function _replaceTrailingZerosWithDash(&$time)
 
 /**
  * Gets values from $cappedObject and uses them to output HTML form with
- * them.
+ * them. Assumes values are stored in indexs "block", "capping" and
+ * "sessions" capping if $type is not supplied; otherwise it uses indexes
+ * "block_$type", "cap_$type" and "session_cap_$type".
  *
  * @param int $tabindex Current $tabindex in the page.
  * @param array $arrTexts The internationalized texts to be used.
  * @param array $cappedObject The data of an object to be capped.
+ * @param string $type Optional index name type. If not null, one of
+ *                     "Ad", "Campaign" or "Zone".
  * @return int An incremented value of $tabindex.
  */
-function _echoDeliveryCappingHtml($tabindex, $arrTexts, $cappedObject)
+function _echoDeliveryCappingHtml($tabindex, $arrTexts, $cappedObject, $type = null)
 {
     global $time, $cap, $session_capping;
 
-    $cap = (isset($cap)) ? $cap : $cappedObject['capping'];
-    $session_capping = (isset($session_capping)) ? $session_capping : $cappedObject['session_capping'];
-
-    if (!isset($time)) {
-    	$time = _getTimeFromSec($cappedObject['block']);
+    if (is_null($type)) {
+        if (!isset($time)) {
+        	$time = _getTimeFromSec($cappedObject['block']);
+        }
+        $cap = (isset($cap)) ? $cap : $cappedObject['capping'];
+        $session_capping = (isset($session_capping)) ? $session_capping : $cappedObject['session_capping'];
+    } else {
+        if (!isset($time)) {
+        	$time = _getTimeFromSec($cappedObject['block_' . strtolower($type)]);
+        }
+        $cap = (isset($cap)) ? $cap : $cappedObject['cap_' . strtolower($type)];
+        $session_capping = (isset($session_capping)) ? $session_capping : $cappedObject['session_cap_' . strtolower($type)];
     }
 
     _replaceTrailingZerosWithDash($time);

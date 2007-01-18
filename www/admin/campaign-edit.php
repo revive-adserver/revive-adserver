@@ -240,6 +240,9 @@ if (isset($submit)) {
             $revenue_type = 'NULL';
         }
 
+        // Get the capping variables
+        _initCappingVariables();
+
         phpAds_dbQuery("
             REPLACE INTO
                 {$conf['table']['prefix']}{$conf['table']['campaigns']}
@@ -263,6 +266,9 @@ if (isset($submit)) {
                     comments,
                     revenue,
                     revenue_type,
+                    block,
+                    capping,
+                    session_capping,
                     updated
                 )
             VALUES
@@ -286,6 +292,9 @@ if (isset($submit)) {
                     '$comments',
                     '$revenue',
                     '$revenue_type',
+                    '$block',
+                    '$cap',
+                    '$session_capping',
                     '".date('Y-m-d H:i:s')."'
                 )"
         ) or phpAds_sqlDie();
@@ -460,7 +469,10 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
            companion AS companion,
            comments AS comments,
            revenue AS revenue,
-           revenue_type AS revenue_type
+           revenue_type AS revenue_type,
+           block AS block,
+           capping AS capping,
+           session_capping as session_capping
        FROM
            {$conf['table']['prefix']}{$conf['table']['campaigns']}
        WHERE
@@ -497,6 +509,9 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     $row['comments']            = $data['comments'];
     $row['revenue']             = $data['revenue'];
     $row['revenue_type']        = $data['revenue_type'];
+    $row['block']               = $data['block'];
+    $row['capping']             = $data['capping'];
+    $row['session_capping']     = $data['session_capping'];
 
     // Get the campagin data from the data_intermediate_ad table, and store in $row
     if (($row['impressions'] >= 0) || ($row['clicks'] >= 0) || ($row['conversions'] >= 0)) {
@@ -937,6 +952,11 @@ echo "</tr>"."\n";
 
 echo "</td>"."\n";
 echo "</tr>"."\n";
+
+echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
+echo "<tr><td colspan='3'><table cellpadding='0' cellspacing='0' border='0' width='100%'>\n";
+$tabindex = _echoDeliveryCappingHtml($tabindex, $GLOBALS['strCappingCampaign'], $row);
+echo "</table></td></tr>\n";
 
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 echo "<tr><td height='25' colspan='3'><b>".$strMiscellaneous."</b></td></tr>"."\n";

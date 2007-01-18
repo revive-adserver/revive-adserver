@@ -543,17 +543,24 @@ $GLOBALS['strReferer']                     = "Referring page";
 $GLOBALS['strDeliveryLimitations']        = "Delivery limitations";
 
 $GLOBALS['strDeliveryCapping']            = "Delivery capping";
+
 $GLOBALS['strCappingBanner'] = array();
 $GLOBALS['strCappingBanner']['title'] = $GLOBALS['strDeliveryCapping'];
-$GLOBALS['strCappingBanner']['time'] = "Once this banner has been delivered once, don't show this banner again to the same user for:";
+$GLOBALS['strCappingBanner']['time'] = "Once this banner has been delivered, don't show this banner again to the same user for:";
 $GLOBALS['strCappingBanner']['user'] = "Do not show this banner to the same user more than:";
 $GLOBALS['strCappingBanner']['session'] = "Do not show this banner during the same session more than:";
 
+$GLOBALS['strCappingCampaign'] = array();
+$GLOBALS['strCappingCampaign']['title'] = $GLOBALS['strDeliveryCapping'];
+$GLOBALS['strCappingCampaign']['time'] = "Once a banner from this campaign has been delivered, don't any banner from this campaign again to the same user for:";
+$GLOBALS['strCappingCampaign']['user'] = "Do not show a banner from this campaign to the same user more than:";
+$GLOBALS['strCappingCampaign']['session'] = "Do not show a banner from this campaign during the same session more than:";
+
 $GLOBALS['strCappingZone'] = array();
 $GLOBALS['strCappingZone']['title'] = $GLOBALS['strDeliveryCapping'];
-$GLOBALS['strCappingZone']['time'] = "Once banner from this zone has been delivered, don't show any banner from this zone again to the same user for:";
-$GLOBALS['strCappingZone']['user'] = "Do not show banners from this zone to the same user more than:";
-$GLOBALS['strCappingZone']['session'] = "Do not show banners from this zone during the same session more than:";
+$GLOBALS['strCappingZone']['time'] = "Once a banner from this zone has been delivered, don't show any banner from this zone again to the same user for:";
+$GLOBALS['strCappingZone']['user'] = "Do not show a banner from this zone to the same user more than:";
+$GLOBALS['strCappingZone']['session'] = "Do not show a banner from this zone during the same session more than:";
 
 // Publisher
 $GLOBALS['strAffiliate']                = "Publisher";
@@ -935,7 +942,7 @@ $GLOBALS['strTrackerTypeCustom']    = "Custom JS code";
 $GLOBALS['strVariableCode']         = "Javascript tracking code";
 
 
-//Upload conversions 
+//Upload conversions
 $GLOBALS['strRecordLengthTooBig']   = 'Record length too big';
 $GLOBALS['strRecordNonInt']         = 'Value needs to be numeric';
 $GLOBALS['strRecordWasNotInserted'] = 'Record was not inserted';

@@ -470,7 +470,7 @@ function MAX_Dal_Delivery_getLinkedAds($search) {
 function MAX_Dal_Delivery_getAd($ad_id) {
     $conf = $GLOBALS['_MAX']['CONF'];
 
-    $rAd = MAX_Dal_Delivery_query("
+    $query = "
         SELECT
         d.bannerid AS ad_id,
         d.campaignid AS placement_id,
@@ -515,7 +515,8 @@ function MAX_Dal_Delivery_getAd($ad_id) {
         d.bannerid={$ad_id}
         AND
         d.campaignid = c.campaignid
-    ");
+    ";
+    $rAd = MAX_Dal_Delivery_query($query);
     if (!is_resource($rAd)) {
         if (defined('CACHE_LITE_FUNCTION_ERROR')) {
             return CACHE_LITE_FUNCTION_ERROR;
