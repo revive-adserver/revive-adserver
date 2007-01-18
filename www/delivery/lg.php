@@ -78,7 +78,7 @@ for ($index = 0; $index < count($aAdIds); $index++) {
     MAX_Delivery_log_ensureIntegerSet($aCampaignIds, $index);
     MAX_Delivery_log_ensureIntegerSet($aCreativeIds, $index);
     MAX_Delivery_log_ensureIntegerSet($aZoneIds, $index);
-    if (isset($aAdIds[$index]) && is_numeric($aAdIds[$index])) {
+    if ($aAdIds[$index] > 0) {
         // Log the ad impression, if required
         if ($GLOBALS['_MAX']['CONF']['logging']['adImpressions']) {
             MAX_Delivery_log_logAdImpression($viewerId, $aAdIds[$index], $aCreativeIds[$index], $aZoneIds[$index]);
