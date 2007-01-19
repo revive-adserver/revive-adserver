@@ -272,10 +272,16 @@ function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0)
             if ($errors[0] == MAX_ERROR_YOU_HAVE_NO_TRACKERS || $errors[0] == MAX_ERROR_YOU_HAVE_NO_CAMPAIGNS)
                 echo ' disabled ';
             echo' value="Create CSV Template"> <br /><br />';
-            echo' <input type="hidden" name="MAX_FILE_SIZE" value="100000" />';
+
+            $max_file_size = _display_to_bytes(ini_get('upload_max_filesize'));
+            $max_post_size = _display_to_bytes(ini_get('post_max_size'));
+            if (($max_post_size > 0) && ($max_post_size < $max_file_size)) {
+                $max_file_size = $max_post_size;
+            }
+            echo " <input type='hidden' name='MAX_FILE_SIZE' value='{$max_file_size}' />";
             echo' <input type="hidden" name="start_upload" value="0" />';
             echo ' <input type="hidden" name="field_changed" value="none" />';
-            echo' Choose a file to upload: <input name="uploadedfile" type="file" /><br />';
+            echo' Choose a file to upload: (Max size: '. _bytes_to_display($max_file_size) . ') <input name="uploadedfile" type="file" /><br />';
             echo' <input type="submit" name="uploadFile" onClick=\'setUploadConversionValues();\''; 
             if ($errors[0] == MAX_ERROR_YOU_HAVE_NO_TRACKERS || $errors[0] == MAX_ERROR_YOU_HAVE_NO_CAMPAIGNS)
                 echo ' disabled ';
@@ -652,6 +658,34 @@ function showSettingsLocked($item)
         }
     }
     return false;
+}
+
+function _display_to_bytes($val) {
+   $val = trim($val);
+   $last = strtolower($val{strlen($val)-1});
+   switch($last) {
+       // The 'G' modifier is available since PHP 5.1.0
+       case 'g':
+           $val *= 1024;
+       case 'm':
+           $val *= 1024;
+       case 'k':
+           $val *= 1024;
+   }
+   return $val;
+}
+
+function _bytes_to_display($val) {
+    $val=(float)$val;
+    if ($val < 1024) {
+        return number_format($val, 0)."b";
+    } elseif ($val < 1048576) {
+        return number_format($val/1024, 1)."KB";
+    } elseif ($val >= 1048576) {
+        return number_format($val/1048576, 1)."MB";
+    } else {
+        return false;
+    }
 }
 
 ?>
