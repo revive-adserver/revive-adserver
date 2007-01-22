@@ -4,7 +4,7 @@ phpAdsNew - ChangeLog
 SVN
 
 			+ Misc bugfixes
-			  - 2006-11-14:  Fixed #50 - Stats conversion isn't working on some browsers  (Matteo)
+			  - 2007-01-22:  Fixed #50 - Stats conversion isn't working on some browsers  (Matteo)
 
 Openads 2.0.10
 			+ Misc changes
