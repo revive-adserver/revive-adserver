@@ -37,6 +37,15 @@
 2006-12-04  Admin       Bug         Fixed #1016 - Duplicate document.context line in JS invocation (Chris)
 
 +-------------------------------+
+| Release Max v0.3.31-alpha-pr2 |
++-------------------------------+
+
+2007-01-19  Admin       Bug         Fixed #47 - Fixed errors in upgrade script in
+                                    Admin::Upgrade::_upgradeToThreeThrtyOneAlpha (Radek)
+2007-01-19  Admin       Bug         Fixed #49 - Added missing columns and tables to sql scheme file (Radek)
+
+
++-------------------------------+
 | Release Max v0.3.31-alpha-pr1 |
 +-------------------------------+
 

@@ -423,10 +423,15 @@ class MAX_Admin_Upgrade
         $query = "DROP TABLE IF EXISTS {$this->conf['table']['prefix']}data_summary_channel_hourly";
         $this->_runQuery($query);
 
+        // Drop old channel summary table
+        $query = "DROP TABLE IF EXISTS {$this->conf['table']['prefix']}log_maintenance";
+        $this->_runQuery($query);
+
         // Add technology_cost & technology_cost_type to zones table
         $queries = array();
         $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}zones ADD technology_cost DECIMAL(10,4) AFTER cost_variable_id";
-        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}zones ADD technology_cost_type INT(11) AFTER technology_cost";
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}zones ADD technology_cost_type SMALLINT DEFAULT NULL AFTER technology_cost";
+        $this->_runQueries($queries);
         $this->_runQueries($queries);
 
         // Add total_techcost to data_sum_ad_hourly
@@ -437,8 +442,8 @@ class MAX_Admin_Upgrade
         $queries = array();
         $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}preference ADD instance_id VARCHAR(64)";
         $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}preference MODIFY updates_last_seen decimal(7,3)";
-        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}preference ADD updates_cache TEXT AFTER updates_frequency";
-        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}preference ADD updates_enabled enum('t','f') DEFAULT 't' AFTER updates_frequency";
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}preference ADD updates_enabled enum('t','f') DEFAULT 't' AFTER qmail_patch";
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}preference ADD updates_cache TEXT AFTER updates_enabled";
         $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}preference DROP updates_frequency";
         $this->_runQueries($queries);
 
@@ -479,18 +484,18 @@ class MAX_Admin_Upgrade
 
         // Mods from _upgradeToThreeFifteenAlpha()
         $queries = array();
-        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}affiliates ADD updated DATETIME NOT NULL AFTER publiczones";
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}affiliates ADD updated DATETIME NOT NULL AFTER last_accepted_agency_agreement";
         $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}agency ADD updated DATETIME NOT NULL AFTER active";
         $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}banners ADD updated DATETIME NOT NULL AFTER comments";
-        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}campaigns ADD updated DATETIME NOT NULL AFTER comments";
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}campaigns ADD updated DATETIME NOT NULL AFTER revenue_type";
         $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}clients ADD updated DATETIME NOT NULL AFTER comments";
         $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}trackers ADD updated DATETIME NOT NULL AFTER appendcode";
-        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}variables ADD updated DATETIME NOT NULL AFTER is_basket_value";
-        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}zones ADD updated DATETIME NOT NULL AFTER comments";
-        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}data_intermediate_ad ADD updated DATETIME NOT NULL AFTER total_basket_value";
-        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}data_intermediate_ad_connection ADD updated DATETIME NOT NULL AFTER connection_status";
-        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}data_summary_ad_hourly ADD updated DATETIME NOT NULL AFTER total_basket_value";
-        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}channel ADD updated DATETIME NOT NULL AFTER compiledlimitation";
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}variables ADD updated DATETIME NOT NULL AFTER hidden";
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}zones ADD updated DATETIME NOT NULL AFTER cost_variable_id";
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}data_intermediate_ad ADD updated DATETIME NOT NULL AFTER total_num_items";
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}data_intermediate_ad_connection ADD updated DATETIME NOT NULL AFTER comments";
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}data_summary_ad_hourly ADD updated DATETIME NOT NULL AFTER total_cost";
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}channel ADD updated DATETIME NOT NULL AFTER comments";
         $this->_runQueries($queries);
         /////////////////////////////////////////////////////////////////////
 
