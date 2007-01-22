@@ -234,10 +234,6 @@ if ($found)
 					phpAds_setCookie ("phpAds_banner[".$n."]", serialize($cookie), 0);
 					phpAds_flushCookie ();
 					
-					// Perform auto maintenance!
-					require (phpAds_path.'/libraries/lib-automaintenance.inc.php');
-					phpAds_performAutoMaintenance();
-					
 					if ($_SERVER['SERVER_PORT'] == 443) $phpAds_config['url_prefix'] = str_replace ('http://', 'https://', $phpAds_config['url_prefix']);
 					header ("Location: ".str_replace('{url_prefix}', $phpAds_config['url_prefix'], $row['imageurl']));
 				}
