@@ -97,9 +97,9 @@ if (isset($action) && $action == 'start')
     echo "} else {\n";
     
     echo "\tdocument.write (\"";
-		echo "<script language='JavaScript' src='";
+		echo "<s\"+\"cript language='JavaScript' src='";
 		echo "maintenance-stats-convert.php?action=start";
-		echo "'></script>";
+		echo "'></s\"+\"cript>";
 		echo "\");\n";
     
     echo "}\n";

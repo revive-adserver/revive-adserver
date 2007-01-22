@@ -1,6 +1,11 @@
 phpAdsNew - ChangeLog
 
 
+SVN
+
+			+ Misc bugfixes
+			  - 2006-11-14:  Fixed #50 - Stats conversion isn't working on some browsers  (Matteo)
+
 Openads 2.0.10
 			+ Misc changes
 			  - 2007-01-03:  Maintenance task now is performed during banner delivery if a cron job isn't correctly set up. The new feature is enabled by default and can be disabled in the administrator settings screen  (Matteo)
