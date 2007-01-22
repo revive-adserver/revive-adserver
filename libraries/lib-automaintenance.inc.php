@@ -20,9 +20,7 @@ define ('LIBAUTOMAINTENANCE_INCLUDED', true);
 
 // Include required files
 if (!defined('LIBDBCONFIG_INCLUDED'))
-{
-	include (phpAds_path.'/libraries/lib-dbconfig.inc.php');
-}
+	require (phpAds_path.'/libraries/lib-dbconfig.inc.php');
 
 
 
@@ -34,6 +32,10 @@ function phpAds_performAutoMaintenance()
 	// loading libraries and connecting to the db
 	flush();
 
+	// Include required files
+	if (!defined('LIBLOCKS_INCLUDED'))
+		require (phpAds_path.'/libraries/lib-locks.inc.php');
+		
 	// Load config from the db
 	phpAds_LoadDbConfig();
 	
@@ -45,11 +47,7 @@ function phpAds_performAutoMaintenance()
 	
 	if (time() >= $last_run + 3600)
 	{
-		// Maintenance wasn't run in the last hour, with an additional 5 minutes bonus time
-		// just in case maintenance doesn't run at minute 0
-		$lock_name = addslashes('pan.'.$phpAds_config['instance_id']);
-		
-		if (phpAds_dbResult(phpAds_dbQuery("SELECT GET_LOCK('{$lock_name}', 0)"), 0, 0))
+		if ($lock = phpAds_maintenanceGetLock())
 		{
 			require (phpAds_path."/libraries/lib-userlog.inc.php");
 			require (phpAds_path."/maintenance/lib-maintenance.inc.php");
@@ -61,7 +59,7 @@ function phpAds_performAutoMaintenance()
 			phpAds_performMaintenance();
 			
 			// Release lock
-			phpAds_dbQuery("SELECT RELEASE_LOCK('{$lock_name}')");
+			phpAds_maintenanceReleaseLock($lock);
 		}
 	}
 }

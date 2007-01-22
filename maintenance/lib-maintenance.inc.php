@@ -41,6 +41,8 @@ function phpAds_performMaintenance()
 		// Include required files
 		if (!defined('LIBMAIL_INCLUDED'))
 			require (phpAds_path."/libraries/lib-mail.inc.php");
+		if (!defined('LIBLOCKS_INCLUDED'))
+			require (phpAds_path.'/libraries/lib-locks.inc.php');
 		if (!defined('LIBADMINSTATISTICS_INCLUDED'))
 			require (phpAds_path."/admin/lib-statistics.inc.php");
 		if (!defined('LIBADMINCONFIG_INCLUDED'))
@@ -87,29 +89,6 @@ function phpAds_performMaintenance()
 	}
 	
 	return false;
-}
-
-function phpAds_maintenanceGetLock()
-{
-	$lock = array(
-		'type' => 'db',
-		'id' => addslashes('pan.'.$GLOBALS['phpAds_config']['instance_id'])
-	);
-	
-	if (phpAds_dbResult(phpAds_dbQuery("SELECT GET_LOCK('{$lock['id']}', 0)"), 0, 0))
-		return $lock;
-	
-	return false;
-}
-
-function phpAds_maintenanceReleaseLock($lock)
-{
-	switch ($lock['type'])
-	{
-		case 'db':
-			phpAds_dbQuery("DO RELEASE('{$lock['id']}')");
-			break;
-	}
 }
 
 ?>
