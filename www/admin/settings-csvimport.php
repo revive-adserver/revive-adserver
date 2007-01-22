@@ -237,13 +237,17 @@ function validateCsvData($value, $pattern) {
  * @param array $out array to compare with
  * @return bool 
  */
-function isDuplicated($variableName, $value, &$out) {
+function isDuplicated($trackerId, $variableName, $value, &$out) {
     //check if variable should be unique 
-    $res_variables = phpAds_dbQuery('SELECT is_unique, name FROM variables 
-                                     WHERE name = \''.$variableName.'\' ');     
-    $row_variables = phpAds_dbFetchArray($res_variables);
-
-    if($row_variables['is_unique'] == 0) {
+    if (!isset($GLOBALS['unique_variables'])) {
+        $GLOBALS['unique_variables'] = array();
+        $res_variables = phpAds_dbQuery('SELECT is_unique, name FROM variables WHERE trackerid='.$trackerId);
+        while ($row = phpAds_dbFetchArray($res_variables)) {
+            $GLOBALS['unique_variables'][$row['name']] = $row['is_unique'];
+        }
+    }
+    
+    if($GLOBALS['unique_variables'][$variableName] == 0) {
         return 0;
     }
     
@@ -485,7 +489,7 @@ if (isset($_POST['submitCommit'])) {
                         $connection_date_time = $value1['value'];
                     }
                     $sqlNames  .= $key1 . ', ';
-                    $sqlValues .= '\'' . $value1['value'] . '\'' . ', ';
+                    $sqlValues .= '\'' . mysql_escape_string($value1['value']) . '\'' . ', ';
                 }
                 $sqlNames  .= 'updated, ';
                 $sqlValues .= '\'' . date('Y-m-d H:i:s') . '\'' . ', ';
@@ -519,7 +523,7 @@ if (isset($_POST['submitCommit'])) {
                 $sql .= '(' . $sqlNames .')' . ' VALUES ' . '(' . $sqlValues . ')';
                 
                 if(!phpAds_dbQuery($sql)) {
-                    $uploadError[] = MAX_ERROR_RECORD_WAS_NOT_INSERTED;
+                    $uploadError[] = MAX_ERROR_RECORD_WAS_NOT_INSERTED . "<br />\n<small>Query: {$sql}\n" . mysql_error() . "</small>\n</br />";
                 } 
 
                 $tmp_conversion['data_intermediate_ad_connection_id'] = phpAds_dbInsertID();
@@ -535,9 +539,9 @@ if (isset($_POST['submitCommit'])) {
                     $sql .= '(data_intermediate_ad_connection_id, tracker_variable_id, value) VALUES ';
                     $sql .= '(\'' . $tmp_conversion['data_intermediate_ad_connection_id'] . '\', '; 
                     $sql .= '\'' . $variablesArray[$key1]['id'] . '\', ';
-                    $sql .= '\'' . $value1['value'] . '\') ';
+                    $sql .= '\'' . mysql_escape_string($value1['value']) . '\') ';
                     if(!phpAds_dbQuery($sql)) {
-                        $uploadError[] = MAX_ERROR_RECORD_WAS_NOT_INSERTED;
+                        $uploadError[] = MAX_ERROR_RECORD_WAS_NOT_INSERTED . "<br />\n<small>Query: {$sql}\n" . mysql_error() . "</small>\n</br />";
                     } 
                 }               
             }
@@ -906,7 +910,7 @@ if(isset($_POST['submitDisabled']) || isset($_POST['submitCreateTemplate'])) {
                     }
                     else if($status[$key]['status']=='dynamic' && trim($status[$key]['name']) != '') {  
                         $out[$i]['dynamic'][$status[$key]['name']]['value'] = $value;
-                        if(isDuplicated($status[$key]['name'], $value, &$out) == 0) {
+                        if(isDuplicated($tracker, $status[$key]['name'], $value, &$out) == 0) {
                             $out[$i]['dynamic'][$status[$key]['name']]['validate'] = validateCsvData($value,$columns[$status[$key]['name']]); 
                         } else {
                             $out[$i]['dynamic'][$status[$key]['name']]['validate'] = MAX_ERROR_DUPLICATED_VALUE; 
