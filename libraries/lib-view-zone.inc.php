@@ -171,7 +171,7 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 		}
 	}
 
-
+	// Get number of rows
 	$maxindex = sizeof($rows);
 	
 	// Create campaign mapping
@@ -182,19 +182,27 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 	// Use a multiplier to make sure we don't have rounding problems afterwards
 	$multiplier = 1000;
 	
-	while ($prioritysum && sizeof($rows))
+	// Make sure that prioritysum * multiplier works with mt_rand
+	while ($prioritysum * $multiplier > mt_getrandmax())	
+		$multiplier /= 10; 
+
+	// Track remaining rows
+	$remaining_rows = sizeof($rows);
+
+	// Start main loop
+	while ($prioritysum >= 1 && $remaining_rows > 0)
 	{
 		$low = 0;
 		$high = 0;
 		$ranweight = ($prioritysum > 1) ? mt_rand(0, $prioritysum * $multiplier - 1) : 0;
-		
+
 		for ($i=0; $i<$maxindex; $i++)
 		{
 			if (is_array($rows[$i]))
 			{
 				$low = $high;
 				$high += round($rows[$i]['priority'] * $multiplier);
-				
+
 				if ($high > $ranweight && $low <= $ranweight)
 				{
 					$postconditionSuccess = true;
@@ -245,7 +253,7 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 						$phpAds_config['acl'] &&
 						!phpAds_aclCheck($rows[$i], $source))
 						$postconditionSuccess = false;
-					
+
 					if ($postconditionSuccess == false)
 					{
 						// Failed one of the postconditions
@@ -253,6 +261,7 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 						$bannerpriority = $rows[$i]['priority'];
 						$campaignid = $rows[$i]['clientid'];
 						$rows[$i] = '';
+						$remaining_rows--;
 						
 						// Assign lost priority to the other banners in the same campaign
 						// Start getting the sum of all priorities
@@ -266,11 +275,21 @@ function phpAds_fetchBannerZone($remaining, $clientid, $context = 0, $source = '
 						if ($campaingprioritysum)
 						{
 							// Distribute the priority in a weighted manner
+							
+							$total_increment = 0;
 							foreach ($campaign_mapping[$campaignid] as $ii)
 							{
 								if (is_array($rows[$ii]) && $rows[$ii]['priority'])
-									$rows[$ii]['priority'] += $bannerpriority * $rows[$ii]['priority'] / $campaingprioritysum;
+								{
+									$increment = $bannerpriority * $rows[$ii]['priority'] / $campaingprioritysum;
+									$rows[$ii]['priority'] += $increment;
+									
+									$total_increment += $increment;
+								}
 							}
+							
+							// Adjust priority sum, there may have been roundings
+							$prioritysum += $total_increment - $bannerpriority;
 						}
 						else
 						{
