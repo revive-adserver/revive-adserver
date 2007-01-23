@@ -28,6 +28,10 @@ function phpAds_performMaintenance()
 {
 	global $phpAds_config;
 	
+	// Include required files
+	if (!defined('LIBLOCKS_INCLUDED'))
+		require (phpAds_path.'/libraries/lib-locks.inc.php');
+
 	// Aquire lock to ensure that maintenance runs only once
 	if ($lock = phpAds_maintenanceGetLock())
 	{
@@ -41,8 +45,6 @@ function phpAds_performMaintenance()
 		// Include required files
 		if (!defined('LIBMAIL_INCLUDED'))
 			require (phpAds_path."/libraries/lib-mail.inc.php");
-		if (!defined('LIBLOCKS_INCLUDED'))
-			require (phpAds_path.'/libraries/lib-locks.inc.php');
 		if (!defined('LIBADMINSTATISTICS_INCLUDED'))
 			require (phpAds_path."/admin/lib-statistics.inc.php");
 		if (!defined('LIBADMINCONFIG_INCLUDED'))
