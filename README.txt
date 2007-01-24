@@ -1,5 +1,5 @@
 
-    Openads 2.0.10-pr1
+    Openads 2.0.11
     ------------------------------------------------------------------------
 
     Openads is an open-source ad server, with an integrated banner management 

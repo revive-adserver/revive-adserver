@@ -1,7 +1,7 @@
 phpAdsNew - ChangeLog
 
 
-Openads 2.0.10-pr1
+Openads 2.0.11
 			+ Misc bugfixes
 			  - 2007-01-22:  Fixed #50 - Stats conversion isn't working on some browsers  (Matteo)
 			  - 2007-01-22:  Fixed #45 - Automaintenance could be triggered twice on Netscape 4 or even if it's disabled  (Matteo)
