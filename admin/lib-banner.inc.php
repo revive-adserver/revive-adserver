@@ -301,9 +301,11 @@ function phpAds_getBannerCache($banner)
 					$buffer = "<span>".
 							  "<script language='JavaScript' type='text/javascript'><!--\n".
 							  "/* openads={url_prefix} bannerid={bannerid} zoneid={zoneid} source={source} */\n".
+							  "if (typeof phpAds_adg == 'undefined') {\n".
+							  "\tdocument.write('<scr'+'ipt language=\"JavaScript\" type=\"text/javascript\" src=\"{url_prefix}/adg.js\"></scr'+'ipt>');\n".
+							  "}\n".
 							  "//--></script>".
 							  $buffer.
-							  "<script language='JavaScript' type='text/javascript' src='{url_prefix}/adg.js'></script>".
 							  "</span>";
 				}
 			}

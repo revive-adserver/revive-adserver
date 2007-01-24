@@ -257,7 +257,13 @@ function phpAds_GenerateInvocationCode()
 		$buffer .= "</iframe>\n";
 		
 		if (isset($iframetracking) && $iframetracking == 1)
-			$buffer .= "<script language='JavaScript' type='text/javascript' src='".$phpAds_config['url_prefix']."/adg.js'></script>";
+		{
+			$buffer .= "<script language='JavaScript' type='text/javascript'><!--\n".
+					   "if (typeof phpAds_adg == 'undefined') {\n".
+					   "\tdocument.write('<scr'+'ipt language=\"JavaScript\" type=\"text/javascript\" src=\"".$phpAds_config['url_prefix']."/adg.js\"></scr'+'ipt>');\n".
+					   "}\n".
+					   "//--></script>";
+		}
 		
 		if (isset($parameters['n']))
 			unset ($parameters['n']);

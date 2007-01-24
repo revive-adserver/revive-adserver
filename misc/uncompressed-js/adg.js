@@ -6,6 +6,7 @@
  *
  */
 
+var phpAds_adg = true;
 var phpAds_adSenseDeliveryDone;
 var phpAds_adSensePx;
 var phpAds_adSensePy;
