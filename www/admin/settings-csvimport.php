@@ -876,6 +876,11 @@ if(isset($_POST['submitDisabled']) || isset($_POST['submitCreateTemplate'])) {
             unset($line[0]);
             $i=0;            
             foreach($line as $recK=>$record) {
+                // Detect M$ excel's default date format and restructure it to a SQL date format
+                $matches = array();
+                if (preg_match('#([0-9][0-9])/([0-9][0-9])/([0-9][0-9][0-9][0-9]) (.*)$#', $record[0], $matches)) {
+                    $record[0] = "{$matches[3]}-{$matches[2]}-{$matches[1]} {$matches[4]}";
+                }
                 foreach($record as $key=>$value)
                 { 
                     $value = trim($value);
