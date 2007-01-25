@@ -407,6 +407,12 @@ class MAX_Admin_Upgrade
         $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}campaigns ADD capping INT(11) NOT NULL DEFAULT '0'";
         $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}campaigns ADD session_capping INT(11) NOT NULL DEFAULT '0'";
         $this->_runQueries($queries);
+        
+        // Allow negative total_num_items to be stored in the summary tables
+        $queries = array();
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}data_summary_ad_hourly CHANGE total_num_items total_num_items INTEGER NULL";
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}data_intermediate_ad CHANGE total_num_items total_num_items INTEGER NOT NULL DEFAULT 0";
+        $this->_runQueries($queries);
     }
 
      /** A private method to upgrade the database from the v0.3.30-alpha
