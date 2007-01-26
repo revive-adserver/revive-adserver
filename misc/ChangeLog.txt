@@ -1,6 +1,11 @@
 phpAdsNew - ChangeLog
 
 
+SVN
+			+ Misc changes
+			  - 2007-01-26:  Fixed #17 - Remove deprecated fakecron script, automaintenance should be used instead  (Matteo)
+
+
 Openads 2.0.11
 			+ Misc bugfixes
 			  - 2007-01-22:  Fixed #50 - Stats conversion isn't working on some browsers  (Matteo)

@@ -1,1 +1,0 @@
-<?php $lastrun = -1; ?>
