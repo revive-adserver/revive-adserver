@@ -227,8 +227,16 @@ function phpAds_prepareOutput($row, $target, $source, $withtext)
 	$outputbuffer = str_replace ('{target}', $target, $outputbuffer);
 	$outputbuffer = str_replace ('{source}', $source, $outputbuffer);
 		
-	// If SSL is used, make sure to use the https:// protocol
-	if ($_SERVER['SERVER_PORT'] == 443) $phpAds_config['url_prefix'] = str_replace ('http://', 'https://', $phpAds_config['url_prefix']);
+	// Check if SSL is used
+	if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
+	{
+		// Make sure to use the https:// protocol
+		$phpAds_config['url_prefix'] = str_replace ('http://', 'https://', $phpAds_config['url_prefix']);
+		
+		// Make sure that <object> and <embed> tags use https:// for the plugin URL (IE6/7 fix)
+		$outputbuffer = preg_replace('#(<object.*?codebase=["\']?)http://#s', '$1https://', $outputbuffer);
+		$outputbuffer = preg_replace('#(<embed.*?pluginspace=["\']?)http://#s', '$1https://', $outputbuffer);
+	}
 		
 	// Replace url_prefix with the domain name that is actually used
 		

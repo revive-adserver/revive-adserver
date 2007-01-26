@@ -5,6 +5,9 @@ SVN
 			+ Misc changes
 			  - 2007-01-26:  Fixed #17 - Remove deprecated fakecron script, automaintenance should be used instead  (Matteo)
 
+			+ Misc bugfixes
+			  - 2007-01-26:  Fixed #61 - IE warnings appear when SWF banners are served through SSL  (Matteo)
+
 
 Openads 2.0.11
 			+ Misc bugfixes
