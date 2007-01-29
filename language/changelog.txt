@@ -17,6 +17,9 @@
 
   ====================================================
 
+  29-01-2007 - deafult
+    [+] strLimitationURL
+
   16-01-2007 - settings
     [+] strEnableAutoMaintenance
 

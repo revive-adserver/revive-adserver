@@ -73,9 +73,12 @@ if (!isset($context)) 	$context = '';
 if (!isset($rewrite))	$rewrite = 1;
 if (!isset($n))			$n = 'default';
 
-// Remove referer, to be sure it doesn't cause problems with limitations
-if (isset($_SERVER['HTTP_REFERER'])) unset($_SERVER['HTTP_REFERER']);
-if (isset($HTTP_REFERER)) unset($HTTP_REFERER);
+// Save referrer as current URL for the URL limitation
+if (isset($_SERVER['HTTP_REFERER']))
+	$phpAds_currentURL = $_SERVER['HTTP_REFERER'];
+
+// Make sure that no referrer is set
+$phpAds_currentReferrer = '';
 
 
 // Get the banner

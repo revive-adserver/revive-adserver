@@ -115,9 +115,12 @@ if (isset($exclude) && $exclude != '')
 			$context[] = array ("!=" => $exclude[$i]);
 }
 
-// Set real referer
-if (isset($referer) && $referer)
-	$HTTP_REFERER = $_SERVER['HTTP_REFERER'] = stripslashes($referer);
+// Save referrer as current URL for the URL limitation
+if (isset($_SERVER['HTTP_REFERER']))
+	$phpAds_currentURL = $_SERVER['HTTP_REFERER'];
+
+// Save referer parameter for the Referrer limitation
+$phpAds_currentReferrer = isset($referer) ? stripslashes($referer) : '';
 
 
 // Get the banner

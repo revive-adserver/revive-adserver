@@ -25,11 +25,16 @@ $GLOBALS['phpAds_remoteInfo'] = array(
 	'remote_host' =>		'REMOTE_HOST',
 	
 	// Headers used for ACLs
+	'request_uri' =>		'REQUEST_URI',
+	'https' =>				'HTTPS',
+	'server_name' =>		'SERVER_NAME',
+	'http_host' =>			'HTTP_HOST',
 	'accept_language' =>	'HTTP_ACCEPT_LANGUAGE',
 	'referer' =>			'HTTP_REFERER',
 	'user_agent' =>			'HTTP_USER_AGENT',
 	
 	// Headers used for proxy lookup
+	'via' =>				'HTTP_VIA',
 	'forwarded' =>			'HTTP_FORWARDED',
 	'forwarded_for' =>		'HTTP_FORWARDED_FOR',
 	'x_forwarded' =>		'HTTP_X_FORWARDED',

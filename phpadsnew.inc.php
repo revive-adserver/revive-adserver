@@ -45,6 +45,15 @@ if (!defined('PHPADSNEW_INCLUDED'))
 	require (phpAds_path."/libraries/lib-io.inc.php");
 	require (phpAds_path."/libraries/lib-db.inc.php");
 	
+	// Save current URL for the URL limitation
+	$GLOBALS['phpAds_currentURL'] =
+		(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
+		(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']).
+		$_SERVER['REQUEST_URI'];
+	
+	// Save referer parameter for the Referrer limitation
+	$GLOBALS['phpAds_currentReferrer'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+	
 	
 	if (($phpAds_config['log_adviews'] && !$phpAds_config['log_beacon']) || $phpAds_config['acl'])
 	{

@@ -84,6 +84,7 @@ if ($phpAds_config['geotracking_type'] != '')
 $type_list['browser']   = $strBrowser;
 $type_list['os']		= $strOS;
 $type_list['useragent']	= $strUserAgent;
+$type_list['url']		= $strLimitationURL;
 $type_list['referer']	= $strReferer;
 $type_list['source']	= $strSource;
 
@@ -661,9 +662,9 @@ if ($phpAds_config['acl'])
 			
 			if ($acl[$key]['type'] == 'date')
 				$comparison_list = $comparison_date;
-			elseif ($acl[$key]['type'] == 'referer' || $acl[$key]['type'] == 'city' ||
-					$acl[$key]['type'] == 'postal_code' || $acl[$key]['type'] == 'area_code' ||
-					$acl[$key]['type'] == 'org_isp'
+			elseif ($acl[$key]['type'] == 'url' || $acl[$key]['type'] == 'referer' ||
+					$acl[$key]['type'] == 'city' || $acl[$key]['type'] == 'postal_code' ||
+					$acl[$key]['type'] == 'area_code' || $acl[$key]['type'] == 'org_isp'
 				)
 				$comparison_list = $comparison_substr;
 			else

@@ -468,9 +468,25 @@ function phpAds_aclCheckReferer($data, $ad)
 	if ($data == '')
 		return (true);
 	
-	$referer = isset($_SERVER['HTTP_REFERER']) ? strtolower($_SERVER['HTTP_REFERER']) : '';
-	$expression = strpos($referer, strtolower($data));
-	$expression = is_int($expression);
+	$referer = isset($GLOBALS['phpAds_currentReferrer']) ? strtolower($GLOBALS['phpAds_currentReferrer']) : '';
+	$expression = strpos($referer, strtolower($data)) !== false;
+	$operator   = $ad == '==';
+	return ($expression == $operator);
+}
+
+
+
+/*********************************************************/
+/* Check if the URL ACL is valid                         */
+/*********************************************************/
+
+function phpAds_aclCheckURL($data, $ad)
+{
+	if ($data == '')
+		return (true);
+	
+	$url = isset($GLOBALS['phpAds_currentURL']) ? strtolower($GLOBALS['phpAds_currentURL']) : '';	
+	$expression = strpos($url, strtolower($data)) !== false;
 	$operator   = $ad == '==';
 	return ($expression == $operator);
 }

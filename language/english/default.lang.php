@@ -360,6 +360,7 @@ $GLOBALS['strAreaCode']					= "Area code";
 $GLOBALS['strOrgISP']					= "Organization/ISP";
 $GLOBALS['strNetSpeed']					= "Net speed";
 $GLOBALS['strReferer'] 					= "Referring page";
+$GLOBALS['strLimitationURL']			= "Page URL";
 $GLOBALS['strDeliveryLimitations']		= "Delivery limitations";
 $GLOBALS['strDeliveryCapping']			= "Delivery capping";
 $GLOBALS['strTimeCapping']				= "Once this banner has been delivered once, don't show this banner again to the same user for:";

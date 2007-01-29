@@ -359,6 +359,7 @@ $GLOBALS['strAreaCode']						= "Codice area";
 $GLOBALS['strOrgISP']						= "Organizzazione/ISP";
 $GLOBALS['strNetSpeed']						= "Velocità di collegamento";
 $GLOBALS['strReferer'] 						= "Pagina di provenienza";
+$GLOBALS['strLimitationURL']				= "URL della pagina";
 $GLOBALS['strDeliveryLimitations']			= "Limitazioni consegna";
 $GLOBALS['strDeliveryCapping']				= "Limitazioni numero consegne";
 $GLOBALS['strTimeCapping']					= "Una volta consegnato il banner, non mostrarlo allo stesso utente per:";

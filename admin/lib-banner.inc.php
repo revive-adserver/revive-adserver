@@ -625,6 +625,9 @@ function phpAds_compileLimitation ($bannerid = '')
 					case 'referer':
 						$expression .= "phpAds_aclCheckReferer(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
 						break;
+					case 'url':
+						$expression .= "phpAds_aclCheckURL(\'".addslashes($acl[$key]['data'])."\', \'".$acl[$key]['comparison']."\')";
+						break;
 					default:
 						if (strpos($acl[$key]['type'], 'fips_code') === 0)
 						{

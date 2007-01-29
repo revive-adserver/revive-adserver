@@ -82,10 +82,12 @@ if (!isset($status))	 $status     = 0;
 if (!isset($resizable))  $resizable  = 0;
 if (!isset($scrollbars)) $scrollbars = 0;
 
+// Save referrer as current URL for the URL limitation
+if (isset($_SERVER['HTTP_REFERER']))
+	$phpAds_CurrentURL = $_SERVER['HTTP_REFERER'];
 
-// Remove referer, to be sure it doesn't cause problems with limitations
-if (isset($_SERVER['HTTP_REFERER'])) unset($_SERVER['HTTP_REFERER']);
-if (isset($HTTP_REFERER)) unset($HTTP_REFERER);
+// Make sure that no referrer is set
+$phpAds_CurrentReferrer = '';
 
 
 

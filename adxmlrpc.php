@@ -89,6 +89,21 @@ function phpAds_xmlrpcView ($msg)
 						$GLOBALS['REMOTE_HOST'] = $v;
 						break;
 
+					case 'request_uri':
+						$_SERVER['REQUEST_URI'] =
+						$GLOBALS['REQUEST_URI'] = $v;
+						break;
+
+					case 'server_name':
+						$_SERVER['SERVER_NAME'] =
+						$GLOBALS['SERVER_NAME'] = $v;
+						break;
+
+					case 'https':
+						$_SERVER['HTTPS'] =
+						$GLOBALS['HTTPS'] = $v;
+						break;
+
 					default:
 						$varname = 'HTTP_'.strtoupper($k);
 						$_SERVER[$varname] =
@@ -98,6 +113,15 @@ function phpAds_xmlrpcView ($msg)
 			}
 		}
 	}
+	
+	// Save current URL for the URL limitation
+	$GLOBALS['phpAds_currentURL'] =
+		(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
+		(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']).
+		$_SERVER['REQUEST_URI'];
+	
+	// Save referer parameter for the Referrer limitation
+	$GLOBALS['phpAds_currentReferrer'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 
 	// Call view with supplied parameters
 	$output = call_user_func_array('view_raw', $view_params);
@@ -105,7 +129,7 @@ function phpAds_xmlrpcView ($msg)
 	// What parameter should be always set
 	if (!is_array($output))
 		return new xmlrpcresp(0, $xmlrpcerruser + 99,
-			"An error occurred while fetching banner code");
+			"No matching banner found");
 
 	if (isset($GLOBALS['phpAds_xmlError']))
 		return $GLOBALS['phpAds_xmlError'];
