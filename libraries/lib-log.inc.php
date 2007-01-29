@@ -179,10 +179,20 @@ function phpAds_logImpression ($bannerid, $clientid, $zoneid, $source)
        		if (phpAds_dbAffectedRows() == 0) 
        		{
            		$result = phpAds_dbQuery(
-					"INSERT ".($phpAds_config['insert_delayed'] ? 'DELAYED' : '')." INTO ".
+					"INSERT ".(false && $phpAds_config['insert_delayed'] ? 'DELAYED' : '')." INTO ".
                    	$phpAds_config['tbl_adstats']." SET clicks = 0, views = 1, day = NOW(),
 					hour = HOUR(NOW()), bannerid = '".$bannerid."', zoneid = '".$zoneid."', 
 					source = '".$log_source."' ");
+
+				if (!$result) 
+				{
+					// INSERT failed because of primary key constraint violation, retry to UPDATE
+					$result = phpAds_dbQuery(
+						"UPDATE ".(false && $phpAds_config['insert_delayed'] ? 'LOW_PRIORITY' : '')." ".
+						$phpAds_config['tbl_adstats']." SET views = views + 1 WHERE day = NOW() 
+						AND hour = HOUR(NOW()) AND bannerid = '".$bannerid."' AND zoneid = '".$zoneid."' 
+						AND source = '".$log_source."' ");
+				}
        		}
    		}
 		else
@@ -229,10 +239,20 @@ function phpAds_logClick($bannerid, $clientid, $zoneid, $source)
 	        if (phpAds_dbAffectedRows() == 0) 
         	{
             	$result = phpAds_dbQuery(
-					"INSERT ".($phpAds_config['insert_delayed'] ? 'DELAYED' : '')." INTO ".
+					"INSERT ".(false && $phpAds_config['insert_delayed'] ? 'DELAYED' : '')." INTO ".
 					$phpAds_config['tbl_adstats']." SET clicks = 1, views = 0, day = NOW(),
 					hour = HOUR(NOW()), bannerid = '".$bannerid."', zoneid = '".$zoneid."',
 					source = '".$log_source."' ");
+
+				if (!$result) 
+				{
+					// INSERT failed because of primary key constraint violation, retry to UPDATE
+					$result = phpAds_dbQuery(
+						"UPDATE ".(false && $phpAds_config['insert_delayed'] ? 'LOW_PRIORITY' : '')." ".
+						$phpAds_config['tbl_adstats']." SET clicks = clicks + 1 WHERE day = NOW() AND
+						hour = HOUR(NOW()) AND bannerid = '".$bannerid."' AND zoneid = '".$zoneid."' AND
+						source = '".$log_source."' ");
+				}
 	        }
     	}
 		else
