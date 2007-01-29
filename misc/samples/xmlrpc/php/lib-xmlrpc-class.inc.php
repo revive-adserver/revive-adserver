@@ -72,7 +72,7 @@ class phpAds_XmlRpc
 	
 		// Collect remote host information for the adserver
 		$this->remote_info = array();
-		while (list($k, $v) = each($phpAds_remoteInfo))
+		foreach ($phpAds_remoteInfo as $k => $v)
 		{
 			if (isset($_SERVER[$v]))
 				$this->remote_info[$k] = $_SERVER[$v];

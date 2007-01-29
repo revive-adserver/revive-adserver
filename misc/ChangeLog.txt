@@ -9,7 +9,7 @@ SVN
 			+ Misc bugfixes
 			  - 2007-01-26:  Fixed #61 - IE warnings appear when SWF banners are served through SSL  (Matteo)
 			  - 2007-01-29:  Fixed #53 - Logging to compact stats may fail under heavy load, losing a few impressions  (Matteo)
-
+			  - 2007-01-29:  Fixed #58 - Multiple XML-RPC invocation codes failing  (Matteo)
 
 Openads 2.0.11
 			+ Misc bugfixes
