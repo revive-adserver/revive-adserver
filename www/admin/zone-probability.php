@@ -164,8 +164,8 @@ function phpAds_showZoneBanners ($zoneId)
                 echo "<td height='25'>&nbsp;</td>";
                 echo "<td height='25'>&nbsp;</td>";
 
-                $capping = (empty($aLinkedAd['block']) && empty($aLinkedAd['capping']) && empty($aLinkedAd['session_capping'])) ? false : true;
-                $limitations = ($aLinkedAd['compiledlimitation'] == '' or $aLinkedAd['compiledlimitation'] == 'true') ? false : true;
+                $capping = _isAdCapped($aLinkedAd);
+                $limitations = _isAdLimited($aLinkedAd);
 
                 echo "<td height='25'>";
                 if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
@@ -249,8 +249,8 @@ function phpAds_showZoneBanners ($zoneId)
                 // Priority
                 echo "<td height='25'>{$aLinkedAd['campaign_priority']}/10</td>";
 
-                $capping = (empty($aLinkedAd['block']) && empty($aLinkedAd['capping']) && empty($aLinkedAd['session_capping'])) ? false : true;
-                $limitations = ($aLinkedAd['compiledlimitation'] == '' or $aLinkedAd['compiledlimitation'] == 'true') ? false : true;
+                $capping = _isAdCapped($aLinkedAd);
+                $limitations = _isAdLimited($aLinkedAd);
                 
                 if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
                     $linkStart = "<a href='banner-acl.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid={$aLinkedAd['placement_id']}&bannerid={$aLinkedAd['ad_id']}'>";
@@ -337,8 +337,8 @@ function phpAds_showZoneBanners ($zoneId)
                 
                 echo "<td height='25'>{$aLinkedAd['campaign_weight']}</td>";
             
-                $capping = (empty($aLinkedAd['block']) && empty($aLinkedAd['capping']) && empty($aLinkedAd['session_capping'])) ? false : true;
-                $limitations = ($aLinkedAd['compiledlimitation'] == '' or $aLinkedAd['compiledlimitation'] == 'true') ? false : true;
+                $capping = _isAdCapped($aLinkedAd);
+                $limitations = _isAdLimited($aLinkedAd);
 
                 if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
                     $linkStart = "<a href='banner-acl.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid={$aLinkedAd['placement_id']}&bannerid={$aLinkedAd['ad_id']}'>";
@@ -381,6 +381,23 @@ function phpAds_showZoneBanners ($zoneId)
         echo "<br /><br />";
     }
     
+}
+
+function _isAdCapped($aAd)
+{
+    return (
+        empty($aAd['block_ad']) && 
+        empty($aAd['block_campaign']) && 
+        empty($aAd['cap_ad']) && 
+        empty($aAd['cap_campaign']) && 
+        empty($aAd['session_cap_ad']) &&
+        empty($aAd['session_cap_campaign'])
+    ) ? false : true;
+}
+
+function _isAdLimited($aAd)
+{
+    return ($aAd['compiledlimitation'] == '' or $aAd['compiledlimitation'] == 'true') ? false : true;
 }
 
 /*-------------------------------------------------------*/
