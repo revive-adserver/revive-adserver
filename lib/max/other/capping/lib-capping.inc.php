@@ -96,59 +96,63 @@ function _replaceTrailingZerosWithDash(&$time)
 }
 
 /**
- * Gets values from $cappedObject and uses them to output HTML form with
+ * Gets values from $aCappedObject and uses them to output HTML form with
  * them. Assumes values are stored in indexs "block", "capping" and
  * "sessions" capping if $type is not supplied; otherwise it uses indexes
  * "block_$type", "cap_$type" and "session_cap_$type".
  *
  * @param int $tabindex Current $tabindex in the page.
- * @param array $arrTexts The internationalized texts to be used.
- * @param array $cappedObject An array of the capping information.
+ * @param array $aText The internationalized texts to be used.
+ * @param array $aCappedObject An array of the capping information.
  * @param string $type Optional index name type. If not null, one of
- *                     "Ad", "Campaign" or "Zone".
+ *                     "Ad", "Campaign" or "Zone". When specified, the capping
+ *                      data from the $aCappedObject array is taken from the
+ *                      indicies "block_$type", "cap_$type" and "session_cap_$type";
+ *                      when not speficied, the indicies "block", "capping" and
+ *                      "session_capping" are used.
  * @param array $aExtraDisplay Optional array of four or five indexes. The first
  *                             index is "title" and is the title of the display
  *                             of the extra information, the second is "titleLink"
  *                             and is the URL to go to edit these extra items,
- *                             the third is index is "arrTexts", and is a second
+ *                             the third is index is "aText", and is a second
  *                             array of internationalized tests to be used; the fourth
- *                             index is "cappedObject" and is a second array of
+ *                             index is "aCappedObject" and is a second array of
  *                             capping information; the fifth (optional) index
  *                             is "type", and is an optional index name for the
- *                             "cappedObject" array.
+ *                             "aCappedObject" array.
  * @return int An incremented value of $tabindex.
  */
-function _echoDeliveryCappingHtml($tabindex, $arrTexts, $cappedObject, $type = null, $aExtraDisplay)
+function _echoDeliveryCappingHtml($tabindex, $aText, $aCappedObject, $type = null, $aExtraDisplay = array())
 {
     global $time, $cap, $session_capping;
 
     // Extract the capping information to put into the form
     if (is_null($type)) {
         if (!isset($time)) {
-        	$time = _getTimeFromSec($cappedObject['block']);
+        	$time = _getTimeFromSec($aCappedObject['block']);
         }
-        $cap = (isset($cap)) ? $cap : $cappedObject['capping'];
-        $session_capping = (isset($session_capping)) ? $session_capping : $cappedObject['session_capping'];
+        $cap = (isset($cap)) ? $cap : $aCappedObject['capping'];
+        $session_capping = (isset($session_capping)) ? $session_capping : $aCappedObject['session_capping'];
     } else {
         if (!isset($time)) {
-        	$time = _getTimeFromSec($cappedObject['block_' . strtolower($type)]);
+        	$time = _getTimeFromSec($aCappedObject['block_' . strtolower($type)]);
         }
-        $cap = (isset($cap)) ? $cap : $cappedObject['cap_' . strtolower($type)];
-        $session_capping = (isset($session_capping)) ? $session_capping : $cappedObject['session_cap_' . strtolower($type)];
+        $cap = (isset($cap)) ? $cap : $aCappedObject['cap_' . strtolower($type)];
+        $session_capping = (isset($session_capping)) ? $session_capping : $aCappedObject['session_cap_' . strtolower($type)];
     }
 
     // Is there extra non-editable capping info to display?
     $showExtra = false;
-    if ((!empty($aExtraDisplay)) && (!empty($aExtraDisplay['arrTexts'])) && (!empty($aExtraDisplay['cappedObject']))) {
+    if ((!empty($aExtraDisplay)) && (!empty($aExtraDisplay['aText'])) && (!empty($aExtraDisplay['aCappedObject']))) {
         $showExtra = true;
         if (is_null($aExtraDisplay['type'])) {
-        	$extra_time = _getTimeFromSec($aExtraDisplay['cappedObject']['block']);
-            $extra_cap = $aExtraDisplay['cappedObject']['capping'];
-            $extra_session_capping = $aExtraDisplay['cappedObject']['session_capping'];
+        	$extra_time = _getTimeFromSec($aExtraDisplay['aCappedObject']['block']);
+            $extra_cap = $aExtraDisplay['aCappedObject']['capping'];
+            $extra_session_capping = $aExtraDisplay['aCappedObject']['session_capping'];
         } else {
-        	$extra_time = _getTimeFromSec($aExtraDisplay['cappedObject']['block_' . strtolower($aExtraDisplay['type'])]);
-            $extra_cap = $aExtraDisplay['cappedObject']['cap_' . strtolower($aExtraDisplay['type'])];
-            $extra_session_capping = $aExtraDisplay['cappedObject']['session_cap_' . strtolower($aExtraDisplay['type'])];
+        	$extra_time = _getTimeFromSec($aExtraDisplay['aCappedObject']['block_' . strtolower($aExtraDisplay['type'])]);
+            $extra_cap = $aExtraDisplay['aCappedObject']['cap_' . strtolower($aExtraDisplay['type'])];
+            $extra_session_capping = $aExtraDisplay['aCappedObject']['session_cap_' . strtolower($aExtraDisplay['type'])];
         }
     }
 
@@ -168,7 +172,7 @@ function _echoDeliveryCappingHtml($tabindex, $arrTexts, $cappedObject, $type = n
     echo "
     <tr>
       <td height='25' colspan='3' bgcolor='#FFFFFF'>
-        <b>{$arrTexts['title']}</b>
+        <b>{$aText['title']}</b>
       </td>";
 
     if ($showExtra) {
@@ -180,7 +184,7 @@ function _echoDeliveryCappingHtml($tabindex, $arrTexts, $cappedObject, $type = n
                 echo "<a href=\"{$aExtraDisplay['titleLink']}\">";
             }
             echo "
-        {$aExtraDisplay['title']} {$arrTexts['title']}
+        {$aExtraDisplay['title']} {$aText['title']}
             ";
             if (!empty($aExtraDisplay['titleLink'])) {
                 echo "</a>";
@@ -198,7 +202,7 @@ function _echoDeliveryCappingHtml($tabindex, $arrTexts, $cappedObject, $type = n
 
     <tr>
       <td width='30'>&nbsp;</td>
-      <td width='200'>{$arrTexts['time']}</td>
+      <td width='200'>{$aText['time']}</td>
       <td valign='top'>
         <input id='timehour' class='flat' type='text' size='3' name='time[hour]' value='{$time['hour']}' onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strHours']}&nbsp;&nbsp;
         <input id='timeminute' class='flat' type='text' size='3' name='time[minute]' value='{$time['minute']}' onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strMinutes']}&nbsp;&nbsp;
@@ -208,7 +212,7 @@ function _echoDeliveryCappingHtml($tabindex, $arrTexts, $cappedObject, $type = n
     if ($showExtra) {
         echo "
       <td width='30'>&nbsp;</td>
-      <td width='200'>{$aExtraDisplay['arrTexts']['time']}</td>
+      <td width='200'>{$aExtraDisplay['aText']['time']}</td>
       <td valign='top'>
         <input id='extratimehour' class='flat' type='text' size='3' name='extra_time[hour]' value='{$extra_time['hour']}' disabled;\"'> {$GLOBALS['strHours']}&nbsp;&nbsp;
         <input id='extratimeminute' class='flat' type='text' size='3' name='extra_time[minute]' value='{$extra_time['minute']}' disabled;\"'> {$GLOBALS['strMinutes']}&nbsp;&nbsp;
@@ -233,7 +237,7 @@ function _echoDeliveryCappingHtml($tabindex, $arrTexts, $cappedObject, $type = n
 
     <tr>
       <td width='30'>&nbsp;</td>
-      <td width='200'>{$arrTexts['user']}</td>
+      <td width='200'>{$aText['user']}</td>
       <td valign='top'>
         <input class='flat' type='text' size='3' name='cap' value='{$cap}' onBlur=\"phpAds_formCapBlur(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strTimes']}
       </td>";
@@ -241,7 +245,7 @@ function _echoDeliveryCappingHtml($tabindex, $arrTexts, $cappedObject, $type = n
     if ($showExtra) {
         echo "
       <td width='30'>&nbsp;</td>
-      <td width='200'>{$arrTexts['user']}</td>
+      <td width='200'>{$aText['user']}</td>
       <td valign='top'>
         <input class='flat' type='text' size='3' name='extra_cap' value='{$extra_cap}' disabled;\"'> {$GLOBALS['strTimes']}
       </td>";
@@ -264,7 +268,7 @@ function _echoDeliveryCappingHtml($tabindex, $arrTexts, $cappedObject, $type = n
 
     <tr>
       <td width='30'>&nbsp;</td>
-      <td width='200'>{$arrTexts['session']}</td>
+      <td width='200'>{$aText['session']}</td>
       <td valign='top'>
         <input class='flat' type='text' size='3' name='session_capping' value='{$session_capping}' onBlur=\"phpAds_formCapBlur(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strTimes']}
       </td>";
@@ -273,7 +277,7 @@ function _echoDeliveryCappingHtml($tabindex, $arrTexts, $cappedObject, $type = n
     if ($showExtra) {
         echo "
       <td width='30'>&nbsp;</td>
-      <td width='200'>{$arrTexts['session']}</td>
+      <td width='200'>{$aText['session']}</td>
       <td valign='top'>
         <input class='flat' type='text' size='3' name='extra_session_capping' value='{$extra_session_capping}' disabled;\"'> {$GLOBALS['strTimes']}
       </td>";

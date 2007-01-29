@@ -132,8 +132,8 @@ echo "
 $aParams = array(
     'title' => $GLOBALS['strCampaign'],
     'titleLink' => "campaign-edit.php?clientid=$clientid&campaignid=$campaignid",
-    'arrTexts' => $GLOBALS['strCappingCampaign'],
-    'cappedObject' => $aBanner,
+    'aText' => $GLOBALS['strCappingCampaign'],
+    'aCappedObject' => $aBanner,
     'type' => 'Campaign'
 );
 
