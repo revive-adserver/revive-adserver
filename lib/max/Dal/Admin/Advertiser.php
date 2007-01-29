@@ -23,7 +23,7 @@ class MAX_Dal_Admin_Advertiser extends MAX_Dal_Common
             " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
             " WHERE clientid=?";
         $query_params = array($advertiser_id);
-        $advertiser_details = $this->dbh->getAll($query, $query_params, DB_FETCHMODE_ASSOC);
+        $advertiser_details = $this->dbh->getRow($query, $query_params, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($advertiser_details)) {
             MAX::raiseError($advertiser_details);
             return array();
