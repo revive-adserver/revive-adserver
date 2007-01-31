@@ -21,7 +21,7 @@ $phpAds_Netspeeds[3] = "Corporate";
 
 
 // Load localized strings
-if (file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/res-netspeeds.lang.php'))
+if (isset($phpAds_config['language']) && file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/res-netspeeds.lang.php'))
 	@include(phpAds_path.'/language/'.$phpAds_config['language'].'/res-netspeeds.lang.php');
 
 ?>

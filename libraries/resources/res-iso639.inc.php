@@ -78,7 +78,7 @@ $phpAds_ISO639['bs'] = 'Bosnian';
 
 
 // Load localized strings
-if (file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/res-iso639.lang.php'))
+if (isset($phpAds_config['language']) && file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/res-iso639.lang.php'))
 	@include(phpAds_path.'/language/'.$phpAds_config['language'].'/res-iso639.lang.php');
 
 ?>

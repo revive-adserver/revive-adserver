@@ -121,7 +121,7 @@ $phpAds_continent['A1'] = $phpAds_continent['A2'] = 'UN';
 
 
 // Load localized strings
-if (file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/res-continent.lang.php'))
+if (isset($phpAds_config['language']) && file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/res-continent.lang.php'))
 	@include(phpAds_path.'/language/'.$phpAds_config['language'].'/res-continent.lang.php');
 
 asort($phpAds_cont_name);

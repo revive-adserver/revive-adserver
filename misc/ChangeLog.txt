@@ -11,6 +11,7 @@ SVN
 			  - 2007-01-29:  Fixed #53 - Logging to compact stats may fail under heavy load, losing a few impressions  (Matteo)
 			  - 2007-01-29:  Fixed #58 - Multiple XML-RPC invocation codes failing  (Matteo)
 			  - 2007-01-31:  Fixed #78 - Bug in phpAds_dbConnect that can cause page rendering to hang  (Matteo)
+			  - 2007-01-31:  Fixed #63 - Resource files may trigger an Undefined index notice  (Matteo)
 
 Openads 2.0.11
 			+ Misc bugfixes
