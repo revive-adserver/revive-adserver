@@ -124,8 +124,10 @@ if (isset($convert)) {
     }
     if ($swf_file) {
         if (phpAds_SWFVersion($swf_file) >= 3 && phpAds_SWFInfo($swf_file)) {
-            // Compress the converted file
-            if (isset($compress)) {
+            // SWF's requiring player version 6+ which are already compressed should stay compressed
+            if (phpAds_SWFVersion($swf_file) >= 6 && phpAds_SWFCompressed($swf_file)) {
+                $compress = true;
+            } elseif (isset($compress)) {
                 $compress = true;
             } else {
                 $compress = false;
