@@ -236,14 +236,14 @@ if ($bannerid != '') {
         phpAds_PageShortcut($strCampaignProperties, 'campaign-edit.php?clientid='.$clientid.'&campaignid='.$campaignid, 'images/icon-campaign.gif');
         phpAds_PageShortcut($strBannerHistory, 'stats.php?entity=banner&breakdown=history&clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-statistics.gif');
 
-        phpAds_PageHeader("4.1.3.3.5");
+        phpAds_PageHeader("4.1.3.4.5");
         echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;".phpAds_getParentClientName($campaignid);
         echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
         echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getCampaignName($campaignid);
         echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
         echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br /><br />";
         echo phpAds_buildBannerCode($bannerid)."<br /><br /><br /><br />";
-        phpAds_ShowSections(array("4.1.3.3.5"));
+        phpAds_ShowSections(array("4.1.3.4.5"));
     } else {
         phpAds_PageHeader("1.2.2.3");
         echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getCampaignName($campaignid);
