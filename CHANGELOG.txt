@@ -27,6 +27,7 @@
 | Release Max v0.3.32-alpha |
 +---------------------------+
 
+2007-02-01  Admin       Bug         Fixed #104 - JavaScript error in various settings pages (Chris)
 2007-02-01  Admin       Bug         Fixed #103 - SWF files become uncompressed by the SWF converter (Chris)
 2007-02-01  Admin       Bug         Fixed #102 - SWF converter broken with FTP stored files (>8kb) (Chris)
 2007-02-01  Maintenance Bug         Fixed #100 - Time targeting for high priority banners not working (Chris)

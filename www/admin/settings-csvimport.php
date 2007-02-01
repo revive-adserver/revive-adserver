@@ -1073,7 +1073,8 @@ if(count($trackers)==0) {
                     'name'  => 'clients',
                     'text'  => $strChooseAdvertiser,
                     'items' => $clients,
-                    'visible' => $admin_settings
+                    'visible' => $admin_settings,
+                    'reload'  => 'yes'
                 ),
             )
         )
@@ -1090,7 +1091,8 @@ if(count($trackers)==0) {
                     'name'  => 'clients',
                     'text'  => $strChooseAdvertiser,
                     'items' => $clients,
-                    'visible' => $admin_settings
+                    'visible' => $admin_settings,
+                    'reload'  => 'yes'
                 ),
             )
         )
@@ -1107,7 +1109,8 @@ if(count($trackers)==0) {
                     'name'  => 'clients',
                     'text'  => $strChooseAdvertiser,
                     'items' => $clients,
-                    'visible' => $admin_settings
+                    'visible' => $admin_settings,
+                    'reload'  => 'yes'
                 ),
                 array (
                     'type'  => 'break',
@@ -1118,7 +1121,8 @@ if(count($trackers)==0) {
                     'name'  => 'tracker',
                     'text'  => $strChooseTracker,
                     'items' => $trackers,
-                    'visible' => $admin_settings
+                    'visible' => $admin_settings,
+                    'reload'  => 'yes'
                 ),
                 array (
                     'type'  => 'break',
@@ -1130,7 +1134,6 @@ if(count($trackers)==0) {
                     'text'  => $strDefaultConversionStatus,
                     'items' => $defaultConversionStatusList,
                     'visible' => $admin_settings,
-                    'reload'  => 'no'
                 ),
                 array (
                     'type'  => 'break',
@@ -1142,7 +1145,6 @@ if(count($trackers)==0) {
                     'text'  => $strDefaultConversionType,
                     'items' => $defaultConversionTypeList,
                     'visible' => $admin_settings,
-                    'reload'  => 'no'
                 ),
                 array (
                     'type'  => 'break',

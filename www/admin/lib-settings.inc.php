@@ -168,7 +168,7 @@ function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0)
         // Show config locked alert
         if (phpAds_isUser(phpAds_Admin)) {
             $image = $configLocked ? 'closed' : 'open';
-            echo "<br /><div class='errormessage'><img claDebugss='errormessage' src='images/padlock-".$image.".gif' width='16' height='16' border='0' align='absmiddle'>\n";
+            echo "<br /><div class='errormessage'><img class='errormessage' src='images/padlock-".$image.".gif' width='16' height='16' border='0' align='absmiddle'>\n";
             echo $configLocked ? $GLOBALS['strEditConfigNotPossible'] : $GLOBALS['strEditConfigPossible'];
             echo "</div>\n";
         }
@@ -514,8 +514,10 @@ function phpAds_ShowSettings_Select($item, $value, $showSubmitButton=0)
         echo "<td id='cell_".$item['name']."' class='".($item['enabled'] ? 'celldisabled' : 'cellenabled')."'>".$item['text']."</td>\n";
         echo "<td width='100%'>\n";
         echo "<select name='".$item['name']."'";
-        if($item['reload'] != 'no') {
+        if($item['reload'] == 'yes') {
             echo " onChange=\"this.form.field_changed.value=name;this.form.submit();phpAds_refreshEnabled();\"";
+        } else {
+            echo " onChange=\"phpAds_refreshEnabled();\"";
         }
         echo ($item['enabled'] ? ' disabled' : '')." onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'>\n";
         while (list($k, $v) = each($item['items'])) {
