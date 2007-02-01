@@ -22,7 +22,7 @@ class MAX_Dal_Admin_Banner extends MAX_Dal_Common
     function getAllBanners($listorder, $orderdirection)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $query = "SELECT bannerid".
+        $query = "SELECT bannerid AS ad_id".
         ",campaignid".
         ",alt".
         ",description".
