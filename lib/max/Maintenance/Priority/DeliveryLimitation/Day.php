@@ -112,7 +112,12 @@ class MAX_Maintenance_Priority_DeliveryLimitation_Day extends MAX_Maintenance_Pr
                 MAX_ERROR_INVALIDARGS
             );
         }
-        return (in_array($oDate->getDayOfWeek(), $this->data)) ? 1 : 0;
+        $val = (in_array($oDate->getDayOfWeek(), $this->data)) ? 1 : 0;
+        switch($this->comparison)
+        {
+            case '=~':  return !$val;
+            case '!~':  return $val;
+        }
     }
 
 }

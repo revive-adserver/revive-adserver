@@ -112,7 +112,12 @@ class MAX_Maintenance_Priority_DeliveryLimitation_Hour extends MAX_Maintenance_P
                 MAX_ERROR_INVALIDARGS
             );
         }
-        return (in_array($oDate->getHour(), $this->data)) ? 1 : 0;
+        $val = (in_array($oDate->getHour(), $this->data)) ? 1 : 0;
+        switch ($this->comparison)
+        {
+            case '=~':  return !$val;
+            case '!~':  return $val;
+        }
     }
 
 }
