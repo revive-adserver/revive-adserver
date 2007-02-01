@@ -414,7 +414,11 @@ function phpAds_FTPRetrieve($server, $name)
 			// Go to the beginning of the temporary file
 			$size = @ftell($tempfile);
 			@rewind($tempfile);
-			$result = fread($tempfile, $size);
+			$result = '';
+            while (!feof($tempfile)) {
+                $result .= fread($tempfile, 8192);
+            }
+            fclose($tempfile);
 		}
 		@fclose($tempfile);
 		@ftp_quit($conn_id);
