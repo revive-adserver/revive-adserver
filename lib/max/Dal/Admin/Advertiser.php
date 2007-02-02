@@ -158,9 +158,9 @@ class MAX_Dal_Admin_Advertiser extends MAX_Dal_Common
     {
         $clients = array();
         foreach ($flat_advertiser_data as $row_clients) {
-            $clients[$row_clients['clientid']]['clientid']      = $row_clients['clientid'];
-            $clients[$row_clients['clientid']]['clientname']    = $row_clients['clientname'];
-            $clients[$row_clients['clientid']]['expand']        = FALSE;
+            $clients[$row_clients['clientid']]              = $row_clients;
+            $clients[$row_clients['clientid']]['expand']    = false;
+            unset($clients[$row_clients['clientid']]['clientid']);
         }
         return $clients;
     }
