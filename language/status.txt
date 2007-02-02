@@ -116,6 +116,26 @@ Italian
 
 
 
+Japanese (euc-jp)
+	---------------------------------------------------------
+	Maintained by:	   Tadashi Jokagi (elf2000 at users at sourceforge at net)
+	Is up-to-date?	   No
+	Last update:	   19 November 2005
+	Translated files:  7 + 4 resource files
+	---------------------------------------------------------
+
+
+
+Japanese (utf-8)
+	---------------------------------------------------------
+	Maintained by:	   Tadashi Jokagi (elf2000 at users at sourceforge at net)
+	Is up-to-date?	   No
+	Last update:	   19 November 2005
+	Translated files:  7 + 4 resource files
+	---------------------------------------------------------
+
+
+
 Korean
 	---------------------------------------------------------
 	Maintained by:	   Dong Hoon Han (Trax Han) (traxacun at unitel.co dot kr)

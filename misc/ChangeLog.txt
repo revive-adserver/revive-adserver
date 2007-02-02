@@ -5,6 +5,7 @@ SVN
 			+ Misc changes
 			  - 2007-01-26:  Fixed #17 - Remove deprecated fakecron script, automaintenance should be used instead  (Matteo)
 			  - 2007-01-26:  Fixed #55 - Add delivery limitation by page URL  (Matteo)
+			  - 2007-02-02:  Fixed #110 - Add Japanese translations  (Matteo)
 
 			+ Misc bugfixes
 			  - 2007-01-26:  Fixed #61 - IE warnings appear when SWF banners are served through SSL  (Matteo)
