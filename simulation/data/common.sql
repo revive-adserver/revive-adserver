@@ -65,6 +65,7 @@ CREATE TABLE IF NOT EXISTS `data_raw_ad_arrival` (
   `creative_id` int(10) unsigned NOT NULL default '0',
   `zone_id` int(10) unsigned NOT NULL default '0',
   `channel` varchar(51) default NULL,
+  channel_ids VARCHAR(64) NULL,
   `language` varchar(32) default NULL,
   `ip_address` varchar(16) default NULL,
   `host_name` text,

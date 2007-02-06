@@ -32,6 +32,7 @@ require_once MAX_PATH . '/lib/max/Delivery/common.php';
 require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer.php';
+require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics.php';
 require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
 
@@ -445,6 +446,7 @@ class SimulationScenario
             $this->printMessage('nothing delivered');
             return ;
        }
+	   /*
        $table = $GLOBALS['_MAX']['CONF']['table']['data_summary_ad_hourly'];
 
        foreach($this->aDelivered[$interval] as $bannerid => $array)
@@ -469,9 +471,27 @@ class SimulationScenario
             $date = $aValues['day'];
             $result = SqlBuilder::_insert($aTable, $aValues);
        }
-       $query = "SELECT * FROM {$table}
-               WHERE  day='{$date}' AND hour='{$interval}'";
-       $this->printResult($query, 'data_summary_ad_hourly');
+	   */
+
+       $table = $GLOBALS['_MAX']['CONF']['table']['data_raw_ad_impression'];
+       foreach($this->aDelivered[$interval] as $bannerid => $array)
+       {
+	   		for ($i = 0; $i < $array['impressions']; $i++)
+			{
+				$aValues = array(
+								  'date_time' => $date,
+								  'ad_id' => $bannerid,
+								  'creative_id' => $array['creativeid'],
+								  'zone_id' => $array['zone']
+								);
+				$aTable = array($table=>$table);
+				$result = SqlBuilder::_insert($aTable, $aValues);
+			}
+       }
+
+       $query = "SELECT ad_id, zone_id, count(*) as total_impressions FROM {$table}
+               WHERE  date_time = '{$date}' GROUP BY ad_id, zone_id";
+       $this->printResult($query, $query);
     }
 
     /**
@@ -479,6 +499,9 @@ class SimulationScenario
      */
     function runPriority()
     {
+		// Run maintenance before recalculating priorities
+		$this->runMaintenance();
+
         $this->printHeading('Starting updatePriorities; date: ' . $this->_getDateTimeString(), 3);
         $oMaintenancePriority = new MAX_Maintenance_Priority_AdServer();
         $oMaintenancePriority->updatePriorities();
@@ -491,9 +514,9 @@ class SimulationScenario
      */
     function runMaintenance()
     {
-//        $this->printHeading('Starting Maintenance Statistics; date: ' . $this->_getDateTimeString(), 3);
-//        MAX_Maintenance_Statistics::run();
-//        $this->printHeading('End Maintenance Statistics; date: ' . $this->_getDateTimeString(), 3);
+        $this->printHeading('Starting Maintenance Statistics; date: ' . $this->_getDateTimeString(), 3);
+        MAX_Maintenance_Statistics::run();
+        $this->printHeading('End Maintenance Statistics; date: ' . $this->_getDateTimeString(), 3);
     }
 
     /**
@@ -786,7 +809,7 @@ class SimulationScenario
     function printSummaryData()
     {
        $table = $GLOBALS['_MAX']['CONF']['table']['data_summary_ad_hourly'];
-       $query = "SELECT ad_id, SUM( impressions ) AS impressions
+       $query = "SELECT ad_id, SUM( impressions ) AS impressions, ROUND(SUM(impressions) / {$this->totalDelivery} * 100, 2) AS percentage
                 FROM {$table} GROUP BY ad_id ORDER BY ad_id";
        $this->printResult($query, '');
        $query = "SELECT * FROM {$table}";
