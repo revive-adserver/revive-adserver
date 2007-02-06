@@ -32,7 +32,6 @@ require_once MAX_PATH . '/lib/max/Delivery/common.php';
 require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics.php';
 require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
 
@@ -335,11 +334,11 @@ class SimulationScenario
         if ($bannerId)
         {
             $pattern   = "<img src=\'http:\/\/[\w\W\s]+\/lg.php\?(?P<bURL>[\&\;\=\w]+)";
-       		$i         = preg_match_all('/'.$pattern.'/', $html, $aMatch);
-       		if ($i)
-       		{
+               $i = preg_match_all('/'.$pattern.'/', $html, $aMatch);
+               if ($i)
+               {
                 $beaconURL  = $aMatch['bURL'][0];
-       		}
+               }
         }
         return $beaconURL;
     }
@@ -365,11 +364,11 @@ class SimulationScenario
             chdir(MAX_PATH . '/simulation');
             $_REQUEST       = $requestSave;
             $_GET           = $getSave;
-   		}
-   		else
-   		{
+           }
+           else
+           {
             MAX_cookieFlush();
-   		}
+           }
     }
 
     /**
@@ -391,14 +390,14 @@ class SimulationScenario
             $id     = substr($what, strpos($what, ':')+1);
         }
         //create the delivered success/failure array keys for current iteration
-		if (! array_key_exists($iteration,$this->aDelivered))
-		{
-		    $this->aDelivered[$iteration] = array();
-		}
-		if (! array_key_exists($iteration,$this->aFailed))
-		{
-    		$this->aFailed[$iteration]  = array();
-		}
+        if (! array_key_exists($iteration,$this->aDelivered))
+        {
+            $this->aDelivered[$iteration] = array();
+        }
+        if (! array_key_exists($iteration,$this->aFailed))
+        {
+            $this->aFailed[$iteration]  = array();
+        }
         if ($bannerId)
         {
             $array = &$this->aDelivered;
@@ -407,16 +406,17 @@ class SimulationScenario
         else
         {
             $array = &$this->aFailed;
-    		$bannerId = 0;
+            $bannerId = 0;
         }
-	    if (!array_key_exists($bannerId,$array[$iteration]))
-	    {
-	        $array[$iteration][$bannerId] = array(
-	                                               'impressions'=>0,
-	                                               'creativeid'=>0,
-	                                               'campaignid'=>0,	                       	                                               'zone'=>0,
-	                                               );
-	    }
+        if (!array_key_exists($bannerId,$array[$iteration]))
+        {
+            $array[$iteration][$bannerId] = array(
+                                                   'impressions'=>0,
+                                                   'creativeid'=>0,
+                                                   'campaignid'=>0, 
+                                                   'zone'=>0,
+                                                   );
+        }
         $array[$iteration][$bannerId]['impressions']++;
         if (isset($entity))
         {
@@ -446,47 +446,21 @@ class SimulationScenario
             $this->printMessage('nothing delivered');
             return ;
        }
-	   /*
-       $table = $GLOBALS['_MAX']['CONF']['table']['data_summary_ad_hourly'];
-
-       foreach($this->aDelivered[$interval] as $bannerid => $array)
-       {
-            $aValues = array(
-                              'day' => $date,
-                              'hour' => $interval,
-                              'ad_id' => $bannerid,
-                              'creative_id' => $array['creativeid'],
-                              'zone_id' => $array['zone'],
-                              'requests' => $requests,
-                              'impressions' => $array['impressions'],
-                              //'clicks' => ,
-                              //'conversions' => ,
-                              //'total_basket_value' => ,
-                              //'total_num_items' => ,
-                              //'total_revenue' => ,
-                              //'total_cost' => ,
-                              //'updated'
-                            );
-            $aTable = array($table=>$table);
-            $date = $aValues['day'];
-            $result = SqlBuilder::_insert($aTable, $aValues);
-       }
-	   */
 
        $table = $GLOBALS['_MAX']['CONF']['table']['data_raw_ad_impression'];
        foreach($this->aDelivered[$interval] as $bannerid => $array)
        {
-	   		for ($i = 0; $i < $array['impressions']; $i++)
-			{
-				$aValues = array(
-								  'date_time' => $date,
-								  'ad_id' => $bannerid,
-								  'creative_id' => $array['creativeid'],
-								  'zone_id' => $array['zone']
-								);
-				$aTable = array($table=>$table);
-				$result = SqlBuilder::_insert($aTable, $aValues);
-			}
+            for ($i = 0; $i < $array['impressions']; $i++)
+            {
+                $aValues = array(
+                                  'date_time' => $date,
+                                  'ad_id' => $bannerid,
+                                  'creative_id' => $array['creativeid'],
+                                  'zone_id' => $array['zone']
+                                );
+                $aTable = array($table=>$table);
+                $result = SqlBuilder::_insert($aTable, $aValues);
+            }
        }
 
        $query = "SELECT ad_id, zone_id, count(*) as total_impressions FROM {$table}
@@ -499,8 +473,8 @@ class SimulationScenario
      */
     function runPriority()
     {
-		// Run maintenance before recalculating priorities
-		$this->runMaintenance();
+        // Run maintenance before recalculating priorities
+        $this->runMaintenance();
 
         $this->printHeading('Starting updatePriorities; date: ' . $this->_getDateTimeString(), 3);
         $oMaintenancePriority = new MAX_Maintenance_Priority_AdServer();
@@ -626,32 +600,32 @@ class SimulationScenario
 //                $find            = '/TABLE[\s]+`([\w]+)`/U';
 //                $replace         = 'TABLE `';
 
-        		$aQueries = $this->parseSQL($patternDrop, $sourceData);
-//        		$aQueries = $this->insertPrefix($aQueries, $find, $replace);
-        		$this->executeQuery($aQueries);
+                $aQueries = $this->parseSQL($patternDrop, $sourceData);
+//                $aQueries = $this->insertPrefix($aQueries, $find, $replace);
+                $this->executeQuery($aQueries);
 
-        		$aQueries = $this->parseSQL($patternCreate, $sourceData);
-//        		$aQueries = $this->insertPrefix($aQueries, $find, $replace);
-        		$this->executeQuery($aQueries);
+                $aQueries = $this->parseSQL($patternCreate, $sourceData);
+//                $aQueries = $this->insertPrefix($aQueries, $find, $replace);
+                $this->executeQuery($aQueries);
 
-        		$aQueries = $this->parseSQL($patternTruncate, $sourceData);
-//        		$aQueries = $this->insertPrefix($aQueries, $find, $replace);
-        		$this->executeQuery($aQueries);
+                $aQueries = $this->parseSQL($patternTruncate, $sourceData);
+//                $aQueries = $this->insertPrefix($aQueries, $find, $replace);
+                $this->executeQuery($aQueries);
 
-        		$aQueries = $this->parseSQL($patternAlter, $sourceData);
-        		$this->executeQuery($aQueries);
+                $aQueries = $this->parseSQL($patternAlter, $sourceData);
+                $this->executeQuery($aQueries);
 
-        		$aQueries = $this->parseSQL($patternInsert, $sourceData);
-//        		$find            = '/INTO[\s]+`([\w]+)`/U';
-//        		$replace         = 'INTO `';
-//        		$aQueries = $this->insertPrefix($aQueries, $find, $replace);
-        		$this->executeQuery($aQueries);
+                $aQueries = $this->parseSQL($patternInsert, $sourceData);
+//                $find            = '/INTO[\s]+`([\w]+)`/U';
+//                $replace         = 'INTO `';
+//                $aQueries = $this->insertPrefix($aQueries, $find, $replace);
+                $this->executeQuery($aQueries);
 
-        		$aQueries = $this->parseSQL($patternUpdate, $sourceData);
-//        		$find            = '/UPDATE[\s]+`([\w]+)`/U';
-//        		$replace         = 'UPDATE `';
-//        		$aQueries = $this->insertPrefix($aQueries, $find, $replace);
-        		$this->executeQuery($aQueries);
+                $aQueries = $this->parseSQL($patternUpdate, $sourceData);
+//                $find            = '/UPDATE[\s]+`([\w]+)`/U';
+//                $replace         = 'UPDATE `';
+//                $aQueries = $this->insertPrefix($aQueries, $find, $replace);
+                $this->executeQuery($aQueries);
             }
             else
             {
@@ -686,7 +660,7 @@ class SimulationScenario
     function parseSQL($pattern, $data)
     {
         $aQueries   = array();
-        $i	= preg_match_all($pattern, $data, $aTmp);
+        $i    = preg_match_all($pattern, $data, $aTmp);
         if ($i)
         {
             foreach ($aTmp[0] as $k => $v)
@@ -694,7 +668,7 @@ class SimulationScenario
                 array_push($aQueries, $v);
             }
         }
-		return $aQueries;
+        return $aQueries;
     }
 
     /**
@@ -738,10 +712,10 @@ class SimulationScenario
                 exit();
             }
         }
-	}
+    }
 
-	function printResult($query, $title)
-	{
+    function printResult($query, $title)
+    {
         $this->printTable($this->oDBH->query($query), $title);
     }
     /**
