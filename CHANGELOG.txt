@@ -27,6 +27,7 @@
 | Release Max v0.3.32-alpha |
 +---------------------------+
 
+2007-02-02  Admin       Bug         Fixed #119 - Capping and blocking do not work if impression logging is turned off (Matteo)
 2007-02-02  Admin       Bug         Fixed #101 - ID's missing from URLs in advertiser-index (Chris)
 2007-02-01  Admin       Bug         Fixed #104 - JavaScript error in various settings pages (Chris)
 2007-02-01  Admin       Bug         Fixed #103 - SWF files become uncompressed by the SWF converter (Chris)
