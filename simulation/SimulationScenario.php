@@ -168,11 +168,11 @@ class SimulationScenario
             $GLOBALS['loc'] = $aIteration['request_objects'][$k]->loc;
             $GLOBALS['_MAX']['LIMITATION_DATA']['HTTP_REFERER'] = $aIteration['request_objects'][$k]->referer;
 
-            // turn on output buffering
-            ob_start();
-
             // actually make the request
             $result = $this->_makeRequest($aIteration['request_objects'][$k]);
+
+            // turn on output buffering
+            ob_start();
 
             // if an ad has been served
             if ($result && is_array($result) && array_key_exists('bannerid',$result))
@@ -381,47 +381,32 @@ class SimulationScenario
      */
     function _recordDelivery($iteration, $bannerId, $what='')
     {
-        $creativeid = 0;
-        $campaignid = 0;
-        $zone = 0;
-        if ($what)
-        {
-            $entity = substr($what, 0, strpos($what, ':'));
-            $id     = substr($what, strpos($what, ':')+1);
-        }
-        //create the delivered success/failure array keys for current iteration
-        if (! array_key_exists($iteration,$this->aDelivered))
-        {
+        if (!isset($this->aDelivered[$iteration]))
             $this->aDelivered[$iteration] = array();
-        }
-        if (! array_key_exists($iteration,$this->aFailed))
-        {
-            $this->aFailed[$iteration]  = array();
-        }
+        if (!isset($this->aFailed[$iteration]))
+            $this->aFailed[$iteration] = array();
+
         if ($bannerId)
         {
-            $array = &$this->aDelivered;
+            $array = &$this->aDelivered[$iteration];
             $this->totalDelivery++;
         }
         else
         {
-            $array = &$this->aFailed;
+            $array = &$this->aFailed[$iteration];
             $bannerId = 0;
         }
-        if (!array_key_exists($bannerId,$array[$iteration]))
-        {
-            $array[$iteration][$bannerId] = array(
-                                                   'impressions'=>0,
-                                                   'creativeid'=>0,
-                                                   'campaignid'=>0, 
-                                                   'zone'=>0,
-                                                   );
-        }
-        $array[$iteration][$bannerId]['impressions']++;
-        if (isset($entity))
-        {
-            $array[$iteration][$bannerId][$entity] = $id;
-        }
+        
+        if (preg_match('/zone(?:id)?:(\d+)/', $what, $m))
+            $zoneId = (int)$m[1];
+        else
+            $zoneId = 0;
+
+        if (!isset($array[$bannerId][$zoneId]))
+            $array[$bannerId][$zoneId] = 0;
+
+        $array[$bannerId][$zoneId]++;
+        
         $this->totalRequests++;
     }
 
@@ -448,24 +433,26 @@ class SimulationScenario
        }
 
        $table = $GLOBALS['_MAX']['CONF']['table']['data_raw_ad_impression'];
-       foreach($this->aDelivered[$interval] as $bannerid => $array)
+       foreach($this->aDelivered[$interval] as $bannerId => $aZones)
        {
-            for ($i = 0; $i < $array['impressions']; $i++)
+               foreach($aZones as $zoneId => $count)
             {
-                $aValues = array(
-                                  'date_time' => $date,
-                                  'ad_id' => $bannerid,
-                                  'creative_id' => $array['creativeid'],
-                                  'zone_id' => $array['zone']
-                                );
-                $aTable = array($table=>$table);
-                $result = SqlBuilder::_insert($aTable, $aValues);
+                for ($i = 0; $i < $count; $i++)
+                {
+                    $aValues = array(
+                                      'date_time' => $date,
+                                      'ad_id' => $bannerId,
+                                      'zone_id' => $zoneId
+                                    );
+                    $aTable = array($table=>$table);
+                    $result = SqlBuilder::_insert($aTable, $aValues);
+                }
             }
        }
 
        $query = "SELECT ad_id, zone_id, count(*) as total_impressions FROM {$table}
-               WHERE  date_time = '{$date}' GROUP BY ad_id, zone_id";
-       $this->printResult($query, $query);
+               WHERE  date_time = '{$date}' GROUP BY zone_id, ad_id";
+       $this->printResult($query, 'impression summary');
     }
 
     /**
@@ -744,7 +731,7 @@ class SimulationScenario
                 LEFT JOIN {$this->tablePrefix}affiliates AS aff ON aff.affiliateid = z.affiliateid
                 LEFT JOIN {$this->tablePrefix}campaigns AS cam ON cam.campaignid=b.campaignid
                 LEFT JOIN {$this->tablePrefix}clients AS cli ON cli.clientid = cam.clientid
-                ORDER BY aza.ad_id";
+                ORDER BY aza.zone_id, aza.ad_id";
         $this->printResult($query, 'campaigns');
         $query = "SELECT * FROM {$this->tablePrefix}channel";
         $this->printResult($query, 'channels');
@@ -757,10 +744,11 @@ class SimulationScenario
     function printPriorities()
     {
 
-        $query = "SELECT aza.*, z.*, b.* FROM {$this->tablePrefix}ad_zone_assoc AS aza
+        $query = "SELECT aza.*, dsaza.required_impressions, dsaza.requested_impressions, z.*, b.* FROM {$this->tablePrefix}ad_zone_assoc AS aza
+                JOIN {$this->tablePrefix}data_summary_ad_zone_assoc dsaza ON (dsaza.zone_id=aza.zone_id AND dsaza.ad_id=aza.ad_id AND interval_start = '".$this->_getDateTimeString()."')
                 JOIN {$this->tablePrefix}zones AS z ON z.zoneid=aza.zone_id
                 JOIN {$this->tablePrefix}banners AS b ON b.bannerid=aza.ad_id
-                ORDER BY aza.ad_id";
+                ORDER BY aza.zone_id, aza.ad_id";
         $this->printResult($query, 'priorities');
     }
 

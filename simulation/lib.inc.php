@@ -89,6 +89,22 @@ function write_sim_ini_file($confAll)
     {
         $conf['request']  = $confAll['request'];
     }
+    if (array_key_exists('delivery', $_REQUEST))
+    {
+        $conf['delivery']  = $_REQUEST['delivery'];
+    }
+    else if (array_key_exists('delivery', $confAll))
+    {
+        $conf['delivery']  = $confAll['delivery'];
+    }
+    if (array_key_exists('delivery', $_REQUEST))
+    {
+        $conf['logging']  = $_REQUEST['logging'];
+    }
+    else if (array_key_exists('logging', $confAll))
+    {
+        $conf['logging']  = $confAll['logging'];
+    }
     $content = '';
     if (isset($conf['realConfig']))
     {
