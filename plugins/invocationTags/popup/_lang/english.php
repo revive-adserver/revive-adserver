@@ -47,7 +47,7 @@ $words = array(
   --   'http://{$conf['webpath']['delivery']}/...'
   -- to
   --   'https://{$conf['webpath']['deliverySSL']}/...'
-  -->"
+  --"
 );
 
 ?>
