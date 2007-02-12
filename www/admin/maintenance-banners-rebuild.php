@@ -47,12 +47,13 @@ if (phpAds_isUser(phpAds_Admin))
 {
 	$query = "
 	   SELECT
-	       storagetype AS type,
+	       storagetype,
 	       imageurl,
 	       status,
 	       htmltemplate,
 	       htmlcache,
-	       bannerid AS ad_id
+	       bannerid AS ad_id,
+	       autohtml
 	   FROM {$conf['table']['prefix']}{$conf['table']['banners']}
 	";
 }
@@ -62,12 +63,13 @@ elseif (phpAds_isUser(phpAds_Agency))
     
 	$query = "
 	   SELECT
-	       b.storagetype AS type,
+	       b.storagetype AS storagetype,
 	       b.imageurl AS imageurl,
 	       b.status AS status,
 	       b.htmltemplate AS htmltemplate,
 	       b.htmlcache AS htmlcache,
-	       b.bannerid AS ad_id
+	       b.bannerid AS ad_id,
+	       b.autohtml AS autohtml
 	   FROM
 	       {$conf['table']['prefix']}{$conf['table']['banners']} AS b,
 	       {$conf['table']['prefix']}{$conf['table']['campaigns']} AS m,
@@ -83,7 +85,7 @@ $res = phpAds_dbQuery($query);
 while ($current = phpAds_dbFetchArray($res))
 {
 	// Rebuild filename
-	if ($current['type'] == 'sql' || $current['type'] == 'web')
+	if ($current['storagetype'] == 'sql' || $current['storagetype'] == 'web')
 		$current['imageurl'] = '';
 	
 	// Add slashes to status to prevent javascript errors

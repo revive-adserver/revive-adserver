@@ -27,6 +27,7 @@
 | Release Max v0.3.32-alpha |
 +---------------------------+
 
+2007-02-12  Admin       Bug         Fixed #127 - Rebuild Banner Cache doesn't honor autohtml setting (Marek)
 2007-02-12  DAL         Feature     Fixed #10 - phpAds_sqldie error in /lib/max/Dal/Common (Marek)
 2007-02-12  Maintenance Bug         Fixed #123 - Infinite loop in lib/max/Dal/Maintenance.php (Marek)
 2007-02-12  Maintenance Bug         Fixed #121 - Undefined index SERVER_NAME when invoking maintenance script
