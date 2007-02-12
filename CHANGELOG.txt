@@ -27,6 +27,7 @@
 | Release Max v0.3.32-alpha |
 +---------------------------+
 
+2007-01-18  General     Bug         Fixed #24 - lib/max/DaySpan.php: PHP Warning: Call-time pass-by-reference deprecated (Marek)
 2007-02-12  Admin       Bug         Fixed #74 - Make all drop-down lists sort the same way (Marek)
 2007-02-12  Delivery    Bug         Fixed #4 - Invocation code for popups generating double comment close (Marek)
 2007-02-12  Admin       Bug         Fixed #59 - Restored russian, turkish and hebrew translations (Marek)

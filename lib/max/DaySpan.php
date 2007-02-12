@@ -356,10 +356,10 @@ class DaySpan
 
       $dateStart = & new Date();
       $dateEnd   = & new Date();
-      $this->_roundDate(& $dateStart);
-      $this->_roundDate(& $dateEnd);
-      $this->_fixDate(& $dateStart);
-      $this->_fixDate(& $dateEnd);
+      $this->_roundDate($dateStart);
+      $this->_roundDate($dateEnd);
+      $this->_fixDate($dateStart);
+      $this->_fixDate($dateEnd);
 
 
       if($dateStart == $this->_startDate && $dateEnd == $this->_endDate) {
@@ -379,10 +379,10 @@ class DaySpan
       $dateEnd   = & new Date();
       $dateEnd->subtractSpan(new Date_Span('0, 0, 0, 0'));
 
-      $this->_roundDate(& $dateStart);
-      $this->_roundDate(& $dateEnd);
-      $this->_fixDate(& $dateStart);
-      $this->_fixDate(& $dateEnd);
+      $this->_roundDate($dateStart);
+      $this->_roundDate($dateEnd);
+      $this->_fixDate($dateStart);
+      $this->_fixDate($dateEnd);
 
       if($dateStart == $this->_startDate && $dateEnd == $this->_endDate) {
             return 'this_week';
@@ -394,10 +394,10 @@ class DaySpan
       $dateEnd   = & new Date(); 
       $dateEnd->subtractSpan(new Date_Span('1, 0, 0, 0'));
 
-      $this->_roundDate(& $dateStart);
-      $this->_roundDate(& $dateEnd);
-      $this->_fixDate(& $dateStart);
-      $this->_fixDate(& $dateEnd);
+      $this->_roundDate($dateStart);
+      $this->_roundDate($dateEnd);
+      $this->_fixDate($dateStart);
+      $this->_fixDate($dateEnd);
 
       if($dateStart == $this->_startDate && $dateEnd == $this->_endDate) {
             return 'last_7_days';
@@ -427,10 +427,10 @@ class DaySpan
       $dateStart = & new Date(Date_Calc::beginOfMonth());
       $dateEnd   = & new Date();
 
-      $this->_roundDate(& $dateStart);
-      $this->_roundDate(& $dateEnd);
-      $this->_fixDate(& $dateStart);
-      $this->_fixDate(& $dateEnd);
+      $this->_roundDate($dateStart);
+      $this->_roundDate($dateEnd);
+      $this->_fixDate($dateStart);
+      $this->_fixDate($dateEnd);
 
       if($dateStart == $this->_startDate && $dateEnd == $this->_endDate) {
             return 'this_month';
@@ -483,7 +483,7 @@ class DaySpan
   
 
     
-    function _roundDate($object)
+    function _roundDate(& $object)
     {
     
         $object->hour = 0;
@@ -492,7 +492,7 @@ class DaySpan
     
     }
 
-    function _fixDate($object)
+    function _fixDate(& $object)
     {
     
         $object->hour = 0;
