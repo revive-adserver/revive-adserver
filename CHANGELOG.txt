@@ -27,7 +27,8 @@
 | Release Max v0.3.32-alpha |
 +---------------------------+
 
-2007-02-12  Maintenance Bug         Fixed #121 - undefined index SERVER_NAME when invoking mtce script (Marek)
+2007-02-12  Maintenance Bug         Fixed #123 - Infinite loop in lib/max/Dal/Maintenance.php (Marek)
+2007-02-12  Maintenance Bug         Fixed #121 - Undefined index SERVER_NAME when invoking maintenance script (Marek)
 2007-02-12  General     Bug         Fixed #24 - lib/max/DaySpan.php: PHP Warning: Call-time pass-by-reference deprecated (Marek)
 2007-02-12  Admin       Bug         Fixed #74 - Make all drop-down lists sort the same way (Marek)
 2007-02-12  Delivery    Bug         Fixed #4 - Invocation code for popups generating double comment close (Marek)

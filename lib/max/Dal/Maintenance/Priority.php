@@ -967,6 +967,9 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                                 }
                             }
                         }
+                    } 
+                    else {
+                        $foundAll = true;
                     }
                 }
             }
