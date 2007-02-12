@@ -629,7 +629,7 @@ function MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCam
     <img src='images/spacer.gif' height='1' width='160' vspace='2'><br />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <select name='newclientid' style='width: 110;'>";
-        $aOtherAdvertisers = multiSort($aOtherAdvertisers,'name','advertiser_id');    
+        $aOtherAdvertisers = _multiSort($aOtherAdvertisers,'name','advertiser_id');    
         foreach ($aOtherAdvertisers as $otherAdvertiserId => $aOtherAdvertiser) {
             $otherAdvertiserName = MAX_buildName($otherAdvertiserId, $aOtherAdvertiser['name']);
             if ($otherAdvertiserId != $advertiserId) {
@@ -724,7 +724,7 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
 <img src='images/spacer.gif' height='1' width='160' vspace='2'><br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <select name='moveto' style='width: 110;'>";
-    $aOtherCampaigns = multiSort($aOtherCampaigns,'name','placement_id');
+    $aOtherCampaigns = _multiSort($aOtherCampaigns,'name','placement_id');
     foreach ($aOtherCampaigns as $otherCampaignId => $aOtherCampaign) {
 
         // mask campaign name if anonymous campaign
@@ -751,7 +751,7 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
         $extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
         $extra .= "<select name='applyto' style='width: 110;'>";
 
-        $aOtherBanners = multiSort($aOtherBanners,'name','ad_id');
+        $aOtherBanners = _multiSort($aOtherBanners,'name','ad_id');
         foreach ($aOtherBanners as $otherBannerId => $aOtherBanner) {
             if ($otherBannerId != $bannerId) {
                 $extra .= "<option value='{$otherBannerId}'>" . MAX_buildName($otherBannerId, $aOtherBanner['name']) . "</option>";
@@ -861,7 +861,7 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
             <img src='images/spacer.gif' height='1' width='160' vspace='2'><br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <select name='newaffiliateid' style='width: 110;'>";
-                $aOtherPublishers = multiSort($aOtherPublishers,'name','publisher_id');
+                $aOtherPublishers = _multiSort($aOtherPublishers,'name','publisher_id');
                 foreach ($aOtherPublishers as $otherPublisherId => $aOtherPublisher) {
                     $otherPublisherName = MAX_buildName($otherPublisherId, $aOtherPublisher['name']);
                     if ($otherPublisherId != $publisherId) {
@@ -1024,7 +1024,7 @@ function MAX_displayNavigationChannel($pageName, $aOtherAgencies, $aOtherPublish
 <img src='images/spacer.gif' height='1' width='160' vspace='2'><br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <select name='newaffiliateid' style='width: 110;'>";
-        $aOtherPublishers = multiSort($aOtherPublishers,'name','publisher_id');
+        $aOtherPublishers = _multiSort($aOtherPublishers,'name','publisher_id');
         foreach ($aOtherPublishers as $otherPublisherId => $aOtherPublisher) {
             $otherPublisherName = MAX_buildName($otherPublisherId, $aOtherPublisher['name']);
             if ($otherPublisherId != $publisherId) {
@@ -1047,7 +1047,7 @@ function MAX_displayNavigationChannel($pageName, $aOtherAgencies, $aOtherPublish
 <img src='images/spacer.gif' height='1' width='160' vspace='2'><br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <select name='newagencyid' style='width: 110;'>";
-        $aOtherAgencies = multiSort($aOtherAgencies,'name','agency_id');
+        $aOtherAgencies = _multiSort($aOtherAgencies,'name','agency_id');
         foreach ($aOtherAgencies as $otherAgencyId => $aOtherAgency) {
             $otherAgencyName = MAX_buildName($otherAgencyId, $aOtherAgency['name']);
             if ($otherAgencyId != $agencyId) {
@@ -1147,7 +1147,7 @@ function _displayZoneEntitySelectionCell($entity, $entityId, $aOtherEntities, $e
         <option value='' selected>$description</option>";
     }
 
-    $aOtherEntities = multiSort($aOtherEntities, 'name', 'advertiser_id');
+    $aOtherEntities = _multiSort($aOtherEntities, 'name', 'advertiser_id');
     foreach ($aOtherEntities as $otherEntityId => $aOtherEntity) {
         $selected = $otherEntityId == $entityId ? ' selected' : '';
 
@@ -1630,7 +1630,7 @@ function _isZoneActive($aZone)
     return true;  // for now, all zones are active.
 }
 
-function multiSort($array, $arg1, $arg2){
+function _multiSort($array, $arg1, $arg2){
         $arr1 = array();
         $arr2 = array();
         
