@@ -28,207 +28,222 @@
 $Id$
 */
 /* Turkish Translation by :												*/
-/* 		Metin AKTAï¿½ (metin@yapayzeka.net)								*/
-/* 		Bï¿½nyamin VICIL (bunyamin@yapayzeka.net)					        */
+/* 		Metin AKTAÞ (metin@yapayzeka.net)								*/
+/* 		Bünyamin VICIL (bunyamin@yapayzeka.net)					        */
 /*----------------------------------------------------------------------*/
 
 
 // Settings help translation strings
 $GLOBALS['phpAds_hlp_dbhost'] = 
-		$phpAds_dbmsname." veritabanï¿½nï¿½n veritabanï¿½ sunucusunu belirtiniz.
+		$phpAds_dbmsname." veritabanýnýn veritabaný sunucusunu belirtiniz.
 		";
 		
 $GLOBALS['phpAds_hlp_dbuser'] = 
-		$phpAds_productname." programï¿½nï¿½n ".$phpAds_dbmsname." veritabanï¿½na baï¿½lanmasï¿½ iï¿½in kullanï¿½cï¿½ adï¿½nï¿½ belirtiniz.
+		$phpAds_productname." programýnýn ".$phpAds_dbmsname." veritabanýna baðlanmasý için kullanýcý adýný belirtiniz.
 		";
 		
 $GLOBALS['phpAds_hlp_dbpassword'] = 
-		$phpAds_productname." programï¿½nï¿½n ".$phpAds_dbmsname." veritabanï¿½na baï¿½lanmasï¿½ iï¿½in parolanï¿½zï¿½ belirtiniz.
+		$phpAds_productname." programýnýn ".$phpAds_dbmsname." veritabanýna baðlanmasý için parolanýzý belirtiniz.
 		";
 		
 $GLOBALS['phpAds_hlp_dbname'] = 
-		$phpAds_productname." programï¿½nï¿½n verilerini saklayacaï¿½ï¿½ veritabanï¿½nï¿½ belirtiniz.
+		$phpAds_productname." programýnýn verilerini saklayacaðý veritabanýný belirtiniz.
 		";
 		
 $GLOBALS['phpAds_hlp_persistent_connections'] = "
-		ï¿½natï¿½ï¿½ baï¿½lantï¿½larï¿½ kullanï¿½rsanï¿½z ".$phpAds_productname." programï¿½ hï¿½zlanï¿½r ve sunucuya 
-		yï¿½kï¿½nï¿½ azaltï¿½r. Buna raï¿½men ï¿½ok kullanï¿½cï¿½nï¿½n ziyaret ettiï¿½i sitelerde server yï¿½kï¿½ fazlalaï¿½acaï¿½ï¿½ndan 
-		hatta normal zamanlardaki baï¿½lantï¿½lardan daha fazla olacaï¿½ï¿½ndan dolayï¿½ dezavantajï¿½ vardï¿½r.
-		Dï¿½zenli baï¿½lantï¿½larï¿½ veya inatï¿½ï¿½ baï¿½lantï¿½larï¿½ ziyaretï¿½i sayï¿½nï¿½z ve donanï¿½mï¿½nï¿½z destekliyorsa 
-		kullanabilirsiniz. Eï¿½er ".$phpAds_productname." programï¿½ ï¿½ok fazla kaynak harcï¿½yorsa ilk olarak
-		bakacaï¿½ï¿½nï¿½z ayar burasï¿½dï¿½r.
+		Ýnatçý baðlantýlarý kullanýrsanýz ".$phpAds_productname." programý hýzlanýr ve sunucuya 
+		yükünü azaltýr. Buna raðmen çok kullanýcýnýn ziyaret ettiði sitelerde server yükü fazlalaþacaðýndan 
+		hatta normal zamanlardaki baðlantýlardan daha fazla olacaðýndan dolayý dezavantajý vardýr.
+		Düzenli baðlantýlarý veya inatçý baðlantýlarý ziyaretçi sayýnýz ve donanýmýnýz destekliyorsa 
+		kullanabilirsiniz. Eðer ".$phpAds_productname." programý çok fazla kaynak harcýyorsa ilk olarak
+		bakacaðýnýz ayar burasýdýr.
+		";
+		
+$GLOBALS['phpAds_hlp_insert_delayed'] = "
+        ".$phpAds_dbmsname." veritabaný veri girilirken tablolarý kilitlesin. Çok sayýda ziyaretçiniz varsa
+		".$phpAds_productname." programý yeni veri giriþi esnasýnda bekler, çünkü veritabaný kilitlidir.
+		Veri ekleme gecikmesi kullanýrsanýz, beklemezsiniz ve yeni veri daha tablonun açýk olduðu sýrada
+		sonra da eklenebilir.
 		";
 		
 $GLOBALS['phpAds_hlp_compatibility_mode'] = "
-		Eï¿½er ".$phpAds_productname." ile ï¿½ï¿½ï¿½ncï¿½ parti bir programï¿½n bir bï¿½tï¿½n olarak ï¿½alï¿½ï¿½masï¿½nda
-		problem yaï¿½ï¿½yorsanï¿½z, veritabanï¿½ uyum modunu kullanabilirsiniz. Eï¿½er yerel sistem kullanï¿½yorsanï¿½z
-		ve veritabanï¿½ uyum modu aï¿½ï¿½k ise ".$phpAds_productname." programï¿½ veritabanï¿½ durumunu ï¿½alï¿½ï¿½madan
-		ï¿½nceki durumu gibi teslim eder. Bu ï¿½zellik sistemi biraz yavaï¿½latabilir. Bundan dolayï¿½ ï¿½ntanï¿½mlï¿½
-		olarak kapatï¿½lmï¿½ï¿½tï¿½r.
+		Eðer ".$phpAds_productname." ile üçüncü parti bir programýn bir bütün olarak çalýþmasýnda
+		problem yaþýyorsanýz, veritabaný uyum modunu kullanabilirsiniz. Eðer yerel sistem kullanýyorsanýz
+		ve veritabaný uyum modu açýk ise ".$phpAds_productname." programý veritabaný durumunu çalýþmadan
+		önceki durumu gibi teslim eder. Bu özellik sistemi biraz yavaþlatabilir. Bundan dolayý öntanýmlý
+		olarak kapatýlmýþtýr.
 		";
 		
 $GLOBALS['phpAds_hlp_table_prefix'] = "
-		".$phpAds_productname." veritabanï¿½ birden fazla programla kullanï¿½lï¿½yorsa tablolara ï¿½nad koymak 
-		akï¿½llï¿½ca olur. ".$phpAds_productname." programï¿½nï¿½n birden fazla kopyasï¿½nï¿½ aynï¿½ veritabanï¿½nda 
-		kullanï¿½yorsanï¿½z, bu ï¿½nadlarï¿½n farklï¿½ olmasï¿½nï¿½ istersiniz.
+		".$phpAds_productname." veritabaný birden fazla programla kullanýlýyorsa tablolara önad koymak 
+		akýllýca olur. ".$phpAds_productname." programýnýn birden fazla kopyasýný ayný veritabanýnda 
+		kullanýyorsanýz, bu önadlarýn farklý olmasýný istersiniz.
 		";
 		
 $GLOBALS['phpAds_hlp_tabletype'] = "
-        ".$phpAds_dbmsname." veritabanï¿½ farklï¿½ tablo yapï¿½larï¿½nï¿½ destekler. Her tablo tï¿½rï¿½ kendine has
-		ï¿½zelliklere sahiptir ve bazï¿½larï¿½ ".$phpAds_productname." programï¿½nï¿½ hatrï¿½ sayï¿½lï¿½r derecede 
-		hï¿½zlandï¿½rabilir. MyISAM ï¿½ntanï¿½mlï¿½ tablo yapï¿½sï¿½dï¿½r ve ".$phpAds_dbmsname." veritabanï¿½nï¿½n
-		tï¿½m kurulumlarï¿½ iï¿½erir. Diï¿½er tablo yapï¿½larï¿½ sunucunuz tarafï¿½ndan desteklenmeyebilir.
+        ".$phpAds_dbmsname." veritabaný farklý tablo yapýlarýný destekler. Her tablo türü kendine has
+		özelliklere sahiptir ve bazýlarý ".$phpAds_productname." programýný hatrý sayýlýr derecede 
+		hýzlandýrabilir. MyISAM öntanýmlý tablo yapýsýdýr ve ".$phpAds_dbmsname." veritabanýnýn
+		tüm kurulumlarý içerir. Diðer tablo yapýlarý sunucunuz tarafýndan desteklenmeyebilir.
 		";
 		
 $GLOBALS['phpAds_hlp_url_prefix'] = "
-        ".$phpAds_productname." programï¿½ dï¿½zgï¿½n ï¿½alï¿½ï¿½abilmesi iï¿½in sunucu ï¿½zerinde nerede
-		ï¿½alï¿½ï¿½tï¿½ï¿½ï¿½nï¿½ bilmelidir. ".$phpAds_productname." programï¿½nï¿½n kurulu olduï¿½u URLyi
+        ".$phpAds_productname." programý düzgün çalýþabilmesi için sunucu üzerinde nerede
+		çalýþtýðýný bilmelidir. ".$phpAds_productname." programýnýn kurulu olduðu URLyi
 		tam olarak girmelisiniz mesela: http://your-url.com/".$phpAds_productname.".
 		";
 		
 $GLOBALS['phpAds_hlp_my_header'] =
 $GLOBALS['phpAds_hlp_my_footer'] = "
-		Buraya yï¿½netici sayfasï¿½ndaki ï¿½stbilgi ve altbilgi iï¿½eren dosyalarï¿½n yollarï¿½nï¿½
-		belirtebilirsiniz(ï¿½r: ../yonetici_paneli/ekstra/header.html). Buraya dosyalara 
-		yazï¿½ veya HTML kodu girebilirsiniz.
+		Buraya yönetici sayfasýndaki üstbilgi ve altbilgi içeren dosyalarýn yollarýný
+		belirtebilirsiniz(ör: ../yonetici_paneli/ekstra/header.html). Buraya dosyalara 
+		yazý veya HTML kodu girebilirsiniz.
 		";
 		
 $GLOBALS['phpAds_hlp_content_gzip_compression'] = "
-		GZIP iï¿½erik sï¿½kï¿½ï¿½tï¿½rmayï¿½ aktif ettiï¿½iniz takdirde yï¿½netici paneline her giriï¿½teki 
-		tarayï¿½cï¿½ya gï¿½nderilen veri oranï¿½nda bï¿½yï¿½k bir dï¿½ï¿½ï¿½ï¿½ olur. Bu ï¿½zelliï¿½i aktif 
-		edebilmeniz iï¿½in en az GZIP eklentili PHP 4.0.5 sï¿½rï¿½mï¿½ne sahip olmanï¿½z gerekiyor.
+		GZIP içerik sýkýþtýrmayý aktif ettiðiniz takdirde yönetici paneline her giriþteki 
+		tarayýcýya gönderilen veri oranýnda büyük bir düþüþ olur. Bu özelliði aktif 
+		edebilmeniz için en az GZIP eklentili PHP 4.0.5 sürümüne sahip olmanýz gerekiyor.
 		";
 		
 $GLOBALS['phpAds_hlp_language'] = "
-		".$phpAds_productname." programï¿½nï¿½n kullanacaï¿½ï¿½ ï¿½ntanï¿½mlï¿½ dili seï¿½iniz. Bu dil
-		yï¿½netici ve reklamcï¿½lar iï¿½in ï¿½ntanï¿½mlï¿½ olacaktï¿½r. 
-		NOT: Herbir reklamcï¿½ iï¿½in yï¿½netici arabiriminden farklï¿½ bir dil seï¿½ebilirsiniz veya
-		herbir reklamcï¿½ya kendi dilini deï¿½iï¿½tirme izni verebilirsiniz.
+		".$phpAds_productname." programýnýn kullanacaðý öntanýmlý dili seçiniz. Bu dil
+		yönetici ve reklamcýlar için öntanýmlý olacaktýr. 
+		NOT: Herbir reklamcý için yönetici arabiriminden farklý bir dil seçebilirsiniz veya
+		herbir reklamcýya kendi dilini deðiþtirme izni verebilirsiniz.
 		";
 		
 $GLOBALS['phpAds_hlp_name'] = "
-		Bu uygulama iï¿½in kullanacaï¿½ï¿½nï¿½z program ismini seï¿½iniz. Bu isim tï¿½m
-		yï¿½netici ve reklamcï¿½ sayfalarï¿½nda gï¿½rï¿½ntï¿½lenecektir. Bu ayarï¿½ boï¿½ geï¿½erseniz
-		(ï¿½ntanï¿½mlï¿½) ".$phpAds_productname." logosu gï¿½rï¿½ntï¿½lenecektir.
+		Bu uygulama için kullanacaðýnýz program ismini seçiniz. Bu isim tüm
+		yönetici ve reklamcý sayfalarýnda görüntülenecektir. Bu ayarý boþ geçerseniz
+		(öntanýmlý) ".$phpAds_productname." logosu görüntülenecektir.
 		";
 		
 $GLOBALS['phpAds_hlp_company_name'] = "
-		Bu isim ".$phpAds_productname." programï¿½ tarafï¿½ndan gï¿½nderilen e-maillerde kullanï¿½lacaktï¿½r.
+		Bu isim ".$phpAds_productname." programý tarafýndan gönderilen e-maillerde kullanýlacaktýr.
 		";
 		
 $GLOBALS['phpAds_hlp_override_gd_imageformat'] = "
-		".$phpAds_productname." programï¿½ genellikle GD kï¿½tï¿½phanesinin kurulu olup olmadï¿½ï¿½ï¿½nï¿½ 
-		ve hangi resim formatlarï¿½nï¿½n desteklenip desteklenmediï¿½ini bulur. Herï¿½eye raï¿½men
-		bu sonuï¿½ kesin olarak doï¿½rudur veya yanlï¿½ï¿½tï¿½r diyemeyiz, ï¿½ï¿½nkï¿½ bazï¿½ PHP sï¿½rï¿½mleri
-		desteklenen resim formatlarï¿½nï¿½n bulunmasï¿½na izin vermez. Eï¿½er ".$phpAds_productname."
-		otomatik bulma sisteminde hata yaparsa doï¿½ru resim formatlarï¿½nï¿½ siz belirtmelisiniz.
-		Olaï¿½an formatlar: hiï¿½biri, png, jpeg, gif.
+		".$phpAds_productname." programý genellikle GD kütüphanesinin kurulu olup olmadýðýný 
+		ve hangi resim formatlarýnýn desteklenip desteklenmediðini bulur. Herþeye raðmen
+		bu sonuç kesin olarak doðrudur veya yanlýþtýr diyemeyiz, çünkü bazý PHP sürümleri
+		desteklenen resim formatlarýnýn bulunmasýna izin vermez. Eðer ".$phpAds_productname."
+		otomatik bulma sisteminde hata yaparsa doðru resim formatlarýný siz belirtmelisiniz.
+		Olaðan formatlar: hiçbiri, png, jpeg, gif.
 		";
 		
 $GLOBALS['phpAds_hlp_p3p_policies'] = "
-		".$phpAds_productname." programï¿½nï¿½n P3P Gizlilik Politikalarï¿½nï¿½ kullanmasï¿½nï¿½ istiyorsanï¿½z
-		bu ï¿½zelliï¿½i aï¿½ï¿½nï¿½z.
+		".$phpAds_productname." programýnýn P3P Gizlilik Politikalarýný kullanmasýný istiyorsanýz
+		bu özelliði açýnýz.
 		";
 		
 $GLOBALS['phpAds_hlp_p3p_compact_policy'] = "
-		Cookielerle gï¿½nderilen yoï¿½unlaï¿½tï¿½rï¿½lmï¿½ï¿½ politika. ï¿½ntanï¿½mlï¿½ ayar: 'CUR ADM OUR NOR STA NID'
-		Bu ayarlama ".$phpAds_productname." programï¿½nï¿½n Internet Explorer 6 ï¿½zerinde cookie
-		gï¿½ndermesine izin verir. Eï¿½er isterseniz bu ayarlarï¿½ kendi Gizlilik durumunuza gï¿½re
-		deï¿½iï¿½tirebilirsiniz.
+		Cookielerle gönderilen yoðunlaþtýrýlmýþ politika. Öntanýmlý ayar: 'CUR ADM OUR NOR STA NID'
+		Bu ayarlama ".$phpAds_productname." programýnýn Internet Explorer 6 üzerinde cookie
+		göndermesine izin verir. Eðer isterseniz bu ayarlarý kendi Gizlilik durumunuza göre
+		deðiþtirebilirsiniz.
 		";
 		
 $GLOBALS['phpAds_hlp_p3p_policy_location'] = "
-		Eï¿½er tam gizlilik politikasï¿½ kullanmak istiyorsanï¿½z, politikanï¿½n tam yerini
+		Eðer tam gizlilik politikasý kullanmak istiyorsanýz, politikanýn tam yerini
 		belirtebilirsiniz.
 		";
 		
+$GLOBALS['phpAds_hlp_log_beacon'] = "
+		Yol göstericiler bannerlarýn gösterildiði sayfalarda küçük görünmez resimlerdir.
+		Bu özelliði açarsanýz ".$phpAds_productname." programý bannerýn görüntülenme esnaýsýndaki
+		sayýsýný hesaplar. Bu özelliði kapatýrsanýz banner görüntülenme sayýsý sadece teslimatta
+		sayýlýr fakat bu sayý kesin sayý olmayabilir. Çünkü teslim edilmiþ banner her zaman ekranda
+		görüntülenmeyebilir.
+		";
+		
 $GLOBALS['phpAds_hlp_compact_stats'] = "
-		Geleneksel olarak ".$phpAds_productname." programï¿½ ï¿½ok detaylï¿½ ve bakï¿½m gerektiren
-		geniï¿½letilmiï¿½ loglarï¿½ tercih eder. Bu ï¿½ok ziyaretï¿½ili sitelerde bï¿½yï¿½k problemlere
-		yol aï¿½abilir. Bu problemi halletmek iï¿½in ".$phpAds_productname." programï¿½ az bakï¿½m
-		gerektiren ama az detaylï¿½ yeni istatistik tipini destekler. Yoï¿½unlaï¿½tï¿½rï¿½lmï¿½ï¿½ istatistikler
-		saatlik gï¿½rï¿½ntï¿½lenme ve tï¿½klanma sayï¿½larï¿½nï¿½ depolar. Daha fazla detaya ihtiyacï¿½nï¿½z varsa
-		yoï¿½unlaï¿½tï¿½rï¿½lmï¿½ï¿½ istatistikler ï¿½zelliï¿½ini kapatabilirsiniz.
+		Geleneksel olarak ".$phpAds_productname." programý çok detaylý ve bakým gerektiren
+		geniþletilmiþ loglarý tercih eder. Bu çok ziyaretçili sitelerde büyük problemlere
+		yol açabilir. Bu problemi halletmek için ".$phpAds_productname." programý az bakým
+		gerektiren ama az detaylý yeni istatistik tipini destekler. Yoðunlaþtýrýlmýþ istatistikler
+		saatlik görüntülenme ve týklanma sayýlarýný depolar. Daha fazla detaya ihtiyacýnýz varsa
+		yoðunlaþtýrýlmýþ istatistikler özelliðini kapatabilirsiniz.
 		";
 		
 $GLOBALS['phpAds_hlp_log_adviews'] = "
-		Normal durumda tï¿½m gï¿½rï¿½ntï¿½lenmeler depolanï¿½r, ama gï¿½rï¿½ntï¿½lenmeleri depolamak
-		istemiyorsanï¿½z bu ï¿½zelliï¿½i kapatabilirsiniz.
+		Normal durumda tüm görüntülenmeler depolanýr, ama görüntülenmeleri depolamak
+		istemiyorsanýz bu özelliði kapatabilirsiniz.
 		";
 		
 $GLOBALS['phpAds_hlp_block_adviews'] = "
-		Eï¿½er bir ziyaretï¿½i sayfayï¿½ yenilerse ".$phpAds_productname." her gï¿½rï¿½ntï¿½lemeyi depolar.
-		Bu ï¿½zellik belirlediï¿½iniz sï¿½re iï¿½erisinde gï¿½rï¿½ntï¿½lenmelerden sadece birini depolar.
-		ï¿½rneï¿½in: bu ï¿½zelliï¿½i 300 saniye yaparsanï¿½z, ".$phpAds_productname." son 5 dakika iï¿½erisinde 
-		aynï¿½ ziyaretï¿½iye sadece tekrar gï¿½sterilmeyen bannerlarï¿½n istatistiklerini depolar. Bu
-		ï¿½zellik sadece <i>Gï¿½rï¿½ntï¿½lenmeleri loglamak iï¿½in yol gï¿½stericileri kullan</i> seï¿½eneï¿½i
-		aï¿½ï¿½lmï¿½ï¿½ ise ve tarayï¿½cï¿½ cookieleri kabul ediyorsa kullanï¿½lï¿½r.
+		Eðer bir ziyaretçi sayfayý yenilerse ".$phpAds_productname." her görüntülemeyi depolar.
+		Bu özellik belirlediðiniz süre içerisinde görüntülenmelerden sadece birini depolar.
+		Örneðin: bu özelliði 300 saniye yaparsanýz, ".$phpAds_productname." son 5 dakika içerisinde 
+		ayný ziyaretçiye sadece tekrar gösterilmeyen bannerlarýn istatistiklerini depolar. Bu
+		özellik sadece <i>Görüntülenmeleri loglamak için yol göstericileri kullan</i> seçeneði
+		açýlmýþ ise ve tarayýcý cookieleri kabul ediyorsa kullanýlýr.
 		";
 		
 $GLOBALS['phpAds_hlp_log_adclicks'] = "
-		Normal durumda tï¿½m tï¿½klanmalar depolanï¿½r, ama tï¿½klanmalrï¿½ depolamak
-		istemiyorsanï¿½z bu ï¿½zelliï¿½i kapatabilirsiniz.
+		Normal durumda tüm týklanmalar depolanýr, ama týklanmalrý depolamak
+		istemiyorsanýz bu özelliði kapatabilirsiniz.
 		";
 		
 $GLOBALS['phpAds_hlp_block_adclicks'] = "
-		Eï¿½er bir ziyaretï¿½i bir bannera birden fazla tï¿½klarsa ".$phpAds_productname." programï¿½ her
-		tï¿½klamayï¿½ kaydeder. Bu ï¿½zellik belirlediï¿½iniz sï¿½re iï¿½erisinde sadece bir tï¿½klamayï¿½ depolar.
-		ï¿½rneï¿½in: bu ï¿½zelliï¿½i 300 saniye yaparsanï¿½z, ".$phpAds_productname." son 5 dakika iï¿½erisinde 
-		aynï¿½ ziyaretï¿½inin sadece tekrar tï¿½klamadï¿½ï¿½ï¿½ bannerlarï¿½n istatistiklerini depolar. Bu
-		ï¿½zellik sadece tarayï¿½cï¿½ cookieleri kabul ediyorsa kullanï¿½labilï¿½r.
+		Eðer bir ziyaretçi bir bannera birden fazla týklarsa ".$phpAds_productname." programý her
+		týklamayý kaydeder. Bu özellik belirlediðiniz süre içerisinde sadece bir týklamayý depolar.
+		Örneðin: bu özelliði 300 saniye yaparsanýz, ".$phpAds_productname." son 5 dakika içerisinde 
+		ayný ziyaretçinin sadece tekrar týklamadýðý bannerlarýn istatistiklerini depolar. Bu
+		özellik sadece tarayýcý cookieleri kabul ediyorsa kullanýlabilýr.
 		";
 		
 $GLOBALS['phpAds_hlp_reverse_lookup'] = "
-		".$phpAds_productname." programï¿½ ï¿½ntanï¿½mlï¿½ olarak her ziyaretï¿½inin IP adresini depolar.
-		Eï¿½er ".$phpAds_productname." programï¿½nï¿½n domain isimlerini depolamasï¿½nï¿½ istiyorsanï¿½z 
-		bu ï¿½zelliï¿½i aï¿½abilirsiniz. Geri besleme biraz zaman alabilir ve tï¿½m iï¿½lemler biraz
-		yavaï¿½lar.
+		".$phpAds_productname." programý öntanýmlý olarak her ziyaretçinin IP adresini depolar.
+		Eðer ".$phpAds_productname." programýnýn domain isimlerini depolamasýný istiyorsanýz 
+		bu özelliði açabilirsiniz. Geri besleme biraz zaman alabilir ve tüm iþlemler biraz
+		yavaþlar.
 		";
 		
 $GLOBALS['phpAds_hlp_proxy_lookup'] = "
-		Bazï¿½ kullanï¿½cï¿½lar internete eriï¿½ebilmek iï¿½in proxy sunucular kullanï¿½r. Bu durumda
-		".$phpAds_productname." programï¿½ kullanï¿½cï¿½nï¿½n deï¿½ilde proxy sunucunun Ip adresini
-		veya sunucu adï¿½nï¿½ alï¿½r. Eï¿½er bu ï¿½zelliï¿½i aï¿½arsanï¿½z ".$phpAds_productname." programï¿½
-		proxy sunucu arkasï¿½ndaki kullanï¿½cï¿½nï¿½n IP adresini veya sunucu adï¿½nï¿½ bulmaya ï¿½alï¿½ï¿½ï¿½r.
-		Eï¿½er proxy sunucu kullanï¿½lï¿½yorsa kullanï¿½cï¿½nï¿½n kesin adresini bulmak mï¿½mkï¿½n olmayabilir.
-		Bu ï¿½zellik ï¿½ntanï¿½mlï¿½ olarak kapalï¿½dï¿½r, ï¿½ï¿½nkï¿½ depolama hï¿½zï¿½nï¿½ dï¿½ï¿½ï¿½rï¿½r.
+		Bazý kullanýcýlar internete eriþebilmek için proxy sunucular kullanýr. Bu durumda
+		".$phpAds_productname." programý kullanýcýnýn deðilde proxy sunucunun Ip adresini
+		veya sunucu adýný alýr. Eðer bu özelliði açarsanýz ".$phpAds_productname." programý
+		proxy sunucu arkasýndaki kullanýcýnýn IP adresini veya sunucu adýný bulmaya çalýþýr.
+		Eðer proxy sunucu kullanýlýyorsa kullanýcýnýn kesin adresini bulmak mümkün olmayabilir.
+		Bu özellik öntanýmlý olarak kapalýdýr, çünkü depolama hýzýný düþürür.
 		";
 		
 $GLOBALS['phpAds_hlp_ignore_hosts'] = "
-		Eï¿½er bazï¿½ bilgisayarlarï¿½n tï¿½klama ve gï¿½rï¿½ntï¿½leme sayï¿½larï¿½nï¿½ depolamak
-		istemiyorsanï¿½z bu bilgisayarlarï¿½ bu listeye  ekleyebilirsiniz. Geri beslemeyi
-		aï¿½arsanï¿½z hem domain adï¿½nï¿½ hem de IP adresini ekleyebilirsiniz, aksi
-		takdirde sadece IP adresini yazï¿½nï¿½z. Tanï¿½mlamalarï¿½ kullanbilirsiniz (ï¿½rn:
+		Eðer bazý bilgisayarlarýn týklama ve görüntüleme sayýlarýný depolamak
+		istemiyorsanýz bu bilgisayarlarý bu listeye  ekleyebilirsiniz. Geri beslemeyi
+		açarsanýz hem domain adýný hem de IP adresini ekleyebilirsiniz, aksi
+		takdirde sadece IP adresini yazýnýz. Tanýmlamalarý kullanbilirsiniz (Örn:
 		'*.altavista.com' veya '192.168.*').
 		";
 		
 $GLOBALS['phpAds_hlp_begin_of_week'] = "
-		ï¿½oï¿½u insan iï¿½in hafta Pazartesi baï¿½lar. Fakat isterseniz Pazar gï¿½nï¿½ baï¿½latabilirsiniz.
+		Çoðu insan için hafta Pazartesi baþlar. Fakat isterseniz Pazar günü baþlatabilirsiniz.
 		";
 		
 $GLOBALS['phpAds_hlp_percentage_decimals'] = "
-		ï¿½statistik sayfalarï¿½nda kaï¿½ tane ondalï¿½k alanï¿½ olacaï¿½ï¿½nï¿½ belirtiniz.
+		Ýstatistik sayfalarýnda kaç tane ondalýk alaný olacaðýný belirtiniz.
 		";
 		
 $GLOBALS['phpAds_hlp_warn_admin'] = "
-		".$phpAds_productname." programï¿½ kampanyanï¿½n belirli bir tï¿½klama veya gï¿½rï¿½ntï¿½lenme
-		sayï¿½sï¿½ kaldï¿½ï¿½ï¿½nda size e-mail atabilir. Bu ï¿½zellik ï¿½ntanï¿½lï¿½ aï¿½ï¿½ktï¿½r.
+		".$phpAds_productname." programý kampanyanýn belirli bir týklama veya görüntülenme
+		sayýsý kaldýðýnda size e-mail atabilir. Bu özellik öntanýlý açýktýr.
 		";
 		
 $GLOBALS['phpAds_hlp_warn_client'] = "
-		".$phpAds_productname." programï¿½ bir kampanyanï¿½n belirli bir tï¿½klama ve gï¿½rï¿½tï¿½lenme
-		sayï¿½sï¿½ kaldï¿½ï¿½ï¿½nda reklamcï¿½ya e-mail atabilir. Bu ï¿½zellik ï¿½ntanï¿½mlï¿½ aï¿½ï¿½ktï¿½r.
+		".$phpAds_productname." programý bir kampanyanýn belirli bir týklama ve görütülenme
+		sayýsý kaldýðýnda reklamcýya e-mail atabilir. Bu özellik öntanýmlý açýktýr.
 		";
 		
 $GLOBALS['phpAds_hlp_qmail_patch'] = "
-		Bazï¿½ qmail sï¿½rï¿½mleri ".$phpAds_productname." programï¿½ tarafï¿½ndan gï¿½nderilen maillerin
-		iï¿½erisine mailin baï¿½lï¿½k kï¿½smï¿½nï¿½ gï¿½mmektedir. Bu ayarï¿½ aï¿½arsanï¿½z ".$phpAds_productname."
-		programï¿½ mailleri qmail uyumlu biï¿½imde gï¿½nderecektir.
+		Bazý qmail sürümleri ".$phpAds_productname." programý tarafýndan gönderilen maillerin
+		içerisine mailin baþlýk kýsmýný gömmektedir. Bu ayarý açarsanýz ".$phpAds_productname."
+		programý mailleri qmail uyumlu biçimde gönderecektir.
 		";
 		
 $GLOBALS['phpAds_hlp_warn_limit'] = "
-		".$phpAds_productname." programï¿½nï¿½n uyarï¿½ e-mailleri gï¿½nderme sï¿½nï¿½rlamasï¿½. Bu ï¿½ntanï¿½mlï¿½
-		100dï¿½r.
+		".$phpAds_productname." programýnýn uyarý e-mailleri gönderme sýnýrlamasý. Bu öntanýmlý
+		100dür.
 		";
 		
 $GLOBALS['phpAds_hlp_allow_invocation_plain'] = 
@@ -238,51 +253,51 @@ $GLOBALS['phpAds_hlp_allow_invocation_xmlrpc'] =
 $GLOBALS['phpAds_hlp_allow_invocation_local'] = 
 $GLOBALS['phpAds_hlp_allow_invocation_interstitial'] = 
 $GLOBALS['phpAds_hlp_allow_invocation_popup'] = "
-		Bu ayarlar invocation tiplerine izin verdiï¿½inizi belirtir. Bu biï¿½imlerden
-		birisi kapalï¿½ ise invocationcode ve bannercode iï¿½erisinde kullanï¿½labilir olmayacaktï¿½r.
-		ï¿½NEMLï¿½: Seï¿½ilmeseler bile invocation metodlarï¿½ ï¿½alï¿½ï¿½acaktï¿½r. Sadece kod
-		ï¿½retiminde kullanï¿½lmayacaktï¿½r.
+		Bu ayarlar invocation tiplerine izin verdiðinizi belirtir. Bu biçimlerden
+		birisi kapalý ise invocationcode ve bannercode içerisinde kullanýlabilir olmayacaktýr.
+		ÖNEMLÝ: Seçilmeseler bile invocation metodlarý çalýþacaktýr. Sadece kod
+		üretiminde kullanýlmayacaktýr.
 		";
 		
 $GLOBALS['phpAds_hlp_con_key'] = "
-		".$phpAds_productname." programï¿½ gï¿½ï¿½lï¿½ bir dï¿½zeltme modï¿½lï¿½ne sahiptir.
-		Daha fazla bilgi iï¿½in kullanï¿½cï¿½ klavuzunu okuyunuz. Bu ï¿½zellikler, durum
-		anahtar kelimelerini kullanabilirsiniz. ï¿½ntanï¿½mlï¿½ aï¿½ï¿½ktï¿½r.
+		".$phpAds_productname." programý güçlü bir düzeltme modülüne sahiptir.
+		Daha fazla bilgi için kullanýcý klavuzunu okuyunuz. Bu özellikler, durum
+		anahtar kelimelerini kullanabilirsiniz. Öntanýmlý açýktýr.
 		";
 		
 $GLOBALS['phpAds_hlp_mult_key'] = "
-		Eï¿½er banner gï¿½stermek iï¿½in direk seï¿½im yï¿½ntemini kullanï¿½yorsanï¿½z, bir yada
-		birden fazla anahtar kelime seï¿½ebilirsiniz. Birden fazla anahtar kelime seï¿½erseniz
-		bu ï¿½zellik aï¿½ï¿½lmalï¿½dï¿½r. ï¿½ntanï¿½mlï¿½ olarak aï¿½ï¿½ktï¿½r.
+		Eðer banner göstermek için direk seçim yöntemini kullanýyorsanýz, bir yada
+		birden fazla anahtar kelime seçebilirsiniz. Birden fazla anahtar kelime seçerseniz
+		bu özellik açýlmalýdýr. Öntanýmlý olarak açýktýr.
 		";
 		
 $GLOBALS['phpAds_hlp_acl'] = "
-		Teslimat sï¿½nï¿½rlamalarï¿½ kullanmï¿½yorsanï¿½z bu ï¿½zelliï¿½i bu parametreyi kullanï¿½p kapatabilirsiniz.
-		Bu ".$phpAds_productname." sistemini hï¿½zlandï¿½racaktï¿½r.
+		Teslimat sýnýrlamalarý kullanmýyorsanýz bu özelliði bu parametreyi kullanýp kapatabilirsiniz.
+		Bu ".$phpAds_productname." sistemini hýzlandýracaktýr.
 		";
 		
 $GLOBALS['phpAds_hlp_default_banner_url'] = 
 $GLOBALS['phpAds_hlp_default_banner_target'] = "
-		".$phpAds_productname." programï¿½ veritabanï¿½na baï¿½lanmazsa veya eï¿½leï¿½en bir banner bulamazsa
-		mesela veritabanï¿½nï¿½n bozulmasï¿½ veya silinmesi durumunda, boï¿½ sayfa basacaktï¿½r.
-		Bazï¿½ kullanï¿½cï¿½lar bu durumda ï¿½ntanï¿½mlï¿½ bir banner gï¿½sterilmesini isteyecektir.
-		Bu bannerla ilgili hiï¿½bir istatistik tutulmamaktadï¿½r. Bu ï¿½zellik ï¿½ntanï¿½mlï¿½ kapalï¿½dï¿½r.
+		".$phpAds_productname." programý veritabanýna baðlanmazsa veya eþleþen bir banner bulamazsa
+		mesela veritabanýnýn bozulmasý veya silinmesi durumunda, boþ sayfa basacaktýr.
+		Bazý kullanýcýlar bu durumda öntanýmlý bir banner gösterilmesini isteyecektir.
+		Bu bannerla ilgili hiçbir istatistik tutulmamaktadýr. Bu özellik öntanýmlý kapalýdýr.
 		";
 		
 $GLOBALS['phpAds_hlp_zone_cache'] = "
-        Eï¿½er alanlarï¿½ kullanï¿½yorsanï¿½z ".$phpAds_productname." programï¿½ banner bilgilerini daha
-		sonra kullanï¿½lmasï¿½ iï¿½in hafï¿½zada tutabilir. Bu ".$phpAds_productname." programï¿½nï¿½n hï¿½zlï¿½
-		ï¿½alï¿½ï¿½masï¿½nï¿½ saï¿½lar. Program ï¿½alï¿½ï¿½ï¿½rken Alan bilgisini almak iï¿½in ve bannerï¿½n bilgisini 
-		almak iï¿½in ve doï¿½ru banneï¿½ seï¿½mek iï¿½in ".$phpAds_productname." programï¿½ sadece hafï¿½za
-		yï¿½kler. Bu ï¿½zellik ï¿½ntanï¿½mlï¿½ aï¿½ï¿½ktï¿½r.
+        Eðer alanlarý kullanýyorsanýz ".$phpAds_productname." programý banner bilgilerini daha
+		sonra kullanýlmasý için hafýzada tutabilir. Bu ".$phpAds_productname." programýnýn hýzlý
+		çalýþmasýný saðlar. Program çalýþýrken Alan bilgisini almak için ve bannerýn bilgisini 
+		almak için ve doðru banneý seçmek için ".$phpAds_productname." programý sadece hafýza
+		yükler. Bu özellik öntanýmlý açýktýr.
 		";
 		
 $GLOBALS['phpAds_hlp_zone_cache_limit'] = "
-        Hafï¿½zalanmï¿½ï¿½ alanlar kullanï¿½yorsanï¿½z, hafï¿½za iï¿½erisindeki bilgiler gï¿½ncellenebilir.
-		".$phpAds_productname." programï¿½ hafï¿½zayï¿½ yeniden oluï¿½turduï¿½u zaman, alana eklenen
-		yeni bannerlarda hafï¿½za alï¿½nï¿½r. Bu ayar size hafï¿½zanï¿½n ne kadar sï¿½rede tazeleneceï¿½ini
-		ve en fazla yaï¿½ama sï¿½resini belirtir. ï¿½rneï¿½in: Bu ayarï¿½ 600 olarak ayarlarsanï¿½z,
-		hafï¿½za her 10 dakikada bir yenilenir.
+        Hafýzalanmýþ alanlar kullanýyorsanýz, hafýza içerisindeki bilgiler güncellenebilir.
+		".$phpAds_productname." programý hafýzayý yeniden oluþturduðu zaman, alana eklenen
+		yeni bannerlarda hafýza alýnýr. Bu ayar size hafýzanýn ne kadar sürede tazeleneceðini
+		ve en fazla yaþama süresini belirtir. Örneðin: Bu ayarý 600 olarak ayarlarsanýz,
+		hafýza her 10 dakikada bir yenilenir.
 		";
 		
 $GLOBALS['phpAds_hlp_type_sql_allow'] = 
@@ -290,177 +305,177 @@ $GLOBALS['phpAds_hlp_type_web_allow'] =
 $GLOBALS['phpAds_hlp_type_url_allow'] = 
 $GLOBALS['phpAds_hlp_type_html_allow'] = 
 $GLOBALS['phpAds_hlp_type_txt_allow'] = "
-        ".$phpAds_productname." programï¿½ farklï¿½ tiplerde bannerlarï¿½ destekler ve bunlarï¿½
-		farklï¿½ yollarla kaydeder. ï¿½lk iki seï¿½im yerel depolama iï¿½in kullanï¿½lï¿½r. Yï¿½netici
-		arabiriminden banner yï¿½kleyebilirsiniz ve ".$phpAds_productname." programï¿½ bunlarï¿½
-		SQL veritabanï¿½na veya web sunucuya kaydeder. Harici web sunucudaki bannerlarï¿½ da 
-		kullanabilirsiniz veya HTML kullanabilirsiniz veya basit bir yazï¿½ ile de banner
-		oluï¿½turabilirsiniz.
+        ".$phpAds_productname." programý farklý tiplerde bannerlarý destekler ve bunlarý
+		farklý yollarla kaydeder. Ýlk iki seçim yerel depolama için kullanýlýr. Yönetici
+		arabiriminden banner yükleyebilirsiniz ve ".$phpAds_productname." programý bunlarý
+		SQL veritabanýna veya web sunucuya kaydeder. Harici web sunucudaki bannerlarý da 
+		kullanabilirsiniz veya HTML kullanabilirsiniz veya basit bir yazý ile de banner
+		oluþturabilirsiniz.
 		";
 		
 $GLOBALS['phpAds_hlp_type_web_mode'] = "
-        Eï¿½er bannerlarï¿½n web sunucuda saklanmasï¿½nï¿½ seï¿½erseniz, bu ayarlarï¿½ yapmak 
-		zorundasï¿½nï¿½z. Bannerlarï¿½ yerel klasï¿½rde saklamak istiyorsanï¿½z bu ayarlarï¿½
-		<i>Yerel Klasï¿½r</i> olarak ayarlayï¿½nï¿½z. Eï¿½er bannerlarï¿½nï¿½zï¿½ harici web sunucu
-		ï¿½zerinde saklamak istiyorsanï¿½z bu ayarlarï¿½ <i>Harici FTP Sunucu</i> olarak 
-		ayarlayï¿½nï¿½z. Yerel sunucu haricindeki sunucularda FTP ayarlarï¿½nï¿½ kullanmanï¿½z
+        Eðer bannerlarýn web sunucuda saklanmasýný seçerseniz, bu ayarlarý yapmak 
+		zorundasýnýz. Bannerlarý yerel klasörde saklamak istiyorsanýz bu ayarlarý
+		<i>Yerel Klasör</i> olarak ayarlayýnýz. Eðer bannerlarýnýzý harici web sunucu
+		üzerinde saklamak istiyorsanýz bu ayarlarý <i>Harici FTP Sunucu</i> olarak 
+		ayarlayýnýz. Yerel sunucu haricindeki sunucularda FTP ayarlarýný kullanmanýz
 		gerekmektedir.
 		";
 		
 $GLOBALS['phpAds_hlp_type_web_dir'] = "
-		".$phpAds_productname." programï¿½nï¿½n gï¿½nderilen bannerlarï¿½ nereye kopyalayacaï¿½ï¿½nï¿½
-		(hangi klasï¿½re) belirtiniz. Bu klasï¿½r PHP tarafï¿½ndan yazï¿½labilir olmalï¿½dï¿½r. Bu 
-		klasï¿½rï¿½n UNIX izinlerinin ayarlanmasï¿½nï¿½ gerektirir(chmod). Burada belirttiï¿½iniz
-		klasï¿½r web sunucu ï¿½zerinde web paylaï¿½ï¿½mï¿½ olan (web sunucu web hizmeti verebilmelidir)
-		yerde olmalï¿½dï¿½r. Son (/)ï¿½ yazmayï¿½nï¿½z. Depolamak iï¿½in <i>Yerel Klasï¿½r</i> metodunu 
-		seï¿½tiyseniz bu ayarlarï¿½ yapmalï¿½sï¿½nï¿½z.
+		".$phpAds_productname." programýnýn gönderilen bannerlarý nereye kopyalayacaðýný
+		(hangi klasöre) belirtiniz. Bu klasör PHP tarafýndan yazýlabilir olmalýdýr. Bu 
+		klasörün UNIX izinlerinin ayarlanmasýný gerektirir(chmod). Burada belirttiðiniz
+		klasör web sunucu üzerinde web paylaþýmý olan (web sunucu web hizmeti verebilmelidir)
+		yerde olmalýdýr. Son (/)ý yazmayýnýz. Depolamak için <i>Yerel Klasör</i> metodunu 
+		seçtiyseniz bu ayarlarý yapmalýsýnýz.
 		";
 		
 $GLOBALS['phpAds_hlp_type_web_ftp_host'] = "
 		Depolama metodunu <i>Harici FTP sunucusu</i> olarak belirlediyseniz, ".$phpAds_productname." 
-		programï¿½nï¿½n bannerlarï¿½ gï¿½ndereceï¿½i harici FTP sunucunun IP Adresi veya domain adï¿½nï¿½ 
+		programýnýn bannerlarý göndereceði harici FTP sunucunun IP Adresi veya domain adýný 
 		belirtmelisiniz.
 		";
       
 $GLOBALS['phpAds_hlp_type_web_ftp_path'] = "
 		Depolama metodunu <i>Harici FTP sunucusu</i> olarak belirlediyseniz, ".$phpAds_productname." 
-		programï¿½nï¿½n harici FTP sunucuda bannerlarï¿½ gï¿½ndereceï¿½i klasï¿½r ismini belirtmelisiniz.
+		programýnýn harici FTP sunucuda bannerlarý göndereceði klasör ismini belirtmelisiniz.
 		";
       
 $GLOBALS['phpAds_hlp_type_web_ftp_user'] = "
 		Depolama metodunu <i>Harici FTP sunucusu</i> olarak belirlediyseniz, ".$phpAds_productname." 
-		programï¿½nï¿½n harici FTP sunucuya ulaï¿½masï¿½ iï¿½in kullanacaï¿½ï¿½ kullanï¿½cï¿½ adï¿½nï¿½ belirtmelisiniz.
+		programýnýn harici FTP sunucuya ulaþmasý için kullanacaðý kullanýcý adýný belirtmelisiniz.
 		";
       
 $GLOBALS['phpAds_hlp_type_web_ftp_password'] = "
 		Depolama metodunu <i>Harici FTP sunucusu</i> olarak belirlediyseniz, ".$phpAds_productname." 
-		programï¿½nï¿½n harici FTP sunucuya ulaï¿½masï¿½ iï¿½in kullanacaï¿½ï¿½ parolayï¿½ belirtmelisiniz.
+		programýnýn harici FTP sunucuya ulaþmasý için kullanacaðý parolayý belirtmelisiniz.
 		";
       
 $GLOBALS['phpAds_hlp_type_web_url'] = "
-		Eï¿½er bannerlarï¿½nï¿½zï¿½ web sunucusu ï¿½zerinde tutuyorsanï¿½z, ".$phpAds_productname." programï¿½
-		bannerlarï¿½ sakladï¿½ï¿½ï¿½nï¿½z klasï¿½rï¿½n umumi konumunu bilmek zorundadï¿½r. (En son / ï¿½ koymayï¿½nï¿½z.)
+		Eðer bannerlarýnýzý web sunucusu üzerinde tutuyorsanýz, ".$phpAds_productname." programý
+		bannerlarý sakladýðýnýz klasörün umumi konumunu bilmek zorundadýr. (En son / ý koymayýnýz.)
 		";
 		
 $GLOBALS['phpAds_hlp_type_html_auto'] = "
-		Eï¿½er bu ï¿½zellik aï¿½ï¿½k ise ".$phpAds_productname." programï¿½ HTML banner kodu iï¿½erisine otomatik olarak tï¿½klanma
-		izleme kodunu gï¿½nderir. Ama bu ï¿½zellik aï¿½ï¿½k olduï¿½u zaman bannerdaki bu ï¿½zellik aï¿½ï¿½k ise
-		banner ï¿½zlelliï¿½ini yok sayar.
+		Eðer bu özellik açýk ise ".$phpAds_productname." programý HTML banner kodu içerisine otomatik olarak týklanma
+		izleme kodunu gönderir. Ama bu özellik açýk olduðu zaman bannerdaki bu özellik açýk ise
+		banner özlelliðini yok sayar.
 		";
 		
 $GLOBALS['phpAds_hlp_type_html_php'] = $phpAds_productname."
-		programï¿½nï¿½n HTML bannerlarï¿½ iï¿½erisndeki PHP kodlarï¿½nï¿½ ï¿½alï¿½ï¿½tï¿½rmasï¿½na izin ver.
-		Bu ï¿½zellik ï¿½ntanï¿½mlï¿½ olarak kapalï¿½dï¿½r.
+		programýnýn HTML bannerlarý içerisndeki PHP kodlarýný çalýþtýrmasýna izin ver.
+		Bu özellik öntanýmlý olarak kapalýdýr.
 		";
 		
 $GLOBALS['phpAds_hlp_admin'] = "
-		Site yï¿½neticisi kullanï¿½cï¿½ adï¿½, yï¿½netici arabirimindeki loglarda kullanï¿½lacak
-		kullanï¿½cï¿½ adï¿½nï¿½ belirtebilirsiniz.
+		Site yöneticisi kullanýcý adý, yönetici arabirimindeki loglarda kullanýlacak
+		kullanýcý adýný belirtebilirsiniz.
 		";
 		
 $GLOBALS['phpAds_hlp_pwold'] = 
 $GLOBALS['phpAds_hlp_pw'] = 
 $GLOBALS['phpAds_hlp_pw2'] = "
-		Yï¿½netici parolasï¿½nï¿½ deï¿½iï¿½tirmek iï¿½in, eski parolayï¿½ girmeniz gerekiyor.
-		Yeni parolayï¿½ da yazï¿½m hatalarï¿½na karï¿½ï¿½ gï¿½venli olsun diye iki defa
+		Yönetici parolasýný deðiþtirmek için, eski parolayý girmeniz gerekiyor.
+		Yeni parolayý da yazým hatalarýna karþý güvenli olsun diye iki defa
 		girmeniz gerekmektedir.
 		";
 		
 $GLOBALS['phpAds_hlp_admin_fullname'] = "
-		Site Yï¿½neticisinin tam ismini belirtiniz. Bu istatistik mailleri gï¿½nderilirken
-		kullanï¿½lacaktï¿½r.
+		Site Yöneticisinin tam ismini belirtiniz. Bu istatistik mailleri gönderilirken
+		kullanýlacaktýr.
 		";
 		
 $GLOBALS['phpAds_hlp_admin_email'] = "
-		Site yï¿½neticisinin e-mail adresini belirtiniz. Bu e-mail hesabï¿½ gï¿½nderilen 
-		istatistik maillerinin kimden kï¿½smï¿½na yazï¿½lacaktï¿½r.
+		Site yöneticisinin e-mail adresini belirtiniz. Bu e-mail hesabý gönderilen 
+		istatistik maillerinin kimden kýsmýna yazýlacaktýr.
 		";
 		
 $GLOBALS['phpAds_hlp_admin_email_headers'] = $phpAds_productname."
-		programï¿½ tarafï¿½ndan gï¿½nderilen e-maillere e-mail baï¿½lï¿½klarï¿½ ekleyebilirsiniz.
+		programý tarafýndan gönderilen e-maillere e-mail baþlýklarý ekleyebilirsiniz.
 		";
 		
 $GLOBALS['phpAds_hlp_admin_novice'] = "
-		Herhangi reklamcï¿½, kampanya, banner, yayï¿½ncï¿½ ve/veya alan silerken uyarï¿½ verilmesini
-		istiyorsanï¿½z bu ï¿½zelliï¿½i aï¿½ï¿½nï¿½z.
+		Herhangi reklamcý, kampanya, banner, yayýncý ve/veya alan silerken uyarý verilmesini
+		istiyorsanýz bu özelliði açýnýz.
 		";
 		
 $GLOBALS['phpAds_hlp_client_welcome'] = "
-		Eï¿½er bu ï¿½zelliï¿½i aktif ederseniz, reklamcï¿½ giriï¿½ yaptï¿½ktan sonra ilk sayfada hoï¿½geldiniz
-		mesajï¿½ gï¿½rï¿½ntï¿½lenecektir. Bu mesajï¿½ welcome.html dosyasï¿½nï¿½ (admin/templates klasï¿½rï¿½nde)
-		dï¿½zenleyerek kiï¿½iselleï¿½tirebilirsiniz. Eklemek isteyebileceï¿½iniz veriler: Firma isminiz,
-		irtibat bilgileri, firma logonuz, reklam oranlarï¿½ ile ilgili sayfa linki....
+		Eðer bu özelliði aktif ederseniz, reklamcý giriþ yaptýktan sonra ilk sayfada hoþgeldiniz
+		mesajý görüntülenecektir. Bu mesajý welcome.html dosyasýný (admin/templates klasöründe)
+		düzenleyerek kiþiselleþtirebilirsiniz. Eklemek isteyebileceðiniz veriler: Firma isminiz,
+		irtibat bilgileri, firma logonuz, reklam oranlarý ile ilgili sayfa linki....
 		";
 
 $GLOBALS['phpAds_hlp_client_welcome_msg'] = "
-		Welcome.html dosyasï¿½nï¿½ deï¿½iï¿½tirmenin yanï¿½nda buradaki ufak alana da belirtebilirsiniz.
-		Eï¿½er buraya bir yazï¿½ girerseniz, welcome.html dosyasï¿½ yok sayï¿½lacaktï¿½r. html etiketleri
-		kulanï¿½labilir.
+		Welcome.html dosyasýný deðiþtirmenin yanýnda buradaki ufak alana da belirtebilirsiniz.
+		Eðer buraya bir yazý girerseniz, welcome.html dosyasý yok sayýlacaktýr. html etiketleri
+		kulanýlabilir.
 		";
 		
 $GLOBALS['phpAds_hlp_updates_frequency'] = $phpAds_productname."
-		programï¿½nï¿½n yeni sï¿½rï¿½mlerini kontrol etmek istiyorsanï¿½z bu seï¿½eneï¿½i aktif edebilirsiniz.
-		".$phpAds_productname." programï¿½nï¿½n sunucu ile baï¿½lanmasï¿½nï¿½ saï¿½lar. Eï¿½er yeni bir sï¿½rï¿½m 
-		bulunursa aï¿½ï¿½lan kutu iï¿½erisinde bilgi verilecektir.
+		programýnýn yeni sürümlerini kontrol etmek istiyorsanýz bu seçeneði aktif edebilirsiniz.
+		".$phpAds_productname." programýnýn sunucu ile baðlanmasýný saðlar. Eðer yeni bir sürüm 
+		bulunursa açýlan kutu içerisinde bilgi verilecektir.
 		";
 		
 $GLOBALS['phpAds_hlp_userlog_email'] = $phpAds_productname."
-		programï¿½ tarafï¿½ndan gï¿½nderilen tï¿½m mailleri depolamak istiyorsanï¿½z bu ï¿½zelliï¿½i
-		aktif etmelisiniz. Bu e-mail mesajlarï¿½ kullanï¿½cï¿½ loglarï¿½ iï¿½erisinde depolanacaktï¿½r.
+		programý tarafýndan gönderilen tüm mailleri depolamak istiyorsanýz bu özelliði
+		aktif etmelisiniz. Bu e-mail mesajlarý kullanýcý loglarý içerisinde depolanacaktýr.
 		";
 		
 $GLOBALS['phpAds_hlp_userlog_priority'] = "
-		ï¿½ncelik hesabï¿½nï¿½n doï¿½ru olarak hesaplandï¿½ï¿½ï¿½ndan emin olmak iï¿½in, saatlik
-		hesaplamalarï¿½ raporlayabilirsiniz. Bu rapor olasï¿½lï¿½k profilini ve tï¿½m bannelarï¿½n
-		ï¿½nceliklerini iï¿½erir. Bu bilgileri olasï¿½lï¿½k hesaplamalarï¿½ ile ilgili bir problemi 
-		bildirmek iï¿½in kullanabilirsiniz. Bu bilgileri kullanï¿½cï¿½ loglarï¿½ iï¿½erisinde depolar.
+		Öncelik hesabýnýn doðru olarak hesaplandýðýndan emin olmak için, saatlik
+		hesaplamalarý raporlayabilirsiniz. Bu rapor olasýlýk profilini ve tüm bannelarýn
+		önceliklerini içerir. Bu bilgileri olasýlýk hesaplamalarý ile ilgili bir problemi 
+		bildirmek için kullanabilirsiniz. Bu bilgileri kullanýcý loglarý içerisinde depolar.
 		";
 		
 $GLOBALS['phpAds_hlp_default_banner_weight'] = "
-		Eï¿½er yï¿½ksek ï¿½neme sahip ï¿½ntanï¿½mlï¿½ banner kullanmak istiyorsanï¿½z ï¿½nem ayarï¿½nï¿½ buradan
-		yapabilirsiniz. ï¿½ntanï¿½mlï¿½ olarak bu deï¿½er 1dir.
+		Eðer yüksek öneme sahip öntanýmlý banner kullanmak istiyorsanýz önem ayarýný buradan
+		yapabilirsiniz. Öntanýmlý olarak bu deðer 1dir.
 		";
 		
 $GLOBALS['phpAds_hlp_default_campaign_weight'] = "
-		Eï¿½er yï¿½ksek ï¿½neme sahip ï¿½ntanï¿½mlï¿½ kampanya kullanmak istiyorsanï¿½z ï¿½nem ayarï¿½nï¿½ buradan 
-		yapabilirsiniz. ï¿½ntanï¿½mlï¿½ olarak bu deï¿½er 1dir.
+		Eðer yüksek öneme sahip öntanýmlý kampanya kullanmak istiyorsanýz önem ayarýný buradan 
+		yapabilirsiniz. Öntanýmlý olarak bu deðer 1dir.
 		";
 		
 $GLOBALS['phpAds_hlp_gui_show_campaign_info'] = "
-		Eï¿½er bu seï¿½enek seï¿½ili ise kampanyalar hakkï¿½nda ekstra bilgiler <i>Kampanya ï¿½nizleme</i>
-		sayfasï¿½nda gï¿½sterilir. Ekstra bilgi kalan gï¿½rï¿½ntï¿½lenme sayï¿½sï¿½nï¿½, kalan tï¿½klama sayï¿½sï¿½nï¿½,
-		aktivasyon tarihini, bitiï¿½ tarihini ve ï¿½ncelik ayarlarï¿½nï¿½ iï¿½erir.
+		Eðer bu seçenek seçili ise kampanyalar hakkýnda ekstra bilgiler <i>Kampanya Önizleme</i>
+		sayfasýnda gösterilir. Ekstra bilgi kalan görüntülenme sayýsýný, kalan týklama sayýsýný,
+		aktivasyon tarihini, bitiþ tarihini ve öncelik ayarlarýný içerir.
 		";
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_info'] = "
-		Eï¿½er bu seï¿½enek seï¿½ilmiï¿½ ise banner hakkï¿½ndaki ekstra bilgiler <i>Banner ï¿½zellikleri</i>
-		sayfasï¿½nda gï¿½sterilir. Ekstra bilgi hedef URL, anahtar kelimeler, boyut ve banner ï¿½nemini
-		iï¿½erir.
+		Eðer bu seçenek seçilmiþ ise banner hakkýndaki ekstra bilgiler <i>Banner Özellikleri</i>
+		sayfasýnda gösterilir. Ekstra bilgi hedef URL, anahtar kelimeler, boyut ve banner önemini
+		içerir.
 		";
 		
 $GLOBALS['phpAds_hlp_gui_show_campaign_preview'] = "
-		Eï¿½er bu seï¿½enek seï¿½ili ise <i>Banner ï¿½nizleme</i> sayfasï¿½nda tï¿½m bannerlarï¿½n ï¿½nizlemesi
-		gï¿½rï¿½ntï¿½lenir. Eï¿½er bu seï¿½enek seï¿½ili deï¿½il ise <i>Banner ï¿½nizleme</i> sayfasï¿½nda bannerlarï¿½n
-		yanï¿½ndaki ï¿½ï¿½genlere basarak bannerlar gï¿½rï¿½ntï¿½lenebilir.
+		Eðer bu seçenek seçili ise <i>Banner Önizleme</i> sayfasýnda tüm bannerlarýn önizlemesi
+		görüntülenir. Eðer bu seçenek seçili deðil ise <i>Banner Önizleme</i> sayfasýnda bannerlarýn
+		yanýndaki üçgenlere basarak bannerlar görüntülenebilir.
 		";
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_html'] = "
-		Eï¿½er bu seï¿½enek seï¿½ilmiï¿½ ise HTML Bannerlarï¿½ HTMLsiz olarak gï¿½sterilir. Bu ï¿½zellik ï¿½ntanï¿½mlï¿½
-		olarak seï¿½ilmemiï¿½tir, ï¿½ï¿½nkï¿½ HTML Bannerï¿½ kullanï¿½cï¿½ arayï¿½zï¿½ ile ï¿½akï¿½ï¿½abilir. Bu seï¿½enek seï¿½ili
-		deï¿½ilken bile HTML banner, <i>Banner Gï¿½ster</i> butonuna tï¿½klanarak gï¿½rï¿½ntï¿½lenebilir.
+		Eðer bu seçenek seçilmiþ ise HTML Bannerlarý HTMLsiz olarak gösterilir. Bu özellik öntanýmlý
+		olarak seçilmemiþtir, çünkü HTML Bannerý kullanýcý arayüzü ile çakýþabilir. Bu seçenek seçili
+		deðilken bile HTML banner, <i>Banner Göster</i> butonuna týklanarak görüntülenebilir.
 		";
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_preview'] = "
-		Eï¿½er bu seï¿½enek seï¿½ilmiï¿½ ise ï¿½nizleme <i>Banner ï¿½zellikleri</i>, <i>Teslimat Ayarlarï¿½</i> ve 
-		<i>ï¿½liï¿½kilendirilmiï¿½ Alanlar</i> sayfalarï¿½nï¿½n en ï¿½stï¿½nde gï¿½rï¿½ntï¿½lenecektir. Bu seï¿½enek seï¿½ilmemeiï¿½
-		ise bannerlarï¿½ gï¿½rï¿½ntï¿½lemek iï¿½in sayfalarï¿½n en ï¿½stï¿½nde bulunan <i>Banner Gï¿½ster</i> butonuna
+		Eðer bu seçenek seçilmiþ ise önizleme <i>Banner Özellikleri</i>, <i>Teslimat Ayarlarý</i> ve 
+		<i>Ýliþkilendirilmiþ Alanlar</i> sayfalarýnýn en üstünde görüntülenecektir. Bu seçenek seçilmemeiþ
+		ise bannerlarý görüntülemek için sayfalarýn en üstünde bulunan <i>Banner Göster</i> butonuna
 		basabilirsiniz.
 		";
 		
 $GLOBALS['phpAds_hlp_gui_hide_inactive'] = "
-		Eï¿½er bu seï¿½enek seï¿½ilmiï¿½ ise tï¿½m pasif bannerlar, kampanyalar ve reklamcï¿½lar <i>Reklamcï¿½lar & 
-		Kampanyalar</i> ve <i>Kampanya ï¿½nizleme</i> sayfalarï¿½nda gizlenecektir. Eï¿½er bu seï¿½enek seï¿½ilmiï¿½
-		ise tï¿½m gizlenmiï¿½ ï¿½ï¿½eler sayfanï¿½n altï¿½nda bulunan <i>Hepsini Gï¿½ster</i> butonu ile gï¿½rï¿½ntï¿½lenebilir.
+		Eðer bu seçenek seçilmiþ ise tüm pasif bannerlar, kampanyalar ve reklamcýlar <i>Reklamcýlar & 
+		Kampanyalar</i> ve <i>Kampanya Önizleme</i> sayfalarýnda gizlenecektir. Eðer bu seçenek seçilmiþ
+		ise tüm gizlenmiþ öðeler sayfanýn altýnda bulunan <i>Hepsini Göster</i> butonu ile görüntülenebilir.
 		";
 		
 ?>

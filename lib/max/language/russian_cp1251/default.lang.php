@@ -1,11 +1,11 @@
-<?php
+<?php // $Revision: 3830 $
 
 /*----------------------------------------------------------------------*/
-/* phpAdsNew 2                                                          */
+/* Openads 2.0                                                          */
 /* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2001 by the phpAdsNew developers                       */
-/* http://sourceforge.net/projects/phpadsnew                            */
+/* Copyright (c) 2000-2007 by the Openads developers                    */
+/* For more information visit: http://www.openads.org                   */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -21,457 +21,460 @@ $GLOBALS['phpAds_CharSet'] = "windows-1251";
 
 
 // Set translation strings
-$GLOBALS['strHome'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strHome'] = "Главная страница";
 $GLOBALS['date_format'] = "%d/%m/%Y";
 $GLOBALS['time_format'] = "%H:%M:%S";
-$GLOBALS['strMySQLError'] = "пїЅпїЅпїЅпїЅпїЅпїЅ MySQL:";
-$GLOBALS['strAdminstration'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAddClient'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAddClient_Key']            = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ <u>пїЅ</u>пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strModifyClient'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strDeleteClient'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strViewClientStats'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strClientName'] = "пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strContact'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strMySQLError'] = "Ошибка MySQL:";
+$GLOBALS['strAdminstration'] = "Администрирование";
+$GLOBALS['strAddClient'] = "Добавить клиента";
+$GLOBALS['strAddClient_Key']            = "Добавить <u>н</u>ового клиента";
+$GLOBALS['strModifyClient'] = "Изменить клиента";
+$GLOBALS['strDeleteClient'] = "Удалить клиента";
+$GLOBALS['strViewClientStats'] = "Посмотреть статистику клиента";
+$GLOBALS['strClientName'] = "Клиент";
+$GLOBALS['strContact'] = "Контакт";
 $GLOBALS['strEMail'] = "EMail";
-$GLOBALS['strImpressions'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strClicks'] = "пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTotalViews'] = "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTotalClicks'] = "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCTR'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅпїЅпїЅ (CTR)";
-$GLOBALS['strTotalClients'] = "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strActiveClients'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strActiveBanners'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strLogout'] = "пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCreditStats'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strViewCredits'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";   
-$GLOBALS['strClickCredits'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strPrevious'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strPrevious_Key']                     = "<u>пїЅ</u>пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strNext'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strNext_Key']                                 = "<u>C</u>пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strNone'] = "пїЅпїЅпїЅ";
-$GLOBALS['strImpressionsPurchased'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strClicksPurchased'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strDaysPurchased'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
+$GLOBALS['strImpressions'] =
+$GLOBALS['strViews'] = "Показов";
+$GLOBALS['strClicks'] = "Кликов";
+$GLOBALS['strTotalViews'] = "Всего показов";
+$GLOBALS['strTotalClicks'] = "Всего кликов";
+$GLOBALS['strCTR'] = "Отношение клики/показы (CTR)";
+$GLOBALS['strTotalClients'] = "Всего клиентов";
+$GLOBALS['strActiveClients'] = "Активных клиентов";
+$GLOBALS['strActiveBanners'] = "Активных баннеров";
+$GLOBALS['strLogout'] = "Выход";
+$GLOBALS['strCreditStats'] = "Статистика кредитов";
+$GLOBALS['strViewCredits'] = "Кредиты по показам";   
+$GLOBALS['strClickCredits'] = "Кредиты по кликам";
+$GLOBALS['strPrevious'] = "Предыдущий";
+$GLOBALS['strPrevious_Key']                     = "<u>П</u>редыдущий";
+$GLOBALS['strNext'] = "Следующий";
+$GLOBALS['strNext_Key']                                 = "<u>C</u>ледующий";
+$GLOBALS['strNone'] = "Нет";
+$GLOBALS['strImpressionsPurchased'] = 
+$GLOBALS['strViewsPurchased'] = "Куплено показов";
+$GLOBALS['strClicksPurchased'] = "Куплено кликов";
+$GLOBALS['strDaysPurchased'] = "Куплено дней";
 $GLOBALS['strHTML'] = "HTML";
-$GLOBALS['strAddSep'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ!";
-$GLOBALS['strTextBelow'] = "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strSubmit'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strUsername'] = "пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strPassword'] = "пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strBannerAdmin'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ";
-$GLOBALS['strNoBanners'] = "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strBanner'] = "пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCurrentBanner'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strDelete'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAddBanner'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAddBanner_Key']                    = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ <u>пїЅ</u>пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strModifyBanner'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strURL'] = "URL (пїЅ http://)";
-$GLOBALS['strKeyword'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)";
-$GLOBALS['strWeight'] = "пїЅпїЅпїЅ";
-$GLOBALS['strAlt'] = "Alt-TпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAccessDenied'] = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strPasswordWrong'] = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strNotAdmin'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strClientAdded'] = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strClientModified'] = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strClientDeleted'] = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strBannerAdmin'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strBannerAdded'] = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strBannerModified'] = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strBannerDeleted'] = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strBannerChanged'] = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strStats'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strDailyStats'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strDetailStats'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCreditStats'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strActive'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strActivate'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strDeActivate'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAuthentification'] = "пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strGo'] = "пїЅпїЅпїЅпїЅ!";
-$GLOBALS['strLinkedTo'] = "пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strBannerID'] = "ID пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strClientID'] = "ID пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strMailSubject'] = "пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strMailSubjectDeleted'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strMailHeader'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ {contact},\n";
-$GLOBALS['strMailBannerStats'] = "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ {clientname}:";
-$GLOBALS['strMailFooter'] = "пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ,\n   {adminfullname}";
-$GLOBALS['strLogMailSent'] = "[phpAds] пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strLogErrorClients'] = "[phpAds] пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strLogErrorBanners'] = "[phpAds] пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strLogErrorViews'] = "[phpAds] пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strLogErrorClicks'] = "[phpAds] пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strLogErrorDisactivate'] = "[phpAds] пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strRatio'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strChooseBanner'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strMySQLBanner'] = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strWebBanner'] = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strURLBanner'] = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ-пїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strHTMLBanner'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strNewBannerFile'] = "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strNewBannerURL'] = "URL пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅ http://)";
-$GLOBALS['strWidth'] = "пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strHeight'] = "пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTotalViews7Days'] = "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTotalClicks7Days'] = "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAvgViews7Days'] = "пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAvgClicks7Days'] = "пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strClientIP'] = "IP пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strUserAgent'] = "regexp пїЅпїЅпїЅпїЅпїЅпїЅ User-agent";
-$GLOBALS['strWeekDay'] = "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (0 - 6) ((пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ))";
-$GLOBALS['strDomain'] = "пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ)";
-$GLOBALS['strSource'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTime'] = "пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAllow'] = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ";
-$GLOBALS['strDeny'] = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ";
-$GLOBALS['strResetStats'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strExpiration'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strNoExpiration'] = "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strDaysLeft'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strEstimated'] = "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ";
-$GLOBALS['strConfirm'] = "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ ?";
-$GLOBALS['strBannerNoStats'] = "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ!";
-$GLOBALS['strWeek'] = "пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strWeeklyStats'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strWeekDay'] = "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strDate'] = "пїЅпїЅпїЅпїЅ";
+$GLOBALS['strAddSep'] = "Заполнять поля выше ИЛИ поля ниже!";
+$GLOBALS['strTextBelow'] = "Текст под картинкой";
+$GLOBALS['strSubmit'] = "Загрузить баннер";
+$GLOBALS['strUsername'] = "Логин";
+$GLOBALS['strPassword'] = "Пароль";
+$GLOBALS['strBannerAdmin'] = "Администрируем баннеры для";
+$GLOBALS['strNoBanners'] = "Нет баннеров";
+$GLOBALS['strBanner'] = "Баннер";
+$GLOBALS['strCurrentBanner'] = "Текущий баннер";
+$GLOBALS['strDelete'] = "Удалить";
+$GLOBALS['strAddBanner'] = "Добавить новый баннер";
+$GLOBALS['strAddBanner_Key']                    = "Добавить <u>н</u>овый баннер";
+$GLOBALS['strModifyBanner'] = "Изменить баннер";
+$GLOBALS['strURL'] = "URL (с http://)";
+$GLOBALS['strKeyword'] = "ключевое слово (латиницей и цифрами)";
+$GLOBALS['strWeight'] = "Вес";
+$GLOBALS['strAlt'] = "Alt-Tекст";
+$GLOBALS['strAccessDenied'] = "Доступ запрещён";
+$GLOBALS['strPasswordWrong'] = "Пароль указан неверно";
+$GLOBALS['strNotAdmin'] = "Вероятно, у вас нет прав доступа";
+$GLOBALS['strClientAdded'] = "Клиент добавлен.";
+$GLOBALS['strClientModified'] = "Клиент изменён.";
+$GLOBALS['strClientDeleted'] = "Клиент удален.";
+$GLOBALS['strBannerAdmin'] = "Администрирование баннеров";
+$GLOBALS['strBannerAdded'] = "Баннер добавлен.";
+$GLOBALS['strBannerModified'] = "Баннер изменён.";
+$GLOBALS['strBannerDeleted'] = "Баннер удалён";
+$GLOBALS['strBannerChanged'] = "Баннер изменён";
+$GLOBALS['strStats'] = "Статистика";
+$GLOBALS['strDailyStats'] = "Статистика по дням";
+$GLOBALS['strDetailStats'] = "Детальная статистика";
+$GLOBALS['strCreditStats'] = "Статистика по кредитам";
+$GLOBALS['strActive'] = "активен";
+$GLOBALS['strActivate'] = "Активировать";
+$GLOBALS['strDeActivate'] = "Деактивировать";
+$GLOBALS['strAuthentification'] = "Доступ";
+$GLOBALS['strGo'] = "Пошёл!";
+$GLOBALS['strLinkedTo'] = "ссылка";
+$GLOBALS['strBannerID'] = "ID баннера";
+$GLOBALS['strClientID'] = "ID клиента";
+$GLOBALS['strMailSubject'] = "Отчёт о рекламе";
+$GLOBALS['strMailSubjectDeleted'] = "Деактивированные баннеры";
+$GLOBALS['strMailHeader'] = "Дорогой {contact},\n";
+$GLOBALS['strMailBannerStats'] = "Здесь вы видите статистику клиента {clientname}:";
+$GLOBALS['strMailFooter'] = "с наилучшими пожеланиями,\n   {adminfullname}";
+$GLOBALS['strLogMailSent'] = "[phpAds] Статистика успешно отправлена.";
+$GLOBALS['strLogErrorClients'] = "[phpAds] ошибка доступа к базе данных информации о клиентах.";
+$GLOBALS['strLogErrorBanners'] = "[phpAds] Ошибка доступа к БД баннеров.";
+$GLOBALS['strLogErrorViews'] = "[phpAds] Ошибка доступа к БД показов.";
+$GLOBALS['strLogErrorClicks'] = "[phpAds] Ошибка доступа к БД кликов.";
+$GLOBALS['strLogErrorDisactivate'] = "[phpAds] Ошибка деактивации баннера.";
+$GLOBALS['strRatio'] = "Рейтинг кликабельности";
+$GLOBALS['strChooseBanner'] = "Выберите тип баннера.";
+$GLOBALS['strMySQLBanner'] = "Баннер с вашего компьютера помещается в базу данных на сервере";
+$GLOBALS['strWebBanner'] = "Баннер с вашего компьютера сохраняется в каталоге на веб-сервере";
+$GLOBALS['strURLBanner'] = "Баннер лежит где-то в Интернет";
+$GLOBALS['strHTMLBanner'] = "Текстовый баннер";
+$GLOBALS['strNewBannerFile'] = "Файл баннера на диске";
+$GLOBALS['strNewBannerURL'] = "URL баннера (с http://)";
+$GLOBALS['strWidth'] = "ширина";
+$GLOBALS['strHeight'] = "высота";
+$GLOBALS['strTotalViews7Days'] = "Всего показов за неделю";
+$GLOBALS['strTotalClicks7Days'] = "Всего кликов за неделю";
+$GLOBALS['strAvgViews7Days'] = "В среднем показов за неделю";
+$GLOBALS['strAvgClicks7Days'] = "В среднем кликов за неделю";
+$GLOBALS['strClientIP'] = "IP клиента";
+$GLOBALS['strUserAgent'] = "regexp строки User-agent";
+$GLOBALS['strWeekDay'] = "День недели (0 - 6) ((с воскресенья))";
+$GLOBALS['strDomain'] = "Домен (без точки в начале)";
+$GLOBALS['strSource'] = "Источник";
+$GLOBALS['strTime'] = "Время";
+$GLOBALS['strAllow'] = "Доступ открыт для";
+$GLOBALS['strDeny'] = "Доступ закрыт для";
+$GLOBALS['strResetStats'] = "Обнулить статистику";
+$GLOBALS['strExpiration'] = "Годность";
+$GLOBALS['strNoExpiration'] = "Срок годности не установлен";
+$GLOBALS['strDaysLeft'] = "Осталось дней";
+$GLOBALS['strEstimated'] = "Годен приблизительно до";
+$GLOBALS['strConfirm'] = "Вы уверены ?";
+$GLOBALS['strBannerNoStats'] = "Нет статистики для этого баннера!";
+$GLOBALS['strWeek'] = "Неделя";
+$GLOBALS['strWeeklyStats'] = "Еженедельная статистика";
+$GLOBALS['strWeekDay'] = "День недели";
+$GLOBALS['strDate'] = "Дата";
 $GLOBALS['strCTRShort'] = "CTR";
-$GLOBALS['strDayShortCuts'] = array("пїЅпїЅ","пїЅпїЅ","пїЅпїЅ","пїЅпїЅ","пїЅпїЅ","пїЅпїЅ","пїЅпїЅ");
-$GLOBALS['strShowWeeks'] = "пїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAll'] = "пїЅпїЅпїЅ";
-$GLOBALS['strAvg'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strHourly'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTotal'] = "пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strUnlimited'] = "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strUp'] = "пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strDown'] = "пїЅпїЅпїЅпїЅ";
-$GLOBALS['strSave'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strSaved'] = "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!";
-$GLOBALS['strDeleted'] = "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ!";  
-$GLOBALS['strMovedUp'] = "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strMovedDown'] = "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strUpdated'] = "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strDayShortCuts'] = array("Вс","Пн","Вт","Ср","Чт","Пт","Сб");
+$GLOBALS['strShowWeeks'] = "Макс. число показываемых недель";
+$GLOBALS['strAll'] = "все";
+$GLOBALS['strAvg'] = "Среднее";
+$GLOBALS['strHourly'] = "Просмотров/Кликов по часам";
+$GLOBALS['strTotal'] = "Всего";
+$GLOBALS['strUnlimited'] = "Не ограничено";
+$GLOBALS['strUp'] = "Вверх";
+$GLOBALS['strDown'] = "Вниз";
+$GLOBALS['strSave'] = "Сохранить";
+$GLOBALS['strSaved'] = "был сохранен!";
+$GLOBALS['strDeleted'] = "был удален!";  
+$GLOBALS['strMovedUp'] = "был перемещен выше";
+$GLOBALS['strMovedDown'] = "был перемещен ниже";
+$GLOBALS['strUpdated'] = "был обновлен";
 $GLOBALS['strLogin'] = "Login";
-$GLOBALS['strPreferences'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAllowClientModifyInfo'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAllowClientModifyBanner'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAllowClientAddBanner'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strLanguage'] = "пїЅпїЅпїЅпїЅ";
-$GLOBALS['strDefault'] = "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strErrorViews'] = "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ 'пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ' !";
-$GLOBALS['strErrorNegViews'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strErrorClicks'] =  "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ 'пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ' !";
-$GLOBALS['strErrorNegClicks'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strErrorDays'] = "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ 'пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ' !";
-$GLOBALS['strErrorNegDays'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTrackerImage'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:";
+$GLOBALS['strPreferences'] = "Предпочтения";
+$GLOBALS['strAllowClientModifyInfo'] = "Разрешить этому пользователю редактировать собственные клиентские данные";
+$GLOBALS['strAllowClientModifyBanner'] = "Разрешить этому пользователю модифицировать собственные баннеры";
+$GLOBALS['strAllowClientAddBanner'] = "Разрешить этому пользователю добавлять новые баннеры";
+$GLOBALS['strLanguage'] = "Язык";
+$GLOBALS['strDefault'] = "По умолчанию";
+$GLOBALS['strErrorViews'] = "Вы должны ввести число показов или выбрать 'Не ограничено' !";
+$GLOBALS['strErrorNegViews'] = "Отрицательное число показов не разрешено";
+$GLOBALS['strErrorClicks'] =  "Вы должны ввести число кликов или выбрать 'Не ограничено' !";
+$GLOBALS['strErrorNegClicks'] = "Отрицательное число кликов не разрешено";
+$GLOBALS['strErrorDays'] = "Вы должны ввести число дней или выбрать 'Не ограничено' !";
+$GLOBALS['strErrorNegDays'] = "Отрицательное число дней не разрешено";
+$GLOBALS['strTrackerImage'] = "Картинка слежения:";
 
 // New strings for version 2
-$GLOBALS['strNavigation'] 				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strShortcuts'] 				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strDescription'] 				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strClients'] 					= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strNavigation'] 				= "Навигация";
+$GLOBALS['strShortcuts'] 				= "Сокращения";
+$GLOBALS['strDescription'] 				= "Описание";
+$GLOBALS['strClients'] 					= "Клиенты";
 $GLOBALS['strID']				 		= "ID";
-$GLOBALS['strOverall'] 					= "пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTotalBanners'] 			= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strToday'] 					= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strThisWeek'] 				= "пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strThisMonth'] 				= "пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strBasicInformation'] 		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strContractInformation'] 		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strLoginInformation'] 		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strPermissions'] 				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strGeneralSettings']			= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strSaveChanges']		 		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCompact']					= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strVerbose']					= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strOrderBy']					= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ";
-$GLOBALS['strShowAllBanners']	 		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strShowBannersNoAdClicks']	= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strShowBannersNoAdViews']		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strShowAllClients'] 			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strShowClientsActive'] 		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strShowClientsInactive']		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strSize']						= "пїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strOverall'] 					= "Всего";
+$GLOBALS['strTotalBanners'] 			= "Всего баннеров";
+$GLOBALS['strToday'] 					= "Сегодня";
+$GLOBALS['strThisWeek'] 				= "За эту неделю";
+$GLOBALS['strThisMonth'] 				= "За этот месяц";
+$GLOBALS['strBasicInformation'] 		= "Основная информация";
+$GLOBALS['strContractInformation'] 		= "Контрактная информация";
+$GLOBALS['strLoginInformation'] 		= "Информация о логине";
+$GLOBALS['strPermissions'] 				= "Допуски";
+$GLOBALS['strGeneralSettings']			= "Общие установки";
+$GLOBALS['strSaveChanges']		 		= "Сохранить изменения";
+$GLOBALS['strCompact']					= "Компактно";
+$GLOBALS['strVerbose']					= "Подробно";
+$GLOBALS['strOrderBy']					= "отсортировать по";
+$GLOBALS['strShowAllBanners']	 		= "Показать все баннеры";
+$GLOBALS['strShowBannersNoAdClicks']	= "Показать баннеры без кликов";
+$GLOBALS['strShowBannersNoAdViews']		= "Показать баннеры без просмотров";
+$GLOBALS['strShowAllClients'] 			= "Показать всех клиентов";
+$GLOBALS['strShowClientsActive'] 		= "Показать клиентов с активными баннерами";
+$GLOBALS['strShowClientsInactive']		= "Показать клиентов с неактивными баннерами";
+$GLOBALS['strSize']						= "Размер";
 
-$GLOBALS['strMonth'] 					= array("пїЅпїЅпїЅпїЅпїЅпїЅ","пїЅпїЅпїЅпїЅпїЅпїЅпїЅ","пїЅпїЅпїЅпїЅ","пїЅпїЅпїЅпїЅпїЅпїЅ","пїЅпїЅпїЅ","пїЅпїЅпїЅпїЅ","пїЅпїЅпїЅпїЅ", "пїЅпїЅпїЅпїЅпїЅпїЅ", "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ", "пїЅпїЅпїЅпїЅпїЅпїЅ", "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
-$GLOBALS['strDontExpire']				= "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strActivateNow'] 				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strExpirationDate']			= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strActivationDate']			= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strMonth'] 					= array("Январь","Февраль","Март","Апрель","Май","Июнь","Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь");
+$GLOBALS['strDontExpire']				= "Не деактивировать этого клиента по наступлению указанной даты";
+$GLOBALS['strActivateNow'] 				= "Немедленно активировать этого клиента";
+$GLOBALS['strExpirationDate']			= "Дата деактивации";
+$GLOBALS['strActivationDate']			= "Дата активации";
 
-$GLOBALS['strMailClientDeactivated'] 	= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅ";
-$GLOBALS['strMailNothingLeft'] 			= "пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ. пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ.";
-$GLOBALS['strClientDeactivated']		= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅ";
-$GLOBALS['strBeforeActivate']			= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAfterExpire']				= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strNoMoreClicks']				= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strNoMoreViews']				= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strMailClientDeactivated'] 	= "Ваши баннеры бли выключены, так как";
+$GLOBALS['strMailNothingLeft'] 			= "Если бы вы хотели продолжать размещать рекламу на нашем сайте, пожалуйста, свяжитесь с нами. Мы будем рады вновь слышать вас.";
+$GLOBALS['strClientDeactivated']		= "Данный клиент в настоящее время деактивирован, так как";
+$GLOBALS['strBeforeActivate']			= "дата активации еще не достигнута";
+$GLOBALS['strAfterExpire']				= "была достигнута дата деактивации";
+$GLOBALS['strNoMoreClicks']				= "все приобретенные клики использованы";
+$GLOBALS['strNoMoreViews']				= "все приобретенные просмотры использованы";
 
-$GLOBALS['strBanners'] 					= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCampaigns']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCampaign']					= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strModifyCampaign']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strName']						= "пїЅпїЅпїЅ";
-$GLOBALS['strBannersWithoutCampaign']	= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strMoveToNewCampaign']		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCreateNewCampaign']		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strEditCampaign']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAddCampaign']                      = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAddCampaign_Key']          = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ <u>пїЅ</u>пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strBanners'] 					= "Баннеры";
+$GLOBALS['strCampaigns']				= "Кампании";
+$GLOBALS['strCampaign']					= "Кампания";
+$GLOBALS['strModifyCampaign']			= "Редактировать кампанию";
+$GLOBALS['strName']						= "Имя";
+$GLOBALS['strBannersWithoutCampaign']	= "Баннеры без кампании";
+$GLOBALS['strMoveToNewCampaign']		= "Перейти к новой кампании";
+$GLOBALS['strCreateNewCampaign']		= "Создать новую кампанию";
+$GLOBALS['strEditCampaign']				= "Редактировать кампанию";
+$GLOBALS['strAddCampaign']                      = "Добавить новую кампанию";
+$GLOBALS['strAddCampaign_Key']          = "Добавить <u>н</u>овую кампанию";
 
-$GLOBALS['strEdit']						= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCreate']					= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strUntitled']					= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strEdit']						= "Редактировать";
+$GLOBALS['strCreate']					= "Создать";
+$GLOBALS['strUntitled']					= "Без названия";
 
-$GLOBALS['strTotalCampaigns'] 			= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strActiveCampaigns'] 			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strTotalCampaigns'] 			= "Всего кампаний";
+$GLOBALS['strActiveCampaigns'] 			= "Активных кампаний";
 
-$GLOBALS['strLinkedTo']					= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ";
-$GLOBALS['strSendAdvertisingReport']	= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ e-mail";
-$GLOBALS['strNoDaysBetweenReports']		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strSendDeactivationWarning']  = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strLinkedTo']					= "связано с";
+$GLOBALS['strSendAdvertisingReport']	= "Посылать рекламный отчет по e-mail";
+$GLOBALS['strNoDaysBetweenReports']		= "Количество дней между отчетами";
+$GLOBALS['strSendDeactivationWarning']  = "Посылать предупреждение, когда кампания деактивировануется";
 
-$GLOBALS['strWarnClientTxt']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ {limit}. ";
-$GLOBALS['strImpressionsClicksLow']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strWarnClientTxt']			= "Количество нажатий или просмотров для ваших баннеров скоро станет меньше {limit}. ";
+$GLOBALS['strImpressionsClicksLow']		=
+$GLOBALS['strViewsClicksLow']			= "Рекламные просмотры/нажатия подходят к концу";
 
-$GLOBALS['strDays']						= "пїЅпїЅпїЅпїЅ";
-$GLOBALS['strHistory']					= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAverage']					= "пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strDuplicateClientName']		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ.";
-$GLOBALS['strAllowClientDisableBanner'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAllowClientActivateBanner'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strDays']						= "Дней";
+$GLOBALS['strHistory']					= "История";
+$GLOBALS['strAverage']					= "В среднем";
+$GLOBALS['strDuplicateClientName']		= "Указанное имя пользователя уже существует, пожалуйста введите другое имя.";
+$GLOBALS['strAllowClientDisableBanner'] = "Разрешить этому пользователю деактивировать его баннеры";
+$GLOBALS['strAllowClientActivateBanner'] = "Разрешить этому пользователю активировать его баннеры";
 
-$GLOBALS['strGenerateBannercode']		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ";
-$GLOBALS['strChooseInvocationType']		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strGenerate']					= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strParameters']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strUniqueidentifier']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strFrameSize']				= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strBannercode']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ";
+$GLOBALS['strGenerateBannercode']		= "Сгенерировать баннерный код";
+$GLOBALS['strChooseInvocationType']		= "Пожалуйста, выберите тип вызова баннера";
+$GLOBALS['strGenerate']					= "Сгенерировать";
+$GLOBALS['strParameters']				= "Параметры";
+$GLOBALS['strUniqueidentifier']			= "Уникальный идентификатор";
+$GLOBALS['strFrameSize']				= "Размер фрэйма";
+$GLOBALS['strBannercode']				= "Баннерный код";
 
-$GLOBALS['strSearch']					= "<u>пїЅ</u>пїЅпїЅпїЅпїЅ";
-$GLOBALS['strNoMatchesFound']			= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strSearch']					= "<u>П</u>оиск";
+$GLOBALS['strNoMatchesFound']			= "Ничего не найдено";
 
-$GLOBALS['strNoViewLoggedInInterval']   = "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strNoClickLoggedInInterval']  = "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strMailReportPeriod']			= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ {startdate} пїЅпїЅ {enddate}.";
-$GLOBALS['strMailReportPeriodAll']		= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ {enddate}.";
-$GLOBALS['strNoStatsForCampaign'] 		= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strFrom']						= "пїЅ";
-$GLOBALS['strTo']						= "пїЅпїЅ";
-$GLOBALS['strMaintenance']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCampaignStats']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strClientStats']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strErrorOccurred']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAdReportSent']				= "пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strNoViewLoggedInInterval']   = "За период данного отчета не было зарегистрировано просмотров";
+$GLOBALS['strNoClickLoggedInInterval']  = "За период данного отчета не было зарегистрировано нажатий";
+$GLOBALS['strMailReportPeriod']			= "Этот отчет включает в себя статистику с {startdate} по {enddate}.";
+$GLOBALS['strMailReportPeriodAll']		= "Этот отчет включает в себя всю статистику вплоть до {enddate}.";
+$GLOBALS['strNoStatsForCampaign'] 		= "Нет статистики для этой кампании";
+$GLOBALS['strFrom']						= "С";
+$GLOBALS['strTo']						= "по";
+$GLOBALS['strMaintenance']				= "Обслуживание";
+$GLOBALS['strCampaignStats']			= "Статистика по кампаниям";
+$GLOBALS['strClientStats']				= "Статистика по клиентам";
+$GLOBALS['strErrorOccurred']			= "Произошла ошибка";
+$GLOBALS['strAdReportSent']				= "Отчет о рекламе выслан";
 
-$GLOBALS['strAutoChangeHTML']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ HTML пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strAutoChangeHTML']			= "Изменить HTML для подсчета кликов";
 
-$GLOBALS['strZones']					= "пїЅпїЅпїЅпїЅ";
-$GLOBALS['strAddZone']					= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strModifyZone']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strAddNewZone']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strAddNewZone_Key']                   = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ <u>пїЅ</u>пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
+$GLOBALS['strZones']					= "Зоны";
+$GLOBALS['strAddZone']					= "Создать зону";
+$GLOBALS['strModifyZone']				= "Редактировать зону";
+$GLOBALS['strAddNewZone']				= "Добавить новую зону";
+$GLOBALS['strAddNewZone_Key']                   = "Добавить <u>н</u>овую зону";
 
-$GLOBALS['strOverview']					= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strEqualTo']					= "пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strDifferentFrom']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ";
-$GLOBALS['strAND']						= "пїЅ";  // logical operator
-$GLOBALS['strOR']						= "пїЅпїЅпїЅ"; // logical operator
-$GLOBALS['strOnlyDisplayWhen']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ:";
+$GLOBALS['strOverview']					= "Обозрение";
+$GLOBALS['strEqualTo']					= "равно";
+$GLOBALS['strDifferentFrom']			= "отличается от";
+$GLOBALS['strAND']						= "И";  // logical operator
+$GLOBALS['strOR']						= "ИЛИ"; // logical operator
+$GLOBALS['strOnlyDisplayWhen']			= "Показывать этот баннер только когда:";
 
-$GLOBALS['strStatusText']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strStatusText']				= "Описание статуса";
 
-$GLOBALS['strConfirmDeleteClient'] 		= "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ?";
-$GLOBALS['strConfirmDeleteCampaign']	= "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ?";
-$GLOBALS['strConfirmDeleteBanner']		= "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ?";
-$GLOBALS['strConfirmDeleteZone']		= "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ?";
-$GLOBALS['strConfirmDeleteAffiliate']	= "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ?";
+$GLOBALS['strConfirmDeleteClient'] 		= "Вы действительно хотите удалить этого клиента?";
+$GLOBALS['strConfirmDeleteCampaign']	= "Вы действительно хотите удалить эту кампанию?";
+$GLOBALS['strConfirmDeleteBanner']		= "Вы действительно хотите удалить этот баннер?";
+$GLOBALS['strConfirmDeleteZone']		= "Вы действительно хотите удалить эту зону?";
+$GLOBALS['strConfirmDeleteAffiliate']	= "Вы действительно хотите удалить этого партнера?";
 
-$GLOBALS['strConfirmResetStats']		= "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ?";
-$GLOBALS['strConfirmResetCampaignStats']= "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ?";
-$GLOBALS['strConfirmResetClientStats']	= "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ?";
-$GLOBALS['strConfirmResetBannerStats']	= "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ?";
+$GLOBALS['strConfirmResetStats']		= "Вы действительно хотите обнулить всю статистику?";
+$GLOBALS['strConfirmResetCampaignStats']= "Вы действительно хотите обнулить статистику для этой кампании?";
+$GLOBALS['strConfirmResetClientStats']	= "Вы действительно хотите обнулить статистику для этого клиента?";
+$GLOBALS['strConfirmResetBannerStats']	= "Вы действительно хотите обнулить статистику для этого баннера?";
 
-$GLOBALS['strClientsAndCampaigns']		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCampaignOverview']			= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strReports']					= "пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strShowBanner']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strClientsAndCampaigns']		= "Клиенты и кампании";
+$GLOBALS['strCampaignOverview']			= "Обзор кампании";
+$GLOBALS['strReports']					= "Отчеты";
+$GLOBALS['strShowBanner']				= "Показать баннер";
 
-$GLOBALS['strIncludedBanners']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strProbability']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strInvocationcode']			= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strSelectZoneType']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strBannerSelection']			= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strInteractive']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strRawQueryString']			= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ 'пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ'";
+$GLOBALS['strIncludedBanners']			= "Связанные баннеры";
+$GLOBALS['strProbability']				= "Вероятность";
+$GLOBALS['strInvocationcode']			= "Код вызова";
+$GLOBALS['strSelectZoneType']			= "Пожалуйста, выберите тип связи баннеров";
+$GLOBALS['strBannerSelection']			= "Выбор баннеров";
+$GLOBALS['strInteractive']				= "Интерактивный";
+$GLOBALS['strRawQueryString']			= "Строка запроса 'как есть'";
 
-$GLOBALS['strBannerWeight']				= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCampaignWeight']			= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strBannerWeight']				= "Вес баннера";
+$GLOBALS['strCampaignWeight']			= "Вес кампании";
 
-$GLOBALS['strZoneCacheOn']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strZoneCacheOff']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCachedZones']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strSizeOfCache']				= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strAverageAge']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strRebuildZoneCache']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strZoneCacheOn']				= "Кэширование зон включено";
+$GLOBALS['strZoneCacheOff']				= "Кэширование зон выключено";
+$GLOBALS['strCachedZones']				= "Закэшированные зоны";
+$GLOBALS['strSizeOfCache']				= "Размер кэша";
+$GLOBALS['strAverageAge']				= "Среднее время нахождения в кэше";
+$GLOBALS['strRebuildZoneCache']			= "Построить кэш зон заново";
 $GLOBALS['strKiloByte']					= "KB";
-$GLOBALS['strSeconds']					= "пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strExpired']					= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strSeconds']					= "секунд";
+$GLOBALS['strExpired']					= "Устарело";
 
-$GLOBALS['strModifyBannerAcl'] 			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strACL'] 						= "пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strNoMoveUp'] 				= "пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strACLAdd'] 					= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strACLAdd_Key']                               = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ <u>пїЅ</u>пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strNoLimitations']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ";
+$GLOBALS['strModifyBannerAcl'] 			= "Ограниченя показа";
+$GLOBALS['strACL'] 						= "Лимит";
+$GLOBALS['strNoMoveUp'] 				= "Не могу переместить первый ряд выше";
+$GLOBALS['strACLAdd'] 					= "Добавить новое ограничение";
+$GLOBALS['strACLAdd_Key']                               = "Добавить <u>н</u>овое ограничение";
+$GLOBALS['strNoLimitations']			= "Ограничений нет";
 
-$GLOBALS['strLinkedZones']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strNoZonesToLink']			= "пїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ";
-$GLOBALS['strNoZones']					= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strNoClients']				= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strNoStats']					= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strNoAffiliates']				= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strLinkedZones']				= "Связанные зоны";
+$GLOBALS['strNoZonesToLink']			= "Зон, к которым может быть отнесен данный баннер, нет";
+$GLOBALS['strNoZones']					= "Сейчас не определено ни одной зоны";
+$GLOBALS['strNoClients']				= "Сечас не определено ни одного клиента";
+$GLOBALS['strNoStats']					= "Сейчас не доступно никакой статистики";
+$GLOBALS['strNoAffiliates']				= "Сейчас не определен ни один издатель";
 
-$GLOBALS['strCustom']					= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strCustom']					= "Нестандартный";
 
-$GLOBALS['strSettings'] 				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strSettings'] 				= "Настройки";
 
-$GLOBALS['strAffiliates']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAffiliatesAndZones']		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strAddAffiliate']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strModifyAffiliate']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAddNewAffiliate']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAddNewAffiliate_Key']                      = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ <u>пїЅ</u>пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strAffiliates']				= "Издатели";
+$GLOBALS['strAffiliatesAndZones']		= "Издатели и зоны";
+$GLOBALS['strAddAffiliate']				= "Создать издателя";
+$GLOBALS['strModifyAffiliate']			= "Редактировать издателя";
+$GLOBALS['strAddNewAffiliate']			= "Добавить нового издателя";
+$GLOBALS['strAddNewAffiliate_Key']                      = "Добавить <u>н</u>ового издателя";
 
-$GLOBALS['strCheckAllNone']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ / пїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strCheckAllNone']				= "Пометить всё / ничего";
 
-$GLOBALS['strExpandAll']                        = "<u>пїЅ</u>пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ";
-$GLOBALS['strCollapseAll']                      = "<u>пїЅ</u>пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ";
+$GLOBALS['strExpandAll']                        = "<u>Р</u>аскрыть всё";
+$GLOBALS['strCollapseAll']                      = "<u>З</u>акрыть всё";
 
 
-$GLOBALS['strAllowAffiliateModifyInfo'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAllowAffiliateModifyZones'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strAllowAffiliateLinkBanners'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAllowAffiliateAddZone'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strAllowAffiliateDeleteZone'] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
+$GLOBALS['strAllowAffiliateModifyInfo'] = "Разрешить этому пользователю редактировать свою издательскую информацию";
+$GLOBALS['strAllowAffiliateModifyZones'] = "Разрешить этому пользователю редактировать его собственные зоны";
+$GLOBALS['strAllowAffiliateLinkBanners'] = "Разрешить этому пользователю свзяывать баннеры с его собственными зонами";
+$GLOBALS['strAllowAffiliateAddZone'] = "Разрешить этому пользователю определять новые зоны";
+$GLOBALS['strAllowAffiliateDeleteZone'] = "Разрешить этому пользователю удалять существующие зоны";
 
-$GLOBALS['strPriority']					= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strHighPriority']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.<br />
-										   пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, phpAdsNew пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 
-										   пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ.";
-$GLOBALS['strLowPriority']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.<br />
-										   пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ 
-										   пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strTargetLimitAdviews']		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ";
-$GLOBALS['strTargetPerDay']				= "пїЅ пїЅпїЅпїЅпїЅ.";
-$GLOBALS['strRecalculatePriority']		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strPriority']					= "Приоритет";
+$GLOBALS['strHighPriority']				= "Показывать баннеры в этой кампании с высоким приоритетом.<br>
+										   Если вы используете эту опцию, phpAdsNew будет пытаться распределить 
+										   количество просмотров равномерно по всему дню.";
+$GLOBALS['strLowPriority']				= "Показывать баннеры в этой кампании с низким приоритетом.<br>
+										   Эта кампания используетися для показа оставшихся просмотров, которые 
+										   не используются высокоприоритетными кампаниями.";
+$GLOBALS['strTargetLimitAdviews']		= "Ошраничить количество показов до";
+$GLOBALS['strTargetPerDay']				= "в день.";
+$GLOBALS['strRecalculatePriority']		= "Пересчитать приоритеты";
 
-$GLOBALS['strProperties']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAffiliateProperties']		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strBannerOverview']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strBannerProperties']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCampaignProperties']		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strClientProperties']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strZoneOverview']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strZoneProperties']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strAffiliateOverview']		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strLinkedBannersOverview']	= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strProperties']				= "Параметры";
+$GLOBALS['strAffiliateProperties']		= "Свойства издателя";
+$GLOBALS['strBannerOverview']			= "Обозрение баннера";
+$GLOBALS['strBannerProperties']			= "Параметры баннера";
+$GLOBALS['strCampaignProperties']		= "Параметры кампании";
+$GLOBALS['strClientProperties']			= "Параметры клиента";
+$GLOBALS['strZoneOverview']				= "Обозрение зоны";
+$GLOBALS['strZoneProperties']			= "Параметры зоны";
+$GLOBALS['strAffiliateOverview']		= "Обозрение издателя";
+$GLOBALS['strLinkedBannersOverview']	= "Обозрение связанных баннеров";
 
-$GLOBALS['strGlobalHistory']			= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strBannerHistory']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCampaignHistory']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strClientHistory']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAffiliateHistory']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strZoneHistory']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ";
-$GLOBALS['strLinkedBannerHistory']		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strGlobalHistory']			= "Общая история";
+$GLOBALS['strBannerHistory']			= "История баннеров";
+$GLOBALS['strCampaignHistory']			= "История кампаний";
+$GLOBALS['strClientHistory']			= "История клиентов";
+$GLOBALS['strAffiliateHistory']			= "История издателей";
+$GLOBALS['strZoneHistory']				= "История зон";
+$GLOBALS['strLinkedBannerHistory']		= "История связанных баннеров";
 
-$GLOBALS['strMoveTo']					= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ";
-$GLOBALS['strDuplicate']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strMoveTo']					= "Переместить в";
+$GLOBALS['strDuplicate']				= "Скопировать";
 
-$GLOBALS['strMainSettings']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAdminSettings']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strMainSettings']				= "Главные настройки";
+$GLOBALS['strAdminSettings']			= "Административные настройки";
 
-$GLOBALS['strApplyLimitationsTo']		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ";
-$GLOBALS['strWholeCampaign']			= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strZonesWithoutAffiliate']	= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strMoveToNewAffiliate']		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strApplyLimitationsTo']		= "Применить ограничения к";
+$GLOBALS['strWholeCampaign']			= "Всей кампании";
+$GLOBALS['strZonesWithoutAffiliate']	= "Зонам без издателя";
+$GLOBALS['strMoveToNewAffiliate']		= "Переместить к новому издателю";
 
-$GLOBALS['strNoBannersToLink']			= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strNoLinkedBanners']			= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
+$GLOBALS['strNoBannersToLink']			= "Сейчас нет баннеров, которые могли бы быть привязаны к этой зоне";
+$GLOBALS['strNoLinkedBanners']			= "Сейчас нет баннеров, которые привязаны к этой зоне";
 
-$GLOBALS['strAdviewsLimit']				= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strAdviewsLimit']				= "Лимит показов";
 
-$GLOBALS['strTotalThisPeriod']			= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAverageThisPeriod']		= "пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strLast7Days']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 7 пїЅпїЅпїЅпїЅ";
-$GLOBALS['strDistribution']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strOther']					= "пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strUnknown']					= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strTotalThisPeriod']			= "Всего за этот период";
+$GLOBALS['strAverageThisPeriod']		= "В среднем за этот период";
+$GLOBALS['strLast7Days']				= "Последние 7 дней";
+$GLOBALS['strDistribution']				= "Распределение";
+$GLOBALS['strOther']					= "Другое";
+$GLOBALS['strUnknown']					= "Неизвестное";
 
-$GLOBALS['strWelcomeTo']				= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ";
-$GLOBALS['strEnterUsername']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strWelcomeTo']				= "Добро пожаловать в";
+$GLOBALS['strEnterUsername']			= "Введите ваш логин и пароль для входа в систему";
 
-$GLOBALS['strBannerNetwork']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strMoreInformation']			= "пїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ...";
-$GLOBALS['strChooseNetwork']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strBannerNetwork']			= "Баннерная сеть";
+$GLOBALS['strMoreInformation']			= "Доп. информация...";
+$GLOBALS['strChooseNetwork']			= "Выберите баннерную сеть, которую вы хотите использовать";
 $GLOBALS['strRichMedia']				= "Richmedia";
-$GLOBALS['strTrackAdClicks']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strYes']						= "пїЅпїЅ";
-$GLOBALS['strNo']						= "пїЅпїЅпїЅ";
-$GLOBALS['strUploadOrKeep']				= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ<br />пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ <br />пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ?";
-$GLOBALS['strCheckSWF']					= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ Flash-пїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strTrackAdClicks']			= "Отслеживать клики";
+$GLOBALS['strYes']						= "Да";
+$GLOBALS['strNo']						= "Нет";
+$GLOBALS['strUploadOrKeep']				= "Хотите сохранить уже<br>имеющуюся картинку: или хотите <br>загрузить другую?";
+$GLOBALS['strCheckSWF']					= "Проверять наличие жестко закодированных линков внутри Flash-файлов";
 $GLOBALS['strURL2']						= "URL";
 $GLOBALS['strTarget']					= "Target";
-$GLOBALS['strConvert']					= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCancel']					= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strConvert']					= "Преобразовать";
+$GLOBALS['strCancel']					= "Отменить";
 
-$GLOBALS['strConvertSWFLinks']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Flash-пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strHardcodedLinks']                   = "ЖёпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strConvertSWF']				= "<br />Flash-пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ URL-пїЅ. phpAdsNew пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ ".
-										  "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ ".
-										  "пїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ URL пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ Flash-пїЅпїЅпїЅпїЅпїЅ. ".
-										  "пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ <b>пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ</b>, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ ".
-										  "<b>пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ</b>.<br /><br />".
-										  "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ <b>пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ</b>, Flash-пїЅпїЅпїЅпїЅ, ".
-									  	  "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ. <br />пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ ".
-										  "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ Flash пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ".
-										  "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Flash 4 (пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ) пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.<br /><br />";
+$GLOBALS['strConvertSWFLinks']			= "Преобразовать Flash-линки";
+$GLOBALS['strHardcodedLinks']                   = "Жёстко закодированные ссылки";
+$GLOBALS['strConvertSWF']				= "<br>Flash-файл, который вы только что загрузили, содержит жестко закодированные URL-ы. phpAdsNew не сможет ".
+										  "отслеживать клики для этого баннера, если вы не преобразуете эти ".
+										  "линки. Ниже вы найдете список всех URL внутри этого Flash-файла. ".
+										  "Если вы хотите их преобразовать, щелкните по <b>Преобразовать</b>, в противном случае ".
+										  "<b>Отменить</b>.<br><br>".
+										  "Заметьте: если вы щелкнете по <b>Преобразовать</b>, Flash-файл, ".
+									  	  "который вы только что загрузили, будет физически изменен. <br>Пожалуйста, сохраните резервную копию ".
+										  "исходного файла. Вне зависимости от того, какой версией Flash был создан этот баннер, получившийся ".
+										  "файл потребует Flash 4 (или старше) проигрыватель для корректного отображения.<br><br>";
 
-$GLOBALS['strCompressSWF']                      = "пїЅпїЅпїЅпїЅпїЅ SWF-пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Flash 6 пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)";
-$GLOBALS['strOverwriteSource']          = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strCompressSWF']                      = "Сжать SWF-файл для ускорения загрузки (требует установки Flash 6 плагина)";
+$GLOBALS['strOverwriteSource']          = "Перезаписать параметр источника";
 
-$GLOBALS['strSourceStats']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strSelectSource']				= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:";
-$GLOBALS['strSizeDistribution']         = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCountryDistribution']      = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strEffectivity']                      = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-
-
-$GLOBALS['strDelimiter']                        = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strMiscellaneous']            = "пїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strSourceStats']				= "Статистика по источнику";
+$GLOBALS['strSelectSource']				= "Выберите источник, который вы хотите просмотреть:";
+$GLOBALS['strSizeDistribution']         = "Распределение по размеру";
+$GLOBALS['strCountryDistribution']      = "Распределение по стране";
+$GLOBALS['strEffectivity']                      = "Эффективность";
 
 
-$GLOBALS['strErrorUploadSecurity']              = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!";
-$GLOBALS['strErrorUploadBasedir']               = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ safe_mode пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ open_basedir";
-$GLOBALS['strErrorUploadUnknown']               = "пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ PHP!";
-$GLOBALS['strErrorStoreLocal']                  = "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strErrorStoreFTP']                    = "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ FTP-пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ-пїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅ-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strDelimiter']                        = "Разделитель";
+$GLOBALS['strMiscellaneous']            = "Разное";
+
+
+$GLOBALS['strErrorUploadSecurity']              = "Обнаружена возможная проблема с безопасностью, загрузка остановлена!";
+$GLOBALS['strErrorUploadBasedir']               = "Загруженный файл недоступен, вероятно, в результате действия safe_mode или ограничений open_basedir";
+$GLOBALS['strErrorUploadUnknown']               = "Не могу получить доступ к загруженному файлу по неизвестной причине. Пожалуйста, проверьте настройки PHP!";
+$GLOBALS['strErrorStoreLocal']                  = "Во время попытки сохранения баннера в локальном каталоге произошла ошибка. Вероятно, это результат неверного указания пути к локальному каталогу";
+$GLOBALS['strErrorStoreFTP']                    = "Во время попытки загрузки баннера на FTP-сервер произошла ошибка. Это может быть из-за того, что сервер недоступен, или из-за неправильной настройки его параметров";
 
 // Zone probability
-$GLOBALS['strZoneProbListChain']                = "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:";
-$GLOBALS['strZoneProbNullPri']                  = "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strZoneProbListChain']                = "Все баннеры, связанные с выбранной зоной, имеют нулевой приоритет. Цепь вызова зон, которая будет использована:";
+$GLOBALS['strZoneProbNullPri']                  = "Все баннеры, связанные с этой зоной, имеют нулевой приоритет";
 
 // Hosts
-$GLOBALS['strHosts']                            = "пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTopHosts']                         = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTopCountries']             = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strRecentHosts']                      = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strHosts']                            = "Хосты";
+$GLOBALS['strTopHosts']                         = "Лучшие хосты";
+$GLOBALS['strTopCountries']             = "Лучшие страны";
+$GLOBALS['strRecentHosts']                      = "Недавно просматривавшие хосты";
 
 // Reserved keys
 // Do not change these unless absolutely needed
@@ -484,12 +487,12 @@ $GLOBALS['keyList']                     = 'l';
 // Other keys
 // Please make sure you underline the key you
 // used in the string in default.lang.php
-$GLOBALS['keySearch']           = 'пїЅ';
-$GLOBALS['keyCollapseAll']      = 'пїЅ';
-$GLOBALS['keyExpandAll']        = 'пїЅ';
-$GLOBALS['keyAddNew']           = 'пїЅ';
-$GLOBALS['keyNext']                     = 'пїЅ';
-$GLOBALS['keyPrevious']         = 'пїЅ';
+$GLOBALS['keySearch']           = 'П';
+$GLOBALS['keyCollapseAll']      = 'З';
+$GLOBALS['keyExpandAll']        = 'Р';
+$GLOBALS['keyAddNew']           = 'н';
+$GLOBALS['keyNext']                     = 'С';
+$GLOBALS['keyPrevious']         = 'П';
 
 
 ?>

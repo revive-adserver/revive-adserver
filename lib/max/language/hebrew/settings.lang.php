@@ -31,61 +31,65 @@ $Id$
 
 
 // Installer translation strings
-$GLOBALS['strInstall']				= "пїЅпїЅпїЅпїЅ";
-$GLOBALS['strChooseInstallLanguage']		= "пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strLanguageSelection']		= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ";
-$GLOBALS['strDatabaseSettings']			= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAdminSettings']			= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strAdvancedSettings']			= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strOtherSettings']			= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strInstall']				= "дъчп";
+$GLOBALS['strChooseInstallLanguage']		= "бзш аъ щфъ ддъчрд";
+$GLOBALS['strLanguageSelection']		= "бзйшъ щфд";
+$GLOBALS['strDatabaseSettings']			= "чбйтеъ бсйс ръерйн";
+$GLOBALS['strAdminSettings']			= "чбйтеъ ордм";
+$GLOBALS['strAdvancedSettings']			= "чбйтеъ оъчгоеъ";
+$GLOBALS['strOtherSettings']			= "чбйтеъ азшеъ";
 
-$GLOBALS['strWarning']				= "пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strFatalError']			= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAlreadyInstalled']			= $phpAds_productname." пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ. пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅ<a href='settings-index.php'>пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ</a>";
-$GLOBALS['strCouldNotConnectToDB']		= "пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strCreateTableTestFailed']		= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ.";
-$GLOBALS['strUpdateTableTestFailed']		= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strTablePrefixInvalid']		= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strTableInUse']			= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ ".$phpAds_productname.", пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strMayNotFunction']			= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ:";
-$GLOBALS['strIgnoreWarnings']			= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strWarningPHPversion']		= $phpAds_productname." пїЅпїЅпїЅпїЅ PHP 4.0 пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ. пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ {php_version}.";
-$GLOBALS['strWarningRegisterGlobals']		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ  PHP пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ <B>register_globals</B> пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strWarningMagicQuotesGPC']		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ  PHP пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ  <B>magic_quotes_gpc</B>  пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strWarningMagicQuotesRuntime']	= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ  PHP пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ  <B>magic_quotes_runtime</B>  пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strWarningFileUploads']		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ  PHP пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ  <B>file_uploads</B>  пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strConfigLockedDetected']		= $phpAds_productname." пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ <b>config.inc.php</b> пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.<br /> пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ. <br />пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ.";
-$GLOBALS['strCantUpdateDB']  			= "пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strTableNames']			= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTablesPrefix']			= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTablesType']			= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strWarning']				= "аждшд";
+$GLOBALS['strFatalError']			= "чшъд щвйад вешмйъ";
+$GLOBALS['strUpdateError']			= "змд щвйад бжоп дтглеп";
+$GLOBALS['strUpdateDatabaseError']	= "осйбеъ ма бшешеъ тглеп бсйс дръерйн ма дцмйз. дшшк доеомцъ мдощйк дйа ммзех <b>рсд тглеп озгщ</b> лгй мрсеъ емъчп бтйеъ афщшйеъ. ан аъд биез щбтйеъ аме ма йлемеъ мфвет бъфчег ".$phpAds_productname." аъд йлем ммзех <b>дътмн ощвйаеъ</b> лгй мдощйк. дътмоеъ ощвйаеъ аме афщш щъйеш бтйд зоешд ежд ма оеомх!";
+$GLOBALS['strAlreadyInstalled']			= $phpAds_productname." лбш оеъчръ ботшлъ же. ан аъд шецд мтцб аеъд мк м<a href='settings-index.php'>чйбтеъ оощч</a>";
+$GLOBALS['strCouldNotConnectToDB']		= "ма йлем мдъзбш мбсйс дръерйн, ара бгеч озгщ аъ дчбйтеъ щшщоъ.";
+$GLOBALS['strCreateTableTestFailed']		= "мщн дощъощ щшщоъ айп осфйч дшщад мйцйшъ ае тглеп обрд бсйс дръерйн, ара цеш чщш тн дазшай бщшъ.";
+$GLOBALS['strUpdateTableTestFailed']		= "мщн дощъощ щшщоъ айп гй дшщад мтглеп бсйс дръерйн. ара цеш чщш тн дазшайн.";
+$GLOBALS['strTablePrefixInvalid']		= "чйгеоъ дибмаеъ олймд аеъйеъ фсемеъ.";
+$GLOBALS['strTableInUse']			= "бсйс дръерйн щшщоъ роца лбш бщйоещ щм ".$phpAds_productname.", ара бзш бчйгеоъ ибмаеъ азшъ, ае чша аъ догшйк мвбй дешаеъ щгшев.";
+$GLOBALS['strTableWrongType']		= "сев дибмд щбзшъ айре ръок бдъчръ ".$phpAds_dbmsname."щмк";
+$GLOBALS['strMayNotFunction']			= "мфрй щаъд оощйк, ара ъчп аъ дбтйд дафщшйеъ даме:";
+$GLOBALS['strFixProblemsBefore']		= "дфшйи(йн) дба(йн) гешщйн ъйчеп мфрй щрйъп йдйд мдъчйп аъ ".$phpAds_productname.". ан йщ мк щамд мвбй щйад же, ара чша аъ д<i>огшйк магойрйсишиеш</i>, дроца бзбймд щдешгъ.";
+$GLOBALS['strFixProblemsAfter']			= "ан айп бафщшеък мъчп аъ дбтйд щдецвд отмд, ра цеш щш тн дазшай щм дщшъ щтмйе аъд орсд мдъчйп аъ ".$phpAds_productname.". афщш щдеа йелм мтжеш мк ае млееп мфъшеп.";
+$GLOBALS['strIgnoreWarnings']			= "дътмн оажашеъ";
+$GLOBALS['strWarningPHPversion']		= $phpAds_productname." ргшщ PHP 4.0 ае вйшсд вбедд йеъш мщн ъфчег рлеп. аъд ощъощ лтъ бвйшсд {php_version}.";
+$GLOBALS['strWarningRegisterGlobals']		= "черфйвешцйъ  PHP щм дощърд <B>register_globals</B> цшйлд мдйеъ оефтмъ.";
+$GLOBALS['strWarningMagicQuotesGPC']		= "черфйвешцйъ  PHP щм дощърд  <B>magic_quotes_gpc</B>  цшйлд мдйеъ оефтмъ.";
+$GLOBALS['strWarningMagicQuotesRuntime']	= "черфйвешцйъ  PHP щм дощърд  <B>magic_quotes_runtime</B>  цшйлд мдйеъ оефтмъ.";
+$GLOBALS['strWarningFileUploads']		= "черфйвешцйъ  PHP щм дощърд  <B>file_uploads</B>  цшйлд мдйеъ оефтмъ.";
+$GLOBALS['strConfigLockedDetected']		= $phpAds_productname." жйдд щдчебх <b>config.inc.php</b> оевп олъйбд.<br> ма ъелм мдощйк тг щъщрд аъ айщеш двйщд мчебх жд. <br>чша аъ дъйтег доцешу ан айрк йегт лйцг мтщеъ жаъ.";
+$GLOBALS['strCantUpdateDB']  			= "ма рйъп мтглп аъ бсйс дръерйн лтъх ан дзмиъ мдощйк, лм дбаршйн дчййойн, сиийсийчд еофшсойн йозче.";
+$GLOBALS['strIgnoreErrors']			= "дътмн ощвйаеъ";
+$GLOBALS['strRetryUpdate']			= "рсд тглеп озгщ";
+$GLOBALS['strTableNames']			= "щоеъ дибмаеъ";
+$GLOBALS['strTablesPrefix']			= "чйгеоъ щм ибмаеъ";
+$GLOBALS['strTablesType']			= "севй дибмаеъ";
 
-$GLOBALS['strInstallWelcome']			= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ".$phpAds_productname;
-$GLOBALS['strInstallMessage']			= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ-".$phpAds_productname." пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.<br />пїЅпїЅпїЅ <b>пїЅпїЅпїЅпїЅ</b> пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strInstallSuccess']			= "<b>пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ ".$phpAds_productname." пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ.</b><br /><br />пїЅпїЅпїЅ пїЅ- ".$phpAds_productname." пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ. пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ. <br /><br />пїЅпїЅпїЅ <b>пїЅпїЅпїЅпїЅ</b> пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ <B> config.inc.php</B> пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ.";
-$GLOBALS['strUpdateSuccess']			= "<b>пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ ".$phpAds_productname." пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.</b><br /><br />пїЅпїЅпїЅ пїЅ-".$phpAds_productname." пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ tпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ (пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ) пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ. <br /><br />пїЅпїЅпїЅ <b>пїЅпїЅпїЅпїЅ</b> пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ  <B>config.inc.php</B> пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strInstallNotSuccessful']		= "<b>пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ ".$phpAds_productname."пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ</b><br /><br />пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ <b>пїЅпїЅпїЅпїЅ</b> пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strErrorOccured']			= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ:";
-$GLOBALS['strErrorInstallDatabase']		= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strErrorUpgrade'] = 'The existing installation\'s database could not be upgraded.';
-$GLOBALS['strErrorInstallConfig']		= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strErrorInstallDbConnect']		= "пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.";
+$GLOBALS['strInstallWelcome']			= "бшелйн дбайн м".$phpAds_productname;
+$GLOBALS['strInstallMessage']			= "мфрй дщйоещ б-".$phpAds_productname." йщ мтцб аъ ъфчегй дъелрд ейцеш бсйс ръерйн.<br>мзх <b>дощк</b> мдъчгоеъ.";
+$GLOBALS['strInstallSuccess']			= "<b>ддъчрд щм ".$phpAds_productname." дсъййод бшвт жд.</b><br><br>лгй щ- ".$phpAds_productname." ъъфчг рлеп тмйк вн меега щчебх дъзжечд йшех лм щтд. ойгт ресу аегеъ реща жд рйъп моцеа бъйтег доцешу. <br><br>мзх <b>дощк</b> лгй мдвйт мтоег дтйцеб/чйрфев, дйлп щъелм мчбет ръерйн ресфйн. ара ам ъщлз мртем аъ дчебх <B> config.inc.php</B> бшвт щсййоъ, лгй морет фвйтеъ едишгеъ бщшъ.";
+$GLOBALS['strUpdateSuccess']			= "<b>дтглеп щм ".$phpAds_productname." дсъййн бдцмзд.</b><br><br>лгй щ-".$phpAds_productname." ъъфчг рлеп тмйк вн мдбийз щчебх дъзжечд йшех лм щтд (тг тъд деа ргшщ мшех фтн бйен) ойгт ресу бреща жд рйъп моцеа бъйтег доцешу. <br><br>мзх <b>дощк</b> лгй мдвйт мтоег оощч ддрдмд. ара ам ъщлз мртем аъ дчебх  <B>config.inc.php</B> морйтъ бтйеъ абизд.";
+$GLOBALS['strInstallNotSuccessful']		= "<b>ддъчрд щм ".$phpAds_productname."ма дцмйзд</b><br><br>змчйн осейойн оъдмйк ддъчрд ма дещмое. афщш щбтйеъ аме дп жорйеъ бмбг, бочшд жд фщеи мзх <b>дощк</b> еъзжеш мщмб дшащеп щм ъдмйк ддъчрд. ан аъд шецд мгтъ йеъш од аеошеъ дегтеъ дщвйад оид, елйъг мфъеш аеъп, ара дйеетх бъйтег доцешу.";
+$GLOBALS['strErrorOccured']			= "дщвйад дбад чшъд:";
+$GLOBALS['strErrorInstallDatabase']		= "обрд бсйс дръерйн ма йлм мдйеецш.";
+$GLOBALS['strErrorInstallConfig']		= "чебх дчерфйвешцйд ае бсйс дръерйн ма йлме мдътглп.";
+$GLOBALS['strErrorInstallDbConnect']		= "ма рйъп дйд мдъзбш мбсйс дръерйн.";
 
-$GLOBALS['strUrlPrefix']			= "пїЅпїЅпїЅпїЅпїЅпїЅ URL";
+$GLOBALS['strUrlPrefix']			= "чйгеоъ URL";
 
-$GLOBALS['strProceed']				= "пїЅпїЅпїЅпїЅ &gt;";
-$GLOBALS['strRepeatPassword']			= "пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strNotSamePasswords']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strInvalidUserPwd']			= "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strProceed']				= "дощк &gt;";
+$GLOBALS['strInvalidUserPwd']			= "щн ощъощ ае сйсоа фсемйн";
 
-$GLOBALS['strUpgrade']				= "пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strSystemUpToDate']			= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ. <br />пїЅпїЅпїЅ пїЅпїЅ <b>пїЅпїЅпїЅпїЅ</b> пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ.";
-$GLOBALS['strSystemNeedsUpgrade']		= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.<br />пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ.";
-$GLOBALS['strSystemUpgradeBusy']		= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ...";
-$GLOBALS['strSystemRebuildingCache']		= "пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ...";
-$GLOBALS['strServiceUnavalable']		= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strUpgrade']				= "тглеп";
+$GLOBALS['strSystemUpToDate']			= "дотшлъ щмк оелрд еотегръ, ма ргшщ тглеп бшвт жд. <br>мзх тм <b>дощк</b> лгй мдвйт мтоег дбйъ.";
+$GLOBALS['strSystemNeedsUpgrade']		= "обрд бсйс дръерйн ечебх дчерфйвешцйд жчечйн мтглеп лгй щдотшлъ ъъфчг рлерд.<br>ара дъажш бсбмреъ лйееп щъдмйк дтглеп йлем мчзъ лод гчеъ.";
+$GLOBALS['strSystemUpgradeBusy']		= "ъдмйк тглеп дотшлъ бтйцеое, ара доъп...";
+$GLOBALS['strSystemRebuildingCache']		= "берд аъ жлшеп доиоеп озгщ, ара доъп...";
+$GLOBALS['strServiceUnavalable']		= "дщйшеъ айре афщшй жорйъ. ъдмйк тглеп дотшлъ бтйцеое";
 
-$GLOBALS['strConfigNotWritable']		= "пїЅпїЅпїЅпїЅ пїЅ-<B>config.inc.php</B> пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.";
+$GLOBALS['strConfigNotWritable']		= "чебх д-<B>config.inc.php</B> айре рйъп млъйбд.";
 
 
 
@@ -97,239 +101,244 @@ $GLOBALS['strConfigNotWritable']		= "пїЅпїЅпїЅпїЅ пїЅ-<B>config.inc.php</B> пїЅп
 /*-------------------------------------------------------*/
 
 // Global
-$GLOBALS['strChooseSection']			= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strDayFullNames'] 			= array("пїЅпїЅпїЅпїЅпїЅ","пїЅпїЅпїЅ","пїЅпїЅпїЅпїЅпїЅ","пїЅпїЅпїЅпїЅпїЅ","пїЅпїЅпїЅпїЅпїЅ","пїЅпїЅпїЅпїЅ","пїЅпїЅпїЅ");
-$GLOBALS['strEditConfigNotPossible']    	= "пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.<br /> "."пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strEditConfigPossible']		= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ.<br />пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ <B> config.inc.php</B>.";
+$GLOBALS['strChooseSection']			= "бзш озмчд";
+$GLOBALS['strDayFullNames'] 			= array("шащеп","щрй","щмйщй","шбйтй","зойщй","щйщй","щбъ");
+$GLOBALS['strEditConfigNotPossible']    	= "ма рйъп мщреъ чбйтеъ аме лйееп щчебх дчерфйвешцйд ртем осйбеъ бийзеъйеъ.<br> "."ан бшцерк мтшек щйреййн, тмйк мщзшш чебх жд ортймд";
+$GLOBALS['strEditConfigPossible']		= "рйъп мтшек аъ лм дчбйтеъ лйееп щчебх дчерфйвешцйд айре ртем.<br>морйтъ озгм бийзеъй ара ртм аъ дчебх <B> config.inc.php</B>.";
 ;
 
 
 
 // Database
-$GLOBALS['strDatabaseSettings']			= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strDatabaseServer']			= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strDbHost']				= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strDbUser']				= "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strDbPassword']			= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strDbName']				= "пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strDatabaseSettings']			= "чбйтеъ бсйс ръерйн";
+$GLOBALS['strDatabaseServer']			= "щшъ бсйс дръерйн";
+$GLOBALS['strDbLocal']				= "дъзбш мщшъ дочеой баоцтеъ отбшйн (sockets)"; 
+$GLOBALS['strDbHost']				= "дщшъ доашз";
+$GLOBALS['strDbPort']				= "осфш добеа щм бсйс дръерйн (port)";
+$GLOBALS['strDbUser']				= "щн дощъощ ббсйс дръерйн";
+$GLOBALS['strDbPassword']			= "дсйсоа щм бсйс дръерйн";
+$GLOBALS['strDbName']				= "дщн щм бсйс дръерйн";
 
-$GLOBALS['strDatabaseOptimalisations']		= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strPersistentConnections']		= " пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ)";
-$GLOBALS['strCompatibilityMode']		= " пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCantConnectToDb']			= " пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strDatabaseOptimalisations']		= "ййиеб бсйс дръерйн";
+$GLOBALS['strPersistentConnections']		= " дщъощ бзйбеш шцйу (бсйс дръерйн ъфес йеъш)";
+$GLOBALS['strInsertDelayed']			= " дщъощ бдщзмъ ръеп оещдъ (бсйс дръерйн фзеъ швйщ мрфймд ещвйаеъ)";
+$GLOBALS['strCompatibilityMode']		= " дщъощ бъайоеъ бсйс ръерйн";
+$GLOBALS['strCantConnectToDb']			= " ма осевм мдъзбш мбсйс дръерйн";
 
 
 
 // Invocation and Delivery
-$GLOBALS['strInvocationAndDelivery']		= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strInvocationAndDelivery']		= "чбйтеъ щмйфд едфцд щм баршйн";
 
-$GLOBALS['strAllowedInvocationTypes']		= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAllowRemoteInvocation']		= " пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAllowRemoteJavascript']		= " пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ Javascript";
-$GLOBALS['strAllowRemoteFrames']		= " пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAllowRemoteXMLRPC']		= " пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ XML-RPC";
-$GLOBALS['strAllowLocalmode']			= " пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAllowInterstitial']		= " пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strAllowPopups']			= " пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strAllowedInvocationTypes']		= "севй чшйад оеъшйн";
+$GLOBALS['strAllowRemoteInvocation']		= " афщш чшйад ошезчъ";
+$GLOBALS['strAllowRemoteJavascript']		= " афщш чшйад ошезчъ тн чег Javascript";
+$GLOBALS['strAllowRemoteFrames']		= " афщш чшйад ошезчъ мчег освшеъ";
+$GLOBALS['strAllowRemoteXMLRPC']		= " афщш чшйад ошезчъ тн чег XML-RPC";
+$GLOBALS['strAllowLocalmode']			= " афщш дфтмд очеойъ";
+$GLOBALS['strAllowInterstitial']		= " афщш баршйн цфйн";
+$GLOBALS['strAllowPopups']			= " афщш баршйн чефцйн";
 
-$GLOBALS['strUseAcl']				= " пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strUseAcl']				= " дщъощ бдвбмеъ ъцевд";
 
-$GLOBALS['strDeliverySettings']			= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCacheType']				= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCacheFiles']				= "пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCacheDatabase']			= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCacheShmop']				= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ/Shmop";
-$GLOBALS['strCacheSysvshm']				= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ/Sysvshm";
-$GLOBALS['strExperimental']				= "пїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strDeliverySettings']			= "чбйтеъ ъфецд";
+$GLOBALS['strCacheType']				= "сев оиоеп дъфецд";
+$GLOBALS['strCacheFiles']				= "чбцйн";
+$GLOBALS['strCacheDatabase']			= "бсйс ръерйн";
+$GLOBALS['strCacheShmop']				= "жлшеп ощеъу/Shmop";
+$GLOBALS['strCacheSysvshm']				= "жлшеп ощеъу/Sysvshm";
+$GLOBALS['strExperimental']				= "рсйерй";
 
-$GLOBALS['strKeywordRetrieval']			= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strBannerRetrieval']			= " пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strRetrieveRandom']			= " пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ)";
-$GLOBALS['strRetrieveNormalSeq']		= " пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strWeightSeq']			= " пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strFullSeq']				= " пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strUseConditionalKeys']		= " пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strUseMultipleKeys']			= " пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
+$GLOBALS['strKeywordRetrieval']			= "щмйфд мфй оймеъ офъз";
+$GLOBALS['strBannerRetrieval']			= " щйиъ щмйфъ дбаршйн";
+$GLOBALS['strRetrieveRandom']			= " щмйфд ачшайъ (бшйшъ озгм)";
+$GLOBALS['strRetrieveNormalSeq']		= " щмйфд сгшъйъ швймд";
+$GLOBALS['strWeightSeq']			= " щмйфд сгшъйъ обесс ощчм";
+$GLOBALS['strFullSeq']				= " щмйфд сгшъйъ омад";
+$GLOBALS['strUseConditionalKeys']		= " дщъощ боймеъ ърай";
+$GLOBALS['strUseMultipleKeys']			= " дщъощ бшйбей оймеъ офъз";
 
-$GLOBALS['strZonesSettings']			= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strZoneCache']			= " пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ. (пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ.)";
-$GLOBALS['strZoneCacheLimit']			= " пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ)";
-$GLOBALS['strZoneCacheLimitErr']		= " пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strZonesSettings']			= "щмйфд ажешйъ";
+$GLOBALS['strZoneCache']			= " жлшеп оиоеп ажешй. (йайх ъцевд щм баршйн обессй ажеш.)";
+$GLOBALS['strZoneCacheLimit']			= " джоп щбйп тглерй жлшеп оиоеп (бщрйеъ)";
+$GLOBALS['strZoneCacheLimitErr']		= " джоп щбйп тглерй жлшеп оиоеп зййб мдйеъ осфш зйебй";
 
-$GLOBALS['strP3PSettings']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ P3P";
-$GLOBALS['strUseP3P']				= " пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ P3P";
-$GLOBALS['strP3PCompactPolicy']			= "пїЅпїЅпїЅпїЅпїЅпїЅ P3P пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strP3PPolicyLocation']		= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ-P3P";
+$GLOBALS['strP3PSettings']			= "фемйсеъ фшийеъ осев P3P";
+$GLOBALS['strUseP3P']				= " дщъощ бфемйсеъ P3P";
+$GLOBALS['strP3PCompactPolicy']			= "фемйсъ P3P чеофчийъ";
+$GLOBALS['strP3PPolicyLocation']		= "ойчен фемйсъ д-P3P";
 
 
 
 // Banner Settings
-$GLOBALS['strBannerSettings']			= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strBannerSettings']			= "чбйтеъ баршйн";
 
-$GLOBALS['strAllowedBannerTypes']		= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTypeSqlAllow']			= " пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (SQL)";
-$GLOBALS['strTypeWebAllow']			= " пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (Webserver)";
-$GLOBALS['strTypeUrlAllow']			= " пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTypeHtmlAllow']			= " пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ HTML";
-$GLOBALS['strTypeTxtAllow']			= " пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strAllowedBannerTypes']		= "севй баршйн оеъшйн";
+$GLOBALS['strTypeSqlAllow']			= " афщш баршйн очеоййн (SQL)";
+$GLOBALS['strTypeWebAllow']			= " афщш баршйн очеоййн (Webserver)";
+$GLOBALS['strTypeUrlAllow']			= " афщш баршйн зйцерййн";
+$GLOBALS['strTypeHtmlAllow']			= " афщш баршйн очег HTML";
+$GLOBALS['strTypeTxtAllow']			= " афщш баршйн ичсиеамййн";
 
-$GLOBALS['strTypeWebSettings']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅ)";
-$GLOBALS['strTypeWebMode']			= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTypeWebModeLocal']			= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTypeWebModeFtp']			= "пїЅпїЅпїЅ FTP пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTypeWebDir']			= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTypeWebFtp']			= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ FTP";
-$GLOBALS['strTypeWebUrl']			= "пїЅпїЅпїЅпїЅпїЅ URL пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTypeWebSslUrl']			= "Public URL (SSL)";
-$GLOBALS['strTypeFTPHost']			= "пїЅпїЅпїЅпїЅ FTP";
-$GLOBALS['strTypeFTPDirectory']			= "пїЅпїЅпїЅпїЅпїЅпїЅ FTP";
-$GLOBALS['strTypeFTPUsername']			= "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTypeFTPPassword']			= "пїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strTypeWebSettings']			= "черфйвешцййъ барш очеой (дщшъ)";
+$GLOBALS['strTypeWebMode']			= "щйиъ айзсеп";
+$GLOBALS['strTypeWebModeLocal']			= "ъйчййд очеойъ";
+$GLOBALS['strTypeWebModeFtp']			= "щшъ FTP зйцерй";
+$GLOBALS['strTypeWebDir']			= "ъйчййд очеойъ";
+$GLOBALS['strTypeWebFtp']			= "щшъ баршйн бъцешъ FTP";
+$GLOBALS['strTypeWebUrl']			= "лъебъ URL цйбешйъ";
+$GLOBALS['strTypeFTPHost']			= "оашз FTP";
+$GLOBALS['strTypeFTPDirectory']			= "ъйчййъ FTP";
+$GLOBALS['strTypeFTPUsername']			= "щн ощъощ";
+$GLOBALS['strTypeFTPPassword']			= "сйсоа";
 
-$GLOBALS['strTypeFTPErrorDir']			= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTypeFTPErrorConnect']		= "пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ-FTP, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTypeFTPErrorHost']			= "пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅ-FTP пїЅпїЅпїЅпїЅ";
-$GLOBALS['strTypeDirError']				= "TпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strTypeFTPErrorDir']			= "ъйчййъ дщшъ айрд чййоъ";
+$GLOBALS['strTypeFTPErrorConnect']		= "ма рйъп дйд мдъзбш мщшъ д-FTP, щн дощъощ ае дсйсоа щвеййн";
+$GLOBALS['strTypeFTPErrorHost']			= "щн щшъ д-FTP айре рлеп";
+$GLOBALS['strTypeFTPErrorDir']			= "ъчййъ доашз айрд чййоъ";
+$GLOBALS['strTypeFTPErrorConnect']		= "ма рйъп мдъзбш мщшъ д-FTP, щн дощъощ ае дсйсоа щвеййн";
+$GLOBALS['strTypeFTPErrorHost']			= "щн дщшъ доашз аъ д-FTP щвей";
+$GLOBALS['strTypeDirError']				= "дъйчййд дочеойъ айрд чййоъ";
 
 
 
-$GLOBALS['strDefaultBanners']			= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strDefaultBannerUrl']			= "пїЅпїЅпїЅпїЅпїЅ URL пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strDefaultBannerTarget']		= "пїЅпїЅпїЅпїЅпїЅ URL пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strDefaultBanners']			= "баршйн лбшйшъ озгм змефйъ";
+$GLOBALS['strDefaultBannerUrl']			= "лъебъ URL щм барш змефй";
+$GLOBALS['strDefaultBannerTarget']		= "лъебъ URL лоишд змефйъ";
 
-$GLOBALS['strTypeHtmlSettings']			= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ HTML";
-$GLOBALS['strTypeHtmlAuto']			= " пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strTypeHtmlPhp']			= " пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ PHP пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ HTML ";
+$GLOBALS['strTypeHtmlSettings']			= "аефцйеъ барш HTML";
+$GLOBALS['strTypeHtmlAuto']			= " щрд аъ дчег аеиеоийъ лгй мафщш отчб азш дчмчеъ.";
+$GLOBALS['strTypeHtmlPhp']			= " афщш ййщен бйиейй PHP оъек баршйн осев HTML ";
 
 
 
 // Host information and Geotargeting
-$GLOBALS['strHostAndGeo']				= "Host information and Geotargeting";
-$GLOBALS['strRemoteHosts']			= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strHostAndGeo']				= "ойгт сфчйъ еотчб вйаевшфй (Geotargeting)";
+$GLOBALS['strRemoteHosts']			= "щшъйн ошезчйн";
 
-$GLOBALS['strReverseLookup']			= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strProxyLookup']				= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ--IP aпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (proxy).";
+$GLOBALS['strReverseLookup']			= "рсд мчбет аъ сфчйъ дщйшеъ щм добчш ан дръеп ма овйт одщшъ";
+$GLOBALS['strProxyLookup']				= "рсд мчбет аъ лъебъ д-IP даойъйъ щм добчш ан деа ощъощ боавш бйрййн (proxy).";
 
-$GLOBALS['strGeotargeting']				= "Geotargeting - пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strGeotrackingType']			= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strGeotrackingLocation'] 		= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strGeoStoreCookie']			= "пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (cookie) пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strGeotargeting']				= "Geotargeting - ойчег вйаевшфй";
+$GLOBALS['strGeotrackingType']			= "сев оавш отчб";
+$GLOBALS['strGeotrackingLocation'] 		= "ойчен оавш отчб";
+$GLOBALS['strGeotrackingLocationError'] = "оавш дръерйн щм отчб вйаевшфй айре роца бойчен щросш";
+$GLOBALS['strGeoStoreCookie']			= "щоеш аъ дъецад бчечй (cookie) мдъйзсеъ тъйгйъ";
 
 
 
 // Statistics Settings
-$GLOBALS['strStatisticsSettings']		= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strStatisticsSettings']		= "чбйтеъ сиийсийчд";
 
-$GLOBALS['strStatisticsFormat']			= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCompactStats']			= " пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strLogAdviews']			= " пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strLogAdclicks']				= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strLogSource']				= "Log the source parameter specified during invocation";
-$GLOBALS['strGeoLogStats']				= "Log the country of the visitor in the statistics";
-$GLOBALS['strLogHostnameOrIP']			= "Log the hostname or IP address of the visitor";
-$GLOBALS['strLogIPOnly']				= "Only log the IP address of the visitor even if the hostname is known";
-$GLOBALS['strLogIP']					= "Log the IP address of the visitor";
-$GLOBALS['strLogBeacon']			= " пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-
-
-$GLOBALS['strIgnoreHosts']				= "пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ-IP пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strBlockAdviews']				= "пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strBlockAdclicks']			= "пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strStatisticsFormat']			= "ъцешъ сиийсийчд";
+$GLOBALS['strCompactStats']			= " дщъощ бсиийсийчд чеофчийъ";
+$GLOBALS['strLogAdviews']			= " ътг зщйфеъ";
+$GLOBALS['strLogAdclicks']				= "ътг дчмчд блм фтн щдобчш мезх тм барш";
+$GLOBALS['strLogSource']				= "ътг аъ ръерй дочеш доевгшйн бжоп дзщйфд";
+$GLOBALS['strGeoLogStats']				= "ътг бсиийсийчд аъ дашх оорд овйт добчш";
+$GLOBALS['strLogHostnameOrIP']			= "ътг аъ сфчйъ дщйшеъ ае лъебъ д-IP щм добчш";
+$GLOBALS['strLogIPOnly']				= "ътг аъ лъебъ д-IP щм добчш афйме ан щн дсфчйъ йгет";
+$GLOBALS['strLogIP']					= "ътг аъ лъебъ д-IP щм добчш";
+$GLOBALS['strLogBeacon']			= " дщъощ баъъйн мъйтег зщйфеъ";
 
 
-$GLOBALS['strEmailWarnings']			= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAdminEmailHeaders']		= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.";
-$GLOBALS['strWarnLimitErr']			= "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strWarnLimit']			= "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ)";
+$GLOBALS['strIgnoreHosts']				= "ам ъътг сиийсийчд ообчшйн дощъощйн базг оосфшй д-IP ае щоеъ доашзйн дбайн";
+$GLOBALS['strBlockAdviews']				= "ам ъътг зщйфеъ ан добчш лбш рзщу мбарш джд бодмк осфш дщрйеъ дрчеб.";
+$GLOBALS['strBlockAdclicks']			= "ам ъътг дчмчеъ ан добчш лбш мзх тм аеъе дбарш бодмк осфш дщрйеъ дрчеб";
 
-$GLOBALS['strWarnAdmin']			= " пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strWarnClient']			= " пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strQmailPatch']			= " пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ qmail ";
 
-$GLOBALS['strAutoCleanTables']			= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAutoCleanStats']			= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAutoCleanUserlog']			= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strAutoCleanStatsWeeks']		= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ <br />(3 пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)";
-$GLOBALS['strAutoCleanUserlogWeeks']		= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ <br />(3 пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)";
-$GLOBALS['strAutoCleanErr']			= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ 3 пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAutoCleanVacuum']			= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ"; // only Pg
+$GLOBALS['strPreventLogging']			= "орт дъзбшеъ";
+$GLOBALS['strEmailWarnings']			= "аъшад байоййм";
+$GLOBALS['strAdminEmailHeaders']		= "десу аъ длеъшъ дбад млм айоййм щйщмз тм йгй ".$phpAds_productname;
+$GLOBALS['strWarnLimit']				= "щмз аъшад лащш осфш дзщйфеъ дреъш дйре фзеъ одрчеб лап";
+
+$GLOBALS['strWarnAdmin']			= " щмз дъшаъ ордм блм фтн щчофйп осеййн мфрй сйеое";
+$GLOBALS['strWarnClient']			= " щмз дъшаъ офшсн блм фтн щдчофйп щме мфрй сйен";
+$GLOBALS['strQmailPatch']			= " афщш имай qmail ";
+
+$GLOBALS['strAutoCleanTables']			= " гймем бсйс дръерйн";
+$GLOBALS['strAutoCleanStats']			= " гймем сиийсийчд";
+$GLOBALS['strAutoCleanUserlog']			= " гймем ъйтег ощъощ";
+$GLOBALS['strAutoCleanStatsWeeks']		= " вйм ойшбй щм сиийсийчд <br>(3 щбетеъ ойрйоен)";
+$GLOBALS['strAutoCleanUserlogWeeks']		= " вйм ойшбй щм ъйтег ощъощ <br>(3 щбетеъ ойрйоен)";
+$GLOBALS['strAutoCleanErr']			= " вйм ойшбй зййб мйдеъ 3 щбетеъ мфзеъ";
+$GLOBALS['strAutoCleanVacuum']			= " бцт рйчйеп лммй аеиеоийъ лм мймд"; // only Pg
 
 
 // Administrator settings
-$GLOBALS['strAdministratorSettings']		= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strAdministratorSettings']		= "чбйтеъ ойрдмд";
 
-$GLOBALS['strLoginCredentials']			= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAdminUsername']			= "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅ";
-$GLOBALS['strOldPassword']			= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strNewPassword']			= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strInvalidUsername']			= "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strInvalidPassword']			= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strLoginCredentials']			= "дшщаеъ дъзбшеъ";
+$GLOBALS['strAdminUsername']			= "щн дощъощ - ордм";
+$GLOBALS['strInvalidUsername']			= "щн ощъощ фсем";
 
-$GLOBALS['strBasicInformation']			= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAdminFullName']			= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAdminEmail']			= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strCompanyName']			= "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strBasicInformation']			= "ойгт бсйсй";
+$GLOBALS['strAdminFullName']			= "дщн дома щм дордм";
+$GLOBALS['strAdminEmail']			= "лъебъ дайоййм щм дордм";
+$GLOBALS['strCompanyName']			= "щн дзбшд/айвег";
 
-$GLOBALS['strAdminCheckUpdates']		= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAdminCheckEveryLogin']		= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAdminCheckDaily']			= "пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAdminCheckWeekly']			= "пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAdminCheckMonthly']		= "пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAdminCheckNever']			= "пїЅпїЅ пїЅпїЅпїЅ";
+$GLOBALS['strAdminCheckUpdates']		= "бгеч тглерйн";
+$GLOBALS['strAdminCheckEveryLogin']		= "блм дъзбшеъ";
+$GLOBALS['strAdminCheckDaily']			= "йеойъ";
+$GLOBALS['strAdminCheckWeekly']			= "щбетйъ";
+$GLOBALS['strAdminCheckMonthly']		= "зегщйъ";
+$GLOBALS['strAdminCheckNever']			= "ау фтн";
 
-$GLOBALS['strAdminNovice']			= " пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strUserlogEmail']			= " пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strUserlogPriority']			= " пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ";
-$GLOBALS['strUserlogAutoClean']			= " пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strAdminNovice']			= " фтемеъ дозйчд щм дордм гешщеъ айщеш лощрд ждйшеъ";
+$GLOBALS['strUserlogEmail']			= " ътг аъ лм дайоййм дйеца";
+$GLOBALS['strUserlogPriority']			= " ътг аъ щчмемй дчгйоейеъ лм щтд";
+$GLOBALS['strUserlogAutoClean']			= " ътг рйчей аеиеоий щм бсйс дръерйн";
 
 
 // User interface settings
-$GLOBALS['strGuiSettings']			= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strGuiSettings']			= "чбйтеъ оощч ощъощ";
 
-$GLOBALS['strGeneralSettings']			= "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strAppName']				= "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strMyHeader']				= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ:";
-$GLOBALS['strMyFooter']				= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ:";
-$GLOBALS['strGzipContentCompression']		= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅ GZIP";
+$GLOBALS['strGeneralSettings']			= "чбйтеъ лммйеъ";
+$GLOBALS['strAppName']				= "щн дййщен щйецв";
+$GLOBALS['strMyHeader']				= "леъшъ дтоег щмй роцаъ блъебъ:";
+$GLOBALS['strMyHeaderError']		= "леъшъ дтоег ма роцад бойчен щршщн";
+$GLOBALS['strMyFooter']				= "ъзъйъ дтоег щмй роцаъ блъебъ:";
+$GLOBALS['strMyFooterError']		= "ъзъйъ дтоег ма роцад бойчен щршщн";
+$GLOBALS['strGzipContentCompression']		= "дщъощ бгзйсъ-ълемд GZIP";
 
-$GLOBALS['strClientInterface']			= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strClientWelcomeEnabled']		= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strClientWelcomeText']		= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ...<br />(пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ HTML)";
+$GLOBALS['strClientInterface']			= "оощч офшсн";
+$GLOBALS['strClientWelcomeEnabled']		= "афщш дегтъ оймеъ дчгод бдъзбшеъ дофшсн";
+$GLOBALS['strClientWelcomeText']		= "дегтъ дчгод/бшлъ бшелйн дбайн...<br>(афщшй щйоещ бъвй HTML)";
 
 
 
 // Interface defaults
-$GLOBALS['strInterfaceDefaults']		= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strInterfaceDefaults']		= "бшйшъ озгм оощчйъ";
 
-$GLOBALS['strInventory']			= "пїЅпїЅпїЅпїЅ";
-$GLOBALS['strShowCampaignInfo']			= " пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ <i>пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ</i>";
-$GLOBALS['strShowBannerInfo']			= " пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ <i>пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ</i>";
-$GLOBALS['strShowCampaignPreview']		= " пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ <i>пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ</i>";
-$GLOBALS['strShowBannerHTML']			= " пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ  HTML, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ HTML";
-$GLOBALS['strShowBannerPreview']		= " пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strHideInactive']			= " пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strGUIShowMatchingBanners']		= " пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ <i>пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ</i>";
-$GLOBALS['strGUIShowParentCampaigns']		= " пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ <i>пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ</i>";
-$GLOBALS['strGUILinkCompactLimit']		= " пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ <i>пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ</i>, пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ-";
+$GLOBALS['strInventory']			= "оцай";
+$GLOBALS['strShowCampaignInfo']			= " дцв ойгт ресу тбеш чофййп бтоег <i>счйшъ чофййп</i>";
+$GLOBALS['strShowBannerInfo']			= " дцв ойгт ресу тбеш барш бтоег <i>счйшъ баршйн</i>";
+$GLOBALS['strShowCampaignPreview']		= " ъцевд очгоъ щм лм дбаршйн бтоег <i>счйшъ баршйн</i>";
+$GLOBALS['strShowBannerHTML']			= " дцв барш оощй бочен чег швйм щм  HTML, боцб ъцевъ баршйн осев HTML";
+$GLOBALS['strShowBannerPreview']		= " ъцевд очгйод щм баршйн блеъшъ дтоег дтесч ббаршйн";
+$GLOBALS['strHideInactive']			= " дсъш фшийн ма фтймйн блм тоегй ъцевд очгйод";
+$GLOBALS['strGUIShowMatchingBanners']		= " дцв баршйн ъеаойн бтоегй <i>баршйн очещшйн</i>";
+$GLOBALS['strGUIShowParentCampaigns']		= " дшад чофййп-аб бтоегй <i>баршйн очещшйн</i>";
+$GLOBALS['strGUILinkCompactLimit']		= " дсъш чофййрйн ма чщешйн ае баршйн, бтоегй <i>барш очещш</i>, лащш йщ йеъш о-";
 
-$GLOBALS['strStatisticsDefaults'] 		= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strBeginOfWeek']			= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strPercentageDecimals']		= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strStatisticsDefaults'] 		= "сиийсийчд";
+$GLOBALS['strBeginOfWeek']			= "дщбет оъзйм бйен";
+$GLOBALS['strPercentageDecimals']		= "рчегд тщшерйъ";
 
-$GLOBALS['strWeightDefaults']			= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ)";
-$GLOBALS['strDefaultBannerWeight']		= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ)";
-$GLOBALS['strDefaultCampaignWeight']		= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ)";
-$GLOBALS['strDefaultBannerWErr']		= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strDefaultCampaignWErr']		= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
+$GLOBALS['strWeightDefaults']			= "ощчм дъзмъй (бшйшъ озгм)";
+$GLOBALS['strDefaultBannerWeight']		= "ощчм барш дъзмъй (бшйшъ озгм)";
+$GLOBALS['strDefaultCampaignWeight']		= "ощчм чофййп дъзмъй (бшйшъ озгм)";
+$GLOBALS['strDefaultBannerWErr']		= "ощчм дъзмъй щм барш цшйк мдйеъ осфш зйебй";
+$GLOBALS['strDefaultCampaignWErr']		= "ощчм чофййп дъзмъй зййб мдйеъ осфш зйебй";
 
 
 // Not used at the moment
-$GLOBALS['strTableBorderColor']			= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTableBackColor']			= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
-$GLOBALS['strTableBackColorAlt']		= "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ  пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ(пїЅпїЅпїЅпїЅпїЅ)";
-$GLOBALS['strMainBackColor']			= "пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
-$GLOBALS['strOverrideGD']			= "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ GD";
-$GLOBALS['strTimeZone']				= "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ";
+$GLOBALS['strTableBorderColor']			= "цбт досвшъ щм дибмд";
+$GLOBALS['strTableBackColor']			= "цбт дшчт щм дибмд";
+$GLOBALS['strTableBackColorAlt']		= "цбт дшчт  щм дибмд(змефй)";
+$GLOBALS['strMainBackColor']			= "цбт шчт шащй";
+$GLOBALS['strOverrideGD']			= "алеу ъоерд бъцешъ GD";
+$GLOBALS['strTimeZone']				= "айжеш жоп";
 
 
 ?>

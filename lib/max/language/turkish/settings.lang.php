@@ -28,74 +28,72 @@
 $Id$
 */
 /* Turkish Translation by :												*/
-/* 		Metin AKTAï¿½ (metin@yapayzeka.net)								*/
-/* 		Bï¿½nyamin VICIL (bunyamin@yapayzeka.net)					        */
+/* 		Metin AKTAÞ (metin@yapayzeka.net)								*/
+/* 		Bünyamin VICIL (bunyamin@yapayzeka.net)					        */
 /*----------------------------------------------------------------------*/
-
 
 // Installer translation strings
 $GLOBALS['strInstall']				= "Kurulum";
-$GLOBALS['strChooseInstallLanguage']		= "Kurulum sï¿½recinde kullanacaï¿½nï¿½z dili seï¿½iniz";
-$GLOBALS['strLanguageSelection']		= "Dil Seï¿½imi";
-$GLOBALS['strDatabaseSettings']			= "Veritabanï¿½ Ayarlarï¿½";
-$GLOBALS['strAdminSettings']			= "Yï¿½netici Ayarlarï¿½";
-$GLOBALS['strAdvancedSettings']			= "Geliï¿½miï¿½ Ayarlar";
-$GLOBALS['strOtherSettings']			= "Diï¿½er Ayarlar";
+$GLOBALS['strChooseInstallLanguage']		= "Kurulum sürecinde kullanacaðnýz dili seçiniz";
+$GLOBALS['strLanguageSelection']		= "Dil Seçimi";
+$GLOBALS['strDatabaseSettings']			= "Veritabaný Ayarlarý";
+$GLOBALS['strAdminSettings']			= "Yönetici Ayarlarý";
+$GLOBALS['strAdvancedSettings']			= "Geliþmiþ Ayarlar";
+$GLOBALS['strOtherSettings']			= "Diðer Ayarlar";
 
-$GLOBALS['strWarning']				= "Uyarï¿½";
-$GLOBALS['strFatalError']			= "Tehlikeli hata oluï¿½tu";
-$GLOBALS['strAlreadyInstalled']			= $phpAds_productname." programï¿½ bu sistemde zaten kurulu. Ayarlarï¿½ dï¿½zenlemek istiyorsanï¿½z <a href='settings-index.php'>ayarlar bï¿½lï¿½mï¿½ne</a> gidiniz";
-$GLOBALS['strCouldNotConnectToDB']		= "Veritabanï¿½na baï¿½lanï¿½lamadï¿½, lï¿½tfen belirtmiï¿½ olduï¿½unuz ayarlarï¿½ kontrol ediniz";
-$GLOBALS['strCreateTableTestFailed']		= "Belirtmiï¿½ olduï¿½unuz kullanï¿½cï¿½ veritabanï¿½ yapï¿½sï¿½na ekleme yapma iznine sahip deï¿½il, veritabanï¿½ yï¿½neticinizle irtibata geï¿½iniz.";
-$GLOBALS['strUpdateTableTestFailed']		= "Belirtmiï¿½ olduï¿½unuz kullanï¿½cï¿½ veritabanï¿½ yapï¿½sï¿½nï¿½ deï¿½iï¿½tirme iznine sahip deï¿½il, veritabanï¿½ yï¿½neticinizle irtibata geï¿½iniz.";
-$GLOBALS['strTablePrefixInvalid']		= "Tablo ï¿½nadlarï¿½ geï¿½ersiz karakter iï¿½eriyor";
-$GLOBALS['strTableInUse']			= "Belirtmiï¿½ olduï¿½unuz ï¿½nadlar ".$phpAds_productname." programï¿½ tarafï¿½ndan kullanï¿½lï¿½yor, lï¿½tfen farklï¿½ ï¿½nad tanï¿½mlayï¿½n, veya klavuzu okuyunuz.";
-$GLOBALS['strMayNotFunction']			= "Devam etmeden ï¿½nce aï¿½aï¿½ï¿½daki problemleri dï¿½zeltiniz:";
-$GLOBALS['strIgnoreWarnings']			= "Hatalarï¿½ yoksay";
-$GLOBALS['strWarningPHPversion']		= $phpAds_productname." programï¿½ PHP 4.0 ve ï¿½zeri sï¿½rï¿½mleri daha iyi ï¿½alï¿½ï¿½masï¿½ iï¿½in destekler. ï¿½u anda PHPnin {php_version} sï¿½rï¿½mï¿½nï¿½ kullanï¿½yorsunuz.";
-$GLOBALS['strWarningRegisterGlobals']		= "PHP ayarlarï¿½ndaki register_globals deï¿½iï¿½keni <b>on</b> olmalï¿½dï¿½r.";
-$GLOBALS['strWarningMagicQuotesGPC']		= "PHP ayarlarï¿½ndaki magic_quotes_gpc deï¿½iï¿½keni <b>on</b> olmalï¿½dï¿½r.";
-$GLOBALS['strWarningMagicQuotesRuntime']	= "PHP ayarlarï¿½ndaki magic_quotes_runtime deï¿½iï¿½keni <b>off</b> olmalï¿½dï¿½r.";
-$GLOBALS['strWarningFileUploads']		= "PHP ayarlarï¿½ndaki file_uploads deï¿½iï¿½keni <b>on</b> olmalï¿½dï¿½r.";
-$GLOBALS['strConfigLockedDetected']		= $phpAds_productname." programï¿½ <b>config.inc.php</b> dosyasï¿½nï¿½n gï¿½ncellenemediï¿½ini tespit etti.<br /> Dosyanï¿½n izinlerini deï¿½iï¿½tirmeden kurulum iï¿½lemini gerï¿½ekleï¿½tiremezsiniz. <br />Bunun nasï¿½l yapï¿½lacaï¿½ï¿½nï¿½ bilmiyorsanï¿½z lï¿½tfen klavuzu okuyunuz.";
-$GLOBALS['strCantUpdateDB']  			= "ï¿½u anda veritabanï¿½nï¿½ gï¿½ncelleme izni yok. Eï¿½er devam etmek istiyorsanï¿½z, tï¿½m bannerlar, istatistikler ve reklamlarsilinecek.";
+$GLOBALS['strWarning']				= "Uyarý";
+$GLOBALS['strFatalError']			= "Tehlikeli hata oluþtu";
+$GLOBALS['strAlreadyInstalled']			= $phpAds_productname." programý bu sistemde zaten kurulu. Ayarlarý düzenlemek istiyorsanýz <a href='settings-index.php'>ayarlar bölümüne</a> gidiniz";
+$GLOBALS['strCouldNotConnectToDB']		= "Veritabanýna baðlanýlamadý, lütfen belirtmiþ olduðunuz ayarlarý kontrol ediniz";
+$GLOBALS['strCreateTableTestFailed']		= "Belirtmiþ olduðunuz kullanýcý veritabaný yapýsýna ekleme yapma iznine sahip deðil, veritabaný yöneticinizle irtibata geçiniz.";
+$GLOBALS['strUpdateTableTestFailed']		= "Belirtmiþ olduðunuz kullanýcý veritabaný yapýsýný deðiþtirme iznine sahip deðil, veritabaný yöneticinizle irtibata geçiniz.";
+$GLOBALS['strTablePrefixInvalid']		= "Tablo önadlarý geçersiz karakter içeriyor";
+$GLOBALS['strTableInUse']			= "Belirtmiþ olduðunuz önadlar ".$phpAds_productname." programý tarafýndan kullanýlýyor, lütfen farklý önad tanýmlayýn, veya klavuzu okuyunuz.";
+$GLOBALS['strMayNotFunction']			= "Devam etmeden önce aþaðýdaki problemleri düzeltiniz:";
+$GLOBALS['strIgnoreWarnings']			= "Hatalarý yoksay";
+$GLOBALS['strWarningPHPversion']		= $phpAds_productname." programý PHP 4.0 ve üzeri sürümleri daha iyi çalýþmasý için destekler. þu anda PHPnin {php_version} sürümünü kullanýyorsunuz.";
+$GLOBALS['strWarningRegisterGlobals']		= "PHP ayarlarýndaki register_globals deðiþkeni <b>on</b> olmalýdýr.";
+$GLOBALS['strWarningMagicQuotesGPC']		= "PHP ayarlarýndaki magic_quotes_gpc deðiþkeni <b>on</b> olmalýdýr.";
+$GLOBALS['strWarningMagicQuotesRuntime']	= "PHP ayarlarýndaki magic_quotes_runtime deðiþkeni <b>off</b> olmalýdýr.";
+$GLOBALS['strWarningFileUploads']		= "PHP ayarlarýndaki file_uploads deðiþkeni <b>on</b> olmalýdýr.";
+$GLOBALS['strConfigLockedDetected']		= $phpAds_productname." programý <b>config.inc.php</b> dosyasýnýn güncellenemediðini tespit etti.<br> Dosyanýn izinlerini deðiþtirmeden kurulum iþlemini gerçekleþtiremezsiniz. <br>Bunun nasýl yapýlacaðýný bilmiyorsanýz lütfen klavuzu okuyunuz.";
+$GLOBALS['strCantUpdateDB']  			= "Þu anda veritabanýný güncelleme izni yok. Eðer devam etmek istiyorsanýz, tüm bannerlar, istatistikler ve reklamlarsilinecek.";
 $GLOBALS['strTableNames']			= "Tablo isimleri";
-$GLOBALS['strTablesPrefix']			= "Tablo isim ï¿½nadlarï¿½";
+$GLOBALS['strTablesPrefix']			= "Tablo isim önadlarý";
 $GLOBALS['strTablesType']			= "Tablo tipleri";
 
-$GLOBALS['strInstallWelcome']			= "Hoï¿½geldiniz ".$phpAds_productname;
-$GLOBALS['strInstallMessage']			= $phpAds_productname." programï¿½ kullnmaya baï¿½lamadan ï¿½nce ayarlanmasï¿½ ve <br /> veritabanï¿½nï¿½n oluï¿½turulmasï¿½ gerekiyor. Devam etmek iï¿½in <b>ï¿½lerleye</b> tï¿½klayï¿½nyz.";
-$GLOBALS['strInstallSuccess']			= "<b>".$phpAds_productname." kurulumu tamamlandï¿½.</b><br /><br />".$phpAds_productname." programï¿½nï¿½n dï¿½zgï¿½n ï¿½alï¿½ï¿½masï¿½ iï¿½in bakï¿½m programï¿½nï¿½n
-						   her saat ï¿½alï¿½ï¿½masï¿½ gerekmektedir. Bu konuyla ilgili detaylï¿½ bilgiyi dï¿½kï¿½manlarda bulabilirsiniz.
-						   <br /><br />Ayarlama sayfasï¿½na gitmek iï¿½in <b>ï¿½leri</b>yi tï¿½klayï¿½nï¿½z. <br />
-						   Lï¿½tfen iï¿½lemlerinizi bitirdikten sonra config.inc.php dosyasï¿½nï¿½n deï¿½iï¿½iklik iznini kilitleyiniz.";
-$GLOBALS['strUpdateSuccess']			= "<b> ".$phpAds_productname." gï¿½ncellemeleri baï¿½arï¿½yla yï¿½klendi.</b><br /><br />".$phpAds_productname." programï¿½nï¿½n dï¿½zenli olarak ï¿½alï¿½ï¿½masï¿½ iï¿½in 
-						   her saat bakï¿½m programï¿½nï¿½ ï¿½alï¿½ï¿½tï¿½rï¿½nï¿½z (Daha ï¿½nceki sï¿½rï¿½mlerde bu gï¿½nde bir defa idi). Bu konuyla ilgili detaylï¿½ bilgiyi dï¿½kï¿½manlarda bulabilirsiniz.
-						   <br /><br />Yï¿½netici paneline gitmek iï¿½in <b>ï¿½leri</b>yi tï¿½klayï¿½nï¿½z. Lï¿½tfen iï¿½lemlerinizi bitirdikten sonra config.inc.php dosyasï¿½nï¿½n deï¿½iï¿½iklik iznini kilitleyiniz.";
-$GLOBALS['strInstallNotSuccessful']		= "<b>".$phpAds_productname." kurulumu gerï¿½ekleï¿½tirilemedi.</b><br /><br />Kurulum sï¿½recinin bazï¿½ bï¿½lï¿½mleri ï¿½alï¿½ï¿½amadï¿½.
-						   Bu problemler geï¿½ici olabilir, kurulumun ilk adï¿½mï¿½na dï¿½nmek iï¿½in <b>ï¿½leri</b>yi tï¿½klayï¿½nï¿½z. Aï¿½aï¿½ï¿½daki hatalarï¿½n ne manaya geldiï¿½ini ï¿½ï¿½renmek ve ï¿½ï¿½zmek istiyorsanï¿½z, 
-						   dï¿½kï¿½manlara baï¿½vurunuz.";
-$GLOBALS['strErrorOccured']			= "Aï¿½aï¿½ï¿½daki hatalar oluï¿½tu:";
-$GLOBALS['strErrorInstallDatabase']		= "Veritabanï¿½ yapï¿½sï¿½ oluï¿½turulamï¿½yor.";
-$GLOBALS['strErrorUpgrade'] = 'The existing installation\'s database could not be upgraded.';
-$GLOBALS['strErrorInstallConfig']		= "Ayar dosyasï¿½ veya veritabanï¿½ dï¿½zenlenemiyor.";
-$GLOBALS['strErrorInstallDbConnect']		= "Veritabanï¿½na baï¿½lantï¿½ saï¿½lanamï¿½yor.";
+$GLOBALS['strInstallWelcome']			= "Hoþgeldiniz ".$phpAds_productname;
+$GLOBALS['strInstallMessage']			= $phpAds_productname." programý kullnmaya baþlamadan önce ayarlanmasý ve <br> veritabanýnýn oluþturulmasý gerekiyor. Devam etmek için <b>Ýlerleye</b> týklayýnyz.";
+$GLOBALS['strInstallSuccess']			= "<b>".$phpAds_productname." kurulumu tamamlandý.</b><br><br>".$phpAds_productname." programýnýn düzgün çalýþmasý için bakým programýnýn
+						   her saat çalýþmasý gerekmektedir. Bu konuyla ilgili detaylý bilgiyi dökümanlarda bulabilirsiniz.
+						   <br><br>Ayarlama sayfasýna gitmek için <b>Ýleri</b>yi týklayýnýz. <br>
+						   Lütfen iþlemlerinizi bitirdikten sonra config.inc.php dosyasýnýn deðiþiklik iznini kilitleyiniz.";
+$GLOBALS['strUpdateSuccess']			= "<b> ".$phpAds_productname." güncellemeleri baþarýyla yüklendi.</b><br><br>".$phpAds_productname." programýnýn düzenli olarak çalýþmasý için 
+						   her saat bakým programýný çalýþtýrýnýz (Daha önceki sürümlerde bu günde bir defa idi). Bu konuyla ilgili detaylý bilgiyi dökümanlarda bulabilirsiniz.
+						   <br><br>Yönetici paneline gitmek için <b>Ýleri</b>yi týklayýnýz. Lütfen iþlemlerinizi bitirdikten sonra config.inc.php dosyasýnýn deðiþiklik iznini kilitleyiniz.";
+$GLOBALS['strInstallNotSuccessful']		= "<b>".$phpAds_productname." kurulumu gerçekleþtirilemedi.</b><br><br>Kurulum sürecinin bazý bölümleri çalýþamadý.
+						   Bu problemler geçici olabilir, kurulumun ilk adýmýna dönmek için <b>Ýleri</b>yi týklayýnýz. Aþaðýdaki hatalarýn ne manaya geldiðini öðrenmek ve çözmek istiyorsanýz, 
+						   dökümanlara baþvurunuz.";
+$GLOBALS['strErrorOccured']			= "Aþaðýdaki hatalar oluþtu:";
+$GLOBALS['strErrorInstallDatabase']		= "Veritabaný yapýsý oluþturulamýyor.";
+$GLOBALS['strErrorInstallConfig']		= "Ayar dosyasý veya veritabaný düzenlenemiyor.";
+$GLOBALS['strErrorInstallDbConnect']		= "Veritabanýna baðlantý saðlanamýyor.";
 
-$GLOBALS['strUrlPrefix']			= "URL ï¿½nadï¿½";
+$GLOBALS['strUrlPrefix']			= "URL Önadý";
 
-$GLOBALS['strProceed']				= "ï¿½leri &gt;";
-$GLOBALS['strRepeatPassword']			= "Parola Tekrarï¿½";
-$GLOBALS['strNotSamePasswords']			= "Parolalar uyuï¿½muyor";
-$GLOBALS['strInvalidUserPwd']			= "Geï¿½ersiz kullanï¿½cï¿½ adï¿½ veya parolasï¿½";
+$GLOBALS['strProceed']				= "Ýleri &gt;";
+$GLOBALS['strRepeatPassword']			= "Parola Tekrarý";
+$GLOBALS['strNotSamePasswords']			= "Parolalar uyuþmuyor";
+$GLOBALS['strInvalidUserPwd']			= "Geçersiz kullanýcý adý veya parolasý";
 
-$GLOBALS['strUpgrade']				= "Gï¿½ncelle";
-$GLOBALS['strSystemUpToDate']			= "Sisteminiz gï¿½ncellenmiï¿½tir, yeniden gï¿½ncelleme gerekmemektedir. <br />Ana Sayfaya dï¿½nmek iï¿½in <b>ï¿½leri</b>yi tï¿½klayï¿½nï¿½z.";
-$GLOBALS['strSystemNeedsUpgrade']		= "Veritabanï¿½ yapï¿½sï¿½ ve ayar dosyasï¿½ dï¿½zgï¿½n ï¿½alï¿½ï¿½masï¿½ iï¿½in gï¿½ncellenmesi iï¿½in gerekiyor. Gï¿½ncelleme iï¿½in <b>ï¿½leriyi</b> tï¿½klayï¿½nï¿½z. <br />Gï¿½ncelleme bir kaï¿½ dakika sï¿½rebilir lï¿½tfen sabï¿½rlï¿½ olun.";
-$GLOBALS['strSystemUpgradeBusy']		= "Sistem gï¿½ncelleniyor, lï¿½tfen bekleyiniz...";
-$GLOBALS['strSystemRebuildingCache']		= "Hafï¿½za tekrar oluï¿½turuluyor, lï¿½tfen bekleyiniz...";
-$GLOBALS['strServiceUnavalable']		= "Siste geï¿½ici olarak ï¿½alï¿½ï¿½mï¿½yor. Sistem gï¿½ncelemesi devam ediyor";
+$GLOBALS['strUpgrade']				= "Güncelle";
+$GLOBALS['strSystemUpToDate']			= "Sisteminiz güncellenmiþtir, yeniden güncelleme gerekmemektedir. <br>Ana Sayfaya dönmek için <b>Ýleri</b>yi týklayýnýz.";
+$GLOBALS['strSystemNeedsUpgrade']		= "Veritabaný yapýsý ve ayar dosyasý düzgün çalýþmasý için güncellenmesi için gerekiyor. Güncelleme için <b>Ýleriyi</b> týklayýnýz. <br>Güncelleme bir kaç dakika sürebilir lütfen sabýrlý olun.";
+$GLOBALS['strSystemUpgradeBusy']		= "Sistem güncelleniyor, lütfen bekleyiniz...";
+$GLOBALS['strSystemRebuildingCache']		= "Hafýza tekrar oluþturuluyor, lütfen bekleyiniz...";
+$GLOBALS['strServiceUnavalable']		= "Siste geçici olarak çalýþmýyor. Sistem güncelemesi devam ediyor";
 
-$GLOBALS['strConfigNotWritable']		= "config.inc.php dosyasï¿½ yazï¿½lamï¿½yor";
+$GLOBALS['strConfigNotWritable']		= "config.inc.php dosyasý yazýlamýyor";
 
 
 
@@ -106,208 +104,208 @@ $GLOBALS['strConfigNotWritable']		= "config.inc.php dosyasï¿½ yazï¿½lamï¿½yor";
 /*-------------------------------------------------------*/
 
 // Global
-$GLOBALS['strChooseSection']			= "Bï¿½lï¿½m Seï¿½iniz";
-$GLOBALS['strDayFullNames'] 			= array("Pazar","Pazartesi","Salï¿½","ï¿½arï¿½amba","Perï¿½embe","Cuma","Cumartesi");
-$GLOBALS['strEditConfigNotPossible']   		= "Ayarlarï¿½ dï¿½zenleyemiyorsunuz. ï¿½ï¿½nkï¿½ ayar dosyanï¿½z gï¿½venlik nedeniyle kilitlenmiï¿½.<br /> ".
-										  "Dï¿½zenleme yapmanï¿½z iï¿½in, config.inc.php dosyasï¿½nï¿½n kilidini aï¿½ï¿½nï¿½z.";
-$GLOBALS['strEditConfigPossible']		= "Tï¿½m dï¿½zenleme iï¿½lemlerini yapabilirsiniz ï¿½ï¿½nkï¿½ ayar dosyasï¿½ kilitli deï¿½il, ama bu gï¿½venlik aï¿½ï¿½klï¿½klarï¿½na sebep olabilir.<br /> ".
-										  "Sisteminizi korumak istiyorsanï¿½z, config.inc.php dosyasï¿½nï¿½ kilitleyiniz.";
+$GLOBALS['strChooseSection']			= "Bölüm Seçiniz";
+$GLOBALS['strDayFullNames'] 			= array("Pazar","Pazartesi","Salý","Çarþamba","Perþembe","Cuma","Cumartesi");
+$GLOBALS['strEditConfigNotPossible']   		= "Ayarlarý düzenleyemiyorsunuz. çünkü ayar dosyanýz güvenlik nedeniyle kilitlenmiþ.<br> ".
+										  "Düzenleme yapmanýz için, config.inc.php dosyasýnýn kilidini açýnýz.";
+$GLOBALS['strEditConfigPossible']		= "Tüm düzenleme iþlemlerini yapabilirsiniz çünkü ayar dosyasý kilitli deðil, ama bu güvenlik açýklýklarýna sebep olabilir.<br> ".
+										  "Sisteminizi korumak istiyorsanýz, config.inc.php dosyasýný kilitleyiniz.";
 
 
 
 // Database
-$GLOBALS['strDatabaseSettings']			= "Veritabanï¿½ ayarlarï¿½";
-$GLOBALS['strDatabaseServer']			= "Veritabanï¿½ server";
-$GLOBALS['strDbHost']				= "Veritabanï¿½ sunucu";
-$GLOBALS['strDbUser']				= "Veritabanï¿½ kullanï¿½cï¿½ adï¿½";
-$GLOBALS['strDbPassword']			= "Veritabanï¿½ parolasï¿½";
-$GLOBALS['strDbName']				= "Veritabanï¿½ adï¿½";
+$GLOBALS['strDatabaseSettings']			= "Veritabaný ayarlarý";
+$GLOBALS['strDatabaseServer']			= "Veritabaný server";
+$GLOBALS['strDbHost']				= "Veritabaný sunucu";
+$GLOBALS['strDbUser']				= "Veritabaný kullanýcý adý";
+$GLOBALS['strDbPassword']			= "Veritabaný parolasý";
+$GLOBALS['strDbName']				= "Veritabaný adý";
 
-$GLOBALS['strDatabaseOptimalisations']		= "Veritabanï¿½ Uygunluï¿½u";
-$GLOBALS['strPersistentConnections']		= "Israrlï¿½ baï¿½lantï¿½larï¿½ kullan";
-$GLOBALS['strCompatibilityMode']		= "Veritabanï¿½ uyumluluk modunu kullan";
-$GLOBALS['strCantConnectToDb']			= "Veritabanï¿½na baï¿½lanï¿½lamï¿½yor";
+$GLOBALS['strDatabaseOptimalisations']		= "Veritabaný Uygunluðu";
+$GLOBALS['strPersistentConnections']		= "Israrlý baðlantýlarý kullan";
+$GLOBALS['strInsertDelayed']			= "Ertelemeli eklemeleri kullan";
+$GLOBALS['strCompatibilityMode']		= "Veritabaný uyumluluk modunu kullan";
+$GLOBALS['strCantConnectToDb']			= "Veritabanýna baðlanýlamýyor";
 
 
 
 // Invocation and Delivery
-$GLOBALS['strInvocationAndDelivery']		= "Invocation ve Teslimat Ayarlarï¿½";
+$GLOBALS['strInvocationAndDelivery']		= "Invocation ve Teslimat Ayarlarý";
 
-$GLOBALS['strAllowedInvocationTypes']		= "ï¿½zin verilen invocation tipleri";
+$GLOBALS['strAllowedInvocationTypes']		= "Ýzin verilen invocation tipleri";
 $GLOBALS['strAllowRemoteInvocation']		= "Uzak Invocationlara izin ver";
-$GLOBALS['strAllowRemoteJavascript']		= "Javascript iï¿½in Uzak Invocation izin ver";
-$GLOBALS['strAllowRemoteFrames']		= "Frameler iï¿½in Uzak Invocation izin ver";
+$GLOBALS['strAllowRemoteJavascript']		= "Javascript için Uzak Invocation izin ver";
+$GLOBALS['strAllowRemoteFrames']		= "Frameler için Uzak Invocation izin ver";
 $GLOBALS['strAllowRemoteXMLRPC']		= "XML-RPC kullanan Uzak Invocation izin ver";
 $GLOBALS['strAllowLocalmode']			= "Yerel Mod izni ver";
 $GLOBALS['strAllowInterstitial']		= "Interstitial lara izin ver";
 $GLOBALS['strAllowPopups']			= "Popuplara izin ver";
 
-$GLOBALS['strUseAcl']				= "Teslimat sï¿½nï¿½rlamalarï¿½nï¿½ kullan";
-$GLOBALS['strGeotrackingType']			= "Coï¿½rafi Tï¿½klama veritabanï¿½nï¿½n tipi";
-$GLOBALS['strGeotrackingLocation'] 		= "Coï¿½rafi Tï¿½klama veritabanï¿½nï¿½n yeri";
+$GLOBALS['strUseAcl']				= "Teslimat sýnýrlamalarýný kullan";
+$GLOBALS['strGeotrackingType']			= "Coðrafi Týklama veritabanýnýn tipi";
+$GLOBALS['strGeotrackingLocation'] 		= "Coðrafi Týklama veritabanýnýn yeri";
 
-$GLOBALS['strKeywordRetrieval']			= "Anahtar kelime dï¿½zeltmeleri";
-$GLOBALS['strBannerRetrieval']			= "Banner dï¿½zeltme metodu";
-$GLOBALS['strRetrieveRandom']			= "Rastgele banner dï¿½zeltme (ï¿½ntanï¿½mlï¿½)";
-$GLOBALS['strRetrieveNormalSeq']		= "Normal sï¿½ralï¿½ banner dï¿½zeltme";
-$GLOBALS['strWeightSeq']			= "Aï¿½arlï¿½k tabanlï¿½ sï¿½ralï¿½ banner dï¿½zeltme";
-$GLOBALS['strFullSeq']				= "Tam sï¿½ralï¿½ banner dï¿½zeltme";
-$GLOBALS['strUseConditionalKeys']		= "ï¿½artlï¿½ anahtar kelimeleri kullan";
+$GLOBALS['strKeywordRetrieval']			= "Anahtar kelime düzeltmeleri";
+$GLOBALS['strBannerRetrieval']			= "Banner düzeltme metodu";
+$GLOBALS['strRetrieveRandom']			= "Rastgele banner düzeltme (öntanýmlý)";
+$GLOBALS['strRetrieveNormalSeq']		= "Normal sýralý banner düzeltme";
+$GLOBALS['strWeightSeq']			= "Aðarlýk tabanlý sýralý banner düzeltme";
+$GLOBALS['strFullSeq']				= "Tam sýralý banner düzeltme";
+$GLOBALS['strUseConditionalKeys']		= "Þartlý anahtar kelimeleri kullan";
 $GLOBALS['strUseMultipleKeys']			= "Birden fazla anahtar kullan";
 
-$GLOBALS['strZonesSettings']			= "Alan Dï¿½zeltmeleri";
-$GLOBALS['strZoneCache']			= "Alan hafï¿½zasï¿½ kullan, alan kullanï¿½lï¿½rken hï¿½zï¿½ arttï¿½rï¿½r";
-$GLOBALS['strZoneCacheLimit']			= "Hafï¿½za gï¿½ncellemeleri arasï¿½ndaki zaman (dakika olarak)";
-$GLOBALS['strZoneCacheLimitErr']		= "Hafï¿½za gï¿½ncellemeleri arasï¿½ndaki zaman pozitif tam sayï¿½ olmalï¿½dï¿½r";
+$GLOBALS['strZonesSettings']			= "Alan Düzeltmeleri";
+$GLOBALS['strZoneCache']			= "Alan hafýzasý kullan, alan kullanýlýrken hýzý arttýrýr";
+$GLOBALS['strZoneCacheLimit']			= "Hafýza güncellemeleri arasýndaki zaman (dakika olarak)";
+$GLOBALS['strZoneCacheLimitErr']		= "Hafýza güncellemeleri arasýndaki zaman pozitif tam sayý olmalýdýr";
 
-$GLOBALS['strP3PSettings']			= "P3P Gizlilik Politikalarï¿½";
-$GLOBALS['strUseP3P']				= "P3P Politikalarï¿½nï¿½ kullan";
-$GLOBALS['strP3PCompactPolicy']			= "P3P Yoï¿½unlaï¿½tï¿½rï¿½lmï¿½ï¿½ politika";
+$GLOBALS['strP3PSettings']			= "P3P Gizlilik Politikalarý";
+$GLOBALS['strUseP3P']				= "P3P Politikalarýný kullan";
+$GLOBALS['strP3PCompactPolicy']			= "P3P Yoðunlaþtýrýlmýþ politika";
 $GLOBALS['strP3PPolicyLocation']		= "P3P Politika yeri";
 
 
 
 // Banner Settings
-$GLOBALS['strBannerSettings']			= "Banner ayarlarï¿½";
+$GLOBALS['strBannerSettings']			= "Banner ayarlarý";
 
-$GLOBALS['strAllowedBannerTypes']		= "ï¿½zin verilen banner tipleri";
+$GLOBALS['strAllowedBannerTypes']		= "Ýzin verilen banner tipleri";
 $GLOBALS['strTypeSqlAllow']			= "Yerel bannerlara izin ver (SQL)";
 $GLOBALS['strTypeWebAllow']			= "Yerel bannerlara izin ver (Webserver)";
 $GLOBALS['strTypeUrlAllow']			= "Harici bannerlara izin ver";
-$GLOBALS['strTypeHtmlAllow']			= "HTML bannerlarï¿½na izin ver";
-$GLOBALS['strTypeTxtAllow']			= "Yazï¿½ reklamlarï¿½na banner ver";
+$GLOBALS['strTypeHtmlAllow']			= "HTML bannerlarýna izin ver";
+$GLOBALS['strTypeTxtAllow']			= "Yazý reklamlarýna banner ver";
 
-$GLOBALS['strTypeWebSettings']			= "Yerel banner (Webserver) ayarlarï¿½";
+$GLOBALS['strTypeWebSettings']			= "Yerel banner (Webserver) ayarlarý";
 $GLOBALS['strTypeWebMode']			= "Depolama metodu";
-$GLOBALS['strTypeWebModeLocal']			= "Yerel Klasï¿½rler";
+$GLOBALS['strTypeWebModeLocal']			= "Yerel Klasörler";
 $GLOBALS['strTypeWebModeFtp']			= "Harici FTP sunucu";
-$GLOBALS['strTypeWebDir']			= "Yerel Klasï¿½rler";
+$GLOBALS['strTypeWebDir']			= "Yerel Klasörler";
 $GLOBALS['strTypeWebFtp']			= "FTP modunda Web banner sunucusu";
 $GLOBALS['strTypeWebUrl']			= "Umumi URL";
-$GLOBALS['strTypeWebSslUrl']			= "Umumi URL (SSL)";
 $GLOBALS['strTypeFTPHost']			= "FTP Sunucu";
-$GLOBALS['strTypeFTPDirectory']			= "Sunucu klasï¿½rï¿½";
-$GLOBALS['strTypeFTPUsername']			= "Giriï¿½";
+$GLOBALS['strTypeFTPDirectory']			= "Sunucu klasörü";
+$GLOBALS['strTypeFTPUsername']			= "Giriþ";
 $GLOBALS['strTypeFTPPassword']			= "Parola";
 
-$GLOBALS['strDefaultBanners']			= "ï¿½ntanï¿½mlï¿½ bannerlar";
-$GLOBALS['strDefaultBannerUrl']			= "ï¿½ntanï¿½mlï¿½ resim URL";
-$GLOBALS['strDefaultBannerTarget']		= "ï¿½ntanï¿½mlï¿½ hedef URL";
+$GLOBALS['strDefaultBanners']			= "Öntanýmlý bannerlar";
+$GLOBALS['strDefaultBannerUrl']			= "Öntanýmlý resim URL";
+$GLOBALS['strDefaultBannerTarget']		= "Öntanýmlý hedef URL";
 
-$GLOBALS['strTypeHtmlSettings']			= "HTML banner ayarlarï¿½";
-$GLOBALS['strTypeHtmlAuto']			= "HTML Bannerlarï¿½nï¿½ otomatik olarak tï¿½klama izlemek iï¿½in zorla";
-$GLOBALS['strTypeHtmlPhp']			= "PHP ifadelerinin HTML iï¿½erisinde ï¿½alï¿½ï¿½masï¿½na izin ver";
+$GLOBALS['strTypeHtmlSettings']			= "HTML banner ayarlarý";
+$GLOBALS['strTypeHtmlAuto']			= "HTML Bannerlarýný otomatik olarak týklama izlemek için zorla";
+$GLOBALS['strTypeHtmlPhp']			= "PHP ifadelerinin HTML içerisinde çalýþmasýna izin ver";
 
 
 
 // Statistics Settings
-$GLOBALS['strStatisticsSettings']		= "ï¿½statistik Ayarlarï¿½";
+$GLOBALS['strStatisticsSettings']		= "Ýstatistik Ayarlarý";
 
-$GLOBALS['strStatisticsFormat']			= "ï¿½statistik Biï¿½imi";
-$GLOBALS['strLogBeacon']			= "Gï¿½rï¿½ntï¿½lenmeyi saklamak iï¿½in yol gï¿½sterici kullan";
-$GLOBALS['strCompactStats']			= "Yoï¿½unlaï¿½tï¿½rï¿½lmï¿½ï¿½ istatistik kullan";
-$GLOBALS['strLogAdviews']			= "Gï¿½rï¿½ntï¿½lenme logu";
-$GLOBALS['strBlockAdviews']			= "Birden fazla log korumasï¿½ (dk.)";
-$GLOBALS['strLogAdclicks']			= "Tï¿½klanma logu";
-$GLOBALS['strBlockAdclicks']			= "Birden fazla log korumasï¿½ (dk.)";
+$GLOBALS['strStatisticsFormat']			= "Ýstatistik Biçimi";
+$GLOBALS['strLogBeacon']			= "Görüntülenmeyi saklamak için yol gösterici kullan";
+$GLOBALS['strCompactStats']			= "Yoðunlaþtýrýlmýþ istatistik kullan";
+$GLOBALS['strLogAdviews']			= "Görüntülenme logu";
+$GLOBALS['strBlockAdviews']			= "Birden fazla log korumasý (dk.)";
+$GLOBALS['strLogAdclicks']			= "Týklanma logu";
+$GLOBALS['strBlockAdclicks']			= "Birden fazla log korumasý (dk.)";
 
-$GLOBALS['strEmailWarnings']			= "E-mail uyarï¿½larï¿½";
-$GLOBALS['strAdminEmailHeaders']		= "Gï¿½nlï¿½k raporlar iï¿½in gï¿½nderici tanï¿½mlama mail baï¿½lï¿½ï¿½ï¿½";
-$GLOBALS['strWarnLimit']			= "Uyarï¿½ Sï¿½nï¿½rï¿½";
-$GLOBALS['strWarnLimitErr']			= "Uyarï¿½ limiti pozitif tamsayï¿½ olmalï¿½dï¿½r";
-$GLOBALS['strWarnAdmin']			= "Uyarï¿½ Yï¿½neticisi";
-$GLOBALS['strWarnClient']			= "Reklamcï¿½ya uyarï¿½";
-$GLOBALS['strQmailPatch']			= "qmail patchini kullanï¿½n";
+$GLOBALS['strEmailWarnings']			= "E-mail uyarýlarý";
+$GLOBALS['strAdminEmailHeaders']		= "Günlük raporlar için gönderici tanýmlama mail baþlýðý";
+$GLOBALS['strWarnLimit']			= "Uyarý Sýnýrý";
+$GLOBALS['strWarnLimitErr']			= "Uyarý limiti pozitif tamsayý olmalýdýr";
+$GLOBALS['strWarnAdmin']			= "Uyarý Yöneticisi";
+$GLOBALS['strWarnClient']			= "Reklamcýya uyarý";
+$GLOBALS['strQmailPatch']			= "qmail patchini kullanýn";
 
 $GLOBALS['strRemoteHosts']			= "Uzak sunucu";
-$GLOBALS['strIgnoreHosts']			= "Sunuculara ï¿½nem verme";
+$GLOBALS['strIgnoreHosts']			= "Sunuculara önem verme";
 $GLOBALS['strReverseLookup']			= "DNS geri besleme";
 $GLOBALS['strProxyLookup']			= "Proxy izleme";
 
-$GLOBALS['strAutoCleanTables']			= "Veritabanï¿½ budama";
+$GLOBALS['strAutoCleanTables']			= "Veritabaný budama";
 $GLOBALS['strAutoCleanStats']			= "Budama istatistikleri";
-$GLOBALS['strAutoCleanUserlog']			= "Kullanï¿½cï¿½ loglarï¿½nï¿½ buda";
-$GLOBALS['strAutoCleanStatsWeeks']		= "En fazla istatistik sï¿½resi<br />(en az 3 hafta)";
-$GLOBALS['strAutoCleanUserlogWeeks']		= "En fazla kullanï¿½cï¿½ loglarï¿½ sï¿½resi<br />(en az 3 hafta)";
-$GLOBALS['strAutoCleanErr']			= "En fazla sï¿½re en az 3 hafta olmalï¿½dï¿½r";
-$GLOBALS['strAutoCleanVacuum']			= "Her gece tablolarï¿½ VACUUM ANALYZE yap"; // only Pg
+$GLOBALS['strAutoCleanUserlog']			= "Kullanýcý loglarýný buda";
+$GLOBALS['strAutoCleanStatsWeeks']		= "En fazla istatistik süresi<br>(en az 3 hafta)";
+$GLOBALS['strAutoCleanUserlogWeeks']		= "En fazla kullanýcý loglarý süresi<br>(en az 3 hafta)";
+$GLOBALS['strAutoCleanErr']			= "En fazla süre en az 3 hafta olmalýdýr";
+$GLOBALS['strAutoCleanVacuum']			= "Her gece tablolarý VACUUM ANALYZE yap"; // only Pg
 
 
 // Administrator settings
-$GLOBALS['strAdministratorSettings']		= "Yï¿½netici Ayarlarï¿½";
+$GLOBALS['strAdministratorSettings']		= "Yönetici Ayarlarý";
 
-$GLOBALS['strLoginCredentials']			= "Giriï¿½ gï¿½venliï¿½i";
-$GLOBALS['strAdminUsername']			= "Yï¿½netici ismi";
+$GLOBALS['strLoginCredentials']			= "Giriþ güvenliði";
+$GLOBALS['strAdminUsername']			= "Yönetici ismi";
 $GLOBALS['strOldPassword']			= "Eski Parola";
 $GLOBALS['strNewPassword']			= "Yeni Parola";
-$GLOBALS['strInvalidUsername']			= "Geï¿½ersiz Kullanï¿½cï¿½ Adï¿½";
-$GLOBALS['strInvalidPassword']			= "Geï¿½ersiz Parola";
+$GLOBALS['strInvalidUsername']			= "Geçersiz Kullanýcý Adý";
+$GLOBALS['strInvalidPassword']			= "Geçersiz Parola";
 
 $GLOBALS['strBasicInformation']			= "Temel Bilgiler";
-$GLOBALS['strAdminFullName']			= "Yï¿½netici Tam ismi";
-$GLOBALS['strAdminEmail']			= "Yï¿½netici e-mail adresi";
-$GLOBALS['strCompanyName']			= "Firma ï¿½smi";
+$GLOBALS['strAdminFullName']			= "Yönetici Tam ismi";
+$GLOBALS['strAdminEmail']			= "Yönetici e-mail adresi";
+$GLOBALS['strCompanyName']			= "Firma Ýsmi";
 
-$GLOBALS['strAdminCheckUpdates']		= "Gï¿½ncellemeleri kontrol et";
-$GLOBALS['strAdminCheckEveryLogin']		= "Her giriï¿½te";
-$GLOBALS['strAdminCheckDaily']			= "Gï¿½nlï¿½k";
-$GLOBALS['strAdminCheckWeekly']			= "Haftalï¿½k";
-$GLOBALS['strAdminCheckMonthly']		= "Aylï¿½k";
+$GLOBALS['strAdminCheckUpdates']		= "Güncellemeleri kontrol et";
+$GLOBALS['strAdminCheckEveryLogin']		= "Her giriþte";
+$GLOBALS['strAdminCheckDaily']			= "Günlük";
+$GLOBALS['strAdminCheckWeekly']			= "Haftalýk";
+$GLOBALS['strAdminCheckMonthly']		= "Aylýk";
 $GLOBALS['strAdminCheckNever']			= "Asla";
 
-$GLOBALS['strAdminNovice']			= "Yï¿½neticinin silme hareketi gï¿½venlik aï¿½ï¿½sï¿½ndan onaya tabi olsun";
-$GLOBALS['strUserlogEmail']			= "Tï¿½m giden e-mailleri logla";
-$GLOBALS['strUserlogPriority']			= "ï¿½ncelik hesalarï¿½nï¿½ saatlik logla";
-$GLOBALS['strUserlogAutoClean']			= "Veritabanï¿½ndan otomatik silmeleri logla";
+$GLOBALS['strAdminNovice']			= "Yöneticinin silme hareketi güvenlik açýsýndan onaya tabi olsun";
+$GLOBALS['strUserlogEmail']			= "Tüm giden e-mailleri logla";
+$GLOBALS['strUserlogPriority']			= "Öncelik hesalarýný saatlik logla";
+$GLOBALS['strUserlogAutoClean']			= "Veritabanýndan otomatik silmeleri logla";
 
 
 // User interface settings
-$GLOBALS['strGuiSettings']			= "Kullanï¿½cï¿½ arabirimi ayarlarï¿½";
+$GLOBALS['strGuiSettings']			= "Kullanýcý arabirimi ayarlarý";
 
 $GLOBALS['strGeneralSettings']			= "Genel Ayarlar";
-$GLOBALS['strAppName']				= "Uygulama Adï¿½";
-$GLOBALS['strMyHeader']				= "Baï¿½lï¿½k";
+$GLOBALS['strAppName']				= "Uygulama Adý";
+$GLOBALS['strMyHeader']				= "Baþlýk";
 $GLOBALS['strMyFooter']				= "Altbilgi";
-$GLOBALS['strGzipContentCompression']		= "Sï¿½kï¿½ï¿½tï¿½rma iï¿½in GZIP iï¿½eriï¿½ini kullan";
+$GLOBALS['strGzipContentCompression']		= "Sýkýþtýrma için GZIP içeriðini kullan";
 
-$GLOBALS['strClientInterface']			= "Reklamcï¿½ arayï¿½zï¿½ ayarlarï¿½";
-$GLOBALS['strClientWelcomeEnabled']		= "Reklamcï¿½ya hoï¿½geldiniz mesajï¿½";
-$GLOBALS['strClientWelcomeText']		= "Hoï¿½geldiniz mesajï¿½<br />(HTML taglarï¿½na izin veriliyor)";
+$GLOBALS['strClientInterface']			= "Reklamcý arayüzü ayarlarý";
+$GLOBALS['strClientWelcomeEnabled']		= "Reklamcýya hoþgeldiniz mesajý";
+$GLOBALS['strClientWelcomeText']		= "Hoþgeldiniz mesajý<br>(HTML taglarýna izin veriliyor)";
 
 
 
 // Interface defaults
-$GLOBALS['strInterfaceDefaults']		= "ï¿½ntanï¿½mlï¿½ arabirim";
+$GLOBALS['strInterfaceDefaults']		= "Öntanýmlý arabirim";
 
 $GLOBALS['strInventory']			= "Envanter";
-$GLOBALS['strShowCampaignInfo']			= "<i>Kampanya ï¿½nizleme</i> sayfasï¿½nda ekstra kampanya bigilerini gï¿½ster";
-$GLOBALS['strShowBannerInfo']			= "<i>Banner ï¿½nizleme</i> sayfasï¿½nda ekstra banner bilgilerini gï¿½ster";
-$GLOBALS['strShowCampaignPreview']		= "<i>Banner ï¿½nizleme</i> sayfasï¿½nda tï¿½m bannerlarï¿½ gï¿½ster";
-$GLOBALS['strShowBannerHTML']			= "HTML banner ï¿½nizlemede dï¿½z HTML kodlu bannerlar haricindeki asï¿½l bannerlarï¿½ gï¿½ster";
-$GLOBALS['strShowBannerPreview']		= "Sayfanï¿½n en ï¿½stï¿½nde uyan banner ï¿½nizlemeyi gï¿½ster";
-$GLOBALS['strHideInactive']			= "Tï¿½m ï¿½nizleme sayfalarï¿½nda pasif bileï¿½enleri gizle";
-$GLOBALS['strGUIShowMatchingBanners']		= "<i>ï¿½liï¿½kili Bannerlar</i> sayfalarï¿½nda uyan bannerlarï¿½ gï¿½ster";
-$GLOBALS['strGUIShowParentCampaigns']		= "<i>iliï¿½kili Bannerlar</i> sayfasï¿½nda ebeveyn bannerlarï¿½ gï¿½ster";
-$GLOBALS['strGUILinkCompactLimit']		= "<i>ï¿½liï¿½kili Bannerlar</i> sayfasï¿½nda iliï¿½kilendirilmemiï¿½ kampanyalar veya bannerlarï¿½ ....dan fazla ise gizle";
+$GLOBALS['strShowCampaignInfo']			= "<i>Kampanya önizleme</i> sayfasýnda ekstra kampanya bigilerini göster";
+$GLOBALS['strShowBannerInfo']			= "<i>Banner önizleme</i> sayfasýnda ekstra banner bilgilerini göster";
+$GLOBALS['strShowCampaignPreview']		= "<i>Banner önizleme</i> sayfasýnda tüm bannerlarý göster";
+$GLOBALS['strShowBannerHTML']			= "HTML banner önizlemede düz HTML kodlu bannerlar haricindeki asýl bannerlarý göster";
+$GLOBALS['strShowBannerPreview']		= "Sayfanýn en üstünde uyan banner önizlemeyi göster";
+$GLOBALS['strHideInactive']			= "Tüm önizleme sayfalarýnda pasif bileþenleri gizle";
+$GLOBALS['strGUIShowMatchingBanners']		= "<i>Ýliþkili Bannerlar</i> sayfalarýnda uyan bannerlarý göster";
+$GLOBALS['strGUIShowParentCampaigns']		= "<i>iliþkili Bannerlar</i> sayfasýnda ebeveyn bannerlarý göster";
+$GLOBALS['strGUILinkCompactLimit']		= "<i>Ýliþkili Bannerlar</i> sayfasýnda iliþkilendirilmemiþ kampanyalar veya bannerlarý ....dan fazla ise gizle";
 
-$GLOBALS['strStatisticsDefaults'] 		= "ï¿½statistikler";
-$GLOBALS['strBeginOfWeek']			= "Haftanï¿½n Baï¿½langï¿½cï¿½";
-$GLOBALS['strPercentageDecimals']		= "Yï¿½zdelik Basamaï¿½ï¿½";
+$GLOBALS['strStatisticsDefaults'] 		= "Ýstatistikler";
+$GLOBALS['strBeginOfWeek']			= "Haftanýn Baþlangýcý";
+$GLOBALS['strPercentageDecimals']		= "Yüzdelik Basamaðý";
 
-$GLOBALS['strWeightDefaults']			= "ï¿½ntanï¿½mlï¿½ aï¿½ï¿½rlï¿½k";
-$GLOBALS['strDefaultBannerWeight']		= "ï¿½ntanï¿½mlï¿½ banner aï¿½ï¿½rlï¿½ï¿½ï¿½";
-$GLOBALS['strDefaultCampaignWeight']		= "ï¿½ntanï¿½mlï¿½ kampanya aï¿½ï¿½rlï¿½ï¿½ï¿½";
-$GLOBALS['strDefaultBannerWErr']		= "ï¿½ntanï¿½mlï¿½ banner aï¿½ï¿½rlï¿½ï¿½ï¿½ pozitif tamsayï¿½ olmalï¿½dï¿½r";
-$GLOBALS['strDefaultCampaignWErr']		= "ï¿½ntanï¿½mlï¿½ kampanya aï¿½ï¿½rlï¿½ï¿½ï¿½ pozitif tamsayï¿½ olmalï¿½dï¿½r";
+$GLOBALS['strWeightDefaults']			= "öntanýmlý aðýrlýk";
+$GLOBALS['strDefaultBannerWeight']		= "öntanýmlý banner aðýrlýðý";
+$GLOBALS['strDefaultCampaignWeight']		= "öntanýmlý kampanya aðýrlýðý";
+$GLOBALS['strDefaultBannerWErr']		= "öntanýmlý banner aðýrlýðý pozitif tamsayý olmalýdýr";
+$GLOBALS['strDefaultCampaignWErr']		= "öntanýmlý kampanya aðýrlýðý pozitif tamsayý olmalýdýr";
 
 
 
 // Not used at the moment
-$GLOBALS['strTableBorderColor']			= "Tablo ï¿½erï¿½eve rengi";
+$GLOBALS['strTableBorderColor']			= "Tablo Çerçeve rengi";
 $GLOBALS['strTableBackColor']			= "Tablo Zemin Rengi";
 $GLOBALS['strTableBackColorAlt']		= "Tablo Zemin Rengi (Alternatif)";
 $GLOBALS['strMainBackColor']			= "Ana Zemin Rengi";
 $GLOBALS['strOverrideGD']			= "Override GD Imageformat";
-$GLOBALS['strTimeZone']				= "Zaman Alanï¿½";
+$GLOBALS['strTimeZone']				= "Zaman Alaný";
 
 ?>

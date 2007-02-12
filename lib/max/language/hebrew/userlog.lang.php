@@ -45,7 +45,8 @@ $GLOBALS['strUserlog'] = array (
 	phpAds_actionPriorityAutoTargeting		=> "מטרות קמפיין הוערכו מחדש",
 	phpAds_actionDeactiveCampaign			=> "קמפיין {id} שותק",
 	phpAds_actionActiveCampaign				=> "קמפיין{id} הופעל",
-		phpAds_actionAutoClean					=> "ניוקי אוטומטי של בסיס הנתונים"
+		phpAds_actionAutoClean					=> "ניקוי אוטומטי של בסיס הנתונים"
+
 );
 
 ?>

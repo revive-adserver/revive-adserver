@@ -15,10 +15,10 @@
 /*----------------------------------------------------------------------*/
 
 
-$GLOBALS['strPluginAffiliate'] 		= "Utwï¿½rz przeglï¿½d historii dla wybranego wydawcy. Raport jest tworzony w formacie CSV do przeglï¿½dania w arkuszu kalkulacyjnym.";
-$GLOBALS['strPluginCampaign'] 		= "Utwï¿½rz przeglï¿½d historii dla wybranej kampanii. Raport jest tworzony w formacie CSV do przeglï¿½dania w arkuszu kalkulacyjnym.";
-$GLOBALS['strPluginClient'] 		= "Utwï¿½rz przeglï¿½d historii dla wybranego reklamodawcy. Raport jest tworzony w formacie CSV do przeglï¿½dania w arkuszu kalkulacyjnym.";
-$GLOBALS['strPluginGlobal'] 		= "Utwï¿½rz przeglï¿½d globalnej historii. Raport jest tworzony w formacie CSV do przeglï¿½dania w arkuszu kalkulacyjnym.";
-$GLOBALS['strPluginZone'] 		= "Utwï¿½rz przeglï¿½d historii dla wybranej strefy. Raport jest tworzony w formacie CSV do przeglï¿½dania w arkuszu kalkulacyjnym.";
+$GLOBALS['strPluginAffiliate'] 		= "Utwórz przegl±d historii dla wybranego wydawcy. Raport jest tworzony w formacie CSV do przegl±dania w arkuszu kalkulacyjnym.";
+$GLOBALS['strPluginCampaign'] 		= "Utwórz przegl±d historii dla wybranej kampanii. Raport jest tworzony w formacie CSV do przegl±dania w arkuszu kalkulacyjnym.";
+$GLOBALS['strPluginClient'] 		= "Utwórz przegl±d historii dla wybranego reklamodawcy. Raport jest tworzony w formacie CSV do przegl±dania w arkuszu kalkulacyjnym.";
+$GLOBALS['strPluginGlobal'] 		= "Utwórz przegl±d globalnej historii. Raport jest tworzony w formacie CSV do przegl±dania w arkuszu kalkulacyjnym.";
+$GLOBALS['strPluginZone'] 		= "Utwórz przegl±d historii dla wybranej strefy. Raport jest tworzony w formacie CSV do przegl±dania w arkuszu kalkulacyjnym.";
 
 ?>

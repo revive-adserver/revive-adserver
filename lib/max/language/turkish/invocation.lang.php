@@ -28,19 +28,19 @@
 $Id$
 */
 /* Turkish Translation by :												*/
-/* 		Metin AKTAï¿½ (metin@yapayzeka.net)								*/
-/* 		Bï¿½nyamin VICIL (bunyamin@yapayzeka.net)					        */
+/* 		Metin AKTAÞ (metin@yapayzeka.net)								*/
+/* 		Bünyamin VICIL (bunyamin@yapayzeka.net)					        */
 /*----------------------------------------------------------------------*/
 
 
 // Invocation Types
-$GLOBALS['strInvocationRemote']			= "Uzak Yardï¿½m";
-$GLOBALS['strInvocationJS']			= "Javascript iï¿½in uzak yardï¿½m";
-$GLOBALS['strInvocationIframes']		= "Frameler iï¿½in uzak yardï¿½m";
-$GLOBALS['strInvocationXmlRpc']			= "XML-RPC kullanan uzak yardï¿½m";
-$GLOBALS['strInvocationCombined']		= "Birleï¿½tirilmiï¿½ uzak yardï¿½m";
+$GLOBALS['strInvocationRemote']			= "Uzak Yardým";
+$GLOBALS['strInvocationJS']			= "Javascript için uzak yardým";
+$GLOBALS['strInvocationIframes']		= "Frameler için uzak yardým";
+$GLOBALS['strInvocationXmlRpc']			= "XML-RPC kullanan uzak yardým";
+$GLOBALS['strInvocationCombined']		= "Birleþtirilmiþ uzak yardým";
 $GLOBALS['strInvocationPopUp']			= "Pop-up";
-$GLOBALS['strInvocationAdLayer']		= "Yï¿½zen DHTML";
+$GLOBALS['strInvocationAdLayer']		= "Yüzen DHTML";
 $GLOBALS['strInvocationLocal']			= "Yerel kip";
 
 
@@ -54,18 +54,18 @@ $GLOBALS['strAbbrSeconds']			= "sec";
 
 
 // Common Invocation Parameters
-$GLOBALS['strInvocationWhat']			= "Banner seï¿½imi";
-$GLOBALS['strInvocationClientID']		= "Reklamcï¿½lar veya Kampanyalar";
+$GLOBALS['strInvocationWhat']			= "Banner seçimi";
+$GLOBALS['strInvocationClientID']		= "Reklamcýlar veya Kampanyalar";
 $GLOBALS['strInvocationTarget']			= "Hedef frame";
 $GLOBALS['strInvocationSource']			= "Kaynak";
-$GLOBALS['strInvocationWithText']		= "Banner altï¿½nda yazï¿½ gï¿½ster";
-$GLOBALS['strInvocationDontShowAgain']		= "Aynï¿½ sayfada bannerï¿½ tekrar gï¿½sterme";
-$GLOBALS['strInvocationTemplate'] 		= "ï¿½ablon iï¿½erisinde kullanï¿½m iï¿½in Bannerï¿½ bir deï¿½iï¿½ken iï¿½inde sakla.";
+$GLOBALS['strInvocationWithText']		= "Banner altýnda yazý göster";
+$GLOBALS['strInvocationDontShowAgain']		= "Ayný sayfada bannerý tekrar gösterme";
+$GLOBALS['strInvocationTemplate'] 		= "Þablon içerisinde kullaným için Bannerý bir deðiþken içinde sakla.";
 
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter']		= "Refresh sonra";
-$GLOBALS['strIframeResizeToBanner']		= "iframe banner ï¿½lï¿½ï¿½lerine gï¿½re dï¿½zenle";
+$GLOBALS['strIframeResizeToBanner']		= "iframe banner ölçülerine göre düzenle";
 $GLOBALS['strIframeMakeTransparent']		= "iframe i transparan yap";
 $GLOBALS['strIframeIncludeNetscape4']		= "Netscape 4 uyumlu ilayer kullan";
 
@@ -76,11 +76,11 @@ $GLOBALS['strPopUpStylePopUp']			= "Pop-up";
 $GLOBALS['strPopUpStylePopUnder']		= "Pop-under";
 $GLOBALS['strPopUpCreateInstance']		= "Instance when the pop-up is created";
 $GLOBALS['strPopUpImmediately']			= "Hemen";
-$GLOBALS['strPopUpOnClose']			= "Sayfa kapandï¿½ï¿½ï¿½nda";
+$GLOBALS['strPopUpOnClose']			= "Sayfa kapandýðýnda";
 $GLOBALS['strPopUpAfterSec']			= "Sonra";
-$GLOBALS['strAutoCloseAfter']			= "Sï¿½re sonra otomatik kapat";
-$GLOBALS['strPopUpTop']				= "Baï¿½langï¿½ï¿½ konumu (ï¿½st)";
-$GLOBALS['strPopUpLeft']			= "Baï¿½langï¿½ï¿½ konumu (sol)";
+$GLOBALS['strAutoCloseAfter']			= "Süre sonra otomatik kapat";
+$GLOBALS['strPopUpTop']				= "Baþlangýç konumu (üst)";
+$GLOBALS['strPopUpLeft']			= "Baþlangýç konumu (sol)";
 
 
 // XML-RPC
@@ -101,26 +101,26 @@ $GLOBALS['strTop']				= "Top";
 $GLOBALS['strMiddle']				= "Middle";
 $GLOBALS['strBottom']				= "Bottom";
 
-$GLOBALS['strAutoCollapseAfter']		= "Otomatik olarak aï¿½aï¿½ï¿½ at";
-$GLOBALS['strCloseText']			= "Kapat Yazï¿½sï¿½";
+$GLOBALS['strAutoCollapseAfter']		= "Otomatik olarak aþaðý at";
+$GLOBALS['strCloseText']			= "Kapat Yazýsý";
 $GLOBALS['strClose']				= "[Kapat]";
 $GLOBALS['strBannerPadding']			= "Banner dolgusu";
 
-$GLOBALS['strHShift']				= "Yatay Deï¿½iï¿½tir";
-$GLOBALS['strVShift']				= "Dikey deï¿½iï¿½tir";
+$GLOBALS['strHShift']				= "Yatay Deðiþtir";
+$GLOBALS['strVShift']				= "Dikey deðiþtir";
 
-$GLOBALS['strShowCloseButton']			= "Kapat Butonunu Gï¿½ster";
+$GLOBALS['strShowCloseButton']			= "Kapat Butonunu Göster";
 $GLOBALS['strBackgroundColor']			= "Zemin Rengi";
-$GLOBALS['strBorderColor']			= "ï¿½erï¿½eve Rengi";
+$GLOBALS['strBorderColor']			= "Çerçeve Rengi";
 
-$GLOBALS['strDirection']			= "Yï¿½n";
+$GLOBALS['strDirection']			= "Yön";
 $GLOBALS['strLeftToRight']			= "Left to right";
 $GLOBALS['strRightToLeft']			= "Right to left";
-$GLOBALS['strLooping']				= "Dï¿½ngï¿½";
+$GLOBALS['strLooping']				= "Döngü";
 $GLOBALS['strAlwaysActive']			= "Herzaman Aktif";
-$GLOBALS['strSpeed']				= "Hï¿½z";
-$GLOBALS['strPause']				= "Durdurulmuï¿½";
-$GLOBALS['strLimited']				= "sï¿½nï¿½rlanmï¿½ï¿½";
+$GLOBALS['strSpeed']				= "Hýz";
+$GLOBALS['strPause']				= "Durdurulmuþ";
+$GLOBALS['strLimited']				= "sýnýrlanmýþ";
 $GLOBALS['strLeftMargin']			= "Left margin";
 $GLOBALS['strRightMargin']			= "Right margin";
 $GLOBALS['strTransparentBackground']		= "Transparan zemin";
@@ -129,8 +129,8 @@ $GLOBALS['strTransparentBackground']		= "Transparan zemin";
 $GLOBALS['strAdLayerStyleName']	= array(
 	'geocities'		=> "Geocities",
 	'simple'		=> "Basit",
-	'cursor'		=> "Geliï¿½igï¿½zel",
-	'floater'		=> "Yï¿½zen"
+	'cursor'		=> "Geliþigüzel",
+	'floater'		=> "Yüzen"
 );
 
 ?>

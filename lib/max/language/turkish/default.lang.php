@@ -1,11 +1,11 @@
-<?php
+<?php // $Revision: 3830 $
 
 /*----------------------------------------------------------------------*/
-/* phpAdsNew 2                                                          */
+/* Openads 2.0                                                          */
 /* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2000-2002 by the phpAdsNew developers                  */
-/* For more information visit: http://www.phpadsnew.com                 */
+/* Copyright (c) 2000-2007 by the Openads developers                    */
+/* For more information visit: http://www.openads.org                   */
 /*                                                                      */
 /*                                                                      */
 /*                                                                      */
@@ -13,9 +13,9 @@
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
 /*----------------------------------------------------------------------*/
-/* Turkish Translation by :												*/
-/* 		Metin AKTAï¿½ (metin@yapayzeka.net)								*/
-/* 		Bï¿½nyamin VICIL (bunyamin@yapayzeka.net)					        */
+/* Turkish Translation by :                                             */
+/*      Metin AKTAÞ (metin@yapayzeka.net)                               */
+/*      Bünyamin VICIL (bunyamin@yapayzeka.net)                         */
 /*----------------------------------------------------------------------*/
 
 
@@ -46,124 +46,125 @@ $GLOBALS['weekiso_format']			= "%V/%G";
 /*-------------------------------------------------------*/
 
 $GLOBALS['strHome'] 				= "Ana Sayfa";
-$GLOBALS['strHelp']				= "Yardï¿½m";
+$GLOBALS['strHelp']				= "Yardým";
 $GLOBALS['strNavigation'] 			= "Neredeyim";
-$GLOBALS['strShortcuts'] 			= "Kï¿½sayollar";
+$GLOBALS['strShortcuts'] 			= "Kýsayollar";
 $GLOBALS['strAdminstration'] 			= "Envanter";
-$GLOBALS['strMaintenance']			= "Bakï¿½m";
-$GLOBALS['strProbability']			= "Olasï¿½lï¿½k";
+$GLOBALS['strMaintenance']			= "Bakým";
+$GLOBALS['strProbability']			= "Olasýlýk";
 $GLOBALS['strInvocationcode']			= "Invocationcode";
 $GLOBALS['strBasicInformation'] 		= "Temel Bilgiler";
-$GLOBALS['strContractInformation'] 		= "Sï¿½zleï¿½me Bilgileri";
+$GLOBALS['strContractInformation'] 		= "Sözleþme Bilgileri";
 $GLOBALS['strLoginInformation'] 		= "Login Bilgileri";
-$GLOBALS['strOverview']				= "ï¿½nizleme";
+$GLOBALS['strOverview']				= "Önizleme";
 $GLOBALS['strSearch']				= "Arama";
-$GLOBALS['strHistory']				= "Geï¿½miï¿½";
+$GLOBALS['strHistory']				= "Geçmiþ";
 $GLOBALS['strPreferences'] 			= "Ayarlar";
 $GLOBALS['strDetails']				= "Detaylar";
-$GLOBALS['strCompact']				= "Yoï¿½unlaï¿½tï¿½rï¿½lmï¿½ï¿½";
-$GLOBALS['strVerbose']				= "Gereksiz sï¿½zcï¿½kler";
-$GLOBALS['strUser']				= "Kullanï¿½cï¿½";
-$GLOBALS['strEdit']				= "Dï¿½zelt";
-$GLOBALS['strCreate']				= "Oluï¿½tur";
+$GLOBALS['strCompact']				= "Yoðunlaþtýrýlmýþ";
+$GLOBALS['strVerbose']				= "Gereksiz sözcükler";
+$GLOBALS['strUser']				= "Kullanýcý";
+$GLOBALS['strEdit']				= "Düzelt";
+$GLOBALS['strCreate']				= "Oluþtur";
 $GLOBALS['strDuplicate']			= "Kopyalama";
-$GLOBALS['strMoveTo']				= "Taï¿½ï¿½";
+$GLOBALS['strMoveTo']				= "Taþý";
 $GLOBALS['strDelete'] 				= "Sil";
 $GLOBALS['strActivate']				= "Aktif Et";
 $GLOBALS['strDeActivate'] 			= "Pasif Et";
-$GLOBALS['strConvert']				= "Dï¿½nï¿½ï¿½tï¿½r";
+$GLOBALS['strConvert']				= "Dönüþtür";
 $GLOBALS['strRefresh']				= "Yenile";
-$GLOBALS['strSaveChanges']		 	= "Deï¿½iï¿½iklikleri Kaydet";
-$GLOBALS['strUp'] 				= "Yukarï¿½";
-$GLOBALS['strDown'] 				= "Aï¿½aï¿½ï¿½";
+$GLOBALS['strSaveChanges']		 	= "Deðiþiklikleri Kaydet";
+$GLOBALS['strUp'] 				= "Yukarý";
+$GLOBALS['strDown'] 				= "Aþaðý";
 $GLOBALS['strSave'] 				= "Kaydet";
-$GLOBALS['strCancel']				= "ï¿½ptal";
-$GLOBALS['strPrevious'] 			= "ï¿½nceki";
+$GLOBALS['strCancel']				= "Ýptal";
+$GLOBALS['strPrevious'] 			= "Önceki";
 $GLOBALS['strNext'] 				= "Sonraki";
 $GLOBALS['strYes']				= "Evet";
-$GLOBALS['strNo']				= "Hayï¿½r";
-$GLOBALS['strNone'] 				= "Hiï¿½biri";
-$GLOBALS['strCustom']				= "Kiï¿½isel";
-$GLOBALS['strDefault'] 				= "ï¿½ntanï¿½mlï¿½";
-$GLOBALS['strOther']				= "Diï¿½er";
+$GLOBALS['strNo']				= "Hayýr";
+$GLOBALS['strNone'] 				= "Hiçbiri";
+$GLOBALS['strCustom']				= "Kiþisel";
+$GLOBALS['strDefault'] 				= "Öntanýmlý";
+$GLOBALS['strOther']				= "Diðer";
 $GLOBALS['strUnknown']				= "Bilinmeyen";
-$GLOBALS['strUnlimited'] 			= "Sï¿½nï¿½rsï¿½z";
-$GLOBALS['strUntitled']				= "Baï¿½lï¿½ksï¿½z";
-$GLOBALS['strAll'] 				= "tï¿½mï¿½";
+$GLOBALS['strUnlimited'] 			= "Sýnýrsýz";
+$GLOBALS['strUntitled']				= "Baþlýksýz";
+$GLOBALS['strAll'] 				= "tümü";
 $GLOBALS['strAvg'] 				= "Ort.";
 $GLOBALS['strAverage']				= "Ortalama";
-$GLOBALS['strOverall'] 				= "Tï¿½m";
+$GLOBALS['strOverall'] 				= "Tüm";
 $GLOBALS['strTotal'] 				= "Toplam";
 $GLOBALS['strActive'] 				= "aktif";
 $GLOBALS['strFrom']				= "-den/-dan";
 $GLOBALS['strTo']				= "-e/-a";
-$GLOBALS['strLinkedTo'] 			= "baï¿½lanmï¿½ï¿½";
-$GLOBALS['strDaysLeft'] 			= "Kalan Gï¿½n";
-$GLOBALS['strCheckAllNone']			= "Tï¿½mï¿½nï¿½ / Hiï¿½birini Seï¿½";
+$GLOBALS['strLinkedTo'] 			= "baðlanmýþ";
+$GLOBALS['strDaysLeft'] 			= "Kalan Gün";
+$GLOBALS['strCheckAllNone']			= "Tümünü / Hiçbirini Seç";
 $GLOBALS['strKiloByte']				= "KB";
-$GLOBALS['strExpandAll']			= "Hepsini Aï¿½";
+$GLOBALS['strExpandAll']			= "Hepsini Aç";
 $GLOBALS['strCollapseAll']			= "Hepsini Kapat";
-$GLOBALS['strShowAll']				= "Hepsini Gï¿½ster";
-$GLOBALS['strNoAdminInteface']			= "Servis mï¿½sait deï¿½il...";
-$GLOBALS['strFilterBySource']			= "kaynaï¿½a gï¿½re filtrele";
-$GLOBALS['strFieldContainsErrors']		= "Aï¿½aï¿½ï¿½daki alanlar hata iï¿½eriyor:";
-$GLOBALS['strFieldFixBeforeContinue1']		= "Devam etmeden ï¿½nce ";
-$GLOBALS['strFieldFixBeforeContinue2']		= "hatalarï¿½nï¿½ dï¿½zeltmeniz gerekiyor.";
-$GLOBALS['strDelimiter']			= "Ayraï¿½";
+$GLOBALS['strShowAll']				= "Hepsini Göster";
+$GLOBALS['strNoAdminInteface']			= "Servis müsait deðil...";
+$GLOBALS['strFilterBySource']			= "kaynaða göre filtrele";
+$GLOBALS['strFieldContainsErrors']		= "Aþaðýdaki alanlar hata içeriyor:";
+$GLOBALS['strFieldFixBeforeContinue1']		= "Devam etmeden önce ";
+$GLOBALS['strFieldFixBeforeContinue2']		= "hatalarýný düzeltmeniz gerekiyor.";
+$GLOBALS['strDelimiter']			= "Ayraç";
 
 
 
 // Properties
-$GLOBALS['strName']				= "ï¿½sim";
+$GLOBALS['strName']				= "Ýsim";
 $GLOBALS['strSize']				= "Boyut";
-$GLOBALS['strWidth'] 				= "Geniï¿½lik";
-$GLOBALS['strHeight'] 				= "Yï¿½kseklik";
+$GLOBALS['strWidth'] 				= "Geniþlik";
+$GLOBALS['strHeight'] 				= "Yükseklik";
 $GLOBALS['strURL2']				= "URL";
 $GLOBALS['strTarget']				= "Hedef";
 $GLOBALS['strLanguage'] 			= "Dil";
-$GLOBALS['strDescription'] 			= "Aï¿½ï¿½klama";
+$GLOBALS['strDescription'] 			= "Açýklama";
 $GLOBALS['strID']				= "ID";
 
 
 // Login & Permissions
 $GLOBALS['strAuthentification'] 		= "Yetkilendirme";
-$GLOBALS['strWelcomeTo']			= "Hoï¿½geldiniz ";
-$GLOBALS['strEnterUsername']			= "Giriï¿½ yapabilmek iï¿½in kullanï¿½cï¿½ adï¿½nï¿½zï¿½ ve parolanï¿½zï¿½ giriniz";
-$GLOBALS['strEnterBoth']			= "Lï¿½tfen kullanï¿½cï¿½ adï¿½nï¿½zï¿½ ve parolanï¿½zï¿½ birlikte giriniz";
-$GLOBALS['strEnableCookies']			= $phpAds_productname." programï¿½nï¿½ ï¿½alï¿½ï¿½tï¿½rmak iï¿½in lï¿½tfen cookie ï¿½zelliï¿½ini aï¿½ï¿½nï¿½z";
-$GLOBALS['strLogin'] 				= "Giriï¿½";
-$GLOBALS['strLogout'] 				= "ï¿½ï¿½kï¿½ï¿½";
-$GLOBALS['strUsername'] 			= "Kullanï¿½cï¿½ Adï¿½";
+$GLOBALS['strWelcomeTo']			= "Hoþgeldiniz ";
+$GLOBALS['strEnterUsername']			= "Giriþ yapabilmek için kullanýcý adýnýzý ve parolanýzý giriniz";
+$GLOBALS['strEnterBoth']			= "Lütfen kullanýcý adýnýzý ve parolanýzý birlikte giriniz";
+$GLOBALS['strEnableCookies']			= $phpAds_productname." programýný çalýþtýrmak için lütfen cookie özelliðini açýnýz";
+$GLOBALS['strLogin'] 				= "Giriþ";
+$GLOBALS['strLogout'] 				= "Çýkýþ";
+$GLOBALS['strUsername'] 			= "Kullanýcý Adý";
 $GLOBALS['strPassword']				= "Parola";
-$GLOBALS['strAccessDenied']			= "Giriï¿½ Geï¿½ersiz";
-$GLOBALS['strPasswordWrong']			= "Parola geï¿½ersiz";
-$GLOBALS['strNotAdmin']				= "Yeterli ï¿½nceliï¿½iniz yok";
-$GLOBALS['strDuplicateClientName']		= "Belirtmiï¿½ olduï¿½unuz kullanï¿½cï¿½ adï¿½ baï¿½kasï¿½ tarafï¿½ndan kullanï¿½lï¿½yor.";
+$GLOBALS['strAccessDenied']			= "Giriþ Geçersiz";
+$GLOBALS['strPasswordWrong']			= "Parola geçersiz";
+$GLOBALS['strNotAdmin']				= "Yeterli önceliðiniz yok";
+$GLOBALS['strDuplicateClientName']		= "Belirtmiþ olduðunuz kullanýcý adý baþkasý tarafýndan kullanýlýyor.";
 
 
 // General advertising
-$GLOBALS['strImpressions'] 				= "Gï¿½rï¿½ntï¿½lenme";
-$GLOBALS['strClicks']				= "Tï¿½klanma";
+$GLOBALS['strImpressions'] 			=                  
+$GLOBALS['strViews'] 				= "Görüntülenme";
+$GLOBALS['strClicks']				= "Týklanma";
 $GLOBALS['strCTRShort'] 			= "T/G";
-$GLOBALS['strCTR'] 				= "Tï¿½klama / Gï¿½rï¿½ntï¿½lenme Oranï¿½";
-$GLOBALS['strTotalViews'] 			= "Toplam Gï¿½rï¿½ntï¿½lenme";
-$GLOBALS['strTotalClicks'] 			= "Toplam Tï¿½klanma";
-$GLOBALS['strViewCredits'] 			= "Gï¿½rï¿½ntï¿½lenme Kredisi";
-$GLOBALS['strClickCredits'] 			= "Tï¿½lanma Kredisi";
+$GLOBALS['strCTR'] 				= "Týklama / Görüntülenme Oraný";
+$GLOBALS['strTotalViews'] 			= "Toplam Görüntülenme";
+$GLOBALS['strTotalClicks'] 			= "Toplam Týklanma";
+$GLOBALS['strViewCredits'] 			= "Görüntülenme Kredisi";
+$GLOBALS['strClickCredits'] 			= "Týlanma Kredisi";
 
 
 // Time and date related
 $GLOBALS['strDate'] 				= "Tarih";
-$GLOBALS['strToday'] 				= "Bugï¿½n";
-$GLOBALS['strDay']				= "Gï¿½n";
-$GLOBALS['strDays']				= "Gï¿½nler";
-$GLOBALS['strLast7Days']			= "Son 7 Gï¿½n";
+$GLOBALS['strToday'] 				= "Bugün";
+$GLOBALS['strDay']				= "Gün";
+$GLOBALS['strDays']				= "Günler";
+$GLOBALS['strLast7Days']			= "Son 7 Gün";
 $GLOBALS['strWeek'] 				= "Hafta";
 $GLOBALS['strWeeks']				= "Haftalar";
 $GLOBALS['strMonths']				= "Aylar";
 $GLOBALS['strThisMonth'] 			= "Bu Ay";
-$GLOBALS['strMonth'] 				= array("Ocak","ï¿½ubat","Mart","Nisan","Mayï¿½s","Haziran","Temmuz", "Aï¿½ustos", "Eylï¿½l", "Ekim", "Kasï¿½m", "Aralï¿½k");
-$GLOBALS['strDayShortCuts'] 			= array("Pazar","Pazartesi","Salï¿½","ï¿½arï¿½amba","Perï¿½embe","Cuma","Cumartesi");
+$GLOBALS['strMonth'] 				= array("Ocak","Þubat","Mart","Nisan","Mayýs","Haziran","Temmuz", "Aðustos", "Eylül", "Ekim", "Kasým", "Aralýk");
+$GLOBALS['strDayShortCuts'] 			= array("Pazar","Pazartesi","Salý","Çarþamba","Perþembe","Cuma","Cumartesi");
 $GLOBALS['strHour']				= "Saat";
 $GLOBALS['strSeconds']				= "saniyeler";
 $GLOBALS['strMinutes']				= "dakikalar";
@@ -172,31 +173,31 @@ $GLOBALS['strTimes']				= "zamanlar";
 
 
 // Advertiser
-$GLOBALS['strClient']				= "Reklamcï¿½";
-$GLOBALS['strClients'] 				= "Reklamcï¿½lar";
-$GLOBALS['strClientsAndCampaigns']		= "Reklamcï¿½lar & Kampanyalar";
-$GLOBALS['strAddClient'] 			= "Yeni Reklamcï¿½ Ekle";
-$GLOBALS['strTotalClients'] 			= "Toplam Reklamcï¿½lar";
-$GLOBALS['strClientProperties']			= "Reklamcï¿½ ï¿½zellikleri";
-$GLOBALS['strClientHistory']			= "Reklamcï¿½ Geï¿½miï¿½i";
-$GLOBALS['strNoClients']			= "Tanï¿½mlanmï¿½ï¿½ Reklamcï¿½ bulunmamaktadï¿½r.";
-$GLOBALS['strConfirmDeleteClient'] 		= "Bu reklamcï¿½yï¿½ silmek istediï¿½inize emin misiniz?";
-$GLOBALS['strConfirmResetClientStats']		= "Bu reklamcï¿½ya ait tï¿½m istatistikleri silmek istediï¿½inize emin misiniz?";
-$GLOBALS['strHideInactiveAdvertisers']		= "Pasif Reklamcï¿½larï¿½ gizle";
-$GLOBALS['strInactiveAdvertisersHidden']	= "pasif reklamcï¿½(lar) gizlendi";
+$GLOBALS['strClient']				= "Reklamcý";
+$GLOBALS['strClients'] 				= "Reklamcýlar";
+$GLOBALS['strClientsAndCampaigns']		= "Reklamcýlar & Kampanyalar";
+$GLOBALS['strAddClient'] 			= "Yeni Reklamcý Ekle";
+$GLOBALS['strTotalClients'] 			= "Toplam Reklamcýlar";
+$GLOBALS['strClientProperties']			= "Reklamcý Özellikleri";
+$GLOBALS['strClientHistory']			= "Reklamcý Geçmiþi";
+$GLOBALS['strNoClients']			= "Tanýmlanmýþ Reklamcý bulunmamaktadýr.";
+$GLOBALS['strConfirmDeleteClient'] 		= "Bu reklamcýyý silmek istediðinize emin misiniz?";
+$GLOBALS['strConfirmResetClientStats']		= "Bu reklamcýya ait tüm istatistikleri silmek istediðinize emin misiniz?";
+$GLOBALS['strHideInactiveAdvertisers']		= "Pasif Reklamcýlarý gizle";
+$GLOBALS['strInactiveAdvertisersHidden']	= "pasif reklamcý(lar) gizlendi";
 
 
 // Advertisers properties
-$GLOBALS['strContact'] 				= "ï¿½rtibat";
+$GLOBALS['strContact'] 				= "Ýrtibat";
 $GLOBALS['strEMail'] 				= "E-mail";
-$GLOBALS['strSendAdvertisingReport']		= "e-mail yoluyla reklam gï¿½nder";
-$GLOBALS['strNoDaysBetweenReports']		= "Raporlar arasï¿½ndaki gï¿½n";
-$GLOBALS['strSendDeactivationWarning']  	= "Kampanya pasif edilince uyarï¿½ maili gï¿½nder";
-$GLOBALS['strAllowClientModifyInfo'] 		= "Bu kullanï¿½cï¿½ kendi ï¿½zelliklerini dï¿½zenleyebilsin";
-$GLOBALS['strAllowClientModifyBanner'] 		= "Bu kullanï¿½cï¿½ kendi bannerlarï¿½nï¿½ dï¿½zenleyebilsin";
-$GLOBALS['strAllowClientAddBanner'] 		= "Bu kullanï¿½cï¿½ kendi bannerlarï¿½nï¿½ ekleyebilsin";
-$GLOBALS['strAllowClientDisableBanner'] 	= "Bu kullanï¿½cï¿½ kendi bannerlarï¿½nï¿½ pasif edebilsin";
-$GLOBALS['strAllowClientActivateBanner'] 	= "Bu kullanï¿½cï¿½ kendi bannerlarï¿½nï¿½ aktif edebilsin";
+$GLOBALS['strSendAdvertisingReport']		= "e-mail yoluyla reklam gönder";
+$GLOBALS['strNoDaysBetweenReports']		= "Raporlar arasýndaki gün";
+$GLOBALS['strSendDeactivationWarning']  	= "Kampanya pasif edilince uyarý maili gönder";
+$GLOBALS['strAllowClientModifyInfo'] 		= "Bu kullanýcý kendi özelliklerini düzenleyebilsin";
+$GLOBALS['strAllowClientModifyBanner'] 		= "Bu kullanýcý kendi bannerlarýný düzenleyebilsin";
+$GLOBALS['strAllowClientAddBanner'] 		= "Bu kullanýcý kendi bannerlarýný ekleyebilsin";
+$GLOBALS['strAllowClientDisableBanner'] 	= "Bu kullanýcý kendi bannerlarýný pasif edebilsin";
+$GLOBALS['strAllowClientActivateBanner'] 	= "Bu kullanýcý kendi bannerlarýný aktif edebilsin";
 
 
 // Campaign
@@ -205,37 +206,38 @@ $GLOBALS['strCampaigns']			= "Kampanyalar";
 $GLOBALS['strTotalCampaigns'] 			= "Toplam Kampanyalar";
 $GLOBALS['strActiveCampaigns'] 			= "Aktif Kampanyalar";
 $GLOBALS['strAddCampaign'] 			= "Yeni Kampanya Ekle";
-$GLOBALS['strCreateNewCampaign']		= "Yeni Kampanya Oluï¿½tur";
-$GLOBALS['strModifyCampaign']			= "Kampanya Dï¿½zenle";
-$GLOBALS['strMoveToNewCampaign']		= "Yeni Kampanyaya Taï¿½ï¿½";
-$GLOBALS['strBannersWithoutCampaign']		= "Bannersï¿½z Kampanyalar";
-$GLOBALS['strDeleteAllCampaigns']		= "Tï¿½m Kampanyalarï¿½ sil";
-$GLOBALS['strCampaignStats']			= "Kampanya ï¿½statistikleri";
-$GLOBALS['strCampaignProperties']		= "Kampanya ï¿½zellikleri";
-$GLOBALS['strCampaignOverview']			= "Kampanya ï¿½zeti";
-$GLOBALS['strCampaignHistory']			= "Kampanya Geï¿½miï¿½i";
-$GLOBALS['strNoCampaigns']			= "Henï¿½z tanï¿½mlanmï¿½ï¿½ Kampanya yok";
-$GLOBALS['strConfirmDeleteAllCampaigns']	= "Bu Reklamcï¿½ya ait tï¿½m kampayalarï¿½ silmek istediï¿½inize emin misiniz?";
-$GLOBALS['strConfirmDeleteCampaign']		= "Bu kampanyayï¿½ silmek istediï¿½inize emin misiniz?";
-$GLOBALS['strHideInactiveCampaigns']		= "Pasif Kampanyalarï¿½ gizle";
+$GLOBALS['strCreateNewCampaign']		= "Yeni Kampanya Oluþtur";
+$GLOBALS['strModifyCampaign']			= "Kampanya Düzenle";
+$GLOBALS['strMoveToNewCampaign']		= "Yeni Kampanyaya Taþý";
+$GLOBALS['strBannersWithoutCampaign']		= "Bannersýz Kampanyalar";
+$GLOBALS['strDeleteAllCampaigns']		= "Tüm Kampanyalarý sil";
+$GLOBALS['strCampaignStats']			= "Kampanya Ýstatistikleri";
+$GLOBALS['strCampaignProperties']		= "Kampanya Özellikleri";
+$GLOBALS['strCampaignOverview']			= "Kampanya Özeti";
+$GLOBALS['strCampaignHistory']			= "Kampanya Geçmiþi";
+$GLOBALS['strNoCampaigns']			= "Henüz tanýmlanmýþ Kampanya yok";
+$GLOBALS['strConfirmDeleteAllCampaigns']	= "Bu Reklamcýya ait tüm kampayalarý silmek istediðinize emin misiniz?";
+$GLOBALS['strConfirmDeleteCampaign']		= "Bu kampanyayý silmek istediðinize emin misiniz?";
+$GLOBALS['strHideInactiveCampaigns']		= "Pasif Kampanyalarý gizle";
 $GLOBALS['strInactiveCampaignsHidden']		= "pasif kampanya(lar) gizlendi";
 
 
 // Campaign properties
-$GLOBALS['strDontExpire']			= "Bu kampanyayï¿½ belirli bir tarihte bitirme";
-$GLOBALS['strActivateNow'] 			= "Bu kampanyayï¿½ hemen aktif et";
-$GLOBALS['strLow']				= "Dï¿½ï¿½ï¿½k";
-$GLOBALS['strHigh']				= "Yï¿½ksek";
-$GLOBALS['strExpirationDate']			= "Bitiï¿½ Tarihi";
+$GLOBALS['strDontExpire']			= "Bu kampanyayý belirli bir tarihte bitirme";
+$GLOBALS['strActivateNow'] 			= "Bu kampanyayý hemen aktif et";
+$GLOBALS['strLow']				= "Düþük";
+$GLOBALS['strHigh']				= "Yüksek";
+$GLOBALS['strExpirationDate']			= "Bitiþ Tarihi";
 $GLOBALS['strActivationDate']			= "Aktivasyon Tarihi";
-$GLOBALS['strImpressionsPurchased'] 			= "Kalan Gï¿½rï¿½ntï¿½lenme";
-$GLOBALS['strClicksPurchased'] 			= "Kalan Tï¿½klama";
-$GLOBALS['strCampaignWeight']			= "Kampanya Aï¿½ï¿½rlï¿½ï¿½ï¿½";
-$GLOBALS['strHighPriority']			= "Bu kampanyadaki bannerlarï¿½ yï¿½ksek ï¿½ncelikli belirle.<br />Eï¿½er bu ï¿½zelliï¿½i seï¿½erseniz program kï¿½sa sï¿½rede gï¿½rï¿½ntï¿½leme kredisini dolduracaktï¿½r.";
-$GLOBALS['strLowPriority']			= "Bu kampanyadaki bannerlarï¿½ dï¿½ï¿½ï¿½k ï¿½ncelikli belirle.<br />Bu kampanya yï¿½ksek ï¿½ncelikli kampanyalardan fï¿½rsat bulduï¿½u zaman gï¿½rï¿½ntï¿½lenecektir.";
-$GLOBALS['strTargetLimitAdviews']		= "Gï¿½rï¿½ntï¿½lenme limiti";
-$GLOBALS['strTargetPerDay']			= "bir gï¿½n iï¿½in.";
-$GLOBALS['strPriorityAutoTargeting']		= "Kalan gï¿½rï¿½ntï¿½leme adedini kalan gï¿½nlere eï¿½it daï¿½ï¿½t. Gï¿½sterim Sayï¿½sï¿½ gï¿½nlere gï¿½re ayarlanacaktï¿½r.";
+$GLOBALS['strImpressionsPurchased'] 	= 
+$GLOBALS['strViewsPurchased'] 			= "Kalan Görüntülenme";
+$GLOBALS['strClicksPurchased'] 			= "Kalan Týklama";
+$GLOBALS['strCampaignWeight']			= "Kampanya Aðýrlýðý";
+$GLOBALS['strHighPriority']			= "Bu kampanyadaki bannerlarý yüksek öncelikli belirle.<br>Eðer bu özelliði seçerseniz program kýsa sürede görüntüleme kredisini dolduracaktýr.";
+$GLOBALS['strLowPriority']			= "Bu kampanyadaki bannerlarý düþük öncelikli belirle.<br>Bu kampanya yüksek öncelikli kampanyalardan fýrsat bulduðu zaman görüntülenecektir.";
+$GLOBALS['strTargetLimitAdviews']		= "Görüntülenme limiti";
+$GLOBALS['strTargetPerDay']			= "bir gün için.";
+$GLOBALS['strPriorityAutoTargeting']		= "Kalan görüntüleme adedini kalan günlere eþit daðýt. Gösterim Sayýsý günlere göre ayarlanacaktýr.";
 
 
 
@@ -243,281 +245,282 @@ $GLOBALS['strPriorityAutoTargeting']		= "Kalan gï¿½rï¿½ntï¿½leme adedini kalan g
 $GLOBALS['strBanner'] 				= "Banner";
 $GLOBALS['strBanners'] 				= "Bannerlar";
 $GLOBALS['strAddBanner'] 			= "Yeni Banner Ekle";
-$GLOBALS['strModifyBanner'] 			= "Banner Dï¿½zenle";
-$GLOBALS['strActiveBanners'] 			= "Bannerlarï¿½ Aktif Et";
+$GLOBALS['strModifyBanner'] 			= "Banner Düzenle";
+$GLOBALS['strActiveBanners'] 			= "Bannerlarý Aktif Et";
 $GLOBALS['strTotalBanners'] 			= "Toplam Bannerlar";
-$GLOBALS['strShowBanner']			= "Banneri gï¿½ster";
-$GLOBALS['strShowAllBanners']	 		= "Tï¿½m Bannerlarï¿½ gï¿½ster";
-$GLOBALS['strShowBannersNoAdClicks']		= "Tï¿½klanmayan bannerlarï¿½ gï¿½ster";
-$GLOBALS['strShowBannersNoAdViews']		= "Gï¿½rï¿½ntï¿½lemeyen Bannerlarï¿½ gï¿½ster";
-$GLOBALS['strDeleteAllBanners']	 		= "Tï¿½m Bannerlarï¿½ Sil";
-$GLOBALS['strActivateAllBanners']		= "Tï¿½m Bannerlarï¿½ Aktif Et";
-$GLOBALS['strDeactivateAllBanners']		= "Tï¿½m Bannerlarï¿½ Pasif Et";
-$GLOBALS['strBannerOverview']			= "Banner ï¿½nizleme";
-$GLOBALS['strBannerProperties']			= "Banner ï¿½zellikleri";
-$GLOBALS['strBannerHistory']			= "Banner geï¿½miï¿½i";
+$GLOBALS['strShowBanner']			= "Banneri göster";
+$GLOBALS['strShowAllBanners']	 		= "Tüm Bannerlarý göster";
+$GLOBALS['strShowBannersNoAdClicks']		= "Týklanmayan bannerlarý göster";
+$GLOBALS['strShowBannersNoAdViews']		= "Görüntülemeyen Bannerlarý göster";
+$GLOBALS['strDeleteAllBanners']	 		= "Tüm Bannerlarý Sil";
+$GLOBALS['strActivateAllBanners']		= "Tüm Bannerlarý Aktif Et";
+$GLOBALS['strDeactivateAllBanners']		= "Tüm Bannerlarý Pasif Et";
+$GLOBALS['strBannerOverview']			= "Banner önizleme";
+$GLOBALS['strBannerProperties']			= "Banner özellikleri";
+$GLOBALS['strBannerHistory']			= "Banner geþmiþi";
 $GLOBALS['strBannerNoStats'] 			= "Bu bannera ait istatistik yok";
-$GLOBALS['strNoBanners']			= "Tanï¿½mlanmï¿½ï¿½ Banner Yok";
-$GLOBALS['strConfirmDeleteBanner']		= "Bu bannerï¿½ silmak istediï¿½inize emin misiniz?";
-$GLOBALS['strConfirmDeleteAllBanners']		= "Bu kampanyaya ait tï¿½m bannerlarï¿½ silmek istediï¿½inize emin misiniz?";
-$GLOBALS['strConfirmResetBannerStats']		= "Bu bannera ait tï¿½m istatistikleri silmek istediï¿½inize emin misiniz?";
+$GLOBALS['strNoBanners']			= "Tanýmlanmýþ Banner Yok";
+$GLOBALS['strConfirmDeleteBanner']		= "Bu bannerý silmak istediðinize emin misiniz?";
+$GLOBALS['strConfirmDeleteAllBanners']		= "Bu kampanyaya ait tüm bannerlarý silmek istediðinize emin misiniz?";
+$GLOBALS['strConfirmResetBannerStats']		= "Bu bannera ait tüm istatistikleri silmek istediðinize emin misiniz?";
 $GLOBALS['strShowParentCampaigns']		= "Ebeveyn Kampanyalar";
-$GLOBALS['strHideParentCampaigns']		= "Ebeveyn Kampanyalarï¿½ Gizle";
-$GLOBALS['strHideInactiveBanners']		= "Pasif Bannerlarï¿½ gizli";
+$GLOBALS['strHideParentCampaigns']		= "Ebeveyn Kampanyalarý Gizle";
+$GLOBALS['strHideInactiveBanners']		= "Pasif Bannerlarý gizli";
 $GLOBALS['strInactiveBannersHidden']		= "pasif banner(lar) gizlendi";
 
 
 
 // Banner (Properties)
-$GLOBALS['strChooseBanner'] 			= "Banner tipini seï¿½iniz";
+$GLOBALS['strChooseBanner'] 			= "Banner tipini seçiniz";
 $GLOBALS['strMySQLBanner'] 			= "Yerel banner (SQL)";
 $GLOBALS['strWebBanner'] 			= "Yerel banner (Webserver)";
 $GLOBALS['strURLBanner'] 			= "Harici banner";
 $GLOBALS['strHTMLBanner'] 			= "HTML banner";
-$GLOBALS['strTextBanner'] 			= "Yazï¿½ Olarak Reklam";
-$GLOBALS['strAutoChangeHTML']			= "HTML'yi Tï¿½klama algï¿½lacak hale getir";
-$GLOBALS['strUploadOrKeep']			= "ï¿½u anda bulunan resminizin mi <br />kalmasï¿½nï¿½ istersiniz yoksa<br />yeni bir resim mi gï¿½ndereksiniz?";
-$GLOBALS['strNewBannerFile'] 			= "Bu banner iï¿½in kullanï¿½caï¿½ï¿½nï¿½z <br />resmi seï¿½iniz<br /><br />";
+$GLOBALS['strTextBanner'] 			= "Yazý Olarak Reklam";
+$GLOBALS['strAutoChangeHTML']			= "HTML'yi Týklama algýlacak hale getir";
+$GLOBALS['strUploadOrKeep']			= "Þu anda bulunan resminizin mi <br>kalmasýný istersiniz yoksa<br>yeni bir resim mi göndereksiniz?";
+$GLOBALS['strNewBannerFile'] 			= "Bu banner için kullanýcaðýnýz <br>resmi seçiniz<br><br>";
 $GLOBALS['strNewBannerURL'] 			= "Resim URL (http:// dahil)";
 $GLOBALS['strURL'] 				= "Hedef URL (http:// dahil)";
 $GLOBALS['strHTML'] 				= "HTML";
-$GLOBALS['strTextBelow'] 			= "Resim altï¿½na yazï¿½";
+$GLOBALS['strTextBelow'] 			= "Resim altýna yazý";
 $GLOBALS['strKeyword'] 				= "Anahtar Kelimeler";
-$GLOBALS['strWeight'] 				= "ï¿½nemi";
-$GLOBALS['strAlt'] 				= "Alt yazï¿½sï¿½";
-$GLOBALS['strStatusText']			= "Durum ï¿½ubuï¿½u Yazï¿½sï¿½";
-$GLOBALS['strBannerWeight']			= "Banner ï¿½nemi";
+$GLOBALS['strWeight'] 				= "Önemi";
+$GLOBALS['strAlt'] 				= "Alt yazýsý";
+$GLOBALS['strStatusText']			= "Durum Çubuðu Yazýsý";
+$GLOBALS['strBannerWeight']			= "Banner önemi";
 
 
 // Banner (swf)
-$GLOBALS['strCheckSWF']				= "Flash Dosyalarï¿½ iï¿½erisindeki yazï¿½lï¿½ bannerlarï¿½ incele";
-$GLOBALS['strConvertSWFLinks']			= "Flash linklerine ï¿½evir";
-$GLOBALS['strConvertSWF']			= "<br />Eklemiï¿½ oldï¿½unuz banner yazï¿½lï¿½ link iï¿½eriyor. Bu linkleri deï¿½iï¿½tirmediï¿½iniz takdirde program tï¿½klanmayï¿½ sayamayacaktï¿½r. Aï¿½aï¿½ï¿½da Flash dosyasï¿½ iï¿½erisindeki linkleri gï¿½rï¿½yorsunuz. URLleri deï¿½iï¿½tirmek iï¿½in, basitï¿½e <b>Dï¿½nï¿½ï¿½tï¿½r</b>ebasï¿½nï¿½z, veya <b>iptal</b> ede basï¿½nï¿½z.<br /><br />NOT: Eï¿½er <b>dï¿½nï¿½ï¿½tï¿½re</b> basarsanï¿½z gï¿½nderdiï¿½iniz Flash dosyasï¿½ fiziksel olarak bozulabilir. <br />Lï¿½tfen orjinal dosyanï¿½n yedeï¿½ini alï¿½nï¿½z. Hangi versiyonla oluï¿½turulmuï¿½ olursa olsun, gï¿½rï¿½ntï¿½lenmesi iï¿½in Flash 4 Player (veya ï¿½stï¿½) gerekecektir.<br /><br />";
-$GLOBALS['strCompressSWF']			= "Hï¿½zlï¿½ indirme iï¿½in SWF dosyasï¿½ (Flash 6 player gerekli)";
+$GLOBALS['strCheckSWF']				= "Flash Dosyalarý içerisindeki yazýlý bannerlarý incele";
+$GLOBALS['strConvertSWFLinks']			= "Flash linklerine çevir";
+$GLOBALS['strConvertSWF']			= "<br>Eklemiþ oldðunuz banner yazýlý link içeriyor. Bu linkleri deðiþtirmediðiniz takdirde program týklanmayý sayamayacaktýr. Aþaðýda Flash dosyasý içerisindeki linkleri görüyorsunuz. URLleri deðiþtirmek için, basitçe <b>Dönüþtür</b>ebasýnýz, veya <b>iptal</b> ede basýnýz.<br><br>NOT: Eðer <b>dönüþtüre</b> basarsanýz gönderdiðiniz Flash dosyasý fiziksel olarak bozulabilir. <br>Lütfen orjinal dosyanýn yedeðini alýnýz. Hangi versiyonla oluþturulmuþ olursa olsun, görüntülenmesi için Flash 4 Player (veya üstü) gerekecektir.<br><br>";
+$GLOBALS['strCompressSWF']			= "Hýzlý indirme için SWF dosyasý (Flash 6 player gerekli)";
 
 
 // Banner (network)
-$GLOBALS['strBannerNetwork']			= "HTML ï¿½ablonu";
-$GLOBALS['strChooseNetwork']			= "Kullanacaï¿½ï¿½nï¿½z ï¿½ablonu seï¿½iniz";
+$GLOBALS['strBannerNetwork']			= "HTML þablonu";
+$GLOBALS['strChooseNetwork']			= "Kullanacaðýnýz þablonu seçiniz";
 $GLOBALS['strMoreInformation']			= "Daha fazla bilgi...";
 $GLOBALS['strRichMedia']			= "Richmedia";
-$GLOBALS['strTrackAdClicks']			= "Tï¿½klamalarï¿½ izle";
+$GLOBALS['strTrackAdClicks']			= "Týklamalarý izle";
 
 
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] 			= "Teslim Tercihleri";
 $GLOBALS['strACL'] 				= "Teslimat";
-$GLOBALS['strACLAdd'] 				= "Yeni Sï¿½nï¿½rlama Ekle";
-$GLOBALS['strNoLimitations']			= "Sï¿½nï¿½rlama yok";
-$GLOBALS['strApplyLimitationsTo']		= "Sï¿½nï¿½rlamayï¿½ onayla";
-$GLOBALS['strRemoveAllLimitations']		= "Tï¿½m sï¿½nï¿½rlamalarï¿½ kaldï¿½r";
-$GLOBALS['strEqualTo']				= "eï¿½ittir";
-$GLOBALS['strDifferentFrom']			= "farklï¿½";
+$GLOBALS['strACLAdd'] 				= "Yeni Sýnýrlama Ekle";
+$GLOBALS['strNoLimitations']			= "Sýnýrlama yok";
+$GLOBALS['strApplyLimitationsTo']		= "Sýnýrlamayý onayla";
+$GLOBALS['strRemoveAllLimitations']		= "Tüm sýnýrlamalarý kaldýr";
+$GLOBALS['strEqualTo']				= "eþittir";
+$GLOBALS['strDifferentFrom']			= "farklý";
 $GLOBALS['strAND']				= "AND";  						// logical operator
 $GLOBALS['strOR']				= "OR"; 						// logical operator
-$GLOBALS['strOnlyDisplayWhen']			= "Bu bannerï¿½ sadece .... de gï¿½ster:";
-$GLOBALS['strWeekDay'] 				= "Haftaiï¿½i";
+$GLOBALS['strOnlyDisplayWhen']			= "Bu bannerý sadece .... de göster:";
+$GLOBALS['strWeekDay'] 				= "Haftaiçi";
 $GLOBALS['strTime'] 				= "Zaman";
-$GLOBALS['strUserAgent'] 			= "Kullanï¿½cï¿½ Temsilcisi";
+$GLOBALS['strUserAgent'] 			= "Kullanýcý Temsilcisi";
 $GLOBALS['strDomain'] 				= "Alan";
-$GLOBALS['strClientIP'] 			= "Mï¿½ï¿½teri IP";
+$GLOBALS['strClientIP'] 			= "Müþteri IP";
 $GLOBALS['strSource'] 				= "Kaynak";
-$GLOBALS['strBrowser'] 				= "Tarayï¿½cï¿½";
-$GLOBALS['strOS'] 				= "ï¿½ï¿½letim Sistemi";
-$GLOBALS['strCountry'] 				= "ï¿½lke";
-$GLOBALS['strContinent'] 			= "Kï¿½ta";
-$GLOBALS['strDeliveryLimitations']		= "Teslimat Sï¿½nï¿½rlamalarï¿½";
-$GLOBALS['strDeliveryCapping']			= "Teslimat kï¿½sï¿½tlamalarï¿½";
-$GLOBALS['strTimeCapping']			= "Bu banner daha ï¿½nceden gï¿½sterildi. Aynï¿½ bannerï¿½ aynï¿½ kullanï¿½cï¿½ iï¿½in gï¿½sterme:";
-$GLOBALS['strImpressionCapping']		= "Aynï¿½ kullanï¿½cï¿½ya bu banner defadan fazla gï¿½sterme:";
+$GLOBALS['strBrowser'] 				= "Tarayýcý";
+$GLOBALS['strOS'] 				= "Ýþletim Sistemi";
+$GLOBALS['strCountry'] 				= "Ülke";
+$GLOBALS['strContinent'] 			= "Kýta";
+$GLOBALS['strDeliveryLimitations']		= "Teslimat Sýnýrlamalarý";
+$GLOBALS['strDeliveryCapping']			= "Teslimat kýsýtlamalarý";
+$GLOBALS['strTimeCapping']			= "Bu banner daha önceden gösterildi. Ayný bannerý ayný kullanýcý için gösterme:";
+$GLOBALS['strImpressionCapping']		= "Ayný kullanýcýya bu banner defadan fazla gösterme:";
 
 
 // Publisher
-$GLOBALS['strAffiliate']			= "Yayï¿½ncï¿½";
-$GLOBALS['strAffiliates']			= "Yayï¿½ncï¿½lar";
-$GLOBALS['strAffiliatesAndZones']		= "Yayï¿½ncï¿½lar & Alanlar";
-$GLOBALS['strAddNewAffiliate']			= "Yeni Yayï¿½ncï¿½ Ekle";
-$GLOBALS['strAddAffiliate']			= "Yayï¿½ncï¿½ Oluï¿½tur";
-$GLOBALS['strAffiliateProperties']		= "Yayï¿½ncï¿½ ï¿½zellikleri";
-$GLOBALS['strAffiliateOverview']		= "Yayï¿½ncï¿½ ï¿½nizleme";
-$GLOBALS['strAffiliateHistory']			= "Yayï¿½ncï¿½ Geï¿½miï¿½i";
-$GLOBALS['strZonesWithoutAffiliate']		= "Yayï¿½ncï¿½sï¿½z Alanlar";
-$GLOBALS['strMoveToNewAffiliate']		= "Yeni Yayï¿½ncï¿½ya taï¿½ï¿½";
-$GLOBALS['strNoAffiliates']			= "Henï¿½z tanï¿½mlanmï¿½ï¿½ yayï¿½ncï¿½ bulunmamaktadï¿½r";
-$GLOBALS['strConfirmDeleteAffiliate']		= "Bu yayï¿½ncï¿½yï¿½ silmek istediï¿½inize emin misiniz?";
-$GLOBALS['strMakePublisherPublic']		= "Bu yayï¿½ncï¿½ya ait tï¿½m alanlarï¿½ umumi yap";
+$GLOBALS['strAffiliate']			= "Yayýncý";
+$GLOBALS['strAffiliates']			= "Yayýncýlar";
+$GLOBALS['strAffiliatesAndZones']		= "Yayýncýlar & Alanlar";
+$GLOBALS['strAddNewAffiliate']			= "Yeni Yayýncý Ekle";
+$GLOBALS['strAddAffiliate']			= "Yayýncý Oluþtur";
+$GLOBALS['strAffiliateProperties']		= "Yayýncý Özellikleri";
+$GLOBALS['strAffiliateOverview']		= "Yayýncý Önizleme";
+$GLOBALS['strAffiliateHistory']			= "Yayýncý Geçmiþi";
+$GLOBALS['strZonesWithoutAffiliate']		= "Yayýncýsýz Alanlar";
+$GLOBALS['strMoveToNewAffiliate']		= "Yeni Yayýncýya taþý";
+$GLOBALS['strNoAffiliates']			= "Henüz tanýmlanmýþ yayýncý bulunmamaktadýr";
+$GLOBALS['strConfirmDeleteAffiliate']		= "Bu yayýncýyý silmek istediðinize emin misiniz?";
+$GLOBALS['strMakePublisherPublic']		= "Bu yayýncýya ait tüm alanlarý umumi yap";
 
 
 // Publisher (properties)
 $GLOBALS['strWebsite']				= "Website";
-$GLOBALS['strAllowAffiliateModifyInfo'] 	= "Bu kullanï¿½cï¿½ kendi ï¿½zelliklerini dï¿½zenleyebilsin";
-$GLOBALS['strAllowAffiliateModifyZones'] 	= "Bu kullanï¿½cï¿½ kendi alanlarï¿½nï¿½ dï¿½zenleyebilsin";
-$GLOBALS['strAllowAffiliateLinkBanners'] 	= "Bu kullanï¿½cï¿½ kendi alanlarï¿½na banner baï¿½layabilsin";
-$GLOBALS['strAllowAffiliateAddZone'] 		= "Bu kullanï¿½cï¿½ yeni alanlar tanï¿½mlayabilsin";
-$GLOBALS['strAllowAffiliateDeleteZone'] 	= "Bu kullanï¿½cï¿½ varolan alanlarï¿½ silebilsin";
+$GLOBALS['strAllowAffiliateModifyInfo'] 	= "Bu kullanýcý kendi özelliklerini düzenleyebilsin";
+$GLOBALS['strAllowAffiliateModifyZones'] 	= "Bu kullanýcý kendi alanlarýný düzenleyebilsin";
+$GLOBALS['strAllowAffiliateLinkBanners'] 	= "Bu kullanýcý kendi alanlarýna banner baðlayabilsin";
+$GLOBALS['strAllowAffiliateAddZone'] 		= "Bu kullanýcý yeni alanlar tanýmlayabilsin";
+$GLOBALS['strAllowAffiliateDeleteZone'] 	= "Bu kullanýcý varolan alanlarý silebilsin";
 
 
 // Zone
 $GLOBALS['strZone']				= "Alan";
 $GLOBALS['strZones']				= "Alanlar";
 $GLOBALS['strAddNewZone']			= "Yeni Alan Ekle";
-$GLOBALS['strAddZone']				= "Alan Oluï¿½tur";
-$GLOBALS['strModifyZone']			= "Alan Dï¿½zenle";
-$GLOBALS['strLinkedZones']			= "ï¿½liï¿½kili Alanlar";
-$GLOBALS['strZoneOverview']			= "Alan ï¿½nizleme";
-$GLOBALS['strZoneProperties']			= "Alan ï¿½zellikleri";
-$GLOBALS['strZoneHistory']			= "Alan Geï¿½miï¿½i";
-$GLOBALS['strNoZones']				= "Henï¿½z hiï¿½bir alan tanï¿½mlanmamï¿½ï¿½";
-$GLOBALS['strConfirmDeleteZone']		= "Bu alanï¿½ silmek istediï¿½inize emin misiniz?";
+$GLOBALS['strAddZone']				= "Alan Oluþtur";
+$GLOBALS['strModifyZone']			= "Alan Düzenle";
+$GLOBALS['strLinkedZones']			= "Ýliþkili Alanlar";
+$GLOBALS['strZoneOverview']			= "Alan Önizleme";
+$GLOBALS['strZoneProperties']			= "Alan Özellikleri";
+$GLOBALS['strZoneHistory']			= "Alan Geçmiþi";
+$GLOBALS['strNoZones']				= "Henüz hiçbir alan tanýmlanmamýþ";
+$GLOBALS['strConfirmDeleteZone']		= "Bu alaný silmek istediðinize emin misiniz?";
 $GLOBALS['strZoneType']				= "Alan tipi";
-$GLOBALS['strBannerButtonRectangle']		= "Banner, Buton veya Dikdï¿½rtgen";
-$GLOBALS['strInterstitial']			= "Interstitial veya Yï¿½zen DHTML";
+$GLOBALS['strBannerButtonRectangle']		= "Banner, Buton veya Dikdörtgen";
+$GLOBALS['strInterstitial']			= "Interstitial veya Yüzen DHTML";
 $GLOBALS['strPopup']				= "Popup";
-$GLOBALS['strTextAdZone']			= "Yazï¿½lï¿½ Reklam";
-$GLOBALS['strShowMatchingBanners']		= "Uyan Bannerlarï¿½ gï¿½ster";
-$GLOBALS['strHideMatchingBanners']		= "Uyan bannerlarï¿½ gizle";
+$GLOBALS['strTextAdZone']			= "Yazýlý Reklam";
+$GLOBALS['strShowMatchingBanners']		= "Uyan Bannerlarý göster";
+$GLOBALS['strHideMatchingBanners']		= "Uyan bannerlarý gizle";
 
 
 // Advanced zone settings
-$GLOBALS['strAdvanced']				= "Geliï¿½miï¿½";
+$GLOBALS['strAdvanced']				= "Geliþmiþ";
 $GLOBALS['strChains']				= "Zincirler";
-$GLOBALS['strChainSettings']			= "Zincir Ayarlarï¿½";
-$GLOBALS['strZoneNoDelivery']			= "Bu alana ait hiï¿½bir banner <br />tanï¿½mlanmamï¿½ï¿½sa dene...";
-$GLOBALS['strZoneStopDelivery']			= "Teslimatï¿½ durdur ve bannerlarï¿½ gï¿½sterme";
-$GLOBALS['strZoneOtherZone']			= "Seï¿½ili alan yerine gï¿½ster";
-$GLOBALS['strZoneUseKeywords']			= "Aï¿½aï¿½ï¿½daki anahtar cï¿½mlecikleri kullanan bannerlarï¿½ gï¿½ster";
-$GLOBALS['strZoneAppend']			= "Bu alan tarafï¿½ndan gï¿½sterilen tï¿½m alanlara aï¿½aï¿½ï¿½daki popupï¿½ ekle";
-$GLOBALS['strAppendSettings']			= "Ekleme ve Dï¿½zenleme Ayarlarï¿½";
+$GLOBALS['strChainSettings']			= "Zincir Ayarlarý";
+$GLOBALS['strZoneNoDelivery']			= "Bu alana ait hiçbir banner <br>tanýmlanmamýþsa dene...";
+$GLOBALS['strZoneStopDelivery']			= "Teslimatý durdur ve bannerlarý gösterme";
+$GLOBALS['strZoneOtherZone']			= "Seçili alan yerine göster";
+$GLOBALS['strZoneUseKeywords']			= "Aþaðýdaki anahtar cümlecikleri kullanan bannerlarý göster";
+$GLOBALS['strZoneAppend']			= "Bu alan tarafýndan gösterilen tüm alanlara aþaðýdaki popupý ekle";
+$GLOBALS['strAppendSettings']			= "Ekleme ve Düzenleme Ayarlarý";
 $GLOBALS['strZonePrependHTML']			= "Always prepend the HTML code to text ads displayed by this zone";
-$GLOBALS['strZoneAppendHTML']			= "Bu alana ait tï¿½m yazï¿½ reklamlarï¿½na HTML kodunu ekle";
+$GLOBALS['strZoneAppendHTML']			= "Bu alana ait tüm yazý reklamlarýna HTML kodunu ekle";
 
 
 // Linked banners/campaigns
-$GLOBALS['strSelectZoneType']			= "ï¿½liï¿½kili bannerlarï¿½n tipini belirle";
+$GLOBALS['strSelectZoneType']			= "Ýliþkili bannerlarýn tipini belirle";
 $GLOBALS['strBannerSelection']			= "Banner tercihleri";
 $GLOBALS['strCampaignSelection']		= "Kanpanya tercihleri";
 $GLOBALS['strInteractive']			= "Interaktif";
 $GLOBALS['strRawQueryString']			= "Anahtar Kelime";
-$GLOBALS['strIncludedBanners']			= "ï¿½liï¿½kili bannerlar";
-$GLOBALS['strLinkedBannersOverview']		= "ï¿½liï¿½kili banner ï¿½nizleme";
-$GLOBALS['strLinkedBannerHistory']		= "ï¿½liï¿½kili banner geï¿½miï¿½i";
-$GLOBALS['strNoZonesToLink']			= "Bu banner iliï¿½kilendirileceï¿½i uygun herhangi bir alan bulunmamktadï¿½r";
-$GLOBALS['strNoBannersToLink']			= "Bu alana iliï¿½kilendirilecek uygun banner bulunmamaktadï¿½r";
-$GLOBALS['strNoLinkedBanners']			= "Bu alana iliï¿½kilnedirilecek herhangi bir banner bulunmamktadï¿½r";
+$GLOBALS['strIncludedBanners']			= "Ýliþkili bannerlar";
+$GLOBALS['strLinkedBannersOverview']		= "Ýliþkili banner önizleme";
+$GLOBALS['strLinkedBannerHistory']		= "Ýliþkili banner geçmiþi";
+$GLOBALS['strNoZonesToLink']			= "Bu banner iliþkilendirileceði uygun herhangi bir alan bulunmamktadýr";
+$GLOBALS['strNoBannersToLink']			= "Bu alana iliþkilendirilecek uygun banner bulunmamaktadýr";
+$GLOBALS['strNoLinkedBanners']			= "Bu alana iliþkilnedirilecek herhangi bir banner bulunmamktadýr";
 $GLOBALS['strMatchingBanners']			= "{count} uygun banner";
-$GLOBALS['strNoCampaignsToLink']		= "Bu alana ilikilendirilecek hiï¿½bir kampanya bulunmamaktadï¿½r";
-$GLOBALS['strNoZonesToLinkToCampaign']  	= "Bu kampanyanï¿½n iliï¿½kilendirilebileceï¿½i alan bulunmamktadï¿½r";
-$GLOBALS['strSelectBannerToLink']		= "Bu alana iliï¿½kilendireceï¿½iniz bannerï¿½ seï¿½iniz:";
-$GLOBALS['strSelectCampaignToLink']		= "Bu alana iliï¿½kilendireceï¿½iniz kampanyayï¿½ seï¿½iniz:";
+$GLOBALS['strNoCampaignsToLink']		= "Bu alana ilikilendirilecek hiçbir kampanya bulunmamaktadýr";
+$GLOBALS['strNoZonesToLinkToCampaign']  	= "Bu kampanyanýn iliþkilendirilebileceði alan bulunmamktadýr";
+$GLOBALS['strSelectBannerToLink']		= "Bu alana iliþkilendireceðiniz bannerý seçiniz:";
+$GLOBALS['strSelectCampaignToLink']		= "Bu alana iliþkilendireceðiniz kampanyayý seçiniz:";
 
 
 // Statistics
-$GLOBALS['strStats'] 				= "ï¿½statistikler";
-$GLOBALS['strNoStats']				= "Henï¿½z ï¿½statistik bulunmamakta";
-$GLOBALS['strConfirmResetStats']		= "Mevcut tï¿½m istatistikleri silmek istediï¿½inize emin misiniz?";
-$GLOBALS['strGlobalHistory']			= "Ayrï¿½ntï¿½lï¿½ geï¿½miï¿½";
-$GLOBALS['strDailyHistory']			= "Gï¿½nlï¿½k geï¿½miï¿½";
-$GLOBALS['strDailyStats'] 			= "Gï¿½nlï¿½k istatistikler";
-$GLOBALS['strWeeklyHistory']			= "Haftalï¿½k geï¿½miï¿½";
-$GLOBALS['strMonthlyHistory']			= "Aylï¿½k geï¿½miï¿½";
+$GLOBALS['strStats'] 				= "Ýstatistikler";
+$GLOBALS['strNoStats']				= "Henüz Ýstatistik bulunmamakta";
+$GLOBALS['strConfirmResetStats']		= "Mevcut tüm istatistikleri silmek istediðinize emin misiniz?";
+$GLOBALS['strGlobalHistory']			= "Ayrýntýlý geçmiþ";
+$GLOBALS['strDailyHistory']			= "Günlük geçmiþ";
+$GLOBALS['strDailyStats'] 			= "Günlük istatistikler";
+$GLOBALS['strWeeklyHistory']			= "Haftalýk geçmiþ";
+$GLOBALS['strMonthlyHistory']			= "Aylýk geçmiþ";
 $GLOBALS['strCreditStats'] 			= "Kredi istatistikleri";
-$GLOBALS['strDetailStats'] 			= "Detaylï¿½ istatistikler";
-$GLOBALS['strTotalThisPeriod']			= "Bu dï¿½nemde toplam";
-$GLOBALS['strAverageThisPeriod']		= "Bu dï¿½nemde ortalama";
-$GLOBALS['strDistribution']			= "Daï¿½ï¿½tï¿½m";
-$GLOBALS['strResetStats'] 			= "ï¿½statistikleri temizle";
+$GLOBALS['strDetailStats'] 			= "Detaylý istatistikler";
+$GLOBALS['strTotalThisPeriod']			= "Bu dönemde toplam";
+$GLOBALS['strAverageThisPeriod']		= "Bu dönemde ortalama";
+$GLOBALS['strDistribution']			= "Daðýtým";
+$GLOBALS['strResetStats'] 			= "Ýstatistikleri temizle";
 $GLOBALS['strSourceStats']			= "Kaynak istatistikler";
-$GLOBALS['strSelectSource']			= "Gï¿½rmek istediï¿½iniz kaynaï¿½ï¿½ seï¿½iniz:";
+$GLOBALS['strSelectSource']			= "Görmek istediðiniz kaynaðý seçiniz:";
 
 
 // Hosts
 $GLOBALS['strHosts']				= "Sunucular";
-$GLOBALS['strTopTenHosts'] 			= "ï¿½stekte bulunan TOP 10 Sunucu";
+$GLOBALS['strTopTenHosts'] 			= "Ýstekte bulunan TOP 10 Sunucu";
 
 
 // Expiration
-$GLOBALS['strExpired']				= "Sï¿½resi dolmuï¿½";
-$GLOBALS['strExpiration'] 			= "Son kullanï¿½m sï¿½resi";
-$GLOBALS['strNoExpiration'] 			= "Son kullanï¿½m tarihi belirlenmemiï¿½";
-$GLOBALS['strEstimated'] 			= "Tahmini kullanï¿½m sï¿½resi";
+$GLOBALS['strExpired']				= "Süresi dolmuþ";
+$GLOBALS['strExpiration'] 			= "Son kullaným süresi";
+$GLOBALS['strNoExpiration'] 			= "Son kullaným tarihi belirlenmemiþ";
+$GLOBALS['strEstimated'] 			= "Tahmini kullaným süresi";
 
 
 // Reports
 $GLOBALS['strReports']				= "Raporlar";
-$GLOBALS['strSelectReport']			= "ï¿½reteceï¿½iniz rapor tipini seï¿½iniz";
+$GLOBALS['strSelectReport']			= "Üreteceðiniz rapor tipini seçiniz";
 
 
 // Userlog
-$GLOBALS['strUserLog']				= "Kullanï¿½cï¿½ loglarï¿½";
-$GLOBALS['strUserLogDetails']			= "Kullanï¿½cï¿½ log detaylarï¿½";
-$GLOBALS['strDeleteLog']			= "Loglarï¿½ Sil";
+$GLOBALS['strUserLog']				= "Kullanýcý loglarý";
+$GLOBALS['strUserLogDetails']			= "Kullanýcý log detaylarý";
+$GLOBALS['strDeleteLog']			= "Loglarý Sil";
 $GLOBALS['strAction']				= "Hareket";
-$GLOBALS['strNoActionsLogged']			= "Herhangi bir hareket kaydedilmemiï¿½";
+$GLOBALS['strNoActionsLogged']			= "Herhangi bir hareket kaydedilmemiþ";
 
 
 // Code generation
-$GLOBALS['strGenerateBannercode']		= "Banner kodu ï¿½ret";
-$GLOBALS['strChooseInvocationType']		= "Banner tipini seï¿½iniz";
-$GLOBALS['strGenerate']				= "ï¿½ret";
+$GLOBALS['strGenerateBannercode']		= "Banner kodu üret";
+$GLOBALS['strChooseInvocationType']		= "Banner tipini seçiniz";
+$GLOBALS['strGenerate']				= "Üret";
 $GLOBALS['strParameters']			= "Parametreler";
 $GLOBALS['strFrameSize']			= "Frame boyutu";
 $GLOBALS['strBannercode']			= "Banner kodu";
 
 
 // Errors
-$GLOBALS['strMySQLError'] 			= "SQL Hatasï¿½:";
-$GLOBALS['strLogErrorClients'] 			= "[phpAds] Veritabanï¿½ndan reklamcï¿½larï¿½ alï¿½rken bir hata oluï¿½tu.";
-$GLOBALS['strLogErrorBanners'] 			= "[phpAds] Veritabanï¿½ndan bannerlarï¿½ alï¿½rken bir hata oluï¿½tu.";
-$GLOBALS['strLogErrorViews'] 			= "[phpAds] Veritabanï¿½ndan gï¿½sterimleri alï¿½rken bir hata oluï¿½tu.";
-$GLOBALS['strLogErrorClicks'] 			= "[phpAds] veritabanï¿½ndan tï¿½klamalarï¿½ alï¿½rken bir hata oluï¿½tu.";
-$GLOBALS['strErrorViews'] 			= "Gï¿½sterim sayï¿½sï¿½nï¿½ belirtmelisiniz veya sï¿½nï¿½rsï¿½z seï¿½eneï¿½ini iï¿½aretlemelisiniz!";
-$GLOBALS['strErrorNegViews'] 			= "Negatif gï¿½sterim sayï¿½larï¿½ geï¿½ersizdir";
-$GLOBALS['strErrorClicks'] 			= "Tï¿½klanma sayï¿½sï¿½nï¿½ belirtmelisiniz veya sï¿½nï¿½rsï¿½z seï¿½eneï¿½ini iï¿½aretlemelisiniz!";
-$GLOBALS['strErrorNegClicks'] 			= "Negatif tï¿½klanma sayï¿½larï¿½ geï¿½ersizdir";
-$GLOBALS['strNoMatchesFound']			= "Uygun kayï¿½t bulunamadï¿½";
-$GLOBALS['strErrorOccurred']			= "Hata oluï¿½tu";
-$GLOBALS['strErrorUploadSecurity']		= "Olasï¿½ bir gï¿½venlik problemi oluï¿½tu, gï¿½nderme durduruldu!";
-$GLOBALS['strErrorUploadBasedir']		= "Gï¿½venlik modundan dolayï¿½ veya giriï¿½ izinlerinden dolayï¿½ gï¿½nderilecek dosyaya ulaï¿½ï¿½lamadï¿½";
-$GLOBALS['strErrorUploadUnknown']		= "Bilinmeyen bir nedenden dolayï¿½ dosyaya ulaï¿½ï¿½lamadï¿½. Lï¿½tfen PHP ayarlarï¿½nï¿½zï¿½ kontrol ediniz";
-$GLOBALS['strErrorStoreLocal']			= "Yerel klasï¿½re bannerï¿½ kaydederken hata oluï¿½tu. Yerel dizin ayarlarï¿½nï¿½n yanlï¿½ï¿½ yapï¿½ldï¿½ï¿½ï¿½ndan dolayï¿½ olabilir.";
-$GLOBALS['strErrorStoreFTP']			= "Banner FTP sunucuya gï¿½nderilirken hata oluï¿½ï¿½tu. Bu sunucunun uygun olmadï¿½ï¿½ï¿½ndan veya FTP sunucunun ayarlarï¿½nï¿½n yanlï¿½ï¿½ yapï¿½ldï¿½ï¿½ï¿½ndan dolayï¿½ olabilir";
+$GLOBALS['strMySQLError'] 			= "SQL Hatasý:";
+$GLOBALS['strLogErrorClients'] 			= "[phpAds] Veritabanýndan reklamcýlarý alýrken bir hata oluþtu.";
+$GLOBALS['strLogErrorBanners'] 			= "[phpAds] Veritabanýndan bannerlarý alýrken bir hata oluþtu.";
+$GLOBALS['strLogErrorViews'] 			= "[phpAds] Veritabanýndan gösterimleri alýrken bir hata oluþtu.";
+$GLOBALS['strLogErrorClicks'] 			= "[phpAds] veritabanýndan týklamalarý alýrken bir hata oluþtu.";
+$GLOBALS['strErrorViews'] 			= "Gösterim sayýsýný belirtmelisiniz veya sýnýrsýz seçeneðini iþaretlemelisiniz!";
+$GLOBALS['strErrorNegViews'] 			= "Negatif gösterim sayýlarý geçersizdir";
+$GLOBALS['strErrorClicks'] 			= "Týklanma sayýsýný belirtmelisiniz veya sýnýrsýz seçeneðini iþaretlemelisiniz!";
+$GLOBALS['strErrorNegClicks'] 			= "Negatif týklanma sayýlarý geçersizdir";
+$GLOBALS['strNoMatchesFound']			= "Uygun kayýt bulunamadý";
+$GLOBALS['strErrorOccurred']			= "Hata oluþtu";
+$GLOBALS['strErrorUploadSecurity']		= "Olasý bir güvenlik problemi oluþtu, gönderme durduruldu!";
+$GLOBALS['strErrorUploadBasedir']		= "Güvenlik modundan dolayý veya giriþ izinlerinden dolayý gönderilecek dosyaya ulaþýlamadý";
+$GLOBALS['strErrorUploadUnknown']		= "Bilinmeyen bir nedenden dolayý dosyaya ulaþýlamadý. Lütfen PHP ayarlarýnýzý kontrol ediniz";
+$GLOBALS['strErrorStoreLocal']			= "Yerel klasöre bannerý kaydederken hata oluþtu. Yerel dizin ayarlarýnýn yanlýþ yapýldýðýndan dolayý olabilir.";
+$GLOBALS['strErrorStoreFTP']			= "Banner FTP sunucuya gönderilirken hata oluýþtu. Bu sunucunun uygun olmadýðýndan veya FTP sunucunun ayarlarýnýn yanlýþ yapýldýðýndan dolayý olabilir";
 
 
 // E-mail
-$GLOBALS['strMailSubject'] 			= "Reklamcï¿½ Raporu";
-$GLOBALS['strAdReportSent']			= "Reklamcï¿½ Raporu Gï¿½nderildi";
+$GLOBALS['strMailSubject'] 			= "Reklamcý Raporu";
+$GLOBALS['strAdReportSent']			= "Reklamcý Raporu Gönderildi";
 $GLOBALS['strMailSubjectDeleted'] 		= "Pasif Bannerlar";
-$GLOBALS['strMailHeader'] 			= "Sayï¿½n {contact},\n";
-$GLOBALS['strMailBannerStats'] 			= "Aï¿½aï¿½ï¿½da {clientname}e ait banner istatistiklerini gï¿½receksiniz:";
-$GLOBALS['strMailFooter'] 			= "Saygï¿½lar,\n   {adminfullname}";
-$GLOBALS['strMailClientDeactivated'] 		= "Aï¿½aï¿½ï¿½daki bannerlar kapatï¿½ldï¿½ ï¿½ï¿½nkï¿½";
-$GLOBALS['strMailNothingLeft'] 			= "Bizim sistemimizde reklam yayï¿½nlamaya devam etmek istiyorsanï¿½z bizimle irtibata geï¿½iniz.\nSizinle irtibata geï¿½mekten gurur duyarï¿½z.";
-$GLOBALS['strClientDeactivated']		= "Bu kampanya aktif edilmedi ï¿½ï¿½nkï¿½";
-$GLOBALS['strBeforeActivate']			= "aktivasyon tarihine henï¿½z ulaï¿½ï¿½lmadï¿½";
-$GLOBALS['strAfterExpire']			= "aktivasyon tarihi geï¿½ti";
-$GLOBALS['strNoMoreClicks']			= "tï¿½klanma kredisi kalmadï¿½";
-$GLOBALS['strNoMoreViews']			= "gï¿½rï¿½nï¿½tï¿½lenme kredisi kalmadï¿½";
-$GLOBALS['strWarnClientTxt']			= "Tï¿½klanma veya gï¿½sterim sayï¿½sï¿½ aï¿½aï¿½ï¿½da belirtilmiï¿½tir {limit}. \nTï¿½klanma kredisi veya Gï¿½sterim kredisi dolunca banner gï¿½sterimi doldurulacaktï¿½r. ";
-$GLOBALS['strImpressionsClicksLow']			= "Gï¿½sterim/Tï¿½klanama Kredisi az Kaldï¿½";
-$GLOBALS['strNoViewLoggedInInterval']   	= "Bu rapor sï¿½resince banner gï¿½sterimi rapor edilmedi";
-$GLOBALS['strNoClickLoggedInInterval']  	= "Bu rapor sï¿½resince banner tï¿½klanmasï¿½ rapor edilmedi";
-$GLOBALS['strMailReportPeriod']			= "Bu rapor {startdate} tarihi ile {enddate} tarihi arasï¿½ndaki istatistikleri iï¿½erir.";
-$GLOBALS['strMailReportPeriodAll']		= "Bu rapor {enddate} tarihine kadar tï¿½m istatistikleri iï¿½erir.";
+$GLOBALS['strMailHeader'] 			= "Sayýn {contact},\n";
+$GLOBALS['strMailBannerStats'] 			= "Aþaðýda {clientname}e ait banner istatistiklerini göreceksiniz:";
+$GLOBALS['strMailFooter'] 			= "Saygýlar,\n   {adminfullname}";
+$GLOBALS['strMailClientDeactivated'] 		= "Aþaðýdaki bannerlar kapatýldý çünkü";
+$GLOBALS['strMailNothingLeft'] 			= "Bizim sistemimizde reklam yayýnlamaya devam etmek istiyorsanýz bizimle irtibata geçiniz.\nSizinle irtibata geçmekten gurur duyarýz.";
+$GLOBALS['strClientDeactivated']		= "Bu kampanya aktif edilmedi çünkü";
+$GLOBALS['strBeforeActivate']			= "aktivasyon tarihine henüz ulaþýlmadý";
+$GLOBALS['strAfterExpire']			= "aktivasyon tarihi geçti";
+$GLOBALS['strNoMoreClicks']			= "týklanma kredisi kalmadý";
+$GLOBALS['strNoMoreViews']			= "görünütülenme kredisi kalmadý";
+$GLOBALS['strWarnClientTxt']			= "Týklanma veya gösterim sayýsý aþaðýda belirtilmiþtir {limit}. \nTýklanma kredisi veya Gösterim kredisi dolunca banner gösterimi doldurulacaktýr. ";
+$GLOBALS['strImpressionsClicksLow']		=
+$GLOBALS['strViewsClicksLow']			= "Gösterim/Týklanama Kredisi az Kaldý";
+$GLOBALS['strNoViewLoggedInInterval']   	= "Bu rapor süresince banner gösterimi rapor edilmedi";
+$GLOBALS['strNoClickLoggedInInterval']  	= "Bu rapor süresince banner týklanmasý rapor edilmedi";
+$GLOBALS['strMailReportPeriod']			= "Bu rapor {startdate} tarihi ile {enddate} tarihi arasýndaki istatistikleri içerir.";
+$GLOBALS['strMailReportPeriodAll']		= "Bu rapor {enddate} tarihine kadar tüm istatistikleri içerir.";
 $GLOBALS['strNoStatsForCampaign'] 		= "Bu kampanyaya ait istatistik bulunmamakta";
 
 
 // Priority
-$GLOBALS['strPriority']				= "ï¿½ncelik";
+$GLOBALS['strPriority']				= "Öncelik";
 
 
 // Settings
 $GLOBALS['strSettings'] 			= "Ayarlar";
 $GLOBALS['strGeneralSettings']			= "Genel Ayarlar";
 $GLOBALS['strMainSettings']			= "Ana Ayarlar";
-$GLOBALS['strAdminSettings']			= "Yï¿½netici Ayarlarï¿½";
+$GLOBALS['strAdminSettings']			= "Yönetici Ayarlarý";
 
 
 // Product Updates
-$GLOBALS['strProductUpdates']			= "ï¿½rï¿½n Gï¿½ncellemeleri";
+$GLOBALS['strProductUpdates']			= "Ürün Güncellemeleri";
 
 ?>

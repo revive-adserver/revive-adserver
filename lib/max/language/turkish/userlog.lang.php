@@ -26,30 +26,29 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 $Id$
-
-
+*/
 /* Turkish Translation by :												*/
-/* 		Metin AKTAï¿½ (metin@yapayzeka.net)								*/
-/* 		Bï¿½nyamin VICIL (bunyamin@yapayzeka.net)					        */
+/* 		Metin AKTAÞ (metin@yapayzeka.net)								*/
+/* 		Bünyamin VICIL (bunyamin@yapayzeka.net)					        */
 /*----------------------------------------------------------------------*/
 
 // Set translation strings
 
 $GLOBALS['strDeliveryEngine']				= "Teslimat Motoru";
-$GLOBALS['strMaintenance']					= "Bakï¿½m";
-$GLOBALS['strAdministrator']				= "Yï¿½netici";
+$GLOBALS['strMaintenance']					= "Bakým";
+$GLOBALS['strAdministrator']				= "Yönetici";
 
 
 $GLOBALS['strUserlog'] = array (
-	phpAds_actionAdvertiserReportMailed 	=> "{id} reklamcï¿½ya e-mail yolu ile rapor gï¿½nder",
-	phpAds_actionPublisherReportMailed 		=> "{id} yayï¿½ncï¿½ya e-mail yolu ile rapor gï¿½nder",
-	phpAds_actionWarningMailed				=> "{id} e-mail yolu ile kampanyalar iï¿½in pasif etme uyarï¿½sï¿½ gï¿½nder",
-	phpAds_actionDeactivationMailed			=> "{id} e-mail yolu ile kampanyalar iï¿½in pasif etme bildirisi gï¿½nder",
-	phpAds_actionPriorityCalculation		=> "ï¿½ncelikler tekrar hesaplandï¿½",
-	phpAds_actionPriorityAutoTargeting		=> "Kampanya hedefleri tekrar hesaplandï¿½",
+	phpAds_actionAdvertiserReportMailed 	=> "{id} reklamcýya e-mail yolu ile rapor gönder",
+	phpAds_actionPublisherReportMailed 		=> "{id} yayýncýya e-mail yolu ile rapor gönder",
+	phpAds_actionWarningMailed				=> "{id} e-mail yolu ile kampanyalar için pasif etme uyarýsý gönder",
+	phpAds_actionDeactivationMailed			=> "{id} e-mail yolu ile kampanyalar için pasif etme bildirisi gönder",
+	phpAds_actionPriorityCalculation		=> "Öncelikler tekrar hesaplandý",
+	phpAds_actionPriorityAutoTargeting		=> "Kampanya hedefleri tekrar hesaplandý",
 	phpAds_actionDeactiveCampaign			=> "{id} kampanya pasif edildi",
 	phpAds_actionActiveCampaign				=> "{id} kampanya aktif edildi",
-	phpAds_actionAutoClean					=> "Veritabanï¿½nï¿½ otomatik temizle"
+	phpAds_actionAutoClean					=> "Veritabanýný otomatik temizle"
 );
 
 ?>

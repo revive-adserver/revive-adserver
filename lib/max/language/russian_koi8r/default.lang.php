@@ -1,11 +1,11 @@
-<?php
+<?php // $Revision: 3830 $
 
 /*----------------------------------------------------------------------*/
-/* phpAdsNew 2                                                          */
+/* Openads 2.0                                                          */
 /* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2001 by the phpAdsNew developers                       */
-/* http://sourceforge.net/projects/phpadsnew                            */
+/* Copyright (c) 2000-2007 by the Openads developers                    */
+/* For more information visit: http://www.openads.org                   */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -21,457 +21,460 @@ $GLOBALS['phpAds_CharSet'] = "koi8-r";
 
 
 // Set translation strings
-$GLOBALS['strHome'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strHome'] = "Главная страница";
 $GLOBALS['date_format'] = "%d/%m/%Y";
 $GLOBALS['time_format'] = "%H:%M:%S";
-$GLOBALS['strMySQLError'] = "О©╫О©╫О©╫О©╫О©╫О©╫ MySQL:";
-$GLOBALS['strAdminstration'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAddClient'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAddClient_Key']            = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ <u>О©╫</u>О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strModifyClient'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strDeleteClient'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strViewClientStats'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strClientName'] = "О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strContact'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strMySQLError'] = "Ошибка MySQL:";
+$GLOBALS['strAdminstration'] = "Администрирование";
+$GLOBALS['strAddClient'] = "Добавить клиента";
+$GLOBALS['strAddClient_Key']            = "Добавить <u>н</u>ового клиента";
+$GLOBALS['strModifyClient'] = "Изменить клиента";
+$GLOBALS['strDeleteClient'] = "Удалить клиента";
+$GLOBALS['strViewClientStats'] = "Посмотреть статистику клиента";
+$GLOBALS['strClientName'] = "Клиент";
+$GLOBALS['strContact'] = "Контакт";
 $GLOBALS['strEMail'] = "EMail";
-$GLOBALS['strImpressions'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strClicks'] = "О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strTotalViews'] = "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strTotalClicks'] = "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strCTR'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫/О©╫О©╫О©╫О©╫О©╫О©╫ (CTR)";
-$GLOBALS['strTotalClients'] = "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strActiveClients'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strActiveBanners'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strLogout'] = "О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strCreditStats'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strViewCredits'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";   
-$GLOBALS['strClickCredits'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strPrevious'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strPrevious_Key']                     = "<u>О©╫</u>О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strNext'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strNext_Key']                                 = "<u>C</u>О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strNone'] = "О©╫О©╫О©╫";
-$GLOBALS['strImpressionsPurchased'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strClicksPurchased'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strDaysPurchased'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
+$GLOBALS['strImpressions'] =
+$GLOBALS['strViews'] = "Показов";
+$GLOBALS['strClicks'] = "Кликов";
+$GLOBALS['strTotalViews'] = "Всего показов";
+$GLOBALS['strTotalClicks'] = "Всего кликов";
+$GLOBALS['strCTR'] = "Отношение клики/показы (CTR)";
+$GLOBALS['strTotalClients'] = "Всего клиентов";
+$GLOBALS['strActiveClients'] = "Активных клиентов";
+$GLOBALS['strActiveBanners'] = "Активных баннеров";
+$GLOBALS['strLogout'] = "Выход";
+$GLOBALS['strCreditStats'] = "Статистика кредитов";
+$GLOBALS['strViewCredits'] = "Кредиты по показам";   
+$GLOBALS['strClickCredits'] = "Кредиты по кликам";
+$GLOBALS['strPrevious'] = "Предыдущий";
+$GLOBALS['strPrevious_Key']                     = "<u>П</u>редыдущий";
+$GLOBALS['strNext'] = "Следующий";
+$GLOBALS['strNext_Key']                                 = "<u>C</u>ледующий";
+$GLOBALS['strNone'] = "Нет";
+$GLOBALS['strImpressionsPurchased'] =
+$GLOBALS['strViewsPurchased'] = "Куплено показов";
+$GLOBALS['strClicksPurchased'] = "Куплено кликов";
+$GLOBALS['strDaysPurchased'] = "Куплено дней";
 $GLOBALS['strHTML'] = "HTML";
-$GLOBALS['strAddSep'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫!";
-$GLOBALS['strTextBelow'] = "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strSubmit'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strUsername'] = "О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strPassword'] = "О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strBannerAdmin'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫";
-$GLOBALS['strNoBanners'] = "О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strBanner'] = "О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strCurrentBanner'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strDelete'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAddBanner'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAddBanner_Key']                    = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ <u>О©╫</u>О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strModifyBanner'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strURL'] = "URL (О©╫ http://)";
-$GLOBALS['strKeyword'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ (О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫)";
-$GLOBALS['strWeight'] = "О©╫О©╫О©╫";
-$GLOBALS['strAlt'] = "Alt-TО©╫О©╫О©╫О©╫";
-$GLOBALS['strAccessDenied'] = "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫щёО©╫";
-$GLOBALS['strPasswordWrong'] = "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strNotAdmin'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strClientAdded'] = "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.";
-$GLOBALS['strClientModified'] = "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫нёО©╫.";
-$GLOBALS['strClientDeleted'] = "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫.";
-$GLOBALS['strBannerAdmin'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strBannerAdded'] = "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.";
-$GLOBALS['strBannerModified'] = "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫нёО©╫.";
-$GLOBALS['strBannerDeleted'] = "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫лёО©╫";
-$GLOBALS['strBannerChanged'] = "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫нёО©╫";
-$GLOBALS['strStats'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strDailyStats'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫";
-$GLOBALS['strDetailStats'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strCreditStats'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strActive'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strActivate'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strDeActivate'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAuthentification'] = "О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strGo'] = "О©╫О©╫шёО©╫!";
-$GLOBALS['strLinkedTo'] = "О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strBannerID'] = "ID О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strClientID'] = "ID О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strMailSubject'] = "О©╫О©╫чёО©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strMailSubjectDeleted'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strMailHeader'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ {contact},\n";
-$GLOBALS['strMailBannerStats'] = "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ {clientname}:";
-$GLOBALS['strMailFooter'] = "О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫,\n   {adminfullname}";
-$GLOBALS['strLogMailSent'] = "[phpAds] О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.";
-$GLOBALS['strLogErrorClients'] = "[phpAds] О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.";
-$GLOBALS['strLogErrorBanners'] = "[phpAds] О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.";
-$GLOBALS['strLogErrorViews'] = "[phpAds] О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫.";
-$GLOBALS['strLogErrorClicks'] = "[phpAds] О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫.";
-$GLOBALS['strLogErrorDisactivate'] = "[phpAds] О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫.";
-$GLOBALS['strRatio'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strChooseBanner'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫.";
-$GLOBALS['strMySQLBanner'] = "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strWebBanner'] = "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫-О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strURLBanner'] = "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫-О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strHTMLBanner'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strNewBannerFile'] = "О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strNewBannerURL'] = "URL О©╫О©╫О©╫О©╫О©╫О©╫О©╫ (О©╫ http://)";
-$GLOBALS['strWidth'] = "О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strHeight'] = "О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strTotalViews7Days'] = "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strTotalClicks7Days'] = "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAvgViews7Days'] = "О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAvgClicks7Days'] = "О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strClientIP'] = "IP О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strUserAgent'] = "regexp О©╫О©╫О©╫О©╫О©╫О©╫ User-agent";
-$GLOBALS['strWeekDay'] = "О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ (0 - 6) ((О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫))";
-$GLOBALS['strDomain'] = "О©╫О©╫О©╫О©╫О©╫ (О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫)";
-$GLOBALS['strSource'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strTime'] = "О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAllow'] = "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫";
-$GLOBALS['strDeny'] = "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫";
-$GLOBALS['strResetStats'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strExpiration'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strNoExpiration'] = "О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strDaysLeft'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
-$GLOBALS['strEstimated'] = "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫";
-$GLOBALS['strConfirm'] = "О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ ?";
-$GLOBALS['strBannerNoStats'] = "О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫!";
-$GLOBALS['strWeek'] = "О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strWeeklyStats'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strWeekDay'] = "О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strDate'] = "О©╫О©╫О©╫О©╫";
+$GLOBALS['strAddSep'] = "Заполнять поля выше ИЛИ поля ниже!";
+$GLOBALS['strTextBelow'] = "Текст под картинкой";
+$GLOBALS['strSubmit'] = "Загрузить баннер";
+$GLOBALS['strUsername'] = "Логин";
+$GLOBALS['strPassword'] = "Пароль";
+$GLOBALS['strBannerAdmin'] = "Администрируем баннеры для";
+$GLOBALS['strNoBanners'] = "Нет баннеров";
+$GLOBALS['strBanner'] = "Баннер";
+$GLOBALS['strCurrentBanner'] = "Текущий баннер";
+$GLOBALS['strDelete'] = "Удалить";
+$GLOBALS['strAddBanner'] = "Добавить новый баннер";
+$GLOBALS['strAddBanner_Key']                    = "Добавить <u>н</u>овый баннер";
+$GLOBALS['strModifyBanner'] = "Изменить баннер";
+$GLOBALS['strURL'] = "URL (с http://)";
+$GLOBALS['strKeyword'] = "ключевое слово (латиницей и цифрами)";
+$GLOBALS['strWeight'] = "Вес";
+$GLOBALS['strAlt'] = "Alt-Tекст";
+$GLOBALS['strAccessDenied'] = "Доступ запрещён";
+$GLOBALS['strPasswordWrong'] = "Пароль указан неверно";
+$GLOBALS['strNotAdmin'] = "Вероятно, у вас нет прав доступа";
+$GLOBALS['strClientAdded'] = "Клиент добавлен.";
+$GLOBALS['strClientModified'] = "Клиент изменён.";
+$GLOBALS['strClientDeleted'] = "Клиент удален.";
+$GLOBALS['strBannerAdmin'] = "Администрирование баннеров";
+$GLOBALS['strBannerAdded'] = "Баннер добавлен.";
+$GLOBALS['strBannerModified'] = "Баннер изменён.";
+$GLOBALS['strBannerDeleted'] = "Баннер удалён";
+$GLOBALS['strBannerChanged'] = "Баннер изменён";
+$GLOBALS['strStats'] = "Статистика";
+$GLOBALS['strDailyStats'] = "Статистика по дням";
+$GLOBALS['strDetailStats'] = "Детальная статистика";
+$GLOBALS['strCreditStats'] = "Статистика по кредитам";
+$GLOBALS['strActive'] = "активен";
+$GLOBALS['strActivate'] = "Активировать";
+$GLOBALS['strDeActivate'] = "Деактивировать";
+$GLOBALS['strAuthentification'] = "Доступ";
+$GLOBALS['strGo'] = "Пошёл!";
+$GLOBALS['strLinkedTo'] = "ссылка";
+$GLOBALS['strBannerID'] = "ID баннера";
+$GLOBALS['strClientID'] = "ID клиента";
+$GLOBALS['strMailSubject'] = "Отчёт о рекламе";
+$GLOBALS['strMailSubjectDeleted'] = "Деактивированные баннеры";
+$GLOBALS['strMailHeader'] = "Дорогой {contact},\n";
+$GLOBALS['strMailBannerStats'] = "Здесь вы видите статистику клиента {clientname}:";
+$GLOBALS['strMailFooter'] = "с наилучшими пожеланиями,\n   {adminfullname}";
+$GLOBALS['strLogMailSent'] = "[phpAds] Статистика успешно отправлена.";
+$GLOBALS['strLogErrorClients'] = "[phpAds] ошибка доступа к базе данных информации о клиентах.";
+$GLOBALS['strLogErrorBanners'] = "[phpAds] Ошибка доступа к БД баннеров.";
+$GLOBALS['strLogErrorViews'] = "[phpAds] Ошибка доступа к БД показов.";
+$GLOBALS['strLogErrorClicks'] = "[phpAds] Ошибка доступа к БД кликов.";
+$GLOBALS['strLogErrorDisactivate'] = "[phpAds] Ошибка деактивации баннера.";
+$GLOBALS['strRatio'] = "Рейтинг кликабельности";
+$GLOBALS['strChooseBanner'] = "Выберите тип баннера.";
+$GLOBALS['strMySQLBanner'] = "Баннер с вашего компьютера помещается в базу данных на сервере";
+$GLOBALS['strWebBanner'] = "Баннер с вашего компьютера сохраняется в каталоге на веб-сервере";
+$GLOBALS['strURLBanner'] = "Баннер лежит где-то в Интернет";
+$GLOBALS['strHTMLBanner'] = "Текстовый баннер";
+$GLOBALS['strNewBannerFile'] = "Файл баннера на диске";
+$GLOBALS['strNewBannerURL'] = "URL баннера (с http://)";
+$GLOBALS['strWidth'] = "ширина";
+$GLOBALS['strHeight'] = "высота";
+$GLOBALS['strTotalViews7Days'] = "Всего показов за неделю";
+$GLOBALS['strTotalClicks7Days'] = "Всего кликов за неделю";
+$GLOBALS['strAvgViews7Days'] = "В среднем показов за неделю";
+$GLOBALS['strAvgClicks7Days'] = "В среднем кликов за неделю";
+$GLOBALS['strClientIP'] = "IP клиента";
+$GLOBALS['strUserAgent'] = "regexp строки User-agent";
+$GLOBALS['strWeekDay'] = "День недели (0 - 6) ((с воскресенья))";
+$GLOBALS['strDomain'] = "Домен (без точки в начале)";
+$GLOBALS['strSource'] = "Источник";
+$GLOBALS['strTime'] = "Время";
+$GLOBALS['strAllow'] = "Доступ открыт для";
+$GLOBALS['strDeny'] = "Доступ закрыт для";
+$GLOBALS['strResetStats'] = "Обнулить статистику";
+$GLOBALS['strExpiration'] = "Годность";
+$GLOBALS['strNoExpiration'] = "Срок годности не установлен";
+$GLOBALS['strDaysLeft'] = "Осталось дней";
+$GLOBALS['strEstimated'] = "Годен приблизительно до";
+$GLOBALS['strConfirm'] = "Вы уверены ?";
+$GLOBALS['strBannerNoStats'] = "Нет статистики для этого баннера!";
+$GLOBALS['strWeek'] = "Неделя";
+$GLOBALS['strWeeklyStats'] = "Еженедельная статистика";
+$GLOBALS['strWeekDay'] = "День недели";
+$GLOBALS['strDate'] = "Дата";
 $GLOBALS['strCTRShort'] = "CTR";
-$GLOBALS['strDayShortCuts'] = array("О©╫О©╫","О©╫О©╫","О©╫О©╫","О©╫О©╫","О©╫О©╫","О©╫О©╫","О©╫О©╫");
-$GLOBALS['strShowWeeks'] = "О©╫О©╫О©╫О©╫. О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAll'] = "О©╫О©╫О©╫";
-$GLOBALS['strAvg'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strHourly'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫/О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strTotal'] = "О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strUnlimited'] = "О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strUp'] = "О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strDown'] = "О©╫О©╫О©╫О©╫";
-$GLOBALS['strSave'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strSaved'] = "О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫!";
-$GLOBALS['strDeleted'] = "О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫!";  
-$GLOBALS['strMovedUp'] = "О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
-$GLOBALS['strMovedDown'] = "О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
-$GLOBALS['strUpdated'] = "О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strDayShortCuts'] = array("Вс","Пн","Вт","Ср","Чт","Пт","Сб");
+$GLOBALS['strShowWeeks'] = "Макс. число показываемых недель";
+$GLOBALS['strAll'] = "все";
+$GLOBALS['strAvg'] = "Среднее";
+$GLOBALS['strHourly'] = "Просмотров/Кликов по часам";
+$GLOBALS['strTotal'] = "Всего";
+$GLOBALS['strUnlimited'] = "Не ограничено";
+$GLOBALS['strUp'] = "Вверх";
+$GLOBALS['strDown'] = "Вниз";
+$GLOBALS['strSave'] = "Сохранить";
+$GLOBALS['strSaved'] = "был сохранен!";
+$GLOBALS['strDeleted'] = "был удален!";  
+$GLOBALS['strMovedUp'] = "был перемещен выше";
+$GLOBALS['strMovedDown'] = "был перемещен ниже";
+$GLOBALS['strUpdated'] = "был обновлен";
 $GLOBALS['strLogin'] = "Login";
-$GLOBALS['strPreferences'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAllowClientModifyInfo'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAllowClientModifyBanner'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAllowClientAddBanner'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strLanguage'] = "О©╫О©╫О©╫О©╫";
-$GLOBALS['strDefault'] = "О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strErrorViews'] = "О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ 'О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫' !";
-$GLOBALS['strErrorNegViews'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strErrorClicks'] =  "О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ 'О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫' !";
-$GLOBALS['strErrorNegClicks'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strErrorDays'] = "О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ 'О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫' !";
-$GLOBALS['strErrorNegDays'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strTrackerImage'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫:";
+$GLOBALS['strPreferences'] = "Предпочтения";
+$GLOBALS['strAllowClientModifyInfo'] = "Разрешить этому пользователю редактировать собственные клиентские данные";
+$GLOBALS['strAllowClientModifyBanner'] = "Разрешить этому пользователю модифицировать собственные баннеры";
+$GLOBALS['strAllowClientAddBanner'] = "Разрешить этому пользователю добавлять новые баннеры";
+$GLOBALS['strLanguage'] = "Язык";
+$GLOBALS['strDefault'] = "По умолчанию";
+$GLOBALS['strErrorViews'] = "Вы должны ввести число показов или выбрать 'Не ограничено' !";
+$GLOBALS['strErrorNegViews'] = "Отрицательное число показов не разрешено";
+$GLOBALS['strErrorClicks'] =  "Вы должны ввести число кликов или выбрать 'Не ограничено' !";
+$GLOBALS['strErrorNegClicks'] = "Отрицательное число кликов не разрешено";
+$GLOBALS['strErrorDays'] = "Вы должны ввести число дней или выбрать 'Не ограничено' !";
+$GLOBALS['strErrorNegDays'] = "Отрицательное число дней не разрешено";
+$GLOBALS['strTrackerImage'] = "Картинка слежения:";
 
 // New strings for version 2
-$GLOBALS['strNavigation'] 				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strShortcuts'] 				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strDescription'] 				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strClients'] 					= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strNavigation'] 				= "Навигация";
+$GLOBALS['strShortcuts'] 				= "Сокращения";
+$GLOBALS['strDescription'] 				= "Описание";
+$GLOBALS['strClients'] 					= "Клиенты";
 $GLOBALS['strID']				 		= "ID";
-$GLOBALS['strOverall'] 					= "О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strTotalBanners'] 			= "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strToday'] 					= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strThisWeek'] 				= "О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strThisMonth'] 				= "О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strBasicInformation'] 		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strContractInformation'] 		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strLoginInformation'] 		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strPermissions'] 				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strGeneralSettings']			= "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strSaveChanges']		 		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strCompact']					= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strVerbose']					= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strOrderBy']					= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫";
-$GLOBALS['strShowAllBanners']	 		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strShowBannersNoAdClicks']	= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strShowBannersNoAdViews']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strShowAllClients'] 			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strShowClientsActive'] 		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strShowClientsInactive']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strSize']						= "О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strOverall'] 					= "Всего";
+$GLOBALS['strTotalBanners'] 			= "Всего баннеров";
+$GLOBALS['strToday'] 					= "Сегодня";
+$GLOBALS['strThisWeek'] 				= "За эту неделю";
+$GLOBALS['strThisMonth'] 				= "За этот месяц";
+$GLOBALS['strBasicInformation'] 		= "Основная информация";
+$GLOBALS['strContractInformation'] 		= "Контрактная информация";
+$GLOBALS['strLoginInformation'] 		= "Информация о логине";
+$GLOBALS['strPermissions'] 				= "Допуски";
+$GLOBALS['strGeneralSettings']			= "Общие установки";
+$GLOBALS['strSaveChanges']		 		= "Сохранить изменения";
+$GLOBALS['strCompact']					= "Компактно";
+$GLOBALS['strVerbose']					= "Подробно";
+$GLOBALS['strOrderBy']					= "отсортировать по";
+$GLOBALS['strShowAllBanners']	 		= "Показать все баннеры";
+$GLOBALS['strShowBannersNoAdClicks']	= "Показать баннеры без кликов";
+$GLOBALS['strShowBannersNoAdViews']		= "Показать баннеры без просмотров";
+$GLOBALS['strShowAllClients'] 			= "Показать всех клиентов";
+$GLOBALS['strShowClientsActive'] 		= "Показать клиентов с активными баннерами";
+$GLOBALS['strShowClientsInactive']		= "Показать клиентов с неактивными баннерами";
+$GLOBALS['strSize']						= "Размер";
 
-$GLOBALS['strMonth'] 					= array("О©╫О©╫О©╫О©╫О©╫О©╫","О©╫О©╫О©╫О©╫О©╫О©╫О©╫","О©╫О©╫О©╫О©╫","О©╫О©╫О©╫О©╫О©╫О©╫","О©╫О©╫О©╫","О©╫О©╫О©╫О©╫","О©╫О©╫О©╫О©╫", "О©╫О©╫О©╫О©╫О©╫О©╫", "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫", "О©╫О©╫О©╫О©╫О©╫О©╫О©╫", "О©╫О©╫О©╫О©╫О©╫О©╫", "О©╫О©╫О©╫О©╫О©╫О©╫О©╫");
-$GLOBALS['strDontExpire']				= "О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
-$GLOBALS['strActivateNow'] 				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strExpirationDate']			= "О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strActivationDate']			= "О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strMonth'] 					= array("Январь","Февраль","Март","Апрель","Май","Июнь","Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь");
+$GLOBALS['strDontExpire']				= "Не деактивировать этого клиента по наступлению указанной даты";
+$GLOBALS['strActivateNow'] 				= "Немедленно активировать этого клиента";
+$GLOBALS['strExpirationDate']			= "Дата деактивации";
+$GLOBALS['strActivationDate']			= "Дата активации";
 
-$GLOBALS['strMailClientDeactivated'] 	= "О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫ О©╫О©╫О©╫";
-$GLOBALS['strMailNothingLeft'] 			= "О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫. О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫.";
-$GLOBALS['strClientDeactivated']		= "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫ О©╫О©╫О©╫";
-$GLOBALS['strBeforeActivate']			= "О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAfterExpire']				= "О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strNoMoreClicks']				= "О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strNoMoreViews']				= "О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strMailClientDeactivated'] 	= "Ваши баннеры бли выключены, так как";
+$GLOBALS['strMailNothingLeft'] 			= "Если бы вы хотели продолжать размещать рекламу на нашем сайте, пожалуйста, свяжитесь с нами. Мы будем рады вновь слышать вас.";
+$GLOBALS['strClientDeactivated']		= "Данный клиент в настоящее время деактивирован, так как";
+$GLOBALS['strBeforeActivate']			= "дата активации еще не достигнута";
+$GLOBALS['strAfterExpire']				= "была достигнута дата деактивации";
+$GLOBALS['strNoMoreClicks']				= "все приобретенные клики использованы";
+$GLOBALS['strNoMoreViews']				= "все приобретенные просмотры использованы";
 
-$GLOBALS['strBanners'] 					= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strCampaigns']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strCampaign']					= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strModifyCampaign']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strName']						= "О©╫О©╫О©╫";
-$GLOBALS['strBannersWithoutCampaign']	= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strMoveToNewCampaign']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strCreateNewCampaign']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strEditCampaign']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAddCampaign']                      = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAddCampaign_Key']          = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ <u>О©╫</u>О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strBanners'] 					= "Баннеры";
+$GLOBALS['strCampaigns']				= "Кампании";
+$GLOBALS['strCampaign']					= "Кампания";
+$GLOBALS['strModifyCampaign']			= "Редактировать кампанию";
+$GLOBALS['strName']						= "Имя";
+$GLOBALS['strBannersWithoutCampaign']	= "Баннеры без кампании";
+$GLOBALS['strMoveToNewCampaign']		= "Перейти к новой кампании";
+$GLOBALS['strCreateNewCampaign']		= "Создать новую кампанию";
+$GLOBALS['strEditCampaign']				= "Редактировать кампанию";
+$GLOBALS['strAddCampaign']                      = "Добавить новую кампанию";
+$GLOBALS['strAddCampaign_Key']          = "Добавить <u>н</u>овую кампанию";
 
-$GLOBALS['strEdit']						= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strCreate']					= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strUntitled']					= "О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strEdit']						= "Редактировать";
+$GLOBALS['strCreate']					= "Создать";
+$GLOBALS['strUntitled']					= "Без названия";
 
-$GLOBALS['strTotalCampaigns'] 			= "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strActiveCampaigns'] 			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strTotalCampaigns'] 			= "Всего кампаний";
+$GLOBALS['strActiveCampaigns'] 			= "Активных кампаний";
 
-$GLOBALS['strLinkedTo']					= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫";
-$GLOBALS['strSendAdvertisingReport']	= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ e-mail";
-$GLOBALS['strNoDaysBetweenReports']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strSendDeactivationWarning']  = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strLinkedTo']					= "связано с";
+$GLOBALS['strSendAdvertisingReport']	= "Посылать рекламный отчет по e-mail";
+$GLOBALS['strNoDaysBetweenReports']		= "Количество дней между отчетами";
+$GLOBALS['strSendDeactivationWarning']  = "Посылать предупреждение, когда кампания деактивировануется";
 
-$GLOBALS['strWarnClientTxt']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ {limit}. ";
-$GLOBALS['strImpressionsClicksLow']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫/О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strWarnClientTxt']			= "Количество нажатий или просмотров для ваших баннеров скоро станет меньше {limit}. ";
+$GLOBALS['strImpressionsClicksLow']		=
+$GLOBALS['strViewsClicksLow']			= "Рекламные просмотры/нажатия подходят к концу";
 
-$GLOBALS['strDays']						= "О©╫О©╫О©╫О©╫";
-$GLOBALS['strHistory']					= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAverage']					= "О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strDuplicateClientName']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫.";
-$GLOBALS['strAllowClientDisableBanner'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAllowClientActivateBanner'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strDays']						= "Дней";
+$GLOBALS['strHistory']					= "История";
+$GLOBALS['strAverage']					= "В среднем";
+$GLOBALS['strDuplicateClientName']		= "Указанное имя пользователя уже существует, пожалуйста введите другое имя.";
+$GLOBALS['strAllowClientDisableBanner'] = "Разрешить этому пользователю деактивировать его баннеры";
+$GLOBALS['strAllowClientActivateBanner'] = "Разрешить этому пользователю активировать его баннеры";
 
-$GLOBALS['strGenerateBannercode']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫";
-$GLOBALS['strChooseInvocationType']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strGenerate']					= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strParameters']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strUniqueidentifier']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strFrameSize']				= "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strBannercode']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫";
+$GLOBALS['strGenerateBannercode']		= "Сгенерировать баннерный код";
+$GLOBALS['strChooseInvocationType']		= "Пожалуйста, выберите тип вызова баннера";
+$GLOBALS['strGenerate']					= "Сгенерировать";
+$GLOBALS['strParameters']				= "Параметры";
+$GLOBALS['strUniqueidentifier']			= "Уникальный идентификатор";
+$GLOBALS['strFrameSize']				= "Размер фрэйма";
+$GLOBALS['strBannercode']				= "Баннерный код";
 
-$GLOBALS['strSearch']					= "<u>О©╫</u>О©╫О©╫О©╫О©╫";
-$GLOBALS['strNoMatchesFound']			= "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strSearch']					= "<u>П</u>оиск";
+$GLOBALS['strNoMatchesFound']			= "Ничего не найдено";
 
-$GLOBALS['strNoViewLoggedInInterval']   = "О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strNoClickLoggedInInterval']  = "О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strMailReportPeriod']			= "О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ {startdate} О©╫О©╫ {enddate}.";
-$GLOBALS['strMailReportPeriodAll']		= "О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ {enddate}.";
-$GLOBALS['strNoStatsForCampaign'] 		= "О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strFrom']						= "О©╫";
-$GLOBALS['strTo']						= "О©╫О©╫";
-$GLOBALS['strMaintenance']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strCampaignStats']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strClientStats']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strErrorOccurred']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAdReportSent']				= "О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strNoViewLoggedInInterval']   = "За период данного отчета не было зарегистрировано просмотров";
+$GLOBALS['strNoClickLoggedInInterval']  = "За период данного отчета не было зарегистрировано нажатий";
+$GLOBALS['strMailReportPeriod']			= "Этот отчет включает в себя статистику с {startdate} по {enddate}.";
+$GLOBALS['strMailReportPeriodAll']		= "Этот отчет включает в себя всю статистику вплоть до {enddate}.";
+$GLOBALS['strNoStatsForCampaign'] 		= "Нет статистики для этой кампании";
+$GLOBALS['strFrom']						= "С";
+$GLOBALS['strTo']						= "по";
+$GLOBALS['strMaintenance']				= "Обслуживание";
+$GLOBALS['strCampaignStats']			= "Статистика по кампаниям";
+$GLOBALS['strClientStats']				= "Статистика по клиентам";
+$GLOBALS['strErrorOccurred']			= "Произошла ошибка";
+$GLOBALS['strAdReportSent']				= "Отчет о рекламе выслан";
 
-$GLOBALS['strAutoChangeHTML']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ HTML О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strAutoChangeHTML']			= "Изменить HTML для подсчета кликов";
 
-$GLOBALS['strZones']					= "О©╫О©╫О©╫О©╫";
-$GLOBALS['strAddZone']					= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
-$GLOBALS['strModifyZone']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
-$GLOBALS['strAddNewZone']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
-$GLOBALS['strAddNewZone_Key']                   = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ <u>О©╫</u>О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
+$GLOBALS['strZones']					= "Зоны";
+$GLOBALS['strAddZone']					= "Создать зону";
+$GLOBALS['strModifyZone']				= "Редактировать зону";
+$GLOBALS['strAddNewZone']				= "Добавить новую зону";
+$GLOBALS['strAddNewZone_Key']                   = "Добавить <u>н</u>овую зону";
 
-$GLOBALS['strOverview']					= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strEqualTo']					= "О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strDifferentFrom']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫";
-$GLOBALS['strAND']						= "О©╫";  // logical operator
-$GLOBALS['strOR']						= "О©╫О©╫О©╫"; // logical operator
-$GLOBALS['strOnlyDisplayWhen']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫:";
+$GLOBALS['strOverview']					= "Обозрение";
+$GLOBALS['strEqualTo']					= "равно";
+$GLOBALS['strDifferentFrom']			= "отличается от";
+$GLOBALS['strAND']						= "И";  // logical operator
+$GLOBALS['strOR']						= "ИЛИ"; // logical operator
+$GLOBALS['strOnlyDisplayWhen']			= "Показывать этот баннер только когда:";
 
-$GLOBALS['strStatusText']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strStatusText']				= "Описание статуса";
 
-$GLOBALS['strConfirmDeleteClient'] 		= "О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫?";
-$GLOBALS['strConfirmDeleteCampaign']	= "О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫?";
-$GLOBALS['strConfirmDeleteBanner']		= "О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫?";
-$GLOBALS['strConfirmDeleteZone']		= "О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫?";
-$GLOBALS['strConfirmDeleteAffiliate']	= "О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫?";
+$GLOBALS['strConfirmDeleteClient'] 		= "Вы действительно хотите удалить этого клиента?";
+$GLOBALS['strConfirmDeleteCampaign']	= "Вы действительно хотите удалить эту кампанию?";
+$GLOBALS['strConfirmDeleteBanner']		= "Вы действительно хотите удалить этот баннер?";
+$GLOBALS['strConfirmDeleteZone']		= "Вы действительно хотите удалить эту зону?";
+$GLOBALS['strConfirmDeleteAffiliate']	= "Вы действительно хотите удалить этого партнера?";
 
-$GLOBALS['strConfirmResetStats']		= "О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫?";
-$GLOBALS['strConfirmResetCampaignStats']= "О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫?";
-$GLOBALS['strConfirmResetClientStats']	= "О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫?";
-$GLOBALS['strConfirmResetBannerStats']	= "О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫?";
+$GLOBALS['strConfirmResetStats']		= "Вы действительно хотите обнулить всю статистику?";
+$GLOBALS['strConfirmResetCampaignStats']= "Вы действительно хотите обнулить статистику для этой кампании?";
+$GLOBALS['strConfirmResetClientStats']	= "Вы действительно хотите обнулить статистику для этого клиента?";
+$GLOBALS['strConfirmResetBannerStats']	= "Вы действительно хотите обнулить статистику для этого баннера?";
 
-$GLOBALS['strClientsAndCampaigns']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strCampaignOverview']			= "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strReports']					= "О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strShowBanner']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strClientsAndCampaigns']		= "Клиенты и кампании";
+$GLOBALS['strCampaignOverview']			= "Обзор кампании";
+$GLOBALS['strReports']					= "Отчеты";
+$GLOBALS['strShowBanner']				= "Показать баннер";
 
-$GLOBALS['strIncludedBanners']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strProbability']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strInvocationcode']			= "О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strSelectZoneType']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strBannerSelection']			= "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strInteractive']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strRawQueryString']			= "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ 'О©╫О©╫О©╫ О©╫О©╫О©╫О©╫'";
+$GLOBALS['strIncludedBanners']			= "Связанные баннеры";
+$GLOBALS['strProbability']				= "Вероятность";
+$GLOBALS['strInvocationcode']			= "Код вызова";
+$GLOBALS['strSelectZoneType']			= "Пожалуйста, выберите тип связи баннеров";
+$GLOBALS['strBannerSelection']			= "Выбор баннеров";
+$GLOBALS['strInteractive']				= "Интерактивный";
+$GLOBALS['strRawQueryString']			= "Строка запроса 'как есть'";
 
-$GLOBALS['strBannerWeight']				= "О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strCampaignWeight']			= "О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strBannerWeight']				= "Вес баннера";
+$GLOBALS['strCampaignWeight']			= "Вес кампании";
 
-$GLOBALS['strZoneCacheOn']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strZoneCacheOff']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strCachedZones']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
-$GLOBALS['strSizeOfCache']				= "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
-$GLOBALS['strAverageAge']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫";
-$GLOBALS['strRebuildZoneCache']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strZoneCacheOn']				= "Кэширование зон включено";
+$GLOBALS['strZoneCacheOff']				= "Кэширование зон выключено";
+$GLOBALS['strCachedZones']				= "Закэшированные зоны";
+$GLOBALS['strSizeOfCache']				= "Размер кэша";
+$GLOBALS['strAverageAge']				= "Среднее время нахождения в кэше";
+$GLOBALS['strRebuildZoneCache']			= "Построить кэш зон заново";
 $GLOBALS['strKiloByte']					= "KB";
-$GLOBALS['strSeconds']					= "О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strExpired']					= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strSeconds']					= "секунд";
+$GLOBALS['strExpired']					= "Устарело";
 
-$GLOBALS['strModifyBannerAcl'] 			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strACL'] 						= "О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strNoMoveUp'] 				= "О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
-$GLOBALS['strACLAdd'] 					= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strACLAdd_Key']                               = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ <u>О©╫</u>О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strNoLimitations']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫";
+$GLOBALS['strModifyBannerAcl'] 			= "Ограниченя показа";
+$GLOBALS['strACL'] 						= "Лимит";
+$GLOBALS['strNoMoveUp'] 				= "Не могу переместить первый ряд выше";
+$GLOBALS['strACLAdd'] 					= "Добавить новое ограничение";
+$GLOBALS['strACLAdd_Key']                               = "Добавить <u>н</u>овое ограничение";
+$GLOBALS['strNoLimitations']			= "Ограничений нет";
 
-$GLOBALS['strLinkedZones']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
-$GLOBALS['strNoZonesToLink']			= "О©╫О©╫О©╫, О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫";
-$GLOBALS['strNoZones']					= "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
-$GLOBALS['strNoClients']				= "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strNoStats']					= "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strNoAffiliates']				= "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strLinkedZones']				= "Связанные зоны";
+$GLOBALS['strNoZonesToLink']			= "Зон, к которым может быть отнесен данный баннер, нет";
+$GLOBALS['strNoZones']					= "Сейчас не определено ни одной зоны";
+$GLOBALS['strNoClients']				= "Сечас не определено ни одного клиента";
+$GLOBALS['strNoStats']					= "Сейчас не доступно никакой статистики";
+$GLOBALS['strNoAffiliates']				= "Сейчас не определен ни один издатель";
 
-$GLOBALS['strCustom']					= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strCustom']					= "Нестандартный";
 
-$GLOBALS['strSettings'] 				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strSettings'] 				= "Настройки";
 
-$GLOBALS['strAffiliates']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAffiliatesAndZones']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫";
-$GLOBALS['strAddAffiliate']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strModifyAffiliate']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAddNewAffiliate']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAddNewAffiliate_Key']                      = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ <u>О©╫</u>О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strAffiliates']				= "Издатели";
+$GLOBALS['strAffiliatesAndZones']		= "Издатели и зоны";
+$GLOBALS['strAddAffiliate']				= "Создать издателя";
+$GLOBALS['strModifyAffiliate']			= "Редактировать издателя";
+$GLOBALS['strAddNewAffiliate']			= "Добавить нового издателя";
+$GLOBALS['strAddNewAffiliate_Key']                      = "Добавить <u>н</u>ового издателя";
 
-$GLOBALS['strCheckAllNone']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫сё / О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strCheckAllNone']				= "Пометить всё / ничего";
 
-$GLOBALS['strExpandAll']                        = "<u>О©╫</u>О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫сё";
-$GLOBALS['strCollapseAll']                      = "<u>О©╫</u>О©╫О©╫О©╫О©╫О©╫О©╫ О©╫сё";
+$GLOBALS['strExpandAll']                        = "<u>Р</u>аскрыть всё";
+$GLOBALS['strCollapseAll']                      = "<u>З</u>акрыть всё";
 
 
-$GLOBALS['strAllowAffiliateModifyInfo'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAllowAffiliateModifyZones'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
-$GLOBALS['strAllowAffiliateLinkBanners'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAllowAffiliateAddZone'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
-$GLOBALS['strAllowAffiliateDeleteZone'] = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
+$GLOBALS['strAllowAffiliateModifyInfo'] = "Разрешить этому пользователю редактировать свою издательскую информацию";
+$GLOBALS['strAllowAffiliateModifyZones'] = "Разрешить этому пользователю редактировать его собственные зоны";
+$GLOBALS['strAllowAffiliateLinkBanners'] = "Разрешить этому пользователю свзяывать баннеры с его собственными зонами";
+$GLOBALS['strAllowAffiliateAddZone'] = "Разрешить этому пользователю определять новые зоны";
+$GLOBALS['strAllowAffiliateDeleteZone'] = "Разрешить этому пользователю удалять существующие зоны";
 
-$GLOBALS['strPriority']					= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strHighPriority']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.<br />
-										   О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫, phpAdsNew О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ 
-										   О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫.";
-$GLOBALS['strLowPriority']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.<br />
-										   О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫ 
-										   О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.";
-$GLOBALS['strTargetLimitAdviews']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫";
-$GLOBALS['strTargetPerDay']				= "О©╫ О©╫О©╫О©╫О©╫.";
-$GLOBALS['strRecalculatePriority']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strPriority']					= "Приоритет";
+$GLOBALS['strHighPriority']				= "Показывать баннеры в этой кампании с высоким приоритетом.<br>
+										   Если вы используете эту опцию, phpAdsNew будет пытаться распределить 
+										   количество просмотров равномерно по всему дню.";
+$GLOBALS['strLowPriority']				= "Показывать баннеры в этой кампании с низким приоритетом.<br>
+										   Эта кампания используетися для показа оставшихся просмотров, которые 
+										   не используются высокоприоритетными кампаниями.";
+$GLOBALS['strTargetLimitAdviews']		= "Ошраничить количество показов до";
+$GLOBALS['strTargetPerDay']				= "в день.";
+$GLOBALS['strRecalculatePriority']		= "Пересчитать приоритеты";
 
-$GLOBALS['strProperties']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAffiliateProperties']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strBannerOverview']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strBannerProperties']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strCampaignProperties']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strClientProperties']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strZoneOverview']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
-$GLOBALS['strZoneProperties']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
-$GLOBALS['strAffiliateOverview']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strLinkedBannersOverview']	= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strProperties']				= "Параметры";
+$GLOBALS['strAffiliateProperties']		= "Свойства издателя";
+$GLOBALS['strBannerOverview']			= "Обозрение баннера";
+$GLOBALS['strBannerProperties']			= "Параметры баннера";
+$GLOBALS['strCampaignProperties']		= "Параметры кампании";
+$GLOBALS['strClientProperties']			= "Параметры клиента";
+$GLOBALS['strZoneOverview']				= "Обозрение зоны";
+$GLOBALS['strZoneProperties']			= "Параметры зоны";
+$GLOBALS['strAffiliateOverview']		= "Обозрение издателя";
+$GLOBALS['strLinkedBannersOverview']	= "Обозрение связанных баннеров";
 
-$GLOBALS['strGlobalHistory']			= "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strBannerHistory']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strCampaignHistory']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strClientHistory']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAffiliateHistory']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strZoneHistory']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫";
-$GLOBALS['strLinkedBannerHistory']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strGlobalHistory']			= "Общая история";
+$GLOBALS['strBannerHistory']			= "История баннеров";
+$GLOBALS['strCampaignHistory']			= "История кампаний";
+$GLOBALS['strClientHistory']			= "История клиентов";
+$GLOBALS['strAffiliateHistory']			= "История издателей";
+$GLOBALS['strZoneHistory']				= "История зон";
+$GLOBALS['strLinkedBannerHistory']		= "История связанных баннеров";
 
-$GLOBALS['strMoveTo']					= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫";
-$GLOBALS['strDuplicate']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strMoveTo']					= "Переместить в";
+$GLOBALS['strDuplicate']				= "Скопировать";
 
-$GLOBALS['strMainSettings']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAdminSettings']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strMainSettings']				= "Главные настройки";
+$GLOBALS['strAdminSettings']			= "Административные настройки";
 
-$GLOBALS['strApplyLimitationsTo']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫";
-$GLOBALS['strWholeCampaign']			= "О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strZonesWithoutAffiliate']	= "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strMoveToNewAffiliate']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strApplyLimitationsTo']		= "Применить ограничения к";
+$GLOBALS['strWholeCampaign']			= "Всей кампании";
+$GLOBALS['strZonesWithoutAffiliate']	= "Зонам без издателя";
+$GLOBALS['strMoveToNewAffiliate']		= "Переместить к новому издателю";
 
-$GLOBALS['strNoBannersToLink']			= "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
-$GLOBALS['strNoLinkedBanners']			= "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
+$GLOBALS['strNoBannersToLink']			= "Сейчас нет баннеров, которые могли бы быть привязаны к этой зоне";
+$GLOBALS['strNoLinkedBanners']			= "Сейчас нет баннеров, которые привязаны к этой зоне";
 
-$GLOBALS['strAdviewsLimit']				= "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strAdviewsLimit']				= "Лимит показов";
 
-$GLOBALS['strTotalThisPeriod']			= "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strAverageThisPeriod']		= "О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strLast7Days']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ 7 О©╫О©╫О©╫О©╫";
-$GLOBALS['strDistribution']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strOther']					= "О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strUnknown']					= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strTotalThisPeriod']			= "Всего за этот период";
+$GLOBALS['strAverageThisPeriod']		= "В среднем за этот период";
+$GLOBALS['strLast7Days']				= "Последние 7 дней";
+$GLOBALS['strDistribution']				= "Распределение";
+$GLOBALS['strOther']					= "Другое";
+$GLOBALS['strUnknown']					= "Неизвестное";
 
-$GLOBALS['strWelcomeTo']				= "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫";
-$GLOBALS['strEnterUsername']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strWelcomeTo']				= "Добро пожаловать в";
+$GLOBALS['strEnterUsername']			= "Введите ваш логин и пароль для входа в систему";
 
-$GLOBALS['strBannerNetwork']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
-$GLOBALS['strMoreInformation']			= "О©╫О©╫О©╫. О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫...";
-$GLOBALS['strChooseNetwork']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strBannerNetwork']			= "Баннерная сеть";
+$GLOBALS['strMoreInformation']			= "Доп. информация...";
+$GLOBALS['strChooseNetwork']			= "Выберите баннерную сеть, которую вы хотите использовать";
 $GLOBALS['strRichMedia']				= "Richmedia";
-$GLOBALS['strTrackAdClicks']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strYes']						= "О©╫О©╫";
-$GLOBALS['strNo']						= "О©╫О©╫О©╫";
-$GLOBALS['strUploadOrKeep']				= "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫<br />О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫: О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ <br />О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫?";
-$GLOBALS['strCheckSWF']					= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ Flash-О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strTrackAdClicks']			= "Отслеживать клики";
+$GLOBALS['strYes']						= "Да";
+$GLOBALS['strNo']						= "Нет";
+$GLOBALS['strUploadOrKeep']				= "Хотите сохранить уже<br>имеющуюся картинку: или хотите <br>загрузить другую?";
+$GLOBALS['strCheckSWF']					= "Проверять наличие жестко закодированных линков внутри Flash-файлов";
 $GLOBALS['strURL2']						= "URL";
 $GLOBALS['strTarget']					= "Target";
-$GLOBALS['strConvert']					= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strCancel']					= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strConvert']					= "Преобразовать";
+$GLOBALS['strCancel']					= "Отменить";
 
-$GLOBALS['strConvertSWFLinks']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ Flash-О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strHardcodedLinks']                   = "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strConvertSWF']				= "<br />Flash-О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ URL-О©╫. phpAdsNew О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ ".
-										  "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ ".
-										  "О©╫О©╫О©╫О©╫О©╫. О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ URL О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ Flash-О©╫О©╫О©╫О©╫О©╫. ".
-										  "О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ <b>О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫</b>, О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ ".
-										  "<b>О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫</b>.<br /><br />".
-										  "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫: О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ <b>О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫</b>, Flash-О©╫О©╫О©╫О©╫, ".
-									  	  "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫. <br />О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ ".
-										  "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫. О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ Flash О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ ".
-										  "О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ Flash 4 (О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫) О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.<br /><br />";
+$GLOBALS['strConvertSWFLinks']			= "Преобразовать Flash-линки";
+$GLOBALS['strHardcodedLinks']                   = "Жёстко закодированные ссылки";
+$GLOBALS['strConvertSWF']				= "<br>Flash-файл, который вы только что загрузили, содержит жестко закодированные URL-ы. phpAdsNew не сможет ".
+										  "отслеживать клики для этого баннера, если вы не преобразуете эти ".
+										  "линки. Ниже вы найдете список всех URL внутри этого Flash-файла. ".
+										  "Если вы хотите их преобразовать, щелкните по <b>Преобразовать</b>, в противном случае ".
+										  "<b>Отменить</b>.<br><br>".
+										  "Заметьте: если вы щелкнете по <b>Преобразовать</b>, Flash-файл, ".
+									  	  "который вы только что загрузили, будет физически изменен. <br>Пожалуйста, сохраните резервную копию ".
+										  "исходного файла. Вне зависимости от того, какой версией Flash был создан этот баннер, получившийся ".
+										  "файл потребует Flash 4 (или старше) проигрыватель для корректного отображения.<br><br>";
 
-$GLOBALS['strCompressSWF']                      = "О©╫О©╫О©╫О©╫О©╫ SWF-О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ (О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ Flash 6 О©╫О©╫О©╫О©╫О©╫О©╫О©╫)";
-$GLOBALS['strOverwriteSource']          = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strCompressSWF']                      = "Сжать SWF-файл для ускорения загрузки (требует установки Flash 6 плагина)";
+$GLOBALS['strOverwriteSource']          = "Перезаписать параметр источника";
 
-$GLOBALS['strSourceStats']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strSelectSource']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫:";
-$GLOBALS['strSizeDistribution']         = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strCountryDistribution']      = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strEffectivity']                      = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-
-
-$GLOBALS['strDelimiter']                        = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strMiscellaneous']            = "О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strSourceStats']				= "Статистика по источнику";
+$GLOBALS['strSelectSource']				= "Выберите источник, который вы хотите просмотреть:";
+$GLOBALS['strSizeDistribution']         = "Распределение по размеру";
+$GLOBALS['strCountryDistribution']      = "Распределение по стране";
+$GLOBALS['strEffectivity']                      = "Эффективность";
 
 
-$GLOBALS['strErrorUploadSecurity']              = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫!";
-$GLOBALS['strErrorUploadBasedir']               = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ safe_mode О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ open_basedir";
-$GLOBALS['strErrorUploadUnknown']               = "О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫. О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ PHP!";
-$GLOBALS['strErrorStoreLocal']                  = "О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫. О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strErrorStoreFTP']                    = "О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ FTP-О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫. О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫-О©╫О©╫ О©╫О©╫О©╫О©╫, О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫ О©╫О©╫-О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strDelimiter']                        = "Разделитель";
+$GLOBALS['strMiscellaneous']            = "Разное";
+
+
+$GLOBALS['strErrorUploadSecurity']              = "Обнаружена возможная проблема с безопасностью, загрузка остановлена!";
+$GLOBALS['strErrorUploadBasedir']               = "Загруженный файл недоступен, вероятно, в результате действия safe_mode или ограничений open_basedir";
+$GLOBALS['strErrorUploadUnknown']               = "Не могу получить доступ к загруженному файлу по неизвестной причине. Пожалуйста, проверьте настройки PHP!";
+$GLOBALS['strErrorStoreLocal']                  = "Во время попытки сохранения баннера в локальном каталоге произошла ошибка. Вероятно, это результат неверного указания пути к локальному каталогу";
+$GLOBALS['strErrorStoreFTP']                    = "Во время попытки загрузки баннера на FTP-сервер произошла ошибка. Это может быть из-за того, что сервер недоступен, или из-за неправильной настройки его параметров";
 
 // Zone probability
-$GLOBALS['strZoneProbListChain']                = "О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫. О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫:";
-$GLOBALS['strZoneProbNullPri']                  = "О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strZoneProbListChain']                = "Все баннеры, связанные с выбранной зоной, имеют нулевой приоритет. Цепь вызова зон, которая будет использована:";
+$GLOBALS['strZoneProbNullPri']                  = "Все баннеры, связанные с этой зоной, имеют нулевой приоритет";
 
 // Hosts
-$GLOBALS['strHosts']                            = "О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strTopHosts']                         = "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strTopCountries']             = "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
-$GLOBALS['strRecentHosts']                      = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strHosts']                            = "Хосты";
+$GLOBALS['strTopHosts']                         = "Лучшие хосты";
+$GLOBALS['strTopCountries']             = "Лучшие страны";
+$GLOBALS['strRecentHosts']                      = "Недавно просматривавшие хосты";
 
 // Reserved keys
 // Do not change these unless absolutely needed
@@ -484,12 +487,12 @@ $GLOBALS['keyList']                     = 'l';
 // Other keys
 // Please make sure you underline the key you
 // used in the string in default.lang.php
-$GLOBALS['keySearch']           = 'О©╫';
-$GLOBALS['keyCollapseAll']      = 'О©╫';
-$GLOBALS['keyExpandAll']        = 'О©╫';
-$GLOBALS['keyAddNew']           = 'О©╫';
-$GLOBALS['keyNext']                     = 'О©╫';
-$GLOBALS['keyPrevious']         = 'О©╫';
+$GLOBALS['keySearch']           = 'П';
+$GLOBALS['keyCollapseAll']      = 'З';
+$GLOBALS['keyExpandAll']        = 'Р';
+$GLOBALS['keyAddNew']           = 'н';
+$GLOBALS['keyNext']                     = 'С';
+$GLOBALS['keyPrevious']         = 'П';
 
 
 ?>
