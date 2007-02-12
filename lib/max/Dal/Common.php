@@ -194,8 +194,12 @@ class MAX_Dal_Common
     {
         $lockName = $GLOBALS['_MAX']['CONF']['database']['name'].".$lockName";
         $query = "SELECT GET_LOCK('$lockName', 1) AS 'lock'";
-        $result = phpAds_dbQuery($query) or phpAds_sqlDie();
-        $row = mysql_fetch_array($result);
+        $result = $this->dbh->query( $query );
+        if( $result->fetchInto( $row ) != DB_OK ) {
+            // couldn't fetch row
+            return false;
+        }
+        
         if ($row['lock'] == 1) {
             // Lock obtained successfully
             return true;
@@ -213,8 +217,12 @@ class MAX_Dal_Common
     {
         $lockName = $GLOBALS['_MAX']['CONF']['database']['name'].".$lockName";
         $query = "SELECT RELEASE_LOCK('$lockName') AS 'release_lock'";
-        $result = phpAds_dbQuery($query) or phpAds_sqlDie();
-        $row = mysql_fetch_array($result);
+        $result = $this->dbh->query( $query );
+        if( $result->fetchInto( $row ) != DB_OK ) {
+            // couldn't fetch row
+            return false;
+        }
+
         if ($row['release_lock'] == 1) {
             // Lock released successfully
             return true;
