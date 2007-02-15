@@ -199,12 +199,12 @@ if (isset($agencyid) && $agencyid != '' && $agencyid != 0) {
 				" WHERE affiliateid='".$affiliateid."'"
 			) or phpAds_sqlDie();
 		}
+    	// Delete affiliates_extra row
+    	$res = phpAds_dbQuery(
+    		"DELETE FROM ".$conf['table']['prefix'].$conf['table']['affiliates_extra'].
+    		" WHERE affiliateid='".$affiliateid."'"
+    	) or phpAds_sqlDie();
 	}
-	// Delete affiliates_extra row
-	$res = phpAds_dbQuery(
-		"DELETE FROM ".$conf['table']['prefix'].$conf['table']['affiliates_extra'].
-		" WHERE agencyid='".$agencyid."'"
-	) or phpAds_sqlDie();
 	// Delete Affiliate
 	$res = phpAds_dbQuery(
 		"DELETE FROM ".$conf['table']['prefix'].$conf['table']['affiliates'].
