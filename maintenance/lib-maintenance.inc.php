@@ -24,7 +24,7 @@ if (!defined('phpAds_LastMidnight'))
 	define('phpAds_LastMidnight', mktime(0, 0, 0, date('m'), date('d'), date('Y')));
 
 
-function phpAds_performMaintenance()
+function phpAds_performMaintenance($priority_only = false)
 {
 	global $phpAds_config;
 	
@@ -55,25 +55,27 @@ function phpAds_performMaintenance()
 		if ($phpAds_config['language'] != 'english' && file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/default.lang.php'))
 			@include (phpAds_path.'/language/'.$phpAds_config['language'].'/default.lang.php');
 		
-		// Update the timestamp
-		$res = phpAds_dbQuery ("
-			UPDATE
-				".$phpAds_config['tbl_config']."
-			SET
-				maintenance_timestamp = '".time()."'
-		");
-		
-		
-		// Run different maintenance tasks on midnight or soon after if the last run was before midnight
-		if ($phpAds_config['maintenance_timestamp'] < phpAds_LastMidnight)
+		if (!$priority_only)
 		{
-			include (phpAds_path."/maintenance/maintenance-reports.php");
-			include (phpAds_path."/maintenance/maintenance-activation.php");
-			include (phpAds_path."/maintenance/maintenance-autotargeting.php");
-			include (phpAds_path."/maintenance/maintenance-geotargeting.php");
-			include (phpAds_path."/maintenance/maintenance-cleantables.php");
-			include (phpAds_path."/maintenance/maintenance-openadssync.php");
-		}
+			// Update the timestamp
+			$res = phpAds_dbQuery ("
+				UPDATE
+					".$phpAds_config['tbl_config']."
+				SET
+					maintenance_timestamp = '".time()."'
+			");
+			
+			// Run different maintenance tasks on midnight or soon after if the last run was before midnight
+			if ($phpAds_config['maintenance_timestamp'] < phpAds_LastMidnight)
+			{
+				include (phpAds_path."/maintenance/maintenance-reports.php");
+				include (phpAds_path."/maintenance/maintenance-activation.php");
+				include (phpAds_path."/maintenance/maintenance-autotargeting.php");
+				include (phpAds_path."/maintenance/maintenance-geotargeting.php");
+				include (phpAds_path."/maintenance/maintenance-cleantables.php");
+				include (phpAds_path."/maintenance/maintenance-openadssync.php");
+			}
+		}		
 		
 		include (phpAds_path."/maintenance/maintenance-priority.php");
 		

@@ -215,6 +215,33 @@ $phpAds_config['type_html_php'] = false;
 
 
 
+/*********************************************************/
+/* Load balanced setup                                   */
+/*********************************************************/
+
+// Enable distrbuted load balancing
+$phpAds_config['lb_enable'] = false;
+
+// Database local connection using sockets
+$phpAds_config['lb_dblocal'] = false;
+
+// Database hostname
+$phpAds_config['lb_dbhost'] = 'localhost';
+
+// Database port
+$phpAds_config['lb_dbport'] = '3306';
+
+// Database username
+$phpAds_config['lb_dbuser'] = '';
+
+// Database password
+$phpAds_config['lb_dbpassword'] = '';
+
+// Database name
+$phpAds_config['lb_dbname'] = '';
+
+
+
 
 
 
