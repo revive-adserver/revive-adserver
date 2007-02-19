@@ -211,7 +211,12 @@ function setupConstants()
             define('MAX_PATH', dirname(__FILE__));
         }
         // Define the PEAR installation path
-        ini_set('include_path', MAX_PATH . '/lib/pear');
+        $existingPearPath = ini_get('include_path');
+        $newPearPath = MAX_PATH . '/lib/pear';
+        if (!empty($existingPearPath)) {
+            $newPearPath .= PATH_SEPARATOR . $existingPearPath;
+        }
+        ini_set('include_path', $newPearPath);
         // Define the week to start on Sunday (0) so that the PEAR::Date and
         // PEAR::Date_Calc classes agree on what day is the start of the week
         define('DATE_CALC_BEGIN_WEEKDAY', 0);
