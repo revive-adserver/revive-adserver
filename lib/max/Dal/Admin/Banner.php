@@ -10,6 +10,39 @@ require_once MAX_PATH . '/lib/max/Dal/Common.php';
  */
 class MAX_Dal_Admin_Banner extends MAX_Dal_Common
 {
+    function getBannerByKeyword($keyword, $agencyId = null)
+    {
+     
+        $whereBanner = is_numeric($keyword) ? " OR b.bannerid=$keyword" : '';
+                       
+        $query = "
+        SELECT
+            b.bannerid as bannerid,
+            b.description as description,
+            b.alt as alt,
+            b.campaignid as campaignid,
+            m.clientid as clientid
+        FROM
+            banners AS b,
+            campaigns AS m,
+            clients AS c
+        WHERE
+            (
+            m.clientid=c.clientid
+            AND b.campaignid=m.campaignid
+            AND (b.alt LIKE " . DBC::makeLiteral('%' . $keyword . '%') . "
+                OR b.description LIKE " . DBC::makeLiteral('%' . $keyword . '%') . "
+                $whereBanner)
+            )
+        ";
+        
+        if($agencyId !== null) {
+            $query .= " AND c.agencyid=".DBC::makeLiteral($agencyId);
+        }
+        
+        return DBC::NewRecordSet($query);
+    }
+    
     /**
      * @param string $listorder One of 'bannerid', 'campaignid', 'alt',
      * 'description'...
@@ -224,4 +257,7 @@ class MAX_Dal_Admin_Banner extends MAX_Dal_Common
         return $banners;
     }
 }
+
+class BannerModel extends MAX_Dal_Admin_Banner {}
+
 ?>

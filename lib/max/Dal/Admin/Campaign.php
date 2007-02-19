@@ -4,9 +4,47 @@
  */
 
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
+require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 
 class MAX_Dal_Admin_Campaign extends MAX_Dal_Common
 {
+    /**
+     * Gets campaign Id and name and client Id by keyword and agency Id
+     * matched by keyword and either client name or client id.
+     * 
+     * @param $keyword  string  Keyword to look for
+     * @param $agencyId int  Agency Id
+     * 
+     * @return RecordSet
+     * @access public
+     */
+    function getCampaignAndClientByKeyword($keyword, $agencyId = null)
+    {
+        $whereCampaign = is_numeric($keyword) ? " OR m.campaignid=$keyword" : '';
+        
+        $query = "
+        SELECT
+            m.campaignid AS campaignid,
+            m.campaignname AS campaignname,
+            m.clientid AS clientid
+        FROM
+            campaigns AS m,
+            clients AS c
+        WHERE
+            (
+            m.clientid=c.clientid
+            AND (m.campaignname LIKE ".DBC::makeLiteral('%'.$keyword.'%')."
+                $whereCampaign)
+            )
+        ";
+        
+        if($agencyId !== null) {
+            $query .= " AND c.agencyid=".DBC::makeLiteral($agencyId);
+        }
+        
+        return DBC::NewRecordSet($query);
+    }
+    
     /**
      * @todo Consider removing order options (or making them optional)
      */
@@ -172,4 +210,9 @@ class MAX_Dal_Admin_Campaign extends MAX_Dal_Common
         return $campaigns;
     }
 }
+
+class CampaignModel extends MAX_Dal_Admin_Campaign
+{
+}
+
 ?>

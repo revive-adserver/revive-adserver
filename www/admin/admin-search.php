@@ -35,6 +35,11 @@ require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
+require_once MAX_PATH . '/lib/max/Dal/Admin/Affiliate.php';
+require_once MAX_PATH . '/lib/max/Dal/Admin/Campaign.php';
+require_once MAX_PATH . '/lib/max/Dal/Admin/Client.php';
+require_once MAX_PATH . '/lib/max/Dal/Admin/Banner.php';
+require_once MAX_PATH . '/lib/max/Dal/Admin/Zone.php';
 
 // Register input variables
 phpAds_registerGlobal ('keyword', 'client', 'campaign', 'banner', 'zone', 'affiliate', 'compact');
@@ -140,113 +145,32 @@ if (!isset($keyword))
     
 <?php
 
-    $whereAffiliate = is_numeric($keyword) ? " OR a.affiliateid=$keyword" : '';
-    $whereBanner = is_numeric($keyword) ? " OR b.bannerid=$keyword" : '';
-    $whereCampaign = is_numeric($keyword) ? " OR m.campaignid=$keyword" : '';
-    $whereClient = is_numeric($keyword) ? " OR c.clientid=$keyword" : '';
-    $whereZone = is_numeric($keyword) ? " OR z.zoneid=$keyword" : '';
-    
-    $query_clients = "
-        SELECT
-            c.clientid AS clientid,
-            c.clientname AS clientname
-        FROM 
-            {$conf['table']['prefix']}{$conf['table']['clients']} AS c
-        WHERE
-            (
-            c.clientname LIKE '%$keyword%'
-            $whereClient
-            )
-    ";
-
-    $query_campaigns = "
-        SELECT
-            m.campaignid AS campaignid,
-            m.campaignname AS campaignname,
-            m.clientid AS clientid
-        FROM
-            {$conf['table']['prefix']}{$conf['table']['campaigns']} AS m,
-            {$conf['table']['prefix']}{$conf['table']['clients']} AS c
-        WHERE
-            (
-            m.clientid=c.clientid
-            AND (m.campaignname LIKE '%$keyword%'
-                $whereCampaign)
-            )
-    ";
-
-    $query_banners = "
-        SELECT
-            b.bannerid as bannerid,
-            b.description as description,
-            b.alt as alt,
-            b.campaignid as campaignid,
-            m.clientid as clientid
-        FROM
-            {$conf['table']['prefix']}{$conf['table']['banners']} AS b,
-            {$conf['table']['prefix']}{$conf['table']['campaigns']} AS m,
-            {$conf['table']['prefix']}{$conf['table']['clients']} AS c
-        WHERE
-            (
-            m.clientid=c.clientid
-            AND b.campaignid=m.campaignid
-            AND (b.alt LIKE '%$keyword%'
-                OR b.description LIKE '%$keyword%'
-                $whereBanner)
-            )
-    ";
-    
-    $query_affiliates = "
-        SELECT
-            a.affiliateid AS affiliateid,
-            a.name AS name
-        FROM
-            {$conf['table']['prefix']}{$conf['table']['affiliates']} AS a
-        WHERE
-            (
-            a.name LIKE '%$keyword%'
-            $whereAffiliate
-            )
-    ";
-
-    $query_zones = "
-        SELECT
-            z.zoneid AS zoneid,
-            z.zonename AS zonename,
-            z.description AS description,
-            a.affiliateid AS affiliateid
-        FROM
-            {$conf['table']['prefix']}{$conf['table']['zones']} AS z,
-            {$conf['table']['prefix']}{$conf['table']['affiliates']} AS a
-        WHERE
-            (
-            z.affiliateid=a.affiliateid
-            AND (z.zonename LIKE '%$keyword%'
-            OR description LIKE '%$keyword%'
-            $whereZone)
-            )
-    ";
+    $agencyId = null;
     if (phpAds_isUser(phpAds_Agency)) {
         $agencyId = phpAds_getAgencyID();
-        $query_clients .= " AND c.agencyid=$agencyId";
-        $query_campaigns .= " AND c.agencyid=$agencyId";
-        $query_banners .= " AND c.agencyid=$agencyId";
-        $query_affiliates .= " AND a.agencyid=$agencyId";
-        $query_zones .= " AND a.agencyid=$agencyId";
     }
     
-    $res_clients = phpAds_dbQuery($query_clients) or phpAds_sqlDie();
-    $res_campaigns = phpAds_dbQuery($query_campaigns) or phpAds_sqlDie();
-    $res_banners = phpAds_dbQuery($query_banners) or phpAds_sqlDie();
-    $res_affiliates = phpAds_dbQuery($query_affiliates) or phpAds_sqlDie();
-    $res_zones = phpAds_dbQuery($query_zones) or phpAds_sqlDie();
+    $zoneRS = ZoneModel::getZoneByKeyword($keyword, $agencyId) or phpAds_sqlDie();
+    $zoneRS->reset();
+
+    $affiliateRS = AffiliateModel::getAffiliateByKeyword($keyword, $agencyId) or phpAds_sqlDie();
+    $affiliateRS->reset();
     
+    $bannerRS = BannerModel::getBannerByKeyword($keyword, $agencyId) or phpAds_sqlDie();
+    $bannerRS->reset();
     
-    if (phpAds_dbNumRows($res_clients) > 0 ||
-        phpAds_dbNumRows($res_campaigns) > 0 ||
-        phpAds_dbNumRows($res_banners) > 0 ||
-        phpAds_dbNumRows($res_affiliates) > 0 ||
-        phpAds_dbNumRows($res_zones) > 0)
+    $clientRS = ClientModel::getClientByKeyword($keyword, $agencyId) or phpAds_sqlDie();
+    $clientRS->reset();
+    
+    $campaignRS = CampaignModel::getCampaignAndClientByKeyword($keyword, $agencyId) or phpAds_sqlDie();
+    $campaignRS->reset();
+       
+    $matchesFound = false;
+    if ($clientRS->getRowCount() ||
+        $campaignRS->getRowCount() ||
+        $bannerRS->getRowCount() ||
+        $affiliateRS->getRowCount() ||
+        $zoneRS->getRowCount())
     {
         echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
         echo "<tr height='25'>";
@@ -258,15 +182,16 @@ if (!isset($keyword))
         echo "</tr>";
         
         echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+        $matchesFound = true;
     }
     
     
     $i=0;
     
     
-    if ($client && phpAds_dbNumRows($res_clients) > 0)
+    if ($client && $clientRS->getRowCount())
     {
-        while ($row_clients = phpAds_dbFetchArray($res_clients))
+        while ($clientRS->next() && $row_clients = $clientRS->export())
         {
             if ($i > 0) echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
             
@@ -302,6 +227,7 @@ if (!isset($keyword))
             
             if (!$compact)
             {
+                
                 $query_c_expand = "SELECT campaignid,campaignname FROM ".$conf['table']['prefix'].$conf['table']['campaigns']." WHERE clientid=".$row_clients['clientid'];
                   $res_c_expand = phpAds_dbQuery($query_c_expand) or phpAds_sqlDie();
                 
@@ -401,9 +327,9 @@ if (!isset($keyword))
         }
     }
     
-    if ($campaign && phpAds_dbNumRows($res_campaigns) > 0)
-    {;
-        while ($row_campaigns = phpAds_dbFetchArray($res_campaigns))
+    if ($campaign)
+    {
+        while ($campaignRS->next() && $row_campaigns = $campaignRS->export())
         {
             if ($i > 0) echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
             
@@ -497,9 +423,9 @@ if (!isset($keyword))
         }
     }
     
-    if ($banner && phpAds_dbNumRows($res_banners) > 0)
+    if ($banner && $bannerRS->getRowCount())
     {
-        while ($row_banners = phpAds_dbFetchArray($res_banners))
+        while ($bannerRS->next() && $row_banners = $bannerRS->export())
         {
             $name = $strUntitled;
             if (isset($row_banners['alt']) && $row_banners['alt'] != '') $name = $row_banners['alt'];
@@ -553,9 +479,9 @@ if (!isset($keyword))
         }
     }
     
-    if ($affiliate && phpAds_dbNumRows($res_affiliates) > 0)
+    if ($affiliate && $affiliateRS->getRowCount())
     {
-        while ($row_affiliates = phpAds_dbFetchArray($res_affiliates))
+        while ($affiliateRS->next() && $row_affiliates = $affiliateRS->export())
         {
             $name = $row_affiliates['name'];
             $name = phpAds_breakString ($name, '30');
@@ -639,9 +565,9 @@ if (!isset($keyword))
         }
     }
     
-    if ($zone && phpAds_dbNumRows($res_zones) > 0)
+    if ($zone && $zoneRS->getRowCount())
     {
-        while ($row_zones = phpAds_dbFetchArray($res_zones))
+        while ($zoneRS->next() && $row_zones = $zoneRS->export())
         {
             $name = $row_zones['zonename'];
             $name = phpAds_breakString ($name, '30');
@@ -681,11 +607,7 @@ if (!isset($keyword))
         }
     }
     
-    if (phpAds_dbNumRows($res_clients) > 0 ||
-        phpAds_dbNumRows($res_campaigns) > 0 ||
-        phpAds_dbNumRows($res_banners) > 0 ||
-        phpAds_dbNumRows($res_affiliates) > 0 ||
-        phpAds_dbNumRows($res_zones) > 0)
+    if ($matchesFound)
     {
         echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
     }

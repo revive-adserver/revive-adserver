@@ -5,6 +5,8 @@
 
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
 
+require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
+
 class MAX_Dal_Admin_Advertiser extends MAX_Dal_Common
 {
     /**

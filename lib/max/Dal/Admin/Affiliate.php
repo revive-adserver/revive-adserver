@@ -1,0 +1,38 @@
+<?php
+/**
+ * @since Max v0.3.30 - 20-Nov-2006
+ */
+
+require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
+
+class MAX_Dal_Admin_Affiliate
+{
+    function getAffiliateByKeyword($keyword, $agencyId = null)
+    {
+        $whereAffiliate = is_numeric($keyword) ? " OR a.affiliateid=$keyword" : '';
+        
+        $query = "
+        SELECT
+            a.affiliateid AS affiliateid,
+            a.name AS name
+        FROM
+            affiliates AS a
+        WHERE
+            (
+            a.name LIKE " . DBC::makeLiteral('%' . $keyword . '%') . "
+            $whereAffiliate
+            )
+            
+        ";
+        
+        if($agencyId !== null) {
+            $query .= " AND a.agencyid=" . DBC::makeLiteral($agencyId);
+        }
+        
+        return DBC::NewRecordSet($query);
+    }
+}
+
+class AffiliateModel extends MAX_Dal_Admin_Affiliate {}
+
+?>
