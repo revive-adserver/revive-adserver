@@ -421,6 +421,12 @@ $GLOBALS['phpAds_hlp_type_web_ftp_password'] = "
 		external FTP server.
 		";
 
+$GLOBALS['phpAds_hlp_type_web_ftp_passive'] = " 
+ 	    Some FTP servers and firewalls require transfers to use Passive Mode (PASV). 
+ 	    If " . MAX_PRODUCT_NAME . " will need to use Passive Mode to connect to your 
+ 	    FTP server, then enable this option. 
+ 	    ";
+
 $GLOBALS['phpAds_hlp_type_web_url'] = "
         If you store banners on a web server, ".MAX_PRODUCT_NAME." needs to know which public
         URL corresponds with the directory you specified below. Do not specify

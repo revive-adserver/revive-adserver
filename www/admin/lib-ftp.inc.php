@@ -547,4 +547,10 @@ function ftp_debug($message = "")
 	return TRUE;
 }
 
+function ftp_pasv( $hSock, $bUsePassive )
+{
+	ftp_putcmd($hSock, "PASV");
+	return ftp_ok($hSock);
+}
+
 ?>
