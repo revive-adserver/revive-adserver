@@ -1,0 +1,667 @@
+a:18:{s:8:"provides";a:71:{s:28:"class;DB_DataObject_Overload";a:3:{s:4:"type";s:5:"class";s:4:"name";s:22:"DB_DataObject_Overload";s:8:"explicit";b:1;}s:19:"class;DB_DataObject";a:4:{s:4:"type";s:5:"class";s:4:"name";s:13:"DB_DataObject";s:7:"extends";s:22:"DB_DataObject_Overload";s:8:"explicit";b:1;}s:27:"function;DB_DataObject::get";a:3:{s:4:"type";s:8:"function";s:4:"name";s:18:"DB_DataObject::get";s:8:"explicit";b:1;}s:33:"function;DB_DataObject::staticGet";a:3:{s:4:"type";s:8:"function";s:4:"name";s:24:"DB_DataObject::staticGet";s:8:"explicit";b:1;}s:28:"function;DB_DataObject::find";a:3:{s:4:"type";s:8:"function";s:4:"name";s:19:"DB_DataObject::find";s:8:"explicit";b:1;}s:29:"function;DB_DataObject::fetch";a:3:{s:4:"type";s:8:"function";s:4:"name";s:20:"DB_DataObject::fetch";s:8:"explicit";b:1;}s:32:"function;DB_DataObject::whereAdd";a:3:{s:4:"type";s:8:"function";s:4:"name";s:23:"DB_DataObject::whereAdd";s:8:"explicit";b:1;}s:31:"function;DB_DataObject::orderBy";a:3:{s:4:"type";s:8:"function";s:4:"name";s:22:"DB_DataObject::orderBy";s:8:"explicit";b:1;}s:31:"function;DB_DataObject::groupBy";a:3:{s:4:"type";s:8:"function";s:4:"name";s:22:"DB_DataObject::groupBy";s:8:"explicit";b:1;}s:30:"function;DB_DataObject::having";a:3:{s:4:"type";s:8:"function";s:4:"name";s:21:"DB_DataObject::having";s:8:"explicit";b:1;}s:29:"function;DB_DataObject::limit";a:3:{s:4:"type";s:8:"function";s:4:"name";s:20:"DB_DataObject::limit";s:8:"explicit";b:1;}s:33:"function;DB_DataObject::selectAdd";a:3:{s:4:"type";s:8:"function";s:4:"name";s:24:"DB_DataObject::selectAdd";s:8:"explicit";b:1;}s:32:"function;DB_DataObject::selectAs";a:3:{s:4:"type";s:8:"function";s:4:"name";s:23:"DB_DataObject::selectAs";s:8:"explicit";b:1;}s:30:"function;DB_DataObject::insert";a:3:{s:4:"type";s:8:"function";s:4:"name";s:21:"DB_DataObject::insert";s:8:"explicit";b:1;}s:30:"function;DB_DataObject::update";a:3:{s:4:"type";s:8:"function";s:4:"name";s:21:"DB_DataObject::update";s:8:"explicit";b:1;}s:30:"function;DB_DataObject::delete";a:3:{s:4:"type";s:8:"function";s:4:"name";s:21:"DB_DataObject::delete";s:8:"explicit";b:1;}s:32:"function;DB_DataObject::fetchRow";a:3:{s:4:"type";s:8:"function";s:4:"name";s:23:"DB_DataObject::fetchRow";s:8:"explicit";b:1;}s:29:"function;DB_DataObject::count";a:3:{s:4:"type";s:8:"function";s:4:"name";s:20:"DB_DataObject::count";s:8:"explicit";b:1;}s:29:"function;DB_DataObject::query";a:3:{s:4:"type";s:8:"function";s:4:"name";s:20:"DB_DataObject::query";s:8:"explicit";b:1;}s:30:"function;DB_DataObject::escape";a:3:{s:4:"type";s:8:"function";s:4:"name";s:21:"DB_DataObject::escape";s:8:"explicit";b:1;}s:41:"function;DB_DataObject::databaseStructure";a:3:{s:4:"type";s:8:"function";s:4:"name";s:32:"DB_DataObject::databaseStructure";s:8:"explicit";b:1;}s:33:"function;DB_DataObject::tableName";a:3:{s:4:"type";s:8:"function";s:4:"name";s:24:"DB_DataObject::tableName";s:8:"explicit";b:1;}s:32:"function;DB_DataObject::database";a:3:{s:4:"type";s:8:"function";s:4:"name";s:23:"DB_DataObject::database";s:8:"explicit";b:1;}s:29:"function;DB_DataObject::table";a:3:{s:4:"type";s:8:"function";s:4:"name";s:20:"DB_DataObject::table";s:8:"explicit";b:1;}s:28:"function;DB_DataObject::keys";a:3:{s:4:"type";s:8:"function";s:4:"name";s:19:"DB_DataObject::keys";s:8:"explicit";b:1;}s:35:"function;DB_DataObject::sequenceKey";a:3:{s:4:"type";s:8:"function";s:4:"name";s:26:"DB_DataObject::sequenceKey";s:8:"explicit";b:1;}s:43:"function;DB_DataObject::staticAutoloadTable";a:3:{s:4:"type";s:8:"function";s:4:"name";s:34:"DB_DataObject::staticAutoloadTable";s:8:"explicit";b:1;}s:31:"function;DB_DataObject::factory";a:3:{s:4:"type";s:8:"function";s:4:"name";s:22:"DB_DataObject::factory";s:8:"explicit";b:1;}s:29:"function;DB_DataObject::links";a:3:{s:4:"type";s:8:"function";s:4:"name";s:20:"DB_DataObject::links";s:8:"explicit";b:1;}s:32:"function;DB_DataObject::getLinks";a:3:{s:4:"type";s:8:"function";s:4:"name";s:23:"DB_DataObject::getLinks";s:8:"explicit";b:1;}s:31:"function;DB_DataObject::getLink";a:3:{s:4:"type";s:8:"function";s:4:"name";s:22:"DB_DataObject::getLink";s:8:"explicit";b:1;}s:36:"function;DB_DataObject::getLinkArray";a:3:{s:4:"type";s:8:"function";s:4:"name";s:27:"DB_DataObject::getLinkArray";s:8:"explicit";b:1;}s:31:"function;DB_DataObject::joinAdd";a:3:{s:4:"type";s:8:"function";s:4:"name";s:22:"DB_DataObject::joinAdd";s:8:"explicit";b:1;}s:31:"function;DB_DataObject::setFrom";a:3:{s:4:"type";s:8:"function";s:4:"name";s:22:"DB_DataObject::setFrom";s:8:"explicit";b:1;}s:31:"function;DB_DataObject::toArray";a:3:{s:4:"type";s:8:"function";s:4:"name";s:22:"DB_DataObject::toArray";s:8:"explicit";b:1;}s:32:"function;DB_DataObject::validate";a:3:{s:4:"type";s:8:"function";s:4:"name";s:23:"DB_DataObject::validate";s:8:"explicit";b:1;}s:45:"function;DB_DataObject::getDatabaseConnection";a:3:{s:4:"type";s:8:"function";s:4:"name";s:36:"DB_DataObject::getDatabaseConnection";s:8:"explicit";b:1;}s:41:"function;DB_DataObject::getDatabaseResult";a:3:{s:4:"type";s:8:"function";s:4:"name";s:32:"DB_DataObject::getDatabaseResult";s:8:"explicit";b:1;}s:33:"function;DB_DataObject::fromValue";a:3:{s:4:"type";s:8:"function";s:4:"name";s:24:"DB_DataObject::fromValue";s:8:"explicit";b:1;}s:31:"function;DB_DataObject::toValue";a:3:{s:4:"type";s:8:"function";s:4:"name";s:22:"DB_DataObject::toValue";s:8:"explicit";b:1;}s:29:"function;DB_DataObject::debug";a:3:{s:4:"type";s:8:"function";s:4:"name";s:20:"DB_DataObject::debug";s:8:"explicit";b:1;}s:34:"function;DB_DataObject::debugLevel";a:3:{s:4:"type";s:8:"function";s:4:"name";s:25:"DB_DataObject::debugLevel";s:8:"explicit";b:1;}s:34:"function;DB_DataObject::raiseError";a:3:{s:4:"type";s:8:"function";s:4:"name";s:25:"DB_DataObject::raiseError";s:8:"explicit";b:1;}s:28:"function;DB_DataObject::free";a:3:{s:4:"type";s:8:"function";s:4:"name";s:19:"DB_DataObject::free";s:8:"explicit";b:1;}s:24:"class;DB_DataObject_Cast";a:3:{s:4:"type";s:5:"class";s:4:"name";s:18:"DB_DataObject_Cast";s:8:"explicit";b:1;}s:33:"function;DB_DataObject_Cast::blob";a:3:{s:4:"type";s:8:"function";s:4:"name";s:24:"DB_DataObject_Cast::blob";s:8:"explicit";b:1;}s:35:"function;DB_DataObject_Cast::string";a:3:{s:4:"type";s:8:"function";s:4:"name";s:26:"DB_DataObject_Cast::string";s:8:"explicit";b:1;}s:32:"function;DB_DataObject_Cast::sql";a:3:{s:4:"type";s:8:"function";s:4:"name";s:23:"DB_DataObject_Cast::sql";s:8:"explicit";b:1;}s:33:"function;DB_DataObject_Cast::date";a:3:{s:4:"type";s:8:"function";s:4:"name";s:24:"DB_DataObject_Cast::date";s:8:"explicit";b:1;}s:37:"function;DB_DataObject_Cast::dateTime";a:3:{s:4:"type";s:8:"function";s:4:"name";s:28:"DB_DataObject_Cast::dateTime";s:8:"explicit";b:1;}s:33:"function;DB_DataObject_Cast::time";a:3:{s:4:"type";s:8:"function";s:4:"name";s:24:"DB_DataObject_Cast::time";s:8:"explicit";b:1;}s:37:"function;DB_DataObject_Cast::toString";a:3:{s:4:"type";s:8:"function";s:4:"name";s:28:"DB_DataObject_Cast::toString";s:8:"explicit";b:1;}s:45:"function;DB_DataObject_Cast::toStringFromBlob";a:3:{s:4:"type";s:8:"function";s:4:"name";s:36:"DB_DataObject_Cast::toStringFromBlob";s:8:"explicit";b:1;}s:47:"function;DB_DataObject_Cast::toStringFromString";a:3:{s:4:"type";s:8:"function";s:4:"name";s:38:"DB_DataObject_Cast::toStringFromString";s:8:"explicit";b:1;}s:45:"function;DB_DataObject_Cast::toStringFromDate";a:3:{s:4:"type";s:8:"function";s:4:"name";s:36:"DB_DataObject_Cast::toStringFromDate";s:8:"explicit";b:1;}s:49:"function;DB_DataObject_Cast::toStringFromDateTime";a:3:{s:4:"type";s:8:"function";s:4:"name";s:40:"DB_DataObject_Cast::toStringFromDateTime";s:8:"explicit";b:1;}s:45:"function;DB_DataObject_Cast::toStringFromTime";a:3:{s:4:"type";s:8:"function";s:4:"name";s:36:"DB_DataObject_Cast::toStringFromTime";s:8:"explicit";b:1;}s:44:"function;DB_DataObject_Cast::toStringFromSql";a:3:{s:4:"type";s:8:"function";s:4:"name";s:35:"DB_DataObject_Cast::toStringFromSql";s:8:"explicit";b:1;}s:29:"class;DB_DataObject_Generator";a:4:{s:4:"type";s:5:"class";s:4:"name";s:23:"DB_DataObject_Generator";s:7:"extends";s:13:"DB_DataObject";s:8:"explicit";b:1;}s:39:"function;DB_DataObject_Generator::start";a:3:{s:4:"type";s:8:"function";s:4:"name";s:30:"DB_DataObject_Generator::start";s:8:"explicit";b:1;}s:53:"function;DB_DataObject_Generator::generateDefinitions";a:3:{s:4:"type";s:8:"function";s:4:"name";s:44:"DB_DataObject_Generator::generateDefinitions";s:8:"explicit";b:1;}s:53:"function;DB_DataObject_Generator::generateForeignKeys";a:3:{s:4:"type";s:8:"function";s:4:"name";s:44:"DB_DataObject_Generator::generateForeignKeys";s:8:"explicit";b:1;}s:59:"function;DB_DataObject_Generator::getClassNameFromTableName";a:3:{s:4:"type";s:8:"function";s:4:"name";s:50:"DB_DataObject_Generator::getClassNameFromTableName";s:8:"explicit";b:1;}s:58:"function;DB_DataObject_Generator::getFileNameFromTableName";a:3:{s:4:"type";s:8:"function";s:4:"name";s:49:"DB_DataObject_Generator::getFileNameFromTableName";s:8:"explicit";b:1;}s:61:"function;DB_DataObject_Generator::getMethodNameFromColumnName";a:3:{s:4:"type";s:8:"function";s:4:"name";s:52:"DB_DataObject_Generator::getMethodNameFromColumnName";s:8:"explicit";b:1;}s:49:"function;DB_DataObject_Generator::generateClasses";a:3:{s:4:"type";s:8:"function";s:4:"name";s:40:"DB_DataObject_Generator::generateClasses";s:8:"explicit";b:1;}s:54:"function;DB_DataObject_Generator::derivedHookFunctions";a:3:{s:4:"type";s:8:"function";s:4:"name";s:45:"DB_DataObject_Generator::derivedHookFunctions";s:8:"explicit";b:1;}s:48:"function;DB_DataObject_Generator::derivedHookVar";a:3:{s:4:"type";s:8:"function";s:4:"name";s:39:"DB_DataObject_Generator::derivedHookVar";s:8:"explicit";b:1;}s:46:"function;DB_DataObject_Generator::getProxyFull";a:3:{s:4:"type";s:8:"function";s:4:"name";s:37:"DB_DataObject_Generator::getProxyFull";s:8:"explicit";b:1;}s:49:"function;DB_DataObject_Generator::fillTableSchema";a:3:{s:4:"type";s:8:"function";s:4:"name";s:40:"DB_DataObject_Generator::fillTableSchema";s:8:"explicit";b:1;}s:25:"class;DB_DataObject_Error";a:4:{s:4:"type";s:5:"class";s:4:"name";s:19:"DB_DataObject_Error";s:7:"extends";s:10:"PEAR_Error";s:8:"explicit";b:1;}}s:8:"filelist";a:7:{s:14:"DataObject.php";a:5:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:2:"DB";s:6:"md5sum";s:32:"28d8536bbf4e6627794df177e86d98b6";s:12:"replacements";a:1:{i:0;a:3:{s:4:"from";s:9:"@version@";s:2:"to";s:7:"version";s:4:"type";s:12:"package-info";}}s:12:"installed_as";s:53:"/home/andrew/code/max/c3po/lib/pear/DB/DataObject.php";}s:19:"DataObject/Cast.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:2:"DB";s:6:"md5sum";s:32:"40178b1484d30842a9ee92e6fe46dd2e";s:12:"installed_as";s:58:"/home/andrew/code/max/c3po/lib/pear/DB/DataObject/Cast.php";}s:24:"DataObject/Generator.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:2:"DB";s:6:"md5sum";s:32:"6a44dd828a21ae98ae12befe6d8c69b2";s:12:"installed_as";s:63:"/home/andrew/code/max/c3po/lib/pear/DB/DataObject/Generator.php";}s:27:"DataObject/createTables.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:2:"DB";s:6:"md5sum";s:32:"ff8c9ccc1fc81319e31a68b21655a2f4";s:12:"installed_as";s:66:"/home/andrew/code/max/c3po/lib/pear/DB/DataObject/createTables.php";}s:20:"DataObject/Error.php";a:4:{s:4:"role";s:3:"php";s:14:"baseinstalldir";s:2:"DB";s:6:"md5sum";s:32:"78f91fc6fbea5e93224dbf22deff4b84";s:12:"installed_as";s:59:"/home/andrew/code/max/c3po/lib/pear/DB/DataObject/Error.php";}s:16:"docs/example.ini";a:4:{s:4:"role";s:3:"doc";s:14:"baseinstalldir";s:2:"DB";s:6:"md5sum";s:32:"fb230fbab9e93928e6f48a0964399d40";s:12:"installed_as";s:35:"/tmp/DB_DataObject/docs/example.ini";}s:38:"scripts/DB_DataObject_createTables.bat";a:4:{s:4:"role";s:6:"script";s:14:"baseinstalldir";s:2:"DB";s:6:"md5sum";s:32:"ef88826fadc5e821f0973e30a82ea877";s:12:"installed_as";s:46:"/tmp/DB/scripts/DB_DataObject_createTables.bat";}}s:10:"xsdversion";s:3:"1.0";s:15:"packagerversion";s:5:"1.4.9";s:7:"package";s:13:"DB_DataObject";s:7:"summary";s:51:"An SQL Builder, Object Interface to Database Tables";s:11:"description";s:359:"DataObject performs 2 tasks:
+  1. Builds SQL statements based on the objects vars and the builder methods.
+  2. acts as a datastore for a table row.
+  The core class is designed to be extended for each of your tables so that you put the
+  data logic inside the data classes.
+  included is a Generator to make your configuration files and your base classes.
+ 
+";s:11:"maintainers";a:1:{i:0;a:4:{s:6:"handle";s:6:"alan_k";s:4:"name";s:12:"Alan Knowles";s:5:"email";s:17:"alan@akbkhome.com";s:4:"role";s:4:"lead";}}s:7:"version";s:5:"1.8.5";s:12:"release_date";s:10:"2006-12-15";s:15:"release_license";s:11:"PHP License";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:2061:"Minor Bugfix and Minor Feature addition release
+    * #8876 - call free() after count - hopefully this will not break anything!
+    * #8736 - auto_increment check for MDB2 backend
+    * #8628 - tableInfo fix for MDB2
+    * #7792 - add integer[] and boolean[] support
+    * #7702 - memory leaks on getLinks() , free() is called
+        within    getLinks(), - you still need to call free() after doing a
+        getLink() - as I suspect automagically doing that would cause
+        problems..
+    * #7409 - ibase support for filename based database names - not sure if this works, but 
+         will ask reporter to test it..
+    * #7353 - postgres incorrect testing of t/f for booleans
+    * #7114 = generator of sequence keys and defaults using generator_no_ini
+    * #3773 - change last_value to currval - need to confirm this is the correct fix.
+    * #3152 -  joinAdd requires join column to be in links.ini file
+    
+    Feature Requests:
+    * Feature Request #4266 - Allow joins with multiple keys
+    
+    Minor Changes:
+    * dont flush on debugging html output
+    * links.ini code generation based on schema (mysql[i] only) -
+        option:generate_links=true - thanks to Pacal Schoni    
+    * add warning about unknown types in generator.
+    * only prefix database name, in joins when the two objects are of different databases
+    * nicer error message for !isreadable - thx to Euan Maxwell
+    * use class exists loader, so that relative test relative paths in
+        tests work, (also means that autoload may work...)
+    * remove pass by reference - why on earth that was there in the first place is totally beyond me...    
+    * give derivedHookFunctions the ability to use the original input data
+    * add methods 
+        getClassNameFromTableName(),
+        getFileNameFromTableName(), 
+        getMethodNameFromColumnName(), 
+        which allow you to set up your own mapping system by overriding them in
+        your extended generator.. it however needs some support in dataobjects so currently 
+        flagged as EXPERIMENTAL
+  
+";s:12:"release_deps";a:5:{i:1;a:3:{s:4:"type";s:3:"php";s:3:"rel";s:2:"ge";s:7:"version";s:3:"4.3";}i:2;a:4:{s:4:"type";s:3:"pkg";s:3:"rel";s:2:"ge";s:7:"version";s:5:"1.7.0";s:4:"name";s:2:"DB";}i:3;a:5:{s:4:"type";s:3:"pkg";s:3:"rel";s:2:"ge";s:7:"version";s:8:"2.0.0RC1";s:8:"optional";s:3:"yes";s:4:"name";s:4:"MDB2";}i:4;a:5:{s:4:"type";s:3:"pkg";s:3:"rel";s:2:"ge";s:7:"version";s:5:"0.1.1";s:8:"optional";s:3:"yes";s:4:"name";s:8:"Validate";}i:5;a:4:{s:4:"type";s:3:"pkg";s:3:"rel";s:2:"ge";s:7:"version";s:5:"1.4.3";s:4:"name";s:4:"Date";}}s:9:"changelog";a:50:{i:0;a:4:{s:7:"version";s:5:"1.8.4";s:12:"release_date";s:10:"2006-03-06";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:666:"Minor Bugfix and Minor Feature addition release
+
+Bugs
+----
+#7006 - fix links due to removal of databaseStructure call in 1.8.3, added call
+        to connect();
+#7012 - joinAdd fixed due to checking of wrong variable when buidling query on 
+        mysql.
+             
+    
+Features
+--------
+      - Add support for defaults() generation in createTables/Generator,
+        when using the flag generator_add_defaults = yes or generator_no_ini = yes
+        a method defaults() is created in the table class, which contains
+        the default values for the table generated from the database.
+        Note: EXPERIMENTAL and only works with Mysql[i] at present.
+    
+";}i:1;a:4:{s:7:"version";s:5:"1.8.3";s:12:"release_date";s:10:"2006-03-03";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:1103:"Minor Bugfix and Minor Feature addition release
+
+Bugs
+----
+      - Remove Warning if class_prefix is not set, and allow it not to be set.
+      - joinAdd() support for DB_DataObject::cast() objects (Daniel Braga)
+      - MDB2 fixes for undefined constants (bate)
+      - 
+#6772 - Support for FLOAT4 type in postgres
+#6953 - Changed memory allocation of stored column values for SQL return when
+        Fetching last item of an object. Fixing problem of missing columns on
+        Last fetch from Join being broken when used with toArray().
+#6928 - Defaulting to prefixing database name in joins for Mysql and Mysqli
+        backends, so multiple joins across multiple databases work.
+      
+    
+Features
+--------
+      - Add support for option 'generator_no_ini => true', which generates class 
+        files with schema defined inside the table(), keys() and sequenceKeys()
+        (based on work and suggestions by Didler Galland and Justin Patrin)
+      - SQL output for debugging now has line breaks to make it easier to read.
+      
+      - SelectAs uses quote itendifiers for target format.
+    
+";}i:2;a:4:{s:7:"version";s:5:"1.8.2";s:12:"release_date";s:10:"2004-01-21";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:81:"Minor Bugfix release
+
+Bugs
+----
+#6543 - Generator broke due to MDB changes.
+    
+";}i:3;a:4:{s:7:"version";s:5:"1.8.1";s:12:"release_date";s:10:"2006-01-20";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:441:"Bugs
+----
+#6153 - dont call autoload on PHP5 - kludgy wrapper around class_exists()
+#6458 - clear staticGet cache when calling free()        
+#6442 - validation not working correctly on DB_DataObject_Cast Objects
+Changes/New Features
+--------------------
+* fix warning if setFrom called with object.. 
+* make createTables honour debug level in ini file.
+* Added support in generator, for MDB2 backend to generate the class files (bate)
+    
+";}i:4;a:4:{s:7:"version";s:5:"1.8.0";s:12:"release_date";s:10:"2005-12-28";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:2358:"Major Bug Fix & Feature release.
+
+Bugs:
+
+#4871 - remove warning when value is not found in table
+#4834 - case sensitive checks for db_dataobject_cast fail
+#4894 - Validate methods can return PEAR Errors, or even
+        messages now.. - only true indicates success
+#4938 - support MONEY type for MSSQL
+#4968 - count() will not be affected by changing default
+        db fetchmode
+#5036 - make sure DB is loaded before using it
+#5264 - add optional dep on MDB
+#5416 - use tablea AS tableb only for postgress/mysql -
+        oracle doesnt need the AS bit - and I guess a few others too..
+        available and first fetch fails
+        conditions
+#5614 - joinAdd check to see if object being joined is
+        really a dataobject
+#5065 - count returns number cast to an integer (even
+        though database may return a string)
+#5800 - generator will continue creating other tables if we find one
+        that fails...
+#5881 - wrap conditions with extra brackets
+        remaining checks in validate
+#5393 - flag up unique only keys as "U", rather than "K"
+        (or "N" for native) to allow anything calling keys() to find more
+        detailed information - should have no effect on the dataobject
+        class, as only sequence keys looks for "K"
+
+Feature Requests:
+
+#5146 - option: generator_var_keyword,
+        to specify if you want to use var or public
+
+Other Changes
+
+    default behaviour.. so it shouldnt really have affected anyone..
+    amazed no one picked this up before..
+* make WHERE stripping better  = well spotted Justin
+* catch errors returned from nextID - like permission denied etc.,
+    add warnings in debug mode if we are using objects  or arrays for
+    some reason, fix error messages
+* correct the dependancy on packages
+* the dont die here causes a recursive error and segfaults
+    everything if it doesnt return..
+* use is_a, rather than PEAR, as one day we may remove that dep...
+* fix PHP4.4* issues with returning by reference..
+* make debugging schema loading errors a bit easier
+* test for bug #5931 added to test 91
+* update($dataobject), change check for changes to strict checking,
+    so that 0001 -> 00001 works, along with many other situations..,
+    remove extra ; from code
+* fix null detection on postgres, - patch by Alistair MacDonald
+* free result columns as well as results after fetching all rows.
+    
+";}i:5;a:4:{s:7:"version";s:6:"1.7.15";s:12:"release_date";s:10:"2005-07-07";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:92:"Minor Bugfix release 
+* fix bug #4760 - DB_DataObject_Cast blobs broke in last release
+    
+";}i:6;a:4:{s:7:"version";s:6:"1.7.14";s:12:"release_date";s:10:"2004-06-25";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:2034:"Bugfix release (Mostly)
+Special thanks to Dan Rossi for the MDB Backend work on this release.
+
+Key changes:
+  - SQLlite support for files.
+  - MDB Backend support (experimental) use:  
+      db_driver = MDB
+      as a config option.
+      NOTE: the generator will probably not work.
+     
+  - toArray() has an extra argument (bool)hideEmpty, 
+    which prevents it returning key/value pair when the value is empty 
+  - DB_DataObject_Cast object was redesigned to enable better quoting of 
+    blobs
+  - PostgresSQL schema  for tablenames can be removed with the 
+      generator_strip_schema = 1
+  - Fetch return value and  object->N are now "true", rather than 1 
+    when numRows is not supported, (also document it on find())
+ 
+ 
+Bugs Fixed. 
+  * fix bug #4672 - query(COMMIT) relays return value from DB->commit()
+  * fix bug #4535 - fix update/select etc. for postgres with boolean values.
+  * fix bug #4601 - wrong method used to test if file for sqlite
+  * fix bug #4193 - sqlite names causing invalid .ini files
+  * fix bug #4518 - escape and transactions fixed for MDB backend
+  * fix bug #4431 - add hideEmpty to toArray() - not sure if I really
+                    like this.. - adding args to methods, the root of all evil ;)
+  * fix bug #4383 - generator getListOf() call now expects pear errors
+  * fix bug #4235
+            #4203 - schema mess with postgres.
+                    generator_strip_schema=1
+                    will strip the schema part from the name of the table.
+  * fix bug #4168 - if connection test is sucessfull, dont try and
+                    connect.. (performance improvement)
+  * fix bug #4040 - prevent toArray from calling getLink and getLinks
+  * fix bug #4019 - createTables uses sets up options for DB
+                    compatibility mode 
+  * fix bug #4000 - better checking for php 4.3.10
+  * fix bug #3944 - support for informix autoincrements
+  * fix bug #4182 - better string and blob support on mysql in cast
+  * fix bug #4135 - boolean values borked in condition building..
+    
+";}i:7;a:4:{s:7:"version";s:6:"1.7.13";s:12:"release_date";s:10:"2005-03-24";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:92:"Minor Bugfix release
+#3943 - postgres booleans broke again due to last fix for mysqli.
+    
+";}i:8;a:4:{s:7:"version";s:6:"1.7.12";s:12:"release_date";s:10:"2004-03-23";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:156:"Daily Bugfix release. ;)
+#3898 - mysqli quote bug fixed. (Greg Beaver)
+#------ provisional support for mysql blobs in Cast object (Antony Jankelowitz)
+    
+";}i:9;a:4:{s:7:"version";s:6:"1.7.11";s:12:"release_date";s:10:"2005-03-22";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:191:"Minor Bugfix release. 
+#3898 - fix count , which got broken by previous distinct argument changes
+#------ support $x IS NOT NULL using $obj->value = DB_DataObject_Cast::sql("NOT NULL");
+    
+";}i:10;a:4:{s:7:"version";s:6:"1.7.10";s:12:"release_date";s:10:"2005-03-16";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:83:"Minor Bugfix release. 
+#3829 - joinAdd fix for database prefixing (yet again)
+    
+";}i:11;a:4:{s:7:"version";s:5:"1.7.9";s:12:"release_date";s:10:"2005-03-12";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:121:"Minor Bugfix release. 
+#3764 - toValue(), and hence toArray() cast booleans to true|false. (previous fix was buggy)
+    
+";}i:12;a:4:{s:7:"version";s:5:"1.7.8";s:12:"release_date";s:10:"2005-03-12";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:445:"Minor Bugfix release. 
+#3764 - toValue(), and hence toArray() cast booleans to true|false.
+#3763 - createTables.php defines NO_OVERLOAD to prevent warnings on PHP4.3.10.
+
+#3768 - Hopefully last fix to joinAdd() / database prefixing and  quoteIdentifiers
+#3761 - Fixed DB_DataObject::datetime() bad code.
+#3783 - count('distinct') builds the query distinct [primary_key], should help in some situations
+        using joinAdd + group By etc.
+    
+";}i:13;a:4:{s:7:"version";s:5:"1.7.7";s:12:"release_date";s:10:"2005-03-07";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:287:"Minor bug fix release - join add with table fixes broke for mysql with last release
+  Bug Fixes:
+  #---- - Joins incorrectly prefect database name for mysql/mysqli
+  (Thanks to Mark Mitchenall for spotting this)
+  #---- used wrong variable for checking prefixes.
+  (Stephane Gully)
+    
+";}i:14;a:4:{s:7:"version";s:5:"1.7.6";s:12:"release_date";s:10:"2005-03-05";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:355:"Nothing like a big release to create bugs..
+
+Note: the last release also included method creation for setters and getters, 
+  which got missed out from the changelog.
+Bug Fixes:
+  #3708 - Generator did not clear last files contents when generating new files.
+  #3706 - Joins broke on everything except mysql (database prefix now only added to mysql)
+    
+";}i:15;a:4:{s:7:"version";s:5:"1.7.5";s:12:"release_date";s:10:"2005-03-02";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:1420:"A few releases where skipped, this should be the amalgamated upgrade!
+
+Note: php4.3.10 will exit with an error if you dont define NO_OVERLOAD, rather 
+than segfaulting..
+
+Generator is buggy with 5.0.3 - upgrade DB or PHP..
+
+Bug Fixes:
+  #3584 - Cast now supports time and datetime, (theiron)
+  #3645 - PHP4 clone FC hack now calls $obj->__clone() in a similar way to PHP5
+  #2928 - lastError contains the last error when query bugs out now.
+  #2674 - column names null / true /false etc. now halt createtables
+  #2778 - more informative warning shown when postgres bug is found.
+  #---- - experimental multidatabase join support
+  #2739 - sleep is relayed into __call - bug in PHP5
+  #2565 - oci8 NUMBER type recoginzed 
+  #---- - new option generate_add_validate_stubs = 1, creates validate stubs.
+  #---- - more comprehensive limit support (Lutz Thomas)
+  #---- - allow access to columns starting with _ eg. set_xxx() & get_xxx()
+          (Sandro)
+  #---- - Generator write E_STRICT code for PHP5 now
+  #2441 - Debugging code removed.
+  
+  #---- - multiple HAVING calls now supported.
+  #2468 - remove warning hider.
+  #2318 - update($do) when no changes detected returns true.
+  #2319 - joinAdd does not use AS when table and target have same name.
+  #---- - Dia diagram generation tools available in CVS (build diagrams from dataobjects)
+  
+  #2267 - additional debugging information available at connect time
+    
+";}i:16;a:4:{s:7:"version";s:5:"1.7.2";s:12:"release_date";s:10:"2004-08-28";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:566:"Minor bug fix / Minor feature addition release
+  
+  
+Bug Fixes:
+  #1835 - more fixes to ensure that joinAdd works correctly.
+  #2106 - Update with old object having no changes does not raise an error
+  #---- - fixed problem of call() code producing parse error on PHP5.0.1 
+  #2205 - fixed case sensitivity of PHP5 call() 
+  #---- - fixed undefined index in delete after a fetch()
+  
+Features Added:
+  #2086 - Support for buliding dataobjects for Views (use option build_view=1)
+  #2240 - factory() called on a dataobject returns a new instance of that object.
+    
+";}i:17;a:4:{s:7:"version";s:5:"1.7.1";s:12:"release_date";s:10:"2004-08-09";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:225:"Minor bug fix release
+  
+  
+Bug Fixes:
+  #2088 - class_prefix may be left out.
+  #------ php4.2 compatibility should work as advertised in last realease
+  #------ Generator didnt have DB loaded due to lazy load changes.
+    
+";}i:18;a:4:{s:7:"version";s:5:"1.7.0";s:12:"release_date";s:10:"2004-06-03";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:1624:"Major bug fix release, Minor features added.  
+  
+  
+Bug Fixes:
+  #1559 - __FUNCTION__ remove, so dependancy on php 4.2 may still be valid.
+  #1595 - regex include/exclude working correctly (Thanks to Stephane Gully)
+  #1664 - configuration line links_{databasename} now available 
+  #1726 - enable orderby and limit can be used with delete()   
+  #1697 - prevent generator from adding an extra line created after definition.
+  #1704 - update only adds null when the column is not marked 'not null'
+  #1778 - toArray() returns a merge of defined table and actual results
+  #1828 - Generator will die, if tableinfo is not supported.      
+  #1833 - links() now returns an empty array (no links) or null (no links.ini)
+      so it can be used generically with : $ar = (array) $do->links();
+  #1835 - getLinks, getLink etc. now use ->links(), so you can define your
+      own links() to return table links, rather than use links.ini files.
+  #1923 - removed all @ silencers, and replace with empty/isset.
+  #1935 - selectAs() - removed double quoteIdentifiers
+  #2068 - workaround for DB bug, postgres nextval() being rawurlencoded
+  #1980 - logic error when using quoteIdentifiers
+  
+Changes:
+  * DebugLevel(1) now displays native errors from database when queries fail.
+  * Result Field names now stored seperately from Result Object
+  * free() method added, to clean up memory instantly, if you are doing alot of queries.
+      = Cleans Result Fields, Result Object, NumRows returned in Connection object.
+  * include path is used to do file hunting if factory fails to find file.
+  * DB is lazy loaded on connection.b
+    
+";}i:19;a:4:{s:7:"version";s:5:"1.6.1";s:12:"release_date";s:10:"2004-06-03";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:64:"Minor Bug Fix
+
+* fixed count() breaks when countWhat used.
+    
+";}i:20;a:4:{s:7:"version";s:5:"1.6.0";s:12:"release_date";s:10:"2004-04-24";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:1829:"Minor Feature Release and many bug fixes..
+
+* DB_DataObject_Error added to enable testing for dataobject errors
+* Date fixes - needs latest date package.
+* Generator fails with clear message if backend doesnt support tableInfo
+* added cidr, inet, macaddr for postgres
+* new options to filter generation of classes
+  generator_include_regex = /foo_.*/i
+  generator_exclude_regex = /tmp_.*/i
+* result column list is now stored for all queries (in the result object)
+  so toArray() allways relates to the query.
+* php version correted in package file.
+* getLinks called before other database call fixed.
+* Updating without changing things, no longer raises a pear error,
+  it just returns 0 (eg. no rows affected)
+* now Depends on 1.4 DB - escapeSimple is now used
+* extra option to disable assumtions to use pear db's nextID
+  dont_use_pear_sequences = true
+* DebugLevel($val) if $val is not an integer - it is assumed to be a callback.
+* fixed clearing of data results after last fetch (reduces memory consumption 
+  when doing many queries)
+* strtolower any class name tests.
+* count accepts 1 or 2 arguments
+  $countWhat or $whereAddonly, or $countWhat and $whereAddonly
+  eg. $countWhat = "distinct id"
+  eg. $countWhat = true (means $whereAdd = true)
+* selectAdd() returns existing value, so you can modify it.
+* most debugging & raiseError calls are dynamic, so you can overload them.
+* numbers allowed in tablenames.
+* ini filename uses database_{projectname} => {projectname}.ini so
+  database names are portable, and multiple projects are theoretically feasible.
+* __clone is replaced with clone() for PHP5 compaitiblity.
+* use PEAR::getStaticProperty("DB","options") for oracle portablity settings.
+* null checked against not null spec.
+
+And probably a few more - as it's been quite a while since the last release..
+    
+";}i:21;a:4:{s:7:"version";s:5:"1.5.3";s:12:"release_date";s:10:"2004-01-29";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:506:"Bug fix release.
+
+Changes:
+  - fixed toValue()
+   ** previously did not work correclty..
+   ** getXXX($format) correctly relays into toValue - see strftime / Data::format or sprintf
+     for formats, depending on column type.
+  
+Fixes
+* fix bug #630 - correct handling of YEAR (it's an int)
+* fix bug #630 - mysql timestamps are ingored for updated and insert (use query() if you want to change
+  them manually.
+* fix bug #620 - limit accepts floats and doubles, as long as they are really integers..
+    
+";}i:22;a:4:{s:7:"version";s:5:"1.5.2";s:12:"release_date";s:10:"2004-01-24";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:969:"Bug fix release.
+
+Changes:
+  - removed automatic strtotime() in setters and setFrom
+   ** this is closer to the previous behaviour (it caused too many problems with strange dates
+   ** if you set a date/time column with a number, it assumes it is a unixtimestamp
+   -- enables you to write setters like 
+    function setSome_Date($value) { $this->fromValue('some_date',strtotime($value)); }
+  
+Fixes
+* $DB_DataObject->getDatabaseConnection() will return a pear error if dont_die is set,
+so it can be used to test connections.
+* note changed on databaseStructure, it can be called statically and dynamically.
+* fix bug #612 databaseStructure('databasename') will output the ini file structure array , with __keys
+* fix bug #611 corrected comment about NO_OVERLOAD
+* fix bug #603 to prevent clearing of queries after fetch, use the option keep_query_after_fetch = 1
+* fix bug #359 (again) - _link_loaded array should only contain links that where sucessfully loaded
+    
+";}i:23;a:4:{s:7:"version";s:5:"1.5.1";s:12:"release_date";s:10:"2004-01-22";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:391:"Bug fix release.
+Fixes
+* fixed fromValue had problems with null and DataOBject_Cast objects
+* NOT NULL checking enabled in fromValue (eg. setters)
+* fix bug #605 - ability to specify sequence names
+  option sequence_{tablename} = {column} // default {tablename}_seq
+  option sequence_{tablename} = {column}:{sequence_name}
+* Dependancy on Date added. (it is used by the setter/getters)
+    
+";}i:24;a:4:{s:7:"version";s:3:"1.5";s:12:"release_date";s:10:"2004-01-20";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:1565:"New Features / Fixes
+* proxy and auto schema building
+  - you can use dataobjects wihout running create tables.
+  - schema is created on the fly if no schema file exists
+  - using config option proxy=full, a class is generated on the fly to
+    represent the tables.
+* toValue and fromValue added as getter and setter providers
+  - they include date formating tools - eg.
+  $do->getBirthDay('%d/%m/%Y') will work with overload and PEAR::Date 
+  to provide formated dates. (works with date/time and datetime)
+  - set*() will also call strtotime and PEAR::Date to try and read dates.\
+  setFrom will relay into fromValue() - hence auto fixing date entries
+* make native key recognision a little better - changes ini file
+  format (key=N|K) - native or key. - BC protected... - ignores it
+  when it finds a number.. (Fixes bug #532)
+* allow multiple updates on the same object - without adding lots
+  of id=.... on the end..
+* transactions support works transparently by sending
+  $do->query('BEGIN'), $do->query('COMMIT'),$do->query('ROLLBACK')
+  will automatically relay into the DB methods.
+* re-add support for sequence_{tablename} - prefered method is still
+  overriding sequenceKey, and returning correct values.
+
+Bug Fixes
+* fix bug #595 - replace non letters in class names with underscore..
+* fix bug #532 - better recoginsion of sequence keys
+* fix bug #528/#476 - typo fix (E_NOTICE error on $valu)
+* fix bug #473 - query can return a DB_Error 
+* fix bug #501 - autoload/factory  now uses full path (not require path)
+* fix bug #507 - sequences broken
+    
+";}i:25;a:4:{s:7:"version";s:3:"1.4";s:12:"release_date";s:10:"2003-12-20";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:1:"
+";}i:26;a:4:{s:7:"version";s:3:"1.3";s:12:"release_date";s:10:"2003-11-14";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:2188:"New Features
+- Inserts and updates do not use keys in the data creation part of the query
+  (Markus Wolff)
+
+- MsSQL native get_last_insert ID using SELECT @@IDENTITY
+  ** you may want to consider using this with transactions eg.
+  $dataobject->query('BEGIN') and $dataobject->query('COMMIT')
+  to ensure thread safety. (Markus Wolff)
+  
+- DB_DataObject_Cast - a experimental generic casting feature for assigning variables
+  * Common usages:
+    // blobs
+    $dataObject->someblobfield = DB_DataObject_Cast::blob(file_get_contents('xxx.jpg'));
+    $dataObject->someblobfield = DB_DataObject_Cast::string('xxxxx');
+    
+  
+     // dates?
+    $dataObject->at_date = DB_DataObject_Cast::date('12/12/2000'); //Human
+    $dataObject->at_date = DB_DataObject_Cast::date('2000-12-12'); //ISO
+    $dataObject->at_date = DB_DataObject_Cast::date(2000,12,12); //YYYY,dd,mm
+    $d2 = DB_DataObject_Cast::date(); // today!
+    // some addition
+    $dataObject->expires = DB_DataObject_Cast::date($d1->year, $d1->month+30, $d1->day+30);
+     
+  
+    // raw sql????
+    $dataObject->maxids = DB_DataObject_Cast::sql('max(id) > 12');
+    $dataObject->emptyfield = DB_DataObject_Cast::sql('NULL');
+    
+    You can extend this object to provide your own datatypes..
+     
+  
+- PHP5 Compatibility
+  Return values should work with PHP5beta2
+  Overload (__call) should work with PHP5beta2
+
+- table() and keys() Allow setting of data with a value
+  (so you can use dataobjects without extended instances.)
+  
+- factory/ getLinks and autoloading
+  Will use the full path location in config to check if the file exists,
+  after that it is included without warnings turned off..
+  (autoloading check to see if class exists first - should be faster)
+
+Fixes:
+- Validate is an optional dependency (Arnaud Limbourg)
+- Bug #228, BOOL type on postgresql correctly quoted.
+- Bug #133, No error is raised when calling fetch with no data returned, 
+  just produces a debug warning now
+- Bug #172,Turning of Overload
+  If you define DB_DATAOBJECT_NO_OVERLOAD to any value, then dataobjects will not be overloaded,
+  This is usefull when working with ZendOptimizer, that may segfault with certain optimization levels
+    
+";}i:27;a:4:{s:7:"version";s:3:"1.2";s:12:"release_date";s:10:"2003-08-07";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:581:"New Features:
+- A Number of the private methods have been made Public,
+  changes:
+    - _get_table()  = table()
+    - _get_keys()   = keys()
+  additions
+    - tableName()  = returns or assign the table name
+    - database()   = returns or assign the database name
+  changes by Markus Wolff
+POSSIBLE BC IMPLICATIONS: If you define _get_table or _get_keys manually (rather than using the ini file)
+  you should rename your methods table() and keys()
+Fixes:
+- Generator is now more tollerant of editors that alter the spaces before
+  the autocode markers ### (Andreas Ljunggren)
+    
+";}i:28;a:4:{s:7:"version";s:3:"1.1";s:12:"release_date";s:10:"2003-08-07";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:328:"Bug Fixes
+- limit argument testing now accepts "10" (a string with an integer
+in it, as a valid argument) (Demian Turner)
+New Features
+- JoinAdd has additional Argument $joinCol, so you can specify
+  multiple targets links of the  same table, eg. user->friend,
+  user->parent both connect to the user table..  (Andy Crain)
+    
+";}i:29;a:4:{s:7:"version";s:5:"1.0.2";s:12:"release_date";s:10:"2003-07-31";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:76:"Minor Bugfix Release
+- Fix static Get call, case sensitivity properly.
+    
+";}i:30;a:4:{s:7:"version";s:5:"1.0.1";s:12:"release_date";s:10:"2003-07-18";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:103:"Minor Bugfix Release
+- Fix Select defaults back to * after an fetch
+- Fix Update with NULL values
+    
+";}i:31;a:4:{s:7:"version";s:3:"1.0";s:12:"release_date";s:10:"2003-07-16";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:1237:"- Gold 1.0 Release.. - final stable release in this series. Future versions
+  (eg. 1.1.*(dev)->1.2.*(release)) series will be generally API compatible,
+  however is likely to use MDB rather than DB.
+- fix bug #23983 - argument checking on whereAdd, orderBy, limit and a few others
+  (Mike Carter)
+- fix bug with cache clearing not working with staticGet and update/insert
+- null comparison for $object->var = 'null' will generate IS NULL query
+- null insert/update  works when using 'null' as a value.
+- getLinks returns true on success
+- getLinks now has a formatter eg. '_%s' is default to allow user to define the
+  format of variables to assign child objects to.
+- generator uses UNIQUE only if no primary/autoincrement type field is found.
+- added support for $object->having('sum(value) > 10');
+- fetch will remove some query lines (so if you want to see how the query was built
+  you will have to print_r() the object after find(), and before fetch(), or just use
+  debugLevel(1)
+- overload calls from setFrom and toArray do method checks, as overload is still proving to
+  be a little unstable especially with Zend Encoder. (Note: if DataObjects causes crashes
+  , remove the overload code at the bottom of DataObjects.php)
+    
+";}i:32;a:4:{s:7:"version";s:4:"0.19";s:12:"release_date";s:10:"2003-05-22";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:1667:"- fix bug #23712 - deleting (and probably updating as well) an object while
+  being fetched. (Michael McCarthy for spotting this)
+- fix generator overwriting code when file was edited in a Windows editor
+  (Robert Janeczek)
+- validation will not produce errors on empty numeric data by default.
+- overload extension enabled to relay setFrom and toArray calls to get*, set*
+  methods, which are predefined as
+  getXXX = returns $object->XXX
+  setXXX($V) = returns true (or an error string if you create your own)
+  (only affects php-4.3.2RC2 or later..)
+- selectAs($dataobject,'prefix_%s') to help control the way join queries return
+  their data * doing selectAs() - clears the select and sets it to table.id as id ... etc.
+- joinAdd has 2 extra optional arguments
+  $dataObject->joinAdd($otherDataObject, $joinType, $joinAs)
+  existing behaviour (INNER Joins) is default (eg. no value)
+  $joinType can be:
+    INNER,LEFT,RIGHT = eg. INNER JOIN ... etc.
+    '' = just added with a , and the link conditions are added with a WHERE statement.
+  $joinAs can be used to name the table differently in the join eg.
+    SELECT .. FROM person INNER JOIN address as homeaddress ......
+- setFrom has an extra optional parameter for formating: eg.
+  $object->setFrom($_POST,'prefix_%s') would map prefix_name to $object->name
+  the default is '%s' which is the same as the previous behaviour
+- added option dont_die (default no) to ini file
+  default (no) means that DataObjects will emit a PEAR_ERROR_DIE on configuration and
+  programming errors
+  true or 1 means that you can write a PEAR::error handler to catch the errors and
+  display a nice it's not working message
+    
+";}i:33;a:4:{s:7:"version";s:4:"0.18";s:12:"release_date";s:10:"2003-05-17";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:651:"- add table prefix to autobuilt queries (assist in ambigous querys for joins)
+  (Daniel Von Fange)
+- change update and delete to return the number of rows affected or false on failure
+- various code tidy ups - standards etc. (Arnaud Limbourg)
+- fix generator for postgres and mdb - use unique keys and look for 'nextval' as keys.
+- fix no key insert bug (G Moxley Kempster)
+- fix empty table bug in generator (Robert Janeczek)
+- staticAutoloadTable(), now handles parse errors in included files alot cleaner
+- added dependancies on PHP4.3, DB 1.3 and Validate (although Validate is optional)
+- added table prefix to count query (Richard Wallace)
+    
+";}i:34;a:4:{s:7:"version";s:4:"0.17";s:12:"release_date";s:10:"2003-03-12";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:111:"- Usual post feature bug fix release
+- fix loading of links.ini for joinAdd, getLinks etc. (Geoff Hopson)
+    
+";}i:35;a:4:{s:7:"version";s:4:"0.16";s:12:"release_date";s:10:"2003-03-06";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:758:"- replaced config storage  - should improve performance
+- removed production option (not required due to improved config storage)
+- bugfix : added checks for is_array on ignore_sequence_keys (Hermen Heinen)
+- add toArray($format) which supports sprintf to enable easy integration with
+  Quickforms etc. (Demian Turner)
+- add optional dataobject as variable to update(), so you can update will
+  only create an update based on what has changed. (Geoff Hopson)
+- add join condition to count() (Daniel Von Fange)
+- modify limit() to work with postgresql and make it emit a fatal error if you
+  try this on databases that do not directly support limit queries. (Geoff Hopson)
+  * I'm open on better ideas for this - probably wrapping the find() select call
+    
+";}i:36;a:4:{s:7:"version";s:4:"0.15";s:12:"release_date";s:10:"2003-02-13";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:411:"- modified find(true), so that it calls fetch rather than fetchrow
+  so that overriding fetch will affect get() calls.
+  (probably depreciates fetchrow now .. shout if anyone is using it)
+- added escape method as a quasi quote wrapper into pear::DB - useful for
+  building your own queries - eg. like requests.. (does not add quotes)
+- fixed bug with delete not using primary key if it was set. (Ian Eure)
+    
+";}i:37;a:4:{s:7:"version";s:4:"0.14";s:12:"release_date";s:10:"2003-02-06";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:224:"- added get affected rows to update/insert/delete
+  they will return false if no data is affected and set
+  the Objects lastError value.
+  Note: databases that do not support affectedRows(), will always
+  return false.
+    
+";}i:38;a:4:{s:7:"version";s:4:"0.13";s:12:"release_date";s:10:"2003-01-23";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:86:"- bug fix release - debug_ignore_updates worked in reverse.. (Alexander Mazurov)
+    
+";}i:39;a:4:{s:7:"version";s:4:"0.12";s:12:"release_date";s:10:"2003-01-22";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:221:"- Usual post release bug fix.
+- fixes *.links.ini incorrectly using *.links (Damian Turner)
+- Adds the ability to get PEAR Connection and result objects
+  getDatabaseConnection() and getDatabaseResult() (jason rust)
+    
+";}i:40;a:4:{s:7:"version";s:4:"0.11";s:12:"release_date";s:10:"2003-01-21";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:482:"- changed connecition and result caching to use global private variable, rather
+  than getStaticProperty
+- results objects are not stored on insert/update/delete (speed increase
+  on large inserts can be as much as 10x faster)
+- bug fix - Checks that primary keys are integers (Anthony Juou)
+- typo on No data returned warning
+- unit tests in CVS
+- new configuration option for whether to use insert id's and sequences.
+- Generator no creates boolean bit (mitchell perilstein)
+    
+";}i:41;a:4:{s:7:"version";s:4:"0.10";s:12:"release_date";s:10:"2002-12-09";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:293:"- bug fix - Generator incorrectly set _database, causing generation of database.ini files to fail
+- change addslashes to PEAR::DB::quote()
+- generator now only replaces DB_DataObjects with extends variable if set,
+  you can use generator_rewrite_class to set what is a valid replacement.
+    
+";}i:42;a:4:{s:7:"version";s:3:"0.9";s:12:"release_date";s:10:"2002-12-06";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:51:"- bug fix release - dsn was not set correctly
+    
+";}i:43;a:4:{s:7:"version";s:3:"0.8";s:12:"release_date";s:10:"2002-09-21";s:13:"release_state";s:6:"stable";s:13:"release_notes";s:841:"- changed to stable status as it appears to be pretty stable now.
+- update and insert now return FALSE on error conditions (Peter Gebauer)
+  which can be checked using === FALSE, and the error obtained using $object->_lastError
+- delete will only use primary keys if they are set, otherwise it will use all object
+  variables to build the condition. (Daniel Ferreira)
+- Added derivedHookFunctions(), and derivedHookVar() to enable extensions to generator to
+  make user defined methods. (Michael Lund Rasmussen)
+- support for INT4, BPCHAR, TIMESTAMPTZ  and postres Primary keys (Xavier)
+- better PEAR CS complience (tabs and TRUE -> true), removed short open tags in generator (Thomas Volkmar Worm)
+- experimental addJoin method (Stijn de Reede)
+- Allow active options array (eg. dynamic changing of database config) (Sergey Lipnevich)
+    
+";}i:44;a:4:{s:7:"version";s:3:"0.6";s:12:"release_date";s:10:"2002-09-10";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:68:"- bug fix release on insert (broke due to compatibility fixes)
+    
+";}i:45;a:4:{s:7:"version";s:3:"0.5";s:12:"release_date";s:10:"2002-09-07";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:202:"- fixed database.links.ini file loading in wrong location (Jens Fischer)
+- fixed type on extends (Jens Fischer)
+- added __clone() support to pre- php5 classes
+- added multiple linked table support
+    
+";}i:46;a:4:{s:7:"version";s:3:"0.4";s:12:"release_date";s:10:"2002-08-21";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:54:"- Bug fix release - createTables used wrong argv
+    
+";}i:47;a:4:{s:7:"version";s:3:"0.3";s:12:"release_date";s:10:"2002-08-16";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:50:"- Fixed Globals requirement in createTables,
+    
+";}i:48;a:4:{s:7:"version";s:3:"0.2";s:12:"release_date";s:10:"2002-07-12";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:91:"Removed list method, First upload as pear package. - Documentation now in PEAR Manual
+    
+";}i:49;a:4:{s:7:"version";s:3:"0.1";s:12:"release_date";s:10:"2002-06-25";s:13:"release_state";s:4:"beta";s:13:"release_notes";s:15:"PEARified
+    
+";}}s:12:"_lastversion";N;s:7:"dirtree";a:5:{s:38:"/home/andrew/code/max/c3po/lib/pear/DB";b:1;s:49:"/home/andrew/code/max/c3po/lib/pear/DB/DataObject";b:1;s:23:"/tmp/DB_DataObject/docs";b:1;s:15:"/tmp/DB/scripts";b:1;s:7:"/tmp/DB";b:1;}s:13:"_lastmodified";i:1171903606;}
