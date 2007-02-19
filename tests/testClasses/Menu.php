@@ -137,6 +137,16 @@ class Menu
                 )
             )
         );
+        $firstNode = &${$nodeName}->addItem(
+            new HTML_TreeNode(
+                array(
+                    'text' => 'PEAR::MDB2_Schema',
+                    'icon' => "package.png",
+                    'link' => "run.php?type=phpunit&dir=../lib/pear/MDB2_Schema/tests",
+                    'linkTarget' => 'right'
+                )
+            )
+        );
         $rootNode->addItem(${$nodeName});
 
         // Add the root node to the menu, and return the HTML code
