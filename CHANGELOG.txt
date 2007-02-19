@@ -27,6 +27,7 @@
 | Release Max v0.3.32-alpha |
 +---------------------------+
 
+2007-02-19  Admin       Bug         Fixed #142 - Admin DAL has reference to a plugin (Marek)
 2007-02-19  Admin       Bug         Fixed #137 - Cannot expand conversion details on statistics-conversion
                                     page (Marek)
 2007-02-19  General     Feature     Fixed #128 - Allow FTP using PASV (Marek)

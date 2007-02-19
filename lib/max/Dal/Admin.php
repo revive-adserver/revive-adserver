@@ -26,7 +26,6 @@ $Id$
 
 require_once MAX_PATH.'/lib/max/Dal/Common.php';
 require_once 'Date.php';
-require_once(MAX_PATH . '/plugins/statistics/targeting/TargetingStatistics.php');
 
 /**
  * The non-DB specific Data Access Layer (DAL) class for the User Interface (Admin).
