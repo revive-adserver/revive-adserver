@@ -48,13 +48,11 @@ $Id: demoDataFill.php 6 2006-12-15 17:27:27Z  $
     );
     
     require_once 'DB/DataObject/Generator.php';
-    //ob_start();
     // remove original dbdo keys file as it is unable to update an existing file
     $keysFile = MAX_ENT_DIR . '/' . $conf['db']['name'] . '.ini';
     if (is_file($keysFile)) {
         $ok = unlink($keysFile);
     }
-
       
     $generator = new DB_DataObject_Generator();
     $generator->start();
