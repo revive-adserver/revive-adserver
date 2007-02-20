@@ -93,6 +93,9 @@ $dbarray = array();
 #$dbarray[] = $fbsql;
 #$dbarray[] = $ibase;
 
+// OPENADS ONLY
+#define('SCHEMA_PATH', MAX_PATH.'/lib/pear/MDB2_Schema/tests/');
+
 // you may need to uncomment the line and modify the multiplier as you see fit
 #set_time_limit(60*count($dbarray));
 ?>

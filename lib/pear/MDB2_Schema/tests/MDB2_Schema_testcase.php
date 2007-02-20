@@ -69,11 +69,11 @@ class MDB2_Schema_TestCase extends PHPUnit_TestCase {
         $this->dsn = $GLOBALS['dsn'];
         $this->options = $GLOBALS['options'];
         $this->database = $GLOBALS['database'];
-        $backup_file = $this->driver_input_file.$this->backup_extension;
+        $backup_file = SCHEMA_PATH.$this->driver_input_file.$this->backup_extension;
         if (file_exists($backup_file)) {
             unlink($backup_file);
         }
-        $backup_file = $this->lob_input_file.$this->backup_extension;
+        $backup_file = SCHEMA_PATH.$this->lob_input_file.$this->backup_extension;
         if (file_exists($backup_file)) {
             unlink($backup_file);
         }
@@ -116,20 +116,20 @@ class MDB2_Schema_TestCase extends PHPUnit_TestCase {
             return;
         }
         $result = $this->schema->updateDatabase(
-            $this->driver_input_file,
+            SCHEMA_PATH.$this->driver_input_file,
             false,
             array('create' => '1', 'name' => $this->database)
         );
         if (PEAR::isError($result)) {
             $result = $this->schema->updateDatabase(
-                $this->driver_input_file,
+                SCHEMA_PATH.$this->driver_input_file,
                 false,
                 array('create' => '0', 'name' => $this->database)
             );
         }
         if (!PEAR::isError($result)) {
             $result = $this->schema->updateDatabase(
-                $this->lob_input_file,
+                SCHEMA_PATH.$this->lob_input_file,
                 false,
                 array('create' => '0', 'name' => $this->database)
             );
@@ -141,27 +141,34 @@ class MDB2_Schema_TestCase extends PHPUnit_TestCase {
         if (!$this->methodExists($this->schema, 'updateDatabase')) {
             return;
         }
-        $backup_file = $this->driver_input_file.$this->backup_extension;
-        if (!file_exists($backup_file)) {
-            copy($this->driver_input_file, $backup_file);
-        }
-        $result = $this->schema->updateDatabase(
-            $this->driver_input_file,
-            $backup_file,
-            array('create' =>'0', 'name' =>$this->database)
-        );
-        if (!PEAR::isError($result)) {
-            $backup_file = $this->lob_input_file.$this->backup_extension;
+        $result = is_writable(SCHEMA_PATH);
+        if ($result)
+        {
+            $schema_file = SCHEMA_PATH.$this->driver_input_file;
+            $backup_file = $schema_file.$this->backup_extension;
             if (!file_exists($backup_file)) {
-                copy($this->lob_input_file, $backup_file);
+                copy($schema_file, $backup_file);
             }
             $result = $this->schema->updateDatabase(
-                $this->lob_input_file,
+                $schema_file,
                 $backup_file,
-                array('create' =>'0', 'name' => $this->database)
+                array('create' =>'0', 'name' =>$this->database)
             );
+            if (!PEAR::isError($result)) {
+                $schema_file = SCHEMA_PATH.$this->lob_input_file;
+                $backup_file = $schema_file.$this->backup_extension;
+                if (!file_exists($backup_file)) {
+                    copy($schema_file, $backup_file);
+                }
+                $result = $this->schema->updateDatabase(
+                    $schema_file,
+                    $backup_file,
+                    array('create' =>'0', 'name' => $this->database)
+                );
+            }
+            $this->assertFalse(PEAR::isError($result), 'Error updating database');
         }
-        $this->assertFalse(PEAR::isError($result), 'Error updating database');
+        $this->assertTrue($result, 'Error: path is not writeable '.SCHEMA_PATH);
     }
 }
 
