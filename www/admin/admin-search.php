@@ -40,6 +40,7 @@ require_once MAX_PATH . '/lib/max/Dal/Admin/Campaign.php';
 require_once MAX_PATH . '/lib/max/Dal/Admin/Client.php';
 require_once MAX_PATH . '/lib/max/Dal/Admin/Banner.php';
 require_once MAX_PATH . '/lib/max/Dal/Admin/Zone.php';
+require_once 'DB/DataObject.php';
 
 // Register input variables
 phpAds_registerGlobal ('keyword', 'client', 'campaign', 'banner', 'zone', 'affiliate', 'compact');
@@ -150,19 +151,19 @@ if (!isset($keyword))
         $agencyId = phpAds_getAgencyID();
     }
     
-    $zoneRS = ZoneModel::getZoneByKeyword($keyword, $agencyId) or phpAds_sqlDie();
-    $zoneRS->reset();
+    $zoneRS = ZoneModel::getZoneByKeyword($keyword, $agencyId);
+    $zoneRS->reset(); // Reset RecordSet (execute the query on database)
 
-    $affiliateRS = AffiliateModel::getAffiliateByKeyword($keyword, $agencyId) or phpAds_sqlDie();
+    $affiliateRS = AffiliateModel::getAffiliateByKeyword($keyword, $agencyId);
     $affiliateRS->reset();
     
-    $bannerRS = BannerModel::getBannerByKeyword($keyword, $agencyId) or phpAds_sqlDie();
+    $bannerRS = BannerModel::getBannerByKeyword($keyword, $agencyId);
     $bannerRS->reset();
     
-    $clientRS = ClientModel::getClientByKeyword($keyword, $agencyId) or phpAds_sqlDie();
+    $clientRS = ClientModel::getClientByKeyword($keyword, $agencyId);
     $clientRS->reset();
     
-    $campaignRS = CampaignModel::getCampaignAndClientByKeyword($keyword, $agencyId) or phpAds_sqlDie();
+    $campaignRS = CampaignModel::getCampaignAndClientByKeyword($keyword, $agencyId);
     $campaignRS->reset();
        
     $matchesFound = false;
@@ -227,11 +228,11 @@ if (!isset($keyword))
             
             if (!$compact)
             {
-                
-                $query_c_expand = "SELECT campaignid,campaignname FROM ".$conf['table']['prefix'].$conf['table']['campaigns']." WHERE clientid=".$row_clients['clientid'];
-                  $res_c_expand = phpAds_dbQuery($query_c_expand) or phpAds_sqlDie();
-                
-                while ($row_c_expand = phpAds_dbFetchArray($res_c_expand))
+                $doCampaign = DB_DataObject::factory('campaigns');
+                $doCampaign->clientid = $row_clients['clientid'];
+                $doCampaign->find();
+
+                while ($doCampaign->fetch() && $row_c_expand = $doCampaign->toArray())
                 {
                     echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
                     
@@ -264,12 +265,11 @@ if (!isset($keyword))
                     echo "</td></tr>";
                     
                     
+                    $doBanner = DB_DataObject::factory('banners');
+                    $doBanner->campaignid = $row_c_expand['campaignid'];
+                    $doBanner->find();
                     
-                    
-                    $query_b_expand = "SELECT bannerid, campaignid, description, alt, storagetype AS type FROM ".$conf['table']['prefix'].$conf['table']['banners']." WHERE campaignid=".$row_c_expand['campaignid'];
-                      $res_b_expand = phpAds_dbQuery($query_b_expand) or phpAds_sqlDie();
-                    
-                    while ($row_b_expand = phpAds_dbFetchArray($res_b_expand))
+                    while ($doBanner->fetch() && $row_b_expand = $doBanner->toArray())
                     { 
                         $name = $strUntitled;
                         if (isset($row_b_expand['alt']) && $row_b_expand['alt'] != '') $name = $row_b_expand['alt'];
@@ -364,10 +364,11 @@ if (!isset($keyword))
             
             if (!$compact)
             {
-                $query_b_expand = "SELECT bannerid,campaignid,description,alt,storagetype AS type FROM ".$conf['table']['prefix'].$conf['table']['banners']." WHERE campaignid=".$row_campaigns['campaignid'];
-                  $res_b_expand = phpAds_dbQuery($query_b_expand) or phpAds_sqlDie();
+                $doBanner = DB_DataObject::factory('banners');
+                $doBanner->campaignid = $row_campaigns['campaignid'];
+                $doBanner->find();
                 
-                while ($row_b_expand = phpAds_dbFetchArray($res_b_expand))
+                while ($doBanner->fetch() && $row_b_expand = $doBanner->toArray())
                 {
                     $name = $strUntitled;
                     if (isset($row_b_expand['alt']) && $row_b_expand['alt'] != '') $name = $row_b_expand['alt'];
@@ -522,10 +523,11 @@ if (!isset($keyword))
             
             if (!$compact)
             {
-                $query_z_expand = "SELECT affiliateid,zoneid,zonename,description FROM ".$conf['table']['prefix'].$conf['table']['zones']." WHERE affiliateid=".$row_affiliates['affiliateid'];
-                  $res_z_expand = phpAds_dbQuery($query_z_expand) or phpAds_sqlDie();
+                $doZone = DB_DataObject::factory('zones');
+                $doZone->affiliateid = $row_affiliates['affiliateid'];
+                $doZone->find();
                 
-                while ($row_z_expand = phpAds_dbFetchArray($res_z_expand))
+                while ($doZone->fetch() && $row_z_expand = $doZone->toArray())
                 {
                     $name = $row_z_expand['zonename'];
                     $name = phpAds_breakString ($name, '30');

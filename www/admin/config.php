@@ -109,6 +109,21 @@ if (!isset($trackerid))     $trackerid = '';
 if (!isset($userlogid))     $userlogid = '';
 if (!isset($zoneid))        $zoneid = '';
 
+// Set DB_DataObject options
+$MAX_ENT_DIR =  MAX_PATH . '/lib/max/Dal/DataObjects';
+$options = &PEAR::getStaticProperty('DB_DataObject', 'options');
+$options = array(
+    'database'              => MAX_DB::getDsn(MAX_DSN_STRING),
+    'schema_location'       => $MAX_ENT_DIR,
+    'class_location'        => $MAX_ENT_DIR,
+    'require_prefix'        => $MAX_ENT_DIR . '/',
+    'class_prefix'          => 'DataObjects_',
+    'debug'                 => 0,
+    'production'            => 0,
+    'ignore_sequence_keys'  => 'ALL',
+);
+
+
 // Setup navigation
 function MMM_buildNavigation()
 {

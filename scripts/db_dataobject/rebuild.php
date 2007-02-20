@@ -25,22 +25,27 @@
 $Id: demoDataFill.php 6 2006-12-15 17:27:27Z  $
 */
 
-    require_once './../../init.php';
+    require_once dirname(__FILE__) . '/../../init.php';
     require_once MAX_PATH . '/lib/max/DB.php';
     
     $conf = $GLOBALS['_MAX']['CONF'];
     
-    define('MAX_ENT_DIR', MAX_PATH . '/lib/max/Dal/DataObjects');
-
+    if(!empty($conf['table']['prefix'])) {
+        die("Error: please remove prefix from database tables before regenerating DataObjects");
+    }
+    
     //  init DB_DataObject
+    $MAX_ENT_DIR =  MAX_PATH . '/lib/max/Dal/DataObjects';
     $options = &PEAR::getStaticProperty('DB_DataObject', 'options');
     $options = array(
-        'database'              =>  MAX_DB::getDsn(MAX_DSN_STRING), //SGL_DB::getDsn(SGL_DSN_STRING),
-        'schema_location'       => MAX_ENT_DIR,
-        'class_location'        => MAX_ENT_DIR,
-        'require_prefix'        => MAX_ENT_DIR . '/',
+        'database'              => MAX_DB::getDsn(MAX_DSN_STRING),
+        'schema_location'       => $MAX_ENT_DIR,
+        'class_location'        => $MAX_ENT_DIR,
+        'require_prefix'        => $MAX_ENT_DIR . '/',
         'class_prefix'          => 'DataObjects_',
         'debug'                 => 0,
+        'extends'               => 'DB_DataObjectCommon',
+        'extends_location'      => 'DB_DataObjectCommon.php',
         'production'            => 0,
         'ignore_sequence_keys'  => 'ALL',
         'generator_strip_schema'=> 1,
