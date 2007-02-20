@@ -27,6 +27,8 @@
 | Release Max v0.3.32-alpha |
 +---------------------------+
 
+2007-02-19  Delivery    Bug         Fixed #23 - Tandem Ads not working with javascript invocation, context
+                                    parameter don't get "in" (Marek)
 2007-02-19  Admin       Bug         Fixed #142 - Admin DAL has reference to a plugin (Marek)
 2007-02-19  Admin       Bug         Fixed #137 - Cannot expand conversion details on statistics-conversion
                                     page (Marek)
