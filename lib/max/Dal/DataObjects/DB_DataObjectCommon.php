@@ -38,7 +38,13 @@ require_once 'DB/DataObject.php';
  */
 class DB_DataObjectCommon extends DB_DataObject 
 {
-   
+    /**
+     * If true delete() will delete also all connected rows in database defined in links file.
+     *
+     * @var boolean
+     */
+    var $onDeleteCascade = false;
+    
     /**
      * Method overrides default DB_DataObject behaviour by adding table prefixes and
      * having a default database schema location
@@ -76,4 +82,85 @@ class DB_DataObjectCommon extends DB_DataObject
         return true;
     }
     
+    function delete($useWhere = false)
+    {
+        if ($this->onDeleteCascade) {
+            // Find all affected tuples
+            $doAffected = clone($this);
+            if (!$useWhere) {
+                // Clear any additional WHEREs if it's not used in delete statement
+                $object->whereAdd();
+            }
+            $doAffected->find();
+            
+            // Simulate "ON DELETE CASCADE"
+            $aKeys = $this->keys();
+            if (count($aKeys) == 1) {
+                // Resolve references automatically only for records with one column as Primary Key
+                // If table has more than one column in PK it is still possible to remove
+                // manually connected tables (by overriding delete() method)
+                $primaryKey = $aKeys[0];
+                
+                $linkedRefs = $this->_collectRefs($primaryKey);
+                $this->_deleteCascade($linkedRefs);
+            }
+        }
+        
+        return parent::delete($useWhere);
+    }
+    
+    /**
+     * Collects references from links file
+     * 
+     * Example references:
+     *  [log]
+     *  usr_id = usr:id
+     *  module_id = module:id
+     * 
+     * in above example table log has two foreign keys,
+     * eg "usr_id" is a forein key to column "id" in table "usr"
+     * 
+     * @access private
+     * @return array   Collected linked references
+     **/
+    function _collectRefs($primaryKey)
+    {
+        $linkedRefs = array();
+        
+        // read in links ini file
+        $this->links();
+        // collect references between removed and linked to it objects
+        global $_DB_DATAOBJECT;
+        $links = $_DB_DATAOBJECT['LINKS'][$this->_database];
+        foreach ($links as $table => $references){
+            $column = array_search($this->__table.':'.$primaryKey, $references);
+            if ($column !== false) {
+                $linkedRefs[$table] = $column;
+            }
+        }
+        return $linkedRefs;
+    }
+    
+    /**
+     * Delete all records referenced
+     * 
+     * @access private
+     * @return boolean  True on success else false
+     **/
+    function _deleteCascade($linkedRefs, $primaryKey)
+    {
+        foreach ($linkedRefs as $table => $column) {
+            $doLinkded = DB_DataObject::factory($table);
+            if (PEAR::isError($doLinkded)) {
+                return false;
+            }
+            
+            $doLinkded->$column = $this->$primaryKey;
+            // ON DELETE CASCADE
+            $doLinkded->delete();
+        }
+    }
+    
 }
+
+?>
