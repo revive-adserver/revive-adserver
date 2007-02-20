@@ -110,13 +110,27 @@ $dbarray = array();
 require_once('MDB2/Schema.php');
 $schema_path = '../../MDB2_Schema/tests/';
 
+// OPENADS ONLY
+$schema_path = MAX_PATH.'/lib/pear/MDB2_Schema/tests/';
+
 function pe($e) {
     die($e->getMessage().' '.$e->getUserInfo());
+}
+function databaseExists($db, $database_name)
+{
+    $result = $db->manager->listDatabases();
+    if (PEAR::isError($result)) {
+        return false;
+    }
+    return in_array(strtolower($database_name), array_map('strtolower', $result));
 }
 PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, 'pe');
 foreach ($dbarray as $dbtype) {
     $schema =& MDB2_Schema::factory($dbtype['dsn'], $dbtype['options']);
-    $schema->db->manager->dropDatabase('driver_test');
+    if (databaseExists($schema->db, 'driver_test'))
+    {
+        $schema->db->manager->dropDatabase('driver_test');
+    }
     $schema->updateDatabase(
         $schema_path.'driver_test.schema',
         false,
@@ -130,5 +144,4 @@ foreach ($dbarray as $dbtype) {
 }
 PEAR::popErrorHandling();
 */
-
 ?>
