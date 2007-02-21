@@ -36,6 +36,7 @@ require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
+require_once 'DB/DataObject.php';
 
 // Register input variables
 phpAds_registerGlobal (
@@ -75,12 +76,8 @@ if (phpAds_isUser(phpAds_Client)) {
 	$clientid = phpAds_getUserID();
 } elseif (phpAds_isUser(phpAds_Agency)) {
 	if (isset($clientid) && ($clientid != '')) {
-		$query = "SELECT clientid".
-			" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-			" WHERE clientid='".$clientid."'".
-			" AND agencyid=".phpAds_getUserID();
-		$res = phpAds_dbQuery($query) or phpAds_sqlDie();
-		if (phpAds_dbNumRows($res) == 0) {
+        $doClient = DB_DataObject::factory('clients');
+        if (!$doClient->clientExists($clientid, phpAds_getUserID())) {
 			phpAds_PageHeader("2");
 			phpAds_Die($strAccessDenied, $strNotAdmin);
 		}
@@ -95,13 +92,9 @@ if (isset($submit)) {
 	$errormessage = array();
 	// Get previous values
 	if (isset($clientid) && ($clientid != '')) {
-		$res = phpAds_dbQuery(
-			"SELECT *".
-			" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-			" WHERE clientid='".$clientid."'"
-		) or phpAds_sqlDie();
-		if (phpAds_dbNumRows($res)) {
-			$client = phpAds_dbFetchArray($res);
+        $doClient = DB_DataObject::factory('clients');
+		if ($doClient->get($clientid)) {
+			$client = $doClient->toArray();
 		}
 	}
 	// Name
@@ -132,38 +125,20 @@ if (isset($submit)) {
 		}
 		// Username
 		if (isset($clientusername) && $clientusername != '') {
-			$res = phpAds_dbQuery("
-				SELECT
-					*
-				FROM
-					".$conf['table']['prefix'].$conf['table']['affiliates']."
-				WHERE
-					LOWER(username) = '".strtolower($clientusername)."'
-			") or phpAds_sqlDie();
-			$duplicateaffiliate = (phpAds_dbNumRows($res) > 0);
+            $doAffiliate = DB_DataObject::factory('affiliates');
+            $doAffiliate->whereAddLower('username', $clientusername);
+            $duplicateaffiliate = ($doAffiliate->count() > 0);
 			$duplicateadmin  = (strtolower($pref['admin']) == strtolower($clientusername));
 			if ($clientid == '') {
-				$res = phpAds_dbQuery("
-					SELECT
-						*
-					FROM
-						".$conf['table']['prefix'].$conf['table']['clients']."
-					WHERE
-						LOWER(clientusername) = '".strtolower($clientusername)."'
-				") or phpAds_sqlDie();
-				if (phpAds_dbNumRows($res) > 0 || $duplicateaffiliate || $duplicateadmin)
+                $doClient = DB_DataObject::factory('clients');
+                $doClient->whereAddLower('clientusername', $clientusername);
+				if ($doClient->count() > 0 || $duplicateaffiliate || $duplicateadmin)
 					$errormessage[] = $strDuplicateClientName;
 			} else {
-				$res = phpAds_dbQuery("
-					SELECT
-						*
-					FROM
-						".$conf['table']['prefix'].$conf['table']['clients']."
-					WHERE
-						LOWER(clientusername) = '".strtolower($clientusername)."' AND
-						clientid != '$clientid'
-					") or phpAds_sqlDie();
-				if (phpAds_dbNumRows($res) > 0 || $duplicateaffiliate || $duplicateadmin) {
+                $doClient = DB_DataObject::factory('clients');
+                $doClient->whereAddLower('clientusername', $clientusername);
+                $doClient->whereAdd('clientid <> ' . $clientid);
+				if ($doClient->count() > 0 || $duplicateaffiliate || $duplicateadmin) {
 					$errormessage[] = $strDuplicateClientName;
 				}
 			}
@@ -206,41 +181,25 @@ if (isset($submit)) {
 	*/
 	if (count($errormessage) == 0) {
 		if (!isset($clientid) || $clientid == '') {
-			$keys = array();
-			$values = array();
-			while (list($key, $value) = each($client)) {
-				$keys[] = $key;
-				$values[] = $value;
-			}
-			$keys[] = 'updated';
-			$values[] = date('Y-m-d H:i:s');
+            $doClient = DB_DataObject::factory('clients');
+            $doClient->setFrom($client);
+            $doClient->updated = date('Y-m-d H:i:s');
 
-			$query  = "INSERT INTO ".$conf['table']['prefix'].$conf['table']['clients']." (";
-			$query .= implode(", ", $keys);
-			$query .= ") VALUES ('";
-			$query .= implode("', '", $values);
-			$query .= "')";
 			// Insert
-			phpAds_dbQuery($query)
-				or phpAds_sqlDie();
-			$clientid = phpAds_dbInsertID();
+			$clientid = $doClient->insert();
+
 			// Go to next page
 			MAX_Admin_Redirect::redirect("campaign-edit.php?clientid=$clientid");
 		} else {
-			$pairs = array();
-			while (list($key, $value) = each($client)) {
-				$pairs[] = " ".$key."='".$value."'";
-			}
-			$pairs[] = " updated='".date('Y-m-d H:i:s')."'";
-
-			$query  = "UPDATE ".$conf['table']['prefix'].$conf['table']['clients']." SET ";
-			$query .= trim(implode(",", $pairs))." ";
-			$query .= "WHERE clientid = '".$clientid."'";
+            $doClient = DB_DataObject::factory('clients');
+            $doClient->get($clientid);
+            $doClient->setFrom($client);
+            $doClient->updated = date('Y-m-d H:i:s');
 
 			// Update
-			phpAds_dbQuery($query)
-				or phpAds_sqlDie();
-			// Go to next page
+			$doClient->update();
+
+            // Go to next page
 			if (phpAds_isUser(phpAds_Client)) {
 				// Set current session to new language
 				$session['language'] = $clientlanguage;
@@ -273,20 +232,20 @@ if ($clientid != "") {
 		} else {
 			$navdirection = '';
 		}
-		if (phpAds_isUser(phpAds_Admin)) {
-			$query = "SELECT *".
-				" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-			phpAds_getClientListOrder($navorder, $navdirection);
-		} elseif (phpAds_isUser(phpAds_Agency)) {
-			$query = "SELECT *".
-				" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-				" WHERE agencyid=".$session['userid'].
-			phpAds_getClientListOrder($navorder, $navdirection);
-		}
+
 		// Get other clients
-		$res = phpAds_dbQuery($query)
-			or phpAds_sqlDie();
-		while ($row = phpAds_dbFetchArray($res)) {
+		$doClient = DB_DataObject::factory('clients');
+
+		// Unless admin, restrict results
+		if (phpAds_isUser(phpAds_Agency)) {
+            $doClient->agencyid = $session['userid'];
+		}
+        if ($navorder && $navdirection) {
+            $doClient->safeOrderBy("$navorder $navdirection");
+        }
+        $doClient->find();
+
+		while ($doClient->fetch() && $row = $doClient->toArray()) {
 			phpAds_PageContext (
 				phpAds_buildName ($row['clientid'], $row['clientname']),
 				"advertiser-edit.php?clientid=".$row['clientid'],
@@ -300,14 +259,13 @@ if ($clientid != "") {
 	} else {
 		phpAds_PageHeader("4");
 	}
-	
+
 	// Do not get this information if the page
 	// is the result of an error message
 	if (!isset($client)) {
-		$res = phpAds_dbQuery("SELECT * FROM ".$conf['table']['prefix'].$conf['table']['clients']." WHERE clientid='".$clientid."'")
-			or phpAds_sqlDie();
-		if (phpAds_dbNumRows($res)) {
-			$client = phpAds_dbFetchArray($res);
+        $doClient = DB_DataObject::factory('clients');
+		if ($doClient->get($clientid)) {
+			$client = $doClient->toArray();
 		}
 
 		// Set password to default value
@@ -564,32 +522,28 @@ echo "</form>";
 /*-------------------------------------------------------*/
 
 // Get unique clientname
-$unique_names = array();
-$res = phpAds_dbQuery(
-	"SELECT *".
-	" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-	" WHERE clientid != '".$clientid."'"
-);
+$doClient = DB_DataObject::factory('clients');
+$doClient->whereAdd('clientid <> ' . $clientid);
+$doClient->find();
 
-while ($row = phpAds_dbFetchArray($res)) {
+$unique_names = array();
+while ($doClient->fetch() && $row = $doClient->toArray()) {
 	$unique_names[] = $row['clientname'];
 }
 
 // Get unique username
 $unique_users = array($pref['admin']);
-$res = phpAds_dbQuery(
-	"SELECT *".
-	" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-	" WHERE clientusername != ''".
-	" AND clientid != '".$clientid."'"
-);
-
-while ($row = phpAds_dbFetchArray($res)) {
+$doClient = DB_DataObject::factory('clients');
+$doClient->whereAdd("clientusername <> ''");
+$doClient->whereAdd('clientid <> ' . $clientid);
+$doClient->find();
+while ($doClient->fetch() && $row = $doClient->toArray()) {
 	$unique_users[] = $row['clientusername'];
 }
 
-$res = phpAds_dbQuery("SELECT * FROM ".$conf['table']['prefix'].$conf['table']['affiliates']." WHERE username != ''");
-while ($row = phpAds_dbFetchArray($res)) {
+$doAffiliate = DB_DataObject::factory('affiliates');
+$doAffiliate->whereAdd("username <> ''");
+while ($doAffiliate->fetch() && $row = $doAffiliate->toArray()) {
 	$unique_users[] = $row['username'];
 }
 

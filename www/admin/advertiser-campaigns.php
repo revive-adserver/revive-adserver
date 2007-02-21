@@ -81,26 +81,15 @@ if (phpAds_isUser(phpAds_Admin) && !is_numeric($clientid)) {
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-// Change these variables because this page now does not use phpAds_getListOrder
 if (isset($session['prefs']['advertiser-index.php']['listorder'])) {
-    if ($session['prefs']['advertiser-index.php']['listorder'] == 'name') {
-	   $navorder = 'clientname';
-    } elseif ($session['prefs']['advertiser-index.php']['listorder'] == 'id') {
-        $navorder = 'clientid';
-    } else {
-        $navorder = '';
-    }
+    $navorder = $session['prefs']['advertiser-index.php']['listorder'];
 } else {
-	$navorder = '';
+    $navorder = '';
 }
 
 if (isset($session['prefs']['advertiser-index.php']['orderdirection'])) {
-    if ($session['prefs']['advertiser-index.php']['orderdirection'] == 'up') {
-        $navdirection = 'asc';
-    } elseif ($session['prefs']['advertiser-index.php']['orderdirection'] == 'down') {
-        $navdirection = 'desc';
-    }
-	$navdirection = $session['prefs']['advertiser-index.php']['orderdirection'];
+ $session['prefs']['advertiser-index.php']['orderdirection'];
+    $navdirection = $session['prefs']['advertiser-index.php']['orderdirection'];
 } else {
 	$navdirection = '';
 }

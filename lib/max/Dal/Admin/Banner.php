@@ -6,15 +6,15 @@
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
 
 /**
- * @todo Consider renaming to Advert 
+ * @todo Consider renaming to Advert
  */
 class MAX_Dal_Admin_Banner extends MAX_Dal_Common
 {
     function getBannerByKeyword($keyword, $agencyId = null)
     {
-     
+
         $whereBanner = is_numeric($keyword) ? " OR b.bannerid=$keyword" : '';
-                       
+
         $query = "
         SELECT
             b.bannerid as bannerid,
@@ -35,25 +35,38 @@ class MAX_Dal_Admin_Banner extends MAX_Dal_Common
                 $whereBanner)
             )
         ";
-        
+
         if($agencyId !== null) {
             $query .= " AND c.agencyid=".DBC::makeLiteral($agencyId);
         }
-        
+
         return DBC::NewRecordSet($query);
     }
-    
+
     /**
      * @param string $listorder One of 'bannerid', 'campaignid', 'alt',
      * 'description'...
      * @param string $orderdirection Either 'up' or 'down'.
      * @return Array of arrays representing a list of banners (keyed by id)
-     * 
+     *
      * @todo Verify ANSI compatible
      * @todo Consider removing listorder and orderdirection
      */
     function getAllBanners($listorder, $orderdirection)
     {
+        // Adapt old order options to new ones.
+        if ($listorder == 'description') {
+            $listorder = 'name';
+        } else {
+            $listorder = 'id';
+        }
+
+        if ($orderdirection == 'asc') {
+            $orderdirection = 'up';
+        } else {
+            $orderdirection = 'down';
+        }
+
         $conf = $GLOBALS['_MAX']['CONF'];
         $query = "SELECT bannerid AS ad_id".
         ",campaignid".
@@ -71,19 +84,32 @@ class MAX_Dal_Admin_Banner extends MAX_Dal_Common
         $banners = $this->_rekeyBannersArray($flat_banners);
         return $banners;
     }
-    
+
     /**
      * @param int $agency_id
      * @param string $listorder One of 'bannerid', 'campaignid', 'alt',
      * 'description'...
      * @param string $orderdirection Either 'up' or 'down'.
      * @return Array of arrays representing a list of banners (keyed by id)
-     * 
+     *
      * @todo Verify ANSI compatible ("FROM table AS alias" probably isn't)
      * @todo Consider removing listorder and orderdirection
      */
     function getAllBannersUnderAgency($agency_id, $listorder, $orderdirection)
     {
+        // Adapt old order options to new ones.
+        if ($listorder == 'description') {
+            $listorder = 'name';
+        } else {
+            $listorder = 'id';
+        }
+
+        if ($orderdirection == 'asc') {
+            $orderdirection = 'up';
+        } else {
+            $orderdirection = 'down';
+        }
+
         $conf = $GLOBALS['_MAX']['CONF'];
         $query = "SELECT b.bannerid AS ad_id".
             ",b.campaignid AS campaignid".
@@ -113,12 +139,25 @@ class MAX_Dal_Admin_Banner extends MAX_Dal_Common
      * 'description'...
      * @param string $orderdirection Either 'up' or 'down'.
      * @return Array of arrays representing a list of banners (keyed by id)
-     * 
+     *
      * @todo Verify ANSI compatible ("FROM table AS alias" probably isn't)
      * @todo Consider removing listorder and orderdirection
      */
     function getAllBannersUnderAdvertiser($advertiser_id, $listorder, $orderdirection)
     {
+        // Adapt old order options to new ones.
+        if ($listorder == 'description') {
+            $listorder = 'name';
+        } else {
+            $listorder = 'id';
+        }
+
+        if ($orderdirection == 'asc') {
+            $orderdirection = 'up';
+        } else {
+            $orderdirection = 'down';
+        }
+
         $conf = $GLOBALS['_MAX']['CONF'];
         $query = "SELECT b.bannerid AS ad_id".
             ",b.campaignid AS campaignid".
@@ -154,7 +193,7 @@ class MAX_Dal_Admin_Banner extends MAX_Dal_Common
 
     /**
      * @return int The number of active banners
-     * 
+     *
      * @todo Verify SQL is ANSI-compliant
      * @todo Consider reducing duplication with countAllBanner
      */
@@ -182,7 +221,7 @@ class MAX_Dal_Admin_Banner extends MAX_Dal_Common
         $number_of_banners = $this->dbh->getOne($query_total_banners);
         return $number_of_banners;
     }
-    
+
     function countActiveBannersUnderAdvertiser($advertiser_id)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -205,7 +244,7 @@ class MAX_Dal_Admin_Banner extends MAX_Dal_Common
     function countBannersUnderAgency($agency_id)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        
+
         $query_total_banners = "SELECT count(*) AS count".
         " FROM ".$conf['table']['prefix'].$conf['table']['banners']." AS b".
         ",".$conf['table']['prefix'].$conf['table']['campaigns']." AS m".
@@ -216,7 +255,7 @@ class MAX_Dal_Admin_Banner extends MAX_Dal_Common
         $number_of_banners = $this->dbh->getOne($query_total_banners);
         return $number_of_banners;
     }
-    
+
     /**
      * @todo Verify that SQL is ANSI-compliant
      * @todo Consider reducing duplication with countBannersUnderAgency()
@@ -225,7 +264,7 @@ class MAX_Dal_Admin_Banner extends MAX_Dal_Common
     function countActiveBannersUnderAgency($agency_id)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        
+
         $query_active_banners = "SELECT count(*) AS count".
         " FROM ".$conf['table']['prefix'].$conf['table']['banners']." AS b".
         ",".$conf['table']['prefix'].$conf['table']['campaigns']." AS m".
@@ -243,7 +282,7 @@ class MAX_Dal_Admin_Banner extends MAX_Dal_Common
      * @param array $flat_banners An unkeyed array of field-keyed arrays
      * @return array An array of arrays
      *               representing  a list of banners keyed by id
-     * 
+     *
      * @todo Identify common factors between this and a very similar method,
      * <code>MAX_Dal_Admin_Advertiser:: _rekeyClientsArray</code>
      */

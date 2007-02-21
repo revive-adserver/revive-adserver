@@ -11,16 +11,16 @@ class MAX_Dal_Admin_Advertiser extends MAX_Dal_Common
 {
     /**
      * Retrieve all information about one advertiser from the database.
-     * 
+     *
      * @param int $advertiser_id
      * @return array An associative array with a key for each database field.
-     * 
+     *
      * @todo Consider deprecating this method in favour of an object approach.
      */
     function getAdvertiserDetails($advertiser_id)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        
+
         $query = "SELECT *".
             " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
             " WHERE clientid=?";
@@ -30,12 +30,12 @@ class MAX_Dal_Admin_Advertiser extends MAX_Dal_Common
             MAX::raiseError($advertiser_details);
             return array();
         }
-        
+
         return $advertiser_details;
     }
-    
+
     /**
-     * 
+     *
      */
     function countAllAdvertisers()
     {
@@ -49,7 +49,7 @@ class MAX_Dal_Admin_Advertiser extends MAX_Dal_Common
     }
 
     /**
-     * 
+     *
      * @return int Normally 1
      * @todo Consider returning hard-coded int 1
      */
@@ -68,31 +68,57 @@ class MAX_Dal_Admin_Advertiser extends MAX_Dal_Common
      */
     function getAllAdvertisers($listorder, $orderdirection)
     {
+        // Adapt old order options to new ones.
+        if ($listorder == 'clientname') {
+            $listorder = 'name';
+        } else {
+            $listorder = 'id';
+        }
+
+        if ($orderdirection == 'asc') {
+            $orderdirection = 'up';
+        } else {
+            $orderdirection = 'down';
+        }
+
         $conf = $GLOBALS['_MAX']['CONF'];
-        
+
         $query =
         "SELECT clientid, clientname".
         " FROM ".$conf['table']['prefix'].$conf['table']['clients'];
         $query .= phpAds_getClientListOrder ($listorder, $orderdirection);
-        
+
         $flat_advertiser_data = $this->dbh->getAll($query);
         $advertisers = $this->_rekeyClientsArray($flat_advertiser_data);
         return $advertisers;
     }
-    
+
     /**
      * @param int $agency_id
      * @return array    An array of arrays, representing a list of displayable
      *                  advertisers.
-     * 
+     *
      * @todo Update to MAX DB API
      * @todo Consider removing order options (or making them optional)
      */
     function getAllAdvertisersUnderAgency($agency_id, $listorder, $orderdirection)
     {
+        // Adapt old order options to new ones.
+        if ($listorder == 'clientname') {
+            $listorder = 'name';
+        } else {
+            $listorder = 'id';
+        }
+
+        if ($orderdirection == 'asc') {
+            $orderdirection = 'up';
+        } else {
+            $orderdirection = 'down';
+        }
+
         $conf = $GLOBALS['_MAX']['CONF'];
-        
-        $query = 
+
+        $query =
         "SELECT clientid,clientname".
         " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
         " WHERE agencyid=".$agency_id;
@@ -101,24 +127,24 @@ class MAX_Dal_Admin_Advertiser extends MAX_Dal_Common
         $advertisers = $this->_rekeyClientsArray($flat_advertiser_data);
         return $advertisers;
     }
-    
+
     /**
      * Retrieve a single advertiser's details, in an iterable format.
-     * 
+     *
      * @todo Consider whether this is actually needed
      * @todo Consider removing order options (or making them optional)
      */
     function getAllAdvertisersWithId($advertiser_id, $listorder, $orderdirection)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        
+
         $res_clients = phpAds_dbQuery(
             "SELECT clientid,clientname".
             " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
             " WHERE clientid=".$advertiser_id.
         phpAds_getClientListOrder ($listorder, $orderdirection)
         ) or phpAds_sqlDie();
-        
+
         $clients = $this->_fillClientArrayFromDbResult($res_clients);
         return $clients;
     }
@@ -136,10 +162,10 @@ class MAX_Dal_Admin_Advertiser extends MAX_Dal_Common
         $number_of_clients  = $this->dbh->getOne($query_clients);
         return $number_of_clients;
     }
-    
+
     /**
      * Converts a database result into an array keyed by ID.
-     * 
+     *
      * @param resource $res_clients A MySQL result resource
      * @return array An array of arrays, representing a list of advertisers.
      */
@@ -151,7 +177,7 @@ class MAX_Dal_Admin_Advertiser extends MAX_Dal_Common
         }
         return $this->_rekeyClientsArray($flat_advertiser_data);
     }
-    
+
     /**
      * @todo Consider removing (or moving) 'expand' -- it seems to be
      *       more  suited to the presentation-layer.
