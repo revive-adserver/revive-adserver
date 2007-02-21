@@ -52,7 +52,7 @@ class MAX_Dal_Common
      * 
      * It replaces deprecated phpAds_getListOrder
      * 
-     * @see phpAds_getListOrder
+     * @see MAX_Dal_Common::getSqlListOrder()
      * @var array
      */
     var $orderListName = array();
