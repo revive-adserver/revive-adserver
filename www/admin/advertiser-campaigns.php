@@ -116,7 +116,7 @@ if (phpAds_isUser(phpAds_Agency)) {
 }
 
 if ($navorder && $navdirection) {
-    $doClient->safeOrderBy("$navorder $navdirection");
+    $doClient->orderBy("$navorder $navdirection");
 }
 $doClient->find();
 
@@ -188,7 +188,7 @@ $doCampaign->clientid = $clientid;
 if (!$listorder) {
     $listorder = 'campaignname';
 }
-$doCampaign->safeOrderBy("$listorder $orderdirection");
+$doCampaign->orderBy("$listorder $orderdirection");
 $doCampaign->find();
 
 while ($doCampaign->fetch() && $row_campaigns = $doCampaign->toArray()) {

@@ -54,7 +54,7 @@ class DB_DataObjectCommon extends DB_DataObject
      * @access public
      * @return none|false|PEAR::Error - invalid args only
      */
-    function safeOrderBy($order = false)
+    function orderBy($order = false)
     {
         if (!empty($order)) {
             $aOrderBy = explode(',', $order);
