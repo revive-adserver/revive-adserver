@@ -46,6 +46,36 @@ class DB_DataObjectCommon extends DB_DataObject
     var $onDeleteCascade = false;
     
     /**
+     * Make sure column(s) exists before trying to ordering by them
+     * This method works as a security check, it doesn't allow for db injection
+     * in "ORDER BY" passed from User Interface
+     *
+     * @see Db_DataObject::orderBy()
+     * @access public
+     * @return none|false|PEAR::Error - invalid args only
+     */
+    function safeOrderBy($order = false)
+    {
+        if (!empty($order)) {
+            $aOrderBy = explode(',', $order);
+            $columns = $this->table();
+            foreach ($aOrderBy as $orderBy) {
+                $expr = explode(" ", $orderBy);
+                if (count($expr) > 2) {
+                    return false;
+                }
+                if (!array_key_exists($expr[0], $columns)) {
+                    return false;
+                }
+                if (count($expr) == 2 && !in_array(strtoupper($expr[1]), array('ASC', 'DESC'))) {
+                    return false;
+                }
+            }
+        }
+        return parent::orderBy($order);
+    }
+    
+    /**
      * Method overrides default DB_DataObject behaviour by adding table prefixes and
      * having a default database schema location
      *
@@ -82,6 +112,12 @@ class DB_DataObjectCommon extends DB_DataObject
         return true;
     }
     
+    /**
+     * Overwrite DB_DataObject::delete() method and add a "ON DELETE CASCADE"
+     *
+     * @param boolean $useWhere
+     * @return boolean
+     */
     function delete($useWhere = false)
     {
         if ($this->onDeleteCascade) {
@@ -93,16 +129,18 @@ class DB_DataObjectCommon extends DB_DataObject
             }
             $doAffected->find();
             
-            // Simulate "ON DELETE CASCADE"
             $aKeys = $this->keys();
-            if (count($aKeys) == 1) {
-                // Resolve references automatically only for records with one column as Primary Key
-                // If table has more than one column in PK it is still possible to remove
-                // manually connected tables (by overriding delete() method)
-                $primaryKey = $aKeys[0];
-                
-                $linkedRefs = $this->_collectRefs($primaryKey);
-                $this->_deleteCascade($linkedRefs);
+            while ($doAffected->fetch()) {
+                // Simulate "ON DELETE CASCADE"
+                if (count($aKeys) == 1) {
+                    // Resolve references automatically only for records with one column as Primary Key
+                    // If table has more than one column in PK it is still possible to remove
+                    // manually connected tables (by overriding delete() method)
+                    $primaryKey = $aKeys[0];
+                    
+                    $linkedRefs = $this->_collectRefs($primaryKey);
+                    $this->_deleteCascade($linkedRefs);
+                }
             }
         }
         
