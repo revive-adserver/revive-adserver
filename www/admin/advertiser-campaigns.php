@@ -46,10 +46,7 @@ phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
 
 if (phpAds_isUser(phpAds_Agency)) {
     $doClient = DB_DataObject::factory('clients');
-    $doClient->clientid = $clientid;
-    $doClient->agencyid = phpAds_getUserID();
-
-    if (!$doClient->find()) {
+    if (!$doClient->clientExists($clientid, phpAds_getUserID())) {
         phpAds_PageHeader("2");
 		phpAds_Die ($strAccessDenied, $strNotAdmin);
     }
