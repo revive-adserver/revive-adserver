@@ -35,6 +35,7 @@ require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/other/lib-reports.inc.php';
+require_once 'DB/DataObject.php';
 
 // Register input variables
 phpAds_registerGlobal ('startday', 'startmonth', 'startyear', 
@@ -46,9 +47,8 @@ phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 
 if (phpAds_isUser(phpAds_Agency))
 {
-	$query = "SELECT clientid FROM ".$conf['table']['prefix'].$conf['table']['clients']." WHERE clientid='".$clientid."' AND agencyid=".phpAds_getUserID();
-	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
-	if (phpAds_dbNumRows($res) == 0)
+    $doClient = DB_DataObject::factory('clients');
+	if (!$doClient->clientExists($clientid, phpAds_getUserID()))
 	{
 		phpAds_PageHeader("2");
 		phpAds_Die ($strAccessDenied, $strNotAdmin);
