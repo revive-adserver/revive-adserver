@@ -204,7 +204,7 @@ class MAX_Dal_Admin_Campaign extends MAX_Dal_Common
         $campaigns = array();
         foreach ($flat_campaign_data as $row_campaign) {
             $campaigns[$row_campaign['campaignid']] = $row_campaign;
-            $campaigns[$row_campaigns['campaignid']]['expand'] = false;
+            $campaigns[$row_campaign['campaignid']]['expand'] = false;
             unset($campaigns[$row_campaign['campaignid']]['campaignid']);
         }
         return $campaigns;
