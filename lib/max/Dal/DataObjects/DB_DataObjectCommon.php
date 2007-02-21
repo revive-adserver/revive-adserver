@@ -245,6 +245,26 @@ class DB_DataObjectCommon extends DB_DataObject
             $doLinkded->delete();
         }
     }
+    
+    /**
+     * This method is a equivalent of MAX_Dal_Common::getSqlListOrder
+     * but instead of SQL it adds orderBy() limitations to current DB_DataObject
+     * 
+     * This method is used as a common way of sorting rows in OpenAds UI
+     *
+     * @see MAX_Dal_Common::getSqlListOrder
+     * @param string|array $nameColumns
+     * @param string $direction
+     */
+    function addListOrderBy($nameColumns, $direction)
+    {
+        if (!is_array($nameColumns)) {
+            $nameColumns = array($nameColumns);
+        }
+        foreach ($nameColumns as $nameColumn) {
+            $this->orderBy($nameColumn . ' ' . $direction);
+        }
+    }
 
 }
 
