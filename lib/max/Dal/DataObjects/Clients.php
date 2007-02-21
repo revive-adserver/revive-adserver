@@ -1,6 +1,6 @@
 <?php
 /**
- * Table Definition for clients
+ * Table Definition for clients (Client is often called Advertiser)
  */
 require_once 'DB_DataObjectCommon.php';
 

@@ -1,11 +1,13 @@
 <?php
 /**
- * Table Definition for affiliates
+ * Table Definition for affiliates (Affiliate is often called Publisher)
  */
 require_once 'DB_DataObjectCommon.php';
 
 class DataObjects_Affiliates extends DB_DataObjectCommon 
 {
+    var $onDeleteCascade = true;
+    
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -34,4 +36,52 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+    
+    /**
+     * Check if affiliate exists
+     *
+     * @param int $affiliateId
+     * @param int $agencyId
+     * @return boolean
+     */
+    function affiliateExists($affiliateId, $agencyId = null)
+    {
+        $this->affiliateid = $affiliateId;
+        if ($agencyId !== null) {
+            $this->agencyid = $agencyId;
+        }
+        
+        return (bool) ($this->count() > 0);
+    }
+    
+    function delete($useWhere = false, $cascadeDelete = true)
+    {
+    	// get all zones ids
+    	$doZone = DB_DataObject::factory('zones');
+    	$doZone->affiliateid = $this->affiliateid;
+    	$doZone->find();
+    	$aZonesIds = array();
+    	while ($doZone->find()) {
+    		$aZonesIds[] = $doZone->zoneid;
+    	}
+    	
+    	$doZone = DB_DataObject::factory('zones');
+    	$doZone->appendtype = phpAds_ZoneAppendZone;
+    	$doZone->whereAdd('affiliateid <> ' . $this->affiliateid);
+    	$doZone->find();
+    	
+    	while($doZone->fetch()) {
+    		$append = phpAds_ZoneParseAppendCode($doZone->append);
+    		if (in_array($append[0]['zoneid'], $aZonesIds)) {
+    			$doZoneUpdate = DB_DataObject::factory('zones');
+    			$doZoneUpdate->get($append[0]['zoneid']);
+    			
+    			$doZoneUpdate->appendtype = phpAds_ZoneAppendRaw;
+    			$doZoneUpdate->append = '';
+    			$doZoneUpdate->update();
+    		}
+    	}
+    	
+    	return parent::delete($useWhere, $cascadeDelete);
+    }
 }

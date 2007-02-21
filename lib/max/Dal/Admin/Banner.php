@@ -10,6 +10,11 @@ require_once MAX_PATH . '/lib/max/Dal/Common.php';
  */
 class MAX_Dal_Admin_Banner extends MAX_Dal_Common
 {
+    var $orderListName = array(
+        'name' => 'description',
+        'id'   => 'bannerid',
+    );
+    
     function getBannerByKeyword($keyword, $agencyId = null)
     {
 
@@ -75,7 +80,7 @@ class MAX_Dal_Admin_Banner extends MAX_Dal_Common
         ",active".
         ",storagetype AS type".
         " FROM ".$conf['table']['prefix'].$conf['table']['banners'];
-        $query .= phpAds_getBannerListOrder($listorder, $orderdirection);
+        $query .= $this->getSqlListOrder($listorder, $orderdirection);
         $flat_banners = $this->dbh->getAll($query);
         if (PEAR::isError($flat_banners)) {
             MAX::raiseError($flat_banners);
@@ -84,7 +89,7 @@ class MAX_Dal_Admin_Banner extends MAX_Dal_Common
         $banners = $this->_rekeyBannersArray($flat_banners);
         return $banners;
     }
-
+    
     /**
      * @param int $agency_id
      * @param string $listorder One of 'bannerid', 'campaignid', 'alt',

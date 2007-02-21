@@ -45,6 +45,11 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     var $onDeleteCascade = false;
 
+    /**
+     * Keeps the original (without prefix) table name
+     *
+     * @var string
+     */
     var $_tableName;
 
     /**
@@ -107,16 +112,19 @@ class DB_DataObjectCommon extends DB_DataObject
     /**
      * Overwrite DB_DataObject::delete() method and add a "ON DELETE CASCADE"
      *
-     * @param boolean $onDeleteCascade  If true it deletes also referenced tables
+     * @param boolean $cascadeDelete  If true it deletes also referenced tables
+     *                                if this behavior is set in DataObject.
+     *                                With this parameter it's possible to turn off default behavior
+     *                                @see DB_DataObjectCommon:onDeleteCascade
      * @param boolean $useWhere
      * @return boolean
      */
-    function delete($useWhere = false, $onDeleteCascade = true)
+    function delete($useWhere = false, $cascadeDelete = true)
     {
 
         $this->addPrefixToTableName();
 
-        if ($this->onDeleteCascade && $onDeleteCascade) {
+        if ($this->onDeleteCascade && $cascadeDelete) {
             $aKeys = $this->keys();
 
             // Simulate "ON DELETE CASCADE"

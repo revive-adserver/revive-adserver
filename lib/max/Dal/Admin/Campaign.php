@@ -8,6 +8,11 @@ require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 
 class MAX_Dal_Admin_Campaign extends MAX_Dal_Common
 {
+    var $orderListName = array(
+        'name' => 'campaigname',
+        'id'   => array('clientid', 'campaignid'),
+    );
+    
     /**
      * Gets campaign Id and name and client Id by keyword and agency Id
      * matched by keyword and either client name or client id.

@@ -45,6 +45,17 @@ class MAX_Dal_Common
     var $queryBuilder;
     var $conf;
     var $prefix;
+    
+    /**
+     * This array is used by getSqlListOrder() method to decide how to sort
+     * rows. It should be overwritten in child classes.
+     * 
+     * It replaces deprecated phpAds_getListOrder
+     * 
+     * @see phpAds_getListOrder
+     * @var array
+     */
+    var $orderListName = array();
 
     /**
      * The class constructor method.
@@ -230,6 +241,29 @@ class MAX_Dal_Common
         return false;
     }
 
+    // Get any generic list order...
+    function getSqlListOrder($listOrder, $orderDirection)
+    {
+        $direction = $this->getOrderDirection($orderDirection);
+        $nameColumn = $this->getOrderColumn($listOrder);
+        
+        if (is_array($nameColumn)) {
+            $sqlTableOrder = ' ORDER BY ' . implode($direction . ',', $nameColumn) . $direction;
+        } else {
+            $sqlTableOrder = !empty($nameColumn) ? " ORDER BY $nameColumn $direction" : '';
+        }
+        return $sqlTableOrder;
+    }
+    
+    function getOrderDirection($orderDirection)
+    {
+        return ($orderDirection == 'down') ? ' DESC' : ' ASC';
+    }
+    
+    function getOrderColumn($listOrder)
+    {
+        return isset($this->orderListName[$listOrder]) ? $this->orderListName[$listOrder] : null;
+    }
 }
 
 ?>
