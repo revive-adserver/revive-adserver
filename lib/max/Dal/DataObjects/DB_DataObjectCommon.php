@@ -39,12 +39,104 @@ require_once 'DB/DataObject.php';
 class DB_DataObjectCommon extends DB_DataObject
 {
     /**
-     * If true delete() will delete also all connected rows in database defined in links file.
+     * If true delete() method will try to delete also all records which has reference to this record
      *
      * @var boolean
      */
     var $onDeleteCascade = false;
+    
+    /**
+     * //// Public methods, added to help users to optimize the use of DataObjects
+     */
+    
+    /**
+     * This method is a equivalent of MAX_Dal_Common::getSqlListOrder
+     * but instead of SQL it adds orderBy() limitations to current DB_DataObject
+     * 
+     * This method is used as a common way of sorting rows in OpenAds UI
+     *
+     * @see MAX_Dal_Common::getSqlListOrder
+     * @param string|array $nameColumns
+     * @param string $direction
+     * @access public
+     */
+    function addListOrderBy($nameColumns, $direction)
+    {
+        if (!is_array($nameColumns)) {
+            $nameColumns = array($nameColumns);
+        }
+        foreach ($nameColumns as $nameColumn) {
+            $this->orderBy($nameColumn . ' ' . $direction);
+        }
+    }
+    
+    /**
+     * Adds a case-insensitive (lower) WHERE condition using the MySQL LOWER() function.
+     *
+     * @param string $field  the database column to test
+     * @param mixed $value  the value to compare
+     * @access public
+     */
+    function whereAddLower($field, $value)
+    {
+        $this->whereAdd("LOWER($field) = " . strtolower($this->escape($value)));
+    }
+    
+    /**
+     * //// Protected methods, could be overwritten in child classes but
+     * //// a good practice is to call them in child methods by parent::methodName()
+     */
+    
+    /**
+     * Overwrite DB_DataObject::delete() method and add a "ON DELETE CASCADE"
+     *
+     * @param boolean $cascadeDelete  If true it deletes also referenced tables
+     *                                if this behavior is set in DataObject.
+     *                                With this parameter it's possible to turn off default behavior
+     *                                @see DB_DataObjectCommon:onDeleteCascade
+     * @param boolean $useWhere
+     * @return boolean
+     * @access protected
+     */
+    function delete($useWhere = false, $cascadeDelete = true)
+    {
 
+        $this->_addPrefixToTableName();
+
+        if ($this->onDeleteCascade && $cascadeDelete) {
+            $aKeys = $this->keys();
+
+            // Simulate "ON DELETE CASCADE"
+            if (count($aKeys) == 1) {
+                // Resolve references automatically only for records with one column as Primary Key
+                // If table has more than one column in PK it is still possible to remove
+                // manually connected tables (by overriding delete() method)
+                $primaryKey = $aKeys[0];
+                $linkedRefs = $this->_collectRefs($primaryKey);
+
+                // Find all affected tuples
+                $doAffected = clone($this);
+                if (!$useWhere) {
+                    // Clear any additional WHEREs if it's not used in delete statement
+                    $doAffected->whereAdd();
+                }
+                $doAffected->find();
+
+                while ($doAffected->fetch()) {
+                    // Simulate "ON DELETE CASCADE"
+                    $doAffected->deleteCascade($linkedRefs, $primaryKey);
+                }
+            }
+        }
+
+        return parent::delete($useWhere);
+    }
+    
+    /**
+     * //// Private methods - shouldn't be overwritten and you shouldn't call them directly
+     * //// until it's really necessary and you know what your are doing
+     */
+    
     /**
      * Keeps the original (without prefix) table name
      *
@@ -86,8 +178,9 @@ class DB_DataObjectCommon extends DB_DataObject
     /**
      * Add a prefix to table name and save oroginal table name in _tableName
      *
+     * @access private
      */
-    function addPrefixToTableName()
+    function _addPrefixToTableName()
     {
         if (empty($this->_tableName)) {
             $this->prefix = $GLOBALS['MAX']['conf']['table']['prefix'];
@@ -97,101 +190,41 @@ class DB_DataObjectCommon extends DB_DataObject
     }
 
     /**
+     * Delete all referenced records
+     *
+     * Although it's a public access to this method it shouldn't be called outside
+     * this class. The only reason it's not private is because it needs to be executed
+     * on new objects.
+     * 
+     * @return boolean  True on success else false
+     * @access public
+     **/
+    function deleteCascade($linkedRefs, $primaryKey)
+    {
+        foreach ($linkedRefs as $table => $column) {
+            $doLinkded = DB_DataObject::factory($table);
+            if (PEAR::isError($doLinkded)) {
+                return false;
+            }
+
+            $doLinkded->$column = $this->$primaryKey;
+            // ON DELETE CASCADE
+            $doLinkded->delete();
+        }
+    }
+    
+    /**
      * Connect is used inside DB_DataObject to connect preload config
      * We will override this "private" method to add additional settings required
      * to use prefixes
      *
-     * @return unknown
+     * @return true | PEAR::error
+     * @access private
      */
     function _connect()
     {
-        $this->addPrefixToTableName();
+        $this->_addPrefixToTableName();
         return parent::_connect();
-    }
-
-    /**
-     * Overwrite DB_DataObject::delete() method and add a "ON DELETE CASCADE"
-     *
-     * @param boolean $cascadeDelete  If true it deletes also referenced tables
-     *                                if this behavior is set in DataObject.
-     *                                With this parameter it's possible to turn off default behavior
-     *                                @see DB_DataObjectCommon:onDeleteCascade
-     * @param boolean $useWhere
-     * @return boolean
-     */
-    function delete($useWhere = false, $cascadeDelete = true)
-    {
-
-        $this->addPrefixToTableName();
-
-        if ($this->onDeleteCascade && $cascadeDelete) {
-            $aKeys = $this->keys();
-
-            // Simulate "ON DELETE CASCADE"
-            if (count($aKeys) == 1) {
-                // Resolve references automatically only for records with one column as Primary Key
-                // If table has more than one column in PK it is still possible to remove
-                // manually connected tables (by overriding delete() method)
-                $primaryKey = $aKeys[0];
-                $linkedRefs = $this->_collectRefs($primaryKey);
-
-                // Find all affected tuples
-                $doAffected = clone($this);
-                if (!$useWhere) {
-                    // Clear any additional WHEREs if it's not used in delete statement
-                    $doAffected->whereAdd();
-                }
-                $doAffected->find();
-
-                while ($doAffected->fetch()) {
-                    // Simulate "ON DELETE CASCADE"
-                    $doAffected->deleteCascade($linkedRefs, $primaryKey);
-                }
-            }
-        }
-
-        return parent::delete($useWhere);
-    }
-
-    /**
-     * Adds a case-insensitive (lower) WHERE condition using the MySQL LOWER() function.
-     *
-     * @param string $field  the database column to test
-     * @param mixed $value  the value to compare
-     */
-    function whereAddLower($field, $value)
-    {
-        $this->whereAdd("LOWER($field) = " . strtolower($this->escape($value)));
-    }
-
-     /**
-     * Make sure column(s) exists before trying to ordering by them
-     * This method works as a security check, it doesn't allow for db injection
-     * in "ORDER BY" passed from User Interface
-     *
-     * @see Db_DataObject::orderBy()
-     * @access public
-     * @return none|false|PEAR::Error - invalid args only
-     */
-    function orderBy($order = false)
-    {
-        if (!empty($order)) {
-            $aOrderBy = explode(',', $order);
-            $columns = $this->table();
-            foreach ($aOrderBy as $orderBy) {
-                $expr = explode(" ", $orderBy);
-                if (count($expr) > 2) {
-                    return false;
-                }
-                if (!array_key_exists($expr[0], $columns)) {
-                    return false;
-                }
-                if (count($expr) == 2 && !in_array(strtoupper($expr[1]), array('ASC', 'DESC'))) {
-                    return false;
-                }
-            }
-        }
-        return parent::orderBy($order);
     }
 
     /**
@@ -207,6 +240,7 @@ class DB_DataObjectCommon extends DB_DataObject
      *
      * @access private
      * @return array   Collected linked references
+     * @access private
      **/
     function _collectRefs($primaryKey)
     {
@@ -225,47 +259,6 @@ class DB_DataObjectCommon extends DB_DataObject
         }
         return $linkedRefs;
     }
-
-    /**
-     * Delete all records referenced
-     *
-     * @access public
-     * @return boolean  True on success else false
-     **/
-    function deleteCascade($linkedRefs, $primaryKey)
-    {
-        foreach ($linkedRefs as $table => $column) {
-            $doLinkded = DB_DataObject::factory($table);
-            if (PEAR::isError($doLinkded)) {
-                return false;
-            }
-
-            $doLinkded->$column = $this->$primaryKey;
-            // ON DELETE CASCADE
-            $doLinkded->delete();
-        }
-    }
-    
-    /**
-     * This method is a equivalent of MAX_Dal_Common::getSqlListOrder
-     * but instead of SQL it adds orderBy() limitations to current DB_DataObject
-     * 
-     * This method is used as a common way of sorting rows in OpenAds UI
-     *
-     * @see MAX_Dal_Common::getSqlListOrder
-     * @param string|array $nameColumns
-     * @param string $direction
-     */
-    function addListOrderBy($nameColumns, $direction)
-    {
-        if (!is_array($nameColumns)) {
-            $nameColumns = array($nameColumns);
-        }
-        foreach ($nameColumns as $nameColumn) {
-            $this->orderBy($nameColumn . ' ' . $direction);
-        }
-    }
-
 }
 
 ?>
