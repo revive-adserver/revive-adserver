@@ -35,6 +35,7 @@ require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once 'Date.php';
+require_once 'DB/DataObject.php';
 
 // Register input variables
 phpAds_registerGlobal ('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection');
@@ -44,32 +45,31 @@ phpAds_registerGlobal ('expand', 'collapse', 'hideinactive', 'listorder', 'order
 phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
 
 if (phpAds_isUser(phpAds_Agency)) {
-	$query = "SELECT clientid".
-		" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-		" WHERE clientid='".$clientid."'".
-		" AND agencyid=".phpAds_getUserID();
-	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
-	if (phpAds_dbNumRows($res) == 0) {
-		phpAds_PageHeader("2");
+    $doClient = DB_DataObject::factory('clients');
+    $doClient->clientid = $clientid;
+    $doClient->agencyid = phpAds_getUserID();
+
+    if (!$doClient->find()) {
+        phpAds_PageHeader("2");
 		phpAds_Die ($strAccessDenied, $strNotAdmin);
-	}
+    }
 } elseif (phpAds_isUser(phpAds_Client)) {
     /**
      * @todo need to investigate whether the url check below
      * is actually necessary and, if so, if there is a better
      * way of doing it
      */
-    
+
     /* Sometimes $clientid will be null due to the 'clientid' query
        string parameter being left blank or unset.
        We need to ensure that the url-mangling check below ignores
        this case and that we then proceed with the correct client id.
     */
-    if (isset($clientid) && $clientid != '') {   
+    if (isset($clientid) && $clientid != '') {
         if (phpAds_getUserID() != $clientid) {
 		  phpAds_PageHeader("2");
 		  phpAds_Die ($strAccessDenied, $strNotAdmin);
-        } 
+        }
     } else { // $clientid blank/unset so use user id from session
         $clientid = phpAds_getUserID();
     }
@@ -84,38 +84,46 @@ if (phpAds_isUser(phpAds_Admin) && !is_numeric($clientid)) {
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
+// Change these variables because this page now does not use phpAds_getListOrder
 if (isset($session['prefs']['advertiser-index.php']['listorder'])) {
-	$navorder = $session['prefs']['advertiser-index.php']['listorder'];
+    if ($session['prefs']['advertiser-index.php']['listorder'] == 'name') {
+	   $navorder = 'clientname';
+    } elseif ($session['prefs']['advertiser-index.php']['listorder'] == 'id') {
+        $navorder = 'clientid';
+    } else {
+        $navorder = '';
+    }
 } else {
 	$navorder = '';
 }
 
 if (isset($session['prefs']['advertiser-index.php']['orderdirection'])) {
+    if ($session['prefs']['advertiser-index.php']['orderdirection'] == 'up') {
+        $navdirection = 'asc';
+    } elseif ($session['prefs']['advertiser-index.php']['orderdirection'] == 'down') {
+        $navdirection = 'desc';
+    }
 	$navdirection = $session['prefs']['advertiser-index.php']['orderdirection'];
 } else {
 	$navdirection = '';
 }
 
 // Get other clients
-if (phpAds_isUser(phpAds_Admin)) {
-	$query = "SELECT clientid,clientname".
-		" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-		phpAds_getClientListOrder ($navorder, $navdirection);
-} elseif (phpAds_isUser(phpAds_Agency)) {
-	$query = "SELECT clientid,clientname".
-		" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-		" WHERE agencyid=".phpAds_getUserID().
-		phpAds_getClientListOrder ($navorder, $navdirection);
-} elseif (phpAds_isUser(phpAds_Client)) {
-    $query = "SELECT clientid,clientname".
-		" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-		" WHERE clientid=".phpAds_getUserID().
-		phpAds_getClientListOrder ($navorder, $navdirection);
-}
-$res = phpAds_dbQuery($query)
-	or phpAds_sqlDie();
+$doClient = DB_DataObject::factory('clients');
 
-while ($row = phpAds_dbFetchArray($res)) {
+// Unless admin, restrict results shown.
+if (phpAds_isUser(phpAds_Agency)) {
+    $doClient->agencyid = phpAds_getUserID();
+} elseif (phpAds_isUser(phpAds_Client)) {
+    $doClient->clientid = phpAds_getUserID();
+}
+
+if ($navorder && $navdirection) {
+    $doClient->orderBy("$navorder $navdirection");
+}
+$doClient->find();
+
+while ($doClient->fetch() && $row = $doClient->toArray()) {
 	phpAds_PageContext (
 		phpAds_buildName ($row['clientid'], $row['clientname']),
 		"advertiser-campaigns.php?clientid=".$row['clientid'],
@@ -175,33 +183,24 @@ if (isset($session['prefs']['advertiser-campaigns.php'][$clientid]['nodes'])) {
 /*-------------------------------------------------------*/
 
 // Get clients & campaign and build the tree
-$query = "
-    SELECT
-        campaignid AS campaignid,
-        campaignname AS campaignname,
-        views AS impressions,
-        clicks AS clicks,
-        conversions AS conversions,
-        activate AS activate,
-        active AS active,
-        expire AS expire,
-        priority AS priority,
-        anonymous AS anonymous
-    FROM
-        {$conf['table']['prefix']}{$conf['table']['campaigns']}
-    WHERE
-        clientid = $clientid
-    " . phpAds_getCampaignListOrder($listorder, $orderdirection);
-$res_campaigns = phpAds_dbQuery($query)
-    or phpAds_sqlDie();
 
-while ($row_campaigns = phpAds_dbFetchArray($res_campaigns)) {
+$doCampaign = DB_DataObject::factory('campaigns');
+$doCampaign->clientid = $clientid;
+
+// Default list order to campaign name
+if (!$listorder) {
+    $listorder = 'campaignname';
+}
+$doCampaign->orderBy("$listorder $orderdirection");
+$doCampaign->find();
+
+while ($doCampaign->fetch() && $row_campaigns = $doCampaign->toArray()) {
 	$campaigns[$row_campaigns['campaignid']]['campaignid']   = $row_campaigns['campaignid'];
-	
+
     // mask campaign name if anonymous campaign
     $campaign_details = Admin_DA::getPlacement($row_campaigns['campaignid']);
     $row_campaigns['campaignname'] = MAX_getPlacementName($campaign_details);
-    
+
 	$campaigns[$row_campaigns['campaignid']]['campaignname'] = $row_campaigns['campaignname'];
 	$campaigns[$row_campaigns['campaignid']]['impressions']  = phpAds_formatNumber($row_campaigns['impressions']);
 	$campaigns[$row_campaigns['campaignid']]['clicks']       = phpAds_formatNumber($row_campaigns['clicks']);
@@ -231,29 +230,20 @@ while ($row_campaigns = phpAds_dbFetchArray($res_campaigns)) {
     $campaigns[$row_campaigns['campaignid']]['anonymous'] = $row_campaigns['anonymous'];
 }
 
-// Get the banners for each campaign
-$res_banners = phpAds_dbQuery("
-	SELECT
-		bannerid,
-		campaignid,
-		alt,
-		description,
-		active,
-		storagetype AS type
-	FROM
-		".$conf['table']['prefix'].$conf['table']['banners']."
-		".phpAds_getBannerListOrder ($listorder, $orderdirection)."
-	") or phpAds_sqlDie();
 
-while ($row_banners = phpAds_dbFetchArray($res_banners)) {
+$doBanner = DB_DataObject::factory('banners');
+$doBanner->selectAs(array('storagetype'), 'type');
+$doBanner->find();
+
+while ($doBanner->fetch() && $row_banners = $doBanner->toArray()) {
     if (isset($campaigns[$row_banners['campaignid']])) {
         $banners[$row_banners['bannerid']] = $row_banners;
-        
+
         // mask banner name if anonymous campaign
         $campaign_details = Admin_DA::getPlacement($row_banners['campaignid']);
         $campaignAnonymous = $campaign_details['anonymous'] == 't' ? true : false;
         $banners[$row_banners['bannerid']]['description'] = MAX_getAdName($row_banners['description'], null, null, $campaignAnonymous, $row_banners['bannerid']);
-               
+
         $campaigns[$row_banners['campaignid']]['count']++;
     }
 }
@@ -318,28 +308,28 @@ if (!phpAds_isUser(phpAds_Client)) {
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 
 echo "<tr height='25'>";
-echo "<td height='25' width='40%'><b>&nbsp;&nbsp;<a href='advertiser-campaigns.php?clientid=".$clientid."&listorder=name'>".$GLOBALS['strName']."</a>";
+echo "<td height='25' width='40%'><b>&nbsp;&nbsp;<a href='advertiser-campaigns.php?clientid=".$clientid."&listorder=campaignname'>".$GLOBALS['strName']."</a>";
 
-if (($listorder == "name") || ($listorder == "")) {
-	if  (($orderdirection == "") || ($orderdirection == "down")) {
-		echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=up">';
+if (($listorder == "campaignname") || ($listorder == "")) {
+	if  (($orderdirection == "") || ($orderdirection == "desc")) {
+		echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=asc">';
 		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 	} else {
-		echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=down">';
+		echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=desc">';
 		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 	}
 	echo '</a>';
 }
 
 echo '</b></td>';
-echo '<td height="25"><b><a href="advertiser-campaigns.php?clientid='.$clientid.'&listorder=id">'.$GLOBALS['strID'].'</a>';
+echo '<td height="25"><b><a href="advertiser-campaigns.php?clientid='.$clientid.'&listorder=campaignid">'.$GLOBALS['strID'].'</a>';
 
-if ($listorder == "id") {
-	if  (($orderdirection == "") || ($orderdirection == "down")) {
-		echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=up">';
+if ($listorder == "campaignid") {
+	if  (($orderdirection == "") || ($orderdirection == "desc")) {
+		echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=asc">';
 		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 	} else {
-		echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=down">';
+		echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=desc">';
 		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 	}
 	echo '</a>';
