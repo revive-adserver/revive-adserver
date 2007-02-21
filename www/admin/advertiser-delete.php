@@ -72,9 +72,9 @@ if (isset($session['prefs']['advertiser-index.php']['nodes'])) {
 
 if (isset($clientid) && $clientid != '') {
     // Loop through each campaign
-    $doCampaign = DB_DataObject::factory('campaigns');
-    $doCampaign->clientid = $clientid;
-    $doCampaign->delete();
+    $doClient = DB_DataObject::factory('clients');
+    $doClient->clientid = $clientid;
+    $doClient->delete();
     
     // Delete the advertiser from the $node_array,
     // if necessary

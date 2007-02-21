@@ -45,7 +45,106 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     var $onDeleteCascade = false;
     
+    var $_tableName;
+    
     /**
+     * Method overrides default DB_DataObject database schema location and adds prefixes to schema
+     * definitions
+     *
+     * @return boolean  True on success, else false
+     */
+    function databaseStructure()
+    {
+        global $_DB_DATAOBJECT;
+        
+        $_DB_DATAOBJECT['CONFIG']["ini_{$this->_database}"] = array(
+            "{$_DB_DATAOBJECT['CONFIG']['schema_location']}/db_schema.ini"
+        );
+        
+        if (!parent::databaseStructure() && empty($_DB_DATAOBJECT['INI'][$this->_database])) {
+            return false;
+        }
+
+        $configDatabase = &$_DB_DATAOBJECT['INI'][$this->_database];
+        $prefix = $GLOBALS['MAX']['conf']['table']['prefix'];
+        
+        // databaseStructure() is cached in memory so we have to add prefix to all definitions on first run
+        if (!empty($prefix)) {
+            foreach ($configDatabase as $tableName => $config) {
+                $configDatabase[$prefix.$tableName] = $configDatabase[$tableName];
+                $configDatabase[$prefix.$tableName."__keys"] = $configDatabase[$tableName."__keys"];
+            }
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Add a prefix to table name and save oroginal table name in _tableName
+     *
+     */
+    function addPrefixToTableName()
+    {
+        if (empty($this->_tableName)) {
+            $this->prefix = $GLOBALS['MAX']['conf']['table']['prefix'];
+            $this->_tableName = $this->__table;
+            $this->__table = $this->prefix . $this->__table;
+        }
+    }
+    
+    /**
+     * Connect is used inside DB_DataObject to connect preload config
+     * We will override this "private" method to add additional settings required
+     * to use prefixes
+     *
+     * @return unknown
+     */
+    function _connect()
+    {
+        $this->addPrefixToTableName();
+        return parent::_connect();
+    }
+    
+    /**
+     * Overwrite DB_DataObject::delete() method and add a "ON DELETE CASCADE"
+     *
+     * @param boolean $onDeleteCascade  If true it deletes also referenced tables
+     * @param boolean $useWhere
+     * @return boolean
+     */
+    function delete($useWhere = false, $onDeleteCascade = true)
+    {
+        $this->addPrefixToTableName();
+        
+        if ($this->onDeleteCascade && $onDeleteCascade) {
+            $aKeys = $this->keys();
+            // Simulate "ON DELETE CASCADE"
+            if (count($aKeys) == 1) {
+                // Resolve references automatically only for records with one column as Primary Key
+                // If table has more than one column in PK it is still possible to remove
+                // manually connected tables (by overriding delete() method)
+                $primaryKey = $aKeys[0];
+                $linkedRefs = $this->_collectRefs($primaryKey);
+                
+                // Find all affected tuples
+                $doAffected = clone($this);
+                if (!$useWhere) {
+                    // Clear any additional WHEREs if it's not used in delete statement
+                    $doAffected->whereAdd();
+                }
+                $doAffected->find();
+                
+                while ($doAffected->fetch()) {
+                    // Simulate "ON DELETE CASCADE"
+                    $doAffected->deleteCascade($linkedRefs, $primaryKey);
+                }
+            }
+        }
+        
+        return parent::delete($useWhere);
+    }
+    
+        /**
      * Make sure column(s) exists before trying to ordering by them
      * This method works as a security check, it doesn't allow for db injection
      * in "ORDER BY" passed from User Interface
@@ -76,78 +175,6 @@ class DB_DataObjectCommon extends DB_DataObject
     }
     
     /**
-     * Method overrides default DB_DataObject behaviour by adding table prefixes and
-     * having a default database schema location
-     *
-     * @return boolean  True on success, else false
-     */
-    function databaseStructure()
-    {
-        global $_DB_DATAOBJECT;
-        
-        $_DB_DATAOBJECT['CONFIG']["ini_{$this->_database}"] = array(
-            "{$_DB_DATAOBJECT['CONFIG']['schema_location']}/db_schema.ini"
-        );
-        
-        if (!parent::databaseStructure() && empty($_DB_DATAOBJECT['INI'][$this->_database])) {
-            return false;
-        }
-        
-        $tableNameWithoutPrefix = $this->__table;
-
-        $this->prefix = $GLOBALS['MAX']['conf']['table']['prefix'];
-        $this->__table = $this->prefix . $this->__table;
-        
-        $configDatabase = &$_DB_DATAOBJECT['INI'][$this->_database];
-        
-        // "__table" has a prefix already, make sure it points to the same definition as used to before adding prefix
-        if (!isset($configDatabase[$this->__table])) {
-            $configDatabase[$this->__table] = $configDatabase[$this->tableNameWithoutPrefix];
-        }
-        
-        if (!isset($configDatabase[$this->__table."__keys"])) {
-            $configDatabase[$this->__table."__keys"] = $configDatabase[$this->tableNameWithoutPrefix."__keys"];
-        }
-        
-        return true;
-    }
-    
-    /**
-     * Overwrite DB_DataObject::delete() method and add a "ON DELETE CASCADE"
-     *
-     * @param boolean $useWhere
-     * @return boolean
-     */
-    function delete($useWhere = false)
-    {
-        if ($this->onDeleteCascade) {
-            // Find all affected tuples
-            $doAffected = clone($this);
-            if (!$useWhere) {
-                // Clear any additional WHEREs if it's not used in delete statement
-                $object->whereAdd();
-            }
-            $doAffected->find();
-            
-            $aKeys = $this->keys();
-            while ($doAffected->fetch()) {
-                // Simulate "ON DELETE CASCADE"
-                if (count($aKeys) == 1) {
-                    // Resolve references automatically only for records with one column as Primary Key
-                    // If table has more than one column in PK it is still possible to remove
-                    // manually connected tables (by overriding delete() method)
-                    $primaryKey = $aKeys[0];
-                    
-                    $linkedRefs = $this->_collectRefs($primaryKey);
-                    $this->_deleteCascade($linkedRefs);
-                }
-            }
-        }
-        
-        return parent::delete($useWhere);
-    }
-    
-    /**
      * Collects references from links file
      * 
      * Example references:
@@ -171,7 +198,7 @@ class DB_DataObjectCommon extends DB_DataObject
         global $_DB_DATAOBJECT;
         $links = $_DB_DATAOBJECT['LINKS'][$this->_database];
         foreach ($links as $table => $references){
-            $column = array_search($this->__table.':'.$primaryKey, $references);
+            $column = array_search($this->_tableName.':'.$primaryKey, $references);
             if ($column !== false) {
                 $linkedRefs[$table] = $column;
             }
@@ -182,10 +209,10 @@ class DB_DataObjectCommon extends DB_DataObject
     /**
      * Delete all records referenced
      * 
-     * @access private
+     * @access public
      * @return boolean  True on success else false
      **/
-    function _deleteCascade($linkedRefs, $primaryKey)
+    function deleteCascade($linkedRefs, $primaryKey)
     {
         foreach ($linkedRefs as $table => $column) {
             $doLinkded = DB_DataObject::factory($table);
