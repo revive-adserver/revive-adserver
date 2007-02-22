@@ -59,11 +59,7 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
     	// get all zones ids
     	$doZone = DB_DataObject::factory('zones');
     	$doZone->affiliateid = $this->affiliateid;
-    	$doZone->find();
-    	$aZonesIds = array();
-    	while ($doZone->find()) {
-    		$aZonesIds[] = $doZone->zoneid;
-    	}
+    	$aZonesIds = $doZone->getAll(array('zoneid'));
     	
     	$doZone = DB_DataObject::factory('zones');
     	$doZone->appendtype = phpAds_ZoneAppendZone;

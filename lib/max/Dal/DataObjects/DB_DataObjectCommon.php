@@ -83,6 +83,53 @@ class DB_DataObjectCommon extends DB_DataObject
     }
     
     /**
+     * OpenAds uses in many places arrays containing all records, for example 
+     * array of all zones Ids associated with specific advertiser.
+     * It is usually encouraged to use this method for all purposes as it's
+     * better to loop through all records and analyze one at a time.
+     * But if you are looping through records just to create a array from them
+     * use this method.
+     *
+     * @param array $filter  Contains fields which should be returned in each row
+     * @param array $negativeFilter  Contains fields names which should be removed from each row
+     * @param boolean $indexWithPrimaryKey  Should the table be indexed with primary key
+     * @return array
+     */
+    function getAll($filter = array(), $negativeFilter = array(), $indexWithPrimaryKey = false)
+    {
+    	$this->find();
+    	
+    	$rows = array();
+    	$fields = $this->table();
+    	$primaryKey = null;
+    	if ($indexWithPrimaryKey) {
+    		$keys = $this->keys();
+			$primaryKey = !empty($keys) ? $keys[0] : null;
+    	}
+    	while ($this->fetch()) {
+    		$row = array();
+    		foreach ($fields as $k => $v) {
+    			if ($filter && !in_array($k, $filter)) {
+    				continue;
+    			}
+    			if ($negativeFilter && in_array($k, $negativeFilter)) {
+    				continue;
+    			}
+    			if (!isset($this->$k)) {
+    				continue;
+    			}
+    			$row[$k] = $v;
+    		}
+    		if (!empty($primaryKey) && isset($this->$primaryKey)) {
+    			$rows[$this->$primaryKey] = $row;
+    		} else {
+    			$rows[] = $row;
+    		}
+    	}
+    	return $rows;
+    }
+    
+    /**
      * //// Protected methods, could be overwritten in child classes but
      * //// a good practice is to call them in child methods by parent::methodName()
      */
