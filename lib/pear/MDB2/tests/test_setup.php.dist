@@ -3,17 +3,7 @@
 // uncomment this line if you want to run both MDB2 from a CVS checkout
 #ini_set('include_path', '..'.PATH_SEPARATOR.ini_get('include_path'));
 
-$testcases = array(
-    'MDB2_api_testcase',
-    'MDB2_usage_testcase',
-    'MDB2_bugs_testcase',
-    'MDB2_extended_testcase',
-    'MDB2_datatype_testcase',
-    'MDB2_manager_testcase',
-    'MDB2_reverse_testcase',
-    'MDB2_function_testcase',
-    'MDB2_native_testcase',
-);
+require_once 'MDB2/tests/testcases.php';
 
 // use a user that has full permissions on a database named "driver_test"
 $mysql = array(

@@ -3,9 +3,9 @@
 // uncomment this line if you want to run both MDB2 and MDB2_Schema from a CVS checkout
 #ini_set('include_path', '../../MDB2/'.PATH_SEPARATOR.'..'.PATH_SEPARATOR.ini_get('include_path'));
 
-$testcases = array(
-    'MDB2_Schema_testcase',
-);
+// OPENADS ONLY
+#define('SCHEMA_PATH', MAX_PATH.'/lib/pear/MDB2_Schema/tests/');
+require_once SCHEMA_PATH.'testcases.php';
 
 // use a user that has full permissions on a database named "driver_test"
 $mysql = array(
@@ -92,9 +92,6 @@ $dbarray = array();
 #$dbarray[] = $mssql;
 #$dbarray[] = $fbsql;
 #$dbarray[] = $ibase;
-
-// OPENADS ONLY
-#define('SCHEMA_PATH', MAX_PATH.'/lib/pear/MDB2_Schema/tests/');
 
 // you may need to uncomment the line and modify the multiplier as you see fit
 #set_time_limit(60*count($dbarray));
