@@ -168,7 +168,7 @@ class MDB2_TestCase extends PHPUnit_TestCase {
         return in_array(strtolower($table), array_map('strtolower', $tables));
     }
 
-    function getField($name='', $type='', $length='', $notnull='', $unsigned='', $autoincrement='',$default='', $scale='')
+    function getField($name='', $type='', $length='', $notnull='', $default='', $unsigned='', $autoincrement='', $scale='')
     {
         $field = array( 'name'=>$name,
                         'type'=>$type,
@@ -221,6 +221,122 @@ class MDB2_TestCase extends PHPUnit_TestCase {
 
     }
 
+    function getMDB2TestTypes()
+    {
+        return array(
+                    'text'          => array('field'=> array('type'=>'text',
+                                                             'length'=>'',
+                                                             'default'=>'',
+                                                             'notnull'=>'',
+                                                             'autoincrement'=>'',
+                                                             'unsigned'=>'',
+                                                             'scale'=>''
+                                                             ),
+                                             'declare'=>'VARCHAR('.$this->db->varchar_max_length.')'
+                                             ),
+                    'text'          => array('field'=> array('type'=>'text',
+                                                             'length'=>'',
+                                                             'default'=>'test',
+                                                             'notnull'=>'',
+                                                             'autoincrement'=>'',
+                                                             'unsigned'=>'',
+                                                             'scale'=>'',
+                                                             ),
+                                             'declare'=>'VARCHAR('.$this->db->varchar_max_length.')'
+                                             ),
+                    'boolean'       => array('field'=> array('type'=>'boolean',
+                                                             'length'=>'1',
+                                                             'default'=>'true',
+                                                             'notnull'=>'',
+                                                             'autoincrement'=>'0',
+                                                             'unsigned'=>'',
+                                                             'scale'=>'',
+                                                             ),
+                                             'declare'=>'TINYINT(1)'
+                                             ),
+                    'blob'          => array('field'=> array('type'=>'blob',
+                                                             'length'=>'',
+                                                             'default'=>'',
+                                                             'notnull'=>'',
+                                                             'autoincrement'=>'0',
+                                                             'unsigned'=>'',
+                                                             'scale'=>'',
+                                                             ),
+                                             'declare'=>'LONGBLOB'
+                                             ),
+                    'clob'          => array('field'=> array('type'=>'clob',
+                                                             'length'=>'',
+                                                             'default'=>'',
+                                                             'notnull'=>'',
+                                                             'autoincrement'=>'0',
+                                                             'unsigned'=>'',
+                                                             'scale'=>'',
+                                                             ),
+                                             'declare'=>'LONGTEXT'
+                                             ),
+                    'integer'       => array('field'=> array('type'=>'integer',
+                                                             'length'=>'',
+                                                             'default'=>'0',
+                                                             'notnull'=>'',
+                                                             'autoincrement'=>'0',
+                                                             'unsigned'=>'',
+                                                             'scale'=>'',
+                                                             ),
+                                             'declare'=>'INT'
+                                             ),
+                    'decimal'       => array('field'=> array('type'=>'decimal',
+                                                             'length'=>'11',
+                                                             'default'=>'0.0',
+                                                             'notnull'=>'',
+                                                             'autoincrement'=>'0',
+                                                             'unsigned'=>'',
+                                                             'scale'=>'3',
+                                                             ),
+                                             'declare'=>'DECIMAL(11,3)'
+                                             ),
+                    'float'         => array('field'=> array('type'=>'float',
+                                                             'length'=>'',
+                                                             'default'=>'0.0',
+                                                             'notnull'=>'',
+                                                             'autoincrement'=>'0',
+                                                             'unsigned'=>'',
+                                                             'scale'=>'',
+                                                             ),
+                                             'declare'=>'DOUBLE'
+                                             ),
+                    'date'          => array('field'=> array('type'=>'date',
+                                                             'length'=>'',
+                                                             'default'=>'1970-01-01',
+                                                             'notnull'=>'',
+                                                             'autoincrement'=>'0',
+                                                             'unsigned'=>'',
+                                                             'scale'=>'',
+                                                             ),
+                                             'declare'=>'DATE'
+                                             ),
+                    'time'          => array('field'=> array('type'=>'time',
+                                                             'length'=>'',
+                                                             'default'=>'00:00:00',
+                                                             'notnull'=>'',
+                                                             'autoincrement'=>'0',
+                                                             'unsigned'=>'',
+                                                             'scale'=>'',
+                                                             ),
+                                             'declare'=>'TIME'
+                                             ),
+                    'timestamp'     => array('field'=> array('type'=>'timestamp',
+                                                             'length'=>'',
+                                                             'default'=>'1970-01-01 00:00:00',
+                                                             'notnull'=>'',
+                                                             'autoincrement'=>'0',
+                                                             'unsigned'=>'',
+                                                             'scale'=>'',
+                                                             ),
+                                             'declare'=>'DATETIME'
+                                             )
+                );
+    }
+
     function verifyNativeMappingResult($type, $result, $expected)
     {
         if (PEAR::isError($result))
@@ -234,6 +350,18 @@ class MDB2_TestCase extends PHPUnit_TestCase {
 
     }
 
+    function verifyMDB2MappingResult($type, $result, $expected)
+    {
+        if (PEAR::isError($result))
+        {
+            $this->assertTrue(false, $result->getMessage().' : ** '.$k.' **');
+        }
+        else
+        {
+            $this->assertEquals($expected, $result, 'translation mismatch for mdb2type ** '.$type.' **');
+        }
+
+    }
 
 
 }

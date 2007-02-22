@@ -48,6 +48,7 @@ require_once 'MDB2_testcase.php';
 class MDB2_Datatype_mysql_TestCase extends MDB2_TestCase
 {
     var $native_types = array();
+    var $mdb2_types = array();
 
     function test_mapNativeDatatypes()
     {
@@ -67,6 +68,28 @@ class MDB2_Datatype_mysql_TestCase extends MDB2_TestCase
                 $this->verifyNativeMappingResult($k, $result[0][0], $v['type']);
             }
             // also need to test length, defaults, autoincrement, notnull, scale
+        }
+    }
+
+    function test_getTypeDeclaration()
+    {
+        $this->db->loadModule('Datatype', null, true);
+        $this->mdb2_types = $this->getMDB2TestTypes();
+
+        foreach ($this->mdb2_types AS $k => $v)
+        {
+            $field = $v['field'];
+            $field['name'] = 'test';
+            $result = $this->db->datatype->getTypeDeclaration($field);
+            if (PEAR::isError($result))
+            {
+                $this->assertTrue(false, $result->getMessage().' : ** '.$k.' **');
+            }
+            else
+            {
+                $this->verifyMDB2MappingResult($k, $result, $v['declare']);
+            }
+            // also need to test different lengths, defaults, autoincrement, notnull, scale etc for each type
         }
     }
 

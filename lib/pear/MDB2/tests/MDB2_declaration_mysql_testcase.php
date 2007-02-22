@@ -68,7 +68,6 @@ class MDB2_Declaration_mysql_TestCase extends MDB2_TestCase
             // also need to test length, defaults, autoincrement, notnull, scale
         }
     }
-
 }
 
 ?>
