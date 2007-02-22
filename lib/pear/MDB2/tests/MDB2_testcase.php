@@ -168,6 +168,74 @@ class MDB2_TestCase extends PHPUnit_TestCase {
         return in_array(strtolower($table), array_map('strtolower', $tables));
     }
 
+    function getField($name='', $type='', $length='', $notnull='', $unsigned='', $autoincrement='',$default='', $scale='')
+    {
+        $field = array( 'name'=>$name,
+                        'type'=>$type,
+                        'length'=>$length,
+                        'notnull'=>$notnull,
+                        'unsigned'=>$unsigned,
+                        'autoincrement'=>$autoincrement,
+                        'default'=>$default,
+                        'scale'=>$scale
+                       );
+        return $field;
+    }
+
+    function getNativeTypes()
+    {
+        if ($this->dsn['phptype']=='mysql')
+        {
+            return array(
+                        'boolean'       => array('type'=>'tinyint','length'=>'1','default'=>'NULL', 'declare'=>'TINYINT(1) DEFAULT NULL'),
+                        'char'          => array('type'=>'text','length'=>'','default'=>'', 'declare'=>'CHAR DEFAULT \'\''),
+                        'varchar'       => array('type'=>'text','length'=>'255','default'=>'', 'declare'=>'VARCHAR DEFAULT \'\''),
+                        'text'          => array('type'=>'text','length'=>'','default'=>'', 'declare'=>'TEXT DEFAULT \'\''),
+                        'mediumtext'    => array('type'=>'text','length'=>'','default'=>'', 'declare'=>'MEDIUMTEXT DEFAULT \'\''),
+                        'longtext'      => array('type'=>'text','length'=>'','default'=>'', 'declare'=>'LONGTEXT DEFAULT \'\''),
+                        'binary'        => array('type'=>'blob','length'=>'','default'=>'', 'declare'=>'BINARY'),
+                        'varbinary'     => array('type'=>'blob','length'=>'','default'=>'', 'declare'=>'VARBINARY'),
+                        'blob'          => array('type'=>'blob','length'=>'','default'=>'', 'declare'=>'BLOB'),
+                        'mediumblob'    => array('type'=>'blob','length'=>'','default'=>'', 'declare'=>'MEDIUMBLOB'),
+                        'longblob'      => array('type'=>'blob','length'=>'','default'=>'', 'declare'=>'LONGBLOB'),
+                        'enum'          => array('type'=>'unknown','length'=>'','default'=>'', 'declare'=>'ENUM'),
+                        'set'           => array('type'=>'unknown','length'=>'','default'=>'', 'declare'=>'SET'),
+                        'int'           => array('type'=>'integer','length'=>'','default'=>'0', 'declare'=>'INT'),
+                        'integer'       => array('type'=>'integer','length'=>'','default'=>'0', 'declare'=>'INTEGER DEFAULT 0'),
+                        'bigint'        => array('type'=>'integer','length'=>'','default'=>'0', 'declare'=>'BIGINT DEFAULT 0'),
+                        'smallint'      => array('type'=>'integer','length'=>'','default'=>'0', 'declare'=>'SMALLINT DEFAULT 0'),
+                        'mediumint'     => array('type'=>'integer','length'=>'','default'=>'0', 'declare'=>'MEDIUMINT DEFAULT 0'),
+                        'tinyint'       => array('type'=>'integer','length'=>'','default'=>'0', 'declare'=>'TINYINT DEFAULT 0'),
+                        'double'        => array('type'=>'float','length'=>'','default'=>'0.0', 'declare'=>'DOUBLE DEFAULT 0.0'),
+                        'decimal'       => array('type'=>'decimal','length'=>'','default'=>'0.0', 'declare'=>'DECIMAL DEFAULT 0.0'),
+                        'numeric'       => array('type'=>'float','length'=>'2','default'=>'0.0', 'declare'=>'NUMERIC DEFAULT 0.0'),
+                        'float'         => array('type'=>'float','length'=>'','default'=>'0.0', 'declare'=>'FLOAT DEFAULT 0.0'),
+                        'real'          => array('type'=>'float','length'=>'','default'=>'0.0', 'declare'=>'REAL DEFAULT 0.0'),
+                        'year'          => array('type'=>'integer','length'=>'2','default'=>'0.0', 'declare'=>'YEAR DEFAULT \'00\''),
+                        'date'          => array('type'=>'date','length'=>'','default'=>'0000-00-00', 'declare'=>'DATE DEFAULT \'0000-00-00\''),
+                        'time'          => array('type'=>'time','length'=>'','default'=>'00:00:00', 'declare'=>'TIME DEFAULT \'00:00:00\''),
+                        'timestamp'     => array('type'=>'timestamp','length'=>'','default'=>'000-00-00 00:00:00', 'declare'=>'TIMESTAMP DEFAULT \'000-00-00 00:00:00\''),
+                        'datetime'      => array('type'=>'timestamp','length'=>'','default'=>'000-00-00 00:00:00', 'declare'=>'DATETIME DEFAULT \'000-00-00 00:00:00\'')
+                        );
+        }
+
+    }
+
+    function verifyNativeMappingResult($type, $result, $expected)
+    {
+        if (PEAR::isError($result))
+        {
+            $this->assertTrue(false, $result->getMessage().' : ** '.$k.' **');
+        }
+        else
+        {
+            $this->assertEquals($expected,$result, 'translation mismatch for nativetype ** '.$type.' **');
+        }
+
+    }
+
+
+
 }
 
 ?>
