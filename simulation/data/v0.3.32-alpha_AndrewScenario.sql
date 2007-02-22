@@ -44,10 +44,10 @@ INSERT INTO `acls` (`bannerid`, `logical`, `type`, `comparison`, `data`, `execut
 (2, 'and', 'Time:Hour', '=~', '0,2,4,6,8,10,12,14,16,18,20,22', 0);
 
 TRUNCATE TABLE ad_zone_assoc;
-INSERT INTO `ad_zone_assoc` (`ad_zone_assoc_id`, `zone_id`, `ad_id`, `priority`, `to_be_delivered`, `link_type`) VALUES 
-(12, 1, 2, 0, 1, 1),
-(11, 1, 1, 0, 1, 1),
-(13, 1, 3, 0, 1, 1);
+INSERT INTO `ad_zone_assoc` (`ad_zone_assoc_id`, `zone_id`, `ad_id`, `priority`, `link_type`) VALUES 
+(12, 1, 2, 0, 1),
+(11, 1, 1, 0, 1),
+(13, 1, 3, 0, 1);
 
 TRUNCATE TABLE affiliates;
 INSERT INTO `affiliates` (`affiliateid`, `agencyid`, `name`, `mnemonic`, `comments`, `contact`, `email`, `website`, `username`, `password`, `permissions`, `language`, `publiczones`, `last_accepted_agency_agreement`, `updated`) VALUES 
