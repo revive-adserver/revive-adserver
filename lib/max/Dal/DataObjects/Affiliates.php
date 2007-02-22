@@ -36,22 +36,4 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-    
-    /**
-     * Check if affiliate exists
-     *
-     * @param int $affiliateId
-     * @param int $agencyId
-     * @return boolean
-     */
-    function affiliateExists($affiliateId, $agencyId = null)
-    {
-        $this->affiliateid = $affiliateId;
-        if ($agencyId !== null) {
-            $this->agencyid = $agencyId;
-        }
-        
-        return (bool) ($this->count() > 0);
-    }
-    
 }

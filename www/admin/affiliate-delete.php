@@ -36,6 +36,8 @@ require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 
+require_once 'DB/DataObject.php';
+
 // Register input variables
 phpAds_registerGlobal ('returnurl');
 
@@ -45,9 +47,9 @@ phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 
 if (phpAds_isUser(phpAds_Agency))
 {
-	$query = "SELECT affiliateid FROM ".$conf['table']['prefix'].$conf['table']['affiliates']." WHERE affiliateid='".$affiliateid."' AND agencyid=".phpAds_getUserID();
-	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
-	if (phpAds_dbNumRows($res) == 0)
+	$doAffiliate = DB_DataObject::factory('affiliates');
+	$doAffiliate->affiliateid = $affiliateid;
+	if (!$doAffiliate->userBelongTo('agency', phpAds_getUserID()))
 	{
 		phpAds_PageHeader("2");
 		phpAds_Die ($strAccessDenied, $strNotAdmin);
@@ -59,95 +61,11 @@ if (phpAds_isUser(phpAds_Agency))
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-if (isset($affiliateid) && $affiliateid != '')
+if (!empty($affiliateid))
 {
-	// Reset append codes which called this affiliate's zones
-	$res = phpAds_dbQuery("
-			SELECT
-				zoneid
-			FROM
-				".$conf['table']['prefix'].$conf['table']['zones']."
-			WHERE
-				affiliateid = '$affiliateid'
-		");
-
-	$zones = array();
-	while ($row = phpAds_dbFetchArray($res))
-		$zones[] = $row['zoneid'];
-	
-	if (count($zones))
-	{
-		$res = phpAds_dbQuery("
-				SELECT
-					zoneid,
-					append
-				FROM
-					".$conf['table']['prefix'].$conf['table']['zones']."
-				WHERE
-					appendtype = ".phpAds_ZoneAppendZone." AND
-					affiliateid <> '$affiliateid'
-			");
-		
-		while ($row = phpAds_dbFetchArray($res))
-		{
-			$append = phpAds_ZoneParseAppendCode($row['append']);
-
-			if (in_array($append[0]['zoneid'], $zones))
-			{
-				phpAds_dbQuery("
-						UPDATE
-							".$conf['table']['prefix'].$conf['table']['zones']."
-						SET
-							appendtype = ".phpAds_ZoneAppendRaw.",
-							append = '',
-							updated = '".date('Y-m-d H:i:s')."'
-						WHERE
-							zoneid = '".$row['zoneid']."'
-					");
-			}
-		}
-
-		
-		// Delete zones
-		$res = phpAds_dbQuery("
-			DELETE FROM
-				".$conf['table']['prefix'].$conf['table']['zones']."
-			WHERE
-				affiliateid = '$affiliateid'
-			") or phpAds_sqlDie();
-		
-		// Delete links to placement
-		$zoneStr = implode(',',$zones);
-		$query = "
-		DELETE FROM {$conf['table']['prefix']}{$conf['table']['placement_zone_assoc']}
-		WHERE zone_id IN ($zoneStr)
-		";
-		$res = phpAds_dbQuery($query) or phpAds_sqlDie();
-
-		// Delete links to ad
-		$zoneStr = implode(',',$zones);
-		$query = "
-		DELETE FROM {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
-		WHERE zone_id IN ($zoneStr)
-		";
-		$res = phpAds_dbQuery($query) or phpAds_sqlDie();
-	}
-
-	// Delete affiliates_extra row
-	$res = phpAds_dbQuery("
-		DELETE FROM
-			".$conf['table']['prefix'].$conf['table']['affiliates_extra']."
-		WHERE
-			affiliateid = '$affiliateid'
-		") or phpAds_sqlDie();
-
-	// Delete affiliate
-	$res = phpAds_dbQuery("
-		DELETE FROM
-			".$conf['table']['prefix'].$conf['table']['affiliates']."
-		WHERE
-			affiliateid = '$affiliateid'
-		") or phpAds_sqlDie();
+	$doAffiliate = DB_DataObject::factory('affiliates');
+	$doAffiliate->affiliateid = $affiliateid;
+	$doAffiliate->delete();
 }
 
 if (!isset($returnurl) && $returnurl == '')
