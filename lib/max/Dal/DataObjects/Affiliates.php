@@ -54,30 +54,4 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
         return (bool) ($this->count() > 0);
     }
     
-    function delete($useWhere = false, $cascadeDelete = true)
-    {
-    	// get all zones ids
-    	$doZone = DB_DataObject::factory('zones');
-    	$doZone->affiliateid = $this->affiliateid;
-    	$aZonesIds = $doZone->getAll(array('zoneid'));
-    	
-    	$doZone = DB_DataObject::factory('zones');
-    	$doZone->appendtype = phpAds_ZoneAppendZone;
-    	$doZone->whereAdd('affiliateid <> ' . $this->affiliateid);
-    	$doZone->find();
-    	
-    	while($doZone->fetch()) {
-    		$append = phpAds_ZoneParseAppendCode($doZone->append);
-    		if (in_array($append[0]['zoneid'], $aZonesIds)) {
-    			$doZoneUpdate = DB_DataObject::factory('zones');
-    			$doZoneUpdate->get($append[0]['zoneid']);
-    			
-    			$doZoneUpdate->appendtype = phpAds_ZoneAppendRaw;
-    			$doZoneUpdate->append = '';
-    			$doZoneUpdate->update();
-    		}
-    	}
-    	
-    	return parent::delete($useWhere, $cascadeDelete);
-    }
 }

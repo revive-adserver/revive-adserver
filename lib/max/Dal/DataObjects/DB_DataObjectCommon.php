@@ -46,6 +46,13 @@ class DB_DataObjectCommon extends DB_DataObject
     var $onDeleteCascade = false;
     
     /**
+     * Store tables prefix
+     *
+     * @var string
+     */
+    var $_prefix;
+    
+    /**
      * //// Public methods, added to help users to optimize the use of DataObjects
      */
     
@@ -103,8 +110,7 @@ class DB_DataObjectCommon extends DB_DataObject
     	$fields = $this->table();
     	$primaryKey = null;
     	if ($indexWithPrimaryKey) {
-    		$keys = $this->keys();
-			$primaryKey = !empty($keys) ? $keys[0] : null;
+			$primaryKey = $this->getFirstPrimaryKey();
     	}
     	while ($this->fetch()) {
     		$row = array();
@@ -126,13 +132,83 @@ class DB_DataObjectCommon extends DB_DataObject
     			$rows[] = $row;
     		}
     	}
+    	$this->free();
     	return $rows;
     }
+    
+    /**
+     * This method uses information from links.ini to handle hierarchy of tables
+     *
+     * @param string $userTable It's table name where user belongs, eg: agency, affiliates, clients
+     * @param string $userId    User id
+     * @return boolean|null     Returns true if belong to user, false if doesn't and null if it wasn't able to find
+     *                          object in references
+     */
+    function belongToUser($userTable, $userId)
+    {
+    	if (!$this->N && !$this->find($autoFetch = true)) {
+    		return null;
+    	}
+    	
+      	$found = null;
+      	
+    	$links = $this->links();
+        if(!empty($links)) {
+        	foreach ($links as $key => $match) {
+        		list($table,$link) = explode(':', $match);
+        		if ($table == $userTable) {
+        			return (isset($this->$key)
+        			     && $this->$key == $userId);
+        		} else {
+        			// recursive
+        			$doCheck = $this->getLink($key, $table, $link);
+        			if (!$doCheck) {
+        				return null;
+        			}
+        			$found = $doCheck->belongToUser($userTable, $userId);
+        			if ($found !== null) {
+        				return $found;
+        			}
+        		}
+        	}
+        }
+        return $found;
+    }
+    
+    /**
+     * Returns first primary key
+     *
+     * @return string
+     */
+    function getFirstPrimaryKey()
+    {
+    	$keys = $this->keys();
+    	return !empty($keys) ? $keys[0] : null;
+    }
+
     
     /**
      * //// Protected methods, could be overwritten in child classes but
      * //// a good practice is to call them in child methods by parent::methodName()
      */
+    
+    /**
+     * Override standard links() method, to make sure it reads correctly data from links.ini
+     * file even if DataObjects uses prefix.
+     * 
+     * @access public
+     * @see DB_DataObject::links()
+     * @return array
+     */
+    function links()
+    {
+    	$links = parent::links();
+    	if (empty($this->prefix) || $this->__table == $this->_tableName) {
+    		return $links;
+    	} else {
+        	return $GLOBALS['_DB_DATAOBJECT']['LINKS'][$this->_database][$this->_tableName];
+    	}
+    }
     
     /**
      * Overwrite DB_DataObject::delete() method and add a "ON DELETE CASCADE"
@@ -199,24 +275,19 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function databaseStructure()
     {
-        global $_DB_DATAOBJECT;
-
-        $_DB_DATAOBJECT['CONFIG']["ini_{$this->_database}"] = array(
-            "{$_DB_DATAOBJECT['CONFIG']['schema_location']}/db_schema.ini"
-        );
-
         if (!parent::databaseStructure() && empty($_DB_DATAOBJECT['INI'][$this->_database])) {
             return false;
         }
 
+        global $_DB_DATAOBJECT;
         $configDatabase = &$_DB_DATAOBJECT['INI'][$this->_database];
-        $prefix = $GLOBALS['MAX']['conf']['table']['prefix'];
+        $this->_prefix = $GLOBALS['MAX']['conf']['table']['prefix'];
 
         // databaseStructure() is cached in memory so we have to add prefix to all definitions on first run
-        if (!empty($prefix)) {
+        if (!empty($this->_prefix)) {
             foreach ($configDatabase as $tableName => $config) {
-                $configDatabase[$prefix.$tableName] = $configDatabase[$tableName];
-                $configDatabase[$prefix.$tableName."__keys"] = $configDatabase[$tableName."__keys"];
+                $configDatabase[$this->_prefix.$tableName] = $configDatabase[$tableName];
+                $configDatabase[$this->_prefix.$tableName."__keys"] = $configDatabase[$tableName."__keys"];
             }
         }
         return true;
@@ -230,9 +301,9 @@ class DB_DataObjectCommon extends DB_DataObject
     function _addPrefixToTableName()
     {
         if (empty($this->_tableName)) {
-            $this->prefix = $GLOBALS['MAX']['conf']['table']['prefix'];
+            $this->_prefix = $GLOBALS['MAX']['conf']['table']['prefix'];
             $this->_tableName = $this->__table;
-            $this->__table = $this->prefix . $this->__table;
+            $this->__table = $this->_prefix . $this->__table;
         }
     }
 
@@ -270,8 +341,21 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function _connect()
     {
+        $ret = parent::_connect();
+        if ($ret !== true) {
+            return $ret;
+        }
+        
         $this->_addPrefixToTableName();
-        return parent::_connect();
+
+        global $_DB_DATAOBJECT;
+        $_DB_DATAOBJECT['CONFIG']["ini_{$this->_database}"] = array(
+            "{$_DB_DATAOBJECT['CONFIG']['schema_location']}/db_schema.ini",
+        );
+        $_DB_DATAOBJECT['CONFIG']["links_{$this->_database}"] = 
+            "{$_DB_DATAOBJECT['CONFIG']['schema_location']}/db_schema.links.ini";
+
+        return $ret;
     }
 
     /**

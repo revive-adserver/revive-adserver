@@ -6,7 +6,9 @@ require_once 'DB_DataObjectCommon.php';
 
 class DataObjects_Zones extends DB_DataObjectCommon 
 {
-    ###START_AUTOCODE
+    var $onDeleteCascade = true;
+    
+	###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
     var $__table = 'zones';                           // table name
@@ -45,4 +47,45 @@ class DataObjects_Zones extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+    
+    /**
+     * ON DELETE CASCADE is handled by parent class but we have
+     * to also make sure here that we are handling here:
+     * - zone chaining
+     * - zone appending
+     *
+     * @param boolean $useWhere
+     * @param boolean $cascadeDelete
+     * @return boolean
+     * @see DB_DataObjectCommon::delete()
+     */
+    function delete($useWhere = false, $cascadeDelete = true)
+    {
+    	// Handle all "appended" zones
+    	$doZone = DB_DataObject::factory('zones');
+    	$doZone->appendtype = phpAds_ZoneAppendZone;
+    	$doZone->whereAdd("append LIKE '%zone:".$this->zoneid."%'");
+    	$doZone->find();
+    	
+    	while($doZone->fetch()) {
+			$doZoneUpdate = clone($doZone);
+			$doZoneUpdate->appendtype = phpAds_ZoneAppendRaw;
+			$doZoneUpdate->append = '';
+			$doZoneUpdate->update();
+    	}
+    	
+    	// Handle all "chained" zones
+    	$doZone = DB_DataObject::factory('zones');
+    	$doZone->chain = 'zone:'.$this->zoneid;
+    	$doZone->find();
+    	
+    	while($doZone->fetch()) {
+			$doZoneUpdate = clone($doZone);
+			$doZoneUpdate->chain = '';
+			$doZoneUpdate->update();
+    	}
+    	
+    	return parent::delete($useWhere, $cascadeDelete);
+    }
+    
 }

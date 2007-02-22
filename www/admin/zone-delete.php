@@ -35,6 +35,8 @@ require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 
+require_once 'DB/DataObject.php';
+
 // Register input variables
 phpAds_registerGlobal ('returnurl');
 
@@ -48,96 +50,26 @@ phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-if (isset($zoneid) && $zoneid != '') {
+if (!empty($zoneid)) {
+    
+    $doZone = DB_DataObject::factory('zones');
+    $doZone->zoneid = $zoneid;
+    
     if (phpAds_isUser(phpAds_Affiliate)) {
-        $result = phpAds_dbQuery("
-            SELECT
-                affiliateid
-            FROM
-                ".$conf['table']['prefix'].$conf['table']['zones']."
-            WHERE
-                zoneid = '$zoneid'
-            ") or phpAds_sqlDie();
-        $row = phpAds_dbFetchArray($result);
-        
-        if ($row["affiliateid"] == '' || phpAds_getUserID() != $row["affiliateid"] || !phpAds_isAllowed(phpAds_DeleteZone)) {
+        if (!$doZone->belongToUser('affiliates', phpAds_getUserID()) || !phpAds_isAllowed(phpAds_DeleteZone)) {
             phpAds_PageHeader("1");
             phpAds_Die ($strAccessDenied, $strNotAdmin);
         } else {
-            $affiliateid = $row["affiliateid"];
+            $affiliateid = $doZone->affiliateid;
         }
     } elseif (phpAds_isUser(phpAds_Agency)) {
-        $query = "SELECT z.affiliateid AS affiliateid".
-            " FROM ".$conf['table']['prefix'].$conf['table']['zones']." AS z".
-            ",".$conf['table']['prefix'].$conf['table']['affiliates']." AS a".
-            " WHERE z.affiliateid = a.affiliateid".
-            " AND a.agencyid=".phpAds_getUserID();
-    
-        $res = phpAds_dbQuery($query) or phpAds_sqlDie();
-        if (phpAds_dbNumRows($res) == 0) {
+        if ($doZone->belongToUser('agency', phpAds_getUserID())) {
             phpAds_PageHeader("2");
             phpAds_Die ($strAccessDenied, $strNotAdmin);
         }
     }
     
-    // Reset append codes which called this zone
-    if (phpAds_isUser(phpAds_Admin)) {
-        $query = "SELECT zoneid,append".
-            " FROM ".$conf['table']['prefix'].$conf['table']['zones'].
-            " WHERE appendtype=".phpAds_ZoneAppendZone;
-    } elseif (phpAds_isUser(phpAds_Agency)) {
-        $query = "SELECT z.zoneid AS zoneid".
-            ",z.append AS append".
-            " FROM ".$conf['table']['prefix'].$conf['table']['zones']." AS z".
-            ",".$conf['table']['prefix'].$conf['table']['affiliates']." AS a".
-            " WHERE z.affiliateid = a.affiliateid".
-            " AND a.agencyid=".phpAds_getUserID().
-            " AND appendtype=".phpAds_ZoneAppendZone;
-    }
-    
-    $res = phpAds_dbQuery($query)
-        or phpAds_sqlDie();
-    
-    while ($row = phpAds_dbFetchArray($res)) {
-        $append = phpAds_ZoneParseAppendCode($row['append']);
-
-        if ($append[0]['zoneid'] == $zoneid) {
-            phpAds_dbQuery("
-                    UPDATE
-                        ".$conf['table']['prefix'].$conf['table']['zones']."
-                    SET
-                        appendtype = ".phpAds_ZoneAppendRaw.",
-                        append = '',
-                        updated = '".date('Y-m-d H:i:s')."'
-                    WHERE
-                        zoneid =".$row['zoneid']."
-                ");
-        }
-    }
-    
-    // Unlink all campaigns which are linked to this zone
-    $res = phpAds_dbQuery("
-        DELETE FROM
-            {$conf['table']['prefix']}{$conf['table']['placement_zone_assoc']}
-        WHERE
-            zone_id={$zoneid}
-    ") or phpAds_sqlDie();
-    
-    // Unlink all banners which are linked to this zone
-    $res = phpAds_dbQuery("
-        DELETE FROM
-            {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
-        WHERE
-            zone_id={$zoneid}
-    ") or phpAds_sqlDie();
-    
-    // Delete zone
-    $res = phpAds_dbQuery("
-        DELETE FROM
-            ".$conf['table']['prefix'].$conf['table']['zones']."
-        WHERE
-            zoneid=$zoneid
-        ") or phpAds_sqlDie();
+    $doZone->delete();
 }
 
 if (!isset($returnurl) && $returnurl == '') {
