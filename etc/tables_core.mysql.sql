@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS acls (
 
 CREATE TABLE IF NOT EXISTS acls_channel (
   channelid MEDIUMINT(9) NOT NULL DEFAULT '0',
-  logical set('and','or') NOT NULL DEFAULT '',
+  logical VARCHAR(3) NOT NULL DEFAULT 'and',
   type VARCHAR(32) NOT NULL DEFAULT '',
   comparison CHAR(2) NOT NULL DEFAULT '==',
   data TEXT NOT NULL,
