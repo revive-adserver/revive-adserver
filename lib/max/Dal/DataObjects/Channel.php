@@ -6,7 +6,9 @@ require_once 'DB_DataObjectCommon.php';
 
 class DataObjects_Channel extends DB_DataObjectCommon 
 {
-    ###START_AUTOCODE
+    var $onDeleteCascade = true;
+    
+	###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
     var $__table = 'channel';                         // table name
@@ -30,4 +32,28 @@ class DataObjects_Channel extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+    
+    function delete($useWhere = false, $cascade = true)
+    {
+    	// find acls which uses this channels
+    	include_once MAX_PATH . '/lib/max/Dal/Admin/Acl.php';
+    	$rsChannel = AclModel::getAclsByDataValueType($this->channelid, 'Site:Channel');
+    	$rsChannel->reset();
+    	while ($rsChannel->next()) {
+    		$channelIds = explode(',', $rsChannel->get('data'));
+    		$channelIds = array_diff($channelIds, array($channelid));
+    		
+    		$doAcl = DB_DataObject::factory('acls');
+    		$doAcl->bannerid = $rsChannel->get('bannerid');
+    		$doAcl->executionorder = $rsChannel->get('executionorder');
+    		if (!empty($channelIds)) {
+	    		$doAcl->data = implode(',', $channelIds);
+	    		$doAcl->update();
+    		} else {
+    			$doAcl->delete();
+    		}
+    	}
+    	
+    	return parent::delete($useWhere, $cascade);
+    }
 }

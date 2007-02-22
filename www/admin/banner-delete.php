@@ -38,6 +38,8 @@ require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
 
+require_once 'DB/DataObject.php';
+
 // Register input variables
 phpAds_registerGlobal ('returnurl');
 
@@ -45,22 +47,9 @@ phpAds_registerGlobal ('returnurl');
 phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 
 if (phpAds_isUser(phpAds_Agency)) {
-    $query = "
-        SELECT
-            b.bannerid AS bannerid
-        FROM
-            {$conf['table']['prefix']}{$conf['table']['clients']} AS cl,
-            {$conf['table']['prefix']}{$conf['table']['campaigns']} AS ca,
-            {$conf['table']['prefix']}{$conf['table']['banners']} AS b
-        WHERE
-            ca.clientid = $clientid
-            AND b.campaignid = $campaignid
-            AND b.bannerid = $bannerid
-            AND b.campaignid = ca.campaignid
-            AND ca.clientid = cl.clientid
-            AND cl.agencyid = " .phpAds_getUserID();
-    $res = phpAds_dbQuery($query) or phpAds_sqlDie();
-    if (phpAds_dbNumRows($res) == 0) {
+    $doBanner = DB_DataObject::factory('banners');
+    $doBanner->bannerid = $bannerid;
+    if (!$doBanner->belongToUser('agency', phpAds_getUserID())) {
         phpAds_PageHeader("2");
         phpAds_Die ($strAccessDenied, $strNotAdmin);
     }
@@ -70,68 +59,14 @@ if (phpAds_isUser(phpAds_Agency)) {
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-function phpAds_DeleteBanner($bannerid)
-{
-	$conf = $GLOBALS['_MAX']['CONF'];
+$doBanner = DB_DataObject::factory('banners');
 
-	// Cleanup webserver stored image
-    $query = "
-        SELECT
-            storagetype AS type, filename
-        FROM
-            {$conf['table']['prefix']}{$conf['table']['banners']}
-        WHERE
-            bannerid = '$bannerid'
-    ";
-    $res = phpAds_dbQuery($query) or phpAds_sqlDie();
-
-	if ($row = phpAds_dbFetchArray($res))
-	{
-		if (($row['type'] == 'web' || $row['type'] == 'sql') && $row['filename'] != '') {
-			phpAds_ImageDelete ($row['type'], $row['filename']);
-		}
-	}
-
-	// Delete banner
-    $query = "
-        DELETE FROM
-            {$conf['table']['prefix']}{$conf['table']['banners']}
-        WHERE
-            bannerid = '$bannerid'
-        ";
-    $res = phpAds_dbQuery($query) or phpAds_sqlDie();
-
-	// Delete banner ACLs
-    $query = "
-        DELETE FROM
-            {$conf['table']['prefix']}{$conf['table']['acls']}
-        WHERE
-            bannerid = '$bannerid'
-        ";
-    $res = phpAds_dbQuery($query) or phpAds_sqlDie();
-
-    // Delete Ad_Zone Associations
-    phpAds_dbQuery("DELETE FROM {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']} WHERE ad_id=$bannerid");
-
- 	// Delete statistics for this banner
-	//phpAds_deleteStatsByBannerID($bannerid);
-}
-
-if (isset($bannerid) && $bannerid != '') {
-    phpAds_DeleteBanner($bannerid);
-} else if (isset($campaignid) && $campaignid != '') {
-    $query = "
-        SELECT
-            bannerid
-        FROM
-            ".$conf['table']['prefix'].$conf['table']['banners']."
-        WHERE
-            campaignid = '$campaignid'
-    ";
-    $res = phpAds_dbQuery($query);
-    while ($row = phpAds_dbFetchArray($res)) {
-        phpAds_DeleteBanner($row['bannerid']);
-    }
+if (!empty($bannerid)) {
+    $doBanner->bannerid = $bannerid;
+    $doBanner->delete();
+} else if (!empty($campaignid)) {
+    $doBanner->campaignid = $campaignid;
+    $doBanner->delete();
 }
 
 // Run the Maintenance Priority Engine process
@@ -141,7 +76,7 @@ MAX_Maintenance_Priority::run();
 // include_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
 // phpAds_cacheDelete();
 
-if (!isset($returnurl) && $returnurl == '') {
+if (empty($returnurl)) {
     $returnurl = 'campaign-banners.php';
 }
 

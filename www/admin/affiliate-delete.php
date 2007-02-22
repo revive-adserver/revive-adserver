@@ -49,7 +49,7 @@ if (phpAds_isUser(phpAds_Agency))
 {
 	$doAffiliate = DB_DataObject::factory('affiliates');
 	$doAffiliate->affiliateid = $affiliateid;
-	if (!$doAffiliate->userBelongTo('agency', phpAds_getUserID()))
+	if (!$doAffiliate->belongToUser('agency', phpAds_getUserID()))
 	{
 		phpAds_PageHeader("2");
 		phpAds_Die ($strAccessDenied, $strNotAdmin);
@@ -68,7 +68,7 @@ if (!empty($affiliateid))
 	$doAffiliate->delete();
 }
 
-if (!isset($returnurl) && $returnurl == '')
+if (empty($returnurl))
 	$returnurl = 'affiliate-index.php';
 
 Header("Location: ".$returnurl);

@@ -36,21 +36,4 @@ class DataObjects_Clients extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-    
-    /**
-     * Check if client exists
-     *
-     * @param int $clientId
-     * @param int $agencyId
-     * @return boolean
-     */
-    function clientExists($clientId, $agencyId = null)
-    {
-        $this->clientid = $clientId;
-        if ($agencyId !== null) {
-            $this->agencyid = $agencyId;
-        }
-        
-        return (bool) ($this->count() > 0);
-    }
 }

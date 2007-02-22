@@ -57,4 +57,14 @@ class DataObjects_Banners extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+    
+    function delete($useWhere = false, $cascade = true)
+    {
+    	$doBanner = clone($this);
+    	$doBanner->find();
+    	while ($doBanner->fetch()) {
+    		phpAds_ImageDelete ($this->type, $this->filename);
+    	}
+    	return parent::delete($useWhere, $cascade);
+    }
 }

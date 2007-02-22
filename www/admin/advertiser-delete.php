@@ -47,12 +47,9 @@ phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 
 // TODO: refactor this
 if (phpAds_isUser(phpAds_Agency)) {
-    $query = "SELECT clientid".
-    " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-    " WHERE clientid='".$clientid."'".
-    " AND agencyid=".phpAds_getUserID();
-    $res = phpAds_dbQuery($query) or phpAds_sqlDie();
-    if (phpAds_dbNumRows($res) == 0) {
+    $doClient = DB_DataObject::factory('clients');
+    $doClient->clientid = $clientid;
+    if (!$doClient->belongToUser('agency', phpAds_getUserID())) {
         phpAds_PageHeader("2");
         phpAds_Die ($strAccessDenied, $strNotAdmin);
     }
@@ -71,7 +68,6 @@ if (isset($session['prefs']['advertiser-index.php']['nodes'])) {
 /*-------------------------------------------------------*/
 
 if (isset($clientid) && $clientid != '') {
-    // Loop through each campaign
     $doClient = DB_DataObject::factory('clients');
     $doClient->clientid = $clientid;
     $doClient->delete();

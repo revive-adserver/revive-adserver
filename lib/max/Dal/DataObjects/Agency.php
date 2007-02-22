@@ -6,7 +6,9 @@ require_once 'DB_DataObjectCommon.php';
 
 class DataObjects_Agency extends DB_DataObjectCommon 
 {
-    ###START_AUTOCODE
+    var $onDeleteCascade = true;
+    
+	###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
     var $__table = 'agency';                          // table name

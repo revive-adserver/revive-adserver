@@ -36,6 +36,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
+require_once 'DB/DataObject.php';
 
 // Register input variables
 phpAds_registerGlobal ('returnurl');
@@ -46,16 +47,10 @@ phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 
 if (phpAds_isUser(phpAds_Agency))
 {
-	$res = phpAds_dbQuery(
-		"SELECT c.clientid".
-		" FROM ".$conf['table']['prefix'].$conf['table']['clients']." AS c".
-		",".$conf['table']['prefix'].$conf['table']['trackers']." AS t".
-		" WHERE t.clientid=c.clientid".
-		" AND t.trackerid='".$trackerid."'".
-		" AND c.agencyid=".phpAds_getUserID()
-	) or phpAds_sqlDie();
+	$doTracker = DB_DataObject::factory('trackers');
+	$doTracker->trackerid = $trackerid;
 	
-	if (phpAds_dbNumRows($res) == 0)
+	if (!$doTracker->belongToUser('agency', phpAds_getUserID()))
 	{
 		phpAds_PageHeader("1");
 		phpAds_Die ($strAccessDenied, $strNotAdmin);
@@ -67,55 +62,21 @@ if (phpAds_isUser(phpAds_Agency))
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-function phpAds_DeleteTracker($trackerid)
+$doTracker = DB_DataObject::factory('trackers');
+
+if (!empty($trackerid))
 {
-	$conf = $GLOBALS['_MAX']['CONF'];
-	
-	// Delete Campaign
-	$res = phpAds_dbQuery("DELETE FROM ".$conf['table']['prefix'].$conf['table']['trackers'].
-		" WHERE trackerid='".$trackerid."'"
-	) or phpAds_sqlDie();
-	
-	// Delete Campaign/Tracker links
-	$res = phpAds_dbQuery("DELETE FROM ".$conf['table']['prefix'].$conf['table']['campaigns_trackers'].
-		" WHERE trackerid='".$trackerid."'"
-	) or phpAds_sqlDie();
-	
-	// Delete Conversions Logged to this Tracker
-	//$res = phpAds_dbQuery("DELETE FROM ".$conf['table']['prefix'].$conf['table']['conversionlog'].
-	//	" WHERE trackerid='".$trackerid."'"
-	//) or phpAds_sqlDie();
-	
-	// Delete stats for each banner
-	phpAds_deleteStatsByTrackerID($trackerid);
+    $doTracker->trackerid = $trackerid;
+    $doTracker->delete();
+}
+elseif (!empty($clientid))
+{
+    $doTracker->clientid = $clientid;
+    $doTracker->delete();
 }
 
 
-if (isset($trackerid) && $trackerid != '')
-{
-	// Campaign is specified, delete only this campaign
-	phpAds_DeleteTracker($trackerid);
-}
-elseif (isset($clientid) && $clientid != '')
-{
-	// No campaign specified, delete all trackers for this client
-	$res_trackers = phpAds_dbQuery("
-		SELECT
-			trackerid
-		FROM
-			".$conf['table']['prefix'].$conf['table']['trackers']."
-		WHERE
-			clientid = '".$clientid."'
-	");
-	
-	while ($row = phpAds_dbFetchArray($res_trackers))
-	{
-		phpAds_DeleteTracker($row['trackerid']);
-	}
-}
-
-
-if (!isset($returnurl) && $returnurl == '')
+if (empty($returnurl))
 	$returnurl = 'advertiser-trackers.php';
 
 header ("Location: ".$returnurl."?clientid=".$clientid);

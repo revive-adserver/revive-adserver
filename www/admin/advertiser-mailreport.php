@@ -48,7 +48,8 @@ phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 if (phpAds_isUser(phpAds_Agency))
 {
     $doClient = DB_DataObject::factory('clients');
-	if (!$doClient->clientExists($clientid, phpAds_getUserID()))
+    $doClient->clientid = $clientid;
+	if (!$doClient->belongToUser('agency', phpAds_getUserID()))
 	{
 		phpAds_PageHeader("2");
 		phpAds_Die ($strAccessDenied, $strNotAdmin);
@@ -60,7 +61,7 @@ if (phpAds_isUser(phpAds_Agency))
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-if (isset($clientid) && $clientid != '')
+if (!empty($clientid))
 {
 	if (isset($startyear) && isset($startmonth) && isset($startday) &&
 		$startyear != '' && $startmonth != '' && $startday != '')

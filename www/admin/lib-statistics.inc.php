@@ -571,17 +571,6 @@ function phpAds_formatNumber($number, $decimals = 0) {
 }
 
 /*-------------------------------------------------------*/
-/* Delete statistics                                     */
-/*-------------------------------------------------------*/
-
-function phpAds_deleteStatsByTrackerID($trackerid)
-{
-    $conf = $GLOBALS['_MAX']['CONF'];
-    //phpAds_dbQuery("DELETE FROM ".$conf['table']['prefix'].$conf['table']['adconversions']." WHERE trackerid='".$trackerid."' AND t_stamp > date_sub(now(), interval 1 hour)") or phpAds_sqlDie();
-    //phpAds_dbQuery("DELETE FROM ".$conf['table']['prefix'].$conf['table']['conversionlog']." WHERE trackerid='".$trackerid."' AND t_stamp > date_sub(now(), interval 1 hour)") or phpAds_sqlDie();
-}
-
-/*-------------------------------------------------------*/
 /* Get overview statistics                                 */
 /*-------------------------------------------------------*/
 
