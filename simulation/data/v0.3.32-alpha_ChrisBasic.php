@@ -20,7 +20,17 @@ for($i=2;$i<($iterations+1);$i++)
     $aIterations[$i] = $aIterations[1];
 }
 
-$precis=    '<pre>'."Chris basic scenario".'</pre>';
+$precis=    '<pre>'."Chris basic scenario
+
+Zones (1200 impressions):
+1.	50 hourly impressions (1200 total)
+2.	Not directly called, chained to zone 1
+
+Campaigns:
+1.	Exclusive targeted between 9am-6pm	linked to zone 1
+2.	ROS no targeting 600 impressions target	linked to zone 1
+3.	Low priority	linked to zone 2
+".'</pre>';
 
 $precis.=    '-- from database: '."max_adsel".'<br />'
             .'-- max version: '."v0.3.32-alpha".'<br />'

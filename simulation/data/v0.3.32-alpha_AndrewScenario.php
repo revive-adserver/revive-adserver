@@ -20,7 +20,16 @@ for($i=2;$i<($iterations+1);$i++)
     $aIterations[$i] = $aIterations[1];
 }
 
-$precis=    '<pre>'."Andrew scenario".'</pre>';
+$precis=    '<pre>'."Andrew scenario
+
+Zones (2400 impressions):
+1.	100 hourly impressions (2400 total)
+
+Campaigns:
+1.	ROS no targeting	1440 impressions target
+2.	Targeted to even hours	720 impression target
+3.	Low priority
+".'</pre>';
 
 $precis.=    '-- from database: '."max_adsel".'<br />'
             .'-- max version: '."v0.3.32-alpha".'<br />'

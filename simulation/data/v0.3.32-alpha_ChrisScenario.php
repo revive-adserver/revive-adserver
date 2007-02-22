@@ -34,9 +34,15 @@ for($i=2;$i<25;$i++)
 $iterations = count($aIterations);
 
 $precis=    '<pre>'."Chris Scenario:
-1=ROS (no targeting) requires 2160
-2=Targeted to small section - requires 48 to hit target (2x over booked section)
-3=Low priority".'</pre>';
+
+Zones (2400 impressions):
+1.	100 hourly impressions, 1 matching C2 target (2376 matching, 24 not matching total)
+
+Campaigns:
+1.	ROS no targeting	2160 impressions target
+2.	Targeted to small section	requires 48 to hit target (2x over booked section)
+3.	Low priority
+".'</pre>';
 
 $precis.=    print_r($oRequest, true);
 

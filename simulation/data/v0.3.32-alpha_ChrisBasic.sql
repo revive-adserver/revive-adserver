@@ -62,7 +62,7 @@ INSERT INTO `application_variable` (`name`, `value`) VALUES ('max_version', 'v0.
 TRUNCATE TABLE banners;
 INSERT INTO `banners` (`bannerid`, `campaignid`, `active`, `contenttype`, `pluginversion`, `storagetype`, `filename`, `imageurl`, `htmltemplate`, `htmlcache`, `width`, `height`, `weight`, `seq`, `target`, `url`, `alt`, `status`, `bannertext`, `description`, `autohtml`, `adserver`, `block`, `capping`, `session_capping`, `compiledlimitation`, `acl_plugins`, `append`, `appendtype`, `bannertype`, `alt_filename`, `alt_imageurl`, `alt_contenttype`, `comments`, `updated`, `acls_updated`) VALUES 
 (1, 1, 't', 'txt', 0, 'txt', '', '', '', '', 0, 0, 1, 0, '', 'http://beccati.com/', '', '', 'Exclusive between 9am-6pm', 'Exclusive between 9am-6pm', 'f', '', 0, 0, 0, 'MAX_checkTime_Hour(''9,10,11,12,13,14,15,16,17'', ''=~'')', 'Time:Hour', '', 0, 0, '', '', '', '', '2007-02-22 11:16:06', '0000-00-00 00:00:00'),
-(2, 2, 't', 'txt', 0, 'txt', '', '', '', '', 0, 0, 1, 0, '', 'http://beccati.com/', '', '', 'ROS (no targeting) requires 600', 'ROS (no targeting) requires 1000', 'f', '', 0, 0, 0, '', NULL, '', 0, 0, '', '', '', '', '2007-02-22 11:16:06', '0000-00-00 00:00:00'),
+(2, 2, 't', 'txt', 0, 'txt', '', '', '', '', 0, 0, 1, 0, '', 'http://beccati.com/', '', '', 'ROS (no targeting) requires 600', 'ROS (no targeting) requires 600', 'f', '', 0, 0, 0, '', NULL, '', 0, 0, '', '', '', '', '2007-02-22 11:16:06', '0000-00-00 00:00:00'),
 (3, 3, 't', 'txt', 0, 'txt', '', '', '', '', 0, 0, 1, 0, '', 'http://beccati.com/', '', '', 'Low priority', 'Low priority', 'f', '', 0, 0, 0, '', NULL, '', 0, 0, '', '', '', '', '2007-02-22 11:16:06', '0000-00-00 00:00:00');
 
 TRUNCATE TABLE campaigns;

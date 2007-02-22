@@ -23,11 +23,17 @@ for($i=2;$i<25;$i++)
 
 $iterations = count($aIterations);
 
-$precis=    '<pre>'."Four campaigns:
-1=Exclusive, campaign capped to 2, blocked for 2 hours
-2=High (7) 300 impressions target
-3=High (5) 300 impressions target
-4=Low".'</pre>';
+$precis=    '<pre>'."Four campaigns
+
+Zones (480 impressions):
+1.	20 hourly impressions (480 total)
+
+Campaigns:
+1.	Exclusive, 	campaign capped to 2 impr. and blocked for 2 hours
+2.	High (pri 7) 	300 impressions target
+3.	High (pri 5) 	300 impressions target 
+4.	Low priority
+".'</pre>';
 
 $precis.=    print_r($oRequest, true);
 

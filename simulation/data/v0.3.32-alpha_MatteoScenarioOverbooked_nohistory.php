@@ -31,10 +31,17 @@ for($i=2;$i<25;$i++)
 
 $iterations = count($aIterations);
 
-$precis=    '<pre>'."Three campaigns:
-2=High (7) 600 impressions target linked to zone 1
-3=High (5) 600 impressions target linked to zone 1 and zone 2
-4=Low linked to zone 1 and zone 2".'</pre>';
+$precis=    '<pre>'."Matteo scenario with overbooking
+
+Zones (960 impressions):
+1.	40 hourly impressions (480 total)
+2.	40 hourly impressions (480 total)
+
+Campaigns:
+2.	High (pri 7) 600 impressions target	linked to zone 1
+3.	High (pri 5) 600 impressions target 	linked to zone 1 and zone 2
+4.	Low priority	linked to zone 1 and zone 2
+".'</pre>';
 
 $precis.=    print_r($oRequest, true);
 
