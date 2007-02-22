@@ -34,6 +34,7 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
+require_once 'DB/DataObject.php';
 
 // Register input variables
 phpAds_registerGlobal ('listorder', 'orderdirection');
@@ -54,9 +55,9 @@ if (phpAds_isUser(phpAds_Client))
 }
 elseif (phpAds_isUser(phpAds_Agency))
 {
-	$query = "SELECT clientid FROM ".$conf['table']['prefix'].$conf['table']['clients']." WHERE clientid='".$clientid."' AND agencyid=".phpAds_getUserID();
-	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
-	if (phpAds_dbNumRows($res) == 0)
+	$doClient = DB_DataObject::factory('clients');
+	$doClient->clientid = $clientid;
+	if (!$doClient->belongToUser('agency', phpAds_getUserID()))
 	{
 		phpAds_PageHeader("2");
 		phpAds_Die ($strAccessDenied, $strNotAdmin);

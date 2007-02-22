@@ -46,6 +46,15 @@ class DB_DataObjectCommon extends DB_DataObject
     var $onDeleteCascade = false;
     
     /**
+     * DataObjects live side by side with DAL with SQL, some of DAL models have useful information which
+     * could be used by DataObject. For DAL models look into: /lib/max/Dal/Admin folder
+     * This variable should be fill in inside child object.
+     *
+     * @var string
+     */
+    var $dalModelName;
+    
+    /**
      * Store tables prefix
      *
      * @var string
@@ -75,6 +84,36 @@ class DB_DataObjectCommon extends DB_DataObject
         foreach ($nameColumns as $nameColumn) {
             $this->orderBy($nameColumn . ' ' . $direction);
         }
+    }
+    
+    function &factoryDal()
+    {
+    	include_once MAX_PATH . '/lib/max/Dal/Common.php';
+    	$dalModel = &MAX_Dal_Common::factory($this->dalModelName);
+    	if (!$dalModel) {
+    		return false;
+    	}
+    	return $dalModel;
+    }
+    
+    /**
+     * This method is a equivalent of MAX_Dal_Common::getSqlListOrder
+     * but instead of SQL it adds orderBy() limitations to current DB_DataObject
+     * 
+     * This method is used as a common way of sorting rows in OpenAds UI
+     *
+     * @see MAX_Dal_Common::getSqlListOrder
+     * @param string|array $nameColumns
+     * @param string $direction
+     * @access public
+     */
+    function addListOrderByPerModel($listOrder, $orderDirection)
+    {
+    	$dalModel = &$this->factoryDal();
+    	if (!$dalModel) {
+    		return false;
+    	}
+    	$this->addListOrderBy($dalModel->getOrderColumn($listOrder), $dalModel->getOrderDirection($orderDirection));
     }
     
     /**

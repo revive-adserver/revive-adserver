@@ -7,6 +7,7 @@ require_once 'DB_DataObjectCommon.php';
 class DataObjects_Campaigns extends DB_DataObjectCommon 
 {
     var $onDeleteCascade = true;
+    var $dalModelName = 'Campaign';
     
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */

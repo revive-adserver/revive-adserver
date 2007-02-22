@@ -34,7 +34,7 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/lib/max/Dal/Admin/Advertiser.php';
+require_once MAX_PATH . '/lib/max/Dal/Common.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once 'DB/DataObject.php';
@@ -243,7 +243,7 @@ if ($clientid != "") {
             $doClient->agencyid = $session['userid'];
 		}
         
-        $advertiserDal = new MAX_Dal_Admin_Advertiser();
+        $advertiserDal = MAX_Dal_Common::factory('Advertiser');
         $doClient->addListorderBy($advertiserDal->getOrderColumn($navorder), $advertiserDal->getOrderDirection($navdirection));
         $doClient->find();
 
