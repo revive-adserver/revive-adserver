@@ -78,6 +78,49 @@ class MAX_Dal_Common
     }
 
     /**
+     * Factory method for loading model class
+     *
+     * @param string $modelName
+     * @return object|false
+     */
+    function factory($modelName)
+    {
+        if (empty($modelName)) {
+            PEAR::raiseError("Factory did not recive model name");
+            return false;
+        }
+        
+        if (!class_exists($class)) {
+            $class = $this->_autoLoadClass($modelName);
+            if (!$class) {
+                return false;
+            }
+        }
+        
+        return new $class;
+    }
+    
+    /**
+     * Autoload class
+     *
+     * @param string $modelName  Class model name
+     * @return boolean  True on success
+     * @access private
+     */
+    function _autoLoadClass($modelName)
+    {
+        $path = MAX_PATH . '/lib/max/Dal/Admin/'.$modelName.'.php';
+        include_once $path;
+        
+        $class = 'MAX_Dal_Admin_'.$modelName;
+        if (!class_exists($class)) {
+            PEAR::raiseError("autoload:Could not autoload {$class}");
+            return false;
+        }
+        return $class;
+    }
+    
+    /**
      * A private method to manage creation of the utilised MAX_DB class.
      *
      * @access private
