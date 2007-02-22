@@ -34,6 +34,9 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
+require_once MAX_PATH . '/lib/max/Dal/Admin/Advertiser.php';
+require_once MAX_PATH . '/lib/max/Dal/Admin/Banner.php';
+require_once MAX_PATH . '/lib/max/Dal/Admin/Campaign.php';
 require_once 'Date.php';
 require_once 'DB/DataObject.php';
 
@@ -104,9 +107,8 @@ if (phpAds_isUser(phpAds_Agency)) {
     $doClient->clientid = phpAds_getUserID();
 }
 
-if ($navorder && $navdirection) {
-    $doClient->orderBy("$navorder $navdirection");
-}
+$advertiserDal = new MAX_Dal_Admin_Advertiser();
+$doClient->addListorderBy($advertiserDal->getOrderColumn($navorder), $advertiserDal->getOrderDirection($navdirection));
 $doClient->find();
 
 while ($doClient->fetch() && $row = $doClient->toArray()) {
@@ -173,11 +175,8 @@ if (isset($session['prefs']['advertiser-campaigns.php'][$clientid]['nodes'])) {
 $doCampaign = DB_DataObject::factory('campaigns');
 $doCampaign->clientid = $clientid;
 
-// Default list order to campaign name
-if (!$listorder) {
-    $listorder = 'campaignname';
-}
-$doCampaign->orderBy("$listorder $orderdirection");
+$campaignDal = new MAX_Dal_Admin_Campaign();
+$doCampaign->addListOrderBy($campaignDal->getOrderColumn($listorder), $campaignDal->getOrderDirection($orderdirection));
 $doCampaign->find();
 
 while ($doCampaign->fetch() && $row_campaigns = $doCampaign->toArray()) {
@@ -219,6 +218,8 @@ while ($doCampaign->fetch() && $row_campaigns = $doCampaign->toArray()) {
 
 $doBanner = DB_DataObject::factory('banners');
 $doBanner->selectAs(array('storagetype'), 'type');
+$bannerDal = new MAX_Dal_Admin_Banner();
+$doBanner->addListOrderBy($bannerDal->getOrderColumn($listorder), $bannerDal->getOrderDirection($orderdirection));
 $doBanner->find();
 
 while ($doBanner->fetch() && $row_banners = $doBanner->toArray()) {
@@ -294,28 +295,28 @@ if (!phpAds_isUser(phpAds_Client)) {
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 
 echo "<tr height='25'>";
-echo "<td height='25' width='40%'><b>&nbsp;&nbsp;<a href='advertiser-campaigns.php?clientid=".$clientid."&listorder=campaignname'>".$GLOBALS['strName']."</a>";
+echo "<td height='25' width='40%'><b>&nbsp;&nbsp;<a href='advertiser-campaigns.php?clientid=".$clientid."&listorder=name'>".$GLOBALS['strName']."</a>";
 
-if (($listorder == "campaignname") || ($listorder == "")) {
-	if  (($orderdirection == "") || ($orderdirection == "desc")) {
-		echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=asc">';
+if (($listorder == "name") || ($listorder == "")) {
+	if  (($orderdirection == "") || ($orderdirection == "down")) {
+		echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=up">';
 		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 	} else {
-		echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=desc">';
+		echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=down">';
 		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 	}
 	echo '</a>';
 }
 
 echo '</b></td>';
-echo '<td height="25"><b><a href="advertiser-campaigns.php?clientid='.$clientid.'&listorder=campaignid">'.$GLOBALS['strID'].'</a>';
+echo '<td height="25"><b><a href="advertiser-campaigns.php?clientid='.$clientid.'&listorder=id">'.$GLOBALS['strID'].'</a>';
 
-if ($listorder == "campaignid") {
-	if  (($orderdirection == "") || ($orderdirection == "desc")) {
-		echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=asc">';
+if ($listorder == "id") {
+	if  (($orderdirection == "") || ($orderdirection == "down")) {
+		echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=up">';
 		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
 	} else {
-		echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=desc">';
+		echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=down">';
 		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
 	}
 	echo '</a>';

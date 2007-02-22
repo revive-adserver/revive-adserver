@@ -9,7 +9,7 @@ require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 class MAX_Dal_Admin_Campaign extends MAX_Dal_Common
 {
     var $orderListName = array(
-        'name' => 'campaigname',
+        'name' => 'campaignname',
         'id'   => array('clientid', 'campaignid'),
     );
     
@@ -55,19 +55,6 @@ class MAX_Dal_Admin_Campaign extends MAX_Dal_Common
      */
     function getAllCampaigns($listorder, $orderdirection)
     {
-        // Adapt old order options to new ones.
-        if ($listorder == 'campaignname') {
-            $listorder = 'name';
-        } else {
-            $listorder = 'id';
-        }
-
-        if ($orderdirection == 'asc') {
-            $orderdirection = 'up';
-        } else {
-            $orderdirection = 'down';
-        }
-
         $conf = $GLOBALS['_MAX']['CONF'];
 
         $query =
@@ -89,19 +76,6 @@ class MAX_Dal_Admin_Campaign extends MAX_Dal_Common
      */
     function getAllCampaignsUnderAgency($agency_id, $listorder, $orderdirection)
     {
-        // Adapt old order options to new ones.
-        if ($listorder == 'campaignname') {
-            $listorder = 'name';
-        } else {
-            $listorder = 'id';
-        }
-
-        if ($orderdirection == 'asc') {
-            $orderdirection = 'up';
-        } else {
-            $orderdirection = 'down';
-        }
-
         $conf = $GLOBALS['_MAX']['CONF'];
 
         $query =
@@ -131,19 +105,6 @@ class MAX_Dal_Admin_Campaign extends MAX_Dal_Common
      */
     function getAllCampaignsUnderAdvertiser($advertiser_id, $listorder, $orderdirection)
     {
-        // Adapt old order options to new ones.
-        if ($listorder == 'campaignname') {
-            $listorder = 'name';
-        } else {
-            $listorder = 'id';
-        }
-
-        if ($orderdirection == 'asc') {
-            $orderdirection = 'up';
-        } else {
-            $orderdirection = 'down';
-        }
-
         $conf = $GLOBALS['_MAX']['CONF'];
 
         $query =

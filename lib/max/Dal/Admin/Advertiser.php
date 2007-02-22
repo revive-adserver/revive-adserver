@@ -9,6 +9,11 @@ require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 
 class MAX_Dal_Admin_Advertiser extends MAX_Dal_Common
 {
+    var $orderListName = array(
+        'name' => 'clientname',
+        'id'   => 'clientid'
+    );
+    
     /**
      * Retrieve all information about one advertiser from the database.
      *
@@ -68,19 +73,6 @@ class MAX_Dal_Admin_Advertiser extends MAX_Dal_Common
      */
     function getAllAdvertisers($listorder, $orderdirection)
     {
-        // Adapt old order options to new ones.
-        if ($listorder == 'clientname') {
-            $listorder = 'name';
-        } else {
-            $listorder = 'id';
-        }
-
-        if ($orderdirection == 'asc') {
-            $orderdirection = 'up';
-        } else {
-            $orderdirection = 'down';
-        }
-
         $conf = $GLOBALS['_MAX']['CONF'];
 
         $query =
@@ -103,19 +95,6 @@ class MAX_Dal_Admin_Advertiser extends MAX_Dal_Common
      */
     function getAllAdvertisersUnderAgency($agency_id, $listorder, $orderdirection)
     {
-        // Adapt old order options to new ones.
-        if ($listorder == 'clientname') {
-            $listorder = 'name';
-        } else {
-            $listorder = 'id';
-        }
-
-        if ($orderdirection == 'asc') {
-            $orderdirection = 'up';
-        } else {
-            $orderdirection = 'down';
-        }
-
         $conf = $GLOBALS['_MAX']['CONF'];
 
         $query =

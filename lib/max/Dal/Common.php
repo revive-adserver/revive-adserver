@@ -47,15 +47,23 @@ class MAX_Dal_Common
     var $prefix;
     
     /**
-     * This array is used by getSqlListOrder() method to decide how to sort
+     * This array is used by getSqlListOrder(), getOrderColumn to decide how to sort
      * rows. It should be overwritten in child classes.
-     * 
+     * Format is:
+     *  'name' => 'nameField',
+     *  'id'   => 'idField',
+     *  etc...
+     *  Each value may be an array if ordering by multiple columns is desired.
+     *  
      * It replaces deprecated phpAds_getListOrder
      * 
      * @see MAX_Dal_Common::getSqlListOrder()
      * @var array
      */
     var $orderListName = array();
+    
+    // Default column to order by.
+    var $defaultOrderListName = 'name';
 
     /**
      * The class constructor method.
@@ -255,14 +263,26 @@ class MAX_Dal_Common
         return $sqlTableOrder;
     }
     
+    /**
+     * Gets the direction to order by
+     *
+     * @param string $orderDirection the sorting direction ('up' or 'down').
+     * @return string the SQL ORDER BY direction keyword
+     */
     function getOrderDirection($orderDirection)
     {
         return ($orderDirection == 'down') ? ' DESC' : ' ASC';
     }
     
+    /**
+     * Gets the column name(s) to order by.
+     *
+     * @param string $listOrder the "type" of column to order by, eg 'name', 'id'.
+     * @return string  the name(s) of the column(s) to order by
+     */
     function getOrderColumn($listOrder)
     {
-        return isset($this->orderListName[$listOrder]) ? $this->orderListName[$listOrder] : null;
+        return isset($this->orderListName[$listOrder]) ? $this->orderListName[$listOrder] : $this->orderListName[$this->defaultOrderListName];
     }
 }
 

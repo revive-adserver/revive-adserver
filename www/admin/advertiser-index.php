@@ -236,14 +236,14 @@ echo "\t\t\t\t<table border='0' width='100%' cellpadding='0' cellspacing='0'>\n"
 
 echo "\t\t\t\t<tr height='25'>\n";
 echo "\t\t\t\t\t<td height='25' width='40%'>\n";
-echo "\t\t\t\t\t\t<b>&nbsp;&nbsp;<a href='advertiser-index.php?listorder=clientname'>".$GLOBALS['strName']."</a>";
+echo "\t\t\t\t\t\t<b>&nbsp;&nbsp;<a href='advertiser-index.php?listorder=name'>".$GLOBALS['strName']."</a>";
 
-if (($listorder == "clientname") || ($listorder == "")) {
-    if  (($orderdirection == "") || ($orderdirection == "desc")) {
-        echo " <a href='advertiser-index.php?orderdirection=asc'>";
+if (($listorder == "name") || ($listorder == "")) {
+    if  (($orderdirection == "") || ($orderdirection == "down")) {
+        echo " <a href='advertiser-index.php?orderdirection=up'>";
         echo "<img src='images/caret-ds.gif' border='0' alt='' title=''>";
     } else {
-        echo " <a href='advertiser-index.php?orderdirection=desc'>";
+        echo " <a href='advertiser-index.php?orderdirection=down'>";
         echo "<img src='images/caret-u.gif' border='0' alt='' title=''>";
     }
     echo "</a>";
@@ -252,14 +252,14 @@ if (($listorder == "clientname") || ($listorder == "")) {
 echo "</b>\n";
 echo "\t\t\t\t\t</td>\n";
 echo "\t\t\t\t\t<td height='25'>\n";
-echo "\t\t\t\t\t\t<b><a href='advertiser-index.php?listorder=clientid'>".$GLOBALS['strID']."</a>";
+echo "\t\t\t\t\t\t<b><a href='advertiser-index.php?listorder=id'>".$GLOBALS['strID']."</a>";
 
-if ($listorder == "clientid") {
-    if  (($orderdirection == "") || ($orderdirection == "desc")) {
-        echo " <a href='advertiser-index.php?orderdirection=asc'>";
+if ($listorder == "id") {
+    if  (($orderdirection == "") || ($orderdirection == "down")) {
+        echo " <a href='advertiser-index.php?orderdirection=up'>";
         echo "<img src='images/caret-ds.gif' border='0' alt='' title=''>";
     } else {
-        echo " <a href='advertiser-index.php?orderdirection=desc'>";
+        echo " <a href='advertiser-index.php?orderdirection=down'>";
         echo "<img src='images/caret-u.gif' border='0' alt='' title=''>";
     }
     echo "</a>";

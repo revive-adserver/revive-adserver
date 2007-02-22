@@ -59,19 +59,6 @@ class MAX_Dal_Admin_Banner extends MAX_Dal_Common
      */
     function getAllBanners($listorder, $orderdirection)
     {
-        // Adapt old order options to new ones.
-        if ($listorder == 'description') {
-            $listorder = 'name';
-        } else {
-            $listorder = 'id';
-        }
-
-        if ($orderdirection == 'asc') {
-            $orderdirection = 'up';
-        } else {
-            $orderdirection = 'down';
-        }
-
         $conf = $GLOBALS['_MAX']['CONF'];
         $query = "SELECT bannerid AS ad_id".
         ",campaignid".
@@ -102,19 +89,6 @@ class MAX_Dal_Admin_Banner extends MAX_Dal_Common
      */
     function getAllBannersUnderAgency($agency_id, $listorder, $orderdirection)
     {
-        // Adapt old order options to new ones.
-        if ($listorder == 'description') {
-            $listorder = 'name';
-        } else {
-            $listorder = 'id';
-        }
-
-        if ($orderdirection == 'asc') {
-            $orderdirection = 'up';
-        } else {
-            $orderdirection = 'down';
-        }
-
         $conf = $GLOBALS['_MAX']['CONF'];
         $query = "SELECT b.bannerid AS ad_id".
             ",b.campaignid AS campaignid".
@@ -150,19 +124,6 @@ class MAX_Dal_Admin_Banner extends MAX_Dal_Common
      */
     function getAllBannersUnderAdvertiser($advertiser_id, $listorder, $orderdirection)
     {
-        // Adapt old order options to new ones.
-        if ($listorder == 'description') {
-            $listorder = 'name';
-        } else {
-            $listorder = 'id';
-        }
-
-        if ($orderdirection == 'asc') {
-            $orderdirection = 'up';
-        } else {
-            $orderdirection = 'down';
-        }
-
         $conf = $GLOBALS['_MAX']['CONF'];
         $query = "SELECT b.bannerid AS ad_id".
             ",b.campaignid AS campaignid".
