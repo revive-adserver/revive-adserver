@@ -91,7 +91,7 @@ class MAX_Dal_Common
         }
         
         if (!class_exists($class)) {
-            $class = $this->_autoLoadClass($modelName);
+            $class = $this->autoLoadClass($modelName);
             if (!$class) {
                 return false;
             }
@@ -105,9 +105,9 @@ class MAX_Dal_Common
      *
      * @param string $modelName  Class model name
      * @return boolean  True on success
-     * @access private
+     * @access public
      */
-    function _autoLoadClass($modelName)
+    function autoLoadClass($modelName)
     {
         $path = MAX_PATH . '/lib/max/Dal/Admin/'.$modelName.'.php';
         include_once $path;
