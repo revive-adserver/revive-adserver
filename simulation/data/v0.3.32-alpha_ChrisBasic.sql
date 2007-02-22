@@ -41,11 +41,13 @@ TRUNCATE TABLE `zones`;
 
 TRUNCATE TABLE acls;
 INSERT INTO `acls` (`bannerid`, `logical`, `type`, `comparison`, `data`, `executionorder`) VALUES
-(2, 'and', 'Time:Hour', '=~', '0,2,4,6,8,10,12,14,16,18,20,22', 0);
+(1, 'and', 'Time:Hour', '=~', '9,10,11,12,13,14,15,16,17', 0);
 
 TRUNCATE TABLE ad_zone_assoc;
 INSERT INTO `ad_zone_assoc` (`ad_zone_assoc_id`, `zone_id`, `ad_id`, `priority`, `link_type`) VALUES 
-(11, 1, 1, 0, 1);
+(1, 1, 1, 0, 1),
+(2, 1, 2, 0, 1),
+(3, 2, 3, 0, 1);
 
 TRUNCATE TABLE affiliates;
 INSERT INTO `affiliates` (`affiliateid`, `agencyid`, `name`, `mnemonic`, `comments`, `contact`, `email`, `website`, `username`, `password`, `permissions`, `language`, `publiczones`, `last_accepted_agency_agreement`, `updated`) VALUES 
@@ -59,11 +61,15 @@ INSERT INTO `application_variable` (`name`, `value`) VALUES ('max_version', 'v0.
 
 TRUNCATE TABLE banners;
 INSERT INTO `banners` (`bannerid`, `campaignid`, `active`, `contenttype`, `pluginversion`, `storagetype`, `filename`, `imageurl`, `htmltemplate`, `htmlcache`, `width`, `height`, `weight`, `seq`, `target`, `url`, `alt`, `status`, `bannertext`, `description`, `autohtml`, `adserver`, `block`, `capping`, `session_capping`, `compiledlimitation`, `acl_plugins`, `append`, `appendtype`, `bannertype`, `alt_filename`, `alt_imageurl`, `alt_contenttype`, `comments`, `updated`, `acls_updated`) VALUES 
-(1, 1, 't', 'txt', 0, 'txt', '', '', '', '', 0, 0, 1, 0, '', 'http://beccati.com/', '', '', 'ROS (no targeting) requires 1000', 'ROS (no targeting) requires 1000', 'f', '', 0, 0, 0, '', NULL, '', 0, 0, '', '', '', '', '2007-02-22 11:16:06', '0000-00-00 00:00:00');
+(1, 1, 't', 'txt', 0, 'txt', '', '', '', '', 0, 0, 1, 0, '', 'http://beccati.com/', '', '', 'Exclusive between 9am-6pm', 'Exclusive between 9am-6pm', 'f', '', 0, 0, 0, 'MAX_checkTime_Hour(''9,10,11,12,13,14,15,16,17'', ''=~'')', 'Time:Hour', '', 0, 0, '', '', '', '', '2007-02-22 11:16:06', '0000-00-00 00:00:00'),
+(2, 2, 't', 'txt', 0, 'txt', '', '', '', '', 0, 0, 1, 0, '', 'http://beccati.com/', '', '', 'ROS (no targeting) requires 600', 'ROS (no targeting) requires 1000', 'f', '', 0, 0, 0, '', NULL, '', 0, 0, '', '', '', '', '2007-02-22 11:16:06', '0000-00-00 00:00:00'),
+(3, 3, 't', 'txt', 0, 'txt', '', '', '', '', 0, 0, 1, 0, '', 'http://beccati.com/', '', '', 'Low priority', 'Low priority', 'f', '', 0, 0, 0, '', NULL, '', 0, 0, '', '', '', '', '2007-02-22 11:16:06', '0000-00-00 00:00:00');
 
 TRUNCATE TABLE campaigns;
 INSERT INTO `campaigns` (`campaignid`, `campaignname`, `clientid`, `views`, `clicks`, `conversions`, `expire`, `activate`, `active`, `priority`, `weight`, `target_impression`, `target_click`, `target_conversion`, `anonymous`, `companion`, `comments`, `revenue`, `revenue_type`, `updated`, `block`, `capping`, `session_capping`) VALUES 
-(1, 'ROS (no targeting) requires 1000', 1, -1, -1, -1, '0000-00-00', '0000-00-00', 't', 5, 0, 1000, 0, 0, 'f', 0, '', 0.0000, 0, '2007-02-22 11:14:04', 0, 0, 0);
+(1, 'Exclusive between 9am-6pm', 1, -1, -1, -1, '0000-00-00', '0000-00-00', 't', -1, 1, 0, 0, 0, 'f', 0, '', 0.0000, 0, '2007-02-22 11:14:04', 0, 0, 0),
+(2, 'ROS (no targeting) requires 600', 1, -1, -1, -1, '0000-00-00', '0000-00-00', 't', 5, 0, 600, 0, 0, 'f', 0, '', 0.0000, 0, '2007-02-22 11:14:04', 0, 0, 0),
+(3, 'Low priority', 1, -1, -1, -1, '0000-00-00', '0000-00-00', 't', 0, 1, 0, 0, 0, 'f', 0, '', 0.0000, 0, '2007-02-22 11:14:04', 0, 0, 0);
 
 TRUNCATE TABLE clients;
 INSERT INTO `clients` (`clientid`, `agencyid`, `clientname`, `contact`, `email`, `clientusername`, `clientpassword`, `permissions`, `language`, `report`, `reportinterval`, `reportlastdate`, `reportdeactivate`, `comments`, `updated`) VALUES
@@ -75,4 +81,5 @@ INSERT INTO `preference` (`agencyid`, `config_version`, `my_header`, `my_footer`
 
 TRUNCATE TABLE zones;
 INSERT INTO `zones` (`zoneid`, `affiliateid`, `zonename`, `description`, `delivery`, `zonetype`, `category`, `width`, `height`, `ad_selection`, `chain`, `prepend`, `append`, `appendtype`, `forceappend`, `inventory_forecast_type`, `comments`, `cost`, `cost_type`, `cost_variable_id`, `technology_cost`, `technology_cost_type`, `updated`, `block`, `capping`, `session_capping`) VALUES
-(1, 1, 'Matteo - Default', '', 3, 3, '', 0, 0, '', '', '', '', 0, 'f', 0, '', 0.0000, 0, NULL, NULL, NULL, '2007-02-06 16:54:44', 0, 0, 0);
+(1, 1, 'Matteo - Default', '', 3, 3, '', 0, 0, '', 'zone:2', '', '', 0, 'f', 0, '', 0.0000, 0, NULL, NULL, NULL, '2007-02-06 16:54:44', 0, 0, 0);
+(2, 1, 'Matteo - Chained', '', 3, 3, '', 0, 0, '', '', '', '', 0, 'f', 0, '', 0.0000, 0, NULL, NULL, NULL, '2007-02-06 16:54:44', 0, 0, 0);
