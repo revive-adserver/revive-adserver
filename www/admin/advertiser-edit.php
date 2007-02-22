@@ -34,6 +34,7 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+require_once MAX_PATH . '/lib/max/Dal/Admin/Advertiser.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once 'DB/DataObject.php';
@@ -77,7 +78,8 @@ if (phpAds_isUser(phpAds_Client)) {
 } elseif (phpAds_isUser(phpAds_Agency)) {
 	if (isset($clientid) && ($clientid != '')) {
         $doClient = DB_DataObject::factory('clients');
-        if (!$doClient->clientExists($clientid, phpAds_getUserID())) {
+        $doClient->clientid = $clientid;
+        if ($doClient->belongToUser('agency', phpAds_getUserID())) {
 			phpAds_PageHeader("2");
 			phpAds_Die($strAccessDenied, $strNotAdmin);
 		}
@@ -240,9 +242,9 @@ if ($clientid != "") {
 		if (phpAds_isUser(phpAds_Agency)) {
             $doClient->agencyid = $session['userid'];
 		}
-        if ($navorder && $navdirection) {
-            $doClient->safeOrderBy("$navorder $navdirection");
-        }
+        
+        $advertiserDal = new MAX_Dal_Admin_Advertiser();
+        $doClient->addListorderBy($advertiserDal->getOrderColumn($navorder), $advertiserDal->getOrderDirection($navdirection));
         $doClient->find();
 
 		while ($doClient->fetch() && $row = $doClient->toArray()) {
