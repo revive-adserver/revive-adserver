@@ -25,36 +25,50 @@
 $Id$
 */
 
-/**
- * @package    MaxPlugin
- * @subpackage DeliveryLimitations
- * @author     Chris Nutting <chris@m3.net>
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
- */
-
-require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
+require_once MAX_PATH . '/simulation/SimulationScenario.php';
 
 /**
- * Check to see if this impression contains the valid hour.
+ * A class for simulating maintenance/delivery scenarios
  *
- * @param string $limitation The hour limitation
- * @param string $op The operator (either '==' or '!=')
- * @param array $aParams An array of additional parameters to be checked
- * @return boolean Whether this impression's hour passes this limitation's test.
+ * @package
+ * @subpackage
+ * @author
  */
-function MAX_checkTime_Hour($limitation, $op, $aParams = array())
+class FourCampaigns extends SimulationScenario
 {
-    if ($limitation == '') {
-        return true;
+    /**
+     * The constructor method.
+     */
+    function FourCampaigns()
+    {
+        $this->init("v0.3.32-alpha_FourCampaigns");
+        $this->setDateTime($GLOBALS['_MAX']['CONF']['sim']['starthour'], $GLOBALS['_MAX']['CONF']['sim']['startday']);
+        $this->adSelectCallback = 'saveChannelInfo';
     }
-    if ($GLOBALS['is_simulation']) {
-        $oServiceLocator = &ServiceLocator::instance();
-        $oNow = $oServiceLocator->get('now');
-        $time = (int)$oNow->getHour();
-    } else {
-        $time = empty($aParams) ? date('G') : $aParams['hour'];
+
+    function run()
+    {
+        $this->newTables();
+        $this->loadCommonData();
+        $this->loadDataset();
+        $this->printPrecis();
+        for($i=1;$i<=$this->scenarioConfig['iterations'];$i++)
+        {
+            $this->printHeading('Started iteration: '. $i, 3);
+            $this->runPriority();
+            $this->makeRequests($i);
+            $this->printHeading('Ended iteration: '. $i, 3);
+        }
+		$this->runMaintenance();
+        $this->printPostSummary();
+        $this->printSummaryData();
     }
-    return MAX_limitationsMatchArrayValue($time, $limitation, $op, $aParams);
+
+    function saveChannelInfo()
+    {
+        $this->aVarDump[] = $GLOBALS['_MAX']['CHANNELS'];
+    }
+
 }
 
 ?>

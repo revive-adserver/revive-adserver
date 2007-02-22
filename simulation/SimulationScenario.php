@@ -148,11 +148,37 @@ class SimulationScenario
 
         $this->printHeading('Starting requests; date: ' . $this->_getDateTimeString(), 3);
 
+		if (!empty($aIteration['precise_requests']))
+		{
+			if (!is_array($aIteration['precise_requests']))
+			{
+				$aIteration['precise_requests'] = array();
+				
+				for ($i = 1; $i <= $requestObjs; $i++)
+				{
+					if (!empty($aIteration['request_objects'][$i]->requests))
+					{
+						for ($k = 0; $k < $aIteration['request_objects'][$i]->requests; $k++)
+							array_push($aIteration['precise_requests'], $i);
+					}
+				}
+			}
+			
+			$precise_requests = $aIteration['precise_requests'];
+			
+			$aIteration['max_requests'] = count($aIteration['precise_requests']);
+		}
+		else
+			$aIteration['precise_requests'] = false;
+
         $k = 0;
         for($i=1;$i<=$aIteration['max_requests'];$i++)
         {
-
-            if ($aIteration['shuffle_requests'])
+			if ($aIteration['precise_requests'])
+			{
+				$k = array_shift($precise_requests);
+			}
+            elseif ($aIteration['shuffle_requests'])
             {
                 $k = rand(1, $requestObjs);
             }
