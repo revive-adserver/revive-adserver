@@ -13,7 +13,9 @@ require_once MAX_PATH . '/lib/max/Dal/Common.php';
  */
 class MAX_Dal_Admin_Session extends MAX_Dal_Common
 {
-    /**
+    var $table = 'session';
+	
+	/**
      * @param string $session_id
      * @return string A serialized array (probably)
      * 

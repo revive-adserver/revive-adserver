@@ -47,6 +47,14 @@ class MAX_Dal_Common
     var $prefix;
     
     /**
+     * Usually most of models will be created to handle persistent operation per
+     * specific table. This variable store that table name and it is used by factoryDO() method
+     *
+     * @var string
+     */
+    var $table;
+    
+    /**
      * This array is used by getSqlListOrder(), getOrderColumn to decide how to sort
      * rows. It should be overwritten in child classes.
      * Format is:
@@ -89,8 +97,8 @@ class MAX_Dal_Common
             PEAR::raiseError("Factory did not recive model name");
             return false;
         }
-        
-        $class = 'MAX_Dal_Admin_'.$modelName;
+        $modelName = ucfirst($modelName);
+        $class = MAX_Dal_Common::getClassName($modelName);
         if (!class_exists($class)) {
             $class = MAX_Dal_Common::autoLoadClass($modelName);
             if (!$class) {
@@ -99,6 +107,18 @@ class MAX_Dal_Common
         }
         
         return new $class;
+    }
+    
+    /**
+     * Factory DataObject which corresponds to this model
+     *
+     * @see MAX_DB::factoryDO()
+     * @return DataObject|PEAR_Error
+     * @access public
+     */
+    function factoryDO()
+    {
+    	return MAX_DB::factoryDO($this->table);
     }
     
     /**
@@ -113,12 +133,17 @@ class MAX_Dal_Common
         $path = MAX_PATH . '/lib/max/Dal/Admin/'.$modelName.'.php';
         include_once $path;
         
-        $class = 'MAX_Dal_Admin_'.$modelName;
+        $class = MAX_Dal_Common::getClassName($modelName);
         if (!class_exists($class)) {
             PEAR::raiseError("autoload:Could not autoload {$class}");
             return false;
         }
         return $class;
+    }
+    
+    function getClassName($table)
+    {
+        return 'MAX_Dal_Admin_'.ucfirst($table);
     }
     
     /**

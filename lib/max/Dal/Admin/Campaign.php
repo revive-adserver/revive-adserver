@@ -8,7 +8,9 @@ require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 
 class MAX_Dal_Admin_Campaign extends MAX_Dal_Common
 {
-    var $orderListName = array(
+    var $table = 'campaigns';
+    
+	var $orderListName = array(
         'name' => 'campaignname',
         'id'   => array('clientid', 'campaignid'),
     );

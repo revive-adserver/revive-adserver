@@ -10,7 +10,9 @@ require_once MAX_PATH . '/lib/max/Dal/Common.php';
  */
 class MAX_Dal_Admin_Banner extends MAX_Dal_Common
 {
-    var $orderListName = array(
+    var $table = 'banners';
+	
+	var $orderListName = array(
         'name' => 'description',
         'id'   => 'bannerid',
     );

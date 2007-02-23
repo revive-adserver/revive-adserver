@@ -121,6 +121,29 @@ class MAX_DB
         return $GLOBALS['_MAX']['CONNECTIONS'][$dsnMd5];
     }
     
+    /**
+     * Enter description here...
+     *
+     * @param  string  $table  tablename (use blank to create a new instance of the same class.)
+     * @access pblic
+     * @return DataObject|PEAR_Error 
+     */
+    function factoryDO($table)
+    {
+        include_once 'DB/DataObject.php';
+        $do = DB_DataObject::factory($table);
+        if (is_a($do, 'DB_DataObjectCommon')) {
+            $do->init();
+        }
+        return $do;
+    }
+    
+    function factoryDAL($table)
+    {
+        include_once MAX_PATH . '/lib/max/Dal/Common.php';
+        return MAX_Dal_Common::factory($table);
+    }
+    
     function getInsertId()
     {
         //  mysql only!

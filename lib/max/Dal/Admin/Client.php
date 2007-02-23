@@ -5,9 +5,11 @@
 
 require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 
-class MAX_Dal_Admin_Client
+class MAX_Dal_Admin_Client extends MAX_Dal_Common
 {
-    /**
+    var $table = 'clients';
+    
+	/**
      * 
      * 
      * @param $keyword  string  Keyword to look for

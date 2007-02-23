@@ -5,9 +5,11 @@
 
 require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 
-class MAX_Dal_Admin_Zone
+class MAX_Dal_Admin_Zone extends MAX_Dal_Common
 {
-    function getZoneByKeyword($keyword, $agencyId = null) 
+    var $table = 'zones';
+    
+	function getZoneByKeyword($keyword, $agencyId = null) 
     {
         $whereZone = is_numeric($keyword) ? " OR z.zoneid=$keyword" : '';
 

@@ -9,7 +9,9 @@ require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 
 class MAX_Dal_Admin_Advertiser extends MAX_Dal_Common
 {
-    var $orderListName = array(
+    var $table = 'clients';
+    
+	var $orderListName = array(
         'name' => 'clientname',
         'id'   => 'clientid'
     );

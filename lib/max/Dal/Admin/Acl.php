@@ -5,9 +5,11 @@
 
 require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 
-class MAX_Dal_Admin_Acl
+class MAX_Dal_Admin_Acl extends MAX_Dal_Common
 {
-    /**
+    var $table = 'acls';
+    
+	/**
      * @param $findInSet string  Data to look after (eg 13)
      * @param $type string       Data type (eg Site:Channel)
      * 

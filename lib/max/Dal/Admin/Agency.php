@@ -7,7 +7,9 @@ require_once MAX_PATH . '/lib/max/Dal/Common.php';
 
 class MAX_Dal_Admin_Agency extends MAX_Dal_Common
 {
-    /**
+    var $table = 'agency';
+    
+	/**
      * Is a banner linked to this agency via campaign and advertiser links?
      *  
      * @param int $agencyid

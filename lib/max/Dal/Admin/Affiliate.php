@@ -5,9 +5,11 @@
 
 require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 
-class MAX_Dal_Admin_Affiliate
+class MAX_Dal_Admin_Affiliate extends MAX_Dal_Common
 {
-    function getAffiliateByKeyword($keyword, $agencyId = null)
+    var $table = 'affiliates';
+    
+	function getAffiliateByKeyword($keyword, $agencyId = null)
     {
         $whereAffiliate = is_numeric($keyword) ? " OR a.affiliateid=$keyword" : '';
         

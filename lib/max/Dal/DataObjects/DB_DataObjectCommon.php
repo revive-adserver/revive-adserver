@@ -70,14 +70,10 @@ class DB_DataObjectCommon extends DB_DataObject
      *
      * @return object|false
      */
-    function &factoryDal()
+    function factoryDAL()
     {
     	include_once MAX_PATH . '/lib/max/Dal/Common.php';
-    	$dalModel = &MAX_Dal_Common::factory($this->dalModelName);
-    	if (!$dalModel) {
-    		return false;
-    	}
-    	return $dalModel;
+    	return MAX_Dal_Common::factory($this->dalModelName);
     }
     
     /**
@@ -196,7 +192,7 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function addListOrderBy($listOrder, $orderDirection)
     {
-        $dalModel = &$this->factoryDal();
+        $dalModel = &$this->factoryDAL();
     	if (!$dalModel) {
     		return false;
     	}
@@ -229,6 +225,16 @@ class DB_DataObjectCommon extends DB_DataObject
      * //// Protected methods, could be overwritten in child classes but
      * //// a good practice is to call them in child methods by parent::methodName()
      */
+    
+    /**
+     * This method is calles explicite by MAX_DB class which
+     * 
+     *
+     */
+    function init()
+    {
+    	
+    }
     
     /**
      * Override standard links() method, to make sure it reads correctly data from links.ini
