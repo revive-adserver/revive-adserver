@@ -44,12 +44,12 @@
     	<report-on-simpletest-results basename="all-unit-individual" />
 	</target>
     <target name="phpunit">
-        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="false" output="build/test-reports/MDB2.html">
+        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="false" output="build/test-results/MDB2.html">
             <arg value="run.php" />
             <arg value="--type=phpunit" />
             <arg value="--dir=../lib/pear/MDB2/tests/" />
         </exec>
-        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="false" output="build/test-reports/MDB2_Schema.html">
+        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="false" output="build/test-results/MDB2_Schema.html">
             <arg value="run.php" />
             <arg value="--type=phpunit" />
             <arg value="--dir=../lib/pear/MDB2_Schema/tests/" />
