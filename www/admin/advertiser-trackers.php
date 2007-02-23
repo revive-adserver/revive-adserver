@@ -108,20 +108,15 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
     $doAdvertiser = MAX_DB::factoryDO('clients');
     if (phpAds_isUser(phpAds_Agency)) {
 		$doAdvertiser->agencyid = $session['userid'];
-//	    $query = "SELECT * FROM ".$conf['table']['prefix'].$conf['table']['clients']." WHERE agencyid=".$session['userid'].phpAds_getClientListOrder($navorder,$navdirection);
-	}
-//	$res = phpAds_dbQuery($query)
-//		or phpAds_sqlDie();
-	
-    $doAdvertiser->find();
-	while ($doAdvertiser->fetch() && $row = $doAdvertiser->toArray())
-	{
-		phpAds_PageContext (
-			phpAds_buildName ($row['clientid'], $row['clientname']),
-			"advertiser-trackers.php?clientid=".$row['clientid'],
-			$clientid == $row['clientid']
-		);
-	}
+        $doAdvertiser->find();
+    	while ($doAdvertiser->fetch() && $row = $doAdvertiser->toArray())
+    	{
+    		phpAds_PageContext (
+    			phpAds_buildName ($row['clientid'], $row['clientname']),
+    			"advertiser-trackers.php?clientid=".$row['clientid'],
+    			$clientid == $row['clientid']
+    		);
+    	}
 	
 	phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=history&clientid='.$clientid, 'images/icon-statistics.gif');	
 	
@@ -141,15 +136,6 @@ $doTracker = MAX_DB::factoryDO('trackers');
 $doTracker->clientid = $clientid;
 $doTracker->addListOrderBy($listorder, $orderdirection);
 $doTracker->find();
-
-//$res_trackers = phpAds_dbQuery(
-//	"SELECT *".
-//	" FROM ".$conf['table']['prefix'].$conf['table']['trackers'].
-//	" WHERE clientid='".$clientid."'".
-//	phpAds_getTrackerListOrder ($listorder, $orderdirection)
-//) or phpAds_sqlDie();
-
-
 
 if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(phpAds_AddTracker))
 {
@@ -273,13 +259,6 @@ while ($doTracker->fetch() && $row_trackers = $doTracker->toArray())
 
 if ($doTracker->getRowCount())
 {
-//	echo "\t\t\t\t<tr height='1'>\n";
-//	echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>\n";
-//	echo "\t\t\t\t</tr>\n";
-//}
-
-//if (isset($campaigns) && count($campaigns))
-//{
 	echo "\t\t\t\t<tr height='1'>\n";
 	echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td>\n";
 	echo "\t\t\t\t</tr>\n";
