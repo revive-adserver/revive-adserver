@@ -89,11 +89,12 @@ class DB_DataObjectCommon extends DB_DataObject
      * use this method.
      *
      * @param array $filter  Contains fields which should be returned in each row
-     * @param array $negativeFilter  Contains fields names which should be removed from each row
-     * @param boolean $indexWithPrimaryKey  Should the table be indexed with primary key
+     * @param boolean $indexWithPrimaryKey  Should the array be indexed with primary key
+     * @param boolean $flattenIfOneOnly     Flatten multidimensional array into one dimensional
+     *                                      if $filter array contains only one field name
      * @return array
      */
-    function getAll($filter = array(), $negativeFilter = array(), $indexWithPrimaryKey = false)
+    function getAll($filter = array(), $indexWithPrimaryKey = false, $flattenIfOneOnly = true)
     {
     	$this->find();
     	
@@ -116,6 +117,9 @@ class DB_DataObjectCommon extends DB_DataObject
     				continue;
     			}
     			$row[$k] = $v;
+    		}
+    		if ($flattenIfOneOnly && count($row) == 1) {
+    		    $row = array_pop($row);
     		}
     		if (!empty($primaryKey) && isset($this->$primaryKey)) {
     			$rows[$this->$primaryKey] = $row;
