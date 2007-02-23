@@ -105,18 +105,16 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
 	
 	
 	// Get other advertisers
-	if (phpAds_isUser(phpAds_Admin))
-	{
-		$query = "SELECT * FROM ".$conf['table']['prefix'].$conf['table']['clients'].phpAds_getClientListOrder($navorder,$navdirection);
+    $doAdvertiser = DB_DataObject::factory('clients');
+    if (phpAds_isUser(phpAds_Agency)) {
+		$doAdvertiser->agencyid = $session['userid'];
+//	    $query = "SELECT * FROM ".$conf['table']['prefix'].$conf['table']['clients']." WHERE agencyid=".$session['userid'].phpAds_getClientListOrder($navorder,$navdirection);
 	}
-	elseif (phpAds_isUser(phpAds_Agency))
-	{
-		$query = "SELECT * FROM ".$conf['table']['prefix'].$conf['table']['clients']." WHERE agencyid=".$session['userid'].phpAds_getClientListOrder($navorder,$navdirection);
-	}
-	$res = phpAds_dbQuery($query)
-		or phpAds_sqlDie();
+//	$res = phpAds_dbQuery($query)
+//		or phpAds_sqlDie();
 	
-	while ($row = phpAds_dbFetchArray($res))
+    $doAdvertiser->find();
+	while ($doAdvertiser->fetch() && $row = $doAdvertiser->toArray())
 	{
 		phpAds_PageContext (
 			phpAds_buildName ($row['clientid'], $row['clientname']),
@@ -139,13 +137,17 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
 /*-------------------------------------------------------*/
 
 // Get clients & campaign and build the tree
+$doTracker = DB_DataObject::factory('trackers');
+$doTracker->clientid = $clientid;
+$doTracker->addListOrderBy($listorder, $orderdirection);
+$doTracker->find();
 
-$res_trackers = phpAds_dbQuery(
-	"SELECT *".
-	" FROM ".$conf['table']['prefix'].$conf['table']['trackers'].
-	" WHERE clientid='".$clientid."'".
-	phpAds_getTrackerListOrder ($listorder, $orderdirection)
-) or phpAds_sqlDie();
+//$res_trackers = phpAds_dbQuery(
+//	"SELECT *".
+//	" FROM ".$conf['table']['prefix'].$conf['table']['trackers'].
+//	" WHERE clientid='".$clientid."'".
+//	phpAds_getTrackerListOrder ($listorder, $orderdirection)
+//) or phpAds_sqlDie();
 
 
 
@@ -212,7 +214,7 @@ echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='images/break.gif' he
 echo "\t\t\t\t</tr>\n";
 
 
-if (phpAds_dbNumRows($res_trackers) == 0)
+if (!$doTracker->getRowCount())
 {
 	echo "\t\t\t\t<tr height='25' bgcolor='#F6F6F6'>\n";
 	echo "\t\t\t\t\t<td height='25' colspan='4'>";
@@ -226,7 +228,7 @@ if (phpAds_dbNumRows($res_trackers) == 0)
 }
 
 $i=0;
-while ($row_trackers = phpAds_dbFetchArray($res_trackers))
+while ($doTracker->fetch() && $row_trackers = $doTracker->toArray())
 {
 	if ($i > 0)
 	{
@@ -269,7 +271,7 @@ while ($row_trackers = phpAds_dbFetchArray($res_trackers))
 	$i++;
 }
 
-if (phpAds_dbNumRows($res_trackers) > 0)
+if ($doTracker->getRowCount())
 {
 //	echo "\t\t\t\t<tr height='1'>\n";
 //	echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>\n";

@@ -34,9 +34,9 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/lib/max/Dal/Common.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
+require_once MAX_PATH . '/lib/max/Dal/Common.php';
 require_once 'DB/DataObject.php';
 
 // Register input variables
@@ -243,8 +243,7 @@ if ($clientid != "") {
             $doClient->agencyid = $session['userid'];
 		}
         
-        $advertiserDal = MAX_Dal_Common::factory('Advertiser');
-        $doClient->addListorderBy($advertiserDal->getOrderColumn($navorder), $advertiserDal->getOrderDirection($navdirection));
+        $doClient->addListorderBy($navorder, $navdirection);
         $doClient->find();
 
 		while ($doClient->fetch() && $row = $doClient->toArray()) {
@@ -525,29 +524,19 @@ echo "</form>";
 
 // Get unique clientname
 $doClient = DB_DataObject::factory('clients');
-$doClient->whereAdd('clientid <> ' . $clientid);
-$doClient->find();
-
-$unique_names = array();
-while ($doClient->fetch() && $row = $doClient->toArray()) {
-	$unique_names[] = $row['clientname'];
-}
+$doClient->whereAdd("clientid <> '" . $clientid."'");
+$unique_names = $doClient->getAll(array('clientname'));
 
 // Get unique username
 $unique_users = array($pref['admin']);
 $doClient = DB_DataObject::factory('clients');
 $doClient->whereAdd("clientusername <> ''");
-$doClient->whereAdd('clientid <> ' . $clientid);
-$doClient->find();
-while ($doClient->fetch() && $row = $doClient->toArray()) {
-	$unique_users[] = $row['clientusername'];
-}
+$doClient->whereAdd("clientid <> '" . $clientid . "'");
+$unique_users = $doClient->getAll(array('clientusername'));
 
 $doAffiliate = DB_DataObject::factory('affiliates');
 $doAffiliate->whereAdd("username <> ''");
-while ($doAffiliate->fetch() && $row = $doAffiliate->toArray()) {
-	$unique_users[] = $row['username'];
-}
+$unique_users = array_merge($unique_users, $doAffiliate->getAll(array('username')))
 
 ?>
 

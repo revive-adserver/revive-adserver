@@ -34,7 +34,6 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/lib/max/Dal/Admin/Common.php';
 require_once 'Date.php';
 require_once 'DB/DataObject.php';
 
@@ -106,8 +105,7 @@ if (phpAds_isUser(phpAds_Agency)) {
     $doClient->clientid = phpAds_getUserID();
 }
 
-$advertiserDal = MAX_Dal_Common::factory('Advertiser');
-$doClient->addListorderBy($advertiserDal->getOrderColumn($navorder), $advertiserDal->getOrderDirection($navdirection));
+$doClient->addListorderBy($navorder, $navdirection);
 $doClient->find();
 
 while ($doClient->fetch() && $row = $doClient->toArray()) {
@@ -174,8 +172,7 @@ if (isset($session['prefs']['advertiser-campaigns.php'][$clientid]['nodes'])) {
 $doCampaign = DB_DataObject::factory('campaigns');
 $doCampaign->clientid = $clientid;
 
-$campaignDal = MAX_Dal_Common::factory('Campaign');
-$doCampaign->addListOrderBy($campaignDal->getOrderColumn($listorder), $campaignDal->getOrderDirection($orderdirection));
+$doCampaign->addListOrderBy($listorder, $orderdirection);
 $doCampaign->find();
 
 while ($doCampaign->fetch() && $row_campaigns = $doCampaign->toArray()) {
@@ -217,7 +214,7 @@ while ($doCampaign->fetch() && $row_campaigns = $doCampaign->toArray()) {
 
 $doBanner = DB_DataObject::factory('banners');
 $doBanner->selectAs(array('storagetype'), 'type');
-$doBanner->addListOrderByPerModel($listorder, $orderdirection);
+$doBanner->addListOrderBy($listorder, $orderdirection);
 $doBanner->find();
 
 while ($doBanner->fetch() && $row_banners = $doBanner->toArray()) {

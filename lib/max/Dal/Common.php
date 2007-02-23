@@ -90,8 +90,9 @@ class MAX_Dal_Common
             return false;
         }
         
+        $class = 'MAX_Dal_Admin_'.$modelName;
         if (!class_exists($class)) {
-            $class = $this->autoLoadClass($modelName);
+            $class = MAX_Dal_Common::autoLoadClass($modelName);
             if (!$class) {
                 return false;
             }

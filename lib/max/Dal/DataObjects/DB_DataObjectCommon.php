@@ -55,7 +55,7 @@ class DB_DataObjectCommon extends DB_DataObject
     var $dalModelName;
     
     /**
-     * Store tables prefix
+     * Store table prefix
      *
      * @var string
      */
@@ -66,26 +66,10 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     
     /**
-     * This method is a equivalent of MAX_Dal_Common::getSqlListOrder
-     * but instead of SQL it adds orderBy() limitations to current DB_DataObject
-     * 
-     * This method is used as a common way of sorting rows in OpenAds UI
+     * Loads corresponding DAL class. Usually SQL will be put into DAL class
      *
-     * @see MAX_Dal_Common::getSqlListOrder
-     * @param string|array $nameColumns
-     * @param string $direction
-     * @access public
+     * @return object|false
      */
-    function addListOrderBy($nameColumns, $direction)
-    {
-        if (!is_array($nameColumns)) {
-            $nameColumns = array($nameColumns);
-        }
-        foreach ($nameColumns as $nameColumn) {
-            $this->orderBy($nameColumn . ' ' . $direction);
-        }
-    }
-    
     function &factoryDal()
     {
     	include_once MAX_PATH . '/lib/max/Dal/Common.php';
@@ -94,38 +78,6 @@ class DB_DataObjectCommon extends DB_DataObject
     		return false;
     	}
     	return $dalModel;
-    }
-    
-    /**
-     * This method is a equivalent of MAX_Dal_Common::getSqlListOrder
-     * but instead of SQL it adds orderBy() limitations to current DB_DataObject
-     * 
-     * This method is used as a common way of sorting rows in OpenAds UI
-     *
-     * @see MAX_Dal_Common::getSqlListOrder
-     * @param string|array $nameColumns
-     * @param string $direction
-     * @access public
-     */
-    function addListOrderByPerModel($listOrder, $orderDirection)
-    {
-    	$dalModel = &$this->factoryDal();
-    	if (!$dalModel) {
-    		return false;
-    	}
-    	$this->addListOrderBy($dalModel->getOrderColumn($listOrder), $dalModel->getOrderDirection($orderDirection));
-    }
-    
-    /**
-     * Adds a case-insensitive (lower) WHERE condition using the MySQL LOWER() function.
-     *
-     * @param string $field  the database column to test
-     * @param mixed $value  the value to compare
-     * @access public
-     */
-    function whereAddLower($field, $value)
-    {
-        $this->whereAdd("LOWER($field) = " . strtolower($this->escape($value)));
     }
     
     /**
@@ -149,7 +101,7 @@ class DB_DataObjectCommon extends DB_DataObject
     	$fields = $this->table();
     	$primaryKey = null;
     	if ($indexWithPrimaryKey) {
-			$primaryKey = $this->getFirstPrimaryKey();
+			$primaryKey = $this->_getFirstPrimaryKey();
     	}
     	while ($this->fetch()) {
     		$row = array();
@@ -176,7 +128,8 @@ class DB_DataObjectCommon extends DB_DataObject
     }
     
     /**
-     * This method uses information from links.ini to handle hierarchy of tables
+     * This method uses information from links.ini to handle hierarchy of tables.
+     * It checks 
      *
      * @param string $userTable It's table name where user belongs, eg: agency, affiliates, clients
      * @param string $userId    User id
@@ -214,17 +167,59 @@ class DB_DataObjectCommon extends DB_DataObject
         return $found;
     }
     
+   /**
+	* Returns the number of rows in a query
+	* Note it returns number of records from the last search (find())
+	* 
+	* @see count()
+	* @return int number of rows
+	* @access public
+	*/
+	function getRowCount() {
+		return $this->N;
+	}
+    
     /**
-     * Returns first primary key
+     * This method is a equivalent of MAX_Dal_Common::getSqlListOrder
+     * but instead of SQL it adds orderBy() limitations to current DB_DataObject
+     * 
+     * This method is used as a common way of sorting rows in OpenAds UI
      *
-     * @return string
+     * @see MAX_Dal_Common::getSqlListOrder
+     * @param string|array $nameColumns
+     * @param string $direction
+     * @access public
      */
-    function getFirstPrimaryKey()
+    function addListOrderBy($listOrder, $orderDirection)
     {
-    	$keys = $this->keys();
-    	return !empty($keys) ? $keys[0] : null;
+        $dalModel = &$this->factoryDal();
+    	if (!$dalModel) {
+    		return false;
+    	}
+    	$nameColumns = $dalModel->getOrderColumn($listOrder);
+    	$direction   = $dalModel->getOrderDirection($orderDirection);
+    	
+    	if (!is_array($nameColumns)) {
+            $nameColumns = array($nameColumns);
+        }
+        foreach ($nameColumns as $nameColumn) {
+            $this->orderBy($nameColumn . ' ' . $direction);
+        }
     }
-
+    
+    /**
+     * Adds a case-insensitive (lower) WHERE condition using the MySQL LOWER() function.
+     *
+     * @param string $field  the database column to test
+     * @param mixed $value  the value to compare
+     * @access public
+     */
+    function whereAddLower($field, $value)
+    {
+        $this->whereAdd("LOWER($field) = '" . strtolower($this->escape($value)) . "'");
+    }
+    
+    
     
     /**
      * //// Protected methods, could be overwritten in child classes but
@@ -429,6 +424,18 @@ class DB_DataObjectCommon extends DB_DataObject
         }
         return $linkedRefs;
     }
+    
+    /**
+     * Returns first primary key (if exists)
+     *
+     * @return string
+     * @access private
+     */
+    function _getFirstPrimaryKey()
+    {
+    	$keys = $this->keys();
+    	return !empty($keys) ? $keys[0] : null;
+    }    
 }
 
 ?>
