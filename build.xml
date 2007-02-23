@@ -1,5 +1,5 @@
 <project name="openads" default="simpletest">
-    <target name="simpletest" depends="init, test-domain, test-db, test-all-individually" />
+    <target name="simpletest" depends="init, test-domain, test-db, test-all-individually, phpunit" />
     <target name="full-build" depends="simpletest, test-with-selenium" />
     <property file="etc/build.properties" />
     <property name="max.base_dir" value="${user.dir}" />
@@ -43,6 +43,18 @@
         </exec>
     	<report-on-simpletest-results basename="all-unit-individual" />
 	</target>
+    <target name="phpunit">
+        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="false" output="build/test-reports/MDB2.html">
+            <arg value="run.php" />
+            <arg value="--type=phpunit" />
+            <arg value="--dir=../lib/pear/MDB2/tests/" />
+        </exec>
+        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="false" output="build/test-reports/MDB2_Schema.html">
+            <arg value="run.php" />
+            <arg value="--type=phpunit" />
+            <arg value="--dir=../lib/pear/MDB2_Schema/tests/" />
+        </exec>
+    </target>
 	<target name="test-with-selenium">
 		<fail unless="max.base_dir" message="The property 'max.base_dir' should point to the Openads root." />
 		<fail unless="max.build_dir" message="The property 'max.build_dir' should point a folder to which results can be written." />
