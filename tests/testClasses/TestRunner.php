@@ -245,7 +245,7 @@ class TestRunner
         $con = new Console_Getopt();
         $args = $con->readPHPArgv();
         array_shift($args);
-        $options = $con->getopt2($args, array(), array('format=', 'type=', 'level=', 'layer=', 'folder=', 'file='));
+        $options = $con->getopt2($args, array(), array('format=', 'type=', 'level=', 'layer=', 'folder=', 'file=', 'dir='));
         if (PEAR::isError($options)) {
             PEAR::raiseError($args);
             die(254);
