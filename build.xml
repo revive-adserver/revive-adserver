@@ -1,5 +1,5 @@
 <project name="openads" default="simpletest">
-    <target name="simpletest" depends="init, test-domain, test-db, test-all-individually" />
+    <target name="simpletest" depends="init, test-domain, test-db, test-all-individually, integration" />
     <target name="full-build" depends="simpletest, test-with-selenium" />
     <property file="etc/build.properties" />
     <property name="max.base_dir" value="${user.dir}" />
