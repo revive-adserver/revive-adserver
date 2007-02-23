@@ -51,7 +51,7 @@ foreach ($unit_test_layers as $layer_name => $folders) {
 }
 $reporter->paintGroupEnd("Layers");
 if ("integration" == $layer && $reporter->getStatus() == false) {
-  exit 1;
+   exit(1);
 }
 // Consider exiting with a non-zero return code if $reporter->getStatus() shows failures also for unit tests.
 ?>
