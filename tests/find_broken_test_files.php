@@ -17,14 +17,16 @@ require_once 'init.php';
 require_once MAX_PATH . '/lib/simpletest/xml.php';
 require_once MAX_PATH . '/tests/testClasses/TestFiles.php';
 
-if ($_SERVER['argc'] > 0) {
-    $php = $_SERVER['argv'][1];
-} else {
-    $php = 'php';
+if ($_SERVER['argc'] < 2) {
+   echo "Usage: " . __FILE__ . " php-command (unit|integration)";
+   exit(1);
 }
 
+$php = $_SERVER['argv'][1];
+$layer = $_SERVER['argv'][2];
+
 $reporter = new XmlReporter();
-$unit_test_layers = TestFiles::getAllTestFiles('unit');
+$unit_test_layers = TestFiles::getAllTestFiles($layer);
 $reporter->paintGroupStart("Layers", count($unit_test_layers));
 foreach ($unit_test_layers as $layer_name => $folders) {
     $reporter->paintGroupStart("$layer_name layer", count($folders));
@@ -34,7 +36,7 @@ foreach ($unit_test_layers as $layer_name => $folders) {
             $reporter->paintMethodStart($file_name);
             $returncode = -1;
             $output_lines = '';
-            exec("$php run.php --type=unit --level=file --layer={$layer_name} --folder={$folder_name} --file={$file_name} --format=text", $output_lines, $returncode);
+            exec("$php run.php --type=$layer --level=file --layer={$layer_name} --folder={$folder_name} --file={$file_name} --format=text", $output_lines, $returncode);
             $message = "{$file_name}\n" . join($output_lines, "\n");
             switch ($returncode) {
                 case 0: $reporter->paintPass($message); break;

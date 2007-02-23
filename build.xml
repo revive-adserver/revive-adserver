@@ -40,8 +40,17 @@
         <exec dir="tests" executable="${max.php_cli_executable}" failonerror="true" output="build/test-results/all-unit-individual.simpletest.xml">
             <arg value="find_broken_test_files.php" />
             <arg value="${max.php_cli_executable}" />
+            <arg value="unit" />
         </exec>
     	<report-on-simpletest-results basename="all-unit-individual" />
+	</target>
+	<target name="test-integration">
+        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="true" output="build/test-results/integration.simpletest.xml">
+            <arg value="find_broken_test_files.php" />
+            <arg value="${max.php_cli_executable}" />
+            <arg value="integration" />
+        </exec>
+    	<report-on-simpletest-results basename="integration" />
 	</target>
 	<target name="test-with-selenium">
 		<fail unless="max.base_dir" message="The property 'max.base_dir' should point to the Openads root." />
