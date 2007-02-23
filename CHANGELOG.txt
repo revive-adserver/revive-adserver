@@ -27,6 +27,7 @@
 | Release Max v0.3.32-alpha |
 +---------------------------+
 
+2007-02-23  Delivery    Bug         Fixed #173 - Delivery unit tests failing in adRender.php (Matteo)
 2007-02-19  Delivery    Bug         Fixed #23 - Tandem Ads not working with javascript invocation, context
                                     parameter don't get "in" (Marek)
 2007-02-19  Admin       Bug         Fixed #142 - Admin DAL has reference to a plugin (Marek)
