@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE project SYSTEM "/usr/local/canoo/selftests/config/WebTest.dtd" [
+  <!ENTITY config SYSTEM "includes/config.xml">
+]
+>
+
+<project name="Openads" basedir="." default="main">
+  <property name="webtest.home" location="/usr/local/canoo"/>
+  <import file="${webtest.home}/lib/taskdef.xml"/>
+  <import file="includes/init.xml"/>
+
+  <target name="main">
+
+    <testSpec name="Login">
+      &config;
+      <steps>
+        <invoke
+          description="Get Login Page"
+          url="/" />
+        <verifyTitle
+          description="We should see the page title"
+          text="Max Media Manager" />
+        <setInputField
+          description="Set user name"
+          name="username"
+          value="admin" />
+        <setInputField
+          description="Set password"
+          name="password"
+          value="Corba99" />
+          <clickButton
+        label="Login"
+        description="Click the submit button"/>
+      <verifyTitle
+        text="Max Media Manager - Advertisers &amp; Campaigns"
+        description="If login OK the Advertiser &amp; Campaigns page opens"/>
+      </steps>
+
+    </testSpec>
+
+</target>
+
+</project>
