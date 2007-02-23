@@ -49,7 +49,7 @@ class MAX_Maintenance_Priority_DeliveryLimitation_Hour extends MAX_Maintenance_P
      *                                       [ad_id]             => 1
      *                                       [logical]           => and
      *                                       [type]              => Time:Hour
-     *                                       [comparison]        => ==
+     *                                       [comparison]        => =~
      *                                       [data]              => 1,7,18,23
      *                                       [executionorder]    => 1
      *                                   )
@@ -64,13 +64,13 @@ class MAX_Maintenance_Priority_DeliveryLimitation_Hour extends MAX_Maintenance_P
      * A method to convert delivery limitations into negative form (i.e. when
      * NOT to deliver ad, as opposed to when to deliver).
      *
-     * Time:Hour delivery limitations can only be stored in terms of ==, or !=,
-     * so conversion is only required if the comparison type stored is ==.
+     * Time:Hour delivery limitations can only be stored in terms of =~, or !~,
+     * so conversion is only required if the comparison type stored is =~.
      *
      * @return mixed Void, or a PEAR::Error.
      */
     function calculateNonDeliveryDeliveryLimitation() {
-        if ($this->comparison == '==') {
+        if ($this->comparison == '=~') {
             // Alternate the hour values stored
             $hours = range(0,23);
             foreach ($this->data as $val) {
@@ -108,8 +108,8 @@ class MAX_Maintenance_Priority_DeliveryLimitation_Hour extends MAX_Maintenance_P
     {
         if (!is_a($oDate, 'Date')) {
             return MAX::raiseError(
-                'Parameter passed to MAX_Maintenance_Priority_DeliveryLimitation_Hour is not a PEAR::Date object',
-                MAX_ERROR_INVALIDARGS
+            'Parameter passed to MAX_Maintenance_Priority_DeliveryLimitation_Hour is not a PEAR::Date object',
+            MAX_ERROR_INVALIDARGS
             );
         }
         $val = (in_array($oDate->getHour(), $this->data)) ? 1 : 0;

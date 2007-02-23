@@ -48,8 +48,8 @@ class Delivery_TestOfPriorityDeliveryLimitationDay extends UnitTestCase
     /**
      * A method to test the calculateNonDeliveryDeliveryLimitation() method.
      *
-     * Test 1: Test with == comparison
-     * Test 2: Test with != comparison
+     * Test 1: Test with =~ comparison
+     * Test 2: Test with !~ comparison
      */
     function testCalculateNonDeliveryDeliveryLimitation()
     {
@@ -58,12 +58,12 @@ class Delivery_TestOfPriorityDeliveryLimitationDay extends UnitTestCase
             'ad_id'          => 1,
             'logical'        => 'and',
             'type'           => 'Time:Day',
-            'comparison'     => '==',
+            'comparison'     => '=~',
             'data'           => '0,2,5',
             'executionorder' => 1
         );
         $oLimitationDay = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
-        $this->assertTrue(count($oLimitationDay->data) == 4);
+        $this->assertEqual(count($oLimitationDay->data), 4);
         $this->assertTrue(empty($oLimitationDay->data[0]));
         $this->assertTrue(isset($oLimitationDay->data[1]));
         $this->assertEqual($oLimitationDay->data[1], 1);
@@ -81,12 +81,12 @@ class Delivery_TestOfPriorityDeliveryLimitationDay extends UnitTestCase
             'ad_id'          => 1,
             'logical'        => 'and',
             'type'           => 'Time:Day',
-            'comparison'     => '!=',
+            'comparison'     => '!~',
             'data'           => '0,2,5',
             'executionorder' => 1
         );
         $oLimitationDay = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
-        $this->assertTrue(count($oLimitationDay->data) == 3);
+        $this->assertEqual(count($oLimitationDay->data), 3);
         $this->assertTrue(isset($oLimitationDay->data[0]));
         $this->assertEqual($oLimitationDay->data[0], 0);
         $this->assertTrue(isset($oLimitationDay->data[1]));
@@ -112,7 +112,7 @@ class Delivery_TestOfPriorityDeliveryLimitationDay extends UnitTestCase
             'ad_id'          => 1,
             'logical'        => 'and',
             'type'           => 'Time:Day',
-            'comparison'     => '==',
+            'comparison'     => '=~',
             'data'           => '1, 5, 4, 6',
             'executionorder' => 1
         );

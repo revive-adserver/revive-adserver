@@ -68,11 +68,11 @@ class Maintenance_TestOfPriorityDeliveryLimitationFactory extends UnitTestCase
         );
         $obj = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         $this->assertIsA($obj, 'MAX_Maintenance_Priority_DeliveryLimitation_Date');
-        $this->assertTrue($obj->logical == 'or');
-        $this->assertTrue($obj->type == 'Time:Date');
-        $this->assertTrue($obj->comparison == '<=');
-        $this->assertTrue($obj->data[0] == '2005-05-05');
-        $this->assertTrue($obj->executionOrder == 1);
+        $this->assertEqual($obj->logical, 'or');
+        $this->assertEqual($obj->type, 'Time:Date');
+        $this->assertEqual($obj->comparison, '<=');
+        $this->assertEqual($obj->data[0], '2005-05-05');
+        $this->assertEqual($obj->executionOrder, 1);
         $this->assertTrue(is_a($obj->date, 'date'));
         $this->assertEqual($obj->date->format('%Y-%m-%d %H:%M:%S'), '2005-05-05 00:00:00');
         unset($obj);
@@ -82,21 +82,21 @@ class Maintenance_TestOfPriorityDeliveryLimitationFactory extends UnitTestCase
             'ad_id'          => 3,
             'logical'        => 'and',
             'type'           => 'Time:Day',
-            'comparison'     => '==',
+            'comparison'     => '=~',
             'data'           => '0,6',
             'executionorder' => 7
         );
         $obj = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         $this->assertIsA($obj, 'MAX_Maintenance_Priority_DeliveryLimitation_Day');
-        $this->assertTrue($obj->logical == 'and');
-        $this->assertTrue($obj->type == 'Time:Day');
-        $this->assertTrue($obj->comparison == '!=');
-        $this->assertTrue($obj->data[1] == 1);
-        $this->assertTrue($obj->data[2] == 2);
-        $this->assertTrue($obj->data[3] == 3);
-        $this->assertTrue($obj->data[4] == 4);
-        $this->assertTrue($obj->data[5] == 5);
-        $this->assertTrue($obj->executionOrder == 7);
+        $this->assertEqual($obj->logical, 'and');
+        $this->assertEqual($obj->type, 'Time:Day');
+        $this->assertEqual($obj->comparison, '!~');
+        $this->assertEqual($obj->data[1], 1);
+        $this->assertEqual($obj->data[2], 2);
+        $this->assertEqual($obj->data[3], 3);
+        $this->assertEqual($obj->data[4], 4);
+        $this->assertEqual($obj->data[5], 5);
+        $this->assertEqual($obj->executionOrder, 7);
         unset($obj);
 
         // Test 3
@@ -104,7 +104,7 @@ class Maintenance_TestOfPriorityDeliveryLimitationFactory extends UnitTestCase
             'ad_id'          => 3,
             'logical'        => 'and',
             'type'           => 'Client:IP',
-            'comparison'     => '==',
+            'comparison'     => '=~',
             'data'           => '192.168.0.1',
             'executionorder' => 0
         );
@@ -117,41 +117,41 @@ class Maintenance_TestOfPriorityDeliveryLimitationFactory extends UnitTestCase
             'ad_id'          => 3,
             'logical'        => 'and',
             'type'           => 'Time:Hour',
-            'comparison'     => '==',
+            'comparison'     => '=~',
             'data'           => '0,6,21',
             'executionorder' => 0
           );
         $obj = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         $this->assertIsA($obj, 'MAX_Maintenance_Priority_DeliveryLimitation_Hour');
-        $this->assertTrue($obj->logical == 'and');
-        $this->assertTrue($obj->type == 'Time:Hour');
-        $this->assertTrue($obj->comparison == '!=');
+        $this->assertEqual($obj->logical, 'and');
+        $this->assertEqual($obj->type, 'Time:Hour');
+        $this->assertEqual($obj->comparison, '!~');
         $this->assertTrue(!isset($obj->data[0]));
-        $this->assertTrue($obj->data[1] == 1);
-        $this->assertTrue($obj->data[2] == 2);
-        $this->assertTrue($obj->data[3] == 3);
-        $this->assertTrue($obj->data[4] == 4);
-        $this->assertTrue($obj->data[5] == 5);
+        $this->assertEqual($obj->data[1], 1);
+        $this->assertEqual($obj->data[2], 2);
+        $this->assertEqual($obj->data[3], 3);
+        $this->assertEqual($obj->data[4], 4);
+        $this->assertEqual($obj->data[5], 5);
         $this->assertTrue(!isset($obj->data[6]));
-        $this->assertTrue($obj->data[7] == 7);
-        $this->assertTrue($obj->data[8] == 8);
-        $this->assertTrue($obj->data[9] == 9);
-        $this->assertTrue($obj->data[10] == 10);
-        $this->assertTrue($obj->data[11] == 11);
-        $this->assertTrue($obj->data[12] == 12);
-        $this->assertTrue($obj->data[13] == 13);
-        $this->assertTrue($obj->data[14] == 14);
-        $this->assertTrue($obj->data[15] == 15);
-        $this->assertTrue($obj->data[16] == 16);
-        $this->assertTrue($obj->data[17] == 17);
-        $this->assertTrue($obj->data[18] == 18);
-        $this->assertTrue($obj->data[19] == 19);
-        $this->assertTrue($obj->data[20] == 20);
+        $this->assertEqual($obj->data[7], 7);
+        $this->assertEqual($obj->data[8], 8);
+        $this->assertEqual($obj->data[9], 9);
+        $this->assertEqual($obj->data[10], 10);
+        $this->assertEqual($obj->data[11], 11);
+        $this->assertEqual($obj->data[12], 12);
+        $this->assertEqual($obj->data[13], 13);
+        $this->assertEqual($obj->data[14], 14);
+        $this->assertEqual($obj->data[15], 15);
+        $this->assertEqual($obj->data[16], 16);
+        $this->assertEqual($obj->data[17], 17);
+        $this->assertEqual($obj->data[18], 18);
+        $this->assertEqual($obj->data[19], 19);
+        $this->assertEqual($obj->data[20], 20);
         $this->assertTrue(!isset($obj->data[21]));
-        $this->assertTrue($obj->data[22] == 22);
-        $this->assertTrue($obj->data[23] == 23);
+        $this->assertEqual($obj->data[22], 22);
+        $this->assertEqual($obj->data[23], 23);
         $this->assertTrue(!isset($obj->data[24]));
-        $this->assertTrue($obj->executionOrder == 0);
+        $this->assertEqual($obj->executionOrder, 0);
         unset($obj);
     }
 
