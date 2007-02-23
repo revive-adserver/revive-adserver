@@ -233,7 +233,19 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function init()
     {
+        $ret = parent::_connect();
+        if ($ret !== true) {
+            return $ret;
+        }
+        global $_DB_DATAOBJECT;
+        $_DB_DATAOBJECT['CONFIG']["ini_{$this->_database}"] = array(
+            "{$_DB_DATAOBJECT['CONFIG']['schema_location']}/db_schema.ini",
+        );
+        $_DB_DATAOBJECT['CONFIG']["links_{$this->_database}"] = 
+            "{$_DB_DATAOBJECT['CONFIG']['schema_location']}/db_schema.links.ini";
     	
+        $this->databaseStructure();
+        $this->_addPrefixToTableName();
     }
     
     /**
@@ -325,11 +337,11 @@ class DB_DataObjectCommon extends DB_DataObject
 
         global $_DB_DATAOBJECT;
         $configDatabase = &$_DB_DATAOBJECT['INI'][$this->_database];
-        $this->_prefix = $GLOBALS['MAX']['conf']['table']['prefix'];
 
         // databaseStructure() is cached in memory so we have to add prefix to all definitions on first run
         if (!empty($this->_prefix)) {
-            foreach ($configDatabase as $tableName => $config) {
+            $oldConfig = $configDatabase;
+            foreach ($oldConfig as $tableName => $config) {
                 $configDatabase[$this->_prefix.$tableName] = $configDatabase[$tableName];
                 $configDatabase[$this->_prefix.$tableName."__keys"] = $configDatabase[$tableName."__keys"];
             }
@@ -345,7 +357,7 @@ class DB_DataObjectCommon extends DB_DataObject
     function _addPrefixToTableName()
     {
         if (empty($this->_tableName)) {
-            $this->_prefix = $GLOBALS['MAX']['conf']['table']['prefix'];
+            $this->_prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
             $this->_tableName = $this->__table;
             $this->__table = $this->_prefix . $this->__table;
         }
@@ -368,6 +380,7 @@ class DB_DataObjectCommon extends DB_DataObject
             if (PEAR::isError($doLinkded)) {
                 return false;
             }
+            $doLinkded->init();
 
             $doLinkded->$column = $this->$primaryKey;
             // ON DELETE CASCADE
@@ -383,6 +396,7 @@ class DB_DataObjectCommon extends DB_DataObject
      * @return true | PEAR::error
      * @access private
      */
+    /*
     function _connect()
     {
         $ret = parent::_connect();
@@ -401,6 +415,7 @@ class DB_DataObjectCommon extends DB_DataObject
 
         return $ret;
     }
+    */
 
     /**
      * Collects references from links file

@@ -37,7 +37,7 @@ require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
-require_once 'DB/DataObject.php';
+require_once MAX_PATH . '/lib/max/DB.php';
 
 // Register input variables
 phpAds_registerGlobal ('returnurl');
@@ -47,7 +47,7 @@ phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 
 // TODO: refactor this
 if (phpAds_isUser(phpAds_Agency)) {
-    $doClient = DB_DataObject::factory('clients');
+    $doClient = MAX_DB::factoryDO('clients');
     $doClient->clientid = $clientid;
     if (!$doClient->belongToUser('agency', phpAds_getUserID())) {
         phpAds_PageHeader("2");
@@ -68,7 +68,7 @@ if (isset($session['prefs']['advertiser-index.php']['nodes'])) {
 /*-------------------------------------------------------*/
 
 if (isset($clientid) && $clientid != '') {
-    $doClient = DB_DataObject::factory('clients');
+    $doClient = MAX_DB::factoryDO('clients');
     $doClient->clientid = $clientid;
     $doClient->delete();
     

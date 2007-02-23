@@ -34,8 +34,7 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
-
-require_once 'DB/DataObject.php';
+require_once MAX_PATH . '/lib/max/DB.php';
 
 // Register input variables
 phpAds_registerGlobal ('returnurl');
@@ -52,7 +51,7 @@ phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
 
 if (!empty($zoneid)) {
     
-    $doZone = DB_DataObject::factory('zones');
+    $doZone = MAX_DB::factoryDO('zones');
     $doZone->zoneid = $zoneid;
     
     if (phpAds_isUser(phpAds_Affiliate)) {

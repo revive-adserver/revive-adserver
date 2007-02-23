@@ -52,7 +52,7 @@ phpAds_checkAccess(phpAds_Admin);
 /*-------------------------------------------------------*/
 
 if (!empty($agencyid)) {
-    $doAgency = DB_DataObject::factory('agency');
+    $doAgency = MAX_DB::factoryDO('agency');
     $doAgency->agencyid = $agencyid;
     $doAgency->delete();
 }

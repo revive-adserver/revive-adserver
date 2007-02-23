@@ -37,8 +37,7 @@ require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
-
-require_once 'DB/DataObject.php';
+require_once MAX_PATH . '/lib/max/DB.php';
 
 // Register input variables
 phpAds_registerGlobal ('returnurl');
@@ -47,7 +46,7 @@ phpAds_registerGlobal ('returnurl');
 phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 
 if (phpAds_isUser(phpAds_Agency)) {
-    $doBanner = DB_DataObject::factory('banners');
+    $doBanner = MAX_DB::factoryDO('banners');
     $doBanner->bannerid = $bannerid;
     if (!$doBanner->belongToUser('agency', phpAds_getUserID())) {
         phpAds_PageHeader("2");
@@ -59,7 +58,7 @@ if (phpAds_isUser(phpAds_Agency)) {
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$doBanner = DB_DataObject::factory('banners');
+$doBanner = MAX_DB::factoryDO('banners');
 
 if (!empty($bannerid)) {
     $doBanner->bannerid = $bannerid;

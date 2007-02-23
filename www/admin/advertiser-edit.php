@@ -36,8 +36,7 @@ require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/lib/max/Dal/Common.php';
-require_once 'DB/DataObject.php';
+require_once MAX_PATH . '/lib/max/DB.php';
 
 // Register input variables
 phpAds_registerGlobal (
@@ -77,7 +76,7 @@ if (phpAds_isUser(phpAds_Client)) {
 	$clientid = phpAds_getUserID();
 } elseif (phpAds_isUser(phpAds_Agency)) {
 	if (isset($clientid) && ($clientid != '')) {
-        $doClient = DB_DataObject::factory('clients');
+        $doClient = MAX_DB::factoryDO('clients');
         $doClient->clientid = $clientid;
         if ($doClient->belongToUser('agency', phpAds_getUserID())) {
 			phpAds_PageHeader("2");
@@ -94,7 +93,7 @@ if (isset($submit)) {
 	$errormessage = array();
 	// Get previous values
 	if (isset($clientid) && ($clientid != '')) {
-        $doClient = DB_DataObject::factory('clients');
+        $doClient = MAX_DB::factoryDO('clients');
 		if ($doClient->get($clientid)) {
 			$client = $doClient->toArray();
 		}
@@ -127,17 +126,17 @@ if (isset($submit)) {
 		}
 		// Username
 		if (isset($clientusername) && $clientusername != '') {
-            $doAffiliate = DB_DataObject::factory('affiliates');
+            $doAffiliate = MAX_DB::factoryDO('affiliates');
             $doAffiliate->whereAddLower('username', $clientusername);
             $duplicateaffiliate = ($doAffiliate->count() > 0);
 			$duplicateadmin  = (strtolower($pref['admin']) == strtolower($clientusername));
 			if ($clientid == '') {
-                $doClient = DB_DataObject::factory('clients');
+                $doClient = MAX_DB::factoryDO('clients');
                 $doClient->whereAddLower('clientusername', $clientusername);
 				if ($doClient->count() > 0 || $duplicateaffiliate || $duplicateadmin)
 					$errormessage[] = $strDuplicateClientName;
 			} else {
-                $doClient = DB_DataObject::factory('clients');
+                $doClient = MAX_DB::factoryDO('clients');
                 $doClient->whereAddLower('clientusername', $clientusername);
                 $doClient->whereAdd('clientid <> ' . $clientid);
 				if ($doClient->count() > 0 || $duplicateaffiliate || $duplicateadmin) {
@@ -183,7 +182,7 @@ if (isset($submit)) {
 	*/
 	if (count($errormessage) == 0) {
 		if (!isset($clientid) || $clientid == '') {
-            $doClient = DB_DataObject::factory('clients');
+            $doClient = MAX_DB::factoryDO('clients');
             $doClient->setFrom($client);
             $doClient->updated = date('Y-m-d H:i:s');
 
@@ -193,7 +192,7 @@ if (isset($submit)) {
 			// Go to next page
 			MAX_Admin_Redirect::redirect("campaign-edit.php?clientid=$clientid");
 		} else {
-            $doClient = DB_DataObject::factory('clients');
+            $doClient = MAX_DB::factoryDO('clients');
             $doClient->get($clientid);
             $doClient->setFrom($client);
             $doClient->updated = date('Y-m-d H:i:s');
@@ -236,7 +235,7 @@ if ($clientid != "") {
 		}
 
 		// Get other clients
-		$doClient = DB_DataObject::factory('clients');
+		$doClient = MAX_DB::factoryDO('clients');
 
 		// Unless admin, restrict results
 		if (phpAds_isUser(phpAds_Agency)) {
@@ -523,18 +522,18 @@ echo "</form>";
 /*-------------------------------------------------------*/
 
 // Get unique clientname
-$doClient = DB_DataObject::factory('clients');
+$doClient = MAX_DB::factoryDO('clients');
 $doClient->whereAdd("clientid <> '" . $clientid."'");
 $unique_names = $doClient->getAll(array('clientname'));
 
 // Get unique username
 $unique_users = array($pref['admin']);
-$doClient = DB_DataObject::factory('clients');
+$doClient = MAX_DB::factoryDO('clients');
 $doClient->whereAdd("clientusername <> ''");
 $doClient->whereAdd("clientid <> '" . $clientid . "'");
 $unique_users = $doClient->getAll(array('clientusername'));
 
-$doAffiliate = DB_DataObject::factory('affiliates');
+$doAffiliate = MAX_DB::factoryDO('affiliates');
 $doAffiliate->whereAdd("username <> ''");
 $unique_users = array_merge($unique_users, $doAffiliate->getAll(array('username')))
 

@@ -33,7 +33,7 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
-require_once 'DB/DataObject.php';
+require_once MAX_PATH . '/lib/max/DB.php';
 
 // Security check
 phpAds_checkAccess(phpAds_Admin);
@@ -42,7 +42,7 @@ phpAds_checkAccess(phpAds_Admin);
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$doUserLog = DB_DataObject::factory('userlog');
+$doUserLog = MAX_DB::factoryDO('userlog');
 $doUserLog->delete();
 
 header ("Location: userlog-index.php");

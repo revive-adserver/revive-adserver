@@ -34,7 +34,7 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
-require_once 'DB/DataObject.php';
+require_once MAX_PATH . '/lib/max/DB.php';
 
 // Register input variables
 phpAds_registerGlobal ('returnurl', 'agencyid', 'channelid', 'affiliateid');
@@ -51,7 +51,7 @@ phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 
 if (!empty($channelid))
 {
-    $doChannel = DB_DataObject::factory('channel');
+    $doChannel = MAX_DB::factoryDO('channel');
     $doChannel->channelid = $channelid;
     
     if (phpAds_isUser(phpAds_Agency))

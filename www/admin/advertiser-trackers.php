@@ -34,7 +34,7 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once 'DB/DataObject.php';
+require_once MAX_PATH . '/lib/max/DB.php';
 
 // Register input variables
 phpAds_registerGlobal ('listorder', 'orderdirection');
@@ -55,7 +55,7 @@ if (phpAds_isUser(phpAds_Client))
 }
 elseif (phpAds_isUser(phpAds_Agency))
 {
-	$doClient = DB_DataObject::factory('clients');
+	$doClient = MAX_DB::factoryDO('clients');
 	$doClient->clientid = $clientid;
 	if (!$doClient->belongToUser('agency', phpAds_getUserID()))
 	{
@@ -105,7 +105,7 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
 	
 	
 	// Get other advertisers
-    $doAdvertiser = DB_DataObject::factory('clients');
+    $doAdvertiser = MAX_DB::factoryDO('clients');
     if (phpAds_isUser(phpAds_Agency)) {
 		$doAdvertiser->agencyid = $session['userid'];
 //	    $query = "SELECT * FROM ".$conf['table']['prefix'].$conf['table']['clients']." WHERE agencyid=".$session['userid'].phpAds_getClientListOrder($navorder,$navdirection);
@@ -137,7 +137,7 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
 /*-------------------------------------------------------*/
 
 // Get clients & campaign and build the tree
-$doTracker = DB_DataObject::factory('trackers');
+$doTracker = MAX_DB::factoryDO('trackers');
 $doTracker->clientid = $clientid;
 $doTracker->addListOrderBy($listorder, $orderdirection);
 $doTracker->find();

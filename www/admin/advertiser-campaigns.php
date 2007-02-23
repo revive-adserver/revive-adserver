@@ -34,8 +34,8 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
+require_once MAX_PATH . '/lib/max/DB.php';
 require_once 'Date.php';
-require_once 'DB/DataObject.php';
 
 // Register input variables
 phpAds_registerGlobal ('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection');
@@ -45,7 +45,7 @@ phpAds_registerGlobal ('expand', 'collapse', 'hideinactive', 'listorder', 'order
 phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
 
 if (phpAds_isUser(phpAds_Agency)) {
-    $doClient = DB_DataObject::factory('clients');
+    $doClient = MAX_DB::factoryDO('clients');
     $doClient->clientid = $clientid;
     if (!$doClient->belongToUser('agency', phpAds_getUserID())) {
         phpAds_PageHeader("2");
@@ -96,7 +96,7 @@ if (isset($session['prefs']['advertiser-index.php']['orderdirection'])) {
 }
 
 // Get other clients
-$doClient = DB_DataObject::factory('clients');
+$doClient = MAX_DB::factoryDO('clients');
 
 // Unless admin, restrict results shown.
 if (phpAds_isUser(phpAds_Agency)) {
@@ -169,7 +169,7 @@ if (isset($session['prefs']['advertiser-campaigns.php'][$clientid]['nodes'])) {
 
 // Get clients & campaign and build the tree
 
-$doCampaign = DB_DataObject::factory('campaigns');
+$doCampaign = MAX_DB::factoryDO('campaigns');
 $doCampaign->clientid = $clientid;
 
 $doCampaign->addListOrderBy($listorder, $orderdirection);
@@ -212,7 +212,7 @@ while ($doCampaign->fetch() && $row_campaigns = $doCampaign->toArray()) {
 }
 
 
-$doBanner = DB_DataObject::factory('banners');
+$doBanner = MAX_DB::factoryDO('banners');
 $doBanner->selectAs(array('storagetype'), 'type');
 $doBanner->addListOrderBy($listorder, $orderdirection);
 $doBanner->find();

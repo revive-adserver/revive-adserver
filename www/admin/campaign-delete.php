@@ -37,7 +37,7 @@ require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
-require_once 'DB/DataObject.php';
+require_once MAX_PATH . '/lib/max/DB.php';
 
 // Register input variables
 phpAds_registerGlobal ('returnurl');
@@ -48,11 +48,11 @@ phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 if (phpAds_isUser(phpAds_Agency)) {
     $belongToUser = false;
     if (!empty($campaignid)) {
-        $doCampaign = DB_DataObject::factory('campaigns');
+        $doCampaign = MAX_DB::factoryDO('campaigns');
         $doCampaign->campaignid = $campaignid;
         $belongToUser = $doCampaign->belongToUser('agency', phpAds_getUserID());
     } else {
-        $doClient = DB_DataObject::factory('clients');
+        $doClient = MAX_DB::factoryDO('clients');
         $doClient->clientid = $clientid;
         $belongToUser = $doClient->belongToUser('agency', phpAds_getUserID());
     }
@@ -75,7 +75,7 @@ if (isset($session['prefs']['advertiser-index.php']['nodes'])) {
 /*-------------------------------------------------------*/
 
 if (!empty($campaignid)) {
-    $doCampaign = DB_DataObject::factory('campaigns');
+    $doCampaign = MAX_DB::factoryDO('campaigns');
     $doCampaign->campaignid = $campaignid;
     $doCampaign->delete();
     // Find and delete the campains from $node_array, if

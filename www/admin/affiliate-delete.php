@@ -35,8 +35,7 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
-
-require_once 'DB/DataObject.php';
+require_once MAX_PATH . '/lib/max/DB.php';
 
 // Register input variables
 phpAds_registerGlobal ('returnurl');
@@ -47,7 +46,7 @@ phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 
 if (phpAds_isUser(phpAds_Agency))
 {
-	$doAffiliate = DB_DataObject::factory('affiliates');
+	$doAffiliate = MAX_DB::factoryDO('affiliates');
 	$doAffiliate->affiliateid = $affiliateid;
 	if (!$doAffiliate->belongToUser('agency', phpAds_getUserID()))
 	{
@@ -63,7 +62,7 @@ if (phpAds_isUser(phpAds_Agency))
 
 if (!empty($affiliateid))
 {
-	$doAffiliate = DB_DataObject::factory('affiliates');
+	$doAffiliate = MAX_DB::factoryDO('affiliates');
 	$doAffiliate->affiliateid = $affiliateid;
 	$doAffiliate->delete();
 }

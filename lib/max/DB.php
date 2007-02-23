@@ -122,7 +122,7 @@ class MAX_DB
     }
     
     /**
-     * Enter description here...
+     * Factory DataObject by it's table name
      *
      * @param  string  $table  tablename (use blank to create a new instance of the same class.)
      * @access pblic
@@ -138,6 +138,12 @@ class MAX_DB
         return $do;
     }
     
+    /**
+     * Factory DAL model class by it's table name
+     *
+     * @param string $table
+     * @return MAX_Dal_Common|false
+     */
     function factoryDAL($table)
     {
         include_once MAX_PATH . '/lib/max/Dal/Common.php';

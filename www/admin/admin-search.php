@@ -40,7 +40,7 @@ require_once MAX_PATH . '/lib/max/Dal/Admin/Campaign.php';
 require_once MAX_PATH . '/lib/max/Dal/Admin/Client.php';
 require_once MAX_PATH . '/lib/max/Dal/Admin/Banner.php';
 require_once MAX_PATH . '/lib/max/Dal/Admin/Zone.php';
-require_once 'DB/DataObject.php';
+require_once MAX_PATH . '/lib/max/DB.php';
 
 // Register input variables
 phpAds_registerGlobal ('keyword', 'client', 'campaign', 'banner', 'zone', 'affiliate', 'compact');
@@ -228,7 +228,7 @@ if (!isset($keyword))
             
             if (!$compact)
             {
-                $doCampaign = DB_DataObject::factory('campaigns');
+                $doCampaign = MAX_DB::factoryDO('campaigns');
                 $doCampaign->clientid = $row_clients['clientid'];
                 $doCampaign->find();
 
@@ -265,7 +265,7 @@ if (!isset($keyword))
                     echo "</td></tr>";
                     
                     
-                    $doBanner = DB_DataObject::factory('banners');
+                    $doBanner = MAX_DB::factoryDO('banners');
                     $doBanner->campaignid = $row_c_expand['campaignid'];
                     $doBanner->find();
                     
@@ -364,7 +364,7 @@ if (!isset($keyword))
             
             if (!$compact)
             {
-                $doBanner = DB_DataObject::factory('banners');
+                $doBanner = MAX_DB::factoryDO('banners');
                 $doBanner->campaignid = $row_campaigns['campaignid'];
                 $doBanner->find();
                 
@@ -523,7 +523,7 @@ if (!isset($keyword))
             
             if (!$compact)
             {
-                $doZone = DB_DataObject::factory('zones');
+                $doZone = MAX_DB::factoryDO('zones');
                 $doZone->affiliateid = $row_affiliates['affiliateid'];
                 $doZone->find();
                 
