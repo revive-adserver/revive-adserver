@@ -1643,10 +1643,6 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                         required_impressions
                     )
                 VALUES" . implode(', ', $values);
-
-            // Make sure that required impressions are removed - Simulator requirement
-            $this->dbh->query("DELETE FROM tmp_ad_required_impression");
-            // Insert values
             $this->dbh->query($query);
         }
     }

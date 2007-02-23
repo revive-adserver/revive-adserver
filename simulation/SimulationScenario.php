@@ -494,6 +494,9 @@ class SimulationScenario
         $oMaintenancePriority->updatePriorities();
         $this->printPriorities();
         $this->printHeading('End updatePriorities; date: ' . $this->_getDateTimeString(), 3);
+
+        // Make sure that temporary tables aren't preserved between different priority runs
+        $this->dbh->query("DROP TEMPORARY TABLE tmp_ad_required_impression");
     }
 
     /**
