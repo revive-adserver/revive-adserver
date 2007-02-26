@@ -159,7 +159,11 @@ class MDB2_Internals_TestCase extends MDB2_TestCase {
 
     function test__toString()
     {
-        $this->assertEquals("MDB2_Driver_{$this->dsn['phptype']}: (phptype = {$this->dsn['phptype']}, dbsyntax = {$this->db->dbsyntax})",$this->db->__toString(), '__toString');
+        $expected = "MDB2_Driver_{$this->dsn['phptype']}: (phptype = {$this->dsn['phptype']}, dbsyntax = {$this->db->dbsyntax})";
+        if (version_compare(PHP_VERSION, "5.0.0", "<")) {
+            $expected = strtolower($expected);
+        }
+        $this->assertEquals($expected ,$this->db->__toString(), '__toString');
     }
 
     function test_setFetchMode()
