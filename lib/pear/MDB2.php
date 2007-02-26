@@ -1063,10 +1063,10 @@ class MDB2_Driver_Common extends PEAR
 
     /**
      * Array of supported options that can be passed to the MDB2 instance.
-     * 
+     *
      * The options can be set during object creation, using
-     * MDB2::connect(), MDB2::factory() or MDB2::singleton(). The options can 
-     * also be set after the object is created, using MDB2::setOptions() or 
+     * MDB2::connect(), MDB2::factory() or MDB2::singleton(). The options can
+     * also be set after the object is created, using MDB2::setOptions() or
      * MDB2_Driver_Common::setOption().
      * The list of available option includes:
      * <ul>
@@ -1919,6 +1919,73 @@ class MDB2_Driver_Common extends PEAR
             return call_user_func_array(array(&$this->modules[$module], $method), $params);
         }
         trigger_error(sprintf('Call to undefined function: %s::%s().', get_class($this), $method), E_USER_ERROR);
+    }
+
+    // }}}
+    // {{{ function getAssoc($query, $types = null, $params = array())
+
+    /**
+     * A hacked in method to allow getAssoc to be called in PHP4, where
+     * it would normally be called via __call() above in PHP5.
+     *
+     * @see MDB2_Extended::getAssoc().
+     */
+    function getAssoc($query, $types = null, $params = array(),
+        $param_types = null, $fetchmode = MDB2_FETCHMODE_DEFAULT,
+        $rekey = false, $force_array = false, $group = false)
+    {
+        $callParams = array($query, $types, $params,
+            $param_types, $fetchmode,
+            $rekey, $force_array, $group);
+        return $this->__call('getAssoc', $callParams);
+    }
+
+    // }}}
+    // {{{ function getOne($query, $type = null, $params = array())
+
+    /**
+     * A hacked in method to allow getOne to be called in PHP4, where
+     * it would normally be called via __call() above in PHP5.
+     *
+     * @see MDB2_Extended::getOne().
+     */
+    function getOne($query, $type = null, $params = array(),
+        $param_types = null, $colnum = 0)
+    {
+        $callParams = array($query, $type, $params, $param_types, $colnum);
+        return $this->__call('getOne', $callParams);
+    }
+
+    // }}}
+    // {{{ function getCol($query, $type = null, $params = array())
+
+    /**
+     * A hacked in method to allow getCol to be called in PHP4, where
+     * it would normally be called via __call() above in PHP5.
+     *
+     * @see MDB2_Extended::getCol().
+     */
+    function getCol($query, $type = null, $params = array(),
+        $param_types = null, $colnum = 0)
+    {
+        $callParams = array($query, $type, $params, $param_types, $colnum);
+        return $this->__call('getCol', $callParams);
+    }
+
+    // }}}
+    // {{{ function getRow($query, $type = null, $params = array())
+
+    /**
+     * A hacked in method to allow getRow to be called in PHP4, where
+     * it would normally be called via __call() above in PHP5.
+     *
+     * @see MDB2_Extended::getRow().
+     */
+    function getRow($query, $types = null, $params = array(),
+        $param_types = null, $fetchmode = MDB2_FETCHMODE_DEFAULT)
+    {
+        $callParams = array($query, $types, $params, $param_types, $fetchmode);
+        return $this->__call('getRow', $callParams);
     }
 
     // }}}
@@ -2929,7 +2996,7 @@ class MDB2_Driver_Common extends PEAR
 
     // }}}
     // {{{ function _skipDelimitedStrings($value, $type = null, $quote = true)
-    
+
     /**
      * Utility method, used by prepare() to avoid replacing placeholders within delimited strings.
      * Check if the placeholder is contained within a delimited string.
@@ -2950,7 +3017,7 @@ class MDB2_Driver_Common extends PEAR
         $ignores = $this->sql_comments;
         $ignores[] = $this->string_quoting;
         $ignores[] = $this->identifier_quoting;
-        
+
         foreach ($ignores as $ignore) {
             if (!empty($ignore['start'])) {
                 if (is_int($start_quote = strpos($query, $ignore['start'], $position)) && $start_quote < $p_position) {
@@ -2973,7 +3040,7 @@ class MDB2_Driver_Common extends PEAR
         }
         return $position;
     }
-    
+
     // }}}
     // {{{ function quote($value, $type = null, $quote = true)
 
