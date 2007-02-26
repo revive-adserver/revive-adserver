@@ -495,8 +495,12 @@ class SimulationScenario
         $this->printPriorities();
         $this->printHeading('End updatePriorities; date: ' . $this->_getDateTimeString(), 3);
 
-        // Make sure that temporary tables aren't preserved between different priority runs
-        $this->dbh->query("DROP TEMPORARY TABLE tmp_ad_required_impression");
+        // Hack! The TestEnv class doesn't always drop temp tables for some 
+        // reason, so drop them "by hand", just in case. 
+        $dbType = strtolower($GLOBALS['_MAX']['CONF']['database']['type']); 
+        $oTable = &MAX_Table_Priority::singleton($dbType); 
+        $oTable->dropTempTable("tmp_ad_required_impression"); 
+        $oTable->dropTempTable("tmp_ad_zone_impression");     
     }
 
     /**
