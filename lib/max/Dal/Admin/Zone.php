@@ -9,6 +9,11 @@ class MAX_Dal_Admin_Zone extends MAX_Dal_Common
 {
     var $table = 'zones';
     
+    var $orderListName = array(
+        'name' => 'zonename',
+        'id'   => 'zoneid'
+    );
+    
 	function getZoneByKeyword($keyword, $agencyId = null) 
     {
         $whereZone = is_numeric($keyword) ? " OR z.zoneid=$keyword" : '';

@@ -86,124 +86,51 @@ else
 
 $loosezones = false;
 
+$doAffiliate = MAX_DB::factoryDO('affiliates');
+$doAffiliate->addListOrderBy($listorder, $orderdirection);
+
 // Get affiliates and build the tree
-if (phpAds_isUser(phpAds_Admin))
+if (phpAds_isUser(phpAds_Agency))
 {
-	$query = "SELECT * FROM ".$conf['table']['prefix'].$conf['table']['affiliates'].phpAds_getAffiliateListOrder($listorder, $orderdirection);
-}
-elseif (phpAds_isUser(phpAds_Agency))
-{
-	$query = "SELECT * FROM ".$conf['table']['prefix'].$conf['table']['affiliates']." WHERE agencyid=".$session['userid'].phpAds_getAffiliateListOrder($listorder, $orderdirection);
+	$doAffiliate->agencyid = $session['userid'];
 }
 elseif (phpAds_isUser(phpAds_Affiliate))
 {
-	$query = "SELECT * FROM ".$conf['table']['prefix'].$conf['table']['affiliates']." WHERE affiliateid=".$session['userid'].phpAds_getAffiliateListOrder($listorder, $orderdirection);
+	$doAffiliate->affiliateid = $session['userid'];
 }
 
-$res_affiliates = phpAds_dbQuery($query)
-	or phpAds_sqlDie();
-
-
-while ($row_affiliates = phpAds_dbFetchArray($res_affiliates))
+$doAffiliate->find();
+while ($doAffiliate->fetch() && $row_affiliates = $doAffiliate->toArray())
 {
 	$affiliates[$row_affiliates['affiliateid']] = $row_affiliates;
 	$affiliates[$row_affiliates['affiliateid']]['expand'] = 0;
 	$affiliates[$row_affiliates['affiliateid']]['count'] = 0;
 }
 
+$doZone = MAX_DB::factoryDO('zones');
+$doZone->addListOrderBy($listorder, $orderdirection);
+
+$doAdZoneAssoc = MAX_DB::factoryDO('ad_zone_assoc');
+
 // Get the zones for each affiliate
 if (phpAds_isUser(phpAds_Admin))
 {
-    $query = "
-        SELECT
-            z.zoneid AS zoneid,
-            z.zonename AS zonename,
-            z.affiliateid AS affiliateid,
-            z.delivery AS delivery
-        FROM
-            {$conf['table']['prefix']}{$conf['table']['zones']} AS z
-        " . phpAds_getZoneListOrder($listorder, $orderdirection);
-    
-    $query2 = "
-        SELECT
-            az.zone_id AS zone_id,
-            COUNT(*) AS num_ads
-        FROM
-            {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']} AS az
-        WHERE
-            zone_id > 0
-        GROUP BY
-            zone_id
-    ";
+    $doAdZoneAssoc->whereAdd('zoneid > 0');
 }
 elseif (phpAds_isUser(phpAds_Agency))
 {
     $agencyId = phpAds_getAgencyID();
-    $query = "
-        SELECT
-            z.zoneid AS zoneid,
-            z.zonename AS zonename,
-            z.affiliateid AS affiliateid,
-            z.delivery AS delivery
-        FROM
-            {$conf['table']['prefix']}{$conf['table']['zones']} AS z,
-            {$conf['table']['prefix']}{$conf['table']['affiliates']} AS a
-        WHERE
-            a.agencyid=$agencyId
-            AND a.affiliateid=z.affiliateid
-        " . phpAds_getZoneListOrder($listorder, $orderdirection);
     
-    $query2 = "
-        SELECT
-            az.zone_id AS zone_id,
-            COUNT(*) AS num_ads
-        FROM
-            {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']} AS az,
-            {$conf['table']['prefix']}{$conf['table']['zones']} AS z,
-            {$conf['table']['prefix']}{$conf['table']['affiliates']} AS a
-        WHERE
-            az.zone_id=z.zoneid
-            AND z.affiliateid=a.affiliateid
-            AND a.agencyid=$agencyId
-            AND az.zone_id > 0
-        GROUP BY
-            zone_id
-    ";
-}
-elseif (phpAds_isUser(phpAds_Affiliate))
-{
-    $publisherId = phpAds_getUserID();
-    $query = "
-        SELECT
-            z.zoneid AS zoneid,
-            z.zonename AS zonename,
-            z.affiliateid AS affiliateid,
-            z.delivery AS delivery
-        FROM
-            {$conf['table']['prefix']}{$conf['table']['zones']} AS z
-        WHERE
-            z.affiliateid=$publisherId
-        " . phpAds_getZoneListOrder($listorder, $orderdirection);
-    
-    $query2 = "
-        SELECT
-            az.zone_id AS zone_id,
-            COUNT(*) AS num_ads
-        FROM
-            {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']} AS az,
-            {$conf['table']['prefix']}{$conf['table']['zones']} AS z
-        WHERE
-            az.zone_id=z.zoneid
-            AND z.affiliateid=$publisherId
-            AND zone_id > 0
-        GROUP BY
-            zone_id
-    ";
-}
-$res_zones = phpAds_dbQuery($query)
-	or phpAds_sqlDie();
+    $doAffiliate = MAX_DB::factoryDO('affiliates');
+    $doAffiliate->agencyid = $agencyId;
+    $doZone->joinAdd(MAX_DB::factoryDO('affiliates'));
 
-while ($row_zones = phpAds_dbFetchArray($res_zones))
+    $doAdZoneAssoc->joinAdd($doZone);
+}
+
+$doZone->find();
+
+while ($doZone->fetch() && $row_zones = $doZone->toArray())
 {
 	if (isset($affiliates[$row_zones['affiliateid']]))
 	{
@@ -213,10 +140,9 @@ while ($row_zones = phpAds_dbFetchArray($res_zones))
 	else
 		$loosezones = true;
 }
-$res_ad_zones = phpAds_dbQuery($query2)
-    or phpAds_sqlDie();
 
-while ($row_ad_zones = phpAds_dbFetchArray($res_ad_zones)) {
+$doAdZoneAssoc->find();
+while ($doAdZoneAssoc->fetch() && $row_ad_zones = $doAdZoneAssoc->toArray()) {
     // set warning flag if zone has no low-priority ads linked
     $aZoneAds = MAX_cacheGetZoneLinkedAds($row_ad_zones['zone_id'], false);
     $lpc_flag = false;
@@ -522,31 +448,16 @@ echo "</table>";
 
 
 // Total number of clients
-if (phpAds_isUser(phpAds_Admin)) {
-    $query_affiliates= "SELECT count(*) AS count".
-    " FROM ".$conf['table']['prefix'].$conf['table']['affiliates'];
-    
-    $query_zones = "SELECT count(*) AS count".
-    " FROM ".$conf['table']['prefix'].$conf['table']['zones'];
-  
-} elseif (phpAds_isUser(phpAds_Agency)) {
-    $query_affiliates= "SELECT count(*) AS count".
-    " FROM ".$conf['table']['prefix'].$conf['table']['affiliates'].
-    " WHERE agencyid=".phpAds_getAgencyID();
-    
-    $query_zones = "SELECT count(*) AS count".
-    " FROM ".$conf['table']['prefix'].$conf['table']['zones']." as z,".
-        $conf['table']['prefix'].$conf['table']['affiliates']." as a".
-    " WHERE a.agencyid=".phpAds_getAgencyID().
-    "   AND a.affiliateid=z.affiliateid";
- 
+$doAffiliate = MAX_DB::factoryDO('affiliates');
+$doZone = MAX_DB::factoryDO('zones');
+
+if (phpAds_isUser(phpAds_Agency)) {
+    $doAffiliate->agencyid = phpAds_getAgencyID();
+    $doZone->joinAdd($doAffiliate);
 }
 
-$res_affiliates = phpAds_dbQuery($query_affiliates)
-    or phpAds_sqlDie();
-    
-$res_zones = phpAds_dbQuery($query_zones)
-    or phpAds_sqlDie();
+$countZone = $doZone->count();
+$countAffiliate = $doAffiliate->count();
 
 echo "\t\t\t\t<br /><br /><br /><br />\n";
 echo "\t\t\t\t<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>\n";
@@ -558,8 +469,8 @@ echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='images/break.gif' he
 echo "\t\t\t\t</tr>\n";
 
 echo "\t\t\t\t<tr>\n";
-echo "\t\t\t\t\t<td height='25'>&nbsp;&nbsp;".$strTotalZones.": <b>".phpAds_dbResult($res_zones, 0, "count")."</b></td>\n";
-echo "\t\t\t\t\t<td height='25'>".$strTotalAffiliates.": <b>".phpAds_dbResult($res_affiliates, 0, "count")."</b></td>\n";
+echo "\t\t\t\t\t<td height='25'>&nbsp;&nbsp;".$strTotalZones.": <b>".$countZone."</b></td>\n";
+echo "\t\t\t\t\t<td height='25'>".$strTotalAffiliates.": <b>".$countAffiliate."</b></td>\n";
 echo "\t\t\t\t</tr>\n";
 
 echo "\t\t\t\t<tr height='1'>\n";

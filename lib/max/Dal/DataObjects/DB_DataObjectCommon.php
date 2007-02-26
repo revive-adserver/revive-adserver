@@ -256,10 +256,16 @@ class DB_DataObjectCommon extends DB_DataObject
     function links()
     {
     	$links = parent::links();
-    	if (empty($this->prefix) || $this->__table == $this->_tableName) {
+    	if (empty($this->_prefix)) {
     		return $links;
     	} else {
-        	return $GLOBALS['_DB_DATAOBJECT']['LINKS'][$this->_database][$this->_tableName];
+    	    $prefixedLinks = array();
+            $links = $GLOBALS['_DB_DATAOBJECT']['LINKS'][$this->_database][$this->_tableName];
+            foreach ($links as $k => $v) {
+    	        // add prefix
+    	        $prefixedLinks[$k] = $this->_prefix.$v;
+    	    }
+    	    return $prefixedLinks;
     	}
     }
     
@@ -385,35 +391,6 @@ class DB_DataObjectCommon extends DB_DataObject
         }
     }
     
-    /**
-     * Connect is used inside DB_DataObject to connect preload config
-     * We will override this "private" method to add additional settings required
-     * to use prefixes
-     *
-     * @return true | PEAR::error
-     * @access private
-     */
-    /*
-    function _connect()
-    {
-        $ret = parent::_connect();
-        if ($ret !== true) {
-            return $ret;
-        }
-        
-        $this->_addPrefixToTableName();
-
-        global $_DB_DATAOBJECT;
-        $_DB_DATAOBJECT['CONFIG']["ini_{$this->_database}"] = array(
-            "{$_DB_DATAOBJECT['CONFIG']['schema_location']}/db_schema.ini",
-        );
-        $_DB_DATAOBJECT['CONFIG']["links_{$this->_database}"] = 
-            "{$_DB_DATAOBJECT['CONFIG']['schema_location']}/db_schema.links.ini";
-
-        return $ret;
-    }
-    */
-
     /**
      * Collects references from links file
      *
