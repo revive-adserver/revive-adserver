@@ -123,7 +123,7 @@ elseif (phpAds_isUser(phpAds_Agency))
     
     $doAffiliate = MAX_DB::factoryDO('affiliates');
     $doAffiliate->agencyid = $agencyId;
-    $doZone->joinAdd(MAX_DB::factoryDO('affiliates'));
+    $doZone->joinAdd($doAffiliate);
 
     $doAdZoneAssoc->joinAdd($doZone);
 }
