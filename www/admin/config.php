@@ -120,7 +120,6 @@ $options = array(
     'class_prefix'          => 'DataObjects_',
     'debug'                 => 0,
     'production'            => 0,
-    'ignore_sequence_keys'  => 'ALL',
 );
 
 

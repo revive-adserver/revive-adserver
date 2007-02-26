@@ -9,6 +9,11 @@ class MAX_Dal_Admin_Affiliate extends MAX_Dal_Common
 {
     var $table = 'affiliates';
     
+    var $orderListName = array(
+        'name' => 'name',
+        'id'   => 'affiliateid'
+    );
+    
 	function getAffiliateByKeyword($keyword, $agencyId = null)
     {
         $whereAffiliate = is_numeric($keyword) ? " OR a.affiliateid=$keyword" : '';

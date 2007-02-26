@@ -56,9 +56,6 @@ class MAX_DB
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $dbType = $conf['database']['type'];        
-        if ($dbType == 'mysql') {
-            $dbType = 'mysql_SGL';
-        }        
         //  Return DSN as array or as string as specified
         if ($type == MAX_DSN_ARRAY) {
             $dsn = array(

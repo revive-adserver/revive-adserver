@@ -106,13 +106,10 @@ class DB_DataObjectCommon extends DB_DataObject
     			if ($filter && !in_array($k, $filter)) {
     				continue;
     			}
-    			if ($negativeFilter && in_array($k, $negativeFilter)) {
-    				continue;
-    			}
     			if (!isset($this->$k)) {
     				continue;
     			}
-    			$row[$k] = $v;
+    			$row[$k] = $this->$k;
     		}
     		if ($flattenIfOneOnly && count($row) == 1) {
     		    $row = array_pop($row);
