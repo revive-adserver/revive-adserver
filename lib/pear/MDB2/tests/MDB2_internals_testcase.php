@@ -243,7 +243,7 @@ class MDB2_Internals_TestCase extends MDB2_TestCase {
                     );
     }
 
-    function test__fixResultArrayValues_EmptyToNull(&$row='', $mode='', $sender='_fixResultArrayValues_EmptyToNull')
+    function test__fixResultArrayValues_EmptyToNull($row='', $mode='', $sender='_fixResultArrayValues_EmptyToNull')
     {
         $row = (!$row ? $this->fetchRowData() : $row );
         $mode = (!$mode ? MDB2_PORTABILITY_EMPTY_TO_NULL : $mode );
@@ -256,7 +256,7 @@ class MDB2_Internals_TestCase extends MDB2_TestCase {
         $this->assertNotNull($row[1], $sender);
     }
 
-    function test__fixResultArrayValues_Rtrim(&$row='', $mode='', $sender='_fixResultArrayValues_Rtrim')
+    function test__fixResultArrayValues_Rtrim($row='', $mode='', $sender='_fixResultArrayValues_Rtrim')
     {
         $row = (!$row ? $this->fetchRowData() : $row );
         $mode = (!$mode ? MDB2_PORTABILITY_RTRIM : $mode );
@@ -268,7 +268,7 @@ class MDB2_Internals_TestCase extends MDB2_TestCase {
         $this->assertEquals(7, strlen($row[2]),$sender);
     }
 
-    function test__fixResultArrayValues_AssocFieldNames(&$row='', $mode='', $sender='_fixResultArrayValues_AssocFieldNames')
+    function test__fixResultArrayValues_AssocFieldNames($row='', $mode='', $sender='_fixResultArrayValues_AssocFieldNames')
     {
         $row = (!$row ? $this->fetchRowData() : $row );
         $mode = (!$mode ? MDB2_PORTABILITY_FIX_ASSOC_FIELD_NAMES : $mode );
