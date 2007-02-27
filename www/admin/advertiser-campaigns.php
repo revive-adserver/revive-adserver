@@ -45,9 +45,9 @@ phpAds_registerGlobal ('expand', 'collapse', 'hideinactive', 'listorder', 'order
 phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
 
 if (phpAds_isUser(phpAds_Agency)) {
-    $doClient = MAX_DB::factoryDO('clients');
-    $doClient->clientid = $clientid;
-    if (!$doClient->belongToUser('agency', phpAds_getUserID())) {
+    $doClients = MAX_DB::factoryDO('clients');
+    $doClients->clientid = $clientid;
+    if (!$doClients->belongToUser('agency', phpAds_getUserID())) {
         phpAds_PageHeader("2");
 		phpAds_Die ($strAccessDenied, $strNotAdmin);
     }
@@ -96,19 +96,19 @@ if (isset($session['prefs']['advertiser-index.php']['orderdirection'])) {
 }
 
 // Get other clients
-$doClient = MAX_DB::factoryDO('clients');
+$doClients = MAX_DB::factoryDO('clients');
 
 // Unless admin, restrict results shown.
 if (phpAds_isUser(phpAds_Agency)) {
-    $doClient->agencyid = phpAds_getUserID();
+    $doClients->agencyid = phpAds_getUserID();
 } elseif (phpAds_isUser(phpAds_Client)) {
-    $doClient->clientid = phpAds_getUserID();
+    $doClients->clientid = phpAds_getUserID();
 }
 
-$doClient->addListorderBy($navorder, $navdirection);
-$doClient->find();
+$doClients->addListorderBy($navorder, $navdirection);
+$doClients->find();
 
-while ($doClient->fetch() && $row = $doClient->toArray()) {
+while ($doClients->fetch() && $row = $doClients->toArray()) {
 	phpAds_PageContext (
 		phpAds_buildName ($row['clientid'], $row['clientname']),
 		"advertiser-campaigns.php?clientid=".$row['clientid'],
@@ -169,13 +169,13 @@ if (isset($session['prefs']['advertiser-campaigns.php'][$clientid]['nodes'])) {
 
 // Get clients & campaign and build the tree
 
-$doCampaign = MAX_DB::factoryDO('campaigns');
-$doCampaign->clientid = $clientid;
+$doCampaigns = MAX_DB::factoryDO('campaigns');
+$doCampaigns->clientid = $clientid;
 
-$doCampaign->addListOrderBy($listorder, $orderdirection);
-$doCampaign->find();
+$doCampaigns->addListOrderBy($listorder, $orderdirection);
+$doCampaigns->find();
 
-while ($doCampaign->fetch() && $row_campaigns = $doCampaign->toArray()) {
+while ($doCampaigns->fetch() && $row_campaigns = $doCampaigns->toArray()) {
 	$campaigns[$row_campaigns['campaignid']]['campaignid']   = $row_campaigns['campaignid'];
 
     // mask campaign name if anonymous campaign
@@ -212,12 +212,12 @@ while ($doCampaign->fetch() && $row_campaigns = $doCampaign->toArray()) {
 }
 
 
-$doBanner = MAX_DB::factoryDO('banners');
-$doBanner->selectAs(array('storagetype'), 'type');
-$doBanner->addListOrderBy($listorder, $orderdirection);
-$doBanner->find();
+$doBanners = MAX_DB::factoryDO('banners');
+$doBanners->selectAs(array('storagetype'), 'type');
+$doBanners->addListOrderBy($listorder, $orderdirection);
+$doBanners->find();
 
-while ($doBanner->fetch() && $row_banners = $doBanner->toArray()) {
+while ($doBanners->fetch() && $row_banners = $doBanners->toArray()) {
     if (isset($campaigns[$row_banners['campaignid']])) {
         $banners[$row_banners['bannerid']] = $row_banners;
 

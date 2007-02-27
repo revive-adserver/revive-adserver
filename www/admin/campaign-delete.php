@@ -48,13 +48,13 @@ phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 if (phpAds_isUser(phpAds_Agency)) {
     $belongToUser = false;
     if (!empty($campaignid)) {
-        $doCampaign = MAX_DB::factoryDO('campaigns');
-        $doCampaign->campaignid = $campaignid;
-        $belongToUser = $doCampaign->belongToUser('agency', phpAds_getUserID());
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->campaignid = $campaignid;
+        $belongToUser = $doCampaigns->belongToUser('agency', phpAds_getUserID());
     } else {
-        $doClient = MAX_DB::factoryDO('clients');
-        $doClient->clientid = $clientid;
-        $belongToUser = $doClient->belongToUser('agency', phpAds_getUserID());
+        $doClients = MAX_DB::factoryDO('clients');
+        $doClients->clientid = $clientid;
+        $belongToUser = $doClients->belongToUser('agency', phpAds_getUserID());
     }
     if (!$belongToUser) {
         phpAds_PageHeader("2");
@@ -75,9 +75,9 @@ if (isset($session['prefs']['advertiser-index.php']['nodes'])) {
 /*-------------------------------------------------------*/
 
 if (!empty($campaignid)) {
-    $doCampaign = MAX_DB::factoryDO('campaigns');
-    $doCampaign->campaignid = $campaignid;
-    $doCampaign->delete();
+    $doCampaigns = MAX_DB::factoryDO('campaigns');
+    $doCampaigns->campaignid = $campaignid;
+    $doCampaigns->delete();
     // Find and delete the campains from $node_array, if
     // necessary. (Later, it would be better to have
     // links to this file pass in the clientid as well,

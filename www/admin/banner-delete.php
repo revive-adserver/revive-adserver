@@ -46,9 +46,9 @@ phpAds_registerGlobal ('returnurl');
 phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 
 if (phpAds_isUser(phpAds_Agency)) {
-    $doBanner = MAX_DB::factoryDO('banners');
-    $doBanner->bannerid = $bannerid;
-    if (!$doBanner->belongToUser('agency', phpAds_getUserID())) {
+    $doBanners = MAX_DB::factoryDO('banners');
+    $doBanners->bannerid = $bannerid;
+    if (!$doBanners->belongToUser('agency', phpAds_getUserID())) {
         phpAds_PageHeader("2");
         phpAds_Die ($strAccessDenied, $strNotAdmin);
     }
@@ -58,14 +58,14 @@ if (phpAds_isUser(phpAds_Agency)) {
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$doBanner = MAX_DB::factoryDO('banners');
+$doBanners = MAX_DB::factoryDO('banners');
 
 if (!empty($bannerid)) {
-    $doBanner->bannerid = $bannerid;
-    $doBanner->delete();
+    $doBanners->bannerid = $bannerid;
+    $doBanners->delete();
 } else if (!empty($campaignid)) {
-    $doBanner->campaignid = $campaignid;
-    $doBanner->delete();
+    $doBanners->campaignid = $campaignid;
+    $doBanners->delete();
 }
 
 // Run the Maintenance Priority Engine process

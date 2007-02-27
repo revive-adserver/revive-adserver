@@ -46,9 +46,9 @@ phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 
 if (phpAds_isUser(phpAds_Agency))
 {
-	$doAffiliate = MAX_DB::factoryDO('affiliates');
-	$doAffiliate->affiliateid = $affiliateid;
-	if (!$doAffiliate->belongToUser('agency', phpAds_getUserID()))
+	$doAffiliates = MAX_DB::factoryDO('affiliates');
+	$doAffiliates->affiliateid = $affiliateid;
+	if (!$doAffiliates->belongToUser('agency', phpAds_getUserID()))
 	{
 		phpAds_PageHeader("2");
 		phpAds_Die ($strAccessDenied, $strNotAdmin);
@@ -62,9 +62,9 @@ if (phpAds_isUser(phpAds_Agency))
 
 if (!empty($affiliateid))
 {
-	$doAffiliate = MAX_DB::factoryDO('affiliates');
-	$doAffiliate->affiliateid = $affiliateid;
-	$doAffiliate->delete();
+	$doAffiliates = MAX_DB::factoryDO('affiliates');
+	$doAffiliates->affiliateid = $affiliateid;
+	$doAffiliates->delete();
 }
 
 if (empty($returnurl))

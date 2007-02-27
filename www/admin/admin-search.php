@@ -227,11 +227,11 @@ if (!isset($keyword))
             
             if (!$compact)
             {
-                $doCampaign = MAX_DB::factoryDO('campaigns');
-                $doCampaign->clientid = $row_clients['clientid'];
-                $doCampaign->find();
+                $doCampaigns = MAX_DB::factoryDO('campaigns');
+                $doCampaigns->clientid = $row_clients['clientid'];
+                $doCampaigns->find();
 
-                while ($doCampaign->fetch() && $row_c_expand = $doCampaign->toArray())
+                while ($doCampaigns->fetch() && $row_c_expand = $doCampaigns->toArray())
                 {
                     echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
                     
@@ -264,11 +264,11 @@ if (!isset($keyword))
                     echo "</td></tr>";
                     
                     
-                    $doBanner = MAX_DB::factoryDO('banners');
-                    $doBanner->campaignid = $row_c_expand['campaignid'];
-                    $doBanner->find();
+                    $doBanners = MAX_DB::factoryDO('banners');
+                    $doBanners->campaignid = $row_c_expand['campaignid'];
+                    $doBanners->find();
                     
-                    while ($doBanner->fetch() && $row_b_expand = $doBanner->toArray())
+                    while ($doBanners->fetch() && $row_b_expand = $doBanners->toArray())
                     { 
                         $name = $strUntitled;
                         if (isset($row_b_expand['alt']) && $row_b_expand['alt'] != '') $name = $row_b_expand['alt'];
@@ -363,11 +363,11 @@ if (!isset($keyword))
             
             if (!$compact)
             {
-                $doBanner = MAX_DB::factoryDO('banners');
-                $doBanner->campaignid = $row_campaigns['campaignid'];
-                $doBanner->find();
+                $doBanners = MAX_DB::factoryDO('banners');
+                $doBanners->campaignid = $row_campaigns['campaignid'];
+                $doBanners->find();
                 
-                while ($doBanner->fetch() && $row_b_expand = $doBanner->toArray())
+                while ($doBanners->fetch() && $row_b_expand = $doBanners->toArray())
                 {
                     $name = $strUntitled;
                     if (isset($row_b_expand['alt']) && $row_b_expand['alt'] != '') $name = $row_b_expand['alt'];
@@ -522,11 +522,11 @@ if (!isset($keyword))
             
             if (!$compact)
             {
-                $doZone = MAX_DB::factoryDO('zones');
-                $doZone->affiliateid = $row_affiliates['affiliateid'];
-                $doZone->find();
+                $doZones = MAX_DB::factoryDO('zones');
+                $doZones->affiliateid = $row_affiliates['affiliateid'];
+                $doZones->find();
                 
-                while ($doZone->fetch() && $row_z_expand = $doZone->toArray())
+                while ($doZones->fetch() && $row_z_expand = $doZones->toArray())
                 {
                     $name = $row_z_expand['zonename'];
                     $name = phpAds_breakString ($name, '30');

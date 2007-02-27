@@ -55,9 +55,9 @@ if (phpAds_isUser(phpAds_Client))
 }
 elseif (phpAds_isUser(phpAds_Agency))
 {
-	$doClient = MAX_DB::factoryDO('clients');
-	$doClient->clientid = $clientid;
-	if (!$doClient->belongToUser('agency', phpAds_getUserID()))
+	$doClients = MAX_DB::factoryDO('clients');
+	$doClients->clientid = $clientid;
+	if (!$doClients->belongToUser('agency', phpAds_getUserID()))
 	{
 		phpAds_PageHeader("2");
 		phpAds_Die ($strAccessDenied, $strNotAdmin);

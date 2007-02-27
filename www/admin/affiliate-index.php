@@ -107,8 +107,8 @@ while ($doAffiliates->fetch() && $row_affiliates = $doAffiliates->toArray())
 	$affiliates[$row_affiliates['affiliateid']]['count'] = 0;
 }
 
-$doZone = MAX_DB::factoryDO('zones');
-$doZone->addListOrderBy($listorder, $orderdirection);
+$doZones = MAX_DB::factoryDO('zones');
+$doZones->addListOrderBy($listorder, $orderdirection);
 
 $doAdZoneAssoc = MAX_DB::factoryDO('ad_zone_assoc');
 $doAdZoneAssoc->selectAdd('zone_id');
@@ -126,14 +126,14 @@ elseif (phpAds_isUser(phpAds_Agency))
     
     $doAffiliates = MAX_DB::factoryDO('affiliates');
     $doAffiliates->agencyid = $agencyId;
-    $doZone->joinAdd($doAffiliates);
+    $doZones->joinAdd($doAffiliates);
 
-    $doAdZoneAssoc->joinAdd($doZone);
+    $doAdZoneAssoc->joinAdd($doZones);
 }
 
-$doZone->find();
+$doZones->find();
 
-while ($doZone->fetch() && $row_zones = $doZone->toArray())
+while ($doZones->fetch() && $row_zones = $doZones->toArray())
 {
 	if (isset($affiliates[$row_zones['affiliateid']]))
 	{
@@ -452,14 +452,14 @@ echo "</table>";
 
 // Total number of clients
 $doAffiliates = MAX_DB::factoryDO('affiliates');
-$doZone = MAX_DB::factoryDO('zones');
+$doZones = MAX_DB::factoryDO('zones');
 
 if (phpAds_isUser(phpAds_Agency)) {
     $doAffiliates->agencyid = phpAds_getAgencyID();
-    $doZone->joinAdd($doAffiliates);
+    $doZones->joinAdd($doAffiliates);
 }
 
-$countZone = $doZone->count();
+$countZone = $doZones->count();
 $countAffiliate = $doAffiliates->count();
 
 echo "\t\t\t\t<br /><br /><br /><br />\n";

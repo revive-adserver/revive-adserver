@@ -51,24 +51,24 @@ phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
 
 if (!empty($zoneid)) {
     
-    $doZone = MAX_DB::factoryDO('zones');
-    $doZone->zoneid = $zoneid;
+    $doZones = MAX_DB::factoryDO('zones');
+    $doZones->zoneid = $zoneid;
     
     if (phpAds_isUser(phpAds_Affiliate)) {
-        if (!$doZone->belongToUser('affiliates', phpAds_getUserID()) || !phpAds_isAllowed(phpAds_DeleteZone)) {
+        if (!$doZones->belongToUser('affiliates', phpAds_getUserID()) || !phpAds_isAllowed(phpAds_DeleteZone)) {
             phpAds_PageHeader("1");
             phpAds_Die ($strAccessDenied, $strNotAdmin);
         } else {
-            $affiliateid = $doZone->affiliateid;
+            $affiliateid = $doZones->affiliateid;
         }
     } elseif (phpAds_isUser(phpAds_Agency)) {
-        if ($doZone->belongToUser('agency', phpAds_getUserID())) {
+        if ($doZones->belongToUser('agency', phpAds_getUserID())) {
             phpAds_PageHeader("2");
             phpAds_Die ($strAccessDenied, $strNotAdmin);
         }
     }
     
-    $doZone->delete();
+    $doZones->delete();
 }
 
 if (!isset($returnurl) && $returnurl == '') {
