@@ -254,6 +254,44 @@ class DataSpace {
         }
     }
     
+   /**
+	 * Below methods are added to provide a common interface between DataObjects and DAL
+	 * @return boolean
+	 * @access public
+	 */
+	function fetch()
+	{
+	    return $this->next();
+	}
+	
+	/**
+	 * Reset RecordSet
+	 *
+	 * @param boolean $autoFetch  If true fetch first record
+	 * @return boolean  True on success
+	 * @access public
+	 */
+	function find($autoFetch = false)
+	{
+	    if (!$this->reset()) {
+	        return false;
+	    }
+	    if ($autoFetch) {
+	        return $this->next();
+	    }
+	    return true;
+	}
+	
+	/**
+	 * Export parameters as array
+	 *
+	 * @return array
+	 * @access public
+	 */
+	function toArray()
+	{
+	    return $this->export();
+	}
 }
 
 ?>

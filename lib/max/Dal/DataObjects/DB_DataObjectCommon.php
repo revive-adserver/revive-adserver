@@ -92,7 +92,14 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function getAll($filter = array(), $indexWithPrimaryKey = false, $flattenIfOneOnly = true)
     {
-    	$this->find();
+    	if ($filter) {
+    	    // select only what is required
+    	    $this->selectAdd();
+    	    foreach ($filter as $field) {
+    	        $this->selectAdd($field);
+    	    }
+    	}
+        $this->find();
     	
     	$rows = array();
     	$fields = $this->table();
@@ -103,9 +110,9 @@ class DB_DataObjectCommon extends DB_DataObject
     	while ($this->fetch()) {
     		$row = array();
     		foreach ($fields as $k => $v) {
-    			if ($filter && !in_array($k, $filter)) {
-    				continue;
-    			}
+//    			if ($filter && !in_array($k, $filter)) {
+//    				continue;
+//    			}
     			if (!isset($this->$k)) {
     				continue;
     			}

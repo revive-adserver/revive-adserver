@@ -191,7 +191,7 @@ if (!isset($keyword))
     
     if ($client && $rsClients->getRowCount())
     {
-        while ($rsClients->next() && $row_clients = $rsClients->export())
+        while ($rsClients->fetch() && $row_clients = $rsClients->toArray())
         {
             if ($i > 0) echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
             
@@ -328,7 +328,7 @@ if (!isset($keyword))
     
     if ($campaign)
     {
-        while ($rsCampaigns->next() && $row_campaigns = $rsCampaigns->export())
+        while ($rsCampaigns->fetch() && $row_campaigns = $rsCampaigns->toArray())
         {
             if ($i > 0) echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
             
@@ -425,7 +425,7 @@ if (!isset($keyword))
     
     if ($banner && $rsBanners->getRowCount())
     {
-        while ($rsBanners->next() && $row_banners = $rsBanners->export())
+        while ($rsBanners->fetch() && $row_banners = $rsBanners->toArray())
         {
             $name = $strUntitled;
             if (isset($row_banners['alt']) && $row_banners['alt'] != '') $name = $row_banners['alt'];
@@ -481,7 +481,7 @@ if (!isset($keyword))
     
     if ($affiliate && $rsAffiliates->getRowCount())
     {
-        while ($rsAffiliates->next() && $row_affiliates = $rsAffiliates->export())
+        while ($rsAffiliates->fetch() && $row_affiliates = $rsAffiliates->toArray())
         {
             $name = $row_affiliates['name'];
             $name = phpAds_breakString ($name, '30');
@@ -568,7 +568,7 @@ if (!isset($keyword))
     
     if ($zone && $rsZones->getRowCount())
     {
-        while ($rsZones->next() && $row_zones = $rsZones->export())
+        while ($rsZones->fetch() && $row_zones = $rsZones->toArray())
         {
             $name = $row_zones['zonename'];
             $name = phpAds_breakString ($name, '30');
