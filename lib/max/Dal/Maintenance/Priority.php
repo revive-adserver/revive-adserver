@@ -967,7 +967,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                                 }
                             }
                         }
-                    } 
+                    }
                     else {
                         $foundAll = true;
                     }
@@ -1497,7 +1497,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
      */
     function saveZoneImpressionForecasts( $aForecasts )
     {
-        
+
         // Check the parameter
         if ( !is_array($aForecasts) || !count($aForecasts) ) {
             return;
@@ -1508,39 +1508,39 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
         // save values to further querries
         $aIntervalStart = array( 'min'=> 0, 'max' => 0 );
         $aIntervalEnd = array( 'min'=> 0, 'max' => 0 );
-        
+
         // loop through forecasts array to find min/max start/end intervals
         while ( list(,$aOperationIntervals) = each( $aForecasts ) ) {
             while( list( ,$aValues ) = each($aOperationIntervals ) ) {
-                
+
                 $iInterval = strtotime(  $aValues['interval_start'] );
-                
+
                 if( ( !$aIntervalStart['max'] || $iInterval > $aIntervalStart['max'] ) && $iInterval > 0 ) {
                     $aIntervalStart['max'] = $iInterval;
                 }
-                
+
                 if( ( !$aIntervalStart['min'] || $iInterval < $aIntervalStart['min'] ) && $iInterval > 0 ) {
                     $aIntervalStart['min'] = $iInterval;
                 }
-                
+
                 $iInterval = strtotime(  $aValues['interval_end'] );
-                
+
                 if( ( !$aIntervalEnd['max'] || $iInterval > $aIntervalEnd['max'] ) && $iInterval > 0 ) {
                     $aIntervalEnd['max'] = $iInterval;
                 }
-                
+
                 if( ( !$aIntervalEnd['min'] || $iInterval < $aIntervalEnd['min'] ) && $iInterval > 0 ) {
                     $aIntervalEnd['min'] = $iInterval;
                 }
-                
+
             }
         }
-        
+
         // leave if at least one of endpoints for dates hasn't been set
         if( !$aIntervalStart['min'] || !$aIntervalStart['max'] || !$aIntervalEnd['min'] || !$aIntervalEnd['max'] ) {
             return;
         }
-        
+
         $sSelectQuery = "
 	        SELECT
 	            zone_id,
@@ -1558,47 +1558,47 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                	"AND interval_start >= '{$aIntervalStart['min']}' AND interval_start <= '{$aIntervalStart['max']}' " .
                	"AND interval_end >= {$aIntervalEnd['min']} AND interval_end <= {$aIntervalEnd['max']} " .
                 "";
-	    
+
         $result = $this->dbh->query($sSelectQuery);
-        
+
         if( PEAR::isError( $result ) ) {
             return $result;
         }
-        
+
         if ($result->numRows() > 0) {
-            
+
             while ($result->fetchInto($row)) {
-                
+
                 // skip row if there's no data for it in the array
-                if( 
-                    !empty( $aForecasts[ $row['zone_id'] ] ) && 
+                if(
+                    !empty( $aForecasts[ $row['zone_id'] ] ) &&
                     !empty( $aForecasts[ $row['zone_id'] ][ $row['operation_interval_id'] ] ) &&
-                    $aForecasts[ $row['zone_id'] ][ $row['operation_interval_id'] ][ 'interval_start' ] == $row['interval_start']  && 
-                    $aForecasts[ $row['zone_id'] ][ $row['operation_interval_id'] ][ 'interval_end' ] == $row['interval_end']   
+                    $aForecasts[ $row['zone_id'] ][ $row['operation_interval_id'] ][ 'interval_start' ] == $row['interval_start']  &&
+                    $aForecasts[ $row['zone_id'] ][ $row['operation_interval_id'] ][ 'interval_end' ] == $row['interval_end']
                 ) {
-                
+
 	                // merge impresions
 	                if( !empty( $row['actual_impressions'] ) ) {
 	                    $aForecasts[ $row['zone_id'] ][ $row['operation_interval_id'] ][ 'actual_impressions' ] = $row['actual_impressions'];
 	                }
-	                
+
 	                // save forecast_impressions if there's no newer value in the array already
 	                if( empty( $aForecasts[ $row['zone_id'] ][ $row['operation_interval_id'] ][ 'forecast_impressions' ] ) ) {
 	                    $aForecasts[ $row['zone_id'] ][ $row['operation_interval_id'] ][ 'forecast_impressions' ] = $row['forecast_impressions'];
 	                }
-	                
+
                 }
             }
         }
-        $this->dbh->freeResult();
-        
+        $result->free();
+
         // run query and check for results
         $oRes = $this->dbh->startTransaction();
         if( PEAR::isError( $oRes ) ) {
             // cannot start transaction
             return $oRes;
         }
-       
+
         $sDeleteQuery =  "
                 DELETE FROM
                     {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
@@ -1607,18 +1607,18 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 	"AND interval_start >= '{$aIntervalStart['min']}' AND interval_start <= '{$aIntervalStart['max']}' " .
                 	"AND interval_end >= {$aIntervalEnd['min']} AND interval_end <= {$aIntervalEnd['max']} " .
                 	"AND operation_interval = {$conf['maintenance']['operationInterval']} ";
-        
+
         // run query and check for results
         $oRes = $this->dbh->query( $sDeleteQuery );
         if( PEAR::isError( $oRes ) ) {
             // rollback
             $this->dbh->rollback();
-            
+
             // return error object
             return $oRes;
-        }        
-        $this->dbh->freeResult();
-        
+        }
+        $oRes->free();
+
         // append all values to the multiple insert stmt
         $sInsertQuery = "
                 INSERT INTO
@@ -1632,7 +1632,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                         forecast_impressions
                     )
                 VALUES ";
-	            
+
         // For each forecast in the array
         foreach ($aForecasts as $zoneId => $aOperationIntervals) {
             foreach ($aOperationIntervals as $id => $aValues) {
@@ -1648,24 +1648,24 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 		"),";
             }
         }
-        
+
         // remove last comma
         $sInsertQuery = substr( $sInsertQuery, 0, -1 );
-        
+
         // run query and return the output (DB_OK/DB_Error)
         $oRes = $this->dbh->query( $sInsertQuery );
-        
+
         if( PEAR::isError( $oRes ) ) {
             // rollback
             $this->dbh->rollback();
-            
+
             // return error object
             return $oRes;
         }
-        $this->dbh->freeResult();
-        
+        $oRes->free();
+
         return $this->dbh->commit();
-        
+
     }
 
     /**
