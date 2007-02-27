@@ -673,14 +673,15 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
         // Get the tab sections
         $tabSections = array('2.1.1');
     } else {
+        // Get the tab sections
+        $tabSections = array('4.1.3.4.2', '4.1.3.4.3', '4.1.3.4.4', '4.1.3.4.6');
+
         switch ($pageName) {
             case 'banner-zone.php'   : $tabValue = '4.1.3.4.4'; break;
             case 'banner-acl.php'    : $tabValue = '4.1.3.4.3'; break;
-            case 'banner-edit.php'   : $tabValue = '4.1.3.4.2'; break;
+            case 'banner-edit.php'   : $tabValue = '4.1.3.4.2'; if( empty( $bannerId ) ) $tabSections = array('4.1.3.4.2' ); break;
             case 'banner-advanced.php' : $tabValue = '4.1.3.4.6'; break;
         }
-        // Get the tab sections
-        $tabSections = array('4.1.3.4.2', '4.1.3.4.3', '4.1.3.4.4', '4.1.3.4.6');
     }
     foreach ($aOtherBanners as $otherBannerId => $aOtherBanner) {
 
@@ -803,7 +804,7 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
         // Determine which tab is highlighted
         switch ($pageName) {
             case 'zone-include.php' :     $tabValue = '4.2.3.3'; break;
-            case 'zone-edit.php' :        $tabValue = '4.2.3.2'; break;
+            case 'zone-edit.php' :        $tabValue = '4.2.3.2'; if (empty($zoneId)) $tabSections = array('4.2.3.2'); break;
             case 'zone-advanced.php' :    $tabValue = '4.2.3.6'; break;
             case 'zone-probability.php' : $tabValue = '4.2.3.4'; break;
             case 'zone-invocation.php' :  $tabValue = '4.2.3.5'; break;
