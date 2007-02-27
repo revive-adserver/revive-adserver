@@ -5,7 +5,7 @@
 
 require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 
-class MAX_Dal_Admin_Acl extends MAX_Dal_Common
+class MAX_Dal_Admin_Acls extends MAX_Dal_Common
 {
     var $table = 'acls';
     
@@ -33,7 +33,5 @@ class MAX_Dal_Admin_Acl extends MAX_Dal_Common
         return DBC::NewRecordSet($query);
     }
 }
-
-class AclModel extends MAX_Dal_Admin_Acl {}
 
 ?>
