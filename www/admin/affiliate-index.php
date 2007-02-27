@@ -111,6 +111,9 @@ $doZone = MAX_DB::factoryDO('zones');
 $doZone->addListOrderBy($listorder, $orderdirection);
 
 $doAdZoneAssoc = MAX_DB::factoryDO('ad_zone_assoc');
+$doAdZoneAssoc->selectAdd('zone_id');
+$doAdZoneAssoc->selectAdd('COUNT(*) AS num_ads');
+$doAdZoneAssoc->groupBy('zone_id');
 
 // Get the zones for each affiliate
 if (phpAds_isUser(phpAds_Admin))
