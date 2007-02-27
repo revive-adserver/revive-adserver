@@ -71,7 +71,12 @@ class MAX_Permission
 		if (!$userTable) {
 			return false;
 		}
-		return $do->belongToUser($userTable, phpAds_getUserID());
+		$userId = phpAds_getUserID();
+		if ($objectTable == $userTable) {
+		    // user has access to itself
+		    return ($id == $userId);
+		}
+		return $do->belongToUser($userTable, $userId);
 	}
 	
 	function getUserTypeTable()

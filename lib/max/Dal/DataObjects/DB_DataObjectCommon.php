@@ -230,7 +230,7 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function getTableWithoutPrefix($table)
     {
-        if (!empty($this->_prefix)) {
+        if (!empty($this->_prefix) && strpos($table, $this->_prefix) === 0) {
             return substr($table, strlen($this->_prefix));
         }
         return $table;
@@ -330,6 +330,27 @@ class DB_DataObjectCommon extends DB_DataObject
         }
 
         return parent::delete($useWhere);
+    }
+    
+    /**
+     * Override parent method to make sure that newly created dataobject
+     * is properly initialized with prefixes.
+     *
+     * @param  string  $table  tablename (use blank to create a new instance of the same class.)
+     * @access private
+     * @return DataObject|PEAR_Error 
+     */
+    function factory($table = '')
+    {
+        if (isset($this) && !empty($this->_prefix)) {
+            $table = $this->getTableWithoutPrefix($table);
+            $do = parent::factory($table);
+            if (!PEAR::isError($do)) {
+                $do->init();
+            }
+            return $do;
+        }
+        return parent::factory($table);
     }
     
     /**

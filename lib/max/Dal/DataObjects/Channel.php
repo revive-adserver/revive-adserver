@@ -44,6 +44,7 @@ class DataObjects_Channel extends DB_DataObjectCommon
     		$channelIds = array_diff($channelIds, array($channelid));
     		
     		$doAcl = DB_DataObject::factory('acls');
+    		$doAcl->init();
     		$doAcl->bannerid = $rsChannel->get('bannerid');
     		$doAcl->executionorder = $rsChannel->get('executionorder');
     		if (!empty($channelIds)) {

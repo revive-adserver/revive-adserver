@@ -35,15 +35,14 @@ require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/max/DB.php';
+require_once MAX_PATH . '/lib/max/Permission.php';
 
 // Register input variables
 phpAds_registerGlobal ('returnurl');
 
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
-
-
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
@@ -51,23 +50,28 @@ phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
 
 if (!empty($zoneid)) {
     
+    MAX_Permission::checkIsAllowed(phpAds_DeleteZone);
+    MAX_Permission::checkAccessToObject('zones', $zoneid);
+    
+//    $doZones = MAX_DB::factoryDO('zones');
+//    $doZones->zoneid = $zoneid;
+//    
+//    if (phpAds_isUser(phpAds_Affiliate)) {
+//        if (!$doZones->belongToUser('affiliates', phpAds_getUserID()) || !phpAds_isAllowed(phpAds_DeleteZone)) {
+//            phpAds_PageHeader("1");
+//            phpAds_Die ($strAccessDenied, $strNotAdmin);
+//        } else {
+//            $affiliateid = $doZones->affiliateid;
+//        }
+//    } elseif (phpAds_isUser(phpAds_Agency)) {
+//        if ($doZones->belongToUser('agency', phpAds_getUserID())) {
+//            phpAds_PageHeader("2");
+//            phpAds_Die ($strAccessDenied, $strNotAdmin);
+//        }
+//    }
+    
     $doZones = MAX_DB::factoryDO('zones');
     $doZones->zoneid = $zoneid;
-    
-    if (phpAds_isUser(phpAds_Affiliate)) {
-        if (!$doZones->belongToUser('affiliates', phpAds_getUserID()) || !phpAds_isAllowed(phpAds_DeleteZone)) {
-            phpAds_PageHeader("1");
-            phpAds_Die ($strAccessDenied, $strNotAdmin);
-        } else {
-            $affiliateid = $doZones->affiliateid;
-        }
-    } elseif (phpAds_isUser(phpAds_Agency)) {
-        if ($doZones->belongToUser('agency', phpAds_getUserID())) {
-            phpAds_PageHeader("2");
-            phpAds_Die ($strAccessDenied, $strNotAdmin);
-        }
-    }
-    
     $doZones->delete();
 }
 

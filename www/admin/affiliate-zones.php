@@ -37,27 +37,17 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-size.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
+require_once MAX_PATH . '/lib/max/Permission.php';
 
 // Register input variables
 phpAds_registerGlobal ('listorder', 'orderdirection');
-
-// Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
 
 /*-------------------------------------------------------*/
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-if (phpAds_isUser(phpAds_Affiliate)) {
-    $affiliateid = phpAds_getUserID();
-} elseif (phpAds_isUser(phpAds_Agency)) {
-    $query = "SELECT affiliateid FROM ".$conf['table']['prefix'].$conf['table']['affiliates']." WHERE affiliateid='".$affiliateid."' AND agencyid=".phpAds_getUserID();
-    $res = phpAds_dbQuery($query) or phpAds_sqlDie();
-    if (phpAds_dbNumRows($res) == 0) {
-        phpAds_PageHeader("2");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
-}
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+MAX_Permission::checkAccessToObject('affiliates', $affiliateid);
 
 /*-------------------------------------------------------*/
 /* Get preferences                                       */
@@ -97,17 +87,18 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
     }
     
     // Get other affiliates
+    $doAffiliates = MAX_DB::factoryDO('affiliates');
+    $doAffiliates->addListorderBy($navorder, $navdirection);
     if (phpAds_isUser(phpAds_Admin)) {
-        $query="SELECT * FROM " . $conf['table']['prefix'].$conf['table']['affiliates'] . phpAds_getAffiliateListOrder($navorder, $navdirection);
     } elseif (phpAds_isUser(phpAds_Agency)) {
-        $query="SELECT * FROM " . $conf['table']['prefix'].$conf['table']['affiliates'] . " WHERE agencyid=$agencyid" . phpAds_getAffiliateListOrder($navorder, $navdirection);
+        $doAffiliates->agencyid = $agencyid;
     } elseif (phpAds_isUser(phpAds_Affiliate)) {
-        $query="SELECT * FROM " . $conf['table']['prefix'].$conf['table']['affiliates'] . " WHERE affiliateid=$affiliateid" . phpAds_getAffiliateListOrder($navorder, $navdirection);
+        $doAffiliates->affiliateid = $affiliateid;
     }
-    $res = phpAds_dbQuery($query)
-        or phpAds_sqlDie();
     
-    while ($row = phpAds_dbFetchArray($res)) {
+    $doAffiliates->find();
+    
+    while ($doAffiliates->fetch() && $row = $doAffiliates->toArray()) {
         phpAds_PageContext (
             phpAds_buildAffiliateName ($row['affiliateid'], $row['name']),
             "affiliate-zones.php?affiliateid=".$row['affiliateid'],
@@ -136,19 +127,10 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
 /*-------------------------------------------------------*/
 
 // Get clients & campaign and build the tree
-
-$res_zones = phpAds_dbQuery("
-        SELECT 
-            *
-        FROM 
-            ".$conf['table']['prefix'].$conf['table']['zones']."
-        WHERE
-            affiliateid = '".$affiliateid."'
-        ".phpAds_getZoneListOrder ($listorder, $orderdirection)."
-        ") or phpAds_sqlDie();
-
-
-
+$doZones = MAX_DB::factoryDO('zones');
+$doZones->affiliateid = $affiliateid;
+$doZones->addListorderBy($navorder, $navdirection);
+$doZones->find();
 
 if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(phpAds_AddZone))
 {
@@ -224,7 +206,7 @@ echo "</tr>";
 echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 
 
-if (phpAds_dbNumRows($res_zones) == 0)
+if ($doZones->getNumRows() == 0)
 {
     echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='4'>";
     echo "&nbsp;&nbsp;".$strNoZones;
@@ -234,7 +216,7 @@ if (phpAds_dbNumRows($res_zones) == 0)
 }
 
 $i=0;
-while ($row_zones = phpAds_dbFetchArray($res_zones))
+while ($doZones->fetch() && $row_zones = $doZones->toArray())
 {
     if ($i > 0) echo "<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
     echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
