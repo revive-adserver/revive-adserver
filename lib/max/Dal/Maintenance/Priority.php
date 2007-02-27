@@ -1494,20 +1494,83 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
      *                         "interval_end" => The end Date for the operation interval; and
      *                         "operation_interval" => The operation interval in use when
      *                         the forecast was made.
-     * @param boolean $safe A flag to indicate if it is safe to simply insert the values
-     *                      (true), or if each forecast needs to be checked to see if it
-     *                      may already exist (false).
      */
-    function saveZoneImpressionForecasts($aForecasts, $safe = true)
+    function saveZoneImpressionForecasts( $aForecasts )
     {
         // Check the parameter
-        if (!is_array($aForecasts) || (is_array($aForecasts) && (count($aForecasts) == 0))) {
+        if ( !is_array($aForecasts) || !count($aForecasts) ) {
             return;
         }
         $conf = $GLOBALS['_MAX']['CONF'];
-        if ($safe) {
-            // Construct the SQL statements to insert the values
-            $query = "
+        
+        // array for storing row values
+        $aInsertQuery = array();
+        
+        // For each forecast in the array
+        foreach ($aForecasts as $zoneId => $aOperationIntervals) {
+            foreach ($aOperationIntervals as $id => $aValues) {
+                // Is there already a forecast for the zone?
+                $sSelectQuery = "
+                    SELECT
+                        forecast_impressions,
+                        actual_impressions
+                    FROM
+                        {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                    WHERE
+                        zone_id = $zoneId
+                        AND operation_interval = {$conf['maintenance']['operationInterval']}
+                        AND operation_interval_id = $id
+                        AND interval_start = '{$aValues['interval_start']}'
+                        AND interval_end = '{$aValues['interval_end']}'
+                        ";
+                        
+                // check if there are some entries in the table already
+                $result = $this->dbh->query($sSelectQuery);
+                if ($result->numRows() > 0) {
+                    
+                    while ($res->fetchInto($row)) {
+                        
+                        // check if any of interesting columns has non-null values
+                        if( !empty( $row['forecast_impressions'] ) && empty( $aValues['forecast_impressions'] ) ){
+                            $aValues['forecast_impressions'] = $row['forecast_impressions'];
+                        }
+                        
+                        if( !empty( $row['actual_impressions'] ) && empty( $aValues['actual_impressions'] ) ){
+                            $aValues['actual_impressions'] = $row['actual_impressions'];
+                        }
+                        
+                    }
+                }
+                
+                // delete currently processed row
+                $sDeleteQuery = "
+                    DELETE
+                    FROM
+                        {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                    WHERE
+                        zone_id = $zoneId
+                        AND operation_interval = {$conf['maintenance']['operationInterval']}
+                        AND operation_interval_id = $id
+                        AND interval_start = '{$aValues['interval_start']}'
+                        AND interval_end = '{$aValues['interval_end']}'
+                        ";
+                
+                $this->dbh->query( $sDeleteQuery );
+                
+                // add another value set to the insert stmt
+                $aInsertQuery[] = "(
+                                $zoneId,
+                                {$conf['maintenance']['operationInterval']},
+                                $id,
+                                '{$aValues['interval_start']}',
+                                '{$aValues['interval_end']}',
+                                {$aValues['forecast_impressions']}
+                            )";
+            }
+        }
+        
+        // append all values to the multiple insert stmt
+        $sInsertQuery = "
                 INSERT INTO
                     {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
                     (
@@ -1518,75 +1581,11 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                         interval_end,
                         forecast_impressions
                     )
-                VALUES";
-            foreach ($aForecasts as $zoneId => $aOperationIntervals) {
-                foreach ($aOperationIntervals as $id => $aValues) {
-                    $aQuery[] = "($zoneId, {$conf['maintenance']['operationInterval']}, $id, '" .
-                        $aValues['interval_start'] . "', '" .
-                        $aValues['interval_end'] . "', {$aValues['forecast_impressions']})";
-                }
-            }
-            $query .= ' ' . implode(', ', $aQuery);
-            // Insert the new historical zone impressions forecasts
-            $result = $this->dbh->query($query);
-        } else {
-            // For each forecast in the array
-            foreach ($aForecasts as $zoneId => $aOperationIntervals) {
-                foreach ($aOperationIntervals as $id => $aValues) {
-                    // Is there already a forecast for the zone?
-                    $query = "
-                        SELECT
-                            forecast_impressions AS forecast_impressions
-                        FROM
-                            {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
-                        WHERE
-                            zone_id = $zoneId
-                            AND operation_interval = {$conf['maintenance']['operationInterval']}
-                            AND operation_interval_id = $id
-                            AND interval_start = '{$aValues['interval_start']}'
-                            AND interval_end = '{$aValues['interval_end']}'";
-                    $result = $this->dbh->query($query);
-                    if ($result->numRows() > 0) {
-                        // Update the existing forecast
-                        $query = "
-                            UPDATE
-                                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
-                            SET
-                                forecast_impressions = {$aValues['forecast_impressions']}
-                            WHERE
-                                zone_id = $zoneId
-                                AND operation_interval = {$conf['maintenance']['operationInterval']}
-                                AND operation_interval_id = $id
-                                AND interval_start = '{$aValues['interval_start']}'
-                                AND interval_end = '{$aValues['interval_end']}'";
-                        $result = $this->dbh->query($query);
-                    } else {
-                        // Insert a new forecast
-                        $query = "
-                            INSERT INTO
-                                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
-                                (
-                                    zone_id,
-                                    operation_interval,
-                                    operation_interval_id,
-                                    interval_start,
-                                    interval_end,
-                                    forecast_impressions
-                                )
-                            VALUES
-                                (
-                                    $zoneId,
-                                    {$conf['maintenance']['operationInterval']},
-                                    $id,
-                                    '{$aValues['interval_start']}',
-                                    '{$aValues['interval_end']}',
-                                    {$aValues['forecast_impressions']}
-                                )";
-                        $result = $this->dbh->query($query);
-                    }
-                }
-            }
-        }
+                VALUES " . join( ',', $aInsertQuery );
+        
+        // run query and return the output (DB_OK/DB_Error)
+        return $this->dbh->query( $sInsertQuery );
+        
     }
 
     /**

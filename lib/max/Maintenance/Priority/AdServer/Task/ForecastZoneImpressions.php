@@ -56,7 +56,6 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
     var $oUpdateToDate;
     var $mtceStatsLastRun;
     var $mtcePriorityLastRun;
-    var $safeInsert;
 
     /**
      * The constructor method.
@@ -74,7 +73,6 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
         $this->oUpdateToDate = $aDates['end'];
         $this->mtceStatsLastRun    = new MtceStatsLastRun();
         $this->mtcePriorityLastRun = new MtcePriorityLastRun();
-        $this->safeInsert = true;
     }
 
     /**
@@ -123,7 +121,6 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
             // mtceStatsLastRun date is null, there are no stats, update all so new install can run: return true
             MAX::debug('No previous maintenance statisitcs run, so update all required', PEAR_LOG_DEBUG);
             // Not safe to simply insert data, otherwise multiple rows may result
-            $this->safeInsert = false;
             $ret = true;
         } elseif (is_null($this->mtcePriorityLastRun->oUpdatedToDate)) {
             // mtcePriorityLastRun date is null, priority has never been run before, update all: return true
@@ -419,7 +416,7 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                         $forecastResults[$oZone->id][$intervalId]['forecast_impressions'];
                 }
             }
-            $this->oDal->saveZoneImpressionForecasts($forecastResults, $this->safeInsert);
+            $this->oDal->saveZoneImpressionForecasts($forecastResults);
         }
         unset($aZones);
         unset($aImpressionsResults);
