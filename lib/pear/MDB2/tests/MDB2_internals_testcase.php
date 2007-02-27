@@ -215,10 +215,11 @@ class MDB2_Internals_TestCase extends MDB2_TestCase {
     function test_quoteIdentifier()
     {
         $tmp = $this->db->identifier_quoting;
-        $this->db->identifier_quoting['escape'] = '/';
+        $this->db->identifier_quoting['start'] = '"';
         $this->db->identifier_quoting['end'] = '`';
+        $this->db->identifier_quoting['escape'] = '/';
         $text = 'my`identifier';
-        $this->assertEquals('`my/`identifier`', $this->db->quoteIdentifier($text), 'quoteIdentifier');
+        $this->assertEquals('"my/`identifier`', $this->db->quoteIdentifier($text), 'quoteIdentifier');
         $this->db->identifier_quoting = $tmp;
     }
 
