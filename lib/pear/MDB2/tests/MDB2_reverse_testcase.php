@@ -226,7 +226,22 @@ class MDB2_Reverse_TestCase extends MDB2_TestCase
         } else {
             $this->assertEquals(count($this->fields), count($table_info), 'The number of fields retrieved is different from the expected one');
             foreach ($table_info as $field_info) {
-                $this->assertEquals($this->table, $field_info['table'], "the table name is not correct");
+                // Hack! Alas, the tableInfo() method above relys on the built in PHP function
+                // pg_field_table() when the MDB2_Driver_pgsql is in use, but the built in did
+                // not make it into PHP until 5.2.0. As a result, only want to test the table
+                // info is set when NOT using the pgsql driver, or, the driver is in use, when
+                // the PHP version is appropriate
+                $checkTableInfo = true;
+                if (is_a($this->db, "MDB2_Driver_pgsql")) {
+                    if (version_compare(PHP_VERSION, "5.2.0", "<")) {
+                        $checkTableInfo = false;
+                    }
+                }
+                if ($checkTableInfo) {
+                    $this->assertEquals($this->table, $field_info['table'], "the table name is not correct");
+                } else {
+                    $this->assertEquals('', $field_info['table'], "the table name is not correct");
+                }
                 if (!array_key_exists(strtolower($field_info['name']), $this->fields)) {
                     $this->assertTrue(false, 'Field names do not match ('.$field_info['name'].' is unknown)');
                 }
