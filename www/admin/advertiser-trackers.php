@@ -40,30 +40,12 @@ require_once MAX_PATH . '/lib/max/DB.php';
 phpAds_registerGlobal ('listorder', 'orderdirection');
 
 
-// Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
-
-
-
 /*-------------------------------------------------------*/
 /* Advertiser interface security                          */
 /*-------------------------------------------------------*/
 
-if (phpAds_isUser(phpAds_Client))
-{
-	$clientid = phpAds_getUserID();
-}
-elseif (phpAds_isUser(phpAds_Agency))
-{
-	$doClients = MAX_DB::factoryDO('clients');
-	$doClients->clientid = $clientid;
-	if (!$doClients->belongToUser('agency', phpAds_getUserID()))
-	{
-		phpAds_PageHeader("2");
-		phpAds_Die ($strAccessDenied, $strNotAdmin);
-	}
-}
-
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
+MAX_Permission::checkAccessToObject('clients', $clientid);
 
 /*-------------------------------------------------------*/
 /* Get preferences                                       */

@@ -45,7 +45,7 @@ require_once 'DB/DataObject.php';
 phpAds_registerGlobal ('returnurl','agencyid');
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+MAX_Permission::checkAccess(phpAds_Admin);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */

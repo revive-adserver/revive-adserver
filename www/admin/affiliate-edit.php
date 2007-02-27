@@ -37,7 +37,6 @@ require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
-require_once 'DB/DataObject.php';
 
 // Register input variables
 phpAds_registerGlobal ('move', 'name', 'website', 'contact', 'email', 'language', 'publiczones',
@@ -49,36 +48,21 @@ phpAds_registerGlobal ('move', 'name', 'website', 'contact', 'email', 'language'
                        'terms_and_conditions', 'account_type');
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+MAX_Permission::checkIsAllowed(phpAds_ModifyInfo);
+MAX_Permission::checkAccessToObject('affiliates', $affiliateid);
 
 /*-------------------------------------------------------*/
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
 if (phpAds_isUser(phpAds_Affiliate)) {
-    if (phpAds_isAllowed(phpAds_ModifyInfo)) {
-        $doAffiliates = MAX_DB::factoryDO('affiliates');
-        $affiliateid = phpAds_getUserID();
-        if ($doAffiliates->belongToUser('affiliates', $affiliateid)) {
-            $agencyid = $doAffiliates->agencyid;
-        } else {
-            phpAds_PageHeader("2");
-            phpAds_Die ($strAccessDenied, $strNotAdmin);
-        }
-    } else {
-        phpAds_PageHeader("1");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
+    $doAffiliates = MAX_DB::factoryDO('affiliates');
+    $affiliateid = phpAds_getUserID();
+    $doAffiliates->get($affiliateid);
+    $agencyid = $doAffiliates->agencyid;
 } elseif (phpAds_isUser(phpAds_Agency)) {
     $agencyid = phpAds_getUserID();
-    if (isset($affiliateid) && ($affiliateid != '')) {
-        $doAffiliates = MAX_DB::factoryDO('affiliates');
-        $doAffiliates->affiliateid = $affiliateid;
-        if (!$doAffiliates->belongToUser('agency', $agencyid)) {
-            phpAds_PageHeader("2");
-            phpAds_Die ($strAccessDenied, $strNotAdmin);
-        }
-    }
 } else {
     $agencyid = 0;
 }

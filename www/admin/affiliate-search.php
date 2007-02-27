@@ -40,7 +40,7 @@ require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 phpAds_registerGlobal ('keyword', 'client', 'campaign', 'banner', 'zone', 'affiliate', 'compact');
 
 // Security check
-phpAds_checkAccess(phpAds_Affiliate);
+MAX_Permission::checkAccess(phpAds_Affiliate);
 
 // Check Searchselection
 if (!isset($campaign))  $campaign  = false;

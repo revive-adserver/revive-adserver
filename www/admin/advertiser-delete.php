@@ -43,17 +43,8 @@ require_once MAX_PATH . '/lib/max/DB.php';
 phpAds_registerGlobal ('returnurl');
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
-
-// TODO: refactor this
-if (phpAds_isUser(phpAds_Agency)) {
-    $doClients = MAX_DB::factoryDO('clients');
-    $doClients->clientid = $clientid;
-    if (!$doClients->belongToUser('agency', phpAds_getUserID())) {
-        phpAds_PageHeader("2");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
-}
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+MAX_Permission::checkAccessToObject('clients', $clientid);
 
 /*-------------------------------------------------------*/
 /* Restore cache of $node_array, if it exists            */

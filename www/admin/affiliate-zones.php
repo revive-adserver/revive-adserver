@@ -37,7 +37,6 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-size.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
-require_once MAX_PATH . '/lib/max/Permission.php';
 
 // Register input variables
 phpAds_registerGlobal ('listorder', 'orderdirection');

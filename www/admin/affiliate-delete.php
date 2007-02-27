@@ -42,19 +42,8 @@ phpAds_registerGlobal ('returnurl');
 
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
-
-if (phpAds_isUser(phpAds_Agency))
-{
-	$doAffiliates = MAX_DB::factoryDO('affiliates');
-	$doAffiliates->affiliateid = $affiliateid;
-	if (!$doAffiliates->belongToUser('agency', phpAds_getUserID()))
-	{
-		phpAds_PageHeader("2");
-		phpAds_Die ($strAccessDenied, $strNotAdmin);
-	}
-}
-
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+MAX_Permission::checkAccessToObject('affiliates', $affiliateid);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */

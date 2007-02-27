@@ -37,25 +37,12 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/www/admin/lib-size.inc.php';
 
-// Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
-
 /*-------------------------------------------------------*/
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-if (phpAds_isUser(phpAds_Affiliate)) {
-    $affiliateid = phpAds_getUserID();
-} elseif (phpAds_isUser(phpAds_Agency)) {
-    $agencyId = phpAds_getUserID();
-    $doAffiliates = MAX_DB::factoryDO('affiliates');
-    $doAffiliates->affiliateid = $affiliateid;
-    
-    if (!$doAffiliates->belongToUser('agency', $agencyId)) {
-        phpAds_PageHeader("2");
-        phpAds_Die($strAccessDenied, $strNotAdmin);
-    }
-}
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+MAX_Permission::checkAccessToObject('affiliates', $affiliateid);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */

@@ -44,7 +44,7 @@ require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 phpAds_registerGlobal ('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection');
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
