@@ -5,7 +5,7 @@
 
 require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 
-class MAX_Dal_Admin_Zone extends MAX_Dal_Common
+class MAX_Dal_Admin_Zones extends MAX_Dal_Common
 {
     var $table = 'zones';
     
@@ -17,6 +17,7 @@ class MAX_Dal_Admin_Zone extends MAX_Dal_Common
 	function getZoneByKeyword($keyword, $agencyId = null) 
     {
         $whereZone = is_numeric($keyword) ? " OR z.zoneid=$keyword" : '';
+        $prefix = $this->getTablePrefix();
 
         $query = "
         SELECT
@@ -25,8 +26,8 @@ class MAX_Dal_Admin_Zone extends MAX_Dal_Common
             z.description AS description,
             a.affiliateid AS affiliateid
         FROM
-            zones AS z,
-            affiliates AS a
+            {$prefix}zones AS z,
+            {$prefix}affiliates AS a
         WHERE
             (
             z.affiliateid=a.affiliateid
@@ -43,7 +44,5 @@ class MAX_Dal_Admin_Zone extends MAX_Dal_Common
         return DBC::NewRecordSet($query);
     }
 }
-
-class ZoneModel extends MAX_Dal_Admin_Zone {}
 
 ?>
