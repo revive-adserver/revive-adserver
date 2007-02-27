@@ -149,66 +149,6 @@ if (!isset($keyword))
     $rsZones = $dalZones->getZoneByKeyword($keyword, null, $publisherId);
     $rsZones->find();
     
-//    $whereBanner = is_numeric($keyword) ? " OR b.bannerid=$keyword" : '';
-//    $whereCampaign = is_numeric($keyword) ? " OR m.campaignid=$keyword" : '';
-//    $whereZone = is_numeric($keyword) ? " OR z.zoneid=$keyword" : '';
-//
-//    $query_campaigns = "
-//        SELECT
-//            m.campaignid AS campaignid,
-//            m.campaignname AS campaignname,
-//            m.clientid AS clientid
-//        FROM
-//            {$conf['table']['prefix']}{$conf['table']['campaigns']} AS m,
-//            {$conf['table']['prefix']}{$conf['table']['clients']} AS c
-//        WHERE
-//            m.clientid=c.clientid
-//            AND (m.campaignname LIKE '%$keyword%'
-//                $whereCampaign)
-//    ";
-//
-//    $query_banners = "
-//        SELECT
-//            b.bannerid as bannerid,
-//            b.description as description,
-//            b.alt as alt,
-//            b.campaignid as campaignid,
-//            m.clientid as clientid
-//        FROM
-//            {$conf['table']['prefix']}{$conf['table']['banners']} AS b,
-//            {$conf['table']['prefix']}{$conf['table']['campaigns']} AS m,
-//            {$conf['table']['prefix']}{$conf['table']['clients']} AS c
-//        WHERE
-//            m.clientid=c.clientid
-//            AND b.campaignid=m.campaignid
-//            AND (b.alt LIKE '%$keyword%'
-//                OR b.description LIKE '%$keyword%'
-//                $whereBanner)
-//    ";
-//
-//    $query_zones = "
-//        SELECT
-//            z.zoneid AS zoneid,
-//            z.zonename AS zonename,
-//            z.description AS description,
-//            a.affiliateid AS affiliateid
-//        FROM
-//            {$conf['table']['prefix']}{$conf['table']['zones']} AS z,
-//            {$conf['table']['prefix']}{$conf['table']['affiliates']} AS a
-//        WHERE
-//            z.affiliateid=a.affiliateid
-//            AND (z.zonename LIKE '%$keyword%'
-//            OR description LIKE '%$keyword%'
-//            $whereZone)
-//    ";
-//
-//    $publisherId = phpAds_getUserID();
-//    $query_zones .= " AND a.affiliateid=$publisherId";
-
-//    $res_campaigns = phpAds_dbQuery($query_campaigns) or phpAds_sqlDie();
-//    $res_banners = phpAds_dbQuery($query_banners) or phpAds_sqlDie();
-//    $res_zones = phpAds_dbQuery($query_zones) or phpAds_sqlDie();
-    
     $foundMatches = false;
     if ($rsCampaigns->getRowCount() ||
         $rsBanners->getRowCount() ||
@@ -242,9 +182,6 @@ if (!isset($keyword))
             if (!$doPlacement_zone_assoc->count()) {
                 continue;
             }
-//            if (!count(Admin_DA::_getEntities('placement_zone_assoc', array('publisher_id' => $publisherId, 'placement_id' => $row_campaigns['campaignid'])))) {
-//                continue;
-//            }
 
             if ($i > 0) echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
 
@@ -272,22 +209,12 @@ if (!isset($keyword))
                 $doBanners = MAX_DB::factoryDO('banners');
                 $doBanners->campaignid = $row_campaigns['campaignid'];
                 $doBanners->find();
-                
-//                $query_b_expand = "SELECT bannerid,campaignid,description,alt,storagetype AS type FROM ".$conf['table']['prefix'].$conf['table']['banners']." WHERE campaignid=".$row_campaigns['campaignid'];
-//                  $res_b_expand = phpAds_dbQuery($query_b_expand) or phpAds_sqlDie();
 
                 $doAd_zone_assoc = MAX_DB::factoryDO('ad_zone_assoc');
                 $doAd_zone_assoc->publisher_id = $publisherId;
                 $doAd_zone_assoc->placement_id = $row_campaigns['campaignid'];
                 $aAds = $doAd_zone_assoc->getAll(array('ad_id'));
                 
-//                $aAdAssoc = Admin_DA::_getEntities('ad_zone_assoc', array('publisher_id' => $publisherId, 'placement_id' => $row_campaigns['campaignid']));
-//
-//                $aAds = array();
-//                foreach ($aAdAssoc as $v) {
-//                    $aAds[$v['ad_id']] = true;
-//                }
-
                 while ($doBanners->fetch() && $row_b_expand = $doBanners->toArray())
                 {
                     if (!isset($aAds[$row_b_expand['bannerid']])) {
@@ -348,9 +275,6 @@ if (!isset($keyword))
             if(!$doAd_zone_assoc->count()) {
                 continue;
             }
-//            if (!count(Admin_DA::_getEntities('ad_zone_assoc', array('publisher_id' => $publisherId, 'ad_id' => $row_banners['bannerid'])))) {
-//                continue;
-//            }
 
             $name = $strUntitled;
             if (isset($row_banners['alt']) && $row_banners['alt'] != '') $name = $row_banners['alt'];

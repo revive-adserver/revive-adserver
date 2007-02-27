@@ -110,9 +110,6 @@ class DB_DataObjectCommon extends DB_DataObject
     	while ($this->fetch()) {
     		$row = array();
     		foreach ($fields as $k => $v) {
-//    			if ($filter && !in_array($k, $filter)) {
-//    				continue;
-//    			}
     			if (!isset($this->$k)) {
     				continue;
     			}
