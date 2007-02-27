@@ -52,11 +52,11 @@ class MAX_DB
      * @param int $type A constant that specifies the return type, ie, array or string.
      * @return mixed A string or array containing the data source name.
      */
-    function getDsn($type = MAX_DSN_ARRAY)
+    function getDsn($type = MAX_DSN_ARRAY, $overrideMysql = true)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $dbType = $conf['database']['type'];
-        if ($dbType == 'mysql') {
+        if ($dbType == 'mysql' && $overrideMysql) {
             $dbType = 'mysql_SGL';
         }
         //  Return DSN as array or as string as specified

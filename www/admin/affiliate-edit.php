@@ -242,7 +242,7 @@ if (isset($submit)) {
                 }
             }
         }
-        if (!isset($affiliateid) || $affiliateid == '') {
+        if (empty($affiliateid)) {
             $doAffiliates = MAX_DB::factoryDO('affiliates');
             $doAffiliates->setFrom($affiliate);
             $doAffiliates->updated = date('Y-m-d H:i:s');
