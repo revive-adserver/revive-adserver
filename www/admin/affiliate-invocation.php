@@ -47,14 +47,11 @@ phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
 if (phpAds_isUser(phpAds_Affiliate)) {
     $affiliateid = phpAds_getUserID();
 } elseif (phpAds_isUser(phpAds_Agency)) {
-    $result = phpAds_dbQuery("
-        SELECT
-           affiliateid
-        FROM
-           ".$conf['table']['prefix'].$conf['table']['affiliates']."
-        WHERE
-             agencyid=".phpAds_getUserID()) or phpAds_sqlDie();
-    if (phpAds_dbNumRows($result) == 0) {
+    $agencyId = phpAds_getUserID();
+    $doAffiliates = MAX_DB::factoryDO('affiliates');
+    $doAffiliates->affiliateid = $affiliateid;
+    
+    if (!$doAffiliates->belongToUser('agency', $agencyId)) {
         phpAds_PageHeader("2");
         phpAds_Die($strAccessDenied, $strNotAdmin);
     }
@@ -77,16 +74,13 @@ if (isset($session['prefs']['affiliate-zones.php']['orderdirection'])) {
 
 if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
     // Get other affiliates
-    if (phpAds_isUser(phpAds_Admin)) {
-        $query="SELECT * FROM {$conf['table']['prefix']}{$conf['table']['affiliates']}" . phpAds_getAffiliateListOrder($navorder, $navdirection);
-    } elseif (phpAds_isUser(phpAds_Agency)) {
-        $query="SELECT * FROM {$conf['table']['prefix']}{$conf['table']['affiliates']} WHERE agencyid=$agencyid" . phpAds_getAffiliateListOrder($navorder, $navdirection);
+    $doAffiliates = MAX_DB::factoryDO('affiliates');
+    $doAffiliates->addListOrderBy($navorder, $navdirection);
+    if (phpAds_isUser(phpAds_Agency)) {
+        $doAffiliates->agencyid = $agencyid;
     }
-    
-    $res = phpAds_dbQuery($query)
-        or phpAds_sqlDie();
-    
-    while ($row = phpAds_dbFetchArray($res)) {
+    $doAffiliates->find();
+    while ($doAffiliates->fetch() && $row = $doAffiliates->toArray()) {
         phpAds_PageContext (
             phpAds_buildAffiliateName ($row['affiliateid'], $row['name']),
             "affiliate-invocation.php?affiliateid=".$row['affiliateid'],

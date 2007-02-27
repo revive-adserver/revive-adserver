@@ -73,6 +73,7 @@ if (phpAds_isUser(phpAds_Affiliate)) {
     $agencyid = phpAds_getUserID();
     if (isset($affiliateid) && ($affiliateid != '')) {
         $doAffiliates = MAX_DB::factoryDO('affiliates');
+        $doAffiliates->affiliateid = $affiliateid;
         if (!$doAffiliates->belongToUser('agency', $agencyid)) {
             phpAds_PageHeader("2");
             phpAds_Die ($strAccessDenied, $strNotAdmin);

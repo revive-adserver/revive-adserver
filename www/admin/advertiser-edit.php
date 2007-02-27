@@ -78,7 +78,7 @@ if (phpAds_isUser(phpAds_Client)) {
 	if (!empty($clientid)) {
         $doClients = MAX_DB::factoryDO('clients');
         $doClients->clientid = $clientid;
-        if ($doClients->belongToUser('agency', phpAds_getUserID())) {
+        if (!$doClients->belongToUser('agency', phpAds_getUserID())) {
 			phpAds_PageHeader("2");
 			phpAds_Die($strAccessDenied, $strNotAdmin);
 		}
