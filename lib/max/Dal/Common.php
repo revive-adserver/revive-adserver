@@ -146,6 +146,11 @@ class MAX_Dal_Common
         return 'MAX_Dal_Admin_'.ucfirst($table);
     }
     
+    function getTablePrefix()
+    {
+        return $GLOBALS['_MAX']['CONF']['table']['prefix'];
+    }
+    
     /**
      * A private method to manage creation of the utilised MAX_DB class.
      *

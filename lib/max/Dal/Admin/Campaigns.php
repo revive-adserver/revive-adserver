@@ -6,7 +6,7 @@
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
 require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 
-class MAX_Dal_Admin_Campaign extends MAX_Dal_Common
+class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 {
     var $table = 'campaigns';
     
@@ -28,6 +28,7 @@ class MAX_Dal_Admin_Campaign extends MAX_Dal_Common
     function getCampaignAndClientByKeyword($keyword, $agencyId = null)
     {
         $whereCampaign = is_numeric($keyword) ? " OR m.campaignid=$keyword" : '';
+        $prefix = $this->getTablePrefix();
 
         $query = "
         SELECT
@@ -35,8 +36,8 @@ class MAX_Dal_Admin_Campaign extends MAX_Dal_Common
             m.campaignname AS campaignname,
             m.clientid AS clientid
         FROM
-            campaigns AS m,
-            clients AS c
+            {$prefix}campaigns AS m,
+            {$prefix}clients AS c
         WHERE
             (
             m.clientid=c.clientid
@@ -216,10 +217,6 @@ class MAX_Dal_Admin_Campaign extends MAX_Dal_Common
         }
         return $campaigns;
     }
-}
-
-class CampaignModel extends MAX_Dal_Admin_Campaign
-{
 }
 
 ?>
