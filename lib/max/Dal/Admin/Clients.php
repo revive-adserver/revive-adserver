@@ -5,7 +5,7 @@
 
 require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 
-class MAX_Dal_Admin_Client extends MAX_Dal_Common
+class MAX_Dal_Admin_Clients extends MAX_Dal_Common
 {
     var $table = 'clients';
     
@@ -21,13 +21,14 @@ class MAX_Dal_Admin_Client extends MAX_Dal_Common
     function getClientByKeyword($keyword, $agencyId = null)
     {
         $whereClient = is_numeric($keyword) ? " OR c.clientid=$keyword" : '';
+        $prefix = $this->getTablePrefix();
         
         $query = "
             SELECT
                 c.clientid AS clientid,
                 c.clientname AS clientname
             FROM 
-                clients AS c
+                {$prefix}clients AS c
             WHERE
                 (
                 c.clientname LIKE '%$keyword%'
@@ -42,7 +43,5 @@ class MAX_Dal_Admin_Client extends MAX_Dal_Common
         return DBC::NewRecordSet($query);
     }
 }
-
-class ClientModel extends MAX_Dal_Admin_Client {}
 
 ?>
