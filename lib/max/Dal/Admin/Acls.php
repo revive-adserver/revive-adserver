@@ -19,12 +19,13 @@ class MAX_Dal_Admin_Acls extends MAX_Dal_Common
     function getAclsByDataValueType($findInSet, $type)
     {
         $findInSet = "FIND_IN_SET(".DBC::makeLiteral($findInSet).", data)";
+        $prefix = $this->getTablePrefix();
     	$query = "
             SELECT
                 *,
                 $findInSet
             FROM 
-                acls
+                {$prefix}acls
             WHERE
                 type = ".DBC::makeLiteral($type)."
                 AND $findInSet > 0
