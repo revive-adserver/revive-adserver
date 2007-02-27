@@ -1617,7 +1617,6 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
             // return error object
             return $oRes;
         }
-        $oRes->free();
 
         // append all values to the multiple insert stmt
         $sInsertQuery = "
@@ -1662,7 +1661,6 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
             // return error object
             return $oRes;
         }
-        $oRes->free();
 
         return $this->dbh->commit();
 
