@@ -79,8 +79,6 @@ class MDB2_Datatype_mysql_TestCase extends MDB2_TestCase
         foreach ($this->mdb2_types AS $k => $v)
         {
             $field = $v['field'];
-            //$field = $this->getField($f['name'], $k, $f['length'], $f['notnull'], $f['default'], $f['unsigned'], $f['autoincrement'], $f['scale']);
-            //$orig_field = $field;
             $result = $this->db->datatype->getTypeDeclaration($field);
             if (PEAR::isError($result))
             {
