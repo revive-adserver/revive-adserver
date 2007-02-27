@@ -218,7 +218,10 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                         'datetime'      => array('type'=>'timestamp','length'=>'','default'=>'000-00-00 00:00:00', 'declare'=>'DATETIME DEFAULT \'000-00-00 00:00:00\'')
                         );
         }
-
+        else
+        {
+            return array();
+        }
     }
 
     function getMDB2TestTypes()
@@ -395,6 +398,183 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                  'expected_declaration'=>' DEFAULT \'0000-00-00 00:00:00\''
                                                  )
                     );
+        }
+      if ($this->dsn['phptype']=='pgsql')
+      {
+          return array(
+                        'text'          => array('field'=> array('type'=>'text',
+                                                                 'name'=>'text_1',
+                                                                 'length'=>'',
+                                                                 'default'=>'',
+                                                                 'notnull'=>'',
+                                                                 'autoincrement'=>'',
+                                                                 'unsigned'=>'',
+                                                                 'scale'=>''
+                                                                 ),
+                                                 'expected_datatype'=>'VARCHAR',
+                                                 'expected_declaration'=>' DEFAULT \'\''
+                                                 ),
+                        'text'          => array('field'=> array('type'=>'text',
+                                                                 'name'=>'text_2',
+                                                                 'length'=>'98',
+                                                                 'default'=>'test',
+                                                                 'notnull'=>'',
+                                                                 'autoincrement'=>'',
+                                                                 'unsigned'=>'',
+                                                                 'scale'=>'',
+                                                                 ),
+                                                 'expected_datatype'=>'VARCHAR(98)',
+                                                 'expected_declaration'=>' DEFAULT \'test\''
+                                                 ),
+                        'text'          => array('field'=> array('type'=>'text',
+                                                                 'name'=>'text_3',
+                                                                 'length'=>'',
+                                                                 'default'=>'',
+                                                                 'notnull'=>'true',
+                                                                 'autoincrement'=>'',
+                                                                 'unsigned'=>'',
+                                                                 'scale'=>'',
+                                                                 ),
+                                                 'expected_datatype'=>'VARCHAR(4096)',
+                                                 'expected_declaration'=>' DEFAULT \' \' NOT NULL'
+                                                 ),
+                        'boolean'       => array('field'=> array('type'=>'boolean',
+                                                                 'name'=>'bool_1',
+                                                                 'length'=>'1',
+                                                                 'default'=>'true',
+                                                                 'notnull'=>'',
+                                                                 'autoincrement'=>'0',
+                                                                 'unsigned'=>'',
+                                                                 'scale'=>'',
+                                                                 ),
+                                                 'expected_datatype'=>'BOOLEAN',
+                                                 'expected_declaration'=>' DEFAULT \'t\''
+                                                 ),
+                        'blob'          => array('field'=> array('type'=>'blob',
+                                                                 'name'=>'blob_1',
+                                                                 'length'=>'',
+                                                                 'default'=>'',
+                                                                 'notnull'=>'',
+                                                                 'autoincrement'=>'0',
+                                                                 'unsigned'=>'',
+                                                                 'scale'=>'',
+                                                                 ),
+                                                 'expected_datatype'=>'BYTEA',
+                                                 'expected_declaration'=>''
+                                                 ),
+                        'clob'          => array('field'=> array('type'=>'clob',
+                                                                 'name'=>'clob_1',
+                                                                 'length'=>'',
+                                                                 'default'=>'',
+                                                                 'notnull'=>'',
+                                                                 'autoincrement'=>'0',
+                                                                 'unsigned'=>'',
+                                                                 'scale'=>'',
+                                                                 ),
+                                                 'expected_datatype'=>'TEXT',
+                                                 'expected_declaration'=>''
+                                                 ),
+                        'integer'       => array('field'=> array('type'=>'integer',
+                                                                 'name'=>'int_1',
+                                                                 'length'=>'',
+                                                                 'default'=>'0',
+                                                                 'notnull'=>'',
+                                                                 'autoincrement'=>'0',
+                                                                 'unsigned'=>'',
+                                                                 'scale'=>'',
+                                                                 ),
+                                                 'expected_datatype'=>'INT',
+                                                 'expected_declaration'=>' DEFAULT \'0\''
+                                                 ),
+                        'integer'       => array('field'=> array('type'=>'integer',
+                                                                 'name'=>'int_2',
+                                                                 'length'=>'',
+                                                                 'default'=>'0',
+                                                                 'notnull'=>'true',
+                                                                 'autoincrement'=>'0',
+                                                                 'unsigned'=>'',
+                                                                 'scale'=>'',
+                                                                 ),
+                                                 'expected_datatype'=>'INT',
+                                                 'expected_declaration'=>' NOT NULL DEFAULT \'0\''
+                                                 ),
+                        'integer'       => array('field'=> array('type'=>'integer',
+                                                                 'name'=>'int_3',
+                                                                 'length'=>'9',
+                                                                 'default'=>'0',
+                                                                 'notnull'=>'',
+                                                                 'autoincrement'=>'1',
+                                                                 'unsigned'=>'',
+                                                                 'scale'=>'',
+                                                                 ),
+                                                 'expected_datatype'=>'BIGSERIAL PRIMARY KEY',
+                                                 'expected_declaration'=>''
+                                                 ),
+                        'decimal'       => array('field'=> array('type'=>'decimal',
+                                                                 'name'=>'decimal_1',
+                                                                 'length'=>'11',
+                                                                 'default'=>'0.0',
+                                                                 'notnull'=>'',
+                                                                 'autoincrement'=>'0',
+                                                                 'unsigned'=>'',
+                                                                 'scale'=>'3',
+                                                                 ),
+                                                 'expected_datatype'=>'NUMERIC(11,3)',
+                                                 'expected_declaration'=>' DEFAULT 0.0'
+                                                 ),
+                        'float'         => array('field'=> array('type'=>'float',
+                                                                 'name'=>'float_1',
+                                                                 'length'=>'',
+                                                                 'default'=>'0.0',
+                                                                 'notnull'=>'',
+                                                                 'autoincrement'=>'0',
+                                                                 'unsigned'=>'',
+                                                                 'scale'=>'',
+                                                                 ),
+                                                 'expected_datatype'=>'FLOAT8',
+                                                 'expected_declaration'=>' DEFAULT 0.0'
+                                                 ),
+                        'date'          => array('field'=> array('type'=>'date',
+                                                                 'name'=>'date_1',
+                                                                 'length'=>'',
+                                                                 'default'=>'0000-00-00',
+                                                                 'notnull'=>'',
+                                                                 'autoincrement'=>'0',
+                                                                 'unsigned'=>'',
+                                                                 'scale'=>'',
+                                                                 ),
+                                                 'expected_datatype'=>'DATE',
+                                                 'expected_declaration'=>' DEFAULT \'0000-00-00\''
+                                                 ),
+                        'time'          => array('field'=> array('type'=>'time',
+                                                                 'name'=>'time_1',
+                                                                 'length'=>'',
+                                                                 'default'=>'00:00:00',
+                                                                 'notnull'=>'',
+                                                                 'autoincrement'=>'0',
+                                                                 'unsigned'=>'',
+                                                                 'scale'=>'',
+                                                                 ),
+                                                 'expected_datatype'=>'TIME without time zone',
+                                                 'expected_declaration'=>' DEFAULT \'00:00:00\''
+                                                 ),
+                        'timestamp'     => array('field'=> array('type'=>'timestamp',
+                                                                 'name'=>'timestamp_1',
+                                                                 'length'=>'',
+                                                                 'default'=>'0000-00-00 00:00:00',
+                                                                 'notnull'=>'',
+                                                                 'autoincrement'=>'0',
+                                                                 'unsigned'=>'',
+                                                                 'scale'=>'',
+                                                                 ),
+                                                 'expected_datatype'=>'TIMESTAMP without time zone',
+                                                 'expected_declaration'=>' DEFAULT \'0000-00-00 00:00:00\''
+                                                 )
+                    );
+        }
+        else
+        {
+            return array();
         }
     }
 
