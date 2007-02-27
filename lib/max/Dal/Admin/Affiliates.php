@@ -5,7 +5,7 @@
 
 require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 
-class MAX_Dal_Admin_Affiliate extends MAX_Dal_Common
+class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
 {
     var $table = 'affiliates';
     
@@ -17,13 +17,14 @@ class MAX_Dal_Admin_Affiliate extends MAX_Dal_Common
 	function getAffiliateByKeyword($keyword, $agencyId = null)
     {
         $whereAffiliate = is_numeric($keyword) ? " OR a.affiliateid=$keyword" : '';
+        $prefix = $this->getTablePrefix();
         
         $query = "
         SELECT
             a.affiliateid AS affiliateid,
             a.name AS name
         FROM
-            affiliates AS a
+            {$prefix}affiliates AS a
         WHERE
             (
             a.name LIKE " . DBC::makeLiteral('%' . $keyword . '%') . "
@@ -39,7 +40,5 @@ class MAX_Dal_Admin_Affiliate extends MAX_Dal_Common
         return DBC::NewRecordSet($query);
     }
 }
-
-class AffiliateModel extends MAX_Dal_Admin_Affiliate {}
 
 ?>
