@@ -108,15 +108,16 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
     $doAdvertiser = MAX_DB::factoryDO('clients');
     if (phpAds_isUser(phpAds_Agency)) {
 		$doAdvertiser->agencyid = $session['userid'];
-        $doAdvertiser->find();
-    	while ($doAdvertiser->fetch() && $row = $doAdvertiser->toArray())
-    	{
-    		phpAds_PageContext (
-    			phpAds_buildName ($row['clientid'], $row['clientname']),
-    			"advertiser-trackers.php?clientid=".$row['clientid'],
-    			$clientid == $row['clientid']
-    		);
-    	}
+    }
+    $doAdvertiser->find();
+	while ($doAdvertiser->fetch() && $row = $doAdvertiser->toArray())
+	{
+		phpAds_PageContext (
+			phpAds_buildName ($row['clientid'], $row['clientname']),
+			"advertiser-trackers.php?clientid=".$row['clientid'],
+			$clientid == $row['clientid']
+		);
+	}
 	
 	phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=history&clientid='.$clientid, 'images/icon-statistics.gif');	
 	

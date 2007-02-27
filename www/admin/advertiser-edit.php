@@ -37,6 +37,7 @@ require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/DB.php';
+require_once MAX_PATH . '/lib/max/Permission.php';
 
 // Register input variables
 phpAds_registerGlobal (
@@ -62,7 +63,9 @@ phpAds_registerGlobal (
 
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
+MAX_Permission::checkIsAllowed(phpAds_ModifyInfo);
+MAX_Permission::checkAccessToObject('clients', $clientid);
 
 /*-------------------------------------------------------*/
 /* Interface security                                    */

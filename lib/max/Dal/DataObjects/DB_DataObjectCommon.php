@@ -73,7 +73,7 @@ class DB_DataObjectCommon extends DB_DataObject
     function factoryDAL()
     {
     	include_once MAX_PATH . '/lib/max/Dal/Common.php';
-    	return MAX_Dal_Common::factory($this->dalModelName);
+    	return MAX_Dal_Common::factory($this->_tableName);
     }
     
     /**
@@ -105,7 +105,7 @@ class DB_DataObjectCommon extends DB_DataObject
     	$fields = $this->table();
     	$primaryKey = null;
     	if ($indexWithPrimaryKey) {
-			$primaryKey = $this->_getFirstPrimaryKey();
+			$primaryKey = $this->getFirstPrimaryKey();
     	}
     	while ($this->fetch()) {
     		$row = array();
@@ -149,6 +149,7 @@ class DB_DataObjectCommon extends DB_DataObject
         if(!empty($links)) {
         	foreach ($links as $key => $match) {
         		list($table,$link) = explode(':', $match);
+        		$table = $this->getTableWithoutPrefix($table);
         		if ($table == $userTable) {
         			return (isset($this->$key)
         			     && $this->$key == $userId);
@@ -220,7 +221,20 @@ class DB_DataObjectCommon extends DB_DataObject
         $this->whereAdd("LOWER($field) = '" . strtolower($this->escape($value)) . "'");
     }
     
-    
+    /**
+     * Return table name without the prefix
+     *
+     * @param string $table
+     * @return string
+     * @access public
+     */
+    function getTableWithoutPrefix($table)
+    {
+        if (!empty($this->_prefix)) {
+            return substr($table, strlen($this->_prefix));
+        }
+        return $table;
+    }
     
     /**
      * //// Protected methods, could be overwritten in child classes but
@@ -432,13 +446,14 @@ class DB_DataObjectCommon extends DB_DataObject
      * Returns first primary key (if exists)
      *
      * @return string
-     * @access private
+     * @access public
      */
-    function _getFirstPrimaryKey()
+    function getFirstPrimaryKey()
     {
     	$keys = $this->keys();
     	return !empty($keys) ? $keys[0] : null;
-    }    
+    }
+    
 }
 
 ?>
