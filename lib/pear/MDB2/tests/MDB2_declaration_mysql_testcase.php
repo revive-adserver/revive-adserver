@@ -47,15 +47,15 @@ require_once 'MDB2_testcase.php';
 
 class MDB2_Declaration_mysql_TestCase extends MDB2_TestCase
 {
-    var $native_types = array();
+    var $mdb2_types = array();
 
     function testGetDeclaration()
     {
-        $this->native_types = $this->getNativeTypes();
+        $this->mdb2_types = $this->getMDB2TestTypes();
 
-        foreach ($this->native_types AS $k => $v)
+        foreach ($this->mdb2_types AS $k => $v)
         {
-            $field = $this->getField('test',$k);
+            $field = $v['field'];
             $result = $this->db->getDeclaration($field['type'], $field['name'], $field);
             if (PEAR::isError($result))
             {
@@ -63,7 +63,7 @@ class MDB2_Declaration_mysql_TestCase extends MDB2_TestCase
             }
             else
             {
-                $this->verifyNativeMappingResult($k, $result, $field['name'].' '.$v['declare']);
+                $this->verifyMDB2MappingResult($k, $result, $field['name'].' '.$v['expected_datatype'].$v['expected_declaration'], $field);
             }
             // also need to test length, defaults, autoincrement, notnull, scale
         }

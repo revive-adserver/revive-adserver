@@ -225,6 +225,7 @@ class MDB2_TestCase extends PHPUnit_TestCase {
     {
         return array(
                     'text'          => array('field'=> array('type'=>'text',
+                                                             'name'=>'text_1',
                                                              'length'=>'',
                                                              'default'=>'',
                                                              'notnull'=>'',
@@ -232,19 +233,35 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                              'unsigned'=>'',
                                                              'scale'=>''
                                                              ),
-                                             'declare'=>'VARCHAR('.$this->db->varchar_max_length.')'
+                                             'expected_datatype'=>'VARCHAR('.$this->db->varchar_max_length.')',
+                                             'expected_declaration'=>' DEFAULT \'\''
                                              ),
                     'text'          => array('field'=> array('type'=>'text',
-                                                             'length'=>'',
+                                                             'name'=>'text_2',
+                                                             'length'=>'98',
                                                              'default'=>'test',
                                                              'notnull'=>'',
                                                              'autoincrement'=>'',
                                                              'unsigned'=>'',
                                                              'scale'=>'',
                                                              ),
-                                             'declare'=>'VARCHAR('.$this->db->varchar_max_length.')'
+                                             'expected_datatype'=>'VARCHAR(98)',
+                                             'expected_declaration'=>' DEFAULT \'test\''
+                                             ),
+                    'text'          => array('field'=> array('type'=>'text',
+                                                             'name'=>'text_3',
+                                                             'length'=>'',
+                                                             'default'=>'',
+                                                             'notnull'=>'true',
+                                                             'autoincrement'=>'',
+                                                             'unsigned'=>'',
+                                                             'scale'=>'',
+                                                             ),
+                                             'expected_datatype'=>'VARCHAR('.$this->db->varchar_max_length.')',
+                                             'expected_declaration'=>' NOT NULL DEFAULT NULL'
                                              ),
                     'boolean'       => array('field'=> array('type'=>'boolean',
+                                                             'name'=>'bool_1',
                                                              'length'=>'1',
                                                              'default'=>'true',
                                                              'notnull'=>'',
@@ -252,9 +269,11 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                              'unsigned'=>'',
                                                              'scale'=>'',
                                                              ),
-                                             'declare'=>'TINYINT(1)'
+                                             'expected_datatype'=>'TINYINT(1)',
+                                             'expected_declaration'=>' DEFAULT 1'
                                              ),
                     'blob'          => array('field'=> array('type'=>'blob',
+                                                             'name'=>'blob_1',
                                                              'length'=>'',
                                                              'default'=>'',
                                                              'notnull'=>'',
@@ -262,9 +281,11 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                              'unsigned'=>'',
                                                              'scale'=>'',
                                                              ),
-                                             'declare'=>'LONGBLOB'
+                                             'expected_datatype'=>'LONGBLOB',
+                                             'expected_declaration'=>''
                                              ),
                     'clob'          => array('field'=> array('type'=>'clob',
+                                                             'name'=>'clob_1',
                                                              'length'=>'',
                                                              'default'=>'',
                                                              'notnull'=>'',
@@ -272,9 +293,11 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                              'unsigned'=>'',
                                                              'scale'=>'',
                                                              ),
-                                             'declare'=>'LONGTEXT'
+                                             'expected_datatype'=>'LONGTEXT',
+                                             'expected_declaration'=>''
                                              ),
                     'integer'       => array('field'=> array('type'=>'integer',
+                                                             'name'=>'int_1',
                                                              'length'=>'',
                                                              'default'=>'0',
                                                              'notnull'=>'',
@@ -282,9 +305,35 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                              'unsigned'=>'',
                                                              'scale'=>'',
                                                              ),
-                                             'declare'=>'INT'
+                                             'expected_datatype'=>'INT',
+                                             'expected_declaration'=>' DEFAULT \'0\''
+                                             ),
+                    'integer'       => array('field'=> array('type'=>'integer',
+                                                             'name'=>'int_2',
+                                                             'length'=>'',
+                                                             'default'=>'0',
+                                                             'notnull'=>'true',
+                                                             'autoincrement'=>'0',
+                                                             'unsigned'=>'',
+                                                             'scale'=>'',
+                                                             ),
+                                             'expected_datatype'=>'INT',
+                                             'expected_declaration'=>' NOT NULL DEFAULT \'0\''
+                                             ),
+                    'integer'       => array('field'=> array('type'=>'integer',
+                                                             'name'=>'int_3',
+                                                             'length'=>'9',
+                                                             'default'=>'0',
+                                                             'notnull'=>'',
+                                                             'autoincrement'=>'1',
+                                                             'unsigned'=>'',
+                                                             'scale'=>'',
+                                                             ),
+                                             'expected_datatype'=>'INT(9)',
+                                             'expected_declaration'=>' AUTOINCREMENT DEFAULT \'0\''
                                              ),
                     'decimal'       => array('field'=> array('type'=>'decimal',
+                                                             'name'=>'decimal_1',
                                                              'length'=>'11',
                                                              'default'=>'0.0',
                                                              'notnull'=>'',
@@ -292,9 +341,11 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                              'unsigned'=>'',
                                                              'scale'=>'3',
                                                              ),
-                                             'declare'=>'DECIMAL(11,3)'
+                                             'expected_datatype'=>'DECIMAL(11,3)',
+                                             'expected_declaration'=>' DEFAULT \'0.0\''
                                              ),
                     'float'         => array('field'=> array('type'=>'float',
+                                                             'name'=>'float_1',
                                                              'length'=>'',
                                                              'default'=>'0.0',
                                                              'notnull'=>'',
@@ -302,19 +353,23 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                              'unsigned'=>'',
                                                              'scale'=>'',
                                                              ),
-                                             'declare'=>'DOUBLE'
+                                             'expected_datatype'=>'DOUBLE',
+                                             'expected_declaration'=>' DEFAULT \'0.0\''
                                              ),
                     'date'          => array('field'=> array('type'=>'date',
+                                                             'name'=>'date_1',
                                                              'length'=>'',
-                                                             'default'=>'1970-01-01',
+                                                             'default'=>'0000-00-00',
                                                              'notnull'=>'',
                                                              'autoincrement'=>'0',
                                                              'unsigned'=>'',
                                                              'scale'=>'',
                                                              ),
-                                             'declare'=>'DATE'
+                                             'expected_datatype'=>'DATE',
+                                             'expected_declaration'=>' DEFAULT \'0000-00-00\''
                                              ),
                     'time'          => array('field'=> array('type'=>'time',
+                                                             'name'=>'time_1',
                                                              'length'=>'',
                                                              'default'=>'00:00:00',
                                                              'notnull'=>'',
@@ -322,17 +377,20 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                              'unsigned'=>'',
                                                              'scale'=>'',
                                                              ),
-                                             'declare'=>'TIME'
+                                             'expected_datatype'=>'TIME',
+                                             'expected_declaration'=>' DEFAULT \'00:00:00\''
                                              ),
                     'timestamp'     => array('field'=> array('type'=>'timestamp',
+                                                             'name'=>'timestamp_1',
                                                              'length'=>'',
-                                                             'default'=>'1970-01-01 00:00:00',
+                                                             'default'=>'0000-00-00 00:00:00',
                                                              'notnull'=>'',
                                                              'autoincrement'=>'0',
                                                              'unsigned'=>'',
                                                              'scale'=>'',
                                                              ),
-                                             'declare'=>'DATETIME'
+                                             'expected_datatype'=>'DATETIME',
+                                             'expected_declaration'=>' DEFAULT \'0000-00-00 00:00:00\''
                                              )
                 );
     }
@@ -350,7 +408,7 @@ class MDB2_TestCase extends PHPUnit_TestCase {
 
     }
 
-    function verifyMDB2MappingResult($type, $result, $expected)
+    function verifyMDB2MappingResult($type, $result, $expected, $field='')
     {
         if (PEAR::isError($result))
         {
@@ -358,7 +416,7 @@ class MDB2_TestCase extends PHPUnit_TestCase {
         }
         else
         {
-            $this->assertEquals($expected, $result, 'translation mismatch for mdb2type ** '.$type.' **');
+            $this->assertEquals($expected, $result, 'translation mismatch for mdb2type ** '.$type.' **'.print_r($field,true));
         }
 
     }

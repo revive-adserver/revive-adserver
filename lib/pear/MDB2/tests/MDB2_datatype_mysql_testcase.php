@@ -79,7 +79,8 @@ class MDB2_Datatype_mysql_TestCase extends MDB2_TestCase
         foreach ($this->mdb2_types AS $k => $v)
         {
             $field = $v['field'];
-            $field['name'] = 'test';
+            //$field = $this->getField($f['name'], $k, $f['length'], $f['notnull'], $f['default'], $f['unsigned'], $f['autoincrement'], $f['scale']);
+            //$orig_field = $field;
             $result = $this->db->datatype->getTypeDeclaration($field);
             if (PEAR::isError($result))
             {
@@ -87,7 +88,8 @@ class MDB2_Datatype_mysql_TestCase extends MDB2_TestCase
             }
             else
             {
-                $this->verifyMDB2MappingResult($k, $result, $v['declare']);
+                $this->verifyMDB2MappingResult($k, $result, $v['expected_datatype'], $field);
+
             }
             // also need to test different lengths, defaults, autoincrement, notnull, scale etc for each type
         }
