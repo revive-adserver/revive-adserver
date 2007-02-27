@@ -35,6 +35,7 @@ require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/DB.php';
+require_once MAX_PATH . '/lib/max/Permission.php';
 require_once 'Date.php';
 
 // Register input variables
@@ -42,37 +43,8 @@ phpAds_registerGlobal ('expand', 'collapse', 'hideinactive', 'listorder', 'order
 
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
-
-if (phpAds_isUser(phpAds_Agency)) {
-    $doClients = MAX_DB::factoryDO('clients');
-    $doClients->clientid = $clientid;
-    if (!$doClients->belongToUser('agency', phpAds_getUserID())) {
-        phpAds_PageHeader("2");
-		phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
-} elseif (phpAds_isUser(phpAds_Client)) {
-    /**
-     * @todo need to investigate whether the url check below
-     * is actually necessary and, if so, if there is a better
-     * way of doing it
-     */
-
-    /* Sometimes $clientid will be null due to the 'clientid' query
-       string parameter being left blank or unset.
-       We need to ensure that the url-mangling check below ignores
-       this case and that we then proceed with the correct client id.
-    */
-    if (isset($clientid) && $clientid != '') {
-        if (phpAds_getUserID() != $clientid) {
-		  phpAds_PageHeader("2");
-		  phpAds_Die ($strAccessDenied, $strNotAdmin);
-        }
-    } else { // $clientid blank/unset so use user id from session
-        $clientid = phpAds_getUserID();
-    }
-}
-
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
+MAX_Permission::checkAccessToObject('clients', $clientid);
 
 if (phpAds_isUser(phpAds_Admin) && !is_numeric($clientid)) {
     header("Location: advertiser-index.php");

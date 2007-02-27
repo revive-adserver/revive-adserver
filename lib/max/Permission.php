@@ -1,7 +1,40 @@
 <?php
 
+/*
++---------------------------------------------------------------------------+
+| Max Media Manager v0.3                                                    |
+| =================                                                         |
+|                                                                           |
+| Copyright (c) 2003-2006 m3 Media Services Limited                         |
+| For contact details, see: http://www.m3.net/                              |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+
 class MAX_Permission
 {
+    /**
+     * Checks if the type of user may access this page.
+     *
+     * @param int $allowed  Bitwise usertype value
+     */
 	function checkAccess($allowed)
 	{
 		if (!MAX_Permission::hasAccess($allowed)) {
@@ -12,6 +45,11 @@ class MAX_Permission
 		}
 	}
 	
+	/**
+	 * Checks if user is allowed to perform action
+	 *
+	 * @param inst $allowed  Bitwise permissions value
+	 */
 	function checkIsAllowed($allowed)
 	{
 		if (!MAX_Permission::isAllowed($allowed)) {
@@ -21,6 +59,12 @@ class MAX_Permission
 		}
 	}
 	
+	/**
+	 * Checks the user is allowed to access the requested object.
+	 *
+	 * @param string $objectTable  the DB table of object
+	 * @param int $id  the primary key of object
+	 */
 	function checkAccessToObject($objectTable, $id)
 	{
 		if (!MAX_Permission::hasAccessToObject($objectTable, $id)) {

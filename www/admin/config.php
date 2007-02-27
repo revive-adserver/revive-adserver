@@ -370,7 +370,7 @@ function MMM_buildNavigation()
                     '2.1.1.2'           =>  array("banner-acl.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid" => $GLOBALS['strModifyBannerAcl']),
                     '2.1.1.3'           =>  array("banner-advanced.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid" => $GLOBALS['strAdvanced']),
             */
-            "3"                         =>  array("report-index.php" => $GLOBALS['strReports']),
+            "3"                         =>  array("report-index.php?clientid=$clientid" => $GLOBALS['strReports']),
             "4"                         =>  array("settings-index.php?clientid=$clientid" => $GLOBALS['strSettings']),
               "4.1"                     =>  array("settings-index.php?clientid=$clientid" => $GLOBALS['strMainSettings'])
         ),
