@@ -45,15 +45,13 @@
 
 require_once 'MDB2_testcase.php';
 
-class MDB2_Declaration_mysql_TestCase extends MDB2_TestCase
+class MDB2_Declaration_TestCase extends MDB2_TestCase
 {
-    var $mdb2_types = array();
-
     function testGetDeclaration()
     {
-        $this->mdb2_types = $this->getMDB2TestTypes();
+        $mdb2_types = $this->getMDB2TestTypes();
 
-        foreach ($this->mdb2_types AS $k => $v)
+        foreach ($mdb2_types AS $k => $v)
         {
             $field = $v['field'];
             $result = $this->db->getDeclaration($field['type'], $field['name'], $field);

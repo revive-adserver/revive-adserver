@@ -528,6 +528,50 @@ class MDB2_Datatype_TestCase extends MDB2_TestCase
         $value = $this->db->queryOne($query, 'text');
         $this->assertEquals('Foo', substr($value, 0, 3), "the value retrieved for field \"user_name\" doesn't match what was stored");
     }
+
+    function test_mapNativeDatatypes()
+    {
+        $this->db->loadModule('Datatype', null, true);
+        $native_types = $this->getNativeTypes();
+
+        foreach ($native_types AS $k => $v)
+        {
+            $field = $this->getField('test',$k);
+            $result = $this->db->datatype->mapNativeDatatype($field);
+            if (PEAR::isError($result))
+            {
+                $this->assertTrue(false, $result->getMessage().' : ** '.$k.' **');
+            }
+            else
+            {
+                $this->verifyNativeMappingResult($k, $result[0][0], $v['type']);
+            }
+            // also need to test length, defaults, autoincrement, notnull, scale
+        }
+    }
+
+    function test_getTypeDeclaration()
+    {
+        $this->db->loadModule('Datatype', null, true);
+        $mdb2_types = $this->getMDB2TestTypes();
+
+        foreach ($mdb2_types AS $k => $v)
+        {
+            $field = $v['field'];
+            $result = $this->db->datatype->getTypeDeclaration($field);
+            if (PEAR::isError($result))
+            {
+                $this->assertTrue(false, $result->getMessage().' : ** '.$k.' **');
+            }
+            else
+            {
+                $this->verifyMDB2MappingResult($k, $result, $v['expected_datatype'], $field);
+
+            }
+            // also need to test different lengths, defaults, autoincrement, notnull, scale etc for each type
+        }
+    }
+
 }
 
 ?>

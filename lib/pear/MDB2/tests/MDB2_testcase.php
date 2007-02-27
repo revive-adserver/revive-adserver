@@ -398,8 +398,8 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                  'expected_declaration'=>' DEFAULT \'0000-00-00 00:00:00\''
                                                  )
                     );
-        }
-      if ($this->dsn['phptype']=='pgsql')
+      }
+      else if ($this->dsn['phptype']=='pgsql')
       {
           return array(
                         'text'          => array('field'=> array('type'=>'text',
