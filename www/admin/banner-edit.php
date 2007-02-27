@@ -45,7 +45,6 @@ require_once MAX_PATH . '/www/admin/lib-swf.inc.php';
 require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
-require_once MAX_PATH . '/lib/max/Dal/Admin/Agency.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
 
 // Load plugins
@@ -97,12 +96,12 @@ phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
 // Agency interface security
 // TODO: extract this and "client interface security" into a function with a good name  
 if (phpAds_isUser(phpAds_Agency)) {
-    $dal = new MAX_Dal_Admin_Agency();
+    $dalAgency = MAX_DB::factoryDAL('agency');
     $agencyid = phpAds_getUserID();
     if (isset($bannerid) && ($bannerid != '')) {
-        $is_allowed = $dal->isAgencyLinkedToAdvertiserCampaignAndBanner($agencyid, $clientid, $campaignid, $bannerid);
+        $is_allowed = $dalAgency->isAgencyLinkedToAdvertiserCampaignAndBanner($agencyid, $clientid, $campaignid, $bannerid);
     } else {
-        $is_allowed = $dal->isAgencyLinkedToAdvertiserAndCampaign($agencyid, $clientid, $campaignid);
+        $is_allowed = $dalAgency->isAgencyLinkedToAdvertiserAndCampaign($agencyid, $clientid, $campaignid);
     }
     if (!$is_allowed) {
         phpAds_PageHeader("2");

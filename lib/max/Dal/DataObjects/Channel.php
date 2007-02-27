@@ -36,8 +36,8 @@ class DataObjects_Channel extends DB_DataObjectCommon
     function delete($useWhere = false, $cascade = true)
     {
     	// find acls which uses this channels
-    	include_once MAX_PATH . '/lib/max/Dal/Admin/Acl.php';
-    	$rsChannel = AclModel::getAclsByDataValueType($this->channelid, 'Site:Channel');
+    	$dalAcls = MAX_DB::factoryDAL('acls');
+    	$rsChannel = $dalAcls->getAclsByDataValueType($this->channelid, 'Site:Channel');
     	$rsChannel->reset();
     	while ($rsChannel->next()) {
     		$channelIds = explode(',', $rsChannel->get('data'));
