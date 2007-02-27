@@ -8,7 +8,7 @@ require_once MAX_PATH . '/lib/max/Dal/Common.php';
 /**
  * @todo Consider renaming to Advert
  */
-class MAX_Dal_Admin_Banner extends MAX_Dal_Common
+class MAX_Dal_Admin_Banners extends MAX_Dal_Common
 {
     var $table = 'banners';
 	
@@ -21,6 +21,7 @@ class MAX_Dal_Admin_Banner extends MAX_Dal_Common
     {
 
         $whereBanner = is_numeric($keyword) ? " OR b.bannerid=$keyword" : '';
+        $prefix = $this->getTablePrefix();
 
         $query = "
         SELECT
@@ -30,9 +31,9 @@ class MAX_Dal_Admin_Banner extends MAX_Dal_Common
             b.campaignid as campaignid,
             m.clientid as clientid
         FROM
-            banners AS b,
-            campaigns AS m,
-            clients AS c
+            {$prefix}banners AS b,
+            {$prefix}campaigns AS m,
+            {$prefix}clients AS c
         WHERE
             (
             m.clientid=c.clientid
@@ -264,7 +265,5 @@ class MAX_Dal_Admin_Banner extends MAX_Dal_Common
         return $banners;
     }
 }
-
-class BannerModel extends MAX_Dal_Admin_Banner {}
 
 ?>
