@@ -29,7 +29,6 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
-require_once MAX_PATH . '/lib/max/Dal/Admin/Advertiser.php';
 
 // Define defaults
 $clientCache = array();
@@ -657,8 +656,8 @@ function phpAds_getClientDetails($clientid)
     if (isset($clientCache[$clientid]) && is_array($clientCache[$clientid])) {
         $client_details = $clientCache[$clientid];
     } else {
-        $dal = new MAX_Dal_Admin_Advertiser();
-        $client_details = $dal->getAdvertiserDetails($clientid);
+        $dalClients = MAX_DB::factoryDAL('clients');
+        $client_details = $dalClients->getAdvertiserDetails($clientid);
         $clientCache[$clientid] = $client_details;
     }
     return ($client_details);

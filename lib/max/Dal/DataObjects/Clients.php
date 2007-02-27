@@ -7,7 +7,7 @@ require_once 'DB_DataObjectCommon.php';
 class DataObjects_Clients extends DB_DataObjectCommon 
 {
     var $onDeleteCascade = true;
-    var $dalModelName = 'Advertiser';
+    var $dalModelName = 'Clients';
     
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */

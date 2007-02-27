@@ -34,9 +34,6 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/lib/max/Dal/Admin/Advertiser.php';
-require_once MAX_PATH . '/lib/max/Dal/Admin/Campaign.php';
-require_once MAX_PATH . '/lib/max/Dal/Admin/Banner.php';
 
 // Register input variables
 phpAds_registerGlobal('expand', 'collapse', 'hideinactive', 'listorder',
@@ -94,41 +91,41 @@ if (isset($session['prefs']['advertiser-index.php']['nodes'])) {
 // XXX: Now that the two are next to each other, some silliness
 //      is quite visible -- retrieving all items /then/ retrieving a count.
 // TODO: This looks like a perfect candidate for object "polymorphism"
-$advertiser_dal = new MAX_Dal_Admin_Advertiser();
-$campaign_dal = new MAX_Dal_Admin_Campaign();
-$banner_dal = new MAX_Dal_Admin_Banner();
+$dalClients = MAX_DB::factoryDAL('clients');
+$dalCampaigns = MAX_DB::factoryDAL('campaigns');
+$dalBanners = MAX_DB::factoryDAL('banners');
 if (phpAds_isUser(phpAds_Admin)) {
-    $clients = $advertiser_dal->getAllAdvertisers($listorder, $orderdirection);
-    $campaigns = $campaign_dal->getAllCampaigns($listorder, $orderdirection);
-    $banners = $banner_dal->getAllBanners($listorder, $orderdirection);
+    $clients = $dalClients->getAllAdvertisers($listorder, $orderdirection);
+    $campaigns = $dalCampaigns->getAllCampaigns($listorder, $orderdirection);
+    $banners = $dalBanners->getAllBanners($listorder, $orderdirection);
 
-    $number_of_clients = $advertiser_dal->countAllAdvertisers();
-    $number_of_campaigns = $campaign_dal->countAllCampaigns();
-    $number_of_active_campaigns = $campaign_dal->countActiveCampaigns();
-    $number_of_banners = $banner_dal->countAllBanners();
-    $number_of_active_banners = $banner_dal->countActiveBanners();
+    $number_of_clients = $dalClients->countAllAdvertisers();
+    $number_of_campaigns = $dalCampaigns->countAllCampaigns();
+    $number_of_active_campaigns = $dalCampaigns->countActiveCampaigns();
+    $number_of_banners = $dalBanners->countAllBanners();
+    $number_of_active_banners = $dalBanners->countActiveBanners();
 } elseif (phpAds_isUser(phpAds_Agency)) {
     $agency_id = phpAds_getUserID();
-    $clients = $advertiser_dal->getAllAdvertisersUnderAgency($agency_id, $listorder, $orderdirection);
-    $campaigns = $campaign_dal->getAllCampaignsUnderAgency($agency_id, $listorder, $orderdirection);
-    $banners = $banner_dal->getAllBannersUnderAgency($agency_id, $listorder, $orderdirection);
+    $clients = $dalClients->getAllAdvertisersUnderAgency($agency_id, $listorder, $orderdirection);
+    $campaigns = $dalCampaigns->getAllCampaignsUnderAgency($agency_id, $listorder, $orderdirection);
+    $banners = $dalBanners->getAllBannersUnderAgency($agency_id, $listorder, $orderdirection);
 
-    $number_of_clients = $advertiser_dal->countAdvertisersUnderAgency($agency_id);
-    $number_of_campaigns = $campaign_dal->countCampaignsUnderAgency($agency_id);
-    $number_of_active_campaigns =  $campaign_dal->countActiveCampaignsUnderAgency($agency_id);
-    $number_of_banners = $banner_dal->countBannersUnderAgency($agency_id);
-    $number_of_active_banners = $banner_dal->countActiveBannersUnderAgency($agency_id);
+    $number_of_clients = $dalClients->countAdvertisersUnderAgency($agency_id);
+    $number_of_campaigns = $dalCampaigns->countCampaignsUnderAgency($agency_id);
+    $number_of_active_campaigns =  $dalCampaigns->countActiveCampaignsUnderAgency($agency_id);
+    $number_of_banners = $dalBanners->countBannersUnderAgency($agency_id);
+    $number_of_active_banners = $dalBanners->countActiveBannersUnderAgency($agency_id);
 } elseif (phpAds_isUser(phpAds_Client)) {
     $advertiser_id = phpAds_getUserID();
-    $clients = $advertiser_dal->getAllAdvertisersWithId($advertiser_id);
-    $campaigns = $campaign_dal->getAllCampaignsUnderAdvertiser($advertiser_id, $listorder, $orderdirection);
-    $banners = $banner_dal->getAllBannersUnderAdvertiser($advertiser_id, $listorder, $orderdirection);
+    $clients = $dalClients->getAllAdvertisersWithId($advertiser_id);
+    $campaigns = $dalCampaigns->getAllCampaignsUnderAdvertiser($advertiser_id, $listorder, $orderdirection);
+    $banners = $dalBanners->getAllBannersUnderAdvertiser($advertiser_id, $listorder, $orderdirection);
 
-    $number_of_clients = $advertiser_dal->countAdvertisersWithId($advertiser_id);
-    $number_of_campaigns = $campaign_dal->countCampaignsUnderAdvertiser($advertiser_id);
-    $number_of_active_campaigns = $campaign_dal->countActiveCampaignsUnderAdvertiser($advertiser_id);
-    $number_of_banners = $banner_dal->countBannersUnderAdvertiser($agency_id);
-    $number_of_active_banners = $banner_dal->countActiveBannersUnderAdvertiser($agency_id);
+    $number_of_clients = $dalClients->countAdvertisersWithId($advertiser_id);
+    $number_of_campaigns = $dalCampaigns->countCampaignsUnderAdvertiser($advertiser_id);
+    $number_of_active_campaigns = $dalCampaigns->countActiveCampaignsUnderAdvertiser($advertiser_id);
+    $number_of_banners = $dalBanners->countBannersUnderAdvertiser($agency_id);
+    $number_of_active_banners = $dalBanners->countActiveBannersUnderAdvertiser($agency_id);
 }
 
 // Build Tree

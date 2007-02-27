@@ -35,12 +35,6 @@ require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
-require_once MAX_PATH . '/lib/max/Dal/Admin/Affiliate.php';
-require_once MAX_PATH . '/lib/max/Dal/Admin/Campaign.php';
-require_once MAX_PATH . '/lib/max/Dal/Admin/Client.php';
-require_once MAX_PATH . '/lib/max/Dal/Admin/Banner.php';
-require_once MAX_PATH . '/lib/max/Dal/Admin/Zone.php';
-require_once MAX_PATH . '/lib/max/DB.php';
 
 // Register input variables
 phpAds_registerGlobal ('keyword', 'client', 'campaign', 'banner', 'zone', 'affiliate', 'compact');
@@ -151,27 +145,32 @@ if (!isset($keyword))
         $agencyId = phpAds_getAgencyID();
     }
     
-    $zoneRS = ZoneModel::getZoneByKeyword($keyword, $agencyId);
-    $zoneRS->reset(); // Reset RecordSet (execute the query on database)
+    $dalZones = MAX_DB::factoryDAL('zones');
+    $rsZones = $dalZones->getZoneByKeyword($keyword, $agencyId);
+    $rsZones->reset(); // Reset RecordSet (execute the query on database)
 
-    $affiliateRS = AffiliateModel::getAffiliateByKeyword($keyword, $agencyId);
-    $affiliateRS->reset();
+    $dalAffiliates = MAX_DB::factoryDAL('affiliates');
+    $rsAffiliates = $dalAffiliates->getAffiliateByKeyword($keyword, $agencyId);
+    $rsAffiliates->reset();
     
-    $bannerRS = BannerModel::getBannerByKeyword($keyword, $agencyId);
-    $bannerRS->reset();
+    $dalBanners = MAX_DB::factoryDAL('banners');
+    $rsBanners = $dalBanners->getBannerByKeyword($keyword, $agencyId);
+    $rsBanners->reset();
     
-    $clientRS = ClientModel::getClientByKeyword($keyword, $agencyId);
-    $clientRS->reset();
+    $dalClients = MAX_DB::factoryDAL('clients');
+    $rsClients = $dalClients->getClientByKeyword($keyword, $agencyId);
+    $rsClients->reset();
     
-    $campaignRS = CampaignModel::getCampaignAndClientByKeyword($keyword, $agencyId);
-    $campaignRS->reset();
+    $dalCampaigns = MAX_DB::factoryDAL('campaigns');
+    $rsCampaigns = $dalCampaigns->getCampaignAndClientByKeyword($keyword, $agencyId);
+    $rsCampaigns->reset();
        
     $matchesFound = false;
-    if ($clientRS->getRowCount() ||
-        $campaignRS->getRowCount() ||
-        $bannerRS->getRowCount() ||
-        $affiliateRS->getRowCount() ||
-        $zoneRS->getRowCount())
+    if ($rsClients->getRowCount() ||
+        $rsCampaigns->getRowCount() ||
+        $rsBanners->getRowCount() ||
+        $rsAffiliates->getRowCount() ||
+        $rsZones->getRowCount())
     {
         echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
         echo "<tr height='25'>";
@@ -190,9 +189,9 @@ if (!isset($keyword))
     $i=0;
     
     
-    if ($client && $clientRS->getRowCount())
+    if ($client && $rsClients->getRowCount())
     {
-        while ($clientRS->next() && $row_clients = $clientRS->export())
+        while ($rsClients->next() && $row_clients = $rsClients->export())
         {
             if ($i > 0) echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
             
@@ -329,7 +328,7 @@ if (!isset($keyword))
     
     if ($campaign)
     {
-        while ($campaignRS->next() && $row_campaigns = $campaignRS->export())
+        while ($rsCampaigns->next() && $row_campaigns = $rsCampaigns->export())
         {
             if ($i > 0) echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
             
@@ -424,9 +423,9 @@ if (!isset($keyword))
         }
     }
     
-    if ($banner && $bannerRS->getRowCount())
+    if ($banner && $rsBanners->getRowCount())
     {
-        while ($bannerRS->next() && $row_banners = $bannerRS->export())
+        while ($rsBanners->next() && $row_banners = $rsBanners->export())
         {
             $name = $strUntitled;
             if (isset($row_banners['alt']) && $row_banners['alt'] != '') $name = $row_banners['alt'];
@@ -480,9 +479,9 @@ if (!isset($keyword))
         }
     }
     
-    if ($affiliate && $affiliateRS->getRowCount())
+    if ($affiliate && $rsAffiliates->getRowCount())
     {
-        while ($affiliateRS->next() && $row_affiliates = $affiliateRS->export())
+        while ($rsAffiliates->next() && $row_affiliates = $rsAffiliates->export())
         {
             $name = $row_affiliates['name'];
             $name = phpAds_breakString ($name, '30');
@@ -567,9 +566,9 @@ if (!isset($keyword))
         }
     }
     
-    if ($zone && $zoneRS->getRowCount())
+    if ($zone && $rsZones->getRowCount())
     {
-        while ($zoneRS->next() && $row_zones = $zoneRS->export())
+        while ($rsZones->next() && $row_zones = $rsZones->export())
         {
             $name = $row_zones['zonename'];
             $name = phpAds_breakString ($name, '30');

@@ -75,10 +75,10 @@ if (phpAds_isUser(phpAds_Client)) {
 	}
 	$clientid = phpAds_getUserID();
 } elseif (phpAds_isUser(phpAds_Agency)) {
-	if (isset($clientid) && ($clientid != '')) {
-        $doClient = MAX_DB::factoryDO('clients');
-        $doClient->clientid = $clientid;
-        if ($doClient->belongToUser('agency', phpAds_getUserID())) {
+	if (!empty($clientid)) {
+        $doClients = MAX_DB::factoryDO('clients');
+        $doClients->clientid = $clientid;
+        if ($doClients->belongToUser('agency', phpAds_getUserID())) {
 			phpAds_PageHeader("2");
 			phpAds_Die($strAccessDenied, $strNotAdmin);
 		}
@@ -92,10 +92,10 @@ if (phpAds_isUser(phpAds_Client)) {
 if (isset($submit)) {
 	$errormessage = array();
 	// Get previous values
-	if (isset($clientid) && ($clientid != '')) {
-        $doClient = MAX_DB::factoryDO('clients');
-		if ($doClient->get($clientid)) {
-			$client = $doClient->toArray();
+	if (!empty($clientid)) {
+        $doClients = MAX_DB::factoryDO('clients');
+		if ($doClients->get($clientid)) {
+			$client = $doClients->toArray();
 		}
 	}
 	// Name
@@ -126,20 +126,20 @@ if (isset($submit)) {
 		}
 		// Username
 		if (isset($clientusername) && $clientusername != '') {
-            $doAffiliate = MAX_DB::factoryDO('affiliates');
-            $doAffiliate->whereAddLower('username', $clientusername);
-            $duplicateaffiliate = ($doAffiliate->count() > 0);
+            $doAffiliates = MAX_DB::factoryDO('affiliates');
+            $doAffiliates->whereAddLower('username', $clientusername);
+            $duplicateaffiliate = ($doAffiliates->count() > 0);
 			$duplicateadmin  = (strtolower($pref['admin']) == strtolower($clientusername));
-			if ($clientid == '') {
-                $doClient = MAX_DB::factoryDO('clients');
-                $doClient->whereAddLower('clientusername', $clientusername);
-				if ($doClient->count() > 0 || $duplicateaffiliate || $duplicateadmin)
+			if (empty($clientid)) {
+                $doClients = MAX_DB::factoryDO('clients');
+                $doClients->whereAddLower('clientusername', $clientusername);
+				if ($doClients->count() > 0 || $duplicateaffiliate || $duplicateadmin)
 					$errormessage[] = $strDuplicateClientName;
 			} else {
-                $doClient = MAX_DB::factoryDO('clients');
-                $doClient->whereAddLower('clientusername', $clientusername);
-                $doClient->whereAdd('clientid <> ' . $clientid);
-				if ($doClient->count() > 0 || $duplicateaffiliate || $duplicateadmin) {
+                $doClients = MAX_DB::factoryDO('clients');
+                $doClients->whereAddLower('clientusername', $clientusername);
+                $doClients->whereAdd('clientid <> ' . $clientid);
+				if ($doClients->count() > 0 || $duplicateaffiliate || $duplicateadmin) {
 					$errormessage[] = $strDuplicateClientName;
 				}
 			}
@@ -181,24 +181,24 @@ if (isset($submit)) {
 	echo "</pre><hr>";
 	*/
 	if (count($errormessage) == 0) {
-		if (!isset($clientid) || $clientid == '') {
-            $doClient = MAX_DB::factoryDO('clients');
-            $doClient->setFrom($client);
-            $doClient->updated = date('Y-m-d H:i:s');
+		if (empty($clientid)) {
+            $doClients = MAX_DB::factoryDO('clients');
+            $doClients->setFrom($client);
+            $doClients->updated = date('Y-m-d H:i:s');
 
 			// Insert
-			$clientid = $doClient->insert();
+			$clientid = $doClients->insert();
 
 			// Go to next page
 			MAX_Admin_Redirect::redirect("campaign-edit.php?clientid=$clientid");
 		} else {
-            $doClient = MAX_DB::factoryDO('clients');
-            $doClient->get($clientid);
-            $doClient->setFrom($client);
-            $doClient->updated = date('Y-m-d H:i:s');
+            $doClients = MAX_DB::factoryDO('clients');
+            $doClients->get($clientid);
+            $doClients->setFrom($client);
+            $doClients->updated = date('Y-m-d H:i:s');
 
 			// Update
-			$doClient->update();
+			$doClients->update();
 
             // Go to next page
 			if (phpAds_isUser(phpAds_Client)) {
@@ -235,17 +235,17 @@ if ($clientid != "") {
 		}
 
 		// Get other clients
-		$doClient = MAX_DB::factoryDO('clients');
+		$doClients = MAX_DB::factoryDO('clients');
 
 		// Unless admin, restrict results
 		if (phpAds_isUser(phpAds_Agency)) {
-            $doClient->agencyid = $session['userid'];
+            $doClients->agencyid = $session['userid'];
 		}
         
-        $doClient->addListorderBy($navorder, $navdirection);
-        $doClient->find();
+        $doClients->addListorderBy($navorder, $navdirection);
+        $doClients->find();
 
-		while ($doClient->fetch() && $row = $doClient->toArray()) {
+		while ($doClients->fetch() && $row = $doClients->toArray()) {
 			phpAds_PageContext (
 				phpAds_buildName ($row['clientid'], $row['clientname']),
 				"advertiser-edit.php?clientid=".$row['clientid'],
@@ -263,9 +263,9 @@ if ($clientid != "") {
 	// Do not get this information if the page
 	// is the result of an error message
 	if (!isset($client)) {
-        $doClient = DB_DataObject::factory('clients');
-		if ($doClient->get($clientid)) {
-			$client = $doClient->toArray();
+        $doClients = MAX_DB::factoryDO('clients');
+		if ($doClients->get($clientid)) {
+			$client = $doClients->toArray();
 		}
 
 		// Set password to default value
@@ -522,20 +522,20 @@ echo "</form>";
 /*-------------------------------------------------------*/
 
 // Get unique clientname
-$doClient = MAX_DB::factoryDO('clients');
-$doClient->whereAdd("clientid <> '" . $clientid."'");
-$unique_names = $doClient->getAll(array('clientname'));
+$doClients = MAX_DB::factoryDO('clients');
+$doClients->whereAdd("clientid <> '" . $clientid."'");
+$unique_names = $doClients->getAll(array('clientname'));
 
 // Get unique username
 $unique_users = array($pref['admin']);
-$doClient = MAX_DB::factoryDO('clients');
-$doClient->whereAdd("clientusername <> ''");
-$doClient->whereAdd("clientid <> '" . $clientid . "'");
-$unique_users = $doClient->getAll(array('clientusername'));
+$doClients = MAX_DB::factoryDO('clients');
+$doClients->whereAdd("clientusername <> ''");
+$doClients->whereAdd("clientid <> '" . $clientid . "'");
+$unique_users = $doClients->getAll(array('clientusername'));
 
-$doAffiliate = MAX_DB::factoryDO('affiliates');
-$doAffiliate->whereAdd("username <> ''");
-$unique_users = array_merge($unique_users, $doAffiliate->getAll(array('username')))
+$doAffiliates = MAX_DB::factoryDO('affiliates');
+$doAffiliates->whereAdd("username <> ''");
+$unique_users = array_merge($unique_users, $doAffiliates->getAll(array('username')))
 
 ?>
 

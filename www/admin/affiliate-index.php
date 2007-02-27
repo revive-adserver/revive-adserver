@@ -86,21 +86,21 @@ else
 
 $loosezones = false;
 
-$doAffiliate = MAX_DB::factoryDO('affiliates');
-$doAffiliate->addListOrderBy($listorder, $orderdirection);
+$doAffiliates = MAX_DB::factoryDO('affiliates');
+$doAffiliates->addListOrderBy($listorder, $orderdirection);
 
 // Get affiliates and build the tree
 if (phpAds_isUser(phpAds_Agency))
 {
-	$doAffiliate->agencyid = $session['userid'];
+	$doAffiliates->agencyid = $session['userid'];
 }
 elseif (phpAds_isUser(phpAds_Affiliate))
 {
-	$doAffiliate->affiliateid = $session['userid'];
+	$doAffiliates->affiliateid = $session['userid'];
 }
 
-$doAffiliate->find();
-while ($doAffiliate->fetch() && $row_affiliates = $doAffiliate->toArray())
+$doAffiliates->find();
+while ($doAffiliates->fetch() && $row_affiliates = $doAffiliates->toArray())
 {
 	$affiliates[$row_affiliates['affiliateid']] = $row_affiliates;
 	$affiliates[$row_affiliates['affiliateid']]['expand'] = 0;
@@ -118,15 +118,15 @@ $doAdZoneAssoc->groupBy('zone_id');
 // Get the zones for each affiliate
 if (phpAds_isUser(phpAds_Admin))
 {
-    $doAdZoneAssoc->whereAdd('zoneid > 0');
+    $doAdZoneAssoc->whereAdd('zone_id > 0');
 }
 elseif (phpAds_isUser(phpAds_Agency))
 {
     $agencyId = phpAds_getAgencyID();
     
-    $doAffiliate = MAX_DB::factoryDO('affiliates');
-    $doAffiliate->agencyid = $agencyId;
-    $doZone->joinAdd($doAffiliate);
+    $doAffiliates = MAX_DB::factoryDO('affiliates');
+    $doAffiliates->agencyid = $agencyId;
+    $doZone->joinAdd($doAffiliates);
 
     $doAdZoneAssoc->joinAdd($doZone);
 }
@@ -451,16 +451,16 @@ echo "</table>";
 
 
 // Total number of clients
-$doAffiliate = MAX_DB::factoryDO('affiliates');
+$doAffiliates = MAX_DB::factoryDO('affiliates');
 $doZone = MAX_DB::factoryDO('zones');
 
 if (phpAds_isUser(phpAds_Agency)) {
-    $doAffiliate->agencyid = phpAds_getAgencyID();
-    $doZone->joinAdd($doAffiliate);
+    $doAffiliates->agencyid = phpAds_getAgencyID();
+    $doZone->joinAdd($doAffiliates);
 }
 
 $countZone = $doZone->count();
-$countAffiliate = $doAffiliate->count();
+$countAffiliate = $doAffiliates->count();
 
 echo "\t\t\t\t<br /><br /><br /><br />\n";
 echo "\t\t\t\t<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>\n";
