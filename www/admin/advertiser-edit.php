@@ -68,27 +68,6 @@ MAX_Permission::checkIsAllowed(phpAds_ModifyInfo);
 MAX_Permission::checkAccessToObject('clients', $clientid);
 
 /*-------------------------------------------------------*/
-/* Interface security                                    */
-/*-------------------------------------------------------*/
-
-if (phpAds_isUser(phpAds_Client)) {
-	if (!phpAds_isAllowed(phpAds_ModifyInfo)) {
-		phpAds_PageHeader("2");
-		phpAds_Die ($strAccessDenied, $strNotAdmin);
-	}
-	$clientid = phpAds_getUserID();
-} elseif (phpAds_isUser(phpAds_Agency)) {
-	if (!empty($clientid)) {
-        $doClients = MAX_DB::factoryDO('clients');
-        $doClients->clientid = $clientid;
-        if (!$doClients->belongToUser('agency', phpAds_getUserID())) {
-			phpAds_PageHeader("2");
-			phpAds_Die($strAccessDenied, $strNotAdmin);
-		}
-	}
-}
-
-/*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
 
