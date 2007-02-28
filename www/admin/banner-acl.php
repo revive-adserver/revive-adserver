@@ -88,7 +88,7 @@ if (!empty($action)) {
 	        $values['updated'] = $now;
             $doBanners = MAX_DB::factoryDO('banners');
             $doBanners->get($bannerid);
-            $ret = $doBanners->setFrom($values);
+            $doBanners->setFrom($values);
             $doBanners->update();
 	    }
 	}
