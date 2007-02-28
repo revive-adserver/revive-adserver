@@ -205,6 +205,11 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function addReferenceFilter($referenceTable, $tableId)
     {
+        if ($this->_tableName == $referenceTable) {
+            $key = $this->getFirstPrimaryKey();
+            $this->$key = $tableId;
+            return true;
+        }
         $found = $this->_addReferenceFilterRecursively($referenceTable, $tableId);
         if (!$found) {
             DB_DataObject::raiseError(
