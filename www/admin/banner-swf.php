@@ -45,56 +45,22 @@ phpAds_registerGlobal ('convert', 'cancel', 'compress', 'convert_links',
                        'overwrite_source');
 
 
-// Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
-
-
-
 /*-------------------------------------------------------*/
 /* Client interface security                             */
 /*-------------------------------------------------------*/
 
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
+MAX_Permission::checkIsAllowed(phpAds_ModifyBanner);
 if (phpAds_isUser(phpAds_Agency)) {
-    $query = "SELECT ".
-        $conf['table']['prefix'].$conf['table']['banners'].".bannerid as bannerid".
-        " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-        ",".$conf['table']['prefix'].$conf['table']['campaigns'].
-        ",".$conf['table']['prefix'].$conf['table']['banners'].
-        " WHERE ".$conf['table']['prefix'].$conf['table']['campaigns'].".clientid='".$clientid."'".
-        " AND ".$conf['table']['prefix'].$conf['table']['banners'].".campaignid='".$campaignid."'".
-        " AND ".$conf['table']['prefix'].$conf['table']['banners'].".bannerid='".$bannerid."'".
-        " AND ".$conf['table']['prefix'].$conf['table']['banners'].".campaignid=".$conf['table']['prefix'].$conf['table']['campaigns'].".campaignid".
-        " AND ".$conf['table']['prefix'].$conf['table']['campaigns'].".clientid=".$conf['table']['prefix'].$conf['table']['clients'].".clientid".
-        " AND ".$conf['table']['prefix'].$conf['table']['clients'].".agencyid=".phpAds_getUserID();
-    $res = phpAds_dbQuery($query)
-        or phpAds_sqlDie();
-    if (phpAds_dbNumRows($res) == 0) {
-        phpAds_PageHeader("2");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
+    MAX_Permission::checkAccessToObject('banners', $bannerid);
+    MAX_Permission::checkAccessToObject('campaigns', $campaignid);
+    MAX_Permission::checkAccessToObject('clients', $clientid);
 }
 if (phpAds_isUser(phpAds_Client)) {
-    if (phpAds_isAllowed(phpAds_ModifyBanner)) {
-        $result = phpAds_dbQuery("
-            SELECT
-                campaignid
-            FROM
-                ".$conf['table']['prefix'].$conf['table']['banners']."
-            WHERE
-                bannerid = '$bannerid'
-            ") or phpAds_sqlDie();
-        $row = phpAds_dbFetchArray($result);
-
-        if ($row["campaignid"] == '' || phpAds_getUserID() != phpAds_getCampaignParentClientID ($row["campaignid"])) {
-            phpAds_PageHeader("1");
-            phpAds_Die ($strAccessDenied, $strNotAdmin);
-        } else {
-            $campaignid = $row["campaignid"];
-        }
-    } else {
-        phpAds_PageHeader("1");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
+    MAX_Permission::checkAccessToObject('banners', $bannerid);
+    $doBanners = MAX_DB::factoryDO('banners');
+    $doBanners->get($bannerid);
+    $campaignid = $doBanners->campaignid;
 }
 
 /*-------------------------------------------------------*/
@@ -102,25 +68,12 @@ if (phpAds_isUser(phpAds_Client)) {
 /*-------------------------------------------------------*/
 
 if (isset($convert)) {
-    $res = phpAds_dbQuery("
-        SELECT
-            url,
-            target,
-            pluginversion,
-            htmltemplate,
-            htmlcache,
-            storagetype AS type,
-            filename
-        FROM
-            ".$conf['table']['prefix'].$conf['table']['banners']."
-        WHERE
-            bannerid = '$bannerid'
-    ") or phpAds_sqlDie();
-
-    $row = phpAds_dbFetchArray($res);
-
-    if ($row['type'] == 'sql' || $row['type'] == 'web') {
-        $swf_file = phpAds_ImageRetrieve ($row['type'], $row['filename']);
+    $doBanners = MAX_DB::factoryDO('banners');
+    $doBanners->get($bannerid);
+    $row = $doBanners->toArray();
+    
+    if ($row['storagetype'] == 'sql' || $row['storagetype'] == 'web') {
+        $swf_file = phpAds_ImageRetrieve ($row['storagetype'], $row['filename']);
     }
     if ($swf_file) {
         if (phpAds_SWFVersion($swf_file) >= 3 && phpAds_SWFInfo($swf_file)) {
@@ -163,16 +116,17 @@ if (isset($convert)) {
                 $row['htmltemplate']  = addslashes ($row['htmltemplate']);
 
                 // Store the HTML Template
-                $res = phpAds_dbQuery ("
-                    UPDATE ".$conf['table']['prefix'].$conf['table']['banners']."
-                    SET url='".$row['url']."', target='".$row['target']."', pluginversion='".$row['pluginversion']."',
-                        htmltemplate='".$row['htmltemplate']."', htmlcache='".$row['htmlcache']."',
-                        updated = '".date('Y-m-d H:i:s')."'
-                    WHERE bannerid = '".$bannerid."'
-                ");
-
+                $doBanners = MAX_DB::factoryDO('banners');
+                $doBanners->get($bannerid);
+                $doBanners->url = $row['url'];
+                $doBanners->target = $row['target'];
+                $doBanners->pluginversion = $row['pluginversion'];
+                $doBanners->htmltemplate = $row['htmltemplate'];
+                $doBanners->htmlcache = $row['htmlcache'];
+                $doBanners->update();
+                
                 // Store the banner
-                phpAds_ImageStore ($row['type'], $row['filename'], $result, true);
+                phpAds_ImageStore ($row['storagetype'], $row['filename'], $result, true);
 
                 // Rebuild cache
                 // require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
@@ -215,17 +169,12 @@ if ($bannerid != '') {
     }
 
     // Get other banners
-    $res = phpAds_dbQuery("
-        SELECT
-            *
-        FROM
-            ".$conf['table']['prefix'].$conf['table']['banners']."
-        WHERE
-            campaignid = '$campaignid'
-        ".phpAds_getBannerListOrder($navorder, $navdirection)."
-    ");
-
-    while ($row = phpAds_dbFetchArray($res)) {
+    $doBanners = MAX_DB::factoryDO('banners');
+    $doBanners->campaignid = $campaignid;
+    $doBanners->addListOrderBy($navorder, $navdirection);
+    $doBanners->find();
+    
+    while ($doBanners->fetch() && $row = $doBanners->toArray()) {
         phpAds_PageContext (
             phpAds_buildBannerName ($row['bannerid'], $row['description'], $row['alt']),
             "banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row['bannerid'],
@@ -255,21 +204,13 @@ if ($bannerid != '') {
         phpAds_ShowSections(array("1.2.2.3"));
     }
 
-    $res = phpAds_dbQuery("
-        SELECT
-            contenttype AS contenttype,
-            storagetype AS type,
-            filename AS filename
-        FROM
-            ".$conf['table']['prefix'].$conf['table']['banners']."
-        WHERE
-            bannerid = '$bannerid'
-        ") or phpAds_sqlDie();
-    $row = phpAds_dbFetchArray($res);
-
+    $doBanners = MAX_DB::factoryDO('banners');
+    $doBanners->get($bannerid);
+    $row = $doBanners->toArray();
+    
     if ($row['contenttype'] == 'swf') {
-        if ($row['type'] == 'sql' || $row['type'] == 'web') {
-            $swf_file = phpAds_ImageRetrieve ($row['type'], $row['filename']);
+        if ($row['storagetype'] == 'sql' || $row['storagetype'] == 'web') {
+            $swf_file = phpAds_ImageRetrieve ($row['storagetype'], $row['filename']);
         }
     } else {
         // Banner is not a flash banner, return to banner-edit.php
