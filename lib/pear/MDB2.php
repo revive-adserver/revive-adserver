@@ -1143,6 +1143,7 @@ class MDB2_Driver_Common extends PEAR
         'emulate_prepared' => false,
         'datatype_map' => array(),
         'datatype_map_callback' => array(),
+        'nativetype_map_callback' => array(),
     );
 
     /**
