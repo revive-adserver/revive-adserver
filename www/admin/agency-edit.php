@@ -136,8 +136,6 @@ if (isset($submit)) {
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-$agencyUserName = '';
-$agencyName = '';
 if ($agencyid != '') {
 	if (isset($session['prefs']['agency-index.php']['listorder'])) {
 		$navorder = $session['prefs']['agency-index.php']['listorder'];
@@ -166,8 +164,6 @@ if ($agencyid != '') {
 	if (!isset($agency)) {
 	    $doAgency = MAX_DB::factoryDO('agency');
 	    if ($doAgency->get($agencyid)) {
-	        $agencyUserName = $doAgency->username;
-	        $agencyName = $doAgency->name;
 	        $agency = $doAgency->toArray();
 	    }
 		// Set password to default value
@@ -317,8 +313,8 @@ echo "</form>";
 
 // Get unique agencyname
 $doAgency = MAX_DB::factoryDO('agency');
-$unique_names = $doAgency->getUniqueValuesFromColumn('name', $agencyName);
-$unique_users = MAX_Permission::getUniqueUserNames($agencyUserName);
+$unique_names = $doAgency->getUniqueValuesFromColumn('name', $agency['name']);
+$unique_users = MAX_Permission::getUniqueUserNames($agency['username']);
 
 ?>
 

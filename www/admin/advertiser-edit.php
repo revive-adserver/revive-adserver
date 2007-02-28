@@ -106,25 +106,10 @@ if (isset($submit)) {
 			}
 		}
 		// Username
-		if (isset($clientusername) && $clientusername != '') {
-            $doAffiliates = MAX_DB::factoryDO('affiliates');
-            $doAffiliates->whereAddLower('username', $clientusername);
-            $duplicateaffiliate = ($doAffiliates->count() > 0);
-			$duplicateadmin  = (strtolower($pref['admin']) == strtolower($clientusername));
-			if (empty($clientid)) {
-                $doClients = MAX_DB::factoryDO('clients');
-                $doClients->whereAddLower('clientusername', $clientusername);
-				if ($doClients->count() > 0 || $duplicateaffiliate || $duplicateadmin)
-					$errormessage[] = $strDuplicateClientName;
-			} else {
-                $doClients = MAX_DB::factoryDO('clients');
-                $doClients->whereAddLower('clientusername', $clientusername);
-                $doClients->whereAdd('clientid <> ' . $clientid);
-				if ($doClients->count() > 0 || $duplicateaffiliate || $duplicateadmin) {
-					$errormessage[] = $strDuplicateClientName;
-				}
-			}
-			if (count($errormessage) == 0) {
+		if (!empty($clientusername)) {
+            if (!MAX_Permission::isUsernameAllowed($client['username'], $clientusername)) {
+                $errormessage[] = $strDuplicateAgencyName;
+            } else {
 				// Set username
 				$client['clientusername'] = $clientusername;
 			}
@@ -504,19 +489,9 @@ echo "</form>";
 
 // Get unique clientname
 $doClients = MAX_DB::factoryDO('clients');
-$doClients->whereAdd("clientid <> '" . $clientid."'");
-$unique_names = $doClients->getAll(array('clientname'));
+$unique_names = $doClients->getUniqueValuesFromColumn('clientname', $client['clientname']);
 
-// Get unique username
-$unique_users = array($pref['admin']);
-$doClients = MAX_DB::factoryDO('clients');
-$doClients->whereAdd("clientusername <> ''");
-$doClients->whereAdd("clientid <> '" . $clientid . "'");
-$unique_users = $doClients->getAll(array('clientusername'));
-
-$doAffiliates = MAX_DB::factoryDO('affiliates');
-$doAffiliates->whereAdd("username <> ''");
-$unique_users = array_merge($unique_users, $doAffiliates->getAll(array('username')))
+$unique_users = MAX_Permission::getUniqueUserNames($client['clientusername']);
 
 ?>
 

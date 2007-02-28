@@ -126,32 +126,13 @@ if (isset($submit)) {
             }
         }
         // Username
-        if (isset($username) && $username != '') {
-            $doClients = MAX_DB::factoryDO('clients');
-            $doClients->whereAddLower('clientusername', $username);
-            $duplicateclient = ($doClients->count() > 0);
-            $duplicateadmin  = (strtolower($pref['admin']) == strtolower($username));
-            
-            if ($affiliateid == '') {
-                $doAffiliates = MAX_DB::factoryDO('affiliates');
-                $doAffiliates->whereAddLower('username', $username);
-                if ($doAffiliates->count() > 0 || $duplicateclient || $duplicateadmin) {
-                    $errormessage[] = $strDuplicateClientName;
-                }
+        if (!empty($username)) {
+            if (!MAX_Permission::isUsernameAllowed($affiliate['username'], $username)) {
+                $errormessage[] = $strDuplicateAgencyName;
             } else {
-                $doAffiliates = MAX_DB::factoryDO('affiliates');
-                $doAffiliates->whereAdd('affiliateid <> ' . $affiliateid);
-                $doAffiliates->whereAddLower('username', $username);
-
-                if ($doAffiliates->count() > 0 || $duplicateclient || $duplicateadmin) {
-                    $errormessage[] = $strDuplicateClientName;
-                }
-            }
-            if (count($errormessage) == 0) {
-                // Set username
                 $affiliate['username'] = $username;
             }
-        }
+    	}
         // Permissions
         $affiliate['permissions'] = 0;
         if (isset($account_type) && $account_type == 'affiliate') {
@@ -221,7 +202,6 @@ if (isset($submit)) {
                     if (in_array($append[0]['zoneid'], $zones)) {
                         $doZones->appendtype = phpAds_ZoneAppendRaw;
                         $doZones->append = '';
-                        $doZones->updated = date('Y-m-d H:i:s');
                         $doZones->update();
                     }
                 }
@@ -238,7 +218,6 @@ if (isset($submit)) {
                 // Move loose zones to this affiliate
                 $doZones = MAX_DB::factoryDO('zones');
                 $doZones->affiliateid = $affiliateid;
-                $doZones->updated = date('Y-m-d H:i:s');
                 $doZones->whereAdd('affiliateid = NULL');
                 $doZones->whereAdd('affiliateid = 0', 'OR');
                 $doZones->update();
@@ -251,7 +230,6 @@ if (isset($submit)) {
             $doAffiliates = MAX_DB::factoryDO('affiliates');
             $doAffiliates->get($affiliateid);
             $doAffiliates->setFrom($affiliate);
-            $doAffiliates->updated = date('Y-m-d H:i:s');
             
             // Update
             $doAffiliates->update();
@@ -282,8 +260,9 @@ if (isset($submit)) {
 
             // Delete publisher preferences when switching to affiliate
             if (isset($account_type) && $account_type == 'affiliate') {
-                phpAds_dbQuery("DELETE FROM ".$conf['table']['prefix'].$conf['table']['preference_publisher']." WHERE publisher_id = '{$affiliateid}'")
-                    or phpAds_sqlDie();
+                $doPreference_publisher = MAX_DB::factoryDO('preference_publisher');
+                $doPreference_publisher->publisher_id = $affiliateid;
+                $doPreference_publisher->delete();
             }
         }
                
@@ -811,26 +790,9 @@ echo "</form>";
 
 // Get unique affiliate
 // XXX: Although the JS suggests otherwise, this unique_name constraint isn't enforced.
-$unique_names = array();
-
 $doAffiliates = MAX_DB::factoryDO('affiliates');
-if ($affiliateid) {
-    $doAffiliates->whereAdd('affiliateid <> ' . $affiliateid);
-}
-$unique_names = $doAffiliates->getAll(array('name'));
-
-// Get unique username
-$unique_users = array($pref['admin']);
-
-$doAffiliates = MAX_DB::factoryDO('affiliates');
-$doAffiliates->whereAdd("username <> ''");
-$unique_affiliates = $doAffiliates->getAll(array('username'));
-
-$doClients = MAX_DB::factoryDO('clients');
-$doClients->whereAdd("clientusername <> ''");
-$unique_clients = $doClients->getAll(array('clientusername'));
-
-$unique_users = array_merge($unique_users, $unique_affiliates, $unique_clients);
+$unique_names = $doAffiliates->getUniqueValuesFromColumn('name', $affiliate['name']);
+$unique_users = MAX_Permission::getUniqueUserNames($affiliate['username']);
 
 ?>
 
