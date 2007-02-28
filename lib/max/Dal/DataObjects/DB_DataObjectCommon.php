@@ -69,6 +69,14 @@ class DB_DataObjectCommon extends DB_DataObject
     var $_prefix;
     
     /**
+     * Keep reference dataobjects - required by addReferenceFilter()
+     *
+     * @var array
+     * @see DB_DataObjectCommon::addReferenceFilter()
+     */
+    var $_aReferences = array();
+    
+    /**
      * //// Public methods, added to help users to optimize the use of DataObjects
      */
     
@@ -86,10 +94,10 @@ class DB_DataObjectCommon extends DB_DataObject
     /**
      * OpenAds uses in many places arrays containing all records, for example 
      * array of all zones Ids associated with specific advertiser.
-     * It is usually encouraged to use this method for all purposes as it's
+     * It is not encouraged to use this method for all purposes as it's
      * better to loop through all records and analyze one at a time.
-     * But if you are looping through records just to create a array from them
-     * use this method.
+     * But if you are looping through records just to create a array
+     * use this method instead.
      *
      * @param array $filter  Contains fields which should be returned in each row
      * @param boolean $indexWithPrimaryKey  Should the array be indexed with primary key
@@ -172,6 +180,36 @@ class DB_DataObjectCommon extends DB_DataObject
         			}
         		}
         	}
+        }
+        return $found;
+    }
+    
+    /**
+     * This method allows to automatically join DataObject with other records
+     * using information from links.ini file. It allow for example to very
+     * easly select all campaign which belong to specific agency.
+     * {{{
+     * $doCampaigns = MAX_DB::factoryDO('campaigns');
+     * $doCampaigns->addReferenceFilter('agency', $agencyId);
+     * $doCampaigns->find();
+     * }}}
+     * 
+     * It's possible to add many filters to the same DataObject.
+     * 
+     * It raise PEAR_Error in case referenced table wasn't find
+     *
+     * @param string $referenceTable
+     * @param string $tableId
+     * @return boolean  True on success
+     * @access public
+     */
+    function addReferenceFilter($referenceTable, $tableId)
+    {
+        $found = $this->_addReferenceFilterRecursively($referenceTable, $tableId);
+        if (!$found) {
+            DB_DataObject::raiseError(
+                    "Reference '{$referenceTable}' doesn't exist for table {$this->_tableName}",
+                    DB_DATAOBJECT_ERROR_INVALIDARGS);
         }
         return $found;
     }
@@ -540,6 +578,55 @@ class DB_DataObjectCommon extends DB_DataObject
             }
         }
         return $linkedRefs;
+    }
+    
+    /**
+     * Recursively join DataObject with referenced table by it's id.
+     *
+     * @param string $referenceTable
+     * @param string $tableId
+     * @return boolean  True if founf reference
+     */
+    function _addReferenceFilterRecursively($referenceTable, $tableId)
+    {
+      	$found = false;
+      	
+    	$links = $this->links();
+        if(!empty($links)) {
+        	foreach ($links as $key => $match) {
+        	    if ($found) {
+        	        break;
+        	    }
+        		list($table,$link) = explode(':', $match);
+        		$table = $this->getTableWithoutPrefix($table);
+        		if ($table == $referenceTable) {
+        		    // if the same table just add a reference
+        		    $this->$key = $tableId;
+        		    $found = true;
+        		} else {
+        			// recursive step
+        			if (isset($this->_aReferences[$table])) {
+        			    // check if DataObject is already created
+        			    // it allows to add few filters to one DataObject
+        			    $doReference = &$this->_aReferences[$table];
+        			    $doReference->$link = $this->$key;
+        			    $found = true;
+        			} else {
+            			$doReference = $this->factory($table);
+            			$this->_aReferences[$table] = &$doReference;
+            			if (PEAR::isError($doReference)) {
+            				return false;
+            			}
+            			$doReference->$link = $this->$key;
+            			if ($doReference->_addReferenceFilterRecursively($referenceTable, $tableId)) {
+            			    $this->joinAdd($doReference);
+            			    $found = true;
+            			}
+        			}
+        		}
+        	}
+        }
+        return $found;
     }
     
     /**
