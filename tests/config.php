@@ -44,6 +44,7 @@ define('DB_WITH_DATA',   4);
 $GLOBALS['_MAX']['TEST']['directories'] =
     array(
         'lib/max',
+        'lib/openads',
         'plugins',
         'tests'
     );
