@@ -77,29 +77,8 @@ phpAds_registerGlobal (
 );
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
-
-if (phpAds_isUser(phpAds_Agency)) {
-    if (isset($campaignid) && $campaignid != '') {
-        $query = "SELECT c.clientid".
-            " FROM ".$conf['table']['prefix'].$conf['table']['clients']." AS c".
-            ",".$conf['table']['prefix'].$conf['table']['campaigns']." AS m".
-            " WHERE c.clientid=m.clientid".
-            " AND c.clientid='".$clientid."'".
-            " AND m.campaignid='".$campaignid."'".
-            " AND agencyid=".phpAds_getUserID();
-    } else {
-        $query = "SELECT c.clientid".
-            " FROM ".$conf['table']['prefix'].$conf['table']['clients']." AS c".
-            " WHERE c.clientid='".$clientid."'".
-            " AND agencyid=".phpAds_getUserID();
-    }
-    $res = phpAds_dbQuery($query) or phpAds_sqlDie();
-    if (phpAds_dbNumRows($res) == 0) {
-        phpAds_PageHeader("2");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
-}
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+MAX_Permission::checkAccessToObject('clients', $clientid);
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
@@ -242,113 +221,42 @@ if (isset($submit)) {
 
         // Get the capping variables
         _initCappingVariables();
-
-        phpAds_dbQuery("
-            REPLACE INTO
-                {$conf['table']['prefix']}{$conf['table']['campaigns']}
-                (
-                    campaignid,
-                    campaignname,
-                    clientid,
-                    views,
-                    clicks,
-                    conversions,
-                    expire,
-                    activate,
-                    active,
-                    priority,
-                    weight,
-                    target_impression,
-                    target_click,
-                    target_conversion,
-                    anonymous,
-                    companion,
-                    comments,
-                    revenue,
-                    revenue_type,
-                    block,
-                    capping,
-                    session_capping,
-                    updated
-                )
-            VALUES
-                (
-                    $campaignid,
-                    '$campaignname',
-                    $clientid,
-                    $impressions,
-                    $clicks,
-                    $conversions,
-                    '$expire',
-                    '$activate',
-                    '$active',
-                    '$priority',
-                    $weight,
-                    $target_impression,
-                    $target_click,
-                    $target_conversion,
-                    '$anonymous',
-                    '$companion',
-                    '$comments',
-                    '$revenue',
-                    '$revenue_type',
-                    '$block',
-                    '$cap',
-                    '$session_capping',
-                    '".date('Y-m-d H:i:s')."'
-                )"
-        ) or phpAds_sqlDie();
-
-        // Get ID of campaign
-        if ($campaignid == "null") {
-            $campaignid = phpAds_dbInsertID();
-        }
-
-        // Link trackers
-        if ($new_campaign) {
-            // Initalise any tracker based plugins
-            $plugins = array();
-            $invocationPlugins = &MAX_Plugin::getPlugins('invocationTags');
-            foreach($invocationPlugins as $pluginKey => $plugin) {
-                if ($plugin->trackerEvent) {
-                    $plugins[] = $plugin;
-                }
-            }
-
-            $res = phpAds_dbQuery("
-                SELECT
-                    *
-                FROM
-                    {$conf['table']['prefix']}{$conf['table']['trackers']}
-                WHERE
-                    clientid = '{$clientid}' AND
-                    linkcampaigns = 't'
-                ");
-
-            while ($row = phpAds_dbFetchArray($res)) {
-                $fields = array('trackerid', 'campaignid', 'clickwindow', 'viewwindow', 'status');
-                $values = array($row['trackerid'], $campaignid, $row['clickwindow'], $row['viewwindow'], "'{$row['status']}'");
-
-                foreach ($plugins as $plugin) {
-                    $fieldName = strtolower($plugin->trackerEvent);
-                    $fields[] = $fieldName;
-                    $values[] = "'{$row[$fieldName]}'";
-                }
-
-                phpAds_dbQuery("INSERT INTO {$conf['table']['prefix']}{$conf['table']['campaigns_trackers']} (".join(', ', $fields).") VALUES (".join(', ', $values).")");
-            }
+        
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->campaignname = $campaignname;
+        $doCampaigns->clientid = $clientid;
+        $doCampaigns->views = $impressions;
+        $doCampaigns->clicks = $clicks;
+        $doCampaigns->conversions = $conversions;
+        $doCampaigns->expire = $expire;
+        $doCampaigns->activate = $activate;
+        $doCampaigns->active = $active;
+        $doCampaigns->priority = $priority;
+        $doCampaigns->weight = $weight;
+        $doCampaigns->target_impression = $target_impression;
+        $doCampaigns->target_click = $target_click;
+        $doCampaigns->target_conversion = $target_conversion;
+        $doCampaigns->anonymous = $anonymous;
+        $doCampaigns->companion = $companion;
+        $doCampaigns->comments = $comments;
+        $doCampaigns->revenue = $revenue;
+        $doCampaigns->revenue_type = $revenue_type;
+        $doCampaigns->block = $block;
+        $doCampaigns->capping = $cap;
+        $doCampaigns->session_capping = $session_capping;
+        
+        if (!empty($campaignid) && $campaignid != "null") {
+            $doCampaigns->campaignid = $campaignid;
+            $doCampaigns->update();
+        } else {
+            $campaignid = $doCampaigns->insert();
         }
 
         if (isset($move) && $move == 't') {
             // We are moving a client to a campaign
             // Update banners
-            $res = phpAds_dbQuery(
-                "UPDATE ".$conf['table']['prefix'].$conf['table']['banners'].
-                " SET campaignid='".$campaignid."'".
-                ", updated = '".date('Y-m-d H:i:s')."'".
-                " WHERE campaignid='".$clientid."'"
-            ) or phpAds_sqlDie();
-
+            $dalBanners = MAX_DB::factoryDAL('banners');
+            $dalBanners->moveBannerToCampaign($bannerId, $campaignid);
             // Force priority recalculation
             $new_campaign = false;
         }
@@ -451,35 +359,11 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     }
 
     // Get the campaign data from the campaign table, and store in $row
-    $query = "
-       SELECT
-           campaignname AS campaignname,
-           views AS impressions,
-           clicks AS clicks,
-           conversions AS conversions,
-           activate AS activate,
-           active AS active,
-           expire AS expire,
-           priority AS priority,
-           weight AS weight,
-           target_impression AS target_impression,
-           target_click AS target_click,
-           target_conversion AS target_conversion,
-           anonymous AS anonymous,
-           companion AS companion,
-           comments AS comments,
-           revenue AS revenue,
-           revenue_type AS revenue_type,
-           block AS block,
-           capping AS capping,
-           session_capping as session_capping
-       FROM
-           {$conf['table']['prefix']}{$conf['table']['campaigns']}
-       WHERE
-           campaignid = $ID";
-    $result = phpAds_dbQuery($query)
-        or phpAds_sqlDie();
-    $data = phpAds_dbFetchArray($result);
+    $doCampaigns = MAX_DB::factoryDO('campaigns');
+    $doCampaigns->selectAdd("views AS impressions");
+    $doCampaigns->get($ID);
+    $data = $doCampaigns->toArray();
+    
     $row['campaignname']        = $data['campaignname'];
     $row['impressions']         = $data['impressions'];
     $row['clicks']              = $data['clicks'];
@@ -515,20 +399,10 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
 
     // Get the campagin data from the data_intermediate_ad table, and store in $row
     if (($row['impressions'] >= 0) || ($row['clicks'] >= 0) || ($row['conversions'] >= 0)) {
-        $query = "
-           SELECT
-               SUM(dia.impressions) AS impressions_delivered,
-               SUM(dia.clicks) AS clicks_delivered,
-               SUM(dia.conversions) AS conversions_delivered
-           FROM
-               {$conf['table']['prefix']}{$conf['table']['banners']} AS b,
-               {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']} AS dia
-           WHERE
-               b.campaignid = $ID
-               AND b.bannerid = dia.ad_id";
-        $result = phpAds_dbQuery($query)
-            or phpAds_sqlDie();
-        $data = phpAds_dbFetchArray($result);
+        $dalData_intermediate_ad = MAX_DB::factoryDAL('data_intermediate_ad');
+        $record = $dalData_intermediate_ad->getDeliveredByCampaign($campaignId);
+        $data = $record->toArray();
+        
         $row['impressionsRemaining'] = ($row['impressions']) ? ($row['impressions'] - $data['impressions_delivered']) : '';
         $row['clicksRemaining']      = ($row['clicks']) ? ($row['clicks'] - $data['clicks_delivered']) : '';
         $row['conversionsRemaining'] = ($row['conversions']) ? ($row['conversions'] - $data['conversions_delivered']) : '';
@@ -595,13 +469,11 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
 
 } else {
     // New campaign
-    $res = phpAds_dbQuery(
-        "SELECT clientname".
-        " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-        " WHERE clientid='".$clientid."'"
-    );
+    $doClients = MAX_DB::factoryDO('clients');
+    $doClients->clientid = $clientid;
+    $client = $doClients->toArray();
 
-    if ($client = phpAds_dbFetchArray($res)) {
+    if ($doClients->find() && $doClients->fetch() && $client = $doClients->toArray()) {
         $row['campaignname'] = $client['clientname'].' - ';
     } else {
         $row["campaignname"] = '';
@@ -986,21 +858,9 @@ echo "</form>"."\n";
 /*-------------------------------------------------------*/
 
 // Get unique affiliate
-$unique_names = array();
-
-$query =
-    "SELECT campaignname".
-    " FROM ".$conf['table']['prefix'].$conf['table']['campaigns'].
-    " WHERE clientid='".$clientid."'"
-;
-
-if (isset($campaignid) && ($campaignid > 0))
-    $query .= " AND campaignid!='".$campaignid."'";
-
-$res = phpAds_dbQuery($query) or phpAds_sqlDie();
-
-while ($row = phpAds_dbFetchArray($res))
-    $unique_names[] = $row['campaignname'];
+$doCampaigns = MAX_DB::factoryDO('campaigns');
+$doCampaigns->clientid = $clientid;
+$unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname');
 ?>
 <script language='javascript' type='text/javascript' src='js/datecheck.js'></script>
 <script language='javascript' type='text/javascript' src='js/numberFormat.php'></script>

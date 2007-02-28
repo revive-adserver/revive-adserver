@@ -45,4 +45,43 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+    
+    function insert()
+    {
+        $id = parent::insert();
+        if (!$id) {
+            return $id;
+        }
+        
+        // Initalise any tracker based plugins
+        $plugins = array();
+        $invocationPlugins = &MAX_Plugin::getPlugins('invocationTags');
+        foreach($invocationPlugins as $pluginKey => $plugin) {
+            if ($plugin->trackerEvent) {
+                $plugins[] = $plugin;
+            }
+        }
+
+        $doTrackers = $this->factory('trackers');
+        $doTrackers->clientid = $this->clientid;
+        $doTrackers->linkcampaigns = 't';
+        $doTrackers->find();
+
+        while ($doTrackers->fetch()) {
+            $doCampaign_trackers = $this->factory('campaigns_trackers');
+            
+            $doCampaign_trackers->trackerid = $doTrackers->trackerid;
+            $doCampaign_trackers->campaignid = $this->campaignid;
+            $doCampaign_trackers->clickwindow = $doTrackers->clickwindow;
+            $doCampaign_trackers->viewwindow = $doTrackers->viewwindow;
+            $doCampaign_trackers->status = $doTrackers->status;
+            foreach ($plugins as $plugin) {
+                $fieldName = strtolower($plugin->trackerEvent);
+                $doCampaign_trackers->$fieldName = $doTrackers->$fieldName;
+            }
+            $doCampaign_trackers->insert();
+        }
+        
+        return $id;
+    }
 }

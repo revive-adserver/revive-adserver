@@ -90,51 +90,15 @@ foreach ($invPlugins as $plugin) {
     call_user_func_array('phpAds_registerGlobal', $plugin->getGlobalVars());
 }
 
-// Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
-
-// Agency interface security
-// TODO: extract this and "client interface security" into a function with a good name  
-if (phpAds_isUser(phpAds_Agency)) {
-    $dalAgency = MAX_DB::factoryDAL('agency');
-    $agencyid = phpAds_getUserID();
-    if (isset($bannerid) && ($bannerid != '')) {
-        $is_allowed = $dalAgency->isAgencyLinkedToAdvertiserCampaignAndBanner($agencyid, $clientid, $campaignid, $bannerid);
-    } else {
-        $is_allowed = $dalAgency->isAgencyLinkedToAdvertiserAndCampaign($agencyid, $clientid, $campaignid);
-    }
-    if (!$is_allowed) {
-        phpAds_PageHeader("2");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
-}
-
 /*-------------------------------------------------------*/
 /* Client interface security                             */
 /*-------------------------------------------------------*/
-
-if (phpAds_isUser(phpAds_Client)) {
-    if (phpAds_isAllowed(phpAds_ModifyBanner)) {
-        $result = phpAds_dbQuery("
-            SELECT
-                campaignid
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['banners']}
-            WHERE
-                bannerid = '{$bannerid}'
-            ") or phpAds_sqlDie();
-        $row = phpAds_dbFetchArray($result);
-
-        if ($row["campaignid"] == '' || phpAds_getUserID() != phpAds_getCampaignParentClientID ($row["campaignid"])) {
-            phpAds_PageHeader("1");
-            phpAds_Die ($strAccessDenied, $strNotAdmin);
-        } else {
-            $campaignid = $row["campaignid"];
-        }
-    } else {
-        phpAds_PageHeader("1");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
+MAX_Permission::checkIsAllowed(phpAds_ModifyBanner);
+if (!empty($bannerid)) {
+    MAX_Permission::checkAccessToObject('banners', $bannerid);
+} else {
+    MAX_Permission::checkAccessToObject('campaigns', $campaignid);
 }
 
 /*-------------------------------------------------------*/
@@ -142,9 +106,12 @@ if (phpAds_isUser(phpAds_Client)) {
 /*-------------------------------------------------------*/
 
 if (isset($submit)) {
+    $doBanners = MAX_DB::factoryDO('banners');
     // Get the existing banner details (if it is not a new banner)
     if (!empty($bannerid)) {
-        $aBanner = Admin_DA::getAd($bannerid);
+        if ($doBanners->get($bannerid)) {
+            $aBanner = $doBanners->toArray();
+        }
         // check if size has changed        
         $size_changed = ($width != $aBanner['width'] || $height != $aBanner['height']) ? true : false;
     }
@@ -219,16 +186,14 @@ if (isset($submit)) {
     }
 
     // File the data
+    $doBanners->setFrom($aVariables);
     if (!empty($bannerid)) {
-        Admin_DA::updateAd($bannerid, $aVariables);
+        $doBanners->update();
         if ($size_changed) {
             MAX_adjustAdZones($bannerid);
         }
     } else {
-        $bannerid = Admin_DA::addAd($aVariables);
-        $aVariables = array('ad_id' => $bannerid, 'zone_id' => 0);
-        Admin_DA::addAdZone($aVariables);
-        MAX_addDefaultPlacementZones($bannerid, $campaignid);
+        $bannerid = $doBanners->insert();
         // Run the Maintenance Priority Engine process
         MAX_Maintenance_Priority::run();
     }
@@ -253,17 +218,11 @@ if (isset($submit)) {
 
 if ($bannerid != '') {
     // Fetch the data from the database
-
-    $res = phpAds_dbQuery("
-        SELECT
-            *
-        FROM
-            {$conf['table']['prefix']}{$conf['table']['banners']}
-        WHERE
-            bannerid = '{$bannerid}'
-    ") or phpAds_sqlDie();
-    $row = phpAds_dbFetchArray($res);
-
+    $doBanners = MAX_DB::factoryDO('banners');
+    if ($doBanners->get($bannerid)) {
+        $row = $doBanners->toArray();
+    }
+    
     if (isset($session['prefs']['campaign-banners.php'][$campaignid]['listorder'])) {
         $navorder = $session['prefs']['campaign-banners.php'][$campaignid]['listorder'];
     } else {

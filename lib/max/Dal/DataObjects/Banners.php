@@ -68,4 +68,16 @@ class DataObjects_Banners extends DB_DataObjectCommon
     	}
     	return parent::delete($useWhere, $cascade);
     }
+    
+    function insert()
+    {
+        $id = parent::insert();
+        if ($id) {
+            // add default zone
+            $aVariables = array('ad_id' => $id, 'zone_id' => 0);
+            Admin_DA::addAdZone($aVariables);
+            MAX_addDefaultPlacementZones($id, $this->campaignid);
+        }
+        return $id;
+    }
 }

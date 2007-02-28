@@ -264,6 +264,15 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
         }
         return $banners;
     }
+    
+    function moveBannerToCampaign($bannerId, $campaignId)
+    {
+        $Record = DBC::NewRecord();
+        return $Record->update('banners',
+            array(),
+            "bannerid=". DBC::makeLiteral($bannerId),
+            array('campaignid' => DBC::makeLiteral($campaignId)));
+    }
 }
 
 ?>

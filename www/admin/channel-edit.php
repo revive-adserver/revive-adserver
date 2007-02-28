@@ -42,6 +42,9 @@ phpAds_registerGlobal ('name', 'description', 'comments', 'submit');
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+MAX_Permission::checkAccessToObject('channel', $channelid);
+
 $pageName = basename($_SERVER['PHP_SELF']);
 $tabIndex = 1;
 if (phpAds_isUser(phpAds_Admin)) {
@@ -67,67 +70,40 @@ if (!empty($affiliateid)) {
     $aOtherPublishers = array();
 }
 
-if ($channelid && !MAX_checkChannel($agencyId, $channelid)) {
-    phpAds_PageHeader("2");
-    phpAds_Die($strAccessDenied, $strNotAdmin);
-}
-
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
 
 if (isset($submit) && $submit == $GLOBALS['strSaveChanges']) {
     if (empty($affiliateid)) $affiliateid = 0;
-    if (isset($description)) $description = addslashes ($description);
-    if (isset($comments)) $comments = addslashes ($comments);
-    
     if ($channelid) {
-        $query = "
-            UPDATE
-                {$conf['table']['prefix']}{$conf['table']['channel']}
-            SET
-                name='{$name}',
-                description='{$description}',
-                comments='{$comments}'
-            WHERE
-                channelid='{$channelid}'
-        ";
+        $doChannel = MAX_DB::factoryDO('channel');
+        $doChannel->get($channelid);
+        $doChannel->name = $name;
+        $doChannel->description = $description;
+        $doChannel->comments = $comments;
+        $ret = $doChannel->update();
     } else {
         // Always insert the correct agencyid when channel is owned by a publisher
         if (!empty($affiliateid)) {
-            $res_affiliate = phpAds_dbQuery("SELECT agencyid FROM {$conf['table']['prefix']}{$conf['table']['affiliates']} WHERE affiliateid = '{$affiliateid}'");
-            $agencyId = phpAds_dbResult($res_affiliate, 0, 0);
+            $doAffiliates = MAX_DB::factoryDO('affiliates');
+            $doAffiliates->get($affiliateid);
+            $agencyid = $doAffiliates->agencyid;
         }
         
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['channel']}
-            (
-                agencyid,
-                affiliateid,
-                name,
-                description,
-                compiledlimitation,
-                acl_plugins,
-                active,
-                comments
-            )
-            VALUES
-            (
-                {$agencyId},
-                {$affiliateid},
-                '{$name}',
-                '{$description}',
-                'true',
-                '',
-                1,
-                '{$comments}'
-            )
-        ";
+        $doChannel = MAX_DB::factoryDO('channel');
+        $doChannel->agencyid = $agencyId;
+        $doChannel->affiliateid = $affiliateid;
+        $doChannel->name = $name;
+        $doChannel->description = $description;
+        $doChannel->compiledlimitation = 'true';
+        $doChannel->acl_plugins = 'true';
+        $doChannel->active = 1;
+        $doChannel->comments = $comments;
+        $ret = $channelid = $doChannel->insert();
     }
     
-    if ($query && phpAds_dbQuery($query)) {
-        if (!$channelid) $channelid = phpAds_dbInsertID();
+    if ($ret) {
         if (!empty($affiliateid)) {
             header("Location: channel-acl.php?affiliateid={$affiliateid}&channelid={$channelid}");
         } else {
@@ -147,7 +123,9 @@ MAX_displayNavigationChannel($pageName, $aOtherAgencies, $aOtherPublishers, $aOt
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$channel = Admin_DA::getChannel($channelid);
+$doChannel = MAX_DB::factoryDO('channel');
+$doChannel->get($channelid);
+$channel = $doChannel->toArray();
 
 echo "<form name='zoneform' method='post' action='channel-edit.php'>";
 echo "<input type='hidden' name='agencyid' value='{$agencyId}'>";
