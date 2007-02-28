@@ -533,6 +533,10 @@ class MDB2_Datatype_TestCase extends MDB2_TestCase
     {
         $this->db->loadModule('Datatype', null, true);
         $native_types = $this->getNativeTypes();
+        if (count($native_types)==0)
+        {
+            $this->assertTrue(false, 'Native type array is empty. This means that test data is unavailable for the DBMS driver being used.');
+        }
 
         foreach ($native_types AS $k => $v)
         {
@@ -554,6 +558,10 @@ class MDB2_Datatype_TestCase extends MDB2_TestCase
     {
         $this->db->loadModule('Datatype', null, true);
         $mdb2_types = $this->getMDB2TestTypes();
+        if (count($mdb2_types)==0)
+        {
+            $this->assertTrue(false, 'MDB2 type array is empty. This means that test data is unavailable for the DBMS driver being used.');
+        }
 
         foreach ($mdb2_types AS $k => $v)
         {
@@ -561,11 +569,11 @@ class MDB2_Datatype_TestCase extends MDB2_TestCase
             $result = $this->db->datatype->getTypeDeclaration($field);
             if (PEAR::isError($result))
             {
-                $this->assertTrue(false, $result->getMessage().' : ** '.$k.' **');
+                $this->assertTrue(false, $result->getMessage().' : ** '.$field['type'].' **: '. $k);
             }
             else
             {
-                $this->verifyMDB2MappingResult($k, $result, $v['expected_datatype'], $field);
+                $this->verifyMDB2MappingResult($field['type'], $result, $v['expected_datatype'], $field);
 
             }
             // also need to test different lengths, defaults, autoincrement, notnull, scale etc for each type

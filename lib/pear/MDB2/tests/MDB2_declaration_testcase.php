@@ -50,6 +50,10 @@ class MDB2_Declaration_TestCase extends MDB2_TestCase
     function testGetDeclaration()
     {
         $mdb2_types = $this->getMDB2TestTypes();
+        if (count($mdb2_types)==0)
+        {
+            $this->assertTrue(false, 'MDB2 type array is empty.  This means that test data is unavailable for the DBMS driver being used.');
+        }
 
         foreach ($mdb2_types AS $k => $v)
         {
@@ -57,11 +61,11 @@ class MDB2_Declaration_TestCase extends MDB2_TestCase
             $result = $this->db->getDeclaration($field['type'], $field['name'], $field);
             if (PEAR::isError($result))
             {
-                $this->assertTrue(false, $result->getMessage().' : ** '.$k.' **');
+                $this->assertTrue(false, $result->getMessage().' : ** '.$field['type'].' **');
             }
             else
             {
-                $this->verifyMDB2MappingResult($k, $result, $field['name'].' '.$v['expected_datatype'].$v['expected_declaration'], $field);
+                $this->verifyMDB2MappingResult($field['type'], $result, $field['name'].' '.$v['expected_datatype'].$v['expected_declaration'], $field);
             }
             // also need to test length, defaults, autoincrement, notnull, scale
         }

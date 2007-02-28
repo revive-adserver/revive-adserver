@@ -226,10 +226,9 @@ class MDB2_TestCase extends PHPUnit_TestCase {
 
     function getMDB2TestTypes()
     {
-      if ($this->dsn['phptype']=='mysql')
-      {
-          return array(
-                        'text'          => array('field'=> array('type'=>'text',
+
+        $fields = array(
+                        'text_1'          => array('field'=> array('type'=>'text',
                                                                  'name'=>'text_1',
                                                                  'length'=>'',
                                                                  'default'=>'',
@@ -238,10 +237,10 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                                  'unsigned'=>'',
                                                                  'scale'=>''
                                                                  ),
-                                                 'expected_datatype'=>'VARCHAR('.$this->db->varchar_max_length.')',
-                                                 'expected_declaration'=>' DEFAULT \'\''
+                                                 'expected_datatype'=>'',
+                                                 'expected_declaration'=>''
                                                  ),
-                        'text'          => array('field'=> array('type'=>'text',
+                        'text_2'          => array('field'=> array('type'=>'text',
                                                                  'name'=>'text_2',
                                                                  'length'=>'98',
                                                                  'default'=>'test',
@@ -250,10 +249,10 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                                  'unsigned'=>'',
                                                                  'scale'=>'',
                                                                  ),
-                                                 'expected_datatype'=>'VARCHAR(98)',
-                                                 'expected_declaration'=>' DEFAULT \'test\''
+                                                 'expected_datatype'=>'',
+                                                 'expected_declaration'=>''
                                                  ),
-                        'text'          => array('field'=> array('type'=>'text',
+                        'text_3'          => array('field'=> array('type'=>'text',
                                                                  'name'=>'text_3',
                                                                  'length'=>'',
                                                                  'default'=>'',
@@ -262,10 +261,10 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                                  'unsigned'=>'',
                                                                  'scale'=>'',
                                                                  ),
-                                                 'expected_datatype'=>'VARCHAR('.$this->db->varchar_max_length.')',
-                                                 'expected_declaration'=>' DEFAULT \' \' NOT NULL'
+                                                 'expected_datatype'=>'',
+                                                 'expected_declaration'=>''
                                                  ),
-                        'boolean'       => array('field'=> array('type'=>'boolean',
+                        'bool_1'       => array('field'=> array('type'=>'boolean',
                                                                  'name'=>'bool_1',
                                                                  'length'=>'1',
                                                                  'default'=>'true',
@@ -274,10 +273,10 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                                  'unsigned'=>'',
                                                                  'scale'=>'',
                                                                  ),
-                                                 'expected_datatype'=>'TINYINT(1)',
-                                                 'expected_declaration'=>' DEFAULT 1'
+                                                 'expected_datatype'=>'',
+                                                 'expected_declaration'=>''
                                                  ),
-                        'blob'          => array('field'=> array('type'=>'blob',
+                        'blob_1'          => array('field'=> array('type'=>'blob',
                                                                  'name'=>'blob_1',
                                                                  'length'=>'',
                                                                  'default'=>'',
@@ -286,10 +285,10 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                                  'unsigned'=>'',
                                                                  'scale'=>'',
                                                                  ),
-                                                 'expected_datatype'=>'LONGBLOB',
+                                                 'expected_datatype'=>'',
                                                  'expected_declaration'=>''
                                                  ),
-                        'clob'          => array('field'=> array('type'=>'clob',
+                        'clob_1'          => array('field'=> array('type'=>'clob',
                                                                  'name'=>'clob_1',
                                                                  'length'=>'',
                                                                  'default'=>'',
@@ -298,10 +297,10 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                                  'unsigned'=>'',
                                                                  'scale'=>'',
                                                                  ),
-                                                 'expected_datatype'=>'LONGTEXT',
+                                                 'expected_datatype'=>'',
                                                  'expected_declaration'=>''
                                                  ),
-                        'integer'       => array('field'=> array('type'=>'integer',
+                        'int_1'       => array('field'=> array('type'=>'integer',
                                                                  'name'=>'int_1',
                                                                  'length'=>'',
                                                                  'default'=>'0',
@@ -310,10 +309,10 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                                  'unsigned'=>'',
                                                                  'scale'=>'',
                                                                  ),
-                                                 'expected_datatype'=>'INT',
-                                                 'expected_declaration'=>' DEFAULT \'0\''
+                                                 'expected_datatype'=>'',
+                                                 'expected_declaration'=>''
                                                  ),
-                        'integer'       => array('field'=> array('type'=>'integer',
+                        'int_2'       => array('field'=> array('type'=>'integer',
                                                                  'name'=>'int_2',
                                                                  'length'=>'',
                                                                  'default'=>'0',
@@ -322,10 +321,10 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                                  'unsigned'=>'',
                                                                  'scale'=>'',
                                                                  ),
-                                                 'expected_datatype'=>'INT',
-                                                 'expected_declaration'=>' NOT NULL DEFAULT \'0\''
+                                                 'expected_datatype'=>'',
+                                                 'expected_declaration'=>''
                                                  ),
-                        'integer'       => array('field'=> array('type'=>'integer',
+                        'int_3'       => array('field'=> array('type'=>'integer',
                                                                  'name'=>'int_3',
                                                                  'length'=>'9',
                                                                  'default'=>'0',
@@ -334,183 +333,22 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                                  'unsigned'=>'',
                                                                  'scale'=>'',
                                                                  ),
-                                                 'expected_datatype'=>'BIGINT',
-                                                 'expected_declaration'=>' AUTO_INCREMENT PRIMARY KEY'
-                                                 ),
-                        'decimal'       => array('field'=> array('type'=>'decimal',
-                                                                 'name'=>'decimal_1',
-                                                                 'length'=>'11',
-                                                                 'default'=>'0.0',
-                                                                 'notnull'=>'',
-                                                                 'autoincrement'=>'0',
-                                                                 'unsigned'=>'',
-                                                                 'scale'=>'3',
-                                                                 ),
-                                                 'expected_datatype'=>'DECIMAL(11,3)',
-                                                 'expected_declaration'=>' DEFAULT 0.0'
-                                                 ),
-                        'float'         => array('field'=> array('type'=>'float',
-                                                                 'name'=>'float_1',
-                                                                 'length'=>'',
-                                                                 'default'=>'0.0',
-                                                                 'notnull'=>'',
-                                                                 'autoincrement'=>'0',
-                                                                 'unsigned'=>'',
-                                                                 'scale'=>'',
-                                                                 ),
-                                                 'expected_datatype'=>'DOUBLE',
-                                                 'expected_declaration'=>' DEFAULT 0.0'
-                                                 ),
-                        'date'          => array('field'=> array('type'=>'date',
-                                                                 'name'=>'date_1',
-                                                                 'length'=>'',
-                                                                 'default'=>'0000-00-00',
-                                                                 'notnull'=>'',
-                                                                 'autoincrement'=>'0',
-                                                                 'unsigned'=>'',
-                                                                 'scale'=>'',
-                                                                 ),
-                                                 'expected_datatype'=>'DATE',
-                                                 'expected_declaration'=>' DEFAULT \'0000-00-00\''
-                                                 ),
-                        'time'          => array('field'=> array('type'=>'time',
-                                                                 'name'=>'time_1',
-                                                                 'length'=>'',
-                                                                 'default'=>'00:00:00',
-                                                                 'notnull'=>'',
-                                                                 'autoincrement'=>'0',
-                                                                 'unsigned'=>'',
-                                                                 'scale'=>'',
-                                                                 ),
-                                                 'expected_datatype'=>'TIME',
-                                                 'expected_declaration'=>' DEFAULT \'00:00:00\''
-                                                 ),
-                        'timestamp'     => array('field'=> array('type'=>'timestamp',
-                                                                 'name'=>'timestamp_1',
-                                                                 'length'=>'',
-                                                                 'default'=>'0000-00-00 00:00:00',
-                                                                 'notnull'=>'',
-                                                                 'autoincrement'=>'0',
-                                                                 'unsigned'=>'',
-                                                                 'scale'=>'',
-                                                                 ),
-                                                 'expected_datatype'=>'DATETIME',
-                                                 'expected_declaration'=>' DEFAULT \'0000-00-00 00:00:00\''
-                                                 )
-                    );
-      }
-      else if ($this->dsn['phptype']=='pgsql')
-      {
-          return array(
-                        'text'          => array('field'=> array('type'=>'text',
-                                                                 'name'=>'text_1',
-                                                                 'length'=>'',
-                                                                 'default'=>'',
-                                                                 'notnull'=>'',
-                                                                 'autoincrement'=>'',
-                                                                 'unsigned'=>'',
-                                                                 'scale'=>''
-                                                                 ),
-                                                 'expected_datatype'=>'VARCHAR',
-                                                 'expected_declaration'=>' DEFAULT \'\''
-                                                 ),
-                        'text'          => array('field'=> array('type'=>'text',
-                                                                 'name'=>'text_2',
-                                                                 'length'=>'98',
-                                                                 'default'=>'test',
-                                                                 'notnull'=>'',
-                                                                 'autoincrement'=>'',
-                                                                 'unsigned'=>'',
-                                                                 'scale'=>'',
-                                                                 ),
-                                                 'expected_datatype'=>'VARCHAR(98)',
-                                                 'expected_declaration'=>' DEFAULT \'test\''
-                                                 ),
-                        'text'          => array('field'=> array('type'=>'text',
-                                                                 'name'=>'text_3',
-                                                                 'length'=>'',
-                                                                 'default'=>'',
-                                                                 'notnull'=>'true',
-                                                                 'autoincrement'=>'',
-                                                                 'unsigned'=>'',
-                                                                 'scale'=>'',
-                                                                 ),
-                                                 'expected_datatype'=>'VARCHAR(4096)',
-                                                 'expected_declaration'=>' DEFAULT \' \' NOT NULL'
-                                                 ),
-                        'boolean'       => array('field'=> array('type'=>'boolean',
-                                                                 'name'=>'bool_1',
-                                                                 'length'=>'1',
-                                                                 'default'=>'true',
-                                                                 'notnull'=>'',
-                                                                 'autoincrement'=>'0',
-                                                                 'unsigned'=>'',
-                                                                 'scale'=>'',
-                                                                 ),
-                                                 'expected_datatype'=>'BOOLEAN',
-                                                 'expected_declaration'=>' DEFAULT \'t\''
-                                                 ),
-                        'blob'          => array('field'=> array('type'=>'blob',
-                                                                 'name'=>'blob_1',
-                                                                 'length'=>'',
-                                                                 'default'=>'',
-                                                                 'notnull'=>'',
-                                                                 'autoincrement'=>'0',
-                                                                 'unsigned'=>'',
-                                                                 'scale'=>'',
-                                                                 ),
-                                                 'expected_datatype'=>'BYTEA',
+                                                 'expected_datatype'=>'',
                                                  'expected_declaration'=>''
                                                  ),
-                        'clob'          => array('field'=> array('type'=>'clob',
-                                                                 'name'=>'clob_1',
-                                                                 'length'=>'',
-                                                                 'default'=>'',
-                                                                 'notnull'=>'',
-                                                                 'autoincrement'=>'0',
-                                                                 'unsigned'=>'',
-                                                                 'scale'=>'',
-                                                                 ),
-                                                 'expected_datatype'=>'TEXT',
-                                                 'expected_declaration'=>''
-                                                 ),
-                        'integer'       => array('field'=> array('type'=>'integer',
-                                                                 'name'=>'int_1',
-                                                                 'length'=>'',
-                                                                 'default'=>'0',
-                                                                 'notnull'=>'',
-                                                                 'autoincrement'=>'0',
-                                                                 'unsigned'=>'',
-                                                                 'scale'=>'',
-                                                                 ),
-                                                 'expected_datatype'=>'INT',
-                                                 'expected_declaration'=>' DEFAULT \'0\''
-                                                 ),
-                        'integer'       => array('field'=> array('type'=>'integer',
-                                                                 'name'=>'int_2',
-                                                                 'length'=>'',
-                                                                 'default'=>'0',
-                                                                 'notnull'=>'true',
-                                                                 'autoincrement'=>'0',
-                                                                 'unsigned'=>'',
-                                                                 'scale'=>'',
-                                                                 ),
-                                                 'expected_datatype'=>'INT',
-                                                 'expected_declaration'=>' NOT NULL DEFAULT \'0\''
-                                                 ),
-                        'integer'       => array('field'=> array('type'=>'integer',
-                                                                 'name'=>'int_3',
-                                                                 'length'=>'9',
+                        'int_4'       => array('field'=> array('type'=>'integer',
+                                                                 'name'=>'int_4',
+                                                                 'length'=>'4',
                                                                  'default'=>'0',
                                                                  'notnull'=>'',
                                                                  'autoincrement'=>'1',
                                                                  'unsigned'=>'',
                                                                  'scale'=>'',
                                                                  ),
-                                                 'expected_datatype'=>'BIGSERIAL PRIMARY KEY',
+                                                 'expected_datatype'=>'',
                                                  'expected_declaration'=>''
                                                  ),
-                        'decimal'       => array('field'=> array('type'=>'decimal',
+                        'dec_1'       => array('field'=> array('type'=>'decimal',
                                                                  'name'=>'decimal_1',
                                                                  'length'=>'11',
                                                                  'default'=>'0.0',
@@ -519,10 +357,10 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                                  'unsigned'=>'',
                                                                  'scale'=>'3',
                                                                  ),
-                                                 'expected_datatype'=>'NUMERIC(11,3)',
-                                                 'expected_declaration'=>' DEFAULT 0.0'
+                                                 'expected_datatype'=>'',
+                                                 'expected_declaration'=>''
                                                  ),
-                        'float'         => array('field'=> array('type'=>'float',
+                        'float_1'         => array('field'=> array('type'=>'float',
                                                                  'name'=>'float_1',
                                                                  'length'=>'',
                                                                  'default'=>'0.0',
@@ -531,10 +369,10 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                                  'unsigned'=>'',
                                                                  'scale'=>'',
                                                                  ),
-                                                 'expected_datatype'=>'FLOAT8',
-                                                 'expected_declaration'=>' DEFAULT 0.0'
+                                                 'expected_datatype'=>'',
+                                                 'expected_declaration'=>''
                                                  ),
-                        'date'          => array('field'=> array('type'=>'date',
+                        'date_1'          => array('field'=> array('type'=>'date',
                                                                  'name'=>'date_1',
                                                                  'length'=>'',
                                                                  'default'=>'0000-00-00',
@@ -543,10 +381,10 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                                  'unsigned'=>'',
                                                                  'scale'=>'',
                                                                  ),
-                                                 'expected_datatype'=>'DATE',
-                                                 'expected_declaration'=>' DEFAULT \'0000-00-00\''
+                                                 'expected_datatype'=>'',
+                                                 'expected_declaration'=>''
                                                  ),
-                        'time'          => array('field'=> array('type'=>'time',
+                        'time_1'          => array('field'=> array('type'=>'time',
                                                                  'name'=>'time_1',
                                                                  'length'=>'',
                                                                  'default'=>'00:00:00',
@@ -555,10 +393,10 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                                  'unsigned'=>'',
                                                                  'scale'=>'',
                                                                  ),
-                                                 'expected_datatype'=>'TIME without time zone',
-                                                 'expected_declaration'=>' DEFAULT \'00:00:00\''
+                                                 'expected_datatype'=>'',
+                                                 'expected_declaration'=>''
                                                  ),
-                        'timestamp'     => array('field'=> array('type'=>'timestamp',
+                        'timestamp_1'     => array('field'=> array('type'=>'timestamp',
                                                                  'name'=>'timestamp_1',
                                                                  'length'=>'',
                                                                  'default'=>'0000-00-00 00:00:00',
@@ -567,16 +405,108 @@ class MDB2_TestCase extends PHPUnit_TestCase {
                                                                  'unsigned'=>'',
                                                                  'scale'=>'',
                                                                  ),
-                                                 'expected_datatype'=>'TIMESTAMP without time zone',
-                                                 'expected_declaration'=>' DEFAULT \'0000-00-00 00:00:00\''
+                                                 'expected_datatype'=>'',
+                                                 'expected_declaration'=>''
                                                  )
                     );
-        }
-        else
+
+        if ($this->dsn['phptype']=='mysql')
         {
-            return array();
+            $fields['text_1']['expected_datatype']='VARCHAR('.$this->db->varchar_max_length.')';
+            $fields['text_1']['expected_declaration']=' DEFAULT NULL';
+
+            $fields['text_2']['expected_datatype']='VARCHAR(98)';
+            $fields['text_2']['expected_declaration']=' DEFAULT \'test\'';
+
+            $fields['text_3']['expected_datatype']='VARCHAR('.$this->db->varchar_max_length.')';
+            $fields['text_3']['expected_declaration']=' DEFAULT \' \' NOT NULL';
+
+            $fields['bool_1']['expected_datatype']='TINYINT(1)';
+            $fields['bool_1']['expected_declaration']=' DEFAULT 1';
+
+            $fields['blob_1']['expected_datatype']='LONGBLOB';
+            $fields['blob_1']['expected_declaration']='';
+
+            $fields['clob_1']['expected_datatype']='LONGTEXT';
+            $fields['clob_1']['expected_declaration']='';
+
+            $fields['int_1']['expected_datatype']='INT';
+            $fields['int_1']['expected_declaration']=' DEFAULT 0';
+
+            $fields['int_2']['expected_datatype']='INT';
+            $fields['int_2']['expected_declaration']=' DEFAULT 0 NOT NULL';
+
+            $fields['int_3']['expected_datatype']='BIGINT';
+            $fields['int_3']['expected_declaration']=' AUTO_INCREMENT PRIMARY KEY';
+
+            $fields['int_4']['expected_datatype']='INT';
+            $fields['int_4']['expected_declaration']=' AUTO_INCREMENT PRIMARY KEY';
+
+            $fields['dec_1']['expected_datatype']='DECIMAL(11,3)';
+            $fields['dec_1']['expected_declaration']=' DEFAULT 0.0';
+
+            $fields['float_1']['expected_datatype']='DOUBLE';
+            $fields['float_1']['expected_declaration']=' DEFAULT 0.0';
+
+            $fields['date_1']['expected_datatype']='DATE';
+            $fields['date_1']['expected_declaration']=' DEFAULT \'0000-00-00\'';
+
+            $fields['time_1']['expected_datatype']='TIME';
+            $fields['time_1']['expected_declaration']=' DEFAULT \'00:00:00\'';
+
+            $fields['timestamp_1']['expected_datatype']='DATETIME';
+            $fields['timestamp_1']['expected_declaration']=' DEFAULT \'0000-00-00 00:00:00\'';
+            }
+        else if ($this->dsn['phptype']=='pgsql')
+        {
+            $fields['text_1']['expected_datatype']='VARCHAR(4096)';
+            $fields['text_1']['expected_declaration']=' DEFAULT NULL';
+
+            $fields['text_2']['expected_datatype']='VARCHAR(98)';
+            $fields['text_2']['expected_declaration']=' DEFAULT \'test\'';
+
+            $fields['text_3']['expected_datatype']='VARCHAR(4096)';
+            $fields['text_3']['expected_declaration']=' DEFAULT \' \' NOT NULL';
+
+            $fields['bool_1']['expected_datatype']='BOOLEAN';
+            $fields['bool_1']['expected_declaration']=' DEFAULT \'t\'';
+
+            $fields['blob_1']['expected_datatype']='BYTEA';
+            $fields['blob_1']['expected_declaration']='';
+
+            $fields['clob_1']['expected_datatype']='TEXT';
+            $fields['clob_1']['expected_declaration']='';
+
+            $fields['int_1']['expected_datatype']='INT';
+            $fields['int_1']['expected_declaration']=' DEFAULT 0';
+
+            $fields['int_2']['expected_datatype']='INT';
+            $fields['int_2']['expected_declaration']=' DEFAULT 0 NOT NULL';
+
+            $fields['int_3']['expected_datatype']='BIGSERIAL PRIMARY KEY';
+            $fields['int_3']['expected_declaration']='';
+
+            $fields['int_4']['expected_datatype']='SERIAL PRIMARY KEY';
+            $fields['int_4']['expected_declaration']='';
+
+            $fields['dec_1']['expected_datatype']='NUMERIC(11,3)';
+            $fields['dec_1']['expected_declaration']=' DEFAULT 0.0';
+
+            $fields['float_1']['expected_datatype']='FLOAT8';
+            $fields['float_1']['expected_declaration']=' DEFAULT 0.0';
+
+            $fields['date_1']['expected_datatype']='DATE';
+            $fields['date_1']['expected_declaration']=' DEFAULT \'0000-00-00\'';
+
+            $fields['time_1']['expected_datatype']='TIME without time zone';
+            $fields['time_1']['expected_declaration']=' DEFAULT \'00:00:00\'';
+
+            $fields['timestamp_1']['expected_datatype']='TIMESTAMP without time zone';
+            $fields['timestamp_1']['expected_declaration']=' DEFAULT \'0000-00-00 00:00:00\'';
         }
+        return $fields;
     }
+
 
     function verifyNativeMappingResult($type, $result, $expected)
     {

@@ -1022,8 +1022,23 @@ class MDB2_Usage_TestCase extends MDB2_TestCase {
             $this->assertTrue(false, 'Error selecting from users'.$result->getMessage());
         }
         $this->assertTrue(!$result->valid(), 'Transaction rollback did not revert the row that was inserted');
+        $this->assertSavepointBug();
         $result->free();
     }
+
+    function assertSavepointBug()
+    {
+        if ($this->dsn['phptype']='mysql')
+        {
+            $server_info = $this->db->getServerVersion();
+            if ( ( (int)$server_info['major']==5) &&
+                ( ( ((int)$server_info['minor'] == 0 ) && ((int)$server_info['patch'] >= 36) )  ||
+                (int)$server_info['minor'] == 1 ) )
+            {
+                $this->assertTrue(!$result->valid(), 'MYSQL 5 PROBLEM WITH SAVEPOINTS CAUSE NESTED TRANSACTIONS TO FAIL: http://bugs.mysql.com/bug.php?id=26288');
+            }
+        }
+}
 
     /**
      * Testing transaction support - Test COMMIT
@@ -1195,6 +1210,7 @@ class MDB2_Usage_TestCase extends MDB2_TestCase {
         if (PEAR::isError($result)) {
             $this->assertTrue(false, 'Transaction not committed: '.$result->getMessage());
         }
+        $this->assertSavepointBug();
     }
 
     /**
