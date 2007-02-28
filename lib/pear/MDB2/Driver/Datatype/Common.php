@@ -1681,6 +1681,34 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
             return $db;
         }
 
+        // If the user has specified an option to map the native field
+        // type to a custom MDB2 datatype...
+        if (!empty($db->options['nativetype_map_callback'][$field['type']])) {
+            return call_user_func_array($db->options['nativetype_map_callback'][$field['type']], $field);
+        }
+
+        // Otherwise perform the built-in (i.e. normal) MDB2 native type to
+        // MDB2 datatype conversion
+        return $this->_mapNativeDatatype($field);
+    }
+
+    // }}}
+    // {{{ _mapNativeDatatype()
+
+    /**
+     * Maps a native array description of a field to a MDB2 datatype and length
+     *
+     * @param array  $field native field description
+     * @return array containing the various possible types, length, sign, fixed
+     * @access public
+     */
+    function _mapNativeDatatype($field)
+    {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+
         return $db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
             'method not implemented', __FUNCTION__);
     }
