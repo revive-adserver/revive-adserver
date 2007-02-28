@@ -69,32 +69,27 @@ if (!empty($action)) {
 	    $now = date('Y-m-d H:i:s');
 
 	    if ($aBannerPrev['block_ad'] <> $block) {
-	        $values[] = "block={$block}";
+	        $values['block'] = $block;
 	        $acls_updated = ($block == 0) ? true : $acls_updated;
 	    }
 	    if ($aBannerPrev['cap_ad'] <> $cap) {
-	        $values[] = "capping={$cap}";
+	        $values['capping'] = $cap;
 	        $acls_updated = ($cap == 0) ? true : $acls_updated;
 	    }
 	    if ($aBannerPrev['session_cap_ad'] <> $session_capping) {
-	        $values[] = "session_capping={$session_capping}";
+	        $values['session_capping'] = $session_capping;
 	        $acls_updated = ($session_capping == 0) ? true : $acls_updated;
 	    }
 	    if ($acls_updated) {
-	        $values[] = "acls_updated='{$now}'";
+	        $values[acls_updated] = $now;
 	    }
 
 	    if (!empty($values)) {
-	        $values[] = "updated='{$now}'";
-	        $query = "
-	           UPDATE
-	               {$conf['table']['prefix']}{$conf['table']['banners']}
-               SET
-                   " . implode(', ', $values) . "
-               WHERE
-                   bannerid = {$bannerid}
-            ";
-	        $res = phpAds_dbQuery($query) or phpAds_sqlDie();
+	        $values['updated'] = $now;
+            $doBanners = MAX_DB::factoryDO('banners');
+            $doBanners->get($bannerid);
+            $ret = $doBanners->setFrom($values);
+            $doBanners->update();
 	    }
 	}
     header("Location: banner-zone.php?clientid={$clientid}&campaignid={$campaignid}&bannerid={$bannerid}");
