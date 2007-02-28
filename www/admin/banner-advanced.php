@@ -169,41 +169,7 @@ MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners, $aEntit
 /*-------------------------------------------------------*/
 
 $doBanners = MAX_DB::factoryDO('banners');
-$doBanners->selectAdd();
-$doBanners->selectAdd('
-    bannerid,
-    campaignid,
-    active,
-    contenttype,
-    pluginversion,
-    storagetype AS type,
-    filename,
-    imageurl,
-    htmltemplate,
-    htmlcache,
-    width,
-    height,
-    weight,
-    seq,
-    target,
-    url,
-    alt,
-    status,
-    bannerTEXT,
-    description,
-    autohtml,
-    adserver,
-    block,
-    capping,
-    session_capping,
-    compiledlimitation,
-    append,
-    appendtype,
-    bannertype,
-    alt_filename,
-    alt_imageurl,
-    alt_contenttype'
-);
+$doBanners->selectAdd('storagetype AS type');
 $doBanners->bannerid = $bannerid;
 if ($doBanners->find(true)) {
     $banner = $doBanners->toArray();
