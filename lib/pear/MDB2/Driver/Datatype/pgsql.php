@@ -58,12 +58,12 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
     // {{{ _baseConvertResult()
 
     /**
-     * general type conversion method
+     * General type conversion method
      *
-     * @param mixed $value refernce to a value to be converted
-     * @param string $type specifies which type to convert to
-     * @param string $rtrim if text should be rtrimmed
-     * @return object a MDB2 error on failure
+     * @param mixed  $value refernce to a value to be converted
+     * @param string $type  specifies which type to convert to
+     * @param bool   $rtrim optional value, when true, rtrim text values
+     * @return object an MDB2 error on failure
      * @access protected
      */
     function _baseConvertResult($value, $type, $rtrim = true)

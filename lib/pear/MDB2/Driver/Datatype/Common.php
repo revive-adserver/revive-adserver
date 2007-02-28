@@ -159,11 +159,12 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
     // {{{ _baseConvertResult()
 
     /**
-     * general type conversion method
+     * General type conversion method
      *
-     * @param mixed $value refernce to a value to be converted
-     * @param string $type specifies which type to convert to
-     * @return object a MDB2 error on failure
+     * @param mixed  $value refernce to a value to be converted
+     * @param string $type  specifies which type to convert to
+     * @param bool   $rtrim optional value, when true, rtrim text values
+     * @return object an MDB2 error on failure
      * @access protected
      */
     function _baseConvertResult($value, $type, $rtrim = true)
@@ -218,11 +219,11 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
     // {{{ convertResult()
 
     /**
-     * convert a value to a RDBMS indepdenant MDB2 type
+     * Convert a value to a RDBMS indepdenant MDB2 type
      *
-     * @param mixed $value value to be converted
-     * @param string $type specifies which type to convert to
-     * @param bool   $rtrim   if to rtrim text values or not
+     * @param mixed  $value value to be converted
+     * @param string $type  specifies which type to convert to
+     * @param bool   $rtrim optional value, when true, rtrim text values
      * @return mixed converted value
      * @access public
      */
@@ -249,12 +250,12 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
     // {{{ convertResultRow()
 
     /**
-     * convert a result row
+     * Convert a result row
      *
-     * @param array $types 
+     * @param array $types
      * @param array $row specifies the types to convert to
-     * @param bool   $rtrim   if to rtrim text values or not
-     * @return mixed MDB2_OK on success,  a MDB2 error on failure
+     * @param bool  $rtrim optional value, when true, rtrim text values
+     * @return mixed MDB2_OK on success, an MDB2 error on failure
      * @access public
      */
     function convertResultRow($types, $row, $rtrim = true)
@@ -438,10 +439,10 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
 
         $charset = empty($field['charset']) ? '' :
             ' '.$this->_getCharsetFieldDeclaration($field['charset']);
-        
+
         $collation = empty($field['collation']) ? '' :
             ' '.$this->_getCollationFieldDeclaration($field['collation']);
-        
+
         $notnull = empty($field['notnull']) ? '' : ' NOT NULL';
         $name = $db->quoteIdentifier($name, true);
         return $name.' '.$this->getTypeDeclaration($field).$charset.$default.$notnull.$collation;
@@ -449,7 +450,7 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
 
     // }}}
     // {{{ _getCharsetFieldDeclaration()
-    
+
     /**
      * Obtain DBMS specific SQL code portion needed to set the CHARACTER SET
      * of a field declaration to be used in statements like CREATE TABLE.
