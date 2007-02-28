@@ -40,7 +40,7 @@ phpAds_registerGlobal('expand', 'collapse', 'hideinactive', 'listorder',
                       'orderdirection');
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+MAX_Permission::checkAccess(phpAds_Admin);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -92,24 +92,18 @@ else
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-// Get agencys & campaign and build the tree
+// Get agencies & campaign and build the tree
 if (phpAds_isUser(phpAds_Admin))
 {
-    $res_agencies = phpAds_dbQuery(
-        "SELECT agencyid, name".
-        " FROM ".$conf['table']['prefix'].$conf['table']['agency']
-    ) or phpAds_sqlDie();
-    
+    $doAgency = MAX_DB::factoryDO('agency');
+    $agencies = $doAgency->getAll(array(agencyid, name), true);
 }
 
-while ($row_agencies = phpAds_dbFetchArray($res_agencies))
-{
-    $agencies[$row_agencies['agencyid']]                    = $row_agencies;
-    $agencies[$row_agencies['agencyid']]['expand']          = 0;
-    $agencies[$row_agencies['agencyid']]['count']           = 0;
-    $agencies[$row_agencies['agencyid']]['hideinactive']    = 0;
+foreach ($agencies as $v) {
+    $v['expand'] = 0;
+    $v['count'] = 0;
+    $v['hideinactive'] = 0;
 }
-
 
 
 // using same icons and images for agencies as we do for advertisers...
@@ -258,8 +252,7 @@ echo "\t\t\t\t</table>\n";
 
 
 // total number of agencies
-$res_agencies         = phpAds_dbQuery("SELECT count(*) AS count FROM ".$conf['table']['prefix'].$conf['table']['agency']) or phpAds_sqlDie();
-
+$agencyCount = $doAgency->getRowCount();
 
 echo "\t\t\t\t<br /><br /><br /><br />\n";
 echo "\t\t\t\t<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>\n";
@@ -271,7 +264,7 @@ echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='images/break.gif' he
 echo "\t\t\t\t</tr>\n";
 
 echo "\t\t\t\t<tr>\n";
-echo "\t\t\t\t\t<td height='25'>&nbsp;&nbsp;".$strTotalAgencies.": <b>".phpAds_dbResult($res_agencies, 0, "count")."</b></td>\n";
+echo "\t\t\t\t\t<td height='25'>&nbsp;&nbsp;".$strTotalAgencies.": <b>" . $agencyCount . "</b></td>\n";
 echo "\t\t\t\t\t<td height='25' colspan='2'></td>\n";
 echo "\t\t\t\t</tr>\n";
 
