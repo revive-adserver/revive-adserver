@@ -2,12 +2,13 @@
 /**
  * Table Definition for clients (Client is often called Advertiser)
  */
-require_once 'DB_DataObjectCommon.php';
+require_once 'AbstractUser.php';
 
-class DataObjects_Clients extends DB_DataObjectCommon 
+class DataObjects_Clients extends DataObjects_AbstractUser 
 {
     var $onDeleteCascade = true;
     var $dalModelName = 'Clients';
+    var $usernameField = 'clientusername';
     
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */

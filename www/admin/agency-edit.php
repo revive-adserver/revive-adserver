@@ -53,7 +53,7 @@ phpAds_registerGlobal (
 );
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+MAX_Permission::checkAccess(phpAds_Admin);
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
@@ -62,18 +62,10 @@ phpAds_checkAccess(phpAds_Admin);
 if (isset($submit)) {
 	$errormessage = array();
 	// Get previous values
-	if (isset($agencyid) && ($agencyid != '')) {
-		$res = phpAds_dbQuery("
-			SELECT
-				*
-			FROM
-				".$conf['table']['prefix'].$conf['table']['agency']."
-			WHERE
-				agencyid = '".$agencyid."'"
-		) or phpAds_sqlDie();
-		if (phpAds_dbNumRows($res)) {
-			$agency = phpAds_dbFetchArray($res);
-		}
+	if (!empty($agencyid)) {
+	    $doAgency = MAX_DB::factoryDO('agency');
+	    $doAgency->get($agencyid);
+	    $agency = $doAgency->toArray();
 	}
 	// Name
 	$agency['name'] = trim($name);
@@ -98,48 +90,10 @@ if (isset($submit)) {
 		}
 	}
 	// Username
-	if (isset($username) && $username != '') {
-		// Check whether chosen username already exists
-		$res = phpAds_dbQuery("
-			SELECT
-				username
-			FROM
-				".$conf['table']['prefix'].$conf['table']['affiliates']."
-			WHERE
-				LOWER(username) = '".strtolower($username)."'
-		") or phpAds_sqlDie();
-		if (phpAds_dbNumRows($res) > 0) {
-			$duplicateaffiliate 	= phpAds_dbNumRows($res);
-		}
-		if (strtolower($pref['admin']) == strtolower($username)) {
-			$duplicateadmin = $pref['admin'];
-		}
-		if ($agencyid == '') {
-			$res = phpAds_dbQuery("
-				SELECT
-					username
-				FROM
-					".$conf['table']['prefix'].$conf['table']['agency']."
-				WHERE
-					LOWER(username) = '".strtolower($username)."'
-			") or phpAds_sqlDie();
-			if (phpAds_dbNumRows($res) > 0 || $duplicateaffiliate || $duplicateadmin) {
-					$errormessage[] = $strDuplicateAgencyName;
-			}
-		} else {
-			$res = phpAds_dbQuery("
-				SELECT
-					*
-				FROM
-					".$conf['table']['prefix'].$conf['table']['agency']."
-				WHERE
-					LOWER(username) = '".strtolower($username)."' AND
-					agencyid != '$agencyid'
-			") or phpAds_sqlDie();
-			if (phpAds_dbNumRows($res) > 0 || $duplicateaffiliate || $duplicateadmin) {
-				$errormessage[] = $strDuplicateAgencyName;
-			}
-		}
+	if (!empty($username)) {
+        if (!MAX_Permission::isUsernameAllowed($agency['username'], $username)) {
+            $errormessage[] = $strDuplicateAgencyName;
+        }
 	}
 	if (count($errormessage) == 0) {
 		$agency['username'] = $username;
@@ -157,57 +111,14 @@ if (isset($submit)) {
 		}
 	}
 	if (count($errormessage) == 0) {
-		if (!isset($agencyid) || $agencyid == '') {
-			$keys = array();
-			$values = array();
-			while (list($key, $value) = each($agency)) {
-				$keys[] = $key;
-				$values[] = $value;
-			}
-			$keys[] = 'updated';
-			$values[] = date('Y-m-d H:i:s');
-
-			$query  = "INSERT INTO ".$conf['table']['prefix'].$conf['table']['agency']." (";
-			$query .= implode(", ", $keys);
-			$query .= ") VALUES ('";
-			$query .= implode("', '", $values);
-			$query .= "')";
-			// Insert
-			phpAds_dbQuery($query)
-				or phpAds_sqlDie();
-			$agencyid = phpAds_dbInsertID();
-			// When adding an agency, copy the values in the config table to this new agency
-			$query = "SELECT * FROM ".$conf['table']['prefix'].$conf['table']['preference']." WHERE agencyid=0";
-			$res = phpAds_dbQuery($query)
-				or phpAds_sqlDie();
-			if ($row = phpAds_dbFetchArray($res)) {
-				$row['agencyid'] = $agencyid;
-				$row['language']       = $agency['language'];
-				$row['name']           = $agency['name'];
-				$row['admin_fullname'] = $agency['contact'];
-				$row['admin_email']    = $agency['email'];
-				$keys = array_keys($row);
-				$values = array_values($row);
-				$query = "INSERT INTO ".$conf['table']['prefix'].$conf['table']['preference']."(".implode(',',$keys).") VALUES ('".implode("','",$values)."')";
-				phpAds_dbQuery($query)
-					or phpAds_sqlDie();
-			}
+	    $doAgency = MAX_DB::factoryDO('agency');
+		if (empty($agencyid)) {
+		    $doAgency->setFrom($agency);
+		    $agencyid = $doAgency->insert();
 		} else {
-			$pairs = array();
-			while (list($key, $value) = each($agency)) {
-				$pairs[] = " ".$key."='".$value."'";
-			}
-			$pairs[] = " updated='".date('Y-m-d H:i:s')."'";
-
-			$query  = "UPDATE ".$conf['table']['prefix'].$conf['table']['agency']." SET ";
-			$query .= trim(implode(",", $pairs))." ";
-			$query .= "WHERE agencyid = '".$agencyid."'";
-			// Update
-			phpAds_dbQuery($query)
-				or phpAds_sqlDie();
-			// Have to update this user's config settings so that language changes etc get propogated
-			$update_sql = "UPDATE ".$conf['table']['prefix'].$conf['table']['preference']." SET language='".$agency['language']."', name='".$agency['name']."', admin_fullname='".$agency['contact']."', admin_email='".$agency['email']."' WHERE agencyid=$agencyid";
-			phpAds_dbQuery($update_sql) or phpAds_sqlDie();
+		    $doAgency->get($agencyid);
+		    $doAgency->setFrom($agency);
+		    $doAgency->update();
 		}
 		// Go to next page
 		MAX_Admin_Redirect::redirect('agency-index.php');
@@ -225,6 +136,8 @@ if (isset($submit)) {
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
+$agencyUserName = '';
+$agencyName = '';
 if ($agencyid != '') {
 	if (isset($session['prefs']['agency-index.php']['listorder'])) {
 		$navorder = $session['prefs']['agency-index.php']['listorder'];
@@ -236,15 +149,9 @@ if ($agencyid != '') {
 	} else {
 		$navdirection = '';
 	}
-    $query = "
-        SELECT
-            *
-        FROM
-            ".$conf['table']['prefix'].$conf['table']['agency'];
-	// Get other agencies
-	$res = phpAds_dbQuery($query)
-		or phpAds_sqlDie();
-	while ($row = phpAds_dbFetchArray($res)) {
+	$doAgency = MAX_DB::factoryDO('agency');
+	$doAgency->find();
+	while ($doAgency->fetch() && $row = $doAgency->toArray()) {
 		phpAds_PageContext (
 			phpAds_buildName ($row['agencyid'], $row['name']),
 			"agency-edit.php?agencyid=".$row['agencyid'],
@@ -257,11 +164,12 @@ if ($agencyid != '') {
 	// Do not get this information if the page
 	// is the result of an error message
 	if (!isset($agency)) {
-		$res = phpAds_dbQuery("SELECT * FROM ".$conf['table']['prefix'].$conf['table']['agency']." WHERE agencyid='".$agencyid."'")
-			or phpAds_sqlDie();
-		if (phpAds_dbNumRows($res)) {
-			$agency = phpAds_dbFetchArray($res);
-		}
+	    $doAgency = MAX_DB::factoryDO('agency');
+	    if ($doAgency->get($agencyid)) {
+	        $agencyUserName = $doAgency->username;
+	        $agencyName = $doAgency->name;
+	        $agency = $doAgency->toArray();
+	    }
 		// Set password to default value
 		if ($agency['password'] != '') {
 			$agency['password'] = '********';
@@ -408,36 +316,9 @@ echo "</form>";
 /*-------------------------------------------------------*/
 
 // Get unique agencyname
-$unique_names = array();
-
-$res = phpAds_dbQuery(
-	"SELECT *".
-	" FROM ".$conf['table']['prefix'].$conf['table']['agency'].
-	" WHERE agencyid != '".$agencyid."'"
-);
-
-while ($row = phpAds_dbFetchArray($res)) {
-	$unique_names[] = $row['name'];
-}
-
-// Get unique username
-$unique_users = array($pref['admin']);
-
-$res = phpAds_dbQuery(
-	"SELECT *".
-	" FROM ".$conf['table']['prefix'].$conf['table']['agency'].
-	" WHERE username != ''".
-	" AND agencyid != '".$agencyid."'"
-);
-
-while ($row = phpAds_dbFetchArray($res)) {
-	$unique_users[] = $row['username'];
-}
-
-$res = phpAds_dbQuery("SELECT * FROM ".$conf['table']['prefix'].$conf['table']['affiliates']." WHERE username != ''");
-while ($row = phpAds_dbFetchArray($res)) {
-	$unique_users[] = $row['username'];
-}
+$doAgency = MAX_DB::factoryDO('agency');
+$unique_names = $doAgency->getUniqueValuesFromColumn('name', $agencyName);
+$unique_users = MAX_Permission::getUniqueUserNames($agencyUserName);
 
 ?>
 

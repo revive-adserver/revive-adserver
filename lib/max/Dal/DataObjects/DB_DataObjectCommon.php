@@ -55,6 +55,13 @@ class DB_DataObjectCommon extends DB_DataObject
     var $dalModelName;
     
     /**
+     * If true "updated" field is automatically updated with current time on every insert and update
+     *
+     * @var unknown_type
+     */
+    var $refreshUpdatedFieldIfExists = false;
+    
+    /**
      * Store table prefix
      *
      * @var string
@@ -218,7 +225,7 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function whereAddLower($field, $value)
     {
-        $this->whereAdd("LOWER($field) = '" . strtolower($this->escape($value)) . "'");
+        $this->whereAdd("LOWER($field) = '" . $this->escape(strtolower($value)) . "'");
     }
     
     /**
@@ -237,6 +244,34 @@ class DB_DataObjectCommon extends DB_DataObject
     }
     
     /**
+     * Get array of 
+     *
+     * @param string $columnName  Column name to look for unique values inside
+     * @param string $exceptValue Usually we need a list of unique value except
+     *                            the one we already have
+     * @return array
+     * @access public
+     */
+    function getUniqueValuesFromColumn($columnName, $exceptValue = null) {
+        $fields = $this->table();
+        if (!array_key_exists($columnName, $fields)) {
+            DB_DataObject::raiseError(
+                    "no such field '{$columnName}' exists in table '{$this->_tableName}'",
+                    DB_DATAOBJECT_ERROR_INVALIDARGS);
+            return array();
+        }
+        $this->whereAdd($columnName . " <> ''");
+        $unique = $this->getAll(array($columnName));
+        if (!empty($exceptValue)) {
+            $key = array_search($removeName, $uniqueUsers);
+	        if (is_numeric($key)) {
+	            unset($uniqueUsers[$key]);
+	        }
+        }
+        return $unique;
+    }
+    
+    /**
      * //// Protected methods, could be overwritten in child classes but
      * //// a good practice is to call them in child methods by parent::methodName()
      */
@@ -244,7 +279,7 @@ class DB_DataObjectCommon extends DB_DataObject
     /**
      * This method is calles explicite by MAX_DB class which
      * 
-     *
+     * @access public
      */
     function init()
     {
@@ -354,6 +389,36 @@ class DB_DataObjectCommon extends DB_DataObject
     }
     
     /**
+     * Could automatically handle updating "updated" datetime field
+     * before calling parent update()
+     *
+     * @see DB_DataObject::update()
+     * @param object $dataObject
+     * @return boolean
+     * @access public
+     */
+    function update($dataObject = false)
+    {
+        $this->_refreshUpdated();
+        return parent::update($dataObject);
+    }
+    
+    /**
+     * Could automatically handle updating "updated" datetime field
+     * before calling parent insert()
+     *
+     * @see DB_DataObject::insert()
+     * @param object $dataObject
+     * @return mixed
+     * @access public
+     */
+    function insert()
+    {
+        $this->_refreshUpdated();
+        return parent::insert();
+    }
+    
+    /**
      * //// Private methods - shouldn't be overwritten and you shouldn't call them directly
      * //// until it's really necessary and you know what your are doing
      */
@@ -405,6 +470,20 @@ class DB_DataObjectCommon extends DB_DataObject
         }
     }
 
+    /**
+     * Used by both insert() and update() to update "updated" field
+     * @access private
+     */
+    function _refreshUpdated()
+    {
+        if ($this->refreshUpdatedFieldIfExists) {
+            $fields = $this->table();
+            if (array_key_exists('updated', $fields)) {
+                $this->updated = date('Y-m-d H:i:s');
+            }
+        }
+    }
+    
     /**
      * Delete all referenced records
      *

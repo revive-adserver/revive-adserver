@@ -74,6 +74,14 @@ class MAX_Permission
 		}
 	}
 	
+	/**
+	 * Checks if user has access to specific area (for example admin or agency area)
+	 * Parametere is on of or sum of any of constants eg: phpAds_Admin + phpAds_Agency
+	 * Permissions are defined in www/admin/lib-permissions.inc.php file
+	 *
+	 * @param integer $allowed
+	 * @return boolean  True if has access
+	 */
 	function hasAccess($allowed)
 	{
 		global $session;
@@ -83,16 +91,32 @@ class MAX_Permission
 	    return true;
 	}
 	
+	/**
+	 * Checks if user is allowed to perform specific action.
+	 * eg: phpAds_ModifyInfo
+	 * Permissions are defined in www/admin/lib-permissions.inc.php file
+	 *
+	 * @param unknown_type $allowed
+	 * @return unknown
+	 */
 	function isAllowed($allowed)
 	{
 		if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-		    // TODO: refactor this
+		    // Admin and Agency types of users are allowed to do any changes
+		    // (if they only have access to it)
 			return true;
 		}
 	    global $session;
     	return ($allowed & (int) $session['permissions']);
 	}
 	
+	/**
+	 * Check if looged user has access to DataObject (defined by it's table name)
+	 *
+	 * @param string $objectTable  Table name
+	 * @param int $id  Id (or empty if new is created)
+	 * @return boolean  True if has access
+	 */
 	function hasAccessToObject($objectTable, $id)
 	{
 		if (phpAds_isUser(phpAds_Admin)) {
@@ -123,18 +147,76 @@ class MAX_Permission
 		return $do->belongToUser($userTable, $userId);
 	}
 	
+	/**
+	 * Return user table for logged user
+	 *
+	 * @return string
+	 */
 	function getUserTypeTable()
 	{
-		if (phpAds_isUser(phpAds_Client) || phpAds_isUser(phpAds_Advertiser)) {
+		if (phpAds_isUser(phpAds_Client)) {
 			return 'clients';
 		}
-		if (phpAds_isUser(phpAds_Affiliate) || phpAds_isUser(phpAds_Publisher)) {
+		if (phpAds_isUser(phpAds_Affiliate)) {
 			return 'affiliates';
 		}
 		if (phpAds_isUser(phpAds_Agency)) {
 			return 'agency';
 		}
 		return null;
+	}
+	
+	/**
+	 * Checks if username is still available and if
+	 * it is allowed to use.
+	 *
+	 * @param string $oldName
+	 * @param string $newName
+	 * @return boolean  True if allowed
+	 */
+	function isUsernameAllowed($oldName, $newName)
+	{
+	    if (!empty($oldName) && $oldName == $newName) {
+	        return true;
+	    }
+	    global $pref;
+	    if ((strtolower($pref['admin']) == strtolower($newName))) {
+	        // cmpare with "admin" name
+	        return false;
+	    }
+	    // check against all users in system
+	    $userTables = array('affiliates', 'clients', 'agency');
+	    foreach($userTables as $table) {
+	        $doUser = MAX_DB::factoryDO($table);
+	        if (!PEAR::isError($doUser) && $doUser->userExists($newName)) {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
+	
+	function getUniqueUserNames($removeName = null)
+	{
+        global $pref;
+	    $uniqueUsers = array($pref['admin']);
+        
+	    $userTables = array('affiliates', 'clients', 'agency');
+	    foreach($userTables as $table) {
+	        $doUser = MAX_DB::factoryDO($table);
+	        if (PEAR::isError($doUser)) {
+	            return false;
+	        }
+	        $newUniqueNames = $doUser->getUniqueUsers();
+	        $uniqueUsers = array_merge($uniqueUsers, $newUniqueNames);
+	    }
+	    
+	    if (!empty($removeName)) {
+	        $key = array_search($removeName, $uniqueUsers);
+	        if (is_numeric($key)) {
+	            unset($uniqueUsers[$key]);
+	        }
+	    }
+        return $uniqueUsers;
 	}
 }
 

@@ -2,12 +2,12 @@
 /**
  * Table Definition for agency
  */
-require_once 'DB_DataObjectCommon.php';
+require_once 'AbstractUser.php';
 
-class DataObjects_Agency extends DB_DataObjectCommon 
+class DataObjects_Agency extends DataObjects_AbstractUser
 {
     var $onDeleteCascade = true;
-    var $dalModelName = 'Agency';
+    var $refreshUpdatedFieldIfExists = true;
     
 	###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
@@ -33,4 +33,64 @@ class DataObjects_Agency extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+    
+    /**
+     * Handle all necessary operations when new agency is created
+     *
+     * @see DB_DataObject::insert()
+     */
+    function insert()
+    {
+        $agencyid = parent::insert();
+        if (!$agencyid) {
+            return $agencyid;
+        }
+        
+        // set agency preferences
+        $doPreference = $this->factory('preference');
+        if ($doPreference->get(0)) {
+            // overwrite default ones
+            $doPreference->agencyid = $agencyid;
+            $doPreference = $this->_updatePreferences($doPreference);
+            $doPreference->insert();
+        }
+        
+        return $agencyid;
+    }
+    
+    /**
+     * Handle all necessary operations when new agency is updated
+     *
+     * @see DB_DataObject::update()
+     */
+    function update($dataObject = false)
+    {
+        $ret = parent::update($dataObject);
+        if (!$ret) {
+            return $ret;
+        }
+        $doPreference = $this->factory('preference');
+        $doPreference->get($this->agencyid);
+        $doPreference = $this->_updatePreferences($doPreference);
+        $doPreference->update();
+        
+        return $ret;
+    }
+    
+    /**
+     * Overwrite preference settings with new
+     * values taken from agency
+     *
+     * @param object $doPreference
+     * @return object
+     */
+    function _updatePreferences($doPreference)
+    {
+        $doPreference->language = $this->language;
+        $doPreference->name     = $this->name;
+        $doPreference->admin_fullname = $this->contact;
+        $doPreference->admin_email = $this->email;
+        
+        return $doPreference;
+    }
 }

@@ -2,12 +2,12 @@
 /**
  * Table Definition for affiliates (Affiliate is often called Publisher)
  */
-require_once 'DB_DataObjectCommon.php';
+require_once 'AbstractUser.php';
 
-class DataObjects_Affiliates extends DB_DataObjectCommon 
+class DataObjects_Affiliates extends DataObjects_AbstractUser 
 {
     var $onDeleteCascade = true;
-    var $dalModelName = 'Affiliates';
+    var $refreshUpdatedFieldIfExists = true;
     
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */

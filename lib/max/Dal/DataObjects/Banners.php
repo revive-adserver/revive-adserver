@@ -7,7 +7,6 @@ require_once 'DB_DataObjectCommon.php';
 class DataObjects_Banners extends DB_DataObjectCommon 
 {
     var $onDeleteCascade = true;
-    var $dalModelName = 'Banners';
     
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
