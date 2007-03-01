@@ -121,7 +121,7 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
             $autoincrement = true;
         }
         $definition[0] = array('notnull' => $notnull, 'nativetype' => $column['type']);
-        if ($length > 0) {
+        if (!is_null($length)) {
             $definition[0]['length'] = $length;
         }
         if (!is_null($unsigned)) {
