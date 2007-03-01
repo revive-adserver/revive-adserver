@@ -452,6 +452,11 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
      */
     function _getDeclarationOptions($field)
     {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+
         $charset = empty($field['charset']) ? '' :
             ' '.$this->_getCharsetFieldDeclaration($field['charset']);
 
