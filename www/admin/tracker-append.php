@@ -36,34 +36,15 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/Admin/Inventory/TrackerAppend.php';
 
-// Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
-
-// Initialize trackerAppend class
-$trackerAppend = new Max_Admin_Inventory_TrackerAppend();
-
-
 /*-------------------------------------------------------*/
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-if (phpAds_isUser(phpAds_Agency)) {
-    $query = "SELECT c.clientid as clientid".
-        " FROM ".$conf['table']['prefix'].$conf['table']['clients']." AS c".
-        ",".$conf['table']['prefix'].$conf['table']['trackers']." AS t".
-        " WHERE t.clientid=c.clientid".
-        " AND c.clientid='".$clientid."'".
-        " AND t.trackerid='".$trackerid."'".
-        " AND c.agencyid=".phpAds_getUserID();
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+MAX_Permission::checkAccessToObject('trackers', $trackerid);
 
-    $res = phpAds_dbQuery($query)
-        or phpAds_sqlDie();
-    
-    if (phpAds_dbNumRows($res) == 0) {
-        phpAds_PageHeader("1");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
-} 
+// Initialize trackerAppend class
+$trackerAppend = new Max_Admin_Inventory_TrackerAppend();
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
@@ -82,14 +63,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 /*-------------------------------------------------------*/
 
 // Get other trackers
-$res = phpAds_dbQuery(
-    "SELECT *".
-    " FROM ".$conf['table']['prefix'].$conf['table']['trackers'].
-    " WHERE clientid='".$clientid."'".
-    phpAds_getTrackerListOrder ($navorder, $navdirection)
-);
+$doTrackers = MAX_DB::factoryDO('trackers');
+$doTrackers->clientid = $clientid;
+$doTrackers->addListOrderBy($navorder, $navdirection);
+$doTrackers->find();
 
-while ($row = phpAds_dbFetchArray($res)) {
+while ($doTrackers->fetch() && $row = $doTrackers->toArray()) {
     phpAds_PageContext (
         phpAds_buildName ($row['trackerid'], $row['trackername']),
         "tracker-append.php?clientid=".$clientid."&trackerid=".$row['trackerid'],
@@ -97,55 +76,47 @@ while ($row = phpAds_dbFetchArray($res)) {
     );
 }
 
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
-{
-    phpAds_PageShortcut($strClientProperties, 'advertiser-edit.php?clientid='.$clientid, 'images/icon-advertiser.gif');
+phpAds_PageShortcut($strClientProperties, 'advertiser-edit.php?clientid='.$clientid, 'images/icon-advertiser.gif');
 
-    $extra  = "\t\t\t\t<form action='tracker-modify.php'>"."\n";
-    $extra .= "\t\t\t\t<input type='hidden' name='trackerid' value='$trackerid'>"."\n";
-    $extra .= "\t\t\t\t<input type='hidden' name='clientid' value='$clientid'>"."\n";
-    $extra .= "\t\t\t\t<input type='hidden' name='returnurl' value='tracker-append.php'>"."\n";
-    $extra .= "\t\t\t\t<br /><br />"."\n";
-    $extra .= "\t\t\t\t<b>$strModifyTracker</b><br />"."\n";
-    $extra .= "\t\t\t\t<img src='images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
-    $extra .= "\t\t\t\t<img src='images/icon-duplicate-tracker.gif' align='absmiddle'>&nbsp;<a href='tracker-modify.php?clientid=".$clientid."&trackerid=".$trackerid."&duplicate=true&returnurl=tracker-campaigns.php'>$strDuplicate</a><br />"."\n";
-    $extra .= "\t\t\t\t<img src='images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
-    $extra .= "\t\t\t\t<img src='images/icon-move-tracker.gif' align='absmiddle'>&nbsp;$strMoveTo<br />"."\n";
-    $extra .= "\t\t\t\t<img src='images/spacer.gif' height='1' width='160' vspace='2'><br />"."\n";
-    $extra .= "\t\t\t\t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"."\n";
-    $extra .= "\t\t\t\t<select name='moveto' style='width: 110;'>"."\n";
+$extra  = "\t\t\t\t<form action='tracker-modify.php'>"."\n";
+$extra .= "\t\t\t\t<input type='hidden' name='trackerid' value='$trackerid'>"."\n";
+$extra .= "\t\t\t\t<input type='hidden' name='clientid' value='$clientid'>"."\n";
+$extra .= "\t\t\t\t<input type='hidden' name='returnurl' value='tracker-append.php'>"."\n";
+$extra .= "\t\t\t\t<br /><br />"."\n";
+$extra .= "\t\t\t\t<b>$strModifyTracker</b><br />"."\n";
+$extra .= "\t\t\t\t<img src='images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
+$extra .= "\t\t\t\t<img src='images/icon-duplicate-tracker.gif' align='absmiddle'>&nbsp;<a href='tracker-modify.php?clientid=".$clientid."&trackerid=".$trackerid."&duplicate=true&returnurl=tracker-campaigns.php'>$strDuplicate</a><br />"."\n";
+$extra .= "\t\t\t\t<img src='images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
+$extra .= "\t\t\t\t<img src='images/icon-move-tracker.gif' align='absmiddle'>&nbsp;$strMoveTo<br />"."\n";
+$extra .= "\t\t\t\t<img src='images/spacer.gif' height='1' width='160' vspace='2'><br />"."\n";
+$extra .= "\t\t\t\t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"."\n";
+$extra .= "\t\t\t\t<select name='moveto' style='width: 110;'>"."\n";
 
-    if (phpAds_isUser(phpAds_Admin)) {
-        $query = "SELECT clientid,clientname".
-            " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-            " WHERE clientid != '".$clientid."'";
-    } elseif (phpAds_isUser(phpAds_Agency)) {
-        $query = "SELECT clientid,clientname".
-        " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-        " WHERE clientid != '".$clientid."'".
-        " AND agencyid=".phpAds_getUserID();
-    }
-    $res = phpAds_dbQuery($query)
-        or phpAds_sqlDie();
-    
-    while ($row = phpAds_dbFetchArray($res)) {
-        $extra .= "\t\t\t\t\t<option value='".$row['clientid']."'>".phpAds_buildName($row['clientid'], $row['clientname'])."</option>\n";
-    }
-    
-    $extra .= "\t\t\t\t</select>&nbsp;\n";
-    $extra .= "\t\t\t\t<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif'><br />\n";
-    $extra .= "\t\t\t\t<img src='images/break.gif' height='1' width='160' vspace='4'><br />\n";
-    $extra .= "\t\t\t\t<img src='images/icon-recycle.gif' align='absmiddle'>\n";
-    $extra .= "\t\t\t\t<a href='tracker-delete.php?clientid=$clientid&trackerid=$trackerid&returnurl=advertiser-trackers.php'".phpAds_DelConfirm($strConfirmDeleteTracker).">$strDelete</a><br />\n";
-    $extra .= "\t\t\t\t</form>\n";
-    
-    phpAds_PageHeader("4.1.4.6", $extra);
-    echo "\t\t\t\t<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($clientid)."\n";
-    echo "\t\t\t\t<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>\n";
-    echo "\t\t\t\t<img src='images/icon-tracker.gif' align='absmiddle'>\n";
-    echo "\t\t\t\t<b>".phpAds_getTrackerName($trackerid)."</b><br /><br /><br />\n";
-    phpAds_ShowSections(array("4.1.4.2", "4.1.4.3", "4.1.4.5", "4.1.4.6", "4.1.4.4"));
+$doClients = MAX_DB::factoryDO('clients');
+$doClients->clientid = $clientid;
+
+if (phpAds_isUser(phpAds_Agency)) {
+    $doClients->addReferenceFilter('agency', phpAds_getUserID());
 }
+$doClients->find();
+
+while ($doClients->fetch() && $row = $doClients->toArray()) {
+    $extra .= "\t\t\t\t\t<option value='".$row['clientid']."'>".phpAds_buildName($row['clientid'], $row['clientname'])."</option>\n";
+}
+
+$extra .= "\t\t\t\t</select>&nbsp;\n";
+$extra .= "\t\t\t\t<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif'><br />\n";
+$extra .= "\t\t\t\t<img src='images/break.gif' height='1' width='160' vspace='4'><br />\n";
+$extra .= "\t\t\t\t<img src='images/icon-recycle.gif' align='absmiddle'>\n";
+$extra .= "\t\t\t\t<a href='tracker-delete.php?clientid=$clientid&trackerid=$trackerid&returnurl=advertiser-trackers.php'".phpAds_DelConfirm($strConfirmDeleteTracker).">$strDelete</a><br />\n";
+$extra .= "\t\t\t\t</form>\n";
+
+phpAds_PageHeader("4.1.4.6", $extra);
+echo "\t\t\t\t<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($clientid)."\n";
+echo "\t\t\t\t<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>\n";
+echo "\t\t\t\t<img src='images/icon-tracker.gif' align='absmiddle'>\n";
+echo "\t\t\t\t<b>".phpAds_getTrackerName($trackerid)."</b><br /><br /><br />\n";
+phpAds_ShowSections(array("4.1.4.2", "4.1.4.3", "4.1.4.5", "4.1.4.6", "4.1.4.4"));
 
 
 $trackerAppend->display();
