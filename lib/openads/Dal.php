@@ -70,6 +70,9 @@ class Openads_Dal
         if (!(count($aConnections)) || !(in_array($dsnMd5, $aConnections))) {
             // Prepare options for a new database connection
             $aOptions = array();
+            // Set the "correct" index format
+            $aOptions['idxname_format'] = '%s';
+            // Set any custom MDB2 datatypes & nativetype mappings
             $customTypesFile = MAX_PATH . '/lib/openads/Dal/CustomDatatypes/' .
                                $conf['database']['type'] . '.php';
             if (is_readable($customTypesFile)) {
