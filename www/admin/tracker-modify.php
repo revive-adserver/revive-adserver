@@ -45,150 +45,38 @@ phpAds_registerGlobal (
 
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
-
-if (phpAds_isUser(phpAds_Agency))
-{
-    $query = "SELECT c.clientid".
-        " FROM ".$conf['table']['prefix'].$conf['table']['clients']." AS c".
-        ",".$conf['table']['prefix'].$conf['table']['trackers']." AS t".
-        " WHERE t.clientid=c.clientid".
-        " AND t.trackerid='".$trackerid."'".
-        " AND c.agencyid=".phpAds_getUserID();
-    $res = phpAds_dbQuery($query) or phpAds_sqlDie();
-    
-    if (phpAds_dbNumRows($res) == 0)
-    {
-        phpAds_PageHeader("1");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
-}
-
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+MAX_Permission::checkAccessToObject('trackers', $trackerid);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-if (isset($trackerid) && $trackerid != '')
+if (!empty($trackerid))
 {
-    if (isset($moveto) && $moveto != '')
+    if (!empty($moveto))
     {
         // Delete any campaign-tracker links
-        $res = phpAds_dbQuery(
-            "DELETE FROM ".$conf['table']['prefix'].$conf['table']['campaigns_trackers'].
-            " WHERE trackerid='".$trackerid."'"
-        ) or phpAds_sqlDie();
-
+        $doCampaign_trackers = MAX_DB::factoryDO('campaigns_trackers');
+        $doCampaign_trackers->trackerid = $trackerid;
+        $doCampaign_trackers->delete();
+        
         // Move the campaign
-        $res = phpAds_dbQuery(
-            "UPDATE ".$conf['table']['prefix'].$conf['table']['trackers'].
-            " SET clientid=".$moveto.
-            ", updated = '".date('Y-m-d H:i:s')."'".
-            " WHERE trackerid='".$trackerid."'"
-        ) or phpAds_sqlDie();
+        $doTrackers = MAX_DB::factoryDO('trackers');
+        if ($doTrackers->get($trackerid)) {
+            $doTrackers->clientid = $moveto;
+            $doTrackers->update();
+        }
         
         Header ("Location: ".$returnurl."?clientid=".$moveto."&trackerid=".$trackerid);
         exit;
     }
     elseif (isset($duplicate) && $duplicate == 'true')
     {
-        // Duplicate the zone
-        
-        $res = phpAds_dbQuery(
-            "SELECT *".
-            " FROM ".$conf['table']['prefix'].$conf['table']['trackers'].
-            " WHERE trackerid='".$trackerid."'"
-        ) or phpAds_sqlDie();
-        
-        
-        if ($row = phpAds_dbFetchArray($res))
+        $doTrackers = MAX_DB::factoryDO('trackers');
+        if ($doTrackers->get($trackerid))
         {
-            // Get names
-            if (ereg("^(.*) \([0-9]+\)$", $row['trackername'], $regs))
-                $basename = $regs[1];
-            else
-                $basename = $row['trackername'];
-            
-            $names = array();
-            
-            $res = phpAds_dbQuery(
-                "SELECT *".
-                " FROM ".$conf['table']['prefix'].$conf['table']['trackers']
-            ) or phpAds_sqlDie();
-            
-            while ($name = phpAds_dbFetchArray($res))
-                $names[] = $name['trackername'];
-            
-            
-            // Get unique name
-            $i = 2;
-            
-            while (in_array($basename.' ('.$i.')', $names))
-                $i++;
-            
-            $row['trackername'] = $basename.' ('.$i.')';
-            
-            
-            // Remove tracker
-            unset($row['trackerid']);
-            unset($row['updated']);
-               
-            $dateTime = date('Y-m-d H:i:s');
-            $values = array();
-            
-            while (list($name, $value) = each($row))
-                $values[] = $name." = '".addslashes($value)."'";
-            
-               $res = phpAds_dbQuery("
-                   INSERT INTO
-                       ".$conf['table']['prefix'].$conf['table']['trackers']."
-                SET
-                    ".implode(", ", $values).",
-                    updated = '$dateTime'
-                    
-               ") or phpAds_sqlDie();
-            
-            $new_trackerid = phpAds_dbInsertID();
-            
-            // Copy any linked campaigns
-            $query = "
-            INSERT INTO {$conf['table']['prefix']}{$conf['table']['campaigns_trackers']}
-            SELECT
-                NULL AS campaign_tracker_id,
-                campaignid AS campaignid,
-                $new_trackerid AS trackerid,
-                status AS status,
-                clickwindow AS clickwindow,
-                viewwindow AS viewwindow
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['campaigns_trackers']}
-            WHERE
-                trackerid=$trackerid
-            ";
-            
-            // Copy any variables
-            $query = "
-            INSERT INTO {$conf['table']['prefix']}{$conf['table']['variables']}
-                (variableid, trakcerid, name, description, datatype, purpose, is_unique, unique_window, updated)
-            SELECT
-                NULL AS variableid,
-                $new_trackerid AS trackerid,
-                name AS name,
-                description AS description,
-                datatype AS datatype,
-                purpose AS purpose,
-                is_unique AS is_unique,
-                unique_window AS unique_window,
-                '$dateTime' AS updated
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['variables']}
-            WHERE
-                trackerid=$trackerid
-            ";
-            
-            
-            $res = phpAds_dbQuery($query) or phpAds_sqlDie();
-            
+            $new_trackerid = $doTrackers->duplicate();
             Header ("Location: ".$returnurl."?clientid=".$clientid."&trackerid=".$new_trackerid);
             exit;
         }

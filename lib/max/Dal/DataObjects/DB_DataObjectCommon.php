@@ -306,6 +306,38 @@ class DB_DataObjectCommon extends DB_DataObject
     }
     
     /**
+     * Used by duplicate() methods to create a new unique name for a record before
+     * creating a copy of it.
+     *
+     * @param string $columnName  Column name to create a new unique name for
+     * @return string
+     */
+    function getUniqueNameForDuplication($columnName)
+    {
+        $fields = $this->table();
+        if (!array_key_exists($columnName, $fields)) {
+            DB_DataObject::raiseError(
+                    "no such field '{$columnName}' exists in table '{$this->_tableName}'",
+                    DB_DATAOBJECT_ERROR_INVALIDARGS);
+            return null;
+        }
+        if (ereg("^(.*) \([0-9]+\)$", $this->$columnName, $regs = null)) {
+            $basename = $regs[1];
+        } else {
+            $basename = $this->$columnName;
+        }
+        
+        $doCheck = $this->factory($this->_tableName);
+        $names = $doCheck->getUniqueValuesFromColumn($columnName);
+        // Get unique name
+        $i = 2;
+        while (in_array($basename.' ('.$i.')', $names)) {
+            $i++;
+        }
+        return $basename.' ('.$i.')';
+    }
+    
+    /**
      * //// Protected methods, could be overwritten in child classes but
      * //// a good practice is to call them in child methods by parent::methodName()
      */

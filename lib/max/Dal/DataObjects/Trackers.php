@@ -34,4 +34,39 @@ class DataObjects_Trackers extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+    
+    function duplicate()
+    {
+        // Get unique name
+        $this->trackername = $this->getUniqueNameForDuplication('trackername');
+        
+        $newTrackerid = $this->insert();
+        if (!$newTrackerid) {
+            return $newTrackerid;
+        }
+        
+        // Copy any linked campaigns
+        $doCampaign_trackers = $this->factory('campaigns_trackers');
+        $doCampaign_trackers->trackerid = $this->trackerid;
+        $doCampaign_trackers->find();
+        while ($doCampaign_trackers->fetch()) {
+            $doCampaign_trackersClone = clone($doCampaign_trackers);
+            $doCampaign_trackersClone->campaign_tracker_id = null;
+            $doCampaign_trackersClone->tracker_id = $newTrackerid;
+            $doCampaign_trackersClone->insert();
+        }
+        
+        // Copy any variables
+        $doVariables = $this->factory('variables');
+        $doVariables->trackerid = $this->trackerid;
+        $doVariables->find();
+        while ($doVariables->fetch()) {
+            $doVariablesClone = clone($doVariables);
+            $doVariablesClone->vriableid = null;
+            $doVariablesClone->trackerid = $newTrackerid;
+            $doVariablesClone->insert();
+        }
+        
+        return $newTrackerid;
+    }
 }
