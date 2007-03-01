@@ -40,7 +40,6 @@ require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 
 // Register input variables
-//phpAds_registerGlobal ('moveto', 'returnurl', 'duplicate', 'clientid', 'campaignid');
 phpAds_registerGlobal ('campaignid', 'clientid', 'newclientid', 'returnurl', 'duplicate');
 
 // Security check

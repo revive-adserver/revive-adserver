@@ -6,6 +6,8 @@ require_once 'DB_DataObjectCommon.php';
 
 class DataObjects_Data_intermediate_ad_connection extends DB_DataObjectCommon 
 {
+    var $refreshUpdatedFieldIfExists = true;
+    
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
