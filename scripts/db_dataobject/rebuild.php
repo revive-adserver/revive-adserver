@@ -31,7 +31,7 @@ $Id: demoDataFill.php 6 2006-12-15 17:27:27Z  $
     $conf = $GLOBALS['_MAX']['CONF'];
     
     if(!empty($conf['table']['prefix'])) {
-        die("Error: please remove prefix from database tables before regenerating DataObjects");
+        die("Error: please remove prefix from database tables before regenerating DataObjects\n");
     }
     
     //  init DB_DataObject
@@ -49,17 +49,21 @@ $Id: demoDataFill.php 6 2006-12-15 17:27:27Z  $
         'production'            => 0,
         'ignore_sequence_keys'  => 'ALL',
         'generator_strip_schema'=> 1,
-        'generator_exclude_regex' => '/data_.*/'
+        'generator_exclude_regex' => '/(data_raw_.*|data_summary_channel_.*|data_summary_zone_.*)/'
     );
     
     require_once 'DB/DataObject/Generator.php';
     // remove original dbdo keys file as it is unable to update an existing file
-    $keysFile = MAX_ENT_DIR . '/' . $conf['db']['name'] . '.ini';
-    if (is_file($keysFile)) {
-        $ok = unlink($keysFile);
+    $schemaFile = $MAX_ENT_DIR . '/db_schema.ini';
+    if (is_file($schemaFile)) {
+        unlink($schemaFile);
     }
       
     $generator = new DB_DataObject_Generator();
     $generator->start();
+    
+    // rename schema ini file
+    $newSchemaFile = $MAX_ENT_DIR . '/' . $conf['database']['name'] . '.ini';
+    rename($newSchemaFile, $schemaFile);
     
 ?>
