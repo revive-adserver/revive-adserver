@@ -9,7 +9,6 @@ class DataObjects_Clients extends DataObjects_AbstractUser
     var $onDeleteCascade = true;
     var $dalModelName = 'Clients';
     var $usernameField = 'clientusername';
-    
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 

@@ -7,8 +7,7 @@ require_once 'DB_DataObjectCommon.php';
 class DataObjects_Session extends DB_DataObjectCommon 
 {
     var $dalModelName = 'Session';
-    
-	###START_AUTOCODE
+    ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
     var $__table = 'session';                         // table name

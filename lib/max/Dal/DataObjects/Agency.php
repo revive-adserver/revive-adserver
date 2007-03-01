@@ -8,8 +8,7 @@ class DataObjects_Agency extends DataObjects_AbstractUser
 {
     var $onDeleteCascade = true;
     var $refreshUpdatedFieldIfExists = true;
-    
-	###START_AUTOCODE
+    ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
     var $__table = 'agency';                          // table name

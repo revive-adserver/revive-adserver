@@ -9,8 +9,7 @@ class DataObjects_Zones extends DB_DataObjectCommon
     var $onDeleteCascade = true;
     var $dalModelName = 'zones';
     var $refreshUpdatedFieldIfExists = true;
-    
-	###START_AUTOCODE
+    ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
     var $__table = 'zones';                           // table name

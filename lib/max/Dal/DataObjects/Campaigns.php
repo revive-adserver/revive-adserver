@@ -8,7 +8,6 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
 {
     var $onDeleteCascade = true;
     var $dalModelName = 'Campaigns';
-    
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 

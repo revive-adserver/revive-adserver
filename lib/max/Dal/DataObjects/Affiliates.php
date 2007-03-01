@@ -8,7 +8,6 @@ class DataObjects_Affiliates extends DataObjects_AbstractUser
 {
     var $onDeleteCascade = true;
     var $refreshUpdatedFieldIfExists = true;
-    
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
