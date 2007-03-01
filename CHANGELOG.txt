@@ -27,6 +27,7 @@
 | Release Max v0.3.32-alpha |
 +---------------------------+
 
+2007-03-01  Delivery    Feature     Fixed #35 - Port Google Adsense click tracking to Openads 2.3 (Matteo)
 2007-02-27  Admin       Bug         Fixed #134 - Adding new zone breaks when you navigate to another tab
                                     (Marek)
 2007-02-27  Maintenance Bug         Fixed #124 - Zone Impression Forcasting randomly creates NULL entries 

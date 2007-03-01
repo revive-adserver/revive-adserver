@@ -82,7 +82,12 @@ MAX_cookieFlush();
 $destination = MAX_querystringGetDestinationUrl($adId[0]);
 
 // Redirect to the destination url
-Header ("Location: $destination");
+if (!empty($destination) && empty($_GET['trackonly'])) {
+    // Prevent HTTP response split attacks
+    if (strpos($destination, "\r\n") !== false) {
+        header ("Location: $destination");
+    }
+}
 
 // Stop benchmarking
 MAX_benchmarkStop();

@@ -52,6 +52,7 @@ phpAds_registerGlobal (
     ,'generate'
     ,'height'
     ,'hostlanguage'
+    ,'iframetracking'
     ,'ilayer'
     ,'layerstyle'
     ,'left'
@@ -111,7 +112,7 @@ class MAX_Admin_Invocation {
             'blockcampaign', 'campaignid', 'clientid',
             'codetype', 'bannerUrl', 'delay', 'delay_type',
             'domains_table', 'extra', 'height',
-            'hostlanguage', 'ilayer', 'left',
+            'hostlanguage', 'ilayer', 'iframetracking', 'left',
             'location', 'menubar', 'parameters', 'popunder',
             'raw', 'refresh', 'resizable',
             'resize', 'scrollbars', 'source',
@@ -188,14 +189,14 @@ class MAX_Admin_Invocation {
             $variablesQuerystring = '';
             foreach ($variables as $variable) {
                 $variablesQuerystring .= "&amp;{$variable['name']}=%%" . strtoupper($variable['name']) . "_VALUE%%";
-            }   
+            }
         }
         $buffer .= "
-  * 
+  *
   *  Place this code at the top of your thank-you page, just after the <body> tag.
   *
   */-->
-  
+
 " . $this->_generateTrackerImageBeacon($trackerId);
         $buffer .= "\n";
         return $buffer;
@@ -284,7 +285,7 @@ class MAX_Admin_Invocation {
             if ($codetype=="adview" || $codetype=="clickonly"){
                 $buffer .= "";
             }
-            
+
             $buffer .= "</td></tr><tr><td height='35' valign='top'>";
             $buffer .= "<select name='codetype' onChange=\"this.form.submit()\" accesskey=".$GLOBALS['keyList']." tabindex='".($tabindex++)."'>";
 
@@ -347,11 +348,11 @@ class MAX_Admin_Invocation {
                             and that you have a config file for the domain of the site showing the ads (in MAX_PATH/var)
                         </div>";
                 }
-                    
+
                 // Supress the textarea if required by this plugin
                 if (!$invocationTag->suppressTextarea) {
                     $buffer .= "<img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strBannercode']."</b></td>";
-    
+
                     // Show clipboard button only on IE
                     if (strpos ($_SERVER['HTTP_USER_AGENT'], 'MSIE') > 0 &&
                         strpos ($_SERVER['HTTP_USER_AGENT'], 'Opera') < 1) {
@@ -362,7 +363,7 @@ class MAX_Admin_Invocation {
                     }
                     $buffer .= "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
                     $buffer .= "<tr><td colspan='2'>";
-    
+
                     $buffer .= "<textarea name='bannercode' class='code-gray' rows='15' cols='80' style='width:95%; border: 1px solid black' readonly>";
                     $buffer .= htmlspecialchars($this->generateInvocationCode($invocationTag));
                     $buffer .= "</textarea>";
@@ -373,7 +374,7 @@ class MAX_Admin_Invocation {
                 $buffer .= "</table><br />";
                 $buffer .= phpAds_ShowBreak($print = false);
                 $buffer .= "<br />";
-    
+
                 $generated = true;
             }
             // Hide when integrated in zone-advanced.php
@@ -432,11 +433,11 @@ class MAX_Admin_Invocation {
         );
         return $options;
     }
-    
+
     function generateJavascriptTrackerCode($trackerId)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        
+
         $variablemethod = 'default';
         $trackers = Admin_DA::getTrackers(array('tracker_id' => $trackerId), true);
         if (count($trackers)) {
@@ -453,7 +454,7 @@ class MAX_Admin_Invocation {
   *
   *  To help prevent caching of the <noscript> beacon, if possible,
   *  Replace %%RANDOM_NUMBER%% with a randomly generated number (or timestamp)
-  *  
+  *
   */-->
 ";
         $varbuffer = '';
@@ -465,7 +466,7 @@ class MAX_Admin_Invocation {
                 $variablesQuerystring .= "&amp;{$variable['name']}=%%" . strtoupper($variable['name']) . "_VALUE%%";
             }
         }
-        
+
         if (!empty($varbuffer)) {
             $buffer .= "
 <!--/*
@@ -485,14 +486,14 @@ class MAX_Admin_Invocation {
   *  The following values have been pre-configured in the adserver
   *
   */-->
-    
+
 <script type='text/javascript'><!--//<![CDATA[
 ";
             $buffer .= $varbuffer;
             $buffer .= "//]]>--></script>
 ";
         }
-        
+
         $buffer  .= "
 <!--/*
   *
@@ -512,11 +513,11 @@ class MAX_Admin_Invocation {
         $buffer .= "\n";
         return $buffer;
     }
-    
+
     function _generateTrackerImageBeacon($trackerId)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        
+
         $variables = Admin_DA::getVariables(array('tracker_id' => $trackerId), true);
         $beacon  = "<div id='m3_tracker_{$trackerId}' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'>";
         $beacon .= "<img src='" . MAX_commonConstructDeliveryUrl($conf['file']['conversion']) . "?trackerid={$trackerId}";

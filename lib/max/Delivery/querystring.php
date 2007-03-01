@@ -34,7 +34,7 @@ $Id$
 /**
  * Populate variables from a specially encoded string.  This is used because
  * in a click URL, a parameter could possibly be another URL.
- * 
+ *
  * The resulting values are set into the $_GET, and $_REQUEST globals
  */
 function MAX_querystringConvertParams()
@@ -65,7 +65,7 @@ function MAX_querystringConvertParams()
         }
         $qs = substr($qs, strlen($delim) + 1);
         MAX_querystringParseStr($qs, $aGet, $delim);
-        
+
         // Fix the destination URL since if appended by a form, it will have no '?'
         $qPos = isset($aGet[$conf['var']['dest']]) ? strpos($aGet[$conf['var']['dest']], '?') : false;
         $aPos = isset($aGet[$conf['var']['dest']]) ? strpos($aGet[$conf['var']['dest']], '&') : false;
@@ -82,6 +82,10 @@ function MAX_querystringConvertParams()
     }
     // 3.  Add any cookie values to the GET string...
     $n = isset($_GET[$conf['var']['n']]) ? $_GET[$conf['var']['n']] : '';
+    if (empty($n)) {
+        // Try from querystring
+        $n = isset($aGet[$conf['var']['n']]) ? $aGet[$conf['var']['n']] : '';
+    }
     if (!empty($n) && !empty($_COOKIE[$conf['var']['vars']][$n])) {
         $aVars = unserialize(stripslashes($_COOKIE[$conf['var']['vars']][$n]));
         foreach ($aVars as $name => $value) {
@@ -96,20 +100,20 @@ function MAX_querystringConvertParams()
 
 /**
  * @todo Currently only methods 1 and 2 are being used
- * 
+ *
  * Get the URL that this click will redirect to, using a the following methods (in order):
- * 
+ *
  *  1) Was a dest=URL was passed in.
  *  2) Does a URL exist in the banner properties (cached or database lookup)
  *  3) Is there a default Agency/Admin URL
  *  4) Use the refering page
  *  5) Give up use "about:blank"
- * 
+ *
  * to see if the URL is passed in.  If not, it checks the banner from the cache
  * or database.  As a last resort, it either uses the default banner URL or the referer.
  *
  * @param integer $adId The ID of the ad that was clicked or null for no DB lookup
- * 
+ *
  * @return string The destination URL
  */
 function MAX_querystringGetDestinationUrl($adId = null)
@@ -123,6 +127,11 @@ function MAX_querystringGetDestinationUrl($adId = null)
         if (!empty($aAd)) {
             $dest = $aAd['url'];
         }
+    }
+
+    // If no destination URL has been found by now, then we don't need to redirect
+    if (empty($dest)) {
+        return;
     }
     /**
      * @TODO Remove code below, as the default banner target needs to go into the
@@ -146,7 +155,7 @@ function MAX_querystringGetDestinationUrl($adId = null)
         $conf['var']['params'],
         $conf['var']['cookieTest']
     );
-    
+
     // We also need to ensure that any variables already present in the dest are not duplicated...
     $destParams = parse_url($dest);
     if (!empty($destParams['query'])) {
@@ -158,7 +167,7 @@ function MAX_querystringGetDestinationUrl($adId = null)
             }
         }
     }
-    
+
     foreach ($_GET as $name => $value) {
         if (!in_array($name, $aValidVariables)) {
             $aVariables[] = $name . '=' . $value;
