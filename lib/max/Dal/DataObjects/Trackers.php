@@ -40,6 +40,7 @@ class DataObjects_Trackers extends DB_DataObjectCommon
         // Get unique name
         $this->trackername = $this->getUniqueNameForDuplication('trackername');
         
+        $this->trackerid = null;
         $newTrackerid = $this->insert();
         if (!$newTrackerid) {
             return $newTrackerid;
