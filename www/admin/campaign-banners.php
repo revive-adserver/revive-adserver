@@ -43,22 +43,8 @@ phpAds_registerGlobal('expand', 'collapse', 'hideinactive', 'listorder', 'orderd
 
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
-
-if (phpAds_isUser(phpAds_Agency)) {
-    $query = "SELECT clientid FROM ".$conf['table']['prefix'].$conf['table']['clients']." WHERE clientid='".$clientid."' AND agencyid=".phpAds_getUserID();
-    $res = phpAds_dbQuery($query) or phpAds_sqlDie();
-    if (phpAds_dbNumRows($res) == 0) {
-        phpAds_PageHeader("2");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
-} elseif (phpAds_isUser(phpAds_Client)) {
-    if (phpAds_getUserID() != $clientid) {
-        phpAds_PageHeader("2");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
-}
-
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
+MAX_Permission::checkAccessToObject('clients', $clientid);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -128,20 +114,14 @@ if (isset($session['prefs']['campaign-banners.php'][$campaignid]['nodes'])) {
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$res = phpAds_dbQuery("
-    SELECT
-        *,
-        storagetype AS type
-    FROM
-        ".$conf['table']['prefix'].$conf['table']['banners']."
-    WHERE
-        campaignid = '$campaignid'
-    ".phpAds_getBannerListOrder($listorder, $orderdirection)."
-") or phpAds_sqlDie();
+$doBanners = MAX_DB::factoryDO('banners');
+$doBanners->campaignid = $campaignid;
+$doBanners->selectAdd('storagetype AS type');
+$doBanners->find();
 
 $countActive = 0;
 
-while ($row = phpAds_dbFetchArray($res)) {
+while ($doBanners->fetch() && $row = $doBanners->toArray()) {
     $banners[$row['bannerid']] = $row;
     
     // mask banner name if anonymous campaign
