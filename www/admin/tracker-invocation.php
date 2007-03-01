@@ -48,27 +48,9 @@ phpAds_registerGlobal (
 );
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
-
-if (phpAds_isUser(phpAds_Agency)) {
-    $query = "
-        SELECT
-            c.clientid as clientid
-        FROM
-            {$conf['table']['prefix']}{$conf['table']['clients']} AS c,
-            {$conf['table']['prefix']}{$conf['table']['trackers']} AS t
-        WHERE
-            t.clientid = c.clientid
-            AND c.clientid = $clientid
-            AND t.trackerid = $trackerid
-            AND c.agencyid = ".phpAds_getUserID();
-	$res = phpAds_dbQuery($query)
-		or phpAds_sqlDie();
-	if (phpAds_dbNumRows($res) == 0) {
-		phpAds_PageHeader("1");
-		phpAds_Die ($strAccessDenied, $strNotAdmin);
-	}
-}
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+MAX_Permission::checkAccessToObject('trackers', $trackerid);
+MAX_Permission::checkAccessToObject('clients', $clientid);
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
@@ -76,37 +58,27 @@ if (phpAds_isUser(phpAds_Agency)) {
 
 if (isset($submit)) {
 	// If ID is not set, it should be a null-value for the auto_increment
-	if (empty($trackerid)) {
-		$trackerid = "null";
-	}
-    $new_tracker = $trackerid == 'null';
-    $query = "
-        REPLACE INTO
-            {$conf['table']['prefix']}{$conf['table']['trackers']}
-            (
-                trackerid,
-                trackername,
-                description,
-                clientid,
-                updated
-            )
-        VALUES
-            (
-                $trackerid,
-                '$trackername',
-                '$description',
-                $clientid,
-                '".date('Y-m-d H:i:s')."'
-            )";
-	phpAds_dbQuery($query)
-	   or phpAds_sqlDie();
-	// Get ID of tracker
-	if ($trackerid == "null") {
-		$trackerid = phpAds_dbInsertID();
-	}
+    
+    $doTrackers = MAX_DB::factoryDO('trackers');
+    $doTrackers->trackername = $trackername;
+    $doTrackers->description = $description;
+    $doTrackers->clientid = $clientid;
+    if (empty($trackerid)) {
+        $trackerid = $doTrackers->insert();
+        $new_tracker = true;
+    } else {
+        $doTrackers->trackerid = $trackerid;
+        $doTrackers->update();
+    }
+    
 	if (isset($move) && $move == 't') {
 		// We are moving a client to a tracker
 		// Update banners
+		
+		// FIXME - let's try to find is this code is ever executed
+		phpAds_Die ('Error', 'Error: This is a message to ensure that this code is never executed'.
+		  ', it should be catched by tests');
+		
 		$query = "
             UPDATE
                 {$conf['table']['prefix']}{$conf['table']['banners']}
@@ -140,16 +112,11 @@ if ($trackerid != "") {
 		$navdirection = '';
 	}
 	// Get other trackers
-	$res = phpAds_dbQuery("
-        SELECT
-            *
-        FROM
-            {$conf['table']['prefix']}{$conf['table']['trackers']}
-        WHERE
-            clientid = $clientid " .
-            phpAds_getTrackerListOrder($navorder, $navdirection)
-	) or phpAds_sqlDie();
-	while ($row = phpAds_dbFetchArray($res)) {
+	$doTrackers = MAX_DB::factoryDO('trackers');
+	$doTrackers->clientid = $clientid;
+	$doTrackers->find();
+	
+	while ($doTrackers->fetch() && $row = $doTrackers->toArray()) {
 		phpAds_PageContext (
 			phpAds_buildName ($row['trackerid'], $row['trackername']),
 			"tracker-invocation.php?clientid=".$clientid."&trackerid=".$row['trackerid'],
@@ -170,29 +137,14 @@ if ($trackerid != "") {
 	$extra .= "\t\t\t\t<img src='images/spacer.gif' height='1' width='160' vspace='2'><br />"."\n";
 	$extra .= "\t\t\t\t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"."\n";
 	$extra .= "\t\t\t\t<select name='moveto' style='width: 110;'>"."\n";
-	if (phpAds_isUser(phpAds_Admin)) {
-		$query = "
-            SELECT
-                clientid,
-                clientname
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['clients']}
-			WHERE
-                clientid != $clientid";
-	} elseif (phpAds_isUser(phpAds_Agency)) {
-		$query = "
-            SELECT
-                clientid,
-                clientname
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['clients']}
-            WHERE
-                clientid != $clientid
-                AND agencyid = " . phpAds_getAgencyID();
+	
+	$doClients = MAX_DB::factoryDO('clients');
+	$doClients->clientid = $clientid;
+	if (phpAds_isUser(phpAds_Agency)) {
+	    $doClients->addReferenceFilter('agency', phpAds_getAgencyID());
 	}
-	$res = phpAds_dbQuery($query)
-		or phpAds_sqlDie();
-	while ($row = phpAds_dbFetchArray($res)) {
+	$doClients->find();
+	while ($doClients->fetch() && $row = $doClients->toArray()) {
 		$extra .= "\t\t\t\t\t<option value='".$row['clientid']."'>".phpAds_buildName($row['clientid'], $row['clientname'])."</option>\n";
 	}
 	$extra .= "\t\t\t\t</select>&nbsp;\n";
@@ -237,20 +189,18 @@ if ($trackerid != "" || (isset($move) && $move == 't')) {
 		    $ID = $clientid;
 		}
 	}
-	$res = phpAds_dbQuery(
-		"SELECT *".
-		" FROM ".$conf['table']['prefix'].$conf['table']['trackers'].
-		" WHERE trackerid=".$ID
-	) or phpAds_sqlDie();
-	$row = phpAds_dbFetchArray($res);
+	$doTrackers = MAX_DB::factoryDO('trackers');
+	if ($doTrackers->get($ID)) {
+	    $row = $doTrackers->toArray();
+	}
 } else {
 	// New tracker
-	$res = phpAds_dbQuery(
-		"SELECT clientname".
-		" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-		" WHERE clientid='".$clientid."'"
-	);
-	if ($client = phpAds_dbFetchArray($res)) {
+	$doClients = MAX_DB::factoryDO('clients');
+	if ($doClients->get($clientid)) {
+	    $client = $doClients->toArray();
+	}
+	
+	if ($client) {
 		$row['trackername'] = $client['clientname'].' - ';
 	} else {
 		$row["trackername"] = '';

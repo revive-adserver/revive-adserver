@@ -46,15 +46,6 @@ class DB_DataObjectCommon extends DB_DataObject
     var $onDeleteCascade = false;
     
     /**
-     * DataObjects live side by side with DAL with SQL, some of DAL models have useful information which
-     * could be used by DataObject. For DAL models look into: /lib/max/Dal/Admin folder
-     * This variable should be fill in inside child object.
-     *
-     * @var string
-     */
-    var $dalModelName;
-    
-    /**
      * If true "updated" field is automatically updated with current time on every insert and update
      *
      * @var unknown_type
@@ -81,7 +72,7 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     
     /**
-     * Loads corresponding DAL class. Usually SQL will be put into DAL class
+     * Loads corresponding DAL class. Plain SQL should be kept inside DAL class
      *
      * @return object|false
      */
