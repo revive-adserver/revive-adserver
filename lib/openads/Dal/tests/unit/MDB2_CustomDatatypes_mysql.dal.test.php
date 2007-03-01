@@ -41,6 +41,8 @@ class Test_Openads_Dal_CustomDatatypes_mysql extends UnitTestCase
 
     var $db;
 
+    var $customTypes = 3;
+
     /**
      * The constructor method.
      */
@@ -110,7 +112,7 @@ class Test_Openads_Dal_CustomDatatypes_mysql extends UnitTestCase
         foreach ($aTestData as $testKey => $aFields) {
             if ($aFields['method'] == 'getValidTypes') {
                 $result = call_user_func(array($this->db->datatype, $aFields['method']));
-                $this->assertEqual(count($result), 12);
+                $this->assertEqual(count($result), 10 + $this->customTypes);
                 $this->assertEqual($result['openads_enum'], 'f');
             } else {
                 $result = call_user_func_array(array($this->db->datatype, $aFields['method']), $aFields['params']);
@@ -178,8 +180,76 @@ class Test_Openads_Dal_CustomDatatypes_mysql extends UnitTestCase
         foreach ($aTestData as $testKey => $aFields) {
             if ($aFields['method'] == 'getValidTypes') {
                 $result = call_user_func(array($this->db->datatype, $aFields['method']));
-                $this->assertEqual(count($result), 12);
+                $this->assertEqual(count($result), 10 + $this->customTypes);
                 $this->assertEqual($result['openads_mediumint'], 0);
+            } else {
+                $result = call_user_func_array(array($this->db->datatype, $aFields['method']), $aFields['params']);
+                $this->assertEqual($result, $aResultData[$testKey]);
+            }
+        }
+    }
+
+    /**
+     * A method to test that the MDB2 datatype to database nativetype
+     * mappings work as expected for the "openads_varchar" datatype.
+     */
+    function testDatatypeToNativetypeMappings_openads_varchar()
+    {
+        $aTestData = array(
+            'openads_varchar_test1' => array(
+                'method' => 'getValidTypes',
+                'params' => null
+            ),
+            'openads_varchar_test2' => array(
+                'method' => 'convertResult',
+                'params' => array(5, 'openads_varchar')
+            ),
+            'openads_varchar_test3' => array(
+                'method' => 'convertResult',
+                'params' => array('5 foo ', 'openads_varchar')
+            ),
+            'openads_varchar_test4' => array(
+                'method' => 'getDeclaration',
+                'params' => array('openads_varchar', 'foo', array(
+                    'length'    => null,
+                    'default'   => null,
+                    'notnull'   => null,
+                    'charset'   => null,
+                    'collation' => null
+                ))
+            ),
+            'openads_varchar_test5' => array(
+                'method' => 'getDeclaration',
+                'params' => array('openads_varchar', 'foo', array(
+                    'length'    => 255,
+                    'default'   => 1,
+                    'notnull'   => true,
+                    'charset'   => null,
+                    'collation' => null
+                ))
+            ),
+            'openads_varchar_test6' => array(
+                'method' => 'quote',
+                'params' => array(37, 'openads_varchar')
+            ),
+            'openads_varchar_test7' => array(
+                'method' => 'mapPrepareDatatype',
+                'params' => array('openads_varchar')
+            )
+        );
+        $aResultData = array(
+            'openads_varchar_test2' => '5',
+            'openads_varchar_test3' => '5 foo',
+            'openads_varchar_test4' => 'foo VARCHAR DEFAULT NULL',
+            'openads_varchar_test5' => 'foo VARCHAR(255) DEFAULT 1 NOT NULL',
+            'openads_varchar_test6' => "'37'",
+            'openads_varchar_test7' => 'VARCHAR'
+        );
+        foreach ($aTestData as $testKey => $aFields) {
+            if ($aFields['method'] == 'getValidTypes') {
+                $result = call_user_func(array($this->db->datatype, $aFields['method']));
+                $this->assertEqual(count($result), 10 + $this->customTypes);
+                $this->assertEqual($result['openads_varchar'], '');
             } else {
                 $result = call_user_func_array(array($this->db->datatype, $aFields['method']), $aFields['params']);
                 $this->assertEqual($result, $aResultData[$testKey]);
@@ -265,6 +335,40 @@ class Test_Openads_Dal_CustomDatatypes_mysql extends UnitTestCase
                 1 => 6,
                 2 => true,
                 3 => null
+            )
+        );
+        foreach ($aTestData as $testKey => $aFields) {
+            $aDefinition = $this->db->datatype->mapNativeDatatype($aFields);
+            $this->assertEqual($aDefinition, $aResultData[$testKey]);
+        }
+    }
+
+    /**
+     * A method to test that the database nativetype to MDB2 datatype
+     * mappings work as expected for the "varchar" nativetype.
+     */
+    function testNativetypeToDatatypeMappings_varchar()
+    {
+        $aTestData = array(
+            'varchar_test1' => array(
+                'type'    => 'varchar'
+            ),
+            'varchar_test2' => array(
+                'type'    => 'varchar(5)'
+            )
+        );
+        $aResultData = array(
+            'varchar_test1' => array(
+                0 => array('openads_varchar'),
+                1 => null,
+                2 => null,
+                3 => false
+            ),
+            'varchar_test2' => array(
+                0 => array('openads_varchar'),
+                1 => 5,
+                2 => null,
+                3 => false
             )
         );
         foreach ($aTestData as $testKey => $aFields) {
