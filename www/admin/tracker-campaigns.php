@@ -54,6 +54,14 @@ phpAds_registerGlobal (
     ,'viewwindowsecond'
 );
 
+/*-------------------------------------------------------*/
+/* Affiliate interface security                          */
+/*-------------------------------------------------------*/
+
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+MAX_Permission::checkAccessToObject('trackers', $trackerid);
+MAX_Permission::checkAccessToObject('clients', $clientid);
+
 // Initalise any tracker based plugins
 $plugins = array();
 $invocationPlugins = &MAX_Plugin::getPlugins('invocationTags');
@@ -65,43 +73,15 @@ foreach($invocationPlugins as $pluginKey => $plugin) {
     }
 }
 
-// Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
-
-/*-------------------------------------------------------*/
-/* Affiliate interface security                          */
-/*-------------------------------------------------------*/
-
-if (phpAds_isUser(phpAds_Agency)) {
-    $query = "SELECT c.clientid as clientid".
-        " FROM ".$conf['table']['prefix'].$conf['table']['clients']." AS c".
-        ",".$conf['table']['prefix'].$conf['table']['trackers']." AS t".
-        " WHERE t.clientid=c.clientid".
-        " AND c.clientid='".$clientid."'".
-        " AND t.trackerid='".$trackerid."'".
-        " AND c.agencyid=".phpAds_getUserID();
-
-    $res = phpAds_dbQuery($query)
-        or phpAds_sqlDie();
-    
-    if (phpAds_dbNumRows($res) == 0) {
-        phpAds_PageHeader("1");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
-}
-
-
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
 
 if (isset($trackerid) && $trackerid != '') {
     if (isset($action) && $action == 'set') {
-        $res = phpAds_dbQuery(
-            "DELETE".
-            " FROM ".$conf['table']['prefix'].$conf['table']['campaigns_trackers'].
-            " WHERE trackerid='".$trackerid."'"
-        ) or phpAds_sqlDie();
+        $doCampaign_trackers = MAX_DB::factoryDO('campaigns_trackers');
+        $doCampaign_trackers->trackerid = $trackerid;
+        $doCampaign_trackers->delete();
         
         if (isset($campaignids) && is_array($campaignids)) {
             for ($i=0; $i<sizeof($campaignids); $i++) {
@@ -117,13 +97,13 @@ if (isset($trackerid) && $trackerid != '') {
                     $fields[] = $dbField;
                     $values[] = $value;
                 }
-                   
-                $res = phpAds_dbQuery("
-                    INSERT INTO {$conf['table']['prefix']}{$conf['table']['campaigns_trackers']}
-                        (" . implode(', ', $fields) . ")
-                    VALUES
-                        (" . implode(', ', $values) . ")
-                ") or phpAds_sqlDie();
+                
+                $doCampaign_trackers = MAX_DB::factoryDO('campaigns_trackers');
+                for ($i = 0; $i < count($fields); $i++) {
+                    $field = $fields[0];
+                    $doCampaign_trackers->$field = $values[$i];
+                }
+                $doCampaign_trackers->insert();
             }
         }
         header ("Location: tracker-variables.php?clientid=".$clientid."&trackerid=".$trackerid);
@@ -164,14 +144,11 @@ if (!isset($orderdirection)) {
 
 
 // Get other trackers
-$res = phpAds_dbQuery(
-    "SELECT *".
-    " FROM ".$conf['table']['prefix'].$conf['table']['trackers'].
-    " WHERE clientid='".$clientid."'".
-    phpAds_getTrackerListOrder ($navorder, $navdirection)
-);
+$doTrackers = MAX_DB::factoryDO('trackers');
+$doTrackers->clientid = $clientid;
+$doTrackers->find();
 
-while ($row = phpAds_dbFetchArray($res)) {
+while ($doTrackers->fetch() && $row = $doTrackers->toArray()) {
     phpAds_PageContext (
         phpAds_buildName ($row['trackerid'], $row['trackername']),
         "tracker-campaigns.php?clientid=".$clientid."&trackerid=".$row['trackerid'],
@@ -198,20 +175,15 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
     $extra .= "\t\t\t\t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"."\n";
     $extra .= "\t\t\t\t<select name='moveto' style='width: 110;'>"."\n";
 
-    if (phpAds_isUser(phpAds_Admin)) {
-        $query = "SELECT clientid,clientname".
-            " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-            " WHERE clientid != '".$clientid."'";
-    } elseif (phpAds_isUser(phpAds_Agency)) {
-        $query = "SELECT clientid,clientname".
-        " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-        " WHERE clientid != '".$clientid."'".
-        " AND agencyid=".phpAds_getUserID();
-    }
-    $res = phpAds_dbQuery($query)
-        or phpAds_sqlDie();
+    $doClients = MAX_DB::factoryDO('clients');
+    $doClients->whereAdd('clientid <> '.$clientid);
     
-    while ($row = phpAds_dbFetchArray($res)) {
+    if (phpAds_isUser(phpAds_Agency)) {
+        $doClients->addReferenceFilter('agency', phpAds_getUserID());
+    }
+    $doClients->find();
+    
+    while ($doClients->fetch() && $row = $doClients->toArray()) {
         $extra .= "\t\t\t\t\t<option value='".$row['clientid']."'>".phpAds_buildName($row['clientid'], $row['clientname'])."</option>\n";
     }
     
@@ -231,15 +203,10 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
     phpAds_ShowSections(array("4.1.4.2", "4.1.4.3", "4.1.4.5", "4.1.4.6", "4.1.4.4"));
 }
 
-if (isset($trackerid) && $trackerid != '') {
-    $res = phpAds_dbQuery(
-        "SELECT *".
-        " FROM ".$conf['table']['prefix'].$conf['table']['trackers'].
-        " WHERE trackerid='".$trackerid."'"
-    ) or phpAds_sqlDie();
-    
-    if (phpAds_dbNumRows($res)) {
-        $tracker = phpAds_dbFetchArray($res);
+if (!empty($trackerid)) {
+    $doTrackers = MAX_DB::factoryDO('trackers');
+    if ($doTrackers->get($trackerid)) {
+        $tracker = $doTrackers->toArray();
     }
 }
 
@@ -302,39 +269,18 @@ $defaults = array(
     'clickwindow' => $conf['logging']['defaultClickConnectionWindow'],
 );
 
-if (isset($trackerid) && ($trackerid > 0)) {
-    $res = phpAds_dbQuery(
-        "SELECT *".
-        " FROM ".$conf['table']['prefix'].$conf['table']['campaigns_trackers'].
-        " WHERE trackerid='".$trackerid."'"
-    ) or phpAds_sqlDie();
-    
-    while ($row = phpAds_dbFetchArray($res)) {
-        $campaign_tracker_row[$row['campaignid']] = $row;
-    }
-
-    $res = phpAds_dbQuery("
-        SELECT
-            *
-        FROM
-            {$conf['table']['prefix']}{$conf['table']['trackers']}
-        WHERE
-            trackerid={$trackerid}
-    ") or phpAds_sqlDie();
-    
-    if ($row = phpAds_dbFetchArray($res)) {
-        $defaults = $row;
-    }
+if (!empty($trackerid)) {
+    $doCampaign_trackers = MAX_DB::factoryDO('campaigns_trackers');
+    $doCampaign_trackers->trackerid = $trackerid;
+    $campaign_tracker_row = $doCampaign_trackers->getAll();
+    $defaults = $tracker;
 }
 
-$res = phpAds_dbQuery(
-    "SELECT *".
-    " FROM ".$conf['table']['prefix'].$conf['table']['campaigns'].
-    " WHERE clientid='".$clientid."'".
-    phpAds_getCampaignListOrder ($listorder, $orderdirection)
-) or phpAds_sqlDie();
+$doCampaigns = MAX_DB::factoryDO('campaigns');
+$doCampaigns->clientid = $clientid;
+$doCampaigns->find();
 
-if (phpAds_dbNumRows($res) == 0) {
+if ($doCampaigns->getRowCount() == 0) {
     echo "\t\t\t\t<tr bgcolor='#F6F6F6'>\n";
     echo "\t\t\t\t\t<td colspan='4' height='25'>&nbsp;&nbsp;".$strNoCampaignsToLink."</td>\n";
     echo "\t\t\t\t</tr>\n";
@@ -343,12 +289,9 @@ if (phpAds_dbNumRows($res) == 0) {
     echo "\t\t\t\t<input type='hidden' name='trackerid' value='".$GLOBALS['trackerid']."'>\n";
     echo "\t\t\t\t<input type='hidden' name='clientid' value='".$GLOBALS['clientid']."'>\n";
     echo "\t\t\t\t<input type='hidden' name='action' value='set'>\n";
-    while ($row = phpAds_dbFetchArray($res)) {
-        $campaigns[$row['campaignid']] = $row;
-    }
+    $campaigns = $doCampaigns->getAll();
 
-    foreach (array_keys($campaigns) as $ckey) {
-        $campaign = $campaigns[$ckey];
+    foreach ($campaigns as $campaign) {
         
         if ($campaign['active'] == 't' || $hideinactive != '1') {
             if ($i > 0) {
