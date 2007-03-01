@@ -41,7 +41,7 @@ class Test_Openads_Dal_CustomDatatypes_mysql extends UnitTestCase
 
     var $db;
 
-    var $customTypes = 3;
+    var $customTypes = 4;
 
     /**
      * The constructor method.
@@ -51,6 +51,74 @@ class Test_Openads_Dal_CustomDatatypes_mysql extends UnitTestCase
         $this->UnitTestCase();
         $this->db = Openads_Dal::singleton();
         $this->db->loadModule('Datatype', null, true);
+    }
+
+    /**
+     * A method to test that the MDB2 datatype to database nativetype
+     * mappings work as expected for the "openads_char" datatype.
+     */
+    function testDatatypeToNativetypeMappings_openads_char()
+    {
+        $aTestData = array(
+            'openads_char_test1' => array(
+                'method' => 'getValidTypes',
+                'params' => null
+            ),
+            'openads_char_test2' => array(
+                'method' => 'convertResult',
+                'params' => array(5, 'openads_char')
+            ),
+            'openads_char_test3' => array(
+                'method' => 'convertResult',
+                'params' => array('5 foo ', 'openads_char')
+            ),
+            'openads_char_test4' => array(
+                'method' => 'getDeclaration',
+                'params' => array('openads_char', 'foo', array(
+                    'length'    => null,
+                    'default'   => null,
+                    'notnull'   => null,
+                    'charset'   => null,
+                    'collation' => null
+                ))
+            ),
+            'openads_char_test5' => array(
+                'method' => 'getDeclaration',
+                'params' => array('openads_char', 'foo', array(
+                    'length'    => 255,
+                    'default'   => 1,
+                    'notnull'   => true,
+                    'charset'   => null,
+                    'collation' => null
+                ))
+            ),
+            'openads_char_test6' => array(
+                'method' => 'quote',
+                'params' => array(37, 'openads_char')
+            ),
+            'openads_char_test7' => array(
+                'method' => 'mapPrepareDatatype',
+                'params' => array('openads_char')
+            )
+        );
+        $aResultData = array(
+            'openads_char_test2' => '5',
+            'openads_char_test3' => '5 foo',
+            'openads_char_test4' => 'foo CHAR DEFAULT NULL',
+            'openads_char_test5' => 'foo CHAR(255) DEFAULT 1 NOT NULL',
+            'openads_char_test6' => "'37'",
+            'openads_char_test7' => 'CHAR'
+        );
+        foreach ($aTestData as $testKey => $aFields) {
+            if ($aFields['method'] == 'getValidTypes') {
+                $result = call_user_func(array($this->db->datatype, $aFields['method']));
+                $this->assertEqual(count($result), 10 + $this->customTypes);
+                $this->assertEqual($result['openads_char'], '');
+            } else {
+                $result = call_user_func_array(array($this->db->datatype, $aFields['method']), $aFields['params']);
+                $this->assertEqual($result, $aResultData[$testKey]);
+            }
+        }
     }
 
     /**
@@ -254,6 +322,40 @@ class Test_Openads_Dal_CustomDatatypes_mysql extends UnitTestCase
                 $result = call_user_func_array(array($this->db->datatype, $aFields['method']), $aFields['params']);
                 $this->assertEqual($result, $aResultData[$testKey]);
             }
+        }
+    }
+
+    /**
+     * A method to test that the database nativetype to MDB2 datatype
+     * mappings work as expected for the "char" nativetype.
+     */
+    function testNativetypeToDatatypeMappings_char()
+    {
+        $aTestData = array(
+            'char_test1' => array(
+                'type'    => 'char'
+            ),
+            'char_test2' => array(
+                'type'    => 'char(5)'
+            )
+        );
+        $aResultData = array(
+            'char_test1' => array(
+                0 => array('openads_char'),
+                1 => null,
+                2 => null,
+                3 => true
+            ),
+            'char_test2' => array(
+                0 => array('openads_char'),
+                1 => 5,
+                2 => null,
+                3 => true
+            )
+        );
+        foreach ($aTestData as $testKey => $aFields) {
+            $aDefinition = $this->db->datatype->mapNativeDatatype($aFields);
+            $this->assertEqual($aDefinition, $aResultData[$testKey]);
         }
     }
 
