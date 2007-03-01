@@ -47,10 +47,10 @@ phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 
 if (phpAds_isUser(phpAds_Agency))
 {
-	$doTracker = MAX_DB::factoryDO('trackers');
-	$doTracker->trackerid = $trackerid;
+	$doTrackers = MAX_DB::factoryDO('trackers');
+	$doTrackers->trackerid = $trackerid;
 	
-	if (!$doTracker->belongToUser('agency', phpAds_getUserID()))
+	if (!$doTrackers->belongToUser('agency', phpAds_getUserID()))
 	{
 		phpAds_PageHeader("1");
 		phpAds_Die ($strAccessDenied, $strNotAdmin);
@@ -62,17 +62,17 @@ if (phpAds_isUser(phpAds_Agency))
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$doTracker = MAX_DB::factoryDO('trackers');
+$doTrackers = MAX_DB::factoryDO('trackers');
 
 if (!empty($trackerid))
 {
-    $doTracker->trackerid = $trackerid;
-    $doTracker->delete();
+    $doTrackers->trackerid = $trackerid;
+    $doTrackers->delete();
 }
 elseif (!empty($clientid))
 {
-    $doTracker->clientid = $clientid;
-    $doTracker->delete();
+    $doTrackers->clientid = $clientid;
+    $doTrackers->delete();
 }
 
 

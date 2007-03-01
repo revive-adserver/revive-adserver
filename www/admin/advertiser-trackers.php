@@ -115,10 +115,10 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
 /*-------------------------------------------------------*/
 
 // Get clients & campaign and build the tree
-$doTracker = MAX_DB::factoryDO('trackers');
-$doTracker->clientid = $clientid;
-$doTracker->addListOrderBy($listorder, $orderdirection);
-$doTracker->find();
+$doTrackers = MAX_DB::factoryDO('trackers');
+$doTrackers->clientid = $clientid;
+$doTrackers->addListOrderBy($listorder, $orderdirection);
+$doTrackers->find();
 
 if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(phpAds_AddTracker))
 {
@@ -183,7 +183,7 @@ echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='images/break.gif' he
 echo "\t\t\t\t</tr>\n";
 
 
-if (!$doTracker->getRowCount())
+if (!$doTrackers->getRowCount())
 {
 	echo "\t\t\t\t<tr height='25' bgcolor='#F6F6F6'>\n";
 	echo "\t\t\t\t\t<td height='25' colspan='4'>";
@@ -197,7 +197,7 @@ if (!$doTracker->getRowCount())
 }
 
 $i=0;
-while ($doTracker->fetch() && $row_trackers = $doTracker->toArray())
+while ($doTrackers->fetch() && $row_trackers = $doTrackers->toArray())
 {
 	if ($i > 0)
 	{
@@ -240,7 +240,7 @@ while ($doTracker->fetch() && $row_trackers = $doTracker->toArray())
 	$i++;
 }
 
-if ($doTracker->getRowCount())
+if ($doTrackers->getRowCount())
 {
 	echo "\t\t\t\t<tr height='1'>\n";
 	echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td>\n";
