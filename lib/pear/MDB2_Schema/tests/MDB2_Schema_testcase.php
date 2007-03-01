@@ -66,6 +66,7 @@ class MDB2_Schema_TestCase extends PHPUnit_TestCase {
     }
 
     function setUp() {
+        PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'catchErrorHandlerPEAR');
         $this->dsn = $GLOBALS['dsn'];
         $this->options = $GLOBALS['options'];
         $this->database = $GLOBALS['database'];
@@ -93,7 +94,7 @@ class MDB2_Schema_TestCase extends PHPUnit_TestCase {
         unset($this->schema);
     }
 
-    function methodExists(&$class, $name) {
+    function methodExists($class, $name) {
         if (is_object($class)
             && array_key_exists(strtolower($name), array_change_key_case(array_flip(get_class_methods($class)), CASE_LOWER))
         ) {
@@ -389,8 +390,6 @@ array ( 'sorting' => 'ascending' ) ) ) );
         }
         return true;
     }
-
-
 }
 
 ?>
