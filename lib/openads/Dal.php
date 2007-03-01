@@ -82,12 +82,12 @@ class Openads_Dal
                     while (list($key, $value) = each($aDatatypes)) {
                         $aOptions['datatype_map'] =
                             array_merge(
-                                $aOptions['datatype_map'],
+                                (array)$aOptions['datatype_map'],
                                 array($key => $value)
                             );
                         $aOptions['datatype_map_callback'] =
                             array_merge(
-                                $aOptions['datatype_map_callback'],
+                                (array)$aOptions['datatype_map_callback'],
                                 array($key => 'datatype_' . $key . '_callback')
                             );
                     }
@@ -97,7 +97,7 @@ class Openads_Dal
                     while (list(,$value) = each($aNativetypes)) {
                         $aOptions['nativetype_map_callback'] =
                             array_merge(
-                                $aOptions['nativetype_map_callback'],
+                                (array)$aOptions['nativetype_map_callback'],
                                 array($value => 'nativetype_' . $value . '_callback')
                             );
                     }
