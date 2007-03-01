@@ -263,7 +263,7 @@ class MDB2_Schema_TestCase extends PHPUnit_TestCase {
         $def1['tables']['test']['fields']['id'] = array (   'notnull' => 1,
                                                             'length' => 4,
                                                             'unsigned' => 0,
-                                                            'default' => '0',
+                                                            'default' => 0,
                                                             'type' => 'integer'
                                                         );
         $def1['tables']['test']['indexes'] =  array ( 'id_index' => array ('unique' => 1,
