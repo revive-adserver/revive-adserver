@@ -53,6 +53,74 @@ class Test_Openads_Dal_CustomDatatypes_mysql extends UnitTestCase
 
     /**
      * A method to test that the MDB2 datatype to database nativetype
+     * mappings work as expected for the "openads_enum" datatype.
+     */
+    function testDatatypeToNativetypeMappings_openads_enum()
+    {
+        $aTestData = array(
+            'openads_enum_test1' => array(
+                'method' => 'getValidTypes',
+                'params' => null
+            ),
+            'openads_enum_test2' => array(
+                'method' => 'convertResult',
+                'params' => array('t', 'openads_enum')
+            ),
+            'openads_enum_test3' => array(
+                'method' => 'convertResult',
+                'params' => array('t  ', 'openads_enum')
+            ),
+            'openads_enum_test4' => array(
+                'method' => 'getDeclaration',
+                'params' => array('openads_enum', 'foo', array(
+                    'length'  => "'t','f'",
+                    'default'   => null,
+                    'notnull'   => null,
+                    'charset'   => null,
+                    'collation' => null
+                ))
+            ),
+            'openads_enum_test5' => array(
+                'method' => 'getDeclaration',
+                'params' => array('openads_enum', 'foo', array(
+                    'length'  => "'t','f'",
+                    'default' => 'f',
+                    'notnull' => true,
+                    'charset'   => null,
+                    'collation' => null
+                ))
+            ),
+            'openads_enum_test6' => array(
+                'method' => 'quote',
+                'params' => array('f', 'openads_enum')
+            ),
+            'openads_enum_test7' => array(
+                'method' => 'mapPrepareDatatype',
+                'params' => array('openads_enum')
+            )
+        );
+        $aResultData = array(
+            'openads_enum_test2' => 't',
+            'openads_enum_test3' => 't',
+            'openads_enum_test4' => 'foo ENUM(\'t\',\'f\') DEFAULT NULL',
+            'openads_enum_test5' => 'foo ENUM(\'t\',\'f\') DEFAULT \'f\' NOT NULL',
+            'openads_enum_test6' => "'f'",
+            'openads_enum_test7' => 'ENUM'
+        );
+        foreach ($aTestData as $testKey => $aFields) {
+            if ($aFields['method'] == 'getValidTypes') {
+                $result = call_user_func(array($this->db->datatype, $aFields['method']));
+                $this->assertEqual(count($result), 12);
+                $this->assertEqual($result['openads_enum'], 'f');
+            } else {
+                $result = call_user_func_array(array($this->db->datatype, $aFields['method']), $aFields['params']);
+                $this->assertEqual($result, $aResultData[$testKey]);
+            }
+        }
+    }
+
+    /**
+     * A method to test that the MDB2 datatype to database nativetype
      * mappings work as expected for the "openads_mediumint" datatype.
      */
     function testDatatypeToNativetypeMappings_openads_mediumint()
@@ -72,14 +140,22 @@ class Test_Openads_Dal_CustomDatatypes_mysql extends UnitTestCase
             ),
             'openads_mediumint_test4' => array(
                 'method' => 'getDeclaration',
-                'params' => array('openads_mediumint', 'foo', array())
+                'params' => array('openads_mediumint', 'foo', array(
+                    'length'    => null,
+                    'default'   => null,
+                    'notnull'   => null,
+                    'charset'   => null,
+                    'collation' => null
+                ))
             ),
             'openads_mediumint_test5' => array(
                 'method' => 'getDeclaration',
                 'params' => array('openads_mediumint', 'foo', array(
-                    'length'  => 9,
-                    'default' => 1,
-                    'notnull' => true
+                    'length'    => 9,
+                    'default'   => 1,
+                    'notnull'   => true,
+                    'charset'   => null,
+                    'collation' => null
                 ))
             ),
             'openads_mediumint_test6' => array(
@@ -92,12 +168,6 @@ class Test_Openads_Dal_CustomDatatypes_mysql extends UnitTestCase
             )
         );
         $aResultData = array(
-            'openads_mediumint_test1' => array_merge(
-                $this->db->datatype->valid_default_values,
-                array(
-                    'openads_mediumint' => 0
-                )
-            ),
             'openads_mediumint_test2' => 5,
             'openads_mediumint_test3' => 5,
             'openads_mediumint_test4' => 'foo MEDIUMINT DEFAULT NULL',
@@ -106,12 +176,48 @@ class Test_Openads_Dal_CustomDatatypes_mysql extends UnitTestCase
             'openads_mediumint_test7' => 'MEDIUMINT'
         );
         foreach ($aTestData as $testKey => $aFields) {
-            if (is_null($aFields['params'])) {
+            if ($aFields['method'] == 'getValidTypes') {
                 $result = call_user_func(array($this->db->datatype, $aFields['method']));
+                $this->assertEqual(count($result), 12);
+                $this->assertEqual($result['openads_mediumint'], 0);
             } else {
                 $result = call_user_func_array(array($this->db->datatype, $aFields['method']), $aFields['params']);
+                $this->assertEqual($result, $aResultData[$testKey]);
             }
-            $this->assertEqual($result, $aResultData[$testKey]);
+        }
+    }
+
+    /**
+     * A method to test that the database nativetype to MDB2 datatype
+     * mappings work as expected for the "enum" nativetype.
+     */
+    function testNativetypeToDatatypeMappings_enum()
+    {
+        $aTestData = array(
+            'enum_test1' => array(
+                'type'    => 'enum'
+            ),
+            'enum_test2' => array(
+                'type'    => 'enum(\'t\')'
+            )
+        );
+        $aResultData = array(
+            'enum_test1' => array(
+                0 => array('openads_enum'),
+                1 => null,
+                2 => null,
+                3 => null
+            ),
+            'enum_test2' => array(
+                0 => array('openads_enum'),
+                1 => "'t'",
+                2 => null,
+                3 => null
+            )
+        );
+        foreach ($aTestData as $testKey => $aFields) {
+            $aDefinition = $this->db->datatype->mapNativeDatatype($aFields);
+            $this->assertEqual($aDefinition, $aResultData[$testKey]);
         }
     }
 
