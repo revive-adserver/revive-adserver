@@ -84,7 +84,7 @@ $destination = MAX_querystringGetDestinationUrl($adId[0]);
 // Redirect to the destination url
 if (!empty($destination) && empty($_GET['trackonly'])) {
     // Prevent HTTP response split attacks
-    if (strpos($destination, "\r\n") === false) {
+    if (!preg_match('/[\r\n]/', $destination)) {
         header ("Location: $destination");
     }
 }
