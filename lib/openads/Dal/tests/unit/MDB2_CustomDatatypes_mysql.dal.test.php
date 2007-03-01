@@ -52,31 +52,118 @@ class Test_Openads_Dal_CustomDatatypes_mysql extends UnitTestCase
     }
 
     /**
-     * A method to test that the database nativetype to MDB2 datatype
-     * mappings work as expected.
+     * A method to test that the MDB2 datatype to database nativetype
+     * mappings work as expected for the "openads_mediumint" datatype.
      */
-    function testNativetypeToDatatypeMappings()
+    function testDatatypeToNativetypeMappings_openads_mediumint()
     {
         $aTestData = array(
-            'boolean' => array(
-                'default' => '',
-                'extra'   => '',
-                'key'     => '',
-                'name'    => '',
-                'type'    => 'boolean'
+            'openads_mediumint_test1' => array(
+                'method' => 'getValidTypes',
+                'params' => null
+            ),
+            'openads_mediumint_test2' => array(
+                'method' => 'convertResult',
+                'params' => array(5, 'openads_mediumint')
+            ),
+            'openads_mediumint_test3' => array(
+                'method' => 'convertResult',
+                'params' => array('5  ', 'openads_mediumint')
+            ),
+            'openads_mediumint_test4' => array(
+                'method' => 'getDeclaration',
+                'params' => array('openads_mediumint', 'foo', array())
+            ),
+            'openads_mediumint_test5' => array(
+                'method' => 'getDeclaration',
+                'params' => array('openads_mediumint', 'foo', array(
+                    'length'  => 9,
+                    'default' => 1,
+                    'notnull' => true
+                ))
+            ),
+            'openads_mediumint_test6' => array(
+                'method' => 'quote',
+                'params' => array(37, 'openads_mediumint')
+            ),
+            'openads_mediumint_test7' => array(
+                'method' => 'mapPrepareDatatype',
+                'params' => array('openads_mediumint')
             )
         );
         $aResultData = array(
-            'boolean' => array(
-                0    => array('tinyint'),
-                1  => '1',
-                2 => false,
+            'openads_mediumint_test1' => array_merge(
+                $this->db->datatype->valid_default_values,
+                array(
+                    'openads_mediumint' => 0
+                )
+            ),
+            'openads_mediumint_test2' => 5,
+            'openads_mediumint_test3' => 5,
+            'openads_mediumint_test4' => 'foo MEDIUMINT DEFAULT NULL',
+            'openads_mediumint_test5' => 'foo MEDIUMINT(9) DEFAULT 1 NOT NULL',
+            'openads_mediumint_test6' => 37,
+            'openads_mediumint_test7' => 'MEDIUMINT'
+        );
+        foreach ($aTestData as $testKey => $aFields) {
+            if (is_null($aFields['params'])) {
+                $result = call_user_func(array($this->db->datatype, $aFields['method']));
+            } else {
+                $result = call_user_func_array(array($this->db->datatype, $aFields['method']), $aFields['params']);
+            }
+            $this->assertEqual($result, $aResultData[$testKey]);
+        }
+    }
+
+    /**
+     * A method to test that the database nativetype to MDB2 datatype
+     * mappings work as expected for the "mediumint" nativetype.
+     */
+    function testNativetypeToDatatypeMappings_mediumint()
+    {
+        $aTestData = array(
+            'mediumint_test1' => array(
+                'type'    => 'mediumint'
+            ),
+            'mediumint_test2' => array(
+                'type'    => 'mediumint(5)'
+            ),
+            'mediumint_test3' => array(
+                'type'    => 'mediumint unsigned'
+            ),
+            'mediumint_test4' => array(
+                'type'    => 'mediumint(6) unsigned'
+            )
+        );
+        $aResultData = array(
+            'mediumint_test1' => array(
+                0 => array('openads_mediumint'),
+                1 => null,
+                2 => null,
+                3 => null
+            ),
+            'mediumint_test2' => array(
+                0 => array('openads_mediumint'),
+                1 => 5,
+                2 => null,
+                3 => null
+            ),
+            'mediumint_test3' => array(
+                0 => array('openads_mediumint'),
+                1 => null,
+                2 => true,
+                3 => null
+            ),
+            'mediumint_test4' => array(
+                0 => array('openads_mediumint'),
+                1 => 6,
+                2 => true,
                 3 => null
             )
         );
-        foreach ($aTestData as $nativetype => $aFields) {
+        foreach ($aTestData as $testKey => $aFields) {
             $aDefinition = $this->db->datatype->mapNativeDatatype($aFields);
-            $this->assertEqual($aDefinition, $aResultData[$nativetype]);
+            $this->assertEqual($aDefinition, $aResultData[$testKey]);
         }
     }
 

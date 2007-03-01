@@ -399,10 +399,8 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
      *          Integer value that determines the maximum length of the text
      *          field. If this argument is missing the field should be
      *          declared to have the longest length allowed by the DBMS.
-     *
      *      default
      *          Text value to be used as default for this field.
-     *
      *      notnull
      *          Boolean flag that indicates whether this field is constrained
      *          to not be set to null.
@@ -421,6 +419,42 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
             return $db;
         }
 
+        $name = $db->quoteIdentifier($name, true);
+        $declaration_options = $db->datatype->_getDeclarationOptions($field);
+        return $name.' '.$this->getTypeDeclaration($field).$declaration_options;
+    }
+
+    // }}}
+    // {{{ _getDeclarationOptions()
+
+    /**
+     * Obtain DBMS specific SQL code portion needed to declare a generic type
+     * field to be used in statement like CREATE TABKE, without the field name
+     * and type values (ie. just the character set, default value, if the
+     * field is permitted to be null or not, and the collation options).
+     *
+     * @param array  $field  associative array with the name of the properties
+     *      of the field being declared as array indexes. Currently, the types
+     *      of supported field properties are as follows:
+     *
+     *      default
+     *          Text value to be used as default for this field.
+     *      notnull
+     *          Boolean flag that indicates whether this field is constrained
+     *          to not be set to null.
+     *      charset
+     *          Text value with the default CHARACTER SET for this field.
+     *      collation
+     *          Text value with the default COLLATION for this field.
+     * @return string  DBMS specific SQL code portion that should be used to
+     *      declare the specified field's options.
+     * @access protected
+     */
+    function _getDeclarationOptions($field)
+    {
+        $charset = empty($field['charset']) ? '' :
+            ' '.$this->_getCharsetFieldDeclaration($field['charset']);
+
         $default = '';
         if (array_key_exists('default', $field)) {
             if ($field['default'] === '') {
@@ -437,15 +471,12 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
             $default = ' DEFAULT NULL';
         }
 
-        $charset = empty($field['charset']) ? '' :
-            ' '.$this->_getCharsetFieldDeclaration($field['charset']);
+        $notnull = empty($field['notnull']) ? '' : ' NOT NULL';
 
         $collation = empty($field['collation']) ? '' :
             ' '.$this->_getCollationFieldDeclaration($field['collation']);
 
-        $notnull = empty($field['notnull']) ? '' : ' NOT NULL';
-        $name = $db->quoteIdentifier($name, true);
-        return $name.' '.$this->getTypeDeclaration($field).$charset.$default.$notnull.$collation;
+        return $charset.$default.$notnull.$collation;
     }
 
     // }}}
@@ -1683,8 +1714,9 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
 
         // If the user has specified an option to map the native field
         // type to a custom MDB2 datatype...
-        if (!empty($db->options['nativetype_map_callback'][$field['type']])) {
-            return call_user_func_array($db->options['nativetype_map_callback'][$field['type']], $field);
+        $db_type = strtok($field['type'], '(), ');
+        if (!empty($db->options['nativetype_map_callback'][$db_type])) {
+            return call_user_func_array($db->options['nativetype_map_callback'][$db_type], array($db, $field));
         }
 
         // Otherwise perform the built-in (i.e. normal) MDB2 native type to

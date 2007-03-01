@@ -33,6 +33,10 @@ require_once 'MDB2.php';
  * @package    OpenadsDal
  * @author     Andrew Hill <andrew.hill@openads.org>
  * @author     Demian Turner <demian@m3.net>
+ *
+ * @TODO This class needs to be reviewed when the DAL is refactored,
+ *       to determine if we are happy with it simply returning an MDB2
+ *       object, or if we need to provide wrapper functions.
  */
 class Openads_Dal
 {

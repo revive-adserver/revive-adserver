@@ -36,38 +36,125 @@ $Id$
  */
 
 /**
- * An array of MySQL nativetypes that have callback functions to convert
- * them into MDB2 types.
+ * An array of MDB2 datatypes that have callback functions to convert
+ * them into MySQL nativetypes.
  */
-$aNativetypes = array(
-    'boolean',
-    'varchar'
+$aDatatypes = array(
+    'openads_mediumint' => 'openads_mediumint'
 );
 
 /**
- * A callback function to map the MySQL native type "boolean" into
- * the standard MDB2 datatype "UNSIGNED TINYINT(1)".
- *
- * @param MDB2 $db The MDB2 database reource object.
- * @param array $aFields The standard array of fields produced
- *                       by MDB2 for a native database column, being:
- *                          "default"   The default value of the column
- *                          "extra"     ???
- *                          "key"       ???
- *                          "name"      The name of the column
- *                          "null"      Is NULL permitted for the column
- *                          "type"      The column type
- *
- * @TODO Should this function actually look at the values???
+ * An array of MySQL nativetypes that have callback functions to convert
+ * them into MDB2 datatypes.
  */
-function nativetype_boolean_callback(&$db, $aFields)
+$aNativetypes = array(
+    'mediumint'
+);
+
+/**
+ * A callback function to map the MDB2 datatype "openads_mediumint" into
+ * the MySQL nativetype "MEDIUMINT".
+ *
+ * @param MDB2   $db         The MDB2 database reource object.
+ * @param string $method     The name of the MDB2_Driver_Datatype_Common method
+ *                           the callback function was called from. One of
+ *                           "getValidTypes", "convertResult", "getDeclaration",
+ *                           "quote" and "mapPrepareDatatype". See
+ *                           {@link MDB2_Driver_Datatype_Common} for the details
+ *                           of what each method does.
+ * @param array $aParameters An array of parameters, being the parameters that
+ *                           were passed to the method calling the callback
+ *                           function.
+ * @return mixed Returns the appropriate value depending on the method that
+ *               called the function. See {@link MDB2_Driver_Datatype_Common}
+ *               for details of the expected return values of the five possible
+ *               calling methods.
+ */
+function datatype_openads_mediumint_callback(&$db, $method, $aParameters)
 {
-    $type = array();
-    $type[] = 'tinyint';
-    $length = 1;
-    $unsigned = false;
+    // Ensure the datatype module is loaded
+    if (is_null($db->datatype)) {
+        $db->loadModule('Datatype', null, true);
+    }
+    // Lowercase method names for PHP4/PHP5 compatibility
+    $method = strtolower($method);
+    switch($method) {
+        case 'getvalidtypes':
+            // Return the default value for this custom datatype
+            return 0;
+        case 'convertresult':
+            // Convert the nativetype value to a datatype value using the
+            // built in "integer" datatype
+            return $db->datatype->convertResult($aParameters['value'], 'integer', $aParameters['rtrim']);
+        case 'getdeclaration':
+            // Prepare and return the MySQL specific code needed to declare
+            // a column of this custom datatype
+            $name = $db->quoteIdentifier($aParameters['name'], true);
+            $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
+            $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
+            $value = $name . ' ' . $datatype;
+            if (is_int($aParameters['field']['length'])) {
+                $value .= '(' . $aParameters['field']['length'] . ')';
+            }
+            $value .= $declaration_options;
+            return $value;
+        case 'quote':
+            // Convert the datatype value into a quoted nativetype value
+            // suitable for inserting into MySQL using the built in
+            // "integer" datatype
+            return $db->datatype->quote($aParameters['value'], 'integer');
+        case 'mappreparedatatype':
+            // Return the MySQL nativetype declaration for this custom datatype
+            return 'MEDIUMINT';
+    }
+}
+
+/**
+ * A callback function to map the MySQL nativetype "MEDIUMINT" into
+ * the extended MDB2 datatype "openads_mediumint".
+ *
+ * @param MDB2 $db       The MDB2 database reource object.
+ * @param array $aFields The standard array of fields produced from the
+ *                       MySQL command "SHOW COLUMNS". See
+ *                       {@link http://dev.mysql.com/doc/refman/5.0/en/describe.html}
+ *                       for more details on the format of the fields.
+ *                          "type"      The nativetype column type
+ *                          "null"      "YES" or "NO"
+ *                          "key"       "PRI", "UNI", "MUL", or null
+ *                          "default"   The default value of the column
+ *                          "extra"     "auto_increment", or null
+ * @return array Returns an array of the following items:
+ *                  0 => An array of possible MDB2 datatypes. As this is
+ *                       a custom type, always has one entry, "openads_mediumint".
+ *                  1 => The length of the type, if defined by the nativetype,
+ *                       otherwise null.
+ *                  2 => The boolean value "true" if the nativetype is defined as
+ *                       UNSIGNED, null otherwise.
+ *                  3 => A boolean value indicating the "fixed" nature of text
+ *                       fields. Always null in this case, as the type is not text.
+ */
+function nativetype_mediumint_callback(&$db, $aFields)
+{
+    // Prepare the type array
+    $aType = array();
+    $aType[] = 'openads_mediumint';
+    // Can the length of the MEDIUMINT field be found?
+    $length = null;
+    $start = strpos($aFields['type'], '(');
+    $end = strpos($aFields['type'], ')');
+    if ($start && $end) {
+        $start++;
+        $chars = $end - $start;
+        $length = substr($aFields['type'], $start, $chars);
+    }
+    // Is the nativetype unsigned?
+    $unsigned = null;
+    if (strpos(strtolower($aFields['type']), 'unsigned') !== false) {
+        $unsigned = true;
+    }
+    // No fixed value needed
     $fixed = null;
-    return array($type, $length, $unsigned, $fixed);
+    return array($aType, $length, $unsigned, $fixed);
 }
 
 ?>
