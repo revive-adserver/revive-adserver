@@ -119,7 +119,9 @@ class DB_DataObjectCommon extends DB_DataObject
     			if (!isset($this->$k)) {
     				continue;
     			}
-    			$row[$k] = $this->$k;
+    			if (!$indexWithPrimaryKey || $primaryKey != $k) {
+    			    $row[$k] = $this->$k;
+    			}
     		}
     		if ($flattenIfOneOnly && count($row) == 1) {
     		    $row = array_pop($row);
@@ -136,7 +138,8 @@ class DB_DataObjectCommon extends DB_DataObject
     
     /**
      * This method uses information from links.ini to handle hierarchy of tables.
-     * It checks 
+     * It checks if there is a linked (referenced) object to this object with
+     * table==$userTable and id==$userId
      *
      * @param string $userTable It's table name where user belongs, eg: agency, affiliates, clients
      * @param string $userId    User id
@@ -223,8 +226,8 @@ class DB_DataObjectCommon extends DB_DataObject
 	}
     
     /**
-     * This method is a equivalent of MAX_Dal_Common::getSqlListOrder
-     * but instead of SQL it adds orderBy() limitations to current DB_DataObject
+     * This method is a equivalent of phpAds_getTrackerListOrder
+     * It adds orderBy() limitations to current DB_DataObject
      * 
      * This method is used as a common way of sorting rows in OpenAds UI
      *
@@ -278,7 +281,7 @@ class DB_DataObjectCommon extends DB_DataObject
     }
     
     /**
-     * Get array of 
+     * Get array of unique values from this object table and it's $columnName
      *
      * @param string $columnName  Column name to look for unique values inside
      * @param string $exceptValue Usually we need a list of unique value except
@@ -335,6 +338,30 @@ class DB_DataObjectCommon extends DB_DataObject
             $i++;
         }
         return $basename.' ('.$i.')';
+    }
+    
+    /**
+     * Delete record by it's primary key id
+     *
+     * @param int $primaryId
+     * @param boolean $useWhere
+     * @param boolean $cascadeDelete
+     * @return boolean  True on success
+     * @see DB_DataObjectCommon::delete()
+     * @access public
+     */
+    function deleteById($primaryId, $useWhere = false, $cascadeDelete = true)
+    {
+        $keys = $this->keys();
+        if (count($keys) != 1) {
+            DB_DataObject::raiseError(
+                    "no primary key defined or more than one pk in table '{$this->_tableName}'",
+                    DB_DATAOBJECT_ERROR_INVALIDARGS);
+            return false;
+        }
+        $primaryKey = $keys[0];
+        $this->$primaryKey = $primaryId;
+        $this->delete($useWhere, $cascadeDelete);
     }
     
     /**

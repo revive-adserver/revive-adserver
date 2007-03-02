@@ -39,6 +39,31 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
         
         return DBC::NewRecordSet($query);
     }
+    
+    function getPublishersByTracker($trackerid)
+    {
+        $prefix = $this->getTablePrefix();
+        
+        $query = "
+            SELECT
+                p.*
+            FROM
+                {$prefix}ad_zone_assoc aza
+                JOIN {$prefix}zones z ON (aza.zone_id = z.zoneid)
+                JOIN {$prefix}affiliates p USING (affiliateid)
+                JOIN {$prefix}banners b ON (aza.ad_id = b.bannerid)
+                JOIN {$prefix}campaigns_trackers ct USING (campaignid)
+            WHERE
+                ct.trackerid = ".DBC::makeLiteral($trackerid)."
+            GROUP BY
+                p.affiliateid,
+                name
+            ORDER BY
+                name
+        ";
+        
+        return DBC::NewRecordSet($query);
+    }
 }
 
 ?>

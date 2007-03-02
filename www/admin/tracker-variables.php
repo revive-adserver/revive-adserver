@@ -35,9 +35,6 @@ require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
-// Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
-
 // Register input variables
 phpAds_registerGlobal (
     'action',
@@ -49,27 +46,9 @@ phpAds_registerGlobal (
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-if (phpAds_isUser(phpAds_Agency))
-{
-    $query = "SELECT c.clientid as clientid".
-        " FROM ".$conf['table']['prefix'].$conf['table']['clients']." AS c".
-        ",".$conf['table']['prefix'].$conf['table']['trackers']." AS t".
-        " WHERE t.clientid=c.clientid".
-        " AND c.clientid='".$clientid."'".
-        " AND t.trackerid='".$trackerid."'".
-        " AND c.agencyid=".phpAds_getUserID();
-
-    $res = phpAds_dbQuery($query)
-        or phpAds_sqlDie();
-
-    if (phpAds_dbNumRows($res) == 0)
-    {
-        phpAds_PageHeader("1");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
-}
-
-
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+MAX_Permission::checkAccessToObject('clients', $clientid);
+MAX_Permission::checkAccessToObject('trackers', $trackerid);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -81,57 +60,34 @@ if (!isset($variables))
 
 
 
-if (isset($trackerid) && $trackerid != '')
+if (!empty($trackerid))
 {
     // Get publisher list
-    $res = phpAds_dbQuery("
-        SELECT
-            p.affiliateid AS publisher_id,
-            p.name AS name
-        FROM
-            ".$conf['table']['prefix'].$conf['table']['ad_zone_assoc']." aza JOIN
-            ".$conf['table']['prefix'].$conf['table']['zones']." z ON (aza.zone_id = z.zoneid) JOIN
-            ".$conf['table']['prefix'].$conf['table']['affiliates']." p USING (affiliateid) JOIN
-            ".$conf['table']['prefix'].$conf['table']['banners']." b ON (aza.ad_id = b.bannerid) JOIN
-            ".$conf['table']['prefix'].$conf['table']['campaigns_trackers']." ct USING (campaignid)
-        WHERE
-            ct.trackerid = '".$trackerid."'
-        GROUP BY
-            publisher_id,
-            name
-        ORDER BY
-            name
-    ") or phpAds_sqlDie();
+    $dalAffiliates = MAX_DB::factoryDAL('affiliates');
+    $rsAffiliates = $dalAffiliates->getPublishersByTracker($trackerid);
+    $rsAffiliates->find();
+    
     $publishers = array();
-    while ($row = phpAds_dbFetchArray($res)) {
-        $publishers[$row['publisher_id']] = strip_tags(phpAds_BuildAffiliateName($row['publisher_id'], $row['name']));
+    while ($rsAffiliates->fetch() && $row = $rsAffiliates->toArray()) {
+        $publishers[$row['affiliateid']] = strip_tags(phpAds_BuildAffiliateName($row['affiliateid'], $row['name']));
     }
 
     if (!isset($variablemethod)) {        
         // get variable method
-        $tracker_result = phpAds_dbQuery(
-            "SELECT
-                variablemethod
-             FROM
-                ".$conf['table']['prefix'].$conf['table']['trackers']."
-            WHERE trackerid='".$trackerid."'"
-        ) or phpAds_sqlDie();
-        
-        $variablemethod = phpAds_dbResult($tracker_result, 0, 0);
+        $doTrackers = MAX_DB::factoryDO('trackers');
+        if ($doTrackers->get($trackerid)) {
+            $variablemethod = $doTrackers->variablemethod;
+        }
     }
     
     if (!isset($variables))
     {
         // get variables from db
-        $variables_result = phpAds_dbQuery(
-            "SELECT
-                *
-             FROM
-                ".$conf['table']['prefix'].$conf['table']['variables']."
-            WHERE trackerid='".$trackerid."'"
-        ) or phpAds_sqlDie();
+        $doVariables = MAX_DB::factoryDO('variables');
+        $doVariables->trackerid = $trackerid;
+        $doVariables->find();
 
-        while ($vars = phpAds_dbFetchArray($variables_result))
+        while ($doVariables->fetch() && $vars = $doVariables->toArray())
         {
             // Remove assignment
             $vars['variablecode'] = addslashes(trim(preg_replace('/^.+?=/', '', $vars['variablecode'])));
@@ -143,16 +99,13 @@ if (isset($trackerid) && $trackerid != '')
         }
         
         // get publisher visibility from db
-        $publishers_result = phpAds_dbQuery(
-            "SELECT
-                vp.*
-             FROM
-                ".$conf['table']['prefix'].$conf['table']['variables']." v JOIN
-                ".$conf['table']['prefix'].$conf['table']['variable_publisher']." vp ON (v.variableid = vp.variable_id)
-            WHERE trackerid='".$trackerid."'"
-        ) or phpAds_sqlDie();
+        $doVariables = MAX_DB::factoryDO('variables');
+        $doVariables->trackerid = $trackerid;
+        $doVariable_publisher = MAX_DB::factoryDO('variable_publisher');
+        $doVariables->joinAdd($doVariable_publisher);
+        $doVariables->find();
         
-        while ($pubs = phpAds_dbFetchArray($publishers_result))
+        while ($doVariables->fetch() && $pubs = $doVariables->toArray())
         {
             if ($pubs['visible'] && $variables[$pubs['variable_id']]['hidden'] == 't') {
                 $variables[$pubs['variable_id']]['publisher_visible'][] = $pubs['publisher_id'];
@@ -222,14 +175,10 @@ if (isset($trackerid) && $trackerid != '')
     if (isset($action['save']))
     {
         // save variablemethod
-        $tracker_update = phpAds_dbQuery(
-            "UPDATE
-                ".$conf['table']['prefix'].$conf['table']['trackers']."
-            SET
-                variablemethod = '".$variablemethod."'
-            WHERE
-                trackerid='".$trackerid."'"
-        ) or phpAds_sqlDie(); 
+        $doTrackers = MAX_DB::factoryDO('trackers');
+        $doTrackers->get($trackerid);
+        $doTrackers->variablemethod = $variablemethod;
+        $doTrackers->update();
 
         $isUniqueAlreadyExists = false;
         foreach($variables as $k => $v)
@@ -262,74 +211,25 @@ if (isset($trackerid) && $trackerid != '')
             }
 
             // Always delete variable_publisher entries 
-            if (isset($v['variableid'])) {
-                phpAds_dbQuery( 
-                    "DELETE 
-                        FROM ".$conf['table']['prefix'].$conf['table']['variable_publisher']." 
-                    WHERE 
-                        variable_id = ".$v['variableid'] 
-                ) or phpAds_sqlDie(); 
+            if (!empty($v['variableid'])) {
+                $doVariable_publisher = MAX_DB::factoryDO('variable_publisher');
+                $doVariable_publisher->variable_id = $v['variableid'];
+                $doVariable_publisher->delete();
             }
 
-            if (isset($v['variableid']) && isset($v['delete'])) {
+            $doVariables = MAX_DB::factoryDO('variables');
+            if (!empty($v['variableid']) && isset($v['delete'])) {
                 // delete variables from db
-                $variables_update = phpAds_dbQuery(
-                    "DELETE
-                        FROM ".$conf['table']['prefix'].$conf['table']['variables']."
-                    WHERE
-                        variableid=".$v['variableid']."
-                    LIMIT 1 "
-                ) or phpAds_sqlDie();
+                $doVariables->deleteById($v['variableid']);
             } elseif (isset($v['variableid']) && !isset($v['delete'])) {
                 // update variable info
-                $variables_update = phpAds_dbQuery(
-                    "UPDATE
-                        ".$conf['table']['prefix'].$conf['table']['variables']."
-                     SET
-                        name            = '".$v['name']."',
-                        description     = '".$v['description']."',
-                        datatype        = '".$v['datatype']."',
-                        purpose         = ".$v['purpose'].",
-                        reject_if_empty = '".$v['reject_if_empty']."',
-                        is_unique       = '".$v['is_unique']."',
-                        unique_window   = '".$v['unique_window']."',
-                        variablecode    = '".$v['variablecode']."',
-                        hidden          = '".$v['hidden']."',
-                        updated = '".date('Y-m-d H:i:s')."'
-                    WHERE
-                        variableid=".$v['variableid']
-                ) or phpAds_sqlDie();
+                $doVariables->get($v['variableid']);
+                $doVariables->setFrom($v);
+                $doVariables->update();
             } else {
-                $variables_insert = phpAds_dbQuery(
-                    "INSERT INTO ".$conf['table']['prefix'].$conf['table']['variables']."
-                        (trackerid,
-                         name,
-                         description,
-                         datatype,
-                         purpose,
-                         reject_if_empty,
-                         is_unique,
-                         unique_window,
-                         variablecode,
-                         hidden,
-                         updated)
-                    VALUES
-                        (".$trackerid.",
-                        '".$v['name']."',
-                        '".$v['description']."',
-                        '".$v['datatype']."',
-                        ".$v['purpose'].",
-                        '".$v['reject_if_empty']."',
-                        '".$v['is_unique']."',
-                        '".$v['unique_window']."',
-                        '".$v['variablecode']."',
-                        '".$v['hidden']."',
-                        '".date('Y-m-d H:i:s')."'
-                        )"
-                ) or phpAds_sqlDie();
-                
-                // Get newly created variable id
-                $v['variableid'] = phpAds_dbInsertId();
+                $doVariables->setFrom($v);
+                $doVariables->trackerid = $trackerid;
+                $v['variableid'] = $doVariables->insert();
             }
             
             // Update variable_publisher entries
@@ -346,12 +246,11 @@ if (isset($trackerid) && $trackerid != '')
             }
 
             foreach ($variable_publisher as $publisher_id => $visible) {
-                phpAds_dbQuery(
-                    "INSERT INTO ".$conf['table']['prefix'].$conf['table']['variable_publisher']."
-                        (variable_id, publisher_id, visible)
-                    VALUES
-                        (".$v['variableid'].", ".$publisher_id.", ".$visible.")"
-                ) or phpAds_sqlDie();
+                $doVariable_publisher = MAX_DB::factoryDO('variable_publisher');
+                $doVariable_publisher->variable_id = $v['variableid'];
+                $doVariable_publisher->publisher_id = $publisher_id;
+                $doVariable_publisher->visible = $visible;
+                $doVariable_publisher->insert();
             }
 
         }
@@ -373,14 +272,11 @@ if (isset($trackerid) && $trackerid != '')
 }
 
 // Get other trackers
-$res = phpAds_dbQuery(
-    "SELECT *".
-    " FROM ".$conf['table']['prefix'].$conf['table']['trackers'].
-    " WHERE clientid='".$clientid."'".
-    phpAds_getTrackerListOrder ($navorder, $navdirection)
-);
+$doTrackers = MAX_DB::factoryDO('trackers');
+$doTrackers->clientid = $clientid;
+$doTrackers->addListOrderBy($navorder, $navdirection);
 
-while ($row = phpAds_dbFetchArray($res)) {
+while ($doTrackers->fetch() && $row = $doTrackers->toArray()) {
     phpAds_PageContext (
         phpAds_buildName ($row['trackerid'], $row['trackername']),
         "tracker-variables.php?clientid=".$clientid."&trackerid=".$row['trackerid'],
@@ -406,20 +302,14 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
     $extra .= "\t\t\t\t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"."\n";
     $extra .= "\t\t\t\t<select name='moveto' style='width: 110;'>"."\n";
 
-    if (phpAds_isUser(phpAds_Admin)) {
-        $query = "SELECT clientid,clientname".
-            " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-            " WHERE clientid != '".$clientid."'";
-    } elseif (phpAds_isUser(phpAds_Agency)) {
-        $query = "SELECT clientid,clientname".
-        " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-        " WHERE clientid != '".$clientid."'".
-        " AND agencyid=".phpAds_getUserID();
+    $doClients = MAX_DB::factoryDO('clients');
+    $doClients->whereAdd('clientid <>'.$clientid);
+    if (phpAds_isUser(phpAds_Agency)) {
+        $doClients->agencyid = phpAds_getUserID();
     }
-    $res = phpAds_dbQuery($query)
-        or phpAds_sqlDie();
+    $doClients->find();
 
-    while ($row = phpAds_dbFetchArray($res)) {
+    while ($doClients->fetch() && $row = $doClients->toArray()) {
         $extra .= "\t\t\t\t\t<option value='".$row['clientid']."'>".phpAds_buildName($row['clientid'], $row['clientname'])."</option>\n";
     }
 

@@ -292,6 +292,53 @@ class DataSpace {
 	{
 	    return $this->export();
 	}
+	
+	/**
+     * OpenAds uses in many places arrays containing all records, for example 
+     * array of all zones Ids associated with specific advertiser.
+     * It is not encouraged to use this method for all purposes as it's
+     * better to loop through all records and analyze one at a time.
+     * But if you are looping through records just to create a array
+     * use this method instead.
+     *
+     * @param array $filter  Contains fields which should be returned in each row
+     * @param string $indexWithPrimaryKey  Should the array be indexed with primary key
+     * @param boolean $flattenIfOneOnly     Flatten multidimensional array into one dimensional
+     *                                      if $filter array contains only one field name
+     * @return array
+     */
+    function getAll($filter = array(), $indexWithPrimaryKey = null, $flattenIfOneOnly = true)
+    {
+        $this->find();
+    	
+    	$rows = array();
+    	$primaryValue = null;
+    	
+    	while ($this->fetch()) {
+    	    $fields = $this->export();
+    	    
+    		$row = array();
+    		foreach ($fields as $k => $v) {
+    		    if ($filter && !in_array($k, $filter)) {
+    		        continue;
+    		    }
+    		    if ($indexWithPrimaryKey && $k == $indexWithPrimaryKey) {
+    		        $primaryValue = $v;
+    		    } else {
+    		        $row[$k] = $this->$k;
+    		    }
+    		}
+    		if ($flattenIfOneOnly && count($row) == 1) {
+    		    $row = array_pop($row);
+    		}
+    		if ($indexWithPrimaryKey) {
+    			$rows[$primaryValue] = $row;
+    		} else {
+    			$rows[] = $row;
+    		}
+    	}
+    	return $rows;
+    }
 }
 
 ?>
