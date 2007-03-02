@@ -730,11 +730,11 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
         // mask campaign name if anonymous campaign
         $aOtherCampaign['name'] = MAX_getPlacementName($aOtherCampaign);
        
-        $otherCampaignName = MAX_buildName($otherCampaignId, $aOtherCampaign['name']);
+        $otherCampaignName = MAX_buildName($aOtherCampaign['placement_id'], $aOtherCampaign['name']);
         
-        if ($otherCampaignId != $campaignId) {
+        if ($aOtherCampaign['placement_id'] != $campaignId) {
             $extra .= "
-<option value='$otherCampaignId'>$otherCampaignName</option>";
+<option value='" . $aOtherCampaign['placement_id'] . "'>$otherCampaignName</option>";
         } else {
             $campaignName = $otherCampaignName;
         }

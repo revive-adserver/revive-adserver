@@ -68,6 +68,48 @@ class DataObjects_Banners extends DB_DataObjectCommon
     	return parent::delete($useWhere, $cascade);
     }
     
+    /**
+     * Duplicates the banner.
+     * 
+     * @param int $campaignId  the current campaign ID
+     * @return int  the new bannerid
+     *
+     */
+    function duplicate($campaignId)
+    {
+        // unset the bannerId
+        $old_adId = $this->bannerid;
+        unset($this->bannerid);
+        
+        // If the campaignId == $campaignid
+        // set description to copy of...
+        if ($this->campaignid == $campaignId) {
+            $this->description = 'Copy of ' . $this->description;
+        }
+        
+        // Set the filename
+        // We want to rename column 'storagetype' to 'type' so...
+        if ($this->storagetype == 'web' || $this->storagetype == 'sql') {
+            $this->filename = phpAds_ImageDuplicate($this->storagetype, $this->filename);
+        } elseif ($this->type == 'web' || $this->type == 'sql') {
+            $this->filename = phpAds_ImageDuplicate($this->type, $this->filename);
+        }
+        
+        $this->campaignid = $campaignId;
+        
+        // Insert the new banner and get the ID
+        $new_adId = $this->insert();
+        
+        // Copy ACLs and capping
+        MAX_AclCopy(basename($_SERVER['PHP_SELF']), $old_adId, $new_adId);
+        
+        // Duplicate and ad-zone associations
+        MAX_duplicateAdZones($old_adId, $new_adId);
+        
+        // Return the new bannerId
+        return $new_adId;
+    }
+    
     function insert()
     {
         $id = parent::insert();

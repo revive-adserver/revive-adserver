@@ -46,29 +46,25 @@ phpAds_registerGlobal('bannerid', 'campaignid', 'clientid', 'returnurl', 'duplic
 
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
 
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-if (isset($bannerid) && $bannerid != '') {
+if (!empty($bannerid)) {
     if (phpAds_isUser(phpAds_Agency)) {
-        $query = "SELECT
-                {$conf['table']['prefix']}{$conf['table']['banners']}.bannerid as bannerid
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['clients']},
-                {$conf['table']['prefix']}{$conf['table']['campaigns']},
-                {$conf['table']['prefix']}{$conf['table']['banners']}
-            WHERE
-                {$conf['table']['prefix']}{$conf['table']['banners']}.bannerid={$bannerid}
-              AND {$conf['table']['prefix']}{$conf['table']['banners']}.campaignid={$conf['table']['prefix']}{$conf['table']['campaigns']}.campaignid
-              AND {$conf['table']['prefix']}{$conf['table']['campaigns']}.clientid={$conf['table']['prefix']}{$conf['table']['clients']}.clientid
-              AND {$conf['table']['prefix']}{$conf['table']['clients']}.agencyid=".phpAds_getUserID();
-        $res = phpAds_dbQuery($query) or phpAds_sqlDie();
 
-        if (phpAds_dbNumRows($res) == 0) {
+        // TODO: Refactor.
+        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners->addReferenceFilter('agency', phpAds_getUserID());
+        $doBanners->addReferenceFilter('campaigns', $campaignid);
+        $doBanners->addReferenceFilter('clients', $clientid);
+        $doBanners->addReferenceFilter('banners', $bannerid);
+        $doBanners->find();
+        
+        if (!$doBanners->getRowCount()) {
             phpAds_PageHeader("2");
             phpAds_Die ($strAccessDenied, $strNotAdmin);
         }
@@ -76,31 +72,14 @@ if (isset($bannerid) && $bannerid != '') {
 
     if (!empty($moveto) && isset($moveto_x)) {
         if (phpAds_isUser(phpAds_Agency)) {
-            $query = "SELECT
-                {$conf['table']['prefix']}{$conf['table']['campaigns']}.campaignid as campaignid
-            FROM
-                 {$conf['table']['prefix']}{$conf['table']['clients']},
-                 {$conf['table']['prefix']}{$conf['table']['campaigns']}
-            WHERE
-                 {$conf['table']['prefix']}{$conf['table']['campaigns']}.campaignid={$moveto}
-              AND {$conf['table']['prefix']}{$conf['table']['campaigns']}.clientid={$conf['table']['prefix']}{$conf['table']['clients']}.clientid
-              AND {$conf['table']['prefix']}{$conf['table']['clients']}.agencyid=".phpAds_getUserID();
-            $res = phpAds_dbQuery($query) or phpAds_sqlDie();
-            if (phpAds_dbNumRows($res) == 0) {
-                phpAds_PageHeader("2");
-                phpAds_Die ($strAccessDenied, $strNotAdmin);
-            }
+            MAX_Permission::checkAccessToObject('campaigns', $moveto);
         }
+        
         // Move the banner
-        $res = phpAds_dbQuery("
-            UPDATE
-                {$conf['table']['prefix']}{$conf['table']['banners']}
-            SET
-                campaignid={$moveto},
-                updated = '".date('Y-m-d H:i:s')."'
-            WHERE
-                bannerid='".$bannerid."'"
-        ) or phpAds_sqlDie();
+        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners->get($bannerid);
+        $doBanners->campaignid = $moveto;
+        $doBanners->update();
 
         // Run the Maintenance Priority Engine process
         MAX_Maintenance_Priority::run();
@@ -115,24 +94,7 @@ if (isset($bannerid) && $bannerid != '') {
 
     } elseif (!empty($applyto) && isset($applyto_x)) {
         if (phpAds_isUser(phpAds_Agency)) {
-            $query = "
-            SELECT
-                {$conf['table']['prefix']}{$conf['table']['banners']}.bannerid as bannerid
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['clients']},
-                {$conf['table']['prefix']}{$conf['table']['campaigns']},
-                {$conf['table']['prefix']}{$conf['table']['banners']}
-            WHERE
-                {$conf['table']['prefix']}{$conf['table']['banners']}.bannerid={$applyto}
-              AND {$conf['table']['prefix']}{$conf['table']['banners']}.campaignid={$conf['table']['prefix']}{$conf['table']['campaigns']}.campaignid
-              AND {$conf['table']['prefix']}{$conf['table']['campaigns']}.clientid={$conf['table']['prefix']}{$conf['table']['clients']}.clientid
-              AND {$conf['table']['prefix']}{$conf['table']['clients']}.agencyid=".phpAds_getUserID();
-            $res = phpAds_dbQuery($query)
-                or phpAds_sqlDie();
-            if (phpAds_dbNumRows($res) == 0) {
-                phpAds_PageHeader("2");
-                phpAds_Die ($strAccessDenied, $strNotAdmin);
-            }
+            MAX_Permission::checkAccessToObject('banners', $applyto);
         }
         if (MAX_AclCopy(basename($_SERVER['PHP_SELF']), $bannerid, $applyto)) {
             // Rebuild cache
@@ -144,7 +106,9 @@ if (isset($bannerid) && $bannerid != '') {
             phpAds_sqlDie();
         }
     } elseif (isset($duplicate) && $duplicate == 'true') {
-        $new_bannerid = MAX_duplicateAd($bannerid, $campaignid);
+        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners->get($bannerid);
+        $new_bannerid = $doBanners->duplicate($campaignid);
 
         // Run the Maintenance Priority Engine process
         MAX_Maintenance_Priority::run();
