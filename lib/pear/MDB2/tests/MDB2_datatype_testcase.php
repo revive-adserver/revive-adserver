@@ -45,11 +45,106 @@
 
 require_once 'MDB2_testcase.php';
 
+/**
+ * A test callback function to be used in the test class below for
+ * ensuring that custom datatype callback features are handled
+ * correctly.
+ *
+ * @param MDB2   $db         The MDB2 database reource object.
+ * @param string $method     The name of the MDB2_Driver_Datatype_Common method
+ *                           the callback function was called from. One of
+ *                           "getValidTypes", "convertResult", "getDeclaration",
+ *                           "quote" and "mapPrepareDatatype". See
+ *                           {@link MDB2_Driver_Datatype_Common} for the details
+ *                           of what each method does.
+ * @param array $aParameters An array of parameters, being the parameters that
+ *                           were passed to the method calling the callback
+ *                           function.
+ * @return mixed Returns the appropriate value depending on the method that
+ *               called the function. See {@link MDB2_Driver_Datatype_Common}
+ *               for details of the expected return values of the five possible
+ *               calling methods.
+ */
+function datatype_test_callback(&$db, $method, $aParameters)
+{
+    // Ensure the datatype module is loaded
+    if (is_null($db->datatype)) {
+        $db->loadModule('Datatype', null, true);
+    }
+    // Lowercase method names for PHP4/PHP5 compatibility
+    $method = strtolower($method);
+    switch($method) {
+        // For all cases, return a string that identifies that the
+        // callback method was able to call to the appropriate point
+        case 'getvalidtypes':
+            return 'datatype_test_callback::getvalidtypes';
+        case 'convertresult':
+            return 'datatype_test_callback::convertresult';
+        case 'getdeclaration':
+            return 'datatype_test_callback::getdeclaration';
+        case 'quote':
+            return 'datatype_test_callback::quote';
+        case 'mappreparedatatype':
+            return 'datatype_test_callback::mappreparedatatype';
+    }
+}
+
+/**
+ * A test callback function to be used in the test class below for
+ * ensuring that custom nativetype to datatype mapping is handled
+ * correctly.
+ *
+ * @param MDB2 $db       The MDB2 database reource object.
+ * @param array $aFields The standard array of fields produced from the
+ *                       MySQL command "SHOW COLUMNS". See
+ *                       {@link http://dev.mysql.com/doc/refman/5.0/en/describe.html}
+ *                       for more details on the format of the fields.
+ *                          "type"      The nativetype column type
+ *                          "null"      "YES" or "NO"
+ *                          "key"       "PRI", "UNI", "MUL", or null
+ *                          "default"   The default value of the column
+ *                          "extra"     "auto_increment", or null
+ * @return array Returns an array of the following items:
+ *                  0 => An array of possible MDB2 datatypes. As this is
+ *                       a custom type, always has one entry, "test".
+ *                  1 => The length of the type, if defined by the nativetype,
+ *                       otherwise null.
+ *                  2 => A boolean value indicating the "unsigned" nature of numeric
+ *                       fields. Always null in this case, as this custom test
+ *                       type is not numeric.
+ *                  3 => A boolean value indicating the "fixed" nature of text
+ *                       fields. Always bull in this case, as this custom test
+ *                       type is not textual.
+ */
+function nativetype_test_callback(&$db, $aFields)
+{
+    // Prepare the type array
+    $aType = array();
+    $aType[] = 'test';
+    // Can the length of the field be found?
+    $length = null;
+    $start = strpos($aFields['type'], '(');
+    $end = strpos($aFields['type'], ')');
+    if ($start && $end) {
+        $start++;
+        $chars = $end - $start;
+        $length = substr($aFields['type'], $start, $chars);
+    }
+    // No unsigned value needed
+    $unsigned = null;
+    // No fixed value needed
+    $fixed = null;
+    return array($aType, $length, $unsigned, $fixed);
+}
+
 class MDB2_Datatype_TestCase extends MDB2_TestCase
 {
-    //test table name (it is dynamically created/dropped)
+    // Test table name (it is dynamically created/dropped)
     var $table = 'datatypetable';
 
+    /**
+     * The setup method to prepare the testing environment.
+     */
     function setUp() {
         parent::setUp();
         $this->db->loadModule('Manager', null, true);
@@ -88,6 +183,9 @@ class MDB2_Datatype_TestCase extends MDB2_TestCase
         }
     }
 
+    /**
+     * The teardown method to clean up the testing environment.
+     */
     function tearDown() {
         if ($this->tableExists($this->table)) {
             $this->db->manager->dropTable($this->table);
@@ -403,10 +501,8 @@ class MDB2_Datatype_TestCase extends MDB2_TestCase
         }
     }
 
-
     /**
      * Tests escaping of text values with special characters
-     *
      */
     function testEscapeSequences() {
         $test_strings = array(
@@ -445,7 +541,6 @@ class MDB2_Datatype_TestCase extends MDB2_TestCase
 
     /**
      * Tests escaping of text pattern strings with special characters
-     *
      */
     function testPatternSequences() {
         $test_strings = array(
@@ -475,7 +570,6 @@ class MDB2_Datatype_TestCase extends MDB2_TestCase
 
     /**
      * Tests escaping of text pattern strings with special characters
-     *
      */
     function testEscapePatternSequences() {
         if (!$this->supported('pattern_escaping')) {
@@ -528,6 +622,166 @@ class MDB2_Datatype_TestCase extends MDB2_TestCase
         $value = $this->db->queryOne($query, 'text');
         $this->assertEquals('Foo', substr($value, 0, 3), "the value retrieved for field \"user_name\" doesn't match what was stored");
     }
+
+    /**
+     * A method to test that the MDB2_Driver_Datatype_Common::getValidTypes()
+     * method returns the correct data array.
+     */
+    function testGetValidTypes()
+    {
+        // Test with just the default MDB2 datatypes.
+        $aExpected = $this->db->datatype->valid_default_values;
+        $aResult = $this->db->datatype->getValidTypes();
+        $this->assertEquals($aExpected, $aResult, 'getValidTypes');
+
+        // Test with a custom datatype
+        $this->db->setOption('datatype_map', array('test' => 'test'));
+        $this->db->setOption('datatype_map_callback', array('test' => 'datatype_test_callback'));
+        $aExpected = array_merge(
+            $this->db->datatype->valid_default_values,
+            array('test' => 'datatype_test_callback::getvalidtypes')
+        );
+        $aResult = $this->db->datatype->getValidTypes();
+        $this->assertEquals($aExpected, $aResult, 'getValidTypes');
+        unset($this->db->options['datatype_map']);
+        unset($this->db->options['datatype_map_callback']);
+
+    }
+
+    /**
+     * A method to test that the MDB2_Driver_Datatype_Common::convertResult()
+     * method returns correctly converted column data.
+     */
+    function testConvertResult()
+    {
+        // Test with an MDB2 datatype, eg. "text"
+        $value = 'text';
+        $type = 'text';
+        $result = $this->db->datatype->convertResult($value, $type);
+        $this->assertEquals($value, $result, 'convertResult');
+
+        // Test with a custom datatype
+        $this->db->setOption('datatype_map', array('test' => 'test'));
+        $this->db->setOption('datatype_map_callback', array('test' => 'datatype_test_callback'));
+        $value = 'text';
+        $type = 'test';
+        $result = $this->db->datatype->convertResult($value, $type);
+        $this->assertEquals('datatype_test_callback::convertresult', $result, 'mapPrepareDatatype');
+        unset($this->db->options['datatype_map']);
+        unset($this->db->options['datatype_map_callback']);
+    }
+
+    /**
+     * A method to test that the MDB2_Driver_Datatype_Common::getDeclaration()
+     * method returns correctly formatted SQL for declaring columns.
+     */
+    function testGetDeclaration()
+    {
+        // Test with an MDB2 datatype, eg. "text"
+        $name = 'column';
+        $type = 'integer';
+        $field = array('type' => 'integer');
+        $result = $this->db->datatype->getDeclaration($type, $name, $field);
+        $this->assertEquals('column INT DEFAULT NULL', $result, 'getDeclaration');
+
+        // Test with a custom datatype
+        $this->db->setOption('datatype_map', array('test' => 'test'));
+        $this->db->setOption('datatype_map_callback', array('test' => 'datatype_test_callback'));
+        $name = 'column';
+        $type = 'test';
+        $field = array('type' => 'test');
+        $result = $this->db->datatype->getDeclaration($type, $name, $field);
+        $this->assertEquals('datatype_test_callback::getdeclaration', $result, 'getDeclaration');
+        unset($this->db->options['datatype_map']);
+        unset($this->db->options['datatype_map_callback']);
+    }
+
+    /**
+     * A method to test that the MDB2_Driver_Datatype_Common::quote()
+     * method returns correctly quoted column data.
+     */
+    function testQuote()
+    {
+        // Test with an MDB2 datatype, eg. "text"
+        $value = 'text';
+        $type = 'text';
+        $result = $this->db->datatype->quote($value, $type);
+        $this->assertEquals("'$value'", $result, 'quote');
+
+        // Test with a custom datatype
+        $this->db->setOption('datatype_map', array('test' => 'test'));
+        $this->db->setOption('datatype_map_callback', array('test' => 'datatype_test_callback'));
+        $value = 'text';
+        $type = 'test';
+        $result = $this->db->datatype->quote($value, $type);
+        $this->assertEquals('datatype_test_callback::quote', $result, 'quote');
+        unset($this->db->options['datatype_map']);
+        unset($this->db->options['datatype_map_callback']);
+    }
+
+    /**
+     * A method to test that the MDB2_Driver_Datatype_Common::mapPrepareDatatype()
+     * method returns the correct data type.
+     */
+    function testMapPrepareDatatype()
+    {
+        // Test with an MDB2 datatype, eg. "text"
+        $type = 'text';
+        $result = $this->db->datatype->mapPrepareDatatype($type);
+        $this->assertEquals($type, $result, 'mapPrepareDatatype');
+
+        // Test with a custom datatype
+        $this->db->setOption('datatype_map', array('test' => 'test'));
+        $this->db->setOption('datatype_map_callback', array('test' => 'datatype_test_callback'));
+        $type = 'test';
+        $result = $this->db->datatype->mapPrepareDatatype($type);
+        $this->assertEquals('datatype_test_callback::mappreparedatatype', $result, 'mapPrepareDatatype');
+        unset($this->db->options['datatype_map']);
+        unset($this->db->options['datatype_map_callback']);
+    }
+
+    /**
+     * A method to test that the MDB2_Driver_Datatype_Common::mapNativeDatatype()
+     * method returns the correct MDB2 datatype from a given nativetype.
+     */
+    function testMapNativeDatatype()
+    {
+        // Test with an common nativetype, eg. "text"
+        $field = array(
+            'type'   => 'int',
+            'length' => 8
+        );
+        $result = $this->db->datatype->mapNativeDatatype($field);
+        $this->assertTrue(is_array($result), 'mapNativeDatatype');
+        $this->assertEquals(count($result), 4, 'mapNativeDatatype');
+        $this->assertEquals($result[0][0], 'integer', 'mapNativeDatatype');
+        $this->assertEquals($result[1], 4, 'mapNativeDatatype');
+
+        // Test with a custom nativetype mapping
+        $this->db->setOption('nativetype_map_callback', array('test' => 'nativetype_test_callback'));
+        $field = array(
+            'type'   => 'test'
+        );
+        $result = $this->db->datatype->mapNativeDatatype($field);
+        $this->assertTrue(is_array($result), 'mapNativeDatatype');
+        $this->assertEquals(count($result), 4, 'mapNativeDatatype');
+        $this->assertEquals($result[0][0], 'test', 'mapNativeDatatype');
+        $this->assertNull($result[1], 'mapNativeDatatype');
+        $this->assertNull($result[2], 'mapNativeDatatype');
+        $this->assertNull($result[3], 'mapNativeDatatype');
+        $field = array(
+            'type'   => 'test(10)'
+        );
+        $result = $this->db->datatype->mapNativeDatatype($field);
+        $this->assertTrue(is_array($result), 'mapNativeDatatype');
+        $this->assertEquals(count($result), 4, 'mapNativeDatatype');
+        $this->assertEquals($result[0][0], 'test', 'mapNativeDatatype');
+        $this->assertEquals($result[1], 10, 'mapNativeDatatype');
+        $this->assertNull($result[2], 'mapNativeDatatype');
+        $this->assertNull($result[3], 'mapNativeDatatype');
+        unset($this->db->options['nativetype_map_callback']);
+    }
+
 }
 
 ?>
