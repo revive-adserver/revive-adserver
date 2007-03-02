@@ -113,7 +113,7 @@ function datatype_test_callback(&$db, $method, $aParameters)
  *                       fields. Always null in this case, as this custom test
  *                       type is not numeric.
  *                  3 => A boolean value indicating the "fixed" nature of text
- *                       fields. Always bull in this case, as this custom test
+ *                       fields. Always null in this case, as this custom test
  *                       type is not textual.
  */
 function nativetype_test_callback(&$db, $aFields)
