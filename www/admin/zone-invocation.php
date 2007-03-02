@@ -39,42 +39,13 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/max/Admin/Invocation.php';
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
 
 /*-------------------------------------------------------*/
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-if (phpAds_isUser(phpAds_Affiliate)) {
-    $result = phpAds_dbQuery("
-        SELECT
-            affiliateid
-        FROM
-            ".$conf['table']['prefix'].$conf['table']['zones']."
-        WHERE
-            zoneid = '$zoneid'
-        ") or phpAds_sqlDie();
-    $row = phpAds_dbFetchArray($result);
-    if ($row["affiliateid"] == '' || phpAds_getUserID() != $row["affiliateid"]) {
-        phpAds_PageHeader("1");
-        phpAds_Die($strAccessDenied, $strNotAdmin);
-    } else {
-        $affiliateid = $row["affiliateid"];
-    }
-} elseif (phpAds_isUser(phpAds_Agency)) {
-    $query = "SELECT z.zoneid as zoneid".
-        " FROM ".$conf['table']['prefix'].$conf['table']['affiliates']." AS a".
-        ",".$conf['table']['prefix'].$conf['table']['zones']." AS z".
-        " WHERE z.affiliateid='".$affiliateid."'".
-        " AND z.zoneid='".$zoneid."'".
-        " AND z.affiliateid=a.affiliateid".
-        " AND a.agencyid=".phpAds_getUserID();
-    $res = phpAds_dbQuery($query) or phpAds_sqlDie();
-    if (phpAds_dbNumRows($res) == 0) {
-        phpAds_PageHeader("2");
-        phpAds_Die($strAccessDenied, $strNotAdmin);
-    }
-}
+MAX_Permission::checkAccessToObject('zones', $zoneid);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -105,22 +76,8 @@ MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $aEntities
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$res = phpAds_dbQuery("
-    SELECT
-        z.affiliateid,
-        z.width,
-        z.height,
-        z.delivery,
-        af.website
-    FROM
-        {$conf['table']['prefix']}{$conf['table']['zones']} AS z,
-        {$conf['table']['prefix']}{$conf['table']['affiliates']} AS af
-    WHERE
-        z.zoneid=$zoneid
-      AND af.affiliateid = z.affiliateid
-    ") or phpAds_sqlDie();
-if (phpAds_dbNumRows($res)) {
-    $zone = phpAds_dbFetchArray($res);
+$dalZones = MAX_DB::factoryDAL('zones');
+if ($zone = $dalZones->getZoneForInvocationForm($zoneid)) {
     $extra = array('affiliateid' => $affiliateid, 
                    'zoneid' => $zoneid,
                    'width' => $zone['width'],

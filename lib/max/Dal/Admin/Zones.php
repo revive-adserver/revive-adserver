@@ -46,6 +46,38 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
         
         return DBC::NewRecordSet($query);
     }
+    
+    /**
+     * Gets the details to for generating invocation code.
+     *
+     * @param int $zoneId  the zone ID.
+     * @return array  zone details to be passed into MAX_Admin_Invocation::placeInvocationForm()
+     * 
+     * @see MAX_Admin_Invocation::placeInvocationForm()
+     */
+    function getZoneForInvocationForm($zoneId)
+    {
+        $prefix = $this->getTablePrefix();
+        
+        $query = "
+            SELECT
+                z.affiliateid,
+                z.width,
+                z.height,
+                z.delivery,
+                af.website
+            FROM
+                {$prefix}zones AS z,
+                {$prefix}affiliates AS af
+            WHERE
+                z.zoneid = " . DBC::makeLiteral($zoneId) . "
+            AND af.affiliateid = z.affiliateid";
+        
+        $rsZone = DBC::NewRecordSet($query);
+        $rsZone->find(true);
+        $array = $rsZone->toArray();
+        return $array;
+    }
 }
 
 ?>

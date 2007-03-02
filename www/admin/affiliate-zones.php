@@ -205,7 +205,7 @@ echo "</tr>";
 echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 
 
-if ($doZones->getNumRows() == 0)
+if ($doZones->getRowCount() == 0)
 {
     echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='4'>";
     echo "&nbsp;&nbsp;".$strNoZones;
