@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------+
 // | PHP versions 4 and 5                                                 |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1998-2006 Manuel Lemos, Paul Cooper                    |
+// | Copyright (c) 2007 m3 Media Services Ltd.                            |
 // | All rights reserved.                                                 |
 // +----------------------------------------------------------------------+
 // | MDB2 is a merge of PEAR DB and Metabases that provides a unified DB  |
@@ -38,7 +38,8 @@
 // | WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE          |
 // | POSSIBILITY OF SUCH DAMAGE.                                          |
 // +----------------------------------------------------------------------+
-// | Author: Paul Cooper <pgc@ucecom.com>                                 |
+// | Author: Monique Szpak <monique.szpak@openads.org>                    |
+// |         Andrew Hill <andrew.hill@openads.org>                        |
 // +----------------------------------------------------------------------+
 //
 // $Id$
@@ -46,70 +47,114 @@
 require_once 'MDB2_testcase.php';
 
 class MDB2_Internals_TestCase extends MDB2_TestCase {
+
     var $clear_tables = false;
 
+    /**
+     * Tests that the MDB2::apiVersion() method returns an API version number.
+     */
     function test_apiVersion()
     {
-        $this->assertNotNull(MDB2::apiVersion(),'apiVersion');
+        $result = MDB2::apiVersion();
+        $this->assertNotNull($result, 'apiVersion');
+        $result = strtok($result, '.');
+        $this->assertTrue(is_numeric($result), 'apiVersion');
+        $result = strtok('.');
+        $this->assertTrue(is_numeric($result), 'apiVersion');
+        $result = strtok('.');
+        $this->assertTrue(is_numeric($result), 'apiVersion');
     }
 
+    /**
+     * Tests that the MDB2::classExists() method correctly tests for
+     * existence of a class.
+     */
     function test_classExists()
     {
-        $this->assertTrue(MDB2::classExists('MDB2'), 'classExists');
         $this->assertFalse(MDB2::classExists('null'), 'classExists');
+        $this->assertTrue(MDB2::classExists('MDB2'), 'classExists');
     }
 
+    /**
+     * Tests that the MDB2::loadClass() method correctly loads classes.
+     */
     function test_loadClass()
     {
-        $this->assertTrue(MDB2::loadClass('MDB2', false));
+        $this->assertTrue(MDB2::loadClass('MDB2', false), 'loadClass');
+        // Suppress handling of PEAR errors while testing next case
+        PEAR::pushErrorHandling(null);
+        $result = MDB2::loadClass('null', false);
+        $this->assertTrue(is_a($result, 'pear_error'), 'loadClass');
+        PEAR::popErrorHandling();
     }
 
+    /**
+     * Tests that the MDB2::factory() method correctly connects to a
+     * database.
+     */
     function test_factory()
     {
         $db =& MDB2::factory($this->dsn);
-        $this->assertTrue(MDB2::isConnection($db));
+        $this->assertTrue(MDB2::isConnection($db), 'factory');
+        // Suppress handling of PEAR errors while preparing the
+        // next test case database connection
+        PEAR::pushErrorHandling(null);
+        $db =& MDB2::factory(null);
+        PEAR::popErrorHandling();
+        $this->assertFalse(MDB2::isConnection($db), 'factory');
     }
 
+    /**
+     * Tests that the MDB2::loadFile() method returns the expected
+     * filename.
+     */
     function test_loadFile()
     {
         $filename = 'Extended';
-        $this->assertEquals('MDB2/'.$filename.'.php', MDB2::loadFile($filename));
+        $this->assertEquals('MDB2/'.$filename.'.php', MDB2::loadFile($filename), 'loadFile');
     }
 
+    /**
+     * Tests that the MDB2::isConnection() method correctly reports
+     * connections.
+     */
     function test_isConnection()
     {
         $this->assertTrue(MDB2::isConnection($this->db), 'isConnection');
         $this->assertFalse(MDB2::isConnection(null), 'isConnection');
     }
 
+    /**
+     * Tests that the MDB2::isResult() method correctly identifies
+     * results.
+     */
     function test_isResult()
     {
         $obj = new MDB2_Result();
         $this->assertTrue(MDB2::isResult($obj), 'isResult');
+        $obj = null;
+        $this->assertFalse(MDB2::isResult($obj), 'isResult');
     }
 
+    /**
+     * Tests that the MDB2::isResultCommon() method correctly identifies
+     * common results.
+     */
     function test_isResultCommon()
     {
         $result = null;
         $obj = new MDB2_Result_Common($this->db, $result);
         $this->assertTrue(MDB2::isResultCommon($obj), 'isResultCommon');
+        $obj = null;
+        $this->assertFalse(MDB2::isResultCommon($obj), 'isResultCommon');
     }
 
-    function test_isStatement()
-    {
-        // MS
-        // SOMETHING WRONG WITH THE isStatement method?  class does not exist
-        // can't find method used anywhere
-//        $statement = null;
-//        $obj = new MDB2_Statement_Common($this->db, $statement, array(), '', array(), array());
-//        $this->assertTrue(MDB2::isStatement($obj), 'isStatement - NOT CALLED ANYWHERE?');
-    }
-
+    /**
+     * Tests that the MDB2::parseDSN() method works.
+     */
     function test_parseDSN()
     {
-        // test merge dsn arrays
         $dsn = $this->dsn;
-        //unset($dsn['dbsyntax']);
         $result = MDB2::parseDSN($dsn);
         $this->assertEquals($dsn['phptype'],$result['dbsyntax'],'parseDSN');
 
@@ -149,14 +194,22 @@ class MDB2_Internals_TestCase extends MDB2_TestCase {
         $this->assertEquals(false,$result['password'],'parseDSN');
         $this->assertEquals('mydb',$result['database'],'parseDSN');
         $this->assertEquals('value1',$result['param1'],'parseDSN');
-
     }
 
+    /**
+     * Tests that the MDB2::fileExists() method correctly identifies
+     * existing/non-existing files.
+     */
     function test_fileExists()
     {
         $this->assertTrue(MDB2::fileExists('PEAR.php'), 'fileExists');
+        $this->assertFalse(MDB2::fileExists('itIsHopedThatNoOneHasAFileWithThisName.php'), 'fileExists');
     }
 
+    /**
+     * Tests that the MDB2::__toString() method returns the expected
+     * string result.
+     */
     function test__toString()
     {
         $expected = "MDB2_Driver_{$this->dsn['phptype']}: (phptype = {$this->dsn['phptype']}, dbsyntax = {$this->db->dbsyntax})";
@@ -166,52 +219,38 @@ class MDB2_Internals_TestCase extends MDB2_TestCase {
         $this->assertEquals($expected ,$this->db->__toString(), '__toString');
     }
 
+    /**
+     * Tests that the MDB2::setFetchMode() method correctly sets the
+     * fetch mode.
+     */
     function test_setFetchMode()
     {
         $tmp = $this->db->fetchmode;
         $this->db->setFetchMode(MDB2_FETCHMODE_OBJECT);
-        $this->assertEquals('stdClass',$this->db->options['fetch_class'], 'setFetchMode');
+        $this->assertEquals('stdClass', $this->db->options['fetch_class'], 'setFetchMode');
         $this->db->setFetchMode(MDB2_FETCHMODE_ORDERED);
         $this->assertEquals(MDB2_FETCHMODE_ORDERED, $this->db->fetchmode, 'setFetchMode');
         $this->db->setFetchMode(MDB2_FETCHMODE_ASSOC);
-        $this->assertEquals(MDB2_FETCHMODE_ASSOC,$this->db->fetchmode, 'setFetchMode');
+        $this->assertEquals(MDB2_FETCHMODE_ASSOC, $this->db->fetchmode, 'setFetchMode');
         $this->db->fetchmode = $tmp;
     }
 
-    function test_escapePattern()
-    {
-        $tmp = $this->db->string_quoting;
-        $this->db->string_quoting['escape_pattern'] = '/';
-        $text = 'xxx%xxx';
-        $this->assertEquals('xxx/%xxx', $this->db->escapePattern($text), 'testEscapePattern');
-        $text = 'xxx/%xxx';
-        $this->assertEquals('xxx///%xxx', $this->db->escapePattern($text), 'testEscapePattern');
-        $this->db->string_quoting = $tmp;
-    }
-
+    /**
+     * Tests that the MDB2::escape() method correctly escapes strings.
+     */
     function test_escape()
     {
-        // MS
-        // bodge alert!
-        // calling class statically causes it to infer $this as class MDB2_api_testcase
-        // this is a php quirk
         $tmp = $this->db->string_quoting;
         $this->string_quoting['escape'] = '\\';
         $this->string_quoting['end'] = '"';
         $text = 'xxx"z"xxx';
-//        if ($this->db->dbsyntax == 'mysql')
-//        {
-//            // mysql driver calls @mysql_real_escape_string
-//            // should check magic_quotes?
-//            $this->assertEquals('xxx\"z\"xxx', $this->db->escape($text), 'escape');
-//        }
-//        else
-//        {
-            $this->assertEquals('xxx\"z\"xxx', MDB2_Driver_Common::escape($text), 'escape');
-//        }
+        $this->assertEquals('xxx\"z\"xxx', MDB2_Driver_Common::escape($text), 'escape');
         $this->db->string_quoting = $tmp;
     }
 
+    /**
+     * Tests that the MDB2::quoteIdentifier() method correctly quotes strings.
+     */
     function test_quoteIdentifier()
     {
         $tmp = $this->db->identifier_quoting;
@@ -223,6 +262,10 @@ class MDB2_Internals_TestCase extends MDB2_TestCase {
         $this->db->identifier_quoting = $tmp;
     }
 
+    /**
+     * Tests that the MDB2::getAsKeyword() method correctly returns
+     * the set "as" keyword.
+     */
     function test_getAsKeyword()
     {
         $tmp = $this->db->as_keyword;
@@ -231,181 +274,151 @@ class MDB2_Internals_TestCase extends MDB2_TestCase {
         $this->db->as_keyword = $tmp;
     }
 
+    /**
+     * Tests that the MDB2::getConnection() method correctly returns
+     * a database resource.
+     */
     function test_getConnection()
     {
         $result = $this->db->getConnection();
         $this->assertTrue(is_resource($result), 'getConnection');
-        //$this->assertType($result, $this->dsn['phptype'].'_link');
     }
 
-    function fetchRowData()
+    /**
+     * A private method to return a defined "row" of data for use
+     * in the next set of tests.
+     *
+     * @access private
+     * @return array The array of "row" data.
+     */
+    function _fetchRowData()
     {
         return array(
-                        0=>'',
-                        1=>'notnull',
-                        2=>'length7   ',
-                        '1?2:3.4'=>'assoc'
-                    );
+            0         => '',
+            1         => 'notnull',
+            2         => 'length7   ',
+            '1?2:3.4' => 'assoc'
+        );
     }
 
-    function test__fixResultArrayValues_EmptyToNull($row='', $mode='', $sender='_fixResultArrayValues_EmptyToNull')
+    /**
+     * A private method to test results from the MDB2::_fixResultArrayValues()
+     * method when the $mode parameter was set to MDB2_PORTABILITY_EMPTY_TO_NULL.
+     *
+     * @access private
+     * @param array $row The result of the call to MDB2::_fixResultArrayValues().
+     */
+    function _fixResultArrayValues_Test_EmptyToNull($row)
     {
-        $row = (!$row ? $this->fetchRowData() : $row );
-        $mode = (!$mode ? MDB2_PORTABILITY_EMPTY_TO_NULL : $mode );
+        $this->assertNull($row[0], '_fixResultArrayValues');
+        $this->assertNotNull($row[1], '_fixResultArrayValues');
+        $this->assertNotNull($row[2], '_fixResultArrayValues');
+    }
 
-        // check integrity of input data
-        //$this->assertNotNull($row[0], $sender);
+    /**
+     * A private method to test results from the MDB2::_fixResultArrayValues()
+     * method when the $mode parameter was set to MDB2_PORTABILITY_RTRIM.
+     *
+     * @access private
+     * @param array $row The result of the call to MDB2::_fixResultArrayValues().
+     */
+    function _fixResultArrayValues_Test_Rtrim($row)
+    {
+        $this->assertEquals(strlen($row[0]), 0, '_fixResultArrayValues');
+        $this->assertEquals(strlen($row[1]), 7, '_fixResultArrayValues');
+        $this->assertEquals(strlen($row[2]), 7, '_fixResultArrayValues');
+    }
 
+    /**
+     * A private method to test results from the MDB2::_fixResultArrayValues()
+     * method when the $mode parameter was set to MDB2_PORTABILITY_FIX_ASSOC_FIELD_NAMES.
+     *
+     * @access private
+     * @param array $row The result of the call to MDB2::_fixResultArrayValues().
+     */
+    function _fixResultArrayValues_Test_FixAssocFieldNames($row)
+    {
+        $this->assertTrue(array_key_exists(4, $row), '_fixResultArrayValues');
+        $this->assertTrue($row[4] == 'assoc', '_fixResultArrayValues');
+    }
+
+    /**
+     * Tests that the MDB2::_fixResultArrayValues() method fixes array
+     * values when used with various $mode parameters.
+     */
+    function test__fixResultArrayValues()
+    {
+        $mode = MDB2_PORTABILITY_EMPTY_TO_NULL;
+        $row = $this->_fetchRowData();
         $this->db->_fixResultArrayValues($row, $mode);
-        $this->assertNull($row[0], $sender);
-        $this->assertNotNull($row[1], $sender);
-    }
+        $this->_fixResultArrayValues_Test_EmptyToNull($row);
 
-    function test__fixResultArrayValues_Rtrim($row='', $mode='', $sender='_fixResultArrayValues_Rtrim')
-    {
-        $row = (!$row ? $this->fetchRowData() : $row );
-        $mode = (!$mode ? MDB2_PORTABILITY_RTRIM : $mode );
-
-        // check integrity of input data
-        //$this->assertEquals(10, strlen($row[2]),$sender);
-
+        $mode = MDB2_PORTABILITY_RTRIM;
+        $row = $this->_fetchRowData();
         $this->db->_fixResultArrayValues($row, $mode);
-        $this->assertEquals(7, strlen($row[2]),$sender);
-    }
+        $this->_fixResultArrayValues_Test_Rtrim($row);
 
-    function test__fixResultArrayValues_AssocFieldNames($row='', $mode='', $sender='_fixResultArrayValues_AssocFieldNames')
-    {
-        $row = (!$row ? $this->fetchRowData() : $row );
-        $mode = (!$mode ? MDB2_PORTABILITY_FIX_ASSOC_FIELD_NAMES : $mode );
-
+        $mode = MDB2_PORTABILITY_FIX_ASSOC_FIELD_NAMES;
+        $row = $this->_fetchRowData();
         $this->db->_fixResultArrayValues($row, $mode);
-        $this->assertTrue(array_key_exists(4, $row) && ($row[4]=='assoc'), $sender);
-    }
+        $this->_fixResultArrayValues_Test_FixAssocFieldNames($row);
 
-    function test__fixResultArrayValues_EmptyToNull_Rtrim()
-    {
         $mode = MDB2_PORTABILITY_EMPTY_TO_NULL + MDB2_PORTABILITY_RTRIM;
-        $row = $this->fetchRowData();
-        $this->test__fixResultArrayValues_EmptyToNull($row, $mode, '_fixResultArrayValues_EmptyToNull_Rtrim');
-        $this->test__fixResultArrayValues_Rtrim($row, $mode, '_fixResultArrayValues_EmptyToNull_Rtrim');
-    }
+        $row = $this->_fetchRowData();
+        $this->db->_fixResultArrayValues($row, $mode);
+        $this->_fixResultArrayValues_Test_EmptyToNull($row);
+        $this->_fixResultArrayValues_Test_Rtrim($row);
 
-    function test__fixResultArrayValues_EmptyToNull_AssocFieldNames()
-    {
         $mode = MDB2_PORTABILITY_EMPTY_TO_NULL + MDB2_PORTABILITY_FIX_ASSOC_FIELD_NAMES;
-        $row = $this->fetchRowData();
-        $this->test__fixResultArrayValues_EmptyToNull($row, $mode, 'fixResultArrayValues_EmptyToNull_AssocFieldNames');
-        $this->test__fixResultArrayValues_AssocFieldNames($row, $mode, 'fixResultArrayValues_EmptyToNull_AssocFieldNames');
-    }
+        $row = $this->_fetchRowData();
+        $this->db->_fixResultArrayValues($row, $mode);
+        $this->_fixResultArrayValues_Test_EmptyToNull($row);
+        $this->_fixResultArrayValues_Test_FixAssocFieldNames($row);
 
-    function test__fixResultArrayValues_Rtrim_AssocFieldNames()
-    {
         $mode = MDB2_PORTABILITY_RTRIM + MDB2_PORTABILITY_FIX_ASSOC_FIELD_NAMES;
-        $row = $this->fetchRowData();
-        $this->test__fixResultArrayValues_Rtrim($row, $mode, '_fixResultArrayValues_Rtrim_AssocFieldNames');
-        $this->test__fixResultArrayValues_AssocFieldNames($row, $mode, '_fixResultArrayValues_Rtrim_AssocFieldNames');
-    }
+        $row = $this->_fetchRowData();
+        $this->db->_fixResultArrayValues($row, $mode);
+        $this->_fixResultArrayValues_Test_Rtrim($row);
+        $this->_fixResultArrayValues_Test_FixAssocFieldNames($row);
 
-    function test__fixResultArrayValues_EmptyToNull_Rtrim_AssocFieldNames()
-    {
         $mode = MDB2_PORTABILITY_EMPTY_TO_NULL + MDB2_PORTABILITY_RTRIM + MDB2_PORTABILITY_FIX_ASSOC_FIELD_NAMES;
-        $row = $this->fetchRowData();
-        $this->test__fixResultArrayValues_EmptyToNull($row, $mode, '_fixResultArrayValues_EmptyToNull_Rtrim_AssocFieldNames');
-        $this->test__fixResultArrayValues_Rtrim($row, $mode, '_fixResultArrayValues_EmptyToNull_Rtrim_AssocFieldNames');
-        $this->test__fixResultArrayValues_AssocFieldNames($row, $mode, '_fixResultArrayValues_EmptyToNull_Rtrim_AssocFieldNames');
+        $row = $this->_fetchRowData();
+        $this->db->_fixResultArrayValues($row, $mode);
+        $this->_fixResultArrayValues_Test_EmptyToNull($row);
+        $this->_fixResultArrayValues_Test_Rtrim($row);
+        $this->_fixResultArrayValues_Test_FixAssocFieldNames($row);
     }
 
-    function test__call()
-    {
-    }
-
+    /**
+     * Tests that the MDB2::transaction() method returns expected values
+     * when starting or rolling back a transaction, and for testing if
+     * the connection is in a transaction.
+     */
     function test_transaction()
     {
         if (!$this->db->supports('transactions'))
         {
-            $this->assertTrue($this->db->beginTransaction(), 'testTransaction');
-            $this->assertTrue($this->db->in_transaction, 'testTransaction');
-            $this->assertTrue($this->db->rollback(), 'testTransaction: rollback');
-            $this->assertFalse($this->db->in_transaction, 'testTransaction: rollback');
+            $this->assertTrue($this->db->beginTransaction(), 'transaction');
+            $this->assertTrue($this->db->in_transaction, 'transaction');
+            $this->assertTrue($this->db->rollback(), 'transaction');
+            $this->assertFalse($this->db->in_transaction, 'transaction');
 
-            $this->assertTrue($this->db->beginTransaction(), 'testTransaction');
-            $this->assertTrue($this->db->in_transaction, 'testTransaction');
-            $this->assertTrue($this->db->commit(), 'testTransaction: commit');
-            $this->assertFalse($this->db->in_transaction, 'testTransaction: commit');
+            $this->assertTrue($this->db->beginTransaction(), 'transaction');
+            $this->assertTrue($this->db->in_transaction, 'transaction');
+            $this->assertTrue($this->db->commit(), 'transaction');
+            $this->assertFalse($this->db->in_transaction, 'transaction');
         }
     }
 
-    // MYSQL 5 PROBLEM WITH SAVEPOINTS CAUSE NESTED TRANSACTIONS TO FAIL
-    // http://bugs.mysql.com/bug.php?id=26288
-    // savepoints not deleted on commit
-    // savepoints not exist on rollback
-    // Version:	5.0.36bk, 5.1 - Verified
+    // Nested transactions are not yet tested, due to a MySQL 5 problem with
+    // savepoints causing netsted transactions to fail.
+    //
+    // See http://bugs.mysql.com/bug.php?id=26288
 
-    function test_nestedTransaction()
-    {
-//        if (!$this->db->supports('transactions'))
-//        {
-//            $depth = 4;
-//            for($i=1;$i<=$depth;$i++)
-//            {
-//                $this->assertTrue($this->db->beginNestedTransaction(), 'testNestedTransaction: (begin): depth='.$i);
-//                $this->assertEquals($i, $this->db->nested_transaction_counter, 'testNestedTransaction: (begin): '.$this->db->last_query);
-//            }
-//            for($i=$depth;$i>=0;$i--)
-//            {
-//                // MS
-//                // problem with complete?
-//                // SAVEPOINT does not exist
-//                // error with supporting savepoints in mysql driver?
-//                $this->assertTrue($this->db->completeNestedTransaction(true), 'testNestedTransaction: (complete): depth='.$i);
-//                if ($i>1)
-//                {
-//                    $this->assertEquals($i-1, $this->db->nested_transaction_counter, 'testNestedTransaction: (complete): '.$this->db->last_query);
-//                }
-//                else
-//                {
-//                    $this->assertNull($this->db->nested_transaction_counter, 'testNestedTransaction: (complete): '.$this->db->last_query);
-//                }
-//            }
-//        }
-    }
-
-    function test_failNestedTransactionDelayed()
-    {
-        if (!$this->db->supports('transactions'))
-        {
-//             start new transaction
-//            $this->assertTrue($this->db->beginNestedTransaction(), 'testFailNestedTransactionDelayed');
-//            $this->assertEquals(1, $this->db->nested_transaction_counter, 'testFailNestedTransactionDelayed');
-//
-//             do not fail immediately - returns true
-//            $this->assertTrue($this->db->failNestedTransaction(true, false), 'testFailNestedTransactionDelayed');
-//            $this->assertEquals(1, $this->db->nested_transaction_counter, 'testFailNestedTransactionDelayed');
-//            $this->assertTrue($this->db->has_transaction_error, 'testFailNestedTransactionDelayed');
-//            $this->assertTrue($this->db->rollback(), 'testFailNestedTransactionDelayed: rollback');
-//            $this->assertTrue($this->db->completeNestedTransaction(), 'testFailNestedTransactionDelayed: (complete)');
-//            $this->assertFalse($this->db->has_transaction_error, 'testFailNestedTransactionImmediate');
-//            $this->assertNull($this->db->nested_transaction_counter, 'testFailNestedTransactionDelayed');
-        }
-    }
-
-    function test_failNestedTransactionImmediate()
-    {
-        if (!$this->db->supports('transactions'))
-        {
-//             start new transaction
-//            $this->assertTrue($this->db->beginNestedTransaction(), 'testFailNestedTransactionImmediate');
-//            $this->assertEquals(1, $this->db->nested_transaction_counter, 'testFailNestedTransactionImmediate');
-//
-//             fail immediately - this calls a rollback
-//            $this->assertTrue($this->db->failNestedTransaction(true, true), 'testFailNestedTransactionImmediate');
-//            $this->assertTrue($this->db->has_transaction_error, 'testFailNestedTransactionImmediate');
-//            $this->assertTrue($this->db->completeNestedTransaction(), 'testFailNestedTransactionImmediate: (complete)');
-//            $this->assertFalse($this->db->has_transaction_error, 'testFailNestedTransactionImmediate');
-//            $this->assertNull($this->db->nested_transaction_counter, 'testFailNestedTransactionImmediates');
-        }
-    }
-
+    /**
+     * Tests that the MDB2::setDatabase() and MDB2::getDatabase() methods
+     * correctly set and get the database name.
+     */
     function test_setGetDatabase()
     {
         $old_name = $this->db->database_name;
@@ -415,6 +428,10 @@ class MDB2_Internals_TestCase extends MDB2_TestCase {
         $this->db->database_name = $old_name;
     }
 
+    /**
+     * Tests that the MDB2::setDSN() method correctly sets
+     * the DSN.
+     */
     function test_setDSN()
     {
         $dsn = "mydbms://myname:mypassword@localhost";
@@ -432,6 +449,10 @@ class MDB2_Internals_TestCase extends MDB2_TestCase {
         $this->assertEquals(false,$dsn_set['database'],'setDSN');
     }
 
+    /**
+     * Tests that the MDB2::getDSN() method correctly gets
+     * the DSN.
+     */
     function test_getDSN()
     {
         $dsn_set = "mydbms://myname:mypassword@localhost";
@@ -453,100 +474,10 @@ class MDB2_Internals_TestCase extends MDB2_TestCase {
 
     }
 
-    function test_standaloneQuery()
-    {
-
-    }
-
-//    function &standaloneQuery($query, $types = null, $is_manip = false)
-//    {
-//        $offset = $this->offset;
-//        $limit = $this->limit;
-//        $this->offset = $this->limit = 0;
-//        $query = $this->_modifyQuery($query, $is_manip, $limit, $offset);
-//
-//        $connection = $this->getConnection();
-//        if (PEAR::isError($connection)) {
-//            return $connection;
-//        }
-//
-//        $result =& $this->_doQuery($query, $is_manip, $connection, false);
-//        if (PEAR::isError($result)) {
-//            return $result;
-//        }
-//
-//        if ($is_manip) {
-//            $affected_rows =  $this->_affectedRows($connection, $result);
-//            return $affected_rows;
-//        }
-//        $result =& $this->_wrapResult($result, $types, true, false, $limit, $offset);
-//        return $result;
-//    }
-
-    function test__modifyQuery()
-    {
-        if ($this->dsn['phptype']=='mysql')
-        {
-            $query = 'DELETE FROM users';
-            $is_manip = false;
-            $limit = 0;
-            $offset = 0;
-
-            $this->db->options['portability'] = 0;
-            $query_mod = $this->db->_modifyQuery($query, $is_manip, $limit, $offset);
-            $this->assertEquals($query, $query_mod, '_modifyQuery: test 2');
-
-            $this->db->options['portability'] = MDB2_PORTABILITY_ALL;
-            $query_mod = $this->db->_modifyQuery($query, $is_manip, $limit, $offset);
-            $this->assertEquals($query.' WHERE 1=1', $query_mod, '_modifyQuery: test 1');
-
-            $query = 'SELECT FROM users';
-            $is_manip = false;
-            $limit = 100;
-            $offset = 0;
-            $query_mod = $this->db->_modifyQuery($query, $is_manip, $limit, $offset);
-            $this->assertTrue('SELECT FROM users LIMIT 0, 100', $query_mod, '_modifyQuery: test 3');
-
-            $query = 'SELECT FROM users';
-            $is_manip = false;
-            $limit = 100;
-            $offset = 50;
-            $query_mod = $this->db->_modifyQuery($query, $is_manip, $limit, $offset);
-            $this->assertTrue('SELECT FROM users LIMIT 50, 100', $query_mod, '_modifyQuery: test 4');
-
-            $query = 'SELECT FROM users LIMIT 100, 50';
-            $is_manip = false;
-            $limit = 100;
-            $offset = 50;
-            $query_mod = $this->db->_modifyQuery($query, $is_manip, $limit, $offset);
-            $this->assertTrue('SELECT FROM users LIMIT 100, 50', $query_mod, '_modifyQuery: test 4');
-
-            $query = 'SELECT FROM users';
-            $is_manip = true;
-            $limit = 100;
-            $offset = 50;
-            $query_mod = $this->db->_modifyQuery($query, $is_manip, $limit, $offset);
-            $this->assertTrue('SELECT FROM users LIMIT 100', $query_mod, '_modifyQuery: test 5');
-        }
-    }
-
-    function test__doQuery()
-    {
-    }
-
-    function test__affectedRows()
-    {
-
-    }
-
-    function test_exec()
-    {
-    }
-
-    function test__wrapResult()
-    {
-    }
-
+    /**
+     * Tests that the MDB2::setLimit() method correctly sets the limit
+     * and offset values.
+     */
     function test_setLimit()
     {
         if (!$this->db->supports('limit_queries'))
@@ -554,102 +485,49 @@ class MDB2_Internals_TestCase extends MDB2_TestCase {
             $this->db->limit = null;
             $this->db->offset = null;
             $this->db->setLimit(100, 50);
-            $this->assertEquals( 50, $this->db->offset, 'setLimit');
             $this->assertEquals(100, $this->db->limit , 'setLimit');
+            $this->assertEquals( 50, $this->db->offset, 'setLimit');
         }
     }
 
-    function test_subSelect()
-    {
-        if ($this->db->supports('sub_selects'))
-        {
-
-        }
-    }
-
-    function test_replace()
-    {
-        if ($this->db->supports('replace'))
-        {
-
-        }
-    }
-
-    function test_prepare()
-    {
-        // should test this one
-    }
-
-    function test__skipDelimitedStrings()
-    {
-
-    }
-
-    function test_quote()
-    {
-
-    }
-
-    function test_getDeclaration()
-    {
-        // this is tested in the declaration_<phptype> test unit
-    }
-
-    function test_compareDefinition()
-    {
-
-    }
-
+    /**
+     * Tests that the MDB2::supports() method correctly finds keys
+     * in the "supports" array.
+     */
     function test_supports()
     {
         $this->db->supports['testkey'] = true;
         $this->assertTrue($this->db->supports('testkey'), 'supports');
+        unset($this->db->supports['testkey']);
     }
 
+    /**
+     * Tests that the MDB2::getSequenceName() method correctly gets
+     * sequence names.
+     */
     function test_getSequenceName()
     {
-        $format = $this->db->options['seqname_format'];
+        $tmp = $this->db->options['seqname_format'];
         $this->db->options['seqname_format'] = '%s_seq';
         $this->assertEquals('test_seq', $this->db->getSequenceName('test'), 'getSequenceName');
-        $this->db->options['seqname_format'] = $format;
+        $this->db->options['seqname_format'] = $tmp;
     }
 
+    /**
+     * Tests that the MDB2::getIndexName() method correctly gets
+     * index names.
+     */
     function test_getIndexName()
     {
-        $format = $this->db->options['idxname_format'];
+        $tmp = $this->db->options['idxname_format'];
         $this->db->options['idxname_format'] = 'idx_%s';
         $this->assertEquals('idx_test', $this->db->getIndexName('test'), 'getIndexName');
-        $this->db->options['idxname_format'] = $format;
+        $this->db->options['idxname_format'] = $tmp;
     }
 
-    function test_nextID()
-    {
-    }
-
-    function test_lastInsertID()
-    {
-    }
-
-    function test_currID()
-    {
-    }
-
-    function test_queryOne()
-    {
-    }
-
-    function test_queryRow()
-    {
-    }
-
-    function test_queryCol()
-    {
-    }
-
-    function test_queryAll()
-    {
-    }
-
+    /**
+     * Tests that the MDB2::disconnect() method correctly disconnects.
+     */
     function test_disconnect()
     {
         $this->assertTrue($this->db->disconnect(), 'disconnect');
