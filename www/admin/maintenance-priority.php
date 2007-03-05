@@ -38,7 +38,8 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+//phpAds_checkAccess(phpAds_Admin);
+MAX_Permission::checkAccess(phpAds_Admin);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -59,11 +60,19 @@ function phpAds_showBanners ()
 	global $strProbability, $strPriority, $strRecalculatePriority;
 	global $phpAds_TextDirection;
 
-	$res = phpAds_dbQuery("SELECT ad_id AS bannerid,priority FROM {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']} WHERE zone_id=0 ORDER BY priority desc");
-	$rows = array();
+//	$res = phpAds_dbQuery("SELECT ad_id AS bannerid,priority FROM {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']} WHERE zone_id=0 ORDER BY priority desc");
+	$doAdZoneAssoc = MAX_DB::factoryDO('ad_zone_assoc');
+	$doAdZoneAssoc->selectAdd();
+	$doAdZoneAssoc->selectAs(array('ad_id'), 'bannerid');
+	$doAdZoneAssoc->selectAdd('priority');
+	$doAdZoneAssoc->zoneid = 0;
+	$doAdZoneAssoc->OrderBy('priority DESC');
+    $doAdZoneAssoc->find();
+    
+    $rows = array();
 	$prioritysum = 0;
 
-	while ($tmprow = phpAds_dbFetchArray($res)) {
+	while ($doAdZoneAssoc->fetch() && $tmprow = $doAdZoneAssoc->toArray()) {
 		if ($tmprow['priority']) {
 			$prioritysum += $tmprow['priority'];
 			$rows[$tmprow['bannerid']] = $tmprow;
