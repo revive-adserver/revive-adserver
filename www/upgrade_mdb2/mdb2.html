@@ -6,6 +6,7 @@
 <body>
 <?php
     $schemas = getSchemas();
+    $changesets = getChangesets();
 ?>
 <table style="">
 <tr>
@@ -14,6 +15,7 @@
 <td><a href="error_pa.php">parsing errors</a></td>
 <td><a href="error_vl.php">validation errors</a></td>
 <td><a href="error_pr.php">programmatic errors</a></td>
+<!--td><a href="max_mdb2.php">max_mdb2 class demo</a></td-->
 </tr>
 </table>
 
@@ -27,10 +29,11 @@
     <tr><td>password</td><td><input type="text" name="dsn[password]" value="<?php echo $dsn['password']; ?>"></td></tr>
     <tr><td>db name</td><td><input type="text" name="dsn[database]" value="<?php echo $dsn['database']; ?>"></td></tr>
     <tr><td><button name="dump">Dump Schema as XML</button></td><td>to file&nbsp;<input type="text" name="dumpfile_mdbs" value="<?php echo $dumpfile_mdbs; ?>"></td></tr>
-    <tr><td><button name="diff">Compare Database to XML Schema</button></td><td>in file&nbsp;<select name="file"><?php echo $schemas; ?></select></td></tr>
-    <tr><td><button name="create">Create Database From Schema</button></td><td>in file&nbsp;<select name="file"><?php echo $schemas; ?></select></td></tr>
-    <tr><td><button name="show">View XSL formatted XML Schema</button></td><td>in file&nbsp;<select name="file"><?php echo $schemas; ?></select></td></tr>
-    <tr><td><button name="diffx">Compare XML Schema</button></td><td>in file&nbsp;<select name="file1"><?php echo $schemas; ?></select></td><td>to XML Schema&nbsp;<select name="file2"><?php echo $schemas; ?></select></td><td>and dump to file&nbsp;<input type="text" name="dumpfile_mdbc" value="<?php echo $dumpfile_mdbc; ?>"></td></tr>
+    <tr><td><button name="diff">Compare Database to XML Schema</button></td><td>in file&nbsp;<select name="filediff"><?php echo $schemas; ?></select></td></tr>
+    <tr><td><button name="create">Create Database From Schema</button></td><td>in file&nbsp;<select name="filecreate"><?php echo $schemas; ?></select></td></tr>
+    <tr><td><button name="show">View XSL formatted XML Schema</button></td><td>in file&nbsp;<select name="fileview"><?php echo $schemas; ?></select></td></tr>
+    <tr><td><button name="diffx">Compare XML Schema</button></td><td>in file&nbsp;<select name="filediffx1"><?php echo $schemas; ?></select></td><td>to XML Schema&nbsp;<select name="filediffx2"><?php echo $schemas; ?></select></td><td>and dump to file&nbsp;<input type="text" name="dumpfile_mdbc" value="<?php echo $dumpfile_mdbc; ?>"><input type="checkbox" name="split"/>split?</td></tr>
+    <tr><td><button name="parsec">Parse XML Changeset</button></td><td>in file&nbsp;<select name="fileview"><?php echo $changesets; ?></select></td></tr>
     </table>
 </td></tr>
 <table>
@@ -139,27 +142,18 @@
 </div>
 <div>
 <?php
-//        if ($xmlchangesparsed)
-//        {
-//            echo 'PARSED CHANGES<br />';
-//            echo '<textarea cols="120" rows="40">';
-//            echo $xmlchangesparsed;
-//            echo '</textarea>';
-//            echo '<br /><br />';
-//        }
-?>
-</div>
-
-<div>
-<?php   if ($xmlinstructions)
+        if ($changes)
         {
+            echo 'PARSED CHANGES<br />';
             echo '<textarea cols="120" rows="40">';
-            echo $xmlinstructions;
+            //var_dump($changes);
+            print_r($changes);
             echo '</textarea>';
             echo '<br /><br />';
         }
 ?>
 </div>
+
 <div>
 <?php   if (is_array($warnings) and (count($warnings)>0))
         {

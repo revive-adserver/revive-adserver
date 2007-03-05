@@ -199,6 +199,7 @@ class MDB2_Schema_Validate
         $autoinc = $primary = false;
         foreach ($table['fields'] as $field_name => $field) {
             if (!empty($field['autoincrement'])) {
+                $autoinc_field = $field_name;
                 if ($primary) {
                     return $this->raiseError(MDB2_SCHEMA_ERROR_VALIDATE,
                         'there was already an autoincrement field in "'.$table_name.'" before "'.$field_name.'"');
@@ -217,12 +218,16 @@ class MDB2_Schema_Validate
             foreach ($table['indexes'] as $name => $index) {
                 $skip_index = false;
                 if (!empty($index['primary'])) {
+                    if (array_key_exists($autoinc_field, $index['fields']))
+                    {
+                        $skip_index = false;
+                    }
                     /*
                      * Lets see if we should skip this index since there is
                      * already an auto increment on this field this implying
                      * a primary key index.
                      */
-                    if ($autoinc && count($index['fields']) == '1') {
+                    else if ($autoinc && count($index['fields']) == '1') {
                         $skip_index = true;
                     } elseif ($primary) {
                         return $this->raiseError(MDB2_SCHEMA_ERROR_VALIDATE,

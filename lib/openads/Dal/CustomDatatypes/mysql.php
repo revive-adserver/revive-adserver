@@ -116,7 +116,9 @@ function datatype_openads_char_callback(&$db, $method, $aParameters)
         case 'mappreparedatatype':
             // Return the MySQL nativetype declaration for this custom datatype
             return 'CHAR';
-    }
+        case 'comparedefinition':
+            return $db->_compareTextDefinition($aParameters['current'], $aParameters['previous']);
+        }
 }
 
 /**
@@ -174,6 +176,8 @@ function datatype_openads_enum_callback(&$db, $method, $aParameters)
         case 'mappreparedatatype':
             // Return the MySQL nativetype declaration for this custom datatype
             return 'ENUM';
+        case 'comparedefinition':
+            return array(); //$db->_compareEnumDefinition($aParameters['current'], $aParameters['previous']);
     }
 }
 
@@ -232,6 +236,8 @@ function datatype_openads_mediumint_callback(&$db, $method, $aParameters)
         case 'mappreparedatatype':
             // Return the MySQL nativetype declaration for this custom datatype
             return 'MEDIUMINT';
+        case 'comparedefinition':
+            return $db->_compareIntegerDefinition($aParameters['current'], $aParameters['previous']);
     }
 }
 
@@ -290,6 +296,8 @@ function datatype_openads_set_callback(&$db, $method, $aParameters)
         case 'mappreparedatatype':
             // Return the MySQL nativetype declaration for this custom datatype
             return 'SET';
+        case 'comparedefinition':
+            return array(); //$db->_compareSetDefinition($aParameters['current'], $aParameters['previous']);
     }
 }
 
@@ -350,7 +358,9 @@ function datatype_openads_text_callback(&$db, $method, $aParameters)
         case 'mappreparedatatype':
             // Return the MySQL nativetype declaration for this custom datatype
             return 'TEXT';
-    }
+        case 'comparedefinition':
+            return $db->_compareTextDefinition($aParameters['current'], $aParameters['previous']);
+  }
 }
 
 /**
@@ -408,6 +418,8 @@ function datatype_openads_varchar_callback(&$db, $method, $aParameters)
         case 'mappreparedatatype':
             // Return the MySQL nativetype declaration for this custom datatype
             return 'VARCHAR';
+        case 'comparedefinition':
+            return $db->_compareTextDefinition($aParameters['current'], $aParameters['previous']);
     }
 }
 

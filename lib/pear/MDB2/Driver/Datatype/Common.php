@@ -843,8 +843,18 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
         $type = !empty($current['type']) ? $current['type'] : null;
 
         if (!method_exists($this, "_compare{$type}Definition")) {
+
             $db =& $this->getDBInstance();
-            if (PEAR::isError($db)) {
+
+            if (!PEAR::isError($db)) {
+
+                if (!empty($db->options['datatype_map_callback'][$type])) {
+                    $parameter = array('current' => $current, 'previous' => $previous);
+                    $change =  call_user_func_array($db->options['datatype_map_callback'][$type], array(&$db, __FUNCTION__, $parameter));
+                    return $change;
+                }
+            }
+            else if (PEAR::isError($db)) {
                 return $db;
             }
 

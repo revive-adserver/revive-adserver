@@ -59,6 +59,12 @@ class MDB2_Schema_Writer
 
     var $valid_types = array();
 
+    var $eol = '';
+
+    var $indent = 0;
+
+    var $buffer = '';
+
     // }}}
     // {{{ constructor
 
@@ -514,5 +520,425 @@ class MDB2_Schema_Writer
     }
 
     // }}}
+
+    // {{{ dumpChanges()
+    /**
+     * dump a set of changes to file
+     *
+     * @param array $changes
+     * @param array $arguments
+     * @return string
+     */
+
+    function dumpChanges($changes, $arguments = array())
+    {
+        if (!empty($arguments['output'])) {
+            if (!empty($arguments['output_mode']) && $arguments['output_mode'] == 'file') {
+                $fp = fopen($arguments['output'], 'w');
+                if ($fp === false) {
+                    return $this->raiseError(MDB2_SCHEMA_ERROR_WRITER, null, null,
+                        'it was not possible to open output file');
+                }
+
+                $output = false;
+            } elseif (is_callable($arguments['output'])) {
+                $output = $arguments['output'];
+            } else {
+                return $this->raiseError(MDB2_SCHEMA_ERROR_WRITER, null, null,
+                    'no valid output function specified');
+            }
+        } else {
+            return $this->raiseError(MDB2_SCHEMA_ERROR_WRITER, null, null,
+                'no output method specified');
+        }
+
+        $eol = isset($arguments['end_of_line']) ? $arguments['end_of_line'] : "\n";
+
+        $this->buffer = $this->_getXMLversion().$eol;
+        $this->buffer.= $this->_getXSLRef($arguments['xsl_file']).$eol;
+
+        $changeset = $this->splitChanges($changes);
+
+        $this->spaces = -2;
+        $this->eol = $eol;
+        $this->writeXMLline("changeset", '', 'IN');
+        $this->writeXMLline("name", $changes['name'], 'IN', true);
+        $this->writeXMLline("version", $changes['version'], '', true);
+        $this->addChangesToBuffer($changes);
+        $this->writeXMLline("/changeset", '', 'OUT');
+
+        if ($output) {
+            call_user_func($output, $buffer);
+        } else {
+            fwrite($fp, $buffer);
+        }
+
+        return $this->buffer;
+    }
+
+    // }}}
+    // {{{ splitChanges()
+
+    function splitChanges($changes)
+    {
+        if (is_array($changes) and (count($changes)>0))
+        {
+            $constructive = array();
+            $constructive['tables'] = array();
+            $constructive['name'] = $changes['name'];
+            $constructive['version'] = $changes['version'];
+            $destructive = array();
+            $destructive['tables'] = array();
+            $destructive['name'] = $changes['name'];
+            $destructive['version'] = $changes['version'];
+
+            if ($changes['tables']['add'])
+            {
+                $constructive['tables']['add'] = array();
+                foreach ($changes['tables']['add'] AS $table=>$bool)
+                {
+                    $constructive['tables']['add'][$table] = $bool;
+                }
+            }
+            if ($changes['tables']['change'])
+            {
+                $constructive['tables']['change'] = array();
+                foreach ($changes['tables']['change'] AS $table=>$aTable)
+                {
+                    $constructive['tables']['change'][$table] = array();
+                    if ($aTable['add'])
+                    {
+                        $constructive['tables']['change'][$table]['add'] = $changes['tables']['change'][$table]['add'];
+                    }
+                    if ($aTable['remove'])
+                    {
+                        $destructive['tables']['change'][$table]['remove'] = $changes['tables']['change'][$table]['remove'];
+                    }
+                    if ($aTable['change'])
+                    {
+                        $constructive['tables']['change'][$table]['change'] = $changes['tables']['change'][$table]['change'];
+                    }
+                    if ($aTable['indexes'])
+                    {
+                        if ($aTable['indexes']['add'])
+                        {
+                            $constructive['tables']['change'][$table]['indexes']['add'] = $changes['tables']['change'][$table]['indexes']['add'];
+                        }
+                        if ($aTable['indexes']['remove'])
+                        {
+                            $destructive['tables']['change'][$table]['indexes']['remove'] = $changes['tables']['change'][$table]['indexes']['remove'];
+                        }
+                    }
+                }
+            }
+            if ($changes['remove'])
+            {
+                $destructive['remove'] = array();
+                foreach ($changes['remove'] AS $table=>$bool)
+                {
+                    $destructive['remove'][$table] = $bool;
+                }
+            }
+        }
+        $result['constructive'] = $constructive;
+        $result['destructive']  = $destructive;
+        return $result;
+    }
+
+    // }}}
+    // {{{ dumpSplitChanges()
+
+    function dumpSplitChanges($changes, $arguments = array())
+    {
+        if (!empty($arguments['output'])) {
+            if (!empty($arguments['output_mode']) && $arguments['output_mode'] == 'file') {
+                $fp = fopen($arguments['output'], 'w');
+                if ($fp === false) {
+                    return $this->raiseError(MDB2_SCHEMA_ERROR_WRITER, null, null,
+                        'it was not possible to open output file');
+                }
+
+                $output = false;
+            } elseif (is_callable($arguments['output'])) {
+                $output = $arguments['output'];
+            } else {
+                return $this->raiseError(MDB2_SCHEMA_ERROR_WRITER, null, null,
+                    'no valid output function specified');
+            }
+        } else {
+            return $this->raiseError(MDB2_SCHEMA_ERROR_WRITER, null, null,
+                'no output method specified');
+        }
+
+        $eol = isset($arguments['end_of_line']) ? $arguments['end_of_line'] : "\n";
+
+        $this->buffer = $this->_getXMLversion().$eol;
+        $this->buffer.= $this->_getXSLRef($arguments['xsl_file']).$eol;
+
+        $changeset = $this->splitChanges($changes);
+
+        $this->spaces = -2;
+        $this->eol = $eol;
+        $this->writeXMLline("instructionset", '', 'IN');
+        $this->writeXMLline("name", $changes['name'], 'IN', true);
+        $this->writeXMLline("version", $changes['version'], '', true);
+        $this->writeXMLline("constructive");
+        $this->writeXMLline("changeset", '', 'IN');
+        $this->writeXMLline("name", $changeset['constructive']['name'], 'IN', true);
+        $this->writeXMLline("version", $changeset['constructive']['version'], '', true);
+        $this->addChangesToBuffer($changeset['constructive']);
+        $this->writeXMLline("/changeset", '', 'OUT');
+        $this->writeXMLline("/constructive", '', 'OUT');
+
+        $this->writeXMLline("destructive");
+        $this->writeXMLline("changeset", '', 'IN');
+        $this->writeXMLline("name", $changeset['destructive']['name'], 'IN', true);
+        $this->writeXMLline("version", $changeset['destructive']['version'], '', true);
+        $this->addChangesToBuffer($changeset['destructive']);
+        $this->writeXMLline("/changeset", '', 'OUT');
+        $this->writeXMLline("/destructive", '', 'OUT');
+
+        $this->writeXMLline("/instructionset", '', 'OUT');
+
+        if ($output) {
+            call_user_func($output, $buffer);
+        } else {
+            fwrite($fp, $this->buffer);
+        }
+
+        return $this->buffer;
+    }
+
+    // }}}
+    // {{{ addChangesToBuffer()
+
+    /**
+     * add something to the buffer
+     *
+     * @param array $changes
+     * @param string $buffer
+     * @param string $eol
+     */
+    function addChangesToBuffer($changes)
+    {
+        if (is_array($changes) and (count($changes)))
+        {
+            if ($changes['remove'])
+            {
+                $this->writeXMLline("remove");
+                foreach ($changes['remove'] AS $table=>$bool)
+                {
+                    $this->writeXMLline("table", $table, 'IN', true);
+                }
+                $this->writeXMLline("/remove", '', 'OUT');
+            }
+            if ($changes['tables']['add'])
+            {
+                $this->writeXMLline("add");
+                foreach ($changes['tables']['add'] AS $table=>$bool)
+                {
+                    $this->writeXMLline("table", $table, 'IN', true);
+                }
+                $this->writeXMLline("/add", '', 'OUT');
+            }
+            if ($changes['tables']['change'])
+            {
+                $this->writeXMLline("change");
+                foreach ($changes['tables']['change'] AS $table=>$aTable)
+                {
+                    $this->writeXMLline("table", '', 'IN');
+                    $this->writeXMLline("name", $table, 'INANDOUT', true);
+                    if ($aTable['add'])
+                    {
+                        $this->writeXMLline("add", '', 'IN');
+                        $aFields = $aTable['add'];
+                        foreach ($aFields AS $field=>$aField)
+                        {
+                            $this->writeXMLline("field", '', 'IN');
+                            $this->writeXMLline("name", $field, 'IN', true);
+                            foreach ($aField AS $k=>$v)
+                            {
+                                if (!is_array($v))
+                                {
+                                    $this->writeXMLline($k, $v, '', true);
+                                }
+                            }
+                            $this->writeXMLline("/field", '', 'OUT');
+                        }
+                        $this->writeXMLline("/add", '', 'OUT');
+                    }
+                    if ($aTable['remove'])
+                    {
+                        $this->writeXMLline("remove");
+                        $aFields = $aTable['remove'];
+                        foreach ($aFields AS $field=>$bool)
+                        {
+                            $this->writeXMLline("field", '', 'IN');
+                            $this->writeXMLline("name", $field, 'IN', true);
+                            $this->writeXMLline("/field", '', 'OUT');
+                        }
+                        $this->writeXMLline("/remove", '', 'OUT');
+                    }
+                    if ($aTable['change'])
+                    {
+                        $this->writeXMLline("change");
+                        $dent = 'IN';
+                        foreach ($aTable['change'] AS $field=>$aField)
+                        {
+                            $this->writeXMLline("field", '', $dent);
+                            $this->writeXMLline("name", $field, 'IN', true);
+                            foreach ($aField AS $k=>$v)
+                            {
+                                if (!is_array($v))
+                                {
+                                    $val = $aField['definition'][$k];
+                                    $this->writeXMLline($k, $val, '', true);
+                                }
+                            }
+                            $dent = '';
+                            $this->writeXMLline("/field", '', 'OUT');
+                        }
+                        $this->writeXMLline("/change", '', 'OUT');
+                    }
+                    if ($aTable['indexes'])
+                    {
+                        if ($aTable['indexes']['add'])
+                        {
+                            $aIndex = $aTable['indexes']['add'];
+                            $this->writeXMLline("index");
+                            foreach ($aIndex AS $name=>$array)
+                            {
+                                $this->writeXMLline("add", '', 'IN');
+                                foreach ($aIndex AS $name=>$def)
+                                {
+                                    $this->writeXMLline('name', $name, 'IN', true);
+                                    if ($aIndex[$name]['unique'])
+                                    {
+                                        $this->writeXMLline("unique", 'true', '', true);
+                                    }
+                                    if ($aIndex[$name]['primary'])
+                                    {
+                                        $this->writeXMLline("primary", 'true', '', true);
+                                    }
+                                    if ($aIndex[$name]['was'])
+                                    {
+                                        $this->writeXMLline("was", $aIndex[$name]['was'], '', true);
+                                    }
+                                    if ($aIndex[$name])
+                                    {
+                                        foreach ($aIndex[$name]['fields'] AS $field=>$val)
+                                        {
+                                            $this->writeXMLline('field');
+                                            $this->writeXMLline('name', $field, 'IN', true);
+                                            if ($val['sorting'])
+                                            {
+                                                $this->writeXMLline("sorting", $val['sorting'], '', true);
+                                            }
+                                            $this->writeXMLline('/field', '', 'OUT');
+                                        }
+                                    }
+                                }
+                                $this->writeXMLline("/add", '', 'OUT');
+                            }
+                            $this->writeXMLline("/index", '', 'OUT');
+                        }
+                        if ($aTable['indexes']['remove'])
+                        {
+                            $aIndex = $aTable['indexes']['remove'];
+                            $this->writeXMLline("index");
+                            $this->writeXMLline("remove", '', 'IN');
+                            $dent = 'IN';
+                            foreach ($aIndex AS $name=>$array)
+                            {
+                                $this->writeXMLline("name", $name, $dent, true);
+                                $dent = '';
+                            }
+                            $this->writeXMLline("/remove", '', 'OUT');
+                            $this->writeXMLline("/index", '', 'OUT');
+                        }
+                    }
+                    $this->writeXMLline("/table", '', 'OUT');
+                }
+                $this->writeXMLline("/change", '', 'OUT');
+            }
+        }
+    }
+
+    // }}}
+    // {{{ writeXMLline()
+
+    function writeXMLline($tag, $data='', $dent='', $close=false)
+    {
+        if (($dent=='IN') || ($dent=='INANDOUT'))
+        {
+            $this->spaces+= 2;
+        }
+        else if ($dent=='OUT')
+        {
+            $this->spaces-= 2;
+        }
+        $this->buffer.= str_repeat(' ', $this->spaces);
+        $this->buffer.= '<'.$tag.'>';
+        $this->buffer.= $this->_escapeSpecialChars($data);
+        $this->buffer.= ($close ? '</'.$tag.'>' : '');
+        $this->buffer.= $this->eol;
+        if ($dent=='INANDOUT')
+        {
+            $this->spaces-= 2;
+        }
+    }
+
+    // }}}
+    // {{{ _getXMLversion()
+
+    function _getXMLversion()
+    {
+        return '<?xml version="1.0" encoding="ISO-8859-1" ?>';
+    }
+
+    // }}}
+    // {{{ _getXSLRef()
+
+    function _getXSLRef($xsl_file)
+    {
+        return '<?xml-stylesheet type="text/xsl" href="'.$xsl_file.'"?>';
+    }
+
+    // }}}
+    // {{{ array_to_xml()
+
+    /**
+     * convert an array to xml
+     *
+     * @param array $array
+     * @param string $buffer
+     * @param string $eol
+     */
+    function array_to_xml($array, &$buffer, $eol)
+    {
+        foreach ($array AS $k => $v)
+        {
+            if (is_array($k))
+            {
+                $this->array_to_xml($k, &$buffer, $eol);
+            }
+            else
+            {
+                $buffer.= "<{$k}>";
+                if (is_array($v))
+                {
+                    $this->array_to_xml($v, &$buffer, $eol);
+                }
+                else
+                {
+                    $buffer.= $v;
+                }
+                $buffer.= "</{$k}>{$eol}";
+            }
+        }
+    }
+
+    // }}}
+
 }
 ?>

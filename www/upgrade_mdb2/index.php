@@ -3,23 +3,26 @@ require_once('error.inc.php');
 
 $htmlfile = 'mdb2.html';
 
-function varchar_callback($p1='', $p2='', $p3='')
-{
-    switch ($p3['mapped_type'])
-    {
-        case 'url': return 'http://';
-        default: return ($p1->datatype->valid_default_values[$p3['mapped_type']] ? $p1->datatype->valid_default_values[$p3['mapped_type']] : '');
-    }
-}
+//function varchar_callback($p1='', $p2='', $p3='')
+//{
+//    switch ($p3['mapped_type'])
+//    {
+//        case 'url': return 'http://';
+//        default: return ($p1->datatype->valid_default_values[$p3['mapped_type']] ? $p1->datatype->valid_default_values[$p3['mapped_type']] : '');
+//    }
+//}
 
 if (array_key_exists('dump', $_POST) ||
     array_key_exists('diff', $_POST) ||
     array_key_exists('diffx', $_POST)||
     array_key_exists('create', $_POST) ||
+    array_key_exists('parsec', $_POST) ||
     array_key_exists('show', $_POST))
 {
     $dsn = $_POST['dsn'];
-    $options = array();
+    $options = array(
+                        'idxname_format' => '%s',
+                     );
 
 //    $options = array('debug'=>true,
 //                    'debug_handler'=>'debug_handler'
@@ -27,15 +30,18 @@ if (array_key_exists('dump', $_POST) ||
 //                    'portability'=> MDB2_PORTABILITY_EMPTY_TO_NULL
 
 //    $options = array(
-//                        'datatype_map'=>array('varchar'=>'url'
+//                        'datatype_map'=>array('varchar'=>'text'
 //                                              ),
-//                        'datatype_map_callback'=>array('varchar'=>'varchar_callback'
+//                        'datatype_map_callback'=>array('varchar'=>'serialize_callback_varchar'
 //                                                        )
 //                    );
 
-    $mdb =& MDB2::factory($dsn, $options);
+//    $mdb =& MDB2::factory($dsn, $options);
+    $mdb = &Openads_Dal::singleton($dsn);
 
-    $options = array('force_defaults'=>false);
+    $options = array(   'force_defaults'=>false,
+                     );
+
     $schema = & MDB2_Schema::factory($mdb, $options);
 
     if (array_key_exists('dump', $_POST))
@@ -53,15 +59,15 @@ if (array_key_exists('dump', $_POST) ||
     }
     else if (array_key_exists('diff', $_POST))
     {
-        $parse_prev   = $schema->getDefinitionFromDatabase();
-        $parse_curr = $schema->parseDatabaseDefinitionFile(MAX_VAR.'/'.$_POST['file']);
+        $parse_prev = $schema->getDefinitionFromDatabase();
+        $parse_curr = $schema->parseDatabaseDefinitionFile(MAX_VAR.'/'.$_POST['filediff']);
         $changes    = $schema->compareDefinitions($parse_curr, $parse_prev);
-//        $result     = $schema->dumpDatabaseChanges($changes);
+        $xmlchanges = $schema->dumpChangeset($changes, $options);
     }
     else if (array_key_exists('diffx', $_POST))
     {
-        $parse_prev = $schema->parseDatabaseDefinitionFile(MAX_VAR.'/'.$_POST['file1']);
-        $parse_curr = $schema->parseDatabaseDefinitionFile(MAX_VAR.'/'.$_POST['file2']);
+        $parse_prev = $schema->parseDatabaseDefinitionFile(MAX_VAR.'/'.$_POST['filediffx1']);
+        $parse_curr = $schema->parseDatabaseDefinitionFile(MAX_VAR.'/'.$_POST['filediffx2']);
         $changes    = $schema->compareDefinitions($parse_curr, $parse_prev);
 
         $dumpfile_mdbc = $_POST['dumpfile_mdbc'];
@@ -72,19 +78,23 @@ if (array_key_exists('dump', $_POST) ||
                             'end_of_line'   =>    "\n"
                           );
         $changes['version'] = 'v0.0.0';
-        $xmlchanges = $schema->dumpChangeset($changes, $options);
-
-        $xmlchangesparsed = $schema->parseChangesetDefinitionFile(MAX_VAR.'/'.$changes['name']);
-
-        $changes['name'] = 'mdbi_'.$dumpfile_mdbs.'.xml';
-        $options = array (
-                            'output_mode'   =>    'file',
-                            'output'        =>    MAX_VAR.'/'.$changes['name'],
-                            'end_of_line'   =>    "\n"
-                          );
-
-        $changes['version'] = 'v0.0.0';
-        $xmlinstructions = $schema->dumpInstructions($changes, $options);
+        $split = array_key_exists('split', $_POST);
+        $xmlchanges = $schema->dumpChangeset($changes, $options, $split);
+    }
+    else if (array_key_exists('parsec', $_POST))
+    {
+        $file = $_POST['fileview'];
+        $changes = $schema->parseChangesetDefinitionFile(MAX_VAR.'/'.$file);
+//
+//        $changes['name'] = 'mdbi_'.$dumpfile_mdbs.'.xml';
+//        $options = array (
+//                            'output_mode'   =>    'file',
+//                            'output'        =>    MAX_VAR.'/'.$changes['name'],
+//                            'end_of_line'   =>    "\n"
+//                          );
+//
+//        $changes['version'] = 'v0.0.0';
+//        $xmlinstructions = $schema->dumpInstructions($changes, $options);
 
 //        $variables = array();
 //        $disable_query = false;
@@ -93,42 +103,18 @@ if (array_key_exists('dump', $_POST) ||
     }
     else if (array_key_exists('create', $_POST))
     {
-        $def = $schema->parseDatabaseDefinitionFile(MAX_VAR.'/'.$_POST['file']);
+        $def = $schema->parseDatabaseDefinitionFile(MAX_VAR.'/'.$_POST['filecreate']);
         $def['name'] = $dsn['database'];
         $schema->createDatabase($def);
     }
     else if (array_key_exists('show', $_POST))
     {
         header('Content-Type: application/xhtml+xml; charset=ISO-8859-1');
-        readfile(MAX_VAR.'/'.$_POST['file']);
+        readfile(MAX_VAR.'/'.$_POST['fileview']);
         exit();
 
 
     }
-//
-//    if ($mdb2_type == 'mysql') {
-//        $schema->db->setOption('debug', true);
-//        $schema->db->setOption('log_line_break', '<br>');
-//        // ok now lets create a new xml schema file from the existing DB
-//        $database_definition = $schema->getDefinitionFromDatabase();
-//        // we will not use the 'metapear_test_db.schema' for this
-//        // this feature is especially interesting for people that have an existing Db and want to move to MDB2's xml schema management
-//        // you can also try MDB2_MANAGER_DUMP_ALL and MDB2_MANAGER_DUMP_CONTENT
-//        echo(Var_Dump($schema->dumpDatabase(
-//            $database_definition,
-//            array(
-//                'output_mode' => 'file',
-//                'output' => $mdb2_name.'2.schema'
-//            ),
-//            MDB2_SCHEMA_DUMP_STRUCTURE
-//        )).'<br>');
-//        if ($schema->db->getOption('debug') === true) {
-//            echo($schema->db->getDebugOutput().'<br>');
-//        }
-//        // this is the database definition as an array
-//        echo(Var_Dump($database_definition).'<br>');
-//    }
-
     $warnings = $schema->warnings;
     $mdb->disconnect();
 }

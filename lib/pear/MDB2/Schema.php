@@ -2336,7 +2336,7 @@ class MDB2_Schema extends PEAR
      *                 either as a function name, or as an array of an
      *                 object and method name.  For other error modes this
      *                 parameter is ignored.
-     * @param array    Options, depending on the mode, @see PEAR::setErrorHandling 
+     * @param array    Options, depending on the mode, @see PEAR::setErrorHandling
      * @param string   Extra debug information.  Defaults to the last
      *                 query and native error code.
      * @return object  a PEAR error object
@@ -2378,6 +2378,96 @@ class MDB2_Schema extends PEAR
     }
 
     // }}}
+    /**
+     * create a new writer object
+     * and output the changes array
+     * in xml format to a file
+     *
+     * @param unknown_type $changes
+     * @param unknown_type $options
+     * @return unknown
+     */
+    function dumpChangeset($changes, $options, $split=false)
+    {
+        $class_name = $this->options['writer'];
+        $result = MDB2::loadClass($class_name, $this->db->getOption('debug'));
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+        $writer = & new $class_name($this->options['valid_types']);
+        if (PEAR::isError($writer)) {
+            return $writer;
+        }
+        if ($split)
+        {
+            return $writer->dumpSplitChanges($changes, $options);
+        }
+        else
+        {
+            return $writer->dumpChanges($changes, $options);
+        }
+    }
+
+    // }}}
+    // {{{ parseChangesetDefinitionFile()
+
+    /**
+     * Parse a changeset definition file by creating a schema
+     * parser object and passing the file contents as parser input data stream.
+     *
+     * @param string the changeset schema file.
+     * @param array associative array that the defines the text string values
+     *              that are meant to be used to replace the variables that are
+     *              used in the schema description.
+     * @param bool make function fail on invalid names
+     * @param array database structure definition
+     * @access public
+     */
+    function parseChangesetDefinitionFile($input_file, $variables = array(),
+        $fail_on_invalid_names = true, $structure = false)
+    {
+        $dtd_file = $this->options['dtd_file'];
+        if ($dtd_file) {
+            require_once 'XML/DTD/XmlValidator.php';
+            $dtd =& new XML_DTD_XmlValidator;
+            if (!$dtd->isValid($dtd_file, $input_file)) {
+                return $this->raiseError(MDB2_SCHEMA_ERROR_PARSE, null, null, $dtd->getMessage());
+            }
+        }
+        require_once("MDB2/Schema/ParserChangeset.php");
+        $class_name = 'MDB2_Changeset_Parser';
+        $result = MDB2::loadClass($class_name, $this->db->getOption('debug'));
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+
+        $parser =& new $class_name($variables, $fail_on_invalid_names, $structure, $this->options['valid_types'], $this->options['force_defaults']);
+
+        $class_name = 'MDB2_Schema_Validate';
+        $parser->val =& new $class_name($fail_on_invalid_names, $this->options['valid_types'], $this->options['force_defaults']);
+
+        $result = $parser->setInputFile($input_file);
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+
+        $result = $parser->parse();
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+        if (PEAR::isError($parser->error)) {
+            return $parser->error;
+        }
+
+        $changes = $parser->instructionset;
+        $changes['constructive'] = $parser->constructive_changeset_definition;
+        $changes['destructive']  = $parser->destructive_changeset_definition;
+
+        return $changes;
+    }
+
+    // }}}
+
 }
 
 /**
