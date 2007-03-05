@@ -70,6 +70,13 @@ class Openads_Table
     var $aDefinition;
 
     /**
+     * Should the tables be created as temporary tables?
+     *
+     * @var boolean
+     */
+    var $temporary = false;
+
+    /**
      * The class constructor method.
      */
     function Openads_Table()
@@ -166,9 +173,15 @@ class Openads_Table
             }
             $tableName = $tableName . '_' . $oDate->format('%Y%m%d');
         }
+        // Prepare the options array
+        $aOptions = array();
+        if ($this->temporary) {
+            $aOptions['temporary'] = true;
+        }
+        $aOptions['type'] = $conf['table']['type'];
         // Create the table
         MAX::debug('Creating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
-        $result = $this->oSchema->createTable($tableName, $this->aDefinition['tables'][$table], false);
+        $result = $this->oSchema->createTable($tableName, $this->aDefinition['tables'][$table], false, $aOptions);
         if (PEAR::isError($result)) {
             MAX::debug('Unable to create the table ' . $table, PEAR_LOG_ERR);
             return false;
@@ -253,11 +266,10 @@ class Openads_Table
      */
     function dropTempTable($table)
     {
-        $oServiceLocator = &ServiceLocator::instance();
-        $dbh = &$oServiceLocator->get('MAX_DB');
+        $oDbh = &Openads_Dal::singleton();
         $query = 'DROP TEMPORARY TABLE ' . $table;
         MAX::debug('Dropping temporary table ' . $table, PEAR_LOG_DEBUG);
-        $result = $dbh->query($query);
+        $result = $oDbh->query($query);
         if (PEAR::isError($result)) {
             MAX::debug('Unable to drop temporary table ' . $table, PEAR_LOG_ERROR);
             return false;

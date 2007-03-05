@@ -82,10 +82,6 @@ $aNativetypes = array(
  */
 function datatype_openads_char_callback(&$db, $method, $aParameters)
 {
-    // Ensure the datatype module is loaded
-    if (is_null($db->datatype)) {
-        $db->loadModule('Datatype', null, true);
-    }
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
     switch($method) {
@@ -142,10 +138,6 @@ function datatype_openads_char_callback(&$db, $method, $aParameters)
  */
 function datatype_openads_enum_callback(&$db, $method, $aParameters)
 {
-    // Ensure the datatype module is loaded
-    if (is_null($db->datatype)) {
-        $db->loadModule('Datatype', null, true);
-    }
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
     switch($method) {
@@ -202,10 +194,6 @@ function datatype_openads_enum_callback(&$db, $method, $aParameters)
  */
 function datatype_openads_mediumint_callback(&$db, $method, $aParameters)
 {
-    // Ensure the datatype module is loaded
-    if (is_null($db->datatype)) {
-        $db->loadModule('Datatype', null, true);
-    }
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
     switch($method) {
@@ -262,10 +250,6 @@ function datatype_openads_mediumint_callback(&$db, $method, $aParameters)
  */
 function datatype_openads_set_callback(&$db, $method, $aParameters)
 {
-    // Ensure the datatype module is loaded
-    if (is_null($db->datatype)) {
-        $db->loadModule('Datatype', null, true);
-    }
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
     switch($method) {
@@ -322,10 +306,6 @@ function datatype_openads_set_callback(&$db, $method, $aParameters)
  */
 function datatype_openads_text_callback(&$db, $method, $aParameters)
 {
-    // Ensure the datatype module is loaded
-    if (is_null($db->datatype)) {
-        $db->loadModule('Datatype', null, true);
-    }
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
     switch($method) {
@@ -384,10 +364,6 @@ function datatype_openads_text_callback(&$db, $method, $aParameters)
  */
 function datatype_openads_varchar_callback(&$db, $method, $aParameters)
 {
-    // Ensure the datatype module is loaded
-    if (is_null($db->datatype)) {
-        $db->loadModule('Datatype', null, true);
-    }
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
     switch($method) {

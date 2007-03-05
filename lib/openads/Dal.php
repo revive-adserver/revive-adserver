@@ -104,7 +104,10 @@ class Openads_Dal
                 }
             }
             // Create the new database connection
-            $GLOBALS['_MAX']['CONNECTIONS'][$dsnMd5] = &MDB2::factory($dsn, $aOptions);
+            $GLOBALS['_MAX']['CONNECTIONS'][$dsnMd5] = &MDB2::singleton($dsn, $aOptions);
+            // Load modules that are likely to be needed
+            $GLOBALS['_MAX']['CONNECTIONS'][$dsnMd5]->loadModule('Datatype');
+            $GLOBALS['_MAX']['CONNECTIONS'][$dsnMd5]->loadModule('Manager');
         }
         return $GLOBALS['_MAX']['CONNECTIONS'][$dsnMd5];
     }
