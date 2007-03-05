@@ -62,10 +62,11 @@ $current  = $strCurrentlyUsing.' '.MAX_PRODUCT_NAME.'&nbsp;'.MAX_VERSION_READABL
 $current .= $strRunningOn.' '.str_replace('/', '&nbsp;', ereg_replace(" .*$", '', $_SERVER["SERVER_SOFTWARE"])).', ';
 $current .= 'PHP&nbsp;'.phpversion().' '.$strAndPlain.' '.phpAds_dbmsname;
 
-$res = phpAds_dbQuery("SELECT VERSION() AS version");
-if ($row = phpAds_dbFetchArray($res)) {
-    $current .= '&nbsp;'.$row['version'];
-}
+// Get the database version number.
+$connection = DBC::getCurrentConnection();
+$aVersion = $connection->getConnectionId()->getServerVersion();
+$current .= '&nbsp;' . $aVersion['major'] . '.' . $aVersion['minor'] . '.' . $aVersion['patch'] . '-' . $aVersion['extra'];
+
 $current .= '.';
 
 if (!isset($session['maint_update'])) {
