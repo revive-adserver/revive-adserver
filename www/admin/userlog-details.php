@@ -36,7 +36,7 @@ require_once MAX_PATH . '/lib/max/language/Userlog.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+MAX_Permission::checkAccess(phpAds_Admin);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -52,18 +52,11 @@ Language_Userlog::load();
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$res = phpAds_dbQuery("
-	SELECT
-		*
-	FROM 
-		".$conf['table']['prefix'].$conf['table']['userlog']."
-	WHERE
-		userlogid = '".$userlogid."'
-");
+$doUserLog = MAX_DB::factoryDO('userlog');
 
-
-if ($row = phpAds_dbFetchArray($res))
+if ($doUserLog->get($userlogid))
 {
+    $row = $doUserLog->toArray();
 	echo "<br />";
 	echo "<table cellpadding='0' cellspacing='0' border='0'>";
 	
