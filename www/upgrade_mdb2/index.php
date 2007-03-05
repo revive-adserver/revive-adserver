@@ -37,6 +37,7 @@ if (array_key_exists('dump', $_POST) ||
 //                    );
 
 //    $mdb =& MDB2::factory($dsn, $options);
+    $GLOBALS['_MAX']['CONF']['database']['type'] = $dsn['phptype'];
     $mdb = &Openads_Dal::singleton($dsn);
 
     $options = array(   'force_defaults'=>false,

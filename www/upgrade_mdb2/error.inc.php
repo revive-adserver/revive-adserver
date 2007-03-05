@@ -7,6 +7,7 @@ require_once('pear.inc.php');
 require_once 'MDB2.php';
 require_once 'MDB2/Schema.php';
 
+require_once MAX_PATH.'/lib/openads/Dal.php';
 
 function getSchemas()
 {
@@ -35,5 +36,19 @@ function getSchemas()
 //    return $opts;
 }
 
-
+function getChangesets()
+{
+    $opts = '';
+    $dh = opendir(MAX_VAR);
+    if ($dh) {
+        while (false !== ($change_file = readdir($dh))) {
+            if (strpos($change_file, 'mdbc_')===0)
+            {
+                $opts.= '<option value="'.$change_file.'">'.$change_file.'</option>';
+            }
+        }
+        closedir($dh);
+    }
+    return $opts;
+}
 ?>
