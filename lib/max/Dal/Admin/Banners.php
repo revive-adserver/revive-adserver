@@ -281,6 +281,11 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
             array('campaignid' => DBC::makeLiteral($campaignId)));
     }
     
+    /**
+     * Join all banners, campaigns and clients and return it as RecordSet
+     *
+     * @return RecordSet
+     */
     function getBannersCampaignsClients()
     {
         $prefix = $this->getTablePrefix();

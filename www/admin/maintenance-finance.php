@@ -39,8 +39,7 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/Admin/UI/Field/DaySpanField.php';
 
 // Security check
-phpAds_checkAccess(phpAds_Admin | phpAds_Agency);
-
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
 
 
 /*-------------------------------------------------------*/
@@ -136,47 +135,13 @@ if (!empty($zoneid)) {
 	echo "</select>";
 	echo "&nbsp;&nbsp;";
 
-    $res = phpAds_dbQuery("
-        SELECT DISTINCT
-            v.variableid AS variable_id,
-            v.name AS variable_name,
-            v.description AS variable_description,
-            t.trackerid AS tracker_id,
-            t.trackername AS tracker_name,
-            t.description AS tracker_description
-        FROM
-            ".$conf['table']['prefix'].$conf['table']['ad_zone_assoc']." aza JOIN
-            ".$conf['table']['prefix'].$conf['table']['zones']." z ON (aza.zone_id = z.zoneid) JOIN
-            ".$conf['table']['prefix'].$conf['table']['banners']." b ON (aza.ad_id = b.bannerid) JOIN
-            ".$conf['table']['prefix'].$conf['table']['campaigns_trackers']." ct USING (campaignid) JOIN
-            ".$conf['table']['prefix'].$conf['table']['trackers']." t USING (trackerid) JOIN
-            ".$conf['table']['prefix'].$conf['table']['variables']." v USING (trackerid) LEFT JOIN
-            ".$conf['table']['prefix'].$conf['table']['variable_publisher']." vp ON (vp.variable_id = v.variableid AND vp.publisher_id = z.affiliateid)
-        WHERE
-            ".(empty($zoneid) ? "z.affiliateid = '".$affiliateid."'" : "z.zoneid = '".$zoneid."'")." AND
-            v.datatype = 'numeric'
-            ".(phpAds_isUser(phpAds_Affiliate) ? "AND (v.hidden = 'f' OR vp.visible = 1)" : '')."
-    ");
-    
-    $res_tracker_variables = array();
-    if (!phpAds_dbNumRows($res)) {
-        $res_noresults = true;
-    } else {
-        $res_noresults = false;
-        $i = 0;
-        while ($row = phpAds_dbFetchArray($res)) {
-            $res_tracker_variables[$i]['variable_id'] = $row['variable_id'];
-            $res_tracker_variables[$i]['tracker_name'] = $row['tracker_name'];
-            $res_tracker_variables[$i]['variable_name'] = $row['variable_name'];
-            $res_tracker_variables[$i]['tracker_description'] = $row['tracker_description'];
-            $res_tracker_variables[$i]['variable_description'] = $row['variable_description'];
-            $i++;
-        }
-    }
+	$dalVariables = MAX_DB::factoryDAL('variables');
+    $rsVariables = $dalVariables->getTrackerVariables($zoneid, $affiliateid, phpAds_isUser(phpAds_Affiliate));
+    $res_tracker_variables = $rsVariables->getAll();
     
     echo "<select name='cost_variable_id' id='cost_variable_id'>";
     
-    if ($res_noresults) {
+    if (empty($res_tracker_variables)) {
         echo "<option value=''>-- No linked tracker --</option>";
     } else {
         foreach ($res_tracker_variables as $k=>$v) {
@@ -199,7 +164,7 @@ if (!empty($zoneid)) {
     
     echo "<select name='cost_variable_id_mult[]' id='cost_variable_id_mult' multiple='multiple' size='3'>";
     
-    if ($res_noresults) {
+    if (empty($res_tracker_variables)) {
         echo "<option value=''>-- No linked tracker --</option>";
     } else {
         foreach ($res_tracker_variables as $k=>$v) {
