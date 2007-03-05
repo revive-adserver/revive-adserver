@@ -265,6 +265,13 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
         return $banners;
     }
     
+    /**
+     * Move banner to different campaign
+     *
+     * @param int $bannerId
+     * @param int $campaignId
+     * @return bool  True on success
+     */
     function moveBannerToCampaign($bannerId, $campaignId)
     {
         $Record = DBC::NewRecord();
@@ -272,6 +279,30 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
             array(),
             "bannerid=". DBC::makeLiteral($bannerId),
             array('campaignid' => DBC::makeLiteral($campaignId)));
+    }
+    
+    function getBannersCampaignsClients()
+    {
+        $prefix = $this->getTablePrefix();
+
+        $query = "
+            SELECT
+                b.bannerid,
+                b.campaignid,
+                b.description,
+                c.clientid,
+                c.campaignname,
+                cl.clientname
+            FROM
+                {$prefix}banners AS b,
+                {$prefix}campaigns as c,
+                {$prefix}clients as cl
+            WHERE
+                c.campaignid=b.campaignid
+                AND cl.clientid=c.clientid
+        ";
+        
+        return DBC::NewRecordSet($query);
     }
 }
 

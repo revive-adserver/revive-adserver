@@ -38,7 +38,7 @@ require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/lib/max/other/lib-acl.inc.php';
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+MAX_Permission::checkAccess(phpAds_Admin);
 
 phpAds_registerGlobal('action');
 
@@ -66,9 +66,11 @@ echo "<strong>Channels:</strong>";
 phpAds_showBreak();
 
 // Check all the channels...
-$res = phpAds_dbQuery("SELECT ch.channelid, ch.affiliateid, ch.name, af.name AS affiliatename FROM {$conf['table']['channel']} AS ch, {$conf['table']['affiliates']} AS af WHERE af.affiliateid=ch.affiliateid ORDER BY ch.channelid;");
+$dalChannel = MAX_DB::factoryDAL('channel');
+$rsChannel = $dalChannel->getChannelsAndAffiliates();
+$rsChannel->find();
 $allChannelsValid = true;
-while ($row = phpAds_dbFetchArray($res)) {
+while ($rsChannel->fetch() && $row = $rsChannel->toArray()) {
     if (!MAX_AclValidate('channel-acl.php', array('channelid' => $row['channelid']))) {
         $allChannelsValid = false;
         $affiliateName = (!empty($row['affiliatename'])) ? $row['affiliatename'] : $strUntitled;
@@ -83,9 +85,12 @@ phpAds_showBreak();
 echo "<strong>Banners:</strong>";
 phpAds_ShowBreak();
 
-$res = phpAds_dbQuery("SELECT b.bannerid, b.campaignid, b.description, c.clientid, c.campaignname, cl.clientname FROM {$conf['table']['banners']} AS b, {$conf['table']['campaigns']} as c, {$conf['table']['clients']} as cl WHERE c.campaignid=b.campaignid AND cl.clientid=c.clientid");
+$dalBanners = MAX_DB::factoryDAL('banners');
+$rsBanners = $dalBanners->getBannersCampaignsClients();
+$rsBanners->find();
+
 $allBannersValid = true;
-while ($row = phpAds_dbFetchArray($res)) {
+while ($rsBanners->fetch() && $row = $rsBanners->toArray()) {
     if (!MAX_AclValidate('banner-acl.php', array('bannerid' => $row['bannerid']))) {
         $allBannersValid = false;
         $bannerName = (!empty($row['description'])) ? $row['description'] : $strUntitled;
