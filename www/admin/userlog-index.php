@@ -39,7 +39,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 phpAds_registerGlobal ('start');
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+MAX_Permission::checkAccess(phpAds_Admin);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -55,33 +55,18 @@ Language_Userlog::load();
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$res = phpAds_dbQuery("
-	SELECT 
-		COUNT(*) as count
-	FROM
-		".$conf['table']['prefix'].$conf['table']['userlog']."
-");
-
-if ($row = phpAds_dbFetchArray($res))
-	$count = $row['count'];
-else
-	$count = 0;
-
+$doUserLog = MAX_DB::factoryDO('userlog');
+if (!$count = $doUserLog->count()) {
+    $count = 0;
+}
 
 $limit = 15;
 $start = isset($start) ? (int) $start : 0;
 
-$res = phpAds_dbQuery("
-	SELECT
-		*
-	FROM 
-		".$conf['table']['prefix'].$conf['table']['userlog']."
-	ORDER BY
-		timestamp DESC
-	LIMIT
-		".($start * $limit).", ".$limit."
-");
-
+$doUserLog = MAX_DB::factoryDO('userlog');
+$doUserLog->orderBy('timestamp DESC');
+$doUserLog->limit($start * $limit, $limit);
+$doUserLog->find();
 
 echo "<br /><br />";
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
@@ -90,7 +75,7 @@ echo "<td height='25'><b>".$strAction."</b></td></tr>";
 echo "<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
 
 
-if (phpAds_dbNumRows($res) == 0)
+if ($doUserLog->getRowCount() == 0)
 {
 	echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='4'>";
 	echo "&nbsp;&nbsp;".$strNoActionsLogged."</td></tr>";
@@ -99,7 +84,7 @@ if (phpAds_dbNumRows($res) == 0)
 
 $i=0;
 
-while ($row = phpAds_dbFetchArray($res))
+while ($doUserLog->fetch() && $row = $doUserLog->toArray())
 {
 	if ($i > 0) echo "<td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
 	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
@@ -143,7 +128,7 @@ while ($row = phpAds_dbFetchArray($res))
 	$i++;
 }
 
-if (phpAds_dbNumRows($res) > 0)
+if ($doUserLog->getRowCount() > 0)
 {
 	echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	echo "<tr><td height='25' colspan='2'>";
