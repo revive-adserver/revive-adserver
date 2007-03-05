@@ -73,10 +73,8 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                 z.zoneid = " . DBC::makeLiteral($zoneId) . "
             AND af.affiliateid = z.affiliateid";
         
-        $rsZone = DBC::NewRecordSet($query);
-        $rsZone->find(true);
-        $array = $rsZone->toArray();
-        return $array;
+        $rsZone = DBC::FindRecord($query);
+        return $rsZone->toArray();
     }
 }
 
