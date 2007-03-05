@@ -63,14 +63,10 @@ if (phpAds_isUser(phpAds_Admin))
             $update_check = false;
         } else {
             // Make sure that the alert doesn't display everytime
-            phpAds_dbQuery("
-                UPDATE
-                    {$conf['table']['prefix']}{$conf['table']['preference']}
-                SET
-                    updates_last_seen = '".addslashes($update_check['config_version'])."'
-                WHERE
-                    agencyid = 0
-            ");
+            $doPreference = MAX_DB::factoryDO('preference');
+            $doPreference->updates_last_seen = $update_check['config_version'];
+            $doPreference->agencyid = 0;
+            $doPreference->update();
         
             // Format like the XML-RPC response
             $update_check = array(0, $update_check);
