@@ -131,7 +131,7 @@ window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Java
         </td>
         <td class="tableheader" colspan="7">
             <xsl:call-template name="showfieldadd">
-                <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>-add</xsl:with-param>
+                <xsl:with-param name="fieldname">[<xsl:value-of select="$tablename"/>][add]</xsl:with-param>
             </xsl:call-template>
         </td>
     </tr>
@@ -154,7 +154,7 @@ window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Java
     <xsl:for-each select="descendant::declaration/field">
 
         <xsl:call-template name="showfield">
-        <xsl:with-param name="tablename">database-<xsl:value-of select="$tablename"/>-declaration-field-<xsl:value-of select="name"/></xsl:with-param>
+        <xsl:with-param name="tablename">[database][table][<xsl:value-of select="$tablename"/>][declaration][field][<xsl:value-of select="name"/>]</xsl:with-param>
         </xsl:call-template>
 
     </xsl:for-each>
@@ -175,7 +175,7 @@ window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Java
     <xsl:for-each select="descendant::declaration/index">
 
         <xsl:call-template name="showindex">
-        <xsl:with-param name="tablename">database-<xsl:value-of select="$tablename"/>-declaration-index-<xsl:value-of select="name"/></xsl:with-param>
+        <xsl:with-param name="tablename">[database][table][<xsl:value-of select="$tablename"/>][declaration][index][<xsl:value-of select="name"/>]</xsl:with-param>
         </xsl:call-template>
 
     </xsl:for-each>
@@ -194,7 +194,7 @@ window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Java
     <xsl:for-each select="descendant::declaration/foreignkey">
 
         <xsl:call-template name="showforeignkey">
-            <xsl:with-param name="tablename">database-<xsl:value-of select="$tablename"/>-declaration-foreignkey-<xsl:value-of select="name"/></xsl:with-param>
+            <xsl:with-param name="tablename">[database][table][<xsl:value-of select="$tablename"/>][declaration][foreignkey][<xsl:value-of select="name"/>]</xsl:with-param>
         </xsl:call-template>
 
     </xsl:for-each>
@@ -208,37 +208,37 @@ window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Java
     <tr>
 
     <td class="tablebody"><xsl:call-template name="showname">
-        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>-name</xsl:with-param></xsl:call-template></td>
+        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>[name]</xsl:with-param></xsl:call-template></td>
 
     <td class="tablebody"><xsl:call-template name="showtype">
-        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>-type</xsl:with-param></xsl:call-template></td>
+        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>[type]</xsl:with-param></xsl:call-template></td>
 
     <td class="tablebody"><xsl:call-template name="showlength">
-        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>-length</xsl:with-param></xsl:call-template></td>
+        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>[length]</xsl:with-param></xsl:call-template></td>
 
     <td class="tablebody"><xsl:call-template name="showdefault">
-        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>-default</xsl:with-param></xsl:call-template></td>
+        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>[default]</xsl:with-param></xsl:call-template></td>
 
     <td class="tablebody"><xsl:call-template name="showautoincrement">
-        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>-autoincrement</xsl:with-param></xsl:call-template></td>
+        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>[autoincrement]</xsl:with-param></xsl:call-template></td>
 
     <td class="tablebody"><xsl:call-template name="showunsigned">
-        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>-unsigned</xsl:with-param></xsl:call-template></td>
+        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>[unsigned]</xsl:with-param></xsl:call-template></td>
 
     <td class="tablebody"><xsl:call-template name="shownotnull">
-        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>-notnull</xsl:with-param></xsl:call-template></td>
+        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>[notnull]</xsl:with-param></xsl:call-template></td>
 
     <td class="tablebody"><xsl:call-template name="showcomments">
-        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>-comments</xsl:with-param></xsl:call-template></td>
+        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>[comments]</xsl:with-param></xsl:call-template></td>
 
     <td class="tablebody">
         <xsl:call-template name="showdelete">
-            <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>-delete</xsl:with-param>
+            <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>[delete]</xsl:with-param>
         </xsl:call-template>
     </td>
     <td class="tablebody">
         <xsl:call-template name="showchangetype">
-            <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>-edit</xsl:with-param>
+            <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>[edit]</xsl:with-param>
         </xsl:call-template>
     </td>
 
@@ -262,18 +262,18 @@ window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Java
     <tr>
 
     <td class="tablebody"><xsl:call-template name="showname">
-        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>-name</xsl:with-param></xsl:call-template></td>
+        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>[name]</xsl:with-param></xsl:call-template></td>
 
     <td class="tablebody"><xsl:call-template name="showprimary">
-        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>-primary</xsl:with-param></xsl:call-template></td>
+        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>[primary]</xsl:with-param></xsl:call-template></td>
 
     <td class="tablebody"><xsl:call-template name="showunique">
-        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>-unique</xsl:with-param></xsl:call-template></td>
+        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>[unique]</xsl:with-param></xsl:call-template></td>
 
     <xsl:for-each select="field">
 
         <xsl:call-template name="showindexfield">
-        <xsl:with-param name="tablename">database-<xsl:value-of select="$tablename"/>-declaration-index-field-<xsl:value-of select="name"/></xsl:with-param>
+        <xsl:with-param name="tablename">[database][table][<xsl:value-of select="$tablename"/>][declaration][index][field][<xsl:value-of select="name"/>]</xsl:with-param>
         </xsl:call-template>
 
     </xsl:for-each>
@@ -302,15 +302,15 @@ window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Java
     <tr>
 
     <td class="tablebody"><xsl:call-template name="showsymbol">
-        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>-symbol</xsl:with-param></xsl:call-template></td>
+        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>[symbol]</xsl:with-param></xsl:call-template></td>
 
     <td class="tablebody"><xsl:call-template name="showname">
-        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>-id</xsl:with-param></xsl:call-template></td>
+        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>[id]</xsl:with-param></xsl:call-template></td>
 
     <xsl:for-each select="field">
 
         <xsl:call-template name="showforeignkeyfield">
-        <xsl:with-param name="tablename">database-<xsl:value-of select="$tablename"/>-declaration-foreignkey-field-<xsl:value-of select="name"/></xsl:with-param>
+        <xsl:with-param name="tablename">[database][table][<xsl:value-of select="$tablename"/>][declaration][foreignkey][field-<xsl:value-of select="name"/>]</xsl:with-param>
         </xsl:call-template>
 
     </xsl:for-each>
@@ -333,10 +333,10 @@ window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Java
     <tr>
 
     <td class="tablebody"><xsl:call-template name="showname">
-        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>-name</xsl:with-param></xsl:call-template></td>
+        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>[name]</xsl:with-param></xsl:call-template></td>
 
     <td class="tablebody"><xsl:call-template name="showsorting">
-        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>-sorting</xsl:with-param></xsl:call-template></td>
+        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>[sorting]</xsl:with-param></xsl:call-template></td>
 
     </tr>
     </TABLE>
@@ -355,7 +355,7 @@ window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Java
     <tr>
 
     <td class="tablebody"><xsl:call-template name="showname">
-        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>-name</xsl:with-param></xsl:call-template></td>
+        <xsl:with-param name="fieldname"><xsl:value-of select="$tablename"/>[name]</xsl:with-param></xsl:call-template></td>
 
     </tr>
     </TABLE>
