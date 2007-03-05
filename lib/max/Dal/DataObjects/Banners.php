@@ -71,21 +71,16 @@ class DataObjects_Banners extends DB_DataObjectCommon
     /**
      * Duplicates the banner.
      * 
-     * @param int $campaignId  the current campaign ID
      * @return int  the new bannerid
      *
      */
-    function duplicate($campaignId)
+    function duplicate()
     {
         // unset the bannerId
         $old_adId = $this->bannerid;
         unset($this->bannerid);
         
-        // If the campaignId == $campaignid
-        // set description to copy of...
-        if ($this->campaignid == $campaignId) {
-            $this->description = 'Copy of ' . $this->description;
-        }
+        $this->description = 'Copy of ' . $this->description;
         
         // Set the filename
         // We want to rename column 'storagetype' to 'type' so...
@@ -94,8 +89,6 @@ class DataObjects_Banners extends DB_DataObjectCommon
         } elseif ($this->type == 'web' || $this->type == 'sql') {
             $this->filename = phpAds_ImageDuplicate($this->type, $this->filename);
         }
-        
-        $this->campaignid = $campaignId;
         
         // Insert the new banner and get the ID
         $new_adId = $this->insert();

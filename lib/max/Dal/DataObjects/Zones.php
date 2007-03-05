@@ -91,4 +91,14 @@ class DataObjects_Zones extends DB_DataObjectCommon
     	return parent::delete($useWhere, $cascadeDelete);
     }
     
+    function duplicate()
+    {
+        // Get unique name
+        $this->zonename = $this->getUniqueNameForDuplication('zonename');
+        
+        $this->zoneid = null;
+        $newZoneid = $this->insert();
+        return $newZoneid;
+    }
+    
 }

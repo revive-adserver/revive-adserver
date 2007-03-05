@@ -863,10 +863,10 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
             <select name='newaffiliateid' style='width: 110;'>";
                 $aOtherPublishers = _multiSort($aOtherPublishers,'name','publisher_id');
                 foreach ($aOtherPublishers as $otherPublisherId => $aOtherPublisher) {
-                    $otherPublisherName = MAX_buildName($otherPublisherId, $aOtherPublisher['name']);
-                    if ($otherPublisherId != $publisherId) {
+                    $otherPublisherName = MAX_buildName($aOtherPublisher['publisher_id'], $aOtherPublisher['name']);
+                    if ($aOtherPublisher['publisher_id'] != $publisherId) {
                         $extra .= "
-                <option value='$otherPublisherId'>$otherPublisherName</option>";
+                <option value='" . $aOtherPublisher['publisher_id'] . "'>$otherPublisherName</option>";
                     }
                 }
         }

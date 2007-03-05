@@ -108,7 +108,7 @@ if (!empty($bannerid)) {
     } elseif (isset($duplicate) && $duplicate == 'true') {
         $doBanners = MAX_DB::factoryDO('banners');
         $doBanners->get($bannerid);
-        $new_bannerid = $doBanners->duplicate($campaignid);
+        $new_bannerid = $doBanners->duplicate();
 
         // Run the Maintenance Priority Engine process
         MAX_Maintenance_Priority::run();
