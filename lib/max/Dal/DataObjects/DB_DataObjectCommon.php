@@ -365,6 +365,33 @@ class DB_DataObjectCommon extends DB_DataObject
     }
     
     /**
+     * Adds a condition to the WHERE statement
+     * eg: bracketAdd('affiliateid', array(1,2,3), 'AND')
+     * is changed into: whereAdd('(affiliateid = 1 OR affiliateid = 2 OR affiliateid = 3)', 'AND');
+     * 
+     * Question: Should we change it into WHERE IN?
+     *
+     * @param string $field
+     * @param array $values
+     * @param string $logic OR | AND
+     * @return boolean  True on success
+     * @access public
+     */
+    function whereInAdd($field, $values, $logic = 'AND')
+    {
+        if (empty($values)) {
+            return true;
+        }
+        
+        $condistions = array();
+        foreach ($values as $value) {
+            $condistions[] = $field." = '".$this->escape($value)."'";
+        }
+        $query = implode ($condistions, ' OR ');
+        return $this->whereAdd($query, $logic);
+    }
+    
+    /**
      * //// Protected methods, could be overwritten in child classes but
      * //// a good practice is to call them in child methods by parent::methodName()
      */

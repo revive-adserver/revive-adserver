@@ -63,71 +63,27 @@ phpAds_registerGlobal (
 );
 
 
-// Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
-
-
-
 /*-------------------------------------------------------*/
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+if (!empty($zoneid)) {
+    MAX_Permission::checkAccessToObject('zones', $zoneid);
+}
+if (!empty($affiliateid)) {
+    MAX_Permission::checkAccessToObject('affiliates', $affiliateid);
+}
+
 if (phpAds_isUser(phpAds_Affiliate))
 {
-    if (isset($zoneid) && $zoneid > 0)
-    {
-        $result = phpAds_dbQuery("
-            SELECT
-                affiliateid
-            FROM
-                ".$conf['table']['prefix'].$conf['table']['zones']."
-            WHERE
-                zoneid = '$zoneid'
-            ") or phpAds_sqlDie();
-        $row = phpAds_dbFetchArray($result);
-
-        if ($row["affiliateid"] == '' || phpAds_getUserID() != $row["affiliateid"] || !phpAds_isAllowed(phpAds_EditZone))
-        {
-            phpAds_PageHeader("1");
-            phpAds_Die ($strAccessDenied, $strNotAdmin);
-        }
-        else
-        {
-            $affiliateid = phpAds_getUserID();
-        }
-    }
-    else
-    {
-        if (phpAds_isAllowed(phpAds_AddZone))
-        {
-            $affiliateid = phpAds_getUserID();
-        }
-        else
-        {
-            phpAds_PageHeader("1");
-            phpAds_Die ($strAccessDenied, $strNotAdmin);
-        }
+    $affiliateid = phpAds_getUserID();
+    if (!empty($zoneid)) {
+        MAX_Permission::checkIsAllowed(phpAds_EditZone);
+    } else {
+        MAX_Permission::checkIsAllowed(phpAds_AddZone);
     }
 }
-elseif (phpAds_isUser(phpAds_Agency))
-{
-    $query = "SELECT z.zoneid as zoneid".
-        " FROM ".$conf['table']['prefix'].$conf['table']['affiliates']." AS a".
-        ",".$conf['table']['prefix'].$conf['table']['zones']." AS z".
-        " WHERE z.affiliateid='".$affiliateid."'".
-        " AND z.zoneid='".$zoneid."'".
-        " AND z.affiliateid=a.affiliateid".
-        " AND a.agencyid=".phpAds_getUserID();
-
-    $res = phpAds_dbQuery($query) or phpAds_sqlDie();
-    if (phpAds_dbNumRows($res) == 0)
-    {
-        phpAds_PageHeader("2");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
-}
-
-
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
@@ -135,28 +91,26 @@ elseif (phpAds_isUser(phpAds_Agency))
 
 if (isset($submitbutton))
 {
-    if (isset($zoneid) && $zoneid != '')
+    if (!empty($zoneid))
     {
-        $sqlupdate = array();
-
+        $doZones = MAX_DB::factoryDO('zones');
+        $doZones->get($zoneid);
 
         // Determine chain
-        if ($chaintype == '1' && $chainzone != '')
+        if ($chaintype == '1' && $chainzone != '') {
             $chain = 'zone:'.$chainzone;
-        elseif ($chaintype == '2' && $chainwhat != '')
+        } elseif ($chaintype == '2' && $chainwhat != '') {
             $chain = $chainwhat;
-        else
+        } else {
             $chain = '';
-
-        $sqlupdate[] = "chain='".$chain."'";
-
+        }
+        $doZones->chain = $chain;
 
         if (!isset($prepend)) $prepend = '';
-        $sqlupdate[] = "prepend='".$prepend."'";
-
+        $doZones->prepend = $prepend;
 
         // Do not save append until not finished with zone appending, if present
-        if (isset($appendsave) && $appendsave)
+        if (!empty($appendsave))
         {
             if (!isset($append)) $append = '';
             if (!isset($appendtype)) $appendtype = phpAds_ZoneAppendZone;
@@ -181,12 +135,12 @@ if (isset($submitbutton))
                 $append = str_replace('%7Bsource%7D', '{source}', $append);
             }
 
-            $sqlupdate[] = "append='$append'";
-            $sqlupdate[] = "appendtype='$appendtype'";
+            $doZones->append = $append;
+            $doZones->appendtype = $appendtype;
         }
 
         if (isset($forceappend)) {
-            $sqlupdate[] = "forceappend = '$forceappend'";
+            $doZones->forceappend = $forceappend;
         }
 
         $inventory_forecast_type = 0;
@@ -195,31 +149,22 @@ if (isset($submitbutton))
         if (isset($inventory_forecast_type_source)) $inventory_forecast_type += $inventory_forecast_type_source;
         if (isset($inventory_forecast_type_channel)) $inventory_forecast_type += $inventory_forecast_type_channel;
         if (isset($inventory_forecast_type)) {
-            $sqlupdate[] = "inventory_forecast_type=$inventory_forecast_type";
+            $doZones->inventory_forecast_type = $inventory_forecast_type;
         }
 
 		_initCappingVariables();
 
-		$sqlupdate[] = "block = '$block'";
-		$sqlupdate[] = "capping = '$cap'";
-		$sqlupdate[] = "session_capping = '$session_capping'";
-
-        $res = phpAds_dbQuery("
-            UPDATE
-                ".$conf['table']['prefix'].$conf['table']['zones']."
-            SET
-                ".join(', ', $sqlupdate).",
-                updated = '".date('Y-m-d H:i:s')."'
-            WHERE
-                zoneid='".$zoneid."'
-        ") or phpAds_sqlDie();
+		$doZones->block = $block;
+		$doZones->capping = $cap;
+		$doZones->session_capping = $session_capping;
+		$doZones->update();
 
         // Rebuild Cache
         // require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
         // phpAds_cacheDelete('what=zone:'.$zoneid);
 
         // Do not redirect until not finished with zone appending, if present
-        if (!isset($appendsave) || $appendsave) {
+        if (!empty($appendsave)) {
             if (phpAds_isUser(phpAds_Affiliate)) {
                 if (phpAds_isAllowed(phpAds_LinkBanners)) {
                     MAX_Admin_Redirect::redirect('zone-include.php?affiliateid='.$affiliateid.'&zoneid='.$zoneid);
@@ -263,17 +208,10 @@ MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $aEntities
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$res = phpAds_dbQuery("
-    SELECT
-        *
-    FROM
-        ".$conf['table']['prefix'].$conf['table']['zones']."
-    WHERE
-        zoneid='".$zoneid."'
-") or phpAds_sqlDie();
-
-if (phpAds_dbNumRows($res))
-    $zone = phpAds_dbFetchArray($res);
+$doZones = MAX_DB::factoryDO('zones');
+if ($doZones->get($zoneid)) {
+    $zone = $doZones->toArray();
+}
 
 $tabindex = 1;
 
@@ -315,48 +253,42 @@ if ($zone['delivery'] == phpAds_ZoneText) echo "<img src='images/icon-textzone.g
 
 echo "&nbsp;&nbsp;<select name='chainzone' style='width: 200;' onchange='phpAds_formSelectZone()' tabindex='".($tabindex++)."'>";
 
-    $available = array();
-
+    $doAffiliates = MAX_DB::factoryDO('affiliates');
+    $doAffiliates->whereAdd("(publiczones = 't' OR affiliateid='".$affiliateid."')");
+    
     // Get list of public publishers
     if (phpAds_isUser(phpAds_Admin))
     {
 		// Show only zones from the same agency
-        $res = phpAds_dbQuery("SELECT a.agencyid FROM ".$conf['table']['prefix'].$conf['table']['affiliates']." a, ".
-                              $conf['table']['prefix'].$conf['table']['zones']." z ".
-                              "WHERE a.affiliateid = z.affiliateid AND z.zoneid = '".$zoneid."'");
-
-        $query = "SELECT affiliateid".
-            " FROM ".$conf['table']['prefix'].$conf['table']['affiliates'].
-            " WHERE (publiczones = 't'".
-            " OR affiliateid='".$affiliateid."')".
-            " AND agencyid='".phpAds_dbResult($res, 0, 0)."'";
+        $doAffiliates->addReferenceFilter('zones', $zoneid);
     }
     elseif (phpAds_isUser(phpAds_Agency))
     {
-        $query = "SELECT affiliateid".
-            " FROM ".$conf['table']['prefix'].$conf['table']['affiliates'].
-            " WHERE (publiczones = 't'".
-            " OR affiliateid='".$affiliateid."')".
-            " AND agencyid='".phpAds_getUserID()."'";
+        $doAffiliates->addReferenceFilter('agency', phpAds_getUserID());
     }
-
-    $res = phpAds_dbQuery($query)
-        or phpAds_sqlDie();
-
-    while ($row = phpAds_dbFetchArray($res))
-        $available[] = "affiliateid = '".$row['affiliateid']."'";
-
-    $available = implode ($available, ' OR ');
+    
+    if (phpAds_isUser(phpAds_Affiliate)) {
+        // @todo FIXME: Affilitates should also have access to the "public" zones within their agency
+        phpAds_Die ('Error', 'Affilitates should also have access to the "public" zones within their agency');
+    }
+    $availableAffiliates = $doAffiliates->getAll(array('affiliateid'));
+    
+    // Get list of zones to link to
+    $doZones = MAX_DB::factoryDO('zones');
+    $doZones->whereInAdd('affiliateid', $availableAffiliates);
 
     $allowothersizes = $zone['delivery'] == phpAds_ZoneInterstitial || $zone['delivery'] == phpAds_ZonePopup;
+    if ($zone['width'] != -1 && !$allowothersizes) {
+        $doZones->width = $zone['width'];
+    }
+    if ($zone['height'] != -1 && !$allowothersizes) {
+        $doZones->height = $zone['height'];
+    }
+    $doZones->delivery = $zone['delivery'];
+    $doZones->whereAdd('zoneid <> '.$zoneid);
+    $doZones->find();
 
-    // Get list of zones to link to
-    $res = phpAds_dbQuery("SELECT * FROM ".$conf['table']['prefix'].$conf['table']['zones']." WHERE ".
-                          ($zone['width'] == -1 || $allowothersizes ? "" : "width = ".$zone['width']." AND ").
-                          ($zone['height'] == -1 || $allowothersizes ? "" : "height = ".$zone['height']." AND ").
-                          "delivery = ".$zone['delivery']." AND (".$available.") AND zoneid <> '".$zoneid."'");
-
-    while ($row = phpAds_dbFetchArray($res))
+    while ($doZones->fetch() && $row = $doZones->toArray())
         if ($chainzone == $row['zoneid'])
             echo "<option value='".$row['zoneid']."' selected>".phpAds_buildZoneName($row['zoneid'], $row['zonename'])."</option>";
         else
@@ -449,37 +381,31 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 
 
         // Get list of public publishers
-        if (phpAds_isUser(phpAds_Admin))
-        {
-            $query = "SELECT affiliateid".
-                " FROM ".$conf['table']['prefix'].$conf['table']['affiliates'].
-                " WHERE publiczones = 't'".
-                " OR affiliateid='".$affiliateid."'";
+        $doAffiliates = MAX_DB::factoryDO('affiliates');
+        $doAffiliates->whereAdd("(publiczones = 't' OR affiliateid='".$affiliateid."')");
+        
+        if (phpAds_isUser(phpAds_Agency)) {
+            $doAffiliates->addReferenceFilter('agency', phpAds_getUserID());
         }
-        elseif (phpAds_isUser(phpAds_Agency))
-        {
-            $query = "SELECT affiliateid".
-                " FROM ".$conf['table']['prefix'].$conf['table']['affiliates'].
-                " WHERE (publiczones = 't'".
-                " OR affiliateid='".$affiliateid."')".
-                " AND agencyid=".phpAds_getUserID();
-        }
-        $res = phpAds_dbQuery($query)
-            or phpAds_sqlDie();
-
-        while ($row = phpAds_dbFetchArray($res))
-            $available[] = "affiliateid = '".$row['affiliateid']."'";
-
-        $available = implode ($available, ' OR ');
-
-
+        $availableAffiliates = $doAffiliates->getAll(array('affiliateid'));
+    
         // Get list of zones to link to
-        $res = phpAds_dbQuery("SELECT zoneid, zonename, delivery FROM ".$conf['table']['prefix'].$conf['table']['zones']." WHERE ".
-                              "(delivery = ".phpAds_ZonePopup." OR delivery = ".phpAds_ZoneInterstitial.
-                              ") AND (".$available.") ORDER BY zoneid");
-
+        $doZones = MAX_DB::factoryDO('zones');
+        $doZones->whereInAdd('affiliateid', $availableAffiliates);
+    
+        $allowothersizes = $zone['delivery'] == phpAds_ZoneInterstitial || $zone['delivery'] == phpAds_ZonePopup;
+        if ($zone['width'] != -1 && !$allowothersizes) {
+            $doZones->width = $zone['width'];
+        }
+        if ($zone['height'] != -1 && !$allowothersizes) {
+            $doZones->height = $zone['height'];
+        }
+        $doZones->delivery = $zone['delivery'];
+        $doZones->whereAdd('zoneid <> '.$zoneid);
+        $doZones->find();
+        
         $available = array(phpAds_ZonePopup => array(), phpAds_ZoneInterstitial => array());
-        while ($row = phpAds_dbFetchArray($res))
+        while ($doZones->fetch() && $row = $doZones->toArray())
             $available[$row['delivery']][$row['zoneid']] = phpAds_buildZoneName($row['zoneid'], $row['zonename']);
 
 
