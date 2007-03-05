@@ -205,10 +205,15 @@ class MDB2_Driver_Manager_Common extends MDB2_Module_Common
 
     /**
      * Create a basic SQL query for a new table creation
+     *
      * @param string $name   Name of the database that should be created
      * @param array $fields  Associative array that contains the definition of each field of the new table
-     * @param array $options  An associative array of table options
-     * @return mixed string (the SQL query) on success, a MDB2 error on failure
+     * @param array $options An associative array of table options
+     *                          Supported options are:
+     *                          'primary'   An array of column names in the array keys
+     *                                      that form the primary key of the table
+     *                          'temporary' If true, creates the table as a temporary table
+     * @return mixed string  The SQL query on success, or MDB2 error on failure
      * @see createTable()
      */
     function _getCreateTableQuery($name, $fields, $options = array())
@@ -235,7 +240,11 @@ class MDB2_Driver_Manager_Common extends MDB2_Module_Common
         }
 
         $name = $db->quoteIdentifier($name, true);
-        return "CREATE TABLE $name ($query_fields)";
+        if ($options['temporary']) {
+            return "CREATE TEMPORARY TABLE $name ($query_fields)";
+        } else {
+            return "CREATE TABLE $name ($query_fields)";
+        }
     }
 
     // }}}
