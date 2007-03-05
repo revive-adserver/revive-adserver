@@ -38,7 +38,7 @@ require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+MAX_Permission::checkAccess(phpAds_Admin);
 
 $errormessage = array();
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
@@ -51,9 +51,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     if (isset($admin)) {
         if (!strlen($admin)) {
             $errormessage[0][] = $strInvalidUsername;
-        } elseif (phpAds_dbNumRows(phpAds_dbQuery("SELECT * FROM ".$conf['table']['prefix'].$conf['table']['clients']." WHERE LOWER(clientusername) = '".strtolower($admin)."'"))) {
-            $errormessage[0][] = $strDuplicateClientName;
-        } elseif (phpAds_dbNumRows(phpAds_dbQuery("SELECT * FROM ".$conf['table']['prefix'].$conf['table']['affiliates']." WHERE LOWER(username) = '".strtolower($admin)."'"))) {
+        } elseif (!MAX_Permission::isUsernameAllowed($pref['admin'], $admin)) {
             $errormessage[0][] = $strDuplicateClientName;
         } else {
             $preferences->setPrefChange('admin', $admin);
@@ -105,19 +103,7 @@ phpAds_PageHeader("5.1");
 phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
 phpAds_SettingsSelection("admin");
 
-$unique_users = array();
-$res = phpAds_dbQuery(
-    "SELECT LOWER(clientusername) as used".
-    " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-    " WHERE clientusername != ''"
-);
-
-while ($row = phpAds_dbFetchArray($res))
-    $unique_users[] = $row['used'];
-
-$res = phpAds_dbQuery("SELECT LOWER(username) as used FROM ".$conf['table']['prefix'].$conf['table']['affiliates']." WHERE username != ''");
-while ($row = phpAds_dbFetchArray($res))
-    $unique_users[] = $row['used'];
+$unique_users = MAX_Permission::getUniqueUserNames($pref['admin']);
 
 $settings = array (
     array (
