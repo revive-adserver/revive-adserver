@@ -339,7 +339,7 @@ function datatype_openads_text_callback(&$db, $method, $aParameters)
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
             // Strip out any "DEFAULT NULL" value from the options
-            $declaration_options = preg_replace('/DEFAULT NULL /', $declaration_options);
+            $declaration_options = preg_replace('/DEFAULT NULL /', '', $declaration_options);
             $value .= $declaration_options;
             return $value;
         case 'quote':

@@ -41,7 +41,7 @@ class Test_Openads_Dal_CustomDatatypes_mysql extends UnitTestCase
 
     var $db;
 
-    var $customTypes = 5;
+    var $customTypes = 6;
 
     /**
      * The constructor method.
@@ -327,6 +327,74 @@ class Test_Openads_Dal_CustomDatatypes_mysql extends UnitTestCase
 
     /**
      * A method to test that the MDB2 datatype to database nativetype
+     * mappings work as expected for the "openads_text" datatype.
+     */
+    function testDatatypeToNativetypeMappings_openads_text()
+    {
+        $aTestData = array(
+            'openads_text_test1' => array(
+                'method' => 'getValidTypes',
+                'params' => null
+            ),
+            'openads_text_test2' => array(
+                'method' => 'convertResult',
+                'params' => array(5, 'openads_text')
+            ),
+            'openads_text_test3' => array(
+                'method' => 'convertResult',
+                'params' => array('5 foo ', 'openads_text')
+            ),
+            'openads_text_test4' => array(
+                'method' => 'getDeclaration',
+                'params' => array('openads_text', 'foo', array(
+                    'length'    => null,
+                    'default'   => null,
+                    'notnull'   => null,
+                    'charset'   => null,
+                    'collation' => null
+                ))
+            ),
+            'openads_text_test5' => array(
+                'method' => 'getDeclaration',
+                'params' => array('openads_text', 'foo', array(
+                    'length'    => 255,
+                    'default'   => 1,
+                    'notnull'   => true,
+                    'charset'   => null,
+                    'collation' => null
+                ))
+            ),
+            'openads_text_test6' => array(
+                'method' => 'quote',
+                'params' => array(37, 'openads_text')
+            ),
+            'openads_text_test7' => array(
+                'method' => 'mapPrepareDatatype',
+                'params' => array('openads_text')
+            )
+        );
+        $aResultData = array(
+            'openads_text_test2' => '5',
+            'openads_text_test3' => '5 foo',
+            'openads_text_test4' => 'foo TEXT DEFAULT NULL',
+            'openads_text_test5' => 'foo TEXT(255) DEFAULT 1 NOT NULL',
+            'openads_text_test6' => "'37'",
+            'openads_text_test7' => 'TEXT'
+        );
+        foreach ($aTestData as $testKey => $aFields) {
+            if ($aFields['method'] == 'getValidTypes') {
+                $result = call_user_func(array($this->db->datatype, $aFields['method']));
+                $this->assertEqual(count($result), 10 + $this->customTypes);
+                $this->assertEqual($result['openads_text'], '');
+            } else {
+                $result = call_user_func_array(array($this->db->datatype, $aFields['method']), $aFields['params']);
+                $this->assertEqual($result, $aResultData[$testKey]);
+            }
+        }
+    }
+
+    /**
+     * A method to test that the MDB2 datatype to database nativetype
      * mappings work as expected for the "openads_varchar" datatype.
      */
     function testDatatypeToNativetypeMappings_openads_varchar()
@@ -539,6 +607,40 @@ class Test_Openads_Dal_CustomDatatypes_mysql extends UnitTestCase
                 1 => "'t'",
                 2 => null,
                 3 => null
+            )
+        );
+        foreach ($aTestData as $testKey => $aFields) {
+            $aDefinition = $this->db->datatype->mapNativeDatatype($aFields);
+            $this->assertEqual($aDefinition, $aResultData[$testKey]);
+        }
+    }
+
+    /**
+     * A method to test that the database nativetype to MDB2 datatype
+     * mappings work as expected for the "text" nativetype.
+     */
+    function testNativetypeToDatatypeMappings_text()
+    {
+        $aTestData = array(
+            'text_test1' => array(
+                'type'    => 'text'
+            ),
+            'text_test2' => array(
+                'type'    => 'text(5)'
+            )
+        );
+        $aResultData = array(
+            'text_test1' => array(
+                0 => array('openads_text'),
+                1 => null,
+                2 => null,
+                3 => false
+            ),
+            'text_test2' => array(
+                0 => array('openads_text'),
+                1 => 5,
+                2 => null,
+                3 => false
             )
         );
         foreach ($aTestData as $testKey => $aFields) {
