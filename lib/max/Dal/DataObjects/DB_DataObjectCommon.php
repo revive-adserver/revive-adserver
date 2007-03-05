@@ -108,7 +108,7 @@ class DB_DataObjectCommon extends DB_DataObject
     	        $this->selectAdd($field);
     	    }
     	    // if we are indexing with pk add it here
-    	    if (!in_array($primaryKey, $filter)) {
+    	    if ($indexWithPrimaryKey && !in_array($primaryKey, $filter)) {
     	        $this->selectAdd($primaryKey);
     	    }
     	}
