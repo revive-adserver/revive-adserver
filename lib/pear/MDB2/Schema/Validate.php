@@ -318,10 +318,14 @@ class MDB2_Schema_Validate
         }
 
         /* Length */
-        if (array_key_exists('length', $field) && $field['length'] <= 0) {
-            return $this->raiseError(MDB2_SCHEMA_ERROR_VALIDATE,
-                'length has to be an integer greater 0');
-        }
+
+        /**
+         * @TODO Temporarily remove length checking...
+         */
+        //if (array_key_exists('length', $field) && $field['length'] <= 0) {
+        //    return $this->raiseError(MDB2_SCHEMA_ERROR_VALIDATE,
+        //        'length has to be an integer greater 0');
+        //}
 
         /* Was */
         if (empty($field['was'])) {
