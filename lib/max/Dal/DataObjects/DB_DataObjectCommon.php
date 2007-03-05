@@ -98,11 +98,18 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function getAll($filter = array(), $indexWithPrimaryKey = false, $flattenIfOneOnly = true)
     {
+    	if ($indexWithPrimaryKey) {
+			$primaryKey = $this->getFirstPrimaryKey();
+    	}
     	if ($filter) {
     	    // select only what is required
     	    $this->selectAdd();
     	    foreach ($filter as $field) {
     	        $this->selectAdd($field);
+    	    }
+    	    // if we are indexing with pk add it here
+    	    if (!in_array($primaryKey, $filter)) {
+    	        $this->selectAdd($primaryKey);
     	    }
     	}
         $this->find();
@@ -110,9 +117,6 @@ class DB_DataObjectCommon extends DB_DataObject
     	$rows = array();
     	$fields = $this->table();
     	$primaryKey = null;
-    	if ($indexWithPrimaryKey) {
-			$primaryKey = $this->getFirstPrimaryKey();
-    	}
     	while ($this->fetch()) {
     		$row = array();
     		foreach ($fields as $k => $v) {

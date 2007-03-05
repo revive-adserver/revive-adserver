@@ -96,7 +96,7 @@ else
 if (phpAds_isUser(phpAds_Admin))
 {
     $doAgency = MAX_DB::factoryDO('agency');
-    $agencies = $doAgency->getAll(array(agencyid, name), true);
+    $agencies = $doAgency->getAll(array('name'), true);
 }
 
 foreach ($agencies as $v) {
