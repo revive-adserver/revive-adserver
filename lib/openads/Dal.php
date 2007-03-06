@@ -72,6 +72,10 @@ class Openads_Dal
             $aOptions = array();
             // Set the "correct" index format
             $aOptions['idxname_format'] = '%s';
+            // Set the default table type, if appropriate
+            if (!empty($conf['table']['type'])) {
+                $aOptions['default_table_type'] = $conf['table']['type'];
+            }
             // Set any custom MDB2 datatypes & nativetype mappings
             $customTypesFile = MAX_PATH . '/lib/openads/Dal/CustomDatatypes/' .
                                $conf['database']['type'] . '.php';
