@@ -54,9 +54,9 @@ require_once 'MDB2_testcase.php';
  * @param string $method     The name of the MDB2_Driver_Datatype_Common method
  *                           the callback function was called from. One of
  *                           "getValidTypes", "convertResult", "getDeclaration",
- *                           "quote" and "mapPrepareDatatype". See
- *                           {@link MDB2_Driver_Datatype_Common} for the details
- *                           of what each method does.
+ *                           "compareDefinition", "quote" and "mapPrepareDatatype".
+ *                           See {@link MDB2_Driver_Datatype_Common} for the
+ *                           details of what each method does.
  * @param array $aParameters An array of parameters, being the parameters that
  *                           were passed to the method calling the callback
  *                           function.
@@ -82,6 +82,8 @@ function datatype_test_callback(&$db, $method, $aParameters)
             return 'datatype_test_callback::convertresult';
         case 'getdeclaration':
             return 'datatype_test_callback::getdeclaration';
+        case 'comparedefinition':
+            return 'datatype_test_callback::comparedefinition';
         case 'quote':
             return 'datatype_test_callback::quote';
         case 'mappreparedatatype':
@@ -677,7 +679,7 @@ class MDB2_Datatype_TestCase extends MDB2_TestCase
      */
     function testGetDeclaration()
     {
-        // Test with an MDB2 datatype, eg. "text"
+        // Test with an MDB2 datatype, eg. "integer"
         $name = 'column';
         $type = 'integer';
         $field = array('type' => 'integer');
@@ -692,6 +694,41 @@ class MDB2_Datatype_TestCase extends MDB2_TestCase
         $field = array('type' => 'test');
         $result = $this->db->datatype->getDeclaration($type, $name, $field);
         $this->assertEquals('datatype_test_callback::getdeclaration', $result, 'getDeclaration');
+        unset($this->db->options['datatype_map']);
+        unset($this->db->options['datatype_map_callback']);
+    }
+
+    /**
+     * A method to test that the MDB2_Driver_Datatype_Common::compareDefinition()
+     * method
+     */
+    function testCompareDefinition()
+    {
+        // Test with an MDB2 datatype, eg. "text"
+        $aPrevious = array(
+            'type'   => 'text',
+            'length' => 4
+        );
+        $aCurrent = array(
+            'type'   => 'text',
+            'length' => 5
+        );
+        $aResult = $this->db->datatype->compareDefinition($aCurrent, $aPrevious);
+        $this->assertTrue(is_array($aResult), 'compareDefinition');
+        $this->assertEquals(1, count($aResult), 'compareDefinition');
+        $this->assertTrue($aResult['length'], 'compareDefinition');
+
+        // Test with a custom datatype
+        $this->db->setOption('datatype_map', array('test' => 'test'));
+        $this->db->setOption('datatype_map_callback', array('test' => 'datatype_test_callback'));
+        $aPrevious = array(
+            'type'   => 'test'
+        );
+        $aCurrent = array(
+            'type'   => 'test'
+        );
+        $result = $this->db->datatype->compareDefinition($aCurrent, $aPrevious);
+        $this->assertEquals('datatype_test_callback::comparedefinition', $result, 'compareDefinition');
         unset($this->db->options['datatype_map']);
         unset($this->db->options['datatype_map_callback']);
     }
