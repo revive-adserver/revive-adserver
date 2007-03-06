@@ -23,18 +23,32 @@
         <delete dir="build" />
     </target>
     <target name="test-domain">
-        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="true" output="build/test-results/quick.simpletest.xml">
+        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="false" output="build/test-results/quick.simpletest.xml" resultproperty="test.domain.result">
             <arg value="quick_tests.php" />
             <arg value="--format=xml" />
         </exec>
     	<report-on-simpletest-results basename="quick" />
+	<fail message="Quick Simpletest Suite Failure">
+	    <condition>
+		<not>
+		    <equals arg1="0" arg2="${test.domain.result}"/>
+		</not>
+	    </condition>
+	</fail>
     </target>
     <target name="test-db">
-        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="true" output="build/test-results/complete.simpletest.xml">
+        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="false" output="build/test-results/complete.simpletest.xml" resultproperty="test.db.result">
             <arg value="complete_tests.php" />
             <arg value="--format=xml" />
         </exec>
     	<report-on-simpletest-results basename="complete" />
+	<fail message="Complete Simpletest Suite Failure">
+	    <condition>
+		<not>
+		    <equals arg1="0" arg2="${test.db.result}"/>
+		</not>
+	    </condition>
+	</fail>
     </target>
 	<target name="test-all-individually">
         <exec dir="tests" executable="${max.php_cli_executable}" failonerror="true" output="build/test-results/all-unit-individual.simpletest.xml">
