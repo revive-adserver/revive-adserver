@@ -240,11 +240,12 @@ class MDB2_Driver_Manager_Common extends MDB2_Module_Common
         }
 
         $name = $db->quoteIdentifier($name, true);
-        if ($options['temporary']) {
-            return "CREATE TEMPORARY TABLE $name ($query_fields)";
-        } else {
-            return "CREATE TABLE $name ($query_fields)";
+        $result = 'CREATE ';
+        if (!empty($options['temporary']) && $options['temporary']) {
+            $result .= 'TEMPORARY ';
         }
+        $result .= "TABLE $name ($query_fields)";
+        return $result;
     }
 
     // }}}
