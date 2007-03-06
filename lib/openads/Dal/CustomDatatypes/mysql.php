@@ -69,9 +69,9 @@ $aNativetypes = array(
  * @param string $method     The name of the MDB2_Driver_Datatype_Common method
  *                           the callback function was called from. One of
  *                           "getValidTypes", "convertResult", "getDeclaration",
- *                           "quote" and "mapPrepareDatatype". See
- *                           {@link MDB2_Driver_Datatype_Common} for the details
- *                           of what each method does.
+ *                           "compareDefinition", "quote" and "mapPrepareDatatype".
+ *                           See {@link MDB2_Driver_Datatype_Common} for the
+ *                           details of what each method does.
  * @param array $aParameters An array of parameters, being the parameters that
  *                           were passed to the method calling the callback
  *                           function.
@@ -104,6 +104,10 @@ function datatype_openads_char_callback(&$db, $method, $aParameters)
             }
             $value .= $declaration_options;
             return $value;
+        case 'comparedefinition':
+            // Return the same array of changes that would be used for
+            // the built in "text" datatype
+            return $db->_compareTextDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into MySQL using the built in
@@ -112,8 +116,6 @@ function datatype_openads_char_callback(&$db, $method, $aParameters)
         case 'mappreparedatatype':
             // Return the MySQL nativetype declaration for this custom datatype
             return 'CHAR';
-        case 'comparedefinition':
-            return $db->_compareTextDefinition($aParameters['current'], $aParameters['previous']);
         }
 }
 
@@ -125,9 +127,9 @@ function datatype_openads_char_callback(&$db, $method, $aParameters)
  * @param string $method     The name of the MDB2_Driver_Datatype_Common method
  *                           the callback function was called from. One of
  *                           "getValidTypes", "convertResult", "getDeclaration",
- *                           "quote" and "mapPrepareDatatype". See
- *                           {@link MDB2_Driver_Datatype_Common} for the details
- *                           of what each method does.
+ *                           "compareDefinition", "quote" and "mapPrepareDatatype".
+ *                           See {@link MDB2_Driver_Datatype_Common} for the
+ *                           details of what each method does.
  * @param array $aParameters An array of parameters, being the parameters that
  *                           were passed to the method calling the callback
  *                           function.
@@ -160,6 +162,11 @@ function datatype_openads_enum_callback(&$db, $method, $aParameters)
             }
             $value .= $declaration_options;
             return $value;
+        case 'comparedefinition':
+            /**
+             * @TODO Implement the change set array for this custom type!
+             */
+            return array();
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into MySQL using the built in
@@ -168,8 +175,6 @@ function datatype_openads_enum_callback(&$db, $method, $aParameters)
         case 'mappreparedatatype':
             // Return the MySQL nativetype declaration for this custom datatype
             return 'ENUM';
-        case 'comparedefinition':
-            return array(); //$db->_compareEnumDefinition($aParameters['current'], $aParameters['previous']);
     }
 }
 
@@ -181,9 +186,9 @@ function datatype_openads_enum_callback(&$db, $method, $aParameters)
  * @param string $method     The name of the MDB2_Driver_Datatype_Common method
  *                           the callback function was called from. One of
  *                           "getValidTypes", "convertResult", "getDeclaration",
- *                           "quote" and "mapPrepareDatatype". See
- *                           {@link MDB2_Driver_Datatype_Common} for the details
- *                           of what each method does.
+ *                           "compareDefinition", "quote" and "mapPrepareDatatype".
+ *                           See {@link MDB2_Driver_Datatype_Common} for the
+ *                           details of what each method does.
  * @param array $aParameters An array of parameters, being the parameters that
  *                           were passed to the method calling the callback
  *                           function.
@@ -216,6 +221,10 @@ function datatype_openads_mediumint_callback(&$db, $method, $aParameters)
             }
             $value .= $declaration_options;
             return $value;
+        case 'comparedefinition':
+            // Return the same array of changes that would be used for
+            // the built in "integer" datatype
+            return $db->_compareIntegerDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into MySQL using the built in
@@ -224,8 +233,6 @@ function datatype_openads_mediumint_callback(&$db, $method, $aParameters)
         case 'mappreparedatatype':
             // Return the MySQL nativetype declaration for this custom datatype
             return 'MEDIUMINT';
-        case 'comparedefinition':
-            return $db->_compareIntegerDefinition($aParameters['current'], $aParameters['previous']);
     }
 }
 
@@ -237,9 +244,9 @@ function datatype_openads_mediumint_callback(&$db, $method, $aParameters)
  * @param string $method     The name of the MDB2_Driver_Datatype_Common method
  *                           the callback function was called from. One of
  *                           "getValidTypes", "convertResult", "getDeclaration",
- *                           "quote" and "mapPrepareDatatype". See
- *                           {@link MDB2_Driver_Datatype_Common} for the details
- *                           of what each method does.
+ *                           "compareDefinition", "quote" and "mapPrepareDatatype".
+ *                           See {@link MDB2_Driver_Datatype_Common} for the
+ *                           details of what each method does.
  * @param array $aParameters An array of parameters, being the parameters that
  *                           were passed to the method calling the callback
  *                           function.
@@ -272,6 +279,11 @@ function datatype_openads_set_callback(&$db, $method, $aParameters)
             }
             $value .= $declaration_options;
             return $value;
+        case 'comparedefinition':
+            /**
+             * @TODO Implement the change set array for this custom type!
+             */
+            return array();
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into MySQL using the built in
@@ -280,8 +292,6 @@ function datatype_openads_set_callback(&$db, $method, $aParameters)
         case 'mappreparedatatype':
             // Return the MySQL nativetype declaration for this custom datatype
             return 'SET';
-        case 'comparedefinition':
-            return array(); //$db->_compareSetDefinition($aParameters['current'], $aParameters['previous']);
     }
 }
 
@@ -293,9 +303,9 @@ function datatype_openads_set_callback(&$db, $method, $aParameters)
  * @param string $method     The name of the MDB2_Driver_Datatype_Common method
  *                           the callback function was called from. One of
  *                           "getValidTypes", "convertResult", "getDeclaration",
- *                           "quote" and "mapPrepareDatatype". See
- *                           {@link MDB2_Driver_Datatype_Common} for the details
- *                           of what each method does.
+ *                           "compareDefinition", "quote" and "mapPrepareDatatype".
+ *                           See {@link MDB2_Driver_Datatype_Common} for the
+ *                           details of what each method does.
  * @param array $aParameters An array of parameters, being the parameters that
  *                           were passed to the method calling the callback
  *                           function.
@@ -330,6 +340,10 @@ function datatype_openads_text_callback(&$db, $method, $aParameters)
             $declaration_options = preg_replace('/DEFAULT NULL /', '', $declaration_options);
             $value .= $declaration_options;
             return $value;
+        case 'comparedefinition':
+            // Return the same array of changes that would be used for
+            // the built in "text" datatype
+            return $db->_compareTextDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into MySQL using the built in
@@ -338,8 +352,6 @@ function datatype_openads_text_callback(&$db, $method, $aParameters)
         case 'mappreparedatatype':
             // Return the MySQL nativetype declaration for this custom datatype
             return 'TEXT';
-        case 'comparedefinition':
-            return $db->_compareTextDefinition($aParameters['current'], $aParameters['previous']);
   }
 }
 
@@ -351,9 +363,9 @@ function datatype_openads_text_callback(&$db, $method, $aParameters)
  * @param string $method     The name of the MDB2_Driver_Datatype_Common method
  *                           the callback function was called from. One of
  *                           "getValidTypes", "convertResult", "getDeclaration",
- *                           "quote" and "mapPrepareDatatype". See
- *                           {@link MDB2_Driver_Datatype_Common} for the details
- *                           of what each method does.
+ *                           "compareDefinition", "quote" and "mapPrepareDatatype".
+ *                           See {@link MDB2_Driver_Datatype_Common} for the
+ *                           details of what each method does.
  * @param array $aParameters An array of parameters, being the parameters that
  *                           were passed to the method calling the callback
  *                           function.
@@ -386,6 +398,10 @@ function datatype_openads_varchar_callback(&$db, $method, $aParameters)
             }
             $value .= $declaration_options;
             return $value;
+        case 'comparedefinition':
+            // Return the same array of changes that would be used for
+            // the built in "text" datatype
+            return $db->_compareTextDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into MySQL using the built in
@@ -394,8 +410,6 @@ function datatype_openads_varchar_callback(&$db, $method, $aParameters)
         case 'mappreparedatatype':
             // Return the MySQL nativetype declaration for this custom datatype
             return 'VARCHAR';
-        case 'comparedefinition':
-            return $db->_compareTextDefinition($aParameters['current'], $aParameters['previous']);
     }
 }
 
