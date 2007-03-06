@@ -26,22 +26,22 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/openads/Dal.php';
-require_once MAX_PATH . '/lib/openads/Table/Priority.php';
+require_once MAX_PATH . '/lib/openads/Table/Statistics.php';
 
 /**
- * A class for testing the Openads_Table_Priority class.
+ * A class for testing the Openads_Table_Statistics class.
  *
  * @package    OpenadsDal
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Test_Openads_Table_Priority extends UnitTestCase
+class Test_Openads_Table_Statistics extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Test_Openads_Table_Priority()
+    function Test_Openads_Table_Statistics()
     {
         $this->UnitTestCase();
     }
@@ -58,14 +58,14 @@ class Test_Openads_Table_Priority extends UnitTestCase
         Mock::generate('Openads_Dal');
         $oDbh = &new MockOpenads_Dal($this);
 
-        // Partially mock the Openads_Table_Priority class, overriding the
+        // Partially mock the Openads_Table_Statistics class, overriding the
         // inherited _getDbConnection() method
         Mock::generatePartial(
-            'Openads_Table_Priority',
-            'PartialMockOpenads_Table_Priority',
+            'Openads_Table_Statistics',
+            'PartialMockOpenads_Table_Statistics',
             array('_getDbConnection')
         );
-        $oTable = &new PartialMockOpenads_Table_Priority($this);
+        $oTable = &new PartialMockOpenads_Table_Statistics($this);
         $oTable->setReturnReference('_getDbConnection', $oDbh);
 
         // Test 1
@@ -83,7 +83,7 @@ class Test_Openads_Table_Priority extends UnitTestCase
      * Requirements:
      * Test 1: Test that all MPE temporary tables can be created and dropped.
      */
-    function testAllMaintenancePriorityTables()
+    function testAllMaintenanceStatisticsTables()
     {
         $tmpTables = array(
             'tmp_ad_impression',
@@ -98,24 +98,30 @@ class Test_Openads_Table_Priority extends UnitTestCase
         $conf['table']['split'] = false;
         $conf['table']['prefix'] = '';
         $oDbh = &Openads_Dal::singleton();
-        $aExistingTables = $oDbh->manager->listTables();
-        if (PEAR::isError($aExistingTables)) {
-            // Can't talk to database, test fails!
-            $this->assertTrue(false);
+        foreach ($tmpTables as $tableName) {
+            $query = "SELECT * FROM $tableName";
+            PEAR::pushErrorHandling(null);
+            $result = $oDbh->query($query);
+            PEAR::popErrorHandling();
+            $this->assertEqual(strtolower(get_class($result)), 'mdb2_error');
         }
-        $this->assertEqual(count($aExistingTables), 0);
-        $oTable = Openads_Table_Priority::singleton();
+        $oTable = Openads_Table_Statistics::singleton();
         foreach ($tmpTables as $tableName) {
             $oTable->createTable($tableName);
         }
         $aExistingTables = $oDbh->manager->listTables();
         foreach ($tmpTables as $tableName) {
             // Test that the table has been created
-            $this->assertTrue(in_array($tableName, $aExistingTables));
+            $query = "SELECT * FROM $tableName";
+            $result = $oDbh->query($query);
+            $this->assertTrue($result);
             // Test that the table can be dropped
-            $oTable->dropTempTable($tableName);
-            $aNewExistingTables = $oDbh->manager->listTables();
-            $this->assertFalse(in_array($tableName, $aExistingTables));
+            // Use a different query to overcome MDB2 query buffering
+            $query = "SELECT foo FROM $tableName";
+            PEAR::pushErrorHandling(null);
+            $result = $oDbh->query($query);
+            PEAR::popErrorHandling();
+            $this->assertEqual(strtolower(get_class($result)), 'mdb2_error');
         }
 
         // Restore the testing environment
