@@ -25,6 +25,8 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/max/Delivery/common.php';
+
 /**
  * @package    MaxDal
  * @author     Scott Switzer <scott@m3.net>
