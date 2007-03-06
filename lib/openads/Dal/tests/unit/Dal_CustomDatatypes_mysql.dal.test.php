@@ -41,7 +41,7 @@ class Test_Openads_Dal_CustomDatatypes_mysql extends UnitTestCase
 
     var $db;
 
-    var $customTypes = 6;
+    var $customTypes = 7;
 
     /**
      * The constructor method.
@@ -255,6 +255,16 @@ class Test_Openads_Dal_CustomDatatypes_mysql extends UnitTestCase
                 $this->assertEqual($result, $aResultData[$testKey]);
             }
         }
+    }
+
+    /**
+     * A method to test that the MDB2 datatype to database nativetype
+     * mappings work as expected for the "openads_mediumtext" datatype.
+     *
+     * @TODO Implement
+     */
+    function testDatatypeToNativetypeMappings_openads_mediumtext()
+    {
     }
 
     /**
@@ -579,6 +589,16 @@ class Test_Openads_Dal_CustomDatatypes_mysql extends UnitTestCase
             $aDefinition = $this->db->datatype->mapNativeDatatype($aFields);
             $this->assertEqual($aDefinition, $aResultData[$testKey]);
         }
+    }
+
+    /**
+     * A method to test that the database nativetype to MDB2 datatype
+     * mappings work as expected for the "mediumtext" nativetype.
+     *
+     * @TODO Implement
+     */
+    function testNativetypeToDatatypeMappings_mediumtext()
+    {
     }
 
     /**
