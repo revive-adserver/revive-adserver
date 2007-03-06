@@ -118,86 +118,28 @@ $_REQUEST['bannerid']    = $bannerid;
 $_REQUEST['campaignid']  = $campaignid;
 $_REQUEST['clientid']    = $clientid;
 
-//loading non-standard stat files
-if($entity == 'campaign' && $breakdown == 'keywords') {
+// Display stats
+$stats = &StatsControllerFactory::newStatsController($entity . "-" . $breakdown);
 
-    include_once MAX_PATH . '/www/admin/stats-campaign-keywords.php';
-    die;
-
-} else if($entity == 'campaign' && $breakdown == 'optimise') {
-
-    include_once MAX_PATH . '/www/admin/stats-campaign-optimise.php';
-    die;
-
-} else if($entity == 'campaign' && $breakdown == 'sources') {
-
-    include_once MAX_PATH . '/www/admin/stats-campaign-sources.php';
-    die;
-
-} else if($entity == 'conversions') {
-
-    include_once MAX_PATH . '/www/admin/stats-conversions.php';
-    die;
-
-} else if($entity == 'global' && $breakdown == 'misc') {
-
-    include_once MAX_PATH . '/www/admin/stats-global-misc.php';
-    die;
-
-} else if($entity == 'linkedbanner' && $breakdown == 'history') {
-
-    include_once MAX_PATH . '/www/admin/stats-linkedbanner-history.php';
-    die;
-
-} else if($entity == 'optimise') {
-
-    include_once MAX_PATH . '/www/admin/stats-optimise.php';
-    die;
-
-} else if($entity == 'placement' && $breakdown == 'target') {
-
-    include_once MAX_PATH . '/www/admin/stats-placement-target.php';
-    die;
-
-} else if($entity == 'placement' && $breakdown == 'target-daily') {
-
-    include_once MAX_PATH . '/www/admin/stats-placement-target.php';
-    die;
-
-} else if($entity == 'reset') {
-
-    include_once MAX_PATH . '/www/admin/stats-reset.php';
-    die;
-
-} else {
-
-    // Display stats
-    $stats = &StatsControllerFactory::newStatsController($entity . "-" . $breakdown);
-
-    //create Excel stats report
-    if(isset($plugin) && $plugin != '') {
-        include_once MAX_PATH . '/www/admin/stats-report-execute.php';
-    }
-
-    //output html code
-    $stats->output();
-
-    //erase stats graph file
-    if(isset($GraphFile) && $GraphFile != '') {
-
-        $dirObject = dir( $conf['store']['webDir'] . '/temp');    
-        while (false !== ($entry = $dirObject->read())) {
-
-            if( filemtime($conf['store']['webDir'] . '/temp/' . $entry) + 60 < time()) {
-                unlink($conf['store']['webDir'] . '/temp/' . $entry);
-            }
-        }
-    }
-
-
-
+//create Excel stats report
+if(isset($plugin) && $plugin != '') {
+    include_once MAX_PATH . '/www/admin/stats-report-execute.php';
 }
 
+//output html code
+$stats->output();
+
+//erase stats graph file
+if(isset($GraphFile) && $GraphFile != '') {
+
+    $dirObject = dir( $conf['store']['webDir'] . '/temp');    
+    while (false !== ($entry = $dirObject->read())) {
+
+        if( filemtime($conf['store']['webDir'] . '/temp/' . $entry) + 60 < time()) {
+            unlink($conf['store']['webDir'] . '/temp/' . $entry);
+        }
+    }
+}
 
 
 ?>

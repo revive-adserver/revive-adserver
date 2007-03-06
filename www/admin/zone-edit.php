@@ -163,7 +163,6 @@ if (isset($submit))
         {
               $doZones->addReferenceFilter('affiliates', phpAds_getUserID());
         }
-//        $res = phpAds_dbQuery($query);
         $doZones->find();
 
         while ($doZones->fetch() && $row = $doZones->toArray())

@@ -123,7 +123,13 @@ if (isset($submitbutton)) {
         }
 
         // Rebuild Banner cache
-        phpAds_rebuildBannerCache($bannerid);
+        //phpAds_rebuildBannerCache($bannerid);
+        if ($doBanners = MAX_DB::staticGetDO('banners', $bannerid)) {
+            $doBanners->rebuildCache();
+            $doBanners->update();
+        } else {
+            PEAR::raiseError("Banner with bannerid ($bannerid) doesn't exist");
+        }
 
         // Rebuild Cache
         // require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';

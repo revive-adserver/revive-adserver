@@ -3,6 +3,7 @@
  * Table Definition for banners
  */
 require_once 'DB_DataObjectCommon.php';
+include_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 
 class DataObjects_Banners extends DB_DataObjectCommon 
 {
@@ -113,5 +114,10 @@ class DataObjects_Banners extends DB_DataObjectCommon
             MAX_addDefaultPlacementZones($id, $this->campaignid);
         }
         return $id;
+    }
+    
+    function rebuildCache()
+    {
+    	$this->htmlcache = phpAds_getBannerCache($this->toArray());
     }
 }

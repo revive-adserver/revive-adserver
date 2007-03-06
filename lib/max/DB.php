@@ -123,10 +123,11 @@ class MAX_DB
     
     /**
      * Factory DataObject by it's table name
-     *
+     * Comment: return DB_DataObject or PEAR_Error on error
+     * 
      * @param  string  $table  tablename (use blank to create a new instance of the same class.)
-     * @access pblic
-     * @return DataObject|PEAR_Error 
+     * @access public
+     * @return DB_DataObjectCommon
      */
     function factoryDO($table)
     {
@@ -139,10 +140,40 @@ class MAX_DB
     }
     
     /**
-     * Factory DAL model class by it's table name
+     * An autoloading, static get method  using key, value (based on get)
+     *
+     * Comment: returns DB_DataObjectCommon and autofetch it or false if
+     *          record doesn't exists
+     * 
+     * Usage:
+     * $object = MAX_DB::staticGetDO("banners",12);
+     * or
+     * $object =  MAX_DB::staticGetDO("clients","name","fred");
      *
      * @param string $table
-     * @return MAX_Dal_Common|false
+     * @param  string  $k     column (or value if using keys)
+     * @param  string  $v     value (optional)
+     * @return DB_DataObjectCommon
+     */
+    function &staticGetDO($table, $k, $v = null)
+    {
+        $do = MAX_DB::factoryDO($table);
+        if (PEAR::isError($do)) {
+            return false;
+        }
+        if (!$do->get($k, $v)) {
+            return false;
+        }
+        return $do;
+    }
+    
+    /**
+     * Factory DAL model class by it's table name
+     *
+     * Comment: returns MAX_Dal_Common or false on error
+     * 
+     * @param string $table
+     * @return MAX_Dal_Common
      */
     function factoryDAL($table)
     {
