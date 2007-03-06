@@ -101,51 +101,49 @@ class Test_Openads_Table_Core extends UnitTestCase
         $oTable = Openads_Table_Core::singleton();
         $oTable->createAllTables();
         $aExistingTables = $oDbh->manager->listTables();
-        foreach ($conf['table'] as $tableName) {
+        foreach ($conf['table'] as $key => $tableName) {
+            if ($key == 'prefix' || $key == 'split' || $key == 'lockfile' || $key == 'type') {
+                continue;
+            }
             // Test that the tables exists
-            $this->assertTrue(!is_null($aExistingTables[$tableName]));
+            $this->assertTrue(in_array($tableName, $aExistingTables));
         }
         TestEnv::restoreEnv();
 
         // Ensure the singleton is destroyed
         $oTable->destroy();
 
-        return;
-
         // Test 2
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['split'] = true;
         $conf['table']['prefix'] = '';
-        $tables = MAX_Table_Core::singleton('mysql');
-        $oServiceLocator = &ServiceLocator::instance();
-        $oMaxDb = &$oServiceLocator->get('MAX_DB');
-        foreach ($coreTables as $tbl) {
-            $tables->createTable($tbl);
-            $tableList = $oMaxDb->getListOf('tables');
-            $this->assertEqual($tableList[0], $tbl);
-            $tables->dropTable($tbl);
-            $query = "SELECT * FROM $tbl";
-            PEAR::pushErrorHandling(null);
-            $result = $oMaxDb->query($query);
-            PEAR::popErrorHandling();
-            $this->assertEqual(strtolower(get_class($result)), 'db_error');
+        $oDbh = &Openads_Dal::singleton();
+        $aExistingTables = $oDbh->manager->listTables();
+        if (PEAR::isError($aExistingTables)) {
+            // Can't talk to database, test fails!
+            $this->assertTrue(false);
         }
+        $this->assertEqual(count($aExistingTables), 0);
+        $oTable = Openads_Table_Core::singleton();
         $oDate = new Date();
-        foreach ($splitTables as $tbl) {
-            $tables->createTable($tbl, $oDate);
-            $tableList = $oMaxDb->getListOf('tables');
-            $this->assertEqual($tableList[0], $tbl . '_' . $oDate->format('%Y%m%d'));
-            $tables->dropTable($tbl . '_' . $oDate->format('%Y%m%d'));
-            $query = "SELECT * FROM $tbl_" . $oDate->format('%Y%m%d');
-            PEAR::pushErrorHandling(null);
-            $result = $oMaxDb->query($query);
-            PEAR::popErrorHandling();
-            $this->assertEqual(strtolower(get_class($result)), 'db_error');
+        $oTable->createAllTables($oDate);
+        $aExistingTables = $oDbh->manager->listTables();
+        foreach ($conf['table'] as $key => $tableName) {
+            if ($key == 'prefix' || $key == 'split' || $key == 'lockfile' || $key == 'type') {
+                continue;
+            }
+            if ($conf['splitTables'][$tableName]) {
+                // That that the split table exists
+                $this->assertTrue(in_array($tableName . '_' . $oDate->format('%Y%m%d'), $aExistingTables));
+            } else {
+                // Test that the normal table exists
+                $this->assertTrue(in_array($tableName, $aExistingTables));
+            }
         }
         TestEnv::restoreEnv();
 
         // Ensure the singleton is destroyed
-        $tables->destroy();
+        $oTable->destroy();
     }
 
 }
