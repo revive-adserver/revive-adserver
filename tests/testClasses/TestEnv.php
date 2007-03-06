@@ -30,6 +30,8 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/DB.php';
 require_once MAX_PATH . '/lib/max/Table/Core.php';
+require_once MAX_PATH . '/lib/openads/Table/Priority.php';
+require_once MAX_PATH . '/lib/openads/Table/Statistics.php';
 require_once MAX_PATH . '/tests/data/DefaultData.php';
 
 /**
@@ -118,7 +120,7 @@ class TestEnv
      * @param string $mode		Either 'insert' or 'text'.
      * @return array | false    An array of strings, each representing
      *                          a SQL DML query. False on error.
-     * 
+     *
      * @todo Document the returned array format for 'text' mode.
      * @todo Document $mode option, or remove it
      * @todo Consider raising an error instead of returning false.
@@ -224,13 +226,22 @@ class TestEnv
         $dbh = &MAX_DB::singleton();
         $query = 'SET AUTOCOMMIT=1';
         $result = $dbh->query($query);
-        // Drop the database connection, so that temporary tables will be
-        // removed (hack needed to overcome MySQL keeping temporary tables
-        // if a database is dropped and re-created)
+        // Drop all known temporary tables
+        $oTable = &Openads_Table_Priority::singleton();
+        foreach ($oTable->aDefinition['tables'] as $tableName => $aTable) {
+            $oTable->dropTempTable($tableName);
+        }
+        $oTable = &Openads_Table_Statistics::singleton();
+        foreach ($oTable->aDefinition['tables'] as $tableName => $aTable) {
+            $oTable->dropTempTable($tableName);
+        }
+        // Drop the database connection
         $dbh->disconnect();
         $GLOBALS['_MAX']['CONNECTIONS'] = array();
-        // Destroy cached table classes
+        // Destroy any cached table classes
         MAX_Table_Core::destroy();
+        Openads_Table_Priority::destroy();
+        Openads_Table_Statistics::destroy();
         // Destroy the service locator
         $oServiceLocator = &ServiceLocator::instance();
         unset($oServiceLocator->aService);

@@ -56,7 +56,7 @@ class Dal_TestOfMaxDalStatisticsCommon extends UnitTestCase
         $dsc = new MAX_Dal_Maintenance_Statistics_Common('mysql');
         // Only test the constructor code specific to the MAX_Dal_Maintenance_Statistics_Common class
         $this->assertEqual(strtolower(get_class($dsc->tables)), strtolower('MAX_Table_Core'));
-        $this->assertEqual(strtolower(get_class($dsc->tempTables)), strtolower('MAX_Table_Statistics'));
+        $this->assertEqual(strtolower(get_class($dsc->tempTables)), strtolower('Openads_Table_Statistics'));
     }
 
 }

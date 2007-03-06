@@ -284,7 +284,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart);
         // Get the operation interval ID
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
-        // Construct temporary summary table name and create
+        // Create temporary table
         $this->tempTables->createTable($tmpTableName);
         // Set the MySQL sort buffer size
         $this->setSortBufferSize();

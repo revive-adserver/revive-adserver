@@ -163,7 +163,7 @@ class Openads_Table
         }
         $tableName = $table;
         // Does a table prefix need to be added to the table name?
-        if ($conf['table']['prefix']) {
+        if ($conf['table']['prefix'] && !$this->temporary) {
             $tableName = $conf['table']['prefix'] . $tableName;
         }
         // Are split tables in operation, and is the table designed to be split?
@@ -181,7 +181,9 @@ class Openads_Table
         $aOptions['type'] = $conf['table']['type'];
         // Create the table
         MAX::debug('Creating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
+        PEAR::pushErrorHandling(null);
         $result = $this->oSchema->createTable($tableName, $this->aDefinition['tables'][$table], false, $aOptions);
+        PEAR::popErrorHandling();
         if (PEAR::isError($result)) {
             MAX::debug('Unable to create the table ' . $table, PEAR_LOG_ERR);
             return false;
@@ -220,7 +222,9 @@ class Openads_Table
     function dropTable($table)
     {
         MAX::debug('Dropping table ' . $table, PEAR_LOG_DEBUG);
+        PEAR::pushErrorHandling(null);
         $result = $this->oDbh->manager->dropTable($table);
+        PEAR::popErrorHandling();
         if (PEAR::isError($result)) {
             MAX::debug('Unable to drop table ' . $table, PEAR_LOG_ERROR);
             return false;
@@ -262,14 +266,16 @@ class Openads_Table
      * @param string $table The temporary table to drop.
      * @return boolean True if table dropped correctly, false otherwise.
      *
-     * @TODO May not be database agnostic. MDB2 Doesn't support temporary tables, yet.
+     * @TODO May not be database agnostic. MDB2 Doesn't support dropping temporary tables, yet.
      */
     function dropTempTable($table)
     {
         $oDbh = &Openads_Dal::singleton();
         $query = 'DROP TEMPORARY TABLE ' . $table;
         MAX::debug('Dropping temporary table ' . $table, PEAR_LOG_DEBUG);
+        PEAR::pushErrorHandling(null);
         $result = $oDbh->query($query);
+        PEAR::popErrorHandling();
         if (PEAR::isError($result)) {
             MAX::debug('Unable to drop temporary table ' . $table, PEAR_LOG_ERROR);
             return false;
