@@ -551,16 +551,16 @@ class MDB2_Schema extends PEAR
             $errorcodes = array(MDB2_ERROR_UNSUPPORTED, MDB2_ERROR_NOT_CAPABLE);
             $this->db->expectError($errorcodes);
             if (!empty($index['primary']) || !empty($index['unique'])) {
-                $indexes = $this->db->manager->listTableConstraints($table_name);
+                $current_indexes = $this->db->manager->listTableConstraints($table_name);
             } else {
-                $indexes = $this->db->manager->listTableIndexes($table_name);
+                $current_indexes = $this->db->manager->listTableIndexes($table_name);
             }
             $this->db->popExpect();
-            if (PEAR::isError($indexes)) {
-                if (!MDB2::isError($indexes, $errorcodes)) {
-                    return $indexes;
+            if (PEAR::isError($current_indexes)) {
+                if (!MDB2::isError($current_indexes, $errorcodes)) {
+                    return $current_indexes;
                 }
-            } elseif (is_array($indexes) && in_array($index_name, $indexes)) {
+            } elseif (is_array($current_indexes) && in_array($index_name, $current_indexes)) {
                 if (!$overwrite) {
                     $this->db->debug('Index already exists: '.$index_name, __FUNCTION__);
                     return MDB2_OK;
