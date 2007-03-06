@@ -617,10 +617,10 @@ function phpAds_PageFooter()
                 }
                 // Update the timestamp to make sure the warning
                 // is shown only once every 24 hours
-                $res = phpAds_dbQuery (
-                "UPDATE ".$conf['table']['prefix'].$conf['table']['preference'].
-                " SET maintenance_timestamp = '".time()."'"
-                );
+                $doPreference = MAX_DB::factoryDO('preference');
+                $doPreference->whereAdd('1 = 1'); //Global table update.
+                $doPreference->maintenance_timestamp = time();
+                $doPreference->update(DB_DATAOBJECT_WHEREADD_ONLY);
             }
         }
     }
@@ -775,11 +775,10 @@ function phpAds_ShowBreak($print = true)
 
 function phpAds_sqlDie()
 {
-    global $phpAds_dbmsname;
     global $phpAds_last_query;
     $error = phpAds_dbError();
     $corrupt = false;
-    if ($phpAds_dbmsname == 'MySQL') {
+    if (phpAds_dbmsname == 'MySQL') {
         $errornumber = phpAds_dbErrorNo();
         if ($errornumber == 1027 || $errornumber == 1039) {
             $corrupt = true;
@@ -808,11 +807,17 @@ function phpAds_sqlDie()
         $title    = $GLOBALS['strErrorDBPlain'];
         $message  = $GLOBALS['strErrorDBNoDataPlain'];
         if (phpAds_isLoggedIn() && (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))) {
+            
+            // Get the DB server version
+            $connection = DBC::getCurrentConnection();
+            $aVersion = $connection->getConnectionId()->getServerVersion();
+            $dbVersion = $aVersion['major'] . '.' . $aVersion['minor'] . '.' . $aVersion['patch'] . '-' . $aVersion['extra'];
+            
             $message .= $GLOBALS['strErrorDBSubmitBug'];
             $last_query = $phpAds_last_query;
             $message .= "<br><br><table cellpadding='0' cellspacing='0' border='0'>";
             $message .= "<tr><td valign='top' nowrap><b>Version:</b>&nbsp;&nbsp;&nbsp;</td><td>".MAX_PRODUCT_NAME." ".MAX_VERSION_READABLE." (".MAX_VERSION.")</td></tr>";
-            $message .= "<tr><td valien='top' nowrap><b>PHP/DB:</b></td><td>PHP ".phpversion()." / ".$phpAds_dbmsname." ".phpAds_dbResult(phpAds_dbQuery('SELECT VERSION()'), 0, 0)."</td></tr>";
+            $message .= "<tr><td valien='top' nowrap><b>PHP/DB:</b></td><td>PHP ".phpversion()." / ".phpAds_dbmsname." " . $dbVersion . "</td></tr>";
             $message .= "<tr><td valign='top' nowrap><b>Page:</b></td><td>".$_SERVER['PHP_SELF']."</td></tr>";
             $message .= "<tr><td valign='top' nowrap><b>Error:</b></td><td>".$error."</td></tr>";
             $message .= "<tr><td valign='top' nowrap><b>Query:</b></td><td><pre>".$last_query."</pre></td></tr>";
