@@ -28,7 +28,7 @@ $Id$
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/core/Task.php';
 require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
-require_once MAX_PATH . '/lib/max/Table/Priority.php';
+require_once MAX_PATH . '/lib/openads/Table/Priority.php';
 
 /**
  * A parent class, defining an interface for Maintenance Priority AdServer Task
@@ -78,16 +78,16 @@ class MAX_Maintenance_Priority_AdServer_Task extends MAX_Core_Task
      * Method to create/register/return the Maintenance Priority table class.
      *
      * @access private
-     * @return MAX_Table_Priority
+     * @return Openads_Table_Priority
      */
     function &_getMaxTablePriorityObj()
     {
         $dbType = strtolower($GLOBALS['_MAX']['CONF']['database']['type']);
         $oServiceLocator = &ServiceLocator::instance();
-        $oTable = $oServiceLocator->get('MAX_Table_Priority');
+        $oTable = $oServiceLocator->get('Openads_Table_Priority');
         if (!$oTable) {
-            $oTable = &MAX_Table_Priority::singleton($dbType);
-            $oServiceLocator->register('MAX_Table_Priority', $oTable);
+            $oTable = &Openads_Table_Priority::singleton($dbType);
+            $oServiceLocator->register('Openads_Table_Priority', $oTable);
         }
         return $oTable;
     }

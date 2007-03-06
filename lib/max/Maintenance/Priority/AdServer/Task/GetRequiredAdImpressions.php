@@ -54,9 +54,9 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
 
     /**
      * A variable for storing a local instance of the
-     * MAX_Table_Priority class.
+     * Openads_Table_Priority class.
      *
-     * @var MAX_Table_Priority
+     * @var Openads_Table_Priority
      */
     var $oTable;
 

@@ -64,9 +64,10 @@ class GetRequiredAdImpressionsType1 extends MAX_Maintenance_Priority_AdServer_Ta
 {
 
     /**
-     * For storing the Priority Table class.
+     * A variable for storing a local instance of the
+     * Openads_Table_Priority class.
      *
-     * @var MAX_Table_Priority
+     * @var Openads_Table_Priority
      */
     var $oTable;
 

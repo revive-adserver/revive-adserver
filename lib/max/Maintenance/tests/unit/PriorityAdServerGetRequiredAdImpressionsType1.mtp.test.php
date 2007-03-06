@@ -49,13 +49,13 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
         $this->UnitTestCase();
         Mock::generate('MAX_Dal_Entities');
         Mock::generate('MAX_Dal_Maintenance_Priority');
-        Mock::generate('MAX_Table_Priority');
+        Mock::generate('Openads_Table_Priority');
     }
 
     /**
      * A private method for the test class that creates an instance
      * of the mocked DAL class (MAX_Dal_Maintenance), the mocked
-     * table creation class (MAX_Table_Priority), registeres the
+     * table creation class (Openads_Table_Priority), registers the
      * mocked classes in the ServiceLocator, and then returns an
      * instance of the GetRequiredAdImpressionsType1 class to use
      * in testing.
@@ -70,8 +70,8 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
         $oServiceLocator->register('MAX_Dal_Entities', $oDal);
         $oDal   = new MockMAX_Dal_Maintenance_Priority($this);
         $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDal);
-        $oTable = new MockMAX_Table_Priority($this);
-        $oServiceLocator->register('MAX_Table_Priority',  $oTable);
+        $oTable = new MockOpenads_Table_Priority($this);
+        $oServiceLocator->register('Openads_Table_Priority',  $oTable);
         return new GetRequiredAdImpressionsType1();
     }
 

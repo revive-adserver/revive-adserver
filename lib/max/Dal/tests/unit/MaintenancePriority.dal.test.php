@@ -29,7 +29,7 @@ require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/max/Entity/Ad.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
-require_once MAX_PATH . '/lib/max/Table/Priority.php';
+require_once MAX_PATH . '/lib/openads/Table/Priority.php';
 require_once 'Date.php';
 require_once 'DB/QueryTool.php';
 
@@ -418,7 +418,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
         $oMaxDalMaintenance = new MAX_Dal_Maintenance_Priority();
 
         // Create the required temporary table for the tests
-        $oTable = &MAX_Table_Priority::singleton();
+        $oTable = &Openads_Table_Priority::singleton();
         $oTable->createTable('tmp_ad_zone_impression');
 
         // Test 1
@@ -470,7 +470,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual($result[2]['ad_id'], 2);
         $this->assertEqual($result[2]['required_impressions'], 6);
         $this->assertEqual($result[2]['requested_impressions'], 7);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -3576,7 +3576,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     function testSaveRequiredAdImpressions()
     {
         $oDal = new MAX_Dal_Maintenance_Priority();
-        $oTable = &MAX_Table_Priority::singleton();
+        $oTable = &Openads_Table_Priority::singleton();
         $oTable->createTable('tmp_ad_required_impression');
         $aData = array(
             array(
@@ -3604,7 +3604,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     function testGetRequiredAdImpressions()
     {
         $oDal = new MAX_Dal_Maintenance_Priority();
-        $oTable = &MAX_Table_Priority::singleton();
+        $oTable = &Openads_Table_Priority::singleton();
         $oTable->createTable('tmp_ad_required_impression');
         $aData = array(
             array(
@@ -4058,7 +4058,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
         $dbh = &MAX_DB::singleton();
         $oDal = new MAX_Dal_Maintenance_Priority();
         // Create the required temporary table for the tests
-        $oTable = &MAX_Table_Priority::singleton();
+        $oTable = &Openads_Table_Priority::singleton();
         $oTable->createTable('tmp_ad_zone_impression');
         // Prepare the test data
         $aData = array(
