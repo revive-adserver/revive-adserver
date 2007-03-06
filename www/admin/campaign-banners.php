@@ -34,7 +34,6 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/www/admin/lib-expiration.inc.php';
 require_once MAX_PATH . '/www/admin/lib-gd.inc.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 
@@ -428,9 +427,10 @@ echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25' colspan='2'><b>$strCreditStats</b></td></tr>";
 echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%' alt=''></td></tr>";
 
-list($desc,$enddate,$daysleft) = phpAds_getDaysLeft($campaignid);
-$adclicksleft = phpAds_getAdClicksLeft($campaignid);
-$adviewsleft  = phpAds_getAdViewsLeft($campaignid);
+$dalCampaigns = MAX_DB::factoryDAL('campaigns');
+list($desc,$enddate,$daysleft) = $dalCampaigns->getDaysLeft($campaignid);
+$adclicksleft = $dalCampaigns->getAdClicksLeft($campaignid);
+$adviewsleft = $dalCampaigns->getAdViewsLeft($campaignid);
 
 echo "<tr><td height='25'>$strViewCredits: <b>$adviewsleft</b></td>";
 echo "<td height='25'>$strClickCredits: <b>$adclicksleft</b></td></tr>";
