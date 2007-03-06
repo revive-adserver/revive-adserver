@@ -221,6 +221,11 @@ function datatype_openads_mediumint_callback(&$db, $method, $aParameters)
             if (is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
+            if ($aParameters['field']['autoincrement']) {
+                // Strip any DEFAULT values and add AUTO_INCREMENT
+                $declaration_options = preg_replace('/DEFAULT \w+ /', '', $declaration_options);
+                $declaration_options = 'AUTO_INCREMENT PRIMARY KEY' . $declaration_options;
+            }
             $value .= $declaration_options;
             return $value;
         case 'comparedefinition':
