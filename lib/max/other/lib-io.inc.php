@@ -41,4 +41,35 @@ function phpAds_registerGlobal()
     call_user_func_array('MAX_commonRegisterGlobals', $args);
 }
 
+/**
+ * This function takes an array of variable names
+ * and makes them available in the global scope
+ *
+ * $_POST values take precedence over $_GET values
+ *
+ */
+function phpAds_registerGlobalUnslashed()
+{
+    $args = func_get_args();
+    while (list(,$key) = each($args)) {
+        if (isset($_GET[$key])) {
+            $value = $_GET[$key];
+        }
+        if (isset($_POST[$key])) {
+            $value = $_POST[$key];
+        }
+        if (isset($value)) {
+            if (ini_get('magic_quotes_gpc')) {
+                if (!is_array($value)) {
+                    $value = stripslashes($value);
+                } else {
+                    $value = MAX_commonUnslashArray($value);
+                }
+            }
+            $GLOBALS[$key] = $value;
+            unset($value);
+        }
+    }
+}
+
 ?>

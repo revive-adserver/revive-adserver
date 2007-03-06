@@ -515,6 +515,10 @@ class SqlBuilder
      */
     function _getLimitations($entity, $aParams)
     {
+        if (!empty($aParams) && is_array($aParams)) {
+            $aParams = MAX_commonSlashArray($aParams);
+        }
+        
         $aLimitations = array();
 
         if (isset($aParams['ad_width'])) SqlBuilder::_addLimitation($aLimitations, 'ad_width', 'd.width', $aParams['ad_width']);
@@ -1048,6 +1052,7 @@ class SqlBuilder
         $names = '';
         $values = '';
         foreach ($aVariables as $name => $value) {
+            $value = addslashes($value);
             $names .= ($names == '') ? " ($name" : ",$name";
             $value = is_null($value) ? 'NULL' : "'$value'";
             $values .= ($values == '') ? " VALUES ($value" : ",$value";
@@ -1206,6 +1211,7 @@ class SqlBuilder
 
         $set = '';
         foreach ($aVariables as $name => $value) {
+            $value = addslashes($value);
             $set .= ($set == '') ? " SET $name='$value'" : ",$name='$value'";
         }
 

@@ -213,6 +213,25 @@ function MAX_commonSlashArray($a)
 }
 
 /**
+ * Recursivley add slashes to the values in an array
+ *
+ * @param array Input array
+ * @return array Output array with values slashed
+ */
+function MAX_commonUnslashArray($a)
+{
+    while (list($k,$v) = each($a)) {
+        if (!is_array($v)) {
+            $a[$k] = stripslashes($v);
+        } else {
+            $a[$k] = MAX_commonUnslashArray($v);
+        }
+    }
+    reset ($a);
+    return ($a);
+}
+
+/**
  * This function takes the "source" value and normalises it
  * and encrypts it if necessary
  *
