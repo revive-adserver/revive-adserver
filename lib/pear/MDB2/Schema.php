@@ -625,10 +625,12 @@ class MDB2_Schema extends PEAR
      * @param array  multi dimensional array that contains the
      *               structure and optional data of the table
      * @param bool   if the table/index should be overwritten if it already exists
+     * @param array  an array of options to be passed to the database specific driver
+     *               version of MDB2_Driver_Manager_Common::createTable().
      * @return bool|MDB2_Error MDB2_OK or error object
      * @access public
      */
-    function createTable($table_name, $table, $overwrite = false)
+    function createTable($table_name, $table, $overwrite = false, $options = array())
     {
         $create = true;
         $errorcodes = array(MDB2_ERROR_UNSUPPORTED, MDB2_ERROR_NOT_CAPABLE);
@@ -653,7 +655,7 @@ class MDB2_Schema extends PEAR
         }
 
         if ($create) {
-            $result = $this->db->manager->createTable($table_name, $table['fields']);
+            $result = $this->db->manager->createTable($table_name, $table['fields'], $options);
             if (PEAR::isError($result)) {
                 return $result;
             }
