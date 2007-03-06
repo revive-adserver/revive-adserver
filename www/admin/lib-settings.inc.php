@@ -106,7 +106,6 @@ function phpAds_UsertypeChange(o)
         'general'       => array('name' => $GLOBALS['strGeneralSettings'],          'perm' => phpAds_Admin),
         'geotargeting'  => array('name' => $GLOBALS['strGeotargetingSettings'],     'perm' => phpAds_Admin),
         'defaults'      => array('name' => $GLOBALS['strInterfaceDefaults'],        'perm' => phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate),
-        'csvimport'     => array('name' => $GLOBALS['strUploadConversions'],        'perm' => phpAds_Agency + phpAds_Client + phpAds_Affiliate),
         'invocation'    => array('name' => $GLOBALS['strInvocationAndDelivery'],    'perm' => phpAds_Admin + phpAds_Agency),
         'stats'         => array('name' => $GLOBALS['strStatisticsSettings'],       'perm' => phpAds_Admin),
         'interface'     => array('name' => $GLOBALS['strGuiSettings'],              'perm' => phpAds_Admin + phpAds_Agency)
