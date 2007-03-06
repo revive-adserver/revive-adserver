@@ -38,6 +38,7 @@ $conf =& $GLOBALS['_MAX']['CONF'];
 
 // Required files
 require_once MAX_PATH . '/lib/max/DB.php';
+require_once MAX_PATH . '/lib/max/Admin/DB.php';
 require_once MAX_PATH . '/lib/max/Admin/Config.php';
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
@@ -182,7 +183,7 @@ if (phpAds_isUser(phpAds_Admin)) {
                                 $errormessage[0][] = $strCreateTableTestFailed;
                             }
                             // Check table type
-                            if (!phpAds_checkTableType($table_type)) {
+                            if (!Max_Admin_DB::tableTypeIsSupported($table_type)) {
                                 $errormessage[0][] = $strTableWrongType;
                             }
                         }
@@ -262,7 +263,7 @@ if (phpAds_isUser(phpAds_Admin)) {
                 //  the prefix info is necessary in global scope as well
                 $GLOBALS['_MAX']['CONF']['table']['prefix'] = $table_prefix;
 
-                if (phpAds_checkDatabaseExists($installvars)) {
+                if (Max_Admin_DB::checkDatabaseExists($installvars)) {
                     // Is this an upgrade from >= phpAdsNew 2.0
                     // or from a version of Max?
                     $upgrade = new MAX_Admin_Upgrade($table_prefix);
@@ -493,7 +494,7 @@ if (phpAds_isUser(phpAds_Admin)) {
                             'type'  => 'select',
                             'name'  => 'database_type',
                             'text'  => $strDbType,
-                            'items' => phpAds_getServerTypes()
+                            'items' => Max_Admin_DB::getServerTypes()
                         ),
                         array (
                             'type'  => 'break'
@@ -558,7 +559,7 @@ if (phpAds_isUser(phpAds_Admin)) {
                             'type'  => 'select',
                             'name'  => 'table_type',
                             'text'  => $strTablesType,
-                            'items' => phpAds_getTableTypes()
+                            'items' => Max_Admin_DB::getTableTypes()
                         )
                     )
                 )

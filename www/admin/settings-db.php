@@ -33,6 +33,7 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+require_once MAX_PATH . '/lib/max/Admin/DB.php';
 require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 require_once MAX_PATH . '/www/admin/lib-install-db.inc.php';
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
@@ -92,7 +93,7 @@ $settings = array (
                 'type'       => 'select', 
                 'name'       => 'database_type',
                 'text'       => $strDbType,
-                'items'   => phpAds_getServerTypes()
+                'items'   => Max_Admin_DB::getServerTypes()
             ),
             array (
                 'type'    => 'break'
