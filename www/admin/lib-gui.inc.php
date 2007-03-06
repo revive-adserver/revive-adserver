@@ -810,7 +810,8 @@ function phpAds_sqlDie()
             
             // Get the DB server version
             $connection = DBC::getCurrentConnection();
-            $aVersion = $connection->getConnectionId()->getServerVersion();
+            $connectionId = $connection->getConnectionId();
+            $aVersion = $connectionId->getServerVersion();
             $dbVersion = $aVersion['major'] . '.' . $aVersion['minor'] . '.' . $aVersion['patch'] . '-' . $aVersion['extra'];
             
             $message .= $GLOBALS['strErrorDBSubmitBug'];
