@@ -1,0 +1,48 @@
+<html>
+<head>
+    <title>Edit Openads Table</title>
+
+    <link rel="stylesheet" type="text/css" href="css/mdb2_xsl.css"/>
+
+    <!--script type="text/javascript" src="schema.js"/>
+    <script type="text/javascript" src="../lib/xajax/xajax_js/xajax.js"></script>
+    <script type="text/javascript">
+        window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Javascript file could not be included. Perhaps the URL is incorrect?\nURL: ../lib/xajax/xajax_js/xajax.js'); } }, 6000);
+    </script-->
+</head>
+<body>
+
+    <?php //echo getcwd(); ?>
+    </ br>
+    <table class="tablemain">
+        <tr>
+            <td class="tableheader" colspan="7"><span class="titlemini"><?php echo $table; ?></span></td>
+        </tr>
+        <tr>
+            <td class="tableheader">name</td>
+            <td class="tableheader">type</td>
+            <td class="tableheader">length</td>
+            <td class="tableheader">default</td>
+            <td class="tableheader">autoincrement</td>
+            <td class="tableheader">unsigned</td>
+            <td class="tableheader">notnull</td>
+        </tr>
+        <?php
+        foreach ($tbl_definition['fields'] AS $field => $field_def )
+        {
+        ?>
+        <tr>
+            <td class="tablebody"><?php echo $field; ?></td>
+            <td class="tablebody"><?php echo $field_def['type']; ?></td>
+            <td class="tablebody"><?php echo ($field_def['length']?$field_def['length']:'&nbsp;'); ?></td>
+            <td class="tablebody"><?php echo ($field_def['default']?$field_def['default']:'&nbsp;'); ?></td>
+            <td class="tablebody"><?php echo ($field_def['autoincrement']?$field_def['autoincrement']:'&nbsp;'); ?></td>
+            <td class="tablebody"><?php echo ($field_def['unsigned']?$field_def['unsigned']:'&nbsp;'); ?></td>
+            <td class="tablebody"><?php echo ($field_def['notnull']?$field_def['notnull']:'&nbsp;'); ?></td>
+        </tr>
+        <?php
+        }
+        ?>
+    </table>
+</body>
+</html>

@@ -3,35 +3,10 @@
     <!--  -->
     <html><head><title>Openads Data Dictionary</title>
 
-    <link rel="stylesheet" type="text/css" href="/upgrade_dev/xsl/mdb2_xsl.css"/>
-
-    <script type="text/javascript">
-var xajaxRequestUri="http://www.trunk.0x.monique.m3.net/upgrade_dev/index.php";
-var xajaxDebug=false;
-var xajaxStatusMessages=false;
-var xajaxWaitCursor=true;
-var xajaxDefinedGet=0;
-var xajaxDefinedPost=1;
-var xajaxLoaded=false;
-function xajax_editFieldProperty(){return xajax.call("editFieldProperty", arguments, 1);}
-	</script>
-	<script type="text/javascript" src="./lib/xajax/xajax_js/xajax.js"></script>
-	<script type="text/javascript">
-window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Javascript file could not be included. Perhaps the URL is incorrect?\nURL: ./xajax_js/xajax.js'); } }, 6000);
-	</script>
+    <link rel="stylesheet" type="text/css" href="../schema/css/mdb2_xsl.css"/>
 
     </head>
     <body>
-    <div id="save" style="display:block;">
-        <form id="frmFilename" method="POST" action="index.php">
-            <table>
-            <tr>
-            <td><button name="viewschema" value="">View Core Schema</button></td>
-            <td><button name="savedefs" value="" disabled="disabled">Save Dictionary</button></td>
-            </tr>
-            </table>
-        </form>
-    </div>
 
     <!-- -->
     <TABLE class="tablemain">

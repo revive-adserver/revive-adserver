@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
-<?xml-stylesheet type="text/xsl" href="../../upgrade_dev/xsl/mdb2_dictionary.xsl"?>
+<?xml-stylesheet type="text/xsl" href="../schema/xsl/mdb2_dictionary.xsl"?>
 
 <dictionary>
 
@@ -732,8 +732,8 @@
 
 	<!-- password_recovery -->
 
-
-	<name>recovery_user_type</name>
+	<field>
+	    <name>recovery_user_type</name>
 		<type>text</type>
 		<length>64</length>
 		<notnull>true</notnull>
