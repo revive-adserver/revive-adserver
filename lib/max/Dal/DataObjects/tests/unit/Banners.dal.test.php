@@ -24,6 +24,7 @@
 $Id$
 */
 require_once MAX_PATH . '/lib/max/Dal/DataObjects/Banners.php';
+require_once 'DataObjectsUnitTestCase.php';
 
 /**
  * A class for testing non standard DataObjects_Banners methods
@@ -33,7 +34,7 @@ require_once MAX_PATH . '/lib/max/Dal/DataObjects/Banners.php';
  *
  * @TODO No tests written yet...
  */
-class DataObjects_BannersTest extends UnitTestCase
+class DataObjects_BannersTest extends DataObjectsUnitTestCase
 {
     /**
      * The constructor method.
@@ -41,5 +42,43 @@ class DataObjects_BannersTest extends UnitTestCase
     function DataObjects_BannersTest()
     {
         $this->UnitTestCase();
+    }
+    
+    function testDuplicate()
+    {
+        // use a data generator here!
+        $aBanner = array(
+            'active' => 't',
+            'weight' => '1',
+            'height' => '2',
+            'seq' => '1',
+            'target' => '_blank',
+            'url' => 'http://example.com',
+            'alt' => 'some text',
+            'description' => 'banner description',
+        );
+        
+        // create new banner
+        $doBanners1 = MAX_DB::factoryDO('banners');
+        $doBanners1->setFrom($aBanner);
+        $id1 = $doBanners1->insert();
+        $this->assertTrue(!empty($id1));
+        
+        $doBanners2 = MAX_DB::staticGetDO('banners', $id1);
+        $this->assertIsA($doBanners2, 'DataObjects_Banners');
+        
+        $id2 = $doBanners2->duplicate();
+        $this->assertTrue(!empty($id2));
+        $this->assertNotEqual($id1, $id2);
+        
+        $doBanners1 = MAX_DB::staticGetDO('banners', $id1);
+        $doBanners2 = MAX_DB::staticGetDO('banners', $id2);
+        $doBanners1->description = null;
+        $doBanners1->bannerid = null;
+        
+        $doBanners2->description = null;
+        $doBanners2->bannerid = null;
+        
+        $this->assertEqualDataObjects($doBanners1, $doBanners2);
     }
 }

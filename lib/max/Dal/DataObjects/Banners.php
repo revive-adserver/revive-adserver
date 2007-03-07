@@ -4,6 +4,7 @@
  */
 require_once 'DB_DataObjectCommon.php';
 include_once MAX_PATH . '/www/admin/lib-banner.inc.php';
+include_once MAX_PATH . '/www/admin/lib-storage.inc.php';
 
 class DataObjects_Banners extends DB_DataObjectCommon 
 {

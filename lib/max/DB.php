@@ -126,11 +126,13 @@ class MAX_DB
      * Comment: return DB_DataObject or PEAR_Error on error
      * 
      * @param  string  $table  tablename (use blank to create a new instance of the same class.)
-     * @access public
      * @return DB_DataObjectCommon
+     * @access public
+     * @static 
      */
     function factoryDO($table)
     {
+        MAX_DB::setupDataObject();
         include_once 'DB/DataObject.php';
         $do = DB_DataObject::factory($table);
         if (is_a($do, 'DB_DataObjectCommon')) {
@@ -154,9 +156,12 @@ class MAX_DB
      * @param  string  $k     column (or value if using keys)
      * @param  string  $v     value (optional)
      * @return DB_DataObjectCommon
+     * @access public
+     * @static 
      */
     function &staticGetDO($table, $k, $v = null)
     {
+        MAX_DB::setupDataObject();
         $do = MAX_DB::factoryDO($table);
         if (PEAR::isError($do)) {
             return false;
@@ -174,11 +179,40 @@ class MAX_DB
      * 
      * @param string $table
      * @return MAX_Dal_Common
+     * @access public
+     * @static 
      */
     function factoryDAL($table)
     {
         include_once MAX_PATH . '/lib/max/Dal/Common.php';
         return MAX_Dal_Common::factory($table);
+    }
+    
+    /**
+     * Set DB_DataObject options
+     *
+     * @static 
+     */
+    function setupDataObject()
+    {
+        static $needsSetup;
+        if (isset($needsSetup)) {
+            return;
+        }
+        $needsSetup = false;
+        
+        // Set DB_DataObject options
+        $MAX_ENT_DIR =  MAX_PATH . '/lib/max/Dal/DataObjects';
+        $options = &PEAR::getStaticProperty('DB_DataObject', 'options');
+        $options = array(
+            'database'              => MAX_DB::getDsn(MAX_DSN_STRING, false),
+            'schema_location'       => $MAX_ENT_DIR,
+            'class_location'        => $MAX_ENT_DIR,
+            'require_prefix'        => $MAX_ENT_DIR . '/',
+            'class_prefix'          => 'DataObjects_',
+            'debug'                 => 0,
+            'production'            => 0,
+        );
     }
     
     function getInsertId()
