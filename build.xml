@@ -1,5 +1,5 @@
 <project name="openads" default="simpletest">
-    <target name="simpletest" depends="init, test-domain, test-db, test-all-individually, phpunit" />
+    <target name="simpletest" depends="init, test-domain, test-db, test-all-individually, test-integration, phpunit" />
     <target name="full-build" depends="simpletest, test-with-selenium" />
     <property file="etc/build.properties" />
     <property name="max.base_dir" value="${user.dir}" />
@@ -54,8 +54,17 @@
         <exec dir="tests" executable="${max.php_cli_executable}" failonerror="true" output="build/test-results/all-unit-individual.simpletest.xml">
             <arg value="find_broken_test_files.php" />
             <arg value="${max.php_cli_executable}" />
+            <arg value="unit" />
         </exec>
     	<report-on-simpletest-results basename="all-unit-individual" />
+	</target>
+	<target name="test-integration">
+        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="true" output="build/test-results/integration.simpletest.xml">
+            <arg value="find_broken_test_files.php" />
+            <arg value="${max.php_cli_executable}" />
+            <arg value="integration" />
+        </exec>
+    	<report-on-simpletest-results basename="integration" />
 	</target>
     <target name="phpunit">
         <exec dir="tests" executable="${max.php_cli_executable}" failonerror="false" output="build/test-results/MDB2.html">

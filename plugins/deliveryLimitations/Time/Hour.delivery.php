@@ -47,7 +47,13 @@ function MAX_checkTime_Hour($limitation, $op, $aParams = array())
     if ($limitation == '') {
         return true;
     }
-    $time = empty($aParams) ? date('G') : $aParams['hour'];
+    if ($GLOBALS['is_simulation']) {
+        $oServiceLocator = &ServiceLocator::instance();
+        $oNow = $oServiceLocator->get('now');
+        $time = (int)$oNow->getHour();
+    } else {
+        $time = empty($aParams) ? date('G') : $aParams['hour'];
+    }
     return MAX_limitationsMatchArrayValue($time, $limitation, $op, $aParams);
 }
 

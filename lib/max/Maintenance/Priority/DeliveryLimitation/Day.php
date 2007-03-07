@@ -49,7 +49,7 @@ class MAX_Maintenance_Priority_DeliveryLimitation_Day extends MAX_Maintenance_Pr
      *                                       [ad_id]             => 1
      *                                       [logical]           => and
      *                                       [type]              => Time:Hour
-     *                                       [comparison]        => ==
+     *                                       [comparison]        => =~
      *                                       [data]              => 1,7,18,23
      *                                       [executionorder]    => 1
      *                                   )
@@ -64,13 +64,13 @@ class MAX_Maintenance_Priority_DeliveryLimitation_Day extends MAX_Maintenance_Pr
      * A method to convert delivery limitations into negative form (i.e. when
      * NOT to deliver ad, as opposed to when to deliver).
      *
-     * Time:Day delivery limitations can only be stored in terms of ==, or !=,
-     * so conversion is only required if the comparison type stored is ==.
+     * Time:Day delivery limitations can only be stored in terms of =~, or !~,
+     * so conversion is only required if the comparison type stored is =~.
      *
      * @return mixed Void, or a PEAR::Error.
      */
     function calculateNonDeliveryDeliveryLimitation() {
-        if ($this->comparison == '==') {
+        if ($this->comparison == '=~') {
             // Alternate the day values stored
             $fullWeek = range(0,6);
             foreach ($this->data as $val) {

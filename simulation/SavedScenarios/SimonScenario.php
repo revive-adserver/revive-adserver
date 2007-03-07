@@ -54,8 +54,8 @@ class SimonScenario extends SimulationScenario
         for($i=1;$i<=$this->scenarioConfig['iterations'];$i++)
         {
             $this->printHeading('Started iteration: '. $i, 3);
-            $this->makeRequests($i);
             $this->runPriority();
+            $this->makeRequests($i);
             $this->printHeading('Ended iteration: '. $i, 3);
         }
         $this->runMaintenance();

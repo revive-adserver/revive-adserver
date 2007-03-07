@@ -98,7 +98,8 @@ class Plugins_InvocationTags_adframe_adframe extends Plugins_InvocationTags
             'size'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'resize'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'transparent' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'ilayer'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD
+            'ilayer'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'iframetracking' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
         );
 
         return $options;
@@ -118,6 +119,11 @@ class Plugins_InvocationTags_adframe_adframe extends Plugins_InvocationTags
         $buffer = $mi->buffer;
         $uniqueid = 'a'.substr(md5(uniqid('', 1)), 0, 7);
 
+        if (!isset($mi->iframetracking) || $mi->iframetracking == 1) {
+            // Add n as first parameter
+            array_unshift($mi->parameters, "{$conf['var']['n']}={$uniqueid}");
+        }
+
         if (isset($mi->refresh) && $mi->refresh != '') {
             if (is_array($mi->parameters)) {
                 $mi->parameters = array('refresh' => "refresh=".$mi->refresh) + $mi->parameters;
@@ -135,7 +141,7 @@ class Plugins_InvocationTags_adframe_adframe extends Plugins_InvocationTags
 
         $buffer .= "<iframe id='{$uniqueid}' name='{$uniqueid}' src='".MAX_commonConstructDeliveryUrl($conf['file']['frame']);
         if (sizeof($mi->parameters) > 0) {
-            $buffer .= "?".implode ("&", $mi->parameters);
+            $buffer .= "?".implode ("&amp;", $mi->parameters);
         }
         $buffer .= "' framespacing='0' frameborder='no' scrolling='no'";
         if (isset($mi->width) && $mi->width != '' && $mi->width != '-1') {
@@ -194,6 +200,10 @@ class Plugins_InvocationTags_adframe_adframe extends Plugins_InvocationTags
                 $buffer .= "&".implode ("&", $mi->parameters);
             }
             $buffer .= "' width='".$mi->width."' height='".$mi->height."' visibility='hidden' onLoad=\"moveToAbsolute(layer".$uniqueid.".pageX,layer".$uniqueid.".pageY);clip.width=".$mi->width.";clip.height=".$mi->height.";visibility='show';\"></layer>";
+        }
+
+        if (isset($mi->iframetracking) && $mi->iframetracking == 1) {
+            $buffer .= "<script language='JavaScript' type='text/javascript' src='".MAX_commonConstructDeliveryUrl($conf['file']['google'])."'></script>";
         }
 
         return $buffer;

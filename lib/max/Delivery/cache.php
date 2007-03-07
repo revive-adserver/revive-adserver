@@ -36,7 +36,7 @@ $Id$
  * @param string        $ad_id     The ad id for the specified ad
  * @param boolean       $cached    Should a cache lookup be performed?
  * @return array|null   $ad        An array containing the ad data or null if nothing found
- * 
+ *
  */
 function MAX_cacheGetAd($ad_id, $cached = true)
 {
@@ -234,6 +234,29 @@ function MAX_cacheGetChannelLimitations($channelid, $cached = true)
         $limitations = MAX_Dal_Delivery_getChannelLimitations($channelid);
     }
     return $limitations;
+}
+
+/**
+ * Cache-wrapper for MAX_googleGetJavaScript()
+ *
+ * The function to get and return Google Adsense click tracking code
+ *
+ * @param boolean  $cached    Should a cache lookup be performed?
+ * @return string  $output    The Google Adsense click tracking code
+ *
+ */
+function MAX_cacheGetGoogleJavaScript($cached = true)
+{
+    $conf = $GLOBALS['_MAX']['CONF'];
+    if ($cached) {
+        include_once 'Cache/Lite/Function.php';
+        $cache = new Cache_Lite_Function(_prepareCacheOptions());
+        $output = $cache->call('MAX_cacheGetGoogleJavaScript', false);
+    } else {
+        require_once(MAX_PATH . '/lib/max/Delivery/google.php');
+        $output  = MAX_googleGetJavaScript();
+    }
+    return $output;
 }
 
 /**

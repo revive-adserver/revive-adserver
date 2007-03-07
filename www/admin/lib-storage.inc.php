@@ -57,6 +57,7 @@ function phpAds_ImageStore($type, $name, $buffer, $overwrite = false)
 			}
 			$server['user'] = $conf['store']['ftpUsername'];
 			$server['pass'] = $conf['store']['ftpPassword'];
+			$server['passiv'] = !empty( $conf['store']['ftpPassive'] );
             $stored_url = phpAds_FTPStore($server, $name, $buffer, $overwrite);
 		} else {
 			// Local mode
@@ -113,6 +114,7 @@ function phpAds_ImageDuplicate ($type, $name)
 			}
 			$server['user'] = $conf['store']['ftpUsername'];
 			$server['pass'] = $conf['store']['ftpPassword'];
+			$server['passiv'] = !empty( $conf['store']['ftpPassive'] );			
 			$stored_url = phpAds_FTPDuplicate($server, $name);
 		} else {
 			// Local mode
@@ -154,6 +156,7 @@ function phpAds_ImageRetrieve($type, $name)
 			}
 			$server['user'] = $conf['store']['ftpUsername'];
 			$server['pass'] = $conf['store']['ftpPassword'];
+			$server['passiv'] = !empty( $conf['store']['ftpPassive'] );
 			$result = phpAds_FTPRetrieve($server, $name);
 		} else {
 			// Local mode
@@ -199,6 +202,7 @@ function phpAds_ImageDelete ($type, $name)
 			}
 			$server['user'] = $conf['store']['ftpUsername'];
 			$server['pass'] = $conf['store']['ftpPassword'];
+			$server['passiv'] = !empty( $conf['store']['ftpPassive'] );
 			phpAds_FTPDelete($server, $name);
 		} else {
 			if (@file_exists($conf['store']['webDir']."/".$name)) {
@@ -236,6 +240,7 @@ function phpAds_ImageSize ($type, $name)
 			}
 			$server['user'] = $conf['store']['ftpUsername'];
 			$server['pass'] = $conf['store']['ftpPassword'];
+			$server['passiv'] = !empty( $conf['store']['ftpPassive'] );
 			$result = phpAds_FTPSize($server, $name);
 		} else {
 			// Local mode
@@ -335,6 +340,9 @@ function phpAds_FTPStore($server, $name, $buffer, $overwrite = false)
 	} else {
 		$login = @ftp_login($conn_id, "anonymous", $pref['admin_email']);
 	}
+	if( $server['passiv'] ) {
+		ftp_pasv( $conn_id, true );
+	}
 	if (($conn_id) || ($login)) {
 		if ($overwrite == false) {
 			$name = phpAds_FTPUniqueName($conn_id, $server['path'], $name);
@@ -368,6 +376,9 @@ function phpAds_FTPDuplicate($server, $name)
 		$login = @ftp_login($conn_id, $server['user'], $server['pass']);
 	} else {
 		$login = @ftp_login($conn_id, "anonymous", $pref['admin_email']);
+	}
+	if( $server['passiv'] ) {
+		ftp_pasv( $conn_id, true );
 	}
 	if (($conn_id) || ($login)) {
 		if ($server['path'] != "") {
@@ -403,6 +414,9 @@ function phpAds_FTPRetrieve($server, $name)
 	} else {
 		$login = @ftp_login($conn_id, "anonymous", $pref['admin_email']);
 	}
+	if( $server['passiv'] ) {
+		ftp_pasv( $conn_id, true );
+	}
 	if (($conn_id) || ($login)) {
 		if ($server['path'] != "") {
 		    @ftp_chdir($conn_id, $server['path']);
@@ -435,6 +449,9 @@ function phpAds_FTPDelete($server, $name)
 	} else {
 		$login = @ftp_login($conn_id, "anonymous", $pref['admin_email']);
 	}
+	if( $server['passiv'] ) {
+		ftp_pasv( $conn_id, true );
+	}
 	if (($conn_id) || ($login)) {
 		if ($server['path'] != "") {
 		    @ftp_chdir($conn_id, $server['path']);
@@ -454,6 +471,9 @@ function phpAds_FTPSize($server, $name)
 		$login = @ftp_login($conn_id, $server['user'], $server['pass']);
 	} else {
 		$login = @ftp_login($conn_id, "anonymous", $pref['admin_email']);
+	}
+	if( $server['passiv'] ) {
+		ftp_pasv( $conn_id, true );
 	}
 	if (($conn_id) || ($login)) {
 		if ($server['path'] != "") {

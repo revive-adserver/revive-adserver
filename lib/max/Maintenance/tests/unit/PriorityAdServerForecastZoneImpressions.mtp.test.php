@@ -101,7 +101,6 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $oTask->mtcePriorityLastRun->oUpdatedToDate = null;
         $result = $oTask->getUpdateTypeRequired();
         $this->assertIdentical($result, true);
-        $this->assertIdentical($oTask->safeInsert, false);
         unset($oTask);
 
         // Test 2
@@ -110,7 +109,6 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $oTask->mtcePriorityLastRun->oUpdatedToDate = null;
         $result = $oTask->getUpdateTypeRequired();
         $this->assertIdentical($result, true);
-        $this->assertIdentical($oTask->safeInsert, true);
         unset($oTask);
 
         // Test 3
@@ -119,7 +117,6 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $oTask->mtcePriorityLastRun->oUpdatedToDate = new Date();
         $result = $oTask->getUpdateTypeRequired();
         $this->assertIdentical($result, true);
-        $this->assertIdentical($oTask->safeInsert, false);
         unset($oTask);
 
         // Test 4
@@ -130,7 +127,6 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $oTask->mtcePriorityLastRun->operationInt = $testOperationInterval;
         $result = $oTask->getUpdateTypeRequired();
         $this->assertIdentical($result, true);
-        $this->assertIdentical($oTask->safeInsert, true);
         unset($oTask);
 
         // Test 5
@@ -143,7 +139,6 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $oTask->mtcePriorityLastRun->operationInt = $conf['maintenance']['operationInterval'];
         $result = $oTask->getUpdateTypeRequired();
         $this->assertIdentical($result, false);
-        $this->assertIdentical($oTask->safeInsert, true);
         unset($oTask);
 
         // Test 6
@@ -156,7 +151,6 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $oTask->mtcePriorityLastRun->operationInt = $conf['maintenance']['operationInterval'];
         $result = $oTask->getUpdateTypeRequired();
         $this->assertIdentical($result, true);
-        $this->assertIdentical($oTask->safeInsert, true);
         unset($oTask);
 
         $oTask = new ForecastZoneImpressions();
@@ -168,7 +162,6 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $oTask->mtcePriorityLastRun->operationInt = $conf['maintenance']['operationInterval'];
         $result = $oTask->getUpdateTypeRequired();
         $this->assertIdentical($result, true);
-        $this->assertIdentical($oTask->safeInsert, true);
         unset($oTask);
 
         // Test 7
@@ -183,7 +176,6 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $this->assertTrue(is_array($result));
         $this->assertEqual($result[0], 36);
         $this->assertEqual($result[1], 61);
-        $this->assertIdentical($oTask->safeInsert, true);
         unset($oTask);
 
         $oTask = new ForecastZoneImpressions();
@@ -197,7 +189,6 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $this->assertTrue(is_array($result));
         $this->assertEqual($result[0], 156);
         $this->assertEqual($result[1], 13);
-        $this->assertIdentical($oTask->safeInsert, true);
         unset($oTask);
     }
 

@@ -48,8 +48,8 @@ class Delivery_TestOfPriorityDeliveryLimitationHour extends UnitTestCase
     /**
      * A method to test the calculateNonDeliveryDeliveryLimitation() method.
      *
-     * Test 1: Test with == comparison
-     * Test 2: Test with != comparison
+     * Test 1: Test with =~ comparison
+     * Test 2: Test with !~ comparison
      */
     function testCalculateNonDeliveryRestrictions()
     {
@@ -58,12 +58,12 @@ class Delivery_TestOfPriorityDeliveryLimitationHour extends UnitTestCase
             'ad_id'          => 1,
             'logical'        => 'and',
             'type'           => 'Time:Hour',
-            'comparison'     => '==',
+            'comparison'     => '=~',
             'data'           => '1,7,18,23',
             'executionorder' => 1,
         );
         $oLimitationHour = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
-        $this->assertTrue(count($oLimitationHour->data) == 20);
+        $this->assertEqual(count($oLimitationHour->data), 20);
         $this->assertTrue(isset($oLimitationHour->data[0]));
         $this->assertEqual($oLimitationHour->data[0], 0);
         $this->assertTrue(empty($oLimitationHour->data[1]));
@@ -114,12 +114,12 @@ class Delivery_TestOfPriorityDeliveryLimitationHour extends UnitTestCase
             'ad_id'          => 1,
             'logical'        => 'and',
             'type'           => 'Time:Hour',
-            'comparison'     => '!=',
+            'comparison'     => '!~',
             'data'           => '1,7,18,23',
             'executionorder' => 1,
         );
         $oLimitationHour = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
-        $this->assertTrue(count($oLimitationHour->data) == 4);
+        $this->assertEqual(count($oLimitationHour->data), 4);
         $this->assertTrue(isset($oLimitationHour->data[0]));
         $this->assertEqual($oLimitationHour->data[0], 1);
         $this->assertTrue(isset($oLimitationHour->data[1]));
@@ -147,7 +147,7 @@ class Delivery_TestOfPriorityDeliveryLimitationHour extends UnitTestCase
             'ad_id'          => 1,
             'logical'        => 'and',
             'type'           => 'Time:Hour',
-            'comparison'     => '==',
+            'comparison'     => '=~',
             'data'           => '1, 5, 7, 20',
             'executionorder' => 1
         );

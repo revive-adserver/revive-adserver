@@ -1622,6 +1622,13 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $this->assertEqual($row['run_type'], DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION);
         $this->assertNull($row['updated_to']);
 
+        // Hack! The TestEnv class doesn't always drop temp tables for some
+        // reason, so drop them "by hand", just in case.
+        $dbType = strtolower($conf['database']['type']);
+        $oTable = &MAX_Table_Priority::singleton($dbType);
+        $oTable->dropTempTable("tmp_ad_required_impression");
+        $oTable->dropTempTable("tmp_ad_zone_impression");
+
         TestEnv::restoreEnv();
     }
 

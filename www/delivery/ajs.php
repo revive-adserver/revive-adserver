@@ -42,6 +42,13 @@ MAX_commonSetNoCacheHeaders();
 //Register any script specific input variables
 MAX_commonRegisterGlobals('block', 'blockcampaign', 'exclude', 'mmm_fo', 'q');
 
+if (!is_array($context) && isset($context)) {
+    $context = unserialize(base64_decode($context));
+}
+if (!is_array($context)) {
+    $context = array();
+}
+
 if (isset($exclude) && $exclude != '' && $exclude != ',') {
     $exclude = explode (',', $exclude);
     if (count($exclude) > 0) {

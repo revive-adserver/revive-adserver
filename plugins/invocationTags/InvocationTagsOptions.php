@@ -318,6 +318,26 @@ class Plugins_InvocationTagsOptions
      *
      * @return string    A string containing html for option
      */
+    function iframetracking()
+    {
+        $maxInvocation = &$this->maxInvocation;
+
+        $option = '';
+        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+        $option .= "<tr><td width='30'>&nbsp;</td>";
+        $option .= "<td width='200'>". 'Include code to track Google AdSense clicks' ."</td>";
+        $option .= "<td width='370'><input type='radio' name='iframetracking' value='1'".(!isset($maxInvocation->iframetracking) || $maxInvocation->iframetracking == 1 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
+        $option .= "<input type='radio' name='iframetracking' value='0'".(isset($maxInvocation->iframetracking) && $maxInvocation->iframetracking == 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."</td>";
+        $option .= "</tr>";
+        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        return $option;
+    }
+
+    /**
+     * Generate the HTML option
+     *
+     * @return string    A string containing html for option
+     */
     function block()
     {
         $maxInvocation = &$this->maxInvocation;

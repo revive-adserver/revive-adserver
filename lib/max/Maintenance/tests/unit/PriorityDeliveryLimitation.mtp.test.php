@@ -62,7 +62,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 'ad_id'          => 1,
                 'logical'        => 'and',
                 'type'           => 'Time:Hour',
-                'comparison'     => '==',
+                'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 1
             ),
@@ -70,7 +70,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 'ad_id'          => 1,
                 'logical'        => 'and',
                 'type'           => 'Time:Day',
-                'comparison'     => '==',
+                'comparison'     => '=~',
                 'data'           => '1',
                 'executionorder' => 3
             ),
@@ -118,7 +118,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 'ad_id'          => 1,
                 'logical'        => 'and',
                 'type'           => 'Time:Hour',
-                'comparison'     => '==',
+                'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 1
             ),
@@ -126,7 +126,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 'ad_id'          => 1,
                 'logical'        => 'and',
                 'type'           => 'Time:Day',
-                'comparison'     => '==',
+                'comparison'     => '=~',
                 'data'           => '1',
                 'executionorder' => 3
             ),
@@ -157,7 +157,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 'ad_id'          => 1,
                 'logical'        => 'and',
                 'type'           => 'Time:Hour',
-                'comparison'     => '==',
+                'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 1
             ),
@@ -165,7 +165,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 'ad_id'          => 1,
                 'logical'        => 'and',
                 'type'           => 'Time:Day',
-                'comparison'     => '==',
+                'comparison'     => '=~',
                 'data'           => '1',
                 'executionorder' => 3
             ),
@@ -217,7 +217,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 'ad_id'          => 1,
                 'logical'        => 'and',
                 'type'           => 'Time:Hour',
-                'comparison'     => '==',
+                'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
             )
@@ -235,7 +235,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 'ad_id'          => 1,
                 'logical'        => 'and',
                 'type'           => 'Time:Hour',
-                'comparison'     => '==',
+                'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
             )
@@ -253,7 +253,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 'ad_id'          => 1,
                 'logical'        => 'and',
                 'type'           => 'Time:Hour',
-                'comparison'     => '==',
+                'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
             ),
@@ -279,7 +279,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 'ad_id'          => 1,
                 'logical'        => 'and',
                 'type'           => 'Time:Hour',
-                'comparison'     => '==',
+                'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
             ),
@@ -331,7 +331,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 'ad_id'          => 1,
                 'logical'        => 'and',
                 'type'           => 'Time:Hour',
-                'comparison'     => '==',
+                'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
             ),
@@ -357,7 +357,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 'ad_id'          => 1,
                 'logical'        => 'and',
                 'type'           => 'Time:Hour',
-                'comparison'     => '==',
+                'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
             ),
@@ -383,7 +383,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 'ad_id'          => 1,
                 'logical'        => 'and',
                 'type'           => 'Time:Hour',
-                'comparison'     => '==',
+                'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
             ),
@@ -409,7 +409,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 'ad_id'          => 1,
                 'logical'        => 'and',
                 'type'           => 'Time:Hour',
-                'comparison'     => '==',
+                'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
             ),
@@ -450,7 +450,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 'ad_id'          => 1,
                 'logical'        => 'and',
                 'type'           => 'Time:Hour',
-                'comparison'     => '==',
+                'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
             ),
@@ -491,7 +491,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 'ad_id'          => 1,
                 'logical'        => 'and',
                 'type'           => 'Time:Hour',
-                'comparison'     => '==',
+                'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
             ),
@@ -532,7 +532,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 'ad_id'          => 1,
                 'logical'        => 'and',
                 'type'           => 'Time:Hour',
-                'comparison'     => '==',
+                'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
             ),
@@ -587,7 +587,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 'ad_id'          => 1,
                 'logical'        => 'and',
                 'type'           => 'Time:Hour',
-                'comparison'     => '==',
+                'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
             )
@@ -602,7 +602,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 'ad_id'          => 1,
                 'logical'        => 'and',
                 'type'           => 'Time:Hour',
-                'comparison'     => '!=',
+                'comparison'     => '!~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
             )
@@ -633,7 +633,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 'ad_id'          => 1,
                 'logical'        => 'and',
                 'type'           => 'Time:Hour',
-                'comparison'     => '==',
+                'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
             )
@@ -648,7 +648,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 'ad_id'          => 1,
                 'logical'        => 'and',
                 'type'           => 'Time:Hour',
-                'comparison'     => '!=',
+                'comparison'     => '!~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
             )

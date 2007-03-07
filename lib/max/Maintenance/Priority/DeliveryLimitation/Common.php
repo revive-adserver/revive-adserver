@@ -168,6 +168,10 @@ class MAX_Maintenance_Priority_DeliveryLimitation_Common
             return '==';
         } elseif ($operator == '==') {
             return '!=';
+        } elseif ($operator == '!~') {
+            return '=~';
+        } elseif ($operator == '=~') {
+            return '!~';
         } elseif ($operator == '>') {
             return '<=';
         } elseif ($operator == '>=') {

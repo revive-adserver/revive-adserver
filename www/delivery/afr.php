@@ -39,7 +39,7 @@ require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 MAX_commonSetNoCacheHeaders();
 
 //Register any script specific input variables
-MAX_commonRegisterGlobals('refresh', 'resize', 'rewrite');
+MAX_commonRegisterGlobals('refresh', 'resize', 'rewrite', 'n');
 
 // Initialise any afr.php specific variables
 if (!isset($rewrite))   $rewrite = 1;
@@ -48,6 +48,27 @@ if (!isset($resize))    $resize = 0;
 
 // Get the banner
 $banner = MAX_adSelect($what, $target, $source, $withtext, $context, true, $ct0, $loc, $referer);
+
+// Send cookie if needed
+if (!empty($banner['html']) && !empty($n)) {
+    // Send bannerid headers
+    $cookie = array();
+    $cookie[$conf['var']['adId']] = $banner['bannerid'];
+    // Send zoneid headers
+    if ($zoneid != 0) {
+        $cookie[$conf['var']['zoneId']] = $zoneid;
+    }
+    // Send source headers
+    if (!empty($source)) {
+        $cookie[$conf['var']['channel']] = $source;
+    }
+    // Added code to update the destination URL stored in the cookie to hold the correct random value (Bug # 88)
+    global $cookie_random;
+    $cookie[$conf['var']['dest']] = str_replace('{random}', $cookie_random, $row['url']);
+    // Set the cookie
+    MAX_cookieSet($conf['var']['vars'] . "[$n]", serialize($cookie));
+}
+
 MAX_cookieFlush();
 
 // Rewrite targets in HTML code to make sure they are
@@ -69,7 +90,7 @@ if (isset($banner['contenttype']) && $banner['contenttype'] == 'swf') {
 
 // Add refresh meta tag if $refresh is set and numeric
 if (isset($refresh) && is_numeric($refresh) && $refresh > 0) {
-    $dest = MAX_commonGetDeliveryUrl() . substr($_SERVER['REQUEST_URI'], 1);
+    $dest = MAX_commonGetDeliveryUrl() . substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], basename($_SERVER['SCRIPT_FILENAME'])));
     parse_str($_SERVER['QUERY_STRING'], $qs);
     $dest .= (!array_key_exists('loc', $qs)) ? "&loc=" . urlencode($loc) : '';
 	echo "<meta http-equiv='refresh' content='".$refresh.";url=$dest'>\n";

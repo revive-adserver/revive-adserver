@@ -46,7 +46,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                           'file_conversionjs', 'file_frame', 'file_image', 'file_js', 'file_layer',
                           'file_log', 'file_popup', 'file_view', 'file_xmlrpc', 'file_local', 'file_frontcontroller',
                           'file_flash', 'store_mode', 'store_webDir', 'store_ftpHost', 'store_ftpPath',
-                          'store_ftpUsername','store_ftpPassword',
+                          'store_ftpUsername','store_ftpPassword', 'store_ftpPassive',
                           'delivery_cache', 'delivery_cacheExpire',
                           'delivery_acls', 'delivery_obfuscate', 'delivery_execPhp',
                           'origin_type','origin_host','origin_port','origin_script','origin_timeout','origin_protocol',
@@ -90,12 +90,19 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 
         if ($ftpsock = @ftp_connect($store_ftpHost)) {
             if (@ftp_login($ftpsock, $store_ftpUsername, $store_ftpPassword)) {
+                
+                // old library has no support for second param to chec if passive should be enabled
+                if( $store_ftpPassive ) {
+                	ftp_pasv( $ftpsock, true );
+                }
+                
                 if (empty($store_ftpPath) || @ftp_chdir($ftpsock, $store_ftpPath)) {
                     // Can login okay
                     $config->setConfigChange('store', 'ftpHost',    $store_ftpHost);
                     $config->setConfigChange('store', 'ftpPath',     $store_ftpPath);
                     $config->setConfigChange('store', 'ftpUsername', $store_ftpUsername);
                     $config->setConfigChange('store', 'ftpPassword', $store_ftpPassword);
+                    $config->setConfigChange('store', 'ftpPassive', $store_ftpPassive); 
                 } else {
                     $errormessage[1][] = $strTypeFTPErrorDir;
                 }
@@ -315,6 +322,15 @@ $settings = array(
     			'name' 	  => 'store_ftpPassword',
     			'text' 	  => $strTypeFTPPassword,
     			'size'	  => 35,
+    			'depends' => 'store_mode==1'
+    		),
+    		array (
+    			'type'    => 'break'
+    		),
+    		array (
+    			'type' 	  => 'checkbox', 
+    			'name' 	  => 'store_ftpPassive',
+    			'text' 	  => $strTypeFTPPassive,
     			'depends' => 'store_mode==1'
     		)
     	)
