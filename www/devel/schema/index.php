@@ -57,6 +57,8 @@ if (array_key_exists('table_edit', $_POST))
     $db_definition = $schema->parseDatabaseDefinitionFile($file);
     $table = $_POST['table_edit'];
     $tbl_definition = $db_definition['tables'][$table];
+    include 'edit.html';
+    exit();
 }
 else if (array_key_exists('table_add', $_POST))
 {
