@@ -49,7 +49,7 @@ class MAX_Dal_Maintenance_Statistics_Tracker_mysql extends MAX_Dal_Maintenance_S
      */
     function MAX_Dal_Maintenance_Statistics_Tracker_mysql()
     {
-        parent::MAX_Dal_Maintenance_Statistics_Common('mysql');
+        parent::MAX_Dal_Maintenance_Statistics_Common();
         $this->dbh = &MAX_DB::singleton();
     }
 

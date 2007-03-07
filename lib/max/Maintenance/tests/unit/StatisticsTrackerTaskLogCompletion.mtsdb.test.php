@@ -63,7 +63,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Tracker_Task_LogCompletion ex
     function testRun()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $tables = MAX_Table_Core::singleton();
+        $tables = &Openads_Table_Core::singleton();
         $dbh = &MAX_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
         // Create the required table

@@ -170,7 +170,7 @@ class Maintenance_TestOfChannelStatistic extends UnitTestCase
 
         $dataDate = new Date('2005-08-02 09:28:24');
 
-        $tables = MAX_Table_Core::singleton();
+        $tables = &Openads_Table_Core::singleton();
         $tables->createTable('data_raw_ad_impression', $dataDate);
         $tables->createTable('data_raw_ad_click', $dataDate);
         $tables->createTable('data_raw_ad_request', $dataDate);

@@ -60,7 +60,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = 'max_';
         $dbh = &MAX_DB::singleton();
-        $tables = MAX_Table_Core::singleton($conf['database']['type'], true);
+        $tables = &Openads_Table_Core::singleton();
         // Create the required tables
         $tables->createTable('banners');
         $tables->createTable('campaigns');

@@ -26,7 +26,7 @@ $Id$
 */
 require_once MAX_PATH . '/lib/max/DB.php';
 require_once MAX_PATH . '/lib/max/SqlBuilder.php';
-require_once MAX_PATH . '/lib/max/Table/Core.php';
+require_once MAX_PATH . '/lib/openads/Table/Core.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
 require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
@@ -103,8 +103,8 @@ class SimulationScenario
         $_COOKIE = $HTTP_COOKIE_VARS = array();
 
         //start with a clean set of tables
-        MAX_Table_Core::destroy();
-        $this->oCoreTables = MAX_Table_Core::singleton();
+        Openads_Table_Core::destroy();
+        $this->oCoreTables = &Openads_Table_Core::singleton();
 
         // set up some services
         $this->oServiceLocator = &ServiceLocator::instance();
@@ -153,7 +153,7 @@ class SimulationScenario
 			if (!is_array($aIteration['precise_requests']))
 			{
 				$aIteration['precise_requests'] = array();
-				
+
 				for ($i = 1; $i <= $requestObjs; $i++)
 				{
 					if (!empty($aIteration['request_objects'][$i]->requests))
@@ -163,9 +163,9 @@ class SimulationScenario
 					}
 				}
 			}
-			
+
 			$precise_requests = $aIteration['precise_requests'];
-			
+
 			$aIteration['max_requests'] = count($aIteration['precise_requests']);
 		}
 		else
@@ -422,7 +422,7 @@ class SimulationScenario
             $array = &$this->aFailed[$iteration];
             $bannerId = 0;
         }
-        
+
         if (preg_match('/zone(?:id)?:(\d+)/', $what, $m))
             $zoneId = (int)$m[1];
         else
@@ -432,7 +432,7 @@ class SimulationScenario
             $array[$bannerId][$zoneId] = 0;
 
         $array[$bannerId][$zoneId]++;
-        
+
         $this->totalRequests++;
     }
 
@@ -495,12 +495,12 @@ class SimulationScenario
         $this->printPriorities();
         $this->printHeading('End updatePriorities; date: ' . $this->_getDateTimeString(), 3);
 
-        // Hack! The TestEnv class doesn't always drop temp tables for some 
-        // reason, so drop them "by hand", just in case. 
-        $dbType = strtolower($GLOBALS['_MAX']['CONF']['database']['type']); 
-        $oTable = &MAX_Table_Priority::singleton($dbType); 
-        $oTable->dropTempTable("tmp_ad_required_impression"); 
-        $oTable->dropTempTable("tmp_ad_zone_impression");     
+        // Hack! The TestEnv class doesn't always drop temp tables for some
+        // reason, so drop them "by hand", just in case.
+        $dbType = strtolower($GLOBALS['_MAX']['CONF']['database']['type']);
+        $oTable = &Openads_Table_Priority::singleton();
+        $oTable->dropTempTable("tmp_ad_required_impression");
+        $oTable->dropTempTable("tmp_ad_zone_impression");
     }
 
     /**

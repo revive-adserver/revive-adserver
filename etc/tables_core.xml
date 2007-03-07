@@ -2,12 +2,9 @@
 <?xml-stylesheet type="text/xsl" href="xsl/mdb2_schema.xsl"?>
 <database>
 
- <name>schema_testing</name>
+ <name>openads</name>
  <create>true</create>
  <overwrite>false</overwrite>
-
- <version>0.0.1</version>
- <status>final</status>
 
  <table>
 
@@ -56,9 +53,9 @@
 
    <field>
     <name>executionorder</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -104,8 +101,8 @@
 
    <field>
     <name>logical</name>
-    <type>openads_set</type>
-    <length>'and','or'</length>
+    <type>openads_varchar</type>
+    <length>3</length>
     <notnull>true</notnull>
     <default>and</default>
    </field>
@@ -135,9 +132,9 @@
 
    <field>
     <name>executionorder</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -175,9 +172,9 @@
 
    <field>
     <name>ad_category_assoc_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -185,18 +182,18 @@
 
    <field>
     <name>category_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>ad_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
@@ -247,15 +244,15 @@
 
    <field>
     <name>priority</name>
-    <type>float</type>
+    <type>openads_double</type>
     <notnull>false</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>link_type</name>
-    <type>integer</type>
-    <length>2</length>
+    <type>openads_smallint</type>
+    <length>6</length>
     <notnull>true</notnull>
     <default>1</default>
    </field>
@@ -401,16 +398,16 @@
 
    <field>
     <name>last_accepted_agency_agreement</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>false</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>updated</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <index>
@@ -537,24 +534,24 @@
 
    <field>
     <name>unique_users</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>unique_views</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>page_rank</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -669,17 +666,17 @@
 
    <field>
     <name>active</name>
-    <type>integer</type>
-    <length>2</length>
+    <type>openads_smallint</type>
+    <length>1</length>
     <notnull>false</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>updated</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <index>
@@ -808,32 +805,32 @@
 
    <field>
     <name>width</name>
-    <type>integer</type>
-    <length>2</length>
+    <type>openads_smallint</type>
+    <length>6</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>height</name>
-    <type>integer</type>
-    <length>2</length>
+    <type>openads_smallint</type>
+    <length>6</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>weight</name>
-    <type>integer</type>
-    <length>1</length>
+    <type>openads_tinyint</type>
+    <length>4</length>
     <notnull>true</notnull>
     <default>1</default>
    </field>
 
    <field>
     <name>seq</name>
-    <type>integer</type>
-    <length>1</length>
+    <type>openads_tinyint</type>
+    <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -902,24 +899,24 @@
 
    <field>
     <name>block</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>capping</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>session_capping</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -947,16 +944,16 @@
 
    <field>
     <name>appendtype</name>
-    <type>integer</type>
-    <length>1</length>
+    <type>openads_tinyint</type>
+    <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>bannertype</name>
-    <type>integer</type>
-    <length>1</length>
+    <type>openads_tinyint</type>
+    <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -994,14 +991,14 @@
 
    <field>
     <name>updated</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>acls_updated</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
     <default>0000-00-00 00:00:00</default>
    </field>
@@ -1060,38 +1057,38 @@
 
    <field>
     <name>views</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>false</notnull>
     <default>-1</default>
    </field>
 
    <field>
     <name>clicks</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>false</notnull>
     <default>-1</default>
    </field>
 
    <field>
     <name>conversions</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>false</notnull>
     <default>-1</default>
    </field>
 
    <field>
     <name>expire</name>
-    <type>date</type>
+    <type>openads_date</type>
     <notnull>false</notnull>
     <default>0000-00-00</default>
    </field>
 
    <field>
     <name>activate</name>
-    <type>date</type>
+    <type>openads_date</type>
     <notnull>false</notnull>
     <default>0000-00-00</default>
    </field>
@@ -1106,40 +1103,40 @@
 
    <field>
     <name>priority</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>weight</name>
-    <type>integer</type>
-    <length>1</length>
+    <type>openads_tinyint</type>
+    <length>4</length>
     <notnull>true</notnull>
     <default>1</default>
    </field>
 
    <field>
     <name>target_impression</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>target_click</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>target_conversion</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -1154,8 +1151,8 @@
 
    <field>
     <name>companion</name>
-    <type>integer</type>
-    <length>2</length>
+    <type>openads_smallint</type>
+    <length>1</length>
     <notnull>false</notnull>
     <default>0</default>
    </field>
@@ -1169,47 +1166,47 @@
 
    <field>
     <name>revenue</name>
-    <type>decimal</type>
-    <length>10</length>
+    <type>openads_decimal</type>
+    <length>10,4</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>revenue_type</name>
-    <type>integer</type>
-    <length>2</length>
+    <type>openads_smallint</type>
+    <length>6</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>updated</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>block</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>capping</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>session_capping</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -1284,9 +1281,9 @@
 
    <field>
     <name>status</name>
-    <type>integer</type>
+    <type>openads_smallint</type>
     <unsigned>true</unsigned>
-    <length>2</length>
+    <length>1</length>
     <notnull>true</notnull>
     <default>4</default>
    </field>
@@ -1328,9 +1325,9 @@
 
    <field>
     <name>category_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -1420,8 +1417,8 @@
 
    <field>
     <name>active</name>
-    <type>integer</type>
-    <length>2</length>
+    <type>openads_smallint</type>
+    <length>1</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -1435,14 +1432,14 @@
 
    <field>
     <name>updated</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>acls_updated</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
     <default>0000-00-00 00:00:00</default>
    </field>
@@ -1557,7 +1554,7 @@
 
    <field>
     <name>reportlastdate</name>
-    <type>date</type>
+    <type>openads_date</type>
     <notnull>true</notnull>
     <default>0000-00-00</default>
    </field>
@@ -1579,9 +1576,9 @@
 
    <field>
     <name>updated</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <index>
@@ -1613,8 +1610,8 @@
 
    <field>
     <name>data_intermediate_ad_id</name>
-    <type>integer</type>
-    <length>8</length>
+    <type>openads_bigint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -1622,136 +1619,136 @@
 
    <field>
     <name>day</name>
-    <type>date</type>
+    <type>openads_date</type>
     <notnull>true</notnull>
-    <default>0000-00-00</default>
+    <default></default>
    </field>
 
    <field>
     <name>hour</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>operation_interval</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>operation_interval_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>interval_start</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>interval_end</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>ad_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>creative_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>zone_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>requests</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>impressions</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>clicks</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>conversions</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>total_basket_value</name>
-    <type>decimal</type>
-    <length>10</length>
+    <type>openads_decimal</type>
+    <length>10,4</length>
     <notnull>true</notnull>
     <default>0.0000</default>
    </field>
 
    <field>
     <name>total_num_items</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>updated</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <index>
@@ -1807,8 +1804,8 @@
 
    <field>
     <name>data_intermediate_ad_connection_id</name>
-    <type>integer</type>
-    <length>8</length>
+    <type>openads_bigint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -1824,8 +1821,8 @@
 
    <field>
     <name>server_raw_tracker_impression_id</name>
-    <type>integer</type>
-    <length>8</length>
+    <type>openads_bigint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default></default>
    </field>
@@ -1848,50 +1845,50 @@
 
    <field>
     <name>tracker_date_time</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>connection_date_time</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>false</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>tracker_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>ad_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>creative_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>zone_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
@@ -1994,18 +1991,18 @@
 
    <field>
     <name>tracker_https</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>connection_https</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -2140,34 +2137,34 @@
 
    <field>
     <name>connection_action</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>connection_window</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>connection_status</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>4</default>
    </field>
 
    <field>
     <name>inside_window</name>
-    <type>integer</type>
+    <type>openads_tinyint</type>
     <length>1</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -2182,9 +2179,9 @@
 
    <field>
     <name>updated</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <index>
@@ -2248,8 +2245,8 @@
 
    <field>
     <name>data_intermediate_ad_variable_value_id</name>
-    <type>integer</type>
-    <length>8</length>
+    <type>openads_bigint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -2257,16 +2254,16 @@
 
    <field>
     <name>data_intermediate_ad_connection_id</name>
-    <type>integer</type>
-    <length>8</length>
+    <type>openads_bigint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>tracker_variable_id</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default></default>
    </field>
@@ -2340,34 +2337,34 @@
 
    <field>
     <name>date_time</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>ad_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>creative_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>zone_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
@@ -2422,7 +2419,7 @@
 
    <field>
     <name>https</name>
-    <type>integer</type>
+    <type>openads_tinyint</type>
     <length>1</length>
     <notnull>false</notnull>
     <default></default>
@@ -2494,7 +2491,7 @@
 
    <field>
     <name>max_https</name>
-    <type>integer</type>
+    <type>openads_tinyint</type>
     <length>1</length>
     <notnull>false</notnull>
     <default></default>
@@ -2526,16 +2523,16 @@
 
    <field>
     <name>geo_latitude</name>
-    <type>decimal</type>
-    <length>8</length>
+    <type>openads_decimal</type>
+    <length>8,4</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>geo_longitude</name>
-    <type>decimal</type>
-    <length>8</length>
+    <type>openads_decimal</type>
+    <length>8,4</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -2640,34 +2637,34 @@
 
    <field>
     <name>date_time</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>ad_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>creative_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>zone_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
@@ -2722,7 +2719,7 @@
 
    <field>
     <name>https</name>
-    <type>integer</type>
+    <type>openads_tinyint</type>
     <length>1</length>
     <notnull>false</notnull>
     <default></default>
@@ -2794,7 +2791,7 @@
 
    <field>
     <name>max_https</name>
-    <type>integer</type>
+    <type>openads_tinyint</type>
     <length>1</length>
     <notnull>false</notnull>
     <default></default>
@@ -2826,16 +2823,16 @@
 
    <field>
     <name>geo_latitude</name>
-    <type>decimal</type>
-    <length>8</length>
+    <type>openads_decimal</type>
+    <length>8,4</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>geo_longitude</name>
-    <type>decimal</type>
-    <length>8</length>
+    <type>openads_decimal</type>
+    <length>8,4</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -2940,34 +2937,34 @@
 
    <field>
     <name>date_time</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>ad_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>creative_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>zone_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
@@ -3022,7 +3019,7 @@
 
    <field>
     <name>https</name>
-    <type>integer</type>
+    <type>openads_tinyint</type>
     <length>1</length>
     <notnull>false</notnull>
     <default></default>
@@ -3094,7 +3091,7 @@
 
    <field>
     <name>max_https</name>
-    <type>integer</type>
+    <type>openads_tinyint</type>
     <length>1</length>
     <notnull>false</notnull>
     <default></default>
@@ -3126,16 +3123,16 @@
 
    <field>
     <name>geo_latitude</name>
-    <type>decimal</type>
-    <length>8</length>
+    <type>openads_decimal</type>
+    <length>8,4</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>geo_longitude</name>
-    <type>decimal</type>
-    <length>8</length>
+    <type>openads_decimal</type>
+    <length>8,4</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -3240,16 +3237,16 @@
 
    <field>
     <name>date_time</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>tracker_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
@@ -3304,7 +3301,7 @@
 
    <field>
     <name>https</name>
-    <type>integer</type>
+    <type>openads_tinyint</type>
     <length>1</length>
     <notnull>false</notnull>
     <default></default>
@@ -3376,7 +3373,7 @@
 
    <field>
     <name>max_https</name>
-    <type>integer</type>
+    <type>openads_tinyint</type>
     <length>1</length>
     <notnull>false</notnull>
     <default></default>
@@ -3408,16 +3405,16 @@
 
    <field>
     <name>geo_latitude</name>
-    <type>decimal</type>
-    <length>8</length>
+    <type>openads_decimal</type>
+    <length>8,4</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>geo_longitude</name>
-    <type>decimal</type>
-    <length>8</length>
+    <type>openads_decimal</type>
+    <length>8,4</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -3490,8 +3487,8 @@
 
    <field>
     <name>server_raw_tracker_impression_id</name>
-    <type>integer</type>
-    <length>8</length>
+    <type>openads_bigint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -3523,16 +3520,16 @@
 
    <field>
     <name>date_time</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>tracker_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
@@ -3587,9 +3584,9 @@
 
    <field>
     <name>https</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -3660,9 +3657,9 @@
 
    <field>
     <name>max_https</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -3693,16 +3690,16 @@
 
    <field>
     <name>geo_latitude</name>
-    <type>decimal</type>
-    <length>8</length>
+    <type>openads_decimal</type>
+    <length>8,4</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>geo_longitude</name>
-    <type>decimal</type>
-    <length>8</length>
+    <type>openads_decimal</type>
+    <length>8,4</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -3788,8 +3785,8 @@
 
    <field>
     <name>server_raw_tracker_impression_id</name>
-    <type>integer</type>
-    <length>8</length>
+    <type>openads_bigint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default></default>
    </field>
@@ -3804,17 +3801,17 @@
 
    <field>
     <name>tracker_variable_id</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>date_time</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>false</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
@@ -3854,8 +3851,8 @@
 
    <field>
     <name>data_summary_ad_hourly_id</name>
-    <type>integer</type>
-    <length>8</length>
+    <type>openads_bigint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -3863,128 +3860,128 @@
 
    <field>
     <name>day</name>
-    <type>date</type>
+    <type>openads_date</type>
     <notnull>true</notnull>
-    <default>0000-00-00</default>
+    <default></default>
    </field>
 
    <field>
     <name>hour</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>ad_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>creative_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>zone_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>requests</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>impressions</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>clicks</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>conversions</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>total_basket_value</name>
-    <type>decimal</type>
-    <length>10</length>
+    <type>openads_decimal</type>
+    <length>10,4</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>total_num_items</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>total_revenue</name>
-    <type>decimal</type>
-    <length>10</length>
+    <type>openads_decimal</type>
+    <length>10,4</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>total_cost</name>
-    <type>decimal</type>
-    <length>10</length>
+    <type>openads_decimal</type>
+    <length>10,4</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>total_techcost</name>
-    <type>decimal</type>
-    <length>10</length>
+    <type>openads_decimal</type>
+    <length>10,4</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>updated</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <index>
@@ -4040,8 +4037,8 @@
 
    <field>
     <name>data_summary_ad_zone_assoc_id</name>
-    <type>integer</type>
-    <length>8</length>
+    <type>openads_bigint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -4049,129 +4046,129 @@
 
    <field>
     <name>operation_interval</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>operation_interval_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>interval_start</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>interval_end</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>ad_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>zone_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>required_impressions</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>requested_impressions</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>priority</name>
-    <type>float</type>
+    <type>openads_double</type>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>priority_factor</name>
-    <type>float</type>
+    <type>openads_double</type>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>priority_factor_limited</name>
-    <type>integer</type>
-    <length>2</length>
+    <type>openads_smallint</type>
+    <length>6</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>past_zone_traffic_fraction</name>
-    <type>float</type>
+    <type>openads_double</type>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>created</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>created_by</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>expired</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>false</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>expired_by</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -4237,8 +4234,8 @@
 
    <field>
     <name>data_summary_channel_daily_id</name>
-    <type>integer</type>
-    <length>8</length>
+    <type>openads_bigint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -4246,43 +4243,43 @@
 
    <field>
     <name>day</name>
-    <type>date</type>
+    <type>openads_date</type>
     <notnull>true</notnull>
-    <default>0000-00-00</default>
+    <default></default>
    </field>
 
    <field>
     <name>channel_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>zone_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>forecast_impressions</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>actual_impressions</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -4332,8 +4329,8 @@
 
    <field>
     <name>data_summary_zone_country_daily_id</name>
-    <type>integer</type>
-    <length>8</length>
+    <type>openads_bigint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -4341,16 +4338,16 @@
 
    <field>
     <name>day</name>
-    <type>date</type>
+    <type>openads_date</type>
     <notnull>true</notnull>
     <default>0000-00-00</default>
    </field>
 
    <field>
     <name>zone_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -4365,18 +4362,18 @@
 
    <field>
     <name>impressions</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>clicks</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -4418,8 +4415,8 @@
 
    <field>
     <name>data_summary_zone_country_forecast_id</name>
-    <type>integer</type>
-    <length>8</length>
+    <type>openads_bigint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -4427,17 +4424,17 @@
 
    <field>
     <name>day_of_week</name>
-    <type>integer</type>
-    <length>2</length>
+    <type>openads_smallint</type>
+    <length>6</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>zone_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
@@ -4452,9 +4449,9 @@
 
    <field>
     <name>impressions</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -4496,8 +4493,8 @@
 
    <field>
     <name>data_summary_zone_country_monthly_id</name>
-    <type>integer</type>
-    <length>8</length>
+    <type>openads_bigint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -4513,9 +4510,9 @@
 
    <field>
     <name>zone_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -4530,18 +4527,18 @@
 
    <field>
     <name>impressions</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>clicks</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -4583,8 +4580,8 @@
 
    <field>
     <name>data_summary_zone_domain_page_daily_id</name>
-    <type>integer</type>
-    <length>8</length>
+    <type>openads_bigint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -4592,16 +4589,16 @@
 
    <field>
     <name>day</name>
-    <type>date</type>
+    <type>openads_date</type>
     <notnull>true</notnull>
     <default>0000-00-00</default>
    </field>
 
    <field>
     <name>zone_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -4624,18 +4621,18 @@
 
    <field>
     <name>impressions</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>clicks</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -4677,8 +4674,8 @@
 
    <field>
     <name>data_summary_zone_domain_page_forecast_id</name>
-    <type>integer</type>
-    <length>8</length>
+    <type>openads_bigint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -4686,17 +4683,17 @@
 
    <field>
     <name>day_of_week</name>
-    <type>integer</type>
-    <length>2</length>
+    <type>openads_smallint</type>
+    <length>6</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>zone_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
@@ -4719,9 +4716,9 @@
 
    <field>
     <name>impressions</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -4763,8 +4760,8 @@
 
    <field>
     <name>data_summary_zone_domain_page_monthly_id</name>
-    <type>integer</type>
-    <length>8</length>
+    <type>openads_bigint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -4780,9 +4777,9 @@
 
    <field>
     <name>zone_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -4805,18 +4802,18 @@
 
    <field>
     <name>impressions</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>clicks</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -4858,8 +4855,8 @@
 
    <field>
     <name>data_summary_zone_impression_history_id</name>
-    <type>integer</type>
-    <length>8</length>
+    <type>openads_bigint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -4867,59 +4864,59 @@
 
    <field>
     <name>operation_interval</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>operation_interval_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>interval_start</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>interval_end</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>zone_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>forecast_impressions</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>actual_impressions</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -4961,8 +4958,8 @@
 
    <field>
     <name>data_summary_zone_site_keyword_daily_id</name>
-    <type>integer</type>
-    <length>8</length>
+    <type>openads_bigint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -4970,16 +4967,16 @@
 
    <field>
     <name>day</name>
-    <type>date</type>
+    <type>openads_date</type>
     <notnull>true</notnull>
     <default>0000-00-00</default>
    </field>
 
    <field>
     <name>zone_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -5002,18 +4999,18 @@
 
    <field>
     <name>impressions</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>clicks</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -5055,8 +5052,8 @@
 
    <field>
     <name>data_summary_zone_site_keyword_forecast_id</name>
-    <type>integer</type>
-    <length>8</length>
+    <type>openads_bigint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -5064,17 +5061,17 @@
 
    <field>
     <name>day_of_week</name>
-    <type>integer</type>
-    <length>2</length>
+    <type>openads_smallint</type>
+    <length>6</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>zone_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
@@ -5097,9 +5094,9 @@
 
    <field>
     <name>impressions</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -5141,8 +5138,8 @@
 
    <field>
     <name>data_summary_zone_site_keyword_monthly_id</name>
-    <type>integer</type>
-    <length>8</length>
+    <type>openads_bigint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -5158,9 +5155,9 @@
 
    <field>
     <name>zone_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -5183,18 +5180,18 @@
 
    <field>
     <name>impressions</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>clicks</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -5236,8 +5233,8 @@
 
    <field>
     <name>data_summary_zone_source_daily_id</name>
-    <type>integer</type>
-    <length>8</length>
+    <type>openads_bigint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -5245,16 +5242,16 @@
 
    <field>
     <name>day</name>
-    <type>date</type>
+    <type>openads_date</type>
     <notnull>true</notnull>
     <default>0000-00-00</default>
    </field>
 
    <field>
     <name>zone_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -5269,18 +5266,18 @@
 
    <field>
     <name>impressions</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>clicks</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -5322,8 +5319,8 @@
 
    <field>
     <name>data_summary_zone_source_forecast_id</name>
-    <type>integer</type>
-    <length>8</length>
+    <type>openads_bigint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -5331,17 +5328,17 @@
 
    <field>
     <name>day_of_week</name>
-    <type>integer</type>
-    <length>2</length>
+    <type>openads_smallint</type>
+    <length>6</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>zone_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
@@ -5356,9 +5353,9 @@
 
    <field>
     <name>impressions</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -5400,8 +5397,8 @@
 
    <field>
     <name>data_summary_zone_source_monthly_id</name>
-    <type>integer</type>
-    <length>8</length>
+    <type>openads_bigint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -5417,9 +5414,9 @@
 
    <field>
     <name>zone_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -5434,18 +5431,18 @@
 
    <field>
     <name>impressions</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>clicks</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -5501,19 +5498,10 @@
 
    <field>
     <name>t_stamp</name>
-    <type>timestamp</type>
+    <type>openads_timestamp</type>
     <notnull>false</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default>CURRENT_TIMESTAMP</default>
    </field>
-
-   <index>
-    <name>primary</name>
-    <primary>true</primary>
-    <field>
-     <name>filename</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
 
   </declaration>
 
@@ -5527,8 +5515,8 @@
 
    <field>
     <name>log_maintenance_forecasting_id</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -5536,39 +5524,39 @@
 
    <field>
     <name>start_run</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>end_run</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>operation_interval</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>duration</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>updated_to</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>false</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <index>
@@ -5592,8 +5580,8 @@
 
    <field>
     <name>log_maintenance_priority_id</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -5601,48 +5589,48 @@
 
    <field>
     <name>start_run</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>end_run</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>operation_interval</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>duration</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>run_type</name>
-    <type>integer</type>
+    <type>openads_tinyint</type>
     <unsigned>true</unsigned>
-    <length>1</length>
+    <length>3</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>updated_to</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>false</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <index>
@@ -5666,8 +5654,8 @@
 
    <field>
     <name>log_maintenance_statistics_id</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -5675,55 +5663,55 @@
 
    <field>
     <name>start_run</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>end_run</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>duration</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>adserver_run_type</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>2</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>search_run_type</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>2</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>tracker_run_type</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>2</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>updated_to</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>false</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <index>
@@ -5755,8 +5743,8 @@
 
    <field>
     <name>user_id</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>10</length>
     <notnull>true</notnull>
     <default></default>
    </field>
@@ -5771,9 +5759,9 @@
 
    <field>
     <name>updated</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <index>
@@ -5870,26 +5858,26 @@
 
    <field>
     <name>rule_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>domain_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>rule_order</name>
-    <type>integer</type>
-    <length>1</length>
+    <type>openads_tinyint</type>
+    <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -5943,9 +5931,9 @@
 
    <field>
     <name>domain_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -5988,9 +5976,9 @@
 
    <field>
     <name>rule_id</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -6048,8 +6036,8 @@
 
    <field>
     <name>config_version</name>
-    <type>decimal</type>
-    <length>7</length>
+    <type>openads_decimal</type>
+    <length>7,3</length>
     <notnull>true</notnull>
     <default>0.000</default>
    </field>
@@ -6112,16 +6100,16 @@
 
    <field>
     <name>begin_of_week</name>
-    <type>integer</type>
-    <length>1</length>
+    <type>openads_tinyint</type>
+    <length>2</length>
     <notnull>false</notnull>
     <default>1</default>
    </field>
 
    <field>
     <name>percentage_decimals</name>
-    <type>integer</type>
-    <length>1</length>
+    <type>openads_tinyint</type>
+    <length>2</length>
     <notnull>false</notnull>
     <default>2</default>
    </field>
@@ -6256,16 +6244,16 @@
 
    <field>
     <name>default_banner_weight</name>
-    <type>integer</type>
-    <length>1</length>
+    <type>openads_tinyint</type>
+    <length>4</length>
     <notnull>false</notnull>
     <default>1</default>
    </field>
 
    <field>
     <name>default_campaign_weight</name>
-    <type>integer</type>
-    <length>1</length>
+    <type>openads_tinyint</type>
+    <length>4</length>
     <notnull>false</notnull>
     <default>1</default>
    </field>
@@ -6406,8 +6394,8 @@
 
    <field>
     <name>gui_link_compact_limit</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>false</notnull>
     <default>50</default>
    </field>
@@ -6446,8 +6434,8 @@
 
    <field>
     <name>gui_invocation_3rdparty_default</name>
-    <type>integer</type>
-    <length>2</length>
+    <type>openads_smallint</type>
+    <length>6</length>
     <notnull>false</notnull>
     <default>0</default>
    </field>
@@ -6477,16 +6465,16 @@
 
    <field>
     <name>updates_timestamp</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>false</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>updates_last_seen</name>
-    <type>decimal</type>
-    <length>7</length>
+    <type>openads_decimal</type>
+    <length>7,3</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -6573,8 +6561,8 @@
 
    <field>
     <name>auto_clean_tables_interval</name>
-    <type>integer</type>
-    <length>1</length>
+    <type>openads_tinyint</type>
+    <length>2</length>
     <notnull>false</notnull>
     <default>5</default>
    </field>
@@ -6589,8 +6577,8 @@
 
    <field>
     <name>auto_clean_userlog_interval</name>
-    <type>integer</type>
-    <length>1</length>
+    <type>openads_tinyint</type>
+    <length>2</length>
     <notnull>false</notnull>
     <default>5</default>
    </field>
@@ -6605,15 +6593,15 @@
 
    <field>
     <name>autotarget_factor</name>
-    <type>float</type>
+    <type>openads_float</type>
     <notnull>false</notnull>
     <default>-1</default>
    </field>
 
    <field>
     <name>maintenance_timestamp</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>false</notnull>
     <default>0</default>
    </field>
@@ -6628,32 +6616,32 @@
 
    <field>
     <name>statslastday</name>
-    <type>date</type>
+    <type>openads_date</type>
     <notnull>true</notnull>
     <default>0000-00-00</default>
    </field>
 
    <field>
     <name>statslasthour</name>
-    <type>integer</type>
-    <length>1</length>
+    <type>openads_tinyint</type>
+    <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>default_tracker_status</name>
-    <type>integer</type>
-    <length>1</length>
+    <type>openads_tinyint</type>
+    <length>4</length>
     <notnull>true</notnull>
     <default>1</default>
    </field>
 
    <field>
     <name>default_tracker_type</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <unsigned>true</unsigned>
-    <length>4</length>
+    <length>10</length>
     <notnull>false</notnull>
     <default>1</default>
    </field>
@@ -6972,8 +6960,8 @@
 
    <field>
     <name>advertiser_id</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default></default>
    </field>
@@ -7018,8 +7006,8 @@
 
    <field>
     <name>publisher_id</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default></default>
    </field>
@@ -7079,9 +7067,9 @@
 
    <field>
     <name>lastused</name>
-    <type>timestamp</type>
+    <type>openads_timestamp</type>
     <notnull>false</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default>CURRENT_TIMESTAMP</default>
    </field>
 
    <index>
@@ -7105,7 +7093,7 @@
 
    <field>
     <name>day</name>
-    <type>date</type>
+    <type>openads_date</type>
     <notnull>true</notnull>
     <default>0000-00-00</default>
    </field>
@@ -7120,24 +7108,24 @@
 
    <field>
     <name>target</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>views</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>modified</name>
-    <type>integer</type>
-    <length>1</length>
+    <type>openads_tinyint</type>
+    <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -7154,8 +7142,8 @@
 
    <field>
     <name>tracker_append_id</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
     <autoincrement>1</autoincrement>
@@ -7171,8 +7159,8 @@
 
    <field>
     <name>rank</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -7290,18 +7278,18 @@
 
    <field>
     <name>status</name>
-    <type>integer</type>
+    <type>openads_smallint</type>
     <unsigned>true</unsigned>
-    <length>2</length>
+    <length>1</length>
     <notnull>true</notnull>
     <default>4</default>
    </field>
 
    <field>
     <name>type</name>
-    <type>integer</type>
+    <type>openads_smallint</type>
     <unsigned>true</unsigned>
-    <length>2</length>
+    <length>1</length>
     <notnull>true</notnull>
     <default>1</default>
    </field>
@@ -7331,9 +7319,9 @@
 
    <field>
     <name>updated</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <index>
@@ -7374,16 +7362,16 @@
 
    <field>
     <name>timestamp</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>usertype</name>
-    <type>integer</type>
-    <length>1</length>
+    <type>openads_tinyint</type>
+    <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -7440,23 +7428,23 @@
 
    <field>
     <name>variable_id</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>publisher_id</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
     <name>visible</name>
-    <type>integer</type>
+    <type>openads_tinyint</type>
     <length>1</length>
     <notnull>true</notnull>
     <default></default>
@@ -7537,25 +7525,25 @@
 
    <field>
     <name>reject_if_empty</name>
-    <type>integer</type>
+    <type>openads_smallint</type>
     <unsigned>true</unsigned>
-    <length>2</length>
+    <length>1</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>is_unique</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>unique_window</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -7578,9 +7566,9 @@
 
    <field>
     <name>updated</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <index>
@@ -7653,16 +7641,16 @@
 
    <field>
     <name>delivery</name>
-    <type>integer</type>
-    <length>2</length>
+    <type>openads_smallint</type>
+    <length>6</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>zonetype</name>
-    <type>integer</type>
-    <length>2</length>
+    <type>openads_smallint</type>
+    <length>6</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -7676,16 +7664,16 @@
 
    <field>
     <name>width</name>
-    <type>integer</type>
-    <length>2</length>
+    <type>openads_smallint</type>
+    <length>6</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>height</name>
-    <type>integer</type>
-    <length>2</length>
+    <type>openads_smallint</type>
+    <length>6</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -7720,8 +7708,8 @@
 
    <field>
     <name>appendtype</name>
-    <type>integer</type>
-    <length>1</length>
+    <type>openads_tinyint</type>
+    <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -7736,8 +7724,8 @@
 
    <field>
     <name>inventory_forecast_type</name>
-    <type>integer</type>
-    <length>2</length>
+    <type>openads_smallint</type>
+    <length>6</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -7751,16 +7739,16 @@
 
    <field>
     <name>cost</name>
-    <type>decimal</type>
-    <length>10</length>
+    <type>openads_decimal</type>
+    <length>10,4</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>cost_type</name>
-    <type>integer</type>
-    <length>2</length>
+    <type>openads_smallint</type>
+    <length>6</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -7775,47 +7763,47 @@
 
    <field>
     <name>technology_cost</name>
-    <type>decimal</type>
-    <length>10</length>
+    <type>openads_decimal</type>
+    <length>10,4</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>technology_cost_type</name>
-    <type>integer</type>
-    <length>2</length>
+    <type>openads_smallint</type>
+    <length>6</length>
     <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>updated</name>
-    <type>timestamp</type>
+    <type>openads_datetime</type>
     <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
+    <default></default>
    </field>
 
    <field>
     <name>block</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>capping</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
     <name>session_capping</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>openads_int</type>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>

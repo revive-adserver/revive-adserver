@@ -65,7 +65,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
         $conf['maintenance']['operationInterval'] = 60;
         $conf['table']['prefix'] = 'max_';
         $conf['table']['split'] = false;
-        $tables = MAX_Table_Core::singleton();
+        $tables = &Openads_Table_Core::singleton();
         $dbh = &MAX_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
         // Create the required tables

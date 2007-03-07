@@ -1625,7 +1625,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         // Hack! The TestEnv class doesn't always drop temp tables for some
         // reason, so drop them "by hand", just in case.
         $dbType = strtolower($conf['database']['type']);
-        $oTable = &MAX_Table_Priority::singleton($dbType);
+        $oTable = &Openads_Table_Priority::singleton();
         $oTable->dropTempTable("tmp_ad_required_impression");
         $oTable->dropTempTable("tmp_ad_zone_impression");
 

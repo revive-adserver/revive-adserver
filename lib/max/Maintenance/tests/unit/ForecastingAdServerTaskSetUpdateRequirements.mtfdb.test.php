@@ -95,7 +95,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         $oServiceLocator = &ServiceLocator::instance();
 
         // Create the required tables
-        $oTables = MAX_Table_Core::singleton();
+        $oTables = &Openads_Table_Core::singleton();
         $oTables->createTable('data_raw_ad_impression');
         $oTables->createTable('log_maintenance_forecasting');
 
@@ -327,7 +327,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         $oServiceLocator = &ServiceLocator::instance();
 
         // Create the required tables
-        $oTables = MAX_Table_Core::singleton();
+        $oTables = &Openads_Table_Core::singleton();
         $oTables->createTable('data_raw_ad_impression', new Date('2006-10-31 00:00:00'));
         $oTables->createTable('data_raw_ad_impression', new Date('2006-11-01 00:00:00'));
         $oTables->createTable('data_raw_ad_impression', new Date('2006-11-02 00:00:00'));

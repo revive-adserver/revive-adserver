@@ -29,7 +29,8 @@ $Id$
  */
 
 require_once MAX_PATH . '/lib/max/DB.php';
-require_once MAX_PATH . '/lib/max/Table/Core.php';
+require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
+require_once MAX_PATH . '/lib/openads/Table/Core.php';
 require_once MAX_PATH . '/lib/openads/Table/Priority.php';
 require_once MAX_PATH . '/lib/openads/Table/Statistics.php';
 require_once MAX_PATH . '/tests/data/DefaultData.php';
@@ -72,9 +73,9 @@ class TestEnv
      */
     function setupCoreTables()
     {
-        MAX_Table_Core::destroy();
-        $tables = MAX_Table_Core::singleton();
-        $tables->createAllTables();
+        Openads_Table_Core::destroy();
+        $oTable = &Openads_Table_Core::singleton();
+        $oTable->createAllTables();
     }
 
     /**
@@ -84,32 +85,6 @@ class TestEnv
     {
         DefaultData::insertDefaultData();
     }
-
-      /**
-       * @todo construct xml_parser to deal with binary and html cdata
-       *
-       */
-//    function getDataSQL($source, $mode)
-//    {
-//        global $parser;
-//
-//        require_once MAX_PATH . '/tests/data/MAX_TestData_XML_Parser_1.php';
-//        $parser = new MAX_TestData_XML_Parser_1($mode);
-//        $parser->setInput($source);
-//        if (is_resource($parser->fp))
-//        {
-//            $error = $parser->parse();
-//            if (!$error)
-//            {
-//                return $parser->aDataset;
-//            }
-//            else
-//            {
-//                return $error;
-//            }
-//        }
-//        return 'error opening xml resource';
-//    }
 
     /**
      * create an xml_parser resource
@@ -202,7 +177,7 @@ class TestEnv
     function restoreConfig()
     {
         // Destroy cached table classes
-        MAX_Table_Core::destroy();
+        Openads_Table_Core::destroy();
         // Re-parse the config file
         $newConf = @parse_ini_file(MAX_PATH . '/var/test.conf.ini', true);
         foreach($newConf as $configGroup => $configGroupSettings) {
@@ -239,7 +214,7 @@ class TestEnv
         $dbh->disconnect();
         $GLOBALS['_MAX']['CONNECTIONS'] = array();
         // Destroy any cached table classes
-        MAX_Table_Core::destroy();
+        Openads_Table_Core::destroy();
         Openads_Table_Priority::destroy();
         Openads_Table_Statistics::destroy();
         // Destroy the service locator

@@ -52,7 +52,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
      */
     function MAX_Dal_Maintenance_Statistics_AdServer_mysql()
     {
-        parent::MAX_Dal_Maintenance_Statistics_Common('mysql');
+        parent::MAX_Dal_Maintenance_Statistics_Common();
         $this->dbh = &MAX_DB::singleton();
         // Store the original MySQL sort_buffer_size value
         $query = "SHOW SESSION VARIABLES like 'sort_buffer_size'";

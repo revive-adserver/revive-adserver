@@ -26,7 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/DB.php';
-require_once MAX_PATH . '/lib/max/Table/Core.php';
+require_once MAX_PATH . '/lib/openads/Table/Core.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php'; // Needed for the constants at the top of the file...
@@ -73,7 +73,7 @@ class MAX_Admin_Upgrade
             @ignore_user_abort(true);
         }
         $this->dbh =& MAX_DB::singleton();
-        $this->tables = MAX_Table_Core::singleton($this->conf['database']['type']);
+        $this->tables = &Openads_Table_Core::singleton();
         $this->aPlugins = array();
     }
 

@@ -41,11 +41,12 @@ require_once 'Log.php';
  */
 class Dal_TestOfDalDeliveryMySQL extends SharedFixtureTestCase
 {
+
     function setUpFixture()
     {
         $error = TestEnv::loadData('0.3.27_delivery', 'insert');
     }
-    
+
     function tearDownFixture()
     {
         TestEnv::restoreEnv();

@@ -70,8 +70,12 @@ class Openads_Dal
         if (!(count($aConnections)) || !(in_array($dsnMd5, $aConnections))) {
             // Prepare options for a new database connection
             $aOptions = array();
-            // Set the "correct" index format
+            // Set the index name format
             $aOptions['idxname_format'] = '%s';
+            // Use 4 decimal places in DECIMAL nativetypes
+            $aOptions['decimal_places'] = 4;
+            // Set the portability options
+            $aOptions['portability'] = MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_NULL;
             // Set the default table type, if appropriate
             if (!empty($conf['table']['type'])) {
                 $aOptions['default_table_type'] = $conf['table']['type'];

@@ -66,7 +66,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $conf = &$GLOBALS['_MAX']['CONF'];
         $dbh = &MAX_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
-        $tables = MAX_Table_Core::singleton();
+        $tables = &Openads_Table_Core::singleton();
         // Create the required tables
         $tables->createTable('data_raw_ad_impression');
         $tables->createTable('log_maintenance_statistics');

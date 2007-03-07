@@ -533,7 +533,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $this->assertEqual($row['number'], 0);
 
         // Add data to be summarised in a split table
-        $oTable = &MAX_Table_Core::singleton();
+        $oTable = &Openads_Table_Core::singleton();
         $oTable->createTable($conf['table']['data_raw_ad_impression'], new Date('2006-06-14'));
         $query = "
             INSERT INTO

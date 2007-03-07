@@ -27,7 +27,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/DB.php';
-require_once MAX_PATH . '/lib/max/Table/Core.php';
+require_once MAX_PATH . '/lib/openads/Table/Core.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/Tracker.php';
 require_once 'Date.php';
 
@@ -60,7 +60,7 @@ class Maintenance_TestOfMaintenanceStatisticsTracker extends UnitTestCase
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = 'max_';
         $dbh = &MAX_DB::singleton();
-        $tables = MAX_Table_Core::singleton($conf['database']['type'], true);
+        $tables = &Openads_Table_Core::singleton();
         // Create the required tables
         $tables->createTable('data_raw_tracker_click');
         $tables->createTable('data_raw_tracker_impression');

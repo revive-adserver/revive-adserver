@@ -377,7 +377,7 @@ if (phpAds_isUser(phpAds_Admin)) {
                     if ($dbh = MAX_DB::singleton()) {
                         // Is this an installation, or an upgrade?
                         if ((!isset($installvars['dbUpgrade'])) || (!$installvars['dbUpgrade'])) {
-                            $tables = MAX_Table_Core::singleton($conf['database']['type']);
+                            $tables = &Openads_Table_Core::singleton();
                             if (!$tables->createAllTables()) {
                                 $fatal[] = $strErrorInstallDatabase;
                             }
@@ -389,16 +389,16 @@ if (phpAds_isUser(phpAds_Admin)) {
                 if (count($fatal) == 0) {
                     // Insert basic preferences into database
                     $preferences = new MAX_Admin_Preferences();
-                    
+
                     // Load preferences, needed below to check instance_id existance
                     $preferences->loadPrefs();
-                    
+
                     $preferences->setPrefChange('config_version', MAX_VERSION);
                     if ((!isset($installvars['dbUpgrade'])) || (!$installvars['dbUpgrade'])) {
                         $preferences->setPrefChange('admin',        $admin);
                         $preferences->setPrefChange('admin_pw',     md5($admin_pw));
                     }
-                    
+
                     // Generate a new instance ID if empty
                     if (empty($GLOBALS['_MAX']['PREF']['instance_id'])) {
                         $preferences->setPrefChange('instance_id',  sha1(uniqid('', true)));
