@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_schema.xsl"?>
 <database>
 
  <name>schema_testing</name>
  <create>true</create>
  <overwrite>false</overwrite>
+
+ <version>0.0.1</version>
+ <status>final</status>
 
  <table>
 

@@ -1,3 +1,24 @@
+.bodydiv {
+ text-align:center;
+ border-top: solid 1px;
+ border-left: solid 1px;
+ border-bottom: solid 1px;
+ border-right: solid 1px;
+ border-color:  #000000;
+ margin-bottom: 5px;
+ padding: 10px;
+}
+.tablediv {
+ width: 70%;
+ background-color: #FFFFFF;
+ border-top: solid 1px;
+ border-left: solid 1px;
+ border-bottom: solid 1px;
+ border-right: solid 1px;
+ border-color:  #000000;
+ margin-bottom: 5px;
+ padding: 10px;
+}
 .titlemini {
 font-family: Arial, Helvetica, sans-serif;
 font-size: 15px;
@@ -40,6 +61,7 @@ margin: solid 0px;
  font-family: Arial, Helvetica, sans-serif;
  font-size: 11px;
  color: #333333;
+ background-color: #FFFFFF;
  text-decoration: none;
 }
 button {

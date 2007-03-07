@@ -105,7 +105,7 @@ if (array_key_exists('dump', $_POST) ||
     else if (array_key_exists('create', $_POST))
     {
         $def = $schema->parseDatabaseDefinitionFile(MAX_VAR.'/'.$_POST['filecreate']);
-        $def['name'] = $dsn['database'];
+        //$def['name'] = $dsn['database'];
         $schema->createDatabase($def);
     }
     else if (array_key_exists('show', $_POST))

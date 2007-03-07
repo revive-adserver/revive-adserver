@@ -26,6 +26,15 @@ $file_schema_core = 'tables_core.xml';
 $path_schema_final = MAX_PATH.'/etc/';
 $path_schema_trans = MAX_PATH.'/var/';
 
+if (array_key_exists('btn_table_edit', $_POST))
+{
+    // do table edit stuff
+}
+else if (array_key_exists('btn_table_add', $_POST))
+{
+    // do new table stuff
+}
+
 if (file_exists($path_schema_trans.$file_schema_core))
 {
     $file = $path_schema_trans.$file_schema_core;
@@ -33,13 +42,6 @@ if (file_exists($path_schema_trans.$file_schema_core))
 else if (file_exists($path_schema_final.$file_schema_core))
 {
     $file = $path_schema_final.$file_schema_core;
-}
-if (array_key_exists('file', $_POST))
-{
-    // do stuff
-    // save as next version xml
-    // to the /var folder
-    // status = transitional
 }
 
 header('Content-Type: application/xhtml+xml; charset=ISO-8859-1');
