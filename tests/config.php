@@ -46,7 +46,8 @@ $GLOBALS['_MAX']['TEST']['directories'] =
         'lib/max',
         'lib/openads',
         'plugins',
-        'tests'
+        'tests',
+        'www/admin'
     );
 
 // Project path - helpful for testing external projects

@@ -42,6 +42,7 @@ require_once MAX_PATH . '/lib/max/Delivery/cookie.php';
 require_once MAX_PATH . '/lib/max/Delivery/remotehost.php';
 require_once MAX_PATH . '/lib/max/Delivery/benchmark.php';
 require_once MAX_PATH . '/lib/max/Delivery/log.php';
+require_once MAX_PATH . '/lib/max/other/common.php';
 
 /**
  * @package    MaxDelivery
@@ -193,43 +194,6 @@ function MAX_commonRegisterGlobals()
     }
 }
 
-/**
- * Recursivley add slashes to the values in an array
- *
- * @param array Input array
- * @return array Output array with values slashed
- */
-function MAX_commonSlashArray($a)
-{
-    while (list($k,$v) = each($a)) {
-        if (!is_array($v)) {
-            $a[$k] = addslashes($v);
-        } else {
-            $a[$k] = MAX_commonSlashArray($v);
-        }
-    }
-    reset ($a);
-    return ($a);
-}
-
-/**
- * Recursivley add slashes to the values in an array
- *
- * @param array Input array
- * @return array Output array with values slashed
- */
-function MAX_commonUnslashArray($a)
-{
-    while (list($k,$v) = each($a)) {
-        if (!is_array($v)) {
-            $a[$k] = stripslashes($v);
-        } else {
-            $a[$k] = MAX_commonUnslashArray($v);
-        }
-    }
-    reset ($a);
-    return ($a);
-}
 
 /**
  * This function takes the "source" value and normalises it

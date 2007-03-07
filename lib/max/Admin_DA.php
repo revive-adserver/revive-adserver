@@ -1250,7 +1250,7 @@ class Admin_DA
             Admin_DA::_getUniqueName($aPlacement, $aPlacements, @$GLOBALS['strCopy']);
         }
         // FIXME: get rid of this
-        MAX_addslashes($aPlacement);
+        $aPlacement = MAX_commonSlashArray($aPlacement);
         // Massage to real field names
         Admin_DA::_switch($aPlacement, 'advertiser_id', 'clientid');
         Admin_DA::_switch($aPlacement, 'name', 'campaignname');

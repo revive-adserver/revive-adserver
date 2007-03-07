@@ -100,60 +100,9 @@ function phpAds_getBannerCache($banner)
             // Adserver processing complete, now replace the noscript values back:
             //$buffer = preg_replace("#{noframe}#", $noFrame[2], $buffer);
             $buffer = preg_replace("#{noscript}#", $noScript[0], $buffer);
-                
-/*
-<script language="JavaScript1.1" src="http://adfarm.mediaplex.com/ad/js/3990-21328-3822-1?mpt={random:10}&mpvc={url_prefix}/{$conf['file']['click']}?bannerid={bannerid}&zoneid={zoneid}&source={source}&dest=">
-</script>
-<noscript>
-  <a href="http://adfarm.mediaplex.com/ad/ck/3990-21328-3822-1?mpt={random:10}&
-    <img src="http://adfarm.mediaplex.com/ad/bn/3990-21328-3822-1?mpt={random:10}&
-alt="Click Here" border="0">
-</a>
-</noscript>
-*/
-                
-            // End link processing
         }
     }
     
     return ($buffer);
 }
-
-function phpAds_rebuildBannerCache ($bannerid)
-{
-    $conf = $GLOBALS['_MAX']['CONF'];
-    
-    // Retrieve current values
-    $res = phpAds_dbQuery ("
-        SELECT
-            *
-        FROM
-            ".$conf['table']['prefix'].$conf['table']['banners']."
-        WHERE
-            bannerid = '".$bannerid."'
-    ") or phpAds_sqlDie();
-    
-    $current = phpAds_dbFetchArray($res);
-    
-    
-    // Add slashes to status to prevent javascript errors
-    // NOTE: not needed in banner-edit because of magic_quotes_gpc
-    $current['status'] = addslashes($current['status']);
-    
-    
-    // Rebuild cache
-    $current['htmltemplate'] = stripslashes($current['htmltemplate']);
-    $current['htmlcache']    = addslashes(phpAds_getBannerCache($current));
-    
-    phpAds_dbQuery("
-        UPDATE
-            ".$conf['table']['prefix'].$conf['table']['banners']."
-        SET
-            htmlcache = '".$current['htmlcache']."',
-            updated = '".date('Y-m-d H:i:s')."'
-        WHERE
-            bannerid = '".$current['bannerid']."'
-    ") or phpAds_sqlDie();
-}
-
 ?>

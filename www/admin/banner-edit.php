@@ -36,7 +36,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 
-$banner = MAX_getValue('banner');
+$banner = MAX_getValueUnslashed('banner');
 
 // Required files
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
@@ -56,7 +56,7 @@ foreach($invPlugins as $pluginKey => $plugin) {
 }
 
 // Register input variables
-phpAds_registerGlobal (
+phpAds_registerGlobalUnslashed(
      'alink'
     ,'alink_chosen'
     ,'alt'
@@ -87,7 +87,7 @@ phpAds_registerGlobal (
 
 // Register input variables for plugins
 foreach ($invPlugins as $plugin) {
-    call_user_func_array('phpAds_registerGlobal', $plugin->getGlobalVars());
+    call_user_func_array('phpAds_registerGlobalUnslashed', $plugin->getGlobalVars());
 }
 
 /*-------------------------------------------------------*/
@@ -132,7 +132,6 @@ if (isset($submit)) {
     $aVariables['url']             = (!empty($url) && $url != 'http://') ? $url : '';
     $aVariables['status']          = !empty($status) ? $status : '';
     $aVariables['storagetype']     = $type;
-    $aVariables['htmlcache']       = !empty($aVariables['htmltemplate']) ? (phpAds_getBannerCache($aVariables)) : '';
     $aVariables['filename']        = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
     $aVariables['contenttype']     = !empty($aBanner['contenttype']) ? $aBanner['contenttype'] : '';
     $aVariables['contenttype']     = ($type == 'url') ? _getFileContentType($aVariables['imageurl']) : $aVariables['contenttype'];

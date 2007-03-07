@@ -40,7 +40,7 @@ require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 
 // Register input variables
-phpAds_registerGlobal ('convert', 'cancel', 'compress', 'convert_links',
+phpAds_registerGlobalUnslashed('convert', 'cancel', 'compress', 'convert_links',
                        'chosen_link', 'overwrite_link', 'overwrite_target',
                        'overwrite_source');
 
@@ -112,8 +112,7 @@ if (isset($convert)) {
                 }
 
                 $row['pluginversion'] = phpAds_SWFVersion($result);
-                $row['htmlcache']     = addslashes (phpAds_getBannerCache($row));
-                $row['htmltemplate']  = addslashes ($row['htmltemplate']);
+                $row['htmltemplate']  = $row['htmltemplate'];
 
                 // Store the HTML Template
                 $doBanners = MAX_DB::factoryDO('banners');
@@ -122,7 +121,6 @@ if (isset($convert)) {
                 $doBanners->target = $row['target'];
                 $doBanners->pluginversion = $row['pluginversion'];
                 $doBanners->htmltemplate = $row['htmltemplate'];
-                $doBanners->htmlcache = $row['htmlcache'];
                 $doBanners->update();
                 
                 // Store the banner

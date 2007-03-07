@@ -187,29 +187,6 @@ class test_DeliveryCommon extends UnitTestCase
 	}
 
 	/**
-	 * Recursivley add slashes to the values in an array
-	 *
-	 * @param array Input array
-	 * @return array Output array with values slashed
-	 */
-	function test_MAX_commonSlashArray()
-	{
-		$this->sendMessage('test_MAX_commonSlashArray');
-		$strIn0	= "Mr O\'Reilly";
-		$strIn1	= '"Mr Reilly"\n';
-		$strRe0 = addslashes($strIn0);
-		$strRe1 = addslashes($strIn1);
-
-		$aIn	= array(0 => $strIn0,
-						1 => array(0 => $strIn1),
-						);
-		$aRet 	= MAX_commonSlashArray($aIn);
-
-        $this->assertEqual($aRet[0], $strRe0);
-        $this->assertEqual($aRet[1][0], $strRe1);
-	}
-
-	/**
 	 * Test1: return urldecoded/decrypted string
 	 * Test2: return urldecoded string
 	 *

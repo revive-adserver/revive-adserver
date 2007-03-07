@@ -106,6 +106,7 @@ class DataObjects_Banners extends DB_DataObjectCommon
     
     function insert()
     {
+        $this->_rebuildCache();
         $id = parent::insert();
         if ($id) {
             // add default zone
@@ -116,8 +117,24 @@ class DataObjects_Banners extends DB_DataObjectCommon
         return $id;
     }
     
-    function rebuildCache()
+    function _rebuildCache()
     {
     	$this->htmlcache = phpAds_getBannerCache($this->toArray());
+    }
+    
+    
+    /**
+     * Automatically refreshes HTML cache in addition to normal
+     * update() call.
+     *
+     * @see DB_DataObject::update()
+     * @param object $dataObject
+     * @return boolean
+     * @access public
+     */
+    function update($dataObject = false)
+    {
+        $this->_rebuildCache();
+        return parent::update($dataObject);
     }
 }

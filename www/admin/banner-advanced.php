@@ -49,8 +49,7 @@ foreach($invPlugins as $pluginKey => $plugin) {
 }
 
 // Register input variables
-phpAds_registerGlobal ('append', 'submitbutton');
-phpAds_registerGlobal ('appendtype', 'appendid', 'appenddelivery', 'appendsave');
+phpAds_registerGlobalUnslashed('append', 'submitbutton', 'appendtype', 'appendid', 'appenddelivery', 'appendsave');
 
 // Register input variables for plugins
 foreach ($invPlugins as $plugin) {
@@ -121,19 +120,6 @@ if (isset($submitbutton)) {
             $doBanners->setFrom($sqlupdate);
             $doBanners->update();
         }
-
-        // Rebuild Banner cache
-        //phpAds_rebuildBannerCache($bannerid);
-        if ($doBanners = MAX_DB::staticGetDO('banners', $bannerid)) {
-            $doBanners->rebuildCache();
-            $doBanners->update();
-        } else {
-            PEAR::raiseError("Banner with bannerid ($bannerid) doesn't exist");
-        }
-
-        // Rebuild Cache
-        // require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
-        // phpAds_cacheDelete();
 
         // Do not redirect until not finished with zone appending, if present
         if (!isset($appendsave) || $appendsave) {

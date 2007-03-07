@@ -28,40 +28,61 @@
 $Id$
 */
 
-// Require the initialisation file
-require_once '../../init.php';
+require_once MAX_PATH . '/lib/max/other/common.php';
 
-// Required files
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
-
-// Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
-//phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
-
-/*-------------------------------------------------------*/
-/* Main code                                             */
-/*-------------------------------------------------------*/
-
-$doBanners = MAX_DB::factoryDO('banners');
-
-if (phpAds_isUser(phpAds_Agency))
+/*
+ * A class for testing the lib-geometry.
+ *
+ * @package    MaxPlugin
+ * @subpackage TestSuite
+ * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
+ */
+class CommonTest extends UnitTestCase
 {
-    $doBanners->addReferenceFilter('agency', $agencyId = phpAds_getUserId());
-}
-$doBanners->find();
+    function CommonTest()
+    {
+        $this->UnitTestCase();
+    }
+    
 
-while ($doBanners->fetch())
-{
-	// Rebuild filename
-	if ($doBanners->storagetype == 'sql' || $doBanners->storagetype == 'web') {
-		$doBanners->imageurl = '';
+	function test_MAX_commonSlashArray()
+	{
+		$this->sendMessage('test_MAX_commonSlashArray');
+		$strIn0	= "Mr O\'Reilly";
+		$strIn1	= '"Mr Reilly"\n';
+		$strRe0 = addslashes($strIn0);
+		$strRe1 = addslashes($strIn1);
+
+		$aIn	= array(0 => $strIn0,
+						1 => array(0 => $strIn1),
+						);
+		$aRet 	= MAX_commonSlashArray($aIn);
+
+        $this->assertEqual($aRet[0], $strRe0);
+        $this->assertEqual($aRet[1][0], $strRe1);
 	}
-	$doBannersClone = clone($doBanners);
-	$doBannersClone->update();
+	
+    
+    function test_MAX_commonUnslashArray()
+    {
+        $sValue = 'abcd';
+        $this->assertEqual('abcd', MAX_commonUnslashArray($sValue));
+        $sValue = 'ab\\cd';
+        $this->assertEqual('abcd', MAX_commonUnslashArray($sValue));
+        $sValue = 'ab\\\\cd';
+        $this->assertEqual('ab\\cd', MAX_commonUnslashArray($sValue));
+        $aValue = array('abcd', 'ab\\cd', 'ab\\\\cd');
+        $this->assertEqual(array('abcd', 'abcd', 'ab\\cd'), MAX_commonUnslashArray($aValue));
+        $aValue = array('abcd', 'ab\\cd', 'ab\\\\cd', array('abcd', 'ab\\\\cd'));
+        $this->assertEqual(array('abcd', 'abcd', 'ab\\cd', array('abcd', 'ab\\cd')), MAX_commonUnslashArray($aValue));
+    }
+    
+    
+    function test_MAX_addslashes()
+    {
+        $item = 'ab\'cd';
+        MAX_addslashes($item);
+        $this->assertEqual('ab\\\'cd', $item);
+    }
 }
-
-MAX_Admin_Redirect::redirect('maintenance-banners.php');
-
 ?>

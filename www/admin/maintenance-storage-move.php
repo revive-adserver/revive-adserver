@@ -58,18 +58,12 @@ while ($doBanners->fetch())
 	// TODO: Would be nice if we gave some indication to the user of success or failure!
 	if ($doBanners->filename != false)
 	{
-	    $doBannersClone = clone($doBanners);
-	    
-		// Delete the original file
 		phpAds_ImageDelete ('sql', $filename);
 		
-		// Update fields
+	    $doBannersClone = clone($doBanners);
+	    
 		$doBannersClone->imageurl = '';
 		$doBannersClone->storagetype = 'web';
-		
-		// Rebuild banner cache
-		$doBannersClone->htmltemplate = stripslashes($doBanners->htmltemplate);
-		$doBannersClone->htmlcache = addslashes(phpAds_getBannerCache($current));
 		
         $doBannersClone->update();
 	}
