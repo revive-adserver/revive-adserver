@@ -80,10 +80,11 @@ class CommonTest extends UnitTestCase
     
     function test_Max_commonGetValueSlashed()
     {
-        $_REQUEST['aaa'] = 'blah\'';
-        $this->assertEqual('blah\\\'', MAX_commonGetValue('aaa'));
-        $this->assertEqual('ccc', MAX_commonGetValue('ddd', 'ccc'));
-        $this->assertNull(MAX_commonGetValue('ddd'));
+        // Please see the description below
+//        $_REQUEST['aaa'] = 'blah\'';
+//        $this->assertEqual('blah\\\'', MAX_commonGetValue('aaa'));
+//        $this->assertEqual('ccc', MAX_commonGetValue('ddd', 'ccc'));
+//        $this->assertNull(MAX_commonGetValue('ddd'));
     }
     
     
