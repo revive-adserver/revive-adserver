@@ -59,12 +59,19 @@
     	<report-on-simpletest-results basename="all-unit-individual" />
 	</target>
 	<target name="test-integration">
-        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="true" output="build/test-results/integration.simpletest.xml">
+        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="false" output="build/test-results/integration.simpletest.xml" resultproperty="test.integration.result">
             <arg value="find_broken_test_files.php" />
             <arg value="${max.php_cli_executable}" />
             <arg value="integration" />
         </exec>
     	<report-on-simpletest-results basename="integration" />
+	<fail message="Integration Simpletest Suite Failure">
+	    <condition>
+		<not>
+		    <equals arg1="0" arg2="${test.integration.result}"/>
+		</not>
+	    </condition>
+	</fail>
 	</target>
     <target name="phpunit">
         <exec dir="tests" executable="${max.php_cli_executable}" failonerror="false" output="build/test-results/MDB2.html">
