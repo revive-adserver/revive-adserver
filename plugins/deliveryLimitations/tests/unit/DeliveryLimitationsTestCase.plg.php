@@ -36,11 +36,11 @@ require_once MAX_PATH . '/lib/max/Plugin.php';
  */
 class Plugins_DeliveryLimitations_TestCase extends UnitTestCase
 {
+
      function Plugins_DeliveryLimitations_TestCase()
     {
         $this->UnitTestCase();
     }
-
 
     function checkOverlap(&$oPlugin, $comparison1, $data1, $comparison2, $data2, $expect)
     {
@@ -58,12 +58,10 @@ class Plugins_DeliveryLimitations_TestCase extends UnitTestCase
         $this->assertEqual($result, $expect, "($comparison1;$data1) | ($comparison2;$data2)");
     }
 
-
     function checkOverlapTrue(&$oPlugin, $comparison1, $data1, $comparison2, $data2)
     {
         $this->checkOverlap($oPlugin, $comparison1, $data1, $comparison2, $data2, true);
     }
-
 
     function checkOverlapFalse(&$oPlugin, $comparison1, $data1, $comparison2, $data2)
     {

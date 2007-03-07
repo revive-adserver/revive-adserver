@@ -51,7 +51,9 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Site_Channel extends Plugins_Del
 
     function testCompile()
     {
+        $current_quotes_runtime = get_magic_quotes_runtime();
         set_magic_quotes_runtime(1);
+
         $oPlugin = &MAX_Plugin::factory('deliveryLimitations', 'Site', 'Channel');
         $oPlugin->init(array('data' => '21', 'comparison' => '=='));
         $this->assertEqual("(MAX_checkSite_Channel('21', '=='))", $oPlugin->compile());
@@ -64,15 +66,21 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Site_Channel extends Plugins_Del
 
         $oPlugin->init(array('data' => '21,43', 'comparison' => '!~'));
         $this->assertEqual("!(MAX_checkSite_Channel('21', '!~') || MAX_checkSite_Channel('43', '!~'))", $oPlugin->compile());
+
+        set_magic_quotes_runtime($current_quotes_runtime);
     }
 
     function testMAX_checkSite_Channel()
     {
+        $current_quotes_runtime = get_magic_quotes_runtime();
         set_magic_quotes_runtime(0);
+
         $GLOBALS['loc'] = 'localhost2';
         $this->assertTrue(MAX_checkSite_Channel('10', '=='));
         $GLOBALS['loc'] = 'blah.com';
         $this->assertFalse(MAX_checkSite_Channel('10', '=='));
+
+        set_magic_quotes_runtime($current_quotes_runtime);
     }
 
     function testOverlap()

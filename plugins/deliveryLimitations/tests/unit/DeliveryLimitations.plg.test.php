@@ -52,6 +52,8 @@ class Plugins_DeliveryLimitations_Test extends UnitTestCase
 
     function testCompile()
     {
+        $current_quotes_runtime = get_magic_quotes_runtime();
+
         $oPlugin = new Dummy_Plugins_DeliveryLimitations();
         set_magic_quotes_runtime(1);
         $oPlugin->init(array('data' => 'Mozil\\la', 'package' => 'Pkg', 'comparison' => '==', 'name' => 'bla'));
@@ -61,5 +63,7 @@ class Plugins_DeliveryLimitations_Test extends UnitTestCase
         $this->assertEqual('MAX_checkPkg_bla(\\\'Mozilla\\\', \\\'==\\\')', $oPlugin->compile());
         $oPlugin->init(array('data' => 'Mozil\\la', 'package' => 'Pkg', 'comparison' => '==', 'name' => 'bla'));
         $this->assertEqual('MAX_checkPkg_bla(\\\'Mozil\\\\la\\\', \\\'==\\\')', $oPlugin->compile());
+
+        set_magic_quotes_runtime($current_quotes_runtime);
     }
 }

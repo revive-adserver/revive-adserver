@@ -64,15 +64,19 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Geo_Continent extends UnitTestCa
     {
         $this->assertTrue(MAX_checkGeo_Continent('af,pl', '=~', array('country_code' => 'pl')));
     }
-    
-    
+
+
     function test_compile()
     {
+        $current_quotes_runtime = get_magic_quotes_runtime();
         set_magic_quotes_runtime(1);
+
         $oPlugin = &MAX_Plugin::factory('deliveryLimitations', 'Geo', 'Continent');
         $oPlugin->init(array('data' => 'EU', 'comparison' => '!~'));
         $result = $oPlugin->compile();
         $this->assertEqual("MAX_checkGeo_Continent('eu,yu,gb,uk,ua,ch,se,sj,es,si,sk,sm,ru,ro,pt,pl,no,nl,mc,md,mt,mk,lu,lt,li,lv,it,ie,is,hu,va,gr,gi,de,ge,fx,fr,fi,fo,ee,dk,cz,cy,hr,bg,ba,be,by,at,am,ad,al', '!~')", $result);
+
+        set_magic_quotes_runtime($current_quotes_runtime);
     }
 
 }

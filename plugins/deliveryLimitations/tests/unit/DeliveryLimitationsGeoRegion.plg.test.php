@@ -67,16 +67,18 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Geo_Region extends Plugins_Deliv
 
     function testCompile()
     {
+        $current_quotes_runtime = get_magic_quotes_runtime();
         set_magic_quotes_runtime(1);
-        $oPlugin = &MAX_Plugin::factory('deliveryLimitations', 'Geo', 'Region');
 
+        $oPlugin = &MAX_Plugin::factory('deliveryLimitations', 'Geo', 'Region');
         $rawData = 'GB|T5,T7';
         $oPlugin->init(array('data' => $rawData, 'comparison' => '=='));
         $this->assertEqual('MAX_checkGeo_Region(\'gb|t5,t7\', \'==\')', $oPlugin->compile());
         $this->assertEqual($rawData, $oPlugin->getData());
-
         $oPlugin->init(array('data' => array('GB', 'T5', 'T7'), 'comparison' => '=='));
         $this->assertEqual('MAX_checkGeo_Region(\'gb|t5,t7\', \'==\')', $oPlugin->compile());
+
+        set_magic_quotes_runtime($current_quotes_runtime);
     }
 
     function testOverlap()

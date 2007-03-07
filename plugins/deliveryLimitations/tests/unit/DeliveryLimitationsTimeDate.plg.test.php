@@ -67,16 +67,18 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Time_Date extends UnitTestCase
 
     function testCompile()
     {
+        $current_quotes_runtime = get_magic_quotes_runtime();
         set_magic_quotes_runtime(1);
-        $oPlugin = &MAX_Plugin::factory('deliveryLimitations', 'Time', 'Date');
 
+        $oPlugin = &MAX_Plugin::factory('deliveryLimitations', 'Time', 'Date');
         $oPlugin->init(array('comparison' => '=='));
         $this->assertEqual('MAX_checkTime_Date(\'00000000\', \'==\')', $oPlugin->compile());
-
         $rawData = '20061113';
         $oPlugin->init(array('data' => $rawData, 'comparison' => '=='));
         $this->assertEqual('MAX_checkTime_Date(\'20061113\', \'==\')', $oPlugin->compile());
         $this->assertEqual($rawData, $oPlugin->getData());
+
+        set_magic_quotes_runtime($current_quotes_runtime);
     }
 
     /**
