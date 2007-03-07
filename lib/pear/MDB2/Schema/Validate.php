@@ -680,6 +680,17 @@ class MDB2_Schema_Validate
             if (!preg_match('/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})/', $field_value)
                 && $field_value !== 'CURRENT_DATE'
             ) {
+
+
+                /**
+                 * @TODO Remove this !GROSS HACK! as soon as the Openads schema has been
+                 *       refactored so that all dates have default values.
+                 */
+                if ($field_value === '') {
+                    break;
+                }
+
+
                 return $this->raiseError(MDB2_SCHEMA_ERROR_VALIDATE,
                     '"'.$field_value.'" is not of type "'.$field_def['type'].'"');
             }
@@ -688,6 +699,17 @@ class MDB2_Schema_Validate
             if (!preg_match('/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})/', $field_value)
                 && $field_value !== 'CURRENT_TIMESTAMP'
             ) {
+
+
+                /**
+                 * @TODO Remove this !GROSS HACK! as soon as the Openads schema has been
+                 *       refactored so that all timestamps have default values.
+                 */
+                if ($field_value === '') {
+                    break;
+                }
+
+
                 return $this->raiseError(MDB2_SCHEMA_ERROR_VALIDATE,
                     '"'.$field_value.'" is not of type "'.$field_def['type'].'"');
             }
