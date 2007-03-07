@@ -159,13 +159,14 @@
     <form id="frm_schema" method="POST" action="index.php">
         <button id="btn_table_edit" type="submit">edit this table</button>
         <!--button id="btn_table_edit" type="button" onclick="xajax_testAjax(xajax.getFormValues('frm_schema'));">edit this table</button-->
-        <input type="hidden" value="{$tablename}" name="inp_table_edit"/>
+        <input type="hidden" value="{$tablename}" name="table_edit"/>
     </form>
 </xsl:template>
 
 <xsl:template name="showtableadd">
     <form id="frm_schema" method="POST" action="index.php">
         <button id="btn_table_new" type="submit">new table</button>
+        <input type="hidden" value="" name="table_add"/>
     </form>
 </xsl:template>
 
