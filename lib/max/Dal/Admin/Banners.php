@@ -92,60 +92,31 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
      */
     function getAllBannersUnderAgency($agency_id, $listorder, $orderdirection)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $query = "SELECT b.bannerid AS ad_id".
-            ",b.campaignid AS campaignid".
-            ",b.alt AS alt".
-            ",b.description AS description".
-            ",b.active AS active".
-            ",b.storagetype AS type".
-            " FROM ".$conf['table']['prefix'].$conf['table']['banners']." AS b".
-            ",".$conf['table']['prefix'].$conf['table']['campaigns']." AS m".
-            ",".$conf['table']['prefix'].$conf['table']['clients']." AS c".
-            " WHERE b.campaignid=m.campaignid".
-            " AND m.clientid=c.clientid".
-            " AND c.agencyid=".$agency_id;
-        $query .= phpAds_getBannerListOrder($listorder, $orderdirection);
-        $flat_banners = $this->dbh->getAll($query);
-        if (PEAR::isError($flat_banners)) {
-            MAX::raiseError($flat_banners);
-            return array();
-        }
-        $banners = $this->_rekeyBannersArray($flat_banners);
-        return $banners;
-    }
-
-    /**
-     * @param int $advertiser_id
-     * @param string $listorder One of 'bannerid', 'campaignid', 'alt',
-     * 'description'...
-     * @param string $orderdirection Either 'up' or 'down'.
-     * @return Array of arrays representing a list of banners (keyed by id)
-     *
-     * @todo Verify ANSI compatible ("FROM table AS alias" probably isn't)
-     * @todo Consider removing listorder and orderdirection
-     */
-    function getAllBannersUnderAdvertiser($advertiser_id, $listorder, $orderdirection)
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $query = "SELECT b.bannerid AS ad_id".
-            ",b.campaignid AS campaignid".
-            ",b.alt AS alt".
-            ",b.description AS description".
-            ",b.active AS active".
-            ",b.storagetype AS type".
-            " FROM ".$conf['table']['prefix'].$conf['table']['banners']." AS b".
-            ",".$conf['table']['prefix'].$conf['table']['campaigns']." AS m".
-            " WHERE b.campaignid=m.campaignid".
-            " AND m.clientid=".$advertiser_id;
-        $query .= phpAds_getBannerListOrder($listorder, $orderdirection);
-        $flat_banners = $this->dbh->getAll($query);
-        if (PEAR::isError($flat_banners)) {
-            MAX::raiseError($flat_banners);
-            return array();
-        }
-        $banners = $this->_rekeyBannersArray($flat_banners);
-        return $banners;
+        $prefix = $this->getTablePrefix();
+        
+        $query = "
+            SELECT
+                b.bannerid AS ad_id,
+                b.campaignid AS campaignid,
+                b.alt AS alt,
+                b.description AS description,
+                b.active AS active,
+                b.storagetype AS type
+            FROM
+                {$prefix}banners AS b,
+                {$prefix}campaigns AS m,
+                {$prefix}clients AS c
+            WHERE
+                b.campaignid = m.campaignid
+                AND m.clientid = c.clientid
+                AND c.agencyid = $agency_id " .
+            $this->getSqlListOrder($listOrder, $orderDirection)
+        ;
+        
+        $rsBanners = DBC::NewRecordSet($query);
+        $aBanners = $rsBanners->getAll(array('ad_id', 'campaignid', 'alt', 'description', 'active', 'type'));
+        $aBanners = $this->_rekeyBannersArray($aBanners);
+        return $aBanners;
     }
 
     /**
@@ -309,6 +280,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
         
         return DBC::NewRecordSet($query);
     }
+    
 }
 
 ?>

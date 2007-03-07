@@ -157,7 +157,8 @@ if ($agencyid != '') {
 		);
 	}
 	phpAds_PageHeader("5.5.2");
-	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAgencyName($agencyid)."</b><br /><br /><br />";
+	$doAgency = MAX_DB::staticGetDO('agency', $agencyid);
+	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".$doAgency->name."</b><br /><br /><br />";
 	phpAds_ShowSections(array("5.5.2"));
 	// Do not get this information if the page
 	// is the result of an error message

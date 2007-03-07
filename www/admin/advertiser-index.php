@@ -40,7 +40,7 @@ phpAds_registerGlobal('expand', 'collapse', 'hideinactive', 'listorder',
                       'orderdirection');
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -115,17 +115,6 @@ if (phpAds_isUser(phpAds_Admin)) {
     $number_of_active_campaigns =  $dalCampaigns->countActiveCampaignsUnderAgency($agency_id);
     $number_of_banners = $dalBanners->countBannersUnderAgency($agency_id);
     $number_of_active_banners = $dalBanners->countActiveBannersUnderAgency($agency_id);
-} elseif (phpAds_isUser(phpAds_Client)) {
-    $advertiser_id = phpAds_getUserID();
-    $clients = $dalClients->getAllAdvertisersWithId($advertiser_id);
-    $campaigns = $dalCampaigns->getAllCampaignsUnderAdvertiser($advertiser_id, $listorder, $orderdirection);
-    $banners = $dalBanners->getAllBannersUnderAdvertiser($advertiser_id, $listorder, $orderdirection);
-
-    $number_of_clients = $dalClients->countAdvertisersWithId($advertiser_id);
-    $number_of_campaigns = $dalCampaigns->countCampaignsUnderAdvertiser($advertiser_id);
-    $number_of_active_campaigns = $dalCampaigns->countActiveCampaignsUnderAdvertiser($advertiser_id);
-    $number_of_banners = $dalBanners->countBannersUnderAdvertiser($agency_id);
-    $number_of_active_banners = $dalBanners->countActiveBannersUnderAdvertiser($agency_id);
 }
 
 // Build Tree

@@ -230,7 +230,7 @@ class DB_DataObjectCommon extends DB_DataObject
 	}
     
     /**
-     * This method is a equivalent of phpAds_getTrackerListOrder
+     * This method is a equivalent of phpAds_getFooListOrder
      * It adds orderBy() limitations to current DB_DataObject
      * 
      * This method is used as a common way of sorting rows in OpenAds UI

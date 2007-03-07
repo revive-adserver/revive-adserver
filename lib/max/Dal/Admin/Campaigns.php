@@ -304,17 +304,23 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      */
     function getAllCampaigns($listorder, $orderdirection)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-
-        $query =
-            "SELECT campaignid,clientid,campaignname,active".
-            " FROM ".$conf['table']['prefix'].$conf['table']['campaigns'];
-        $query .= phpAds_getCampaignListOrder ($listorder, $orderdirection);
-
-        $flat_campaign_data = $this->dbh->getAll($query);
-
-        $keyed_campaigns = $this->_rekeyCampaignsArray($flat_campaign_data);
-        return $keyed_campaigns;
+        $prefix = $this->getTablePrefix();
+        
+        $query = "
+            SELECT
+                campaignid,
+                clientid,
+                campaignname,
+                active
+            FROM
+                campaigns " .
+            $this->getSqlListOrder($listOrder, $orderDirection)
+        ;
+        
+        $rsCampaigns = DBC::NewRecordSet($query);
+        $aCampaigns = $rsCampaigns->getAll(array('campaignid', 'clientid', 'campaignname', 'active'));
+        $aCampaigns = $this->_rekeyCampaignsArray($aCampaigns);
+        return $aCampaigns;
     }
 
     /**
@@ -325,48 +331,27 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      */
     function getAllCampaignsUnderAgency($agency_id, $listorder, $orderdirection)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-
-        $query =
-        "SELECT m.campaignid as campaignid".
-        ",m.clientid as clientid".
-        ",m.campaignname as campaignname".
-        ",m.active as active".
-        " FROM ".$conf['table']['prefix'].$conf['table']['campaigns']." AS m".
-        ",".$conf['table']['prefix'].$conf['table']['clients']." AS c".
-        " WHERE c.clientid=m.clientid".
-        " AND c.agencyid=?";
-        $query_params = array($agency_id);
-        $query .= phpAds_getCampaignListOrder ($listorder, $orderdirection);
-
-        $flat_campaign_data = $this->dbh->getAll($query, $query_params);
-
-        $keyed_campaigns = $this->_rekeyCampaignsArray($flat_campaign_data);
-        return $keyed_campaigns;
-    }
-
-    /**
-     * @param int $advertiser_id
-     * @return array    An array of arrays, representing a list of displayable
-     *                  campaigns.
-     *
-     * @todo Consider removing order options (or making them optional)
-     */
-    function getAllCampaignsUnderAdvertiser($advertiser_id, $listorder, $orderdirection)
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-
-        $query =
-        "SELECT campaignid,campaignname,active".
-        " FROM ".$conf['table']['prefix'].$conf['table']['campaigns'].
-        " WHERE clientid=?";
-        $query_params = array($advertiser_id);
-        $query .= phpAds_getCampaignListOrder ($listorder, $orderdirection);
-
-        $flat_campaign_data = $this->dbh->getAll($query, $query_params);
-
-        $keyed_campaigns = $this->_rekeyCampaignsArray($flat_campaign_data);
-        return $keyed_campaigns;
+        $prefix = $this->getTablePrefix();
+        
+        $query = "
+            SELECT
+                m.campaignid as campaignid,
+                m.clientid as clientid,
+                m.campaignname as campaignname,
+                m.active as active
+            FROM
+                {$prefix}campaigns AS m,
+                {$prefix}clients AS c
+            WHERE
+                c.clientid=m.clientid
+                AND c.agencyid=$agency_id " .
+            $this->getSqlListOrder($listOrder, $orderDirection)
+        ;
+        
+        $rsCampaigns = DBC::NewRecordSet($query);
+        $aCampaigns = $rsCampaigns->getAll(array('campaignid', 'clientid', 'campaignname', 'active'));
+        $aCampaigns = $this->_rekeyCampaignsArray($aCampaigns);
+        return $aCampaigns;
     }
 
     function countAllCampaigns()

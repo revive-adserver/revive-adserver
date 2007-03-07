@@ -325,7 +325,7 @@ class DataSpace {
     		    if ($indexWithPrimaryKey && $k == $indexWithPrimaryKey) {
     		        $primaryValue = $v;
     		    } else {
-    		        $row[$k] = $this->$k;
+    		        $row[$k] = $this->properties[$k];
     		    }
     		}
     		if ($flattenIfOneOnly && count($row) == 1) {

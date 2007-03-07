@@ -103,24 +103,26 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
     }
 
     /**
+     * Gets a list of all advertisers.
+     * 
+     * @param string $listorder
+     * @param string $orderdirection
+     * @return array
+     *  
      * @todo Consider removing order options (or making them optional)
      */
     function getAllAdvertisers($listorder, $orderdirection)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-
-        $query =
-        "SELECT clientid, clientname".
-        " FROM ".$conf['table']['prefix'].$conf['table']['clients'];
-        $query .= phpAds_getClientListOrder ($listorder, $orderdirection);
-
-        $flat_advertiser_data = $this->dbh->getAll($query);
-        $advertisers = $this->_rekeyClientsArray($flat_advertiser_data);
+        $doClients = MAX_DB::factoryDO('clients');
+        $doClients->addListOrderBy($listorder, $orderdirection);
+        $advertisers = $this->_rekeyClientsArray($doClients->getAll(array('clientname'), true));
         return $advertisers;
     }
 
     /**
      * @param int $agency_id
+     * @param string $listorder
+     * @param string $orderdirection
      * @return array    An array of arrays, representing a list of displayable
      *                  advertisers.
      *
@@ -129,38 +131,13 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
      */
     function getAllAdvertisersUnderAgency($agency_id, $listorder, $orderdirection)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-
-        $query =
-        "SELECT clientid,clientname".
-        " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-        " WHERE agencyid=".$agency_id;
-        $query .=  phpAds_getClientListOrder ($listorder, $orderdirection);
-        $flat_advertiser_data = $this->dbh->getAll($query);
-        $advertisers = $this->_rekeyClientsArray($flat_advertiser_data);
+        $doClients = MAX_DB::factoryDO('clients');
+        $doClients->agencyid = $agency_id;
+        $doClients->addListOrderBy($listorder, $orderdirection);
+        $advertisers = $this->_rekeyClientsArray($doClients->getAll(array('clientname'), true));
         return $advertisers;
     }
 
-    /**
-     * Retrieve a single advertiser's details, in an iterable format.
-     *
-     * @todo Consider whether this is actually needed
-     * @todo Consider removing order options (or making them optional)
-     */
-    function getAllAdvertisersWithId($advertiser_id, $listorder, $orderdirection)
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-
-        $res_clients = phpAds_dbQuery(
-            "SELECT clientid,clientname".
-            " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-            " WHERE clientid=".$advertiser_id.
-        phpAds_getClientListOrder ($listorder, $orderdirection)
-        ) or phpAds_sqlDie();
-
-        $clients = $this->_fillClientArrayFromDbResult($res_clients);
-        return $clients;
-    }
 
     /**
      * @todo Verify SQL is ANSI compliant
