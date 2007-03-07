@@ -1054,9 +1054,8 @@ class SqlBuilder
         $names = '';
         $values = '';
         foreach ($aVariables as $name => $value) {
-            $value = addslashes($value);
+            $value = is_null($value) ? 'NULL' : "'".addslashes($value)."'";
             $names .= ($names == '') ? " ($name" : ",$name";
-            $value = is_null($value) ? 'NULL' : "'$value'";
             $values .= ($values == '') ? " VALUES ($value" : ",$value";
         }
         if (!empty($names)) $names .= ')';
@@ -1213,7 +1212,9 @@ class SqlBuilder
 
         $set = '';
         foreach ($aVariables as $name => $value) {
-            $value = addslashes($value);
+            if (is_string($value)) {
+                $value = addslashes($value);
+            }
             $set .= ($set == '') ? " SET $name='$value'" : ",$name='$value'";
         }
 
