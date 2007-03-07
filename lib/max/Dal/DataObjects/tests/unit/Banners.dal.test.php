@@ -43,7 +43,7 @@ class DataObjects_BannersTest extends DataObjectsUnitTestCase
     {
         $this->UnitTestCase();
     }
-    
+
     function testDuplicate()
     {
         // use a data generator here!
@@ -57,28 +57,30 @@ class DataObjects_BannersTest extends DataObjectsUnitTestCase
             'alt' => 'some text',
             'description' => 'banner description',
         );
-        
+
         // create new banner
         $doBanners1 = MAX_DB::factoryDO('banners');
         $doBanners1->setFrom($aBanner);
         $id1 = $doBanners1->insert();
         $this->assertTrue(!empty($id1));
-        
+
         $doBanners2 = MAX_DB::staticGetDO('banners', $id1);
         $this->assertIsA($doBanners2, 'DataObjects_Banners');
-        
+
         $id2 = $doBanners2->duplicate();
         $this->assertTrue(!empty($id2));
         $this->assertNotEqual($id1, $id2);
-        
+
         $doBanners1 = MAX_DB::staticGetDO('banners', $id1);
         $doBanners2 = MAX_DB::staticGetDO('banners', $id2);
         $doBanners1->description = null;
         $doBanners1->bannerid = null;
-        
+
         $doBanners2->description = null;
         $doBanners2->bannerid = null;
-        
+
         $this->assertEqualDataObjects($doBanners1, $doBanners2);
+
+        TestEnv::restoreEnv();
     }
 }
