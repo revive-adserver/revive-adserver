@@ -78,6 +78,25 @@ class CommonTest extends UnitTestCase
     }
     
     
+    function test_Max_commonGetValueSlashed()
+    {
+        $_REQUEST['aaa'] = 'blah\'';
+        $this->assertEqual('blah\\\'', MAX_commonGetValue('aaa'));
+        $this->assertEqual('ccc', MAX_commonGetValue('ddd', 'ccc'));
+        $this->assertNull(MAX_commonGetValue('ddd'));
+    }
+    
+    
+    function test_Max_commonGetValueUnslashed()
+    {
+        // Please let me know how to test such functionality in PHP if I can't change
+        // the php configuration run-time? We need some facility for running some
+        // tests in different configurations.
+//        $_REQUEST['aaa'] = 'blah\\\'';
+//        $this->assertEqual('blah\'', MAX_commonGetValueUnslashed('aaa'));
+    }
+    
+    
     function test_MAX_addslashes()
     {
         $item = 'ab\'cd';

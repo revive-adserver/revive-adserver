@@ -36,7 +36,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 
-$banner = MAX_getValueUnslashed('banner');
+$banner = MAX_commonGetValueUnslashed('banner');
 
 // Required files
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';

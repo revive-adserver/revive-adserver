@@ -341,23 +341,65 @@ function MAX_getBannerName($description, $alt)
 }
 
 
-    // +---------------------------------------+
-    // | $_REQUEST methods                     |
-    // |                                       |
-    // | and handling magic quotes             |
-    // +---------------------------------------+
+/**
+ * Retained for backward-compatibility.
+ *
+ * @param string $key
+ * @param object $default
+ * @deprecated Use MAX_commonGetValue() instead.
+ * @see MAX_commonGetValue()
+ */
 function MAX_getValue($key, $default = null)
+{
+    return MAX_commonGetValue($key, $default);
+}
+
+
+/**
+ * This function returns value from the $_REQUEST array stored under
+ * $key key. If magic_quotes_gpc is not enabled it adds the slashes to the
+ * value before returning it. If the value is not defined in the $_REQUEST
+ * then the value passed as $default is returned.
+ *
+ * @param string $key
+ * @param object $default
+ */
+function MAX_commonGetValue($key, $default = null)
 {
     $value = $default;
     if (isset($_REQUEST[$key])) {
         $value = $_REQUEST[$key];
         if (!get_magic_quotes_gpc()) {
-            MAX_addslashes($value);
+            return MAX_commonSlashArray($value);
         }
     }
 
     return $value;
 }
+
+
+/**
+ * This function returns value from the $_REQUEST array stored under
+ * $key key. If magic_quotes_gpc is enabled it removes the slashes to the
+ * value before returning it. If the value is not defined in the $_REQUEST
+ * then the value passed as $default is returned.
+ *
+ * @param string $key
+ * @param object $default
+ */
+function MAX_commonGetValueUnslashed($key, $default = null)
+{
+    $value = $default;
+    if (isset($_REQUEST[$key])) {
+        $value = $_REQUEST[$key];
+        if (get_magic_quotes_gpc()) {
+            return MAX_commonUnslashArray($value);
+        }
+    }
+
+    return $value;
+}
+
 
 function MAX_getStoredValue($key, $default, $pageName=null)
 {
@@ -410,13 +452,7 @@ function MAX_changeStoredValue($key, $value)
 
 function MAX_addslashes(&$item)
 {
-    if (isset($item)) {
-        if (is_array($item)) {
-            array_walk($item, 'MAX_addslashes');
-        } else {
-            $item = addslashes($item);
-        }
-    }
+    $item = MAX_commonSlashArray($item);
 }
 
 
