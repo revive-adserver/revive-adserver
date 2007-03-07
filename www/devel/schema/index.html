@@ -1,0 +1,17 @@
+<html>
+<head>
+
+<?php
+        $js = print_r($xajax->printJavascript('../lib/xajax/'), true); // output the xajax javascript. This must be called between the head tags
+        echo $js;
+?>
+</head>
+<body>
+    <?php echo 'current path is '.getcwd();?>
+    </ br>
+    <form id="frm_test" method="POST" action="">
+    <button id="btn_test" type="button" onclick="xajax_testAjax(xajax.getFormValues('frm_test'));">testAjax</button>
+    <input type="hidden" id="id_test" name="name_test" value="testtest"/>
+    </form>
+</body>
+</html>
