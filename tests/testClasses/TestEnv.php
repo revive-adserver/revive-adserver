@@ -213,6 +213,9 @@ class TestEnv
         // Drop the database connection
         $dbh->disconnect();
         $GLOBALS['_MAX']['CONNECTIONS'] = array();
+        // Destroy any Delivery Engine database connections
+        unset($GLOBALS['_MAX']['ADMIN_DB_LINK']);
+        unset($GLOBALS['_MAX']['RAW_DB_LINK']);
         // Destroy any cached table classes
         Openads_Table_Core::destroy();
         Openads_Table_Priority::destroy();
