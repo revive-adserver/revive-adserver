@@ -24,6 +24,8 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/max/Dal/DataObjects/tests/util/DataGenerator.php';
+
 /**
  * A common DataObjects unit class for testing DataObjects
  *
@@ -32,6 +34,8 @@ $Id$
  */
 class DataObjectsUnitTestCase extends UnitTestCase 
 {
+    var $stripUpdated = true;
+    
     /**
      * The constructor method.
      */
@@ -53,8 +57,8 @@ class DataObjectsUnitTestCase extends UnitTestCase
     function assertEqualDataObjects($first, $second, $message = "%s")
     {
         return $this->assertExpectation(
-                    new EqualExpectation($this->stripPrivateFields($first)),
-                    $this->stripPrivateFields($second),
+                    new EqualExpectation($this->stripUpdated($this->stripPrivateFields($first))),
+                    $this->stripUpdated($this->stripPrivateFields($second)),
                     $message);
     }
     
@@ -71,8 +75,8 @@ class DataObjectsUnitTestCase extends UnitTestCase
     function assertNotEqualDataObjects($first, $second, $message = "%s")
     {
         return $this->assertExpectation(
-                    new NotEqualExpectation($this->stripPrivateFields($first)),
-                    $this->stripPrivateFields($second),
+                    new NotEqualExpectation($this->stripUpdated($this->stripPrivateFields($first))),
+                    $this->stripUpdated($this->stripPrivateFields($second)),
                     $message);
     }
     
@@ -140,6 +144,14 @@ class DataObjectsUnitTestCase extends UnitTestCase
             foreach ($keys as $key) {
                 unset($do->$key);
             }
+        }
+        return $do;
+    }
+    
+    function stripUpdated($do)
+    {
+        if ($this->stripUpdated && $do->refreshUpdatedFieldIfExists) {
+            unset($do->updated);
         }
         return $do;
     }

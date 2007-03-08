@@ -92,9 +92,9 @@ class DataObjects_Banners extends DB_DataObjectCommon
         // Set the filename
         // We want to rename column 'storagetype' to 'type' so...
         if ($this->storagetype == 'web' || $this->storagetype == 'sql') {
-            $this->filename = phpAds_ImageDuplicate($this->storagetype, $this->filename);
+            $this->filename = $this->_imageDuplicate($this->storagetype, $this->filename);
         } elseif ($this->type == 'web' || $this->type == 'sql') {
-            $this->filename = phpAds_ImageDuplicate($this->type, $this->filename);
+            $this->filename = $this->_imageDuplicate($this->type, $this->filename);
         }
         
         // Insert the new banner and get the ID
@@ -142,5 +142,15 @@ class DataObjects_Banners extends DB_DataObjectCommon
     {
         $this->_rebuildCache();
         return parent::update($dataObject);
+    }
+    
+    /**
+     * Wrapper for phpAds_ImageDuplicate
+     * 
+     * @access private
+     */
+    function _imageDuplicate($storagetype, $filename)
+    {
+        return phpAds_ImageDuplicate($storagetype, $filename);
     }
 }

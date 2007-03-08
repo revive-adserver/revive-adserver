@@ -100,7 +100,7 @@ class DataGenerator
         $fields = $do->table();
         $keys = $do->keys();
         foreach ($fields as $fieldName => $fieldType) {
-            if (!array_key_exists($fieldName, $keys)) {
+            if (!array_key_exists($fieldName, $keys) && !isset($do->$fieldName)) {
                 $do->$fieldName = DataGenerator::setDefaultValue($fieldType);
             }
         }

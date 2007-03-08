@@ -26,7 +26,6 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/Dal/DataObjects/Banners.php';
 require_once 'DataObjectsUnitTestCase.php';
-require_once MAX_PATH . '/lib/max/Dal/DataObjects/tests/util/DataGenerator.php';
 
 /**
  * A class for testing non standard DataObjects_Banners methods
@@ -48,23 +47,41 @@ class DataObjects_BannersTest extends DataObjectsUnitTestCase
 
     function testDuplicate()
     {
-        $id1 = DataGenerator::generateOne(MAX_DB::factoryDO('banners'));
+        $filename = 'test.gif';
+        
+        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners->filename = $filename;
+        $doBanners->storagetype = 'sql';
+        
+        $id1 = DataGenerator::generateOne($doBanners);
         $this->assertNotEmpty($id1);
 
         $doBanners = MAX_DB::staticGetDO('banners', $id1);
         $this->assertIsA($doBanners, 'DataObjects_Banners');
 
-        $id2 = $doBanners->duplicate();
+        Mock::generatePartial(
+            'DataObjects_Banners',
+            $mockBanners = 'DataObjects_Banners'.rand(),
+            array('_imageDuplicate')
+        );
+        $doMockBanners = new $mockBanners($this);
+        $doMockBanners->setFrom($doBanners);
+        $doMockBanners->setReturnValue('_imageDuplicate', $filename);
+        // make sure image was duplicated as well
+        $doMockBanners->expectOnce('_imageDuplicate');
+        $id2 = $doMockBanners->duplicate(); // duplicate
+        $doMockBanners->tally();
+        
         $this->assertNotEmpty($id2);
         $this->assertNotEqual($id1, $id2);
 
         $doBanners1 = MAX_DB::staticGetDO('banners', $id1);
         $doBanners2 = MAX_DB::staticGetDO('banners', $id2);
+        // assert they are equal (but without comparing primary key)
         $this->assertNotEqualDataObjects($this->stripKeys($doBanners1), $this->stripKeys($doBanners2));
         
-        // make sure the only difference is their description
-        $doBanners1->description = null;
-        $doBanners2->description = null;
+        // is the only difference is their description
+        $doBanners1->description = $doBanners2->description = null;
         $this->assertEqualDataObjects($this->stripKeys($doBanners1), $this->stripKeys($doBanners2));
 
         TestEnv::restoreEnv();
