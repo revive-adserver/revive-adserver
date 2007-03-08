@@ -20,7 +20,7 @@ class MAX_Dal_Admin_Agency extends MAX_Dal_Common
      */
     function getLogoutUrl($agencyId)
     {
-        $doAgency = MAX_DB::staticGetDO('agency', $agencyid);
+        $doAgency = MAX_DB::staticGetDO('agency', $agencyId);
         if ($doAgency && !empty($doAgency->logout_url)) {
             return trim($doAgency->logout_url);
         }

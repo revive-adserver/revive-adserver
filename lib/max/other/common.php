@@ -437,6 +437,9 @@ function MAX_commonGetPostValueUnslashed($sKey, $sDefault = null)
     if (is_null($value)) {
         $value = $sDefault;
     }
+    if (is_null($value)) {
+        return null;
+    }
     return trim($value);
 }
 
