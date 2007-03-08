@@ -272,9 +272,11 @@ class MDB2_Schema_Writer
         }
 
         $buffer = '<?xml version="1.0" encoding="ISO-8859-1" ?>'.$eol;
+        $buffer.= $this->_getXSLRef($arguments).$eol;
         $buffer.= "<database>$eol$eol <name>".$database_definition['name']."</name>";
         $buffer.= "$eol <create>".$this->_dumpBoolean($database_definition['create'])."</create>";
         $buffer.= "$eol <overwrite>".$this->_dumpBoolean($database_definition['overwrite'])."</overwrite>$eol";
+        $buffer.= $this->writeCustomTags($arguments, $eol);
 
         if ($output) {
             call_user_func($output, $buffer);
@@ -899,8 +901,12 @@ class MDB2_Schema_Writer
     // }}}
     // {{{ _getXSLRef()
 
-    function _getXSLRef($xsl_file)
+    function _getXSLRef($arguments)
     {
+        if (isset($arguments['xsl_file']))
+        {
+            $xsl_file = $arguments['xsl_file'];
+        }
         return '<?xml-stylesheet type="text/xsl" href="'.$xsl_file.'"?>';
     }
 
@@ -939,6 +945,29 @@ class MDB2_Schema_Writer
     }
 
     // }}}
+    // {{{ array_to_xml()
+
+    /**
+     * write any custom tags
+     * as supplied
+     * only writes to <database> elem
+     *
+     * @param array $array
+     * @param string $buffer
+     * @param string $eol
+     */
+    function writeCustomTags($arguments, $eol)
+    {
+        $result = '';
+        if (isset($arguments['custom_tags']) && is_array($arguments['custom_tags']))
+        {
+            foreach ($arguments['custom_tags'] AS $k => $v)
+            {
+                $result.= " <{$k}>{$v}</{$k}>{$eol}";
+            }
+        }
+        return $result;
+    }
 
 }
 ?>

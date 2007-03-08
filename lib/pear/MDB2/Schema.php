@@ -2466,7 +2466,62 @@ class MDB2_Schema extends PEAR
     }
 
     // }}}
+    // {{{ parseDictionaryDefinitionFile()
 
+    /**
+     * Parse a changeset definition file by creating a schema
+     * parser object and passing the file contents as parser input data stream.
+     *
+     * @param string the changeset schema file.
+     * @param array associative array that the defines the text string values
+     *              that are meant to be used to replace the variables that are
+     *              used in the schema description.
+     * @param bool make function fail on invalid names
+     * @param array database structure definition
+     * @access public
+     */
+    function parseDictionaryDefinitionFile($input_file, $variables = array(),
+        $fail_on_invalid_names = true, $structure = false)
+    {
+        $dtd_file = $this->options['dtd_file'];
+        if ($dtd_file) {
+            require_once 'XML/DTD/XmlValidator.php';
+            $dtd =& new XML_DTD_XmlValidator;
+            if (!$dtd->isValid($dtd_file, $input_file)) {
+                return $this->raiseError(MDB2_SCHEMA_ERROR_PARSE, null, null, $dtd->getMessage());
+            }
+        }
+        require_once("MDB2/Schema/ParserDictionary.php");
+        $class_name = 'MDB2_Dictionary_Parser';
+        $result = MDB2::loadClass($class_name, $this->db->getOption('debug'));
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+
+        $parser =& new $class_name($variables, $fail_on_invalid_names, $structure, $this->options['valid_types'], $this->options['force_defaults']);
+
+        $class_name = 'MDB2_Schema_Validate';
+        $parser->val =& new $class_name($fail_on_invalid_names, $this->options['valid_types'], $this->options['force_defaults']);
+
+        $result = $parser->setInputFile($input_file);
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+
+        $result = $parser->parse();
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+        if (PEAR::isError($parser->error)) {
+            return $parser->error;
+        }
+
+        $dictionary = $parser->dictionary_definition;
+
+        return $dictionary;
+    }
+
+    // }}}
 }
 
 /**
