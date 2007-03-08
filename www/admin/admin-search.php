@@ -28,25 +28,21 @@
 $Id$
 */
 
-// Require the initialisation file
 require_once '../../init.php';
 
-// Required files
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 
-// Register input variables
-phpAds_registerGlobal ('keyword', 'client', 'campaign', 'banner', 'zone', 'affiliate', 'compact');
+phpAds_registerGlobalUnslashed('keyword', 'client', 'campaign', 'banner', 'zone', 'affiliate', 'compact');
 
-// Security check
 phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 
 
 // Check Searchselection
 if (!isset($client)) $client = false;
 if (!isset($campaign)) $campaign = false;
-if (!isset($banner)) $banner= false;
+if (!isset($banner)) $banner = false;
 if (!isset($zone)) $zone = false;
 if (!isset($affiliate)) $affiliate = false;
 
@@ -85,7 +81,6 @@ if (!isset($keyword))
                 
                 if (reload == true)
                 {
-                    // Reload
                     document.search.submit();
                 }
             }
