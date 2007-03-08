@@ -721,7 +721,7 @@ class MAX_Plugin
             'lifeTime' => $cacheExpire,
             'automaticSerialization' => true
         );
-        if (!file_exists($aOptions['cacheDir'])) {
+        if (!is_dir($aOptions['cacheDir'])) {
             if (!MAX_Plugin::_mkDirRecursive($aOptions['cacheDir'], MAX_PLUGINS_VAR_WRITE_MODE)) {
                 Max::raiseError('Folder: "' . $aOptions['cacheDir'] . '" is not writeable.');
                 return false;

@@ -15,6 +15,7 @@
         </sequential>
     </macrodef>
     <target name="init">
+        <touch file="should_not_exist"/>
         <mkdir dir="build/test-results"/>
         <mkdir dir="build/test-reports"/>
     </target>
