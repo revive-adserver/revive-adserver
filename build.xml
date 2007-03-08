@@ -19,7 +19,7 @@
         <mkdir dir="build/test-reports"/>
     </target>
     <target name="clean">
-        <delete dir="var/test.log" />
+        <delete file="var/test.log" />
         <delete dir="build" />
     </target>
     <target name="test-all" depends="init">
