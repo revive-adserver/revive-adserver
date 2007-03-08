@@ -29,7 +29,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             SELECT
                 views
 		    FROM
-		        campaigns
+		        {$prefix}campaigns
 	        WHERE
 	            campaignid = $campaignId
         ";
@@ -57,7 +57,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             SELECT
                 clicks
             FROM
-                campaigns
+                {$prefix}campaigns
             WHERE
                 campaignid = $campaignId
         ";
@@ -113,7 +113,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 		        DATE_FORMAT(expire, '$date_format') as expire_f,
 		        TO_DAYS(expire) - TO_DAYS(NOW()) as days_left
 	        FROM
-	            campaigns
+	            {$prefix}campaigns
             WHERE
                 campaignid = $campaignid
 	    ";
@@ -137,8 +137,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                	        MAX(TO_DAYS(day)) - TO_DAYS(NOW()) AS days_since_last_view,
                		    TO_DAYS(NOW()) - MIN(TO_DAYS(day)) AS days_since_start
            		    FROM
-           		        banners AS b
-           		        LEFT JOIN data_summary_ad_hourly AS v
+           		        {$prefix}banners AS b
+           		        LEFT JOIN {$prefix}data_summary_ad_hourly AS v
                		    ON b.bannerid = v.ad_id
                		WHERE b.campaignid= $campaignid
                	";
@@ -184,8 +184,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                         MAX(TO_DAYS(day)) - TO_DAYS(NOW()) as days_since_last_click,
                         TO_DAYS(NOW()) - MIN(TO_DAYS(day)) as days_since_start
                     FROM
-                        data_summary_ad_hourly AS a
-            		    LEFT JOIN banners AS b
+                        {$prefix}data_summary_ad_hourly AS a
+            		    LEFT JOIN {$prefix}banners AS b
             		    ON a.ad_id = b.bannerid
             		WHERE
             		    campaignid = $campaignid
@@ -313,7 +313,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 campaignname,
                 active
             FROM
-                campaigns " .
+                {$prefix}campaigns " .
             $this->getSqlListOrder($listOrder, $orderDirection)
         ;
         
