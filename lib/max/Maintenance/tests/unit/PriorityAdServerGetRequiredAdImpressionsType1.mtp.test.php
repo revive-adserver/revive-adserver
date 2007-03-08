@@ -302,10 +302,10 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
         // getPlacementImpressionInventoryRequirement() is called
         Mock::generatePartial(
             'MAX_Entity_Placement',
-            'MockPartialMAX_Entity_Placement',
+            'MockPartialMAX_Entity_Placement_GetRequiredAdImpressions',
             array('setSummaryStatisticsToDate')
         );
-        $oPlacement = new MockPartialMAX_Entity_Placement($this);
+        $oPlacement = new MockPartialMAX_Entity_Placement_GetRequiredAdImpressions($this);
         $oPlacement->MAX_Entity_Placement(array('placement_id' => 1));
 
         // Manually set the remaining inventory that would normally be
