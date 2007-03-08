@@ -1,0 +1,660 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<!-- Copyright (c) 2005 Tim Taylor Consulting (see LICENSE.txt) -->
+<html>
+<head>
+<title>Edit in Place with JavaScript and CSS</title>
+
+<link rel="stylesheet" type="text/css" href="common/common.css"/>
+<link rel="stylesheet" type="text/css" href="common/lists.css"/>
+
+<style type="text/css"><!--
+/* TODO: this CSS is in need of major cleanup */
+.slideshow {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+.slide {
+	position: relative;
+	float: left;
+	width: 172px;
+	margin-bottom: 10px;
+	margin-right: 10px;
+}
+
+.slide div.thumb {
+	background: #fff;
+	width: 170px;
+	height: 120px;
+	border: 1px solid #000;
+	font-size: 5px;
+	font-family: "Times New Roman", serif;
+	overflow: hidden;
+}
+
+.slide .view {
+	padding: 2px 2px;
+	margin: 2px 0px;
+	cursor: text;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #ccc;
+	background-color: #eee;
+	height: 1em;
+}
+.view:hover {
+	background-color: #ffffcc;
+}
+.view, .inplace, #list5 input {
+	font-size: 14px;
+	font-family: sans-serif;
+}
+
+.inplace {
+	position: absolute;
+	visibility: hidden;
+	z-index: 10000;
+}
+.inplace, #list5 input:hover, #list5 input:focus {
+	background-color: #ffffcc;
+}
+#slideEditors input.inplace {
+	width: 12em;
+	max-width: 12em;
+	margin-left: 1px;
+}
+#slideEditors input.inplace, #slideshow .view {
+	text-align: center;
+}
+
+#paragraphView, #paragraphEdit, #markupView, #markupEdit {
+	font-family: "Times New Roman", serif;
+	font-size: 14px;
+}
+#paragraphView, #markupView {
+	border: 1px solid #fff;
+	padding: 8px;
+	width: 400px;
+	max-width: 400px;
+}
+#paragraphView:hover, #markupView:hover {
+	background-color: #ffffcc;
+	border-color: #ccc;
+}
+#paragraphEdit, #markupEdit {
+	width: 315px;
+	background-color: #ffffcc;
+}
+#paragraphEdit {
+	height: 5em;
+}
+#markupEdit {
+	height: 15em;
+}
+
+#listExamples td {
+	width: 9em;
+	margin-right: 20px; 
+	padding: 0px 20px;
+	vertical-align: top;
+}
+#listExamples th {
+	vertical-align: bottom;
+	font-weight: normal;
+	font-size: 14px;
+	padding-top: 20px;
+}
+#listExamples td.caption {
+	font-size: 12px;
+	text-align: center;
+}
+#listExamples li {
+	padding: 0px;
+	height: 20px;
+	min-height: 1em;
+	width: 120px;
+}
+#listExamples li .view {
+	height: 16px;
+	vertical-align: middle;
+	padding: 2px;
+}
+#list1 li:hover {
+	background-color: #eee;
+}
+#listExamples input.inplace {
+	width: 120px;
+	max-width: 120px;
+}
+
+/* BugFix: Firefox: avoid bottom margin on draggable elements */
+#listExamples #list4, #listExamples #list5 { margin-top: -2px; }
+#listExamples #list4 li, #listExamples #list5 li { margin-top: 4px; }
+
+#listExamples #list4 li { cursor: default; }
+#listExamples #list4 .handle,
+#listExamples #list5 .handle {
+	float: right;
+	background-color: #ccc;
+	background-image: url(common/handle.png);
+	background-repeat: repeat-y;
+	width: 7px;
+	height: 20px;
+}
+#listExamples #list4 li .view {
+	cursor: text;
+}
+#listExamples #list4Editors input.inplace, #listExamples #list5 input {
+	width: 104px;
+	max-width: 104px;
+}
+#listExamples #list4Editors>input.inplace, #listExamples #list5>li>input {
+	width: 111px;
+	max-width: 111px;
+}
+#list5 input {
+	background-color: #eee;
+}
+.inplace, #list5 input {
+	margin: 0px;
+	padding-left: 1px;
+}
+.handle {
+	cursor: move;
+}
+--></style>
+
+<script language="JavaScript" type="text/javascript" src="../source/org/tool-man/core.js"></script>
+<script language="JavaScript" type="text/javascript" src="../source/org/tool-man/events.js"></script>
+<script language="JavaScript" type="text/javascript" src="../source/org/tool-man/css.js"></script>
+<script language="JavaScript" type="text/javascript" src="../source/org/tool-man/coordinates.js"></script>
+<script language="JavaScript" type="text/javascript" src="../source/org/tool-man/drag.js"></script>
+<script language="JavaScript" type="text/javascript" src="../source/org/tool-man/dragsort.js"></script>
+
+<script language="JavaScript"><!--
+var ESCAPE = 27
+var ENTER = 13
+var TAB = 9
+
+var coordinates = ToolMan.coordinates()
+var dragsort = ToolMan.dragsort()
+
+window.onload = function() {
+
+	// TODO: this API sucks
+	join("paragraph", true)
+	join("markup", true)
+
+	join("a2", true)
+	join("b2", true)
+	join("c2", true)
+	join("d2", true)
+	join("e2", true)
+
+	join("a3")
+	join("b3")
+	join("c3")
+	join("d3")
+	join("e3")
+
+	join("a4")
+	join("b4")
+	join("c4")
+	join("d4")
+	join("e4")
+
+	join("one")
+	join("two")
+	join("three")
+	join("four")
+	join("five")
+	join("six")
+
+	dragsort.makeListSortable(document.getElementById("list1"))
+	dragsort.makeListSortable(document.getElementById("list2"))
+	dragsort.makeListSortable(document.getElementById("list3"))
+	dragsort.makeListSortable(document.getElementById("list4"), setHandle)
+	dragsort.makeListSortable(document.getElementById("list5"), setHandle)
+	dragsort.makeListSortable(document.getElementById("slideshow"), setHandle)
+}
+
+function setHandle(item) {
+	item.toolManDragGroup.setHandle(findHandle(item))
+}
+
+function findHandle(item) {
+	var children = item.getElementsByTagName("div")
+	for (var i = 0; i < children.length; i++) {
+		var child = children[i]
+
+		if (child.getAttribute("class") == null) continue
+
+		if (child.getAttribute("class").indexOf("handle") >= 0)
+			return child
+	}
+	return item
+}
+
+function join(name, isDoubleClick) {
+	var view = document.getElementById(name + "View")
+	view.editor = document.getElementById(name + "Edit")
+
+	var showEditor = function(event) {
+		event = fixEvent(event)
+
+		var view = this
+		var editor = view.editor
+
+		if (!editor) return true
+
+		if (editor.currentView != null) {
+			editor.blur()
+		}
+		editor.currentView = view
+
+		var topLeft = coordinates.topLeftOffset(view)
+		topLeft.reposition(editor)
+		if (editor.nodeName == 'TEXTAREA') {
+			editor.style['width'] = view.offsetWidth + "px"
+			editor.style['height'] = view.offsetHeight + "px"
+		}
+		editor.value = view.innerHTML
+		editor.style['visibility'] = 'visible'
+		view.style['visibility'] = 'hidden'
+		editor.focus()
+		return false
+	}
+
+	if (isDoubleClick) {
+		view.ondblclick = showEditor
+	} else {
+		view.onclick = showEditor
+	}
+
+	view.editor.onblur = function(event) {
+		event = fixEvent(event)
+
+		var editor = event.target
+		var view = editor.currentView
+
+		if (!editor.abandonChanges) view.innerHTML = editor.value
+		editor.abandonChanges = false
+		editor.style['visibility'] = 'hidden'
+		editor.value = '' // fixes firefox 1.0 bug
+		view.style['visibility'] = 'visible'
+		editor.currentView = null
+
+		return true
+	}
+	
+	view.editor.onkeydown = function(event) {
+		event = fixEvent(event)
+		
+		var editor = event.target
+		if (event.keyCode == TAB) {
+			editor.blur()
+			return false
+		}
+	}
+
+	view.editor.onkeyup = function(event) {
+		event = fixEvent(event)
+
+		var editor = event.target
+		if (event.keyCode == ESCAPE) {
+			editor.abandonChanges = true
+			editor.blur()
+			return false
+		} else if (event.keyCode == TAB) {
+			return false
+		} else {
+			return true
+		}
+	}
+
+	// TODO: this method is duplicated elsewhere
+	function fixEvent(event) {
+		if (!event) event = window.event
+		if (event.target) {
+			if (event.target.nodeType == 3) event.target = event.target.parentNode
+		} else if (event.srcElement) {
+			event.target = event.srcElement
+		}
+
+		return event
+	}
+}
+//-->
+</script>
+
+</head>
+<body>
+
+<h1>Edit in Place with JavaScript and CSS</h1>
+<ul class="breadcrumb">
+	<li class="first"><a href="http://tool-man.org/">Home</a></li>
+	<li><a href="./index.html">Other Examples</a></li>
+</ul>
+<br class="clear"/>
+
+<div class="sidebar">
+	<p><b>Download</b></p>
+	
+	<p><a href="ToolManDHTML-0.2.zip">Version 0.2</a>&nbsp;&nbsp;(<a href="LICENSE.txt">license</a>)</p>
+</div>
+
+<div class="sidebar">
+	<p><b>Updated 4/26</b> - moved to new DnD sorting code.  In-place edit still written as ad hoc scripts
+	in the HTML source.</p>
+</div>
+
+<p>Edit in place (also called in-place editing) follows the 
+axiom Alan Cooper calls "allow input wherever you have output".  The
+combobox &#8211; a form element unfortunately absent from HTML &#8211; 
+demonstrates this.  In the same place where the current selection is 
+displayed, the user can enter a value directly.</p>
+
+<h2>Editable Content</h2>
+
+<p id="paragraphView">Editable #1: Double-click anywhere in this paragraph to edit its content.  Press TAB or click outside the edit area to finish.  Press ESCAPE to cancel.</p>
+
+<textarea id="paragraphEdit" class="inplace" tabindex="1"></textarea>
+
+
+<div class="sidebar">
+	<p>Firefox, you cannot cancel the TAB key from moving focus around.  If you press TAB while editing the first editable paragraph on the left, then
+	you end up focused here:
+	<input id="focusSink" type="text" readonly="" size="13" onfocus="this.value='focus is mine'" onblur="this.value=''" tabindex="2"/></p>
+</div>
+
+<div id="markupView">
+<p>Editable #2: This can work on arbitrary markup.  This may or may not be such a good idea.</p>
+
+<p>We can do paragraphs, <b>styling</b>, <a href="./index.html">links</a>, 
+or any HTML, really.</p>
+
+<table style="text-align: center" cellspacing="0" cellpadding="3">
+	<tr>
+		<td></td>
+		<th style="border-bottom: 1px solid">DADA</th>
+		<th style="border-bottom: 1px solid">NHUG</th>
+		<th style="border-bottom: 1px solid">TTAY</th>
+	</tr>
+	<tr>
+		<th style="border-right: 1px solid">DADA</th>
+		<td style="background-color: #ccc"></td>
+		<td>1</td>
+		<td>3</td>
+	</tr>
+	<tr>
+		<th style="border-right: 1px solid">NHUG</th>
+		<td>1</td>
+		<td style="background-color: #ccc"></td>
+		<td>2</td>
+	</tr>
+	<tr>
+		<th style="border-right: 1px solid">TTAY</th>
+		<td>3</td>
+		<td>2</td>
+		<td style="background-color: #ccc"></td>
+	</tr>
+</table>
+
+
+<br/>
+
+<p>Without applying some kind of limitation, any markup whatsoever can be 
+entered.  In practice you would normally want to limit the type of markup 
+allowed perhaps via a <a href="http://tinymce.moxiecode.com/">wysiwyg editor</a>
+or a text formatter like <a href="http://daringfireball.net/projects/markdown/">Markdown</a>.
+</p>
+</div>
+<textarea id="markupEdit" class="inplace" tabindex="2"></textarea>
+
+<h2>Sortable, Editable Lists</h2>
+
+<div class="sidebar">
+<p>Firefox and Safari register 'click' events after a drag causing the
+field to become editable, which is undesirable.  This is the same
+problem with the sortable links and buttons example in
+<a href="sorting.html">DnD Sortable Lists</a>.</p>
+</div>
+
+<p>Combining in place editing with 
+<a href="sorting.html">Drag &amp; Drop Sortable Lists</a> results in
+nice direct manipulation for managing a list of labels.</p>
+
+<table id="listExamples">
+	<tr>
+		<th>List 1</th>
+		<th>List 2</th>
+		<th>List 3</th>
+	</tr>
+	<tr>
+		<td>
+			<ul id="list1" class="sortable boxy">
+				<li class="view">alpha</li>
+				<li class="view">bravo</li>
+				<li class="view">charlie</li>
+				<li class="view">delta</li>
+				<li class="view">echo</li>
+			</ul>
+		</td>
+		<td>
+			<!-- 
+			IE 5.5+ BugFix: don't put these inside a 
+			'position: relative' layer
+			-->
+			<input id="a2Edit" name="a2Edit" class="inplace"/>
+			<input id="b2Edit" name="b2Edit" class="inplace"/>
+			<input id="c2Edit" name="c2Edit" class="inplace"/>
+			<input id="d2Edit" name="d2Edit" class="inplace"/>
+			<input id="e2Edit" name="e2Edit" class="inplace"/>
+			<ul id="list2" class="sortable boxy">
+				<li>
+					<div id="a2View" class="view">alpha</div>
+				</li>
+				<li>
+					<div id="b2View" class="view">bravo</div>
+				</li>
+				<li>
+					<div id="c2View" class="view">charlie</div>
+				</li>
+				<li>
+					<div id="d2View" class="view">delta</div>
+				</li>
+				<li>
+					<div id="e2View" class="view">echo</div>
+				</li>
+			</ul>
+		</td>
+		<td>
+			<!-- 
+			IE 5.5+ BugFix: don't put these inside a 
+			'position: relative' layer
+			-->
+			<input id="a3Edit" name="a3Edit" class="inplace"/>
+			<input id="b3Edit" name="b3Edit" class="inplace"/>
+			<input id="c3Edit" name="c3Edit" class="inplace"/>
+			<input id="d3Edit" name="d3Edit" class="inplace"/>
+			<input id="e3Edit" name="e3Edit" class="inplace"/>
+			<ul id="list3" class="sortable boxy">
+				<li>
+					<div id="a3View" class="view">alpha</div>
+				</li>
+				<li>
+					<div id="b3View" class="view">bravo</div>
+				</li>
+				<li>
+					<div id="c3View" class="view">charlie</div>
+				</li>
+				<li>
+					<div id="d3View" class="view">delta</div>
+				</li>
+				<li>
+					<div id="e3View" class="view">echo</div>
+				</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td class="caption">Sort only</td>
+		<td class="caption">Sort and edit (double click)</td>
+		<td class="caption">Sort and edit (single click)</td>
+	</tr>
+	<tr>
+		<th>List 4</th>
+		<th>List 5</th>
+		<th></th>
+	</tr>
+	<tr>
+		<td>
+			<div id="list4Editors">
+				<input id="a4Edit" name="a4Edit" class="inplace" tabindex="10"/>
+				<input id="b4Edit" name="b4Edit" class="inplace" tabindex="10"/>
+				<input id="c4Edit" name="c4Edit" class="inplace" tabindex="10"/>
+				<input id="d4Edit" name="d4Edit" class="inplace" tabindex="10"/>
+				<input id="e4Edit" name="e4Edit" class="inplace" tabindex="10"/>
+			</div>
+			<ul id="list4" class="sortable boxy">
+				<li>
+					<div class="handle"></div>
+					<div id="a4View" class="view">alpha</div>
+				</li>
+				<li>
+					<div class="handle"></div>
+					<div id="b4View" class="view">bravo</div>
+				</li>
+				<li>
+					<div class="handle"></div>
+					<div id="c4View" class="view">charlie</div>
+				</li>
+				<li>
+					<div class="handle"></div>
+					<div id="d4View" class="view">delta</div>
+				</li>
+				<li>
+					<div class="handle"></div>
+					<div id="e4View" class="view">echo</div>
+				</li>
+			</ul>
+		</td>
+		<td>
+			<ul id="list5" class="sortable boxy">
+				<li>
+					<div class="handle"></div>
+					<input id="a5Edit" name="a5Edit" value="alpha"/>
+				</li>
+				<li>
+					<div class="handle"></div>
+					<input id="b5Edit" name="b5Edit" value="bravo"/>
+				</li>
+				<li>
+					<div class="handle"></div>
+					<input id="c5Edit" name="c5Edit" value="charlie"/>
+				</li>
+				<li>
+					<div class="handle"></div>
+					<input id="d5Edit" name="d5Edit" value="delta"/>
+				</li>
+				<li>
+					<div class="handle"></div>
+					<input id="e5Edit" name="e5Edit" value="echo"/>
+				</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td class="caption">Drag handles</td>
+		<td class="caption">Always editable</td>
+		<td class="caption"></td>
+	</tr>
+</table>
+
+<br/>
+
+<a name="slideshow-example"></a>
+<h2>Slideshow Sorter</h2>
+
+<!-- surround in table to fix Firefox weirdness -->
+<table><tr><td>
+<div id="slideEditors">
+	<!-- 
+	IE 5.5+ BugFix: don't put these inside a 'position: relative' layer
+	-->
+	<input id="oneEdit" name="oneEdit" class="inplace"/>
+	<input id="twoEdit" name="oneEdit" class="inplace"/>
+	<input id="threeEdit" name="oneEdit" class="inplace"/>
+	<input id="fourEdit" name="oneEdit" class="inplace"/>
+	<input id="fiveEdit" name="oneEdit" class="inplace"/>
+	<input id="sixEdit" name="oneEdit" class="inplace"/>
+</div>
+<ul id="slideshow" class="slideshow">
+	<li class="slide">
+		<div class="thumb handle"><img src="slideshow/1.png"/></div>
+		<div id="oneView" class="view">Slide 1</div>
+	</li>
+
+	<li class="slide">
+		<div class="thumb handle"><img src="slideshow/2.png"/></div>
+		<div id="twoView" class="view">Slide 2</div>
+	</li>
+
+	<li class="slide">
+		<div class="thumb handle"><img src="slideshow/3.png"/></div>
+		<div id="threeView" class="view">Slide 3</div>
+	</li>
+
+	<li class="slide">
+		<div class="thumb handle"><img src="slideshow/4.png"/></div>
+		<div id="fourView" class="view">Slide 4</div>
+	</li>
+
+	<li class="slide">
+		<div class="thumb handle"><img src="slideshow/5.png"/></div>
+		<div id="fiveView" class="view">Slide 5</div>
+	</li>
+
+	<li class="slide">
+		<div class="thumb handle"><img src="slideshow/6.png"/></div>
+		<div id="sixView" class="view">Slide 6</div>
+	</li>
+</ul>
+</td></tr></table>
+
+<br style="clear: both"/>
+
+<h2>Known Bugs</h2>
+<ul>
+	<li><p>Safari 1.2: Extra whitespace is introduced by the "Edit Markup" example (resolved in 1.3).</p></li>
+
+	<li><p>Positioning text inputs over labels doesn't work as well in 
+	Safari 1.2 as in Firefox.  Sizing inputs via CSS doesn't work in 
+	Safari 1.2 (resolved in 1.3)</p></li>
+
+	<li><p>Safari 1.2 has issues making the dragged item transparent.
+	Following siblings become transparent as well. (resolved in 1.3)</p></li>
+
+	<li><p>Firefox 1.0: you can be editing a label and
+	start a drag without the label reverting back to display.  This is more
+	easily demonstrated on the slideshow example.  A mousedown anywhere
+	outside the text box should cause it to lose focus.  Fixable with 
+	JavaScript</p></li>
+</ul>
+
+<h2>TODO</h2>
+<ul>
+	<li>Try out using createElement instead of including "hidden" input 
+	elements in the markup</li>
+</ul>
+
+	<ul class="breadcrumb">
+		<li class="first"><a href="http://tool-man.org/">Home</a></li>
+		<li><a href="./index.html">Other Examples</a></li>
+	</ul>
+
+	<div id="copyright">Copyright &copy; 2005 Tim Taylor Consulting
+	(<a href="LICENSE.txt">license</a>)</div>
+</body>
+</html>

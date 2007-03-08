@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<!-- Copyright (c) 2005 Tim Taylor Consulting (see LICENSE.txt) -->
+<html>
+<head>
+<style type="text/css">
+body {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 14px;
+}
+p {
+	max-width: 400px;
+}
+#messageBox {
+	position: absolute;	/* for IE 5+ */
+	/* position: fixed; */
+	top: 50px;
+	right: 10px;
+	height: 100px;
+	z-index: 1;
+}
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.vline, .hline {
+	position: absolute;
+	display: block;
+	font-size: 10px;
+	color: #ccc;
+}
+.vline {
+	width: 0px;
+	top: 0px;
+	padding-top: 35px;
+	border-left: 1px solid #eee;
+}
+.hline {
+	height: 0px;
+	left: 0px;
+	right: 0px;
+	border-top: 1px solid #eee;
+	padding-left: 20px;
+}
+#scrollers, #scrollers td {
+	font-size: 10px;
+	text-align: center;
+	vertical-align: middle;
+}
+#scrollers {
+	position: absolute; /* for IE 5+ */
+	/* position: fixed; */
+	top: 70px;
+	left: 70px;
+	background: #eee;
+	border: 1px solid #ccc;
+}
+#scrollers a {
+	font-size: 15px;
+	text-decoration: none;
+	display: block;
+}
+</style>
+<script language="JavaScript" src="../../../../source/org/tool-man/core.js"></script>
+<script language="JavaScript" src="../../../../source/org/tool-man/events.js"></script>
+<script language="JavaScript" src="../../../../source/org/tool-man/css.js"></script>
+<script language="JavaScript" src="../../../../source/org/tool-man/coordinates.js"></script>
+<script language="JavaScript">
+	var coordinates = ToolMan.coordinates()
+
+	var result
+
+	window.onload = function() {
+		result = document.getElementById("result")
+		document.onmousemove = function(event) {
+			window.status = coordinates.mousePosition(event).toString()
+					+ coordinates.mouseOffset(event).toString()
+		}
+	}
+
+	function speak(text) {
+		clear()
+		result.value = text
+	}
+
+	function clear() {
+		result.value = ""
+	}
+
+	function show(coordinate) {
+		clear()
+		result.value = coordinate.toString()
+	}
+
+	function scroll(deltaX, deltaY) {
+		window.scrollBy(deltaX, deltaY)
+		show(coordinates.scrollOffset())
+	}
+</script>
+</head>
+
+<body>
+<div id="messageBox">
+	result: <input id="result" name="result" type="text" size="10"/>
+</div>
+
+<!-- TODO: refactor away duplication with Grid.js -->
+<script language="JavaScript">
+	var html = ''
+	for (var i = 1; i <= 100; i++) {
+		var num = (i * 50) + "px"
+		html += '<span class="hline" style="top: ' + num + '; width: ' + (50 * 100) + 'px">' + num + '</span>'
+		html += '<span class="vline" style="left: ' + num + '; height: ' + (50 * 100) + 'px">' + num + '</span>'
+	}
+	document.write(html)
+</script>
+
+<div id="scrollers">
+	<table>
+		<tr><td></td><td><a id="scrollUp" href="javascript: scroll(0, -10)">&uarr;</a></td><td></td></tr>
+		<tr><td><a id="scrollLeft" href="javascript: scroll(-10, 0)">&larr;</a></td><td>10</td><td><a id="scrollRight" href="javascript: scroll(10, 0)">&rarr;</a></td></tr>
+		<tr><td></td><td><a id="scrollDown" href="javascript: scroll(0, 10)">&darr;</a></td><td></td></tr>
+	</table>
+</div>
+
+</body>
+</html>

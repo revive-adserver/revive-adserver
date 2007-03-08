@@ -1,0 +1,54 @@
+                <table class="tablemain">
+                    <tr>
+                        <td class="tableheader" colspan="8"><span class="titlemini">indexes</span></td>
+                    </tr>
+                    <tr>
+                        <td class="tableheader"><button name="btn_index_del" type="submit">delete</button></td>
+                        <td class="tableheader">name</td>
+                        <td class="tableheader">primary</td>
+                        <td class="tableheader">unique</td>
+                        <td class="tableheader" colspan="8">fields</td>
+                    </tr>
+                    <?php
+                    foreach ($tbl_definition['indexes'] AS $name => $idx_def )
+                    {
+                    ?>
+                    <tr>
+                        <td class="tablebody"><input type="checkbox" name="chkidx[]" value="<?php echo $name; ?>" ></td>
+                        <td class="tablebody"><?php echo $name; ?></td>
+                        <td class="tablebody"><?php echo ($idx_def['primary']?$idx_def['primary']:'&nbsp;'); ?></td>
+                        <td class="tablebody"><?php echo ($idx_def['unique']?$idx_def['unique']:'&nbsp;'); ?></td>
+                        <td class="tablebody">
+            			 <ul id="idx_flds" class="boxy">
+                        <?php
+                        foreach ($idx_def['fields'] AS $field => $fld_def )
+                        {
+                            echo '<li>'.$field.'&nbsp;'.($fld_def['sorting']?'('.$fld_def['sorting'].')':'&nbsp;').'</li>';
+                        }
+                        ?>
+            			 </ul>
+                        </td>
+                    </tr>
+                    <?php
+                    }
+                   ?>
+                    <tr>
+                        <td class="tableheader" colspan="8">
+                            <span class="titlemini">
+                                <button name="btn_index_add" type="submit">new index</button>
+                            </span>
+                            <span class="textmini" id="span_index_add" style="display:inline;">
+                                <input type="text" name="index_add" id="index_add" value="" style="display:inline"/>
+
+                                <select name="sel_idxfld_add[]" multiple >
+                                <?php
+                                foreach ($tbl_definition['fields'] AS $field => $field_def )
+                                {
+                                    echo "<option value=\"{$field}\">{$field}</option>";
+                                }
+                                ?>
+                                </select>
+                            </span>
+                        </td>
+                    </tr>
+                </table>

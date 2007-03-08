@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<!-- Copyright (c) 2005 Tim Taylor Consulting (see LICENSE.txt) -->
+<html>
+<head>
+<title>Toolbars</title>
+<link rel="stylesheet" type="text/css" href="../common/common.css"/>
+<link rel="stylesheet" type="text/css" href="../toolbar/toolbar.css"/>
+<style type="text/css">
+	b {
+		font-weight: normal;
+	}
+	b.bold {
+		font-weight: bold;
+	}
+	b.underline {
+		text-decoration: underline;
+	}
+	b.italic {
+		font-variant: italic;
+	}
+</style>
+
+<script language="JavaScript"><!--
+window.onload = function() {
+	document.getElementById("button-bold").onclick = toggle;
+	document.getElementById("button-underline").onclick = toggle;
+	document.getElementById("button-italics").onclick = toggle;
+};
+
+function toggle(event) {
+	var target = event.target.nodeType != 3 
+			? event.target : event.target.parentNode;
+	
+	var cssClass = target.getAttribute("class");
+	if (cssClass == null) {
+		target.setAttribute("class", "active");
+	} else if (cssClass.indexOf("active") < 0) {
+		target.setAttribute("class", cssClass + " active");
+	} else {
+		if (cssClass.match(/^active$/)) {
+			target.removeAttribute("class");
+		} else {
+			var cssClass = cssClass.replace(/^active /, "");
+			var cssClass = cssClass.replace(/ active$/, "");
+			var cssClass = cssClass.replace(/ active /g, " ");
+			target.setAttribute("class", cssClass);
+		}
+	}
+}
+//-->
+</script>
+
+</head>
+<body>
+	<h1>Toolbars</h1>
+	<ul class="breadcrumb">
+		<li class="first"><a href="http://tool-man.org/">Home</a></li>
+		<li><a href="../index.html">Other Examples</a></li>
+	</ul>
+
+	<h2>Toolbars</h2>
+
+	<div class="sidebar">
+		<p>This example is broken in Internet Explorer</p>
+	</div>
+
+	<p>Go ahead, re-arrange the buttons.</p>
+
+	<table>
+		<tr>
+			<td style="vertical-align: top">
+				<div id="vboop" class="statusbox">&nbsp;</div>
+				<ul id="verticaltoolbar" class="toolbar verticaltoolbar">
+					<li class="button"><a href="#" onclick="speak('vboop', 'New'); return false;"><img src="toolbar/filenew.png" border="0"/></a></li>
+					<li class="button"><a href="#" onclick="speak('vboop', 'Open'); return false;"><img src="toolbar/fileopen.png" border="0"/></a></li>
+					<li class="space"></li>
+					<li class="button"><a href="#" onclick="speak('vboop', 'Print'); return false;"><img src="toolbar/fileprint.png" border="0"/></a></li>
+					<li class="separator"></li>
+					<li class="button"><a href="#" onclick="speak('vboop', 'Copy'); return false;"><img src="toolbar/editcopy.png" border="0"/></a></li>
+					<li class="button"><a href="#" onclick="speak('vboop', 'Cut'); return false;"><img src="toolbar/editcut.png" border="0"/></a></li>
+					<li class="button"><a href="#" onclick="speak('vboop', 'Paste'); return false;"><img src="toolbar/editpaste.png" border="0"/></a></li>
+				</ul>
+			</td>
+
+			<td style="vertical-align: top">
+				<div id="hboop" class="statusbox">&nbsp;</div>
+				<ul id="horizontaltoolbar" class="toolbar horizontaltoolbar">
+					<li class="button"><a href="#" onclick="speak('hboop', 'New'); return false;"><img src="toolbar/filenew.png" border="0"/></a></li>
+					<li class="button"><a href="#" onclick="speak('hboop', 'Open'); return false;"><img src="toolbar/fileopen.png" border="0"/></a></li>
+					<li class="space"></li>
+					<li class="button"><a href="#" onclick="speak('hboop', 'Print'); return false;"><img src="toolbar/fileprint.png" border="0"/></a></li>
+					<li class="separator"></li>
+					<li class="button"><a href="#" onclick="speak('hboop', 'Copy'); return false;"><img src="toolbar/editcopy.png" border="0"/></a></li>
+					<li class="button"><a href="#" onclick="speak('hboop', 'Cut'); return false;"><img src="toolbar/editcut.png" border="0"/></a></li>
+					<li class="button"><a href="#" onclick="speak('hboop', 'Paste'); return false;"><img src="toolbar/editpaste.png" border="0"/></a></li>
+				</ul>
+				<br class="clear"/>
+			</td>
+		</tr>
+	</table>
+	<br/>
+
+	<p>The horizontal toolbar is built from an identical list as the
+	vertical toolbar.  Different CSS and a horizontally contrained
+	drag script make the difference.</p>
+
+	<p>Firefox isn't respecting the ":active" pseudo-selector on the
+	list elements.  When you mousedown on a button it should look
+	pressed in.  This is because we capture "onmousedown" to initiate a drag.
+	Returning true from the onmousedown handler gives the right behavior
+	for ":active", but breaks the dragging script.  It's possible to work
+	around this with more JavaScript, I just haven't gotten to it yet.</p>
+<ul class="toolbar verticaltoolbar">
+	<li class="button"><a href="#"><img src="../toolbar/filenew.png"/></a></li>
+	<li class="button"><a href="#"><img src="../toolbar/fileopen.png"/></a></li>
+	<li class="space"></li>
+	<li class="button"><a href="#"><img src="../toolbar/print_preview.png"/></a></li>
+	<li class="button"><a href="#"><img src="../toolbar/fileprint.png"/></a></li>
+	<li class="separator"></li>
+	<li class="button"><a href="#"><img src="../toolbar/editcopy.png"/></a></li>
+	<li class="button"><a href="#"><img src="../toolbar/editcut.png"/></a></li>
+	<li class="button"><a href="#"><img src="../toolbar/editpaste.png"/></a></li>
+</ul>
+
+<br/>
+<br/>
+
+<ul class="toolbar horizontaltoolbar">
+	<li class="button"><a href="#"><img src="../toolbar/filenew.png"/></a></li>
+	<li class="button"><a href="#"><img src="../toolbar/fileopen.png"/></a></li>
+	<li class="button"><a href="#"><img src="../toolbar/filefloppy.png"/></a></li>
+	<li class="separator"></li>
+	<li class="button"><a href="#"><img src="../toolbar/fileprint.png"/></a></li>
+	<li class="button"><a href="#"><img src="../toolbar/print_preview.png"/></a></li>
+	<li class="separator"></li>
+	<li class="button"><a href="#"><img src="../toolbar/editcut.png"/></a></li>
+	<li class="button"><a href="#"><img src="../toolbar/editcopy.png"/></a></li>
+	<li class="button"><a href="#"><img src="../toolbar/editpaste.png"/></a></li>
+	<li class="separator"></li>
+	<li class="button"><a href="#"><img src="../toolbar/undo.png"/></a></li>
+	<li class="button"><a href="#"><img src="../toolbar/redo.png"/></a></li>
+	<li class="separator"></li>
+	<li id="button-bold" class="button"><a href="#"><b class="bold">B</b></a></li>
+	<li id="button-underline" class="button"><a href="#"><b class="underline">U</b></a></li>
+	<li id="button-italics" class="button"><a href="#"><b class="italic">I</b></a></li>
+	<li>
+		<select>
+			<option>Arial</option>
+			<option>Times New Roman</option>
+			<option>Verdana</option>
+		</select><select>
+			<option>8pt</option>
+			<option>9pt</option>
+			<option>10pt</option>
+			<option>12pt</option>
+			<option>14pt</option>
+		</select>
+	</li>
+	<li class="space"></li>
+	<li>
+		<select>
+			<option>200%</option>
+			<option>150%</option>
+			<option>125%</option>
+			<option>100%</option>
+			<option>75%</option>
+			<option>50%</option>
+			<option>Selection</option>
+			<option>Page Width</option>
+			<option>Whole Page</option>
+		</select>
+	</li>
+	<li class="space"></li>
+	<li><label>Find <input/></label></li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<!-- Copyright (c) 2005 Tim Taylor Consulting (see LICENSE.txt) -->
+<html>
+<head>
+<title>Toolbars</title>
+<link rel="stylesheet" type="text/css" href="common/common.css"/>
+<link rel="stylesheet" type="text/css" href="toolbar/toolbar.css"/>
+<style type="text/css">
+	.statusbox {
+		font-size: 13px;
+		font-family: Monaco, monospace;
+		width: 15em;
+	}
+	b {
+		font-weight: normal;
+	}
+	b.bold {
+		font-weight: bold;
+	}
+	b.underline {
+		text-decoration: underline;
+	}
+	b.italic {
+		font-variant: italic;
+	}
+</style>
+
+<script language="JavaScript" type="text/javascript" src="../source/org/tool-man/core.js"></script>
+<script language="JavaScript" type="text/javascript" src="../source/org/tool-man/events.js"></script>
+<script language="JavaScript" type="text/javascript" src="../source/org/tool-man/css.js"></script>
+<script language="JavaScript" type="text/javascript" src="../source/org/tool-man/coordinates.js"></script>
+<script language="JavaScript" type="text/javascript" src="../source/org/tool-man/drag.js"></script>
+<script language="JavaScript" type="text/javascript" src="../source/org/tool-man/dragsort.js"></script>
+
+<script language="JavaScript"><!--
+var dragsort = ToolMan.dragsort()
+
+window.onload = function() {
+
+	dragsort.makeListSortable(document.getElementById("verticaltoolbar"),
+			verticalOnly)
+	dragsort.makeListSortable(document.getElementById("horizontaltoolbar"),
+			horizontalOnly)
+}
+
+function verticalOnly(item) {
+	item.toolManDragGroup.verticalOnly()
+}
+
+function horizontalOnly(item) {
+	item.toolManDragGroup.horizontalOnly()
+}
+
+function speak(id, what) {
+	document.getElementById(id).innerHTML = what
+}
+//-->
+</script>
+
+</head>
+<body>
+
+<h1>Toolbars</h1>
+<ul class="breadcrumb">
+	<li class="first"><a href="http://tool-man.org/">Home</a></li>
+	<li><a href="index.html">Other Examples</a></li>
+</ul>
+
+
+<div class="sidebar">
+	<p><b>Download</b></p>
+	
+	<p><a href="ToolManDHTML-0.2.zip">Version 0.2</a>&nbsp;&nbsp;(<a href="LICENSE.txt">license</a>)</p>
+</div>
+
+<div class="sidebar">
+<p>Works as expected in Safari, reasonably well in Firefox, and less than adequately in IE.</p>
+
+<p>Firefox 1.0 isn't respecting the ":active" pseudo-selector on the
+list elements.  When you mousedown on a button it should look
+pressed in, but in Firefox it doesn't.  Presumably this is because we 
+capture 'onmousedown'.  A workaround should be possible in JavaScript.</p>
+</div>
+
+<p style="margin-top: 2em">These examples are really just extensions of <a href="sorting.html">DnD Sortable Lists</a>.</p>
+
+<p style="margin-top: 2em">These toolbars represent a rough 
+proof-of-concept.  More like a "Golly gee, look what I can do" than
+an actually suggestion for how to do something.  So in this case, 
+golly gee, you can rearrange the toolbar buttons...</p>
+
+<table>
+	<tr>
+		<td style="vertical-align: top">
+			<div id="vboop" class="statusbox">&nbsp;</div>
+			<ul id="verticaltoolbar" class="toolbar verticaltoolbar">
+				<li class="button"><a href="#" onclick="speak('vboop', 'New'); return false;"><img src="toolbar/filenew.png" border="0"/></a></li>
+				<li class="button"><a href="#" onclick="speak('vboop', 'Open'); return false;"><img src="toolbar/fileopen.png" border="0"/></a></li>
+				<li class="space"></li>
+				<li class="button"><a href="#" onclick="speak('vboop', 'Print'); return false;"><img src="toolbar/fileprint.png" border="0"/></a></li>
+				<li class="separator"></li>
+				<li class="button"><a href="#" onclick="speak('vboop', 'Copy'); return false;"><img src="toolbar/editcopy.png" border="0"/></a></li>
+				<li class="button"><a href="#" onclick="speak('vboop', 'Cut'); return false;"><img src="toolbar/editcut.png" border="0"/></a></li>
+				<li class="button"><a href="#" onclick="speak('vboop', 'Paste'); return false;"><img src="toolbar/editpaste.png" border="0"/></a></li>
+			</ul>
+		</td>
+
+		<td style="vertical-align: top">
+			<div id="hboop" class="statusbox">&nbsp;</div>
+			<ul id="horizontaltoolbar" class="toolbar horizontaltoolbar">
+				<li class="button"><a href="#" onclick="speak('hboop', 'New'); return false;"><img src="toolbar/filenew.png" border="0"/></a></li>
+				<li class="button"><a href="#" onclick="speak('hboop', 'Open'); return false;"><img src="toolbar/fileopen.png" border="0"/></a></li>
+				<li class="space"></li>
+				<li class="button"><a href="#" onclick="speak('hboop', 'Print'); return false;"><img src="toolbar/fileprint.png" border="0"/></a></li>
+				<li class="separator"></li>
+				<li class="button"><a href="#" onclick="speak('hboop', 'Copy'); return false;"><img src="toolbar/editcopy.png" border="0"/></a></li>
+				<li class="button"><a href="#" onclick="speak('hboop', 'Cut'); return false;"><img src="toolbar/editcut.png" border="0"/></a></li>
+				<li class="button"><a href="#" onclick="speak('hboop', 'Paste'); return false;"><img src="toolbar/editpaste.png" border="0"/></a></li>
+			</ul>
+			<br class="clear"/>
+		</td>
+	</tr>
+</table>
+<br/>
+
+<p>The horizontal toolbar is built from an identical list as the
+vertical toolbar.  Different CSS styles make the difference.</p>
+
+<ul class="breadcrumb">
+	<li class="first"><a href="http://tool-man.org/">Home</a></li>
+	<li><a href="index.html">Other Examples</a></li>
+</ul>
+
+<div id="copyright">Copyright &copy; 2005 Tim Taylor Consulting
+(<a href="LICENSE.txt">license</a>)</div>
+
+</body>
+</html>

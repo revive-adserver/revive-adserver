@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<!-- Copyright (c) 2005 Tim Taylor Consulting (see LICENSE.txt) -->
+<html>
+<head>
+<style type="text/css">
+body {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 14px;
+}
+p {
+	max-width: 400px;
+}
+#messageBox {
+	float: right;
+	margin-left: 40px;
+	height: 100px;
+}
+#messagebox input {
+	border: none;
+}
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+</style>
+<script language="JavaScript" src="../../../../source/org/tool-man/core.js"></script>
+<script language="JavaScript" src="../../../../source/org/tool-man/css.js"></script>
+<script language="JavaScript" src="../../../../source/org/tool-man/coordinates.js"></script>
+<script language="JavaScript">
+	var coordinates = ToolMan.coordinates()
+	var origin = coordinates.create(0, 0)
+
+	var message
+
+	window.onload = function() {
+		message = document.getElementById("message")
+	}
+
+	function speak(text) {
+		clear()
+		message.value = text
+	}
+
+	function clear() {
+		message.value = ""
+	}
+
+	function show(coordinate) {
+		clear()
+		message.value = coordinate.toString()
+	}
+</script>
+</head>
+
+<body>
+<div id="messageBox">
+	<label>result: <input id="message" name="message" type="text" size="10"/></label>
+</div>
+
+<p>Addition: <a id="plus" href="javascript: show(coordinates.create(1, 2).plus(coordinates.create(3, 4)))">(1, 2) + (3, 4)</a> and
+subtraction: <a id="minus" href="javascript: show(coordinates.create(7, 4).minus(coordinates.create(5, 6)))">(7, 4) - (5, 6)</a></p>
+
+<p>Distance formula: 
+distance along X-axis from <a id="distanceX" href="javascript: speak(origin.distance(coordinates.create(1, 0)))">(0, 0) to (1, 0)</a>, 
+distance along Y-axis from <a id="distanceY" href="javascript: speak(origin.distance(coordinates.create(0, 2)))">(0, 0) to (0, 2)</a>,
+distance from <a id="distanceXY" href="javascript: speak(origin.distance(coordinates.create(3, 4)))">(0, 0) to (3, 4)</a>,
+and distance between two points <a id="distance" href="javascript: speak(coordinates.create(4, 7).distance(coordinates.create(-1, -5)))">(4, 7) to (-1, -5)</a>
+</p>
+
+<p>The minimum of <a id="min1" href="javascript: show(origin.min(coordinates.create(1, 1)))">(0, 0) and (1, 1)</a>
+and the minimum of <a id="min2" href="javascript: show(coordinates.create(3, 2).min(coordinates.create(1, 5)))">(3, 2) and (1, 5)</a>.
+The maximum of 
+<a id="max1" href="javascript: show(origin.max(coordinates.create(1, 1)))">(0, 0) and (1, 1)</a>
+and the maximum of <a id="max2" href="javascript: show(coordinates.create(3, 2).max(coordinates.create(1, 5)))">(3, 2) and (1, 5)</a>.
+</p>
+
+<script language="JavaScript">
+var tenTen = coordinates.create(10, 10)
+</script>
+<p>Constrain within two points:
+Given (0, 0) and (10, 10) constrain 
+<a id="constrain1" href="javascript: show(coordinates.create(-1, -1).constrainTo(origin, tenTen))">(-1, -1)</a>,
+<a id="constrain2" href="javascript: show(coordinates.create(11, 11).constrainTo(origin, tenTen))">(11, 11)</a>,
+<a id="constrain3" href="javascript: show(coordinates.create(-1, 11).constrainTo(origin, tenTen))">(-1, 11)</a>,
+and <a id="constrain4" href="javascript: show(coordinates.create(4, 6).constrainTo(origin, tenTen))">(4, 6)</a>.
+Reversing the constraints also works: constrain 
+<a id="constrainReversed1" href="javascript: show(coordinates.create(-1, 11).constrainTo(tenTen, origin))">(-1, 11)</a>
+and <a id="constrainReversed2" href="javascript: show(coordinates.create(4, 6).constrainTo(tenTen, origin))">(4, 6)</a>
+</p>
+
+</body>
+</html>

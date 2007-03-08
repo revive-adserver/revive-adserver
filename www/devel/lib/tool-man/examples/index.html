@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<!-- Copyright (c) 2005 Tim Taylor Consulting (see LICENSE.txt) -->
+<html>
+<head>
+<title>Direct Manipulation Using JavaScript and CSS</title>
+<link rel="stylesheet" type="text/css" href="common/common.css"/>
+<style type="text/css">
+#donation {
+	text-align: left;
+}
+#donation form, #donation #button {
+	margin: 0px;
+	padding: 0px;
+}
+#donation input {
+	font-size: 11px;
+	margin-bottom: 5px;
+}
+#donation #amount { font-size: 12px; }
+#download, #download td {
+	margin: 0px;
+	padding: 0px;
+}
+#download {
+	margin-left: 2em;
+	margin-bottom: 1em;
+}
+#download td {
+	padding-right: 4em;
+}
+b.updated {
+	font-weight: normal;
+	color: #666;
+}
+</style>
+</head>
+<body>
+	<h1>Direct Manipulation Using JavaScript and CSS</h1>
+	<ul class="breadcrumb">
+		<li class="first"><a href="http://tool-man.org/">Home</a></li>
+	</ul>
+	<br class="clear"/>
+
+	<div class="sidebar">
+		<p><b>Download</b></p>
+		
+		<p><a href="ToolManDHTML-0.2.zip">Version 0.2</a>&nbsp;&nbsp;(<a href="LICENSE.txt">license</a>)</p>
+	</div>
+
+	<div class="sidebar">
+		<p><b>4/26 - New Version</b></p>
+		
+		<p>Rewritten API and updated examples released.  Includes better
+		IE support.  Read the <a href="http://blog.tool-man.org/toolman-dhtml-02-released/16">full announcement</a>.</p>
+	</div>
+
+	<p>Direct manipulation, particularly drag and drop, is under utilized in 
+	desktop applications and is almost non-existant in web applications.
+	That's in the process of changing.</p>
+
+	<h2>What is it?</h2>
+
+	<p>A collection of Direct Manipulation examples that work in modern browsers.  Each
+	example is a proof of concept.  I'm answering the technical question <i>"Can I do
+	this?"</i> as opposed to the interaction design question <i>"Should I do this?"</i>.</p>
+
+	<p>Most of the JavaScript has been bundled into a reusable
+	package called the <b>ToolMan DHTML Library</b> which you can 
+	<a href="ToolManDHTML-0.2.zip">download</a> and <a href="LICENSE.txt">use
+	for free</a>.</p>
+
+	<div class="sidebar">
+		<p><b>Donate via&nbsp;PayPal</b></p>
+
+		<form id="donation" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+			<input type="hidden" name="cmd" value="_xclick">
+			<input type="hidden" name="business" value="paypalbiz@tool-man.org">
+			<input type="hidden" name="item_name" value="DHTML Donation">
+			<input type="hidden" name="item_number" value="dhtml-donation-1">
+			<input type="hidden" name="no_shipping" value="1">
+			<input type="hidden" name="currency_code" value="USD">
+			<input type="hidden" name="tax" value="0">
+			<input type="hidden" name="lc" value="US">
+
+			<p><span style="font-size: 15px; vertical-align: top;">$</span><input type="text" id="amount" name="amount" size="6" maxsize="6"/> <input class="button" type="submit" value="Donate" /></p>
+		</form>
+	</div>
+
+	<h2>Examples</h2>
+	<ul>
+		<li><a href="dragging.html">Basic Draggable Layers</a> <b class="updated">(updated 4/26)</b></li>
+		<li><a href="sorting.html">Drag &amp; Drop Sortable Lists</a> <b class="updated">(updated 4/26)</b>
+			<ul>
+				<li><a href="toolbars.html">Sortable Toolbars</a> <b class="updated">(updated 4/26)</b></li>
+			</ul>
+		</li>
+		<li><a href="edit-in-place.html">Edit in Place</a></li> 
+	</ul>
+
+	<a name="credits"></a>
+	<h2>Credits</h2>
+
+	<p>The dragging script was originally based on 
+	<a href="http://www.youngpup.net/2001/domdrag">Youngpup's DOM-Drag</a>.
+	Sorting was originally based on Simon Cozen's 
+	<a href="http://blog.simon-cozens.org/6785.html">Javascript drag-and-drop
+	ordered lists</a>.
+	</p>
+
+	<p><a href="http://www.quirksmode.org/">Quirksmode</a> has been 
+	invaluable across the board.</p>
+
+	<ul class="breadcrumb">
+		<li class="first"><a href="http://tool-man.org/">Home</a></li>
+	</ul>
+
+	<div id="copyright">Copyright &copy; 2005 Tim Taylor Consulting
+	(<a href="LICENSE.txt">license</a>)</div>
+</body>
+</html>

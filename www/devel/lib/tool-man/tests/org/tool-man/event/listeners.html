@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<!-- Copyright (c) 2005 Tim Taylor Consulting (see LICENSE.txt) -->
+<html>
+<head>
+<style type="text/css">
+body {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 14px;
+}
+p {
+	max-width: 400px;
+}
+
+#result, #hugs, #kisses {
+	border: 1px solid #000;
+	width: 6em;
+}
+#smile {
+	text-align: center;
+	width: 40px;
+	height: 20px;
+	background-color: #f0e7d7;
+	border-width: 2px;
+	border-color: #fee #aaab9c #ccc #ffe;
+	border-style: solid;
+}
+
+h3 { margin-top: 2em; }
+
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+</style>
+<script language="JavaScript" src="../../../../source/org/tool-man/core.js"></script>
+<script language="JavaScript" src="../../../../source/org/tool-man/events.js"></script>
+<script language="JavaScript">
+	var events = ToolMan.events()
+	var result
+	var button
+	var checkbox
+
+	window.onload = function() {
+		result = document.getElementById("result")
+		button = document.getElementById("fire")
+		checkbox = document.getElementById("toggleListener")
+
+		/* Hugs & Kisses */
+		function giveHug() {
+			hugs.value += "x"
+		}
+		function giveKiss() {
+			kisses.value += "o"
+		}
+
+		var hugsAndKisses = document.getElementById("giveHugsAndKisses")
+		var hugs = document.getElementById("hugs")
+		var kisses = document.getElementById("kisses")
+		var hasHugs = document.getElementById("hasHugs")
+		var hasKisses = document.getElementById("hasKisses")
+
+		hasHugs.func = giveHug
+		hasKisses.func = giveKiss
+		hasHugs.target = hasKisses.target = hugsAndKisses
+
+		events.register(hasHugs, 'click', toggleClickRegistration)
+		events.register(hasKisses, 'click', toggleClickRegistration)
+		
+
+		/* Dots */
+
+		function addDot() {
+			dots.value += '.'
+		}
+
+		var pressMe = document.getElementById("pressMe")
+		var dots = document.getElementById("dots")
+		var hasDownDots = document.getElementById("hasDownDots")
+		var hasUpDots = document.getElementById("hasUpDots")
+
+		hasDownDots.func = hasUpDots.func = addDot
+		hasDownDots.target = hasUpDots.target = pressMe
+
+		events.register(hasDownDots, 'click', toggleMouseDownRegistration)
+		events.register(hasUpDots, 'click', toggleMouseUpRegistration)
+
+		/* Smile */
+		var smile = document.getElementById("smile")
+		events.register(smile, 'click', function() {
+			this.innerHTML = ':-)'
+		})
+	}
+
+	/* TODO: inline */
+	function speak(text) {
+		clear()
+		result.value = text
+	}
+
+	function clear() {
+		result.value = ""
+	}
+
+	function toggle() {
+		clear()
+		if (checkbox.checked) {
+			events.register(button, 'click', peep)
+		} else {
+			events.unregister(button, 'click', peep)
+		}
+	}
+
+	function toggleClickRegistration(event) {
+		toggleEventRegistration('click', event)
+	}
+
+	function toggleMouseDownRegistration(event) {
+		toggleEventRegistration('mousedown', event)
+	}
+
+	function toggleMouseUpRegistration(event) {
+		toggleEventRegistration('mouseup', event)
+	}
+
+	function toggleEventRegistration(type, event) {
+		var event = events.fix(event)
+		var check = event.target
+		if (check.checked) {
+			events.register(check.target, type, check.func)
+		} else {
+			events.unregister(check.target, type, check.func)
+		}
+	}
+
+	/* TODO: inline */
+	function peep() {
+		speak("peep")
+	}
+</script>
+</head>
+
+<body>
+
+<p>In these examples the checkboxes add and remove event listeners.
+Checking a box calls <code>register(...)</code> and unchecking calls
+<code>unregister(...)</code>, the crossbrowser scripts that in turn call
+either <code>addEventListener()</code>/<code>removeEventListener()</code> or
+<code>attachEvent()</code>/<code>detachEvent()</code> respectively.</p>
+
+<h3>Single listener</h3>
+<p>
+<input id="fire" type="button" value="Fire!"/> <input id="result" name="result" type="text" size="10"/><br/> 
+<input id="toggleListener" type="checkbox" onclick="toggle()"/> register event listener
+</p>
+
+<h3>Multiple listeners on same element</h3>
+<p>Make sure adding or removing one listener function doesn't 
+effect the other listener function.</p>
+<div>
+	<input id="hugs" name="hugs" /> <input id="kisses" name="hugs" /><br/>
+	<div>
+		<input id="giveHugsAndKisses" type="button" value="Give: " />
+		<input id="hasHugs" type="checkbox"/> hugs
+		<input id="hasKisses" type="checkbox"/> kisses
+	</div>
+</div>
+
+<h3>Multiple event types, same listener, same element</h3>
+<p>Adding or removing the same listener function on the same
+element for different event types shouldn't effect listeners for
+other event types.</p>
+
+<div>
+	<input id="dots" name="dots" />
+	<div>
+		<input id="pressMe" type="button" value="pressMe" />
+		<input id="hasDownDots" type="checkbox"/> mouse down
+		<input id="hasUpDots" type="checkbox"/> mouse up
+	</div>
+</div>
+
+<p><b>FIXME</b>: selenium doesn't do mousedown/mouseup event types, so this
+test isn't automated.</p>
+
+
+<h3>The <code>this</code> keyword in IE</h3>
+
+<p>Relying on IE's <code>attachEvent</code> usually
+means that the <code>this</code> keyword cannot be used in your event handler
+(<a target="_new" href="http://www.quirksmode.org/js/this.html">more on this at quirksmode</a>).
+The <code>register()</code> and <code>unregister()</code>  methods employ
+a workaround that allows you to use the <code>this</code> keyword
+in your event listeners in IE.</p>
+
+<div id="smile"></div>
+<p>(if it smiles when you click the box it means it worked)</p>
+
+
+<h3>TODO: adding/removing same listener more than once</h3>
+
+<p>Redundant registers and unregisters should be safe.  The listener should 
+only be added once.  Redundant removes should continue silently.</p>
+
+</body>
+</html>

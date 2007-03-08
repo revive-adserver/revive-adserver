@@ -1,0 +1,19 @@
+body, th, td {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 10px;
+}
+a { text-decoration: none; }
+table {
+	width: 100%;
+	empty-cells: show;
+	border-collapse: collapse;
+}
+td, th {
+	padding: 2px 5px;
+}
+td {
+	border-top: 1px solid #000;
+}
+tr.groupstart td {
+	padding-top: 2em;
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<!-- Copyright (c) 2005 Tim Taylor Consulting (see LICENSE.txt) -->
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="../../suite.css"/>
+</head>
+<body>
+
+<table>
+	<tr><th colspan="3">Coordinate Tests</th></tr>
+	<tr class="groupstart"><td>open</td><td>./org/tool-man/coordinate/constructor.html</td><td>&nbsp;</td></tr>
+
+	<tr class="groupstart">
+	<td>click</td><td>zeroZero</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>resultX</td><td>0</td></tr>
+	<tr><td>verifyValue</td><td>resultY</td><td>0</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(0,0)</td></tr>
+
+	<tr class="groupstart">
+	<td>click</td><td>oneZero</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>resultX</td><td>1</td></tr>
+	<tr><td>verifyValue</td><td>resultY</td><td>0</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(1,0)</td></tr>
+
+	<tr class="groupstart">
+	<td>click</td><td>zeroOne</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>resultX</td><td>0</td></tr>
+	<tr><td>verifyValue</td><td>resultY</td><td>1</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(0,1)</td></tr>
+
+	<tr class="groupstart"><td>open</td><td>./org/tool-man/coordinate/position.html</td><td>&nbsp;</td></tr>
+
+	<tr class="groupstart">
+	<td>click</td><td>nested1Link</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(10,10)</td></tr>
+	<tr><td>click</td><td>nested2Link</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(25,20)</td></tr>
+	<tr><td>click</td><td>nested3Link</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(40,30)</td></tr>
+	<tr><td>click</td><td>nested4Link</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(55,40)</td></tr>
+
+	<tr class="groupstart">
+	<td>click</td><td>nested1Link2</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(240,110)</td></tr>
+	<tr><td>click</td><td>nested2Link2</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(225,100)</td></tr>
+	<tr><td>click</td><td>nested3Link2</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(210,90)</td></tr>
+
+	<tr class="groupstart">
+	<td>click</td><td>nested1Link3</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(230,100)</td></tr>
+	<tr><td>click</td><td>nested2Link3</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(200,80)</td></tr>
+	<tr><td>click</td><td>nested3Link3</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(170,60)</td></tr>
+	<tr><td>click</td><td>nested4Link3</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(140,40)</td></tr>
+
+	<tr class="groupstart">
+	<td>click</td><td>relative1Link</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(0,0)</td></tr>
+	<tr><td>click</td><td>relative2aLink</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(5,3)</td></tr>
+	<tr><td>click</td><td>relative2bLink</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(5,3)</td></tr>
+	<tr><td>click</td><td>relative3Link</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(-4,-6)</td></tr>
+	<tr><td>click</td><td>relative4Link</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(7,-7)</td></tr>
+
+	<tr class="groupstart">
+	<td>click</td><td>absolute1Link</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(450,100)</td></tr>
+	<tr><td>click</td><td>absolute1OffsetLink</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(450,100)</td></tr>
+	<tr><td>click</td><td>repositionButton</td><td>nowait</td></tr>
+	<tr><td>click</td><td>absolute1Link</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(100,450)</td></tr>
+	<tr><td>click</td><td>absolute1OffsetLink</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(100,450)</td></tr>
+
+	<tr class="groupstart">
+	<td>open</td><td>./org/tool-man/coordinate/scroll.html</td><td>&nbsp;</td></tr>
+
+	<tr class="groupstart">
+	<td>click</td><td>scrollDown</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(0,10)</td></tr>
+	<tr><td>click</td><td>scrollRight</td><td>nowait</td></tr>
+	<tr><td>click</td><td>scrollRight</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(20,10)</td></tr>
+	<tr><td>click</td><td>scrollLeft</td><td>nowait</td></tr>
+	<tr><td>click</td><td>scrollUp</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>(10,0)</td></tr>
+</table>
+
+</body>
+</html>

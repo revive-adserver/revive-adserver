@@ -15,8 +15,8 @@
 
 </head>
 <body>
-
-    <span class="titlemini">
+  <div class="bodydiv">
+    <div class="heading">
         <xsl:text></xsl:text><xsl:value-of select="//database/name"/>
         <xsl:text> :: version: </xsl:text><xsl:value-of select="//database/version"/>
         <xsl:text> :: status: </xsl:text>
@@ -28,27 +28,30 @@
                 <span style="font-weight:bold;color:red;"><xsl:value-of select="//database/status"/></span>
             </xsl:otherwise>
         </xsl:choose>
-    </span>
-    <br/>
+    </div>
 
-    <span class="titlemini"><xsl:value-of select="//database/comments"/></span>
+    <!--span class="titlemini"><xsl:value-of select="//database/comments"/></span-->
+
+    <TABLE class="tablemain">
+    <tr>
+        <td class="tableheader"><xsl:call-template name="showadminmenu"/></td>
+    </tr>
+    </TABLE>
 
     <TABLE class="tablemain">
     <tr>
         <td class="tableheader"><xsl:call-template name="showtableadd"/></td>
     </tr>
     </TABLE>
-    <div id="bodydiv">
-        <xsl:for-each select="//database/table">
-            <div class="tablediv">
-                    <xsl:call-template name="showtable"/>
-                    <xsl:call-template name="showtableindexes"/>
-                    <xsl:call-template name="showtableforeignkeys"/>
-            </div>
-        </xsl:for-each>
-    </div>
+    <xsl:for-each select="//database/table">
+        <div class="tablediv">
+                <xsl:call-template name="showtable"/>
+                <xsl:call-template name="showtableindexes"/>
+                <xsl:call-template name="showtableforeignkeys"/>
+        </div>
+    </xsl:for-each>
     <!-- -->
-
+</div>
 </body>
 </html>
     <!-- -->
@@ -157,16 +160,21 @@
 <xsl:template name="showtableedit">
     <xsl:param name="tablename">unkown</xsl:param>
     <form id="frm_schema" method="POST" action="index.php">
-        <button id="btn_table_edit" type="submit">edit this table</button>
-        <!--button id="btn_table_edit" type="button" onclick="xajax_testAjax(xajax.getFormValues('frm_schema'));">edit this table</button-->
-        <input type="hidden" value="{$tablename}" name="table_edit"/>
+        <button name="btn_table_edit" type="submit" value="{$tablename}">edit this table</button>
+        <!--button name="btn_table_edit" type="button" onclick="xajax_testAjax(xajax.getFormValues('frm_schema'));">edit this table</button-->
     </form>
 </xsl:template>
 
 <xsl:template name="showtableadd">
-    <form id="frm_schema" method="POST" action="index.php">
-        <button id="btn_table_new" type="submit">new table</button>
-        <input type="hidden" value="" name="table_add"/>
+    <form name="frm_schema" method="POST" action="index.php">
+        <button name="btn_table_new" type="submit">new table</button>
+    </form>
+</xsl:template>
+
+<xsl:template name="showadminmenu">
+    <form name="frm_admin" method="POST" action="index.php">
+        <input name="btn_delete_trans" type="submit" value="delete transitional schema"/>
+        <input name="btn_copy_final" type="submit" value="copy final schema to transitional" />
     </form>
 </xsl:template>
 

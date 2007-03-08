@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<!-- Copyright (c) 2005 Tim Taylor Consulting (see LICENSE.txt) -->
+<html>
+<head>
+<style type="text/css">
+body {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 14px;
+}
+p {
+	max-width: 400px;
+}
+#messageBox {
+	float: right;
+	margin-left: 40px;
+	height: 100px;
+}
+#messageBox th {
+	text-align: right;
+	font-weight: normal;
+}
+#messageBox td input {
+	border: none;
+}
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+</style>
+<script language="JavaScript" src="../../../../source/org/tool-man/core.js"></script>
+<script language="JavaScript" src="../../../../source/org/tool-man/css.js"></script>
+<script language="JavaScript" src="../../../../source/org/tool-man/coordinates.js"></script>
+<script language="JavaScript">
+	var coordinates = ToolMan.coordinates()
+	var origin = coordinates.create(0, 0)
+
+	var resultX
+	var resultY
+	var result
+
+	window.onload = function() {
+		resultX = document.getElementById("resultX")
+		resultY = document.getElementById("resultY")
+		result = document.getElementById("result")
+	}
+
+	function speak(text) {
+		clear()
+		result.value = text
+	}
+
+	function clear() {
+		resultX.value = ""
+		resultY.value = ""
+		result.value = ""
+	}
+
+	function show(coordinate) {
+		clear()
+		resultX.value = coordinate.x
+		resultY.value = coordinate.y
+		result.value = coordinate.toString()
+	}
+</script>
+</head>
+
+<body>
+<div id="messageBox">
+	<table>
+		<tr><th>x:</th><td><input id="resultX" name="resultX" type="text" size="4"/></td></tr>
+		<tr><th>y:</th><td><input id="resultY" name="resultY" type="text" size="4"/></td></tr>
+		<tr><th>result:</th><td><input id="result" name="result" type="text" size="10"/></td></tr>
+	</table>
+</div>
+
+<p>Construct coordinates <a id="zeroZero" href="javascript: show(origin)">(0, 0)</a>,
+<a id="oneZero" href="javascript: show(coordinates.create(1, 0))">(1, 0)</a>, and
+<a id="zeroOne" href="javascript: show(coordinates.create(0, 1))">(0, 1)</a>.</p>
+
+</body>
+</html>

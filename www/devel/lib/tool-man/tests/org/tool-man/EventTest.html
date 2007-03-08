@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<!-- Copyright (c) 2005 Tim Taylor Consulting (see LICENSE.txt) -->
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="../../suite.css"/>
+</head>
+<body>
+
+<table>
+	<tr><th colspan="3">Event Tests</th></tr>
+	<tr class="groupstart"><td>open</td><td>./org/tool-man/event/listeners.html</td><td>&nbsp;</td></tr>
+	<tr><td>assertValue</td><td>result</td><td></td></tr>
+	<tr><td>assertValue</td><td>toggleListener</td><td>off</td></tr>
+
+	<tr class="groupstart"><td>click</td><td>fire</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td></td></tr>
+
+	<tr class="groupstart"><td>type</td><td>toggleListener</td><td>on</td></tr>
+	<tr><td>click</td><td>toggleListener</td><td>nowait</td></tr>
+	<tr><td>assertValue</td><td>result</td><td></td></tr>
+	<tr><td>click</td><td>fire</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td>peep</td></tr>
+	<tr><td>click</td><td>toggleListener</td><td>nowait</td></tr>
+	<tr><td>assertValue</td><td>result</td><td></td></tr>
+	<tr><td>click</td><td>fire</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>result</td><td></td></tr>
+
+	<tr class="groupstart"><td>assertValue</td><td>hugs</td><td></td></tr>
+	<tr><td>assertValue</td><td>kisses</td><td></td></tr>
+	<tr><td>assertValue</td><td>hasHugs</td><td>off</td></tr>
+	<tr><td>assertValue</td><td>hasKisses</td><td>off</td></tr>
+	<tr><td>click</td><td>giveHugsAndKisses</td><td>nowait</td></tr>
+	<tr><td>assertValue</td><td>hugs</td><td></td></tr>
+	<tr><td>assertValue</td><td>kisses</td><td></td></tr>
+	<tr><td>click</td><td>hasHugs</td><td>nowait</td></tr>
+	<tr><td>assertValue</td><td>hasHugs</td><td>on</td></tr>
+	<tr><td>click</td><td>giveHugsAndKisses</td><td>nowait</td></tr>
+	<tr><td>assertValue</td><td>hugs</td><td>x</td></tr>
+	<tr><td>assertValue</td><td>kisses</td><td></td></tr>
+	<tr><td>click</td><td>hasKisses</td><td>nowait</td></tr>
+	<tr><td>assertValue</td><td>hasKisses</td><td>on</td></tr>
+	<tr><td>click</td><td>giveHugsAndKisses</td><td>nowait</td></tr>
+	<tr><td>assertValue</td><td>hugs</td><td>xx</td></tr>
+	<tr><td>assertValue</td><td>kisses</td><td>o</td></tr>
+	<tr><td>click</td><td>hasHugs</td><td>nowait</td></tr>
+	<tr><td>assertValue</td><td>hasHugs</td><td>off</td></tr>
+	<tr><td>click</td><td>giveHugsAndKisses</td><td>nowait</td></tr>
+	<tr><td>assertValue</td><td>hugs</td><td>xx</td></tr>
+	<tr><td>assertValue</td><td>kisses</td><td>oo</td></tr>
+
+	<!-- FIXME: selenium doesn't generate mousedown/mouseup events yet 
+	<tr class="groupstart"><td>assertValue</td><td>dots</td><td></td></tr>
+	<tr><td>assertValue</td><td>hasDownDots</td><td>off</td></tr>
+	<tr><td>assertValue</td><td>hasUpDots</td><td>off</td></tr>
+	<tr><td>click</td><td>pressMe</td><td>nowait</td></tr>
+	<tr><td>assertValue</td><td>dots</td><td></td></tr>
+	<tr><td>click</td><td>hasUpDots</td><td>nowait</td></tr>
+	<tr><td>assertValue</td><td>hasUpDots</td><td>on</td></tr>
+	<tr><td>click</td><td>pressMe</td><td>nowait</td></tr>
+	<tr><td>assertValue</td><td>dots</td><td>.</td></tr>
+	<tr><td>click</td><td>hasDownDots</td><td>nowait</td></tr>
+	<tr><td>assertValue</td><td>hasDownDots</td><td>on</td></tr>
+	<tr><td>click</td><td>pressMe</td><td>nowait</td></tr>
+	<tr><td>assertValue</td><td>dots</td><td>...</td></tr>
+	-->
+
+	<tr class="groupstart"><td>assertText</td><td>smile</td><td></td></tr>
+	<tr><td>click</td><td>smile</td><td>nowait</td></tr>
+	<tr><td>assertText</td><td>smile</td><td>:-)</td></tr>
+</table>
+
+</body>
+</html>

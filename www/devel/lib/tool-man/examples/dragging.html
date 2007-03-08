@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<!-- Copyright (c) 2005 Tim Taylor Consulting (see LICENSE.txt) -->
+<html>
+<head>
+
+<title>Dragging with JavaScript</title>
+<link rel="stylesheet" type="text/css" href="common/common.css"/>
+<style type="text/css">
+	div {
+		margin: 0px;
+		padding: 0px;
+	}
+	.verticalgridline {
+		padding-top: 27px;
+	}
+	.box, .handle {
+		font-size: 14px;
+		font-family: Arial, sans-serif;
+		border: 1px solid #aaa;
+	}
+	.box {
+		float: left;
+		padding: 0px;
+		width: 123px;
+		height: 123px;
+		margin: 5px;
+		background-color: #eee;
+		z-index: 1;
+	}
+	.handle {
+		cursor: move;
+		height: 14px;
+		border-width: 0px 0px 1px 0px;
+		background: #666;
+		color: #eee;
+		padding: 2px 6px;
+		margin: 0px;
+	}
+	.box p {
+		font-size: 12px;
+		margin: 5px 5px 10px 5px;
+		text-align: left;
+		white-space: normal;
+	}
+	#boxDrag, #boxVerticalOnly, #boxHorizontalOnly, #boxRegionConstraint, 
+	#boxThreshold, #boxAbsolute {
+		cursor: move;
+	}
+	#boxAbsolute {
+		position: absolute;
+		bottom: 0px;
+		right: 0px;
+	}
+</style>
+
+<script language="JavaScript" type="text/javascript" src="../source/org/tool-man/core.js"></script>
+<script language="JavaScript" type="text/javascript" src="../source/org/tool-man/events.js"></script>
+<script language="JavaScript" type="text/javascript" src="../source/org/tool-man/css.js"></script>
+<script language="JavaScript" type="text/javascript" src="../source/org/tool-man/coordinates.js"></script>
+<script language="JavaScript" type="text/javascript" src="../source/org/tool-man/drag.js"></script>
+
+<script language="JavaScript"><!--
+window.onload = function() {
+	var group
+	var coordinates = ToolMan.coordinates()
+	var drag = ToolMan.drag()
+
+	var boxDrag = document.getElementById("boxDrag")
+	drag.createSimpleGroup(boxDrag)
+
+	var boxVerticalOnly = document.getElementById("boxVerticalOnly")
+	group = drag.createSimpleGroup(boxVerticalOnly)
+	group.verticalOnly()
+
+	var boxHorizontalOnly = document.getElementById("boxHorizontalOnly")
+	group = drag.createSimpleGroup(boxHorizontalOnly)
+	group.horizontalOnly()
+
+	var boxRegionConstraint = document.getElementById("boxRegionConstraint")
+	group = drag.createSimpleGroup(boxRegionConstraint)
+	var origin = coordinates.create(0, 0)
+	group.addTransform(function(coordinate, dragEvent) {
+		var originalTopLeftOffset = 
+				dragEvent.topLeftOffset.minus(dragEvent.topLeftPosition)
+		return coordinate.constrainTo(origin, originalTopLeftOffset)
+	})
+
+	var boxThreshold = document.getElementById("boxThreshold")
+	group = drag.createSimpleGroup(boxThreshold)
+	group.setThreshold(25)
+
+	var boxHandle = document.getElementById("boxHandle")
+	group = drag.createSimpleGroup(boxHandle, document.getElementById("handle"))
+
+	var boxAbsolute = document.getElementById("boxAbsolute")
+	group = drag.createSimpleGroup(boxAbsolute)
+	group.verticalOnly()
+	group.addTransform(function(coordinate, dragEvent) {
+		var scrollOffset = coordinates.scrollOffset()
+		if (coordinate.y < scrollOffset.y)
+			return coordinates.create(coordinate.x, scrollOffset.y)
+
+		var clientHeight = coordinates.clientSize().y
+		var boxHeight = coordinates._size(boxAbsolute).y
+		if ((coordinate.y + boxHeight) > (scrollOffset.y + clientHeight))
+			return coordinates.create(coordinate.x, 
+					(scrollOffset.y + clientHeight) - boxHeight)
+
+		return coordinate
+	})
+}
+
+//-->
+</script>
+
+</head>
+<body>
+
+<h1>Dragging with JavaScript</h1>
+<ul class="breadcrumb">
+	<li class="first"><a href="http://tool-man.org/">Home</a></li>
+	<li><a href="./index.html">Other Examples</a></li>
+</ul>
+<br class="clear"/>
+
+<div class="sidebar">
+	<p><b>Download</b></p>
+	
+	<p><a href="ToolManDHTML-0.2.zip">Version 0.2</a>&nbsp;&nbsp;(<a href="LICENSE.txt">license</a>)</p>
+</div>
+
+<div>
+	<div id="boxDrag" class="box">
+		<p>drag to move</p>
+	</div>
+	<div id="boxHandle" class="box">
+		<div id="handle" class="handle">&nbsp;</div>
+		<p>drag handle to move</p>
+	</div>
+	<div id="boxVerticalOnly" class="box">
+		<p>drag to move</p>
+		<p>vertical constraint</p>
+	</div>
+	<br style="clear: left;"/>
+	<div id="boxHorizontalOnly" class="box">
+		<p>drag to move</p>
+		<p>horizontal constraint</p>
+	</div>
+	<div id="boxRegionConstraint" class="box">
+		<p>drag to move</p>
+		<p>contrained to region</p>
+	</div>
+	<div id="boxThreshold" class="box">
+		<p>drag to move</p>
+		<p>exaggerated drag threshold</p>
+	</div>
+</div>
+
+<div id="boxAbsolute" class="box">
+	<p>drag to move</p>
+	<p>absolutely positioned, constrained vertically and
+	within visible area</p>
+</div>
+
+<div class="sidebar">
+	<p><b>Update 4/26</b>: tested and working as expected in IE6, Firefox 1.0,
+	and Safari 1.3, unless otherwise noted.</p>
+	
+	<p>Safari 1.2 leaves visual artifacts on the background while dragging.</p>
+</div>
+
+<div class="sidebar">
+<p>Bizarre bug in firefox.  The short version:
+use a DIV instead of a BR to clear the <code>float: left</code>
+else things won&#8217;t remain as you expect them once you start 
+dragging.</p>
+</div>
+
+
+<div style="clear: left;"><br/></div>
+
+<p style="margin-top: 1em">Nothing novel going on here; just a basic cross-browser 
+dragging library.  Other examples, namely <a href="sorting.html">drag &amp; drop sorting</a>, build 
+upon it.</p>
+
+<h3 style="margin-top: 3em">TODO</h3>
+<ul>
+	<li><p>FIXME: IE &amp; Firefox, while dragging, if you drag outside 
+	the browser window and then release the mouse button, the mouseup 
+	event is lost.  Chaos ensues.</p>
+
+	<p>Of the browsers I've tested, only Safari does the right thing
+	and continues generating events up until the mouse button is released.
+	</p></li>
+
+	<li><p>FIXME: IE6, element jogs left as dragging starts, but gets
+	corrected on the following mousemove event.  The distance jogged is
+	exactly the same as the size of the left margin.  This is most obvious
+	on the vertical constraint example where no correction happens
+	because the vertical constraint is based on the current x-offset.
+	That's a good clue as to what's going on.  Also, once you've dragged
+	an element it never suffers from this jog again.</p></li>
+
+	<li><p>FIXME: dragging is funky on <code>position: fixed</code>
+	elements.  Don't hold your breath waiting for this to be
+	resolved</p></li>
+
+	<li><p>"drag a copy" if dragging while holding down Alt (PC) or Option (Mac)</p></li>
+
+	<li><p>Pressing ESC or performing a chord-click should cancel the
+	drag (returning the element to its original position)</p></li>
+
+	<li><p>demonstrate a constraint shaped like a circle</p></li>
+
+	<li><p>See if it works inside iFrames.  See if it works 
+	inside scrollable elements.</p></li>
+
+	<li><p>While dragging, it should automatically scroll more of the 
+	document into view as you near an edge.</p></li>
+
+	<li><p>deal with absolutely positioned elements that are 
+	positioned relative to bottom and/or right instead of top and left.
+	Currently, dragging an element "converts" it to a position 
+	relative to the top-left of the window.  This may or may not be 
+	desired.  Example: a vertical drag only element docked to the right 
+	side of the window loses its <i>dockedness</i> once dragged.</p>
+
+	<p>Workaround: register a listener for 'ondragend' and convert it back
+	to bottom, right, or bottom-right positioning.</p></li>
+
+	<li><p>option to "move to top" even after drag has ended</p></li>
+
+	<li><p>See if dragging between browser windows is possible.  Doubt it,
+	but it's worth trying.</p></li>
+</ul>
+
+<ul class="breadcrumb">
+	<li class="first"><a href="http://tool-man.org/">Home</a></li>
+	<li><a href="./index.html">Other Examples</a></li>
+</ul>
+
+<div id="copyright">Copyright &copy; 2005 Tim Taylor Consulting
+(<a href="LICENSE.txt">license</a>)</div>
+
+</body>
+</html>

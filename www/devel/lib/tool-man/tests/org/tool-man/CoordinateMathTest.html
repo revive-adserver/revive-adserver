@@ -1,0 +1,53 @@
+<!-- Copyright (c) 2005 Tim Taylor Consulting (see LICENSE.txt) -->
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="../../suite.css"/>
+</head>
+<body>
+
+<table>
+	<tr><th colspan="3">Coordinate Math</th></tr>
+
+	<tr class="groupstart"><td>open</td><td>./org/tool-man/coordinate/math.html</td><td>&nbsp;</td></tr>
+
+	<tr class="groupstart"><td>click</td><td>plus</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>message</td><td>(4,6)</td> </tr>
+	<tr><td>click</td><td>minus</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>message</td><td>(2,-2)</td> </tr>
+
+	<tr class="groupstart"><td>click</td><td>distanceX</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>message</td><td>1</td> </tr>
+	<tr><td>click</td><td>distanceY</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>message</td><td>2</td> </tr>
+	<tr><td>click</td><td>distanceXY</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>message</td><td>5</td> </tr>
+	<tr><td>click</td><td>distance</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>message</td><td>13</td> </tr>
+
+	<tr class="groupstart"><td>click</td><td>min1</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>message</td><td>(0,0)</td> </tr>
+	<tr><td>click</td><td>min2</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>message</td><td>(1,2)</td> </tr>
+	<tr><td>click</td><td>max1</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>message</td><td>(1,1)</td> </tr>
+	<tr><td>click</td><td>max2</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>message</td><td>(3,5)</td> </tr>
+
+	<tr class="groupstart"><td>click</td><td>constrain1</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>message</td><td>(0,0)</td> </tr>
+	<tr><td>click</td><td>constrain2</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>message</td><td>(10,10)</td> </tr>
+	<tr><td>click</td><td>constrain3</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>message</td><td>(0,10)</td> </tr>
+	<tr><td>click</td><td>constrain4</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>message</td><td>(4,6)</td> </tr>
+
+	<tr class="groupstart"><td>click</td><td>constrainReversed1</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>message</td><td>(0,10)</td> </tr>
+	<tr><td>click</td><td>constrainReversed2</td><td>nowait</td></tr>
+	<tr><td>verifyValue</td><td>message</td><td>(4,6)</td> </tr>
+
+</table>
+
+</body>
+</html>

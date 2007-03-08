@@ -6,14 +6,17 @@ $xajax = new xajax();
 //$xajax->debugOn(); // Uncomment this line to turn debugging on
 $xajax->debugOff(); // Uncomment this line to turn debugging on
 $xajax->registerFunction("testAjax");
+$xajax->registerFunction("toggleReadonly");
 $xajax->registerFunction("editFieldProperty");
 $xajax->registerFunction("selectDataDictionary");
 // Process any requests.  Because our requestURI is the same as our html page,
 // this must be called before any headers or HTML output have been sent
 $xajax->processRequests();
 
+$overwrite=true;
+
 $jsfile = getcwd().'/schema.js';
-if (!file_exists($jsfile))
+if (!file_exists($jsfile) || $overwrite)
 {
     ob_start();
     $xajax->printJavascript('../lib/xajax/'); // output the xajax javascript. This must be called between the head tags

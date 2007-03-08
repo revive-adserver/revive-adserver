@@ -238,7 +238,7 @@ class MDB2_Schema_Parser extends XML_Parser
         case 'database-table-initialization-update-field-expression':
             $this->setData($this->init['data']['field'], 'group', array('type' => 'expression', 'data' => $this->init_expression));
             break;
-        
+
         /* Delete and Update */
         case 'database-table-initialization-update-where-expression':
         case 'database-table-initialization-delete-where-expression':
@@ -488,6 +488,20 @@ class MDB2_Schema_Parser extends XML_Parser
                 $this->database_definition['overwrite'].= $data;
             } else {
                 $this->database_definition['overwrite'] = $data;
+            }
+            break;
+        case 'database-version':
+            if (isset($this->database_definition['version'])) {
+                $this->database_definition['version'].= $data;
+            } else {
+                $this->database_definition['version'] = $data;
+            }
+            break;
+        case 'database-status':
+            if (isset($this->database_definition['status'])) {
+                $this->database_definition['status'].= $data;
+            } else {
+                $this->database_definition['status'] = $data;
             }
             break;
         case 'database-table-name':

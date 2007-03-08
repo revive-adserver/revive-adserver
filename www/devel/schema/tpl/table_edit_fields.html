@@ -1,0 +1,81 @@
+                <table class="tablemain">
+                    <tr>
+                        <td class="tableheader" colspan="8"><span class="titlemini">fields</span></td>
+                    </tr>
+                    <tr>
+                        <td class="tableheader"><button name="btn_field_del" type="submit">delete</button></td>
+                        <td class="tableheader">name</td>
+                        <td class="tableheader">type</td>
+                        <td class="tableheader">length</td>
+                        <td class="tableheader">default</td>
+                        <td class="tableheader">autoincrement</td>
+                        <td class="tableheader">unsigned</td>
+                        <td class="tableheader">notnull</td>
+                    </tr>
+                    <?php
+                    $i = 0;
+                    foreach ($tbl_definition['fields'] AS $field => $field_def )
+                    {
+                        $i++;
+                    ?>
+                    <tr>
+                        <input type="hidden" name="field_<?php echo $i; ?>" value="<?php echo $field; ?>" />
+                        <td class="tablebody"><input type="checkbox" name="chkfld[]" value="<?php echo $field; ?>" ></td>
+
+                        <td class="tablebody">
+                            <span class="titlemini" id="fld_name_<?php echo $i; ?>" name="fld_name_<?php echo $i; ?>" style="cursor: pointer;display:inline;" ondblclick="xajax_editFieldProperty(xajax.getFormValues('frm_table'),'name_<?php echo $i; ?>');" ><?php echo $field; ?></span>
+                            <input id="inp_name_<?php echo $i; ?>" name="inp_name_<?php echo $i; ?>" ondblclick="xajax_editFieldProperty(xajax.getFormValues('frm_table'),'name_<?php echo $i; ?>');" style="display:none" value="<?php echo $field; ?>"/>
+                        </td>
+
+                        <td class="tablebody">
+                            <span class="titlemini" id="fld_type_<?php echo $i; ?>" name="fld_type_<?php echo $i; ?>" style="cursor: pointer;display:inline;" ondblclick="xajax_editFieldProperty(xajax.getFormValues('frm_table'),'type_<?php echo $i; ?>');" ><?php echo $field_def['type']; ?></span>
+                            <select id="inp_type_<?php echo $i; ?>" name="inp_type_<?php echo $i; ?>" ondblclick="xajax_editFieldProperty(xajax.getFormValues('frm_table'),'type_<?php echo $i; ?>');" style="display:none">
+                            <?php
+                                echo $dd_options;
+                            ?>
+                            </select>
+                        </td>
+
+                        <td class="tablebody">
+                            <?php echo ($field_def['length']?$field_def['length']:'&nbsp;'); ?>
+                        </td>
+
+                        <td class="tablebody">
+                            <?php echo ($field_def['default']?$field_def['default']:'&nbsp;'); ?>
+                        </td>
+
+                        <td class="tablebody">
+                            <?php echo ($field_def['autoincrement']?$field_def['autoincrement']:'&nbsp;'); ?>
+                        </td>
+
+                        <td class="tablebody">
+                            <?php echo ($field_def['unsigned']?$field_def['unsigned']:'&nbsp;'); ?>
+                        </td>
+
+                        <td class="tablebody">
+                            <?php echo ($field_def['notnull']?$field_def['notnull']:'&nbsp;'); ?>
+                        </td>
+
+                    </tr>
+                    <?php
+                    }
+                    ?>
+                    <tr>
+                        <td class="tableheader" colspan="8">
+                            <span class="titlemini">
+                                <button name="btn_field_add" type="submit">new field</button>
+                                <span class="textmini" id="span_field_add" style="display:inline">
+                                    <input type="text" name="field_add" id="field_add" value="" style="display:inline"/>
+                                    <select name="sel_field_add">
+                                    <?php
+                                    foreach ($dd_definition['options'] AS $k => $option )
+                                    {
+                                        echo $option;
+                                    }
+                                    ?>
+                                    </select>
+                                </span>
+                            </span>
+                        </td>
+                    </tr>
+                </table>

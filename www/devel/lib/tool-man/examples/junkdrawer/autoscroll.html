@@ -1,0 +1,235 @@
+<!-- Copyright (c) 2005 Tim Taylor Consulting (see LICENSE.txt) -->
+<html>
+<head>
+<title>Automatic Viewport Scrolling While Dragging with JavaScript and CSS</title>
+	<link rel="stylesheet" type="text/css" href="common/common.css"/>
+	<link rel="stylesheet" href="common/grid.css"/>
+	<style type="text/css"><!--
+		.verticalgridline, .horizontalgridline {
+			z-index: 2;
+		}
+		.verticalgridline {
+			padding-top: 70px;
+		}
+		.horizontalgridline {
+			padding-left: 70px;
+		}
+		#help {
+			position: fixed;
+			top: 90px;
+			right: 90px;
+			padding: 0.3em;
+			font-size: 9pt;
+			z-index: 1001;
+			list-style-type: none;
+		}
+		.clickable>li {
+			background-color: #f0e7d7;
+			border-width: 1px;
+			border-color: #ffe #aaab9c #ccc #fff;
+			border-style: solid;
+			margin-bottom: 2px;
+			height: 20px;
+		}
+		.clickable>li:active {
+			border-color: #aaab9c #fff #fff #ccc;
+		}
+		.clickable>li>a {
+			 display: block;
+			 text-decoration: none;
+			 padding: 2px 5px;
+		}
+
+		#otherhandle {
+			cursor: move;
+			border: 1px solid #000;
+			position: absolute;
+			width: 30px;
+			height: 30px;
+			background: #ccffcc;
+			z-index: 1000;
+		}
+
+		#handle {
+			cursor: move;
+			border: 1px solid #000;
+			position: absolute;
+			width: 30px;
+			height: 30px;
+			background: #ccccff;
+			z-index: 1000;
+			font-size: 10px;
+			text-align: center;
+		}
+
+		.topzone, .bottomzone, .leftzone, .rightzone {
+			position: fixed;
+			font: 8pt arial;
+			color: #999;
+			z-index: 1;
+			letter-spacing: 0.1em;
+		}
+
+		.topzone, .bottomzone {
+			left: 0px;
+			right: 0px;
+			height: 20px;
+			text-align: center;
+		}
+
+		.leftzone, .rightzone {
+			top: 0px;
+			bottom: 0px;
+			width: 20px;
+			vertical-align: middle;
+		}
+
+		.topzone {
+			top: 0px;
+		}
+
+		.bottomzone {
+			bottom: 0px;
+			vertical-align: top;
+		}
+		//-->
+	</style>
+	<script language="JavaScript" type="text/javascript" src="common/coordinates.js"></script>
+	<script language="JavaScript" type="text/javascript" src="common/grid.js"></script>
+	<script language="JavaScript" type="text/javascript" src="drag/drag.js"></script>
+	<script language="JavaScript" type="text/javascript"><!--
+		function startOver() {
+			window.scrollTo(0,0);
+			document.getElementById("handle").style["top"] = "110px";
+			document.getElementById("handle").style["left"] = "110px";
+		}
+
+		// TODO: compute zones relative to viewport without requiring
+		// html  elements
+		var zone1Y;
+		var zone2Y;
+		var zone3Y;
+		var zone1X;
+		var zone2X;
+		var zone3X;
+
+		window.onload = function() {
+			zone1Y = document.getElementById("bottomzone1").offsetTop;
+			zone2Y = document.getElementById("bottomzone2").offsetTop;
+			zone3Y = document.getElementById("bottomzone3").offsetTop;
+			zone1X = document.getElementById("rightzone1").offsetLeft;
+			zone2X = document.getElementById("rightzone2").offsetLeft;
+			zone3X = document.getElementById("rightzone3").offsetLeft;
+
+			startOver();
+			var handle = document.getElementById("handle");
+			Drag.makeDraggable(handle);
+			handle.onDragStart = function() {
+				window.onmousemove = autoscroll;
+			}
+
+			handle.onDragEnd = function() {
+				window.onmousemove = null;
+			}
+
+//			Drag.makeDraggable(document.getElementById("otherhandle"));
+//			document.getElementById("otherhandle").onmouseover = function(event) {
+//				if (!event) var event = window.event;	// IE fix
+//				var target = event.target
+//
+//
+//			};
+		}
+
+		function autoscroll(evt) {
+			var x = evt.clientX;
+			var y = evt.clientY;
+
+			// Mouse Position 
+			// * Mozilla is relative to the viewport
+			// * Safari is relative to the document
+			// * IE is relative to the viewport
+
+			var viewportX = x - window.pageXOffset;
+			var viewportY = y - window.pageYOffset;
+			//var viewportX = x;
+			//var viewportY = y;
+
+			//window.status =  "(" + x + ", " + y + ")";
+
+			var deltaX = 0;
+			var deltaY = 0;
+
+			// TODO: instead of discrete zones, make it a smooth
+			// function of how close to the edge you are
+			if (viewportY < 20) {
+				deltaY = -45;
+			} else if (viewportY < 40) {
+				deltaY = -25;
+			} else if (viewportY < 60) {
+				deltaY = -5;
+			} else if (viewportY > zone3Y) {
+				deltaY = 45;
+			} else if (viewportY > zone2Y) {
+				deltaY = 25;
+			} else if (viewportY > zone1Y) {
+				deltaY = 5;
+			}
+
+			if (viewportX < 20) {
+				deltaX = -45;
+			} else if (viewportX < 40) {
+				deltaX = -25;
+			} else if (viewportX < 60) {
+				deltaX = -5;
+			} else if (viewportX > zone3X) {
+				deltaX = 45;
+			} else if (viewportX > zone2X) {
+				deltaX = 25;
+			} else if (viewportX > zone1X) {
+				deltaX = 5;
+			}
+
+			if (deltaX != 0 || deltaY != 0)
+				window.scrollBy(deltaX, deltaY);
+		}
+
+		function speak(writeTarget, what) {
+			document.getElementById(writeTarget).innerHTML = what;
+		}
+
+		//-->
+	</script>
+</head>
+<body>
+	<ul id="help" class="clickable">
+		<li><a href="#" onclick="startOver(); return false;">Start Over</a></li>
+		<li><a href="./index.html">Back to Examples</a></li>
+	</ul>
+	<div id="handle">drag me</div>
+	<!--
+	<div id="otherhandle"></div>
+	-->
+
+	<div id="bottomzone1" class="bottomzone" style="bottom: 40px; background: #efefef;">slow zone</div>
+	<div id="topzone1" class="topzone" style="top: 40px; background: #efefef;">slow zone</div>
+	<div id="leftzone1" class="leftzone" style="left: 40px; background: #efefef;"></div>
+	<div id="rightzone1" class="rightzone" style="right: 40px; background: #efefef;"></div>
+
+	<div id="bottomzone2" class="bottomzone" style="bottom: 20px; background: #e3e3e3;">medium zone</div>
+	<div id="topzone2" class="topzone" style="top: 20px; background: #e3e3e3;">medium zone</div>
+	<div id="leftzone2" class="leftzone" style="left: 20px; background: #e3e3e3;"></div>
+	<div id="rightzone2" class="rightzone" style="right: 20px; background: #e3e3e3;"></div>
+
+	<div id="bottomzone3" class="bottomzone" style="bottom: 0px; background: #d9d9d9;">fast zone</div>
+	<div id="topzone3" class="topzone" style="top: 0px; background: #d9d9d9;">fast zone</div>
+	<div id="leftzone3" class="leftzone" style="left: 0px; background: #d9d9d9;"></div>
+	<div id="rightzone3" class="rightzone" style="right: 0px; background: #d9d9d9;"></div>
+
+
+	<script language="JavaScript">
+		new Grid(100, 15000).write();
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<!-- Copyright (c) 2005 Tim Taylor Consulting (see LICENSE.txt) -->
+<html>
+<head>
+<style type="text/css">
+html {
+	padding: 0px;
+}
+html, body {
+	margin: 0px;
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 14px;
+}
+body {
+	padding: 10px;
+}
+p {
+	max-width: 400px;
+}
+#messageBox {
+	float: right;
+	margin-left: 40px;
+	height: 100px;
+}
+#messageBox th {
+	text-align: right;
+	font-weight: normal;
+}
+#messageBox td input {
+	border: none;
+}
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+#positionExamples {
+	border: 1px dashed #ccc;
+	width: 200px;
+}
+#positionExamples span {
+	position: relative;
+	border: 1px solid #000;
+	margin-right: 10px;
+}
+#relative2b { top: 3px; left: 5px; }
+#relative3 { top: -6px; left: -4px; }
+#absolute1 {
+	background-color: #eee;
+	border: 1px solid #000;
+	position: absolute;
+	top: 100px;
+	left: 450px;
+	width: 130px;
+	height: 120px;
+}
+#absolute1, #absolute1 input {
+	font-size: 12px;
+}
+.nested {
+	padding: 10px 15px;
+}
+#nested1 { width: 200px; max-width: 200px; }
+#nested4 { height: 20px; }
+</style>
+<script language="JavaScript" src="../../../../source/org/tool-man/core.js"></script>
+<script language="JavaScript" src="../../../../source/org/tool-man/css.js"></script>
+<script language="JavaScript" src="../../../../source/org/tool-man/coordinates.js"></script>
+<script language="JavaScript">
+	var coordinates = ToolMan.coordinates()
+	var origin = coordinates.create(0, 0)
+
+	var resultX
+	var resultY
+	var result
+
+	window.onload = function() {
+		resultX = document.getElementById("resultX")
+		resultY = document.getElementById("resultY")
+		result = document.getElementById("result")
+
+		var relative4 = document.getElementById("relative4")
+		relative4.style["left"] = "7px"
+		relative4.style["top"] = "-7px"
+	}
+
+	function speak(text) {
+		clear()
+		result.value = text
+	}
+
+	function clear() {
+		result.value = ""
+	}
+
+	function topLeftPosition(id) {
+		speak(coordinates.topLeftPosition(document.getElementById(id)))
+	}
+
+	function topLeftOffset(id) {
+		speak(coordinates.topLeftOffset(document.getElementById(id)))
+	}
+
+	function bottomRightOffset(id) {
+		speak(coordinates.bottomRightOffset(document.getElementById(id)))
+	}
+
+	function bottomRightPosition(id) {
+		speak(coordinates.bottomRightPosition(document.getElementById(id)))
+	}
+
+	function swapTopLeft(id) {
+		var element = document.getElementById(id);
+		var topLeftPos = coordinates.topLeftPosition(element);
+		coordinates.create(topLeftPos.y, topLeftPos.x).reposition(element);
+	}
+</script>
+</head>
+
+<body>
+
+<div id="messageBox">
+	result: <input id="result" name="result" type="text" size="10"/>
+</div>
+
+<div id="nested1" class="nested" style="background-color: #666">
+	<div id="nested2" class="nested" style="background-color: #999">
+		<div id="nested3" class="nested" style="background-color: #bbb">
+			<div id="nested4" class="nested" style="background-color: #eee"></div>
+		</div>
+	</div>
+</div>
+<br/>
+top-left offset: <a id="nested1Link" style="background-color: #666" href="javascript: topLeftOffset('nested1')">one</a>
+<a id="nested2Link" style="background-color: #999" href="javascript: topLeftOffset('nested2')">two</a>
+<a id="nested3Link" style="background-color: #bbb" href="javascript: topLeftOffset('nested3')">three</a>
+<a id="nested4Link" style="background-color: #eee" href="javascript: topLeftOffset('nested4')">four</a><br/>
+bottom-right offset: <a id="nested1Link2" style="background-color: #666" href="javascript: bottomRightOffset('nested1')">one</a>
+<a id="nested2Link2" style="background-color: #999" href="javascript: bottomRightOffset('nested2')">two</a>
+<a id="nested3Link2" style="background-color: #bbb" href="javascript: bottomRightOffset('nested3')">three</a>
+<a id="nested4Link2" style="background-color: #eee" href="javascript: bottomRightOffset('nested4')">four</a><br/>
+bottom-right position: <a id="nested1Link3" style="background-color: #666" href="javascript: bottomRightPosition('nested1')">one</a>
+<a id="nested2Link3" style="background-color: #999" href="javascript: bottomRightPosition('nested2')">two</a>
+<a id="nested3Link3" style="background-color: #bbb" href="javascript: bottomRightPosition('nested3')">three</a>
+<a id="nested4Link3" style="background-color: #eee" href="javascript: bottomRightPosition('nested4')">four</a>
+
+<p>Determine the element position.  Position is the location of the element relative to where it appears in
+the flow, as compared to offset which is the element's location relative to the document.  Unless
+modified via CSS or JavaScript (same thing as CSS, really), position is 0, 0.</p>
+
+<div id="positionExamples">
+	<span id="relative1">1</span>
+	<span id="relative2a" style="top: 3px; left: 5px;">2a</span>
+	<span id="relative2b">2b</span>
+	<span id="relative3">3</span>
+	<span id="relative4">4</span>
+</div>
+
+<p>
+<a id="relative1Link" href="javascript: topLeftPosition('relative1')">1:</a> no position specified<br/>
+<a id="relative2aLink" href="javascript: topLeftPosition('relative2a')">2a:</a> position specified with inline style attribute<br/>
+<a id="relative2bLink" href="javascript: topLeftPosition('relative2b')">2b:</a> same as 2a, but specified in STYLE<br/>
+<a id="relative3Link" href="javascript: topLeftPosition('relative3')">3:</a> negative position<br/>
+<a id="relative4Link" href="javascript: topLeftPosition('relative4')">4:</a> top, left set with JavaScript
+</p>
+
+<div id="absolute1">
+	I am <a id="absolute1Link" href="javascript: topLeftPosition('absolute1')">positioned</a> absolutely,
+	my <a id="absolute1OffsetLink" href="javascript: topLeftOffset('absolute1')">offset</a> should match my position.<br/>
+	<input id="repositionButton" type="button" onclick="swapTopLeft('absolute1')" value="reposition"/>
+</div>
+
+TODO: 
+<ul>
+	<li>layers inside layers</li>
+	<li>elements with borders</li>
+	<li>split into separate suites</li>
+</ul>
+</body>
+</html>

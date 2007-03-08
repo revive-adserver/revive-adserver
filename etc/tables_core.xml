@@ -6,6 +6,9 @@
  <create>true</create>
  <overwrite>false</overwrite>
 
+ <status>final</status>
+ <version>1</version>
+
  <table>
 
   <name>acls</name>

@@ -4,45 +4,107 @@
 
     <link rel="stylesheet" type="text/css" href="css/mdb2_xsl.css"/>
 
-    <!--script type="text/javascript" src="schema.js"/>
+    <link rel="stylesheet" type="text/css" href="../lib/tool-man/examples/common/common.css"/>
+    <link rel="stylesheet" type="text/css" href="../lib/tool-man/examples/common/lists.css"/>
+
+<style type="text/css">
+
+    ul.boxy {
+    	list-style-type: none;
+    	padding: 0px;
+    	margin-left: 0px;
+    	width:100%;
+    	font-size: 11px;
+    	font-family: Arial, sans-serif;
+    }
+	ul.boxy li { margin: 0px; background-color:#FFFFFF;}
+	#idx_flds { margin: 0px; margin-top: -4px; }
+	#idx_flds li { margin-top: 4px; }
+
+</style>
+
+<script language="JavaScript" type="text/javascript" src="../lib/tool-man/source/org/tool-man/core.js"></script>
+<script language="JavaScript" type="text/javascript" src="../lib/tool-man/source/org/tool-man/events.js"></script>
+<script language="JavaScript" type="text/javascript" src="../lib/tool-man/source/org/tool-man/css.js"></script>
+<script language="JavaScript" type="text/javascript" src="../lib/tool-man/source/org/tool-man/coordinates.js"></script>
+<script language="JavaScript" type="text/javascript" src="../lib/tool-man/source/org/tool-man/drag.js"></script>
+<script language="JavaScript" type="text/javascript" src="../lib/tool-man/source/org/tool-man/dragsort.js"></script>
+<script language="JavaScript" type="text/javascript" src="../lib/tool-man/source/org/tool-man/cookies.js"></script>
+
+<script language="JavaScript" type="text/javascript"><!--
+	var dragsort = ToolMan.dragsort()
+	var junkdrawer = ToolMan.junkdrawer()
+
+	window.onload = function() {
+		junkdrawer.restoreListOrder("idx_flds")
+
+		dragsort.makeListSortable(document.getElementById("idx_flds"),
+				verticalOnly, saveOrder)
+	}
+
+	function verticalOnly(item) {
+		item.toolManDragGroup.verticalOnly()
+	}
+
+	function speak(id, what) {
+		var element = document.getElementById(id);
+		element.innerHTML = 'Clicked ' + what;
+	}
+
+	function saveOrder(item) {
+		var group = item.toolManDragGroup
+		var list = group.element.parentNode
+		var id = list.getAttribute("id")
+		if (id == null) return
+		group.register('dragend', function() {
+			ToolMan.cookies().set("list-" + id,
+					junkdrawer.serializeList(list), 365)
+		})
+	}
+
+	//-->
+</script>
+
+    <script type="text/javascript" src="schema.js"></script>
     <script type="text/javascript" src="../lib/xajax/xajax_js/xajax.js"></script>
     <script type="text/javascript">
         window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Javascript file could not be included. Perhaps the URL is incorrect?\nURL: ../lib/xajax/xajax_js/xajax.js'); } }, 6000);
-    </script-->
+    </script>
 </head>
 <body>
 
-    <?php //echo getcwd(); ?>
-    </ br>
-    <table class="tablemain">
-        <tr>
-            <td class="tableheader" colspan="7"><span class="titlemini"><?php echo $table; ?></span></td>
-        </tr>
-        <tr>
-            <td class="tableheader">name</td>
-            <td class="tableheader">type</td>
-            <td class="tableheader">length</td>
-            <td class="tableheader">default</td>
-            <td class="tableheader">autoincrement</td>
-            <td class="tableheader">unsigned</td>
-            <td class="tableheader">notnull</td>
-        </tr>
-        <?php
-        foreach ($tbl_definition['fields'] AS $field => $field_def )
+    <?php //echo getcwd();
+        $dd_options = '';
+        foreach ($dd_definition['options'] AS $k => $option )
         {
-        ?>
-        <tr>
-            <td class="tablebody"><?php echo $field; ?></td>
-            <td class="tablebody"><?php echo $field_def['type']; ?></td>
-            <td class="tablebody"><?php echo ($field_def['length']?$field_def['length']:'&nbsp;'); ?></td>
-            <td class="tablebody"><?php echo ($field_def['default']?$field_def['default']:'&nbsp;'); ?></td>
-            <td class="tablebody"><?php echo ($field_def['autoincrement']?$field_def['autoincrement']:'&nbsp;'); ?></td>
-            <td class="tablebody"><?php echo ($field_def['unsigned']?$field_def['unsigned']:'&nbsp;'); ?></td>
-            <td class="tablebody"><?php echo ($field_def['notnull']?$field_def['notnull']:'&nbsp;'); ?></td>
-        </tr>
-        <?php
+            $dd_options.= $option;
         }
-        ?>
-    </table>
+        $dd_list = '<ul id="dd_flds" class="boxy">';
+        foreach ($dd_definition['list'] AS $k => $item )
+        {
+            $dd_list.= $item;
+        }
+        $dd_list.= '</ul>';
+    ?>
+  <div class="bodydiv">
+    <form id="frm_table" method="POST" action="index.php">
+        <div class="heading">
+            <?php echo $table; ?></span></td>
+        </div>
+        <table class="tablemain">
+            <tr>
+                <td style="vertical-align:top">
+                    <?php include 'tpl/table_edit_fields.html'; ?>
+                    <?php include 'tpl/table_edit_index.html'; ?>
+                    <?php include 'tpl/table_edit_menu.html'; ?>
+                </td>
+                <!--td style="vertical-align:top"-->
+                    <?php //include 'tpl/table_data_dictionary.html'; ?>
+                <!--/td-->
+            </tr>
+        </table>
+        <input type="hidden" name="table_edit" value="<?php echo $table; ?>"/>
+    </form>
+  </div>
 </body>
 </html>

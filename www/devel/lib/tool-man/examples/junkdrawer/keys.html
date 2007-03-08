@@ -1,0 +1,123 @@
+<!-- Copyright (c) 2005 Tim Taylor Consulting (see LICENSE.txt) -->
+<html>
+<head>
+<title>Keyboard Events in JavaScript</title>
+<link rel="stylesheet" type="text/css" href="../common/common.css"/>
+<script language="JavaScript" type="text/javascript"><!--
+
+document.onmousedown = function (evt) {
+	if (evt.altKey) {
+		showStatus("alt");
+	}
+
+	return false;
+};
+document.onmouseup = function (evt) {
+	showStatus("");
+}
+
+document.onkeyup = function (evt) {
+	showStatus("");
+	document.forms['form'].blah.value=evt.which;
+	if (evt.keyCode == 27) {
+		click(document.forms['form'].cancel);
+		return false;
+	} else {
+		return true;
+	}
+};
+
+function click(elem) {
+	
+	if (elem.fireEvent) {
+		elem.fireEvent('onclick');
+	} else {
+		var clickEvent = document.createEvent('MouseEvents');
+		clickEvent.initEvent(
+				'click',
+				true,
+				true,
+				window,
+				1,
+				1,
+				1,
+				1,
+				1,
+				false,
+				false,
+				false,
+				false,
+				0,
+				elem);
+		elem.dispatchEvent(clickEvent);
+	}
+}
+
+function toggleChecked(elem) {
+	elem.checked = !elem.checked;
+}
+
+function showStatus(message) {
+	document.getElementById('boop').value=message;
+}
+
+function setZIndex(elem, zIndex) {
+	if (elem.zIndex) {
+		showStatus("a");
+		elem.zIndex = zIndex;
+	} else {
+		showStatus("b");
+		elem.style["zIndex"] = zIndex;
+	}
+}
+
+//-->
+</script>
+</head>
+<body>
+	<h1>Blah Blah</h1>
+	<ul class="breadcrumb">
+		<li class="first"><a href="http://tool-man.org/">Home</a></li>
+		<li><a href="../index.html">DHTML Examples</a></li>
+	</ul>
+
+<form id="form">
+	<input name="blah" type="text" disabled="true"/>
+	<input type="submit" name="cancel" value="Cancel"/>
+	<script type="text/javascript" language="JavaScript">
+		document.forms['form'].cancel.onclick = function (e) {
+			var posx = 0;
+			var posy = 0;
+			if (!e) var e = window.event;
+			if (e.pageX || e.pageY) {
+				posx = e.pageX;
+				posy = e.pageY;
+			} else if (e.clientX || e.clientY) {
+				posx = e.clientX + document.body.scrollLeft;
+				posy = e.clientY + document.body.scrollTop;
+			}
+			// posx and posy contain the mouse position relative to the document
+			// Do something with this information
+
+			showStatus("Zap! " + posx + "." + posy);
+			return false;
+		};
+	</script>
+	<label id="checkLabel"><input type="checkbox" name="check"/> yes, please</label>
+	<script type="text/javascript" language="JavaScript">
+		document.getElementById('checkLabel').onclick = function (evt) {
+			var target = evt.target;
+			if (target.nodeType == 3) target = target.parentNode;
+
+			if (target.nodeName != 'LABEL') return true;
+
+			toggleChecked(document.forms['form'].check);
+			return false;
+		};
+	</script>
+</form>
+
+<input id="boop" type="text"/>
+
+</body>
+</html>

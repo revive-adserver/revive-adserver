@@ -1,0 +1,119 @@
+body {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 14px;
+	margin: 0px;
+	padding: 0px 20px;
+	min-width: 30em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 0px;
+}
+h2, h3, h4, h5, h6 {
+	font-family: Optima, Verdana, sans-serif;
+	margin: 1em -10px 0.5em -10px;
+}
+h2 { margin-top: 1.5em; }
+h1 {
+	font-size: 22px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding: 5px 10px 5px 10px;
+	color: #fff;
+	text-shadow: #8760c1 0px 0px 5px;
+}
+.breadcrumb {
+	list-style-type: none;
+	padding: 0px;
+	padding-left: 20px;
+	margin: 0px;
+	margin-bottom: 10px;
+	border-style: solid;
+	border-color: #8760c1;
+	border-width: 1px 0px;
+	height: 19px;
+}
+.breadcrumb li.first {
+	border-left: 1px solid #8760c1;
+}
+.breadcrumb li {
+	float: left;
+	border-right: 1px solid #8760c1;
+	padding: 3px 10px;
+}
+.breadcrumb li a {
+	display: block;
+	text-decoration: none;
+}
+.breadcrumb li a:hover {
+	text-decoration: underline;
+}
+h1, .breadcrumb {
+	font-family: Skia;
+	background-color: #ccaaff;
+	margin-left: -20px;
+	margin-right: -20px;
+}
+
+h2 { font-size: 22px; }
+h3 { font-size: 20px; }
+h4 { font-size: 18px; }
+h5 { font-size: 16px; }
+h6 { font-size: 14px; }
+p {
+	margin-top: 0px;
+	margin-bottom: 1em;
+	text-align: justify;
+	max-width: 40em;
+}
+li p {
+	margin-bottom: 0.75em;
+}
+br.clear {
+	clear: both;
+	margin: 0px;
+}
+.sidebar {
+	margin: 0px 10px 30px 30px;
+	clear: right;
+	float: right;
+	width: 134px;
+	border: 1px solid #8760c1;
+	background-color: #ccaaff;
+	padding: 5px;
+	font-size: 11px;
+    font-family: 'Lucida Grande', Geneva, Verdana, Helvetica, Arial, sans-serif;
+    -moz-border-radius: 0px 10px 0px 10px;
+    border-radius: 0px 10px 0px 10px;
+}
+.sidebar, .sidebar p, .sidebar li {
+	text-align: left;
+}
+.sidebar ul {
+	margin: 0px;
+	margin-left: 1.5em;
+	padding: 0px;
+	list-style-type: circle;
+}
+
+td.caption {
+	font-size: 12px;
+	text-align: center;
+}
+#copyright {
+	margin-bottom: 1em;
+	text-align: center;
+	font-size: 11px;
+}
+blockquote {
+	font-size: 13px;
+	font-style: italic;
+}
+blockquote .attribution {
+	font-weight: normal;
+	font-style: normal;
+	text-align: right;
+}
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:active { background-color: #ffd700; }

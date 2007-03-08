@@ -53,7 +53,8 @@ if (array_key_exists('dump', $_POST) ||
                             'output_mode'   =>    'file',
                             'output'        =>    MAX_VAR.'/mdbs_'.$dumpfile_mdbs.'.xml',
                             'end_of_line'   =>    "\n",
-                            'xsl_file'      =>    "/upgrade_mdb2/mdb2_schema.xsl"
+                            'xsl_file'      =>    "/upgrade_mdb2/mdb2_schema.xsl",
+                            'custom_tags'   => array('version'=>'0.0.1', 'status'=>'transitional')
                           );
         $dump = $schema->dumpDatabase($def, $options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
 

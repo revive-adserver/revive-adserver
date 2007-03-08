@@ -1,0 +1,19 @@
+.horizontalgridline, .verticalgridline {
+	position: absolute;
+	font: 8pt arial;
+	color: #999;
+	z-index: 0;
+	border-color: #ccf;
+	border-style: dashed;
+	border-width: 0px;
+}
+
+.verticalgridline {
+	top: 0px;
+	border-left-width: 1px;
+}
+
+.horizontalgridline {
+	left: 0px;
+	border-top-width: 1px;
+}

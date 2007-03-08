@@ -17,16 +17,19 @@ function testAjax($form)
 	return $objResponse;
 }
 
-function editFieldProperty($form)
+function toggleReadonly($form, $elementId)
 {
 	$objResponse = new xajaxResponse();
-	$objResponse->addAlert(print_r($form,true));
-	foreach ($form as $k => $v)
-	{
-    	$objResponse->addAssign($k,"style.display", 'inline');
-    	$objResponse->addAssign('span_'.$k,"style.display", 'none');
-        $objResponse->addAssign('btn_'.$k,"style.display", 'none');
-    }
+	$objResponse->addAlert('toggleReadonly '.$elementId);
+  	//$objResponse->addAssign($element,"readonly", $readonly);
+	return $objResponse;
+}
+
+function editFieldProperty($form, $elementId)
+{
+	$objResponse = new xajaxResponse();
+	$objResponse->addAssign('fld_'.$elementId,"style.display", 'none');
+    $objResponse->addAssign('inp_'.$elementId,"style.display", 'inline');
 	return $objResponse;
 }
 
