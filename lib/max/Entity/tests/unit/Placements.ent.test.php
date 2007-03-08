@@ -46,7 +46,11 @@ class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
         $this->UnitTestCase();
         Mock::generate('MAX_Dal_Entities');
         Mock::generate('MAX_Dal_Maintenance_Priority');
-        Mock::generatePartial('MAX_Entity_Placement', 'MockPartialMAX_Entity_Placement', array('_abort'));
+        Mock::generatePartial(
+            'MAX_Entity_Placement',
+            'MockPartialMAX_Entity_Placement',
+            array('_abort')
+        );
     }
 
     /**
