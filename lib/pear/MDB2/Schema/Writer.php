@@ -906,8 +906,9 @@ class MDB2_Schema_Writer
         if (isset($arguments['xsl_file']))
         {
             $xsl_file = $arguments['xsl_file'];
+            return '<?xml-stylesheet type="text/xsl" href="'.$xsl_file.'"?>';
         }
-        return '<?xml-stylesheet type="text/xsl" href="'.$xsl_file.'"?>';
+        return '';
     }
 
     // }}}
