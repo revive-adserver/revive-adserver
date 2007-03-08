@@ -385,8 +385,6 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $oRunEndDate = new Date($row['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
         $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
-
-        TestEnv::restoreEnv();
     }
 
     /**
@@ -399,9 +397,10 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
      */
     function testAdServerComplex()
     {
+        TestEnv::restoreEnv();
+
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['split'] = true;
-        $conf['splitTable']['data_raw_ad_impression'] = true;
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
