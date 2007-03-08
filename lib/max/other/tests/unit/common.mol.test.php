@@ -98,6 +98,15 @@ class CommonTest extends UnitTestCase
     }
     
     
+    function test_MAX_commonGetPostValueUnslashed()
+    {
+        // We can't really test slashed/unslashed
+        $_POST['aaa'] = 'bbb';
+        $this->assertEqual('bbb', MAX_commonGetPostValueUnslashed('aaa'));
+        $this->assertNull(MAX_commonGetPostValueUnslashed('aab'));
+    }
+    
+    
     function test_MAX_addslashes()
     {
         $item = 'ab\'cd';

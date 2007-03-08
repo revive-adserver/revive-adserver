@@ -219,6 +219,4 @@ class MAX_Permission
         return $uniqueUsers;
 	}
 }
-
-
 ?>

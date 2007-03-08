@@ -9,6 +9,8 @@ class DataObjects_Clients extends DataObjects_AbstractUser
     var $onDeleteCascade = true;
     var $dalModelName = 'Clients';
     var $usernameField = 'clientusername';
+    var $passwordField = 'clientpassword';
+    
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -37,4 +39,26 @@ class DataObjects_Clients extends DataObjects_AbstractUser
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+    
+
+    /**
+     * Returns phpAds_Client constant value.
+     *
+     * @return integer
+     */
+    function getUserType()
+    {
+        return phpAds_Client;
+    }
+    
+    
+    /**
+     * Returns clientid.
+     *
+     * @return string
+     */
+    function getUserId()
+    {
+        return $this->clientid;
+    }
 }

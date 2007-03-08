@@ -1,4 +1,5 @@
 <?php
+
 /*
 +---------------------------------------------------------------------------+
 | Max Media Manager v0.3                                                    |
@@ -27,45 +28,64 @@
 $Id$
 */
 
-require_once(MAX_PATH . '/lib/max/Delivery/common.php');
-
-/**
- * Register an array of variable names in the global scope
- * 
- * Note: This is now a wrapper to the delivery engine's equivalent function
- *
- */
-function phpAds_registerGlobal()
+class Session
 {
-    $args = func_get_args();
-    call_user_func_array('MAX_commonRegisterGlobals', $args);
-}
-
-/**
- * This function takes an array of variable names
- * and makes them available in the global scope
- *
- * $_POST values take precedence over $_GET values
- *
- */
-function phpAds_registerGlobalUnslashed()
-{
-    $args = func_get_args();
-    while (list(,$key) = each($args)) {
-        if (isset($_GET[$key])) {
-            $value = $_GET[$key];
+    /**
+     * If the $md5digest is empty, converts $sPassword to md5
+     * and returns it. Otherwise, returns $md5digest.
+     *
+     * @param string $md5digest
+     * @param string $sPassword
+     * @return string
+     */
+    function getMd5FromPassword($md5digest, $sPassword)
+    {
+        if ($md5digest == '' && $sPassword != '') {
+            return md5($sPassword);
         }
-        if (isset($_POST[$key])) {
-            $value = $_POST[$key];
+        return $md5digest;
+    }
+    
+    
+    /**
+     * Starts new user session and redirects user to the login screen.
+     * The $sMessage error message is displayed to the user.
+     *
+     * @param string $sMessage
+     */
+    function restartToLoginScreen($sMessage = '')
+    {
+        $_COOKIE['sessionID'] = phpAds_SessionStart();
+        phpAds_LoginScreen($sMessage, $_COOKIE['sessionID']);
+    }
+    
+    
+    /**
+     * Starts new user session and redirects to login screen with
+     * a proper message if either the password or username is empty.
+     *
+     * @param string $md5digest
+     * @param string $username
+     */
+    function restartIfUsernameOrPasswordEmpty($md5digest, $username)
+    {
+        global $strEnterBoth;
+        if ($md5digest == '' || $md5digest == md5('') || $username  == '') {
+            _permissionsRestartToLoginScreen($strEnterBoth);
         }
-        if (isset($value)) {
-            if (ini_get('magic_quotes_gpc')) {
-                $value = MAX_commonUnslashArray($value);
-            }
-            $GLOBALS[$key] = $value;
-            unset($value);
+    }
+    
+    
+    /**
+     * Restarts user session and redirects to login screen with a proper message
+     * if the user has cookies disabled.
+     */
+    function restartIfCookiesDisabled()
+    {
+        global $strEnableCookies;
+        if ($_COOKIE['sessionID'] != $_POST['phpAds_cookiecheck']) {
+            _permissionsRestartToLoginScreen($strEnableCookies);
         }
     }
 }
-
 ?>

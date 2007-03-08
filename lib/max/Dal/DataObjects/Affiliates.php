@@ -36,4 +36,51 @@ class DataObjects_Affiliates extends DataObjects_AbstractUser
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+    
+
+    /**
+     * Returns phpAds_Affiliate constant value.
+     *
+     * @return integer
+     */
+    function getUserType()
+    {
+        return phpAds_Affiliate;
+    }
+    
+    
+    /**
+     * Returns affiliateid.
+     *
+     * @return string
+     */
+    function getUserId()
+    {
+        return $this->affiliateid;
+    }
+    
+    
+    /**
+     * Returns 0 if the last_accepted_agency_agreement is set to not null,
+     * not zero value. Otherwise, returns 1.
+     *
+     * @return integer
+     */
+    function getNeedsToAgree()
+    {
+        return $this->last_accepted_agency_agreement ? 0 : 1;
+    }
+    
+    
+    /**
+     * Returns an array with basic data about this object for use by permission
+     * module. The correctness of this function depends on whether it was initialized
+     * with affiliate_extra data.
+     * 
+     * @return array
+     */
+    function getAUserData()
+    {
+        return User::getAAffiliateData($this);
+    }
 }

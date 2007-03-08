@@ -389,15 +389,55 @@ function MAX_commonGetValue($key, $default = null)
  */
 function MAX_commonGetValueUnslashed($key, $default = null)
 {
-    $value = $default;
-    if (isset($_REQUEST[$key])) {
-        $value = $_REQUEST[$key];
+    return _commonGetValueUnslashed($_REQUEST, $key, $default);
+}
+
+
+/**
+ * Returns value stored under the $key in the $aValues array. If
+ * magic_quotes_gpc is enabled it removes the slashes to the
+ * value before returning it. If the value is not defined in the $aValues
+ * then the value passed as $default is returned.
+ *
+ * @param array $aValues
+ * @param string $sKey
+ * @param object $oDefault
+ * @return object
+ */
+function _commonGetValueUnslashed($aValues, $sKey, $oDefault = null)
+{
+    $value = $oDefault;
+    if (isset($aValues[$sKey])) {
+        $value = $aValues[$sKey];
         if (get_magic_quotes_gpc()) {
             return MAX_commonUnslashArray($value);
         }
     }
-
     return $value;
+}
+
+
+/**
+ * Returns the value stored under the $key in the $_POST. If
+ * magic_quotes_gpc is enabled it removes the slashes from the
+ * value before returning it. If the value is not defined in the $_POST
+ * then the $_GET array is checked. If the value is still not found then
+ * $sDefault is returned. Whichever value is returned, it is trimmed first.
+ *
+ * @param string $sKey
+ * @param string $sDefault
+ * @return string
+ */
+function MAX_commonGetPostValueUnslashed($sKey, $sDefault = null)
+{
+    $value = _commonGetValueUnslashed($_POST, $sKey);
+    if (is_null($value)) {
+        $value = _commonGetValueUnslashed($_GET, $sKey);
+    }
+    if (is_null($value)) {
+        $value = $sDefault;
+    }
+    return trim($value);
 }
 
 

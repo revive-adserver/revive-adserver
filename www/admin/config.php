@@ -86,7 +86,7 @@ $pref = MAX_Admin_Preferences::expandColumnPrefs();
 Language_Default::load();
 
 // Register variables
-phpAds_registerGlobal(
+phpAds_registerGlobalUnslashed(
      'affiliateid'
     ,'agencyid'
     ,'bannerid'

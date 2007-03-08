@@ -14,14 +14,14 @@ class DataObjects_Agency extends DataObjects_AbstractUser
     var $__table = 'agency';                          // table name
     var $agencyid;                        // int(9)  not_null primary_key auto_increment
     var $name;                            // string(255)  not_null
-    var $contact;                         // string(255)  
+    var $contact;                         // string(255)
     var $email;                           // string(64)  not_null
-    var $username;                        // string(64)  
-    var $password;                        // string(64)  
-    var $permissions;                     // int(9)  
-    var $language;                        // string(64)  
-    var $logout_url;                      // string(255)  
-    var $active;                          // int(1)  
+    var $username;                        // string(64)
+    var $password;                        // string(64)
+    var $permissions;                     // int(9)
+    var $language;                        // string(64)
+    var $logout_url;                      // string(255)
+    var $active;                          // int(1)
     var $updated;                         // datetime(19)  not_null binary
 
     /* ZE2 compatibility trick*/
@@ -32,7 +32,7 @@ class DataObjects_Agency extends DataObjects_AbstractUser
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-    
+
     /**
      * Handle all necessary operations when new agency is created
      *
@@ -44,7 +44,7 @@ class DataObjects_Agency extends DataObjects_AbstractUser
         if (!$agencyid) {
             return $agencyid;
         }
-        
+
         // set agency preferences
         $doPreference = $this->factory('preference');
         if ($doPreference->get(0)) {
@@ -53,10 +53,10 @@ class DataObjects_Agency extends DataObjects_AbstractUser
             $doPreference = $this->_updatePreferences($doPreference);
             $doPreference->insert();
         }
-        
+
         return $agencyid;
     }
-    
+
     /**
      * Handle all necessary operations when new agency is updated
      *
@@ -72,10 +72,10 @@ class DataObjects_Agency extends DataObjects_AbstractUser
         $doPreference->get($this->agencyid);
         $doPreference = $this->_updatePreferences($doPreference);
         $doPreference->update();
-        
+
         return $ret;
     }
-    
+
     /**
      * Overwrite preference settings with new
      * values taken from agency
@@ -89,7 +89,29 @@ class DataObjects_Agency extends DataObjects_AbstractUser
         $doPreference->name     = $this->name;
         $doPreference->admin_fullname = $this->contact;
         $doPreference->admin_email = $this->email;
-        
+
         return $doPreference;
+    }
+
+
+    /**
+     * Returns phpAds_Agency constant value.
+     *
+     * @return integer
+     */
+    function getUserType()
+    {
+        return phpAds_Agency;
+    }
+
+
+    /**
+     * Returns agencyid.
+     *
+     * @return string
+     */
+    function getUserId()
+    {
+        return $this->agencyid;
     }
 }
