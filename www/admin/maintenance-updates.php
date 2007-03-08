@@ -64,7 +64,8 @@ $current .= 'PHP&nbsp;'.phpversion().' '.$strAndPlain.' '.phpAds_dbmsname;
 
 // Get the database version number.
 $connection = DBC::getCurrentConnection();
-$aVersion = $connection->getConnectionId()->getServerVersion();
+$connectionId = $connection->getConnectionId();
+$aVersion = $connectionId->getServerVersion();
 $current .= '&nbsp;' . $aVersion['major'] . '.' . $aVersion['minor'] . '.' . $aVersion['patch'] . '-' . $aVersion['extra'];
 
 $current .= '.';
