@@ -401,6 +401,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['split'] = true;
+        $conf['splitTable']['data_raw_ad_impression'] = true;
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
