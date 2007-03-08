@@ -59,6 +59,7 @@ if ($_SERVER['argv'][2]) {
 }
 
 $oReporter = new XmlReporter();
+$oReporter->paintGroupStart("Tests", count($aLayer));
 foreach ($aLayer as $layer) {
     $aTestFiles = TestFiles::getAllTestFiles($layer);
     $oReporter->paintGroupStart("Layer $layer", count($aTestFiles));
@@ -85,6 +86,7 @@ foreach ($aLayer as $layer) {
     }
     $oReporter->paintGroupEnd("Layer $layer");
 }
+$oReporter->paintGroupEnd("Tests");
 
 if ($oReporter->getStatus() == false) {
    exit(1);
