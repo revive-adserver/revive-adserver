@@ -608,7 +608,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
                     'ad_id'          => 1,
                     'logical'        => 'and',
                     'type'           => 'Time:Hour',
-                    'comparison'     => '!=',
+                    'comparison'     => '!~',
                     'data'           => '12',
                     'executionorder' => 0
                 )
@@ -637,7 +637,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
                     'ad_id'          => 1,
                     'logical'        => 'and',
                     'type'           => 'Time:Hour',
-                    'comparison'     => '!=',
+                    'comparison'     => '!~',
                     'data'           => '15',
                     'executionorder' => 0
                 )
@@ -671,7 +671,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
                     'ad_id'          => 1,
                     'logical'        => 'and',
                     'type'           => 'Time:Hour',
-                    'comparison'     => '!=',
+                    'comparison'     => '!~',
                     'data'           => '15',
                     'executionorder' => 0
                 )
@@ -708,7 +708,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
                     'ad_id'          => 1,
                     'logical'        => 'and',
                     'type'           => 'Time:Hour',
-                    'comparison'     => '!=',
+                    'comparison'     => '!~',
                     'data'           => '15',
                     'executionorder' => 0
                 )
@@ -767,7 +767,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
                     'ad_id'          => 1,
                     'logical'        => 'and',
                     'type'           => 'Time:Hour',
-                    'comparison'     => '!=',
+                    'comparison'     => '!~',
                     'data'           => '15',
                     'executionorder' => 0
                 )
