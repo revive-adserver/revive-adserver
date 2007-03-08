@@ -32,7 +32,6 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/max/Admin/Cache.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
-require_once MAX_PATH . '/www/admin/lib-install-db.inc.php';
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
 
 // Security check

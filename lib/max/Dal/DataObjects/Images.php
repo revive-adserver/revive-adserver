@@ -31,4 +31,24 @@ class DataObjects_Images extends DB_DataObjectCommon
     function sequenceKey() {
         return array(false, false, false);
     }
+    
+    function getUniqueFileNameForDuplication()
+    {
+        $extension = substr($this->filename, strrpos($this->filename, ".") + 1);
+	    $base	   = substr($this->filename, 0, strrpos($this->filename, "."));
+        
+        if (eregi("^(.*)_([0-9]+)$", $base, $matches)) {
+			$base = $matches[1];
+			$i = $matches[2];
+        } 
+        
+        $doCheck = $this->factory($this->_tableName);
+        $names = $doCheck->getUniqueValuesFromColumn('filename');
+        // Get unique name
+        $i = 2;
+        while (in_array($base.'_'.$i . '.' .$extension, $names)) {
+            $i++;
+        }
+        return $base . '_' . $i . '.' . $extension;
+    }
 }
