@@ -41,8 +41,9 @@ class DataObjectsUnitTestCase extends UnitTestCase
     }
     
     /**
-     *    Will trigger a pass if the two parameters have
-     *    the same value only. Otherwise a fail.
+     *    Will trigger a pass if the two DataObjects have
+     *    the same value only (except private fields). Otherwise a fail.
+     *    By private fields we mean all fields starting with "_"
      *    @param mixed $first          Value to compare.
      *    @param mixed $second         Value to compare.
      *    @param string $message       Message to display.
@@ -52,51 +53,94 @@ class DataObjectsUnitTestCase extends UnitTestCase
     function assertEqualDataObjects($first, $second, $message = "%s")
     {
         return $this->assertExpectation(
-                    new DataObjectsEqualExpectation($first),
-                    $second,
+                    new EqualExpectation($this->stripPrivateFields($first)),
+                    $this->stripPrivateFields($second),
                     $message);
     }
-}
-
+    
     /**
-     *    Test for equality.
-	 *    @package    MaxDal
-     *    @subpackage TestSuite
+     *    Will trigger a pass if the two DataObjects have
+     *    a different value (after removing private fields from them). Otherwise a fail.
+     *    By private fields we mean all fields starting with "_"
+     *    @param mixed $first          Value to compare.
+     *    @param mixed $second         Value to compare.
+     *    @param string $message       Message to display.
+     *    @return boolean              True on pass
+     *    @access public
      */
-    class DataObjectsEqualExpectation extends EqualExpectation {
-        
-        /**
-         *    Sets the value to compare against.
-         *    @param mixed $value        Test value to match.
-         *    @param string $message     Customised message on failure.
-         *    @access public
-         */
-        function DataObjectsEqualExpectation($value, $message = '%s') {
-            $this->EqualExpectation($this->removePrivateFields($value), $message);
-        }
-        
-        /**
-         *    Tests the expectation. True if it matches the
-         *    held value.
-         *    @param mixed $compare        Comparison value.
-         *    @return boolean              True if correct.
-         *    @access public
-         */
-        function test($compare) {
-            $compare = $this->removePrivateFields($compare);
-            return (($this->_value == $compare) && ($compare == $this->_value));
-        }
-        
-        function removePrivateFields($value)
-        {
-            if (is_object($value)) {
-                $fields = get_object_vars($value);
-                foreach ($fields as $field => $v) {
-                    if (strpos($field, '_') === 0) {
-                        unset($value->$field);
-                    }
+    function assertNotEqualDataObjects($first, $second, $message = "%s")
+    {
+        return $this->assertExpectation(
+                    new NotEqualExpectation($this->stripPrivateFields($first)),
+                    $this->stripPrivateFields($second),
+                    $message);
+    }
+    
+    /**
+     *    Will be true if the value is empty.
+     *    @param null $value       Supposedly null value.
+     *    @param string $message   Message to display.
+     *    @return boolean                        True on pass
+     *    @access public
+     */
+    function assertEmpty($value, $message = "%s") {
+        $dumper = &new SimpleDumper();
+        $message = sprintf(
+                $message,
+                "[" . $dumper->describeValue($value) . "] should be empty");
+        return $this->assertTrue(empty($value), $message);
+    }
+    
+    /**
+     *    Will be true if the value is not empty.
+     *    @param mixed $value           Supposedly set value.
+     *    @param string $message        Message to display.
+     *    @return boolean               True on pass.
+     *    @access public
+     */
+    function assertNotEmpty($value, $message = "%s") {
+        $dumper = &new SimpleDumper();
+        $message = sprintf(
+                $message,
+                "[" . $dumper->describeValue($value) . "] should not be null");
+        return $this->assertTrue(!empty($value), $message);
+    }
+    
+    /**
+     *   Unset (before comparison) any non transent private fields in DataObject
+     *   By private fields we mean all fields starting with "_"
+     *
+     *   @param DataObject $do
+     *   @return DataObject
+     */
+    function stripPrivateFields($do)
+    {
+        if (is_object($do)) {
+            $fields = get_object_vars($do);
+            foreach ($fields as $field => $v) {
+                if (strpos($field, '_') === 0) {
+                    unset($do->$field);
                 }
             }
-            return $value;
         }
+        return $do;
     }
+    
+    /**
+     *   Unset (before comparison) any Primary Keys which DataObject could have
+     *
+     *   @param DataObject $do
+     *   @param bool $stripPrivateFields  Should we also strip private fields?
+     *   @return DataObject
+     */
+    function stripKeys($do)
+    {
+        if (is_a($do, 'DB_DataObject')) {
+            $keys = $do->keys();
+            foreach ($keys as $key) {
+                unset($do->$key);
+            }
+        }
+        return $do;
+    }
+}

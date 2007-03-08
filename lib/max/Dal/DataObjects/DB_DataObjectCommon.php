@@ -53,6 +53,15 @@ class DB_DataObjectCommon extends DB_DataObject
     var $refreshUpdatedFieldIfExists = false;
     
     /**
+     * Any default values which could be set before inserting record into database.
+     * So far it is only in use with DataGenerator
+     * 
+     * @see DataGenerator
+     * @var array
+     */
+    var $defaultValues = array();
+    
+    /**
      * Store table prefix
      *
      * @var string
