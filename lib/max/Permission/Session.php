@@ -71,7 +71,7 @@ class Session
     {
         global $strEnterBoth;
         if ($md5digest == '' || $md5digest == md5('') || $username  == '') {
-            _permissionsRestartToLoginScreen($strEnterBoth);
+            Session::restartToLoginScreen($strEnterBoth);
         }
     }
     
@@ -84,7 +84,7 @@ class Session
     {
         global $strEnableCookies;
         if ($_COOKIE['sessionID'] != $_POST['phpAds_cookiecheck']) {
-            _permissionsRestartToLoginScreen($strEnableCookies);
+            Session::restartToLoginScreen($strEnableCookies);
         }
     }
 }
