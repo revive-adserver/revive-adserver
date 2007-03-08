@@ -72,8 +72,14 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
      * Test 7:  As for Test 6, but multi-day update
      * Test 8:  Test with raw data in the past, one day ago, and ensure update is
      *          scheduled
+     * Test 9:  Test with raw data in the past, in old split table, and ensure no
+     *          update is scheduled
+     * Test 10: Test with raw data in the past, in a split table, and ensure update
+     *          is scheduled
+     * Test 11: Test with raw data in the past, in the current split table, and ensure
+     *          update is scheduled
      */
-    function testRunNormal()
+    function testRun()
     {
         // Use a reference to $GLOBALS['_MAX']['CONF'] so that the configuration
         // options can be changed while the test is running
@@ -310,26 +316,8 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
 
         // Reset the testing environment
         TestEnv::restoreEnv();
-    }
 
-    /**
-     * A method to test the run() method.
-     *
-     * Requirements:
-     * Test 9:  Test with raw data in the past, in old split table, and ensure no
-     *          update is scheduled
-     * Test 10: Test with raw data in the past, in a split table, and ensure update
-     *          is scheduled
-     * Test 11: Test with raw data in the past, in the current split table, and ensure
-     *          update is scheduled
-     */
-    function testRunSplit()
-    {
-        // Use a reference to $GLOBALS['_MAX']['CONF'] so that the configuration
-        // options can be changed while the test is running
-        $conf = &$GLOBALS['_MAX']['CONF'];
-
-        // Use split tables
+        // Use non-split tables
         $conf['table']['split'] = true;
 
         // Create a connection to the database
