@@ -58,35 +58,33 @@ if ($_SERVER['argv'][2]) {
     );
 }
 
-$aTestFiles = array();
-foreach ($aLayer as $layer) {
-    $aTestFiles = array_merge($aTestFiles, TestFiles::getAllTestFiles($layer));
-}
-
 $oReporter = new XmlReporter();
-$oReporter->paintGroupStart("Layers", count($aTestFiles));
-foreach ($aTestFiles as $subLayer => $aDirectories) {
-    $oReporter->paintGroupStart("Sublayer $subLayer", count($aDirectories));
-    foreach ($aDirectories as $dirName => $aFiles) {
-        $oReporter->paintCaseStart("Directory $dirName");
-        foreach ($aFiles as $fileName) {
-            $oReporter->paintMethodStart($fileName);
-            $returncode = -1;
-            $output_lines = '';
-            exec("$php run.php --type=$layer --level=file --layer={$subLayer} --folder={$dirName} --file={$fileName} --format=text", $output_lines, $returncode);
-            $message = "{$fileName}\n" . join($output_lines, "\n");
-            switch ($returncode) {
-                case 0: $oReporter->paintPass($message); break;
-                case 1: $oReporter->paintFail($message); break;
-                default: $oReporter->paintException($message);
+foreach ($aLayer as $layer) {
+    $aTestFiles = TestFiles::getAllTestFiles($layer);
+    $oReporter->paintGroupStart("Layer $layer", count($aTestFiles));
+    foreach ($aTestFiles as $subLayer => $aDirectories) {
+        $oReporter->paintGroupStart("Sublayer $subLayer", count($aDirectories));
+        foreach ($aDirectories as $dirName => $aFiles) {
+            $oReporter->paintCaseStart("Directory $dirName");
+            foreach ($aFiles as $fileName) {
+                $oReporter->paintMethodStart($fileName);
+                $returncode = -1;
+                $output_lines = '';
+                exec("$php run.php --type=$layer --level=file --layer={$subLayer} --folder={$dirName} --file={$fileName} --format=text", $output_lines, $returncode);
+                $message = "{$fileName}\n" . join($output_lines, "\n");
+                switch ($returncode) {
+                    case 0: $oReporter->paintPass($message); break;
+                    case 1: $oReporter->paintFail($message); break;
+                    default: $oReporter->paintException($message);
+                }
+                $oReporter->paintMethodEnd($fileName);
             }
-            $oReporter->paintMethodEnd($fileName);
+            $oReporter->paintCaseEnd("Directory $dirName");
         }
-        $oReporter->paintCaseEnd("Directory $dirName");
+        $oReporter->paintGroupEnd("Sublayer $subLayer");
     }
-    $oReporter->paintGroupEnd("Sublayer $subLayer");
+    $oReporter->paintGroupEnd("Layer $layer");
 }
-$oReporter->paintGroupEnd("Layers");
 
 if ($oReporter->getStatus() == false) {
    exit(1);
