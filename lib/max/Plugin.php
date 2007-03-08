@@ -416,7 +416,8 @@ class MAX_Plugin
         }
         // Ensure that only real, valid packages/plugins are instantiated
         if ($package == $omit) {
-            return null;
+            $r = null;
+            return $r;
         }
         // Instantiate the plugin, if possible
         if (!empty($module) && !empty($package)) {
