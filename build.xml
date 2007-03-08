@@ -1,5 +1,5 @@
 <project name="openads" default="simpletest">
-    <target name="simpletest" depends="init, test-domain, test-db, test-all-individually, test-integration, phpunit" />
+    <target name="simpletest" depends="init, test-all, phpunit" />
     <target name="full-build" depends="simpletest, test-with-selenium" />
     <property file="etc/build.properties" />
     <property name="max.base_dir" value="${user.dir}" />
@@ -7,13 +7,13 @@
     <property name="max.test_admin_host" value="www-tests" />
     <property name="max.php_cli_executable" value="php" />
 	<macrodef name="report-on-simpletest-results">
-		<attribute name="basename" />
-		<sequential>
-			<xslt style="tests/simpletest2junit.xslt" basedir="build/test-results" destdir="build/test-reports">
-	           <mapper type="glob" from="@{basename}.simpletest.xml" to="@{basename}.junit.xml" />
-	        </xslt>
-		</sequential>
-	</macrodef>
+        <attribute name="basename" />
+        <sequential>
+            <xslt style="tests/simpletest2junit.xslt" basedir="build/test-results" destdir="build/test-reports">
+                <mapper type="glob" from="@{basename}.simpletest.xml" to="@{basename}.junit.xml" />
+            </xslt>
+        </sequential>
+    </macrodef>
     <target name="init">
         <mkdir dir="build/test-results"/>
         <mkdir dir="build/test-reports"/>
@@ -22,57 +22,20 @@
         <delete dir="var/test.log" />
         <delete dir="build" />
     </target>
-    <target name="test-domain">
-        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="false" output="build/test-results/quick.simpletest.xml" resultproperty="test.domain.result">
-            <arg value="quick_tests.php" />
-            <arg value="--format=xml" />
-        </exec>
-    	<report-on-simpletest-results basename="quick" />
-	<fail message="Quick Simpletest Suite Failure">
-	    <condition>
-		<not>
-		    <equals arg1="0" arg2="${test.domain.result}"/>
-		</not>
-	    </condition>
-	</fail>
-    </target>
-    <target name="test-db">
-        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="false" output="build/test-results/complete.simpletest.xml" resultproperty="test.db.result">
-            <arg value="complete_tests.php" />
-            <arg value="--format=xml" />
-        </exec>
-    	<report-on-simpletest-results basename="complete" />
-	<fail message="Complete Simpletest Suite Failure">
-	    <condition>
-		<not>
-		    <equals arg1="0" arg2="${test.db.result}"/>
-		</not>
-	    </condition>
-	</fail>
-    </target>
-	<target name="test-all-individually">
-        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="true" output="build/test-results/all-unit-individual.simpletest.xml">
-            <arg value="find_broken_test_files.php" />
+    <target name="test-all">
+        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="true" output="build/test-results/all-unit-individual.simpletest.xml" resultproperty="test.test-all.result">
+            <arg value="cli_test_runner.php" />
             <arg value="${max.php_cli_executable}" />
-            <arg value="unit" />
         </exec>
-    	<report-on-simpletest-results basename="all-unit-individual" />
-	</target>
-	<target name="test-integration">
-        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="false" output="build/test-results/integration.simpletest.xml" resultproperty="test.integration.result">
-            <arg value="find_broken_test_files.php" />
-            <arg value="${max.php_cli_executable}" />
-            <arg value="integration" />
-        </exec>
-    	<report-on-simpletest-results basename="integration" />
-	<fail message="Integration Simpletest Suite Failure">
-	    <condition>
-		<not>
-		    <equals arg1="0" arg2="${test.integration.result}"/>
-		</not>
-	    </condition>
-	</fail>
-	</target>
+        <report-on-simpletest-results basename="test-all" />
+        <fail message="Simpletest Suite Failure">
+            <condition>
+                <not>
+                    <equals arg1="0" arg2="${test.test-all.result}"/>
+                </not>
+            </condition>
+        </fail>
+    </target>
     <target name="phpunit">
         <exec dir="tests" executable="${max.php_cli_executable}" failonerror="false" output="build/test-results/MDB2.html">
             <arg value="run.php" />
@@ -85,12 +48,12 @@
             <arg value="--dir=../lib/pear/MDB2_Schema/tests/" />
         </exec>
     </target>
-	<target name="test-with-selenium">
-		<fail unless="max.base_dir" message="The property 'max.base_dir' should point to the Openads root." />
-		<fail unless="max.build_dir" message="The property 'max.build_dir' should point a folder to which results can be written." />
-		<fail unless="max.test_admin_host" message="The property 'max.test_admin_host' should be set to a hostname where the Openads Web Interface for Administration is published." />
-		<fail unless="max.firefox_cli_executable" message="The property 'max.firefox_cli_executable' should be set to a binary that Selenium RC can launch and control. (Perhaps something like '/usr/lib/firefox/firefox-bin'.)" />
-		<java jar="${selenium_server.lib_path}/selenium-server.jar" fork="true">
+    <target name="test-with-selenium">
+        <fail unless="max.base_dir" message="The property 'max.base_dir' should point to the Openads root." />
+        <fail unless="max.build_dir" message="The property 'max.build_dir' should point a folder to which results can be written." />
+        <fail unless="max.test_admin_host" message="The property 'max.test_admin_host' should be set to a hostname where the Openads Web Interface for Administration is published." />
+        <fail unless="max.firefox_cli_executable" message="The property 'max.firefox_cli_executable' should be set to a binary that Selenium RC can launch and control. (Perhaps something like '/usr/lib/firefox/firefox-bin'.)" />
+        <java jar="${selenium_server.lib_path}/selenium-server.jar" fork="true">
 			<arg value="-htmlSuite" />
 			<arg value="*firefox ${max.firefox_cli_executable}" />
 			<arg value="http://${max.test_admin_host}" />
@@ -99,4 +62,3 @@
 		</java>
 	</target>
 </project>
-
