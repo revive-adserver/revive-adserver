@@ -22,8 +22,8 @@
         <delete dir="var/test.log" />
         <delete dir="build" />
     </target>
-    <target name="test-all">
-        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="true" output="build/test-results/all-unit-individual.simpletest.xml" resultproperty="test.test-all.result">
+    <target name="test-all" depends="init">
+        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="true" output="build/test-results/test-all.simpletest.xml" resultproperty="test.test-all.result">
             <arg value="cli_test_runner.php" />
             <arg value="${max.php_cli_executable}" />
         </exec>
