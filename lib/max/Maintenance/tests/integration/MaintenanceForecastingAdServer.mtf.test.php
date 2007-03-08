@@ -73,6 +73,8 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
      */
     function testAdServerBasic()
     {
+        TestEnv::restoreEnv();
+
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
