@@ -1,7 +1,6 @@
 <?php
 
 require_once 'DB_DataObjectCommon.php';
-require_once MAX_PATH . '/lib/max/other/usertypes.inc.php';
 require_once MAX_PATH . '/lib/max/Permission/User.php';
 
 
