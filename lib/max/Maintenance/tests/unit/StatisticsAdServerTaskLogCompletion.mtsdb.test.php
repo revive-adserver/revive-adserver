@@ -62,6 +62,9 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_LogCompletion e
      */
     function testRun()
     {
+        // Reset the testing environment
+        TestEnv::restoreEnv();
+
         $conf = &$GLOBALS['_MAX']['CONF'];
         $tables = &Openads_Table_Core::singleton();
         $dbh = &MAX_DB::singleton();
@@ -139,6 +142,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_LogCompletion e
         $this->assertEqual($row['end_run'], '2004-06-06 18:14:00');
         $this->assertEqual($row['duration'], 240);
         $this->assertEqual($row['updated_to'], '2004-06-06 17:59:59');
+
         // Reset the testing environment
         TestEnv::restoreEnv();
     }
