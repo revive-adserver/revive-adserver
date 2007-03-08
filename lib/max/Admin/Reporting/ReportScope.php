@@ -126,20 +126,6 @@ class ReportScope
             trigger_error("Max was asked to limit scope for something to an enity that it didn't recognize.");
         }
     }
-
-    function applySessionSecurity()
-    {
-        $userid = phpAds_getUserId();
-        if (phpAds_isUser(phpAds_Advertiser)) {
-            $this->useAdvertiserId($userid);
-        }
-        if (phpAds_isUser(phpAds_Publisher)) {
-            $this->usePublisherId($userid);
-        }
-        if (phpAds_isUser(phpAds_Agency)) {
-            $this->useAgencyId($userid);
-        }
-    }
 }
 
 ?>

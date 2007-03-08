@@ -76,6 +76,7 @@ class FieldFactory
         }
         return $oField;
     }
+
 }
 
 ?>

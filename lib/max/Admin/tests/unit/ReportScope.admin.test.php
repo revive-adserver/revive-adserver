@@ -120,63 +120,6 @@ class ReportScopeTest extends UnitTestCase
         $scope->useAllAvailableData();
         $this->assertFalse($scope->getAgencyId(), 'Using all available data should mean that no agencies are selected');
     }
-
-    function testApplySessionSecurityWorksForAgency()
-    {
-        global $session;
-        $session['usertype'] = phpAds_Agency;
-        $session['userid'] = 34;
-
-        $scope = new ReportScope();
-        $scope->applySessionSecurity();
-        $this->assertEqual($scope->getAgencyId(), 34);
-    }
-
-    function testApplySessionSecurityWorksForAdvertiser()
-    {
-        global $session;
-        $session['usertype'] = phpAds_Advertiser;
-        $session['userid'] = 420;
-
-        $scope = new ReportScope();
-        $scope->applySessionSecurity();
-        $this->assertEqual($scope->getAdvertiserId(), 420);
-    }
-
-    function testApplySessionSecurityWorksForPublisher()
-    {
-        global $session;
-        $session['usertype'] = phpAds_Publisher;
-        $session['userid'] = 987;
-
-        $scope = new ReportScope();
-        $scope->applySessionSecurity();
-        $this->assertEqual($scope->getPublisherId(), 987);
-    }
-
-    function testApplySessionSecurityDoesntOverrideAdminsChoiceOfPublisher()
-    {
-        global $session;
-        $session['usertype'] = phpAds_Admin;
-        $session['userid'] = 9;
-
-        $scope = new ReportScope();
-        $scope->usePublisherId(345);
-        $scope->applySessionSecurity();
-        $this->assertEqual($scope->getPublisherId(), 345);
-    }
-
-    function testApplySessionSecurityDoesntOverrideAdminsChoiceOfAgency()
-    {
-        global $session;
-        $session['usertype'] = phpAds_Admin;
-        $session['userid'] = 9;
-
-        $scope = new ReportScope();
-        $scope->useAgencyId(345);
-        $scope->applySessionSecurity();
-        $this->assertEqual($scope->getAgencyId(), 345);
-    }
 }
 
 ?>
