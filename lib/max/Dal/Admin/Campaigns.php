@@ -345,22 +345,13 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             WHERE
                 c.clientid=m.clientid
                 AND c.agencyid=$agency_id " .
-            $this->getSqlListOrder($listOrder, $orderDirection)
+            $this->getSqlListOrder($listorder, $orderdirection)
         ;
         
         $rsCampaigns = DBC::NewRecordSet($query);
         $aCampaigns = $rsCampaigns->getAll(array('campaignid', 'clientid', 'campaignname', 'active'));
         $aCampaigns = $this->_rekeyCampaignsArray($aCampaigns);
         return $aCampaigns;
-    }
-
-    function countAllCampaigns()
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $query_campaigns = "SELECT count(*) AS count".
-            " FROM ".$conf['table']['prefix'].$conf['table']['campaigns'];
-        $number_of_campaigns =  $this->dbh->getOne($query_campaigns);
-        return $number_of_campaigns;
     }
 
     function countActiveCampaigns()
@@ -372,46 +363,6 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         $number_of_active_campaigns = $this->dbh->getOne($query_active_campaigns);
 
         return $number_of_active_campaigns;
-    }
-
-    function countCampaignsUnderAdvertiser($advertiser_id)
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-
-        $query_campaigns = "SELECT count(*) AS count".
-            " FROM ".$conf['table']['prefix'].$conf['table']['campaigns'].
-            " WHERE clientid=".$advertiser_id;
-        $number_of_campaigns = $this->dbh->getOne($query_campaigns);
-        return $number_of_campaigns;
-    }
-
-    function countActiveCampaignsUnderAdvertiser($advertiser_id)
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-
-        $query_active_campaigns = "SELECT count(*) AS count".
-            " FROM ".$conf['table']['prefix'].$conf['table']['campaigns'].
-            " WHERE active='t'".
-            " AND clientid=".$advertiser_id;
-        $number_of_active_campaigns =  $this->dbh->getOne($query_active_campaigns);
-        return $number_of_active_campaigns;
-    }
-
-    /**
-     * @todo Verify that SQL is ANSI-compliant
-     * @todo Consider moving to Agency DAL
-     */
-    function countCampaignsUnderAgency($agency_id)
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-
-        $query_campaigns = "SELECT count(*) AS count".
-        " FROM ".$conf['table']['prefix'].$conf['table']['campaigns']." AS m".
-        ",".$conf['table']['prefix'].$conf['table']['clients']." AS c".
-        " WHERE m.clientid=c.clientid".
-        " AND c.agencyid=".$agency_id;
-        $number_of_campaigns =  $this->dbh->getOne($query_campaigns);
-        return $number_of_campaigns;
     }
 
     /**

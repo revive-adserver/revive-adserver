@@ -110,25 +110,13 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
                 b.campaignid = m.campaignid
                 AND m.clientid = c.clientid
                 AND c.agencyid = $agency_id " .
-            $this->getSqlListOrder($listOrder, $orderDirection)
+            $this->getSqlListOrder($listorder, $orderdirection)
         ;
         
         $rsBanners = DBC::NewRecordSet($query);
         $aBanners = $rsBanners->getAll(array('ad_id', 'campaignid', 'alt', 'description', 'active', 'type'));
         $aBanners = $this->_rekeyBannersArray($aBanners);
         return $aBanners;
-    }
-
-    /**
-     * @return int The number of banners in the system, active or otherwise.
-     */
-    function countAllBanners()
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $query_total_banners = "SELECT count(*) AS count".
-            " FROM ".$conf['table']['prefix'].$conf['table']['banners'];
-        $number_of_banners = $this->dbh->getOne($query_total_banners);
-        return $number_of_banners;
     }
 
     /**
@@ -150,18 +138,6 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
         return $number_of_active_banners;
     }
 
-    function countBannersUnderAdvertiser($advertiser_id)
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $query_total_banners = "SELECT count(*) AS count".
-        " FROM ".$conf['table']['prefix'].$conf['table']['banners']." AS b".
-        ",".$conf['table']['prefix'].$conf['table']['campaigns']." AS m".
-        " WHERE b.campaignid=m.campaignid".
-        " AND m.clientid=".$advertiser_id;
-        $number_of_banners = $this->dbh->getOne($query_total_banners);
-        return $number_of_banners;
-    }
-
     function countActiveBannersUnderAdvertiser($advertiser_id)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -176,25 +152,6 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
         return $number_of_active_banners;
     }
 
-
-    /**
-     * @todo Verify that SQL is ANSI-compliant
-     * @todo Consider moving to Agency DAL
-     */
-    function countBannersUnderAgency($agency_id)
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-
-        $query_total_banners = "SELECT count(*) AS count".
-        " FROM ".$conf['table']['prefix'].$conf['table']['banners']." AS b".
-        ",".$conf['table']['prefix'].$conf['table']['campaigns']." AS m".
-        ",".$conf['table']['prefix'].$conf['table']['clients']." AS c".
-        " WHERE m.clientid=c.clientid".
-        " AND b.campaignid=m.campaignid".
-        " AND c.agencyid=".$agency_id;
-        $number_of_banners = $this->dbh->getOne($query_total_banners);
-        return $number_of_banners;
-    }
 
     /**
      * @todo Verify that SQL is ANSI-compliant

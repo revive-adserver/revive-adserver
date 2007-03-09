@@ -52,6 +52,11 @@ class MAX_Dal_Admin_CampaignsTest extends UnitTestCase
         $this->dalCampaigns = MAX_DB::factoryDAL('campaigns');
     }
     
+    function tearDown()
+    {
+        TestEnv::restoreEnv();
+    }
+    
     /**
      * Tests all campaigns are returned.
      *
@@ -68,5 +73,64 @@ class MAX_Dal_Admin_CampaignsTest extends UnitTestCase
         
         // Test same number of campaigns are returned.
         $this->assertEqual(count($aCampaigns), $numCampaigns);
+    }
+    
+    
+    function testCountActiveCampaigns()
+    {
+        // Insert an active campaign
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->active = 't';
+        $activeId = DataGenerator::generateOne($doCampaigns);
+        
+        // Insert an inactive campaign
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->active = 'f';
+        $inactiveId = DataGenerator::generateOne($doCampaigns);
+        
+        // Count the active campaigns
+        $activeCount = $this->dalCampaigns->countActiveCampaigns();
+        
+        $expected = 1;
+        $this->assertEqual($activeCount, $expected);
+    }
+    
+    function testCountActiveCampaignsUnderAgency()
+    {
+        $agencyId = 1;
+        
+        // Insert an advertiser under this agency.
+        $doClients = MAX_DB::factoryDO('clients');
+        $doClients->agencyid = $agencyId;
+        $agencyClientId = DataGenerator::generateOne($doClients);
+        
+        // Insert an active campaign with this client
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->active = 't';
+        $doCampaigns->clientid = $agencyClientId;
+        $agencyCampaignIdActive = DataGenerator::generateOne($doCampaigns);
+        
+        // Insert an inactive campaign with this client
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->active = 'f';
+        $doCampaigns->clientid = $agencyClientId;
+        $agencyCampaignInactiveId = DataGenerator::generateOne($doCampaigns);
+        
+        // Insert an advertiser under no agency.
+        $doClients = MAX_DB::factoryDO('clients');
+        $doClients->agencyid = 0;
+        $noAgencyClientId = DataGenerator::generateOne($doClients);
+        
+         // Insert an active campaign with this client
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->active = 't';
+        $doCampaigns->clientid = $noAgencyClientId;
+        $noAgencyCampaignIdActive = DataGenerator::generateOne($doCampaigns);
+                
+        // Count the active campaigns
+        $expected = 1;
+        $activeCount = $this->dalCampaigns->countActiveCampaignsUnderAgency($agencyId);
+
+        $this->assertEqual($activeCount, $expected);
     }
 }

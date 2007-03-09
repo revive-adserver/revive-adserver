@@ -74,35 +74,6 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
     }
 
     /**
-     *
-     */
-    function countAllAdvertisers()
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-
-        $query_clients = "SELECT count(*) AS count".
-        " FROM ".$conf['table']['prefix'].$conf['table']['clients'];
-        $number_of_clients  = $this->dbh->getOne($query_clients);
-
-        return $number_of_clients;
-    }
-
-    /**
-     *
-     * @return int Normally 1
-     * @todo Consider returning hard-coded int 1
-     */
-    function countAdvertisersWithId($advertiser_id)
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-
-        $query_clients = "SELECT count(*) AS count".
-        " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-        " WHERE clientid=".$advertiser_id;
-        $number_of_clients  = $this->dbh->getOne($query_clients);
-    }
-
-    /**
      * Gets a list of all advertisers.
      * 
      * @param string $listorder
@@ -111,9 +82,12 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
      *  
      * @todo Consider removing order options (or making them optional)
      */
-    function getAllAdvertisers($listorder, $orderdirection)
+    function getAllAdvertisers($listorder, $orderdirection, $agencyId = null)
     {
         $doClients = MAX_DB::factoryDO('clients');
+        if (!empty($agencyId) && is_numeric($agencyId)) {
+            $doClients->agencyid = $agencyId;
+        }
         $doClients->addListOrderBy($listorder, $orderdirection);
         $advertisers = $this->_rekeyClientsArray($doClients->getAll(array('clientname'), true));
         return $advertisers;
@@ -138,20 +112,6 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
         return $advertisers;
     }
 
-
-    /**
-     * @todo Verify SQL is ANSI compliant
-     * @todo Consider moving to agency DAL
-     */
-    function countAdvertisersUnderAgency($agency_id)
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $query_clients = "SELECT count(*) AS count".
-        " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-        " WHERE agencyid=".$agency_id;
-        $number_of_clients  = $this->dbh->getOne($query_clients);
-        return $number_of_clients;
-    }
 
     /**
      * Converts a database result into an array keyed by ID.

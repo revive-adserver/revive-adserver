@@ -24,7 +24,9 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/max/Dal/Common.php';
 require_once MAX_PATH . '/lib/max/Dal/Admin/Banners.php';
+require_once MAX_PATH . '/lib/max/Dal/DataObjects/tests/util/DataGenerator.php';
 
 /**
  * A class for testing DAL Banners methods
@@ -36,12 +38,114 @@ require_once MAX_PATH . '/lib/max/Dal/Admin/Banners.php';
  */
 class MAX_Dal_Admin_BannersTest extends UnitTestCase
 {
+    var $dalBanners;
+    
     /**
      * The constructor method.
      */
     function MAX_Dal_Admin_BannersTest()
     {
         $this->UnitTestCase();
+    }
+    
+    function setUp()
+    {
+        $this->dalBanners = MAX_DB::factoryDAL('banners');
+    }
+    
+    function tearDown()
+    {
+        TestEnv::restoreEnv();
+    }
+    
+    function testGetAllBanners()
+    {
+        // Insert banners
+        $numBanners = 2;
+        $doBanners = MAX_DB::factoryDO('banners');
+        $aBannerId = DataGenerator::generate($doBanners, $numBanners);
+                
+        // Call method
+        $aBanners = $this->dalBanners->getAllBanners('name', 'up');
+        
+        // Test same number of banners are returned.
+        $this->assertEqual(count($aBanners), $numBanners);
+    }
+    
+    function testCountActiveBanners()
+    {
+        // Insert an active campaign
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->active = 't';
+        $activeCampaignId = DataGenerator::generateOne($doCampaigns);
+        
+        // Insert an active banner
+        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners->active = 't';
+        $doBanners->campaignid = $activeCampaignId;
+        $activeBannerId = DataGenerator::generateOne($doBanners);
+        
+        // Insert an inactive banner
+        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners->active = 'f';
+        $doBanners->campaignid = $activeCampaignId;
+        $inactiveBannerId = DataGenerator::generateOne($doBanners);
+        
+        // Count the active banners
+        $expected = 1;
+        $activeCount = $this->dalBanners->countActiveBanners();        
+        $this->assertEqual($activeCount, $expected);
+    }
+    
+    function testCountActiveBannersUnderAgency()
+    {
+        $agencyId = 1;
+        
+        // Insert an advertiser under this agency.
+        $doClients = MAX_DB::factoryDO('clients');
+        $doClients->agencyid = $agencyId;
+        $agencyClientId = DataGenerator::generateOne($doClients);
+        
+        // Insert an active campaign with this client
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->active = 't';
+        $doCampaigns->clientid = $agencyClientId;
+        $agencyCampaignIdActive = DataGenerator::generateOne($doCampaigns);
+        
+        // Insert an active banner in this campaign
+        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners->active = 't';
+        $doBanners->campaignid = $agencyCampaignIdActive;
+        $agencyBannerIdActive = DataGenerator::generateOne($doBanners);
+        
+        // Insert an inactive banner in this campaign
+        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners->active = 'f';
+        $doBanners->campaignid = $agencyCampaignIdActive;
+        $agencyBannerIdInactive = DataGenerator::generateOne($doBanners);
+        
+        // Insert an advertiser under no agency.
+        $doClients = MAX_DB::factoryDO('clients');
+        $doClients->agencyid = 0;
+        $noAgencyClientId = DataGenerator::generateOne($doClients);
+        
+         // Insert an active campaign with this client
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->active = 't';
+        $doCampaigns->clientid = $noAgencyClientId;
+        $noAgencyCampaignIdActive = DataGenerator::generateOne($doCampaigns);
+        
+        // Insert an active banner in this campaign
+        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners->active = 't';
+        $doBanners->campaignid = $noAgencyCampaignIdActive;
+        $noAgencyBannerIdActive = DataGenerator::generateOne($doBanners);
+                
+        // Count the active banners
+        $expected = 1;
+        $activeCount = $this->dalBanners->countActiveBannersUnderAgency($agencyId);
+
+        $this->assertEqual($activeCount, $expected);
     }
 }
 

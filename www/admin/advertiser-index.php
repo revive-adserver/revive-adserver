@@ -99,10 +99,7 @@ if (phpAds_isUser(phpAds_Admin)) {
     $campaigns = $dalCampaigns->getAllCampaigns($listorder, $orderdirection);
     $banners = $dalBanners->getAllBanners($listorder, $orderdirection);
 
-    $number_of_clients = $dalClients->countAllAdvertisers();
-    $number_of_campaigns = $dalCampaigns->countAllCampaigns();
     $number_of_active_campaigns = $dalCampaigns->countActiveCampaigns();
-    $number_of_banners = $dalBanners->countAllBanners();
     $number_of_active_banners = $dalBanners->countActiveBanners();
 } elseif (phpAds_isUser(phpAds_Agency)) {
     $agency_id = phpAds_getUserID();
@@ -110,12 +107,12 @@ if (phpAds_isUser(phpAds_Admin)) {
     $campaigns = $dalCampaigns->getAllCampaignsUnderAgency($agency_id, $listorder, $orderdirection);
     $banners = $dalBanners->getAllBannersUnderAgency($agency_id, $listorder, $orderdirection);
 
-    $number_of_clients = $dalClients->countAdvertisersUnderAgency($agency_id);
-    $number_of_campaigns = $dalCampaigns->countCampaignsUnderAgency($agency_id);
     $number_of_active_campaigns =  $dalCampaigns->countActiveCampaignsUnderAgency($agency_id);
-    $number_of_banners = $dalBanners->countBannersUnderAgency($agency_id);
     $number_of_active_banners = $dalBanners->countActiveBannersUnderAgency($agency_id);
 }
+    $number_of_clients = count($clients);
+    $number_of_campaigns = count($campaigns);
+    $number_of_banners = count($banners);
 
 // Build Tree
 $clientshidden = 0;
