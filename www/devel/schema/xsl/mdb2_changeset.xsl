@@ -1,37 +1,27 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:template match="/">
     <!--  -->
-    <html><head><title>Openads Upgrade Changeset</title>
+    <html><head><title>Openads Schema Changeset</title>
 
-    <link rel="stylesheet" type="text/css" href="/upgrade_dev/xsl/mdb2_xsl.css"/>
+    <link rel="stylesheet" type="text/css" href="css/mdb2_xsl.css"/>
 
+    <script type="text/javascript" src="schema.js"/>
+    <script type="text/javascript" src="../lib/xajax/xajax_js/xajax.js"></script>
     <script type="text/javascript">
-var xajaxRequestUri="http://www.trunk.0x.monique.m3.net/upgrade_dev/index.php";
-var xajaxDebug=false;
-var xajaxStatusMessages=false;
-var xajaxWaitCursor=true;
-var xajaxDefinedGet=0;
-var xajaxDefinedPost=1;
-var xajaxLoaded=false;
-function xajax_editFieldProperty(){return xajax.call("editFieldProperty", arguments, 1);}
-	</script>
-	<script type="text/javascript" src="./lib/xajax/xajax_js/xajax.js"></script>
-	<script type="text/javascript">
-window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Javascript file could not be included. Perhaps the URL is incorrect?\nURL: ./xajax_js/xajax.js'); } }, 6000);
-	</script>
+        window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Javascript file could not be included. Perhaps the URL is incorrect?\nURL: ../lib/xajax/xajax_js/xajax.js'); } }, 6000);
+    </script>
 
     </head>
     <body>
-    <p class="titlemini">A changeset does not allow you to alter a schema.
-    </p>
     <!-- -->
 
     <xsl:choose>
         <xsl:when test="//instructionset">
-            <xsl:call-template name="showform">
+            <!--xsl:call-template name="showform">
                 <xsl:with-param name="filename" select="//instructionset/name"/>
-            </xsl:call-template>
+            </xsl:call-template-->
             <xsl:if test="//instructionset/constructive/changeset">
+                <xsl:text>constructive changes</xsl:text>
                 <xsl:for-each select="//instructionset/constructive/changeset">
                     <xsl:call-template name="showchangeset">
                         <xsl:with-param name="showdestructive" select="'no'"/>
@@ -39,6 +29,7 @@ window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Java
                 </xsl:for-each>
             </xsl:if>
             <xsl:if test="//instructionset/destructive/changeset">
+                <xsl:text>destructive changes</xsl:text>
                 <xsl:for-each select="//instructionset/destructive/changeset">
                     <xsl:call-template name="showchangeset">
                         <xsl:with-param name="showconstructive" select="'no'"/>
@@ -47,14 +38,22 @@ window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Java
             </xsl:if>
         </xsl:when>
         <xsl:when test="//changeset">
-            <xsl:call-template name="showform">
+            <!--xsl:call-template name="showform">
                 <xsl:with-param name="filename" select="//changeset/name"/>
-            </xsl:call-template>
+            </xsl:call-template-->
             <xsl:for-each select="//changeset">
                 <xsl:call-template name="showchangeset"/>
             </xsl:for-each>
         </xsl:when>
     </xsl:choose>
+    <form name="frm_admin" method="POST" action="index.php">
+        <table class="tablemain">
+        <tr>
+            <td class="tableheader" style="text-align:center;"><button name="btn_changeset_delete" type="submit">delete</button></td>
+            <td class="tableheader" style="text-align:center;"><button name="btn_changeset_cancel" type="submit">go back</button></td>
+        </tr>
+        </table>
+    </form>
 
     <div>
         <table class="tablemainnotes">
@@ -77,8 +76,8 @@ window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Java
     <xsl:param name="showconstructive">yes</xsl:param>
     <xsl:param name="showdestructive">yes</xsl:param>
 
-    <br/><span class="titlemini">Changeset:
-    <xsl:value-of select="name"/> :: Version:
+    <br/><span class="titlemini">
+    <xsl:value-of select="name"/>version:
     <xsl:value-of select="version"/></span><br/>
     <span class="titlemini">
     <xsl:value-of select="comments"/></span><br/><br/>
@@ -348,5 +347,6 @@ window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Java
     <option value="m_constructive">maintenance_constructive</option>
     <option value="m_destructive">maintenance_destructive</option>
 </xsl:template>
+
 
 </xsl:stylesheet>

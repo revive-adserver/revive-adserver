@@ -24,6 +24,7 @@ require_once MAX_PATH.'/lib/openads/Dal.php';
 $file_schema_core = 'tables_core.xml';
 $path_schema_final = MAX_PATH.'/etc/';
 $path_schema_trans = MAX_PATH.'/var/';
+$file_changes_core = $path_schema_trans.'changes_core.xml';
 
 $schema_final = $path_schema_final.$file_schema_core;
 $schema_trans = $path_schema_trans.$file_schema_core;
@@ -43,19 +44,37 @@ if (count($_POST)>0)
     // don't need to enter username/password/database
     // unless you need to connect for some reason
     // for parsing just the host and db type is required
-    $dsn['phptype']     = 'mysql';
-    $dsn['hostspec']    = 'localhost';
+    $dsn['phptype']     = $_MAX['CONF']['database']['type'];
+    $dsn['hostspec']    = $_MAX['CONF']['database']['host'];
     $dsn['username']    = '';
     $dsn['password']    = '';
     $dsn['database']    = '';
-    // required by Openads_Dal which would normally get it from conf.ini after init
-    $GLOBALS['_MAX']['CONF']['database']['type'] = $dsn['phptype'];
 
     $schema = & MDB2_Schema::factory(Openads_Dal::singleton($dsn), $dump_options);
     $dd_definition = $schema->parseDictionaryDefinitionFile(MAX_DEV.'/etc/dd.generic.xml');
 }
 
-if (array_key_exists('btn_copy_final', $_POST))
+if (array_key_exists('btn_compare_schemas', $_POST))
+{
+    if (file_exists($schema_trans) && file_exists($schema_final))
+    {
+        $prev_definition = $schema->parseDatabaseDefinitionFile($schema_final);
+        $curr_definition = $schema->parseDatabaseDefinitionFile($schema_trans);
+        $changes        = $schema->compareDefinitions($curr_definition, $prev_definition);
+        $dump_options['output']     =   $file_changes_core;
+        $dump_options['xsl_file']   = "xsl/mdb2_changeset.xsl";
+        $changes['version'] = $curr_definition['version'];
+        $xmlchanges     = $schema->dumpChangeset($changes, $dump_options, true);
+        if (file_exists($file_changes_core))
+        {
+            $file = $file_changes_core;
+            header('Content-Type: application/xhtml+xml; charset=ISO-8859-1');
+            readfile($file);
+            exit();
+        }
+    }
+}
+else if (array_key_exists('btn_copy_final', $_POST))
 {
     if (file_exists($schema_trans))
     {
@@ -85,7 +104,8 @@ else if (file_exists($schema_final))
     $file = $schema_final;
 }
 
-if (array_key_exists('btn_table_cancel', $_POST))
+if (array_key_exists('btn_table_cancel', $_POST) ||
+    array_key_exists('btn_changeset_cancel', $_POST))
 {
     header('Content-Type: application/xhtml+xml; charset=ISO-8859-1');
     readfile($file);

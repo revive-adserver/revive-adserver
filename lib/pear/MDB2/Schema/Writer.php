@@ -557,7 +557,7 @@ class MDB2_Schema_Writer
         $eol = isset($arguments['end_of_line']) ? $arguments['end_of_line'] : "\n";
 
         $this->buffer = $this->_getXMLversion().$eol;
-        $this->buffer.= $this->_getXSLRef($arguments['xsl_file']).$eol;
+        $this->buffer.= $this->_getXSLRef($arguments).$eol;
 
         $changeset = $this->splitChanges($changes);
 
@@ -675,7 +675,7 @@ class MDB2_Schema_Writer
         $eol = isset($arguments['end_of_line']) ? $arguments['end_of_line'] : "\n";
 
         $this->buffer = $this->_getXMLversion().$eol;
-        $this->buffer.= $this->_getXSLRef($arguments['xsl_file']).$eol;
+        $this->buffer.= $this->_getXSLRef($arguments).$eol;
 
         $changeset = $this->splitChanges($changes);
 

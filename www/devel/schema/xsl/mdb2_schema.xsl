@@ -194,8 +194,10 @@
 
 <xsl:template name="showadminmenu">
     <form name="frm_admin" method="POST" action="index.php">
-        <input name="btn_delete_trans" type="submit" value="delete transitional schema"/>
         <input name="btn_copy_final" type="submit" value="copy final schema to transitional" />
+        <input name="btn_delete_trans" type="submit" value="delete transitional schema"/>
+        <input name="btn_compare_schemas" type="submit" value="create the changeset"/>
+        <input name="btn_commit_final" type="submit" value="commit transitional schema as final" disabled="disabled" />
     </form>
 </xsl:template>
 
