@@ -77,6 +77,14 @@ class DB_DataObjectCommon extends DB_DataObject
     var $_aReferences = array();
     
     /**
+     * If $triggerSqlDie is true DataObject behaves in exactly
+     * the same way as we would execute phpAdsSqlDie() on any SQL failure.
+     *
+     * @var boolean
+     */
+    var $triggerSqlDie = true;
+    
+    /**
      * //// Public methods, added to help users to optimize the use of DataObjects
      */
     
@@ -616,6 +624,14 @@ class DB_DataObjectCommon extends DB_DataObject
         }
     }
     
+    /**
+     * Added storing reference to DataBase connection
+     * 
+     * @todo Add sharing connections in connection Pool
+     * @see DB_DataObject::_connect()
+     * 
+     * @return PEAR::error | true
+     */
     function _connect()
     {
         $ret = parent::_connect();
@@ -626,6 +642,39 @@ class DB_DataObjectCommon extends DB_DataObject
             $GLOBALS['_MAX']['ADMIN_DB_LINK'] = &$dbConnection->connection;
         }
         return $ret;
+    }
+    
+    /**
+     * Added handling any errors caused by queries send from DataObjects to database
+     *
+     * @param string $string  Query
+     * @return PEAR_Error or mixed none
+     */
+    function _query($string)
+    {
+        $production = empty($GLOBALS['_MAX']['CONF']['debug']['production']) ? false : true;
+	    if ($production) {
+	       // supress any PEAR errors if in production
+	       PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
+	    }
+	    
+	    // execute query
+	    $ret = parent::_query($string);
+	    
+	    if (PEAR::isError($ret)) {
+	        if(!$production) {
+	           $GLOBALS['_MAX']['ERRORS'][] = $ret;
+	        }
+    	    if ($this->triggerSqlDie) {
+    	        global $phpAds_last_query;
+                $phpAds_last_query = $ret->userinfo;
+                phpAds_sqlDie();
+    	    }
+	    }
+	    if ($production) {
+		  PEAR::staticPopErrorHandling();
+	    }
+	    return $ret;
     }
     
     /**
