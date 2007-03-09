@@ -311,7 +311,7 @@ function MAX_commonInitVariables()
     }
 
     $conf = $GLOBALS['_MAX']['CONF'];
-    $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array(
+    MAX_commonSetArrCappingCookieNames(array(
         $conf['var']['blockAd'],
         $conf['var']['capAd'],
         $conf['var']['sessionCapAd'],
@@ -320,7 +320,7 @@ function MAX_commonInitVariables()
         $conf['var']['sessionCapCampaign'],
         $conf['var']['blockZone'],
         $conf['var']['capZone'],
-        $conf['var']['sessionCapZone']);
+        $conf['var']['sessionCapZone']));
 
     $GLOBALS['_MAX']['NOW'] = time();
 }
@@ -334,11 +334,6 @@ function MAX_commonDisplay1x1()
     MAX_header('Content-Length: 43');
     // 1 x 1 gif
     echo base64_decode(MAX_DELIVERY_1x1);
-}
-
-function MAX_commonGetArrCappingCookieNames()
-{
-	return $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'];
 }
 
 function MAX_commonGetTimeNow()

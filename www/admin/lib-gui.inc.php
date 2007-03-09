@@ -191,6 +191,9 @@ function phpAds_PageHeader($ID, $extra="")
     $keyLineColor = phpAds_getKeyLineColor();
 
     // Travel navigation
+    $tabbar = '';
+    $tabbottom = '';
+    $tabtop = '';
     if ($ID != phpAds_Login && $ID != phpAds_Error) {
         // Prepare Navigation
         if (phpAds_isUser(phpAds_Admin)) {
@@ -330,8 +333,6 @@ function phpAds_PageHeader($ID, $extra="")
         }
         // Build Tabbar
         $currentsection = $sections[0];
-        $tabbar = '';
-        $tabbottom = '';
         // Prepare Navigation
         if (phpAds_isUser(phpAds_Admin)) {
             $pages    = $phpAds_nav['admin'];
@@ -346,7 +347,6 @@ function phpAds_PageHeader($ID, $extra="")
         }
         $i = 0;
         $lastselected = false;
-        $tabtop = '';
         foreach (array_keys($pages) as $key) {
             if (strpos($key, ".") == 0) {
                 list($filename, $title) = each($pages[$key]);

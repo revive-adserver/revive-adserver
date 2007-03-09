@@ -136,6 +136,31 @@ function _getTimeYearFromNow() //Chris: See comment above
 	return MAX_commonGetTimeNow() + 365*24*60*60;
 }
 
+$GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array();
+
+/**
+ * Stores the values of capping cookie names so that they can be later
+ * retrieved by MAX_commonGetArrCappingCookieNames() function.
+ *
+ * @param array $aCookieNames
+ */
+function MAX_commonSetArrCappingCookieNames($aCookieNames)
+{
+    $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = $aCookieNames;
+}
+
+/**
+ * Returns an array of array capping cookie names. If the names weren't
+ * initialized previously by a call to MAX_commonSetArrCappingCookieNames()
+ * the empty array is returned.
+ *
+ * @return array
+ */
+function MAX_commonGetArrCappingCookieNames()
+{
+	return $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'];
+}
+
 /**
  * This function unpacks the serialized array used for capping
  *

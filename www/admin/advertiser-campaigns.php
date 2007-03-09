@@ -28,21 +28,16 @@
 $Id$
 */
 
-// Require the initialisation file
 require_once '../../init.php';
 
-// Required files
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/DB.php';
 require_once MAX_PATH . '/lib/max/Permission.php';
 require_once 'Date.php';
 
-// Register input variables
-phpAds_registerGlobal ('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection');
+phpAds_registerGlobalUnslashed('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection');
 
-
-// Security check
 MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
 MAX_Permission::checkAccessToObject('clients', $clientid);
 
@@ -77,7 +72,7 @@ if (phpAds_isUser(phpAds_Agency)) {
     $doClients->clientid = phpAds_getUserID();
 }
 
-$doClients->addListorderBy($navorder, $navdirection);
+$doClients->addListOrderBy($navorder, $navdirection);
 $doClients->find();
 
 while ($doClients->fetch() && $row = $doClients->toArray()) {
@@ -155,7 +150,7 @@ while ($doCampaigns->fetch() && $row_campaigns = $doCampaigns->toArray()) {
     $row_campaigns['campaignname'] = MAX_getPlacementName($campaign_details);
 
 	$campaigns[$row_campaigns['campaignid']]['campaignname'] = $row_campaigns['campaignname'];
-	$campaigns[$row_campaigns['campaignid']]['impressions']  = phpAds_formatNumber($row_campaigns['impressions']);
+	$campaigns[$row_campaigns['campaignid']]['impressions']  = phpAds_formatNumber($row_campaigns['views']);
 	$campaigns[$row_campaigns['campaignid']]['clicks']       = phpAds_formatNumber($row_campaigns['clicks']);
 	$campaigns[$row_campaigns['campaignid']]['conversions']  = phpAds_formatNumber($row_campaigns['conversions']);
 	if ($row_campaigns['activate'] != '0000-00-00') {

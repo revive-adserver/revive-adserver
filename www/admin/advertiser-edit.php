@@ -107,7 +107,7 @@ if (isset($submit)) {
 		}
 		// Username
 		if (!empty($clientusername)) {
-            if (!MAX_Permission::isUsernameAllowed($client['username'], $clientusername)) {
+            if (!MAX_Permission::isUsernameAllowed($client['clientusername'], $clientusername)) {
                 $errormessage[] = $strDuplicateAgencyName;
             } else {
 				// Set username

@@ -46,21 +46,25 @@ function phpAds_SessionDataFetch()
 {
     global $session;
     $dal = new MAX_Dal_Admin_Session();
-	$session_id = $_COOKIE['sessionID'];
     
     // Guard clause: Can't fetch a session without an ID
-	if (!$session_id) {
+	if (empty($_COOKIE['sessionID'])) {
         return;
     }
     
-    $serialized_session = $dal->getSerializedSession($session_id);
+    $serialized_session = $dal->getSerializedSession($_COOKIE['sessionID']);
+    
+    if (empty($serialized_session)) {
+        return;
+    }
+    
     $loaded_session = unserialize($serialized_session);
 	if (!$loaded_session) {
         // XXX: Consider raising an error
         return;
     }
 	$session = $loaded_session;
-    $dal->refreshSession($session_id);
+    $dal->refreshSession($_COOKIE['sessionID']);
 }
 
 /*-------------------------------------------------------*/
