@@ -100,7 +100,8 @@ $_REQUEST['bannerid']    = $bannerid;
 $_REQUEST['campaignid']  = $campaignid;
 $_REQUEST['clientid']    = $clientid;
 
-//die($entity." ".$breakdown);
+// Check that the user has access to data he is asking for
+
 
 // Display stats
 

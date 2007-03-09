@@ -31,7 +31,7 @@ class DBC_ConnectionConfiguration {
                 'phptype'  => $conf['database']['type'],
                 'username' => $conf['database']['username'],
                 'password' => $conf['database']['password'],
-                'protocol' => $conf['database']['protocol'],
+                //'protocol' => $conf['database']['protocol'],
                 'hostspec' => $conf['database']['host'],
                 'database' => $conf['database']['name'],
                 'port'     => $conf['database']['port'],

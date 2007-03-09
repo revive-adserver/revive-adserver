@@ -357,7 +357,7 @@ class MAX_Admin_Preferences
         $missing_cols = array();
         foreach ($GLOBALS['_MAX']['PREF'] as $k => $v) {
             if (preg_match('/^gui_column_/', $k)) {
-                if ($tmp = @unserialize($v)) {
+                if (is_string($v) && $tmp = @unserialize($v)) {
                     $GLOBALS['_MAX']['PREF'][$k.'_array'] = $tmp;
                     $GLOBALS['_MAX']['PREF'][$k] = 0;
                     foreach ($tmp as $perm => $custom) {

@@ -314,7 +314,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 active
             FROM
                 {$prefix}campaigns " .
-            $this->getSqlListOrder($listOrder, $orderDirection)
+            $this->getSqlListOrder($listorder, $orderdirection)
         ;
         
         $rsCampaigns = DBC::NewRecordSet($query);

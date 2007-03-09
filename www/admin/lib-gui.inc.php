@@ -346,6 +346,7 @@ function phpAds_PageHeader($ID, $extra="")
         }
         $i = 0;
         $lastselected = false;
+        $tabtop = '';
         foreach (array_keys($pages) as $key) {
             if (strpos($key, ".") == 0) {
                 list($filename, $title) = each($pages[$key]);
@@ -377,13 +378,11 @@ function phpAds_PageHeader($ID, $extra="")
             $i++;
         }
         if ($lastselected) {
-            //$tabtop .= "\t\t\t\t\t<td bgcolor='#$keyLineColor'><img src='images/spacer.gif' height='1'></td>\n";
             $tabbar .= "\t\t\t\t\t<td bgcolor='#$headerActiveTabColor' align='right' valign='top'><img src='images/$phpAds_TextDirection/tab-toprightcorner-$headerBackgroundColor.gif' width='7' height='21'></td>\n";
             $tabbar .= "\t\t\t\t\t<td><table border='0' cellspacing='0' cellpadding='0'><tr height='7'><td width='1'><img src='images/spacer.gif' height='7' width='1'></td></tr><tr height='14'><td width='1' bgcolor='#$keyLineColor'><img src='images/spacer.gif' height='14' width='1'></td></tr></table></td>\n";
             $tabbottom .= "\t\t\t\t\t<td bgcolor='#$headerActiveTabColor'><img src='images/spacer.gif' height='4'></td>\n";
             $tabbottom .= "\t\t\t\t\t<td bgcolor='#$keyLineColor' width='1'><img src='images/spacer.gif' width='1'></td>\n";
         } else {
-            //$tabtop .= "\t\t\t\t\t<td bgcolor='#$keyLineColor'><img src='images/spacer.gif' height='1'></td>\n";
             $tabbar .= "\t\t\t\t\t<td bgcolor='#$headerForegroundColor' align='right' valign='top'><img src='images/$phpAds_TextDirection/tab-toprightcorner-$headerBackgroundColor.gif' width='7' height='21'></td>\n";
             $tabbar .= "\t\t\t\t\t<td><table border='0' cellspacing='0' cellpadding='0'><tr height='7'><td width='1'><img src='images/spacer.gif' height='7' width='1'></td></tr><tr height='14'><td width='1' bgcolor='#$keyLineColor'><img src='images/spacer.gif' height='14' width='1'></td></tr></table></td>\n";
             $tabbottom .= "\t\t\t\t\t<td bgcolor='#$headerForegroundColor'><img src='images/spacer.gif' height='4'></td>\n";
@@ -415,7 +414,6 @@ function phpAds_PageHeader($ID, $extra="")
             $tabtop .= "\t\t\t\t\t<td bgcolor='#$keyLineColor'><img src='images/spacer.gif' height='1'></td>\n";
             $tabbar    .= "\t\t\t\t\t<td bgcolor='#$headerActiveTabColor' valign='middle' nowrap>&nbsp;&nbsp;<a class='tab-s' href='index.php'>$strAuthentification</a></td>\n";
             $tabbottom .= "\t\t\t\t\t<td bgcolor='#$headerActiveTabColor'><img src='images/spacer.gif' height='4'></td>\n";
-            //$tabtop .= "\t\t\t\t\t<td bgcolor='#$keyLineColor'><img src='images/spacer.gif' height='1'></td>\n";
             $tabbar .= "\t\t\t\t\t<td bgcolor='#$headerActiveTabColor' align='right' valign='top'><img src='images/$phpAds_TextDirection/tab-toprightcorner-$headerBackgroundColor.gif' width='7' height='21'></td>\n";
             $tabbar .= "\t\t\t\t\t<td><table border='0' cellspacing='0' cellpadding='0'><tr height='7'><td width='1'><img src='images/spacer.gif' height='7' width='1'></td></tr><tr height='14'><td width='1' bgcolor='#$keyLineColor'><img src='images/spacer.gif' height='14' width='1'></td></tr></table></td>\n";
             $tabbottom .= "\t\t\t\t\t<td bgcolor='#$headerActiveTabColor'><img src='images/spacer.gif' height='4'></td>\n";
@@ -428,14 +426,11 @@ function phpAds_PageHeader($ID, $extra="")
             $tabtop .= "\t\t\t\t\t<td bgcolor='#$keyLineColor'><img src='images/spacer.gif' height='1'></td>\n";
             $tabbar    .= "\t\t\t\t\t<td bgcolor='#$headerActiveTabColor' valign='middle' nowrap>&nbsp;&nbsp;<a class='tab-s' href='index.php'>Error</a></td>\n";
             $tabbottom .= "\t\t\t\t\t<td bgcolor='#$headerActiveTabColor'><img src='images/spacer.gif' height='4'></td>\n";
-            //$tabtop .= "\t\t\t\t\t<td bgcolor='#$keyLineColor'><img src='images/spacer.gif' height='1'></td>\n";
             $tabbar .= "\t\t\t\t\t<td bgcolor='#$headerActiveTabColor' align='right' valign='top'><img src='images/$phpAds_TextDirection/tab-toprightcorner-$headerBackgroundColor.gif' width='7' height='21'></td>\n";
             $tabbar .= "\t\t\t\t\t<td><table border='0' cellspacing='0' cellpadding='0'><tr height='7'><td width='1'><img src='images/spacer.gif' height='7' width='1'></td></tr><tr height='14'><td width='1' bgcolor='#$keyLineColor'><img src='images/spacer.gif' height='14' width='1'></td></tr></table></td>\n";
             $tabbottom .= "\t\t\t\t\t<td bgcolor='#$headerActiveTabColor'><img src='images/spacer.gif' height='4'></td>\n";
             $tabbottom .= "\t\t\t\t\t<td bgcolor='#$keyLineColor' width='1'><img src='images/spacer.gif' width='1'></td>\n";
         }
-        // $tabbar   .= "\t\t\t\t\t<td bgcolor='#FFFFFF'><img src='images/".$phpAds_TextDirection."/tab-toprightcorner-$headerBackgroundColor.gif' width='7' height='21'></td>\n";
-        // $tabbottom .= "\t\t\t\t\t<td bgcolor='#FFFFFF'><img src='images/spacer.gif' height='4'></td>\n";
     }
     // Use gzip content compression
     if (isset($pref['content_gzip_compression']) && $pref['content_gzip_compression'] == 't') {
@@ -626,7 +621,7 @@ function phpAds_PageFooter()
     }
     echo "</body>\n";
     echo "</html>\n";
-    if (isset($pref['content_gzip_compression']) && $pref['content_gzip_compression']) {
+    if (isset($pref['content_gzip_compression']) && $pref['content_gzip_compression'] == 't') {
         ob_end_flush();
     }
 }

@@ -312,7 +312,7 @@ class DB_DataObjectCommon extends DB_DataObject
         }
         $this->whereAdd($columnName . " <> ''");
         $unique = $this->getAll(array($columnName));
-        if (!empty($exceptValue)) {
+        if (!empty($exceptValue) && !empty($uniqueUsers)) {
             $key = array_search($removeName, $uniqueUsers);
 	        if (is_numeric($key)) {
 	            unset($uniqueUsers[$key]);
@@ -583,7 +583,7 @@ class DB_DataObjectCommon extends DB_DataObject
             $oldConfig = $configDatabase;
             foreach ($oldConfig as $tableName => $config) {
                 $configDatabase[$this->_prefix.$tableName] = $configDatabase[$tableName];
-                $configDatabase[$this->_prefix.$tableName."__keys"] = $configDatabase[$tableName."__keys"];
+                //$configDatabase[$this->_prefix.$tableName."__keys"] = $configDatabase[$tableName."__keys"];
             }
         }
         return true;
