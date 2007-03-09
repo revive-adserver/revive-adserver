@@ -182,7 +182,12 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
         $conf = $GLOBALS['_MAX']['CONF'];
         if (!$ignorePast) {
             // Get campaign summary statistic totals
-            $oPlacement->setSummaryStatisticsToDate();
+            if ($type == 'total') {
+                $oPlacement->setSummaryStatisticsToDate();
+            } else {
+                $oTodayDate = $this->_getDate();
+                $oPlacement->setSummaryStatisticsToday($oTodayDate->format('%Y-%m-%d'));
+            }
         }
         // Calculate impressions required to fulfill click requirement
         if ($type == 'total') {
