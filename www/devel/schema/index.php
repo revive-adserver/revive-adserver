@@ -9,15 +9,13 @@
  *
  */
 
-define('MAX_PATH', dirname(__FILE__).'/../../..');
-define('MAX_DEV', dirname(__FILE__).'/..');
-define('MAX_XSL', MAX_DEV.'/schema/xsl');
-define('MAX_PEAR', MAX_PATH.'/lib/pear/');
+require_once '../../../init.php';
+define('MAX_DEV', MAX_PATH.'/www/devel');
 
 require_once MAX_DEV.'/lib/pear.inc.php';
-require_once MAX_DEV.'/lib/oaclass.error.php';
 require_once 'MDB2.php';
 require_once 'MDB2/Schema.php';
+
 require_once 'funcs.php';  // this contains the functions registered with xajax
 //include xajax itself after the xajax registration funcs
 require_once MAX_DEV.'/lib/xajax.inc.php'; // this instantiates xajax object and registers the functions

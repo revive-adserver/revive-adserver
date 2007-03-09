@@ -27,7 +27,7 @@ $conf = array('append'=>false);
 //    $logger = &Log::singleton('file',
 //                              MAX_PATH . '/var/upgrade.log',
 //                              'upgrade_mdb2');
-$logger = & new Log_file(MAX_PATH . '/var/upgrade.log','upgrade_mdb2', $conf);
+$logger = & new Log_file(MAX_PATH . '/var/schema.log','schema_mdb2', $conf);
 $logger->debug('========================INITIALISED=============================================');
 
 // assign the callback function that will actually handle the error
@@ -39,7 +39,7 @@ OpenadsError::setErrorHandling(PEAR_ERROR_CALLBACK, 'handle_error');
  */
 function handle_error ($error_obj)
 {
-    global $logger, $dsn, $mdb, $htmlfile;
+    global $logger, $dsn, $mdb;
 
 //    $logger->debug($error_obj->toString());
     $logger->debug('MESSAGE: '.$error_obj->getMessage());
@@ -70,7 +70,6 @@ function handle_error ($error_obj)
     }
 
     $err = file_get_contents(MAX_PATH . '/var/upgrade.log');
-    include $htmlfile;
     die();
 }
 
