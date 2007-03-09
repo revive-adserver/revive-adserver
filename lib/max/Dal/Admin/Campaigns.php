@@ -313,7 +313,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 campaignname,
                 active
             FROM
-                {$prefix}campaigns " .
+                {$prefix}campaigns2 " .
             $this->getSqlListOrder($listorder, $orderdirection)
         ;
         

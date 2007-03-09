@@ -232,7 +232,7 @@ class MAX
      * @static
      * @param PEAR_Error $oError A {@link PEAR_Error} object
      */
-    function errorObjToString($oError)
+    function errorObjToString($oError, $additionalInfo = null)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $message = $oError->getMessage();
@@ -250,6 +250,7 @@ class MAX
     <br />
     <br />$message
     <br /><pre>$debugInfo</pre>
+    $additionalInfo
 </div>
 <br />
 <br />
@@ -330,16 +331,28 @@ function pearErrorHandler($oError)
     $message = $oError->getMessage();
     $debugInfo = $oError->getDebugInfo();
     MAX::debug('PEAR' . " :: $message : $debugInfo", PEAR_LOG_ERR);
-    // Send the error to the screen
-    echo MAX::errorObjToString($oError);
 
-    //  if sesssion debug, send error info to screen
+    // If sesssion debug, send error info to screen
+    $msg = '';
     if (empty($conf['debug']['production'])) {
         $GLOBALS['_MAX']['ERRORS'][] = $oError;
-        if (!empty($conf['debug']['showBacktrace'])) {
-            echo '<pre>'; print_r($oError->getBacktrace()); print '</pre>';
-        }
     }
+
+    // Add backtrace info
+    if (!empty($conf['debug']['showBacktrace'])) { 
+        $msg .= 'PEAR backtrace: <div onClick="if (this.style.height) {this.style.height = null;this.style.width = null;} else {this.style.height = \'8px\'; this.style.width=\'8px\'}"';
+        $msg .= 'style="float:left; cursor: pointer; border: 1px dashed #FF0000; background-color: #EFEFEF; height: 8px; width: 8px; overflow: hidden; margin-bottom: 2px;">';
+        $msg .= '<pre wrap style="margin: 5px; background-color: #EFEFEF">';
+        
+        ob_start();
+        print_r($oError->getBacktrace());
+        $msg .= ob_get_clean();
+        
+        $msg .= '<hr></pre></div>';
+        $msg .= '<div style="clear:both"></div>';
+    }
+    // Send the error to the screen
+    echo MAX::errorObjToString($oError, $msg);
 }
 
 // Set PEAR error handler

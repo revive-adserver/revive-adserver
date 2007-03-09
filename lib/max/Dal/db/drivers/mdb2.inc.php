@@ -18,26 +18,7 @@ if (!class_exists('DataSpace')) {
 /**
 * Include PEAR::MDB2
 */
-/*
-if (!defined('PEAR_LIBRARY_PATH')) {
-	define('PEAR_LIBRARY_PATH', ConfigManager::getOptionAsPath('config', 'pear', 'library_path'));
-}
-if (!@include_once PEAR_LIBRARY_PATH . 'MDB2.php') {
-	RaiseError('runtime', 'LIBRARY_REQUIRED', array(
-		'library' => 'PEAR::MDB2',
-		'path' => PEAR_LIBRARY_PATH));
-}
-*/
 require_once 'MDB2.php';
-
-//required by PEAR::MDB2
-if (!function_exists('array_change_key_case')) {
-
-    require_once WACT_ROOT . 'util/phpcompat/array_change_key_case.php';
-
-}
-
-
 
 //--------------------------------------------------------------------------------
 /**
@@ -90,6 +71,7 @@ class MDB2Connection {
 	* @access protected
 	*/
 	function connect() {
+	    // TODO - use existing connection if it already exists
 	    $dbinfo = array(
             'phptype' => $this->config->get('phptype'),
         );
@@ -112,6 +94,9 @@ class MDB2Connection {
   	    $this->ConnectionId = MDB2::connect($dbinfo);
 		if (MDB2::isError($this->ConnectionId)) {
 			$this->RaiseError();
+		} else {
+    	    // store the reference in ADMIN_DB_LINK
+            $GLOBALS['_MAX']['ADMIN_DB_LINK'] = &$this->ConnectionId->connection;
 		}
 	}
 
@@ -302,8 +287,17 @@ class MDB2Connection {
 	* @access public
 	*/
 	function _execute($sql) {
+	    $conf = $GLOBALS['_MAX']['CONF'];
+	    if (!empty($conf['debug']['production'])) {
+	       // supress any PEAR errors as we are handling them anyway in RaiseError method
+	       PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
+	    }
 		$conn = & $this->getConnectionId();
 		$result = & $conn->query($sql);
+	    if (!empty($conf['debug']['production'])) {
+		  PEAR::staticPopErrorHandling();
+	    }
+		
 		if (MDB2::isError($result)) {
 			$this->RaiseError($sql);
 			return;

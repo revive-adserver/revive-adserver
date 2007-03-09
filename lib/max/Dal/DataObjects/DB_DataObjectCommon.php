@@ -583,7 +583,6 @@ class DB_DataObjectCommon extends DB_DataObject
             $oldConfig = $configDatabase;
             foreach ($oldConfig as $tableName => $config) {
                 $configDatabase[$this->_prefix.$tableName] = $configDatabase[$tableName];
-                //$configDatabase[$this->_prefix.$tableName."__keys"] = $configDatabase[$tableName."__keys"];
             }
         }
         return true;
@@ -615,6 +614,18 @@ class DB_DataObjectCommon extends DB_DataObject
                 $this->updated = date('Y-m-d H:i:s');
             }
         }
+    }
+    
+    function _connect()
+    {
+        $ret = parent::_connect();
+        if (!PEAR::isError($ret)) {
+            global $_DB_DATAOBJECT;
+            $dbConnection = &$_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5];
+            // store the reference in ADMIN_DB_LINK
+            $GLOBALS['_MAX']['ADMIN_DB_LINK'] = &$dbConnection->connection;
+        }
+        return $ret;
     }
     
     /**

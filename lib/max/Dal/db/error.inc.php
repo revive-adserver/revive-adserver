@@ -6,7 +6,6 @@
 
 /**
 * @package ERROR
-* @version $Id: error.inc.php,v 1.1 2004/10/16 18:36:40 jeffmoore Exp $
 */
 
 /**
@@ -24,18 +23,9 @@ class ErrorInfo {
 
 function RaiseErrorHandler($group, $id, $info=NULL) {
     
+    global $phpAds_last_query;
+    $phpAds_last_query = $info['sql'];
     phpAds_sqlDie();
-    $errobj =& new ErrorInfo();
-    $errobj->group = $group;
-    $errobj->id = $id;
-    $errobj->info = $info;
-    $errorstr = serialize($errobj);
-    while (strlen($errorstr) > 1023) {
-        $errobj->truncated = TRUE;
-        array_pop($errobj->info);
-        $errorstr = serialize($errobj);
-    }
-    trigger_error($errorstr, E_USER_ERROR);
 }
 
 function RaiseError($group, $id, $info=NULL) {
