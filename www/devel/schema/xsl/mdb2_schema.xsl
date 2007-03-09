@@ -20,16 +20,19 @@
         <xsl:text></xsl:text><xsl:value-of select="//database/name"/>
         <xsl:text> :: version: </xsl:text><xsl:value-of select="//database/version"/>
         <xsl:text> :: status: </xsl:text>
+        <!--xsl:variable name="status"><xsl:value-of select="//database/status"/></xsl:variable-->
+        <xsl:variable name="status" select="//database/status"></xsl:variable>
+        <xsl:text> :: version: </xsl:text><xsl:value-of select="//database/version"/>
+        <xsl:text> :: status: </xsl:text>
         <xsl:choose>
-            <xsl:when test="//database/status='final'">
-                <span style="font-weight:bold;color:black;"><xsl:value-of select="//database/status"/></span>
+            <xsl:when test="$status='final'">
+                <span style="font-weight:bold;color:black;"><xsl:value-of select="$status"/></span>
             </xsl:when>
             <xsl:otherwise>
-                <span style="font-weight:bold;color:red;"><xsl:value-of select="//database/status"/></span>
+                <span style="font-weight:bold;color:red;"><xsl:value-of select="$status"/></span>
             </xsl:otherwise>
         </xsl:choose>
     </div>
-
     <!--span class="titlemini"><xsl:value-of select="//database/comments"/></span-->
 
     <TABLE class="tablemain">
@@ -40,7 +43,17 @@
 
     <TABLE class="tablemain">
     <tr>
-        <td class="tableheader"><xsl:call-template name="showtableadd"/></td>
+        <td class="tableheader">
+            <xsl:variable name="status" select="//database/status"></xsl:variable>
+            <xsl:choose>
+                <xsl:when test="$status='final'">
+                    <xsl:text>readonly</xsl:text>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:call-template name="showtableadd"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </td>
     </tr>
     </TABLE>
     <xsl:for-each select="//database/table">
@@ -61,9 +74,17 @@
     <TABLE class="tablemain">
         <tr>
             <td class="tableheader" colspan="1">
-                <xsl:call-template name="showtableedit">
-                    <xsl:with-param name="tablename"><xsl:value-of select="name"/></xsl:with-param>
-                </xsl:call-template>
+                <xsl:variable name="status" select="//database/status"></xsl:variable>
+                <xsl:choose>
+                    <xsl:when test="$status='final'">
+                        <xsl:text>readonly</xsl:text>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:call-template name="showtableedit">
+                            <xsl:with-param name="tablename"><xsl:value-of select="name"/></xsl:with-param>
+                        </xsl:call-template>
+                    </xsl:otherwise>
+                </xsl:choose>
             </td>
             <td class="tableheader" colspan="7"><span class="titlemini"><xsl:value-of select="name"/></span></td>
         </tr>
