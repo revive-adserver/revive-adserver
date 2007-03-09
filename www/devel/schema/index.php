@@ -95,6 +95,13 @@ else if (array_key_exists('btn_delete_trans', $_POST))
         unlink($schema_trans);
     }
 }
+else if (array_key_exists('btn_changeset_delete', $_POST))
+{
+    if (file_exists($file_changes_core))
+    {
+        unlink($file_changes_core);
+    }
+}
 if (file_exists($schema_trans))
 {
     $file = $schema_trans;

@@ -83,6 +83,11 @@
     <xsl:value-of select="comments"/></span><br/><br/>
     <xsl:if test="$showconstructive='yes'">
         <TABLE class="tablemain">
+        <xsl:for-each select="add">
+            <xsl:call-template name="showadd"/>
+        </xsl:for-each>
+        </TABLE>
+        <TABLE class="tablemain">
         <xsl:for-each select="change/table">
             <xsl:call-template name="showtableadd"/>
         </xsl:for-each>
@@ -90,12 +95,26 @@
     </xsl:if>
     <xsl:if test="$showdestructive='yes'">
         <TABLE class="tablemain">
+        <xsl:for-each select="remove">
+            <xsl:call-template name="showremove"/>
+        </xsl:for-each>
+        </TABLE>
+        <TABLE class="tablemain">
         <xsl:for-each select="change/table">
             <xsl:call-template name="showtableremove"/>
         </xsl:for-each>
         </TABLE>
     </xsl:if>
     <!-- -->
+
+</xsl:template>
+
+<xsl:template name="showremove">
+
+    <tr><th class="tableheader"> <span class="titlemini">tables removed from schema </span> </th></tr>
+    <xsl:for-each select="descendant::table">
+        <tr><td><xsl:value-of select="table"/></td></tr>
+    </xsl:for-each>
 
 </xsl:template>
 
