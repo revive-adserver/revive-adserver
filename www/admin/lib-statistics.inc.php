@@ -315,7 +315,7 @@ function phpAds_buildRatioPercentage($numerator, $denominator)
 }
 
 function phpAds_formatNumber($number, $decimals = 0) {
-    global $phpAds_ThousandsSeperator;
+    global $phpAds_ThousandsSeperator, $phpAds_DecimalPoint;
     if (!strcmp($number, '-')) {
         return '-';
     }
