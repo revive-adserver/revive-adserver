@@ -161,13 +161,14 @@ class MAX_DB
      */
     function &staticGetDO($table, $k, $v = null)
     {
+        $bFalse = false;
         MAX_DB::setupDataObject();
         $do = MAX_DB::factoryDO($table);
         if (PEAR::isError($do)) {
-            return false;
+            return $bFalse;
         }
         if (!$do->get($k, $v)) {
-            return false;
+            return $bFalse;
         }
         return $do;
     }
