@@ -242,10 +242,32 @@ class MDB2_Driver_Manager_Common extends MDB2_Module_Common
         $name = $db->quoteIdentifier($name, true);
         $result = 'CREATE ';
         if (!empty($options['temporary']) && $options['temporary']) {
-            $result .= 'TEMPORARY ';
+            $result .= $this->_getTemporaryTableQuery() . ' ';
         }
         $result .= "TABLE $name ($query_fields)";
         return $result;
+    }
+
+    // }}}
+    // {{{ _getTemporaryTableQuery()
+
+    /**
+     * A method to return the required SQL string that fits between CREATE ... TABLE
+     * to create the table as a temporary table.
+     *
+     * Should be overridden in driver classes to return the correct string for the
+     * specific database type.
+     *
+     * The default is to return the string "TEMPORARY" - this will result in a
+     * SQL error for any database that does not support temporary tables, or that
+     * requires a different SQL command from "CREATE TEMPORARY TABLE".
+     *
+     * @return string The string required to be placed between "CREATE" and "TABLE"
+     *                to generate a temporary table, if possible.
+     */
+    function _getTemporaryTableQuery()
+    {
+        return 'TEMPORARY';
     }
 
     // }}}
