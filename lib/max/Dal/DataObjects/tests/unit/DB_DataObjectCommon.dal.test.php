@@ -44,8 +44,8 @@ class DB_DataObjectCommonTest extends UnitTestCase
         $this->UnitTestCase();
     }
     
-       /**
-     * Tests advertiser and any linked objects are deleted.
+    /**
+     * Tests deleting linked objects
      *
      */
     function testDelete()

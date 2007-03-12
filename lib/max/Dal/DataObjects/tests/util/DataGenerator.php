@@ -44,7 +44,7 @@ class DataGenerator
      * @access public
      * @static 
      */
-    function generateOne($do, $generateReferences = true)
+    function generateOne($do, $generateReferences = false)
     {
         $ids = DataGenerator::generate($do, 1, $generateReferences);
         return array_pop($ids);
@@ -64,16 +64,53 @@ class DataGenerator
      * @access public
      * @static 
      */
-    function generate($do, $numberOfCopies = 1, $generateReferences = true)
+    function generate($do, $numberOfCopies = 1, $generateReferences = false)
     {
         DataGenerator::setDefaultValues($do);
+
+        if ($generateReferences) {
+            $links = $do->links();
+        	foreach ($links as $key => $match) {
+        		list($table,$link) = explode(':', $match);
+        		$table = $do->getTableWithoutPrefix($table);
+    	        $primaryKey = isset($do->$key) ? $do->$key : null;
+        		$do->$key = $this->addAncestor($table, $primaryKey);
+        	}
+        }
+        
+        
         $ids = array();
         
         for ($i = 0; $i < $numberOfCopies; $i++) {
             $doInsert = clone($do);
-            $ids[] = $doInsert->insert();
+            $id = $doInsert->insert();
+            $ids[] = $id;
         }
         return $ids;
+    }
+    
+    /**
+     * Recursive method which add records recursively
+     *
+     * @param string $table  Table name
+     * @return int  New ID
+     */
+    function addAncestor($table, $primaryKey = null)
+    {
+        $doAncestor = MAX_DB::factoryDO($table);
+        if ($primaryKey && $primaryKeyField = $doAncestor->getFirstPrimaryKey()) {
+            // it's possible to preset parent id's (only one level up so far)
+            $doAncestor->$primaryKeyField = $primaryKey;
+        }
+        DataGenerator::setDefaultValues($doAncestor);
+        
+        $links = $doAncestor->links();
+    	foreach ($links as $key => $match) {
+    		list($table,$link) = explode(':', $match);
+    		$table = $doAncestor->getTableWithoutPrefix($table);
+    		$doAncestor->$key = MAX_DB::addAncestor($table);
+    	}
+        return $doAncestor->insert();
     }
     
     /**
@@ -90,7 +127,7 @@ class DataGenerator
      * @access public
      * @static 
      */
-    function setDefaultValues($do)
+    function setDefaultValues(&$do)
     {
         foreach ($do->defaultValues as $k => $v) {
             if (!isset($do->$k)) {
