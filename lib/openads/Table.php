@@ -217,6 +217,31 @@ class Openads_Table
     }
 
     /**
+     * A method for creating a table, and all other tables it relies on, based on the
+     * "foriegn keys" the table has (actually taken from the DB_DataObjects .ini file).
+     *
+     * @param string $table The name of the (primary) table to create, excluding table prefix.
+     * @param Date $oDate An optional date for creating split tables. Will use current
+     *                    date if the date is required for creation, but not supplied.
+     * @return boolean True if all required tables created successfuly, false otherwise.
+     */
+    function createRequiredTables($table, $oDate = NULL)
+    {
+        if (!$this->_checkInit()) {
+            return false;
+        }
+        // Figure out the list of tables to create here...
+        $aTableNamess = array();
+        foreach ($aTableNamess as $tableName) {
+            $result = $this->createTable($tableName, $oDate);
+            if (!$result) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * A method to easily drop a table.
      *
      * @param string $table The table name to drop. Must be the complete table name in use,
