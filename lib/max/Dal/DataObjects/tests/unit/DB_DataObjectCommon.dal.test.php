@@ -44,6 +44,61 @@ class DB_DataObjectCommonTest extends UnitTestCase
         $this->UnitTestCase();
     }
     
+    function testFactoryDAL()
+    {
+        $doClients = MAX_DB::factoryDO('clients');
+        $dalClients = $doClients->factoryDAL();
+        $this->assertIsA($dalClients, 'MAX_Dal_Common');
+    }
+    
+    function testGetAll()
+    {
+        // test it returns empty array when no data
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $aCheck = $doCampaigns->getAll();
+        $this->assertEqual($aCheck, array());
+        
+        // Insert campaigns with default data
+        $aCampaignId = DataGenerator::generate($doCampaigns, 2);
+        // and few additional required for testing filters
+        $doCampaigns->campaignname = $campaignName = 'test name';
+        $doCampaigns->clientid = $clientId = 123;
+        $aCampaignId = DataGenerator::generate($doCampaigns, 2);
+        
+        // test getting all records
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $aCheck = $doCampaigns->getAll();
+        $this->assertEqual(count($aCheck), 4);
+        
+        $doCampaignsFilter = MAX_DB::factoryDO('campaigns');
+        $doCampaignsFilter->clientid = $clientId;
+        
+        // test filtering and test that rows are not indexed by primary key
+        $doCampaigns = clone($doCampaignsFilter);
+        $aCheck = $doCampaigns->getAll();
+        $this->assertEqual(count($aCheck), 2);
+        $this->assertEqual(array_keys($aCheck), array(0, 1));
+        
+        // test indexing with primary keys
+        $doCampaigns = clone($doCampaignsFilter);
+        $aCheck = $doCampaigns->getAll(array(), $indexWithPrimaryKey = true);
+        $this->assertEqual($aCampaignId, array_keys($aCheck));
+        foreach ($aCheck as $check) {
+            $this->assertEqual($check['campaignname'], $campaignName);
+        }
+        
+        // test flattening if only one field
+        $doCampaigns = clone($doCampaignsFilter);
+        $aCheck = $doCampaigns->getAll(array('campaignname'), $indexWithPrimaryKey = false, $flatten = true);
+        foreach ($aCheck as $check) {
+            $this->assertEqual($check, $campaignName);
+        }
+        // test that we don't have to use array if only one field is set
+        $doCampaigns = clone($doCampaignsFilter);
+        $aCheck2 = $doCampaigns->getAll('campaignname', $indexWithPrimaryKey = false, $flatten = true);
+        $this->assertEqual($aCheck, $aCheck2);
+    }
+    
     /**
      * Tests deleting linked objects
      *

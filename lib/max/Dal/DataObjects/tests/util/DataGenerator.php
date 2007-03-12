@@ -90,7 +90,7 @@ class DataGenerator
     }
     
     /**
-     * Recursive method which add records recursively
+     * Method adds related records recursively
      *
      * @param string $table  Table name
      * @return int  New ID

@@ -115,7 +115,11 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function getAll($filter = array(), $indexWithPrimaryKey = false, $flattenIfOneOnly = true)
     {
-    	$primaryKey = null;
+    	if (!is_array($filter)) {
+    	    if (empty($filter)) $filter = array();
+    	    $filter = array($filter);
+    	}
+        $primaryKey = null;
     	if ($indexWithPrimaryKey) {
 			$primaryKey = $this->getFirstPrimaryKey();
     	}
@@ -140,7 +144,7 @@ class DB_DataObjectCommon extends DB_DataObject
     			if (!isset($this->$k)) {
     				continue;
     			}
-    			if (!$indexWithPrimaryKey || $primaryKey != $k) {
+    			if (empty($filter) || in_array($k, $filter)) {
     			    $row[$k] = $this->$k;
     			}
     		}
