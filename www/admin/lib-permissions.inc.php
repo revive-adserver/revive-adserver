@@ -86,7 +86,7 @@ function phpAds_Start()
         }
     }
     // Overwrite certain preset preferences
-    if (isset($session['language']) && $session['language'] != '' && $session['language'] != $pref['language']) {
+    if (!empty($session['language']) && $session['language'] != $GLOBALS['pref']['language']) {
         $GLOBALS['_MAX']['CONF']['max']['language'] = $session['language'];
     }
 
