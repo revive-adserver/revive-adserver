@@ -108,7 +108,7 @@ if (phpAds_isUser(phpAds_Admin)) {
     $number_of_active_banners = $dalBanners->countActiveBanners();
 } elseif (phpAds_isUser(phpAds_Agency)) {
     $agency_id = phpAds_getUserID();
-    $clients = $dalClients->getAllAdvertisersUnderAgency($agency_id, $listorder, $orderdirection);
+    $clients = $dalClients->getAllAdvertisersForAgency($agency_id, $listorder, $orderdirection);
     $campaigns = $dalCampaigns->getAllCampaignsUnderAgency($agency_id, $listorder, $orderdirection);
     $banners = $dalBanners->getAllBannersUnderAgency($agency_id, $listorder, $orderdirection);
 
