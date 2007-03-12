@@ -35,6 +35,11 @@ require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
+function _isBannerAssignedToCampaign($aBannerData)
+{
+    return $aBannerData['campaignid'] > 0;
+}
+
 // Register input variables
 phpAds_registerGlobal('expand', 'collapse', 'hideinactive', 'listorder',
                       'orderdirection');
@@ -120,7 +125,7 @@ $clientshidden = 0;
 if (!empty($banners)) {
     // Add banner to campaigns
     foreach ($banners as $bkey => $banner) {
-        if ($hideinactive == false || $banner['active'] == 't') {
+        if (($hideinactive == false || $banner['active'] == 't') && _isBannerAssignedToCampaign($banner)) {
             $campaigns[$banner['campaignid']]['banners'][$bkey] = $banner;
         }
     }
