@@ -98,7 +98,7 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-if (phpAds_isUser(phpAds_Affiliate) && phpAds_isAllowed(MAX_AffiliateIsReallyAffiliate)) {
+if (phpAds_isUser(phpAds_Affiliate) && MAX_Permission::isAllowed(MAX_AffiliateIsReallyAffiliate)) {
     require_once MAX_PATH . '/lib/max/Admin/Invocation/Affiliate.php';
     $maxInvocation = new MAX_Admin_Invocation_Affiliate();
 } else {
