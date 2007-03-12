@@ -16,10 +16,7 @@ require_once MAX_DEV.'/lib/pear.inc.php';
 require_once 'MDB2.php';
 require_once 'MDB2/Schema.php';
 require_once 'Config.php';
-require_once 'funcs.php';  // this contains the functions registered with xajax
-//include xajax itself after the xajax registration funcs
-require_once MAX_DEV.'/lib/xajax.inc.php'; // this instantiates xajax object and registers the functions
-require_once MAX_PATH.'/lib/openads/Dal.php';
+global $schema_trans, $dump_options;
 
 $file_schema_core = 'tables_core.xml';
 $path_schema_final = MAX_PATH.'/etc/';
@@ -44,20 +41,15 @@ $dump_options = array (
                         'custom_tags'   => array('version'=>'0.0.1', 'status'=>'transitional')
                       );
 
+require_once MAX_PATH.'/lib/openads/Dal.php';
+
+require_once 'funcs.php';  // this contains the functions registered with xajax
+//include xajax itself after the xajax registration funcs
+require_once MAX_DEV.'/lib/xajax.inc.php'; // this instantiates xajax object and registers the functions
+
 if (count($_POST)>0)
 {
-    // need some dsn info to make connection
-    // even though we won't actually connect to the server
-    // don't need to enter username/password/database
-    // unless you need to connect for some reason
-    // for parsing just the host and db type is required
-    $dsn['phptype']     = $_MAX['CONF']['database']['type'];
-    $dsn['hostspec']    = $_MAX['CONF']['database']['host'];
-    $dsn['username']    = '';
-    $dsn['password']    = '';
-    $dsn['database']    = '';
-
-    $schema = & MDB2_Schema::factory(Openads_Dal::singleton($dsn), $dump_options);
+    $schema = & connect($dump_options);
     $dd_definition = $schema->parseDictionaryDefinitionFile(MAX_DEV.'/etc/dd.generic.xml');
 }
 if (array_key_exists('btn_compare_schemas', $_POST))
@@ -66,11 +58,12 @@ if (array_key_exists('btn_compare_schemas', $_POST))
     {
         $prev_definition = $schema->parseDatabaseDefinitionFile($schema_final);
         $curr_definition = $schema->parseDatabaseDefinitionFile($schema_trans);
-        $changes        = $schema->compareDefinitions($curr_definition, $prev_definition);
+        $changes         = $schema->compareDefinitions($curr_definition, $prev_definition);
+
         $dump_options['output']     =   $file_changes_core;
         $dump_options['xsl_file']   = "xsl/mdb2_changeset.xsl";
-        $changes['version'] = $curr_definition['version'];
-        $xmlchanges     = $schema->dumpChangeset($changes, $dump_options, true);
+        $changes['version']         = $curr_definition['version'];
+        $xmlchanges                 = $schema->dumpChangeset($changes, $dump_options, true);
         if (file_exists($file_changes_core))
         {
             $file = $file_changes_core;
@@ -145,6 +138,28 @@ if (array_key_exists('btn_table_cancel', $_POST) ||
     readfile($file);
     exit();
 }
+else if (array_key_exists('btn_field_save', $_POST))
+{
+    $db_definition = $schema->parseDatabaseDefinitionFile($schema_trans);
+    $table = $_POST['table_edit'];
+    $field_name_old = $_POST['field_name'];
+    $field_name_new = $_POST['fld_new_name'];
+    $field_type_old = $_POST['fld_old_type'];
+    $field_type_new = $_POST['fld_new_type'];
+    $fld_definition = $db_definition['tables'][$table]['fields'][$field_name_old];
+    $fld_definition['was'] = $field_name_old;
+    if ($field_name_new != $field_name_old)
+    {
+        $db_definition['tables'][$table]['fields'][$field_name_new] = $fld_definition;
+        unset($db_definition['tables'][$table]['fields'][$field_name_old]);
+    }
+    else if ($field_type_new != $field_type_old)
+    {
+        $fld_definition = $dd_definition['fields'][$field_type_new];
+        $db_definition['tables'][$table]['fields'][$field_name_old] = $fld_definition;
+    }
+    $dump = $schema->dumpDatabase($db_definition, $dump_options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
+}
 else if (array_key_exists('btn_field_add', $_POST))
 {
     $db_definition = $schema->parseDatabaseDefinitionFile($file);
@@ -156,24 +171,19 @@ else if (array_key_exists('btn_field_add', $_POST))
 }
 else if (array_key_exists('btn_field_del', $_POST))
 {
+    $table = $_POST['table_edit'];
     $db_definition = $schema->parseDatabaseDefinitionFile($file);
     $table = $_POST['table_edit'];
-    $fields = $_POST['chkfld'];
-    foreach ($fields AS $k=>$field_name)
-    {
-        unset($db_definition['tables'][$table]['fields'][$field_name]);
-    }
+    $field = $_POST['field_name'];
+    unset($db_definition['tables'][$table]['fields'][$field]);
     $dump = $schema->dumpDatabase($db_definition, $dump_options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
 }
 else if (array_key_exists('btn_index_del', $_POST))
 {
     $db_definition = $schema->parseDatabaseDefinitionFile($file);
     $table = $_POST['table_edit'];
-    $indexes = $_POST['chkidx'];
-    foreach ($indexes AS $k=>$index_name)
-    {
-        unset($db_definition['tables'][$table]['indexes'][$index_name]);
-    }
+    $index = $_POST['index_name'];
+    unset($db_definition['tables'][$table]['indexes'][$index]);
     $dump = $schema->dumpDatabase($db_definition, $dump_options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
 }
 else if (array_key_exists('btn_index_add', $_POST))
@@ -212,6 +222,10 @@ else if (array_key_exists('btn_link_add', $_POST))
 else if (array_key_exists('btn_table_edit', $_POST))
 {
     $table = $_POST['btn_table_edit'];
+}
+else if (array_key_exists('table_edit', $_POST))
+{
+    $table = $_POST['table_edit'];
 }
 else if (array_key_exists('btn_table_new', $_POST))
 {

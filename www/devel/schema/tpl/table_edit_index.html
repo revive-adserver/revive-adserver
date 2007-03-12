@@ -3,7 +3,7 @@
                         <td class="tableheader" colspan="8"><span class="titlemini">indexes</span></td>
                     </tr>
                     <tr>
-                        <td class="tableheader"><button name="btn_index_del" type="submit">delete</button></td>
+                        <td class="tableheader"></td>
                         <td class="tableheader">name</td>
                         <td class="tableheader">primary</td>
                         <td class="tableheader">unique</td>
@@ -12,9 +12,16 @@
                     <?php
                     foreach ($tbl_definition['indexes'] AS $name => $idx_def )
                     {
+                        $i++;
+                        $form_name = 'frm_index_'.$i;
                     ?>
                     <tr>
-                        <td class="tablebody"><input type="checkbox" name="chkidx[]" value="<?php echo $name; ?>" ></td>
+                    <form name="<?php echo $form_name; ?>" id="<?php echo $form_name; ?>" action="index.php" method="POST">
+                    <input type="hidden" name="table_edit" value="<?php echo $table; ?>"/>
+                    <input type="hidden" name="index_name" value="<?php echo $name; ?>" />
+                    <tr>
+                        <!--td class="tablebody"><input type="checkbox" name="chkidx[]" value="<?php echo $name; ?>" ></td-->
+                        <td class="tablebody"><button name="btn_index_del" type="submit">delete</button></td>
                         <td class="tablebody"><?php echo $name; ?></td>
                         <td class="tablebody"><?php echo ($idx_def['primary']?$idx_def['primary']:'&nbsp;'); ?></td>
                         <td class="tablebody"><?php echo ($idx_def['unique']?$idx_def['unique']:'&nbsp;'); ?></td>
@@ -34,21 +41,24 @@
                    ?>
                     <tr>
                         <td class="tableheader" colspan="8">
-                            <span class="titlemini">
-                                <button name="btn_index_add" type="submit">new index</button>
-                            </span>
-                            <span class="textmini" id="span_index_add" style="display:inline;">
-                                <input type="text" name="index_add" id="index_add" value="" style="display:inline"/>
+                            <form name="frm_index" action="index.php" method="POST">
+                                <input type="hidden" name="table_edit" value="<?php echo $table; ?>"/>
+                                <span class="titlemini">
+                                    <button name="btn_index_add" type="submit">new index</button>
+                                </span>
+                                <span class="textmini" id="span_index_add" style="display:inline;">
+                                    <input type="text" name="index_add" id="index_add" value="" style="display:inline"/>
 
-                                <select name="sel_idxfld_add[]" multiple >
-                                <?php
-                                foreach ($tbl_definition['fields'] AS $field => $field_def )
-                                {
-                                    echo "<option value=\"{$field}\">{$field}</option>";
-                                }
-                                ?>
-                                </select>
-                            </span>
+                                    <select name="sel_idxfld_add[]" multiple >
+                                    <?php
+                                    foreach ($tbl_definition['fields'] AS $field => $field_def )
+                                    {
+                                        echo "<option value=\"{$field}\">{$field}</option>";
+                                    }
+                                    ?>
+                                    </select>
+                                </span>
+                            </form>
                         </td>
                     </tr>
                 </table>

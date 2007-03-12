@@ -17,36 +17,83 @@ function testAjax($form)
 	return $objResponse;
 }
 
-function toggleReadonly($form, $elementId)
+function expandTable($table)
 {
 	$objResponse = new xajaxResponse();
-	$objResponse->addAlert('toggleReadonly '.$elementId);
-  	//$objResponse->addAssign($element,"readonly", $readonly);
+	$objResponse->addAssign($table,"style.display", 'block');
+	$objResponse->addAssign('img_expand_'.$table,"style.display", 'none');
+	$objResponse->addAssign('img_collapse_'.$table,"style.display", 'inline');
 	return $objResponse;
 }
 
-function editFieldProperty($form, $elementId)
+function collapseTable($table)
 {
 	$objResponse = new xajaxResponse();
-	$objResponse->addAssign('fld_'.$elementId,"style.display", 'none');
-    $objResponse->addAssign('inp_'.$elementId,"style.display", 'inline');
+	$objResponse->addAssign($table,"style.display", 'none');
+	$objResponse->addAssign('img_expand_'.$table,"style.display", 'inline');
+	$objResponse->addAssign('img_collapse_'.$table,"style.display", 'none');
 	return $objResponse;
 }
 
-function selectDataDictionary($form)
+function editFieldProperty($form, $elementId, $elementNo)
 {
 	$objResponse = new xajaxResponse();
-	$objResponse->addAlert(print_r($form,true));
-    $options = '<option value="id_med">id => mediumint notnull default=0 unsigned autoincrement</option>
-<option value="id_med_inc">id_inc => mediumint notnull default=0 unsigned</option>
-<option value="name">name => varchar(255) notnull</option>
-<option value="desc">description => text notnull</option>';
-	foreach ($form as $k => $v)
-	{
-      	$objResponse->addAssign($k.'_value',"innerHTML", $options);
-       	$objResponse->addAssign('span_'.$k,"style.display", 'inline');
-	}
+	$id = $elementId.'_'.$elementNo;
+	$objResponse->addAssign('fld_old_'.$id,"style.display", 'none');
+    $objResponse->addAssign('fld_new_'.$id,"style.display", 'inline');
+    $objResponse->addAssign('btn_field_save_'.$id,"style.display", 'inline');
+    $objResponse->addAssign('btn_exit_'.$id,"style.display", 'inline');
 	return $objResponse;
+}
+
+function exitFieldProperty($form, $elementId, $elementNo)
+{
+	$objResponse = new xajaxResponse();
+	$id = $elementId.'_'.$elementNo;
+    $objResponse->addAssign('fld_new_'.$id,"value", '');
+	$objResponse->addAssign('fld_old_'.$id,"style.display", 'inline');
+    $objResponse->addAssign('fld_new_'.$id,"style.display", 'none');
+    $objResponse->addAssign('btn_field_save_'.$id,"style.display", 'none');
+    $objResponse->addAssign('btn_exit_'.$id,"style.display", 'none');
+	return $objResponse;
+}
+
+function saveFieldProperty($form, $elementId, $elementNo)
+{
+//    global $dump_options, $schema_trans;
+//	$objResponse = new xajaxResponse();
+//    $schema = & connect($dump_options);
+//    $db_definition = $schema->parseDatabaseDefinitionFile($schema_trans);
+//    $table = $form['table_edit'];
+//    $field_name_old = $form['field_'.$elementNo];
+//    $field_name_new = $form['inp_'.$elementId.$elementNo];
+//    $fld_definition = $db_definition['tables'][$table]['fields'][$field_name_old];
+//    $fld_definition['was'] = $field_name_old;
+//    $db_definition['tables'][$table]['fields'][$field_name_new] = $fld_definition;
+//    unset($db_definition['tables'][$table]['fields'][$field_name_old]);
+//    $dump = $schema->dumpDatabase($db_definition, $dump_options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
+//	$id = $elementId.'_'.$elementNo;
+//    $objResponse->addAssign('fld_'.$id,"value", $field_name_new);
+//	$objResponse->addAssign('fld_'.$id,"style.display", 'inline');
+//    $objResponse->addAssign('inp_'.$id,"style.display", 'none');
+//    $objResponse->addAssign('btn_save_'.$id,"style.display", 'none');
+//    $objResponse->addAssign('btn_exit_'.$id,"style.display", 'none');
+//	return $objResponse;
+}
+
+/**
+ * other routines
+ */
+
+function connect($options)
+{
+    $dsn['phptype']     = $GLOBALS['_MAX']['CONF']['database']['type'];
+    $dsn['hostspec']    = $GLOBALS['_MAX']['CONF']['database']['host'];
+    $dsn['username']    = '';
+    $dsn['password']    = '';
+    $dsn['database']    = '';
+
+    return MDB2_Schema::factory(Openads_Dal::singleton($dsn), $options);
 }
 
 ?>

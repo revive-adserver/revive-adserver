@@ -6,9 +6,12 @@ $xajax = new xajax();
 //$xajax->debugOn(); // Uncomment this line to turn debugging on
 $xajax->debugOff(); // Uncomment this line to turn debugging on
 $xajax->registerFunction("testAjax");
-$xajax->registerFunction("toggleReadonly");
+$xajax->registerFunction('expandTable');
+$xajax->registerFunction('collapseTable');
 $xajax->registerFunction("editFieldProperty");
-$xajax->registerFunction("selectDataDictionary");
+$xajax->registerFunction("exitFieldProperty");
+$xajax->registerFunction("saveFieldProperty");
+//$xajax->registerFunction("selectDataDictionary");
 // Process any requests.  Because our requestURI is the same as our html page,
 // this must be called before any headers or HTML output have been sent
 $xajax->processRequests();
