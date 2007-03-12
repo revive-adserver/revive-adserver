@@ -102,16 +102,12 @@ class SimulationScenario
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = '';
         $_COOKIE = $HTTP_COOKIE_VARS = array();
 
-        //start with a clean set of tables
+        // start with a clean set of tables
         Openads_Table_Core::destroy();
         $this->oCoreTables = &Openads_Table_Core::singleton();
 
-        // set up some services
-        $this->oServiceLocator = &ServiceLocator::instance();
-        $this->oServiceLocator->register('MAX_TABLES', $tables);
-
-        // MAX_TABLES instance registers MAX_DB
-        $this->oDBH = &$this->oServiceLocator->get('MAX_DB');
+        // get the database handler
+        $this->oDBH = MAX_DB::singleton();
 
         // fake the date/time
         $this->setDateTime();

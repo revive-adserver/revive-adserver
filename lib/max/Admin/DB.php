@@ -30,7 +30,7 @@ $Id$
 
 // Required files
 require_once MAX_PATH . '/lib/max/DB.php';
-require_once MAX_PATH . '/lib/max/Table/Core.php';
+require_once MAX_PATH . '/lib/openads/Table/Core.php';
 
 class Max_Admin_DB
 {
@@ -62,7 +62,7 @@ class Max_Admin_DB
         }
         return false;
     }
-    
+
     /**
      * Gets the table types
      *
@@ -76,7 +76,7 @@ class Max_Admin_DB
         $types['INNODB'] = 'InnoDB';
         return $types;
     }
-    
+
     /**
      * Enter description here...
      *
@@ -89,7 +89,7 @@ class Max_Admin_DB
         $types['mysql'] = 'mysql';
         return $types;
     }
-    
+
     /**
      * Enter description here...
      *
@@ -99,7 +99,7 @@ class Max_Admin_DB
     function checkDatabaseExists($installvars)
     {
         $dbh = MAX_DB::singleton();
-        $tables = MAX_Table_Core::singleton($installvars['database_type']);
+        $tables = Openads_Table_Core::singleton();
         $availabletables = array();
         $availabletables = $dbh->getListOf('tables');
         $result = false;
