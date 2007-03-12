@@ -89,9 +89,8 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
             $doClients->agencyid = $agencyId;
         }
         $doClients->addListOrderBy($listorder, $orderdirection);
-        $advertisers = $this->_rekeyClientsArray($doClients->getAll(array('clientname'), true));
-        return $advertisers;
-    }
+        return $doClients->getAll(array('clientname'), $indexWitkPk = true, $flatten = false);
+}
 
     /**
      * @param int $agency_id
@@ -103,44 +102,9 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
      * @todo Update to MAX DB API
      * @todo Consider removing order options (or making them optional)
      */
-    function getAllAdvertisersUnderAgency($agency_id, $listorder, $orderdirection)
+    function getAllAdvertisersForAgency($agency_id, $listorder, $orderdirection)
     {
-        $doClients = MAX_DB::factoryDO('clients');
-        $doClients->agencyid = $agency_id;
-        $doClients->addListOrderBy($listorder, $orderdirection);
-        $advertisers = $this->_rekeyClientsArray($doClients->getAll(array('clientname'), true));
-        return $advertisers;
-    }
-
-
-    /**
-     * Converts a database result into an array keyed by ID.
-     *
-     * @param resource $res_clients A MySQL result resource
-     * @return array An array of arrays, representing a list of advertisers.
-     */
-    function _fillClientArrayFromDbResult($res_clients)
-    {
-        $flat_advertiser_data = array();
-        while ($row_clients = phpAds_dbFetchArray($res_clients)) {
-            $flat_advertiser_data[] = $row_clients;
-        }
-        return $this->_rekeyClientsArray($flat_advertiser_data);
-    }
-
-    /**
-     * @todo Consider removing (or moving) 'expand' -- it seems to be
-     *       more  suited to the presentation-layer.
-     */
-    function _rekeyClientsArray($flat_advertiser_data)
-    {
-        $clients = array();
-        foreach ($flat_advertiser_data as $row_clients) {
-            $clients[$row_clients['clientid']]              = $row_clients;
-            $clients[$row_clients['clientid']]['expand']    = false;
-            unset($clients[$row_clients['clientid']]['clientid']);
-        }
-        return $clients;
+        return $this->getAllAdvertisers($listorder, $orderdirection, $agency_id);
     }
 }
 

@@ -157,7 +157,7 @@ if (!empty($clients)) {
 }
 
 // Add ID found in expand to expanded nodes
-if (isset($expand) && $expand != '') {
+if (!empty($expand)) {
     switch ($expand) {
         case 'all':
        	if(is_array($clients)) {
@@ -205,10 +205,10 @@ if (isset($expand) && $expand != '') {
 if (isset($node_array['clients'])) {
     foreach($node_array['clients'] as $cid=>$client) {
         if (!empty($clients[$cid])) {
-            $clients[$cid]['expand'] = ($client['expand'] == TRUE ? TRUE : FALSE);
+            $clients[$cid]['expand'] = (!empty($client['expand']) ? TRUE : FALSE);
             if(!empty($client['campaigns'])) {
                 foreach($client['campaigns'] as $campaignid=>$campaign) {
-                    $clients[$cid]['campaigns'][$campaignid]['expand'] = ($campaign['expand'] == TRUE ? TRUE : FALSE);
+                    $clients[$cid]['campaigns'][$campaignid]['expand'] = (!empty($campaign['expand']) ? TRUE : FALSE);
                 }
             }
         }
@@ -281,7 +281,7 @@ if (empty($clients)) {
         // Icon & name
         echo "\t\t\t\t\t<td height='25'>\n";
         if (!empty($client['campaigns'])) {
-            if ($client['expand'] == TRUE) {
+            if (!empty($client['expand'])) {
                 echo "\t\t\t\t\t\t<a href='advertiser-index.php?collapse=client:{$clientId}'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>\n";
             } else {
                 echo "\t\t\t\t\t\t<a href='advertiser-index.php?expand=client:{$clientId}'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'></a>\n";
@@ -299,7 +299,7 @@ if (empty($clients)) {
 
         // Button 1
         echo "\t\t\t\t\t<td height='25'>";
-        if ( ($client['expand'] == TRUE) && empty($client['campaigns'])) {
+        if ( !empty($client['expand']) && empty($client['campaigns'])) {
             echo "<a href='campaign-edit.php?clientid={$clientId}'><img src='images/icon-campaign-new.gif' border='0' align='absmiddle' alt='$strCreate'>&nbsp;$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
         } else {
             echo "&nbsp;";
@@ -318,7 +318,7 @@ if (empty($clients)) {
 
         echo "\t\t\t\t</tr>\n";
 
-        if (!empty($client['campaigns']) && $client['expand'] == TRUE) {
+        if (!empty($client['campaigns']) && !empty($client['expand'])) {
             $campaigns = $client['campaigns'];
             foreach ($campaigns as $campaignId => $campaign) {
                 // Divider
@@ -333,7 +333,7 @@ if (empty($clients)) {
                 echo "\t\t\t\t\t\t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n";
 
                 if (!empty($campaign['banners'])) {
-                    if ($campaign['expand'] == TRUE) {
+                    if (!empty($campaign['expand'])) {
                         echo "\t\t\t\t\t\t<a href='advertiser-index.php?collapse=campaign:{$clientId}-{$campaignId}'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>\n";
                     } else {
                         echo "\t\t\t\t\t\t<a href='advertiser-index.php?expand=campaign:{$clientId}-{$campaignId}'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'></a>\n";
@@ -375,7 +375,7 @@ if (empty($clients)) {
                 echo "\t\t\t\t</tr>\n";
 
 
-                if ($campaign['expand'] == TRUE && !empty($campaign['banners'])) {
+                if (!empty($campaign['expand']) && !empty($campaign['banners'])) {
                     $banners = $campaign['banners'];
                     foreach($banners as $bannerId => $banner) {
                         $name = $strUntitled;
