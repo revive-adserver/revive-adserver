@@ -54,6 +54,9 @@ function phpAds_SessionDataFetch()
     
     $serialized_session = $dal->getSerializedSession($_COOKIE['sessionID']);
     
+    // This is required because 'sessionID' cookie is set to new during logout.
+    // According to comments in the file it is because some servers do not
+    // support setting cookies during redirect.
     if (empty($serialized_session)) {
         return;
     }
@@ -74,8 +77,7 @@ function phpAds_SessionDataFetch()
 function phpAds_SessionStart()
 {
 	global $session;
-	if (!isset($_COOKIE['sessionID']) || $_COOKIE['sessionID'] == '') {
-		// Start a new session
+	if (empty($_COOKIE['sessionID'])) {
 		$session = array();
 		$_COOKIE['sessionID'] = uniqid('phpads', 1);
 		MAX_cookieSet('sessionID', $_COOKIE['sessionID']);
@@ -138,15 +140,12 @@ function phpAds_SessionDataDestroy()
     $dal = new MAX_Dal_Admin_Session();
     
 	global $session;
-	// Remove the session data from the database
     $dal->deleteSession($_COOKIE['sessionID']);
-	// Kill the cookie containing the session ID
-	MAX_cookieSet('sessionID', '');
-	MAX_cookieFlush();	
-	// Clear all local session data and the session ID
-	$session = "";
+
+    MAX_cookieSet('sessionID', '');
+    MAX_cookieFlush();
+	
 	unset($session);
-	$_COOKIE['sessionID'] = "";
 	unset($_COOKIE['sessionID']);
 }
 
