@@ -229,7 +229,17 @@ else if (array_key_exists('table_edit', $_POST))
 }
 else if (array_key_exists('btn_table_new', $_POST))
 {
-    // do new table stuff
+    if (array_key_exists('new_table_name', $_POST)) {
+        $db_definition = $schema->parseDatabaseDefinitionFile($file);
+        $table = $_POST['new_table_name'];
+        $db_definition['tables'][$table] = array();
+        $fld_definition = array('newfield'=>array('type'=>'text','length'=>'','default'=>'','notnull'=>''));
+        $db_definition['tables'][$table]['fields'] = $fld_definition;
+        $dump = $schema->dumpDatabase($db_definition, $dump_options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
+    }
+    header('Content-Type: application/xhtml+xml; charset=ISO-8859-1');
+    readfile($file);
+    exit();
 }
 else if (array_key_exists('btn_table_delete', $_POST))
 {

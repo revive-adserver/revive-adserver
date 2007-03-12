@@ -88,8 +88,6 @@
                 <td class="tableheader" style="font-size:14px;text-align:left;"><xsl:value-of select="name"/></td>
                 <td class="tableheader" style="width:10px;font-size:14px;text-align:center;">
                     <img id="img_expand_{$tablename}" src="../img/triangle-d.gif" alt="click to view table" onclick="xajax_expandTable('{$tablename}');"/>
-                <!--/td>
-                <td class="tableheader" style="width:20px;font-size:14px;text-align:center;" onclick="xajax_collapseTable('{$tablename}');"-->
                     <img id="img_collapse_{$tablename}" src="../img/triangle-u.gif" style="display:none" alt="click to hide table" onclick="xajax_collapseTable('{$tablename}');"/>
                 </td>
             </tr>
@@ -209,6 +207,7 @@
 <xsl:template name="showtableadd">
     <form name="frm_schema" method="POST" action="index.php">
         <button name="btn_table_new" type="submit">new table</button>
+        <xsl:text>   </xsl:text><input type="text" name="new_table_name"/>
     </form>
 </xsl:template>
 
