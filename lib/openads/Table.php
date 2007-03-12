@@ -230,9 +230,9 @@ class Openads_Table
         if (!$this->_checkInit()) {
             return false;
         }
-        // Figure out the list of tables to create here...
-        $aTableNamess = array();
-        foreach ($aTableNamess as $tableName) {
+
+        $aTableNames = $this->_getRequiredTables($table);
+        foreach ($aTableNames as $tableName) {
             $result = $this->createTable($tableName, $oDate);
             if (!$result) {
                 return false;
@@ -310,6 +310,43 @@ class Openads_Table
             return false;
         }
         return true;
+    }
+
+    /**
+     * A method to get all the required tables to create another table.
+     *
+     * @param string $table The table to check for.
+     * @param string $links The links array, if already loaded.
+     * @param string $skip  The table to skip (already checked).
+     * @param string $level Recursion level.
+     * @return array The required tables array.
+     */
+    function _getRequiredTables($table, $links = null, $skip = null, $level = 0)
+    {
+        if (is_null($links)) {
+            require_once(MAX_PATH.'/lib/openads/Dal/Links.php');
+            $links = Openads_Links::readLinksDotIni(MAX_PATH.'/lib/max/Dal/DataObjects/db_schema.links.ini');
+        }
+
+        $tables = array();
+        if (isset($links[$table])) {
+            foreach ($links[$table] as $link) {
+                $refTable = $link['table'];
+                $tables[$refTable] = $level;
+                foreach (array_keys($tables) as $refTable) {
+                    if (!isset($skip[$refTable])) {
+                        $tables = $this->_getRequiredTables($refTable, $links, $tables, $level + 1) + $tables;
+                    }
+                }
+            }
+        }
+
+        if (!$level) {
+            arsort($tables);
+            return array_keys($tables);
+        } else {
+            return $tables;
+        }
     }
 }
 
