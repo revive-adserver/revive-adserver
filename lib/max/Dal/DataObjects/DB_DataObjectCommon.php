@@ -115,6 +115,7 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function getAll($filter = array(), $indexWithPrimaryKey = false, $flattenIfOneOnly = true)
     {
+    	$primaryKey = null;
     	if ($indexWithPrimaryKey) {
 			$primaryKey = $this->getFirstPrimaryKey();
     	}
@@ -133,7 +134,6 @@ class DB_DataObjectCommon extends DB_DataObject
     	
     	$rows = array();
     	$fields = $this->table();
-    	$primaryKey = null;
     	while ($this->fetch()) {
     		$row = array();
     		foreach ($fields as $k => $v) {
