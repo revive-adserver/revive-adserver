@@ -1,0 +1,50 @@
+                <table class="tablemain">
+                    <tr>
+                        <td class="tableheader" colspan="8"><span class="titlemini">foreign keys</span></td>
+                    </tr>
+                    <tr>
+                        <td class="tableheader"><button name="btn_link_del" type="submit">delete</button></td>
+                        <td class="tableheader">field</td>
+                        <td class="tableheader">references</td>
+                        <td class="tableheader">target field</td>
+                    </tr>
+                    <?php
+                    foreach ($links AS $name => $link_def )
+                    {
+                    ?>
+                    <tr>
+                        <td class="tablebody"><input type="checkbox" name="chklnk[]" value="<?php echo $name; ?>" ></td>
+                        <td class="tablebody"><?php echo $name; ?></td>
+                        <td class="tablebody"><?php echo ($link_def['table']?$link_def['table']:'&nbsp;'); ?></td>
+                        <td class="tablebody"><?php echo ($link_def['field']?$link_def['field']:'&nbsp;'); ?></td>
+                    </tr>
+                    <?php
+                    }
+                   ?>
+                    <tr>
+                        <td class="tableheader" colspan="4">
+                            <span class="titlemini">
+                                <button name="btn_link_add" type="submit">new foreign key</button>
+                            </span>
+                            <span class="textmini" id="span_link_add" style="display:inline;">
+                                <select name="link_add" >
+                                <?php
+                                foreach ($tbl_definition['fields'] AS $field => $field_def )
+                                {
+                                    echo "<option value=\"{$field}\">{$field}</option>";
+                                }
+                                ?>
+                                </select>
+                                <select name="link_add_target" >
+                                <?php
+                                foreach ($links_targets AS $link => $link_def )
+                                {
+                                    echo "<option value=\"{$link}\">{$link_def}</option>";
+                                }
+                                ?>
+                                </select>
+
+                            </span>
+                        </td>
+                    </tr>
+                </table>

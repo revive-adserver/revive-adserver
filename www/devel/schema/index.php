@@ -15,7 +15,7 @@ define('MAX_DEV', MAX_PATH.'/www/devel');
 require_once MAX_DEV.'/lib/pear.inc.php';
 require_once 'MDB2.php';
 require_once 'MDB2/Schema.php';
-
+require_once 'Config.php';
 require_once 'funcs.php';  // this contains the functions registered with xajax
 //include xajax itself after the xajax registration funcs
 require_once MAX_DEV.'/lib/xajax.inc.php'; // this instantiates xajax object and registers the functions
@@ -26,8 +26,15 @@ $path_schema_final = MAX_PATH.'/etc/';
 $path_schema_trans = MAX_PATH.'/var/';
 $file_changes_core = $path_schema_trans.'changes_core.xml';
 
+$file_links_core = 'db_schema.links.ini';
+$path_links_final = MAX_PATH.'/lib/max/Dal/DataObjects/';
+$path_links_trans = MAX_PATH.'/var/';
+
 $schema_final = $path_schema_final.$file_schema_core;
 $schema_trans = $path_schema_trans.$file_schema_core;
+
+$links_final = $path_links_final.$file_links_core;
+$links_trans = $path_links_trans.$file_links_core;
 
 $dump_options = array (
                         'output_mode'   =>    'file',
@@ -53,7 +60,6 @@ if (count($_POST)>0)
     $schema = & MDB2_Schema::factory(Openads_Dal::singleton($dsn), $dump_options);
     $dd_definition = $schema->parseDictionaryDefinitionFile(MAX_DEV.'/etc/dd.generic.xml');
 }
-
 if (array_key_exists('btn_compare_schemas', $_POST))
 {
     if (file_exists($schema_trans) && file_exists($schema_final))
@@ -80,6 +86,10 @@ else if (array_key_exists('btn_copy_final', $_POST))
     {
         unlink($schema_trans);
     }
+    if (file_exists($links_trans))
+    {
+        unlink($links_trans);
+    }
     if (file_exists($schema_final))
     {
         $db_definition = $schema->parseDatabaseDefinitionFile($schema_final);
@@ -87,12 +97,20 @@ else if (array_key_exists('btn_copy_final', $_POST))
         $dump_options['custom_tags']['version']++;
         $dump = $schema->dumpDatabase($db_definition, $dump_options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
     }
+    if (file_exists($links_final))
+    {
+        copy($links_final, $links_trans);
+    }
 }
 else if (array_key_exists('btn_delete_trans', $_POST))
 {
     if (file_exists($schema_trans))
     {
         unlink($schema_trans);
+    }
+    if (file_exists($links_trans))
+    {
+        unlink($links_trans);
     }
 }
 else if (array_key_exists('btn_changeset_delete', $_POST))
@@ -109,6 +127,15 @@ if (file_exists($schema_trans))
 else if (file_exists($schema_final))
 {
     $file = $schema_final;
+}
+
+if (file_exists($links_trans))
+{
+    $file_links = $links_trans;
+}
+else if (file_exists($links_final))
+{
+    $file_links = $links_final;
 }
 
 if (array_key_exists('btn_table_cancel', $_POST) ||
@@ -163,6 +190,25 @@ else if (array_key_exists('btn_index_add', $_POST))
     }
     $dump = $schema->dumpDatabase($db_definition, $dump_options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
 }
+else if (array_key_exists('btn_link_del', $_POST))
+{
+    $table = $_POST['table_edit'];
+    $links = readLinksDotIni($file_links, $table);
+    foreach ($_POST['chklnk'] AS $k=>$link_name)
+    {
+        unset($links[$link_name]);
+    }
+
+    writeLinksDotIni($file_links, $table, $links);
+}
+else if (array_key_exists('btn_link_add', $_POST))
+{
+    $table = $_POST['table_edit'];
+    $links = readLinksDotIni($file_links, $table);
+    $links[$_POST['link_add']] = $_POST['link_add_target'];
+
+    writeLinksDotIni($file_links, $table, $links);
+}
 else if (array_key_exists('btn_table_edit', $_POST))
 {
     $table = $_POST['btn_table_edit'];
@@ -190,12 +236,69 @@ else
 
 $db_definition = $schema->parseDatabaseDefinitionFile($file);
 $tbl_definition = $db_definition['tables'][$table];
+
+$links = readLinksDotIni($file_links, $table);
+
+$links_targets = array();
+foreach ($db_definition['tables'] as $tk => $tv) {
+    if (isset($tv['indexes'])) {
+        foreach ($tv['indexes'] as $v) {
+            if (isset($v['primary']) && $v['primary'] && count($v['fields']) == 1) {
+                $links_targets["$tk:".key($v['fields'])] = "$tk (".key($v['fields']).")";
+            }
+        }
+    }
+}
+
 include 'edit.html';
 exit();
 
+function readLinksDotIni($file_links, $table)
+{
+    $links =& new Config();
+    $root =& $links->parseConfig($file_links, 'inifile');
+    $links = $root->toArray();
+    $links = $links['root'];
+    if (isset($links[$table])) {
+        $links = $links[$table];
+        foreach ($links as $fk => $fv) {
+            $tmp = explode(':', $fv);
+            $links[$fk] = array(
+                'table' => $tmp[0],
+                'field' => $tmp[1]
+            );
+        }
+    } else {
+        $links = array();
+    }
 
-// comment the above and uncomment below to test/play with xAjax
-//include 'index.html';
+    return $links;
+}
+
+function writeLinksDotIni($file_links, $table, $link_array)
+{
+    $links =& new Config();
+    $root =& $links->parseConfig($file_links, 'inifile');
+    $root = $root->toArray();
+    $root = $root['root'];
+
+    foreach ($link_array as $k => $v) {
+        if (is_array($v)) {
+            $link_array[$k] = "{$v['table']}:{$v['field']}";
+        }
+    }
+
+    if (count($link_array)) {
+        $root[$table] = $link_array;
+    } else {
+        unset($root[$table]);
+    }
+
+    ksort($root);
+
+    $links =& new Config();
+    $links->parseConfig($root, 'phparray');
+    $links->writeConfig($file_links, 'inifile');
+}
 
 ?>
-

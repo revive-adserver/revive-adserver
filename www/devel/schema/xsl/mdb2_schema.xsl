@@ -60,7 +60,7 @@
         <div class="tablediv">
                 <xsl:call-template name="showtable"/>
                 <xsl:call-template name="showtableindexes"/>
-                <xsl:call-template name="showtableforeignkeys"/>
+                <!--xsl:call-template name="showtableforeignkeys"/-->
         </div>
     </xsl:for-each>
     <!-- -->
