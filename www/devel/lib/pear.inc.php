@@ -40,7 +40,8 @@ OpenadsError::setErrorHandling(PEAR_ERROR_CALLBACK, 'handle_error');
 function handle_error ($error_obj)
 {
     global $logger, $dsn, $mdb;
-
+    global $error_message;
+    $error_message = $error_obj->getUserInfo();
 //    $logger->debug($error_obj->toString());
     $logger->debug('MESSAGE: '.$error_obj->getMessage());
     $logger->debug('INFO: '.$error_obj->getUserinfo());
@@ -69,8 +70,9 @@ function handle_error ($error_obj)
         $mdb->has_transaction_error =& $error_obj;
     }
 
-    $err = file_get_contents(MAX_PATH . '/var/upgrade.log');
-    die();
+    $err = file_get_contents(MAX_PATH . '/var/schema.log');
+    //print_r($err);
+    //die();
 }
 
 ?>

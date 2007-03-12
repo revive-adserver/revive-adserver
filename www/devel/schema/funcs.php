@@ -96,4 +96,66 @@ function connect($options)
     return MDB2_Schema::factory(Openads_Dal::singleton($dsn), $options);
 }
 
+function validate_table($schema, $db_definition, $tbl_definition, $tbl_name)
+{
+    // these should be inline with actual options set for schema instance
+    $fail_on_invalid_names = array();
+    $valid_types = $schema->options['valid_types'];
+    $force_defaults = '';
+
+    $validator =& new MDB2_Schema_Validate($fail_on_invalid_names, $valid_types, $force_defaults);
+
+    $result = $validator->validateTable($db_definition['tables'], $tbl_definition, $tbl_name);
+    if (PEAR::isError($result)) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function validate_field($schema, $db_definition, $tbl_name, $fld_definition, $fld_name)
+{
+    // these should be inline with actual options set for schema instance
+    $fail_on_invalid_names = array();
+    $valid_types = $schema->options['valid_types'];
+    $force_defaults = '';
+
+    $validator =& new MDB2_Schema_Validate($fail_on_invalid_names, $valid_types, $force_defaults);
+
+    $result = $validator->validateField($db_definition['tables'][$tbl_name]['fields'], $fld_definition, $fld_name);
+    if (PEAR::isError($result)) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function field_relations($schema, &$tbl_definition, $fld_name_old, $fld_name_new)
+{
+    if (!empty($tbl_definition['indexes']) && is_array($tbl_definition['indexes']))
+    {
+        foreach ($tbl_definition['indexes'] as $idx_name => $index)
+        {
+            if (is_array($index['fields']) && array_key_exists($fld_name_old, $index['fields']))
+            {
+                foreach ($index['fields'] AS $k => $v)
+                {
+                    if ($fld_name_old == $k)
+                    {
+                        $fields_ordered[$fld_name_new] = $v;
+                    }
+                    else
+                    {
+                        $fields_ordered[$k] = $v;
+                    }
+                }
+                $tbl_definition['indexes'][$idx_name]['fields'] = $fields_ordered;
+//                    $tbl_definition['indexes'][$idx_name]['fields'][$fld_name_new] = $tbl_definition['indexes'][$idx_name]['fields'][$fld_name_old];
+//                    unset($tbl_definition['indexes'][$idx_name]['fields'][$fld_name_old]);
+            }
+        }
+    }
+    return true;
+}
+
 ?>

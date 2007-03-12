@@ -87,6 +87,14 @@
         $dd_list.= '</ul>';
     ?>
   <div class="bodydiv">
+    <div>
+        <?php
+            if ($error_message)
+            {
+                echo '<pre style="color:red;">'.$error_message.'</pre>';
+            }
+        ?>
+    </div>
         <form name="frm_table" action="index.php" method="POST">
             <table class="tablemain">
                 <tr>

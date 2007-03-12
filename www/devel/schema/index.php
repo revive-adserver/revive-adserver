@@ -38,7 +38,7 @@ $dump_options = array (
                         'output'        =>    $schema_trans,
                         'end_of_line'   =>    "\n",
                         'xsl_file'      =>    "xsl/mdb2_schema.xsl",
-                        'custom_tags'   => array('version'=>'0.0.1', 'status'=>'transitional')
+                        'custom_tags'   => array('version'=>'1', 'status'=>'transitional')
                       );
 
 require_once MAX_PATH.'/lib/openads/Dal.php';
@@ -146,19 +146,44 @@ else if (array_key_exists('btn_field_save', $_POST))
     $field_name_new = $_POST['fld_new_name'];
     $field_type_old = $_POST['fld_old_type'];
     $field_type_new = $_POST['fld_new_type'];
-    $fld_definition = $db_definition['tables'][$table]['fields'][$field_name_old];
-    $fld_definition['was'] = $field_name_old;
+    $tbl_definition = $db_definition['tables'][$table];
     if ($field_name_new != $field_name_old)
     {
-        $db_definition['tables'][$table]['fields'][$field_name_new] = $fld_definition;
-        unset($db_definition['tables'][$table]['fields'][$field_name_old]);
+        // have to muck around to ensure same field order
+        foreach ($tbl_definition['fields'] AS $k => $v)
+        {
+            if ($field_name_old == $k)
+            {
+                $fld_definition = $v;
+                $fld_definition['was'] = $field_name_old;
+                $fields_ordered[$field_name_new] = $fld_definition;
+            }
+            else
+            {
+                $fields_ordered[$k] = $v;
+            }
+        }
+        $tbl_definition['fields'] = $fields_ordered;
     }
     else if ($field_type_new != $field_type_old)
     {
         $fld_definition = $dd_definition['fields'][$field_type_new];
-        $db_definition['tables'][$table]['fields'][$field_name_old] = $fld_definition;
+        $tbl_definition['fields'][$field_name_old] = $fld_definition;
     }
-    $dump = $schema->dumpDatabase($db_definition, $dump_options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
+    $valid = validate_field($schema, $db_definition, $table, $fld_definition, $field_name_new);
+    if ($valid)
+    {
+        field_relations($schema, $tbl_definition, $field_name_old, $field_name_new);
+        unset($db_definition['tables'][$table]);
+        $valid = validate_table($schema, $db_definition, $tbl_definition, $table);
+        if ($valid)
+        {
+            $db_definition['tables'][$table] = $tbl_definition;
+            ksort($db_definition['tables'],SORT_STRING);
+            $dump_options['custom_tags']['version'] = $db_definition['version'];
+            $dump = $schema->dumpDatabase($db_definition, $dump_options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
+        }
+    }
 }
 else if (array_key_exists('btn_field_add', $_POST))
 {
@@ -167,6 +192,7 @@ else if (array_key_exists('btn_field_add', $_POST))
     $field_name = $_POST['field_add'];
     $fld_definition = $dd_definition['fields'][$_POST['sel_field_add']];
     $db_definition['tables'][$table]['fields'][$field_name] = $fld_definition;
+    $dump_options['custom_tags']['version'] = $db_definition['version'];
     $dump = $schema->dumpDatabase($db_definition, $dump_options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
 }
 else if (array_key_exists('btn_field_del', $_POST))
@@ -176,6 +202,7 @@ else if (array_key_exists('btn_field_del', $_POST))
     $table = $_POST['table_edit'];
     $field = $_POST['field_name'];
     unset($db_definition['tables'][$table]['fields'][$field]);
+    $dump_options['custom_tags']['version'] = $db_definition['version'];
     $dump = $schema->dumpDatabase($db_definition, $dump_options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
 }
 else if (array_key_exists('btn_index_del', $_POST))
@@ -184,6 +211,7 @@ else if (array_key_exists('btn_index_del', $_POST))
     $table = $_POST['table_edit'];
     $index = $_POST['index_name'];
     unset($db_definition['tables'][$table]['indexes'][$index]);
+    $dump_options['custom_tags']['version'] = $db_definition['version'];
     $dump = $schema->dumpDatabase($db_definition, $dump_options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
 }
 else if (array_key_exists('btn_index_add', $_POST))
@@ -198,6 +226,7 @@ else if (array_key_exists('btn_index_add', $_POST))
     {
         $db_definition['tables'][$table]['indexes'][$index_name]['fields'][$fld_name] = array('sorting'=>'ascending');
     }
+    $dump_options['custom_tags']['version'] = $db_definition['version'];
     $dump = $schema->dumpDatabase($db_definition, $dump_options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
 }
 else if (array_key_exists('btn_link_del', $_POST))
@@ -233,9 +262,13 @@ else if (array_key_exists('btn_table_new', $_POST))
         $db_definition = $schema->parseDatabaseDefinitionFile($file);
         $table = $_POST['new_table_name'];
         $db_definition['tables'][$table] = array();
-        $fld_definition = array('newfield'=>array('type'=>'text','length'=>'','default'=>'','notnull'=>''));
-        $db_definition['tables'][$table]['fields'] = $fld_definition;
-        $dump = $schema->dumpDatabase($db_definition, $dump_options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
+        $tbl_definition = array('newfield'=>array('type'=>'text','length'=>'','default'=>'','notnull'=>''));
+        $valid = validate_table($schema, $db_definition, $tbl_definition, $table);
+        if ($valid)
+        {
+            $dump_options['custom_tags']['version'] = $db_definition['version'];
+            $dump = $schema->dumpDatabase($db_definition, $dump_options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
+        }
     }
     header('Content-Type: application/xhtml+xml; charset=ISO-8859-1');
     readfile($file);
@@ -246,6 +279,7 @@ else if (array_key_exists('btn_table_delete', $_POST))
     $db_definition = $schema->parseDatabaseDefinitionFile($file);
     $table = $_POST['table_edit'];
     unset($db_definition['tables'][$table]);
+    $dump_options['custom_tags']['version'] = $db_definition['version'];
     $dump = $schema->dumpDatabase($db_definition, $dump_options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
     header('Content-Type: application/xhtml+xml; charset=ISO-8859-1');
     readfile($file);
