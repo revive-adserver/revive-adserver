@@ -106,7 +106,7 @@ if (isset($submit)) {
     $affiliate['email']       = trim($email);
 
     // Non-affiliate fields
-    if (!phpAds_isAllowed(MAX_AffiliateIsReallyAffiliate)) {
+    if (!MAX_Permission::isAllowed(MAX_AffiliateIsReallyAffiliate)) {
         $affiliate['language']    = trim($language);
     }
 
@@ -329,12 +329,12 @@ if ($affiliateid != "") {
         echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
         phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5"));
     } else {
-        if (phpAds_isAllowed(MAX_AffiliateIsReallyAffiliate)) {
+        if (MAX_Permission::isAllowed(MAX_AffiliateIsReallyAffiliate)) {
             phpAds_PageHeader('4');
         } else {
             $sections = array();
             $sections[] = "4.1";
-            if (phpAds_isAllowed(phpAds_ModifyInfo)) {
+            if (MAX_Permission::isAllowed(phpAds_ModifyInfo)) {
                 $sections[] = "4.2";
             }
             phpAds_PageHeader('4.2');
@@ -436,7 +436,7 @@ echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strEMail."</td><td>";
 echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='email' size='35' style='width:350px;' value='".phpAds_htmlQuotes($affiliate['email'])."' tabindex='".($tabindex++)."'>";
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
 
-if (!phpAds_isAllowed(MAX_AffiliateIsReallyAffiliate)) {
+if (!MAX_Permission::isAllowed(MAX_AffiliateIsReallyAffiliate)) {
     // Language
     echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
     echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strLanguage."</td><td>";

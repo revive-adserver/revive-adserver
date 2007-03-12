@@ -311,7 +311,7 @@ while ($doZones->fetch() && $row_zones = $doZones->toArray())
     $i++;
 }
 
-if (phpAds_dbNumRows($res_zones) > 0)
+if ($doZones->getRowCount() > 0)
 {
     echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 }
