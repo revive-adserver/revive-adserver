@@ -230,8 +230,11 @@ class Openads_Table
         if (!$this->_checkInit()) {
             return false;
         }
-
         $aTableNames = $this->_getRequiredTables($table);
+        $result = $this->createTable($table, $oDate);
+        if (!$result) {
+            return false;
+        }
         foreach ($aTableNames as $tableName) {
             $result = $this->createTable($tableName, $oDate);
             if (!$result) {
@@ -315,37 +318,35 @@ class Openads_Table
     /**
      * A method to get all the required tables to create another table.
      *
-     * @param string $table The table to check for.
-     * @param string $links The links array, if already loaded.
-     * @param string $skip  The table to skip (already checked).
-     * @param string $level Recursion level.
+     * @param string  $table  The table to check for.
+     * @param array   $aLinks The links array, if already loaded.
+     * @param array   $aSkip  The table(s) to skip (already checked).
+     * @param integer $level  Recursion level.
      * @return array The required tables array.
      */
-    function _getRequiredTables($table, $links = null, $skip = null, $level = 0)
+    function _getRequiredTables($table, $aLinks = null, $aSkip = null, $level = 0)
     {
-        if (is_null($links)) {
-            require_once(MAX_PATH.'/lib/openads/Dal/Links.php');
-            $links = Openads_Links::readLinksDotIni(MAX_PATH.'/lib/max/Dal/DataObjects/db_schema.links.ini');
+        if (is_null($aLinks)) {
+            require_once MAX_PATH . '/lib/openads/Dal/Links.php';
+            $aLinks = Openads_Links::readLinksDotIni(MAX_PATH . '/lib/max/Dal/DataObjects/db_schema.links.ini');
         }
-
-        $tables = array();
-        if (isset($links[$table])) {
-            foreach ($links[$table] as $link) {
-                $refTable = $link['table'];
-                $tables[$refTable] = $level;
-                foreach (array_keys($tables) as $refTable) {
-                    if (!isset($skip[$refTable])) {
-                        $tables = $this->_getRequiredTables($refTable, $links, $tables, $level + 1) + $tables;
+        $aTables = array();
+        if (isset($aLinks[$table])) {
+            foreach ($aLinks[$table] as $aLink) {
+                $refTable = $aLink['table'];
+                $aTables[$refTable] = $level;
+                foreach (array_keys($aTables) as $refTable) {
+                    if (!isset($aSkip[$refTable])) {
+                        $aTables = $this->_getRequiredTables($refTable, $aLinks, $aTables, $level + 1) + $aTables;
                     }
                 }
             }
         }
-
         if (!$level) {
-            arsort($tables);
-            return array_keys($tables);
+            arsort($aTables);
+            return array_keys($aTables);
         } else {
-            return $tables;
+            return $aTables;
         }
     }
 }

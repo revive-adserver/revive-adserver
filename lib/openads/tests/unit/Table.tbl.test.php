@@ -201,6 +201,7 @@ class Test_Openads_Table extends UnitTestCase
         // Test 1
         $conf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &Openads_Dal::singleton();
+        $conf['table']['prefix'] = '';
         $conf['table']['split'] = false;
         $oTable = new Openads_Table();
         $this->_writeTestDatabaseSchema();
@@ -212,6 +213,7 @@ class Test_Openads_Table extends UnitTestCase
 
         // Test 2
         $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf['table']['prefix'] = '';
         $conf['table']['split'] = true;
         $conf['splitTables']['test_table'] = true;
         $oDbh = &Openads_Dal::singleton();
@@ -238,6 +240,7 @@ class Test_Openads_Table extends UnitTestCase
         // Test 1
         $conf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &Openads_Dal::singleton();
+        $conf['table']['prefix'] = '';
         $conf['table']['split'] = false;
         $oTable = new Openads_Table();
         $this->_writeTestDatabaseSchema();
@@ -250,6 +253,7 @@ class Test_Openads_Table extends UnitTestCase
         // Test 2
         $conf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &Openads_Dal::singleton();
+        $conf['table']['prefix'] = '';
         $conf['table']['split'] = true;
         $conf['splitTables']['test_table'] = true;
         $oTable = new Openads_Table();
@@ -261,6 +265,28 @@ class Test_Openads_Table extends UnitTestCase
         $this->assertEqual($aExistingTables[0], 'test_table_' . $oDate->format('%Y%m%d'));
         $this->assertEqual($aExistingTables[1], 'the_second_table');
         unlink(MAX_PATH . '/var/test.xml');
+        TestEnv::restoreEnv();
+    }
+
+    /**
+     * A method to test the create required tables method.
+     *
+     * Requirements:
+     * Test 1: Test with the Openads_Table_Core class, using
+     *         the banners table.
+     */
+    function testCreateRequriedTables()
+    {
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf['table']['prefix'] = '';
+        $oDbh = &Openads_Dal::singleton();
+        $oTable = &Openads_Table_Core::singleton();
+        $oTable->createRequiredTables('banners');
+        $aExistingTables = $oDbh->manager->listTables();
+        $this->assertEqual($aExistingTables[0], 'agency');
+        $this->assertEqual($aExistingTables[1], 'banners');
+        $this->assertEqual($aExistingTables[2], 'campaigns');
+        $this->assertEqual($aExistingTables[3], 'clients');
         TestEnv::restoreEnv();
     }
 
