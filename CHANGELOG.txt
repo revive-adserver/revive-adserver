@@ -27,6 +27,10 @@
 | Release Max v0.3.32-alpha |
 +---------------------------+
 
+2007-03-12  Maintenance Bug         Fixed #206 - Ensured that high-priority campaigns with daily targets are
+                                    correctly handled, regardless of the status of the start and end dates;
+                                    improved high-priority campaign type testing, so that an error can be
+                                    logged if required (Andrew)
 2007-03-09  Maintenance Bug         Fixed #205 - Daily limited campaigns used all time impressions delivered
                                     instead of "today's" impressions delivered when calculating how many
                                     impressions to deliver for the rest of "today" (Andrew)

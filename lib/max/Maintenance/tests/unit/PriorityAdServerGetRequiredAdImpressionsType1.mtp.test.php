@@ -373,7 +373,14 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
         $oServiceLocator->register('now', $oDate);
 
         // Create a "normal" placement to test with
-        $oPlacement = new MAX_Entity_Placement(array('campaignid' => 1, 'expire' => '2005-12-09'));
+        $oPlacement = new MAX_Entity_Placement(
+            array(
+                'campaignid' => 1,
+                'activate'   => '2005-11-09',
+                'expire'     => '2005-12-09'
+            )
+        );
+        $oPlacement->impressionTargetTotal = 5000;
         $oPlacement->requiredImpressions = 24;
         $oAd = new MAX_Entity_Ad(array('ad_id' => 1, 'weight' => 1, 'active' => 't', 'type' => 'sql'));
         $oPlacement->aAds[] = $oAd;
@@ -384,7 +391,12 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
         $aPlacements[] = $oPlacement;
 
         // Create a "daily limit" placement to test with
-        $oPlacement = new MAX_Entity_Placement(array('campaignid' => 2, 'expire' => '0000-00-00'));
+        $oPlacement = new MAX_Entity_Placement(
+            array(
+                'campaignid' => 2,
+                'expire'     => '0000-00-00'
+            )
+        );
         $oPlacement->impressionTargetDaily = 24;
         $oPlacement->requiredImpressions = 24;
         $oAd = new MAX_Entity_Ad(array('ad_id' => 4, 'weight' => 1, 'active' => 't', 'type' => 'sql'));
@@ -444,7 +456,14 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
         $oServiceLocator->register('now', $oDate);
 
         // Create a "normal" placement to test with
-        $oPlacement = new MAX_Entity_Placement(array('campaignid' => 1, 'expire' => '2006-02-12'));
+        $oPlacement = new MAX_Entity_Placement(
+            array(
+                'campaignid' => 1,
+                'activate'   => '2006-01-12',
+                'expire'     => '2006-02-12'
+            )
+        );
+        $oPlacement->impressionTargetTotal = 5000;
         $oPlacement->requiredImpressions = 24;
         $oAd = new MAX_Entity_Ad(array('ad_id' => 1, 'weight' => 1, 'active' => 't', 'type' => 'sql'));
         $oPlacement->aAds[] = $oAd;
@@ -455,7 +474,12 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
         $aPlacements[] = $oPlacement;
 
         // Create a "daily limit" placement to test with
-        $oPlacement = new MAX_Entity_Placement(array('campaignid' => 2, 'expire' => '0000-00-00'));
+        $oPlacement = new MAX_Entity_Placement(
+            array(
+                'campaignid' => 2,
+                'expire'     => '0000-00-00'
+            )
+        );
         $oPlacement->impressionTargetDaily = 24;
         $oPlacement->requiredImpressions = 24;
         $oAd = new MAX_Entity_Ad(array('ad_id' => 4, 'weight' => 1, 'active' => 't', 'type' => 'sql'));

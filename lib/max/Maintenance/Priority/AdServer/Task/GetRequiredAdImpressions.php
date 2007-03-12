@@ -310,20 +310,49 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
         // For each placement
         foreach ($aPlacements as $oPlacement) {
             // Get date object to represent placement expiration date
-            if ($oPlacement->expire == '0000-00-00' &&
-                (($oPlacement->impressionTargetDaily > 0) ||
-                 ($oPlacement->clickTargetDaily > 0) ||
-                 ($oPlacement->conversionTargetDaily > 0))) {
-                // The campaign has a daily target, bue no expiry date, so
-                // treat this placement as if it ends at the end of today
+            if (
+                  ($oPlacement->impressionTargetDaily > 0)
+                   ||
+                   ($oPlacement->clickTargetDaily > 0)
+                   ||
+                   ($oPlacement->conversionTargetDaily > 0)
+               ) {
+                // The placement has a daily target to meet, so treat the
+                // placement as if it expires at the end of "today", regardless
+                // of the existance of any activation or expiration dates that
+                // may (or may not) be set for the placement
                 $oDate = &$this->_getDate();
                 // Get the end of the day from this date
                 $oPlacementExpiryDate = new Date($oDate->format('%Y-%m-%d') . ' 23:59:59');
-            } else {
+            } else if (
+                   (
+                       ($oPlacement->activate != '0000-00-00')
+                       &&
+                       ($oPlacement->expire != '0000-00-00')
+                   )
+                   &&
+                   (
+                       ($oPlacement->impressionTargetTotal > 0)
+                       ||
+                       ($oPlacement->clickTargetTotal > 0)
+                       ||
+                       ($oPlacement->conversionTargetTotal > 0)
+                   )
+               ) {
+                // The placement has an activation and an expiration date, and
+                // has some kind of (total) inventory requirement, so treat the
+                // placement as if it expires at the end of that end date
                 $oPlacementExpiryDate = &$this->_getDate($oPlacement->expire);
                 // Placement expires at end of expiry date, so add one day less one
                 // second, so we have a date with time portion 23:59:59
                 $oPlacementExpiryDate->addSeconds(SECONDS_PER_DAY - 1);
+            } else {
+                // Error! There should not be any other kind of high-priority
+                // placement in terms of activation/expiration dates and
+                // either (total) inventory requirements or daily targets
+                $message = "Error calculating the end date for Placement ID {$oPlacement->id}.";
+                MAX::debug($message, PEAR_LOG_ERR);
+                continue;
             }
             // Determine number of remaining operation intervals for placement
             $placementRemainingOperationIntervals =
@@ -462,20 +491,50 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
         // For each placement
         foreach ($aPlacements as $oPlacement) {
             // Get date object to represent placement expiration date
-            if ($oPlacement->expire == '0000-00-00' &&
-                (($oPlacement->impressionTargetDaily > 0) ||
-                 ($oPlacement->clickTargetDaily > 0) ||
-                 ($oPlacement->conversionTargetDaily > 0))) {
-                // The campaign has a daily target, bue no expiry date, so
-                // treat this placement as if it ends at the end of today
+            // Get date object to represent placement expiration date
+            if (
+                   ($oPlacement->impressionTargetDaily > 0)
+                   ||
+                   ($oPlacement->clickTargetDaily > 0)
+                   ||
+                   ($oPlacement->conversionTargetDaily > 0)
+               ) {
+                // The placement has a daily target to meet, so treat the
+                // placement as if it expires at the end of "today", regardless
+                // of the existance of any activation or expiration dates that
+                // may (or may not) be set for the placement
                 $oDate = &$this->_getDate();
                 // Get the end of the day from this date
                 $oPlacementExpiryDate = new Date($oDate->format('%Y-%m-%d') . ' 23:59:59');
-            } else {
+            } else if (
+                   (
+                       ($oPlacement->activate != '0000-00-00')
+                       &&
+                       ($oPlacement->expire != '0000-00-00')
+                   )
+                   &&
+                   (
+                       ($oPlacement->impressionTargetTotal > 0)
+                       ||
+                       ($oPlacement->clickTargetTotal > 0)
+                       ||
+                       ($oPlacement->conversionTargetTotal > 0)
+                   )
+               ) {
+                // The placement has an activation and an expiration date, and
+                // has some kind of (total) inventory requirement, so treat the
+                // placement as if it expires at the end of that end date
                 $oPlacementExpiryDate = &$this->_getDate($oPlacement->expire);
                 // Placement expires at end of expiry date, so add one day less one
                 // second, so we have a date with time portion 23:59:59
                 $oPlacementExpiryDate->addSeconds(SECONDS_PER_DAY - 1);
+            } else {
+                // Error! There should not be any other kind of high-priority
+                // placement in terms of activation/expiration dates and
+                // either (total) inventory requirements or daily targets
+                $message = "Error calculating the end date for Placement ID {$oPlacement->id}.";
+                MAX::debug($message, PEAR_LOG_ERR);
+                continue;
             }
             // Sum the weights of all ads in placement
             $totalWeight = $this->_getPlacementAdWeightTotal($oPlacement);
