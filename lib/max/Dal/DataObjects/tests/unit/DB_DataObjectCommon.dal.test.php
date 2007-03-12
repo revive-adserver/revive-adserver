@@ -24,6 +24,7 @@
 $Id$
 */
 require_once MAX_PATH . '/lib/max/Dal/DataObjects/Banners.php';
+require_once 'DataObjectsUnitTestCase.php';
 
 /**
  * A class for testing DB_DataObjectsCommon
