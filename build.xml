@@ -38,7 +38,7 @@
         </fail>
     </target>
     <target name="phpunit">
-        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="false" output="build/test-results/MDB2.html">
+        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="true" output="build/test-results/MDB2.html">
             <arg value="run.php" />
             <arg value="--type=phpunit" />
             <arg value="--dir=../lib/pear/MDB2/tests/" />
