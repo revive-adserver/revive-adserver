@@ -83,6 +83,7 @@ class User
     {
         $aUserData = User::getABaseUserData(
             $doUser->getUserType(), $doUser->getSUsername());
+        $aUserData['agencyid'] = $doUser->agencyid;
         $aUserData['userid'] = $doUser->getUserId();
         $aUserData['permissions'] = $doUser->permissions;
         $aUserData["language"] = $doUser->language;
