@@ -76,11 +76,17 @@
     <xsl:param name="showconstructive">yes</xsl:param>
     <xsl:param name="showdestructive">yes</xsl:param>
 
-    <br/><span class="titlemini">
-    <xsl:value-of select="name"/>version:
-    <xsl:value-of select="version"/></span><br/>
+    <br/>
     <span class="titlemini">
-    <xsl:value-of select="comments"/></span><br/><br/>
+        <xsl:value-of select="name"/>version:<xsl:value-of select="version"/>
+    </span>
+    <br/>
+
+    <span class="titlemini">
+        <xsl:value-of select="comments"/>
+    </span>
+    <br/><br/>
+
     <xsl:if test="$showconstructive='yes'">
         <TABLE class="tablemain">
         <xsl:for-each select="add">
