@@ -28,6 +28,7 @@ $Id$
  * Table Definition for campaigns
  */
 require_once 'DB/DataObject.php';
+require_once MAX_PATH . '/lib/max/Util/ArrayUtils.php';
 
 /**
  * The non-DB specific Data Access Layer (DAL) class for the User Interface (Admin).
@@ -323,14 +324,9 @@ class DB_DataObjectCommon extends DB_DataObject
             return array();
         }
         $this->whereAdd($columnName . " <> ''");
-        $unique = $this->getAll(array($columnName));
-        if (!empty($exceptValue) && !empty($uniqueUsers)) {
-            $key = array_search($removeName, $uniqueUsers);
-	        if (is_numeric($key)) {
-	            unset($uniqueUsers[$key]);
-	        }
-        }
-        return $unique;
+        $aValues = $this->getAll(array($columnName));
+        ArrayUtils::unsetIfKeyNumeric($aValues, $exceptValue);
+        return $aValues;
     }
     
     /**

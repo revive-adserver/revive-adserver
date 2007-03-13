@@ -93,7 +93,7 @@ if (isset($submit)) {
 	$client['report'] = isset($clientreport) ? 't' : 'f';
 	$client['reportdeactivate'] = isset($clientreportdeactivate) ? 't' : 'f';
 	$client['reportinterval'] = (int)$clientreportinterval;
-	if ($clientreportlastdate == '' || $clientreportlastdate == '0000-00-00' ||  $clientreportprevious != $clientreport) {
+	if ($clientreportlastdate == '' || $clientreportlastdate == '0000-00-00' ||  $clientreportprevious != $client['report']) {
 		$client['reportlastdate'] = date ("Y-m-d");
 	}
 	if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {

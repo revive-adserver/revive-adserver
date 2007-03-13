@@ -28,6 +28,8 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/max/Util/ArrayUtils.php';
+
 class MAX_Permission
 {
     /**
@@ -210,12 +212,7 @@ class MAX_Permission
 	        $uniqueUsers = array_merge($uniqueUsers, $newUniqueNames);
 	    }
 	    
-	    if (!empty($removeName)) {
-	        $key = array_search($removeName, $uniqueUsers);
-	        if (is_numeric($key)) {
-	            unset($uniqueUsers[$key]);
-	        }
-	    }
+	    ArrayUtils::unsetIfKeyNumeric($uniqueUsers, $removeName);
         return $uniqueUsers;
 	}
 }
