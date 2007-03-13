@@ -186,6 +186,7 @@ if ($agencyid != '') {
 		$agency['username']		= '';
 		$agency['password']		= '';
 		$agency['logout_url']   = '';
+		$agency['permissions']  = '';
 	}
 }
 $tabindex = 1;
