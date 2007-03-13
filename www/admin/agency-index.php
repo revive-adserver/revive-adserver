@@ -96,13 +96,13 @@ else
 if (phpAds_isUser(phpAds_Admin))
 {
     $doAgency = MAX_DB::factoryDO('agency');
-    $agencies = $doAgency->getAll(array('name'), true);
+    $agencies = $doAgency->getAll(array('name', 'agencyid'), true, false);
 }
 
-foreach ($agencies as $v) {
-    $v['expand'] = 0;
-    $v['count'] = 0;
-    $v['hideinactive'] = 0;
+foreach ($agencies as $k => $v) {
+    $agencies[$k]['expand'] = 0;
+    $agencies[$k]['count'] = 0;
+    $agencies[$k]['hideinactive'] = 0;
 }
 
 
@@ -235,7 +235,7 @@ if ($hideinactive == true)
 {
     echo "&nbsp;&nbsp;<img src='images/icon-activate.gif' align='absmiddle' border='0'>";
     echo "&nbsp;<a href='agency-index.php?hideinactive=0'>".$strShowAll."</a>";
-    echo "&nbsp;&nbsp;|&nbsp;&nbsp;".$agencieshidden." ".$strInactiveAgenciesHidden;
+    echo "&nbsp;&nbsp;|&nbsp;&nbsp;" . $strInactiveAgenciesHidden;
 }
 else
 {
