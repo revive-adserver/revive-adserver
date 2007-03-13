@@ -213,7 +213,7 @@ class Openads_Schema_Manager
         $valid = $this->validate_field($table_name, $fld_definition, $field_name_new);
         if ($valid)
         {
-            $this->field_relations($table_name, $tbl_definition, $field_name_old, $field_name_new);
+            $this->field_index_relations($table_name, $tbl_definition, $field_name_old, $field_name_new);
             unset($this->db_definition['tables'][$table_name]);
             $valid = $this->validate_table($tbl_definition, $table_name);
             if ($valid)
@@ -234,7 +234,7 @@ class Openads_Schema_Manager
         {
             $tbl_definition = $this->db_definition['tables'][$table_name];
             $tbl_definition['fields'][$field_name] = $fld_definition;
-            //$this->field_relations($table_name, $tbl_definition, '', $field_name);
+            //$this->field_index_relations($table_name, $tbl_definition, '', $field_name);
             unset($this->db_definition['tables'][$table_name]);
             $valid = $this->validate_table($tbl_definition, $table_name);
             if ($valid)
@@ -252,7 +252,7 @@ class Openads_Schema_Manager
         $tbl_definition = $this->db_definition['tables'][$table_name];
         unset($tbl_definition['fields'][$field_name]);
 
-        $this->field_relations($table_name, $tbl_definition, $field_name, '');
+        $this->field_index_relations($table_name, $tbl_definition, $field_name, '');
         unset($this->db_definition['tables'][$table_name]);
         $valid = $this->validate_table($tbl_definition, $table_name);
         if ($valid)
@@ -301,6 +301,7 @@ class Openads_Schema_Manager
     function tableDelete($table_name)
     {
         $this->parseWorkingDefinitionFile();
+        $this->table_link_relations($table_name);
         unset($this->db_definition['tables'][$table_name]);
         $this->writeWorkingDefinitionFile();
     }
@@ -368,7 +369,7 @@ class Openads_Schema_Manager
         return (Pear::iserror($result)? false: true);
     }
 
-    function field_relations($table_name, &$table_definition, $field_name_old, $field_name_new)
+    function field_index_relations($table_name, &$table_definition, $field_name_old, $field_name_new)
     {
         if (!empty($table_definition['indexes']) && is_array($table_definition['indexes']))
         {
@@ -394,11 +395,11 @@ class Openads_Schema_Manager
                 }
             }
         }
-        $this->link_relations($table_name, $field_name_old, $field_name_new);
+        $this->field_link_relations($table_name, $field_name_old, $field_name_new);
         return true;
     }
 
-    function link_relations($table_name, $field_name_old, $field_name_new)
+    function field_link_relations($table_name, $field_name_old, $field_name_new)
     {
         $links = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
         foreach ($links AS $table => $keys)
@@ -423,6 +424,26 @@ class Openads_Schema_Manager
                     {
                         unset($links[$table][$field_name_old]);
                     }
+                }
+            }
+        }
+        Openads_Links::writeLinksDotIni($this->links_trans, $links);
+    }
+
+    function table_link_relations($table_name)
+    {
+        $links = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
+        foreach ($links AS $table => $keys)
+        {
+            if (($table==$table_name))
+            {
+                unset($links[$table]);
+            }
+            foreach ($keys AS $field => $target)
+            {
+                if (($target['table']==$table_name))
+                {
+                    unset($links[$table][$field]);
                 }
             }
         }
