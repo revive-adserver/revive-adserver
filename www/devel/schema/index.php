@@ -73,7 +73,9 @@ else if (array_key_exists('btn_index_add', $_POST))
     $table = $_POST['table_edit'];
     $index_name = $_POST['index_add'];
     $index_fields = $_POST['sel_idxfld_add'];
-    $oaSchema->indexAdd($table, $index_name, $index_fields);
+    $unique = $_POST['idx_unique'];
+    $primary = $_POST['idx_primary'];
+    $oaSchema->indexAdd($table, $index_name, $index_fields, $primary, $unique);
 }
 else if (array_key_exists('btn_link_del', $_POST))
 {

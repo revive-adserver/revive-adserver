@@ -115,12 +115,8 @@ class Openads_Schema_Manager
         }
         if (file_exists($this->schema_final))
         {
-            //$this->db_definition = $this->schema->parseDatabaseDefinitionFile($this->schema_final);
             $this->working_file_schema = $this->schema_final;
             $this->parseWorkingDefinitionFile();
-//            $this->dump_options['custom_tags']['version'] = $this->db_definition['version'];
-//            $this->dump_options['custom_tags']['version']++;
-//            $this->dump = $this->schema->dumpDatabase($this->db_definition, $this->dump_options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
             $this->version++;
             $this->writeWorkingDefinitionFile();
         }
@@ -275,11 +271,13 @@ class Openads_Schema_Manager
         $this->writeWorkingDefinitionFile();
     }
 
-    function indexAdd($table_name, $index_name, $index_fields)
+    function indexAdd($table_name, $index_name, $index_fields, $primary='', $unique='')
     {
         $this->parseWorkingDefinitionFile();
         $this->db_definition['tables'][$table_name]['indexes'][$index_name] = array();
         $this->db_definition['tables'][$table_name]['indexes'][$index_name]['fields'] = array();
+        $this->db_definition['tables'][$table_name]['indexes'][$index_name]['primary'] = $primary;
+        $this->db_definition['tables'][$table_name]['indexes'][$index_name]['unique'] = $unique;
         foreach ($index_fields AS $k=>$fld_name)
         {
             $this->db_definition['tables'][$table_name]['indexes'][$index_name]['fields'][$fld_name] = array('sorting'=>'ascending');

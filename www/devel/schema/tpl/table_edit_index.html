@@ -20,7 +20,7 @@
                     <form name="<?php echo $form_name; ?>" id="<?php echo $form_name; ?>" action="index.php" method="POST">
                     <input type="hidden" name="table_edit" value="<?php echo $table; ?>"/>
                     <input type="hidden" name="index_name" value="<?php echo $name; ?>" />
-                        <!--td class="tablebody"><input type="checkbox" name="chkidx[]" value="<?php echo $name; ?>" ></td-->
+
                         <td class="tablebody"><button name="btn_index_del" type="submit">delete</button></td>
                         <td class="tablebody"><?php echo $name; ?></td>
                         <td class="tablebody"><?php echo ($idx_def['primary']?$idx_def['primary']:'&nbsp;'); ?></td>
@@ -49,7 +49,8 @@
                                 </span>
                                 <span class="textmini" id="span_index_add" style="display:inline;">
                                     <input type="text" name="index_add" id="index_add" value="" style="display:inline"/>
-
+                                    primary<input type="checkbox" value="1" name="idx_primary"/>
+                                    unique<input type="checkbox" value="1" name="idx_unique"/>
                                     <select name="sel_idxfld_add[]" multiple >
                                     <?php
                                     foreach ($tbl_definition['fields'] AS $field => $field_def )
