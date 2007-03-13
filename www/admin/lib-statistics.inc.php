@@ -67,6 +67,7 @@ function phpAds_getClientName($clientid)
         $client_details = phpAds_getClientDetails($clientid);
         return (phpAds_BuildName ($clientid, $client_details['clientname']));
     } else {
+        global $strUntitled;
         return ($strUntitled);
     }
 }
