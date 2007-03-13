@@ -137,6 +137,12 @@ class MAX_Dal_Admin_ZonesTest extends UnitTestCase
         $actual = $rsZones->getRowCount();
         $this->assertEqual($actual, $expected);
         
+        $rsZones = $this->dalZones->getZoneByKeyword('bar', null, $affiliateId);
+        $rsZones->find();
+        $actual = $rsZones->getRowCount();
+        $this->assertEqual($actual, $expected);
+        
+        
         // Search for zone by zone ID
         $expected = 1;
         $rsZones = $this->dalZones->getZoneByKeyword(1);
