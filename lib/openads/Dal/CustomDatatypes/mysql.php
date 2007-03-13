@@ -139,7 +139,7 @@ function datatype_openads_bigint_callback(&$db, $method, $aParameters)
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "integer" datatype
-            return $db->_compareIntegerDefinition($aParameters['current'], $aParameters['previous']);
+            return $db->datatype->_compareIntegerDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into MySQL using the built in
@@ -197,7 +197,7 @@ function datatype_openads_char_callback(&$db, $method, $aParameters)
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "text" datatype
-            return $db->_compareTextDefinition($aParameters['current'], $aParameters['previous']);
+            return $db->datatype->_compareTextDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into MySQL using the built in
@@ -273,7 +273,7 @@ function datatype_openads_decimal_callback(&$db, $method, $aParameters)
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "float" datatype
-            return $db->_compareFloatDefinition($aParameters['current'], $aParameters['previous']);
+            return $db->datatype->_compareFloatDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into MySQL using the built in
@@ -336,7 +336,7 @@ function datatype_openads_date_callback(&$db, $method, $aParameters)
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "timestamp" datatype
-            return $db->_compareTimestampDefinition($aParameters['current'], $aParameters['previous']);
+            return $db->datatype->_compareTimestampDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into MySQL using the built in
@@ -399,7 +399,7 @@ function datatype_openads_datetime_callback(&$db, $method, $aParameters)
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "timestamp" datatype
-            return $db->_compareTimestampDefinition($aParameters['current'], $aParameters['previous']);
+            return $db->datatype->_compareTimestampDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into MySQL using the built in
@@ -469,7 +469,7 @@ function datatype_openads_double_callback(&$db, $method, $aParameters)
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "float" datatype
-            return $db->_compareFloatDefinition($aParameters['current'], $aParameters['previous']);
+            return $db->datatype->_compareFloatDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into MySQL using the built in
@@ -598,7 +598,7 @@ function datatype_openads_float_callback(&$db, $method, $aParameters)
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "float" datatype
-            return $db->_compareFloatDefinition($aParameters['current'], $aParameters['previous']);
+            return $db->datatype->_compareFloatDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into MySQL using the built in
@@ -668,7 +668,7 @@ function datatype_openads_int_callback(&$db, $method, $aParameters)
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "integer" datatype
-            return $db->_compareIntegerDefinition($aParameters['current'], $aParameters['previous']);
+            return $db->datatype->_compareIntegerDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into MySQL using the built in
@@ -738,7 +738,7 @@ function datatype_openads_mediumint_callback(&$db, $method, $aParameters)
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "integer" datatype
-            return $db->_compareIntegerDefinition($aParameters['current'], $aParameters['previous']);
+            return $db->datatype->_compareIntegerDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into MySQL using the built in
@@ -796,7 +796,7 @@ function datatype_openads_mediumtext_callback(&$db, $method, $aParameters)
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "text" datatype
-            return $db->_compareTextDefinition($aParameters['current'], $aParameters['previous']);
+            return $db->datatype->_compareTextDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into MySQL using the built in
@@ -866,7 +866,7 @@ function datatype_openads_smallint_callback(&$db, $method, $aParameters)
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "integer" datatype
-            return $db->_compareIntegerDefinition($aParameters['current'], $aParameters['previous']);
+            return $db->datatype->_compareIntegerDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into MySQL using the built in
@@ -926,7 +926,7 @@ function datatype_openads_text_callback(&$db, $method, $aParameters)
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "text" datatype
-            return $db->_compareTextDefinition($aParameters['current'], $aParameters['previous']);
+            return $db->datatype->_compareTextDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into MySQL using the built in
@@ -989,7 +989,7 @@ function datatype_openads_timestamp_callback(&$db, $method, $aParameters)
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "timestamp" datatype
-            return $db->_compareTimestampDefinition($aParameters['current'], $aParameters['previous']);
+            return $db->datatype->_compareTimestampDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into MySQL using the built in
@@ -1059,7 +1059,7 @@ function datatype_openads_tinyint_callback(&$db, $method, $aParameters)
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "integer" datatype
-            return $db->_compareIntegerDefinition($aParameters['current'], $aParameters['previous']);
+            return $db->datatype->_compareIntegerDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into MySQL using the built in
@@ -1117,7 +1117,7 @@ function datatype_openads_varchar_callback(&$db, $method, $aParameters)
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "text" datatype
-            return $db->_compareTextDefinition($aParameters['current'], $aParameters['previous']);
+            return $db->datatype->_compareTextDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into MySQL using the built in
