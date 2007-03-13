@@ -100,7 +100,7 @@ class User
     {
         $aAffiliateData = User::getAUserData($doAffiliate);
         $aAffiliateData["needs_to_agree"] = $doAffiliate->getNeedsToAgree();
-        $aAffiliateData['help_file'] = $doAffiliate->e_help_file;
+        $aAffiliateData['help_file'] = '$doAffiliate->e_help_file'; // $doAffiliate->e_help_file;
         return $aAffiliateData;
     }
 
@@ -175,7 +175,9 @@ class User
         $doAffiliates->password = $md5digest;
         $doAffiliates_extra = MAX_DB::factoryDO('affiliates_extra');
         $doAffiliates->joinAdd($doAffiliates_extra);
-        $doAffiliates->selectAs('e_');
+        $doAffiliates->selectAdd();
+        $doAffiliates->selectAs($doAffiliates);
+        $doAffiliates->selectAs($doAffiliates_extra, 'e_%s');
         $doAffiliates->find();
         if ($doAffiliates->fetch()) {
             return $doAffiliates;
