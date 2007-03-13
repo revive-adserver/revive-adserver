@@ -78,8 +78,8 @@ else if (array_key_exists('btn_index_add', $_POST))
 else if (array_key_exists('btn_link_del', $_POST))
 {
     $table = $_POST['table_edit'];
-    $alinks = $_POST['chklnk'];
-    $oaSchema->linkDelete($table, $alinks);
+    $link_name = $_POST['link_name'];
+    $oaSchema->linkDelete($table, $link_name);
 }
 else if (array_key_exists('btn_link_add', $_POST))
 {
@@ -127,14 +127,6 @@ else
     $links          = $oaSchema->readForeignKeys($table);
     $tbl_links      = $links[$table];
     $link_targets   = $oaSchema->getLinkTargets();
-
-    //$links = Openads_Links::readLinksDotIni($file_links);
-//    if (isset($links[$table])) {
-//        $tbl_links = $links[$table];
-//    } else {
-//        $tbl_links = array();
-//    }
-
 
     include 'edit.html';
     exit();

@@ -213,7 +213,7 @@ class Openads_Schema_Manager
         $valid = $this->validate_field($table_name, $fld_definition, $field_name_new);
         if ($valid)
         {
-            $this->field_relations($tbl_definition, $field_name_old, $field_name_new);
+            $this->field_relations($table_name, $tbl_definition, $field_name_old, $field_name_new);
             unset($this->db_definition['tables'][$table_name]);
             $valid = $this->validate_table($tbl_definition, $table_name);
             if ($valid)
@@ -234,7 +234,7 @@ class Openads_Schema_Manager
         {
             $tbl_definition = $this->db_definition['tables'][$table_name];
             $tbl_definition['fields'][$field_name] = $fld_definition;
-            //$this->field_relations($tbl_definition, '', $field_name);
+            //$this->field_relations($table_name, $tbl_definition, '', $field_name);
             unset($this->db_definition['tables'][$table_name]);
             $valid = $this->validate_table($tbl_definition, $table_name);
             if ($valid)
@@ -252,7 +252,7 @@ class Openads_Schema_Manager
         $tbl_definition = $this->db_definition['tables'][$table_name];
         unset($tbl_definition['fields'][$field_name]);
 
-        $this->field_relations($tbl_definition, $field_name, '');
+        $this->field_relations($table_name, $tbl_definition, $field_name, '');
         unset($this->db_definition['tables'][$table_name]);
         $valid = $this->validate_table($tbl_definition, $table_name);
         if ($valid)
@@ -305,20 +305,17 @@ class Openads_Schema_Manager
         $this->writeWorkingDefinitionFile();
     }
 
-    function linkDelete($table_name, $delLinks)
+    function linkDelete($table_name, $link_name)
     {
         $links = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
-        foreach ($delLinks AS $k=>$link_name)
-        {
-            unset($links[$link_name]);
-        }
+        unset($links[$table_name][$link_name]);
         Openads_Links::writeLinksDotIni($this->links_trans, $links);
     }
 
     function linkAdd($table_name, $link_add, $link_add_target)
     {
         $links = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
-        $links[$link_add] = $link_add_target;
+        $links[$table_name][$link_add] = $link_add_target;
         Openads_Links::writeLinksDotIni($this->links_trans, $links);
     }
 
@@ -371,7 +368,7 @@ class Openads_Schema_Manager
         return (Pear::iserror($result)? false: true);
     }
 
-    function field_relations(&$table_definition, $field_name_old, $field_name_new)
+    function field_relations($table_name, &$table_definition, $field_name_old, $field_name_new)
     {
         if (!empty($table_definition['indexes']) && is_array($table_definition['indexes']))
         {
@@ -397,7 +394,39 @@ class Openads_Schema_Manager
                 }
             }
         }
+        $this->link_relations($table_name, $field_name_old, $field_name_new);
         return true;
+    }
+
+    function link_relations($table_name, $field_name_old, $field_name_new)
+    {
+        $links = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
+        foreach ($links AS $table => $keys)
+        {
+            foreach ($keys AS $field => $target)
+            {
+                if (($field==$field_name_old))
+                {
+                    if ($field_name_new)
+                    {
+                        $links[$table][$field_name_new] = $links[$table][$field_name_old];
+                    }
+                    unset($links[$table][$field_name_old]);
+                }
+                if (($target['table']==$table_name) && ($target['field']==$field_name_old))
+                {
+                    if ($field_name_new)
+                    {
+                        $links[$table][$field_name_old]['field'] == $field_name_new;
+                    }
+                    else
+                    {
+                        unset($links[$table][$field_name_old]);
+                    }
+                }
+            }
+        }
+        Openads_Links::writeLinksDotIni($this->links_trans, $links);
     }
 
     function init_schema_validator()
