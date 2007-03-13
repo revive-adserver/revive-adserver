@@ -60,12 +60,19 @@ class DataGenerator
      * @param DB_DataObjectCommon $do
      * @param int $numberOfCopies  How many records should be generated
      * @param bool $generateReferences
-     * @return int
+     * @return array
      * @access public
      * @static 
      */
     function generate($do, $numberOfCopies = 1, $generateReferences = false)
     {
+        if (is_string($do)) {
+            $do = MAX_DB::factoryDO($do);
+            if (PEAR::isError($do)) {
+                return array();
+            }
+        }
+        
         DataGenerator::setDefaultValues($do);
 
         if ($generateReferences) {
