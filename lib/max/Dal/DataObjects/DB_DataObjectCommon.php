@@ -180,6 +180,11 @@ class DB_DataObjectCommon extends DB_DataObject
     	
       	$found = null;
       	
+      	if ($this->getTableWithoutPrefix() == $userTable) {
+      	    $key = $this->getFirstPrimaryKey();
+      	    return $this->$key == $userId;
+      	}
+      	
     	$links = $this->links();
         if(!empty($links)) {
         	foreach ($links as $key => $match) {
@@ -298,8 +303,11 @@ class DB_DataObjectCommon extends DB_DataObject
      * @return string
      * @access public
      */
-    function getTableWithoutPrefix($table)
+    function getTableWithoutPrefix($table = null)
     {
+        if ($table === null) {
+            $table = $this->__table;
+        }
         if (!empty($this->_prefix) && strpos($table, $this->_prefix) === 0) {
             return substr($table, strlen($this->_prefix));
         }

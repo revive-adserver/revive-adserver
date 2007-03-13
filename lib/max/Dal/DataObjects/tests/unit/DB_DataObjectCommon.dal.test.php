@@ -173,9 +173,44 @@ class DB_DataObjectCommonTest extends UnitTestCase
     
     function testBelongToUser()
     {
-        // test that user belong to itself
-        $doAgency = MAX_DB::factoryDO('agency');
-        $doAgency->agencyid = $agencyid = 123;
-        $doAgency->belongToUser('agency', $agencyid);
+        // Test that user belong to itself
+        $agencyid = DataGenerator::generateOne('agency');
+        $doAgency = MAX_DB::staticGetDO('agency', $agencyid);
+        $this->assertTrue($doAgency->belongToUser('agency', $agencyid));
+        $this->assertFalse($doAgency->belongToUser('agency', 222));
+        
+        // Create necessary test data
+        $doClients = MAX_DB::factoryDO('clients');
+        $doClients->agencyid = $agencyid;
+        $clientId = DataGenerator::generateOne($doClients);
+        
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->clientid = $clientId;
+        $campaignId = DataGenerator::generateOne($doCampaigns);
+        
+        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners->campaignid = $campaignId;
+        $bannerId = DataGenerator::generateOne($doBanners);
+        
+        // Test dependency on one level
+        $doClients = MAX_DB::staticGetDO('clients', $clientId);
+        $this->assertTrue($doClients->belongToUser('agency', $agencyid));
+        $this->assertFalse($doClients->belongToUser('agency', 222));
+        
+        // Test dependency on two and more levels
+        $doCampaigns = MAX_DB::staticGetDO('campaigns', $campaignId);
+        $this->assertTrue($doCampaigns->belongToUser('agency', $agencyid));
+        $this->assertFalse($doCampaigns->belongToUser('agency', 222));
+        
+        $doBanners = MAX_DB::staticGetDO('banners', $bannerId);
+        $this->assertTrue($doBanners->belongToUser('agency', $agencyid));
+        $this->assertFalse($doBanners->belongToUser('agency', 222));    
+        
+        // Test that belongToUser() will find and fetch data by itself
+        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners->bannerid = $bannerId;
+        $this->assertTrue($doBanners->belongToUser('agency', $agencyid));
+        $this->assertFalse($doBanners->belongToUser('agency', 222));    
     }
+    
 }

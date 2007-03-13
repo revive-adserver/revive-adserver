@@ -23,9 +23,9 @@ class ErrorInfo {
 
 function RaiseErrorHandler($group, $id, $info=NULL) {
     
-    global $phpAds_last_query;
-    $phpAds_last_query = $info['sql'];
     if (function_exists('phpAds_sqlDie')) {
+        global $phpAds_last_query;
+        $phpAds_last_query = $info['sql'];
         phpAds_sqlDie();
     } else {
         $oError = &new ErrorInfo();
