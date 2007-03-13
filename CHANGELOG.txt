@@ -27,6 +27,7 @@
 | Release Max v0.3.32-alpha |
 +---------------------------+
 
+2007-03-13  Delivery    Feature     Fixed #62 - Added XHTML compliance to delivery scripts (Marek)
 2007-03-12  Maintenance Bug         Fixed #206 - Ensured that high-priority campaigns with daily targets are
                                     correctly handled, regardless of the status of the start and end dates;
                                     improved high-priority campaign type testing, so that an error can be

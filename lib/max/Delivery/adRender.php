@@ -222,7 +222,7 @@ function _adRenderImage($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
     // Create the anchor tag..
     $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
     if (!empty($clickUrl)) {  // There is a link
-        $status = !empty($aBanner['status']) ? " onMouseOver=\"self.status='{$aBanner['status']}'; return true;\" onMouseOut=\"self.status=''; return true;\"" : '';
+        $status = !empty($aBanner['status']) ? " onmouseover=\"self.status='{$aBanner['status']}'; return true;\" onmouseout=\"self.status=''; return true;\"" : '';
         //$target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
         $clickTag = "<a href='$clickUrl' target='{target}'$status>";
         $clickTagEnd = '</a>';
@@ -237,7 +237,7 @@ function _adRenderImage($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
         $width = !empty($aBanner['width']) ? $aBanner['width'] : 0;
         $height = !empty($aBanner['height']) ? $aBanner['height'] : 0;
         $alt = !empty($aBanner['alt']) ? $aBanner['alt'] : '';
-        $imageTag = "$clickTag<img src='$imageUrl' width='$width' height='$height' alt='$alt' title='$alt' border='0'$imgStatus>$clickTagEnd";
+        $imageTag = "$clickTag<img src='$imageUrl' width='$width' height='$height' alt='$alt' title='$alt' border='0'$imgStatus />$clickTagEnd";
     } else {
         $imageTag = '';
     }
@@ -298,9 +298,11 @@ function _adRenderFlash($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
     $code = "
 <div id='m3_$rnd' style='display: inline;'>$altImageAdCode</div>
 <script type='text/javascript'>
+	<!--// <![CDATA[
    var fo = new FlashObject('$fileUrl', 'mymovie', '$width', '$height', '$pluginVersion');
    //fo.addParam('wmode','transparent');
    fo.write('m3_$rnd');
+   // ]]> -->
 </script>";
     $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />{$clickTag}{$aBanner['bannertext']}{$clickTagEnd}" : '';
     return "{$prepend}{$code}{$bannerText}{$beaconTag}{$append}";
@@ -650,7 +652,7 @@ function _adRenderImageBeacon($aBanner, $zoneId = 0, $source = '', $loc = '', $r
         $divEnd = '</div>';
     }
     $logUrl = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&amp;');
-    $beacon = "$div<img src='$logUrl' width='0' height='0' alt=''{$style}>{$divEnd}";
+    $beacon = "$div<img src='$logUrl' width='0' height='0' alt=''{$style} />{$divEnd}";
     return $beacon;
 }
 

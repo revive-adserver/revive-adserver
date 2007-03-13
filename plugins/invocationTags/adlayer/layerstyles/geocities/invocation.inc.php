@@ -118,7 +118,7 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Geocities_Invocation
     		$mi->parameters[] = 'collapsetime='.$collapsetime;
     	}
     	
-    	$buffer = "<script language='JavaScript' type='text/javascript' src='".MAX_commonConstructDeliveryUrl($conf['file']['layer']);
+    	$buffer = "<script type='text/javascript' src='".MAX_commonConstructDeliveryUrl($conf['file']['layer']);
     	if (sizeof($mi->parameters) > 0)
     		$buffer .= "?".implode ("&", $mi->parameters);
     	$buffer .= "'></script>";

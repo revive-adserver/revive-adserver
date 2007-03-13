@@ -162,13 +162,13 @@ class Plugins_InvocationTags_adframe_adframe extends Plugins_InvocationTags
         }
 
         if (isset($mi->ilayer) && $mi->ilayer == 1 &&  isset($mi->width) && $mi->width != '' && $mi->width != '-1' && isset($mi->height) && $mi->height != '' && $mi->height != '-1') {
-            $buffer .= "<script language='JavaScript' type='text/javascript'>\n";
-            $buffer .= "<!--\n";
+            $buffer .= "<script type='text/javascript'>\n";
+            $buffer .= "<!--// <![CDATA[\n";
             $buffer .= "   document.write (\"<nolayer>\");\n";
             $buffer .= "   document.write (\"{$mi->backupImage}\");\n";
             $buffer .= "   document.write (\"</nolayer>\");\n";
             $buffer .= "   document.write (\"<ilayer id='layer".$uniqueid."' visibility='hidden' width='".$mi->width."' height='".$mi->height."'></ilayer>\");\n";
-            $buffer .= "//-->\n";
+            $buffer .= "// ]]> -->\n";
             $buffer .= "</script>";
             $buffer .= "<noscript>\n  <a href='".MAX_commonConstructDeliveryUrl($conf['file']['click']);
             $buffer .= "?n=".$uniqueid;
@@ -199,11 +199,11 @@ class Plugins_InvocationTags_adframe_adframe extends Plugins_InvocationTags
             if (sizeof($mi->parameters) > 0) {
                 $buffer .= "&".implode ("&", $mi->parameters);
             }
-            $buffer .= "' width='".$mi->width."' height='".$mi->height."' visibility='hidden' onLoad=\"moveToAbsolute(layer".$uniqueid.".pageX,layer".$uniqueid.".pageY);clip.width=".$mi->width.";clip.height=".$mi->height.";visibility='show';\"></layer>";
+            $buffer .= "' width='".$mi->width."' height='".$mi->height."' visibility='hidden' onload=\"moveToAbsolute(layer".$uniqueid.".pageX,layer".$uniqueid.".pageY);clip.width=".$mi->width.";clip.height=".$mi->height.";visibility='show';\"></layer>";
         }
 
         if (isset($mi->iframetracking) && $mi->iframetracking == 1) {
-            $buffer .= "<script language='JavaScript' type='text/javascript' src='".MAX_commonConstructDeliveryUrl($conf['file']['google'])."'></script>";
+            $buffer .= "<script type='text/javascript' src='".MAX_commonConstructDeliveryUrl($conf['file']['google'])."'></script>";
         }
 
         return $buffer;

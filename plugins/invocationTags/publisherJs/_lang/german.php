@@ -70,7 +70,7 @@ $words = array(
   --    speichern Sie ihn in einer Datei namens 'mmm.js'. Damm muessen Sie in Ihre Seiten nur noch
   --    den untenstehden Code integrieren (und evtl. den Pfad anpassen).
   --
-  -- <script language='JavaScript' type='text/javascript' src='mmm.js'></script>
+  -- <script type='text/javascript' src='mmm.js'></script>
   -->",
 
     'Publisher JS Ad Tag Script(s) Comment' => "

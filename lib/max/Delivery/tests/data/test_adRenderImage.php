@@ -82,11 +82,11 @@ $aBanner = array (
 $expect = "<a href='http://" . $GLOBALS['_MAX']['CONF']['webpath']['delivery'] .
     "/ck.php?maxparams=2__bannerid=7__zoneid=0__cb={random}__maxdest=http://www.m3.net' target='{target}'>" .
     "<img src='http://" . $GLOBALS['_MAX']['CONF']['webpath']['images'] .
-    "/m3_test_468x60_blue.gif' width='468' height='60' alt='' title='' border='0'></a>" .
+    "/m3_test_468x60_blue.gif' width='468' height='60' alt='' title='' border='0' /></a>" .
     "<div id='beacon_7' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'>" .
     "<img src='http://" . $GLOBALS['_MAX']['CONF']['webpath']['delivery'] .
     "/lg.php?bannerid=7&amp;campaignid=2&amp;zoneid=0&amp;channel_ids=&amp;{$conf['var']['blockAd']}=60&amp;" .
     "referer=http%3A%2F%2Fsome.referrer.com%2F&amp;cb={random}' width='0' height='0' alt='' " .
-    "style='width: 0px; height: 0px;'></div>";
+    "style='width: 0px; height: 0px;' /></div>";
 
 ?>

@@ -67,10 +67,10 @@ echo "
 if ($timeout > 0) {
     $timeoutMs = $timeout * 1000;
     echo "
-<script language='JavaScript'>
-<!--
+<script type='text/javascript'>
+<!--// <![CDATA[
   window.setTimeout(\"window.close()\",$timeoutMs);
-// -->
+// ]]> -->
 </script>";			
 }
 

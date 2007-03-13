@@ -65,7 +65,7 @@ $output = MAX_adSelect($what, $target, $source, $withtext, $context, true, $ct0,
 
 // Save the context array into a javascript variable
 if (isset($output['context']) && is_array($output['context'])) {
-    $JScontext = "<script language='JavaScript'>document.context='".base64_encode(serialize($output['context']))."'; </script>";
+    $JScontext = "<script type='text/javascript'>document.context='".base64_encode(serialize($output['context']))."'; </script>";
 } else { $JScontext = ''; }
 
 MAX_cookieFlush();

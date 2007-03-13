@@ -79,6 +79,18 @@ function MAX_findObj(n, d) {
   if(!x && document.getElementById) x=document.getElementById(n); return x;
 }
 
+function MAX_getClientSize() {
+	if (window.innerHeight >= 0) {
+		return [window.innerWidth, window.innerHeight];
+	} else if (document.documentElement && document.documentElement.clientWidth > 0) {
+		return [document.documentElement.clientWidth,document.documentElement.clientHeight]
+	} else if (document.body.clientHeight > 0) {
+		return [document.body.clientWidth,document.body.clientHeight]
+	} else {
+		return [0, 0]
+	}
+}
+
 function MAX_adlayers_place_<?php echo $uniqid; ?>()
 {
 	var c = MAX_findObj('MAX_c<?php echo $uniqid; ?>');
@@ -87,35 +99,35 @@ function MAX_adlayers_place_<?php echo $uniqid; ?>()
 	if (!c || !o)
 		return false;
 
-	c = c.style;
-	o = o.style;
-
+	_s='style'
+	
+	var clientSize = MAX_getClientSize();
 	if (document.all && !window.innerWidth) { 
 <?php if ($align == 'left') { ?>
-		c.pixelLeft = 0;
-		o.pixelLeft = 0;
+		c[_s].pixelLeft = 0;
+		o[_s].pixelLeft = 0;
 <?php } elseif ($align == 'center') { ?>
-		c.pixelLeft = (document.body.clientWidth - <?php echo $layer_width; ?>) / 2;
-		o.pixelLeft = (document.body.clientWidth - <?php echo $layer_width; ?>) / 2;
+		c[_s].pixelLeft = (clientSize[0] - <?php echo $layer_width; ?>) / 2;
+		o[_s].pixelLeft = (clientSize[0] - <?php echo $layer_width; ?>) / 2;
 <?php } else { ?>
-		c.pixelLeft = document.body.clientWidth - <?php echo $layer_width; ?>;
-		o.pixelLeft = document.body.clientWidth - <?php echo $layer_width; ?>;
+		c[_s].pixelLeft = clientSize[0] - <?php echo $layer_width; ?>;
+		o[_s].pixelLeft = clientSize[0] - <?php echo $layer_width; ?>;
 <?php } ?>
-		c.pixelTop = 0 + document.body.scrollTop;
-		o.pixelTop = 0 + document.body.scrollTop;
+		c[_s].pixelTop = 0 + ( document.body.scrollTop || document.documentElement.scrollTop );
+		o[_s].pixelTop = 0 + ( document.body.scrollTop || document.documentElement.scrollTop );
 	} else {
 <?php if ($align == 'left') { ?>
-		c.left = 0;
-		o.left = 0;
+		c[_s].left = 0;
+		o[_s].left = 0;
 <?php } elseif ($align == 'center') { ?>
-		c.left = (window.innerWidth + window.pageXOffset - <?php echo $layer_width; ?>) / 2;
-		o.left = (window.innerWidth + window.pageXOffset - <?php echo $layer_width; ?>) / 2;
+		c[_s].left = ( (clientSize[0] + window.pageXOffset - <?php echo $layer_width; ?>) / 2 ) + 'px';
+		o[_s].left = ( (clientSize[0] + window.pageXOffset - <?php echo $layer_width; ?>) / 2 ) + 'px';
 <?php } else { ?>
-		c.left = window.innerWidth + window.pageXOffset - <?php echo $layer_width; ?> - 16;
-		o.left = window.innerWidth + window.pageXOffset - <?php echo $layer_width; ?> - 16;
+		c[_s].left = ( clientSize[0] + window.pageXOffset - <?php echo $layer_width; ?> - 16 ) + 'px';
+		o[_s].left = ( clientSize[0] + window.pageXOffset - <?php echo $layer_width; ?> - 16 ) + 'px';
 <?php } ?>
-		c.top = 0 + window.pageYOffset;
-		o.top = 0 + window.pageYOffset;
+		c[_s].top = ( 0 + window.pageYOffset ) + 'px';
+		o[_s].top = ( 0 + window.pageYOffset ) + 'px';
 	}
 }
 
@@ -127,14 +139,14 @@ function MAX_geopop(what, ad)
 	if (!c || !o)
 		return false;
 
-	c = c.style;
-	o = o.style;
+	_s='style'
+	_v='visibility'
 
 	switch(what)
 	{
 		case 'collapse':
-			c.visibility = 'visible'; 
-			o.visibility = 'hidden';
+			c[_s][_v] = 'visible'; 
+			o[_s][_v] = 'hidden';
 
 			if (MAX_timerid[ad])
 			{
@@ -145,14 +157,14 @@ function MAX_geopop(what, ad)
 			break;
 
 		case 'expand':
-			o.visibility = 'visible';
-			c.visibility = 'hidden'; 
+			o[_s][_v] = 'visible';
+			c[_s][_v] = 'hidden'; 
 
 		break;
 
 		case 'close':
-			c.visibility = 'hidden'; 
-			o.visibility = 'hidden';
+			c[_s][_v] = 'hidden'; 
+			o[_s][_v] = 'hidden';
 
 		break;
 
@@ -160,8 +172,8 @@ function MAX_geopop(what, ad)
 		
 			MAX_adlayers_place_<?php echo $uniqid; ?>();
 
-			c.visibility = 'hidden';
-			o.visibility = 'visible';
+			c[_s][_v] = 'hidden';
+			o[_s][_v] = 'visible';
 <?php
 
 if (isset($collapsetime) && $collapsetime > 0)
@@ -215,7 +227,10 @@ function MAX_layerGetHtml($output, $uniqid)
 <div id="MAX_c'.$uniqid.'" style="position:absolute; width:'.$layer_width.'px; height:'.$layer_height.'px; z-index:98; left: 0px; top: 0px; visibility: hidden"> 
 	<table width="100%" border="1" cellspacing="0" cellpadding="0" style="border-style: ridge; border-color: #ffffff">
 		<tr>
-			<td bordercolor="#DDDDDD" bgcolor="#000099" align="right" style="padding: 3px 3px 2px"><img src="'.$imagepath.'expand.gif" width="12" height="12" hspace="3" onClick="MAX_geopop(\'expand\', \''.$uniqid.'\')"><img src="'.$imagepath.'close.gif" width="12" height="12" onClick="MAX_geopop(\'close\', \''.$uniqid.'\')"></td>
+			<td bordercolor="#DDDDDD" bgcolor="#000099" align="right" style="padding: 3px 3px 2px">' .
+				'<img src="'.$imagepath.'expand.gif" alt="" style="width:12px;height:12px;margin: 0 3px;" onclick="MAX_geopop(\'expand\', \''.$uniqid.'\')" />' .
+				'<img src="'.$imagepath.'close.gif" alt="" style="width:12px;height:12px;" onclick="MAX_geopop(\'close\', \''.$uniqid.'\')" />' .
+			'</td>
 		</tr>
 '.(strlen($output['url']) && strlen($output['alt']) ?
 '		<tr>
@@ -227,7 +242,10 @@ function MAX_layerGetHtml($output, $uniqid)
 <div id="MAX_o'.$uniqid.'" style="position:absolute; width:'.$layer_width.'px; height:'.$layer_height.'px; z-index:99; left: 0px; top: 0px; visibility: hidden"> 
 	<table width="100%" border="1" cellspacing="0" cellpadding="0" style="border-style: outset; border-color: #ffffff">
 		<tr> 
-			<td bordercolor="#DDDDDD" bgcolor="#000099" align="right" style="padding: 3px 3px 2px"><img src="'.$imagepath.'expand-d.gif" width="12" height="12" hspace="3"><img src="'.$imagepath.'collapse.gif" width="12" height="12" onClick="MAX_geopop(\'collapse\', \''.$uniqid.'\')"></td>
+			<td bordercolor="#DDDDDD" bgcolor="#000099" align="right" style="padding: 3px 3px 2px">' .
+				'<img src="'.$imagepath.'expand-d.gif" alt="" style="width:12px;height:12px;margin: 0 3px;" />' .
+				'<img src="'.$imagepath.'collapse.gif" alt="" style="width:12px;height:12px;" onclick="MAX_geopop(\'collapse\', \''.$uniqid.'\')" />' .
+			'</td>
 		</tr>
 		<tr> 
 			<td>
@@ -242,7 +260,9 @@ function MAX_layerGetHtml($output, $uniqid)
 						</td>
 					</tr>'.(strlen($closetext) ? '
 					<tr> 
-						<td align="center" bgcolor="#FFFFFF" style="font-family: Arial, helvetica, sans-serif; font-size: 9px; padding: 1px"><a href="javascript:;" onClick="MAX_geopop(\'collapse\', \''.$uniqid.'\')" style="color:#0000ff">'.$closetext.'</a></td>
+						<td align="center" bgcolor="#FFFFFF" style="font-family: Arial, helvetica, sans-serif; font-size: 9px; padding: 1px">' .
+							'<a href="#" onclick="phpAds_geopop(\'collapse\', \''.$uniqid.'\');return!1;" style="color:#0000ff">'.$closetext.'</a>' .
+						'</td>
 					</tr>' : '').'
 				</table>
 			</td>

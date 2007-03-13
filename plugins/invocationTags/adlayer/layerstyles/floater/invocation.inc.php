@@ -256,8 +256,8 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Floater_Invocation
     	{
     		$done = true;
     ?>
-    <script language="JavaScript">
-    <!--
+    <script type="text/javascript">
+    <!--// <![CDATA[
     var current_cp = null;
     var current_cp_oldval = null;
     var current_box = null;
@@ -283,7 +283,7 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Floater_Invocation
     	current_box.style.backgroundColor = current_cp.value;
     }
     
-    // -->
+    // ]]> -->
     </script>
     <?php
     		echo "<map name=\"colorpicker\">\n";
@@ -305,7 +305,7 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Floater_Invocation
     			elseif ($i>255*5 && $i <255*6)
     				$incColor='#FF00' . $this->toHex(255-($i-(5*255)));
     			
-    			echo "<area shape='rect' coords='$x,0,".($x+1).",9' href='javascript:c_pick(\"$incColor\")'>\n"; $x++;
+    			echo "<area shape='rect' coords='$x,0,".($x+1).",9' href='javascript:c_pick(\"$incColor\")' />\n"; $x++;
     		}
     		
     		$x = 2;
@@ -314,7 +314,7 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Floater_Invocation
     		{
     			$i = round($j);
     			$incColor = '#'.$this->toHex($i).$this->toHex($i).$this->toHex($i);
-    			echo "<area shape='rect' coords='$x,11,".($x+1).",20' href='javascript:c_pick(\"$incColor\")'>\n"; $x++;
+    			echo "<area shape='rect' coords='$x,11,".($x+1).",20' href='javascript:c_pick(\"$incColor\")' />\n"; $x++;
     		}
     		
     		echo "</map>";

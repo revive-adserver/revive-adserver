@@ -295,8 +295,8 @@ function _echoDeliveryCappingHtml($tabindex, $aText, $aCappedObject, $type = nul
 function _echoDeliveryCappingJs()
 {
 echo "
-<script language='JavaScript'>
-<!--
+<script type='text/javascript'>
+<!--// <![CDATA[
 
 	function phpAds_formCapBlur (i)
 	{
@@ -328,7 +328,7 @@ echo "
 		if (f.timeminute.value == '-' && f.timesecond.value == '0') f.timesecond.value = '-';
 	}
 
-//-->
+// ]]> -->
 </script>";
 }
 

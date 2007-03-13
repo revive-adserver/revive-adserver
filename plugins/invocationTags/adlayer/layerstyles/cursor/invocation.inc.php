@@ -159,7 +159,7 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Cursor_Invocation
     		$mi->parameters[] = 'delay='.$delay;
     	}
     	
-    	$buffer = "<script language='JavaScript' type='text/javascript' src='http:".MAX_commonConstructPartialDeliveryUrl($conf['file']['layer']);
+    	$buffer = "<script type='text/javascript' src='http:".MAX_commonConstructPartialDeliveryUrl($conf['file']['layer']);
     	if (sizeof($mi->parameters) > 0)
     		$buffer .= "?".implode ("&", $mi->parameters);
     	$buffer .= "'></script>";

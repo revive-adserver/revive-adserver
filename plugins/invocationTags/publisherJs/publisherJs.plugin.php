@@ -113,6 +113,7 @@ class Plugins_InvocationTags_publisherJS_publisherJS extends Plugins_InvocationT
             return MAX_Plugin_Translation::translate('No Zones Available!', $this->module, $this->package);
         }
         $script = "
+<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 <html>
 <head>
 ".MAX_Plugin_Translation::translate('Remove Comments Note', $this->module, $this->package)."
@@ -120,15 +121,15 @@ class Plugins_InvocationTags_publisherJS_publisherJS extends Plugins_InvocationT
 .MAX_Plugin_Translation::translate('Publisher JS Channel Script Comment 2', $this->module, $this->package)."$mnemonic"
 .MAX_Plugin_Translation::translate('Publisher JS Channel Script Comment 3', $this->module, $this->package)."
 
-<script language='JavaScript' type='text/javascript'>
-<!--
+<script type='text/javascript'>
+<!--// <![CDATA[
   var az_channel = '{$mnemonic}/test/preview';
-//-->
+// ]]> -->
 </script>
 ".MAX_Plugin_Translation::translate('Publisher JS Header Script Comment', $this->module, $this->package)."
 
-<script language='JavaScript' type='text/javascript'>
-<!--
+<script type='text/javascript'>
+<!--// <![CDATA[
 var az_p=location.protocol=='https:'?'https:':'http:';
 var az_r=Math.floor(Math.random()*99999999);
 if (!document.phpAds_used) document.phpAds_used = ',';
@@ -157,7 +158,7 @@ function az_adpop(z,n)
     document.write(az);
   }
 }
-//-->
+// ]]> -->
 </script>
 
 </head>
@@ -170,10 +171,10 @@ function az_adpop(z,n)
                     $script .= "
 <br /><br />$name<br />
 
-<script language='JavaScript' type='text/javascript'>
-<!--
+<script type='text/javascript'>
+<!--// <![CDATA[
 az_adjs({$aZoneId[$key]},'{$aN[$key]}');
-//-->
+// ]]> -->
 
 </script>
 ";
@@ -189,10 +190,10 @@ az_adjs({$aZoneId[$key]},'{$aN[$key]}');
                     $script .= "
 <br /><br />$name<br />
 
-<script language='JavaScript' type='text/javascript'>
-<!--
+<script type='text/javascript'>
+<!--// <![CDATA[
 az_adpop({$aZoneId[$key]},'{$aN[$key]}');
-//-->
+// ]]> -->
 </script>
 ";
                 }
