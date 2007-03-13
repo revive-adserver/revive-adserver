@@ -106,3 +106,16 @@ margin: 1px;
  font-size: 10px;
  text-decoration: none;
 }
+ul.idx_list {
+	list-style-type: none;
+	padding:5px;
+	margin: 0px;
+	width:80%;
+	margin-left:10px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+ul.idx_list li {
+	padding: 3px;
+	border: 1px solid #CCCCCC;
+	background-color: #EEEEEE;
+}

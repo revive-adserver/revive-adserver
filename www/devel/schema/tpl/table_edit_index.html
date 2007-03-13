@@ -20,17 +20,24 @@
                     <form name="<?php echo $form_name; ?>" id="<?php echo $form_name; ?>" action="index.php" method="POST">
                     <input type="hidden" name="table_edit" value="<?php echo $table; ?>"/>
                     <input type="hidden" name="index_name" value="<?php echo $name; ?>" />
-
                         <td class="tablebody"><button name="btn_index_del" type="submit">delete</button></td>
                         <td class="tablebody"><?php echo $name; ?></td>
                         <td class="tablebody"><?php echo ($idx_def['primary']?$idx_def['primary']:'&nbsp;'); ?></td>
                         <td class="tablebody"><?php echo ($idx_def['unique']?$idx_def['unique']:'&nbsp;'); ?></td>
-                        <td class="tablebody">
-            			 <ul id="idx_flds" class="boxy">
+                        <td class="tablebody" style="padding:5px;">
+
+            			 <ul id="idx_fields" class="idx_list">
                         <?php
+                        $x = 0;
                         foreach ($idx_def['fields'] AS $field => $fld_def )
                         {
-                            echo '<li>'.$field.'&nbsp;'.($fld_def['sorting']?'('.$fld_def['sorting'].')':'&nbsp;').'</li>';
+                            $x++;
+                            echo '<li>';
+                            echo $field.'&nbsp;'.($fld_def['sorting']?'('.$fld_def['sorting'].')':'&nbsp;');
+                            echo '<input type="hidden" name="idx_field[][no]" value="'.$x.'" />';
+                            echo '<input type="hidden" name="idx_field[][name]" value="'.$field.'" />';
+                            echo '<input type="hidden" name="idx_field[][sort]" value="'.$fld_def['sorting'].'" />';
+                            echo '</li>';
                         }
                         ?>
             			 </ul>

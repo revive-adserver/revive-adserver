@@ -1,17 +1,110 @@
 <html>
 <head>
 
-<?php
-        $js = print_r($xajax->printJavascript('../lib/xajax/'), true); // output the xajax javascript. This must be called between the head tags
-        echo $js;
-?>
+    <link rel="stylesheet" type="text/css" href="../lib/tool-man/examples/common/common.css"/>
+    <link rel="stylesheet" type="text/css" href="../lib/tool-man/examples/common/lists.css"/>
+
+<style type="text/css"><!--
+
+	ul.boxy li { margin: 0px; background-color:#FFFFFF;}
+
+	#idx_fields { margin-top: -4px; }
+	#idx_fields li { margin-top: 4px; }
+    //-->
+</style>
+
+<script language="JavaScript" type="text/javascript" src="../lib/tool-man/source/org/tool-man/core.js"></script>
+<script language="JavaScript" type="text/javascript" src="../lib/tool-man/source/org/tool-man/events.js"></script>
+<script language="JavaScript" type="text/javascript" src="../lib/tool-man/source/org/tool-man/css.js"></script>
+<script language="JavaScript" type="text/javascript" src="../lib/tool-man/source/org/tool-man/coordinates.js"></script>
+<script language="JavaScript" type="text/javascript" src="../lib/tool-man/source/org/tool-man/drag.js"></script>
+<script language="JavaScript" type="text/javascript" src="../lib/tool-man/source/org/tool-man/dragsort.js"></script>
+<script language="JavaScript" type="text/javascript" src="../lib/tool-man/source/org/tool-man/cookies.js"></script>
+
+<script language="JavaScript" type="text/javascript"><!--
+	var dragsort = ToolMan.dragsort()
+	var junkdrawer = ToolMan.junkdrawer()
+
+	window.onload = function() {
+
+		dragsort.makeListSortable(document.getElementById("idx_fields"),
+				verticalOnly, saveOrder)
+	}
+
+	function verticalOnly(item) {
+		item.toolManDragGroup.verticalOnly()
+	}
+
+	function speak(id, what) {
+		var element = document.getElementById(id);
+		element.innerHTML = 'Clicked ' + what;
+	}
+
+	function saveOrder(item) {
+		var group = item.toolManDragGroup
+		var list = group.element.parentNode
+		var id = list.getAttribute("id")
+		if (id == null) return
+		group.register('dragend', function() {
+			ToolMan.cookies().set("list-" + id,
+					junkdrawer.serializeList(list), 365)
+		})
+	}
+
+	//-->
+</script>
+
+    <!--script type="text/javascript" src="schema.js"></script>
+    <script type="text/javascript" src="../lib/xajax/xajax_js/xajax.js"></script>
+    <script type="text/javascript">
+        window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Javascript file could not be included. Perhaps the URL is incorrect?\nURL: ../lib/xajax/xajax_js/xajax.js'); } }, 6000);
+    </script-->
 </head>
+
 <body>
-    <?php echo 'current path is '.getcwd();?>
+    <?php //echo 'current path is '.getcwd();?>
     </ br>
-    <form id="frm_test" method="POST" action="">
+    <!--form id="frm_test" method="POST" action="">
     <button id="btn_test" type="button" onclick="xajax_testAjax(xajax.getFormValues('frm_test'));">testAjax</button>
     <input type="hidden" id="id_test" name="name_test" value="testtest"/>
-    </form>
+    </form-->
+
+<br /><br />
+
+<!--table id="phonetics">
+	<tr>
+		<td>
+			<ul id="phonetic1" class="boxy">
+				<li>alpha</li>
+				<li>bravo</li>
+				<li>charlie</li>
+			</ul>
+		</td>
+		<td>
+			<ul id="phonetic2" class="boxy">
+				<li>alpha</li>
+				<li>bravo</li>
+				<li>charlie</li>
+			</ul>
+		</td>
+		<td-->
+			<ul id="idx_fields" class="boxy">
+				<li>field 1</li>
+				<li>field 2</li>
+				<li>field 3</li>
+			</ul>
+
+    <p><input class="inspector" type="button" value="Inspect" onclick="junkdrawer.inspectListOrder('idx_fields')"/></p>
+		<!--/td>
+	</tr>
+	<tr>
+		<td class="caption">no margin on list items</td>
+		<td class="caption">4px bottom margin on list items.  Firefox exhibits
+		bug when dragging.</td>
+		<td class="caption">Firefox workaround: -4px top margin on list, 4px
+		top margin on list items.</td>
+	</tr>
+</table-->
+
 </body>
 </html>

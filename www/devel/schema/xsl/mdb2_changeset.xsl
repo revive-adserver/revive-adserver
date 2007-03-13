@@ -21,7 +21,6 @@
                 <xsl:with-param name="filename" select="//instructionset/name"/>
             </xsl:call-template-->
             <xsl:if test="//instructionset/constructive/changeset">
-                <xsl:text>constructive changes</xsl:text>
                 <xsl:for-each select="//instructionset/constructive/changeset">
                     <xsl:call-template name="showchangeset">
                         <xsl:with-param name="showdestructive" select="'no'"/>
@@ -29,7 +28,6 @@
                 </xsl:for-each>
             </xsl:if>
             <xsl:if test="//instructionset/destructive/changeset">
-                <xsl:text>destructive changes</xsl:text>
                 <xsl:for-each select="//instructionset/destructive/changeset">
                     <xsl:call-template name="showchangeset">
                         <xsl:with-param name="showconstructive" select="'no'"/>
@@ -49,13 +47,13 @@
     <form name="frm_admin" method="POST" action="index.php">
         <table class="tablemain">
         <tr>
-            <td class="tableheader" style="text-align:center;"><button name="btn_changeset_delete" type="submit">delete</button></td>
-            <td class="tableheader" style="text-align:center;"><button name="btn_changeset_cancel" type="submit">go back</button></td>
+            <!--td class="tableheader" style="text-align:center;"><button name="btn_changeset_delete" type="submit">delete</button></td-->
+            <td class="tableheader" style="text-align:center;"><button name="btn_changeset_cancel" type="submit">go back to the schema page</button></td>
         </tr>
         </table>
     </form>
 
-    <div>
+    <!--div>
         <table class="tablemainnotes">
         <tr><th>Notes About Creating a Package</th></tr>
         <tr>
@@ -65,7 +63,7 @@
             <td>The Migration class will automatically generate before and after event handlers for each of the events listed in the changeset. You can edit these methods to handle any specific data transformation that you require</td>
         </tr>
         </table>
-    </div>
+    </div-->
 
     </body></html>
     <!-- -->
@@ -76,21 +74,20 @@
     <xsl:param name="showconstructive">yes</xsl:param>
     <xsl:param name="showdestructive">yes</xsl:param>
 
-    <br/>
-    <span class="titlemini">
-        <xsl:value-of select="name"/>version:<xsl:value-of select="version"/>
-    </span>
-    <br/>
-
-    <span class="titlemini">
+    <!--span class="titlemini">
         <xsl:value-of select="comments"/>
     </span>
-    <br/><br/>
+    <br/><br/-->
 
     <xsl:if test="$showconstructive='yes'">
+        <span class="titlemini">
+            <xsl:value-of select="name"/>version:<xsl:value-of select="version"/>
+            <xsl:text> :: constructive changes</xsl:text>
+        </span>
         <TABLE class="tablemain">
+        <tr><th class="tableheader"> <span class="titlemini">tables added to schema </span> </th></tr>
         <xsl:for-each select="add">
-            <xsl:call-template name="showadd"/>
+            <tr><td class="tablebody"><xsl:value-of select="table"/></td></tr>
         </xsl:for-each>
         </TABLE>
         <TABLE class="tablemain">
@@ -100,9 +97,14 @@
         </TABLE>
     </xsl:if>
     <xsl:if test="$showdestructive='yes'">
+        <span class="titlemini">
+            <xsl:value-of select="name"/>version:<xsl:value-of select="version"/>
+            <xsl:text> :: destructive changes</xsl:text>
+        </span>
         <TABLE class="tablemain">
+        <tr><th class="tableheader"> <span class="titlemini">tables removed from schema </span> </th></tr>
         <xsl:for-each select="remove">
-            <xsl:call-template name="showremove"/>
+            <tr><td class="tablebody"><xsl:value-of select="table"/></td></tr>
         </xsl:for-each>
         </TABLE>
         <TABLE class="tablemain">
@@ -112,15 +114,6 @@
         </TABLE>
     </xsl:if>
     <!-- -->
-
-</xsl:template>
-
-<xsl:template name="showremove">
-
-    <tr><th class="tableheader"> <span class="titlemini">tables removed from schema </span> </th></tr>
-    <xsl:for-each select="descendant::table">
-        <tr><td><xsl:value-of select="table"/></td></tr>
-    </xsl:for-each>
 
 </xsl:template>
 
