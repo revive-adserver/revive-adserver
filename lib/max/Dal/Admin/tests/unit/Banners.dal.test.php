@@ -163,22 +163,12 @@ class MAX_Dal_Admin_BannersTest extends UnitTestCase
         $actual = $rsBanners->getRowCount();
         $this->assertEqual($actual, $expected);
         
-        // Insert a client
-        $doClients = MAX_DB::factoryDO('clients');
-        $doClients->agencyid = 1;
-        $clientId = DataGenerator::generateOne($doClients);
-        
-        // Insert a campaign
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
-        $doCampaigns->clientid = $clientId;
-        $campaignId = DataGenerator::generateOne($doCampaigns);
-        
-        // Insert a banner
+        // Insert a banner (and it's parent campaign/client)
         $doBanners = MAX_DB::factoryDO('banners');
         $doBanners->description = 'foo';
         $doBanners->alt = 'bar';
         $doBanners->campaignid = $campaignId;
-        $bannerId = DataGenerator::generateOne($doBanners);
+        $bannerId = DataGenerator::generateOne($doBanners, true);
         
         // Search for banner by description
         $expected = 1;
@@ -194,7 +184,7 @@ class MAX_Dal_Admin_BannersTest extends UnitTestCase
         $actual = $rsBanners->getRowCount();
         $this->assertEqual($actual, $expected);
         
-        // Restrict to agency ID
+        // Restrict to agency ID (client was created with default agency ID of 1)
         $expected = 1;
         $rsBanners = $this->dalBanners->getBannerByKeyword('bar', $agencyId);
         $rsBanners->find();

@@ -74,7 +74,7 @@ class DataGenerator
         		list($table,$link) = explode(':', $match);
         		$table = $do->getTableWithoutPrefix($table);
     	        $primaryKey = isset($do->$key) ? $do->$key : null;
-        		$do->$key = $this->addAncestor($table, $primaryKey);
+        		$do->$key = DataGenerator::addAncestor($table, $primaryKey);
         	}
         }
         
@@ -108,7 +108,7 @@ class DataGenerator
     	foreach ($links as $key => $match) {
     		list($table,$link) = explode(':', $match);
     		$table = $doAncestor->getTableWithoutPrefix($table);
-    		$doAncestor->$key = MAX_DB::addAncestor($table);
+    		$doAncestor->$key = DataGenerator::addAncestor($table);
     	}
         return $doAncestor->insert();
     }
