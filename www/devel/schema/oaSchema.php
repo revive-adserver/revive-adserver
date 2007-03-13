@@ -308,6 +308,32 @@ class Openads_Schema_Manager
         $this->writeWorkingDefinitionFile();
     }
 
+    function tableSave($table_name, $table_name_new)
+    {
+        $this->parseWorkingDefinitionFile();
+        $tbl_definition = $this->db_definition['tables'][$table_name];
+        if ($table_name_new && ($table_name_new != $table_name))
+        {
+            $valid = $this->validate_table($tbl_definition, $table_name_new);
+        }
+        else
+        {
+            $valid = false;
+        }
+        if ($valid)
+        {
+            $this->db_definition['tables'][$table_name_new] = $tbl_definition;
+            unset($this->db_definition['tables'][$table_name]);
+            ksort($this->db_definition['tables'],SORT_STRING);
+            $this->writeWorkingDefinitionFile();
+            $this->table_link_relations_update($table_name, $table_name_new);
+
+            return true;
+        }
+
+        return false;
+    }
+
     function linkDelete($table_name, $link_name)
     {
         $links = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
@@ -446,6 +472,26 @@ class Openads_Schema_Manager
                 if (($target['table']==$table_name))
                 {
                     unset($links[$table][$field]);
+                }
+            }
+        }
+        Openads_Links::writeLinksDotIni($this->links_trans, $links);
+    }
+
+    function table_link_relations_update($table_name, $table_name_new)
+    {
+        $links = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
+        if (isset($links[$table_name])) {
+            $links[$table_name_new] = $links[$table_name];
+            unset($links[$table_name]);
+        }
+        foreach ($links AS $table => $keys)
+        {
+            foreach ($keys AS $field => $target)
+            {
+                if (($target['table']==$table_name))
+                {
+                    $links[$table][$field]['table'] = $table_name_new;
                 }
             }
         }

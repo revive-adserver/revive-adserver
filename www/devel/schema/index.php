@@ -90,13 +90,22 @@ else if (array_key_exists('btn_link_add', $_POST))
     $link_add_target = $_POST['link_add_target'];
     $oaSchema->linkAdd($table, $link_add, $link_add_target);
 }
+else if (array_key_exists('btn_table_save', $_POST))
+{
+    $table = $_POST['table_edit'];
+    $table_name_new = $_POST['tbl_new_name'];
+    $ok = $oaSchema->tableSave($table, $table_name_new);
+    if ($ok) {
+        $table = $table_name_new;
+    }
+}
 else if (array_key_exists('btn_table_edit', $_POST))
 {
     $table = $_POST['btn_table_edit'];
 }
 else if (array_key_exists('btn_table_delete', $_POST))
 {
-    $table = $_POST['table_delete'];
+    $table = $_POST['table_edit'];
     $oaSchema->tableDelete($table);
     unset($table);
 }

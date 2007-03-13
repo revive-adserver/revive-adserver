@@ -26,6 +26,29 @@ function collapseTable($table)
 	return $objResponse;
 }
 
+function editTableProperty($form, $elementId)
+{
+	$objResponse = new xajaxResponse();
+	$id = $elementId;
+	$objResponse->addAssign('tbl_old_'.$id,"style.display", 'none');
+    $objResponse->addAssign('tbl_new_'.$id,"style.display", 'inline');
+    $objResponse->addAssign('btn_tbl_save_'.$id,"style.display", 'inline');
+    $objResponse->addAssign('btn_tbl_exit_'.$id,"style.display", 'inline');
+	return $objResponse;
+}
+
+function exitTableProperty($form, $elementId)
+{
+	$objResponse = new xajaxResponse();
+	$id = $elementId;
+    $objResponse->addAssign('tbl_new_'.$id,"value", '');
+	$objResponse->addAssign('tbl_old_'.$id,"style.display", 'inline');
+    $objResponse->addAssign('tbl_new_'.$id,"style.display", 'none');
+    $objResponse->addAssign('btn_tbl_save_'.$id,"style.display", 'none');
+    $objResponse->addAssign('btn_tbl_exit_'.$id,"style.display", 'none');
+	return $objResponse;
+}
+
 function editFieldProperty($form, $elementId, $elementNo)
 {
 	$objResponse = new xajaxResponse();
@@ -60,6 +83,9 @@ $xajax->registerFunction('collapseTable');
 $xajax->registerFunction("editFieldProperty");
 $xajax->registerFunction("exitFieldProperty");
 $xajax->registerFunction("saveFieldProperty");
+$xajax->registerFunction("editTableProperty");
+$xajax->registerFunction("exitTableProperty");
+$xajax->registerFunction("saveTableProperty");
 //$xajax->registerFunction("selectDataDictionary");
 // Process any requests.  Because our requestURI is the same as our html page,
 // this must be called before any headers or HTML output have been sent
