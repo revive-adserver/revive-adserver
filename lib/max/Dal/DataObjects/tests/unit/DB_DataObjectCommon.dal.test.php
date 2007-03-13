@@ -44,6 +44,11 @@ class DB_DataObjectCommonTest extends UnitTestCase
         $this->UnitTestCase();
     }
     
+    function tearDown()
+    {
+        TestEnv::restoreEnv();
+    }
+    
     function testFactoryDAL()
     {
         $doClients = MAX_DB::factoryDO('clients');
@@ -164,8 +169,13 @@ class DB_DataObjectCommonTest extends UnitTestCase
         $doPreferenceAdvertiser->advertiserid = $clientId;
         $doPreferenceAdvertiser->find();
         $this->assertEqual($doPreferenceAdvertiser->getRowCount(), 0, 'No advertiser preferences should be found');
-        
-        // Restore env
-        TestEnv::restoreEnv();
+    }
+    
+    function testBelongToUser()
+    {
+        // test that user belong to itself
+        $doAgency = MAX_DB::factoryDO('agency');
+        $doAgency->agencyid = $agencyid = 123;
+        $doAgency->belongToUser('agency', $agencyid);
     }
 }

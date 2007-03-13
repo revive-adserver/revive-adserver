@@ -78,9 +78,7 @@ class DataGenerator
         	}
         }
         
-        
         $ids = array();
-        
         for ($i = 0; $i < $numberOfCopies; $i++) {
             $doInsert = clone($do);
             $id = $doInsert->insert();

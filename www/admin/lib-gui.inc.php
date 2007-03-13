@@ -31,6 +31,7 @@ $Id$
 // Required files
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Delivery/flash.php';
+require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
 
 // Define defaults
 $phpAds_Message     = '';

@@ -424,7 +424,7 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function init()
     {
-        $ret = parent::_connect();
+        $ret = $this->_connect();
         if ($ret !== true) {
             return $ret;
         }
@@ -635,12 +635,50 @@ class DB_DataObjectCommon extends DB_DataObject
     function _connect()
     {
         $ret = parent::_connect();
-        if (!PEAR::isError($ret)) {
-            global $_DB_DATAOBJECT;
-            $dbConnection = &$_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5];
-            // store the reference in ADMIN_DB_LINK
-            $GLOBALS['_MAX']['ADMIN_DB_LINK'] = &$dbConnection->connection;
+        if (PEAR::isError($ret)) {
+            return false;
         }
+        global $_DB_DATAOBJECT;
+        $dbh = &$_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5];
+        // store the reference in ADMIN_DB_LINK
+        $GLOBALS['_MAX']['ADMIN_DB_LINK'] = &$dbh->connection;
+        
+        return $ret;
+        /*
+        // FIXME: following doesn't work because MAX doesn't use standard DB_mysql extension...
+        if (empty($_DB_DATAOBJECT['CONFIG'])) {
+            $this->_loadConfig();
+        }
+        $dbh = &MAX_DB::singleton();
+        if (PEAR::isError($dbh)) {
+            return $dbh;
+        }
+        $this->_database_dsn_md5 = md5(MAX_DB::getDsn(MAX_DSN_STRING, false));
+        $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5] = &$dbh;
+        */
+    }
+    
+    /**
+     * Disconnects from the database server
+     *
+     * @return boolean
+     * @static 
+     */
+    function disconnect()
+    {
+        $ret = true;
+        // reset DataObject cache
+        $dsn = MAX_DB::getDsn(MAX_DSN_STRING, false);
+        $dsn_md5 = md5($dsn);
+        global $_DB_DATAOBJECT;
+        if (isset($_DB_DATAOBJECT['CONNECTIONS'][$dsn_md5])) {
+            $dbh = &$_DB_DATAOBJECT['CONNECTIONS'][$dsn_md5];
+            if (!PEAR::isError($dbh)) {
+                $ret = $dbh->disconnect();
+            }
+            unset($_DB_DATAOBJECT['CONNECTIONS'][$dsn_md5]);
+        }
+        
         return $ret;
     }
     
@@ -668,7 +706,9 @@ class DB_DataObjectCommon extends DB_DataObject
     	    if ($this->triggerSqlDie) {
     	        global $phpAds_last_query;
                 $phpAds_last_query = $ret->userinfo;
-                phpAds_sqlDie();
+// quick fix for CC, working atm on generalization of this
+//                include_once MAX_PATH . '/www/admin/lib-gui.inc.php';
+//                phpAds_sqlDie();
     	    }
 	    }
 	    if ($production) {

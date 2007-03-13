@@ -132,7 +132,7 @@ class MAX_DB
      */
     function factoryDO($table)
     {
-        MAX_DB::setupDataObject();
+        MAX_DB::setupDataObjectOptions();
         include_once 'DB/DataObject.php';
         $do = DB_DataObject::factory($table);
         if (is_a($do, 'DB_DataObjectCommon')) {
@@ -161,7 +161,7 @@ class MAX_DB
      */
     function staticGetDO($table, $k, $v = null)
     {
-        MAX_DB::setupDataObject();
+        MAX_DB::setupDataObjectOptions();
         $do = MAX_DB::factoryDO($table);
         if (PEAR::isError($do)) {
             return false;
@@ -193,7 +193,7 @@ class MAX_DB
      *
      * @static 
      */
-    function setupDataObject()
+    function setupDataObjectOptions()
     {
         static $needsSetup;
         if (isset($needsSetup)) {
