@@ -109,6 +109,10 @@ else if (array_key_exists('btn_table_delete', $_POST))
     $oaSchema->tableDelete($table);
     unset($table);
 }
+else if (array_key_exists('btn_table_cancel', $_POST))
+{
+    $table = '';
+}
 else if (array_key_exists('btn_table_new', $_POST))
 {
     if (array_key_exists('new_table_name', $_POST))
