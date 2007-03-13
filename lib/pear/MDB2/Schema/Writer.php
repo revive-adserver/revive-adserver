@@ -830,13 +830,13 @@ class MDB2_Schema_Writer
                                     {
                                         foreach ($aIndex[$name]['fields'] AS $field=>$val)
                                         {
-                                            $this->writeXMLline('field');
+                                            $this->writeXMLline('indexfield');
                                             $this->writeXMLline('name', $field, 'IN', true);
                                             if ($val['sorting'])
                                             {
                                                 $this->writeXMLline("sorting", $val['sorting'], '', true);
                                             }
-                                            $this->writeXMLline('/field', '', 'OUT');
+                                            $this->writeXMLline('/indexfield', '', 'OUT');
                                         }
                                     }
                                 }

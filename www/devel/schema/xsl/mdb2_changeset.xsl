@@ -125,7 +125,6 @@
 </xsl:template>
 
 <xsl:template name="showtableadd">
-
     <xsl:variable name="tablename" select="name"/>
 
     <tr><td colspan="11" class="tableheader"> <span class="titlemini">table
@@ -147,8 +146,22 @@
     <th class="tableheader">timing</th>
     </tr>
     <xsl:for-each select="descendant::add/field">
-
         <xsl:call-template name="showfieldAdd">
+            <xsl:with-param name="table"><xsl:value-of select="$tablename"/></xsl:with-param>
+        </xsl:call-template>
+    </xsl:for-each>
+
+    <tr><td colspan="11" class="tableheader"> <span class="titlemini">indexes added to table <xsl:value-of select="name"/></span> </td></tr>
+    <tr>
+    <th class="tableheader">name</th>
+    <th class="tableheader">was called</th>
+    <th class="tableheader">primary</th>
+    <th class="tableheader">unique</th>
+    <th class="tableheader">fields</th>
+    <th class="tableheader">timing</th>
+    </tr>
+    <xsl:for-each select="descendant::index/add">
+        <xsl:call-template name="showindexAdd">
             <xsl:with-param name="table"><xsl:value-of select="$tablename"/></xsl:with-param>
         </xsl:call-template>
     </xsl:for-each>
@@ -157,19 +170,27 @@
 
 <xsl:template name="showtableremove">
     <xsl:variable name="tablename" select="name"/>
-    <tr><td colspan="2" class="tableheader"> <span class="titlemini">fields removed from table <xsl:value-of select="name"/></span> </td></tr>
 
+    <tr><td colspan="2" class="tableheader"> <span class="titlemini">fields removed from table <xsl:value-of select="name"/></span></td></tr>
     <tr>
     <th class="tableheader">name</th>
     <th class="tableheader">timing</th>
     </tr>
-
     <xsl:for-each select="descendant::remove/field">
-
         <xsl:call-template name="showfieldRemove">
-        <xsl:with-param name="table"><xsl:value-of select="$tablename"/></xsl:with-param>
+            <xsl:with-param name="table"><xsl:value-of select="$tablename"/></xsl:with-param>
         </xsl:call-template>
+    </xsl:for-each>
 
+    <tr><td colspan="2" class="tableheader"> <span class="titlemini">indexes removed from table <xsl:value-of select="name"/></span></td></tr>
+    <tr>
+    <th class="tableheader">name</th>
+    <th class="tableheader">timing</th>
+    </tr>
+    <xsl:for-each select="descendant::index/remove">
+        <xsl:call-template name="showindexRemove">
+            <xsl:with-param name="table"><xsl:value-of select="$tablename"/></xsl:with-param>
+        </xsl:call-template>
     </xsl:for-each>
 
 </xsl:template>
@@ -208,6 +229,36 @@
     </tr>
 </xsl:template>
 
+<xsl:template name="showindexAdd">
+
+    <xsl:param name="table">unkown</xsl:param>
+    <xsl:variable name="fieldprefix">changeset-<xsl:value-of select="$table"/>-add-<xsl:value-of select="name"/></xsl:variable>
+
+    <tr>
+
+    <td class="tablebody"><xsl:call-template name="showname"/></td>
+
+    <td class="tablebody"><xsl:call-template name="showwas">
+        <xsl:with-param name="fieldname"><xsl:value-of select="$fieldprefix"/>-was</xsl:with-param></xsl:call-template></td>
+
+    <td class="tablebody"><xsl:call-template name="showprimary"/></td>
+    <td class="tablebody"><xsl:call-template name="showunique"/></td>
+    <td class="tablebody"><xsl:call-template name="showfields"/></td>
+    <td class="tablebody">
+        <xsl:call-template name="showtiming">
+            <xsl:with-param name="fieldname"><xsl:value-of select="$fieldprefix"/>-timing-<xsl:value-of select="'constructive'"/></xsl:with-param>
+            <xsl:with-param name="value">constructive</xsl:with-param>
+        </xsl:call-template>
+    </td>
+
+    <!--td class="tablebody"><xsl:call-template name="showafteraddfield">
+        <xsl:with-param name="fieldname"><xsl:value-of select="$fieldprefix"/>-afterAddField-<xsl:value-of select="name"/></xsl:with-param>
+        <xsl:with-param name="value">afterAddField_<xsl:value-of select="$table"/>_<xsl:value-of select="name"/></xsl:with-param>
+    </xsl:call-template></td-->
+
+    </tr>
+</xsl:template>
+
 <xsl:template name="showfieldRemove">
 
     <xsl:param name="table">unkown</xsl:param>
@@ -223,6 +274,43 @@
     </xsl:call-template></td-->
 
     </tr>
+</xsl:template>
+
+<xsl:template name="showindexRemove">
+
+    <xsl:param name="table">unkown</xsl:param>
+    <xsl:variable name="fieldprefix">changeset-<xsl:value-of select="$table"/>-remove-<xsl:value-of select="name"/></xsl:variable>
+
+    <tr>
+
+    <td class="tablebody"><xsl:call-template name="showname"/></td>
+    <!--td class="tablebody"><xsl:call-template name="showtiming"><xsl:with-param select="'destructive'"/></xsl:call-template></td-->
+    <!--td class="tablebody"><xsl:call-template name="showbeforeremovefield">
+        <xsl:with-param name="fieldname"><xsl:value-of select="$fieldprefix"/>-beforeRemoveField-<xsl:value-of select="name"/></xsl:with-param>
+        <xsl:with-param name="value">beforeRemoveField_<xsl:value-of select="$table"/>_<xsl:value-of select="name"/></xsl:with-param>
+    </xsl:call-template></td-->
+
+    </tr>
+</xsl:template>
+
+<xsl:template name="showprimary">
+    <xsl:value-of select="primary"/>
+</xsl:template>
+
+<xsl:template name="showunique">
+    <xsl:value-of select="unique"/>
+</xsl:template>
+
+<xsl:template name="showfields">
+    <table>
+    <xsl:for-each select="descendant::indexfield">
+        <tr><td><xsl:call-template name="showname"/> (<xsl:call-template name="showsorting"/>)</td></tr>
+    </xsl:for-each>
+    </table>
+</xsl:template>
+
+<xsl:template name="showsorting">
+    <xsl:value-of select="sorting"/>
 </xsl:template>
 
 <xsl:template name="showname">
