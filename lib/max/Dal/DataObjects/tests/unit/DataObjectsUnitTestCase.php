@@ -24,7 +24,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Dal/DataObjects/tests/util/DataGenerator.php';
+require_once MAX_PATH . '/lib/max/tests/util/DataGenerator.php';
 
 /**
  * A common DataObjects unit class for testing DataObjects

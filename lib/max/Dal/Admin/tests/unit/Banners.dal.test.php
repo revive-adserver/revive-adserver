@@ -26,7 +26,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
 require_once MAX_PATH . '/lib/max/Dal/Admin/Banners.php';
-require_once MAX_PATH . '/lib/max/Dal/DataObjects/tests/util/DataGenerator.php';
+require_once MAX_PATH . '/lib/max/tests/util/DataGenerator.php';
 
 /**
  * A class for testing DAL Banners methods
