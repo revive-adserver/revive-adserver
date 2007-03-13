@@ -13,9 +13,9 @@ require_once '../../../init.php';
 define('MAX_DEV', MAX_PATH.'/www/devel');
 
 require_once MAX_DEV.'/lib/pear.inc.php';
+require_once MAX_PATH.'/lib/openads/Dal/Links.php';
 require_once 'MDB2.php';
 require_once 'MDB2/Schema.php';
-require_once 'Config.php';
 global $schema_trans, $dump_options;
 
 $file_schema_core = 'tables_core.xml';
@@ -232,21 +232,19 @@ else if (array_key_exists('btn_index_add', $_POST))
 else if (array_key_exists('btn_link_del', $_POST))
 {
     $table = $_POST['table_edit'];
-    $links = readLinksDotIni($file_links, $table);
-    foreach ($_POST['chklnk'] AS $k=>$link_name)
-    {
-        unset($links[$link_name]);
+    $links = Openads_Links::readLinksDotIni($file_links);
+    if (isset($links[$table])) {
+        unset($links[$table][$_POST['link_name']]);
     }
-
-    writeLinksDotIni($file_links, $table, $links);
+    Openads_Links::writeLinksDotIni($file_links, $links);
 }
 else if (array_key_exists('btn_link_add', $_POST))
 {
     $table = $_POST['table_edit'];
-    $links = readLinksDotIni($file_links, $table);
-    $links[$_POST['link_add']] = $_POST['link_add_target'];
+    $links = Openads_Links::readLinksDotIni($file_links);
+    $links[$table][$_POST['link_add']] = $_POST['link_add_target'];
 
-    writeLinksDotIni($file_links, $table, $links);
+    Openads_Links::writeLinksDotIni($file_links, $links);
 }
 else if (array_key_exists('btn_table_edit', $_POST))
 {
@@ -295,14 +293,19 @@ else
 $db_definition = $schema->parseDatabaseDefinitionFile($file);
 $tbl_definition = $db_definition['tables'][$table];
 
-$links = readLinksDotIni($file_links, $table);
+$links = Openads_Links::readLinksDotIni($file_links);
+if (isset($links[$table])) {
+    $tbl_links = $links[$table];
+} else {
+    $tbl_links = array();
+}
 
-$links_targets = array();
+$link_targets = array();
 foreach ($db_definition['tables'] as $tk => $tv) {
     if (isset($tv['indexes'])) {
         foreach ($tv['indexes'] as $v) {
             if (isset($v['primary']) && $v['primary'] && count($v['fields']) == 1) {
-                $links_targets["$tk:".key($v['fields'])] = "$tk (".key($v['fields']).")";
+                $link_targets["$tk:".key($v['fields'])] = "$tk (".key($v['fields']).")";
             }
         }
     }
@@ -310,53 +313,5 @@ foreach ($db_definition['tables'] as $tk => $tv) {
 
 include 'edit.html';
 exit();
-
-function readLinksDotIni($file_links, $table)
-{
-    $links =& new Config();
-    $root =& $links->parseConfig($file_links, 'inifile');
-    $links = $root->toArray();
-    $links = $links['root'];
-    if (isset($links[$table])) {
-        $links = $links[$table];
-        foreach ($links as $fk => $fv) {
-            $tmp = explode(':', $fv);
-            $links[$fk] = array(
-                'table' => $tmp[0],
-                'field' => $tmp[1]
-            );
-        }
-    } else {
-        $links = array();
-    }
-
-    return $links;
-}
-
-function writeLinksDotIni($file_links, $table, $link_array)
-{
-    $links =& new Config();
-    $root =& $links->parseConfig($file_links, 'inifile');
-    $root = $root->toArray();
-    $root = $root['root'];
-
-    foreach ($link_array as $k => $v) {
-        if (is_array($v)) {
-            $link_array[$k] = "{$v['table']}:{$v['field']}";
-        }
-    }
-
-    if (count($link_array)) {
-        $root[$table] = $link_array;
-    } else {
-        unset($root[$table]);
-    }
-
-    ksort($root);
-
-    $links =& new Config();
-    $links->parseConfig($root, 'phparray');
-    $links->writeConfig($file_links, 'inifile');
-}
 
 ?>

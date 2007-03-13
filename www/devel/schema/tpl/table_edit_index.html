@@ -10,6 +10,7 @@
                         <td class="tableheader" colspan="8">fields</td>
                     </tr>
                     <?php
+                    $i = 0;
                     foreach ($tbl_definition['indexes'] AS $name => $idx_def )
                     {
                         $i++;
@@ -19,7 +20,6 @@
                     <form name="<?php echo $form_name; ?>" id="<?php echo $form_name; ?>" action="index.php" method="POST">
                     <input type="hidden" name="table_edit" value="<?php echo $table; ?>"/>
                     <input type="hidden" name="index_name" value="<?php echo $name; ?>" />
-                    <tr>
                         <!--td class="tablebody"><input type="checkbox" name="chkidx[]" value="<?php echo $name; ?>" ></td-->
                         <td class="tablebody"><button name="btn_index_del" type="submit">delete</button></td>
                         <td class="tablebody"><?php echo $name; ?></td>
@@ -36,6 +36,7 @@
             			 </ul>
                         </td>
                     </tr>
+                    </form>
                     <?php
                     }
                    ?>
