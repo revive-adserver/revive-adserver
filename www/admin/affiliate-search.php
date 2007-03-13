@@ -202,6 +202,7 @@ if (!isset($keyword))
             {
                 $doBanners = MAX_DB::factoryDO('banners');
                 $doBanners->campaignid = $row_campaigns['campaignid'];
+                $doBanners->selectAs(array('contenttype'), 'type');
                 $doBanners->find();
 
                 $doAd_zone_assoc = MAX_DB::factoryDO('ad_zone_assoc');
