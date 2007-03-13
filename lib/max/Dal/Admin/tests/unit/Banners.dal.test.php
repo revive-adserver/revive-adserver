@@ -147,6 +147,60 @@ class MAX_Dal_Admin_BannersTest extends UnitTestCase
 
         $this->assertEqual($activeCount, $expected);
     }
+    
+    function testGetBannerByKeyword()
+    {
+        // Search for banners when none exist
+        $expected = 0;
+        $rsBanners = $this->dalBanners->getBannerByKeyword('foo');
+        $rsBanners->find();
+        $actual = $rsBanners->getRowCount();
+        $this->assertEqual($actual, $expected);
+        
+        $agencyId = 1;
+        $rsBanners = $this->dalBanners->getBannerByKeyword('foo', $agencyId);
+        $rsBanners->find();
+        $actual = $rsBanners->getRowCount();
+        $this->assertEqual($actual, $expected);
+        
+        // Insert a client
+        $doClients = MAX_DB::factoryDO('clients');
+        $doClients->agencyid = 1;
+        $clientId = DataGenerator::generateOne($doClients);
+        
+        // Insert a campaign
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->clientid = $clientId;
+        $campaignId = DataGenerator::generateOne($doCampaigns);
+        
+        // Insert a banner
+        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners->description = 'foo';
+        $doBanners->alt = 'bar';
+        $doBanners->campaignid = $campaignId;
+        $bannerId = DataGenerator::generateOne($doBanners);
+        
+        // Search for banner by description
+        $expected = 1;
+        $rsBanners = $this->dalBanners->getBannerByKeyword('foo');
+        $rsBanners->find();
+        $actual = $rsBanners->getRowCount();
+        $this->assertEqual($actual, $expected);
+        
+        // Search for banner by alt
+        $expected = 1;
+        $rsBanners = $this->dalBanners->getBannerByKeyword('bar');
+        $rsBanners->find();
+        $actual = $rsBanners->getRowCount();
+        $this->assertEqual($actual, $expected);
+        
+        // Restrict to agency ID
+        $expected = 1;
+        $rsBanners = $this->dalBanners->getBannerByKeyword('bar', $agencyId);
+        $rsBanners->find();
+        $actual = $rsBanners->getRowCount();
+        $this->assertEqual($actual, $expected);
+    }
 }
 
 ?>

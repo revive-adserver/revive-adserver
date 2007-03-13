@@ -17,6 +17,13 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
         'id'   => 'bannerid',
     );
     
+    /**
+     * Gets a RecordSet of matching banners.
+     *
+     * @param string $keyword  the string to search for.
+     * @param int $agencyId  restrict search to this agency ID.
+     * @return RecordSet
+     */
     function getBannerByKeyword($keyword, $agencyId = null)
     {
 
@@ -29,6 +36,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
             b.description as description,
             b.alt as alt,
             b.campaignid as campaignid,
+            b.contenttype as type,
             m.clientid as clientid
         FROM
             {$prefix}banners AS b,

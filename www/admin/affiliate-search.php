@@ -47,16 +47,10 @@ if (!isset($campaign))  $campaign  = false;
 if (!isset($banner))    $banner    = false;
 if (!isset($zone))      $zone      = false;
 
-
-if ($client == false &&    $campaign == false &&
-    $banner == false &&    $zone == false &&
-    $affiliate == false)
-{
-    $client = true;
+if ($campaign == false && $banner == false && $zone == false) {
     $campaign = true;
     $banner = true;
     $zone = true;
-    $affiliate = true;
 }
 
 // Disable some entities
