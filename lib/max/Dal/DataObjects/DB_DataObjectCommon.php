@@ -695,24 +695,21 @@ class DB_DataObjectCommon extends DB_DataObject
 	       // supress any PEAR errors if in production
 	       PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
 	    }
-	    
 	    // execute query
 	    $ret = parent::_query($string);
+	    if ($production) {
+		  PEAR::staticPopErrorHandling();
+	    }
 	    
 	    if (PEAR::isError($ret)) {
 	        if(!$production) {
 	           $GLOBALS['_MAX']['ERRORS'][] = $ret;
 	        }
-    	    if ($this->triggerSqlDie) {
+    	    if ($this->triggerSqlDie && function_exists('phpAds_sqlDie')) {
     	        global $phpAds_last_query;
                 $phpAds_last_query = $ret->userinfo;
-// quick fix for CC, working atm on generalization of this
-//                include_once MAX_PATH . '/www/admin/lib-gui.inc.php';
-//                phpAds_sqlDie();
+                phpAds_sqlDie();
     	    }
-	    }
-	    if ($production) {
-		  PEAR::staticPopErrorHandling();
 	    }
 	    return $ret;
     }
