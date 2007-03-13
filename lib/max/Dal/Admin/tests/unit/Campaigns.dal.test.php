@@ -133,4 +133,45 @@ class MAX_Dal_Admin_CampaignsTest extends UnitTestCase
 
         $this->assertEqual($activeCount, $expected);
     }
+    
+    function testGetCampaignAndClientByKeyword()
+    {
+        // Search for campaigns when none exist.
+        $expected = 0;
+        $rsCampaigns = $this->dalCampaigns->getCampaignAndClientByKeyword('foo');
+        $rsCampaigns->find();
+        $actual = $rsCampaigns->getRowCount();
+        $this->assertEqual($actual, $expected);
+        
+        $agencyId = 1;
+        $rsCampaigns = $this->dalCampaigns->getCampaignAndClientByKeyword('foo', $agencyId);
+        $rsCampaigns->find();
+        $actual = $rsCampaigns->getRowCount();
+        $this->assertEqual($actual, $expected);
+        
+        // Create a campaign
+        $doCampaign = MAX_DB::factoryDO('campaigns');
+        $doCampaign->campaignname = 'foo';
+        DataGenerator::generateOne($doCampaign, true);
+        
+        // Search for the campaign
+        $expected = 0;
+        $rsCampaigns = $this->dalCampaigns->getCampaignAndClientByKeyword('bar');
+        $rsCampaigns->find();
+        $actual = $rsCampaigns->getRowCount();
+        $this->assertEqual($actual, $expected);
+        
+        $expected = 1;
+        $rsCampaigns = $this->dalCampaigns->getCampaignAndClientByKeyword('foo');
+        $rsCampaigns->find();
+        $actual = $rsCampaigns->getRowCount();
+        $this->assertEqual($actual, $expected);
+        
+        // Restrict the search to agency (defaults to 1)
+        $agencyId = 1;
+        $rsCampaigns = $this->dalCampaigns->getCampaignAndClientByKeyword('foo', $agencyId);
+        $rsCampaigns->find();
+        $actual = $rsCampaigns->getRowCount();
+        $this->assertEqual($actual, $expected);
+    }
 }

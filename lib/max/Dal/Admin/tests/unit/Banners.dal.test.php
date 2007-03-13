@@ -34,7 +34,6 @@ require_once MAX_PATH . '/lib/max/tests/util/DataGenerator.php';
  * @package    MaxDal
  * @subpackage TestSuite
  *
- * @TODO No tests written yet...
  */
 class MAX_Dal_Admin_BannersTest extends UnitTestCase
 {
