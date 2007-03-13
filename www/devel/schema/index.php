@@ -45,7 +45,7 @@ if (array_key_exists('btn_field_save', $_POST))
     $table = $_POST['table_edit'];
     $field_name_old = $_POST['field_name'];
     $field_name_new = $_POST['fld_new_name'];
-    $field_type_old = $_POST['fld_old_type'];
+    $field_type_old = $_POST['field_type'];
     $field_type_new = $_POST['fld_new_type'];
     $oaSchema->fieldSave($table, $field_name_old, $field_name_new, $field_type_old, $field_type_new);
 }

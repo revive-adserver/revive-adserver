@@ -204,16 +204,20 @@ class Openads_Schema_Manager
                 }
             }
             $tbl_definition['fields'] = $fields_ordered;
+            $valid = $this->validate_field($table_name, $fld_definition, $field_name_new);
+            if ($valid)
+            {
+                $this->field_index_relations($table_name, $tbl_definition, $field_name_old, $field_name_new);
+            }
         }
         else if ($field_type_new && ($field_type_new != $field_type_old))
         {
-            $fld_definition = $dd_definition['fields'][$field_type_new];
+            $fld_definition = $this->dd_definition['fields'][$field_type_new];
             $tbl_definition['fields'][$field_name_old] = $fld_definition;
+            $valid = true;
         }
-        $valid = $this->validate_field($table_name, $fld_definition, $field_name_new);
         if ($valid)
         {
-            $this->field_index_relations($table_name, $tbl_definition, $field_name_old, $field_name_new);
             unset($this->db_definition['tables'][$table_name]);
             $valid = $this->validate_table($tbl_definition, $table_name);
             if ($valid)
