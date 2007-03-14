@@ -327,4 +327,55 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $aClientId1Test = $doClients->getAll('clientid');
         $this->assertEqual($aClientId1, $aClientId1Test); // only two should left
     }
+    
+    function testUpdate()
+    {
+        $bannerId1 = DataGenerator::generateOne('banners');
+        $doBanners1 = MAX_DB::staticGetDO('banners', $bannerId1);
+        
+        // Update
+        $comments = 'comments updated';
+        $doBanners = MAX_DB::staticGetDO('banners', $bannerId1);
+        $doBanners->comments = $comments;
+        // wait 1s
+        $time = time();
+        $doBanners->update();
+        
+        $doBanners2 = MAX_DB::staticGetDO('banners', $bannerId1);
+        
+        // Test that it should update time automatically
+        $this->assertTrue($doBanners2->refreshUpdatedFieldIfExists);
+        
+        // Test that comment was changed
+        $this->assertNotEqual($doBanners1->comments, $doBanners2->comments);
+        
+        // Test that "updated" was updated
+        $this->assertTrue(strtotime($doBanners1->updated) < strtotime($doBanners2->updated));
+        
+        // Test updates is equal or greater than our checkpoint time
+        $this->assertTrue($time <= strtotime($doBanners1->updated));
+    }
+    
+    function testInsert()
+    {
+        $time = time();
+        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners->comments = $comments = 'test123';
+        $bannerId = $doBanners->insert();
+        
+        $doBanners = MAX_DB::staticGetDO('banners', $bannerId);
+        
+        // Test comment is the same
+        $this->assertEqual($doBanners->comments, $comments);
+        
+        // Test updates is equal or greater than our checkpoint time
+        $this->assertTrue($time <= strtotime($doBanners->updated));
+    }
+    
+    function testGetFirstPrimaryKey()
+    {
+        $doBanners = MAX_DB::factoryDO('banners');
+        $key = $doBanners->getFirstPrimaryKey();
+        $this->assertEqual($key, 'bannerid');
+    }
 }
