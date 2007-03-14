@@ -180,8 +180,10 @@ class Openads_Table
         }
         $aOptions['type'] = $conf['table']['type'];
         // Merge any primary keys into the options array
-        if ($this->aDefinition['tables'][$table]['indexes']['primary']) {
-            $aOptions['primary'] = $this->aDefinition['tables'][$table]['indexes']['primary']['fields'];
+        if (isset($this->aDefinition['tables'][$table]['indexes']['primary'])) {
+            if ($this->aDefinition['tables'][$table]['indexes']['primary']) {
+                $aOptions['primary'] = $this->aDefinition['tables'][$table]['indexes']['primary']['fields'];
+            }
         }
         // Create the table
         MAX::debug('Creating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
