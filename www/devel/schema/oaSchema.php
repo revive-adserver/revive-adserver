@@ -29,18 +29,20 @@ class Openads_Schema_Manager
     var $dd_definition;
     var $dd_file;
 
-    var $file_schema_core;
     var $path_schema_final;
     var $path_schema_trans;
+
     var $path_changes_final;
-    var $file_changes_core;
+    var $path_changes_trans;
 
     var $path_links_final;
     var $path_links_trans;
 
+    var $file_schema_core;
     var $schema_final;
     var $schema_trans;
 
+    var $file_changes_core;
     var $changes_final;
     var $changes_trans;
 
@@ -63,6 +65,7 @@ class Openads_Schema_Manager
 
         $this->file_changes_core = 'changes_core.xml';
         $this->path_changes_final = MAX_PATH.'/etc/changes/';
+        $this->path_changes_trans = MAX_PATH.'/var/';
 
         $this->file_links_core = 'db_schema.links.ini';
         $this->path_links_final = MAX_PATH.'/lib/max/Dal/DataObjects/';
@@ -75,7 +78,7 @@ class Openads_Schema_Manager
         $this->links_trans = $this->path_links_trans.$this->file_links_core;
 
         $this->changes_final = $this->path_changes_final.$this->file_changes_core;
-        $this->changes_trans = $this->path_schema_trans.$this->file_changes_core;
+        $this->changes_trans = $this->path_changes_trans.$this->file_changes_core;
 
         $this->dump_options = array (
                                         'output_mode'   =>    'file',
@@ -605,8 +608,10 @@ class Openads_Schema_Manager
         $aFiles = array(
             $this->schema_final,
             $this->schema_trans,
+            $this->links_final,
             $this->links_trans,
             $this->changes_final,
+            $this->changes_trans,
             MAX_SCHEMA_LOG
         );
 
