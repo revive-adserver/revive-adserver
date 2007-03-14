@@ -371,6 +371,13 @@
             if (in_array($error, $self_inflicted)) {
                 return false;
             }
+            /**
+             * Needed to deal with statically called methods where method does not
+             * have the "static" keyword, due to PHP4 / PHP5 compatibility.
+             */
+            if (preg_match('/Non-static method.*should not be called statically, assuming \$this from incompatible context/', $error)) {
+                return false;
+            }
             return $error;
         }
 

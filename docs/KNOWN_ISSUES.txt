@@ -67,5 +67,8 @@ have been found.
   updates to PEAR::DB could be unstable, although the issue has only
   been replicated in a development environment.
 
+- The version of PEAR::Date used in Max has been patched. See
+  http://pear.php.net/bugs/bug.php?id=2338.
+
 - The test suite won't completely work in PHP 5, due to the way mock
   objects work in Simpltest.
