@@ -120,7 +120,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
     }
 
     /**
-     * A method to get all placements (used to be campaigns).
+     * A method to get all placements.
      *
      * @param $fields   array An array of extra fields to select, if required.
      * @param $where    array An array of extra where statements to filter on, if required.
@@ -141,6 +141,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                                 "$table.views",
                                 "$table.clicks",
                                 "$table.conversions",
+                                "$table.activate",
                                 "$table.expire",
                                 "$table.target_impression",
                                 "$table.target_click",
