@@ -44,22 +44,11 @@ phpAds_registerGlobal ('returnurl');
 
 // Security check
 phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
-
-if (phpAds_isUser(phpAds_Agency)) {
-    $belongToUser = false;
-    if (!empty($campaignid)) {
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
-        $doCampaigns->campaignid = $campaignid;
-        $belongToUser = $doCampaigns->belongToUser('agency', phpAds_getUserID());
-    } else {
-        $doClients = MAX_DB::factoryDO('clients');
-        $doClients->clientid = $clientid;
-        $belongToUser = $doClients->belongToUser('agency', phpAds_getUserID());
-    }
-    if (!$belongToUser) {
-        phpAds_PageHeader("2");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
+if (!empty($campaignid)) {
+    MAX_Permission::checkAccessToObject('campaigns', $campaignid);
+}
+if (!empty($clientid)) {
+    MAX_Permission::checkAccessToObject('clients', $clientid);
 }
 
 /*-------------------------------------------------------*/

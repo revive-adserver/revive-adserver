@@ -100,9 +100,6 @@ if (isset($submit)) {
         $viewwindow_seconds = 0;
     }
     
-//    $fields = array("trackername", "description", "clickwindow", "viewwindow", "status", "type", "linkcampaigns", "clientid", "updated");
-//    $values = array("'".$trackername."'", "'".$description."'", $clickwindow_seconds, $viewwindow_seconds, $status, $type, isset($linkcampaigns) ? "'t'" : "'f'", $clientid, "'".date('Y-m-d H:i:s')."'");
-    
     $doTrackers = MAX_DB::factoryDO('trackers');
     $doTrackers->trackername = $trackername;
     $doTrackers->description = $description;

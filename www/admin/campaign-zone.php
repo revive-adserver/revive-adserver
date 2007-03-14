@@ -131,6 +131,7 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
         $i=0;
 
         //select all checkboxes
+        $publisherIdList = '';
         foreach ($aPublishers as $publisherId => $aPublisher) {
             $publisherIdList .= $publisherId . '|';
         }

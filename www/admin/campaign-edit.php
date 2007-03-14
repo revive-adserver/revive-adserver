@@ -267,7 +267,7 @@ if (isset($submit)) {
         // - campaing changes status (activated or deactivated) or
         // - the campaign is active and target/weight are changed
         //
-        if (!$new_campaign && ($active != $active_old || ($active == 't' && ($targetImpressions != $target_old || $weight != $weight_old)))) {
+        if (!$new_campaign && ($active != $active_old || ($active == 't' && ($target_impression != $target_old || $weight != $weight_old)))) {
             // Run the Maintenance Priority Engine process
             MAX_Maintenance_Priority::run();
         }
@@ -368,6 +368,7 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     $row['impressions']         = $data['impressions'];
     $row['clicks']              = $data['clicks'];
     $row['conversions']         = $data['conversions'];
+    $row['expire']              = $data['expire'];
     if ($data['expire'] != '0000-00-00') {
         $oExpireDate                = &new Date($data['expire']);
         $row['expire_f']            = $oExpireDate->format($date_format);
@@ -396,6 +397,9 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     $row['block']               = $data['block'];
     $row['capping']             = $data['capping'];
     $row['session_capping']     = $data['session_capping'];
+    $row['impressionsRemaining'] = '';
+    $row['clicksRemaining'] = '';
+    $row['conversionsRemaining'] = '';
 
     // Get the campagin data from the data_intermediate_ad table, and store in $row
     if (($row['impressions'] >= 0) || ($row['clicks'] >= 0) || ($row['conversions'] >= 0)) {
@@ -497,6 +501,7 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     $row['capping']     = null;
     $row['session_capping']     = null;
     $row['comments']     = null;
+    $row['expire'] = null;
     $target_type = null;
 }
 

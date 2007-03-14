@@ -56,7 +56,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         $plugins = array();
         $invocationPlugins = &MAX_Plugin::getPlugins('invocationTags');
         foreach($invocationPlugins as $pluginKey => $plugin) {
-            if ($plugin->trackerEvent) {
+            if (!empty($plugin->trackerEvent)) {
                 $plugins[] = $plugin;
             }
         }

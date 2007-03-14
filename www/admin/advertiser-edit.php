@@ -107,7 +107,8 @@ if (isset($submit)) {
 		}
 		// Username
 		if (!empty($clientusername)) {
-            if (!MAX_Permission::isUsernameAllowed($client['clientusername'], $clientusername)) {
+		    $oldClientUserName = isset($client['clientusername']) ? $client['clientusername'] : '';
+            if (!MAX_Permission::isUsernameAllowed($oldClientUserName, $clientusername)) {
                 $errormessage[] = $strDuplicateAgencyName;
             } else {
 				// Set username
@@ -248,6 +249,7 @@ if ($clientid != "") {
 	if (!isset($client)) {
 		$client['clientname']			= $strUntitled;
 		$client['contact']				= '';
+		$client['comments']				= '';
 		$client['email']				= '';
 		$client['reportdeactivate'] 	= 't';
 		$client['report'] 				= 'f';
