@@ -90,5 +90,35 @@ class MAX_PermissionTest extends UnitTestCase
         $this->assertTrue(MAX_Permission::isUsernameAllowed('foo', 'newname'));
         
     }
+    
+    function testGetUniqueUserNames()
+    {
+         // Set up the preferences array
+        $GLOBALS['pref'] = array();
+        $GLOBALS['pref']['admin'] = 'admin';
+        
+        $expected = array('admin');
+        $actual = MAX_Permission::getUniqueUserNames();
+        $this->assertEqual($actual, $expected);
+        
+        // Insert some users
+        $doClients = MAX_DB::factoryDO('clients');
+        $doClients->clientusername = 'bar';
+        $clientId = DataGenerator::generateOne($doClients);
+        
+        $doAffiliates = MAX_DB::factoryDO('affiliates');
+        $doAffiliates->username = 'baz';
+        $affiliateId = DataGenerator::generateOne($doAffiliates);
+        
+        $doAgency = MAX_DB::factoryDO('agency');
+        $doAgency->username = 'quux';
+        $agencyId = DataGenerator::generateOne($doAgency);
+        
+        $expected = array('admin', 'bar', 'baz', 'quux');
+        sort($expected);
+        $actual = MAX_Permission::getUniqueUserNames();
+        sort($actual);
+        $this->assertEqual($actual, $expected);
+    }
 }
 ?>

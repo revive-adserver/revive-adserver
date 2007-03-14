@@ -197,6 +197,12 @@ class MAX_Permission
 	    return true;
 	}
 	
+	/**
+	 * Gets a list of unique usernames.
+	 *
+	 * @param unknown_type $removeName
+	 * @return array
+	 */
 	function getUniqueUserNames($removeName = null)
 	{
         global $pref;
