@@ -209,7 +209,7 @@ if ($trackerid != "" || (isset($move) && $move == 't')) {
 }
 
 $trackerDetails = phpAds_getTrackerDetails($trackerid);
-$trackerVariables = Admin_DA::getVariables(array('tracker_id' => $trackerId), true);
+$trackerVariables = Admin_DA::getVariables(array('tracker_id' => $trackerid), true);
 
 // Default to JS invocation if either appended HTML is found, or the tracker has variables
 if (empty($invtype) && (!empty($trackerDetails['appendcode']) || !empty($trackerVariables))) {

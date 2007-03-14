@@ -127,11 +127,11 @@ if (isset($submit)) {
         }
         // Username
         if (!empty($username)) {
-            if (!MAX_Permission::isUsernameAllowed($affiliate['username'], $username)) {
+            $oldUserName = (isset($affiliate['username'])) ? $affiliate['username'] : '';
+            if (!MAX_Permission::isUsernameAllowed($oldUserName, $username)) {
                 $errormessage[] = $strDuplicateAgencyName;
-            } else {
-                $affiliate['username'] = $username;
             }
+            $affiliate['username'] = $username;
     	}
         // Permissions
         $affiliate['permissions'] = 0;
@@ -177,12 +177,16 @@ if (isset($submit)) {
     $affiliate_extra['unique_users']    = trim($unique_users);
     $affiliate_extra['unique_views']    = trim($unique_views);
     $affiliate_extra['page_rank']       = trim($page_rank);
-    $affiliate_extra['category']        = trim($category);
+    if (!empty($category)) {
+        $affiliate_extra['category']    = trim($category);
+    }
     
     if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
         // Extra fields
         $affiliate['comments']    = trim($comments);
-        $affiliate_extra['help_file']       = trim($help_file);
+        if (!empty($help_file)) {
+            $affiliate_extra['help_file'] = trim($help_file);
+        }
     }    
     
     if (count($errormessage) == 0) {
@@ -374,9 +378,26 @@ if ($affiliateid != "") {
         $affiliate['username']    = '';
         $affiliate['password']    = '';
         $affiliate['permissions'] = 0;
+        $affiliate['comments']    = '';
         
         $affiliate['tax_id_present']                 = $pref['publisher_default_tax_id'];
         $affiliate['last_accepted_agency_agreement'] = $pref['publisher_default_approved'];
+        
+        $affiliate_extra = array();
+        $affiliate_extra['address'] = '';
+        $affiliate_extra['city'] = '';
+        $affiliate_extra['postcode'] = '';
+        $affiliate_extra['country'] = '';
+        $affiliate_extra['phone'] = '';
+        $affiliate_extra['fax'] = '';
+        $affiliate_extra['account_contact'] = '';
+        $affiliate_extra['payee_name'] = '';
+        $affiliate_extra['tax_id'] = '';
+        $affiliate_extra['mode_of_payment'] = '';
+        $affiliate_extra['currency'] = '';
+        $affiliate_extra['unique_users'] = '';
+        $affiliate_extra['unique_views'] = '';
+        $affiliate_extra['page_rank'] = '';
     }
 }
 $tabindex = 1;

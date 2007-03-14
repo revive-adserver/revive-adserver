@@ -87,6 +87,7 @@ if (!empty($trackerid))
         $doVariables->trackerid = $trackerid;
         $doVariables->find();
 
+        $variables = array();
         while ($doVariables->fetch() && $vars = $doVariables->toArray())
         {
             // Remove assignment
@@ -127,8 +128,8 @@ if (!empty($trackerid))
             $variables[$f]['description'] = $_POST['description'.$f];
             $variables[$f]['datatype'] = $_POST['datatype'.$f];
             $variables[$f]['purpose'] = $_POST['purpose'.$f];
-            $variables[$f]['reject_if_empty'] = $_POST['reject_if_empty'.$f];
-            $variables[$f]['is_unique'] = $_POST['is_unique'.$f];
+            $variables[$f]['reject_if_empty'] = isset($_POST['reject_if_empty'.$f]) ? $_POST['reject_if_empty'.$f] : null;
+            $variables[$f]['is_unique'] = isset($_POST['is_unique'.$f]) ? $_POST['is_unique'.$f] : null;
             // Set window delays
             $uniqueWindowSeconds = 0;
             if (!empty($_POST['uniquewindow'.$f]))
@@ -168,6 +169,15 @@ if (!empty($trackerid))
             $variables[] = array(
                 'publisher_visible' => array(),
                 'publisher_hidden' => array(),
+                'name' => '',
+                'hidden' => 'f',
+                'description' => '',
+                'datatype' => 'string',
+                'purpose' => '',
+                'reject_if_empty' => '',
+                'is_unique' => '',
+                'unique_window' => 0,
+                'variablecode' => '',
             );
 
 
@@ -274,7 +284,9 @@ if (!empty($trackerid))
 // Get other trackers
 $doTrackers = MAX_DB::factoryDO('trackers');
 $doTrackers->clientid = $clientid;
-$doTrackers->addListOrderBy($navorder, $navdirection);
+if (isset($navorder) && isset($navdirection)) {
+    $doTrackers->addListOrderBy($navorder, $navdirection);
+}
 
 while ($doTrackers->fetch() && $row = $doTrackers->toArray()) {
     phpAds_PageContext (
@@ -331,7 +343,7 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
 
 
 //Start
-
+$tabindex = 0;
 
 if (isset($trackerid) && $trackerid != '')
 {
@@ -454,6 +466,7 @@ if (isset($trackerid) && $trackerid != '')
 
                                                 echo '</td></tr></table>';
 
+                                                $onLoadUniqueJs = '';
                                                 if($checked) {
                                                     $onLoadUniqueJs = "\nm3_setRadioCheckbox(document.getElementById('$uniqueCheckboxId'), \"is_unique\");";
                                                 }
@@ -752,7 +765,7 @@ phpAds_SessionDataStore();
         return true;
     }
 
-    <?php echo $onLoadUniqueJs; ?>
+    <?php if (isset($onLoadUniqueJs)) echo $onLoadUniqueJs; ?>
 
 //-->
 </script>

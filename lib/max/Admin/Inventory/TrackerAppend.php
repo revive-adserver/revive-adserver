@@ -183,6 +183,7 @@ class MAX_Admin_Inventory_TrackerAppend
             $v['id']   = "tag_{$k}";
             $v['name'] = "tag[{$k}]";
             $v['autotrackname'] = "autotrack[{$k}]";
+            $v['autotrack'] = null;
             $v['rank'] = $k + 1;
             $v['move_up'] = $k > 0;
             $v['move_down'] = $k < count($codes) - 1;

@@ -65,7 +65,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 // Get other trackers
 $doTrackers = MAX_DB::factoryDO('trackers');
 $doTrackers->clientid = $clientid;
-$doTrackers->addListOrderBy($navorder, $navdirection);
+if (isset($navorder) && isset($navdirection)) {
+    $doTrackers->addListOrderBy($navorder, $navdirection);
+}
 $doTrackers->find();
 
 while ($doTrackers->fetch() && $row = $doTrackers->toArray()) {

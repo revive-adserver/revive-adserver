@@ -68,7 +68,7 @@ if (!empty($campaignid)) {
 $plugins = array();
 $invocationPlugins = &MAX_Plugin::getPlugins('invocationTags');
 foreach($invocationPlugins as $pluginKey => $plugin) {
-    if ($plugin->trackerEvent) {
+    if (!empty($plugin->trackerEvent)) {
         $plugins[] = $plugin;
         $fieldName = strtolower($plugin->trackerEvent);
         phpAds_registerGlobal("{$fieldName}windowday", "{$fieldName}windowhour", "{$fieldName}windowminute", "{$fieldName}windowsecond", "{$fieldName}windows");
@@ -81,9 +81,9 @@ foreach($invocationPlugins as $pluginKey => $plugin) {
 
 if (!empty($campaignid)) {
     if (isset($action) && $action == 'set') {
-        $doCampaign_trackers = MAX_DB::factoryDO('campaigns_trackers');
-        $doCampaign_trackers->campaignid = $campaignid;
-        $doCampaign_trackers->delete();
+        $doCampaigns_trackers = MAX_DB::factoryDO('campaigns_trackers');
+        $doCampaigns_trackers->campaignid = $campaignid;
+        $doCampaigns_trackers->delete();
         
         if (isset($trackerids) && is_array($trackerids)) {
             for ($i=0; $i<sizeof($trackerids); $i++) {
@@ -101,12 +101,12 @@ if (!empty($campaignid)) {
                 }
                 
                 $fieldsSize = count($fields);
-                $doCampaign_trackers = MAX_DB::factoryDO('campaigns_trackers');
+                $doCampaigns_trackers = MAX_DB::factoryDO('campaigns_trackers');
                 for ($i = 0; $i < $fieldsSize; $i++) {
                     $field = $fields[$i];
-                    $doCampaign_trackers->$field = $values[$i];
+                    $doCampaigns_trackers->$field = $values[$i];
                 }
-                $doCampaign_trackers->insert();
+                $doCampaigns_trackers->insert();
                 
             }
         }
@@ -277,7 +277,7 @@ if ($doTrackers->getRowCount() == 0) {
         if (isset($campaign_tracker_row[$tracker['trackerid']]['status'])) {
             $trackerStatusId = $campaign_tracker_row[$tracker['trackerid']]['status'];
         } else {
-              $trackerStatusId = $tracker['trackerid']['status'];
+            $trackerStatusId = $tracker['status'];
         }
             
         foreach($statuses as $statusId => $statusName) {

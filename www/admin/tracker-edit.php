@@ -52,7 +52,7 @@ phpAds_registerGlobal (
 $plugins = array();
 $invocationPlugins = &MAX_Plugin::getPlugins('invocationTags');
 foreach($invocationPlugins as $pluginKey => $plugin) {
-    if ($plugin->trackerEvent) {
+    if (!empty($plugin->trackerEvent)) {
         $plugins[] = $plugin;
         $fieldName = strtolower($plugin->trackerEvent);
         phpAds_registerGlobal("{$fieldName}window");
@@ -242,6 +242,8 @@ if ($trackerid != "" || (isset($move) && $move == 't')) {
     $row['status']        = isset($pref['default_tracker_status']) ? $pref['default_tracker_status'] : MAX_CONNECTION_STATUS_APPROVED;
     $row['type']          = isset($pref['default_tracker_type']) ? $pref['default_tracker_type'] : MAX_CONNECTION_TYPE_SALE;
     $row['linkcampaigns'] = isset($pref['default_tracker_linkcampaigns']) ? $pref['default_tracker_linkcampaigns'] : 'f';
+    
+    $row['description'] = '';
 }
 
 // Parse the number of seconds in the conversion windows into days, hours, minutes, seconds..

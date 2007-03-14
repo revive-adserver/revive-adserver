@@ -350,7 +350,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $this->assertNotEqual($doBanners1->comments, $doBanners2->comments);
         
         // Test that "updated" was updated
-        $this->assertTrue(strtotime($doBanners1->updated) < strtotime($doBanners2->updated));
+        $this->assertTrue(strtotime($doBanners1->updated) <= strtotime($doBanners2->updated));
         
         // Test updates is equal or greater than our checkpoint time
         $this->assertTrue($time <= strtotime($doBanners1->updated));
